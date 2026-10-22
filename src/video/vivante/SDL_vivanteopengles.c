@@ -18,20 +18,20 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VIVANTE) && defined(SDL_VIDEO_OPENGL_EGL)
+#ಯದಿ defined(SDL_VIDEO_DRIVER_VIVANTE) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_vivanteopengles.h"
-#include "SDL_vivantevideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vivanteopengles.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vivantevideo.h"
 
 // EGL implementation of SDL OpenGL support
 
-bool VIVANTE_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VIVANTE_GLES_LoadLibrary(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *path)
 {
     SDL_DisplayData *displaydata = SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
 
-    return SDL_EGL_LoadLibrary(_this, path, displaydata->native_display);
+    ಪ್ರತ್ಯಾಗಮ SDL_EGL_LoadLibrary(_this, path, displaydata->native_display);
 }
 
 SDL_EGL_CreateContext_impl(VIVANTE)

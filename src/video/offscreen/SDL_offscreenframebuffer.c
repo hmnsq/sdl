@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_offscreenframebuffer_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../SDL_properties_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_offscreenframebuffer_c.h"
 
 #define OFFSCREEN_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, ಶೂನ್ಯ **pixels, ಪೂರ್ಣಾಙ್ಕ *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    ಧ್ರುವ SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
+    ಪೂರ್ಣಾಙ್ಕ w, h;
 
     // Create a new framebuffer
     SDL_GetWindowSizeInPixels(window, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    ಯದಿ (!surface) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
     // Save the info and return!
@@ -48,30 +48,30 @@ bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *w
     *pixels = surface->pixels;
     *pitch = surface->pitch;
 
-    return true;
+    ಪ್ರತ್ಯಾಗಮ true;
 }
 
-bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ಧ್ರುವ SDL_Rect *rects, ಪೂರ್ಣಾಙ್ಕ numrects)
 {
-    static int frame_number;
+    ಸ್ಥಿರ ಪೂರ್ಣಾಙ್ಕ frame_ಸಂಖ್ಯೆ;
     SDL_Surface *surface;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find offscreen surface for window");
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, ರಿಕ್ತ);
+    ಯದಿ (!surface) {
+        ಪ್ರತ್ಯಾಗಮ SDL_SetError("Couldn't find offscreen surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
-                           SDL_GetWindowID(window), ++frame_number);
+    ಯದಿ (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
+        ವರ್ಣ file[128];
+        (ಶೂನ್ಯ)SDL_snprintf(file, ಪರಿಮಾಣ(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+                           SDL_GetWindowID(window), ++frame_ಸಂಖ್ಯೆ);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    ಪ್ರತ್ಯಾಗಮ true;
 }
 
-void SDL_OFFSCREEN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ SDL_OFFSCREEN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_ClearProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE);
 }

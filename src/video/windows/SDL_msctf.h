@@ -22,7 +22,7 @@
 #ifndef SDL_msctf_h_
 #define SDL_msctf_h_
 
-#include <unknwn.h>
+#ಅನ್ತರ್ಭಾವ <unknwn.h>
 
 #define TF_INVALID_COOKIE            (0xffffffff)
 #define TF_IPSINK_FLAG_ACTIVE        0x0001
@@ -30,32 +30,32 @@
 
 /* *INDENT-OFF* */ // clang-format off
 
-typedef struct ITfThreadMgr ITfThreadMgr;
-typedef struct ITfDocumentMgr ITfDocumentMgr;
-typedef struct ITfClientId ITfClientId;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfThreadMgr ITfThreadMgr;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfDocumentMgr ITfDocumentMgr;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfClientId ITfClientId;
 
-typedef struct IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
-typedef struct IEnumTfFunctionProviders IEnumTfFunctionProviders;
-typedef struct ITfFunctionProvider ITfFunctionProvider;
-typedef struct ITfCompartmentMgr ITfCompartmentMgr;
-typedef struct ITfContext ITfContext;
-typedef struct IEnumTfContexts IEnumTfContexts;
-typedef struct ITfUIElementSink ITfUIElementSink;
-typedef struct ITfUIElement ITfUIElement;
-typedef struct ITfUIElementMgr ITfUIElementMgr;
-typedef struct IEnumTfUIElements IEnumTfUIElements;
-typedef struct ITfThreadMgrEx ITfThreadMgrEx;
-typedef struct ITfCandidateListUIElement ITfCandidateListUIElement;
-typedef struct ITfReadingInformationUIElement ITfReadingInformationUIElement;
-typedef struct ITfInputProcessorProfileActivationSink ITfInputProcessorProfileActivationSink;
-typedef struct ITfSource ITfSource;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ IEnumTfFunctionProviders IEnumTfFunctionProviders;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfFunctionProvider ITfFunctionProvider;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfCompartmentMgr ITfCompartmentMgr;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfContext ITfContext;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ IEnumTfContexts IEnumTfContexts;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfUIElementSink ITfUIElementSink;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfUIElement ITfUIElement;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfUIElementMgr ITfUIElementMgr;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ IEnumTfUIElements IEnumTfUIElements;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfThreadMgrEx ITfThreadMgrEx;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfCandidateListUIElement ITfCandidateListUIElement;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfReadingInformationUIElement ITfReadingInformationUIElement;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfSource ITfSource;
 
-typedef DWORD TfClientId;
-typedef DWORD TfEditCookie;
+ಪ್ರಕಾರನಿರ್ದೇಶ DWORD TfClientId;
+ಪ್ರಕಾರನಿರ್ದೇಶ DWORD TfEditCookie;
 
-typedef struct ITfThreadMgrVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfThreadMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgr *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgr *, TfClientId *);
@@ -71,14 +71,14 @@ typedef struct ITfThreadMgrVtbl
     HRESULT (STDMETHODCALLTYPE *GetGlobalCompartment)(ITfThreadMgr *, ITfCompartmentMgr **);
 } ITfThreadMgrVtbl;
 
-struct ITfThreadMgr
+ಸಂರಚನಾ ITfThreadMgr
 {
-    const struct ITfThreadMgrVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfThreadMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfThreadMgrExVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfThreadMgrExVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgrEx *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgrEx *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgrEx *, TfClientId *);
@@ -96,32 +96,32 @@ typedef struct ITfThreadMgrExVtbl
     HRESULT (STDMETHODCALLTYPE *GetActiveFlags)(ITfThreadMgrEx *, DWORD *);
 } ITfThreadMgrExVtbl;
 
-struct ITfThreadMgrEx
+ಸಂರಚನಾ ITfThreadMgrEx
 {
-    const struct ITfThreadMgrExVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfThreadMgrExVtbl *lpVtbl;
 };
 
-typedef struct ITfDocumentMgrVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfDocumentMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfDocumentMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfDocumentMgr *);
     HRESULT (STDMETHODCALLTYPE *CreateContext)(ITfDocumentMgr *, TfClientId, DWORD, IUnknown *, ITfContext **, TfEditCookie *);
-    HRESULT (STDMETHODCALLTYPE *Push)(ITfDocumentMgr *, ITfContext *);
-    HRESULT (STDMETHODCALLTYPE *Pop)(ITfDocumentMgr *);
-    HRESULT (STDMETHODCALLTYPE *GetTop)(ITfDocumentMgr *, ITfContext **);
+    HRESULT (STDMETHODCALLTYPE *ತಳ್ಳು_2)(ITfDocumentMgr *, ITfContext *);
+    HRESULT (STDMETHODCALLTYPE *ತೆಗೆ_2)(ITfDocumentMgr *);
+    HRESULT (STDMETHODCALLTYPE *Get_ತುದಿ)(ITfDocumentMgr *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *GetBase)(ITfDocumentMgr *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *EnumContexts)(ITfDocumentMgr *, IEnumTfContexts **);
 } ITfDocumentMgrVtbl;
 
-struct ITfDocumentMgr
+ಸಂರಚನಾ ITfDocumentMgr
 {
-    const struct ITfDocumentMgrVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfDocumentMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementSinkVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfUIElementSinkVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementSink *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementSink *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementSink *, DWORD, BOOL *);
@@ -129,14 +129,14 @@ typedef struct ITfUIElementSinkVtbl
     HRESULT (STDMETHODCALLTYPE *EndUIElement)(ITfUIElementSink *, DWORD);
 } ITfUIElementSinkVtbl;
 
-struct ITfUIElementSink
+ಸಂರಚನಾ ITfUIElementSink
 {
-    const struct ITfUIElementSinkVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfUIElementSinkVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementMgrVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfUIElementMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementMgr *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementMgr *, ITfUIElement *, BOOL *, DWORD *);
@@ -146,14 +146,14 @@ typedef struct ITfUIElementMgrVtbl
     HRESULT (STDMETHODCALLTYPE *EnumUIElements)(ITfUIElementMgr *, IEnumTfUIElements **);
 } ITfUIElementMgrVtbl;
 
-struct ITfUIElementMgr
+ಸಂರಚನಾ ITfUIElementMgr
 {
-    const struct ITfUIElementMgrVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfUIElementMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfCandidateListUIElementVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfCandidateListUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfCandidateListUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfCandidateListUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfCandidateListUIElement *, BSTR *);
@@ -162,7 +162,7 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfCandidateListUIElement *, BOOL *);
     HRESULT (STDMETHODCALLTYPE *GetUpdatedFlags)(ITfCandidateListUIElement *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *GetDocumentMgr)(ITfCandidateListUIElement *, ITfDocumentMgr **);
-    HRESULT (STDMETHODCALLTYPE *GetCount)(ITfCandidateListUIElement *, UINT *);
+    HRESULT (STDMETHODCALLTYPE *Get_ಎಣಿಕೆ)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetSelection)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetString)(ITfCandidateListUIElement *, UINT, BSTR *);
     HRESULT (STDMETHODCALLTYPE *GetPageIndex)(ITfCandidateListUIElement *, UINT *, UINT, UINT *);
@@ -170,14 +170,14 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *GetCurrentPage)(ITfCandidateListUIElement *, UINT *);
 } ITfCandidateListUIElementVtbl;
 
-struct ITfCandidateListUIElement
+ಸಂರಚನಾ ITfCandidateListUIElement
 {
-    const struct ITfCandidateListUIElementVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfCandidateListUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfReadingInformationUIElementVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfReadingInformationUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfReadingInformationUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfReadingInformationUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfReadingInformationUIElement *, BSTR *);
@@ -192,14 +192,14 @@ typedef struct ITfReadingInformationUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsVerticalOrderPreferred)(ITfReadingInformationUIElement *, BOOL *);
 } ITfReadingInformationUIElementVtbl;
 
-struct ITfReadingInformationUIElement
+ಸಂರಚನಾ ITfReadingInformationUIElement
 {
-    const struct ITfReadingInformationUIElementVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfReadingInformationUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfUIElement *, BSTR *);
@@ -208,37 +208,37 @@ typedef struct ITfUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfUIElement *, BOOL *);
 } ITfUIElementVtbl;
 
-struct ITfUIElement
+ಸಂರಚನಾ ITfUIElement
 {
-    const struct ITfUIElementVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfInputProcessorProfileActivationSinkVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink_Vtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfInputProcessorProfileActivationSink *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfInputProcessorProfileActivationSink *);
-    ULONG (STDMETHODCALLTYPE *Release)(ITfInputProcessorProfileActivationSink *);
-    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITfInputProcessorProfileActivationSink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink *, REFIID, ಶೂನ್ಯ **);
+    ULONG (STDMETHODCALLTYPE *AddRef)(ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink *);
+    ULONG (STDMETHODCALLTYPE *Release)(ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink *);
+    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
 
-} ITfInputProcessorProfileActivationSinkVtbl;
+} ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink_Vtbl;
 
-struct ITfInputProcessorProfileActivationSink
+ಸಂರಚನಾ ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink
 {
-    const struct ITfInputProcessorProfileActivationSinkVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITf_ಒಳಹರಿವು_Processor_Profile_Activation_Sink_Vtbl *lpVtbl;
 };
 
-typedef struct ITfSourceVtbl
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ ITfSourceVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, ಶೂನ್ಯ **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfSource *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfSource *);
     HRESULT (STDMETHODCALLTYPE *AdviseSink)(ITfSource *, REFIID, IUnknown *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *UnadviseSink)(ITfSource *, DWORD);
 } ITfSourceVtbl;
 
-struct ITfSource
+ಸಂರಚನಾ ITfSource
 {
-    const struct ITfSourceVtbl *lpVtbl;
+    ಧ್ರುವ ಸಂರಚನಾ ITfSourceVtbl *lpVtbl;
 };
 
 /* *INDENT-ON* */ // clang-format on

@@ -22,23 +22,23 @@
 #ifndef SDL_rpivideo_h
 #define SDL_rpivideo_h
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#include <bcm_host.h>
-#include <SDL3/SDL_egl.h>
+#ಅನ್ತರ್ಭಾವ <bcm_host.h>
+#ಅನ್ತರ್ಭಾವ <SDL3/SDL_egl.h>
 
-struct SDL_VideoData
+ಸಂರಚನಾ SDL_VideoData
 {
     uint32_t egl_refcount; // OpenGL ES reference count
 };
 
-struct SDL_DisplayData
+ಸಂರಚನಾ SDL_DisplayData
 {
     DISPMANX_DISPLAY_HANDLE_T dispman_display;
 };
 
-struct SDL_WindowData
+ಸಂರಚನಾ SDL_WindowData
 {
     EGL_DISPMANX_WINDOW_T dispman_window;
 #ifdef SDL_VIDEO_OPENGL_EGL
@@ -59,31 +59,31 @@ struct SDL_WindowData
 /****************************************************************************/
 
 // Display and window functions
-extern bool RPI_VideoInit(SDL_VideoDevice *_this);
-extern void RPI_VideoQuit(SDL_VideoDevice *_this);
-extern bool RPI_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool RPI_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void RPI_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool RPI_VideoInit(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_VideoQuit(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool RPI_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ಬಾಹ್ಯ bool RPI_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+ಬಾಹ್ಯ bool RPI_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool RPI_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
 // OpenGL/OpenGL ES functions
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer RPI_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void RPI_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool RPI_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool RPI_GLES_GetSwapInterval(SDL_VideoDevice *_this);
-extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ಬಾಹ್ಯ bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *path);
+ಬಾಹ್ಯ SDL_FunctionPointer RPI_GLES_GetProcAddress(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *proc);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+ಬಾಹ್ಯ bool RPI_GLES_SetSwapInterval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಙ್ಕ interval);
+ಬಾಹ್ಯ bool RPI_GLES_GetSwapInterval(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool RPI_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
 #endif // SDL_rpivideo_h

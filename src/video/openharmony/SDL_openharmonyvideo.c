@@ -18,40 +18,40 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
 // HarmonyOS/OpenHarmony SDL video driver implementation
 
-#include <window_manager/oh_display_manager.h>
+#ಅನ್ತರ್ಭಾವ <window_manager/oh_display_manager.h>
 
 // !!! FIXME: these are defined as "const uint32_t VARNAME = VALUE;" in native_interface_xcomponent.h, which becomes a global variable in _our_ C code! Maybe C++ handles this differently...?
 #define OH_XCOMPONENT_ID_LEN_MAX sdl_ohosvideo_OH_XCOMPONENT_ID_LEN_MAX
-#define OH_MAX_TOUCH_POINTS_NUMBER sdl_ohosvideo_OH_MAX_TOUCH_POINTS_NUMBER
-#include <ace/xcomponent/native_interface_xcomponent.h>
+#define OH_MAX_TOUCH_POINTS_ಸಂಖ್ಯೆ sdl_ohosvideo_OH_MAX_TOUCH_POINTS_ಸಂಖ್ಯೆ
+#ಅನ್ತರ್ಭಾವ <ace/xcomponent/native_interface_xcomponent.h>
 
 // !!! FIXME: move stuff in from Android code
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_windowevents_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_windowevents_c.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyopengl.h"
-#include "SDL_openharmonyclipboard.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonykeyboard.h"
-#include "SDL_openharmonymouse.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyopengl.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyclipboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyevents.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonykeyboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonymouse.h"
 //#include "SDL_openharmonytouch.h"
-#include "SDL_openharmonywindow.h"
-#include "SDL_openharmonyvulkan.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonywindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyvulkan.h"
 //#include "SDL_openharmonymessagebox.h"
 
 #define OPENHARMONY_VID_DRIVER_NAME "openharmony"
 
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 #define OPENHARMONY_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
 #define OPENHARMONY_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
 #define OPENHARMONY_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
@@ -59,43 +59,43 @@
 #define OPENHARMONY_GLES_DestroyContext   SDL_EGL_DestroyContext
 
 
-static OH_NativeXComponent *native_xcomponent = NULL;
-static void *native_window = NULL;
+ಸ್ಥಿರ OH_NativeXComponent *native_xcomponent = ರಿಕ್ತ;
+ಸ್ಥಿರ ಶೂನ್ಯ *native_window = ರಿಕ್ತ;
 
-void SDL_OpenHarmonyGetNativeWindowPointers(void **xcomponent, void **window)
+ಶೂನ್ಯ SDL_OpenHarmonyGetNativeWindowPointers(ಶೂನ್ಯ **xcomponent, ಶೂನ್ಯ **window)
 {
-    *xcomponent = (void *) native_xcomponent;
-    *window = (void *) native_window;
+    *xcomponent = (ಶೂನ್ಯ *) native_xcomponent;
+    *window = (ಶೂನ್ಯ *) native_window;
 }
 
-void SDL_OpenHarmonyVideoSurfaceDestroyed(void *component, void *window)
+ಶೂನ್ಯ SDL_OpenHarmonyVideoSurfaceDestroyed(ಶೂನ್ಯ *component, ಶೂನ್ಯ *window)
 {
     SDL_assert(native_xcomponent == ((OH_NativeXComponent *) component));  // right now we assume one surface, one window.
-    native_xcomponent = NULL;
-    native_window = NULL;
+    native_xcomponent = ರಿಕ್ತ;
+    native_window = ರಿಕ್ತ;
 }
 
-void SDL_OpenHarmonyVideoSurfaceChanged(void *component, void *window)
+ಶೂನ್ಯ SDL_OpenHarmonyVideoSurfaceChanged(ಶೂನ್ಯ *component, ಶೂನ್ಯ *window)
 {
     SDL_assert(native_xcomponent == ((OH_NativeXComponent *) component));  // right now we assume one surface, one window.
     uint64_t w, h;
     OH_NativeXComponent_GetXComponentSize(native_xcomponent, native_window, &w, &h);
-    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (int) w, (int) h);
+    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (ಪೂರ್ಣಾಙ್ಕ) w, (ಪೂರ್ಣಾಙ್ಕ) h);
 }
 
-void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window)
+ಶೂನ್ಯ SDL_OpenHarmonyVideoSurfaceCreated(ಶೂನ್ಯ *component, ಶೂನ್ಯ *window)
 {
-    SDL_assert(native_xcomponent == NULL);  // right now we assume one surface, one window.
+    SDL_assert(native_xcomponent == ರಿಕ್ತ);  // right now we assume one surface, one window.
     native_xcomponent = (OH_NativeXComponent *) component;
     native_window = window;
 }
 
-static bool OPENHARMONY_SuspendScreenSaver(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool OPENHARMONY_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    return SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
+    ಪ್ರತ್ಯಾಗಮ SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
 }
 
-static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
 
@@ -106,59 +106,59 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
     // !!! FIXME:  through a USB-C to HDMI adapter, or maybe there will be separate "outer" screens vs
     // !!! FIXME:  an internal foldable one, but for now let's just get _something_ on _any_ display.
     uint64_t dispid64 = 0;
-    if (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
-        return SDL_SetError("Couldn't get default display id");
+    ಯದಿ (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
+        ಪ್ರತ್ಯಾಗಮ SDL_SetError("Couldn't get default display id");
     }
-    const uint32_t dispid = (uint32_t) dispid64;
+    ಧ್ರುವ uint32_t dispid = (uint32_t) dispid64;
 
-    NativeDisplayManager_DisplayInfo *dispinfo = NULL;
-    if (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
-        return SDL_SetError("Couldn't get default display info");
+    NativeDisplayManager_DisplayInfo *dispinfo = ರಿಕ್ತ;
+    ಯದಿ (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
+        ಪ್ರತ್ಯಾಗಮ SDL_SetError("Couldn't get default display info");
     }
 
     SDL_DisplayMode mode;
     SDL_zero(mode);
     mode.format = SDL_PIXELFORMAT_BGRA8888;  // !!! FIXME
-    mode.w = (int) dispinfo->physicalWidth;
-    mode.h = (int) dispinfo->physicalHeight;
-    mode.refresh_rate = (float) dispinfo->refreshRate;
+    mode.w = (ಪೂರ್ಣಾಙ್ಕ) dispinfo->physicalWidth;
+    mode.h = (ಪೂರ್ಣಾಙ್ಕ) dispinfo->physicalHeight;
+    mode.refresh_rate = (ಭಿನ್ನ) dispinfo->refreshRate;
     mode.pixel_density = 1.0f;
 
-    const NativeDisplayManager_Rotation rotation = dispinfo->rotation;
-    const NativeDisplayManager_Orientation orientation = dispinfo->orientation;
+    ಧ್ರುವ NativeDisplayManager_Rotation rotation = dispinfo->rotation;
+    ಧ್ರುವ NativeDisplayManager_Orientation orientation = dispinfo->orientation;
 
     OH_NativeDisplayManager_DestroyDisplay(dispinfo);
 
-    const SDL_DisplayID displayID = SDL_AddBasicVideoDisplay(&mode);
-    if (displayID == 0) {
-        return false;
+    ಧ್ರುವ SDL_DisplayID displayID = SDL_AddBasicVideoDisplay(&mode);
+    ಯದಿ (displayID == 0) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    switch (orientation) {
-        case DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; break;
-        case DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; break;
-        case DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; break;
-        case DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; break;
-        default: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; break;
+    ವಿಕಲ್ಪ (orientation) {
+        ಪಕ್ಷ DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; ಭಙ್ಗ;
+        ಪಕ್ಷ DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; ಭಙ್ಗ;
+        ಪಕ್ಷ DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; ಭಙ್ಗ;
+        ಪಕ್ಷ DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; ಭಙ್ಗ;
+        ಸ್ವಭಾವ: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; ಭಙ್ಗ;
     }
 
     // !!! FIXME: this is probably wrong, I think on OpenHarmony phones/tablets, these are setting both orientation and rotation, and this works out because most people are launching apps while holding the phone in portrait mode (0 rotation).
     // !!! FIXME: if I'm right, we should decide if this is a phone/tablet screen and just set the natural orientation to portrait and then use this code to calculate current orientation.
-    if (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
-        static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_LANDSCAPE_FLIPPED };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else {
+    ಯದಿ (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
+        ಸ್ಥಿರ ಧ್ರುವ SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE };
+        SDL_assert(((ಪೂರ್ಣಾಙ್ಕ) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(ಪೂರ್ಣಾಙ್ಕ) display->natural_orientation];
+    } ಅನ್ಯಥಾ ಯದಿ (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
+        ಸ್ಥಿರ ಧ್ರುವ SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT };
+        SDL_assert(((ಪೂರ್ಣಾಙ್ಕ) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(ಪೂರ್ಣಾಙ್ಕ) display->natural_orientation];
+    } ಅನ್ಯಥಾ ಯದಿ (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
+        ಸ್ಥಿರ ಧ್ರುವ SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_LANDSCAPE_FLIPPED };
+        SDL_assert(((ಪೂರ್ಣಾಙ್ಕ) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(ಪೂರ್ಣಾಙ್ಕ) display->natural_orientation];
+    } ಅನ್ಯಥಾ {
         display->current_orientation = display->natural_orientation;
     }
 
@@ -168,48 +168,48 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
 
 
 // !!! FIXME
-#if 0
+#ಯದಿ 0
     OPENHARMONY_InitTouch();
     OPENHARMONY_InitMouse();
 #endif
     OPENHARMONY_InitClipboard(_this);
 
     // We're done!
-    return true;
+    ಪ್ರತ್ಯಾಗಮ true;
 }
 
-void OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
+ಶೂನ್ಯ OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
 {
     OPENHARMONY_QuitClipboard(_this);
 
 // !!! FIXME
-#if 0
+#ಯದಿ 0
     OPENHARMONY_QuitMouse();
     OPENHARMONY_QuitTouch();
 #endif
 }
 
-static void OPENHARMONY_DeleteDevice(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ OPENHARMONY_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *OPENHARMONY_CreateDevice(ಶೂನ್ಯ)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ಪರಿಮಾಣ(SDL_VideoDevice));
+    ಯದಿ (!device) {
+        ಪ್ರತ್ಯಾಗಮ ರಿಕ್ತ;
     }
 
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, ಪರಿಮಾಣ(SDL_VideoData));
+    ಯದಿ (!data) {
         SDL_free(device);
-        return NULL;
+        ಪ್ರತ್ಯಾಗಮ ರಿಕ್ತ;
     }
 
     device->internal = data;
@@ -226,7 +226,7 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
     device->SetWindowResizable = OPENHARMONY_SetWindowResizable;
     device->DestroyWindow = OPENHARMONY_DestroyWindow;
 
-    device->free = OPENHARMONY_DeleteDevice;
+    device->ಮುಕ್ತ = OPENHARMONY_DeleteDevice;
 
     // GL pointers
 #ifdef SDL_VIDEO_OPENGL_EGL
@@ -267,13 +267,13 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    ಪ್ರತ್ಯಾಗಮ device;
 }
 
 VideoBootStrap OPENHARMONY_bootstrap = {
     OPENHARMONY_VID_DRIVER_NAME, "SDL OpenHarmony/HarmonyOS video driver",
     OPENHARMONY_CreateDevice,
-    /*!!! FIXME OPENHARMONY_ShowMessageBox*/ NULL,
+    /*!!! FIXME OPENHARMONY_ShowMessageBox*/ ರಿಕ್ತ,
     false
 };
 

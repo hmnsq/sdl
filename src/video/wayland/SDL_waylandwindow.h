@@ -19,55 +19,55 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_waylandwindow_h_
 #define SDL_waylandwindow_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_touch_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandshmbuffer.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandshmbuffer.h"
 
-struct SDL_WindowData
+ಸಂರಚನಾ SDL_WindowData
 {
     SDL_Window *sdlwindow;
     SDL_VideoData *waylandData;
-    struct wl_surface *surface;
-    struct wl_callback *gles_swap_frame_callback;
-    struct wl_event_queue *gles_swap_frame_event_queue;
-    struct wl_surface *gles_swap_frame_surface_wrapper;
-    struct wl_callback *surface_frame_callback;
+    ಸಂರಚನಾ wl_surface *surface;
+    ಸಂರಚನಾ wl_callback *gles_swap_frame_callback;
+    ಸಂರಚನಾ wl_event_queue *gles_swap_frame_event_queue;
+    ಸಂರಚನಾ wl_surface *gles_swap_frame_surface_wrapper;
+    ಸಂರಚನಾ wl_callback *surface_frame_callback;
 
-    union
+    ಸಙ್ಘ
     {
 #ifdef HAVE_LIBDECOR_H
-        struct
+        ಸಂರಚನಾ
         {
-            struct libdecor_frame *frame;
+            ಸಂರಚನಾ libdecor_frame *frame;
         } libdecor;
 #endif
-        struct
+        ಸಂರಚನಾ
         {
-            struct xdg_surface *surface;
-            union
+            ಸಂರಚನಾ xdg_surface *surface;
+            ಸಙ್ಘ
             {
-                struct
+                ಸಂರಚನಾ
                 {
-                    struct xdg_toplevel *xdg_toplevel;
+                    ಸಂರಚನಾ xdg_toplevel *xdg_toplevel;
                 } toplevel;
-                struct
+                ಸಂರಚನಾ
                 {
-                    struct xdg_popup *xdg_popup;
-                    struct xdg_positioner *xdg_positioner;
+                    ಸಂರಚನಾ xdg_popup *xdg_popup;
+                    ಸಂರಚನಾ xdg_positioner *xdg_positioner;
                 } popup;
             };
 
             Uint32 serial;
         } xdg;
     } shell_surface;
-    enum
+    ಗಣನಾ
     {
         WAYLAND_SHELL_SURFACE_TYPE_UNKNOWN = 0,
         WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL,
@@ -75,7 +75,7 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR,
         WAYLAND_SHELL_SURFACE_TYPE_CUSTOM
     } shell_surface_type;
-    enum
+    ಗಣನಾ
     {
         WAYLAND_SHELL_SURFACE_STATUS_HIDDEN = 0,
         WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE,
@@ -83,7 +83,7 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING,
         WAYLAND_SHELL_SURFACE_STATUS_SHOWN
     } shell_surface_status;
-    enum
+    ಗಣನಾ
     {
         WAYLAND_WM_CAPS_WINDOW_MENU = 0x01,
         WAYLAND_WM_CAPS_MAXIMIZE = 0x02,
@@ -95,140 +95,140 @@ struct SDL_WindowData
                               WAYLAND_WM_CAPS_FULLSCREEN |
                               WAYLAND_WM_CAPS_MINIMIZE
     } wm_caps;
-    enum
+    ಗಣನಾ
     {
-        WAYLAND_TOPLEVEL_CONSTRAINED_LEFT = 0x01,
-        WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT = 0x02,
-        WAYLAND_TOPLEVEL_CONSTRAINED_TOP = 0x04,
+        WAYLAND_TOPLEVEL_CONSTRAINED_ಎಡ = 0x01,
+        WAYLAND_TOPLEVEL_CONSTRAINED_ಬಲ = 0x02,
+        WAYLAND_TOPLEVEL_CONSTRAINED_ತುದಿ = 0x04,
         WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM = 0x08
     } toplevel_constraints;
 
-    enum
+    ಗಣನಾ
     {
         WAYLAND_RESIZE_EDGE_LR = 0x01,
         WAYLAND_RESIZE_EDGE_TB = 0x02,
         WAYLAND_RESIZE_EDGE_CORNER = WAYLAND_RESIZE_EDGE_LR | WAYLAND_RESIZE_EDGE_TB,
     } resize_edge;
 
-    struct wl_egl_window *egl_window;
+    ಸಂರಚನಾ wl_egl_window *egl_window;
 #ifdef SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
 #endif
-    struct zxdg_toplevel_decoration_v1 *server_decoration;
-    struct zwp_idle_inhibitor_v1 *idle_inhibitor;
-    struct xdg_activation_token_v1 *activation_token;
-    struct wp_viewport *viewport;
-    struct wp_fractional_scale_v1 *fractional_scale;
-    struct zxdg_exported_v2 *exported;
-    struct xdg_dialog_v1 *xdg_dialog_v1;
-    struct wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
-    struct xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
-    struct frog_color_managed_surface *frog_color_managed_surface;
-    struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
-    struct xdg_toplevel_session_v1 *xdg_toplevel_session;
+    ಸಂರಚನಾ zxdg_toplevel_decoration_v1 *server_decoration;
+    ಸಂರಚನಾ zwp_idle_inhibitor_v1 *idle_inhibitor;
+    ಸಂರಚನಾ xdg_activation_token_v1 *activation_token;
+    ಸಂರಚನಾ wp_viewport *viewport;
+    ಸಂರಚನಾ wp_fractional_scale_v1 *fractional_scale;
+    ಸಂರಚನಾ zxdg_exported_v2 *exported;
+    ಸಂರಚನಾ xdg_dialog_v1 *xdg_dialog_v1;
+    ಸಂರಚನಾ wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
+    ಸಂರಚನಾ xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
+    ಸಂರಚನಾ frog_color_managed_surface *frog_color_managed_surface;
+    ಸಂರಚನಾ wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
+    ಸಂರಚನಾ xdg_toplevel_session_v1 *xdg_toplevel_session;
 
-    struct Wayland_ColorInfoState *color_info_state;
+    ಸಂರಚನಾ Wayland_ColorInfoState *color_info_state;
 
     SDL_AtomicInt swap_interval_ready;
 
     SDL_DisplayData **outputs;
-    int num_outputs;
+    ಪೂರ್ಣಾಙ್ಕ ಅಂಕೆ_outputs;
 
-    char *app_id;
-    char *session_id;
-    double scale_factor;
+    ವರ್ಣ *app_id;
+    ವರ್ಣ *session_id;
+    ದ್ವಿಗುಣ scale_factor;
 
-    struct wl_buffer **icon_buffers;
-    int icon_buffer_count;
+    ಸಂರಚನಾ wl_buffer **icon_buffers;
+    ಪೂರ್ಣಾಙ್ಕ icon_buffer_ಎಣಿಕೆ;
 
     // Keyboard, pointer, and touch focus refcount.
-    int keyboard_focus_count;
-    int pointer_focus_count;
-    int active_touch_count;
+    ಪೂರ್ಣಾಙ್ಕ keyboard_focus_ಎಣಿಕೆ;
+    ಪೂರ್ಣಾಙ್ಕ pointer_focus_ಎಣಿಕೆ;
+    ಪೂರ್ಣಾಙ್ಕ active_touch_ಎಣಿಕೆ;
 
-    struct
+    ಸಂರಚನಾ
     {
-        double x;
-        double y;
+        ದ್ವಿಗುಣ x;
+        ದ್ವಿಗುಣ y;
     } pointer_scale;
 
     // The in-flight window size request.
-    struct
+    ಸಂರಚನಾ
     {
         // The requested logical window size.
-        int logical_width;
-        int logical_height;
+        ಪೂರ್ಣಾಙ್ಕ logical_width;
+        ಪೂರ್ಣಾಙ್ಕ logical_height;
 
         // The size of the window in pixels, when using screen space scaling.
-        int pixel_width;
-        int pixel_height;
+        ಪೂರ್ಣಾಙ್ಕ pixel_width;
+        ಪೂರ್ಣಾಙ್ಕ pixel_height;
     } requested;
 
     // The current size of the window and drawable backing store.
-    struct
+    ಸಂರಚನಾ
     {
         // The size of the underlying window.
-        int logical_width;
-        int logical_height;
+        ಪೂರ್ಣಾಙ್ಕ logical_width;
+        ಪೂರ್ಣಾಙ್ಕ logical_height;
 
         // The size of the window backbuffer in pixels.
-        int pixel_width;
-        int pixel_height;
+        ಪೂರ್ಣಾಙ್ಕ pixel_width;
+        ಪೂರ್ಣಾಙ್ಕ pixel_height;
 
         // The dimensions of the active viewport, in logical units.
-        int viewport_width;
-        int viewport_height;
+        ಪೂರ್ಣಾಙ್ಕ viewport_width;
+        ಪೂರ್ಣಾಙ್ಕ viewport_height;
     } current;
 
     // The last compositor requested parameters; used for deduplication of window geometry configuration.
-    struct
+    ಸಂರಚನಾ
     {
-        int width;
-        int height;
+        ಪೂರ್ಣಾಙ್ಕ width;
+        ಪೂರ್ಣಾಙ್ಕ height;
         bool insets_apply;
     } last_configure;
 
     // System enforced window size limits.
-    struct
+    ಸಂರಚನಾ
     {
         // Minimum allowed logical window size.
-        int min_width;
-        int min_height;
+        ಪೂರ್ಣಾಙ್ಕ min_width;
+        ಪೂರ್ಣಾಙ್ಕ min_height;
     } system_limits;
 
-    struct
+    ಸಂರಚನಾ
     {
-        int width;
-        int height;
+        ಪೂರ್ಣಾಙ್ಕ width;
+        ಪೂರ್ಣಾಙ್ಕ height;
     } toplevel_bounds;
 
-    struct
+    ಸಂರಚನಾ
     {
-        struct wl_surface *surface;
-        struct wl_subsurface *subsurface;
-        struct wl_buffer *buffer;
-        struct wp_viewport *viewport;
+        ಸಂರಚನಾ wl_surface *surface;
+        ಸಂರಚನಾ wl_subsurface *subsurface;
+        ಸಂರಚನಾ wl_buffer *buffer;
+        ಸಂರಚನಾ wp_viewport *viewport;
 
-        int offset_x;
-        int offset_y;
+        ಪೂರ್ಣಾಙ್ಕ offset_x;
+        ಪೂರ್ಣಾಙ್ಕ offset_y;
 
         bool mapped;
         bool opaque;
     } mask;
 
-    struct
+    ಸಂರಚನಾ
     {
-        int hint;
-        int purpose;
+        ಪೂರ್ಣಾಙ್ಕ hint;
+        ಪೂರ್ಣಾಙ್ಕ purpose;
         bool active;
-    } text_input_props;
+    } text_ಒಳಹರಿವು_props;
 
     SDL_Rect explicit_geometry;
     SDL_DisplayID last_displayID;
-    int pending_state_deadline_count;
+    ಪೂರ್ಣಾಙ್ಕ pending_state_deadline_ಎಣಿಕೆ;
     Uint64 last_focus_event_time_ns;
     Uint64 last_resize_event_time_ns;
-    int icc_fd;
+    ಪೂರ್ಣಾಙ್ಕ icc_fd;
     Uint32 icc_size;
     bool floating;
     bool suspended;
@@ -251,48 +251,48 @@ struct SDL_WindowData
 
     SDL_HitTestResult hit_test_result;
 
-    struct wl_list external_window_list_link;
+    ಸಂರಚನಾ wl_list external_window_list_link;
 };
 
-extern void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
-extern void Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-extern SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
-extern bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
-extern bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern float Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window);
-extern void *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern void Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+ಬಾಹ್ಯ bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+ಬಾಹ್ಯ bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+ಬಾಹ್ಯ bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, ಪೂರ್ಣಾಙ್ಕ *w, ಪೂರ್ಣಾಙ್ಕ *h);
+ಬಾಹ್ಯ SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
+ಬಾಹ್ಯ bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+ಬಾಹ್ಯ bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, ಭಿನ್ನ opacity);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_ShowWindowSystemMenu(SDL_Window *window, ಪೂರ್ಣಾಙ್ಕ x, ಪೂರ್ಣಾಙ್ಕ y);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
+ಬಾಹ್ಯ bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+ಬಾಹ್ಯ ಭಿನ್ನ Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept);
 
-extern bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags);
+ಬಾಹ್ಯ bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled);
+ಬಾಹ್ಯ bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
+ಬಾಹ್ಯ bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags);
 
-extern void Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data);
-extern void Wayland_UpdateWindowPosition(SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_UpdateWindowPosition(SDL_Window *window);
 
 #endif // SDL_waylandwindow_h_

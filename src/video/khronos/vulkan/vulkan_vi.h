@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_NN_VI_SURFACE_SPEC_VERSION     1
 #define VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
 
-typedef VkFlags VkViSurfaceCreateFlagsNN;
+ಪ್ರಕಾರನಿರ್ದೇಶ VkFlags VkViSurfaceCreateFlagsNN;
 
-typedef struct VkViSurfaceCreateInfoNN {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
-    const void*                 pNext;
+    ಧ್ರುವ ಶೂನ್ಯ*                 pNext;
     VkViSurfaceCreateFlagsNN    flags;
-    void*                       window;
+    ಶೂನ್ಯ*                       window;
 } VkViSurfaceCreateInfoNN;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರನಿರ್ದೇಶ VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, ಧ್ರುವ VkViSurfaceCreateInfoNN* pCreateInfo, ಧ್ರುವ VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateViSurfaceNN(
     VkInstance                                  instance,
-    const VkViSurfaceCreateInfoNN*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಧ್ರುವ VkViSurfaceCreateInfoNN*              pCreateInfo,
+    ಧ್ರುವ VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif

@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_x11keyboard_h_
 #define SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool X11_InitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_QuitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Create_ಒಳಹರಿವು_Context(SDL_WindowData *data);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Destroy_ಒಳಹರಿವು_Context(SDL_WindowData *data);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_ClearComposition(SDL_WindowData *data);
+ಬಾಹ್ಯ bool X11_Start_Text_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ಬಾಹ್ಯ bool X11_Stop_Text_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool X11_Update_Text_ಒಳಹರಿವು_Area(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_x11keyboard_h_

@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_windowskeyboard_h_
 #define SDL_windowskeyboard_h_
 
-extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
-extern void WIN_UpdateKeymap(bool send_event);
-extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_InitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_UpdateKeymap(bool send_event);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern void WIN_ResetDeadKeys(void);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Reset_Dead_ಕೀಲಿಗಳು(ಶೂನ್ಯ);
 
-extern bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool WIN_Start_Text_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+ಬಾಹ್ಯ bool WIN_Stop_Text_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool WIN_Update_Text_ಒಳಹರಿವು_Area(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
-extern void WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool WIN_HandleIMEMessage(HWND hwnd, UINT ಸಂದೇಶ, WPARAM wParam, LPARAM *lParam, ಸಂರಚನಾ SDL_VideoData *videodata);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
 
 #endif // SDL_windowskeyboard_h_

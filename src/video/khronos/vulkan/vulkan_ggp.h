@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_SPEC_VERSION 1
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
 
-typedef VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
+ಪ್ರಕಾರನಿರ್ದೇಶ VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
 
-typedef struct VkStreamDescriptorSurfaceCreateInfoGGP {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ VkStreamDescriptorSurfaceCreateInfoGGP {
     VkStructureType                            sType;
-    const void*                                pNext;
+    ಧ್ರುವ ಶೂನ್ಯ*                                pNext;
     VkStreamDescriptorSurfaceCreateFlagsGGP    flags;
     GgpStreamDescriptor                        streamDescriptor;
 } VkStreamDescriptorSurfaceCreateInfoGGP;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರನಿರ್ದೇಶ VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, ಧ್ರುವ VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, ಧ್ರುವ VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
     VkInstance                                  instance,
-    const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಧ್ರುವ VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
+    ಧ್ರುವ VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif
@@ -55,9 +55,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
 #define VK_GGP_FRAME_TOKEN_SPEC_VERSION   1
 #define VK_GGP_FRAME_TOKEN_EXTENSION_NAME "VK_GGP_frame_token"
 
-typedef struct VkPresentFrameTokenGGP {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ VkPresentFrameTokenGGP {
     VkStructureType    sType;
-    const void*        pNext;
+    ಧ್ರುವ ಶೂನ್ಯ*        pNext;
     GgpFrameToken      frameToken;
 } VkPresentFrameTokenGGP;
 

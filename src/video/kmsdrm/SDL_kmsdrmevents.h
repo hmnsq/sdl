@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_kmsdrmevents_h_
 #define SDL_kmsdrmevents_h_
 
-extern void KMSDRM_PumpEvents(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ KMSDRM_PumpEvents(SDL_VideoDevice *_this);
 
 #endif // SDL_kmsdrmevents_h_

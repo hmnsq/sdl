@@ -22,9 +22,9 @@
 #ifndef SDL_rotate_h_
 #define SDL_rotate_h_
 
-extern SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, int flipx, int flipy,
-                                         const SDL_Rect *rect_dest, double cangle, double sangle, const SDL_FPoint *center);
-extern void SDLgfx_rotozoomSurfaceSizeTrig(int width, int height, double angle, const SDL_FPoint *center,
-                                           SDL_Rect *rect_dest, double *cangle, double *sangle);
+ಬಾಹ್ಯ SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, ದ್ವಿಗುಣ angle, ಪೂರ್ಣಾಙ್ಕ smooth, ಪೂರ್ಣಾಙ್ಕ flipx, ಪೂರ್ಣಾಙ್ಕ flipy,
+                                         ಧ್ರುವ SDL_Rect *rect_dest, ದ್ವಿಗುಣ cangle, ದ್ವಿಗುಣ sangle, ಧ್ರುವ SDL_FPoint *center);
+ಬಾಹ್ಯ ಶೂನ್ಯ SDLgfx_rotozoomSurfaceSizeTrig(ಪೂರ್ಣಾಙ್ಕ width, ಪೂರ್ಣಾಙ್ಕ height, ದ್ವಿಗುಣ angle, ಧ್ರುವ SDL_FPoint *center,
+                                           SDL_Rect *rect_dest, ದ್ವಿಗುಣ *cangle, ದ್ವಿಗುಣ *sangle);
 
 #endif // SDL_rotate_h_

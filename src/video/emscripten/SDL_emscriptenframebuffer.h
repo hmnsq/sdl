@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_emscriptenframebuffer_h_
 #define SDL_emscriptenframebuffer_h_
 
-extern bool Emscripten_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch);
-extern bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects);
-extern void Emscripten_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Emscripten_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, ಶೂನ್ಯ **pixels, ಪೂರ್ಣಾಙ್ಕ *pitch);
+ಬಾಹ್ಯ bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ಧ್ರುವ SDL_Rect *rects, ಪೂರ್ಣಾಙ್ಕ numrects);
+ಬಾಹ್ಯ ಶೂನ್ಯ Emscripten_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_emscriptenframebuffer_h_

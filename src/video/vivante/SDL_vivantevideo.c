@@ -18,54 +18,54 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE
 
 // SDL internals
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
+#ifdef SDL_ಒಳಹರಿವು_LINUXEV
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_evdev.h"
 #endif
 
-#include "SDL_vivantevideo.h"
-#include "SDL_vivanteplatform.h"
-#include "SDL_vivanteopengles.h"
-#include "SDL_vivantevulkan.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vivantevideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vivanteplatform.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vivanteopengles.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vivantevulkan.h"
 
-static void VIVANTE_Destroy(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ VIVANTE_Destroy(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *VIVANTE_Create(void)
+ಸ್ಥಿರ SDL_VideoDevice *VIVANTE_Create(ಶೂನ್ಯ)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ಪರಿಮಾಣ(SDL_VideoDevice));
+    ಯದಿ (!device) {
+        ಪ್ರತ್ಯಾಗಮ ರಿಕ್ತ;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, ಪರಿಮಾಣ(SDL_VideoData));
+    ಯದಿ (!data) {
         SDL_free(device);
-        return NULL;
+        ಪ್ರತ್ಯಾಗಮ ರಿಕ್ತ;
     }
 
     device->internal = data;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->ಅಂಕೆ_displays = 0;
 
     // Set device free function
-    device->free = VIVANTE_Destroy;
+    device->ಮುಕ್ತ = VIVANTE_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = VIVANTE_VideoInit;
@@ -100,14 +100,14 @@ static SDL_VideoDevice *VIVANTE_Create(void)
 
     device->PumpEvents = VIVANTE_PumpEvents;
 
-    return device;
+    ಪ್ರತ್ಯಾಗಮ device;
 }
 
 VideoBootStrap VIVANTE_bootstrap = {
     "vivante",
     "Vivante EGL Video Driver",
     VIVANTE_Create,
-    NULL, // no ShowMessageBox implementation
+    ರಿಕ್ತ, // no ShowMessageBox implementation
     false
 };
 
@@ -115,18 +115,18 @@ VideoBootStrap VIVANTE_bootstrap = {
 // SDL Video and Display initialization/handling functions
 /*****************************************************************************/
 
-static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
     SDL_VideoDisplay display;
     SDL_DisplayMode mode;
     SDL_DisplayData *data;
-    int pitch = 0, bpp = 0;
+    ಪೂರ್ಣಾಙ್ಕ pitch = 0, bpp = 0;
     unsigned long pixels = 0;
 
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
-        return false;
+    data = (SDL_DisplayData *)SDL_calloc(1, ಪರಿಮಾಣ(SDL_DisplayData));
+    ಯದಿ (!data) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
     SDL_zero(mode);
@@ -135,21 +135,21 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
 
     vdkGetDisplayInfo(data->native_display, &mode.w, &mode.h, &pixels, &pitch,
                       &bpp);
-#else
+#ಅನ್ಯಥಾ
     data->native_display = videodata->fbGetDisplayByIndex(0);
 
     videodata->fbGetDisplayInfo(data->native_display, &mode.w, &mode.h,
                                 &pixels, &pitch, &bpp);
 #endif // SDL_VIDEO_DRIVER_VIVANTE_VDK
 
-    switch (bpp) {
-    default: // Is another format used?
-    case 32:
+    ವಿಕಲ್ಪ (bpp) {
+    ಸ್ವಭಾವ: // Is another format used?
+    ಪಕ್ಷ 32:
         mode.format = SDL_PIXELFORMAT_ARGB8888;
-        break;
-    case 16:
+        ಭಙ್ಗ;
+    ಪಕ್ಷ 16:
         mode.format = SDL_PIXELFORMAT_RGB565;
-        break;
+        ಭಙ್ಗ;
     }
     // FIXME: How do we query refresh rate?
     mode.refresh_rate = 60.0f;
@@ -158,10 +158,10 @@ static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
     display.name = VIVANTE_GetDisplayName(_this);
     display.desktop_mode = mode;
     display.internal = data;
-    if (SDL_AddVideoDisplay(&display, false) == 0) {
-        return false;
+    ಯದಿ (SDL_AddVideoDisplay(&display, false) == 0) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
-    return true;
+    ಪ್ರತ್ಯಾಗಮ true;
 }
 
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
@@ -170,71 +170,71 @@ bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     videodata->vdk_private = vdkInitialize();
-    if (!videodata->vdk_private) {
-        return SDL_SetError("vdkInitialize() failed");
+    ಯದಿ (!videodata->vdk_private) {
+        ಪ್ರತ್ಯಾಗಮ SDL_SetError("vdkInitialize() failed");
     }
-#else
+#ಅನ್ಯಥಾ
     videodata->egl_handle = SDL_LoadObject("libEGL.so.1");
-    if (!videodata->egl_handle) {
+    ಯದಿ (!videodata->egl_handle) {
         videodata->egl_handle = SDL_LoadObject("libEGL.so");
-        if (!videodata->egl_handle) {
-            return false;
+        ಯದಿ (!videodata->egl_handle) {
+            ಪ್ರತ್ಯಾಗಮ false;
         }
     }
 #define LOAD_FUNC(TYPE, NAME)                                               \
     videodata->NAME = (TYPE)SDL_LoadFunction(videodata->egl_handle, #NAME); \
-    if (!videodata->NAME)                                                   \
-        return false;
+    ಯದಿ (!videodata->NAME)                                                   \
+        ಪ್ರತ್ಯಾಗಮ false;
 
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(void *), fbGetDisplay);
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(int), fbGetDisplayByIndex);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *), fbGetDisplayGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *, unsigned long *, int *, int *), fbGetDisplayInfo);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
-    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, int, int, int, int), fbCreateWindow);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *), fbGetWindowGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *, int *, unsigned int *), fbGetWindowInfo);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType), fbDestroyWindow);
+    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(ಶೂನ್ಯ *), fbGetDisplay);
+    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(ಪೂರ್ಣಾಙ್ಕ), fbGetDisplayByIndex);
+    LOAD_FUNC(ಶೂನ್ಯ (EGLAPIENTRY *)(EGLNativeDisplayType, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *), fbGetDisplayGeometry);
+    LOAD_FUNC(ಶೂನ್ಯ (EGLAPIENTRY *)(EGLNativeDisplayType, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *, unsigned long *, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *), fbGetDisplayInfo);
+    LOAD_FUNC(ಶೂನ್ಯ (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
+    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ, ಪೂರ್ಣಾಙ್ಕ), fbCreateWindow);
+    LOAD_FUNC(ಶೂನ್ಯ (EGLAPIENTRY *)(EGLNativeWindowType, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *), fbGetWindowGeometry);
+    LOAD_FUNC(ಶೂನ್ಯ (EGLAPIENTRY *)(EGLNativeWindowType, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *, ಪೂರ್ಣಾಙ್ಕ *, unsigned ಪೂರ್ಣಾಙ್ಕ *), fbGetWindowInfo);
+    LOAD_FUNC(ಶೂನ್ಯ (EGLAPIENTRY *)(EGLNativeWindowType), fbDestroyWindow);
 #endif
 
-    if (!VIVANTE_SetupPlatform(_this)) {
-        return false;
+    ಯದಿ (!VIVANTE_SetupPlatform(_this)) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
-    if (!VIVANTE_AddVideoDisplays(_this)) {
-        return false;
+    ಯದಿ (!VIVANTE_AddVideoDisplays(_this)) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
     VIVANTE_UpdateDisplayScale(_this);
 
-#ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+#ifdef SDL_ಒಳಹರಿವು_LINUXEV
+    ಯದಿ (!SDL_EVDEV_Init()) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 #endif
 
-    return true;
+    ಪ್ರತ್ಯಾಗಮ true;
 }
 
-void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
+ಶೂನ್ಯ VIVANTE_VideoQuit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_ಒಳಹರಿವು_LINUXEV
     SDL_EVDEV_Quit();
 #endif
 
     VIVANTE_CleanupPlatform(_this);
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    if (videodata->vdk_private) {
+    ಯದಿ (videodata->vdk_private) {
         vdkExit(videodata->vdk_private);
-        videodata->vdk_private = NULL;
+        videodata->vdk_private = ರಿಕ್ತ;
     }
-#else
-    if (videodata->egl_handle) {
+#ಅನ್ಯಥಾ
+    ಯದಿ (videodata->egl_handle) {
         SDL_UnloadObject(videodata->egl_handle);
-        videodata->egl_handle = NULL;
+        videodata->egl_handle = ರಿಕ್ತ;
     }
 #endif
 }
@@ -248,9 +248,9 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
     displaydata = SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
 
     // Allocate window internal data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!data) {
-        return false;
+    data = (SDL_WindowData *)SDL_calloc(1, ಪರಿಮಾಣ(SDL_WindowData));
+    ಯದಿ (!data) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
     // Setup driver data for this window
@@ -261,57 +261,57 @@ bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     data->native_window = vdkCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
-#else
+#ಅನ್ಯಥಾ
     data->native_window = videodata->fbCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
 #endif
-    if (!data->native_window) {
-        return SDL_SetError("VIVANTE: Can't create native window");
+    ಯದಿ (!data->native_window) {
+        ಪ್ರತ್ಯಾಗಮ SDL_SetError("VIVANTE: Can't create native window");
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER, data->native_window);
 
 #ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    ಯದಿ (window->flags & SDL_WINDOW_OPENGL) {
         data->egl_surface = SDL_EGL_CreateSurface(_this, window, data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("VIVANTE: Can't create EGL surface");
+        ಯದಿ (data->egl_surface == EGL_NO_SURFACE) {
+            ಪ್ರತ್ಯಾಗಮ SDL_SetError("VIVANTE: Can't create EGL surface");
         }
-    } else {
+    } ಅನ್ಯಥಾ {
         data->egl_surface = EGL_NO_SURFACE;
     }
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_SURFACE_POINTER, data->egl_surface);
 #endif
 
     // Window has been successfully created
-    return true;
+    ಪ್ರತ್ಯಾಗಮ true;
 }
 
-void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *videodata = _this->internal;
     SDL_WindowData *data;
 
     data = window->internal;
-    if (data) {
+    ಯದಿ (data) {
 #ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
+        ಯದಿ (data->egl_surface != EGL_NO_SURFACE) {
             SDL_EGL_DestroySurface(_this, data->egl_surface);
         }
 #endif
 
-        if (data->native_window) {
+        ಯದಿ (data->native_window) {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
             vdkDestroyWindow(data->native_window);
-#else
+#ಅನ್ಯಥಾ
             videodata->fbDestroyWindow(data->native_window);
 #endif
         }
 
         SDL_free(data);
     }
-    window->internal = NULL;
+    window->internal = ರಿಕ್ತ;
 }
 
-void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     SDL_WindowData *data = window->internal;
@@ -322,15 +322,15 @@ void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
 bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // FIXME
-    return SDL_Unsupported();
+    ಪ್ರತ್ಯಾಗಮ SDL_Unsupported();
 }
 
-void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // FIXME
 }
 
-void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     SDL_WindowData *data = window->internal;
@@ -340,22 +340,22 @@ void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
     SDL_SetKeyboardFocus(window);
 }
 
-void VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     SDL_WindowData *data = window->internal;
     vdkHideWindow(data->native_window);
 #endif
-    SDL_SetMouseFocus(NULL);
-    SDL_SetKeyboardFocus(NULL);
+    SDL_SetMouseFocus(ರಿಕ್ತ);
+    SDL_SetKeyboardFocus(ರಿಕ್ತ);
 }
 
 /*****************************************************************************/
 // SDL event functions
 /*****************************************************************************/
-void VIVANTE_PumpEvents(SDL_VideoDevice *_this)
+ಶೂನ್ಯ VIVANTE_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_ಒಳಹರಿವು_LINUXEV
     SDL_EVDEV_Poll();
 #endif
 }

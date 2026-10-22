@@ -21,35 +21,35 @@
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#if !defined(SDL_PLATFORM_TVOS)
+#ಯದಿ !defined(SDL_PLATFORM_TVOS)
 @interface SDL_uikitview : UIView <UIPointerInteractionDelegate>
-#else
+#ಅನ್ಯಥಾ
 @interface SDL_uikitview : UIView
 #endif
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
-- (void)setSDLWindow:(SDL_Window *)window;
+- (ಶೂನ್ಯ)setSDLWindow:(SDL_Window *)window;
 - (SDL_Window *)getSDLWindow;
 
-#if !defined(SDL_PLATFORM_TVOS)
-- (void)pencilHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.0));
+#ಯದಿ !defined(SDL_PLATFORM_TVOS)
+- (ಶೂನ್ಯ)pencilHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.0));
 
 - (UIPointerRegion *)pointerInteraction:(UIPointerInteraction *)interaction regionForRequest:(UIPointerRegionRequest *)request defaultRegion:(UIPointerRegion *)defaultRegion API_AVAILABLE(ios(13.4));
 - (UIPointerStyle *)pointerInteraction:(UIPointerInteraction *)interaction styleForRegion:(UIPointerRegion *)region API_AVAILABLE(ios(13.4));
-- (void)indirectPointerHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.4));
+- (ಶೂನ್ಯ)indirectPointerHovering:(UIHoverGestureRecognizer *)recognizer API_AVAILABLE(ios(13.4));
 #endif
 
 - (CGPoint)touchLocation:(UITouch *)touch shouldNormalize:(BOOL)normalize;
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
-#if !defined(SDL_PLATFORM_TVOS)
+- (ಶೂನ್ಯ)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (ಶೂನ್ಯ)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+- (ಶೂನ್ಯ)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+#ಯದಿ !defined(SDL_PLATFORM_TVOS)
 - (IBAction)sdlPinchGesture:(UIPinchGestureRecognizer *)sender;
 #endif
 
-- (void)safeAreaInsetsDidChange;
+- (ಶೂನ್ಯ)safeAreaInsetsDidChange;
 
 @end

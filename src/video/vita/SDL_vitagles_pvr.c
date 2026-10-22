@@ -18,40 +18,40 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
-#include <stdlib.h>
-#include <string.h>
-#include <psp2/kernel/modulemgr.h>
-#include <gpu_es4/psp2_pvr_hint.h>
+#ಯದಿ defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
+#ಅನ್ತರ್ಭಾವ <psp2/kernel/modulemgr.h>
+#ಅನ್ತರ್ಭಾವ <gpu_es4/psp2_pvr_hint.h>
 
-#include "SDL_vitavideo.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vitavideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
 #define MAX_PATH 256 // vita limits are somehow wrong
 
-bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *path)
 {
     PVRSRV_PSP2_APPHINT hint;
-    const char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    ಧ್ರುವ ವರ್ಣ *default_path = "app0:module";
+    ವರ್ಣ target_path[MAX_PATH];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    ಯದಿ (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        ಧ್ರುವ ವರ್ಣ *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
 
-        if (override && *override) {
+        ಯದಿ (override && *override) {
             default_path = override;
         }
 
-        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, NULL, 0, NULL, NULL);
-        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, NULL, 0, NULL, NULL);
+        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, ರಿಕ್ತ, 0, ರಿಕ್ತ, ರಿಕ್ತ);
+        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, ರಿಕ್ತ, 0, ರಿಕ್ತ, ರಿಕ್ತ);
 
         SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libgpu_es4_ext.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        sceKernelLoadStartModule(target_path, 0, ರಿಕ್ತ, 0, ರಿಕ್ತ, ರಿಕ್ತ);
 
         SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libIMGEGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        sceKernelLoadStartModule(target_path, 0, ರಿಕ್ತ, 0, ರಿಕ್ತ, ರಿಕ್ತ);
 
         PVRSRVInitializeAppHint(&hint);
 
@@ -62,30 +62,30 @@ bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    ಪ್ರತ್ಯಾಗಮ SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    return SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    ಪ್ರತ್ಯಾಗಮ SDL_EGL_CreateContext(_this, window->internal->egl_surface);
 }
 
 bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    ಯದಿ (window && context) {
+        ಪ್ರತ್ಯಾಗಮ SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
+    } ಅನ್ಯಥಾ {
+        ಪ್ರತ್ಯಾಗಮ SDL_EGL_MakeCurrent(_this, ರಿಕ್ತ, ರಿಕ್ತ);
     }
 }
 
 bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *videodata = _this->internal;
-    if (videodata->ime_active) {
+    ಯದಿ (videodata->ime_active) {
         sceImeUpdate();
     }
-    return SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
+    ಪ್ರತ್ಯಾಗಮ SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

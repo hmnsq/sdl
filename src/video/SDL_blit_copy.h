@@ -22,6 +22,6 @@
 #ifndef SDL_blit_copy_h_
 #define SDL_blit_copy_h_
 
-void SDL_BlitCopy(SDL_BlitInfo *info);
+ಶೂನ್ಯ SDL_BlitCopy(SDL_BlitInfo *info);
 
 #endif // SDL_blit_copy_h_

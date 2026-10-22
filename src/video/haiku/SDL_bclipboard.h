@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_BCLIPBOARD_H
 #define SDL_BCLIPBOARD_H
 
-extern bool HAIKU_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *HAIKU_GetClipboardText(SDL_VideoDevice *_this);
-extern bool HAIKU_HasClipboardText(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool HAIKU_SetClipboardText(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *text);
+ಬಾಹ್ಯ ವರ್ಣ *HAIKU_GetClipboardText(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool HAIKU_HasClipboardText(SDL_VideoDevice *_this);
 
 #endif

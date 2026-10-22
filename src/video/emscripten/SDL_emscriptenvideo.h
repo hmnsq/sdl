@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_emscriptenvideo_h_
 #define SDL_emscriptenvideo_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_touch_c.h"
+#ಅನ್ತರ್ಭಾವ <emscripten/emscripten.h>
+#ಅನ್ತರ್ಭಾವ <emscripten/html5.h>
 
-struct SDL_WindowData
+ಸಂರಚನಾ SDL_WindowData
 {
     SDL_Window *window;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    ಪೂರ್ಣಾಙ್ಕ non_fill_document_width;
+    ಪೂರ್ಣಾಙ್ಕ non_fill_document_height;
 
-    char *canvas_id;
-    char *keyboard_element;
+    ವರ್ಣ *canvas_id;
+    ವರ್ಣ *keyboard_element;
 
-    float pixel_ratio;
+    ಭಿನ್ನ pixel_ratio;
 
     bool external_size;
 
@@ -54,9 +54,9 @@ struct SDL_WindowData
     bool mouse_focus_loss_pending;
 };
 
-extern SDL_Window *Emscripten_fill_document_window;
+ಬಾಹ್ಯ SDL_Window *Emscripten_fill_document_window;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_ShouldSetSwapInterval(ಪೂರ್ಣಾಙ್ಕ interval);
+ಪೂರ್ಣಾಙ್ಕ Emscripten_GetPendingSwapInterval(ಶೂನ್ಯ);
 
 #endif // SDL_emscriptenvideo_h_

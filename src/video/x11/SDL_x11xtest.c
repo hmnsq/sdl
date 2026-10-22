@@ -19,65 +19,65 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#ಯದಿ defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xtest.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xtest.h"
 
-static bool xtest_initialized = false;
+ಸ್ಥಿರ bool xtest_initialized = false;
 
-void X11_InitXTest(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
+#ಯದಿ 0//def SDL_VIDEO_DRIVER_X11_XTEST
     Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+    ಪೂರ್ಣಾಙ್ಕ event, error;
+    ಪೂರ್ಣಾಙ್ಕ opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    ಯದಿ (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        ಪ್ರತ್ಯಾಗಮ;
     }
 
     xtest_initialized = true;
 #endif
 }
 
-bool X11_XTestIsInitialized(void)
+bool X11_XTestIsInitialized(ಶೂನ್ಯ)
 {
-    return xtest_initialized;
+    ಪ್ರತ್ಯಾಗಮ xtest_initialized;
 }
 
-bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
+bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, ಭಿನ್ನ x, ಭಿನ್ನ y)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+    ಯದಿ (!X11_XTestIsInitialized()) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
     Display *display = _this->internal->display;
     SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    ಯದಿ (!displaydata) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
+    ಪೂರ್ಣಾಙ್ಕ motion_x = (ಪೂರ್ಣಾಙ್ಕ)SDL_roundf(x);
+    ಪೂರ್ಣಾಙ್ಕ motion_y = (ಪೂರ್ಣಾಙ್ಕ)SDL_roundf(y);
+    ಯದಿ (window) {
         motion_x += window->x;
         motion_y += window->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    ಯದಿ (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
+        ಪ್ರತ್ಯಾಗಮ false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
+    ಪ್ರತ್ಯಾಗಮ true;
+#ಅನ್ಯಥಾ
+    ಪ್ರತ್ಯಾಗಮ false;
 #endif
 }
 

@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
+#ಯದಿ defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
 
 // Android SDL video driver implementation
 
-#include "../SDL_egl_c.h"
-#include "SDL_androidwindow.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidwindow.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidgl.h"
-#include "../../core/android/SDL_android.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidevents.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidgl.h"
+#ಅನ್ತರ್ಭಾವ "../../core/android/SDL_android.h"
 
-#include <android/log.h>
+#ಅನ್ತರ್ಭಾವ <android/log.h>
 
-#include <dlfcn.h>
+#ಅನ್ತರ್ಭಾವ <dlfcn.h>
 
 bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    ಯದಿ (window && context) {
+        ಪ್ರತ್ಯಾಗಮ SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
+    } ಅನ್ಯಥಾ {
+        ಪ್ರತ್ಯಾಗಮ SDL_EGL_MakeCurrent(_this, ರಿಕ್ತ, ರಿಕ್ತ);
     }
 }
 
@@ -49,15 +49,15 @@ SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *win
 {
     SDL_GLContext result;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return NULL;
+    ಯದಿ (!Android_WaitActiveAndLockActivity()) {
+        ಪ್ರತ್ಯಾಗಮ ರಿಕ್ತ;
     }
 
     result = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
 
     Android_UnlockActivityMutex();
 
-    return result;
+    ಪ್ರತ್ಯಾಗಮ result;
 }
 
 bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -77,12 +77,12 @@ bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     Android_UnlockActivityMutex();
 
-    return result;
+    ಪ್ರತ್ಯಾಗಮ result;
 }
 
-bool Android_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Android_GLES_LoadLibrary(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *path)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    ಪ್ರತ್ಯಾಗಮ SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 #endif // SDL_VIDEO_DRIVER_ANDROID

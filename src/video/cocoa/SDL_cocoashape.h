@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_cocoashape_h_
 #define SDL_cocoashape_h_
 
-extern bool Cocoa_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape);
+ಬಾಹ್ಯ bool Cocoa_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape);
 
 #endif // SDL_cocoashape_h_

@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_androidwindow_h_
 #define SDL_androidwindow_h_
 
-#include "../../core/android/SDL_android.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "../../core/android/SDL_android.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
-extern bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+ಬಾಹ್ಯ bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
 
-extern void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *Android_Window;
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ SDL_Window *Android_Window;
 
-struct SDL_WindowData
+ಸಂರಚನಾ SDL_WindowData
 {
 #ifdef SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
+    ಪೂರ್ಣಾಙ್ಕ has_swap_interval;  // Save/Restore the swap interval / vsync
+    ಪೂರ್ಣಾಙ್ಕ swap_interval;
 #endif
     bool backup_done;
     ANativeWindow *native_window;

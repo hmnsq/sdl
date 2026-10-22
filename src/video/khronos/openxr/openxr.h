@@ -14,14 +14,14 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
 
 
 // XR_VERSION_1_0 is a preprocessor guard. Do not pass it to API calls.
 #define XR_VERSION_1_0 1
-#include "openxr_platform_defines.h"
+#ಅನ್ತರ್ಭಾವ "openxr_platform_defines.h"
 #define XR_MAKE_VERSION(major, minor, patch) \
     ((((major) & 0xffffULL) << 48) | (((minor) & 0xffffULL) << 32) | ((patch) & 0xffffffffULL))
 
@@ -38,10 +38,10 @@ extern "C" {
 #define XR_MIN_COMPOSITION_LAYERS_SUPPORTED 16
 
 
-#if !defined(XR_NULL_HANDLE)
-#if (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
+#ಯದಿ !defined(XR_NULL_HANDLE)
+#ಯದಿ (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
     #define XR_NULL_HANDLE nullptr
-#else
+#ಅನ್ಯಥಾ
     #define XR_NULL_HANDLE 0
 #endif
 #endif
@@ -74,7 +74,7 @@ extern "C" {
 #define XR_FREQUENCY_UNSPECIFIED 0
 
 
-#define XR_MAX_EVENT_DATA_SIZE sizeof(XrEventDataBuffer)
+#define XR_MAX_EVENT_DATA_SIZE ಪರಿಮಾಣ(XrEventDataBuffer)
 
 
 #define XR_EXTENSION_ENUM_BASE 1000000000
@@ -83,44 +83,44 @@ extern "C" {
 #define XR_EXTENSION_ENUM_STRIDE 1000
 
 
-#if !defined(XR_MAY_ALIAS)
-#if defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
+#ಯದಿ !defined(XR_MAY_ALIAS)
+#ಯದಿ defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
 #define XR_MAY_ALIAS __attribute__((__may_alias__))
-#else
+#ಅನ್ಯಥಾ
 #define XR_MAY_ALIAS
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_HANDLE)
-#if (XR_PTR_SIZE == 8)
-    #define XR_DEFINE_HANDLE(object) typedef struct object##_T* object;
-#else
-    #define XR_DEFINE_HANDLE(object) typedef uint64_t object;
+#ಯದಿ !defined(XR_DEFINE_HANDLE)
+#ಯದಿ (XR_PTR_SIZE == 8)
+    #define XR_DEFINE_HANDLE(object) ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ object##_T* object;
+#ಅನ್ಯಥಾ
+    #define XR_DEFINE_HANDLE(object) ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t object;
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_OPAQUE_64)
-    #if (XR_PTR_SIZE == 8)
-        #define XR_DEFINE_OPAQUE_64(object) typedef struct object##_T* object;
-    #else
-        #define XR_DEFINE_OPAQUE_64(object) typedef uint64_t object;
+#ಯದಿ !defined(XR_DEFINE_OPAQUE_64)
+    #ಯದಿ (XR_PTR_SIZE == 8)
+        #define XR_DEFINE_OPAQUE_64(object) ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ object##_T* object;
+    #ಅನ್ಯಥಾ
+        #define XR_DEFINE_OPAQUE_64(object) ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t object;
     #endif
 #endif
 
 
-#if !defined(XR_DEFINE_ATOM)
-    #define XR_DEFINE_ATOM(object) typedef uint64_t object;
+#ಯದಿ !defined(XR_DEFINE_ATOM)
+    #define XR_DEFINE_ATOM(object) ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t object;
 #endif
 
-typedef uint64_t XrVersion;
-typedef uint64_t XrFlags64;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t XrVersion;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t XrFlags64;
 XR_DEFINE_ATOM(XrSystemId)
-typedef uint32_t XrBool32;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint32_t XrBool32;
 XR_DEFINE_ATOM(XrPath)
-typedef int64_t XrTime;
-typedef int64_t XrDuration;
+ಪ್ರಕಾರನಿರ್ದೇಶ int64_t XrTime;
+ಪ್ರಕಾರನಿರ್ದೇಶ int64_t XrDuration;
 XR_DEFINE_HANDLE(XrInstance)
 XR_DEFINE_HANDLE(XrSession)
 XR_DEFINE_HANDLE(XrSpace)
@@ -144,7 +144,7 @@ XR_DEFINE_HANDLE(XrActionSet)
 #define XR_MAX_ACTION_NAME_SIZE           64
 #define XR_MAX_LOCALIZED_ACTION_NAME_SIZE 128
 
-typedef enum XrResult {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrResult {
     XR_SUCCESS = 0,
     XR_TIMEOUT_EXPIRED = 1,
     XR_SESSION_LOSS_PENDING = 3,
@@ -169,7 +169,7 @@ typedef enum XrResult {
     XR_ERROR_SESSION_LOST = -17,
     XR_ERROR_SYSTEM_INVALID = -18,
     XR_ERROR_PATH_INVALID = -19,
-    XR_ERROR_PATH_COUNT_EXCEEDED = -20,
+    XR_ERROR_PATH_ಎಣಿಕೆ_EXCEEDED = -20,
     XR_ERROR_PATH_FORMAT_INVALID = -21,
     XR_ERROR_PATH_UNSUPPORTED = -22,
     XR_ERROR_LAYER_INVALID = -23,
@@ -206,7 +206,7 @@ typedef enum XrResult {
     XR_ERROR_ANDROID_THREAD_SETTINGS_FAILURE_KHR = -1000003001,
     XR_ERROR_CREATE_SPATIAL_ANCHOR_FAILED_MSFT = -1000039001,
     XR_ERROR_SECONDARY_VIEW_CONFIGURATION_TYPE_NOT_ENABLED_MSFT = -1000053000,
-    XR_ERROR_CONTROLLER_MODEL_KEY_INVALID_MSFT = -1000055000,
+    XR_ERROR_CONTROLLER_MODEL_ಕೀಲಿ_INVALID_MSFT = -1000055000,
     XR_ERROR_REPROJECTION_MODE_UNSUPPORTED_MSFT = -1000066000,
     XR_ERROR_COMPUTE_NEW_SCENE_NOT_COMPLETED_MSFT = -1000097000,
     XR_ERROR_SCENE_COMPONENT_ID_INVALID_MSFT = -1000097001,
@@ -226,7 +226,7 @@ typedef enum XrResult {
     XR_ERROR_NOT_PERMITTED_PASSTHROUGH_FB = -1000118003,
     XR_ERROR_INSUFFICIENT_RESOURCES_PASSTHROUGH_FB = -1000118004,
     XR_ERROR_UNKNOWN_PASSTHROUGH_FB = -1000118050,
-    XR_ERROR_RENDER_MODEL_KEY_INVALID_FB = -1000119000,
+    XR_ERROR_RENDER_MODEL_ಕೀಲಿ_INVALID_FB = -1000119000,
     XR_RENDER_MODEL_UNAVAILABLE_FB = 1000119020,
     XR_ERROR_MARKER_NOT_TRACKED_VARJO = -1000124000,
     XR_ERROR_MARKER_ID_INVALID_VARJO = -1000124001,
@@ -347,7 +347,7 @@ typedef enum XrResult {
     XR_RESULT_MAX_ENUM = 0x7FFFFFFF
 } XrResult;
 
-typedef enum XrStructureType {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrStructureType {
     XR_TYPE_UNKNOWN = 0,
     XR_TYPE_API_LAYER_PROPERTIES = 1,
     XR_TYPE_EXTENSION_PROPERTIES = 2,
@@ -397,7 +397,7 @@ typedef enum XrStructureType {
     XR_TYPE_SESSION_ACTION_SETS_ATTACH_INFO = 60,
     XR_TYPE_ACTIONS_SYNC_INFO = 61,
     XR_TYPE_BOUND_SOURCES_FOR_ACTION_ENUMERATE_INFO = 62,
-    XR_TYPE_INPUT_SOURCE_LOCALIZED_NAME_GET_INFO = 63,
+    XR_TYPE_ಒಳಹರಿವು_SOURCE_LOCALIZED_NAME_GET_INFO = 63,
     XR_TYPE_SPACES_LOCATE_INFO = 1000471000,
     XR_TYPE_SPACE_LOCATIONS = 1000471001,
     XR_TYPE_SPACE_VELOCITIES = 1000471002,
@@ -446,10 +446,10 @@ typedef enum XrStructureType {
     XR_TYPE_COMPOSITION_LAYER_ALPHA_BLEND_FB = 1000041001,
     XR_TYPE_VIEW_CONFIGURATION_DEPTH_RANGE_EXT = 1000046000,
     XR_TYPE_GRAPHICS_BINDING_EGL_MNDX = 1000048004,
-    XR_TYPE_SPATIAL_GRAPH_NODE_SPACE_CREATE_INFO_MSFT = 1000049000,
-    XR_TYPE_SPATIAL_GRAPH_STATIC_NODE_BINDING_CREATE_INFO_MSFT = 1000049001,
-    XR_TYPE_SPATIAL_GRAPH_NODE_BINDING_PROPERTIES_GET_INFO_MSFT = 1000049002,
-    XR_TYPE_SPATIAL_GRAPH_NODE_BINDING_PROPERTIES_MSFT = 1000049003,
+    XR_TYPE_SPATIAL_GRAPH_ಗಂಟು_SPACE_CREATE_INFO_MSFT = 1000049000,
+    XR_TYPE_SPATIAL_GRAPH_STATIC_ಗಂಟು_BINDING_CREATE_INFO_MSFT = 1000049001,
+    XR_TYPE_SPATIAL_GRAPH_ಗಂಟು_BINDING_PROPERTIES_GET_INFO_MSFT = 1000049002,
+    XR_TYPE_SPATIAL_GRAPH_ಗಂಟು_BINDING_PROPERTIES_MSFT = 1000049003,
     XR_TYPE_SYSTEM_HAND_TRACKING_PROPERTIES_EXT = 1000051000,
     XR_TYPE_HAND_TRACKER_CREATE_INFO_EXT = 1000051001,
     XR_TYPE_HAND_JOINTS_LOCATE_INFO_EXT = 1000051002,
@@ -466,10 +466,10 @@ typedef enum XrStructureType {
     XR_TYPE_SECONDARY_VIEW_CONFIGURATION_FRAME_END_INFO_MSFT = 1000053003,
     XR_TYPE_SECONDARY_VIEW_CONFIGURATION_LAYER_INFO_MSFT = 1000053004,
     XR_TYPE_SECONDARY_VIEW_CONFIGURATION_SWAPCHAIN_CREATE_INFO_MSFT = 1000053005,
-    XR_TYPE_CONTROLLER_MODEL_KEY_STATE_MSFT = 1000055000,
-    XR_TYPE_CONTROLLER_MODEL_NODE_PROPERTIES_MSFT = 1000055001,
+    XR_TYPE_CONTROLLER_MODEL_ಕೀಲಿ_STATE_MSFT = 1000055000,
+    XR_TYPE_CONTROLLER_MODEL_ಗಂಟು_PROPERTIES_MSFT = 1000055001,
     XR_TYPE_CONTROLLER_MODEL_PROPERTIES_MSFT = 1000055002,
-    XR_TYPE_CONTROLLER_MODEL_NODE_STATE_MSFT = 1000055003,
+    XR_TYPE_CONTROLLER_MODEL_ಗಂಟು_STATE_MSFT = 1000055003,
     XR_TYPE_CONTROLLER_MODEL_STATE_MSFT = 1000055004,
     XR_TYPE_VIEW_CONFIGURATION_VIEW_FOV_EPIC = 1000059000,
     XR_TYPE_HOLOGRAPHIC_WINDOW_ATTACHMENT_MSFT = 1000063000,
@@ -659,7 +659,7 @@ typedef enum XrStructureType {
     XR_TYPE_VIRTUAL_KEYBOARD_ANIMATION_STATE_META = 1000219006,
     XR_TYPE_VIRTUAL_KEYBOARD_MODEL_ANIMATION_STATES_META = 1000219007,
     XR_TYPE_VIRTUAL_KEYBOARD_TEXTURE_DATA_META = 1000219009,
-    XR_TYPE_VIRTUAL_KEYBOARD_INPUT_INFO_META = 1000219010,
+    XR_TYPE_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_INFO_META = 1000219010,
     XR_TYPE_VIRTUAL_KEYBOARD_TEXT_CONTEXT_CHANGE_INFO_META = 1000219011,
     XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_COMMIT_TEXT_META = 1000219014,
     XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_BACKSPACE_META = 1000219015,
@@ -733,7 +733,7 @@ typedef enum XrStructureType {
     XR_TYPE_INTERACTION_RENDER_MODEL_IDS_ENUMERATE_INFO_EXT = 1000301000,
     XR_TYPE_INTERACTION_RENDER_MODEL_SUBACTION_PATH_INFO_EXT = 1000301001,
     XR_TYPE_EVENT_DATA_INTERACTION_RENDER_MODELS_CHANGED_EXT = 1000301002,
-    XR_TYPE_INTERACTION_RENDER_MODEL_TOP_LEVEL_USER_PATH_GET_INFO_EXT = 1000301003,
+    XR_TYPE_INTERACTION_RENDER_MODEL_ತುದಿ_LEVEL_USER_PATH_GET_INFO_EXT = 1000301003,
     XR_TYPE_PASSTHROUGH_CREATE_INFO_HTC = 1000317001,
     XR_TYPE_PASSTHROUGH_COLOR_HTC = 1000317002,
     XR_TYPE_PASSTHROUGH_MESH_TRANSFORM_INFO_HTC = 1000317003,
@@ -1063,7 +1063,7 @@ typedef enum XrStructureType {
     XR_TYPE_SPATIAL_RAYCAST_INFO_ANDROID = 1000786001,
     XR_TYPE_SPATIAL_COMPONENT_RAYCAST_RESULT_LIST_ANDROID = 1000786002,
     XR_TYPE_SPATIAL_RAYCAST_SNAPSHOT_CREATE_INFO_ANDROID = 1000786003,
-    XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_KEY_ANDROID = 1000787000,
+    XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_ಕೀಲಿ_ANDROID = 1000787000,
     XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_TOKEN_ANDROID = 1000787001,
     XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_KEYLESS_ANDROID = 1000787002,
     XR_TYPE_GOOGLE_CLOUD_AUTH_ERROR_RESULT_ANDROID = 1000787003,
@@ -1130,20 +1130,20 @@ typedef enum XrStructureType {
     XR_STRUCTURE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrStructureType;
 
-typedef enum XrFormFactor {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFormFactor {
     XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY = 1,
     XR_FORM_FACTOR_HANDHELD_DISPLAY = 2,
     XR_FORM_FACTOR_MAX_ENUM = 0x7FFFFFFF
 } XrFormFactor;
 
-typedef enum XrEnvironmentBlendMode {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEnvironmentBlendMode {
     XR_ENVIRONMENT_BLEND_MODE_OPAQUE = 1,
     XR_ENVIRONMENT_BLEND_MODE_ADDITIVE = 2,
     XR_ENVIRONMENT_BLEND_MODE_ALPHA_BLEND = 3,
     XR_ENVIRONMENT_BLEND_MODE_MAX_ENUM = 0x7FFFFFFF
 } XrEnvironmentBlendMode;
 
-typedef enum XrViewConfigurationType {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrViewConfigurationType {
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_MONO = 1,
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO = 2,
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO_WITH_FOVEATED_INSET = 1000037000,
@@ -1152,7 +1152,7 @@ typedef enum XrViewConfigurationType {
     XR_VIEW_CONFIGURATION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrViewConfigurationType;
 
-typedef enum XrReferenceSpaceType {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrReferenceSpaceType {
     XR_REFERENCE_SPACE_TYPE_VIEW = 1,
     XR_REFERENCE_SPACE_TYPE_LOCAL = 2,
     XR_REFERENCE_SPACE_TYPE_STAGE = 3,
@@ -1166,23 +1166,23 @@ typedef enum XrReferenceSpaceType {
     XR_REFERENCE_SPACE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrReferenceSpaceType;
 
-typedef enum XrEyeVisibility {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEyeVisibility {
     XR_EYE_VISIBILITY_BOTH = 0,
-    XR_EYE_VISIBILITY_LEFT = 1,
-    XR_EYE_VISIBILITY_RIGHT = 2,
+    XR_EYE_VISIBILITY_ಎಡ = 1,
+    XR_EYE_VISIBILITY_ಬಲ = 2,
     XR_EYE_VISIBILITY_MAX_ENUM = 0x7FFFFFFF
 } XrEyeVisibility;
 
-typedef enum XrActionType {
-    XR_ACTION_TYPE_BOOLEAN_INPUT = 1,
-    XR_ACTION_TYPE_FLOAT_INPUT = 2,
-    XR_ACTION_TYPE_VECTOR2F_INPUT = 3,
-    XR_ACTION_TYPE_POSE_INPUT = 4,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrActionType {
+    XR_ACTION_TYPE_BOOLEAN_ಒಳಹರಿವು = 1,
+    XR_ACTION_TYPE_FLOAT_ಒಳಹರಿವು = 2,
+    XR_ACTION_TYPE_VECTOR2_F_ಒಳಹರಿವು = 3,
+    XR_ACTION_TYPE_POSE_ಒಳಹರಿವು = 4,
     XR_ACTION_TYPE_VIBRATION_OUTPUT = 100,
     XR_ACTION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrActionType;
 
-typedef enum XrSessionState {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSessionState {
     XR_SESSION_STATE_UNKNOWN = 0,
     XR_SESSION_STATE_IDLE = 1,
     XR_SESSION_STATE_READY = 2,
@@ -1195,7 +1195,7 @@ typedef enum XrSessionState {
     XR_SESSION_STATE_MAX_ENUM = 0x7FFFFFFF
 } XrSessionState;
 
-typedef enum XrObjectType {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrObjectType {
     XR_OBJECT_TYPE_UNKNOWN = 0,
     XR_OBJECT_TYPE_INSTANCE = 1,
     XR_OBJECT_TYPE_SESSION = 2,
@@ -1205,7 +1205,7 @@ typedef enum XrObjectType {
     XR_OBJECT_TYPE_ACTION = 6,
     XR_OBJECT_TYPE_DEBUG_UTILS_MESSENGER_EXT = 1000019000,
     XR_OBJECT_TYPE_SPATIAL_ANCHOR_MSFT = 1000039000,
-    XR_OBJECT_TYPE_SPATIAL_GRAPH_NODE_BINDING_MSFT = 1000049000,
+    XR_OBJECT_TYPE_SPATIAL_GRAPH_ಗಂಟು_BINDING_MSFT = 1000049000,
     XR_OBJECT_TYPE_HAND_TRACKER_EXT = 1000051000,
     XR_OBJECT_TYPE_BODY_TRACKER_FB = 1000076000,
     XR_OBJECT_TYPE_SCENE_OBSERVER_MSFT = 1000097000,
@@ -1267,506 +1267,506 @@ typedef enum XrObjectType {
     XR_OBJECT_TYPE_APP_CONSUMED_SWAPCHAIN_EXT = 1000877000,
     XR_OBJECT_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrObjectType;
-typedef XrFlags64 XrInstanceCreateFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrInstanceCreateFlags;
 
 // Flag bits for XrInstanceCreateFlags
 
-typedef XrFlags64 XrSessionCreateFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSessionCreateFlags;
 
 // Flag bits for XrSessionCreateFlags
 
-typedef XrFlags64 XrSpaceLocationFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSpaceLocationFlags;
 
 // Flag bits for XrSpaceLocationFlags
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_VALID_BIT = 0x00000001;
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_VALID_BIT = 0x00000002;
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT = 0x00000004;
-static const XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_TRACKED_BIT = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_VALID_BIT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_VALID_BIT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceLocationFlags XR_SPACE_LOCATION_ORIENTATION_TRACKED_BIT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceLocationFlags XR_SPACE_LOCATION_POSITION_TRACKED_BIT = 0x00000008;
 
-typedef XrFlags64 XrSpaceVelocityFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSpaceVelocityFlags;
 
 // Flag bits for XrSpaceVelocityFlags
-static const XrSpaceVelocityFlags XR_SPACE_VELOCITY_LINEAR_VALID_BIT = 0x00000001;
-static const XrSpaceVelocityFlags XR_SPACE_VELOCITY_ANGULAR_VALID_BIT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceVelocityFlags XR_SPACE_VELOCITY_LINEAR_VALID_BIT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceVelocityFlags XR_SPACE_VELOCITY_ANGULAR_VALID_BIT = 0x00000002;
 
-typedef XrFlags64 XrSwapchainCreateFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSwapchainCreateFlags;
 
 // Flag bits for XrSwapchainCreateFlags
-static const XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_PROTECTED_CONTENT_BIT = 0x00000001;
-static const XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_PROTECTED_CONTENT_BIT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainCreateFlags XR_SWAPCHAIN_CREATE_STATIC_IMAGE_BIT = 0x00000002;
 
-typedef XrFlags64 XrSwapchainUsageFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSwapchainUsageFlags;
 
 // Flag bits for XrSwapchainUsageFlags
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_COLOR_ATTACHMENT_BIT = 0x00000001;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT = 0x00000002;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_UNORDERED_ACCESS_BIT = 0x00000004;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_SRC_BIT = 0x00000008;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_DST_BIT = 0x00000010;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_SAMPLED_BIT = 0x00000020;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_MUTABLE_FORMAT_BIT = 0x00000040;
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_MND = 0x00000080;  // alias of XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_KHR
-static const XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_KHR = 0x00000080;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_COLOR_ATTACHMENT_BIT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_UNORDERED_ACCESS_BIT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_SRC_BIT = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_TRANSFER_DST_BIT = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_SAMPLED_BIT = 0x00000020;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_MUTABLE_FORMAT_BIT = 0x00000040;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_ಒಳಹರಿವು_ATTACHMENT_BIT_MND = 0x00000080;  // alias of XR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_KHR
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainUsageFlags XR_SWAPCHAIN_USAGE_ಒಳಹರಿವು_ATTACHMENT_BIT_KHR = 0x00000080;
 
-typedef XrFlags64 XrCompositionLayerFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrCompositionLayerFlags;
 
 // Flag bits for XrCompositionLayerFlags
 // XR_COMPOSITION_LAYER_CORRECT_CHROMATIC_ABERRATION_BIT is deprecated and should not be used
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001;
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002;
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_UNPREMULTIPLIED_ALPHA_BIT = 0x00000004;
-static const XrCompositionLayerFlags XR_COMPOSITION_LAYER_INVERTED_ALPHA_BIT_EXT = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerFlags XR_COMPOSITION_LAYER_CORRECT_CHROMATIC_ABERRATION_BIT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerFlags XR_COMPOSITION_LAYER_BLEND_TEXTURE_SOURCE_ALPHA_BIT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerFlags XR_COMPOSITION_LAYER_UNPREMULTIPLIED_ALPHA_BIT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerFlags XR_COMPOSITION_LAYER_INVERTED_ALPHA_BIT_EXT = 0x00000008;
 
-typedef XrFlags64 XrViewStateFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrViewStateFlags;
 
 // Flag bits for XrViewStateFlags
-static const XrViewStateFlags XR_VIEW_STATE_ORIENTATION_VALID_BIT = 0x00000001;
-static const XrViewStateFlags XR_VIEW_STATE_POSITION_VALID_BIT = 0x00000002;
-static const XrViewStateFlags XR_VIEW_STATE_ORIENTATION_TRACKED_BIT = 0x00000004;
-static const XrViewStateFlags XR_VIEW_STATE_POSITION_TRACKED_BIT = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrViewStateFlags XR_VIEW_STATE_ORIENTATION_VALID_BIT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrViewStateFlags XR_VIEW_STATE_POSITION_VALID_BIT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrViewStateFlags XR_VIEW_STATE_ORIENTATION_TRACKED_BIT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrViewStateFlags XR_VIEW_STATE_POSITION_TRACKED_BIT = 0x00000008;
 
-typedef XrFlags64 XrInputSourceLocalizedNameFlags;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 Xr_ಒಳಹರಿವು_Source_Localized_Name_Flags;
 
 // Flag bits for XrInputSourceLocalizedNameFlags
-static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_USER_PATH_BIT = 0x00000001;
-static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT = 0x00000002;
-static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_COMPONENT_BIT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ Xr_ಒಳಹರಿವು_Source_Localized_Name_Flags XR_ಒಳಹರಿವು_SOURCE_LOCALIZED_NAME_USER_PATH_BIT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ Xr_ಒಳಹರಿವು_Source_Localized_Name_Flags XR_ಒಳಹರಿವು_SOURCE_LOCALIZED_NAME_INTERACTION_PROFILE_BIT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ Xr_ಒಳಹರಿವು_Source_Localized_Name_Flags XR_ಒಳಹರಿವು_SOURCE_LOCALIZED_NAME_COMPONENT_BIT = 0x00000004;
 
-typedef void (XRAPI_PTR *PFN_xrVoidFunction)(void);
-typedef struct XrApiLayerProperties {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಶೂನ್ಯ (XRAPI_PTR *PFN_xrVoidFunction)(ಶೂನ್ಯ);
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrApiLayerProperties {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    char                  layerName[XR_MAX_API_LAYER_NAME_SIZE];
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ವರ್ಣ                  layerName[XR_MAX_API_LAYER_NAME_SIZE];
     XrVersion             specVersion;
     uint32_t              layerVersion;
-    char                  description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
+    ವರ್ಣ                  description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
 } XrApiLayerProperties;
 
-typedef struct XrExtensionProperties {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExtensionProperties {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    char                  extensionName[XR_MAX_EXTENSION_NAME_SIZE];
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ವರ್ಣ                  extensionName[XR_MAX_EXTENSION_NAME_SIZE];
     uint32_t              extensionVersion;
 } XrExtensionProperties;
 
-typedef struct XrApplicationInfo {
-    char         applicationName[XR_MAX_APPLICATION_NAME_SIZE];
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrApplicationInfo {
+    ವರ್ಣ         applicationName[XR_MAX_APPLICATION_NAME_SIZE];
     uint32_t     applicationVersion;
-    char         engineName[XR_MAX_ENGINE_NAME_SIZE];
+    ವರ್ಣ         engineName[XR_MAX_ENGINE_NAME_SIZE];
     uint32_t     engineVersion;
     XrVersion    apiVersion;
 } XrApplicationInfo;
 
-typedef struct XrInstanceCreateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInstanceCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrInstanceCreateFlags       createFlags;
     XrApplicationInfo           applicationInfo;
-    uint32_t                    enabledApiLayerCount;
-    const char* const*          enabledApiLayerNames;
-    uint32_t                    enabledExtensionCount;
-    const char* const*          enabledExtensionNames;
+    uint32_t                    enabled_Api_Layer_ಎಣಿಕೆ;
+    ಧ್ರುವ ವರ್ಣ* ಧ್ರುವ*          enabledApiLayerNames;
+    uint32_t                    enabled_Extension_ಎಣಿಕೆ;
+    ಧ್ರುವ ವರ್ಣ* ಧ್ರುವ*          enabledExtensionNames;
 } XrInstanceCreateInfo;
 
-typedef struct XrInstanceProperties {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInstanceProperties {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVersion             runtimeVersion;
-    char                  runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
+    ವರ್ಣ                  runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
 } XrInstanceProperties;
 
-typedef struct XrEventDataBuffer {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataBuffer {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint8_t                     varying[4000];
 } XrEventDataBuffer;
 
-typedef struct XrSystemGetInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemGetInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFormFactor                formFactor;
 } XrSystemGetInfo;
 
-typedef struct XrSystemGraphicsProperties {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemGraphicsProperties {
     uint32_t    maxSwapchainImageHeight;
     uint32_t    maxSwapchainImageWidth;
-    uint32_t    maxLayerCount;
+    uint32_t    max_Layer_ಎಣಿಕೆ;
 } XrSystemGraphicsProperties;
 
-typedef struct XrSystemTrackingProperties {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemTrackingProperties {
     XrBool32    orientationTracking;
     XrBool32    positionTracking;
 } XrSystemTrackingProperties;
 
-typedef struct XrSystemProperties {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemProperties {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSystemId                    systemId;
     uint32_t                      vendorId;
-    char                          systemName[XR_MAX_SYSTEM_NAME_SIZE];
+    ವರ್ಣ                          systemName[XR_MAX_SYSTEM_NAME_SIZE];
     XrSystemGraphicsProperties    graphicsProperties;
     XrSystemTrackingProperties    trackingProperties;
 } XrSystemProperties;
 
-typedef struct XrSessionCreateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSessionCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSessionCreateFlags        createFlags;
     XrSystemId                  systemId;
 } XrSessionCreateInfo;
 
-typedef struct XrQuaternionf {
-    float    x;
-    float    y;
-    float    z;
-    float    w;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrQuaternionf {
+    ಭಿನ್ನ    x;
+    ಭಿನ್ನ    y;
+    ಭಿನ್ನ    z;
+    ಭಿನ್ನ    w;
 } XrQuaternionf;
 
-typedef struct XrVector3f {
-    float    x;
-    float    y;
-    float    z;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVector3f {
+    ಭಿನ್ನ    x;
+    ಭಿನ್ನ    y;
+    ಭಿನ್ನ    z;
 } XrVector3f;
 
-typedef struct XrPosef {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPosef {
     XrQuaternionf    orientation;
     XrVector3f       position;
 } XrPosef;
 
-typedef struct XrReferenceSpaceCreateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrReferenceSpaceCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrReferenceSpaceType        referenceSpaceType;
     XrPosef                     poseInReferenceSpace;
 } XrReferenceSpaceCreateInfo;
 
-typedef struct XrActionSpaceCreateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionSpaceCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
     XrPosef                     poseInActionSpace;
 } XrActionSpaceCreateInfo;
 
-typedef struct XrSpaceLocation {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceLocation {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrSpaceLocation;
 
 // XrSpaceVelocity extends XrSpaceLocation
-typedef struct XrSpaceVelocity {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceVelocity {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrSpaceVelocity;
 
-typedef struct XrExtent2Df {
-    float    width;
-    float    height;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExtent2Df {
+    ಭಿನ್ನ    width;
+    ಭಿನ್ನ    height;
 } XrExtent2Df;
 
-typedef struct XrViewConfigurationProperties {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViewConfigurationProperties {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrViewConfigurationType    viewConfigurationType;
     XrBool32                   fovMutable;
 } XrViewConfigurationProperties;
 
-typedef struct XrViewConfigurationView {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViewConfigurationView {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              recommendedImageRectWidth;
     uint32_t              maxImageRectWidth;
     uint32_t              recommendedImageRectHeight;
     uint32_t              maxImageRectHeight;
-    uint32_t              recommendedSwapchainSampleCount;
-    uint32_t              maxSwapchainSampleCount;
+    uint32_t              recommended_Swapchain_Sample_ಎಣಿಕೆ;
+    uint32_t              max_Swapchain_Sample_ಎಣಿಕೆ;
 } XrViewConfigurationView;
 
-typedef struct XrSwapchainCreateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSwapchainCreateFlags      createFlags;
     XrSwapchainUsageFlags       usageFlags;
     int64_t                     format;
-    uint32_t                    sampleCount;
+    uint32_t                    sample_ಎಣಿಕೆ;
     uint32_t                    width;
     uint32_t                    height;
-    uint32_t                    faceCount;
+    uint32_t                    face_ಎಣಿಕೆ;
     uint32_t                    arraySize;
-    uint32_t                    mipCount;
+    uint32_t                    mip_ಎಣಿಕೆ;
 } XrSwapchainCreateInfo;
 
-typedef struct XR_MAY_ALIAS XrSwapchainImageBaseHeader {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSwapchainImageBaseHeader {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSwapchainImageBaseHeader;
 
-typedef struct XrSwapchainImageAcquireInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainImageAcquireInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSwapchainImageAcquireInfo;
 
-typedef struct XrSwapchainImageWaitInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainImageWaitInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrDuration                  timeout;
 } XrSwapchainImageWaitInfo;
 
-typedef struct XrSwapchainImageReleaseInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainImageReleaseInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSwapchainImageReleaseInfo;
 
-typedef struct XrSessionBeginInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSessionBeginInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrViewConfigurationType     primaryViewConfigurationType;
 } XrSessionBeginInfo;
 
-typedef struct XrFrameState {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrameState {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                predictedDisplayTime;
     XrDuration            predictedDisplayPeriod;
     XrBool32              shouldRender;
 } XrFrameState;
 
-typedef struct XrFrameWaitInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrameWaitInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrFrameWaitInfo;
 
-typedef struct XrFrameBeginInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrameBeginInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrFrameBeginInfo;
 
-typedef struct XR_MAY_ALIAS XrCompositionLayerBaseHeader {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrCompositionLayerBaseHeader {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
 } XrCompositionLayerBaseHeader;
 
-typedef struct XrFrameEndInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrameEndInfo {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrTime                                        displayTime;
     XrEnvironmentBlendMode                        environmentBlendMode;
-    uint32_t                                      layerCount;
-    const XrCompositionLayerBaseHeader* const*    layers;
+    uint32_t                                      layer_ಎಣಿಕೆ;
+    ಧ್ರುವ XrCompositionLayerBaseHeader* ಧ್ರುವ*    layers;
 } XrFrameEndInfo;
 
-typedef struct XrViewState {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViewState {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrViewStateFlags      viewStateFlags;
 } XrViewState;
 
-typedef struct XrViewLocateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViewLocateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
     XrTime                      displayTime;
     XrSpace                     space;
 } XrViewLocateInfo;
 
-typedef struct XrFovf {
-    float    angleLeft;
-    float    angleRight;
-    float    angleUp;
-    float    angleDown;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFovf {
+    ಭಿನ್ನ    angle_ಎಡ;
+    ಭಿನ್ನ    angle_ಬಲ;
+    ಭಿನ್ನ    angleUp;
+    ಭಿನ್ನ    angleDown;
 } XrFovf;
 
-typedef struct XrView {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrView {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPosef               pose;
     XrFovf                fov;
 } XrView;
 
-typedef struct XrActionSetCreateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionSetCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    char                        actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
-    char                        localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ವರ್ಣ                        actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
+    ವರ್ಣ                        localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
     uint32_t                    priority;
 } XrActionSetCreateInfo;
 
-typedef struct XrActionCreateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionCreateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    char                        actionName[XR_MAX_ACTION_NAME_SIZE];
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ವರ್ಣ                        actionName[XR_MAX_ACTION_NAME_SIZE];
     XrActionType                actionType;
-    uint32_t                    countSubactionPaths;
-    const XrPath*               subactionPaths;
-    char                        localizedActionName[XR_MAX_LOCALIZED_ACTION_NAME_SIZE];
+    uint32_t                    ಎಣಿಕೆ_Subaction_Paths;
+    ಧ್ರುವ XrPath*               subactionPaths;
+    ವರ್ಣ                        localizedActionName[XR_MAX_LOCALIZED_ACTION_NAME_SIZE];
 } XrActionCreateInfo;
 
-typedef struct XrActionSuggestedBinding {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionSuggestedBinding {
     XrAction    action;
     XrPath      binding;
 } XrActionSuggestedBinding;
 
-typedef struct XrInteractionProfileSuggestedBinding {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInteractionProfileSuggestedBinding {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrPath                             interactionProfile;
-    uint32_t                           countSuggestedBindings;
-    const XrActionSuggestedBinding*    suggestedBindings;
+    uint32_t                           ಎಣಿಕೆ_Suggested_Bindings;
+    ಧ್ರುವ XrActionSuggestedBinding*    suggestedBindings;
 } XrInteractionProfileSuggestedBinding;
 
-typedef struct XrSessionActionSetsAttachInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSessionActionSetsAttachInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    countActionSets;
-    const XrActionSet*          actionSets;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    ಎಣಿಕೆ_Action_Sets;
+    ಧ್ರುವ XrActionSet*          actionSets;
 } XrSessionActionSetsAttachInfo;
 
-typedef struct XrInteractionProfileState {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInteractionProfileState {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPath                interactionProfile;
 } XrInteractionProfileState;
 
-typedef struct XrActionStateGetInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionStateGetInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
 } XrActionStateGetInfo;
 
-typedef struct XrActionStateBoolean {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionStateBoolean {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              currentState;
     XrBool32              changedSinceLastSync;
     XrTime                lastChangeTime;
     XrBool32              isActive;
 } XrActionStateBoolean;
 
-typedef struct XrActionStateFloat {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionStateFloat {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 currentState;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                 currentState;
     XrBool32              changedSinceLastSync;
     XrTime                lastChangeTime;
     XrBool32              isActive;
 } XrActionStateFloat;
 
-typedef struct XrVector2f {
-    float    x;
-    float    y;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVector2f {
+    ಭಿನ್ನ    x;
+    ಭಿನ್ನ    y;
 } XrVector2f;
 
-typedef struct XrActionStateVector2f {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionStateVector2f {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVector2f            currentState;
     XrBool32              changedSinceLastSync;
     XrTime                lastChangeTime;
     XrBool32              isActive;
 } XrActionStateVector2f;
 
-typedef struct XrActionStatePose {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionStatePose {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              isActive;
 } XrActionStatePose;
 
-typedef struct XrActiveActionSet {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActiveActionSet {
     XrActionSet    actionSet;
     XrPath         subactionPath;
 } XrActiveActionSet;
 
-typedef struct XrActionsSyncInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActionsSyncInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    countActiveActionSets;
-    const XrActiveActionSet*    activeActionSets;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    ಎಣಿಕೆ_Active_Action_Sets;
+    ಧ್ರುವ XrActiveActionSet*    activeActionSets;
 } XrActionsSyncInfo;
 
-typedef struct XrBoundSourcesForActionEnumerateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBoundSourcesForActionEnumerateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAction                    action;
 } XrBoundSourcesForActionEnumerateInfo;
 
-typedef struct XrInputSourceLocalizedNameGetInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_ಒಳಹರಿವು_Source_Localized_Name_Get_Info {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrPath                             sourcePath;
-    XrInputSourceLocalizedNameFlags    whichComponents;
-} XrInputSourceLocalizedNameGetInfo;
+    Xr_ಒಳಹರಿವು_Source_Localized_Name_Flags    whichComponents;
+} Xr_ಒಳಹರಿವು_Source_Localized_Name_Get_Info;
 
-typedef struct XR_MAY_ALIAS XrHapticBaseHeader {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrHapticBaseHeader {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrHapticBaseHeader;
 
-typedef struct XrHapticActionInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticActionInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
 } XrHapticActionInfo;
 
-typedef struct XR_MAY_ALIAS XrBaseInStructure {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrBaseInStructure {
     XrStructureType                    type;
-    const struct XrBaseInStructure*    next;
+    ಧ್ರುವ ಸಂರಚನಾ XrBaseInStructure*    next;
 } XrBaseInStructure;
 
-typedef struct XR_MAY_ALIAS XrBaseOutStructure {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrBaseOutStructure {
     XrStructureType               type;
-    struct XrBaseOutStructure*    next;
+    ಸಂರಚನಾ XrBaseOutStructure*    next;
 } XrBaseOutStructure;
 
-typedef struct XrOffset2Di {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrOffset2Di {
     int32_t    x;
     int32_t    y;
 } XrOffset2Di;
 
-typedef struct XrExtent2Di {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExtent2Di {
     int32_t    width;
     int32_t    height;
 } XrExtent2Di;
 
-typedef struct XrRect2Di {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRect2Di {
     XrOffset2Di    offset;
     XrExtent2Di    extent;
 } XrRect2Di;
 
-typedef struct XrSwapchainSubImage {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainSubImage {
     XrSwapchain    swapchain;
     XrRect2Di      imageRect;
     uint32_t       imageArrayIndex;
 } XrSwapchainSubImage;
 
-typedef struct XrCompositionLayerProjectionView {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerProjectionView {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPosef                     pose;
     XrFovf                      fov;
     XrSwapchainSubImage         subImage;
 } XrCompositionLayerProjectionView;
 
-typedef struct XrCompositionLayerProjection {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerProjection {
     XrStructureType                            type;
-    const void* XR_MAY_ALIAS                   next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                   next;
     XrCompositionLayerFlags                    layerFlags;
     XrSpace                                    space;
-    uint32_t                                   viewCount;
-    const XrCompositionLayerProjectionView*    views;
+    uint32_t                                   view_ಎಣಿಕೆ;
+    ಧ್ರುವ XrCompositionLayerProjectionView*    views;
 } XrCompositionLayerProjection;
 
-typedef struct XrCompositionLayerQuad {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerQuad {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
@@ -1775,34 +1775,34 @@ typedef struct XrCompositionLayerQuad {
     XrExtent2Df                 size;
 } XrCompositionLayerQuad;
 
-typedef struct XR_MAY_ALIAS XrEventDataBaseHeader {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrEventDataBaseHeader {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrEventDataBaseHeader;
 
-typedef struct XrEventDataEventsLost {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataEventsLost {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    lostEventCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    lost_Event_ಎಣಿಕೆ;
 } XrEventDataEventsLost;
 
-typedef struct XrEventDataInstanceLossPending {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataInstanceLossPending {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      lossTime;
 } XrEventDataInstanceLossPending;
 
-typedef struct XrEventDataSessionStateChanged {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSessionStateChanged {
      XrStructureType            type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrSessionState              state;
     XrTime                      time;
 } XrEventDataSessionStateChanged;
 
-typedef struct XrEventDataReferenceSpaceChangePending {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataReferenceSpaceChangePending {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrReferenceSpaceType        referenceSpaceType;
     XrTime                      changeTime;
@@ -1810,119 +1810,119 @@ typedef struct XrEventDataReferenceSpaceChangePending {
     XrPosef                     poseInPreviousSpace;
 } XrEventDataReferenceSpaceChangePending;
 
-typedef struct XrEventDataInteractionProfileChanged {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataInteractionProfileChanged {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSession                   session;
 } XrEventDataInteractionProfileChanged;
 
-typedef struct XrHapticVibration {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticVibration {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrDuration                  duration;
-    float                       frequency;
-    float                       amplitude;
+    ಭಿನ್ನ                       frequency;
+    ಭಿನ್ನ                       amplitude;
 } XrHapticVibration;
 
-typedef struct XrOffset2Df {
-    float    x;
-    float    y;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrOffset2Df {
+    ಭಿನ್ನ    x;
+    ಭಿನ್ನ    y;
 } XrOffset2Df;
 
-typedef struct XrRect2Df {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRect2Df {
     XrOffset2Df    offset;
     XrExtent2Df    extent;
 } XrRect2Df;
 
-typedef struct XrVector4f {
-    float    x;
-    float    y;
-    float    z;
-    float    w;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVector4f {
+    ಭಿನ್ನ    x;
+    ಭಿನ್ನ    y;
+    ಭಿನ್ನ    z;
+    ಭಿನ್ನ    w;
 } XrVector4f;
 
-typedef struct XrColor4f {
-    float    r;
-    float    g;
-    float    b;
-    float    a;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrColor4f {
+    ಭಿನ್ನ    r;
+    ಭಿನ್ನ    g;
+    ಭಿನ್ನ    b;
+    ಭಿನ್ನ    a;
 } XrColor4f;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, const char* name, PFN_xrVoidFunction* function);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateApiLayerProperties)(uint32_t propertyCapacityInput, uint32_t* propertyCountOutput, XrApiLayerProperties* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateInstanceExtensionProperties)(const char* layerName, uint32_t propertyCapacityInput, uint32_t* propertyCountOutput, XrExtensionProperties* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateInstance)(const XrInstanceCreateInfo* createInfo, XrInstance* instance);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyInstance)(XrInstance instance);
-typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProperties)(XrInstance instance, XrInstanceProperties* instanceProperties);
-typedef XrResult (XRAPI_PTR *PFN_xrPollEvent)(XrInstance instance, XrEventDataBuffer* eventData);
-typedef XrResult (XRAPI_PTR *PFN_xrResultToString)(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE]);
-typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString)(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSystem)(XrInstance instance, const XrSystemGetInfo* getInfo, XrSystemId* systemId);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSystemProperties)(XrInstance instance, XrSystemId systemId, XrSystemProperties* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentBlendModes)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t environmentBlendModeCapacityInput, uint32_t* environmentBlendModeCountOutput, XrEnvironmentBlendMode* environmentBlendModes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSession)(XrInstance instance, const XrSessionCreateInfo* createInfo, XrSession* session);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySession)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateReferenceSpaces)(XrSession session, uint32_t spaceCapacityInput, uint32_t* spaceCountOutput, XrReferenceSpaceType* spaces);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateReferenceSpace)(XrSession session, const XrReferenceSpaceCreateInfo* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrGetReferenceSpaceBoundsRect)(XrSession session, XrReferenceSpaceType referenceSpaceType, XrExtent2Df* bounds);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateActionSpace)(XrSession session, const XrActionSpaceCreateInfo* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpace)(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation* location);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpace)(XrSpace space);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurations)(XrInstance instance, XrSystemId systemId, uint32_t viewConfigurationTypeCapacityInput, uint32_t* viewConfigurationTypeCountOutput, XrViewConfigurationType* viewConfigurationTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetViewConfigurationProperties)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, XrViewConfigurationProperties* configurationProperties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurationViews)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t viewCapacityInput, uint32_t* viewCountOutput, XrViewConfigurationView* views);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats)(XrSession session, uint32_t formatCapacityInput, uint32_t* formatCountOutput, int64_t* formats);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSwapchain)(XrSession session, const XrSwapchainCreateInfo* createInfo, XrSwapchain* swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySwapchain)(XrSwapchain swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainImages)(XrSwapchain swapchain, uint32_t imageCapacityInput, uint32_t* imageCountOutput, XrSwapchainImageBaseHeader* images);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireSwapchainImage)(XrSwapchain swapchain, const XrSwapchainImageAcquireInfo* acquireInfo, uint32_t* index);
-typedef XrResult (XRAPI_PTR *PFN_xrWaitSwapchainImage)(XrSwapchain swapchain, const XrSwapchainImageWaitInfo* waitInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrReleaseSwapchainImage)(XrSwapchain swapchain, const XrSwapchainImageReleaseInfo* releaseInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginSession)(XrSession session, const XrSessionBeginInfo* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndSession)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestExitSession)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrWaitFrame)(XrSession session, const XrFrameWaitInfo* frameWaitInfo, XrFrameState* frameState);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginFrame)(XrSession session, const XrFrameBeginInfo* frameBeginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndFrame)(XrSession session, const XrFrameEndInfo* frameEndInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateViews)(XrSession session, const XrViewLocateInfo* viewLocateInfo, XrViewState* viewState, uint32_t viewCapacityInput, uint32_t* viewCountOutput, XrView* views);
-typedef XrResult (XRAPI_PTR *PFN_xrStringToPath)(XrInstance instance, const char* pathString, XrPath* path);
-typedef XrResult (XRAPI_PTR *PFN_xrPathToString)(XrInstance instance, XrPath path, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateActionSet)(XrInstance instance, const XrActionSetCreateInfo* createInfo, XrActionSet* actionSet);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyActionSet)(XrActionSet actionSet);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAction)(XrActionSet actionSet, const XrActionCreateInfo* createInfo, XrAction* action);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyAction)(XrAction action);
-typedef XrResult (XRAPI_PTR *PFN_xrSuggestInteractionProfileBindings)(XrInstance instance, const XrInteractionProfileSuggestedBinding* suggestedBindings);
-typedef XrResult (XRAPI_PTR *PFN_xrAttachSessionActionSets)(XrSession session, const XrSessionActionSetsAttachInfo* attachInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCurrentInteractionProfile)(XrSession session, XrPath topLevelUserPath, XrInteractionProfileState* interactionProfile);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStateBoolean)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStateBoolean* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStateFloat)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStateFloat* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStateVector2f)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStateVector2f* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetActionStatePose)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStatePose* state);
-typedef XrResult (XRAPI_PTR *PFN_xrSyncActions)(XrSession session, const XrActionsSyncInfo* syncInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateBoundSourcesForAction)(XrSession session, const XrBoundSourcesForActionEnumerateInfo* enumerateInfo, uint32_t sourceCapacityInput, uint32_t* sourceCountOutput, XrPath* sources);
-typedef XrResult (XRAPI_PTR *PFN_xrGetInputSourceLocalizedName)(XrSession session, const XrInputSourceLocalizedNameGetInfo* getInfo, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrApplyHapticFeedback)(XrSession session, const XrHapticActionInfo* hapticActionInfo, const XrHapticBaseHeader* hapticFeedback);
-typedef XrResult (XRAPI_PTR *PFN_xrStopHapticFeedback)(XrSession session, const XrHapticActionInfo* hapticActionInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, ಧ್ರುವ ವರ್ಣ* name, PFN_xrVoidFunction* function);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateApiLayerProperties)(uint32_t property_Capacity_ಒಳಹರಿವು, uint32_t* property_ಎಣಿಕೆ_Output, XrApiLayerProperties* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateInstanceExtensionProperties)(ಧ್ರುವ ವರ್ಣ* layerName, uint32_t property_Capacity_ಒಳಹರಿವು, uint32_t* property_ಎಣಿಕೆ_Output, XrExtensionProperties* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateInstance)(ಧ್ರುವ XrInstanceCreateInfo* createInfo, XrInstance* instance);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyInstance)(XrInstance instance);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetInstanceProperties)(XrInstance instance, XrInstanceProperties* instanceProperties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPollEvent)(XrInstance instance, XrEventDataBuffer* eventData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrResultToString)(XrInstance instance, XrResult ಮೌಲ್ಯ, ವರ್ಣ buffer[XR_MAX_RESULT_STRING_SIZE]);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStructureTypeToString)(XrInstance instance, XrStructureType ಮೌಲ್ಯ, ವರ್ಣ buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSystem)(XrInstance instance, ಧ್ರುವ XrSystemGetInfo* getInfo, XrSystemId* systemId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSystemProperties)(XrInstance instance, XrSystemId systemId, XrSystemProperties* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentBlendModes)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t environment_Blend_Mode_Capacity_ಒಳಹರಿವು, uint32_t* environment_Blend_Mode_ಎಣಿಕೆ_Output, XrEnvironmentBlendMode* environmentBlendModes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSession)(XrInstance instance, ಧ್ರುವ XrSessionCreateInfo* createInfo, XrSession* session);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySession)(XrSession session);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateReferenceSpaces)(XrSession session, uint32_t space_Capacity_ಒಳಹರಿವು, uint32_t* space_ಎಣಿಕೆ_Output, XrReferenceSpaceType* spaces);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateReferenceSpace)(XrSession session, ಧ್ರುವ XrReferenceSpaceCreateInfo* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetReferenceSpaceBoundsRect)(XrSession session, XrReferenceSpaceType referenceSpaceType, XrExtent2Df* bounds);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateActionSpace)(XrSession session, ಧ್ರುವ XrActionSpaceCreateInfo* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateSpace)(XrSpace space, XrSpace baseSpace, XrTime time, XrSpaceLocation* location);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpace)(XrSpace space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurations)(XrInstance instance, XrSystemId systemId, uint32_t view_Configuration_Type_Capacity_ಒಳಹರಿವು, uint32_t* view_Configuration_Type_ಎಣಿಕೆ_Output, XrViewConfigurationType* viewConfigurationTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetViewConfigurationProperties)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, XrViewConfigurationProperties* configurationProperties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateViewConfigurationViews)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t view_Capacity_ಒಳಹರಿವು, uint32_t* view_ಎಣಿಕೆ_Output, XrViewConfigurationView* views);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats)(XrSession session, uint32_t format_Capacity_ಒಳಹರಿವು, uint32_t* format_ಎಣಿಕೆ_Output, int64_t* formats);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSwapchain)(XrSession session, ಧ್ರುವ XrSwapchainCreateInfo* createInfo, XrSwapchain* swapchain);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySwapchain)(XrSwapchain swapchain);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainImages)(XrSwapchain swapchain, uint32_t image_Capacity_ಒಳಹರಿವು, uint32_t* image_ಎಣಿಕೆ_Output, XrSwapchainImageBaseHeader* images);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrAcquireSwapchainImage)(XrSwapchain swapchain, ಧ್ರುವ XrSwapchainImageAcquireInfo* acquireInfo, uint32_t* index);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrWaitSwapchainImage)(XrSwapchain swapchain, ಧ್ರುವ XrSwapchainImageWaitInfo* waitInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrReleaseSwapchainImage)(XrSwapchain swapchain, ಧ್ರುವ XrSwapchainImageReleaseInfo* releaseInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrBeginSession)(XrSession session, ಧ್ರುವ XrSessionBeginInfo* beginInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEndSession)(XrSession session);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestExitSession)(XrSession session);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrWaitFrame)(XrSession session, ಧ್ರುವ XrFrameWaitInfo* frameWaitInfo, XrFrameState* frameState);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrBeginFrame)(XrSession session, ಧ್ರುವ XrFrameBeginInfo* frameBeginInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEndFrame)(XrSession session, ಧ್ರುವ XrFrameEndInfo* frameEndInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateViews)(XrSession session, ಧ್ರುವ XrViewLocateInfo* viewLocateInfo, XrViewState* viewState, uint32_t view_Capacity_ಒಳಹರಿವು, uint32_t* view_ಎಣಿಕೆ_Output, XrView* views);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStringToPath)(XrInstance instance, ಧ್ರುವ ವರ್ಣ* pathString, XrPath* path);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPathToString)(XrInstance instance, XrPath path, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, ವರ್ಣ* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateActionSet)(XrInstance instance, ಧ್ರುವ XrActionSetCreateInfo* createInfo, XrActionSet* actionSet);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyActionSet)(XrActionSet actionSet);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateAction)(XrActionSet actionSet, ಧ್ರುವ XrActionCreateInfo* createInfo, XrAction* action);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyAction)(XrAction action);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSuggestInteractionProfileBindings)(XrInstance instance, ಧ್ರುವ XrInteractionProfileSuggestedBinding* suggestedBindings);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrAttachSessionActionSets)(XrSession session, ಧ್ರುವ XrSessionActionSetsAttachInfo* attachInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetCurrentInteractionProfile)(XrSession session, XrPath ತುದಿ_Level_User_Path, XrInteractionProfileState* interactionProfile);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetActionStateBoolean)(XrSession session, ಧ್ರುವ XrActionStateGetInfo* getInfo, XrActionStateBoolean* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetActionStateFloat)(XrSession session, ಧ್ರುವ XrActionStateGetInfo* getInfo, XrActionStateFloat* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetActionStateVector2f)(XrSession session, ಧ್ರುವ XrActionStateGetInfo* getInfo, XrActionStateVector2f* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetActionStatePose)(XrSession session, ಧ್ರುವ XrActionStateGetInfo* getInfo, XrActionStatePose* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSyncActions)(XrSession session, ಧ್ರುವ XrActionsSyncInfo* syncInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateBoundSourcesForAction)(XrSession session, ಧ್ರುವ XrBoundSourcesForActionEnumerateInfo* enumerateInfo, uint32_t source_Capacity_ಒಳಹರಿವು, uint32_t* source_ಎಣಿಕೆ_Output, XrPath* sources);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Get_ಒಳಹರಿವು_Source_Localized_Name)(XrSession session, ಧ್ರುವ Xr_ಒಳಹರಿವು_Source_Localized_Name_Get_Info* getInfo, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, ವರ್ಣ* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrApplyHapticFeedback)(XrSession session, ಧ್ರುವ XrHapticActionInfo* hapticActionInfo, ಧ್ರುವ XrHapticBaseHeader* hapticFeedback);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStopHapticFeedback)(XrSession session, ಧ್ರುವ XrHapticActionInfo* hapticActionInfo);
 
 #ifndef XR_NO_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetInstanceProcAddr(
     XrInstance                                  instance,
-    const char*                                 name,
+    ಧ್ರುವ ವರ್ಣ*                                 name,
     PFN_xrVoidFunction*                         function);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateApiLayerProperties(
-    uint32_t                                    propertyCapacityInput,
-    uint32_t*                                   propertyCountOutput,
+    uint32_t                                    property_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   property_ಎಣಿಕೆ_Output,
     XrApiLayerProperties*                       properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateInstanceExtensionProperties(
-    const char*                                 layerName,
-    uint32_t                                    propertyCapacityInput,
-    uint32_t*                                   propertyCountOutput,
+    ಧ್ರುವ ವರ್ಣ*                                 layerName,
+    uint32_t                                    property_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   property_ಎಣಿಕೆ_Output,
     XrExtensionProperties*                      properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateInstance(
-    const XrInstanceCreateInfo*                 createInfo,
+    ಧ್ರುವ XrInstanceCreateInfo*                 createInfo,
     XrInstance*                                 instance);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyInstance(
@@ -1938,17 +1938,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPollEvent(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrResultToString(
     XrInstance                                  instance,
-    XrResult                                    value,
-    char                                        buffer[XR_MAX_RESULT_STRING_SIZE]);
+    XrResult                                    ಮೌಲ್ಯ,
+    ವರ್ಣ                                        buffer[XR_MAX_RESULT_STRING_SIZE]);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStructureTypeToString(
     XrInstance                                  instance,
-    XrStructureType                             value,
-    char                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
+    XrStructureType                             ಮೌಲ್ಯ,
+    ವರ್ಣ                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSystem(
     XrInstance                                  instance,
-    const XrSystemGetInfo*                      getInfo,
+    ಧ್ರುವ XrSystemGetInfo*                      getInfo,
     XrSystemId*                                 systemId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSystemProperties(
@@ -1960,13 +1960,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentBlendModes(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrViewConfigurationType                     viewConfigurationType,
-    uint32_t                                    environmentBlendModeCapacityInput,
-    uint32_t*                                   environmentBlendModeCountOutput,
+    uint32_t                                    environment_Blend_Mode_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   environment_Blend_Mode_ಎಣಿಕೆ_Output,
     XrEnvironmentBlendMode*                     environmentBlendModes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSession(
     XrInstance                                  instance,
-    const XrSessionCreateInfo*                  createInfo,
+    ಧ್ರುವ XrSessionCreateInfo*                  createInfo,
     XrSession*                                  session);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySession(
@@ -1974,13 +1974,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySession(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateReferenceSpaces(
     XrSession                                   session,
-    uint32_t                                    spaceCapacityInput,
-    uint32_t*                                   spaceCountOutput,
+    uint32_t                                    space_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   space_ಎಣಿಕೆ_Output,
     XrReferenceSpaceType*                       spaces);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateReferenceSpace(
     XrSession                                   session,
-    const XrReferenceSpaceCreateInfo*           createInfo,
+    ಧ್ರುವ XrReferenceSpaceCreateInfo*           createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetReferenceSpaceBoundsRect(
@@ -1990,7 +1990,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetReferenceSpaceBoundsRect(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateActionSpace(
     XrSession                                   session,
-    const XrActionSpaceCreateInfo*              createInfo,
+    ಧ್ರುವ XrActionSpaceCreateInfo*              createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpace(
@@ -2005,8 +2005,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpace(
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViewConfigurations(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    viewConfigurationTypeCapacityInput,
-    uint32_t*                                   viewConfigurationTypeCountOutput,
+    uint32_t                                    view_Configuration_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   view_Configuration_Type_ಎಣಿಕೆ_Output,
     XrViewConfigurationType*                    viewConfigurationTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetViewConfigurationProperties(
@@ -2019,19 +2019,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViewConfigurationViews(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrViewConfigurationType                     viewConfigurationType,
-    uint32_t                                    viewCapacityInput,
-    uint32_t*                                   viewCountOutput,
+    uint32_t                                    view_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   view_ಎಣಿಕೆ_Output,
     XrViewConfigurationView*                    views);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSwapchainFormats(
     XrSession                                   session,
-    uint32_t                                    formatCapacityInput,
-    uint32_t*                                   formatCountOutput,
+    uint32_t                                    format_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   format_ಎಣಿಕೆ_Output,
     int64_t*                                    formats);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSwapchain(
     XrSession                                   session,
-    const XrSwapchainCreateInfo*                createInfo,
+    ಧ್ರುವ XrSwapchainCreateInfo*                createInfo,
     XrSwapchain*                                swapchain);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySwapchain(
@@ -2039,26 +2039,26 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySwapchain(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSwapchainImages(
     XrSwapchain                                 swapchain,
-    uint32_t                                    imageCapacityInput,
-    uint32_t*                                   imageCountOutput,
+    uint32_t                                    image_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   image_ಎಣಿಕೆ_Output,
     XrSwapchainImageBaseHeader*                 images);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireSwapchainImage(
     XrSwapchain                                 swapchain,
-    const XrSwapchainImageAcquireInfo*          acquireInfo,
+    ಧ್ರುವ XrSwapchainImageAcquireInfo*          acquireInfo,
     uint32_t*                                   index);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrWaitSwapchainImage(
     XrSwapchain                                 swapchain,
-    const XrSwapchainImageWaitInfo*             waitInfo);
+    ಧ್ರುವ XrSwapchainImageWaitInfo*             waitInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrReleaseSwapchainImage(
     XrSwapchain                                 swapchain,
-    const XrSwapchainImageReleaseInfo*          releaseInfo);
+    ಧ್ರುವ XrSwapchainImageReleaseInfo*          releaseInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginSession(
     XrSession                                   session,
-    const XrSessionBeginInfo*                   beginInfo);
+    ಧ್ರುವ XrSessionBeginInfo*                   beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndSession(
     XrSession                                   session);
@@ -2068,40 +2068,40 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestExitSession(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrWaitFrame(
     XrSession                                   session,
-    const XrFrameWaitInfo*                      frameWaitInfo,
+    ಧ್ರುವ XrFrameWaitInfo*                      frameWaitInfo,
     XrFrameState*                               frameState);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginFrame(
     XrSession                                   session,
-    const XrFrameBeginInfo*                     frameBeginInfo);
+    ಧ್ರುವ XrFrameBeginInfo*                     frameBeginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndFrame(
     XrSession                                   session,
-    const XrFrameEndInfo*                       frameEndInfo);
+    ಧ್ರುವ XrFrameEndInfo*                       frameEndInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateViews(
     XrSession                                   session,
-    const XrViewLocateInfo*                     viewLocateInfo,
+    ಧ್ರುವ XrViewLocateInfo*                     viewLocateInfo,
     XrViewState*                                viewState,
-    uint32_t                                    viewCapacityInput,
-    uint32_t*                                   viewCountOutput,
+    uint32_t                                    view_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   view_ಎಣಿಕೆ_Output,
     XrView*                                     views);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStringToPath(
     XrInstance                                  instance,
-    const char*                                 pathString,
+    ಧ್ರುವ ವರ್ಣ*                                 pathString,
     XrPath*                                     path);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPathToString(
     XrInstance                                  instance,
     XrPath                                      path,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
+    ವರ್ಣ*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateActionSet(
     XrInstance                                  instance,
-    const XrActionSetCreateInfo*                createInfo,
+    ಧ್ರುವ XrActionSetCreateInfo*                createInfo,
     XrActionSet*                                actionSet);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyActionSet(
@@ -2109,7 +2109,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyActionSet(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAction(
     XrActionSet                                 actionSet,
-    const XrActionCreateInfo*                   createInfo,
+    ಧ್ರುವ XrActionCreateInfo*                   createInfo,
     XrAction*                                   action);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAction(
@@ -2117,63 +2117,63 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAction(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSuggestInteractionProfileBindings(
     XrInstance                                  instance,
-    const XrInteractionProfileSuggestedBinding* suggestedBindings);
+    ಧ್ರುವ XrInteractionProfileSuggestedBinding* suggestedBindings);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAttachSessionActionSets(
     XrSession                                   session,
-    const XrSessionActionSetsAttachInfo*        attachInfo);
+    ಧ್ರುವ XrSessionActionSetsAttachInfo*        attachInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCurrentInteractionProfile(
     XrSession                                   session,
-    XrPath                                      topLevelUserPath,
+    XrPath                                      ತುದಿ_Level_User_Path,
     XrInteractionProfileState*                  interactionProfile);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStateBoolean(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    ಧ್ರುವ XrActionStateGetInfo*                 getInfo,
     XrActionStateBoolean*                       state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStateFloat(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    ಧ್ರುವ XrActionStateGetInfo*                 getInfo,
     XrActionStateFloat*                         state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStateVector2f(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    ಧ್ರುವ XrActionStateGetInfo*                 getInfo,
     XrActionStateVector2f*                      state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetActionStatePose(
     XrSession                                   session,
-    const XrActionStateGetInfo*                 getInfo,
+    ಧ್ರುವ XrActionStateGetInfo*                 getInfo,
     XrActionStatePose*                          state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSyncActions(
     XrSession                                   session,
-    const XrActionsSyncInfo*                    syncInfo);
+    ಧ್ರುವ XrActionsSyncInfo*                    syncInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateBoundSourcesForAction(
     XrSession                                   session,
-    const XrBoundSourcesForActionEnumerateInfo* enumerateInfo,
-    uint32_t                                    sourceCapacityInput,
-    uint32_t*                                   sourceCountOutput,
+    ಧ್ರುವ XrBoundSourcesForActionEnumerateInfo* enumerateInfo,
+    uint32_t                                    source_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   source_ಎಣಿಕೆ_Output,
     XrPath*                                     sources);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetInputSourceLocalizedName(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_ಒಳಹರಿವು_Source_Localized_Name(
     XrSession                                   session,
-    const XrInputSourceLocalizedNameGetInfo*    getInfo,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    ಧ್ರುವ Xr_ಒಳಹರಿವು_Source_Localized_Name_Get_Info*    getInfo,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
+    ವರ್ಣ*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrApplyHapticFeedback(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo,
-    const XrHapticBaseHeader*                   hapticFeedback);
+    ಧ್ರುವ XrHapticActionInfo*                   hapticActionInfo,
+    ಧ್ರುವ XrHapticBaseHeader*                   hapticFeedback);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStopHapticFeedback(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo);
+    ಧ್ರುವ XrHapticActionInfo*                   hapticActionInfo);
 #endif /* !XR_NO_PROTOTYPES */
 
 
@@ -2183,80 +2183,80 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopHapticFeedback(
 #define XR_API_VERSION_1_1 XR_MAKE_VERSION(1, 1, XR_VERSION_PATCH(XR_CURRENT_API_VERSION))
 
 #define XR_UUID_SIZE                      16
-typedef struct XrColor3f {
-    float    r;
-    float    g;
-    float    b;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrColor3f {
+    ಭಿನ್ನ    r;
+    ಭಿನ್ನ    g;
+    ಭಿನ್ನ    b;
 } XrColor3f;
 
-typedef struct XrExtent3Df {
-    float    width;
-    float    height;
-    float    depth;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExtent3Df {
+    ಭಿನ್ನ    width;
+    ಭಿನ್ನ    height;
+    ಭಿನ್ನ    depth;
 } XrExtent3Df;
 
-typedef struct XrSpheref {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpheref {
     XrPosef    center;
-    float      radius;
+    ಭಿನ್ನ      radius;
 } XrSpheref;
 
-typedef struct XrBoxf {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBoxf {
     XrPosef        center;
     XrExtent3Df    extents;
 } XrBoxf;
 
-typedef struct XrFrustumf {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrustumf {
     XrPosef    pose;
     XrFovf     fov;
-    float      nearZ;
-    float      farZ;
+    ಭಿನ್ನ      nearZ;
+    ಭಿನ್ನ      farZ;
 } XrFrustumf;
 
-typedef struct XrUuid {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrUuid {
     uint8_t    data[XR_UUID_SIZE];
 } XrUuid;
 
-typedef struct XrSpacesLocateInfo {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpacesLocateInfo {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
-    uint32_t                    spaceCount;
-    const XrSpace*              spaces;
+    uint32_t                    space_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpace*              spaces;
 } XrSpacesLocateInfo;
 
-typedef struct XrSpaceLocationData {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceLocationData {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrSpaceLocationData;
 
-typedef struct XrSpaceLocations {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceLocations {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
-    uint32_t                locationCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
+    uint32_t                location_ಎಣಿಕೆ;
     XrSpaceLocationData*    locations;
 } XrSpaceLocations;
 
-typedef struct XrSpaceVelocityData {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceVelocityData {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrSpaceVelocityData;
 
 // XrSpaceVelocities extends XrSpaceLocations
-typedef struct XrSpaceVelocities {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceVelocities {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
-    uint32_t                velocityCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
+    uint32_t                velocity_ಎಣಿಕೆ;
     XrSpaceVelocityData*    velocities;
 } XrSpaceVelocities;
 
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpaces)(XrSession session, const XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateSpaces)(XrSession session, ಧ್ರುವ XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
 
 #ifndef XR_NO_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpaces(
     XrSession                                   session,
-    const XrSpacesLocateInfo*                   locateInfo,
+    ಧ್ರುವ XrSpacesLocateInfo*                   locateInfo,
     XrSpaceLocations*                           spaceLocations);
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2265,9 +2265,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpaces(
 #define XR_KHR_composition_layer_cube 1
 #define XR_KHR_composition_layer_cube_SPEC_VERSION 8
 #define XR_KHR_COMPOSITION_LAYER_CUBE_EXTENSION_NAME "XR_KHR_composition_layer_cube"
-typedef struct XrCompositionLayerCubeKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerCubeKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
@@ -2283,14 +2283,14 @@ typedef struct XrCompositionLayerCubeKHR {
 #define XR_KHR_composition_layer_depth_SPEC_VERSION 6
 #define XR_KHR_COMPOSITION_LAYER_DEPTH_EXTENSION_NAME "XR_KHR_composition_layer_depth"
 // XrCompositionLayerDepthInfoKHR extends XrCompositionLayerProjectionView
-typedef struct XrCompositionLayerDepthInfoKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerDepthInfoKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSwapchainSubImage         subImage;
-    float                       minDepth;
-    float                       maxDepth;
-    float                       nearZ;
-    float                       farZ;
+    ಭಿನ್ನ                       minDepth;
+    ಭಿನ್ನ                       maxDepth;
+    ಭಿನ್ನ                       nearZ;
+    ಭಿನ್ನ                       farZ;
 } XrCompositionLayerDepthInfoKHR;
 
 
@@ -2299,17 +2299,17 @@ typedef struct XrCompositionLayerDepthInfoKHR {
 #define XR_KHR_composition_layer_cylinder 1
 #define XR_KHR_composition_layer_cylinder_SPEC_VERSION 4
 #define XR_KHR_COMPOSITION_LAYER_CYLINDER_EXTENSION_NAME "XR_KHR_composition_layer_cylinder"
-typedef struct XrCompositionLayerCylinderKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerCylinderKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
     XrSwapchainSubImage         subImage;
     XrPosef                     pose;
-    float                       radius;
-    float                       centralAngle;
-    float                       aspectRatio;
+    ಭಿನ್ನ                       radius;
+    ಭಿನ್ನ                       centralAngle;
+    ಭಿನ್ನ                       aspectRatio;
 } XrCompositionLayerCylinderKHR;
 
 
@@ -2318,15 +2318,15 @@ typedef struct XrCompositionLayerCylinderKHR {
 #define XR_KHR_composition_layer_equirect 1
 #define XR_KHR_composition_layer_equirect_SPEC_VERSION 3
 #define XR_KHR_COMPOSITION_LAYER_EQUIRECT_EXTENSION_NAME "XR_KHR_composition_layer_equirect"
-typedef struct XrCompositionLayerEquirectKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerEquirectKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
     XrSwapchainSubImage         subImage;
     XrPosef                     pose;
-    float                       radius;
+    ಭಿನ್ನ                       radius;
     XrVector2f                  scale;
     XrVector2f                  bias;
 } XrCompositionLayerEquirectKHR;
@@ -2338,32 +2338,32 @@ typedef struct XrCompositionLayerEquirectKHR {
 #define XR_KHR_visibility_mask_SPEC_VERSION 2
 #define XR_KHR_VISIBILITY_MASK_EXTENSION_NAME "XR_KHR_visibility_mask"
 
-typedef enum XrVisibilityMaskTypeKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrVisibilityMaskTypeKHR {
     XR_VISIBILITY_MASK_TYPE_HIDDEN_TRIANGLE_MESH_KHR = 1,
     XR_VISIBILITY_MASK_TYPE_VISIBLE_TRIANGLE_MESH_KHR = 2,
-    XR_VISIBILITY_MASK_TYPE_LINE_LOOP_KHR = 3,
+    XR_VISIBILITY_MASK_TYPE_ಸಾಲು_LOOP_KHR = 3,
     XR_VISIBILITY_MASK_TYPE_MAX_ENUM_KHR = 0x7FFFFFFF
 } XrVisibilityMaskTypeKHR;
-typedef struct XrVisibilityMaskKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVisibilityMaskKHR {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t              vertex_ಎಣಿಕೆ_Output;
     XrVector2f*           vertices;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_ಒಳಹರಿವು;
+    uint32_t              index_ಎಣಿಕೆ_Output;
     uint32_t*             indices;
 } XrVisibilityMaskKHR;
 
-typedef struct XrEventDataVisibilityMaskChangedKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataVisibilityMaskChangedKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrViewConfigurationType     viewConfigurationType;
     uint32_t                    viewIndex;
 } XrEventDataVisibilityMaskChangedKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetVisibilityMaskKHR)(XrSession session, XrViewConfigurationType viewConfigurationType, uint32_t viewIndex, XrVisibilityMaskTypeKHR visibilityMaskType, XrVisibilityMaskKHR* visibilityMask);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetVisibilityMaskKHR)(XrSession session, XrViewConfigurationType viewConfigurationType, uint32_t viewIndex, XrVisibilityMaskTypeKHR visibilityMaskType, XrVisibilityMaskKHR* visibilityMask);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -2382,9 +2382,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetVisibilityMaskKHR(
 #define XR_KHR_composition_layer_color_scale_bias_SPEC_VERSION 5
 #define XR_KHR_COMPOSITION_LAYER_COLOR_SCALE_BIAS_EXTENSION_NAME "XR_KHR_composition_layer_color_scale_bias"
 // XrCompositionLayerColorScaleBiasKHR extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerColorScaleBiasKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerColorScaleBiasKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrColor4f                   colorScale;
     XrColor4f                   colorBias;
 } XrCompositionLayerColorScaleBiasKHR;
@@ -2395,17 +2395,17 @@ typedef struct XrCompositionLayerColorScaleBiasKHR {
 #define XR_KHR_loader_init 1
 #define XR_KHR_loader_init_SPEC_VERSION   2
 #define XR_KHR_LOADER_INIT_EXTENSION_NAME "XR_KHR_loader_init"
-typedef struct XR_MAY_ALIAS XrLoaderInitInfoBaseHeaderKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrLoaderInitInfoBaseHeaderKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrLoaderInitInfoBaseHeaderKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrInitializeLoaderKHR)(const XrLoaderInitInfoBaseHeaderKHR* loaderInitInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrInitializeLoaderKHR)(ಧ್ರುವ XrLoaderInitInfoBaseHeaderKHR* loaderInitInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrInitializeLoaderKHR(
-    const XrLoaderInitInfoBaseHeaderKHR*        loaderInitInfo);
+    ಧ್ರುವ XrLoaderInitInfoBaseHeaderKHR*        loaderInitInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2414,18 +2414,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrInitializeLoaderKHR(
 #define XR_KHR_composition_layer_equirect2 1
 #define XR_KHR_composition_layer_equirect2_SPEC_VERSION 1
 #define XR_KHR_COMPOSITION_LAYER_EQUIRECT2_EXTENSION_NAME "XR_KHR_composition_layer_equirect2"
-typedef struct XrCompositionLayerEquirect2KHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerEquirect2KHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrEyeVisibility             eyeVisibility;
     XrSwapchainSubImage         subImage;
     XrPosef                     pose;
-    float                       radius;
-    float                       centralHorizontalAngle;
-    float                       upperVerticalAngle;
-    float                       lowerVerticalAngle;
+    ಭಿನ್ನ                       radius;
+    ಭಿನ್ನ                       centralHorizontalAngle;
+    ಭಿನ್ನ                       upperVerticalAngle;
+    ಭಿನ್ನ                       lowerVerticalAngle;
 } XrCompositionLayerEquirect2KHR;
 
 
@@ -2434,17 +2434,17 @@ typedef struct XrCompositionLayerEquirect2KHR {
 #define XR_KHR_binding_modification 1
 #define XR_KHR_binding_modification_SPEC_VERSION 1
 #define XR_KHR_BINDING_MODIFICATION_EXTENSION_NAME "XR_KHR_binding_modification"
-typedef struct XR_MAY_ALIAS XrBindingModificationBaseHeaderKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrBindingModificationBaseHeaderKHR {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrBindingModificationBaseHeaderKHR;
 
 // XrBindingModificationsKHR extends XrInteractionProfileSuggestedBinding
-typedef struct XrBindingModificationsKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBindingModificationsKHR {
     XrStructureType                                     type;
-    const void* XR_MAY_ALIAS                            next;
-    uint32_t                                            bindingModificationCount;
-    const XrBindingModificationBaseHeaderKHR* const*    bindingModifications;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                            next;
+    uint32_t                                            binding_Modification_ಎಣಿಕೆ;
+    ಧ್ರುವ XrBindingModificationBaseHeaderKHR* ಧ್ರುವ*    bindingModifications;
 } XrBindingModificationsKHR;
 
 
@@ -2454,45 +2454,45 @@ typedef struct XrBindingModificationsKHR {
 #define XR_KHR_extended_struct_name_lengths_SPEC_VERSION 2
 #define XR_KHR_EXTENDED_STRUCT_NAME_LENGTHS_EXTENSION_NAME "XR_KHR_extended_struct_name_lengths"
 #define XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR 256
-typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString2KHR)(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStructureTypeToString2KHR)(XrInstance instance, XrStructureType ಮೌಲ್ಯ, ವರ್ಣ buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrStructureTypeToString2KHR(
     XrInstance                                  instance,
-    XrStructureType                             value,
-    char                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
+    XrStructureType                             ಮೌಲ್ಯ,
+    ವರ್ಣ                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
 
 // XR_KHR_swapchain_usage_input_attachment_bit is a preprocessor guard. Do not pass it to API calls.
-#define XR_KHR_swapchain_usage_input_attachment_bit 1
-#define XR_KHR_swapchain_usage_input_attachment_bit_SPEC_VERSION 3
-#define XR_KHR_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_EXTENSION_NAME "XR_KHR_swapchain_usage_input_attachment_bit"
+#define XR_KHR_swapchain_usage_ಒಳಹರಿವು_attachment_bit 1
+#define XR_KHR_swapchain_usage_ಒಳಹರಿವು_attachment_bit_SPEC_VERSION 3
+#define XR_KHR_SWAPCHAIN_USAGE_ಒಳಹರಿವು_ATTACHMENT_BIT_EXTENSION_NAME "XR_KHR_swapchain_usage_input_attachment_bit"
 
 
 // XR_KHR_locate_spaces is a preprocessor guard. Do not pass it to API calls.
 #define XR_KHR_locate_spaces 1
 #define XR_KHR_locate_spaces_SPEC_VERSION 1
 #define XR_KHR_LOCATE_SPACES_EXTENSION_NAME "XR_KHR_locate_spaces"
-typedef XrSpacesLocateInfo XrSpacesLocateInfoKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrSpacesLocateInfo XrSpacesLocateInfoKHR;
 
-typedef XrSpaceLocationData XrSpaceLocationDataKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrSpaceLocationData XrSpaceLocationDataKHR;
 
-typedef XrSpaceLocations XrSpaceLocationsKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrSpaceLocations XrSpaceLocationsKHR;
 
-typedef XrSpaceVelocityData XrSpaceVelocityDataKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrSpaceVelocityData XrSpaceVelocityDataKHR;
 
-typedef XrSpaceVelocities XrSpaceVelocitiesKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrSpaceVelocities XrSpaceVelocitiesKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpacesKHR)(XrSession session, const XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateSpacesKHR)(XrSession session, ಧ್ರುವ XrSpacesLocateInfo* locateInfo, XrSpaceLocations* spaceLocations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpacesKHR(
     XrSession                                   session,
-    const XrSpacesLocateInfo*                   locateInfo,
+    ಧ್ರುವ XrSpacesLocateInfo*                   locateInfo,
     XrSpaceLocations*                           spaceLocations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -2502,15 +2502,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpacesKHR(
 #define XR_KHR_maintenance1 1
 #define XR_KHR_maintenance1_SPEC_VERSION  1
 #define XR_KHR_MAINTENANCE1_EXTENSION_NAME "XR_KHR_maintenance1"
-typedef XrColor3f XrColor3fKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrColor3f XrColor3fKHR;
 
-typedef XrExtent3Df XrExtent3DfKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrExtent3Df XrExtent3DfKHR;
 
-typedef XrSpheref XrSpherefKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrSpheref XrSpherefKHR;
 
-typedef XrBoxf XrBoxfKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrBoxf XrBoxfKHR;
 
-typedef XrFrustumf XrFrustumfKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFrustumf XrFrustumfKHR;
 
 
 
@@ -2525,14 +2525,14 @@ typedef XrFrustumf XrFrustumfKHR;
 #define XR_KHR_extended_result_name_lengths_SPEC_VERSION 1
 #define XR_KHR_EXTENDED_RESULT_NAME_LENGTHS_EXTENSION_NAME "XR_KHR_extended_result_name_lengths"
 #define XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR 256
-typedef XrResult (XRAPI_PTR *PFN_xrResultToString2KHR)(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrResultToString2KHR)(XrInstance instance, XrResult ಮೌಲ್ಯ, ವರ್ಣ buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrResultToString2KHR(
     XrInstance                                  instance,
-    XrResult                                    value,
-    char                                        buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
+    XrResult                                    ಮೌಲ್ಯ,
+    ವರ್ಣ                                        buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2542,43 +2542,43 @@ XRAPI_ATTR XrResult XRAPI_CALL xrResultToString2KHR(
 #define XR_EXT_performance_settings_SPEC_VERSION 4
 #define XR_EXT_PERFORMANCE_SETTINGS_EXTENSION_NAME "XR_EXT_performance_settings"
 
-typedef enum XrPerfSettingsDomainEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPerfSettingsDomainEXT {
     XR_PERF_SETTINGS_DOMAIN_CPU_EXT = 1,
     XR_PERF_SETTINGS_DOMAIN_GPU_EXT = 2,
     XR_PERF_SETTINGS_DOMAIN_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsDomainEXT;
 
-typedef enum XrPerfSettingsSubDomainEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPerfSettingsSubDomainEXT {
     XR_PERF_SETTINGS_SUB_DOMAIN_COMPOSITING_EXT = 1,
     XR_PERF_SETTINGS_SUB_DOMAIN_RENDERING_EXT = 2,
     XR_PERF_SETTINGS_SUB_DOMAIN_THERMAL_EXT = 3,
     XR_PERF_SETTINGS_SUB_DOMAIN_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsSubDomainEXT;
 
-typedef enum XrPerfSettingsLevelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPerfSettingsLevelEXT {
     XR_PERF_SETTINGS_LEVEL_POWER_SAVINGS_EXT = 0,
-    XR_PERF_SETTINGS_LEVEL_SUSTAINED_LOW_EXT = 25,
-    XR_PERF_SETTINGS_LEVEL_SUSTAINED_HIGH_EXT = 50,
+    XR_PERF_SETTINGS_LEVEL_SUSTAINED_ಕೆಳಗಿನ_EXT = 25,
+    XR_PERF_SETTINGS_LEVEL_SUSTAINED_ಮೇಲಿನ_EXT = 50,
     XR_PERF_SETTINGS_LEVEL_BOOST_EXT = 75,
     XR_PERF_SETTINGS_LEVEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsLevelEXT;
 
-typedef enum XrPerfSettingsNotificationLevelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPerfSettingsNotificationLevelEXT {
     XR_PERF_SETTINGS_NOTIF_LEVEL_NORMAL_EXT = 0,
     XR_PERF_SETTINGS_NOTIF_LEVEL_WARNING_EXT = 25,
     XR_PERF_SETTINGS_NOTIF_LEVEL_IMPAIRED_EXT = 75,
     XR_PERF_SETTINGS_NOTIFICATION_LEVEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsNotificationLevelEXT;
-typedef struct XrEventDataPerfSettingsEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataPerfSettingsEXT {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
     XrPerfSettingsDomainEXT               domain;
     XrPerfSettingsSubDomainEXT            subDomain;
     XrPerfSettingsNotificationLevelEXT    fromLevel;
     XrPerfSettingsNotificationLevelEXT    toLevel;
 } XrEventDataPerfSettingsEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPerfSettingsSetPerformanceLevelEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsLevelEXT level);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPerfSettingsSetPerformanceLevelEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsLevelEXT level);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -2594,7 +2594,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPerfSettingsSetPerformanceLevelEXT(
 #define XR_EXT_thermal_query 1
 #define XR_EXT_thermal_query_SPEC_VERSION 2
 #define XR_EXT_THERMAL_QUERY_EXTENSION_NAME "XR_EXT_thermal_query"
-typedef XrResult (XRAPI_PTR *PFN_xrThermalGetTemperatureTrendEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsNotificationLevelEXT* notificationLevel, float* tempHeadroom, float* tempSlope);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrThermalGetTemperatureTrendEXT)(XrSession session, XrPerfSettingsDomainEXT domain, XrPerfSettingsNotificationLevelEXT* notificationLevel, ಭಿನ್ನ* tempHeadroom, ಭಿನ್ನ* tempSlope);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -2602,8 +2602,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrThermalGetTemperatureTrendEXT(
     XrSession                                   session,
     XrPerfSettingsDomainEXT                     domain,
     XrPerfSettingsNotificationLevelEXT*         notificationLevel,
-    float*                                      tempHeadroom,
-    float*                                      tempSlope);
+    ಭಿನ್ನ*                                      tempHeadroom,
+    ಭಿನ್ನ*                                      tempSlope);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2613,82 +2613,82 @@ XRAPI_ATTR XrResult XRAPI_CALL xrThermalGetTemperatureTrendEXT(
 XR_DEFINE_HANDLE(XrDebugUtilsMessengerEXT)
 #define XR_EXT_debug_utils_SPEC_VERSION   5
 #define XR_EXT_DEBUG_UTILS_EXTENSION_NAME "XR_EXT_debug_utils"
-typedef XrFlags64 XrDebugUtilsMessageSeverityFlagsEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrDebugUtilsMessageSeverityFlagsEXT;
 
 // Flag bits for XrDebugUtilsMessageSeverityFlagsEXT
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT = 0x00000001;
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT = 0x00000010;
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT = 0x00000100;
-static const XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT = 0x00001000;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT = 0x00000100;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageSeverityFlagsEXT XR_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT = 0x00001000;
 
-typedef XrFlags64 XrDebugUtilsMessageTypeFlagsEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrDebugUtilsMessageTypeFlagsEXT;
 
 // Flag bits for XrDebugUtilsMessageTypeFlagsEXT
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT = 0x00000001;
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT = 0x00000002;
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT = 0x00000004;
-static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_CONFORMANCE_BIT_EXT = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_CONFORMANCE_BIT_EXT = 0x00000008;
 
-typedef struct XrDebugUtilsObjectNameInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDebugUtilsObjectNameInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrObjectType                objectType;
     uint64_t                    objectHandle;
-    const char*                 objectName;
+    ಧ್ರುವ ವರ್ಣ*                 objectName;
 } XrDebugUtilsObjectNameInfoEXT;
 
-typedef struct XrDebugUtilsLabelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDebugUtilsLabelEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 labelName;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ವರ್ಣ*                 labelName;
 } XrDebugUtilsLabelEXT;
 
-typedef struct XrDebugUtilsMessengerCallbackDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDebugUtilsMessengerCallbackDataEXT {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
-    const char*                       messageId;
-    const char*                       functionName;
-    const char*                       message;
-    uint32_t                          objectCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS          next;
+    ಧ್ರುವ ವರ್ಣ*                       messageId;
+    ಧ್ರುವ ವರ್ಣ*                       functionName;
+    ಧ್ರುವ ವರ್ಣ*                       message;
+    uint32_t                          object_ಎಣಿಕೆ;
     XrDebugUtilsObjectNameInfoEXT*    objects;
-    uint32_t                          sessionLabelCount;
+    uint32_t                          session_Label_ಎಣಿಕೆ;
     XrDebugUtilsLabelEXT*             sessionLabels;
 } XrDebugUtilsMessengerCallbackDataEXT;
 
-typedef XrBool32 (XRAPI_PTR *PFN_xrDebugUtilsMessengerCallbackEXT)(
+ಪ್ರಕಾರನಿರ್ದೇಶ XrBool32 (XRAPI_PTR *PFN_xrDebugUtilsMessengerCallbackEXT)(
             XrDebugUtilsMessageSeverityFlagsEXT              messageSeverity,
             XrDebugUtilsMessageTypeFlagsEXT                  messageTypes,
-            const XrDebugUtilsMessengerCallbackDataEXT*      callbackData,
-            void*                                            userData);
+            ಧ್ರುವ XrDebugUtilsMessengerCallbackDataEXT*      callbackData,
+            ಶೂನ್ಯ*                                            userData);
         
 
 // XrDebugUtilsMessengerCreateInfoEXT extends XrInstanceCreateInfo
-typedef struct XrDebugUtilsMessengerCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDebugUtilsMessengerCreateInfoEXT {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                next;
     XrDebugUtilsMessageSeverityFlagsEXT     messageSeverities;
     XrDebugUtilsMessageTypeFlagsEXT         messageTypes;
     PFN_xrDebugUtilsMessengerCallbackEXT    userCallback;
-    void* XR_MAY_ALIAS                      userData;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      userData;
 } XrDebugUtilsMessengerCreateInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetDebugUtilsObjectNameEXT)(XrInstance instance, const XrDebugUtilsObjectNameInfoEXT* nameInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateDebugUtilsMessengerEXT)(XrInstance instance, const XrDebugUtilsMessengerCreateInfoEXT* createInfo, XrDebugUtilsMessengerEXT* messenger);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyDebugUtilsMessengerEXT)(XrDebugUtilsMessengerEXT messenger);
-typedef XrResult (XRAPI_PTR *PFN_xrSubmitDebugUtilsMessageEXT)(XrInstance instance, XrDebugUtilsMessageSeverityFlagsEXT messageSeverity, XrDebugUtilsMessageTypeFlagsEXT messageTypes, const XrDebugUtilsMessengerCallbackDataEXT* callbackData);
-typedef XrResult (XRAPI_PTR *PFN_xrSessionBeginDebugUtilsLabelRegionEXT)(XrSession session, const XrDebugUtilsLabelEXT* labelInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrSessionEndDebugUtilsLabelRegionEXT)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrSessionInsertDebugUtilsLabelEXT)(XrSession session, const XrDebugUtilsLabelEXT* labelInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetDebugUtilsObjectNameEXT)(XrInstance instance, ಧ್ರುವ XrDebugUtilsObjectNameInfoEXT* nameInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateDebugUtilsMessengerEXT)(XrInstance instance, ಧ್ರುವ XrDebugUtilsMessengerCreateInfoEXT* createInfo, XrDebugUtilsMessengerEXT* messenger);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyDebugUtilsMessengerEXT)(XrDebugUtilsMessengerEXT messenger);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSubmitDebugUtilsMessageEXT)(XrInstance instance, XrDebugUtilsMessageSeverityFlagsEXT messageSeverity, XrDebugUtilsMessageTypeFlagsEXT messageTypes, ಧ್ರುವ XrDebugUtilsMessengerCallbackDataEXT* callbackData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSessionBeginDebugUtilsLabelRegionEXT)(XrSession session, ಧ್ರುವ XrDebugUtilsLabelEXT* labelInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSessionEndDebugUtilsLabelRegionEXT)(XrSession session);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Session_ಸೇರಿಸು_Debug_Utils_Label_EXT)(XrSession session, ಧ್ರುವ XrDebugUtilsLabelEXT* labelInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetDebugUtilsObjectNameEXT(
     XrInstance                                  instance,
-    const XrDebugUtilsObjectNameInfoEXT*        nameInfo);
+    ಧ್ರುವ XrDebugUtilsObjectNameInfoEXT*        nameInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateDebugUtilsMessengerEXT(
     XrInstance                                  instance,
-    const XrDebugUtilsMessengerCreateInfoEXT*   createInfo,
+    ಧ್ರುವ XrDebugUtilsMessengerCreateInfoEXT*   createInfo,
     XrDebugUtilsMessengerEXT*                   messenger);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyDebugUtilsMessengerEXT(
@@ -2698,18 +2698,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSubmitDebugUtilsMessageEXT(
     XrInstance                                  instance,
     XrDebugUtilsMessageSeverityFlagsEXT         messageSeverity,
     XrDebugUtilsMessageTypeFlagsEXT             messageTypes,
-    const XrDebugUtilsMessengerCallbackDataEXT* callbackData);
+    ಧ್ರುವ XrDebugUtilsMessengerCallbackDataEXT* callbackData);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSessionBeginDebugUtilsLabelRegionEXT(
     XrSession                                   session,
-    const XrDebugUtilsLabelEXT*                 labelInfo);
+    ಧ್ರುವ XrDebugUtilsLabelEXT*                 labelInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSessionEndDebugUtilsLabelRegionEXT(
     XrSession                                   session);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSessionInsertDebugUtilsLabelEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Session_ಸೇರಿಸು_Debug_Utils_Label_EXT(
     XrSession                                   session,
-    const XrDebugUtilsLabelEXT*                 labelInfo);
+    ಧ್ರುವ XrDebugUtilsLabelEXT*                 labelInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2719,16 +2719,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSessionInsertDebugUtilsLabelEXT(
 #define XR_EXT_eye_gaze_interaction_SPEC_VERSION 2
 #define XR_EXT_EYE_GAZE_INTERACTION_EXTENSION_NAME "XR_EXT_eye_gaze_interaction"
 // XrSystemEyeGazeInteractionPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemEyeGazeInteractionPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemEyeGazeInteractionPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeGazeInteraction;
 } XrSystemEyeGazeInteractionPropertiesEXT;
 
 // XrEyeGazeSampleTimeEXT extends XrSpaceLocation
-typedef struct XrEyeGazeSampleTimeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyeGazeSampleTimeEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                time;
 } XrEyeGazeSampleTimeEXT;
 
@@ -2738,26 +2738,26 @@ typedef struct XrEyeGazeSampleTimeEXT {
 #define XR_EXTX_overlay 1
 #define XR_EXTX_overlay_SPEC_VERSION      5
 #define XR_EXTX_OVERLAY_EXTENSION_NAME    "XR_EXTX_overlay"
-typedef XrFlags64 XrOverlaySessionCreateFlagsEXTX;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrOverlaySessionCreateFlagsEXTX;
 
 // Flag bits for XrOverlaySessionCreateFlagsEXTX
 
-typedef XrFlags64 XrOverlayMainSessionFlagsEXTX;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrOverlayMainSessionFlagsEXTX;
 
 // Flag bits for XrOverlayMainSessionFlagsEXTX
-static const XrOverlayMainSessionFlagsEXTX XR_OVERLAY_MAIN_SESSION_ENABLED_COMPOSITION_LAYER_INFO_DEPTH_BIT_EXTX = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrOverlayMainSessionFlagsEXTX XR_OVERLAY_MAIN_SESSION_ENABLED_COMPOSITION_LAYER_INFO_DEPTH_BIT_EXTX = 0x00000001;
 
 // XrSessionCreateInfoOverlayEXTX extends XrSessionCreateInfo
-typedef struct XrSessionCreateInfoOverlayEXTX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSessionCreateInfoOverlayEXTX {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrOverlaySessionCreateFlagsEXTX    createFlags;
     uint32_t                           sessionLayersPlacement;
 } XrSessionCreateInfoOverlayEXTX;
 
-typedef struct XrEventDataMainSessionVisibilityChangedEXTX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataMainSessionVisibilityChangedEXTX {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrBool32                         visible;
     XrOverlayMainSessionFlagsEXTX    flags;
 } XrEventDataMainSessionVisibilityChangedEXTX;
@@ -2781,35 +2781,35 @@ typedef struct XrEventDataMainSessionVisibilityChangedEXTX {
 XR_DEFINE_HANDLE(XrSpatialAnchorMSFT)
 #define XR_MSFT_spatial_anchor_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_ANCHOR_EXTENSION_NAME "XR_MSFT_spatial_anchor"
-typedef struct XrSpatialAnchorCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     pose;
     XrTime                      time;
 } XrSpatialAnchorCreateInfoMSFT;
 
-typedef struct XrSpatialAnchorSpaceCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorSpaceCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialAnchorMSFT         anchor;
     XrPosef                     poseInAnchorSpace;
 } XrSpatialAnchorSpaceCreateInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorMSFT)(XrSession session, const XrSpatialAnchorCreateInfoMSFT* createInfo, XrSpatialAnchorMSFT* anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceMSFT)(XrSession session, const XrSpatialAnchorSpaceCreateInfoMSFT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorMSFT)(XrSpatialAnchorMSFT anchor);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorMSFT)(XrSession session, ಧ್ರುವ XrSpatialAnchorCreateInfoMSFT* createInfo, XrSpatialAnchorMSFT* anchor);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceMSFT)(XrSession session, ಧ್ರುವ XrSpatialAnchorSpaceCreateInfoMSFT* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorMSFT)(XrSpatialAnchorMSFT anchor);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorMSFT(
     XrSession                                   session,
-    const XrSpatialAnchorCreateInfoMSFT*        createInfo,
+    ಧ್ರುವ XrSpatialAnchorCreateInfoMSFT*        createInfo,
     XrSpatialAnchorMSFT*                        anchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceMSFT(
     XrSession                                   session,
-    const XrSpatialAnchorSpaceCreateInfoMSFT*   createInfo,
+    ಧ್ರುವ XrSpatialAnchorSpaceCreateInfoMSFT*   createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorMSFT(
@@ -2822,15 +2822,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorMSFT(
 #define XR_FB_composition_layer_image_layout 1
 #define XR_FB_composition_layer_image_layout_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_IMAGE_LAYOUT_EXTENSION_NAME "XR_FB_composition_layer_image_layout"
-typedef XrFlags64 XrCompositionLayerImageLayoutFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrCompositionLayerImageLayoutFlagsFB;
 
 // Flag bits for XrCompositionLayerImageLayoutFlagsFB
-static const XrCompositionLayerImageLayoutFlagsFB XR_COMPOSITION_LAYER_IMAGE_LAYOUT_VERTICAL_FLIP_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerImageLayoutFlagsFB XR_COMPOSITION_LAYER_IMAGE_LAYOUT_VERTICAL_FLIP_BIT_FB = 0x00000001;
 
 // XrCompositionLayerImageLayoutFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerImageLayoutFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerImageLayoutFB {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrCompositionLayerImageLayoutFlagsFB    flags;
 } XrCompositionLayerImageLayoutFB;
 
@@ -2841,7 +2841,7 @@ typedef struct XrCompositionLayerImageLayoutFB {
 #define XR_FB_composition_layer_alpha_blend_SPEC_VERSION 3
 #define XR_FB_COMPOSITION_LAYER_ALPHA_BLEND_EXTENSION_NAME "XR_FB_composition_layer_alpha_blend"
 
-typedef enum XrBlendFactorFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBlendFactorFB {
     XR_BLEND_FACTOR_ZERO_FB = 0,
     XR_BLEND_FACTOR_ONE_FB = 1,
     XR_BLEND_FACTOR_SRC_ALPHA_FB = 2,
@@ -2850,16 +2850,16 @@ typedef enum XrBlendFactorFB {
     XR_BLEND_FACTOR_ONE_MINUS_DST_ALPHA_FB = 5,
     XR_BLEND_FACTOR_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBlendFactorFB;
-typedef XrFlags64 XrCompositionLayerSecureContentFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrCompositionLayerSecureContentFlagsFB;
 
 // Flag bits for XrCompositionLayerSecureContentFlagsFB
-static const XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_EXCLUDE_LAYER_BIT_FB = 0x00000001;
-static const XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_REPLACE_LAYER_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_EXCLUDE_LAYER_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_REPLACE_LAYER_BIT_FB = 0x00000002;
 
 // XrCompositionLayerAlphaBlendFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerAlphaBlendFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerAlphaBlendFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBlendFactorFB       srcFactorColor;
     XrBlendFactorFB       dstFactorColor;
     XrBlendFactorFB       srcFactorAlpha;
@@ -2885,13 +2885,13 @@ typedef struct XrCompositionLayerAlphaBlendFB {
 #define XR_EXT_view_configuration_depth_range_SPEC_VERSION 1
 #define XR_EXT_VIEW_CONFIGURATION_DEPTH_RANGE_EXTENSION_NAME "XR_EXT_view_configuration_depth_range"
 // XrViewConfigurationDepthRangeEXT extends XrViewConfigurationView
-typedef struct XrViewConfigurationDepthRangeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViewConfigurationDepthRangeEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 recommendedNearZ;
-    float                 minNearZ;
-    float                 recommendedFarZ;
-    float                 maxFarZ;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                 recommendedNearZ;
+    ಭಿನ್ನ                 minNearZ;
+    ಭಿನ್ನ                 recommendedFarZ;
+    ಭಿನ್ನ                 maxFarZ;
 } XrViewConfigurationDepthRangeEXT;
 
 
@@ -2900,42 +2900,42 @@ typedef struct XrViewConfigurationDepthRangeEXT {
 #define XR_EXT_conformance_automation 1
 #define XR_EXT_conformance_automation_SPEC_VERSION 3
 #define XR_EXT_CONFORMANCE_AUTOMATION_EXTENSION_NAME "XR_EXT_conformance_automation"
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceActiveEXT)(XrSession session, XrPath interactionProfile, XrPath topLevelPath, XrBool32 isActive);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceStateBoolEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, XrBool32 state);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceStateFloatEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, float state);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceStateVector2fEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, XrVector2f state);
-typedef XrResult (XRAPI_PTR *PFN_xrSetInputDeviceLocationEXT)(XrSession session, XrPath topLevelPath, XrPath inputSourcePath, XrSpace space, XrPosef pose);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Set_ಒಳಹರಿವು_Device_Active_EXT)(XrSession session, XrPath interactionProfile, XrPath ತುದಿ_Level_Path, XrBool32 isActive);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Set_ಒಳಹರಿವು_Device_State_Bool_EXT)(XrSession session, XrPath ತುದಿ_Level_Path, XrPath ಒಳಹರಿವು_Source_Path, XrBool32 state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Set_ಒಳಹರಿವು_Device_State_Float_EXT)(XrSession session, XrPath ತುದಿ_Level_Path, XrPath ಒಳಹರಿವು_Source_Path, ಭಿನ್ನ state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Set_ಒಳಹರಿವು_Device_State_Vector2f_EXT)(XrSession session, XrPath ತುದಿ_Level_Path, XrPath ಒಳಹರಿವು_Source_Path, XrVector2f state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Set_ಒಳಹರಿವು_Device_Location_EXT)(XrSession session, XrPath ತುದಿ_Level_Path, XrPath ಒಳಹರಿವು_Source_Path, XrSpace space, XrPosef pose);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceActiveEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_ಒಳಹರಿವು_Device_Active_EXT(
     XrSession                                   session,
     XrPath                                      interactionProfile,
-    XrPath                                      topLevelPath,
+    XrPath                                      ತುದಿ_Level_Path,
     XrBool32                                    isActive);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceStateBoolEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_ಒಳಹರಿವು_Device_State_Bool_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
+    XrPath                                      ತುದಿ_Level_Path,
+    XrPath                                      ಒಳಹರಿವು_Source_Path,
     XrBool32                                    state);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceStateFloatEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_ಒಳಹರಿವು_Device_State_Float_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
-    float                                       state);
+    XrPath                                      ತುದಿ_Level_Path,
+    XrPath                                      ಒಳಹರಿವು_Source_Path,
+    ಭಿನ್ನ                                       state);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceStateVector2fEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_ಒಳಹರಿವು_Device_State_Vector2f_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
+    XrPath                                      ತುದಿ_Level_Path,
+    XrPath                                      ಒಳಹರಿವು_Source_Path,
     XrVector2f                                  state);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceLocationEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Set_ಒಳಹರಿವು_Device_Location_EXT(
     XrSession                                   session,
-    XrPath                                      topLevelPath,
-    XrPath                                      inputSourcePath,
+    XrPath                                      ತುದಿ_Level_Path,
+    XrPath                                      ಒಳಹರಿವು_Source_Path,
     XrSpace                                     space,
     XrPosef                                     pose);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -2944,68 +2944,68 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetInputDeviceLocationEXT(
 
 // XR_MSFT_spatial_graph_bridge is a preprocessor guard. Do not pass it to API calls.
 #define XR_MSFT_spatial_graph_bridge 1
-XR_DEFINE_HANDLE(XrSpatialGraphNodeBindingMSFT)
+XR_DEFINE_HANDLE(Xr_Spatial_Graph_ಗಂಟು_Binding_MSFT)
 #define XR_GUID_SIZE_MSFT                 16
 #define XR_MSFT_spatial_graph_bridge_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_GRAPH_BRIDGE_EXTENSION_NAME "XR_MSFT_spatial_graph_bridge"
 
-typedef enum XrSpatialGraphNodeTypeMSFT {
-    XR_SPATIAL_GRAPH_NODE_TYPE_STATIC_MSFT = 1,
-    XR_SPATIAL_GRAPH_NODE_TYPE_DYNAMIC_MSFT = 2,
-    XR_SPATIAL_GRAPH_NODE_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
-} XrSpatialGraphNodeTypeMSFT;
-typedef struct XrSpatialGraphNodeSpaceCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ Xr_Spatial_Graph_ಗಂಟು_Type_MSFT {
+    XR_SPATIAL_GRAPH_ಗಂಟು_TYPE_STATIC_MSFT = 1,
+    XR_SPATIAL_GRAPH_ಗಂಟು_TYPE_DYNAMIC_MSFT = 2,
+    XR_SPATIAL_GRAPH_ಗಂಟು_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
+} Xr_Spatial_Graph_ಗಂಟು_Type_MSFT;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Spatial_Graph_ಗಂಟು_Space_Create_Info_MSFT {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
-    XrSpatialGraphNodeTypeMSFT    nodeType;
-    uint8_t                       nodeId[XR_GUID_SIZE_MSFT];
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
+    Xr_Spatial_Graph_ಗಂಟು_Type_MSFT    ಗಂಟು_Type_2;
+    uint8_t                       ಗಂಟು_Id[XR_GUID_SIZE_MSFT];
     XrPosef                       pose;
-} XrSpatialGraphNodeSpaceCreateInfoMSFT;
+} Xr_Spatial_Graph_ಗಂಟು_Space_Create_Info_MSFT;
 
-typedef struct XrSpatialGraphStaticNodeBindingCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Spatial_Graph_Static_ಗಂಟು_Binding_Create_Info_MSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     poseInSpace;
     XrTime                      time;
-} XrSpatialGraphStaticNodeBindingCreateInfoMSFT;
+} Xr_Spatial_Graph_Static_ಗಂಟು_Binding_Create_Info_MSFT;
 
-typedef struct XrSpatialGraphNodeBindingPropertiesGetInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_Get_Info_MSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-} XrSpatialGraphNodeBindingPropertiesGetInfoMSFT;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+} Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_Get_Info_MSFT;
 
-typedef struct XrSpatialGraphNodeBindingPropertiesMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint8_t               nodeId[XR_GUID_SIZE_MSFT];
-    XrPosef               poseInNodeSpace;
-} XrSpatialGraphNodeBindingPropertiesMSFT;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint8_t               ಗಂಟು_Id[XR_GUID_SIZE_MSFT];
+    XrPosef               pose_In_ಗಂಟು_Space;
+} Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_MSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialGraphNodeSpaceMSFT)(XrSession session, const XrSpatialGraphNodeSpaceCreateInfoMSFT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrTryCreateSpatialGraphStaticNodeBindingMSFT)(XrSession session, const XrSpatialGraphStaticNodeBindingCreateInfoMSFT* createInfo, XrSpatialGraphNodeBindingMSFT* nodeBinding);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialGraphNodeBindingMSFT)(XrSpatialGraphNodeBindingMSFT nodeBinding);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialGraphNodeBindingPropertiesMSFT)(XrSpatialGraphNodeBindingMSFT nodeBinding, const XrSpatialGraphNodeBindingPropertiesGetInfoMSFT* getInfo, XrSpatialGraphNodeBindingPropertiesMSFT* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Create_Spatial_Graph_ಗಂಟು_Space_MSFT)(XrSession session, ಧ್ರುವ Xr_Spatial_Graph_ಗಂಟು_Space_Create_Info_MSFT* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Try_Create_Spatial_Graph_Static_ಗಂಟು_Binding_MSFT)(XrSession session, ಧ್ರುವ Xr_Spatial_Graph_Static_ಗಂಟು_Binding_Create_Info_MSFT* createInfo, Xr_Spatial_Graph_ಗಂಟು_Binding_MSFT* ಗಂಟು_Binding);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Destroy_Spatial_Graph_ಗಂಟು_Binding_MSFT)(Xr_Spatial_Graph_ಗಂಟು_Binding_MSFT ಗಂಟು_Binding);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Get_Spatial_Graph_ಗಂಟು_Binding_Properties_MSFT)(Xr_Spatial_Graph_ಗಂಟು_Binding_MSFT ಗಂಟು_Binding, ಧ್ರುವ Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_Get_Info_MSFT* getInfo, Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_MSFT* properties);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialGraphNodeSpaceMSFT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Create_Spatial_Graph_ಗಂಟು_Space_MSFT(
     XrSession                                   session,
-    const XrSpatialGraphNodeSpaceCreateInfoMSFT* createInfo,
+    ಧ್ರುವ Xr_Spatial_Graph_ಗಂಟು_Space_Create_Info_MSFT* createInfo,
     XrSpace*                                    space);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrTryCreateSpatialGraphStaticNodeBindingMSFT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Try_Create_Spatial_Graph_Static_ಗಂಟು_Binding_MSFT(
     XrSession                                   session,
-    const XrSpatialGraphStaticNodeBindingCreateInfoMSFT* createInfo,
-    XrSpatialGraphNodeBindingMSFT*              nodeBinding);
+    ಧ್ರುವ Xr_Spatial_Graph_Static_ಗಂಟು_Binding_Create_Info_MSFT* createInfo,
+    Xr_Spatial_Graph_ಗಂಟು_Binding_MSFT*              ಗಂಟು_Binding);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialGraphNodeBindingMSFT(
-    XrSpatialGraphNodeBindingMSFT               nodeBinding);
+XRAPI_ATTR XrResult XRAPI_CALL xr_Destroy_Spatial_Graph_ಗಂಟು_Binding_MSFT(
+    Xr_Spatial_Graph_ಗಂಟು_Binding_MSFT               ಗಂಟು_Binding);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialGraphNodeBindingPropertiesMSFT(
-    XrSpatialGraphNodeBindingMSFT               nodeBinding,
-    const XrSpatialGraphNodeBindingPropertiesGetInfoMSFT* getInfo,
-    XrSpatialGraphNodeBindingPropertiesMSFT*    properties);
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Spatial_Graph_ಗಂಟು_Binding_Properties_MSFT(
+    Xr_Spatial_Graph_ಗಂಟು_Binding_MSFT               ಗಂಟು_Binding,
+    ಧ್ರುವ Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_Get_Info_MSFT* getInfo,
+    Xr_Spatial_Graph_ಗಂಟು_Binding_Properties_MSFT*    properties);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -3019,19 +3019,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialGraphNodeBindingPropertiesMSFT(
 // XR_EXT_hand_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_EXT_hand_tracking 1
 
-#define XR_HAND_JOINT_COUNT_EXT 26
+#define XR_HAND_JOINT_ಎಣಿಕೆ_EXT 26
 
 XR_DEFINE_HANDLE(XrHandTrackerEXT)
 #define XR_EXT_hand_tracking_SPEC_VERSION 4
 #define XR_EXT_HAND_TRACKING_EXTENSION_NAME "XR_EXT_hand_tracking"
 
-typedef enum XrHandEXT {
-    XR_HAND_LEFT_EXT = 1,
-    XR_HAND_RIGHT_EXT = 2,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandEXT {
+    XR_HAND_ಎಡ_EXT = 1,
+    XR_HAND_ಬಲ_EXT = 2,
     XR_HAND_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandEXT;
 
-typedef enum XrHandJointEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandJointEXT {
     XR_HAND_JOINT_PALM_EXT = 0,
     XR_HAND_JOINT_WRIST_EXT = 1,
     XR_HAND_JOINT_THUMB_METACARPAL_EXT = 2,
@@ -3043,11 +3043,11 @@ typedef enum XrHandJointEXT {
     XR_HAND_JOINT_INDEX_INTERMEDIATE_EXT = 8,
     XR_HAND_JOINT_INDEX_DISTAL_EXT = 9,
     XR_HAND_JOINT_INDEX_TIP_EXT = 10,
-    XR_HAND_JOINT_MIDDLE_METACARPAL_EXT = 11,
-    XR_HAND_JOINT_MIDDLE_PROXIMAL_EXT = 12,
-    XR_HAND_JOINT_MIDDLE_INTERMEDIATE_EXT = 13,
-    XR_HAND_JOINT_MIDDLE_DISTAL_EXT = 14,
-    XR_HAND_JOINT_MIDDLE_TIP_EXT = 15,
+    XR_HAND_JOINT_ಮಧ್ಯ_METACARPAL_EXT = 11,
+    XR_HAND_JOINT_ಮಧ್ಯ_PROXIMAL_EXT = 12,
+    XR_HAND_JOINT_ಮಧ್ಯ_INTERMEDIATE_EXT = 13,
+    XR_HAND_JOINT_ಮಧ್ಯ_DISTAL_EXT = 14,
+    XR_HAND_JOINT_ಮಧ್ಯ_TIP_EXT = 15,
     XR_HAND_JOINT_RING_METACARPAL_EXT = 16,
     XR_HAND_JOINT_RING_PROXIMAL_EXT = 17,
     XR_HAND_JOINT_RING_INTERMEDIATE_EXT = 18,
@@ -3061,69 +3061,69 @@ typedef enum XrHandJointEXT {
     XR_HAND_JOINT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointEXT;
 
-typedef enum XrHandJointSetEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandJointSetEXT {
     XR_HAND_JOINT_SET_DEFAULT_EXT = 0,
     XR_HAND_JOINT_SET_HAND_WITH_FOREARM_ULTRALEAP = 1000149000,
     XR_HAND_JOINT_SET_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointSetEXT;
 // XrSystemHandTrackingPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemHandTrackingPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemHandTrackingPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsHandTracking;
 } XrSystemHandTrackingPropertiesEXT;
 
-typedef struct XrHandTrackerCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackerCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrHandEXT                   hand;
     XrHandJointSetEXT           handJointSet;
 } XrHandTrackerCreateInfoEXT;
 
-typedef struct XrHandJointsLocateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandJointsLocateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrHandJointsLocateInfoEXT;
 
-typedef struct XrHandJointLocationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandJointLocationEXT {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
-    float                   radius;
+    ಭಿನ್ನ                   radius;
 } XrHandJointLocationEXT;
 
-typedef struct XrHandJointVelocityEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandJointVelocityEXT {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrHandJointVelocityEXT;
 
-typedef struct XrHandJointLocationsEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandJointLocationsEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrBool32                   isActive;
-    uint32_t                   jointCount;
+    uint32_t                   joint_ಎಣಿಕೆ;
     XrHandJointLocationEXT*    jointLocations;
 } XrHandJointLocationsEXT;
 
 // XrHandJointVelocitiesEXT extends XrHandJointLocationsEXT
-typedef struct XrHandJointVelocitiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandJointVelocitiesEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   jointCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
+    uint32_t                   joint_ಎಣಿಕೆ;
     XrHandJointVelocityEXT*    jointVelocities;
 } XrHandJointVelocitiesEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateHandTrackerEXT)(XrSession session, const XrHandTrackerCreateInfoEXT* createInfo, XrHandTrackerEXT* handTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyHandTrackerEXT)(XrHandTrackerEXT handTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateHandJointsEXT)(XrHandTrackerEXT handTracker, const XrHandJointsLocateInfoEXT* locateInfo, XrHandJointLocationsEXT* locations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateHandTrackerEXT)(XrSession session, ಧ್ರುವ XrHandTrackerCreateInfoEXT* createInfo, XrHandTrackerEXT* handTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyHandTrackerEXT)(XrHandTrackerEXT handTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateHandJointsEXT)(XrHandTrackerEXT handTracker, ಧ್ರುವ XrHandJointsLocateInfoEXT* locateInfo, XrHandJointLocationsEXT* locations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateHandTrackerEXT(
     XrSession                                   session,
-    const XrHandTrackerCreateInfoEXT*           createInfo,
+    ಧ್ರುವ XrHandTrackerCreateInfoEXT*           createInfo,
     XrHandTrackerEXT*                           handTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyHandTrackerEXT(
@@ -3131,7 +3131,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyHandTrackerEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateHandJointsEXT(
     XrHandTrackerEXT                            handTracker,
-    const XrHandJointsLocateInfoEXT*            locateInfo,
+    ಧ್ರುವ XrHandJointsLocateInfoEXT*            locateInfo,
     XrHandJointLocationsEXT*                    locations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3142,56 +3142,56 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateHandJointsEXT(
 #define XR_MSFT_hand_tracking_mesh_SPEC_VERSION 4
 #define XR_MSFT_HAND_TRACKING_MESH_EXTENSION_NAME "XR_MSFT_hand_tracking_mesh"
 
-typedef enum XrHandPoseTypeMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandPoseTypeMSFT {
     XR_HAND_POSE_TYPE_TRACKED_MSFT = 0,
     XR_HAND_POSE_TYPE_REFERENCE_OPEN_PALM_MSFT = 1,
     XR_HAND_POSE_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrHandPoseTypeMSFT;
 // XrSystemHandTrackingMeshPropertiesMSFT extends XrSystemProperties
-typedef struct XrSystemHandTrackingMeshPropertiesMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemHandTrackingMeshPropertiesMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsHandTrackingMesh;
-    uint32_t              maxHandMeshIndexCount;
-    uint32_t              maxHandMeshVertexCount;
+    uint32_t              max_Hand_Mesh_Index_ಎಣಿಕೆ;
+    uint32_t              max_Hand_Mesh_Vertex_ಎಣಿಕೆ;
 } XrSystemHandTrackingMeshPropertiesMSFT;
 
-typedef struct XrHandMeshSpaceCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandMeshSpaceCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrHandPoseTypeMSFT          handPoseType;
     XrPosef                     poseInHandMeshSpace;
 } XrHandMeshSpaceCreateInfoMSFT;
 
-typedef struct XrHandMeshUpdateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandMeshUpdateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      time;
     XrHandPoseTypeMSFT          handPoseType;
 } XrHandMeshUpdateInfoMSFT;
 
-typedef struct XrHandMeshIndexBufferMSFT {
-    uint32_t     indexBufferKey;
-    uint32_t     indexCapacityInput;
-    uint32_t     indexCountOutput;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandMeshIndexBufferMSFT {
+    uint32_t     index_Buffer_ಕೀಲಿ;
+    uint32_t     index_Capacity_ಒಳಹರಿವು;
+    uint32_t     index_ಎಣಿಕೆ_Output;
     uint32_t*    indices;
 } XrHandMeshIndexBufferMSFT;
 
-typedef struct XrHandMeshVertexMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandMeshVertexMSFT {
     XrVector3f    position;
     XrVector3f    normal;
 } XrHandMeshVertexMSFT;
 
-typedef struct XrHandMeshVertexBufferMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandMeshVertexBufferMSFT {
     XrTime                   vertexUpdateTime;
-    uint32_t                 vertexCapacityInput;
-    uint32_t                 vertexCountOutput;
+    uint32_t                 vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t                 vertex_ಎಣಿಕೆ_Output;
     XrHandMeshVertexMSFT*    vertices;
 } XrHandMeshVertexBufferMSFT;
 
-typedef struct XrHandMeshMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandMeshMSFT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrBool32                      isActive;
     XrBool32                      indexBufferChanged;
     XrBool32                      vertexBufferChanged;
@@ -3200,25 +3200,25 @@ typedef struct XrHandMeshMSFT {
 } XrHandMeshMSFT;
 
 // XrHandPoseTypeInfoMSFT extends XrHandTrackerCreateInfoEXT
-typedef struct XrHandPoseTypeInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandPoseTypeInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrHandPoseTypeMSFT          handPoseType;
 } XrHandPoseTypeInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateHandMeshSpaceMSFT)(XrHandTrackerEXT handTracker, const XrHandMeshSpaceCreateInfoMSFT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateHandMeshMSFT)(XrHandTrackerEXT handTracker, const XrHandMeshUpdateInfoMSFT* updateInfo, XrHandMeshMSFT* handMesh);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateHandMeshSpaceMSFT)(XrHandTrackerEXT handTracker, ಧ್ರುವ XrHandMeshSpaceCreateInfoMSFT* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateHandMeshMSFT)(XrHandTrackerEXT handTracker, ಧ್ರುವ XrHandMeshUpdateInfoMSFT* updateInfo, XrHandMeshMSFT* handMesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateHandMeshSpaceMSFT(
     XrHandTrackerEXT                            handTracker,
-    const XrHandMeshSpaceCreateInfoMSFT*        createInfo,
+    ಧ್ರುವ XrHandMeshSpaceCreateInfoMSFT*        createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateHandMeshMSFT(
     XrHandTrackerEXT                            handTracker,
-    const XrHandMeshUpdateInfoMSFT*             updateInfo,
+    ಧ್ರುವ XrHandMeshUpdateInfoMSFT*             updateInfo,
     XrHandMeshMSFT*                             handMesh);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3229,49 +3229,49 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUpdateHandMeshMSFT(
 #define XR_MSFT_secondary_view_configuration_SPEC_VERSION 1
 #define XR_MSFT_SECONDARY_VIEW_CONFIGURATION_EXTENSION_NAME "XR_MSFT_secondary_view_configuration"
 // XrSecondaryViewConfigurationSessionBeginInfoMSFT extends XrSessionBeginInfo
-typedef struct XrSecondaryViewConfigurationSessionBeginInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSecondaryViewConfigurationSessionBeginInfoMSFT {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
-    uint32_t                          viewConfigurationCount;
-    const XrViewConfigurationType*    enabledViewConfigurationTypes;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS          next;
+    uint32_t                          view_Configuration_ಎಣಿಕೆ;
+    ಧ್ರುವ XrViewConfigurationType*    enabledViewConfigurationTypes;
 } XrSecondaryViewConfigurationSessionBeginInfoMSFT;
 
-typedef struct XrSecondaryViewConfigurationStateMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSecondaryViewConfigurationStateMSFT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrViewConfigurationType    viewConfigurationType;
     XrBool32                   active;
 } XrSecondaryViewConfigurationStateMSFT;
 
 // XrSecondaryViewConfigurationFrameStateMSFT extends XrFrameState
-typedef struct XrSecondaryViewConfigurationFrameStateMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSecondaryViewConfigurationFrameStateMSFT {
     XrStructureType                           type;
-    void* XR_MAY_ALIAS                        next;
-    uint32_t                                  viewConfigurationCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                        next;
+    uint32_t                                  view_Configuration_ಎಣಿಕೆ;
     XrSecondaryViewConfigurationStateMSFT*    viewConfigurationStates;
 } XrSecondaryViewConfigurationFrameStateMSFT;
 
-typedef struct XrSecondaryViewConfigurationLayerInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSecondaryViewConfigurationLayerInfoMSFT {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrViewConfigurationType                       viewConfigurationType;
     XrEnvironmentBlendMode                        environmentBlendMode;
-    uint32_t                                      layerCount;
-    const XrCompositionLayerBaseHeader* const*    layers;
+    uint32_t                                      layer_ಎಣಿಕೆ;
+    ಧ್ರುವ XrCompositionLayerBaseHeader* ಧ್ರುವ*    layers;
 } XrSecondaryViewConfigurationLayerInfoMSFT;
 
 // XrSecondaryViewConfigurationFrameEndInfoMSFT extends XrFrameEndInfo
-typedef struct XrSecondaryViewConfigurationFrameEndInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSecondaryViewConfigurationFrameEndInfoMSFT {
     XrStructureType                                     type;
-    const void* XR_MAY_ALIAS                            next;
-    uint32_t                                            viewConfigurationCount;
-    const XrSecondaryViewConfigurationLayerInfoMSFT*    viewConfigurationLayersInfo;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                            next;
+    uint32_t                                            view_Configuration_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSecondaryViewConfigurationLayerInfoMSFT*    viewConfigurationLayersInfo;
 } XrSecondaryViewConfigurationFrameEndInfoMSFT;
 
 // XrSecondaryViewConfigurationSwapchainCreateInfoMSFT extends XrSwapchainCreateInfo
-typedef struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
 } XrSecondaryViewConfigurationSwapchainCreateInfoMSFT;
 
@@ -3286,74 +3286,74 @@ typedef struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
 // XR_MSFT_controller_model is a preprocessor guard. Do not pass it to API calls.
 #define XR_MSFT_controller_model 1
 
-#define XR_NULL_CONTROLLER_MODEL_KEY_MSFT 0
+#define XR_NULL_CONTROLLER_MODEL_ಕೀಲಿ_MSFT 0
 
-XR_DEFINE_ATOM(XrControllerModelKeyMSFT)
-#define XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT 64
+XR_DEFINE_ATOM(Xr_Controller_Model_ಕೀಲಿ_MSFT)
+#define XR_MAX_CONTROLLER_MODEL_ಗಂಟು_NAME_SIZE_MSFT 64
 #define XR_MSFT_controller_model_SPEC_VERSION 2
 #define XR_MSFT_CONTROLLER_MODEL_EXTENSION_NAME "XR_MSFT_controller_model"
-typedef struct XrControllerModelKeyStateMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Controller_Model_ಕೀಲಿ_State_MSFT {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
-    XrControllerModelKeyMSFT    modelKey;
-} XrControllerModelKeyStateMSFT;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
+    Xr_Controller_Model_ಕೀಲಿ_MSFT    model_ಕೀಲಿ;
+} Xr_Controller_Model_ಕೀಲಿ_State_MSFT;
 
-typedef struct XrControllerModelNodePropertiesMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Controller_Model_ಗಂಟು_Properties_MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    char                  parentNodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
-    char                  nodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
-} XrControllerModelNodePropertiesMSFT;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ವರ್ಣ                  parent_ಗಂಟು_Name[XR_MAX_CONTROLLER_MODEL_ಗಂಟು_NAME_SIZE_MSFT];
+    ವರ್ಣ                  ಗಂಟು_Name[XR_MAX_CONTROLLER_MODEL_ಗಂಟು_NAME_SIZE_MSFT];
+} Xr_Controller_Model_ಗಂಟು_Properties_MSFT;
 
-typedef struct XrControllerModelPropertiesMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrControllerModelPropertiesMSFT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                nodeCapacityInput;
-    uint32_t                                nodeCountOutput;
-    XrControllerModelNodePropertiesMSFT*    nodeProperties;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
+    uint32_t                                ಗಂಟು_Capacity_ಒಳಹರಿವು;
+    uint32_t                                ಗಂಟು_ಎಣಿಕೆ_Output;
+    Xr_Controller_Model_ಗಂಟು_Properties_MSFT*    ಗಂಟು_Properties;
 } XrControllerModelPropertiesMSFT;
 
-typedef struct XrControllerModelNodeStateMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Controller_Model_ಗಂಟು_State_MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrPosef               nodePose;
-} XrControllerModelNodeStateMSFT;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    XrPosef               ಗಂಟು_Pose;
+} Xr_Controller_Model_ಗಂಟು_State_MSFT;
 
-typedef struct XrControllerModelStateMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrControllerModelStateMSFT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
-    uint32_t                           nodeCapacityInput;
-    uint32_t                           nodeCountOutput;
-    XrControllerModelNodeStateMSFT*    nodeStates;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
+    uint32_t                           ಗಂಟು_Capacity_ಒಳಹರಿವು;
+    uint32_t                           ಗಂಟು_ಎಣಿಕೆ_Output;
+    Xr_Controller_Model_ಗಂಟು_State_MSFT*    ಗಂಟು_States;
 } XrControllerModelStateMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetControllerModelKeyMSFT)(XrSession session, XrPath topLevelUserPath, XrControllerModelKeyStateMSFT* controllerModelKeyState);
-typedef XrResult (XRAPI_PTR *PFN_xrLoadControllerModelMSFT)(XrSession session, XrControllerModelKeyMSFT modelKey, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetControllerModelPropertiesMSFT)(XrSession session, XrControllerModelKeyMSFT modelKey, XrControllerModelPropertiesMSFT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrGetControllerModelStateMSFT)(XrSession session, XrControllerModelKeyMSFT modelKey, XrControllerModelStateMSFT* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Get_Controller_Model_ಕೀಲಿ_MSFT)(XrSession session, XrPath ತುದಿ_Level_User_Path, Xr_Controller_Model_ಕೀಲಿ_State_MSFT* controller_Model_ಕೀಲಿ_State);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLoadControllerModelMSFT)(XrSession session, Xr_Controller_Model_ಕೀಲಿ_MSFT model_ಕೀಲಿ, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, uint8_t* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetControllerModelPropertiesMSFT)(XrSession session, Xr_Controller_Model_ಕೀಲಿ_MSFT model_ಕೀಲಿ, XrControllerModelPropertiesMSFT* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetControllerModelStateMSFT)(XrSession session, Xr_Controller_Model_ಕೀಲಿ_MSFT model_ಕೀಲಿ, XrControllerModelStateMSFT* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
-XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelKeyMSFT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Controller_Model_ಕೀಲಿ_MSFT(
     XrSession                                   session,
-    XrPath                                      topLevelUserPath,
-    XrControllerModelKeyStateMSFT*              controllerModelKeyState);
+    XrPath                                      ತುದಿ_Level_User_Path,
+    Xr_Controller_Model_ಕೀಲಿ_State_MSFT*              controller_Model_ಕೀಲಿ_State);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLoadControllerModelMSFT(
     XrSession                                   session,
-    XrControllerModelKeyMSFT                    modelKey,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    Xr_Controller_Model_ಕೀಲಿ_MSFT                    model_ಕೀಲಿ,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
     uint8_t*                                    buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelPropertiesMSFT(
     XrSession                                   session,
-    XrControllerModelKeyMSFT                    modelKey,
+    Xr_Controller_Model_ಕೀಲಿ_MSFT                    model_ಕೀಲಿ,
     XrControllerModelPropertiesMSFT*            properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelStateMSFT(
     XrSession                                   session,
-    XrControllerModelKeyMSFT                    modelKey,
+    Xr_Controller_Model_ಕೀಲಿ_MSFT                    model_ಕೀಲಿ,
     XrControllerModelStateMSFT*                 state);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3370,9 +3370,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelStateMSFT(
 #define XR_EPIC_view_configuration_fov_SPEC_VERSION 2
 #define XR_EPIC_VIEW_CONFIGURATION_FOV_EXTENSION_NAME "XR_EPIC_view_configuration_fov"
 // XrViewConfigurationViewFovEPIC extends XrViewConfigurationView
-typedef struct XrViewConfigurationViewFovEPIC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViewConfigurationViewFovEPIC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFovf                      recommendedFov;
     XrFovf                      maxMutableFov;
 } XrViewConfigurationViewFovEPIC;
@@ -3384,7 +3384,7 @@ typedef struct XrViewConfigurationViewFovEPIC {
 #define XR_MSFT_composition_layer_reprojection_SPEC_VERSION 1
 #define XR_MSFT_COMPOSITION_LAYER_REPROJECTION_EXTENSION_NAME "XR_MSFT_composition_layer_reprojection"
 
-typedef enum XrReprojectionModeMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrReprojectionModeMSFT {
     XR_REPROJECTION_MODE_DEPTH_MSFT = 1,
     XR_REPROJECTION_MODE_PLANAR_FROM_DEPTH_MSFT = 2,
     XR_REPROJECTION_MODE_PLANAR_MANUAL_MSFT = 3,
@@ -3392,22 +3392,22 @@ typedef enum XrReprojectionModeMSFT {
     XR_REPROJECTION_MODE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrReprojectionModeMSFT;
 // XrCompositionLayerReprojectionInfoMSFT extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerReprojectionInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerReprojectionInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrReprojectionModeMSFT      reprojectionMode;
 } XrCompositionLayerReprojectionInfoMSFT;
 
 // XrCompositionLayerReprojectionPlaneOverrideMSFT extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerReprojectionPlaneOverrideMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerReprojectionPlaneOverrideMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVector3f                  position;
     XrVector3f                  normal;
     XrVector3f                  velocity;
 } XrCompositionLayerReprojectionPlaneOverrideMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateReprojectionModesMSFT)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t modeCapacityInput, uint32_t* modeCountOutput, XrReprojectionModeMSFT* modes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateReprojectionModesMSFT)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t mode_Capacity_ಒಳಹರಿವು, uint32_t* mode_ಎಣಿಕೆ_Output, XrReprojectionModeMSFT* modes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -3415,8 +3415,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateReprojectionModesMSFT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrViewConfigurationType                     viewConfigurationType,
-    uint32_t                                    modeCapacityInput,
-    uint32_t*                                   modeCountOutput,
+    uint32_t                                    mode_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   mode_ಎಣಿಕೆ_Output,
     XrReprojectionModeMSFT*                     modes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -3432,19 +3432,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateReprojectionModesMSFT(
 #define XR_FB_swapchain_update_state 1
 #define XR_FB_swapchain_update_state_SPEC_VERSION 3
 #define XR_FB_SWAPCHAIN_UPDATE_STATE_EXTENSION_NAME "XR_FB_swapchain_update_state"
-typedef struct XR_MAY_ALIAS XrSwapchainStateBaseHeaderFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSwapchainStateBaseHeaderFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSwapchainStateBaseHeaderFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSwapchainFB)(XrSwapchain swapchain, const XrSwapchainStateBaseHeaderFB* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSwapchainStateFB)(XrSwapchain swapchain, XrSwapchainStateBaseHeaderFB* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateSwapchainFB)(XrSwapchain swapchain, ಧ್ರುವ XrSwapchainStateBaseHeaderFB* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSwapchainStateFB)(XrSwapchain swapchain, XrSwapchainStateBaseHeaderFB* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSwapchainFB(
     XrSwapchain                                 swapchain,
-    const XrSwapchainStateBaseHeaderFB*         state);
+    ಧ್ರುವ XrSwapchainStateBaseHeaderFB*         state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSwapchainStateFB(
     XrSwapchain                                 swapchain,
@@ -3458,9 +3458,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSwapchainStateFB(
 #define XR_FB_composition_layer_secure_content_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_SECURE_CONTENT_EXTENSION_NAME "XR_FB_composition_layer_secure_content"
 // XrCompositionLayerSecureContentFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerSecureContentFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerSecureContentFB {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
     XrCompositionLayerSecureContentFlagsFB    flags;
 } XrCompositionLayerSecureContentFB;
 
@@ -3472,146 +3472,146 @@ XR_DEFINE_HANDLE(XrBodyTrackerFB)
 #define XR_FB_body_tracking_SPEC_VERSION  1
 #define XR_FB_BODY_TRACKING_EXTENSION_NAME "XR_FB_body_tracking"
 
-typedef enum XrBodyJointFB {
-    XR_BODY_JOINT_ROOT_FB = 0,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyJointFB {
+    XR_BODY_JOINT_ಬೇರು_FB = 0,
     XR_BODY_JOINT_HIPS_FB = 1,
     XR_BODY_JOINT_SPINE_LOWER_FB = 2,
-    XR_BODY_JOINT_SPINE_MIDDLE_FB = 3,
+    XR_BODY_JOINT_SPINE_ಮಧ್ಯ_FB = 3,
     XR_BODY_JOINT_SPINE_UPPER_FB = 4,
     XR_BODY_JOINT_CHEST_FB = 5,
     XR_BODY_JOINT_NECK_FB = 6,
     XR_BODY_JOINT_HEAD_FB = 7,
-    XR_BODY_JOINT_LEFT_SHOULDER_FB = 8,
-    XR_BODY_JOINT_LEFT_SCAPULA_FB = 9,
-    XR_BODY_JOINT_LEFT_ARM_UPPER_FB = 10,
-    XR_BODY_JOINT_LEFT_ARM_LOWER_FB = 11,
-    XR_BODY_JOINT_LEFT_HAND_WRIST_TWIST_FB = 12,
-    XR_BODY_JOINT_RIGHT_SHOULDER_FB = 13,
-    XR_BODY_JOINT_RIGHT_SCAPULA_FB = 14,
-    XR_BODY_JOINT_RIGHT_ARM_UPPER_FB = 15,
-    XR_BODY_JOINT_RIGHT_ARM_LOWER_FB = 16,
-    XR_BODY_JOINT_RIGHT_HAND_WRIST_TWIST_FB = 17,
-    XR_BODY_JOINT_LEFT_HAND_PALM_FB = 18,
-    XR_BODY_JOINT_LEFT_HAND_WRIST_FB = 19,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_METACARPAL_FB = 20,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_PROXIMAL_FB = 21,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_DISTAL_FB = 22,
-    XR_BODY_JOINT_LEFT_HAND_THUMB_TIP_FB = 23,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_METACARPAL_FB = 24,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_PROXIMAL_FB = 25,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_INTERMEDIATE_FB = 26,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_DISTAL_FB = 27,
-    XR_BODY_JOINT_LEFT_HAND_INDEX_TIP_FB = 28,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_METACARPAL_FB = 29,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_PROXIMAL_FB = 30,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_INTERMEDIATE_FB = 31,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_DISTAL_FB = 32,
-    XR_BODY_JOINT_LEFT_HAND_MIDDLE_TIP_FB = 33,
-    XR_BODY_JOINT_LEFT_HAND_RING_METACARPAL_FB = 34,
-    XR_BODY_JOINT_LEFT_HAND_RING_PROXIMAL_FB = 35,
-    XR_BODY_JOINT_LEFT_HAND_RING_INTERMEDIATE_FB = 36,
-    XR_BODY_JOINT_LEFT_HAND_RING_DISTAL_FB = 37,
-    XR_BODY_JOINT_LEFT_HAND_RING_TIP_FB = 38,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_METACARPAL_FB = 39,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_PROXIMAL_FB = 40,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_INTERMEDIATE_FB = 41,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_DISTAL_FB = 42,
-    XR_BODY_JOINT_LEFT_HAND_LITTLE_TIP_FB = 43,
-    XR_BODY_JOINT_RIGHT_HAND_PALM_FB = 44,
-    XR_BODY_JOINT_RIGHT_HAND_WRIST_FB = 45,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_METACARPAL_FB = 46,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_PROXIMAL_FB = 47,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_DISTAL_FB = 48,
-    XR_BODY_JOINT_RIGHT_HAND_THUMB_TIP_FB = 49,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_METACARPAL_FB = 50,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_PROXIMAL_FB = 51,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_INTERMEDIATE_FB = 52,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_DISTAL_FB = 53,
-    XR_BODY_JOINT_RIGHT_HAND_INDEX_TIP_FB = 54,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_METACARPAL_FB = 55,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_PROXIMAL_FB = 56,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_INTERMEDIATE_FB = 57,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_DISTAL_FB = 58,
-    XR_BODY_JOINT_RIGHT_HAND_MIDDLE_TIP_FB = 59,
-    XR_BODY_JOINT_RIGHT_HAND_RING_METACARPAL_FB = 60,
-    XR_BODY_JOINT_RIGHT_HAND_RING_PROXIMAL_FB = 61,
-    XR_BODY_JOINT_RIGHT_HAND_RING_INTERMEDIATE_FB = 62,
-    XR_BODY_JOINT_RIGHT_HAND_RING_DISTAL_FB = 63,
-    XR_BODY_JOINT_RIGHT_HAND_RING_TIP_FB = 64,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_METACARPAL_FB = 65,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_PROXIMAL_FB = 66,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_INTERMEDIATE_FB = 67,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_DISTAL_FB = 68,
-    XR_BODY_JOINT_RIGHT_HAND_LITTLE_TIP_FB = 69,
-    XR_BODY_JOINT_COUNT_FB = 70,
+    XR_BODY_JOINT_ಎಡ_SHOULDER_FB = 8,
+    XR_BODY_JOINT_ಎಡ_SCAPULA_FB = 9,
+    XR_BODY_JOINT_ಎಡ_ARM_UPPER_FB = 10,
+    XR_BODY_JOINT_ಎಡ_ARM_LOWER_FB = 11,
+    XR_BODY_JOINT_ಎಡ_HAND_WRIST_TWIST_FB = 12,
+    XR_BODY_JOINT_ಬಲ_SHOULDER_FB = 13,
+    XR_BODY_JOINT_ಬಲ_SCAPULA_FB = 14,
+    XR_BODY_JOINT_ಬಲ_ARM_UPPER_FB = 15,
+    XR_BODY_JOINT_ಬಲ_ARM_LOWER_FB = 16,
+    XR_BODY_JOINT_ಬಲ_HAND_WRIST_TWIST_FB = 17,
+    XR_BODY_JOINT_ಎಡ_HAND_PALM_FB = 18,
+    XR_BODY_JOINT_ಎಡ_HAND_WRIST_FB = 19,
+    XR_BODY_JOINT_ಎಡ_HAND_THUMB_METACARPAL_FB = 20,
+    XR_BODY_JOINT_ಎಡ_HAND_THUMB_PROXIMAL_FB = 21,
+    XR_BODY_JOINT_ಎಡ_HAND_THUMB_DISTAL_FB = 22,
+    XR_BODY_JOINT_ಎಡ_HAND_THUMB_TIP_FB = 23,
+    XR_BODY_JOINT_ಎಡ_HAND_INDEX_METACARPAL_FB = 24,
+    XR_BODY_JOINT_ಎಡ_HAND_INDEX_PROXIMAL_FB = 25,
+    XR_BODY_JOINT_ಎಡ_HAND_INDEX_INTERMEDIATE_FB = 26,
+    XR_BODY_JOINT_ಎಡ_HAND_INDEX_DISTAL_FB = 27,
+    XR_BODY_JOINT_ಎಡ_HAND_INDEX_TIP_FB = 28,
+    XR_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_METACARPAL_FB = 29,
+    XR_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_PROXIMAL_FB = 30,
+    XR_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_INTERMEDIATE_FB = 31,
+    XR_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_DISTAL_FB = 32,
+    XR_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_TIP_FB = 33,
+    XR_BODY_JOINT_ಎಡ_HAND_RING_METACARPAL_FB = 34,
+    XR_BODY_JOINT_ಎಡ_HAND_RING_PROXIMAL_FB = 35,
+    XR_BODY_JOINT_ಎಡ_HAND_RING_INTERMEDIATE_FB = 36,
+    XR_BODY_JOINT_ಎಡ_HAND_RING_DISTAL_FB = 37,
+    XR_BODY_JOINT_ಎಡ_HAND_RING_TIP_FB = 38,
+    XR_BODY_JOINT_ಎಡ_HAND_LITTLE_METACARPAL_FB = 39,
+    XR_BODY_JOINT_ಎಡ_HAND_LITTLE_PROXIMAL_FB = 40,
+    XR_BODY_JOINT_ಎಡ_HAND_LITTLE_INTERMEDIATE_FB = 41,
+    XR_BODY_JOINT_ಎಡ_HAND_LITTLE_DISTAL_FB = 42,
+    XR_BODY_JOINT_ಎಡ_HAND_LITTLE_TIP_FB = 43,
+    XR_BODY_JOINT_ಬಲ_HAND_PALM_FB = 44,
+    XR_BODY_JOINT_ಬಲ_HAND_WRIST_FB = 45,
+    XR_BODY_JOINT_ಬಲ_HAND_THUMB_METACARPAL_FB = 46,
+    XR_BODY_JOINT_ಬಲ_HAND_THUMB_PROXIMAL_FB = 47,
+    XR_BODY_JOINT_ಬಲ_HAND_THUMB_DISTAL_FB = 48,
+    XR_BODY_JOINT_ಬಲ_HAND_THUMB_TIP_FB = 49,
+    XR_BODY_JOINT_ಬಲ_HAND_INDEX_METACARPAL_FB = 50,
+    XR_BODY_JOINT_ಬಲ_HAND_INDEX_PROXIMAL_FB = 51,
+    XR_BODY_JOINT_ಬಲ_HAND_INDEX_INTERMEDIATE_FB = 52,
+    XR_BODY_JOINT_ಬಲ_HAND_INDEX_DISTAL_FB = 53,
+    XR_BODY_JOINT_ಬಲ_HAND_INDEX_TIP_FB = 54,
+    XR_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_METACARPAL_FB = 55,
+    XR_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_PROXIMAL_FB = 56,
+    XR_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_INTERMEDIATE_FB = 57,
+    XR_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_DISTAL_FB = 58,
+    XR_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_TIP_FB = 59,
+    XR_BODY_JOINT_ಬಲ_HAND_RING_METACARPAL_FB = 60,
+    XR_BODY_JOINT_ಬಲ_HAND_RING_PROXIMAL_FB = 61,
+    XR_BODY_JOINT_ಬಲ_HAND_RING_INTERMEDIATE_FB = 62,
+    XR_BODY_JOINT_ಬಲ_HAND_RING_DISTAL_FB = 63,
+    XR_BODY_JOINT_ಬಲ_HAND_RING_TIP_FB = 64,
+    XR_BODY_JOINT_ಬಲ_HAND_LITTLE_METACARPAL_FB = 65,
+    XR_BODY_JOINT_ಬಲ_HAND_LITTLE_PROXIMAL_FB = 66,
+    XR_BODY_JOINT_ಬಲ_HAND_LITTLE_INTERMEDIATE_FB = 67,
+    XR_BODY_JOINT_ಬಲ_HAND_LITTLE_DISTAL_FB = 68,
+    XR_BODY_JOINT_ಬಲ_HAND_LITTLE_TIP_FB = 69,
+    XR_BODY_JOINT_ಎಣಿಕೆ_FB = 70,
     XR_BODY_JOINT_NONE_FB = -1,
     XR_BODY_JOINT_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBodyJointFB;
 
-typedef enum XrBodyJointSetFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyJointSetFB {
     XR_BODY_JOINT_SET_DEFAULT_FB = 0,
     XR_BODY_JOINT_SET_FULL_BODY_META = 1000274000,
     XR_BODY_JOINT_SET_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBodyJointSetFB;
-typedef struct XrBodyJointLocationFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointLocationFB {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationFB;
 
 // XrSystemBodyTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemBodyTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesFB;
 
-typedef struct XrBodyTrackerCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackerCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBodyJointSetFB            bodyJointSet;
 } XrBodyTrackerCreateInfoFB;
 
-typedef struct XrBodySkeletonJointFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodySkeletonJointFB {
     int32_t    joint;
     int32_t    parentJoint;
     XrPosef    pose;
 } XrBodySkeletonJointFB;
 
-typedef struct XrBodySkeletonFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodySkeletonFB {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
-    uint32_t                  jointCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
+    uint32_t                  joint_ಎಣಿಕೆ;
     XrBodySkeletonJointFB*    joints;
 } XrBodySkeletonFB;
 
-typedef struct XrBodyJointsLocateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointsLocateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoFB;
 
-typedef struct XrBodyJointLocationsFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointLocationsFB {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrBool32                  isActive;
-    float                     confidence;
-    uint32_t                  jointCount;
+    ಭಿನ್ನ                     confidence;
+    uint32_t                  joint_ಎಣಿಕೆ;
     XrBodyJointLocationFB*    jointLocations;
-    uint32_t                  skeletonChangedCount;
+    uint32_t                  skeleton_Changed_ಎಣಿಕೆ;
     XrTime                    time;
 } XrBodyJointLocationsFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerFB)(XrSession session, const XrBodyTrackerCreateInfoFB* createInfo, XrBodyTrackerFB* bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerFB)(XrBodyTrackerFB bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsFB)(XrBodyTrackerFB bodyTracker, const XrBodyJointsLocateInfoFB* locateInfo, XrBodyJointLocationsFB* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonFB)(XrBodyTrackerFB bodyTracker, XrBodySkeletonFB* skeleton);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerFB)(XrSession session, ಧ್ರುವ XrBodyTrackerCreateInfoFB* createInfo, XrBodyTrackerFB* bodyTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerFB)(XrBodyTrackerFB bodyTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsFB)(XrBodyTrackerFB bodyTracker, ಧ್ರುವ XrBodyJointsLocateInfoFB* locateInfo, XrBodyJointLocationsFB* locations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonFB)(XrBodyTrackerFB bodyTracker, XrBodySkeletonFB* skeleton);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateBodyTrackerFB(
     XrSession                                   session,
-    const XrBodyTrackerCreateInfoFB*            createInfo,
+    ಧ್ರುವ XrBodyTrackerCreateInfoFB*            createInfo,
     XrBodyTrackerFB*                            bodyTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerFB(
@@ -3619,7 +3619,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsFB(
     XrBodyTrackerFB                             bodyTracker,
-    const XrBodyJointsLocateInfoFB*             locateInfo,
+    ಧ್ರುವ XrBodyJointsLocateInfoFB*             locateInfo,
     XrBodyJointLocationsFB*                     locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonFB(
@@ -3633,18 +3633,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonFB(
 #define XR_EXT_dpad_binding 1
 #define XR_EXT_dpad_binding_SPEC_VERSION  1
 #define XR_EXT_DPAD_BINDING_EXTENSION_NAME "XR_EXT_dpad_binding"
-typedef struct XrInteractionProfileDpadBindingEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInteractionProfileDpadBindingEXT {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrPath                       binding;
     XrActionSet                  actionSet;
-    float                        forceThreshold;
-    float                        forceThresholdReleased;
-    float                        centerRegion;
-    float                        wedgeAngle;
+    ಭಿನ್ನ                        forceThreshold;
+    ಭಿನ್ನ                        forceThresholdReleased;
+    ಭಿನ್ನ                        centerRegion;
+    ಭಿನ್ನ                        wedgeAngle;
     XrBool32                     isSticky;
-    const XrHapticBaseHeader*    onHaptic;
-    const XrHapticBaseHeader*    offHaptic;
+    ಧ್ರುವ XrHapticBaseHeader*    onHaptic;
+    ಧ್ರುವ XrHapticBaseHeader*    offHaptic;
 } XrInteractionProfileDpadBindingEXT;
 
 
@@ -3653,15 +3653,15 @@ typedef struct XrInteractionProfileDpadBindingEXT {
 #define XR_VALVE_analog_threshold 1
 #define XR_VALVE_analog_threshold_SPEC_VERSION 2
 #define XR_VALVE_ANALOG_THRESHOLD_EXTENSION_NAME "XR_VALVE_analog_threshold"
-typedef struct XrInteractionProfileAnalogThresholdVALVE {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInteractionProfileAnalogThresholdVALVE {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrAction                     action;
     XrPath                       binding;
-    float                        onThreshold;
-    float                        offThreshold;
-    const XrHapticBaseHeader*    onHaptic;
-    const XrHapticBaseHeader*    offHaptic;
+    ಭಿನ್ನ                        onThreshold;
+    ಭಿನ್ನ                        offThreshold;
+    ಧ್ರುವ XrHapticBaseHeader*    onHaptic;
+    ಧ್ರುವ XrHapticBaseHeader*    offHaptic;
 } XrInteractionProfileAnalogThresholdVALVE;
 
 
@@ -3671,15 +3671,15 @@ typedef struct XrInteractionProfileAnalogThresholdVALVE {
 #define XR_EXT_hand_joints_motion_range_SPEC_VERSION 1
 #define XR_EXT_HAND_JOINTS_MOTION_RANGE_EXTENSION_NAME "XR_EXT_hand_joints_motion_range"
 
-typedef enum XrHandJointsMotionRangeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandJointsMotionRangeEXT {
     XR_HAND_JOINTS_MOTION_RANGE_UNOBSTRUCTED_EXT = 1,
     XR_HAND_JOINTS_MOTION_RANGE_CONFORMING_TO_CONTROLLER_EXT = 2,
     XR_HAND_JOINTS_MOTION_RANGE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointsMotionRangeEXT;
 // XrHandJointsMotionRangeInfoEXT extends XrHandJointsLocateInfoEXT
-typedef struct XrHandJointsMotionRangeInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandJointsMotionRangeInfoEXT {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrHandJointsMotionRangeEXT    handJointsMotionRange;
 } XrHandJointsMotionRangeInfoEXT;
 
@@ -3698,9 +3698,9 @@ typedef struct XrHandJointsMotionRangeInfoEXT {
 
 
 // XR_MND_swapchain_usage_input_attachment_bit is a preprocessor guard. Do not pass it to API calls.
-#define XR_MND_swapchain_usage_input_attachment_bit 1
-#define XR_MND_swapchain_usage_input_attachment_bit_SPEC_VERSION 2
-#define XR_MND_SWAPCHAIN_USAGE_INPUT_ATTACHMENT_BIT_EXTENSION_NAME "XR_MND_swapchain_usage_input_attachment_bit"
+#define XR_MND_swapchain_usage_ಒಳಹರಿವು_attachment_bit 1
+#define XR_MND_swapchain_usage_ಒಳಹರಿವು_attachment_bit_SPEC_VERSION 2
+#define XR_MND_SWAPCHAIN_USAGE_ಒಳಹರಿವು_ATTACHMENT_BIT_EXTENSION_NAME "XR_MND_swapchain_usage_input_attachment_bit"
 
 
 // XR_MSFT_scene_understanding is a preprocessor guard. Do not pass it to API calls.
@@ -3714,7 +3714,7 @@ typedef struct XrHandJointsMotionRangeInfoEXT {
 #define XR_MSFT_scene_understanding_SPEC_VERSION 2
 #define XR_MSFT_SCENE_UNDERSTANDING_EXTENSION_NAME "XR_MSFT_scene_understanding"
 
-typedef enum XrSceneComputeFeatureMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneComputeFeatureMSFT {
     XR_SCENE_COMPUTE_FEATURE_PLANE_MSFT = 1,
     XR_SCENE_COMPUTE_FEATURE_PLANE_MESH_MSFT = 2,
     XR_SCENE_COMPUTE_FEATURE_VISUAL_MESH_MSFT = 3,
@@ -3724,14 +3724,14 @@ typedef enum XrSceneComputeFeatureMSFT {
     XR_SCENE_COMPUTE_FEATURE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeFeatureMSFT;
 
-typedef enum XrSceneComputeConsistencyMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneComputeConsistencyMSFT {
     XR_SCENE_COMPUTE_CONSISTENCY_SNAPSHOT_COMPLETE_MSFT = 1,
     XR_SCENE_COMPUTE_CONSISTENCY_SNAPSHOT_INCOMPLETE_FAST_MSFT = 2,
     XR_SCENE_COMPUTE_CONSISTENCY_OCCLUSION_OPTIMIZED_MSFT = 3,
     XR_SCENE_COMPUTE_CONSISTENCY_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeConsistencyMSFT;
 
-typedef enum XrMeshComputeLodMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMeshComputeLodMSFT {
     XR_MESH_COMPUTE_LOD_COARSE_MSFT = 1,
     XR_MESH_COMPUTE_LOD_MEDIUM_MSFT = 2,
     XR_MESH_COMPUTE_LOD_FINE_MSFT = 3,
@@ -3739,7 +3739,7 @@ typedef enum XrMeshComputeLodMSFT {
     XR_MESH_COMPUTE_LOD_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrMeshComputeLodMSFT;
 
-typedef enum XrSceneComponentTypeMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneComponentTypeMSFT {
     XR_SCENE_COMPONENT_TYPE_INVALID_MSFT = -1,
     XR_SCENE_COMPONENT_TYPE_OBJECT_MSFT = 1,
     XR_SCENE_COMPONENT_TYPE_PLANE_MSFT = 2,
@@ -3750,7 +3750,7 @@ typedef enum XrSceneComponentTypeMSFT {
     XR_SCENE_COMPONENT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComponentTypeMSFT;
 
-typedef enum XrSceneObjectTypeMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneObjectTypeMSFT {
     XR_SCENE_OBJECT_TYPE_UNCATEGORIZED_MSFT = -1,
     XR_SCENE_OBJECT_TYPE_BACKGROUND_MSFT = 1,
     XR_SCENE_OBJECT_TYPE_WALL_MSFT = 2,
@@ -3761,147 +3761,147 @@ typedef enum XrSceneObjectTypeMSFT {
     XR_SCENE_OBJECT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneObjectTypeMSFT;
 
-typedef enum XrScenePlaneAlignmentTypeMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrScenePlaneAlignmentTypeMSFT {
     XR_SCENE_PLANE_ALIGNMENT_TYPE_NON_ORTHOGONAL_MSFT = 0,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_HORIZONTAL_MSFT = 1,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_VERTICAL_MSFT = 2,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrScenePlaneAlignmentTypeMSFT;
 
-typedef enum XrSceneComputeStateMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneComputeStateMSFT {
     XR_SCENE_COMPUTE_STATE_NONE_MSFT = 0,
     XR_SCENE_COMPUTE_STATE_UPDATING_MSFT = 1,
     XR_SCENE_COMPUTE_STATE_COMPLETED_MSFT = 2,
     XR_SCENE_COMPUTE_STATE_COMPLETED_WITH_ERROR_MSFT = 3,
     XR_SCENE_COMPUTE_STATE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeStateMSFT;
-typedef struct XrUuidMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrUuidMSFT {
     uint8_t    bytes[16];
 } XrUuidMSFT;
 
-typedef struct XrSceneObserverCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneObserverCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSceneObserverCreateInfoMSFT;
 
-typedef struct XrSceneCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneCreateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSceneCreateInfoMSFT;
 
-typedef struct XrSceneSphereBoundMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneSphereBoundMSFT {
     XrVector3f    center;
-    float         radius;
+    ಭಿನ್ನ         radius;
 } XrSceneSphereBoundMSFT;
 
-typedef struct XrSceneOrientedBoxBoundMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneOrientedBoxBoundMSFT {
     XrPosef       pose;
     XrVector3f    extents;
 } XrSceneOrientedBoxBoundMSFT;
 
-typedef struct XrSceneFrustumBoundMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneFrustumBoundMSFT {
     XrPosef    pose;
     XrFovf     fov;
-    float      farDistance;
+    ಭಿನ್ನ      farDistance;
 } XrSceneFrustumBoundMSFT;
 
-typedef struct XrSceneBoundsMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneBoundsMSFT {
     XrSpace                               space;
     XrTime                                time;
-    uint32_t                              sphereCount;
-    const XrSceneSphereBoundMSFT*         spheres;
-    uint32_t                              boxCount;
-    const XrSceneOrientedBoxBoundMSFT*    boxes;
-    uint32_t                              frustumCount;
-    const XrSceneFrustumBoundMSFT*        frustums;
+    uint32_t                              sphere_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSceneSphereBoundMSFT*         spheres;
+    uint32_t                              box_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSceneOrientedBoxBoundMSFT*    boxes;
+    uint32_t                              frustum_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSceneFrustumBoundMSFT*        frustums;
 } XrSceneBoundsMSFT;
 
-typedef struct XrNewSceneComputeInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrNewSceneComputeInfoMSFT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            requestedFeatureCount;
-    const XrSceneComputeFeatureMSFT*    requestedFeatures;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                            requested_Feature_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSceneComputeFeatureMSFT*    requestedFeatures;
     XrSceneComputeConsistencyMSFT       consistency;
     XrSceneBoundsMSFT                   bounds;
 } XrNewSceneComputeInfoMSFT;
 
 // XrVisualMeshComputeLodInfoMSFT extends XrNewSceneComputeInfoMSFT
-typedef struct XrVisualMeshComputeLodInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVisualMeshComputeLodInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrMeshComputeLodMSFT        lod;
 } XrVisualMeshComputeLodInfoMSFT;
 
-typedef struct XrSceneComponentMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneComponentMSFT {
     XrSceneComponentTypeMSFT    componentType;
     XrUuidMSFT                  id;
     XrUuidMSFT                  parentId;
     XrTime                      updateTime;
 } XrSceneComponentMSFT;
 
-typedef struct XrSceneComponentsMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneComponentsMSFT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 componentCapacityInput;
-    uint32_t                 componentCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                 component_Capacity_ಒಳಹರಿವು;
+    uint32_t                 component_ಎಣಿಕೆ_Output;
     XrSceneComponentMSFT*    components;
 } XrSceneComponentsMSFT;
 
-typedef struct XrSceneComponentsGetInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneComponentsGetInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSceneComponentTypeMSFT    componentType;
 } XrSceneComponentsGetInfoMSFT;
 
-typedef struct XrSceneComponentLocationMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneComponentLocationMSFT {
     XrSpaceLocationFlags    flags;
     XrPosef                 pose;
 } XrSceneComponentLocationMSFT;
 
-typedef struct XrSceneComponentLocationsMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneComponentLocationsMSFT {
     XrStructureType                  type;
-    void* XR_MAY_ALIAS               next;
-    uint32_t                         locationCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS               next;
+    uint32_t                         location_ಎಣಿಕೆ;
     XrSceneComponentLocationMSFT*    locations;
 } XrSceneComponentLocationsMSFT;
 
-typedef struct XrSceneComponentsLocateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneComponentsLocateInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
-    uint32_t                    componentIdCount;
-    const XrUuidMSFT*           componentIds;
+    uint32_t                    component_Id_ಎಣಿಕೆ;
+    ಧ್ರುವ XrUuidMSFT*           componentIds;
 } XrSceneComponentsLocateInfoMSFT;
 
-typedef struct XrSceneObjectMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneObjectMSFT {
     XrSceneObjectTypeMSFT    objectType;
 } XrSceneObjectMSFT;
 
 // XrSceneObjectsMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneObjectsMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneObjectsMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              sceneObjectCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              scene_Object_ಎಣಿಕೆ;
     XrSceneObjectMSFT*    sceneObjects;
 } XrSceneObjectsMSFT;
 
 // XrSceneComponentParentFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneComponentParentFilterInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneComponentParentFilterInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidMSFT                  parentId;
 } XrSceneComponentParentFilterInfoMSFT;
 
 // XrSceneObjectTypesFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneObjectTypesFilterInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneObjectTypesFilterInfoMSFT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        objectTypeCount;
-    const XrSceneObjectTypeMSFT*    objectTypes;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
+    uint32_t                        object_Type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSceneObjectTypeMSFT*    objectTypes;
 } XrSceneObjectTypesFilterInfoMSFT;
 
-typedef struct XrScenePlaneMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrScenePlaneMSFT {
     XrScenePlaneAlignmentTypeMSFT    alignment;
     XrExtent2Df                      size;
     uint64_t                         meshBufferId;
@@ -3909,95 +3909,95 @@ typedef struct XrScenePlaneMSFT {
 } XrScenePlaneMSFT;
 
 // XrScenePlanesMSFT extends XrSceneComponentsMSFT
-typedef struct XrScenePlanesMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrScenePlanesMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              scenePlaneCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              scene_Plane_ಎಣಿಕೆ;
     XrScenePlaneMSFT*     scenePlanes;
 } XrScenePlanesMSFT;
 
 // XrScenePlaneAlignmentFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrScenePlaneAlignmentFilterInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrScenePlaneAlignmentFilterInfoMSFT {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
-    uint32_t                                alignmentCount;
-    const XrScenePlaneAlignmentTypeMSFT*    alignments;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                next;
+    uint32_t                                alignment_ಎಣಿಕೆ;
+    ಧ್ರುವ XrScenePlaneAlignmentTypeMSFT*    alignments;
 } XrScenePlaneAlignmentFilterInfoMSFT;
 
-typedef struct XrSceneMeshMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshMSFT {
     uint64_t    meshBufferId;
     XrBool32    supportsIndicesUint16;
 } XrSceneMeshMSFT;
 
 // XrSceneMeshesMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMeshesMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshesMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              sceneMeshCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              scene_Mesh_ಎಣಿಕೆ;
     XrSceneMeshMSFT*      sceneMeshes;
 } XrSceneMeshesMSFT;
 
-typedef struct XrSceneMeshBuffersGetInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshBuffersGetInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint64_t                    meshBufferId;
 } XrSceneMeshBuffersGetInfoMSFT;
 
-typedef struct XrSceneMeshBuffersMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshBuffersMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSceneMeshBuffersMSFT;
 
 // XrSceneMeshVertexBufferMSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshVertexBufferMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshVertexBufferMSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t              vertex_ಎಣಿಕೆ_Output;
     XrVector3f*           vertices;
 } XrSceneMeshVertexBufferMSFT;
 
 // XrSceneMeshIndicesUint32MSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshIndicesUint32MSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshIndicesUint32MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              index_Capacity_ಒಳಹರಿವು;
+    uint32_t              index_ಎಣಿಕೆ_Output;
     uint32_t*             indices;
 } XrSceneMeshIndicesUint32MSFT;
 
 // XrSceneMeshIndicesUint16MSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshIndicesUint16MSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshIndicesUint16MSFT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              index_Capacity_ಒಳಹರಿವು;
+    uint32_t              index_ಎಣಿಕೆ_Output;
     uint16_t*             indices;
 } XrSceneMeshIndicesUint16MSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSceneComputeFeaturesMSFT)(XrInstance instance, XrSystemId systemId, uint32_t featureCapacityInput, uint32_t* featureCountOutput, XrSceneComputeFeatureMSFT* features);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneObserverMSFT)(XrSession session, const XrSceneObserverCreateInfoMSFT* createInfo, XrSceneObserverMSFT* sceneObserver);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneObserverMSFT)(XrSceneObserverMSFT sceneObserver);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneMSFT)(XrSceneObserverMSFT sceneObserver, const XrSceneCreateInfoMSFT* createInfo, XrSceneMSFT* scene);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneMSFT)(XrSceneMSFT scene);
-typedef XrResult (XRAPI_PTR *PFN_xrComputeNewSceneMSFT)(XrSceneObserverMSFT sceneObserver, const XrNewSceneComputeInfoMSFT* computeInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneComputeStateMSFT)(XrSceneObserverMSFT sceneObserver, XrSceneComputeStateMSFT* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneComponentsMSFT)(XrSceneMSFT scene, const XrSceneComponentsGetInfoMSFT* getInfo, XrSceneComponentsMSFT* components);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSceneComponentsMSFT)(XrSceneMSFT scene, const XrSceneComponentsLocateInfoMSFT* locateInfo, XrSceneComponentLocationsMSFT* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMeshBuffersMSFT)(XrSceneMSFT scene, const XrSceneMeshBuffersGetInfoMSFT* getInfo, XrSceneMeshBuffersMSFT* buffers);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSceneComputeFeaturesMSFT)(XrInstance instance, XrSystemId systemId, uint32_t feature_Capacity_ಒಳಹರಿವು, uint32_t* feature_ಎಣಿಕೆ_Output, XrSceneComputeFeatureMSFT* features);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSceneObserverMSFT)(XrSession session, ಧ್ರುವ XrSceneObserverCreateInfoMSFT* createInfo, XrSceneObserverMSFT* sceneObserver);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySceneObserverMSFT)(XrSceneObserverMSFT sceneObserver);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSceneMSFT)(XrSceneObserverMSFT sceneObserver, ಧ್ರುವ XrSceneCreateInfoMSFT* createInfo, XrSceneMSFT* scene);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySceneMSFT)(XrSceneMSFT scene);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrComputeNewSceneMSFT)(XrSceneObserverMSFT sceneObserver, ಧ್ರುವ XrNewSceneComputeInfoMSFT* computeInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSceneComputeStateMSFT)(XrSceneObserverMSFT sceneObserver, XrSceneComputeStateMSFT* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSceneComponentsMSFT)(XrSceneMSFT scene, ಧ್ರುವ XrSceneComponentsGetInfoMSFT* getInfo, XrSceneComponentsMSFT* components);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateSceneComponentsMSFT)(XrSceneMSFT scene, ಧ್ರುವ XrSceneComponentsLocateInfoMSFT* locateInfo, XrSceneComponentLocationsMSFT* locations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSceneMeshBuffersMSFT)(XrSceneMSFT scene, ಧ್ರುವ XrSceneMeshBuffersGetInfoMSFT* getInfo, XrSceneMeshBuffersMSFT* buffers);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSceneComputeFeaturesMSFT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    featureCapacityInput,
-    uint32_t*                                   featureCountOutput,
+    uint32_t                                    feature_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   feature_ಎಣಿಕೆ_Output,
     XrSceneComputeFeatureMSFT*                  features);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneObserverMSFT(
     XrSession                                   session,
-    const XrSceneObserverCreateInfoMSFT*        createInfo,
+    ಧ್ರುವ XrSceneObserverCreateInfoMSFT*        createInfo,
     XrSceneObserverMSFT*                        sceneObserver);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneObserverMSFT(
@@ -4005,7 +4005,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneObserverMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneMSFT(
     XrSceneObserverMSFT                         sceneObserver,
-    const XrSceneCreateInfoMSFT*                createInfo,
+    ಧ್ರುವ XrSceneCreateInfoMSFT*                createInfo,
     XrSceneMSFT*                                scene);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMSFT(
@@ -4013,7 +4013,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrComputeNewSceneMSFT(
     XrSceneObserverMSFT                         sceneObserver,
-    const XrNewSceneComputeInfoMSFT*            computeInfo);
+    ಧ್ರುವ XrNewSceneComputeInfoMSFT*            computeInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneComputeStateMSFT(
     XrSceneObserverMSFT                         sceneObserver,
@@ -4021,17 +4021,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneComputeStateMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneComponentsMSFT(
     XrSceneMSFT                                 scene,
-    const XrSceneComponentsGetInfoMSFT*         getInfo,
+    ಧ್ರುವ XrSceneComponentsGetInfoMSFT*         getInfo,
     XrSceneComponentsMSFT*                      components);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSceneComponentsMSFT(
     XrSceneMSFT                                 scene,
-    const XrSceneComponentsLocateInfoMSFT*      locateInfo,
+    ಧ್ರುವ XrSceneComponentsLocateInfoMSFT*      locateInfo,
     XrSceneComponentLocationsMSFT*              locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMeshBuffersMSFT(
     XrSceneMSFT                                 scene,
-    const XrSceneMeshBuffersGetInfoMSFT*        getInfo,
+    ಧ್ರುವ XrSceneMeshBuffersGetInfoMSFT*        getInfo,
     XrSceneMeshBuffersMSFT*                     buffers);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -4041,37 +4041,37 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMeshBuffersMSFT(
 #define XR_MSFT_scene_understanding_serialization 1
 #define XR_MSFT_scene_understanding_serialization_SPEC_VERSION 2
 #define XR_MSFT_SCENE_UNDERSTANDING_SERIALIZATION_EXTENSION_NAME "XR_MSFT_scene_understanding_serialization"
-typedef struct XrSerializedSceneFragmentDataGetInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSerializedSceneFragmentDataGetInfoMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidMSFT                  sceneFragmentId;
 } XrSerializedSceneFragmentDataGetInfoMSFT;
 
-typedef struct XrDeserializeSceneFragmentMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDeserializeSceneFragmentMSFT {
     uint32_t          bufferSize;
-    const uint8_t*    buffer;
+    ಧ್ರುವ uint8_t*    buffer;
 } XrDeserializeSceneFragmentMSFT;
 
-typedef struct XrSceneDeserializeInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneDeserializeInfoMSFT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 fragmentCount;
-    const XrDeserializeSceneFragmentMSFT*    fragments;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
+    uint32_t                                 fragment_ಎಣಿಕೆ;
+    ಧ್ರುವ XrDeserializeSceneFragmentMSFT*    fragments;
 } XrSceneDeserializeInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrDeserializeSceneMSFT)(XrSceneObserverMSFT sceneObserver, const XrSceneDeserializeInfoMSFT* deserializeInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSerializedSceneFragmentDataMSFT)(XrSceneMSFT scene, const XrSerializedSceneFragmentDataGetInfoMSFT* getInfo, uint32_t countInput, uint32_t* readOutput, uint8_t* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDeserializeSceneMSFT)(XrSceneObserverMSFT sceneObserver, ಧ್ರುವ XrSceneDeserializeInfoMSFT* deserializeInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSerializedSceneFragmentDataMSFT)(XrSceneMSFT scene, ಧ್ರುವ XrSerializedSceneFragmentDataGetInfoMSFT* getInfo, uint32_t ಎಣಿಕೆ_ಒಳಹರಿವು, uint32_t* readOutput, uint8_t* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrDeserializeSceneMSFT(
     XrSceneObserverMSFT                         sceneObserver,
-    const XrSceneDeserializeInfoMSFT*           deserializeInfo);
+    ಧ್ರುವ XrSceneDeserializeInfoMSFT*           deserializeInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSerializedSceneFragmentDataMSFT(
     XrSceneMSFT                                 scene,
-    const XrSerializedSceneFragmentDataGetInfoMSFT* getInfo,
-    uint32_t                                    countInput,
+    ಧ್ರುವ XrSerializedSceneFragmentDataGetInfoMSFT* getInfo,
+    uint32_t                                    ಎಣಿಕೆ_ಒಳಹರಿವು,
     uint32_t*                                   readOutput,
     uint8_t*                                    buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -4082,32 +4082,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSerializedSceneFragmentDataMSFT(
 #define XR_FB_display_refresh_rate 1
 #define XR_FB_display_refresh_rate_SPEC_VERSION 1
 #define XR_FB_DISPLAY_REFRESH_RATE_EXTENSION_NAME "XR_FB_display_refresh_rate"
-typedef struct XrEventDataDisplayRefreshRateChangedFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataDisplayRefreshRateChangedFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       fromDisplayRefreshRate;
-    float                       toDisplayRefreshRate;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       fromDisplayRefreshRate;
+    ಭಿನ್ನ                       toDisplayRefreshRate;
 } XrEventDataDisplayRefreshRateChangedFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateDisplayRefreshRatesFB)(XrSession session, uint32_t displayRefreshRateCapacityInput, uint32_t* displayRefreshRateCountOutput, float* displayRefreshRates);
-typedef XrResult (XRAPI_PTR *PFN_xrGetDisplayRefreshRateFB)(XrSession session, float* displayRefreshRate);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestDisplayRefreshRateFB)(XrSession session, float displayRefreshRate);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateDisplayRefreshRatesFB)(XrSession session, uint32_t display_Refresh_Rate_Capacity_ಒಳಹರಿವು, uint32_t* display_Refresh_Rate_ಎಣಿಕೆ_Output, ಭಿನ್ನ* displayRefreshRates);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetDisplayRefreshRateFB)(XrSession session, ಭಿನ್ನ* displayRefreshRate);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestDisplayRefreshRateFB)(XrSession session, ಭಿನ್ನ displayRefreshRate);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateDisplayRefreshRatesFB(
     XrSession                                   session,
-    uint32_t                                    displayRefreshRateCapacityInput,
-    uint32_t*                                   displayRefreshRateCountOutput,
-    float*                                      displayRefreshRates);
+    uint32_t                                    display_Refresh_Rate_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   display_Refresh_Rate_ಎಣಿಕೆ_Output,
+    ಭಿನ್ನ*                                      displayRefreshRates);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetDisplayRefreshRateFB(
     XrSession                                   session,
-    float*                                      displayRefreshRate);
+    ಭಿನ್ನ*                                      displayRefreshRate);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestDisplayRefreshRateFB(
     XrSession                                   session,
-    float                                       displayRefreshRate);
+    ಭಿನ್ನ                                       displayRefreshRate);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -4122,27 +4122,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestDisplayRefreshRateFB(
 #define XR_HTCX_vive_tracker_interaction 1
 #define XR_HTCX_vive_tracker_interaction_SPEC_VERSION 3
 #define XR_HTCX_VIVE_TRACKER_INTERACTION_EXTENSION_NAME "XR_HTCX_vive_tracker_interaction"
-typedef struct XrViveTrackerPathsHTCX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViveTrackerPathsHTCX {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPath                persistentPath;
     XrPath                rolePath;
 } XrViveTrackerPathsHTCX;
 
-typedef struct XrEventDataViveTrackerConnectedHTCX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataViveTrackerConnectedHTCX {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrViveTrackerPathsHTCX*     paths;
 } XrEventDataViveTrackerConnectedHTCX;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateViveTrackerPathsHTCX)(XrInstance instance, uint32_t pathCapacityInput, uint32_t* pathCountOutput, XrViveTrackerPathsHTCX* paths);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateViveTrackerPathsHTCX)(XrInstance instance, uint32_t path_Capacity_ಒಳಹರಿವು, uint32_t* path_ಎಣಿಕೆ_Output, XrViveTrackerPathsHTCX* paths);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViveTrackerPathsHTCX(
     XrInstance                                  instance,
-    uint32_t                                    pathCapacityInput,
-    uint32_t*                                   pathCountOutput,
+    uint32_t                                    path_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   path_ಎಣಿಕೆ_Output,
     XrViveTrackerPathsHTCX*                     paths);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -4151,52 +4151,52 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateViveTrackerPathsHTCX(
 // XR_HTC_facial_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_HTC_facial_tracking 1
 
-#define XR_FACIAL_EXPRESSION_EYE_COUNT_HTC 14
+#define XR_FACIAL_EXPRESSION_EYE_ಎಣಿಕೆ_HTC 14
 
 
-#define XR_FACIAL_EXPRESSION_LIP_COUNT_HTC 37
+#define XR_FACIAL_EXPRESSION_LIP_ಎಣಿಕೆ_HTC 37
 
 XR_DEFINE_HANDLE(XrFacialTrackerHTC)
 #define XR_HTC_facial_tracking_SPEC_VERSION 3
 #define XR_HTC_FACIAL_TRACKING_EXTENSION_NAME "XR_HTC_facial_tracking"
 
-typedef enum XrEyeExpressionHTC {
-    XR_EYE_EXPRESSION_LEFT_BLINK_HTC = 0,
-    XR_EYE_EXPRESSION_LEFT_WIDE_HTC = 1,
-    XR_EYE_EXPRESSION_RIGHT_BLINK_HTC = 2,
-    XR_EYE_EXPRESSION_RIGHT_WIDE_HTC = 3,
-    XR_EYE_EXPRESSION_LEFT_SQUEEZE_HTC = 4,
-    XR_EYE_EXPRESSION_RIGHT_SQUEEZE_HTC = 5,
-    XR_EYE_EXPRESSION_LEFT_DOWN_HTC = 6,
-    XR_EYE_EXPRESSION_RIGHT_DOWN_HTC = 7,
-    XR_EYE_EXPRESSION_LEFT_OUT_HTC = 8,
-    XR_EYE_EXPRESSION_RIGHT_IN_HTC = 9,
-    XR_EYE_EXPRESSION_LEFT_IN_HTC = 10,
-    XR_EYE_EXPRESSION_RIGHT_OUT_HTC = 11,
-    XR_EYE_EXPRESSION_LEFT_UP_HTC = 12,
-    XR_EYE_EXPRESSION_RIGHT_UP_HTC = 13,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEyeExpressionHTC {
+    XR_EYE_EXPRESSION_ಎಡ_BLINK_HTC = 0,
+    XR_EYE_EXPRESSION_ಎಡ_WIDE_HTC = 1,
+    XR_EYE_EXPRESSION_ಬಲ_BLINK_HTC = 2,
+    XR_EYE_EXPRESSION_ಬಲ_WIDE_HTC = 3,
+    XR_EYE_EXPRESSION_ಎಡ_SQUEEZE_HTC = 4,
+    XR_EYE_EXPRESSION_ಬಲ_SQUEEZE_HTC = 5,
+    XR_EYE_EXPRESSION_ಎಡ_DOWN_HTC = 6,
+    XR_EYE_EXPRESSION_ಬಲ_DOWN_HTC = 7,
+    XR_EYE_EXPRESSION_ಎಡ_OUT_HTC = 8,
+    XR_EYE_EXPRESSION_ಬಲ_IN_HTC = 9,
+    XR_EYE_EXPRESSION_ಎಡ_IN_HTC = 10,
+    XR_EYE_EXPRESSION_ಬಲ_OUT_HTC = 11,
+    XR_EYE_EXPRESSION_ಎಡ_UP_HTC = 12,
+    XR_EYE_EXPRESSION_ಬಲ_UP_HTC = 13,
     XR_EYE_EXPRESSION_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrEyeExpressionHTC;
 
-typedef enum XrLipExpressionHTC {
-    XR_LIP_EXPRESSION_JAW_RIGHT_HTC = 0,
-    XR_LIP_EXPRESSION_JAW_LEFT_HTC = 1,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrLipExpressionHTC {
+    XR_LIP_EXPRESSION_JAW_ಬಲ_HTC = 0,
+    XR_LIP_EXPRESSION_JAW_ಎಡ_HTC = 1,
     XR_LIP_EXPRESSION_JAW_FORWARD_HTC = 2,
     XR_LIP_EXPRESSION_JAW_OPEN_HTC = 3,
     XR_LIP_EXPRESSION_MOUTH_APE_SHAPE_HTC = 4,
-    XR_LIP_EXPRESSION_MOUTH_UPPER_RIGHT_HTC = 5,
-    XR_LIP_EXPRESSION_MOUTH_UPPER_LEFT_HTC = 6,
-    XR_LIP_EXPRESSION_MOUTH_LOWER_RIGHT_HTC = 7,
-    XR_LIP_EXPRESSION_MOUTH_LOWER_LEFT_HTC = 8,
+    XR_LIP_EXPRESSION_MOUTH_UPPER_ಬಲ_HTC = 5,
+    XR_LIP_EXPRESSION_MOUTH_UPPER_ಎಡ_HTC = 6,
+    XR_LIP_EXPRESSION_MOUTH_LOWER_ಬಲ_HTC = 7,
+    XR_LIP_EXPRESSION_MOUTH_LOWER_ಎಡ_HTC = 8,
     XR_LIP_EXPRESSION_MOUTH_UPPER_OVERTURN_HTC = 9,
     XR_LIP_EXPRESSION_MOUTH_LOWER_OVERTURN_HTC = 10,
     XR_LIP_EXPRESSION_MOUTH_POUT_HTC = 11,
-    XR_LIP_EXPRESSION_MOUTH_RAISER_RIGHT_HTC = 12,
-    XR_LIP_EXPRESSION_MOUTH_RAISER_LEFT_HTC = 13,
-    XR_LIP_EXPRESSION_MOUTH_STRETCHER_RIGHT_HTC = 14,
-    XR_LIP_EXPRESSION_MOUTH_STRETCHER_LEFT_HTC = 15,
-    XR_LIP_EXPRESSION_CHEEK_PUFF_RIGHT_HTC = 16,
-    XR_LIP_EXPRESSION_CHEEK_PUFF_LEFT_HTC = 17,
+    XR_LIP_EXPRESSION_MOUTH_RAISER_ಬಲ_HTC = 12,
+    XR_LIP_EXPRESSION_MOUTH_RAISER_ಎಡ_HTC = 13,
+    XR_LIP_EXPRESSION_MOUTH_STRETCHER_ಬಲ_HTC = 14,
+    XR_LIP_EXPRESSION_MOUTH_STRETCHER_ಎಡ_HTC = 15,
+    XR_LIP_EXPRESSION_CHEEK_PUFF_ಬಲ_HTC = 16,
+    XR_LIP_EXPRESSION_CHEEK_PUFF_ಎಡ_HTC = 17,
     XR_LIP_EXPRESSION_CHEEK_SUCK_HTC = 18,
     XR_LIP_EXPRESSION_MOUTH_UPPER_UPRIGHT_HTC = 19,
     XR_LIP_EXPRESSION_MOUTH_UPPER_UPLEFT_HTC = 20,
@@ -4206,8 +4206,8 @@ typedef enum XrLipExpressionHTC {
     XR_LIP_EXPRESSION_MOUTH_LOWER_INSIDE_HTC = 24,
     XR_LIP_EXPRESSION_MOUTH_LOWER_OVERLAY_HTC = 25,
     XR_LIP_EXPRESSION_TONGUE_LONGSTEP1_HTC = 26,
-    XR_LIP_EXPRESSION_TONGUE_LEFT_HTC = 27,
-    XR_LIP_EXPRESSION_TONGUE_RIGHT_HTC = 28,
+    XR_LIP_EXPRESSION_TONGUE_ಎಡ_HTC = 27,
+    XR_LIP_EXPRESSION_TONGUE_ಬಲ_HTC = 28,
     XR_LIP_EXPRESSION_TONGUE_UP_HTC = 29,
     XR_LIP_EXPRESSION_TONGUE_DOWN_HTC = 30,
     XR_LIP_EXPRESSION_TONGUE_ROLL_HTC = 31,
@@ -4216,50 +4216,50 @@ typedef enum XrLipExpressionHTC {
     XR_LIP_EXPRESSION_TONGUE_UPLEFT_MORPH_HTC = 34,
     XR_LIP_EXPRESSION_TONGUE_DOWNRIGHT_MORPH_HTC = 35,
     XR_LIP_EXPRESSION_TONGUE_DOWNLEFT_MORPH_HTC = 36,
-    XR_LIP_EXPRESSION_MOUTH_SMILE_RIGHT_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_RIGHT_HTC,
-    XR_LIP_EXPRESSION_MOUTH_SMILE_LEFT_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_LEFT_HTC,
-    XR_LIP_EXPRESSION_MOUTH_SAD_RIGHT_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_RIGHT_HTC,
-    XR_LIP_EXPRESSION_MOUTH_SAD_LEFT_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_LEFT_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SMILE_ಬಲ_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_ಬಲ_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SMILE_ಎಡ_HTC = XR_LIP_EXPRESSION_MOUTH_RAISER_ಎಡ_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SAD_ಬಲ_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_ಬಲ_HTC,
+    XR_LIP_EXPRESSION_MOUTH_SAD_ಎಡ_HTC = XR_LIP_EXPRESSION_MOUTH_STRETCHER_ಎಡ_HTC,
     XR_LIP_EXPRESSION_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrLipExpressionHTC;
 
-typedef enum XrFacialTrackingTypeHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFacialTrackingTypeHTC {
     XR_FACIAL_TRACKING_TYPE_EYE_DEFAULT_HTC = 1,
     XR_FACIAL_TRACKING_TYPE_LIP_DEFAULT_HTC = 2,
     XR_FACIAL_TRACKING_TYPE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFacialTrackingTypeHTC;
 // XrSystemFacialTrackingPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemFacialTrackingPropertiesHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFacialTrackingPropertiesHTC {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportEyeFacialTracking;
     XrBool32              supportLipFacialTracking;
 } XrSystemFacialTrackingPropertiesHTC;
 
-typedef struct XrFacialExpressionsHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFacialExpressionsHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    isActive;
     XrTime                      sampleTime;
-    uint32_t                    expressionCount;
-    float*                      expressionWeightings;
+    uint32_t                    expression_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                      expressionWeightings;
 } XrFacialExpressionsHTC;
 
-typedef struct XrFacialTrackerCreateInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFacialTrackerCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFacialTrackingTypeHTC     facialTrackingType;
 } XrFacialTrackerCreateInfoHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFacialTrackerHTC)(XrSession session, const XrFacialTrackerCreateInfoHTC* createInfo, XrFacialTrackerHTC* facialTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFacialTrackerHTC)(XrFacialTrackerHTC facialTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionsHTC)(XrFacialTrackerHTC facialTracker, XrFacialExpressionsHTC* facialExpressions);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateFacialTrackerHTC)(XrSession session, ಧ್ರುವ XrFacialTrackerCreateInfoHTC* createInfo, XrFacialTrackerHTC* facialTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyFacialTrackerHTC)(XrFacialTrackerHTC facialTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionsHTC)(XrFacialTrackerHTC facialTracker, XrFacialExpressionsHTC* facialExpressions);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFacialTrackerHTC(
     XrSession                                   session,
-    const XrFacialTrackerCreateInfoHTC*         createInfo,
+    ಧ್ರುವ XrFacialTrackerCreateInfoHTC*         createInfo,
     XrFacialTrackerHTC*                         facialTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFacialTrackerHTC(
@@ -4295,7 +4295,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionsHTC(
 #define XR_FB_color_space_SPEC_VERSION    3
 #define XR_FB_COLOR_SPACE_EXTENSION_NAME  "XR_FB_color_space"
 
-typedef enum XrColorSpaceFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrColorSpaceFB {
     XR_COLOR_SPACE_UNMANAGED_FB = 0,
     XR_COLOR_SPACE_REC2020_FB = 1,
     XR_COLOR_SPACE_REC709_FB = 2,
@@ -4307,26 +4307,26 @@ typedef enum XrColorSpaceFB {
     XR_COLOR_SPACE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrColorSpaceFB;
 // XrSystemColorSpacePropertiesFB extends XrSystemProperties
-typedef struct XrSystemColorSpacePropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemColorSpacePropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrColorSpaceFB        colorSpace;
 } XrSystemColorSpacePropertiesFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesFB)(XrSession session, uint32_t colorSpaceCapacityInput, uint32_t* colorSpaceCountOutput, XrColorSpaceFB* colorSpaces);
-typedef XrResult (XRAPI_PTR *PFN_xrSetColorSpaceFB)(XrSession session, const XrColorSpaceFB colorSpace);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesFB)(XrSession session, uint32_t color_Space_Capacity_ಒಳಹರಿವು, uint32_t* color_Space_ಎಣಿಕೆ_Output, XrColorSpaceFB* colorSpaces);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetColorSpaceFB)(XrSession session, ಧ್ರುವ XrColorSpaceFB colorSpace);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateColorSpacesFB(
     XrSession                                   session,
-    uint32_t                                    colorSpaceCapacityInput,
-    uint32_t*                                   colorSpaceCountOutput,
+    uint32_t                                    color_Space_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   color_Space_ಎಣಿಕೆ_Output,
     XrColorSpaceFB*                             colorSpaces);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetColorSpaceFB(
     XrSession                                   session,
-    const XrColorSpaceFB                        colorSpace);
+    ಧ್ರುವ XrColorSpaceFB                        colorSpace);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -4335,44 +4335,44 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetColorSpaceFB(
 #define XR_FB_hand_tracking_mesh 1
 #define XR_FB_hand_tracking_mesh_SPEC_VERSION 3
 #define XR_FB_HAND_TRACKING_MESH_EXTENSION_NAME "XR_FB_hand_tracking_mesh"
-typedef struct XrVector4sFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVector4sFB {
     int16_t    x;
     int16_t    y;
     int16_t    z;
     int16_t    w;
 } XrVector4sFB;
 
-typedef struct XrHandTrackingMeshFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingMeshFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              jointCapacityInput;
-    uint32_t              jointCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              joint_Capacity_ಒಳಹರಿವು;
+    uint32_t              joint_ಎಣಿಕೆ_Output;
     XrPosef*              jointBindPoses;
-    float*                jointRadii;
+    ಭಿನ್ನ*                jointRadii;
     XrHandJointEXT*       jointParents;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    uint32_t              vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t              vertex_ಎಣಿಕೆ_Output;
     XrVector3f*           vertexPositions;
     XrVector3f*           vertexNormals;
     XrVector2f*           vertexUVs;
     XrVector4sFB*         vertexBlendIndices;
     XrVector4f*           vertexBlendWeights;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_ಒಳಹರಿವು;
+    uint32_t              index_ಎಣಿಕೆ_Output;
     int16_t*              indices;
 } XrHandTrackingMeshFB;
 
 // XrHandTrackingScaleFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingScaleFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingScaleFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 sensorOutput;
-    float                 currentOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                 sensorOutput;
+    ಭಿನ್ನ                 currentOutput;
     XrBool32              overrideHandScale;
-    float                 overrideValueInput;
+    ಭಿನ್ನ                 override_ಮೌಲ್ಯ_ಒಳಹರಿವು;
 } XrHandTrackingScaleFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetHandMeshFB)(XrHandTrackerEXT handTracker, XrHandTrackingMeshFB* mesh);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetHandMeshFB)(XrHandTrackerEXT handTracker, XrHandTrackingMeshFB* mesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -4387,52 +4387,52 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetHandMeshFB(
 #define XR_FB_hand_tracking_aim 1
 #define XR_FB_hand_tracking_aim_SPEC_VERSION 2
 #define XR_FB_HAND_TRACKING_AIM_EXTENSION_NAME "XR_FB_hand_tracking_aim"
-typedef XrFlags64 XrHandTrackingAimFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrHandTrackingAimFlagsFB;
 
 // Flag bits for XrHandTrackingAimFlagsFB
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_COMPUTED_BIT_FB = 0x00000001;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_VALID_BIT_FB = 0x00000002;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_INDEX_PINCHING_BIT_FB = 0x00000004;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_MIDDLE_PINCHING_BIT_FB = 0x00000008;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_RING_PINCHING_BIT_FB = 0x00000010;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_LITTLE_PINCHING_BIT_FB = 0x00000020;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_SYSTEM_GESTURE_BIT_FB = 0x00000040;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_DOMINANT_HAND_BIT_FB = 0x00000080;
-static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_MENU_PRESSED_BIT_FB = 0x00000100;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_COMPUTED_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_VALID_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_INDEX_PINCHING_BIT_FB = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_ಮಧ್ಯ_PINCHING_BIT_FB = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_RING_PINCHING_BIT_FB = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_LITTLE_PINCHING_BIT_FB = 0x00000020;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_SYSTEM_GESTURE_BIT_FB = 0x00000040;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_DOMINANT_HAND_BIT_FB = 0x00000080;
+ಸ್ಥಿರ ಧ್ರುವ XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_MENU_PRESSED_BIT_FB = 0x00000100;
 
 // XrHandTrackingAimStateFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingAimStateFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingAimStateFB {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrHandTrackingAimFlagsFB    status;
     XrPosef                     aimPose;
-    float                       pinchStrengthIndex;
-    float                       pinchStrengthMiddle;
-    float                       pinchStrengthRing;
-    float                       pinchStrengthLittle;
+    ಭಿನ್ನ                       pinchStrengthIndex;
+    ಭಿನ್ನ                       pinch_Strength_ಮಧ್ಯ;
+    ಭಿನ್ನ                       pinchStrengthRing;
+    ಭಿನ್ನ                       pinchStrengthLittle;
 } XrHandTrackingAimStateFB;
 
 
 
 // XR_FB_hand_tracking_capsules is a preprocessor guard. Do not pass it to API calls.
 #define XR_FB_hand_tracking_capsules 1
-#define XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB 2
-#define XR_HAND_TRACKING_CAPSULE_COUNT_FB 19
+#define XR_HAND_TRACKING_CAPSULE_POINT_ಎಣಿಕೆ_FB 2
+#define XR_HAND_TRACKING_CAPSULE_ಎಣಿಕೆ_FB 19
 #define XR_FB_hand_tracking_capsules_SPEC_VERSION 3
 #define XR_FB_HAND_TRACKING_CAPSULES_EXTENSION_NAME "XR_FB_hand_tracking_capsules"
-#define XR_FB_HAND_TRACKING_CAPSULE_POINT_COUNT XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB
-#define XR_FB_HAND_TRACKING_CAPSULE_COUNT XR_HAND_TRACKING_CAPSULE_COUNT_FB
-typedef struct XrHandCapsuleFB {
-    XrVector3f        points[XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB];
-    float             radius;
+#define XR_FB_HAND_TRACKING_CAPSULE_POINT_ಎಣಿಕೆ XR_HAND_TRACKING_CAPSULE_POINT_ಎಣಿಕೆ_FB
+#define XR_FB_HAND_TRACKING_CAPSULE_ಎಣಿಕೆ XR_HAND_TRACKING_CAPSULE_ಎಣಿಕೆ_FB
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandCapsuleFB {
+    XrVector3f        points[XR_HAND_TRACKING_CAPSULE_POINT_ಎಣಿಕೆ_FB];
+    ಭಿನ್ನ             radius;
     XrHandJointEXT    joint;
 } XrHandCapsuleFB;
 
 // XrHandTrackingCapsulesStateFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingCapsulesStateFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingCapsulesStateFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrHandCapsuleFB       capsules[XR_HAND_TRACKING_CAPSULE_COUNT_FB];
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    XrHandCapsuleFB       capsules[XR_HAND_TRACKING_CAPSULE_ಎಣಿಕೆ_FB];
 } XrHandTrackingCapsulesStateFB;
 
 
@@ -4443,7 +4443,7 @@ XR_DEFINE_ATOM(XrAsyncRequestIdFB)
 #define XR_FB_spatial_entity_SPEC_VERSION 3
 #define XR_FB_SPATIAL_ENTITY_EXTENSION_NAME "XR_FB_spatial_entity"
 
-typedef enum XrSpaceComponentTypeFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpaceComponentTypeFB {
     XR_SPACE_COMPONENT_TYPE_LOCATABLE_FB = 0,
     XR_SPACE_COMPONENT_TYPE_STORABLE_FB = 1,
     XR_SPACE_COMPONENT_TYPE_SHARABLE_FB = 2,
@@ -4457,49 +4457,49 @@ typedef enum XrSpaceComponentTypeFB {
     XR_SPACE_COMPONENT_TYPE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceComponentTypeFB;
 // XrSystemSpatialEntityPropertiesFB extends XrSystemProperties
-typedef struct XrSystemSpatialEntityPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialEntityPropertiesFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpatialEntity;
 } XrSystemSpatialEntityPropertiesFB;
 
-typedef struct XrSpatialAnchorCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     poseInSpace;
     XrTime                      time;
 } XrSpatialAnchorCreateInfoFB;
 
-typedef struct XrSpaceComponentStatusSetInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceComponentStatusSetInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
     XrBool32                    enabled;
     XrDuration                  timeout;
 } XrSpaceComponentStatusSetInfoFB;
 
-typedef struct XrSpaceComponentStatusFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceComponentStatusFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              enabled;
     XrBool32              changePending;
 } XrSpaceComponentStatusFB;
 
-typedef XrUuid XrUuidEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrUuid XrUuidEXT;
 
-typedef struct XrEventDataSpatialAnchorCreateCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialAnchorCreateCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
     XrUuidEXT                   uuid;
 } XrEventDataSpatialAnchorCreateCompleteFB;
 
-typedef struct XrEventDataSpaceSetStatusCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceSetStatusCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
@@ -4508,17 +4508,17 @@ typedef struct XrEventDataSpaceSetStatusCompleteFB {
     XrBool32                    enabled;
 } XrEventDataSpaceSetStatusCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFB)(XrSession session, const XrSpatialAnchorCreateInfoFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceUuidFB)(XrSpace space, XrUuidEXT* uuid);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpaceSupportedComponentsFB)(XrSpace space, uint32_t componentTypeCapacityInput, uint32_t* componentTypeCountOutput, XrSpaceComponentTypeFB* componentTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrSetSpaceComponentStatusFB)(XrSpace space, const XrSpaceComponentStatusSetInfoFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceComponentStatusFB)(XrSpace space, XrSpaceComponentTypeFB componentType, XrSpaceComponentStatusFB* status);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFB)(XrSession session, ಧ್ರುವ XrSpatialAnchorCreateInfoFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceUuidFB)(XrSpace space, XrUuidEXT* uuid);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpaceSupportedComponentsFB)(XrSpace space, uint32_t component_Type_Capacity_ಒಳಹರಿವು, uint32_t* component_Type_ಎಣಿಕೆ_Output, XrSpaceComponentTypeFB* componentTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetSpaceComponentStatusFB)(XrSpace space, ಧ್ರುವ XrSpaceComponentStatusSetInfoFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceComponentStatusFB)(XrSpace space, XrSpaceComponentTypeFB componentType, XrSpaceComponentStatusFB* status);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorFB(
     XrSession                                   session,
-    const XrSpatialAnchorCreateInfoFB*          info,
+    ಧ್ರುವ XrSpatialAnchorCreateInfoFB*          info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceUuidFB(
@@ -4527,13 +4527,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceUuidFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpaceSupportedComponentsFB(
     XrSpace                                     space,
-    uint32_t                                    componentTypeCapacityInput,
-    uint32_t*                                   componentTypeCountOutput,
+    uint32_t                                    component_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   component_Type_ಎಣಿಕೆ_Output,
     XrSpaceComponentTypeFB*                     componentTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetSpaceComponentStatusFB(
     XrSpace                                     space,
-    const XrSpaceComponentStatusSetInfoFB*      info,
+    ಧ್ರುವ XrSpaceComponentStatusSetInfoFB*      info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceComponentStatusFB(
@@ -4549,43 +4549,43 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceComponentStatusFB(
 XR_DEFINE_HANDLE(XrFoveationProfileFB)
 #define XR_FB_foveation_SPEC_VERSION      1
 #define XR_FB_FOVEATION_EXTENSION_NAME    "XR_FB_foveation"
-typedef XrFlags64 XrSwapchainCreateFoveationFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSwapchainCreateFoveationFlagsFB;
 
 // Flag bits for XrSwapchainCreateFoveationFlagsFB
-static const XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_SCALED_BIN_BIT_FB = 0x00000001;
-static const XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_FRAGMENT_DENSITY_MAP_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_SCALED_BIN_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSwapchainCreateFoveationFlagsFB XR_SWAPCHAIN_CREATE_FOVEATION_FRAGMENT_DENSITY_MAP_BIT_FB = 0x00000002;
 
-typedef XrFlags64 XrSwapchainStateFoveationFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSwapchainStateFoveationFlagsFB;
 
 // Flag bits for XrSwapchainStateFoveationFlagsFB
 
-typedef struct XrFoveationProfileCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationProfileCreateInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrFoveationProfileCreateInfoFB;
 
 // XrSwapchainCreateInfoFoveationFB extends XrSwapchainCreateInfo
-typedef struct XrSwapchainCreateInfoFoveationFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainCreateInfoFoveationFB {
     XrStructureType                      type;
-    void* XR_MAY_ALIAS                   next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                   next;
     XrSwapchainCreateFoveationFlagsFB    flags;
 } XrSwapchainCreateInfoFoveationFB;
 
-typedef struct XrSwapchainStateFoveationFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainStateFoveationFB {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
     XrSwapchainStateFoveationFlagsFB    flags;
     XrFoveationProfileFB                profile;
 } XrSwapchainStateFoveationFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFoveationProfileFB)(XrSession session, const XrFoveationProfileCreateInfoFB* createInfo, XrFoveationProfileFB* profile);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFoveationProfileFB)(XrFoveationProfileFB profile);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateFoveationProfileFB)(XrSession session, ಧ್ರುವ XrFoveationProfileCreateInfoFB* createInfo, XrFoveationProfileFB* profile);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyFoveationProfileFB)(XrFoveationProfileFB profile);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFoveationProfileFB(
     XrSession                                   session,
-    const XrFoveationProfileCreateInfoFB*       createInfo,
+    ಧ್ರುವ XrFoveationProfileCreateInfoFB*       createInfo,
     XrFoveationProfileFB*                       profile);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFoveationProfileFB(
@@ -4599,25 +4599,25 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFoveationProfileFB(
 #define XR_FB_foveation_configuration_SPEC_VERSION 1
 #define XR_FB_FOVEATION_CONFIGURATION_EXTENSION_NAME "XR_FB_foveation_configuration"
 
-typedef enum XrFoveationLevelFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFoveationLevelFB {
     XR_FOVEATION_LEVEL_NONE_FB = 0,
-    XR_FOVEATION_LEVEL_LOW_FB = 1,
+    XR_FOVEATION_LEVEL_ಕೆಳಗಿನ_FB = 1,
     XR_FOVEATION_LEVEL_MEDIUM_FB = 2,
-    XR_FOVEATION_LEVEL_HIGH_FB = 3,
+    XR_FOVEATION_LEVEL_ಮೇಲಿನ_FB = 3,
     XR_FOVEATION_LEVEL_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFoveationLevelFB;
 
-typedef enum XrFoveationDynamicFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFoveationDynamicFB {
     XR_FOVEATION_DYNAMIC_DISABLED_FB = 0,
     XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_FB = 1,
     XR_FOVEATION_DYNAMIC_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFoveationDynamicFB;
 // XrFoveationLevelProfileCreateInfoFB extends XrFoveationProfileCreateInfoFB
-typedef struct XrFoveationLevelProfileCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationLevelProfileCreateInfoFB {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrFoveationLevelFB      level;
-    float                   verticalOffset;
+    ಭಿನ್ನ                   verticalOffset;
     XrFoveationDynamicFB    dynamic;
 } XrFoveationLevelProfileCreateInfoFB;
 
@@ -4628,59 +4628,59 @@ typedef struct XrFoveationLevelProfileCreateInfoFB {
 #define XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB 128
 #define XR_FB_keyboard_tracking_SPEC_VERSION 1
 #define XR_FB_KEYBOARD_TRACKING_EXTENSION_NAME "XR_FB_keyboard_tracking"
-typedef XrFlags64 XrKeyboardTrackingFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrKeyboardTrackingFlagsFB;
 
 // Flag bits for XrKeyboardTrackingFlagsFB
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_EXISTS_BIT_FB = 0x00000001;
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_LOCAL_BIT_FB = 0x00000002;
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_REMOTE_BIT_FB = 0x00000004;
-static const XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_CONNECTED_BIT_FB = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_EXISTS_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_LOCAL_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_REMOTE_BIT_FB = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrKeyboardTrackingFlagsFB XR_KEYBOARD_TRACKING_CONNECTED_BIT_FB = 0x00000008;
 
-typedef XrFlags64 XrKeyboardTrackingQueryFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrKeyboardTrackingQueryFlagsFB;
 
 // Flag bits for XrKeyboardTrackingQueryFlagsFB
-static const XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_LOCAL_BIT_FB = 0x00000002;
-static const XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_REMOTE_BIT_FB = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_LOCAL_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_REMOTE_BIT_FB = 0x00000004;
 
 // XrSystemKeyboardTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemKeyboardTrackingPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemKeyboardTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsKeyboardTracking;
 } XrSystemKeyboardTrackingPropertiesFB;
 
-typedef struct XrKeyboardTrackingDescriptionFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrKeyboardTrackingDescriptionFB {
     uint64_t                     trackedKeyboardId;
     XrVector3f                   size;
     XrKeyboardTrackingFlagsFB    flags;
-    char                         name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
+    ವರ್ಣ                         name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
 } XrKeyboardTrackingDescriptionFB;
 
-typedef struct XrKeyboardSpaceCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrKeyboardSpaceCreateInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint64_t              trackedKeyboardId;
 } XrKeyboardSpaceCreateInfoFB;
 
-typedef struct XrKeyboardTrackingQueryFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrKeyboardTrackingQueryFB {
     XrStructureType                   type;
-    void* XR_MAY_ALIAS                next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                next;
     XrKeyboardTrackingQueryFlagsFB    flags;
 } XrKeyboardTrackingQueryFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySystemTrackedKeyboardFB)(XrSession session, const XrKeyboardTrackingQueryFB* queryInfo, XrKeyboardTrackingDescriptionFB* keyboard);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateKeyboardSpaceFB)(XrSession session, const XrKeyboardSpaceCreateInfoFB* createInfo, XrSpace* keyboardSpace);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQuerySystemTrackedKeyboardFB)(XrSession session, ಧ್ರುವ XrKeyboardTrackingQueryFB* queryInfo, XrKeyboardTrackingDescriptionFB* keyboard);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateKeyboardSpaceFB)(XrSession session, ಧ್ರುವ XrKeyboardSpaceCreateInfoFB* createInfo, XrSpace* keyboardSpace);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySystemTrackedKeyboardFB(
     XrSession                                   session,
-    const XrKeyboardTrackingQueryFB*            queryInfo,
+    ಧ್ರುವ XrKeyboardTrackingQueryFB*            queryInfo,
     XrKeyboardTrackingDescriptionFB*            keyboard);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateKeyboardSpaceFB(
     XrSession                                   session,
-    const XrKeyboardSpaceCreateInfoFB*          createInfo,
+    ಧ್ರುವ XrKeyboardSpaceCreateInfoFB*          createInfo,
     XrSpace*                                    keyboardSpace);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -4692,42 +4692,42 @@ XR_DEFINE_HANDLE(XrTriangleMeshFB)
 #define XR_FB_triangle_mesh_SPEC_VERSION  2
 #define XR_FB_TRIANGLE_MESH_EXTENSION_NAME "XR_FB_triangle_mesh"
 
-typedef enum XrWindingOrderFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrWindingOrderFB {
     XR_WINDING_ORDER_UNKNOWN_FB = 0,
     XR_WINDING_ORDER_CW_FB = 1,
     XR_WINDING_ORDER_CCW_FB = 2,
     XR_WINDING_ORDER_MAX_ENUM_FB = 0x7FFFFFFF
 } XrWindingOrderFB;
-typedef XrFlags64 XrTriangleMeshFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrTriangleMeshFlagsFB;
 
 // Flag bits for XrTriangleMeshFlagsFB
-static const XrTriangleMeshFlagsFB XR_TRIANGLE_MESH_MUTABLE_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrTriangleMeshFlagsFB XR_TRIANGLE_MESH_MUTABLE_BIT_FB = 0x00000001;
 
-typedef struct XrTriangleMeshCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTriangleMeshCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTriangleMeshFlagsFB       flags;
     XrWindingOrderFB            windingOrder;
-    uint32_t                    vertexCount;
-    const XrVector3f*           vertexBuffer;
-    uint32_t                    triangleCount;
-    const uint32_t*             indexBuffer;
+    uint32_t                    vertex_ಎಣಿಕೆ;
+    ಧ್ರುವ XrVector3f*           vertexBuffer;
+    uint32_t                    triangle_ಎಣಿಕೆ;
+    ಧ್ರುವ uint32_t*             indexBuffer;
 } XrTriangleMeshCreateInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTriangleMeshFB)(XrSession session, const XrTriangleMeshCreateInfoFB* createInfo, XrTriangleMeshFB* outTriangleMesh);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyTriangleMeshFB)(XrTriangleMeshFB mesh);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetVertexBufferFB)(XrTriangleMeshFB mesh, XrVector3f** outVertexBuffer);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetIndexBufferFB)(XrTriangleMeshFB mesh, uint32_t** outIndexBuffer);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginUpdateFB)(XrTriangleMeshFB mesh);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndUpdateFB)(XrTriangleMeshFB mesh, uint32_t vertexCount, uint32_t triangleCount);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginVertexBufferUpdateFB)(XrTriangleMeshFB mesh, uint32_t* outVertexCount);
-typedef XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndVertexBufferUpdateFB)(XrTriangleMeshFB mesh);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateTriangleMeshFB)(XrSession session, ಧ್ರುವ XrTriangleMeshCreateInfoFB* createInfo, XrTriangleMeshFB* outTriangleMesh);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyTriangleMeshFB)(XrTriangleMeshFB mesh);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetVertexBufferFB)(XrTriangleMeshFB mesh, XrVector3f** outVertexBuffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrTriangleMeshGetIndexBufferFB)(XrTriangleMeshFB mesh, uint32_t** outIndexBuffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginUpdateFB)(XrTriangleMeshFB mesh);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndUpdateFB)(XrTriangleMeshFB mesh, uint32_t vertex_ಎಣಿಕೆ, uint32_t triangle_ಎಣಿಕೆ);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrTriangleMeshBeginVertexBufferUpdateFB)(XrTriangleMeshFB mesh, uint32_t* out_Vertex_ಎಣಿಕೆ);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrTriangleMeshEndVertexBufferUpdateFB)(XrTriangleMeshFB mesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTriangleMeshFB(
     XrSession                                   session,
-    const XrTriangleMeshCreateInfoFB*           createInfo,
+    ಧ್ರುವ XrTriangleMeshCreateInfoFB*           createInfo,
     XrTriangleMeshFB*                           outTriangleMesh);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyTriangleMeshFB(
@@ -4746,12 +4746,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshBeginUpdateFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshEndUpdateFB(
     XrTriangleMeshFB                            mesh,
-    uint32_t                                    vertexCount,
-    uint32_t                                    triangleCount);
+    uint32_t                                    vertex_ಎಣಿಕೆ,
+    uint32_t                                    triangle_ಎಣಿಕೆ);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshBeginVertexBufferUpdateFB(
     XrTriangleMeshFB                            mesh,
-    uint32_t*                                   outVertexCount);
+    uint32_t*                                   out_Vertex_ಎಣಿಕೆ);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrTriangleMeshEndVertexBufferUpdateFB(
     XrTriangleMeshFB                            mesh);
@@ -4768,73 +4768,73 @@ XR_DEFINE_HANDLE(XrGeometryInstanceFB)
 #define XR_FB_passthrough_SPEC_VERSION    5
 #define XR_FB_PASSTHROUGH_EXTENSION_NAME  "XR_FB_passthrough"
 
-typedef enum XrPassthroughLayerPurposeFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPassthroughLayerPurposeFB {
     XR_PASSTHROUGH_LAYER_PURPOSE_RECONSTRUCTION_FB = 0,
     XR_PASSTHROUGH_LAYER_PURPOSE_PROJECTED_FB = 1,
     XR_PASSTHROUGH_LAYER_PURPOSE_TRACKED_KEYBOARD_HANDS_FB = 1000203001,
     XR_PASSTHROUGH_LAYER_PURPOSE_TRACKED_KEYBOARD_MASKED_HANDS_FB = 1000203002,
     XR_PASSTHROUGH_LAYER_PURPOSE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrPassthroughLayerPurposeFB;
-typedef XrFlags64 XrPassthroughCapabilityFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPassthroughCapabilityFlagsFB;
 
 // Flag bits for XrPassthroughCapabilityFlagsFB
-static const XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_BIT_FB = 0x00000001;
-static const XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_COLOR_BIT_FB = 0x00000002;
-static const XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_LAYER_DEPTH_BIT_FB = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_COLOR_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughCapabilityFlagsFB XR_PASSTHROUGH_CAPABILITY_LAYER_DEPTH_BIT_FB = 0x00000004;
 
-typedef XrFlags64 XrPassthroughFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPassthroughFlagsFB;
 
 // Flag bits for XrPassthroughFlagsFB
-static const XrPassthroughFlagsFB XR_PASSTHROUGH_IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001;
-static const XrPassthroughFlagsFB XR_PASSTHROUGH_LAYER_DEPTH_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughFlagsFB XR_PASSTHROUGH_IS_RUNNING_AT_CREATION_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughFlagsFB XR_PASSTHROUGH_LAYER_DEPTH_BIT_FB = 0x00000002;
 
-typedef XrFlags64 XrPassthroughStateChangedFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPassthroughStateChangedFlagsFB;
 
 // Flag bits for XrPassthroughStateChangedFlagsFB
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_REINIT_REQUIRED_BIT_FB = 0x00000001;
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_NON_RECOVERABLE_ERROR_BIT_FB = 0x00000002;
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RECOVERABLE_ERROR_BIT_FB = 0x00000004;
-static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RESTORED_ERROR_BIT_FB = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_REINIT_REQUIRED_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_NON_RECOVERABLE_ERROR_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RECOVERABLE_ERROR_BIT_FB = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RESTORED_ERROR_BIT_FB = 0x00000008;
 
 // XrSystemPassthroughPropertiesFB extends XrSystemProperties
-typedef struct XrSystemPassthroughPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPassthroughPropertiesFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    supportsPassthrough;
 } XrSystemPassthroughPropertiesFB;
 
 // XrSystemPassthroughProperties2FB extends XrSystemProperties
-typedef struct XrSystemPassthroughProperties2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPassthroughProperties2FB {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrPassthroughCapabilityFlagsFB    capabilities;
 } XrSystemPassthroughProperties2FB;
 
-typedef struct XrPassthroughCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPassthroughFlagsFB        flags;
 } XrPassthroughCreateInfoFB;
 
-typedef struct XrPassthroughLayerCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughLayerCreateInfoFB {
     XrStructureType                type;
-    const void* XR_MAY_ALIAS       next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS       next;
     XrPassthroughFB                passthrough;
     XrPassthroughFlagsFB           flags;
     XrPassthroughLayerPurposeFB    purpose;
 } XrPassthroughLayerCreateInfoFB;
 
-typedef struct XrCompositionLayerPassthroughFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerPassthroughFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     flags;
     XrSpace                     space;
     XrPassthroughLayerFB        layerHandle;
 } XrCompositionLayerPassthroughFB;
 
-typedef struct XrGeometryInstanceCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeometryInstanceCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPassthroughLayerFB        layer;
     XrTriangleMeshFB            mesh;
     XrSpace                     baseSpace;
@@ -4842,69 +4842,69 @@ typedef struct XrGeometryInstanceCreateInfoFB {
     XrVector3f                  scale;
 } XrGeometryInstanceCreateInfoFB;
 
-typedef struct XrGeometryInstanceTransformFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeometryInstanceTransformFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     pose;
     XrVector3f                  scale;
 } XrGeometryInstanceTransformFB;
 
-typedef struct XrPassthroughStyleFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughStyleFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       textureOpacityFactor;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       textureOpacityFactor;
     XrColor4f                   edgeColor;
 } XrPassthroughStyleFB;
 
 // XrPassthroughColorMapMonoToRgbaFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapMonoToRgbaFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorMapMonoToRgbaFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrColor4f                   textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
 } XrPassthroughColorMapMonoToRgbaFB;
 
 // XrPassthroughColorMapMonoToMonoFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapMonoToMonoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorMapMonoToMonoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint8_t                     textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
 } XrPassthroughColorMapMonoToMonoFB;
 
 // XrPassthroughBrightnessContrastSaturationFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughBrightnessContrastSaturationFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughBrightnessContrastSaturationFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       brightness;
-    float                       contrast;
-    float                       saturation;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       brightness;
+    ಭಿನ್ನ                       contrast;
+    ಭಿನ್ನ                       saturation;
 } XrPassthroughBrightnessContrastSaturationFB;
 
-typedef struct XrEventDataPassthroughStateChangedFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataPassthroughStateChangedFB {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrPassthroughStateChangedFlagsFB    flags;
 } XrEventDataPassthroughStateChangedFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughFB)(XrSession session, const XrPassthroughCreateInfoFB* createInfo, XrPassthroughFB* outPassthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughFB)(XrPassthroughFB passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughStartFB)(XrPassthroughFB passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughPauseFB)(XrPassthroughFB passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerFB)(XrSession session, const XrPassthroughLayerCreateInfoFB* createInfo, XrPassthroughLayerFB* outLayer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerFB)(XrPassthroughLayerFB layer);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerPauseFB)(XrPassthroughLayerFB layer);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerResumeFB)(XrPassthroughLayerFB layer);
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetStyleFB)(XrPassthroughLayerFB layer, const XrPassthroughStyleFB* style);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateGeometryInstanceFB)(XrSession session, const XrGeometryInstanceCreateInfoFB* createInfo, XrGeometryInstanceFB* outGeometryInstance);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyGeometryInstanceFB)(XrGeometryInstanceFB instance);
-typedef XrResult (XRAPI_PTR *PFN_xrGeometryInstanceSetTransformFB)(XrGeometryInstanceFB instance, const XrGeometryInstanceTransformFB* transformation);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreatePassthroughFB)(XrSession session, ಧ್ರುವ XrPassthroughCreateInfoFB* createInfo, XrPassthroughFB* outPassthrough);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughFB)(XrPassthroughFB passthrough);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPassthroughStartFB)(XrPassthroughFB passthrough);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPassthroughPauseFB)(XrPassthroughFB passthrough);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerFB)(XrSession session, ಧ್ರುವ XrPassthroughLayerCreateInfoFB* createInfo, XrPassthroughLayerFB* outLayer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerFB)(XrPassthroughLayerFB layer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPassthroughLayerPauseFB)(XrPassthroughLayerFB layer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPassthroughLayerResumeFB)(XrPassthroughLayerFB layer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetStyleFB)(XrPassthroughLayerFB layer, ಧ್ರುವ XrPassthroughStyleFB* style);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateGeometryInstanceFB)(XrSession session, ಧ್ರುವ XrGeometryInstanceCreateInfoFB* createInfo, XrGeometryInstanceFB* outGeometryInstance);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyGeometryInstanceFB)(XrGeometryInstanceFB instance);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGeometryInstanceSetTransformFB)(XrGeometryInstanceFB instance, ಧ್ರುವ XrGeometryInstanceTransformFB* transformation);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughFB(
     XrSession                                   session,
-    const XrPassthroughCreateInfoFB*            createInfo,
+    ಧ್ರುವ XrPassthroughCreateInfoFB*            createInfo,
     XrPassthroughFB*                            outPassthrough);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughFB(
@@ -4918,7 +4918,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughPauseFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughLayerFB(
     XrSession                                   session,
-    const XrPassthroughLayerCreateInfoFB*       createInfo,
+    ಧ್ರುವ XrPassthroughLayerCreateInfoFB*       createInfo,
     XrPassthroughLayerFB*                       outLayer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughLayerFB(
@@ -4932,11 +4932,11 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerResumeFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerSetStyleFB(
     XrPassthroughLayerFB                        layer,
-    const XrPassthroughStyleFB*                 style);
+    ಧ್ರುವ XrPassthroughStyleFB*                 style);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateGeometryInstanceFB(
     XrSession                                   session,
-    const XrGeometryInstanceCreateInfoFB*       createInfo,
+    ಧ್ರುವ XrGeometryInstanceCreateInfoFB*       createInfo,
     XrGeometryInstanceFB*                       outGeometryInstance);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeometryInstanceFB(
@@ -4944,7 +4944,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeometryInstanceFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGeometryInstanceSetTransformFB(
     XrGeometryInstanceFB                        instance,
-    const XrGeometryInstanceTransformFB*        transformation);
+    ಧ್ರುವ XrGeometryInstanceTransformFB*        transformation);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -4952,72 +4952,72 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGeometryInstanceSetTransformFB(
 // XR_FB_render_model is a preprocessor guard. Do not pass it to API calls.
 #define XR_FB_render_model 1
 
-#define XR_NULL_RENDER_MODEL_KEY_FB 0
+#define XR_NULL_RENDER_MODEL_ಕೀಲಿ_FB 0
 
-XR_DEFINE_ATOM(XrRenderModelKeyFB)
+XR_DEFINE_ATOM(Xr_Render_Model_ಕೀಲಿ_FB)
 #define XR_MAX_RENDER_MODEL_NAME_SIZE_FB  64
 #define XR_FB_render_model_SPEC_VERSION   4
 #define XR_FB_RENDER_MODEL_EXTENSION_NAME "XR_FB_render_model"
-typedef XrFlags64 XrRenderModelFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrRenderModelFlagsFB;
 
 // Flag bits for XrRenderModelFlagsFB
-static const XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_1_BIT_FB = 0x00000001;
-static const XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_2_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_1_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_2_BIT_FB = 0x00000002;
 
-typedef struct XrRenderModelPathInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelPathInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPath                path;
 } XrRenderModelPathInfoFB;
 
-typedef struct XrRenderModelPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelPropertiesFB {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     uint32_t                vendorId;
-    char                    modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
-    XrRenderModelKeyFB      modelKey;
+    ವರ್ಣ                    modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
+    Xr_Render_Model_ಕೀಲಿ_FB      model_ಕೀಲಿ;
     uint32_t                modelVersion;
     XrRenderModelFlagsFB    flags;
 } XrRenderModelPropertiesFB;
 
-typedef struct XrRenderModelBufferFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelBufferFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              bufferCapacityInput;
-    uint32_t              bufferCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              buffer_Capacity_ಒಳಹರಿವು;
+    uint32_t              buffer_ಎಣಿಕೆ_Output;
     uint8_t*              buffer;
 } XrRenderModelBufferFB;
 
-typedef struct XrRenderModelLoadInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelLoadInfoFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrRenderModelKeyFB    modelKey;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    Xr_Render_Model_ಕೀಲಿ_FB    model_ಕೀಲಿ;
 } XrRenderModelLoadInfoFB;
 
 // XrSystemRenderModelPropertiesFB extends XrSystemProperties
-typedef struct XrSystemRenderModelPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemRenderModelPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsRenderModelLoading;
 } XrSystemRenderModelPropertiesFB;
 
 // XrRenderModelCapabilitiesRequestFB extends XrRenderModelPropertiesFB
-typedef struct XrRenderModelCapabilitiesRequestFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelCapabilitiesRequestFB {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrRenderModelFlagsFB    flags;
 } XrRenderModelCapabilitiesRequestFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelPathsFB)(XrSession session, uint32_t pathCapacityInput, uint32_t* pathCountOutput, XrRenderModelPathInfoFB* paths);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesFB)(XrSession session, XrPath path, XrRenderModelPropertiesFB* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrLoadRenderModelFB)(XrSession session, const XrRenderModelLoadInfoFB* info, XrRenderModelBufferFB* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelPathsFB)(XrSession session, uint32_t path_Capacity_ಒಳಹರಿವು, uint32_t* path_ಎಣಿಕೆ_Output, XrRenderModelPathInfoFB* paths);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesFB)(XrSession session, XrPath path, XrRenderModelPropertiesFB* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLoadRenderModelFB)(XrSession session, ಧ್ರುವ XrRenderModelLoadInfoFB* info, XrRenderModelBufferFB* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateRenderModelPathsFB(
     XrSession                                   session,
-    uint32_t                                    pathCapacityInput,
-    uint32_t*                                   pathCountOutput,
+    uint32_t                                    path_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   path_ಎಣಿಕೆ_Output,
     XrRenderModelPathInfoFB*                    paths);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPropertiesFB(
@@ -5027,7 +5027,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPropertiesFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLoadRenderModelFB(
     XrSession                                   session,
-    const XrRenderModelLoadInfoFB*              info,
+    ಧ್ರುವ XrRenderModelLoadInfoFB*              info,
     XrRenderModelBufferFB*                      buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -5038,23 +5038,23 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLoadRenderModelFB(
 #define XR_VARJO_foveated_rendering_SPEC_VERSION 3
 #define XR_VARJO_FOVEATED_RENDERING_EXTENSION_NAME "XR_VARJO_foveated_rendering"
 // XrViewLocateFoveatedRenderingVARJO extends XrViewLocateInfo
-typedef struct XrViewLocateFoveatedRenderingVARJO {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrViewLocateFoveatedRenderingVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    foveatedRenderingActive;
 } XrViewLocateFoveatedRenderingVARJO;
 
 // XrFoveatedViewConfigurationViewVARJO extends XrViewConfigurationView
-typedef struct XrFoveatedViewConfigurationViewVARJO {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveatedViewConfigurationViewVARJO {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              foveatedRenderingActive;
 } XrFoveatedViewConfigurationViewVARJO;
 
 // XrSystemFoveatedRenderingPropertiesVARJO extends XrSystemProperties
-typedef struct XrSystemFoveatedRenderingPropertiesVARJO {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFoveatedRenderingPropertiesVARJO {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsFoveatedRendering;
 } XrSystemFoveatedRenderingPropertiesVARJO;
 
@@ -5065,11 +5065,11 @@ typedef struct XrSystemFoveatedRenderingPropertiesVARJO {
 #define XR_VARJO_composition_layer_depth_test_SPEC_VERSION 2
 #define XR_VARJO_COMPOSITION_LAYER_DEPTH_TEST_EXTENSION_NAME "XR_VARJO_composition_layer_depth_test"
 // XrCompositionLayerDepthTestVARJO extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerDepthTestVARJO {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerDepthTestVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       depthTestRangeNearZ;
-    float                       depthTestRangeFarZ;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       depthTestRangeNearZ;
+    ಭಿನ್ನ                       depthTestRangeFarZ;
 } XrCompositionLayerDepthTestVARJO;
 
 
@@ -5078,7 +5078,7 @@ typedef struct XrCompositionLayerDepthTestVARJO {
 #define XR_VARJO_environment_depth_estimation 1
 #define XR_VARJO_environment_depth_estimation_SPEC_VERSION 1
 #define XR_VARJO_ENVIRONMENT_DEPTH_ESTIMATION_EXTENSION_NAME "XR_VARJO_environment_depth_estimation"
-typedef XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthEstimationVARJO)(XrSession session, XrBool32 enabled);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthEstimationVARJO)(XrSession session, XrBool32 enabled);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5094,33 +5094,33 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetEnvironmentDepthEstimationVARJO(
 #define XR_VARJO_marker_tracking_SPEC_VERSION 1
 #define XR_VARJO_MARKER_TRACKING_EXTENSION_NAME "XR_VARJO_marker_tracking"
 // XrSystemMarkerTrackingPropertiesVARJO extends XrSystemProperties
-typedef struct XrSystemMarkerTrackingPropertiesVARJO {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemMarkerTrackingPropertiesVARJO {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerTracking;
 } XrSystemMarkerTrackingPropertiesVARJO;
 
-typedef struct XrEventDataMarkerTrackingUpdateVARJO {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataMarkerTrackingUpdateVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint64_t                    markerId;
     XrBool32                    isActive;
     XrBool32                    isPredicted;
     XrTime                      time;
 } XrEventDataMarkerTrackingUpdateVARJO;
 
-typedef struct XrMarkerSpaceCreateInfoVARJO {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerSpaceCreateInfoVARJO {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint64_t                    markerId;
     XrPosef                     poseInMarkerSpace;
 } XrMarkerSpaceCreateInfoVARJO;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingVARJO)(XrSession session, XrBool32 enabled);
-typedef XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingTimeoutVARJO)(XrSession session, uint64_t markerId, XrDuration timeout);
-typedef XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingPredictionVARJO)(XrSession session, uint64_t markerId, XrBool32 enable);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerSizeVARJO)(XrSession session, uint64_t markerId, XrExtent2Df* size);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceVARJO)(XrSession session, const XrMarkerSpaceCreateInfoVARJO* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingVARJO)(XrSession session, XrBool32 enabled);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingTimeoutVARJO)(XrSession session, uint64_t markerId, XrDuration timeout);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetMarkerTrackingPredictionVARJO)(XrSession session, uint64_t markerId, XrBool32 enable);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetMarkerSizeVARJO)(XrSession session, uint64_t markerId, XrExtent2Df* size);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceVARJO)(XrSession session, ಧ್ರುವ XrMarkerSpaceCreateInfoVARJO* createInfo, XrSpace* space);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5145,7 +5145,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerSizeVARJO(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerSpaceVARJO(
     XrSession                                   session,
-    const XrMarkerSpaceCreateInfoVARJO*         createInfo,
+    ಧ್ರುವ XrMarkerSpaceCreateInfoVARJO*         createInfo,
     XrSpace*                                    space);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -5155,13 +5155,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerSpaceVARJO(
 #define XR_VARJO_view_offset 1
 #define XR_VARJO_view_offset_SPEC_VERSION 1
 #define XR_VARJO_VIEW_OFFSET_EXTENSION_NAME "XR_VARJO_view_offset"
-typedef XrResult (XRAPI_PTR *PFN_xrSetViewOffsetVARJO)(XrSession session, float offset);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetViewOffsetVARJO)(XrSession session, ಭಿನ್ನ offset);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetViewOffsetVARJO(
     XrSession                                   session,
-    float                                       offset);
+    ಭಿನ್ನ                                       offset);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5182,17 +5182,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetViewOffsetVARJO(
 #define XR_ML_frame_end_info 1
 #define XR_ML_frame_end_info_SPEC_VERSION 1
 #define XR_ML_FRAME_END_INFO_EXTENSION_NAME "XR_ML_frame_end_info"
-typedef XrFlags64 XrFrameEndInfoFlagsML;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrFrameEndInfoFlagsML;
 
 // Flag bits for XrFrameEndInfoFlagsML
-static const XrFrameEndInfoFlagsML XR_FRAME_END_INFO_PROTECTED_BIT_ML = 0x00000001;
-static const XrFrameEndInfoFlagsML XR_FRAME_END_INFO_VIGNETTE_BIT_ML = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrFrameEndInfoFlagsML XR_FRAME_END_INFO_PROTECTED_BIT_ML = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrFrameEndInfoFlagsML XR_FRAME_END_INFO_VIGNETTE_BIT_ML = 0x00000002;
 
 // XrFrameEndInfoML extends XrFrameEndInfo
-typedef struct XrFrameEndInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrameEndInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       focusDistance;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       focusDistance;
     XrFrameEndInfoFlagsML       flags;
 } XrFrameEndInfoML;
 
@@ -5202,16 +5202,16 @@ typedef struct XrFrameEndInfoML {
 #define XR_ML_global_dimmer 1
 #define XR_ML_global_dimmer_SPEC_VERSION  1
 #define XR_ML_GLOBAL_DIMMER_EXTENSION_NAME "XR_ML_global_dimmer"
-typedef XrFlags64 XrGlobalDimmerFrameEndInfoFlagsML;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrGlobalDimmerFrameEndInfoFlagsML;
 
 // Flag bits for XrGlobalDimmerFrameEndInfoFlagsML
-static const XrGlobalDimmerFrameEndInfoFlagsML XR_GLOBAL_DIMMER_FRAME_END_INFO_ENABLED_BIT_ML = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrGlobalDimmerFrameEndInfoFlagsML XR_GLOBAL_DIMMER_FRAME_END_INFO_ENABLED_BIT_ML = 0x00000001;
 
 // XrGlobalDimmerFrameEndInfoML extends XrFrameEndInfo
-typedef struct XrGlobalDimmerFrameEndInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGlobalDimmerFrameEndInfoML {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
-    float                                dimmerValue;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    ಭಿನ್ನ                                dimmer_ಮೌಲ್ಯ;
     XrGlobalDimmerFrameEndInfoFlagsML    flags;
 } XrGlobalDimmerFrameEndInfoML;
 
@@ -5224,7 +5224,7 @@ XR_DEFINE_HANDLE(XrMarkerDetectorML)
 #define XR_ML_marker_understanding_SPEC_VERSION 1
 #define XR_ML_MARKER_UNDERSTANDING_EXTENSION_NAME "XR_ML_marker_understanding"
 
-typedef enum XrMarkerDetectorProfileML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerDetectorProfileML {
     XR_MARKER_DETECTOR_PROFILE_DEFAULT_ML = 0,
     XR_MARKER_DETECTOR_PROFILE_SPEED_ML = 1,
     XR_MARKER_DETECTOR_PROFILE_ACCURACY_ML = 2,
@@ -5234,7 +5234,7 @@ typedef enum XrMarkerDetectorProfileML {
     XR_MARKER_DETECTOR_PROFILE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorProfileML;
 
-typedef enum XrMarkerTypeML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerTypeML {
     XR_MARKER_TYPE_ARUCO_ML = 0,
     XR_MARKER_TYPE_APRIL_TAG_ML = 1,
     XR_MARKER_TYPE_QR_ML = 2,
@@ -5244,7 +5244,7 @@ typedef enum XrMarkerTypeML {
     XR_MARKER_TYPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerTypeML;
 
-typedef enum XrMarkerArucoDictML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerArucoDictML {
     XR_MARKER_ARUCO_DICT_4X4_50_ML = 0,
     XR_MARKER_ARUCO_DICT_4X4_100_ML = 1,
     XR_MARKER_ARUCO_DICT_4X4_250_ML = 2,
@@ -5264,7 +5264,7 @@ typedef enum XrMarkerArucoDictML {
     XR_MARKER_ARUCO_DICT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerArucoDictML;
 
-typedef enum XrMarkerAprilTagDictML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerAprilTagDictML {
     XR_MARKER_APRIL_TAG_DICT_16H5_ML = 0,
     XR_MARKER_APRIL_TAG_DICT_25H9_ML = 1,
     XR_MARKER_APRIL_TAG_DICT_36H10_ML = 2,
@@ -5272,28 +5272,28 @@ typedef enum XrMarkerAprilTagDictML {
     XR_MARKER_APRIL_TAG_DICT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerAprilTagDictML;
 
-typedef enum XrMarkerDetectorFpsML {
-    XR_MARKER_DETECTOR_FPS_LOW_ML = 0,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerDetectorFpsML {
+    XR_MARKER_DETECTOR_FPS_ಕೆಳಗಿನ_ML = 0,
     XR_MARKER_DETECTOR_FPS_MEDIUM_ML = 1,
-    XR_MARKER_DETECTOR_FPS_HIGH_ML = 2,
+    XR_MARKER_DETECTOR_FPS_ಮೇಲಿನ_ML = 2,
     XR_MARKER_DETECTOR_FPS_MAX_ML = 3,
     XR_MARKER_DETECTOR_FPS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorFpsML;
 
-typedef enum XrMarkerDetectorResolutionML {
-    XR_MARKER_DETECTOR_RESOLUTION_LOW_ML = 0,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerDetectorResolutionML {
+    XR_MARKER_DETECTOR_RESOLUTION_ಕೆಳಗಿನ_ML = 0,
     XR_MARKER_DETECTOR_RESOLUTION_MEDIUM_ML = 1,
-    XR_MARKER_DETECTOR_RESOLUTION_HIGH_ML = 2,
+    XR_MARKER_DETECTOR_RESOLUTION_ಮೇಲಿನ_ML = 2,
     XR_MARKER_DETECTOR_RESOLUTION_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorResolutionML;
 
-typedef enum XrMarkerDetectorCameraML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerDetectorCameraML {
     XR_MARKER_DETECTOR_CAMERA_RGB_CAMERA_ML = 0,
     XR_MARKER_DETECTOR_CAMERA_WORLD_CAMERAS_ML = 1,
     XR_MARKER_DETECTOR_CAMERA_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorCameraML;
 
-typedef enum XrMarkerDetectorCornerRefineMethodML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerDetectorCornerRefineMethodML {
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_NONE_ML = 0,
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_SUBPIX_ML = 1,
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_CONTOUR_ML = 2,
@@ -5301,7 +5301,7 @@ typedef enum XrMarkerDetectorCornerRefineMethodML {
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorCornerRefineMethodML;
 
-typedef enum XrMarkerDetectorFullAnalysisIntervalML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerDetectorFullAnalysisIntervalML {
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MAX_ML = 0,
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_FAST_ML = 1,
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MEDIUM_ML = 2,
@@ -5309,51 +5309,51 @@ typedef enum XrMarkerDetectorFullAnalysisIntervalML {
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorFullAnalysisIntervalML;
 
-typedef enum XrMarkerDetectorStatusML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrMarkerDetectorStatusML {
     XR_MARKER_DETECTOR_STATUS_PENDING_ML = 0,
     XR_MARKER_DETECTOR_STATUS_READY_ML = 1,
     XR_MARKER_DETECTOR_STATUS_ERROR_ML = 2,
     XR_MARKER_DETECTOR_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorStatusML;
 // XrSystemMarkerUnderstandingPropertiesML extends XrSystemProperties
-typedef struct XrSystemMarkerUnderstandingPropertiesML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemMarkerUnderstandingPropertiesML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerUnderstanding;
 } XrSystemMarkerUnderstandingPropertiesML;
 
-typedef struct XrMarkerDetectorCreateInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerDetectorCreateInfoML {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrMarkerDetectorProfileML    profile;
     XrMarkerTypeML               markerType;
 } XrMarkerDetectorCreateInfoML;
 
 // XrMarkerDetectorArucoInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorArucoInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerDetectorArucoInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrMarkerArucoDictML         arucoDict;
 } XrMarkerDetectorArucoInfoML;
 
 // XrMarkerDetectorSizeInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorSizeInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerDetectorSizeInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       markerLength;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       markerLength;
 } XrMarkerDetectorSizeInfoML;
 
 // XrMarkerDetectorAprilTagInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorAprilTagInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerDetectorAprilTagInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrMarkerAprilTagDictML      aprilTagDict;
 } XrMarkerDetectorAprilTagInfoML;
 
 // XrMarkerDetectorCustomProfileInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorCustomProfileInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerDetectorCustomProfileInfoML {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
     XrMarkerDetectorFpsML                     fpsHint;
     XrMarkerDetectorResolutionML              resolutionHint;
     XrMarkerDetectorCameraML                  cameraHint;
@@ -5362,41 +5362,41 @@ typedef struct XrMarkerDetectorCustomProfileInfoML {
     XrMarkerDetectorFullAnalysisIntervalML    fullAnalysisIntervalHint;
 } XrMarkerDetectorCustomProfileInfoML;
 
-typedef struct XrMarkerDetectorSnapshotInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerDetectorSnapshotInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrMarkerDetectorSnapshotInfoML;
 
-typedef struct XrMarkerDetectorStateML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerDetectorStateML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrMarkerDetectorStatusML    state;
 } XrMarkerDetectorStateML;
 
-typedef struct XrMarkerSpaceCreateInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMarkerSpaceCreateInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrMarkerDetectorML          markerDetector;
     XrMarkerML                  marker;
     XrPosef                     poseInMarkerSpace;
 } XrMarkerSpaceCreateInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateMarkerDetectorML)(XrSession session, const XrMarkerDetectorCreateInfoML* createInfo, XrMarkerDetectorML* markerDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyMarkerDetectorML)(XrMarkerDetectorML markerDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrSnapshotMarkerDetectorML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorSnapshotInfoML* snapshotInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerDetectorStateML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorStateML* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkersML)(XrMarkerDetectorML markerDetector, uint32_t markerCapacityInput, uint32_t* markerCountOutput, XrMarkerML* markers);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerReprojectionErrorML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, float* reprojectionErrorMeters);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerLengthML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, float* meters);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerNumberML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint64_t* number);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerStringML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceML)(XrSession session, const XrMarkerSpaceCreateInfoML* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateMarkerDetectorML)(XrSession session, ಧ್ರುವ XrMarkerDetectorCreateInfoML* createInfo, XrMarkerDetectorML* markerDetector);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyMarkerDetectorML)(XrMarkerDetectorML markerDetector);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSnapshotMarkerDetectorML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorSnapshotInfoML* snapshotInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetMarkerDetectorStateML)(XrMarkerDetectorML markerDetector, XrMarkerDetectorStateML* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetMarkersML)(XrMarkerDetectorML markerDetector, uint32_t marker_Capacity_ಒಳಹರಿವು, uint32_t* marker_ಎಣಿಕೆ_Output, XrMarkerML* markers);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetMarkerReprojectionErrorML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, ಭಿನ್ನ* reprojectionErrorMeters);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetMarkerLengthML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, ಭಿನ್ನ* meters);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Get_Marker_ಸಂಖ್ಯೆ_ML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint64_t* ಸಂಖ್ಯೆ_2);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetMarkerStringML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, ವರ್ಣ* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceML)(XrSession session, ಧ್ರುವ XrMarkerSpaceCreateInfoML* createInfo, XrSpace* space);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerDetectorML(
     XrSession                                   session,
-    const XrMarkerDetectorCreateInfoML*         createInfo,
+    ಧ್ರುವ XrMarkerDetectorCreateInfoML*         createInfo,
     XrMarkerDetectorML*                         markerDetector);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyMarkerDetectorML(
@@ -5412,35 +5412,35 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerDetectorStateML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkersML(
     XrMarkerDetectorML                          markerDetector,
-    uint32_t                                    markerCapacityInput,
-    uint32_t*                                   markerCountOutput,
+    uint32_t                                    marker_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   marker_ಎಣಿಕೆ_Output,
     XrMarkerML*                                 markers);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerReprojectionErrorML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    float*                                      reprojectionErrorMeters);
+    ಭಿನ್ನ*                                      reprojectionErrorMeters);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerLengthML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    float*                                      meters);
+    ಭಿನ್ನ*                                      meters);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerNumberML(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Marker_ಸಂಖ್ಯೆ_ML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    uint64_t*                                   number);
+    uint64_t*                                   ಸಂಖ್ಯೆ_2);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerStringML(
     XrMarkerDetectorML                          markerDetector,
     XrMarkerML                                  marker,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
+    ವರ್ಣ*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerSpaceML(
     XrSession                                   session,
-    const XrMarkerSpaceCreateInfoML*            createInfo,
+    ಧ್ರುವ XrMarkerSpaceCreateInfoML*            createInfo,
     XrSpace*                                    space);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -5453,7 +5453,7 @@ XR_DEFINE_HANDLE(XrExportedLocalizationMapML)
 #define XR_ML_localization_map_SPEC_VERSION 1
 #define XR_ML_LOCALIZATION_MAP_EXTENSION_NAME "XR_ML_localization_map"
 
-typedef enum XrLocalizationMapStateML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrLocalizationMapStateML {
     XR_LOCALIZATION_MAP_STATE_NOT_LOCALIZED_ML = 0,
     XR_LOCALIZATION_MAP_STATE_LOCALIZED_ML = 1,
     XR_LOCALIZATION_MAP_STATE_LOCALIZATION_PENDING_ML = 2,
@@ -5461,40 +5461,40 @@ typedef enum XrLocalizationMapStateML {
     XR_LOCALIZATION_MAP_STATE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapStateML;
 
-typedef enum XrLocalizationMapTypeML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrLocalizationMapTypeML {
     XR_LOCALIZATION_MAP_TYPE_ON_DEVICE_ML = 0,
     XR_LOCALIZATION_MAP_TYPE_CLOUD_ML = 1,
     XR_LOCALIZATION_MAP_TYPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapTypeML;
 
-typedef enum XrLocalizationMapConfidenceML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrLocalizationMapConfidenceML {
     XR_LOCALIZATION_MAP_CONFIDENCE_POOR_ML = 0,
     XR_LOCALIZATION_MAP_CONFIDENCE_FAIR_ML = 1,
     XR_LOCALIZATION_MAP_CONFIDENCE_GOOD_ML = 2,
     XR_LOCALIZATION_MAP_CONFIDENCE_EXCELLENT_ML = 3,
     XR_LOCALIZATION_MAP_CONFIDENCE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapConfidenceML;
-typedef XrFlags64 XrLocalizationMapErrorFlagsML;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrLocalizationMapErrorFlagsML;
 
 // Flag bits for XrLocalizationMapErrorFlagsML
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_UNKNOWN_BIT_ML = 0x00000001;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_OUT_OF_MAPPED_AREA_BIT_ML = 0x00000002;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_LOW_FEATURE_COUNT_BIT_ML = 0x00000004;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_EXCESSIVE_MOTION_BIT_ML = 0x00000008;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_LOW_LIGHT_BIT_ML = 0x00000010;
-static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_HEADPOSE_BIT_ML = 0x00000020;
+ಸ್ಥಿರ ಧ್ರುವ XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_UNKNOWN_BIT_ML = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_OUT_OF_MAPPED_AREA_BIT_ML = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_ಕೆಳಗಿನ_FEATURE_ಎಣಿಕೆ_BIT_ML = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_EXCESSIVE_MOTION_BIT_ML = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_ಕೆಳಗಿನ_LIGHT_BIT_ML = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_HEADPOSE_BIT_ML = 0x00000020;
 
-typedef struct XrLocalizationMapML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLocalizationMapML {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    char                       name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
+    ವರ್ಣ                       name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
     XrUuidEXT                  mapUuid;
     XrLocalizationMapTypeML    mapType;
 } XrLocalizationMapML;
 
-typedef struct XrEventDataLocalizationChangedML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataLocalizationChangedML {
      XrStructureType                 type;
-    const void* XR_MAY_ALIAS         next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrSession                        session;
     XrLocalizationMapStateML         state;
     XrLocalizationMapML              map;
@@ -5502,63 +5502,63 @@ typedef struct XrEventDataLocalizationChangedML {
     XrLocalizationMapErrorFlagsML    errorFlags;
 } XrEventDataLocalizationChangedML;
 
-typedef struct XrLocalizationMapQueryInfoBaseHeaderML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLocalizationMapQueryInfoBaseHeaderML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrLocalizationMapQueryInfoBaseHeaderML;
 
-typedef struct XrMapLocalizationRequestInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrMapLocalizationRequestInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidEXT                   mapUuid;
 } XrMapLocalizationRequestInfoML;
 
-typedef struct XrLocalizationMapImportInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLocalizationMapImportInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t                    size;
-    char*                       data;
+    ವರ್ಣ*                       data;
 } XrLocalizationMapImportInfoML;
 
-typedef struct XrLocalizationEnableEventsInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLocalizationEnableEventsInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrLocalizationEnableEventsInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnableLocalizationEventsML)(XrSession session, const XrLocalizationEnableEventsInfoML * info);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryLocalizationMapsML)(XrSession session, const XrLocalizationMapQueryInfoBaseHeaderML* queryInfo, uint32_t mapCapacityInput, uint32_t * mapCountOutput, XrLocalizationMapML* maps);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestMapLocalizationML)(XrSession session, const XrMapLocalizationRequestInfoML* requestInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrImportLocalizationMapML)(XrSession session, const XrLocalizationMapImportInfoML* importInfo, XrUuidEXT* mapUuid);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateExportedLocalizationMapML)(XrSession session, const XrUuidEXT* mapUuid, XrExportedLocalizationMapML* map);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyExportedLocalizationMapML)(XrExportedLocalizationMapML map);
-typedef XrResult (XRAPI_PTR *PFN_xrGetExportedLocalizationMapDataML)(XrExportedLocalizationMapML map, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnableLocalizationEventsML)(XrSession session, ಧ್ರುವ XrLocalizationEnableEventsInfoML * info);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQueryLocalizationMapsML)(XrSession session, ಧ್ರುವ XrLocalizationMapQueryInfoBaseHeaderML* queryInfo, uint32_t map_Capacity_ಒಳಹರಿವು, uint32_t * map_ಎಣಿಕೆ_Output, XrLocalizationMapML* maps);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestMapLocalizationML)(XrSession session, ಧ್ರುವ XrMapLocalizationRequestInfoML* requestInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrImportLocalizationMapML)(XrSession session, ಧ್ರುವ XrLocalizationMapImportInfoML* importInfo, XrUuidEXT* mapUuid);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateExportedLocalizationMapML)(XrSession session, ಧ್ರುವ XrUuidEXT* mapUuid, XrExportedLocalizationMapML* map);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyExportedLocalizationMapML)(XrExportedLocalizationMapML map);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetExportedLocalizationMapDataML)(XrExportedLocalizationMapML map, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, ವರ್ಣ* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnableLocalizationEventsML(
     XrSession                                   session,
-    const XrLocalizationEnableEventsInfoML *    info);
+    ಧ್ರುವ XrLocalizationEnableEventsInfoML *    info);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQueryLocalizationMapsML(
     XrSession                                   session,
-    const XrLocalizationMapQueryInfoBaseHeaderML* queryInfo,
-    uint32_t                                    mapCapacityInput,
-    uint32_t *                                  mapCountOutput,
+    ಧ್ರುವ XrLocalizationMapQueryInfoBaseHeaderML* queryInfo,
+    uint32_t                                    map_Capacity_ಒಳಹರಿವು,
+    uint32_t *                                  map_ಎಣಿಕೆ_Output,
     XrLocalizationMapML*                        maps);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestMapLocalizationML(
     XrSession                                   session,
-    const XrMapLocalizationRequestInfoML*       requestInfo);
+    ಧ್ರುವ XrMapLocalizationRequestInfoML*       requestInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrImportLocalizationMapML(
     XrSession                                   session,
-    const XrLocalizationMapImportInfoML*        importInfo,
+    ಧ್ರುವ XrLocalizationMapImportInfoML*        importInfo,
     XrUuidEXT*                                  mapUuid);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateExportedLocalizationMapML(
     XrSession                                   session,
-    const XrUuidEXT*                            mapUuid,
+    ಧ್ರುವ XrUuidEXT*                            mapUuid,
     XrExportedLocalizationMapML*                map);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyExportedLocalizationMapML(
@@ -5566,9 +5566,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyExportedLocalizationMapML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetExportedLocalizationMapDataML(
     XrExportedLocalizationMapML                 map,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
+    ವರ್ಣ*                                       buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5579,48 +5579,48 @@ XR_DEFINE_OPAQUE_64(XrFutureEXT)
 #define XR_ML_spatial_anchors_SPEC_VERSION 1
 #define XR_ML_SPATIAL_ANCHORS_EXTENSION_NAME "XR_ML_spatial_anchors"
 
-typedef enum XrSpatialAnchorConfidenceML {
-    XR_SPATIAL_ANCHOR_CONFIDENCE_LOW_ML = 0,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialAnchorConfidenceML {
+    XR_SPATIAL_ANCHOR_CONFIDENCE_ಕೆಳಗಿನ_ML = 0,
     XR_SPATIAL_ANCHOR_CONFIDENCE_MEDIUM_ML = 1,
-    XR_SPATIAL_ANCHOR_CONFIDENCE_HIGH_ML = 2,
+    XR_SPATIAL_ANCHOR_CONFIDENCE_ಮೇಲಿನ_ML = 2,
     XR_SPATIAL_ANCHOR_CONFIDENCE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrSpatialAnchorConfidenceML;
-typedef struct XR_MAY_ALIAS XrSpatialAnchorsCreateInfoBaseHeaderML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSpatialAnchorsCreateInfoBaseHeaderML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsCreateInfoBaseHeaderML;
 
-typedef struct XrSpatialAnchorsCreateInfoFromPoseML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsCreateInfoFromPoseML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrPosef                     poseInBaseSpace;
     XrTime                      time;
 } XrSpatialAnchorsCreateInfoFromPoseML;
 
-typedef struct XrCreateSpatialAnchorsCompletionML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateSpatialAnchorsCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
-    uint32_t              spaceCount;
+    uint32_t              space_ಎಣಿಕೆ;
     XrSpace*              spaces;
 } XrCreateSpatialAnchorsCompletionML;
 
-typedef struct XrSpatialAnchorStateML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorStateML {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrSpatialAnchorConfidenceML    confidence;
 } XrSpatialAnchorStateML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsAsyncML)(XrSession session, const XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsCompleteML)(XrSession session, XrFutureEXT future, XrCreateSpatialAnchorsCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorStateML)(XrSpace anchor, XrSpatialAnchorStateML* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsAsyncML)(XrSession session, ಧ್ರುವ XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsCompleteML)(XrSession session, XrFutureEXT future, XrCreateSpatialAnchorsCompletionML* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorStateML)(XrSpace anchor, XrSpatialAnchorStateML* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorsAsyncML(
     XrSession                                   session,
-    const XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo,
+    ಧ್ರುವ XrSpatialAnchorsCreateInfoBaseHeaderML* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorsCompleteML(
@@ -5640,130 +5640,130 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialAnchorStateML(
 XR_DEFINE_HANDLE(XrSpatialAnchorsStorageML)
 #define XR_ML_spatial_anchors_storage_SPEC_VERSION 1
 #define XR_ML_SPATIAL_ANCHORS_STORAGE_EXTENSION_NAME "XR_ML_spatial_anchors_storage"
-typedef struct XrSpatialAnchorsCreateStorageInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsCreateStorageInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsCreateStorageInfoML;
 
-typedef struct XR_MAY_ALIAS XrSpatialAnchorsQueryInfoBaseHeaderML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSpatialAnchorsQueryInfoBaseHeaderML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsQueryInfoBaseHeaderML;
 
-typedef struct XrSpatialAnchorsQueryInfoRadiusML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsQueryInfoRadiusML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrVector3f                  center;
     XrTime                      time;
-    float                       radius;
+    ಭಿನ್ನ                       radius;
 } XrSpatialAnchorsQueryInfoRadiusML;
 
-typedef struct XrSpatialAnchorsQueryCompletionML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsQueryCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
-    uint32_t              uuidCapacityInput;
-    uint32_t              uuidCountOutput;
+    uint32_t              uuid_Capacity_ಒಳಹರಿವು;
+    uint32_t              uuid_ಎಣಿಕೆ_Output;
     XrUuidEXT*            uuids;
 } XrSpatialAnchorsQueryCompletionML;
 
-typedef struct XrSpatialAnchorsCreateInfoFromUuidsML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsCreateInfoFromUuidsML {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrSpatialAnchorsStorageML    storage;
-    uint32_t                     uuidCount;
-    const XrUuidEXT*             uuids;
+    uint32_t                     uuid_ಎಣಿಕೆ;
+    ಧ್ರುವ XrUuidEXT*             uuids;
 } XrSpatialAnchorsCreateInfoFromUuidsML;
 
-typedef struct XrSpatialAnchorsPublishInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsPublishInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    anchorCount;
-    const XrSpace*              anchors;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    anchor_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpace*              anchors;
     uint64_t                    expiration;
 } XrSpatialAnchorsPublishInfoML;
 
-typedef struct XrSpatialAnchorsPublishCompletionML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsPublishCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
-    uint32_t              uuidCount;
+    uint32_t              uuid_ಎಣಿಕೆ;
     XrUuidEXT*            uuids;
 } XrSpatialAnchorsPublishCompletionML;
 
-typedef struct XrSpatialAnchorsDeleteInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsDeleteInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_ಎಣಿಕೆ;
+    ಧ್ರುವ XrUuidEXT*            uuids;
 } XrSpatialAnchorsDeleteInfoML;
 
-typedef struct XrSpatialAnchorsDeleteCompletionML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsDeleteCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrSpatialAnchorsDeleteCompletionML;
 
-typedef struct XrSpatialAnchorsUpdateExpirationInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsUpdateExpirationInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_ಎಣಿಕೆ;
+    ಧ್ರುವ XrUuidEXT*            uuids;
     uint64_t                    expiration;
 } XrSpatialAnchorsUpdateExpirationInfoML;
 
-typedef struct XrSpatialAnchorsUpdateExpirationCompletionML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsUpdateExpirationCompletionML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrSpatialAnchorsUpdateExpirationCompletionML;
 
-typedef struct XrSpatialAnchorCompletionResultML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorCompletionResultML {
     XrUuidEXT    uuid;
     XrResult     result;
 } XrSpatialAnchorCompletionResultML;
 
 // XrSpatialAnchorsPublishCompletionDetailsML extends XrSpatialAnchorsPublishCompletionML
-typedef struct XrSpatialAnchorsPublishCompletionDetailsML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsPublishCompletionDetailsML {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              resultCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
+    uint32_t                              result_ಎಣಿಕೆ;
     XrSpatialAnchorCompletionResultML*    results;
 } XrSpatialAnchorsPublishCompletionDetailsML;
 
 // XrSpatialAnchorsDeleteCompletionDetailsML extends XrSpatialAnchorsDeleteCompletionML
-typedef struct XrSpatialAnchorsDeleteCompletionDetailsML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsDeleteCompletionDetailsML {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              resultCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
+    uint32_t                              result_ಎಣಿಕೆ;
     XrSpatialAnchorCompletionResultML*    results;
 } XrSpatialAnchorsDeleteCompletionDetailsML;
 
 // XrSpatialAnchorsUpdateExpirationCompletionDetailsML extends XrSpatialAnchorsUpdateExpirationCompletionML
-typedef struct XrSpatialAnchorsUpdateExpirationCompletionDetailsML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorsUpdateExpirationCompletionDetailsML {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              resultCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
+    uint32_t                              result_ಎಣಿಕೆ;
     XrSpatialAnchorCompletionResultML*    results;
 } XrSpatialAnchorsUpdateExpirationCompletionDetailsML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsStorageML)(XrSession session, const XrSpatialAnchorsCreateStorageInfoML* createInfo, XrSpatialAnchorsStorageML* storage);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorsStorageML)(XrSpatialAnchorsStorageML storage);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsQueryCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsPublishInfoML* publishInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsPublishCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsDeleteInfoML* deleteInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsDeleteCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationAsyncML)(XrSpatialAnchorsStorageML storage, const XrSpatialAnchorsUpdateExpirationInfoML* updateInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsUpdateExpirationCompletionML* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorsStorageML)(XrSession session, ಧ್ರುವ XrSpatialAnchorsCreateStorageInfoML* createInfo, XrSpatialAnchorsStorageML* storage);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorsStorageML)(XrSpatialAnchorsStorageML storage);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, ಧ್ರುವ XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQuerySpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsQueryCompletionML* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, ಧ್ರುವ XrSpatialAnchorsPublishInfoML* publishInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPublishSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsPublishCompletionML* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsAsyncML)(XrSpatialAnchorsStorageML storage, ಧ್ರುವ XrSpatialAnchorsDeleteInfoML* deleteInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDeleteSpatialAnchorsCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsDeleteCompletionML* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationAsyncML)(XrSpatialAnchorsStorageML storage, ಧ್ರುವ XrSpatialAnchorsUpdateExpirationInfoML* updateInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateSpatialAnchorsExpirationCompleteML)(XrSpatialAnchorsStorageML storage, XrFutureEXT future, XrSpatialAnchorsUpdateExpirationCompletionML* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorsStorageML(
     XrSession                                   session,
-    const XrSpatialAnchorsCreateStorageInfoML*  createInfo,
+    ಧ್ರುವ XrSpatialAnchorsCreateStorageInfoML*  createInfo,
     XrSpatialAnchorsStorageML*                  storage);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorsStorageML(
@@ -5771,7 +5771,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorsStorageML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialAnchorsAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo,
+    ಧ್ರುವ XrSpatialAnchorsQueryInfoBaseHeaderML* queryInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialAnchorsCompleteML(
@@ -5781,7 +5781,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialAnchorsCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPublishSpatialAnchorsAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsPublishInfoML*        publishInfo,
+    ಧ್ರುವ XrSpatialAnchorsPublishInfoML*        publishInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPublishSpatialAnchorsCompleteML(
@@ -5791,7 +5791,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPublishSpatialAnchorsCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDeleteSpatialAnchorsAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsDeleteInfoML*         deleteInfo,
+    ಧ್ರುವ XrSpatialAnchorsDeleteInfoML*         deleteInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDeleteSpatialAnchorsCompleteML(
@@ -5801,7 +5801,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDeleteSpatialAnchorsCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSpatialAnchorsExpirationAsyncML(
     XrSpatialAnchorsStorageML                   storage,
-    const XrSpatialAnchorsUpdateExpirationInfoML* updateInfo,
+    ಧ್ರುವ XrSpatialAnchorsUpdateExpirationInfoML* updateInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSpatialAnchorsExpirationCompleteML(
@@ -5818,31 +5818,31 @@ XR_DEFINE_HANDLE(XrSpatialAnchorStoreConnectionMSFT)
 #define XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT 256
 #define XR_MSFT_spatial_anchor_persistence_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_ANCHOR_PERSISTENCE_EXTENSION_NAME "XR_MSFT_spatial_anchor_persistence"
-typedef struct XrSpatialAnchorPersistenceNameMSFT {
-    char    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorPersistenceNameMSFT {
+    ವರ್ಣ    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
 } XrSpatialAnchorPersistenceNameMSFT;
 
-typedef struct XrSpatialAnchorPersistenceInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorPersistenceInfoMSFT {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
     XrSpatialAnchorPersistenceNameMSFT    spatialAnchorPersistenceName;
     XrSpatialAnchorMSFT                   spatialAnchor;
 } XrSpatialAnchorPersistenceInfoMSFT;
 
-typedef struct XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
     XrSpatialAnchorStoreConnectionMSFT    spatialAnchorStore;
     XrSpatialAnchorPersistenceNameMSFT    spatialAnchorPersistenceName;
 } XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorStoreConnectionMSFT)(XrSession session, XrSpatialAnchorStoreConnectionMSFT* spatialAnchorStore);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorStoreConnectionMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, const XrSpatialAnchorPersistenceInfoMSFT* spatialAnchorPersistenceInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedSpatialAnchorNamesMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, uint32_t spatialAnchorNameCapacityInput, uint32_t* spatialAnchorNameCountOutput, XrSpatialAnchorPersistenceNameMSFT* spatialAnchorNames);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFromPersistedNameMSFT)(XrSession session, const XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo, XrSpatialAnchorMSFT* spatialAnchor);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, const XrSpatialAnchorPersistenceNameMSFT* spatialAnchorPersistenceName);
-typedef XrResult (XRAPI_PTR *PFN_xrClearSpatialAnchorStoreMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorStoreConnectionMSFT)(XrSession session, XrSpatialAnchorStoreConnectionMSFT* spatialAnchorStore);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialAnchorStoreConnectionMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, ಧ್ರುವ XrSpatialAnchorPersistenceInfoMSFT* spatialAnchorPersistenceInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedSpatialAnchorNamesMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, uint32_t spatial_Anchor_Name_Capacity_ಒಳಹರಿವು, uint32_t* spatial_Anchor_Name_ಎಣಿಕೆ_Output, XrSpatialAnchorPersistenceNameMSFT* spatialAnchorNames);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorFromPersistedNameMSFT)(XrSession session, ಧ್ರುವ XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo, XrSpatialAnchorMSFT* spatialAnchor);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore, ಧ್ರುವ XrSpatialAnchorPersistenceNameMSFT* spatialAnchorPersistenceName);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrClearSpatialAnchorStoreMSFT)(XrSpatialAnchorStoreConnectionMSFT spatialAnchorStore);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5855,22 +5855,22 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAnchorStoreConnectionMSFT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore,
-    const XrSpatialAnchorPersistenceInfoMSFT*   spatialAnchorPersistenceInfo);
+    ಧ್ರುವ XrSpatialAnchorPersistenceInfoMSFT*   spatialAnchorPersistenceInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePersistedSpatialAnchorNamesMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore,
-    uint32_t                                    spatialAnchorNameCapacityInput,
-    uint32_t*                                   spatialAnchorNameCountOutput,
+    uint32_t                                    spatial_Anchor_Name_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   spatial_Anchor_Name_ಎಣಿಕೆ_Output,
     XrSpatialAnchorPersistenceNameMSFT*         spatialAnchorNames);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorFromPersistedNameMSFT(
     XrSession                                   session,
-    const XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo,
+    ಧ್ರುವ XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT* spatialAnchorCreateInfo,
     XrSpatialAnchorMSFT*                        spatialAnchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore,
-    const XrSpatialAnchorPersistenceNameMSFT*   spatialAnchorPersistenceName);
+    ಧ್ರುವ XrSpatialAnchorPersistenceNameMSFT*   spatialAnchorPersistenceName);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrClearSpatialAnchorStoreMSFT(
     XrSpatialAnchorStoreConnectionMSFT          spatialAnchorStore);
@@ -5883,17 +5883,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrClearSpatialAnchorStoreMSFT(
 #define XR_MSFT_scene_marker_SPEC_VERSION 1
 #define XR_MSFT_SCENE_MARKER_EXTENSION_NAME "XR_MSFT_scene_marker"
 
-typedef enum XrSceneMarkerTypeMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneMarkerTypeMSFT {
     XR_SCENE_MARKER_TYPE_QR_CODE_MSFT = 1,
     XR_SCENE_MARKER_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneMarkerTypeMSFT;
 
-typedef enum XrSceneMarkerQRCodeSymbolTypeMSFT {
-    XR_SCENE_MARKER_QR_CODE_SYMBOL_TYPE_QR_CODE_MSFT = 1,
-    XR_SCENE_MARKER_QR_CODE_SYMBOL_TYPE_MICRO_QR_CODE_MSFT = 2,
-    XR_SCENE_MARKER_QRCODE_SYMBOL_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
-} XrSceneMarkerQRCodeSymbolTypeMSFT;
-typedef struct XrSceneMarkerMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ Xr_Scene_Marker_QRCode_ಚಿಹ್ನೆ_Type_MSFT {
+    XR_SCENE_MARKER_QR_CODE_ಚಿಹ್ನೆ_TYPE_QR_CODE_MSFT = 1,
+    XR_SCENE_MARKER_QR_CODE_ಚಿಹ್ನೆ_TYPE_MICRO_QR_CODE_MSFT = 2,
+    XR_SCENE_MARKER_QRCODE_ಚಿಹ್ನೆ_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
+} Xr_Scene_Marker_QRCode_ಚಿಹ್ನೆ_Type_MSFT;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMarkerMSFT {
     XrSceneMarkerTypeMSFT    markerType;
     XrTime                   lastSeenTime;
     XrOffset2Df              center;
@@ -5901,52 +5901,52 @@ typedef struct XrSceneMarkerMSFT {
 } XrSceneMarkerMSFT;
 
 // XrSceneMarkersMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMarkersMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMarkersMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    sceneMarkerCapacityInput;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    scene_Marker_Capacity_ಒಳಹರಿವು;
     XrSceneMarkerMSFT*          sceneMarkers;
 } XrSceneMarkersMSFT;
 
 // XrSceneMarkerTypeFilterMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneMarkerTypeFilterMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMarkerTypeFilterMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    markerTypeCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    marker_Type_ಎಣಿಕೆ;
     XrSceneMarkerTypeMSFT*      markerTypes;
 } XrSceneMarkerTypeFilterMSFT;
 
-typedef struct XrSceneMarkerQRCodeMSFT {
-    XrSceneMarkerQRCodeSymbolTypeMSFT    symbolType;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMarkerQRCodeMSFT {
+    Xr_Scene_Marker_QRCode_ಚಿಹ್ನೆ_Type_MSFT    ಚಿಹ್ನೆ_Type;
     uint8_t                              version;
 } XrSceneMarkerQRCodeMSFT;
 
 // XrSceneMarkerQRCodesMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMarkerQRCodesMSFT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMarkerQRCodesMSFT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    qrCodeCapacityInput;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    qr_Code_Capacity_ಒಳಹರಿವು;
     XrSceneMarkerQRCodeMSFT*    qrCodes;
 } XrSceneMarkerQRCodesMSFT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerRawDataMSFT)(XrSceneMSFT scene, const XrUuidMSFT* markerId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerDecodedStringMSFT)(XrSceneMSFT scene, const XrUuidMSFT* markerId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerRawDataMSFT)(XrSceneMSFT scene, ಧ್ರುವ XrUuidMSFT* markerId, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, uint8_t* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerDecodedStringMSFT)(XrSceneMSFT scene, ಧ್ರುವ XrUuidMSFT* markerId, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, ವರ್ಣ* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerRawDataMSFT(
     XrSceneMSFT                                 scene,
-    const XrUuidMSFT*                           markerId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    ಧ್ರುವ XrUuidMSFT*                           markerId,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
     uint8_t*                                    buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerDecodedStringMSFT(
     XrSceneMSFT                                 scene,
-    const XrUuidMSFT*                           markerId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    ಧ್ರುವ XrUuidMSFT*                           markerId,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
+    ವರ್ಣ*                                       buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5954,12 +5954,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerDecodedStringMSFT(
 // XR_ULTRALEAP_hand_tracking_forearm is a preprocessor guard. Do not pass it to API calls.
 #define XR_ULTRALEAP_hand_tracking_forearm 1
 
-#define XR_HAND_FOREARM_JOINT_COUNT_ULTRALEAP 27
+#define XR_HAND_FOREARM_JOINT_ಎಣಿಕೆ_ULTRALEAP 27
 
 #define XR_ULTRALEAP_hand_tracking_forearm_SPEC_VERSION 1
 #define XR_ULTRALEAP_HAND_TRACKING_FOREARM_EXTENSION_NAME "XR_ULTRALEAP_hand_tracking_forearm"
 
-typedef enum XrHandForearmJointULTRALEAP {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandForearmJointULTRALEAP {
     XR_HAND_FOREARM_JOINT_PALM_ULTRALEAP = 0,
     XR_HAND_FOREARM_JOINT_WRIST_ULTRALEAP = 1,
     XR_HAND_FOREARM_JOINT_THUMB_METACARPAL_ULTRALEAP = 2,
@@ -5971,11 +5971,11 @@ typedef enum XrHandForearmJointULTRALEAP {
     XR_HAND_FOREARM_JOINT_INDEX_INTERMEDIATE_ULTRALEAP = 8,
     XR_HAND_FOREARM_JOINT_INDEX_DISTAL_ULTRALEAP = 9,
     XR_HAND_FOREARM_JOINT_INDEX_TIP_ULTRALEAP = 10,
-    XR_HAND_FOREARM_JOINT_MIDDLE_METACARPAL_ULTRALEAP = 11,
-    XR_HAND_FOREARM_JOINT_MIDDLE_PROXIMAL_ULTRALEAP = 12,
-    XR_HAND_FOREARM_JOINT_MIDDLE_INTERMEDIATE_ULTRALEAP = 13,
-    XR_HAND_FOREARM_JOINT_MIDDLE_DISTAL_ULTRALEAP = 14,
-    XR_HAND_FOREARM_JOINT_MIDDLE_TIP_ULTRALEAP = 15,
+    XR_HAND_FOREARM_JOINT_ಮಧ್ಯ_METACARPAL_ULTRALEAP = 11,
+    XR_HAND_FOREARM_JOINT_ಮಧ್ಯ_PROXIMAL_ULTRALEAP = 12,
+    XR_HAND_FOREARM_JOINT_ಮಧ್ಯ_INTERMEDIATE_ULTRALEAP = 13,
+    XR_HAND_FOREARM_JOINT_ಮಧ್ಯ_DISTAL_ULTRALEAP = 14,
+    XR_HAND_FOREARM_JOINT_ಮಧ್ಯ_TIP_ULTRALEAP = 15,
     XR_HAND_FOREARM_JOINT_RING_METACARPAL_ULTRALEAP = 16,
     XR_HAND_FOREARM_JOINT_RING_PROXIMAL_ULTRALEAP = 17,
     XR_HAND_FOREARM_JOINT_RING_INTERMEDIATE_ULTRALEAP = 18,
@@ -5996,91 +5996,91 @@ typedef enum XrHandForearmJointULTRALEAP {
 #define XR_FB_spatial_entity_query_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_QUERY_EXTENSION_NAME "XR_FB_spatial_entity_query"
 
-typedef enum XrSpaceQueryActionFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpaceQueryActionFB {
     XR_SPACE_QUERY_ACTION_LOAD_FB = 0,
     XR_SPACE_QUERY_ACTION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceQueryActionFB;
 
-typedef enum XrSpaceStorageLocationFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpaceStorageLocationFB {
     XR_SPACE_STORAGE_LOCATION_INVALID_FB = 0,
     XR_SPACE_STORAGE_LOCATION_LOCAL_FB = 1,
     XR_SPACE_STORAGE_LOCATION_CLOUD_FB = 2,
     XR_SPACE_STORAGE_LOCATION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceStorageLocationFB;
-typedef struct XR_MAY_ALIAS XrSpaceQueryInfoBaseHeaderFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSpaceQueryInfoBaseHeaderFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpaceQueryInfoBaseHeaderFB;
 
-typedef struct XR_MAY_ALIAS XrSpaceFilterInfoBaseHeaderFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSpaceFilterInfoBaseHeaderFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpaceFilterInfoBaseHeaderFB;
 
-typedef struct XrSpaceQueryInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceQueryInfoFB {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                next;
     XrSpaceQueryActionFB                    queryAction;
-    uint32_t                                maxResultCount;
+    uint32_t                                max_Result_ಎಣಿಕೆ;
     XrDuration                              timeout;
-    const XrSpaceFilterInfoBaseHeaderFB*    filter;
-    const XrSpaceFilterInfoBaseHeaderFB*    excludeFilter;
+    ಧ್ರುವ XrSpaceFilterInfoBaseHeaderFB*    filter;
+    ಧ್ರುವ XrSpaceFilterInfoBaseHeaderFB*    excludeFilter;
 } XrSpaceQueryInfoFB;
 
 // XrSpaceStorageLocationFilterInfoFB extends XrSpaceFilterInfoBaseHeaderFB
-typedef struct XrSpaceStorageLocationFilterInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceStorageLocationFilterInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpaceStorageLocationFB    location;
 } XrSpaceStorageLocationFilterInfoFB;
 
-typedef struct XrSpaceUuidFilterInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceUuidFilterInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_ಎಣಿಕೆ;
     XrUuidEXT*                  uuids;
 } XrSpaceUuidFilterInfoFB;
 
-typedef struct XrSpaceComponentFilterInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceComponentFilterInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
 } XrSpaceComponentFilterInfoFB;
 
-typedef struct XrSpaceQueryResultFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceQueryResultFB {
     XrSpace      space;
     XrUuidEXT    uuid;
 } XrSpaceQueryResultFB;
 
-typedef struct XrSpaceQueryResultsFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceQueryResultsFB {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 resultCapacityInput;
-    uint32_t                 resultCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                 result_Capacity_ಒಳಹರಿವು;
+    uint32_t                 result_ಎಣಿಕೆ_Output;
     XrSpaceQueryResultFB*    results;
 } XrSpaceQueryResultsFB;
 
-typedef struct XrEventDataSpaceQueryResultsAvailableFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceQueryResultsAvailableFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
 } XrEventDataSpaceQueryResultsAvailableFB;
 
-typedef struct XrEventDataSpaceQueryCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceQueryCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceQueryCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpacesFB)(XrSession session, const XrSpaceQueryInfoBaseHeaderFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceQueryResultsFB)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceQueryResultsFB* results);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQuerySpacesFB)(XrSession session, ಧ್ರುವ XrSpaceQueryInfoBaseHeaderFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceQueryResultsFB)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceQueryResultsFB* results);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpacesFB(
     XrSession                                   session,
-    const XrSpaceQueryInfoBaseHeaderFB*         info,
+    ಧ್ರುವ XrSpaceQueryInfoBaseHeaderFB*         info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceQueryResultsFB(
@@ -6096,29 +6096,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceQueryResultsFB(
 #define XR_FB_spatial_entity_storage_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_STORAGE_EXTENSION_NAME "XR_FB_spatial_entity_storage"
 
-typedef enum XrSpacePersistenceModeFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpacePersistenceModeFB {
     XR_SPACE_PERSISTENCE_MODE_INVALID_FB = 0,
     XR_SPACE_PERSISTENCE_MODE_INDEFINITE_FB = 1,
     XR_SPACE_PERSISTENCE_MODE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpacePersistenceModeFB;
-typedef struct XrSpaceSaveInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceSaveInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrSpaceStorageLocationFB    location;
     XrSpacePersistenceModeFB    persistenceMode;
 } XrSpaceSaveInfoFB;
 
-typedef struct XrSpaceEraseInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceEraseInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrSpaceStorageLocationFB    location;
 } XrSpaceEraseInfoFB;
 
-typedef struct XrEventDataSpaceSaveCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceSaveCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
@@ -6126,9 +6126,9 @@ typedef struct XrEventDataSpaceSaveCompleteFB {
     XrSpaceStorageLocationFB    location;
 } XrEventDataSpaceSaveCompleteFB;
 
-typedef struct XrEventDataSpaceEraseCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceEraseCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
     XrSpace                     space;
@@ -6136,19 +6136,19 @@ typedef struct XrEventDataSpaceEraseCompleteFB {
     XrSpaceStorageLocationFB    location;
 } XrEventDataSpaceEraseCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSaveSpaceFB)(XrSession session, const XrSpaceSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrEraseSpaceFB)(XrSession session, const XrSpaceEraseInfoFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSaveSpaceFB)(XrSession session, ಧ್ರುವ XrSpaceSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEraseSpaceFB)(XrSession session, ಧ್ರುವ XrSpaceEraseInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpaceFB(
     XrSession                                   session,
-    const XrSpaceSaveInfoFB*                    info,
+    ಧ್ರುವ XrSpaceSaveInfoFB*                    info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEraseSpaceFB(
     XrSession                                   session,
-    const XrSpaceEraseInfoFB*                   info,
+    ಧ್ರುವ XrSpaceEraseInfoFB*                   info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6165,29 +6165,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEraseSpaceFB(
 XR_DEFINE_HANDLE(XrSpaceUserFB)
 #define XR_FB_spatial_entity_sharing_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_SHARING_EXTENSION_NAME "XR_FB_spatial_entity_sharing"
-typedef struct XrSpaceShareInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceShareInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    space_ಎಣಿಕೆ;
     XrSpace*                    spaces;
-    uint32_t                    userCount;
+    uint32_t                    user_ಎಣಿಕೆ;
     XrSpaceUserFB*              users;
 } XrSpaceShareInfoFB;
 
-typedef struct XrEventDataSpaceShareCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceShareCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceShareCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpacesFB)(XrSession session, const XrSpaceShareInfoFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrShareSpacesFB)(XrSession session, ಧ್ರುವ XrSpaceShareInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpacesFB(
     XrSession                                   session,
-    const XrSpaceShareInfoFB*                   info,
+    ಧ್ರುವ XrSpaceShareInfoFB*                   info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6197,29 +6197,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrShareSpacesFB(
 #define XR_FB_space_warp 1
 #define XR_FB_space_warp_SPEC_VERSION     2
 #define XR_FB_SPACE_WARP_EXTENSION_NAME   "XR_FB_space_warp"
-typedef XrFlags64 XrCompositionLayerSpaceWarpInfoFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrCompositionLayerSpaceWarpInfoFlagsFB;
 
 // Flag bits for XrCompositionLayerSpaceWarpInfoFlagsFB
-static const XrCompositionLayerSpaceWarpInfoFlagsFB XR_COMPOSITION_LAYER_SPACE_WARP_INFO_FRAME_SKIP_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSpaceWarpInfoFlagsFB XR_COMPOSITION_LAYER_SPACE_WARP_INFO_FRAME_SKIP_BIT_FB = 0x00000001;
 
 // XrCompositionLayerSpaceWarpInfoFB extends XrCompositionLayerProjectionView
-typedef struct XrCompositionLayerSpaceWarpInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerSpaceWarpInfoFB {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
     XrCompositionLayerSpaceWarpInfoFlagsFB    layerFlags;
     XrSwapchainSubImage                       motionVectorSubImage;
     XrPosef                                   appSpaceDeltaPose;
     XrSwapchainSubImage                       depthSubImage;
-    float                                     minDepth;
-    float                                     maxDepth;
-    float                                     nearZ;
-    float                                     farZ;
+    ಭಿನ್ನ                                     minDepth;
+    ಭಿನ್ನ                                     maxDepth;
+    ಭಿನ್ನ                                     nearZ;
+    ಭಿನ್ನ                                     farZ;
 } XrCompositionLayerSpaceWarpInfoFB;
 
 // XrSystemSpaceWarpPropertiesFB extends XrSystemProperties
-typedef struct XrSystemSpaceWarpPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpaceWarpPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              recommendedMotionVectorImageRectWidth;
     uint32_t              recommendedMotionVectorImageRectHeight;
 } XrSystemSpaceWarpPropertiesFB;
@@ -6233,12 +6233,12 @@ typedef struct XrSystemSpaceWarpPropertiesFB {
 
 #define XR_FB_haptic_amplitude_envelope_SPEC_VERSION 1
 #define XR_FB_HAPTIC_AMPLITUDE_ENVELOPE_EXTENSION_NAME "XR_FB_haptic_amplitude_envelope"
-typedef struct XrHapticAmplitudeEnvelopeVibrationFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticAmplitudeEnvelopeVibrationFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrDuration                  duration;
-    uint32_t                    amplitudeCount;
-    const float*                amplitudes;
+    uint32_t                    amplitude_ಎಣಿಕೆ;
+    ಧ್ರುವ ಭಿನ್ನ*                amplitudes;
 } XrHapticAmplitudeEnvelopeVibrationFB;
 
 
@@ -6247,65 +6247,65 @@ typedef struct XrHapticAmplitudeEnvelopeVibrationFB {
 #define XR_FB_scene 1
 #define XR_FB_scene_SPEC_VERSION          4
 #define XR_FB_SCENE_EXTENSION_NAME        "XR_FB_scene"
-typedef XrFlags64 XrSemanticLabelsSupportFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSemanticLabelsSupportFlagsFB;
 
 // Flag bits for XrSemanticLabelsSupportFlagsFB
-static const XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_MULTIPLE_SEMANTIC_LABELS_BIT_FB = 0x00000001;
-static const XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_DESK_TO_TABLE_MIGRATION_BIT_FB = 0x00000002;
-static const XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_INVISIBLE_WALL_FACE_BIT_FB = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_MULTIPLE_SEMANTIC_LABELS_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_DESK_TO_TABLE_MIGRATION_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_INVISIBLE_WALL_FACE_BIT_FB = 0x00000004;
 
-typedef XrExtent3Df XrExtent3DfFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrExtent3Df XrExtent3DfFB;
 
-typedef struct XrOffset3DfFB {
-    float    x;
-    float    y;
-    float    z;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrOffset3DfFB {
+    ಭಿನ್ನ    x;
+    ಭಿನ್ನ    y;
+    ಭಿನ್ನ    z;
 } XrOffset3DfFB;
 
-typedef struct XrRect3DfFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRect3DfFB {
     XrOffset3DfFB    offset;
     XrExtent3DfFB    extent;
 } XrRect3DfFB;
 
-typedef struct XrSemanticLabelsFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSemanticLabelsFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    bufferCapacityInput;
-    uint32_t                    bufferCountOutput;
-    char*                       buffer;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    buffer_Capacity_ಒಳಹರಿವು;
+    uint32_t                    buffer_ಎಣಿಕೆ_Output;
+    ವರ್ಣ*                       buffer;
 } XrSemanticLabelsFB;
 
-typedef struct XrRoomLayoutFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRoomLayoutFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidEXT                   floorUuid;
     XrUuidEXT                   ceilingUuid;
-    uint32_t                    wallUuidCapacityInput;
-    uint32_t                    wallUuidCountOutput;
+    uint32_t                    wall_Uuid_Capacity_ಒಳಹರಿವು;
+    uint32_t                    wall_Uuid_ಎಣಿಕೆ_Output;
     XrUuidEXT*                  wallUuids;
 } XrRoomLayoutFB;
 
-typedef struct XrBoundary2DFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBoundary2DFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    vertexCapacityInput;
-    uint32_t                    vertexCountOutput;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t                    vertex_ಎಣಿಕೆ_Output;
     XrVector2f*                 vertices;
 } XrBoundary2DFB;
 
 // XrSemanticLabelsSupportInfoFB extends XrSemanticLabelsFB
-typedef struct XrSemanticLabelsSupportInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSemanticLabelsSupportInfoFB {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrSemanticLabelsSupportFlagsFB    flags;
-    const char*                       recognizedLabels;
+    ಧ್ರುವ ವರ್ಣ*                       recognizedLabels;
 } XrSemanticLabelsSupportInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox2DFB)(XrSession session, XrSpace space, XrRect2Df* boundingBox2DOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox3DFB)(XrSession session, XrSpace space, XrRect3DfFB* boundingBox3DOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceSemanticLabelsFB)(XrSession session, XrSpace space, XrSemanticLabelsFB* semanticLabelsOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundary2DFB)(XrSession session, XrSpace space, XrBoundary2DFB* boundary2DOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomLayoutFB)(XrSession session, XrSpace space, XrRoomLayoutFB* roomLayoutOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox2DFB)(XrSession session, XrSpace space, XrRect2Df* boundingBox2DOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox3DFB)(XrSession session, XrSpace space, XrRect3DfFB* boundingBox3DOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceSemanticLabelsFB)(XrSession session, XrSpace space, XrSemanticLabelsFB* semanticLabelsOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundary2DFB)(XrSession session, XrSpace space, XrBoundary2DFB* boundary2DOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomLayoutFB)(XrSession session, XrSpace space, XrRoomLayoutFB* roomLayoutOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6347,24 +6347,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomLayoutFB(
 #define XR_ALMALENCE_digital_lens_control 1
 #define XR_ALMALENCE_digital_lens_control_SPEC_VERSION 1
 #define XR_ALMALENCE_DIGITAL_LENS_CONTROL_EXTENSION_NAME "XR_ALMALENCE_digital_lens_control"
-typedef XrFlags64 XrDigitalLensControlFlagsALMALENCE;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrDigitalLensControlFlagsALMALENCE;
 
 // Flag bits for XrDigitalLensControlFlagsALMALENCE
-static const XrDigitalLensControlFlagsALMALENCE XR_DIGITAL_LENS_CONTROL_PROCESSING_DISABLE_BIT_ALMALENCE = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrDigitalLensControlFlagsALMALENCE XR_DIGITAL_LENS_CONTROL_PROCESSING_DISABLE_BIT_ALMALENCE = 0x00000001;
 
-typedef struct XrDigitalLensControlALMALENCE {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDigitalLensControlALMALENCE {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
     XrDigitalLensControlFlagsALMALENCE    flags;
 } XrDigitalLensControlALMALENCE;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetDigitalLensControlALMALENCE)(XrSession session, const XrDigitalLensControlALMALENCE* digitalLensControl);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetDigitalLensControlALMALENCE)(XrSession session, ಧ್ರುವ XrDigitalLensControlALMALENCE* digitalLensControl);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetDigitalLensControlALMALENCE(
     XrSession                                   session,
-    const XrDigitalLensControlALMALENCE*        digitalLensControl);
+    ಧ್ರುವ XrDigitalLensControlALMALENCE*        digitalLensControl);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -6373,27 +6373,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetDigitalLensControlALMALENCE(
 #define XR_FB_scene_capture 1
 #define XR_FB_scene_capture_SPEC_VERSION  1
 #define XR_FB_SCENE_CAPTURE_EXTENSION_NAME "XR_FB_scene_capture"
-typedef struct XrEventDataSceneCaptureCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSceneCaptureCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSceneCaptureCompleteFB;
 
-typedef struct XrSceneCaptureRequestInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneCaptureRequestInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    requestByteCount;
-    const char*                 request;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    request_Byte_ಎಣಿಕೆ;
+    ಧ್ರುವ ವರ್ಣ*                 request;
 } XrSceneCaptureRequestInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrRequestSceneCaptureFB)(XrSession session, const XrSceneCaptureRequestInfoFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestSceneCaptureFB)(XrSession session, ಧ್ರುವ XrSceneCaptureRequestInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestSceneCaptureFB(
     XrSession                                   session,
-    const XrSceneCaptureRequestInfoFB*          info,
+    ಧ್ರುವ XrSceneCaptureRequestInfoFB*          info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6403,15 +6403,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestSceneCaptureFB(
 #define XR_FB_spatial_entity_container 1
 #define XR_FB_spatial_entity_container_SPEC_VERSION 2
 #define XR_FB_SPATIAL_ENTITY_CONTAINER_EXTENSION_NAME "XR_FB_spatial_entity_container"
-typedef struct XrSpaceContainerFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceContainerFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCapacityInput;
-    uint32_t                    uuidCountOutput;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_Capacity_ಒಳಹರಿವು;
+    uint32_t                    uuid_ಎಣಿಕೆ_Output;
     XrUuidEXT*                  uuids;
 } XrSpaceContainerFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceContainerFB)(XrSession session, XrSpace space, XrSpaceContainerFB* spaceContainerOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceContainerFB)(XrSession session, XrSpace space, XrSpaceContainerFB* spaceContainerOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6428,37 +6428,37 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceContainerFB(
 #define XR_FOVEATION_CENTER_SIZE_META     2
 #define XR_META_foveation_eye_tracked_SPEC_VERSION 1
 #define XR_META_FOVEATION_EYE_TRACKED_EXTENSION_NAME "XR_META_foveation_eye_tracked"
-typedef XrFlags64 XrFoveationEyeTrackedProfileCreateFlagsMETA;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrFoveationEyeTrackedProfileCreateFlagsMETA;
 
 // Flag bits for XrFoveationEyeTrackedProfileCreateFlagsMETA
 
-typedef XrFlags64 XrFoveationEyeTrackedStateFlagsMETA;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrFoveationEyeTrackedStateFlagsMETA;
 
 // Flag bits for XrFoveationEyeTrackedStateFlagsMETA
-static const XrFoveationEyeTrackedStateFlagsMETA XR_FOVEATION_EYE_TRACKED_STATE_VALID_BIT_META = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrFoveationEyeTrackedStateFlagsMETA XR_FOVEATION_EYE_TRACKED_STATE_VALID_BIT_META = 0x00000001;
 
 // XrFoveationEyeTrackedProfileCreateInfoMETA extends XrFoveationLevelProfileCreateInfoFB
-typedef struct XrFoveationEyeTrackedProfileCreateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationEyeTrackedProfileCreateInfoMETA {
     XrStructureType                                type;
-    const void* XR_MAY_ALIAS                       next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                       next;
     XrFoveationEyeTrackedProfileCreateFlagsMETA    flags;
 } XrFoveationEyeTrackedProfileCreateInfoMETA;
 
-typedef struct XrFoveationEyeTrackedStateMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationEyeTrackedStateMETA {
     XrStructureType                        type;
-    void* XR_MAY_ALIAS                     next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                     next;
     XrVector2f                             foveationCenter[XR_FOVEATION_CENTER_SIZE_META];
     XrFoveationEyeTrackedStateFlagsMETA    flags;
 } XrFoveationEyeTrackedStateMETA;
 
 // XrSystemFoveationEyeTrackedPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemFoveationEyeTrackedPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFoveationEyeTrackedPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsFoveationEyeTracked;
 } XrSystemFoveationEyeTrackedPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetFoveationEyeTrackedStateMETA)(XrSession session, XrFoveationEyeTrackedStateMETA* foveationState);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFoveationEyeTrackedStateMETA)(XrSession session, XrFoveationEyeTrackedStateMETA* foveationState);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6478,7 +6478,7 @@ XR_DEFINE_HANDLE(XrFaceTrackerFB)
 #define XR_FB_face_tracking_SPEC_VERSION  1
 #define XR_FB_FACE_TRACKING_EXTENSION_NAME "XR_FB_face_tracking"
 
-typedef enum XrFaceExpressionFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceExpressionFB {
     XR_FACE_EXPRESSION_BROW_LOWERER_L_FB = 0,
     XR_FACE_EXPRESSION_BROW_LOWERER_R_FB = 1,
     XR_FACE_EXPRESSION_CHEEK_PUFF_L_FB = 2,
@@ -6495,17 +6495,17 @@ typedef enum XrFaceExpressionFB {
     XR_FACE_EXPRESSION_EYES_CLOSED_R_FB = 13,
     XR_FACE_EXPRESSION_EYES_LOOK_DOWN_L_FB = 14,
     XR_FACE_EXPRESSION_EYES_LOOK_DOWN_R_FB = 15,
-    XR_FACE_EXPRESSION_EYES_LOOK_LEFT_L_FB = 16,
-    XR_FACE_EXPRESSION_EYES_LOOK_LEFT_R_FB = 17,
-    XR_FACE_EXPRESSION_EYES_LOOK_RIGHT_L_FB = 18,
-    XR_FACE_EXPRESSION_EYES_LOOK_RIGHT_R_FB = 19,
+    XR_FACE_EXPRESSION_EYES_LOOK_ಎಡ_L_FB = 16,
+    XR_FACE_EXPRESSION_EYES_LOOK_ಎಡ_R_FB = 17,
+    XR_FACE_EXPRESSION_EYES_LOOK_ಬಲ_L_FB = 18,
+    XR_FACE_EXPRESSION_EYES_LOOK_ಬಲ_R_FB = 19,
     XR_FACE_EXPRESSION_EYES_LOOK_UP_L_FB = 20,
     XR_FACE_EXPRESSION_EYES_LOOK_UP_R_FB = 21,
     XR_FACE_EXPRESSION_INNER_BROW_RAISER_L_FB = 22,
     XR_FACE_EXPRESSION_INNER_BROW_RAISER_R_FB = 23,
     XR_FACE_EXPRESSION_JAW_DROP_FB = 24,
-    XR_FACE_EXPRESSION_JAW_SIDEWAYS_LEFT_FB = 25,
-    XR_FACE_EXPRESSION_JAW_SIDEWAYS_RIGHT_FB = 26,
+    XR_FACE_EXPRESSION_JAW_SIDEWAYS_ಎಡ_FB = 25,
+    XR_FACE_EXPRESSION_JAW_SIDEWAYS_ಬಲ_FB = 26,
     XR_FACE_EXPRESSION_JAW_THRUST_FB = 27,
     XR_FACE_EXPRESSION_LID_TIGHTENER_L_FB = 28,
     XR_FACE_EXPRESSION_LID_TIGHTENER_R_FB = 29,
@@ -6532,8 +6532,8 @@ typedef enum XrFaceExpressionFB {
     XR_FACE_EXPRESSION_LIPS_TOWARD_FB = 50,
     XR_FACE_EXPRESSION_LOWER_LIP_DEPRESSOR_L_FB = 51,
     XR_FACE_EXPRESSION_LOWER_LIP_DEPRESSOR_R_FB = 52,
-    XR_FACE_EXPRESSION_MOUTH_LEFT_FB = 53,
-    XR_FACE_EXPRESSION_MOUTH_RIGHT_FB = 54,
+    XR_FACE_EXPRESSION_MOUTH_ಎಡ_FB = 53,
+    XR_FACE_EXPRESSION_MOUTH_ಬಲ_FB = 54,
     XR_FACE_EXPRESSION_NOSE_WRINKLER_L_FB = 55,
     XR_FACE_EXPRESSION_NOSE_WRINKLER_R_FB = 56,
     XR_FACE_EXPRESSION_OUTER_BROW_RAISER_L_FB = 57,
@@ -6542,65 +6542,65 @@ typedef enum XrFaceExpressionFB {
     XR_FACE_EXPRESSION_UPPER_LID_RAISER_R_FB = 60,
     XR_FACE_EXPRESSION_UPPER_LIP_RAISER_L_FB = 61,
     XR_FACE_EXPRESSION_UPPER_LIP_RAISER_R_FB = 62,
-    XR_FACE_EXPRESSION_COUNT_FB = 63,
+    XR_FACE_EXPRESSION_ಎಣಿಕೆ_FB = 63,
     XR_FACE_EXPRESSION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionFB;
 
-typedef enum XrFaceExpressionSetFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceExpressionSetFB {
     XR_FACE_EXPRESSION_SET_DEFAULT_FB = 0,
     XR_FACE_EXPRESSION_SET_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionSetFB;
 
-typedef enum XrFaceConfidenceFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceConfidenceFB {
     XR_FACE_CONFIDENCE_LOWER_FACE_FB = 0,
     XR_FACE_CONFIDENCE_UPPER_FACE_FB = 1,
-    XR_FACE_CONFIDENCE_COUNT_FB = 2,
+    XR_FACE_CONFIDENCE_ಎಣಿಕೆ_FB = 2,
     XR_FACE_CONFIDENCE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceConfidenceFB;
 // XrSystemFaceTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemFaceTrackingPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFaceTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFaceTrackingPropertiesFB;
 
-typedef struct XrFaceTrackerCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceTrackerCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFaceExpressionSetFB       faceExpressionSet;
 } XrFaceTrackerCreateInfoFB;
 
-typedef struct XrFaceExpressionInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceExpressionInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceExpressionInfoFB;
 
-typedef struct XrFaceExpressionStatusFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceExpressionStatusFB {
     XrBool32    isValid;
     XrBool32    isEyeFollowingBlendshapesValid;
 } XrFaceExpressionStatusFB;
 
-typedef struct XrFaceExpressionWeightsFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceExpressionWeightsFB {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
-    uint32_t                    weightCount;
-    float*                      weights;
-    uint32_t                    confidenceCount;
-    float*                      confidences;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
+    uint32_t                    weight_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                      weights;
+    uint32_t                    confidence_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                      confidences;
     XrFaceExpressionStatusFB    status;
     XrTime                      time;
 } XrFaceExpressionWeightsFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerFB)(XrSession session, const XrFaceTrackerCreateInfoFB* createInfo, XrFaceTrackerFB* faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerFB)(XrFaceTrackerFB faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeightsFB)(XrFaceTrackerFB faceTracker, const XrFaceExpressionInfoFB* expressionInfo, XrFaceExpressionWeightsFB* expressionWeights);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerFB)(XrSession session, ಧ್ರುವ XrFaceTrackerCreateInfoFB* createInfo, XrFaceTrackerFB* faceTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerFB)(XrFaceTrackerFB faceTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeightsFB)(XrFaceTrackerFB faceTracker, ಧ್ರುವ XrFaceExpressionInfoFB* expressionInfo, XrFaceExpressionWeightsFB* expressionWeights);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTrackerFB(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfoFB*            createInfo,
+    ಧ್ರುವ XrFaceTrackerCreateInfoFB*            createInfo,
     XrFaceTrackerFB*                            faceTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerFB(
@@ -6608,7 +6608,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceExpressionWeightsFB(
     XrFaceTrackerFB                             faceTracker,
-    const XrFaceExpressionInfoFB*               expressionInfo,
+    ಧ್ರುವ XrFaceExpressionInfoFB*               expressionInfo,
     XrFaceExpressionWeightsFB*                  expressionWeights);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6620,53 +6620,53 @@ XR_DEFINE_HANDLE(XrEyeTrackerFB)
 #define XR_FB_eye_tracking_social_SPEC_VERSION 1
 #define XR_FB_EYE_TRACKING_SOCIAL_EXTENSION_NAME "XR_FB_eye_tracking_social"
 
-typedef enum XrEyePositionFB {
-    XR_EYE_POSITION_LEFT_FB = 0,
-    XR_EYE_POSITION_RIGHT_FB = 1,
-    XR_EYE_POSITION_COUNT_FB = 2,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEyePositionFB {
+    XR_EYE_POSITION_ಎಡ_FB = 0,
+    XR_EYE_POSITION_ಬಲ_FB = 1,
+    XR_EYE_POSITION_ಎಣಿಕೆ_FB = 2,
     XR_EYE_POSITION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrEyePositionFB;
-typedef struct XrEyeGazeFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyeGazeFB {
     XrBool32    isValid;
     XrPosef     gazePose;
-    float       gazeConfidence;
+    ಭಿನ್ನ       gazeConfidence;
 } XrEyeGazeFB;
 
-typedef struct XrEyeTrackerCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyeTrackerCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrEyeTrackerCreateInfoFB;
 
-typedef struct XrEyeGazesInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyeGazesInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrEyeGazesInfoFB;
 
 // XrSystemEyeTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemEyeTrackingPropertiesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemEyeTrackingPropertiesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeTracking;
 } XrSystemEyeTrackingPropertiesFB;
 
-typedef struct XrEyeGazesFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyeGazesFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    XrEyeGazeFB           gaze[XR_EYE_POSITION_COUNT_FB];
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    XrEyeGazeFB           gaze[XR_EYE_POSITION_ಎಣಿಕೆ_FB];
     XrTime                time;
 } XrEyeGazesFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerFB)(XrSession session, const XrEyeTrackerCreateInfoFB* createInfo, XrEyeTrackerFB* eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerFB)(XrEyeTrackerFB eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetEyeGazesFB)(XrEyeTrackerFB eyeTracker, const XrEyeGazesInfoFB* gazeInfo, XrEyeGazesFB* eyeGazes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerFB)(XrSession session, ಧ್ರುವ XrEyeTrackerCreateInfoFB* createInfo, XrEyeTrackerFB* eyeTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerFB)(XrEyeTrackerFB eyeTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetEyeGazesFB)(XrEyeTrackerFB eyeTracker, ಧ್ರುವ XrEyeGazesInfoFB* gazeInfo, XrEyeGazesFB* eyeGazes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEyeTrackerFB(
     XrSession                                   session,
-    const XrEyeTrackerCreateInfoFB*             createInfo,
+    ಧ್ರುವ XrEyeTrackerCreateInfoFB*             createInfo,
     XrEyeTrackerFB*                             eyeTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerFB(
@@ -6674,7 +6674,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerFB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetEyeGazesFB(
     XrEyeTrackerFB                              eyeTracker,
-    const XrEyeGazesInfoFB*                     gazeInfo,
+    ಧ್ರುವ XrEyeGazesInfoFB*                     gazeInfo,
     XrEyeGazesFB*                               eyeGazes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6684,20 +6684,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetEyeGazesFB(
 #define XR_FB_passthrough_keyboard_hands 1
 #define XR_FB_passthrough_keyboard_hands_SPEC_VERSION 2
 #define XR_FB_PASSTHROUGH_KEYBOARD_HANDS_EXTENSION_NAME "XR_FB_passthrough_keyboard_hands"
-typedef struct XrPassthroughKeyboardHandsIntensityFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughKeyboardHandsIntensityFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       leftHandIntensity;
-    float                       rightHandIntensity;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       ಎಡ_Hand_Intensity;
+    ಭಿನ್ನ                       ಬಲ_Hand_Intensity;
 } XrPassthroughKeyboardHandsIntensityFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetKeyboardHandsIntensityFB)(XrPassthroughLayerFB layer, const XrPassthroughKeyboardHandsIntensityFB* intensity);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPassthroughLayerSetKeyboardHandsIntensityFB)(XrPassthroughLayerFB layer, ಧ್ರುವ XrPassthroughKeyboardHandsIntensityFB* intensity);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerSetKeyboardHandsIntensityFB(
     XrPassthroughLayerFB                        layer,
-    const XrPassthroughKeyboardHandsIntensityFB* intensity);
+    ಧ್ರುವ XrPassthroughKeyboardHandsIntensityFB* intensity);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -6706,19 +6706,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPassthroughLayerSetKeyboardHandsIntensityFB(
 #define XR_FB_composition_layer_settings 1
 #define XR_FB_composition_layer_settings_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_SETTINGS_EXTENSION_NAME "XR_FB_composition_layer_settings"
-typedef XrFlags64 XrCompositionLayerSettingsFlagsFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrCompositionLayerSettingsFlagsFB;
 
 // Flag bits for XrCompositionLayerSettingsFlagsFB
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SUPER_SAMPLING_BIT_FB = 0x00000001;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SUPER_SAMPLING_BIT_FB = 0x00000002;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SHARPENING_BIT_FB = 0x00000004;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SHARPENING_BIT_FB = 0x00000008;
-static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_AUTO_LAYER_FILTER_BIT_META = 0x00000020;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SUPER_SAMPLING_BIT_FB = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SUPER_SAMPLING_BIT_FB = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_NORMAL_SHARPENING_BIT_FB = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUALITY_SHARPENING_BIT_FB = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_AUTO_LAYER_FILTER_BIT_META = 0x00000020;
 
 // XrCompositionLayerSettingsFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerSettingsFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerSettingsFB {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrCompositionLayerSettingsFlagsFB    layerFlags;
 } XrCompositionLayerSettingsFB;
 
@@ -6737,31 +6737,31 @@ typedef struct XrCompositionLayerSettingsFB {
 
 #define XR_FB_haptic_pcm_SPEC_VERSION     1
 #define XR_FB_HAPTIC_PCM_EXTENSION_NAME   "XR_FB_haptic_pcm"
-typedef struct XrHapticPcmVibrationFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticPcmVibrationFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t                    bufferSize;
-    const float*                buffer;
-    float                       sampleRate;
+    ಧ್ರುವ ಭಿನ್ನ*                buffer;
+    ಭಿನ್ನ                       sampleRate;
     XrBool32                    append;
     uint32_t*                   samplesConsumed;
 } XrHapticPcmVibrationFB;
 
-typedef struct XrDevicePcmSampleRateStateFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDevicePcmSampleRateStateFB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    float                 sampleRate;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                 sampleRate;
 } XrDevicePcmSampleRateStateFB;
 
-typedef XrDevicePcmSampleRateStateFB XrDevicePcmSampleRateGetInfoFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrDevicePcmSampleRateStateFB XrDevicePcmSampleRateGetInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetDeviceSampleRateFB)(XrSession session, const XrHapticActionInfo* hapticActionInfo, XrDevicePcmSampleRateGetInfoFB* deviceSampleRate);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetDeviceSampleRateFB)(XrSession session, ಧ್ರುವ XrHapticActionInfo* hapticActionInfo, XrDevicePcmSampleRateGetInfoFB* deviceSampleRate);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetDeviceSampleRateFB(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo,
+    ಧ್ರುವ XrHapticActionInfo*                   hapticActionInfo,
     XrDevicePcmSampleRateGetInfoFB*             deviceSampleRate);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -6771,32 +6771,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetDeviceSampleRateFB(
 #define XR_EXT_frame_synthesis 1
 #define XR_EXT_frame_synthesis_SPEC_VERSION 1
 #define XR_EXT_FRAME_SYNTHESIS_EXTENSION_NAME "XR_EXT_frame_synthesis"
-typedef XrFlags64 XrFrameSynthesisInfoFlagsEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrFrameSynthesisInfoFlagsEXT;
 
 // Flag bits for XrFrameSynthesisInfoFlagsEXT
-static const XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_USE_2D_MOTION_VECTOR_BIT_EXT = 0x00000001;
-static const XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_REQUEST_RELAXED_FRAME_INTERVAL_BIT_EXT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_USE_2D_MOTION_VECTOR_BIT_EXT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_REQUEST_RELAXED_FRAME_INTERVAL_BIT_EXT = 0x00000002;
 
 // XrFrameSynthesisInfoEXT extends XrCompositionLayerProjectionView
-typedef struct XrFrameSynthesisInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrameSynthesisInfoEXT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrFrameSynthesisInfoFlagsEXT    layerFlags;
     XrSwapchainSubImage             motionVectorSubImage;
     XrVector4f                      motionVectorScale;
     XrVector4f                      motionVectorOffset;
     XrPosef                         appSpaceDeltaPose;
     XrSwapchainSubImage             depthSubImage;
-    float                           minDepth;
-    float                           maxDepth;
-    float                           nearZ;
-    float                           farZ;
+    ಭಿನ್ನ                           minDepth;
+    ಭಿನ್ನ                           maxDepth;
+    ಭಿನ್ನ                           nearZ;
+    ಭಿನ್ನ                           farZ;
 } XrFrameSynthesisInfoEXT;
 
 // XrFrameSynthesisConfigViewEXT extends XrViewConfigurationView
-typedef struct XrFrameSynthesisConfigViewEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFrameSynthesisConfigViewEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              recommendedMotionVectorImageRectWidth;
     uint32_t              recommendedMotionVectorImageRectHeight;
 } XrFrameSynthesisConfigViewEXT;
@@ -6808,7 +6808,7 @@ typedef struct XrFrameSynthesisConfigViewEXT {
 #define XR_FB_composition_layer_depth_test_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_DEPTH_TEST_EXTENSION_NAME "XR_FB_composition_layer_depth_test"
 
-typedef enum XrCompareOpFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCompareOpFB {
     XR_COMPARE_OP_NEVER_FB = 0,
     XR_COMPARE_OP_LESS_FB = 1,
     XR_COMPARE_OP_EQUAL_FB = 2,
@@ -6820,9 +6820,9 @@ typedef enum XrCompareOpFB {
     XR_COMPARE_OP_MAX_ENUM_FB = 0x7FFFFFFF
 } XrCompareOpFB;
 // XrCompositionLayerDepthTestFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerDepthTestFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerDepthTestFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    depthMask;
     XrCompareOpFB               compareOp;
 } XrCompositionLayerDepthTestFB;
@@ -6834,15 +6834,15 @@ typedef struct XrCompositionLayerDepthTestFB {
 #define XR_META_local_dimming_SPEC_VERSION 1
 #define XR_META_LOCAL_DIMMING_EXTENSION_NAME "XR_META_local_dimming"
 
-typedef enum XrLocalDimmingModeMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrLocalDimmingModeMETA {
     XR_LOCAL_DIMMING_MODE_OFF_META = 0,
     XR_LOCAL_DIMMING_MODE_ON_META = 1,
     XR_LOCAL_DIMMING_MODE_MAX_ENUM_META = 0x7FFFFFFF
 } XrLocalDimmingModeMETA;
 // XrLocalDimmingFrameEndInfoMETA extends XrFrameEndInfo
-typedef struct XrLocalDimmingFrameEndInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLocalDimmingFrameEndInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrLocalDimmingModeMETA      localDimmingMode;
 } XrLocalDimmingFrameEndInfoMETA;
 
@@ -6852,18 +6852,18 @@ typedef struct XrLocalDimmingFrameEndInfoMETA {
 #define XR_META_passthrough_preferences 1
 #define XR_META_passthrough_preferences_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_PREFERENCES_EXTENSION_NAME "XR_META_passthrough_preferences"
-typedef XrFlags64 XrPassthroughPreferenceFlagsMETA;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPassthroughPreferenceFlagsMETA;
 
 // Flag bits for XrPassthroughPreferenceFlagsMETA
-static const XrPassthroughPreferenceFlagsMETA XR_PASSTHROUGH_PREFERENCE_DEFAULT_TO_ACTIVE_BIT_META = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPassthroughPreferenceFlagsMETA XR_PASSTHROUGH_PREFERENCE_DEFAULT_TO_ACTIVE_BIT_META = 0x00000001;
 
-typedef struct XrPassthroughPreferencesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughPreferencesMETA {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrPassthroughPreferenceFlagsMETA    flags;
 } XrPassthroughPreferencesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetPassthroughPreferencesMETA)(XrSession session, XrPassthroughPreferencesMETA* preferences);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetPassthroughPreferencesMETA)(XrSession session, XrPassthroughPreferencesMETA* preferences);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -6881,152 +6881,152 @@ XR_DEFINE_HANDLE(XrVirtualKeyboardMETA)
 #define XR_META_virtual_keyboard_SPEC_VERSION 1
 #define XR_META_VIRTUAL_KEYBOARD_EXTENSION_NAME "XR_META_virtual_keyboard"
 
-typedef enum XrVirtualKeyboardLocationTypeMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrVirtualKeyboardLocationTypeMETA {
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_CUSTOM_META = 0,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_FAR_META = 1,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_DIRECT_META = 2,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_MAX_ENUM_META = 0x7FFFFFFF
 } XrVirtualKeyboardLocationTypeMETA;
 
-typedef enum XrVirtualKeyboardInputSourceMETA {
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_RAY_LEFT_META = 1,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_RAY_RIGHT_META = 2,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_RAY_LEFT_META = 3,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_RAY_RIGHT_META = 4,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_DIRECT_LEFT_META = 5,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_DIRECT_RIGHT_META = 6,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_DIRECT_INDEX_TIP_LEFT_META = 7,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_DIRECT_INDEX_TIP_RIGHT_META = 8,
-    XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_MAX_ENUM_META = 0x7FFFFFFF
-} XrVirtualKeyboardInputSourceMETA;
-typedef XrFlags64 XrVirtualKeyboardInputStateFlagsMETA;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ Xr_Virtual_Keyboard_ಒಳಹರಿವು_Source_META {
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_CONTROLLER_RAY_ಎಡ_META = 1,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_CONTROLLER_RAY_ಬಲ_META = 2,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_HAND_RAY_ಎಡ_META = 3,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_HAND_RAY_ಬಲ_META = 4,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_CONTROLLER_DIRECT_ಎಡ_META = 5,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_CONTROLLER_DIRECT_ಬಲ_META = 6,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_HAND_DIRECT_INDEX_TIP_ಎಡ_META = 7,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_HAND_DIRECT_INDEX_TIP_ಬಲ_META = 8,
+    XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_SOURCE_MAX_ENUM_META = 0x7FFFFFFF
+} Xr_Virtual_Keyboard_ಒಳಹರಿವು_Source_META;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 Xr_Virtual_Keyboard_ಒಳಹರಿವು_State_Flags_META;
 
 // Flag bits for XrVirtualKeyboardInputStateFlagsMETA
-static const XrVirtualKeyboardInputStateFlagsMETA XR_VIRTUAL_KEYBOARD_INPUT_STATE_PRESSED_BIT_META = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ Xr_Virtual_Keyboard_ಒಳಹರಿವು_State_Flags_META XR_VIRTUAL_KEYBOARD_ಒಳಹರಿವು_STATE_PRESSED_BIT_META = 0x00000001;
 
 // XrSystemVirtualKeyboardPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemVirtualKeyboardPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemVirtualKeyboardPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsVirtualKeyboard;
 } XrSystemVirtualKeyboardPropertiesMETA;
 
-typedef struct XrVirtualKeyboardCreateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardCreateInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrVirtualKeyboardCreateInfoMETA;
 
-typedef struct XrVirtualKeyboardSpaceCreateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardSpaceCreateInfoMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrVirtualKeyboardLocationTypeMETA    locationType;
     XrSpace                              space;
     XrPosef                              poseInSpace;
 } XrVirtualKeyboardSpaceCreateInfoMETA;
 
-typedef struct XrVirtualKeyboardLocationInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardLocationInfoMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrVirtualKeyboardLocationTypeMETA    locationType;
     XrSpace                              space;
     XrPosef                              poseInSpace;
-    float                                scale;
+    ಭಿನ್ನ                                scale;
 } XrVirtualKeyboardLocationInfoMETA;
 
-typedef struct XrVirtualKeyboardModelVisibilitySetInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardModelVisibilitySetInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    visible;
 } XrVirtualKeyboardModelVisibilitySetInfoMETA;
 
-typedef struct XrVirtualKeyboardAnimationStateMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardAnimationStateMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     int32_t               animationIndex;
-    float                 fraction;
+    ಭಿನ್ನ                 fraction;
 } XrVirtualKeyboardAnimationStateMETA;
 
-typedef struct XrVirtualKeyboardModelAnimationStatesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardModelAnimationStatesMETA {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                stateCapacityInput;
-    uint32_t                                stateCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
+    uint32_t                                state_Capacity_ಒಳಹರಿವು;
+    uint32_t                                state_ಎಣಿಕೆ_Output;
     XrVirtualKeyboardAnimationStateMETA*    states;
 } XrVirtualKeyboardModelAnimationStatesMETA;
 
-typedef struct XrVirtualKeyboardTextureDataMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardTextureDataMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              textureWidth;
     uint32_t              textureHeight;
-    uint32_t              bufferCapacityInput;
-    uint32_t              bufferCountOutput;
+    uint32_t              buffer_Capacity_ಒಳಹರಿವು;
+    uint32_t              buffer_ಎಣಿಕೆ_Output;
     uint8_t*              buffer;
 } XrVirtualKeyboardTextureDataMETA;
 
-typedef struct XrVirtualKeyboardInputInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Virtual_Keyboard_ಒಳಹರಿವು_Info_META {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
-    XrVirtualKeyboardInputSourceMETA        inputSource;
-    XrSpace                                 inputSpace;
-    XrPosef                                 inputPoseInSpace;
-    XrVirtualKeyboardInputStateFlagsMETA    inputState;
-} XrVirtualKeyboardInputInfoMETA;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                next;
+    Xr_Virtual_Keyboard_ಒಳಹರಿವು_Source_META        ಒಳಹರಿವು_Source;
+    XrSpace                                 ಒಳಹರಿವು_Space;
+    XrPosef                                 ಒಳಹರಿವು_Pose_In_Space;
+    Xr_Virtual_Keyboard_ಒಳಹರಿವು_State_Flags_META    ಒಳಹರಿವು_State;
+} Xr_Virtual_Keyboard_ಒಳಹರಿವು_Info_META;
 
-typedef struct XrVirtualKeyboardTextContextChangeInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVirtualKeyboardTextContextChangeInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 textContext;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ವರ್ಣ*                 textContext;
 } XrVirtualKeyboardTextContextChangeInfoMETA;
 
-typedef struct XrEventDataVirtualKeyboardCommitTextMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataVirtualKeyboardCommitTextMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
-    char                        text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
+    ವರ್ಣ                        text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
 } XrEventDataVirtualKeyboardCommitTextMETA;
 
-typedef struct XrEventDataVirtualKeyboardBackspaceMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataVirtualKeyboardBackspaceMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardBackspaceMETA;
 
-typedef struct XrEventDataVirtualKeyboardEnterMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataVirtualKeyboardEnterMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardEnterMETA;
 
-typedef struct XrEventDataVirtualKeyboardShownMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataVirtualKeyboardShownMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardShownMETA;
 
-typedef struct XrEventDataVirtualKeyboardHiddenMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataVirtualKeyboardHiddenMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardHiddenMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardMETA)(XrSession session, const XrVirtualKeyboardCreateInfoMETA* createInfo, XrVirtualKeyboardMETA* keyboard);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyVirtualKeyboardMETA)(XrVirtualKeyboardMETA keyboard);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardSpaceMETA)(XrSession session, XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardSpaceCreateInfoMETA* createInfo, XrSpace* keyboardSpace);
-typedef XrResult (XRAPI_PTR *PFN_xrSuggestVirtualKeyboardLocationMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardLocationInfoMETA* locationInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardScaleMETA)(XrVirtualKeyboardMETA keyboard, float* scale);
-typedef XrResult (XRAPI_PTR *PFN_xrSetVirtualKeyboardModelVisibilityMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardModelAnimationStatesMETA)(XrVirtualKeyboardMETA keyboard, XrVirtualKeyboardModelAnimationStatesMETA* animationStates);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardDirtyTexturesMETA)(XrVirtualKeyboardMETA keyboard, uint32_t textureIdCapacityInput, uint32_t* textureIdCountOutput, uint64_t* textureIds);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardTextureDataMETA)(XrVirtualKeyboardMETA keyboard, uint64_t textureId, XrVirtualKeyboardTextureDataMETA* textureData);
-typedef XrResult (XRAPI_PTR *PFN_xrSendVirtualKeyboardInputMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardInputInfoMETA* info, XrPosef* interactorRootPose);
-typedef XrResult (XRAPI_PTR *PFN_xrChangeVirtualKeyboardTextContextMETA)(XrVirtualKeyboardMETA keyboard, const XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardMETA)(XrSession session, ಧ್ರುವ XrVirtualKeyboardCreateInfoMETA* createInfo, XrVirtualKeyboardMETA* keyboard);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyVirtualKeyboardMETA)(XrVirtualKeyboardMETA keyboard);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateVirtualKeyboardSpaceMETA)(XrSession session, XrVirtualKeyboardMETA keyboard, ಧ್ರುವ XrVirtualKeyboardSpaceCreateInfoMETA* createInfo, XrSpace* keyboardSpace);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSuggestVirtualKeyboardLocationMETA)(XrVirtualKeyboardMETA keyboard, ಧ್ರುವ XrVirtualKeyboardLocationInfoMETA* locationInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardScaleMETA)(XrVirtualKeyboardMETA keyboard, ಭಿನ್ನ* scale);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetVirtualKeyboardModelVisibilityMETA)(XrVirtualKeyboardMETA keyboard, ಧ್ರುವ XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardModelAnimationStatesMETA)(XrVirtualKeyboardMETA keyboard, XrVirtualKeyboardModelAnimationStatesMETA* animationStates);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardDirtyTexturesMETA)(XrVirtualKeyboardMETA keyboard, uint32_t texture_Id_Capacity_ಒಳಹರಿವು, uint32_t* texture_Id_ಎಣಿಕೆ_Output, uint64_t* textureIds);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetVirtualKeyboardTextureDataMETA)(XrVirtualKeyboardMETA keyboard, uint64_t textureId, XrVirtualKeyboardTextureDataMETA* textureData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Send_Virtual_Keyboard_ಒಳಹರಿವು_META)(XrVirtualKeyboardMETA keyboard, ಧ್ರುವ Xr_Virtual_Keyboard_ಒಳಹರಿವು_Info_META* info, XrPosef* interactor_ಬೇರು_Pose);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrChangeVirtualKeyboardTextContextMETA)(XrVirtualKeyboardMETA keyboard, ಧ್ರುವ XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateVirtualKeyboardMETA(
     XrSession                                   session,
-    const XrVirtualKeyboardCreateInfoMETA*      createInfo,
+    ಧ್ರುವ XrVirtualKeyboardCreateInfoMETA*      createInfo,
     XrVirtualKeyboardMETA*                      keyboard);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyVirtualKeyboardMETA(
@@ -7035,20 +7035,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyVirtualKeyboardMETA(
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateVirtualKeyboardSpaceMETA(
     XrSession                                   session,
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardSpaceCreateInfoMETA* createInfo,
+    ಧ್ರುವ XrVirtualKeyboardSpaceCreateInfoMETA* createInfo,
     XrSpace*                                    keyboardSpace);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSuggestVirtualKeyboardLocationMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardLocationInfoMETA*    locationInfo);
+    ಧ್ರುವ XrVirtualKeyboardLocationInfoMETA*    locationInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardScaleMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    float*                                      scale);
+    ಭಿನ್ನ*                                      scale);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetVirtualKeyboardModelVisibilityMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
+    ಧ್ರುವ XrVirtualKeyboardModelVisibilitySetInfoMETA* modelVisibility);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardModelAnimationStatesMETA(
     XrVirtualKeyboardMETA                       keyboard,
@@ -7056,8 +7056,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardModelAnimationStatesMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardDirtyTexturesMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    uint32_t                                    textureIdCapacityInput,
-    uint32_t*                                   textureIdCountOutput,
+    uint32_t                                    texture_Id_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   texture_Id_ಎಣಿಕೆ_Output,
     uint64_t*                                   textureIds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardTextureDataMETA(
@@ -7065,14 +7065,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetVirtualKeyboardTextureDataMETA(
     uint64_t                                    textureId,
     XrVirtualKeyboardTextureDataMETA*           textureData);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrSendVirtualKeyboardInputMETA(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Send_Virtual_Keyboard_ಒಳಹರಿವು_META(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardInputInfoMETA*       info,
-    XrPosef*                                    interactorRootPose);
+    ಧ್ರುವ Xr_Virtual_Keyboard_ಒಳಹರಿವು_Info_META*       info,
+    XrPosef*                                    interactor_ಬೇರು_Pose);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrChangeVirtualKeyboardTextContextMETA(
     XrVirtualKeyboardMETA                       keyboard,
-    const XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
+    ಧ್ರುವ XrVirtualKeyboardTextContextChangeInfoMETA* changeInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -7083,53 +7083,53 @@ XRAPI_ATTR XrResult XRAPI_CALL xrChangeVirtualKeyboardTextContextMETA(
 #define XR_OCULUS_external_camera_SPEC_VERSION 1
 #define XR_OCULUS_EXTERNAL_CAMERA_EXTENSION_NAME "XR_OCULUS_external_camera"
 
-typedef enum XrExternalCameraAttachedToDeviceOCULUS {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrExternalCameraAttachedToDeviceOCULUS {
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_NONE_OCULUS = 0,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_HMD_OCULUS = 1,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_LTOUCH_OCULUS = 2,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_RTOUCH_OCULUS = 3,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_MAX_ENUM_OCULUS = 0x7FFFFFFF
 } XrExternalCameraAttachedToDeviceOCULUS;
-typedef XrFlags64 XrExternalCameraStatusFlagsOCULUS;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrExternalCameraStatusFlagsOCULUS;
 
 // Flag bits for XrExternalCameraStatusFlagsOCULUS
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CONNECTED_BIT_OCULUS = 0x00000001;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATING_BIT_OCULUS = 0x00000002;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATION_FAILED_BIT_OCULUS = 0x00000004;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATED_BIT_OCULUS = 0x00000008;
-static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CAPTURING_BIT_OCULUS = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CONNECTED_BIT_OCULUS = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATING_BIT_OCULUS = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATION_FAILED_BIT_OCULUS = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATED_BIT_OCULUS = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CAPTURING_BIT_OCULUS = 0x00000010;
 
-typedef struct XrExternalCameraIntrinsicsOCULUS {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExternalCameraIntrinsicsOCULUS {
     XrTime         lastChangeTime;
     XrFovf         fov;
-    float          virtualNearPlaneDistance;
-    float          virtualFarPlaneDistance;
+    ಭಿನ್ನ          virtualNearPlaneDistance;
+    ಭಿನ್ನ          virtualFarPlaneDistance;
     XrExtent2Di    imageSensorPixelResolution;
 } XrExternalCameraIntrinsicsOCULUS;
 
-typedef struct XrExternalCameraExtrinsicsOCULUS {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExternalCameraExtrinsicsOCULUS {
     XrTime                                    lastChangeTime;
     XrExternalCameraStatusFlagsOCULUS         cameraStatusFlags;
     XrExternalCameraAttachedToDeviceOCULUS    attachedToDevice;
     XrPosef                                   relativePose;
 } XrExternalCameraExtrinsicsOCULUS;
 
-typedef struct XrExternalCameraOCULUS {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExternalCameraOCULUS {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    char                                name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    ವರ್ಣ                                name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
     XrExternalCameraIntrinsicsOCULUS    intrinsics;
     XrExternalCameraExtrinsicsOCULUS    extrinsics;
 } XrExternalCameraOCULUS;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateExternalCamerasOCULUS)(XrSession session, uint32_t cameraCapacityInput, uint32_t* cameraCountOutput, XrExternalCameraOCULUS* cameras);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateExternalCamerasOCULUS)(XrSession session, uint32_t camera_Capacity_ಒಳಹರಿವು, uint32_t* camera_ಎಣಿಕೆ_Output, XrExternalCameraOCULUS* cameras);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateExternalCamerasOCULUS(
     XrSession                                   session,
-    uint32_t                                    cameraCapacityInput,
-    uint32_t*                                   cameraCountOutput,
+    uint32_t                                    camera_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   camera_ಎಣಿಕೆ_Output,
     XrExternalCameraOCULUS*                     cameras);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7140,7 +7140,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateExternalCamerasOCULUS(
 #define XR_META_performance_metrics_SPEC_VERSION 2
 #define XR_META_PERFORMANCE_METRICS_EXTENSION_NAME "XR_META_performance_metrics"
 
-typedef enum XrPerformanceMetricsCounterUnitMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPerformanceMetricsCounterUnitMETA {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_GENERIC_META = 0,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_PERCENTAGE_META = 1,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MILLISECONDS_META = 2,
@@ -7148,44 +7148,44 @@ typedef enum XrPerformanceMetricsCounterUnitMETA {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_HERTZ_META = 4,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MAX_ENUM_META = 0x7FFFFFFF
 } XrPerformanceMetricsCounterUnitMETA;
-typedef XrFlags64 XrPerformanceMetricsCounterFlagsMETA;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPerformanceMetricsCounterFlagsMETA;
 
 // Flag bits for XrPerformanceMetricsCounterFlagsMETA
-static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_ANY_VALUE_VALID_BIT_META = 0x00000001;
-static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_UINT_VALUE_VALID_BIT_META = 0x00000002;
-static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_FLOAT_VALUE_VALID_BIT_META = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_ANY_ಮೌಲ್ಯ_VALID_BIT_META = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_UINT_ಮೌಲ್ಯ_VALID_BIT_META = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_FLOAT_ಮೌಲ್ಯ_VALID_BIT_META = 0x00000004;
 
-typedef struct XrPerformanceMetricsStateMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPerformanceMetricsStateMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrPerformanceMetricsStateMETA;
 
-typedef struct XrPerformanceMetricsCounterMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPerformanceMetricsCounterMETA {
     XrStructureType                         type;
-    const void* XR_MAY_ALIAS                next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                next;
     XrPerformanceMetricsCounterFlagsMETA    counterFlags;
     XrPerformanceMetricsCounterUnitMETA     counterUnit;
-    uint32_t                                uintValue;
-    float                                   floatValue;
+    uint32_t                                uint_ಮೌಲ್ಯ;
+    ಭಿನ್ನ                                   float_ಮೌಲ್ಯ;
 } XrPerformanceMetricsCounterMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsMETA)(XrInstance instance, uint32_t counterPathCapacityInput, uint32_t* counterPathCountOutput, XrPath* counterPaths);
-typedef XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateMETA)(XrSession session, const XrPerformanceMetricsStateMETA* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateMETA)(XrSession session, XrPerformanceMetricsStateMETA* state);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterMETA)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterMETA* counter);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsMETA)(XrInstance instance, uint32_t counter_Path_Capacity_ಒಳಹರಿವು, uint32_t* counter_Path_ಎಣಿಕೆ_Output, XrPath* counterPaths);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateMETA)(XrSession session, ಧ್ರುವ XrPerformanceMetricsStateMETA* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateMETA)(XrSession session, XrPerformanceMetricsStateMETA* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterMETA)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterMETA* counter);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePerformanceMetricsCounterPathsMETA(
     XrInstance                                  instance,
-    uint32_t                                    counterPathCapacityInput,
-    uint32_t*                                   counterPathCountOutput,
+    uint32_t                                    counter_Path_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   counter_Path_ಎಣಿಕೆ_Output,
     XrPath*                                     counterPaths);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetPerformanceMetricsStateMETA(
     XrSession                                   session,
-    const XrPerformanceMetricsStateMETA*        state);
+    ಧ್ರುವ XrPerformanceMetricsStateMETA*        state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPerformanceMetricsStateMETA(
     XrSession                                   session,
@@ -7203,28 +7203,28 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryPerformanceMetricsCounterMETA(
 #define XR_FB_spatial_entity_storage_batch 1
 #define XR_FB_spatial_entity_storage_batch_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_STORAGE_BATCH_EXTENSION_NAME "XR_FB_spatial_entity_storage_batch"
-typedef struct XrSpaceListSaveInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceListSaveInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    space_ಎಣಿಕೆ;
     XrSpace*                    spaces;
     XrSpaceStorageLocationFB    location;
 } XrSpaceListSaveInfoFB;
 
-typedef struct XrEventDataSpaceListSaveCompleteFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceListSaveCompleteFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceListSaveCompleteFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSaveSpaceListFB)(XrSession session, const XrSpaceListSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSaveSpaceListFB)(XrSession session, ಧ್ರುವ XrSpaceListSaveInfoFB* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpaceListFB(
     XrSession                                   session,
-    const XrSpaceListSaveInfoFB*                info,
+    ಧ್ರುವ XrSpaceListSaveInfoFB*                info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7238,24 +7238,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpaceListFB(
 
 // XR_FB_spatial_entity_user is a preprocessor guard. Do not pass it to API calls.
 #define XR_FB_spatial_entity_user 1
-typedef uint64_t XrSpaceUserIdFB;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t XrSpaceUserIdFB;
 #define XR_FB_spatial_entity_user_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_USER_EXTENSION_NAME "XR_FB_spatial_entity_user"
-typedef struct XrSpaceUserCreateInfoFB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceUserCreateInfoFB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpaceUserIdFB             userId;
 } XrSpaceUserCreateInfoFB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpaceUserFB)(XrSession session, const XrSpaceUserCreateInfoFB* info, XrSpaceUserFB* user);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceUserIdFB)(XrSpaceUserFB user, XrSpaceUserIdFB* userId);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpaceUserFB)(XrSpaceUserFB user);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpaceUserFB)(XrSession session, ಧ್ರುವ XrSpaceUserCreateInfoFB* info, XrSpaceUserFB* user);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceUserIdFB)(XrSpaceUserFB user, XrSpaceUserIdFB* userId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpaceUserFB)(XrSpaceUserFB user);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpaceUserFB(
     XrSession                                   session,
-    const XrSpaceUserCreateInfoFB*              info,
+    ಧ್ರುವ XrSpaceUserCreateInfoFB*              info,
     XrSpaceUserFB*                              user);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceUserIdFB(
@@ -7273,9 +7273,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpaceUserFB(
 #define XR_META_headset_id_SPEC_VERSION   2
 #define XR_META_HEADSET_ID_EXTENSION_NAME "XR_META_headset_id"
 // XrSystemHeadsetIdPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemHeadsetIdPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemHeadsetIdPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidEXT             id;
 } XrSystemHeadsetIdPropertiesMETA;
 
@@ -7286,71 +7286,71 @@ typedef struct XrSystemHeadsetIdPropertiesMETA {
 #define XR_META_spatial_entity_discovery_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_DISCOVERY_EXTENSION_NAME "XR_META_spatial_entity_discovery"
 // XrSystemSpaceDiscoveryPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpaceDiscoveryPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpaceDiscoveryPropertiesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpaceDiscovery;
 } XrSystemSpaceDiscoveryPropertiesMETA;
 
-typedef struct XR_MAY_ALIAS XrSpaceFilterBaseHeaderMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSpaceFilterBaseHeaderMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpaceFilterBaseHeaderMETA;
 
-typedef struct XrSpaceDiscoveryInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceDiscoveryInfoMETA {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
-    uint32_t                                      filterCount;
-    const XrSpaceFilterBaseHeaderMETA* const *    filters;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
+    uint32_t                                      filter_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpaceFilterBaseHeaderMETA* ಧ್ರುವ *    filters;
 } XrSpaceDiscoveryInfoMETA;
 
-typedef struct XrSpaceFilterUuidMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceFilterUuidMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_ಎಣಿಕೆ;
+    ಧ್ರುವ XrUuidEXT*            uuids;
 } XrSpaceFilterUuidMETA;
 
-typedef struct XrSpaceFilterComponentMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceFilterComponentMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
 } XrSpaceFilterComponentMETA;
 
-typedef struct XrSpaceDiscoveryResultMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceDiscoveryResultMETA {
     XrSpace      space;
     XrUuidEXT    uuid;
 } XrSpaceDiscoveryResultMETA;
 
-typedef struct XrSpaceDiscoveryResultsMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceDiscoveryResultsMETA {
     XrStructureType                type;
-    const void* XR_MAY_ALIAS       next;
-    uint32_t                       resultCapacityInput;
-    uint32_t                       resultCountOutput;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                       result_Capacity_ಒಳಹರಿವು;
+    uint32_t                       result_ಎಣಿಕೆ_Output;
     XrSpaceDiscoveryResultMETA*    results;
 } XrSpaceDiscoveryResultsMETA;
 
-typedef struct XrEventDataSpaceDiscoveryResultsAvailableMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceDiscoveryResultsAvailableMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
 } XrEventDataSpaceDiscoveryResultsAvailableMETA;
 
-typedef struct XrEventDataSpaceDiscoveryCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpaceDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpaceDiscoveryCompleteMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrDiscoverSpacesMETA)(XrSession session, const XrSpaceDiscoveryInfoMETA* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceDiscoveryResultsMETA)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceDiscoveryResultsMETA* results);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDiscoverSpacesMETA)(XrSession session, ಧ್ರುವ XrSpaceDiscoveryInfoMETA* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRetrieveSpaceDiscoveryResultsMETA)(XrSession session, XrAsyncRequestIdFB requestId, XrSpaceDiscoveryResultsMETA* results);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrDiscoverSpacesMETA(
     XrSession                                   session,
-    const XrSpaceDiscoveryInfoMETA*             info,
+    ಧ್ರುವ XrSpaceDiscoveryInfoMETA*             info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceDiscoveryResultsMETA(
@@ -7371,27 +7371,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceDiscoveryResultsMETA(
 #define XR_META_recommended_layer_resolution 1
 #define XR_META_recommended_layer_resolution_SPEC_VERSION 1
 #define XR_META_RECOMMENDED_LAYER_RESOLUTION_EXTENSION_NAME "XR_META_recommended_layer_resolution"
-typedef struct XrRecommendedLayerResolutionMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRecommendedLayerResolutionMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrExtent2Di           recommendedImageDimensions;
     XrBool32              isValid;
 } XrRecommendedLayerResolutionMETA;
 
-typedef struct XrRecommendedLayerResolutionGetInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRecommendedLayerResolutionGetInfoMETA {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
-    const XrCompositionLayerBaseHeader*    layer;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS               next;
+    ಧ್ರುವ XrCompositionLayerBaseHeader*    layer;
     XrTime                                 predictedDisplayTime;
 } XrRecommendedLayerResolutionGetInfoMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetRecommendedLayerResolutionMETA)(XrSession session, const XrRecommendedLayerResolutionGetInfoMETA* info, XrRecommendedLayerResolutionMETA* resolution);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetRecommendedLayerResolutionMETA)(XrSession session, ಧ್ರುವ XrRecommendedLayerResolutionGetInfoMETA* info, XrRecommendedLayerResolutionMETA* resolution);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRecommendedLayerResolutionMETA(
     XrSession                                   session,
-    const XrRecommendedLayerResolutionGetInfoMETA* info,
+    ಧ್ರುವ XrRecommendedLayerResolutionGetInfoMETA* info,
     XrRecommendedLayerResolutionMETA*           resolution);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7402,55 +7402,55 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRecommendedLayerResolutionMETA(
 #define XR_META_spatial_entity_persistence_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_PERSISTENCE_EXTENSION_NAME "XR_META_spatial_entity_persistence"
 // XrSystemSpacePersistencePropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpacePersistencePropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpacePersistencePropertiesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpacePersistence;
 } XrSystemSpacePersistencePropertiesMETA;
 
-typedef struct XrSpacesSaveInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpacesSaveInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    space_ಎಣಿಕೆ;
     XrSpace*                    spaces;
 } XrSpacesSaveInfoMETA;
 
-typedef struct XrEventDataSpacesSaveResultMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpacesSaveResultMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpacesSaveResultMETA;
 
-typedef struct XrSpacesEraseInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpacesEraseInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    spaceCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    space_ಎಣಿಕೆ;
     XrSpace*                    spaces;
-    uint32_t                    uuidCount;
+    uint32_t                    uuid_ಎಣಿಕೆ;
     XrUuidEXT*                  uuids;
 } XrSpacesEraseInfoMETA;
 
-typedef struct XrEventDataSpacesEraseResultMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpacesEraseResultMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpacesEraseResultMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSaveSpacesMETA)(XrSession session, const XrSpacesSaveInfoMETA* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrEraseSpacesMETA)(XrSession session, const XrSpacesEraseInfoMETA* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSaveSpacesMETA)(XrSession session, ಧ್ರುವ XrSpacesSaveInfoMETA* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEraseSpacesMETA)(XrSession session, ಧ್ರುವ XrSpacesEraseInfoMETA* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpacesMETA(
     XrSession                                   session,
-    const XrSpacesSaveInfoMETA*                 info,
+    ಧ್ರುವ XrSpacesSaveInfoMETA*                 info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEraseSpacesMETA(
     XrSession                                   session,
-    const XrSpacesEraseInfoMETA*                info,
+    ಧ್ರುವ XrSpacesEraseInfoMETA*                info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7462,63 +7462,63 @@ XR_DEFINE_HANDLE(XrPassthroughColorLutMETA)
 #define XR_META_passthrough_color_lut_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_COLOR_LUT_EXTENSION_NAME "XR_META_passthrough_color_lut"
 
-typedef enum XrPassthroughColorLutChannelsMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPassthroughColorLutChannelsMETA {
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_RGB_META = 1,
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_RGBA_META = 2,
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_MAX_ENUM_META = 0x7FFFFFFF
 } XrPassthroughColorLutChannelsMETA;
-typedef struct XrPassthroughColorLutDataMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorLutDataMETA {
     uint32_t          bufferSize;
-    const uint8_t*    buffer;
+    ಧ್ರುವ uint8_t*    buffer;
 } XrPassthroughColorLutDataMETA;
 
-typedef struct XrPassthroughColorLutCreateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorLutCreateInfoMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrPassthroughColorLutChannelsMETA    channels;
     uint32_t                             resolution;
     XrPassthroughColorLutDataMETA        data;
 } XrPassthroughColorLutCreateInfoMETA;
 
-typedef struct XrPassthroughColorLutUpdateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorLutUpdateInfoMETA {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrPassthroughColorLutDataMETA    data;
 } XrPassthroughColorLutUpdateInfoMETA;
 
 // XrPassthroughColorMapLutMETA extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapLutMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorMapLutMETA {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrPassthroughColorLutMETA    colorLut;
-    float                        weight;
+    ಭಿನ್ನ                        weight;
 } XrPassthroughColorMapLutMETA;
 
 // XrPassthroughColorMapInterpolatedLutMETA extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapInterpolatedLutMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorMapInterpolatedLutMETA {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrPassthroughColorLutMETA    sourceColorLut;
     XrPassthroughColorLutMETA    targetColorLut;
-    float                        weight;
+    ಭಿನ್ನ                        weight;
 } XrPassthroughColorMapInterpolatedLutMETA;
 
 // XrSystemPassthroughColorLutPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemPassthroughColorLutPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPassthroughColorLutPropertiesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t                    maxColorLutResolution;
 } XrSystemPassthroughColorLutPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughColorLutMETA)(XrPassthroughFB passthrough, const XrPassthroughColorLutCreateInfoMETA* createInfo, XrPassthroughColorLutMETA* colorLut);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdatePassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut, const XrPassthroughColorLutUpdateInfoMETA* updateInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreatePassthroughColorLutMETA)(XrPassthroughFB passthrough, ಧ್ರುವ XrPassthroughColorLutCreateInfoMETA* createInfo, XrPassthroughColorLutMETA* colorLut);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdatePassthroughColorLutMETA)(XrPassthroughColorLutMETA colorLut, ಧ್ರುವ XrPassthroughColorLutUpdateInfoMETA* updateInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughColorLutMETA(
     XrPassthroughFB                             passthrough,
-    const XrPassthroughColorLutCreateInfoMETA*  createInfo,
+    ಧ್ರುವ XrPassthroughColorLutCreateInfoMETA*  createInfo,
     XrPassthroughColorLutMETA*                  colorLut);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughColorLutMETA(
@@ -7526,7 +7526,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughColorLutMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdatePassthroughColorLutMETA(
     XrPassthroughColorLutMETA                   colorLut,
-    const XrPassthroughColorLutUpdateInfoMETA*  updateInfo);
+    ಧ್ರುವ XrPassthroughColorLutUpdateInfoMETA*  updateInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -7535,29 +7535,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUpdatePassthroughColorLutMETA(
 #define XR_META_spatial_entity_mesh 1
 #define XR_META_spatial_entity_mesh_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_MESH_EXTENSION_NAME "XR_META_spatial_entity_mesh"
-typedef struct XrSpaceTriangleMeshGetInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceTriangleMeshGetInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpaceTriangleMeshGetInfoMETA;
 
-typedef struct XrSpaceTriangleMeshMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceTriangleMeshMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t              vertex_ಎಣಿಕೆ_Output;
     XrVector3f*           vertices;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_ಒಳಹರಿವು;
+    uint32_t              index_ಎಣಿಕೆ_Output;
     uint32_t*             indices;
 } XrSpaceTriangleMeshMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceTriangleMeshMETA)(XrSpace space, const XrSpaceTriangleMeshGetInfoMETA* getInfo, XrSpaceTriangleMeshMETA* triangleMeshOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceTriangleMeshMETA)(XrSpace space, ಧ್ರುವ XrSpaceTriangleMeshGetInfoMETA* getInfo, XrSpaceTriangleMeshMETA* triangleMeshOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceTriangleMeshMETA(
     XrSpace                                     space,
-    const XrSpaceTriangleMeshGetInfoMETA*       getInfo,
+    ಧ್ರುವ XrSpaceTriangleMeshGetInfoMETA*       getInfo,
     XrSpaceTriangleMeshMETA*                    triangleMeshOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7574,99 +7574,99 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceTriangleMeshMETA(
 #define XR_META_body_tracking_full_body_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_FULL_BODY_EXTENSION_NAME "XR_META_body_tracking_full_body"
 
-typedef enum XrFullBodyJointMETA {
-    XR_FULL_BODY_JOINT_ROOT_META = 0,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFullBodyJointMETA {
+    XR_FULL_BODY_JOINT_ಬೇರು_META = 0,
     XR_FULL_BODY_JOINT_HIPS_META = 1,
     XR_FULL_BODY_JOINT_SPINE_LOWER_META = 2,
-    XR_FULL_BODY_JOINT_SPINE_MIDDLE_META = 3,
+    XR_FULL_BODY_JOINT_SPINE_ಮಧ್ಯ_META = 3,
     XR_FULL_BODY_JOINT_SPINE_UPPER_META = 4,
     XR_FULL_BODY_JOINT_CHEST_META = 5,
     XR_FULL_BODY_JOINT_NECK_META = 6,
     XR_FULL_BODY_JOINT_HEAD_META = 7,
-    XR_FULL_BODY_JOINT_LEFT_SHOULDER_META = 8,
-    XR_FULL_BODY_JOINT_LEFT_SCAPULA_META = 9,
-    XR_FULL_BODY_JOINT_LEFT_ARM_UPPER_META = 10,
-    XR_FULL_BODY_JOINT_LEFT_ARM_LOWER_META = 11,
-    XR_FULL_BODY_JOINT_LEFT_HAND_WRIST_TWIST_META = 12,
-    XR_FULL_BODY_JOINT_RIGHT_SHOULDER_META = 13,
-    XR_FULL_BODY_JOINT_RIGHT_SCAPULA_META = 14,
-    XR_FULL_BODY_JOINT_RIGHT_ARM_UPPER_META = 15,
-    XR_FULL_BODY_JOINT_RIGHT_ARM_LOWER_META = 16,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_WRIST_TWIST_META = 17,
-    XR_FULL_BODY_JOINT_LEFT_HAND_PALM_META = 18,
-    XR_FULL_BODY_JOINT_LEFT_HAND_WRIST_META = 19,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_METACARPAL_META = 20,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_PROXIMAL_META = 21,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_DISTAL_META = 22,
-    XR_FULL_BODY_JOINT_LEFT_HAND_THUMB_TIP_META = 23,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_METACARPAL_META = 24,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_PROXIMAL_META = 25,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_INTERMEDIATE_META = 26,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_DISTAL_META = 27,
-    XR_FULL_BODY_JOINT_LEFT_HAND_INDEX_TIP_META = 28,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_METACARPAL_META = 29,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_PROXIMAL_META = 30,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_INTERMEDIATE_META = 31,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_DISTAL_META = 32,
-    XR_FULL_BODY_JOINT_LEFT_HAND_MIDDLE_TIP_META = 33,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_METACARPAL_META = 34,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_PROXIMAL_META = 35,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_INTERMEDIATE_META = 36,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_DISTAL_META = 37,
-    XR_FULL_BODY_JOINT_LEFT_HAND_RING_TIP_META = 38,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_METACARPAL_META = 39,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_PROXIMAL_META = 40,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_INTERMEDIATE_META = 41,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_DISTAL_META = 42,
-    XR_FULL_BODY_JOINT_LEFT_HAND_LITTLE_TIP_META = 43,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_PALM_META = 44,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_WRIST_META = 45,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_METACARPAL_META = 46,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_PROXIMAL_META = 47,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_DISTAL_META = 48,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_THUMB_TIP_META = 49,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_METACARPAL_META = 50,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_PROXIMAL_META = 51,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_INTERMEDIATE_META = 52,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_DISTAL_META = 53,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_INDEX_TIP_META = 54,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_METACARPAL_META = 55,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_PROXIMAL_META = 56,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_INTERMEDIATE_META = 57,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_DISTAL_META = 58,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_MIDDLE_TIP_META = 59,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_METACARPAL_META = 60,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_PROXIMAL_META = 61,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_INTERMEDIATE_META = 62,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_DISTAL_META = 63,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_RING_TIP_META = 64,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_METACARPAL_META = 65,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_PROXIMAL_META = 66,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_INTERMEDIATE_META = 67,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_DISTAL_META = 68,
-    XR_FULL_BODY_JOINT_RIGHT_HAND_LITTLE_TIP_META = 69,
-    XR_FULL_BODY_JOINT_LEFT_UPPER_LEG_META = 70,
-    XR_FULL_BODY_JOINT_LEFT_LOWER_LEG_META = 71,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_ANKLE_TWIST_META = 72,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_ANKLE_META = 73,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_SUBTALAR_META = 74,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_TRANSVERSE_META = 75,
-    XR_FULL_BODY_JOINT_LEFT_FOOT_BALL_META = 76,
-    XR_FULL_BODY_JOINT_RIGHT_UPPER_LEG_META = 77,
-    XR_FULL_BODY_JOINT_RIGHT_LOWER_LEG_META = 78,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_ANKLE_TWIST_META = 79,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_ANKLE_META = 80,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_SUBTALAR_META = 81,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_TRANSVERSE_META = 82,
-    XR_FULL_BODY_JOINT_RIGHT_FOOT_BALL_META = 83,
-    XR_FULL_BODY_JOINT_COUNT_META = 84,
+    XR_FULL_BODY_JOINT_ಎಡ_SHOULDER_META = 8,
+    XR_FULL_BODY_JOINT_ಎಡ_SCAPULA_META = 9,
+    XR_FULL_BODY_JOINT_ಎಡ_ARM_UPPER_META = 10,
+    XR_FULL_BODY_JOINT_ಎಡ_ARM_LOWER_META = 11,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_WRIST_TWIST_META = 12,
+    XR_FULL_BODY_JOINT_ಬಲ_SHOULDER_META = 13,
+    XR_FULL_BODY_JOINT_ಬಲ_SCAPULA_META = 14,
+    XR_FULL_BODY_JOINT_ಬಲ_ARM_UPPER_META = 15,
+    XR_FULL_BODY_JOINT_ಬಲ_ARM_LOWER_META = 16,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_WRIST_TWIST_META = 17,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_PALM_META = 18,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_WRIST_META = 19,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_THUMB_METACARPAL_META = 20,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_THUMB_PROXIMAL_META = 21,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_THUMB_DISTAL_META = 22,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_THUMB_TIP_META = 23,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_INDEX_METACARPAL_META = 24,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_INDEX_PROXIMAL_META = 25,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_INDEX_INTERMEDIATE_META = 26,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_INDEX_DISTAL_META = 27,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_INDEX_TIP_META = 28,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_METACARPAL_META = 29,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_PROXIMAL_META = 30,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_INTERMEDIATE_META = 31,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_DISTAL_META = 32,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_ಮಧ್ಯ_TIP_META = 33,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_RING_METACARPAL_META = 34,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_RING_PROXIMAL_META = 35,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_RING_INTERMEDIATE_META = 36,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_RING_DISTAL_META = 37,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_RING_TIP_META = 38,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_LITTLE_METACARPAL_META = 39,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_LITTLE_PROXIMAL_META = 40,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_LITTLE_INTERMEDIATE_META = 41,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_LITTLE_DISTAL_META = 42,
+    XR_FULL_BODY_JOINT_ಎಡ_HAND_LITTLE_TIP_META = 43,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_PALM_META = 44,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_WRIST_META = 45,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_THUMB_METACARPAL_META = 46,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_THUMB_PROXIMAL_META = 47,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_THUMB_DISTAL_META = 48,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_THUMB_TIP_META = 49,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_INDEX_METACARPAL_META = 50,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_INDEX_PROXIMAL_META = 51,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_INDEX_INTERMEDIATE_META = 52,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_INDEX_DISTAL_META = 53,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_INDEX_TIP_META = 54,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_METACARPAL_META = 55,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_PROXIMAL_META = 56,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_INTERMEDIATE_META = 57,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_DISTAL_META = 58,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_ಮಧ್ಯ_TIP_META = 59,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_RING_METACARPAL_META = 60,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_RING_PROXIMAL_META = 61,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_RING_INTERMEDIATE_META = 62,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_RING_DISTAL_META = 63,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_RING_TIP_META = 64,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_LITTLE_METACARPAL_META = 65,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_LITTLE_PROXIMAL_META = 66,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_LITTLE_INTERMEDIATE_META = 67,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_LITTLE_DISTAL_META = 68,
+    XR_FULL_BODY_JOINT_ಬಲ_HAND_LITTLE_TIP_META = 69,
+    XR_FULL_BODY_JOINT_ಎಡ_UPPER_LEG_META = 70,
+    XR_FULL_BODY_JOINT_ಎಡ_LOWER_LEG_META = 71,
+    XR_FULL_BODY_JOINT_ಎಡ_FOOT_ANKLE_TWIST_META = 72,
+    XR_FULL_BODY_JOINT_ಎಡ_FOOT_ANKLE_META = 73,
+    XR_FULL_BODY_JOINT_ಎಡ_FOOT_SUBTALAR_META = 74,
+    XR_FULL_BODY_JOINT_ಎಡ_FOOT_TRANSVERSE_META = 75,
+    XR_FULL_BODY_JOINT_ಎಡ_FOOT_BALL_META = 76,
+    XR_FULL_BODY_JOINT_ಬಲ_UPPER_LEG_META = 77,
+    XR_FULL_BODY_JOINT_ಬಲ_LOWER_LEG_META = 78,
+    XR_FULL_BODY_JOINT_ಬಲ_FOOT_ANKLE_TWIST_META = 79,
+    XR_FULL_BODY_JOINT_ಬಲ_FOOT_ANKLE_META = 80,
+    XR_FULL_BODY_JOINT_ಬಲ_FOOT_SUBTALAR_META = 81,
+    XR_FULL_BODY_JOINT_ಬಲ_FOOT_TRANSVERSE_META = 82,
+    XR_FULL_BODY_JOINT_ಬಲ_FOOT_BALL_META = 83,
+    XR_FULL_BODY_JOINT_ಎಣಿಕೆ_META = 84,
     XR_FULL_BODY_JOINT_NONE_META = 85,
     XR_FULL_BODY_JOINT_MAX_ENUM_META = 0x7FFFFFFF
 } XrFullBodyJointMETA;
 // XrSystemPropertiesBodyTrackingFullBodyMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingFullBodyMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPropertiesBodyTrackingFullBodyMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsFullBodyTracking;
 } XrSystemPropertiesBodyTrackingFullBodyMETA;
 
@@ -7682,9 +7682,9 @@ typedef struct XrSystemPropertiesBodyTrackingFullBodyMETA {
 #define XR_META_passthrough_layer_resumed_event 1
 #define XR_META_passthrough_layer_resumed_event_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_LAYER_RESUMED_EVENT_EXTENSION_NAME "XR_META_passthrough_layer_resumed_event"
-typedef struct XrEventDataPassthroughLayerResumedMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataPassthroughLayerResumedMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPassthroughLayerFB        layer;
 } XrEventDataPassthroughLayerResumedMETA;
 
@@ -7695,40 +7695,40 @@ typedef struct XrEventDataPassthroughLayerResumedMETA {
 #define XR_META_body_tracking_calibration_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_CALIBRATION_EXTENSION_NAME "XR_META_body_tracking_calibration"
 
-typedef enum XrBodyTrackingCalibrationStateMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyTrackingCalibrationStateMETA {
     XR_BODY_TRACKING_CALIBRATION_STATE_VALID_META = 1,
     XR_BODY_TRACKING_CALIBRATION_STATE_CALIBRATING_META = 2,
     XR_BODY_TRACKING_CALIBRATION_STATE_INVALID_META = 3,
     XR_BODY_TRACKING_CALIBRATION_STATE_MAX_ENUM_META = 0x7FFFFFFF
 } XrBodyTrackingCalibrationStateMETA;
 // XrBodyTrackingCalibrationStatusMETA extends XrBodyJointLocationsFB
-typedef struct XrBodyTrackingCalibrationStatusMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackingCalibrationStatusMETA {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
     XrBodyTrackingCalibrationStateMETA    status;
 } XrBodyTrackingCalibrationStatusMETA;
 
-typedef struct XrBodyTrackingCalibrationInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackingCalibrationInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       bodyHeight;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       bodyHeight;
 } XrBodyTrackingCalibrationInfoMETA;
 
 // XrSystemPropertiesBodyTrackingCalibrationMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingCalibrationMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPropertiesBodyTrackingCalibrationMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsHeightOverride;
 } XrSystemPropertiesBodyTrackingCalibrationMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSuggestBodyTrackingCalibrationOverrideMETA)(XrBodyTrackerFB bodyTracker, const XrBodyTrackingCalibrationInfoMETA* calibrationInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrResetBodyTrackingCalibrationMETA)(XrBodyTrackerFB bodyTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSuggestBodyTrackingCalibrationOverrideMETA)(XrBodyTrackerFB bodyTracker, ಧ್ರುವ XrBodyTrackingCalibrationInfoMETA* calibrationInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrResetBodyTrackingCalibrationMETA)(XrBodyTrackerFB bodyTracker);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSuggestBodyTrackingCalibrationOverrideMETA(
     XrBodyTrackerFB                             bodyTracker,
-    const XrBodyTrackingCalibrationInfoMETA*    calibrationInfo);
+    ಧ್ರುವ XrBodyTrackingCalibrationInfoMETA*    calibrationInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrResetBodyTrackingCalibrationMETA(
     XrBodyTrackerFB                             bodyTracker);
@@ -7741,32 +7741,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrResetBodyTrackingCalibrationMETA(
 #define XR_META_body_tracking_fidelity_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_FIDELITY_EXTENSION_NAME "XR_META_body_tracking_fidelity"
 
-typedef enum XrBodyTrackingFidelityMETA {
-    XR_BODY_TRACKING_FIDELITY_LOW_META = 1,
-    XR_BODY_TRACKING_FIDELITY_HIGH_META = 2,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyTrackingFidelityMETA {
+    XR_BODY_TRACKING_FIDELITY_ಕೆಳಗಿನ_META = 1,
+    XR_BODY_TRACKING_FIDELITY_ಮೇಲಿನ_META = 2,
     XR_BODY_TRACKING_FIDELITY_MAX_ENUM_META = 0x7FFFFFFF
 } XrBodyTrackingFidelityMETA;
 // XrSystemPropertiesBodyTrackingFidelityMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingFidelityMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPropertiesBodyTrackingFidelityMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTrackingFidelity;
 } XrSystemPropertiesBodyTrackingFidelityMETA;
 
 // XrBodyTrackingFidelityStatusMETA extends XrBodyJointLocationsFB
-typedef struct XrBodyTrackingFidelityStatusMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackingFidelityStatusMETA {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrBodyTrackingFidelityMETA    fidelity;
 } XrBodyTrackingFidelityStatusMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrRequestBodyTrackingFidelityMETA)(XrBodyTrackerFB bodyTracker, const XrBodyTrackingFidelityMETA fidelity);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestBodyTrackingFidelityMETA)(XrBodyTrackerFB bodyTracker, ಧ್ರುವ XrBodyTrackingFidelityMETA fidelity);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestBodyTrackingFidelityMETA(
     XrBodyTrackerFB                             bodyTracker,
-    const XrBodyTrackingFidelityMETA            fidelity);
+    ಧ್ರುವ XrBodyTrackingFidelityMETA            fidelity);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -7777,7 +7777,7 @@ XR_DEFINE_HANDLE(XrFaceTracker2FB)
 #define XR_FB_face_tracking2_SPEC_VERSION 1
 #define XR_FB_FACE_TRACKING2_EXTENSION_NAME "XR_FB_face_tracking2"
 
-typedef enum XrFaceExpression2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_BROW_LOWERER_L_FB = 0,
     XR_FACE_EXPRESSION2_BROW_LOWERER_R_FB = 1,
     XR_FACE_EXPRESSION2_CHEEK_PUFF_L_FB = 2,
@@ -7794,17 +7794,17 @@ typedef enum XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_EYES_CLOSED_R_FB = 13,
     XR_FACE_EXPRESSION2_EYES_LOOK_DOWN_L_FB = 14,
     XR_FACE_EXPRESSION2_EYES_LOOK_DOWN_R_FB = 15,
-    XR_FACE_EXPRESSION2_EYES_LOOK_LEFT_L_FB = 16,
-    XR_FACE_EXPRESSION2_EYES_LOOK_LEFT_R_FB = 17,
-    XR_FACE_EXPRESSION2_EYES_LOOK_RIGHT_L_FB = 18,
-    XR_FACE_EXPRESSION2_EYES_LOOK_RIGHT_R_FB = 19,
+    XR_FACE_EXPRESSION2_EYES_LOOK_ಎಡ_L_FB = 16,
+    XR_FACE_EXPRESSION2_EYES_LOOK_ಎಡ_R_FB = 17,
+    XR_FACE_EXPRESSION2_EYES_LOOK_ಬಲ_L_FB = 18,
+    XR_FACE_EXPRESSION2_EYES_LOOK_ಬಲ_R_FB = 19,
     XR_FACE_EXPRESSION2_EYES_LOOK_UP_L_FB = 20,
     XR_FACE_EXPRESSION2_EYES_LOOK_UP_R_FB = 21,
     XR_FACE_EXPRESSION2_INNER_BROW_RAISER_L_FB = 22,
     XR_FACE_EXPRESSION2_INNER_BROW_RAISER_R_FB = 23,
     XR_FACE_EXPRESSION2_JAW_DROP_FB = 24,
-    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_LEFT_FB = 25,
-    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_RIGHT_FB = 26,
+    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_ಎಡ_FB = 25,
+    XR_FACE_EXPRESSION2_JAW_SIDEWAYS_ಬಲ_FB = 26,
     XR_FACE_EXPRESSION2_JAW_THRUST_FB = 27,
     XR_FACE_EXPRESSION2_LID_TIGHTENER_L_FB = 28,
     XR_FACE_EXPRESSION2_LID_TIGHTENER_R_FB = 29,
@@ -7831,8 +7831,8 @@ typedef enum XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_LIPS_TOWARD_FB = 50,
     XR_FACE_EXPRESSION2_LOWER_LIP_DEPRESSOR_L_FB = 51,
     XR_FACE_EXPRESSION2_LOWER_LIP_DEPRESSOR_R_FB = 52,
-    XR_FACE_EXPRESSION2_MOUTH_LEFT_FB = 53,
-    XR_FACE_EXPRESSION2_MOUTH_RIGHT_FB = 54,
+    XR_FACE_EXPRESSION2_MOUTH_ಎಡ_FB = 53,
+    XR_FACE_EXPRESSION2_MOUTH_ಬಲ_FB = 54,
     XR_FACE_EXPRESSION2_NOSE_WRINKLER_L_FB = 55,
     XR_FACE_EXPRESSION2_NOSE_WRINKLER_R_FB = 56,
     XR_FACE_EXPRESSION2_OUTER_BROW_RAISER_L_FB = 57,
@@ -7848,71 +7848,71 @@ typedef enum XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_TONGUE_BACK_DORSAL_VELAR_FB = 67,
     XR_FACE_EXPRESSION2_TONGUE_OUT_FB = 68,
     XR_FACE_EXPRESSION2_TONGUE_RETREAT_FB = 69,
-    XR_FACE_EXPRESSION2_COUNT_FB = 70,
+    XR_FACE_EXPRESSION2_ಎಣಿಕೆ_FB = 70,
     XR_FACE_EXPRESSION_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpression2FB;
 
-typedef enum XrFaceExpressionSet2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceExpressionSet2FB {
     XR_FACE_EXPRESSION_SET2_DEFAULT_FB = 0,
     XR_FACE_EXPRESSION_SET_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionSet2FB;
 
-typedef enum XrFaceTrackingDataSource2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceTrackingDataSource2FB {
     XR_FACE_TRACKING_DATA_SOURCE2_VISUAL_FB = 0,
     XR_FACE_TRACKING_DATA_SOURCE2_AUDIO_FB = 1,
     XR_FACE_TRACKING_DATA_SOURCE_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceTrackingDataSource2FB;
 
-typedef enum XrFaceConfidence2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceConfidence2FB {
     XR_FACE_CONFIDENCE2_LOWER_FACE_FB = 0,
     XR_FACE_CONFIDENCE2_UPPER_FACE_FB = 1,
-    XR_FACE_CONFIDENCE2_COUNT_FB = 2,
+    XR_FACE_CONFIDENCE2_ಎಣಿಕೆ_FB = 2,
     XR_FACE_CONFIDENCE_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceConfidence2FB;
 // XrSystemFaceTrackingProperties2FB extends XrSystemProperties
-typedef struct XrSystemFaceTrackingProperties2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFaceTrackingProperties2FB {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsVisualFaceTracking;
     XrBool32              supportsAudioFaceTracking;
 } XrSystemFaceTrackingProperties2FB;
 
-typedef struct XrFaceTrackerCreateInfo2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceTrackerCreateInfo2FB {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrFaceExpressionSet2FB          faceExpressionSet;
-    uint32_t                        requestedDataSourceCount;
+    uint32_t                        requested_Data_Source_ಎಣಿಕೆ;
     XrFaceTrackingDataSource2FB*    requestedDataSources;
 } XrFaceTrackerCreateInfo2FB;
 
-typedef struct XrFaceExpressionInfo2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceExpressionInfo2FB {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceExpressionInfo2FB;
 
-typedef struct XrFaceExpressionWeights2FB {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceExpressionWeights2FB {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       weightCount;
-    float*                         weights;
-    uint32_t                       confidenceCount;
-    float*                         confidences;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                       weight_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                         weights;
+    uint32_t                       confidence_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                         confidences;
     XrBool32                       isValid;
     XrBool32                       isEyeFollowingBlendshapesValid;
     XrFaceTrackingDataSource2FB    dataSource;
     XrTime                         time;
 } XrFaceExpressionWeights2FB;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTracker2FB)(XrSession session, const XrFaceTrackerCreateInfo2FB* createInfo, XrFaceTracker2FB* faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTracker2FB)(XrFaceTracker2FB faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeights2FB)(XrFaceTracker2FB faceTracker, const XrFaceExpressionInfo2FB* expressionInfo, XrFaceExpressionWeights2FB* expressionWeights);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateFaceTracker2FB)(XrSession session, ಧ್ರುವ XrFaceTrackerCreateInfo2FB* createInfo, XrFaceTracker2FB* faceTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyFaceTracker2FB)(XrFaceTracker2FB faceTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFaceExpressionWeights2FB)(XrFaceTracker2FB faceTracker, ಧ್ರುವ XrFaceExpressionInfo2FB* expressionInfo, XrFaceExpressionWeights2FB* expressionWeights);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTracker2FB(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfo2FB*           createInfo,
+    ಧ್ರುವ XrFaceTrackerCreateInfo2FB*           createInfo,
     XrFaceTracker2FB*                           faceTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTracker2FB(
@@ -7920,7 +7920,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTracker2FB(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceExpressionWeights2FB(
     XrFaceTracker2FB                            faceTracker,
-    const XrFaceExpressionInfo2FB*              expressionInfo,
+    ಧ್ರುವ XrFaceExpressionInfo2FB*              expressionInfo,
     XrFaceExpressionWeights2FB*                 expressionWeights);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7932,39 +7932,39 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceExpressionWeights2FB(
 #define XR_META_SPATIAL_ENTITY_SHARING_EXTENSION_NAME "XR_META_spatial_entity_sharing"
 #define XR_MAX_SPACES_PER_SHARE_REQUEST_META 32
 // XrSystemSpatialEntitySharingPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpatialEntitySharingPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialEntitySharingPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialEntitySharing;
 } XrSystemSpatialEntitySharingPropertiesMETA;
 
-typedef struct XR_MAY_ALIAS XrShareSpacesRecipientBaseHeaderMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrShareSpacesRecipientBaseHeaderMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrShareSpacesRecipientBaseHeaderMETA;
 
-typedef struct XrShareSpacesInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrShareSpacesInfoMETA {
     XrStructureType                                type;
-    const void* XR_MAY_ALIAS                       next;
-    uint32_t                                       spaceCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                       next;
+    uint32_t                                       space_ಎಣಿಕೆ;
     XrSpace*                                       spaces;
-    const XrShareSpacesRecipientBaseHeaderMETA*    recipientInfo;
+    ಧ್ರುವ XrShareSpacesRecipientBaseHeaderMETA*    recipientInfo;
 } XrShareSpacesInfoMETA;
 
-typedef struct XrEventDataShareSpacesCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataShareSpacesCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataShareSpacesCompleteMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpacesMETA)(XrSession session, const XrShareSpacesInfoMETA* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrShareSpacesMETA)(XrSession session, ಧ್ರುವ XrShareSpacesInfoMETA* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpacesMETA(
     XrSession                                   session,
-    const XrShareSpacesInfoMETA*                info,
+    ಧ್ರುವ XrShareSpacesInfoMETA*                info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -7976,93 +7976,93 @@ XR_DEFINE_HANDLE(XrEnvironmentDepthProviderMETA)
 XR_DEFINE_HANDLE(XrEnvironmentDepthSwapchainMETA)
 #define XR_META_environment_depth_SPEC_VERSION 2
 #define XR_META_ENVIRONMENT_DEPTH_EXTENSION_NAME "XR_META_environment_depth"
-typedef XrFlags64 XrEnvironmentDepthProviderCreateFlagsMETA;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrEnvironmentDepthProviderCreateFlagsMETA;
 
 // Flag bits for XrEnvironmentDepthProviderCreateFlagsMETA
 
-typedef XrFlags64 XrEnvironmentDepthSwapchainCreateFlagsMETA;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrEnvironmentDepthSwapchainCreateFlagsMETA;
 
 // Flag bits for XrEnvironmentDepthSwapchainCreateFlagsMETA
 
-typedef struct XrEnvironmentDepthProviderCreateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthProviderCreateInfoMETA {
     XrStructureType                              type;
-    const void* XR_MAY_ALIAS                     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                     next;
     XrEnvironmentDepthProviderCreateFlagsMETA    createFlags;
 } XrEnvironmentDepthProviderCreateInfoMETA;
 
-typedef struct XrEnvironmentDepthSwapchainCreateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthSwapchainCreateInfoMETA {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrEnvironmentDepthSwapchainCreateFlagsMETA    createFlags;
 } XrEnvironmentDepthSwapchainCreateInfoMETA;
 
-typedef struct XrEnvironmentDepthSwapchainStateMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthSwapchainStateMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              width;
     uint32_t              height;
 } XrEnvironmentDepthSwapchainStateMETA;
 
-typedef struct XrEnvironmentDepthImageAcquireInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthImageAcquireInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      displayTime;
 } XrEnvironmentDepthImageAcquireInfoMETA;
 
-typedef struct XrEnvironmentDepthImageViewMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthImageViewMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFovf                      fov;
     XrPosef                     pose;
 } XrEnvironmentDepthImageViewMETA;
 
-typedef struct XrEnvironmentDepthImageMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthImageMETA {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     uint32_t                           swapchainIndex;
-    float                              nearZ;
-    float                              farZ;
+    ಭಿನ್ನ                              nearZ;
+    ಭಿನ್ನ                              farZ;
     XrEnvironmentDepthImageViewMETA    views[2];
 } XrEnvironmentDepthImageMETA;
 
 // XrEnvironmentDepthImageTimestampMETA extends XrEnvironmentDepthImageMETA
-typedef struct XrEnvironmentDepthImageTimestampMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthImageTimestampMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      captureTime;
 } XrEnvironmentDepthImageTimestampMETA;
 
-typedef struct XrEnvironmentDepthHandRemovalSetInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentDepthHandRemovalSetInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrEnvironmentDepthHandRemovalSetInfoMETA;
 
 // XrSystemEnvironmentDepthPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemEnvironmentDepthPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemEnvironmentDepthPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsEnvironmentDepth;
     XrBool32              supportsHandRemoval;
 } XrSystemEnvironmentDepthPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthProviderMETA)(XrSession session, const XrEnvironmentDepthProviderCreateInfoMETA* createInfo, XrEnvironmentDepthProviderMETA* environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrStartEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrStopEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, const XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo, XrEnvironmentDepthSwapchainMETA* swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthSwapchainMETA swapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentDepthSwapchainImagesMETA)(XrEnvironmentDepthSwapchainMETA swapchain, uint32_t imageCapacityInput, uint32_t* imageCountOutput, XrSwapchainImageBaseHeader* images);
-typedef XrResult (XRAPI_PTR *PFN_xrGetEnvironmentDepthSwapchainStateMETA)(XrEnvironmentDepthSwapchainMETA swapchain, XrEnvironmentDepthSwapchainStateMETA* state);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireEnvironmentDepthImageMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, const XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo, XrEnvironmentDepthImageMETA* environmentDepthImage);
-typedef XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthHandRemovalMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, const XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthProviderMETA)(XrSession session, ಧ್ರುವ XrEnvironmentDepthProviderCreateInfoMETA* createInfo, XrEnvironmentDepthProviderMETA* environmentDepthProvider);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStartEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStopEnvironmentDepthProviderMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, ಧ್ರುವ XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo, XrEnvironmentDepthSwapchainMETA* swapchain);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentDepthSwapchainMETA)(XrEnvironmentDepthSwapchainMETA swapchain);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentDepthSwapchainImagesMETA)(XrEnvironmentDepthSwapchainMETA swapchain, uint32_t image_Capacity_ಒಳಹರಿವು, uint32_t* image_ಎಣಿಕೆ_Output, XrSwapchainImageBaseHeader* images);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetEnvironmentDepthSwapchainStateMETA)(XrEnvironmentDepthSwapchainMETA swapchain, XrEnvironmentDepthSwapchainStateMETA* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrAcquireEnvironmentDepthImageMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, ಧ್ರುವ XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo, XrEnvironmentDepthImageMETA* environmentDepthImage);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetEnvironmentDepthHandRemovalMETA)(XrEnvironmentDepthProviderMETA environmentDepthProvider, ಧ್ರುವ XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentDepthProviderMETA(
     XrSession                                   session,
-    const XrEnvironmentDepthProviderCreateInfoMETA* createInfo,
+    ಧ್ರುವ XrEnvironmentDepthProviderCreateInfoMETA* createInfo,
     XrEnvironmentDepthProviderMETA*             environmentDepthProvider);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentDepthProviderMETA(
@@ -8076,7 +8076,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopEnvironmentDepthProviderMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentDepthSwapchainMETA(
     XrEnvironmentDepthProviderMETA              environmentDepthProvider,
-    const XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo,
+    ಧ್ರುವ XrEnvironmentDepthSwapchainCreateInfoMETA* createInfo,
     XrEnvironmentDepthSwapchainMETA*            swapchain);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentDepthSwapchainMETA(
@@ -8084,8 +8084,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentDepthSwapchainMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentDepthSwapchainImagesMETA(
     XrEnvironmentDepthSwapchainMETA             swapchain,
-    uint32_t                                    imageCapacityInput,
-    uint32_t*                                   imageCountOutput,
+    uint32_t                                    image_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   image_ಎಣಿಕೆ_Output,
     XrSwapchainImageBaseHeader*                 images);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetEnvironmentDepthSwapchainStateMETA(
@@ -8094,12 +8094,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetEnvironmentDepthSwapchainStateMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireEnvironmentDepthImageMETA(
     XrEnvironmentDepthProviderMETA              environmentDepthProvider,
-    const XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo,
+    ಧ್ರುವ XrEnvironmentDepthImageAcquireInfoMETA* acquireInfo,
     XrEnvironmentDepthImageMETA*                environmentDepthImage);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetEnvironmentDepthHandRemovalMETA(
     XrEnvironmentDepthProviderMETA              environmentDepthProvider,
-    const XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
+    ಧ್ರುವ XrEnvironmentDepthHandRemovalSetInfoMETA* setInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8116,104 +8116,104 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetEnvironmentDepthHandRemovalMETA(
 XR_DEFINE_ATOM(XrRenderModelIdEXT)
 XR_DEFINE_HANDLE(XrRenderModelEXT)
 XR_DEFINE_HANDLE(XrRenderModelAssetEXT)
-#define XR_MAX_RENDER_MODEL_ASSET_NODE_NAME_SIZE_EXT 64
+#define XR_MAX_RENDER_MODEL_ASSET_ಗಂಟು_NAME_SIZE_EXT 64
 #define XR_EXT_render_model_SPEC_VERSION  1
 #define XR_EXT_RENDER_MODEL_EXTENSION_NAME "XR_EXT_render_model"
 #define XR_NULL_RENDER_MODEL_ID_EXT       0
-typedef struct XrRenderModelCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrRenderModelIdEXT          renderModelId;
-    uint32_t                    gltfExtensionCount;
-    const char* const*          gltfExtensions;
+    uint32_t                    gltf_Extension_ಎಣಿಕೆ;
+    ಧ್ರುವ ವರ್ಣ* ಧ್ರುವ*          gltfExtensions;
 } XrRenderModelCreateInfoEXT;
 
-typedef struct XrRenderModelPropertiesGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelPropertiesGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrRenderModelPropertiesGetInfoEXT;
 
-typedef struct XrRenderModelPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidEXT             cacheId;
-    uint32_t              animatableNodeCount;
+    uint32_t              animatable_ಗಂಟು_ಎಣಿಕೆ;
 } XrRenderModelPropertiesEXT;
 
-typedef struct XrRenderModelSpaceCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelSpaceCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrRenderModelEXT            renderModel;
 } XrRenderModelSpaceCreateInfoEXT;
 
-typedef struct XrRenderModelStateGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelStateGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      displayTime;
 } XrRenderModelStateGetInfoEXT;
 
-typedef struct XrRenderModelNodeStateEXT {
-    XrPosef     nodePose;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Render_Model_ಗಂಟು_State_EXT {
+    XrPosef     ಗಂಟು_Pose;
     XrBool32    isVisible;
-} XrRenderModelNodeStateEXT;
+} Xr_Render_Model_ಗಂಟು_State_EXT;
 
-typedef struct XrRenderModelStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelStateEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      nodeStateCount;
-    XrRenderModelNodeStateEXT*    nodeStates;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                      ಗಂಟು_State_ಎಣಿಕೆ;
+    Xr_Render_Model_ಗಂಟು_State_EXT*    ಗಂಟು_States;
 } XrRenderModelStateEXT;
 
-typedef struct XrRenderModelAssetCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelAssetCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidEXT                   cacheId;
 } XrRenderModelAssetCreateInfoEXT;
 
-typedef struct XrRenderModelAssetDataGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelAssetDataGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrRenderModelAssetDataGetInfoEXT;
 
-typedef struct XrRenderModelAssetDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelAssetDataEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              bufferCapacityInput;
-    uint32_t              bufferCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              buffer_Capacity_ಒಳಹರಿವು;
+    uint32_t              buffer_ಎಣಿಕೆ_Output;
     uint8_t*              buffer;
 } XrRenderModelAssetDataEXT;
 
-typedef struct XrRenderModelAssetPropertiesGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelAssetPropertiesGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrRenderModelAssetPropertiesGetInfoEXT;
 
-typedef struct XrRenderModelAssetNodePropertiesEXT {
-    char    uniqueName[XR_MAX_RENDER_MODEL_ASSET_NODE_NAME_SIZE_EXT];
-} XrRenderModelAssetNodePropertiesEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Render_Model_Asset_ಗಂಟು_Properties_EXT {
+    ವರ್ಣ    uniqueName[XR_MAX_RENDER_MODEL_ASSET_ಗಂಟು_NAME_SIZE_EXT];
+} Xr_Render_Model_Asset_ಗಂಟು_Properties_EXT;
 
-typedef struct XrRenderModelAssetPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRenderModelAssetPropertiesEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                nodePropertyCount;
-    XrRenderModelAssetNodePropertiesEXT*    nodeProperties;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
+    uint32_t                                ಗಂಟು_Property_ಎಣಿಕೆ;
+    Xr_Render_Model_Asset_ಗಂಟು_Properties_EXT*    ಗಂಟು_Properties;
 } XrRenderModelAssetPropertiesEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateRenderModelEXT)(XrSession session, const XrRenderModelCreateInfoEXT* createInfo, XrRenderModelEXT* renderModel);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelEXT)(XrRenderModelEXT renderModel);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesEXT)(XrRenderModelEXT renderModel, const XrRenderModelPropertiesGetInfoEXT* getInfo, XrRenderModelPropertiesEXT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateRenderModelSpaceEXT)(XrSession session, const XrRenderModelSpaceCreateInfoEXT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateRenderModelAssetEXT)(XrSession session, const XrRenderModelAssetCreateInfoEXT* createInfo, XrRenderModelAssetEXT* asset);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelAssetEXT)(XrRenderModelAssetEXT asset);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetDataEXT)(XrRenderModelAssetEXT asset, const XrRenderModelAssetDataGetInfoEXT* getInfo, XrRenderModelAssetDataEXT* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetPropertiesEXT)(XrRenderModelAssetEXT asset, const XrRenderModelAssetPropertiesGetInfoEXT* getInfo, XrRenderModelAssetPropertiesEXT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelStateEXT)(XrRenderModelEXT renderModel, const XrRenderModelStateGetInfoEXT* getInfo, XrRenderModelStateEXT* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateRenderModelEXT)(XrSession session, ಧ್ರುವ XrRenderModelCreateInfoEXT* createInfo, XrRenderModelEXT* renderModel);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelEXT)(XrRenderModelEXT renderModel);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetRenderModelPropertiesEXT)(XrRenderModelEXT renderModel, ಧ್ರುವ XrRenderModelPropertiesGetInfoEXT* getInfo, XrRenderModelPropertiesEXT* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateRenderModelSpaceEXT)(XrSession session, ಧ್ರುವ XrRenderModelSpaceCreateInfoEXT* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateRenderModelAssetEXT)(XrSession session, ಧ್ರುವ XrRenderModelAssetCreateInfoEXT* createInfo, XrRenderModelAssetEXT* asset);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyRenderModelAssetEXT)(XrRenderModelAssetEXT asset);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetDataEXT)(XrRenderModelAssetEXT asset, ಧ್ರುವ XrRenderModelAssetDataGetInfoEXT* getInfo, XrRenderModelAssetDataEXT* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetRenderModelAssetPropertiesEXT)(XrRenderModelAssetEXT asset, ಧ್ರುವ XrRenderModelAssetPropertiesGetInfoEXT* getInfo, XrRenderModelAssetPropertiesEXT* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetRenderModelStateEXT)(XrRenderModelEXT renderModel, ಧ್ರುವ XrRenderModelStateGetInfoEXT* getInfo, XrRenderModelStateEXT* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateRenderModelEXT(
     XrSession                                   session,
-    const XrRenderModelCreateInfoEXT*           createInfo,
+    ಧ್ರುವ XrRenderModelCreateInfoEXT*           createInfo,
     XrRenderModelEXT*                           renderModel);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelEXT(
@@ -8221,17 +8221,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPropertiesEXT(
     XrRenderModelEXT                            renderModel,
-    const XrRenderModelPropertiesGetInfoEXT*    getInfo,
+    ಧ್ರುವ XrRenderModelPropertiesGetInfoEXT*    getInfo,
     XrRenderModelPropertiesEXT*                 properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateRenderModelSpaceEXT(
     XrSession                                   session,
-    const XrRenderModelSpaceCreateInfoEXT*      createInfo,
+    ಧ್ರುವ XrRenderModelSpaceCreateInfoEXT*      createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateRenderModelAssetEXT(
     XrSession                                   session,
-    const XrRenderModelAssetCreateInfoEXT*      createInfo,
+    ಧ್ರುವ XrRenderModelAssetCreateInfoEXT*      createInfo,
     XrRenderModelAssetEXT*                      asset);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelAssetEXT(
@@ -8239,17 +8239,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyRenderModelAssetEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelAssetDataEXT(
     XrRenderModelAssetEXT                       asset,
-    const XrRenderModelAssetDataGetInfoEXT*     getInfo,
+    ಧ್ರುವ XrRenderModelAssetDataGetInfoEXT*     getInfo,
     XrRenderModelAssetDataEXT*                  buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelAssetPropertiesEXT(
     XrRenderModelAssetEXT                       asset,
-    const XrRenderModelAssetPropertiesGetInfoEXT* getInfo,
+    ಧ್ರುವ XrRenderModelAssetPropertiesGetInfoEXT* getInfo,
     XrRenderModelAssetPropertiesEXT*            properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelStateEXT(
     XrRenderModelEXT                            renderModel,
-    const XrRenderModelStateGetInfoEXT*         getInfo,
+    ಧ್ರುವ XrRenderModelStateGetInfoEXT*         getInfo,
     XrRenderModelStateEXT*                      state);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -8259,52 +8259,52 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelStateEXT(
 #define XR_EXT_interaction_render_model 1
 #define XR_EXT_interaction_render_model_SPEC_VERSION 1
 #define XR_EXT_INTERACTION_RENDER_MODEL_EXTENSION_NAME "XR_EXT_interaction_render_model"
-typedef struct XrInteractionRenderModelIdsEnumerateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInteractionRenderModelIdsEnumerateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrInteractionRenderModelIdsEnumerateInfoEXT;
 
-typedef struct XrInteractionRenderModelSubactionPathInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrInteractionRenderModelSubactionPathInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrInteractionRenderModelSubactionPathInfoEXT;
 
-typedef struct XrInteractionRenderModelTopLevelUserPathGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Interaction_Render_Model_ತುದಿ_Level_User_Path_Get_Info_EXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    topLevelUserPathCount;
-    const XrPath*               topLevelUserPaths;
-} XrInteractionRenderModelTopLevelUserPathGetInfoEXT;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    ತುದಿ_Level_User_Path_ಎಣಿಕೆ;
+    ಧ್ರುವ XrPath*               ತುದಿ_Level_User_Paths;
+} Xr_Interaction_Render_Model_ತುದಿ_Level_User_Path_Get_Info_EXT;
 
-typedef struct XrEventDataInteractionRenderModelsChangedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataInteractionRenderModelsChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrEventDataInteractionRenderModelsChangedEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateInteractionRenderModelIdsEXT)(XrSession session, const XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo, uint32_t renderModelIdCapacityInput, uint32_t* renderModelIdCountOutput, XrRenderModelIdEXT* renderModelIds);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelSubactionPathsEXT)(XrRenderModelEXT renderModel, const XrInteractionRenderModelSubactionPathInfoEXT* info, uint32_t pathCapacityInput, uint32_t* pathCountOutput, XrPath* paths);
-typedef XrResult (XRAPI_PTR *PFN_xrGetRenderModelPoseTopLevelUserPathEXT)(XrRenderModelEXT renderModel, const XrInteractionRenderModelTopLevelUserPathGetInfoEXT* info, XrPath* topLevelUserPath);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateInteractionRenderModelIdsEXT)(XrSession session, ಧ್ರುವ XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo, uint32_t render_Model_Id_Capacity_ಒಳಹರಿವು, uint32_t* render_Model_Id_ಎಣಿಕೆ_Output, XrRenderModelIdEXT* renderModelIds);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateRenderModelSubactionPathsEXT)(XrRenderModelEXT renderModel, ಧ್ರುವ XrInteractionRenderModelSubactionPathInfoEXT* info, uint32_t path_Capacity_ಒಳಹರಿವು, uint32_t* path_ಎಣಿಕೆ_Output, XrPath* paths);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xr_Get_Render_Model_Pose_ತುದಿ_Level_User_Path_EXT)(XrRenderModelEXT renderModel, ಧ್ರುವ Xr_Interaction_Render_Model_ತುದಿ_Level_User_Path_Get_Info_EXT* info, XrPath* ತುದಿ_Level_User_Path);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateInteractionRenderModelIdsEXT(
     XrSession                                   session,
-    const XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo,
-    uint32_t                                    renderModelIdCapacityInput,
-    uint32_t*                                   renderModelIdCountOutput,
+    ಧ್ರುವ XrInteractionRenderModelIdsEnumerateInfoEXT* getInfo,
+    uint32_t                                    render_Model_Id_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   render_Model_Id_ಎಣಿಕೆ_Output,
     XrRenderModelIdEXT*                         renderModelIds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateRenderModelSubactionPathsEXT(
     XrRenderModelEXT                            renderModel,
-    const XrInteractionRenderModelSubactionPathInfoEXT* info,
-    uint32_t                                    pathCapacityInput,
-    uint32_t*                                   pathCountOutput,
+    ಧ್ರುವ XrInteractionRenderModelSubactionPathInfoEXT* info,
+    uint32_t                                    path_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   path_ಎಣಿಕೆ_Output,
     XrPath*                                     paths);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPoseTopLevelUserPathEXT(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Render_Model_Pose_ತುದಿ_Level_User_Path_EXT(
     XrRenderModelEXT                            renderModel,
-    const XrInteractionRenderModelTopLevelUserPathGetInfoEXT* info,
-    XrPath*                                     topLevelUserPath);
+    ಧ್ರುವ Xr_Interaction_Render_Model_ತುದಿ_Level_User_Path_Get_Info_EXT* info,
+    XrPath*                                     ತುದಿ_Level_User_Path);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8320,24 +8320,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPoseTopLevelUserPathEXT(
 #define XR_QCOM_tracking_optimization_settings_SPEC_VERSION 2
 #define XR_QCOM_TRACKING_OPTIMIZATION_SETTINGS_EXTENSION_NAME "XR_QCOM_tracking_optimization_settings"
 
-typedef enum XrTrackingOptimizationSettingsDomainQCOM {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackingOptimizationSettingsDomainQCOM {
     XR_TRACKING_OPTIMIZATION_SETTINGS_DOMAIN_ALL_QCOM = 1,
     XR_TRACKING_OPTIMIZATION_SETTINGS_DOMAIN_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrTrackingOptimizationSettingsDomainQCOM;
 
-typedef enum XrTrackingOptimizationSettingsHintQCOM {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackingOptimizationSettingsHintQCOM {
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_NONE_QCOM = 0,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LONG_RANGE_PRIORITIZATION_QCOM = 1,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_CLOSE_RANGE_PRIORITIZATION_QCOM = 2,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LOW_POWER_PRIORITIZATION_QCOM = 3,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_HIGH_POWER_PRIORITIZATION_QCOM = 4,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_ಕೆಳಗಿನ_POWER_PRIORITIZATION_QCOM = 3,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_ಮೇಲಿನ_POWER_PRIORITIZATION_QCOM = 4,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LONG_RANGE_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LONG_RANGE_PRIORITIZATION_QCOM,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_CLOSE_RANGE_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_CLOSE_RANGE_PRIORITIZATION_QCOM,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LOW_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LOW_POWER_PRIORITIZATION_QCOM,
-    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_HIGH_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_HIGH_POWER_PRIORITIZATION_QCOM,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_ಕೆಳಗಿನ_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_ಕೆಳಗಿನ_POWER_PRIORITIZATION_QCOM,
+    XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_ಮೇಲಿನ_POWER_PRIORIZATION_QCOM = XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_ಮೇಲಿನ_POWER_PRIORITIZATION_QCOM,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrTrackingOptimizationSettingsHintQCOM;
-typedef XrResult (XRAPI_PTR *PFN_xrSetTrackingOptimizationSettingsHintQCOM)(XrSession session, XrTrackingOptimizationSettingsDomainQCOM domain, XrTrackingOptimizationSettingsHintQCOM hint);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetTrackingOptimizationSettingsHintQCOM)(XrSession session, XrTrackingOptimizationSettingsDomainQCOM domain, XrTrackingOptimizationSettingsHintQCOM hint);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -8354,20 +8354,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetTrackingOptimizationSettingsHintQCOM(
 #define XR_QCOM_hand_tracking_gesture_SPEC_VERSION 1
 #define XR_QCOM_HAND_TRACKING_GESTURE_EXTENSION_NAME "XR_QCOM_hand_tracking_gesture"
 
-typedef enum XrHandGestureTypeQCOM {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandGestureTypeQCOM {
     XR_HAND_GESTURE_TYPE_UNKNOWN_QCOM = -1,
     XR_HAND_GESTURE_TYPE_OPEN_HAND_QCOM = 0,
     XR_HAND_GESTURE_TYPE_GRAB_QCOM = 2,
     XR_HAND_GESTURE_TYPE_PINCH_QCOM = 7,
     XR_HAND_GESTURE_TYPE_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrHandGestureTypeQCOM;
-typedef struct XrHandGestureQCOM {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandGestureQCOM {
     XrHandGestureTypeQCOM    gesture;
-    float                    gestureRatio;
-    float                    flipRatio;
+    ಭಿನ್ನ                    gestureRatio;
+    ಭಿನ್ನ                    flipRatio;
 } XrHandGestureQCOM;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetHandGestureQCOM)(XrHandTrackerEXT handTracker, XrTime time, XrHandGestureQCOM* handGesture);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetHandGestureQCOM)(XrHandTrackerEXT handTracker, XrTime time, XrHandGestureQCOM* handGesture);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -8385,54 +8385,54 @@ XR_DEFINE_HANDLE(XrPassthroughHTC)
 #define XR_HTC_passthrough_SPEC_VERSION   1
 #define XR_HTC_PASSTHROUGH_EXTENSION_NAME "XR_HTC_passthrough"
 
-typedef enum XrPassthroughFormHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPassthroughFormHTC {
     XR_PASSTHROUGH_FORM_PLANAR_HTC = 0,
     XR_PASSTHROUGH_FORM_PROJECTED_HTC = 1,
     XR_PASSTHROUGH_FORM_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrPassthroughFormHTC;
-typedef struct XrPassthroughCreateInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPassthroughFormHTC        form;
 } XrPassthroughCreateInfoHTC;
 
-typedef struct XrPassthroughColorHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughColorHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       alpha;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       alpha;
 } XrPassthroughColorHTC;
 
 // XrPassthroughMeshTransformInfoHTC extends XrCompositionLayerPassthroughHTC
-typedef struct XrPassthroughMeshTransformInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughMeshTransformInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    vertexCount;
-    const XrVector3f*           vertices;
-    uint32_t                    indexCount;
-    const uint32_t*             indices;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    vertex_ಎಣಿಕೆ;
+    ಧ್ರುವ XrVector3f*           vertices;
+    uint32_t                    index_ಎಣಿಕೆ;
+    ಧ್ರುವ uint32_t*             indices;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     pose;
     XrVector3f                  scale;
 } XrPassthroughMeshTransformInfoHTC;
 
-typedef struct XrCompositionLayerPassthroughHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerPassthroughHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
     XrPassthroughHTC            passthrough;
     XrPassthroughColorHTC       color;
 } XrCompositionLayerPassthroughHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughHTC)(XrSession session, const XrPassthroughCreateInfoHTC* createInfo, XrPassthroughHTC* passthrough);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughHTC)(XrPassthroughHTC passthrough);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreatePassthroughHTC)(XrSession session, ಧ್ರುವ XrPassthroughCreateInfoHTC* createInfo, XrPassthroughHTC* passthrough);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughHTC)(XrPassthroughHTC passthrough);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughHTC(
     XrSession                                   session,
-    const XrPassthroughCreateInfoHTC*           createInfo,
+    ಧ್ರುವ XrPassthroughCreateInfoHTC*           createInfo,
     XrPassthroughHTC*                           passthrough);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughHTC(
@@ -8446,7 +8446,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughHTC(
 #define XR_HTC_foveation_SPEC_VERSION     1
 #define XR_HTC_FOVEATION_EXTENSION_NAME   "XR_HTC_foveation"
 
-typedef enum XrFoveationModeHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFoveationModeHTC {
     XR_FOVEATION_MODE_DISABLE_HTC = 0,
     XR_FOVEATION_MODE_FIXED_HTC = 1,
     XR_FOVEATION_MODE_DYNAMIC_HTC = 2,
@@ -8454,56 +8454,56 @@ typedef enum XrFoveationModeHTC {
     XR_FOVEATION_MODE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFoveationModeHTC;
 
-typedef enum XrFoveationLevelHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFoveationLevelHTC {
     XR_FOVEATION_LEVEL_NONE_HTC = 0,
-    XR_FOVEATION_LEVEL_LOW_HTC = 1,
+    XR_FOVEATION_LEVEL_ಕೆಳಗಿನ_HTC = 1,
     XR_FOVEATION_LEVEL_MEDIUM_HTC = 2,
-    XR_FOVEATION_LEVEL_HIGH_HTC = 3,
+    XR_FOVEATION_LEVEL_ಮೇಲಿನ_HTC = 3,
     XR_FOVEATION_LEVEL_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFoveationLevelHTC;
-typedef XrFlags64 XrFoveationDynamicFlagsHTC;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrFoveationDynamicFlagsHTC;
 
 // Flag bits for XrFoveationDynamicFlagsHTC
-static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_BIT_HTC = 0x00000001;
-static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_CLEAR_FOV_ENABLED_BIT_HTC = 0x00000002;
-static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_FOCAL_CENTER_OFFSET_ENABLED_BIT_HTC = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_BIT_HTC = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_CLEAR_FOV_ENABLED_BIT_HTC = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_FOCAL_CENTER_OFFSET_ENABLED_BIT_HTC = 0x00000004;
 
-typedef struct XrFoveationApplyInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationApplyInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFoveationModeHTC          mode;
-    uint32_t                    subImageCount;
+    uint32_t                    sub_Image_ಎಣಿಕೆ;
     XrSwapchainSubImage*        subImages;
 } XrFoveationApplyInfoHTC;
 
-typedef struct XrFoveationConfigurationHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationConfigurationHTC {
     XrFoveationLevelHTC    level;
-    float                  clearFovDegree;
+    ಭಿನ್ನ                  clearFovDegree;
     XrVector2f             focalCenterOffset;
 } XrFoveationConfigurationHTC;
 
 // XrFoveationDynamicModeInfoHTC extends XrFoveationApplyInfoHTC
-typedef struct XrFoveationDynamicModeInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationDynamicModeInfoHTC {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrFoveationDynamicFlagsHTC    dynamicFlags;
 } XrFoveationDynamicModeInfoHTC;
 
 // XrFoveationCustomModeInfoHTC extends XrFoveationApplyInfoHTC
-typedef struct XrFoveationCustomModeInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFoveationCustomModeInfoHTC {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
-    uint32_t                              configCount;
-    const XrFoveationConfigurationHTC*    configs;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
+    uint32_t                              config_ಎಣಿಕೆ;
+    ಧ್ರುವ XrFoveationConfigurationHTC*    configs;
 } XrFoveationCustomModeInfoHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrApplyFoveationHTC)(XrSession session, const XrFoveationApplyInfoHTC* applyInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrApplyFoveationHTC)(XrSession session, ಧ್ರುವ XrFoveationApplyInfoHTC* applyInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrApplyFoveationHTC(
     XrSession                                   session,
-    const XrFoveationApplyInfoHTC*              applyInfo);
+    ಧ್ರುವ XrFoveationApplyInfoHTC*              applyInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8514,32 +8514,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrApplyFoveationHTC(
 #define XR_HTC_anchor_SPEC_VERSION        1
 #define XR_HTC_ANCHOR_EXTENSION_NAME      "XR_HTC_anchor"
 // XrSystemAnchorPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemAnchorPropertiesHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemAnchorPropertiesHTC {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsAnchor;
 } XrSystemAnchorPropertiesHTC;
 
-typedef struct XrSpatialAnchorNameHTC {
-    char    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorNameHTC {
+    ವರ್ಣ    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
 } XrSpatialAnchorNameHTC;
 
-typedef struct XrSpatialAnchorCreateInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     poseInSpace;
     XrSpatialAnchorNameHTC      name;
 } XrSpatialAnchorCreateInfoHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorHTC)(XrSession session, const XrSpatialAnchorCreateInfoHTC* createInfo, XrSpace* anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorNameHTC)(XrSpace anchor, XrSpatialAnchorNameHTC* name);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorHTC)(XrSession session, ಧ್ರುವ XrSpatialAnchorCreateInfoHTC* createInfo, XrSpace* anchor);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialAnchorNameHTC)(XrSpace anchor, XrSpatialAnchorNameHTC* name);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorHTC(
     XrSession                                   session,
-    const XrSpatialAnchorCreateInfoHTC*         createInfo,
+    ಧ್ರುವ XrSpatialAnchorCreateInfoHTC*         createInfo,
     XrSpace*                                    anchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialAnchorNameHTC(
@@ -8552,109 +8552,109 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialAnchorNameHTC(
 // XR_HTC_body_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_HTC_body_tracking 1
 
-#define XR_BODY_JOINT_COUNT_HTC 26
+#define XR_BODY_JOINT_ಎಣಿಕೆ_HTC 26
 
 XR_DEFINE_HANDLE(XrBodyTrackerHTC)
 #define XR_HTC_body_tracking_SPEC_VERSION 1
 #define XR_HTC_BODY_TRACKING_EXTENSION_NAME "XR_HTC_body_tracking"
 
-typedef enum XrBodyJointHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyJointHTC {
     XR_BODY_JOINT_PELVIS_HTC = 0,
-    XR_BODY_JOINT_LEFT_HIP_HTC = 1,
-    XR_BODY_JOINT_LEFT_KNEE_HTC = 2,
-    XR_BODY_JOINT_LEFT_ANKLE_HTC = 3,
-    XR_BODY_JOINT_LEFT_FEET_HTC = 4,
-    XR_BODY_JOINT_RIGHT_HIP_HTC = 5,
-    XR_BODY_JOINT_RIGHT_KNEE_HTC = 6,
-    XR_BODY_JOINT_RIGHT_ANKLE_HTC = 7,
-    XR_BODY_JOINT_RIGHT_FEET_HTC = 8,
+    XR_BODY_JOINT_ಎಡ_HIP_HTC = 1,
+    XR_BODY_JOINT_ಎಡ_KNEE_HTC = 2,
+    XR_BODY_JOINT_ಎಡ_ANKLE_HTC = 3,
+    XR_BODY_JOINT_ಎಡ_FEET_HTC = 4,
+    XR_BODY_JOINT_ಬಲ_HIP_HTC = 5,
+    XR_BODY_JOINT_ಬಲ_KNEE_HTC = 6,
+    XR_BODY_JOINT_ಬಲ_ANKLE_HTC = 7,
+    XR_BODY_JOINT_ಬಲ_FEET_HTC = 8,
     XR_BODY_JOINT_WAIST_HTC = 9,
     XR_BODY_JOINT_SPINE_LOWER_HTC = 10,
-    XR_BODY_JOINT_SPINE_MIDDLE_HTC = 11,
-    XR_BODY_JOINT_SPINE_HIGH_HTC = 12,
+    XR_BODY_JOINT_SPINE_ಮಧ್ಯ_HTC = 11,
+    XR_BODY_JOINT_SPINE_ಮೇಲಿನ_HTC = 12,
     XR_BODY_JOINT_CHEST_HTC = 13,
     XR_BODY_JOINT_NECK_HTC = 14,
     XR_BODY_JOINT_HEAD_HTC = 15,
-    XR_BODY_JOINT_LEFT_CLAVICLE_HTC = 16,
-    XR_BODY_JOINT_LEFT_SCAPULA_HTC = 17,
-    XR_BODY_JOINT_LEFT_ARM_HTC = 18,
-    XR_BODY_JOINT_LEFT_ELBOW_HTC = 19,
-    XR_BODY_JOINT_LEFT_WRIST_HTC = 20,
-    XR_BODY_JOINT_RIGHT_CLAVICLE_HTC = 21,
-    XR_BODY_JOINT_RIGHT_SCAPULA_HTC = 22,
-    XR_BODY_JOINT_RIGHT_ARM_HTC = 23,
-    XR_BODY_JOINT_RIGHT_ELBOW_HTC = 24,
-    XR_BODY_JOINT_RIGHT_WRIST_HTC = 25,
+    XR_BODY_JOINT_ಎಡ_CLAVICLE_HTC = 16,
+    XR_BODY_JOINT_ಎಡ_SCAPULA_HTC = 17,
+    XR_BODY_JOINT_ಎಡ_ARM_HTC = 18,
+    XR_BODY_JOINT_ಎಡ_ELBOW_HTC = 19,
+    XR_BODY_JOINT_ಎಡ_WRIST_HTC = 20,
+    XR_BODY_JOINT_ಬಲ_CLAVICLE_HTC = 21,
+    XR_BODY_JOINT_ಬಲ_SCAPULA_HTC = 22,
+    XR_BODY_JOINT_ಬಲ_ARM_HTC = 23,
+    XR_BODY_JOINT_ಬಲ_ELBOW_HTC = 24,
+    XR_BODY_JOINT_ಬಲ_WRIST_HTC = 25,
     XR_BODY_JOINT_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointHTC;
 
-typedef enum XrBodyJointSetHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyJointSetHTC {
     XR_BODY_JOINT_SET_FULL_HTC = 0,
     XR_BODY_JOINT_SET_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointSetHTC;
 
-typedef enum XrBodyJointConfidenceHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyJointConfidenceHTC {
     XR_BODY_JOINT_CONFIDENCE_NONE_HTC = 0,
-    XR_BODY_JOINT_CONFIDENCE_LOW_HTC = 1,
-    XR_BODY_JOINT_CONFIDENCE_HIGH_HTC = 2,
+    XR_BODY_JOINT_CONFIDENCE_ಕೆಳಗಿನ_HTC = 1,
+    XR_BODY_JOINT_CONFIDENCE_ಮೇಲಿನ_HTC = 2,
     XR_BODY_JOINT_CONFIDENCE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointConfidenceHTC;
 // XrSystemBodyTrackingPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemBodyTrackingPropertiesHTC {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesHTC;
 
-typedef struct XrBodyTrackerCreateInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackerCreateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBodyJointSetHTC           bodyJointSet;
 } XrBodyTrackerCreateInfoHTC;
 
-typedef struct XrBodyJointsLocateInfoHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointsLocateInfoHTC {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoHTC;
 
-typedef struct XrBodyJointLocationHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointLocationHTC {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationHTC;
 
-typedef struct XrBodyJointLocationsHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointLocationsHTC {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrSpaceLocationFlags        combinedLocationFlags;
     XrBodyJointConfidenceHTC    confidenceLevel;
-    uint32_t                    jointLocationCount;
+    uint32_t                    joint_Location_ಎಣಿಕೆ;
     XrBodyJointLocationHTC*     jointLocations;
     uint32_t                    skeletonGenerationId;
 } XrBodyJointLocationsHTC;
 
-typedef struct XrBodySkeletonJointHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodySkeletonJointHTC {
     XrPosef    pose;
 } XrBodySkeletonJointHTC;
 
-typedef struct XrBodySkeletonHTC {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodySkeletonHTC {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   jointCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
+    uint32_t                   joint_ಎಣಿಕೆ;
     XrBodySkeletonJointHTC*    joints;
 } XrBodySkeletonHTC;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerHTC)(XrSession session, const XrBodyTrackerCreateInfoHTC* createInfo, XrBodyTrackerHTC* bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerHTC)(XrBodyTrackerHTC bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsHTC)(XrBodyTrackerHTC bodyTracker, const XrBodyJointsLocateInfoHTC* locateInfo, XrBodyJointLocationsHTC* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonHTC)(XrBodyTrackerHTC bodyTracker, XrSpace baseSpace, uint32_t skeletonGenerationId, XrBodySkeletonHTC* skeleton);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerHTC)(XrSession session, ಧ್ರುವ XrBodyTrackerCreateInfoHTC* createInfo, XrBodyTrackerHTC* bodyTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerHTC)(XrBodyTrackerHTC bodyTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsHTC)(XrBodyTrackerHTC bodyTracker, ಧ್ರುವ XrBodyJointsLocateInfoHTC* locateInfo, XrBodyJointLocationsHTC* locations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetBodySkeletonHTC)(XrBodyTrackerHTC bodyTracker, XrSpace baseSpace, uint32_t skeletonGenerationId, XrBodySkeletonHTC* skeleton);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateBodyTrackerHTC(
     XrSession                                   session,
-    const XrBodyTrackerCreateInfoHTC*           createInfo,
+    ಧ್ರುವ XrBodyTrackerCreateInfoHTC*           createInfo,
     XrBodyTrackerHTC*                           bodyTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerHTC(
@@ -8662,7 +8662,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerHTC(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsHTC(
     XrBodyTrackerHTC                            bodyTracker,
-    const XrBodyJointsLocateInfoHTC*            locateInfo,
+    ಧ್ರುವ XrBodyJointsLocateInfoHTC*            locateInfo,
     XrBodyJointLocationsHTC*                    locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonHTC(
@@ -8678,17 +8678,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonHTC(
 #define XR_EXT_active_action_set_priority 1
 #define XR_EXT_active_action_set_priority_SPEC_VERSION 1
 #define XR_EXT_ACTIVE_ACTION_SET_PRIORITY_EXTENSION_NAME "XR_EXT_active_action_set_priority"
-typedef struct XrActiveActionSetPriorityEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActiveActionSetPriorityEXT {
     XrActionSet    actionSet;
     uint32_t       priorityOverride;
 } XrActiveActionSetPriorityEXT;
 
 // XrActiveActionSetPrioritiesEXT extends XrActionsSyncInfo
-typedef struct XrActiveActionSetPrioritiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrActiveActionSetPrioritiesEXT {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
-    uint32_t                               actionSetPriorityCount;
-    const XrActiveActionSetPriorityEXT*    actionSetPriorities;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS               next;
+    uint32_t                               action_Set_Priority_ಎಣಿಕೆ;
+    ಧ್ರುವ XrActiveActionSetPriorityEXT*    actionSetPriorities;
 } XrActiveActionSetPrioritiesEXT;
 
 
@@ -8698,40 +8698,40 @@ typedef struct XrActiveActionSetPrioritiesEXT {
 #define XR_MNDX_force_feedback_curl_SPEC_VERSION 1
 #define XR_MNDX_FORCE_FEEDBACK_CURL_EXTENSION_NAME "XR_MNDX_force_feedback_curl"
 
-typedef enum XrForceFeedbackCurlLocationMNDX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrForceFeedbackCurlLocationMNDX {
     XR_FORCE_FEEDBACK_CURL_LOCATION_THUMB_CURL_MNDX = 0,
     XR_FORCE_FEEDBACK_CURL_LOCATION_INDEX_CURL_MNDX = 1,
-    XR_FORCE_FEEDBACK_CURL_LOCATION_MIDDLE_CURL_MNDX = 2,
+    XR_FORCE_FEEDBACK_CURL_LOCATION_ಮಧ್ಯ_CURL_MNDX = 2,
     XR_FORCE_FEEDBACK_CURL_LOCATION_RING_CURL_MNDX = 3,
     XR_FORCE_FEEDBACK_CURL_LOCATION_LITTLE_CURL_MNDX = 4,
     XR_FORCE_FEEDBACK_CURL_LOCATION_MAX_ENUM_MNDX = 0x7FFFFFFF
 } XrForceFeedbackCurlLocationMNDX;
 // XrSystemForceFeedbackCurlPropertiesMNDX extends XrSystemProperties
-typedef struct XrSystemForceFeedbackCurlPropertiesMNDX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemForceFeedbackCurlPropertiesMNDX {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsForceFeedbackCurl;
 } XrSystemForceFeedbackCurlPropertiesMNDX;
 
-typedef struct XrForceFeedbackCurlApplyLocationMNDX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrForceFeedbackCurlApplyLocationMNDX {
     XrForceFeedbackCurlLocationMNDX    location;
-    float                              value;
+    ಭಿನ್ನ                              ಮೌಲ್ಯ;
 } XrForceFeedbackCurlApplyLocationMNDX;
 
-typedef struct XrForceFeedbackCurlApplyLocationsMNDX {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrForceFeedbackCurlApplyLocationsMNDX {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 locationCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
+    uint32_t                                 location_ಎಣಿಕೆ;
     XrForceFeedbackCurlApplyLocationMNDX*    locations;
 } XrForceFeedbackCurlApplyLocationsMNDX;
 
-typedef XrResult (XRAPI_PTR *PFN_xrApplyForceFeedbackCurlMNDX)(XrHandTrackerEXT handTracker, const XrForceFeedbackCurlApplyLocationsMNDX* locations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrApplyForceFeedbackCurlMNDX)(XrHandTrackerEXT handTracker, ಧ್ರುವ XrForceFeedbackCurlApplyLocationsMNDX* locations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrApplyForceFeedbackCurlMNDX(
     XrHandTrackerEXT                            handTracker,
-    const XrForceFeedbackCurlApplyLocationsMNDX* locations);
+    ಧ್ರುವ XrForceFeedbackCurlApplyLocationsMNDX* locations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -8745,90 +8745,90 @@ XRAPI_ATTR XrResult XRAPI_CALL xrApplyForceFeedbackCurlMNDX(
 // XR_BD_body_tracking is a preprocessor guard. Do not pass it to API calls.
 #define XR_BD_body_tracking 1
 
-#define XR_BODY_JOINT_COUNT_BD 24
+#define XR_BODY_JOINT_ಎಣಿಕೆ_BD 24
 
 
-#define XR_BODY_JOINT_WITHOUT_ARM_COUNT_BD 16
+#define XR_BODY_JOINT_WITHOUT_ARM_ಎಣಿಕೆ_BD 16
 
 XR_DEFINE_HANDLE(XrBodyTrackerBD)
 #define XR_BD_body_tracking_SPEC_VERSION  1
 #define XR_BD_BODY_TRACKING_EXTENSION_NAME "XR_BD_body_tracking"
 
-typedef enum XrBodyJointBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyJointBD {
     XR_BODY_JOINT_PELVIS_BD = 0,
-    XR_BODY_JOINT_LEFT_HIP_BD = 1,
-    XR_BODY_JOINT_RIGHT_HIP_BD = 2,
+    XR_BODY_JOINT_ಎಡ_HIP_BD = 1,
+    XR_BODY_JOINT_ಬಲ_HIP_BD = 2,
     XR_BODY_JOINT_SPINE1_BD = 3,
-    XR_BODY_JOINT_LEFT_KNEE_BD = 4,
-    XR_BODY_JOINT_RIGHT_KNEE_BD = 5,
+    XR_BODY_JOINT_ಎಡ_KNEE_BD = 4,
+    XR_BODY_JOINT_ಬಲ_KNEE_BD = 5,
     XR_BODY_JOINT_SPINE2_BD = 6,
-    XR_BODY_JOINT_LEFT_ANKLE_BD = 7,
-    XR_BODY_JOINT_RIGHT_ANKLE_BD = 8,
+    XR_BODY_JOINT_ಎಡ_ANKLE_BD = 7,
+    XR_BODY_JOINT_ಬಲ_ANKLE_BD = 8,
     XR_BODY_JOINT_SPINE3_BD = 9,
-    XR_BODY_JOINT_LEFT_FOOT_BD = 10,
-    XR_BODY_JOINT_RIGHT_FOOT_BD = 11,
+    XR_BODY_JOINT_ಎಡ_FOOT_BD = 10,
+    XR_BODY_JOINT_ಬಲ_FOOT_BD = 11,
     XR_BODY_JOINT_NECK_BD = 12,
-    XR_BODY_JOINT_LEFT_COLLAR_BD = 13,
-    XR_BODY_JOINT_RIGHT_COLLAR_BD = 14,
+    XR_BODY_JOINT_ಎಡ_COLLAR_BD = 13,
+    XR_BODY_JOINT_ಬಲ_COLLAR_BD = 14,
     XR_BODY_JOINT_HEAD_BD = 15,
-    XR_BODY_JOINT_LEFT_SHOULDER_BD = 16,
-    XR_BODY_JOINT_RIGHT_SHOULDER_BD = 17,
-    XR_BODY_JOINT_LEFT_ELBOW_BD = 18,
-    XR_BODY_JOINT_RIGHT_ELBOW_BD = 19,
-    XR_BODY_JOINT_LEFT_WRIST_BD = 20,
-    XR_BODY_JOINT_RIGHT_WRIST_BD = 21,
-    XR_BODY_JOINT_LEFT_HAND_BD = 22,
-    XR_BODY_JOINT_RIGHT_HAND_BD = 23,
+    XR_BODY_JOINT_ಎಡ_SHOULDER_BD = 16,
+    XR_BODY_JOINT_ಬಲ_SHOULDER_BD = 17,
+    XR_BODY_JOINT_ಎಡ_ELBOW_BD = 18,
+    XR_BODY_JOINT_ಬಲ_ELBOW_BD = 19,
+    XR_BODY_JOINT_ಎಡ_WRIST_BD = 20,
+    XR_BODY_JOINT_ಬಲ_WRIST_BD = 21,
+    XR_BODY_JOINT_ಎಡ_HAND_BD = 22,
+    XR_BODY_JOINT_ಬಲ_HAND_BD = 23,
     XR_BODY_JOINT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyJointBD;
 
-typedef enum XrBodyJointSetBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyJointSetBD {
     XR_BODY_JOINT_SET_BODY_WITHOUT_ARM_BD = 1,
     XR_BODY_JOINT_SET_FULL_BODY_JOINTS_BD = 2,
     XR_BODY_JOINT_SET_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyJointSetBD;
 // XrSystemBodyTrackingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemBodyTrackingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesBD;
 
-typedef struct XrBodyTrackerCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackerCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBodyJointSetBD            jointSet;
 } XrBodyTrackerCreateInfoBD;
 
-typedef struct XrBodyJointsLocateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointsLocateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoBD;
 
-typedef struct XrBodyJointLocationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointLocationBD {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationBD;
 
-typedef struct XrBodyJointLocationsBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointLocationsBD {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrBool32                  allJointPosesTracked;
-    uint32_t                  jointLocationCount;
+    uint32_t                  joint_Location_ಎಣಿಕೆ;
     XrBodyJointLocationBD*    jointLocations;
 } XrBodyJointLocationsBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerBD)(XrSession session, const XrBodyTrackerCreateInfoBD* createInfo, XrBodyTrackerBD* bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerBD)(XrBodyTrackerBD bodyTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsBD)(XrBodyTrackerBD bodyTracker, const XrBodyJointsLocateInfoBD* locateInfo, XrBodyJointLocationsBD* locations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateBodyTrackerBD)(XrSession session, ಧ್ರುವ XrBodyTrackerCreateInfoBD* createInfo, XrBodyTrackerBD* bodyTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyBodyTrackerBD)(XrBodyTrackerBD bodyTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateBodyJointsBD)(XrBodyTrackerBD bodyTracker, ಧ್ರುವ XrBodyJointsLocateInfoBD* locateInfo, XrBodyJointLocationsBD* locations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateBodyTrackerBD(
     XrSession                                   session,
-    const XrBodyTrackerCreateInfoBD*            createInfo,
+    ಧ್ರುವ XrBodyTrackerCreateInfoBD*            createInfo,
     XrBodyTrackerBD*                            bodyTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerBD(
@@ -8836,7 +8836,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyBodyTrackerBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsBD(
     XrBodyTrackerBD                             bodyTracker,
-    const XrBodyJointsLocateInfoBD*             locateInfo,
+    ಧ್ರುವ XrBodyJointsLocateInfoBD*             locateInfo,
     XrBodyJointLocationsBD*                     locations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -8845,16 +8845,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsBD(
 // XR_BD_facial_simulation is a preprocessor guard. Do not pass it to API calls.
 #define XR_BD_facial_simulation 1
 
-#define XR_FACE_EXPRESSION_COUNT_BD 52
+#define XR_FACE_EXPRESSION_ಎಣಿಕೆ_BD 52
 
 
-#define XR_LIP_EXPRESSION_COUNT_BD 20
+#define XR_LIP_EXPRESSION_ಎಣಿಕೆ_BD 20
 
  XR_DEFINE_HANDLE(XrFaceTrackerBD)
 #define XR_BD_facial_simulation_SPEC_VERSION 1
 #define XR_BD_FACIAL_SIMULATION_EXTENSION_NAME "XR_BD_facial_simulation"
 
-typedef enum XrFacialSimulationModeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFacialSimulationModeBD {
     XR_FACIAL_SIMULATION_MODE_DEFAULT_BD = 0,
     XR_FACIAL_SIMULATION_MODE_COMBINED_AUDIO_BD = 1,
     XR_FACIAL_SIMULATION_MODE_COMBINED_AUDIO_WITH_LIP_BD = 2,
@@ -8862,7 +8862,7 @@ typedef enum XrFacialSimulationModeBD {
     XR_FACIAL_SIMULATION_MODE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrFacialSimulationModeBD;
 
-typedef enum XrFaceExpressionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceExpressionBD {
     XR_FACE_EXPRESSION_BROW_DROP_L_BD = 0,
     XR_FACE_EXPRESSION_BROW_DROP_R_BD = 1,
     XR_FACE_EXPRESSION_BROW_INNER_UPWARDS_BD = 2,
@@ -8918,7 +8918,7 @@ typedef enum XrFaceExpressionBD {
     XR_FACE_EXPRESSION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrFaceExpressionBD;
 
-typedef enum XrLipExpressionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrLipExpressionBD {
     XR_LIP_EXPRESSION_PP_BD = 0,
     XR_LIP_EXPRESSION_CH_BD = 1,
     XR_LIP_EXPRESSION_LO_BD = 2,
@@ -8942,60 +8942,60 @@ typedef enum XrLipExpressionBD {
     XR_LIP_EXPRESSION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrLipExpressionBD;
 // XrSystemFacialSimulationPropertiesBD extends XrSystemProperties
-typedef struct XrSystemFacialSimulationPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFacialSimulationPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFacialSimulationPropertiesBD;
 
-typedef struct XrFaceTrackerCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceTrackerCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFacialSimulationModeBD    mode;
 } XrFaceTrackerCreateInfoBD;
 
-typedef struct XrFacialSimulationDataGetInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFacialSimulationDataGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFacialSimulationDataGetInfoBD;
 
-typedef struct XrFacialSimulationDataBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFacialSimulationDataBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              faceExpressionWeightCount;
-    float*                faceExpressionWeights;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              face_Expression_Weight_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                faceExpressionWeights;
     XrBool32              isUpperFaceDataValid;
     XrBool32              isLowerFaceDataValid;
     XrTime                time;
 } XrFacialSimulationDataBD;
 
 // XrLipExpressionDataBD extends XrFacialSimulationDataBD
-typedef struct XrLipExpressionDataBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLipExpressionDataBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              lipsyncExpressionWeightCount;
-    float*                lipsyncExpressionWeights;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              lipsync_Expression_Weight_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                lipsyncExpressionWeights;
 } XrLipExpressionDataBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateFacialSimulationModesBD)(XrSession session, uint32_t modeCapacityInput, uint32_t* modeCountOutput, XrFacialSimulationModeBD* modes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerBD)(XrSession session, const XrFaceTrackerCreateInfoBD* createInfo, XrFaceTrackerBD* tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerBD)(XrFaceTrackerBD tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationDataBD)(XrFaceTrackerBD tracker, const XrFacialSimulationDataGetInfoBD*info, XrFacialSimulationDataBD* facialData);
-typedef XrResult (XRAPI_PTR *PFN_xrSetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD mode);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD*mode);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateFacialSimulationModesBD)(XrSession session, uint32_t mode_Capacity_ಒಳಹರಿವು, uint32_t* mode_ಎಣಿಕೆ_Output, XrFacialSimulationModeBD* modes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerBD)(XrSession session, ಧ್ರುವ XrFaceTrackerCreateInfoBD* createInfo, XrFaceTrackerBD* tracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerBD)(XrFaceTrackerBD tracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationDataBD)(XrFaceTrackerBD tracker, ಧ್ರುವ XrFacialSimulationDataGetInfoBD*info, XrFacialSimulationDataBD* facialData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD mode);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFacialSimulationModeBD)(XrFaceTrackerBD tracker, XrFacialSimulationModeBD*mode);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateFacialSimulationModesBD(
     XrSession                                   session,
-    uint32_t                                    modeCapacityInput,
-    uint32_t*                                   modeCountOutput,
+    uint32_t                                    mode_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   mode_ಎಣಿಕೆ_Output,
     XrFacialSimulationModeBD*                   modes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTrackerBD(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfoBD*            createInfo,
+    ಧ್ರುವ XrFaceTrackerCreateInfoBD*            createInfo,
     XrFaceTrackerBD*                            tracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerBD(
@@ -9003,7 +9003,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialSimulationDataBD(
     XrFaceTrackerBD                             tracker,
-    const XrFacialSimulationDataGetInfoBD*      info,
+    ಧ್ರುವ XrFacialSimulationDataGetInfoBD*      info,
     XrFacialSimulationDataBD*                   facialData);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetFacialSimulationModeBD(
@@ -9026,7 +9026,7 @@ XR_DEFINE_HANDLE(XrAnchorBD)
 #define XR_BD_spatial_sensing_SPEC_VERSION 3
 #define XR_BD_SPATIAL_SENSING_EXTENSION_NAME "XR_BD_spatial_sensing"
 
-typedef enum XrSpatialEntityComponentTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialEntityComponentTypeBD {
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_LOCATION_BD = 0,
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_SEMANTIC_BD = 1,
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_BOUNDING_BOX_2D_BD = 2,
@@ -9040,7 +9040,7 @@ typedef enum XrSpatialEntityComponentTypeBD {
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSpatialEntityComponentTypeBD;
 
-typedef enum XrSemanticLabelBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSemanticLabelBD {
     XR_SEMANTIC_LABEL_UNKNOWN_BD = 0,
     XR_SEMANTIC_LABEL_FLOOR_BD = 1,
     XR_SEMANTIC_LABEL_CEILING_BD = 2,
@@ -9072,7 +9072,7 @@ typedef enum XrSemanticLabelBD {
     XR_SEMANTIC_LABEL_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSemanticLabelBD;
 
-typedef enum XrSenseDataProviderTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSenseDataProviderTypeBD {
     XR_SENSE_DATA_PROVIDER_TYPE_ANCHOR_BD = 1000390000,
     XR_SENSE_DATA_PROVIDER_TYPE_SCENE_BD = 1000392000,
     XR_SENSE_DATA_PROVIDER_TYPE_MESH_BD = 1000393000,
@@ -9082,214 +9082,214 @@ typedef enum XrSenseDataProviderTypeBD {
     XR_SENSE_DATA_PROVIDER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSenseDataProviderTypeBD;
 
-typedef enum XrSenseDataProviderStateBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSenseDataProviderStateBD {
     XR_SENSE_DATA_PROVIDER_STATE_INITIALIZED_BD = 0,
     XR_SENSE_DATA_PROVIDER_STATE_RUNNING_BD = 1,
     XR_SENSE_DATA_PROVIDER_STATE_STOPPED_BD = 2,
     XR_SENSE_DATA_PROVIDER_STATE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSenseDataProviderStateBD;
 // XrSystemSpatialSensingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialSensingPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialSensingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialSensing;
 } XrSystemSpatialSensingPropertiesBD;
 
-typedef struct XrSpatialEntityComponentGetInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentGetInfoBD {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrSpatialEntityIdBD               entityId;
     XrSpatialEntityComponentTypeBD    componentType;
 } XrSpatialEntityComponentGetInfoBD;
 
-typedef struct XrSpatialEntityComponentDataBaseHeaderBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataBaseHeaderBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpatialEntityComponentDataBaseHeaderBD;
 
 // XrSpatialEntityLocationGetInfoBD extends XrSpatialEntityComponentGetInfoBD
-typedef struct XrSpatialEntityLocationGetInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityLocationGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
 } XrSpatialEntityLocationGetInfoBD;
 
 // XrSpatialEntityComponentDataLocationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataLocationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataLocationBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpaceLocation       location;
 } XrSpatialEntityComponentDataLocationBD;
 
 // XrSpatialEntityComponentDataSemanticBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataSemanticBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataSemanticBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              labelCapacityInput;
-    uint32_t              labelCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              label_Capacity_ಒಳಹರಿವು;
+    uint32_t              label_ಎಣಿಕೆ_Output;
     XrSemanticLabelBD*    labels;
 } XrSpatialEntityComponentDataSemanticBD;
 
 // XrSpatialEntityComponentDataBoundingBox2DBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataBoundingBox2DBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataBoundingBox2DBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrRect2Df             boundingBox2D;
 } XrSpatialEntityComponentDataBoundingBox2DBD;
 
 // XrSpatialEntityComponentDataPolygonBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataPolygonBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataPolygonBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t              vertex_ಎಣಿಕೆ_Output;
     XrVector2f*           vertices;
 } XrSpatialEntityComponentDataPolygonBD;
 
 // XrSpatialEntityComponentDataBoundingBox3DBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataBoundingBox3DBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataBoundingBox3DBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBoxf                boundingBox3D;
 } XrSpatialEntityComponentDataBoundingBox3DBD;
 
 // XrSpatialEntityComponentDataTriangleMeshBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataTriangleMeshBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataTriangleMeshBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t              vertex_ಎಣಿಕೆ_Output;
     XrVector3f*           vertices;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    uint32_t              index_Capacity_ಒಳಹರಿವು;
+    uint32_t              index_ಎಣಿಕೆ_Output;
     uint16_t*             indices;
 } XrSpatialEntityComponentDataTriangleMeshBD;
 
 // XrSpatialEntityComponentDataSphereBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataSphereBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataSphereBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpheref             sphere;
 } XrSpatialEntityComponentDataSphereBD;
 
-typedef struct XrSenseDataProviderCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataProviderCreateInfoBD {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrSenseDataProviderTypeBD    providerType;
 } XrSenseDataProviderCreateInfoBD;
 
-typedef struct XrSenseDataProviderStartInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataProviderStartInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSenseDataProviderStartInfoBD;
 
-typedef struct XrEventDataSenseDataProviderStateChangedBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSenseDataProviderStateChangedBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrSenseDataProviderBD         provider;
     XrSenseDataProviderStateBD    newState;
 } XrEventDataSenseDataProviderStateChangedBD;
 
-typedef struct XrEventDataSenseDataUpdatedBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSenseDataUpdatedBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSenseDataProviderBD       provider;
 } XrEventDataSenseDataUpdatedBD;
 
-typedef struct XrSenseDataQueryInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataQueryInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSenseDataQueryInfoBD;
 
-typedef struct XrSenseDataQueryCompletionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataQueryCompletionBD {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
     XrResult                 futureResult;
     XrSenseDataSnapshotBD    snapshot;
 } XrSenseDataQueryCompletionBD;
 
-typedef struct XrQueriedSenseDataGetInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrQueriedSenseDataGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrQueriedSenseDataGetInfoBD;
 
-typedef struct XrSpatialEntityStateBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityStateBD {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrSpatialEntityIdBD    entityId;
     XrTime                 lastUpdateTime;
     XrUuidEXT              uuid;
 } XrSpatialEntityStateBD;
 
-typedef struct XrQueriedSenseDataBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrQueriedSenseDataBD {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   stateCapacityInput;
-    uint32_t                   stateCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
+    uint32_t                   state_Capacity_ಒಳಹರಿವು;
+    uint32_t                   state_ಎಣಿಕೆ_Output;
     XrSpatialEntityStateBD*    states;
 } XrQueriedSenseDataBD;
 
 // XrSenseDataFilterUuidBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterUuidBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataFilterUuidBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    uuidCount;
-    const XrUuidEXT*            uuids;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    uuid_ಎಣಿಕೆ;
+    ಧ್ರುವ XrUuidEXT*            uuids;
 } XrSenseDataFilterUuidBD;
 
 // XrSenseDataFilterSemanticBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterSemanticBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataFilterSemanticBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    labelCount;
-    const XrSemanticLabelBD*    labels;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    label_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSemanticLabelBD*    labels;
 } XrSenseDataFilterSemanticBD;
 
-typedef struct XrSpatialEntityAnchorCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityAnchorCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSenseDataSnapshotBD       snapshot;
     XrSpatialEntityIdBD         entityId;
 } XrSpatialEntityAnchorCreateInfoBD;
 
-typedef struct XrAnchorSpaceCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAnchorSpaceCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAnchorBD                  anchor;
     XrPosef                     poseInAnchorSpace;
 } XrAnchorSpaceCreateInfoBD;
 
-typedef struct XrFutureCompletionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFutureCompletionEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrFutureCompletionEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialEntityComponentTypesBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, uint32_t componentTypeCapacityInput, uint32_t* componentTypeCountOutput, XrSpatialEntityComponentTypeBD* componentTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityUuidBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, XrUuidEXT* uuid);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityComponentDataBD)(XrSenseDataSnapshotBD snapshot, const XrSpatialEntityComponentGetInfoBD* getInfo, XrSpatialEntityComponentDataBaseHeaderBD* componentData);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSenseDataProviderBD)(XrSession session, const XrSenseDataProviderCreateInfoBD* createInfo, XrSenseDataProviderBD* provider);
-typedef XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderAsyncBD)(XrSenseDataProviderBD provider, const XrSenseDataProviderStartInfoBD* startInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderCompleteBD)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSenseDataProviderStateBD)(XrSenseDataProviderBD provider, XrSenseDataProviderStateBD* state);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySenseDataAsyncBD)(XrSenseDataProviderBD provider, const XrSenseDataQueryInfoBD* queryInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySenseDataCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSenseDataQueryCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySenseDataSnapshotBD)(XrSenseDataSnapshotBD snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrGetQueriedSenseDataBD)(XrSenseDataSnapshotBD snapshot, XrQueriedSenseDataGetInfoBD* getInfo, XrQueriedSenseDataBD* queriedSenseData);
-typedef XrResult (XRAPI_PTR *PFN_xrStopSenseDataProviderBD)(XrSenseDataProviderBD provider);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySenseDataProviderBD)(XrSenseDataProviderBD provider);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityAnchorBD)(XrSenseDataProviderBD provider, const XrSpatialEntityAnchorCreateInfoBD* createInfo, XrAnchorBD* anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyAnchorBD)(XrAnchorBD anchor);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAnchorUuidBD)(XrAnchorBD anchor, XrUuidEXT* uuid);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceBD)(XrSession session, const XrAnchorSpaceCreateInfoBD* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialEntityComponentTypesBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, uint32_t component_Type_Capacity_ಒಳಹರಿವು, uint32_t* component_Type_ಎಣಿಕೆ_Output, XrSpatialEntityComponentTypeBD* componentTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityUuidBD)(XrSenseDataSnapshotBD snapshot, XrSpatialEntityIdBD entityId, XrUuidEXT* uuid);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialEntityComponentDataBD)(XrSenseDataSnapshotBD snapshot, ಧ್ರುವ XrSpatialEntityComponentGetInfoBD* getInfo, XrSpatialEntityComponentDataBaseHeaderBD* componentData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSenseDataProviderBD)(XrSession session, ಧ್ರುವ XrSenseDataProviderCreateInfoBD* createInfo, XrSenseDataProviderBD* provider);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSenseDataProviderStartInfoBD* startInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStartSenseDataProviderCompleteBD)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSenseDataProviderStateBD)(XrSenseDataProviderBD provider, XrSenseDataProviderStateBD* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQuerySenseDataAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSenseDataQueryInfoBD* queryInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQuerySenseDataCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSenseDataQueryCompletionBD* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySenseDataSnapshotBD)(XrSenseDataSnapshotBD snapshot);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetQueriedSenseDataBD)(XrSenseDataSnapshotBD snapshot, XrQueriedSenseDataGetInfoBD* getInfo, XrQueriedSenseDataBD* queriedSenseData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStopSenseDataProviderBD)(XrSenseDataProviderBD provider);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySenseDataProviderBD)(XrSenseDataProviderBD provider);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityAnchorBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSpatialEntityAnchorCreateInfoBD* createInfo, XrAnchorBD* anchor);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyAnchorBD)(XrAnchorBD anchor);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetAnchorUuidBD)(XrAnchorBD anchor, XrUuidEXT* uuid);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceBD)(XrSession session, ಧ್ರುವ XrAnchorSpaceCreateInfoBD* createInfo, XrSpace* space);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialEntityComponentTypesBD(
     XrSenseDataSnapshotBD                       snapshot,
     XrSpatialEntityIdBD                         entityId,
-    uint32_t                                    componentTypeCapacityInput,
-    uint32_t*                                   componentTypeCountOutput,
+    uint32_t                                    component_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   component_Type_ಎಣಿಕೆ_Output,
     XrSpatialEntityComponentTypeBD*             componentTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialEntityUuidBD(
@@ -9299,17 +9299,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialEntityUuidBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialEntityComponentDataBD(
     XrSenseDataSnapshotBD                       snapshot,
-    const XrSpatialEntityComponentGetInfoBD*    getInfo,
+    ಧ್ರುವ XrSpatialEntityComponentGetInfoBD*    getInfo,
     XrSpatialEntityComponentDataBaseHeaderBD*   componentData);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSenseDataProviderBD(
     XrSession                                   session,
-    const XrSenseDataProviderCreateInfoBD*      createInfo,
+    ಧ್ರುವ XrSenseDataProviderCreateInfoBD*      createInfo,
     XrSenseDataProviderBD*                      provider);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStartSenseDataProviderAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSenseDataProviderStartInfoBD*       startInfo,
+    ಧ್ರುವ XrSenseDataProviderStartInfoBD*       startInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStartSenseDataProviderCompleteBD(
@@ -9323,7 +9323,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSenseDataProviderStateBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySenseDataAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSenseDataQueryInfoBD*               queryInfo,
+    ಧ್ರುವ XrSenseDataQueryInfoBD*               queryInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySenseDataCompleteBD(
@@ -9347,7 +9347,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySenseDataProviderBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialEntityAnchorBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialEntityAnchorCreateInfoBD*    createInfo,
+    ಧ್ರುವ XrSpatialEntityAnchorCreateInfoBD*    createInfo,
     XrAnchorBD*                                 anchor);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAnchorBD(
@@ -9359,7 +9359,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetAnchorUuidBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAnchorSpaceBD(
     XrSession                                   session,
-    const XrAnchorSpaceCreateInfoBD*            createInfo,
+    ಧ್ರುವ XrAnchorSpaceCreateInfoBD*            createInfo,
     XrSpace*                                    space);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -9370,59 +9370,59 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateAnchorSpaceBD(
 #define XR_BD_spatial_anchor_SPEC_VERSION 2
 #define XR_BD_SPATIAL_ANCHOR_EXTENSION_NAME "XR_BD_spatial_anchor"
 
-typedef enum XrPersistenceLocationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPersistenceLocationBD {
     XR_PERSISTENCE_LOCATION_LOCAL_BD = 0,
     XR_PERSISTENCE_LOCATION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrPersistenceLocationBD;
 // XrSystemSpatialAnchorPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialAnchorPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialAnchorPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialAnchor;
 } XrSystemSpatialAnchorPropertiesBD;
 
-typedef struct XrSpatialAnchorCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrPosef                     pose;
     XrTime                      time;
 } XrSpatialAnchorCreateInfoBD;
 
-typedef struct XrSpatialAnchorCreateCompletionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorCreateCompletionBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
     XrUuidEXT             uuid;
     XrAnchorBD            anchor;
 } XrSpatialAnchorCreateCompletionBD;
 
-typedef struct XrSpatialAnchorPersistInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorPersistInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPersistenceLocationBD     location;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorPersistInfoBD;
 
-typedef struct XrSpatialAnchorUnpersistInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorUnpersistInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPersistenceLocationBD     location;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorUnpersistInfoBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorCreateInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSpatialAnchorCreateCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorPersistInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorUnpersistInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSpatialAnchorCreateInfoBD* info, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrSpatialAnchorCreateCompletionBD* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSpatialAnchorPersistInfoBD* info, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSpatialAnchorUnpersistInfoBD* info, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorCreateInfoBD*          info,
+    ಧ್ರುವ XrSpatialAnchorCreateInfoBD*          info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorCompleteBD(
@@ -9432,7 +9432,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorCompleteBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorPersistInfoBD*         info,
+    ಧ್ರುವ XrSpatialAnchorPersistInfoBD*         info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorCompleteBD(
@@ -9442,7 +9442,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialAnchorCompleteBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorUnpersistInfoBD*       info,
+    ಧ್ರುವ XrSpatialAnchorUnpersistInfoBD*       info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorCompleteBD(
@@ -9458,34 +9458,34 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorCompleteBD(
 #define XR_BD_spatial_anchor_sharing_SPEC_VERSION 2
 #define XR_BD_SPATIAL_ANCHOR_SHARING_EXTENSION_NAME "XR_BD_spatial_anchor_sharing"
 // XrSystemSpatialAnchorSharingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialAnchorSharingPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialAnchorSharingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialAnchorSharing;
 } XrSystemSpatialAnchorSharingPropertiesBD;
 
-typedef struct XrSpatialAnchorShareInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorShareInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorShareInfoBD;
 
-typedef struct XrSharedSpatialAnchorDownloadInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSharedSpatialAnchorDownloadInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidEXT                   uuid;
 } XrSharedSpatialAnchorDownloadInfoBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSpatialAnchorShareInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, const XrSharedSpatialAnchorDownloadInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSpatialAnchorShareInfoBD* info, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrShareSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSharedSpatialAnchorDownloadInfoBD* info, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDownloadSharedSpatialAnchorCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSpatialAnchorShareInfoBD*           info,
+    ಧ್ರುವ XrSpatialAnchorShareInfoBD*           info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrShareSpatialAnchorCompleteBD(
@@ -9495,7 +9495,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrShareSpatialAnchorCompleteBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDownloadSharedSpatialAnchorAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSharedSpatialAnchorDownloadInfoBD*  info,
+    ಧ್ರುವ XrSharedSpatialAnchorDownloadInfoBD*  info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDownloadSharedSpatialAnchorCompleteBD(
@@ -9511,25 +9511,25 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDownloadSharedSpatialAnchorCompleteBD(
 #define XR_BD_spatial_scene_SPEC_VERSION  1
 #define XR_BD_SPATIAL_SCENE_EXTENSION_NAME "XR_BD_spatial_scene"
 // XrSystemSpatialScenePropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialScenePropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialScenePropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialScene;
 } XrSystemSpatialScenePropertiesBD;
 
-typedef struct XrSceneCaptureInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneCaptureInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSceneCaptureInfoBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCaptureSceneAsyncBD)(XrSenseDataProviderBD provider, const XrSceneCaptureInfoBD* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCaptureSceneCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCaptureSceneAsyncBD)(XrSenseDataProviderBD provider, ಧ್ರುವ XrSceneCaptureInfoBD* info, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCaptureSceneCompleteBD)(XrSenseDataProviderBD provider, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCaptureSceneAsyncBD(
     XrSenseDataProviderBD                       provider,
-    const XrSceneCaptureInfoBD*                 info,
+    ಧ್ರುವ XrSceneCaptureInfoBD*                 info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCaptureSceneCompleteBD(
@@ -9545,29 +9545,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCaptureSceneCompleteBD(
 #define XR_BD_spatial_mesh_SPEC_VERSION   1
 #define XR_BD_SPATIAL_MESH_EXTENSION_NAME "XR_BD_spatial_mesh"
 
-typedef enum XrSpatialMeshLodBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialMeshLodBD {
     XR_SPATIAL_MESH_LOD_COARSE_BD = 0,
     XR_SPATIAL_MESH_LOD_MEDIUM_BD = 1,
     XR_SPATIAL_MESH_LOD_FINE_BD = 2,
     XR_SPATIAL_MESH_LOD_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSpatialMeshLodBD;
-typedef XrFlags64 XrSpatialMeshConfigFlagsBD;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSpatialMeshConfigFlagsBD;
 
 // Flag bits for XrSpatialMeshConfigFlagsBD
-static const XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_SEMANTIC_BIT_BD = 0x00000001;
-static const XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_ALIGN_SEMANTIC_WITH_VERTEX_BIT_BD = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_SEMANTIC_BIT_BD = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_ALIGN_SEMANTIC_WITH_VERTEX_BIT_BD = 0x00000002;
 
 // XrSystemSpatialMeshPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialMeshPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialMeshPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialMesh;
 } XrSystemSpatialMeshPropertiesBD;
 
 // XrSenseDataProviderCreateInfoSpatialMeshBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoSpatialMeshBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataProviderCreateInfoSpatialMeshBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrSpatialMeshConfigFlagsBD    configFlags;
     XrSpatialMeshLodBD            lod;
 } XrSenseDataProviderCreateInfoSpatialMeshBD;
@@ -9579,9 +9579,9 @@ typedef struct XrSenseDataProviderCreateInfoSpatialMeshBD {
 #define XR_BD_future_progress_SPEC_VERSION 1
 #define XR_BD_FUTURE_PROGRESS_EXTENSION_NAME "XR_BD_future_progress"
 // XrFuturePollResultProgressBD extends XrFuturePollResultEXT
-typedef struct XrFuturePollResultProgressBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFuturePollResultProgressBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              isSupported;
     uint32_t              progressPercentage;
 } XrFuturePollResultProgressBD;
@@ -9593,23 +9593,23 @@ typedef struct XrFuturePollResultProgressBD {
 #define XR_BD_body_tracking_auxiliary_metrics_SPEC_VERSION 1
 #define XR_BD_BODY_TRACKING_AUXILIARY_METRICS_EXTENSION_NAME "XR_BD_body_tracking_auxiliary_metrics"
 
-typedef enum XrBodyTrackingPostureBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyTrackingPostureBD {
     XR_BODY_TRACKING_POSTURE_STOMP_BD = 1,
     XR_BODY_TRACKING_POSTURE_STATIC_BD = 2,
     XR_BODY_TRACKING_POSTURE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingPostureBD;
 
-typedef enum XrBodyTrackingStatusBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyTrackingStatusBD {
     XR_BODY_TRACKING_STATUS_INVALID_BD = 0,
     XR_BODY_TRACKING_STATUS_VALID_BD = 1,
     XR_BODY_TRACKING_STATUS_LIMITED_BD = 2,
     XR_BODY_TRACKING_STATUS_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingStatusBD;
 
-typedef enum XrBodyTrackingMessageBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBodyTrackingMessageBD {
     XR_BODY_TRACKING_MESSAGE_NO_ERROR_BD = 0,
     XR_BODY_TRACKING_MESSAGE_TRACKER_NOT_CALIBRATED_BD = 1,
-    XR_BODY_TRACKING_MESSAGE_TRACKER_NUM_NOT_ENOUGH_BD = 2,
+    XR_BODY_TRACKING_MESSAGE_TRACKER_ಅಂಕೆ_NOT_ENOUGH_BD = 2,
     XR_BODY_TRACKING_MESSAGE_TRACKER_STATE_NOT_SATISFIED_BD = 3,
     XR_BODY_TRACKING_MESSAGE_TRACKER_PERSISTENT_INVISIBILITY_BD = 4,
     XR_BODY_TRACKING_MESSAGE_TRACKER_DATA_ERROR_BD = 5,
@@ -9617,57 +9617,57 @@ typedef enum XrBodyTrackingMessageBD {
     XR_BODY_TRACKING_MESSAGE_TRACKING_POSE_ERROR_BD = 7,
     XR_BODY_TRACKING_MESSAGE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingMessageBD;
-typedef XrFlags64 XrSpaceAccelerationFlagsBD;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSpaceAccelerationFlagsBD;
 
 // Flag bits for XrSpaceAccelerationFlagsBD
-static const XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_LINEAR_VALID_BIT_BD = 0x00000001;
-static const XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_ANGULAR_VALID_BIT_BD = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_LINEAR_VALID_BIT_BD = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_ANGULAR_VALID_BIT_BD = 0x00000002;
 
 // XrBodyTrackingPostureDataBD extends XrBodyJointLocationsBD
-typedef struct XrBodyTrackingPostureDataBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackingPostureDataBD {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
-    uint32_t                    postureCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
+    uint32_t                    posture_ಎಣಿಕೆ;
     XrBodyTrackingPostureBD*    postureData;
 } XrBodyTrackingPostureDataBD;
 
-typedef struct XrBodyJointVelocityBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointVelocityBD {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrBodyJointVelocityBD;
 
 // XrBodyJointVelocitiesBD extends XrBodyJointLocationsBD
-typedef struct XrBodyJointVelocitiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointVelocitiesBD {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
-    uint32_t                  velocityCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
+    uint32_t                  velocity_ಎಣಿಕೆ;
     XrBodyJointVelocityBD*    velocities;
 } XrBodyJointVelocitiesBD;
 
-typedef struct XrBodyJointAccelerationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointAccelerationBD {
     XrSpaceAccelerationFlagsBD    accelerationFlags;
     XrVector3f                    linearAcceleration;
     XrVector3f                    angularAcceleration;
 } XrBodyJointAccelerationBD;
 
 // XrBodyJointAccelerationsBD extends XrBodyJointLocationsBD
-typedef struct XrBodyJointAccelerationsBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyJointAccelerationsBD {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      accelerationCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                      acceleration_ಎಣಿಕೆ;
     XrBodyJointAccelerationBD*    accelerations;
 } XrBodyJointAccelerationsBD;
 
-typedef struct XrBodyTrackingStateBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBodyTrackingStateBD {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrBodyTrackingStatusBD     status;
     XrBodyTrackingMessageBD    message;
 } XrBodyTrackingStateBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrStartBodyTrackingCalibrationAppBD)(XrSession session);
-typedef XrResult (XRAPI_PTR *PFN_xrGetBodyTrackingStateBD)(XrSession session, XrBodyTrackingStateBD* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStartBodyTrackingCalibrationAppBD)(XrSession session);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetBodyTrackingStateBD)(XrSession session, XrBodyTrackingStateBD* state);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -9686,7 +9686,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodyTrackingStateBD(
 #define XR_BD_spatial_plane_SPEC_VERSION  1
 #define XR_BD_SPATIAL_PLANE_EXTENSION_NAME "XR_BD_spatial_plane"
 
-typedef enum XrPlaneOrientationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPlaneOrientationBD {
     XR_PLANE_ORIENTATION_HORIZONTAL_UPWARD_BD = 0,
     XR_PLANE_ORIENTATION_HORIZONTAL_DOWNWARD_BD = 1,
     XR_PLANE_ORIENTATION_VERTICAL_BD = 2,
@@ -9694,24 +9694,24 @@ typedef enum XrPlaneOrientationBD {
     XR_PLANE_ORIENTATION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrPlaneOrientationBD;
 // XrSystemSpatialPlanePropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialPlanePropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialPlanePropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialPlane;
 } XrSystemSpatialPlanePropertiesBD;
 
 // XrSpatialEntityComponentDataPlaneOrientationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataPlaneOrientationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataPlaneOrientationBD {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrPlaneOrientationBD    orientation;
 } XrSpatialEntityComponentDataPlaneOrientationBD;
 
 // XrSenseDataFilterPlaneOrientationBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterPlaneOrientationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataFilterPlaneOrientationBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    orientationCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    orientation_ಎಣಿಕೆ;
     XrPlaneOrientationBD*       orientations;
 } XrSenseDataFilterPlaneOrientationBD;
 
@@ -9722,13 +9722,13 @@ typedef struct XrSenseDataFilterPlaneOrientationBD {
 #define XR_BD_spatial_light_estimation_SPEC_VERSION 1
 #define XR_BD_SPATIAL_LIGHT_ESTIMATION_EXTENSION_NAME "XR_BD_spatial_light_estimation"
 
-typedef enum XrEnvironmentTexturePixelFormatBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEnvironmentTexturePixelFormatBD {
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_RGB_16FLOAT_BD = 0,
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_RGBA_16FLOAT_BD = 1,
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTexturePixelFormatBD;
 
-typedef enum XrEnvironmentTextureResolutionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEnvironmentTextureResolutionBD {
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_8_8_BD = 0,
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_16_16_BD = 1,
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_32_32_BD = 2,
@@ -9737,99 +9737,99 @@ typedef enum XrEnvironmentTextureResolutionBD {
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTextureResolutionBD;
 
-typedef enum XrEnvironmentTextureTransferTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEnvironmentTextureTransferTypeBD {
     XR_ENVIRONMENT_TEXTURE_TRANSFER_TYPE_RAW_BD = 0,
     XR_ENVIRONMENT_TEXTURE_TRANSFER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTextureTransferTypeBD;
 
-typedef enum XrSphericalHarmonicsKindBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSphericalHarmonicsKindBD {
     XR_SPHERICAL_HARMONICS_KIND_TOTAL_BD = 0,
     XR_SPHERICAL_HARMONICS_KIND_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSphericalHarmonicsKindBD;
-typedef XrFlags64 XrLightEstimationCreateFlagsBD;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrLightEstimationCreateFlagsBD;
 
 // Flag bits for XrLightEstimationCreateFlagsBD
-static const XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_SPHERICAL_HARMONICS_BIT_BD = 0x00000001;
-static const XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_ENVIRONMENT_TEXTURE_BIT_BD = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_SPHERICAL_HARMONICS_BIT_BD = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_ENVIRONMENT_TEXTURE_BIT_BD = 0x00000002;
 
 // XrSystemLightEstimationPropertiesBD extends XrSystemProperties
-typedef struct XrSystemLightEstimationPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemLightEstimationPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsLightEstimation;
     XrBool32              supportsEnvironmentTexture;
     XrBool32              supportsSphericalHarmonics;
 } XrSystemLightEstimationPropertiesBD;
 
 // XrSenseDataProviderCreateInfoLightEstimationBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoLightEstimationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataProviderCreateInfoLightEstimationBD {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrLightEstimationCreateFlagsBD    createFlags;
 } XrSenseDataProviderCreateInfoLightEstimationBD;
 
 // XrEnvironmentTextureCreateConfigInfoBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrEnvironmentTextureCreateConfigInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentTextureCreateConfigInfoBD {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
     XrEnvironmentTexturePixelFormatBD     pixelFormat;
     XrEnvironmentTextureResolutionBD      resolution;
     XrEnvironmentTextureTransferTypeBD    transferType;
 } XrEnvironmentTextureCreateConfigInfoBD;
 
 // XrLightEstimationDataEnvironmentTextureRawBD extends XrSpatialEntityComponentDataLightEstimationBD
-typedef struct XrLightEstimationDataEnvironmentTextureRawBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLightEstimationDataEnvironmentTextureRawBD {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrEnvironmentTexturePixelFormatBD    pixelFormat;
     uint32_t                             cubemapFaceBufferSize;
-    uint8_t*                             rightCubemapFaceBuffer;
-    uint8_t*                             leftCubemapFaceBuffer;
-    uint8_t*                             topCubemapFaceBuffer;
+    uint8_t*                             ಬಲ_Cubemap_Face_Buffer;
+    uint8_t*                             ಎಡ_Cubemap_Face_Buffer;
+    uint8_t*                             ತುದಿ_Cubemap_Face_Buffer;
     uint8_t*                             bottomCubemapFaceBuffer;
     uint8_t*                             frontCubemapFaceBuffer;
     uint8_t*                             backCubemapFaceBuffer;
 } XrLightEstimationDataEnvironmentTextureRawBD;
 
 // XrLightEstimationDataSphericalHarmonicsBD extends XrSpatialEntityComponentDataLightEstimationBD
-typedef struct XrLightEstimationDataSphericalHarmonicsBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLightEstimationDataSphericalHarmonicsBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrSphericalHarmonicsKindBD    kind;
-    uint32_t                      coefficientCapacityInput;
-    uint32_t                      coefficientCountOutput;
-     float*                       coefficients;
+    uint32_t                      coefficient_Capacity_ಒಳಹರಿವು;
+    uint32_t                      coefficient_ಎಣಿಕೆ_Output;
+     ಭಿನ್ನ*                       coefficients;
 } XrLightEstimationDataSphericalHarmonicsBD;
 
 // XrSpatialEntityComponentDataLightEstimationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataLightEstimationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataLightEstimationBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              isValid;
 } XrSpatialEntityComponentDataLightEstimationBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureResolutionsBD)(XrSession session, uint32_t resolutionCapacityInput, uint32_t* resolutionCountOutput, XrEnvironmentTextureResolutionBD* resolutions);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTexturePixelFormatsBD)(XrSession session, uint32_t pixelFormatCapacityInput, uint32_t* pixelFormatCountOutput, XrEnvironmentTexturePixelFormatBD* pixelFormats);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureTransferTypesBD)(XrSession session, uint32_t transferTypeCapacityInput, uint32_t* transferTypeCountOutput, XrEnvironmentTextureTransferTypeBD* transferTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureResolutionsBD)(XrSession session, uint32_t resolution_Capacity_ಒಳಹರಿವು, uint32_t* resolution_ಎಣಿಕೆ_Output, XrEnvironmentTextureResolutionBD* resolutions);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTexturePixelFormatsBD)(XrSession session, uint32_t pixel_Format_Capacity_ಒಳಹರಿವು, uint32_t* pixel_Format_ಎಣಿಕೆ_Output, XrEnvironmentTexturePixelFormatBD* pixelFormats);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentTextureTransferTypesBD)(XrSession session, uint32_t transfer_Type_Capacity_ಒಳಹರಿವು, uint32_t* transfer_Type_ಎಣಿಕೆ_Output, XrEnvironmentTextureTransferTypeBD* transferTypes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentTextureResolutionsBD(
     XrSession                                   session,
-    uint32_t                                    resolutionCapacityInput,
-    uint32_t*                                   resolutionCountOutput,
+    uint32_t                                    resolution_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   resolution_ಎಣಿಕೆ_Output,
     XrEnvironmentTextureResolutionBD*           resolutions);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentTexturePixelFormatsBD(
     XrSession                                   session,
-    uint32_t                                    pixelFormatCapacityInput,
-    uint32_t*                                   pixelFormatCountOutput,
+    uint32_t                                    pixel_Format_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   pixel_Format_ಎಣಿಕೆ_Output,
     XrEnvironmentTexturePixelFormatBD*          pixelFormats);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateEnvironmentTextureTransferTypesBD(
     XrSession                                   session,
-    uint32_t                                    transferTypeCapacityInput,
-    uint32_t*                                   transferTypeCountOutput,
+    uint32_t                                    transfer_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   transfer_Type_ಎಣಿಕೆ_Output,
     XrEnvironmentTextureTransferTypeBD*         transferTypes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -9851,7 +9851,7 @@ XR_DEFINE_HANDLE(XrSoundObstacleMaterialBD)
 #define XR_BD_spatial_audio_rendering_SPEC_VERSION 1
 #define XR_BD_SPATIAL_AUDIO_RENDERING_EXTENSION_NAME "XR_BD_spatial_audio_rendering"
 
-typedef enum XrAudioSampleRateBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrAudioSampleRateBD {
     XR_AUDIO_SAMPLE_RATE_192000_HZ_BD = 1,
     XR_AUDIO_SAMPLE_RATE_96000_HZ_BD = 2,
     XR_AUDIO_SAMPLE_RATE_48000_HZ_BD = 3,
@@ -9866,13 +9866,13 @@ typedef enum XrAudioSampleRateBD {
     XR_AUDIO_SAMPLE_RATE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrAudioSampleRateBD;
 
-typedef enum XrAudioBufferChannelLayoutBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrAudioBufferChannelLayoutBD {
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_INTERLEAVED_BD = 0,
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_PLANAR_BD = 1,
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrAudioBufferChannelLayoutBD;
 
-typedef enum XrSoundObjectDistanceAttenuationTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSoundObjectDistanceAttenuationTypeBD {
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_NONE_BD = 0,
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_INVERSE_SQUARE_BD = 1,
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_ROLLOFF_BD = 2,
@@ -9880,22 +9880,22 @@ typedef enum XrSoundObjectDistanceAttenuationTypeBD {
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundObjectDistanceAttenuationTypeBD;
 
-typedef enum XrSoundFieldChannelMaskSurroundBD {
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_LEFT_BD = 1,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_RIGHT_BD = 2,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSoundFieldChannelMaskSurroundBD {
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_ಎಡ_BD = 1,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_ಬಲ_BD = 2,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_CENTER_BD = 4,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_LOW_FREQUENCY_BD = 8,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_LEFT_BD = 16,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_RIGHT_BD = 32,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_LEFT_BD = 64,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_RIGHT_BD = 128,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_FRONT_LEFT_BD = 256,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_FRONT_RIGHT_BD = 512,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_BACK_LEFT_BD = 1024,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_BACK_RIGHT_BD = 2048,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_ಕೆಳಗಿನ_FREQUENCY_BD = 8,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_ಎಡ_BD = 16,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_ಬಲ_BD = 32,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_ಎಡ_BD = 64,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SIDE_ಬಲ_BD = 128,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_ತುದಿ_FRONT_ಎಡ_BD = 256,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_ತುದಿ_FRONT_ಬಲ_BD = 512,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_ತುದಿ_BACK_ಎಡ_BD = 1024,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_ತುದಿ_BACK_ಬಲ_BD = 2048,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_BACK_CENTER_BD = 4096,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_SIDE_LEFT_BD = 8192,
-    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_TOP_SIDE_RIGHT_BD = 16384,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_ತುದಿ_SIDE_ಎಡ_BD = 8192,
+    XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_ತುದಿ_SIDE_ಬಲ_BD = 16384,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SETUP_STEREO_BD = 3,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SETUP_2_1_BD = 11,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_SETUP_3_0_BD = 7,
@@ -9917,7 +9917,7 @@ typedef enum XrSoundFieldChannelMaskSurroundBD {
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskSurroundBD;
 
-typedef enum XrSoundFieldChannelMaskAmbixBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSoundFieldChannelMaskAmbixBD {
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_1ST_ORDER_BD = 1,
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_2ND_ORDER_BD = 2,
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_3RD_ORDER_BD = 3,
@@ -9928,12 +9928,12 @@ typedef enum XrSoundFieldChannelMaskAmbixBD {
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskAmbixBD;
 
-typedef enum XrSoundFieldChannelMaskFumaBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSoundFieldChannelMaskFumaBD {
     XR_SOUND_FIELD_CHANNEL_MASK_FUMA_1ST_ORDER_BD = 1,
     XR_SOUND_FIELD_CHANNEL_MASK_FUMA_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskFumaBD;
 
-typedef enum XrSoundObstacleMaterialTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSoundObstacleMaterialTypeBD {
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_ACOUSTIC_TILE_BD = 0,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_BRICK_BD = 1,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_BRICK_PAINTED_BD = 2,
@@ -9966,190 +9966,190 @@ typedef enum XrSoundObstacleMaterialTypeBD {
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_CUSTOM_BD = 29,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundObstacleMaterialTypeBD;
-typedef XrFlags64 XrSoundObstacleFlagsBD;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSoundObstacleFlagsBD;
 
 // Flag bits for XrSoundObstacleFlagsBD
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_ENABLED_BIT_BD = 0x00000001;
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_POSE_BIT_BD = 0x00000002;
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MESH_BIT_BD = 0x00000004;
-static const XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MATERIALS_BIT_BD = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_ENABLED_BIT_BD = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_POSE_BIT_BD = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MESH_BIT_BD = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObstacleFlagsBD XR_SOUND_OBSTACLE_MATERIALS_BIT_BD = 0x00000008;
 
-typedef XrFlags64 XrSoundObjectFlagsBD;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSoundObjectFlagsBD;
 
 // Flag bits for XrSoundObjectFlagsBD
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLED_BIT_BD = 0x00000001;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_POSE_BIT_BD = 0x00000002;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECTIVITY_BIT_BD = 0x00000004;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_SHAPE_BIT_BD = 0x00000008;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_MAIN_VOLUME_BIT_BD = 0x00000010;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_REFLECTION_GAIN_BIT_BD = 0x00000020;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLE_DOPPLER_BIT_BD = 0x00000040;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000080;
-static const XrSoundObjectFlagsBD XR_SOUND_OBJECT_INDIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000100;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLED_BIT_BD = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_POSE_BIT_BD = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECTIVITY_BIT_BD = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_SHAPE_BIT_BD = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_MAIN_VOLUME_BIT_BD = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_REFLECTION_GAIN_BIT_BD = 0x00000020;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_ENABLE_DOPPLER_BIT_BD = 0x00000040;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_DIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000080;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundObjectFlagsBD XR_SOUND_OBJECT_INDIRECT_SOUND_ATTENUATION_BIT_BD = 0x00000100;
 
-typedef XrFlags64 XrSoundFieldFlagsBD;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrSoundFieldFlagsBD;
 
 // Flag bits for XrSoundFieldFlagsBD
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_ENABLED_BIT_BD = 0x00000001;
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_ORIENTATION_BIT_BD = 0x00000002;
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_MAIN_VOLUME_BIT_BD = 0x00000004;
-static const XrSoundFieldFlagsBD XR_SOUND_FIELD_LFE_GAIN_BIT_BD = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundFieldFlagsBD XR_SOUND_FIELD_ENABLED_BIT_BD = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundFieldFlagsBD XR_SOUND_FIELD_ORIENTATION_BIT_BD = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundFieldFlagsBD XR_SOUND_FIELD_MAIN_VOLUME_BIT_BD = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrSoundFieldFlagsBD XR_SOUND_FIELD_LFE_GAIN_BIT_BD = 0x00000008;
 
-typedef struct XrSpatialAudioRendererCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAudioRendererCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t                    framesPerBuffer;
     XrAudioSampleRateBD         sampleRate;
 } XrSpatialAudioRendererCreateInfoBD;
 
-typedef struct XrAudioBufferBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAudioBufferBD {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrAudioBufferChannelLayoutBD    channelLayout;
     uint32_t                        bufferChannels;
     uint32_t                        bufferLength;
-    float*                          buffer;
+    ಭಿನ್ನ*                          buffer;
 } XrAudioBufferBD;
 
 // XrSoundObjectDirectivityCardioidBD extends XrSoundObjectConfigBD
-typedef struct XrSoundObjectDirectivityCardioidBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundObjectDirectivityCardioidBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       alpha;
-    float                       order;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       alpha;
+    ಭಿನ್ನ                       order;
 } XrSoundObjectDirectivityCardioidBD;
 
 // XrSoundObjectShapeSphereBD extends XrSoundObjectConfigBD
-typedef struct XrSoundObjectShapeSphereBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundObjectShapeSphereBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       radius;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       radius;
 } XrSoundObjectShapeSphereBD;
 
-typedef struct XrAttenuationCurvePointBD {
-    float    distance;
-    float    gain;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAttenuationCurvePointBD {
+    ಭಿನ್ನ    distance;
+    ಭಿನ್ನ    gain;
 } XrAttenuationCurvePointBD;
 
-typedef struct XrSoundObjectDistanceAttenuationCurveBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundObjectDistanceAttenuationCurveBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
-    uint32_t                      curvePointCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
+    uint32_t                      curve_Point_ಎಣಿಕೆ;
     XrAttenuationCurvePointBD*    curvePoints;
 } XrSoundObjectDistanceAttenuationCurveBD;
 
-typedef struct XrSoundObjectDistanceAttenuationBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundObjectDistanceAttenuationBD {
     XrStructureType                             type;
-    const void* XR_MAY_ALIAS                    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
     XrSoundObjectDistanceAttenuationTypeBD      distanceAttenuationType;
-    float                                       minAttenuationRange;
-    float                                       maxAttenuationRange;
-    float                                       referenceDistance;
-    float                                       rolloffFactor;
+    ಭಿನ್ನ                                       minAttenuationRange;
+    ಭಿನ್ನ                                       maxAttenuationRange;
+    ಭಿನ್ನ                                       referenceDistance;
+    ಭಿನ್ನ                                       rolloffFactor;
     XrSoundObjectDistanceAttenuationCurveBD*    customDistanceAttenuationCurve;
 } XrSoundObjectDistanceAttenuationBD;
 
-typedef struct XrSoundObjectConfigBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundObjectConfigBD {
     XrStructureType                              type;
-    const void* XR_MAY_ALIAS                     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                     next;
     XrBool32                                     enabled;
     XrPosef                                      pose;
     XrSpace                                      baseSpace;
-    float                                        mainVolume;
-    float                                        reflectionGain;
+    ಭಿನ್ನ                                        mainVolume;
+    ಭಿನ್ನ                                        reflectionGain;
     XrBool32                                     enableDoppler;
-    const XrSoundObjectDistanceAttenuationBD*    directSoundAttenuation;
-    const XrSoundObjectDistanceAttenuationBD*    indirectSoundAttenuation;
+    ಧ್ರುವ XrSoundObjectDistanceAttenuationBD*    directSoundAttenuation;
+    ಧ್ರುವ XrSoundObjectDistanceAttenuationBD*    indirectSoundAttenuation;
 } XrSoundObjectConfigBD;
 
-typedef struct XrSoundFieldConfigBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundFieldConfigBD {
      XrStructureType            type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
     XrQuaternionf               orientation;
     XrSpace                     baseSpace;
-    float                       mainVolume;
-    float                       lfeGain;
+    ಭಿನ್ನ                       mainVolume;
+    ಭಿನ್ನ                       lfeGain;
 } XrSoundFieldConfigBD;
 
 // XrSoundFieldChannelDefinitionSurroundBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionSurroundBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundFieldChannelDefinitionSurroundBD {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrSoundFieldChannelMaskSurroundBD    channelMask;
 } XrSoundFieldChannelDefinitionSurroundBD;
 
 // XrSoundFieldChannelDefinitionAmbixBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionAmbixBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundFieldChannelDefinitionAmbixBD {
     XrStructureType                   type;
-    const void* XR_MAY_ALIAS          next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrSoundFieldChannelMaskAmbixBD    channelMask;
 } XrSoundFieldChannelDefinitionAmbixBD;
 
 // XrSoundFieldChannelDefinitionFumaBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionFumaBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundFieldChannelDefinitionFumaBD {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrSoundFieldChannelMaskFumaBD    channelMask;
 } XrSoundFieldChannelDefinitionFumaBD;
 
-typedef struct XrSoundTriangleMeshBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundTriangleMeshBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    vertexCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    vertex_ಎಣಿಕೆ;
     XrVector3f*                 vertices;
-    uint32_t                    indexCount;
+    uint32_t                    index_ಎಣಿಕೆ;
     uint32_t*                   indices;
 } XrSoundTriangleMeshBD;
 
-typedef struct XrSoundObstacleConfigBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundObstacleConfigBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrBool32                      enabled;
     XrPosef                       pose;
     XrSpace                       baseSpace;
-    uint32_t                      materialCount;
+    uint32_t                      material_ಎಣಿಕೆ;
     XrSoundObstacleMaterialBD*    materials;
 } XrSoundObstacleConfigBD;
 
-typedef struct XrSoundObstacleMaterialConfigBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSoundObstacleMaterialConfigBD {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrSoundObstacleMaterialTypeBD    materialType;
-    uint32_t                         bandCount;
-    float*                           bandFrequencies;
-    float*                           bandAbsorptions;
-    float*                           bandScatterings;
-    float*                           bandTransmissions;
+    uint32_t                         band_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                           bandFrequencies;
+    ಭಿನ್ನ*                           bandAbsorptions;
+    ಭಿನ್ನ*                           bandScatterings;
+    ಭಿನ್ನ*                           bandTransmissions;
 } XrSoundObstacleMaterialConfigBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAudioSampleRateBD)(XrSession session, uint32_t sampleRateCapacityInput, uint32_t* sampleRateCountOutput, XrAudioSampleRateBD* sampleRates);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryFramesPerBufferRangeBD)(XrSession session, XrAudioSampleRateBD sampleRate, uint32_t* min, uint32_t* max);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAudioRendererBD)(XrSession session, const XrSpatialAudioRendererCreateInfoBD* createInfo, XrSpatialAudioRendererBD* renderer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialAudioRendererBD)(XrSpatialAudioRendererBD renderer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleMaterialBD)(XrSpatialAudioRendererBD renderer, const XrSoundObstacleMaterialConfigBD* config, XrSoundObstacleMaterialBD* material);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleMaterialConfigBD)(XrSoundObstacleMaterialBD material, const XrSoundObstacleMaterialConfigBD* config);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleMaterialBD)(XrSoundObstacleMaterialBD material);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleBD)(XrSpatialAudioRendererBD renderer, const XrSoundObstacleConfigBD* config, const XrSoundTriangleMeshBD* mesh, XrSoundObstacleBD* soundObstacle);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleConfigBD)(XrSoundObstacleBD soundObstacle, const XrSoundObstacleConfigBD* config, const XrSoundTriangleMeshBD* mesh, XrSoundObstacleFlagsBD flags);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleBD)(XrSoundObstacleBD soundObstacle);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundObjectBD)(XrSpatialAudioRendererBD renderer, const XrSoundObjectConfigBD* config, XrSoundObjectBD* soundObject);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundObjectConfigBD)(XrSoundObjectBD soundObject, const XrSoundObjectConfigBD* config, XrSoundObjectFlagsBD flags);
-typedef XrResult (XRAPI_PTR *PFN_xrSubmitSoundObjectBufferBD)(XrSoundObjectBD soundObject, const XrAudioBufferBD* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundObjectBD)(XrSoundObjectBD soundObject);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSoundFieldBD)(XrSpatialAudioRendererBD renderer, const XrSoundFieldConfigBD* config, XrSoundFieldBD* soundField);
-typedef XrResult (XRAPI_PTR *PFN_xrUpdateSoundFieldConfigBD)(XrSoundFieldBD soundField, const XrSoundFieldConfigBD* config, XrSoundFieldFlagsBD flags);
-typedef XrResult (XRAPI_PTR *PFN_xrSubmitSoundFieldBufferBD)(XrSoundFieldBD soundField, const XrAudioBufferBD* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySoundFieldBD)(XrSoundFieldBD soundField);
-typedef XrResult (XRAPI_PTR *PFN_xrWaitAudioPeriodBD)(XrSpatialAudioRendererBD renderer, XrDuration timeout);
-typedef XrResult (XRAPI_PTR *PFN_xrEndAudioPeriodBD)(XrSpatialAudioRendererBD renderer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAudioSampleRateBD)(XrSession session, uint32_t sample_Rate_Capacity_ಒಳಹರಿವು, uint32_t* sample_Rate_ಎಣಿಕೆ_Output, XrAudioSampleRateBD* sampleRates);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQueryFramesPerBufferRangeBD)(XrSession session, XrAudioSampleRateBD sampleRate, uint32_t* min, uint32_t* max);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAudioRendererBD)(XrSession session, ಧ್ರುವ XrSpatialAudioRendererCreateInfoBD* createInfo, XrSpatialAudioRendererBD* renderer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialAudioRendererBD)(XrSpatialAudioRendererBD renderer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleMaterialBD)(XrSpatialAudioRendererBD renderer, ಧ್ರುವ XrSoundObstacleMaterialConfigBD* config, XrSoundObstacleMaterialBD* material);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleMaterialConfigBD)(XrSoundObstacleMaterialBD material, ಧ್ರುವ XrSoundObstacleMaterialConfigBD* config);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleMaterialBD)(XrSoundObstacleMaterialBD material);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSoundObstacleBD)(XrSpatialAudioRendererBD renderer, ಧ್ರುವ XrSoundObstacleConfigBD* config, ಧ್ರುವ XrSoundTriangleMeshBD* mesh, XrSoundObstacleBD* soundObstacle);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateSoundObstacleConfigBD)(XrSoundObstacleBD soundObstacle, ಧ್ರುವ XrSoundObstacleConfigBD* config, ಧ್ರುವ XrSoundTriangleMeshBD* mesh, XrSoundObstacleFlagsBD flags);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySoundObstacleBD)(XrSoundObstacleBD soundObstacle);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSoundObjectBD)(XrSpatialAudioRendererBD renderer, ಧ್ರುವ XrSoundObjectConfigBD* config, XrSoundObjectBD* soundObject);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateSoundObjectConfigBD)(XrSoundObjectBD soundObject, ಧ್ರುವ XrSoundObjectConfigBD* config, XrSoundObjectFlagsBD flags);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSubmitSoundObjectBufferBD)(XrSoundObjectBD soundObject, ಧ್ರುವ XrAudioBufferBD* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySoundObjectBD)(XrSoundObjectBD soundObject);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSoundFieldBD)(XrSpatialAudioRendererBD renderer, ಧ್ರುವ XrSoundFieldConfigBD* config, XrSoundFieldBD* soundField);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUpdateSoundFieldConfigBD)(XrSoundFieldBD soundField, ಧ್ರುವ XrSoundFieldConfigBD* config, XrSoundFieldFlagsBD flags);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSubmitSoundFieldBufferBD)(XrSoundFieldBD soundField, ಧ್ರುವ XrAudioBufferBD* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySoundFieldBD)(XrSoundFieldBD soundField);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrWaitAudioPeriodBD)(XrSpatialAudioRendererBD renderer, XrDuration timeout);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEndAudioPeriodBD)(XrSpatialAudioRendererBD renderer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedAudioSampleRateBD(
     XrSession                                   session,
-    uint32_t                                    sampleRateCapacityInput,
-    uint32_t*                                   sampleRateCountOutput,
+    uint32_t                                    sample_Rate_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   sample_Rate_ಎಣಿಕೆ_Output,
     XrAudioSampleRateBD*                        sampleRates);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQueryFramesPerBufferRangeBD(
@@ -10160,7 +10160,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryFramesPerBufferRangeBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAudioRendererBD(
     XrSession                                   session,
-    const XrSpatialAudioRendererCreateInfoBD*   createInfo,
+    ಧ್ರುವ XrSpatialAudioRendererCreateInfoBD*   createInfo,
     XrSpatialAudioRendererBD*                   renderer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAudioRendererBD(
@@ -10168,26 +10168,26 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialAudioRendererBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundObstacleMaterialBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundObstacleMaterialConfigBD*      config,
+    ಧ್ರುವ XrSoundObstacleMaterialConfigBD*      config,
     XrSoundObstacleMaterialBD*                  material);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundObstacleMaterialConfigBD(
     XrSoundObstacleMaterialBD                   material,
-    const XrSoundObstacleMaterialConfigBD*      config);
+    ಧ್ರುವ XrSoundObstacleMaterialConfigBD*      config);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObstacleMaterialBD(
     XrSoundObstacleMaterialBD                   material);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundObstacleBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundObstacleConfigBD*              config,
-    const XrSoundTriangleMeshBD*                mesh,
+    ಧ್ರುವ XrSoundObstacleConfigBD*              config,
+    ಧ್ರುವ XrSoundTriangleMeshBD*                mesh,
     XrSoundObstacleBD*                          soundObstacle);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundObstacleConfigBD(
     XrSoundObstacleBD                           soundObstacle,
-    const XrSoundObstacleConfigBD*              config,
-    const XrSoundTriangleMeshBD*                mesh,
+    ಧ್ರುವ XrSoundObstacleConfigBD*              config,
+    ಧ್ರುವ XrSoundTriangleMeshBD*                mesh,
     XrSoundObstacleFlagsBD                      flags);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObstacleBD(
@@ -10195,34 +10195,34 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObstacleBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundObjectBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundObjectConfigBD*                config,
+    ಧ್ರುವ XrSoundObjectConfigBD*                config,
     XrSoundObjectBD*                            soundObject);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundObjectConfigBD(
     XrSoundObjectBD                             soundObject,
-    const XrSoundObjectConfigBD*                config,
+    ಧ್ರುವ XrSoundObjectConfigBD*                config,
     XrSoundObjectFlagsBD                        flags);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSubmitSoundObjectBufferBD(
     XrSoundObjectBD                             soundObject,
-    const XrAudioBufferBD*                      buffer);
+    ಧ್ರುವ XrAudioBufferBD*                      buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundObjectBD(
     XrSoundObjectBD                             soundObject);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSoundFieldBD(
     XrSpatialAudioRendererBD                    renderer,
-    const XrSoundFieldConfigBD*                 config,
+    ಧ್ರುವ XrSoundFieldConfigBD*                 config,
     XrSoundFieldBD*                             soundField);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUpdateSoundFieldConfigBD(
     XrSoundFieldBD                              soundField,
-    const XrSoundFieldConfigBD*                 config,
+    ಧ್ರುವ XrSoundFieldConfigBD*                 config,
     XrSoundFieldFlagsBD                         flags);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSubmitSoundFieldBufferBD(
     XrSoundFieldBD                              soundField,
-    const XrAudioBufferBD*                      buffer);
+    ಧ್ರುವ XrAudioBufferBD*                      buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySoundFieldBD(
     XrSoundFieldBD                              soundField);
@@ -10248,24 +10248,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEndAudioPeriodBD(
 #define XR_EXT_hand_tracking_data_source_SPEC_VERSION 1
 #define XR_EXT_HAND_TRACKING_DATA_SOURCE_EXTENSION_NAME "XR_EXT_hand_tracking_data_source"
 
-typedef enum XrHandTrackingDataSourceEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandTrackingDataSourceEXT {
     XR_HAND_TRACKING_DATA_SOURCE_UNOBSTRUCTED_EXT = 1,
     XR_HAND_TRACKING_DATA_SOURCE_CONTROLLER_EXT = 2,
     XR_HAND_TRACKING_DATA_SOURCE_UNOBSTRUCTED_WIDE_MOTION_META = 1000695000,
     XR_HAND_TRACKING_DATA_SOURCE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandTrackingDataSourceEXT;
 // XrHandTrackingDataSourceInfoEXT extends XrHandTrackerCreateInfoEXT
-typedef struct XrHandTrackingDataSourceInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingDataSourceInfoEXT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        requestedDataSourceCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
+    uint32_t                        requested_Data_Source_ಎಣಿಕೆ;
     XrHandTrackingDataSourceEXT*    requestedDataSources;
 } XrHandTrackingDataSourceInfoEXT;
 
 // XrHandTrackingDataSourceStateEXT extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingDataSourceStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingDataSourceStateEXT {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrBool32                       isActive;
     XrHandTrackingDataSourceEXT    dataSource;
 } XrHandTrackingDataSourceStateEXT;
@@ -10278,7 +10278,7 @@ XR_DEFINE_HANDLE(XrPlaneDetectorEXT)
 #define XR_EXT_plane_detection_SPEC_VERSION 2
 #define XR_EXT_PLANE_DETECTION_EXTENSION_NAME "XR_EXT_plane_detection"
 
-typedef enum XrPlaneDetectorOrientationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPlaneDetectorOrientationEXT {
     XR_PLANE_DETECTOR_ORIENTATION_HORIZONTAL_UPWARD_EXT = 0,
     XR_PLANE_DETECTOR_ORIENTATION_HORIZONTAL_DOWNWARD_EXT = 1,
     XR_PLANE_DETECTOR_ORIENTATION_VERTICAL_EXT = 2,
@@ -10286,7 +10286,7 @@ typedef enum XrPlaneDetectorOrientationEXT {
     XR_PLANE_DETECTOR_ORIENTATION_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectorOrientationEXT;
 
-typedef enum XrPlaneDetectorSemanticTypeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPlaneDetectorSemanticTypeEXT {
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_UNDEFINED_EXT = 0,
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_CEILING_EXT = 1,
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_FLOOR_EXT = 2,
@@ -10295,7 +10295,7 @@ typedef enum XrPlaneDetectorSemanticTypeEXT {
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectorSemanticTypeEXT;
 
-typedef enum XrPlaneDetectionStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPlaneDetectionStateEXT {
     XR_PLANE_DETECTION_STATE_NONE_EXT = 0,
     XR_PLANE_DETECTION_STATE_PENDING_EXT = 1,
     XR_PLANE_DETECTION_STATE_DONE_EXT = 2,
@@ -10303,99 +10303,99 @@ typedef enum XrPlaneDetectionStateEXT {
     XR_PLANE_DETECTION_STATE_FATAL_EXT = 4,
     XR_PLANE_DETECTION_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectionStateEXT;
-typedef XrFlags64 XrPlaneDetectionCapabilityFlagsEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPlaneDetectionCapabilityFlagsEXT;
 
 // Flag bits for XrPlaneDetectionCapabilityFlagsEXT
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_DETECTION_BIT_EXT = 0x00000001;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_HOLES_BIT_EXT = 0x00000002;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_CEILING_BIT_EXT = 0x00000004;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_FLOOR_BIT_EXT = 0x00000008;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_WALL_BIT_EXT = 0x00000010;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_PLATFORM_BIT_EXT = 0x00000020;
-static const XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_ORIENTATION_BIT_EXT = 0x00000040;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_DETECTION_BIT_EXT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_PLANE_HOLES_BIT_EXT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_CEILING_BIT_EXT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_FLOOR_BIT_EXT = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_WALL_BIT_EXT = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_SEMANTIC_PLATFORM_BIT_EXT = 0x00000020;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectionCapabilityFlagsEXT XR_PLANE_DETECTION_CAPABILITY_ORIENTATION_BIT_EXT = 0x00000040;
 
-typedef XrFlags64 XrPlaneDetectorFlagsEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPlaneDetectorFlagsEXT;
 
 // Flag bits for XrPlaneDetectorFlagsEXT
-static const XrPlaneDetectorFlagsEXT XR_PLANE_DETECTOR_ENABLE_CONTOUR_BIT_EXT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPlaneDetectorFlagsEXT XR_PLANE_DETECTOR_ENABLE_CONTOUR_BIT_EXT = 0x00000001;
 
 // XrSystemPlaneDetectionPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemPlaneDetectionPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPlaneDetectionPropertiesEXT {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
     XrPlaneDetectionCapabilityFlagsEXT    supportedFeatures;
 } XrSystemPlaneDetectionPropertiesEXT;
 
-typedef struct XrPlaneDetectorCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPlaneDetectorCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPlaneDetectorFlagsEXT     flags;
 } XrPlaneDetectorCreateInfoEXT;
 
-typedef XrExtent3Df XrExtent3DfEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrExtent3Df XrExtent3DfEXT;
 
-typedef struct XrPlaneDetectorBeginInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPlaneDetectorBeginInfoEXT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
     XrSpace                                  baseSpace;
     XrTime                                   time;
-    uint32_t                                 orientationCount;
-    const XrPlaneDetectorOrientationEXT*     orientations;
-    uint32_t                                 semanticTypeCount;
-    const XrPlaneDetectorSemanticTypeEXT*    semanticTypes;
+    uint32_t                                 orientation_ಎಣಿಕೆ;
+    ಧ್ರುವ XrPlaneDetectorOrientationEXT*     orientations;
+    uint32_t                                 semantic_Type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrPlaneDetectorSemanticTypeEXT*    semanticTypes;
     uint32_t                                 maxPlanes;
-    float                                    minArea;
+    ಭಿನ್ನ                                    minArea;
     XrPosef                                  boundingBoxPose;
     XrExtent3DfEXT                           boundingBoxExtent;
 } XrPlaneDetectorBeginInfoEXT;
 
-typedef struct XrPlaneDetectorGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPlaneDetectorGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrPlaneDetectorGetInfoEXT;
 
-typedef struct XrPlaneDetectorLocationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPlaneDetectorLocationEXT {
     XrStructureType                   type;
-    void* XR_MAY_ALIAS                next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                next;
     uint64_t                          planeId;
     XrSpaceLocationFlags              locationFlags;
     XrPosef                           pose;
     XrExtent2Df                       extents;
     XrPlaneDetectorOrientationEXT     orientation;
     XrPlaneDetectorSemanticTypeEXT    semanticType;
-    uint32_t                          polygonBufferCount;
+    uint32_t                          polygon_Buffer_ಎಣಿಕೆ;
 } XrPlaneDetectorLocationEXT;
 
-typedef struct XrPlaneDetectorLocationsEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPlaneDetectorLocationsEXT {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       planeLocationCapacityInput;
-    uint32_t                       planeLocationCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                       plane_Location_Capacity_ಒಳಹರಿವು;
+    uint32_t                       plane_Location_ಎಣಿಕೆ_Output;
     XrPlaneDetectorLocationEXT*    planeLocations;
 } XrPlaneDetectorLocationsEXT;
 
-typedef struct XrPlaneDetectorPolygonBufferEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPlaneDetectorPolygonBufferEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              vertexCapacityInput;
-    uint32_t              vertexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t              vertex_ಎಣಿಕೆ_Output;
     XrVector2f*           vertices;
 } XrPlaneDetectorPolygonBufferEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePlaneDetectorEXT)(XrSession session, const XrPlaneDetectorCreateInfoEXT* createInfo, XrPlaneDetectorEXT* planeDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPlaneDetectorEXT)(XrPlaneDetectorEXT planeDetector);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginPlaneDetectionEXT)(XrPlaneDetectorEXT planeDetector, const XrPlaneDetectorBeginInfoEXT* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionStateEXT)(XrPlaneDetectorEXT planeDetector, XrPlaneDetectionStateEXT* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionsEXT)(XrPlaneDetectorEXT planeDetector, const XrPlaneDetectorGetInfoEXT* info, XrPlaneDetectorLocationsEXT* locations);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPlanePolygonBufferEXT)(XrPlaneDetectorEXT planeDetector, uint64_t planeId, uint32_t polygonBufferIndex, XrPlaneDetectorPolygonBufferEXT* polygonBuffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreatePlaneDetectorEXT)(XrSession session, ಧ್ರುವ XrPlaneDetectorCreateInfoEXT* createInfo, XrPlaneDetectorEXT* planeDetector);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyPlaneDetectorEXT)(XrPlaneDetectorEXT planeDetector);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrBeginPlaneDetectionEXT)(XrPlaneDetectorEXT planeDetector, ಧ್ರುವ XrPlaneDetectorBeginInfoEXT* beginInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionStateEXT)(XrPlaneDetectorEXT planeDetector, XrPlaneDetectionStateEXT* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetPlaneDetectionsEXT)(XrPlaneDetectorEXT planeDetector, ಧ್ರುವ XrPlaneDetectorGetInfoEXT* info, XrPlaneDetectorLocationsEXT* locations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetPlanePolygonBufferEXT)(XrPlaneDetectorEXT planeDetector, uint64_t planeId, uint32_t polygonBufferIndex, XrPlaneDetectorPolygonBufferEXT* polygonBuffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePlaneDetectorEXT(
     XrSession                                   session,
-    const XrPlaneDetectorCreateInfoEXT*         createInfo,
+    ಧ್ರುವ XrPlaneDetectorCreateInfoEXT*         createInfo,
     XrPlaneDetectorEXT*                         planeDetector);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPlaneDetectorEXT(
@@ -10403,7 +10403,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPlaneDetectorEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginPlaneDetectionEXT(
     XrPlaneDetectorEXT                          planeDetector,
-    const XrPlaneDetectorBeginInfoEXT*          beginInfo);
+    ಧ್ರುವ XrPlaneDetectorBeginInfoEXT*          beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPlaneDetectionStateEXT(
     XrPlaneDetectorEXT                          planeDetector,
@@ -10411,7 +10411,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetPlaneDetectionStateEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPlaneDetectionsEXT(
     XrPlaneDetectorEXT                          planeDetector,
-    const XrPlaneDetectorGetInfoEXT*            info,
+    ಧ್ರುವ XrPlaneDetectorGetInfoEXT*            info,
     XrPlaneDetectorLocationsEXT*                locations);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPlanePolygonBufferEXT(
@@ -10439,14 +10439,14 @@ XR_DEFINE_HANDLE(XrTrackableTrackerANDROID)
 #define XR_ANDROID_trackables_SPEC_VERSION 2
 #define XR_ANDROID_TRACKABLES_EXTENSION_NAME "XR_ANDROID_trackables"
 
-typedef enum XrTrackingStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackingStateANDROID {
     XR_TRACKING_STATE_PAUSED_ANDROID = 0,
     XR_TRACKING_STATE_STOPPED_ANDROID = 1,
     XR_TRACKING_STATE_TRACKING_ANDROID = 2,
     XR_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackingStateANDROID;
 
-typedef enum XrTrackableTypeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackableTypeANDROID {
     XR_TRACKABLE_TYPE_NOT_VALID_ANDROID = 0,
     XR_TRACKABLE_TYPE_PLANE_ANDROID = 1,
     XR_TRACKABLE_TYPE_DEPTH_ANDROID = 1000463000,
@@ -10457,7 +10457,7 @@ typedef enum XrTrackableTypeANDROID {
     XR_TRACKABLE_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableTypeANDROID;
 
-typedef enum XrPlaneTypeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPlaneTypeANDROID {
     XR_PLANE_TYPE_HORIZONTAL_DOWNWARD_FACING_ANDROID = 0,
     XR_PLANE_TYPE_HORIZONTAL_UPWARD_FACING_ANDROID = 1,
     XR_PLANE_TYPE_VERTICAL_ANDROID = 2,
@@ -10465,7 +10465,7 @@ typedef enum XrPlaneTypeANDROID {
     XR_PLANE_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPlaneTypeANDROID;
 
-typedef enum XrPlaneLabelANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPlaneLabelANDROID {
     XR_PLANE_LABEL_UNKNOWN_ANDROID = 0,
     XR_PLANE_LABEL_WALL_ANDROID = 1,
     XR_PLANE_LABEL_FLOOR_ANDROID = 2,
@@ -10473,23 +10473,23 @@ typedef enum XrPlaneLabelANDROID {
     XR_PLANE_LABEL_TABLE_ANDROID = 4,
     XR_PLANE_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPlaneLabelANDROID;
-typedef struct XrTrackableTrackerCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTrackableTypeANDROID      trackableType;
 } XrTrackableTrackerCreateInfoANDROID;
 
-typedef struct XrTrackableGetInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTrackableANDROID          trackable;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrTrackableGetInfoANDROID;
 
-typedef struct XrTrackablePlaneANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackablePlaneANDROID {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
     XrPosef                   centerPose;
     XrExtent2Df               extents;
@@ -10497,14 +10497,14 @@ typedef struct XrTrackablePlaneANDROID {
     XrPlaneLabelANDROID       planeLabel;
     XrTrackableANDROID        subsumedByPlane;
     XrTime                    lastUpdatedTime;
-    uint32_t                  vertexCapacityInput;
-    uint32_t*                 vertexCountOutput;
+    uint32_t                  vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t*                 vertex_ಎಣಿಕೆ_Output;
     XrVector2f*               vertices;
 } XrTrackablePlaneANDROID;
 
-typedef struct XrAnchorSpaceCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAnchorSpaceCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrPosef                     pose;
@@ -10512,40 +10512,40 @@ typedef struct XrAnchorSpaceCreateInfoANDROID {
 } XrAnchorSpaceCreateInfoANDROID;
 
 // XrSystemTrackablesPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemTrackablesPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemTrackablesPropertiesANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    supportsAnchor;
     uint32_t                    maxAnchors;
 } XrSystemTrackablesPropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAnchorTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTrackableTrackerANDROID)(XrSession session, const XrTrackableTrackerCreateInfoANDROID* createInfo, XrTrackableTrackerANDROID* trackableTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyTrackableTrackerANDROID)(XrTrackableTrackerANDROID trackableTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAllTrackablesANDROID)(XrTrackableTrackerANDROID trackableTracker, uint32_t trackableCapacityInput, uint32_t* trackableCountOutput, XrTrackableANDROID* trackables);
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackablePlaneANDROID)(XrTrackableTrackerANDROID trackableTracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackablePlaneANDROID* planeOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceANDROID)(XrSession session, const XrAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_ಒಳಹರಿವು, uint32_t* trackable_Type_ಎಣಿಕೆ_Output, XrTrackableTypeANDROID* trackableTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedAnchorTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_ಒಳಹರಿವು, uint32_t* trackable_Type_ಎಣಿಕೆ_Output, XrTrackableTypeANDROID* trackableTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateTrackableTrackerANDROID)(XrSession session, ಧ್ರುವ XrTrackableTrackerCreateInfoANDROID* createInfo, XrTrackableTrackerANDROID* trackableTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyTrackableTrackerANDROID)(XrTrackableTrackerANDROID trackableTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetAllTrackablesANDROID)(XrTrackableTrackerANDROID trackableTracker, uint32_t trackable_Capacity_ಒಳಹರಿವು, uint32_t* trackable_ಎಣಿಕೆ_Output, XrTrackableANDROID* trackables);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetTrackablePlaneANDROID)(XrTrackableTrackerANDROID trackableTracker, ಧ್ರುವ XrTrackableGetInfoANDROID* getInfo, XrTrackablePlaneANDROID* planeOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateAnchorSpaceANDROID)(XrSession session, ಧ್ರುವ XrAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedTrackableTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   trackable_Type_ಎಣಿಕೆ_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedAnchorTrackableTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   trackable_Type_ಎಣಿಕೆ_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTrackableTrackerANDROID(
     XrSession                                   session,
-    const XrTrackableTrackerCreateInfoANDROID*  createInfo,
+    ಧ್ರುವ XrTrackableTrackerCreateInfoANDROID*  createInfo,
     XrTrackableTrackerANDROID*                  trackableTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyTrackableTrackerANDROID(
@@ -10553,18 +10553,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyTrackableTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetAllTrackablesANDROID(
     XrTrackableTrackerANDROID                   trackableTracker,
-    uint32_t                                    trackableCapacityInput,
-    uint32_t*                                   trackableCountOutput,
+    uint32_t                                    trackable_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   trackable_ಎಣಿಕೆ_Output,
     XrTrackableANDROID*                         trackables);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackablePlaneANDROID(
     XrTrackableTrackerANDROID                   trackableTracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    ಧ್ರುವ XrTrackableGetInfoANDROID*            getInfo,
     XrTrackablePlaneANDROID*                    planeOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAnchorSpaceANDROID(
     XrSession                                   session,
-    const XrAnchorSpaceCreateInfoANDROID*       createInfo,
+    ಧ್ರುವ XrAnchorSpaceCreateInfoANDROID*       createInfo,
     XrSpace*                                    anchorOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -10577,67 +10577,67 @@ XR_DEFINE_HANDLE(XrEyeTrackerANDROID)
 #define XR_ANDROID_eye_tracking_SPEC_VERSION 1
 #define XR_ANDROID_EYE_TRACKING_EXTENSION_NAME "XR_ANDROID_eye_tracking"
 
-typedef enum XrEyeIndexANDROID {
-    XR_EYE_INDEX_LEFT_ANDROID = 0,
-    XR_EYE_INDEX_RIGHT_ANDROID = 1,
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEyeIndexANDROID {
+    XR_EYE_INDEX_ಎಡ_ANDROID = 0,
+    XR_EYE_INDEX_ಬಲ_ANDROID = 1,
     XR_EYE_INDEX_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeIndexANDROID;
 
-typedef enum XrEyeStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEyeStateANDROID {
     XR_EYE_STATE_INVALID_ANDROID = 0,
     XR_EYE_STATE_GAZING_ANDROID = 1,
     XR_EYE_STATE_SHUT_ANDROID = 2,
     XR_EYE_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeStateANDROID;
 
-typedef enum XrEyeTrackingModeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEyeTrackingModeANDROID {
     XR_EYE_TRACKING_MODE_NOT_TRACKING_ANDROID = 0,
-    XR_EYE_TRACKING_MODE_RIGHT_ANDROID = 1,
-    XR_EYE_TRACKING_MODE_LEFT_ANDROID = 2,
+    XR_EYE_TRACKING_MODE_ಬಲ_ANDROID = 1,
+    XR_EYE_TRACKING_MODE_ಎಡ_ANDROID = 2,
     XR_EYE_TRACKING_MODE_BOTH_ANDROID = 3,
     XR_EYE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeTrackingModeANDROID;
 // XrSystemEyeTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemEyeTrackingPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemEyeTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeTracking;
 } XrSystemEyeTrackingPropertiesANDROID;
 
-typedef struct XrEyeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyeANDROID {
     XrEyeStateANDROID    eyeState;
     XrPosef              eyePose;
 } XrEyeANDROID;
 
-typedef struct XrEyesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyesANDROID {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrEyeANDROID                eyes[XR_EYE_MAX_ANDROID];
     XrEyeTrackingModeANDROID    mode;
 } XrEyesANDROID;
 
-typedef struct XrEyesGetInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyesGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      time;
     XrSpace                     baseSpace;
 } XrEyesGetInfoANDROID;
 
-typedef struct XrEyeTrackerCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEyeTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrEyeTrackerCreateInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerANDROID)(XrSession session, const XrEyeTrackerCreateInfoANDROID* createInfo, XrEyeTrackerANDROID* eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerANDROID)(XrEyeTrackerANDROID eyeTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFineTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, const XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCoarseTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, const XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateEyeTrackerANDROID)(XrSession session, ಧ್ರುವ XrEyeTrackerCreateInfoANDROID* createInfo, XrEyeTrackerANDROID* eyeTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyEyeTrackerANDROID)(XrEyeTrackerANDROID eyeTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFineTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, ಧ್ರುವ XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetCoarseTrackingEyesInfoANDROID)(XrEyeTrackerANDROID eyeTracker, ಧ್ರುವ XrEyesGetInfoANDROID* getInfo, XrEyesANDROID* eyesOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEyeTrackerANDROID(
     XrSession                                   session,
-    const XrEyeTrackerCreateInfoANDROID*        createInfo,
+    ಧ್ರುವ XrEyeTrackerCreateInfoANDROID*        createInfo,
     XrEyeTrackerANDROID*                        eyeTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerANDROID(
@@ -10645,12 +10645,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEyeTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFineTrackingEyesInfoANDROID(
     XrEyeTrackerANDROID                         eyeTracker,
-    const XrEyesGetInfoANDROID*                 getInfo,
+    ಧ್ರುವ XrEyesGetInfoANDROID*                 getInfo,
     XrEyesANDROID*                              eyesOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCoarseTrackingEyesInfoANDROID(
     XrEyeTrackerANDROID                         eyeTracker,
-    const XrEyesGetInfoANDROID*                 getInfo,
+    ಧ್ರುವ XrEyesGetInfoANDROID*                 getInfo,
     XrEyesANDROID*                              eyesOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -10662,57 +10662,57 @@ XR_DEFINE_HANDLE(XrDeviceAnchorPersistenceANDROID)
 #define XR_ANDROID_device_anchor_persistence_SPEC_VERSION 1
 #define XR_ANDROID_DEVICE_ANCHOR_PERSISTENCE_EXTENSION_NAME "XR_ANDROID_device_anchor_persistence"
 
-typedef enum XrAnchorPersistStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrAnchorPersistStateANDROID {
     XR_ANCHOR_PERSIST_STATE_PERSIST_NOT_REQUESTED_ANDROID = 0,
     XR_ANCHOR_PERSIST_STATE_PERSIST_PENDING_ANDROID = 1,
     XR_ANCHOR_PERSIST_STATE_PERSISTED_ANDROID = 2,
     XR_ANCHOR_PERSIST_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrAnchorPersistStateANDROID;
-typedef struct XrDeviceAnchorPersistenceCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDeviceAnchorPersistenceCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrDeviceAnchorPersistenceCreateInfoANDROID;
 
-typedef struct XrPersistedAnchorSpaceCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPersistedAnchorSpaceCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuidEXT                   anchorId;
 } XrPersistedAnchorSpaceCreateInfoANDROID;
 
-typedef struct XrPersistedAnchorSpaceInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPersistedAnchorSpaceInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     anchor;
 } XrPersistedAnchorSpaceInfoANDROID;
 
 // XrSystemDeviceAnchorPersistencePropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemDeviceAnchorPersistencePropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemDeviceAnchorPersistencePropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsAnchorPersistence;
 } XrSystemDeviceAnchorPersistencePropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedPersistenceAnchorTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateDeviceAnchorPersistenceANDROID)(XrSession session, const XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo, XrDeviceAnchorPersistenceANDROID* outHandle);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyDeviceAnchorPersistenceANDROID)(XrDeviceAnchorPersistenceANDROID handle);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrPersistedAnchorSpaceInfoANDROID* persistedInfo, XrUuidEXT* anchorIdOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAnchorPersistStateANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrUuidEXT* anchorId, XrAnchorPersistStateANDROID* persistState);
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePersistedAnchorSpaceANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrPersistedAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedAnchorsANDROID)(XrDeviceAnchorPersistenceANDROID handle, uint32_t anchorIdCapacityInput, uint32_t* anchorIdCountOutput, XrUuidEXT* anchorIds);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, const XrUuidEXT* anchorId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedPersistenceAnchorTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_ಒಳಹರಿವು, uint32_t* trackable_Type_ಎಣಿಕೆ_Output, XrTrackableTypeANDROID* trackableTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateDeviceAnchorPersistenceANDROID)(XrSession session, ಧ್ರುವ XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo, XrDeviceAnchorPersistenceANDROID* outHandle);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyDeviceAnchorPersistenceANDROID)(XrDeviceAnchorPersistenceANDROID handle);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, ಧ್ರುವ XrPersistedAnchorSpaceInfoANDROID* persistedInfo, XrUuidEXT* anchorIdOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetAnchorPersistStateANDROID)(XrDeviceAnchorPersistenceANDROID handle, ಧ್ರುವ XrUuidEXT* anchorId, XrAnchorPersistStateANDROID* persistState);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreatePersistedAnchorSpaceANDROID)(XrDeviceAnchorPersistenceANDROID handle, ಧ್ರುವ XrPersistedAnchorSpaceCreateInfoANDROID* createInfo, XrSpace* anchorOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumeratePersistedAnchorsANDROID)(XrDeviceAnchorPersistenceANDROID handle, uint32_t anchor_Id_Capacity_ಒಳಹರಿವು, uint32_t* anchor_Id_ಎಣಿಕೆ_Output, XrUuidEXT* anchorIds);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUnpersistAnchorANDROID)(XrDeviceAnchorPersistenceANDROID handle, ಧ್ರುವ XrUuidEXT* anchorId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedPersistenceAnchorTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   trackable_Type_ಎಣಿಕೆ_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateDeviceAnchorPersistenceANDROID(
     XrSession                                   session,
-    const XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrDeviceAnchorPersistenceCreateInfoANDROID* createInfo,
     XrDeviceAnchorPersistenceANDROID*           outHandle);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyDeviceAnchorPersistenceANDROID(
@@ -10720,28 +10720,28 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyDeviceAnchorPersistenceANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistAnchorANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrPersistedAnchorSpaceInfoANDROID*    persistedInfo,
+    ಧ್ರುವ XrPersistedAnchorSpaceInfoANDROID*    persistedInfo,
     XrUuidEXT*                                  anchorIdOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetAnchorPersistStateANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrUuidEXT*                            anchorId,
+    ಧ್ರುವ XrUuidEXT*                            anchorId,
     XrAnchorPersistStateANDROID*                persistState);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePersistedAnchorSpaceANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrPersistedAnchorSpaceCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrPersistedAnchorSpaceCreateInfoANDROID* createInfo,
     XrSpace*                                    anchorOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePersistedAnchorsANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    uint32_t                                    anchorIdCapacityInput,
-    uint32_t*                                   anchorIdCountOutput,
+    uint32_t                                    anchor_Id_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   anchor_Id_ಎಣಿಕೆ_Output,
     XrUuidEXT*                                  anchorIds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistAnchorANDROID(
     XrDeviceAnchorPersistenceANDROID            handle,
-    const XrUuidEXT*                            anchorId);
+    ಧ್ರುವ XrUuidEXT*                            anchorId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -10751,10 +10751,10 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistAnchorANDROID(
 XR_DEFINE_HANDLE(XrFaceTrackerANDROID)
 #define XR_ANDROID_face_tracking_SPEC_VERSION 1
 #define XR_ANDROID_FACE_TRACKING_EXTENSION_NAME "XR_ANDROID_face_tracking"
-#define XR_FACE_PARAMETER_COUNT_ANDROID   68
-#define XR_FACE_REGION_CONFIDENCE_COUNT_ANDROID 3
+#define XR_FACE_PARAMETER_ಎಣಿಕೆ_ANDROID   68
+#define XR_FACE_REGION_CONFIDENCE_ಎಣಿಕೆ_ANDROID 3
 
-typedef enum XrFaceParameterIndicesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_BROW_LOWERER_L_ANDROID = 0,
     XR_FACE_PARAMETER_INDICES_BROW_LOWERER_R_ANDROID = 1,
     XR_FACE_PARAMETER_INDICES_CHEEK_PUFF_L_ANDROID = 2,
@@ -10771,17 +10771,17 @@ typedef enum XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_EYES_CLOSED_R_ANDROID = 13,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_DOWN_L_ANDROID = 14,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_DOWN_R_ANDROID = 15,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_LEFT_L_ANDROID = 16,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_LEFT_R_ANDROID = 17,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_RIGHT_L_ANDROID = 18,
-    XR_FACE_PARAMETER_INDICES_EYES_LOOK_RIGHT_R_ANDROID = 19,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_ಎಡ_L_ANDROID = 16,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_ಎಡ_R_ANDROID = 17,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_ಬಲ_L_ANDROID = 18,
+    XR_FACE_PARAMETER_INDICES_EYES_LOOK_ಬಲ_R_ANDROID = 19,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_UP_L_ANDROID = 20,
     XR_FACE_PARAMETER_INDICES_EYES_LOOK_UP_R_ANDROID = 21,
     XR_FACE_PARAMETER_INDICES_INNER_BROW_RAISER_L_ANDROID = 22,
     XR_FACE_PARAMETER_INDICES_INNER_BROW_RAISER_R_ANDROID = 23,
     XR_FACE_PARAMETER_INDICES_JAW_DROP_ANDROID = 24,
-    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_LEFT_ANDROID = 25,
-    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_RIGHT_ANDROID = 26,
+    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_ಎಡ_ANDROID = 25,
+    XR_FACE_PARAMETER_INDICES_JAW_SIDEWAYS_ಬಲ_ANDROID = 26,
     XR_FACE_PARAMETER_INDICES_JAW_THRUST_ANDROID = 27,
     XR_FACE_PARAMETER_INDICES_LID_TIGHTENER_L_ANDROID = 28,
     XR_FACE_PARAMETER_INDICES_LID_TIGHTENER_R_ANDROID = 29,
@@ -10808,8 +10808,8 @@ typedef enum XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_LIPS_TOWARD_ANDROID = 50,
     XR_FACE_PARAMETER_INDICES_LOWER_LIP_DEPRESSOR_L_ANDROID = 51,
     XR_FACE_PARAMETER_INDICES_LOWER_LIP_DEPRESSOR_R_ANDROID = 52,
-    XR_FACE_PARAMETER_INDICES_MOUTH_LEFT_ANDROID = 53,
-    XR_FACE_PARAMETER_INDICES_MOUTH_RIGHT_ANDROID = 54,
+    XR_FACE_PARAMETER_INDICES_MOUTH_ಎಡ_ANDROID = 53,
+    XR_FACE_PARAMETER_INDICES_MOUTH_ಬಲ_ANDROID = 54,
     XR_FACE_PARAMETER_INDICES_NOSE_WRINKLER_L_ANDROID = 55,
     XR_FACE_PARAMETER_INDICES_NOSE_WRINKLER_R_ANDROID = 56,
     XR_FACE_PARAMETER_INDICES_OUTER_BROW_RAISER_L_ANDROID = 57,
@@ -10819,68 +10819,68 @@ typedef enum XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_UPPER_LIP_RAISER_L_ANDROID = 61,
     XR_FACE_PARAMETER_INDICES_UPPER_LIP_RAISER_R_ANDROID = 62,
     XR_FACE_PARAMETER_INDICES_TONGUE_OUT_ANDROID = 63,
-    XR_FACE_PARAMETER_INDICES_TONGUE_LEFT_ANDROID = 64,
-    XR_FACE_PARAMETER_INDICES_TONGUE_RIGHT_ANDROID = 65,
+    XR_FACE_PARAMETER_INDICES_TONGUE_ಎಡ_ANDROID = 64,
+    XR_FACE_PARAMETER_INDICES_TONGUE_ಬಲ_ANDROID = 65,
     XR_FACE_PARAMETER_INDICES_TONGUE_UP_ANDROID = 66,
     XR_FACE_PARAMETER_INDICES_TONGUE_DOWN_ANDROID = 67,
     XR_FACE_PARAMETER_INDICES_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceParameterIndicesANDROID;
 
-typedef enum XrFaceTrackingStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceTrackingStateANDROID {
     XR_FACE_TRACKING_STATE_PAUSED_ANDROID = 0,
     XR_FACE_TRACKING_STATE_STOPPED_ANDROID = 1,
     XR_FACE_TRACKING_STATE_TRACKING_ANDROID = 2,
     XR_FACE_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceTrackingStateANDROID;
 
-typedef enum XrFaceConfidenceRegionsANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceConfidenceRegionsANDROID {
     XR_FACE_CONFIDENCE_REGIONS_LOWER_ANDROID = 0,
-    XR_FACE_CONFIDENCE_REGIONS_LEFT_UPPER_ANDROID = 1,
-    XR_FACE_CONFIDENCE_REGIONS_RIGHT_UPPER_ANDROID = 2,
+    XR_FACE_CONFIDENCE_REGIONS_ಎಡ_UPPER_ANDROID = 1,
+    XR_FACE_CONFIDENCE_REGIONS_ಬಲ_UPPER_ANDROID = 2,
     XR_FACE_CONFIDENCE_REGIONS_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceConfidenceRegionsANDROID;
-typedef struct XrFaceTrackerCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrFaceTrackerCreateInfoANDROID;
 
-typedef struct XrFaceStateGetInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceStateGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceStateGetInfoANDROID;
 
-typedef struct XrFaceStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceStateANDROID {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      parametersCapacityInput;
-    uint32_t                      parametersCountOutput;
-    float*                        parameters;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                      parameters_Capacity_ಒಳಹರಿವು;
+    uint32_t                      parameters_ಎಣಿಕೆ_Output;
+    ಭಿನ್ನ*                        parameters;
     XrFaceTrackingStateANDROID    faceTrackingState;
     XrTime                        sampleTime;
     XrBool32                      isValid;
-    uint32_t                      regionConfidencesCapacityInput;
-    uint32_t                      regionConfidencesCountOutput;
-    float*                        regionConfidences;
+    uint32_t                      region_Confidences_Capacity_ಒಳಹರಿವು;
+    uint32_t                      region_Confidences_ಎಣಿಕೆ_Output;
+    ಭಿನ್ನ*                        regionConfidences;
 } XrFaceStateANDROID;
 
 // XrSystemFaceTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemFaceTrackingPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFaceTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFaceTrackingPropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerANDROID)(XrSession session, const XrFaceTrackerCreateInfoANDROID* createInfo, XrFaceTrackerANDROID* faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerANDROID)(XrFaceTrackerANDROID faceTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceStateANDROID)(XrFaceTrackerANDROID faceTracker, const XrFaceStateGetInfoANDROID* getInfo, XrFaceStateANDROID* faceStateOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFaceCalibrationStateANDROID)(XrFaceTrackerANDROID faceTracker, XrBool32* faceIsCalibratedOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateFaceTrackerANDROID)(XrSession session, ಧ್ರುವ XrFaceTrackerCreateInfoANDROID* createInfo, XrFaceTrackerANDROID* faceTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyFaceTrackerANDROID)(XrFaceTrackerANDROID faceTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFaceStateANDROID)(XrFaceTrackerANDROID faceTracker, ಧ್ರುವ XrFaceStateGetInfoANDROID* getInfo, XrFaceStateANDROID* faceStateOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFaceCalibrationStateANDROID)(XrFaceTrackerANDROID faceTracker, XrBool32* faceIsCalibratedOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFaceTrackerANDROID(
     XrSession                                   session,
-    const XrFaceTrackerCreateInfoANDROID*       createInfo,
+    ಧ್ರುವ XrFaceTrackerCreateInfoANDROID*       createInfo,
     XrFaceTrackerANDROID*                       faceTracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerANDROID(
@@ -10888,7 +10888,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFaceTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceStateANDROID(
     XrFaceTrackerANDROID                        faceTracker,
-    const XrFaceStateGetInfoANDROID*            getInfo,
+    ಧ್ರುವ XrFaceStateGetInfoANDROID*            getInfo,
     XrFaceStateANDROID*                         faceStateOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceCalibrationStateANDROID(
@@ -10903,7 +10903,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceCalibrationStateANDROID(
 #define XR_ANDROID_passthrough_camera_state_SPEC_VERSION 1
 #define XR_ANDROID_PASSTHROUGH_CAMERA_STATE_EXTENSION_NAME "XR_ANDROID_passthrough_camera_state"
 
-typedef enum XrPassthroughCameraStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPassthroughCameraStateANDROID {
     XR_PASSTHROUGH_CAMERA_STATE_DISABLED_ANDROID = 0,
     XR_PASSTHROUGH_CAMERA_STATE_INITIALIZING_ANDROID = 1,
     XR_PASSTHROUGH_CAMERA_STATE_READY_ANDROID = 2,
@@ -10911,24 +10911,24 @@ typedef enum XrPassthroughCameraStateANDROID {
     XR_PASSTHROUGH_CAMERA_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPassthroughCameraStateANDROID;
 // XrSystemPassthroughCameraStatePropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemPassthroughCameraStatePropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPassthroughCameraStatePropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsPassthroughCameraState;
 } XrSystemPassthroughCameraStatePropertiesANDROID;
 
-typedef struct XrPassthroughCameraStateGetInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughCameraStateGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrPassthroughCameraStateGetInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetPassthroughCameraStateANDROID)(XrSession session, const XrPassthroughCameraStateGetInfoANDROID* getInfo, XrPassthroughCameraStateANDROID* cameraStateOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetPassthroughCameraStateANDROID)(XrSession session, ಧ್ರುವ XrPassthroughCameraStateGetInfoANDROID* getInfo, XrPassthroughCameraStateANDROID* cameraStateOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPassthroughCameraStateANDROID(
     XrSession                                   session,
-    const XrPassthroughCameraStateGetInfoANDROID* getInfo,
+    ಧ್ರುವ XrPassthroughCameraStateGetInfoANDROID* getInfo,
     XrPassthroughCameraStateANDROID*            cameraStateOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -10938,9 +10938,9 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetPassthroughCameraStateANDROID(
 #define XR_ANDROID_recommended_resolution 1
 #define XR_ANDROID_recommended_resolution_SPEC_VERSION 1
 #define XR_ANDROID_RECOMMENDED_RESOLUTION_EXTENSION_NAME "XR_ANDROID_recommended_resolution"
-typedef struct XrEventDataRecommendedResolutionChangedANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataRecommendedResolutionChangedANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrEventDataRecommendedResolutionChangedANDROID;
 
 
@@ -10951,59 +10951,59 @@ XR_DEFINE_HANDLE(XrPassthroughLayerANDROID)
 #define XR_ANDROID_composition_layer_passthrough_mesh_SPEC_VERSION 1
 #define XR_ANDROID_COMPOSITION_LAYER_PASSTHROUGH_MESH_EXTENSION_NAME "XR_ANDROID_composition_layer_passthrough_mesh"
 
-typedef enum XrWindingOrderANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrWindingOrderANDROID {
     XR_WINDING_ORDER_UNKNOWN_ANDROID = 0,
     XR_WINDING_ORDER_CW_ANDROID = 1,
     XR_WINDING_ORDER_CCW_ANDROID = 2,
     XR_WINDING_ORDER_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrWindingOrderANDROID;
-typedef struct XrPassthroughLayerCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughLayerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t                    vertexCapacity;
     uint32_t                    indexCapacity;
 } XrPassthroughLayerCreateInfoANDROID;
 
 // XrPassthroughLayerMeshANDROID extends XrPassthroughLayerCreateInfoANDROID
-typedef struct XrPassthroughLayerMeshANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPassthroughLayerMeshANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrWindingOrderANDROID       windingOrder;
-    uint32_t                    vertexCount;
-    const XrVector3f*           vertices;
-    uint32_t                    indexCount;
-    const uint16_t*             indices;
+    uint32_t                    vertex_ಎಣಿಕೆ;
+    ಧ್ರುವ XrVector3f*           vertices;
+    uint32_t                    index_ಎಣಿಕೆ;
+    ಧ್ರುವ uint16_t*             indices;
 } XrPassthroughLayerMeshANDROID;
 
-typedef struct XrCompositionLayerPassthroughANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCompositionLayerPassthroughANDROID {
     XrStructureType              type;
-    const void* XR_MAY_ALIAS     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrCompositionLayerFlags      layerFlags;
     XrSpace                      space;
     XrPosef                      pose;
     XrVector3f                   scale;
-    float                        opacity;
+    ಭಿನ್ನ                        opacity;
     XrPassthroughLayerANDROID    layer;
 } XrCompositionLayerPassthroughANDROID;
 
 // XrSystemPassthroughLayerPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemPassthroughLayerPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemPassthroughLayerPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsPassthroughLayer;
-    uint32_t              maxMeshIndexCount;
-    uint32_t              maxMeshVertexCount;
+    uint32_t              max_Mesh_Index_ಎಣಿಕೆ;
+    uint32_t              max_Mesh_Vertex_ಎಣಿಕೆ;
 } XrSystemPassthroughLayerPropertiesANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerANDROID)(XrSession session, const XrPassthroughLayerCreateInfoANDROID* createInfo, XrPassthroughLayerANDROID* layer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerANDROID)(XrPassthroughLayerANDROID layer);
-typedef XrResult (XRAPI_PTR *PFN_xrSetPassthroughLayerMeshANDROID)(XrPassthroughLayerANDROID layer, const XrPassthroughLayerMeshANDROID* mesh);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreatePassthroughLayerANDROID)(XrSession session, ಧ್ರುವ XrPassthroughLayerCreateInfoANDROID* createInfo, XrPassthroughLayerANDROID* layer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyPassthroughLayerANDROID)(XrPassthroughLayerANDROID layer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetPassthroughLayerMeshANDROID)(XrPassthroughLayerANDROID layer, ಧ್ರುವ XrPassthroughLayerMeshANDROID* mesh);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreatePassthroughLayerANDROID(
     XrSession                                   session,
-    const XrPassthroughLayerCreateInfoANDROID*  createInfo,
+    ಧ್ರುವ XrPassthroughLayerCreateInfoANDROID*  createInfo,
     XrPassthroughLayerANDROID*                  layer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughLayerANDROID(
@@ -11011,7 +11011,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughLayerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetPassthroughLayerMeshANDROID(
     XrPassthroughLayerANDROID                   layer,
-    const XrPassthroughLayerMeshANDROID*        mesh);
+    ಧ್ರುವ XrPassthroughLayerMeshANDROID*        mesh);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11020,47 +11020,47 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetPassthroughLayerMeshANDROID(
 #define XR_ANDROID_raycast 1
 #define XR_ANDROID_raycast_SPEC_VERSION   1
 #define XR_ANDROID_RAYCAST_EXTENSION_NAME "XR_ANDROID_raycast"
-typedef struct XrRaycastInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRaycastInfoANDROID {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     uint32_t                            maxResults;
-    uint32_t                            trackerCount;
-    const XrTrackableTrackerANDROID*    trackers;
+    uint32_t                            tracker_ಎಣಿಕೆ;
+    ಧ್ರುವ XrTrackableTrackerANDROID*    trackers;
     XrVector3f                          origin;
     XrVector3f                          trajectory;
     XrSpace                             space;
     XrTime                              time;
 } XrRaycastInfoANDROID;
 
-typedef struct XrRaycastHitResultANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRaycastHitResultANDROID {
     XrTrackableTypeANDROID    type;
     XrTrackableANDROID        trackable;
     XrPosef                   pose;
 } XrRaycastHitResultANDROID;
 
-typedef struct XrRaycastHitResultsANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRaycastHitResultsANDROID {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      resultsCapacityInput;
-    uint32_t                      resultsCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                      results_Capacity_ಒಳಹರಿವು;
+    uint32_t                      results_ಎಣಿಕೆ_Output;
     XrRaycastHitResultANDROID*    results;
 } XrRaycastHitResultsANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateRaycastSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackableTypeCapacityInput, uint32_t* trackableTypeCountOutput, XrTrackableTypeANDROID* trackableTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrRaycastANDROID)(XrSession session, const XrRaycastInfoANDROID* rayInfo, XrRaycastHitResultsANDROID* results);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateRaycastSupportedTrackableTypesANDROID)(XrInstance instance, XrSystemId systemId, uint32_t trackable_Type_Capacity_ಒಳಹರಿವು, uint32_t* trackable_Type_ಎಣಿಕೆ_Output, XrTrackableTypeANDROID* trackableTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRaycastANDROID)(XrSession session, ಧ್ರುವ XrRaycastInfoANDROID* rayInfo, XrRaycastHitResultsANDROID* results);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateRaycastSupportedTrackableTypesANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    trackableTypeCapacityInput,
-    uint32_t*                                   trackableTypeCountOutput,
+    uint32_t                                    trackable_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   trackable_Type_ಎಣಿಕೆ_Output,
     XrTrackableTypeANDROID*                     trackableTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRaycastANDROID(
     XrSession                                   session,
-    const XrRaycastInfoANDROID*                 rayInfo,
+    ಧ್ರುವ XrRaycastInfoANDROID*                 rayInfo,
     XrRaycastHitResultsANDROID*                 results);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11071,7 +11071,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRaycastANDROID(
 #define XR_ANDROID_performance_metrics_SPEC_VERSION 1
 #define XR_ANDROID_PERFORMANCE_METRICS_EXTENSION_NAME "XR_ANDROID_performance_metrics"
 
-typedef enum XrPerformanceMetricsCounterUnitANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrPerformanceMetricsCounterUnitANDROID {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_GENERIC_ANDROID = 0,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_PERCENTAGE_ANDROID = 1,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MILLISECONDS_ANDROID = 2,
@@ -11079,44 +11079,44 @@ typedef enum XrPerformanceMetricsCounterUnitANDROID {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_HERTZ_ANDROID = 4,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPerformanceMetricsCounterUnitANDROID;
-typedef XrFlags64 XrPerformanceMetricsCounterFlagsANDROID;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrPerformanceMetricsCounterFlagsANDROID;
 
 // Flag bits for XrPerformanceMetricsCounterFlagsANDROID
-static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_ANY_VALUE_VALID_BIT_ANDROID = 0x00000001;
-static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_UINT_VALUE_VALID_BIT_ANDROID = 0x00000002;
-static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_FLOAT_VALUE_VALID_BIT_ANDROID = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_ANY_ಮೌಲ್ಯ_VALID_BIT_ANDROID = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_UINT_ಮೌಲ್ಯ_VALID_BIT_ANDROID = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_FLOAT_ಮೌಲ್ಯ_VALID_BIT_ANDROID = 0x00000004;
 
-typedef struct XrPerformanceMetricsStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPerformanceMetricsStateANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              enabled;
 } XrPerformanceMetricsStateANDROID;
 
-typedef struct XrPerformanceMetricsCounterANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPerformanceMetricsCounterANDROID {
     XrStructureType                            type;
-    void* XR_MAY_ALIAS                         next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                         next;
     XrPerformanceMetricsCounterFlagsANDROID    counterFlags;
     XrPerformanceMetricsCounterUnitANDROID     counterUnit;
-    uint32_t                                   uintValue;
-    float                                      floatValue;
+    uint32_t                                   uint_ಮೌಲ್ಯ;
+    ಭಿನ್ನ                                      float_ಮೌಲ್ಯ;
 } XrPerformanceMetricsCounterANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsANDROID)(XrInstance instance, uint32_t counterPathCapacityInput, uint32_t* counterPathCountOutput, XrPath* counterPaths);
-typedef XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateANDROID)(XrSession session, const XrPerformanceMetricsStateANDROID* state);
-typedef XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateANDROID)(XrSession session, XrPerformanceMetricsStateANDROID* state);
-typedef XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterANDROID)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterANDROID* counter);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumeratePerformanceMetricsCounterPathsANDROID)(XrInstance instance, uint32_t counter_Path_Capacity_ಒಳಹರಿವು, uint32_t* counter_Path_ಎಣಿಕೆ_Output, XrPath* counterPaths);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetPerformanceMetricsStateANDROID)(XrSession session, ಧ್ರುವ XrPerformanceMetricsStateANDROID* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetPerformanceMetricsStateANDROID)(XrSession session, XrPerformanceMetricsStateANDROID* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQueryPerformanceMetricsCounterANDROID)(XrSession session, XrPath counterPath, XrPerformanceMetricsCounterANDROID* counter);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumeratePerformanceMetricsCounterPathsANDROID(
     XrInstance                                  instance,
-    uint32_t                                    counterPathCapacityInput,
-    uint32_t*                                   counterPathCountOutput,
+    uint32_t                                    counter_Path_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   counter_Path_ಎಣಿಕೆ_Output,
     XrPath*                                     counterPaths);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetPerformanceMetricsStateANDROID(
     XrSession                                   session,
-    const XrPerformanceMetricsStateANDROID*     state);
+    ಧ್ರುವ XrPerformanceMetricsStateANDROID*     state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetPerformanceMetricsStateANDROID(
     XrSession                                   session,
@@ -11135,16 +11135,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryPerformanceMetricsCounterANDROID(
 #define XR_ANDROID_trackables_object_SPEC_VERSION 2
 #define XR_ANDROID_TRACKABLES_OBJECT_EXTENSION_NAME "XR_ANDROID_trackables_object"
 
-typedef enum XrObjectLabelANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrObjectLabelANDROID {
     XR_OBJECT_LABEL_UNKNOWN_ANDROID = 0,
     XR_OBJECT_LABEL_KEYBOARD_ANDROID = 1,
     XR_OBJECT_LABEL_MOUSE_ANDROID = 2,
     XR_OBJECT_LABEL_LAPTOP_ANDROID = 3,
     XR_OBJECT_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrObjectLabelANDROID;
-typedef struct XrTrackableObjectANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableObjectANDROID {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
     XrPosef                   centerPose;
     XrExtent3DfEXT            extents;
@@ -11153,20 +11153,20 @@ typedef struct XrTrackableObjectANDROID {
 } XrTrackableObjectANDROID;
 
 // XrTrackableObjectConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableObjectConfigurationANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableObjectConfigurationANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       labelCount;
-    const XrObjectLabelANDROID*    activeLabels;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                       label_ಎಣಿಕೆ;
+    ಧ್ರುವ XrObjectLabelANDROID*    activeLabels;
 } XrTrackableObjectConfigurationANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableObjectANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableObjectANDROID* objectOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetTrackableObjectANDROID)(XrTrackableTrackerANDROID tracker, ಧ್ರುವ XrTrackableGetInfoANDROID* getInfo, XrTrackableObjectANDROID* objectOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableObjectANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    ಧ್ರುವ XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableObjectANDROID*                   objectOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11184,48 +11184,48 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableObjectANDROID(
 #define XR_EXT_FUTURE_EXTENSION_NAME      "XR_EXT_future"
 #define XR_NULL_FUTURE_EXT                0
 
-typedef enum XrFutureStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFutureStateEXT {
     XR_FUTURE_STATE_PENDING_EXT = 1,
     XR_FUTURE_STATE_READY_EXT = 2,
     XR_FUTURE_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrFutureStateEXT;
-typedef struct XrFutureCancelInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFutureCancelInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFutureEXT                 future;
 } XrFutureCancelInfoEXT;
 
-typedef struct XrFuturePollInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFuturePollInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFutureEXT                 future;
 } XrFuturePollInfoEXT;
 
-typedef struct XR_MAY_ALIAS XrFutureCompletionBaseHeaderEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrFutureCompletionBaseHeaderEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrFutureCompletionBaseHeaderEXT;
 
-typedef struct XrFuturePollResultEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFuturePollResultEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrFutureStateEXT      state;
 } XrFuturePollResultEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPollFutureEXT)(XrInstance instance, const XrFuturePollInfoEXT* pollInfo, XrFuturePollResultEXT* pollResult);
-typedef XrResult (XRAPI_PTR *PFN_xrCancelFutureEXT)(XrInstance instance, const XrFutureCancelInfoEXT* cancelInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPollFutureEXT)(XrInstance instance, ಧ್ರುವ XrFuturePollInfoEXT* pollInfo, XrFuturePollResultEXT* pollResult);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCancelFutureEXT)(XrInstance instance, ಧ್ರುವ XrFutureCancelInfoEXT* cancelInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrPollFutureEXT(
     XrInstance                                  instance,
-    const XrFuturePollInfoEXT*                  pollInfo,
+    ಧ್ರುವ XrFuturePollInfoEXT*                  pollInfo,
     XrFuturePollResultEXT*                      pollResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCancelFutureEXT(
     XrInstance                                  instance,
-    const XrFutureCancelInfoEXT*                cancelInfo);
+    ಧ್ರುವ XrFutureCancelInfoEXT*                cancelInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11234,17 +11234,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCancelFutureEXT(
 #define XR_EXT_user_presence 1
 #define XR_EXT_user_presence_SPEC_VERSION 1
 #define XR_EXT_USER_PRESENCE_EXTENSION_NAME "XR_EXT_user_presence"
-typedef struct XrEventDataUserPresenceChangedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataUserPresenceChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSession                   session;
     XrBool32                    isUserPresent;
 } XrEventDataUserPresenceChangedEXT;
 
 // XrSystemUserPresencePropertiesEXT extends XrSystemProperties
-typedef struct XrSystemUserPresencePropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemUserPresencePropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsUserPresence;
 } XrSystemUserPresencePropertiesEXT;
 
@@ -11255,7 +11255,7 @@ typedef struct XrSystemUserPresencePropertiesEXT {
 #define XR_ML_user_calibration_SPEC_VERSION 1
 #define XR_ML_USER_CALIBRATION_EXTENSION_NAME "XR_ML_user_calibration"
 
-typedef enum XrHeadsetFitStatusML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHeadsetFitStatusML {
     XR_HEADSET_FIT_STATUS_UNKNOWN_ML = 0,
     XR_HEADSET_FIT_STATUS_NOT_WORN_ML = 1,
     XR_HEADSET_FIT_STATUS_GOOD_FIT_ML = 2,
@@ -11263,39 +11263,39 @@ typedef enum XrHeadsetFitStatusML {
     XR_HEADSET_FIT_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrHeadsetFitStatusML;
 
-typedef enum XrEyeCalibrationStatusML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEyeCalibrationStatusML {
     XR_EYE_CALIBRATION_STATUS_UNKNOWN_ML = 0,
     XR_EYE_CALIBRATION_STATUS_NONE_ML = 1,
     XR_EYE_CALIBRATION_STATUS_COARSE_ML = 2,
     XR_EYE_CALIBRATION_STATUS_FINE_ML = 3,
     XR_EYE_CALIBRATION_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrEyeCalibrationStatusML;
-typedef struct XrEventDataHeadsetFitChangedML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataHeadsetFitChangedML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrHeadsetFitStatusML        status;
     XrTime                      time;
 } XrEventDataHeadsetFitChangedML;
 
-typedef struct XrEventDataEyeCalibrationChangedML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataEyeCalibrationChangedML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrEyeCalibrationStatusML    status;
 } XrEventDataEyeCalibrationChangedML;
 
-typedef struct XrUserCalibrationEnableEventsInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrUserCalibrationEnableEventsInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrUserCalibrationEnableEventsInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnableUserCalibrationEventsML)(XrInstance instance, const XrUserCalibrationEnableEventsInfoML* enableInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnableUserCalibrationEventsML)(XrInstance instance, ಧ್ರುವ XrUserCalibrationEnableEventsInfoML* enableInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnableUserCalibrationEventsML(
     XrInstance                                  instance,
-    const XrUserCalibrationEnableEventsInfoML*  enableInfo);
+    ಧ್ರುವ XrUserCalibrationEnableEventsInfoML*  enableInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11304,19 +11304,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnableUserCalibrationEventsML(
 #define XR_ML_system_notifications 1
 #define XR_ML_system_notifications_SPEC_VERSION 1
 #define XR_ML_SYSTEM_NOTIFICATIONS_EXTENSION_NAME "XR_ML_system_notifications"
-typedef struct XrSystemNotificationsSetInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemNotificationsSetInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    suppressNotifications;
 } XrSystemNotificationsSetInfoML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetSystemNotificationsML)(XrInstance instance, const XrSystemNotificationsSetInfoML* info);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetSystemNotificationsML)(XrInstance instance, ಧ್ರುವ XrSystemNotificationsSetInfoML* info);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetSystemNotificationsML(
     XrInstance                                  instance,
-    const XrSystemNotificationsSetInfoML*       info);
+    ಧ್ರುವ XrSystemNotificationsSetInfoML*       info);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -11327,14 +11327,14 @@ XR_DEFINE_HANDLE(XrWorldMeshDetectorML)
 #define XR_ML_world_mesh_detection_SPEC_VERSION 1
 #define XR_ML_WORLD_MESH_DETECTION_EXTENSION_NAME "XR_ML_world_mesh_detection"
 
-typedef enum XrWorldMeshDetectorLodML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrWorldMeshDetectorLodML {
     XR_WORLD_MESH_DETECTOR_LOD_MINIMUM_ML = 0,
     XR_WORLD_MESH_DETECTOR_LOD_MEDIUM_ML = 1,
     XR_WORLD_MESH_DETECTOR_LOD_MAXIMUM_ML = 2,
     XR_WORLD_MESH_DETECTOR_LOD_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshDetectorLodML;
 
-typedef enum XrWorldMeshBlockStatusML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrWorldMeshBlockStatusML {
     XR_WORLD_MESH_BLOCK_STATUS_NEW_ML = 0,
     XR_WORLD_MESH_BLOCK_STATUS_UPDATED_ML = 1,
     XR_WORLD_MESH_BLOCK_STATUS_DELETED_ML = 2,
@@ -11342,31 +11342,31 @@ typedef enum XrWorldMeshBlockStatusML {
     XR_WORLD_MESH_BLOCK_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshBlockStatusML;
 
-typedef enum XrWorldMeshBlockResultML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrWorldMeshBlockResultML {
     XR_WORLD_MESH_BLOCK_RESULT_SUCCESS_ML = 0,
     XR_WORLD_MESH_BLOCK_RESULT_FAILED_ML = 1,
     XR_WORLD_MESH_BLOCK_RESULT_PENDING_ML = 2,
     XR_WORLD_MESH_BLOCK_RESULT_PARTIAL_UPDATE_ML = 3,
     XR_WORLD_MESH_BLOCK_RESULT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshBlockResultML;
-typedef XrFlags64 XrWorldMeshDetectorFlagsML;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrWorldMeshDetectorFlagsML;
 
 // Flag bits for XrWorldMeshDetectorFlagsML
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_POINT_CLOUD_BIT_ML = 0x00000001;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_NORMALS_BIT_ML = 0x00000002;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_CONFIDENCE_BIT_ML = 0x00000004;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_PLANARIZE_BIT_ML = 0x00000008;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_REMOVE_MESH_SKIRT_BIT_ML = 0x00000010;
-static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_INDEX_ORDER_CW_BIT_ML = 0x00000020;
+ಸ್ಥಿರ ಧ್ರುವ XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_POINT_CLOUD_BIT_ML = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_NORMALS_BIT_ML = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_COMPUTE_CONFIDENCE_BIT_ML = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_PLANARIZE_BIT_ML = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_REMOVE_MESH_SKIRT_BIT_ML = 0x00000010;
+ಸ್ಥಿರ ಧ್ರುವ XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_INDEX_ORDER_CW_BIT_ML = 0x00000020;
 
-typedef struct XrWorldMeshDetectorCreateInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshDetectorCreateInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrWorldMeshDetectorCreateInfoML;
 
-typedef struct XrWorldMeshBlockStateML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshBlockStateML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrUuidEXT                   uuid;
     XrPosef                     meshBoundingBoxCenter;
     XrExtent3DfEXT              meshBoundingBoxExtents;
@@ -11374,108 +11374,108 @@ typedef struct XrWorldMeshBlockStateML {
     XrWorldMeshBlockStatusML    status;
 } XrWorldMeshBlockStateML;
 
-typedef struct XrWorldMeshStateRequestInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshStateRequestInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     boundingBoxCenter;
     XrExtent3DfEXT              boundingBoxExtents;
 } XrWorldMeshStateRequestInfoML;
 
-typedef struct XrWorldMeshStateRequestCompletionML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshStateRequestCompletionML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
     XrTime                      timestamp;
-    uint32_t                    meshBlockStateCapacityInput;
-    uint32_t                    meshBlockStateCountOutput;
+    uint32_t                    mesh_Block_State_Capacity_ಒಳಹರಿವು;
+    uint32_t                    mesh_Block_State_ಎಣಿಕೆ_Output;
     XrWorldMeshBlockStateML*    meshBlockStates;
 } XrWorldMeshStateRequestCompletionML;
 
-typedef struct XrWorldMeshBufferRecommendedSizeInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshBufferRecommendedSizeInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    maxBlockCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    max_Block_ಎಣಿಕೆ;
 } XrWorldMeshBufferRecommendedSizeInfoML;
 
-typedef struct XrWorldMeshBufferSizeML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshBufferSizeML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              size;
 } XrWorldMeshBufferSizeML;
 
-typedef struct XrWorldMeshBufferML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshBufferML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              bufferSize;
-    void* XR_MAY_ALIAS    buffer;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    buffer;
 } XrWorldMeshBufferML;
 
-typedef struct XrWorldMeshBlockRequestML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshBlockRequestML {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrUuidEXT                   uuid;
     XrWorldMeshDetectorLodML    lod;
 } XrWorldMeshBlockRequestML;
 
-typedef struct XrWorldMeshGetInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshGetInfoML {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrWorldMeshDetectorFlagsML    flags;
-    float                         fillHoleLength;
-    float                         disconnectedComponentArea;
-    uint32_t                      blockCount;
+    ಭಿನ್ನ                         fillHoleLength;
+    ಭಿನ್ನ                         disconnectedComponentArea;
+    uint32_t                      block_ಎಣಿಕೆ;
     XrWorldMeshBlockRequestML*    blocks;
 } XrWorldMeshGetInfoML;
 
-typedef struct XrWorldMeshBlockML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshBlockML {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrUuidEXT                     uuid;
     XrWorldMeshBlockResultML      blockResult;
     XrWorldMeshDetectorLodML      lod;
     XrWorldMeshDetectorFlagsML    flags;
-    uint32_t                      indexCount;
+    uint32_t                      index_ಎಣಿಕೆ;
     uint16_t*                     indexBuffer;
-    uint32_t                      vertexCount;
+    uint32_t                      vertex_ಎಣಿಕೆ;
     XrVector3f*                   vertexBuffer;
-    uint32_t                      normalCount;
+    uint32_t                      normal_ಎಣಿಕೆ;
     XrVector3f*                   normalBuffer;
-    uint32_t                      confidenceCount;
-    float*                        confidenceBuffer;
+    uint32_t                      confidence_ಎಣಿಕೆ;
+    ಭಿನ್ನ*                        confidenceBuffer;
 } XrWorldMeshBlockML;
 
-typedef struct XrWorldMeshRequestCompletionInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshRequestCompletionInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     meshSpace;
     XrTime                      meshSpaceLocateTime;
 } XrWorldMeshRequestCompletionInfoML;
 
-typedef struct XrWorldMeshRequestCompletionML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrWorldMeshRequestCompletionML {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrResult               futureResult;
-    uint32_t               blockCount;
+    uint32_t               block_ಎಣಿಕೆ;
     XrWorldMeshBlockML*    blocks;
 } XrWorldMeshRequestCompletionML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateWorldMeshDetectorML)(XrSession session, const XrWorldMeshDetectorCreateInfoML* createInfo, XrWorldMeshDetectorML* detector);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyWorldMeshDetectorML)(XrWorldMeshDetectorML detector);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateAsyncML)(XrWorldMeshDetectorML detector, const XrWorldMeshStateRequestInfoML* stateRequest, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateCompleteML)(XrWorldMeshDetectorML detector, XrFutureEXT future, XrWorldMeshStateRequestCompletionML* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrGetWorldMeshBufferRecommendSizeML)(XrWorldMeshDetectorML detector, const XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo, XrWorldMeshBufferSizeML* size);
-typedef XrResult (XRAPI_PTR *PFN_xrAllocateWorldMeshBufferML)(XrWorldMeshDetectorML detector, const XrWorldMeshBufferSizeML* size, XrWorldMeshBufferML* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrFreeWorldMeshBufferML)(XrWorldMeshDetectorML detector, const XrWorldMeshBufferML* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshAsyncML)(XrWorldMeshDetectorML detector, const XrWorldMeshGetInfoML* getInfo, XrWorldMeshBufferML* buffer, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshCompleteML)(XrWorldMeshDetectorML detector, const XrWorldMeshRequestCompletionInfoML* completionInfo, XrFutureEXT future, XrWorldMeshRequestCompletionML* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateWorldMeshDetectorML)(XrSession session, ಧ್ರುವ XrWorldMeshDetectorCreateInfoML* createInfo, XrWorldMeshDetectorML* detector);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyWorldMeshDetectorML)(XrWorldMeshDetectorML detector);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateAsyncML)(XrWorldMeshDetectorML detector, ಧ್ರುವ XrWorldMeshStateRequestInfoML* stateRequest, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshStateCompleteML)(XrWorldMeshDetectorML detector, XrFutureEXT future, XrWorldMeshStateRequestCompletionML* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetWorldMeshBufferRecommendSizeML)(XrWorldMeshDetectorML detector, ಧ್ರುವ XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo, XrWorldMeshBufferSizeML* size);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrAllocateWorldMeshBufferML)(XrWorldMeshDetectorML detector, ಧ್ರುವ XrWorldMeshBufferSizeML* size, XrWorldMeshBufferML* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrFreeWorldMeshBufferML)(XrWorldMeshDetectorML detector, ಧ್ರುವ XrWorldMeshBufferML* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshAsyncML)(XrWorldMeshDetectorML detector, ಧ್ರುವ XrWorldMeshGetInfoML* getInfo, XrWorldMeshBufferML* buffer, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestWorldMeshCompleteML)(XrWorldMeshDetectorML detector, ಧ್ರುವ XrWorldMeshRequestCompletionInfoML* completionInfo, XrFutureEXT future, XrWorldMeshRequestCompletionML* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateWorldMeshDetectorML(
     XrSession                                   session,
-    const XrWorldMeshDetectorCreateInfoML*      createInfo,
+    ಧ್ರುವ XrWorldMeshDetectorCreateInfoML*      createInfo,
     XrWorldMeshDetectorML*                      detector);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyWorldMeshDetectorML(
@@ -11483,7 +11483,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyWorldMeshDetectorML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshStateAsyncML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshStateRequestInfoML*        stateRequest,
+    ಧ್ರುವ XrWorldMeshStateRequestInfoML*        stateRequest,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshStateCompleteML(
@@ -11493,27 +11493,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshStateCompleteML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetWorldMeshBufferRecommendSizeML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo,
+    ಧ್ರುವ XrWorldMeshBufferRecommendedSizeInfoML* sizeInfo,
     XrWorldMeshBufferSizeML*                    size);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAllocateWorldMeshBufferML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshBufferSizeML*              size,
+    ಧ್ರುವ XrWorldMeshBufferSizeML*              size,
     XrWorldMeshBufferML*                        buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrFreeWorldMeshBufferML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshBufferML*                  buffer);
+    ಧ್ರುವ XrWorldMeshBufferML*                  buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshAsyncML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshGetInfoML*                 getInfo,
+    ಧ್ರುವ XrWorldMeshGetInfoML*                 getInfo,
     XrWorldMeshBufferML*                        buffer,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestWorldMeshCompleteML(
     XrWorldMeshDetectorML                       detector,
-    const XrWorldMeshRequestCompletionInfoML*   completionInfo,
+    ಧ್ರುವ XrWorldMeshRequestCompletionInfoML*   completionInfo,
     XrFutureEXT                                 future,
     XrWorldMeshRequestCompletionML*             completion);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -11526,7 +11526,7 @@ XR_DEFINE_HANDLE(XrFacialExpressionClientML)
 #define XR_ML_facial_expression_SPEC_VERSION 1
 #define XR_ML_FACIAL_EXPRESSION_EXTENSION_NAME "XR_ML_facial_expression"
 
-typedef enum XrFacialBlendShapeML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFacialBlendShapeML {
     XR_FACIAL_BLEND_SHAPE_BROW_LOWERER_L_ML = 0,
     XR_FACIAL_BLEND_SHAPE_BROW_LOWERER_R_ML = 1,
     XR_FACIAL_BLEND_SHAPE_CHEEK_RAISER_L_ML = 2,
@@ -11575,49 +11575,49 @@ typedef enum XrFacialBlendShapeML {
     XR_FACIAL_BLEND_SHAPE_TONGUE_OUT_ML = 45,
     XR_FACIAL_BLEND_SHAPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrFacialBlendShapeML;
-typedef XrFlags64 XrFacialExpressionBlendShapePropertiesFlagsML;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrFacialExpressionBlendShapePropertiesFlagsML;
 
 // Flag bits for XrFacialExpressionBlendShapePropertiesFlagsML
-static const XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_VALID_BIT_ML = 0x00000001;
-static const XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_TRACKED_BIT_ML = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_VALID_BIT_ML = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_TRACKED_BIT_ML = 0x00000002;
 
 // XrSystemFacialExpressionPropertiesML extends XrSystemProperties
-typedef struct XrSystemFacialExpressionPropertiesML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFacialExpressionPropertiesML {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsFacialExpression;
 } XrSystemFacialExpressionPropertiesML;
 
-typedef struct XrFacialExpressionClientCreateInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFacialExpressionClientCreateInfoML {
     XrStructureType                type;
-    const void* XR_MAY_ALIAS       next;
-    uint32_t                       requestedCount;
-    const XrFacialBlendShapeML*    requestedFacialBlendShapes;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                       requested_ಎಣಿಕೆ;
+    ಧ್ರುವ XrFacialBlendShapeML*    requestedFacialBlendShapes;
 } XrFacialExpressionClientCreateInfoML;
 
-typedef struct XrFacialExpressionBlendShapeGetInfoML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFacialExpressionBlendShapeGetInfoML {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrFacialExpressionBlendShapeGetInfoML;
 
-typedef struct XrFacialExpressionBlendShapePropertiesML {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFacialExpressionBlendShapePropertiesML {
     XrStructureType                                  type;
-    void* XR_MAY_ALIAS                               next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                               next;
     XrFacialBlendShapeML                             requestedFacialBlendShape;
-    float                                            weight;
+    ಭಿನ್ನ                                            weight;
     XrFacialExpressionBlendShapePropertiesFlagsML    flags;
     XrTime                                           time;
 } XrFacialExpressionBlendShapePropertiesML;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateFacialExpressionClientML)(XrSession session, const XrFacialExpressionClientCreateInfoML* createInfo, XrFacialExpressionClientML* facialExpressionClient);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyFacialExpressionClientML)(XrFacialExpressionClientML facialExpressionClient);
-typedef XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionBlendShapePropertiesML)(XrFacialExpressionClientML facialExpressionClient, const XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo, uint32_t blendShapeCount, XrFacialExpressionBlendShapePropertiesML* blendShapes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateFacialExpressionClientML)(XrSession session, ಧ್ರುವ XrFacialExpressionClientCreateInfoML* createInfo, XrFacialExpressionClientML* facialExpressionClient);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyFacialExpressionClientML)(XrFacialExpressionClientML facialExpressionClient);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetFacialExpressionBlendShapePropertiesML)(XrFacialExpressionClientML facialExpressionClient, ಧ್ರುವ XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo, uint32_t blend_Shape_ಎಣಿಕೆ, XrFacialExpressionBlendShapePropertiesML* blendShapes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateFacialExpressionClientML(
     XrSession                                   session,
-    const XrFacialExpressionClientCreateInfoML* createInfo,
+    ಧ್ರುವ XrFacialExpressionClientCreateInfoML* createInfo,
     XrFacialExpressionClientML*                 facialExpressionClient);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFacialExpressionClientML(
@@ -11625,8 +11625,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFacialExpressionClientML(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionBlendShapePropertiesML(
     XrFacialExpressionClientML                  facialExpressionClient,
-    const XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo,
-    uint32_t                                    blendShapeCount,
+    ಧ್ರುವ XrFacialExpressionBlendShapeGetInfoML* blendShapeGetInfo,
+    uint32_t                                    blend_Shape_ಎಣಿಕೆ,
     XrFacialExpressionBlendShapePropertiesML*   blendShapes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11649,25 +11649,25 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionBlendShapePropertiesML(
 #define XR_META_boundary_visibility_SPEC_VERSION 1
 #define XR_META_BOUNDARY_VISIBILITY_EXTENSION_NAME "XR_META_boundary_visibility"
 
-typedef enum XrBoundaryVisibilityMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrBoundaryVisibilityMETA {
     XR_BOUNDARY_VISIBILITY_NOT_SUPPRESSED_META = 1,
     XR_BOUNDARY_VISIBILITY_SUPPRESSED_META = 2,
     XR_BOUNDARY_VISIBILITY_MAX_ENUM_META = 0x7FFFFFFF
 } XrBoundaryVisibilityMETA;
 // XrSystemBoundaryVisibilityPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemBoundaryVisibilityPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemBoundaryVisibilityPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsBoundaryVisibility;
 } XrSystemBoundaryVisibilityPropertiesMETA;
 
-typedef struct XrEventDataBoundaryVisibilityChangedMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataBoundaryVisibilityChangedMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBoundaryVisibilityMETA    boundaryVisibility;
 } XrEventDataBoundaryVisibilityChangedMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrRequestBoundaryVisibilityMETA)(XrSession session, XrBoundaryVisibilityMETA boundaryVisibility);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestBoundaryVisibilityMETA)(XrSession session, XrBoundaryVisibilityMETA boundaryVisibility);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -11683,45 +11683,45 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestBoundaryVisibilityMETA(
 #define XR_META_simultaneous_hands_and_controllers_SPEC_VERSION 1
 #define XR_META_SIMULTANEOUS_HANDS_AND_CONTROLLERS_EXTENSION_NAME "XR_META_simultaneous_hands_and_controllers"
 // XrSystemSimultaneousHandsAndControllersPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSimultaneousHandsAndControllersPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSimultaneousHandsAndControllersPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSimultaneousHandsAndControllers;
 } XrSystemSimultaneousHandsAndControllersPropertiesMETA;
 
-typedef struct XrSimultaneousHandsAndControllersTrackingResumeInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSimultaneousHandsAndControllersTrackingResumeInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSimultaneousHandsAndControllersTrackingResumeInfoMETA;
 
-typedef struct XrSimultaneousHandsAndControllersTrackingPauseInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSimultaneousHandsAndControllersTrackingPauseInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSimultaneousHandsAndControllersTrackingPauseInfoMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrResumeSimultaneousHandsAndControllersTrackingMETA)(XrSession session, const XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrPauseSimultaneousHandsAndControllersTrackingMETA)(XrSession session, const XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrResumeSimultaneousHandsAndControllersTrackingMETA)(XrSession session, ಧ್ರುವ XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPauseSimultaneousHandsAndControllersTrackingMETA)(XrSession session, ಧ್ರುವ XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrResumeSimultaneousHandsAndControllersTrackingMETA(
     XrSession                                   session,
-    const XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
+    ಧ್ರುವ XrSimultaneousHandsAndControllersTrackingResumeInfoMETA* resumeInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPauseSimultaneousHandsAndControllersTrackingMETA(
     XrSession                                   session,
-    const XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
+    ಧ್ರುವ XrSimultaneousHandsAndControllersTrackingPauseInfoMETA* pauseInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
 
 // XR_META_face_tracking_visemes is a preprocessor guard. Do not pass it to API calls.
 #define XR_META_face_tracking_visemes 1
-#define XR_FACE_TRACKING_VISEME_COUNT_META 15
+#define XR_FACE_TRACKING_VISEME_ಎಣಿಕೆ_META 15
 #define XR_META_face_tracking_visemes_SPEC_VERSION 1
 #define XR_META_FACE_TRACKING_VISEMES_EXTENSION_NAME "XR_META_face_tracking_visemes"
 
-typedef enum XrFaceTrackingVisemeMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrFaceTrackingVisemeMETA {
     XR_FACE_TRACKING_VISEME_SIL_META = 0,
     XR_FACE_TRACKING_VISEME_PP_META = 1,
     XR_FACE_TRACKING_VISEME_FF_META = 2,
@@ -11740,17 +11740,17 @@ typedef enum XrFaceTrackingVisemeMETA {
     XR_FACE_TRACKING_VISEME_MAX_ENUM_META = 0x7FFFFFFF
 } XrFaceTrackingVisemeMETA;
 // XrFaceTrackingVisemesMETA extends XrFaceExpressionWeights2FB
-typedef struct XrFaceTrackingVisemesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrFaceTrackingVisemesMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    isValid;
-    float                       visemes[XR_FACE_TRACKING_VISEME_COUNT_META];
+    ಭಿನ್ನ                       visemes[XR_FACE_TRACKING_VISEME_ಎಣಿಕೆ_META];
 } XrFaceTrackingVisemesMETA;
 
 // XrSystemFaceTrackingVisemesPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemFaceTrackingVisemesPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemFaceTrackingVisemesPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsVisemes;
 } XrSystemFaceTrackingVisemesPropertiesMETA;
 
@@ -11761,7 +11761,7 @@ typedef struct XrSystemFaceTrackingVisemesPropertiesMETA {
 #define XR_META_spatial_entity_semantic_label_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_SEMANTIC_LABEL_EXTENSION_NAME "XR_META_spatial_entity_semantic_label"
 
-typedef enum XrSemanticLabelMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSemanticLabelMETA {
     XR_SEMANTIC_LABEL_UNKNOWN_META = 0,
     XR_SEMANTIC_LABEL_FLOOR_META = 1,
     XR_SEMANTIC_LABEL_CEILING_META = 2,
@@ -11778,51 +11778,51 @@ typedef enum XrSemanticLabelMETA {
 #define XR_META_spatial_entity_room_mesh 1
 #define XR_META_spatial_entity_room_mesh_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_ROOM_MESH_EXTENSION_NAME "XR_META_spatial_entity_room_mesh"
-typedef struct XrRoomMeshFaceMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRoomMeshFaceMETA {
     XrUuid                 uuid;
     XrUuid                 parentUuid;
     XrSemanticLabelMETA    semanticLabel;
 } XrRoomMeshFaceMETA;
 
-typedef struct XrRoomMeshFaceIndicesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRoomMeshFaceIndicesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              indexCapacityInput;
-    uint32_t              indexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              index_Capacity_ಒಳಹರಿವು;
+    uint32_t              index_ಎಣಿಕೆ_Output;
     uint32_t*             indices;
 } XrRoomMeshFaceIndicesMETA;
 
-typedef struct XrSpaceRoomMeshGetInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceRoomMeshGetInfoMETA {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
-    uint32_t                      recognizedSemanticLabelCount;
-    const XrSemanticLabelMETA*    recognizedSemanticLabels;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
+    uint32_t                      recognized_Semantic_Label_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSemanticLabelMETA*    recognizedSemanticLabels;
 } XrSpaceRoomMeshGetInfoMETA;
 
-typedef struct XrRoomMeshMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrRoomMeshMETA {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               vertexCapacityInput;
-    uint32_t               vertexCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS     next;
+    uint32_t               vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t               vertex_ಎಣಿಕೆ_Output;
     XrVector3f*            vertices;
-    uint32_t               faceCapacityInput;
-    uint32_t               faceCountOutput;
+    uint32_t               face_Capacity_ಒಳಹರಿವು;
+    uint32_t               face_ಎಣಿಕೆ_Output;
     XrRoomMeshFaceMETA*    faces;
 } XrRoomMeshMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshMETA)(XrSpace space, const XrSpaceRoomMeshGetInfoMETA* getInfo, XrRoomMeshMETA* roomMeshOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshFaceIndicesMETA)(XrSpace space, const XrUuid* faceUuid, XrRoomMeshFaceIndicesMETA* roomMeshFaceIndicesOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshMETA)(XrSpace space, ಧ್ರುವ XrSpaceRoomMeshGetInfoMETA* getInfo, XrRoomMeshMETA* roomMeshOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpaceRoomMeshFaceIndicesMETA)(XrSpace space, ಧ್ರುವ XrUuid* faceUuid, XrRoomMeshFaceIndicesMETA* roomMeshFaceIndicesOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomMeshMETA(
     XrSpace                                     space,
-    const XrSpaceRoomMeshGetInfoMETA*           getInfo,
+    ಧ್ರುವ XrSpaceRoomMeshGetInfoMETA*           getInfo,
     XrRoomMeshMETA*                             roomMeshOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomMeshFaceIndicesMETA(
     XrSpace                                     space,
-    const XrUuid*                               faceUuid,
+    ಧ್ರುವ XrUuid*                               faceUuid,
     XrRoomMeshFaceIndicesMETA*                  roomMeshFaceIndicesOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11839,112 +11839,112 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomMeshFaceIndicesMETA(
 #define XR_MAX_COLOCATION_DISCOVERY_BUFFER_SIZE_META 1024
 #define XR_META_colocation_discovery_SPEC_VERSION 1
 #define XR_META_COLOCATION_DISCOVERY_EXTENSION_NAME "XR_META_colocation_discovery"
-typedef struct XrColocationDiscoveryStartInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrColocationDiscoveryStartInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrColocationDiscoveryStartInfoMETA;
 
-typedef struct XrColocationDiscoveryStopInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrColocationDiscoveryStopInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrColocationDiscoveryStopInfoMETA;
 
-typedef struct XrColocationAdvertisementStartInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrColocationAdvertisementStartInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t                    bufferSize;
     uint8_t*                    buffer;
 } XrColocationAdvertisementStartInfoMETA;
 
-typedef struct XrColocationAdvertisementStopInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrColocationAdvertisementStopInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrColocationAdvertisementStopInfoMETA;
 
-typedef struct XrEventDataStartColocationAdvertisementCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataStartColocationAdvertisementCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          advertisementRequestId;
     XrResult                    result;
     XrUuid                      advertisementUuid;
 } XrEventDataStartColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataStopColocationAdvertisementCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataStopColocationAdvertisementCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataStopColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataColocationAdvertisementCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataColocationAdvertisementCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          advertisementRequestId;
     XrResult                    result;
 } XrEventDataColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataStartColocationDiscoveryCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataStartColocationDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrResult                    result;
 } XrEventDataStartColocationDiscoveryCompleteMETA;
 
-typedef struct XrEventDataColocationDiscoveryResultMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataColocationDiscoveryResultMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrUuid                      advertisementUuid;
     uint32_t                    bufferSize;
     uint8_t                     buffer[XR_MAX_COLOCATION_DISCOVERY_BUFFER_SIZE_META];
 } XrEventDataColocationDiscoveryResultMETA;
 
-typedef struct XrEventDataColocationDiscoveryCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataColocationDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrResult                    result;
 } XrEventDataColocationDiscoveryCompleteMETA;
 
-typedef struct XrEventDataStopColocationDiscoveryCompleteMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataStopColocationDiscoveryCompleteMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataStopColocationDiscoveryCompleteMETA;
 
 // XrSystemColocationDiscoveryPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemColocationDiscoveryPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemColocationDiscoveryPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsColocationDiscovery;
 } XrSystemColocationDiscoveryPropertiesMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrStartColocationDiscoveryMETA)(XrSession session, const XrColocationDiscoveryStartInfoMETA* info, XrAsyncRequestIdFB* discoveryRequestId);
-typedef XrResult (XRAPI_PTR *PFN_xrStopColocationDiscoveryMETA)(XrSession session, const XrColocationDiscoveryStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
-typedef XrResult (XRAPI_PTR *PFN_xrStartColocationAdvertisementMETA)(XrSession session, const XrColocationAdvertisementStartInfoMETA* info, XrAsyncRequestIdFB* advertisementRequestId);
-typedef XrResult (XRAPI_PTR *PFN_xrStopColocationAdvertisementMETA)(XrSession session, const XrColocationAdvertisementStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStartColocationDiscoveryMETA)(XrSession session, ಧ್ರುವ XrColocationDiscoveryStartInfoMETA* info, XrAsyncRequestIdFB* discoveryRequestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStopColocationDiscoveryMETA)(XrSession session, ಧ್ರುವ XrColocationDiscoveryStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStartColocationAdvertisementMETA)(XrSession session, ಧ್ರುವ XrColocationAdvertisementStartInfoMETA* info, XrAsyncRequestIdFB* advertisementRequestId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrStopColocationAdvertisementMETA)(XrSession session, ಧ್ರುವ XrColocationAdvertisementStopInfoMETA* info, XrAsyncRequestIdFB* requestId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrStartColocationDiscoveryMETA(
     XrSession                                   session,
-    const XrColocationDiscoveryStartInfoMETA*   info,
+    ಧ್ರುವ XrColocationDiscoveryStartInfoMETA*   info,
     XrAsyncRequestIdFB*                         discoveryRequestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStopColocationDiscoveryMETA(
     XrSession                                   session,
-    const XrColocationDiscoveryStopInfoMETA*    info,
+    ಧ್ರುವ XrColocationDiscoveryStopInfoMETA*    info,
     XrAsyncRequestIdFB*                         requestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStartColocationAdvertisementMETA(
     XrSession                                   session,
-    const XrColocationAdvertisementStartInfoMETA* info,
+    ಧ್ರುವ XrColocationAdvertisementStartInfoMETA* info,
     XrAsyncRequestIdFB*                         advertisementRequestId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStopColocationAdvertisementMETA(
     XrSession                                   session,
-    const XrColocationAdvertisementStopInfoMETA* info,
+    ಧ್ರುವ XrColocationAdvertisementStopInfoMETA* info,
     XrAsyncRequestIdFB*                         requestId);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -11955,23 +11955,23 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopColocationAdvertisementMETA(
 #define XR_META_spatial_entity_group_sharing_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_GROUP_SHARING_EXTENSION_NAME "XR_META_spatial_entity_group_sharing"
 // XrSystemSpatialEntityGroupSharingPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpatialEntityGroupSharingPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialEntityGroupSharingPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialEntityGroupSharing;
 } XrSystemSpatialEntityGroupSharingPropertiesMETA;
 
-typedef struct XrShareSpacesRecipientGroupsMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrShareSpacesRecipientGroupsMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    groupCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    group_ಎಣಿಕೆ;
     XrUuid*                     groups;
 } XrShareSpacesRecipientGroupsMETA;
 
 // XrSpaceGroupUuidFilterInfoMETA extends XrSpaceQueryInfoBaseHeaderFB
-typedef struct XrSpaceGroupUuidFilterInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpaceGroupUuidFilterInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuid                      groupUuid;
 } XrSpaceGroupUuidFilterInfoMETA;
 
@@ -11983,7 +11983,7 @@ XR_DEFINE_HANDLE(XrEnvironmentRaycasterMETA)
 #define XR_META_environment_raycast_SPEC_VERSION 1
 #define XR_META_ENVIRONMENT_RAYCAST_EXTENSION_NAME "XR_META_environment_raycast"
 
-typedef enum XrEnvironmentRaycastHitStatusMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrEnvironmentRaycastHitStatusMETA {
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_HIT_META = 1,
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_NO_HIT_META = 2,
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_HIT_POINT_OCCLUDED_META = 3,
@@ -11993,63 +11993,63 @@ typedef enum XrEnvironmentRaycastHitStatusMETA {
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_MAX_ENUM_META = 0x7FFFFFFF
 } XrEnvironmentRaycastHitStatusMETA;
 // XrSystemEnvironmentRaycastPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemEnvironmentRaycastPropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemEnvironmentRaycastPropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsEnvironmentRaycast;
 } XrSystemEnvironmentRaycastPropertiesMETA;
 
-typedef struct XrEnvironmentRaycasterCreateInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentRaycasterCreateInfoMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrEnvironmentRaycasterCreateInfoMETA;
 
-typedef struct XrEnvironmentRaycasterCreateCompletionMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentRaycasterCreateCompletionMETA {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrResult                      futureResult;
     XrEnvironmentRaycasterMETA    environmentRaycaster;
 } XrEnvironmentRaycasterCreateCompletionMETA;
 
-typedef struct XR_MAY_ALIAS XrEnvironmentRaycastFilterBaseHeaderMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrEnvironmentRaycastFilterBaseHeaderMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrEnvironmentRaycastFilterBaseHeaderMETA;
 
-typedef struct XrEnvironmentRaycastHitGetInfoMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentRaycastHitGetInfoMETA {
     XrStructureType                                            type;
-    const void* XR_MAY_ALIAS                                   next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                                   next;
     XrSpace                                                    baseSpace;
     XrTime                                                     time;
     XrVector3f                                                 origin;
     XrVector3f                                                 direction;
-    uint32_t                                                   filterCount;
-    const XrEnvironmentRaycastFilterBaseHeaderMETA* const *    filters;
+    uint32_t                                                   filter_ಎಣಿಕೆ;
+    ಧ್ರುವ XrEnvironmentRaycastFilterBaseHeaderMETA* ಧ್ರುವ *    filters;
 } XrEnvironmentRaycastHitGetInfoMETA;
 
-typedef struct XrEnvironmentRaycastHitMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentRaycastHitMETA {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrEnvironmentRaycastHitStatusMETA    status;
     XrPosef                              pose;
 } XrEnvironmentRaycastHitMETA;
 
-typedef struct XrEnvironmentRaycastFilterDistanceMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEnvironmentRaycastFilterDistanceMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       maxDistance;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       maxDistance;
 } XrEnvironmentRaycastFilterDistanceMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterAsyncMETA)(XrSession session, const XrEnvironmentRaycasterCreateInfoMETA* info, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterCompleteMETA)(XrSession session, XrFutureEXT future, XrEnvironmentRaycasterCreateCompletionMETA* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentRaycasterMETA)(XrEnvironmentRaycasterMETA environmentRaycaster);
-typedef XrResult (XRAPI_PTR *PFN_xrPerformEnvironmentRaycastMETA)(XrEnvironmentRaycasterMETA environmentRaycaster, const XrEnvironmentRaycastHitGetInfoMETA* info, XrEnvironmentRaycastHitMETA* hitPoint);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterAsyncMETA)(XrSession session, ಧ್ರುವ XrEnvironmentRaycasterCreateInfoMETA* info, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateEnvironmentRaycasterCompleteMETA)(XrSession session, XrFutureEXT future, XrEnvironmentRaycasterCreateCompletionMETA* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyEnvironmentRaycasterMETA)(XrEnvironmentRaycasterMETA environmentRaycaster);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPerformEnvironmentRaycastMETA)(XrEnvironmentRaycasterMETA environmentRaycaster, ಧ್ರುವ XrEnvironmentRaycastHitGetInfoMETA* info, XrEnvironmentRaycastHitMETA* hitPoint);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentRaycasterAsyncMETA(
     XrSession                                   session,
-    const XrEnvironmentRaycasterCreateInfoMETA* info,
+    ಧ್ರುವ XrEnvironmentRaycasterCreateInfoMETA* info,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateEnvironmentRaycasterCompleteMETA(
@@ -12062,7 +12062,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyEnvironmentRaycasterMETA(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPerformEnvironmentRaycastMETA(
     XrEnvironmentRaycasterMETA                  environmentRaycaster,
-    const XrEnvironmentRaycastHitGetInfoMETA*   info,
+    ಧ್ರುವ XrEnvironmentRaycastHitGetInfoMETA*   info,
     XrEnvironmentRaycastHitMETA*                hitPoint);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12072,34 +12072,34 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPerformEnvironmentRaycastMETA(
 #define XR_META_tile_properties_hint 1
 #define XR_META_tile_properties_hint_SPEC_VERSION 1
 #define XR_META_TILE_PROPERTIES_HINT_EXTENSION_NAME "XR_META_tile_properties_hint"
-typedef struct XrExtent3DiMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrExtent3DiMETA {
     int32_t    width;
     int32_t    height;
     int32_t    depth;
 } XrExtent3DiMETA;
 
-typedef struct XrTilePropertiesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTilePropertiesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrExtent3DiMETA       tileDimensions;
     XrExtent2Di           apronDimensions;
     XrOffset2Di           origin;
 } XrTilePropertiesMETA;
 
-typedef struct XrTilePropertiesHintMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTilePropertiesHintMETA {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       propertiesCount;
-    const XrTilePropertiesMETA*    properties;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                       properties_ಎಣಿಕೆ;
+    ಧ್ರುವ XrTilePropertiesMETA*    properties;
 } XrTilePropertiesHintMETA;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetTilePropertiesHintMETA)(XrSession session, const XrTilePropertiesHintMETA* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetTilePropertiesHintMETA)(XrSession session, ಧ್ರುವ XrTilePropertiesHintMETA* properties);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetTilePropertiesHintMETA(
     XrSession                                   session,
-    const XrTilePropertiesHintMETA*             properties);
+    ಧ್ರುವ XrTilePropertiesHintMETA*             properties);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -12109,15 +12109,15 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetTilePropertiesHintMETA(
 #define XR_META_hand_tracking_unextrapolated_poses_SPEC_VERSION 1
 #define XR_META_HAND_TRACKING_UNEXTRAPOLATED_POSES_EXTENSION_NAME "XR_META_hand_tracking_unextrapolated_poses"
 // XrHandTrackingUnextrapolatedPosesRequestMETA extends XrHandJointsLocateInfoEXT
-typedef struct XrHandTrackingUnextrapolatedPosesRequestMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingUnextrapolatedPosesRequestMETA {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrHandTrackingUnextrapolatedPosesRequestMETA;
 
 // XrHandTrackingUnextrapolatedPosesMETA extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingUnextrapolatedPosesMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHandTrackingUnextrapolatedPosesMETA {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                captureTime;
 } XrHandTrackingUnextrapolatedPosesMETA;
 
@@ -12128,12 +12128,12 @@ typedef struct XrHandTrackingUnextrapolatedPosesMETA {
 #define XR_META_hand_tracking_frequency_hint_SPEC_VERSION 1
 #define XR_META_HAND_TRACKING_FREQUENCY_HINT_EXTENSION_NAME "XR_META_hand_tracking_frequency_hint"
 
-typedef enum XrHandTrackingFrequencyHintMETA {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHandTrackingFrequencyHintMETA {
     XR_HAND_TRACKING_FREQUENCY_HINT_DEFAULT_META = 1,
-    XR_HAND_TRACKING_FREQUENCY_HINT_HIGH_META = 2,
+    XR_HAND_TRACKING_FREQUENCY_HINT_ಮೇಲಿನ_META = 2,
     XR_HAND_TRACKING_FREQUENCY_HINT_MAX_ENUM_META = 0x7FFFFFFF
 } XrHandTrackingFrequencyHintMETA;
-typedef XrResult (XRAPI_PTR *PFN_xrSetHandTrackingFrequencyHintMETA)(XrSession session, XrHandTrackingFrequencyHintMETA frequencyHint);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetHandTrackingFrequencyHintMETA)(XrSession session, XrHandTrackingFrequencyHintMETA frequencyHint);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -12156,73 +12156,73 @@ XR_DEFINE_HANDLE(XrLightEstimatorANDROID)
 #define XR_ANDROID_light_estimation_SPEC_VERSION 1
 #define XR_ANDROID_LIGHT_ESTIMATION_EXTENSION_NAME "XR_ANDROID_light_estimation"
 
-typedef enum XrLightEstimateStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrLightEstimateStateANDROID {
     XR_LIGHT_ESTIMATE_STATE_VALID_ANDROID = 0,
     XR_LIGHT_ESTIMATE_STATE_INVALID_ANDROID = 1,
     XR_LIGHT_ESTIMATE_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrLightEstimateStateANDROID;
 
-typedef enum XrSphericalHarmonicsKindANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSphericalHarmonicsKindANDROID {
     XR_SPHERICAL_HARMONICS_KIND_TOTAL_ANDROID = 0,
     XR_SPHERICAL_HARMONICS_KIND_AMBIENT_ANDROID = 1,
     XR_SPHERICAL_HARMONICS_KIND_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSphericalHarmonicsKindANDROID;
 // XrSystemLightEstimationPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemLightEstimationPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemLightEstimationPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsLightEstimation;
 } XrSystemLightEstimationPropertiesANDROID;
 
-typedef struct XrLightEstimatorCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLightEstimatorCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrLightEstimatorCreateInfoANDROID;
 
-typedef struct XrLightEstimateGetInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLightEstimateGetInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
 } XrLightEstimateGetInfoANDROID;
 
-typedef struct XrLightEstimateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLightEstimateANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
     XrTime                         lastUpdatedTime;
 } XrLightEstimateANDROID;
 
 // XrDirectionalLightANDROID extends XrLightEstimateANDROID
-typedef struct XrDirectionalLightANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDirectionalLightANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
     XrVector3f                     intensity;
     XrVector3f                     direction;
 } XrDirectionalLightANDROID;
 
 // XrAmbientLightANDROID extends XrLightEstimateANDROID
-typedef struct XrAmbientLightANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAmbientLightANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
     XrVector3f                     intensity;
     XrVector3f                     colorCorrection;
 } XrAmbientLightANDROID;
 
 // XrSphericalHarmonicsANDROID extends XrLightEstimateANDROID
-typedef struct XrSphericalHarmonicsANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSphericalHarmonicsANDROID {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
     XrLightEstimateStateANDROID        state;
     XrSphericalHarmonicsKindANDROID    kind;
-    float                              coefficients[9][3];
+    ಭಿನ್ನ                              coefficients[9][3];
 } XrSphericalHarmonicsANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateLightEstimatorANDROID)(XrSession session, XrLightEstimatorCreateInfoANDROID* createInfo, XrLightEstimatorANDROID* outHandle);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyLightEstimatorANDROID)(XrLightEstimatorANDROID estimator);
-typedef XrResult (XRAPI_PTR *PFN_xrGetLightEstimateANDROID)(XrLightEstimatorANDROID estimator, const XrLightEstimateGetInfoANDROID* input, XrLightEstimateANDROID* output);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateLightEstimatorANDROID)(XrSession session, XrLightEstimatorCreateInfoANDROID* createInfo, XrLightEstimatorANDROID* outHandle);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyLightEstimatorANDROID)(XrLightEstimatorANDROID estimator);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetLightEstimateANDROID)(XrLightEstimatorANDROID estimator, ಧ್ರುವ XrLightEstimateGetInfoANDROID* ಒಳಹರಿವು, XrLightEstimateANDROID* output);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -12236,7 +12236,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyLightEstimatorANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetLightEstimateANDROID(
     XrLightEstimatorANDROID                     estimator,
-    const XrLightEstimateGetInfoANDROID*        input,
+    ಧ್ರುವ XrLightEstimateGetInfoANDROID*        ಒಳಹರಿವು,
     XrLightEstimateANDROID*                     output);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12253,13 +12253,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetLightEstimateANDROID(
 #define XR_ANDROID_trackables_marker_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_MARKER_EXTENSION_NAME "XR_ANDROID_trackables_marker"
 
-typedef enum XrTrackableMarkerTrackingModeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackableMarkerTrackingModeANDROID {
     XR_TRACKABLE_MARKER_TRACKING_MODE_DYNAMIC_ANDROID = 0,
     XR_TRACKABLE_MARKER_TRACKING_MODE_STATIC_ANDROID = 1,
     XR_TRACKABLE_MARKER_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableMarkerTrackingModeANDROID;
 
-typedef enum XrTrackableMarkerDictionaryANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackableMarkerDictionaryANDROID {
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_50_ANDROID = 0,
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_100_ANDROID = 1,
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_250_ANDROID = 2,
@@ -12283,37 +12283,37 @@ typedef enum XrTrackableMarkerDictionaryANDROID {
     XR_TRACKABLE_MARKER_DICTIONARY_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableMarkerDictionaryANDROID;
 // XrSystemMarkerTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemMarkerTrackingPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemMarkerTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerTracking;
     XrBool32              supportsMarkerSizeEstimation;
-    uint16_t              maxMarkerCount;
+    uint16_t              max_Marker_ಎಣಿಕೆ;
 } XrSystemMarkerTrackingPropertiesANDROID;
 
-typedef struct XrTrackableMarkerDatabaseEntryANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableMarkerDatabaseEntryANDROID {
     int32_t    id;
-    float      edgeSize;
+    ಭಿನ್ನ      edgeSize;
 } XrTrackableMarkerDatabaseEntryANDROID;
 
-typedef struct XrTrackableMarkerDatabaseANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableMarkerDatabaseANDROID {
     XrTrackableMarkerDictionaryANDROID              dictionary;
-    uint32_t                                        entryCount;
-    const XrTrackableMarkerDatabaseEntryANDROID*    entries;
+    uint32_t                                        entry_ಎಣಿಕೆ;
+    ಧ್ರುವ XrTrackableMarkerDatabaseEntryANDROID*    entries;
 } XrTrackableMarkerDatabaseANDROID;
 
 // XrTrackableMarkerConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableMarkerConfigurationANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableMarkerConfigurationANDROID {
     XrStructureType                            type;
-    void* XR_MAY_ALIAS                         next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                         next;
     XrTrackableMarkerTrackingModeANDROID       trackingMode;
-    uint32_t                                   databaseCount;
-    const XrTrackableMarkerDatabaseANDROID*    databases;
+    uint32_t                                   database_ಎಣಿಕೆ;
+    ಧ್ರುವ XrTrackableMarkerDatabaseANDROID*    databases;
 } XrTrackableMarkerConfigurationANDROID;
 
-typedef struct XrTrackableMarkerANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableMarkerANDROID {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
     XrTrackingStateANDROID                trackingState;
     XrTime                                lastUpdatedTime;
     XrTrackableMarkerDictionaryANDROID    dictionary;
@@ -12322,13 +12322,13 @@ typedef struct XrTrackableMarkerANDROID {
     XrExtent2Df                           extents;
 } XrTrackableMarkerANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableMarkerANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableMarkerANDROID* markerOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetTrackableMarkerANDROID)(XrTrackableTrackerANDROID tracker, ಧ್ರುವ XrTrackableGetInfoANDROID* getInfo, XrTrackableMarkerANDROID* markerOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableMarkerANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    ಧ್ರುವ XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableMarkerANDROID*                   markerOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12339,47 +12339,47 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableMarkerANDROID(
 #define XR_ANDROID_trackables_qr_code_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_QR_CODE_EXTENSION_NAME "XR_ANDROID_trackables_qr_code"
 
-typedef enum XrQrCodeTrackingModeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrQrCodeTrackingModeANDROID {
     XR_QR_CODE_TRACKING_MODE_DYNAMIC_ANDROID = 0,
     XR_QR_CODE_TRACKING_MODE_STATIC_ANDROID = 1,
     XR_QR_CODE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrQrCodeTrackingModeANDROID;
 // XrSystemQrCodeTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemQrCodeTrackingPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemQrCodeTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsQrCodeTracking;
     XrBool32              supportsQrCodeSizeEstimation;
-    uint16_t              maxQrCodeCount;
+    uint16_t              max_Qr_Code_ಎಣಿಕೆ;
 } XrSystemQrCodeTrackingPropertiesANDROID;
 
 // XrTrackableQrCodeConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableQrCodeConfigurationANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableQrCodeConfigurationANDROID {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
     XrQrCodeTrackingModeANDROID    trackingMode;
-    float                          qrCodeEdgeSize;
+    ಭಿನ್ನ                          qrCodeEdgeSize;
 } XrTrackableQrCodeConfigurationANDROID;
 
-typedef struct XrTrackableQrCodeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableQrCodeANDROID {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
     XrTime                    lastUpdatedTime;
     XrPosef                   centerPose;
     XrExtent2Df               extents;
-    uint32_t                  bufferCapacityInput;
-    uint32_t                  bufferCountOutput;
-    char*                     buffer;
+    uint32_t                  buffer_Capacity_ಒಳಹರಿವು;
+    uint32_t                  buffer_ಎಣಿಕೆ_Output;
+    ವರ್ಣ*                     buffer;
 } XrTrackableQrCodeANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableQrCodeANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableQrCodeANDROID* qrCodeOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetTrackableQrCodeANDROID)(XrTrackableTrackerANDROID tracker, ಧ್ರುವ XrTrackableGetInfoANDROID* getInfo, XrTrackableQrCodeANDROID* qrCodeOutput);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableQrCodeANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    ಧ್ರುವ XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableQrCodeANDROID*                   qrCodeOutput);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12391,62 +12391,62 @@ XR_DEFINE_HANDLE(XrTrackableImageDatabaseANDROID)
 #define XR_ANDROID_trackables_image_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_IMAGE_EXTENSION_NAME "XR_ANDROID_trackables_image"
 
-typedef enum XrTrackableImageTrackingModeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackableImageTrackingModeANDROID {
     XR_TRACKABLE_IMAGE_TRACKING_MODE_DYNAMIC_ANDROID = 1,
     XR_TRACKABLE_IMAGE_TRACKING_MODE_STATIC_ANDROID = 2,
     XR_TRACKABLE_IMAGE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableImageTrackingModeANDROID;
 
-typedef enum XrTrackableImageFormatANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrTrackableImageFormatANDROID {
     XR_TRACKABLE_IMAGE_FORMAT_R8G8B8A8_ANDROID = 1,
     XR_TRACKABLE_IMAGE_FORMAT_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableImageFormatANDROID;
 // XrSystemImageTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemImageTrackingPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemImageTrackingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsImageTracking;
     XrBool32              supportsPhysicalSizeEstimation;
-    uint32_t              maxTrackedImageCount;
-    uint32_t              maxLoadedImageCount;
+    uint32_t              max_Tracked_Image_ಎಣಿಕೆ;
+    uint32_t              max_Loaded_Image_ಎಣಿಕೆ;
 } XrSystemImageTrackingPropertiesANDROID;
 
-typedef struct XrTrackableImageDatabaseEntryANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableImageDatabaseEntryANDROID {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS               next;
     XrTrackableImageTrackingModeANDROID    trackingMode;
-    float                                  physicalWidth;
+    ಭಿನ್ನ                                  physicalWidth;
     uint32_t                               imageWidth;
     uint32_t                               imageHeight;
     XrTrackableImageFormatANDROID          format;
     uint32_t                               bufferSize;
-    const uint8_t*                         buffer;
+    ಧ್ರುವ uint8_t*                         buffer;
 } XrTrackableImageDatabaseEntryANDROID;
 
-typedef struct XrTrackableImageDatabaseCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableImageDatabaseCreateInfoANDROID {
     XrStructureType                                type;
-    const void* XR_MAY_ALIAS                       next;
-    uint32_t                                       entryCount;
-    const XrTrackableImageDatabaseEntryANDROID*    entries;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                       next;
+    uint32_t                                       entry_ಎಣಿಕೆ;
+    ಧ್ರುವ XrTrackableImageDatabaseEntryANDROID*    entries;
 } XrTrackableImageDatabaseCreateInfoANDROID;
 
-typedef struct XrCreateTrackableImageDatabaseCompletionANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateTrackableImageDatabaseCompletionANDROID {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
     XrResult                           futureResult;
     XrTrackableImageDatabaseANDROID    database;
 } XrCreateTrackableImageDatabaseCompletionANDROID;
 
-typedef struct XrTrackableImageConfigurationANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableImageConfigurationANDROID {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
-    uint32_t                                  databaseCount;
-    const XrTrackableImageDatabaseANDROID*    databases;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
+    uint32_t                                  database_ಎಣಿಕೆ;
+    ಧ್ರುವ XrTrackableImageDatabaseANDROID*    databases;
 } XrTrackableImageConfigurationANDROID;
 
-typedef struct XrTrackableImageANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrTrackableImageANDROID {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrTrackingStateANDROID             trackingState;
     XrTime                             lastUpdatedTime;
     XrTrackableImageDatabaseANDROID    database;
@@ -12455,24 +12455,24 @@ typedef struct XrTrackableImageANDROID {
     XrExtent2Df                        extents;
 } XrTrackableImageANDROID;
 
-typedef struct XrEventDataImageTrackingLostANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataImageTrackingLostANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrEventDataImageTrackingLostANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseAsyncANDROID)(XrSession session, const XrTrackableImageDatabaseCreateInfoANDROID* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseCompleteANDROID)(XrSession session, XrFutureEXT future, XrCreateTrackableImageDatabaseCompletionANDROID* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyTrackableImageDatabaseANDROID)(XrTrackableImageDatabaseANDROID database);
-typedef XrResult (XRAPI_PTR *PFN_xrAddTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
-typedef XrResult (XRAPI_PTR *PFN_xrRemoveTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
-typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableImageANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableImageANDROID* trackable);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseAsyncANDROID)(XrSession session, ಧ್ರುವ XrTrackableImageDatabaseCreateInfoANDROID* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateTrackableImageDatabaseCompleteANDROID)(XrSession session, XrFutureEXT future, XrCreateTrackableImageDatabaseCompletionANDROID* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyTrackableImageDatabaseANDROID)(XrTrackableImageDatabaseANDROID database);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrAddTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRemoveTrackableImageDatabaseANDROID)(XrTrackableTrackerANDROID tracker, XrTrackableImageDatabaseANDROID database);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetTrackableImageANDROID)(XrTrackableTrackerANDROID tracker, ಧ್ರುವ XrTrackableGetInfoANDROID* getInfo, XrTrackableImageANDROID* trackable);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTrackableImageDatabaseAsyncANDROID(
     XrSession                                   session,
-    const XrTrackableImageDatabaseCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrTrackableImageDatabaseCreateInfoANDROID* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateTrackableImageDatabaseCompleteANDROID(
@@ -12493,7 +12493,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRemoveTrackableImageDatabaseANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableImageANDROID(
     XrTrackableTrackerANDROID                   tracker,
-    const XrTrackableGetInfoANDROID*            getInfo,
+    ಧ್ರುವ XrTrackableGetInfoANDROID*            getInfo,
     XrTrackableImageANDROID*                    trackable);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12506,13 +12506,13 @@ XR_DEFINE_HANDLE(XrSceneMeshSnapshotANDROID)
 #define XR_ANDROID_scene_meshing_SPEC_VERSION 3
 #define XR_ANDROID_SCENE_MESHING_EXTENSION_NAME "XR_ANDROID_scene_meshing"
 
-typedef enum XrSceneMeshSemanticLabelSetANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneMeshSemanticLabelSetANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_NONE_ANDROID = 0,
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_DEFAULT_ANDROID = 1,
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshSemanticLabelSetANDROID;
 
-typedef enum XrSceneMeshTrackingStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneMeshTrackingStateANDROID {
     XR_SCENE_MESH_TRACKING_STATE_INITIALIZING_ANDROID = 0,
     XR_SCENE_MESH_TRACKING_STATE_TRACKING_ANDROID = 1,
     XR_SCENE_MESH_TRACKING_STATE_WAITING_ANDROID = 2,
@@ -12520,7 +12520,7 @@ typedef enum XrSceneMeshTrackingStateANDROID {
     XR_SCENE_MESH_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshTrackingStateANDROID;
 
-typedef enum XrSceneMeshSemanticLabelANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSceneMeshSemanticLabelANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_OTHER_ANDROID = 0,
     XR_SCENE_MESH_SEMANTIC_LABEL_FLOOR_ANDROID = 1,
     XR_SCENE_MESH_SEMANTIC_LABEL_CEILING_ANDROID = 2,
@@ -12529,77 +12529,77 @@ typedef enum XrSceneMeshSemanticLabelANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshSemanticLabelANDROID;
 // XrSystemSceneMeshingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemSceneMeshingPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSceneMeshingPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsSceneMeshing;
 } XrSystemSceneMeshingPropertiesANDROID;
 
-typedef struct XrSceneMeshingTrackerCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshingTrackerCreateInfoANDROID {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
     XrSceneMeshSemanticLabelSetANDROID    semanticLabelSet;
     XrBool32                              enableNormals;
 } XrSceneMeshingTrackerCreateInfoANDROID;
 
-typedef struct XrSceneMeshSnapshotCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshSnapshotCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrBoxf                      boundingBox;
 } XrSceneMeshSnapshotCreateInfoANDROID;
 
-typedef struct XrSceneMeshSnapshotCreationResultANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneMeshSnapshotCreationResultANDROID {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrSceneMeshSnapshotANDROID         snapshot;
     XrSceneMeshTrackingStateANDROID    trackingState;
 } XrSceneMeshSnapshotCreationResultANDROID;
 
-typedef struct XrSceneSubmeshStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneSubmeshStateANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuid                submeshId;
     XrTime                lastUpdatedTime;
     XrPosef               submeshPoseInBaseSpace;
     XrExtent3Df           bounds;
 } XrSceneSubmeshStateANDROID;
 
-typedef struct XrSceneSubmeshDataANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSceneSubmeshDataANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuid                      submeshId;
-    uint32_t                    vertexCapacityInput;
-    uint32_t                    vertexCountOutput;
+    uint32_t                    vertex_Capacity_ಒಳಹರಿವು;
+    uint32_t                    vertex_ಎಣಿಕೆ_Output;
     XrVector3f*                 vertexPositions;
     XrVector3f*                 vertexNormals;
     uint8_t*                    vertexSemantics;
-    uint32_t                    indexCapacityInput;
-    uint32_t                    indexCountOutput;
+    uint32_t                    index_Capacity_ಒಳಹರಿವು;
+    uint32_t                    index_ಎಣಿಕೆ_Output;
     uint32_t*                   indices;
 } XrSceneSubmeshDataANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSemanticLabelSetsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t supportedSemanticLabelSetsInputCapacity, uint32_t* supportedSemanticLabelSetsOutputCount, XrSceneMeshSemanticLabelSetANDROID* supportedSemanticLabelSets);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshingTrackerANDROID)(XrSession session, const XrSceneMeshingTrackerCreateInfoANDROID* createInfo, XrSceneMeshingTrackerANDROID* tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshingTrackerANDROID)(XrSceneMeshingTrackerANDROID tracker);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshSnapshotANDROID)(XrSceneMeshingTrackerANDROID tracker, const XrSceneMeshSnapshotCreateInfoANDROID* createInfo, XrSceneMeshSnapshotCreationResultANDROID* outSnapshotCreationResult);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshSnapshotANDROID)(XrSceneMeshSnapshotANDROID snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAllSubmeshStatesANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submeshStateCapacityInput, uint32_t* submeshStateCountOutput, XrSceneSubmeshStateANDROID* submeshStates);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSubmeshDataANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submeshDataCount, XrSceneSubmeshDataANDROID* inoutSubmeshData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSemanticLabelSetsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t supported_Semantic_Label_Sets_ಒಳಹರಿವು_Capacity, uint32_t* supported_Semantic_Label_Sets_Output_ಎಣಿಕೆ, XrSceneMeshSemanticLabelSetANDROID* supportedSemanticLabelSets);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshingTrackerANDROID)(XrSession session, ಧ್ರುವ XrSceneMeshingTrackerCreateInfoANDROID* createInfo, XrSceneMeshingTrackerANDROID* tracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshingTrackerANDROID)(XrSceneMeshingTrackerANDROID tracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSceneMeshSnapshotANDROID)(XrSceneMeshingTrackerANDROID tracker, ಧ್ರುವ XrSceneMeshSnapshotCreateInfoANDROID* createInfo, XrSceneMeshSnapshotCreationResultANDROID* outSnapshotCreationResult);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySceneMeshSnapshotANDROID)(XrSceneMeshSnapshotANDROID snapshot);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetAllSubmeshStatesANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submesh_State_Capacity_ಒಳಹರಿವು, uint32_t* submesh_State_ಎಣಿಕೆ_Output, XrSceneSubmeshStateANDROID* submeshStates);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSubmeshDataANDROID)(XrSceneMeshSnapshotANDROID snapshot, uint32_t submesh_Data_ಎಣಿಕೆ, XrSceneSubmeshDataANDROID* inoutSubmeshData);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedSemanticLabelSetsANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    supportedSemanticLabelSetsInputCapacity,
-    uint32_t*                                   supportedSemanticLabelSetsOutputCount,
+    uint32_t                                    supported_Semantic_Label_Sets_ಒಳಹರಿವು_Capacity,
+    uint32_t*                                   supported_Semantic_Label_Sets_Output_ಎಣಿಕೆ,
     XrSceneMeshSemanticLabelSetANDROID*         supportedSemanticLabelSets);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneMeshingTrackerANDROID(
     XrSession                                   session,
-    const XrSceneMeshingTrackerCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrSceneMeshingTrackerCreateInfoANDROID* createInfo,
     XrSceneMeshingTrackerANDROID*               tracker);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshingTrackerANDROID(
@@ -12607,7 +12607,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshingTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSceneMeshSnapshotANDROID(
     XrSceneMeshingTrackerANDROID                tracker,
-    const XrSceneMeshSnapshotCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrSceneMeshSnapshotCreateInfoANDROID* createInfo,
     XrSceneMeshSnapshotCreationResultANDROID*   outSnapshotCreationResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshSnapshotANDROID(
@@ -12615,13 +12615,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySceneMeshSnapshotANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetAllSubmeshStatesANDROID(
     XrSceneMeshSnapshotANDROID                  snapshot,
-    uint32_t                                    submeshStateCapacityInput,
-    uint32_t*                                   submeshStateCountOutput,
+    uint32_t                                    submesh_State_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   submesh_State_ಎಣಿಕೆ_Output,
     XrSceneSubmeshStateANDROID*                 submeshStates);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSubmeshDataANDROID(
     XrSceneMeshSnapshotANDROID                  snapshot,
-    uint32_t                                    submeshDataCount,
+    uint32_t                                    submesh_Data_ಎಣಿಕೆ,
     XrSceneSubmeshDataANDROID*                  inoutSubmeshData);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -12643,7 +12643,7 @@ XR_DEFINE_HANDLE(XrSpatialSnapshotEXT)
 #define XR_EXT_spatial_entity_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ENTITY_EXTENSION_NAME "XR_EXT_spatial_entity"
 
-typedef enum XrSpatialCapabilityEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialCapabilityEXT {
     XR_SPATIAL_CAPABILITY_PLANE_TRACKING_EXT = 1000741000,
     XR_SPATIAL_CAPABILITY_MARKER_TRACKING_QR_CODE_EXT = 1000743000,
     XR_SPATIAL_CAPABILITY_MARKER_TRACKING_MICRO_QR_CODE_EXT = 1000743001,
@@ -12658,7 +12658,7 @@ typedef enum XrSpatialCapabilityEXT {
     XR_SPATIAL_CAPABILITY_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialCapabilityEXT;
 
-typedef enum XrSpatialCapabilityFeatureEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialCapabilityFeatureEXT {
     XR_SPATIAL_CAPABILITY_FEATURE_MARKER_TRACKING_FIXED_SIZE_MARKERS_EXT = 1000743000,
     XR_SPATIAL_CAPABILITY_FEATURE_MARKER_TRACKING_STATIC_MARKERS_EXT = 1000743001,
     XR_SPATIAL_CAPABILITY_FEATURE_OBJECT_SEMANTIC_LABEL_SUBSET_EXT = 1000744000,
@@ -12673,7 +12673,7 @@ typedef enum XrSpatialCapabilityFeatureEXT {
     XR_SPATIAL_CAPABILITY_FEATURE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialCapabilityFeatureEXT;
 
-typedef enum XrSpatialComponentTypeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialComponentTypeEXT {
     XR_SPATIAL_COMPONENT_TYPE_BOUNDED_2D_EXT = 1,
     XR_SPATIAL_COMPONENT_TYPE_BOUNDED_3D_EXT = 2,
     XR_SPATIAL_COMPONENT_TYPE_PARENT_EXT = 3,
@@ -12699,14 +12699,14 @@ typedef enum XrSpatialComponentTypeEXT {
     XR_SPATIAL_COMPONENT_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialComponentTypeEXT;
 
-typedef enum XrSpatialEntityTrackingStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialEntityTrackingStateEXT {
     XR_SPATIAL_ENTITY_TRACKING_STATE_STOPPED_EXT = 1,
     XR_SPATIAL_ENTITY_TRACKING_STATE_PAUSED_EXT = 2,
     XR_SPATIAL_ENTITY_TRACKING_STATE_TRACKING_EXT = 3,
     XR_SPATIAL_ENTITY_TRACKING_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialEntityTrackingStateEXT;
 
-typedef enum XrSpatialBufferTypeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialBufferTypeEXT {
     XR_SPATIAL_BUFFER_TYPE_UNKNOWN_EXT = 0,
     XR_SPATIAL_BUFFER_TYPE_STRING_EXT = 1,
     XR_SPATIAL_BUFFER_TYPE_UINT8_EXT = 2,
@@ -12717,188 +12717,188 @@ typedef enum XrSpatialBufferTypeEXT {
     XR_SPATIAL_BUFFER_TYPE_VECTOR3F_EXT = 7,
     XR_SPATIAL_BUFFER_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialBufferTypeEXT;
-typedef struct XrSpatialCapabilityComponentTypesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityComponentTypesEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      componentTypeCapacityInput;
-    uint32_t                      componentTypeCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                      component_Type_Capacity_ಒಳಹರಿವು;
+    uint32_t                      component_Type_ಎಣಿಕೆ_Output;
     XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialCapabilityComponentTypesEXT;
 
-typedef struct XR_MAY_ALIAS XrSpatialCapabilityConfigurationBaseHeaderEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrSpatialCapabilityConfigurationBaseHeaderEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationBaseHeaderEXT;
 
-typedef struct XrSpatialContextCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContextCreateInfoEXT {
     XrStructureType                                                type;
-    const void* XR_MAY_ALIAS                                       next;
-    uint32_t                                                       capabilityConfigCount;
-    const XrSpatialCapabilityConfigurationBaseHeaderEXT* const*    capabilityConfigs;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                                       next;
+    uint32_t                                                       capability_Config_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialCapabilityConfigurationBaseHeaderEXT* ಧ್ರುವ*    capabilityConfigs;
 } XrSpatialContextCreateInfoEXT;
 
-typedef struct XrCreateSpatialContextCompletionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateSpatialContextCompletionEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS     next;
     XrResult               futureResult;
     XrSpatialContextEXT    spatialContext;
 } XrCreateSpatialContextCompletionEXT;
 
-typedef struct XrSpatialDiscoverySnapshotCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialDiscoverySnapshotCreateInfoEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            componentTypeCount;
-    const XrSpatialComponentTypeEXT*    componentTypes;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                            component_Type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialDiscoverySnapshotCreateInfoEXT;
 
-typedef struct XrCreateSpatialDiscoverySnapshotCompletionInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateSpatialDiscoverySnapshotCompletionInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrFutureEXT                 future;
 } XrCreateSpatialDiscoverySnapshotCompletionInfoEXT;
 
-typedef struct XrCreateSpatialDiscoverySnapshotCompletionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateSpatialDiscoverySnapshotCompletionEXT {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrResult                futureResult;
     XrSpatialSnapshotEXT    snapshot;
 } XrCreateSpatialDiscoverySnapshotCompletionEXT;
 
-typedef struct XrSpatialComponentDataQueryConditionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentDataQueryConditionEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            componentTypeCount;
-    const XrSpatialComponentTypeEXT*    componentTypes;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                            component_Type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialComponentDataQueryConditionEXT;
 
-typedef struct XrSpatialComponentDataQueryResultEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentDataQueryResultEXT {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
-    uint32_t                            entityIdCapacityInput;
-    uint32_t                            entityIdCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
+    uint32_t                            entity_Id_Capacity_ಒಳಹರಿವು;
+    uint32_t                            entity_Id_ಎಣಿಕೆ_Output;
     XrSpatialEntityIdEXT*               entityIds;
-    uint32_t                            entityStateCapacityInput;
-    uint32_t                            entityStateCountOutput;
+    uint32_t                            entity_State_Capacity_ಒಳಹರಿವು;
+    uint32_t                            entity_State_ಎಣಿಕೆ_Output;
     XrSpatialEntityTrackingStateEXT*    entityStates;
 } XrSpatialComponentDataQueryResultEXT;
 
-typedef struct XrSpatialBufferEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialBufferEXT {
     XrSpatialBufferIdEXT      bufferId;
     XrSpatialBufferTypeEXT    bufferType;
 } XrSpatialBufferEXT;
 
-typedef struct XrSpatialBufferGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialBufferGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialBufferIdEXT        bufferId;
 } XrSpatialBufferGetInfoEXT;
 
-typedef struct XrSpatialBounded2DDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialBounded2DDataEXT {
     XrPosef        center;
     XrExtent2Df    extents;
 } XrSpatialBounded2DDataEXT;
 
 // XrSpatialComponentBounded2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentBounded2DListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentBounded2DListEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      boundCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                      bound_ಎಣಿಕೆ;
     XrSpatialBounded2DDataEXT*    bounds;
 } XrSpatialComponentBounded2DListEXT;
 
 // XrSpatialComponentBounded3DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentBounded3DListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentBounded3DListEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              boundCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              bound_ಎಣಿಕೆ;
     XrBoxf*               bounds;
 } XrSpatialComponentBounded3DListEXT;
 
 // XrSpatialComponentParentListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentParentListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentParentListEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 parentCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                 parent_ಎಣಿಕೆ;
     XrSpatialEntityIdEXT*    parents;
 } XrSpatialComponentParentListEXT;
 
-typedef struct XrSpatialMeshDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialMeshDataEXT {
     XrPosef               origin;
     XrSpatialBufferEXT    vertexBuffer;
     XrSpatialBufferEXT    indexBuffer;
 } XrSpatialMeshDataEXT;
 
 // XrSpatialComponentMesh3DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentMesh3DListEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 meshCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                 mesh_ಎಣಿಕೆ;
     XrSpatialMeshDataEXT*    meshes;
 } XrSpatialComponentMesh3DListEXT;
 
-typedef struct XrSpatialEntityFromIdCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityFromIdCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        entityId;
 } XrSpatialEntityFromIdCreateInfoEXT;
 
-typedef struct XrSpatialUpdateSnapshotCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialUpdateSnapshotCreateInfoEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            entityCount;
-    const XrSpatialEntityEXT*           entities;
-    uint32_t                            componentTypeCount;
-    const XrSpatialComponentTypeEXT*    componentTypes;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                            entity_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialEntityEXT*           entities;
+    uint32_t                            component_Type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    componentTypes;
     XrSpace                             baseSpace;
     XrTime                              time;
 } XrSpatialUpdateSnapshotCreateInfoEXT;
 
-typedef struct XrEventDataSpatialDiscoveryRecommendedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialDiscoveryRecommendedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContextEXT         spatialContext;
 } XrEventDataSpatialDiscoveryRecommendedEXT;
 
 // XrSpatialFilterTrackingStateEXT extends XrSpatialDiscoverySnapshotCreateInfoEXT,XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialFilterTrackingStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialFilterTrackingStateEXT {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrSpatialEntityTrackingStateEXT    trackingState;
 } XrSpatialFilterTrackingStateEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilitiesEXT)(XrInstance instance, XrSystemId systemId, uint32_t capabilityCapacityInput, uint32_t* capabilityCountOutput, XrSpatialCapabilityEXT* capabilities);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityComponentTypesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, XrSpatialCapabilityComponentTypesEXT* capabilityComponents);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityFeaturesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t capabilityFeatureCapacityInput, uint32_t* capabilityFeatureCountOutput, XrSpatialCapabilityFeatureEXT* capabilityFeatures);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextAsyncEXT)(XrSession session, const XrSpatialContextCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialContextCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialContextEXT)(XrSpatialContextEXT spatialContext);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotAsyncEXT)(XrSpatialContextEXT spatialContext, const XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotCompleteEXT)(XrSpatialContextEXT spatialContext, const XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo, XrCreateSpatialDiscoverySnapshotCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrQuerySpatialComponentDataEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialComponentDataQueryConditionEXT* queryCondition, XrSpatialComponentDataQueryResultEXT* queryResult);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialSnapshotEXT)(XrSpatialSnapshotEXT snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityFromIdEXT)(XrSpatialContextEXT spatialContext, const XrSpatialEntityFromIdCreateInfoEXT* createInfo, XrSpatialEntityEXT* spatialEntity);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialEntityEXT)(XrSpatialEntityEXT spatialEntity);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialUpdateSnapshotEXT)(XrSpatialContextEXT spatialContext, const XrSpatialUpdateSnapshotCreateInfoEXT* createInfo, XrSpatialSnapshotEXT* snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferStringEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint8EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint16EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint16_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint32EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint32_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferFloatEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, float* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector2fEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, XrVector2f* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector3fEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, XrVector3f* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilitiesEXT)(XrInstance instance, XrSystemId systemId, uint32_t capability_Capacity_ಒಳಹರಿವು, uint32_t* capability_ಎಣಿಕೆ_Output, XrSpatialCapabilityEXT* capabilities);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityComponentTypesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, XrSpatialCapabilityComponentTypesEXT* capabilityComponents);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialCapabilityFeaturesEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t capability_Feature_Capacity_ಒಳಹರಿವು, uint32_t* capability_Feature_ಎಣಿಕೆ_Output, XrSpatialCapabilityFeatureEXT* capabilityFeatures);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextAsyncEXT)(XrSession session, ಧ್ರುವ XrSpatialContextCreateInfoEXT* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialContextCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialContextEXT)(XrSpatialContextEXT spatialContext);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotAsyncEXT)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialDiscoverySnapshotCompleteEXT)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo, XrCreateSpatialDiscoverySnapshotCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrQuerySpatialComponentDataEXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialComponentDataQueryConditionEXT* queryCondition, XrSpatialComponentDataQueryResultEXT* queryResult);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialSnapshotEXT)(XrSpatialSnapshotEXT snapshot);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityFromIdEXT)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSpatialEntityFromIdCreateInfoEXT* createInfo, XrSpatialEntityEXT* spatialEntity);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialEntityEXT)(XrSpatialEntityEXT spatialEntity);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialUpdateSnapshotEXT)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSpatialUpdateSnapshotCreateInfoEXT* createInfo, XrSpatialSnapshotEXT* snapshot);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferStringEXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, ವರ್ಣ* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint8EXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, uint8_t* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint16EXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, uint16_t* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint32EXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, uint32_t* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferFloatEXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, ಭಿನ್ನ* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector2fEXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, XrVector2f* buffer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferVector3fEXT)(XrSpatialSnapshotEXT snapshot, ಧ್ರುವ XrSpatialBufferGetInfoEXT* info, uint32_t buffer_Capacity_ಒಳಹರಿವು, uint32_t* buffer_ಎಣಿಕೆ_Output, XrVector3f* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialCapabilitiesEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    capabilityCapacityInput,
-    uint32_t*                                   capabilityCountOutput,
+    uint32_t                                    capability_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   capability_ಎಣಿಕೆ_Output,
     XrSpatialCapabilityEXT*                     capabilities);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialCapabilityComponentTypesEXT(
@@ -12911,13 +12911,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialCapabilityFeaturesEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrSpatialCapabilityEXT                      capability,
-    uint32_t                                    capabilityFeatureCapacityInput,
-    uint32_t*                                   capabilityFeatureCountOutput,
+    uint32_t                                    capability_Feature_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   capability_Feature_ಎಣಿಕೆ_Output,
     XrSpatialCapabilityFeatureEXT*              capabilityFeatures);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContextAsyncEXT(
     XrSession                                   session,
-    const XrSpatialContextCreateInfoEXT*        createInfo,
+    ಧ್ರುವ XrSpatialContextCreateInfoEXT*        createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContextCompleteEXT(
@@ -12930,17 +12930,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialContextEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialDiscoverySnapshotAsyncEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo,
+    ಧ್ರುವ XrSpatialDiscoverySnapshotCreateInfoEXT* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialDiscoverySnapshotCompleteEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo,
+    ಧ್ರುವ XrCreateSpatialDiscoverySnapshotCompletionInfoEXT* createSnapshotCompletionInfo,
     XrCreateSpatialDiscoverySnapshotCompletionEXT* completion);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrQuerySpatialComponentDataEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialComponentDataQueryConditionEXT* queryCondition,
+    ಧ್ರುವ XrSpatialComponentDataQueryConditionEXT* queryCondition,
     XrSpatialComponentDataQueryResultEXT*       queryResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialSnapshotEXT(
@@ -12948,7 +12948,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialSnapshotEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialEntityFromIdEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialEntityFromIdCreateInfoEXT*   createInfo,
+    ಧ್ರುವ XrSpatialEntityFromIdCreateInfoEXT*   createInfo,
     XrSpatialEntityEXT*                         spatialEntity);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialEntityEXT(
@@ -12956,56 +12956,56 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialEntityEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialUpdateSnapshotEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialUpdateSnapshotCreateInfoEXT* createInfo,
+    ಧ್ರುವ XrSpatialUpdateSnapshotCreateInfoEXT* createInfo,
     XrSpatialSnapshotEXT*                       snapshot);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferStringEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    ಧ್ರುವ XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
+    ವರ್ಣ*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferUint8EXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    ಧ್ರುವ XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
     uint8_t*                                    buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferUint16EXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    ಧ್ರುವ XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
     uint16_t*                                   buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferUint32EXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    ಧ್ರುವ XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
     uint32_t*                                   buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferFloatEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
-    float*                                      buffer);
+    ಧ್ರುವ XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
+    ಭಿನ್ನ*                                      buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferVector2fEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    ಧ್ರುವ XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
     XrVector2f*                                 buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferVector3fEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    const XrSpatialBufferGetInfoEXT*            info,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    ಧ್ರುವ XrSpatialBufferGetInfoEXT*            info,
+    uint32_t                                    buffer_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   buffer_ಎಣಿಕೆ_Output,
     XrVector3f*                                 buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -13016,7 +13016,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferVector3fEXT(
 #define XR_EXT_spatial_plane_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PLANE_TRACKING_EXTENSION_NAME "XR_EXT_spatial_plane_tracking"
 
-typedef enum XrSpatialPlaneAlignmentEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialPlaneAlignmentEXT {
     XR_SPATIAL_PLANE_ALIGNMENT_HORIZONTAL_UPWARD_EXT = 0,
     XR_SPATIAL_PLANE_ALIGNMENT_HORIZONTAL_DOWNWARD_EXT = 1,
     XR_SPATIAL_PLANE_ALIGNMENT_VERTICAL_EXT = 2,
@@ -13024,7 +13024,7 @@ typedef enum XrSpatialPlaneAlignmentEXT {
     XR_SPATIAL_PLANE_ALIGNMENT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneAlignmentEXT;
 
-typedef enum XrSpatialPlaneSemanticLabelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialPlaneSemanticLabelEXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_FLOOR_EXT = 2,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_WALL_EXT = 3,
@@ -13032,48 +13032,48 @@ typedef enum XrSpatialPlaneSemanticLabelEXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_TABLE_EXT = 5,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationPlaneTrackingEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationPlaneTrackingEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationPlaneTrackingEXT;
 
 // XrSpatialComponentPlaneAlignmentListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneAlignmentListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentPlaneAlignmentListEXT {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       planeAlignmentCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                       plane_Alignment_ಎಣಿಕೆ;
     XrSpatialPlaneAlignmentEXT*    planeAlignments;
 } XrSpatialComponentPlaneAlignmentListEXT;
 
 // XrSpatialComponentMesh2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh2DListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentMesh2DListEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 meshCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                 mesh_ಎಣಿಕೆ;
     XrSpatialMeshDataEXT*    meshes;
 } XrSpatialComponentMesh2DListEXT;
 
-typedef struct XrSpatialPolygon2DDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialPolygon2DDataEXT {
     XrPosef               origin;
     XrSpatialBufferEXT    vertexBuffer;
 } XrSpatialPolygon2DDataEXT;
 
 // XrSpatialComponentPolygon2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPolygon2DListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentPolygon2DListEXT {
     XrStructureType               type;
-    void* XR_MAY_ALIAS            next;
-    uint32_t                      polygonCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                      polygon_ಎಣಿಕೆ;
     XrSpatialPolygon2DDataEXT*    polygons;
 } XrSpatialComponentPolygon2DListEXT;
 
 // XrSpatialComponentPlaneSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneSemanticLabelListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentPlaneSemanticLabelListEXT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
-    uint32_t                           semanticLabelCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
+    uint32_t                           semantic_Label_ಎಣಿಕೆ;
     XrSpatialPlaneSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentPlaneSemanticLabelListEXT;
 
@@ -13083,24 +13083,24 @@ typedef struct XrSpatialComponentPlaneSemanticLabelListEXT {
 #define XR_EXT_stationary_reference_space 1
 #define XR_EXT_stationary_reference_space_SPEC_VERSION 1
 #define XR_EXT_STATIONARY_REFERENCE_SPACE_EXTENSION_NAME "XR_EXT_stationary_reference_space"
-typedef struct XrStationaryReferenceSpaceGenerationIdGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrStationaryReferenceSpaceGenerationIdGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrStationaryReferenceSpaceGenerationIdGetInfoEXT;
 
-typedef struct XrStationaryReferenceSpaceGenerationIdResultEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrStationaryReferenceSpaceGenerationIdResultEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuid                generationId;
 } XrStationaryReferenceSpaceGenerationIdResultEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetStationaryReferenceSpaceGenerationIdEXT)(XrSession session, const XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo, XrStationaryReferenceSpaceGenerationIdResultEXT* generationIdResult);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetStationaryReferenceSpaceGenerationIdEXT)(XrSession session, ಧ್ರುವ XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo, XrStationaryReferenceSpaceGenerationIdResultEXT* generationIdResult);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetStationaryReferenceSpaceGenerationIdEXT(
     XrSession                                   session,
-    const XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo,
+    ಧ್ರುವ XrStationaryReferenceSpaceGenerationIdGetInfoEXT* getInfo,
     XrStationaryReferenceSpaceGenerationIdResultEXT* generationIdResult);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -13111,7 +13111,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetStationaryReferenceSpaceGenerationIdEXT(
 #define XR_EXT_spatial_marker_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_MARKER_TRACKING_EXTENSION_NAME "XR_EXT_spatial_marker_tracking"
 
-typedef enum XrSpatialMarkerArucoDictEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialMarkerArucoDictEXT {
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_50_EXT = 1,
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_100_EXT = 2,
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_250_EXT = 3,
@@ -13131,72 +13131,72 @@ typedef enum XrSpatialMarkerArucoDictEXT {
     XR_SPATIAL_MARKER_ARUCO_DICT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMarkerArucoDictEXT;
 
-typedef enum XrSpatialMarkerAprilTagDictEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialMarkerAprilTagDictEXT {
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_16H5_EXT = 1,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_25H9_EXT = 2,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_36H10_EXT = 3,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_36H11_EXT = 4,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMarkerAprilTagDictEXT;
-typedef struct XrSpatialCapabilityConfigurationQrCodeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationQrCodeEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationQrCodeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationMicroQrCodeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationMicroQrCodeEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationMicroQrCodeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationArucoMarkerEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationArucoMarkerEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
     XrSpatialMarkerArucoDictEXT         arUcoDict;
 } XrSpatialCapabilityConfigurationArucoMarkerEXT;
 
-typedef struct XrSpatialCapabilityConfigurationAprilTagEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationAprilTagEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
     XrSpatialMarkerAprilTagDictEXT      aprilDict;
 } XrSpatialCapabilityConfigurationAprilTagEXT;
 
 // XrSpatialMarkerSizeEXT extends XrSpatialCapabilityConfigurationArucoMarkerEXT,XrSpatialCapabilityConfigurationAprilTagEXT,XrSpatialCapabilityConfigurationQrCodeEXT,XrSpatialCapabilityConfigurationMicroQrCodeEXT
-typedef struct XrSpatialMarkerSizeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialMarkerSizeEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       markerSideLength;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       markerSideLength;
 } XrSpatialMarkerSizeEXT;
 
 // XrSpatialMarkerStaticOptimizationEXT extends XrSpatialCapabilityConfigurationArucoMarkerEXT,XrSpatialCapabilityConfigurationAprilTagEXT,XrSpatialCapabilityConfigurationQrCodeEXT,XrSpatialCapabilityConfigurationMicroQrCodeEXT
-typedef struct XrSpatialMarkerStaticOptimizationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialMarkerStaticOptimizationEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    optimizeForStaticMarker;
 } XrSpatialMarkerStaticOptimizationEXT;
 
-typedef struct XrSpatialMarkerDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialMarkerDataEXT {
     XrSpatialCapabilityEXT    capability;
     uint32_t                  markerId;
     XrSpatialBufferEXT        data;
 } XrSpatialMarkerDataEXT;
 
 // XrSpatialComponentMarkerListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMarkerListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentMarkerListEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   markerCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
+    uint32_t                   marker_ಎಣಿಕೆ;
     XrSpatialMarkerDataEXT*    markers;
 } XrSpatialComponentMarkerListEXT;
 
@@ -13207,7 +13207,7 @@ typedef struct XrSpatialComponentMarkerListEXT {
 #define XR_EXT_spatial_object_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_OBJECT_TRACKING_EXTENSION_NAME "XR_EXT_spatial_object_tracking"
 
-typedef enum XrSpatialObjectSemanticLabelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialObjectSemanticLabelEXT {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_SOFA_EXT = 2,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_BED_EXT = 3,
@@ -13221,54 +13221,54 @@ typedef enum XrSpatialObjectSemanticLabelEXT {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialObjectSemanticLabelEXT;
 
-typedef enum XrSpatialKeyboardSemanticLabelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialKeyboardSemanticLabelEXT {
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_KEYBOARD_EXT = 2,
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialKeyboardSemanticLabelEXT;
 
-typedef enum XrSpatialMouseSemanticLabelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialMouseSemanticLabelEXT {
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_MOUSE_EXT = 2,
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMouseSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationObjectTrackingEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationObjectTrackingEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationObjectTrackingEXT;
 
 // XrSpatialComponentObjectSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentObjectSemanticLabelListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentObjectSemanticLabelListEXT {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
-    uint32_t                            semanticLabelCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
+    uint32_t                            semantic_Label_ಎಣಿಕೆ;
     XrSpatialObjectSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentObjectSemanticLabelListEXT;
 
 // XrSpatialFeatureObjectSemanticLabelSubsetEXT extends XrSpatialCapabilityConfigurationObjectTrackingEXT
-typedef struct XrSpatialFeatureObjectSemanticLabelSubsetEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialFeatureObjectSemanticLabelSubsetEXT {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
-    uint32_t                                  semanticLabelCount;
-    const XrSpatialObjectSemanticLabelEXT*    semanticLabels;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
+    uint32_t                                  semantic_Label_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialObjectSemanticLabelEXT*    semanticLabels;
 } XrSpatialFeatureObjectSemanticLabelSubsetEXT;
 
 // XrSpatialComponentKeyboardSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentKeyboardSemanticLabelListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentKeyboardSemanticLabelListEXT {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              semanticLabelCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
+    uint32_t                              semantic_Label_ಎಣಿಕೆ;
     XrSpatialKeyboardSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentKeyboardSemanticLabelListEXT;
 
 // XrSpatialComponentMouseSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMouseSemanticLabelListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentMouseSemanticLabelListEXT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
-    uint32_t                           semanticLabelCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
+    uint32_t                           semantic_Label_ಎಣಿಕೆ;
     XrSpatialMouseSemanticLabelEXT*    semanticLabels;
 } XrSpatialComponentMouseSemanticLabelListEXT;
 
@@ -13285,46 +13285,46 @@ typedef struct XrSpatialComponentMouseSemanticLabelListEXT {
 #define XR_BD_dynamic_object_tracking_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_TRACKING_EXTENSION_NAME "XR_BD_dynamic_object_tracking"
 
-typedef enum XrDynamicObjectTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrDynamicObjectTypeBD {
     XR_DYNAMIC_OBJECT_TYPE_UNKNOWN_BD = 0,
     XR_DYNAMIC_OBJECT_TYPE_KEYBOARD_BD = 1000747000,
     XR_DYNAMIC_OBJECT_TYPE_MOUSE_BD = 1000748000,
     XR_DYNAMIC_OBJECT_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrDynamicObjectTypeBD;
 // XrSystemDynamicObjectTrackingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectTrackingPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemDynamicObjectTrackingPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectTracking;
 } XrSystemDynamicObjectTrackingPropertiesBD;
 
 // XrSenseDataProviderCreateInfoDynamicObjectBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoDynamicObjectBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataProviderCreateInfoDynamicObjectBD {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        trackingTypeCount;
-    const XrDynamicObjectTypeBD*    trackingTypes;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
+    uint32_t                        tracking_Type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrDynamicObjectTypeBD*    trackingTypes;
 } XrSenseDataProviderCreateInfoDynamicObjectBD;
 
-typedef struct XrDynamicObjectDataBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrDynamicObjectDataBD {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
     XrDynamicObjectTypeBD    objectType;
 } XrDynamicObjectDataBD;
 
 // XrSpatialEntityComponentDataDynamicObjectBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataDynamicObjectBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityComponentDataDynamicObjectBD {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
     XrDynamicObjectDataBD    data;
 } XrSpatialEntityComponentDataDynamicObjectBD;
 
 // XrSenseDataFilterDynamicObjectTypeBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterDynamicObjectTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSenseDataFilterDynamicObjectTypeBD {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
-    uint32_t                        typeCount;
-    const XrDynamicObjectTypeBD*    types;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
+    uint32_t                        type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrDynamicObjectTypeBD*    types;
 } XrSenseDataFilterDynamicObjectTypeBD;
 
 
@@ -13334,9 +13334,9 @@ typedef struct XrSenseDataFilterDynamicObjectTypeBD {
 #define XR_BD_dynamic_object_keyboard_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_KEYBOARD_EXTENSION_NAME "XR_BD_dynamic_object_keyboard"
 // XrSystemDynamicObjectKeyboardPropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectKeyboardPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemDynamicObjectKeyboardPropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectKeyboard;
 } XrSystemDynamicObjectKeyboardPropertiesBD;
 
@@ -13347,9 +13347,9 @@ typedef struct XrSystemDynamicObjectKeyboardPropertiesBD {
 #define XR_BD_dynamic_object_mouse_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_MOUSE_EXTENSION_NAME "XR_BD_dynamic_object_mouse"
 // XrSystemDynamicObjectMousePropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectMousePropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemDynamicObjectMousePropertiesBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectMouse;
 } XrSystemDynamicObjectMousePropertiesBD;
 
@@ -13370,31 +13370,31 @@ XR_DEFINE_HANDLE(XrCameraCaptureSessionBD)
 #define XR_BD_camera_image_SPEC_VERSION   1
 #define XR_BD_CAMERA_IMAGE_EXTENSION_NAME "XR_BD_camera_image"
 
-typedef enum XrCameraPropertyTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraPropertyTypeBD {
     XR_CAMERA_PROPERTY_TYPE_FACING_BD = 1,
     XR_CAMERA_PROPERTY_TYPE_POSITION_BD = 2,
     XR_CAMERA_PROPERTY_TYPE_CAMERA_TYPE_BD = 3,
     XR_CAMERA_PROPERTY_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraPropertyTypeBD;
 
-typedef enum XrCameraFacingBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraFacingBD {
     XR_CAMERA_FACING_WORLD_BD = 1,
     XR_CAMERA_FACING_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraFacingBD;
 
-typedef enum XrCameraPositionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraPositionBD {
     XR_CAMERA_POSITION_UNSPECIFIED_BD = 1,
-    XR_CAMERA_POSITION_LEFT_BD = 2,
-    XR_CAMERA_POSITION_RIGHT_BD = 3,
+    XR_CAMERA_POSITION_ಎಡ_BD = 2,
+    XR_CAMERA_POSITION_ಬಲ_BD = 3,
     XR_CAMERA_POSITION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraPositionBD;
 
-typedef enum XrCameraTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraTypeBD {
     XR_CAMERA_TYPE_PASSTHROUGH_COLOR_BD = 1,
     XR_CAMERA_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraTypeBD;
 
-typedef enum XrCameraCapabilityTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraCapabilityTypeBD {
     XR_CAMERA_CAPABILITY_TYPE_IMAGE_RESOLUTION_AND_FRAME_RATE_BD = 1,
     XR_CAMERA_CAPABILITY_TYPE_IMAGE_FORMAT_BD = 2,
     XR_CAMERA_CAPABILITY_TYPE_DATA_TRANSFER_TYPE_BD = 3,
@@ -13402,260 +13402,260 @@ typedef enum XrCameraCapabilityTypeBD {
     XR_CAMERA_CAPABILITY_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraCapabilityTypeBD;
 
-typedef enum XrCameraDataTransferTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraDataTransferTypeBD {
     XR_CAMERA_DATA_TRANSFER_TYPE_RAW_BUFFER_BD = 1,
     XR_CAMERA_DATA_TRANSFER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraDataTransferTypeBD;
 
-typedef enum XrCameraImageFormatBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraImageFormatBD {
     XR_CAMERA_IMAGE_FORMAT_RGBA_8888_BD = 1,
     XR_CAMERA_IMAGE_FORMAT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraImageFormatBD;
 
-typedef enum XrCameraModelBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrCameraModelBD {
     XR_CAMERA_MODEL_PINHOLE_BD = 1,
     XR_CAMERA_MODEL_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraModelBD;
-typedef struct XR_MAY_ALIAS XrCameraPropertyBaseHeaderBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrCameraPropertyBaseHeaderBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrCameraPropertyBaseHeaderBD;
 
-typedef struct XrCameraPropertiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraPropertiesBD {
     XrStructureType                   type;
-    void* XR_MAY_ALIAS                next;
-    uint32_t                          propertyCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                next;
+    uint32_t                          property_ಎಣಿಕೆ;
     XrCameraPropertyBaseHeaderBD**    properties;
 } XrCameraPropertiesBD;
 
-typedef struct XR_MAY_ALIAS XrCameraCapabilityBaseHeaderBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrCameraCapabilityBaseHeaderBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrCameraCapabilityBaseHeaderBD;
 
-typedef struct XrCameraCapabilitiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCapabilitiesBD {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
-    uint32_t                            capabilityCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
+    uint32_t                            capability_ಎಣಿಕೆ;
     XrCameraCapabilityBaseHeaderBD**    capabilities;
 } XrCameraCapabilitiesBD;
 
-typedef struct XrAvailableCamerasEnumerateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAvailableCamerasEnumerateInfoBD {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
-    const XrCameraPropertiesBD*      properties;
-    const XrCameraCapabilitiesBD*    capabilities;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS         next;
+    ಧ್ರುವ XrCameraPropertiesBD*      properties;
+    ಧ್ರುವ XrCameraCapabilitiesBD*    capabilities;
 } XrAvailableCamerasEnumerateInfoBD;
 
-typedef struct XrAvailableCameraBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAvailableCameraBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraIdBD          cameraId;
 } XrAvailableCameraBD;
 
-typedef struct XrCameraPropertyTypesEnumerateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraPropertyTypesEnumerateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraPropertyTypesEnumerateInfoBD;
 
-typedef struct XrCameraPropertyTypesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraPropertyTypesBD {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
-    uint32_t                   propertyTypeCapacityInput;
-    uint32_t                   propertyTypeCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
+    uint32_t                   property_Type_Capacity_ಒಳಹರಿವು;
+    uint32_t                   property_Type_ಎಣಿಕೆ_Output;
     XrCameraPropertyTypeBD*    propertyTypes;
 } XrCameraPropertyTypesBD;
 
-typedef struct XrCameraPropertiesGetInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraPropertiesGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraPropertiesGetInfoBD;
 
-typedef struct XrCameraPropertyFacingBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraPropertyFacingBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraFacingBD            facing;
 } XrCameraPropertyFacingBD;
 
-typedef struct XrCameraPropertyPositionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraPropertyPositionBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraPositionBD          position;
 } XrCameraPropertyPositionBD;
 
-typedef struct XrCameraPropertyCameraTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraPropertyCameraTypeBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraTypeBD              cameraType;
 } XrCameraPropertyCameraTypeBD;
 
-typedef struct XrCameraCapabilityTypesEnumerateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCapabilityTypesEnumerateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraCapabilityTypesEnumerateInfoBD;
 
-typedef struct XrCameraCapabilityTypesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCapabilityTypesBD {
     XrStructureType              type;
-    void* XR_MAY_ALIAS           next;
-    uint32_t                     capabilityTypeCapacityInput;
-    uint32_t                     capabilityTypeCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS           next;
+    uint32_t                     capability_Type_Capacity_ಒಳಹರಿವು;
+    uint32_t                     capability_Type_ಎಣಿಕೆ_Output;
     XrCameraCapabilityTypeBD*    capabilityTypes;
 } XrCameraCapabilityTypesBD;
 
-typedef struct XrCameraSupportedCapabilitiesGetInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraSupportedCapabilitiesGetInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraIdBD                id;
 } XrCameraSupportedCapabilitiesGetInfoBD;
 
-typedef struct XR_MAY_ALIAS XrCameraSupportedCapabilityBaseHeaderBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrCameraSupportedCapabilityBaseHeaderBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrCameraSupportedCapabilityBaseHeaderBD;
 
-typedef struct XrCameraSupportedCapabilitiesBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraSupportedCapabilitiesBD {
     XrStructureType                              type;
-    void* XR_MAY_ALIAS                           next;
-    uint32_t                                     capabilityCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                           next;
+    uint32_t                                     capability_ಎಣಿಕೆ;
     XrCameraSupportedCapabilityBaseHeaderBD**    capabilities;
 } XrCameraSupportedCapabilitiesBD;
 
-typedef struct XrCameraImageResolutionAndFrameRateBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraImageResolutionAndFrameRateBD {
     XrExtent2Di    resolution;
     uint32_t       frameRate;
 } XrCameraImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraSupportedCapabilityImageResolutionAndFrameRateBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraSupportedCapabilityImageResolutionAndFrameRateBD {
     XrStructureType                           type;
-    void* XR_MAY_ALIAS                        next;
-    uint32_t                                  resolutionAndFrameRateCapacityInput;
-    uint32_t                                  resolutionAndFrameRateCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                        next;
+    uint32_t                                  resolution_And_Frame_Rate_Capacity_ಒಳಹರಿವು;
+    uint32_t                                  resolution_And_Frame_Rate_ಎಣಿಕೆ_Output;
     XrCameraImageResolutionAndFrameRateBD*    resolutionAndFrameRates;
 } XrCameraSupportedCapabilityImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraCapabilityImageResolutionAndFrameRateBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCapabilityImageResolutionAndFrameRateBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrExtent2Di                 resolution;
     uint32_t                    frameRate;
 } XrCameraCapabilityImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraSupportedCapabilityDataTransferTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraSupportedCapabilityDataTransferTypeBD {
     XrStructureType                type;
-    void* XR_MAY_ALIAS             next;
-    uint32_t                       transferTypeCapacityInput;
-    uint32_t                       transferTypeCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                       transfer_Type_Capacity_ಒಳಹರಿವು;
+    uint32_t                       transfer_Type_ಎಣಿಕೆ_Output;
     XrCameraDataTransferTypeBD*    transferTypes;
 } XrCameraSupportedCapabilityDataTransferTypeBD;
 
-typedef struct XrCameraCapabilityDataTransferTypeBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCapabilityDataTransferTypeBD {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrCameraDataTransferTypeBD    transferType;
 } XrCameraCapabilityDataTransferTypeBD;
 
-typedef struct XrCameraSupportedCapabilityImageFormatBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraSupportedCapabilityImageFormatBD {
     XrStructureType           type;
-    void* XR_MAY_ALIAS        next;
-    uint32_t                  formatCapacityInput;
-    uint32_t                  formatCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS        next;
+    uint32_t                  format_Capacity_ಒಳಹರಿವು;
+    uint32_t                  format_ಎಣಿಕೆ_Output;
     XrCameraImageFormatBD*    formats;
 } XrCameraSupportedCapabilityImageFormatBD;
 
-typedef struct XrCameraCapabilityImageFormatBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCapabilityImageFormatBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraImageFormatBD       format;
 } XrCameraCapabilityImageFormatBD;
 
-typedef struct XrCameraSupportedCapabilityCameraModelBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraSupportedCapabilityCameraModelBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              modelCapacityInput;
-    uint32_t              modelCountOutput;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              model_Capacity_ಒಳಹರಿವು;
+    uint32_t              model_ಎಣಿಕೆ_Output;
     XrCameraModelBD*      models;
 } XrCameraSupportedCapabilityCameraModelBD;
 
-typedef struct XrCameraCapabilityCameraModelBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCapabilityCameraModelBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraModelBD             model;
 } XrCameraCapabilityCameraModelBD;
 
-typedef struct XrCameraDeviceCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraDeviceCreateInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraDeviceCreateInfoBD;
 
-typedef struct XrCreateCameraDeviceCompletionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateCameraDeviceCompletionBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrResult              futureResult;
     XrCameraDeviceBD      device;
 } XrCreateCameraDeviceCompletionBD;
 
-typedef struct XrCameraCaptureSessionCreateInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCaptureSessionCreateInfoBD {
     XrStructureType                                 type;
-    const void* XR_MAY_ALIAS                        next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                        next;
     XrCameraDeviceBD                                camera;
-    uint32_t                                        configCount;
-    const XrCameraCapabilityBaseHeaderBD* const*    configs;
+    uint32_t                                        config_ಎಣಿಕೆ;
+    ಧ್ರುವ XrCameraCapabilityBaseHeaderBD* ಧ್ರುವ*    configs;
 } XrCameraCaptureSessionCreateInfoBD;
 
-typedef struct XrCreateCameraCaptureSessionCompletionBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateCameraCaptureSessionCompletionBD {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
     XrCameraCaptureSessionBD    captureSession;
 } XrCreateCameraCaptureSessionCompletionBD;
 
 // XrCameraIntrinsicsBD extends XrCameraImageDataBaseHeaderBD
-typedef struct XrCameraIntrinsicsBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraIntrinsicsBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrVector2f            focalLength;
     XrVector2f            principalPoint;
     XrVector2f            fov;
 } XrCameraIntrinsicsBD;
 
 // XrCameraExtrinsicsBD extends XrCameraImageDataBaseHeaderBD
-typedef struct XrCameraExtrinsicsBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraExtrinsicsBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrPosef               pose;
 } XrCameraExtrinsicsBD;
 
-typedef struct XrCameraCaptureBeginInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraCaptureBeginInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrCameraCaptureBeginInfoBD;
 
-typedef struct XrCameraImageAcquireInfoBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraImageAcquireInfoBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrTime                      lastCaptureTime;
 } XrCameraImageAcquireInfoBD;
 
-typedef struct XrCameraImageBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraImageBD {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    available;
     XrTime                      captureTime;
     XrCameraImageIdBD           imageId;
 } XrCameraImageBD;
 
-typedef struct XR_MAY_ALIAS XrCameraImageDataBaseHeaderBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrCameraImageDataBaseHeaderBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrCameraImageDataBaseHeaderBD;
 
-typedef struct XrCameraImageDataRawBufferBD {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCameraImageDataRawBufferBD {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     uint32_t              width;
     uint32_t              height;
     uint32_t              stride;
@@ -13665,55 +13665,55 @@ typedef struct XrCameraImageDataRawBufferBD {
     uint8_t*              buffer;
 } XrCameraImageDataRawBufferBD;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateAvailableCamerasBD)(XrInstance instance, const XrAvailableCamerasEnumerateInfoBD* enumerateInfo, uint32_t cameraCapacityInput, uint32_t* cameraCountOutput, XrAvailableCameraBD* cameras);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateCameraPropertyTypesBD)(XrInstance instance, const XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo, XrCameraPropertyTypesBD* propertyTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCameraPropertiesBD)(XrInstance instance, const XrCameraPropertiesGetInfoBD* getInfo, XrCameraPropertiesBD* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateCameraCapabilityTypesBD)(XrInstance instance, const XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo, XrCameraCapabilityTypesBD* capabilityTypes);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCameraSupportedCapabilitiesBD)(XrInstance instance, const XrCameraSupportedCapabilitiesGetInfoBD* getInfo, XrCameraSupportedCapabilitiesBD* capabilities);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceAsyncBD)(XrInstance instance, const XrCameraDeviceCreateInfoBD* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceCompleteBD)(XrInstance instance, XrFutureEXT future, XrCreateCameraDeviceCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyCameraDeviceBD)(XrCameraDeviceBD device);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionAsyncBD)(XrSession session, const XrCameraCaptureSessionCreateInfoBD* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionCompleteBD)(XrSession session, XrFutureEXT future, XrCreateCameraCaptureSessionCompletionBD* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyCameraCaptureSessionBD)(XrCameraCaptureSessionBD captureSession);
-typedef XrResult (XRAPI_PTR *PFN_xrBeginCameraCaptureBD)(XrCameraCaptureSessionBD captureSession, const XrCameraCaptureBeginInfoBD* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndCameraCaptureBD)(XrCameraCaptureSessionBD captureSession);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireCameraImageBD)(XrCameraCaptureSessionBD captureSession, const XrCameraImageAcquireInfoBD* acquireInfo, XrCameraImageBD* image);
-typedef XrResult (XRAPI_PTR *PFN_xrGetCameraImageDataBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId, XrCameraImageDataBaseHeaderBD* imageData);
-typedef XrResult (XRAPI_PTR *PFN_xrReleaseCameraImageBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateAvailableCamerasBD)(XrInstance instance, ಧ್ರುವ XrAvailableCamerasEnumerateInfoBD* enumerateInfo, uint32_t camera_Capacity_ಒಳಹರಿವು, uint32_t* camera_ಎಣಿಕೆ_Output, XrAvailableCameraBD* cameras);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateCameraPropertyTypesBD)(XrInstance instance, ಧ್ರುವ XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo, XrCameraPropertyTypesBD* propertyTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetCameraPropertiesBD)(XrInstance instance, ಧ್ರುವ XrCameraPropertiesGetInfoBD* getInfo, XrCameraPropertiesBD* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateCameraCapabilityTypesBD)(XrInstance instance, ಧ್ರುವ XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo, XrCameraCapabilityTypesBD* capabilityTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetCameraSupportedCapabilitiesBD)(XrInstance instance, ಧ್ರುವ XrCameraSupportedCapabilitiesGetInfoBD* getInfo, XrCameraSupportedCapabilitiesBD* capabilities);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceAsyncBD)(XrInstance instance, ಧ್ರುವ XrCameraDeviceCreateInfoBD* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateCameraDeviceCompleteBD)(XrInstance instance, XrFutureEXT future, XrCreateCameraDeviceCompletionBD* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyCameraDeviceBD)(XrCameraDeviceBD device);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionAsyncBD)(XrSession session, ಧ್ರುವ XrCameraCaptureSessionCreateInfoBD* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateCameraCaptureSessionCompleteBD)(XrSession session, XrFutureEXT future, XrCreateCameraCaptureSessionCompletionBD* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyCameraCaptureSessionBD)(XrCameraCaptureSessionBD captureSession);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrBeginCameraCaptureBD)(XrCameraCaptureSessionBD captureSession, ಧ್ರುವ XrCameraCaptureBeginInfoBD* beginInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEndCameraCaptureBD)(XrCameraCaptureSessionBD captureSession);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrAcquireCameraImageBD)(XrCameraCaptureSessionBD captureSession, ಧ್ರುವ XrCameraImageAcquireInfoBD* acquireInfo, XrCameraImageBD* image);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetCameraImageDataBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId, XrCameraImageDataBaseHeaderBD* imageData);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrReleaseCameraImageBD)(XrCameraCaptureSessionBD captureSession, XrCameraImageIdBD imageId);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateAvailableCamerasBD(
     XrInstance                                  instance,
-    const XrAvailableCamerasEnumerateInfoBD*    enumerateInfo,
-    uint32_t                                    cameraCapacityInput,
-    uint32_t*                                   cameraCountOutput,
+    ಧ್ರುವ XrAvailableCamerasEnumerateInfoBD*    enumerateInfo,
+    uint32_t                                    camera_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   camera_ಎಣಿಕೆ_Output,
     XrAvailableCameraBD*                        cameras);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateCameraPropertyTypesBD(
     XrInstance                                  instance,
-    const XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo,
+    ಧ್ರುವ XrCameraPropertyTypesEnumerateInfoBD* enumerateInfo,
     XrCameraPropertyTypesBD*                    propertyTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCameraPropertiesBD(
     XrInstance                                  instance,
-    const XrCameraPropertiesGetInfoBD*          getInfo,
+    ಧ್ರುವ XrCameraPropertiesGetInfoBD*          getInfo,
     XrCameraPropertiesBD*                       properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateCameraCapabilityTypesBD(
     XrInstance                                  instance,
-    const XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo,
+    ಧ್ರುವ XrCameraCapabilityTypesEnumerateInfoBD* enumerateInfo,
     XrCameraCapabilityTypesBD*                  capabilityTypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCameraSupportedCapabilitiesBD(
     XrInstance                                  instance,
-    const XrCameraSupportedCapabilitiesGetInfoBD* getInfo,
+    ಧ್ರುವ XrCameraSupportedCapabilitiesGetInfoBD* getInfo,
     XrCameraSupportedCapabilitiesBD*            capabilities);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraDeviceAsyncBD(
     XrInstance                                  instance,
-    const XrCameraDeviceCreateInfoBD*           createInfo,
+    ಧ್ರುವ XrCameraDeviceCreateInfoBD*           createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraDeviceCompleteBD(
@@ -13726,7 +13726,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyCameraDeviceBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraCaptureSessionAsyncBD(
     XrSession                                   session,
-    const XrCameraCaptureSessionCreateInfoBD*   createInfo,
+    ಧ್ರುವ XrCameraCaptureSessionCreateInfoBD*   createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateCameraCaptureSessionCompleteBD(
@@ -13739,14 +13739,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyCameraCaptureSessionBD(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginCameraCaptureBD(
     XrCameraCaptureSessionBD                    captureSession,
-    const XrCameraCaptureBeginInfoBD*           beginInfo);
+    ಧ್ರುವ XrCameraCaptureBeginInfoBD*           beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndCameraCaptureBD(
     XrCameraCaptureSessionBD                    captureSession);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireCameraImageBD(
     XrCameraCaptureSessionBD                    captureSession,
-    const XrCameraImageAcquireInfoBD*           acquireInfo,
+    ಧ್ರುವ XrCameraImageAcquireInfoBD*           acquireInfo,
     XrCameraImageBD*                            image);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetCameraImageDataBD(
@@ -13766,27 +13766,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrReleaseCameraImageBD(
 #define XR_ANDROID_spatial_discovery_bounds_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_DISCOVERY_BOUNDS_EXTENSION_NAME "XR_ANDROID_spatial_discovery_bounds"
 // XrSpatialBoundsSpherefANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsSpherefANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialBoundsSpherefANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrSpheref                   sphere;
 } XrSpatialBoundsSpherefANDROID;
 
 // XrSpatialBoundsBoxfANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsBoxfANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialBoundsBoxfANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrBoxf                      box;
 } XrSpatialBoundsBoxfANDROID;
 
 // XrSpatialBoundsFrustumfANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsFrustumfANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialBoundsFrustumfANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrFrustumf                  frustum;
@@ -13798,37 +13798,37 @@ typedef struct XrSpatialBoundsFrustumfANDROID {
 #define XR_EXT_spatial_anchor 1
 #define XR_EXT_spatial_anchor_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ANCHOR_EXTENSION_NAME "XR_EXT_spatial_anchor"
-typedef struct XrSpatialCapabilityConfigurationAnchorEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationAnchorEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationAnchorEXT;
 
 // XrSpatialComponentAnchorListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentAnchorListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentAnchorListEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              locationCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              location_ಎಣಿಕೆ;
     XrPosef*              locations;
 } XrSpatialComponentAnchorListEXT;
 
-typedef struct XrSpatialAnchorCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
     XrPosef                     pose;
 } XrSpatialAnchorCreateInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorEXT)(XrSpatialContextEXT spatialContext, const XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpatialEntityEXT* anchorEntity);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorEXT)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpatialEntityEXT* anchorEntity);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorEXT(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialAnchorCreateInfoEXT*         createInfo,
+    ಧ್ರುವ XrSpatialAnchorCreateInfoEXT*         createInfo,
     XrSpatialEntityIdEXT*                       anchorEntityId,
     XrSpatialEntityEXT*                         anchorEntity);
 #endif /* XR_EXTENSION_PROTOTYPES */
@@ -13841,84 +13841,84 @@ XR_DEFINE_HANDLE(XrSpatialPersistenceContextEXT)
 #define XR_EXT_spatial_persistence_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PERSISTENCE_EXTENSION_NAME "XR_EXT_spatial_persistence"
 
-typedef enum XrSpatialPersistenceScopeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialPersistenceScopeEXT {
     XR_SPATIAL_PERSISTENCE_SCOPE_SYSTEM_MANAGED_EXT = 1,
     XR_SPATIAL_PERSISTENCE_SCOPE_LOCAL_ANCHORS_EXT = 1000781000,
     XR_SPATIAL_PERSISTENCE_SCOPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceScopeEXT;
 
-typedef enum XrSpatialPersistenceContextResultEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialPersistenceContextResultEXT {
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_SUCCESS_EXT = 0,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_ENTITY_NOT_TRACKING_EXT = -1000781001,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_PERSIST_UUID_NOT_FOUND_EXT = -1000781002,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceContextResultEXT;
 
-typedef enum XrSpatialPersistenceStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialPersistenceStateEXT {
     XR_SPATIAL_PERSISTENCE_STATE_LOADED_EXT = 1,
     XR_SPATIAL_PERSISTENCE_STATE_NOT_FOUND_EXT = 2,
     XR_SPATIAL_PERSISTENCE_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceStateEXT;
-typedef struct XrSpatialPersistenceContextCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialPersistenceContextCreateInfoEXT {
     XrStructureType                 type;
-    const void* XR_MAY_ALIAS        next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS        next;
     XrSpatialPersistenceScopeEXT    scope;
 } XrSpatialPersistenceContextCreateInfoEXT;
 
-typedef struct XrCreateSpatialPersistenceContextCompletionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateSpatialPersistenceContextCompletionEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
     XrSpatialPersistenceContextResultEXT    createResult;
     XrSpatialPersistenceContextEXT          persistenceContext;
 } XrCreateSpatialPersistenceContextCompletionEXT;
 
 // XrSpatialContextPersistenceConfigEXT extends XrSpatialContextCreateInfoEXT
-typedef struct XrSpatialContextPersistenceConfigEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContextPersistenceConfigEXT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 persistenceContextCount;
-    const XrSpatialPersistenceContextEXT*    persistenceContexts;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
+    uint32_t                                 persistence_Context_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialPersistenceContextEXT*    persistenceContexts;
 } XrSpatialContextPersistenceConfigEXT;
 
 // XrSpatialDiscoveryPersistenceUuidFilterEXT extends XrSpatialDiscoverySnapshotCreateInfoEXT,XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialDiscoveryPersistenceUuidFilterEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialDiscoveryPersistenceUuidFilterEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    persistedUuidCount;
-    const XrUuid*               persistedUuids;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    persisted_Uuid_ಎಣಿಕೆ;
+    ಧ್ರುವ XrUuid*               persistedUuids;
 } XrSpatialDiscoveryPersistenceUuidFilterEXT;
 
-typedef struct XrSpatialPersistenceDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialPersistenceDataEXT {
     XrUuid                          persistUuid;
     XrSpatialPersistenceStateEXT    persistState;
 } XrSpatialPersistenceDataEXT;
 
 // XrSpatialComponentPersistenceListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPersistenceListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentPersistenceListEXT {
     XrStructureType                 type;
-    void* XR_MAY_ALIAS              next;
-    uint32_t                        persistDataCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS              next;
+    uint32_t                        persist_Data_ಎಣಿಕೆ;
     XrSpatialPersistenceDataEXT*    persistData;
 } XrSpatialComponentPersistenceListEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialPersistenceScopesEXT)(XrInstance instance, XrSystemId systemId, uint32_t persistenceScopeCapacityInput, uint32_t* persistenceScopeCountOutput, XrSpatialPersistenceScopeEXT* persistenceScopes);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextAsyncEXT)(XrSession session, const XrSpatialPersistenceContextCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialPersistenceContextCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialPersistenceContextEXT)(XrSpatialPersistenceContextEXT persistenceContext);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialPersistenceScopesEXT)(XrInstance instance, XrSystemId systemId, uint32_t persistence_Scope_Capacity_ಒಳಹರಿವು, uint32_t* persistence_Scope_ಎಣಿಕೆ_Output, XrSpatialPersistenceScopeEXT* persistenceScopes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextAsyncEXT)(XrSession session, ಧ್ರುವ XrSpatialPersistenceContextCreateInfoEXT* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialPersistenceContextCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialPersistenceContextCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialPersistenceContextEXT)(XrSpatialPersistenceContextEXT persistenceContext);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialPersistenceScopesEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    persistenceScopeCapacityInput,
-    uint32_t*                                   persistenceScopeCountOutput,
+    uint32_t                                    persistence_Scope_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   persistence_Scope_ಎಣಿಕೆ_Output,
     XrSpatialPersistenceScopeEXT*               persistenceScopes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialPersistenceContextAsyncEXT(
     XrSession                                   session,
-    const XrSpatialPersistenceContextCreateInfoEXT* createInfo,
+    ಧ್ರುವ XrSpatialPersistenceContextCreateInfoEXT* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialPersistenceContextCompleteEXT(
@@ -13949,61 +13949,61 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialPersistenceContextEXT(
 #define XR_EXT_haptic_parametric_SPEC_VERSION 1
 #define XR_EXT_HAPTIC_PARAMETRIC_EXTENSION_NAME "XR_EXT_haptic_parametric"
 
-typedef enum XrHapticParametricStreamFrameTypeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrHapticParametricStreamFrameTypeEXT {
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_NONE_EXT = 0,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_FIRST_FRAME_EXT = 1,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_INTERMEDIATE_FRAME_EXT = 2,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_LAST_FRAME_EXT = 3,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHapticParametricStreamFrameTypeEXT;
-typedef struct XrHapticParametricPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticParametricPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrDuration            idealFrameSubmissionRate;
     XrDuration            minimumFirstFrameDuration;
-    float                 minFrequencyHz;
-    float                 maxFrequencyHz;
+    ಭಿನ್ನ                 minFrequencyHz;
+    ಭಿನ್ನ                 maxFrequencyHz;
 } XrHapticParametricPropertiesEXT;
 
-typedef struct XrHapticParametricPointEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticParametricPointEXT {
     XrDuration    time;
-    float         value;
+    ಭಿನ್ನ         ಮೌಲ್ಯ;
 } XrHapticParametricPointEXT;
 
-typedef struct XrHapticParametricTransientEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticParametricTransientEXT {
     XrDuration    time;
-    float         amplitude;
-    float         frequency;
+    ಭಿನ್ನ         amplitude;
+    ಭಿನ್ನ         frequency;
 } XrHapticParametricTransientEXT;
 
-typedef struct XrHapticParametricVibrationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHapticParametricVibrationEXT {
     XrStructureType                          type;
-    const void* XR_MAY_ALIAS                 next;
-    uint32_t                                 amplitudePointCount;
-    const XrHapticParametricPointEXT*        amplitudePoints;
-    uint32_t                                 frequencyPointCount;
-    const XrHapticParametricPointEXT*        frequencyPoints;
-    uint32_t                                 transientCount;
-    const XrHapticParametricTransientEXT*    transients;
-    float                                    minFrequencyHz;
-    float                                    maxFrequencyHz;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
+    uint32_t                                 amplitude_Point_ಎಣಿಕೆ;
+    ಧ್ರುವ XrHapticParametricPointEXT*        amplitudePoints;
+    uint32_t                                 frequency_Point_ಎಣಿಕೆ;
+    ಧ್ರುವ XrHapticParametricPointEXT*        frequencyPoints;
+    uint32_t                                 transient_ಎಣಿಕೆ;
+    ಧ್ರುವ XrHapticParametricTransientEXT*    transients;
+    ಭಿನ್ನ                                    minFrequencyHz;
+    ಭಿನ್ನ                                    maxFrequencyHz;
     XrHapticParametricStreamFrameTypeEXT     streamFrameType;
 } XrHapticParametricVibrationEXT;
 
 // XrSystemHapticParametricPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemHapticParametricPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemHapticParametricPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsParametricHaptics;
 } XrSystemHapticParametricPropertiesEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrHapticParametricGetPropertiesEXT)(XrSession session, const XrHapticActionInfo* hapticActionInfo, XrHapticParametricPropertiesEXT* parametricProperties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrHapticParametricGetPropertiesEXT)(XrSession session, ಧ್ರುವ XrHapticActionInfo* hapticActionInfo, XrHapticParametricPropertiesEXT* parametricProperties);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrHapticParametricGetPropertiesEXT(
     XrSession                                   session,
-    const XrHapticActionInfo*                   hapticActionInfo,
+    ಧ್ರುವ XrHapticActionInfo*                   hapticActionInfo,
     XrHapticParametricPropertiesEXT*            parametricProperties);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14014,7 +14014,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrHapticParametricGetPropertiesEXT(
 #define XR_SONY_swapchain_color_space_SPEC_VERSION 1
 #define XR_SONY_SWAPCHAIN_COLOR_SPACE_EXTENSION_NAME "XR_SONY_swapchain_color_space"
 
-typedef enum XrColorSpaceSONY {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrColorSpaceSONY {
     XR_COLOR_SPACE_SRGB_NONLINEAR_SONY = 0,
     XR_COLOR_SPACE_DISPLAY_P3_LINEAR_SONY = 1,
     XR_COLOR_SPACE_DISPLAY_P3_NONLINEAR_SONY = 2,
@@ -14028,28 +14028,28 @@ typedef enum XrColorSpaceSONY {
     XR_COLOR_SPACE_BT2020_HLG_SONY = 10,
     XR_COLOR_SPACE_MAX_ENUM_SONY = 0x7FFFFFFF
 } XrColorSpaceSONY;
-typedef struct XrColorSpacesEnumerateInfoSONY {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrColorSpacesEnumerateInfoSONY {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     int64_t                     format;
 } XrColorSpacesEnumerateInfoSONY;
 
 // XrSwapchainCreateInfoColorSpaceSONY extends XrSwapchainCreateInfo
-typedef struct XrSwapchainCreateInfoColorSpaceSONY {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainCreateInfoColorSpaceSONY {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrColorSpaceSONY            colorSpace;
 } XrSwapchainCreateInfoColorSpaceSONY;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesSONY)(XrSession session, const XrColorSpacesEnumerateInfoSONY* enumerateInfo, uint32_t colorSpaceCapacityInput, uint32_t* colorSpaceCountOutput, XrColorSpaceSONY* colorSpaces);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateColorSpacesSONY)(XrSession session, ಧ್ರುವ XrColorSpacesEnumerateInfoSONY* enumerateInfo, uint32_t color_Space_Capacity_ಒಳಹರಿವು, uint32_t* color_Space_ಎಣಿಕೆ_Output, XrColorSpaceSONY* colorSpaces);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateColorSpacesSONY(
     XrSession                                   session,
-    const XrColorSpacesEnumerateInfoSONY*       enumerateInfo,
-    uint32_t                                    colorSpaceCapacityInput,
-    uint32_t*                                   colorSpaceCountOutput,
+    ಧ್ರುವ XrColorSpacesEnumerateInfoSONY*       enumerateInfo,
+    uint32_t                                    color_Space_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   color_Space_ಎಣಿಕೆ_Output,
     XrColorSpaceSONY*                           colorSpaces);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14059,31 +14059,31 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateColorSpacesSONY(
 #define XR_SONY_hdr_metadata 1
 #define XR_SONY_hdr_metadata_SPEC_VERSION 1
 #define XR_SONY_HDR_METADATA_EXTENSION_NAME "XR_SONY_hdr_metadata"
-typedef struct XrXYColorSONY {
-    float    x;
-    float    y;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrXYColorSONY {
+    ಭಿನ್ನ    x;
+    ಭಿನ್ನ    y;
 } XrXYColorSONY;
 
-typedef struct XrHdrMetadataSONY {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrHdrMetadataSONY {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrXYColorSONY               displayPrimaryRed;
     XrXYColorSONY               displayPrimaryGreen;
     XrXYColorSONY               displayPrimaryBlue;
     XrXYColorSONY               whitePoint;
-    float                       maxLuminance;
-    float                       minLuminance;
-    float                       maxContentLightLevel;
-    float                       maxFrameAverageLightLevel;
+    ಭಿನ್ನ                       maxLuminance;
+    ಭಿನ್ನ                       minLuminance;
+    ಭಿನ್ನ                       maxContentLightLevel;
+    ಭಿನ್ನ                       maxFrameAverageLightLevel;
 } XrHdrMetadataSONY;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetHdrMetadataSONY)(XrSwapchain swapchain, const XrHdrMetadataSONY* hdrMetadata);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetHdrMetadataSONY)(XrSwapchain swapchain, ಧ್ರುವ XrHdrMetadataSONY* hdrMetadata);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetHdrMetadataSONY(
     XrSwapchain                                 swapchain,
-    const XrHdrMetadataSONY*                    hdrMetadata);
+    ಧ್ರುವ XrHdrMetadataSONY*                    hdrMetadata);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -14092,44 +14092,44 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetHdrMetadataSONY(
 #define XR_EXT_spatial_persistence_operations 1
 #define XR_EXT_spatial_persistence_operations_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PERSISTENCE_OPERATIONS_EXTENSION_NAME "XR_EXT_spatial_persistence_operations"
-typedef struct XrSpatialEntityPersistInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityPersistInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContextEXT         spatialContext;
     XrSpatialEntityIdEXT        spatialEntityId;
 } XrSpatialEntityPersistInfoEXT;
 
-typedef struct XrPersistSpatialEntityCompletionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrPersistSpatialEntityCompletionEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
     XrSpatialPersistenceContextResultEXT    persistResult;
     XrUuid                                  persistUuid;
 } XrPersistSpatialEntityCompletionEXT;
 
-typedef struct XrSpatialEntityUnpersistInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialEntityUnpersistInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrUuid                      persistUuid;
 } XrSpatialEntityUnpersistInfoEXT;
 
-typedef struct XrUnpersistSpatialEntityCompletionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrUnpersistSpatialEntityCompletionEXT {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
     XrSpatialPersistenceContextResultEXT    unpersistResult;
 } XrUnpersistSpatialEntityCompletionEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, const XrSpatialEntityPersistInfoEXT* persistInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrPersistSpatialEntityCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, const XrSpatialEntityUnpersistInfoEXT* unpersistInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrUnpersistSpatialEntityCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, ಧ್ರುವ XrSpatialEntityPersistInfoEXT* persistInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrPersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrPersistSpatialEntityCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityAsyncEXT)(XrSpatialPersistenceContextEXT persistenceContext, ಧ್ರುವ XrSpatialEntityUnpersistInfoEXT* unpersistInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrUnpersistSpatialEntityCompleteEXT)(XrSpatialPersistenceContextEXT persistenceContext, XrFutureEXT future, XrUnpersistSpatialEntityCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialEntityAsyncEXT(
     XrSpatialPersistenceContextEXT              persistenceContext,
-    const XrSpatialEntityPersistInfoEXT*        persistInfo,
+    ಧ್ರುವ XrSpatialEntityPersistInfoEXT*        persistInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialEntityCompleteEXT(
@@ -14139,7 +14139,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPersistSpatialEntityCompleteEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialEntityAsyncEXT(
     XrSpatialPersistenceContextEXT              persistenceContext,
-    const XrSpatialEntityUnpersistInfoEXT*      unpersistInfo,
+    ಧ್ರುವ XrSpatialEntityUnpersistInfoEXT*      unpersistInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialEntityCompleteEXT(
@@ -14156,84 +14156,84 @@ XR_DEFINE_HANDLE(XrSpatialImageTrackingDatabaseEXT)
 #define XR_EXT_spatial_image_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_IMAGE_TRACKING_EXTENSION_NAME "XR_EXT_spatial_image_tracking"
 
-typedef enum XrSpatialReferenceImageFormatEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialReferenceImageFormatEXT {
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_RGBA_8888_EXT = 1,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_RGB_888_EXT = 2,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_YUV_420_888_EXT = 3,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialReferenceImageFormatEXT;
-typedef struct XrSpatialReferenceImagePlaneEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialReferenceImagePlaneEXT {
     uint32_t          bufferSize;
-    const uint8_t*    buffer;
+    ಧ್ರುವ uint8_t*    buffer;
     uint32_t          rowStride;
     uint32_t          pixelStride;
 } XrSpatialReferenceImagePlaneEXT;
 
-typedef struct XrSpatialReferenceImageEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialReferenceImageEXT {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
     uint32_t                                  width;
     uint32_t                                  height;
     XrSpatialReferenceImageFormatEXT          format;
-    uint32_t                                  planeCount;
-    const XrSpatialReferenceImagePlaneEXT*    planes;
+    uint32_t                                  plane_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialReferenceImagePlaneEXT*    planes;
 } XrSpatialReferenceImageEXT;
 
 // XrSpatialImageStaticOptimizationEXT extends XrSpatialReferenceImageEXT,XrSpatialImageTrackingDatabaseCreateInfoEXT
-typedef struct XrSpatialImageStaticOptimizationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialImageStaticOptimizationEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    optimizeForStaticImage;
 } XrSpatialImageStaticOptimizationEXT;
 
 // XrSpatialImageSizeEXT extends XrSpatialReferenceImageEXT,XrSpatialImageTrackingDatabaseCreateInfoEXT
-typedef struct XrSpatialImageSizeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialImageSizeEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    float                       physicalWidth;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಭಿನ್ನ                       physicalWidth;
 } XrSpatialImageSizeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationImageTrackingEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationImageTrackingEXT {
     XrStructureType                             type;
-    const void* XR_MAY_ALIAS                    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
     XrSpatialCapabilityEXT                      capability;
-    uint32_t                                    enabledComponentCount;
-    const XrSpatialComponentTypeEXT*            enabledComponents;
-    uint32_t                                    imageTrackingDatabaseCount;
-    const XrSpatialImageTrackingDatabaseEXT*    imageTrackingDatabases;
+    uint32_t                                    enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*            enabledComponents;
+    uint32_t                                    image_Tracking_Database_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialImageTrackingDatabaseEXT*    imageTrackingDatabases;
 } XrSpatialCapabilityConfigurationImageTrackingEXT;
 
-typedef struct XrSpatialImageTrackingDatabaseCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialImageTrackingDatabaseCreateInfoEXT {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
-    uint32_t                             spatialReferenceImageCount;
-    const XrSpatialReferenceImageEXT*    spatialReferenceImages;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                             spatial_Reference_Image_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialReferenceImageEXT*    spatialReferenceImages;
 } XrSpatialImageTrackingDatabaseCreateInfoEXT;
 
-typedef struct XrSpatialImage2DDataEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialImage2DDataEXT {
     XrSpatialImageTrackingDatabaseEXT    imageTrackingDatabase;
     uint32_t                             referenceImageIndex;
 } XrSpatialImage2DDataEXT;
 
 // XrSpatialComponentImage2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentImage2DListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentImage2DListEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    uint32_t                    imageCount;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t                    image_ಎಣಿಕೆ;
     XrSpatialImage2DDataEXT*    images;
 } XrSpatialComponentImage2DListEXT;
 
-typedef struct XrCreateSpatialImageTrackingDatabaseCompletionEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrCreateSpatialImageTrackingDatabaseCompletionEXT {
     XrStructureType                      type;
-    void* XR_MAY_ALIAS                   next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                   next;
     XrResult                             futureResult;
     XrSpatialImageTrackingDatabaseEXT    database;
 } XrCreateSpatialImageTrackingDatabaseCompletionEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialReferenceImageFormatsEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t formatCapacityInput, uint32_t* formatCountOutput, XrSpatialReferenceImageFormatEXT* formats);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseAsyncEXT)(XrSession session, const XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialImageTrackingDatabaseCompletionEXT* completion);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialImageTrackingDatabaseEXT)(XrSpatialImageTrackingDatabaseEXT database);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialReferenceImageFormatsEXT)(XrInstance instance, XrSystemId systemId, XrSpatialCapabilityEXT capability, uint32_t format_Capacity_ಒಳಹರಿವು, uint32_t* format_ಎಣಿಕೆ_Output, XrSpatialReferenceImageFormatEXT* formats);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseAsyncEXT)(XrSession session, ಧ್ರುವ XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialImageTrackingDatabaseCompleteEXT)(XrSession session, XrFutureEXT future, XrCreateSpatialImageTrackingDatabaseCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialImageTrackingDatabaseEXT)(XrSpatialImageTrackingDatabaseEXT database);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -14241,13 +14241,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialReferenceImageFormatsEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
     XrSpatialCapabilityEXT                      capability,
-    uint32_t                                    formatCapacityInput,
-    uint32_t*                                   formatCountOutput,
+    uint32_t                                    format_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   format_ಎಣಿಕೆ_Output,
     XrSpatialReferenceImageFormatEXT*           formats);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialImageTrackingDatabaseAsyncEXT(
     XrSession                                   session,
-    const XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo,
+    ಧ್ರುವ XrSpatialImageTrackingDatabaseCreateInfoEXT* createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialImageTrackingDatabaseCompleteEXT(
@@ -14266,7 +14266,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialImageTrackingDatabaseEXT(
 #define XR_EXT_spatial_mesh_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_MESH_TRACKING_EXTENSION_NAME "XR_EXT_spatial_mesh_tracking"
 
-typedef enum XrSpatialMeshSemanticLabelEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialMeshSemanticLabelEXT {
     XR_SPATIAL_MESH_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_FLOOR_EXT = 2,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_WALL_EXT = 3,
@@ -14277,42 +14277,42 @@ typedef enum XrSpatialMeshSemanticLabelEXT {
     XR_SPATIAL_MESH_SEMANTIC_LABEL_BED_EXT = 8,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMeshSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationMeshTrackingEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationMeshTrackingEXT {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationMeshTrackingEXT;
 
 // XrSpatialFeatureTrackWatertightMeshEXT extends XrSpatialCapabilityConfigurationMeshTrackingEXT
-typedef struct XrSpatialFeatureTrackWatertightMeshEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialFeatureTrackWatertightMeshEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    enableWatertightMeshTracking;
 } XrSpatialFeatureTrackWatertightMeshEXT;
 
 // XrSpatialComponentMesh3DNormalsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DNormalsListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentMesh3DNormalsListEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               meshNormalsCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS     next;
+    uint32_t               mesh_Normals_ಎಣಿಕೆ;
     XrSpatialBufferEXT*    meshNormals;
 } XrSpatialComponentMesh3DNormalsListEXT;
 
 // XrSpatialComponentMesh3DVertexSemanticLabelsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DVertexSemanticLabelsListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentMesh3DVertexSemanticLabelsListEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               meshSemanticLabelsCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS     next;
+    uint32_t               mesh_Semantic_Labels_ಎಣಿಕೆ;
     XrSpatialBufferEXT*    meshSemanticLabels;
 } XrSpatialComponentMesh3DVertexSemanticLabelsListEXT;
 
 // XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
     XrStructureType        type;
-    void* XR_MAY_ALIAS     next;
-    uint32_t               meshSemanticLabelsCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS     next;
+    uint32_t               mesh_Semantic_Labels_ಎಣಿಕೆ;
     XrSpatialBufferEXT*    meshSemanticLabels;
 } XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT;
 
@@ -14323,28 +14323,28 @@ typedef struct XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
 #define XR_ANDROID_spatial_object_tracking_SPEC_VERSION 2
 #define XR_ANDROID_SPATIAL_OBJECT_TRACKING_EXTENSION_NAME "XR_ANDROID_spatial_object_tracking"
 
-typedef enum XrSpatialObjectSemanticLabelANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialObjectSemanticLabelANDROID {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_UNCATEGORIZED_ANDROID = 0,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_KEYBOARD_ANDROID = 1,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MOUSE_ANDROID = 2,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_LAPTOP_BASE_ANDROID = 3,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSpatialObjectSemanticLabelANDROID;
-typedef struct XrSpatialCapabilityConfigurationObjectTrackingANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationObjectTrackingANDROID {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrSpatialCapabilityEXT                        capability;
-    uint32_t                                      enabledComponentCount;
-    const XrSpatialComponentTypeEXT*              enabledComponents;
-    uint32_t                                      activeSemanticLabelCount;
-    const XrSpatialObjectSemanticLabelANDROID*    activeSemanticLabels;
+    uint32_t                                      enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*              enabledComponents;
+    uint32_t                                      active_Semantic_Label_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialObjectSemanticLabelANDROID*    activeSemanticLabels;
 } XrSpatialCapabilityConfigurationObjectTrackingANDROID;
 
 // XrSpatialComponentObjectSemanticLabelListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentObjectSemanticLabelListANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentObjectSemanticLabelListANDROID {
     XrStructureType                         type;
-    void* XR_MAY_ALIAS                      next;
-    uint32_t                                semanticLabelCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
+    uint32_t                                semantic_Label_ಎಣಿಕೆ;
     XrSpatialObjectSemanticLabelANDROID*    semanticLabels;
 } XrSpatialComponentObjectSemanticLabelListANDROID;
 
@@ -14354,53 +14354,53 @@ typedef struct XrSpatialComponentObjectSemanticLabelListANDROID {
 #define XR_ANDROID_spatial_discovery_raycast 1
 #define XR_ANDROID_spatial_discovery_raycast_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_DISCOVERY_RAYCAST_EXTENSION_NAME "XR_ANDROID_spatial_discovery_raycast"
-typedef struct XrSpatialRaycastResultDataANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialRaycastResultDataANDROID {
     XrPosef    hitPose;
-    float      distanceSquared;
+    ಭಿನ್ನ      distanceSquared;
 } XrSpatialRaycastResultDataANDROID;
 
-typedef struct XrSpatialCapabilityConfigurationDepthRaycastANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialCapabilityConfigurationDepthRaycastANDROID {
     XrStructureType                     type;
-    const void* XR_MAY_ALIAS            next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
-    uint32_t                            enabledComponentCount;
-    const XrSpatialComponentTypeEXT*    enabledComponents;
+    uint32_t                            enabled_Component_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationDepthRaycastANDROID;
 
 // XrSpatialRaycastInfoANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialRaycastInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialRaycastInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrVector3f                  origin;
     XrVector3f                  direction;
-    float                       maxDistance;
+    ಭಿನ್ನ                       maxDistance;
 } XrSpatialRaycastInfoANDROID;
 
 // XrSpatialComponentRaycastResultListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentRaycastResultListANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentRaycastResultListANDROID {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
-    uint32_t                              raycastResultCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
+    uint32_t                              raycast_Result_ಎಣಿಕೆ;
     XrSpatialRaycastResultDataANDROID*    raycastResults;
 } XrSpatialComponentRaycastResultListANDROID;
 
-typedef struct XrSpatialRaycastSnapshotCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialRaycastSnapshotCreateInfoANDROID {
     XrStructureType                       type;
-    const void* XR_MAY_ALIAS              next;
-    uint32_t                              componentTypeCount;
-    const XrSpatialComponentTypeEXT*      componentTypes;
-    const XrSpatialRaycastInfoANDROID*    raycastInfo;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS              next;
+    uint32_t                              component_Type_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialComponentTypeEXT*      componentTypes;
+    ಧ್ರುವ XrSpatialRaycastInfoANDROID*    raycastInfo;
 } XrSpatialRaycastSnapshotCreateInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialRaycastSnapshotANDROID)(XrSpatialContextEXT spatialContext, const XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo, XrSpatialSnapshotEXT* snapshot);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialRaycastSnapshotANDROID)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo, XrSpatialSnapshotEXT* snapshot);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialRaycastSnapshotANDROID(
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrSpatialRaycastSnapshotCreateInfoANDROID* createInfo,
     XrSpatialSnapshotEXT*                       snapshot);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14411,50 +14411,50 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialRaycastSnapshotANDROID(
 #define XR_ANDROID_google_cloud_auth_SPEC_VERSION 1
 #define XR_ANDROID_GOOGLE_CLOUD_AUTH_EXTENSION_NAME "XR_ANDROID_google_cloud_auth"
 
-typedef enum XrGoogleCloudAuthErrorANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrGoogleCloudAuthErrorANDROID {
     XR_GOOGLE_CLOUD_AUTH_ERROR_NONE_ANDROID = 0,
     XR_GOOGLE_CLOUD_AUTH_ERROR_QUOTA_EXCEEDED_ANDROID = -1,
     XR_GOOGLE_CLOUD_AUTH_ERROR_UNREACHABLE_ANDROID = -2,
     XR_GOOGLE_CLOUD_AUTH_ERROR_ANDROID = -3,
     XR_GOOGLE_CLOUD_AUTH_ERROR_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrGoogleCloudAuthErrorANDROID;
-typedef struct XR_MAY_ALIAS XrGoogleCloudAuthInfoBaseHeaderANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XR_MAY_ALIAS XrGoogleCloudAuthInfoBaseHeaderANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrGoogleCloudAuthInfoBaseHeaderANDROID;
 
-typedef struct XrGoogleCloudAuthInfoApiKeyANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Google_Cloud_Auth_Info_Api_ಕೀಲಿ_ANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 apiKey;
-} XrGoogleCloudAuthInfoApiKeyANDROID;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ವರ್ಣ*                 api_ಕೀಲಿ;
+} Xr_Google_Cloud_Auth_Info_Api_ಕೀಲಿ_ANDROID;
 
-typedef struct XrGoogleCloudAuthInfoTokenANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGoogleCloudAuthInfoTokenANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
-    const char*                 authToken;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ವರ್ಣ*                 authToken;
 } XrGoogleCloudAuthInfoTokenANDROID;
 
-typedef struct XrGoogleCloudAuthInfoKeylessANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGoogleCloudAuthInfoKeylessANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrGoogleCloudAuthInfoKeylessANDROID;
 
 // XrGoogleCloudAuthErrorResultANDROID extends XrGoogleCloudAuthInfoBaseHeaderANDROID
-typedef struct XrGoogleCloudAuthErrorResultANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGoogleCloudAuthErrorResultANDROID {
     XrStructureType                  type;
-    void* XR_MAY_ALIAS               next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS               next;
     XrGoogleCloudAuthErrorANDROID    error;
 } XrGoogleCloudAuthErrorResultANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthAsyncANDROID)(XrSession session, const XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthCompleteANDROID)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthAsyncANDROID)(XrSession session, ಧ್ರುವ XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrSetGoogleCloudAuthCompleteANDROID)(XrSession session, XrFutureEXT future, XrFutureCompletionEXT* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrSetGoogleCloudAuthAsyncANDROID(
     XrSession                                   session,
-    const XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo,
+    ಧ್ರುವ XrGoogleCloudAuthInfoBaseHeaderANDROID* authInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrSetGoogleCloudAuthCompleteANDROID(
@@ -14471,97 +14471,97 @@ XR_DEFINE_HANDLE(XrGeospatialTrackerANDROID)
 #define XR_ANDROID_geospatial_SPEC_VERSION 1
 #define XR_ANDROID_GEOSPATIAL_EXTENSION_NAME "XR_ANDROID_geospatial"
 
-typedef enum XrGeospatialTrackerStateANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrGeospatialTrackerStateANDROID {
     XR_GEOSPATIAL_TRACKER_STATE_STOPPED_ANDROID = 0,
     XR_GEOSPATIAL_TRACKER_STATE_RUNNING_ANDROID = 1,
     XR_GEOSPATIAL_TRACKER_STATE_INITIALIZATION_FAILED_ANDROID = 2,
     XR_GEOSPATIAL_TRACKER_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrGeospatialTrackerStateANDROID;
 
-typedef enum XrVPSAvailabilityANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrVPSAvailabilityANDROID {
     XR_VPS_AVAILABILITY_UNAVAILABLE_ANDROID = 1,
     XR_VPS_AVAILABILITY_AVAILABLE_ANDROID = 2,
     XR_VPSAVAILABILITY_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrVPSAvailabilityANDROID;
-typedef XrFlags64 XrGeospatialPoseFlagsANDROID;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrGeospatialPoseFlagsANDROID;
 
 // Flag bits for XrGeospatialPoseFlagsANDROID
-static const XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_ORIENTATION_VALID_BIT_ANDROID = 0x00000001;
-static const XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_POSITION_VALID_BIT_ANDROID = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_ORIENTATION_VALID_BIT_ANDROID = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_POSITION_VALID_BIT_ANDROID = 0x00000002;
 
-typedef struct XrGeospatialPoseANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeospatialPoseANDROID {
     XrQuaternionf    eastUpSouthOrientation;
-    double           latitude;
-    double           longitude;
-    double           altitude;
+    ದ್ವಿಗುಣ           latitude;
+    ದ್ವಿಗುಣ           longitude;
+    ದ್ವಿಗುಣ           altitude;
 } XrGeospatialPoseANDROID;
 
 // XrSystemGeospatialPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemGeospatialPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemGeospatialPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              supportsGeospatial;
 } XrSystemGeospatialPropertiesANDROID;
 
-typedef struct XrGeospatialTrackerCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeospatialTrackerCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrGeospatialTrackerCreateInfoANDROID;
 
-typedef struct XrEventDataGeospatialTrackerStateChangedANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataGeospatialTrackerStateChangedANDROID {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrGeospatialTrackerANDROID         geospatialTracker;
     XrGeospatialTrackerStateANDROID    state;
     XrResult                           initializationResult;
     XrTime                             time;
 } XrEventDataGeospatialTrackerStateChangedANDROID;
 
-typedef struct XrGeospatialPoseFromPoseLocateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeospatialPoseFromPoseLocateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrPosef                     pose;
 } XrGeospatialPoseFromPoseLocateInfoANDROID;
 
-typedef struct XrGeospatialPoseResultANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeospatialPoseResultANDROID {
     XrStructureType                 type;
-    void* XR_MAY_ALIAS              next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS              next;
     XrGeospatialPoseFlagsANDROID    poseFlags;
     XrGeospatialPoseANDROID         geospatialPose;
-    double                          horizontalAccuracy;
-    double                          verticalAccuracy;
-    double                          orientationYawAccuracy;
+    ದ್ವಿಗುಣ                          horizontalAccuracy;
+    ದ್ವಿಗುಣ                          verticalAccuracy;
+    ದ್ವಿಗುಣ                          orientationYawAccuracy;
 } XrGeospatialPoseResultANDROID;
 
-typedef struct XrGeospatialPoseLocateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeospatialPoseLocateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
     XrGeospatialPoseANDROID     geospatialPose;
 } XrGeospatialPoseLocateInfoANDROID;
 
-typedef struct XrVPSAvailabilityCheckCompletionANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrVPSAvailabilityCheckCompletionANDROID {
     XrStructureType             type;
-    void* XR_MAY_ALIAS          next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
     XrVPSAvailabilityANDROID    availability;
 } XrVPSAvailabilityCheckCompletionANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateGeospatialTrackerANDROID)(XrSession session, const XrGeospatialTrackerCreateInfoANDROID* createInfo, XrGeospatialTrackerANDROID* geospatialTrackerOutput);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyGeospatialTrackerANDROID)(XrGeospatialTrackerANDROID geospatialTracker);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseFromPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, const XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo, XrGeospatialPoseResultANDROID* geospatialPoseResult);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, const XrGeospatialPoseLocateInfoANDROID* locateInfo, XrSpaceLocation* location);
-typedef XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityAsyncANDROID)(XrSession session, double latitude, double longitude, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityCompleteANDROID)(XrSession session, XrFutureEXT future, XrVPSAvailabilityCheckCompletionANDROID* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateGeospatialTrackerANDROID)(XrSession session, ಧ್ರುವ XrGeospatialTrackerCreateInfoANDROID* createInfo, XrGeospatialTrackerANDROID* geospatialTrackerOutput);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyGeospatialTrackerANDROID)(XrGeospatialTrackerANDROID geospatialTracker);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseFromPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, ಧ್ರುವ XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo, XrGeospatialPoseResultANDROID* geospatialPoseResult);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, ಧ್ರುವ XrGeospatialPoseLocateInfoANDROID* locateInfo, XrSpaceLocation* location);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityAsyncANDROID)(XrSession session, ದ್ವಿಗುಣ latitude, ದ್ವಿಗುಣ longitude, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityCompleteANDROID)(XrSession session, XrFutureEXT future, XrVPSAvailabilityCheckCompletionANDROID* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateGeospatialTrackerANDROID(
     XrSession                                   session,
-    const XrGeospatialTrackerCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrGeospatialTrackerCreateInfoANDROID* createInfo,
     XrGeospatialTrackerANDROID*                 geospatialTrackerOutput);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeospatialTrackerANDROID(
@@ -14569,18 +14569,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyGeospatialTrackerANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateGeospatialPoseFromPoseANDROID(
     XrGeospatialTrackerANDROID                  geospatialTracker,
-    const XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo,
+    ಧ್ರುವ XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo,
     XrGeospatialPoseResultANDROID*              geospatialPoseResult);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateGeospatialPoseANDROID(
     XrGeospatialTrackerANDROID                  geospatialTracker,
-    const XrGeospatialPoseLocateInfoANDROID*    locateInfo,
+    ಧ್ರುವ XrGeospatialPoseLocateInfoANDROID*    locateInfo,
     XrSpaceLocation*                            location);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityAsyncANDROID(
     XrSession                                   session,
-    double                                      latitude,
-    double                                      longitude,
+    ದ್ವಿಗುಣ                                      latitude,
+    ದ್ವಿಗುಣ                                      longitude,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityCompleteANDROID(
@@ -14596,21 +14596,21 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityCompleteANDROID(
 #define XR_ANDROID_spatial_entity_bound_anchor_SPEC_VERSION 2
 #define XR_ANDROID_SPATIAL_ENTITY_BOUND_ANCHOR_EXTENSION_NAME "XR_ANDROID_spatial_entity_bound_anchor"
 // XrSpatialAnchorParentANDROID extends XrSpatialAnchorCreateInfoEXT
-typedef struct XrSpatialAnchorParentANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorParentANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        parentId;
 } XrSpatialAnchorParentANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialAnchorAttachableComponentsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t attachableComponentCapacityInput, uint32_t* attachableComponentCountOutput, XrSpatialComponentTypeEXT* attachableComponents);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialAnchorAttachableComponentsANDROID)(XrInstance instance, XrSystemId systemId, uint32_t attachable_Component_Capacity_ಒಳಹರಿವು, uint32_t* attachable_Component_ಎಣಿಕೆ_Output, XrSpatialComponentTypeEXT* attachableComponents);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialAnchorAttachableComponentsANDROID(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    attachableComponentCapacityInput,
-    uint32_t*                                   attachableComponentCountOutput,
+    uint32_t                                    attachable_Component_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   attachable_Component_ಎಣಿಕೆ_Output,
     XrSpatialComponentTypeEXT*                  attachableComponents);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14621,16 +14621,16 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialAnchorAttachableComponentsANDRO
 #define XR_ANDROID_spatial_component_subsumed_by_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_COMPONENT_SUBSUMED_BY_EXTENSION_NAME "XR_ANDROID_spatial_component_subsumed_by"
 // XrSpatialDiscoveryUniqueEntitiesFilterANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialDiscoveryUniqueEntitiesFilterANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialDiscoveryUniqueEntitiesFilterANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpatialDiscoveryUniqueEntitiesFilterANDROID;
 
 // XrSpatialComponentSubsumedByListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentSubsumedByListANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentSubsumedByListANDROID {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
-    uint32_t                 subsumedUniqueIdCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
+    uint32_t                 subsumed_Unique_Id_ಎಣಿಕೆ;
     XrSpatialEntityIdEXT*    subsumedUniqueIds;
 } XrSpatialComponentSubsumedByListANDROID;
 
@@ -14640,28 +14640,28 @@ typedef struct XrSpatialComponentSubsumedByListANDROID {
 #define XR_ANDROID_spatial_anchor_space 1
 #define XR_ANDROID_spatial_anchor_space_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_ANCHOR_SPACE_EXTENSION_NAME "XR_ANDROID_spatial_anchor_space"
-typedef struct XrSpatialAnchorSpaceFromIdCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialAnchorSpaceFromIdCreateInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        anchorEntityId;
 } XrSpatialAnchorSpaceFromIdCreateInfoANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceANDROID)(XrSession session, XrSpatialContextEXT spatialContext, const XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpace* anchorSpace);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceFromIdANDROID)(XrSession session, XrSpatialContextEXT spatialContext, const XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo, XrSpace* anchorSpace);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceANDROID)(XrSession session, XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSpatialAnchorCreateInfoEXT* createInfo, XrSpatialEntityIdEXT* anchorEntityId, XrSpace* anchorSpace);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialAnchorSpaceFromIdANDROID)(XrSession session, XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo, XrSpace* anchorSpace);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceANDROID(
     XrSession                                   session,
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialAnchorCreateInfoEXT*         createInfo,
+    ಧ್ರುವ XrSpatialAnchorCreateInfoEXT*         createInfo,
     XrSpatialEntityIdEXT*                       anchorEntityId,
     XrSpace*                                    anchorSpace);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceFromIdANDROID(
     XrSession                                   session,
     XrSpatialContextEXT                         spatialContext,
-    const XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo,
+    ಧ್ರುವ XrSpatialAnchorSpaceFromIdCreateInfoANDROID* createInfo,
     XrSpace*                                    anchorSpace);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14672,64 +14672,64 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceFromIdANDROID(
 #define XR_ANDROID_geospatial_anchor_SPEC_VERSION 1
 #define XR_ANDROID_GEOSPATIAL_ANCHOR_EXTENSION_NAME "XR_ANDROID_geospatial_anchor"
 
-typedef enum XrSurfaceAnchorTypeANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSurfaceAnchorTypeANDROID {
     XR_SURFACE_ANCHOR_TYPE_TERRAIN_ANDROID = 1,
     XR_SURFACE_ANCHOR_TYPE_ROOFTOP_ANDROID = 2,
     XR_SURFACE_ANCHOR_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSurfaceAnchorTypeANDROID;
 // XrSystemGeospatialAnchorPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemGeospatialAnchorPropertiesANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemGeospatialAnchorPropertiesANDROID {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              maxSurfaceAnchorCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              max_Surface_Anchor_ಎಣಿಕೆ;
 } XrSystemGeospatialAnchorPropertiesANDROID;
 
 // XrGeospatialTrackerAnchorTrackingInfoANDROID extends XrGeospatialTrackerCreateInfoANDROID
-typedef struct XrGeospatialTrackerAnchorTrackingInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeospatialTrackerAnchorTrackingInfoANDROID {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    shouldTrackPlanes;
 } XrGeospatialTrackerAnchorTrackingInfoANDROID;
 
-typedef struct XrGeospatialAnchorCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrGeospatialAnchorCreateInfoANDROID {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrGeospatialTrackerANDROID    geospatialTracker;
     XrGeospatialPoseANDROID       geospatialPose;
 } XrGeospatialAnchorCreateInfoANDROID;
 
-typedef struct XrSurfaceAnchorCreateInfoANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSurfaceAnchorCreateInfoANDROID {
     XrStructureType               type;
-    const void* XR_MAY_ALIAS      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrGeospatialTrackerANDROID    geospatialTracker;
     XrSurfaceAnchorTypeANDROID    surfaceAnchorType;
     XrQuaternionf                 eastUpSouthOrientation;
-    double                        latitude;
-    double                        longitude;
-    double                        altitudeRelativeToSurface;
+    ದ್ವಿಗುಣ                        latitude;
+    ದ್ವಿಗುಣ                        longitude;
+    ದ್ವಿಗುಣ                        altitudeRelativeToSurface;
 } XrSurfaceAnchorCreateInfoANDROID;
 
-typedef struct XrSurfaceAnchorCreateCompletionANDROID {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSurfaceAnchorCreateCompletionANDROID {
     XrStructureType         type;
-    void* XR_MAY_ALIAS      next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS      next;
     XrResult                futureResult;
     XrSpatialEntityIdEXT    anchorEntityId;
 } XrSurfaceAnchorCreateCompletionANDROID;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateGeospatialAnchorANDROID)(XrSpatialContextEXT spatialContext, const XrGeospatialAnchorCreateInfoANDROID* createInfo, XrSpatialEntityIdEXT* anchorEntityId);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorAsyncANDROID)(XrSpatialContextEXT spatialContext, const XrSurfaceAnchorCreateInfoANDROID* createInfo, XrFutureEXT* future);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorCompleteANDROID)(XrSpatialContextEXT spatialContext, XrFutureEXT future, XrSurfaceAnchorCreateCompletionANDROID* completion);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateGeospatialAnchorANDROID)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrGeospatialAnchorCreateInfoANDROID* createInfo, XrSpatialEntityIdEXT* anchorEntityId);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorAsyncANDROID)(XrSpatialContextEXT spatialContext, ಧ್ರುವ XrSurfaceAnchorCreateInfoANDROID* createInfo, XrFutureEXT* future);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSurfaceAnchorCompleteANDROID)(XrSpatialContextEXT spatialContext, XrFutureEXT future, XrSurfaceAnchorCreateCompletionANDROID* completion);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateGeospatialAnchorANDROID(
     XrSpatialContextEXT                         spatialContext,
-    const XrGeospatialAnchorCreateInfoANDROID*  createInfo,
+    ಧ್ರುವ XrGeospatialAnchorCreateInfoANDROID*  createInfo,
     XrSpatialEntityIdEXT*                       anchorEntityId);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSurfaceAnchorAsyncANDROID(
     XrSpatialContextEXT                         spatialContext,
-    const XrSurfaceAnchorCreateInfoANDROID*     createInfo,
+    ಧ್ರುವ XrSurfaceAnchorCreateInfoANDROID*     createInfo,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSurfaceAnchorCompleteANDROID(
@@ -14746,142 +14746,142 @@ XR_DEFINE_HANDLE(XrSpatialContainerEXT)
 #define XR_EXT_spatial_container_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_CONTAINER_EXTENSION_NAME "XR_EXT_spatial_container"
 
-typedef enum XrSpatialContainerGraphicsPresentationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialContainerGraphicsPresentationEXT {
     XR_SPATIAL_CONTAINER_GRAPHICS_PRESENTATION_SELF_RENDERING_EXT = 1000813000,
     XR_SPATIAL_CONTAINER_GRAPHICS_PRESENTATION_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerGraphicsPresentationEXT;
 
-typedef enum XrSpatialContainerBoundsModeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialContainerBoundsModeEXT {
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_BOUNDED_EXT = 1,
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_IMMERSIVE_EXT = 2,
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerBoundsModeEXT;
 
-typedef enum XrSpatialContainerVolumeClippingEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialContainerVolumeClippingEXT {
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_NONE_EXT = 0,
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_STRICT_EXT = 1,
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerVolumeClippingEXT;
 // XrSessionCreateInfoSpatialContainersEXT extends XrSessionCreateInfo
-typedef struct XrSessionCreateInfoSpatialContainersEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSessionCreateInfoSpatialContainersEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSessionCreateInfoSpatialContainersEXT;
 
-typedef struct XrSpatialContainerCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerCreateInfoEXT {
     XrStructureType                              type;
-    const void* XR_MAY_ALIAS                     next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                     next;
     XrSpatialContainerGraphicsPresentationEXT    graphicsPresentation;
     XrExtent3Df                                  suggestedBounds;
 } XrSpatialContainerCreateInfoEXT;
 
-typedef struct XrSpatialContainerSpaceCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerSpaceCreateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerSpaceCreateInfoEXT;
 
-typedef struct XrEventDataSpatialContainerClosedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialContainerClosedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerClosedEXT;
 
 // XrSystemSpatialContainerPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemSpatialContainerPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSystemSpatialContainerPropertiesEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
-    uint32_t              maxSpatialContainerCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
+    uint32_t              max_Spatial_Container_ಎಣಿಕೆ;
     XrBool32              supportsBounded;
     XrBool32              supportsImmersive;
 } XrSystemSpatialContainerPropertiesEXT;
 
-typedef struct XrSpatialContainerBoundsEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerBoundsEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrExtent3Df           bounds;
     XrBool32              infiniteBounds;
 } XrSpatialContainerBoundsEXT;
 
-typedef struct XrEventDataSpatialContainerBoundsChangedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialContainerBoundsChangedEXT {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrSpatialContainerEXT              spatialContainer;
     XrExtent3Df                        bounds;
     XrBool32                           infiniteBounds;
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrEventDataSpatialContainerBoundsChangedEXT;
 
-typedef struct XrSpatialContainerBoundsGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerBoundsGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpatialContainerBoundsGetInfoEXT;
 
-typedef struct XrSpatialContainerStateGetInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerStateGetInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSpatialContainerStateGetInfoEXT;
 
-typedef struct XrSpatialContainerVisibleRequestInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerVisibleRequestInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32                    visible;
 } XrSpatialContainerVisibleRequestInfoEXT;
 
-typedef struct XrEventDataSpatialContainerVisibleChangedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialContainerVisibleChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrBool32                    visible;
 } XrEventDataSpatialContainerVisibleChangedEXT;
 
-typedef struct XrEventDataSpatialContainerVisibleRequestDeniedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialContainerVisibleRequestDeniedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerVisibleRequestDeniedEXT;
 
-typedef struct XrEventDataSpatialContainerInteractableChangedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialContainerInteractableChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrBool32                    interactable;
 } XrEventDataSpatialContainerInteractableChangedEXT;
 
-typedef struct XrSpatialContainerBoundsModeRequestInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerBoundsModeRequestInfoEXT {
     XrStructureType                    type;
-    const void* XR_MAY_ALIAS           next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS           next;
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrSpatialContainerBoundsModeRequestInfoEXT;
 
-typedef struct XrEventDataSpatialContainerBoundsModeRequestDeniedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataSpatialContainerBoundsModeRequestDeniedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerBoundsModeRequestDeniedEXT;
 
-typedef struct XrSpatialContainerStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerStateEXT {
     XrStructureType                    type;
-    void* XR_MAY_ALIAS                 next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                 next;
     XrBool32                           visible;
     XrBool32                           interactable;
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrSpatialContainerStateEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerEXT)(XrSession session, const XrSpatialContainerCreateInfoEXT* createInfo, XrSpatialContainerEXT* spatialContainer);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialContainerEXT)(XrSpatialContainerEXT spatialContainer);
-typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerSpaceEXT)(XrSession session, const XrSpatialContainerSpaceCreateInfoEXT* createInfo, XrSpace* space);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerVisibleEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerVisibleRequestInfoEXT* info);
-typedef XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerBoundsModeEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerBoundsModeRequestInfoEXT* info);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerBoundsEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerBoundsGetInfoEXT* getInfo, XrSpatialContainerBoundsEXT* bounds);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerStateEXT)(XrSpatialContainerEXT spatialContainer, const XrSpatialContainerStateGetInfoEXT* getInfo, XrSpatialContainerStateEXT* state);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSpatialContainerGraphicsPresentationsEXT)(XrInstance instance, XrSystemId systemId, uint32_t graphicsPresentationCapacityInput, uint32_t* graphicsPresentationCountOutput, XrSpatialContainerGraphicsPresentationEXT* graphicsPresentations);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerEXT)(XrSession session, ಧ್ರುವ XrSpatialContainerCreateInfoEXT* createInfo, XrSpatialContainerEXT* spatialContainer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroySpatialContainerEXT)(XrSpatialContainerEXT spatialContainer);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateSpatialContainerSpaceEXT)(XrSession session, ಧ್ರುವ XrSpatialContainerSpaceCreateInfoEXT* createInfo, XrSpace* space);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerVisibleEXT)(XrSpatialContainerEXT spatialContainer, ಧ್ರುವ XrSpatialContainerVisibleRequestInfoEXT* info);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrRequestSpatialContainerBoundsModeEXT)(XrSpatialContainerEXT spatialContainer, ಧ್ರುವ XrSpatialContainerBoundsModeRequestInfoEXT* info);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerBoundsEXT)(XrSpatialContainerEXT spatialContainer, ಧ್ರುವ XrSpatialContainerBoundsGetInfoEXT* getInfo, XrSpatialContainerBoundsEXT* bounds);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetSpatialContainerStateEXT)(XrSpatialContainerEXT spatialContainer, ಧ್ರುವ XrSpatialContainerStateGetInfoEXT* getInfo, XrSpatialContainerStateEXT* state);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSupportedSpatialContainerGraphicsPresentationsEXT)(XrInstance instance, XrSystemId systemId, uint32_t graphics_Presentation_Capacity_ಒಳಹರಿವು, uint32_t* graphics_Presentation_ಎಣಿಕೆ_Output, XrSpatialContainerGraphicsPresentationEXT* graphicsPresentations);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContainerEXT(
     XrSession                                   session,
-    const XrSpatialContainerCreateInfoEXT*      createInfo,
+    ಧ್ರುವ XrSpatialContainerCreateInfoEXT*      createInfo,
     XrSpatialContainerEXT*                      spatialContainer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialContainerEXT(
@@ -14889,32 +14889,32 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialContainerEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialContainerSpaceEXT(
     XrSession                                   session,
-    const XrSpatialContainerSpaceCreateInfoEXT* createInfo,
+    ಧ್ರುವ XrSpatialContainerSpaceCreateInfoEXT* createInfo,
     XrSpace*                                    space);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestSpatialContainerVisibleEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerVisibleRequestInfoEXT* info);
+    ಧ್ರುವ XrSpatialContainerVisibleRequestInfoEXT* info);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrRequestSpatialContainerBoundsModeEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerBoundsModeRequestInfoEXT* info);
+    ಧ್ರುವ XrSpatialContainerBoundsModeRequestInfoEXT* info);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialContainerBoundsEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerBoundsGetInfoEXT*   getInfo,
+    ಧ್ರುವ XrSpatialContainerBoundsGetInfoEXT*   getInfo,
     XrSpatialContainerBoundsEXT*                bounds);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialContainerStateEXT(
     XrSpatialContainerEXT                       spatialContainer,
-    const XrSpatialContainerStateGetInfoEXT*    getInfo,
+    ಧ್ರುವ XrSpatialContainerStateGetInfoEXT*    getInfo,
     XrSpatialContainerStateEXT*                 state);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedSpatialContainerGraphicsPresentationsEXT(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    graphicsPresentationCapacityInput,
-    uint32_t*                                   graphicsPresentationCountOutput,
+    uint32_t                                    graphics_Presentation_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   graphics_Presentation_ಎಣಿಕೆ_Output,
     XrSpatialContainerGraphicsPresentationEXT*  graphicsPresentations);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -14924,95 +14924,95 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedSpatialContainerGraphicsPrese
 #define XR_EXT_spatial_container_self_rendering 1
 #define XR_EXT_spatial_container_self_rendering_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_CONTAINER_SELF_RENDERING_EXTENSION_NAME "XR_EXT_spatial_container_self_rendering"
-typedef struct XrSpatialContainerViewLocateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerViewLocateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
     XrSpace                     space;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerViewLocateInfoEXT;
 
-typedef struct XrSpatialContainerViewsLocateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerViewsLocateInfoEXT {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrTime                                        displayTime;
-    uint32_t                                      viewLocateInfoCount;
-    const XrSpatialContainerViewLocateInfoEXT*    viewLocateInfos;
+    uint32_t                                      view_Locate_Info_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialContainerViewLocateInfoEXT*    viewLocateInfos;
 } XrSpatialContainerViewsLocateInfoEXT;
 
-typedef struct XrSpatialContainerViewStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerViewStateEXT {
     XrStructureType            type;
-    void* XR_MAY_ALIAS         next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrViewStateFlags           viewStateFlags;
     XrViewConfigurationType    viewConfigurationType;
     XrBool32                   shouldSubmitLayers;
     XrExtent2Di                recommendedImageExtent;
 } XrSpatialContainerViewStateEXT;
 
-typedef struct XrSpatialContainerLayerEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerLayerEXT {
     XrStructureType                               type;
-    const void* XR_MAY_ALIAS                      next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                      next;
     XrSpatialContainerEXT                         spatialContainer;
     XrBool32                                      retainPreviousSubmission;
-    uint32_t                                      layerCount;
-    const XrCompositionLayerBaseHeader* const*    layers;
+    uint32_t                                      layer_ಎಣಿಕೆ;
+    ಧ್ರುವ XrCompositionLayerBaseHeader* ಧ್ರುವ*    layers;
 } XrSpatialContainerLayerEXT;
 
 // XrSpatialContainerLayerFrameEndInfoEXT extends XrFrameEndInfo
-typedef struct XrSpatialContainerLayerFrameEndInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerLayerFrameEndInfoEXT {
     XrStructureType                      type;
-    const void* XR_MAY_ALIAS             next;
-    uint32_t                             containerLayerCount;
-    const XrSpatialContainerLayerEXT*    containerLayers;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS             next;
+    uint32_t                             container_Layer_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialContainerLayerEXT*    containerLayers;
 } XrSpatialContainerLayerFrameEndInfoEXT;
 
-typedef struct XrSpatialContainerBeginInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerBeginInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrViewConfigurationType     primaryViewConfigurationType;
 } XrSpatialContainerBeginInfoEXT;
 
-typedef struct XrSpatialContainerEndInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerEndInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerEndInfoEXT;
 
 // XrSpatialContainerCompositionLayerViewConfigurationEXT extends XrCompositionLayerProjection
-typedef struct XrSpatialContainerCompositionLayerViewConfigurationEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerCompositionLayerViewConfigurationEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
 } XrSpatialContainerCompositionLayerViewConfigurationEXT;
 
 // XrSpatialContainerLayerVolumeClippingEXT extends XrSpatialContainerLayerEXT
-typedef struct XrSpatialContainerLayerVolumeClippingEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialContainerLayerVolumeClippingEXT {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS               next;
     XrSpatialContainerVolumeClippingEXT    volumeClipping;
 } XrSpatialContainerLayerVolumeClippingEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrBeginSpatialContainerRenderingEXT)(XrSession session, const XrSpatialContainerBeginInfoEXT* beginInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrEndSpatialContainerRenderingEXT)(XrSession session, const XrSpatialContainerEndInfoEXT* endInfo);
-typedef XrResult (XRAPI_PTR *PFN_xrLocateSpatialContainerViewsEXT)(XrSession session, const XrSpatialContainerViewsLocateInfoEXT* locateInfo, uint32_t viewStateCount, XrSpatialContainerViewStateEXT* viewStates, uint32_t viewCount, XrView* views);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrBeginSpatialContainerRenderingEXT)(XrSession session, ಧ್ರುವ XrSpatialContainerBeginInfoEXT* beginInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEndSpatialContainerRenderingEXT)(XrSession session, ಧ್ರುವ XrSpatialContainerEndInfoEXT* endInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrLocateSpatialContainerViewsEXT)(XrSession session, ಧ್ರುವ XrSpatialContainerViewsLocateInfoEXT* locateInfo, uint32_t view_State_ಎಣಿಕೆ, XrSpatialContainerViewStateEXT* viewStates, uint32_t view_ಎಣಿಕೆ, XrView* views);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrBeginSpatialContainerRenderingEXT(
     XrSession                                   session,
-    const XrSpatialContainerBeginInfoEXT*       beginInfo);
+    ಧ್ರುವ XrSpatialContainerBeginInfoEXT*       beginInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEndSpatialContainerRenderingEXT(
     XrSession                                   session,
-    const XrSpatialContainerEndInfoEXT*         endInfo);
+    ಧ್ರುವ XrSpatialContainerEndInfoEXT*         endInfo);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpatialContainerViewsEXT(
     XrSession                                   session,
-    const XrSpatialContainerViewsLocateInfoEXT* locateInfo,
-    uint32_t                                    viewStateCount,
+    ಧ್ರುವ XrSpatialContainerViewsLocateInfoEXT* locateInfo,
+    uint32_t                                    view_State_ಎಣಿಕೆ,
     XrSpatialContainerViewStateEXT*             viewStates,
-    uint32_t                                    viewCount,
+    uint32_t                                    view_ಎಣಿಕೆ,
     XrView*                                     views);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -15022,20 +15022,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpatialContainerViewsEXT(
 #define XR_EXT_interaction_profile_battery_state_display 1
 #define XR_EXT_interaction_profile_battery_state_display_SPEC_VERSION 1
 #define XR_EXT_INTERACTION_PROFILE_BATTERY_STATE_DISPLAY_EXTENSION_NAME "XR_EXT_interaction_profile_battery_state_display"
-typedef XrFlags64 XrBatteryStateDisplayStateFlagsEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ XrFlags64 XrBatteryStateDisplayStateFlagsEXT;
 
 // Flag bits for XrBatteryStateDisplayStateFlagsEXT
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_VALID_BIT_EXT = 0x00000001;
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_CHARGING_BIT_EXT = 0x00000002;
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_PLUGGED_IN_BIT_EXT = 0x00000004;
-static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_NO_BATTERY_BIT_EXT = 0x00000008;
+ಸ್ಥಿರ ಧ್ರುವ XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_VALID_BIT_EXT = 0x00000001;
+ಸ್ಥಿರ ಧ್ರುವ XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_CHARGING_BIT_EXT = 0x00000002;
+ಸ್ಥಿರ ಧ್ರುವ XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_PLUGGED_IN_BIT_EXT = 0x00000004;
+ಸ್ಥಿರ ಧ್ರುವ XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_NO_BATTERY_BIT_EXT = 0x00000008;
 
 // XrBatteryStateDisplayEXT extends XrInteractionProfileState
-typedef struct XrBatteryStateDisplayEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrBatteryStateDisplayEXT {
     XrStructureType                       type;
-    void* XR_MAY_ALIAS                    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                    next;
     XrBatteryStateDisplayStateFlagsEXT    stateFlags;
-    float                                 batteryLevel;
+    ಭಿನ್ನ                                 batteryLevel;
 } XrBatteryStateDisplayEXT;
 
 
@@ -15044,17 +15044,17 @@ typedef struct XrBatteryStateDisplayEXT {
 #define XR_EXT_loader_init_properties 1
 #define XR_EXT_loader_init_properties_SPEC_VERSION 1
 #define XR_EXT_LOADER_INIT_PROPERTIES_EXTENSION_NAME "XR_EXT_loader_init_properties"
-typedef struct XrLoaderInitPropertyValueEXT {
-    const char*    name;
-    const char*    value;
-} XrLoaderInitPropertyValueEXT;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ Xr_Loader_Init_Property_ಮೌಲ್ಯ_EXT {
+    ಧ್ರುವ ವರ್ಣ*    name;
+    ಧ್ರುವ ವರ್ಣ*    ಮೌಲ್ಯ;
+} Xr_Loader_Init_Property_ಮೌಲ್ಯ_EXT;
 
 // XrLoaderInitInfoPropertiesEXT extends XrLoaderInitInfoBaseHeaderKHR
-typedef struct XrLoaderInitInfoPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrLoaderInitInfoPropertiesEXT {
     XrStructureType                        type;
-    const void* XR_MAY_ALIAS               next;
-    uint32_t                               propertyValueCount;
-    const XrLoaderInitPropertyValueEXT*    propertyValues;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS               next;
+    uint32_t                               property_ಮೌಲ್ಯ_ಎಣಿಕೆ;
+    ಧ್ರುವ Xr_Loader_Init_Property_ಮೌಲ್ಯ_EXT*    property_ಮೌಲ್ಯಗಳು;
 } XrLoaderInitInfoPropertiesEXT;
 
 
@@ -15063,9 +15063,9 @@ typedef struct XrLoaderInitInfoPropertiesEXT {
 #define XR_EXT_view_configuration_views_change 1
 #define XR_EXT_view_configuration_views_change_SPEC_VERSION 1
 #define XR_EXT_VIEW_CONFIGURATION_VIEWS_CHANGE_EXTENSION_NAME "XR_EXT_view_configuration_views_change"
-typedef struct XrEventDataViewConfigurationViewsChangedEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrEventDataViewConfigurationViewsChangedEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSystemId                  systemId;
     XrViewConfigurationType     viewConfigurationType;
 } XrEventDataViewConfigurationViewsChangedEXT;
@@ -15087,28 +15087,28 @@ XR_DEFINE_ATOM(XrSpatialArchetypeIdEXT)
 #define XR_EXT_spatial_entity_archetypes_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ENTITY_ARCHETYPES_EXTENSION_NAME "XR_EXT_spatial_entity_archetypes"
 // XrSpatialFilterArchetypeEXT extends XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialFilterArchetypeEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialFilterArchetypeEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrSpatialArchetypeIdEXT     archetype;
 } XrSpatialFilterArchetypeEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypesEXT)(XrSpatialSnapshotEXT snapshot, uint32_t archetypeCapacityInput, uint32_t* archetypeCountOutput, XrSpatialArchetypeIdEXT* archetypes);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypeComponentTypesEXT)(XrSpatialSnapshotEXT snapshot, XrSpatialArchetypeIdEXT archetype, uint32_t componentTypeCapacityInput, uint32_t* componentTypeCountOutput, XrSpatialComponentTypeEXT* componentTypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypesEXT)(XrSpatialSnapshotEXT snapshot, uint32_t archetype_Capacity_ಒಳಹರಿವು, uint32_t* archetype_ಎಣಿಕೆ_Output, XrSpatialArchetypeIdEXT* archetypes);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSpatialArchetypeComponentTypesEXT)(XrSpatialSnapshotEXT snapshot, XrSpatialArchetypeIdEXT archetype, uint32_t component_Type_Capacity_ಒಳಹರಿವು, uint32_t* component_Type_ಎಣಿಕೆ_Output, XrSpatialComponentTypeEXT* componentTypes);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialArchetypesEXT(
     XrSpatialSnapshotEXT                        snapshot,
-    uint32_t                                    archetypeCapacityInput,
-    uint32_t*                                   archetypeCountOutput,
+    uint32_t                                    archetype_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   archetype_ಎಣಿಕೆ_Output,
     XrSpatialArchetypeIdEXT*                    archetypes);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialArchetypeComponentTypesEXT(
     XrSpatialSnapshotEXT                        snapshot,
     XrSpatialArchetypeIdEXT                     archetype,
-    uint32_t                                    componentTypeCapacityInput,
-    uint32_t*                                   componentTypeCountOutput,
+    uint32_t                                    component_Type_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   component_Type_ಎಣಿಕೆ_Output,
     XrSpatialComponentTypeEXT*                  componentTypes);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -15119,7 +15119,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialArchetypeComponentTypesEXT(
 #define XR_EXT_spatial_plane_semantic_label2_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PLANE_SEMANTIC_LABEL2_EXTENSION_NAME "XR_EXT_spatial_plane_semantic_label2"
 
-typedef enum XrSpatialPlaneSemanticLabel2EXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrSpatialPlaneSemanticLabel2EXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_FLOOR_EXT = 2,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_WALL_EXT = 3,
@@ -15130,19 +15130,19 @@ typedef enum XrSpatialPlaneSemanticLabel2EXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_2EXT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneSemanticLabel2EXT;
 // XrSpatialComponentPlaneSemanticLabel2ListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneSemanticLabel2ListEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialComponentPlaneSemanticLabel2ListEXT {
     XrStructureType                     type;
-    void* XR_MAY_ALIAS                  next;
-    uint32_t                            semanticLabelCount;
+    ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
+    uint32_t                            semantic_Label_ಎಣಿಕೆ;
     XrSpatialPlaneSemanticLabel2EXT*    semanticLabels;
 } XrSpatialComponentPlaneSemanticLabel2ListEXT;
 
 // XrSpatialFeaturePlaneSemanticLabel2SubsetEXT extends XrSpatialCapabilityConfigurationPlaneTrackingEXT
-typedef struct XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
     XrStructureType                           type;
-    const void* XR_MAY_ALIAS                  next;
-    uint32_t                                  semanticLabelCount;
-    const XrSpatialPlaneSemanticLabel2EXT*    semanticLabels;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS                  next;
+    uint32_t                                  semantic_Label_ಎಣಿಕೆ;
+    ಧ್ರುವ XrSpatialPlaneSemanticLabel2EXT*    semanticLabels;
 } XrSpatialFeaturePlaneSemanticLabel2SubsetEXT;
 
 
@@ -15151,20 +15151,20 @@ typedef struct XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
 #define XR_EXT_enumerate_swapchain_formats2 1
 #define XR_EXT_enumerate_swapchain_formats2_SPEC_VERSION 1
 #define XR_EXT_ENUMERATE_SWAPCHAIN_FORMATS2_EXTENSION_NAME "XR_EXT_enumerate_swapchain_formats2"
-typedef struct XrSwapchainFormatsEnumerateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrSwapchainFormatsEnumerateInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrSwapchainFormatsEnumerateInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats2EXT)(XrSession session, XrSwapchainFormatsEnumerateInfoEXT* enumerateInfo, uint32_t formatCapacityInput, uint32_t* formatCountOutput, int64_t* formats);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateSwapchainFormats2EXT)(XrSession session, XrSwapchainFormatsEnumerateInfoEXT* enumerateInfo, uint32_t format_Capacity_ಒಳಹರಿವು, uint32_t* format_ಎಣಿಕೆ_Output, int64_t* formats);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSwapchainFormats2EXT(
     XrSession                                   session,
     XrSwapchainFormatsEnumerateInfoEXT*         enumerateInfo,
-    uint32_t                                    formatCapacityInput,
-    uint32_t*                                   formatCountOutput,
+    uint32_t                                    format_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   format_ಎಣಿಕೆ_Output,
     int64_t*                                    formats);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
@@ -15176,60 +15176,60 @@ XR_DEFINE_HANDLE(XrAppConsumedSwapchainEXT)
 #define XR_EXT_app_consumed_swapchain_SPEC_VERSION 1
 #define XR_EXT_APP_CONSUMED_SWAPCHAIN_EXTENSION_NAME "XR_EXT_app_consumed_swapchain"
 
-typedef enum XrAppConsumedSwapchainKindEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ XrAppConsumedSwapchainKindEXT {
     XR_APP_CONSUMED_SWAPCHAIN_KIND_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrAppConsumedSwapchainKindEXT;
-typedef struct XrAppConsumedSwapchainCreateInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAppConsumedSwapchainCreateInfoEXT {
     XrStructureType                  type;
-    const void* XR_MAY_ALIAS         next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS         next;
     XrAppConsumedSwapchainKindEXT    kind;
     XrSwapchainUsageFlags            usageFlags;
     int64_t                          format;
 } XrAppConsumedSwapchainCreateInfoEXT;
 
-typedef struct XrAppConsumedSwapchainPropertiesEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAppConsumedSwapchainPropertiesEXT {
     XrStructureType          type;
-    void* XR_MAY_ALIAS       next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS       next;
     XrSwapchainUsageFlags    usageFlags;
     int64_t                  format;
-    uint32_t                 sampleCount;
+    uint32_t                 sample_ಎಣಿಕೆ;
     uint32_t                 width;
     uint32_t                 height;
-    uint32_t                 faceCount;
+    uint32_t                 face_ಎಣಿಕೆ;
     uint32_t                 arraySize;
-    uint32_t                 mipCount;
+    uint32_t                 mip_ಎಣಿಕೆ;
 } XrAppConsumedSwapchainPropertiesEXT;
 
-typedef struct XrAppConsumedSwapchainImageAcquireInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAppConsumedSwapchainImageAcquireInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrAppConsumedSwapchainImageAcquireInfoEXT;
 
-typedef struct XrAppConsumedSwapchainImageStateEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAppConsumedSwapchainImageStateEXT {
     XrStructureType       type;
-    void* XR_MAY_ALIAS    next;
+    ಶೂನ್ಯ* XR_MAY_ALIAS    next;
     XrBool32              ready;
     XrBool32              unchanged;
     uint32_t              imageIndex;
 } XrAppConsumedSwapchainImageStateEXT;
 
-typedef struct XrAppConsumedSwapchainImageReleaseInfoEXT {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XrAppConsumedSwapchainImageReleaseInfoEXT {
     XrStructureType             type;
-    const void* XR_MAY_ALIAS    next;
+    ಧ್ರುವ ಶೂನ್ಯ* XR_MAY_ALIAS    next;
 } XrAppConsumedSwapchainImageReleaseInfoEXT;
 
-typedef XrResult (XRAPI_PTR *PFN_xrCreateAppConsumedSwapchainEXT)(XrSession session, const XrAppConsumedSwapchainCreateInfoEXT* createInfo, XrAppConsumedSwapchainEXT* appConsumedSwapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrDestroyAppConsumedSwapchainEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAppConsumedSwapchainPropertiesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, XrAppConsumedSwapchainPropertiesEXT* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateAppConsumedSwapchainImagesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, uint32_t imageCapacityInput, uint32_t* imageCountOutput, XrSwapchainImageBaseHeader* images);
-typedef XrResult (XRAPI_PTR *PFN_xrAcquireAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, const XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo, XrAppConsumedSwapchainImageStateEXT* image);
-typedef XrResult (XRAPI_PTR *PFN_xrReleaseAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, const XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrCreateAppConsumedSwapchainEXT)(XrSession session, ಧ್ರುವ XrAppConsumedSwapchainCreateInfoEXT* createInfo, XrAppConsumedSwapchainEXT* appConsumedSwapchain);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrDestroyAppConsumedSwapchainEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrGetAppConsumedSwapchainPropertiesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, XrAppConsumedSwapchainPropertiesEXT* properties);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrEnumerateAppConsumedSwapchainImagesEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, uint32_t image_Capacity_ಒಳಹರಿವು, uint32_t* image_ಎಣಿಕೆ_Output, XrSwapchainImageBaseHeader* images);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrAcquireAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, ಧ್ರುವ XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo, XrAppConsumedSwapchainImageStateEXT* image);
+ಪ್ರಕಾರನಿರ್ದೇಶ XrResult (XRAPI_PTR *PFN_xrReleaseAppConsumedSwapchainImageEXT)(XrAppConsumedSwapchainEXT appConsumedSwapchain, ಧ್ರುವ XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateAppConsumedSwapchainEXT(
     XrSession                                   session,
-    const XrAppConsumedSwapchainCreateInfoEXT*  createInfo,
+    ಧ್ರುವ XrAppConsumedSwapchainCreateInfoEXT*  createInfo,
     XrAppConsumedSwapchainEXT*                  appConsumedSwapchain);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrDestroyAppConsumedSwapchainEXT(
@@ -15241,18 +15241,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetAppConsumedSwapchainPropertiesEXT(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateAppConsumedSwapchainImagesEXT(
     XrAppConsumedSwapchainEXT                   appConsumedSwapchain,
-    uint32_t                                    imageCapacityInput,
-    uint32_t*                                   imageCountOutput,
+    uint32_t                                    image_Capacity_ಒಳಹರಿವು,
+    uint32_t*                                   image_ಎಣಿಕೆ_Output,
     XrSwapchainImageBaseHeader*                 images);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrAcquireAppConsumedSwapchainImageEXT(
     XrAppConsumedSwapchainEXT                   appConsumedSwapchain,
-    const XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo,
+    ಧ್ರುವ XrAppConsumedSwapchainImageAcquireInfoEXT* acquireInfo,
     XrAppConsumedSwapchainImageStateEXT*        image);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrReleaseAppConsumedSwapchainImageEXT(
     XrAppConsumedSwapchainEXT                   appConsumedSwapchain,
-    const XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
+    ಧ್ರುವ XrAppConsumedSwapchainImageReleaseInfoEXT* releaseInfo);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 

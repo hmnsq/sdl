@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
 
@@ -25,27 +25,27 @@ extern "C" {
 #define VK_KHR_XCB_SURFACE_SPEC_VERSION   6
 #define VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
 
-typedef VkFlags VkXcbSurfaceCreateFlagsKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ VkFlags VkXcbSurfaceCreateFlagsKHR;
 
-typedef struct VkXcbSurfaceCreateInfoKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ VkXcbSurfaceCreateInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
+    ಧ್ರುವ ಶೂನ್ಯ*                   pNext;
     VkXcbSurfaceCreateFlagsKHR    flags;
     xcb_connection_t*             connection;
     xcb_window_t                  window;
 } VkXcbSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateXcbSurfaceKHR)(VkInstance instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, xcb_connection_t* connection, xcb_visualid_t visual_id);
+ಪ್ರಕಾರನಿರ್ದೇಶ VkResult (VKAPI_PTR *PFN_vkCreateXcbSurfaceKHR)(VkInstance instance, ಧ್ರುವ VkXcbSurfaceCreateInfoKHR* pCreateInfo, ಧ್ರುವ VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರನಿರ್ದೇಶ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, xcb_connection_t* connection, xcb_visualid_t visual_id);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateXcbSurfaceKHR(
     VkInstance                                  instance,
-    const VkXcbSurfaceCreateInfoKHR*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಧ್ರುವ VkXcbSurfaceCreateInfoKHR*            pCreateInfo,
+    ಧ್ರುವ VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES

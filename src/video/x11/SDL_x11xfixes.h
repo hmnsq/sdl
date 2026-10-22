@@ -19,7 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_x11xfixes_h_
 #define SDL_x11xfixes_h_
@@ -28,12 +28,12 @@
 
 #define X11_BARRIER_HANDLED_BY_EVENT 1
 
-extern void X11_InitXfixes(SDL_VideoDevice *_this);
-extern bool X11_XfixesIsInitialized(void);
-extern bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags);
-extern void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
-extern int X11_GetXFixesSelectionNotifyEvent(void);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_InitXfixes(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool X11_XfixesIsInitialized(ಶೂನ್ಯ);
+ಬಾಹ್ಯ bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, ಧ್ರುವ SDL_Rect *rect, ಪೂರ್ಣಾಙ್ಕ flags);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ X11_GetXFixesSelectionNotifyEvent(ಶೂನ್ಯ);
 #endif // SDL_VIDEO_DRIVER_X11_XFIXES
 
 #endif // SDL_x11xfixes_h_

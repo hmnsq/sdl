@@ -12,7 +12,7 @@
 #ifndef __legacy_egl_h_
 #define __legacy_egl_h_
 
-#include <EGL/egl.h>
-#include <GLES/gl.h>
+#ಅನ್ತರ್ಭಾವ <EGL/egl.h>
+#ಅನ್ತರ್ಭಾವ <GLES/gl.h>
 
 #endif /* __legacy_egl_h_ */

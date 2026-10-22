@@ -22,14 +22,14 @@
 #ifndef SDL_BKEYBOARD_H
 #define SDL_BKEYBOARD_H
 
-#include <SupportDefs.h>
+#ಅನ್ತರ್ಭಾವ <SupportDefs.h>
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
-extern void HAIKU_InitOSKeymap(void);
-extern SDL_Scancode HAIKU_GetScancodeFromBeKey(int32 bkey);
+ಬಾಹ್ಯ ಶೂನ್ಯ HAIKU_InitOSKeymap(ಶೂನ್ಯ);
+ಬಾಹ್ಯ SDL_Scancode HAIKU_Get_Scancode_From_Be_ಕೀಲಿ(int32 bkey);
 
 #ifdef __cplusplus
 }

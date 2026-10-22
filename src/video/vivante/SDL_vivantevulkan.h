@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 /*
  * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
@@ -28,23 +28,23 @@
 #ifndef SDL_vivantevulkan_h_
 #define SDL_vivantevulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_vulkan_internal.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#ಯದಿ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
-extern bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+ಬಾಹ್ಯ bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *path);
+ಬಾಹ್ಯ ಶೂನ್ಯ VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ವರ್ಣ ಧ್ರುವ * ಧ್ರುವ *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ಎಣಿಕೆ);
+ಬಾಹ್ಯ bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                  SDL_Window *window,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ಧ್ರುವ ಸಂರಚನಾ VkAllocationCallbacks *allocator,
                                  VkSurfaceKHR *surface);
-extern void VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ಬಾಹ್ಯ ಶೂನ್ಯ VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator);
+                                   ಧ್ರುವ ಸಂರಚನಾ VkAllocationCallbacks *allocator);
 
 #endif
 

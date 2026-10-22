@@ -9,32 +9,32 @@
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
 #ifdef __GNUC__
-#pragma GCC diagnostic push
+#pragma GCC diagnostic ತಳ್ಳು
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
 #define USE_SDL
-#include "openvr_capi.h"
+#ಅನ್ತರ್ಭಾವ "openvr_capi.h"
 
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#pragma GCC diagnostic ತೆಗೆ
 #endif
 
-#include <stdint.h>
+#ಅನ್ತರ್ಭಾವ <stdint.h>
 
 #ifndef SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#ಅನ್ತರ್ಭಾವ <GLES3/gl3.h>
+#ಅನ್ತರ್ಭಾವ <GLES3/gl32.h>
+#ಅನ್ತರ್ಭಾವ <EGL/egl.h>
+#ಅನ್ತರ್ಭಾವ <GLES2/gl2.h>
+#ಅನ್ತರ್ಭಾವ <GLES2/gl2ext.h>
+#ಅನ್ತರ್ಭಾವ <GLES2/gl2ext.h>
 
 #endif
 
 
-struct SDL_WindowData
+ಸಂರಚನಾ SDL_WindowData
 {
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
     SDL_Window *window;
@@ -42,44 +42,44 @@ struct SDL_WindowData
     HWND parent;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
+#ಅನ್ಯಥಾ
+    ಪೂರ್ಣಾಙ್ಕ dummy;
 #endif
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+ಸಂರಚನಾ SDL_VideoData {
+    ಶೂನ್ಯ * openVRLIB;
     intptr_t vrtoken;
     intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    ಧ್ರುವ ವರ್ಣ *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ಧ್ರುವ ವರ್ಣ *pchInterfaceVersion, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    ಪೂರ್ಣಾಙ್ಕ is_buffer_rendering;
 
-    unsigned int overlaytexture;
+    unsigned ಪೂರ್ಣಾಙ್ಕ overlaytexture;
 
-    unsigned int fbo, rbo;
+    unsigned ಪೂರ್ಣಾಙ್ಕ fbo, rbo;
 
-    int saved_texture_state;
+    ಪೂರ್ಣಾಙ್ಕ saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    ಸಂರಚನಾ VR_IVRSystem_FnTable *oSystem;
+    ಸಂರಚನಾ VR_IVROverlay_FnTable *oOverlay;
+	ಸಂರಚನಾ VR_IVRInput_FnTable * o_ಒಳಹರಿವು;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	ವರ್ಣ * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRActionSetHandle_t ಒಳಹರಿವು_action_set;
+	VRActionHandle_t * ಒಳಹರಿವು_action_handles_buttons;
+	ಪೂರ್ಣಾಙ್ಕ ಒಳಹರಿವು_action_handles_buttons_ಎಣಿಕೆ;
+	VRActionHandle_t * ಒಳಹರಿವು_action_handles_axes;
+	ಪೂರ್ಣಾಙ್ಕ ಒಳಹರಿವು_action_handles_axes_ಎಣಿಕೆ;
+	VRActionHandle_t ಒಳಹರಿವು_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    ಪೂರ್ಣಾಙ್ಕ targw, targh;
+    ಪೂರ್ಣಾಙ್ಕ last_targw, last_targh;
+    ಪೂರ್ಣಾಙ್ಕ swap_interval;
 
     bool bDidCreateOverlay;
 	bool renderdoc_debugmarker_frame_end;
@@ -91,15 +91,15 @@ struct SDL_VideoData {
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#ಅನ್ಯಥಾ
     EGLDisplay eglDpy;
     EGLContext eglCtx;
 #endif
 };
 
-struct SDL_DisplayData
+ಸಂರಚನಾ SDL_DisplayData
 {
-    int dummy;
+    ಪೂರ್ಣಾಙ್ಕ dummy;
 };
 
 #endif

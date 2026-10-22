@@ -18,48 +18,48 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
-#include <SupportDefs.h>
-#include <support/UTF8.h>
+#ಅನ್ತರ್ಭಾವ <SupportDefs.h>
+#ಅನ್ತರ್ಭಾವ <support/UTF8.h>
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
 
-#include "SDL_bkeyboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_bkeyboard.h"
 
 
 #define KEYMAP_SIZE 128
 
 
-static SDL_Scancode keymap[KEYMAP_SIZE];
+ಸ್ಥಿರ SDL_Scancode keymap[KEYMAP_SIZE];
 
-void HAIKU_InitOSKeymap(void)
+ಶೂನ್ಯ HAIKU_InitOSKeymap(ಶೂನ್ಯ)
 {
-        for ( uint i = 0; i < SDL_arraysize(keymap); ++i ) {
+        ಪ್ರತಿ ( uint i = 0; i < SDL_arraysize(keymap); ++i ) {
             keymap[i] = SDL_SCANCODE_UNKNOWN;
         }
 
         keymap[0x01]        = SDL_SCANCODE_ESCAPE;
-        keymap[B_F1_KEY]    = SDL_SCANCODE_F1;
-        keymap[B_F2_KEY]    = SDL_SCANCODE_F2;
-        keymap[B_F3_KEY]    = SDL_SCANCODE_F3;
-        keymap[B_F4_KEY]    = SDL_SCANCODE_F4;
-        keymap[B_F5_KEY]    = SDL_SCANCODE_F5;
-        keymap[B_F6_KEY]    = SDL_SCANCODE_F6;
-        keymap[B_F7_KEY]    = SDL_SCANCODE_F7;
-        keymap[B_F8_KEY]    = SDL_SCANCODE_F8;
-        keymap[B_F9_KEY]    = SDL_SCANCODE_F9;
-        keymap[B_F10_KEY]   = SDL_SCANCODE_F10;
-        keymap[B_F11_KEY]   = SDL_SCANCODE_F11;
-        keymap[B_F12_KEY]   = SDL_SCANCODE_F12;
-        keymap[B_PRINT_KEY] = SDL_SCANCODE_PRINTSCREEN;
-        keymap[B_SCROLL_KEY]= SDL_SCANCODE_SCROLLLOCK;
-        keymap[B_PAUSE_KEY] = SDL_SCANCODE_PAUSE;
+        keymap[B_F1_ಕೀಲಿ]    = SDL_SCANCODE_F1;
+        keymap[B_F2_ಕೀಲಿ]    = SDL_SCANCODE_F2;
+        keymap[B_F3_ಕೀಲಿ]    = SDL_SCANCODE_F3;
+        keymap[B_F4_ಕೀಲಿ]    = SDL_SCANCODE_F4;
+        keymap[B_F5_ಕೀಲಿ]    = SDL_SCANCODE_F5;
+        keymap[B_F6_ಕೀಲಿ]    = SDL_SCANCODE_F6;
+        keymap[B_F7_ಕೀಲಿ]    = SDL_SCANCODE_F7;
+        keymap[B_F8_ಕೀಲಿ]    = SDL_SCANCODE_F8;
+        keymap[B_F9_ಕೀಲಿ]    = SDL_SCANCODE_F9;
+        keymap[B_F10_ಕೀಲಿ]   = SDL_SCANCODE_F10;
+        keymap[B_F11_ಕೀಲಿ]   = SDL_SCANCODE_F11;
+        keymap[B_F12_ಕೀಲಿ]   = SDL_SCANCODE_F12;
+        keymap[B_PRINT_ಕೀಲಿ] = SDL_SCANCODE_PRINTSCREEN;
+        keymap[B_SCROLL_ಕೀಲಿ]= SDL_SCANCODE_SCROLLLOCK;
+        keymap[B_PAUSE_ಕೀಲಿ] = SDL_SCANCODE_PAUSE;
         keymap[0x11]        = SDL_SCANCODE_GRAVE;
         keymap[0x12]        = SDL_SCANCODE_1;
         keymap[0x13]        = SDL_SCANCODE_2;
@@ -74,7 +74,7 @@ void HAIKU_InitOSKeymap(void)
         keymap[0x1c]        = SDL_SCANCODE_MINUS;
         keymap[0x1d]        = SDL_SCANCODE_EQUALS;
         keymap[0x1e]        = SDL_SCANCODE_BACKSPACE;
-        keymap[0x1f]        = SDL_SCANCODE_INSERT;
+        keymap[0x1f]        = SDL_SCANCODE_ಸೇರಿಸು;
         keymap[0x20]        = SDL_SCANCODE_HOME;
         keymap[0x21]        = SDL_SCANCODE_PAGEUP;
         keymap[0x22]        = SDL_SCANCODE_NUMLOCKCLEAR;
@@ -140,9 +140,9 @@ void HAIKU_InitOSKeymap(void)
         keymap[0x5e]        = SDL_SCANCODE_SPACE;
         keymap[0x5f]        = SDL_SCANCODE_RALT;
         keymap[0x60]        = SDL_SCANCODE_RCTRL;
-        keymap[0x61]        = SDL_SCANCODE_LEFT;
+        keymap[0x61]        = SDL_SCANCODE_ಎಡ;
         keymap[0x62]        = SDL_SCANCODE_DOWN;
-        keymap[0x63]        = SDL_SCANCODE_RIGHT;
+        keymap[0x63]        = SDL_SCANCODE_ಬಲ;
         keymap[0x64]        = SDL_SCANCODE_KP_0;
         keymap[0x65]        = SDL_SCANCODE_KP_PERIOD;
         keymap[0x66]        = SDL_SCANCODE_LGUI;
@@ -153,11 +153,11 @@ void HAIKU_InitOSKeymap(void)
         keymap[0x6b]        = SDL_SCANCODE_POWER;
 }
 
-SDL_Scancode HAIKU_GetScancodeFromBeKey(int32 bkey) {
-    if (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
-        return keymap[bkey];
-    } else {
-        return SDL_SCANCODE_UNKNOWN;
+SDL_Scancode HAIKU_Get_Scancode_From_Be_ಕೀಲಿ(int32 bkey) {
+    ಯದಿ (bkey > 0 && bkey < (int32)SDL_arraysize(keymap)) {
+        ಪ್ರತ್ಯಾಗಮ keymap[bkey];
+    } ಅನ್ಯಥಾ {
+        ಪ್ರತ್ಯಾಗಮ SDL_SCANCODE_UNKNOWN;
     }
 }
 

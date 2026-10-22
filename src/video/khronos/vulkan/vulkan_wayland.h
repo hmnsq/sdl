@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
 
@@ -25,34 +25,34 @@ extern "C" {
 #define VK_KHR_WAYLAND_SURFACE_SPEC_VERSION 6
 #define VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
 
-typedef VkFlags VkWaylandSurfaceCreateFlagsKHR;
+ಪ್ರಕಾರನಿರ್ದೇಶ VkFlags VkWaylandSurfaceCreateFlagsKHR;
 
-typedef struct VkWaylandSurfaceCreateInfoKHR {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ VkWaylandSurfaceCreateInfoKHR {
     VkStructureType                   sType;
-    const void*                       pNext;
+    ಧ್ರುವ ಶೂನ್ಯ*                       pNext;
     VkWaylandSurfaceCreateFlagsKHR    flags;
-    struct wl_display*                display;
-    struct wl_surface*                surface;
+    ಸಂರಚನಾ wl_display*                display;
+    ಸಂರಚನಾ wl_surface*                surface;
 } VkWaylandSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateWaylandSurfaceKHR)(VkInstance instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct wl_display* display);
+ಪ್ರಕಾರನಿರ್ದೇಶ VkResult (VKAPI_PTR *PFN_vkCreateWaylandSurfaceKHR)(VkInstance instance, ಧ್ರುವ VkWaylandSurfaceCreateInfoKHR* pCreateInfo, ಧ್ರುವ VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರನಿರ್ದೇಶ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, ಸಂರಚನಾ wl_display* display);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateWaylandSurfaceKHR(
     VkInstance                                  instance,
-    const VkWaylandSurfaceCreateInfoKHR*        pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಧ್ರುವ VkWaylandSurfaceCreateInfoKHR*        pCreateInfo,
+    ಧ್ರುವ VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWaylandPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    queueFamilyIndex,
-    struct wl_display*                          display);
+    ಸಂರಚನಾ wl_display*                          display);
 #endif
 #endif
 

@@ -23,26 +23,26 @@
 #define SDL_BWin_h_
 
 #ifdef __cplusplus
-extern "C" {
+ಬಾಹ್ಯ "C" {
 #endif
 
-#include "SDL_internal.h"
-#include "SDL_bframebuffer.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_bframebuffer.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#include <stdio.h>
-#include <AppKit.h>
-#include <Cursor.h>
-#include <InterfaceKit.h>
+#ಅನ್ತರ್ಭಾವ <stdio.h>
+#ಅನ್ತರ್ಭಾವ <AppKit.h>
+#ಅನ್ತರ್ಭಾವ <Cursor.h>
+#ಅನ್ತರ್ಭಾವ <InterfaceKit.h>
 #ifdef SDL_VIDEO_OPENGL
-#include <opengl/GLView.h>
+#ಅನ್ತರ್ಭಾವ <opengl/GLView.h>
 #endif
-#include "../../core/haiku/SDL_BApp.h"
+#ಅನ್ತರ್ಭಾವ "../../core/haiku/SDL_BApp.h"
 
-enum WinCommands
+ಗಣನಾ WinCommands
 {
     BWIN_MOVE_WINDOW,
     BWIN_RESIZE_WINDOW,
@@ -60,73 +60,73 @@ enum WinCommands
 };
 
 // non-OpenGL framebuffer view
-class SDL_BView : public BView
+class SDL_BView : ಸಾರ್ವಜನಿಕ BView
 {
-  public:
-    SDL_BView(BRect frame, const char *name, uint32 resizingMode)
+  ಸಾರ್ವಜನಿಕ:
+    SDL_BView(BRect frame, ಧ್ರುವ ವರ್ಣ *name, uint32 resizingMode)
         : BView(frame, name, resizingMode, B_WILL_DRAW),
-          fBitmap(NULL)
+          fBitmap(ರಿಕ್ತ)
     {
     }
 
-    void Draw(BRect dirty)
+    ಶೂನ್ಯ Draw(BRect dirty)
     {
-        if (fBitmap != NULL)
+        ಯದಿ (fBitmap != ರಿಕ್ತ)
             DrawBitmap(fBitmap, B_ORIGIN);
     }
 
-    void SetBitmap(BBitmap *bitmap)
+    ಶೂನ್ಯ SetBitmap(BBitmap *bitmap)
     {
         fBitmap = bitmap;
     }
 
-  private:
+  ಗುಪ್ತ:
     BBitmap *fBitmap;
 };
 
-class SDL_BWin : public BWindow
+class SDL_BWin : ಸಾರ್ವಜನಿಕ BWindow
 {
-  public:
+  ಸಾರ್ವಜನಿಕ:
     // Constructor/Destructor
     SDL_BWin(BRect bounds, window_look look, uint32 flags)
         : BWindow(bounds, "Untitled", look, B_NORMAL_WINDOW_FEEL, flags)
     {
         _last_buttons = 0;
 
-        _cur_view = NULL;
-        _SDL_View = NULL;
+        _cur_view = ರಿಕ್ತ;
+        _SDL_View = ರಿಕ್ತ;
 
 #ifdef SDL_VIDEO_OPENGL
-        _SDL_GLView = NULL;
+        _SDL_GLView = ರಿಕ್ತ;
         _gl_type = 0;
 #endif
         _shown = false;
         _inhibit_resize = false;
         _mouse_focused = false;
-        _prev_frame = NULL;
-        _fullscreen = NULL;
+        _prev_frame = ರಿಕ್ತ;
+        _fullscreen = ರಿಕ್ತ;
 
         // Handle framebuffer stuff
         _buffer_locker = new BLocker();
-        _bitmap = NULL;
+        _bitmap = ರಿಕ್ತ;
     }
 
-    virtual ~SDL_BWin()
+    ಆಭಾಸ ~SDL_BWin()
     {
         Lock();
 
-        if (_SDL_View != NULL && _SDL_View != _cur_view) {
+        ಯದಿ (_SDL_View != ರಿಕ್ತ && _SDL_View != _cur_view) {
             delete _SDL_View;
-            _SDL_View = NULL;
+            _SDL_View = ರಿಕ್ತ;
         }
 
 #ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
-                SDL_Looper->SetCurrentContext(NULL);
-            if (_SDL_GLView == _cur_view)
+        ಯದಿ (_SDL_GLView) {
+            ಯದಿ (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+                SDL_Looper->SetCurrentContext(ರಿಕ್ತ);
+            ಯದಿ (_SDL_GLView == _cur_view)
                 RemoveChild(_SDL_GLView);
-            _SDL_GLView = NULL;
+            _SDL_GLView = ರಿಕ್ತ;
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
         }
 
@@ -140,48 +140,48 @@ class SDL_BWin : public BWindow
         delete _buffer_locker;
     }
 
-    void SetCurrentView(BView *view)
+    ಶೂನ್ಯ SetCurrentView(BView *view)
     {
-        if (_cur_view != view) {
-            if (_cur_view != NULL)
+        ಯದಿ (_cur_view != view) {
+            ಯದಿ (_cur_view != ರಿಕ್ತ)
                 RemoveChild(_cur_view);
             _cur_view = view;
-            if (_cur_view != NULL)
+            ಯದಿ (_cur_view != ರಿಕ್ತ)
                 AddChild(_cur_view);
         }
     }
 
-    void UpdateCurrentView()
+    ಶೂನ್ಯ UpdateCurrentView()
     {
 #ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView != NULL) {
+        ಯದಿ (_SDL_GLView != ರಿಕ್ತ) {
             SetCurrentView(_SDL_GLView);
-        } else
+        } ಅನ್ಯಥಾ
 #endif
-        if (_SDL_View != NULL) {
+        ಯದಿ (_SDL_View != ರಿಕ್ತ) {
             SetCurrentView(_SDL_View);
-        } else {
-            SetCurrentView(NULL);
+        } ಅನ್ಯಥಾ {
+            SetCurrentView(ರಿಕ್ತ);
         }
     }
 
     SDL_BView *CreateView()
     {
         Lock();
-        if (_SDL_View == NULL) {
+        ಯದಿ (_SDL_View == ರಿಕ್ತ) {
             _SDL_View = new SDL_BView(Bounds(), "SDL View", B_FOLLOW_ALL_SIDES);
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_View;
+        ಪ್ರತ್ಯಾಗಮ _SDL_View;
     }
 
-    void RemoveView()
+    ಶೂನ್ಯ RemoveView()
     {
         Lock();
-        if (_SDL_View != NULL) {
+        ಯದಿ (_SDL_View != ರಿಕ್ತ) {
             SDL_BView *oldView = _SDL_View;
-            _SDL_View = NULL;
+            _SDL_View = ರಿಕ್ತ;
             UpdateCurrentView();
             delete oldView;
         }
@@ -193,7 +193,7 @@ class SDL_BWin : public BWindow
     BGLView *CreateGLView(Uint32 gl_flags)
     {
         Lock();
-        if (_SDL_GLView == NULL) {
+        ಯದಿ (_SDL_GLView == ರಿಕ್ತ) {
             _SDL_GLView = new BGLView(Bounds(), "SDL GLView",
                                       B_FOLLOW_ALL_SIDES,
                                       (B_WILL_DRAW | B_FRAME_EVENTS),
@@ -202,23 +202,23 @@ class SDL_BWin : public BWindow
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_GLView;
+        ಪ್ರತ್ಯಾಗಮ _SDL_GLView;
     }
 
-    void RemoveGLView()
+    ಶೂನ್ಯ RemoveGLView()
     {
         Lock();
-        if (_SDL_GLView != NULL) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
-                SDL_Looper->SetCurrentContext(NULL);
-            _SDL_GLView = NULL;
+        ಯದಿ (_SDL_GLView != ರಿಕ್ತ) {
+            ಯದಿ (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+                SDL_Looper->SetCurrentContext(ರಿಕ್ತ);
+            _SDL_GLView = ರಿಕ್ತ;
             UpdateCurrentView();
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
         }
         Unlock();
     }
 
-    void SwapBuffers(void)
+    ಶೂನ್ಯ SwapBuffers(ಶೂನ್ಯ)
     {
         _SDL_GLView->SwapBuffers();
     }
@@ -226,26 +226,26 @@ class SDL_BWin : public BWindow
 
     /* * * * * Event sending * * * * */
     // Hook functions
-    virtual void FrameMoved(BPoint origin)
+    ಆಭಾಸ ಶೂನ್ಯ FrameMoved(BPoint origin)
     {
         // Post a message to the BApp so that it can handle the window event
-        BMessage msg(BAPP_WINDOW_MOVED);
-        msg.AddInt32("window-x", (int)origin.x);
-        msg.AddInt32("window-y", (int)origin.y);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_WINDOW_MOVED);
+        ಸಂದೇಶ.AddInt32("window-x", (ಪೂರ್ಣಾಙ್ಕ)origin.x);
+        ಸಂದೇಶ.AddInt32("window-y", (ಪೂರ್ಣಾಙ್ಕ)origin.y);
+        _PostWindowEvent(ಸಂದೇಶ);
 
         // Perform normal hook operations
         BWindow::FrameMoved(origin);
     }
 
-    void FrameResized(float width, float height)
+    ಶೂನ್ಯ FrameResized(ಭಿನ್ನ width, ಭಿನ್ನ height)
     {
         // Post a message to the BApp so that it can handle the window event
-        BMessage msg(BAPP_WINDOW_RESIZED);
+        BMessage ಸಂದೇಶ(BAPP_WINDOW_RESIZED);
 
-        msg.AddInt32("window-w", (int)width + 1);
-        msg.AddInt32("window-h", (int)height + 1);
-        _PostWindowEvent(msg);
+        ಸಂದೇಶ.AddInt32("window-w", (ಪೂರ್ಣಾಙ್ಕ)width + 1);
+        ಸಂದೇಶ.AddInt32("window-h", (ಪೂರ್ಣಾಙ್ಕ)height + 1);
+        _PostWindowEvent(ಸಂದೇಶ);
 
         // Perform normal hook operations
         BWindow::FrameResized(width, height);
@@ -253,29 +253,29 @@ class SDL_BWin : public BWindow
 
     bool QuitRequested()
     {
-        BMessage msg(BAPP_WINDOW_CLOSE_REQUESTED);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_WINDOW_CLOSE_REQUESTED);
+        _PostWindowEvent(ಸಂದೇಶ);
 
         // We won't allow a quit unless asked by DestroyWindow()
-        return false;
+        ಪ್ರತ್ಯಾಗಮ false;
     }
 
-    void WindowActivated(bool active)
+    ಶೂನ್ಯ WindowActivated(bool active)
     {
-        BMessage msg(BAPP_KEYBOARD_FOCUS); // Mouse focus sold separately
-        msg.AddBool("focusGained", active);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_KEYBOARD_FOCUS); // Mouse focus sold separately
+        ಸಂದೇಶ.AddBool("focusGained", active);
+        _PostWindowEvent(ಸಂದೇಶ);
     }
 
-    void Zoom(BPoint origin,
-              float width,
-              float height)
+    ಶೂನ್ಯ Zoom(BPoint origin,
+              ಭಿನ್ನ width,
+              ಭಿನ್ನ height)
     {
-        BMessage msg(BAPP_MAXIMIZE); // Closest thing to maximization Haiku has
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_MAXIMIZE); // Closest thing to maximization Haiku has
+        _PostWindowEvent(ಸಂದೇಶ);
 
         // Before the window zooms, record its size
-        if (!_prev_frame)
+        ಯದಿ (!_prev_frame)
             _prev_frame = new BRect(Frame());
 
         // Perform normal hook operations
@@ -283,411 +283,411 @@ class SDL_BWin : public BWindow
     }
 
     // Member functions
-    void Show()
+    ಶೂನ್ಯ Show()
     {
-        while (IsHidden()) {
+        ಯಾವತ್ (IsHidden()) {
             BWindow::Show();
         }
         _shown = true;
 
-        BMessage msg(BAPP_SHOW);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_SHOW);
+        _PostWindowEvent(ಸಂದೇಶ);
     }
 
-    void Hide()
+    ಶೂನ್ಯ Hide()
     {
         BWindow::Hide();
         _shown = false;
 
-        BMessage msg(BAPP_HIDE);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_HIDE);
+        _PostWindowEvent(ಸಂದೇಶ);
     }
 
-    void Minimize(bool minimize)
+    ಶೂನ್ಯ Minimize(bool minimize)
     {
         BWindow::Minimize(minimize);
         int32 minState = (minimize ? BAPP_MINIMIZE : BAPP_RESTORE);
 
-        BMessage msg(minState);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(minState);
+        _PostWindowEvent(ಸಂದೇಶ);
     }
 
-    void ScreenChanged(BRect screenFrame, color_space depth)
+    ಶೂನ್ಯ ScreenChanged(BRect screenFrame, color_space depth)
     {
-        if (_fullscreen) {
-            MoveTo(screenFrame.left, screenFrame.top);
+        ಯದಿ (_fullscreen) {
+            MoveTo(screenFrame.ಎಡ, screenFrame.ತುದಿ);
             ResizeTo(screenFrame.Width(), screenFrame.Height());
         }
     }
 
     // BView message interruption
-    void DispatchMessage(BMessage *msg, BHandler *target)
+    ಶೂನ್ಯ DispatchMessage(BMessage *ಸಂದೇಶ, BHandler *target)
     {
         BPoint where;  // Used by mouse moved
         int32 buttons; // Used for mouse button events
-        int32 key;     // Used for key events
+        int32 ಕೀಲಿ;     // Used for key events
 
-        switch (msg->what) {
-        case B_MOUSE_MOVED:
+        ವಿಕಲ್ಪ (ಸಂದೇಶ->what) {
+        ಪಕ್ಷ B_MOUSE_MOVED:
             int32 transit;
-            if (msg->FindPoint("where", &where) == B_OK && msg->FindInt32("be:transit", &transit) == B_OK) {
+            ಯದಿ (ಸಂದೇಶ->FindPoint("where", &where) == B_OK && ಸಂದೇಶ->FindInt32("be:transit", &transit) == B_OK) {
                 _MouseMotionEvent(where, transit);
             }
-            break;
+            ಭಙ್ಗ;
 
-        case B_MOUSE_DOWN:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        ಪಕ್ಷ B_MOUSE_DOWN:
+            ಯದಿ (ಸಂದೇಶ->FindInt32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, true);
             }
-            break;
+            ಭಙ್ಗ;
 
-        case B_MOUSE_UP:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        ಪಕ್ಷ B_MOUSE_UP:
+            ಯದಿ (ಸಂದೇಶ->FindInt32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, false);
             }
-            break;
+            ಭಙ್ಗ;
 
-        case B_MOUSE_WHEEL_CHANGED:
-            float x, y;
-            if (msg->FindFloat("be:wheel_delta_x", &x) == B_OK && msg->FindFloat("be:wheel_delta_y", &y) == B_OK) {
-                _MouseWheelEvent((int)x, (int)y);
+        ಪಕ್ಷ B_MOUSE_WHEEL_CHANGED:
+            ಭಿನ್ನ x, y;
+            ಯದಿ (ಸಂದೇಶ->FindFloat("be:wheel_delta_x", &x) == B_OK && ಸಂದೇಶ->FindFloat("be:wheel_delta_y", &y) == B_OK) {
+                _MouseWheelEvent((ಪೂರ್ಣಾಙ್ಕ)x, (ಪೂರ್ಣಾಙ್ಕ)y);
             }
-            break;
+            ಭಙ್ಗ;
 
-        case B_KEY_DOWN:
+        ಪಕ್ಷ B_ಕೀಲಿ_DOWN:
         {
             int32 i = 0;
             int8 byte;
             int8 bytes[4] = { 0, 0, 0, 0 };
-            while (i < 4 && msg->FindInt8("byte", i, &byte) == B_OK) {
+            ಯಾವತ್ (i < 4 && ಸಂದೇಶ->FindInt8("byte", i, &byte) == B_OK) {
                 bytes[i] = byte;
                 i++;
             }
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent((SDL_Scancode)key, &bytes[0], i, true);
+            ಯದಿ (ಸಂದೇಶ->FindInt32("key", &ಕೀಲಿ) == B_OK) {
+                ಕೀಲಿ_Event_2((SDL_Scancode)ಕೀಲಿ, &bytes[0], i, true);
             }
-        } break;
+        } ಭಙ್ಗ;
 
-        case B_UNMAPPED_KEY_DOWN: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent((SDL_Scancode)key, NULL, 0, true);
+        ಪಕ್ಷ B_UNMAPPED_ಕೀಲಿ_DOWN: // modifier keys are unmapped
+            ಯದಿ (ಸಂದೇಶ->FindInt32("key", &ಕೀಲಿ) == B_OK) {
+                ಕೀಲಿ_Event_2((SDL_Scancode)ಕೀಲಿ, ರಿಕ್ತ, 0, true);
             }
-            break;
+            ಭಙ್ಗ;
 
-        case B_KEY_UP:
-        case B_UNMAPPED_KEY_UP: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent(key, NULL, 0, false);
+        ಪಕ್ಷ B_ಕೀಲಿ_UP:
+        ಪಕ್ಷ B_UNMAPPED_ಕೀಲಿ_UP: // modifier keys are unmapped
+            ಯದಿ (ಸಂದೇಶ->FindInt32("key", &ಕೀಲಿ) == B_OK) {
+                ಕೀಲಿ_Event_2(ಕೀಲಿ, ರಿಕ್ತ, 0, false);
             }
-            break;
+            ಭಙ್ಗ;
 
-        default:
+        ಸ್ವಭಾವ:
             /* move it after switch{} so it's always handled
                that way we keep Haiku features like:
                - CTRL+Q to close window (and other shortcuts)
                - PrintScreen to make screenshot into /boot/home
                - etc.. */
             // BWindow::DispatchMessage(msg, target);
-            break;
+            ಭಙ್ಗ;
         }
 
-        BWindow::DispatchMessage(msg, target);
+        BWindow::DispatchMessage(ಸಂದೇಶ, target);
     }
 
     // Handle command messages
-    void MessageReceived(BMessage *message)
+    ಶೂನ್ಯ MessageReceived(BMessage *message)
     {
-        switch (message->what) {
+        ವಿಕಲ್ಪ (message->what) {
         // Handle commands from SDL
-        case BWIN_SET_TITLE:
+        ಪಕ್ಷ BWIN_SET_TITLE:
             _SetTitle(message);
-            break;
-        case BWIN_MOVE_WINDOW:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_MOVE_WINDOW:
             _MoveTo(message);
-            break;
-        case BWIN_RESIZE_WINDOW:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_RESIZE_WINDOW:
             _ResizeTo(message);
-            break;
-        case BWIN_SET_BORDERED:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_SET_BORDERED:
         {
             bool bEnabled;
-            if (message->FindBool("window-border", &bEnabled) == B_OK)
+            ಯದಿ (message->FindBool("window-border", &bEnabled) == B_OK)
                 _SetBordered(bEnabled);
-            break;
+            ಭಙ್ಗ;
         }
-        case BWIN_SET_RESIZABLE:
+        ಪಕ್ಷ BWIN_SET_RESIZABLE:
         {
             bool bEnabled;
-            if (message->FindBool("window-resizable", &bEnabled) == B_OK)
+            ಯದಿ (message->FindBool("window-resizable", &bEnabled) == B_OK)
                 _SetResizable(bEnabled);
-            break;
+            ಭಙ್ಗ;
         }
-        case BWIN_SHOW_WINDOW:
+        ಪಕ್ಷ BWIN_SHOW_WINDOW:
             Show();
-            break;
-        case BWIN_HIDE_WINDOW:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_HIDE_WINDOW:
             Hide();
-            break;
-        case BWIN_MAXIMIZE_WINDOW:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_MAXIMIZE_WINDOW:
             BWindow::Zoom();
-            break;
-        case BWIN_MINIMIZE_WINDOW:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_MINIMIZE_WINDOW:
             Minimize(true);
-            break;
-        case BWIN_RESTORE_WINDOW:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_RESTORE_WINDOW:
             _Restore();
-            break;
-        case BWIN_FULLSCREEN:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_FULLSCREEN:
         {
             bool fullscreen;
-            if (message->FindBool("fullscreen", &fullscreen) == B_OK)
+            ಯದಿ (message->FindBool("fullscreen", &fullscreen) == B_OK)
                 _SetFullScreen(fullscreen);
-            break;
+            ಭಙ್ಗ;
         }
-        case BWIN_MINIMUM_SIZE_WINDOW:
+        ಪಕ್ಷ BWIN_MINIMUM_SIZE_WINDOW:
             _SetMinimumSize(message);
-            break;
-        case BWIN_UPDATE_FRAMEBUFFER:
+            ಭಙ್ಗ;
+        ಪಕ್ಷ BWIN_UPDATE_FRAMEBUFFER:
         {
             BMessage *pendingMessage;
-            while ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
+            ಯಾವತ್ ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
                 MessageQueue()->RemoveMessage(pendingMessage);
                 delete pendingMessage;
             }
-            if (_bitmap != NULL) {
+            ಯದಿ (_bitmap != ರಿಕ್ತ) {
 #ifdef SDL_VIDEO_OPENGL
-                if (_SDL_GLView != NULL && _cur_view == _SDL_GLView) {
+                ಯದಿ (_SDL_GLView != ರಿಕ್ತ && _cur_view == _SDL_GLView) {
                     _SDL_GLView->CopyPixelsIn(_bitmap, B_ORIGIN);
-                } else
+                } ಅನ್ಯಥಾ
 #endif
-                if (_SDL_View != NULL && _cur_view == _SDL_View) {
+                ಯದಿ (_SDL_View != ರಿಕ್ತ && _cur_view == _SDL_View) {
                     _SDL_View->Draw(Bounds());
                 }
             }
-            break;
+            ಭಙ್ಗ;
         }
-        default:
+        ಸ್ವಭಾವ:
             // Perform normal message handling
             BWindow::MessageReceived(message);
-            break;
+            ಭಙ್ಗ;
         }
     }
 
     // Accessor methods
-    bool IsShown() { return _shown; }
-    int32 GetID() { return _id; }
-    BBitmap *GetBitmap() { return _bitmap; }
-    BView *GetCurView() { return _cur_view; }
-    SDL_BView *GetView() { return _SDL_View; }
+    bool IsShown() { ಪ್ರತ್ಯಾಗಮ _shown; }
+    int32 GetID() { ಪ್ರತ್ಯಾಗಮ _id; }
+    BBitmap *GetBitmap() { ಪ್ರತ್ಯಾಗಮ _bitmap; }
+    BView *GetCurView() { ಪ್ರತ್ಯಾಗಮ _cur_view; }
+    SDL_BView *GetView() { ಪ್ರತ್ಯಾಗಮ _SDL_View; }
 #ifdef SDL_VIDEO_OPENGL
     BGLView *GetGLView()
     {
-        return _SDL_GLView;
+        ಪ್ರತ್ಯಾಗಮ _SDL_GLView;
     }
-    Uint32 GetGLType() { return _gl_type; }
+    Uint32 GetGLType() { ಪ್ರತ್ಯಾಗಮ _gl_type; }
 #endif
 
     // Setter methods
-    void SetID(int32 id) { _id = id; }
-    void LockBuffer() { _buffer_locker->Lock(); }
-    void UnlockBuffer() { _buffer_locker->Unlock(); }
-    void SetBitmap(BBitmap *bitmap)
+    ಶೂನ್ಯ SetID(int32 id) { _id = id; }
+    ಶೂನ್ಯ LockBuffer() { _buffer_locker->Lock(); }
+    ಶೂನ್ಯ UnlockBuffer() { _buffer_locker->Unlock(); }
+    ಶೂನ್ಯ SetBitmap(BBitmap *bitmap)
     {
         _bitmap = bitmap;
-        if (_SDL_View != NULL)
+        ಯದಿ (_SDL_View != ರಿಕ್ತ)
             _SDL_View->SetBitmap(bitmap);
     }
 
-  private:
+  ಗುಪ್ತ:
     // Event redirection
-    void _MouseMotionEvent(BPoint &where, int32 transit)
+    ಶೂನ್ಯ _MouseMotionEvent(BPoint &where, int32 transit)
     {
-        if (transit == B_EXITED_VIEW) {
+        ಯದಿ (transit == B_EXITED_VIEW) {
             // Change mouse focus
-            if (_mouse_focused) {
+            ಯದಿ (_mouse_focused) {
                 _MouseFocusEvent(false);
             }
-        } else {
+        } ಅನ್ಯಥಾ {
             // Change mouse focus
-            if (!_mouse_focused) {
+            ಯದಿ (!_mouse_focused) {
                 _MouseFocusEvent(true);
             }
-            BMessage msg(BAPP_MOUSE_MOVED);
-            msg.AddInt32("x", (int)where.x);
-            msg.AddInt32("y", (int)where.y);
+            BMessage ಸಂದೇಶ(BAPP_MOUSE_MOVED);
+            ಸಂದೇಶ.AddInt32("x", (ಪೂರ್ಣಾಙ್ಕ)where.x);
+            ಸಂದೇಶ.AddInt32("y", (ಪೂರ್ಣಾಙ್ಕ)where.y);
 
-            _PostWindowEvent(msg);
+            _PostWindowEvent(ಸಂದೇಶ);
         }
     }
 
-    void _MouseFocusEvent(bool focusGained)
+    ಶೂನ್ಯ _MouseFocusEvent(bool focusGained)
     {
         _mouse_focused = focusGained;
-        BMessage msg(BAPP_MOUSE_FOCUS);
-        msg.AddBool("focusGained", focusGained);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_MOUSE_FOCUS);
+        ಸಂದೇಶ.AddBool("focusGained", focusGained);
+        _PostWindowEvent(ಸಂದೇಶ);
 
         /* FIXME: Why were these here?
          if false: be_app->SetCursor(B_HAND_CURSOR);
          if true:  SDL_SetCursor(NULL); */
     }
 
-    void _MouseButtonEvent(int32 buttons, bool down)
+    ಶೂನ್ಯ _MouseButtonEvent(int32 buttons, bool down)
     {
         int32 buttonStateChange = buttons ^ _last_buttons;
 
-        if (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_LEFT, down);
+        ಯದಿ (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_ಎಡ, down);
         }
-        if (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_RIGHT, down);
+        ಯದಿ (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_ಬಲ, down);
         }
-        if (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_MIDDLE, down);
+        ಯದಿ (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_ಮಧ್ಯ, down);
         }
 
         _last_buttons = buttons;
     }
 
-    void _SendMouseButton(int32 button, bool down)
+    ಶೂನ್ಯ _SendMouseButton(int32 button, bool down)
     {
-        BMessage msg(BAPP_MOUSE_BUTTON);
-        msg.AddInt32("button-id", button);
-        msg.AddBool("button-down", down);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_MOUSE_BUTTON);
+        ಸಂದೇಶ.AddInt32("button-id", button);
+        ಸಂದೇಶ.AddBool("button-down", down);
+        _PostWindowEvent(ಸಂದೇಶ);
     }
 
-    void _MouseWheelEvent(int32 x, int32 y)
+    ಶೂನ್ಯ _MouseWheelEvent(int32 x, int32 y)
     {
         // Create a message to pass along to the BeApp thread
-        BMessage msg(BAPP_MOUSE_WHEEL);
-        msg.AddInt32("xticks", x);
-        msg.AddInt32("yticks", y);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_MOUSE_WHEEL);
+        ಸಂದೇಶ.AddInt32("xticks", x);
+        ಸಂದೇಶ.AddInt32("yticks", y);
+        _PostWindowEvent(ಸಂದೇಶ);
     }
 
-    void _KeyEvent(int32 keyCode, const int8 *keyUtf8, const ssize_t &len, bool down)
+    ಶೂನ್ಯ ಕೀಲಿ_Event_2(int32 ಕೀಲಿ_Code, ಧ್ರುವ int8 *ಕೀಲಿ_Utf8, ಧ್ರುವ ssize_t &len, bool down)
     {
         // Create a message to pass along to the BeApp thread
-        BMessage msg(BAPP_KEY);
-        msg.AddInt32("key-scancode", keyCode);
-        if (keyUtf8 != NULL) {
-            msg.AddData("key-utf8", B_INT8_TYPE, (const void *)keyUtf8, len);
+        BMessage ಸಂದೇಶ(BAPP_ಕೀಲಿ);
+        ಸಂದೇಶ.AddInt32("key-scancode", ಕೀಲಿ_Code);
+        ಯದಿ (ಕೀಲಿ_Utf8 != ರಿಕ್ತ) {
+            ಸಂದೇಶ.AddData("key-utf8", B_INT8_TYPE, (ಧ್ರುವ ಶೂನ್ಯ *)ಕೀಲಿ_Utf8, len);
         }
-        msg.AddBool("key-down", down);
-        SDL_Looper->PostMessage(&msg);
+        ಸಂದೇಶ.AddBool("key-down", down);
+        SDL_Looper->PostMessage(&ಸಂದೇಶ);
     }
 
-    void _RepaintEvent()
+    ಶೂನ್ಯ _RepaintEvent()
     {
         // Force a repaint: Call the SDL exposed event
-        BMessage msg(BAPP_REPAINT);
-        _PostWindowEvent(msg);
+        BMessage ಸಂದೇಶ(BAPP_REPAINT);
+        _PostWindowEvent(ಸಂದೇಶ);
     }
-    void _PostWindowEvent(BMessage &msg)
+    ಶೂನ್ಯ _PostWindowEvent(BMessage &ಸಂದೇಶ)
     {
-        msg.AddInt32("window-id", _id);
-        SDL_Looper->PostMessage(&msg);
+        ಸಂದೇಶ.AddInt32("window-id", _id);
+        SDL_Looper->PostMessage(&ಸಂದೇಶ);
     }
 
     // Command methods (functions called upon by SDL)
-    void _SetTitle(BMessage *msg)
+    ಶೂನ್ಯ _SetTitle(BMessage *ಸಂದೇಶ)
     {
-        const char *title;
-        if (
-            msg->FindString("window-title", &title) != B_OK) {
-            return;
+        ಧ್ರುವ ವರ್ಣ *title;
+        ಯದಿ (
+            ಸಂದೇಶ->FindString("window-title", &title) != B_OK) {
+            ಪ್ರತ್ಯಾಗಮ;
         }
         SetTitle(title);
     }
 
-    void _MoveTo(BMessage *msg)
+    ಶೂನ್ಯ _MoveTo(BMessage *ಸಂದೇಶ)
     {
         int32 x, y;
-        if (
-            msg->FindInt32("window-x", &x) != B_OK ||
-            msg->FindInt32("window-y", &y) != B_OK) {
-            return;
+        ಯದಿ (
+            ಸಂದೇಶ->FindInt32("window-x", &x) != B_OK ||
+            ಸಂದೇಶ->FindInt32("window-y", &y) != B_OK) {
+            ಪ್ರತ್ಯಾಗಮ;
         }
-        if (_fullscreen)
+        ಯದಿ (_fullscreen)
             _non_fullscreen_frame.OffsetTo(x, y);
-        else
+        ಅನ್ಯಥಾ
             MoveTo(x, y);
     }
 
-    void _ResizeTo(BMessage *msg)
+    ಶೂನ್ಯ _ResizeTo(BMessage *ಸಂದೇಶ)
     {
         int32 w, h;
-        if (
-            msg->FindInt32("window-w", &w) != B_OK ||
-            msg->FindInt32("window-h", &h) != B_OK) {
-            return;
+        ಯದಿ (
+            ಸಂದೇಶ->FindInt32("window-w", &w) != B_OK ||
+            ಸಂದೇಶ->FindInt32("window-h", &h) != B_OK) {
+            ಪ್ರತ್ಯಾಗಮ;
         }
-        if (_fullscreen) {
-            _non_fullscreen_frame.right = _non_fullscreen_frame.left + w;
-            _non_fullscreen_frame.bottom = _non_fullscreen_frame.top + h;
-        } else
+        ಯದಿ (_fullscreen) {
+            _non_fullscreen_frame.ಬಲ = _non_fullscreen_frame.ಎಡ + w;
+            _non_fullscreen_frame.bottom = _non_fullscreen_frame.ತುದಿ + h;
+        } ಅನ್ಯಥಾ
             ResizeTo(w, h);
     }
 
-    void _SetBordered(bool bEnabled)
+    ಶೂನ್ಯ _SetBordered(bool bEnabled)
     {
-        if (_fullscreen)
+        ಯದಿ (_fullscreen)
             _bordered = bEnabled;
-        else
+        ಅನ್ಯಥಾ
             SetLook(bEnabled ? B_TITLED_WINDOW_LOOK : B_NO_BORDER_WINDOW_LOOK);
     }
 
-    void _SetResizable(bool bEnabled)
+    ಶೂನ್ಯ _SetResizable(bool bEnabled)
     {
-        if (_fullscreen)
+        ಯದಿ (_fullscreen)
             _resizable = bEnabled;
-        else {
-            if (bEnabled) {
+        ಅನ್ಯಥಾ {
+            ಯದಿ (bEnabled) {
                 SetFlags(Flags() & ~(B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
-            } else {
+            } ಅನ್ಯಥಾ {
                 SetFlags(Flags() | (B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
             }
         }
     }
 
-    void _SetMinimumSize(BMessage *msg)
+    ಶೂನ್ಯ _SetMinimumSize(BMessage *ಸಂದೇಶ)
     {
-        float maxHeight;
-        float maxWidth;
-        float _;
+        ಭಿನ್ನ maxHeight;
+        ಭಿನ್ನ maxWidth;
+        ಭಿನ್ನ _;
         int32 minHeight;
         int32 minWidth;
 
         // This is a bit convoluted, we only want to set the minimum not the maximum
         // But there is no direct call to do that, so store the maximum size beforehand
         GetSizeLimits(&_, &maxWidth, &_, &maxHeight);
-        if (msg->FindInt32("window-w", &minWidth) != B_OK)
-            return;
-        if (msg->FindInt32("window-h", &minHeight) != B_OK)
-            return;
-        SetSizeLimits((float)minWidth, maxWidth, (float)minHeight, maxHeight);
+        ಯದಿ (ಸಂದೇಶ->FindInt32("window-w", &minWidth) != B_OK)
+            ಪ್ರತ್ಯಾಗಮ;
+        ಯದಿ (ಸಂದೇಶ->FindInt32("window-h", &minHeight) != B_OK)
+            ಪ್ರತ್ಯಾಗಮ;
+        SetSizeLimits((ಭಿನ್ನ)minWidth, maxWidth, (ಭಿನ್ನ)minHeight, maxHeight);
         UpdateSizeLimits();
     }
 
-    void _Restore()
+    ಶೂನ್ಯ _Restore()
     {
-        if (IsMinimized()) {
+        ಯದಿ (IsMinimized()) {
             Minimize(false);
-        } else if (IsHidden()) {
+        } ಅನ್ಯಥಾ ಯದಿ (IsHidden()) {
             Show();
-        } else if (_fullscreen) {
+        } ಅನ್ಯಥಾ ಯದಿ (_fullscreen) {
 
-        } else if (_prev_frame != NULL) { // Zoomed
-            MoveTo(_prev_frame->left, _prev_frame->top);
+        } ಅನ್ಯಥಾ ಯದಿ (_prev_frame != ರಿಕ್ತ) { // Zoomed
+            MoveTo(_prev_frame->ಎಡ, _prev_frame->ತುದಿ);
             ResizeTo(_prev_frame->Width(), _prev_frame->Height());
         }
     }
 
-    void _SetFullScreen(bool fullscreen)
+    ಶೂನ್ಯ _SetFullScreen(bool fullscreen)
     {
-        if (fullscreen != _fullscreen) {
-            if (fullscreen) {
+        ಯದಿ (fullscreen != _fullscreen) {
+            ಯದಿ (fullscreen) {
                 BScreen screen(this);
                 BRect screenFrame = screen.Frame();
                 _bordered = Look() != B_NO_BORDER_WINDOW_LOOK;
@@ -695,12 +695,12 @@ class SDL_BWin : public BWindow
                 _non_fullscreen_frame = Frame();
                 _SetBordered(false);
                 _SetResizable(false);
-                MoveTo(screenFrame.left, screenFrame.top);
+                MoveTo(screenFrame.ಎಡ, screenFrame.ತುದಿ);
                 ResizeTo(screenFrame.Width(), screenFrame.Height());
                 _fullscreen = fullscreen;
-            } else {
+            } ಅನ್ಯಥಾ {
                 _fullscreen = fullscreen;
-                MoveTo(_non_fullscreen_frame.left, _non_fullscreen_frame.top);
+                MoveTo(_non_fullscreen_frame.ಎಡ, _non_fullscreen_frame.ತುದಿ);
                 ResizeTo(_non_fullscreen_frame.Width(), _non_fullscreen_frame.Height());
                 _SetBordered(_bordered);
                 _SetResizable(_resizable);

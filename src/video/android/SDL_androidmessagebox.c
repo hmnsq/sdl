@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidmessagebox.h"
-#include "../../core/android/SDL_android.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidmessagebox.h"
+#ಅನ್ತರ್ಭಾವ "../../core/android/SDL_android.h"
 
-bool Android_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool Android_ShowMessageBox(ಧ್ರುವ SDL_MessageBoxData *messageboxdata, ಪೂರ್ಣಾಙ್ಕ *buttonID)
 {
-    return Android_JNI_ShowMessageBox(messageboxdata, buttonID);
+    ಪ್ರತ್ಯಾಗಮ Android_JNI_ShowMessageBox(messageboxdata, buttonID);
 }
 
 #endif // SDL_VIDEO_DRIVER_ANDROID

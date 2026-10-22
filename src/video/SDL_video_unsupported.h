@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if !defined(SDL_VIDEO_DRIVER_WINDOWS)
+#ಯದಿ !defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#ಯದಿ defined(SDL_PLATFORM_WINDOWS)
 
-extern SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void *hInst);
-extern SDL_DECLSPEC void SDLCALL SDL_UnregisterApp(void);
-extern SDL_DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata);
+ಬಾಹ್ಯ SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(ಧ್ರುವ ವರ್ಣ *name, Uint32 style, ಶೂನ್ಯ *hInst);
+ಬಾಹ್ಯ SDL_DECLSPEC ಶೂನ್ಯ SDLCALL SDL_UnregisterApp(ಶೂನ್ಯ);
+ಬಾಹ್ಯ SDL_DECLSPEC ಶೂನ್ಯ SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, ಶೂನ್ಯ *userdata);
 
 #endif /* SDL_PLATFORM_WINDOWS */
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex);
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+ಬಾಹ್ಯ SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, ಪೂರ್ಣಾಙ್ಕ *adapterIndex, ಪೂರ್ಣಾಙ್ಕ *outputIndex);
+ಬಾಹ್ಯ SDL_DECLSPEC ಪೂರ್ಣಾಙ್ಕ SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
-#elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#ನೋಚೇದ್ಯದಿ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+ಬಾಹ್ಯ SDL_DECLSPEC ಪೂರ್ಣಾಙ್ಕ SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
 #endif /* !SDL_VIDEO_DRIVER_WINDOWS */
 
-#if !defined(SDL_PLATFORM_GDK)
+#ಯದಿ !defined(SDL_PLATFORM_GDK)
 
-typedef struct XTaskQueueHandle XTaskQueueHandle;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಸಂರಚನಾ XTaskQueueHandle XTaskQueueHandle;
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
+ಬಾಹ್ಯ SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
 
 #endif /* !SDL_PLATFORM_GDK */
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#ಯದಿ !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
-extern SDL_DECLSPEC void SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(void);
+ಬಾಹ್ಯ SDL_DECLSPEC ಶೂನ್ಯ SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(ಶೂನ್ಯ);
 
 #endif
 
-#if !defined(SDL_VIDEO_DRIVER_UIKIT)
+#ಯದಿ !defined(SDL_VIDEO_DRIVER_UIKIT)
 
-typedef void (SDLCALL *SDL_iOSAnimationCallback)(void *userdata);
+ಪ್ರಕಾರನಿರ್ದೇಶ ಶೂನ್ಯ (SDLCALL *SDL_iOSAnimationCallback)(ಶೂನ್ಯ *userdata);
 
-extern SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam);
-extern SDL_DECLSPEC void SDLCALL SDL_SetiOSEventPump(bool enabled);
+ಬಾಹ್ಯ SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, ಪೂರ್ಣಾಙ್ಕ interval, SDL_iOSAnimationCallback callback, ಶೂನ್ಯ *callbackParam);
+ಬಾಹ್ಯ SDL_DECLSPEC ಶೂನ್ಯ SDLCALL SDL_SetiOSEventPump(bool enabled);
 #endif

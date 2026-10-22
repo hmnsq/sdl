@@ -24,28 +24,28 @@
  * www.edgewise-consulting.com, and originally based on Jacob Lifshay's SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_openharmonyvulkan_h_
 #define SDL_openharmonyvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_vulkan_internal.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
+#ಯದಿ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
 
-extern bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+ಬಾಹ್ಯ bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ಧ್ರುವ ವರ್ಣ *path);
+ಬಾಹ್ಯ ಶೂನ್ಯ OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ವರ್ಣ ಧ್ರುವ * ಧ್ರುವ *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ಎಣಿಕೆ);
+ಬಾಹ್ಯ bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                          SDL_Window *window,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         ಧ್ರುವ ಸಂರಚನಾ VkAllocationCallbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ಬಾಹ್ಯ ಶೂನ್ಯ OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          ಧ್ರುವ ಸಂರಚನಾ VkAllocationCallbacks *allocator);
 
 #endif
 

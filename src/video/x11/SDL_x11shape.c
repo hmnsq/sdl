@@ -18,38 +18,38 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11shape.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11shape.h"
 
 
 #ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
-static Uint8 *GenerateShapeMask(SDL_Surface *shape)
+ಸ್ಥಿರ Uint8 *GenerateShapeMask(SDL_Surface *shape)
 {
-    int x, y;
-    const size_t ppb = 8;
-    const size_t bytes_per_scanline = (shape->w + (ppb - 1)) / ppb;
-    const Uint8 *a;
+    ಪೂರ್ಣಾಙ್ಕ x, y;
+    ಧ್ರುವ size_t ppb = 8;
+    ಧ್ರುವ size_t bytes_per_scanline = (shape->w + (ppb - 1)) / ppb;
+    ಧ್ರುವ Uint8 *a;
     Uint8 *mask;
     Uint8 *mask_scanline;
-    Uint8 mask_value;
+    Uint8 mask_ಮೌಲ್ಯ;
 
     mask = (Uint8 *)SDL_calloc(1, shape->h * bytes_per_scanline);
-    if (mask) {
-        for (y = 0; y < shape->h; y++) {
-            a = (const Uint8 *)shape->pixels + y * shape->pitch;
+    ಯದಿ (mask) {
+        ಪ್ರತಿ (y = 0; y < shape->h; y++) {
+            a = (ಧ್ರುವ Uint8 *)shape->pixels + y * shape->pitch;
             mask_scanline = mask + y * bytes_per_scanline;
-            for (x = 0; x < shape->w; x++) {
-                mask_value = (*a == SDL_ALPHA_TRANSPARENT) ? 0 : 1;
-                mask_scanline[x / ppb] |= mask_value << (x % ppb);
+            ಪ್ರತಿ (x = 0; x < shape->w; x++) {
+                mask_ಮೌಲ್ಯ = (*a == SDL_ALPHA_TRANSPARENT) ? 0 : 1;
+                mask_scanline[x / ppb] |= mask_ಮೌಲ್ಯ << (x % ppb);
                 a += 4;
             }
         }
     }
-    return mask;
+    ಪ್ರತ್ಯಾಗಮ mask;
 }
 #endif // SDL_VIDEO_DRIVER_X11_XSHAPE
 
@@ -61,36 +61,36 @@ bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
     SDL_WindowData *windowdata = window->internal;
 
     // Generate a set of spans for the region
-    if (shape) {
-        SDL_Surface *stretched = NULL;
+    ಯದಿ (shape) {
+        SDL_Surface *stretched = ರಿಕ್ತ;
         Uint8 *mask;
         Pixmap pixmap;
 
-        if (shape->w != window->w || shape->h != window->h) {
+        ಯದಿ (shape->w != window->w || shape->h != window->h) {
             stretched = SDL_CreateSurfaceUninitialized(window->w, window->h, SDL_PIXELFORMAT_ARGB32);
-            if (!stretched) {
-                return false;
+            ಯದಿ (!stretched) {
+                ಪ್ರತ್ಯಾಗಮ false;
             }
-            if (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
+            ಯದಿ (!SDL_StretchSurface(shape, ರಿಕ್ತ, stretched, ರಿಕ್ತ, SDL_SCALEMODE_LINEAR)) {
                 SDL_DestroySurface(stretched);
-                return false;
+                ಪ್ರತ್ಯಾಗಮ false;
             }
             shape = stretched;
         }
 
         mask = GenerateShapeMask(shape);
-        if (mask) {
-            pixmap = X11_XCreateBitmapFromData(windowdata->videodata->display, windowdata->xwindow, (const char *)mask, shape->w, shape->h);
-            X11_XShapeCombineMask(windowdata->videodata->display, windowdata->xwindow, ShapeInput, 0, 0, pixmap, ShapeSet);
+        ಯದಿ (mask) {
+            pixmap = X11_XCreateBitmapFromData(windowdata->videodata->display, windowdata->xwindow, (ಧ್ರುವ ವರ್ಣ *)mask, shape->w, shape->h);
+            X11_XShapeCombineMask(windowdata->videodata->display, windowdata->xwindow, Shape_ಒಳಹರಿವು, 0, 0, pixmap, ShapeSet);
             SDL_free(mask);
 
             result = true;
         }
 
-        if (stretched) {
+        ಯದಿ (stretched) {
             SDL_DestroySurface(stretched);
         }
-    } else {
+    } ಅನ್ಯಥಾ {
         Region region = X11_XCreateRegion();
         XRectangle rect;
 
@@ -99,13 +99,13 @@ bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
         rect.width = window->w;
         rect.height = window->h;
         X11_XUnionRectWithRegion(&rect, region, region);
-        X11_XShapeCombineRegion(windowdata->videodata->display, windowdata->xwindow, ShapeInput, 0, 0, region, ShapeSet);
+        X11_XShapeCombineRegion(windowdata->videodata->display, windowdata->xwindow, Shape_ಒಳಹರಿವು, 0, 0, region, ShapeSet);
         X11_XDestroyRegion(region);
         result = true;
     }
 #endif // SDL_VIDEO_DRIVER_X11_XSHAPE
 
-    return result;
+    ಪ್ರತ್ಯಾಗಮ result;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

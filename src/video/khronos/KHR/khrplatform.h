@@ -90,7 +90,7 @@
  *                                  int arg2) KHRONOS_APIATTRIBUTES;
  */
 
-#if defined(__SCITECH_SNAP__) && !defined(KHRONOS_STATIC)
+#ಯದಿ defined(__SCITECH_SNAP__) && !defined(KHRONOS_STATIC)
 #   define KHRONOS_STATIC 1
 #endif
 
@@ -99,17 +99,17 @@
  *-------------------------------------------------------------------------
  * This precedes the return type of the function in the function prototype.
  */
-#if defined(KHRONOS_STATIC)
+#ಯದಿ defined(KHRONOS_STATIC)
     /* If the preprocessor constant KHRONOS_STATIC is defined, make the
      * header compatible with static linking. */
 #   define KHRONOS_APICALL
-#elif defined(_WIN32)
+#ನೋಚೇದ್ಯದಿ defined(_WIN32)
 #   define KHRONOS_APICALL __declspec(dllimport)
-#elif defined (__SYMBIAN32__)
+#ನೋಚೇದ್ಯದಿ defined (__SYMBIAN32__)
 #   define KHRONOS_APICALL IMPORT_C
-#elif defined(__ANDROID__)
+#ನೋಚೇದ್ಯದಿ defined(__ANDROID__)
 #   define KHRONOS_APICALL __attribute__((visibility("default")))
-#else
+#ಅನ್ಯಥಾ
 #   define KHRONOS_APICALL
 #endif
 
@@ -119,12 +119,12 @@
  * This follows the return type of the function  and precedes the function
  * name in the function prototype.
  */
-#if defined(_WIN32) && !defined(_WIN32_WCE) && !defined(__SCITECH_SNAP__)
+#ಯದಿ defined(_WIN32) && !defined(_WIN32_WCE) && !defined(__SCITECH_SNAP__)
     /* Win32 but not WinCE */
 #   define KHRONOS_APIENTRY __stdcall
-#elif defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
+#ನೋಚೇದ್ಯದಿ defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
 #   define KHRONOS_APIENTRY __stdcall
-#else
+#ಅನ್ಯಥಾ
 #   define KHRONOS_APIENTRY
 #endif
 
@@ -133,26 +133,26 @@
  *-------------------------------------------------------------------------
  * This follows the closing parenthesis of the function prototype arguments.
  */
-#if defined (__ARMCC_2__)
+#ಯದಿ defined (__ARMCC_2__)
 #define KHRONOS_APIATTRIBUTES __softfp
-#else
+#ಅನ್ಯಥಾ
 #define KHRONOS_APIATTRIBUTES
 #endif
 
 /*-------------------------------------------------------------------------
  * basic type definitions
  *-----------------------------------------------------------------------*/
-#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
+#ಯದಿ (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
 
 
 /*
  * Using <stdint.h>
  */
-#include <stdint.h>
-typedef int32_t                 khronos_int32_t;
-typedef uint32_t                khronos_uint32_t;
-typedef int64_t                 khronos_int64_t;
-typedef uint64_t                khronos_uint64_t;
+#ಅನ್ತರ್ಭಾವ <stdint.h>
+ಪ್ರಕಾರನಿರ್ದೇಶ int32_t                 khronos_int32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint32_t                khronos_uint32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ int64_t                 khronos_int64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t                khronos_uint64_t;
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
 /*
@@ -164,74 +164,74 @@ typedef uint64_t                khronos_uint64_t;
  * To avoid changes for existing platforms, we restrict usage of intptr_t to
  * platforms where the size of a pointer is larger than the size of long.
  */
-#if defined(__SIZEOF_LONG__) && defined(__SIZEOF_POINTER__)
-#if __SIZEOF_POINTER__ > __SIZEOF_LONG__
+#ಯದಿ defined(__SIZEOF_LONG__) && defined(__SIZEOF_POINTER__)
+#ಯದಿ __SIZEOF_POINTER__ > __SIZEOF_LONG__
 #define KHRONOS_USE_INTPTR_T
 #endif
 #endif
 
-#elif defined(__VMS ) || defined(__sgi)
+#ನೋಚೇದ್ಯದಿ defined(__VMS ) || defined(__sgi)
 
 /*
  * Using <inttypes.h>
  */
-#include <inttypes.h>
-typedef int32_t                 khronos_int32_t;
-typedef uint32_t                khronos_uint32_t;
-typedef int64_t                 khronos_int64_t;
-typedef uint64_t                khronos_uint64_t;
+#ಅನ್ತರ್ಭಾವ <inttypes.h>
+ಪ್ರಕಾರನಿರ್ದೇಶ int32_t                 khronos_int32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint32_t                khronos_uint32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ int64_t                 khronos_int64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t                khronos_uint64_t;
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
 
-#elif defined(_WIN32) && !defined(__SCITECH_SNAP__)
+#ನೋಚೇದ್ಯದಿ defined(_WIN32) && !defined(__SCITECH_SNAP__)
 
 /*
  * Win32
  */
-typedef __int32                 khronos_int32_t;
-typedef unsigned __int32        khronos_uint32_t;
-typedef __int64                 khronos_int64_t;
-typedef unsigned __int64        khronos_uint64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ __int32                 khronos_int32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned __int32        khronos_uint32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ __int64                 khronos_int64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned __int64        khronos_uint64_t;
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
 
-#elif defined(__sun__) || defined(__digital__)
+#ನೋಚೇದ್ಯದಿ defined(__sun__) || defined(__digital__)
 
 /*
  * Sun or Digital
  */
-typedef int                     khronos_int32_t;
-typedef unsigned int            khronos_uint32_t;
-#if defined(__arch64__) || defined(_LP64)
-typedef long int                khronos_int64_t;
-typedef unsigned long int       khronos_uint64_t;
-#else
-typedef long long int           khronos_int64_t;
-typedef unsigned long long int  khronos_uint64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಪೂರ್ಣಾಙ್ಕ                     khronos_int32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned ಪೂರ್ಣಾಙ್ಕ            khronos_uint32_t;
+#ಯದಿ defined(__arch64__) || defined(_LP64)
+ಪ್ರಕಾರನಿರ್ದೇಶ long ಪೂರ್ಣಾಙ್ಕ                khronos_int64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned long ಪೂರ್ಣಾಙ್ಕ       khronos_uint64_t;
+#ಅನ್ಯಥಾ
+ಪ್ರಕಾರನಿರ್ದೇಶ long long ಪೂರ್ಣಾಙ್ಕ           khronos_int64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned long long ಪೂರ್ಣಾಙ್ಕ  khronos_uint64_t;
 #endif /* __arch64__ */
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
 
-#elif 0
+#ನೋಚೇದ್ಯದಿ 0
 
 /*
  * Hypothetical platform with no float or int64 support
  */
-typedef int                     khronos_int32_t;
-typedef unsigned int            khronos_uint32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ ಪೂರ್ಣಾಙ್ಕ                     khronos_int32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned ಪೂರ್ಣಾಙ್ಕ            khronos_uint32_t;
 #define KHRONOS_SUPPORT_INT64   0
 #define KHRONOS_SUPPORT_FLOAT   0
 
-#else
+#ಅನ್ಯಥಾ
 
 /*
  * Generic fallback
  */
-#include <stdint.h>
-typedef int32_t                 khronos_int32_t;
-typedef uint32_t                khronos_uint32_t;
-typedef int64_t                 khronos_int64_t;
-typedef uint64_t                khronos_uint64_t;
+#ಅನ್ತರ್ಭಾವ <stdint.h>
+ಪ್ರಕಾರನಿರ್ದೇಶ int32_t                 khronos_int32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint32_t                khronos_uint32_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ int64_t                 khronos_int64_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ uint64_t                khronos_uint64_t;
 #define KHRONOS_SUPPORT_INT64   1
 #define KHRONOS_SUPPORT_FLOAT   1
 
@@ -241,10 +241,10 @@ typedef uint64_t                khronos_uint64_t;
 /*
  * Types that are (so far) the same on all platforms
  */
-typedef signed   char          khronos_int8_t;
-typedef unsigned char          khronos_uint8_t;
-typedef signed   short int     khronos_int16_t;
-typedef unsigned short int     khronos_uint16_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ signed   ವರ್ಣ          khronos_int8_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned ವರ್ಣ          khronos_uint8_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ signed   short ಪೂರ್ಣಾಙ್ಕ     khronos_int16_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned short ಪೂರ್ಣಾಙ್ಕ     khronos_uint16_t;
 
 /*
  * Types that differ between LLP64 and LP64 architectures - in LLP64,
@@ -252,32 +252,32 @@ typedef unsigned short int     khronos_uint16_t;
  * to be the only LLP64 architecture in current use.
  */
 #ifdef KHRONOS_USE_INTPTR_T
-typedef intptr_t               khronos_intptr_t;
-typedef uintptr_t              khronos_uintptr_t;
-#elif defined(_WIN64)
-typedef signed   long long int khronos_intptr_t;
-typedef unsigned long long int khronos_uintptr_t;
-#else
-typedef signed   long  int     khronos_intptr_t;
-typedef unsigned long  int     khronos_uintptr_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ intptr_t               khronos_intptr_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ uintptr_t              khronos_uintptr_t;
+#ನೋಚೇದ್ಯದಿ defined(_WIN64)
+ಪ್ರಕಾರನಿರ್ದೇಶ signed   long long ಪೂರ್ಣಾಙ್ಕ khronos_intptr_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned long long ಪೂರ್ಣಾಙ್ಕ khronos_uintptr_t;
+#ಅನ್ಯಥಾ
+ಪ್ರಕಾರನಿರ್ದೇಶ signed   long  ಪೂರ್ಣಾಙ್ಕ     khronos_intptr_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned long  ಪೂರ್ಣಾಙ್ಕ     khronos_uintptr_t;
 #endif
 
-#if defined(_WIN64)
-typedef signed   long long int khronos_ssize_t;
-typedef unsigned long long int khronos_usize_t;
-#else
-typedef signed   long  int     khronos_ssize_t;
-typedef unsigned long  int     khronos_usize_t;
+#ಯದಿ defined(_WIN64)
+ಪ್ರಕಾರನಿರ್ದೇಶ signed   long long ಪೂರ್ಣಾಙ್ಕ khronos_ssize_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned long long ಪೂರ್ಣಾಙ್ಕ khronos_usize_t;
+#ಅನ್ಯಥಾ
+ಪ್ರಕಾರನಿರ್ದೇಶ signed   long  ಪೂರ್ಣಾಙ್ಕ     khronos_ssize_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned long  ಪೂರ್ಣಾಙ್ಕ     khronos_usize_t;
 #endif
 
-#if KHRONOS_SUPPORT_FLOAT
+#ಯದಿ KHRONOS_SUPPORT_FLOAT
 /*
  * Float type
  */
-typedef          float         khronos_float_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ          ಭಿನ್ನ         khronos_float_t;
 #endif
 
-#if KHRONOS_SUPPORT_INT64
+#ಯದಿ KHRONOS_SUPPORT_INT64
 /* Time types
  *
  * These types can be used to represent a time interval in nanoseconds or
@@ -287,8 +287,8 @@ typedef          float         khronos_float_t;
  * 64 bit value that wraps back to 0 every 584 years.  Time intervals
  * may be either signed or unsigned.
  */
-typedef khronos_uint64_t       khronos_utime_nanoseconds_t;
-typedef khronos_int64_t        khronos_stime_nanoseconds_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ khronos_uint64_t       khronos_utime_nanoseconds_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ khronos_int64_t        khronos_stime_nanoseconds_t;
 #endif
 
 /*
@@ -304,7 +304,7 @@ typedef khronos_int64_t        khronos_stime_nanoseconds_t;
  * Values other than zero should be considered to be true.  Therefore
  * comparisons should not be made against KHRONOS_TRUE.
  */
-typedef enum {
+ಪ್ರಕಾರನಿರ್ದೇಶ ಗಣನಾ {
     KHRONOS_FALSE = 0,
     KHRONOS_TRUE  = 1,
     KHRONOS_BOOLEAN_ENUM_FORCE_SIZE = KHRONOS_MAX_ENUM

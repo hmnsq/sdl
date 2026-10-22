@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 #ifndef SDL_androidvideo_h_
 #define SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetScreenResolution(ಪೂರ್ಣಾಙ್ಕ surfaceWidth, ಪೂರ್ಣಾಙ್ಕ surfaceHeight, ಪೂರ್ಣಾಙ್ಕ deviceWidth, ಪೂರ್ಣಾಙ್ಕ deviceHeight, ಭಿನ್ನ density, ಭಿನ್ನ rate);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetScreenHDRHeadroom(ಭಿನ್ನ headroom);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetFormat(ಪೂರ್ಣಾಙ್ಕ format_wanted, ಪೂರ್ಣಾಙ್ಕ format_got);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetOrientation(SDL_DisplayOrientation orientation);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SendResize(SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetWindowSafeAreaInsets(ಪೂರ್ಣಾಙ್ಕ ಎಡ, ಪೂರ್ಣಾಙ್ಕ ಬಲ, ಪೂರ್ಣಾಙ್ಕ ತುದಿ, ಪೂರ್ಣಾಙ್ಕ bottom);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_SetDarkMode(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+ಸಂರಚನಾ SDL_VideoData
 {
-    int isPaused;
-    int isPausing;
+    ಪೂರ್ಣಾಙ್ಕ isPaused;
+    ಪೂರ್ಣಾಙ್ಕ isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ Android_SurfaceWidth;
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ Android_SurfaceHeight;
+ಬಾಹ್ಯ ಭಿನ್ನ Android_ScreenDensity;
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ Android_Safe_Inset_ಎಡ;
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ Android_Safe_Inset_ಬಲ;
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ Android_Safe_Inset_ತುದಿ;
+ಬಾಹ್ಯ ಪೂರ್ಣಾಙ್ಕ Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_
