@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-typedef struct WIN_GameInputData WIN_GameInputData;
+typedef sa_nracanaa WIN_GameInputData WIN_GameInputData;
 
 // Set up for C function definitions, even when using C++
 #ifdef __cplusplus

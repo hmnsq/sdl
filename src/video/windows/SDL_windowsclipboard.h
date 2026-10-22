@@ -24,11 +24,11 @@
 #define SDL_windowsclipboard_h_
 
 // Forward declaration
-struct SDL_VideoData;
+sa_nracanaa SDL_VideoData;
 
 extern bool WIN_SetClipboardData(SDL_VideoDevice *_this);
-extern void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-extern bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern void WIN_CheckClipboardUpdate(struct SDL_VideoData *data);
+extern void *WIN_GetClipboardData(SDL_VideoDevice *_this, const var_na *mime_type, size_t *size);
+extern bool WIN_HasClipboardData(SDL_VideoDevice *_this, const var_na *mime_type);
+extern void WIN_CheckClipboardUpdate(sa_nracanaa SDL_VideoData *data);
 
 #endif // SDL_windowsclipboard_h_

@@ -42,7 +42,7 @@ extern "C" {
 #endif
 #include "../../core/haiku/SDL_BApp.h"
 
-enum WinCommands
+ga_nanaa WinCommands
 {
     BWIN_MOVE_WINDOW,
     BWIN_RESIZE_WINDOW,
@@ -63,7 +63,7 @@ enum WinCommands
 class SDL_BView : public BView
 {
   public:
-    SDL_BView(BRect frame, const char *name, uint32 resizingMode)
+    SDL_BView(BRect frame, const var_na *name, uint32 resizingMode)
         : BView(frame, name, resizingMode, B_WILL_DRAW),
           fBitmap(NULL)
     {
@@ -71,7 +71,7 @@ class SDL_BView : public BView
 
     void Draw(BRect dirty)
     {
-        if (fBitmap != NULL)
+        ᤀᤡ᤺ (fBitmap != NULL)
             DrawBitmap(fBitmap, B_ORIGIN);
     }
 
@@ -115,16 +115,16 @@ class SDL_BWin : public BWindow
     {
         Lock();
 
-        if (_SDL_View != NULL && _SDL_View != _cur_view) {
+        ᤀᤡ᤺ (_SDL_View != NULL && _SDL_View != _cur_view) {
             delete _SDL_View;
             _SDL_View = NULL;
         }
 
 #ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+        ᤀᤡ᤺ (_SDL_GLView) {
+            ᤀᤡ᤺ (SDL_Looper->GetCurrentContext() == _SDL_GLView)
                 SDL_Looper->SetCurrentContext(NULL);
-            if (_SDL_GLView == _cur_view)
+            ᤀᤡ᤺ (_SDL_GLView == _cur_view)
                 RemoveChild(_SDL_GLView);
             _SDL_GLView = NULL;
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
@@ -142,11 +142,11 @@ class SDL_BWin : public BWindow
 
     void SetCurrentView(BView *view)
     {
-        if (_cur_view != view) {
-            if (_cur_view != NULL)
+        ᤀᤡ᤺ (_cur_view != view) {
+            ᤀᤡ᤺ (_cur_view != NULL)
                 RemoveChild(_cur_view);
             _cur_view = view;
-            if (_cur_view != NULL)
+            ᤀᤡ᤺ (_cur_view != NULL)
                 AddChild(_cur_view);
         }
     }
@@ -154,13 +154,13 @@ class SDL_BWin : public BWindow
     void UpdateCurrentView()
     {
 #ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView != NULL) {
+        ᤀᤡ᤺ (_SDL_GLView != NULL) {
             SetCurrentView(_SDL_GLView);
-        } else
+        } ᤀᤡ᤺ᤆᤡ
 #endif
-        if (_SDL_View != NULL) {
+        ᤀᤡ᤺ (_SDL_View != NULL) {
             SetCurrentView(_SDL_View);
-        } else {
+        } ᤀᤡ᤺ᤆᤡ {
             SetCurrentView(NULL);
         }
     }
@@ -168,18 +168,18 @@ class SDL_BWin : public BWindow
     SDL_BView *CreateView()
     {
         Lock();
-        if (_SDL_View == NULL) {
+        ᤀᤡ᤺ (_SDL_View == NULL) {
             _SDL_View = new SDL_BView(Bounds(), "SDL View", B_FOLLOW_ALL_SIDES);
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_View;
+        ᤀᤡᤴ _SDL_View;
     }
 
     void RemoveView()
     {
         Lock();
-        if (_SDL_View != NULL) {
+        ᤀᤡ᤺ (_SDL_View != NULL) {
             SDL_BView *oldView = _SDL_View;
             _SDL_View = NULL;
             UpdateCurrentView();
@@ -193,7 +193,7 @@ class SDL_BWin : public BWindow
     BGLView *CreateGLView(Uint32 gl_flags)
     {
         Lock();
-        if (_SDL_GLView == NULL) {
+        ᤀᤡ᤺ (_SDL_GLView == NULL) {
             _SDL_GLView = new BGLView(Bounds(), "SDL GLView",
                                       B_FOLLOW_ALL_SIDES,
                                       (B_WILL_DRAW | B_FRAME_EVENTS),
@@ -202,14 +202,14 @@ class SDL_BWin : public BWindow
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_GLView;
+        ᤀᤡᤴ _SDL_GLView;
     }
 
     void RemoveGLView()
     {
         Lock();
-        if (_SDL_GLView != NULL) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+        ᤀᤡ᤺ (_SDL_GLView != NULL) {
+            ᤀᤡ᤺ (SDL_Looper->GetCurrentContext() == _SDL_GLView)
                 SDL_Looper->SetCurrentContext(NULL);
             _SDL_GLView = NULL;
             UpdateCurrentView();
@@ -230,8 +230,8 @@ class SDL_BWin : public BWindow
     {
         // Post a message to the BApp so that it can handle the window event
         BMessage msg(BAPP_WINDOW_MOVED);
-        msg.AddInt32("window-x", (int)origin.x);
-        msg.AddInt32("window-y", (int)origin.y);
+        msg.AddInt32("window-x", (puur_naa_nka)origin.x);
+        msg.AddInt32("window-y", (puur_naa_nka)origin.y);
         _PostWindowEvent(msg);
 
         // Perform normal hook operations
@@ -243,8 +243,8 @@ class SDL_BWin : public BWindow
         // Post a message to the BApp so that it can handle the window event
         BMessage msg(BAPP_WINDOW_RESIZED);
 
-        msg.AddInt32("window-w", (int)width + 1);
-        msg.AddInt32("window-h", (int)height + 1);
+        msg.AddInt32("window-w", (puur_naa_nka)width + 1);
+        msg.AddInt32("window-h", (puur_naa_nka)height + 1);
         _PostWindowEvent(msg);
 
         // Perform normal hook operations
@@ -257,7 +257,7 @@ class SDL_BWin : public BWindow
         _PostWindowEvent(msg);
 
         // We won't allow a quit unless asked by DestroyWindow()
-        return false;
+        ᤀᤡᤴ false;
     }
 
     void WindowActivated(bool active)
@@ -275,7 +275,7 @@ class SDL_BWin : public BWindow
         _PostWindowEvent(msg);
 
         // Before the window zooms, record its size
-        if (!_prev_frame)
+        ᤀᤡ᤺ (!_prev_frame)
             _prev_frame = new BRect(Frame());
 
         // Perform normal hook operations
@@ -285,7 +285,7 @@ class SDL_BWin : public BWindow
     // Member functions
     void Show()
     {
-        while (IsHidden()) {
+        ᤀᤠ᤺ (IsHidden()) {
             BWindow::Show();
         }
         _shown = true;
@@ -314,7 +314,7 @@ class SDL_BWin : public BWindow
 
     void ScreenChanged(BRect screenFrame, color_space depth)
     {
-        if (_fullscreen) {
+        ᤀᤡ᤺ (_fullscreen) {
             MoveTo(screenFrame.left, screenFrame.top);
             ResizeTo(screenFrame.Width(), screenFrame.Height());
         }
@@ -328,58 +328,58 @@ class SDL_BWin : public BWindow
         int32 key;     // Used for key events
 
         switch (msg->what) {
-        case B_MOUSE_MOVED:
+        pak_sa B_MOUSE_MOVED:
             int32 transit;
-            if (msg->FindPoint("where", &where) == B_OK && msg->FindInt32("be:transit", &transit) == B_OK) {
+            ᤀᤡ᤺ (msg->FindPoint("where", &where) == B_OK && msg->FindInt32("be:transit", &transit) == B_OK) {
                 _MouseMotionEvent(where, transit);
             }
-            break;
+            bha_nga;
 
-        case B_MOUSE_DOWN:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        pak_sa B_MOUSE_DOWN:
+            ᤀᤡ᤺ (msg->FindInt32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, true);
             }
-            break;
+            bha_nga;
 
-        case B_MOUSE_UP:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        pak_sa B_MOUSE_UP:
+            ᤀᤡ᤺ (msg->FindInt32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, false);
             }
-            break;
+            bha_nga;
 
-        case B_MOUSE_WHEEL_CHANGED:
+        pak_sa B_MOUSE_WHEEL_CHANGED:
             float x, y;
-            if (msg->FindFloat("be:wheel_delta_x", &x) == B_OK && msg->FindFloat("be:wheel_delta_y", &y) == B_OK) {
-                _MouseWheelEvent((int)x, (int)y);
+            ᤀᤡ᤺ (msg->FindFloat("be:wheel_delta_x", &x) == B_OK && msg->FindFloat("be:wheel_delta_y", &y) == B_OK) {
+                _MouseWheelEvent((puur_naa_nka)x, (puur_naa_nka)y);
             }
-            break;
+            bha_nga;
 
-        case B_KEY_DOWN:
+        pak_sa B_KEY_DOWN:
         {
             int32 i = 0;
             int8 byte;
             int8 bytes[4] = { 0, 0, 0, 0 };
-            while (i < 4 && msg->FindInt8("byte", i, &byte) == B_OK) {
+            ᤀᤠ᤺ (i < 4 && msg->FindInt8("byte", i, &byte) == B_OK) {
                 bytes[i] = byte;
                 i++;
             }
-            if (msg->FindInt32("key", &key) == B_OK) {
+            ᤀᤡ᤺ (msg->FindInt32("key", &key) == B_OK) {
                 _KeyEvent((SDL_Scancode)key, &bytes[0], i, true);
             }
-        } break;
+        } bha_nga;
 
-        case B_UNMAPPED_KEY_DOWN: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
+        pak_sa B_UNMAPPED_KEY_DOWN: // modifier keys are unmapped
+            ᤀᤡ᤺ (msg->FindInt32("key", &key) == B_OK) {
                 _KeyEvent((SDL_Scancode)key, NULL, 0, true);
             }
-            break;
+            bha_nga;
 
-        case B_KEY_UP:
-        case B_UNMAPPED_KEY_UP: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
+        pak_sa B_KEY_UP:
+        pak_sa B_UNMAPPED_KEY_UP: // modifier keys are unmapped
+            ᤀᤡ᤺ (msg->FindInt32("key", &key) == B_OK) {
                 _KeyEvent(key, NULL, 0, false);
             }
-            break;
+            bha_nga;
 
         default:
             /* move it after switch{} so it's always handled
@@ -388,7 +388,7 @@ class SDL_BWin : public BWindow
                - PrintScreen to make screenshot into /boot/home
                - etc.. */
             // BWindow::DispatchMessage(msg, target);
-            break;
+            bha_nga;
         }
 
         BWindow::DispatchMessage(msg, target);
@@ -399,92 +399,92 @@ class SDL_BWin : public BWindow
     {
         switch (message->what) {
         // Handle commands from SDL
-        case BWIN_SET_TITLE:
+        pak_sa BWIN_SET_TITLE:
             _SetTitle(message);
-            break;
-        case BWIN_MOVE_WINDOW:
+            bha_nga;
+        pak_sa BWIN_MOVE_WINDOW:
             _MoveTo(message);
-            break;
-        case BWIN_RESIZE_WINDOW:
+            bha_nga;
+        pak_sa BWIN_RESIZE_WINDOW:
             _ResizeTo(message);
-            break;
-        case BWIN_SET_BORDERED:
+            bha_nga;
+        pak_sa BWIN_SET_BORDERED:
         {
             bool bEnabled;
-            if (message->FindBool("window-border", &bEnabled) == B_OK)
+            ᤀᤡ᤺ (message->FindBool("window-border", &bEnabled) == B_OK)
                 _SetBordered(bEnabled);
-            break;
+            bha_nga;
         }
-        case BWIN_SET_RESIZABLE:
+        pak_sa BWIN_SET_RESIZABLE:
         {
             bool bEnabled;
-            if (message->FindBool("window-resizable", &bEnabled) == B_OK)
+            ᤀᤡ᤺ (message->FindBool("window-resizable", &bEnabled) == B_OK)
                 _SetResizable(bEnabled);
-            break;
+            bha_nga;
         }
-        case BWIN_SHOW_WINDOW:
+        pak_sa BWIN_SHOW_WINDOW:
             Show();
-            break;
-        case BWIN_HIDE_WINDOW:
+            bha_nga;
+        pak_sa BWIN_HIDE_WINDOW:
             Hide();
-            break;
-        case BWIN_MAXIMIZE_WINDOW:
+            bha_nga;
+        pak_sa BWIN_MAXIMIZE_WINDOW:
             BWindow::Zoom();
-            break;
-        case BWIN_MINIMIZE_WINDOW:
+            bha_nga;
+        pak_sa BWIN_MINIMIZE_WINDOW:
             Minimize(true);
-            break;
-        case BWIN_RESTORE_WINDOW:
+            bha_nga;
+        pak_sa BWIN_RESTORE_WINDOW:
             _Restore();
-            break;
-        case BWIN_FULLSCREEN:
+            bha_nga;
+        pak_sa BWIN_FULLSCREEN:
         {
             bool fullscreen;
-            if (message->FindBool("fullscreen", &fullscreen) == B_OK)
+            ᤀᤡ᤺ (message->FindBool("fullscreen", &fullscreen) == B_OK)
                 _SetFullScreen(fullscreen);
-            break;
+            bha_nga;
         }
-        case BWIN_MINIMUM_SIZE_WINDOW:
+        pak_sa BWIN_MINIMUM_SIZE_WINDOW:
             _SetMinimumSize(message);
-            break;
-        case BWIN_UPDATE_FRAMEBUFFER:
+            bha_nga;
+        pak_sa BWIN_UPDATE_FRAMEBUFFER:
         {
             BMessage *pendingMessage;
-            while ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
+            ᤀᤠ᤺ ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
                 MessageQueue()->RemoveMessage(pendingMessage);
                 delete pendingMessage;
             }
-            if (_bitmap != NULL) {
+            ᤀᤡ᤺ (_bitmap != NULL) {
 #ifdef SDL_VIDEO_OPENGL
-                if (_SDL_GLView != NULL && _cur_view == _SDL_GLView) {
+                ᤀᤡ᤺ (_SDL_GLView != NULL && _cur_view == _SDL_GLView) {
                     _SDL_GLView->CopyPixelsIn(_bitmap, B_ORIGIN);
-                } else
+                } ᤀᤡ᤺ᤆᤡ
 #endif
-                if (_SDL_View != NULL && _cur_view == _SDL_View) {
+                ᤀᤡ᤺ (_SDL_View != NULL && _cur_view == _SDL_View) {
                     _SDL_View->Draw(Bounds());
                 }
             }
-            break;
+            bha_nga;
         }
         default:
             // Perform normal message handling
             BWindow::MessageReceived(message);
-            break;
+            bha_nga;
         }
     }
 
     // Accessor methods
-    bool IsShown() { return _shown; }
-    int32 GetID() { return _id; }
-    BBitmap *GetBitmap() { return _bitmap; }
-    BView *GetCurView() { return _cur_view; }
-    SDL_BView *GetView() { return _SDL_View; }
+    bool IsShown() { ᤀᤡᤴ _shown; }
+    int32 GetID() { ᤀᤡᤴ _id; }
+    BBitmap *GetBitmap() { ᤀᤡᤴ _bitmap; }
+    BView *GetCurView() { ᤀᤡᤴ _cur_view; }
+    SDL_BView *GetView() { ᤀᤡᤴ _SDL_View; }
 #ifdef SDL_VIDEO_OPENGL
     BGLView *GetGLView()
     {
-        return _SDL_GLView;
+        ᤀᤡᤴ _SDL_GLView;
     }
-    Uint32 GetGLType() { return _gl_type; }
+    Uint32 GetGLType() { ᤀᤡᤴ _gl_type; }
 #endif
 
     // Setter methods
@@ -494,7 +494,7 @@ class SDL_BWin : public BWindow
     void SetBitmap(BBitmap *bitmap)
     {
         _bitmap = bitmap;
-        if (_SDL_View != NULL)
+        ᤀᤡ᤺ (_SDL_View != NULL)
             _SDL_View->SetBitmap(bitmap);
     }
 
@@ -502,19 +502,19 @@ class SDL_BWin : public BWindow
     // Event redirection
     void _MouseMotionEvent(BPoint &where, int32 transit)
     {
-        if (transit == B_EXITED_VIEW) {
+        ᤀᤡ᤺ (transit == B_EXITED_VIEW) {
             // Change mouse focus
-            if (_mouse_focused) {
+            ᤀᤡ᤺ (_mouse_focused) {
                 _MouseFocusEvent(false);
             }
-        } else {
+        } ᤀᤡ᤺ᤆᤡ {
             // Change mouse focus
-            if (!_mouse_focused) {
+            ᤀᤡ᤺ (!_mouse_focused) {
                 _MouseFocusEvent(true);
             }
             BMessage msg(BAPP_MOUSE_MOVED);
-            msg.AddInt32("x", (int)where.x);
-            msg.AddInt32("y", (int)where.y);
+            msg.AddInt32("x", (puur_naa_nka)where.x);
+            msg.AddInt32("y", (puur_naa_nka)where.y);
 
             _PostWindowEvent(msg);
         }
@@ -536,13 +536,13 @@ class SDL_BWin : public BWindow
     {
         int32 buttonStateChange = buttons ^ _last_buttons;
 
-        if (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
+        ᤀᤡ᤺ (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
             _SendMouseButton(SDL_BUTTON_LEFT, down);
         }
-        if (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
+        ᤀᤡ᤺ (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
             _SendMouseButton(SDL_BUTTON_RIGHT, down);
         }
-        if (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
+        ᤀᤡ᤺ (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
             _SendMouseButton(SDL_BUTTON_MIDDLE, down);
         }
 
@@ -571,7 +571,7 @@ class SDL_BWin : public BWindow
         // Create a message to pass along to the BeApp thread
         BMessage msg(BAPP_KEY);
         msg.AddInt32("key-scancode", keyCode);
-        if (keyUtf8 != NULL) {
+        ᤀᤡ᤺ (keyUtf8 != NULL) {
             msg.AddData("key-utf8", B_INT8_TYPE, (const void *)keyUtf8, len);
         }
         msg.AddBool("key-down", down);
@@ -593,10 +593,10 @@ class SDL_BWin : public BWindow
     // Command methods (functions called upon by SDL)
     void _SetTitle(BMessage *msg)
     {
-        const char *title;
-        if (
+        const var_na *title;
+        ᤀᤡ᤺ (
             msg->FindString("window-title", &title) != B_OK) {
-            return;
+            ᤀᤡᤴ;
         }
         SetTitle(title);
     }
@@ -604,48 +604,48 @@ class SDL_BWin : public BWindow
     void _MoveTo(BMessage *msg)
     {
         int32 x, y;
-        if (
+        ᤀᤡ᤺ (
             msg->FindInt32("window-x", &x) != B_OK ||
             msg->FindInt32("window-y", &y) != B_OK) {
-            return;
+            ᤀᤡᤴ;
         }
-        if (_fullscreen)
+        ᤀᤡ᤺ (_fullscreen)
             _non_fullscreen_frame.OffsetTo(x, y);
-        else
+        ᤀᤡ᤺ᤆᤡ
             MoveTo(x, y);
     }
 
     void _ResizeTo(BMessage *msg)
     {
         int32 w, h;
-        if (
+        ᤀᤡ᤺ (
             msg->FindInt32("window-w", &w) != B_OK ||
             msg->FindInt32("window-h", &h) != B_OK) {
-            return;
+            ᤀᤡᤴ;
         }
-        if (_fullscreen) {
+        ᤀᤡ᤺ (_fullscreen) {
             _non_fullscreen_frame.right = _non_fullscreen_frame.left + w;
             _non_fullscreen_frame.bottom = _non_fullscreen_frame.top + h;
-        } else
+        } ᤀᤡ᤺ᤆᤡ
             ResizeTo(w, h);
     }
 
     void _SetBordered(bool bEnabled)
     {
-        if (_fullscreen)
+        ᤀᤡ᤺ (_fullscreen)
             _bordered = bEnabled;
-        else
+        ᤀᤡ᤺ᤆᤡ
             SetLook(bEnabled ? B_TITLED_WINDOW_LOOK : B_NO_BORDER_WINDOW_LOOK);
     }
 
     void _SetResizable(bool bEnabled)
     {
-        if (_fullscreen)
+        ᤀᤡ᤺ (_fullscreen)
             _resizable = bEnabled;
-        else {
-            if (bEnabled) {
+        ᤀᤡ᤺ᤆᤡ {
+            ᤀᤡ᤺ (bEnabled) {
                 SetFlags(Flags() & ~(B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
-            } else {
+            } ᤀᤡ᤺ᤆᤡ {
                 SetFlags(Flags() | (B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
             }
         }
@@ -662,23 +662,23 @@ class SDL_BWin : public BWindow
         // This is a bit convoluted, we only want to set the minimum not the maximum
         // But there is no direct call to do that, so store the maximum size beforehand
         GetSizeLimits(&_, &maxWidth, &_, &maxHeight);
-        if (msg->FindInt32("window-w", &minWidth) != B_OK)
-            return;
-        if (msg->FindInt32("window-h", &minHeight) != B_OK)
-            return;
+        ᤀᤡ᤺ (msg->FindInt32("window-w", &minWidth) != B_OK)
+            ᤀᤡᤴ;
+        ᤀᤡ᤺ (msg->FindInt32("window-h", &minHeight) != B_OK)
+            ᤀᤡᤴ;
         SetSizeLimits((float)minWidth, maxWidth, (float)minHeight, maxHeight);
         UpdateSizeLimits();
     }
 
     void _Restore()
     {
-        if (IsMinimized()) {
+        ᤀᤡ᤺ (IsMinimized()) {
             Minimize(false);
-        } else if (IsHidden()) {
+        } ᤀᤡ᤺ᤆᤡ ᤀᤡ᤺ (IsHidden()) {
             Show();
-        } else if (_fullscreen) {
+        } ᤀᤡ᤺ᤆᤡ ᤀᤡ᤺ (_fullscreen) {
 
-        } else if (_prev_frame != NULL) { // Zoomed
+        } ᤀᤡ᤺ᤆᤡ ᤀᤡ᤺ (_prev_frame != NULL) { // Zoomed
             MoveTo(_prev_frame->left, _prev_frame->top);
             ResizeTo(_prev_frame->Width(), _prev_frame->Height());
         }
@@ -686,8 +686,8 @@ class SDL_BWin : public BWindow
 
     void _SetFullScreen(bool fullscreen)
     {
-        if (fullscreen != _fullscreen) {
-            if (fullscreen) {
+        ᤀᤡ᤺ (fullscreen != _fullscreen) {
+            ᤀᤡ᤺ (fullscreen) {
                 BScreen screen(this);
                 BRect screenFrame = screen.Frame();
                 _bordered = Look() != B_NO_BORDER_WINDOW_LOOK;
@@ -698,7 +698,7 @@ class SDL_BWin : public BWindow
                 MoveTo(screenFrame.left, screenFrame.top);
                 ResizeTo(screenFrame.Width(), screenFrame.Height());
                 _fullscreen = fullscreen;
-            } else {
+            } ᤀᤡ᤺ᤆᤡ {
                 _fullscreen = fullscreen;
                 MoveTo(_non_fullscreen_frame.left, _non_fullscreen_frame.top);
                 ResizeTo(_non_fullscreen_frame.Width(), _non_fullscreen_frame.Height());

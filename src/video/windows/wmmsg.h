@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#define MAX_WMMSG (sizeof(wmtab) / sizeof(wmtab[0]))
+#define MAX_WMMSG (parimaa_na(wmtab) / parimaa_na(wmtab[0]))
 
-const char *wmtab[] = {
+const var_na *wmtab[] = {
     "WM_NULL",
     "WM_CREATE",
     "WM_DESTROY",

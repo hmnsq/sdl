@@ -48,7 +48,7 @@
  * implementations.
  */
 
-#if defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
+#ᤀᤡ᤺ defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
 
 typedef void *EGLNativeDisplayType;
 typedef void *EGLNativePixmapType;
@@ -67,41 +67,41 @@ typedef HWND    EGLNativeWindowType;
 #elif defined(__QNX__)
 
 typedef khronos_uintptr_t      EGLNativeDisplayType;
-typedef struct _screen_pixmap* EGLNativePixmapType;  /* screen_pixmap_t */
-typedef struct _screen_window* EGLNativeWindowType;  /* screen_window_t */
+typedef sa_nracanaa _screen_pixmap* EGLNativePixmapType;  /* screen_pixmap_t */
+typedef sa_nracanaa _screen_window* EGLNativeWindowType;  /* screen_window_t */
 
 #elif defined(__EMSCRIPTEN__)
 
-typedef int EGLNativeDisplayType;
-typedef int EGLNativePixmapType;
-typedef int EGLNativeWindowType;
+typedef puur_naa_nka EGLNativeDisplayType;
+typedef puur_naa_nka EGLNativePixmapType;
+typedef puur_naa_nka EGLNativeWindowType;
 
 #elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
 
-typedef int   EGLNativeDisplayType;
+typedef puur_naa_nka   EGLNativeDisplayType;
 typedef void *EGLNativePixmapType;
 typedef void *EGLNativeWindowType;
 
 #elif defined(WL_EGL_PLATFORM)
 
-typedef struct wl_display     *EGLNativeDisplayType;
-typedef struct wl_egl_pixmap  *EGLNativePixmapType;
-typedef struct wl_egl_window  *EGLNativeWindowType;
+typedef sa_nracanaa wl_display     *EGLNativeDisplayType;
+typedef sa_nracanaa wl_egl_pixmap  *EGLNativePixmapType;
+typedef sa_nracanaa wl_egl_window  *EGLNativeWindowType;
 
 #elif defined(__GBM__)
 
-typedef struct gbm_device  *EGLNativeDisplayType;
-typedef struct gbm_bo      *EGLNativePixmapType;
+typedef sa_nracanaa gbm_device  *EGLNativeDisplayType;
+typedef sa_nracanaa gbm_bo      *EGLNativePixmapType;
 typedef void               *EGLNativeWindowType;
 
 #elif defined(__ANDROID__) || defined(ANDROID)
 
-struct ANativeWindow;
-struct egl_native_pixmap_t;
+sa_nracanaa ANativeWindow;
+sa_nracanaa egl_native_pixmap_t;
 
 typedef void*                           EGLNativeDisplayType;
-typedef struct egl_native_pixmap_t*     EGLNativePixmapType;
-typedef struct ANativeWindow*           EGLNativeWindowType;
+typedef sa_nracanaa egl_native_pixmap_t*     EGLNativePixmapType;
+typedef sa_nracanaa ANativeWindow*           EGLNativeWindowType;
 
 #elif defined(USE_OZONE)
 
@@ -127,7 +127,7 @@ typedef khronos_uintptr_t EGLNativeWindowType;
 
 #elif defined(__APPLE__)
 
-typedef int   EGLNativeDisplayType;
+typedef puur_naa_nka   EGLNativeDisplayType;
 typedef void *EGLNativePixmapType;
 typedef void *EGLNativeWindowType;
 
@@ -145,7 +145,7 @@ typedef void              *EGLNativeDisplayType;
 typedef khronos_uintptr_t  EGLNativePixmapType;
 typedef khronos_uintptr_t  EGLNativeWindowType;
 
-#else
+#ᤀᤡ᤺ᤆᤡ
 #error "Platform not recognized"
 #endif
 
@@ -166,9 +166,9 @@ typedef khronos_int32_t EGLint;
 
 
 /* C++ / C typecast macros for special EGL handle values */
-#if defined(__cplusplus)
+#ᤀᤡ᤺ defined(__cplusplus)
 #define EGL_CAST(type, value) (static_cast<type>(value))
-#else
+#ᤀᤡ᤺ᤆᤡ
 #define EGL_CAST(type, value) ((type) (value))
 #endif
 

@@ -30,7 +30,7 @@
  * A map that translates Screen key names to SDL scan codes.
  * This map is incomplete, but should include most major keys.
  */
-static int key_to_sdl[] = {
+static puur_naa_nka key_to_sdl[] = {
     [KEYCODE_SPACE] = SDL_SCANCODE_SPACE,
     [KEYCODE_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE,
     [KEYCODE_COMMA] = SDL_SCANCODE_COMMA,
@@ -165,53 +165,53 @@ static int key_to_sdl[] = {
  */
 void handleKeyboardEvent(screen_event_t event)
 {
-    int             val;
-    int             cap;
-    char            ascii_text[2];
+    puur_naa_nka             val;
+    puur_naa_nka             cap;
+    var_na            ascii_text[2];
     SDL_Scancode    scancode;
 
     // Get the key value.
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
-        return;
+    ᤀᤡ᤺ (screen_get_event_property_iv(event, SCREEN_PROPERTY_SYM, &val) < 0) {
+        ᤀᤡᤴ;
     }
 
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_KEY_CAP, &cap) < 0) {
-        return;
+    ᤀᤡ᤺ (screen_get_event_property_iv(event, SCREEN_PROPERTY_KEY_CAP, &cap) < 0) {
+        ᤀᤡᤴ;
     }
 
     // Skip unrecognized keys.
-    if ((val < 0) || (val >= SDL_arraysize(key_to_sdl))) {
-        return;
+    ᤀᤡ᤺ ((val < 0) || (val >= SDL_arraysize(key_to_sdl))) {
+        ᤀᤡᤴ;
     }
 
     // Translate to an SDL scan code.
     scancode = key_to_sdl[val];
-    if (scancode == 0) {
-        return;
+    ᤀᤡ᤺ (scancode == 0) {
+        ᤀᤡᤴ;
     }
 
     // Get event flags (key state).
-    if (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
-        return;
+    ᤀᤡ᤺ (screen_get_event_property_iv(event, SCREEN_PROPERTY_FLAGS, &val) < 0) {
+        ᤀᤡᤴ;
     }
 
     // Propagate the event to SDL.
     // FIXME:
     // Need to handle more key states (such as key combinations).
-    if (val & KEY_DOWN) {
+    ᤀᤡ᤺ (val & KEY_DOWN) {
         SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, true);
 
         // TODO: To simplify, we're ignoring keycodes that aren't just ascii.
-        if ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
+        ᤀᤡ᤺ ((val < UNICODE_PRIVATE_USE_AREA_FIRST) && ((cap & 0xFF) == cap)) {
             ascii_text[0] = cap;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
-        } else if ((KEYCODE_PC_KEYS <= val) && (val < KEYCODE_CONSUMER_KEYS)) {
+        } ᤀᤡ᤺ᤆᤡ ᤀᤡ᤺ ((KEYCODE_PC_KEYS <= val) && (val < KEYCODE_CONSUMER_KEYS)) {
             ascii_text[0] = val & 0xFF;
             ascii_text[1] = 0;
             SDL_SendKeyboardText(ascii_text);
         }
-    } else {
+    } ᤀᤡ᤺ᤆᤡ {
         SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, val, scancode, false);
     }
 }
