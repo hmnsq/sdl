@@ -1,0 +1,581 @@
+# What is still missing
+
+76 languages. Each line says in how many languages it is missing.
+
+## Files in languages BURP cannot read yet
+
+- `.m`: 29 files
+- `.swift`: 5 files
+- `.cs`: 1 files
+- `.pl`: 1 files
+
+## Keywords with no word in a language's table
+
+- shraeni:clear: 75
+- guru:_exit: 75
+- guru:size_t: 71
+- guru:time: 71
+- guru:close: 71
+- guru:FILE: 71
+- guru:wchar_t: 71
+- guru:tm: 71
+- guru:errno: 71
+- guru:fclose: 71
+- guru:strerror: 71
+- guru:system: 71
+- guru:fseek: 71
+- guru:remove: 71
+- guru:time_t: 71
+- guru:fread: 71
+- guru:SEEK_SET: 71
+- guru:setlocale: 71
+- guru:fprintf: 71
+- guru:stderr: 71
+- guru:strtol: 71
+- guru:fwrite: 71
+- guru:fflush: 71
+- shraeni:size_t: 71
+- guru:fopen: 71
+- guru:ftell: 71
+- guru:UINT_MAX: 71
+- guru:SHRT_MIN: 71
+- guru:realloc: 71
+- guru:freopen: 71
+- guru:EOF: 71
+- guru:INT_MIN: 71
+- guru:SHRT_MAX: 71
+- guru:SEEK_CUR: 71
+- guru:mkdir: 71
+- guru:readdir: 71
+- guru:rmdir: 71
+- guru:SEEK_END: 71
+- guru:DIR: 71
+- guru:opendir: 71
+- guru:closedir: 71
+- guru:clock: 71
+- guru:mktime: 71
+- guru:localtime: 71
+- guru:memcmp: 71
+- guru:fgetc: 71
+- guru:ungetc: 71
+- guru:feof: 71
+- guru:ferror: 71
+- guru:sigpending: 71
+- guru:fork: 71
+- guru:LONG_MAX: 71
+- guru:memset: 70
+- guru:div: 70
+- guru:strcmp: 70
+- guru:open: 70
+- guru:exp: 67
+- shraeni:explicit: 67
+- guru:#define: 66
+- guru:#endif: 66
+- guru:#ifndef: 66
+- guru:#ifdef: 66
+- guru:#undef: 66
+- guru:#pragma: 66
+- shraeni:#endif: 66
+- shraeni:#ifdef: 66
+- guru:#error: 66
+- shraeni:delete: 66
+- shraeni:#define: 66
+- shraeni:#ifndef: 66
+- shraeni:left: 66
+- shraeni:#undef: 66
+- guru:unsigned: 62
+- guru:long: 62
+- guru:short: 62
+- guru:printf: 62
+- guru:memcpy: 62
+- guru:signed: 62
+- guru:malloc: 62
+- guru:template: 62
+- guru:strlen: 62
+- guru:INT_MAX: 62
+- guru:strncmp: 62
+- guru:pow: 62
+- guru:abs: 62
+- guru:main: 54
+- guru:virtual: 40
+- shraeni:virtual: 40
+- shraeni:true: 38
+- shraeni:bool: 26
+- shraeni:false: 26
+- guru:void: 25
+- guru:const: 25
+- guru:typedef: 25
+- guru:static: 25
+- guru:NULL: 25
+- guru:extern: 25
+- guru:float: 25
+- guru:switch: 25
+- guru:goto: 25
+- guru:public: 25
+- guru:default: 25
+- guru:do: 25
+- guru:continue: 25
+- guru:#elif: 25
+- shraeni:void: 25
+- shraeni:NULL: 25
+- shraeni:static: 25
+- shraeni:const: 25
+- guru:free: 25
+- guru:assert: 25
+- guru:read: 25
+- shraeni:extern: 25
+- shraeni:float: 25
+- shraeni:new: 25
+- shraeni:goto: 25
+- guru:write: 25
+- shraeni:switch: 25
+- shraeni:default: 25
+- shraeni:free: 25
+- shraeni:continue: 25
+- guru:private: 25
+- shraeni:public: 25
+- shraeni:class: 25
+- shraeni:typedef: 25
+- guru:for: 9
+- shraeni:for: 9
+- guru:struct: 9
+- guru:case: 9
+- guru:char: 9
+- guru:break: 9
+- guru:enum: 9
+- guru:sizeof: 9
+- guru:double: 9
+- guru:inline: 9
+- guru:union: 9
+- shraeni:char: 9
+- shraeni:case: 9
+- shraeni:break: 9
+- shraeni:sizeof: 9
+- shraeni:struct: 9
+- guru:register: 9
+- shraeni:enum: 9
+- shraeni:protected: 9
+- guru:if: 1
+- guru:int: 1
+- guru:return: 1
+- guru:else: 1
+- guru:while: 1
+- guru:#if: 1
+- guru:#else: 1
+- shraeni:if: 1
+- shraeni:return: 1
+- shraeni:int: 1
+- shraeni:else: 1
+- shraeni:#if: 1
+- shraeni:#else: 1
+- shraeni:while: 1
+
+## Names with no dictionary entry (the most common first)
+
+- `This`: 76
+- `_`: 76
+- `_this`: 76
+- `info`: 76
+- `i`: 76
+- `STDMETHODCALLTYPE`: 76
+- `GLenum`: 76
+- `Uint32`: 76
+- `riid`: 76
+- `lpVtbl`: 76
+- `GLuint`: 76
+- `dst`: 76
+- `DECLSPEC_XFGVIRT`: 76
+- `src`: 76
+- `type`: 76
+- `UINT`: 76
+- `GLint`: 76
+- `x`: 76
+- `y`: 76
+- `dstR`: 76
+- `dstG`: 76
+- `dstB`: 76
+- `flags`: 76
+- `SDL_VideoDevice`: 76
+- `pDesc`: 76
+- `GLsizei`: 76
+- `MULT_DIV_255`: 76
+- `GL_APIENTRY`: 76
+- `device`: 76
+- `Uint8`: 76
+- `display`: 76
+- `GL_APIENTRYP`: 76
+- `GL_APICALL`: 76
+- `surface`: 76
+- `srcA`: 76
+- `w`: 76
+- `HRESULT`: 76
+- `h`: 76
+- `sType`: 76
+- `VkStructureType`: 76
+- `s`: 76
+- `defined`: 76
+- `VkBool32`: 76
+- `seat`: 76
+- `d`: 76
+- `_avail`: 76
+- `GLfloat`: 76
+- `n`: 76
+- `videodata`: 76
+- `srcR`: 76
+- `srcG`: 76
+- `srcB`: 76
+- `a`: 76
+- `format`: 76
+- `b`: 76
+- `VKAPI_PTR`: 76
+- `VKAPI_ATTR`: 76
+- `VKAPI_CALL`: 76
+- `XR_MAY_ALIAS`: 76
+- `guid`: 76
+- `XrStructureType`: 76
+- `r`: 76
+- `VkDevice`: 76
+- `dstpixel`: 76
+- `rect`: 76
+- `g`: 76
+- `REFIID`: 76
+- `z`: 76
+- `ID3D12GraphicsCommandList`: 76
+- `v`: 76
+- `keyboard`: 76
+- `Uint64`: 76
+- `c`: 76
+- `location`: 76
+- `wind`: 76
+- `ID3D12Device`: 76
+- `VK_ONLY_EXPORTED_PROTOTYPES`: 76
+- `tmp2`: 76
+- `tmp1`: 76
+- `pResource`: 76
+- `XRAPI_PTR`: 76
+- `srcpixel`: 76
+- `XRAPI_ATTR`: 76
+- `XRAPI_CALL`: 76
+- `pixelvalue`: 76
+- `pname`: 76
+- `j`: 76
+- `SDL_free`: 76
+- `dstA`: 76
+- `DestDescriptor`: 76
+- `p`: 76
+- `pZip`: 76
+- `control`: 76
+- `ppvResource`: 76
+- `state`: 76
+- `name`: 76
+- `ID3D12Resource`: 76
+- `ppvObject`: 76
+- `session`: 76
+- `GLboolean`: 76
+- `params`: 76
+- `Name`: 76
+- `UINT64`: 76
+- `XrSession`: 76
+- `viddata`: 76
+- `id`: 76
+- `dpy`: 76
+- `Display`: 76
+- `posx`: 76
+- `Release`: 76
+- `incx`: 76
+- `Flags`: 76
+- `posy`: 76
+- `incy`: 76
+- `_COM_Outptr_`: 76
+- `QueryInterface`: 76
+- `src_pitch`: 76
+- `OPENVR_FNTABLE_CALLTYPE`: 76
+- `pixels`: 76
+- `dst_pitch`: 76
+- `IUnknown`: 76
+- `dst_h`: 76
+- `dst_w`: 76
+- `gl_config`: 76
+- `EGLint`: 76
+- `B`: 76
+- `hwnd`: 76
+- `SDL_Surface`: 76
+- `event`: 76
+- `pAllocator`: 76
+- `instance`: 76
+- `Uint16`: 76
+- `context`: 76
+- `map`: 76
+- `stbi_uc`: 76
+- `BOOL`: 76
+- `cursor`: 76
+- `props`: 76
+- `srcx`: 76
+- `R`: 76
+- `G`: 76
+- `GL_API`: 76
+- `srcy`: 76
+- `dispdata`: 76
+- `SDL_BlitInfo`: 76
+- `pRects`: 76
+- `EGLDisplay`: 76
+- `ppObjects`: 76
+- `SDL_SCANCODE_UNKNOWN`: 76
+- `RetVal`: 76
+- `pitch`: 76
+- `keymap`: 76
+- `mouse`: 76
+- `SDL_X11_SYM`: 76
+- `param`: 76
+- `e`: 76
+- `interface`: 76
+- `dstfmt`: 76
+- `Type`: 76
+- `pProtectedSession`: 76
+- `D3D12_CPU_DESCRIPTOR_HANDLE`: 76
+- `ppPipelineState`: 76
+- `InitialState`: 76
+- `_COM_Outptr_opt_`: 76
+- `xevent`: 76
+- `len`: 76
+- `EGLBoolean`: 76
+- `srcfmt`: 76
+- `srcskip`: 76
+- `createInfo`: 76
+- `GLfixed`: 76
+- `SDL_VideoDisplay`: 76
+- `level`: 76
+- `ID3D12Object`: 76
+- `pResourceDescs`: 76
+- `k`: 76
+- `VkFlags`: 76
+- `ULONG`: 76
+- `DWORD`: 76
+- `rc`: 76
+- `regs`: 76
+- `SDL_Rect`: 76
+- `attribs`: 76
+- `srcbpp`: 76
+- `GLchar`: 76
+- `VkPhysicalDevice`: 76
+- `mz_uint`: 76
+- `palette`: 76
+- `mz_uint8`: 76
+- `physicalDevice`: 76
+- `xkb`: 76
+- `_WIN32`: 76
+- `dstskip`: 76
+- `SDL_COPY_BLEND`: 76
+- `u`: 76
+- `A`: 76
+- `riidResource`: 76
+- `Atom`: 76
+- `fmt`: 76
+- `pInfo`: 76
+- `comp`: 76
+- `bpp`: 76
+- `modulateR`: 76
+- `modulateG`: 76
+- `modulateB`: 76
+- `VK_NO_PROTOTYPES`: 76
+- `ppvDevice`: 76
+- `f`: 76
+- `REFGUID`: 76
+- `_unavail`: 76
+- `screen`: 76
+- `EGLAPIENTRYP`: 76
+- `tmp`: 76
+- `SDL_zero`: 76
+- `MZ_FALSE`: 76
+- `vulkan_config`: 76
+- `EGLAPIENTRY`: 76
+- `Pixel`: 76
+- `ret`: 76
+- `svuint16_t`: 76
+- `SDL_RESTRICT`: 76
+- `alpha`: 76
+- `SDL_Log`: 76
+- `m`: 76
+- `messageboxdata`: 76
+- `pDstResource`: 76
+- `pSrcResource`: 76
+- `InitialResourceState`: 76
+- `KEYMAP`: 76
+- `D3D12_RESOURCE_DESC`: 76
+- `XrBool32`: 76
+- `Access`: 76
+- `SDL_calloc`: 76
+- `GL_GLEXT_PROTOTYPES`: 76
+- `texture`: 76
+- `yuv_type`: 76
+- `xwindow`: 76
+- `focus`: 76
+- `EGLAPI`: 76
+- `v0`: 76
+- `req_comp`: 76
+- `CHECK_PARAM`: 76
+- `SDL_strcmp`: 76
+- `XrSpace`: 76
+- `pCreateInfo`: 76
+- `SDL_WaylandSeat`: 76
+- `displayID`: 76
+- `ID3D12Device5`: 76
+- `controls`: 76
+- `internalformat`: 76
+- `DescriptorHeapsType`: 76
+- `scancode`: 76
+- `XR_NO_PROTOTYPES`: 76
+- `byte`: 76
+- `uv_stride`: 76
+- `GetDevice`: 76
+- `XR_EXTENSION_PROTOTYPES`: 76
+- `Amask`: 76
+- `modulateA`: 76
+- `y_stride`: 76
+- `Enable`: 76
+- `space`: 76
+- `SDL_GLContext`: 76
+- `Dependencies`: 76
+- `ID3D12GraphicsCommandList4`: 76
+- `XrInstance`: 76
+- `stbi__get8`: 76
+- `SDL_PixelFormat`: 76
+- `mime_type`: 76
+- `LPCWSTR`: 76
+- `stbi__err`: 76
+- `v1`: 76
+- `SDL_TARGETING`: 76
+- `crtc`: 76
+- `scale`: 76
+- `curdata`: 76
+- `SDL_InvalidParamError`: 76
+- `hint`: 76
+- `error`: 76
+- `SDL_PIXELFORMAT_ARGB8888`: 76
+- `stbi__context`: 76
+- `SDL_PropertiesID`: 76
+- `atoms`: 76
+- `dstrect`: 76
+- `SDL_assert`: 76
+- `image`: 76
+- `pInitialState`: 76
+- `pTiledResource`: 76
+- `ppCommandList`: 76
+- `ID3D12Device4`: 76
+- `src_w`: 76
+- `VkInstance`: 76
+- `ID3D12GraphicsCommandList1`: 76
+- `img_comp`: 76
+- `False`: 76
+- `bounds`: 76
+- `V`: 76
+- `offer`: 76
+- `src_h`: 76
+- `timestamp`: 76
+
+## Comments with no translation
+
+- / calls your macro with the function name and extension name.: 76
+- / Trims the leading `xr` from the function name and the leading `XR_` from the feature name,: 76
+- / because it is easy to add back but impossible to remove with the preprocessor.: 76
+- C style interface: 76
+- !XR_NO_PROTOTYPES: 76
+- XR_EXTENSION_PROTOTYPES: 76
+- [unique][local][object][uuid]: 76
+- COBJMACROS: 76
+- *INDENT-ON*: 76
+- clang-format on: 76
+- *INDENT-OFF*: 76
+- clang-format off: 76
+- [local]: 76
+- ** This header is generated from the Khronos Vulkan XML API Registry.
+**: 76
+- !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES): 76
+- Set up some basic variables: 76
+- not used in SDL: 76
+- SDL_VIDEO_DRIVER_X11: 76
+- oh well.: 76
+- [annotation][out]: 76
+- / Implementation detail of XR_LIST_STRUCTURE_TYPES(): 76
+- Initialize all variables that we clean on shutdown: 76
+- SDL_VIDEO_DRIVER_WINDOWS: 76
+- SDL_VIDEO_DRIVER_WAYLAND: 76
+- SDL_VIDEO_DRIVER_ANDROID: 76
+- void *: 76
+- nothing: 76
+- NOP: 76
+- OpenGLES functions: 76
+- Set the function pointers: 76
+- no ShowMessageBox implementation: 76
+- XR_USE_PLATFORM_ANDROID: 76
+- Can't do anything yet, wait for ShowWindow: 76
+- SDL_VIDEO_DRIVER_X11_XFIXES: 76
+- SDL_VIDEO_DRIVER_X11_XSYNC: 76
+- .y_shift=: 76
+- Initialization/Query functions: 76
+- SDL_VIDEO_DRIVER_HAIKU: 76
+- #ifndef MINIZ_NO_STDIO: 76
+- !!! FIXME: 76
+- SDL change: 76
+- Get any leftovers: 76
+- The byte offsets for the start of each pixel: 76
+- * shift out the middle component (green) to
+                 * the high 16 bits, and process all thr: 76
+- do scalar until we can align...: 76
+- Find the appropriate permutation: 76
+- SDL_VIDEO_OPENGL_EGL: 76
+- uint16x4_t: 76
+- vTarget >> 8;: 76
+- Allocate window internal data: 76
+- Setup driver data for this window: 76
+- SDL_VIDEO_DRIVER_RISCOS: 76
+- SDL_VIDEO_DRIVER_VITA: 76
+- USE_DUFFS_LOOP: 76
+- Copy in 4 pixel chunks: 76
+- downscale alpha to 5 bits: 76
+- Convert to dst format: 76
+- Set the alpha channels of src to 255: 76
+- We're done!: 76
+- Skip the Y plane: 76
+- Load the Vulkan loader library: 76
+- SDL internals: 76
+- XR_USE_GRAPHICS_API_VULKAN: 76
+- no zip64 support yet: 76
+- SDL_VIDEO_DRIVER_X11_XINPUT2: 76
+- blend: 76
+- src - dst -> src2: 76
+- src2 * alpha -> src2: 76
+- src2 + dst2 -> dst2: 76
+- Rcoeff: 76
+- Gcoeff: 76
+- Bcoeff: 76
+- Row 1: 76
+- [annotation][in]: 76
+- SDL_VIDEO_DRIVER_EMSCRIPTEN: 76
+- Window has been successfully created: 76
+- This should NOT be SDL_free(): 76
+- KHRONOS_SUPPORT_INT64: 76
+- EGL_KHR_stream: 76
+- Generated on date 20260803: 76
+- ** This header is generated from the Khronos OpenXR XML API Registry.
+**: 76
+- XR_USE_PLATFORM_WIN32: 76
+- default yes: 76
+- EGL implementation of SDL OpenGL support: 76
+- Setup all functions which we can handle: 76
+- SDL_VIDEO_DRIVER_OPENHARMONY: 76
+- !SDL_DISABLE_WINDOWS_IME: 76
+- Load 4 src pixels: 76
+- After all that work, here's the vector part!: 76
+- SDL_HAVE_STB: 76
+- Interpolated == x0 + frac * (x1 - x0) == x0 * (1 - frac) + x1 * frac: 76
+- Pixels in 4*uint8 in row: 76
+- Make sure the surfaces aren't locked: 76
+- FIXME: 76
+- * @author Mark Callow, www.edgewise-consulting.com. Based on Jacob Lifshay's
+ * SDL_x11vulkan.h.: 76
+- One window, it always has focus: 76
+- vTarget = vSource * vMask + vTarget * (256 - vMask);: 76
+- !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)): 76
+- SDL_VIDEO_DRIVER_DOSVESA: 76
+- segment:offset: 76
