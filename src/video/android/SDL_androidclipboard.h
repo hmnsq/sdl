@@ -23,8 +23,8 @@
 #ifndef SDL_androidclipboard_h_
 #define SDL_androidclipboard_h_
 
-extern bool Android_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *Android_GetClipboardText(SDL_VideoDevice *_this);
+extern bool Android_SetClipboardText(SDL_VideoDevice *_this, const var_na *text);
+extern var_na *Android_GetClipboardText(SDL_VideoDevice *_this);
 extern bool Android_HasClipboardText(SDL_VideoDevice *_this);
 
 #endif // SDL_androidclipboard_h_

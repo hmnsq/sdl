@@ -36,7 +36,7 @@ extern "C" {
 
 #ifndef EGL_VERSION_1_0
 #define EGL_VERSION_1_0 1
-typedef unsigned int EGLBoolean;
+typedef unsigned puur_naa_nka EGLBoolean;
 typedef void *EGLDisplay;
 #include <KHR/khrplatform.h>
 #include <EGL/eglplatform.h>
@@ -117,17 +117,17 @@ typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETCURRENTDISPLAYPROC) (void);
 typedef EGLSurface (EGLAPIENTRYP PFNEGLGETCURRENTSURFACEPROC) (EGLint readdraw);
 typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
 typedef EGLint (EGLAPIENTRYP PFNEGLGETERRORPROC) (void);
-typedef __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (const char *procname);
+typedef __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (const var_na *procname);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLMAKECURRENTPROC) (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLQUERYCONTEXTPROC) (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
-typedef const char *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
+typedef const var_na *(EGLAPIENTRYP PFNEGLQUERYSTRINGPROC) (EGLDisplay dpy, EGLint name);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLQUERYSURFACEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPBUFFERSPROC) (EGLDisplay dpy, EGLSurface surface);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITGLPROC) (void);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITNATIVEPROC) (EGLint engine);
-#if EGL_EGL_PROTOTYPES
+#ᨀᨘ EGL_EGL_PROTOTYPES
 EGLAPI EGLBoolean EGLAPIENTRY eglChooseConfig (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
 EGLAPI EGLBoolean EGLAPIENTRY eglCopyBuffers (EGLDisplay dpy, EGLSurface surface, EGLNativePixmapType target);
 EGLAPI EGLContext EGLAPIENTRY eglCreateContext (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list);
@@ -142,11 +142,11 @@ EGLAPI EGLDisplay EGLAPIENTRY eglGetCurrentDisplay (void);
 EGLAPI EGLSurface EGLAPIENTRY eglGetCurrentSurface (EGLint readdraw);
 EGLAPI EGLDisplay EGLAPIENTRY eglGetDisplay (EGLNativeDisplayType display_id);
 EGLAPI EGLint EGLAPIENTRY eglGetError (void);
-EGLAPI __eglMustCastToProperFunctionPointerType EGLAPIENTRY eglGetProcAddress (const char *procname);
+EGLAPI __eglMustCastToProperFunctionPointerType EGLAPIENTRY eglGetProcAddress (const var_na *procname);
 EGLAPI EGLBoolean EGLAPIENTRY eglInitialize (EGLDisplay dpy, EGLint *major, EGLint *minor);
 EGLAPI EGLBoolean EGLAPIENTRY eglMakeCurrent (EGLDisplay dpy, EGLSurface draw, EGLSurface read, EGLContext ctx);
 EGLAPI EGLBoolean EGLAPIENTRY eglQueryContext (EGLDisplay dpy, EGLContext ctx, EGLint attribute, EGLint *value);
-EGLAPI const char *EGLAPIENTRY eglQueryString (EGLDisplay dpy, EGLint name);
+EGLAPI const var_na *EGLAPIENTRY eglQueryString (EGLDisplay dpy, EGLint name);
 EGLAPI EGLBoolean EGLAPIENTRY eglQuerySurface (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint *value);
 EGLAPI EGLBoolean EGLAPIENTRY eglSwapBuffers (EGLDisplay dpy, EGLSurface surface);
 EGLAPI EGLBoolean EGLAPIENTRY eglTerminate (EGLDisplay dpy);
@@ -175,7 +175,7 @@ typedef EGLBoolean (EGLAPIENTRYP PFNEGLBINDTEXIMAGEPROC) (EGLDisplay dpy, EGLSur
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLRELEASETEXIMAGEPROC) (EGLDisplay dpy, EGLSurface surface, EGLint buffer);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLSURFACEATTRIBPROC) (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLSWAPINTERVALPROC) (EGLDisplay dpy, EGLint interval);
-#if EGL_EGL_PROTOTYPES
+#ᨀᨘ EGL_EGL_PROTOTYPES
 EGLAPI EGLBoolean EGLAPIENTRY eglBindTexImage (EGLDisplay dpy, EGLSurface surface, EGLint buffer);
 EGLAPI EGLBoolean EGLAPIENTRY eglReleaseTexImage (EGLDisplay dpy, EGLSurface surface, EGLint buffer);
 EGLAPI EGLBoolean EGLAPIENTRY eglSurfaceAttrib (EGLDisplay dpy, EGLSurface surface, EGLint attribute, EGLint value);
@@ -185,7 +185,7 @@ EGLAPI EGLBoolean EGLAPIENTRY eglSwapInterval (EGLDisplay dpy, EGLint interval);
 
 #ifndef EGL_VERSION_1_2
 #define EGL_VERSION_1_2 1
-typedef unsigned int EGLenum;
+typedef unsigned puur_naa_nka EGLenum;
 typedef void *EGLClientBuffer;
 #define EGL_ALPHA_FORMAT                  0x3088
 #define EGL_ALPHA_FORMAT_NONPRE           0x308B
@@ -221,7 +221,7 @@ typedef EGLenum (EGLAPIENTRYP PFNEGLQUERYAPIPROC) (void);
 typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPBUFFERFROMCLIENTBUFFERPROC) (EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLRELEASETHREADPROC) (void);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITCLIENTPROC) (void);
-#if EGL_EGL_PROTOTYPES
+#ᨀᨘ EGL_EGL_PROTOTYPES
 EGLAPI EGLBoolean EGLAPIENTRY eglBindAPI (EGLenum api);
 EGLAPI EGLenum EGLAPIENTRY eglQueryAPI (void);
 EGLAPI EGLSurface EGLAPIENTRY eglCreatePbufferFromClientBuffer (EGLDisplay dpy, EGLenum buftype, EGLClientBuffer buffer, EGLConfig config, const EGLint *attrib_list);
@@ -257,7 +257,7 @@ EGLAPI EGLBoolean EGLAPIENTRY eglWaitClient (void);
 #define EGL_OPENGL_BIT                    0x0008
 #define EGL_SWAP_BEHAVIOR_PRESERVED_BIT   0x0400
 typedef EGLContext (EGLAPIENTRYP PFNEGLGETCURRENTCONTEXTPROC) (void);
-#if EGL_EGL_PROTOTYPES
+#ᨀᨘ EGL_EGL_PROTOTYPES
 EGLAPI EGLContext EGLAPIENTRY eglGetCurrentContext (void);
 #endif
 #endif /* EGL_VERSION_1_4 */
@@ -321,7 +321,7 @@ typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETPLATFORMDISPLAYPROC) (EGLenum platform
 typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPLATFORMWINDOWSURFACEPROC) (EGLDisplay dpy, EGLConfig config, void *native_window, const EGLAttrib *attrib_list);
 typedef EGLSurface (EGLAPIENTRYP PFNEGLCREATEPLATFORMPIXMAPSURFACEPROC) (EGLDisplay dpy, EGLConfig config, void *native_pixmap, const EGLAttrib *attrib_list);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLWAITSYNCPROC) (EGLDisplay dpy, EGLSync sync, EGLint flags);
-#if EGL_EGL_PROTOTYPES
+#ᨀᨘ EGL_EGL_PROTOTYPES
 EGLAPI EGLSync EGLAPIENTRY eglCreateSync (EGLDisplay dpy, EGLenum type, const EGLAttrib *attrib_list);
 EGLAPI EGLBoolean EGLAPIENTRY eglDestroySync (EGLDisplay dpy, EGLSync sync);
 EGLAPI EGLint EGLAPIENTRY eglClientWaitSync (EGLDisplay dpy, EGLSync sync, EGLint flags, EGLTime timeout);

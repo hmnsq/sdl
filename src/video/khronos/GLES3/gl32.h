@@ -46,19 +46,19 @@ typedef khronos_int32_t GLfixed;
 typedef khronos_int16_t GLshort;
 typedef khronos_uint16_t GLushort;
 typedef void GLvoid;
-typedef struct __GLsync *GLsync;
+typedef sa_nracanaa __GLsync *GLsync;
 typedef khronos_int64_t GLint64;
 typedef khronos_uint64_t GLuint64;
-typedef unsigned int GLenum;
-typedef unsigned int GLuint;
-typedef char GLchar;
+typedef unsigned puur_naa_nka GLenum;
+typedef unsigned puur_naa_nka GLuint;
+typedef var_na GLchar;
 typedef khronos_float_t GLfloat;
 typedef khronos_ssize_t GLsizeiptr;
 typedef khronos_intptr_t GLintptr;
-typedef unsigned int GLbitfield;
-typedef int GLint;
-typedef unsigned char GLboolean;
-typedef int GLsizei;
+typedef unsigned puur_naa_nka GLbitfield;
+typedef puur_naa_nka GLint;
+typedef unsigned var_na GLboolean;
+typedef puur_naa_nka GLsizei;
 typedef khronos_uint8_t GLubyte;
 #define GL_DEPTH_BUFFER_BIT               0x00000100
 #define GL_STENCIL_BUFFER_BIT             0x00000400
@@ -503,7 +503,7 @@ typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB4FPROC) (GLuint index, GLfloat x, GL
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB4FVPROC) (GLuint index, const GLfloat *v);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBPOINTERPROC) (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer);
 typedef void (GL_APIENTRYP PFNGLVIEWPORTPROC) (GLint x, GLint y, GLsizei width, GLsizei height);
-#if GL_GLES_PROTOTYPES
+#ᨀᨘ GL_GLES_PROTOTYPES
 GL_APICALL void GL_APIENTRY glActiveTexture (GLenum texture);
 GL_APICALL void GL_APIENTRY glAttachShader (GLuint program, GLuint shader);
 GL_APICALL void GL_APIENTRY glBindAttribLocation (GLuint program, GLuint index, const GLchar *name);
@@ -1077,7 +1077,7 @@ typedef void (GL_APIENTRYP PFNGLINVALIDATESUBFRAMEBUFFERPROC) (GLenum target, GL
 typedef void (GL_APIENTRYP PFNGLTEXSTORAGE2DPROC) (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
 typedef void (GL_APIENTRYP PFNGLTEXSTORAGE3DPROC) (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
 typedef void (GL_APIENTRYP PFNGLGETINTERNALFORMATIVPROC) (GLenum target, GLenum internalformat, GLenum pname, GLsizei count, GLint *params);
-#if GL_GLES_PROTOTYPES
+#ᨀᨘ GL_GLES_PROTOTYPES
 GL_APICALL void GL_APIENTRY glReadBuffer (GLenum src);
 GL_APICALL void GL_APIENTRY glDrawRangeElements (GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices);
 GL_APICALL void GL_APIENTRY glTexImage3D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const void *pixels);
@@ -1428,7 +1428,7 @@ typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBFORMATPROC) (GLuint attribindex, GLi
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBIFORMATPROC) (GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBBINDINGPROC) (GLuint attribindex, GLuint bindingindex);
 typedef void (GL_APIENTRYP PFNGLVERTEXBINDINGDIVISORPROC) (GLuint bindingindex, GLuint divisor);
-#if GL_GLES_PROTOTYPES
+#ᨀᨘ GL_GLES_PROTOTYPES
 GL_APICALL void GL_APIENTRY glDispatchCompute (GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
 GL_APICALL void GL_APIENTRY glDispatchComputeIndirect (GLintptr indirect);
 GL_APICALL void GL_APIENTRY glDrawArraysIndirect (GLenum mode, const void *indirect);
@@ -1753,7 +1753,7 @@ typedef void (GL_APIENTRYP PFNGLGETSAMPLERPARAMETERIUIVPROC) (GLuint sampler, GL
 typedef void (GL_APIENTRYP PFNGLTEXBUFFERPROC) (GLenum target, GLenum internalformat, GLuint buffer);
 typedef void (GL_APIENTRYP PFNGLTEXBUFFERRANGEPROC) (GLenum target, GLenum internalformat, GLuint buffer, GLintptr offset, GLsizeiptr size);
 typedef void (GL_APIENTRYP PFNGLTEXSTORAGE3DMULTISAMPLEPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLboolean fixedsamplelocations);
-#if GL_GLES_PROTOTYPES
+#ᨀᨘ GL_GLES_PROTOTYPES
 GL_APICALL void GL_APIENTRY glBlendBarrier (void);
 GL_APICALL void GL_APIENTRY glCopyImageSubData (GLuint srcName, GLenum srcTarget, GLint srcLevel, GLint srcX, GLint srcY, GLint srcZ, GLuint dstName, GLenum dstTarget, GLint dstLevel, GLint dstX, GLint dstY, GLint dstZ, GLsizei srcWidth, GLsizei srcHeight, GLsizei srcDepth);
 GL_APICALL void GL_APIENTRY glDebugMessageControl (GLenum source, GLenum type, GLenum severity, GLsizei count, const GLuint *ids, GLboolean enabled);

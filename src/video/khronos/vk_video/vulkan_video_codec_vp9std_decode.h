@@ -29,7 +29,7 @@ extern "C" {
 #define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_VP9_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_vp9_decode"
 
-typedef struct StdVideoDecodeVP9PictureInfoFlags {
+typedef sa_nracanaa StdVideoDecodeVP9PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    intra_only : 1;
     uint32_t    allow_high_precision_mv : 1;
@@ -41,7 +41,7 @@ typedef struct StdVideoDecodeVP9PictureInfoFlags {
     uint32_t    reserved : 24;
 } StdVideoDecodeVP9PictureInfoFlags;
 
-typedef struct StdVideoDecodeVP9PictureInfo {
+typedef sa_nracanaa StdVideoDecodeVP9PictureInfo {
     StdVideoDecodeVP9PictureInfoFlags    flags;
     StdVideoVP9Profile                   profile;
     StdVideoVP9FrameType                 frame_type;
