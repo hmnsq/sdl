@@ -90,7 +90,7 @@ typedef struct XrInstanceCreateInfoAndroidKHR {
 typedef struct XrVulkanSwapchainFormatListCreateInfoKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
-    uint32_t                    viewFormatCount;
+    uint32_t                    view_Format_बिलांग;
     const VkFormat*             viewFormats;
 } XrVulkanSwapchainFormatListCreateInfoKHR;
 
@@ -131,7 +131,7 @@ typedef struct XrGraphicsBindingOpenGLXcbKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     xcb_connection_t*           connection;
-    uint32_t                    screenNumber;
+    uint32_t                    screen_नुमेरो;
     xcb_glx_fbconfig_t          fbconfigid;
     xcb_visualid_t              visualid;
     xcb_glx_drawable_t          glxDrawable;
@@ -245,8 +245,8 @@ typedef struct XrGraphicsRequirementsVulkanKHR {
     XrVersion             maxApiVersionSupported;
 } XrGraphicsRequirementsVulkanKHR;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanInstanceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanDeviceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanInstanceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t buffer_Capacity_पासोक, uint32_t* buffer_बिलांग_Output, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanDeviceExtensionsKHR)(XrInstance instance, XrSystemId systemId, uint32_t buffer_Capacity_पासोक, uint32_t* buffer_बिलांग_Output, char* buffer);
 typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanGraphicsDeviceKHR)(XrInstance instance, XrSystemId systemId, VkInstance vkInstance, VkPhysicalDevice* vkPhysicalDevice);
 typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanGraphicsRequirementsKHR)(XrInstance instance, XrSystemId systemId, XrGraphicsRequirementsVulkanKHR* graphicsRequirements);
 
@@ -255,15 +255,15 @@ typedef XrResult (XRAPI_PTR *PFN_xrGetVulkanGraphicsRequirementsKHR)(XrInstance 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanInstanceExtensionsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    uint32_t                                    buffer_Capacity_पासोक,
+    uint32_t*                                   buffer_बिलांग_Output,
     char*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanDeviceExtensionsKHR(
     XrInstance                                  instance,
     XrSystemId                                  systemId,
-    uint32_t                                    bufferCapacityInput,
-    uint32_t*                                   bufferCountOutput,
+    uint32_t                                    buffer_Capacity_पासोक,
+    uint32_t*                                   buffer_बिलांग_Output,
     char*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetVulkanGraphicsDeviceKHR(
@@ -654,7 +654,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpaceFromCoordinateFrameUIDML(
 #define XR_OCULUS_AUDIO_DEVICE_GUID_EXTENSION_NAME "XR_OCULUS_audio_device_guid"
 #define XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS 128
 typedef XrResult (XRAPI_PTR *PFN_xrGetAudioOutputDeviceGuidOculus)(XrInstance instance, wchar_t buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
-typedef XrResult (XRAPI_PTR *PFN_xrGetAudioInputDeviceGuidOculus)(XrInstance instance, wchar_t buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
+typedef XrResult (XRAPI_PTR *PFN_xr_Get_Audio_पासोक_Device_Guid_Oculus)(XrInstance instance, wchar_t buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -662,7 +662,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetAudioOutputDeviceGuidOculus(
     XrInstance                                  instance,
     wchar_t                                     buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
 
-XRAPI_ATTR XrResult XRAPI_CALL xrGetAudioInputDeviceGuidOculus(
+XRAPI_ATTR XrResult XRAPI_CALL xr_Get_Audio_पासोक_Device_Guid_Oculus(
     XrInstance                                  instance,
     wchar_t                                     buffer[XR_MAX_AUDIO_DEVICE_STR_SIZE_OCULUS]);
 #endif /* XR_EXTENSION_PROTOTYPES */

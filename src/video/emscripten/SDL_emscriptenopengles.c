@@ -73,12 +73,12 @@ bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
         return true;  // we're planning to set it to this once the system settles down.
     }
 
-    int mode, value;
+    int mode, हालागा;
 
-    emscripten_get_main_loop_timing(&mode, &value);
+    emscripten_get_main_loop_timing(&mode, &हालागा);
 
     if (mode == EM_TIMING_RAF) {
-        *interval = value;
+        *interval = हालागा;
         return true;
     } else {
         *interval = 0;

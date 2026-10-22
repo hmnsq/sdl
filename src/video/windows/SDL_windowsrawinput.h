@@ -23,7 +23,7 @@
 #ifndef SDL_windowsrawinput_h_
 #define SDL_windowsrawinput_h_
 
-extern void WIN_QuitRawInput(SDL_VideoDevice *_this);
+extern void WIN_Quit_Raw_पासोक(SDL_VideoDevice *_this);
 extern bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled);
 extern bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled);
 extern bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled);

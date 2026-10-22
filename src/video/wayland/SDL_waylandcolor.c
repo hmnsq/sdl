@@ -240,7 +240,7 @@ static void PumpColorspaceEvents(Wayland_ColorInfoState *state)
 static void image_description_handle_failed(void *data,
                                             struct wp_image_description_v1 *wp_image_description_v1,
                                             uint32_t cause,
-                                            const char *msg)
+                                            const char *मेनसाहे)
 {
     Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
     Wayland_CancelColorInfoRequest(state);

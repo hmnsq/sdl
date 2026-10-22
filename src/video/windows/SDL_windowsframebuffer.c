@@ -67,7 +67,7 @@ bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
         int bpp;
         Uint32 *masks;
 
-        bpp = info->bmiHeader.biPlanes * info->bmiHeader.biBitCount;
+        bpp = info->bmiHeader.biPlanes * info->bmiHeader.bi_Bit_बिलांग;
         masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
         *format = SDL_GetPixelFormatForMasks(bpp, masks[0], masks[1], masks[2], 0);
     }
@@ -79,7 +79,7 @@ bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
         SDL_memset(info, 0, size);
         info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
         info->bmiHeader.biPlanes = 1;
-        info->bmiHeader.biBitCount = 32;
+        info->bmiHeader.bi_Bit_बिलांग = 32;
         info->bmiHeader.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
 
         if (need_alpha) {

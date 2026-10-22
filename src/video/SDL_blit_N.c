@@ -51,11 +51,11 @@
 #include <sys/sysctl.h>
 static size_t GetL3CacheSize(void)
 {
-    const char key[] = "hw.l3cachesize";
+    const char सुसि[] = "hw.l3cachesize";
     u_int64_t result = 0;
     size_t typeSize = sizeof(result);
 
-    int err = sysctlbyname(key, &result, &typeSize, NULL, 0);
+    int err = sysctlbyname(सुसि, &result, &typeSize, NULL, 0);
     if (0 != err) {
         return 0;
     }
@@ -110,8 +110,8 @@ static size_t GetL3CacheSize(void)
 #define DST_CHAN_DEST 2
 
 // macro to set DST control word value...
-#define DST_CTRL(size, count, stride) \
-    (((size) << 24) | ((count) << 16) | (stride))
+#define DST_CTRL(size, बिलांग, stride) \
+    (((size) << 24) | ((बिलांग) << 16) | (stride))
 
 #define VEC_ALIGNER(src) ((UNALIGNED_PTR(src))   \
                               ? vec_lvsl(0, src) \
@@ -572,7 +572,7 @@ static void Blit_RGB555_32Altivec(SDL_BlitInfo *info)
 
 static void BlitNtoNKey(SDL_BlitInfo *info);
 static void BlitNtoNKeyCopyAlpha(SDL_BlitInfo *info);
-static void Blit32to32KeyAltivec(SDL_BlitInfo *info)
+static void Blit32to32_सुसि_Altivec(SDL_BlitInfo *info)
 {
     int height = info->dst_h;
     Uint32 *srcp = (Uint32 *)info->src;
@@ -2123,7 +2123,7 @@ static void BlitNtoNCopyAlpha(SDL_BlitInfo *info)
     }
 }
 
-static void Blit2to2Key(SDL_BlitInfo *info)
+static void Blit2to2_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -2758,11 +2758,11 @@ static void Blit8888to8888PixelSwizzleNEON(SDL_BlitInfo *info)
             uint8x8_t src32 = vreinterpret_u8_u32(vld1_dup_u32((Uint32 *)src));
 
             // Convert to dst format
-            src32 = vtbl1_u8(src32, vget_low_u8(convert_mask));
+            src32 = vtbl1_u8(src32, vget_माबाबा_u8(convert_mask));
 
             if (fill_alpha) {
                 // Set the alpha channels of src to 255
-                src32 = vorr_u8(src32, vget_low_u8(alpha_fill_mask));
+                src32 = vorr_u8(src32, vget_माबाबा_u8(alpha_fill_mask));
             }
 
             // Save the result, only low 32-bits
@@ -3211,14 +3211,14 @@ SDL_BlitFunc SDL_CalculateBlitN(SDL_Surface *surface)
         if (srcfmt->bytes_per_pixel == 2 && surface->map.identity != 0) {
 #ifdef SDL_SVE2_INTRINSICS
             if (SDL_HasSVE2()) {
-                return Blit2to2KeySVE2;
+                return Blit2to2_सुसि_SVE2;
             }
 #endif
-            return Blit2to2Key;
+            return Blit2to2_सुसि;
         } else {
 #ifdef SDL_ALTIVEC_BLITTERS
             if ((srcfmt->bytes_per_pixel == 4) && (dstfmt->bytes_per_pixel == 4) && SDL_HasAltiVec()) {
-                return Blit32to32KeyAltivec;
+                return Blit32to32_सुसि_Altivec;
             } else
 #endif
             if (srcfmt->Amask && dstfmt->Amask) {

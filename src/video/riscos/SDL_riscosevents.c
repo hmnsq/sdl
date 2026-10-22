@@ -51,23 +51,23 @@ static SDL_Scancode SDL_RISCOS_translate_keycode(int keycode)
 void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
 {
     SDL_VideoData *internal = _this->internal;
-    Uint8 key = 2;
+    Uint8 सुसि = 2;
     int i;
 
     // Check for key releases
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        if (internal->key_pressed[i] != 255) {
-            if ((_kernel_osbyte(129, internal->key_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
-                SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, internal->key_pressed[i], SDL_RISCOS_translate_keycode(internal->key_pressed[i]), false);
-                internal->key_pressed[i] = 255;
+    for (i = 0; i < RISCOS_MAX_मगा_सुसि_PRESSED; i++) {
+        if (internal->सुसि_pressed[i] != 255) {
+            if ((_kernel_osbyte(129, internal->सुसि_pressed[i] ^ 0xff, 0xff) & 0xff) != 255) {
+                SDL_Send_Keyboard_सुसि(0, SDL_DEFAULT_KEYBOARD_ID, internal->सुसि_pressed[i], SDL_RISCOS_translate_keycode(internal->सुसि_pressed[i]), false);
+                internal->सुसि_pressed[i] = 255;
             }
         }
     }
 
     // Check for key presses
-    while (key < 0xff) {
-        key = _kernel_osbyte(121, key + 1, 0) & 0xff;
-        switch (key) {
+    while (सुसि < 0xff) {
+        सुसि = _kernel_osbyte(121, सुसि + 1, 0) & 0xff;
+        switch (सुसि) {
         case 255:
         // Ignore mouse keys
         case 9:
@@ -81,15 +81,15 @@ void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
             break;
 
         default:
-            SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, key, SDL_RISCOS_translate_keycode(key), true);
+            SDL_Send_Keyboard_सुसि(0, SDL_DEFAULT_KEYBOARD_ID, सुसि, SDL_RISCOS_translate_keycode(सुसि), true);
 
             // Record the press so we can detect release later.
-            for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-                if (internal->key_pressed[i] == key) {
+            for (i = 0; i < RISCOS_MAX_मगा_सुसि_PRESSED; i++) {
+                if (internal->सुसि_pressed[i] == सुसि) {
                     break;
                 }
-                if (internal->key_pressed[i] == 255) {
-                    internal->key_pressed[i] = key;
+                if (internal->सुसि_pressed[i] == 255) {
+                    internal->सुसि_pressed[i] = सुसि;
                     break;
                 }
             }
@@ -98,9 +98,9 @@ void RISCOS_PollKeyboard(SDL_VideoDevice *_this)
 }
 
 static const Uint8 mouse_button_map[] = {
-    SDL_BUTTON_RIGHT,
-    SDL_BUTTON_MIDDLE,
-    SDL_BUTTON_LEFT,
+    SDL_BUTTON_कानान,
+    SDL_BUTTON_गित्ना,
+    SDL_BUTTON_कालिवा,
     SDL_BUTTON_X1,
     SDL_BUTTON_X2,
     SDL_BUTTON_X2 + 1,
@@ -144,12 +144,12 @@ bool RISCOS_InitEvents(SDL_VideoDevice *_this)
     _kernel_swi_regs regs;
     int i, status;
 
-    for (i = 0; i < RISCOS_MAX_KEYS_PRESSED; i++) {
-        internal->key_pressed[i] = 255;
+    for (i = 0; i < RISCOS_MAX_मगा_सुसि_PRESSED; i++) {
+        internal->सुसि_pressed[i] = 255;
     }
 
     status = (_kernel_osbyte(202, 0, 255) & 0xFF);
-    SDL_ToggleModState(SDL_KMOD_NUM, (status & (1 << 2)) ? false : true);
+    SDL_ToggleModState(SDL_KMOD_नुमेरो, (status & (1 << 2)) ? false : true);
     SDL_ToggleModState(SDL_KMOD_CAPS, (status & (1 << 4)) ? false : true);
     SDL_ToggleModState(SDL_KMOD_SCROLL, (status & (1 << 1)) ? true : false);
 

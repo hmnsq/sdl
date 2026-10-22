@@ -187,7 +187,7 @@ typedef void (GL_APIENTRYP PFNGLTRANSLATEXOESPROC) (GLfixed x, GLfixed y, GLfixe
 typedef void (GL_APIENTRYP PFNGLGETLIGHTXVOESPROC) (GLenum light, GLenum pname, GLfixed *params);
 typedef void (GL_APIENTRYP PFNGLGETMATERIALXVOESPROC) (GLenum face, GLenum pname, GLfixed *params);
 typedef void (GL_APIENTRYP PFNGLPOINTPARAMETERXOESPROC) (GLenum pname, GLfixed param);
-typedef void (GL_APIENTRYP PFNGLSAMPLECOVERAGEXOESPROC) (GLclampx value, GLboolean invert);
+typedef void (GL_APIENTRYP PFNGLSAMPLECOVERAGEXOESPROC) (GLclampx हालागा, GLboolean invert);
 typedef void (GL_APIENTRYP PFNGLGETTEXGENXVOESPROC) (GLenum coord, GLenum pname, GLfixed *params);
 typedef void (GL_APIENTRYP PFNGLTEXGENXOESPROC) (GLenum coord, GLenum pname, GLfixed param);
 typedef void (GL_APIENTRYP PFNGLTEXGENXVOESPROC) (GLenum coord, GLenum pname, const GLfixed *params);
@@ -209,7 +209,7 @@ GL_API void GL_APIENTRY glLightModelxOES (GLenum pname, GLfixed param);
 GL_API void GL_APIENTRY glLightModelxvOES (GLenum pname, const GLfixed *param);
 GL_API void GL_APIENTRY glLightxOES (GLenum light, GLenum pname, GLfixed param);
 GL_API void GL_APIENTRY glLightxvOES (GLenum light, GLenum pname, const GLfixed *params);
-GL_API void GL_APIENTRY glLineWidthxOES (GLfixed width);
+GL_API void GL_APIENTRY gl_लिन्या_Widthx_OES (GLfixed width);
 GL_API void GL_APIENTRY glLoadMatrixxOES (const GLfixed *m);
 GL_API void GL_APIENTRY glMaterialxOES (GLenum face, GLenum pname, GLfixed param);
 GL_API void GL_APIENTRY glMaterialxvOES (GLenum face, GLenum pname, const GLfixed *param);
@@ -230,7 +230,7 @@ GL_API void GL_APIENTRY glTranslatexOES (GLfixed x, GLfixed y, GLfixed z);
 GL_API void GL_APIENTRY glGetLightxvOES (GLenum light, GLenum pname, GLfixed *params);
 GL_API void GL_APIENTRY glGetMaterialxvOES (GLenum face, GLenum pname, GLfixed *params);
 GL_API void GL_APIENTRY glPointParameterxOES (GLenum pname, GLfixed param);
-GL_API void GL_APIENTRY glSampleCoveragexOES (GLclampx value, GLboolean invert);
+GL_API void GL_APIENTRY glSampleCoveragexOES (GLclampx हालागा, GLboolean invert);
 GL_API void GL_APIENTRY glGetTexGenxvOES (GLenum coord, GLenum pname, GLfixed *params);
 GL_API void GL_APIENTRY glTexGenxOES (GLenum coord, GLenum pname, GLfixed param);
 GL_API void GL_APIENTRY glTexGenxvOES (GLenum coord, GLenum pname, const GLfixed *params);
@@ -508,9 +508,9 @@ GL_API GLboolean GL_APIENTRY glIsVertexArrayOES (GLuint array);
 
 #ifndef GL_APPLE_copy_texture_levels
 #define GL_APPLE_copy_texture_levels 1
-typedef void (GL_APIENTRYP PFNGLCOPYTEXTURELEVELSAPPLEPROC) (GLuint destinationTexture, GLuint sourceTexture, GLint sourceBaseLevel, GLsizei sourceLevelCount);
+typedef void (GL_APIENTRYP PFNGLCOPYTEXTURELEVELSAPPLEPROC) (GLuint destinationTexture, GLuint sourceTexture, GLint sourceBaseLevel, GLsizei source_Level_बिलांग);
 #ifdef GL_GLEXT_PROTOTYPES
-GL_API void GL_APIENTRY glCopyTextureLevelsAPPLE (GLuint destinationTexture, GLuint sourceTexture, GLint sourceBaseLevel, GLsizei sourceLevelCount);
+GL_API void GL_APIENTRY glCopyTextureLevelsAPPLE (GLuint destinationTexture, GLuint sourceTexture, GLint sourceBaseLevel, GLsizei source_Level_बिलांग);
 #endif
 #endif /* GL_APPLE_copy_texture_levels */
 
@@ -558,7 +558,7 @@ typedef void (GL_APIENTRYP PFNGLDELETESYNCAPPLEPROC) (GLsync sync);
 typedef GLenum (GL_APIENTRYP PFNGLCLIENTWAITSYNCAPPLEPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
 typedef void (GL_APIENTRYP PFNGLWAITSYNCAPPLEPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
 typedef void (GL_APIENTRYP PFNGLGETINTEGER64VAPPLEPROC) (GLenum pname, GLint64 *params);
-typedef void (GL_APIENTRYP PFNGLGETSYNCIVAPPLEPROC) (GLsync sync, GLenum pname, GLsizei count, GLsizei *length, GLint *values);
+typedef void (GL_APIENTRYP PFNGLGETSYNCIVAPPLEPROC) (GLsync sync, GLenum pname, GLsizei बिलांग, GLsizei *length, GLint *मगा_हालागा);
 #ifdef GL_GLEXT_PROTOTYPES
 GL_API GLsync GL_APIENTRY glFenceSyncAPPLE (GLenum condition, GLbitfield flags);
 GL_API GLboolean GL_APIENTRY glIsSyncAPPLE (GLsync sync);
@@ -566,7 +566,7 @@ GL_API void GL_APIENTRY glDeleteSyncAPPLE (GLsync sync);
 GL_API GLenum GL_APIENTRY glClientWaitSyncAPPLE (GLsync sync, GLbitfield flags, GLuint64 timeout);
 GL_API void GL_APIENTRY glWaitSyncAPPLE (GLsync sync, GLbitfield flags, GLuint64 timeout);
 GL_API void GL_APIENTRY glGetInteger64vAPPLE (GLenum pname, GLint64 *params);
-GL_API void GL_APIENTRY glGetSyncivAPPLE (GLsync sync, GLenum pname, GLsizei count, GLsizei *length, GLint *values);
+GL_API void GL_APIENTRY glGetSyncivAPPLE (GLsync sync, GLenum pname, GLsizei बिलांग, GLsizei *length, GLint *मगा_हालागा);
 #endif
 #endif /* GL_APPLE_sync */
 
@@ -602,9 +602,9 @@ typedef void (GL_APIENTRYP PFNGLINSERTEVENTMARKEREXTPROC) (GLsizei length, const
 typedef void (GL_APIENTRYP PFNGLPUSHGROUPMARKEREXTPROC) (GLsizei length, const GLchar *marker);
 typedef void (GL_APIENTRYP PFNGLPOPGROUPMARKEREXTPROC) (void);
 #ifdef GL_GLEXT_PROTOTYPES
-GL_API void GL_APIENTRY glInsertEventMarkerEXT (GLsizei length, const GLchar *marker);
-GL_API void GL_APIENTRY glPushGroupMarkerEXT (GLsizei length, const GLchar *marker);
-GL_API void GL_APIENTRY glPopGroupMarkerEXT (void);
+GL_API void GL_APIENTRY gl_इसिंगित_Event_Marker_EXT (GLsizei length, const GLchar *marker);
+GL_API void GL_APIENTRY gl_इतुलाक_Group_Marker_EXT (GLsizei length, const GLchar *marker);
+GL_API void GL_APIENTRY gl_आलिसिन_Group_Marker_EXT (void);
 #endif
 #endif /* GL_EXT_debug_marker */
 
@@ -613,9 +613,9 @@ GL_API void GL_APIENTRY glPopGroupMarkerEXT (void);
 #define GL_COLOR_EXT                      0x1800
 #define GL_DEPTH_EXT                      0x1801
 #define GL_STENCIL_EXT                    0x1802
-typedef void (GL_APIENTRYP PFNGLDISCARDFRAMEBUFFEREXTPROC) (GLenum target, GLsizei numAttachments, const GLenum *attachments);
+typedef void (GL_APIENTRYP PFNGLDISCARDFRAMEBUFFEREXTPROC) (GLenum target, GLsizei नुमेरो_Attachments, const GLenum *attachments);
 #ifdef GL_GLEXT_PROTOTYPES
-GL_API void GL_APIENTRY glDiscardFramebufferEXT (GLenum target, GLsizei numAttachments, const GLenum *attachments);
+GL_API void GL_APIENTRY glDiscardFramebufferEXT (GLenum target, GLsizei नुमेरो_Attachments, const GLenum *attachments);
 #endif
 #endif /* GL_EXT_discard_framebuffer */
 
@@ -637,11 +637,11 @@ GL_API void GL_APIENTRY glFlushMappedBufferRangeEXT (GLenum target, GLintptr off
 
 #ifndef GL_EXT_multi_draw_arrays
 #define GL_EXT_multi_draw_arrays 1
-typedef void (GL_APIENTRYP PFNGLMULTIDRAWARRAYSEXTPROC) (GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount);
-typedef void (GL_APIENTRYP PFNGLMULTIDRAWELEMENTSEXTPROC) (GLenum mode, const GLsizei *count, GLenum type, const void *const*indices, GLsizei primcount);
+typedef void (GL_APIENTRYP PFNGLMULTIDRAWARRAYSEXTPROC) (GLenum mode, const GLint *first, const GLsizei *बिलांग, GLsizei primcount);
+typedef void (GL_APIENTRYP PFNGLMULTIDRAWELEMENTSEXTPROC) (GLenum mode, const GLsizei *बिलांग, GLenum type, const void *const*indices, GLsizei primcount);
 #ifdef GL_GLEXT_PROTOTYPES
-GL_API void GL_APIENTRY glMultiDrawArraysEXT (GLenum mode, const GLint *first, const GLsizei *count, GLsizei primcount);
-GL_API void GL_APIENTRY glMultiDrawElementsEXT (GLenum mode, const GLsizei *count, GLenum type, const void *const*indices, GLsizei primcount);
+GL_API void GL_APIENTRY glMultiDrawArraysEXT (GLenum mode, const GLint *first, const GLsizei *बिलांग, GLsizei primcount);
+GL_API void GL_APIENTRY glMultiDrawElementsEXT (GLenum mode, const GLsizei *बिलांग, GLenum type, const void *const*indices, GLsizei primcount);
 #endif
 #endif /* GL_EXT_multi_draw_arrays */
 
@@ -836,12 +836,12 @@ GL_API void GL_APIENTRY glSetFenceNV (GLuint fence, GLenum condition);
 
 #ifndef GL_QCOM_driver_control
 #define GL_QCOM_driver_control 1
-typedef void (GL_APIENTRYP PFNGLGETDRIVERCONTROLSQCOMPROC) (GLint *num, GLsizei size, GLuint *driverControls);
+typedef void (GL_APIENTRYP PFNGLGETDRIVERCONTROLSQCOMPROC) (GLint *नुमेरो, GLsizei size, GLuint *driverControls);
 typedef void (GL_APIENTRYP PFNGLGETDRIVERCONTROLSTRINGQCOMPROC) (GLuint driverControl, GLsizei bufSize, GLsizei *length, GLchar *driverControlString);
 typedef void (GL_APIENTRYP PFNGLENABLEDRIVERCONTROLQCOMPROC) (GLuint driverControl);
 typedef void (GL_APIENTRYP PFNGLDISABLEDRIVERCONTROLQCOMPROC) (GLuint driverControl);
 #ifdef GL_GLEXT_PROTOTYPES
-GL_API void GL_APIENTRY glGetDriverControlsQCOM (GLint *num, GLsizei size, GLuint *driverControls);
+GL_API void GL_APIENTRY glGetDriverControlsQCOM (GLint *नुमेरो, GLsizei size, GLuint *driverControls);
 GL_API void GL_APIENTRY glGetDriverControlStringQCOM (GLuint driverControl, GLsizei bufSize, GLsizei *length, GLchar *driverControlString);
 GL_API void GL_APIENTRY glEnableDriverControlQCOM (GLuint driverControl);
 GL_API void GL_APIENTRY glDisableDriverControlQCOM (GLuint driverControl);
@@ -857,23 +857,23 @@ GL_API void GL_APIENTRY glDisableDriverControlQCOM (GLuint driverControl);
 #define GL_TEXTURE_FORMAT_QCOM            0x8BD6
 #define GL_TEXTURE_TYPE_QCOM              0x8BD7
 #define GL_TEXTURE_IMAGE_VALID_QCOM       0x8BD8
-#define GL_TEXTURE_NUM_LEVELS_QCOM        0x8BD9
+#define GL_TEXTURE_नुमेरो_LEVELS_QCOM        0x8BD9
 #define GL_TEXTURE_TARGET_QCOM            0x8BDA
 #define GL_TEXTURE_OBJECT_VALID_QCOM      0x8BDB
 #define GL_STATE_RESTORE                  0x8BDC
-typedef void (GL_APIENTRYP PFNGLEXTGETTEXTURESQCOMPROC) (GLuint *textures, GLint maxTextures, GLint *numTextures);
-typedef void (GL_APIENTRYP PFNGLEXTGETBUFFERSQCOMPROC) (GLuint *buffers, GLint maxBuffers, GLint *numBuffers);
-typedef void (GL_APIENTRYP PFNGLEXTGETRENDERBUFFERSQCOMPROC) (GLuint *renderbuffers, GLint maxRenderbuffers, GLint *numRenderbuffers);
-typedef void (GL_APIENTRYP PFNGLEXTGETFRAMEBUFFERSQCOMPROC) (GLuint *framebuffers, GLint maxFramebuffers, GLint *numFramebuffers);
+typedef void (GL_APIENTRYP PFNGLEXTGETTEXTURESQCOMPROC) (GLuint *textures, GLint maxTextures, GLint *नुमेरो_Textures);
+typedef void (GL_APIENTRYP PFNGLEXTGETBUFFERSQCOMPROC) (GLuint *buffers, GLint maxBuffers, GLint *नुमेरो_Buffers);
+typedef void (GL_APIENTRYP PFNGLEXTGETRENDERBUFFERSQCOMPROC) (GLuint *renderbuffers, GLint maxRenderbuffers, GLint *नुमेरो_Renderbuffers);
+typedef void (GL_APIENTRYP PFNGLEXTGETFRAMEBUFFERSQCOMPROC) (GLuint *framebuffers, GLint maxFramebuffers, GLint *नुमेरो_Framebuffers);
 typedef void (GL_APIENTRYP PFNGLEXTGETTEXLEVELPARAMETERIVQCOMPROC) (GLuint texture, GLenum face, GLint level, GLenum pname, GLint *params);
 typedef void (GL_APIENTRYP PFNGLEXTTEXOBJECTSTATEOVERRIDEIQCOMPROC) (GLenum target, GLenum pname, GLint param);
 typedef void (GL_APIENTRYP PFNGLEXTGETTEXSUBIMAGEQCOMPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, void *texels);
 typedef void (GL_APIENTRYP PFNGLEXTGETBUFFERPOINTERVQCOMPROC) (GLenum target, void **params);
 #ifdef GL_GLEXT_PROTOTYPES
-GL_API void GL_APIENTRY glExtGetTexturesQCOM (GLuint *textures, GLint maxTextures, GLint *numTextures);
-GL_API void GL_APIENTRY glExtGetBuffersQCOM (GLuint *buffers, GLint maxBuffers, GLint *numBuffers);
-GL_API void GL_APIENTRY glExtGetRenderbuffersQCOM (GLuint *renderbuffers, GLint maxRenderbuffers, GLint *numRenderbuffers);
-GL_API void GL_APIENTRY glExtGetFramebuffersQCOM (GLuint *framebuffers, GLint maxFramebuffers, GLint *numFramebuffers);
+GL_API void GL_APIENTRY glExtGetTexturesQCOM (GLuint *textures, GLint maxTextures, GLint *नुमेरो_Textures);
+GL_API void GL_APIENTRY glExtGetBuffersQCOM (GLuint *buffers, GLint maxBuffers, GLint *नुमेरो_Buffers);
+GL_API void GL_APIENTRY glExtGetRenderbuffersQCOM (GLuint *renderbuffers, GLint maxRenderbuffers, GLint *नुमेरो_Renderbuffers);
+GL_API void GL_APIENTRY glExtGetFramebuffersQCOM (GLuint *framebuffers, GLint maxFramebuffers, GLint *नुमेरो_Framebuffers);
 GL_API void GL_APIENTRY glExtGetTexLevelParameterivQCOM (GLuint texture, GLenum face, GLint level, GLenum pname, GLint *params);
 GL_API void GL_APIENTRY glExtTexObjectStateOverrideiQCOM (GLenum target, GLenum pname, GLint param);
 GL_API void GL_APIENTRY glExtGetTexSubImageQCOM (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, void *texels);
@@ -883,15 +883,15 @@ GL_API void GL_APIENTRY glExtGetBufferPointervQCOM (GLenum target, void **params
 
 #ifndef GL_QCOM_extended_get2
 #define GL_QCOM_extended_get2 1
-typedef void (GL_APIENTRYP PFNGLEXTGETSHADERSQCOMPROC) (GLuint *shaders, GLint maxShaders, GLint *numShaders);
-typedef void (GL_APIENTRYP PFNGLEXTGETPROGRAMSQCOMPROC) (GLuint *programs, GLint maxPrograms, GLint *numPrograms);
+typedef void (GL_APIENTRYP PFNGLEXTGETSHADERSQCOMPROC) (GLuint *shaders, GLint maxShaders, GLint *नुमेरो_Shaders);
+typedef void (GL_APIENTRYP PFNGLEXTGETPROGRAMSQCOMPROC) (GLuint *programs, GLint maxPrograms, GLint *नुमेरो_Programs);
 typedef GLboolean (GL_APIENTRYP PFNGLEXTISPROGRAMBINARYQCOMPROC) (GLuint program);
 typedef void (GL_APIENTRYP PFNGLEXTGETPROGRAMBINARYSOURCEQCOMPROC) (GLuint program, GLenum shadertype, GLchar *source, GLint *length);
 #ifdef GL_GLEXT_PROTOTYPES
-GL_API void GL_APIENTRY glExtGetShadersQCOM (GLuint *shaders, GLint maxShaders, GLint *numShaders);
-GL_API void GL_APIENTRY glExtGetProgramsQCOM (GLuint *programs, GLint maxPrograms, GLint *numPrograms);
-GL_API GLboolean GL_APIENTRY glExtIsProgramBinaryQCOM (GLuint program);
-GL_API void GL_APIENTRY glExtGetProgramBinarySourceQCOM (GLuint program, GLenum shadertype, GLchar *source, GLint *length);
+GL_API void GL_APIENTRY glExtGetShadersQCOM (GLuint *shaders, GLint maxShaders, GLint *नुमेरो_Shaders);
+GL_API void GL_APIENTRY glExtGetProgramsQCOM (GLuint *programs, GLint maxPrograms, GLint *नुमेरो_Programs);
+GL_API GLboolean GL_APIENTRY gl_Ext_Is_Program_दालावाहान_QCOM (GLuint program);
+GL_API void GL_APIENTRY gl_Ext_Get_Program_दालावाहान_Source_QCOM (GLuint program, GLenum shadertype, GLchar *source, GLint *length);
 #endif
 #endif /* GL_QCOM_extended_get2 */
 

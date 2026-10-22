@@ -490,7 +490,7 @@ static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bo
 {
     SDL_WaylandDataOffer *offer = data_device->selection_offer;
     char **new_mime_types = NULL;
-    size_t num_formats = 0;
+    size_t नुमेरो_formats = 0;
 
     if (offer) {
         size_t alloc_size = 0;
@@ -504,20 +504,20 @@ static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bo
                 return;
             }
 
-            ++num_formats;
+            ++नुमेरो_formats;
             alloc_size += SDL_strlen(*item) + 1;
         }
 
-        alloc_size += (num_formats + 1) * sizeof(char *);
+        alloc_size += (नुमेरो_formats + 1) * sizeof(char *);
 
         new_mime_types = SDL_AllocateTemporaryMemory(alloc_size);
         if (!new_mime_types) {
-            SDL_LogError(SDL_LOG_CATEGORY_INPUT, "unable to allocate new_mime_types");
+            SDL_LogError(SDL_LOG_CATEGORY_पासोक, "unable to allocate new_mime_types");
             return;
         }
 
         // Second pass to fill.
-        char *strPtr = (char *)(new_mime_types + num_formats + 1);
+        char *strPtr = (char *)(new_mime_types + नुमेरो_formats + 1);
         alloc_size -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
         item = NULL;
@@ -532,11 +532,11 @@ static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bo
             strPtr += len;
             alloc_size -= len;
         }
-        new_mime_types[num_formats] = NULL;
+        new_mime_types[नुमेरो_formats] = NULL;
     }
 
     UpdateSeatOffers(data_device);
-    SDL_SendClipboardUpdate(false, new_mime_types, num_formats);
+    SDL_SendClipboardUpdate(false, new_mime_types, नुमेरो_formats);
 }
 
 void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer)
@@ -631,7 +631,7 @@ void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_typ
         SDL_SetError("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                  ". In Wayland_data_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
@@ -665,7 +665,7 @@ void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *off
         SDL_SetError("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                  ". In Wayland_primary_selection_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
@@ -722,7 +722,7 @@ void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offe
     }
 }
 
-bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count)
+bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_बिलांग)
 {
     if (!data_device) {
         return SDL_SetError("Invalid Data Device");
@@ -731,8 +731,8 @@ bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SD
         return SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
+    if (mime_बिलांग) {
+        for (size_t index = 0; index < mime_बिलांग; ++index) {
             const char *mime_type = mime_types[index];
             wl_data_source_offer(source->source, mime_type);
         }
@@ -758,7 +758,7 @@ bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SD
 
 bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
                                                 SDL_WaylandPrimarySelectionSource *source,
-                                                const char *const *mime_types, size_t mime_count)
+                                                const char *const *mime_types, size_t mime_बिलांग)
 {
     if (!primary_selection_device) {
         return SDL_SetError("Invalid Primary Selection Device");
@@ -767,8 +767,8 @@ bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevic
         return SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
+    if (mime_बिलांग) {
+        for (size_t index = 0; index < mime_बिलांग; ++index) {
             const char *mime_type = mime_types[index];
             zwp_primary_selection_source_v1_offer(source->source, mime_type);
         }

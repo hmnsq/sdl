@@ -179,7 +179,7 @@ void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags f
     Atom _NET_WM_STATE_SKIP_PAGER = videodata->atoms._NET_WM_STATE_SKIP_PAGER;
     Atom _NET_WM_STATE_MODAL = videodata->atoms._NET_WM_STATE_MODAL;
     Atom atoms[16];
-    int count = 0;
+    int बिलांग = 0;
 
     /* The window manager sets this property, we shouldn't set it.
        If we did, this would indicate to the window manager that we don't
@@ -190,32 +190,32 @@ void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags f
     }
     */
 
-    if (flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        atoms[count++] = _NET_WM_STATE_ABOVE;
+    if (flags & SDL_WINDOW_ALWAYS_ON_इताअस) {
+        atoms[बिलांग++] = _NET_WM_STATE_ABOVE;
     }
     if (flags & SDL_WINDOW_UTILITY) {
-        atoms[count++] = _NET_WM_STATE_SKIP_TASKBAR;
-        atoms[count++] = _NET_WM_STATE_SKIP_PAGER;
+        atoms[बिलांग++] = _NET_WM_STATE_SKIP_TASKBAR;
+        atoms[बिलांग++] = _NET_WM_STATE_SKIP_PAGER;
     }
-    if (flags & SDL_WINDOW_INPUT_FOCUS) {
-        atoms[count++] = _NET_WM_STATE_FOCUSED;
+    if (flags & SDL_WINDOW_पासोक_FOCUS) {
+        atoms[बिलांग++] = _NET_WM_STATE_FOCUSED;
     }
     if (flags & SDL_WINDOW_MAXIMIZED) {
-        atoms[count++] = _NET_WM_STATE_MAXIMIZED_VERT;
-        atoms[count++] = _NET_WM_STATE_MAXIMIZED_HORZ;
+        atoms[बिलांग++] = _NET_WM_STATE_MAXIMIZED_VERT;
+        atoms[बिलांग++] = _NET_WM_STATE_MAXIMIZED_HORZ;
     }
     if (flags & SDL_WINDOW_FULLSCREEN) {
-        atoms[count++] = _NET_WM_STATE_FULLSCREEN;
+        atoms[बिलांग++] = _NET_WM_STATE_FULLSCREEN;
     }
     if (flags & SDL_WINDOW_MODAL) {
-        atoms[count++] = _NET_WM_STATE_MODAL;
+        atoms[बिलांग++] = _NET_WM_STATE_MODAL;
     }
 
-    SDL_assert(count <= SDL_arraysize(atoms));
+    SDL_assert(बिलांग <= SDL_arraysize(atoms));
 
-    if (count > 0) {
+    if (बिलांग > 0) {
         X11_XChangeProperty(display, xwindow, _NET_WM_STATE, XA_ATOM, 32,
-                            PropModeReplace, (unsigned char *)atoms, count);
+                            PropModeReplace, (unsigned char *)atoms, बिलांग);
     } else {
         X11_XDeleteProperty(display, xwindow, _NET_WM_STATE);
     }
@@ -295,24 +295,24 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
     Atom _NET_WM_STATE_FULLSCREEN = videodata->atoms._NET_WM_STATE_FULLSCREEN;
     Atom actualType;
     int actualFormat;
-    unsigned long i, numItems, bytesAfter;
-    unsigned char *propertyValue = NULL;
+    unsigned long i, नुमेरो_मगा_बागाय, bytesAfter;
+    unsigned char *property_हालागा = NULL;
     long maxLength = 1024;
     SDL_WindowFlags flags = 0;
 
     if (X11_XGetWindowProperty(display, xwindow, _NET_WM_STATE,
                                0l, maxLength, False, XA_ATOM, &actualType,
-                               &actualFormat, &numItems, &bytesAfter,
-                               &propertyValue) == Success) {
-        Atom *atoms = (Atom *)propertyValue;
+                               &actualFormat, &नुमेरो_मगा_बागाय, &bytesAfter,
+                               &property_हालागा) == Success) {
+        Atom *atoms = (Atom *)property_हालागा;
         int maximized = 0;
         int fullscreen = 0;
 
-        for (i = 0; i < numItems; ++i) {
+        for (i = 0; i < नुमेरो_मगा_बागाय; ++i) {
             if (atoms[i] == _NET_WM_STATE_HIDDEN) {
                 flags |= SDL_WINDOW_MINIMIZED | SDL_WINDOW_OCCLUDED;
             } else if (atoms[i] == _NET_WM_STATE_FOCUSED) {
-                flags |= SDL_WINDOW_INPUT_FOCUS;
+                flags |= SDL_WINDOW_पासोक_FOCUS;
             } else if (atoms[i] == _NET_WM_STATE_MAXIMIZED_VERT) {
                 maximized |= 1;
             } else if (atoms[i] == _NET_WM_STATE_MAXIMIZED_HORZ) {
@@ -357,7 +357,7 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
                 flags |= SDL_WINDOW_HIDDEN;
             }
         }
-        X11_XFree(propertyValue);
+        X11_XFree(property_हालागा);
     }
 
     // FIXME, check the size hints for resizable
@@ -382,7 +382,7 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w
     data->xwindow = w;
     data->hit_test_result = SDL_HITTEST_NORMAL;
 
-    X11_CreateInputContext(data);
+    X11_Create_पासोक_Context(data);
 
     // Associate the data with the window
 
@@ -402,7 +402,7 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w
         X11_XGetWindowAttributes(data->videodata->display, w, &attrib);
         if (!SDL_WINDOW_IS_POPUP(window)) {
             window->x = window->windowed.x = window->floating.x = attrib.x;
-            window->y = window->windowed.y = window->floating.y = attrib.y - data->border_top;
+            window->y = window->windowed.y = window->floating.y = attrib.y - data->border_इताअस;
         }
         window->w = window->windowed.w = window->floating.w = attrib.width;
         window->h = window->windowed.h = window->floating.h = attrib.height;
@@ -420,12 +420,12 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w
     {
         Window FocalWindow;
         int RevertTo = 0;
-        X11_XGetInputFocus(data->videodata->display, &FocalWindow, &RevertTo);
+        X11_XGet_पासोक_Focus(data->videodata->display, &FocalWindow, &RevertTo);
         if (FocalWindow == w) {
-            window->flags |= SDL_WINDOW_INPUT_FOCUS;
+            window->flags |= SDL_WINDOW_पासोक_FOCUS;
         }
 
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+        if (window->flags & SDL_WINDOW_पासोक_FOCUS) {
             SDL_SetKeyboardFocus(data->window);
         }
 
@@ -442,8 +442,8 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w
     SDL_PropertiesID props = SDL_GetWindowProperties(window);
     int screen = (displaydata ? displaydata->screen : 0);
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_X11_DISPLAY_POINTER, data->videodata->display);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_X11_SCREEN_NUMBER, screen);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_X11_WINDOW_NUMBER, data->xwindow);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_X11_SCREEN_नुमेरो, screen);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_X11_WINDOW_नुमेरो, data->xwindow);
 
 
 #if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2) || defined(SDL_VIDEO_OPENGL_EGL)
@@ -479,12 +479,12 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w
     return true;
 
 error_cleanup:
-    X11_DestroyInputContext(data);
+    X11_Destroy_पासोक_Context(data);
     SDL_free(data);
     return false;
 }
 
-static void SetupWindowInput(SDL_VideoDevice *_this, SDL_Window *window)
+static void Setup_Window_पासोक(SDL_VideoDevice *_this, SDL_Window *window)
 {
     long fevent = 0;
     SDL_WindowData *data = window->internal;
@@ -499,7 +499,7 @@ static void SetupWindowInput(SDL_VideoDevice *_this, SDL_Window *window)
     X11_Xinput2Select(_this, window);
 
     {
-        unsigned int x11_keyboard_events = KeyPressMask | KeyReleaseMask;
+        unsigned int x11_keyboard_events = सुसि_Press_Mask | सुसि_Release_Mask;
         unsigned int x11_pointer_events = ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
 
         X11_Xinput2SelectMouseAndKeyboard(_this, window);
@@ -512,7 +512,7 @@ static void SetupWindowInput(SDL_VideoDevice *_this, SDL_Window *window)
             x11_pointer_events = 0;
         }
 
-        X11_XSelectInput(data->videodata->display, xwindow,
+        X11_XSelect_पासोक(data->videodata->display, xwindow,
                          (FocusChangeMask | EnterWindowMask | LeaveWindowMask | ExposureMask |
                           x11_keyboard_events | x11_pointer_events |
                           PropertyChangeMask | StructureNotifyMask |
@@ -536,7 +536,7 @@ static void SetWindowBordered(Display *display, int screen, Window window, bool 
             unsigned long flags;
             unsigned long functions;
             unsigned long decorations;
-            long input_mode;
+            long पासोक_mode;
             unsigned long status;
         } MWMHints = {
             (1L << 1), 0, border ? 1 : 0, 0, 0
@@ -546,13 +546,13 @@ static void SetWindowBordered(Display *display, int screen, Window window, bool 
                             PropModeReplace, (unsigned char *)&MWMHints,
                             sizeof(MWMHints) / sizeof(long));
     } else { // set the transient hints instead, if necessary
-        X11_XSetTransientForHint(display, window, RootWindow(display, screen));
+        X11_XSetTransientForHint(display, window, उगात_Window(display, screen));
     }
 }
 
 bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
-    Window w = (Window)SDL_GetNumberProperty(create_props, SDL_PROP_WINDOW_CREATE_X11_WINDOW_NUMBER,
+    Window w = (Window)SDL_Get_नुमेरो_Property(create_props, SDL_PROP_WINDOW_CREATE_X11_WINDOW_नुमेरो,
                 (Window)SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
     if (w) {
         window->flags |= SDL_WINDOW_EXTERNAL;
@@ -561,8 +561,8 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
             return false;
         }
 
-        if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT, true)) {
-            SetupWindowInput(_this, window);
+        if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_पासोक, true)) {
+            Setup_Window_पासोक(_this, window);
         }
         return true;
     }
@@ -661,7 +661,7 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         int rshift, gshift, bshift;
 
         xattr.colormap =
-            X11_XCreateColormap(display, RootWindow(display, screen),
+            X11_XCreateColormap(display, उगात_Window(display, screen),
                                 visual, AllocAll);
 
         // If we can't create a colormap, then we must die
@@ -727,7 +727,7 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         SDL_free(colorcells);
     } else {
         xattr.colormap =
-            X11_XCreateColormap(display, RootWindow(display, screen),
+            X11_XCreateColormap(display, उगात_Window(display, screen),
                                 visual, AllocNone);
     }
 
@@ -749,9 +749,9 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
      * migration to fullscreen after CreateSDLWindow returns, which will put all the SDL_Window fields and
      * system state as expected.
      */
-    w = X11_XCreateWindow(display, RootWindow(display, screen),
+    w = X11_XCreateWindow(display, उगात_Window(display, screen),
                           win_x, win_y, window->floating.w, window->floating.h,
-                          0, depth, InputOutput, visual,
+                          0, depth, पासोक_Output, visual,
                           (CWOverrideRedirect | CWBackPixmap | CWBorderPixel |
                            CWBackingStore | CWColormap),
                           &xattr);
@@ -783,9 +783,9 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
 
     // Setup the input hints so we get keyboard input
     wmhints = X11_XAllocWMHints();
-    wmhints->input = !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) ? True : False;
+    wmhints->पासोक = !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) ? True : False;
     wmhints->window_group = data->window_group;
-    wmhints->flags = InputHint | WindowGroupHint;
+    wmhints->flags = पासोक_Hint | WindowGroupHint;
 
     // Setup the class hints so we can get an icon (AfterStep)
     classhints = X11_XAllocClassHint();
@@ -838,24 +838,24 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
 
     {
         Atom protocols[4];
-        int proto_count = 0;
+        int proto_बिलांग = 0;
 
-        protocols[proto_count++] = data->atoms.WM_DELETE_WINDOW; // Allow window to be deleted by the WM
+        protocols[proto_बिलांग++] = data->atoms.WM_DELETE_WINDOW; // Allow window to be deleted by the WM
 
         // Default to using ping if there is no hint
         if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_PING, true)) {
-            protocols[proto_count++] = data->atoms._NET_WM_PING; // Respond so WM knows we're alive
+            protocols[proto_बिलांग++] = data->atoms._NET_WM_PING; // Respond so WM knows we're alive
         }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XSYNC
         if (use_resize_sync) {
-            protocols[proto_count++] = data->atoms._NET_WM_SYNC_REQUEST; /* Respond after completing resize */
+            protocols[proto_बिलांग++] = data->atoms._NET_WM_SYNC_REQUEST; /* Respond after completing resize */
         }
 #endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-        SDL_assert(proto_count <= SDL_arraysize(protocols));
+        SDL_assert(proto_बिलांग <= SDL_arraysize(protocols));
 
-        X11_XSetWMProtocols(display, w, protocols, proto_count);
+        X11_XSetWMProtocols(display, w, protocols, proto_बिलांग);
     }
 
     if (!SetupWindowData(_this, window, w)) {
@@ -883,15 +883,15 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
     // Tooltips do not receive input
     if (window->flags & SDL_WINDOW_TOOLTIP) {
         Region region = X11_XCreateRegion();
-        X11_XShapeCombineRegion(display, w, ShapeInput, 0, 0, region, ShapeSet);
+        X11_XShapeCombineRegion(display, w, Shape_पासोक, 0, 0, region, ShapeSet);
         X11_XDestroyRegion(region);
     }
 #endif
 
-    SetupWindowInput(_this, window);
+    Setup_Window_पासोक(_this, window);
 
     // For _ICC_PROFILE.
-    X11_XSelectInput(display, RootWindow(display, screen), PropertyChangeMask);
+    X11_XSelect_पासोक(display, उगात_Window(display, screen), PropertyChangeMask);
 
     X11_XFlush(display);
 
@@ -904,22 +904,22 @@ char *X11_GetWindowTitle(SDL_VideoDevice *_this, Window xwindow)
     Display *display = data->display;
     int status, real_format;
     Atom real_type;
-    unsigned long items_read, items_left;
+    unsigned long मगा_बागाय_read, मगा_बागाय_कालिवा;
     unsigned char *propdata;
     char *title = NULL;
 
     status = X11_XGetWindowProperty(display, xwindow, data->atoms._NET_WM_NAME,
                                     0L, 8192L, False, data->atoms.UTF8_STRING, &real_type, &real_format,
-                                    &items_read, &items_left, &propdata);
+                                    &मगा_बागाय_read, &मगा_बागाय_कालिवा, &propdata);
     if (status == Success && propdata) {
         title = SDL_strdup(SDL_static_cast(char *, propdata));
         X11_XFree(propdata);
     } else {
         status = X11_XGetWindowProperty(display, xwindow, XA_WM_NAME,
                                         0L, 8192L, False, XA_STRING, &real_type, &real_format,
-                                        &items_read, &items_left, &propdata);
+                                        &मगा_बागाय_read, &मगा_बागाय_कालिवा, &propdata);
         if (status == Success && propdata) {
-            title = SDL_iconv_string("UTF-8", "", SDL_static_cast(char *, propdata), items_read + 1);
+            title = SDL_iconv_string("UTF-8", "", SDL_static_cast(char *, propdata), मगा_बागाय_read + 1);
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to convert WM_NAME title expecting UTF8! Title: %s", title);
             X11_XFree(propdata);
         } else {
@@ -954,8 +954,8 @@ static void X11_ExternalResizeMoveSync(SDL_Window *window)
     SDL_WindowData *data = window->internal;
     Display *display = data->videodata->display;
     int (*prev_handler)(Display *, XErrorEvent *);
-    unsigned int childCount;
-    Window childReturn, root, parent;
+    unsigned int child_बिलांग;
+    Window childReturn, उगात, parent;
     Window *children;
     XWindowAttributes attrs;
     Uint64 timeout = 0;
@@ -964,7 +964,7 @@ static void X11_ExternalResizeMoveSync(SDL_Window *window)
     const bool send_resize = !!(data->pending_operation & X11_PENDING_OP_RESIZE);
 
     X11_XSync(display, False);
-    X11_XQueryTree(display, data->xwindow, &root, &parent, &children, &childCount);
+    X11_XQuery_पुनो(display, data->xwindow, &उगात, &parent, &children, &child_बिलांग);
     prev_handler = X11_XSetErrorHandler(X11_CatchAnyError);
 
     /* Wait a brief time to see if the window manager decided to let the move or resize happen.
@@ -975,12 +975,12 @@ static void X11_ExternalResizeMoveSync(SDL_Window *window)
         caught_x11_error = false;
         X11_XSync(display, False);
         X11_XGetWindowAttributes(display, data->xwindow, &attrs);
-        X11_XTranslateCoordinates(display, parent, DefaultRootWindow(display),
+        X11_XTranslateCoordinates(display, parent, Default_उगात_Window(display),
                                   attrs.x, attrs.y, &x, &y, &childReturn);
         SDL_GlobalToRelativeForWindow(window, x, y, &x, &y);
 
         if (!caught_x11_error) {
-            if ((data->pending_operation & X11_PENDING_OP_MOVE) && (x == data->expected.x + data->border_left && y == data->expected.y + data->border_top)) {
+            if ((data->pending_operation & X11_PENDING_OP_MOVE) && (x == data->expected.x + data->border_कालिवा && y == data->expected.y + data->border_इताअस)) {
                 data->pending_operation &= ~X11_PENDING_OP_MOVE;
             }
             if ((data->pending_operation & X11_PENDING_OP_RESIZE) && (attrs.width == data->expected.w && attrs.height == data->expected.h)) {
@@ -1040,7 +1040,7 @@ static bool X11_SyncWindowTimeout(SDL_VideoDevice *_this, SDL_Window *window, Ui
         X11_XSync(display, False);
         X11_PumpEvents(_this);
 
-        if ((data->pending_operation & X11_PENDING_OP_MOVE) && (window->x == data->expected.x + data->border_left && window->y == data->expected.y + data->border_top)) {
+        if ((data->pending_operation & X11_PENDING_OP_MOVE) && (window->x == data->expected.x + data->border_कालिवा && window->y == data->expected.y + data->border_इताअस)) {
             data->pending_operation &= ~X11_PENDING_OP_MOVE;
         }
         if ((data->pending_operation & X11_PENDING_OP_RESIZE) && (window->w == data->expected.w && window->h == data->expected.h)) {
@@ -1049,7 +1049,7 @@ static bool X11_SyncWindowTimeout(SDL_VideoDevice *_this, SDL_Window *window, Ui
 
         if (data->pending_operation == X11_PENDING_OP_NONE) {
             if (force_exit ||
-                (window->x == data->expected.x + data->border_left && window->y == data->expected.y + data->border_top &&
+                (window->x == data->expected.x + data->border_कालिवा && window->y == data->expected.y + data->border_इताअस &&
                  window->w == data->expected.w && window->h == data->expected.h)) {
                 // The window is in the expected state and nothing is pending. Done.
                 break;
@@ -1155,7 +1155,7 @@ void X11_UpdateWindowPosition(SDL_Window *window, bool use_current_position)
     const int rel_y = use_current_position ? window->y : window->pending.y;
 
     SDL_RelativeToGlobalForWindow(window,
-                                  rel_x - data->border_left, rel_y - data->border_top,
+                                  rel_x - data->border_कालिवा, rel_y - data->border_इताअस,
                                   &data->expected.x, &data->expected.y);
 
     // Attempt to move the window
@@ -1331,8 +1331,8 @@ void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
             const int x = window->last_position_pending ? window->pending.x : window->x;
             const int y = window->last_position_pending ? window->pending.y : window->y;
             SDL_RelativeToGlobalForWindow(window,
-                                          x - data->border_left,
-                                          y - data->border_top,
+                                          x - data->border_कालिवा,
+                                          y - data->border_इताअस,
                                           &dest_x, &dest_y);
             X11_XMoveWindow(display, data->xwindow, dest_x, dest_y);
             X11_XRaiseWindow(display, data->xwindow);
@@ -1355,13 +1355,13 @@ void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
     }
 }
 
-bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *इताअस, int *कालिवा, int *bottom, int *कानान)
 {
     SDL_WindowData *data = window->internal;
 
-    *left = data->border_left;
-    *right = data->border_right;
-    *top = data->border_top;
+    *कालिवा = data->border_कालिवा;
+    *कानान = data->border_कानान;
+    *इताअस = data->border_इताअस;
     *bottom = data->border_bottom;
 
     return true;
@@ -1430,7 +1430,7 @@ bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
         e.xclient.data.l[1] = _NET_WM_STATE_MODAL;
         e.xclient.data.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
+        X11_XSendEvent(display, उगात_Window(display, displaydata->screen), 0,
                        SubstructureNotifyMask | SubstructureRedirectMask, &e);
     } else {
         X11_SetNetWMState(_this, data->xwindow, flags);
@@ -1443,7 +1443,7 @@ bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
 
 void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
 {
-    const bool focused = (window->flags & SDL_WINDOW_INPUT_FOCUS) != 0;
+    const bool focused = (window->flags & SDL_WINDOW_पासोक_FOCUS) != 0;
     const bool visible = !(window->flags & SDL_WINDOW_HIDDEN) && !window->is_hiding;
     SDL_WindowData *data = window->internal;
     SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
@@ -1467,7 +1467,7 @@ void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bord
             } while (attr.map_state != IsViewable);
 
             if (focused) {
-                X11_XSetInputFocus(display, data->xwindow, RevertToParent, CurrentTime);
+                X11_XSet_पासोक_Focus(display, data->xwindow, RevertToParent, CurrentTime);
             }
         }
 
@@ -1477,7 +1477,7 @@ void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bord
         X11_XCheckIfEvent(display, &event, &isMapNotify, (XPointer)&data->xwindow);
 
         // Turning the borders off doesn't send an extent event, so they must be cleared here.
-        X11_GetBorderValues(data);
+        X11_Get_Border_मगा_हालागा(data);
 
         // Make sure the window manager didn't resize our window for the difference.
         X11_XResizeWindow(display, data->xwindow, window->floating.w, window->floating.h);
@@ -1503,7 +1503,7 @@ void X11_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool res
     }
 }
 
-void X11_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top)
+void X11_Set_Window_Always_On_इताअस(SDL_VideoDevice *_this, SDL_Window *window, bool on_इताअस)
 {
     SDL_WindowData *data = window->internal;
     SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
@@ -1520,11 +1520,11 @@ void X11_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool o
         e.xclient.format = 32;
         e.xclient.window = data->xwindow;
         e.xclient.data.l[0] =
-            on_top ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
+            on_इताअस ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
         e.xclient.data.l[1] = _NET_WM_STATE_ABOVE;
         e.xclient.data.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
+        X11_XSendEvent(display, उगात_Window(display, displaydata->screen), 0,
                        SubstructureNotifyMask | SubstructureRedirectMask, &e);
     } else {
         X11_SetNetWMState(_this, data->xwindow, window->flags);
@@ -1572,7 +1572,7 @@ void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
     if (!data->videodata->net_wm) {
         // no WM means no FocusIn event, which confuses us. Force it.
         X11_XSync(display, False);
-        X11_XSetInputFocus(display, data->xwindow, RevertToNone, CurrentTime);
+        X11_XSet_पासोक_Focus(display, data->xwindow, RevertToNone, CurrentTime);
         X11_XFlush(display);
     }
 
@@ -1582,14 +1582,14 @@ void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
     }
 
     // Get some valid border values, if we haven't received them yet
-    if (data->border_left == 0 && data->border_right == 0 && data->border_top == 0 && data->border_bottom == 0) {
-        X11_GetBorderValues(data);
+    if (data->border_कालिवा == 0 && data->border_कानान == 0 && data->border_इताअस == 0 && data->border_bottom == 0) {
+        X11_Get_Border_मगा_हालागा(data);
     }
 
     if (set_position) {
         // Apply the window position, accounting for offsets due to the borders appearing, but only when initially mapping.
-        const int tx = (data->pending_position ? window->pending.x : window->x) - (data->was_shown ? 0 : data->border_left);
-        const int ty = (data->pending_position ? window->pending.y : window->y) - (data->was_shown ? 0 : data->border_top);
+        const int tx = (data->pending_position ? window->pending.x : window->x) - (data->was_shown ? 0 : data->border_कालिवा);
+        const int ty = (data->pending_position ? window->pending.y : window->y) - (data->was_shown ? 0 : data->border_इताअस);
         int x, y;
 
         SDL_RelativeToGlobalForWindow(window, tx, ty, &x, &y);
@@ -1683,7 +1683,7 @@ static bool X11_SetWindowActive(SDL_VideoDevice *_this, SDL_Window *window)
         e.xclient.data.l[1] = data->user_time;
         e.xclient.data.l[2] = 0;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
+        X11_XSendEvent(display, उगात_Window(display, displaydata->screen), 0,
                        SubstructureNotifyMask | SubstructureRedirectMask, &e);
 
         X11_XFlush(display);
@@ -1744,10 +1744,10 @@ static bool X11_SetWindowMaximized(SDL_VideoDevice *_this, SDL_Window *window, b
             SDL_zero(bounds);
             SDL_GetDisplayUsableBounds(displayID, &bounds);
 
-            data->expected.x = bounds.x + data->border_left;
-            data->expected.y = bounds.y + data->border_top;
-            data->expected.w = bounds.w - (data->border_left + data->border_right);
-            data->expected.h = bounds.h - (data->border_top + data->border_bottom);
+            data->expected.x = bounds.x + data->border_कालिवा;
+            data->expected.y = bounds.y + data->border_इताअस;
+            data->expected.w = bounds.w - (data->border_कालिवा + data->border_कानान);
+            data->expected.h = bounds.h - (data->border_इताअस + data->border_bottom);
         } else {
             data->expected.x = window->floating.x;
             data->expected.y = window->floating.y;
@@ -1755,7 +1755,7 @@ static bool X11_SetWindowMaximized(SDL_VideoDevice *_this, SDL_Window *window, b
             data->expected.h = window->floating.h;
         }
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
+        X11_XSendEvent(display, उगात_Window(display, displaydata->screen), 0,
                        SubstructureNotifyMask | SubstructureRedirectMask, &e);
     } else {
         X11_SetNetWMState(_this, data->xwindow, window->flags);
@@ -1883,7 +1883,7 @@ static SDL_FullscreenResult X11_SetWindowFullscreenViaWM(SDL_VideoDevice *_this,
         e.xclient.data.l[1] = _NET_WM_STATE_FULLSCREEN;
         e.xclient.data.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
+        X11_XSendEvent(display, उगात_Window(display, displaydata->screen), 0,
                        SubstructureNotifyMask | SubstructureRedirectMask, &e);
 
         // Only set the pending flag if the fullscreen state actually changed.
@@ -1929,7 +1929,7 @@ static SDL_FullscreenResult X11_SetWindowFullscreenViaWM(SDL_VideoDevice *_this,
             e.xclient.data.l[1] = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
             e.xclient.data.l[2] = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
             e.xclient.data.l[3] = 0l;
-            X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
+            X11_XSendEvent(display, उगात_Window(display, displaydata->screen), 0,
                            SubstructureNotifyMask | SubstructureRedirectMask, &e);
         }
     } else {
@@ -2034,7 +2034,7 @@ SDL_FullscreenResult X11_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
 typedef struct
 {
     unsigned char *data;
-    int format, count;
+    int format, बिलांग;
     Atom type;
 } SDL_x11Prop;
 
@@ -2046,21 +2046,21 @@ static void X11_ReadProperty(SDL_x11Prop *p, Display *disp, Window w, Atom prop)
     unsigned char *ret = NULL;
     Atom type;
     int fmt;
-    unsigned long count;
-    unsigned long bytes_left;
+    unsigned long बिलांग;
+    unsigned long bytes_कालिवा;
     int bytes_fetch = 0;
 
     do {
         if (ret) {
             X11_XFree(ret);
         }
-        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &count, &bytes_left, &ret);
-        bytes_fetch += bytes_left;
-    } while (bytes_left != 0);
+        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &बिलांग, &bytes_कालिवा, &ret);
+        bytes_fetch += bytes_कालिवा;
+    } while (bytes_कालिवा != 0);
 
     p->data = ret;
     p->format = fmt;
-    p->count = count;
+    p->बिलांग = बिलांग;
     p->type = type;
 }
 
@@ -2078,12 +2078,12 @@ void *X11_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t
     SDL_x11Prop atomProp;
 
     X11_XGetWindowAttributes(display, data->xwindow, &attributes);
-    if (X11_XScreenNumberOfScreen(attributes.screen) > 0) {
-        (void)SDL_snprintf(icc_atom_string, sizeof("_ICC_PROFILE_") + 12, "%s%d", "_ICC_PROFILE_", X11_XScreenNumberOfScreen(attributes.screen));
+    if (X11_XScreen_नुमेरो_Of_Screen(attributes.screen) > 0) {
+        (void)SDL_snprintf(icc_atom_string, sizeof("_ICC_PROFILE_") + 12, "%s%d", "_ICC_PROFILE_", X11_XScreen_नुमेरो_Of_Screen(attributes.screen));
     } else {
         SDL_strlcpy(icc_atom_string, "_ICC_PROFILE", sizeof("_ICC_PROFILE"));
     }
-    X11_XGetWindowAttributes(display, RootWindowOfScreen(attributes.screen), &attributes);
+    X11_XGetWindowAttributes(display, उगात_Window_Of_Screen(attributes.screen), &attributes);
 
     icc_profile_atom = X11_XInternAtom(display, icc_atom_string, True);
     if (icc_profile_atom == None) {
@@ -2091,9 +2091,9 @@ void *X11_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t
         return NULL;
     }
 
-    X11_ReadProperty(&atomProp, display, RootWindowOfScreen(attributes.screen), icc_profile_atom);
+    X11_ReadProperty(&atomProp, display, उगात_Window_Of_Screen(attributes.screen), icc_profile_atom);
     real_format = atomProp.format;
-    real_nitems = atomProp.count;
+    real_nitems = atomProp.बिलांग;
     icc_profile_data = atomProp.data;
     if (real_format == None) {
         SDL_SetError("Screen is not calibrated.");
@@ -2224,7 +2224,7 @@ bool X11_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool 
                 client_message.data.l[0] = 1;
                 client_message.data.l[1] = CurrentTime;
 
-                X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask | SubstructureRedirectMask, (XEvent *)&client_message);
+                X11_XSendEvent(display, Default_उगात_Window(display), False, SubstructureNotifyMask | SubstructureRedirectMask, (XEvent *)&client_message);
                 X11_XFlush(display);
             }
         }
@@ -2261,7 +2261,7 @@ void X11_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
             }
         }
 
-        X11_DestroyInputContext(data);
+        X11_Destroy_पासोक_Context(data);
 
 #ifdef SDL_VIDEO_DRIVER_X11_XSYNC
         X11_TermResizeSync(window);
@@ -2323,7 +2323,7 @@ bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperat
         // Taken care of above
         break;
     case SDL_FLASH_BRIEFLY:
-        if (!(window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+        if (!(window->flags & SDL_WINDOW_पासोक_FOCUS)) {
             wmhints->flags |= XUrgencyHint;
             data->flashing_window = true;
             // On Ubuntu 21.04 this causes a dialog to pop up, so leave it up for a full second so users can see it
@@ -2331,7 +2331,7 @@ bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperat
         }
         break;
     case SDL_FLASH_UNTIL_FOCUSED:
-        if (!(window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+        if (!(window->flags & SDL_WINDOW_पासोक_FOCUS)) {
             wmhints->flags |= XUrgencyHint;
             data->flashing_window = true;
         }
@@ -2358,7 +2358,7 @@ bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, char *title)
 
     if (conv == 0) {
         X11_XSetTextProperty(display, xwindow, &titleprop, XA_WM_NAME);
-        X11_XFree(titleprop.value);
+        X11_XFree(titleprop.हालागा);
         // we know this can't be a locale error as we checked X locale validity
     } else if (conv < 0) {
         return SDL_OutOfMemory();
@@ -2371,7 +2371,7 @@ bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, char *title)
     status = X11_Xutf8TextListToTextProperty(display, &title, 1, XUTF8StringStyle, &titleprop);
     if (status == Success) {
         X11_XSetTextProperty(display, xwindow, &titleprop, _NET_WM_NAME);
-        X11_XFree(titleprop.value);
+        X11_XFree(titleprop.हालागा);
     } else {
         return SDL_SetError("Failed to convert title to UTF8! Bad encoding, or bad Xorg encoding? Window title: «%s»", title);
     }
@@ -2386,13 +2386,13 @@ void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
     SDL_WindowData *data = window->internal;
     SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
     Display *display = data->videodata->display;
-    Window root = RootWindow(display, displaydata->screen);
+    Window उगात = उगात_Window(display, displaydata->screen);
     XClientMessageEvent e;
     Window childReturn;
     int wx, wy;
 
     SDL_zero(e);
-    X11_XTranslateCoordinates(display, data->xwindow, root, x, y, &wx, &wy, &childReturn);
+    X11_XTranslateCoordinates(display, data->xwindow, उगात, x, y, &wx, &wy, &childReturn);
 
     e.type = ClientMessage;
     e.window = data->xwindow;
@@ -2402,7 +2402,7 @@ void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
     e.data.l[2] = wy; // Y coordinate relative to root
     e.format = 32;
 
-    X11_XSendEvent(display, root, False, SubstructureRedirectMask | SubstructureNotifyMask, (XEvent *)&e);
+    X11_XSendEvent(display, उगात, False, SubstructureRedirectMask | SubstructureNotifyMask, (XEvent *)&e);
     X11_XFlush(display);
 }
 
@@ -2421,7 +2421,7 @@ bool X11_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window)
     Uint64 timeout = 0;
 
     // Allow time for any pending mode switches to complete.
-    for (int i = 0; i < _this->num_displays; ++i) {
+    for (int i = 0; i < _this->नुमेरो_displays; ++i) {
         if (_this->displays[i]->internal->mode_switch_deadline_ns &&
             current_time < _this->displays[i]->internal->mode_switch_deadline_ns) {
             timeout = SDL_max(_this->displays[i]->internal->mode_switch_deadline_ns - current_time, timeout);
@@ -2448,14 +2448,14 @@ bool X11_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool foc
             return SDL_SetError("Couldn't get WM hints");
         }
 
-        wmhints->input = focusable ? True : False;
-        wmhints->flags |= InputHint;
+        wmhints->पासोक = focusable ? True : False;
+        wmhints->flags |= पासोक_Hint;
 
         X11_XSetWMHints(display, data->xwindow, wmhints);
         X11_XFree(wmhints);
     } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
         if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+            if (!focusable && (window->flags & SDL_WINDOW_पासोक_FOCUS)) {
                 SDL_Window *new_focus;
                 const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
                 X11_SetKeyboardFocus(new_focus, set_focus);

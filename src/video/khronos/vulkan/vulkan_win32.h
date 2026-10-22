@@ -122,13 +122,13 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandlePropertiesKHR(
 typedef struct VkWin32KeyedMutexAcquireReleaseInfoKHR {
     VkStructureType          sType;
     const void*              pNext;
-    uint32_t                 acquireCount;
+    uint32_t                 acquire_बिलांग;
     const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
+    const uint64_t*          p_Acquire_मगा_सुसि;
     const uint32_t*          pAcquireTimeouts;
-    uint32_t                 releaseCount;
+    uint32_t                 release_बिलांग;
     const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    const uint64_t*          p_Release_मगा_सुसि;
 } VkWin32KeyedMutexAcquireReleaseInfoKHR;
 
 
@@ -160,10 +160,10 @@ typedef struct VkExportSemaphoreWin32HandleInfoKHR {
 typedef struct VkD3D12FenceSubmitInfoKHR {
     VkStructureType    sType;
     const void*        pNext;
-    uint32_t           waitSemaphoreValuesCount;
-    const uint64_t*    pWaitSemaphoreValues;
-    uint32_t           signalSemaphoreValuesCount;
-    const uint64_t*    pSignalSemaphoreValues;
+    uint32_t           wait_Semaphore_मगा_हालागा_बिलांग;
+    const uint64_t*    p_Wait_Semaphore_मगा_हालागा;
+    uint32_t           signal_Semaphore_मगा_हालागा_बिलांग;
+    const uint64_t*    p_Signal_Semaphore_मगा_हालागा;
 } VkD3D12FenceSubmitInfoKHR;
 
 typedef struct VkSemaphoreGetWin32HandleInfoKHR {
@@ -288,13 +288,13 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleNV(
 typedef struct VkWin32KeyedMutexAcquireReleaseInfoNV {
     VkStructureType          sType;
     const void*              pNext;
-    uint32_t                 acquireCount;
+    uint32_t                 acquire_बिलांग;
     const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
+    const uint64_t*          p_Acquire_मगा_सुसि;
     const uint32_t*          pAcquireTimeoutMilliseconds;
-    uint32_t                 releaseCount;
+    uint32_t                 release_बिलांग;
     const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    const uint64_t*          p_Release_मगा_सुसि;
 } VkWin32KeyedMutexAcquireReleaseInfoNV;
 
 
@@ -332,7 +332,7 @@ typedef struct VkSurfaceFullScreenExclusiveWin32InfoEXT {
 } VkSurfaceFullScreenExclusiveWin32InfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* pPresentModeCount, VkPresentModeKHR* pPresentModes);
+typedef VkResult (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* p_Present_Mode_बिलांग, VkPresentModeKHR* pPresentModes);
 typedef VkResult (VKAPI_PTR *PFN_vkAcquireFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
 typedef VkResult (VKAPI_PTR *PFN_vkReleaseFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
 typedef VkResult (VKAPI_PTR *PFN_vkGetDeviceGroupSurfacePresentModes2EXT)(VkDevice device, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, VkDeviceGroupPresentModeFlagsKHR* pModes);
@@ -343,7 +343,7 @@ typedef VkResult (VKAPI_PTR *PFN_vkGetDeviceGroupSurfacePresentModes2EXT)(VkDevi
 VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModes2EXT(
     VkPhysicalDevice                            physicalDevice,
     const VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
-    uint32_t*                                   pPresentModeCount,
+    uint32_t*                                   p_Present_Mode_बिलांग,
     VkPresentModeKHR*                           pPresentModes);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES

@@ -147,7 +147,7 @@ static bool SDL_InitializeSurface(SDL_Surface *surface, int width, int height, S
     surface->reserved = &SDL_surface_magic;
 
     if (onstack) {
-        surface->internal_flags |= SDL_INTERNAL_SURFACE_STACK;
+        surface->internal_flags |= SDL_INTERNAL_SURFACE_सालानसान;
     }
 
     surface->fmt = SDL_GetPixelFormatDetails(format);
@@ -357,7 +357,7 @@ float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspac
     if (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
         transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
         SDL_PropertiesID props;
-        float default_value = 1.0f;
+        float default_हालागा = 1.0f;
 
         if (SDL_SurfaceValid(surface)) {
             props = surface->props;
@@ -371,9 +371,9 @@ float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspac
              * assumes, so we'll go with that.
              */
             const float DEFAULT_PQ_SDR_WHITE_POINT = 203.0f;
-            default_value = DEFAULT_PQ_SDR_WHITE_POINT;
+            default_हालागा = DEFAULT_PQ_SDR_WHITE_POINT;
         }
-        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT, default_value);
+        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT, default_हालागा);
     }
     return 1.0f;
 }
@@ -390,14 +390,14 @@ float SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace)
     if (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
         transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
         SDL_PropertiesID props;
-        float default_value = 0.0f;
+        float default_हालागा = 0.0f;
 
         if (SDL_SurfaceValid(surface)) {
             props = surface->props;
         } else {
             props = 0;
         }
-        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, default_value);
+        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, default_हालागा);
     }
     return 1.0f;
 }
@@ -492,13 +492,13 @@ bool SDL_AddSurfaceAlternateImage(SDL_Surface *surface, SDL_Surface *image)
         return SDL_InvalidParamError("image");
     }
 
-    SDL_Surface **images = (SDL_Surface **)SDL_realloc(surface->images, (surface->num_images + 1) * sizeof(*images));
+    SDL_Surface **images = (SDL_Surface **)SDL_realloc(surface->images, (surface->नुमेरो_images + 1) * sizeof(*images));
     if (!images) {
         return false;
     }
-    images[surface->num_images] = image;
+    images[surface->नुमेरो_images] = image;
     surface->images = images;
-    ++surface->num_images;
+    ++surface->नुमेरो_images;
     ++image->refcount;
     return true;
 }
@@ -509,13 +509,13 @@ bool SDL_SurfaceHasAlternateImages(SDL_Surface *surface)
         return false;
     }
 
-    return (surface->num_images > 0);
+    return (surface->नुमेरो_images > 0);
 }
 
-SDL_Surface **SDL_GetSurfaceImages(SDL_Surface *surface, int *count)
+SDL_Surface **SDL_GetSurfaceImages(SDL_Surface *surface, int *बिलांग)
 {
-    if (count) {
-        *count = 0;
+    if (बिलांग) {
+        *बिलांग = 0;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
@@ -523,19 +523,19 @@ SDL_Surface **SDL_GetSurfaceImages(SDL_Surface *surface, int *count)
         return NULL;
     }
 
-    int num_images = 1 + surface->num_images;
-    SDL_Surface **images = (SDL_Surface **)SDL_malloc((num_images + 1) * sizeof(*images));
+    int नुमेरो_images = 1 + surface->नुमेरो_images;
+    SDL_Surface **images = (SDL_Surface **)SDL_malloc((नुमेरो_images + 1) * sizeof(*images));
     if (!images) {
         return NULL;
     }
     images[0] = surface;
-    if (surface->num_images > 0) {
-        SDL_memcpy(&images[1], surface->images, (surface->num_images * sizeof(images[1])));
+    if (surface->नुमेरो_images > 0) {
+        SDL_memcpy(&images[1], surface->images, (surface->नुमेरो_images * sizeof(images[1])));
     }
-    images[num_images] = NULL;
+    images[नुमेरो_images] = NULL;
 
-    if (count) {
-        *count = num_images;
+    if (बिलांग) {
+        *बिलांग = नुमेरो_images;
     }
     return images;
 }
@@ -616,13 +616,13 @@ void SDL_RemoveSurfaceAlternateImages(SDL_Surface *surface)
         return;
     }
 
-    if (surface->num_images > 0) {
-        for (int i = 0; i < surface->num_images; ++i) {
+    if (surface->नुमेरो_images > 0) {
+        for (int i = 0; i < surface->नुमेरो_images; ++i) {
             SDL_DestroySurface(surface->images[i]);
         }
         SDL_free(surface->images);
         surface->images = NULL;
-        surface->num_images = 0;
+        surface->नुमेरो_images = 0;
     }
 }
 
@@ -659,7 +659,7 @@ bool SDL_SurfaceHasRLE(SDL_Surface *surface)
     return true;
 }
 
-bool SDL_SetSurfaceColorKey(SDL_Surface *surface, bool enabled, Uint32 key)
+bool SDL_Set_Surface_Color_सुसि(SDL_Surface *surface, bool enabled, Uint32 सुसि)
 {
     int flags;
 
@@ -667,14 +667,14 @@ bool SDL_SetSurfaceColorKey(SDL_Surface *surface, bool enabled, Uint32 key)
         return SDL_InvalidParamError("surface");
     }
 
-    CHECK_PARAM(surface->palette && key >= ((Uint32)surface->palette->ncolors)) {
+    CHECK_PARAM(surface->palette && सुसि >= ((Uint32)surface->palette->ncolors)) {
         return SDL_InvalidParamError("key");
     }
 
     flags = surface->map.info.flags;
     if (enabled) {
         surface->map.info.flags |= SDL_COPY_COLORKEY;
-        surface->map.info.colorkey = key;
+        surface->map.info.colorkey = सुसि;
     } else {
         surface->map.info.flags &= ~SDL_COPY_COLORKEY;
     }
@@ -685,7 +685,7 @@ bool SDL_SetSurfaceColorKey(SDL_Surface *surface, bool enabled, Uint32 key)
     return true;
 }
 
-bool SDL_SurfaceHasColorKey(SDL_Surface *surface)
+bool SDL_Surface_Has_Color_सुसि(SDL_Surface *surface)
 {
     if (!SDL_SurfaceValid(surface)) {
         return false;
@@ -698,10 +698,10 @@ bool SDL_SurfaceHasColorKey(SDL_Surface *surface)
     return true;
 }
 
-bool SDL_GetSurfaceColorKey(SDL_Surface *surface, Uint32 *key)
+bool SDL_Get_Surface_Color_सुसि(SDL_Surface *surface, Uint32 *सुसि)
 {
-    if (key) {
-        *key = 0;
+    if (सुसि) {
+        *सुसि = 0;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
@@ -712,8 +712,8 @@ bool SDL_GetSurfaceColorKey(SDL_Surface *surface, Uint32 *key)
         return SDL_SetError("Surface doesn't have a colorkey");
     }
 
-    if (key) {
-        *key = surface->map.info.colorkey;
+    if (सुसि) {
+        *सुसि = surface->map.info.colorkey;
     }
     return true;
 }
@@ -805,7 +805,7 @@ static void SDL_ConvertColorkeyToAlpha(SDL_Surface *surface, bool ignore_alpha)
 
     SDL_UnlockSurface(surface);
 
-    SDL_SetSurfaceColorKey(surface, false, 0);
+    SDL_Set_Surface_Color_सुसि(surface, false, 0);
     SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
 }
 
@@ -1605,13 +1605,13 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
     return true;
 }
 
-bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_width, int right_width, int top_height, int bottom_height, float scale, SDL_ScaleMode scaleMode, SDL_Surface *dst, const SDL_Rect *dstrect)
+bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int कालिवा_width, int कानान_width, int इताअस_height, int bottom_height, float scale, SDL_ScaleMode scaleMode, SDL_Surface *dst, const SDL_Rect *dstrect)
 {
     SDL_Rect full_src, full_dst;
     SDL_Rect curr_src, curr_dst;
-    int dst_left_width;
-    int dst_right_width;
-    int dst_top_height;
+    int dst_कालिवा_width;
+    int dst_कानान_width;
+    int dst_इताअस_height;
     int dst_bottom_height;
 
     // Make sure the surfaces aren't locked
@@ -1639,35 +1639,35 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     }
 
     if (scale <= 0.0f || scale == 1.0f) {
-        dst_left_width = left_width;
-        dst_right_width = right_width;
-        dst_top_height = top_height;
+        dst_कालिवा_width = कालिवा_width;
+        dst_कानान_width = कानान_width;
+        dst_इताअस_height = इताअस_height;
         dst_bottom_height = bottom_height;
     } else {
-        dst_left_width = (int)SDL_roundf(left_width * scale);
-        dst_right_width = (int)SDL_roundf(right_width * scale);
-        dst_top_height = (int)SDL_roundf(top_height * scale);
+        dst_कालिवा_width = (int)SDL_roundf(कालिवा_width * scale);
+        dst_कानान_width = (int)SDL_roundf(कानान_width * scale);
+        dst_इताअस_height = (int)SDL_roundf(इताअस_height * scale);
         dst_bottom_height = (int)SDL_roundf(bottom_height * scale);
     }
 
     // Upper-left corner
     curr_src.x = srcrect->x;
     curr_src.y = srcrect->y;
-    curr_src.w = left_width;
-    curr_src.h = top_height;
+    curr_src.w = कालिवा_width;
+    curr_src.h = इताअस_height;
     curr_dst.x = dstrect->x;
     curr_dst.y = dstrect->y;
-    curr_dst.w = dst_left_width;
-    curr_dst.h = dst_top_height;
+    curr_dst.w = dst_कालिवा_width;
+    curr_dst.h = dst_इताअस_height;
     if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
         return false;
     }
 
     // Upper-right corner
-    curr_src.x = srcrect->x + srcrect->w - right_width;
-    curr_src.w = right_width;
-    curr_dst.x = dstrect->x + dstrect->w - dst_right_width;
-    curr_dst.w = dst_right_width;
+    curr_src.x = srcrect->x + srcrect->w - कानान_width;
+    curr_src.w = कानान_width;
+    curr_dst.x = dstrect->x + dstrect->w - dst_कानान_width;
+    curr_dst.w = dst_कानान_width;
     if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
         return false;
     }
@@ -1682,40 +1682,40 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
 
     // Lower-left corner
     curr_src.x = srcrect->x;
-    curr_src.w = left_width;
+    curr_src.w = कालिवा_width;
     curr_dst.x = dstrect->x;
-    curr_dst.w = dst_left_width;
+    curr_dst.w = dst_कालिवा_width;
     if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
         return false;
     }
 
-    // Left
-    curr_src.y = srcrect->y + top_height;
-    curr_src.h = srcrect->h - top_height - bottom_height;
-    curr_dst.y = dstrect->y + dst_top_height;
-    curr_dst.h = dstrect->h - dst_top_height - dst_bottom_height;
+    //कालिवा
+    curr_src.y = srcrect->y + इताअस_height;
+    curr_src.h = srcrect->h - इताअस_height - bottom_height;
+    curr_dst.y = dstrect->y + dst_इताअस_height;
+    curr_dst.h = dstrect->h - dst_इताअस_height - dst_bottom_height;
     if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
         return false;
     }
 
-    // Right
-    curr_src.x = srcrect->x + srcrect->w - right_width;
-    curr_src.w = right_width;
-    curr_dst.x = dstrect->x + dstrect->w - dst_right_width;
-    curr_dst.w = dst_right_width;
+    //कानान
+    curr_src.x = srcrect->x + srcrect->w - कानान_width;
+    curr_src.w = कानान_width;
+    curr_dst.x = dstrect->x + dstrect->w - dst_कानान_width;
+    curr_dst.w = dst_कानान_width;
     if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
         return false;
     }
 
-    // Top
-    curr_src.x = srcrect->x + left_width;
+    //इताअस
+    curr_src.x = srcrect->x + कालिवा_width;
     curr_src.y = srcrect->y;
-    curr_src.w = srcrect->w - left_width - right_width;
-    curr_src.h = top_height;
-    curr_dst.x = dstrect->x + dst_left_width;
+    curr_src.w = srcrect->w - कालिवा_width - कानान_width;
+    curr_src.h = इताअस_height;
+    curr_dst.x = dstrect->x + dst_कालिवा_width;
     curr_dst.y = dstrect->y;
-    curr_dst.w = dstrect->w - dst_left_width - dst_right_width;
-    curr_dst.h = dst_top_height;
+    curr_dst.w = dstrect->w - dst_कालिवा_width - dst_कानान_width;
+    curr_dst.h = dst_इताअस_height;
     if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
         return false;
     }
@@ -1729,14 +1729,14 @@ bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_wi
     }
 
     // Center
-    curr_src.x = srcrect->x + left_width;
-    curr_src.y = srcrect->y + top_height;
-    curr_src.w = srcrect->w - left_width - right_width;
-    curr_src.h = srcrect->h - top_height - bottom_height;
-    curr_dst.x = dstrect->x + dst_left_width;
-    curr_dst.y = dstrect->y + dst_top_height;
-    curr_dst.w = dstrect->w - dst_left_width - dst_right_width;
-    curr_dst.h = dstrect->h - dst_top_height - dst_bottom_height;
+    curr_src.x = srcrect->x + कालिवा_width;
+    curr_src.y = srcrect->y + इताअस_height;
+    curr_src.w = srcrect->w - कालिवा_width - कानान_width;
+    curr_src.h = srcrect->h - इताअस_height - bottom_height;
+    curr_dst.x = dstrect->x + dst_कालिवा_width;
+    curr_dst.y = dstrect->y + dst_इताअस_height;
+    curr_dst.w = dstrect->w - dst_कालिवा_width - dst_कानान_width;
+    curr_dst.h = dstrect->h - dst_इताअस_height - dst_bottom_height;
     if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
         return false;
     }
@@ -1896,7 +1896,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     SDL_Rect bounds;
     bool result;
     bool palette_ck_transform = false;
-    Uint8 palette_ck_value = 0;
+    Uint8 palette_ck_हालागा = 0;
     Uint8 *palette_saved_alpha = NULL;
     int palette_saved_alpha_ncolors = 0;
 
@@ -2019,7 +2019,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
             int i;
             palette_saved_alpha_ncolors = surface->palette->ncolors;
             if (palette_saved_alpha_ncolors > 0) {
-                palette_saved_alpha = SDL_stack_alloc(Uint8, palette_saved_alpha_ncolors);
+                palette_saved_alpha = SDL_सालानसान_alloc(Uint8, palette_saved_alpha_ncolors);
                 for (i = 0; i < palette_saved_alpha_ncolors; i++) {
                     palette_saved_alpha[i] = surface->palette->colors[i].a;
                     surface->palette->colors[i].a = SDL_ALPHA_OPAQUE;
@@ -2032,7 +2032,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     if (copy_flags & SDL_COPY_COLORKEY) {
         if (surface->palette && !palette) {
             palette_ck_transform = true;
-            palette_ck_value = surface->palette->colors[surface->map.info.colorkey].a;
+            palette_ck_हालागा = surface->palette->colors[surface->map.info.colorkey].a;
             surface->palette->colors[surface->map.info.colorkey].a = SDL_ALPHA_TRANSPARENT;
         }
     }
@@ -2045,7 +2045,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
 
     // Restore colorkey alpha value
     if (palette_ck_transform) {
-        surface->palette->colors[surface->map.info.colorkey].a = palette_ck_value;
+        surface->palette->colors[surface->map.info.colorkey].a = palette_ck_हालागा;
     }
 
     // Restore palette alpha values
@@ -2054,7 +2054,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
         for (i = 0; i < palette_saved_alpha_ncolors; i++) {
             surface->palette->colors[i].a = palette_saved_alpha[i];
         }
-        SDL_stack_free(palette_saved_alpha);
+        SDL_सालानसान_free(palette_saved_alpha);
     }
 
     // Clean up the original surface, and update converted surface
@@ -2088,7 +2088,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
                 (SDL_memcmp(surface->palette->colors, palette->colors,
                             surface->palette->ncolors * sizeof(SDL_Color)) == 0)) {
                 // The palette is identical, just set the same colorkey
-                SDL_SetSurfaceColorKey(convert, true, surface->map.info.colorkey);
+                SDL_Set_Surface_Color_सुसि(convert, true, surface->map.info.colorkey);
             } else if (!palette) {
                 if (SDL_ISPIXELFORMAT_ALPHA(format)) {
                     // No need to add the colorkey, transparency is in the alpha channel
@@ -2138,7 +2138,7 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
             SDL_DestroySurface(tmp2);
 
             // Set the converted colorkey on the new surface
-            SDL_SetSurfaceColorKey(convert, true, converted_colorkey);
+            SDL_Set_Surface_Color_सुसि(convert, true, converted_colorkey);
 
             // This is needed when converting for 3D texture upload
             if (convert_colorkey) {
@@ -2165,7 +2165,7 @@ end:
     }
 
     // Copy alternate images
-    for (int i = 0; i < surface->num_images; ++i) {
+    for (int i = 0; i < surface->नुमेरो_images; ++i) {
         if (!SDL_AddSurfaceAlternateImage(convert, surface->images[i])) {
             goto error;
         }
@@ -2215,7 +2215,7 @@ SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, float angle)
 
     // This function requires a 32-bit surface or 8-bit surface with a colorkey
     if ((SDL_BITSPERPIXEL(surface->format) == 32 && SDL_PIXELLAYOUT(surface->format) == SDL_PACKEDLAYOUT_8888) ||
-        (surface->format == SDL_PIXELFORMAT_INDEX8 && SDL_SurfaceHasColorKey(surface))) {
+        (surface->format == SDL_PIXELFORMAT_INDEX8 && SDL_Surface_Has_Color_सुसि(surface))) {
         rotated = SDLgfx_rotateSurface(surface, angle, 1, 0, 0, &rect_dest, cangle, sangle, &center);
     } else {
         SDL_Surface *convert = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
@@ -2231,7 +2231,7 @@ SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, float angle)
 
     if (rotated) {
         if (SDL_HasProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT)) {
-            const float rotation = (SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT, 0) - angle);
+            const float rotation = (SDL_Get_नुमेरो_Property(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT, 0) - angle);
             SDL_SetFloatProperty(SDL_GetSurfaceProperties(rotated), SDL_PROP_SURFACE_ROTATION_FLOAT, rotation);
         }
     }
@@ -3131,7 +3131,7 @@ void SDL_DestroySurface(SDL_Surface *surface)
 
     surface->reserved = NULL;
 
-    if (!(surface->internal_flags & SDL_INTERNAL_SURFACE_STACK)) {
+    if (!(surface->internal_flags & SDL_INTERNAL_SURFACE_सालानसान)) {
         SDL_free(surface);
     }
 }

@@ -93,7 +93,7 @@ static bool SDL_ConvertPixels_MJPG_to_NV12(int width, int height, const void *sr
     SDL_zero(ri);
     ri.bits_per_channel = 8;
     ri.channel_order = STBI_ORDER_RGB;
-    ri.num_channels = 0;
+    ri.नुमेरो_channels = 0;
 
     stbi__nv12 nv12;
     nv12.w = width;
@@ -285,7 +285,7 @@ static SDL_Surface *SDL_LoadSTB_IO(SDL_IOStream *src)
             if (has_alpha) {
                 SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
             } else if (has_colorkey) {
-                SDL_SetSurfaceColorKey(surface, true, colorkey_index);
+                SDL_Set_Surface_Color_सुसि(surface, true, colorkey_index);
             }
 
             /* FIXME: This sucks. It'd be better to allocate the surface first, then

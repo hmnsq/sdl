@@ -388,9 +388,9 @@
     do {                                                                   \
         int linecount = srcrect->h;                                        \
         int ofs = 0;                                                       \
-        int left = srcrect->x;                                             \
-        int right = left + srcrect->w;                                     \
-        dstbuf -= left * bpp;                                              \
+        int कालिवा = srcrect->x;                                             \
+        int कानान = कालिवा + srcrect->w;                                     \
+        dstbuf -= कालिवा * bpp;                                              \
         for (;;) {                                                         \
             int run;                                                       \
             ofs += *(Type *)srcbuf;                                        \
@@ -398,19 +398,19 @@
             srcbuf += 2 * sizeof(Type);                                    \
             if (run) {                                                     \
                 /* clip to left and right borders */                       \
-                if (ofs < right) {                                         \
+                if (ofs < कानान) {                                         \
                     int start = 0;                                         \
                     int len = run;                                         \
                     int startcol;                                          \
-                    if (left - ofs > 0) {                                  \
-                        start = left - ofs;                                \
+                    if (कालिवा - ofs > 0) {                                  \
+                        start = कालिवा - ofs;                                \
                         len -= start;                                      \
                         if (len <= 0)                                      \
                             goto nocopy##bpp##do_blit;                     \
                     }                                                      \
                     startcol = ofs + start;                                \
-                    if (len > right - startcol)                            \
-                        len = right - startcol;                            \
+                    if (len > कानान - startcol)                            \
+                        len = कानान - startcol;                            \
                     do_blit(dstbuf + startcol * bpp, srcbuf + start * bpp, \
                             len, bpp, alpha);                              \
                 }                                                          \
@@ -616,9 +616,9 @@ static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
 #define RLEALPHACLIPBLIT(Ptype, Ctype, do_blend)                          \
     do {                                                                  \
         int linecount = srcrect->h;                                       \
-        int left = srcrect->x;                                            \
-        int right = left + srcrect->w;                                    \
-        dstbuf -= left * sizeof(Ptype);                                   \
+        int कालिवा = srcrect->x;                                            \
+        int कानान = कालिवा + srcrect->w;                                    \
+        dstbuf -= कालिवा * sizeof(Ptype);                                   \
         do {                                                              \
             int ofs = 0;                                                  \
             /* blit opaque pixels on one line */                          \
@@ -631,12 +631,12 @@ static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
                     /* clip to left and right borders */                  \
                     int cofs = ofs;                                       \
                     int crun = run;                                       \
-                    if (left - cofs > 0) {                                \
-                        crun -= left - cofs;                              \
-                        cofs = left;                                      \
+                    if (कालिवा - cofs > 0) {                                \
+                        crun -= कालिवा - cofs;                              \
+                        cofs = कालिवा;                                      \
                     }                                                     \
-                    if (crun > right - cofs)                              \
-                        crun = right - cofs;                              \
+                    if (crun > कानान - cofs)                              \
+                        crun = कानान - cofs;                              \
                     if (crun > 0)                                         \
                         PIXEL_COPY(dstbuf + cofs * sizeof(Ptype),         \
                                    srcbuf + (cofs - ofs) * sizeof(Ptype), \
@@ -661,12 +661,12 @@ static void RLEAlphaClipBlit(int w, Uint8 *srcbuf, SDL_Surface *surf_dst,
                     /* clip to left and right borders */                  \
                     int cofs = ofs;                                       \
                     int crun = run;                                       \
-                    if (left - cofs > 0) {                                \
-                        crun -= left - cofs;                              \
-                        cofs = left;                                      \
+                    if (कालिवा - cofs > 0) {                                \
+                        crun -= कालिवा - cofs;                              \
+                        cofs = कालिवा;                                      \
                     }                                                     \
-                    if (crun > right - cofs)                              \
-                        crun = right - cofs;                              \
+                    if (crun > कानान - cofs)                              \
+                        crun = कानान - cofs;                              \
                     if (crun > 0) {                                       \
                         Ptype *dst = (Ptype *)dstbuf + cofs;              \
                         Uint32 *src = (Uint32 *)srcbuf + (cofs - ofs);    \

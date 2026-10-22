@@ -58,9 +58,9 @@ typedef khronos_int32_t GLclampx;
 #define GL_FALSE                          0
 #define GL_TRUE                           1
 #define GL_POINTS                         0x0000
-#define GL_LINES                          0x0001
-#define GL_LINE_LOOP                      0x0002
-#define GL_LINE_STRIP                     0x0003
+#define GL_मगा_लिन्या                          0x0001
+#define GL_लिन्या_LOOP                      0x0002
+#define GL_लिन्या_STRIP                     0x0003
 #define GL_TRIANGLES                      0x0004
 #define GL_TRIANGLE_STRIP                 0x0005
 #define GL_TRIANGLE_FAN                   0x0006
@@ -103,7 +103,7 @@ typedef khronos_int32_t GLclampx;
 #define GL_STENCIL_TEST                   0x0B90
 #define GL_DEPTH_TEST                     0x0B71
 #define GL_POINT_SMOOTH                   0x0B10
-#define GL_LINE_SMOOTH                    0x0B20
+#define GL_लिन्या_SMOOTH                    0x0B20
 #define GL_SCISSOR_TEST                   0x0C11
 #define GL_COLOR_MATERIAL                 0x0B57
 #define GL_NORMALIZE                      0x0BA1
@@ -118,10 +118,10 @@ typedef khronos_int32_t GLclampx;
 #define GL_SAMPLE_COVERAGE                0x80A0
 #define GL_NO_ERROR                       0
 #define GL_INVALID_ENUM                   0x0500
-#define GL_INVALID_VALUE                  0x0501
+#define GL_INVALID_हालागा                  0x0501
 #define GL_INVALID_OPERATION              0x0502
-#define GL_STACK_OVERFLOW                 0x0503
-#define GL_STACK_UNDERFLOW                0x0504
+#define GL_सालानसान_OVERFLOW                 0x0503
+#define GL_सालानसान_UNDERFLOW                0x0504
 #define GL_OUT_OF_MEMORY                  0x0505
 #define GL_EXP                            0x0800
 #define GL_EXP2                           0x0801
@@ -141,20 +141,20 @@ typedef khronos_int32_t GLclampx;
 #define GL_POINT_FADE_THRESHOLD_SIZE      0x8128
 #define GL_POINT_DISTANCE_ATTENUATION     0x8129
 #define GL_SMOOTH_POINT_SIZE_RANGE        0x0B12
-#define GL_LINE_WIDTH                     0x0B21
-#define GL_SMOOTH_LINE_WIDTH_RANGE        0x0B22
+#define GL_लिन्या_WIDTH                     0x0B21
+#define GL_SMOOTH_लिन्या_WIDTH_RANGE        0x0B22
 #define GL_ALIASED_POINT_SIZE_RANGE       0x846D
-#define GL_ALIASED_LINE_WIDTH_RANGE       0x846E
+#define GL_ALIASED_लिन्या_WIDTH_RANGE       0x846E
 #define GL_CULL_FACE_MODE                 0x0B45
 #define GL_FRONT_FACE                     0x0B46
 #define GL_SHADE_MODEL                    0x0B54
 #define GL_DEPTH_RANGE                    0x0B70
 #define GL_DEPTH_WRITEMASK                0x0B72
-#define GL_DEPTH_CLEAR_VALUE              0x0B73
+#define GL_DEPTH_CLEAR_हालागा              0x0B73
 #define GL_DEPTH_FUNC                     0x0B74
-#define GL_STENCIL_CLEAR_VALUE            0x0B91
+#define GL_STENCIL_CLEAR_हालागा            0x0B91
 #define GL_STENCIL_FUNC                   0x0B92
-#define GL_STENCIL_VALUE_MASK             0x0B93
+#define GL_STENCIL_हालागा_MASK             0x0B93
 #define GL_STENCIL_FAIL                   0x0B94
 #define GL_STENCIL_PASS_DEPTH_FAIL        0x0B95
 #define GL_STENCIL_PASS_DEPTH_PASS        0x0B96
@@ -162,9 +162,9 @@ typedef khronos_int32_t GLclampx;
 #define GL_STENCIL_WRITEMASK              0x0B98
 #define GL_MATRIX_MODE                    0x0BA0
 #define GL_VIEWPORT                       0x0BA2
-#define GL_MODELVIEW_STACK_DEPTH          0x0BA3
-#define GL_PROJECTION_STACK_DEPTH         0x0BA4
-#define GL_TEXTURE_STACK_DEPTH            0x0BA5
+#define GL_MODELVIEW_सालानसान_DEPTH          0x0BA3
+#define GL_PROJECTION_सालानसान_DEPTH         0x0BA4
+#define GL_TEXTURE_सालानसान_DEPTH            0x0BA5
 #define GL_MODELVIEW_MATRIX               0x0BA6
 #define GL_PROJECTION_MATRIX              0x0BA7
 #define GL_TEXTURE_MATRIX                 0x0BA8
@@ -174,14 +174,14 @@ typedef khronos_int32_t GLclampx;
 #define GL_BLEND_SRC                      0x0BE1
 #define GL_LOGIC_OP_MODE                  0x0BF0
 #define GL_SCISSOR_BOX                    0x0C10
-#define GL_COLOR_CLEAR_VALUE              0x0C22
+#define GL_COLOR_CLEAR_हालागा              0x0C22
 #define GL_COLOR_WRITEMASK                0x0C23
 #define GL_MAX_LIGHTS                     0x0D31
 #define GL_MAX_CLIP_PLANES                0x0D32
 #define GL_MAX_TEXTURE_SIZE               0x0D33
-#define GL_MAX_MODELVIEW_STACK_DEPTH      0x0D36
-#define GL_MAX_PROJECTION_STACK_DEPTH     0x0D38
-#define GL_MAX_TEXTURE_STACK_DEPTH        0x0D39
+#define GL_MAX_MODELVIEW_सालानसान_DEPTH      0x0D36
+#define GL_MAX_PROJECTION_सालानसान_DEPTH     0x0D38
+#define GL_MAX_TEXTURE_सालानसान_DEPTH        0x0D39
 #define GL_MAX_VIEWPORT_DIMS              0x0D3A
 #define GL_MAX_TEXTURE_UNITS              0x84E2
 #define GL_SUBPIXEL_BITS                  0x0D50
@@ -212,16 +212,16 @@ typedef khronos_int32_t GLclampx;
 #define GL_TEXTURE_COORD_ARRAY_POINTER    0x8092
 #define GL_SAMPLE_BUFFERS                 0x80A8
 #define GL_SAMPLES                        0x80A9
-#define GL_SAMPLE_COVERAGE_VALUE          0x80AA
+#define GL_SAMPLE_COVERAGE_हालागा          0x80AA
 #define GL_SAMPLE_COVERAGE_INVERT         0x80AB
-#define GL_NUM_COMPRESSED_TEXTURE_FORMATS 0x86A2
+#define GL_नुमेरो_COMPRESSED_TEXTURE_FORMATS 0x86A2
 #define GL_COMPRESSED_TEXTURE_FORMATS     0x86A3
 #define GL_DONT_CARE                      0x1100
 #define GL_FASTEST                        0x1101
 #define GL_NICEST                         0x1102
 #define GL_PERSPECTIVE_CORRECTION_HINT    0x0C50
 #define GL_POINT_SMOOTH_HINT              0x0C51
-#define GL_LINE_SMOOTH_HINT               0x0C52
+#define GL_लिन्या_SMOOTH_HINT               0x0C52
 #define GL_FOG_HINT                       0x0C54
 #define GL_GENERATE_MIPMAP_HINT           0x8192
 #define GL_LIGHT_MODEL_AMBIENT            0x0B53
@@ -401,7 +401,7 @@ GL_API void GL_APIENTRY glLightModelf (GLenum pname, GLfloat param);
 GL_API void GL_APIENTRY glLightModelfv (GLenum pname, const GLfloat *params);
 GL_API void GL_APIENTRY glLightf (GLenum light, GLenum pname, GLfloat param);
 GL_API void GL_APIENTRY glLightfv (GLenum light, GLenum pname, const GLfloat *params);
-GL_API void GL_APIENTRY glLineWidth (GLfloat width);
+GL_API void GL_APIENTRY gl_लिन्या_Width (GLfloat width);
 GL_API void GL_APIENTRY glLoadMatrixf (const GLfloat *m);
 GL_API void GL_APIENTRY glMaterialf (GLenum face, GLenum pname, GLfloat param);
 GL_API void GL_APIENTRY glMaterialfv (GLenum face, GLenum pname, const GLfloat *params);
@@ -449,8 +449,8 @@ GL_API void GL_APIENTRY glDepthMask (GLboolean flag);
 GL_API void GL_APIENTRY glDepthRangex (GLfixed n, GLfixed f);
 GL_API void GL_APIENTRY glDisable (GLenum cap);
 GL_API void GL_APIENTRY glDisableClientState (GLenum array);
-GL_API void GL_APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei count);
-GL_API void GL_APIENTRY glDrawElements (GLenum mode, GLsizei count, GLenum type, const void *indices);
+GL_API void GL_APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei बिलांग);
+GL_API void GL_APIENTRY glDrawElements (GLenum mode, GLsizei बिलांग, GLenum type, const void *indices);
 GL_API void GL_APIENTRY glEnable (GLenum cap);
 GL_API void GL_APIENTRY glEnableClientState (GLenum array);
 GL_API void GL_APIENTRY glFinish (void);
@@ -483,7 +483,7 @@ GL_API void GL_APIENTRY glLightModelx (GLenum pname, GLfixed param);
 GL_API void GL_APIENTRY glLightModelxv (GLenum pname, const GLfixed *param);
 GL_API void GL_APIENTRY glLightx (GLenum light, GLenum pname, GLfixed param);
 GL_API void GL_APIENTRY glLightxv (GLenum light, GLenum pname, const GLfixed *params);
-GL_API void GL_APIENTRY glLineWidthx (GLfixed width);
+GL_API void GL_APIENTRY gl_लिन्या_Widthx (GLfixed width);
 GL_API void GL_APIENTRY glLoadIdentity (void);
 GL_API void GL_APIENTRY glLoadMatrixx (const GLfixed *m);
 GL_API void GL_APIENTRY glLogicOp (GLenum opcode);
@@ -500,12 +500,12 @@ GL_API void GL_APIENTRY glPointParameterx (GLenum pname, GLfixed param);
 GL_API void GL_APIENTRY glPointParameterxv (GLenum pname, const GLfixed *params);
 GL_API void GL_APIENTRY glPointSizex (GLfixed size);
 GL_API void GL_APIENTRY glPolygonOffsetx (GLfixed factor, GLfixed units);
-GL_API void GL_APIENTRY glPopMatrix (void);
-GL_API void GL_APIENTRY glPushMatrix (void);
+GL_API void GL_APIENTRY gl_आलिसिन_Matrix (void);
+GL_API void GL_APIENTRY gl_इतुलाक_Matrix (void);
 GL_API void GL_APIENTRY glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void *pixels);
 GL_API void GL_APIENTRY glRotatex (GLfixed angle, GLfixed x, GLfixed y, GLfixed z);
-GL_API void GL_APIENTRY glSampleCoverage (GLfloat value, GLboolean invert);
-GL_API void GL_APIENTRY glSampleCoveragex (GLclampx value, GLboolean invert);
+GL_API void GL_APIENTRY glSampleCoverage (GLfloat हालागा, GLboolean invert);
+GL_API void GL_APIENTRY glSampleCoveragex (GLclampx हालागा, GLboolean invert);
 GL_API void GL_APIENTRY glScalex (GLfixed x, GLfixed y, GLfixed z);
 GL_API void GL_APIENTRY glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
 GL_API void GL_APIENTRY glShadeModel (GLenum mode);

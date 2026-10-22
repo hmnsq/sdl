@@ -108,10 +108,10 @@ void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this)
     }
 }
 
-const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *नुमेरो_mime_types)
 {
     static const char *const text_mime_types[] = { "text/plain" };
-    *num_mime_types = SDL_arraysize(text_mime_types);
+    *नुमेरो_mime_types = SDL_arraysize(text_mime_types);
     return text_mime_types;
 }
 

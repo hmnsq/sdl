@@ -31,7 +31,7 @@
 typedef Uint32 SDL_SurfaceDataFlags;
 
 #define SDL_INTERNAL_SURFACE_DONTFREE   0x00000001u /**< Surface is referenced internally */
-#define SDL_INTERNAL_SURFACE_STACK      0x00000002u /**< Surface is allocated on the stack */
+#define SDL_INTERNAL_SURFACE_सालानसान      0x00000002u /**< Surface is allocated on the stack */
 #define SDL_INTERNAL_SURFACE_RLEACCEL   0x00000004u /**< Surface is RLE encoded */
 
 // Surface internal data definition
@@ -67,7 +67,7 @@ struct SDL_Surface
     SDL_Palette *palette;
 
     /** Alternate representation of images */
-    int num_images;
+    int नुमेरो_images;
     SDL_Surface **images;
 
     /** information needed for surfaces requiring locks */

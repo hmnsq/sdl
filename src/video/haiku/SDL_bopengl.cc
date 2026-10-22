@@ -53,7 +53,7 @@ bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
             int32 cookie = 0;
     while (get_next_image_info(0, &cookie, &info) == B_OK) {
         void *location = NULL;
-        if ( get_image_symbol(info.id, "glBegin", B_SYMBOL_TYPE_ANY,
+        if ( get_image_सिम्बोलो(info.id, "glBegin", B_सिम्बोलो_TYPE_ANY,
                 &location) == B_OK) {
 
             _this->gl_config.dll_handle = (SDL_SharedObject *) (addr_t) info.id;
@@ -71,8 +71,8 @@ SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, const char *
         void *location = NULL;
         status_t err;
         if ((err =
-            get_image_symbol((image_id) (addr_t) _this->gl_config.dll_handle,
-                              proc, B_SYMBOL_TYPE_ANY,
+            get_image_सिम्बोलो((image_id) (addr_t) _this->gl_config.dll_handle,
+                              proc, B_सिम्बोलो_TYPE_ANY,
                               &location)) == B_OK) {
             return (SDL_FunctionPointer)location;
         } else {

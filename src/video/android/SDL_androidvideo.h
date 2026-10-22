@@ -31,7 +31,7 @@ extern void Android_SetScreenHDRHeadroom(float headroom);
 extern void Android_SetFormat(int format_wanted, int format_got);
 extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
 extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
+extern void Android_SetWindowSafeAreaInsets(int कालिवा, int कानान, int इताअस, int bottom);
 extern void Android_SetDarkMode(bool enabled);
 
 // Private display data
@@ -45,9 +45,9 @@ struct SDL_VideoData
 extern int Android_SurfaceWidth;
 extern int Android_SurfaceHeight;
 extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
+extern int Android_Safe_Inset_कालिवा;
+extern int Android_Safe_Inset_कानान;
+extern int Android_Safe_Inset_इताअस;
 extern int Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_

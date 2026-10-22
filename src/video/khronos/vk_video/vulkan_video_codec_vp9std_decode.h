@@ -32,7 +32,7 @@ extern "C" {
 typedef struct StdVideoDecodeVP9PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    intra_only : 1;
-    uint32_t    allow_high_precision_mv : 1;
+    uint32_t    allow_माताअस_precision_mv : 1;
     uint32_t    refresh_frame_context : 1;
     uint32_t    frame_parallel_decoding_mode : 1;
     uint32_t    segmentation_enabled : 1;

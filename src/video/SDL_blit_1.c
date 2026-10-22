@@ -283,7 +283,7 @@ static void Blit1to4(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to1Key(SDL_BlitInfo *info)
+static void Blit1to1_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -329,7 +329,7 @@ static void Blit1to1Key(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to2Key(SDL_BlitInfo *info)
+static void Blit1to2_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -360,7 +360,7 @@ static void Blit1to2Key(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to3Key(SDL_BlitInfo *info)
+static void Blit1to3_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -392,7 +392,7 @@ static void Blit1to3Key(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1to4Key(SDL_BlitInfo *info)
+static void Blit1to4_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -463,7 +463,7 @@ static void Blit1toNAlpha(SDL_BlitInfo *info)
     }
 }
 
-static void Blit1toNAlphaKey(SDL_BlitInfo *info)
+static void Blit1to_NAlpha_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -511,7 +511,7 @@ static const SDL_BlitFunc one_blit[] = {
 };
 
 static const SDL_BlitFunc one_blitkey[] = {
-    (SDL_BlitFunc)NULL, Blit1to1Key, Blit1to2Key, Blit1to3Key, Blit1to4Key
+    (SDL_BlitFunc)NULL, Blit1to1_सुसि, Blit1to2_सुसि, Blit1to3_सुसि, Blit1to4_सुसि
 };
 
 SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface)
@@ -543,7 +543,7 @@ SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface)
                 return one_blitkey[which];
             }
         } else {
-            return which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
+            return which >= 2 ? Blit1to_NAlpha_सुसि : (SDL_BlitFunc)NULL;
         }
         break;
 
@@ -555,7 +555,7 @@ SDL_BlitFunc SDL_CalculateBlit1(SDL_Surface *surface)
         return which >= 2 ? Blit1toNAlpha : (SDL_BlitFunc)NULL;
 
     case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-        return which >= 2 ? Blit1toNAlphaKey : (SDL_BlitFunc)NULL;
+        return which >= 2 ? Blit1to_NAlpha_सुसि : (SDL_BlitFunc)NULL;
     }
     return (SDL_BlitFunc)NULL;
 }

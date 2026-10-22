@@ -148,7 +148,7 @@ static VideoBootStrap *bootstrap[] = {
 #endif
 #ifdef SDL_VIDEO_DRIVER_DUMMY
     &DUMMY_bootstrap,
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     &DUMMY_evdev_bootstrap,
 #endif
 #endif
@@ -235,9 +235,9 @@ static bool SDL_DriverHasSlowFramebuffer(SDL_VideoDevice *_this)
 // Hint to treat all window ops as synchronous
 static bool syncHint;
 
-static void SDL_SyncHintWatcher(void *userdata, const char *name, const char *oldValue, const char *newValue)
+static void SDL_SyncHintWatcher(void *userdata, const char *name, const char *old_हालागा, const char *new_हालागा)
 {
-    syncHint = SDL_GetStringBoolean(newValue, false);
+    syncHint = SDL_GetStringBoolean(new_हालागा, false);
 }
 
 static void SDL_SyncIfRequired(SDL_Window *window)
@@ -374,7 +374,7 @@ static bool SDL_CreateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, 
             }
         } else {
             SDL_assert(render_driver_copy == NULL);
-            const int total = SDL_GetNumRenderDrivers();
+            const int total = SDL_Get_नुमेरो_Render_Drivers();
             for (i = 0; i < total; ++i) {
                 const char *name = SDL_GetRenderDriver(i);
                 if (name && SDL_strcmp(name, SDL_SOFTWARE_RENDERER) != 0) {
@@ -544,7 +544,7 @@ static void SDL_DestroyWindowTexture(SDL_VideoDevice *_this, SDL_Window *window)
 }
 
 static SDL_VideoDevice *_this = NULL;
-static SDL_AtomicInt SDL_messagebox_count;
+static SDL_AtomicInt SDL_messagebox_बिलांग;
 
 static int SDLCALL cmpmodes(const void *A, const void *B)
 {
@@ -579,15 +579,15 @@ bool SDL_UninitializedVideo(void)
 // Deduplicated list of video bootstrap drivers.
 static const VideoBootStrap *deduped_bootstrap[SDL_arraysize(bootstrap) - 1];
 
-int SDL_GetNumVideoDrivers(void)
+int SDL_Get_नुमेरो_Video_Drivers(void)
 {
-    static int num_drivers = -1;
+    static int नुमेरो_drivers = -1;
 
-    if (num_drivers >= 0) {
-        return num_drivers;
+    if (नुमेरो_drivers >= 0) {
+        return नुमेरो_drivers;
     }
 
-    num_drivers = 0;
+    नुमेरो_drivers = 0;
 
     // Build a list of unique video drivers.
     for (int i = 0; bootstrap[i] != NULL; ++i) {
@@ -600,16 +600,16 @@ int SDL_GetNumVideoDrivers(void)
         }
 
         if (!duplicate) {
-            deduped_bootstrap[num_drivers++] = bootstrap[i];
+            deduped_bootstrap[नुमेरो_drivers++] = bootstrap[i];
         }
     }
 
-    return num_drivers;
+    return नुमेरो_drivers;
 }
 
 const char *SDL_GetVideoDriver(int index)
 {
-    CHECK_PARAM(index < 0 || index >= SDL_GetNumVideoDrivers()) {
+    CHECK_PARAM(index < 0 || index >= SDL_Get_नुमेरो_Video_Drivers()) {
         SDL_InvalidParamError("index");
         return NULL;
     }
@@ -726,7 +726,7 @@ bool SDL_InitVideo(const char *driver_name)
     }
 
     // Make sure some displays were added
-    if (_this->num_displays == 0) {
+    if (_this->नुमेरो_displays == 0) {
         SDL_QuitVideo();
         return SDL_SetError("The video driver did not add any displays");
     }
@@ -867,13 +867,13 @@ SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_eve
         return 0;
     }
 
-    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->num_displays + 1) * sizeof(*displays));
+    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->नुमेरो_displays + 1) * sizeof(*displays));
     if (!displays) {
         SDL_free(new_display);
         return 0;
     }
     _this->displays = displays;
-    _this->displays[_this->num_displays++] = new_display;
+    _this->displays[_this->नुमेरो_displays++] = new_display;
 
     id = SDL_GetNextObjectID();
     SDL_copyp(new_display, display);
@@ -895,7 +895,7 @@ SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_eve
     new_display->current_mode = &new_display->desktop_mode;
     SDL_FinalizeDisplayMode(&new_display->desktop_mode);
 
-    for (i = 0; i < new_display->num_fullscreen_modes; ++i) {
+    for (i = 0; i < new_display->नुमेरो_fullscreen_modes; ++i) {
         new_display->fullscreen_modes[i].displayID = id;
     }
 
@@ -952,41 +952,41 @@ void SDL_DelVideoDisplay(SDL_DisplayID displayID, bool send_event)
     display->internal = NULL;
     SDL_free(display);
 
-    if (display_index < (_this->num_displays - 1)) {
-        SDL_memmove(&_this->displays[display_index], &_this->displays[display_index + 1], (_this->num_displays - display_index - 1) * sizeof(_this->displays[display_index]));
+    if (display_index < (_this->नुमेरो_displays - 1)) {
+        SDL_memmove(&_this->displays[display_index], &_this->displays[display_index + 1], (_this->नुमेरो_displays - display_index - 1) * sizeof(_this->displays[display_index]));
     }
-    --_this->num_displays;
+    --_this->नुमेरो_displays;
 
     SDL_UpdateDesktopBounds();
 }
 
-SDL_DisplayID *SDL_GetDisplays(int *count)
+SDL_DisplayID *SDL_GetDisplays(int *बिलांग)
 {
     int i;
     SDL_DisplayID *displays;
 
     if (!_this) {
-        if (count) {
-            *count = 0;
+        if (बिलांग) {
+            *बिलांग = 0;
         }
 
         SDL_UninitializedVideo();
         return NULL;
     }
 
-    displays = (SDL_DisplayID *)SDL_malloc((_this->num_displays + 1) * sizeof(*displays));
+    displays = (SDL_DisplayID *)SDL_malloc((_this->नुमेरो_displays + 1) * sizeof(*displays));
     if (displays) {
-        if (count) {
-            *count = _this->num_displays;
+        if (बिलांग) {
+            *बिलांग = _this->नुमेरो_displays;
         }
 
-        for (i = 0; i < _this->num_displays; ++i) {
+        for (i = 0; i < _this->नुमेरो_displays; ++i) {
             displays[i] = _this->displays[i]->id;
         }
         displays[i] = 0;
     } else {
-        if (count) {
-            *count = 0;
+        if (बिलांग) {
+            *बिलांग = 0;
         }
     }
     return displays;
@@ -1027,7 +1027,7 @@ SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window)
 
 SDL_DisplayID SDL_GetPrimaryDisplay(void)
 {
-    if (!_this || _this->num_displays == 0) {
+    if (!_this || _this->नुमेरो_displays == 0) {
         SDL_UninitializedVideo();
         return 0;
     }
@@ -1043,7 +1043,7 @@ int SDL_GetDisplayIndex(SDL_DisplayID displayID)
         return -1;
     }
 
-    for (display_index = 0; display_index < _this->num_displays; ++display_index) {
+    for (display_index = 0; display_index < _this->नुमेरो_displays; ++display_index) {
         if (displayID == _this->displays[display_index]->id) {
             return display_index;
         }
@@ -1251,7 +1251,7 @@ void SDL_SetDisplayHDRProperties(SDL_VideoDisplay *display, const SDL_HDROutputP
 
 static void SDL_UpdateFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
-    if (display->num_fullscreen_modes == 0 && _this->GetDisplayModes) {
+    if (display->नुमेरो_fullscreen_modes == 0 && _this->GetDisplayModes) {
         _this->GetDisplayModes(_this, display);
     }
 }
@@ -1281,7 +1281,7 @@ static const SDL_DisplayMode *SDL_GetFullscreenModeMatch(const SDL_DisplayMode *
 
         // Search for an exact match
         if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
+            for (int i = 0; i < display->नुमेरो_fullscreen_modes; ++i) {
                 if (SDL_memcmp(&fullscreen_mode, &display->fullscreen_modes[i], sizeof(fullscreen_mode)) == 0) {
                     mode = &display->fullscreen_modes[i];
                     break;
@@ -1291,7 +1291,7 @@ static const SDL_DisplayMode *SDL_GetFullscreenModeMatch(const SDL_DisplayMode *
 
         // Search for a mode with the same characteristics
         if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
+            for (int i = 0; i < display->नुमेरो_fullscreen_modes; ++i) {
                 if (cmpmodes(&fullscreen_mode, &display->fullscreen_modes[i]) == 0) {
                     mode = &display->fullscreen_modes[i];
                     break;
@@ -1315,7 +1315,7 @@ bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMo
 
     // Make sure we don't already have the mode in the list
     modes = display->fullscreen_modes;
-    nmodes = display->num_fullscreen_modes;
+    nmodes = display->नुमेरो_fullscreen_modes;
     for (i = 0; i < nmodes; ++i) {
         if (cmpmodes(&new_mode, &modes[i]) == 0) {
             return false;
@@ -1344,10 +1344,10 @@ bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMo
         display->fullscreen_modes = modes;
         display->max_fullscreen_modes += 32;
     }
-    SDL_memcpy(&modes[display->num_fullscreen_modes++], &new_mode, sizeof(new_mode));
+    SDL_memcpy(&modes[display->नुमेरो_fullscreen_modes++], &new_mode, sizeof(new_mode));
 
     // Re-sort video modes
-    SDL_qsort(display->fullscreen_modes, display->num_fullscreen_modes,
+    SDL_qsort(display->fullscreen_modes, display->नुमेरो_fullscreen_modes,
               sizeof(SDL_DisplayMode), cmpmodes);
 
     return true;
@@ -1357,56 +1357,56 @@ void SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
     int i;
 
-    for (i = display->num_fullscreen_modes; i--;) {
+    for (i = display->नुमेरो_fullscreen_modes; i--;) {
         SDL_free(display->fullscreen_modes[i].internal);
         display->fullscreen_modes[i].internal = NULL;
     }
     SDL_free(display->fullscreen_modes);
     display->fullscreen_modes = NULL;
-    display->num_fullscreen_modes = 0;
+    display->नुमेरो_fullscreen_modes = 0;
     display->max_fullscreen_modes = 0;
     display->current_mode = &display->desktop_mode;
 }
 
-SDL_DisplayMode **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, int *count)
+SDL_DisplayMode **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, int *बिलांग)
 {
     int i;
-    int num_modes;
+    int नुमेरो_modes;
     SDL_DisplayMode **result;
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    if (count) {
-        *count = 0;
+    if (बिलांग) {
+        *बिलांग = 0;
     }
 
     CHECK_DISPLAY_MAGIC(display, NULL);
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    num_modes = display->num_fullscreen_modes;
-    result = (SDL_DisplayMode **)SDL_malloc((num_modes + 1) * sizeof(*result) + num_modes * sizeof(**result));
+    नुमेरो_modes = display->नुमेरो_fullscreen_modes;
+    result = (SDL_DisplayMode **)SDL_malloc((नुमेरो_modes + 1) * sizeof(*result) + नुमेरो_modes * sizeof(**result));
     if (result) {
-        SDL_DisplayMode *modes = (SDL_DisplayMode *)((Uint8 *)result + ((num_modes + 1) * sizeof(*result)));
-        if (num_modes) {
-            SDL_memcpy(modes, display->fullscreen_modes, num_modes * sizeof(*modes));
+        SDL_DisplayMode *modes = (SDL_DisplayMode *)((Uint8 *)result + ((नुमेरो_modes + 1) * sizeof(*result)));
+        if (नुमेरो_modes) {
+            SDL_memcpy(modes, display->fullscreen_modes, नुमेरो_modes * sizeof(*modes));
         }
-        for (i = 0; i < num_modes; ++i) {
+        for (i = 0; i < नुमेरो_modes; ++i) {
             result[i] = modes++;
         }
         result[i] = NULL;
 
-        if (count) {
-            *count = num_modes;
+        if (बिलांग) {
+            *बिलांग = नुमेरो_modes;
         }
     } else {
-        if (count) {
-            *count = 0;
+        if (बिलांग) {
+            *बिलांग = 0;
         }
     }
     return result;
 }
 
-bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, bool include_high_density_modes, SDL_DisplayMode *result)
+bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, bool include_माताअस_density_modes, SDL_DisplayMode *result)
 {
     CHECK_PARAM(!result) {
         return SDL_InvalidParamError("closest"); // Parameter `result` is called `closest` in the header.
@@ -1433,7 +1433,7 @@ bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, 
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    for (i = 0; i < display->num_fullscreen_modes; ++i) {
+    for (i = 0; i < display->नुमेरो_fullscreen_modes; ++i) {
         mode = &display->fullscreen_modes[i];
 
         if (w > mode->w) {
@@ -1445,7 +1445,7 @@ bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, 
              * This mode must be skipped, but closer modes may still follow */
             continue;
         }
-        if (mode->pixel_density > 1.0f && !include_high_density_modes) {
+        if (mode->pixel_density > 1.0f && !include_माताअस_density_modes) {
             continue;
         }
         if (closest) {
@@ -1593,13 +1593,13 @@ bool SDL_SetDisplayModeForDisplay(SDL_VideoDisplay *display, SDL_DisplayMode *mo
  */
 static void SDL_GetClosestPointOnRect(const SDL_Rect *rect, SDL_Point *point)
 {
-    const int right = rect->x + rect->w - 1;
+    const int कानान = rect->x + rect->w - 1;
     const int bottom = rect->y + rect->h - 1;
 
     if (point->x < rect->x) {
         point->x = rect->x;
-    } else if (point->x > right) {
-        point->x = right;
+    } else if (point->x > कानान) {
+        point->x = कानान;
     }
 
     if (point->y < rect->y) {
@@ -1621,7 +1621,7 @@ static SDL_DisplayID GetDisplayForRect(int x, int y, int w, int h)
     center.y = y + h / 2;
 
     if (_this) {
-        for (i = 0; i < _this->num_displays; ++i) {
+        for (i = 0; i < _this->नुमेरो_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
             SDL_Rect display_rect;
             SDL_GetDisplayBounds(display->id, &display_rect);
@@ -1722,7 +1722,7 @@ SDL_DisplayID SDL_GetDisplayForRect(const SDL_Rect *rect)
 
 static SDL_DisplayID GetDisplayAtOrigin(int x, int y)
 {
-    for (int i = 0; i < _this->num_displays; ++i) {
+    for (int i = 0; i < _this->नुमेरो_displays; ++i) {
         SDL_Rect rect;
         const SDL_DisplayID cur_id = _this->displays[i]->id;
         if (SDL_GetDisplayBounds(cur_id, &rect)) {
@@ -1822,7 +1822,7 @@ SDL_DisplayID SDL_GetDisplayForWindow(SDL_Window *window)
     SDL_PropertiesID window_props = SDL_GetWindowProperties(window);
     SDL_VideoDisplay *fs_display = SDL_GetVideoDisplayForFullscreenWindow(window);
     if (fs_display) {
-        SDL_SetNumberProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
+        SDL_Set_नुमेरो_Property(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
     } else {
         SDL_ClearProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY);
     }
@@ -1869,7 +1869,7 @@ static void SDL_CheckWindowDisplayChanged(SDL_Window *window)
 
         // Sanity check our fullscreen windows
         display_index = SDL_GetDisplayIndex(displayID);
-        for (i = 0; i < _this->num_displays; ++i) {
+        for (i = 0; i < _this->नुमेरो_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
 
             if (display->fullscreen_window == window) {
@@ -1961,13 +1961,13 @@ bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, b
             goto done;
         }
     } else {
-        for (i = 0; i < _this->num_displays; ++i) {
+        for (i = 0; i < _this->नुमेरो_displays; ++i) {
             display = _this->displays[i];
             if (display->fullscreen_window == window) {
                 break;
             }
         }
-        if (!display || i == _this->num_displays) {
+        if (!display || i == _this->नुमेरो_displays) {
             // Already not fullscreen on any display
             display = NULL;
         }
@@ -2002,7 +2002,7 @@ bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, b
                     goto error;
                 }
             } else if (fullscreen && window->last_fullscreen_exclusive_display && !window->fullscreen_exclusive) {
-                for (i = 0; i < _this->num_displays; ++i) {
+                for (i = 0; i < _this->नुमेरो_displays; ++i) {
                     SDL_VideoDisplay *last_display = _this->displays[i];
                     if (last_display->fullscreen_window == window) {
                         SDL_SetDisplayModeForDisplay(last_display, NULL);
@@ -2023,7 +2023,7 @@ bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, b
 
     if (display) {
         // Restore the video mode on other displays if needed
-        for (i = 0; i < _this->num_displays; ++i) {
+        for (i = 0; i < _this->नुमेरो_displays; ++i) {
             SDL_VideoDisplay *other = _this->displays[i];
             if (other != display && other->fullscreen_window == window) {
                 SDL_SetDisplayModeForDisplay(other, NULL);
@@ -2236,7 +2236,7 @@ SDL_PixelFormat SDL_GetWindowPixelFormat(SDL_Window *window)
 }
 
 #define CREATE_FLAGS \
-    (SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_ALWAYS_ON_TOP | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_VULKAN | SDL_WINDOW_MINIMIZED | SDL_WINDOW_METAL | SDL_WINDOW_TRANSPARENT | SDL_WINDOW_NOT_FOCUSABLE | SDL_WINDOW_FILL_DOCUMENT)
+    (SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE | SDL_WINDOW_माताअस_PIXEL_DENSITY | SDL_WINDOW_ALWAYS_ON_इताअस | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_VULKAN | SDL_WINDOW_MINIMIZED | SDL_WINDOW_METAL | SDL_WINDOW_TRANSPARENT | SDL_WINDOW_NOT_FOCUSABLE | SDL_WINDOW_FILL_DOCUMENT)
 
 static SDL_INLINE bool IsAcceptingDragAndDrop(void)
 {
@@ -2266,10 +2266,10 @@ void SDL_ToggleDragAndDropSupport(void)
     }
 }
 
-SDL_Window ** SDLCALL SDL_GetWindows(int *count)
+SDL_Window ** SDLCALL SDL_GetWindows(int *बिलांग)
 {
-    if (count) {
-        *count = 0;
+    if (बिलांग) {
+        *बिलांग = 0;
     }
 
     if (!_this) {
@@ -2278,28 +2278,28 @@ SDL_Window ** SDLCALL SDL_GetWindows(int *count)
     }
 
     SDL_Window *window;
-    int num_added = 0;
-    int num_windows = 0;
+    int नुमेरो_added = 0;
+    int नुमेरो_windows = 0;
     for (window = _this->windows; window; window = window->next) {
-        ++num_windows;
+        ++नुमेरो_windows;
     }
 
-    SDL_Window **windows = (SDL_Window **)SDL_malloc((num_windows + 1) * sizeof(*windows));
+    SDL_Window **windows = (SDL_Window **)SDL_malloc((नुमेरो_windows + 1) * sizeof(*windows));
     if (!windows) {
         return NULL;
     }
 
     for (window = _this->windows; window; window = window->next) {
-        windows[num_added++] = window;
-        if (num_added == num_windows) {
+        windows[नुमेरो_added++] = window;
+        if (नुमेरो_added == नुमेरो_windows) {
             // Race condition? Multi-threading not supported, ignore it
             break;
         }
     }
-    windows[num_added] = NULL;
+    windows[नुमेरो_added] = NULL;
 
-    if (count) {
-        *count = num_added;
+    if (बिलांग) {
+        *बिलांग = नुमेरो_added;
     }
     return windows;
 }
@@ -2350,7 +2350,7 @@ static void SDL_FinishWindowCreation(SDL_Window *window, SDL_WindowFlags flags)
     if (!SDL_WINDOW_IS_POPUP(window)) {
         // On Linux the progress state is persisted throughout multiple program runs, so reset state on window creation
         SDL_SetWindowProgressState(window, SDL_PROGRESS_STATE_NONE);
-        SDL_SetWindowProgressValue(window, 0.0f);
+        SDL_Set_Window_Progress_हालागा(window, 0.0f);
     }
 #endif
 }
@@ -2372,14 +2372,14 @@ static bool SDL_DllNotSupported(const char *name)
 static struct {
     const char *property_name;
     SDL_WindowFlags flag;
-    bool invert_value;
+    bool invert_हालागा;
 } SDL_WindowFlagProperties[] = {
-    { SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN,      SDL_WINDOW_ALWAYS_ON_TOP,       false },
+    { SDL_PROP_WINDOW_CREATE_ALWAYS_ON_इताअस_BOOLEAN,      SDL_WINDOW_ALWAYS_ON_इताअस,       false },
     { SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN,         SDL_WINDOW_BORDERLESS,          false },
     { SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN,          SDL_WINDOW_NOT_FOCUSABLE,       true },
     { SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN,         SDL_WINDOW_FULLSCREEN,          false },
     { SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN,             SDL_WINDOW_HIDDEN,              false },
-    { SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN, SDL_WINDOW_HIGH_PIXEL_DENSITY,  false },
+    { SDL_PROP_WINDOW_CREATE_माताअस_PIXEL_DENSITY_BOOLEAN, SDL_WINDOW_माताअस_PIXEL_DENSITY,  false },
     { SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN,          SDL_WINDOW_MAXIMIZED,           false },
     { SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN,               SDL_WINDOW_POPUP_MENU,          false },
     { SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN,              SDL_WINDOW_METAL,               false },
@@ -2397,10 +2397,10 @@ static struct {
 static SDL_WindowFlags SDL_GetWindowFlagProperties(SDL_PropertiesID props)
 {
     unsigned i;
-    SDL_WindowFlags flags = (SDL_WindowFlags)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, 0);
+    SDL_WindowFlags flags = (SDL_WindowFlags)SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_FLAGS_नुमेरो, 0);
 
     for (i = 0; i < SDL_arraysize(SDL_WindowFlagProperties); ++i) {
-        if (SDL_WindowFlagProperties[i].invert_value) {
+        if (SDL_WindowFlagProperties[i].invert_हालागा) {
             if (!SDL_GetBooleanProperty(props, SDL_WindowFlagProperties[i].property_name, true)) {
                 flags |= SDL_WindowFlagProperties[i].flag;
             }
@@ -2417,10 +2417,10 @@ SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
 {
     SDL_Window *window;
     const char *title = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, NULL);
-    int x = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int y = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int w = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, 0);
-    int h = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, 0);
+    int x = (int)SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_X_नुमेरो, SDL_WINDOWPOS_UNDEFINED);
+    int y = (int)SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_Y_नुमेरो, SDL_WINDOWPOS_UNDEFINED);
+    int w = (int)SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_WIDTH_नुमेरो, 0);
+    int h = (int)SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_HEIGHT_नुमेरो, 0);
     SDL_Window *parent = (SDL_Window *)SDL_GetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, NULL);
     SDL_WindowFlags flags = SDL_GetWindowFlagProperties(props);
     SDL_WindowFlags type_flags, graphics_flags;
@@ -2607,9 +2607,9 @@ SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
     SDL_UpdateWindowHierarchy(window, parent);
 
     if (_this->CreateSDLWindow && !_this->CreateSDLWindow(_this, window, props)) {
-        SDL_PushError();
+        SDL_इतुलाक_Error();
         SDL_DestroyWindow(window);
-        SDL_PopError();
+        SDL_आलिसिन_Error();
         return NULL;
     }
 
@@ -2646,9 +2646,9 @@ SDL_Window *SDL_CreateWindow(const char *title, int w, int h, SDL_WindowFlags fl
     if (title && *title) {
         SDL_SetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, title);
     }
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_WIDTH_नुमेरो, w);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_HEIGHT_नुमेरो, h);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_FLAGS_नुमेरो, flags);
     window = SDL_CreateWindowWithProperties(props);
     SDL_DestroyProperties(props);
     return window;
@@ -2666,11 +2666,11 @@ SDL_Window *SDL_CreatePopupWindow(SDL_Window *parent, int offset_x, int offset_y
     }
 
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, parent);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, offset_x);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, offset_y);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_X_नुमेरो, offset_x);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_Y_नुमेरो, offset_y);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_WIDTH_नुमेरो, w);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_HEIGHT_नुमेरो, h);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_CREATE_FLAGS_नुमेरो, flags);
     window = SDL_CreateWindowWithProperties(props);
     SDL_DestroyProperties(props);
     return window;
@@ -3201,24 +3201,24 @@ bool SDL_SetWindowResizable(SDL_Window *window, bool resizable)
     return true;
 }
 
-bool SDL_SetWindowAlwaysOnTop(SDL_Window *window, bool on_top)
+bool SDL_Set_Window_Always_On_इताअस(SDL_Window *window, bool on_इताअस)
 {
     CHECK_WINDOW_MAGIC(window, false);
     CHECK_WINDOW_NOT_POPUP(window, false);
 
-    if (!_this->SetWindowAlwaysOnTop) {
+    if (!_this->Set_Window_Always_On_इताअस) {
         return SDL_Unsupported();
     }
 
-    const bool want = on_top;
-    const bool have = ((window->flags & SDL_WINDOW_ALWAYS_ON_TOP) != 0);
+    const bool want = on_इताअस;
+    const bool have = ((window->flags & SDL_WINDOW_ALWAYS_ON_इताअस) != 0);
     if (want != have) {
         if (want) {
-            window->flags |= SDL_WINDOW_ALWAYS_ON_TOP;
+            window->flags |= SDL_WINDOW_ALWAYS_ON_इताअस;
         } else {
-            window->flags &= ~SDL_WINDOW_ALWAYS_ON_TOP;
+            window->flags &= ~SDL_WINDOW_ALWAYS_ON_इताअस;
         }
-        _this->SetWindowAlwaysOnTop(_this, window, want);
+        _this->Set_Window_Always_On_इताअस(_this, window, want);
     }
 
     return true;
@@ -3314,25 +3314,25 @@ bool SDL_GetWindowAspectRatio(SDL_Window *window, float *min_aspect, float *max_
     return true;
 }
 
-bool SDL_GetWindowBordersSize(SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool SDL_GetWindowBordersSize(SDL_Window *window, int *इताअस, int *कालिवा, int *bottom, int *कानान)
 {
     int dummy = 0;
 
-    if (!top) {
-        top = &dummy;
+    if (!इताअस) {
+        इताअस = &dummy;
     }
-    if (!left) {
-        left = &dummy;
+    if (!कालिवा) {
+        कालिवा = &dummy;
     }
-    if (!right) {
-        right = &dummy;
+    if (!कानान) {
+        कानान = &dummy;
     }
     if (!bottom) {
         bottom = &dummy;
     }
 
     // Always initialize, so applications don't have to care
-    *top = *left = *bottom = *right = 0;
+    *इताअस = *कालिवा = *bottom = *कानान = 0;
 
     CHECK_WINDOW_MAGIC(window, false);
 
@@ -3340,7 +3340,7 @@ bool SDL_GetWindowBordersSize(SDL_Window *window, int *top, int *left, int *bott
         return SDL_Unsupported();
     }
 
-    return _this->GetWindowBordersSize(_this, window, top, left, bottom, right);
+    return _this->GetWindowBordersSize(_this, window, इताअस, कालिवा, bottom, कानान);
 }
 
 bool SDL_GetWindowSizeInPixels(SDL_Window *window, int *w, int *h)
@@ -3916,7 +3916,7 @@ bool SDL_SetWindowModal(SDL_Window *window, bool modal)
 bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus)
 {
     SDL_Window *focus = window->parent;
-    bool set_focus = !!(window->flags & SDL_WINDOW_INPUT_FOCUS);
+    bool set_focus = !!(window->flags & SDL_WINDOW_पासोक_FOCUS);
 
     // Find the highest level window, up to the toplevel parent, that isn't being hidden or destroyed, and can grab the keyboard focus.
     while (SDL_WINDOW_IS_POPUP(focus) && ((focus->flags & SDL_WINDOW_NOT_FOCUSABLE) || focus->is_hiding || focus->is_destroying)) {
@@ -3924,7 +3924,7 @@ bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus)
 
         // If some window in the chain currently had focus, set it to the new lowest-level window.
         if (!set_focus) {
-            set_focus = !!(focus->flags & SDL_WINDOW_INPUT_FOCUS);
+            set_focus = !!(focus->flags & SDL_WINDOW_पासोक_FOCUS);
         }
     }
 
@@ -3998,7 +3998,7 @@ void SDL_UpdateWindowGrab(SDL_Window *window)
 {
     bool keyboard_grabbed, mouse_grabbed;
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+    if (window->flags & SDL_WINDOW_पासोक_FOCUS) {
         if (SDL_GetMouse()->relative_mode || (window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
             mouse_grabbed = true;
         } else {
@@ -4243,14 +4243,14 @@ SDL_ProgressState SDL_GetWindowProgressState(SDL_Window *window)
     return window->progress_state;
 }
 
-bool SDL_SetWindowProgressValue(SDL_Window *window, float value)
+bool SDL_Set_Window_Progress_हालागा(SDL_Window *window, float हालागा)
 {
     CHECK_WINDOW_MAGIC(window, false);
     CHECK_WINDOW_NOT_POPUP(window, false);
 
-    value = SDL_clamp(value, 0.0f, 1.f);
+    हालागा = SDL_clamp(हालागा, 0.0f, 1.f);
 
-    window->progress_value = value;
+    window->progress_हालागा = हालागा;
 
     if (_this->ApplyWindowProgress) {
         if (!_this->ApplyWindowProgress(_this, window)) {
@@ -4261,12 +4261,12 @@ bool SDL_SetWindowProgressValue(SDL_Window *window, float value)
     return true;
 }
 
-float SDL_GetWindowProgressValue(SDL_Window *window)
+float SDL_Get_Window_Progress_हालागा(SDL_Window *window)
 {
     CHECK_WINDOW_MAGIC(window, -1.0f);
     CHECK_WINDOW_NOT_POPUP(window, -1.0f);
 
-    return window->progress_value;
+    return window->progress_हालागा;
 }
 
 void SDL_OnWindowShown(SDL_Window *window)
@@ -4296,13 +4296,13 @@ void SDL_OnWindowDisplayChanged(SDL_Window *window)
 
         if (auto_mode_switch && (window->requested_fullscreen_mode.w != 0 || window->requested_fullscreen_mode.h != 0)) {
             SDL_DisplayID displayID = SDL_GetDisplayForWindowPosition(window);
-            bool include_high_density_modes = false;
+            bool include_माताअस_density_modes = false;
 
             if (window->requested_fullscreen_mode.pixel_density > 1.0f) {
-                include_high_density_modes = true;
+                include_माताअस_density_modes = true;
             }
             const bool found_match = SDL_GetClosestFullscreenDisplayMode(displayID, window->requested_fullscreen_mode.w, window->requested_fullscreen_mode.h,
-                                                                         window->requested_fullscreen_mode.refresh_rate, include_high_density_modes, &window->current_fullscreen_mode);
+                                                                         window->requested_fullscreen_mode.refresh_rate, include_माताअस_density_modes, &window->current_fullscreen_mode);
 
             // If a mode without matching dimensions was not found, just go to fullscreen desktop.
             if (!found_match ||
@@ -4372,21 +4372,21 @@ static void SDL_CheckWindowSafeAreaChanged(SDL_Window *window)
 {
     SDL_Rect rect;
 
-    rect.x = window->safe_inset_left;
-    rect.y = window->safe_inset_top;
-    rect.w = window->w - (window->safe_inset_right + window->safe_inset_left);
-    rect.h = window->h - (window->safe_inset_top + window->safe_inset_bottom);
+    rect.x = window->safe_inset_कालिवा;
+    rect.y = window->safe_inset_इताअस;
+    rect.w = window->w - (window->safe_inset_कानान + window->safe_inset_कालिवा);
+    rect.h = window->h - (window->safe_inset_इताअस + window->safe_inset_bottom);
     if (SDL_memcmp(&rect, &window->safe_rect, sizeof(rect)) != 0) {
         SDL_copyp(&window->safe_rect, &rect);
         SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SAFE_AREA_CHANGED, 0, 0);
     }
 }
 
-void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom)
+void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int कालिवा, int कानान, int इताअस, int bottom)
 {
-    window->safe_inset_left = left;
-    window->safe_inset_right = right;
-    window->safe_inset_top = top;
+    window->safe_inset_कालिवा = कालिवा;
+    window->safe_inset_कानान = कानान;
+    window->safe_inset_इताअस = इताअस;
     window->safe_inset_bottom = bottom;
     SDL_CheckWindowSafeAreaChanged(window);
 }
@@ -4524,13 +4524,13 @@ SDL_Window *SDL_GetToplevelForKeyboardFocus(void)
 
 bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
 {
-    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(window->renderers, (window->num_renderers + 1) * sizeof(*renderers));
+    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(window->renderers, (window->नुमेरो_renderers + 1) * sizeof(*renderers));
     if (!renderers) {
         return false;
     }
 
     window->renderers = renderers;
-    window->renderers[window->num_renderers++] = renderer;
+    window->renderers[window->नुमेरो_renderers++] = renderer;
 
     SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_RENDERER_POINTER, renderer);
     return true;
@@ -4538,12 +4538,12 @@ bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
 
 void SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
 {
-    for (int i = 0; i < window->num_renderers; ++i) {
+    for (int i = 0; i < window->नुमेरो_renderers; ++i) {
         if (window->renderers[i] == renderer) {
-            if (i < (window->num_renderers - 1)) {
-                SDL_memmove(&window->renderers[i], &window->renderers[i + 1], (window->num_renderers - i - 1) * sizeof(window->renderers[i]));
+            if (i < (window->नुमेरो_renderers - 1)) {
+                SDL_memmove(&window->renderers[i], &window->renderers[i + 1], (window->नुमेरो_renderers - i - 1) * sizeof(window->renderers[i]));
             }
-            --window->num_renderers;
+            --window->नुमेरो_renderers;
             break;
         }
     }
@@ -4580,7 +4580,7 @@ void SDL_DestroyWindow(SDL_Window *window)
         SDL_HideWindow(window);
     }
 
-    SDL_DestroyProperties(window->text_input_props);
+    SDL_DestroyProperties(window->text_पासोक_props);
 
     SDL_DestroyWindowTexture(_this, window);
     SDL_DestroyProperties(window->props);
@@ -4594,7 +4594,7 @@ void SDL_DestroyWindow(SDL_Window *window)
     }
 
     // Make sure the destroyed window isn't referenced by any display as a fullscreen window.
-    for (int i = 0; i < _this->num_displays; ++i) {
+    for (int i = 0; i < _this->नुमेरो_displays; ++i) {
         if (_this->displays[i]->fullscreen_window == window) {
             _this->displays[i]->fullscreen_window = NULL;
         }
@@ -4745,12 +4745,12 @@ void SDL_QuitVideo(void)
 
     _this->VideoQuit(_this);
 
-    for (i = _this->num_displays; i--; ) {
+    for (i = _this->नुमेरो_displays; i--; ) {
         SDL_VideoDisplay *display = _this->displays[i];
         SDL_DelVideoDisplay(display->id, false);
     }
 
-    SDL_assert(_this->num_displays == 0);
+    SDL_assert(_this->नुमेरो_displays == 0);
     SDL_free(_this->displays);
     _this->displays = NULL;
 
@@ -4900,7 +4900,7 @@ bool SDL_GL_ExtensionSupported(const char *extension)
     if (isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION))) {
         PFNGLGETSTRINGIPROC glGetStringiFunc;
         PFNGLGETINTEGERVPROC glGetIntegervFunc;
-        GLint num_exts = 0;
+        GLint नुमेरो_exts = 0;
         GLint i;
 
         glGetStringiFunc = (PFNGLGETSTRINGIPROC)SDL_GL_GetProcAddress("glGetStringi");
@@ -4909,11 +4909,11 @@ bool SDL_GL_ExtensionSupported(const char *extension)
             return false;
         }
 
-#ifndef GL_NUM_EXTENSIONS
-#define GL_NUM_EXTENSIONS 0x821D
+#ifndef GL_नुमेरो_EXTENSIONS
+#define GL_नुमेरो_EXTENSIONS 0x821D
 #endif
-        glGetIntegervFunc(GL_NUM_EXTENSIONS, &num_exts);
-        for (i = 0; i < num_exts; i++) {
+        glGetIntegervFunc(GL_नुमेरो_EXTENSIONS, &नुमेरो_exts);
+        for (i = 0; i < नुमेरो_exts; i++) {
             const char *thisext = (const char *)glGetStringiFunc(GL_EXTENSIONS, i);
             if (SDL_strcmp(thisext, extension) == 0) {
                 return true;
@@ -5060,7 +5060,7 @@ void SDL_GL_ResetAttributes(void)
     }
 }
 
-bool SDL_GL_SetAttribute(SDL_GLAttr attr, int value)
+bool SDL_GL_SetAttribute(SDL_GLAttr attr, int हालागा)
 {
 #if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     bool result;
@@ -5071,102 +5071,102 @@ bool SDL_GL_SetAttribute(SDL_GLAttr attr, int value)
     result = true;
     switch (attr) {
     case SDL_GL_RED_SIZE:
-        _this->gl_config.red_size = value;
+        _this->gl_config.red_size = हालागा;
         break;
     case SDL_GL_GREEN_SIZE:
-        _this->gl_config.green_size = value;
+        _this->gl_config.green_size = हालागा;
         break;
     case SDL_GL_BLUE_SIZE:
-        _this->gl_config.blue_size = value;
+        _this->gl_config.blue_size = हालागा;
         break;
     case SDL_GL_ALPHA_SIZE:
-        _this->gl_config.alpha_size = value;
+        _this->gl_config.alpha_size = हालागा;
         break;
     case SDL_GL_DOUBLEBUFFER:
-        _this->gl_config.double_buffer = value;
+        _this->gl_config.double_buffer = हालागा;
         break;
     case SDL_GL_BUFFER_SIZE:
-        _this->gl_config.buffer_size = value;
+        _this->gl_config.buffer_size = हालागा;
         break;
     case SDL_GL_DEPTH_SIZE:
-        _this->gl_config.depth_size = value;
+        _this->gl_config.depth_size = हालागा;
         break;
     case SDL_GL_STENCIL_SIZE:
-        _this->gl_config.stencil_size = value;
+        _this->gl_config.stencil_size = हालागा;
         break;
     case SDL_GL_ACCUM_RED_SIZE:
-        _this->gl_config.accum_red_size = value;
+        _this->gl_config.accum_red_size = हालागा;
         break;
     case SDL_GL_ACCUM_GREEN_SIZE:
-        _this->gl_config.accum_green_size = value;
+        _this->gl_config.accum_green_size = हालागा;
         break;
     case SDL_GL_ACCUM_BLUE_SIZE:
-        _this->gl_config.accum_blue_size = value;
+        _this->gl_config.accum_blue_size = हालागा;
         break;
     case SDL_GL_ACCUM_ALPHA_SIZE:
-        _this->gl_config.accum_alpha_size = value;
+        _this->gl_config.accum_alpha_size = हालागा;
         break;
     case SDL_GL_STEREO:
-        _this->gl_config.stereo = value;
+        _this->gl_config.stereo = हालागा;
         break;
     case SDL_GL_MULTISAMPLEBUFFERS:
-        _this->gl_config.multisamplebuffers = value;
+        _this->gl_config.multisamplebuffers = हालागा;
         break;
     case SDL_GL_MULTISAMPLESAMPLES:
-        _this->gl_config.multisamplesamples = value;
+        _this->gl_config.multisamplesamples = हालागा;
         break;
     case SDL_GL_FLOATBUFFERS:
-        _this->gl_config.floatbuffers = value;
+        _this->gl_config.floatbuffers = हालागा;
         break;
     case SDL_GL_ACCELERATED_VISUAL:
-        _this->gl_config.accelerated = value;
+        _this->gl_config.accelerated = हालागा;
         break;
     case SDL_GL_RETAINED_BACKING:
-        _this->gl_config.retained_backing = value;
+        _this->gl_config.retained_backing = हालागा;
         break;
     case SDL_GL_CONTEXT_MAJOR_VERSION:
-        _this->gl_config.major_version = value;
+        _this->gl_config.major_version = हालागा;
         break;
     case SDL_GL_CONTEXT_MINOR_VERSION:
-        _this->gl_config.minor_version = value;
+        _this->gl_config.minor_version = हालागा;
         break;
     case SDL_GL_CONTEXT_FLAGS:
-        if (value & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
+        if (हालागा & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
                       SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG |
                       SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG |
                       SDL_GL_CONTEXT_RESET_ISOLATION_FLAG)) {
-            result = SDL_SetError("Unknown OpenGL context flag %d", value);
+            result = SDL_SetError("Unknown OpenGL context flag %d", हालागा);
             break;
         }
-        _this->gl_config.flags = value;
+        _this->gl_config.flags = हालागा;
         break;
     case SDL_GL_CONTEXT_PROFILE_MASK:
-        if (value != 0 &&
-            value != SDL_GL_CONTEXT_PROFILE_CORE &&
-            value != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
-            value != SDL_GL_CONTEXT_PROFILE_ES) {
-            result = SDL_SetError("Unknown OpenGL context profile %d", value);
+        if (हालागा != 0 &&
+            हालागा != SDL_GL_CONTEXT_PROFILE_CORE &&
+            हालागा != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
+            हालागा != SDL_GL_CONTEXT_PROFILE_ES) {
+            result = SDL_SetError("Unknown OpenGL context profile %d", हालागा);
             break;
         }
-        _this->gl_config.profile_mask = value;
+        _this->gl_config.profile_mask = हालागा;
         break;
     case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
-        _this->gl_config.share_with_current_context = value;
+        _this->gl_config.share_with_current_context = हालागा;
         break;
     case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
-        _this->gl_config.framebuffer_srgb_capable = value;
+        _this->gl_config.framebuffer_srgb_capable = हालागा;
         break;
     case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
-        _this->gl_config.release_behavior = value;
+        _this->gl_config.release_behavior = हालागा;
         break;
     case SDL_GL_CONTEXT_RESET_NOTIFICATION:
-        _this->gl_config.reset_notification = value;
+        _this->gl_config.reset_notification = हालागा;
         break;
     case SDL_GL_CONTEXT_NO_ERROR:
-        _this->gl_config.no_error = value;
+        _this->gl_config.no_error = हालागा;
         break;
     case SDL_GL_EGL_PLATFORM:
-        _this->gl_config.egl_platform = value;
+        _this->gl_config.egl_platform = हालागा;
         break;
     default:
         result = SDL_SetError("Unknown OpenGL attribute");
@@ -5178,7 +5178,7 @@ bool SDL_GL_SetAttribute(SDL_GLAttr attr, int value)
 #endif // SDL_VIDEO_OPENGL
 }
 
-bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
+bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *हालागा)
 {
 #if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     PFNGLGETERRORPROC glGetErrorFunc;
@@ -5194,16 +5194,16 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
 #ifdef SDL_VIDEO_OPENGL
     PFNGLGETSTRINGPROC glGetStringFunc;
     PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameterivFunc;
-    GLenum attachment = GL_BACK_LEFT;
+    GLenum attachment = GL_BACK_कालिवा;
     GLenum attachmentattrib = 0;
 #endif
 
-    CHECK_PARAM(!value) {
+    CHECK_PARAM(!हालागा) {
         return SDL_InvalidParamError("value");
     }
 
     // Clear value in any case
-    *value = 0;
+    *हालागा = 0;
 
     if (!_this) {
         return SDL_UninitializedVideo();
@@ -5242,7 +5242,7 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
         // OpenGL ES 1.0 and above specifications have EGL_SINGLE_BUFFER
         // parameter which switches double buffer to single buffer. OpenGL ES
         // SDL driver must set proper value after initialization
-        *value = _this->gl_config.double_buffer;
+        *हालागा = _this->gl_config.double_buffer;
         return true;
 #endif
     case SDL_GL_DEPTH_SIZE:
@@ -5282,7 +5282,7 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
     case SDL_GL_ACCUM_ALPHA_SIZE:
     case SDL_GL_STEREO:
         // none of these are supported in OpenGL ES
-        *value = 0;
+        *हालागा = 0;
         return true;
 #endif
     case SDL_GL_MULTISAMPLEBUFFERS:
@@ -5312,58 +5312,58 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
             return false;
         }
 
-        *value = rsize + gsize + bsize + asize;
+        *हालागा = rsize + gsize + bsize + asize;
         return true;
     }
     case SDL_GL_ACCELERATED_VISUAL:
     {
         // Note that we can _not_ reasonably detect this once we have a context.
-        *value = (_this->gl_config.accelerated != 0);
+        *हालागा = (_this->gl_config.accelerated != 0);
         return true;
     }
     case SDL_GL_RETAINED_BACKING:
     {
-        *value = _this->gl_config.retained_backing;
+        *हालागा = _this->gl_config.retained_backing;
         return true;
     }
     case SDL_GL_CONTEXT_MAJOR_VERSION:
     {
-        *value = _this->gl_config.major_version;
+        *हालागा = _this->gl_config.major_version;
         return true;
     }
     case SDL_GL_CONTEXT_MINOR_VERSION:
     {
-        *value = _this->gl_config.minor_version;
+        *हालागा = _this->gl_config.minor_version;
         return true;
     }
     case SDL_GL_CONTEXT_FLAGS:
     {
-        *value = _this->gl_config.flags;
+        *हालागा = _this->gl_config.flags;
         return true;
     }
     case SDL_GL_CONTEXT_PROFILE_MASK:
     {
-        *value = _this->gl_config.profile_mask;
+        *हालागा = _this->gl_config.profile_mask;
         return true;
     }
     case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
     {
-        *value = _this->gl_config.share_with_current_context;
+        *हालागा = _this->gl_config.share_with_current_context;
         return true;
     }
     case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
     {
-        *value = _this->gl_config.framebuffer_srgb_capable;
+        *हालागा = _this->gl_config.framebuffer_srgb_capable;
         return true;
     }
     case SDL_GL_CONTEXT_NO_ERROR:
     {
-        *value = _this->gl_config.no_error;
+        *हालागा = _this->gl_config.no_error;
         return true;
     }
     case SDL_GL_EGL_PLATFORM:
     {
-        *value = _this->gl_config.egl_platform;
+        *हालागा = _this->gl_config.egl_platform;
         return true;
     }
     case SDL_GL_FLOATBUFFERS:
@@ -5410,9 +5410,9 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
                 glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &fbo_type);
             }
             if (fbo_type != GL_NONE) {
-                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)value);
+                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)हालागा);
             } else {
-                *value = 0;
+                *हालागा = 0;
             }
             if (glBindFramebufferFunc && (current_fbo != 0)) {
                 glBindFramebufferFunc(GL_DRAW_FRAMEBUFFER, current_fbo);
@@ -5425,7 +5425,7 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
     {
         PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
         if (glGetIntegervFunc) {
-            glGetIntegervFunc(attrib, (GLint *)value);
+            glGetIntegervFunc(attrib, (GLint *)हालागा);
         } else {
             return false;
         }
@@ -5440,7 +5440,7 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
     if (error != GL_NO_ERROR) {
         if (error == GL_INVALID_ENUM) {
             return SDL_SetError("OpenGL error: GL_INVALID_ENUM");
-        } else if (error == GL_INVALID_VALUE) {
+        } else if (error == GL_INVALID_हालागा) {
             return SDL_SetError("OpenGL error: GL_INVALID_VALUE");
         }
         return SDL_SetError("OpenGL error: %08X", error);
@@ -5448,7 +5448,7 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
 
     // convert GL_CONTEXT_RELEASE_BEHAVIOR values back to SDL_GL_CONTEXT_RELEASE_BEHAVIOR values
     if (attr == SDL_GL_CONTEXT_RELEASE_BEHAVIOR) {
-        *value = (*value == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
+        *हालागा = (*हालागा == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
     }
 
     return true;
@@ -5692,7 +5692,7 @@ bool SDL_GL_DestroyContext(SDL_GLContext context)
  * Utility function used by SDL_WM_SetIcon(); flags & 1 for color key, flags
  * & 2 for alpha channel.
  */
-static void CreateMaskFromColorKeyOrAlpha(SDL_Surface *icon, Uint8 *mask, int flags)
+static void Create_Mask_From_Color_सुसि_Or_Alpha(SDL_Surface *icon, Uint8 *mask, int flags)
 {
     int x, y;
     Uint32 colorkey;
@@ -5773,7 +5773,7 @@ void SDL_WM_SetIcon(SDL_Surface *icon, Uint8 *mask)
             if (icon->flags & SDL_SRCALPHA)
                 flags |= 2;
             if (flags) {
-                CreateMaskFromColorKeyOrAlpha(icon, mask, flags);
+                Create_Mask_From_Color_सुसि_Or_Alpha(icon, mask, flags);
             }
             _this->SetIcon(_this, icon, mask);
             SDL_free(mask);
@@ -5784,39 +5784,39 @@ void SDL_WM_SetIcon(SDL_Surface *icon, Uint8 *mask)
 }
 #endif
 
-SDL_TextInputType SDL_GetTextInputType(SDL_PropertiesID props)
+SDL_Text_पासोक_Type SDL_Get_Text_पासोक_Type(SDL_PropertiesID props)
 {
-    return (SDL_TextInputType)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_TYPE_NUMBER, SDL_TEXTINPUT_TYPE_TEXT);
+    return (SDL_Text_पासोक_Type)SDL_Get_नुमेरो_Property(props, SDL_PROP_TEXTINPUT_TYPE_नुमेरो, SDL_TEXTINPUT_TYPE_TEXT);
 }
 
-SDL_Capitalization SDL_GetTextInputCapitalization(SDL_PropertiesID props)
+SDL_Capitalization SDL_Get_Text_पासोक_Capitalization(SDL_PropertiesID props)
 {
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER)) {
-        return (SDL_Capitalization)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER, SDL_CAPITALIZE_NONE);
+    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_नुमेरो)) {
+        return (SDL_Capitalization)SDL_Get_नुमेरो_Property(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_नुमेरो, SDL_CAPITALIZE_NONE);
     }
 
-    switch (SDL_GetTextInputType(props)) {
+    switch (SDL_Get_Text_पासोक_Type(props)) {
     case SDL_TEXTINPUT_TYPE_TEXT:
         return SDL_CAPITALIZE_SENTENCES;
     case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-        return SDL_CAPITALIZE_WORDS;
+        return SDL_CAPITALIZE_मगा_सालिता;
     default:
         return SDL_CAPITALIZE_NONE;
     }
 }
 
-bool SDL_GetTextInputAutocorrect(SDL_PropertiesID props)
+bool SDL_Get_Text_पासोक_Autocorrect(SDL_PropertiesID props)
 {
     return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, true);
 }
 
-bool SDL_GetTextInputMultiline(SDL_PropertiesID props)
+bool SDL_Get_Text_पासोक_Multiline(SDL_PropertiesID props)
 {
     if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN)) {
         return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
     }
 
-    if (SDL_GetHintBoolean(SDL_HINT_RETURN_KEY_HIDES_IME, false)) {
+    if (SDL_GetHintBoolean(SDL_HINT_RETURN_सुसि_HIDES_IME, false)) {
         return false;
     } else {
         return true;
@@ -5840,42 +5840,42 @@ static bool AutoShowingScreenKeyboard(void)
     }
 }
 
-bool SDL_StartTextInput(SDL_Window *window)
+bool SDL_Start_Text_पासोक(SDL_Window *window)
 {
-    return SDL_StartTextInputWithProperties(window, 0);
+    return SDL_Start_Text_पासोक_With_Properties(window, 0);
 }
 
-bool SDL_StartTextInputWithProperties(SDL_Window *window, SDL_PropertiesID props)
+bool SDL_Start_Text_पासोक_With_Properties(SDL_Window *window, SDL_PropertiesID props)
 {
     CHECK_WINDOW_MAGIC(window, false);
 
-    if (window->text_input_props) {
-        SDL_DestroyProperties(window->text_input_props);
-        window->text_input_props = 0;
+    if (window->text_पासोक_props) {
+        SDL_DestroyProperties(window->text_पासोक_props);
+        window->text_पासोक_props = 0;
     }
 
     if (props) {
-        window->text_input_props = SDL_CreateProperties();
-        if (!window->text_input_props) {
+        window->text_पासोक_props = SDL_CreateProperties();
+        if (!window->text_पासोक_props) {
             return false;
         }
-        if (!SDL_CopyProperties(props, window->text_input_props)) {
+        if (!SDL_CopyProperties(props, window->text_पासोक_props)) {
             return false;
         }
     }
 
-    if (_this->SetTextInputProperties) {
-        _this->SetTextInputProperties(_this, window, props);
+    if (_this->Set_Text_पासोक_Properties) {
+        _this->Set_Text_पासोक_Properties(_this, window, props);
     }
 
-    if (!window->text_input_active) {
+    if (!window->text_पासोक_active) {
         // Start the text input system
-        if (_this->StartTextInput) {
-            if (!_this->StartTextInput(_this, window, props)) {
+        if (_this->Start_Text_पासोक) {
+            if (!_this->Start_Text_पासोक(_this, window, props)) {
                 return false;
             }
         }
-        window->text_input_active = true;
+        window->text_पासोक_active = true;
     }
 
     // Show the on-screen keyboard, if desired
@@ -5887,23 +5887,23 @@ bool SDL_StartTextInputWithProperties(SDL_Window *window, SDL_PropertiesID props
     return true;
 }
 
-bool SDL_TextInputActive(SDL_Window *window)
+bool SDL_Text_पासोक_Active(SDL_Window *window)
 {
     CHECK_WINDOW_MAGIC(window, false);
 
-    return window->text_input_active;
+    return window->text_पासोक_active;
 }
 
-bool SDL_StopTextInput(SDL_Window *window)
+bool SDL_Stop_Text_पासोक(SDL_Window *window)
 {
     CHECK_WINDOW_MAGIC(window, false);
 
-    if (window->text_input_active) {
+    if (window->text_पासोक_active) {
         // Stop the text input system
-        if (_this->StopTextInput) {
-            _this->StopTextInput(_this, window);
+        if (_this->Stop_Text_पासोक) {
+            _this->Stop_Text_पासोक(_this, window);
         }
-        window->text_input_active = false;
+        window->text_पासोक_active = false;
     }
 
     // Hide the on-screen keyboard, if desired
@@ -5915,35 +5915,35 @@ bool SDL_StopTextInput(SDL_Window *window)
     return true;
 }
 
-bool SDL_SetTextInputArea(SDL_Window *window, const SDL_Rect *rect, int cursor)
+bool SDL_Set_Text_पासोक_Area(SDL_Window *window, const SDL_Rect *rect, int cursor)
 {
     CHECK_WINDOW_MAGIC(window, false);
 
     if (rect) {
-        SDL_copyp(&window->text_input_rect, rect);
-        window->text_input_cursor = cursor;
+        SDL_copyp(&window->text_पासोक_rect, rect);
+        window->text_पासोक_cursor = cursor;
     } else {
-        SDL_zero(window->text_input_rect);
-        window->text_input_cursor = 0;
+        SDL_zero(window->text_पासोक_rect);
+        window->text_पासोक_cursor = 0;
     }
 
-    if (_this && _this->UpdateTextInputArea) {
-        if (!_this->UpdateTextInputArea(_this, window)) {
+    if (_this && _this->Update_Text_पासोक_Area) {
+        if (!_this->Update_Text_पासोक_Area(_this, window)) {
             return false;
         }
     }
     return true;
 }
 
-bool SDL_GetTextInputArea(SDL_Window *window, SDL_Rect *rect, int *cursor)
+bool SDL_Get_Text_पासोक_Area(SDL_Window *window, SDL_Rect *rect, int *cursor)
 {
     CHECK_WINDOW_MAGIC(window, false);
 
     if (rect) {
-        SDL_copyp(rect, &window->text_input_rect);
+        SDL_copyp(rect, &window->text_पासोक_rect);
     }
     if (cursor) {
-        *cursor = window->text_input_cursor;
+        *cursor = window->text_पासोक_cursor;
     }
     return true;
 }
@@ -5985,7 +5985,7 @@ void SDL_SendScreenKeyboardShown(void)
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_SHOWN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_इतुलाक_Event(&event);
     }
 }
 
@@ -6001,13 +6001,13 @@ void SDL_SendScreenKeyboardHidden(void)
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_HIDDEN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_इतुलाक_Event(&event);
     }
 }
 
-int SDL_GetMessageBoxCount(void)
+int SDL_Get_Message_Box_बिलांग(void)
 {
-    return SDL_GetAtomicInt(&SDL_messagebox_count);
+    return SDL_GetAtomicInt(&SDL_messagebox_बिलांग);
 }
 
 bool SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
@@ -6049,7 +6049,7 @@ bool SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
         SDL_memcpy(msgcpy, messageboxdata->message, slen);
     }
 
-    (void)SDL_AtomicIncRef(&SDL_messagebox_count);
+    (void)SDL_AtomicIncRef(&SDL_messagebox_बिलांग);
 
     current_window = SDL_GetKeyboardFocus();
     SDL_UpdateMouseCapture(false);
@@ -6118,7 +6118,7 @@ bool SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
         SDL_ClearError();
     }
 
-    (void)SDL_AtomicDecRef(&SDL_messagebox_count);
+    (void)SDL_AtomicDecRef(&SDL_messagebox_बिलांग);
 
     if (current_window) {
         SDL_RaiseWindow(current_window);
@@ -6140,18 +6140,18 @@ bool SDL_ShowSimpleMessageBox(SDL_MessageBoxFlags flags, const char *title, cons
 {
 #if defined(SDL_PLATFORM_3DS)
     errorConf errCnf;
-    bool hasGpuRight;
+    bool has_Gpu_कानान;
 
     // If the video subsystem has not been initialised, set up graphics temporarily
-    hasGpuRight = gspHasGpuRight();
-    if (!hasGpuRight)
+    has_Gpu_कानान = gsp_Has_Gpu_कानान();
+    if (!has_Gpu_कानान)
         gfxInitDefault();
 
     errorInit(&errCnf, ERROR_TEXT_WORD_WRAP, CFG_LANGUAGE_EN);
     errorText(&errCnf, message);
     errorDisp(&errCnf);
 
-    if (!hasGpuRight)
+    if (!has_Gpu_कानान)
         gfxExit();
 
     return true;
@@ -6255,7 +6255,7 @@ void SDL_OnApplicationWillTerminate(void)
 
 void SDL_OnApplicationDidReceiveMemoryWarning(void)
 {
-    SDL_SendAppEvent(SDL_EVENT_LOW_MEMORY);
+    SDL_SendAppEvent(SDL_EVENT_माबाबा_MEMORY);
 }
 
 void SDL_OnApplicationWillEnterBackground(void)
@@ -6348,20 +6348,20 @@ void SDL_Vulkan_UnloadLibrary(void)
     }
 }
 
-char const * const *SDL_Vulkan_GetInstanceExtensions(Uint32 *count)
+char const * const *SDL_Vulkan_GetInstanceExtensions(Uint32 *बिलांग)
 {
     Uint32 tmpcount = 0;
-    if (!count) {
-        count = &tmpcount;
+    if (!बिलांग) {
+        बिलांग = &tmpcount;
     }
 
     if (!_this->Vulkan_GetInstanceExtensions) {
-        *count = 0;
+        *बिलांग = 0;
         SDL_Unsupported();
         return NULL;
     }
 
-    return _this->Vulkan_GetInstanceExtensions(_this, count);
+    return _this->Vulkan_GetInstanceExtensions(_this, बिलांग);
 }
 
 bool SDL_Vulkan_CreateSurface(SDL_Window *window,

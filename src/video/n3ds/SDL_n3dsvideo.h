@@ -29,7 +29,7 @@
 
 struct SDL_VideoData
 {
-    SDL_DisplayID top_display;
+    SDL_DisplayID इताअस_display;
     SDL_DisplayID touch_display;
 };
 

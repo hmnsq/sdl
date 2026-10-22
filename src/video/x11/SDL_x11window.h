@@ -55,9 +55,9 @@ struct SDL_WindowData
     GC gc;
     XIC ic;
     bool created;
-    int border_left;
-    int border_right;
-    int border_top;
+    int border_कालिवा;
+    int border_कानान;
+    int border_इताअस;
     int border_bottom;
     bool xinput2_mouse_enabled;
     bool xinput2_keyboard_enabled;
@@ -86,7 +86,7 @@ struct SDL_WindowData
 #endif // SDL_VIDEO_DRIVER_X11_XFIXES
 #ifdef SDL_VIDEO_DRIVER_X11_XSYNC
     XSyncCounter resize_counter;
-    XSyncValue resize_id;
+    XSync_हालागा resize_id;
     bool resize_in_progress;
 #endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
@@ -141,7 +141,7 @@ extern bool X11_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
+extern bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *इताअस, int *कालिवा, int *bottom, int *कानान);
 extern bool X11_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
 extern bool X11_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
 extern bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
@@ -154,7 +154,7 @@ extern void X11_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
 extern void X11_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void X11_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
+extern void X11_Set_Window_Always_On_इताअस(SDL_VideoDevice *_this, SDL_Window *window, bool on_इताअस);
 extern SDL_FullscreenResult X11_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
 extern void *X11_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
 extern bool X11_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);

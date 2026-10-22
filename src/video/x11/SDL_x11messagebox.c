@@ -58,10 +58,10 @@ static void X11_MessageBoxButtonCallback(SDL_ToolkitControlX11 *control, void *d
 }
 
 static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp) {
-    int first_line_width;
-    int first_line_height;
-    int second_line_width;
-    int second_line_height;
+    int first_लिन्या_width;
+    int first_लिन्या_height;
+    int second_लिन्या_width;
+    int second_लिन्या_height;
     int max_button_width;
     int max_button_height;
     int window_width;
@@ -74,20 +74,20 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
     window_height = 1;
     
     /* rtl */
-    if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_RIGHT_TO_LEFT) {
+    if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_कानान_TO_कालिवा) {
         rtl = true;
-    } else if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+    } else if (controls->messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_कालिवा_TO_कानान) {
         rtl = false;
     } else {
         rtl = controls->window->flip_interface;
     }
     
     /* first line */
-    first_line_width = first_line_height = 0;
+    first_लिन्या_width = first_लिन्या_height = 0;
     if (controls->icon && controls->message) {
         controls->icon->rect.y = 0;
         
-        first_line_width = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale + controls->message->rect.w;  
+        first_लिन्या_width = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * controls->window->iscale + controls->message->rect.w;  
         
         if (!controls->window->flip_interface) {
             controls->message->rect.x = controls->icon->rect.w + SDL_TOOLKIT_X11_ELEMENT_PADDING_2  * controls->window->iscale;
@@ -98,20 +98,20 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
         }
         
         if (controls->message->rect.h > controls->icon->rect.h) {
-            controls->message->rect.y = (controls->icon->rect.h - X11Toolkit_GetLabelControlFirstLineHeight(controls->message))/2;
-            first_line_height = controls->message->rect.y + controls->message->rect.h;
+            controls->message->rect.y = (controls->icon->rect.h - X11_Toolkit_Get_Label_Control_First_लिन्या_Height(controls->message))/2;
+            first_लिन्या_height = controls->message->rect.y + controls->message->rect.h;
         } else {
             controls->message->rect.y = (controls->icon->rect.h - controls->message->rect.h)/2;
-            first_line_height = controls->icon->rect.h;
+            first_लिन्या_height = controls->icon->rect.h;
         }        
     } else if (!controls->icon && controls->message) {
-        first_line_width = controls->message->rect.w;  
-        first_line_height = controls->message->rect.h;
+        first_लिन्या_width = controls->message->rect.w;  
+        first_लिन्या_height = controls->message->rect.h;
         controls->message->rect.x = 0;
         controls->message->rect.y = 0;
     } else if (controls->icon && !controls->message) {
-        first_line_width = controls->icon->rect.w;  
-        first_line_height = controls->icon->rect.h;
+        first_लिन्या_width = controls->icon->rect.w;  
+        first_लिन्या_height = controls->icon->rect.h;
         controls->icon->rect.x = 0;
         controls->icon->rect.y = 0;        
     }
@@ -119,7 +119,7 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
     /* second line */
     max_button_width = 50;
     max_button_height = 0;
-    second_line_width = second_line_height = 0;
+    second_लिन्या_width = second_लिन्या_height = 0;
     
     for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
         max_button_width = SDL_max(max_button_width, controls->buttons[i]->rect.w);
@@ -134,11 +134,11 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
             controls->buttons[i]->rect.h = max_button_height;
             X11Toolkit_NotifyControlOfSizeChange(controls->buttons[i]);
 
-            if (first_line_height) {
-                controls->buttons[i]->rect.y = first_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-                second_line_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+            if (first_लिन्या_height) {
+                controls->buttons[i]->rect.y = first_लिन्या_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+                second_लिन्या_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
             } else {
-                second_line_height = max_button_height;
+                second_लिन्या_height = max_button_height;
             }
             
             if ((i + 1) < controls->messageboxdata->numbuttons) {
@@ -151,11 +151,11 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
             controls->buttons[i]->rect.h = max_button_height;
             X11Toolkit_NotifyControlOfSizeChange(controls->buttons[i]);
 
-            if (first_line_height) {
-                controls->buttons[i]->rect.y = first_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
-                second_line_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+            if (first_लिन्या_height) {
+                controls->buttons[i]->rect.y = first_लिन्या_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
+                second_लिन्या_height = max_button_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_4 * controls->window->iscale;
             } else {
-                second_line_height = max_button_height;
+                second_लिन्या_height = max_button_height;
             }
             
             if (i) {
@@ -166,17 +166,17 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
     
     if (controls->messageboxdata->numbuttons) {
         if (rtl) {
-            second_line_width = controls->buttons[0]->rect.x + controls->buttons[0]->rect.w;
+            second_लिन्या_width = controls->buttons[0]->rect.x + controls->buttons[0]->rect.w;
         } else {
-            second_line_width = controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.x + controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.w;            
+            second_लिन्या_width = controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.x + controls->buttons[controls->messageboxdata->numbuttons - 1]->rect.w;            
         }
     }
 
     /* center lines */
-    if (second_line_width > first_line_width) {
+    if (second_लिन्या_width > first_लिन्या_width) {
         int pad;
         
-        pad = (second_line_width - first_line_width)/2;
+        pad = (second_लिन्या_width - first_लिन्या_width)/2;
         if (controls->message) {
             controls->message->rect.x += pad;
         }
@@ -186,15 +186,15 @@ static void X11_PositionMessageBox(SDL_MessageBoxX11 *controls, int *wp, int *hp
     } else {
         int pad;
         
-        pad = (first_line_width - second_line_width)/2;
+        pad = (first_लिन्या_width - second_लिन्या_width)/2;
         for (i = 0; i < controls->messageboxdata->numbuttons; i++) {
             controls->buttons[i]->rect.x += pad;
         }
     }
      
     /* window size and final padding */
-    window_width = SDL_max(first_line_width, second_line_width) + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
-    window_height = first_line_height + second_line_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
+    window_width = SDL_max(first_लिन्या_width, second_लिन्या_width) + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
+    window_height = first_लिन्या_height + second_लिन्या_height + SDL_TOOLKIT_X11_ELEMENT_PADDING_2 * 2 * controls->window->iscale;
     *wp = window_width;
     *hp = window_height;
     if (controls->message) {

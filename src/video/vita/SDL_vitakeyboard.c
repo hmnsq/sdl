@@ -32,10 +32,10 @@
 
 SceHidKeyboardReport k_reports[SCE_HID_MAX_REPORT];
 int keyboard_hid_handle = 0;
-Uint8 prev_keys[6] = { 0 };
+Uint8 prev_मगा_सुसि[6] = { 0 };
 Uint8 prev_modifiers = 0;
 Uint8 locks = 0;
-Uint8 lock_key_down = 0;
+Uint8 lock_सुसि_down = 0;
 
 void VITA_InitKeyboard(void)
 {
@@ -58,129 +58,129 @@ void VITA_PollKeyboard(void)
 
     if (keyboard_hid_handle > 0) {
         SDL_KeyboardID keyboardID = (SDL_KeyboardID)keyboard_hid_handle;
-        int numReports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
+        int नुमेरो_Reports = sceHidKeyboardRead(keyboard_hid_handle, (SceHidKeyboardReport **)&k_reports, SCE_HID_MAX_REPORT);
 
-        if (numReports < 0) {
+        if (नुमेरो_Reports < 0) {
             keyboard_hid_handle = 0;
-        } else if (numReports) {
+        } else if (नुमेरो_Reports) {
             // Numlock and Capslock state changes only on a pressed event
             // The k_report only reports the state of the LED
-            if (k_reports[numReports - 1].modifiers[1] & 0x1) {
+            if (k_reports[नुमेरो_Reports - 1].modifiers[1] & 0x1) {
                 if (!(locks & 0x1)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
                     locks |= 0x1;
                 }
             } else {
                 if (locks & 0x1) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, true);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_NUMLOCKCLEAR, false);
                     locks &= ~0x1;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x2) {
+            if (k_reports[नुमेरो_Reports - 1].modifiers[1] & 0x2) {
                 if (!(locks & 0x2)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
                     locks |= 0x2;
                 }
             } else {
                 if (locks & 0x2) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, true);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_CAPSLOCK, false);
                     locks &= ~0x2;
                 }
             }
 
-            if (k_reports[numReports - 1].modifiers[1] & 0x4) {
+            if (k_reports[नुमेरो_Reports - 1].modifiers[1] & 0x4) {
                 if (!(locks & 0x4)) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, true);
                     locks |= 0x4;
                 }
             } else {
                 if (locks & 0x4) {
-                    SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
+                    SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_SCROLLLOCK, false);
                     locks &= ~0x4;
                 }
             }
 
             {
-                Uint8 changed_modifiers = k_reports[numReports - 1].modifiers[0] ^ prev_modifiers;
+                Uint8 changed_modifiers = k_reports[नुमेरो_Reports - 1].modifiers[0] ^ prev_modifiers;
 
                 if (changed_modifiers & 0x01) {
                     if (prev_modifiers & 0x01) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LCTRL, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LCTRL, true);
                     }
                 }
                 if (changed_modifiers & 0x02) {
                     if (prev_modifiers & 0x02) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LSHIFT, true);
                     }
                 }
                 if (changed_modifiers & 0x04) {
                     if (prev_modifiers & 0x04) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LALT, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LALT, true);
                     }
                 }
                 if (changed_modifiers & 0x08) {
                     if (prev_modifiers & 0x08) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LGUI, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_LGUI, true);
                     }
                 }
                 if (changed_modifiers & 0x10) {
                     if (prev_modifiers & 0x10) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RCTRL, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RCTRL, true);
                     }
                 }
                 if (changed_modifiers & 0x20) {
                     if (prev_modifiers & 0x20) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RSHIFT, true);
                     }
                 }
                 if (changed_modifiers & 0x40) {
                     if (prev_modifiers & 0x40) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RALT, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RALT, true);
                     }
                 }
                 if (changed_modifiers & 0x80) {
                     if (prev_modifiers & 0x80) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RGUI, false);
                     } else {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, SDL_SCANCODE_RGUI, true);
                     }
                 }
             }
 
-            prev_modifiers = k_reports[numReports - 1].modifiers[0];
+            prev_modifiers = k_reports[नुमेरो_Reports - 1].modifiers[0];
 
             for (int i = 0; i < 6; i++) {
 
-                int keyCode = k_reports[numReports - 1].keycodes[i];
+                int सुसि_Code = k_reports[नुमेरो_Reports - 1].keycodes[i];
 
-                if (keyCode != prev_keys[i]) {
+                if (सुसि_Code != prev_मगा_सुसि[i]) {
 
-                    if (prev_keys[i]) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, prev_keys[i], false);
+                    if (prev_मगा_सुसि[i]) {
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, prev_मगा_सुसि[i], false);
                     }
-                    if (keyCode) {
-                        SDL_SendKeyboardKey(0, keyboardID, 0, keyCode, true);
+                    if (सुसि_Code) {
+                        SDL_Send_Keyboard_सुसि(0, keyboardID, 0, सुसि_Code, true);
                     }
-                    prev_keys[i] = keyCode;
+                    prev_मगा_सुसि[i] = सुसि_Code;
                 }
             }
         }

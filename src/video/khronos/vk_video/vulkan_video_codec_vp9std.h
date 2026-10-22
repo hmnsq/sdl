@@ -24,13 +24,13 @@ extern "C" {
 
 #include "vulkan_video_codecs_common.h"
 
-#define STD_VIDEO_VP9_NUM_REF_FRAMES      8U
+#define STD_VIDEO_VP9_नुमेरो_REF_FRAMES      8U
 #define STD_VIDEO_VP9_REFS_PER_FRAME      3U
 #define STD_VIDEO_VP9_MAX_REF_FRAMES      4U
 #define STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS 2U
 #define STD_VIDEO_VP9_MAX_SEGMENTS        8U
 #define STD_VIDEO_VP9_SEG_LVL_MAX         4U
-#define STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS 7U
+#define STD_VIDEO_VP9_MAX_SEGMENTATION_पुनो_PROBS 7U
 #define STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB 3U
 
 typedef enum StdVideoVP9Profile {
@@ -62,8 +62,8 @@ typedef enum StdVideoVP9Level {
 } StdVideoVP9Level;
 
 typedef enum StdVideoVP9FrameType {
-    STD_VIDEO_VP9_FRAME_TYPE_KEY = 0,
-    STD_VIDEO_VP9_FRAME_TYPE_NON_KEY = 1,
+    STD_VIDEO_VP9_FRAME_TYPE_सुसि = 0,
+    STD_VIDEO_VP9_FRAME_TYPE_NON_सुसि = 1,
     STD_VIDEO_VP9_FRAME_TYPE_INVALID = 0x7FFFFFFF,
     STD_VIDEO_VP9_FRAME_TYPE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9FrameType;
@@ -140,7 +140,7 @@ typedef struct StdVideoVP9SegmentationFlags {
 
 typedef struct StdVideoVP9Segmentation {
     StdVideoVP9SegmentationFlags    flags;
-    uint8_t                         segmentation_tree_probs[STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS];
+    uint8_t                         segmentation_पुनो_probs[STD_VIDEO_VP9_MAX_SEGMENTATION_पुनो_PROBS];
     uint8_t                         segmentation_pred_prob[STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB];
     uint8_t                         FeatureEnabled[STD_VIDEO_VP9_MAX_SEGMENTS];
     int16_t                         FeatureData[STD_VIDEO_VP9_MAX_SEGMENTS][STD_VIDEO_VP9_SEG_LVL_MAX];

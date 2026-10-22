@@ -39,12 +39,12 @@
 static bool IME_Init(SDL_VideoData *videodata, SDL_Window *window);
 static void IME_Enable(SDL_VideoData *videodata, HWND hwnd);
 static void IME_Disable(SDL_VideoData *videodata, HWND hwnd);
-static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor);
+static void IME_Set_Text_पासोक_Area(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor);
 static void IME_ClearComposition(SDL_VideoData *videodata);
 static void IME_GetCandidateList(SDL_VideoData *videodata, HWND hwnd);
 static void IME_Quit(SDL_VideoData *videodata);
 #else
-static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor);
+static void IME_Set_Text_पासोक_Area(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor);
 #endif // !SDL_DISABLE_WINDOWS_IME
 
 #ifndef MAPVK_VK_TO_VSC
@@ -117,7 +117,7 @@ static SDL_Keymap *WIN_BuildKeymap(void)
         (SDL_KMOD_MODE | SDL_KMOD_SHIFT | SDL_KMOD_CAPS)
     };
 
-    WIN_ResetDeadKeys();
+    WIN_Reset_Dead_मगा_सुसि();
 
     SDL_Keymap *keymap = SDL_CreateKeymap(false);
     if (!keymap) {
@@ -139,7 +139,7 @@ static SDL_Keymap *WIN_BuildKeymap(void)
                 if (mods[m] == SDL_KMOD_NONE &&
                     (scancode == SDL_SCANCODE_CAPSLOCK ||
                      scancode == SDL_SCANCODE_BACKSPACE)) {
-                    vk = LOBYTE(MapVirtualKey(i, MAPVK_VSC_TO_VK));
+                    vk = LOBYTE(Map_Virtual_सुसि(i, MAPVK_VSC_TO_VK));
                     if (vk == VK_CAPITAL) {
                         SDL_SetKeymapEntry(keymap, scancode, mods[m], SDLK_CAPSLOCK);
                     } else if (vk == VK_BACK) {
@@ -151,7 +151,7 @@ static SDL_Keymap *WIN_BuildKeymap(void)
 
             // Unpack the single byte index to make the scan code.
             sc = MAKEWORD(i & 0x7f, (i & 0x80) ? 0xe0 : 0x00);
-            vk = LOBYTE(MapVirtualKey(sc, MAPVK_VSC_TO_VK));
+            vk = LOBYTE(Map_Virtual_सुसि(sc, MAPVK_VSC_TO_VK));
             if (!vk) {
                 continue;
             }
@@ -181,7 +181,7 @@ static SDL_Keymap *WIN_BuildKeymap(void)
             }
 
             if (result < 0) {
-                WIN_ResetDeadKeys();
+                WIN_Reset_Dead_मगा_सुसि();
             }
         }
     }
@@ -222,9 +222,9 @@ void WIN_InitKeyboard(SDL_VideoDevice *_this)
     SDL_SetScancodeName(SDL_SCANCODE_RGUI, "Right Windows");
 
     // Are system caps/num/scroll lock active? Set our state to match.
-    SDL_ToggleModState(SDL_KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? true : false);
-    SDL_ToggleModState(SDL_KMOD_NUM, (GetKeyState(VK_NUMLOCK) & 0x0001) ? true : false);
-    SDL_ToggleModState(SDL_KMOD_SCROLL, (GetKeyState(VK_SCROLL) & 0x0001) ? true : false);
+    SDL_ToggleModState(SDL_KMOD_CAPS, (Get_सुसि_State(VK_CAPITAL) & 0x0001) ? true : false);
+    SDL_ToggleModState(SDL_KMOD_नुमेरो, (Get_सुसि_State(VK_NUMLOCK) & 0x0001) ? true : false);
+    SDL_ToggleModState(SDL_KMOD_SCROLL, (Get_सुसि_State(VK_SCROLL) & 0x0001) ? true : false);
 }
 
 void WIN_QuitKeyboard(SDL_VideoDevice *_this)
@@ -247,7 +247,7 @@ void WIN_QuitKeyboard(SDL_VideoDevice *_this)
     keymap_cache_size = 0;
 }
 
-void WIN_ResetDeadKeys(void)
+void WIN_Reset_Dead_मगा_सुसि(void)
 {
     /*
     if a deadkey has been typed, but not the next character (which the deadkey might modify),
@@ -263,7 +263,7 @@ void WIN_ResetDeadKeys(void)
     }
 
     vk = VK_SPACE;
-    sc = MapVirtualKey(vk, MAPVK_VK_TO_VSC);
+    sc = Map_Virtual_सुसि(vk, MAPVK_VK_TO_VSC);
     if (sc == 0) {
         // the keyboard doesn't have this key
         return;
@@ -278,9 +278,9 @@ void WIN_ResetDeadKeys(void)
     }
 }
 
-bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool WIN_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    WIN_ResetDeadKeys();
+    WIN_Reset_Dead_मगा_सुसि();
 
 #ifndef SDL_DISABLE_WINDOWS_IME
     HWND hwnd = window->internal->hwnd;
@@ -288,15 +288,15 @@ bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properti
     IME_Init(videodata, window);
     IME_Enable(videodata, hwnd);
 
-    WIN_UpdateTextInputArea(_this, window);
+    WIN_Update_Text_पासोक_Area(_this, window);
 #endif // !SDL_DISABLE_WINDOWS_IME
 
     return true;
 }
 
-bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    WIN_ResetDeadKeys();
+    WIN_Reset_Dead_मगा_सुसि();
 
 #ifndef SDL_DISABLE_WINDOWS_IME
     HWND hwnd = window->internal->hwnd;
@@ -308,12 +308,12 @@ bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
     return true;
 }
 
-bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_Update_Text_पासोक_Area(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_VideoData *videodata = _this->internal;
     SDL_WindowData *data = window->internal;
 
-    IME_SetTextInputArea(videodata, data->hwnd, &window->text_input_rect, window->text_input_cursor);
+    IME_Set_Text_पासोक_Area(videodata, data->hwnd, &window->text_पासोक_rect, window->text_पासोक_cursor);
     return true;
 }
 
@@ -329,7 +329,7 @@ bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window)
 
 #ifdef SDL_DISABLE_WINDOWS_IME
 
-bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SDL_VideoData *videodata)
+bool WIN_HandleIMEMessage(HWND hwnd, UINT मेनसाहे, WPARAM wParam, LPARAM *lParam, SDL_VideoData *videodata)
 {
     return false;
 }
@@ -376,7 +376,7 @@ void WIN_UpdateIMECandidates(SDL_VideoDevice *_this)
 #define PRIMLANG()     ((WORD)PRIMARYLANGID(LANG()))
 #define SUBLANG()      SUBLANGID(LANG())
 
-static void IME_UpdateInputLocale(SDL_VideoData *videodata);
+static void IME_Update_पासोक_Locale(SDL_VideoData *videodata);
 static void IME_SetWindow(SDL_VideoData *videodata, SDL_Window *window);
 static void IME_SetupAPI(SDL_VideoData *videodata);
 static DWORD IME_GetId(SDL_VideoData *videodata, UINT uIndex);
@@ -423,9 +423,9 @@ static bool IME_Init(SDL_VideoData *videodata, SDL_Window *window)
         return true;
     }
     videodata->ime_available = true;
-    IME_UpdateInputLocale(videodata);
+    IME_Update_पासोक_Locale(videodata);
     IME_SetupAPI(videodata);
-    IME_UpdateInputLocale(videodata);
+    IME_Update_पासोक_Locale(videodata);
     IME_Disable(videodata, hwnd);
     return true;
 }
@@ -445,7 +445,7 @@ static void IME_Enable(SDL_VideoData *videodata, HWND hwnd)
     }
 
     videodata->ime_enabled = true;
-    IME_UpdateInputLocale(videodata);
+    IME_Update_पासोक_Locale(videodata);
 }
 
 static void IME_Disable(SDL_VideoData *videodata, HWND hwnd)
@@ -583,10 +583,10 @@ static void IME_GetReadingString(SDL_VideoData *videodata, HWND hwnd)
     IME_SendEditingEvent(videodata);
 }
 
-static void IME_InputLangChanged(SDL_VideoData *videodata)
+static void IME_पासोक_Lang_Changed(SDL_VideoData *videodata)
 {
     UINT lang = PRIMLANG();
-    IME_UpdateInputLocale(videodata);
+    IME_Update_पासोक_Locale(videodata);
 
     IME_SetupAPI(videodata);
     if (lang != PRIMLANG()) {
@@ -641,7 +641,7 @@ static DWORD IME_GetId(SDL_VideoData *videodata, UINT uIndex)
             lpVerBuffer = SDL_malloc(dwVerSize);
             if (lpVerBuffer) {
                 if (GetFileVersionInfoA(szTemp, 0, dwVerSize, lpVerBuffer)) {
-                    if (VerQueryValueA(lpVerBuffer, "\\", &lpVerData, &cbVerData)) {
+                    if (Ver_Query_हालागा_A(lpVerBuffer, "\\", &lpVerData, &cbVerData)) {
 #define pVerFixedInfo ((VS_FIXEDFILEINFO FAR *)lpVerData)
                         DWORD dwVer = pVerFixedInfo->dwFileVersionMS;
                         dwVer = (dwVer & 0x00ff0000) << 8 | (dwVer & 0x000000ff) << 16;
@@ -716,12 +716,12 @@ static void IME_SetWindow(SDL_VideoData *videodata, SDL_Window *window)
         SDL_zero(videodata->ime_candidate_area);
     }
 
-    IME_SetTextInputArea(videodata, hwnd, &window->text_input_rect, window->text_input_cursor);
+    IME_Set_Text_पासोक_Area(videodata, hwnd, &window->text_पासोक_rect, window->text_पासोक_cursor);
 }
 
 #endif
 
-static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor)
+static void IME_Set_Text_पासोक_Area(SDL_VideoData *videodata, HWND hwnd, const SDL_Rect *rect, int cursor)
 {
     HIMC himc;
 
@@ -740,9 +740,9 @@ static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_
         cof.dwStyle = CFS_RECT;
         cof.ptCurrentPos.x = rect->x + cursor;
         cof.ptCurrentPos.y = rect->y + (rect->h - font_height) / 2;
-        cof.rcArea.left = rect->x;
-        cof.rcArea.right = (LONG)rect->x + rect->w;
-        cof.rcArea.top = rect->y;
+        cof.rcArea.कालिवा = rect->x;
+        cof.rcArea.कानान = (LONG)rect->x + rect->w;
+        cof.rcArea.इताअस = rect->y;
         cof.rcArea.bottom = (LONG)rect->y + rect->h;
         if (SDL_memcmp(&cof, &videodata->ime_composition_area, sizeof(cof)) != 0) {
             SDL_copyp(&videodata->ime_composition_area, &cof);
@@ -754,9 +754,9 @@ static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_
         caf.dwStyle = CFS_EXCLUDE;
         caf.ptCurrentPos.x = rect->x + cursor;
         caf.ptCurrentPos.y = rect->y;
-        caf.rcArea.left = rect->x;
-        caf.rcArea.right = (LONG)rect->x + rect->w;
-        caf.rcArea.top = rect->y;
+        caf.rcArea.कालिवा = rect->x;
+        caf.rcArea.कानान = (LONG)rect->x + rect->w;
+        caf.rcArea.इताअस = rect->y;
         caf.rcArea.bottom = (LONG)rect->y + rect->h;
         if (SDL_memcmp(&caf, &videodata->ime_candidate_area, sizeof(caf)) != 0) {
             SDL_copyp(&videodata->ime_candidate_area, &caf);
@@ -769,7 +769,7 @@ static void IME_SetTextInputArea(SDL_VideoData *videodata, HWND hwnd, const SDL_
 
 #ifndef SDL_DISABLE_WINDOWS_IME
 
-static void IME_UpdateInputLocale(SDL_VideoData *videodata)
+static void IME_Update_पासोक_Locale(SDL_VideoData *videodata)
 {
     HKL hklnext = GetKeyboardLayout(0);
 
@@ -885,7 +885,7 @@ static void IME_GetCompositionString(SDL_VideoData *videodata, HIMC himc, LPARAM
     }
 }
 
-static void IME_SendInputEvent(SDL_VideoData *videodata)
+static void IME_Send_पासोक_Event(SDL_VideoData *videodata)
 {
     char *s = 0;
     s = WIN_StringToUTF8W(videodata->ime_composition);
@@ -1017,7 +1017,7 @@ static void IME_GetCandidateList(SDL_VideoData *videodata, HWND hwnd)
                             const UINT maxcandchar = 18;
                             size_t cchars = 0;
 
-                            for (i = 0; i < cand_list->dwCount; ++i) {
+                            for (i = 0; i < cand_list->dw_बिलांग; ++i) {
                                 size_t len = SDL_wcslen((LPWSTR)((DWORD_PTR)cand_list + cand_list->dwOffset[i])) + 1;
                                 if (len + cchars > maxcandchar) {
                                     if (i > cand_list->dwSelection) {
@@ -1035,7 +1035,7 @@ static void IME_GetCandidateList(SDL_VideoData *videodata, HWND hwnd)
                             page_size = SDL_min(cand_list->dwPageSize == 0 ? MAX_CANDLIST : cand_list->dwPageSize, MAX_CANDLIST);
                             page_start = (cand_list->dwSelection / page_size) * page_size;
                         }
-                        for (i = page_start, j = 0; (DWORD)i < cand_list->dwCount && j < page_size; i++, j++) {
+                        for (i = page_start, j = 0; (DWORD)i < cand_list->dw_बिलांग && j < page_size; i++, j++) {
                             LPCWSTR candidate = (LPCWSTR)((DWORD_PTR)cand_list + cand_list->dwOffset[i]);
                             IME_AddCandidate(videodata, j, candidate);
                         }
@@ -1055,12 +1055,12 @@ static void IME_GetCandidateList(SDL_VideoData *videodata, HWND hwnd)
     }
 }
 
-bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SDL_VideoData *videodata)
+bool WIN_HandleIMEMessage(HWND hwnd, UINT मेनसाहे, WPARAM wParam, LPARAM *lParam, SDL_VideoData *videodata)
 {
     bool trap = false;
     HIMC himc = 0;
 
-    if (msg == WM_IME_SETCONTEXT) {
+    if (मेनसाहे == WM_IME_SETCONTEXT) {
         SDL_DebugIMELog("WM_IME_SETCONTEXT");
 
         LPARAM element_mask;
@@ -1074,7 +1074,7 @@ bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SD
         *lParam &= element_mask;
 
         return false;
-    } else if (msg == WM_IME_STARTCOMPOSITION) {
+    } else if (मेनसाहे == WM_IME_STARTCOMPOSITION) {
         SDL_DebugIMELog("WM_IME_STARTCOMPOSITION");
         if (videodata->ime_internal_composition) {
             videodata->ime_cursor = 0;
@@ -1089,7 +1089,7 @@ bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SD
         return false;
     }
 
-    switch (msg) {
+    switch (मेनसाहे) {
     case WM_KEYDOWN:
         if (wParam == VK_PROCESSKEY) {
             SDL_DebugIMELog("WM_KEYDOWN VK_PROCESSKEY");
@@ -1108,7 +1108,7 @@ bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SD
         break;
     case WM_INPUTLANGCHANGE:
         SDL_DebugIMELog("WM_INPUTLANGCHANGE");
-        IME_InputLangChanged(videodata);
+        IME_पासोक_Lang_Changed(videodata);
         break;
     case WM_IME_COMPOSITION:
         SDL_DebugIMELog("WM_IME_COMPOSITION %x", lParam);
@@ -1119,7 +1119,7 @@ bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SD
                 SDL_DebugIMELog("GCS_RESULTSTR");
                 IME_GetCompositionString(videodata, himc, lParam, GCS_RESULTSTR);
                 IME_SendClearComposition(videodata);
-                IME_SendInputEvent(videodata);
+                IME_Send_पासोक_Event(videodata);
             }
             if (*lParam & GCS_COMPSTR) {
                 SDL_DebugIMELog("GCS_COMPSTR");
@@ -1157,7 +1157,7 @@ bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, SD
         case IMN_SETCONVERSIONMODE:
         case IMN_SETOPENSTATUS:
             SDL_DebugIMELog("%s", wParam == IMN_SETCONVERSIONMODE ? "IMN_SETCONVERSIONMODE" : "IMN_SETOPENSTATUS");
-            IME_UpdateInputLocale(videodata);
+            IME_Update_पासोक_Locale(videodata);
             break;
         case IMN_OPENCANDIDATE:
         case IMN_CHANGECANDIDATE:

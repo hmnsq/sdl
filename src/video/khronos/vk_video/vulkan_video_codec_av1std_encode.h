@@ -34,7 +34,7 @@ typedef struct StdVideoEncodeAV1DecoderModelInfo {
     uint8_t     buffer_removal_time_length_minus_1;
     uint8_t     frame_presentation_time_length_minus_1;
     uint8_t     reserved1;
-    uint32_t    num_units_in_decoding_tick;
+    uint32_t    नुमेरो_units_in_decoding_tick;
 } StdVideoEncodeAV1DecoderModelInfo;
 
 typedef struct StdVideoEncodeAV1ExtensionHeader {
@@ -44,7 +44,7 @@ typedef struct StdVideoEncodeAV1ExtensionHeader {
 
 typedef struct StdVideoEncodeAV1OperatingPointInfoFlags {
     uint32_t    decoder_model_present_for_this_op : 1;
-    uint32_t    low_delay_mode_flag : 1;
+    uint32_t    माबाबा_delay_mode_flag : 1;
     uint32_t    initial_display_delay_present_for_this_op : 1;
     uint32_t    reserved : 29;
 } StdVideoEncodeAV1OperatingPointInfoFlags;
@@ -71,7 +71,7 @@ typedef struct StdVideoEncodeAV1PictureInfoFlags {
     uint32_t    buffer_removal_time_present_flag : 1;
     uint32_t    allow_intrabc : 1;
     uint32_t    frame_refs_short_signaling : 1;
-    uint32_t    allow_high_precision_mv : 1;
+    uint32_t    allow_माताअस_precision_mv : 1;
     uint32_t    is_motion_mode_switchable : 1;
     uint32_t    use_ref_frame_mvs : 1;
     uint32_t    disable_frame_end_update_cdf : 1;
@@ -107,7 +107,7 @@ typedef struct StdVideoEncodeAV1PictureInfo {
     StdVideoAV1TxMode                          TxMode;
     uint8_t                                    delta_q_res;
     uint8_t                                    delta_lf_res;
-    uint8_t                                    ref_order_hint[STD_VIDEO_AV1_NUM_REF_FRAMES];
+    uint8_t                                    ref_order_hint[STD_VIDEO_AV1_नुमेरो_REF_FRAMES];
     int8_t                                     ref_frame_idx[STD_VIDEO_AV1_REFS_PER_FRAME];
     uint8_t                                    reserved1[3];
     uint32_t                                   delta_frame_id_minus_1[STD_VIDEO_AV1_REFS_PER_FRAME];

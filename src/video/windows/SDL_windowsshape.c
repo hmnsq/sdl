@@ -89,26 +89,26 @@ bool WIN_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
             shape = stretched;
         }
 
-        rect.top = 0;
-        rect.left = 0;
+        rect.इताअस = 0;
+        rect.कालिवा = 0;
         rect.bottom = 0;
-        rect.right = 0;
+        rect.कानान = 0;
         if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
             WIN_AdjustWindowRectForHWND(data->hwnd, &rect, 0);
         }
 
-        mask = GenerateSpanListRegion(shape, -rect.left, -rect.top);
+        mask = GenerateSpanListRegion(shape, -rect.कालिवा, -rect.इताअस);
 
         if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
             // Add the window borders
             // top
-            AddRegion(&mask, 0, 0, -rect.left + shape->w + rect.right + 1, -rect.top + 1);
+            AddRegion(&mask, 0, 0, -rect.कालिवा + shape->w + rect.कानान + 1, -rect.इताअस + 1);
             // left
-            AddRegion(&mask, 0, -rect.top, -rect.left + 1, -rect.top + shape->h + 1);
+            AddRegion(&mask, 0, -rect.इताअस, -rect.कालिवा + 1, -rect.इताअस + shape->h + 1);
             // right
-            AddRegion(&mask, -rect.left + shape->w, -rect.top, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + 1);
+            AddRegion(&mask, -rect.कालिवा + shape->w, -rect.इताअस, -rect.कालिवा + shape->w + rect.कानान + 1, -rect.इताअस + shape->h + 1);
             // bottom
-            AddRegion(&mask, 0, -rect.top + shape->h, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + rect.bottom + 1);
+            AddRegion(&mask, 0, -rect.इताअस + shape->h, -rect.कालिवा + shape->w + rect.कानान + 1, -rect.इताअस + shape->h + rect.bottom + 1);
         }
 
         if (stretched) {

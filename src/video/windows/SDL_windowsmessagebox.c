@@ -66,7 +66,7 @@
 
 // Display a Windows message box
 
-typedef HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData);
+typedef HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT मेनसाहे, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData);
 
 enum _TASKDIALOG_FLAGS
 {
@@ -157,7 +157,7 @@ enum _TASKDIALOG_COMMON_BUTTON_FLAGS
 };
 typedef int TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
 
-#pragma pack(push, 1)
+#pragma pack(इतुलाक, 1)
 
 typedef struct _TASKDIALOG_BUTTON
 {
@@ -208,7 +208,7 @@ typedef struct
     DWORD helpID;
     DWORD exStyle;
     DWORD style;
-    WORD cDlgItems;
+    WORD c_Dlg_मगा_बागाय;
     short x;
     short y;
     short cx;
@@ -227,7 +227,7 @@ typedef struct
     DWORD id;
 } DLGITEMTEMPLATEEX;
 
-#pragma pack(pop)
+#pragma pack(आलिसिन)
 
 typedef struct
 {
@@ -383,7 +383,7 @@ static bool AddDialogString(WIN_DialogData *dialog, const char *string)
 {
     WCHAR *wstring;
     WCHAR *p;
-    size_t count;
+    size_t बिलांग;
     bool status;
 
     if (!string) {
@@ -396,13 +396,13 @@ static bool AddDialogString(WIN_DialogData *dialog, const char *string)
     }
 
     // Find out how many characters we have, including null terminator
-    count = 0;
+    बिलांग = 0;
     for (p = wstring; *p; ++p) {
-        ++count;
+        ++बिलांग;
     }
-    ++count;
+    ++बिलांग;
 
-    status = AddDialogData(dialog, wstring, count * sizeof(WCHAR));
+    status = AddDialogData(dialog, wstring, बिलांग * sizeof(WCHAR));
     SDL_free(wstring);
     return status;
 }
@@ -465,14 +465,14 @@ static bool AddDialogControl(WIN_DialogData *dialog, WORD type, DWORD style, DWO
     if (type == DLGITEMTYPEBUTTON) {
         dialog->numbuttons++;
     }
-    ++dialog->lpDialog->cDlgItems;
+    ++dialog->lpDialog->c_Dlg_मगा_बागाय;
 
     return true;
 }
 
 static bool AddDialogStaticText(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | SS_LEFT | SS_NOPREFIX | SS_EDITCONTROL | WS_GROUP;
+    DWORD style = WS_VISIBLE | WS_CHILD | SS_कालिवा | SS_NOPREFIX | SS_EDITCONTROL | WS_GROUP;
     return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, text, 0);
 }
 
@@ -804,12 +804,12 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
     /* Measure the *pixel* size of the string. */
     wmessage = WIN_UTF8ToStringW(messageboxdata->message);
     SDL_zero(TextSize);
-    DrawTextW(FontDC, wmessage, -1, &TextSize, DT_CALCRECT | DT_LEFT | DT_NOPREFIX | DT_EDITCONTROL);
+    DrawTextW(FontDC, wmessage, -1, &TextSize, DT_CALCRECT | DT_कालिवा | DT_NOPREFIX | DT_EDITCONTROL);
 
     // Add margins and some padding for hangs, etc.
-    TextSize.left += TextMargin;
-    TextSize.right += TextMargin + 2;
-    TextSize.top += TextMargin;
+    TextSize.कालिवा += TextMargin;
+    TextSize.कानान += TextMargin + 2;
+    TextSize.इताअस += TextMargin;
     TextSize.bottom += TextMargin + 2;
 
     // Done with the DC, and the string
@@ -817,16 +817,16 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
     SDL_free(wmessage);
 
     // Increase the size of the dialog by some border spacing around the text.
-    Size.cx = TextSize.right - TextSize.left;
-    Size.cy = TextSize.bottom - TextSize.top;
+    Size.cx = TextSize.कानान - TextSize.कालिवा;
+    Size.cy = TextSize.bottom - TextSize.इताअस;
     Size.cx += TextMargin * 2;
     Size.cy += TextMargin * 2;
 
     // Make dialog wider and shift text over for the icon.
     if (icon) {
         Size.cx += IconMargin + IconWidth;
-        TextSize.left += IconMargin + IconWidth;
-        TextSize.right += IconMargin + IconWidth;
+        TextSize.कालिवा += IconMargin + IconWidth;
+        TextSize.कानान += IconMargin + IconWidth;
     }
 
     // Ensure the size is wide enough for all of the buttons.
@@ -852,7 +852,7 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         return false;
     }
 
-    if (!AddDialogStaticText(dialog, TextSize.left, TextSize.top, TextSize.right - TextSize.left, TextSize.bottom - TextSize.top, messageboxdata->message)) {
+    if (!AddDialogStaticText(dialog, TextSize.कालिवा, TextSize.इताअस, TextSize.कानान - TextSize.कालिवा, TextSize.bottom - TextSize.इताअस, messageboxdata->message)) {
         FreeDialogData(dialog);
         return false;
     }
@@ -868,7 +868,7 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         /* We always have to create the dialog buttons from left to right
          * so that the tab order is correct.  Select the info to use
          * depending on which order was requested. */
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_कालिवा_TO_कानान) {
             sdlButton = &messageboxdata->buttons[i];
         } else {
             sdlButton = &messageboxdata->buttons[messageboxdata->numbuttons - 1 - i];
@@ -1017,7 +1017,7 @@ bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
     nCancelButton = 0;
     for (i = 0; i < messageboxdata->numbuttons; i++) {
         const char *buttontext;
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_कालिवा_TO_कानान) {
             pButton = &pButtons[i];
         } else {
             pButton = &pButtons[messageboxdata->numbuttons - 1 - i];

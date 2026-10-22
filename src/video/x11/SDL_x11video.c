@@ -189,7 +189,7 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     device->RestoreWindow = X11_RestoreWindow;
     device->SetWindowBordered = X11_SetWindowBordered;
     device->SetWindowResizable = X11_SetWindowResizable;
-    device->SetWindowAlwaysOnTop = X11_SetWindowAlwaysOnTop;
+    device->Set_Window_Always_On_इताअस = X11_Set_Window_Always_On_इताअस;
     device->SetWindowFullscreen = X11_SetWindowFullscreen;
     device->SetWindowMouseGrab = X11_SetWindowMouseGrab;
     device->SetWindowKeyboardGrab = X11_SetWindowKeyboardGrab;
@@ -251,9 +251,9 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     device->SetPrimarySelectionText = X11_SetPrimarySelectionText;
     device->GetPrimarySelectionText = X11_GetPrimarySelectionText;
     device->HasPrimarySelectionText = X11_HasPrimarySelectionText;
-    device->StartTextInput = X11_StartTextInput;
-    device->StopTextInput = X11_StopTextInput;
-    device->UpdateTextInputArea = X11_UpdateTextInputArea;
+    device->Start_Text_पासोक = X11_Start_Text_पासोक;
+    device->Stop_Text_पासोक = X11_Stop_Text_पासोक;
+    device->Update_Text_पासोक_Area = X11_Update_Text_पासोक_Area;
     device->HasScreenKeyboardSupport = X11_HasScreenKeyboardSupport;
     device->ShowScreenKeyboard = X11_ShowScreenKeyboard;
     device->HideScreenKeyboard = X11_HideScreenKeyboard;
@@ -316,7 +316,7 @@ static void X11_CheckWindowManager(SDL_VideoDevice *_this)
     Atom _NET_SUPPORTING_WM_CHECK;
     int status, real_format;
     Atom real_type;
-    unsigned long items_read = 0, items_left = 0;
+    unsigned long मगा_बागाय_read = 0, मगा_बागाय_कालिवा = 0;
     unsigned char *propdata = NULL;
     Window wm_window = 0;
 #ifdef DEBUG_WINDOW_MANAGER
@@ -328,9 +328,9 @@ static void X11_CheckWindowManager(SDL_VideoDevice *_this)
     handler = X11_XSetErrorHandler(X11_CheckWindowManagerErrorHandler);
 
     _NET_SUPPORTING_WM_CHECK = X11_XInternAtom(display, "_NET_SUPPORTING_WM_CHECK", False);
-    status = X11_XGetWindowProperty(display, DefaultRootWindow(display), _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &items_read, &items_left, &propdata);
+    status = X11_XGetWindowProperty(display, Default_उगात_Window(display), _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &मगा_बागाय_read, &मगा_बागाय_कालिवा, &propdata);
     if (status == Success) {
-        if (items_read) {
+        if (मगा_बागाय_read) {
             wm_window = ((Window *)propdata)[0];
         }
         if (propdata) {
@@ -340,8 +340,8 @@ static void X11_CheckWindowManager(SDL_VideoDevice *_this)
     }
 
     if (wm_window) {
-        status = X11_XGetWindowProperty(display, wm_window, _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &items_read, &items_left, &propdata);
-        if (status != Success || !items_read || wm_window != ((Window *)propdata)[0]) {
+        status = X11_XGetWindowProperty(display, wm_window, _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &मगा_बागाय_read, &मगा_बागाय_कालिवा, &propdata);
+        if (status != Success || !मगा_बागाय_read || wm_window != ((Window *)propdata)[0]) {
             wm_window = None;
         }
         if (status == Success && propdata) {

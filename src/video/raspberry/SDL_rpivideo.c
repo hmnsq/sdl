@@ -35,7 +35,7 @@
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_keyboard_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 #include "../../core/linux/SDL_evdev.h"
 #endif
 
@@ -96,7 +96,7 @@ static SDL_VideoDevice *RPI_Create(void)
     device->internal = phdata;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->नुमेरो_displays = 0;
 
     // Set device free function
     device->free = RPI_Destroy;
@@ -195,7 +195,7 @@ bool RPI_VideoInit(SDL_VideoDevice *_this)
     AddDispManXDisplay(DISPMANX_ID_MAIN_LCD);    // your default display
     AddDispManXDisplay(DISPMANX_ID_FORCE_OTHER); // an "other" display...maybe DSI-connected screen while HDMI is your main
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     if (!SDL_EVDEV_Init()) {
         return false;
     }
@@ -208,7 +208,7 @@ bool RPI_VideoInit(SDL_VideoDevice *_this)
 
 void RPI_VideoQuit(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     SDL_EVDEV_Quit();
 #endif
 }

@@ -1495,9 +1495,9 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_PackUVPlanes_to_NV_SSE2(int 
     const int UVwidth = (width + 1) / 2;
     const int UVheight = (height + 1) / 2;
     const int srcUVPitch = ((src_pitch + 1) / 2);
-    const int srcUVPitchLeft = srcUVPitch - UVwidth;
+    const int src_UVPitch_कालिवा = srcUVPitch - UVwidth;
     const int dstUVPitch = ((dst_pitch + 1) / 2) * 2;
-    const int dstUVPitchLeft = dstUVPitch - UVwidth * 2;
+    const int dst_UVPitch_कालिवा = dstUVPitch - UVwidth * 2;
     const Uint8 *src1, *src2;
     Uint8 *dstUV;
     Uint8 *tmp = NULL;
@@ -1544,9 +1544,9 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_PackUVPlanes_to_NV_SSE2(int 
             *dstUV++ = *src1++;
             *dstUV++ = *src2++;
         }
-        src1 += srcUVPitchLeft;
-        src2 += srcUVPitchLeft;
-        dstUV += dstUVPitchLeft;
+        src1 += src_UVPitch_कालिवा;
+        src2 += src_UVPitch_कालिवा;
+        dstUV += dst_UVPitch_कालिवा;
     }
 
     if (tmp) {
@@ -1561,9 +1561,9 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SplitNV_to_UVPlanes_SSE2(int
     const int UVwidth = (width + 1) / 2;
     const int UVheight = (height + 1) / 2;
     const int srcUVPitch = ((src_pitch + 1) / 2) * 2;
-    const int srcUVPitchLeft = srcUVPitch - UVwidth * 2;
+    const int src_UVPitch_कालिवा = srcUVPitch - UVwidth * 2;
     const int dstUVPitch = ((dst_pitch + 1) / 2);
-    const int dstUVPitchLeft = dstUVPitch - UVwidth;
+    const int dst_UVPitch_कालिवा = dstUVPitch - UVwidth;
     const Uint8 *srcUV;
     Uint8 *dst1, *dst2;
     Uint8 *tmp = NULL;
@@ -1615,9 +1615,9 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SplitNV_to_UVPlanes_SSE2(int
             *dst1++ = *srcUV++;
             *dst2++ = *srcUV++;
         }
-        srcUV += srcUVPitchLeft;
-        dst1 += dstUVPitchLeft;
-        dst2 += dstUVPitchLeft;
+        srcUV += src_UVPitch_कालिवा;
+        dst1 += dst_UVPitch_कालिवा;
+        dst2 += dst_UVPitch_कालिवा;
     }
 
     if (tmp) {
@@ -1632,9 +1632,9 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SwapNV_SSE2(int width, int h
     const int UVwidth = (width + 1) / 2;
     const int UVheight = (height + 1) / 2;
     const int srcUVPitch = ((src_pitch + 1) / 2) * 2;
-    const int srcUVPitchLeft = (srcUVPitch - UVwidth * 2) / sizeof(Uint16);
+    const int src_UVPitch_कालिवा = (srcUVPitch - UVwidth * 2) / sizeof(Uint16);
     const int dstUVPitch = ((dst_pitch + 1) / 2) * 2;
-    const int dstUVPitchLeft = (dstUVPitch - UVwidth * 2) / sizeof(Uint16);
+    const int dst_UVPitch_कालिवा = (dstUVPitch - UVwidth * 2) / sizeof(Uint16);
     const Uint16 *srcUV;
     Uint16 *dstUV;
 
@@ -1669,8 +1669,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_SwapNV_SSE2(int width, int h
                 *dstUV8++ = u;
             }
         }
-        srcUV += srcUVPitchLeft;
-        dstUV += dstUVPitchLeft;
+        srcUV += src_UVPitch_कालिवा;
+        dstUV += dst_UVPitch_कालिवा;
     }
     return true;
 }
@@ -1682,9 +1682,9 @@ static bool SDL_ConvertPixels_PackUVPlanes_to_NV_std(int width, int height, cons
     const int UVwidth = (width + 1) / 2;
     const int UVheight = (height + 1) / 2;
     const int srcUVPitch = ((src_pitch + 1) / 2);
-    const int srcUVPitchLeft = srcUVPitch - UVwidth;
+    const int src_UVPitch_कालिवा = srcUVPitch - UVwidth;
     const int dstUVPitch = ((dst_pitch + 1) / 2) * 2;
-    const int dstUVPitchLeft = dstUVPitch - UVwidth * 2;
+    const int dst_UVPitch_कालिवा = dstUVPitch - UVwidth * 2;
     const Uint8 *src1, *src2;
     Uint8 *dstUV;
     Uint8 *tmp = NULL;
@@ -1719,9 +1719,9 @@ static bool SDL_ConvertPixels_PackUVPlanes_to_NV_std(int width, int height, cons
             *dstUV++ = *src1++;
             *dstUV++ = *src2++;
         }
-        src1 += srcUVPitchLeft;
-        src2 += srcUVPitchLeft;
-        dstUV += dstUVPitchLeft;
+        src1 += src_UVPitch_कालिवा;
+        src2 += src_UVPitch_कालिवा;
+        dstUV += dst_UVPitch_कालिवा;
     }
 
     SDL_free(tmp);
@@ -1734,9 +1734,9 @@ static bool SDL_ConvertPixels_SplitNV_to_UVPlanes_std(int width, int height, con
     const int UVwidth = (width + 1) / 2;
     const int UVheight = (height + 1) / 2;
     const int srcUVPitch = ((src_pitch + 1) / 2) * 2;
-    const int srcUVPitchLeft = srcUVPitch - UVwidth * 2;
+    const int src_UVPitch_कालिवा = srcUVPitch - UVwidth * 2;
     const int dstUVPitch = ((dst_pitch + 1) / 2);
-    const int dstUVPitchLeft = dstUVPitch - UVwidth;
+    const int dst_UVPitch_कालिवा = dstUVPitch - UVwidth;
     const Uint8 *srcUV;
     Uint8 *dst1, *dst2;
     Uint8 *tmp = NULL;
@@ -1771,9 +1771,9 @@ static bool SDL_ConvertPixels_SplitNV_to_UVPlanes_std(int width, int height, con
             *dst1++ = *srcUV++;
             *dst2++ = *srcUV++;
         }
-        srcUV += srcUVPitchLeft;
-        dst1 += dstUVPitchLeft;
-        dst2 += dstUVPitchLeft;
+        srcUV += src_UVPitch_कालिवा;
+        dst1 += dst_UVPitch_कालिवा;
+        dst2 += dst_UVPitch_कालिवा;
     }
 
     SDL_free(tmp);
@@ -1794,8 +1794,8 @@ static bool SDL_ConvertPixels_SwapNV_std(int width, int height, const void *src,
 
     bool aligned = (((uintptr_t)src | (uintptr_t)dst) & 1) == 0;
     if (aligned) {
-        const int srcUVPitchLeft = (srcUVPitch - UVwidth * 2) / sizeof(Uint16);
-        const int dstUVPitchLeft = (dstUVPitch - UVwidth * 2) / sizeof(Uint16);
+        const int src_UVPitch_कालिवा = (srcUVPitch - UVwidth * 2) / sizeof(Uint16);
+        const int dst_UVPitch_कालिवा = (dstUVPitch - UVwidth * 2) / sizeof(Uint16);
         const Uint16 *srcUV = (const Uint16 *)src;
         Uint16 *dstUV = (Uint16 *)dst;
         y = UVheight;
@@ -1804,12 +1804,12 @@ static bool SDL_ConvertPixels_SwapNV_std(int width, int height, const void *src,
             while (x--) {
                 *dstUV++ = SDL_Swap16(*srcUV++);
             }
-            srcUV += srcUVPitchLeft;
-            dstUV += dstUVPitchLeft;
+            srcUV += src_UVPitch_कालिवा;
+            dstUV += dst_UVPitch_कालिवा;
         }
     } else {
-        const int srcUVPitchLeft = (srcUVPitch - UVwidth * 2);
-        const int dstUVPitchLeft = (dstUVPitch - UVwidth * 2);
+        const int src_UVPitch_कालिवा = (srcUVPitch - UVwidth * 2);
+        const int dst_UVPitch_कालिवा = (dstUVPitch - UVwidth * 2);
         const Uint8 *srcUV = (const Uint8 *)src;
         Uint8 *dstUV = (Uint8 *)dst;
         y = UVheight;
@@ -1821,8 +1821,8 @@ static bool SDL_ConvertPixels_SwapNV_std(int width, int height, const void *src,
                 *dstUV++ = v;
                 *dstUV++ = u;
             }
-            srcUV += srcUVPitchLeft;
-            dstUV += dstUVPitchLeft;
+            srcUV += src_UVPitch_कालिवा;
+            dstUV += dst_UVPitch_कालिवा;
         }
     }
     return true;
@@ -1951,8 +1951,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_UYVY_SSE2(int width,
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -1975,8 +1975,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_UYVY_SSE2(int width,
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
         x = YUVwidth;
     }
     return true;
@@ -1986,8 +1986,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_YVYU_SSE2(int width,
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2010,8 +2010,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YUY2_to_YVYU_SSE2(int width,
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
         x = YUVwidth;
     }
     return true;
@@ -2021,8 +2021,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YUY2_SSE2(int width,
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2045,8 +2045,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YUY2_SSE2(int width,
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
         x = YUVwidth;
     }
     return true;
@@ -2056,8 +2056,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YVYU_SSE2(int width,
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2080,8 +2080,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_UYVY_to_YVYU_SSE2(int width,
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
         x = YUVwidth;
     }
     return true;
@@ -2091,8 +2091,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_YUY2_SSE2(int width,
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2115,8 +2115,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_YUY2_SSE2(int width,
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
         x = YUVwidth;
     }
     return true;
@@ -2126,8 +2126,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_UYVY_SSE2(int width,
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2150,8 +2150,8 @@ static bool SDL_TARGETING("sse2") SDL_ConvertPixels_YVYU_to_UYVY_SSE2(int width,
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
         x = YUVwidth;
     }
     return true;
@@ -2162,8 +2162,8 @@ static bool SDL_ConvertPixels_YUY2_to_UYVY_std(int width, int height, const void
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2185,8 +2185,8 @@ static bool SDL_ConvertPixels_YUY2_to_UYVY_std(int width, int height, const void
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
     }
     return true;
 }
@@ -2195,8 +2195,8 @@ static bool SDL_ConvertPixels_YUY2_to_YVYU_std(int width, int height, const void
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2218,8 +2218,8 @@ static bool SDL_ConvertPixels_YUY2_to_YVYU_std(int width, int height, const void
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
     }
     return true;
 }
@@ -2228,8 +2228,8 @@ static bool SDL_ConvertPixels_UYVY_to_YUY2_std(int width, int height, const void
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2251,8 +2251,8 @@ static bool SDL_ConvertPixels_UYVY_to_YUY2_std(int width, int height, const void
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
     }
     return true;
 }
@@ -2261,8 +2261,8 @@ static bool SDL_ConvertPixels_UYVY_to_YVYU_std(int width, int height, const void
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2284,8 +2284,8 @@ static bool SDL_ConvertPixels_UYVY_to_YVYU_std(int width, int height, const void
             dstYUV[3] = U;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
     }
     return true;
 }
@@ -2294,8 +2294,8 @@ static bool SDL_ConvertPixels_YVYU_to_YUY2_std(int width, int height, const void
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2317,8 +2317,8 @@ static bool SDL_ConvertPixels_YVYU_to_YUY2_std(int width, int height, const void
             dstYUV[3] = V;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
     }
     return true;
 }
@@ -2327,8 +2327,8 @@ static bool SDL_ConvertPixels_YVYU_to_UYVY_std(int width, int height, const void
 {
     int x, y;
     const int YUVwidth = (width + 1) / 2;
-    const int srcYUVPitchLeft = (src_pitch - YUVwidth * 4);
-    const int dstYUVPitchLeft = (dst_pitch - YUVwidth * 4);
+    const int src_YUVPitch_कालिवा = (src_pitch - YUVwidth * 4);
+    const int dst_YUVPitch_कालिवा = (dst_pitch - YUVwidth * 4);
     const Uint8 *srcYUV = (const Uint8 *)src;
     Uint8 *dstYUV = (Uint8 *)dst;
 
@@ -2350,8 +2350,8 @@ static bool SDL_ConvertPixels_YVYU_to_UYVY_std(int width, int height, const void
             dstYUV[3] = Y2;
             dstYUV += 4;
         }
-        srcYUV += srcYUVPitchLeft;
-        dstYUV += dstYUVPitchLeft;
+        srcYUV += src_YUVPitch_कालिवा;
+        dstYUV += dst_YUVPitch_कालिवा;
     }
     return true;
 }
@@ -2465,10 +2465,10 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
     int x, y;
     const Uint8 *srcY1, *srcY2, *srcU, *srcV;
     Uint32 srcY_pitch, srcUV_pitch;
-    Uint32 srcY_pitch_left, srcUV_pitch_left, srcUV_pixel_stride;
+    Uint32 src_Y_pitch_कालिवा, src_UV_pitch_कालिवा, srcUV_pixel_stride;
     Uint8 *dstY1, *dstY2, *dstU1, *dstU2, *dstV1, *dstV2;
     Uint32 dstY_pitch, dstUV_pitch;
-    Uint32 dst_pitch_left;
+    Uint32 dst_pitch_कालिवा;
 
     if (src == dst) {
         return SDL_SetError("Can't change YUV plane types in-place");
@@ -2479,14 +2479,14 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
         return false;
     }
     srcY2 = srcY1 + srcY_pitch;
-    srcY_pitch_left = (srcY_pitch - width);
+    src_Y_pitch_कालिवा = (srcY_pitch - width);
 
     if (src_format == SDL_PIXELFORMAT_NV12 || src_format == SDL_PIXELFORMAT_NV21) {
         srcUV_pixel_stride = 2;
-        srcUV_pitch_left = (srcUV_pitch - 2 * ((width + 1) / 2));
+        src_UV_pitch_कालिवा = (srcUV_pitch - 2 * ((width + 1) / 2));
     } else {
         srcUV_pixel_stride = 1;
-        srcUV_pitch_left = (srcUV_pitch - ((width + 1) / 2));
+        src_UV_pitch_कालिवा = (srcUV_pitch - ((width + 1) / 2));
     }
 
     if (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
@@ -2497,7 +2497,7 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
     dstY2 = dstY1 + dstY_pitch;
     dstU2 = dstU1 + dstUV_pitch;
     dstV2 = dstV1 + dstUV_pitch;
-    dst_pitch_left = (dstY_pitch - 4 * ((width + 1) / 2));
+    dst_pitch_कालिवा = (dstY_pitch - 4 * ((width + 1) / 2));
 
     // Copy 2x2 blocks of pixels at a time
     for (y = 0; y < (height - 1); y += 2) {
@@ -2552,16 +2552,16 @@ static bool SDL_ConvertPixels_Planar2x2_to_Packed4(int width, int height,
             dstV2 += 4;
         }
 
-        srcY1 += srcY_pitch_left + srcY_pitch;
-        srcY2 += srcY_pitch_left + srcY_pitch;
-        srcU += srcUV_pitch_left;
-        srcV += srcUV_pitch_left;
-        dstY1 += dst_pitch_left + dstY_pitch;
-        dstY2 += dst_pitch_left + dstY_pitch;
-        dstU1 += dst_pitch_left + dstUV_pitch;
-        dstU2 += dst_pitch_left + dstUV_pitch;
-        dstV1 += dst_pitch_left + dstUV_pitch;
-        dstV2 += dst_pitch_left + dstUV_pitch;
+        srcY1 += src_Y_pitch_कालिवा + srcY_pitch;
+        srcY2 += src_Y_pitch_कालिवा + srcY_pitch;
+        srcU += src_UV_pitch_कालिवा;
+        srcV += src_UV_pitch_कालिवा;
+        dstY1 += dst_pitch_कालिवा + dstY_pitch;
+        dstY2 += dst_pitch_कालिवा + dstY_pitch;
+        dstU1 += dst_pitch_कालिवा + dstUV_pitch;
+        dstU2 += dst_pitch_कालिवा + dstUV_pitch;
+        dstV1 += dst_pitch_कालिवा + dstUV_pitch;
+        dstV2 += dst_pitch_कालिवा + dstUV_pitch;
     }
 
     // Last row
@@ -2607,10 +2607,10 @@ static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
     int x, y;
     const Uint8 *srcY1, *srcY2, *srcU1, *srcU2, *srcV1, *srcV2;
     Uint32 srcY_pitch, srcUV_pitch;
-    Uint32 src_pitch_left;
+    Uint32 src_pitch_कालिवा;
     Uint8 *dstY1, *dstY2, *dstU, *dstV;
     Uint32 dstY_pitch, dstUV_pitch;
-    Uint32 dstY_pitch_left, dstUV_pitch_left, dstUV_pixel_stride;
+    Uint32 dst_Y_pitch_कालिवा, dst_UV_pitch_कालिवा, dstUV_pixel_stride;
 
     if (src == dst) {
         return SDL_SetError("Can't change YUV plane types in-place");
@@ -2623,7 +2623,7 @@ static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
     srcY2 = srcY1 + srcY_pitch;
     srcU2 = srcU1 + srcUV_pitch;
     srcV2 = srcV1 + srcUV_pitch;
-    src_pitch_left = (srcY_pitch - 4 * ((width + 1) / 2));
+    src_pitch_कालिवा = (srcY_pitch - 4 * ((width + 1) / 2));
 
     if (!GetYUVPlanes(width, height, dst_format, dst, dst_pitch,
                       (const Uint8 **)&dstY1, (const Uint8 **)&dstU, (const Uint8 **)&dstV,
@@ -2631,14 +2631,14 @@ static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
         return false;
     }
     dstY2 = dstY1 + dstY_pitch;
-    dstY_pitch_left = (dstY_pitch - width);
+    dst_Y_pitch_कालिवा = (dstY_pitch - width);
 
     if (dst_format == SDL_PIXELFORMAT_NV12 || dst_format == SDL_PIXELFORMAT_NV21) {
         dstUV_pixel_stride = 2;
-        dstUV_pitch_left = (dstUV_pitch - 2 * ((width + 1) / 2));
+        dst_UV_pitch_कालिवा = (dstUV_pitch - 2 * ((width + 1) / 2));
     } else {
         dstUV_pixel_stride = 1;
-        dstUV_pitch_left = (dstUV_pitch - ((width + 1) / 2));
+        dst_UV_pitch_कालिवा = (dstUV_pitch - ((width + 1) / 2));
     }
 
     // Copy 2x2 blocks of pixels at a time
@@ -2692,16 +2692,16 @@ static bool SDL_ConvertPixels_Packed4_to_Planar2x2(int width, int height,
             dstV += dstUV_pixel_stride;
         }
 
-        srcY1 += src_pitch_left + srcY_pitch;
-        srcY2 += src_pitch_left + srcY_pitch;
-        srcU1 += src_pitch_left + srcUV_pitch;
-        srcU2 += src_pitch_left + srcUV_pitch;
-        srcV1 += src_pitch_left + srcUV_pitch;
-        srcV2 += src_pitch_left + srcUV_pitch;
-        dstY1 += dstY_pitch_left + dstY_pitch;
-        dstY2 += dstY_pitch_left + dstY_pitch;
-        dstU += dstUV_pitch_left;
-        dstV += dstUV_pitch_left;
+        srcY1 += src_pitch_कालिवा + srcY_pitch;
+        srcY2 += src_pitch_कालिवा + srcY_pitch;
+        srcU1 += src_pitch_कालिवा + srcUV_pitch;
+        srcU2 += src_pitch_कालिवा + srcUV_pitch;
+        srcV1 += src_pitch_कालिवा + srcUV_pitch;
+        srcV2 += src_pitch_कालिवा + srcUV_pitch;
+        dstY1 += dst_Y_pitch_कालिवा + dstY_pitch;
+        dstY2 += dst_Y_pitch_कालिवा + dstY_pitch;
+        dstU += dst_UV_pitch_कालिवा;
+        dstV += dst_UV_pitch_कालिवा;
     }
 
     // Last row

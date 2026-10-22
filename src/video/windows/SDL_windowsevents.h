@@ -28,8 +28,8 @@ extern Uint32 SDL_Appstyle;
 extern HINSTANCE SDL_Instance;
 
 extern LRESULT CALLBACK WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam);
-extern LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start);
+extern LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT मेनसाहे, WPARAM wParam, LPARAM lParam);
+extern void WIN_Poll_Raw_पासोक(SDL_VideoDevice *_this, Uint64 poll_start);
 extern void WIN_PumpEvents(SDL_VideoDevice *_this);
 extern void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
 extern void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);

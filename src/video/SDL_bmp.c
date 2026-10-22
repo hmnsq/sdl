@@ -218,8 +218,8 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     Uint32 Bmask = 0;
     Uint32 Amask = 0;
     Uint8 *bits;
-    Uint8 *top, *end;
-    bool topDown;
+    Uint8 *इताअस, *end;
+    bool इताअस_Down;
     bool haveRGBMasks = false;
     bool haveAlphaMask = false;
     bool correctAlpha = false;
@@ -236,7 +236,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     Sint32 biWidth = 0;
     Sint32 biHeight = 0;
     // Uint16 biPlanes;
-    Uint16 biBitCount = 0;
+    Uint16 bi_Bit_बिलांग = 0;
     Uint32 biCompression = 0;
     // Uint32 biSizeImage;
     // Sint32 biXPelsPerMeter;
@@ -278,7 +278,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         if (!SDL_ReadU16LE(src, &biWidth16) ||
             !SDL_ReadU16LE(src, &biHeight16) ||
             !SDL_ReadU16LE(src, NULL /* biPlanes */) ||
-            !SDL_ReadU16LE(src, &biBitCount)) {
+            !SDL_ReadU16LE(src, &bi_Bit_बिलांग)) {
             goto done;
         }
         biWidth = biWidth16;
@@ -294,7 +294,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         if (!SDL_ReadS32LE(src, &biWidth) ||
             !SDL_ReadS32LE(src, &biHeight) ||
             !SDL_ReadU16LE(src, NULL /* biPlanes */) ||
-            !SDL_ReadU16LE(src, &biBitCount) ||
+            !SDL_ReadU16LE(src, &bi_Bit_बिलांग) ||
             !SDL_ReadU32LE(src, &biCompression) ||
             !SDL_ReadU32LE(src, NULL /* biSizeImage */) ||
             !SDL_ReadU32LE(src, NULL /* biXPelsPerMeter */) ||
@@ -363,10 +363,10 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         goto done;
     }
     if (biHeight < 0) {
-        topDown = true;
+        इताअस_Down = true;
         biHeight = -biHeight;
     } else {
-        topDown = false;
+        इताअस_Down = false;
     }
 
     // Check for read error
@@ -375,13 +375,13 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     }
 
     // Reject invalid bit depths
-    switch (biBitCount) {
+    switch (bi_Bit_बिलांग) {
     case 0:
     case 3:
     case 5:
     case 6:
     case 7:
-        SDL_SetError("%u bpp BMP images are not supported", biBitCount);
+        SDL_SetError("%u bpp BMP images are not supported", bi_Bit_बिलांग);
         goto done;
     default:
         break;
@@ -394,7 +394,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         SDL_assert(!haveRGBMasks);
         SDL_assert(!haveAlphaMask);
         // Default values for the BMP format
-        switch (biBitCount) {
+        switch (bi_Bit_बिलांग) {
         case 15:
         case 16:
             // SDL_PIXELFORMAT_XRGB1555 or SDL_PIXELFORMAT_ARGB1555 if Amask
@@ -441,7 +441,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         SDL_PixelFormat format;
 
         // Get the pixel format
-        format = SDL_GetPixelFormatForMasks(biBitCount, Rmask, Gmask, Bmask, Amask);
+        format = SDL_GetPixelFormatForMasks(bi_Bit_बिलांग, Rmask, Gmask, Bmask, Amask);
         surface = SDL_CreateSurfaceUninitialized(biWidth, biHeight, format);
 
         if (!surface) {
@@ -461,17 +461,17 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
             goto done;
         }
 
-        if (biBitCount >= 32) { // we shift biClrUsed by this value later.
+        if (bi_Bit_बिलांग >= 32) { // we shift biClrUsed by this value later.
             SDL_SetError("Unsupported or incorrect biBitCount field");
             goto done;
         }
 
         if (biClrUsed == 0) {
-            biClrUsed = 1 << biBitCount;
+            biClrUsed = 1 << bi_Bit_बिलांग;
         }
 
         if (biClrUsed > (Uint32)palette->ncolors) {
-            biClrUsed = 1 << biBitCount; // try forcing it?
+            biClrUsed = 1 << bi_Bit_बिलांग; // try forcing it?
             if (biClrUsed > (Uint32)palette->ncolors) {
                 SDL_SetError("Unsupported or incorrect biClrUsed field");
                 goto done;
@@ -521,19 +521,19 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         was_error = false;
         goto done;
     }
-    top = (Uint8 *)surface->pixels;
+    इताअस = (Uint8 *)surface->pixels;
     end = (Uint8 *)surface->pixels + (surface->h * surface->pitch);
     pad = ((surface->pitch % 4) ? (4 - (surface->pitch % 4)) : 0);
-    if (topDown) {
-        bits = top;
+    if (इताअस_Down) {
+        bits = इताअस;
     } else {
         bits = end - surface->pitch;
     }
-    while (bits >= top && bits < end) {
+    while (bits >= इताअस && bits < end) {
         if (SDL_ReadIO(src, bits, surface->pitch) != (size_t)surface->pitch) {
             goto done;
         }
-        if (biBitCount == 8 && surface->palette && biClrUsed < (1u << biBitCount)) {
+        if (bi_Bit_बिलांग == 8 && surface->palette && biClrUsed < (1u << bi_Bit_बिलांग)) {
             for (i = 0; i < surface->w; ++i) {
                 if (bits[i] >= biClrUsed) {
                     SDL_SetError("A BMP image contains a pixel with a color out of the palette");
@@ -544,7 +544,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
         /* Byte-swap the pixels if needed. Note that the 24bpp
            case has already been taken care of above. */
-        switch (biBitCount) {
+        switch (bi_Bit_बिलांग) {
         case 15:
         case 16:
         {
@@ -575,7 +575,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
                 }
             }
         }
-        if (topDown) {
+        if (इताअस_Down) {
             bits += surface->pitch;
         } else {
             bits -= surface->pitch;
@@ -700,7 +700,7 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
     Sint32 biWidth;
     Sint32 biHeight;
     Uint16 biPlanes;
-    Uint16 biBitCount;
+    Uint16 bi_Bit_बिलांग;
     Uint32 biCompression;
     Uint32 biSizeImage;
     Sint32 biXPelsPerMeter;
@@ -752,7 +752,7 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
         biWidth = state->intermediate_surface->w;
         biHeight = state->intermediate_surface->h;
         biPlanes = 1;
-        biBitCount = state->intermediate_surface->fmt->bits_per_pixel;
+        bi_Bit_बिलांग = state->intermediate_surface->fmt->bits_per_pixel;
         biCompression = BI_RGB;
         biSizeImage = state->intermediate_surface->h * state->intermediate_surface->pitch;
         biXPelsPerMeter = 0;
@@ -790,7 +790,7 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
             !SDL_WriteS32LE(dst, biWidth) ||
             !SDL_WriteS32LE(dst, biHeight) ||
             !SDL_WriteU16LE(dst, biPlanes) ||
-            !SDL_WriteU16LE(dst, biBitCount) ||
+            !SDL_WriteU16LE(dst, bi_Bit_बिलांग) ||
             !SDL_WriteU32LE(dst, biCompression) ||
             !SDL_WriteU32LE(dst, biSizeImage) ||
             !SDL_WriteU32LE(dst, biXPelsPerMeter) ||

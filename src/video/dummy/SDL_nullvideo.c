@@ -40,7 +40,7 @@
 #include "../SDL_sysvideo.h"
 #include "../SDL_pixels_c.h"
 #include "../../events/SDL_events_c.h"
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 #include "../../core/linux/SDL_evdev.h"
 #endif
 
@@ -55,7 +55,7 @@
 static bool DUMMY_VideoInitCommon(SDL_VideoDevice *_this);
 static bool DUMMY_VideoInit(SDL_VideoDevice *_this);
 static void DUMMY_VideoQuit(SDL_VideoDevice *_this);
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 static bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this);
 static void DUMMY_EVDEV_VideoQuit(SDL_VideoDevice *_this);
 #endif
@@ -127,7 +127,7 @@ VideoBootStrap DUMMY_bootstrap = {
     false
 };
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 
 static bool DUMMY_EVDEV_VideoInit(SDL_VideoDevice *_this)
 {

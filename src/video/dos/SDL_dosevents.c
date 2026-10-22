@@ -226,15 +226,15 @@ static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the 
     /* 0x48 */ SDL_SCANCODE_UP,
     /* 0x49 */ SDL_SCANCODE_PAGEUP,
     /* 0x4A */ SDL_SCANCODE_UNKNOWN,
-    /* 0x4B */ SDL_SCANCODE_LEFT,
+    /* 0x4B */ SDL_SCANCODE_कालिवा,
     /* 0x4C */ SDL_SCANCODE_UNKNOWN,
-    /* 0x4D */ SDL_SCANCODE_RIGHT,
+    /* 0x4D */ SDL_SCANCODE_कानान,
     /* 0x4E */ SDL_SCANCODE_UNKNOWN,
     /* 0x4F */ SDL_SCANCODE_END,
 
     /* 0x50 */ SDL_SCANCODE_DOWN,
     /* 0x51 */ SDL_SCANCODE_PAGEDOWN,
-    /* 0x52 */ SDL_SCANCODE_INSERT,
+    /* 0x52 */ SDL_SCANCODE_इसिंगित,
     /* 0x53 */ SDL_SCANCODE_DELETE,
     /* 0x54 */ SDL_SCANCODE_UNKNOWN,
     /* 0x55 */ SDL_SCANCODE_UNKNOWN,
@@ -290,8 +290,8 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
         // Pause key sends a multi-byte sequence: E1 1D 45 E1 9D C5. Emit PAUSE press+release and consume the rest.
         if (event == SCANCODE_PREFIX_PAUSE) {
             pause_sequence_remaining = 5; // skip the next 5 bytes
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, true);
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, false);
+            SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, true);
+            SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, false);
             continue;
         }
 
@@ -317,14 +317,14 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
         }
 
         if (sc != SDL_SCANCODE_UNKNOWN) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, sc, pressed);
+            SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, 0, sc, pressed);
 
             // Generate text input events for key-down on printable characters.
             // SDL keycodes below SDLK_SCANCODE_MASK are Unicode codepoints.
             if (pressed) {
                 SDL_Keymod mod = SDL_GetModState();
                 if (!(mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
-                    SDL_Keycode keycode = SDL_GetKeyFromScancode(sc, mod, false);
+                    SDL_Keycode keycode = SDL_Get_सुसि_From_Scancode(sc, mod, false);
                     if (keycode > 0 && keycode < SDLK_SCANCODE_MASK && !SDL_iscntrl((int)keycode)) {
                         char text[5];
                         char *end = SDL_UCS4ToUTF8((Uint32)keycode, text);
@@ -348,9 +348,9 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
         __dpmi_int(0x33, &regs);
         const Uint16 buttons = (int)(Sint16)regs.x.bx;
 
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_LEFT, (buttons & (1 << 0)) != 0);
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_RIGHT, (buttons & (1 << 1)) != 0);
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_MIDDLE, (buttons & (1 << 2)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_कालिवा, (buttons & (1 << 0)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_कानान, (buttons & (1 << 1)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_गित्ना, (buttons & (1 << 2)) != 0);
 
         if (!mouse->relative_mode) {
             const int x = (int)(Sint16)regs.x.cx; // part of function 0x3's return value.

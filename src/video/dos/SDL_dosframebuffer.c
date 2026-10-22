@@ -145,7 +145,7 @@ static SDL_Surface *GetConvertedCursorSurface(SDL_CursorData *curdata, SDL_Surfa
         }
     }
 
-    SDL_SetSurfaceColorKey(conv, true, colorkey);
+    SDL_Set_Surface_Color_सुसि(conv, true, colorkey);
     SDL_SetSurfaceBlendMode(conv, SDL_BLENDMODE_NONE);
 
     curdata->converted_surface = conv;

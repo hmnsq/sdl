@@ -30,7 +30,7 @@
 
 // We still support OpenGL as long as Apple offers it, deprecated or not, so disable deprecation warnings about it.
 #ifdef __clang__
-#pragma clang diagnostic push
+#pragma clang diagnostic इतुलाक
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
 
@@ -80,7 +80,7 @@ extern bool Cocoa_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
 #ifdef __clang__
-#pragma clang diagnostic pop
+#pragma clang diagnostic आलिसिन
 #endif
 
 #endif // SDL_VIDEO_OPENGL_CGL

@@ -66,9 +66,9 @@ typedef khronos_uint8_t GLubyte;
 #define GL_FALSE                          0
 #define GL_TRUE                           1
 #define GL_POINTS                         0x0000
-#define GL_LINES                          0x0001
-#define GL_LINE_LOOP                      0x0002
-#define GL_LINE_STRIP                     0x0003
+#define GL_मगा_लिन्या                          0x0001
+#define GL_लिन्या_LOOP                      0x0002
+#define GL_लिन्या_STRIP                     0x0003
 #define GL_TRIANGLES                      0x0004
 #define GL_TRIANGLE_STRIP                 0x0005
 #define GL_TRIANGLE_FAN                   0x0006
@@ -123,38 +123,38 @@ typedef khronos_uint8_t GLubyte;
 #define GL_SAMPLE_COVERAGE                0x80A0
 #define GL_NO_ERROR                       0
 #define GL_INVALID_ENUM                   0x0500
-#define GL_INVALID_VALUE                  0x0501
+#define GL_INVALID_हालागा                  0x0501
 #define GL_INVALID_OPERATION              0x0502
 #define GL_OUT_OF_MEMORY                  0x0505
 #define GL_CW                             0x0900
 #define GL_CCW                            0x0901
-#define GL_LINE_WIDTH                     0x0B21
+#define GL_लिन्या_WIDTH                     0x0B21
 #define GL_ALIASED_POINT_SIZE_RANGE       0x846D
-#define GL_ALIASED_LINE_WIDTH_RANGE       0x846E
+#define GL_ALIASED_लिन्या_WIDTH_RANGE       0x846E
 #define GL_CULL_FACE_MODE                 0x0B45
 #define GL_FRONT_FACE                     0x0B46
 #define GL_DEPTH_RANGE                    0x0B70
 #define GL_DEPTH_WRITEMASK                0x0B72
-#define GL_DEPTH_CLEAR_VALUE              0x0B73
+#define GL_DEPTH_CLEAR_हालागा              0x0B73
 #define GL_DEPTH_FUNC                     0x0B74
-#define GL_STENCIL_CLEAR_VALUE            0x0B91
+#define GL_STENCIL_CLEAR_हालागा            0x0B91
 #define GL_STENCIL_FUNC                   0x0B92
 #define GL_STENCIL_FAIL                   0x0B94
 #define GL_STENCIL_PASS_DEPTH_FAIL        0x0B95
 #define GL_STENCIL_PASS_DEPTH_PASS        0x0B96
 #define GL_STENCIL_REF                    0x0B97
-#define GL_STENCIL_VALUE_MASK             0x0B93
+#define GL_STENCIL_हालागा_MASK             0x0B93
 #define GL_STENCIL_WRITEMASK              0x0B98
 #define GL_STENCIL_BACK_FUNC              0x8800
 #define GL_STENCIL_BACK_FAIL              0x8801
 #define GL_STENCIL_BACK_PASS_DEPTH_FAIL   0x8802
 #define GL_STENCIL_BACK_PASS_DEPTH_PASS   0x8803
 #define GL_STENCIL_BACK_REF               0x8CA3
-#define GL_STENCIL_BACK_VALUE_MASK        0x8CA4
+#define GL_STENCIL_BACK_हालागा_MASK        0x8CA4
 #define GL_STENCIL_BACK_WRITEMASK         0x8CA5
 #define GL_VIEWPORT                       0x0BA2
 #define GL_SCISSOR_BOX                    0x0C10
-#define GL_COLOR_CLEAR_VALUE              0x0C22
+#define GL_COLOR_CLEAR_हालागा              0x0C22
 #define GL_COLOR_WRITEMASK                0x0C23
 #define GL_UNPACK_ALIGNMENT               0x0CF5
 #define GL_PACK_ALIGNMENT                 0x0D05
@@ -172,9 +172,9 @@ typedef khronos_uint8_t GLubyte;
 #define GL_TEXTURE_BINDING_2D             0x8069
 #define GL_SAMPLE_BUFFERS                 0x80A8
 #define GL_SAMPLES                        0x80A9
-#define GL_SAMPLE_COVERAGE_VALUE          0x80AA
+#define GL_SAMPLE_COVERAGE_हालागा          0x80AA
 #define GL_SAMPLE_COVERAGE_INVERT         0x80AB
-#define GL_NUM_COMPRESSED_TEXTURE_FORMATS 0x86A2
+#define GL_नुमेरो_COMPRESSED_TEXTURE_FORMATS 0x86A2
 #define GL_COMPRESSED_TEXTURE_FORMATS     0x86A3
 #define GL_DONT_CARE                      0x1100
 #define GL_FASTEST                        0x1101
@@ -320,14 +320,14 @@ typedef khronos_uint8_t GLubyte;
 #define GL_INFO_LOG_LENGTH                0x8B84
 #define GL_SHADER_SOURCE_LENGTH           0x8B88
 #define GL_SHADER_COMPILER                0x8DFA
-#define GL_SHADER_BINARY_FORMATS          0x8DF8
-#define GL_NUM_SHADER_BINARY_FORMATS      0x8DF9
-#define GL_LOW_FLOAT                      0x8DF0
+#define GL_SHADER_दालावाहान_FORMATS          0x8DF8
+#define GL_नुमेरो_SHADER_दालावाहान_FORMATS      0x8DF9
+#define GL_माबाबा_FLOAT                      0x8DF0
 #define GL_MEDIUM_FLOAT                   0x8DF1
-#define GL_HIGH_FLOAT                     0x8DF2
-#define GL_LOW_INT                        0x8DF3
+#define GL_माताअस_FLOAT                     0x8DF2
+#define GL_माबाबा_INT                        0x8DF3
 #define GL_MEDIUM_INT                     0x8DF4
-#define GL_HIGH_INT                       0x8DF5
+#define GL_माताअस_INT                       0x8DF5
 #define GL_FRAMEBUFFER                    0x8D40
 #define GL_RENDERBUFFER                   0x8D41
 #define GL_RGBA4                          0x8056
@@ -401,8 +401,8 @@ typedef void (GL_APIENTRYP PFNGLDEPTHRANGEFPROC) (GLfloat n, GLfloat f);
 typedef void (GL_APIENTRYP PFNGLDETACHSHADERPROC) (GLuint program, GLuint shader);
 typedef void (GL_APIENTRYP PFNGLDISABLEPROC) (GLenum cap);
 typedef void (GL_APIENTRYP PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLuint index);
-typedef void (GL_APIENTRYP PFNGLDRAWARRAYSPROC) (GLenum mode, GLint first, GLsizei count);
-typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSPROC) (GLenum mode, GLsizei count, GLenum type, const void *indices);
+typedef void (GL_APIENTRYP PFNGLDRAWARRAYSPROC) (GLenum mode, GLint first, GLsizei बिलांग);
+typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSPROC) (GLenum mode, GLsizei बिलांग, GLenum type, const void *indices);
 typedef void (GL_APIENTRYP PFNGLENABLEPROC) (GLenum cap);
 typedef void (GL_APIENTRYP PFNGLENABLEVERTEXATTRIBARRAYPROC) (GLuint index);
 typedef void (GL_APIENTRYP PFNGLFINISHPROC) (void);
@@ -417,7 +417,7 @@ typedef void (GL_APIENTRYP PFNGLGENRENDERBUFFERSPROC) (GLsizei n, GLuint *render
 typedef void (GL_APIENTRYP PFNGLGENTEXTURESPROC) (GLsizei n, GLuint *textures);
 typedef void (GL_APIENTRYP PFNGLGETACTIVEATTRIBPROC) (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
 typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMPROC) (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETATTACHEDSHADERSPROC) (GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders);
+typedef void (GL_APIENTRYP PFNGLGETATTACHEDSHADERSPROC) (GLuint program, GLsizei max_बिलांग, GLsizei *बिलांग, GLuint *shaders);
 typedef GLint (GL_APIENTRYP PFNGLGETATTRIBLOCATIONPROC) (GLuint program, const GLchar *name);
 typedef void (GL_APIENTRYP PFNGLGETBOOLEANVPROC) (GLenum pname, GLboolean *data);
 typedef void (GL_APIENTRYP PFNGLGETBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint *params);
@@ -456,10 +456,10 @@ typedef void (GL_APIENTRYP PFNGLPOLYGONOFFSETPROC) (GLfloat factor, GLfloat unit
 typedef void (GL_APIENTRYP PFNGLREADPIXELSPROC) (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void *pixels);
 typedef void (GL_APIENTRYP PFNGLRELEASESHADERCOMPILERPROC) (void);
 typedef void (GL_APIENTRYP PFNGLRENDERBUFFERSTORAGEPROC) (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLSAMPLECOVERAGEPROC) (GLfloat value, GLboolean invert);
+typedef void (GL_APIENTRYP PFNGLSAMPLECOVERAGEPROC) (GLfloat हालागा, GLboolean invert);
 typedef void (GL_APIENTRYP PFNGLSCISSORPROC) (GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLSHADERBINARYPROC) (GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
-typedef void (GL_APIENTRYP PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei count, const GLchar *const*string, const GLint *length);
+typedef void (GL_APIENTRYP PFNGLSHADERBINARYPROC) (GLsizei बिलांग, const GLuint *shaders, GLenum दालावाहान_Format, const void *दालावाहान, GLsizei length);
+typedef void (GL_APIENTRYP PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei बिलांग, const GLchar *const*string, const GLint *length);
 typedef void (GL_APIENTRYP PFNGLSTENCILFUNCPROC) (GLenum func, GLint ref, GLuint mask);
 typedef void (GL_APIENTRYP PFNGLSTENCILFUNCSEPARATEPROC) (GLenum face, GLenum func, GLint ref, GLuint mask);
 typedef void (GL_APIENTRYP PFNGLSTENCILMASKPROC) (GLuint mask);
@@ -473,24 +473,24 @@ typedef void (GL_APIENTRYP PFNGLTEXPARAMETERIPROC) (GLenum target, GLenum pname,
 typedef void (GL_APIENTRYP PFNGLTEXPARAMETERIVPROC) (GLenum target, GLenum pname, const GLint *params);
 typedef void (GL_APIENTRYP PFNGLTEXSUBIMAGE2DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels);
 typedef void (GL_APIENTRYP PFNGLUNIFORM1FPROC) (GLint location, GLfloat v0);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1FVPROC) (GLint location, GLsizei count, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM1FVPROC) (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLUNIFORM1IPROC) (GLint location, GLint v0);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1IVPROC) (GLint location, GLsizei count, const GLint *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM1IVPROC) (GLint location, GLsizei बिलांग, const GLint *हालागा);
 typedef void (GL_APIENTRYP PFNGLUNIFORM2FPROC) (GLint location, GLfloat v0, GLfloat v1);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2FVPROC) (GLint location, GLsizei count, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM2FVPROC) (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLUNIFORM2IPROC) (GLint location, GLint v0, GLint v1);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2IVPROC) (GLint location, GLsizei count, const GLint *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM2IVPROC) (GLint location, GLsizei बिलांग, const GLint *हालागा);
 typedef void (GL_APIENTRYP PFNGLUNIFORM3FPROC) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3FVPROC) (GLint location, GLsizei count, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM3FVPROC) (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLUNIFORM3IPROC) (GLint location, GLint v0, GLint v1, GLint v2);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3IVPROC) (GLint location, GLsizei count, const GLint *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM3IVPROC) (GLint location, GLsizei बिलांग, const GLint *हालागा);
 typedef void (GL_APIENTRYP PFNGLUNIFORM4FPROC) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4FVPROC) (GLint location, GLsizei count, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM4FVPROC) (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLUNIFORM4IPROC) (GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4IVPROC) (GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM4IVPROC) (GLint location, GLsizei बिलांग, const GLint *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLUSEPROGRAMPROC) (GLuint program);
 typedef void (GL_APIENTRYP PFNGLVALIDATEPROGRAMPROC) (GLuint program);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB1FPROC) (GLuint index, GLfloat x);
@@ -544,8 +544,8 @@ GL_APICALL void GL_APIENTRY glDepthRangef (GLfloat n, GLfloat f);
 GL_APICALL void GL_APIENTRY glDetachShader (GLuint program, GLuint shader);
 GL_APICALL void GL_APIENTRY glDisable (GLenum cap);
 GL_APICALL void GL_APIENTRY glDisableVertexAttribArray (GLuint index);
-GL_APICALL void GL_APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei count);
-GL_APICALL void GL_APIENTRY glDrawElements (GLenum mode, GLsizei count, GLenum type, const void *indices);
+GL_APICALL void GL_APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei बिलांग);
+GL_APICALL void GL_APIENTRY glDrawElements (GLenum mode, GLsizei बिलांग, GLenum type, const void *indices);
 GL_APICALL void GL_APIENTRY glEnable (GLenum cap);
 GL_APICALL void GL_APIENTRY glEnableVertexAttribArray (GLuint index);
 GL_APICALL void GL_APIENTRY glFinish (void);
@@ -560,7 +560,7 @@ GL_APICALL void GL_APIENTRY glGenRenderbuffers (GLsizei n, GLuint *renderbuffers
 GL_APICALL void GL_APIENTRY glGenTextures (GLsizei n, GLuint *textures);
 GL_APICALL void GL_APIENTRY glGetActiveAttrib (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
 GL_APICALL void GL_APIENTRY glGetActiveUniform (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
-GL_APICALL void GL_APIENTRY glGetAttachedShaders (GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders);
+GL_APICALL void GL_APIENTRY glGetAttachedShaders (GLuint program, GLsizei max_बिलांग, GLsizei *बिलांग, GLuint *shaders);
 GL_APICALL GLint GL_APIENTRY glGetAttribLocation (GLuint program, const GLchar *name);
 GL_APICALL void GL_APIENTRY glGetBooleanv (GLenum pname, GLboolean *data);
 GL_APICALL void GL_APIENTRY glGetBufferParameteriv (GLenum target, GLenum pname, GLint *params);
@@ -592,17 +592,17 @@ GL_APICALL GLboolean GL_APIENTRY glIsProgram (GLuint program);
 GL_APICALL GLboolean GL_APIENTRY glIsRenderbuffer (GLuint renderbuffer);
 GL_APICALL GLboolean GL_APIENTRY glIsShader (GLuint shader);
 GL_APICALL GLboolean GL_APIENTRY glIsTexture (GLuint texture);
-GL_APICALL void GL_APIENTRY glLineWidth (GLfloat width);
+GL_APICALL void GL_APIENTRY gl_लिन्या_Width (GLfloat width);
 GL_APICALL void GL_APIENTRY glLinkProgram (GLuint program);
 GL_APICALL void GL_APIENTRY glPixelStorei (GLenum pname, GLint param);
 GL_APICALL void GL_APIENTRY glPolygonOffset (GLfloat factor, GLfloat units);
 GL_APICALL void GL_APIENTRY glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void *pixels);
 GL_APICALL void GL_APIENTRY glReleaseShaderCompiler (void);
 GL_APICALL void GL_APIENTRY glRenderbufferStorage (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glSampleCoverage (GLfloat value, GLboolean invert);
+GL_APICALL void GL_APIENTRY glSampleCoverage (GLfloat हालागा, GLboolean invert);
 GL_APICALL void GL_APIENTRY glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glShaderBinary (GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
-GL_APICALL void GL_APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar *const*string, const GLint *length);
+GL_APICALL void GL_APIENTRY gl_Shader_दालावाहान (GLsizei बिलांग, const GLuint *shaders, GLenum दालावाहान_Format, const void *दालावाहान, GLsizei length);
+GL_APICALL void GL_APIENTRY glShaderSource (GLuint shader, GLsizei बिलांग, const GLchar *const*string, const GLint *length);
 GL_APICALL void GL_APIENTRY glStencilFunc (GLenum func, GLint ref, GLuint mask);
 GL_APICALL void GL_APIENTRY glStencilFuncSeparate (GLenum face, GLenum func, GLint ref, GLuint mask);
 GL_APICALL void GL_APIENTRY glStencilMask (GLuint mask);
@@ -616,24 +616,24 @@ GL_APICALL void GL_APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint 
 GL_APICALL void GL_APIENTRY glTexParameteriv (GLenum target, GLenum pname, const GLint *params);
 GL_APICALL void GL_APIENTRY glTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels);
 GL_APICALL void GL_APIENTRY glUniform1f (GLint location, GLfloat v0);
-GL_APICALL void GL_APIENTRY glUniform1fv (GLint location, GLsizei count, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glUniform1fv (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glUniform1i (GLint location, GLint v0);
-GL_APICALL void GL_APIENTRY glUniform1iv (GLint location, GLsizei count, const GLint *value);
+GL_APICALL void GL_APIENTRY glUniform1iv (GLint location, GLsizei बिलांग, const GLint *हालागा);
 GL_APICALL void GL_APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1);
-GL_APICALL void GL_APIENTRY glUniform2fv (GLint location, GLsizei count, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glUniform2fv (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glUniform2i (GLint location, GLint v0, GLint v1);
-GL_APICALL void GL_APIENTRY glUniform2iv (GLint location, GLsizei count, const GLint *value);
+GL_APICALL void GL_APIENTRY glUniform2iv (GLint location, GLsizei बिलांग, const GLint *हालागा);
 GL_APICALL void GL_APIENTRY glUniform3f (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-GL_APICALL void GL_APIENTRY glUniform3fv (GLint location, GLsizei count, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glUniform3fv (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glUniform3i (GLint location, GLint v0, GLint v1, GLint v2);
-GL_APICALL void GL_APIENTRY glUniform3iv (GLint location, GLsizei count, const GLint *value);
+GL_APICALL void GL_APIENTRY glUniform3iv (GLint location, GLsizei बिलांग, const GLint *हालागा);
 GL_APICALL void GL_APIENTRY glUniform4f (GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-GL_APICALL void GL_APIENTRY glUniform4fv (GLint location, GLsizei count, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glUniform4fv (GLint location, GLsizei बिलांग, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glUniform4i (GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-GL_APICALL void GL_APIENTRY glUniform4iv (GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glUniform4iv (GLint location, GLsizei बिलांग, const GLint *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix2fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix3fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix4fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glUseProgram (GLuint program);
 GL_APICALL void GL_APIENTRY glValidateProgram (GLuint program);
 GL_APICALL void GL_APIENTRY glVertexAttrib1f (GLuint index, GLfloat x);
@@ -734,7 +734,7 @@ typedef khronos_uint16_t GLhalf;
 #define GL_COMPARE_REF_TO_TEXTURE         0x884E
 #define GL_MAJOR_VERSION                  0x821B
 #define GL_MINOR_VERSION                  0x821C
-#define GL_NUM_EXTENSIONS                 0x821D
+#define GL_नुमेरो_EXTENSIONS                 0x821D
 #define GL_RGBA32F                        0x8814
 #define GL_RGB32F                         0x8815
 #define GL_RGBA16F                        0x881A
@@ -923,7 +923,7 @@ typedef khronos_uint16_t GLhalf;
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER 0x8A46
 #define GL_INVALID_INDEX                  0xFFFFFFFFu
 #define GL_MAX_VERTEX_OUTPUT_COMPONENTS   0x9122
-#define GL_MAX_FRAGMENT_INPUT_COMPONENTS  0x9125
+#define GL_MAX_FRAGMENT_पासोक_COMPONENTS  0x9125
 #define GL_MAX_SERVER_WAIT_TIMEOUT        0x9111
 #define GL_OBJECT_TYPE                    0x9112
 #define GL_SYNC_CONDITION                 0x9113
@@ -939,7 +939,7 @@ typedef khronos_uint16_t GLhalf;
 #define GL_WAIT_FAILED                    0x911D
 #define GL_SYNC_FLUSH_COMMANDS_BIT        0x00000001
 #define GL_TIMEOUT_IGNORED                0xFFFFFFFFFFFFFFFFull
-#define GL_VERTEX_ATTRIB_ARRAY_DIVISOR    0x88FE
+#define GL_VERTEX_ATTRIB_ARRAY_पांगहाति    0x88FE
 #define GL_ANY_SAMPLES_PASSED             0x8C2F
 #define GL_ANY_SAMPLES_PASSED_CONSERVATIVE 0x8D6A
 #define GL_SAMPLER_BINDING                0x8919
@@ -955,10 +955,10 @@ typedef khronos_uint16_t GLhalf;
 #define GL_TRANSFORM_FEEDBACK_PAUSED      0x8E23
 #define GL_TRANSFORM_FEEDBACK_ACTIVE      0x8E24
 #define GL_TRANSFORM_FEEDBACK_BINDING     0x8E25
-#define GL_PROGRAM_BINARY_RETRIEVABLE_HINT 0x8257
-#define GL_PROGRAM_BINARY_LENGTH          0x8741
-#define GL_NUM_PROGRAM_BINARY_FORMATS     0x87FE
-#define GL_PROGRAM_BINARY_FORMATS         0x87FF
+#define GL_PROGRAM_दालावाहान_RETRIEVABLE_HINT 0x8257
+#define GL_PROGRAM_दालावाहान_LENGTH          0x8741
+#define GL_नुमेरो_PROGRAM_दालावाहान_FORMATS     0x87FE
+#define GL_PROGRAM_दालावाहान_FORMATS         0x87FF
 #define GL_COMPRESSED_R11_EAC             0x9270
 #define GL_COMPRESSED_SIGNED_R11_EAC      0x9271
 #define GL_COMPRESSED_RG11_EAC            0x9272
@@ -971,10 +971,10 @@ typedef khronos_uint16_t GLhalf;
 #define GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC 0x9279
 #define GL_TEXTURE_IMMUTABLE_FORMAT       0x912F
 #define GL_MAX_ELEMENT_INDEX              0x8D6B
-#define GL_NUM_SAMPLE_COUNTS              0x9380
+#define GL_नुमेरो_SAMPLE_COUNTS              0x9380
 #define GL_TEXTURE_IMMUTABLE_LEVELS       0x82DF
 typedef void (GL_APIENTRYP PFNGLREADBUFFERPROC) (GLenum src);
-typedef void (GL_APIENTRYP PFNGLDRAWRANGEELEMENTSPROC) (GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices);
+typedef void (GL_APIENTRYP PFNGLDRAWRANGEELEMENTSPROC) (GLenum mode, GLuint start, GLuint end, GLsizei बिलांग, GLenum type, const void *indices);
 typedef void (GL_APIENTRYP PFNGLTEXIMAGE3DPROC) (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const void *pixels);
 typedef void (GL_APIENTRYP PFNGLTEXSUBIMAGE3DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void *pixels);
 typedef void (GL_APIENTRYP PFNGLCOPYTEXSUBIMAGE3DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
@@ -990,12 +990,12 @@ typedef void (GL_APIENTRYP PFNGLGETQUERYOBJECTUIVPROC) (GLuint id, GLenum pname,
 typedef GLboolean (GL_APIENTRYP PFNGLUNMAPBUFFERPROC) (GLenum target);
 typedef void (GL_APIENTRYP PFNGLGETBUFFERPOINTERVPROC) (GLenum target, GLenum pname, void **params);
 typedef void (GL_APIENTRYP PFNGLDRAWBUFFERSPROC) (GLsizei n, const GLenum *bufs);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2X3FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3X2FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2X4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4X2FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3X4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4X3FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2X3FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3X2FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2X4FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4X2FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3X4FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4X3FVPROC) (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLBLITFRAMEBUFFERPROC) (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
 typedef void (GL_APIENTRYP PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
 typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURELAYERPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
@@ -1010,7 +1010,7 @@ typedef void (GL_APIENTRYP PFNGLBEGINTRANSFORMFEEDBACKPROC) (GLenum primitiveMod
 typedef void (GL_APIENTRYP PFNGLENDTRANSFORMFEEDBACKPROC) (void);
 typedef void (GL_APIENTRYP PFNGLBINDBUFFERRANGEPROC) (GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
 typedef void (GL_APIENTRYP PFNGLBINDBUFFERBASEPROC) (GLenum target, GLuint index, GLuint buffer);
-typedef void (GL_APIENTRYP PFNGLTRANSFORMFEEDBACKVARYINGSPROC) (GLuint program, GLsizei count, const GLchar *const*varyings, GLenum bufferMode);
+typedef void (GL_APIENTRYP PFNGLTRANSFORMFEEDBACKVARYINGSPROC) (GLuint program, GLsizei बिलांग, const GLchar *const*varyings, GLenum bufferMode);
 typedef void (GL_APIENTRYP PFNGLGETTRANSFORMFEEDBACKVARYINGPROC) (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, GLchar *name);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBIPOINTERPROC) (GLuint index, GLint size, GLenum type, GLsizei stride, const void *pointer);
 typedef void (GL_APIENTRYP PFNGLGETVERTEXATTRIBIIVPROC) (GLuint index, GLenum pname, GLint *params);
@@ -1025,35 +1025,35 @@ typedef void (GL_APIENTRYP PFNGLUNIFORM1UIPROC) (GLint location, GLuint v0);
 typedef void (GL_APIENTRYP PFNGLUNIFORM2UIPROC) (GLint location, GLuint v0, GLuint v1);
 typedef void (GL_APIENTRYP PFNGLUNIFORM3UIPROC) (GLint location, GLuint v0, GLuint v1, GLuint v2);
 typedef void (GL_APIENTRYP PFNGLUNIFORM4UIPROC) (GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLCLEARBUFFERIVPROC) (GLenum buffer, GLint drawbuffer, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLCLEARBUFFERUIVPROC) (GLenum buffer, GLint drawbuffer, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLCLEARBUFFERFVPROC) (GLenum buffer, GLint drawbuffer, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLUNIFORM1UIVPROC) (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORM2UIVPROC) (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORM3UIVPROC) (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLUNIFORM4UIVPROC) (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLCLEARBUFFERIVPROC) (GLenum buffer, GLint drawbuffer, const GLint *हालागा);
+typedef void (GL_APIENTRYP PFNGLCLEARBUFFERUIVPROC) (GLenum buffer, GLint drawbuffer, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLCLEARBUFFERFVPROC) (GLenum buffer, GLint drawbuffer, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLCLEARBUFFERFIPROC) (GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
 typedef const GLubyte *(GL_APIENTRYP PFNGLGETSTRINGIPROC) (GLenum name, GLuint index);
 typedef void (GL_APIENTRYP PFNGLCOPYBUFFERSUBDATAPROC) (GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-typedef void (GL_APIENTRYP PFNGLGETUNIFORMINDICESPROC) (GLuint program, GLsizei uniformCount, const GLchar *const*uniformNames, GLuint *uniformIndices);
-typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMSIVPROC) (GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params);
+typedef void (GL_APIENTRYP PFNGLGETUNIFORMINDICESPROC) (GLuint program, GLsizei uniform_बिलांग, const GLchar *const*uniformNames, GLuint *uniformIndices);
+typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMSIVPROC) (GLuint program, GLsizei uniform_बिलांग, const GLuint *uniformIndices, GLenum pname, GLint *params);
 typedef GLuint (GL_APIENTRYP PFNGLGETUNIFORMBLOCKINDEXPROC) (GLuint program, const GLchar *uniformBlockName);
 typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKIVPROC) (GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint *params);
 typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC) (GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformBlockName);
 typedef void (GL_APIENTRYP PFNGLUNIFORMBLOCKBINDINGPROC) (GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
-typedef void (GL_APIENTRYP PFNGLDRAWARRAYSINSTANCEDPROC) (GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
-typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSINSTANCEDPROC) (GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei instancecount);
+typedef void (GL_APIENTRYP PFNGLDRAWARRAYSINSTANCEDPROC) (GLenum mode, GLint first, GLsizei बिलांग, GLsizei instancecount);
+typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSINSTANCEDPROC) (GLenum mode, GLsizei बिलांग, GLenum type, const void *indices, GLsizei instancecount);
 typedef GLsync (GL_APIENTRYP PFNGLFENCESYNCPROC) (GLenum condition, GLbitfield flags);
 typedef GLboolean (GL_APIENTRYP PFNGLISSYNCPROC) (GLsync sync);
 typedef void (GL_APIENTRYP PFNGLDELETESYNCPROC) (GLsync sync);
 typedef GLenum (GL_APIENTRYP PFNGLCLIENTWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
 typedef void (GL_APIENTRYP PFNGLWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
 typedef void (GL_APIENTRYP PFNGLGETINTEGER64VPROC) (GLenum pname, GLint64 *data);
-typedef void (GL_APIENTRYP PFNGLGETSYNCIVPROC) (GLsync sync, GLenum pname, GLsizei count, GLsizei *length, GLint *values);
+typedef void (GL_APIENTRYP PFNGLGETSYNCIVPROC) (GLsync sync, GLenum pname, GLsizei बिलांग, GLsizei *length, GLint *मगा_हालागा);
 typedef void (GL_APIENTRYP PFNGLGETINTEGER64I_VPROC) (GLenum target, GLuint index, GLint64 *data);
 typedef void (GL_APIENTRYP PFNGLGETBUFFERPARAMETERI64VPROC) (GLenum target, GLenum pname, GLint64 *params);
-typedef void (GL_APIENTRYP PFNGLGENSAMPLERSPROC) (GLsizei count, GLuint *samplers);
-typedef void (GL_APIENTRYP PFNGLDELETESAMPLERSPROC) (GLsizei count, const GLuint *samplers);
+typedef void (GL_APIENTRYP PFNGLGENSAMPLERSPROC) (GLsizei बिलांग, GLuint *samplers);
+typedef void (GL_APIENTRYP PFNGLDELETESAMPLERSPROC) (GLsizei बिलांग, const GLuint *samplers);
 typedef GLboolean (GL_APIENTRYP PFNGLISSAMPLERPROC) (GLuint sampler);
 typedef void (GL_APIENTRYP PFNGLBINDSAMPLERPROC) (GLuint unit, GLuint sampler);
 typedef void (GL_APIENTRYP PFNGLSAMPLERPARAMETERIPROC) (GLuint sampler, GLenum pname, GLint param);
@@ -1062,24 +1062,24 @@ typedef void (GL_APIENTRYP PFNGLSAMPLERPARAMETERFPROC) (GLuint sampler, GLenum p
 typedef void (GL_APIENTRYP PFNGLSAMPLERPARAMETERFVPROC) (GLuint sampler, GLenum pname, const GLfloat *param);
 typedef void (GL_APIENTRYP PFNGLGETSAMPLERPARAMETERIVPROC) (GLuint sampler, GLenum pname, GLint *params);
 typedef void (GL_APIENTRYP PFNGLGETSAMPLERPARAMETERFVPROC) (GLuint sampler, GLenum pname, GLfloat *params);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBDIVISORPROC) (GLuint index, GLuint divisor);
+typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBDIVISORPROC) (GLuint index, GLuint पांगहाति);
 typedef void (GL_APIENTRYP PFNGLBINDTRANSFORMFEEDBACKPROC) (GLenum target, GLuint id);
 typedef void (GL_APIENTRYP PFNGLDELETETRANSFORMFEEDBACKSPROC) (GLsizei n, const GLuint *ids);
 typedef void (GL_APIENTRYP PFNGLGENTRANSFORMFEEDBACKSPROC) (GLsizei n, GLuint *ids);
 typedef GLboolean (GL_APIENTRYP PFNGLISTRANSFORMFEEDBACKPROC) (GLuint id);
 typedef void (GL_APIENTRYP PFNGLPAUSETRANSFORMFEEDBACKPROC) (void);
 typedef void (GL_APIENTRYP PFNGLRESUMETRANSFORMFEEDBACKPROC) (void);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMBINARYPROC) (GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary);
-typedef void (GL_APIENTRYP PFNGLPROGRAMBINARYPROC) (GLuint program, GLenum binaryFormat, const void *binary, GLsizei length);
-typedef void (GL_APIENTRYP PFNGLPROGRAMPARAMETERIPROC) (GLuint program, GLenum pname, GLint value);
-typedef void (GL_APIENTRYP PFNGLINVALIDATEFRAMEBUFFERPROC) (GLenum target, GLsizei numAttachments, const GLenum *attachments);
-typedef void (GL_APIENTRYP PFNGLINVALIDATESUBFRAMEBUFFERPROC) (GLenum target, GLsizei numAttachments, const GLenum *attachments, GLint x, GLint y, GLsizei width, GLsizei height);
+typedef void (GL_APIENTRYP PFNGLGETPROGRAMBINARYPROC) (GLuint program, GLsizei bufSize, GLsizei *length, GLenum *दालावाहान_Format, void *दालावाहान);
+typedef void (GL_APIENTRYP PFNGLPROGRAMBINARYPROC) (GLuint program, GLenum दालावाहान_Format, const void *दालावाहान, GLsizei length);
+typedef void (GL_APIENTRYP PFNGLPROGRAMPARAMETERIPROC) (GLuint program, GLenum pname, GLint हालागा);
+typedef void (GL_APIENTRYP PFNGLINVALIDATEFRAMEBUFFERPROC) (GLenum target, GLsizei नुमेरो_Attachments, const GLenum *attachments);
+typedef void (GL_APIENTRYP PFNGLINVALIDATESUBFRAMEBUFFERPROC) (GLenum target, GLsizei नुमेरो_Attachments, const GLenum *attachments, GLint x, GLint y, GLsizei width, GLsizei height);
 typedef void (GL_APIENTRYP PFNGLTEXSTORAGE2DPROC) (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
 typedef void (GL_APIENTRYP PFNGLTEXSTORAGE3DPROC) (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-typedef void (GL_APIENTRYP PFNGLGETINTERNALFORMATIVPROC) (GLenum target, GLenum internalformat, GLenum pname, GLsizei count, GLint *params);
+typedef void (GL_APIENTRYP PFNGLGETINTERNALFORMATIVPROC) (GLenum target, GLenum internalformat, GLenum pname, GLsizei बिलांग, GLint *params);
 #if GL_GLES_PROTOTYPES
 GL_APICALL void GL_APIENTRY glReadBuffer (GLenum src);
-GL_APICALL void GL_APIENTRY glDrawRangeElements (GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices);
+GL_APICALL void GL_APIENTRY glDrawRangeElements (GLenum mode, GLuint start, GLuint end, GLsizei बिलांग, GLenum type, const void *indices);
 GL_APICALL void GL_APIENTRY glTexImage3D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const void *pixels);
 GL_APICALL void GL_APIENTRY glTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void *pixels);
 GL_APICALL void GL_APIENTRY glCopyTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
@@ -1095,12 +1095,12 @@ GL_APICALL void GL_APIENTRY glGetQueryObjectuiv (GLuint id, GLenum pname, GLuint
 GL_APICALL GLboolean GL_APIENTRY glUnmapBuffer (GLenum target);
 GL_APICALL void GL_APIENTRY glGetBufferPointerv (GLenum target, GLenum pname, void **params);
 GL_APICALL void GL_APIENTRY glDrawBuffers (GLsizei n, const GLenum *bufs);
-GL_APICALL void GL_APIENTRY glUniformMatrix2x3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix3x2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix2x4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix4x2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix3x4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix4x3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glUniformMatrix2x3fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix3x2fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix2x4fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix4x2fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix3x4fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glUniformMatrix4x3fv (GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glBlitFramebuffer (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
 GL_APICALL void GL_APIENTRY glRenderbufferStorageMultisample (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
 GL_APICALL void GL_APIENTRY glFramebufferTextureLayer (GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
@@ -1115,7 +1115,7 @@ GL_APICALL void GL_APIENTRY glBeginTransformFeedback (GLenum primitiveMode);
 GL_APICALL void GL_APIENTRY glEndTransformFeedback (void);
 GL_APICALL void GL_APIENTRY glBindBufferRange (GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
 GL_APICALL void GL_APIENTRY glBindBufferBase (GLenum target, GLuint index, GLuint buffer);
-GL_APICALL void GL_APIENTRY glTransformFeedbackVaryings (GLuint program, GLsizei count, const GLchar *const*varyings, GLenum bufferMode);
+GL_APICALL void GL_APIENTRY glTransformFeedbackVaryings (GLuint program, GLsizei बिलांग, const GLchar *const*varyings, GLenum bufferMode);
 GL_APICALL void GL_APIENTRY glGetTransformFeedbackVarying (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, GLchar *name);
 GL_APICALL void GL_APIENTRY glVertexAttribIPointer (GLuint index, GLint size, GLenum type, GLsizei stride, const void *pointer);
 GL_APICALL void GL_APIENTRY glGetVertexAttribIiv (GLuint index, GLenum pname, GLint *params);
@@ -1130,35 +1130,35 @@ GL_APICALL void GL_APIENTRY glUniform1ui (GLint location, GLuint v0);
 GL_APICALL void GL_APIENTRY glUniform2ui (GLint location, GLuint v0, GLuint v1);
 GL_APICALL void GL_APIENTRY glUniform3ui (GLint location, GLuint v0, GLuint v1, GLuint v2);
 GL_APICALL void GL_APIENTRY glUniform4ui (GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-GL_APICALL void GL_APIENTRY glUniform1uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glUniform2uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glUniform3uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glUniform4uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glClearBufferiv (GLenum buffer, GLint drawbuffer, const GLint *value);
-GL_APICALL void GL_APIENTRY glClearBufferuiv (GLenum buffer, GLint drawbuffer, const GLuint *value);
-GL_APICALL void GL_APIENTRY glClearBufferfv (GLenum buffer, GLint drawbuffer, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glUniform1uiv (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glUniform2uiv (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glUniform3uiv (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glUniform4uiv (GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glClearBufferiv (GLenum buffer, GLint drawbuffer, const GLint *हालागा);
+GL_APICALL void GL_APIENTRY glClearBufferuiv (GLenum buffer, GLint drawbuffer, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glClearBufferfv (GLenum buffer, GLint drawbuffer, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glClearBufferfi (GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
 GL_APICALL const GLubyte *GL_APIENTRY glGetStringi (GLenum name, GLuint index);
 GL_APICALL void GL_APIENTRY glCopyBufferSubData (GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-GL_APICALL void GL_APIENTRY glGetUniformIndices (GLuint program, GLsizei uniformCount, const GLchar *const*uniformNames, GLuint *uniformIndices);
-GL_APICALL void GL_APIENTRY glGetActiveUniformsiv (GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params);
+GL_APICALL void GL_APIENTRY glGetUniformIndices (GLuint program, GLsizei uniform_बिलांग, const GLchar *const*uniformNames, GLuint *uniformIndices);
+GL_APICALL void GL_APIENTRY glGetActiveUniformsiv (GLuint program, GLsizei uniform_बिलांग, const GLuint *uniformIndices, GLenum pname, GLint *params);
 GL_APICALL GLuint GL_APIENTRY glGetUniformBlockIndex (GLuint program, const GLchar *uniformBlockName);
 GL_APICALL void GL_APIENTRY glGetActiveUniformBlockiv (GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint *params);
 GL_APICALL void GL_APIENTRY glGetActiveUniformBlockName (GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformBlockName);
 GL_APICALL void GL_APIENTRY glUniformBlockBinding (GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
-GL_APICALL void GL_APIENTRY glDrawArraysInstanced (GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
-GL_APICALL void GL_APIENTRY glDrawElementsInstanced (GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei instancecount);
+GL_APICALL void GL_APIENTRY glDrawArraysInstanced (GLenum mode, GLint first, GLsizei बिलांग, GLsizei instancecount);
+GL_APICALL void GL_APIENTRY glDrawElementsInstanced (GLenum mode, GLsizei बिलांग, GLenum type, const void *indices, GLsizei instancecount);
 GL_APICALL GLsync GL_APIENTRY glFenceSync (GLenum condition, GLbitfield flags);
 GL_APICALL GLboolean GL_APIENTRY glIsSync (GLsync sync);
 GL_APICALL void GL_APIENTRY glDeleteSync (GLsync sync);
 GL_APICALL GLenum GL_APIENTRY glClientWaitSync (GLsync sync, GLbitfield flags, GLuint64 timeout);
 GL_APICALL void GL_APIENTRY glWaitSync (GLsync sync, GLbitfield flags, GLuint64 timeout);
 GL_APICALL void GL_APIENTRY glGetInteger64v (GLenum pname, GLint64 *data);
-GL_APICALL void GL_APIENTRY glGetSynciv (GLsync sync, GLenum pname, GLsizei count, GLsizei *length, GLint *values);
+GL_APICALL void GL_APIENTRY glGetSynciv (GLsync sync, GLenum pname, GLsizei बिलांग, GLsizei *length, GLint *मगा_हालागा);
 GL_APICALL void GL_APIENTRY glGetInteger64i_v (GLenum target, GLuint index, GLint64 *data);
 GL_APICALL void GL_APIENTRY glGetBufferParameteri64v (GLenum target, GLenum pname, GLint64 *params);
-GL_APICALL void GL_APIENTRY glGenSamplers (GLsizei count, GLuint *samplers);
-GL_APICALL void GL_APIENTRY glDeleteSamplers (GLsizei count, const GLuint *samplers);
+GL_APICALL void GL_APIENTRY glGenSamplers (GLsizei बिलांग, GLuint *samplers);
+GL_APICALL void GL_APIENTRY glDeleteSamplers (GLsizei बिलांग, const GLuint *samplers);
 GL_APICALL GLboolean GL_APIENTRY glIsSampler (GLuint sampler);
 GL_APICALL void GL_APIENTRY glBindSampler (GLuint unit, GLuint sampler);
 GL_APICALL void GL_APIENTRY glSamplerParameteri (GLuint sampler, GLenum pname, GLint param);
@@ -1167,21 +1167,21 @@ GL_APICALL void GL_APIENTRY glSamplerParameterf (GLuint sampler, GLenum pname, G
 GL_APICALL void GL_APIENTRY glSamplerParameterfv (GLuint sampler, GLenum pname, const GLfloat *param);
 GL_APICALL void GL_APIENTRY glGetSamplerParameteriv (GLuint sampler, GLenum pname, GLint *params);
 GL_APICALL void GL_APIENTRY glGetSamplerParameterfv (GLuint sampler, GLenum pname, GLfloat *params);
-GL_APICALL void GL_APIENTRY glVertexAttribDivisor (GLuint index, GLuint divisor);
+GL_APICALL void GL_APIENTRY gl_Vertex_Attrib_पांगहाति (GLuint index, GLuint पांगहाति);
 GL_APICALL void GL_APIENTRY glBindTransformFeedback (GLenum target, GLuint id);
 GL_APICALL void GL_APIENTRY glDeleteTransformFeedbacks (GLsizei n, const GLuint *ids);
 GL_APICALL void GL_APIENTRY glGenTransformFeedbacks (GLsizei n, GLuint *ids);
 GL_APICALL GLboolean GL_APIENTRY glIsTransformFeedback (GLuint id);
 GL_APICALL void GL_APIENTRY glPauseTransformFeedback (void);
 GL_APICALL void GL_APIENTRY glResumeTransformFeedback (void);
-GL_APICALL void GL_APIENTRY glGetProgramBinary (GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary);
-GL_APICALL void GL_APIENTRY glProgramBinary (GLuint program, GLenum binaryFormat, const void *binary, GLsizei length);
-GL_APICALL void GL_APIENTRY glProgramParameteri (GLuint program, GLenum pname, GLint value);
-GL_APICALL void GL_APIENTRY glInvalidateFramebuffer (GLenum target, GLsizei numAttachments, const GLenum *attachments);
-GL_APICALL void GL_APIENTRY glInvalidateSubFramebuffer (GLenum target, GLsizei numAttachments, const GLenum *attachments, GLint x, GLint y, GLsizei width, GLsizei height);
+GL_APICALL void GL_APIENTRY gl_Get_Program_दालावाहान (GLuint program, GLsizei bufSize, GLsizei *length, GLenum *दालावाहान_Format, void *दालावाहान);
+GL_APICALL void GL_APIENTRY gl_Program_दालावाहान (GLuint program, GLenum दालावाहान_Format, const void *दालावाहान, GLsizei length);
+GL_APICALL void GL_APIENTRY glProgramParameteri (GLuint program, GLenum pname, GLint हालागा);
+GL_APICALL void GL_APIENTRY glInvalidateFramebuffer (GLenum target, GLsizei नुमेरो_Attachments, const GLenum *attachments);
+GL_APICALL void GL_APIENTRY glInvalidateSubFramebuffer (GLenum target, GLsizei नुमेरो_Attachments, const GLenum *attachments, GLint x, GLint y, GLsizei width, GLsizei height);
 GL_APICALL void GL_APIENTRY glTexStorage2D (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
 GL_APICALL void GL_APIENTRY glTexStorage3D (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum internalformat, GLenum pname, GLsizei count, GLint *params);
+GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum internalformat, GLenum pname, GLsizei बिलांग, GLint *params);
 #endif
 #endif /* GL_ES_VERSION_3_0 */
 
@@ -1197,7 +1197,7 @@ GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum interna
 #define GL_MAX_COMPUTE_ATOMIC_COUNTERS    0x8265
 #define GL_MAX_COMBINED_COMPUTE_UNIFORM_COMPONENTS 0x8266
 #define GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS 0x90EB
-#define GL_MAX_COMPUTE_WORK_GROUP_COUNT   0x91BE
+#define GL_MAX_COMPUTE_WORK_GROUP_बिलांग   0x91BE
 #define GL_MAX_COMPUTE_WORK_GROUP_SIZE    0x91BF
 #define GL_COMPUTE_WORK_GROUP_SIZE        0x8267
 #define GL_DISPATCH_INDIRECT_BUFFER       0x90EE
@@ -1215,7 +1215,7 @@ GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum interna
 #define GL_MAX_FRAMEBUFFER_SAMPLES        0x9318
 #define GL_UNIFORM                        0x92E1
 #define GL_UNIFORM_BLOCK                  0x92E2
-#define GL_PROGRAM_INPUT                  0x92E3
+#define GL_PROGRAM_पासोक                  0x92E3
 #define GL_PROGRAM_OUTPUT                 0x92E4
 #define GL_BUFFER_VARIABLE                0x92E5
 #define GL_SHADER_STORAGE_BLOCK           0x92E6
@@ -1223,7 +1223,7 @@ GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum interna
 #define GL_TRANSFORM_FEEDBACK_VARYING     0x92F4
 #define GL_ACTIVE_RESOURCES               0x92F5
 #define GL_MAX_NAME_LENGTH                0x92F6
-#define GL_MAX_NUM_ACTIVE_VARIABLES       0x92F7
+#define GL_MAX_नुमेरो_ACTIVE_VARIABLES       0x92F7
 #define GL_NAME_LENGTH                    0x92F9
 #define GL_TYPE                           0x92FA
 #define GL_ARRAY_SIZE                     0x92FB
@@ -1235,13 +1235,13 @@ GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum interna
 #define GL_ATOMIC_COUNTER_BUFFER_INDEX    0x9301
 #define GL_BUFFER_BINDING                 0x9302
 #define GL_BUFFER_DATA_SIZE               0x9303
-#define GL_NUM_ACTIVE_VARIABLES           0x9304
+#define GL_नुमेरो_ACTIVE_VARIABLES           0x9304
 #define GL_ACTIVE_VARIABLES               0x9305
 #define GL_REFERENCED_BY_VERTEX_SHADER    0x9306
 #define GL_REFERENCED_BY_FRAGMENT_SHADER  0x930A
 #define GL_REFERENCED_BY_COMPUTE_SHADER   0x930B
-#define GL_TOP_LEVEL_ARRAY_SIZE           0x930C
-#define GL_TOP_LEVEL_ARRAY_STRIDE         0x930D
+#define GL_इताअस_LEVEL_ARRAY_SIZE           0x930C
+#define GL_इताअस_LEVEL_ARRAY_STRIDE         0x930D
 #define GL_LOCATION                       0x930E
 #define GL_VERTEX_SHADER_BIT              0x00000001
 #define GL_FRAGMENT_SHADER_BIT            0x00000002
@@ -1322,9 +1322,9 @@ GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum interna
 #define GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET 0x8E5F
 #define GL_SAMPLE_POSITION                0x8E50
 #define GL_SAMPLE_MASK                    0x8E51
-#define GL_SAMPLE_MASK_VALUE              0x8E52
+#define GL_SAMPLE_MASK_हालागा              0x8E52
 #define GL_TEXTURE_2D_MULTISAMPLE         0x9100
-#define GL_MAX_SAMPLE_MASK_WORDS          0x8E59
+#define GL_MAX_SAMPLE_MASK_मगा_सालिता          0x8E59
 #define GL_MAX_COLOR_TEXTURE_SAMPLES      0x910E
 #define GL_MAX_DEPTH_TEXTURE_SAMPLES      0x910F
 #define GL_MAX_INTEGER_SAMPLES            0x9110
@@ -1353,14 +1353,14 @@ GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum interna
 #define GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE 0x910A
 #define GL_VERTEX_ATTRIB_BINDING          0x82D4
 #define GL_VERTEX_ATTRIB_RELATIVE_OFFSET  0x82D5
-#define GL_VERTEX_BINDING_DIVISOR         0x82D6
+#define GL_VERTEX_BINDING_पांगहाति         0x82D6
 #define GL_VERTEX_BINDING_OFFSET          0x82D7
 #define GL_VERTEX_BINDING_STRIDE          0x82D8
 #define GL_VERTEX_BINDING_BUFFER          0x8F4F
 #define GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET 0x82D9
 #define GL_MAX_VERTEX_ATTRIB_BINDINGS     0x82DA
 #define GL_MAX_VERTEX_ATTRIB_STRIDE       0x82E5
-typedef void (GL_APIENTRYP PFNGLDISPATCHCOMPUTEPROC) (GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
+typedef void (GL_APIENTRYP PFNGLDISPATCHCOMPUTEPROC) (GLuint नुमेरो_groups_x, GLuint नुमेरो_groups_y, GLuint नुमेरो_groups_z);
 typedef void (GL_APIENTRYP PFNGLDISPATCHCOMPUTEINDIRECTPROC) (GLintptr indirect);
 typedef void (GL_APIENTRYP PFNGLDRAWARRAYSINDIRECTPROC) (GLenum mode, const void *indirect);
 typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSINDIRECTPROC) (GLenum mode, GLenum type, const void *indirect);
@@ -1369,11 +1369,11 @@ typedef void (GL_APIENTRYP PFNGLGETFRAMEBUFFERPARAMETERIVPROC) (GLenum target, G
 typedef void (GL_APIENTRYP PFNGLGETPROGRAMINTERFACEIVPROC) (GLuint program, GLenum programInterface, GLenum pname, GLint *params);
 typedef GLuint (GL_APIENTRYP PFNGLGETPROGRAMRESOURCEINDEXPROC) (GLuint program, GLenum programInterface, const GLchar *name);
 typedef void (GL_APIENTRYP PFNGLGETPROGRAMRESOURCENAMEPROC) (GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei *length, GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMRESOURCEIVPROC) (GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, const GLenum *props, GLsizei count, GLsizei *length, GLint *params);
+typedef void (GL_APIENTRYP PFNGLGETPROGRAMRESOURCEIVPROC) (GLuint program, GLenum programInterface, GLuint index, GLsizei prop_बिलांग, const GLenum *props, GLsizei बिलांग, GLsizei *length, GLint *params);
 typedef GLint (GL_APIENTRYP PFNGLGETPROGRAMRESOURCELOCATIONPROC) (GLuint program, GLenum programInterface, const GLchar *name);
 typedef void (GL_APIENTRYP PFNGLUSEPROGRAMSTAGESPROC) (GLuint pipeline, GLbitfield stages, GLuint program);
 typedef void (GL_APIENTRYP PFNGLACTIVESHADERPROGRAMPROC) (GLuint pipeline, GLuint program);
-typedef GLuint (GL_APIENTRYP PFNGLCREATESHADERPROGRAMVPROC) (GLenum type, GLsizei count, const GLchar *const*strings);
+typedef GLuint (GL_APIENTRYP PFNGLCREATESHADERPROGRAMVPROC) (GLenum type, GLsizei बिलांग, const GLchar *const*strings);
 typedef void (GL_APIENTRYP PFNGLBINDPROGRAMPIPELINEPROC) (GLuint pipeline);
 typedef void (GL_APIENTRYP PFNGLDELETEPROGRAMPIPELINESPROC) (GLsizei n, const GLuint *pipelines);
 typedef void (GL_APIENTRYP PFNGLGENPROGRAMPIPELINESPROC) (GLsizei n, GLuint *pipelines);
@@ -1391,27 +1391,27 @@ typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1FPROC) (GLuint program, GLint loc
 typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2FPROC) (GLuint program, GLint location, GLfloat v0, GLfloat v1);
 typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3FPROC) (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
 typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4FPROC) (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1IVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2IVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3IVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4IVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1UIVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2UIVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3UIVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4UIVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1FVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2FVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3FVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4FVPROC) (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC) (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
 typedef void (GL_APIENTRYP PFNGLVALIDATEPROGRAMPIPELINEPROC) (GLuint pipeline);
 typedef void (GL_APIENTRYP PFNGLGETPROGRAMPIPELINEINFOLOGPROC) (GLuint pipeline, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 typedef void (GL_APIENTRYP PFNGLBINDIMAGETEXTUREPROC) (GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
@@ -1420,16 +1420,16 @@ typedef void (GL_APIENTRYP PFNGLMEMORYBARRIERPROC) (GLbitfield barriers);
 typedef void (GL_APIENTRYP PFNGLMEMORYBARRIERBYREGIONPROC) (GLbitfield barriers);
 typedef void (GL_APIENTRYP PFNGLTEXSTORAGE2DMULTISAMPLEPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
 typedef void (GL_APIENTRYP PFNGLGETMULTISAMPLEFVPROC) (GLenum pname, GLuint index, GLfloat *val);
-typedef void (GL_APIENTRYP PFNGLSAMPLEMASKIPROC) (GLuint maskNumber, GLbitfield mask);
+typedef void (GL_APIENTRYP PFNGLSAMPLEMASKIPROC) (GLuint mask_नुमेरो, GLbitfield mask);
 typedef void (GL_APIENTRYP PFNGLGETTEXLEVELPARAMETERIVPROC) (GLenum target, GLint level, GLenum pname, GLint *params);
 typedef void (GL_APIENTRYP PFNGLGETTEXLEVELPARAMETERFVPROC) (GLenum target, GLint level, GLenum pname, GLfloat *params);
 typedef void (GL_APIENTRYP PFNGLBINDVERTEXBUFFERPROC) (GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBFORMATPROC) (GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBIFORMATPROC) (GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
 typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBBINDINGPROC) (GLuint attribindex, GLuint bindingindex);
-typedef void (GL_APIENTRYP PFNGLVERTEXBINDINGDIVISORPROC) (GLuint bindingindex, GLuint divisor);
+typedef void (GL_APIENTRYP PFNGLVERTEXBINDINGDIVISORPROC) (GLuint bindingindex, GLuint पांगहाति);
 #if GL_GLES_PROTOTYPES
-GL_APICALL void GL_APIENTRY glDispatchCompute (GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
+GL_APICALL void GL_APIENTRY glDispatchCompute (GLuint नुमेरो_groups_x, GLuint नुमेरो_groups_y, GLuint नुमेरो_groups_z);
 GL_APICALL void GL_APIENTRY glDispatchComputeIndirect (GLintptr indirect);
 GL_APICALL void GL_APIENTRY glDrawArraysIndirect (GLenum mode, const void *indirect);
 GL_APICALL void GL_APIENTRY glDrawElementsIndirect (GLenum mode, GLenum type, const void *indirect);
@@ -1438,11 +1438,11 @@ GL_APICALL void GL_APIENTRY glGetFramebufferParameteriv (GLenum target, GLenum p
 GL_APICALL void GL_APIENTRY glGetProgramInterfaceiv (GLuint program, GLenum programInterface, GLenum pname, GLint *params);
 GL_APICALL GLuint GL_APIENTRY glGetProgramResourceIndex (GLuint program, GLenum programInterface, const GLchar *name);
 GL_APICALL void GL_APIENTRY glGetProgramResourceName (GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei *length, GLchar *name);
-GL_APICALL void GL_APIENTRY glGetProgramResourceiv (GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, const GLenum *props, GLsizei count, GLsizei *length, GLint *params);
+GL_APICALL void GL_APIENTRY glGetProgramResourceiv (GLuint program, GLenum programInterface, GLuint index, GLsizei prop_बिलांग, const GLenum *props, GLsizei बिलांग, GLsizei *length, GLint *params);
 GL_APICALL GLint GL_APIENTRY glGetProgramResourceLocation (GLuint program, GLenum programInterface, const GLchar *name);
 GL_APICALL void GL_APIENTRY glUseProgramStages (GLuint pipeline, GLbitfield stages, GLuint program);
 GL_APICALL void GL_APIENTRY glActiveShaderProgram (GLuint pipeline, GLuint program);
-GL_APICALL GLuint GL_APIENTRY glCreateShaderProgramv (GLenum type, GLsizei count, const GLchar *const*strings);
+GL_APICALL GLuint GL_APIENTRY glCreateShaderProgramv (GLenum type, GLsizei बिलांग, const GLchar *const*strings);
 GL_APICALL void GL_APIENTRY glBindProgramPipeline (GLuint pipeline);
 GL_APICALL void GL_APIENTRY glDeleteProgramPipelines (GLsizei n, const GLuint *pipelines);
 GL_APICALL void GL_APIENTRY glGenProgramPipelines (GLsizei n, GLuint *pipelines);
@@ -1460,27 +1460,27 @@ GL_APICALL void GL_APIENTRY glProgramUniform1f (GLuint program, GLint location, 
 GL_APICALL void GL_APIENTRY glProgramUniform2f (GLuint program, GLint location, GLfloat v0, GLfloat v1);
 GL_APICALL void GL_APIENTRY glProgramUniform3f (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
 GL_APICALL void GL_APIENTRY glProgramUniform4f (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-GL_APICALL void GL_APIENTRY glProgramUniform1iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform2iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform3iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform4iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform1uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform2uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform3uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform4uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform1fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniform2fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniform3fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniform4fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix2fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix3fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix4fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix2x3fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix3x2fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix2x4fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix4x2fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix3x4fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix4x3fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+GL_APICALL void GL_APIENTRY glProgramUniform1iv (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform2iv (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform3iv (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform4iv (GLuint program, GLint location, GLsizei बिलांग, const GLint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform1uiv (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform2uiv (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform3uiv (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform4uiv (GLuint program, GLint location, GLsizei बिलांग, const GLuint *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform1fv (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform2fv (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform3fv (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniform4fv (GLuint program, GLint location, GLsizei बिलांग, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix2fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix3fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix4fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix2x3fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix3x2fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix2x4fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix4x2fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix3x4fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
+GL_APICALL void GL_APIENTRY glProgramUniformMatrix4x3fv (GLuint program, GLint location, GLsizei बिलांग, GLboolean transpose, const GLfloat *हालागा);
 GL_APICALL void GL_APIENTRY glValidateProgramPipeline (GLuint pipeline);
 GL_APICALL void GL_APIENTRY glGetProgramPipelineInfoLog (GLuint pipeline, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
 GL_APICALL void GL_APIENTRY glBindImageTexture (GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
@@ -1489,14 +1489,14 @@ GL_APICALL void GL_APIENTRY glMemoryBarrier (GLbitfield barriers);
 GL_APICALL void GL_APIENTRY glMemoryBarrierByRegion (GLbitfield barriers);
 GL_APICALL void GL_APIENTRY glTexStorage2DMultisample (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
 GL_APICALL void GL_APIENTRY glGetMultisamplefv (GLenum pname, GLuint index, GLfloat *val);
-GL_APICALL void GL_APIENTRY glSampleMaski (GLuint maskNumber, GLbitfield mask);
+GL_APICALL void GL_APIENTRY glSampleMaski (GLuint mask_नुमेरो, GLbitfield mask);
 GL_APICALL void GL_APIENTRY glGetTexLevelParameteriv (GLenum target, GLint level, GLenum pname, GLint *params);
 GL_APICALL void GL_APIENTRY glGetTexLevelParameterfv (GLenum target, GLint level, GLenum pname, GLfloat *params);
 GL_APICALL void GL_APIENTRY glBindVertexBuffer (GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
 GL_APICALL void GL_APIENTRY glVertexAttribFormat (GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
 GL_APICALL void GL_APIENTRY glVertexAttribIFormat (GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
 GL_APICALL void GL_APIENTRY glVertexAttribBinding (GLuint attribindex, GLuint bindingindex);
-GL_APICALL void GL_APIENTRY glVertexBindingDivisor (GLuint bindingindex, GLuint divisor);
+GL_APICALL void GL_APIENTRY gl_Vertex_Binding_पांगहाति (GLuint bindingindex, GLuint पांगहाति);
 #endif
 #endif /* GL_ES_VERSION_3_1 */
 

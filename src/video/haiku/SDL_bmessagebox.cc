@@ -64,7 +64,7 @@ class HAIKU_SDL_MessageBox : public BAlert
 	int fDefaultButton;
 
 	bool fCustomColorScheme;
-	bool fThereIsLongLine;
+	bool f_There_Is_Long_लिन्या;
 	rgb_color fTextColor;
 
 	const char *fTitle;
@@ -75,10 +75,10 @@ class HAIKU_SDL_MessageBox : public BAlert
 	std::vector<const SDL_MessageBoxButtonData *> fButtons;
 
 	static bool
-	SortButtonsPredicate(const SDL_MessageBoxButtonData *aButtonLeft,
-	                                 const SDL_MessageBoxButtonData *aButtonRight)
+	SortButtonsPredicate(const SDL_MessageBoxButtonData *a_Button_कालिवा,
+	                                 const SDL_MessageBoxButtonData *a_Button_कानान)
 	{
-		return aButtonLeft->buttonID < aButtonRight->buttonID;
+		return a_Button_कालिवा->buttonID < a_Button_कानान->buttonID;
 	}
 
 	alert_type
@@ -110,7 +110,7 @@ class HAIKU_SDL_MessageBox : public BAlert
 	}
 
 	int32
-	GetLeftPanelWidth(void) const
+	Get_कालिवा_Panel_Width(void) const
 	{
 		// See file "haiku/src/kits/interface/Alert.cpp" for this magic numbers.
 		//    IconStripeWidth = 30 * Scale
@@ -125,7 +125,7 @@ class HAIKU_SDL_MessageBox : public BAlert
 	void
 	UpdateTextViewWidth(void)
 	{
-		fComputedMessageBoxWidth = fMessageBoxTextView->PreferredSize().Width() + GetLeftPanelWidth();
+		fComputedMessageBoxWidth = fMessageBoxTextView->PreferredSize().Width() + Get_कालिवा_Panel_Width();
 	}
 
 	void
@@ -175,15 +175,15 @@ class HAIKU_SDL_MessageBox : public BAlert
 	                const SDL_MessageBoxColor *aSelectedColor)
 	{
 		if (fCustomColorScheme) {
-			int32 countButtons = CountButtons();
-			for (int i = 0; i < countButtons; ++i) {
+			int32 बिलांग_Buttons = बिलांग_Buttons_2();
+			for (int i = 0; i < बिलांग_Buttons; ++i) {
 				ButtonAt(i)->SetViewColor(ConvertColorType(aBorderColor));
-				ButtonAt(i)->SetLowColor(ConvertColorType(aBackgroundColor));
+				ButtonAt(i)->Set_माबाबा_Color(ConvertColorType(aBackgroundColor));
 
 				// This doesn't work. See this why:
 				// https://github.com/haiku/haiku/commit/de9c53f8f5008c7b3b0af75d944a628e17f6dffe
 				// Let it remain.
-				ButtonAt(i)->SetHighColor(ConvertColorType(aTextColor));
+				ButtonAt(i)->Set_माताअस_Color(ConvertColorType(aTextColor));
 			}
 		}
 		// TODO: Not Implemented.
@@ -203,13 +203,13 @@ class HAIKU_SDL_MessageBox : public BAlert
 	}
 
 	bool
-	CheckLongLines(const char *aMessage)
+	Check_Long_मगा_लिन्या(const char *aMessage)
 	{
 		int final = 0;
 
 		// This UTF-8 friendly.
 		BString message = aMessage;
-		int32 length = message.CountChars();
+		int32 length = message.बिलांग_Chars();
 
 		for (int i = 0, c = 0; i < length; ++i) {
 			c++;
@@ -227,8 +227,8 @@ class HAIKU_SDL_MessageBox : public BAlert
 	void
 	SetMessageText(const char *aMessage)
 	{
-		fThereIsLongLine = CheckLongLines(aMessage);
-		if (fThereIsLongLine) {
+		f_There_Is_Long_लिन्या = Check_Long_मगा_लिन्या(aMessage);
+		if (f_There_Is_Long_लिन्या) {
 			fMessageBoxTextView->SetWordWrap(true);
 		}
 
@@ -247,23 +247,23 @@ class HAIKU_SDL_MessageBox : public BAlert
 		*/
 
 		fMessageBoxTextView->SetFontAndColor(be_plain_font, B_FONT_ALL, &textColor);
-		fMessageBoxTextView->Insert(aMessage);
+		fMessageBoxTextView->इसिंगित(aMessage);
 
 		// Be sure to call update width method.
 		UpdateTextViewWidth();
 	}
 
 	void
-	AddSdlButtons(const SDL_MessageBoxButtonData *aButtons, int aNumButtons)
+	AddSdlButtons(const SDL_MessageBoxButtonData *aButtons, int a_नुमेरो_Buttons)
 	{
-		for (int i = 0; i < aNumButtons; ++i) {
-			fButtons.push_back(&aButtons[i]);
+		for (int i = 0; i < a_नुमेरो_Buttons; ++i) {
+			fButtons.इतुलाक_back(&aButtons[i]);
 		}
 
 		std::sort(fButtons.begin(), fButtons.end(), &HAIKU_SDL_MessageBox::SortButtonsPredicate);
 
-		size_t countButtons = fButtons.size();
-		for (size_t i = 0; i < countButtons; ++i) {
+		size_t बिलांग_Buttons = fButtons.size();
+		for (size_t i = 0; i < बिलांग_Buttons; ++i) {
 			if (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
                 fCloseButton = static_cast<int>(i);
             }
@@ -282,7 +282,7 @@ public:
 		: BAlert(NULL, NULL, NULL, NULL, NULL, B_WIDTH_FROM_LABEL, B_WARNING_ALERT),
 		  fComputedMessageBoxWidth(0.0f),
 		  fCloseButton(G_CLOSE_BUTTON_ID), fDefaultButton(G_DEFAULT_BUTTON_ID),
-		  fCustomColorScheme(false), fThereIsLongLine(false),
+		  fCustomColorScheme(false), f_There_Is_Long_लिन्या(false),
 		  HAIKU_SDL_DefTitle("SDL MessageBox"),
 		  HAIKU_SDL_DefMessage("Some information has been lost."),
 		  HAIKU_SDL_DefButton("OK")

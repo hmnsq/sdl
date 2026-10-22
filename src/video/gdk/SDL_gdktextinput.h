@@ -32,9 +32,9 @@ extern "C" {
 
 void GDK_EnsureHints(void);
 
-bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool GDK_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
+bool GDK_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool GDK_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window);
+bool GDK_Update_Text_पासोक_Area(SDL_VideoDevice *_this, SDL_Window *window);
 bool GDK_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
 
 bool GDK_HasScreenKeyboardSupport(SDL_VideoDevice *_this);

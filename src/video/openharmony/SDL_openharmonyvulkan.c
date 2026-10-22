@@ -39,7 +39,7 @@
 bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
     VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    Uint32 extension_बिलांग = 0;
     bool hasSurfaceExtension = false;
     bool hasOHOSSurfaceExtension = false;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
@@ -74,12 +74,12 @@ bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
         goto fail;
     }
 
-    extensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &extensionCount);
+    extensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &extension_बिलांग);
     if (!extensions) {
         goto fail;
     }
 
-    for (Uint32 i = 0; i < extensionCount; i++) {
+    for (Uint32 i = 0; i < extension_बिलांग; i++) {
         if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
         } else if (SDL_strcmp(VK_OHOS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
@@ -113,13 +113,13 @@ void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
     }
 }
 
-char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *बिलांग)
 {
     static const char *const extensionsForOpenHarmony[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_OHOS_SURFACE_EXTENSION_NAME
     };
-    if (count) {
-        *count = SDL_arraysize(extensionsForOpenHarmony);
+    if (बिलांग) {
+        *बिलांग = SDL_arraysize(extensionsForOpenHarmony);
     }
     return extensionsForOpenHarmony;
 }

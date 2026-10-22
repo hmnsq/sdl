@@ -93,7 +93,7 @@ static bool ShouldMaskFullscreen()
 
 static double GetWindowScale(SDL_Window *window)
 {
-    return (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) || window->internal->scale_to_display ? window->internal->scale_factor : 1.0;
+    return (window->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY) || window->internal->scale_to_display ? window->internal->scale_factor : 1.0;
 }
 
 // These are point->pixel->point round trip safe; the inverse is not round trip safe due to rounding.
@@ -144,9 +144,9 @@ static enum WaylandModeScale GetModeScaleMethod(void)
 
 typedef struct BorderInsets
 {
-    int left;
-    int top;
-    int right;
+    int कालिवा;
+    int इताअस;
+    int कानान;
     int bottom;
 } BorderInsets;
 
@@ -159,10 +159,10 @@ static void GetBorderInsets(SDL_Window *window, BorderInsets *insets)
     }
     if (window->internal->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
         const SDL_PropertiesID props = SDL_GetWindowProperties(window);
-        insets->left = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_LEFT_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->top = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_TOP_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->right = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_RIGHT_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->bottom = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_BOTTOM_NUMBER, 0), 0, SDL_MAX_SINT16);
+        insets->कालिवा = (int)SDL_clamp(SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_कालिवा_नुमेरो, 0), 0, SDL_MAX_SINT16);
+        insets->इताअस = (int)SDL_clamp(SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_इताअस_नुमेरो, 0), 0, SDL_MAX_SINT16);
+        insets->कानान = (int)SDL_clamp(SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_कानान_नुमेरो, 0), 0, SDL_MAX_SINT16);
+        insets->bottom = (int)SDL_clamp(SDL_Get_नुमेरो_Property(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_BOTTOM_नुमेरो, 0), 0, SDL_MAX_SINT16);
     }
 }
 
@@ -238,13 +238,13 @@ static void SetMinMaxDimensions(SDL_Window *window)
          */
         BorderInsets insets;
         GetBorderInsets(window, &insets);
-        min_width = SDL_max(min_width - (insets.left + insets.right), min_width ? 1 : 0);
-        min_height = SDL_max(min_height - (insets.top + insets.bottom), min_height ? 1 : 0);
+        min_width = SDL_max(min_width - (insets.कालिवा + insets.कानान), min_width ? 1 : 0);
+        min_height = SDL_max(min_height - (insets.इताअस + insets.bottom), min_height ? 1 : 0);
         if (max_width) {
-            max_width = SDL_max(max_width - (insets.left + insets.right), 1);
+            max_width = SDL_max(max_width - (insets.कालिवा + insets.कानान), 1);
         }
         if (max_height) {
-            max_height = SDL_max(max_height - (insets.top + insets.bottom), 1);
+            max_height = SDL_max(max_height - (insets.इताअस + insets.bottom), 1);
         }
         xdg_toplevel_set_min_size(wind->shell_surface.xdg.toplevel.xdg_toplevel,
                                   min_width,
@@ -257,7 +257,7 @@ static void SetMinMaxDimensions(SDL_Window *window)
 
 static void EnsurePopupPositionIsValid(SDL_Window *window, int *x, int *y)
 {
-    int adj_count = 0;
+    int adj_बिलांग = 0;
 
     /* Per the xdg-positioner spec, child popup windows must intersect or at
      * least be partially adjoining the parent window.
@@ -268,26 +268,26 @@ static void EnsurePopupPositionIsValid(SDL_Window *window, int *x, int *y)
      */
     if (*x + window->w <= 0) {
         *x = -window->w;
-        ++adj_count;
+        ++adj_बिलांग;
     }
     if (*y + window->h <= 0) {
         *y = -window->h;
-        ++adj_count;
+        ++adj_बिलांग;
     }
     if (*x >= window->parent->w) {
         *x = window->parent->w;
-        ++adj_count;
+        ++adj_बिलांग;
     }
     if (*y >= window->parent->h) {
         *y = window->parent->h;
-        ++adj_count;
+        ++adj_बिलांग;
     }
 
     /* If adjustment was required on the x and y axes, the popup is aligned with
      * the parent corner-to-corner and is neither overlapping nor adjoining, so it
      * must be nudged by 1 to be considered adjoining.
      */
-    if (adj_count > 1) {
+    if (adj_बिलांग > 1) {
         *x += *x < 0 ? 1 : -1;
     }
 }
@@ -554,7 +554,7 @@ static void ConfigureWindowGeometry(SDL_Window *window)
         if (window_size_changed || buffer_size_changed) {
             if (data->viewport) {
                 wp_viewport_set_destination(data->viewport, viewport_width, viewport_height);
-            } else if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+            } else if (window->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY) {
                 // Don't change this if the DPI awareness flag is unset, as an application may have set this manually on a custom or external surface.
                 wl_surface_set_buffer_scale(data->surface, (int32_t)scale_factor);
             }
@@ -651,14 +651,14 @@ static void ConfigureWindowGeometry(SDL_Window *window)
          */
         BorderInsets insets;
         GetBorderInsets(window, &insets);
-        const bool use_insets = (insets.left || insets.top || insets.right || insets.bottom) &&
+        const bool use_insets = (insets.कालिवा || insets.इताअस || insets.कानान || insets.bottom) &&
                                 !(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN));
         SDL_Rect geometry = { 0, 0, data->current.logical_width, data->current.logical_height };
         if (use_insets) {
-            geometry.x = insets.left;
-            geometry.y = insets.top;
-            geometry.w = SDL_max(geometry.w - (insets.left + insets.right), 1);
-            geometry.h = SDL_max(geometry.h - (insets.top + insets.bottom), 1);
+            geometry.x = insets.कालिवा;
+            geometry.y = insets.इताअस;
+            geometry.w = SDL_max(geometry.w - (insets.कालिवा + insets.कानान), 1);
+            geometry.h = SDL_max(geometry.h - (insets.इताअस + insets.bottom), 1);
         }
         /* An explicitly set geometry does not track the surface, so it must be kept in sync
          * once set. Otherwise this is only done when viewports aren't supported and the size
@@ -744,7 +744,7 @@ static void pending_state_deadline_handler(void *data, struct wl_callback *callb
     SDL_Window *window = SDL_GetWindowFromID(windowID);
 
     if (window && window->internal) {
-        --window->internal->pending_state_deadline_count;
+        --window->internal->pending_state_deadline_बिलांग;
     }
 
     wl_callback_destroy(callback);
@@ -759,7 +759,7 @@ static void AddPendingStateSync(SDL_WindowData *window_data)
     SDL_VideoData *video_data = window_data->waylandData;
     void *cb_data = (void *)(uintptr_t)window_data->sdlwindow->id;
 
-    ++window_data->pending_state_deadline_count;
+    ++window_data->pending_state_deadline_बिलांग;
     struct wl_callback *cb = wl_display_sync(video_data->display);
     wl_callback_add_listener(cb, &pending_state_deadline_listener, cb_data);
 }
@@ -770,7 +770,7 @@ static void FlushPendingEvents(SDL_Window *window)
     const bool last_position_pending = window->last_position_pending;
     const bool last_size_pending = window->last_size_pending;
 
-    while (window->internal->pending_state_deadline_count) {
+    while (window->internal->pending_state_deadline_बिलांग) {
         WAYLAND_wl_display_roundtrip(window->internal->waylandData->display);
     }
 
@@ -787,8 +787,8 @@ void Wayland_UpdateWindowPosition(SDL_Window *window)
     SDL_WindowData *wind = window->internal;
     SDL_DisplayData *display;
 
-    if (wind->outputs && wind->num_outputs) {
-        display = wind->outputs[wind->num_outputs - 1];
+    if (wind->outputs && wind->नुमेरो_outputs) {
+        display = wind->outputs[wind->नुमेरो_outputs - 1];
     } else {
         // A window may not be on any displays if minimized.
         return;
@@ -1157,9 +1157,9 @@ static void handle_xdg_toplevel_configure(void *data,
         case XDG_TOPLEVEL_STATE_ACTIVATED:
             active = true;
             break;
-        case XDG_TOPLEVEL_STATE_TILED_LEFT:
-        case XDG_TOPLEVEL_STATE_TILED_RIGHT:
-        case XDG_TOPLEVEL_STATE_TILED_TOP:
+        case XDG_TOPLEVEL_STATE_TILED_कालिवा:
+        case XDG_TOPLEVEL_STATE_TILED_कानान:
+        case XDG_TOPLEVEL_STATE_TILED_इताअस:
         case XDG_TOPLEVEL_STATE_TILED_BOTTOM:
             tiled = true;
             floating = false;
@@ -1167,14 +1167,14 @@ static void handle_xdg_toplevel_configure(void *data,
         case XDG_TOPLEVEL_STATE_SUSPENDED:
             suspended = true;
             break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_LEFT:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_LEFT;
+        case XDG_TOPLEVEL_STATE_CONSTRAINED_कालिवा:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_कालिवा;
             break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_RIGHT:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT;
+        case XDG_TOPLEVEL_STATE_CONSTRAINED_कानान:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_कानान;
             break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_TOP:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_TOP;
+        case XDG_TOPLEVEL_STATE_CONSTRAINED_इताअस:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_इताअस;
             break;
         case XDG_TOPLEVEL_STATE_CONSTRAINED_BOTTOM:
             wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM;
@@ -1248,13 +1248,13 @@ static void handle_xdg_toplevel_configure(void *data,
                     wind->requested.pixel_width = width;
                     width = wind->requested.logical_width = PixelToPoint(window, width);
                 }
-                width = SDL_max(width - (insets.left + insets.right), 1);
+                width = SDL_max(width - (insets.कालिवा + insets.कानान), 1);
             } else if (new_configure_size) {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  */
 
-                wind->requested.logical_width = width + (insets.left + insets.right);
+                wind->requested.logical_width = width + (insets.कालिवा + insets.कानान);
 
                 if (wind->scale_to_display) {
                     wind->requested.pixel_width = PointToPixel(window, wind->requested.logical_width);
@@ -1281,12 +1281,12 @@ static void handle_xdg_toplevel_configure(void *data,
                     wind->requested.pixel_height = height;
                     height = wind->requested.logical_height = PixelToPoint(window, height);
                 }
-                height = SDL_max(height - (insets.top + insets.bottom), 1);
+                height = SDL_max(height - (insets.इताअस + insets.bottom), 1);
             } else if (new_configure_size) {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  */
-                wind->requested.logical_height = height + (insets.top + insets.bottom);
+                wind->requested.logical_height = height + (insets.इताअस + insets.bottom);
 
                 if (wind->scale_to_display) {
                     wind->requested.pixel_height = PointToPixel(window, wind->requested.logical_height);
@@ -1305,8 +1305,8 @@ static void handle_xdg_toplevel_configure(void *data,
                 width = wind->requested.logical_width = PixelToPoint(window, window->floating.w);
                 height = wind->requested.logical_height = PixelToPoint(window, window->floating.h);
             }
-            width = SDL_max(width - (insets.left + insets.right), 1);
-            height = SDL_max(height - (insets.top + insets.bottom), 1);
+            width = SDL_max(width - (insets.कालिवा + insets.कानान), 1);
+            height = SDL_max(height - (insets.इताअस + insets.bottom), 1);
         }
 
         /* Notes on the spec and implementations:
@@ -1571,8 +1571,8 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
     bool resizing = false;
     wind->toplevel_constraints = 0;
 
-    static const enum libdecor_window_state tiled_states = (LIBDECOR_WINDOW_STATE_TILED_LEFT | LIBDECOR_WINDOW_STATE_TILED_RIGHT |
-                                                            LIBDECOR_WINDOW_STATE_TILED_TOP | LIBDECOR_WINDOW_STATE_TILED_BOTTOM);
+    static const enum libdecor_window_state tiled_states = (LIBDECOR_WINDOW_STATE_TILED_कालिवा | LIBDECOR_WINDOW_STATE_TILED_कानान |
+                                                            LIBDECOR_WINDOW_STATE_TILED_इताअस | LIBDECOR_WINDOW_STATE_TILED_BOTTOM);
 
     if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
         LibdecorGetMinContentSize(frame, &wind->system_limits.min_width, &wind->system_limits.min_height);
@@ -1590,14 +1590,14 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
 #if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
         resizing = (window_state & LIBDECOR_WINDOW_STATE_RESIZING) != 0;
 
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_LEFT) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_LEFT;
+        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_कालिवा) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_कालिवा;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_RIGHT) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT;
+        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_कानान) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_कानान;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_TOP) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_TOP;
+        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_इताअस) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_इताअस;
         }
         if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_BOTTOM) {
             wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM;
@@ -1903,8 +1903,8 @@ static void Wayland_HandlePreferredScaleChanged(SDL_WindowData *window_data, dou
                  */
                 BorderInsets insets;
                 GetBorderInsets(window_data->sdlwindow, &insets);
-                window_data->last_configure.width = SDL_max(window_data->requested.logical_width - (insets.left + insets.right), 1);
-                window_data->last_configure.height = SDL_max(window_data->requested.logical_height - (insets.top + insets.bottom), 1);
+                window_data->last_configure.width = SDL_max(window_data->requested.logical_width - (insets.कालिवा + insets.कानान), 1);
+                window_data->last_configure.height = SDL_max(window_data->requested.logical_height - (insets.इताअस + insets.bottom), 1);
 
                 window_data->requested.logical_width = PixelToPoint(window_data->sdlwindow, window_data->requested.pixel_width);
                 window_data->requested.logical_height = PixelToPoint(window_data->sdlwindow, window_data->requested.pixel_height);
@@ -1914,7 +1914,7 @@ static void Wayland_HandlePreferredScaleChanged(SDL_WindowData *window_data, dou
             }
         }
 
-        if (window_data->sdlwindow->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY || window_data->scale_to_display) {
+        if (window_data->sdlwindow->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY || window_data->scale_to_display) {
             ConfigureWindowGeometry(window_data->sdlwindow);
             CommitLibdecorFrame(window_data->sdlwindow);
         }
@@ -1935,10 +1935,10 @@ static void Wayland_MaybeUpdateScaleFactor(SDL_WindowData *window)
         return;
     }
 
-    if (window->num_outputs != 0) {
+    if (window->नुमेरो_outputs != 0) {
         // Check every display's factor, use the highest
         factor = 0.0;
-        for (i = 0; i < window->num_outputs; i++) {
+        for (i = 0; i < window->नुमेरो_outputs; i++) {
             SDL_DisplayData *internal = window->outputs[i];
             factor = SDL_max(factor, internal->scale_factor);
         }
@@ -1952,24 +1952,24 @@ static void Wayland_MaybeUpdateScaleFactor(SDL_WindowData *window)
 
 void Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data)
 {
-    for (int i = 0; i < window->num_outputs; i++) {
+    for (int i = 0; i < window->नुमेरो_outputs; i++) {
         if (window->outputs[i] == display_data) { // remove this one
-            if (i == (window->num_outputs - 1)) {
+            if (i == (window->नुमेरो_outputs - 1)) {
                 window->outputs[i] = NULL;
             } else {
                 SDL_memmove(&window->outputs[i],
                             &window->outputs[i + 1],
-                            sizeof(SDL_DisplayData *) * ((window->num_outputs - i) - 1));
+                            sizeof(SDL_DisplayData *) * ((window->नुमेरो_outputs - i) - 1));
             }
-            window->num_outputs--;
+            window->नुमेरो_outputs--;
             i--;
         }
     }
 
-    if (window->num_outputs == 0) {
+    if (window->नुमेरो_outputs == 0) {
         SDL_free(window->outputs);
         window->outputs = NULL;
-    } else if (!window->is_fullscreen || window->num_outputs == 1) {
+    } else if (!window->is_fullscreen || window->नुमेरो_outputs == 1) {
         Wayland_UpdateWindowPosition(window->sdlwindow);
         Wayland_MaybeUpdateScaleFactor(window);
     }
@@ -1986,15 +1986,15 @@ static void handle_surface_enter(void *data, struct wl_surface *surface, struct 
     }
 
     new_outputs = SDL_realloc(window->outputs,
-                              sizeof(SDL_DisplayData *) * (window->num_outputs + 1));
+                              sizeof(SDL_DisplayData *) * (window->नुमेरो_outputs + 1));
     if (!new_outputs) {
         return;
     }
     window->outputs = new_outputs;
-    window->outputs[window->num_outputs++] = internal;
+    window->outputs[window->नुमेरो_outputs++] = internal;
 
     // Update the scale factor after the move so that fullscreen outputs are updated.
-    if (!window->is_fullscreen || window->num_outputs == 1) {
+    if (!window->is_fullscreen || window->नुमेरो_outputs == 1) {
         Wayland_UpdateWindowPosition(window->sdlwindow);
         Wayland_MaybeUpdateScaleFactor(window);
     }
@@ -2401,14 +2401,14 @@ void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
             // Set up the positioner for the popup and configure the constraints
             data->shell_surface.xdg.popup.xdg_positioner = xdg_wm_base_create_positioner(c->shell.xdg);
-            xdg_positioner_set_anchor(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_ANCHOR_TOP_LEFT);
+            xdg_positioner_set_anchor(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_ANCHOR_इताअस_कालिवा);
             SDL_Rect parent_geometry;
             GetWindowGeometry(parent->internal, &parent_geometry);
             xdg_positioner_set_anchor_rect(data->shell_surface.xdg.popup.xdg_positioner, 0, 0, parent_geometry.w, parent_geometry.h);
 
             const Uint32 constraint = window->constrain_popup ? (XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_X | XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_Y) : XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_NONE;
             xdg_positioner_set_constraint_adjustment(data->shell_surface.xdg.popup.xdg_positioner, constraint);
-            xdg_positioner_set_gravity(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
+            xdg_positioner_set_gravity(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_कानान);
             xdg_positioner_set_size(data->shell_surface.xdg.popup.xdg_positioner, data->current.logical_width, data->current.logical_height);
 
             // Set the popup initial position
@@ -2434,7 +2434,7 @@ void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
                 // Tooltips can't be interacted with, so turn off the input region to avoid blocking anything behind them
                 region = wl_compositor_create_region(c->compositor);
                 wl_region_add(region, 0, 0, 0, 0);
-                wl_surface_set_input_region(data->surface, region);
+                wl_surface_set_पासोक_region(data->surface, region);
                 wl_region_destroy(region);
             } else if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
                 Wayland_SetKeyboardFocus(window, true);
@@ -2877,7 +2877,7 @@ SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          */
         if (!window->fullscreen_exclusive) {
             if (window->undefined_x || window->undefined_y ||
-                (wind->num_outputs && !window->last_position_pending)) {
+                (wind->नुमेरो_outputs && !window->last_position_pending)) {
                 output = NULL;
             }
         }
@@ -2920,7 +2920,7 @@ void Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     // Not currently fullscreen or maximized, and no state pending; nothing to do.
     if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED)) &&
-        !wind->pending_state_deadline_count) {
+        !wind->pending_state_deadline_बिलांग) {
         return;
     }
 
@@ -2988,7 +2988,7 @@ void Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     // Not fullscreen, already maximized, and no state pending; nothing to do.
     if (!(window->flags & SDL_WINDOW_FULLSCREEN) && (window->flags & SDL_WINDOW_MAXIMIZED) &&
-        !wind->pending_state_deadline_count) {
+        !wind->pending_state_deadline_बिलांग) {
         return;
     }
 
@@ -3078,7 +3078,7 @@ bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool
 bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
 {
     SDL_VideoData *data = _this->internal;
-    if (!data->key_inhibitor_manager) {
+    if (!data->सुसि_inhibitor_manager) {
         return SDL_SetError("Failed to grab keyboard: compositor lacks support for the required zwp_keyboard_shortcuts_inhibit_manager_v1 protocol");
     }
     Wayland_DisplayUpdateKeyboardGrabs(data, window->internal);
@@ -3190,13 +3190,13 @@ bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
         data->scale_factor = window->parent->internal->scale_factor;
         EnsurePopupPositionIsValid(window, &window->x, &window->y);
     } else {
-        for (int i = 0; i < _this->num_displays; i++) {
+        for (int i = 0; i < _this->नुमेरो_displays; i++) {
             data->scale_factor = SDL_max(data->scale_factor, _this->displays[i]->internal->scale_factor);
         }
     }
 
     data->outputs = NULL;
-    data->num_outputs = 0;
+    data->नुमेरो_outputs = 0;
     data->scale_to_display = c->scale_to_display_enabled;
 
     // Cache the app_id at creation time, as it may change before the window is mapped.
@@ -3231,7 +3231,7 @@ bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Proper
      * or the custom/external surface was explicitly flagged as high pixel density aware, which signals that the
      * application wants SDL to handle scaling.
      */
-    if (!custom_surface_role || (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY)) {
+    if (!custom_surface_role || (window->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY)) {
         if (c->viewporter) {
             data->viewport = wp_viewporter_get_viewport(c->viewporter, data->surface);
 
@@ -3475,7 +3475,7 @@ float Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *wind = window->internal;
 
-    if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY || wind->scale_to_display || wind->fullscreen_exclusive) {
+    if (window->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY || wind->scale_to_display || wind->fullscreen_exclusive) {
         return (float)wind->scale_factor;
     }
 
@@ -3572,9 +3572,9 @@ bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
         return SDL_SetError("wayland: cannot set icon; required xdg_toplevel_icon_v1 protocol not supported");
     }
 
-    int image_count = 0;
-    SDL_Surface **images = SDL_GetSurfaceImages(icon, &image_count);
-    if (!images || !image_count) {
+    int image_बिलांग_2 = 0;
+    SDL_Surface **images = SDL_GetSurfaceImages(icon, &image_बिलांग_2);
+    if (!images || !image_बिलांग_2) {
         return false;
     }
 
@@ -3584,27 +3584,27 @@ bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
         wind->xdg_toplevel_icon_v1 = NULL;
     }
 
-    for (int i = 0; i < wind->icon_buffer_count; ++i) {
+    for (int i = 0; i < wind->icon_buffer_बिलांग; ++i) {
         wl_buffer_destroy(wind->icon_buffers[i]);
     }
-    wind->icon_buffer_count = 0;
+    wind->icon_buffer_बिलांग = 0;
 
     wind->xdg_toplevel_icon_v1 = xdg_toplevel_icon_manager_v1_create_icon(_this->internal->xdg_toplevel_icon_manager_v1);
-    wind->icon_buffers = SDL_realloc(wind->icon_buffers, image_count * sizeof(struct wl_buffer *));
+    wind->icon_buffers = SDL_realloc(wind->icon_buffers, image_बिलांग_2 * sizeof(struct wl_buffer *));
     if (!wind->icon_buffers) {
         goto failure_cleanup;
     }
 
     // Calculate the size of the buffer pool.
     size_t pool_size = 0;
-    for (int i = 0; i < image_count; ++i) {
+    for (int i = 0; i < image_बिलांग_2; ++i) {
         // Images must be square. Non-square images will be centered.
         const int size = SDL_max(images[i]->w, images[i]->h);
         pool_size += size * size * 4;
     }
 
     // Sort the images in ascending order by size.
-    SDL_qsort(images, image_count, sizeof(SDL_Surface *), icon_sort_callback);
+    SDL_qsort(images, image_बिलांग_2, sizeof(SDL_Surface *), icon_sort_callback);
 
     shm_pool = Wayland_AllocSHMPool(pool_size);
     if (!shm_pool) {
@@ -3613,7 +3613,7 @@ bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
     }
 
     const double base_size = (double)SDL_max(icon->w, icon->h);
-    for (int i = 0; i < image_count; ++i) {
+    for (int i = 0; i < image_बिलांग_2; ++i) {
         SDL_Surface *surface = images[i];
 
         // Choose the largest image for each integer scale, ignoring any below the base size.
@@ -3642,7 +3642,7 @@ bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surfa
             goto failure_cleanup;
         }
 
-        wind->icon_buffers[wind->icon_buffer_count++] = buffer;
+        wind->icon_buffers[wind->icon_buffer_बिलांग++] = buffer;
 
         // Center non-square images.
         if (surface->w < level_size) {
@@ -3693,12 +3693,12 @@ failure_cleanup:
 
     Wayland_ReleaseSHMPool(shm_pool);
 
-    for (int i = 0; i < wind->icon_buffer_count; ++i) {
+    for (int i = 0; i < wind->icon_buffer_बिलांग; ++i) {
         wl_buffer_destroy(wind->icon_buffers[i]);
     }
     SDL_free(wind->icon_buffers);
     wind->icon_buffers = NULL;
-    wind->icon_buffer_count = 0;
+    wind->icon_buffer_बिलांग = 0;
 
     return false;
 }
@@ -3729,7 +3729,7 @@ bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     do {
         WAYLAND_wl_display_roundtrip(_this->internal->display);
-    } while (wind->pending_state_deadline_count);
+    } while (wind->pending_state_deadline_बिलांग);
 
     return true;
 }
@@ -3743,7 +3743,7 @@ bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool
 {
     if (window->flags & SDL_WINDOW_POPUP_MENU) {
         if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+            if (!focusable && (window->flags & SDL_WINDOW_पासोक_FOCUS)) {
                 SDL_Window *new_focus;
                 const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
                 Wayland_SetKeyboardFocus(new_focus, set_focus);
@@ -3917,11 +3917,11 @@ void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
             xdg_toplevel_icon_v1_destroy(wind->xdg_toplevel_icon_v1);
         }
 
-        for (int i = 0; i < wind->icon_buffer_count; ++i) {
+        for (int i = 0; i < wind->icon_buffer_बिलांग; ++i) {
             wl_buffer_destroy(wind->icon_buffers[i]);
         }
         SDL_free(wind->icon_buffers);
-        wind->icon_buffer_count = 0;
+        wind->icon_buffer_बिलांग = 0;
 
         SDL_free(wind);
     }

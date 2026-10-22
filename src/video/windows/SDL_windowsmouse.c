@@ -37,13 +37,13 @@
 
 #define ANI_FLAG_ICON 0x1
 
-#pragma pack(push, 1)
+#pragma pack(इतुलाक, 1)
 
 typedef struct
 {
     BYTE bWidth;
     BYTE bHeight;
-    BYTE bColorCount;
+    BYTE b_Color_बिलांग;
     BYTE bReserved;
     WORD xHotspot;
     WORD yHotspot;
@@ -55,7 +55,7 @@ typedef struct
 {
     WORD idReserved;
     WORD idType;
-    WORD idCount;
+    WORD id_बिलांग;
 } CURSORICONFILEDIR;
 
 typedef struct
@@ -71,7 +71,7 @@ typedef struct
     DWORD fl;       // AF_ICON should be set. AF_SEQUENCE is optional
 } ANIHEADER;
 
-#pragma pack(pop)
+#pragma pack(आलिसिन)
 
 typedef struct CachedCursor
 {
@@ -87,7 +87,7 @@ struct SDL_CursorData
     CachedCursor *cache;
     int hot_x;
     int hot_y;
-    int num_frames;
+    int नुमेरो_frames;
     SDL_CursorFrameInfo frames[1];
 };
 
@@ -98,7 +98,7 @@ typedef struct
     Sint64 residual[2];
     Uint32 dpiscale;
     Uint32 dpidenom;
-    int last_node;
+    int last_बुहोल;
     bool enhanced;
     bool dpiaware;
 } WIN_MouseData;
@@ -130,7 +130,7 @@ static SDL_Cursor *WIN_CreateCursorAndData(HCURSOR hcursor)
     return cursor;
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, int frame_बिलांग, int hot_x, int hot_y)
 {
     // Dynamically generate cursors at the appropriate DPI
     SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
@@ -138,7 +138,7 @@ static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, 
         return NULL;
     }
 
-    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data) + (sizeof(SDL_CursorFrameInfo) * (frame_count - 1)));
+    SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data) + (sizeof(SDL_CursorFrameInfo) * (frame_बिलांग - 1)));
     if (!data) {
         SDL_free(cursor);
         return NULL;
@@ -146,8 +146,8 @@ static SDL_Cursor *WIN_CreateAnimatedCursorAndData(SDL_CursorFrameInfo *frames, 
 
     data->hot_x = hot_x;
     data->hot_y = hot_y;
-    data->num_frames = frame_count;
-    for (int i = 0; i < frame_count; ++i) {
+    data->नुमेरो_frames = frame_बिलांग;
+    for (int i = 0; i < frame_बिलांग; ++i) {
         SDL_Surface *surface = frames[i].surface;
         if (surface->flags & SDL_SURFACE_PREALLOCATED) {
             surface = SDL_DuplicateSurface(surface);
@@ -190,8 +190,8 @@ static bool SaveChunkSize(SDL_IOStream* dst, Sint64 offset)
 static bool FillIconEntry(CURSORICONFILEDIRENTRY *entry, SDL_Surface *surface, int hot_x, int hot_y, DWORD dwImageSize, DWORD dwImageOffset)
 {
     if (surface->props) {
-        hot_x = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_NUMBER, hot_x);
-        hot_y = (int)SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_NUMBER, hot_y);
+        hot_x = (int)SDL_Get_नुमेरो_Property(surface->props, SDL_PROP_SURFACE_HOTSPOT_X_नुमेरो, hot_x);
+        hot_y = (int)SDL_Get_नुमेरो_Property(surface->props, SDL_PROP_SURFACE_HOTSPOT_Y_नुमेरो, hot_y);
     }
     hot_x = SDL_clamp(hot_x, 0, surface->w - 1);
     hot_y = SDL_clamp(hot_y, 0, surface->h - 1);
@@ -290,7 +290,7 @@ static bool WriteIconSurface(SDL_IOStream *dst, SDL_Surface *surface)
     bmih.biWidth = surface->w;
     bmih.biHeight = surface->h * 2;
     bmih.biPlanes = 1;
-    bmih.biBitCount = 32;
+    bmih.bi_Bit_बिलांग = 32;
     bmih.biCompression = BI_RGB;
     bmih.biSizeImage = (DWORD)(surface->h * row_size + mask_size);
     ok &= (SDL_WriteIO(dst, &bmih, sizeof(bmih)) == sizeof(bmih));
@@ -314,8 +314,8 @@ done:
 static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, int hot_y, float scale)
 {
 #ifdef SAVE_MULTIPLE_ICONS
-    int count = 0;
-    SDL_Surface **surfaces = SDL_GetSurfaceImages(surface, &count);
+    int बिलांग = 0;
+    SDL_Surface **surfaces = SDL_GetSurfaceImages(surface, &बिलांग);
     if (!surfaces) {
         return false;
     }
@@ -325,7 +325,7 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
         return false;
     }
 
-    int count = 1;
+    int बिलांग = 1;
     SDL_Surface **surfaces = &surface;
 #endif
 
@@ -340,10 +340,10 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
     CURSORICONFILEDIR dir;
     dir.idReserved = 0;
     dir.idType = 2; // Cursor
-    dir.idCount = count;
+    dir.id_बिलांग = बिलांग;
     ok &= (SDL_WriteIO(dst, &dir, sizeof(dir)) == sizeof(dir));
 
-    DWORD entries_size = count * sizeof(CURSORICONFILEDIRENTRY);
+    DWORD entries_size = बिलांग * sizeof(CURSORICONFILEDIRENTRY);
     CURSORICONFILEDIRENTRY *entries = (CURSORICONFILEDIRENTRY *)SDL_malloc(entries_size);
     if (!entries) {
         ok = false;
@@ -352,7 +352,7 @@ static bool WriteIconFrame(SDL_IOStream *dst, SDL_Surface *surface, int hot_x, i
     ok &= (SDL_WriteIO(dst, entries, entries_size) == entries_size);
 
     Sint64 image_offset = SDL_TellIO(dst);
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < बिलांग; ++i) {
         ok &= WriteIconSurface(dst, surfaces[i]);
 
         Sint64 next_offset = SDL_TellIO(dst);
@@ -384,7 +384,7 @@ done:
 /* Windows doesn't have an API to easily create animated cursors from a sequence of images,
  * so we have to build an animated cursor resource file in memory and load it.
  */
-static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y, float scale)
+static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int frame_बिलांग, int hot_x, int hot_y, float scale)
 {
     HCURSOR hcursor = NULL;
     SDL_IOStream *dst = SDL_IOFromDynamicMem();
@@ -409,16 +409,16 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
     ANIHEADER anih;
     SDL_zero(anih);
     anih.cbSizeof = sizeof(anih);
-    anih.frames = frame_count;
-    anih.steps = frame_count;
+    anih.frames = frame_बिलांग;
+    anih.steps = frame_बिलांग;
     anih.jifRate = 1;
     anih.fl = ANI_FLAG_ICON;
     ok &= (SDL_WriteIO(dst, &anih, sizeof(anih)) == sizeof(anih));
 
     // Rate chunk
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('r', 'a', 't', 'e'));
-    ok &= SDL_WriteU32LE(dst, sizeof(DWORD) * frame_count);
-    for (int i = 0; i < frame_count; ++i) {
+    ok &= SDL_WriteU32LE(dst, sizeof(DWORD) * frame_बिलांग);
+    for (int i = 0; i < frame_बिलांग; ++i) {
         // Animated Win32 cursors are in jiffy units, and one jiffy is 1/60 of a second.
         const double WIN32_JIFFY = 1000.0 / 60.0;
         DWORD duration = (frames[i].duration ? SDL_lround(frames[i].duration / WIN32_JIFFY) : 0xFFFFFFFF);
@@ -431,7 +431,7 @@ static HCURSOR WIN_CreateAnimatedCursorInternal(SDL_CursorFrameInfo *frames, int
     ok &= SDL_WriteU32LE(dst, 0);
     ok &= SDL_WriteU32LE(dst, RIFF_FOURCC('f', 'r', 'a', 'm'));
 
-    for (int i = 0; i < frame_count; ++i) {
+    for (int i = 0; i < frame_बिलांग; ++i) {
         ok &= WriteIconFrame(dst, frames[i].surface, hot_x, hot_y, scale);
     }
     ok &= SaveChunkSize(dst, frame_list_size_offset);
@@ -462,9 +462,9 @@ static SDL_Cursor *WIN_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
     return WIN_CreateAnimatedCursorAndData(&frame, 1, hot_x, hot_y);
 }
 
-static SDL_Cursor *WIN_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+static SDL_Cursor *WIN_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_बिलांग, int hot_x, int hot_y)
 {
-    return WIN_CreateAnimatedCursorAndData(frames, frame_count, hot_x, hot_y);
+    return WIN_CreateAnimatedCursorAndData(frames, frame_बिलांग, hot_x, hot_y);
 }
 
 static SDL_Cursor *WIN_CreateBlankCursor(void)
@@ -560,7 +560,7 @@ static void WIN_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *data = cursor->internal;
 
-    for (int i = 0; i < data->num_frames; ++i) {
+    for (int i = 0; i < data->नुमेरो_frames; ++i) {
         SDL_DestroySurface(data->frames[i].surface);
     }
     while (data->cache) {
@@ -596,7 +596,7 @@ static HCURSOR GetCachedCursor(SDL_Cursor *cursor)
     }
 
     // Need to create a cursor for this content scale
-    HCURSOR hcursor = WIN_CreateAnimatedCursorInternal(data->frames, data->num_frames, data->hot_x, data->hot_y, scale);
+    HCURSOR hcursor = WIN_CreateAnimatedCursorInternal(data->frames, data->नुमेरो_frames, data->hot_x, data->hot_y, scale);
     if (!hcursor) {
         return NULL;
     }
@@ -624,7 +624,7 @@ static bool WIN_ShowCursor(SDL_Cursor *cursor)
     }
     if (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->num_frames > 0) {
+        if (data->नुमेरो_frames > 0) {
             SDL_cursor = GetCachedCursor(cursor);
         } else {
             SDL_cursor = data->cursor;
@@ -647,15 +647,15 @@ void WIN_SetCursorPos(int x, int y)
 
     // Flush any mouse motion prior to or associated with this warp
 #ifdef _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
-#pragma warning(push)
+#pragma warning(इतुलाक)
 #pragma warning(disable : 28159)
 #endif
-    SDL_last_warp_time = GetTickCount();
+    SDL_last_warp_time = Get_Tick_बिलांग();
     if (!SDL_last_warp_time) {
         SDL_last_warp_time = 1;
     }
 #ifdef _MSC_VER
-#pragma warning(pop)
+#pragma warning(आलिसिन)
 #endif
 }
 
@@ -725,11 +725,11 @@ static SDL_MouseButtonFlags WIN_GetGlobalMouseState(float *x, float *y)
     *x = (float)pt.x;
     *y = (float)pt.y;
 
-    result |= GetAsyncKeyState(!swapButtons ? VK_LBUTTON : VK_RBUTTON) & 0x8000 ? SDL_BUTTON_LMASK : 0;
-    result |= GetAsyncKeyState(!swapButtons ? VK_RBUTTON : VK_LBUTTON) & 0x8000 ? SDL_BUTTON_RMASK : 0;
-    result |= GetAsyncKeyState(VK_MBUTTON) & 0x8000 ? SDL_BUTTON_MMASK : 0;
-    result |= GetAsyncKeyState(VK_XBUTTON1) & 0x8000 ? SDL_BUTTON_X1MASK : 0;
-    result |= GetAsyncKeyState(VK_XBUTTON2) & 0x8000 ? SDL_BUTTON_X2MASK : 0;
+    result |= Get_Async_सुसि_State(!swapButtons ? VK_LBUTTON : VK_RBUTTON) & 0x8000 ? SDL_BUTTON_LMASK : 0;
+    result |= Get_Async_सुसि_State(!swapButtons ? VK_RBUTTON : VK_LBUTTON) & 0x8000 ? SDL_BUTTON_RMASK : 0;
+    result |= Get_Async_सुसि_State(VK_MBUTTON) & 0x8000 ? SDL_BUTTON_MMASK : 0;
+    result |= Get_Async_सुसि_State(VK_XBUTTON1) & 0x8000 ? SDL_BUTTON_X1MASK : 0;
+    result |= Get_Async_सुसि_State(VK_XBUTTON2) & 0x8000 ? SDL_BUTTON_X2MASK : 0;
 
     return result;
 }
@@ -784,8 +784,8 @@ static void WIN_ApplySystemScale(void *internal, Uint64 timestamp, SDL_Window *w
     }
     i -= 1;
     j -= 1;
-    k = data->last_node;
-    data->last_node = j;
+    k = data->last_बुहोल;
+    data->last_बुहोल = j;
 
     Uint32 denom = data->dpidenom;
     Sint64 scale = 0;
@@ -875,10 +875,10 @@ static void ReadMouseCurve(int v, Uint64 xs[5], Uint64 ys[5])
     DWORD xsize = sizeof(xbuff);
     DWORD ysize = sizeof(ybuff);
     HKEY open_handle;
-    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, KEY_READ, &open_handle) == ERROR_SUCCESS) {
-        RegQueryValueExW(open_handle, L"SmoothMouseXCurve", NULL, NULL, (BYTE*)xbuff, &xsize);
-        RegQueryValueExW(open_handle, L"SmoothMouseYCurve", NULL, NULL, (BYTE*)ybuff, &ysize);
-        RegCloseKey(open_handle);
+    if (Reg_Open_सुसि_Ex_W(HKEY_CURRENT_USER, L"Control Panel\\Mouse", 0, सुसि_READ, &open_handle) == ERROR_SUCCESS) {
+        Reg_Query_हालागा_Ex_W(open_handle, L"SmoothMouseXCurve", NULL, NULL, (BYTE*)xbuff, &xsize);
+        Reg_Query_हालागा_Ex_W(open_handle, L"SmoothMouseYCurve", NULL, NULL, (BYTE*)ybuff, &ysize);
+        Reg_Close_सुसि(open_handle);
     }
     xs[0] = 0; // first node must always be origin
     ys[0] = 0; // first node must always be origin

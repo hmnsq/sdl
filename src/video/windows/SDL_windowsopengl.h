@@ -84,8 +84,8 @@ struct SDL_GLDriverData
     BOOL (WINAPI *wglDeleteContext)(HGLRC hglrc);
     BOOL (WINAPI *wglMakeCurrent)(HDC hdc, HGLRC hglrc);
     BOOL (WINAPI *wglShareLists)(HGLRC hglrc1, HGLRC hglrc2);
-    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int *piFormats, UINT * nNumFormats);
-    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
+    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int *piFormats, UINT * n_नुमेरो_Formats);
+    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *pi_मगा_हालागा);
     BOOL (WINAPI *wglSwapIntervalEXT)(int interval);
     int (WINAPI *wglGetSwapIntervalEXT)(void);
 #if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
@@ -120,7 +120,7 @@ extern bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);
 
 #ifndef WGL_ARB_pixel_format
-#define WGL_NUMBER_PIXEL_FORMATS_ARB    0x2000
+#define WGL_नुमेरो_PIXEL_FORMATS_ARB    0x2000
 #define WGL_DRAW_TO_WINDOW_ARB          0x2001
 #define WGL_DRAW_TO_BITMAP_ARB          0x2002
 #define WGL_ACCELERATION_ARB            0x2003
@@ -128,14 +128,14 @@ extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);
 #define WGL_NEED_SYSTEM_PALETTE_ARB     0x2005
 #define WGL_SWAP_LAYER_BUFFERS_ARB      0x2006
 #define WGL_SWAP_METHOD_ARB             0x2007
-#define WGL_NUMBER_OVERLAYS_ARB         0x2008
-#define WGL_NUMBER_UNDERLAYS_ARB        0x2009
+#define WGL_नुमेरो_OVERLAYS_ARB         0x2008
+#define WGL_नुमेरो_UNDERLAYS_ARB        0x2009
 #define WGL_TRANSPARENT_ARB             0x200A
-#define WGL_TRANSPARENT_RED_VALUE_ARB   0x2037
-#define WGL_TRANSPARENT_GREEN_VALUE_ARB 0x2038
-#define WGL_TRANSPARENT_BLUE_VALUE_ARB  0x2039
-#define WGL_TRANSPARENT_ALPHA_VALUE_ARB 0x203A
-#define WGL_TRANSPARENT_INDEX_VALUE_ARB 0x203B
+#define WGL_TRANSPARENT_RED_हालागा_ARB   0x2037
+#define WGL_TRANSPARENT_GREEN_हालागा_ARB 0x2038
+#define WGL_TRANSPARENT_BLUE_हालागा_ARB  0x2039
+#define WGL_TRANSPARENT_ALPHA_हालागा_ARB 0x203A
+#define WGL_TRANSPARENT_INDEX_हालागा_ARB 0x203B
 #define WGL_SHARE_DEPTH_ARB             0x200C
 #define WGL_SHARE_STENCIL_ARB           0x200D
 #define WGL_SHARE_ACCUM_ARB             0x200E

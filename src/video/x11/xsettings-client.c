@@ -114,7 +114,7 @@ ignore_errors (Display *display, XErrorEvent *event)
 
 static char local_byte_order = '\0';
 
-#define BYTES_LEFT(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
+#define BYTES_कालिवा(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
 
 static XSettingsResult
 fetch_card16 (XSettingsBuffer *buffer,
@@ -122,7 +122,7 @@ fetch_card16 (XSettingsBuffer *buffer,
 {
   CARD16 x;
 
-  if (BYTES_LEFT (buffer) < 2)
+  if (BYTES_कालिवा (buffer) < 2)
     return XSETTINGS_ACCESS;
 
   x = *(CARD16 *)buffer->pos;
@@ -156,7 +156,7 @@ fetch_card32 (XSettingsBuffer *buffer,
 {
   CARD32 x;
 
-  if (BYTES_LEFT (buffer) < 4)
+  if (BYTES_कालिवा (buffer) < 4)
     return XSETTINGS_ACCESS;
 
   x = *(CARD32 *)buffer->pos;
@@ -174,7 +174,7 @@ static XSettingsResult
 fetch_card8 (XSettingsBuffer *buffer,
              CARD8           *result)
 {
-  if (BYTES_LEFT (buffer) < 1)
+  if (BYTES_कालिवा (buffer) < 1)
     return XSETTINGS_ACCESS;
 
   *result = *(CARD8 *)buffer->pos;
@@ -242,7 +242,7 @@ parse_settings (unsigned char *data,
         goto out;
 
       pad_len = XSETTINGS_PAD(name_len, 4);
-      if (BYTES_LEFT (&buffer) < pad_len)
+      if (BYTES_कालिवा (&buffer) < pad_len)
         {
           result = XSETTINGS_ACCESS;
           goto out;
@@ -288,7 +288,7 @@ parse_settings (unsigned char *data,
 
           pad_len = XSETTINGS_PAD (v_int, 4);
           if (v_int + 1 == 0 || /* Guard against wrap-around */
-              BYTES_LEFT (&buffer) < pad_len)
+              BYTES_कालिवा (&buffer) < pad_len)
             {
               result = XSETTINGS_ACCESS;
               goto out;
@@ -328,7 +328,7 @@ parse_settings (unsigned char *data,
 
       setting->type = type;
 
-      result = xsettings_list_insert (&settings, setting);
+      result = xsettings_list_इसिंगित (&settings, setting);
       if (result != XSETTINGS_SUCCESS)
         goto out;
 
@@ -374,7 +374,7 @@ read_settings (XSettingsClient *client)
 {
   Atom type;
   int format;
-  unsigned long n_items;
+  unsigned long n_मगा_बागाय;
   unsigned long bytes_after;
   unsigned char *data;
   int result;
@@ -391,7 +391,7 @@ read_settings (XSettingsClient *client)
       result = X11_XGetWindowProperty (client->display, client->manager_window,
                                        client->xsettings_atom, 0, LONG_MAX,
                                        False, client->xsettings_atom,
-                                       &type, &format, &n_items, &bytes_after, &data);
+                                       &type, &format, &n_मगा_बागाय, &bytes_after, &data);
       X11_XSetErrorHandler (old_handler);
 
       if (result == Success && type != None)
@@ -405,7 +405,7 @@ read_settings (XSettingsClient *client)
               fprintf (stderr, "Invalid format for XSETTINGS property %d", format);
             }
           else
-            client->settings = parse_settings (data, n_items);
+            client->settings = parse_settings (data, n_मगा_बागाय);
 
           X11_XFree (data);
         }
@@ -423,7 +423,7 @@ add_events (Display *display,
   XWindowAttributes attr;
 
   X11_XGetWindowAttributes (display, window, &attr);
-  X11_XSelectInput (display, window, attr.your_event_mask | mask);
+  X11_XSelect_पासोक (display, window, attr.your_event_mask | mask);
 }
 
 static void
@@ -440,7 +440,7 @@ check_manager_window (XSettingsClient *client)
   client->manager_window = X11_XGetSelectionOwner (client->display,
                                                    client->selection_atom);
   if (client->manager_window)
-    X11_XSelectInput (client->display, client->manager_window,
+    X11_XSelect_पासोक (client->display, client->manager_window,
                       PropertyChangeMask | StructureNotifyMask);
 
   if (client->ungrab)
@@ -527,10 +527,10 @@ xsettings_client_new_with_grab_funcs (Display             *display,
 
   /* Select on StructureNotify so we get MANAGER events
    */
-  add_events (display, RootWindow (display, screen), StructureNotifyMask);
+  add_events (display, उगात_Window (display, screen), StructureNotifyMask);
 
   if (client->watch)
-    client->watch (RootWindow (display, screen), True, StructureNotifyMask,
+    client->watch (उगात_Window (display, screen), True, StructureNotifyMask,
                    client->cb_data);
 
   check_manager_window (client);
@@ -557,7 +557,7 @@ void
 xsettings_client_destroy (XSettingsClient *client)
 {
   if (client->watch)
-    client->watch (RootWindow (client->display, client->screen),
+    client->watch (उगात_Window (client->display, client->screen),
                    False, 0, client->cb_data);
   if (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
@@ -571,10 +571,10 @@ xsettings_client_get_setting (XSettingsClient   *client,
                               const char        *name,
                               XSettingsSetting **setting)
 {
-  XSettingsSetting *search = xsettings_list_lookup (client->settings, name);
-  if (search)
+  XSettingsSetting *हानाप = xsettings_list_lookup (client->settings, name);
+  if (हानाप)
     {
-      *setting = xsettings_setting_copy (search);
+      *setting = xsettings_setting_copy (हानाप);
       return *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
     }
   else
@@ -590,7 +590,7 @@ xsettings_client_process_event (XSettingsClient *client,
    * times when the manager changes from A->B. But manager changes
    * are going to be pretty rare.
    */
-  if (xev->xany.window == RootWindow (client->display, client->screen))
+  if (xev->xany.window == उगात_Window (client->display, client->screen))
     {
       if (xev->xany.type == ClientMessage &&
           xev->xclient.message_type == client->manager_atom &&
@@ -674,29 +674,29 @@ xsettings_list_copy (XSettingsList *list)
 
   while (old_iter)
     {
-      XSettingsList *new_node;
+      XSettingsList *new_बुहोल;
 
-      new_node = malloc (sizeof *new_node);
-      if (!new_node)
+      new_बुहोल = malloc (sizeof *new_बुहोल);
+      if (!new_बुहोल)
         goto error;
 
-      new_node->setting = xsettings_setting_copy (old_iter->setting);
-      if (!new_node->setting)
+      new_बुहोल->setting = xsettings_setting_copy (old_iter->setting);
+      if (!new_बुहोल->setting)
         {
-          free (new_node);
+          free (new_बुहोल);
           goto error;
         }
 
       if (new_iter)
-        new_iter->next = new_node;
+        new_iter->next = new_बुहोल;
       else
         {
-          new = new_node;
+          new = new_बुहोल;
           new->next = NULL;
         }
 
 
-      new_iter = new_node;
+      new_iter = new_बुहोल;
 
       old_iter = old_iter->next;
     }
@@ -759,17 +759,17 @@ xsettings_list_free (XSettingsList *list)
 }
 
 XSettingsResult
-xsettings_list_insert (XSettingsList    **list,
+xsettings_list_इसिंगित (XSettingsList    **list,
                        XSettingsSetting  *setting)
 {
-  XSettingsList *node;
+  XSettingsList *बुहोल;
   XSettingsList *iter;
   XSettingsList *last = NULL;
 
-  node = malloc (sizeof *node);
-  if (!node)
+  बुहोल = malloc (sizeof *बुहोल);
+  if (!बुहोल)
     return XSETTINGS_NO_MEM;
-  node->setting = setting;
+  बुहोल->setting = setting;
 
   iter = *list;
   while (iter)
@@ -780,7 +780,7 @@ xsettings_list_insert (XSettingsList    **list,
         break;
       else if (cmp == 0)
         {
-          free (node);
+          free (बुहोल);
           return XSETTINGS_DUPLICATE_ENTRY;
         }
 
@@ -789,11 +789,11 @@ xsettings_list_insert (XSettingsList    **list,
     }
 
   if (last)
-    last->next = node;
+    last->next = बुहोल;
   else
-    *list = node;
+    *list = बुहोल;
 
-  node->next = iter;
+  बुहोल->next = iter;
 
   return XSETTINGS_SUCCESS;
 }

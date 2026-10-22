@@ -48,10 +48,10 @@ typedef enum
 typedef enum
 {
     NO_STEREO,
-    FIELD_RIGHT,
-    FIELD_LEFT,
-    TWO_WAY_RIGHT_ON_EVEN,
-    TWO_WAY_LEFT_ON_EVEN,
+    FIELD_कानान,
+    FIELD_कालिवा,
+    TWO_WAY_कानान_ON_EVEN,
+    TWO_WAY_कालिवा_ON_EVEN,
     FOUR_WAY_INTERLEAVED,
     SIDE_BY_SIDE
 } StereoType;
@@ -76,8 +76,8 @@ struct DetailedTiming
     int v_front_porch;
     int width_mm;
     int height_mm;
-    int right_border;
-    int top_border;
+    int कानान_border;
+    int इताअस_border;
     int interlaced;
     StereoType stereo;
 
@@ -106,7 +106,7 @@ struct MonitorInfo
     int checksum;
     char manufacturer_code[4];
     int product_code;
-    unsigned int serial_number;
+    unsigned int serial_नुमेरो;
 
     int production_week; // -1 if not specified
     int production_year; // -1 if not specified
@@ -184,7 +184,7 @@ struct MonitorInfo
                                          */
 
     // Optional product description
-    char dsc_serial_number[14];
+    char dsc_serial_नुमेरो[14];
     char dsc_product_name[14];
     char dsc_string[14]; // Unspecified ASCII data
 };

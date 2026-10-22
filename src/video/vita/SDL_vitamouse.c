@@ -52,28 +52,28 @@ void VITA_PollMouse(void)
 
     if (mouse_hid_handle > 0) {
         SDL_MouseID mouseID = (SDL_MouseID)mouse_hid_handle;
-        int numReports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
-        if (numReports > 0) {
-            for (int i = 0; i <= numReports - 1; i++) {
+        int नुमेरो_Reports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
+        if (नुमेरो_Reports > 0) {
+            for (int i = 0; i <= नुमेरो_Reports - 1; i++) {
                 Uint8 changed_buttons = m_reports[i].buttons ^ prev_buttons;
 
                 if (changed_buttons & 0x1) {
                     if (prev_buttons & 0x1)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, false);
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_कालिवा, false);
                     else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, true);
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_कालिवा, true);
                 }
                 if (changed_buttons & 0x2) {
                     if (prev_buttons & 0x2)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, false);
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_कानान, false);
                     else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, true);
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_कानान, true);
                 }
                 if (changed_buttons & 0x4) {
                     if (prev_buttons & 0x4)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, false);
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_गित्ना, false);
                     else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, true);
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_गित्ना, true);
                 }
                 if (changed_buttons & 0x8) {
                     if (prev_buttons & 0x8)

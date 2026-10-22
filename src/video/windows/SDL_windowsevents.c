@@ -79,8 +79,8 @@
 #ifndef GET_XBUTTON_WPARAM
 #define GET_XBUTTON_WPARAM(w) (HIWORD(w))
 #endif
-#ifndef WM_INPUT
-#define WM_INPUT 0x00ff
+#ifndef WM_पासोक
+#define WM_पासोक 0x00ff
 #endif
 #ifndef WM_TOUCH
 #define WM_TOUCH 0x0240
@@ -130,8 +130,8 @@
 #define WC_ERR_INVALID_CHARS 0x00000080
 #endif
 
-#ifndef IS_HIGH_SURROGATE
-#define IS_HIGH_SURROGATE(x) (((x) >= 0xd800) && ((x) <= 0xdbff))
+#ifndef IS_माताअस_SURROGATE
+#define IS_माताअस_SURROGATE(x) (((x) >= 0xd800) && ((x) <= 0xdbff))
 #endif
 
 #ifndef USER_TIMER_MINIMUM
@@ -196,21 +196,21 @@ void SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata)
     g_WindowsMessageHookData = userdata;
 }
 
-static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, Uint16 *rawcode, bool *virtual_key)
+static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, Uint16 *rawcode, bool *virtual_सुसि)
 {
     SDL_Scancode code;
     Uint8 index;
-    Uint16 keyFlags = HIWORD(lParam);
-    Uint16 scanCode = LOBYTE(keyFlags);
+    Uint16 सुसि_Flags = HIWORD(lParam);
+    Uint16 scanCode = LOBYTE(सुसि_Flags);
 
     /* On-Screen Keyboard can send wrong scan codes with high-order bit set (key break code).
      * Strip high-order bit. */
     scanCode &= ~0x80;
 
-    *virtual_key = (scanCode == 0);
+    *virtual_सुसि = (scanCode == 0);
 
     if (scanCode != 0) {
-        if ((keyFlags & KF_EXTENDED) == KF_EXTENDED) {
+        if ((सुसि_Flags & KF_EXTENDED) == KF_EXTENDED) {
             scanCode = MAKEWORD(scanCode, 0xe0);
         } else if (scanCode == 0x45) {
             // Pause
@@ -222,7 +222,7 @@ static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, U
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         /* Windows may not report scan codes for some buttons (multimedia buttons etc).
          * Get scan code from the VK code.*/
-        scanCode = LOWORD(MapVirtualKey(vkCode, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
+        scanCode = LOWORD(Map_Virtual_सुसि(vkCode, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
         /* Pause/Break key have a special scan code with 0xe1 prefix.
@@ -250,10 +250,10 @@ static bool WIN_ShouldIgnoreFocusClick(SDL_WindowData *data)
 static void WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePressed, Uint32 mouseFlags, bool bSwapButtons, SDL_WindowData *data, Uint8 button, SDL_MouseID mouseID)
 {
     if (bSwapButtons) {
-        if (button == SDL_BUTTON_LEFT) {
-            button = SDL_BUTTON_RIGHT;
-        } else if (button == SDL_BUTTON_RIGHT) {
-            button = SDL_BUTTON_LEFT;
+        if (button == SDL_BUTTON_कालिवा) {
+            button = SDL_BUTTON_कानान;
+        } else if (button == SDL_BUTTON_कानान) {
+            button = SDL_BUTTON_कालिवा;
         }
     }
 
@@ -283,9 +283,9 @@ static void WIN_CheckWParamMouseButtons(Uint64 timestamp, WPARAM wParam, SDL_Win
         SDL_MouseButtonFlags mouseFlags = SDL_GetMouseState(NULL, NULL);
 
         // WM_LBUTTONDOWN and friends handle button swapping for us. No need to check SM_SWAPBUTTON here.
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_LBUTTON), mouseFlags, false, data, SDL_BUTTON_LEFT, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_MBUTTON), mouseFlags, false, data, SDL_BUTTON_MIDDLE, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_RBUTTON), mouseFlags, false, data, SDL_BUTTON_RIGHT, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_LBUTTON), mouseFlags, false, data, SDL_BUTTON_कालिवा, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_MBUTTON), mouseFlags, false, data, SDL_BUTTON_गित्ना, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_RBUTTON), mouseFlags, false, data, SDL_BUTTON_कानान, mouseID);
         WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON1), mouseFlags, false, data, SDL_BUTTON_X1, mouseID);
         WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON2), mouseFlags, false, data, SDL_BUTTON_X2, mouseID);
 
@@ -297,7 +297,7 @@ static void WIN_CheckAsyncMouseRelease(Uint64 timestamp, SDL_WindowData *data)
 {
     SDL_MouseID mouseID = SDL_GLOBAL_MOUSE_ID;
     Uint32 mouseFlags;
-    SHORT keyState;
+    SHORT सुसि_State;
     bool swapButtons;
 
     /* mouse buttons may have changed state here, we need to resync them,
@@ -306,24 +306,24 @@ static void WIN_CheckAsyncMouseRelease(Uint64 timestamp, SDL_WindowData *data)
     mouseFlags = SDL_GetMouseState(NULL, NULL);
     swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
 
-    keyState = GetAsyncKeyState(VK_LBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_LEFT, mouseID);
+    सुसि_State = Get_Async_सुसि_State(VK_LBUTTON);
+    if (!(सुसि_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_कालिवा, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_RBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_RIGHT, mouseID);
+    सुसि_State = Get_Async_सुसि_State(VK_RBUTTON);
+    if (!(सुसि_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_कानान, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_MBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_MIDDLE, mouseID);
+    सुसि_State = Get_Async_सुसि_State(VK_MBUTTON);
+    if (!(सुसि_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_गित्ना, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_XBUTTON1);
-    if (!(keyState & 0x8000)) {
+    सुसि_State = Get_Async_सुसि_State(VK_XBUTTON1);
+    if (!(सुसि_State & 0x8000)) {
         WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X1, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_XBUTTON2);
-    if (!(keyState & 0x8000)) {
+    सुसि_State = Get_Async_सुसि_State(VK_XBUTTON2);
+    if (!(सुसि_State & 0x8000)) {
         WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X2, mouseID);
     }
     data->mouse_button_flags = (WPARAM)-1;
@@ -345,19 +345,19 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
 
         if (WIN_ShouldIgnoreFocusClick(data) && !(window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
             bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
-            if (GetAsyncKeyState(VK_LBUTTON)) {
+            if (Get_Async_सुसि_State(VK_LBUTTON)) {
                 data->focus_click_pending |= !swapButtons ? SDL_BUTTON_LMASK : SDL_BUTTON_RMASK;
             }
-            if (GetAsyncKeyState(VK_RBUTTON)) {
+            if (Get_Async_सुसि_State(VK_RBUTTON)) {
                 data->focus_click_pending |= !swapButtons ? SDL_BUTTON_RMASK : SDL_BUTTON_LMASK;
             }
-            if (GetAsyncKeyState(VK_MBUTTON)) {
+            if (Get_Async_सुसि_State(VK_MBUTTON)) {
                 data->focus_click_pending |= SDL_BUTTON_MMASK;
             }
-            if (GetAsyncKeyState(VK_XBUTTON1)) {
+            if (Get_Async_सुसि_State(VK_XBUTTON1)) {
                 data->focus_click_pending |= SDL_BUTTON_X1MASK;
             }
-            if (GetAsyncKeyState(VK_XBUTTON2)) {
+            if (Get_Async_सुसि_State(VK_XBUTTON2)) {
                 data->focus_click_pending |= SDL_BUTTON_X2MASK;
             }
         }
@@ -380,9 +380,9 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
          */
         WIN_CheckClipboardUpdate(data->videodata);
 
-        SDL_ToggleModState(SDL_KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? true : false);
-        SDL_ToggleModState(SDL_KMOD_NUM, (GetKeyState(VK_NUMLOCK) & 0x0001) ? true : false);
-        SDL_ToggleModState(SDL_KMOD_SCROLL, (GetKeyState(VK_SCROLL) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_CAPS, (Get_सुसि_State(VK_CAPITAL) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_नुमेरो, (Get_सुसि_State(VK_NUMLOCK) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_SCROLL, (Get_सुसि_State(VK_SCROLL) & 0x0001) ? true : false);
 
         WIN_UpdateWindowICCProfile(data->window, true);
     } else {
@@ -393,7 +393,7 @@ static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
         if (SDL_GetMouse()->relative_mode) {
             SDL_SetMouseFocus(NULL);
         }
-        WIN_ResetDeadKeys();
+        WIN_Reset_Dead_मगा_सुसि();
 
         WIN_UnclipCursorForWindow(window);
 
@@ -523,11 +523,11 @@ WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
     if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
         if (!data->raw_keyboard_enabled) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, true);
+            SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, true);
         }
     } else {
         if (!data->raw_keyboard_enabled) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, false);
+            SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, false);
         }
 
         /* If the key was down prior to our hook being installed, allow the
@@ -535,8 +535,8 @@ WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
            windows have a consistent view of the key state, and avoids keys
            being stuck down in those windows if they are down when the grab
            happens and raised while grabbed. */
-        if (hookData->vkCode <= 0xFF && data->pre_hook_key_state[hookData->vkCode]) {
-            data->pre_hook_key_state[hookData->vkCode] = 0;
+        if (hookData->vkCode <= 0xFF && data->pre_hook_सुसि_state[hookData->vkCode]) {
+            data->pre_hook_सुसि_state[hookData->vkCode] = 0;
             return CallNextHookEx(NULL, nCode, wParam, lParam);
         }
     }
@@ -553,19 +553,19 @@ static bool WIN_SwapButtons(HANDLE hDevice)
     return GetSystemMetrics(SM_SWAPBUTTON) != 0;
 }
 
-static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWMOUSE *rawmouse)
+static void WIN_Handle_Raw_Mouse_पासोक(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWMOUSE *rawmouse)
 {
     static struct {
         USHORT usButtonFlags;
         Uint8 button;
         bool down;
     } raw_buttons[] = {
-        { RI_MOUSE_LEFT_BUTTON_DOWN, SDL_BUTTON_LEFT, true },
-        { RI_MOUSE_LEFT_BUTTON_UP, SDL_BUTTON_LEFT, false },
-        { RI_MOUSE_RIGHT_BUTTON_DOWN, SDL_BUTTON_RIGHT, true },
-        { RI_MOUSE_RIGHT_BUTTON_UP, SDL_BUTTON_RIGHT, false },
-        { RI_MOUSE_MIDDLE_BUTTON_DOWN, SDL_BUTTON_MIDDLE, true },
-        { RI_MOUSE_MIDDLE_BUTTON_UP, SDL_BUTTON_MIDDLE, false },
+        { RI_MOUSE_कालिवा_BUTTON_DOWN, SDL_BUTTON_कालिवा, true },
+        { RI_MOUSE_कालिवा_BUTTON_UP, SDL_BUTTON_कालिवा, false },
+        { RI_MOUSE_कानान_BUTTON_DOWN, SDL_BUTTON_कानान, true },
+        { RI_MOUSE_कानान_BUTTON_UP, SDL_BUTTON_कानान, false },
+        { RI_MOUSE_गित्ना_BUTTON_DOWN, SDL_BUTTON_गित्ना, true },
+        { RI_MOUSE_गित्ना_BUTTON_UP, SDL_BUTTON_गित्ना, false },
         { RI_MOUSE_BUTTON_4_DOWN, SDL_BUTTON_X1, true },
         { RI_MOUSE_BUTTON_4_UP, SDL_BUTTON_X1, false },
         { RI_MOUSE_BUTTON_5_DOWN, SDL_BUTTON_X2, true },
@@ -643,8 +643,8 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
                     if (floatX <= 0.01f || floatX >= 0.99f || floatY <= 0.01f || floatY >= 0.99f || y < 32) {
                         /* Wobble the cursor position so it's not ignored if the last warp didn't have any effect */
                         RECT rect = windowdata->cursor_clipped_rect;
-                        int warpX = rect.left + ((rect.right - rect.left) / 2) + wobble;
-                        int warpY = rect.top + ((rect.bottom - rect.top) / 2);
+                        int warpX = rect.कालिवा + ((rect.कानान - rect.कालिवा) / 2) + wobble;
+                        int warpY = rect.इताअस + ((rect.bottom - rect.इताअस) / 2);
 
                         WIN_SetCursorPos(warpX, warpY);
 
@@ -676,10 +676,10 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
                 int screen_x = virtual_desktop ? GetSystemMetrics(SM_XVIRTUALSCREEN) : 0;
                 int screen_y = virtual_desktop ? GetSystemMetrics(SM_YVIRTUALSCREEN) : 0;
 
-                if (!data->raw_input_fake_pen_id) {
-                    data->raw_input_fake_pen_id = SDL_AddPenDevice(timestamp, "raw mouse input", window, NULL, (void *)(size_t)-1, true);
+                if (!data->raw_पासोक_fake_pen_id) {
+                    data->raw_पासोक_fake_pen_id = SDL_AddPenDevice(timestamp, "raw mouse input", window, NULL, (void *)(size_t)-1, true);
                 }
-                SDL_SendPenMotion(timestamp, data->raw_input_fake_pen_id, window, (float)(x + screen_x - window->x), (float)(y + screen_y - window->y));
+                SDL_SendPenMotion(timestamp, data->raw_पासोक_fake_pen_id, window, (float)(x + screen_x - window->x), (float)(y + screen_y - window->y));
             }
 
             data->last_raw_mouse_position.x = x;
@@ -693,13 +693,13 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
                 Uint8 button = raw_buttons[i].button;
                 bool down = raw_buttons[i].down;
 
-                if (button == SDL_BUTTON_LEFT) {
+                if (button == SDL_BUTTON_कालिवा) {
                     if (WIN_SwapButtons(hDevice)) {
-                        button = SDL_BUTTON_RIGHT;
+                        button = SDL_BUTTON_कानान;
                     }
-                } else if (button == SDL_BUTTON_RIGHT) {
+                } else if (button == SDL_BUTTON_कानान) {
                     if (WIN_SwapButtons(hDevice)) {
-                        button = SDL_BUTTON_LEFT;
+                        button = SDL_BUTTON_कालिवा;
                     }
                 }
 
@@ -732,7 +732,7 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
     }
 }
 
-static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWKEYBOARD *rawkeyboard)
+static void WIN_Handle_Raw_Keyboard_पासोक(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWKEYBOARD *rawkeyboard)
 {
     SDL_KeyboardID keyboardID = (SDL_KeyboardID)(uintptr_t)hDevice;
 
@@ -740,20 +740,20 @@ static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HA
         return;
     }
 
-    if (rawkeyboard->Flags & RI_KEY_E1) {
+    if (rawkeyboard->Flags & RI_सुसि_E1) {
         // First key in a Ctrl+{key} sequence
-        data->pending_E1_key_sequence = true;
+        data->pending_E1_सुसि_sequence = true;
         return;
     }
 
-    if ((rawkeyboard->Flags & RI_KEY_E0) && rawkeyboard->MakeCode == 0x2A) {
+    if ((rawkeyboard->Flags & RI_सुसि_E0) && rawkeyboard->MakeCode == 0x2A) {
         // 0xE02A make code prefix, ignored
         return;
     }
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     if (!rawkeyboard->MakeCode) {
-        rawkeyboard->MakeCode = LOWORD(MapVirtualKey(rawkeyboard->VKey, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
+        rawkeyboard->MakeCode = LOWORD(Map_Virtual_सुसि(rawkeyboard->VKey, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
     }
 #endif
     if (!rawkeyboard->MakeCode) {
@@ -771,13 +771,13 @@ static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HA
         down = false;
         break;
     default:
-        down = !(rawkeyboard->Flags & RI_KEY_BREAK);
+        down = !(rawkeyboard->Flags & RI_सुसि_BREAK);
         break;
     }
 
     SDL_Scancode code;
     USHORT rawcode = rawkeyboard->MakeCode;
-    if (data->pending_E1_key_sequence) {
+    if (data->pending_E1_सुसि_sequence) {
         rawcode |= 0xE100;
         if (rawkeyboard->MakeCode == 0x45) {
             // Ctrl+NumLock == Pause
@@ -786,11 +786,11 @@ static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HA
             // Ctrl+ScrollLock == Break (no SDL scancode?)
             code = SDL_SCANCODE_UNKNOWN;
         }
-        data->pending_E1_key_sequence = false;
+        data->pending_E1_सुसि_sequence = false;
     } else {
         // The code is in the lower 7 bits, the high bit is set for the E0 prefix
         Uint8 index = (Uint8)rawkeyboard->MakeCode;
-        if (rawkeyboard->Flags & RI_KEY_E0) {
+        if (rawkeyboard->Flags & RI_सुसि_E0) {
             rawcode |= 0xE000;
             index |= 0x80;
         }
@@ -800,19 +800,19 @@ static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HA
     if (down) {
         SDL_Window *focus = SDL_GetKeyboardFocus();
         // With input sink flag we want to receive input even if not focused
-        if ((!data->raw_keyboard_flag_inputsink && !focus) || (focus && focus->text_input_active)) {
+        if ((!data->raw_keyboard_flag_inputsink && !focus) || (focus && focus->text_पासोक_active)) {
             return;
         }
     }
 
-    SDL_SendKeyboardKey(timestamp, keyboardID, rawcode, code, down);
+    SDL_Send_Keyboard_सुसि(timestamp, keyboardID, rawcode, code, down);
 }
 
-void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
+void WIN_Poll_Raw_पासोक(SDL_VideoDevice *_this, Uint64 poll_start)
 {
     SDL_VideoData *data = _this->internal;
-    UINT size, i, count, total = 0;
-    RAWINPUT *input;
+    UINT size, i, बिलांग, total = 0;
+    RAWINPUT *पासोक;
     Uint64 poll_finish;
 
     if (data->rawinput_offset == 0) {
@@ -826,30 +826,30 @@ void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
     }
 
     // Get all available events
-    input = (RAWINPUT *)data->rawinput;
+    पासोक = (RAWINPUT *)data->rawinput;
     for (;;) {
-        size = data->rawinput_size - (UINT)((BYTE *)input - data->rawinput);
-        count = GetRawInputBuffer(input, &size, sizeof(RAWINPUTHEADER));
+        size = data->rawinput_size - (UINT)((BYTE *)पासोक - data->rawinput);
+        बिलांग = Get_Raw_पासोक_Buffer(पासोक, &size, sizeof(RAWINPUTHEADER));
         poll_finish = SDL_GetTicksNS();
-        if (count == 0 || count == (UINT)-1) {
-            if (!data->rawinput || (count == (UINT)-1 && GetLastError() == ERROR_INSUFFICIENT_BUFFER)) {
+        if (बिलांग == 0 || बिलांग == (UINT)-1) {
+            if (!data->rawinput || (बिलांग == (UINT)-1 && GetLastError() == ERROR_INSUFFICIENT_BUFFER)) {
                 const UINT RAWINPUT_BUFFER_SIZE_INCREMENT = 96;   // 2 64-bit raw mouse packets
                 BYTE *rawinput = (BYTE *)SDL_realloc(data->rawinput, data->rawinput_size + RAWINPUT_BUFFER_SIZE_INCREMENT);
                 if (!rawinput) {
                     break;
                 }
-                input = (RAWINPUT *)(rawinput + ((BYTE *)input - data->rawinput));
+                पासोक = (RAWINPUT *)(rawinput + ((BYTE *)पासोक - data->rawinput));
                 data->rawinput = rawinput;
                 data->rawinput_size += RAWINPUT_BUFFER_SIZE_INCREMENT;
             } else {
                 break;
             }
         } else {
-            total += count;
+            total += बिलांग;
 
             // Advance input to the end of the buffer
-            while (count--) {
-                input = NEXTRAWINPUTBLOCK(input);
+            while (बिलांग--) {
+                पासोक = NEXTRAWINPUTBLOCK(पासोक);
             }
         }
     }
@@ -857,44 +857,44 @@ void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
     if (total > 0) {
         Uint64 delta = poll_finish - poll_start;
         UINT mouse_total = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
+        for (i = 0, पासोक = (RAWINPUT *)data->rawinput; i < total; ++i, पासोक = NEXTRAWINPUTBLOCK(पासोक)) {
+            if (पासोक->header.dwType == RIM_TYPEMOUSE) {
                 mouse_total += 1;
             }
         }
         int mouse_index = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
+        for (i = 0, पासोक = (RAWINPUT *)data->rawinput; i < total; ++i, पासोक = NEXTRAWINPUTBLOCK(पासोक)) {
+            if (पासोक->header.dwType == RIM_TYPEMOUSE) {
                 mouse_index += 1; // increment first so that it starts at one
-                RAWMOUSE *rawmouse = (RAWMOUSE *)((BYTE *)input + data->rawinput_offset);
+                RAWMOUSE *rawmouse = (RAWMOUSE *)((BYTE *)पासोक + data->rawinput_offset);
                 Uint64 time = poll_finish - (delta * (mouse_total - mouse_index)) / mouse_total;
-                WIN_HandleRawMouseInput(time, data, input->header.hDevice, rawmouse);
-            } else if (input->header.dwType == RIM_TYPEKEYBOARD) {
-                RAWKEYBOARD *rawkeyboard = (RAWKEYBOARD *)((BYTE *)input + data->rawinput_offset);
-                WIN_HandleRawKeyboardInput(poll_finish, data, input->header.hDevice, rawkeyboard);
+                WIN_Handle_Raw_Mouse_पासोक(time, data, पासोक->header.hDevice, rawmouse);
+            } else if (पासोक->header.dwType == RIM_TYPEKEYBOARD) {
+                RAWKEYBOARD *rawkeyboard = (RAWKEYBOARD *)((BYTE *)पासोक + data->rawinput_offset);
+                WIN_Handle_Raw_Keyboard_पासोक(poll_finish, data, पासोक->header.hDevice, rawkeyboard);
             }
         }
     }
     data->last_rawinput_poll = poll_finish;
 }
 
-static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *count)
+static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *बिलांग)
 {
-    int new_count = (*count + 1);
-    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_count * sizeof(*new_list));
+    int new_बिलांग = (*बिलांग + 1);
+    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_बिलांग * sizeof(*new_list));
     if (!new_list) {
         // Oh well, we'll drop this one
         return;
     }
-    new_list[new_count - 1] = deviceID;
+    new_list[new_बिलांग - 1] = deviceID;
 
-    *count = new_count;
+    *बिलांग = new_बिलांग;
     *list = new_list;
 }
 
-static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int count)
+static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int बिलांग)
 {
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < बिलांग; ++i) {
         if (deviceID == list[i]) {
             return true;
         }
@@ -917,7 +917,7 @@ static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instanc
         char devName[MAX_PATH + 1];
         devName[0] = '\0';
         UINT cap = sizeof(devName) - 1;
-        UINT len = GetRawInputDeviceInfoA(hDevice, RIDI_DEVICENAME, devName, &cap);
+        UINT len = Get_Raw_पासोक_Device_Info_A(hDevice, RIDI_DEVICENAME, devName, &cap);
         if (len != (UINT)-1) {
             devName[len] = '\0';
 
@@ -925,7 +925,7 @@ static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instanc
             // https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/top-level-collections-opened-by-windows-for-system-use
             // they can only be opened with a desired access of none instead of generic read.
             HANDLE hFile = CreateFileA(devName, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-            if (hFile != INVALID_HANDLE_VALUE) {
+            if (hFile != INVALID_HANDLE_हालागा) {
                 SDL_HidD_GetManufacturerString(hFile, vend, sizeof(vend));
                 SDL_HidD_GetProductString(hFile, prod, sizeof(prod));
                 CloseHandle(hFile);
@@ -945,7 +945,7 @@ static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instanc
         data.cbSize = sizeof(data);
         for (DWORD i = 0;; ++i) {
             if (!SetupDiEnumDeviceInfo(devinfo, i, &data)) {
-                if (GetLastError() == ERROR_NO_MORE_ITEMS) {
+                if (GetLastError() == ERROR_NO_MORE_मगा_बागाय) {
                     break;
                 } else {
                     continue;
@@ -992,14 +992,14 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
     PRAWINPUTDEVICELIST raw_devices = NULL;
-    UINT raw_device_count = 0;
-    int old_keyboard_count = 0;
+    UINT raw_device_बिलांग = 0;
+    int old_keyboard_बिलांग = 0;
     SDL_KeyboardID *old_keyboards = NULL;
-    int new_keyboard_count = 0;
+    int new_keyboard_बिलांग = 0;
     SDL_KeyboardID *new_keyboards = NULL;
-    int old_mouse_count = 0;
+    int old_mouse_बिलांग = 0;
     SDL_MouseID *old_mice = NULL;
-    int new_mouse_count = 0;
+    int new_mouse_बिलांग = 0;
     SDL_MouseID *new_mice = NULL;
 
     if (!_this ||
@@ -1009,17 +1009,17 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
         return;
     }
 
-    if ((GetRawInputDeviceList(NULL, &raw_device_count, sizeof(RAWINPUTDEVICELIST)) == -1) || (!raw_device_count)) {
+    if ((Get_Raw_पासोक_Device_List(NULL, &raw_device_बिलांग, sizeof(RAWINPUTDEVICELIST)) == -1) || (!raw_device_बिलांग)) {
         return; // oh well.
     }
 
-    raw_devices = (PRAWINPUTDEVICELIST)SDL_malloc(sizeof(RAWINPUTDEVICELIST) * raw_device_count);
+    raw_devices = (PRAWINPUTDEVICELIST)SDL_malloc(sizeof(RAWINPUTDEVICELIST) * raw_device_बिलांग);
     if (!raw_devices) {
         return; // oh well.
     }
 
-    raw_device_count = GetRawInputDeviceList(raw_devices, &raw_device_count, sizeof(RAWINPUTDEVICELIST));
-    if (raw_device_count == (UINT)-1) {
+    raw_device_बिलांग = Get_Raw_पासोक_Device_List(raw_devices, &raw_device_बिलांग, sizeof(RAWINPUTDEVICELIST));
+    if (raw_device_बिलांग == (UINT)-1) {
         SDL_free(raw_devices);
         raw_devices = NULL;
         return; // oh well.
@@ -1027,10 +1027,10 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 
     HDEVINFO devinfo = SetupDiGetClassDevsA(NULL, NULL, NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
 
-    old_keyboards = SDL_GetKeyboards(&old_keyboard_count);
-    old_mice = SDL_GetMice(&old_mouse_count);
+    old_keyboards = SDL_GetKeyboards(&old_keyboard_बिलांग);
+    old_mice = SDL_GetMice(&old_mouse_बिलांग);
 
-    for (UINT i = 0; i < raw_device_count; i++) {
+    for (UINT i = 0; i < raw_device_बिलांग; i++) {
         RID_DEVICE_INFO rdi;
         char devName[MAX_PATH] = { 0 };
         UINT rdiSize = sizeof(rdi);
@@ -1044,8 +1044,8 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
         }
 
         rdi.cbSize = sizeof(rdi);
-        if (GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdiSize) == ((UINT)-1) ||
-            GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICENAME, devName, &nameSize) == ((UINT)-1)) {
+        if (Get_Raw_पासोक_Device_Info_A(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdiSize) == ((UINT)-1) ||
+            Get_Raw_पासोक_Device_Info_A(raw_devices[i].hDevice, RIDI_DEVICENAME, devName, &nameSize) == ((UINT)-1)) {
             continue;
         }
 
@@ -1071,10 +1071,10 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 
         switch (dwType) {
         case RIM_TYPEKEYBOARD:
-            if (SDL_IsKeyboard((Uint16)vendor, (Uint16)product, rdi.keyboard.dwNumberOfKeysTotal)) {
+            if (SDL_IsKeyboard((Uint16)vendor, (Uint16)product, rdi.keyboard.dw_नुमेरो_Of_मगा_सुसि_Total)) {
                 SDL_KeyboardID keyboardID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
-                AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_count);
-                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_count)) {
+                AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_बिलांग);
+                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_बिलांग)) {
                     name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Keyboard", hid_loaded);
                     SDL_AddKeyboard(keyboardID, name);
                     SDL_free(name);
@@ -1084,8 +1084,8 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
         case RIM_TYPEMOUSE:
             if (SDL_IsMouse((Uint16)vendor, (Uint16)product)) {
                 SDL_MouseID mouseID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
-                AddDeviceID(mouseID, &new_mice, &new_mouse_count);
-                if (!HasDeviceID(mouseID, old_mice, old_mouse_count)) {
+                AddDeviceID(mouseID, &new_mice, &new_mouse_बिलांग);
+                if (!HasDeviceID(mouseID, old_mice, old_mouse_बिलांग)) {
                     name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Mouse", hid_loaded);
                     SDL_AddMouse(mouseID, name);
                     SDL_free(name);
@@ -1097,14 +1097,14 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
         }
     }
 
-    for (int i = old_keyboard_count; i--;) {
-        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_count)) {
+    for (int i = old_keyboard_बिलांग; i--;) {
+        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_बिलांग)) {
             SDL_RemoveKeyboard(old_keyboards[i]);
         }
     }
 
-    for (int i = old_mouse_count; i--;) {
-        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_count)) {
+    for (int i = old_mouse_बिलांग; i--;) {
+        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_बिलांग)) {
             SDL_RemoveMouse(old_mice[i]);
         }
     }
@@ -1122,7 +1122,7 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 
 // Return true if spurious LCtrl is pressed
 // LCtrl is sent when RAltGR is pressed
-static bool SkipAltGrLeftControl(WPARAM wParam, LPARAM lParam)
+static bool Skip_Alt_Gr_कालिवा_Control(WPARAM wParam, LPARAM lParam)
 {
     if (wParam != VK_CONTROL) {
         return false;
@@ -1137,12 +1137,12 @@ static bool SkipAltGrLeftControl(WPARAM wParam, LPARAM lParam)
     // Here is a trick: "Alt Gr" sends LCTRL, then RALT. We only
     // want the RALT message, so we try to see if the next message
     // is a RALT message. In that case, this is a false LCTRL!
-    MSG next_msg;
-    DWORD msg_time = GetMessageTime();
-    if (PeekMessage(&next_msg, NULL, 0, 0, PM_NOREMOVE)) {
-        if (next_msg.message == WM_KEYDOWN ||
-            next_msg.message == WM_SYSKEYDOWN) {
-            if (next_msg.wParam == VK_MENU && (next_msg.lParam & 0x01000000) && next_msg.time == msg_time) {
+    मेनसाहे_2 next_मेनसाहे;
+    DWORD मेनसाहे_time = GetMessageTime();
+    if (PeekMessage(&next_मेनसाहे, NULL, 0, 0, PM_NOREMOVE)) {
+        if (next_मेनसाहे.message == WM_KEYDOWN ||
+            next_मेनसाहे.message == WM_SYSKEYDOWN) {
+            if (next_मेनसाहे.wParam == VK_MENU && (next_मेनसाहे.lParam & 0x01000000) && next_मेनसाहे.time == मेनसाहे_time) {
                 // Next message is a RALT down message, which means that this is NOT a proper LCTRL message!
                 return true;
             }
@@ -1153,18 +1153,18 @@ static bool SkipAltGrLeftControl(WPARAM wParam, LPARAM lParam)
     return false;
 }
 
-static bool DispatchModalLoopMessageHook(HWND *hwnd, UINT *msg, WPARAM *wParam, LPARAM *lParam)
+static bool DispatchModalLoopMessageHook(HWND *hwnd, UINT *मेनसाहे, WPARAM *wParam, LPARAM *lParam)
 {
-    MSG dummy;
+    मेनसाहे_2 dummy;
 
     SDL_zero(dummy);
     dummy.hwnd = *hwnd;
-    dummy.message = *msg;
+    dummy.message = *मेनसाहे;
     dummy.wParam = *wParam;
     dummy.lParam = *lParam;
     if (g_WindowsMessageHook(g_WindowsMessageHookData, &dummy)) {
         // Can't modify the hwnd, but everything else is fair game
-        *msg = dummy.message;
+        *मेनसाहे = dummy.message;
         *wParam = dummy.wParam;
         *lParam = dummy.lParam;
         return true;
@@ -1172,7 +1172,7 @@ static bool DispatchModalLoopMessageHook(HWND *hwnd, UINT *msg, WPARAM *wParam, 
     return false;
 }
 
-LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT मेनसाहे, WPARAM wParam, LPARAM lParam)
 {
     SDL_WindowData *data;
     LRESULT returnCode = -1;
@@ -1186,16 +1186,16 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     }
 #endif
     if (!data) {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+        return CallWindowProc(DefWindowProc, hwnd, मेनसाहे, wParam, lParam);
     }
 
 #ifdef WMMSG_DEBUG
     {
         char message[1024];
-        if (msg > MAX_WMMSG) {
-            SDL_snprintf(message, sizeof(message), "Received windows message: %p UNKNOWN (%d) -- 0x%x, 0x%x\r\n", hwnd, msg, wParam, lParam);
+        if (मेनसाहे > MAX_WMMSG) {
+            SDL_snprintf(message, sizeof(message), "Received windows message: %p UNKNOWN (%d) -- 0x%x, 0x%x\r\n", hwnd, मेनसाहे, wParam, lParam);
         } else {
-            SDL_snprintf(message, sizeof(message), "Received windows message: %p %s -- 0x%x, 0x%x\r\n", hwnd, wmtab[msg], wParam, lParam);
+            SDL_snprintf(message, sizeof(message), "Received windows message: %p %s -- 0x%x, 0x%x\r\n", hwnd, wmtab[मेनसाहे], wParam, lParam);
         }
         OutputDebugStringA(message);
     }
@@ -1204,18 +1204,18 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
     if (g_WindowsMessageHook && data->in_modal_loop) {
         // Synthesize a message for window hooks so they can modify the message if desired
-        if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
+        if (!DispatchModalLoopMessageHook(&hwnd, &मेनसाहे, &wParam, &lParam)) {
             return 0;
         }
     }
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (WIN_HandleIMEMessage(hwnd, msg, wParam, &lParam, data->videodata)) {
+    if (WIN_HandleIMEMessage(hwnd, मेनसाहे, wParam, &lParam, data->videodata)) {
         return 0;
     }
 #endif
 
-    switch (msg) {
+    switch (मेनसाहे) {
 
     case WM_SHOWWINDOW:
     {
@@ -1265,8 +1265,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_ACTIVATE:
     {
         // Update the focus in case we changed focus to a child window and then away from the application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
+        const DWORD मेनसाहे_Pos = GetMessagePos();
+        POINT pos = { GET_X_LPARAM(मेनसाहे_Pos), GET_Y_LPARAM(मेनसाहे_Pos) };
         WIN_UpdateFocus(data->window, !!LOWORD(wParam), &pos);
     } break;
 
@@ -1279,7 +1279,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         // Check parents to see if they are in relative mouse mode and focused
         SDL_Window *parent = data->window->parent;
         while (parent) {
-            if ((parent->flags & SDL_WINDOW_INPUT_FOCUS) &&
+            if ((parent->flags & SDL_WINDOW_पासोक_FOCUS) &&
                 (parent->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE)) {
                 return MA_NOACTIVATE;
             }
@@ -1290,8 +1290,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_SETFOCUS:
     {
         // Update the focus in case it's changing between top-level windows in the same application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
+        const DWORD मेनसाहे_Pos = GetMessagePos();
+        POINT pos = { GET_X_LPARAM(मेनसाहे_Pos), GET_Y_LPARAM(मेनसाहे_Pos) };
         WIN_UpdateFocus(data->window, true, &pos);
     } break;
 
@@ -1299,8 +1299,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_ENTERIDLE:
     {
         // Update the focus in case it's changing between top-level windows in the same application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
+        const DWORD मेनसाहे_Pos = GetMessagePos();
+        POINT pos = { GET_X_LPARAM(मेनसाहे_Pos), GET_Y_LPARAM(मेनसाहे_Pos) };
         WIN_UpdateFocus(data->window, false, &pos);
     } break;
 
@@ -1308,7 +1308,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
         const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
+        POINTER_पासोक_TYPE pointer_type = PT_POINTER;
         if (!data->videodata->GetPointerType) {
             break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
         } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
@@ -1331,7 +1331,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             SDL_zero(info);
             info.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT | SDL_PEN_CAPABILITY_DISTANCE | SDL_PEN_CAPABILITY_ROTATION | SDL_PEN_CAPABILITY_ERASER;
             info.max_tilt = 90.0f;
-            info.num_buttons = 1;
+            info.नुमेरो_buttons = 1;
             info.subtype = SDL_PEN_TYPE_PENCIL;
             SDL_AddPenDevice(WIN_GetEventTimestamp(), NULL, data->window, &info, hpointer, true);
         }
@@ -1343,7 +1343,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
         const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
+        POINTER_पासोक_TYPE pointer_type = PT_POINTER;
         if (!data->videodata->GetPointerType) {
             break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
         } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
@@ -1359,7 +1359,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         }
 
         // if this just left the _window_, we don't care. If this is no longer visible to the tablet, time to remove it!
-        if ((msg == WM_POINTERCAPTURECHANGED) || !IS_POINTER_INCONTACT_WPARAM(wParam)) {
+        if ((मेनसाहे == WM_POINTERCAPTURECHANGED) || !IS_POINTER_INCONTACT_WPARAM(wParam)) {
             // technically this isn't just _proximity_ but maybe just leaving the window. Good enough. WinTab apparently has real proximity info.
             SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, data->window, false, false);
         }
@@ -1371,10 +1371,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_POINTERUPDATE: {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
         const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
+        POINTER_पासोक_TYPE pointer_type = PT_POINTER;
         if (!data->videodata->GetPointerType || !data->videodata->GetPointerType(pointerid, &pointer_type)) {
             break;  // oh well.
-        } else if ((msg == WM_POINTERUPDATE) && (pointer_type == PT_MOUSE)) {
+        } else if ((मेनसाहे == WM_POINTERUPDATE) && (pointer_type == PT_MOUSE)) {
             data->last_pointer_update = lParam;
             returnCode = 0;
             break;
@@ -1417,14 +1417,14 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             SDL_GetWindowPosition(window, &ix, &iy);
             const SDL_FPoint window_pos = { (float) ix, (float) iy };
 
-            const float facX = pointer_info->ptHimetricLocationRaw.x / (float) (tablet_bounds.right );
+            const float facX = pointer_info->ptHimetricLocationRaw.x / (float) (tablet_bounds.कानान );
             const float facY = pointer_info->ptHimetricLocationRaw.y / (float) (tablet_bounds.bottom);
 
-            const float w = tablet_mapping.right  - tablet_mapping.left;
-            const float h = tablet_mapping.bottom - tablet_mapping.top;
+            const float w = tablet_mapping.कानान  - tablet_mapping.कालिवा;
+            const float h = tablet_mapping.bottom - tablet_mapping.इताअस;
 
-            fx = (tablet_mapping.left + (facX * w)) - window_pos.x;
-            fy = (tablet_mapping.top  + (facY * h)) - window_pos.y;
+            fx = (tablet_mapping.कालिवा + (facX * w)) - window_pos.x;
+            fy = (tablet_mapping.इताअस  + (facY * h)) - window_pos.y;
         }
 
         SDL_SendPenMotion(timestamp, pen, window, fx, fy);
@@ -1459,7 +1459,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     {
         SDL_Window *window = data->window;
 
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+        if (window->flags & SDL_WINDOW_पासोक_FOCUS) {
             bool wish_clip_cursor = (
                 window->flags & (SDL_WINDOW_MOUSE_RELATIVE_MODE | SDL_WINDOW_MOUSE_GRABBED) ||
                 (window->mouse_rect.w > 0 && window->mouse_rect.h > 0)
@@ -1516,9 +1516,9 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     } break;
 
 #if 0   // We handle raw input all at once instead of using a syscall for each mouse event
-    case WM_INPUT:
+    case WM_पासोक:
     {
-        HRAWINPUT hRawInput = (HRAWINPUT)lParam;
+        HRAWINPUT h_Raw_पासोक = (HRAWINPUT)lParam;
         RAWINPUT inp;
         UINT size = sizeof(inp);
 
@@ -1527,11 +1527,11 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             break;
         }
 
-        GetRawInputData(hRawInput, RID_INPUT, &inp, &size, sizeof(RAWINPUTHEADER));
+        Get_Raw_पासोक_Data(h_Raw_पासोक, RID_पासोक, &inp, &size, sizeof(RAWINPUTHEADER));
         if (inp.header.dwType == RIM_TYPEMOUSE) {
-            WIN_HandleRawMouseInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.mouse);
+            WIN_Handle_Raw_Mouse_पासोक(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.mouse);
         } else if (inp.header.dwType == RIM_TYPEKEYBOARD) {
-            WIN_HandleRawKeyboardInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.keyboard);
+            WIN_Handle_Raw_Keyboard_पासोक(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.keyboard);
         }
     } break;
 #endif
@@ -1542,7 +1542,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         if (!data->videodata->raw_mouse_enabled) {
             short amount = GET_WHEEL_DELTA_WPARAM(wParam);
             float fAmount = (float)amount / WHEEL_DELTA;
-            if (msg == WM_MOUSEWHEEL) {
+            if (मेनसाहे == WM_MOUSEWHEEL) {
                 SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, 0.0f, fAmount, SDL_MOUSEWHEEL_NORMAL);
             } else {
                 SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, fAmount, 0.0f, SDL_MOUSEWHEEL_NORMAL);
@@ -1588,14 +1588,14 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
+        if (Skip_Alt_Gr_कालिवा_Control(wParam, lParam)) {
             returnCode = 0;
             break;
         }
 
-        bool virtual_key = false;
+        bool virtual_सुसि = false;
         Uint16 rawcode = 0;
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
+        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_सुसि);
 
         // Detect relevant keyboard shortcuts
         if (code == SDL_SCANCODE_F4 && (SDL_GetModState() & SDL_KMOD_ALT)) {
@@ -1605,8 +1605,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             }
         }
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
-            SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
+        if (virtual_सुसि || !data->videodata->raw_keyboard_enabled || data->window->text_पासोक_active) {
+            SDL_Send_Keyboard_सुसि(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
         }
     }
 
@@ -1616,21 +1616,21 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_SYSKEYUP:
     case WM_KEYUP:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
+        if (Skip_Alt_Gr_कालिवा_Control(wParam, lParam)) {
             returnCode = 0;
             break;
         }
 
-        bool virtual_key = false;
+        bool virtual_सुसि = false;
         Uint16 rawcode = 0;
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
+        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_सुसि);
         const bool *keyboardState = SDL_GetKeyboardState(NULL);
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
+        if (virtual_सुसि || !data->videodata->raw_keyboard_enabled || data->window->text_पासोक_active) {
             if (code == SDL_SCANCODE_PRINTSCREEN && !keyboardState[code]) {
-                SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
+                SDL_Send_Keyboard_सुसि(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
             }
-            SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, false);
+            SDL_Send_Keyboard_सुसि(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, false);
         }
     }
         returnCode = 0;
@@ -1640,7 +1640,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         if (wParam == UNICODE_NOCHAR) {
             returnCode = 1;
         } else {
-            if (SDL_TextInputActive(data->window)) {
+            if (SDL_Text_पासोक_Active(data->window)) {
                 char text[5];
                 char *end = SDL_UCS4ToUTF8((Uint32)wParam, text);
                 *end = '\0';
@@ -1651,17 +1651,17 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         break;
 
     case WM_CHAR:
-        if (SDL_TextInputActive(data->window)) {
+        if (SDL_Text_पासोक_Active(data->window)) {
             /* Characters outside Unicode Basic Multilingual Plane (BMP)
              * are coded as so called "surrogate pair" in two separate UTF-16 character events.
              * Cache high surrogate until next character event. */
-            if (IS_HIGH_SURROGATE(wParam)) {
-                data->high_surrogate = (WCHAR)wParam;
+            if (IS_माताअस_SURROGATE(wParam)) {
+                data->माताअस_surrogate = (WCHAR)wParam;
             } else {
                 WCHAR utf16[3];
 
-                utf16[0] = data->high_surrogate ? data->high_surrogate : (WCHAR)wParam;
-                utf16[1] = data->high_surrogate ? (WCHAR)wParam : L'\0';
+                utf16[0] = data->माताअस_surrogate ? data->माताअस_surrogate : (WCHAR)wParam;
+                utf16[1] = data->माताअस_surrogate ? (WCHAR)wParam : L'\0';
                 utf16[2] = L'\0';
 
                 char utf8[5];
@@ -1669,10 +1669,10 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 if (result > 0) {
                     SDL_SendKeyboardText(utf8);
                 }
-                data->high_surrogate = L'\0';
+                data->माताअस_surrogate = L'\0';
             }
         } else {
-            data->high_surrogate = L'\0';
+            data->माताअस_surrogate = L'\0';
         }
 
         returnCode = 0;
@@ -1728,8 +1728,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
         // Get the current position of our window
         GetWindowRect(hwnd, &size);
-        x = size.left;
-        y = size.top;
+        x = size.कालिवा;
+        y = size.इताअस;
 
         // Calculate current size of our window
         SDL_GetWindowSize(data->window, &w, &h);
@@ -1749,13 +1749,13 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         }
 
         if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
-            size.top = 0;
-            size.left = 0;
+            size.इताअस = 0;
+            size.कालिवा = 0;
             size.bottom = h;
-            size.right = w;
+            size.कानान = w;
             WIN_AdjustWindowRectForHWND(hwnd, &size, 0);
-            w = size.right - size.left;
-            h = size.bottom - size.top;
+            w = size.कानान - size.कालिवा;
+            h = size.bottom - size.इताअस;
 #ifdef HIGHDPI_DEBUG
             SDL_Log("WM_GETMINMAXINFO: max window size: %dx%d using dpi: %u", w, h, dpi);
 #endif
@@ -1874,8 +1874,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 ClientToScreen(hwnd, (LPPOINT) &rect);
                 ClientToScreen(hwnd, (LPPOINT) &rect + 1);
 
-                x = rect.left;
-                y = rect.top;
+                x = rect.कालिवा;
+                y = rect.इताअस;
 
                 SDL_GlobalToRelativeForWindow(data->window, x, y, &x, &y);
                 SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MOVED, x, y);
@@ -1883,7 +1883,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
             // Moving the window from one display to another can change the size of the window (in the handling of SDL_EVENT_WINDOW_MOVED), so we need to re-query the bounds
             if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-                w = rect.right;
+                w = rect.कानान;
                 h = rect.bottom;
 
                 SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, w, h);
@@ -1912,7 +1912,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     case WM_ENTERMENULOOP:
     {
         if (g_WindowsMessageHook) {
-            if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
+            if (!DispatchModalLoopMessageHook(&hwnd, &मेनसाहे, &wParam, &lParam)) {
                 return 0;
             }
         }
@@ -1922,12 +1922,12 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             RECT rect;
             SDL_zero(rect);
             GetWindowRect(data->hwnd, &rect);
-            data->last_modal_width = rect.right - rect.left;
-            data->last_modal_height = rect.bottom - rect.top;
+            data->last_modal_width = rect.कानान - rect.कालिवा;
+            data->last_modal_height = rect.bottom - rect.इताअस;
 
-            data->initial_size_rect.left = data->window->x;
-            data->initial_size_rect.right = data->window->x + data->window->w;
-            data->initial_size_rect.top = data->window->y;
+            data->initial_size_rect.कालिवा = data->window->x;
+            data->initial_size_rect.कानान = data->window->x + data->window->w;
+            data->initial_size_rect.इताअस = data->window->y;
             data->initial_size_rect.bottom = data->window->y + data->window->h;
 
             SetTimer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks, USER_TIMER_MINIMUM, NULL);
@@ -1984,20 +1984,20 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 break;
             }
 
-            clientDragRect.left -= rc.left;
-            clientDragRect.top -= rc.top;
-            clientDragRect.right -= rc.right;
+            clientDragRect.कालिवा -= rc.कालिवा;
+            clientDragRect.इताअस -= rc.इताअस;
+            clientDragRect.कानान -= rc.कानान;
             clientDragRect.bottom -= rc.bottom;
 
-            w = clientDragRect.right - clientDragRect.left;
-            h = clientDragRect.bottom - clientDragRect.top;
+            w = clientDragRect.कानान - clientDragRect.कालिवा;
+            h = clientDragRect.bottom - clientDragRect.इताअस;
             new_aspect = w / (float)h;
 
             // handle the special case in which the min ar and max ar are the same so the window can size symmetrically
             if (lock_aspect_ratio) {
                 switch (edge) {
-                case WMSZ_LEFT:
-                case WMSZ_RIGHT:
+                case WMSZ_कालिवा:
+                case WMSZ_कानान:
                     h = (int)SDL_roundf(w / data->window->max_aspect);
                     break;
                 default:
@@ -2007,15 +2007,15 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 }
             } else {
                 switch (edge) {
-                case WMSZ_LEFT:
-                case WMSZ_RIGHT:
+                case WMSZ_कालिवा:
+                case WMSZ_कानान:
                     if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
                         w = (int)SDL_roundf(h * data->window->max_aspect);
                     } else if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
                         w = (int)SDL_roundf(h * data->window->min_aspect);
                     }
                     break;
-                case WMSZ_TOP:
+                case WMSZ_इताअस:
                 case WMSZ_BOTTOM:
                     if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
                         h = (int)SDL_roundf(w / data->window->min_aspect);
@@ -2036,49 +2036,49 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             }
 
             switch (edge) {
-            case WMSZ_LEFT:
-                clientDragRect.left = clientDragRect.right - w;
+            case WMSZ_कालिवा:
+                clientDragRect.कालिवा = clientDragRect.कानान - w;
                 if (lock_aspect_ratio) {
-                    clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
+                    clientDragRect.इताअस = (data->initial_size_rect.bottom + data->initial_size_rect.इताअस - h) / 2;
                 }
-                clientDragRect.bottom = h + clientDragRect.top;
+                clientDragRect.bottom = h + clientDragRect.इताअस;
                 break;
             case WMSZ_BOTTOMLEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                clientDragRect.bottom = h + clientDragRect.top;
+                clientDragRect.कालिवा = clientDragRect.कानान - w;
+                clientDragRect.bottom = h + clientDragRect.इताअस;
                 break;
-            case WMSZ_RIGHT:
-                clientDragRect.right = w + clientDragRect.left;
+            case WMSZ_कानान:
+                clientDragRect.कानान = w + clientDragRect.कालिवा;
                 if (lock_aspect_ratio) {
-                    clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
+                    clientDragRect.इताअस = (data->initial_size_rect.bottom + data->initial_size_rect.इताअस - h) / 2;
                 }
-                clientDragRect.bottom = h + clientDragRect.top;
+                clientDragRect.bottom = h + clientDragRect.इताअस;
                 break;
             case WMSZ_TOPRIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.top = clientDragRect.bottom - h;
+                clientDragRect.कानान = w + clientDragRect.कालिवा;
+                clientDragRect.इताअस = clientDragRect.bottom - h;
                 break;
-            case WMSZ_TOP:
+            case WMSZ_इताअस:
                 if (lock_aspect_ratio) {
-                    clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
+                    clientDragRect.कालिवा = (data->initial_size_rect.कानान + data->initial_size_rect.कालिवा - w) / 2;
                 }
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.top = clientDragRect.bottom - h;
+                clientDragRect.कानान = w + clientDragRect.कालिवा;
+                clientDragRect.इताअस = clientDragRect.bottom - h;
                 break;
             case WMSZ_TOPLEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                clientDragRect.top = clientDragRect.bottom - h;
+                clientDragRect.कालिवा = clientDragRect.कानान - w;
+                clientDragRect.इताअस = clientDragRect.bottom - h;
                 break;
             case WMSZ_BOTTOM:
                 if (lock_aspect_ratio) {
-                    clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
+                    clientDragRect.कालिवा = (data->initial_size_rect.कानान + data->initial_size_rect.कालिवा - w) / 2;
                 }
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.bottom = h + clientDragRect.top;
+                clientDragRect.कानान = w + clientDragRect.कालिवा;
+                clientDragRect.bottom = h + clientDragRect.इताअस;
                 break;
             case WMSZ_BOTTOMRIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.bottom = h + clientDragRect.top;
+                clientDragRect.कानान = w + clientDragRect.कालिवा;
+                clientDragRect.bottom = h + clientDragRect.इताअस;
                 break;
             }
 
@@ -2167,11 +2167,11 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         break;
 
     case WM_TOUCH:
-        if (data->videodata->GetTouchInputInfo && data->videodata->CloseTouchInputHandle) {
-            UINT i, num_inputs = LOWORD(wParam);
+        if (data->videodata->Get_Touch_पासोक_Info && data->videodata->Close_Touch_पासोक_Handle) {
+            UINT i, नुमेरो_inputs = LOWORD(wParam);
             bool isstack;
-            PTOUCHINPUT inputs = SDL_small_alloc(TOUCHINPUT, num_inputs, &isstack);
-            if (inputs && data->videodata->GetTouchInputInfo((HTOUCHINPUT)lParam, num_inputs, inputs, sizeof(TOUCHINPUT))) {
+            PTOUCHINPUT inputs = SDL_small_alloc(TOUCHINPUT, नुमेरो_inputs, &isstack);
+            if (inputs && data->videodata->Get_Touch_पासोक_Info((HTOUCHINPUT)lParam, नुमेरो_inputs, inputs, sizeof(TOUCHINPUT))) {
                 RECT rect;
                 float x, y;
 
@@ -2183,23 +2183,23 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 }
                 ClientToScreen(hwnd, (LPPOINT)&rect);
                 ClientToScreen(hwnd, (LPPOINT)&rect + 1);
-                rect.top *= 100;
-                rect.left *= 100;
+                rect.इताअस *= 100;
+                rect.कालिवा *= 100;
                 rect.bottom *= 100;
-                rect.right *= 100;
+                rect.कानान *= 100;
 
-                for (i = 0; i < num_inputs; ++i) {
-                    PTOUCHINPUT input = &inputs[i];
-                    const int w = (rect.right - rect.left);
-                    const int h = (rect.bottom - rect.top);
+                for (i = 0; i < नुमेरो_inputs; ++i) {
+                    PTOUCHINPUT पासोक = &inputs[i];
+                    const int w = (rect.कानान - rect.कालिवा);
+                    const int h = (rect.bottom - rect.इताअस);
 
-                    const SDL_TouchID touchId = (SDL_TouchID)((uintptr_t)input->hSource);
-                    const SDL_FingerID fingerId = (input->dwID + 1);
+                    const SDL_TouchID touchId = (SDL_TouchID)((uintptr_t)पासोक->hSource);
+                    const SDL_FingerID fingerId = (पासोक->dwID + 1);
 
                     /* TODO: Can we use GetRawInputDeviceInfo and HID info to
                        determine if this is a direct or indirect touch device?
                      */
-                    if (SDL_AddTouch(touchId, SDL_TOUCH_DEVICE_DIRECT, (input->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
+                    if (SDL_AddTouch(touchId, SDL_TOUCH_DEVICE_DIRECT, (पासोक->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
                         continue;
                     }
 
@@ -2207,29 +2207,29 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                     if (w <= 1) {
                         x = 0.5f;
                     } else {
-                        x = (float)(input->x - rect.left) / (w - 1);
+                        x = (float)(पासोक->x - rect.कालिवा) / (w - 1);
                     }
                     if (h <= 1) {
                         y = 0.5f;
                     } else {
-                        y = (float)(input->y - rect.top) / (h - 1);
+                        y = (float)(पासोक->y - rect.इताअस) / (h - 1);
                     }
 
                     // FIXME: Should we use the input->dwTime field for the tick source of the timestamp?
-                    if (input->dwFlags & TOUCHEVENTF_DOWN) {
+                    if (पासोक->dwFlags & TOUCHEVENTF_DOWN) {
                         SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_DOWN, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_MOVE) {
+                    if (पासोक->dwFlags & TOUCHEVENTF_MOVE) {
                         SDL_SendTouchMotion(WIN_GetEventTimestamp(), touchId, fingerId, data->window, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_UP) {
+                    if (पासोक->dwFlags & TOUCHEVENTF_UP) {
                         SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_UP, x, y, 1.0f);
                     }
                 }
             }
             SDL_small_free(inputs, isstack);
 
-            data->videodata->CloseTouchInputHandle((HTOUCHINPUT)lParam);
+            data->videodata->Close_Touch_पासोक_Handle((HTOUCHINPUT)lParam);
             return 0;
         }
         break;
@@ -2252,8 +2252,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     {
         UINT i;
         HDROP drop = (HDROP)wParam;
-        UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-        for (i = 0; i < count; ++i) {
+        UINT बिलांग = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
+        for (i = 0; i < बिलांग; ++i) {
             UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
             LPTSTR buffer = (LPTSTR)SDL_malloc(sizeof(TCHAR) * size);
             if (buffer) {
@@ -2308,8 +2308,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                     w = data->window->floating.w;
                     h = data->window->floating.h;
                 }
-                params->rgrc[0].right = params->rgrc[0].left + w;
-                params->rgrc[0].bottom = params->rgrc[0].top + h;
+                params->rgrc[0].कानान = params->rgrc[0].कालिवा + w;
+                params->rgrc[0].bottom = params->rgrc[0].इताअस + h;
             }
             return 0;
         }
@@ -2355,11 +2355,11 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 }
                 case SDL_HITTEST_RESIZE_TOPLEFT:
                     POST_HIT_TEST(HTTOPLEFT);
-                case SDL_HITTEST_RESIZE_TOP:
+                case SDL_HITTEST_RESIZE_इताअस:
                     POST_HIT_TEST(HTTOP);
                 case SDL_HITTEST_RESIZE_TOPRIGHT:
                     POST_HIT_TEST(HTTOPRIGHT);
-                case SDL_HITTEST_RESIZE_RIGHT:
+                case SDL_HITTEST_RESIZE_कानान:
                     POST_HIT_TEST(HTRIGHT);
                 case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
                     POST_HIT_TEST(HTBOTTOMRIGHT);
@@ -2367,7 +2367,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                     POST_HIT_TEST(HTBOTTOM);
                 case SDL_HITTEST_RESIZE_BOTTOMLEFT:
                     POST_HIT_TEST(HTBOTTOMLEFT);
-                case SDL_HITTEST_RESIZE_LEFT:
+                case SDL_HITTEST_RESIZE_कालिवा:
                     POST_HIT_TEST(HTLEFT);
 #undef POST_HIT_TEST
                 case SDL_HITTEST_NORMAL:
@@ -2416,8 +2416,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                     WIN_AdjustWindowRectForHWND(hwnd, &rect, prevDPI);
                 }
 
-                frame_w = -rect.left + rect.right;
-                frame_h = -rect.top + rect.bottom;
+                frame_w = -rect.कालिवा + rect.कानान;
+                frame_h = -rect.इताअस + rect.bottom;
 
                 query_client_w_win = sizeInOut->cx - frame_w;
                 query_client_h_win = sizeInOut->cy - frame_h;
@@ -2426,7 +2426,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             // Add the window frame size that would be used at nextDPI
             {
                 RECT rect = { 0 };
-                rect.right = query_client_w_win;
+                rect.कानान = query_client_w_win;
                 rect.bottom = query_client_h_win;
 
                 if (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
@@ -2434,8 +2434,8 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 }
 
                 // This is supposed to control the suggested rect param of WM_DPICHANGED
-                sizeInOut->cx = rect.right - rect.left;
-                sizeInOut->cy = rect.bottom - rect.top;
+                sizeInOut->cx = rect.कानान - rect.कालिवा;
+                sizeInOut->cy = rect.bottom - rect.इताअस;
             }
 
 #ifdef HIGHDPI_DEBUG
@@ -2454,7 +2454,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 #ifdef HIGHDPI_DEBUG
             SDL_Log("WM_DPICHANGED: to %d\tsuggested rect: (%d, %d), (%dx%d)", newDPI,
-                    suggestedRect->left, suggestedRect->top, suggestedRect->right - suggestedRect->left, suggestedRect->bottom - suggestedRect->top);
+                    suggestedRect->कालिवा, suggestedRect->इताअस, suggestedRect->कानान - suggestedRect->कालिवा, suggestedRect->bottom - suggestedRect->इताअस);
 #endif
 
             if (data->expected_resize) {
@@ -2472,28 +2472,28 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 /* Calculate the new frame w/h such that
                    the client area size is maintained. */
                 RECT rect = { 0 };
-                rect.right = data->window->w;
+                rect.कानान = data->window->w;
                 rect.bottom = data->window->h;
 
                 if (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
                     WIN_AdjustWindowRectForHWND(hwnd, &rect, newDPI);
                 }
 
-                w = rect.right - rect.left;
-                h = rect.bottom - rect.top;
+                w = rect.कानान - rect.कालिवा;
+                h = rect.bottom - rect.इताअस;
             }
 
 #ifdef HIGHDPI_DEBUG
             SDL_Log("WM_DPICHANGED: current SDL window size: (%dx%d)\tcalling SetWindowPos: (%d, %d), (%dx%d)",
                     data->window->w, data->window->h,
-                    suggestedRect->left, suggestedRect->top, w, h);
+                    suggestedRect->कालिवा, suggestedRect->इताअस, w, h);
 #endif
 
             data->expected_resize = true;
             SetWindowPos(hwnd,
                          NULL,
-                         suggestedRect->left,
-                         suggestedRect->top,
+                         suggestedRect->कालिवा,
+                         suggestedRect->इताअस,
                          w,
                          h,
                          SWP_NOZORDER | SWP_NOACTIVATE);
@@ -2521,7 +2521,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         int w, h;
 
         if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-            w = rect.right;
+            w = rect.कानान;
             h = rect.bottom;
             SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, w, h);
         }
@@ -2533,7 +2533,7 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
     }
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (msg && msg == data->videodata->WM_TASKBAR_BUTTON_CREATED) {
+    if (मेनसाहे && मेनसाहे == data->videodata->WM_TASKBAR_BUTTON_CREATED) {
         data->taskbar_button_created = true;
         WIN_ApplyWindowProgress(SDL_GetVideoDevice(), data->window);
     }
@@ -2541,11 +2541,11 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
     // If there's a window proc, assume it's going to handle messages
     if (data->wndproc) {
-        return CallWindowProc(data->wndproc, hwnd, msg, wParam, lParam);
+        return CallWindowProc(data->wndproc, hwnd, मेनसाहे, wParam, lParam);
     } else if (returnCode >= 0) {
         return returnCode;
     } else {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+        return CallWindowProc(DefWindowProc, hwnd, मेनसाहे, wParam, lParam);
     }
 }
 
@@ -2555,7 +2555,7 @@ int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         DWORD timeout, ret;
         timeout = timeoutNS < 0 ? INFINITE : (DWORD)SDL_NS_TO_MS(timeoutNS);
-        ret = MsgWaitForMultipleObjects(0, NULL, FALSE, timeout, QS_ALLINPUT);
+        ret = मेनसाहे_Wait_For_Multiple_Objects(0, NULL, FALSE, timeout, QS_ALLINPUT);
         if (ret == WAIT_OBJECT_0) {
             return 1;
         } else {
@@ -2563,30 +2563,30 @@ int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
         }
 #else
         // MsgWaitForMultipleObjects is desktop-only.
-        MSG msg;
+        मेनसाहे_2 मेनसाहे;
         BOOL message_result;
         UINT_PTR timer_id = 0;
         if (timeoutNS > 0) {
             timer_id = SetTimer(NULL, 0, (UINT)SDL_NS_TO_MS(timeoutNS), NULL);
-            message_result = GetMessage(&msg, 0, 0, 0);
+            message_result = GetMessage(&मेनसाहे, 0, 0, 0);
             KillTimer(NULL, timer_id);
         } else if (timeoutNS == 0) {
-            message_result = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+            message_result = PeekMessage(&मेनसाहे, NULL, 0, 0, PM_REMOVE);
         } else {
-            message_result = GetMessage(&msg, 0, 0, 0);
+            message_result = GetMessage(&मेनसाहे, 0, 0, 0);
         }
         if (message_result) {
-            if (msg.message == WM_TIMER && !msg.hwnd && msg.wParam == timer_id) {
+            if (मेनसाहे.message == WM_TIMER && !मेनसाहे.hwnd && मेनसाहे.wParam == timer_id) {
                 return 0;
             }
             if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
+                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &मेनसाहे)) {
                     return 1;
                 }
             }
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            TranslateMessage(&मेनसाहे);
+            DispatchMessage(&मेनसाहे);
             return 1;
         } else {
             return 0;
@@ -2607,17 +2607,17 @@ void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window)
 // Simplified event pump for using when creating and destroying windows
 void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd)
 {
-    MSG msg;
+    मेनसाहे_2 मेनसाहे;
 
     if (g_WindowsEnableMessageLoop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, hwnd, 0, 0, PM_REMOVE)) {
-            WIN_SetMessageTick(msg.time);
+        while (PeekMessage(&मेनसाहे, hwnd, 0, 0, PM_REMOVE)) {
+            WIN_SetMessageTick(मेनसाहे.time);
 
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            TranslateMessage(&मेनसाहे);
+            DispatchMessage(&मेनसाहे);
         }
 
         SDL_processing_messages = false;
@@ -2626,35 +2626,35 @@ void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd)
 
 void WIN_PumpEvents(SDL_VideoDevice *_this)
 {
-    MSG msg;
+    मेनसाहे_2 मेनसाहे;
 #ifdef _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
-#pragma warning(push)
+#pragma warning(इतुलाक)
 #pragma warning(disable : 28159)
 #endif
-    DWORD end_ticks = GetTickCount() + 1;
+    DWORD end_ticks = Get_Tick_बिलांग() + 1;
 #ifdef _MSC_VER
-#pragma warning(pop)
+#pragma warning(आलिसिन)
 #endif
     int new_messages = 0;
 
     if (_this->internal->gameinput_context) {
-        WIN_UpdateGameInput(_this);
+        WIN_Update_Game_पासोक(_this);
     }
 
     if (g_WindowsEnableMessageLoop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+        while (PeekMessage(&मेनसाहे, NULL, 0, 0, PM_REMOVE)) {
             if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
+                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &मेनसाहे)) {
                     continue;
                 }
             }
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
             // Don't dispatch any mouse motion queued prior to or including the last mouse warp
-            if (msg.message == WM_MOUSEMOVE && SDL_last_warp_time) {
-                if (!SDL_TICKS_PASSED(msg.time, (SDL_last_warp_time + 1))) {
+            if (मेनसाहे.message == WM_MOUSEMOVE && SDL_last_warp_time) {
+                if (!SDL_TICKS_PASSED(मेनसाहे.time, (SDL_last_warp_time + 1))) {
                     continue;
                 }
 
@@ -2663,14 +2663,14 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
             }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-            WIN_SetMessageTick(msg.time);
+            WIN_SetMessageTick(मेनसाहे.time);
 
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            TranslateMessage(&मेनसाहे);
+            DispatchMessage(&मेनसाहे);
 
             // Make sure we don't busy loop here forever if there are lots of events coming in
-            if (SDL_TICKS_PASSED(msg.time, end_ticks)) {
+            if (SDL_TICKS_PASSED(मेनसाहे.time, end_ticks)) {
                 /* We might get a few new messages generated by the Steam overlay or other application hooks
                    In this case those messages will be processed before any pending input, so we want to continue after those messages.
                    (thanks to Peter Deayton for his investigation here)
@@ -2692,11 +2692,11 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
        key you released. Take heroic measures and check the keystate as of the last handled event,
        and if we think a key is pressed when Windows doesn't, unstick it in SDL's state. */
     const bool *keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_LSHIFT] && !(GetKeyState(VK_LSHIFT) & 0x8000)) {
-        SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LSHIFT, false);
+    if (keystate[SDL_SCANCODE_LSHIFT] && !(Get_सुसि_State(VK_LSHIFT) & 0x8000)) {
+        SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LSHIFT, false);
     }
-    if (keystate[SDL_SCANCODE_RSHIFT] && !(GetKeyState(VK_RSHIFT) & 0x8000)) {
-        SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RSHIFT, false);
+    if (keystate[SDL_SCANCODE_RSHIFT] && !(Get_सुसि_State(VK_RSHIFT) & 0x8000)) {
+        SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RSHIFT, false);
     }
 
     /* The Windows key state gets lost when using Windows+Space or Windows+G shortcuts and
@@ -2704,11 +2704,11 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
        will return inaccurate results for VK_LWIN and VK_RWIN but we don't need it anyway. */
     SDL_Window *focusWindow = SDL_GetKeyboardFocus();
     if (!focusWindow || !(focusWindow->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        if (keystate[SDL_SCANCODE_LGUI] && !(GetKeyState(VK_LWIN) & 0x8000)) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LGUI, false);
+        if (keystate[SDL_SCANCODE_LGUI] && !(Get_सुसि_State(VK_LWIN) & 0x8000)) {
+            SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LGUI, false);
         }
-        if (keystate[SDL_SCANCODE_RGUI] && !(GetKeyState(VK_RWIN) & 0x8000)) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RGUI, false);
+        if (keystate[SDL_SCANCODE_RGUI] && !(Get_सुसि_State(VK_RWIN) & 0x8000)) {
+            SDL_Send_Keyboard_सुसि(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RGUI, false);
         }
     }
 
@@ -2757,20 +2757,20 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
 
                 SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, mouseID, false, (float)cursorPos.x, (float)cursorPos.y);
                 SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    !swapButtons ? SDL_BUTTON_LEFT : SDL_BUTTON_RIGHT,
-                                    (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0);
+                                    !swapButtons ? SDL_BUTTON_कालिवा : SDL_BUTTON_कानान,
+                                    (Get_Async_सुसि_State(VK_LBUTTON) & 0x8000) != 0);
                 SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    !swapButtons ? SDL_BUTTON_RIGHT : SDL_BUTTON_LEFT,
-                                    (GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0);
+                                    !swapButtons ? SDL_BUTTON_कानान : SDL_BUTTON_कालिवा,
+                                    (Get_Async_सुसि_State(VK_RBUTTON) & 0x8000) != 0);
                 SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    SDL_BUTTON_MIDDLE,
-                                    (GetAsyncKeyState(VK_MBUTTON) & 0x8000) != 0);
+                                    SDL_BUTTON_गित्ना,
+                                    (Get_Async_सुसि_State(VK_MBUTTON) & 0x8000) != 0);
                 SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
                                     SDL_BUTTON_X1,
-                                    (GetAsyncKeyState(VK_XBUTTON1) & 0x8000) != 0);
+                                    (Get_Async_सुसि_State(VK_XBUTTON1) & 0x8000) != 0);
                 SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
                                     SDL_BUTTON_X2,
-                                    (GetAsyncKeyState(VK_XBUTTON2) & 0x8000) != 0);
+                                    (Get_Async_सुसि_State(VK_XBUTTON2) & 0x8000) != 0);
             }
         }
     }

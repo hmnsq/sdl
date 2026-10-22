@@ -226,8 +226,8 @@ bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, S
 {
     BScreen bscreen;
     BRect rc = bscreen.Frame();
-    rect->x = (int)rc.left;
-    rect->y = (int)rc.top;
+    rect->x = (int)rc.कालिवा;
+    rect->y = (int)rc.इताअस;
     rect->w = (int)rc.Width() + 1;
     rect->h = (int)rc.Height() + 1;
     return true;
@@ -242,13 +242,13 @@ bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     SDL_DisplayMode mode;
     display_mode this_bmode;
     display_mode *bmodes;
-    uint32 count, i;
+    uint32 बिलांग, i;
     bool retval = false;
 
     // Get graphics-hardware supported modes
-    if (bscreen.GetModeList(&bmodes, &count) == B_OK) {
+    if (bscreen.GetModeList(&bmodes, &बिलांग) == B_OK) {
         if (bscreen.GetMode(&this_bmode) == B_OK) {
-            for (i = 0; i < count; ++i) {
+            for (i = 0; i < बिलांग; ++i) {
                 // FIXME: Apparently there are errors with colorspace changes
                 if (bmodes[i].space == this_bmode.space) {
                     _BDisplayModeToSdlDisplayMode(&bmodes[i], &mode);

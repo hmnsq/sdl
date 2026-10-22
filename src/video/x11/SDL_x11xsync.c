@@ -80,7 +80,7 @@ bool X11_InitResizeSync(SDL_Window *window)
         return SDL_Unsupported();
     }
 
-    counter = X11_XSyncCreateCounter(display, (XSyncValue){0, 0});
+    counter = X11_XSyncCreateCounter(display, (XSync_हालागा){0, 0});
     data->resize_counter = counter;
     data->resize_id.lo = 0;
     data->resize_id.hi = 0;

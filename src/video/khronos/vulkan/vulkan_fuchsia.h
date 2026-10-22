@@ -182,11 +182,11 @@ typedef struct VkBufferCollectionImageCreateInfoFUCHSIA {
 typedef struct VkBufferCollectionConstraintsInfoFUCHSIA {
     VkStructureType    sType;
     const void*        pNext;
-    uint32_t           minBufferCount;
-    uint32_t           maxBufferCount;
-    uint32_t           minBufferCountForCamping;
-    uint32_t           minBufferCountForDedicatedSlack;
-    uint32_t           minBufferCountForSharedSlack;
+    uint32_t           min_Buffer_बिलांग;
+    uint32_t           max_Buffer_बिलांग;
+    uint32_t           min_Buffer_बिलांग_For_Camping;
+    uint32_t           min_Buffer_बिलांग_For_Dedicated_Slack;
+    uint32_t           min_Buffer_बिलांग_For_Shared_Slack;
 } VkBufferCollectionConstraintsInfoFUCHSIA;
 
 typedef struct VkBufferConstraintsInfoFUCHSIA {
@@ -214,7 +214,7 @@ typedef struct VkBufferCollectionPropertiesFUCHSIA {
     VkStructureType                  sType;
     void*                            pNext;
     uint32_t                         memoryTypeBits;
-    uint32_t                         bufferCount;
+    uint32_t                         buffer_बिलांग;
     uint32_t                         createInfoIndex;
     uint64_t                         sysmemPixelFormat;
     VkFormatFeatureFlags             formatFeatures;
@@ -233,14 +233,14 @@ typedef struct VkImageFormatConstraintsInfoFUCHSIA {
     VkFormatFeatureFlags                    requiredFormatFeatures;
     VkImageFormatConstraintsFlagsFUCHSIA    flags;
     uint64_t                                sysmemPixelFormat;
-    uint32_t                                colorSpaceCount;
+    uint32_t                                color_Space_बिलांग;
     const VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
 } VkImageFormatConstraintsInfoFUCHSIA;
 
 typedef struct VkImageConstraintsInfoFUCHSIA {
     VkStructureType                               sType;
     const void*                                   pNext;
-    uint32_t                                      formatConstraintsCount;
+    uint32_t                                      format_Constraints_बिलांग;
     const VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
     VkBufferCollectionConstraintsInfoFUCHSIA      bufferCollectionConstraints;
     VkImageConstraintsInfoFlagsFUCHSIA            flags;

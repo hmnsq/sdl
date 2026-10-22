@@ -109,16 +109,16 @@ struct SDL_Window
     bool is_destroying;
     bool is_dropping; // drag/drop in progress, expecting SDL_SendDropComplete().
 
-    int safe_inset_left;
-    int safe_inset_right;
-    int safe_inset_top;
+    int safe_inset_कालिवा;
+    int safe_inset_कानान;
+    int safe_inset_इताअस;
     int safe_inset_bottom;
     SDL_Rect safe_rect;
 
-    SDL_PropertiesID text_input_props;
-    bool text_input_active;
-    SDL_Rect text_input_rect;
-    int text_input_cursor;
+    SDL_PropertiesID text_पासोक_props;
+    bool text_पासोक_active;
+    SDL_Rect text_पासोक_rect;
+    int text_पासोक_cursor;
 
     SDL_Rect mouse_rect;
 
@@ -126,11 +126,11 @@ struct SDL_Window
     void *hit_test_data;
 
     SDL_ProgressState progress_state;
-    float progress_value;
+    float progress_हालागा;
 
     SDL_PropertiesID props;
 
-    int num_renderers;
+    int नुमेरो_renderers;
     SDL_Renderer **renderers;
 
     SDL_WindowData *internal;
@@ -163,7 +163,7 @@ struct SDL_VideoDisplay
     SDL_DisplayID id;
     char *name;
     int max_fullscreen_modes;
-    int num_fullscreen_modes;
+    int नुमेरो_fullscreen_modes;
     SDL_DisplayMode *fullscreen_modes;
     SDL_DisplayMode desktop_mode;
     const SDL_DisplayMode *current_mode;
@@ -281,7 +281,7 @@ struct SDL_VideoDevice
     void (*SetWindowMinimumSize)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*SetWindowMaximumSize)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*SetWindowAspectRatio)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
+    bool (*GetWindowBordersSize)(SDL_VideoDevice *_this, SDL_Window *window, int *इताअस, int *कालिवा, int *bottom, int *कानान);
     float (*GetWindowContentScale)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*GetWindowSizeInPixels)(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
     bool (*SetWindowOpacity)(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
@@ -295,7 +295,7 @@ struct SDL_VideoDevice
     void (*RestoreWindow)(SDL_VideoDevice *_this, SDL_Window *window);
     void (*SetWindowBordered)(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
     void (*SetWindowResizable)(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-    void (*SetWindowAlwaysOnTop)(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
+    void (*Set_Window_Always_On_इताअस)(SDL_VideoDevice *_this, SDL_Window *window, bool on_इताअस);
     SDL_FullscreenResult (*SetWindowFullscreen)(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
     void *(*GetWindowICCProfile)(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
     SDL_DisplayID (*GetDisplayForWindow)(SDL_VideoDevice *_this, SDL_Window *window);
@@ -339,7 +339,7 @@ struct SDL_VideoDevice
      */
     bool (*Vulkan_LoadLibrary)(SDL_VideoDevice *_this, const char *path);
     void (*Vulkan_UnloadLibrary)(SDL_VideoDevice *_this);
-    char const * const *(*Vulkan_GetInstanceExtensions)(SDL_VideoDevice *_this, Uint32 *count);
+    char const * const *(*Vulkan_GetInstanceExtensions)(SDL_VideoDevice *_this, Uint32 *बिलांग);
     bool (*Vulkan_CreateSurface)(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const struct VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
     void (*Vulkan_DestroySurface)(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const struct VkAllocationCallbacks *allocator);
     bool (*Vulkan_GetPresentationSupport)(SDL_VideoDevice *_this, VkInstance instance, VkPhysicalDevice physicalDevice, Uint32 queueFamilyIndex);
@@ -364,19 +364,19 @@ struct SDL_VideoDevice
     bool (*SuspendScreenSaver)(SDL_VideoDevice *_this);
 
     // Text input
-    bool (*StartTextInput)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-    bool (*StopTextInput)(SDL_VideoDevice *_this, SDL_Window *window);
-    bool (*UpdateTextInputArea)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*Start_Text_पासोक)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+    bool (*Stop_Text_पासोक)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*Update_Text_पासोक_Area)(SDL_VideoDevice *_this, SDL_Window *window);
     bool (*ClearComposition)(SDL_VideoDevice *_this, SDL_Window *window);
 
     // Screen keyboard
     bool (*HasScreenKeyboardSupport)(SDL_VideoDevice *_this);
     void (*ShowScreenKeyboard)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
     void (*HideScreenKeyboard)(SDL_VideoDevice *_this, SDL_Window *window);
-    void (*SetTextInputProperties)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+    void (*Set_Text_पासोक_Properties)(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
 
     // Clipboard
-    const char *const *(*GetTextMimeTypes)(SDL_VideoDevice *_this, size_t *num_mime_types);
+    const char *const *(*GetTextMimeTypes)(SDL_VideoDevice *_this, size_t *नुमेरो_mime_types);
     bool (*SetClipboardData)(SDL_VideoDevice *_this);
     void *(*GetClipboardData)(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
     bool (*HasClipboardData)(SDL_VideoDevice *_this, const char *mime_type);
@@ -407,7 +407,7 @@ struct SDL_VideoDevice
     bool checked_texture_framebuffer;
     bool suspend_screensaver;
     void *wakeup_window;
-    int num_displays;
+    int नुमेरो_displays;
     SDL_VideoDisplay **displays;
     SDL_Rect desktop_bounds;
     SDL_Window *windows;
@@ -417,7 +417,7 @@ struct SDL_VideoDevice
     SDL_ClipboardCleanupCallback clipboard_cleanup;
     void *clipboard_userdata;
     char **clipboard_mime_types;
-    size_t num_clipboard_mime_types;
+    size_t नुमेरो_clipboard_mime_types;
     char *primary_selection_text;
     bool setting_display_mode;
     Uint32 device_caps;
@@ -571,9 +571,9 @@ extern SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *wind
 extern int SDL_GetDisplayIndex(SDL_DisplayID displayID);
 extern SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID display);
 extern SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window);
-extern int SDL_GetMessageBoxCount(void);
+extern int SDL_Get_Message_Box_बिलांग(void);
 extern void SDL_SetWindowHDRProperties(SDL_Window *window, const SDL_HDROutputProperties *HDR, bool send_event);
-extern void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom);
+extern void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int कालिवा, int कानान, int इताअस, int bottom);
 
 extern void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor);
 
@@ -612,10 +612,10 @@ extern void SDL_ToggleDragAndDropSupport(void);
 
 extern void SDL_UpdateDesktopBounds(void);
 
-extern SDL_TextInputType SDL_GetTextInputType(SDL_PropertiesID props);
-extern SDL_Capitalization SDL_GetTextInputCapitalization(SDL_PropertiesID props);
-extern bool SDL_GetTextInputAutocorrect(SDL_PropertiesID props);
-extern bool SDL_GetTextInputMultiline(SDL_PropertiesID props);
+extern SDL_Text_पासोक_Type SDL_Get_Text_पासोक_Type(SDL_PropertiesID props);
+extern SDL_Capitalization SDL_Get_Text_पासोक_Capitalization(SDL_PropertiesID props);
+extern bool SDL_Get_Text_पासोक_Autocorrect(SDL_PropertiesID props);
+extern bool SDL_Get_Text_पासोक_Multiline(SDL_PropertiesID props);
 
 extern void SDL_SendScreenKeyboardShown(void);
 extern void SDL_SendScreenKeyboardHidden(void);

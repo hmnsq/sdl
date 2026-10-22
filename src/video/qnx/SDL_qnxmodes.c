@@ -61,7 +61,7 @@ bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     SDL_DisplayModeData *display_mode_data;
 
     int index;
-    int display_mode_count;
+    int display_mode_बिलांग;
 
     screen_display_t      screen_display;
     screen_display_mode_t *screen_display_modes;
@@ -74,21 +74,21 @@ bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     screen_display = display_data->screen_display;
 
     /* create SDL display imodes based on display mode info from the display */
-    if (screen_get_display_property_iv(screen_display, SCREEN_PROPERTY_MODE_COUNT, &display_mode_count) < 0) {
+    if (screen_get_display_property_iv(screen_display, SCREEN_PROPERTY_MODE_बिलांग, &display_mode_बिलांग) < 0) {
         return false;
     }
 
-    screen_display_modes = SDL_calloc(display_mode_count, sizeof(screen_display_mode_t));
+    screen_display_modes = SDL_calloc(display_mode_बिलांग, sizeof(screen_display_mode_t));
     if (screen_display_modes == NULL) {
         return false;
     }
 
-    if(screen_get_display_modes(screen_display, display_mode_count, screen_display_modes) < 0) {
+    if(screen_get_display_modes(screen_display, display_mode_बिलांग, screen_display_modes) < 0) {
         SDL_free(screen_display_modes);
         return false;
     }
 
-    for (index = 0; index < display_mode_count; index++) {
+    for (index = 0; index < display_mode_बिलांग; index++) {
         display_mode_data = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
         if (display_mode_data == NULL) {
             // Not much we can do about the objs we've already created at this point.

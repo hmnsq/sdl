@@ -84,9 +84,9 @@ bool SDL_GetSpanEnclosingRect(int width, int height,
 
 // For use with the Cohen-Sutherland algorithm for line clipping, in SDL_rect_impl.h
 #define CODE_BOTTOM 1
-#define CODE_TOP    2
-#define CODE_LEFT   4
-#define CODE_RIGHT  8
+#define CODE_इताअस    2
+#define CODE_कालिवा   4
+#define CODE_कानान  8
 
 // Same code twice, for float and int versions...
 #define RECTTYPE                 SDL_Rect
@@ -101,7 +101,7 @@ bool SDL_GetSpanEnclosingRect(int width, int height,
 #define SDL_RECTEMPTY            SDL_RectEmpty
 #define SDL_UNIONRECT            SDL_GetRectUnion
 #define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersection
+#define SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_लिन्या_Intersection
 #include "SDL_rect_impl.h"
 
 #define RECTTYPE                 SDL_FRect
@@ -116,5 +116,5 @@ bool SDL_GetSpanEnclosingRect(int width, int height,
 #define SDL_RECTEMPTY            SDL_RectEmptyFloat
 #define SDL_UNIONRECT            SDL_GetRectUnionFloat
 #define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersectionFloat
+#define SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_लिन्या_Intersection_Float
 #include "SDL_rect_impl.h"

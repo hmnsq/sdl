@@ -52,16 +52,16 @@ static bool g_DidRegisterHints = false;
 static char *g_TitleText = NULL;
 static char *g_DescriptionText = NULL;
 static char *g_DefaultText = NULL;
-static const Sint32 g_DefaultTextInputScope = (Sint32)XGameUiTextEntryInputScope::Default;
-static Sint32 g_TextInputScope = g_DefaultTextInputScope;
+static const Sint32 g_Default_Text_पासोक_Scope = (Sint32)XGame_Ui_Text_Entry_पासोक_Scope::Default;
+static Sint32 g_Text_पासोक_Scope = g_Default_Text_पासोक_Scope;
 static const Sint32 g_DefaultMaxTextLength = 1024; // as per doc: maximum allowed amount on consoles
 static Sint32 g_MaxTextLength = g_DefaultMaxTextLength;
 
 static void SDLCALL GDK_InternalHintCallback(
     void *userdata,
     const char *name,
-    const char *oldValue,
-    const char *newValue)
+    const char *old_हालागा,
+    const char *new_हालागा)
 {
     if (!userdata) {
         return;
@@ -70,24 +70,24 @@ static void SDLCALL GDK_InternalHintCallback(
     // oldValue is ignored because we store it ourselves.
     // name is ignored because we deduce it from userdata
 
-    if (userdata == &g_TextInputScope || userdata == &g_MaxTextLength) {
+    if (userdata == &g_Text_पासोक_Scope || userdata == &g_MaxTextLength) {
         // int32 hint
-        Sint32 intValue = (!newValue || newValue[0] == '\0') ? 0 : SDL_atoi(newValue);
-        if (userdata == &g_MaxTextLength && intValue <= 0) {
-            intValue = g_DefaultMaxTextLength;
-        } else if (userdata == &g_TextInputScope && intValue < 0) {
-            intValue = g_DefaultTextInputScope;
+        Sint32 int_हालागा = (!new_हालागा || new_हालागा[0] == '\0') ? 0 : SDL_atoi(new_हालागा);
+        if (userdata == &g_MaxTextLength && int_हालागा <= 0) {
+            int_हालागा = g_DefaultMaxTextLength;
+        } else if (userdata == &g_Text_पासोक_Scope && int_हालागा < 0) {
+            int_हालागा = g_Default_Text_पासोक_Scope;
         }
 
-        *(Sint32 *)userdata = intValue;
+        *(Sint32 *)userdata = int_हालागा;
     } else {
         // string hint
-        if (!newValue || newValue[0] == '\0') {
+        if (!new_हालागा || new_हालागा[0] == '\0') {
             // treat empty or NULL strings as just NULL for this impl
             SDL_free(*(char **)userdata);
             *(char **)userdata = NULL;
         } else {
-            char *newString = SDL_strdup(newValue);
+            char *newString = SDL_strdup(new_हालागा);
             if (newString) {
                 // free previous value and write the new one
                 SDL_free(*(char **)userdata);
@@ -170,7 +170,7 @@ void GDK_EnsureHints(void)
         SDL_AddHintCallback(
             SDL_HINT_GDK_TEXTINPUT_SCOPE,
             GDK_InternalHintCallback,
-            &g_TextInputScope);
+            &g_Text_पासोक_Scope);
         SDL_AddHintCallback(
             SDL_HINT_GDK_TEXTINPUT_MAX_LENGTH,
             GDK_InternalHintCallback,
@@ -179,7 +179,7 @@ void GDK_EnsureHints(void)
     }
 }
 
-bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool GDK_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
     /*
      * Currently a stub, since all input is handled by the virtual keyboard,
@@ -195,13 +195,13 @@ bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properti
     return true;
 }
 
-bool GDK_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool GDK_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // See notice in GDK_StartTextInput
     return true;
 }
 
-bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+bool GDK_Update_Text_पासोक_Area(SDL_VideoDevice *_this, SDL_Window *window)
 {
     /*
      * XGameUiShowTextEntryAsync does not allow you to set
@@ -254,36 +254,36 @@ void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
         return;
     }
 
-    XGameUiTextEntryInputScope scope;
-    switch (SDL_GetTextInputType(props)) {
+    XGame_Ui_Text_Entry_पासोक_Scope scope;
+    switch (SDL_Get_Text_पासोक_Type(props)) {
     default:
     case SDL_TEXTINPUT_TYPE_TEXT:
-        scope = (XGameUiTextEntryInputScope)g_TextInputScope;
+        scope = (XGame_Ui_Text_Entry_पासोक_Scope)g_Text_पासोक_Scope;
         break;
     case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-        scope = XGameUiTextEntryInputScope::Default;
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::Default;
         break;
     case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-        scope = XGameUiTextEntryInputScope::EmailSmtpAddress;
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::EmailSmtpAddress;
         break;
     case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
-        scope = XGameUiTextEntryInputScope::Default;
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::Default;
         break;
     case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-        scope = XGameUiTextEntryInputScope::Password;
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::Password;
         break;
     case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
-        scope = XGameUiTextEntryInputScope::Default;
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::Default;
         break;
-    case SDL_TEXTINPUT_TYPE_NUMBER:
-        scope = XGameUiTextEntryInputScope::Number;
+    case SDL_TEXTINPUT_TYPE_नुमेरो:
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::नुमेरो_2;
         break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
+    case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_HIDDEN:
         // FIXME: Password or number scope?
-        scope = XGameUiTextEntryInputScope::Number;
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::नुमेरो_2;
         break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-        scope = XGameUiTextEntryInputScope::Number;
+    case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_VISIBLE:
+        scope = XGame_Ui_Text_Entry_पासोक_Scope::नुमेरो_2;
         break;
     }
 

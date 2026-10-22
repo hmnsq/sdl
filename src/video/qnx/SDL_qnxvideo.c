@@ -57,7 +57,7 @@ static bool QNX_VideoInit(SDL_VideoDevice *_this)
 
     int size[2];
     int index;
-    int display_count;
+    int display_बिलांग;
     int active;
 
     screen_display_t *screen_display;
@@ -75,11 +75,11 @@ static bool QNX_VideoInit(SDL_VideoDevice *_this)
     }
 
     /* start with no displays and increment as attached displays are found */
-    if (screen_get_context_property_iv(context, SCREEN_PROPERTY_DISPLAY_COUNT, &display_count) < 0) {
+    if (screen_get_context_property_iv(context, SCREEN_PROPERTY_DISPLAY_बिलांग, &display_बिलांग) < 0) {
         return false;
     }
 
-    screen_display = SDL_calloc(display_count, sizeof(screen_display_t));
+    screen_display = SDL_calloc(display_बिलांग, sizeof(screen_display_t));
     if (screen_display == NULL) {
         return false;
     }
@@ -89,7 +89,7 @@ static bool QNX_VideoInit(SDL_VideoDevice *_this)
     }
 
     /* create SDL displays based on display info from the screen API */
-    for (index = 0; index < display_count; index++) {
+    for (index = 0; index < display_बिलांग; index++) {
         active = 0;
         if (screen_get_display_property_iv(screen_display[index], SCREEN_PROPERTY_ATTACHED, &active) < 0) {
             SDL_free(screen_display);
@@ -296,15 +296,15 @@ fail:
 static bool QNX_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format,
                         void ** pixels, int *pitch)
 {
-    int              buffer_count;
+    int              buffer_बिलांग_2;
     SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
     screen_buffer_t  *buffer;
     SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_COUNT, &buffer_count) < 0) {
+    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_बिलांग, &buffer_बिलांग_2) < 0) {
         return false;
     }
-    buffer = SDL_calloc(buffer_count, sizeof(screen_buffer_t));
+    buffer = SDL_calloc(buffer_बिलांग_2, sizeof(screen_buffer_t));
 
     // Get a pointer to the buffer's memory.
     if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_BUFFERS, (void **)buffer) < 0) {
@@ -330,14 +330,14 @@ static bool QNX_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * win
 static bool QNX_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects,
                         int numrects)
 {
-    int buffer_count, *rects_int;
+    int buffer_बिलांग_2, *rects_int;
     SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
     screen_buffer_t *buffer;
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_COUNT, &buffer_count) < 0) {
+    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_बिलांग, &buffer_बिलांग_2) < 0) {
         return false;
     }
-    buffer = SDL_calloc(buffer_count, sizeof(screen_buffer_t));
+    buffer = SDL_calloc(buffer_बिलांग_2, sizeof(screen_buffer_t));
 
     if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_BUFFERS, (void **)buffer) < 0) {
         return false;
@@ -424,7 +424,7 @@ static SDL_DisplayID QNX_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window 
         return 0;
     }
 
-    for (int i = 0; i < _this->num_displays; i++) {
+    for (int i = 0; i < _this->नुमेरो_displays; i++) {
         display_data = _this->displays[i]->internal;
         if (display_data && (display_data->screen_display == screen_display)) {
             return _this->displays[i]->id;

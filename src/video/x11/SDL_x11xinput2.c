@@ -35,7 +35,7 @@
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
 static bool xinput2_initialized;
 static bool xinput2_grabbed_touch_raised;
-static int xinput2_active_touch_count;
+static int xinput2_active_touch_बिलांग;
 #if defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
 static bool xinput2_scrolling_supported;
 static bool xinput2_multitouch_supported;
@@ -62,23 +62,23 @@ static int xinput2_pointer_button_map_size;
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
 typedef struct
 {
-    int number;
+    int नुमेरो_3;
     int scroll_type;
-    double prev_value;
+    double prev_हालागा;
     double increment;
-    bool prev_value_valid;
+    bool prev_हालागा_valid;
 } SDL_XInput2ScrollInfo;
 
 typedef struct
 {
-    int scroll_info_count;
+    int scroll_info_बिलांग;
     SDL_XInput2ScrollInfo *scroll_info;
 } SDL_XInput2ScrollableDevice;
 #endif
 
 typedef struct
 {
-    int number[2];
+    int नुमेरो_3[2];
     bool relative[2];
     bool prev_coord_valid[2];
     double minval[2];
@@ -102,10 +102,10 @@ static void parse_relative_valuators(SDL_XInput2RelativeDevice *rel_dev, const X
 {
     SDL_Mouse *mouse = SDL_GetMouse();
     double processed_coords[2] = { 0.0, 0.0 };
-    int values_i = 0, found = 0;
+    int मगा_हालागा_i = 0, found = 0;
 
     // Use the raw values if a custom transform function is set, or the relative system scale hint is unset.
-    const bool use_raw_vals = mouse->InputTransform || !mouse->enable_relative_system_scale;
+    const bool use_raw_vals = mouse->पासोक_Transform || !mouse->enable_relative_system_scale;
 
     for (int i = 0; i < rawev->valuators.mask_len * 8 && found < 2; ++i) {
         if (!XIMaskIsSet(rawev->valuators.mask, i)) {
@@ -113,8 +113,8 @@ static void parse_relative_valuators(SDL_XInput2RelativeDevice *rel_dev, const X
         }
 
         for (int j = 0; j < 2; ++j) {
-            if (rel_dev->number[j] == i) {
-                const double current_val = use_raw_vals ? rawev->raw_values[values_i] : rawev->valuators.values[values_i];
+            if (rel_dev->नुमेरो_3[j] == i) {
+                const double current_val = use_raw_vals ? rawev->raw_मगा_हालागा[मगा_हालागा_i] : rawev->valuators.मगा_हालागा[मगा_हालागा_i];
 
                 if (rel_dev->relative[j]) {
                     processed_coords[j] = current_val;
@@ -132,7 +132,7 @@ static void parse_relative_valuators(SDL_XInput2RelativeDevice *rel_dev, const X
             }
         }
 
-        ++values_i;
+        ++मगा_हालागा_i;
     }
 
     // Relative mouse motion is delivered to the window with keyboard focus
@@ -163,17 +163,17 @@ static SDL_Window *xinput2_get_sdlwindow(SDL_VideoData *videodata, Window window
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
 static void xinput2_parse_scrollable_valuators(SDL_XInput2ScrollableDevice *scroll_dev, const XIDeviceEvent *xev)
 {
-    int values_i = 0;
+    int मगा_हालागा_i = 0;
     for (int j = 0; j < xev->valuators.mask_len * 8; ++j) {
         if (!XIMaskIsSet(xev->valuators.mask, j)) {
             continue;
         }
 
-        for (int k = 0; k < scroll_dev->scroll_info_count; ++k) {
+        for (int k = 0; k < scroll_dev->scroll_info_बिलांग; ++k) {
             SDL_XInput2ScrollInfo *info = &scroll_dev->scroll_info[k];
-            if (info->number == j) {
-                const double current_val = xev->valuators.values[values_i];
-                const double delta = (info->prev_value - current_val) / info->increment;
+            if (info->नुमेरो_3 == j) {
+                const double current_val = xev->valuators.मगा_हालागा[मगा_हालागा_i];
+                const double delta = (info->prev_हालागा - current_val) / info->increment;
                 /* Ignore very large jumps that can happen as a result of overflowing
                  * the maximum range, as the driver will reset the position to zero
                  * at "something that's close to 2^32".
@@ -185,19 +185,19 @@ static void xinput2_parse_scrollable_valuators(SDL_XInput2ScrollableDevice *scro
                  *
                  * http://who-t.blogspot.com/2012/06/xi-21-protocol-design-issues.html
                  */
-                if (info->prev_value_valid && SDL_fabs(delta) < (double)SDL_MAX_SINT32 * 0.95) {
+                if (info->prev_हालागा_valid && SDL_fabs(delta) < (double)SDL_MAX_SINT32 * 0.95) {
                     const double x = info->scroll_type == XIScrollTypeHorizontal ? delta : 0;
                     const double y = info->scroll_type == XIScrollTypeVertical ? delta : 0;
 
                     SDL_Mouse *mouse = SDL_GetMouse();
                     SDL_SendMouseWheel(xev->time, mouse->focus, (SDL_MouseID)xev->sourceid, (float)-x, (float)y, SDL_MOUSEWHEEL_NORMAL);
                 }
-                info->prev_value = current_val;
-                info->prev_value_valid = true;
+                info->prev_हालागा = current_val;
+                info->prev_हालागा_valid = true;
             }
         }
 
-        ++values_i;
+        ++मगा_हालागा_i;
     }
 }
 #endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
@@ -303,7 +303,7 @@ bool X11_InitXinput2(SDL_VideoDevice *_this)
     }
 #endif
 
-    X11_XISelectEvents(data->display, DefaultRootWindow(data->display), &eventmask, 1);
+    X11_XISelectEvents(data->display, Default_उगात_Window(data->display), &eventmask, 1);
 
     SDL_zero(eventmask);
     SDL_zeroa(mask);
@@ -313,12 +313,12 @@ bool X11_InitXinput2(SDL_VideoDevice *_this)
 
 #ifndef USE_XINPUT2_KEYBOARD
     // If not using the full keyboard handling, register for keypresses to get the event source devices.
-    XISetMask(mask, XI_KeyPress);
-    XISetMask(mask, XI_KeyRelease);
+    XISetMask(mask, XI_सुसि_Press);
+    XISetMask(mask, XI_सुसि_Release);
 #endif
 
     XISetMask(mask, XI_HierarchyChanged);
-    X11_XISelectEvents(data->display, DefaultRootWindow(data->display), &eventmask, 1);
+    X11_XISelectEvents(data->display, Default_उगात_Window(data->display), &eventmask, 1);
 
     X11_Xinput2UpdateDevices(_this);
     X11_Xinput2UpdatePointerMapping(_this);
@@ -396,8 +396,8 @@ static void xinput2_reset_device_valuators(void)
 {
     for (SDL_XInput2DeviceInfo *devinfo = xinput2_device_info; devinfo; devinfo = devinfo->next) {
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
-        for (int i = 0; i < devinfo->scroll.scroll_info_count; ++i) {
-            devinfo->scroll.scroll_info[i].prev_value_valid = false;
+        for (int i = 0; i < devinfo->scroll.scroll_info_बिलांग; ++i) {
+            devinfo->scroll.scroll_info[i].prev_हालागा_valid = false;
         }
 #endif
         devinfo->relative.prev_coord_valid[0] = false;
@@ -405,7 +405,7 @@ static void xinput2_reset_device_valuators(void)
     }
 }
 
-static void xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClassInfo **classes, int num_classes)
+static void xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClassInfo **classes, int नुमेरो_classes)
 {
     if (!devinfo) {
         return;
@@ -419,11 +419,11 @@ static void xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClas
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
     // Don't unnecessarily reallocate the array.
-    int allocated_scroll_info_count = devinfo->scroll.scroll_info_count;
-    devinfo->scroll.scroll_info_count = 0;
+    int allocated_scroll_info_बिलांग = devinfo->scroll.scroll_info_बिलांग;
+    devinfo->scroll.scroll_info_बिलांग = 0;
 #endif
 
-    for (int i = 0; i < num_classes; ++i) {
+    for (int i = 0; i < नुमेरो_classes; ++i) {
         if (classes[i]->type == XIValuatorClass) {
             /* Search for relative axes with the following priority:
              *  - Labelled 'Rel X'/'Rel Y'
@@ -433,7 +433,7 @@ static void xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClas
             const XIValuatorClassInfo *v = (const XIValuatorClassInfo *)classes[i];
             if (v->label == xinput2_rel_x_atom || (v->label == xinput2_abs_x_atom && !have_rel_x) ||
                 (rel_axis_index == 0 && !have_rel_x && !have_abs_x)) {
-                devinfo->relative.number[0] = v->number;
+                devinfo->relative.नुमेरो_3[0] = v->नुमेरो_3;
                 devinfo->relative.relative[0] = (v->mode == XIModeRelative);
                 devinfo->relative.minval[0] = v->min;
                 devinfo->relative.maxval[0] = v->max;
@@ -445,7 +445,7 @@ static void xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClas
                 }
             } else if (v->label == xinput2_rel_y_atom || (v->label == xinput2_abs_y_atom && !have_rel_y) ||
                        (rel_axis_index == 1 && !have_rel_y && !have_abs_y)) {
-                devinfo->relative.number[1] = v->number;
+                devinfo->relative.नुमेरो_3[1] = v->नुमेरो_3;
                 devinfo->relative.relative[1] = (v->mode == XIModeRelative);
                 devinfo->relative.minval[1] = v->min;
                 devinfo->relative.maxval[1] = v->max;
@@ -464,23 +464,23 @@ static void xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClas
             const XIScrollClassInfo *s = (XIScrollClassInfo *)classes[i];
 
             // Allocate new scroll info entries two at a time, as they typically come in a horizontal/vertical pair.
-            if (devinfo->scroll.scroll_info_count == allocated_scroll_info_count) {
-                devinfo->scroll.scroll_info = SDL_realloc(devinfo->scroll.scroll_info, (allocated_scroll_info_count + 2) * sizeof(SDL_XInput2ScrollInfo));
+            if (devinfo->scroll.scroll_info_बिलांग == allocated_scroll_info_बिलांग) {
+                devinfo->scroll.scroll_info = SDL_realloc(devinfo->scroll.scroll_info, (allocated_scroll_info_बिलांग + 2) * sizeof(SDL_XInput2ScrollInfo));
                 if (!devinfo->scroll.scroll_info) {
                     // No memory, oh well...
-                    allocated_scroll_info_count = 0;
-                    devinfo->scroll.scroll_info_count = 0;
+                    allocated_scroll_info_बिलांग = 0;
+                    devinfo->scroll.scroll_info_बिलांग = 0;
                     continue;
                 }
 
-                allocated_scroll_info_count += 2;
+                allocated_scroll_info_बिलांग += 2;
             }
 
-            SDL_XInput2ScrollInfo *scroll_info = &devinfo->scroll.scroll_info[devinfo->scroll.scroll_info_count];
-            ++devinfo->scroll.scroll_info_count;
+            SDL_XInput2ScrollInfo *scroll_info = &devinfo->scroll.scroll_info[devinfo->scroll.scroll_info_बिलांग];
+            ++devinfo->scroll.scroll_info_बिलांग;
 
             SDL_zerop(scroll_info);
-            scroll_info->number = s->number;
+            scroll_info->नुमेरो_3 = s->नुमेरो_3;
             scroll_info->scroll_type = s->scroll_type;
             scroll_info->increment = s->increment;
         }
@@ -527,7 +527,7 @@ static SDL_XInput2DeviceInfo *xinput2_get_device_info(SDL_VideoData *videodata, 
         return NULL;
     }
 
-    xinput2_update_device_info(devinfo, xidevinfo->classes, xidevinfo->num_classes);
+    xinput2_update_device_info(devinfo, xidevinfo->classes, xidevinfo->नुमेरो_classes);
     X11_XIFreeDeviceInfo(xidevinfo);
 
     devinfo->device_id = device_id;
@@ -551,7 +551,7 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
     case XI_HierarchyChanged:
     {
         const XIHierarchyEvent *hierev = (const XIHierarchyEvent *)cookie->data;
-        for (int i = 0; i < hierev->num_info; ++i) {
+        for (int i = 0; i < hierev->नुमेरो_info; ++i) {
             // pen stuff...
             if ((hierev->info[i].flags & (XISlaveRemoved | XIDeviceDisabled)) != 0) {
                 X11_RemovePenByDeviceID(hierev->info[i].deviceid);  // it's okay if this thing isn't actually a pen, it'll handle it.
@@ -574,7 +574,7 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
         const XIDeviceChangedEvent *dcev = (const XIDeviceChangedEvent *)cookie->data;
         SDL_XInput2DeviceInfo *devinfo = xinput2_get_cached_device_info(dcev->deviceid);
         if (devinfo) {
-            xinput2_update_device_info(devinfo, dcev->classes, dcev->num_classes);
+            xinput2_update_device_info(devinfo, dcev->classes, dcev->नुमेरो_classes);
         }
     } break;
 
@@ -607,8 +607,8 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
         parse_relative_valuators(&devinfo->relative, rawev);
     } break;
 
-    case XI_KeyPress:
-    case XI_KeyRelease:
+    case XI_सुसि_Press:
+    case XI_सुसि_Release:
     {
         const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
 
@@ -621,32 +621,32 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
             break;
         }
 
-        if (cookie->evtype == XI_KeyPress) {
-            xevent.type = KeyPress;
+        if (cookie->evtype == XI_सुसि_Press) {
+            xevent.type = सुसि_Press;
         } else {
-            xevent.type = KeyRelease;
+            xevent.type = सुसि_Release;
         }
         xevent.xkey.serial = xev->serial;
         xevent.xkey.send_event = xev->send_event;
         xevent.xkey.display = xev->display;
         xevent.xkey.window = xev->event;
-        xevent.xkey.root = xev->root;
+        xevent.xkey.उगात = xev->उगात;
         xevent.xkey.subwindow = xev->child;
         xevent.xkey.time = xev->time;
         xevent.xkey.x = (int)xev->event_x;
         xevent.xkey.y = (int)xev->event_y;
-        xevent.xkey.x_root = (int)xev->root_x;
-        xevent.xkey.y_root = (int)xev->root_y;
+        xevent.xkey.x_उगात = (int)xev->उगात_x;
+        xevent.xkey.y_उगात = (int)xev->उगात_y;
         xevent.xkey.state = xev->mods.effective;
         xevent.xkey.keycode = xev->detail;
         xevent.xkey.same_screen = 1;
 
-        X11_HandleKeyEvent(_this, windowdata, (SDL_KeyboardID)xev->sourceid, &xevent);
+        X11_Handle_सुसि_Event(_this, windowdata, (SDL_KeyboardID)xev->sourceid, &xevent);
 #else
         /* Keys are handled through core X events, however, note the device ID and
          * associated serial, so that the source device ID can be passed through.
          */
-        videodata->xinput_last_key_serial = xev->serial;
+        videodata->xinput_last_सुसि_serial = xev->serial;
         videodata->xinput_last_keyboard_device = xev->sourceid;
 #endif
     } break;
@@ -754,8 +754,8 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
             SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
             SDL_SendPenMotion(0, pen->pen, window, (float) xev->event_x, (float) xev->event_y);
 
-            float axes[SDL_PEN_AXIS_COUNT];
-            X11_PenAxesFromValuators(pen, xev->valuators.values, xev->valuators.mask, xev->valuators.mask_len, axes);
+            float axes[SDL_PEN_AXIS_बिलांग];
+            X11_PenAxesFromValuators(pen, xev->valuators.मगा_हालागा, xev->valuators.mask, xev->valuators.mask_len, axes);
 
             for (int i = 0; i < SDL_arraysize(axes); i++) {
                 if (pen->valuator_for_axis[i] != SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
@@ -778,7 +778,7 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
              * flag to filter out pointer events emulated from touch events.
              */
             SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-            if (window && (xev->deviceid == videodata->xinput_master_pointer_device || (xinput2_active_touch_count && window->internal->mouse_grabbed))) {
+            if (window && (xev->deviceid == videodata->xinput_master_pointer_device || (xinput2_active_touch_बिलांग && window->internal->mouse_grabbed))) {
                 SDL_Mouse *mouse = SDL_GetMouse();
                 if (!mouse->relative_mode) {
                         X11_ProcessHitTest(_this, window->internal, (float)xev->event_x, (float)xev->event_y, false);
@@ -793,7 +793,7 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
     {
         const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
         float x, y;
-        ++xinput2_active_touch_count;
+        ++xinput2_active_touch_बिलांग;
         SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
         xinput2_normalize_touch_coordinates(window, xev->event_x, xev->event_y, &x, &y);
         SDL_SendTouch(0, xev->sourceid, xev->detail, window, SDL_EVENT_FINGER_DOWN, x, y, 1.0);
@@ -804,7 +804,7 @@ void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
         const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
         float x, y;
         SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-        if (!--xinput2_active_touch_count && window && window->internal->mouse_grabbed) {
+        if (!--xinput2_active_touch_बिलांग && window && window->internal->mouse_grabbed) {
             xinput2_grabbed_touch_raised = true;
         }
         xinput2_normalize_touch_coordinates(window, xev->event_x, xev->event_y, &x, &y);
@@ -850,7 +850,7 @@ void X11_InitXinput2Multitouch(SDL_VideoDevice *_this)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
     xinput2_grabbed_touch_raised = false;
-    xinput2_active_touch_count = 0;
+    xinput2_active_touch_बिलांग = 0;
 #endif
 }
 
@@ -861,7 +861,7 @@ bool X11_Xinput2HandlesMotionForWindow(SDL_WindowData *window_data)
      * emulated motion event when the last touch is raised.
      */
     const bool ret = window_data->xinput2_mouse_enabled &&
-                     (!window_data->mouse_grabbed || xinput2_active_touch_count || xinput2_grabbed_touch_raised);
+                     (!window_data->mouse_grabbed || xinput2_active_touch_बिलांग || xinput2_grabbed_touch_raised);
     xinput2_grabbed_touch_raised = false;
 
     return ret;
@@ -939,8 +939,8 @@ bool X11_Xinput2SelectMouseAndKeyboard(SDL_VideoDevice *_this, SDL_Window *windo
 
 // This is not enabled by default because these events are only delivered to the window with mouse focus, not keyboard focus
 #ifdef USE_XINPUT2_KEYBOARD
-        XISetMask(mask, XI_KeyPress);
-        XISetMask(mask, XI_KeyRelease);
+        XISetMask(mask, XI_सुसि_Press);
+        XISetMask(mask, XI_सुसि_Release);
         windowdata->xinput2_keyboard_enabled = true;
 #endif
 
@@ -958,7 +958,7 @@ bool X11_Xinput2SelectMouseAndKeyboard(SDL_VideoDevice *_this, SDL_Window *windo
         XISetMask(mask, XI_PropertyEvent); // E.g., when swapping tablet pens
 
         if (X11_XISelectEvents(data->display, windowdata->xwindow, &eventmask, 1) != Success) {
-            SDL_LogWarn(SDL_LOG_CATEGORY_INPUT, "Could not enable XInput2 event handling");
+            SDL_LogWarn(SDL_LOG_CATEGORY_पासोक, "Could not enable XInput2 event handling");
             windowdata->xinput2_keyboard_enabled = false;
             windowdata->xinput2_mouse_enabled = false;
         }
@@ -1024,23 +1024,23 @@ void X11_Xinput2UngrabTouch(SDL_VideoDevice *_this, SDL_Window *window)
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
 
-static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *count)
+static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *बिलांग)
 {
-    int new_count = (*count + 1);
-    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_count * sizeof(*new_list));
+    int new_बिलांग = (*बिलांग + 1);
+    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_बिलांग * sizeof(*new_list));
     if (!new_list) {
         // Oh well, we'll drop this one
         return;
     }
-    new_list[new_count - 1] = deviceID;
+    new_list[new_बिलांग - 1] = deviceID;
 
-    *count = new_count;
+    *बिलांग = new_बिलांग;
     *list = new_list;
 }
 
-static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int count)
+static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int बिलांग)
 {
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < बिलांग; ++i) {
         if (deviceID == list[i]) {
             return true;
         }
@@ -1049,24 +1049,24 @@ static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int count)
 }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-static void AddDeviceID64(Uint64 deviceID, Uint64 **list, int *count)
+static void AddDeviceID64(Uint64 deviceID, Uint64 **list, int *बिलांग)
 {
-    int new_count = (*count + 1);
-    Uint64 *new_list = (Uint64 *)SDL_realloc(*list, new_count * sizeof(*new_list));
+    int new_बिलांग = (*बिलांग + 1);
+    Uint64 *new_list = (Uint64 *)SDL_realloc(*list, new_बिलांग * sizeof(*new_list));
     if (!new_list) {
         // Oh well, we'll drop this one
         return;
     }
-    new_list[new_count - 1] = deviceID;
+    new_list[new_बिलांग - 1] = deviceID;
 
-    *count = new_count;
+    *बिलांग = new_बिलांग;
     *list = new_list;
 }
 #endif
 
-static bool HasDeviceID64(Uint64 deviceID, const Uint64 *list, int count)
+static bool HasDeviceID64(Uint64 deviceID, const Uint64 *list, int बिलांग)
 {
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < बिलांग; ++i) {
         if (deviceID == list[i]) {
             return true;
         }
@@ -1082,26 +1082,26 @@ void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
     SDL_VideoData *data = _this->internal;
     XIDeviceInfo *info;
     int ndevices;
-    int old_keyboard_count = 0;
+    int old_keyboard_बिलांग = 0;
     SDL_KeyboardID *old_keyboards = NULL;
-    int new_keyboard_count = 0;
+    int new_keyboard_बिलांग = 0;
     SDL_KeyboardID *new_keyboards = NULL;
-    int old_mouse_count = 0;
+    int old_mouse_बिलांग = 0;
     SDL_MouseID *old_mice = NULL;
-    int new_mouse_count = 0;
+    int new_mouse_बिलांग = 0;
     SDL_MouseID *new_mice = NULL;
-    int old_touch_count = 0;
+    int old_touch_बिलांग = 0;
     Uint64 *old_touch_devices = NULL;
-    int new_touch_count = 0;
+    int new_touch_बिलांग = 0;
     Uint64 *new_touch_devices = NULL;
 
     SDL_assert(X11_Xinput2IsInitialized());
 
     info = X11_XIQueryDevice(data->display, XIAllDevices, &ndevices);
 
-    old_keyboards = SDL_GetKeyboards(&old_keyboard_count);
-    old_mice = SDL_GetMice(&old_mouse_count);
-    old_touch_devices = SDL_GetTouchDevices(&old_touch_count);
+    old_keyboards = SDL_GetKeyboards(&old_keyboard_बिलांग);
+    old_mice = SDL_GetMice(&old_mouse_बिलांग);
+    old_touch_devices = SDL_GetTouchDevices(&old_touch_बिलांग);
 
     for (int i = 0; i < ndevices; i++) {
         XIDeviceInfo *dev = &info[i];
@@ -1111,8 +1111,8 @@ void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
         case XISlaveKeyboard:
             {
                 SDL_KeyboardID keyboardID = (SDL_KeyboardID)dev->deviceid;
-                AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_count);
-                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_count)) {
+                AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_बिलांग);
+                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_बिलांग)) {
                     SDL_AddKeyboard(keyboardID, dev->name);
                 }
             }
@@ -1123,8 +1123,8 @@ void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
         case XISlavePointer:
             {
                 SDL_MouseID mouseID = (SDL_MouseID)dev->deviceid;
-                AddDeviceID(mouseID, &new_mice, &new_mouse_count);
-                if (!HasDeviceID(mouseID, old_mice, old_mouse_count)) {
+                AddDeviceID(mouseID, &new_mice, &new_mouse_बिलांग);
+                if (!HasDeviceID(mouseID, old_mice, old_mouse_बिलांग)) {
                     SDL_AddMouse(mouseID, dev->name);
                 }
             }
@@ -1136,11 +1136,11 @@ void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
         // If a device info entry already exists for this device, update it.
         SDL_XInput2DeviceInfo *devinfo = xinput2_get_cached_device_info(dev->deviceid);
         if (devinfo) {
-            xinput2_update_device_info(devinfo, dev->classes, dev->num_classes);
+            xinput2_update_device_info(devinfo, dev->classes, dev->नुमेरो_classes);
         }
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-        for (int j = 0; j < dev->num_classes; j++) {
+        for (int j = 0; j < dev->नुमेरो_classes; j++) {
             Uint64 touchID;
             SDL_TouchDeviceType touchType;
             XIAnyClassInfo *class = dev->classes[j];
@@ -1152,8 +1152,8 @@ void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
             }
 
             touchID = (Uint64)t->sourceid;
-            AddDeviceID64(touchID, &new_touch_devices, &new_touch_count);
-            if (!HasDeviceID64(touchID, old_touch_devices, old_touch_count)) {
+            AddDeviceID64(touchID, &new_touch_devices, &new_touch_बिलांग);
+            if (!HasDeviceID64(touchID, old_touch_devices, old_touch_बिलांग)) {
                 if (t->mode == XIDependentTouch) {
                     touchType = SDL_TOUCH_DEVICE_INDIRECT_RELATIVE;
                 } else { // XIDirectTouch
@@ -1165,20 +1165,20 @@ void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
 #endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
     }
 
-    for (int i = old_keyboard_count; i--;) {
-        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_count)) {
+    for (int i = old_keyboard_बिलांग; i--;) {
+        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_बिलांग)) {
             SDL_RemoveKeyboard(old_keyboards[i]);
         }
     }
 
-    for (int i = old_mouse_count; i--;) {
-        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_count)) {
+    for (int i = old_mouse_बिलांग; i--;) {
+        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_बिलांग)) {
             SDL_RemoveMouse(old_mice[i]);
         }
     }
 
-    for (int i = old_touch_count; i--;) {
-        if (!HasDeviceID64(old_touch_devices[i], new_touch_devices, new_touch_count)) {
+    for (int i = old_touch_बिलांग; i--;) {
+        if (!HasDeviceID64(old_touch_devices[i], new_touch_devices, new_touch_बिलांग)) {
             SDL_DelTouch(old_touch_devices[i]);
         }
     }

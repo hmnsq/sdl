@@ -30,7 +30,7 @@ static void UpdateContentScale(SDL_VideoDevice *_this)
 {
     if (_this) {
         float scale_factor = X11_GetGlobalContentScaleForDevice(_this);
-        for (int i = 0; i < _this->num_displays; ++i) {
+        for (int i = 0; i < _this->नुमेरो_displays; ++i) {
             SDL_SetDisplayContentScale(_this->displays[i], scale_factor);
         }
     }
@@ -77,23 +77,23 @@ void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent)
     }
 }
 
-int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value) {
+int X11_Get_Xsettings_Client_Int_सुसि(XSettingsClient *client, const char *सुसि, int fallback_हालागा) {
     XSettingsSetting *setting = NULL;
-    int res = fallback_value;
+    int res = fallback_हालागा;
 
     if (client) {
-        if (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
-            goto no_key;
+        if (xsettings_client_get_setting(client, सुसि, &setting) != XSETTINGS_SUCCESS) {
+            goto no_सुसि;
         }
 
         if (setting->type != XSETTINGS_TYPE_INT) {
-            goto no_key;
+            goto no_सुसि;
         }
 
         res = setting->data.v_int;
     }
 
-no_key:
+no_सुसि:
     if (setting) {
         xsettings_setting_free(setting);
     }
@@ -101,8 +101,8 @@ no_key:
     return res;
 }
 
-int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value) {
-    return X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
+int X11_Get_Xsettings_Int_सुसि(SDL_VideoDevice *_this, const char *सुसि, int fallback_हालागा) {
+    return X11_Get_Xsettings_Client_Int_सुसि(_this->internal->xsettings_data.xsettings, सुसि, fallback_हालागा);
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

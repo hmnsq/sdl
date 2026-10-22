@@ -47,8 +47,8 @@
 typedef enum
 {
     OptionAsAltNone,
-    OptionAsAltOnlyLeft,
-    OptionAsAltOnlyRight,
+    Option_As_Alt_Only_कालिवा,
+    Option_As_Alt_Only_कानान,
     OptionAsAltBoth,
 } OptionAsAlt;
 
@@ -56,9 +56,9 @@ typedef enum
 @property(nonatomic) int allow_spaces;
 @property(nonatomic) int trackpad_is_touch_only;
 @property(nonatomic) unsigned int modifierFlags;
-@property(nonatomic) void *key_layout;
+@property(nonatomic) void *सुसि_layout;
 @property(nonatomic) SDL3TranslatorResponder *fieldEdit;
-@property(nonatomic) NSInteger clipboard_count;
+@property(nonatomic) NSInteger clipboard_बिलांग;
 @property(nonatomic) IOPMAssertionID screensaver_assertion;
 @property(nonatomic) SDL_Mutex *swaplock;
 @property(nonatomic) OptionAsAlt option_as_alt;

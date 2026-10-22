@@ -62,7 +62,7 @@ bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
     SDL_VideoData *videoData = _this->internal;
     VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    Uint32 extension_बिलांग = 0;
     bool hasSurfaceExtension = false;
     bool hasXlibSurfaceExtension = false;
     bool hasXCBSurfaceExtension = false;
@@ -99,11 +99,11 @@ bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
+        &extension_बिलांग);
     if (!extensions) {
         goto fail;
     }
-    for (i = 0; i < extensionCount; i++) {
+    for (i = 0; i < extension_बिलांग; i++) {
         if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
         } else if (SDL_strcmp(VK_KHR_XCB_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
@@ -158,7 +158,7 @@ void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
     }
 }
 
-char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *बिलांग)
 {
     SDL_VideoData *videoData = _this->internal;
     if (videoData->vulkan_xlib_xcb_library) {
@@ -166,14 +166,14 @@ char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uin
             VK_KHR_SURFACE_EXTENSION_NAME,
             VK_KHR_XCB_SURFACE_EXTENSION_NAME,
         };
-        *count = SDL_arraysize(extensionsForXCB);
+        *बिलांग = SDL_arraysize(extensionsForXCB);
         return extensionsForXCB;
     } else {
         static const char *const extensionsForXlib[] = {
             VK_KHR_SURFACE_EXTENSION_NAME,
             VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
         };
-        *count = SDL_arraysize(extensionsForXlib);
+        *बिलांग = SDL_arraysize(extensionsForXlib);
         return extensionsForXlib;
     }
 }

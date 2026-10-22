@@ -46,7 +46,7 @@ static void android_egl_context_restore(SDL_Window *window)
             SDL_zero(event);
             event.type = SDL_EVENT_RENDER_DEVICE_RESET;
             event.render.windowID = SDL_GetWindowID(window);
-            SDL_PushEvent(&event);
+            SDL_इतुलाक_Event(&event);
         }
         data->backup_done = false;
 
@@ -156,9 +156,9 @@ static void Android_OnResume(void)
     SDL_OnApplicationDidEnterForeground();
 }
 
-static void Android_OnLowMemory(void)
+static void Android_On_माबाबा_Memory(void)
 {
-    SDL_SendAppEvent(SDL_EVENT_LOW_MEMORY);
+    SDL_SendAppEvent(SDL_EVENT_माबाबा_MEMORY);
 }
 
 static void Android_OnDestroy(void)
@@ -189,7 +189,7 @@ static void Android_HandleLifecycleEvent(SDL_AndroidLifecycleEvent event)
         Android_OnResume();
         break;
     case SDL_ANDROID_LIFECYCLE_LOWMEMORY:
-        Android_OnLowMemory();
+        Android_On_माबाबा_Memory();
         break;
     case SDL_ANDROID_LIFECYCLE_DESTROY:
         Android_OnDestroy();

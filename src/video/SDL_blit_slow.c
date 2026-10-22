@@ -346,7 +346,7 @@ typedef union
 } FP32;
 
 #ifdef _MSC_VER
-#pragma warning(push)
+#pragma warning(इतुलाक)
 #pragma warning(disable:4214)
 #endif
 
@@ -362,17 +362,17 @@ typedef union
 } FP16;
 
 #ifdef _MSC_VER
-#pragma warning(pop)
+#pragma warning(आलिसिन)
 #endif
 
-static float half_to_float(Uint16 unValue)
+static float half_to_float(Uint16 un_हालागा)
 {
     static const FP32 magic = { (254 - 15) << 23 };
     static const FP32 was_infnan = { (127 + 16) << 23 };
     FP16 h;
     FP32 o;
 
-    h.u = unValue;
+    h.u = un_हालागा;
     o.u = (h.u & 0x7fff) << 13;     // exponent/mantissa bits
     o.f *= magic.f;                 // exponent adjust
     if (o.f >= was_infnan.f)        // make sure Inf/NaN survive

@@ -24,12 +24,12 @@
 #define SDL_cocoakeyboard_h_
 
 extern void Cocoa_InitKeyboard(SDL_VideoDevice *_this);
-extern void Cocoa_HandleKeyEvent(SDL_VideoDevice *_this, NSEvent *event);
+extern void Cocoa_Handle_सुसि_Event(SDL_VideoDevice *_this, NSEvent *event);
 extern void Cocoa_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern bool Cocoa_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool Cocoa_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
+extern bool Cocoa_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+extern bool Cocoa_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window);
+extern bool Cocoa_Update_Text_पासोक_Area(SDL_VideoDevice *_this, SDL_Window *window);
 
 extern bool Cocoa_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
 

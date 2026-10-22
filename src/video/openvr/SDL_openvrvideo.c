@@ -114,7 +114,7 @@ static const GLubyte *(APIENTRY *ov_glGetStringi)(GLenum name, GLuint index);
 static void (APIENTRY *ov_glClear)(GLbitfield mask);
 static void (APIENTRY *ov_glClearColor)(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
 static void (APIENTRY *ov_glColorMask)(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-static void (APIENTRY *ov_glDebugMessageInsert)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char *message);
+static void (APIENTRY *ov_gl_Debug_Message_इसिंगित)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char *message);
 
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
 static PROC (*ov_wglGetProcAddress)(LPCSTR);
@@ -157,7 +157,7 @@ static bool OPENVR_InitExtensions(SDL_VideoDevice *_this)
         OPENVR_SetupProc(ov_glColorMask);
         OPENVR_SetupProc(ov_glGetStringi);
         OPENVR_SetupProc(ov_glGetIntegerv);
-        OPENVR_SetupProc(ov_glDebugMessageInsert);
+        OPENVR_SetupProc(ov_gl_Debug_Message_इसिंगित);
         if (failed_extension) {
             return SDL_SetError("Error loading GL extension for %s", failed_extension);
         }
@@ -174,9 +174,9 @@ static bool OPENVR_SetOverlayError(EVROverlayError e)
     CASE(PermissionDenied);
     CASE(OverlayLimitExceeded);
     CASE(WrongVisibilityType);
-    CASE(KeyTooLong);
+    CASE(सुसि_Too_Long);
     CASE(NameTooLong);
-    CASE(KeyInUse);
+    CASE(सुसि_In_Use);
     CASE(WrongTransformType);
     CASE(InvalidTrackedDevice);
     CASE(InvalidParameter);
@@ -326,28 +326,28 @@ static bool OPENVR_CheckRenderbuffer(SDL_VideoDevice *_this)
     return true;
 }
 
-static bool OPENVR_VirtualControllerRumble(void *userdata, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble)
+static bool OPENVR_VirtualControllerRumble(void *userdata, Uint16 माबाबा_frequency_rumble, Uint16 माताअस_frequency_rumble)
 {
     // On XBOX Controllers Low/High maps to Left/Right
     SDL_VideoData *videodata = (SDL_VideoData *)userdata;
 
     const float k_flIntensity = 320.f; // Maximum frequency
-    float flLeftFrequency = (float)low_frequency_rumble * k_flIntensity / 65535.f;
-    float flRightFrequency = (float)high_frequency_rumble * k_flIntensity / 65535.f;
+    float fl_कालिवा_Frequency = (float)माबाबा_frequency_rumble * k_flIntensity / 65535.f;
+    float fl_कानान_Frequency = (float)माताअस_frequency_rumble * k_flIntensity / 65535.f;
     float flDurationSeconds = 2.f;
     float flAmplitude = 1.f;
 
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[0], 0, flDurationSeconds, flLeftFrequency, flAmplitude, 0);
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[1], 0, flDurationSeconds, flRightFrequency, flAmplitude, 0);
+    videodata->o_पासोक->TriggerHapticVibrationAction(videodata->पासोक_action_handles_haptics[0], 0, flDurationSeconds, fl_कालिवा_Frequency, flAmplitude, 0);
+    videodata->o_पासोक->TriggerHapticVibrationAction(videodata->पासोक_action_handles_haptics[1], 0, flDurationSeconds, fl_कानान_Frequency, flAmplitude, 0);
 
     return true;
 }
 
-static bool OPENVR_VirtualControllerRumbleTriggers(void *userdata, Uint16 left_rumble, Uint16 right_rumble)
+static bool OPENVR_VirtualControllerRumbleTriggers(void *userdata, Uint16 कालिवा_rumble, Uint16 कानान_rumble)
 {
     SDL_VideoData *videodata = (SDL_VideoData *)userdata;
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[0], 0, 0.1f, left_rumble, 1.0, 0);
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[1], 0, 0.1f, right_rumble, 1.0, 0);
+    videodata->o_पासोक->TriggerHapticVibrationAction(videodata->पासोक_action_handles_haptics[0], 0, 0.1f, कालिवा_rumble, 1.0, 0);
+    videodata->o_पासोक->TriggerHapticVibrationAction(videodata->पासोक_action_handles_haptics[1], 0, 0.1f, कानान_rumble, 1.0, 0);
     return true;
 }
 
@@ -355,16 +355,16 @@ static void OPENVR_VirtualControllerUpdate(void *userdata)
 {
     SDL_VideoData *videodata = (SDL_VideoData *)userdata;
     SDL_Joystick * joystick = videodata->virtual_joystick;
-    InputDigitalActionData_t digital_input_action;
-    InputAnalogActionData_t analog_input_action;
+    पासोक_Digital_Action_Data_t digital_पासोक_action;
+    पासोक_Analog_Action_Data_t analog_पासोक_action;
     EVRInputError e;
 #ifdef DEBUG_OPENVR
     //char cts[10240];
     //char * ctsx = cts;
 #endif
     VRActiveActionSet_t actionSet = { 0 };
-    actionSet.ulActionSet = videodata->input_action_set;
-    e = videodata->oInput->UpdateActionState(&actionSet, sizeof(actionSet), 1);
+    actionSet.ulActionSet = videodata->पासोक_action_set;
+    e = videodata->o_पासोक->UpdateActionState(&actionSet, sizeof(actionSet), 1);
     if (e)
     {
 #ifdef DEBUG_OPENVR
@@ -373,11 +373,11 @@ static void OPENVR_VirtualControllerUpdate(void *userdata)
         return;
     }
 
-    for (int d = 0; d < videodata->input_action_handles_buttons_count; d++)
+    for (int d = 0; d < videodata->पासोक_action_handles_buttons_बिलांग; d++)
     {
-        if (videodata->input_action_handles_buttons[d] == k_ulInvalidActionHandle)
+        if (videodata->पासोक_action_handles_buttons[d] == k_ulInvalidActionHandle)
             continue;
-        e = videodata->oInput->GetDigitalActionData(videodata->input_action_handles_buttons[d], &digital_input_action, sizeof(digital_input_action), k_ulInvalidInputValueHandle);
+        e = videodata->o_पासोक->GetDigitalActionData(videodata->पासोक_action_handles_buttons[d], &digital_पासोक_action, sizeof(digital_पासोक_action), k_ul_Invalid_पासोक_हालागा_Handle);
         if (e)
         {
 #ifdef DEBUG_OPENVR
@@ -385,14 +385,14 @@ static void OPENVR_VirtualControllerUpdate(void *userdata)
 #endif
             return;
         }
-        SDL_SetJoystickVirtualButton(joystick, d, digital_input_action.bState);
+        SDL_SetJoystickVirtualButton(joystick, d, digital_पासोक_action.bState);
 #ifdef DEBUG_OPENVR
         //ctsx+=sprintf(ctsx,"%d", digital_input_action.bState);
 #endif
     }
 
     // Left Stick
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[0], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
+    e = videodata->o_पासोक->GetAnalogActionData(videodata->पासोक_action_handles_axes[0], &analog_पासोक_action, sizeof(analog_पासोक_action), k_ul_Invalid_पासोक_हालागा_Handle);
     if (e)
     {
 #ifdef DEBUG_OPENVR
@@ -400,11 +400,11 @@ static void OPENVR_VirtualControllerUpdate(void *userdata)
 #endif
         return;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFTX, (Sint16)(analog_input_action.x * SDL_JOYSTICK_AXIS_MAX));
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFTY, (Sint16)(-analog_input_action.y * SDL_JOYSTICK_AXIS_MAX));
+    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFTX, (Sint16)(analog_पासोक_action.x * SDL_JOYSTICK_AXIS_MAX));
+    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFTY, (Sint16)(-analog_पासोक_action.y * SDL_JOYSTICK_AXIS_MAX));
 
     // Right Stick
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[1], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
+    e = videodata->o_पासोक->GetAnalogActionData(videodata->पासोक_action_handles_axes[1], &analog_पासोक_action, sizeof(analog_पासोक_action), k_ul_Invalid_पासोक_हालागा_Handle);
     if (e)
     {
 #ifdef DEBUG_OPENVR
@@ -412,11 +412,11 @@ static void OPENVR_VirtualControllerUpdate(void *userdata)
 #endif
         return;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHTX, (Sint16)(analog_input_action.x * SDL_JOYSTICK_AXIS_MAX));
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHTY, (Sint16)(-analog_input_action.y * SDL_JOYSTICK_AXIS_MAX));
+    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHTX, (Sint16)(analog_पासोक_action.x * SDL_JOYSTICK_AXIS_MAX));
+    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHTY, (Sint16)(-analog_पासोक_action.y * SDL_JOYSTICK_AXIS_MAX));
 
     // Left Trigger
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[2], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
+    e = videodata->o_पासोक->GetAnalogActionData(videodata->पासोक_action_handles_axes[2], &analog_पासोक_action, sizeof(analog_पासोक_action), k_ul_Invalid_पासोक_हालागा_Handle);
     if (e)
     {
 #ifdef DEBUG_OPENVR
@@ -424,10 +424,10 @@ static void OPENVR_VirtualControllerUpdate(void *userdata)
 #endif
         return;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFT_TRIGGER, (Sint16)((analog_input_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
+    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_कालिवा_TRIGGER, (Sint16)((analog_पासोक_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
 
     // Right Trigger
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[3], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
+    e = videodata->o_पासोक->GetAnalogActionData(videodata->पासोक_action_handles_axes[3], &analog_पासोक_action, sizeof(analog_पासोक_action), k_ul_Invalid_पासोक_हालागा_Handle);
     if (e)
     {
 #ifdef DEBUG_OPENVR
@@ -435,18 +435,18 @@ static void OPENVR_VirtualControllerUpdate(void *userdata)
 #endif
         return;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHT_TRIGGER, (Sint16)((analog_input_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
+    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_कानान_TRIGGER, (Sint16)((analog_पासोक_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
 
 #if 0
-    for (a = 0; a < videodata->input_action_handles_axes_count; a++)
+    for (a = 0; a < videodata->पासोक_action_handles_axes_बिलांग; a++)
     {
         float xval = 0.0f;
-        e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[a], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
+        e = videodata->o_पासोक->GetAnalogActionData(videodata->पासोक_action_handles_axes[a], &analog_पासोक_action, sizeof(analog_पासोक_action), k_ul_Invalid_पासोक_हालागा_Handle);
         if (e) goto updatefail;
-        xval = analog_input_action.x;
+        xval = analog_पासोक_action.x;
         if (a == SDL_CONTROLLER_AXIS_LEFTY || a == SDL_CONTROLLER_AXIS_RIGHTY)
           xval *= -1.0f;
-        if (a == SDL_GAMEPAD_AXIS_LEFT_TRIGGER || a == SDL_GAMEPAD_AXIS_RIGHT_TRIGGER)
+        if (a == SDL_GAMEPAD_AXIS_कालिवा_TRIGGER || a == SDL_GAMEPAD_AXIS_कानान_TRIGGER)
           xval = xval * 2.0f - 1.0f;
         //SDL_SetJoystickVirtualAxis(joystick, a, analog_input_action.x * 32767);
         xval *= SDL_JOYSTICK_AXIS_MAX;
@@ -469,7 +469,7 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
 
     EVRInputError e = 0;
 
-    char * k_pchBooleanActionPaths[SDL_GAMEPAD_BUTTON_COUNT] = {
+    char * k_pchBooleanActionPaths[SDL_GAMEPAD_BUTTON_बिलांग] = {
         "/actions/virtualgamepad/in/a",
         "/actions/virtualgamepad/in/b",
         "/actions/virtualgamepad/in/x",
@@ -504,7 +504,7 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
         "/actions/virtualgamepad/in/trigger_right",
     };
 
-    if ((e = videodata->oInput->GetActionSetHandle("/actions/virtualgamepad", &videodata->input_action_set)) != EVRInputError_VRInputError_None)
+    if ((e = videodata->o_पासोक->GetActionSetHandle("/actions/virtualgamepad", &videodata->पासोक_action_set)) != EVRInputError_VRInputError_None)
     {
 #ifdef DEBUG_OPENVR
         SDL_Log("ERROR: Failed to get action set handle: %d", e);
@@ -512,12 +512,12 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
         return SDL_SetError("Failed to get action set handle");
     }
 
-    videodata->input_action_handles_buttons_count = SDL_arraysize(k_pchBooleanActionPaths);
-    videodata->input_action_handles_buttons = SDL_malloc(videodata->input_action_handles_buttons_count * sizeof(VRActionHandle_t));
+    videodata->पासोक_action_handles_buttons_बिलांग = SDL_arraysize(k_pchBooleanActionPaths);
+    videodata->पासोक_action_handles_buttons = SDL_malloc(videodata->पासोक_action_handles_buttons_बिलांग * sizeof(VRActionHandle_t));
 
-    for (int i = 0; i < videodata->input_action_handles_buttons_count; i++)
+    for (int i = 0; i < videodata->पासोक_action_handles_buttons_बिलांग; i++)
     {
-        e = videodata->oInput->GetActionHandle(k_pchBooleanActionPaths[i], &videodata->input_action_handles_buttons[i]);
+        e = videodata->o_पासोक->GetActionHandle(k_pchBooleanActionPaths[i], &videodata->पासोक_action_handles_buttons[i]);
         if (e)
         {
             SDL_Log("ERROR: Failed to get button action %d ('%s')", i, k_pchBooleanActionPaths[i]);
@@ -525,12 +525,12 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
         }
     }
 
-    videodata->input_action_handles_axes_count = SDL_arraysize(k_pchAnalogActionPaths);
-    videodata->input_action_handles_axes = SDL_malloc(videodata->input_action_handles_axes_count * sizeof(VRActionHandle_t));
+    videodata->पासोक_action_handles_axes_बिलांग = SDL_arraysize(k_pchAnalogActionPaths);
+    videodata->पासोक_action_handles_axes = SDL_malloc(videodata->पासोक_action_handles_axes_बिलांग * sizeof(VRActionHandle_t));
 
-    for (int i = 0; i < videodata->input_action_handles_axes_count; i++)
+    for (int i = 0; i < videodata->पासोक_action_handles_axes_बिलांग; i++)
     {
-        e = videodata->oInput->GetActionHandle(k_pchAnalogActionPaths[i], &videodata->input_action_handles_axes[i]);
+        e = videodata->o_पासोक->GetActionHandle(k_pchAnalogActionPaths[i], &videodata->पासोक_action_handles_axes[i]);
         if (e)
         {
             SDL_Log("ERROR: Failed to get analog action %d ('%s')", i, k_pchAnalogActionPaths[i]);
@@ -538,8 +538,8 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
         }
     }
 
-    e  = videodata->oInput->GetActionHandle("/actions/virtualgamepad/out/haptic_left", &videodata->input_action_handles_haptics[0]);
-    e |= videodata->oInput->GetActionHandle("/actions/virtualgamepad/out/haptic_right", &videodata->input_action_handles_haptics[1]);
+    e  = videodata->o_पासोक->GetActionHandle("/actions/virtualgamepad/out/haptic_left", &videodata->पासोक_action_handles_haptics[0]);
+    e |= videodata->o_पासोक->GetActionHandle("/actions/virtualgamepad/out/haptic_right", &videodata->पासोक_action_handles_haptics[1]);
     if (e)
     {
 #ifdef DEBUG_OPENVR
@@ -551,8 +551,8 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
     // Create a virtual joystick.
     SDL_INIT_INTERFACE(&desc);
     desc.type = SDL_JOYSTICK_TYPE_GAMEPAD;
-    desc.naxes = SDL_GAMEPAD_AXIS_COUNT;
-    desc.nbuttons = SDL_GAMEPAD_BUTTON_COUNT;
+    desc.naxes = SDL_GAMEPAD_AXIS_बिलांग;
+    desc.nbuttons = SDL_GAMEPAD_BUTTON_बिलांग;
     desc.Rumble = OPENVR_VirtualControllerRumble;
     desc.RumbleTriggers = OPENVR_VirtualControllerRumbleTriggers;
     desc.Update = OPENVR_VirtualControllerUpdate;
@@ -569,7 +569,7 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
     }
 
 #ifdef DEBUG_OPENVR
-    SDL_Log("Loaded virtual joystick with %d buttons and %d axes", videodata->input_action_handles_buttons_count, videodata->input_action_handles_axes_count);
+    SDL_Log("Loaded virtual joystick with %d buttons and %d axes", videodata->पासोक_action_handles_buttons_बिलांग, videodata->पासोक_action_handles_axes_बिलांग);
 #endif
 
     return true;
@@ -613,7 +613,7 @@ static bool OPENVR_InitializeOverlay(SDL_VideoDevice *_this, SDL_Window *window)
             return SDL_SetError("Could not create cursor overlay (%d)", result );
         }
         SDL_PropertiesID props = SDL_GetWindowProperties(window);
-        SDL_SetNumberProperty(props, SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER, videodata->overlayID);
+        SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_नुमेरो, videodata->overlayID);
         SDL_free(cursorname);
         videodata->bHasShownOverlay = false;
     }
@@ -771,7 +771,7 @@ static bool OPENVR_ReleaseFrame(SDL_VideoDevice *_this)
     }
 
     if (videodata->renderdoc_debugmarker_frame_end) {
-        ov_glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION,
+        ov_gl_Debug_Message_इसिंगित(GL_DEBUG_SOURCE_APPLICATION,
             GL_DEBUG_TYPE_MARKER, MARKER_ID, GL_DEBUG_SEVERITY_NOTIFICATION, -1,
             MARKER_STR);
     }
@@ -793,13 +793,13 @@ static bool OPENVR_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *disp
 
 
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
-static LRESULT CALLBACK OpenVRVideoWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK OpenVRVideoWndProc(HWND hwnd, UINT मेनसाहे, WPARAM wParam, LPARAM lParam)
 {
-    switch (msg) {
+    switch (मेनसाहे) {
     case WM_DESTROY:
         return 0;
     }
-    return DefWindowProc(hwnd, msg, wParam, lParam);
+    return DefWindowProc(hwnd, मेनसाहे, wParam, lParam);
 }
 
 static bool OPENVR_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
@@ -848,7 +848,7 @@ static void OPENVR_GL_UnloadLibrary(SDL_VideoDevice *_this)
 
 static SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    GLint numExtensions;
+    GLint नुमेरो_Extensions;
     int i;
     SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
     if (!videodata->hglrc) {
@@ -870,10 +870,10 @@ static SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window 
         hwnd = CreateWindowA("SDL_openvrvideo_classname", "SDL_openvrvideo_windowname", (WS_OVERLAPPEDWINDOW), 0, 0,
                               100, 100, NULL, NULL, GetModuleHandle(NULL), NULL);
 
-        MSG msg;
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+        मेनसाहे_2 मेनसाहे;
+        while (PeekMessage(&मेनसाहे, NULL, 0, 0, PM_REMOVE)) {
+            TranslateMessage(&मेनसाहे);
+            DispatchMessage(&मेनसाहे);
         }
 
         videodata->hdc = GetDC(hwnd);
@@ -933,8 +933,8 @@ static SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window 
 
     videodata->renderdoc_debugmarker_frame_end = false;
 
-    ov_glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
-    for (i = 0; i < numExtensions; i++) {
+    ov_glGetIntegerv(GL_नुमेरो_EXTENSIONS, &नुमेरो_Extensions);
+    for (i = 0; i < नुमेरो_Extensions; i++) {
         const char *ccc = (const char *)ov_glGetStringi(GL_EXTENSIONS, i);
         if (SDL_strcmp(ccc, "GL_KHR_debug") == 0) {
 #ifdef DEBUG_OPENVR
@@ -1064,7 +1064,7 @@ static void OVR_EGL_UnloadLibrary(SDL_VideoDevice *_this)
 }
 static SDL_GLContext OVR_EGL_CreateContext(SDL_VideoDevice *_this, SDL_Window * window)
 {
-    GLint numExtensions;
+    GLint नुमेरो_Extensions;
     SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
     if (!videodata->eglCtx) {
         if (!SDL_EGL_InitInternal(videodata)) {
@@ -1078,8 +1078,8 @@ static SDL_GLContext OVR_EGL_CreateContext(SDL_VideoDevice *_this, SDL_Window * 
 
     videodata->renderdoc_debugmarker_frame_end = false;
 
-    ov_glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
-    for(int i = 0; i < numExtensions; i++) {
+    ov_glGetIntegerv(GL_नुमेरो_EXTENSIONS, &नुमेरो_Extensions);
+    for(int i = 0; i < नुमेरो_Extensions; i++) {
         const char * ccc = (const char *)ov_glGetStringi(GL_EXTENSIONS, i);
         if (SDL_strcmp(ccc, "GL_KHR_debug") == 0) {
 #ifdef DEBUG_OPENVR
@@ -1210,7 +1210,7 @@ static void OPENVR_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     data->oOverlay->ShowDashboard(data->sOverlayName);
 
-    window->flags |= (SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS);
+    window->flags |= (SDL_WINDOW_पासोक_FOCUS | SDL_WINDOW_MOUSE_FOCUS);
     SDL_SetKeyboardFocus(window);
 }
 
@@ -1250,12 +1250,12 @@ static bool OPENVR_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
 static Uint8 OPENVR_MapMouseButton(int btn)
 {
-    if (btn == EVRMouseButton_VRMouseButton_Right) {
-        return SDL_BUTTON_RIGHT;
-    } else if (btn == EVRMouseButton_VRMouseButton_Middle) {
-        return SDL_BUTTON_MIDDLE;
+    if (btn == EVRMouse_Button_VRMouse_Button_कानान) {
+        return SDL_BUTTON_कानान;
+    } else if (btn == EVRMouse_Button_VRMouse_Button_गित्ना) {
+        return SDL_BUTTON_गित्ना;
     } else {
-        return SDL_BUTTON_LEFT;
+        return SDL_BUTTON_कालिवा;
     }
 }
 
@@ -1284,24 +1284,24 @@ static void OPENVR_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window
         videodata->overlayID == 0) {
         return;
     }
-    EGamepadTextInputMode input_mode;
-    switch (SDL_GetTextInputType(props)) {
+    EGamepad_Text_पासोक_Mode पासोक_mode;
+    switch (SDL_Get_Text_पासोक_Type(props)) {
     case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-        input_mode = EGamepadTextInputMode_k_EGamepadTextInputModePassword;
+    case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_HIDDEN:
+        पासोक_mode = EGamepad_Text_पासोक_Mode_k_EGamepad_Text_पासोक_Mode_Password;
         break;
     default:
-        input_mode = EGamepadTextInputMode_k_EGamepadTextInputModeNormal;
+        पासोक_mode = EGamepad_Text_पासोक_Mode_k_EGamepad_Text_पासोक_Mode_Normal;
         break;
     }
-    EGamepadTextInputLineMode line_mode;
-    if (SDL_GetTextInputMultiline(props)) {
-        line_mode = EGamepadTextInputLineMode_k_EGamepadTextInputLineModeMultipleLines;
+    EGamepad_Text_पासोक_लिन्या_Mode लिन्या_mode;
+    if (SDL_Get_Text_पासोक_Multiline(props)) {
+        लिन्या_mode = EGamepad_Text_पासोक_लिन्या_Mode_k_EGamepad_Text_पासोक_लिन्या_Mode_Multiple_मगा_लिन्या;
     } else {
-        line_mode = EGamepadTextInputLineMode_k_EGamepadTextInputLineModeSingleLine;
+        लिन्या_mode = EGamepad_Text_पासोक_लिन्या_Mode_k_EGamepad_Text_पासोक_लिन्या_Mode_Single_लिन्या;
     }
     videodata->oOverlay->ShowKeyboardForOverlay(videodata->overlayID,
-           input_mode, line_mode,
+           पासोक_mode, लिन्या_mode,
            EKeyboardFlags_KeyboardFlag_Minimal, "Virtual Keyboard", 128, "", 0);
     SDL_SendScreenKeyboardShown();
 }
@@ -1495,8 +1495,8 @@ static void OPENVR_PumpEvents(SDL_VideoDevice *_this)
             case EVREventType_VREvent_ScrollDiscrete:
                 SDL_SendMouseWheel(0, NULL, SDL_GLOBAL_MOUSE_ID, -nEvent.data.scroll.xdelta, nEvent.data.scroll.ydelta, SDL_MOUSEWHEEL_NORMAL);
                 break;
-            case EVREventType_VREvent_KeyboardCharInput:
-                SDL_SendKeyboardUnicodeKey(SDL_GetTicksNS(), nEvent.data.keyboard.cNewInput[0]);
+            case EVREvent_Type_VREvent_Keyboard_Char_पासोक:
+                SDL_Send_Keyboard_Unicode_सुसि(SDL_GetTicksNS(), nEvent.data.keyboard.c_New_पासोक[0]);
                 break;
             case EVREventType_VREvent_OverlayShown:
                 SDL_SetKeyboardFocus(videodata->window);
@@ -1579,9 +1579,9 @@ static SDL_VideoDevice *OPENVR_CreateDevice(void)
     SDL_snprintf(fnname, 127, "FnTable:%s", IVROverlay_Version);
     data->oOverlay = (struct VR_IVROverlay_FnTable *)data->FN_VR_GetGenericInterface(fnname, &e);
     SDL_snprintf(fnname, 127, "FnTable:%s", IVRInput_Version);
-    data->oInput = (struct VR_IVRInput_FnTable *)data->FN_VR_GetGenericInterface(fnname, &e);
+    data->o_पासोक = (struct VR_IVRInput_FnTable *)data->FN_VR_GetGenericInterface(fnname, &e);
 
-    if (!data->oOverlay || !data->oSystem || !data->oInput) {
+    if (!data->oOverlay || !data->oSystem || !data->o_पासोक) {
         SDL_SetError("Could not get interfaces for the OpenVR System (%s), Overlay (%s) and Input (%s) versions", IVRSystem_Version, IVROverlay_Version, IVRInput_Version);
     }
 
@@ -1599,7 +1599,7 @@ static SDL_VideoDevice *OPENVR_CreateDevice(void)
         goto error;
     }
 
-    err = data->oInput->SetActionManifestPath(loadpath);
+    err = data->o_पासोक->SetActionManifestPath(loadpath);
 #ifdef DEBUG_OPENVR
     SDL_Log("Loaded action manifest at %s (%d)", loadpath, err);
 #endif
@@ -1620,7 +1620,7 @@ static SDL_VideoDevice *OPENVR_CreateDevice(void)
     }
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->नुमेरो_displays = 0;
 
     // Set device free function
     device->free = OPENVR_Destroy;

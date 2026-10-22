@@ -26,17 +26,17 @@
 #include "SDL_kmsdrmvideo.h"
 #include "SDL_kmsdrmevents.h"
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 #include "../../core/linux/SDL_evdev.h"
-#elif defined SDL_INPUT_WSCONS
+#elif defined SDL_पासोक_WSCONS
 #include "../../core/openbsd/SDL_wscons.h"
 #endif
 
 void KMSDRM_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     SDL_EVDEV_Poll();
-#elif defined SDL_INPUT_WSCONS
+#elif defined SDL_पासोक_WSCONS
     SDL_WSCONS_PumpEvents();
 #endif
 }

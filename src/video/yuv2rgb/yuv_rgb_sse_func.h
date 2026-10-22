@@ -244,7 +244,7 @@ PACK_RGB24_32_STEP1(R1, R2, G1, G2, B1, B2, RGB1, RGB2, RGB3, RGB4, RGB5, RGB6) 
 	SAVE_SI128((__m128i*)(rgb_ptr2+112), rgb_16); \
 
 #else
-#error SAVE_LINE unimplemented
+#error SAVE_लिन्या unimplemented
 #endif
 
 #if YUV_FORMAT == YUV_FORMAT_420

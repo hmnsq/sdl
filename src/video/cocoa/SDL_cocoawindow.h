@@ -49,7 +49,7 @@ typedef enum
      * unretained ref to the WindowData. */
     __weak SDL_CocoaWindowData *_data;
     BOOL observingVisible;
-    BOOL wasCtrlLeft;
+    BOOL was_Ctrl_कालिवा;
     BOOL wasVisible;
     BOOL isFullscreenSpace;
     BOOL inFullscreenTransition;
@@ -91,8 +91,8 @@ typedef enum
 - (void)windowDidResize:(NSNotification *)aNotification;
 - (void)windowDidMiniaturize:(NSNotification *)aNotification;
 - (void)windowDidDeminiaturize:(NSNotification *)aNotification;
-- (void)windowDidBecomeKey:(NSNotification *)aNotification;
-- (void)windowDidResignKey:(NSNotification *)aNotification;
+- (void)window_Did_Become_सुसि:(NSNotification *)aNotification;
+- (void)window_Did_Resign_सुसि:(NSNotification *)aNotification;
 - (void)windowDidChangeBackingProperties:(NSNotification *)aNotification;
 - (void)windowDidChangeScreenProfile:(NSNotification *)aNotification;
 - (void)windowDidChangeScreen:(NSNotification *)aNotification;
@@ -108,14 +108,14 @@ typedef enum
 
 // Window event handling
 - (void)mouseDown:(NSEvent *)theEvent;
-- (void)rightMouseDown:(NSEvent *)theEvent;
+- (void)कानान_Mouse_Down:(NSEvent *)theEvent;
 - (void)otherMouseDown:(NSEvent *)theEvent;
 - (void)mouseUp:(NSEvent *)theEvent;
-- (void)rightMouseUp:(NSEvent *)theEvent;
+- (void)कानान_Mouse_Up:(NSEvent *)theEvent;
 - (void)otherMouseUp:(NSEvent *)theEvent;
 - (void)mouseMoved:(NSEvent *)theEvent;
 - (void)mouseDragged:(NSEvent *)theEvent;
-- (void)rightMouseDragged:(NSEvent *)theEvent;
+- (void)कानान_Mouse_Dragged:(NSEvent *)theEvent;
 - (void)otherMouseDragged:(NSEvent *)theEvent;
 - (void)scrollWheel:(NSEvent *)theEvent;
 - (void)touchesBeganWithEvent:(NSEvent *)theEvent;
@@ -146,7 +146,7 @@ typedef enum
 @property(nonatomic) BOOL in_blocking_transition;
 @property(nonatomic) BOOL fullscreen_space_requested;
 @property(nonatomic) BOOL was_zoomed;
-@property(nonatomic) NSInteger window_number;
+@property(nonatomic) NSInteger window_नुमेरो;
 @property(nonatomic) NSInteger flash_request;
 @property(nonatomic) SDL3Cocoa_WindowListener *listener;
 @property(nonatomic) NSModalSession modal_session;
@@ -181,7 +181,7 @@ extern void Cocoa_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Cocoa_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern void Cocoa_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
 extern void Cocoa_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void Cocoa_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
+extern void Cocoa_Set_Window_Always_On_इताअस(SDL_VideoDevice *_this, SDL_Window *window, bool on_इताअस);
 extern SDL_FullscreenResult Cocoa_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
 extern void *Cocoa_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
 extern SDL_DisplayID Cocoa_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
@@ -196,6 +196,6 @@ extern bool Cocoa_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, boo
 extern bool Cocoa_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
 extern bool Cocoa_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern void Cocoa_MenuVisibilityCallback(void *userdata, const char *name, const char *oldValue, const char *newValue);
+extern void Cocoa_MenuVisibilityCallback(void *userdata, const char *name, const char *old_हालागा, const char *new_हालागा);
 
 #endif // SDL_cocoawindow_h_

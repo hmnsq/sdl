@@ -73,8 +73,8 @@
 #endif
 
 #ifdef SDL_IPHONE_KEYBOARD
-- (bool)startTextInput;
-- (bool)stopTextInput;
+- (bool)start_Text_पासोक;
+- (bool)stop_Text_पासोक;
 - (void)initKeyboard;
 - (void)deinitKeyboard;
 
@@ -86,7 +86,7 @@
 - (void)updateKeyboard;
 
 @property(nonatomic, assign, getter=isTextFieldFocused) BOOL textFieldFocused;
-@property(nonatomic, assign) SDL_Rect textInputRect;
+@property(nonatomic, assign) SDL_Rect text_पासोक_Rect;
 @property(nonatomic, assign) int keyboardHeight;
 #endif
 
@@ -94,8 +94,8 @@
 
 #ifdef SDL_IPHONE_KEYBOARD
 bool UIKit_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-bool UIKit_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_SetTextInputProperties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
+bool UIKit_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool UIKit_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window);
+void UIKit_Set_Text_पासोक_Properties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool UIKit_Update_Text_पासोक_Area(SDL_VideoDevice *_this, SDL_Window *window);
 #endif

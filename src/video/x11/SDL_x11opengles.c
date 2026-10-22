@@ -71,7 +71,7 @@ XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int sc
     XVisualInfo *egl_visualinfo = NULL;
     EGLint visual_id = 0;
     XVisualInfo vi_in;
-    int out_count = 0;
+    int out_बिलांग = 0;
 
     if (!_this->egl_data) {
         // The EGL library wasn't loaded, SDL_GetError() should have info
@@ -87,7 +87,7 @@ XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int sc
     if (visual_id != 0) {
         vi_in.screen = screen;
         vi_in.visualid = visual_id;
-        egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
+        egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_बिलांग);
         if (transparent && egl_visualinfo) {
             Uint32 format = X11_GetPixelFormatFromVisualInfo(display, egl_visualinfo);
             if (!SDL_ISPIXELFORMAT_ALPHA(format)) {
@@ -103,12 +103,12 @@ XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int sc
         vi_in.screen = screen;
         egl_visualinfo = X11_XGetVisualInfo(display,
                                             VisualScreenMask,
-                                            &vi_in, &out_count);
+                                            &vi_in, &out_बिलांग);
 
         // Return the first transparent Visual
         if (transparent) {
             int i;
-            for (i = 0; i < out_count; i++) {
+            for (i = 0; i < out_बिलांग; i++) {
                 XVisualInfo *v = &egl_visualinfo[i];
                 Uint32 format = X11_GetPixelFormatFromVisualInfo(display, v);
                 if (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
@@ -116,7 +116,7 @@ XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int sc
                     vi_in.screen = screen;
                     vi_in.visualid = v->visualid;
                     X11_XFree(egl_visualinfo);
-                    egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
+                    egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_बिलांग);
                     return egl_visualinfo;
                 }
             }

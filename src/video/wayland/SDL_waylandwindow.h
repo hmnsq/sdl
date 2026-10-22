@@ -97,9 +97,9 @@ struct SDL_WindowData
     } wm_caps;
     enum
     {
-        WAYLAND_TOPLEVEL_CONSTRAINED_LEFT = 0x01,
-        WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT = 0x02,
-        WAYLAND_TOPLEVEL_CONSTRAINED_TOP = 0x04,
+        WAYLAND_TOPLEVEL_CONSTRAINED_कालिवा = 0x01,
+        WAYLAND_TOPLEVEL_CONSTRAINED_कानान = 0x02,
+        WAYLAND_TOPLEVEL_CONSTRAINED_इताअस = 0x04,
         WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM = 0x08
     } toplevel_constraints;
 
@@ -132,19 +132,19 @@ struct SDL_WindowData
     SDL_AtomicInt swap_interval_ready;
 
     SDL_DisplayData **outputs;
-    int num_outputs;
+    int नुमेरो_outputs;
 
     char *app_id;
     char *session_id;
     double scale_factor;
 
     struct wl_buffer **icon_buffers;
-    int icon_buffer_count;
+    int icon_buffer_बिलांग;
 
     // Keyboard, pointer, and touch focus refcount.
-    int keyboard_focus_count;
-    int pointer_focus_count;
-    int active_touch_count;
+    int keyboard_focus_बिलांग;
+    int pointer_focus_बिलांग;
+    int active_touch_बिलांग;
 
     struct
     {
@@ -221,11 +221,11 @@ struct SDL_WindowData
         int hint;
         int purpose;
         bool active;
-    } text_input_props;
+    } text_पासोक_props;
 
     SDL_Rect explicit_geometry;
     SDL_DisplayID last_displayID;
-    int pending_state_deadline_count;
+    int pending_state_deadline_बिलांग;
     Uint64 last_focus_event_time_ns;
     Uint64 last_resize_event_time_ns;
     int icc_fd;

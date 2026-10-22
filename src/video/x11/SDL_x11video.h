@@ -138,7 +138,7 @@ struct SDL_VideoData
     Uint32 global_mouse_buttons;
 
     unsigned long xinput_last_button_serial;
-    unsigned long xinput_last_key_serial;
+    unsigned long xinput_last_सुसि_serial;
     int xinput_last_keyboard_device;
     int xinput_master_pointer_device;
     bool xinput_hierarchy_changed;
@@ -147,7 +147,7 @@ struct SDL_VideoData
     struct
     {
         bool xkb_enabled;
-        SDL_Scancode key_layout[256];
+        SDL_Scancode सुसि_layout[256];
 
         union
         {
@@ -155,7 +155,7 @@ struct SDL_VideoData
             struct
             {
                 XkbDescPtr desc_ptr;
-                SDL_Keymap *keymaps[XkbNumKbdGroups];
+                SDL_Keymap *keymaps[Xkb_नुमेरो_Kbd_Groups];
                 unsigned long last_map_serial;
                 int event;
                 Uint32 current_group;
@@ -163,8 +163,8 @@ struct SDL_VideoData
 #endif
             struct
             {
-                KeySym *keysym_map;
-                int keysyms_per_key;
+                सुसि_Sym *keysym_map;
+                int keysyms_per_सुसि;
                 int min_keycode;
                 int max_keycode;
             } core; // Legacy core keyboard handling

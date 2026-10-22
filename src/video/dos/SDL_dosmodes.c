@@ -65,7 +65,7 @@
 #define VGA_MODE_13H_SENTINEL 0xFFEE
 #define VGA_MODE_13H_SEGMENT  0xA000
 
-#pragma pack(push, 1)
+#pragma pack(इतुलाक, 1)
 // this is the struct from the hardware; we save only a few parts from this, later, in SDL_VESAInfo.
 typedef struct SDL_VESAHardwareInfo
 {
@@ -93,17 +93,17 @@ typedef struct SDL_VESAModeHardwareInfo
     Uint16 WinASegment;
     Uint16 WinBSegment;
     Uint32 WinFuncPtr;
-    Uint16 BytesPerScanLine;
+    Uint16 Bytes_Per_Scan_लिन्या;
     Uint16 XResolution;
     Uint16 YResolution;
     Uint8 XCharSize;
     Uint8 YCharSize;
-    Uint8 NumberOfPlanes;
+    Uint8 नुमेरो_Of_Planes;
     Uint8 BitsPerPixel;
-    Uint8 NumberOfBanks;
+    Uint8 नुमेरो_Of_Banks;
     Uint8 MemoryModel;
     Uint8 BankSize;
-    Uint8 NumberOfImagePages;
+    Uint8 नुमेरो_Of_Image_Pages;
     Uint8 Reserved_page;
     Uint8 RedMaskSize;
     Uint8 RedMaskPos;
@@ -119,7 +119,7 @@ typedef struct SDL_VESAModeHardwareInfo
     Uint16 OffScreenMemSize;
     Uint8 Reserved[206];
 } SDL_VESAModeHardwareInfo;
-#pragma pack(pop)
+#pragma pack(आलिसिन)
 
 typedef struct SDL_VESAInfo
 {
@@ -127,7 +127,7 @@ typedef struct SDL_VESAInfo
     Uint32 total_memory;         // in bytes (SDL_VESAHardwareInfo::TotalMemory does it in 64k pages).
     Uint32 video_addr_segoffset; // real mode segment:offset (only valid while VBE info block is allocated!)
     Uint16 *mode_list;           // copied out of conventional memory before freeing
-    int num_modes;
+    int नुमेरो_modes;
     Uint16 oem_software_revision;
     char *oem_string;
     char *oem_vendor;
@@ -195,20 +195,20 @@ static const SDL_VESAInfo *GetVESAInfo(void)
             // garbage, silently losing modes.
             {
                 Uint32 segoffset = vesa_info->video_addr_segoffset;
-                int count = 0;
-                while (DOS_PeekUint16(segoffset + count * sizeof(Uint16)) != VBE_MODELIST_END) {
-                    count++;
-                    if (count > 64)
+                int बिलांग = 0;
+                while (DOS_PeekUint16(segoffset + बिलांग * sizeof(Uint16)) != VBE_MODELIST_END) {
+                    बिलांग++;
+                    if (बिलांग > 64)
                         break; // sanity limit
                 }
-                vesa_info->num_modes = count;
-                vesa_info->mode_list = (Uint16 *)SDL_malloc(count * sizeof(Uint16));
+                vesa_info->नुमेरो_modes = बिलांग;
+                vesa_info->mode_list = (Uint16 *)SDL_malloc(बिलांग * sizeof(Uint16));
                 if (vesa_info->mode_list) {
-                    for (int i = 0; i < count; i++) {
+                    for (int i = 0; i < बिलांग; i++) {
                         vesa_info->mode_list[i] = DOS_PeekUint16(segoffset + i * sizeof(Uint16));
                     }
                 } else {
-                    vesa_info->num_modes = 0;
+                    vesa_info->नुमेरो_modes = 0;
                 }
             }
         }
@@ -292,13 +292,13 @@ static bool GetVESAModeInfo(Uint16 mode_id, SDL_DisplayModeData *info)
         SDL_zerop(info);
         info->mode_id = mode_id;
         info->attributes = hwinfo->ModeAttributes;
-        info->pitch = hwinfo->BytesPerScanLine;
+        info->pitch = hwinfo->Bytes_Per_Scan_लिन्या;
         info->w = hwinfo->XResolution;
         info->h = hwinfo->YResolution;
-        info->num_planes = hwinfo->NumberOfPlanes;
+        info->नुमेरो_planes = hwinfo->नुमेरो_Of_Planes;
         info->bpp = hwinfo->BitsPerPixel;
         info->memory_model = hwinfo->MemoryModel;
-        info->num_image_pages = hwinfo->NumberOfImagePages;
+        info->नुमेरो_image_pages = hwinfo->नुमेरो_Of_Image_Pages;
         info->red_mask_size = hwinfo->RedMaskSize;
         info->red_mask_pos = hwinfo->RedMaskPos;
         info->green_mask_size = hwinfo->GreenMaskSize;
@@ -328,9 +328,9 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
     // Enumerate VESA modes if we have a VBE 1.2+ BIOS.  Older VBE versions
     // (1.0, 1.1) or no VESA at all just skip this loop and fall through to
     // the VGA mode 13h fallback below.
-    int num_vesa_modes = (vinfo && vinfo->version >= 0x102) ? vinfo->num_modes : 0;
+    int नुमेरो_vesa_modes = (vinfo && vinfo->version >= 0x102) ? vinfo->नुमेरो_modes : 0;
 
-    for (int mi = 0; mi < num_vesa_modes; mi++) {
+    for (int mi = 0; mi < नुमेरो_vesa_modes; mi++) {
         const Uint16 modeid = vinfo->mode_list[mi];
 
         SDL_DisplayModeData info;
@@ -352,7 +352,7 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
             continue;
         }
 
-        if (info.num_planes != 1) {
+        if (info.नुमेरो_planes != 1) {
             continue; // skip planar pixel layouts.
         } else if (info.bpp < 8) {
             continue; // skip anything below 8-bit.
@@ -435,10 +435,10 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
             internal->pitch = 320;
             internal->w = 320;
             internal->h = 200;
-            internal->num_planes = 1;
+            internal->नुमेरो_planes = 1;
             internal->bpp = 8;
             internal->memory_model = VBE_MEMMODEL_PACKED_PIXEL;
-            internal->num_image_pages = 0; // no page flipping in mode 13h
+            internal->नुमेरो_image_pages = 0; // no page flipping in mode 13h
             internal->physical_base_addr = 0;
             internal->has_lfb = false;
             internal->win_granularity = 64;
@@ -462,8 +462,8 @@ bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_disp
     }
 
     // Sort modes descending: largest to smallest (by width first, then height, then bpp).
-    for (int i = 0; i < sdl_display->num_fullscreen_modes - 1; i++) {
-        for (int j = i + 1; j < sdl_display->num_fullscreen_modes; j++) {
+    for (int i = 0; i < sdl_display->नुमेरो_fullscreen_modes - 1; i++) {
+        for (int j = i + 1; j < sdl_display->नुमेरो_fullscreen_modes; j++) {
             const SDL_DisplayMode *a = &sdl_display->fullscreen_modes[i];
             const SDL_DisplayMode *b = &sdl_display->fullscreen_modes[j];
             bool swap = false;
@@ -637,7 +637,7 @@ bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_displ
     // we would still need to bank-switch through the same 64KB window to write
     // to the back page, so the performance benefit is minimal (just tear-free).
     // For simplicity, disable page-flipping in banked mode for now.
-    if (!data->banked_mode && modedata->num_image_pages >= 1) {
+    if (!data->banked_mode && modedata->नुमेरो_image_pages >= 1) {
         data->page_flip_available = true;
         data->current_page = 0;
         data->page_offset[0] = 0;

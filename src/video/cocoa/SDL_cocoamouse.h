@@ -42,7 +42,7 @@ struct SDL_CursorData
     NSTimer *frameTimer;
     int current_frame;
 
-    int num_cursors;
+    int नुमेरो_cursors;
     struct
     {
         void *cursor;

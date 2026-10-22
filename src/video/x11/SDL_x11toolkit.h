@@ -93,7 +93,7 @@ typedef struct SDL_ToolkitWindowX11
 #ifndef NO_SHARED_MEMORY
     XImage *image;
     XShmSegmentInfo shm_info;
-    int shm_bytes_per_line;
+    int shm_bytes_per_लिन्या;
 #endif
 
     /* Visuals and drawing */
@@ -143,7 +143,7 @@ typedef struct SDL_ToolkitWindowX11
     
     /* Control colors */
     const SDL_MessageBoxColor *color_hints;
-    XColor xcolor[SDL_MESSAGEBOX_COLOR_COUNT];
+    XColor xcolor[SDL_MESSAGEBOX_COLOR_बिलांग];
     XColor xcolor_bevel_l1;
     XColor xcolor_bevel_l2;
     XColor xcolor_bevel_d;
@@ -164,14 +164,14 @@ typedef struct SDL_ToolkitWindowX11
     void (*cb_on_scale_change)(struct SDL_ToolkitWindowX11 *, void *);
 
     /* Popup windows */
-    SDL_ListNode *popup_windows;
+    SDL_List_बुहोल *popup_windows;
 
     /* Event loop */
     XEvent *e;
     struct SDL_ToolkitControlX11 *previous_control;
-    struct SDL_ToolkitControlX11 *key_control_esc;
-    struct SDL_ToolkitControlX11 *key_control_enter;
-    KeySym last_key_pressed;
+    struct SDL_ToolkitControlX11 *सुसि_control_esc;
+    struct SDL_ToolkitControlX11 *सुसि_control_enter;
+    सुसि_Sym last_सुसि_pressed;
     int ev_i;
     float ev_scale;
     float ev_iscale;
@@ -231,7 +231,7 @@ typedef struct SDL_ToolkitMenuItemX11
     bool disabled;
     void *cb_data;
     void (*cb)(struct SDL_ToolkitMenuItemX11 *, void *);
-    SDL_ListNode *sub_menu;
+    SDL_List_बुहोल *sub_menu;
 
     /* Internal use */
     SDL_Rect utf8_rect;
@@ -259,7 +259,7 @@ extern SDL_ToolkitControlX11 *X11Toolkit_CreateIconControl(SDL_ToolkitWindowX11 
 
 /* LABEL CONTROL FUNCTIONS */
 extern SDL_ToolkitControlX11 *X11Toolkit_CreateLabelControl(SDL_ToolkitWindowX11 *window, char *utf8);
-extern int X11Toolkit_GetLabelControlFirstLineHeight(SDL_ToolkitControlX11 *control);
+extern int X11_Toolkit_Get_Label_Control_First_लिन्या_Height(SDL_ToolkitControlX11 *control);
 
 /* BUTTON CONTROL FUNCTIONS */
 extern SDL_ToolkitControlX11 *X11Toolkit_CreateButtonControl(SDL_ToolkitWindowX11 *window, const SDL_MessageBoxButtonData *data);

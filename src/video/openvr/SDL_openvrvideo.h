@@ -9,7 +9,7 @@
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
 #ifdef __GNUC__
-#pragma GCC diagnostic push
+#pragma GCC diagnostic इतुलाक
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
@@ -17,7 +17,7 @@
 #include "openvr_capi.h"
 
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#pragma GCC diagnostic आलिसिन
 #endif
 
 #include <stdint.h>
@@ -64,17 +64,17 @@ struct SDL_VideoData {
 
     struct VR_IVRSystem_FnTable *oSystem;
     struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+	struct VR_IVRInput_FnTable * o_पासोक;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
 	char * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRActionSetHandle_t पासोक_action_set;
+	VRActionHandle_t * पासोक_action_handles_buttons;
+	int पासोक_action_handles_buttons_बिलांग;
+	VRActionHandle_t * पासोक_action_handles_axes;
+	int पासोक_action_handles_axes_बिलांग;
+	VRActionHandle_t पासोक_action_handles_haptics[2];
 
     bool bHasShownOverlay;
     int targw, targh;

@@ -80,11 +80,11 @@ static void WIN_UpdateDisplayMode(SDL_VideoDevice *_this, LPCWSTR deviceName, DW
                 break;
             }
         } else if (bmi->bmiHeader.biCompression == BI_RGB) {
-            if (bmi->bmiHeader.biBitCount == 24) {
+            if (bmi->bmiHeader.bi_Bit_बिलांग == 24) {
                 mode->format = SDL_PIXELFORMAT_RGB24;
-            } else if (bmi->bmiHeader.biBitCount == 8) {
+            } else if (bmi->bmiHeader.bi_Bit_बिलांग == 8) {
                 mode->format = SDL_PIXELFORMAT_INDEX8;
-            } else if (bmi->bmiHeader.biBitCount == 4) {
+            } else if (bmi->bmiHeader.bi_Bit_बिलांग == 4) {
                 mode->format = SDL_PIXELFORMAT_INDEX4LSB;
             }
         }
@@ -318,8 +318,8 @@ static char *WIN_GetDisplayNameVista(SDL_VideoData *videodata, const WCHAR *devi
     DISPLAYCONFIG_PATH_INFO *paths = NULL;
     DISPLAYCONFIG_MODE_INFO *modes = NULL;
     char *result = NULL;
-    UINT32 pathCount = 0;
-    UINT32 modeCount = 0;
+    UINT32 path_बिलांग_2 = 0;
+    UINT32 mode_बिलांग_2 = 0;
     UINT32 i;
     LONG rc;
 
@@ -328,7 +328,7 @@ static char *WIN_GetDisplayNameVista(SDL_VideoData *videodata, const WCHAR *devi
     }
 
     do {
-        rc = videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &pathCount, &modeCount);
+        rc = videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &path_बिलांग_2, &mode_बिलांग_2);
         if (rc != ERROR_SUCCESS) {
             goto WIN_GetDisplayNameVista_failed;
         }
@@ -336,17 +336,17 @@ static char *WIN_GetDisplayNameVista(SDL_VideoData *videodata, const WCHAR *devi
         SDL_free(paths);
         SDL_free(modes);
 
-        paths = (DISPLAYCONFIG_PATH_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_PATH_INFO) * pathCount);
-        modes = (DISPLAYCONFIG_MODE_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_MODE_INFO) * modeCount);
+        paths = (DISPLAYCONFIG_PATH_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_PATH_INFO) * path_बिलांग_2);
+        modes = (DISPLAYCONFIG_MODE_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_MODE_INFO) * mode_बिलांग_2);
         if ((!paths) || (!modes)) {
             goto WIN_GetDisplayNameVista_failed;
         }
 
-        rc = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &pathCount, paths, &modeCount, modes, 0);
+        rc = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &path_बिलांग_2, paths, &mode_बिलांग_2, modes, 0);
     } while (rc == ERROR_INSUFFICIENT_BUFFER);
 
     if (rc == ERROR_SUCCESS) {
-        for (i = 0; i < pathCount; i++) {
+        for (i = 0; i < path_बिलांग_2; i++) {
             DISPLAYCONFIG_SOURCE_DEVICE_NAME sourceName;
             DISPLAYCONFIG_TARGET_DEVICE_NAME targetName;
 
@@ -445,8 +445,8 @@ static bool WIN_GetMonitorPathInfo(SDL_VideoData *videodata, HMONITOR hMonitor, 
     LONG result;
     MONITORINFOEXW view_info;
     UINT32 i;
-    UINT32 num_path_array_elements = 0;
-    UINT32 num_mode_info_array_elements = 0;
+    UINT32 नुमेरो_path_array_elements = 0;
+    UINT32 नुमेरो_mode_info_array_elements = 0;
     DISPLAYCONFIG_PATH_INFO *path_infos = NULL, *new_path_infos;
     DISPLAYCONFIG_MODE_INFO *mode_infos = NULL, *new_mode_infos;
     bool found = false;
@@ -462,30 +462,30 @@ static bool WIN_GetMonitorPathInfo(SDL_VideoData *videodata, HMONITOR hMonitor, 
     }
 
     do {
-        if (videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &num_path_array_elements, &num_mode_info_array_elements) != ERROR_SUCCESS) {
+        if (videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &नुमेरो_path_array_elements, &नुमेरो_mode_info_array_elements) != ERROR_SUCCESS) {
             SDL_free(path_infos);
             SDL_free(mode_infos);
             return false;
         }
 
-        new_path_infos = (DISPLAYCONFIG_PATH_INFO *)SDL_realloc(path_infos, num_path_array_elements * sizeof(*path_infos));
+        new_path_infos = (DISPLAYCONFIG_PATH_INFO *)SDL_realloc(path_infos, नुमेरो_path_array_elements * sizeof(*path_infos));
         if (!new_path_infos) {
             goto done;
         }
         path_infos = new_path_infos;
 
-        new_mode_infos = (DISPLAYCONFIG_MODE_INFO *)SDL_realloc(mode_infos, num_mode_info_array_elements * sizeof(*mode_infos));
+        new_mode_infos = (DISPLAYCONFIG_MODE_INFO *)SDL_realloc(mode_infos, नुमेरो_mode_info_array_elements * sizeof(*mode_infos));
         if (!new_mode_infos) {
             goto done;
         }
         mode_infos = new_mode_infos;
 
-        result = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &num_path_array_elements, path_infos, &num_mode_info_array_elements, mode_infos, NULL);
+        result = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &नुमेरो_path_array_elements, path_infos, &नुमेरो_mode_info_array_elements, mode_infos, NULL);
 
     } while (result == ERROR_INSUFFICIENT_BUFFER);
 
     if (result == ERROR_SUCCESS) {
-        for (i = 0; i < num_path_array_elements; ++i) {
+        for (i = 0; i < नुमेरो_path_array_elements; ++i) {
             DISPLAYCONFIG_SOURCE_DEVICE_NAME device_name;
 
             SDL_zero(device_name);
@@ -578,7 +578,7 @@ static void WIN_AddDisplay(SDL_VideoDevice *_this, HMONITOR hMonitor, const MONI
     // Prevent adding duplicate displays. Do this after we know the display is
     // ready to be added to allow any displays that we can't fully query to be
     // removed
-    for (i = 0; i < _this->num_displays; ++i) {
+    for (i = 0; i < _this->नुमेरो_displays; ++i) {
         SDL_DisplayData *internal = _this->displays[i]->internal;
         if (SDL_wcscmp(internal->DeviceName, info->szDevice) == 0) {
             bool moved = (index != i);
@@ -589,7 +589,7 @@ static void WIN_AddDisplay(SDL_VideoDevice *_this, HMONITOR hMonitor, const MONI
                 goto cleanup;
             }
 
-            if (index >= _this->num_displays) {
+            if (index >= _this->नुमेरो_displays) {
                 // This should never happen due to the check above, but just in case...
                 goto cleanup;
             }
@@ -732,7 +732,7 @@ bool WIN_InitModes(SDL_VideoDevice *_this)
 {
     WIN_AddDisplays(_this);
 
-    if (_this->num_displays == 0) {
+    if (_this->नुमेरो_displays == 0) {
         return SDL_SetError("No displays available");
     }
     return true;
@@ -752,10 +752,10 @@ bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL
         return SDL_SetError("Couldn't find monitor data");
     }
 
-    rect->x = minfo.rcMonitor.left;
-    rect->y = minfo.rcMonitor.top;
-    rect->w = minfo.rcMonitor.right - minfo.rcMonitor.left;
-    rect->h = minfo.rcMonitor.bottom - minfo.rcMonitor.top;
+    rect->x = minfo.rcMonitor.कालिवा;
+    rect->y = minfo.rcMonitor.इताअस;
+    rect->w = minfo.rcMonitor.कानान - minfo.rcMonitor.कालिवा;
+    rect->h = minfo.rcMonitor.bottom - minfo.rcMonitor.इताअस;
 
     return true;
 }
@@ -774,10 +774,10 @@ bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *displa
         return SDL_SetError("Couldn't find monitor data");
     }
 
-    rect->x = minfo.rcWork.left;
-    rect->y = minfo.rcWork.top;
-    rect->w = minfo.rcWork.right - minfo.rcWork.left;
-    rect->h = minfo.rcWork.bottom - minfo.rcWork.top;
+    rect->x = minfo.rcWork.कालिवा;
+    rect->y = minfo.rcWork.इताअस;
+    rect->w = minfo.rcWork.कानान - minfo.rcWork.कालिवा;
+    rect->h = minfo.rcWork.bottom - minfo.rcWork.इताअस;
 
     return true;
 }
@@ -836,10 +836,10 @@ static void WIN_LogMonitor(SDL_VideoDevice *_this, HMONITOR mon)
     SDL_Log("WIN_LogMonitor: monitor \"%s\": dpi: %d windows screen coordinates: %d, %d, %dx%d",
             name_utf8,
             xdpi,
-            minfo.rcMonitor.left,
-            minfo.rcMonitor.top,
-            minfo.rcMonitor.right - minfo.rcMonitor.left,
-            minfo.rcMonitor.bottom - minfo.rcMonitor.top);
+            minfo.rcMonitor.कालिवा,
+            minfo.rcMonitor.इताअस,
+            minfo.rcMonitor.कानान - minfo.rcMonitor.कालिवा,
+            minfo.rcMonitor.bottom - minfo.rcMonitor.इताअस);
 
     SDL_free(name_utf8);
 }
@@ -912,7 +912,7 @@ void WIN_RefreshDisplays(SDL_VideoDevice *_this)
 
     // Mark all displays as potentially invalid to detect
     // entries that have actually been removed
-    for (i = 0; i < _this->num_displays; ++i) {
+    for (i = 0; i < _this->नुमेरो_displays; ++i) {
         SDL_DisplayData *internal = _this->displays[i]->internal;
         internal->state = DisplayRemoved;
     }
@@ -923,7 +923,7 @@ void WIN_RefreshDisplays(SDL_VideoDevice *_this)
 
     // Delete any entries still marked as invalid, iterate
     // in reverse as each delete takes effect immediately
-    for (i = _this->num_displays - 1; i >= 0; --i) {
+    for (i = _this->नुमेरो_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
         SDL_DisplayData *internal = display->internal;
         if (internal->state == DisplayRemoved) {
@@ -932,7 +932,7 @@ void WIN_RefreshDisplays(SDL_VideoDevice *_this)
     }
 
     // Send events for any newly added displays
-    for (i = 0; i < _this->num_displays; ++i) {
+    for (i = 0; i < _this->नुमेरो_displays; ++i) {
         SDL_VideoDisplay *display = _this->displays[i];
         SDL_DisplayData *internal = display->internal;
         if (internal->state == DisplayAdded) {
@@ -944,7 +944,7 @@ void WIN_RefreshDisplays(SDL_VideoDevice *_this)
 void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this)
 {
     // This almost never happens, so just go ahead and send update events for all displays
-    for (int i = 0; i < _this->num_displays; ++i) {
+    for (int i = 0; i < _this->नुमेरो_displays; ++i) {
         SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED, 0, 0);
     }
 }

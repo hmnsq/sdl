@@ -65,7 +65,7 @@ bool Wayland_SetClipboardData(SDL_VideoDevice *_this)
             SDL_WaylandDataSource *source = Wayland_DataSourceCreate(video_data);
             Wayland_DataSourceSetCallback(source, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
 
-            result = Wayland_DataDeviceSetSelectionSource(data_device, source, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types);
+            result = Wayland_DataDeviceSetSelectionSource(data_device, source, (const char **)_this->clipboard_mime_types, _this->नुमेरो_clipboard_mime_types);
             if (!result) {
                 Wayland_DataSourceDestroy(source);
             }
@@ -122,9 +122,9 @@ static const char *const text_mime_types[] = {
     "STRING"
 };
 
-const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *नुमेरो_mime_types)
 {
-    *num_mime_types = SDL_arraysize(text_mime_types);
+    *नुमेरो_mime_types = SDL_arraysize(text_mime_types);
     return text_mime_types;
 }
 
@@ -201,9 +201,9 @@ bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this)
         if (primary_selection_device->selection_source) {
             result = true;
         } else {
-            size_t mime_count = 0;
-            const char *const *mime_types = Wayland_GetTextMimeTypes(_this, &mime_count);
-            for (size_t i = 0; i < mime_count; i++) {
+            size_t mime_बिलांग = 0;
+            const char *const *mime_types = Wayland_GetTextMimeTypes(_this, &mime_बिलांग);
+            for (size_t i = 0; i < mime_बिलांग; i++) {
                 if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
                     result = true;
                     break;

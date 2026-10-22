@@ -143,7 +143,7 @@ extern void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer);
 extern void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer);
 
 // Clipboard / Primary Selection
-extern bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count);
-extern bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *device, SDL_WaylandPrimarySelectionSource *source, const char *const *mime_types, size_t mime_count);
+extern bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_बिलांग);
+extern bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *device, SDL_WaylandPrimarySelectionSource *source, const char *const *mime_types, size_t mime_बिलांग);
 
 #endif // SDL_waylanddatamanager_h_

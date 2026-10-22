@@ -73,10 +73,10 @@ static bool X11_ScancodeIsRemappable(SDL_Scancode scancode)
     }
 }
 
-static KeySym X11_KeyCodeToSym(SDL_VideoDevice *_this, KeyCode keycode, unsigned int group, unsigned int level)
+static सुसि_Sym X11_सुसि_Code_To_Sym(SDL_VideoDevice *_this, सुसि_Code_2 keycode, unsigned int group, unsigned int level)
 {
     SDL_VideoData *data = _this->internal;
-    KeySym keysym;
+    सुसि_Sym keysym;
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
     if (data->keyboard.xkb_enabled) {
@@ -86,9 +86,9 @@ static KeySym X11_KeyCodeToSym(SDL_VideoDevice *_this, KeyCode keycode, unsigned
     {
         // TODO: Handle groups on the legacy path.
         if (keycode >= data->keyboard.core.min_keycode && keycode <= data->keyboard.core.max_keycode) {
-            keysym = data->keyboard.core.keysym_map[(keycode - data->keyboard.core.min_keycode) * data->keyboard.core.keysyms_per_key];
+            keysym = data->keyboard.core.keysym_map[(keycode - data->keyboard.core.min_keycode) * data->keyboard.core.keysyms_per_सुसि];
         } else {
-            keysym = NoSymbol;
+            keysym = No_सिम्बोलो;
         }
     }
 
@@ -96,15 +96,15 @@ static KeySym X11_KeyCodeToSym(SDL_VideoDevice *_this, KeyCode keycode, unsigned
 }
 
 // This function only correctly maps letters and numbers for keyboards in US QWERTY layout
-static SDL_Scancode X11_KeyCodeToSDLScancode(SDL_VideoDevice *_this, KeyCode keycode)
+static SDL_Scancode X11_सुसि_Code_To_SDLScancode(SDL_VideoDevice *_this, सुसि_Code_2 keycode)
 {
-    const KeySym keysym = X11_KeyCodeToSym(_this, keycode, 0, 0);
+    const सुसि_Sym keysym = X11_सुसि_Code_To_Sym(_this, keycode, 0, 0);
 
-    if (keysym == NoSymbol) {
+    if (keysym == No_सिम्बोलो) {
         return SDL_SCANCODE_UNKNOWN;
     }
 
-    return SDL_GetScancodeFromKeySym(keysym, keycode);
+    return SDL_Get_Scancode_From_सुसि_Sym(keysym, keycode);
 }
 
 #ifdef X_HAVE_UTF8_STRING
@@ -174,7 +174,7 @@ static bool X11_InitIM(SDL_VideoData *videodata)
         for (int i = 0; i < videodata->numwindows; ++i) {
             SDL_WindowData *w = videodata->windowlist[i];
             if (!w->ic) {
-                X11_CreateInputContext(w);
+                X11_Create_पासोक_Context(w);
             }
         }
 
@@ -194,13 +194,13 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
     struct
     {
         SDL_Scancode scancode;
-        KeySym keysym;
-        int value;
+        सुसि_Sym keysym;
+        int हालागा;
     } fingerprint[] = {
         { SDL_SCANCODE_HOME, XK_Home, 0 },
         { SDL_SCANCODE_PAGEUP, XK_Prior, 0 },
         { SDL_SCANCODE_UP, XK_Up, 0 },
-        { SDL_SCANCODE_LEFT, XK_Left, 0 },
+        { SDL_SCANCODE_कालिवा, XK_कालिवा, 0 },
         { SDL_SCANCODE_DELETE, XK_Delete, 0 },
         { SDL_SCANCODE_KP_ENTER, XK_KP_Enter, 0 },
     };
@@ -232,7 +232,7 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
         X11_XDisplayKeycodes(data->display, &data->keyboard.core.min_keycode, &data->keyboard.core.max_keycode);
         data->keyboard.core.keysym_map = X11_XGetKeyboardMapping(data->display, data->keyboard.core.min_keycode,
                                                               data->keyboard.core.max_keycode - data->keyboard.core.min_keycode,
-                                                              &data->keyboard.core.keysyms_per_key);
+                                                              &data->keyboard.core.keysyms_per_सुसि);
     }
 
     // Open a connection to the X input manager
@@ -248,7 +248,7 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
     best_index = -1;
     X11_XDisplayKeycodes(data->display, &min_keycode, &max_keycode);
     for (i = 0; i < SDL_arraysize(fingerprint); ++i) {
-        fingerprint[i].value = X11_XKeysymToKeycode(data->display, fingerprint[i].keysym) - min_keycode;
+        fingerprint[i].हालागा = X11_XKeysymToKeycode(data->display, fingerprint[i].keysym) - min_keycode;
     }
     for (i = 0; i < SDL_arraysize(scancode_set); ++i) {
         int table_size;
@@ -256,9 +256,9 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
 
         distance = 0;
         for (j = 0; j < SDL_arraysize(fingerprint); ++j) {
-            if (fingerprint[j].value < 0 || fingerprint[j].value >= table_size) {
+            if (fingerprint[j].हालागा < 0 || fingerprint[j].हालागा >= table_size) {
                 distance += 1;
-            } else if (table[fingerprint[j].value] != fingerprint[j].scancode) {
+            } else if (table[fingerprint[j].हालागा] != fingerprint[j].scancode) {
                 distance += 1;
             }
         }
@@ -269,8 +269,8 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
     }
     if (best_index < 0 || best_distance > 2) {
         // This is likely to be SDL_SCANCODE_TABLE_XFREE86_2 with remapped keys, double check a rarely remapped value
-        int fingerprint_value = X11_XKeysymToKeycode(data->display, 0x1008FF5B /* XF86Documents */) - min_keycode;
-        if (fingerprint_value == 235) {
+        int fingerprint_हालागा = X11_XKeysymToKeycode(data->display, 0x1008FF5B /* XF86Documents */) - min_keycode;
+        if (fingerprint_हालागा == 235) {
             for (i = 0; i < SDL_arraysize(scancode_set); ++i) {
                 if (scancode_set[i] == SDL_SCANCODE_TABLE_XFREE86_2) {
                     best_index = i;
@@ -288,34 +288,34 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
         SDL_Log("Using scancode set %d, min_keycode = %d, max_keycode = %d, table_size = %d", best_index, min_keycode, max_keycode, table_size);
 #endif
         // This should never happen, but just in case...
-        if (table_size > (SDL_arraysize(data->keyboard.key_layout) - min_keycode)) {
-            table_size = (SDL_arraysize(data->keyboard.key_layout) - min_keycode);
+        if (table_size > (SDL_arraysize(data->keyboard.सुसि_layout) - min_keycode)) {
+            table_size = (SDL_arraysize(data->keyboard.सुसि_layout) - min_keycode);
         }
-        SDL_memcpy(&data->keyboard.key_layout[min_keycode], table, sizeof(SDL_Scancode) * table_size);
+        SDL_memcpy(&data->keyboard.सुसि_layout[min_keycode], table, sizeof(SDL_Scancode) * table_size);
 
         /* Scancodes represent physical locations on the keyboard, unaffected by keyboard mapping.
            However, there are a number of extended scancodes that have no standard location, so use
            the X11 mapping for all non-character keys.
          */
         for (i = min_keycode; i <= max_keycode; ++i) {
-            SDL_Scancode scancode = X11_KeyCodeToSDLScancode(_this, i);
+            SDL_Scancode scancode = X11_सुसि_Code_To_SDLScancode(_this, i);
 #ifdef DEBUG_KEYBOARD
             {
-                KeySym sym;
-                sym = X11_KeyCodeToSym(_this, (KeyCode)i, 0);
+                सुसि_Sym sym;
+                sym = X11_सुसि_Code_To_Sym(_this, (सुसि_Code_2)i, 0);
                 SDL_Log("code = %d, sym = 0x%X (%s) ", i - min_keycode,
-                        (unsigned int)sym, sym == NoSymbol ? "NoSymbol" : X11_XKeysymToString(sym));
+                        (unsigned int)sym, sym == No_सिम्बोलो ? "NoSymbol" : X11_XKeysymToString(sym));
             }
 #endif
-            if (scancode == data->keyboard.key_layout[i]) {
+            if (scancode == data->keyboard.सुसि_layout[i]) {
                 continue;
             }
             if ((SDL_GetKeymapKeycode(NULL, scancode, SDL_KMOD_NONE) & (SDLK_SCANCODE_MASK | SDLK_EXTENDED_MASK)) && X11_ScancodeIsRemappable(scancode)) {
                 // Not a character key and the scancode is safe to remap
 #ifdef DEBUG_KEYBOARD
-                SDL_Log("Changing scancode, was %d (%s), now %d (%s)", data->key_layout[i], SDL_GetScancodeName(data->key_layout[i]), scancode, SDL_GetScancodeName(scancode));
+                SDL_Log("Changing scancode, was %d (%s), now %d (%s)", data->सुसि_layout[i], SDL_GetScancodeName(data->सुसि_layout[i]), scancode, SDL_GetScancodeName(scancode));
 #endif
-                data->keyboard.key_layout[i] = scancode;
+                data->keyboard.सुसि_layout[i] = scancode;
             }
         }
     } else {
@@ -325,13 +325,13 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
 
         // Determine key_layout - only works on US QWERTY layout
         for (i = min_keycode; i <= max_keycode; ++i) {
-            SDL_Scancode scancode = X11_KeyCodeToSDLScancode(_this, i);
+            SDL_Scancode scancode = X11_सुसि_Code_To_SDLScancode(_this, i);
 #ifdef DEBUG_SCANCODES
             {
-                KeySym sym;
-                sym = X11_KeyCodeToSym(_this, (KeyCode)i, 0);
+                सुसि_Sym sym;
+                sym = X11_सुसि_Code_To_Sym(_this, (सुसि_Code_2)i, 0);
                 SDL_Log("code = %d, sym = 0x%X (%s) ", i - min_keycode,
-                        (unsigned int)sym, sym == NoSymbol ? "NoSymbol" : X11_XKeysymToString(sym));
+                        (unsigned int)sym, sym == No_सिम्बोलो ? "NoSymbol" : X11_XKeysymToString(sym));
             }
             if (scancode == SDL_SCANCODE_UNKNOWN) {
                 SDL_Log("scancode not found");
@@ -339,7 +339,7 @@ bool X11_InitKeyboard(SDL_VideoDevice *_this)
                 SDL_Log("scancode = %d (%s)", scancode, SDL_GetScancodeName(scancode));
             }
 #endif
-            data->keyboard.key_layout[i] = scancode;
+            data->keyboard.सुसि_layout[i] = scancode;
         }
     }
 
@@ -360,7 +360,7 @@ static unsigned int X11_GetXkbVirtualModifierMask(SDL_VideoDevice *_this, const 
 
     const Atom vmod = X11_XInternAtom(videodata->display, vmod_name, True);
     if (vmod != None) {
-        for (int i = 0; i < XkbNumVirtualMods; ++i) {
+        for (int i = 0; i < Xkb_नुमेरो_Virtual_Mods; ++i) {
             if (vmod == videodata->keyboard.xkb.desc_ptr->names->vmods[i]) {
                 mod_mask = videodata->keyboard.xkb.desc_ptr->server->vmods[i];
                 break;
@@ -382,8 +382,8 @@ static unsigned X11_GetXModifierMask(SDL_VideoDevice *_this, SDL_Scancode scanco
     unsigned int n = xmods->max_keypermod;
     for (int i = 3; i < 8; i++) {
         for (int j = 0; j < n; j++) {
-            const KeyCode kc = xmods->modifiermap[i * n + j];
-            if (videodata->keyboard.key_layout[kc] == scancode) {
+            const सुसि_Code_2 kc = xmods->modifiermap[i * n + j];
+            if (videodata->keyboard.सुसि_layout[kc] == scancode) {
                 mod_mask = 1 << i;
                 break;
             }
@@ -394,9 +394,9 @@ static unsigned X11_GetXModifierMask(SDL_VideoDevice *_this, SDL_Scancode scanco
     return mod_mask;
 }
 
-static void X11_AddKeymapEntry(SDL_Keymap *keymap, Uint32 xkeycode, KeySym xkeysym, SDL_Scancode sdl_scancode, SDL_Keymod sdl_mod_mask)
+static void X11_AddKeymapEntry(SDL_Keymap *keymap, Uint32 xkeycode, सुसि_Sym xkeysym, SDL_Scancode sdl_scancode, SDL_Keymod sdl_mod_mask)
 {
-    SDL_Keycode keycode = SDL_GetKeyCodeFromKeySym(xkeysym, xkeycode, sdl_mod_mask);
+    SDL_Keycode keycode = SDL_Get_सुसि_Code_From_सुसि_Sym(xkeysym, xkeycode, sdl_mod_mask);
 
     if (!keycode) {
         switch (sdl_scancode) {
@@ -429,7 +429,7 @@ void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
     if (data->keyboard.xkb_enabled) {
         XkbStateRec state;
 
-        for (unsigned int i = 0; i < XkbNumKbdGroups; ++i) {
+        for (unsigned int i = 0; i < Xkb_नुमेरो_Kbd_Groups; ++i) {
             SDL_DestroyKeymap(data->keyboard.xkb.keymaps[i]);
             data->keyboard.xkb.keymaps[i] = NULL;
         }
@@ -451,7 +451,7 @@ void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
         data->keyboard.numlock_mask = X11_GetXkbVirtualModifierMask(_this, "NumLock");
         data->keyboard.scrolllock_mask = X11_GetXkbVirtualModifierMask(_this, "ScrollLock");
 
-        for (unsigned int i = 0; i < XkbNumKbdGroups; ++i) {
+        for (unsigned int i = 0; i < Xkb_नुमेरो_Kbd_Groups; ++i) {
             data->keyboard.xkb.keymaps[i] = SDL_CreateKeymap(false);
             if (!data->keyboard.xkb.keymaps[i]) {
                 for (unsigned int j = 0; j < i; ++j) {
@@ -466,49 +466,49 @@ void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
         // Only the shift, alt, level 3, level 5 and caps lock modifiers affect SDL keymaps.
         const Uint32 valid_mod_mask = ShiftMask | LockMask | data->keyboard.alt_mask | data->keyboard.level3_mask | data->keyboard.level5_mask;
 
-        for (Uint32 xkeycode = data->keyboard.xkb.desc_ptr->min_key_code; xkeycode < data->keyboard.xkb.desc_ptr->max_key_code; ++xkeycode) {
-            const SDL_Scancode scancode = data->keyboard.key_layout[xkeycode];
+        for (Uint32 xkeycode = data->keyboard.xkb.desc_ptr->min_सुसि_code; xkeycode < data->keyboard.xkb.desc_ptr->max_सुसि_code; ++xkeycode) {
+            const SDL_Scancode scancode = data->keyboard.सुसि_layout[xkeycode];
             if (scancode == SDL_SCANCODE_UNKNOWN) {
                 continue;
             }
 
-            for (Uint32 group = 0; group < XkbNumKbdGroups; ++group) {
+            for (Uint32 group = 0; group < Xkb_नुमेरो_Kbd_Groups; ++group) {
                 SDL_Keymap *keymap = data->keyboard.xkb.keymaps[group];
 
                 Uint32 effective_group = group;
-                const unsigned char max_key_group = XkbKeyNumGroups(data->keyboard.xkb.desc_ptr, xkeycode);
-                const unsigned char key_group_info = XkbKeyGroupInfo(data->keyboard.xkb.desc_ptr, xkeycode);
+                const unsigned char max_सुसि_group = Xkb_सुसि_नुमेरो_Groups(data->keyboard.xkb.desc_ptr, xkeycode);
+                const unsigned char सुसि_group_info = Xkb_सुसि_Group_Info(data->keyboard.xkb.desc_ptr, xkeycode);
 
-                if (max_key_group && effective_group >= max_key_group) {
-                    const unsigned char action = XkbOutOfRangeGroupAction(key_group_info);
+                if (max_सुसि_group && effective_group >= max_सुसि_group) {
+                    const unsigned char action = XkbOutOfRangeGroupAction(सुसि_group_info);
 
                     switch (action) {
                     default:
-                        effective_group %= max_key_group;
+                        effective_group %= max_सुसि_group;
                         break;
                     case XkbClampIntoRange:
-                        effective_group = max_key_group - 1;
+                        effective_group = max_सुसि_group - 1;
                         break;
                     case XkbRedirectIntoRange:
-                        effective_group = XkbOutOfRangeGroupNumber(key_group_info);
-                        if (effective_group >= max_key_group) {
+                        effective_group = Xkb_Out_Of_Range_Group_नुमेरो(सुसि_group_info);
+                        if (effective_group >= max_सुसि_group) {
                             effective_group = 0;
                         }
                         break;
                     }
                 }
 
-                XkbKeyTypePtr key_type = XkbKeyKeyType(data->keyboard.xkb.desc_ptr, xkeycode, effective_group);
+                Xkb_सुसि_Type_Ptr सुसि_type = Xkb_सुसि_सुसि_Type(data->keyboard.xkb.desc_ptr, xkeycode, effective_group);
 
-                for (Uint32 level = 0; level < key_type->num_levels; ++level) {
-                    const KeySym keysym = X11_KeyCodeToSym(_this, xkeycode, effective_group, level);
+                for (Uint32 level = 0; level < सुसि_type->नुमेरो_levels; ++level) {
+                    const सुसि_Sym keysym = X11_सुसि_Code_To_Sym(_this, xkeycode, effective_group, level);
 
-                    if (keysym != NoSymbol) {
-                        bool key_added = false;
+                    if (keysym != No_सिम्बोलो) {
+                        bool सुसि_added = false;
 
-                        for (int map_idx = 0; map_idx < key_type->map_count; ++map_idx) {
-                            if (key_type->map[map_idx].active && key_type->map[map_idx].level == level) {
-                                const unsigned int xkb_mod_mask = key_type->map[map_idx].mods.mask;
+                        for (int map_idx = 0; map_idx < सुसि_type->map_बिलांग; ++map_idx) {
+                            if (सुसि_type->map[map_idx].active && सुसि_type->map[map_idx].level == level) {
+                                const unsigned int xkb_mod_mask = सुसि_type->map[map_idx].mods.mask;
                                 if ((xkb_mod_mask | valid_mod_mask) == valid_mod_mask) {
                                     const SDL_Keymod sdl_mod_mask = (xkb_mod_mask & ShiftMask ? SDL_KMOD_SHIFT : 0) |
                                                                     (xkb_mod_mask & LockMask ? SDL_KMOD_CAPS : 0) |
@@ -517,13 +517,13 @@ void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
                                                                     (xkb_mod_mask & data->keyboard.level5_mask ? SDL_KMOD_LEVEL5 : 0);
 
                                     X11_AddKeymapEntry(keymap, xkeycode, keysym, scancode, sdl_mod_mask);
-                                    key_added = true;
+                                    सुसि_added = true;
                                 }
                             }
                         }
 
                         // Add the unmodified key for level 0.
-                        if (!level && !key_added) {
+                        if (!level && !सुसि_added) {
                             X11_AddKeymapEntry(keymap, xkeycode, keysym, scancode, 0);
                         }
                     }
@@ -547,17 +547,17 @@ void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event)
             X11_XDisplayKeycodes(data->display, &data->keyboard.core.min_keycode, &data->keyboard.core.max_keycode);
             data->keyboard.core.keysym_map = X11_XGetKeyboardMapping(data->display, data->keyboard.core.min_keycode,
                                                                      data->keyboard.core.max_keycode - data->keyboard.core.min_keycode,
-                                                                     &data->keyboard.core.keysyms_per_key);
+                                                                     &data->keyboard.core.keysyms_per_सुसि);
         }
 
         for (Uint32 xkeycode = data->keyboard.core.min_keycode; xkeycode <= data->keyboard.core.max_keycode; ++xkeycode) {
-            const SDL_Scancode scancode = data->keyboard.key_layout[xkeycode];
+            const SDL_Scancode scancode = data->keyboard.सुसि_layout[xkeycode];
             if (scancode == SDL_SCANCODE_UNKNOWN) {
                 continue;
             }
 
-            const KeySym keysym = X11_KeyCodeToSym(_this, xkeycode, 0, 0);
-            if (keysym != NoSymbol) {
+            const सुसि_Sym keysym = X11_सुसि_Code_To_Sym(_this, xkeycode, 0, 0);
+            if (keysym != No_सिम्बोलो) {
                 X11_AddKeymapEntry(keymap, xkeycode, keysym, scancode, 0);
             }
         }
@@ -588,7 +588,7 @@ void X11_QuitKeyboard(SDL_VideoDevice *_this)
 
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
     if (data->keyboard.xkb_enabled) {
-        for (int i = 0; i < XkbNumKbdGroups; ++i) {
+        for (int i = 0; i < Xkb_नुमेरो_Kbd_Groups; ++i) {
             SDL_DestroyKeymap(data->keyboard.xkb.keymaps[i]);
             data->keyboard.xkb.keymaps[i] = NULL;
         }
@@ -781,16 +781,16 @@ static void ic_destroyed_handler(XIC ic, XPointer clientData, XPointer callData)
 {
     SDL_WindowData *data = (SDL_WindowData *)clientData;
     data->ic = NULL;
-    X11_DestroyInputContext(data);
+    X11_Destroy_पासोक_Context(data);
 
     // If the IM was already recreated, create a new IC.
     if (data->videodata->im) {
-        X11_CreateInputContext(data);
+        X11_Create_पासोक_Context(data);
     }
 }
 #endif // X_HAVE_UTF8_STRING
 
-void X11_CreateInputContext(SDL_WindowData *data)
+void X11_Create_पासोक_Context(SDL_WindowData *data)
 {
 #ifdef X_HAVE_UTF8_STRING
     SDL_VideoData *videodata = data->videodata;
@@ -849,7 +849,7 @@ void X11_CreateInputContext(SDL_WindowData *data)
 }
 
 
-void X11_DestroyInputContext(SDL_WindowData *data)
+void X11_Destroy_पासोक_Context(SDL_WindowData *data)
 {
 #ifdef X_HAVE_UTF8_STRING
     if (data->ic) {
@@ -878,28 +878,28 @@ static void X11_ResetXIM(SDL_VideoDevice *_this, SDL_Window *window)
 #endif // X_HAVE_UTF8_STRING
 }
 
-bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool X11_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
     X11_ResetXIM(_this, window);
 
-    return X11_UpdateTextInputArea(_this, window);
+    return X11_Update_Text_पासोक_Area(_this, window);
 }
 
-bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window)
 {
     X11_ResetXIM(_this, window);
     return true;
 }
 
-bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_Update_Text_पासोक_Area(SDL_VideoDevice *_this, SDL_Window *window)
 {
 #ifdef X_HAVE_UTF8_STRING
     SDL_WindowData *data = window->internal;
 
     if (data && data->ic) {
         XPoint spot;
-        spot.x = window->text_input_rect.x + window->text_input_cursor;
-        spot.y = window->text_input_rect.y + window->text_input_rect.h;
+        spot.x = window->text_पासोक_rect.x + window->text_पासोक_cursor;
+        spot.y = window->text_पासोक_rect.y + window->text_पासोक_rect.h;
         if (spot.x != data->xim_spot.x || spot.y != data->xim_spot.y) {
             XVaNestedList attr = X11_XVaCreateNestedList(0, XNSpotLocation, &spot, NULL);
             if (attr) {
@@ -927,34 +927,34 @@ void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
         /* For more documentation of the URL parameters, see:
          * https://partner.steamgames.com/doc/api/ISteamUtils#ShowFloatingGamepadTextInput
          */
-        const int k_EFloatingGamepadTextInputModeModeSingleLine = 0;    // Enter dismisses the keyboard
-        const int k_EFloatingGamepadTextInputModeModeMultipleLines = 1; // User needs to explicitly dismiss the keyboard
-        const int k_EFloatingGamepadTextInputModeModeEmail = 2;         // Keyboard is displayed in a special mode that makes it easier to enter emails
-        const int k_EFloatingGamepadTextInputModeModeNumeric = 3;       // Numeric keypad is shown
+        const int k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Single_लिन्या = 0;    // Enter dismisses the keyboard
+        const int k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Multiple_मगा_लिन्या = 1; // User needs to explicitly dismiss the keyboard
+        const int k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Email = 2;         // Keyboard is displayed in a special mode that makes it easier to enter emails
+        const int k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Numeric = 3;       // Numeric keypad is shown
         char deeplink[128];
         int mode;
 
-        switch (SDL_GetTextInputType(props)) {
+        switch (SDL_Get_Text_पासोक_Type(props)) {
         case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-            mode = k_EFloatingGamepadTextInputModeModeEmail;
+            mode = k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Email;
             break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-            mode = k_EFloatingGamepadTextInputModeModeNumeric;
+        case SDL_TEXTINPUT_TYPE_नुमेरो:
+        case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_HIDDEN:
+        case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_VISIBLE:
+            mode = k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Numeric;
             break;
         default:
-            if (SDL_GetTextInputMultiline(props)) {
-                mode = k_EFloatingGamepadTextInputModeModeMultipleLines;
+            if (SDL_Get_Text_पासोक_Multiline(props)) {
+                mode = k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Multiple_मगा_लिन्या;
             } else {
-                mode = k_EFloatingGamepadTextInputModeModeSingleLine;
+                mode = k_EFloating_Gamepad_Text_पासोक_Mode_Mode_Single_लिन्या;
             }
             break;
         }
         (void)SDL_snprintf(deeplink, sizeof(deeplink),
                            "steam://open/keyboard?XPosition=%i&YPosition=%i&Width=%i&Height=%i&Mode=%d",
-                           window->text_input_rect.x, window->text_input_rect.y,
-                           window->text_input_rect.w, window->text_input_rect.h,
+                           window->text_पासोक_rect.x, window->text_पासोक_rect.y,
+                           window->text_पासोक_rect.w, window->text_पासोक_rect.h,
                            mode);
         SDL_OpenURL(deeplink);
         SDL_SendScreenKeyboardShown();

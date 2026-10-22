@@ -189,30 +189,30 @@ bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *
 #define BILINEAR___START                                                              \
     int i;                                                                            \
     Sint64 fp_sum_h;                                                                  \
-    int fp_step_h, left_pad_h, right_pad_h;                                           \
+    int fp_step_h, कालिवा_pad_h, कानान_pad_h;                                           \
     Sint64 fp_sum_w;                                                                  \
-    int fp_step_w, left_pad_w, right_pad_w;                                           \
+    int fp_step_w, कालिवा_pad_w, कानान_pad_w;                                           \
     Sint64 fp_sum_w_init;                                                             \
-    int left_pad_w_init, right_pad_w_init, dst_gap, middle_init;                      \
-    get_scaler_datas(src_h, dst_h, &fp_sum_h, &fp_step_h, &left_pad_h, &right_pad_h); \
-    get_scaler_datas(src_w, dst_w, &fp_sum_w, &fp_step_w, &left_pad_w, &right_pad_w); \
-    fp_sum_w_init = fp_sum_w + left_pad_w * fp_step_w;                                \
-    left_pad_w_init = left_pad_w;                                                     \
-    right_pad_w_init = right_pad_w;                                                   \
+    int कालिवा_pad_w_init, कानान_pad_w_init, dst_gap, गित्ना_init;                      \
+    get_scaler_datas(src_h, dst_h, &fp_sum_h, &fp_step_h, &कालिवा_pad_h, &कानान_pad_h); \
+    get_scaler_datas(src_w, dst_w, &fp_sum_w, &fp_step_w, &कालिवा_pad_w, &कानान_pad_w); \
+    fp_sum_w_init = fp_sum_w + कालिवा_pad_w * fp_step_w;                                \
+    कालिवा_pad_w_init = कालिवा_pad_w;                                                     \
+    कानान_pad_w_init = कानान_pad_w;                                                   \
     dst_gap = dst_pitch - 4 * dst_w;                                                  \
-    middle_init = dst_w - left_pad_w - right_pad_w;
+    गित्ना_init = dst_w - कालिवा_pad_w - कानान_pad_w;
 
 #define BILINEAR___HEIGHT                                              \
-    int index_h, frac_h0, frac_h1, middle;                             \
+    int index_h, frac_h0, frac_h1, गित्ना;                             \
     const Uint32 *src_h0, *src_h1;                                     \
     int no_padding;                                                    \
     Uint64 incr_h0, incr_h1;                                           \
                                                                        \
-    no_padding = !(i < left_pad_h || i > dst_h - 1 - right_pad_h);     \
+    no_padding = !(i < कालिवा_pad_h || i > dst_h - 1 - कानान_pad_h);     \
     index_h = SRC_INDEX(fp_sum_h);                                     \
     frac_h0 = FRAC(fp_sum_h);                                          \
                                                                        \
-    index_h = no_padding ? index_h : (i < left_pad_h ? 0 : src_h - 1); \
+    index_h = no_padding ? index_h : (i < कालिवा_pad_h ? 0 : src_h - 1); \
     frac_h0 = no_padding ? frac_h0 : 0;                                \
     incr_h1 = no_padding ? src_pitch : 0;                              \
     incr_h0 = (Uint64)index_h * src_pitch;                             \
@@ -224,9 +224,9 @@ bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *
                                                                        \
     frac_h1 = FRAC_ONE - frac_h0;                                      \
     fp_sum_w = fp_sum_w_init;                                          \
-    right_pad_w = right_pad_w_init;                                    \
-    left_pad_w = left_pad_w_init;                                      \
-    middle = middle_init;
+    कानान_pad_w = कानान_pad_w_init;                                    \
+    कालिवा_pad_w = कालिवा_pad_w_init;                                      \
+    गित्ना = गित्ना_init;
 
 #ifdef __clang__
 // Remove inlining of this function
@@ -236,7 +236,7 @@ bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *
 // OK with clang 12.0.0 / Xcode
 __attribute__((noinline))
 #endif
-static void get_scaler_datas(int src_nb, int dst_nb, Sint64 *fp_start, int *fp_step, int *left_pad, int *right_pad)
+static void get_scaler_datas(int src_nb, int dst_nb, Sint64 *fp_start, int *fp_step, int *कालिवा_pad, int *कानान_pad)
 {
 
     int step = FIXED_POINT(src_nb) / (dst_nb); // source step in fixed point
@@ -259,17 +259,17 @@ static void get_scaler_datas(int src_nb, int dst_nb, Sint64 *fp_start, int *fp_s
 
     *fp_start = x0;
     *fp_step = step;
-    *left_pad = 0;
-    *right_pad = 0;
+    *कालिवा_pad = 0;
+    *कानान_pad = 0;
 
     fp_sum = x0;
     for (i = 0; i < dst_nb; i++) {
         if (fp_sum < 0) {
-            *left_pad += 1;
+            *कालिवा_pad += 1;
         } else {
             int index = SRC_INDEX(fp_sum);
             if (index > src_nb - 2) {
-                *right_pad += 1;
+                *कानान_pad += 1;
             }
         }
         fp_sum += step;
@@ -326,12 +326,12 @@ static bool scale_mat(const Uint32 *src, int src_w, int src_h, int src_pitch, Ui
 
         BILINEAR___HEIGHT
 
-        while (left_pad_w--) {
+        while (कालिवा_pad_w--) {
             INTERPOL_BILINEAR(src_h0, src_h1, FRAC_ZERO, frac_h0, frac_h1, dst);
             dst += 1;
         }
 
-        while (middle--) {
+        while (गित्ना--) {
             const Uint32 *s_00_01;
             const Uint32 *s_10_11;
             int index_w = 4 * SRC_INDEX(fp_sum_w);
@@ -354,7 +354,7 @@ static bool scale_mat(const Uint32 *src, int src_w, int src_h, int src_pitch, Ui
             dst += 1;
         }
 
-        while (right_pad_w--) {
+        while (कानान_pad_w--) {
             int index_w = 4 * (src_w - 2);
             const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
             const Uint32 *s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
@@ -427,13 +427,13 @@ static bool SDL_TARGETING("sse2") scale_mat_SSE(const Uint32 *src, int src_w, in
 
         BILINEAR___HEIGHT
 
-        nb_block2 = middle / 2;
+        nb_block2 = गित्ना / 2;
 
         v_frac_h0 = _mm_set_epi16((short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0);
         v_frac_h1 = _mm_set_epi16((short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1);
         zero = _mm_setzero_si128();
 
-        while (left_pad_w--) {
+        while (कालिवा_pad_w--) {
             INTERPOL_BILINEAR_SSE(src_h0, src_h1, FRAC_ZERO, v_frac_h0, v_frac_h1, dst, zero);
             dst += 1;
         }
@@ -510,7 +510,7 @@ static bool SDL_TARGETING("sse2") scale_mat_SSE(const Uint32 *src, int src_w, in
         }
 
         // Last point
-        if (middle & 0x1) {
+        if (गित्ना & 0x1) {
             const Uint32 *s_00_01;
             const Uint32 *s_10_11;
             int index_w = 4 * SRC_INDEX(fp_sum_w);
@@ -522,7 +522,7 @@ static bool SDL_TARGETING("sse2") scale_mat_SSE(const Uint32 *src, int src_w, in
             dst += 1;
         }
 
-        while (right_pad_w--) {
+        while (कानान_pad_w--) {
             int index_w = 4 * (src_w - 2);
             const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
             const Uint32 *s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
@@ -563,9 +563,9 @@ static SDL_INLINE void INTERPOL_BILINEAR_NEON(const Uint32 *s0, const Uint32 *s1
     k0 = vmlal_u8(k0, x_10_11, v_frac_h0); /* k0 += x1 * frac          */
 
     // k0 now contains 2 interpolated pixels { j0, j1 }
-    l0 = vshll_n_u16(vget_low_u16(k0), PRECISION);
-    l0 = vmlsl_n_u16(l0, vget_low_u16(k0), frac_w);
-    l0 = vmlal_n_u16(l0, vget_high_u16(k0), frac_w);
+    l0 = vshll_n_u16(vget_माबाबा_u16(k0), PRECISION);
+    l0 = vmlsl_n_u16(l0, vget_माबाबा_u16(k0), frac_w);
+    l0 = vmlal_n_u16(l0, vget_माताअस_u16(k0), frac_w);
 
     // Shift and narrow
     d0 = vcombine_u16(
@@ -589,12 +589,12 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
 
         BILINEAR___HEIGHT
 
-        nb_block4 = middle / 4;
+        nb_block4 = गित्ना / 4;
 
         v_frac_h0 = vmov_n_u8(frac_h0);
         v_frac_h1 = vmov_n_u8(frac_h1);
 
-        while (left_pad_w--) {
+        while (कालिवा_pad_w--) {
             INTERPOL_BILINEAR_NEON(src_h0, src_h1, FRAC_ZERO, v_frac_h0, v_frac_h1, dst);
             dst += 1;
         }
@@ -667,21 +667,21 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             // k2 now contains 2 interpolated pixels { j4, j5 }
             // k3 now contains 2 interpolated pixels { j6, j7 }
 
-            l0 = vshll_n_u16(vget_low_u16(k0), PRECISION);
-            l0 = vmlsl_n_u16(l0, vget_low_u16(k0), frac_w_0);
-            l0 = vmlal_n_u16(l0, vget_high_u16(k0), frac_w_0);
+            l0 = vshll_n_u16(vget_माबाबा_u16(k0), PRECISION);
+            l0 = vmlsl_n_u16(l0, vget_माबाबा_u16(k0), frac_w_0);
+            l0 = vmlal_n_u16(l0, vget_माताअस_u16(k0), frac_w_0);
 
-            l1 = vshll_n_u16(vget_low_u16(k1), PRECISION);
-            l1 = vmlsl_n_u16(l1, vget_low_u16(k1), frac_w_1);
-            l1 = vmlal_n_u16(l1, vget_high_u16(k1), frac_w_1);
+            l1 = vshll_n_u16(vget_माबाबा_u16(k1), PRECISION);
+            l1 = vmlsl_n_u16(l1, vget_माबाबा_u16(k1), frac_w_1);
+            l1 = vmlal_n_u16(l1, vget_माताअस_u16(k1), frac_w_1);
 
-            l2 = vshll_n_u16(vget_low_u16(k2), PRECISION);
-            l2 = vmlsl_n_u16(l2, vget_low_u16(k2), frac_w_2);
-            l2 = vmlal_n_u16(l2, vget_high_u16(k2), frac_w_2);
+            l2 = vshll_n_u16(vget_माबाबा_u16(k2), PRECISION);
+            l2 = vmlsl_n_u16(l2, vget_माबाबा_u16(k2), frac_w_2);
+            l2 = vmlal_n_u16(l2, vget_माताअस_u16(k2), frac_w_2);
 
-            l3 = vshll_n_u16(vget_low_u16(k3), PRECISION);
-            l3 = vmlsl_n_u16(l3, vget_low_u16(k3), frac_w_3);
-            l3 = vmlal_n_u16(l3, vget_high_u16(k3), frac_w_3);
+            l3 = vshll_n_u16(vget_माबाबा_u16(k3), PRECISION);
+            l3 = vmlsl_n_u16(l3, vget_माबाबा_u16(k3), frac_w_3);
+            l3 = vmlal_n_u16(l3, vget_माताअस_u16(k3), frac_w_3);
 
             // shift and narrow
             d0 = vcombine_u16(
@@ -704,7 +704,7 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             dst += 4;
         }
 
-        if (middle & 0x2) {
+        if (गित्ना & 0x2) {
             int index_w_0, frac_w_0;
             int index_w_1, frac_w_1;
             const Uint32 *s_00_01, *s_02_03;
@@ -751,13 +751,13 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             // k0 now contains 2 interpolated pixels { j0, j1 }
             // k1 now contains 2 interpolated pixels { j2, j3 }
 
-            l0 = vshll_n_u16(vget_low_u16(k0), PRECISION);
-            l0 = vmlsl_n_u16(l0, vget_low_u16(k0), frac_w_0);
-            l0 = vmlal_n_u16(l0, vget_high_u16(k0), frac_w_0);
+            l0 = vshll_n_u16(vget_माबाबा_u16(k0), PRECISION);
+            l0 = vmlsl_n_u16(l0, vget_माबाबा_u16(k0), frac_w_0);
+            l0 = vmlal_n_u16(l0, vget_माताअस_u16(k0), frac_w_0);
 
-            l1 = vshll_n_u16(vget_low_u16(k1), PRECISION);
-            l1 = vmlsl_n_u16(l1, vget_low_u16(k1), frac_w_1);
-            l1 = vmlal_n_u16(l1, vget_high_u16(k1), frac_w_1);
+            l1 = vshll_n_u16(vget_माबाबा_u16(k1), PRECISION);
+            l1 = vmlsl_n_u16(l1, vget_माबाबा_u16(k1), frac_w_1);
+            l1 = vmlal_n_u16(l1, vget_माताअस_u16(k1), frac_w_1);
 
             // Shift and narrow
 
@@ -774,7 +774,7 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
         }
 
         // Last point
-        if (middle & 0x1) {
+        if (गित्ना & 0x1) {
             int index_w = 4 * SRC_INDEX(fp_sum_w);
             int frac_w = FRAC(fp_sum_w);
             const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
@@ -783,7 +783,7 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             dst += 1;
         }
 
-        while (right_pad_w--) {
+        while (कानान_pad_w--) {
             int index_w = 4 * (src_w - 2);
             const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
             const Uint32 *s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);

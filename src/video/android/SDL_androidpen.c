@@ -49,7 +49,7 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
         peninfo.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_ERASER;
-        peninfo.num_buttons = 2;
+        peninfo.नुमेरो_buttons = 2;
         peninfo.subtype = SDL_PEN_TYPE_PEN;
         peninfo.device_type = device_type;
         pen = SDL_AddPenDevice(0, NULL, window, &peninfo, (void *) (size_t) pen_id_in, true);
@@ -63,7 +63,7 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
     SDL_SendPenAxis(0, pen, window, SDL_PEN_AXIS_PRESSURE, p);
     // TODO: add more axis
 
-    SDL_PenInputFlags current = SDL_GetPenStatus(pen, NULL, 0);
+    SDL_Pen_पासोक_Flags current = SDL_GetPenStatus(pen, NULL, 0);
     int diff = current ^ button;
     if (diff != 0) {
         for (Uint8 i = 1; i <= 5; ++i) {
@@ -88,12 +88,12 @@ void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_t
 
     case ACTION_DOWN:
     case ACTION_POINTER_DOWN:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, true);
+        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_पासोक_ERASER_TIP) != 0, true);
         break;
 
     case ACTION_UP:
     case ACTION_POINTER_UP:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, false);
+        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_पासोक_ERASER_TIP) != 0, false);
         break;
 
     default:

@@ -88,7 +88,7 @@ static SDL_VideoDevice *VITA_Create(void)
     device->internal = phdata;
 
     // Setup amount of available displays and current display
-    device->num_displays = 0;
+    device->नुमेरो_displays = 0;
 
     // Set device free function
     device->free = VITA_Destroy;
@@ -242,7 +242,7 @@ bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propertie
 
 #ifdef SDL_VIDEO_VITA_PVR
     win.type = PSP2_DRAWABLE_TYPE_WINDOW;
-    win.numFlipBuffers = 2;
+    win.नुमेरो_Flip_Buffers = 2;
     win.flipChainThrdAffinity = 0x20000;
 
     // 1088i for PSTV (Or Sharpscale)
@@ -379,12 +379,12 @@ void VITA_ImeEventHandler(void *arg, const SceImeEventData *e)
     switch (e->id) {
     case SCE_IME_EVENT_UPDATE_TEXT:
         if (e->param.text.caretIndex == 0) {
-            SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_BACKSPACE);
+            SDL_Send_Keyboard_सुसि_Auto_Release(0, SDL_SCANCODE_BACKSPACE);
             sceImeSetText((SceWChar16 *)libime_initval, 4);
         } else {
             utf16_to_utf8((SceWChar16 *)&libime_out[1], utf8_buffer);
             if (utf8_buffer[0] == ' ') {
-                SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_SPACE);
+                SDL_Send_Keyboard_सुसि_Auto_Release(0, SDL_SCANCODE_SPACE);
             } else {
                 SDL_SendKeyboardText((const char *)utf8_buffer);
             }
@@ -396,7 +396,7 @@ void VITA_ImeEventHandler(void *arg, const SceImeEventData *e)
         }
         break;
     case SCE_IME_EVENT_PRESS_ENTER:
-        SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_RETURN);
+        SDL_Send_Keyboard_सुसि_Auto_Release(0, SDL_SCANCODE_RETURN);
         break;
     case SCE_IME_EVENT_PRESS_CLOSE:
         sceImeClose();
@@ -423,7 +423,7 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
 
     param.supportedLanguages = SCE_IME_LANGUAGE_ENGLISH_US;
     param.languagesForced = SCE_FALSE;
-    switch (SDL_GetTextInputType(props)) {
+    switch (SDL_Get_Text_पासोक_Type(props)) {
     default:
     case SDL_TEXTINPUT_TYPE_TEXT:
         param.type = SCE_IME_TYPE_DEFAULT;
@@ -443,27 +443,27 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
     case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
         param.type = SCE_IME_TYPE_DEFAULT;
         break;
-    case SDL_TEXTINPUT_TYPE_NUMBER:
-        param.type = SCE_IME_TYPE_NUMBER;
+    case SDL_TEXTINPUT_TYPE_नुमेरो:
+        param.type = SCE_IME_TYPE_नुमेरो;
         break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-        param.type = SCE_IME_TYPE_NUMBER;
+    case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_HIDDEN:
+        param.type = SCE_IME_TYPE_नुमेरो;
         break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-        param.type = SCE_IME_TYPE_NUMBER;
+    case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_VISIBLE:
+        param.type = SCE_IME_TYPE_नुमेरो;
         break;
     }
     param.option = 0;
-    if (SDL_GetTextInputCapitalization(props) != SDL_CAPITALIZE_SENTENCES) {
+    if (SDL_Get_Text_पासोक_Capitalization(props) != SDL_CAPITALIZE_SENTENCES) {
         param.option |= SCE_IME_OPTION_NO_AUTO_CAPITALIZATION;
     }
-    if (!SDL_GetTextInputAutocorrect(props)) {
+    if (!SDL_Get_Text_पासोक_Autocorrect(props)) {
         param.option |= SCE_IME_OPTION_NO_ASSISTANCE;
     }
-    if (SDL_GetTextInputMultiline(props)) {
+    if (SDL_Get_Text_पासोक_Multiline(props)) {
         param.option |= SCE_IME_OPTION_MULTILINE;
     }
-    param.inputTextBuffer = libime_out;
+    param.पासोक_Text_Buffer = libime_out;
     param.maxTextLength = SCE_IME_MAX_TEXT_LENGTH;
     param.handler = VITA_ImeEventHandler;
     param.filter = NULL;
@@ -493,7 +493,7 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
 
     param.title = title;
     param.initialText = text;
-    param.inputTextBuffer = videodata->ime_buffer;
+    param.पासोक_Text_Buffer = videodata->ime_buffer;
 
     res = sceImeDialogInit(&param);
     if (res < 0) {
@@ -565,7 +565,7 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
 
             // Send enter key only on enter
             if (result.button == SCE_IME_DIALOG_BUTTON_ENTER) {
-                SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_RETURN);
+                SDL_Send_Keyboard_सुसि_Auto_Release(0, SDL_SCANCODE_RETURN);
             }
 
             sceImeDialogTerm();

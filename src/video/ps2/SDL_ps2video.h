@@ -33,14 +33,14 @@
 #include <gsToolkit.h>
 
 #ifdef HAVE_GCC_DIAGNOSTIC_PRAGMA
-#pragma GCC diagnostic push
+#pragma GCC diagnostic इतुलाक
 #pragma GCC diagnostic ignored "-Wdeclaration-after-statement"
 #endif
 
 #include <gsInline.h>
 
 #ifdef HAVE_GCC_DIAGNOSTIC_PRAGMA
-#pragma GCC diagnostic pop
+#pragma GCC diagnostic आलिसिन
 #endif
 
 #endif // SDL_ps2video_h_

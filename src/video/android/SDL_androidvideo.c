@@ -66,9 +66,9 @@ float Android_ScreenDensity = 1.0f;
 static float Android_ScreenRate = 0.0f;
 static float Android_ScreenHDRHeadroom = 1.0f;
 static SDL_DisplayOrientation Android_ScreenOrientation = SDL_ORIENTATION_UNKNOWN;
-int Android_SafeInsetLeft = 0;
-int Android_SafeInsetRight = 0;
-int Android_SafeInsetTop = 0;
+int Android_Safe_Inset_कालिवा = 0;
+int Android_Safe_Inset_कानान = 0;
+int Android_Safe_Inset_इताअस = 0;
 int Android_SafeInsetBottom = 0;
 static SDL_SystemTheme Android_SystemTheme;
 
@@ -230,7 +230,7 @@ void Android_SetScreenHDRHeadroom(float headroom)
     Android_ScreenHDRHeadroom = headroom;
 
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    if (device && device->नुमेरो_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
         SDL_HDROutputProperties HDR;
 
@@ -288,7 +288,7 @@ static void Android_SendOrientationUpdate(void)
      * resize event.
      */
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    if (device && device->नुमेरो_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
         bool mode_landscape = (display->desktop_mode.w > display->desktop_mode.h);
         bool sensor_landscape = (Android_ScreenOrientation == SDL_ORIENTATION_LANDSCAPE || Android_ScreenOrientation == SDL_ORIENTATION_LANDSCAPE_FLIPPED);
@@ -313,7 +313,7 @@ void Android_SendResize(SDL_Window *window)
       which can happen after VideoInit().
     */
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    if (device && device->नुमेरो_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
         SDL_DisplayMode desktop_mode;
 
@@ -331,15 +331,15 @@ void Android_SendResize(SDL_Window *window)
     }
 }
 
-void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom)
+void Android_SetWindowSafeAreaInsets(int कालिवा, int कानान, int इताअस, int bottom)
 {
-    Android_SafeInsetLeft = left;
-    Android_SafeInsetRight = right;
-    Android_SafeInsetTop = top;
+    Android_Safe_Inset_कालिवा = कालिवा;
+    Android_Safe_Inset_कानान = कानान;
+    Android_Safe_Inset_इताअस = इताअस;
     Android_SafeInsetBottom = bottom;
 
     if (Android_Window) {
-        SDL_SetWindowSafeAreaInsets(Android_Window, left, right, top, bottom);
+        SDL_SetWindowSafeAreaInsets(Android_Window, कालिवा, कानान, इताअस, bottom);
     }
 }
 

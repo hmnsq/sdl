@@ -29,13 +29,13 @@
 #include "SDL_rpivideo.h"
 #include "SDL_rpievents_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 #include "../../core/linux/SDL_evdev.h"
 #endif
 
 void RPI_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     SDL_EVDEV_Poll();
 #endif
 }

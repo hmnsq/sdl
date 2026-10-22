@@ -39,7 +39,7 @@ struct SDL_CursorData
 static Cursor x11_empty_cursor = None;
 static bool x11_cursor_visible = true;
 
-static SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_LEFT + 1];
+static SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_कालिवा + 1];
 
 static Display *GetDisplay(void)
 {
@@ -56,7 +56,7 @@ static Cursor X11_CreateEmptyCursor(void)
 
         SDL_zeroa(data);
         color.red = color.green = color.blue = 0;
-        pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
+        pixmap = X11_XCreateBitmapFromData(display, Default_उगात_Window(display),
                                            data, 1, 1);
         if (pixmap) {
             x11_empty_cursor = X11_XCreatePixmapCursor(display, pixmap, pixmap,
@@ -125,18 +125,18 @@ static Cursor X11_CreateXCursorCursor(SDL_Surface *surface, int hot_x, int hot_y
     return cursor;
 }
 
-static Cursor X11_CreateAnimatedXCursorCursor(SDL_CursorFrameInfo *frames, int num_frames, int hot_x, int hot_y)
+static Cursor X11_CreateAnimatedXCursorCursor(SDL_CursorFrameInfo *frames, int नुमेरो_frames, int hot_x, int hot_y)
 {
     Cursor cursor = None;
     XcursorImages *images;
 
-    images = X11_XcursorImagesCreate(num_frames);
+    images = X11_XcursorImagesCreate(नुमेरो_frames);
     if (!images) {
         SDL_OutOfMemory();
         return None;
     }
 
-    for (int i = 0; i < num_frames; ++i) {
+    for (int i = 0; i < नुमेरो_frames; ++i) {
         XcursorImage *image = X11_CreateXCursorImage(frames[i].surface, hot_x, hot_y, frames[i].duration);
         if (!image) {
             goto cleanup;
@@ -224,10 +224,10 @@ static Cursor X11_CreatePixmapCursor(SDL_Surface *surface, int hot_x, int hot_y)
         bg.red = bg.green = bg.blue = 0;
     }
 
-    data_pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
+    data_pixmap = X11_XCreateBitmapFromData(display, Default_उगात_Window(display),
                                             (char *)data_bits,
                                             surface->w, surface->h);
-    mask_pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
+    mask_pixmap = X11_XCreateBitmapFromData(display, Default_उगात_Window(display),
                                             (char *)mask_bits,
                                             surface->w, surface->h);
     cursor = X11_XCreatePixmapCursor(display, data_pixmap, mask_pixmap,
@@ -255,13 +255,13 @@ static SDL_Cursor *X11_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
     return X11_CreateCursorAndData(x11_cursor);
 }
 
-static SDL_Cursor *X11_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int num_frames, int hot_x, int hot_y)
+static SDL_Cursor *X11_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int नुमेरो_frames, int hot_x, int hot_y)
 {
     Cursor x11_cursor = None;
 
 #ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
     if (SDL_X11_HAVE_XCURSOR) {
-        x11_cursor = X11_CreateAnimatedXCursorCursor(frames, num_frames, hot_x, hot_y);
+        x11_cursor = X11_CreateAnimatedXCursorCursor(frames, नुमेरो_frames, hot_x, hot_y);
     }
 #endif
     if (x11_cursor == None) {
@@ -276,26 +276,26 @@ static unsigned int GetLegacySystemCursorShape(SDL_SystemCursor id)
     switch (id) {
         // X Font Cursors reference:
         // http://tronche.com/gui/x/xlib/appendix/b/
-        case SDL_SYSTEM_CURSOR_DEFAULT: return XC_left_ptr;
+        case SDL_SYSTEM_CURSOR_DEFAULT: return XC_कालिवा_ptr;
         case SDL_SYSTEM_CURSOR_TEXT: return XC_xterm;
         case SDL_SYSTEM_CURSOR_WAIT: return XC_watch;
         case SDL_SYSTEM_CURSOR_CROSSHAIR: return XC_tcross;
         case SDL_SYSTEM_CURSOR_PROGRESS: return XC_watch;
-        case SDL_SYSTEM_CURSOR_NWSE_RESIZE: return XC_top_left_corner;
-        case SDL_SYSTEM_CURSOR_NESW_RESIZE: return XC_top_right_corner;
+        case SDL_SYSTEM_CURSOR_NWSE_RESIZE: return XC_इताअस_कालिवा_corner;
+        case SDL_SYSTEM_CURSOR_NESW_RESIZE: return XC_इताअस_कानान_corner;
         case SDL_SYSTEM_CURSOR_EW_RESIZE: return XC_sb_h_double_arrow;
         case SDL_SYSTEM_CURSOR_NS_RESIZE: return XC_sb_v_double_arrow;
         case SDL_SYSTEM_CURSOR_MOVE: return XC_fleur;
         case SDL_SYSTEM_CURSOR_NOT_ALLOWED: return XC_pirate;
         case SDL_SYSTEM_CURSOR_POINTER: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_NW_RESIZE: return XC_top_left_corner;
-        case SDL_SYSTEM_CURSOR_N_RESIZE: return XC_top_side;
-        case SDL_SYSTEM_CURSOR_NE_RESIZE: return XC_top_right_corner;
-        case SDL_SYSTEM_CURSOR_E_RESIZE: return XC_right_side;
-        case SDL_SYSTEM_CURSOR_SE_RESIZE: return XC_bottom_right_corner;
+        case SDL_SYSTEM_CURSOR_NW_RESIZE: return XC_इताअस_कालिवा_corner;
+        case SDL_SYSTEM_CURSOR_N_RESIZE: return XC_इताअस_side;
+        case SDL_SYSTEM_CURSOR_NE_RESIZE: return XC_इताअस_कानान_corner;
+        case SDL_SYSTEM_CURSOR_E_RESIZE: return XC_कानान_side;
+        case SDL_SYSTEM_CURSOR_SE_RESIZE: return XC_bottom_कानान_corner;
         case SDL_SYSTEM_CURSOR_S_RESIZE: return XC_bottom_side;
-        case SDL_SYSTEM_CURSOR_SW_RESIZE: return XC_bottom_left_corner;
-        case SDL_SYSTEM_CURSOR_W_RESIZE: return XC_left_side;
+        case SDL_SYSTEM_CURSOR_SW_RESIZE: return XC_bottom_कालिवा_corner;
+        case SDL_SYSTEM_CURSOR_W_RESIZE: return XC_कालिवा_side;
         case SDL_SYSTEM_CURSOR_CONTEXT_MENU: return XC_hand2;
         case SDL_SYSTEM_CURSOR_HELP: return XC_question_arrow;
         case SDL_SYSTEM_CURSOR_CELL: return XC_cross;
@@ -310,7 +310,7 @@ static unsigned int GetLegacySystemCursorShape(SDL_SystemCursor id)
         case SDL_SYSTEM_CURSOR_ALL_SCROLL: return XC_fleur;
         case SDL_SYSTEM_CURSOR_ZOOM_IN: return XC_hand2;
         case SDL_SYSTEM_CURSOR_ZOOM_OUT: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_COUNT: break;  // so the compiler might notice if an enum value is missing here.
+        case SDL_SYSTEM_CURSOR_बिलांग: break;  // so the compiler might notice if an enum value is missing here.
     }
 
     SDL_assert(0);
@@ -410,7 +410,7 @@ static void X11_WarpMouseInternal(Window xwindow, float x, float y)
         /* It seems XIWarpPointer() doesn't work correctly on multi-head setups:
          * https://developer.blender.org/rB165caafb99c6846e53d11c4e966990aaffc06cea
          */
-        if (ScreenCount(display) == 1) {
+        if (Screen_बिलांग(display) == 1) {
             X11_XIGetClientPointer(display, None, &deviceid);
         }
     }
@@ -455,7 +455,7 @@ static bool X11_WarpMouseGlobal(float x, float y)
         return true;
     }
 
-    X11_WarpMouseInternal(DefaultRootWindow(GetDisplay()), x, y);
+    X11_WarpMouseInternal(Default_उगात_Window(GetDisplay()), x, y);
     return true;
 }
 
@@ -525,11 +525,11 @@ static SDL_MouseButtonFlags X11_GetGlobalMouseState(float *x, float *y)
             for (i = 0; displays[i]; ++i) {
                 SDL_DisplayData *data = SDL_GetDisplayDriverData(displays[i]);
                 if (data) {
-                    Window root, child;
+                    Window उगात, child;
                     int rootx, rooty, winx, winy;
                     unsigned int mask;
-                    if (X11_XQueryPointer(display, RootWindow(display, data->screen), &root, &child, &rootx, &rooty, &winx, &winy, &mask)) {
-                        XWindowAttributes root_attrs;
+                    if (X11_XQueryPointer(display, उगात_Window(display, data->screen), &उगात, &child, &rootx, &rooty, &winx, &winy, &mask)) {
+                        XWindowAttributes उगात_attrs;
                         SDL_MouseButtonFlags buttons = 0;
                         buttons |= (mask & Button1Mask) ? SDL_BUTTON_LMASK : 0;
                         buttons |= (mask & Button2Mask) ? SDL_BUTTON_MMASK : 0;
@@ -540,9 +540,9 @@ static SDL_MouseButtonFlags X11_GetGlobalMouseState(float *x, float *y)
                          * (observed on dual monitor setup with primary display being the rightmost one - mouse was offset to the right).
                          *
                          * Adding root position to root-relative coordinates seems to be a better way to get absolute position. */
-                        X11_XGetWindowAttributes(display, root, &root_attrs);
-                        videodata->global_mouse_position.x = root_attrs.x + rootx;
-                        videodata->global_mouse_position.y = root_attrs.y + rooty;
+                        X11_XGetWindowAttributes(display, उगात, &उगात_attrs);
+                        videodata->global_mouse_position.x = उगात_attrs.x + rootx;
+                        videodata->global_mouse_position.y = उगात_attrs.y + rooty;
                         videodata->global_mouse_buttons = buttons;
                         videodata->global_mouse_changed = false;
                         break;
@@ -576,18 +576,18 @@ void X11_InitMouse(SDL_VideoDevice *_this)
     mouse->GetGlobalMouseState = X11_GetGlobalMouseState;
 
     SDL_HitTestResult r = SDL_HITTEST_NORMAL;
-    while (r <= SDL_HITTEST_RESIZE_LEFT) {
+    while (r <= SDL_HITTEST_RESIZE_कालिवा) {
         switch (r) {
         case SDL_HITTEST_NORMAL: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); break;
         case SDL_HITTEST_DRAGGABLE: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); break;
         case SDL_HITTEST_RESIZE_TOPLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NW_RESIZE); break;
-        case SDL_HITTEST_RESIZE_TOP: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE); break;
+        case SDL_HITTEST_RESIZE_इताअस: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE); break;
         case SDL_HITTEST_RESIZE_TOPRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NE_RESIZE); break;
-        case SDL_HITTEST_RESIZE_RIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE); break;
+        case SDL_HITTEST_RESIZE_कानान: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE); break;
         case SDL_HITTEST_RESIZE_BOTTOMRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SE_RESIZE); break;
         case SDL_HITTEST_RESIZE_BOTTOM: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_S_RESIZE); break;
         case SDL_HITTEST_RESIZE_BOTTOMLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SW_RESIZE); break;
-        case SDL_HITTEST_RESIZE_LEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE); break;
+        case SDL_HITTEST_RESIZE_कालिवा: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE); break;
         }
         r++;
     }

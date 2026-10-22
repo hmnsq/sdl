@@ -93,7 +93,7 @@ int               xsettings_setting_equal (XSettingsSetting *setting_a,
 
 void              xsettings_list_free   (XSettingsList     *list);
 XSettingsList    *xsettings_list_copy   (XSettingsList     *list);
-XSettingsResult   xsettings_list_insert (XSettingsList    **list,
+XSettingsResult   xsettings_list_इसिंगित (XSettingsList    **list,
                                          XSettingsSetting  *setting);
 XSettingsSetting *xsettings_list_lookup (XSettingsList     *list,
                                          const char        *name);

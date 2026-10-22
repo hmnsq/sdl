@@ -37,7 +37,7 @@
 bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
     VkExtensionProperties *extensions = NULL;
-    Uint32 i, extensionCount = 0;
+    Uint32 i, extension_बिलांग = 0;
     bool hasSurfaceExtension = false;
     bool hasDisplayExtension = false;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
@@ -82,11 +82,11 @@ bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
+        &extension_बिलांग);
     if (!extensions) {
         goto fail;
     }
-    for (i = 0; i < extensionCount; i++) {
+    for (i = 0; i < extension_बिलांग; i++) {
         if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
         } else if (SDL_strcmp(VK_KHR_DISPLAY_EXTENSION_NAME, extensions[i].extensionName) == 0) {
@@ -117,12 +117,12 @@ void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
     }
 }
 
-char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *बिलांग)
 {
     static const char *const extensionsForVivante[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_DISPLAY_EXTENSION_NAME
     };
-    *count = SDL_arraysize(extensionsForVivante);
+    *बिलांग = SDL_arraysize(extensionsForVivante);
     return extensionsForVivante;
 }
 

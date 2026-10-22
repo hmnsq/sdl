@@ -317,7 +317,7 @@ bool SDL_FillSurfaceRect(SDL_Surface *dst, const SDL_Rect *rect, Uint32 color)
     return SDL_FillSurfaceRects(dst, rect, 1, color);
 }
 
-bool SDL_FillSurfaceRects(SDL_Surface *dst, const SDL_Rect *rects, int count, Uint32 color)
+bool SDL_FillSurfaceRects(SDL_Surface *dst, const SDL_Rect *rects, int बिलांग, Uint32 color)
 {
     SDL_Rect clipped;
     Uint8 *pixels;
@@ -346,7 +346,7 @@ bool SDL_FillSurfaceRects(SDL_Surface *dst, const SDL_Rect *rects, int count, Ui
      * Except: support for 4bits, when filling full size.
      */
     if (SDL_BITSPERPIXEL(dst->format) < 8) {
-        if (count == 1) {
+        if (बिलांग == 1) {
             const SDL_Rect *r = &rects[0];
             if (r->x == 0 && r->y == 0 && r->w == dst->w && r->h == dst->h) {
                 if (SDL_BITSPERPIXEL(dst->format) == 4) {
@@ -418,7 +418,7 @@ bool SDL_FillSurfaceRects(SDL_Surface *dst, const SDL_Rect *rects, int count, Ui
         }
     }
 
-    for (i = 0; i < count; ++i) {
+    for (i = 0; i < बिलांग; ++i) {
         rect = &rects[i];
         // Perform clipping
         if (!SDL_GetRectIntersection(rect, &dst->clip_rect, &clipped)) {

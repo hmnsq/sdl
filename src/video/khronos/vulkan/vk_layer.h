@@ -13,7 +13,7 @@
 
 #include "vulkan_core.h"
 
-#define MAX_NUM_UNKNOWN_EXTS 250
+#define MAX_नुमेरो_UNKNOWN_EXTS 250
 
  // Loader-Layer version negotiation API.  Versions add the following features:
  //   Versions 0/1 - Initial.  Doesn't support vk_layerGetPhysicalDeviceProcAddr
@@ -156,8 +156,8 @@ typedef struct VkEnumerateInstanceExtensionPropertiesChain {
     const struct VkEnumerateInstanceExtensionPropertiesChain *pNextLink;
 
 #if defined(__cplusplus)
-    inline VkResult CallDown(const char *pLayerName, uint32_t *pPropertyCount, VkExtensionProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pLayerName, pPropertyCount, pProperties);
+    inline VkResult CallDown(const char *pLayerName, uint32_t *p_Property_बिलांग, VkExtensionProperties *pProperties) const {
+        return pfnNextLayer(pNextLink, pLayerName, p_Property_बिलांग, pProperties);
     }
 #endif
 } VkEnumerateInstanceExtensionPropertiesChain;
@@ -168,8 +168,8 @@ typedef struct VkEnumerateInstanceLayerPropertiesChain {
     const struct VkEnumerateInstanceLayerPropertiesChain *pNextLink;
 
 #if defined(__cplusplus)
-    inline VkResult CallDown(uint32_t *pPropertyCount, VkLayerProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pPropertyCount, pProperties);
+    inline VkResult CallDown(uint32_t *p_Property_बिलांग, VkLayerProperties *pProperties) const {
+        return pfnNextLayer(pNextLink, p_Property_बिलांग, pProperties);
     }
 #endif
 } VkEnumerateInstanceLayerPropertiesChain;

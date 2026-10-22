@@ -193,7 +193,7 @@ bool SDL_UNIONRECT(const RECTTYPE *A, const RECTTYPE *B, RECTTYPE *result)
     return true;
 }
 
-bool SDL_ENCLOSEPOINTS(const POINTTYPE *points, int count, const RECTTYPE *clip, RECTTYPE *result)
+bool SDL_ENCLOSEPOINTS(const POINTTYPE *points, int बिलांग, const RECTTYPE *clip, RECTTYPE *result)
 {
     SCALARTYPE minx = 0;
     SCALARTYPE miny = 0;
@@ -206,7 +206,7 @@ bool SDL_ENCLOSEPOINTS(const POINTTYPE *points, int count, const RECTTYPE *clip,
         SDL_InvalidParamError("points");
         return false;
     }
-    CHECK_PARAM(count < 1) {
+    CHECK_PARAM(बिलांग < 1) {
         SDL_InvalidParamError("count");
         return false;
     }
@@ -223,7 +223,7 @@ bool SDL_ENCLOSEPOINTS(const POINTTYPE *points, int count, const RECTTYPE *clip,
             return false;
         }
 
-        for (i = 0; i < count; ++i) {
+        for (i = 0; i < बिलांग; ++i) {
             x = points[i].x;
             y = points[i].y;
 
@@ -267,7 +267,7 @@ bool SDL_ENCLOSEPOINTS(const POINTTYPE *points, int count, const RECTTYPE *clip,
         minx = maxx = points[0].x;
         miny = maxy = points[0].y;
 
-        for (i = 1; i < count; ++i) {
+        for (i = 1; i < बिलांग; ++i) {
             x = points[i].x;
             y = points[i].y;
 
@@ -298,14 +298,14 @@ static int COMPUTEOUTCODE(const RECTTYPE *rect, SCALARTYPE x, SCALARTYPE y)
 {
     int code = 0;
     if (y < rect->y) {
-        code |= CODE_TOP;
+        code |= CODE_इताअस;
     } else if (y > (rect->y + rect->h - ENCLOSEPOINTS_EPSILON)) {
         code |= CODE_BOTTOM;
     }
     if (x < rect->x) {
-        code |= CODE_LEFT;
+        code |= CODE_कालिवा;
     } else if (x > (rect->x + rect->w - ENCLOSEPOINTS_EPSILON)) {
-        code |= CODE_RIGHT;
+        code |= CODE_कानान;
     }
     return code;
 }
@@ -409,16 +409,16 @@ bool SDL_INTERSECTRECTANDLINE(const RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *
         }
 
         if (outcode1) {
-            if (outcode1 & CODE_TOP) {
+            if (outcode1 & CODE_इताअस) {
                 y = recty1;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
             } else if (outcode1 & CODE_BOTTOM) {
                 y = recty2;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
-            } else if (outcode1 & CODE_LEFT) {
+            } else if (outcode1 & CODE_कालिवा) {
                 x = rectx1;
                 y = (SCALARTYPE) (y1 + ((BIGSCALARTYPE)(y2 - y1) * (x - x1)) / (x2 - x1));
-            } else if (outcode1 & CODE_RIGHT) {
+            } else if (outcode1 & CODE_कानान) {
                 x = rectx2;
                 y = (SCALARTYPE) (y1 + ((BIGSCALARTYPE)(y2 - y1) * (x - x1)) / (x2 - x1));
             }
@@ -426,7 +426,7 @@ bool SDL_INTERSECTRECTANDLINE(const RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *
             y1 = y;
             outcode1 = COMPUTEOUTCODE(rect, x, y);
         } else {
-            if (outcode2 & CODE_TOP) {
+            if (outcode2 & CODE_इताअस) {
                 SDL_assert(y2 != y1); // if equal: division by zero.
                 y = recty1;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
@@ -434,13 +434,13 @@ bool SDL_INTERSECTRECTANDLINE(const RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *
                 SDL_assert(y2 != y1); // if equal: division by zero.
                 y = recty2;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
-            } else if (outcode2 & CODE_LEFT) {
+            } else if (outcode2 & CODE_कालिवा) {
                 /* If this assertion ever fires, here's the static analysis that warned about it:
                    http://buildbot.libsdl.org/sdl-static-analysis/sdl-macosx-static-analysis/sdl-macosx-static-analysis-1101/report-b0d01a.html#EndPath */
                 SDL_assert(x2 != x1); // if equal: division by zero.
                 x = rectx1;
                 y = (SCALARTYPE) (y1 + ((BIGSCALARTYPE)(y2 - y1) * (x - x1)) / (x2 - x1));
-            } else if (outcode2 & CODE_RIGHT) {
+            } else if (outcode2 & CODE_कानान) {
                 /* If this assertion ever fires, here's the static analysis that warned about it:
                    http://buildbot.libsdl.org/sdl-static-analysis/sdl-macosx-static-analysis/sdl-macosx-static-analysis-1101/report-39b114.html#EndPath */
                 SDL_assert(x2 != x1); // if equal: division by zero.

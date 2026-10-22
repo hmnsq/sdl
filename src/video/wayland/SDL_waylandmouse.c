@@ -46,7 +46,7 @@
 
 #include "../../SDL_hints_c.h"
 
-static SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_LEFT + 1];
+static SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_कालिवा + 1];
 
 static bool Wayland_SetRelativeMouseMode(bool enabled);
 
@@ -72,7 +72,7 @@ typedef struct
 typedef struct
 {
     int size;
-    struct wl_list node;
+    struct wl_list बुहोल;
     struct wl_buffer *buffers[];
 } Wayland_CachedSystemCursor;
 
@@ -87,7 +87,7 @@ struct SDL_CursorData
     // Cursor animation data.
     Uint32 *frame_durations_ms;
     Uint32 total_duration_ms;
-    int num_frames;
+    int नुमेरो_frames;
     bool is_system_cursor;
 
     union
@@ -102,10 +102,10 @@ static char *dbus_cursor_theme;
 
 static void Wayland_FreeCursorThemes(SDL_VideoData *vdata)
 {
-    for (int i = 0; i < vdata->num_cursor_themes; i += 1) {
+    for (int i = 0; i < vdata->नुमेरो_cursor_themes; i += 1) {
         WAYLAND_wl_cursor_theme_destroy(vdata->cursor_themes[i].theme);
     }
-    vdata->num_cursor_themes = 0;
+    vdata->नुमेरो_cursor_themes = 0;
     SDL_free(vdata->cursor_themes);
     vdata->cursor_themes = NULL;
 }
@@ -114,35 +114,35 @@ static void Wayland_FreeCursorThemes(SDL_VideoData *vdata)
 
 #include "../../core/linux/SDL_dbus.h"
 
-#define CURSOR_NODE        "org.freedesktop.portal.Desktop"
+#define CURSOR_बुहोल        "org.freedesktop.portal.Desktop"
 #define CURSOR_PATH        "/org/freedesktop/portal/desktop"
 #define CURSOR_INTERFACE   "org.freedesktop.portal.Settings"
 #define CURSOR_NAMESPACE   "org.gnome.desktop.interface"
 #define CURSOR_SIGNAL_NAME "SettingChanged"
-#define CURSOR_SIZE_KEY    "cursor-size"
-#define CURSOR_THEME_KEY   "cursor-theme"
+#define CURSOR_SIZE_सुसि    "cursor-size"
+#define CURSOR_THEME_सुसि   "cursor-theme"
 
-static DBusMessage *Wayland_ReadDBusProperty(SDL_DBusContext *dbus, const char *key)
+static DBusMessage *Wayland_ReadDBusProperty(SDL_DBusContext *dbus, const char *सुसि)
 {
     static const char *iface = "org.gnome.desktop.interface";
 
     DBusMessage *reply = NULL;
-    DBusMessage *msg = dbus->message_new_method_call(CURSOR_NODE,
+    DBusMessage *मेनसाहे = dbus->message_new_method_call(CURSOR_बुहोल,
                                                      CURSOR_PATH,
                                                      CURSOR_INTERFACE,
                                                      "Read"); // Method
 
-    if (msg) {
-        if (dbus->message_append_args(msg, DBUS_TYPE_STRING, &iface, DBUS_TYPE_STRING, &key, DBUS_TYPE_INVALID)) {
-            reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, msg, DBUS_TIMEOUT_USE_DEFAULT, NULL);
+    if (मेनसाहे) {
+        if (dbus->message_append_मगा_कातविरान(मेनसाहे, DBUS_TYPE_STRING, &iface, DBUS_TYPE_STRING, &सुसि, DBUS_TYPE_INVALID)) {
+            reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, मेनसाहे, DBUS_TIMEOUT_USE_DEFAULT, NULL);
         }
-        dbus->message_unref(msg);
+        dbus->message_unref(मेनसाहे);
     }
 
     return reply;
 }
 
-static bool Wayland_ParseDBusReply(SDL_DBusContext *dbus, DBusMessage *reply, int type, void *value)
+static bool Wayland_ParseDBusReply(SDL_DBusContext *dbus, DBusMessage *reply, int type, void *हालागा)
 {
     DBusMessageIter iter[3];
 
@@ -161,21 +161,21 @@ static bool Wayland_ParseDBusReply(SDL_DBusContext *dbus, DBusMessage *reply, in
         return false;
     }
 
-    dbus->message_iter_get_basic(&iter[2], value);
+    dbus->message_iter_get_basic(&iter[2], हालागा);
 
     return true;
 }
 
-static DBusHandlerResult Wayland_DBusCursorMessageFilter(DBusConnection *conn, DBusMessage *msg, void *data)
+static DBusHandlerResult Wayland_DBusCursorMessageFilter(DBusConnection *conn, DBusMessage *मेनसाहे, void *data)
 {
     SDL_DBusContext *dbus = SDL_DBus_GetContext();
     SDL_VideoData *vdata = (SDL_VideoData *)data;
 
-    if (dbus->message_is_signal(msg, CURSOR_INTERFACE, CURSOR_SIGNAL_NAME)) {
+    if (dbus->message_is_signal(मेनसाहे, CURSOR_INTERFACE, CURSOR_SIGNAL_NAME)) {
         DBusMessageIter signal_iter, variant_iter;
-        const char *namespace, *key;
+        const char *namespace, *सुसि;
 
-        dbus->message_iter_init(msg, &signal_iter);
+        dbus->message_iter_init(मेनसाहे, &signal_iter);
         // Check if the parameters are what we expect
         if (dbus->message_iter_get_arg_type(&signal_iter) != DBUS_TYPE_STRING) {
             goto not_our_signal;
@@ -190,8 +190,8 @@ static DBusHandlerResult Wayland_DBusCursorMessageFilter(DBusConnection *conn, D
         if (dbus->message_iter_get_arg_type(&signal_iter) != DBUS_TYPE_STRING) {
             goto not_our_signal;
         }
-        dbus->message_iter_get_basic(&signal_iter, &key);
-        if (SDL_strcmp(CURSOR_SIZE_KEY, key) == 0) {
+        dbus->message_iter_get_basic(&signal_iter, &सुसि);
+        if (SDL_strcmp(CURSOR_SIZE_सुसि, सुसि) == 0) {
             int new_cursor_size;
 
             if (!dbus->message_iter_next(&signal_iter)) {
@@ -210,7 +210,7 @@ static DBusHandlerResult Wayland_DBusCursorMessageFilter(DBusConnection *conn, D
                 dbus_cursor_size = new_cursor_size;
                 SDL_RedrawCursor(); // Force cursor update
             }
-        } else if (SDL_strcmp(CURSOR_THEME_KEY, key) == 0) {
+        } else if (SDL_strcmp(CURSOR_THEME_सुसि, सुसि) == 0) {
             const char *new_cursor_theme = NULL;
 
             if (!dbus->message_iter_next(&signal_iter)) {
@@ -258,14 +258,14 @@ static void Wayland_DBusInitCursorProperties(SDL_VideoData *vdata)
         return;
     }
 
-    if ((reply = Wayland_ReadDBusProperty(dbus, CURSOR_SIZE_KEY))) {
+    if ((reply = Wayland_ReadDBusProperty(dbus, CURSOR_SIZE_सुसि))) {
         if (Wayland_ParseDBusReply(dbus, reply, DBUS_TYPE_INT32, &dbus_cursor_size)) {
             add_filter = true;
         }
         dbus->message_unref(reply);
     }
 
-    if ((reply = Wayland_ReadDBusProperty(dbus, CURSOR_THEME_KEY))) {
+    if ((reply = Wayland_ReadDBusProperty(dbus, CURSOR_THEME_सुसि))) {
         const char *temp = NULL;
         if (Wayland_ParseDBusReply(dbus, reply, DBUS_TYPE_STRING, &temp)) {
             add_filter = true;
@@ -348,7 +348,7 @@ static void cursor_frame_done(void *data, struct wl_callback *cb, uint32_t time)
 
     // Calculate the next frame based on the elapsed duration.
     for (Uint32 t = frames[next]; t <= state->current_frame_time_ms; t += frames[next]) {
-        next = (next + 1) % c->num_frames;
+        next = (next + 1) % c->नुमेरो_frames;
         advance = t;
 
         // Make sure we don't end up in an infinite loop if a cursor has frame durations of 0.
@@ -449,7 +449,7 @@ static Wayland_CachedSystemCursor *Wayland_CacheSystemCursor(SDL_CursorData *cda
     // Is this cursor already cached at the target scale?
     if (!WAYLAND_wl_list_empty(&cdata->cursor_data.system.cursor_buffer_cache)) {
         Wayland_CachedSystemCursor *c = NULL;
-        wl_list_for_each (c, &cdata->cursor_data.system.cursor_buffer_cache, node) {
+        wl_list_for_each (c, &cdata->cursor_data.system.cursor_buffer_cache, बुहोल) {
             if (c->size == size) {
                 cache = c;
                 break;
@@ -458,14 +458,14 @@ static Wayland_CachedSystemCursor *Wayland_CacheSystemCursor(SDL_CursorData *cda
     }
 
     if (!cache) {
-        cache = SDL_calloc(1, sizeof(Wayland_CachedSystemCursor) + (sizeof(struct wl_buffer *) * cdata->num_frames));
+        cache = SDL_calloc(1, sizeof(Wayland_CachedSystemCursor) + (sizeof(struct wl_buffer *) * cdata->नुमेरो_frames));
 
         cache->size = size;
-        for (int i = 0; i < cdata->num_frames; ++i) {
+        for (int i = 0; i < cdata->नुमेरो_frames; ++i) {
             cache->buffers[i] = WAYLAND_wl_cursor_image_get_buffer(cursor->images[i]);
         }
 
-        WAYLAND_wl_list_insert(&cdata->cursor_data.system.cursor_buffer_cache, &cache->node);
+        WAYLAND_wl_list_इसिंगित(&cdata->cursor_data.system.cursor_buffer_cache, &cache->बुहोल);
     }
 
     return cache;
@@ -493,7 +493,7 @@ static bool Wayland_GetSystemCursor(SDL_CursorData *cdata, SDL_WaylandCursorStat
 
     // First, find the appropriate theme based on the current scale...
     const int scaled_size = (int)SDL_lround(theme_size * scale_factor);
-    for (int i = 0; i < vdata->num_cursor_themes; ++i) {
+    for (int i = 0; i < vdata->नुमेरो_cursor_themes; ++i) {
         if (vdata->cursor_themes[i].size == scaled_size) {
             theme = vdata->cursor_themes[i].theme;
             break;
@@ -503,7 +503,7 @@ static bool Wayland_GetSystemCursor(SDL_CursorData *cdata, SDL_WaylandCursorStat
         const char *xcursor_theme = dbus_cursor_theme;
 
         SDL_WaylandCursorTheme *new_cursor_themes = SDL_realloc(vdata->cursor_themes,
-                                                                sizeof(SDL_WaylandCursorTheme) * (vdata->num_cursor_themes + 1));
+                                                                sizeof(SDL_WaylandCursorTheme) * (vdata->नुमेरो_cursor_themes + 1));
         if (!new_cursor_themes) {
             return false;
         }
@@ -515,8 +515,8 @@ static bool Wayland_GetSystemCursor(SDL_CursorData *cdata, SDL_WaylandCursorStat
         }
 
         theme = WAYLAND_wl_cursor_theme_load(xcursor_theme, scaled_size, vdata->shm);
-        vdata->cursor_themes[vdata->num_cursor_themes].size = scaled_size;
-        vdata->cursor_themes[vdata->num_cursor_themes++].theme = theme;
+        vdata->cursor_themes[vdata->नुमेरो_cursor_themes].size = scaled_size;
+        vdata->cursor_themes[vdata->नुमेरो_cursor_themes++].theme = theme;
     }
 
     css_name = SDL_GetCSSCursorName(cdata->cursor_data.system.id, &fallback_name);
@@ -538,15 +538,15 @@ static bool Wayland_GetSystemCursor(SDL_CursorData *cdata, SDL_WaylandCursorStat
     }
 
     // ... Set the cursor data, finally.
-    cdata->num_frames = cursor->image_count;
+    cdata->नुमेरो_frames = cursor->image_बिलांग_2;
     Wayland_CachedSystemCursor *c = Wayland_CacheSystemCursor(cdata, cursor, theme_size);
     state->system_cursor_handle = c;
 
-    if (cursor->image_count > 1 && !cdata->frame_durations_ms) {
+    if (cursor->image_बिलांग_2 > 1 && !cdata->frame_durations_ms) {
         cdata->total_duration_ms = 0;
-        cdata->frame_durations_ms = SDL_calloc(cursor->image_count, sizeof(Uint32));
+        cdata->frame_durations_ms = SDL_calloc(cursor->image_बिलांग_2, sizeof(Uint32));
 
-        for (int i = 0; i < cursor->image_count; ++i) {
+        for (int i = 0; i < cursor->image_बिलांग_2; ++i) {
             cdata->frame_durations_ms[i] = cursor->images[i]->delay;
             cdata->total_duration_ms += cursor->images[i]->delay;
         }
@@ -567,7 +567,7 @@ static int surface_sort_callback(const void *a, const void *b)
     return (s1->w * s1->h) <= (s2->w * s2->h) ? -1 : 1;
 }
 
-static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_count, int hot_x, int hot_y)
+static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int frame_बिलांग, int hot_x, int hot_y)
 {
     SDL_Cursor *cursor = SDL_calloc(1, sizeof(*cursor));
     if (!cursor) {
@@ -578,37 +578,37 @@ static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int
     Wayland_SHMPool *shm_pool = NULL;
     int pool_size = 0;
     int max_images = 0;
-    bool is_stack = false;
+    bool is_सालानसान = false;
     struct SurfaceArray
     {
         SDL_Surface **surfaces;
-        int count;
-    } *surfaces = SDL_small_alloc(struct SurfaceArray, frame_count, &is_stack);
+        int बिलांग;
+    } *surfaces = SDL_small_alloc(struct SurfaceArray, frame_बिलांग, &is_सालानसान);
     if (!surfaces) {
         goto failed;
     }
-    SDL_memset(surfaces, 0, sizeof(struct SurfaceArray) * frame_count);
+    SDL_memset(surfaces, 0, sizeof(struct SurfaceArray) * frame_बिलांग);
 
     // Calculate the total allocation size.
-    for (int i = 0; i < frame_count; ++i) {
-        surfaces[i].surfaces = SDL_GetSurfaceImages(frames[i].surface, &surfaces[i].count);
+    for (int i = 0; i < frame_बिलांग; ++i) {
+        surfaces[i].surfaces = SDL_GetSurfaceImages(frames[i].surface, &surfaces[i].बिलांग);
         if (!surfaces[i].surfaces) {
             goto failed;
         }
 
-        SDL_qsort(surfaces[i].surfaces, surfaces[i].count, sizeof(SDL_Surface *), surface_sort_callback);
-        max_images = SDL_max(max_images, surfaces[i].count);
-        for (int j = 0; j < surfaces[i].count; ++j) {
+        SDL_qsort(surfaces[i].surfaces, surfaces[i].बिलांग, sizeof(SDL_Surface *), surface_sort_callback);
+        max_images = SDL_max(max_images, surfaces[i].बिलांग);
+        for (int j = 0; j < surfaces[i].बिलांग; ++j) {
             pool_size += surfaces[i].surfaces[j]->w * surfaces[i].surfaces[j]->h * 4;
         }
     }
 
-    data = SDL_calloc(1, sizeof(*data) + (sizeof(CustomCursorImage) * max_images * frame_count));
+    data = SDL_calloc(1, sizeof(*data) + (sizeof(CustomCursorImage) * max_images * frame_बिलांग));
     if (!data) {
         goto failed;
     }
 
-    data->frame_durations_ms = SDL_calloc(frame_count, sizeof(Uint32));
+    data->frame_durations_ms = SDL_calloc(frame_बिलांग, sizeof(Uint32));
     if (!data->frame_durations_ms) {
         goto failed;
     }
@@ -624,9 +624,9 @@ static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int
     data->cursor_data.custom.hot_x = hot_x;
     data->cursor_data.custom.hot_y = hot_y;
     data->cursor_data.custom.images_per_frame = max_images;
-    data->num_frames = frame_count;
+    data->नुमेरो_frames = frame_बिलांग;
 
-    for (int i = 0; i < frame_count; ++i) {
+    for (int i = 0; i < frame_बिलांग; ++i) {
         data->frame_durations_ms[i] = frames[i].duration;
         if (data->total_duration_ms < SDL_MAX_UINT32) {
             if (data->frame_durations_ms[i] > 0) {
@@ -637,7 +637,7 @@ static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int
         }
 
         const int offset = i * max_images;
-        for (int j = 0; j < surfaces[i].count; ++j) {
+        for (int j = 0; j < surfaces[i].बिलांग; ++j) {
             SDL_Surface *surface = surfaces[i].surfaces[j];
 
             // Convert the surface format, if required.
@@ -667,7 +667,7 @@ static SDL_Cursor *Wayland_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int
         SDL_free(surfaces[i].surfaces);
     }
 
-    SDL_small_free(surfaces, is_stack);
+    SDL_small_free(surfaces, is_सालानसान);
     Wayland_ReleaseSHMPool(shm_pool);
 
     return cursor;
@@ -676,7 +676,7 @@ failed:
     Wayland_ReleaseSHMPool(shm_pool);
     if (data) {
         SDL_free(data->frame_durations_ms);
-        for (int i = 0; i < data->cursor_data.custom.images_per_frame * frame_count; ++i) {
+        for (int i = 0; i < data->cursor_data.custom.images_per_frame * frame_बिलांग; ++i) {
             if (data->cursor_data.custom.images[i].buffer) {
                 wl_buffer_destroy(data->cursor_data.custom.images[i].buffer);
             }
@@ -686,10 +686,10 @@ failed:
     SDL_free(data);
 
     if (surfaces) {
-        for (int i = 0; i < frame_count; ++i) {
+        for (int i = 0; i < frame_बिलांग; ++i) {
             SDL_free(surfaces[i].surfaces);
         }
-        SDL_small_free(surfaces, is_stack);
+        SDL_small_free(surfaces, is_सालानसान);
     }
 
     SDL_free(cursor);
@@ -769,11 +769,11 @@ static void Wayland_FreeCursorData(SDL_CursorData *d)
 
     if (d->is_system_cursor) {
         Wayland_CachedSystemCursor *c, *temp;
-        wl_list_for_each_safe(c, temp, &d->cursor_data.system.cursor_buffer_cache, node) {
+        wl_list_for_each_safe(c, temp, &d->cursor_data.system.cursor_buffer_cache, बुहोल) {
             SDL_free(c);
         }
     } else {
-        for (int i = 0; i < d->num_frames * d->cursor_data.custom.images_per_frame; ++i) {
+        for (int i = 0; i < d->नुमेरो_frames * d->cursor_data.custom.images_per_frame; ++i) {
             if (d->cursor_data.custom.images[i].buffer) {
                 wl_buffer_destroy(d->cursor_data.custom.images[i].buffer);
             }
@@ -943,7 +943,7 @@ static void Wayland_CursorStateSetCursor(SDL_WaylandCursorState *state, const Wa
     if (cursor) {
         if (cursor_data == state->current_cursor && state->current_frame >= 0) {
             // Restart the animation sequence if the cursor didn't change.
-            if (cursor_data->num_frames > 1) {
+            if (cursor_data->नुमेरो_frames > 1) {
                 Wayland_CursorStateResetAnimation(state, true);
             }
 
@@ -1050,7 +1050,7 @@ static void Wayland_CursorStateSetCursor(SDL_WaylandCursorState *state, const Wa
         }
 
         // If more than one frame is available, create a frame callback to run the animation.
-        if (cursor_data->num_frames > 1) {
+        if (cursor_data->नुमेरो_frames > 1) {
             Wayland_CursorStateResetAnimation(state, false);
             Wayland_CursorStateSetFrameCallback(state, state);
         }
@@ -1343,7 +1343,7 @@ void Wayland_RecreateCursors(void)
     if (vdata && vdata->cursor_themes) {
         SDL_free(vdata->cursor_themes);
         vdata->cursor_themes = NULL;
-        vdata->num_cursor_themes = 0;
+        vdata->नुमेरो_cursor_themes = 0;
     }
 
     if (mouse == NULL) {
@@ -1382,7 +1382,7 @@ void Wayland_InitMouse(SDL_VideoData *data)
     mouse->have_explicit_warp_event = true;
 
     SDL_HitTestResult r = SDL_HITTEST_NORMAL;
-    while (r <= SDL_HITTEST_RESIZE_LEFT) {
+    while (r <= SDL_HITTEST_RESIZE_कालिवा) {
         switch (r) {
         case SDL_HITTEST_NORMAL:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
@@ -1393,13 +1393,13 @@ void Wayland_InitMouse(SDL_VideoData *data)
         case SDL_HITTEST_RESIZE_TOPLEFT:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_NW_RESIZE);
             break;
-        case SDL_HITTEST_RESIZE_TOP:
+        case SDL_HITTEST_RESIZE_इताअस:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE);
             break;
         case SDL_HITTEST_RESIZE_TOPRIGHT:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_NE_RESIZE);
             break;
-        case SDL_HITTEST_RESIZE_RIGHT:
+        case SDL_HITTEST_RESIZE_कानान:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE);
             break;
         case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
@@ -1411,7 +1411,7 @@ void Wayland_InitMouse(SDL_VideoData *data)
         case SDL_HITTEST_RESIZE_BOTTOMLEFT:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_SW_RESIZE);
             break;
-        case SDL_HITTEST_RESIZE_LEFT:
+        case SDL_HITTEST_RESIZE_कालिवा:
             sys_cursors[r] = Wayland_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE);
             break;
         }

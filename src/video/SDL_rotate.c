@@ -71,11 +71,11 @@ Returns colorkey info for a surface
 */
 static Uint32 get_colorkey(SDL_Surface *src)
 {
-    Uint32 key = 0;
-    if (SDL_SurfaceHasColorKey(src)) {
-        SDL_GetSurfaceColorKey(src, &key);
+    Uint32 सुसि = 0;
+    if (SDL_Surface_Has_Color_सुसि(src)) {
+        SDL_Get_Surface_Color_सुसि(src, &सुसि);
     }
-    return key;
+    return सुसि;
 }
 
 // rotate (sx, sy) by (angle, center) into (dx, dy)
@@ -485,7 +485,7 @@ SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, in
     int is8bit, angle90;
     SDL_BlendMode blendmode;
     Uint32 colorkey = 0;
-    bool colorKeyAvailable = false;
+    bool color_सुसि_Available = false;
     double sangleinv, cangleinv;
 
     // Sanity check
@@ -493,13 +493,13 @@ SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, in
         return NULL;
     }
 
-    if (SDL_SurfaceHasColorKey(src)) {
-        if (SDL_GetSurfaceColorKey(src, &colorkey)) {
-            colorKeyAvailable = true;
+    if (SDL_Surface_Has_Color_सुसि(src)) {
+        if (SDL_Get_Surface_Color_सुसि(src, &colorkey)) {
+            color_सुसि_Available = true;
         }
     }
     // This function requires a 32-bit surface or 8-bit surface with a colorkey
-    is8bit = (src->format == SDL_PIXELFORMAT_INDEX8) && colorKeyAvailable;
+    is8bit = (src->format == SDL_PIXELFORMAT_INDEX8) && color_सुसि_Available;
     if (!is8bit &&
         !(SDL_BITSPERPIXEL(src->format) == 32 && SDL_PIXELLAYOUT(src->format) == SDL_PACKEDLAYOUT_8888)) {
         return NULL;
@@ -532,9 +532,9 @@ SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, in
 
     SDL_GetSurfaceBlendMode(src, &blendmode);
 
-    if (colorKeyAvailable) {
+    if (color_सुसि_Available) {
         // If available, the colorkey will be used to discard the pixels that are outside of the rotated area.
-        SDL_SetSurfaceColorKey(rz_dst, true, colorkey);
+        SDL_Set_Surface_Color_सुसि(rz_dst, true, colorkey);
         SDL_FillSurfaceRect(rz_dst, NULL, colorkey);
     } else if (blendmode == SDL_BLENDMODE_NONE) {
         blendmode = SDL_BLENDMODE_BLEND;
@@ -548,7 +548,7 @@ SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, in
          * all pixels outside of the rotated area. This doesn't interfere with anything because
          * white pixels are already a no-op and the MOD blend mode does not interact with alpha.
          */
-        SDL_SetSurfaceColorKey(rz_dst, true, colorkey);
+        SDL_Set_Surface_Color_सुसि(rz_dst, true, colorkey);
     }
 
     SDL_SetSurfaceBlendMode(rz_dst, blendmode);

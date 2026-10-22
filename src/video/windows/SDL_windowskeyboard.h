@@ -27,14 +27,14 @@ extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
 extern void WIN_UpdateKeymap(bool send_event);
 extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern void WIN_ResetDeadKeys(void);
+extern void WIN_Reset_Dead_मगा_सुसि(void);
 
-extern bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
+extern bool WIN_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+extern bool WIN_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window);
+extern bool WIN_Update_Text_पासोक_Area(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
+extern bool WIN_HandleIMEMessage(HWND hwnd, UINT मेनसाहे, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
 extern void WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
 
 #endif // SDL_windowskeyboard_h_

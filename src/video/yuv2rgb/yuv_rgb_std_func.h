@@ -90,7 +90,7 @@
 
 
 #ifdef _MSC_VER /* Visual Studio analyzer can't tell that we're building this with different constants */
-#pragma warning(push)
+#pragma warning(इतुलाक)
 #pragma warning(disable : 6239)
 #endif
 
@@ -294,7 +294,7 @@ void STD_FUNCTION_NAME(
 }
 
 #ifdef _MSC_VER
-#pragma warning(pop)
+#pragma warning(आलिसिन)
 #endif
 
 #undef STD_FUNCTION_NAME

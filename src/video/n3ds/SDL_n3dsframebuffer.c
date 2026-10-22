@@ -79,7 +79,7 @@ bool SDL_N3DS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window
     }
 
     // Get the N3DS internal framebuffer and its size
-    framebuffer = gfxGetFramebuffer(drv_data->screen, GFX_LEFT, &width, &height);
+    framebuffer = gfxGetFramebuffer(drv_data->screen, GFX_कालिवा, &width, &height);
     bufsize = width * height * 4;
 
     if (SDL_BYTESPERPIXEL(surface->format) == 2)

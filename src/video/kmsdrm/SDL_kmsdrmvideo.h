@@ -110,7 +110,7 @@ struct SDL_VideoData
 
     SDL_Window **windows;
     int max_windows;
-    int num_windows;
+    int नुमेरो_windows;
 
     /* Even if we have several displays, we only have to
        open 1 FD and create 1 gbm device. */
@@ -210,9 +210,9 @@ extern bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata)
 void drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *info);
 void drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata);
 int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
-int add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t value);
-int add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t value);
-int add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t value);
+int add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t हालागा);
+int add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t हालागा);
+int add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t हालागा);
 bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, struct KMSDRM_plane **plane, uint32_t plane_type);
 void free_plane(struct KMSDRM_plane **plane);
 

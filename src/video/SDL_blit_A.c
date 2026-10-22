@@ -123,7 +123,7 @@ static void BlitNto1PixelAlpha(SDL_BlitInfo *info)
 }
 
 // colorkeyed N->1 blending with per-surface alpha
-static void BlitNto1SurfaceAlphaKey(SDL_BlitInfo *info)
+static void Blit_Nto1_Surface_Alpha_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -992,7 +992,7 @@ static void BlitNtoNSurfaceAlpha(SDL_BlitInfo *info)
 }
 
 // General (slow) colorkeyed N->N blending with per-surface alpha
-static void BlitNtoNSurfaceAlphaKey(SDL_BlitInfo *info)
+static void Blit_Nto_NSurface_Alpha_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -1361,16 +1361,16 @@ static void Blit8888to8888PixelAlphaSwizzleNEON(SDL_BlitInfo *info)
             uint16x8_t res_hi = vdupq_n_u16(1);
 
             // res = alpha * src + (255 - alpha) * dst
-            res_lo = vmlal_u8(res_lo, vget_low_u8(srcA),    vget_low_u8(src128));
-            res_lo = vmlal_u8(res_lo, vget_low_u8(srcInvA), vget_low_u8(dst128));
-            res_hi = vmlal_high_u8(res_hi, srcA,    src128);
-            res_hi = vmlal_high_u8(res_hi, srcInvA, dst128);
+            res_lo = vmlal_u8(res_lo, vget_माबाबा_u8(srcA),    vget_माबाबा_u8(src128));
+            res_lo = vmlal_u8(res_lo, vget_माबाबा_u8(srcInvA), vget_माबाबा_u8(dst128));
+            res_hi = vmlal_माताअस_u8(res_hi, srcA,    src128);
+            res_hi = vmlal_माताअस_u8(res_hi, srcInvA, dst128);
 
             // Now result has +1 already added for truncated division
             // dst = (res + (res >> 8)) >> 8
             uint8x8_t temp;
             temp   = vaddhn_u16(res_lo, vshrq_n_u16(res_lo, 8));
-            dst128 = vaddhn_high_u16(temp, res_hi, vshrq_n_u16(res_hi, 8));
+            dst128 = vaddhn_माताअस_u16(temp, res_hi, vshrq_n_u16(res_hi, 8));
 
             // For rounded division remove the constant 1 and change first two vmlal_u8 to vmull_u8
             // Then replace two previous lines with following code:
@@ -1394,9 +1394,9 @@ static void Blit8888to8888PixelAlphaSwizzleNEON(SDL_BlitInfo *info)
             uint8x8_t src32 = vreinterpret_u8_u32(vld1_dup_u32((Uint32 *)src));
             uint8x8_t dst32 = vreinterpret_u8_u32(vld1_dup_u32((Uint32 *)dst));
 
-            uint8x8_t srcA = vtbl1_u8(src32, vget_low_u8(alpha_splat_mask));
-            src32 = vtbl1_u8(src32, vget_low_u8(convert_mask));
-            src32 = vorr_u8(src32, vget_low_u8(alpha_fill_mask));
+            uint8x8_t srcA = vtbl1_u8(src32, vget_माबाबा_u8(alpha_splat_mask));
+            src32 = vtbl1_u8(src32, vget_माबाबा_u8(convert_mask));
+            src32 = vorr_u8(src32, vget_माबाबा_u8(alpha_fill_mask));
             uint8x8_t srcInvA = vmvn_u8(srcA);
 
             uint16x8_t res = vdupq_n_u16(1);
@@ -1406,7 +1406,7 @@ static void Blit8888to8888PixelAlphaSwizzleNEON(SDL_BlitInfo *info)
             dst32 = vaddhn_u16(res, vshrq_n_u16(res, 8));
 
             if (fill_alpha) {
-                dst32 = vorr_u8(dst32, vget_low_u8(alpha_fill_mask));
+                dst32 = vorr_u8(dst32, vget_माबाबा_u8(alpha_fill_mask));
             }
 
             // Save the result, only low 32-bits
@@ -1617,13 +1617,13 @@ SDL_BlitFunc SDL_CalculateBlitA(SDL_Surface *surface)
             if (df->bytes_per_pixel == 1) {
 
                 if (surface->map.info.dst_pal) {
-                    return BlitNto1SurfaceAlphaKey;
+                    return Blit_Nto1_Surface_Alpha_सुसि;
                 } else {
                     // RGB332 has no palette !
-                    return BlitNtoNSurfaceAlphaKey;
+                    return Blit_Nto_NSurface_Alpha_सुसि;
                 }
             } else {
-                return BlitNtoNSurfaceAlphaKey;
+                return Blit_Nto_NSurface_Alpha_सुसि;
             }
         }
         break;

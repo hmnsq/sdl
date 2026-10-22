@@ -30,14 +30,14 @@
 
 void N3DS_PumpEvents(SDL_VideoDevice *_this)
 {
-    hidScanInput();
+    hid_Scan_पासोक();
     N3DS_PollTouch(_this);
 
     if (!aptMainLoop()) {
         SDL_Event ev;
         ev.type = SDL_EVENT_QUIT;
         ev.common.timestamp = 0;
-        SDL_PushEvent(&ev);
+        SDL_इतुलाक_Event(&ev);
         return;
     }
 }

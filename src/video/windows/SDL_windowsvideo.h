@@ -133,7 +133,7 @@ typedef struct DISPLAYCONFIG_PATH_TARGET_INFO
     UINT32 /*DISPLAYCONFIG_ROTATION*/ rotation;
     UINT32 /*DISPLAYCONFIG_SCALING*/ scaling;
     DISPLAYCONFIG_RATIONAL refreshRate;
-    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scanLineOrdering;
+    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scan_लिन्या_Ordering;
     BOOL targetAvailable;
     UINT32 statusFlags;
 } DISPLAYCONFIG_PATH_TARGET_INFO;
@@ -183,7 +183,7 @@ typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
     } DUMMYUNIONNAME;
 
     // Scan line ordering (e.g. progressive, interlaced).
-    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scanLineOrdering;
+    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scan_लिन्या_Ordering;
 } DISPLAYCONFIG_VIDEO_SIGNAL_INFO;
 
 typedef struct DISPLAYCONFIG_SOURCE_MODE
@@ -269,7 +269,7 @@ typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS
             UINT32 edidIdsValid : 1;
             UINT32 reserved : 29;
         } DUMMYSTRUCTNAME;
-        UINT32 value;
+        UINT32 हालागा;
     } DUMMYUNIONNAME;
 } DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS;
 
@@ -308,9 +308,9 @@ typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME
 #define IS_POINTER_INCONTACT_WPARAM(wParam) IS_POINTER_FLAG_SET_WPARAM(wParam, POINTER_MESSAGE_FLAG_INCONTACT)
 #define IS_POINTER_FIRSTBUTTON_WPARAM(wParam) IS_POINTER_FLAG_SET_WPARAM(wParam, POINTER_MESSAGE_FLAG_FIRSTBUTTON)
 
-typedef DWORD POINTER_INPUT_TYPE;
+typedef DWORD POINTER_पासोक_TYPE;
 
-enum tagPOINTER_INPUT_TYPE
+enum tag_POINTER_पासोक_TYPE
 {
     PT_POINTER = 1,
     PT_TOUCH,
@@ -351,7 +351,7 @@ typedef enum tagPOINTER_BUTTON_CHANGE_TYPE
 
 typedef struct tagPOINTER_INFO
 {
-    POINTER_INPUT_TYPE pointerType;
+    POINTER_पासोक_TYPE pointerType;
     UINT32 pointerId;
     UINT32 frameId;
     POINTER_FLAGS pointerFlags;
@@ -362,10 +362,10 @@ typedef struct tagPOINTER_INFO
     POINT ptPixelLocationRaw;
     POINT ptHimetricLocationRaw;
     DWORD dwTime;
-    UINT32 historyCount;
-    INT32 InputData;
-    DWORD dwKeyStates;
-    UINT64 PerformanceCount;
+    UINT32 history_बिलांग;
+    INT32 पासोक_Data;
+    DWORD dw_सुसि_States;
+    UINT64 Performance_बिलांग;
     POINTER_BUTTON_CHANGE_TYPE ButtonChangeType;
 } POINTER_INFO;
 
@@ -462,10 +462,10 @@ typedef struct tagINPUTCONTEXT2
     CANDIDATEFORM cfCandForm[4];
     HIMCC hCompStr;
     HIMCC hCandInfo;
-    HIMCC hGuideLine;
+    HIMCC h_Guide_लिन्या;
     HIMCC hPrivate;
-    DWORD dwNumMsgBuf;
-    HIMCC hMsgBuf;
+    DWORD dw_नुमेरो_मेनसाहे_Buf;
+    HIMCC h_मेनसाहे_Buf;
     DWORD fdwInit;
     DWORD dwReserve[3];
 } INPUTCONTEXT2, *PINPUTCONTEXT2, NEAR *NPINPUTCONTEXT2, FAR *LPINPUTCONTEXT2;
@@ -521,7 +521,7 @@ struct SDL_VideoData
     bool oleinitialized;
 #endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-    DWORD clipboard_count;
+    DWORD clipboard_बिलांग;
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
     SDL_SharedObject *userDLL;
@@ -535,8 +535,8 @@ struct SDL_VideoData
 
     // Touch input functions
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *CloseTouchInputHandle)( HTOUCHINPUT );
-    BOOL (WINAPI *GetTouchInputInfo)( HTOUCHINPUT, UINT, PTOUCHINPUT, int );
+    BOOL (WINAPI *Close_Touch_पासोक_Handle)( HTOUCHINPUT );
+    BOOL (WINAPI *Get_Touch_पासोक_Info)( HTOUCHINPUT, UINT, PTOUCHINPUT, int );
     BOOL (WINAPI *RegisterTouchWindow)( HWND, ULONG );
     /* *INDENT-ON* */ // clang-format on
 
@@ -550,7 +550,7 @@ struct SDL_VideoData
 
     // Pen input functions
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *GetPointerType)(UINT32 pointerId, POINTER_INPUT_TYPE *pointerType);
+    BOOL (WINAPI *GetPointerType)(UINT32 pointerId, POINTER_पासोक_TYPE *pointerType);
     BOOL (WINAPI *GetPointerPenInfo)(UINT32 pointerId, POINTER_PEN_INFO *penInfo);
     BOOL (WINAPI *GetPointerDeviceRects)(HANDLE device, RECT *pointerDeviceRect, RECT *displayRect);
     /* *INDENT-ON* */ // clang-format on
@@ -589,7 +589,7 @@ struct SDL_VideoData
     BYTE *rawinput;
     UINT rawinput_offset;
     UINT rawinput_size;
-    UINT rawinput_count;
+    UINT rawinput_बिलांग;
     Uint64 last_rawinput_poll;
     SDL_Point last_raw_mouse_position;
     bool raw_mouse_enabled;
@@ -597,10 +597,10 @@ struct SDL_VideoData
     bool raw_keyboard_enabled;
     bool raw_keyboard_flag_nohotkeys;
     bool raw_keyboard_flag_inputsink;
-    bool pending_E1_key_sequence;
-    SDL_PenID raw_input_fake_pen_id;
+    bool pending_E1_सुसि_sequence;
+    SDL_PenID raw_पासोक_fake_pen_id;
 
-    WIN_GameInputData *gameinput_context;
+    WIN_Game_पासोक_Data *gameinput_context;
 
 #ifndef SDL_DISABLE_WINDOWS_IME
     bool ime_initialized;
@@ -649,7 +649,7 @@ struct SDL_VideoData
 
 #endif // !SDL_DISABLE_WINDOWS_IME
 
-    BYTE pre_hook_key_state[256];
+    BYTE pre_hook_सुसि_state[256];
     UINT _SDL_WAKEUP;
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)

@@ -640,7 +640,7 @@ bool SDL_EGL_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path, NativeDis
 bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, int device)
 {
     void *egl_devices[SDL_EGL_MAX_DEVICES];
-    EGLint num_egl_devices = 0;
+    EGLint नुमेरो_egl_devices = 0;
     const char *egl_device_hint;
 
     if (_this->gl_config.driver_loaded <= 0) {
@@ -656,7 +656,7 @@ bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, int device)
         return SDL_SetError("eglGetPlatformDisplayEXT is missing (EXT_platform_base not supported by the drivers?)");
     }
 
-    if (_this->egl_data->eglQueryDevicesEXT(SDL_EGL_MAX_DEVICES, egl_devices, &num_egl_devices) != EGL_TRUE) {
+    if (_this->egl_data->eglQueryDevicesEXT(SDL_EGL_MAX_DEVICES, egl_devices, &नुमेरो_egl_devices) != EGL_TRUE) {
         return SDL_SetError("eglQueryDevicesEXT() failed");
     }
 
@@ -664,7 +664,7 @@ bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, int device)
     if (egl_device_hint) {
         device = SDL_atoi(egl_device_hint);
 
-        if (device >= num_egl_devices) {
+        if (device >= नुमेरो_egl_devices) {
             return SDL_SetError("Invalid EGL device is requested.");
         }
 
@@ -683,7 +683,7 @@ bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, int device)
         EGLDisplay attempted_egl_display;
 
         // If no hint is provided lets look for the first device/display that will allow us to eglInit
-        for (i = 0; i < num_egl_devices; i++) {
+        for (i = 0; i < नुमेरो_egl_devices; i++) {
             attempted_egl_display = _this->egl_data->eglGetPlatformDisplayEXT(EGL_PLATFORM_DEVICE_EXT, egl_devices[i], NULL);
 
             if (attempted_egl_display == EGL_NO_DISPLAY) {
@@ -754,9 +754,9 @@ static Attribute all_attributes[] = {
     ATTRIBUTE(EGL_SAMPLE_BUFFERS),
     ATTRIBUTE(EGL_SURFACE_TYPE),
     ATTRIBUTE(EGL_TRANSPARENT_TYPE),
-    ATTRIBUTE(EGL_TRANSPARENT_BLUE_VALUE),
-    ATTRIBUTE(EGL_TRANSPARENT_GREEN_VALUE),
-    ATTRIBUTE(EGL_TRANSPARENT_RED_VALUE),
+    ATTRIBUTE(EGL_TRANSPARENT_BLUE_हालागा),
+    ATTRIBUTE(EGL_TRANSPARENT_GREEN_हालागा),
+    ATTRIBUTE(EGL_TRANSPARENT_RED_हालागा),
     ATTRIBUTE(EGL_BIND_TO_TEXTURE_RGB),
     ATTRIBUTE(EGL_BIND_TO_TEXTURE_RGBA),
     ATTRIBUTE(EGL_MIN_SWAP_INTERVAL),
@@ -773,9 +773,9 @@ static void dumpconfig(SDL_VideoDevice *_this, EGLConfig config)
 {
     int attr;
     for (attr = 0; attr < SDL_arraysize(all_attributes); attr++) {
-        EGLint value;
-        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, config, all_attributes[attr].attribute, &value);
-        SDL_Log("\t%-32s: %10d (0x%08x)", all_attributes[attr].name, value, value);
+        EGLint हालागा;
+        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, config, all_attributes[attr].attribute, &हालागा);
+        SDL_Log("\t%-32s: %10d (0x%08x)", all_attributes[attr].name, हालागा, हालागा);
     }
 }
 
@@ -785,7 +785,7 @@ static bool SDL_EGL_PrivateChooseConfig(SDL_VideoDevice *_this, bool set_config_
 {
     // 64 seems nice.
     EGLint attribs[64];
-    EGLint found_configs = 0, value;
+    EGLint found_configs = 0, हालागा;
     // 128 seems even nicer here
     EGLConfig configs[128];
     bool has_matching_format = false;
@@ -913,12 +913,12 @@ static bool SDL_EGL_PrivateChooseConfig(SDL_VideoDevice *_this, bool set_config_
             }
         }
 
-        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_RED_SIZE, &value);
-        if (value == 8) {
-            _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_GREEN_SIZE, &value);
-            if (value == 8) {
-                _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_BLUE_SIZE, &value);
-                if (value == 8) {
+        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_RED_SIZE, &हालागा);
+        if (हालागा == 8) {
+            _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_GREEN_SIZE, &हालागा);
+            if (हालागा == 8) {
+                _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_BLUE_SIZE, &हालागा);
+                if (हालागा == 8) {
                     is_truecolor = true;
                 }
             }
@@ -935,8 +935,8 @@ static bool SDL_EGL_PrivateChooseConfig(SDL_VideoDevice *_this, bool set_config_
                                                     attribs[j] == EGL_ALPHA_SIZE ||
                                                     attribs[j] == EGL_DEPTH_SIZE ||
                                                     attribs[j] == EGL_STENCIL_SIZE)) {
-                _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], attribs[j], &value);
-                bitdiff += value - attribs[j + 1]; // value is always >= attrib
+                _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], attribs[j], &हालागा);
+                bitdiff += हालागा - attribs[j + 1]; // value is always >= attrib
             }
         }
 

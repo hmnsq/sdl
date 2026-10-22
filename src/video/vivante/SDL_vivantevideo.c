@@ -26,7 +26,7 @@
 #include "../SDL_sysvideo.h"
 #include "../../events/SDL_events_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 #include "../../core/linux/SDL_evdev.h"
 #endif
 
@@ -62,7 +62,7 @@ static SDL_VideoDevice *VIVANTE_Create(void)
     device->internal = data;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->नुमेरो_displays = 0;
 
     // Set device free function
     device->free = VIVANTE_Destroy;
@@ -207,7 +207,7 @@ bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
 
     VIVANTE_UpdateDisplayScale(_this);
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     if (!SDL_EVDEV_Init()) {
         return false;
     }
@@ -220,7 +220,7 @@ void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     SDL_EVDEV_Quit();
 #endif
 
@@ -355,7 +355,7 @@ void VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
 /*****************************************************************************/
 void VIVANTE_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     SDL_EVDEV_Poll();
 #endif
 }

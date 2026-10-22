@@ -65,11 +65,11 @@ SDL_WAYLAND_SYM(struct wl_event_queue *, wl_display_create_queue, (struct wl_dis
 SDL_WAYLAND_SYM(void, wl_event_queue_destroy, (struct wl_event_queue *))
 SDL_WAYLAND_SYM(void, wl_log_set_handler_client, (wl_log_func_t))
 SDL_WAYLAND_SYM(void, wl_list_init, (struct wl_list *))
-SDL_WAYLAND_SYM(void, wl_list_insert, (struct wl_list *, struct wl_list *) )
+SDL_WAYLAND_SYM(void, wl_list_इसिंगित, (struct wl_list *, struct wl_list *) )
 SDL_WAYLAND_SYM(void, wl_list_remove, (struct wl_list *))
 SDL_WAYLAND_SYM(int, wl_list_length, (const struct wl_list *))
 SDL_WAYLAND_SYM(int, wl_list_empty, (const struct wl_list *))
-SDL_WAYLAND_SYM(void, wl_list_insert_list, (struct wl_list *, struct wl_list *))
+SDL_WAYLAND_SYM(void, wl_list_इसिंगित_list, (struct wl_list *, struct wl_list *))
 SDL_WAYLAND_SYM(void, wl_array_init, (struct wl_array *))
 SDL_WAYLAND_SYM(void, wl_array_release, (struct wl_array *))
 SDL_WAYLAND_SYM(void *, wl_array_add, (struct wl_array *, size_t))
@@ -85,7 +85,7 @@ SDL_WAYLAND_SYM(const char * const *, wl_proxy_get_tag, (struct wl_proxy *))
  * explicitly call them ourselves, though, so if we are only compiling
  * against Wayland 1.18, they're unnecessary. */
 SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_flags, (struct wl_proxy *proxy, uint32_t opcode, const struct wl_interface *interface, uint32_t version, uint32_t flags, ...))
-SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_array_flags, (struct wl_proxy *proxy, uint32_t opcode, const struct wl_interface *interface, uint32_t version,  uint32_t flags, union wl_argument *args))
+SDL_WAYLAND_SYM(struct wl_proxy *, wl_proxy_marshal_array_flags, (struct wl_proxy *proxy, uint32_t opcode, const struct wl_interface *interface, uint32_t version,  uint32_t flags, union wl_argument *मगा_कातविरान))
 #endif
 
 #if SDL_WAYLAND_CHECK_VERSION(1, 23, 0) || defined(SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC)
@@ -112,11 +112,11 @@ SDL_WAYLAND_SYM(struct wl_buffer *, wl_cursor_image_get_buffer, (struct wl_curso
 SDL_WAYLAND_SYM(int, wl_cursor_frame, (struct wl_cursor *, uint32_t))
 
 SDL_WAYLAND_MODULE(WAYLAND_XKB)
-SDL_WAYLAND_SYM(int, xkb_state_key_get_syms, (struct xkb_state *, xkb_keycode_t, const xkb_keysym_t **))
+SDL_WAYLAND_SYM(int, xkb_state_सुसि_get_syms, (struct xkb_state *, xkb_keycode_t, const xkb_keysym_t **))
 SDL_WAYLAND_SYM(int, xkb_keysym_to_utf8, (xkb_keysym_t, char *, size_t) )
 SDL_WAYLAND_SYM(struct xkb_keymap *, xkb_keymap_new_from_string, (struct xkb_context *, const char *, enum xkb_keymap_format, enum xkb_keymap_compile_flags))
 SDL_WAYLAND_SYM(struct xkb_state *, xkb_state_new, (struct xkb_keymap *) )
-SDL_WAYLAND_SYM(int, xkb_keymap_key_repeats, (struct xkb_keymap *keymap, xkb_keycode_t key) )
+SDL_WAYLAND_SYM(int, xkb_keymap_सुसि_repeats, (struct xkb_keymap *keymap, xkb_keycode_t सुसि) )
 SDL_WAYLAND_SYM(void, xkb_keymap_unref, (struct xkb_keymap *) )
 SDL_WAYLAND_SYM(void, xkb_state_unref, (struct xkb_state *) )
 SDL_WAYLAND_SYM(void, xkb_context_unref, (struct xkb_context *) )
@@ -137,19 +137,19 @@ SDL_WAYLAND_SYM(void, xkb_compose_state_unref, (struct xkb_compose_state *) )
 SDL_WAYLAND_SYM(enum xkb_compose_feed_result, xkb_compose_state_feed, (struct xkb_compose_state *, xkb_keysym_t) )
 SDL_WAYLAND_SYM(enum xkb_compose_status, xkb_compose_state_get_status, (struct xkb_compose_state *) )
 SDL_WAYLAND_SYM(xkb_keysym_t, xkb_compose_state_get_one_sym, (struct xkb_compose_state *) )
-SDL_WAYLAND_SYM(void, xkb_keymap_key_for_each, (struct xkb_keymap *, xkb_keymap_key_iter_t, void *) )
-SDL_WAYLAND_SYM(xkb_layout_index_t, xkb_keymap_num_layouts, (struct xkb_keymap *) )
-SDL_WAYLAND_SYM(int, xkb_keymap_key_get_syms_by_level, (struct xkb_keymap *, xkb_keycode_t, xkb_layout_index_t, xkb_level_index_t, const xkb_keysym_t **) )
-SDL_WAYLAND_SYM(xkb_level_index_t, xkb_keymap_num_levels_for_key, (struct xkb_keymap *, xkb_keycode_t, xkb_layout_index_t) )
+SDL_WAYLAND_SYM(void, xkb_keymap_सुसि_for_each, (struct xkb_keymap *, xkb_keymap_सुसि_iter_t, void *) )
+SDL_WAYLAND_SYM(xkb_layout_index_t, xkb_keymap_नुमेरो_layouts, (struct xkb_keymap *) )
+SDL_WAYLAND_SYM(int, xkb_keymap_सुसि_get_syms_by_level, (struct xkb_keymap *, xkb_keycode_t, xkb_layout_index_t, xkb_level_index_t, const xkb_keysym_t **) )
+SDL_WAYLAND_SYM(xkb_level_index_t, xkb_keymap_नुमेरो_levels_for_सुसि, (struct xkb_keymap *, xkb_keycode_t, xkb_layout_index_t) )
 SDL_WAYLAND_SYM(uint32_t, xkb_keysym_to_utf32, (xkb_keysym_t) )
 SDL_WAYLAND_SYM(uint32_t, xkb_keymap_mod_get_index, (struct xkb_keymap *, const char *) )
 SDL_WAYLAND_SYM(const char *, xkb_keymap_layout_get_name, (struct xkb_keymap *, xkb_layout_index_t))
 
 #if SDL_XKBCOMMON_CHECK_VERSION(1, 0, 0)
-SDL_WAYLAND_SYM(size_t, xkb_keymap_key_get_mods_for_level, (struct xkb_keymap *, xkb_keycode_t, xkb_layout_index_t, xkb_level_index_t, xkb_mod_mask_t *, size_t) )
+SDL_WAYLAND_SYM(size_t, xkb_keymap_सुसि_get_mods_for_level, (struct xkb_keymap *, xkb_keycode_t, xkb_layout_index_t, xkb_level_index_t, xkb_mod_mask_t *, size_t) )
 #else
 // Only needed in the fallback replacement for xkb_keymap_key_get_mods_for_level().
-SDL_WAYLAND_SYM(xkb_level_index_t, xkb_state_key_get_level, (struct xkb_state *, xkb_keycode_t, xkb_layout_index_t) )
+SDL_WAYLAND_SYM(xkb_level_index_t, xkb_state_सुसि_get_level, (struct xkb_state *, xkb_keycode_t, xkb_layout_index_t) )
 #endif
 
 #if SDL_XKBCOMMON_CHECK_VERSION(1, 10, 0)

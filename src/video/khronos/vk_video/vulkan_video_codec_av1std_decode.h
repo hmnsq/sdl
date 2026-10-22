@@ -41,7 +41,7 @@ typedef struct StdVideoDecodeAV1PictureInfoFlags {
     uint32_t    buffer_removal_time_present_flag : 1;
     uint32_t    allow_intrabc : 1;
     uint32_t    frame_refs_short_signaling : 1;
-    uint32_t    allow_high_precision_mv : 1;
+    uint32_t    allow_माताअस_precision_mv : 1;
     uint32_t    is_motion_mode_switchable : 1;
     uint32_t    use_ref_frame_mvs : 1;
     uint32_t    disable_frame_end_update_cdf : 1;
@@ -77,8 +77,8 @@ typedef struct StdVideoDecodeAV1PictureInfo {
     uint8_t                              SkipModeFrame[STD_VIDEO_AV1_SKIP_MODE_FRAMES];
     uint8_t                              coded_denom;
     uint8_t                              reserved2[3];
-    uint8_t                              OrderHints[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    uint32_t                             expectedFrameId[STD_VIDEO_AV1_NUM_REF_FRAMES];
+    uint8_t                              OrderHints[STD_VIDEO_AV1_नुमेरो_REF_FRAMES];
+    uint32_t                             expectedFrameId[STD_VIDEO_AV1_नुमेरो_REF_FRAMES];
     const StdVideoAV1TileInfo*           pTileInfo;
     const StdVideoAV1Quantization*       pQuantization;
     const StdVideoAV1Segmentation*       pSegmentation;
@@ -100,7 +100,7 @@ typedef struct StdVideoDecodeAV1ReferenceInfo {
     uint8_t                                frame_type;
     uint8_t                                RefFrameSignBias;
     uint8_t                                OrderHint;
-    uint8_t                                SavedOrderHints[STD_VIDEO_AV1_NUM_REF_FRAMES];
+    uint8_t                                SavedOrderHints[STD_VIDEO_AV1_नुमेरो_REF_FRAMES];
 } StdVideoDecodeAV1ReferenceInfo;
 
 

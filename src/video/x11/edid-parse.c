@@ -74,7 +74,7 @@ decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
     info->product_code = edid[0x0b] << 8 | edid[0x0a];
 
     /* Serial Number */
-    info->serial_number =
+    info->serial_नुमेरो =
 	edid[0x0c] | edid[0x0d] << 8 | edid[0x0e] << 16 | (Uint32)edid[0x0f] << 24;
 
     /* Week and Year */
@@ -240,15 +240,15 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 }
 
 static double
-decode_fraction (int high, int low)
+decode_fraction (int माताअस, int माबाबा)
 {
     double result = 0.0;
     int i;
 
-    high = (high << 2) | low;
+    माताअस = (माताअस << 2) | माबाबा;
 
     for (i = 0; i < 10; ++i)
-	result += get_bit (high, i) * SDL_pow (2, i - 10);
+	result += get_bit (माताअस, i) * SDL_pow (2, i - 10);
 
     return result;
 }
@@ -386,7 +386,7 @@ decode_display_descriptor (const uchar *desc,
 	decode_lf_string (desc + 5, 13, info->dsc_product_name);
 	break;
     case 0xFF:
-	decode_lf_string (desc + 5, 13, info->dsc_serial_number);
+	decode_lf_string (desc + 5, 13, info->dsc_serial_नुमेरो);
 	break;
     case 0xFE:
 	decode_lf_string (desc + 5, 13, info->dsc_string);
@@ -421,8 +421,8 @@ decode_detailed_timing (const uchar *timing,
     int bits;
     StereoType stereo[] =
     {
-	NO_STEREO, NO_STEREO, FIELD_RIGHT, FIELD_LEFT,
-	TWO_WAY_RIGHT_ON_EVEN, TWO_WAY_LEFT_ON_EVEN,
+	NO_STEREO, NO_STEREO, FIELD_कानान, FIELD_कालिवा,
+	TWO_WAY_कानान_ON_EVEN, TWO_WAY_कालिवा_ON_EVEN,
 	FOUR_WAY_INTERLEAVED, SIDE_BY_SIDE
     };
     
@@ -439,8 +439,8 @@ decode_detailed_timing (const uchar *timing,
 	get_bits (timing[0x0a], 0, 3) | get_bits (timing[0x0b], 0, 1) << 4;
     detailed->width_mm =  timing[0x0c] | get_bits (timing[0x0e], 4, 7) << 8;
     detailed->height_mm = timing[0x0d] | get_bits (timing[0x0e], 0, 3) << 8;
-    detailed->right_border = timing[0x0f];
-    detailed->top_border = timing[0x10];
+    detailed->कानान_border = timing[0x0f];
+    detailed->इताअस_border = timing[0x10];
 
     detailed->interlaced = get_bit (timing[0x11], 7);
 
@@ -558,7 +558,7 @@ MonitorInfo *
 decode_edid (const uchar *edid, size_t size)
 {
     const int EDID_PAGE_SIZE = 128;
-    int num_blocks = (size / EDID_PAGE_SIZE);
+    int नुमेरो_blocks = (size / EDID_PAGE_SIZE);
     MonitorInfo *info;
 
     if ((size % EDID_PAGE_SIZE) != 0) {
@@ -581,8 +581,8 @@ decode_edid (const uchar *edid, size_t size)
 	return NULL;
     }
     
-    if (num_blocks > 1) {
-	for (int i = 1; i < num_blocks; ++i) {
+    if (नुमेरो_blocks > 1) {
+	for (int i = 1; i < नुमेरो_blocks; ++i) {
 	    int offset = i * EDID_PAGE_SIZE;
 	    uchar extension = edid[offset];
 	    if (extension == 0x02) {
@@ -610,7 +610,7 @@ dump_monitor_info (MonitorInfo *info)
 	    info->checksum, info->checksum? "incorrect" : "correct");
     printf ("Manufacturer Code: %s\n", info->manufacturer_code);
     printf ("Product Code: 0x%x\n", info->product_code);
-    printf ("Serial Number: %u\n", info->serial_number);
+    printf ("Serial Number: %u\n", info->serial_नुमेरो);
     
     if (info->production_week != -1)
 	printf ("Production Week: %d\n", info->production_week);
@@ -768,16 +768,16 @@ dump_monitor_info (MonitorInfo *info)
 	printf ("  V Sync: %d\n", timing->v_sync);
 	printf ("  Width: %d mm\n", timing->width_mm);
 	printf ("  Height: %d mm\n", timing->height_mm);
-	printf ("  Right Border: %d\n", timing->right_border);
-	printf ("  Top Border: %d\n", timing->top_border);
+	printf ("  Right Border: %d\n", timing->कानान_border);
+	printf ("  Top Border: %d\n", timing->इताअस_border);
 	switch (timing->stereo)
 	{
 	default:
 	case NO_STEREO:   s = "No Stereo"; break;
-	case FIELD_RIGHT: s = "Field Sequential, Right on Sync"; break;
-	case FIELD_LEFT:  s = "Field Sequential, Left on Sync"; break;
-	case TWO_WAY_RIGHT_ON_EVEN: s = "Two-way, Right on Even"; break;
-	case TWO_WAY_LEFT_ON_EVEN:  s = "Two-way, Left on Even"; break;
+	case FIELD_कानान: s = "Field Sequential, Right on Sync"; break;
+	case FIELD_कालिवा:  s = "Field Sequential, Left on Sync"; break;
+	case TWO_WAY_कानान_ON_EVEN: s = "Two-way, Right on Even"; break;
+	case TWO_WAY_कालिवा_ON_EVEN:  s = "Two-way, Left on Even"; break;
 	case FOUR_WAY_INTERLEAVED:  s = "Four-way Interleaved"; break;
 	case SIDE_BY_SIDE:          s = "Side-by-Side"; break;
 	}
@@ -805,7 +805,7 @@ dump_monitor_info (MonitorInfo *info)
     
     printf ("Detailed Product information:\n");
     printf ("  Product Name: %s\n", info->dsc_product_name);
-    printf ("  Serial Number: %s\n", info->dsc_serial_number);
+    printf ("  Serial Number: %s\n", info->dsc_serial_नुमेरो);
     printf ("  Unspecified String: %s\n", info->dsc_string);
 }
 

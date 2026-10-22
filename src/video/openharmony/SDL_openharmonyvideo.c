@@ -28,7 +28,7 @@
 
 // !!! FIXME: these are defined as "const uint32_t VARNAME = VALUE;" in native_interface_xcomponent.h, which becomes a global variable in _our_ C code! Maybe C++ handles this differently...?
 #define OH_XCOMPONENT_ID_LEN_MAX sdl_ohosvideo_OH_XCOMPONENT_ID_LEN_MAX
-#define OH_MAX_TOUCH_POINTS_NUMBER sdl_ohosvideo_OH_MAX_TOUCH_POINTS_NUMBER
+#define OH_MAX_TOUCH_POINTS_नुमेरो sdl_ohosvideo_OH_MAX_TOUCH_POINTS_नुमेरो
 #include <ace/xcomponent/native_interface_xcomponent.h>
 
 // !!! FIXME: move stuff in from Android code

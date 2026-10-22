@@ -778,114 +778,114 @@ SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2, 3, 4)
 static inline void svld3rgb565_u16(svbool_t vPredu8,
                                    uint16_t *phwSource,
-                                   svuint16x3_t *pvLow,
-                                   svuint16x3_t *pvHigh)
+                                   svuint16x3_t *pv_माबाबा,
+                                   svuint16x3_t *pv_माताअस)
 {
     svuint8x2_t vInput8x2 = svld2_u8(vPredu8, (uint8_t *)phwSource);
 
-    svuint16_t vLowByteLowHalf = svunpklo_u16(svget2_u8(vInput8x2, 0));
-    svuint16_t vLowByteHighHalf = svunpkhi_u16(svget2_u8(vInput8x2, 0));
+    svuint16_t v_माबाबा_Byte_माबाबा_Half = svunpklo_u16(svget2_u8(vInput8x2, 0));
+    svuint16_t v_माबाबा_Byte_माताअस_Half = svunpkhi_u16(svget2_u8(vInput8x2, 0));
 
-    svuint16_t vHighByteLowHalf = svunpklo_u16(svget2_u8(vInput8x2, 1));
-    svuint16_t vHighByteHighHalf = svunpkhi_u16(svget2_u8(vInput8x2, 1));
+    svuint16_t v_माताअस_Byte_माबाबा_Half = svunpklo_u16(svget2_u8(vInput8x2, 1));
+    svuint16_t v_माताअस_Byte_माताअस_Half = svunpkhi_u16(svget2_u8(vInput8x2, 1));
 
     //*pvLow = sdl_sve_rgb565_unpack  (   vLowByteLowHalf
     //                                |   (vHighByteLowHalf << 8));
-    *pvLow = sdl_sve_rgb565_unpack(
+    *pv_माबाबा = sdl_sve_rgb565_unpack(
         svorr_u16_m(svptrue_b16(),
-                    vLowByteLowHalf,
+                    v_माबाबा_Byte_माबाबा_Half,
                     //(vHighByteLowHalf << 8)
-                    svlsl_n_u16_m(svptrue_b16(), vHighByteLowHalf, 8)));
+                    svlsl_n_u16_m(svptrue_b16(), v_माताअस_Byte_माबाबा_Half, 8)));
 
     //*pvHigh = sdl_sve_rgb565_unpack (   vLowByteHighHalf
     //                                |   (vHighByteHighHalf << 8));
-    *pvHigh = sdl_sve_rgb565_unpack(
+    *pv_माताअस = sdl_sve_rgb565_unpack(
         svorr_u16_m(svptrue_b16(),
-                    vLowByteHighHalf,
+                    v_माबाबा_Byte_माताअस_Half,
                     //(vHighByteHighHalf << 8)
-                    svlsl_n_u16_m(svptrue_b16(), vHighByteHighHalf, 8)));
+                    svlsl_n_u16_m(svptrue_b16(), v_माताअस_Byte_माताअस_Half, 8)));
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2)
 static inline void svst3rgb565_u16(svbool_t vPredu8,
                                    uint16_t *phwTarget,
-                                   svuint16x3_t vLow,
-                                   svuint16x3_t vHigh)
+                                   svuint16x3_t v_माबाबा,
+                                   svuint16x3_t v_माताअस)
 {
-    svuint16_t vLowByteLowHalf = svundef_u16();
-    svuint16_t vHighByteLowHalf = svundef_u16();
+    svuint16_t v_माबाबा_Byte_माबाबा_Half = svundef_u16();
+    svuint16_t v_माताअस_Byte_माबाबा_Half = svundef_u16();
 
     /* pack low half pixels */
     do {
-        svuint16_t vPixel = sdl_sve_rgb565_pack(vLow);
+        svuint16_t vPixel = sdl_sve_rgb565_pack(v_माबाबा);
 
         // vLowByteLowHalf = vPixel & 0xFF;
-        vLowByteLowHalf = svand_n_u16_m(svptrue_b16(), vPixel, 0xFF);
+        v_माबाबा_Byte_माबाबा_Half = svand_n_u16_m(svptrue_b16(), vPixel, 0xFF);
 
         // vHighByteLowHalf = vPixel >> 8;
-        vHighByteLowHalf = svlsr_n_u16_m(svptrue_b16(), vPixel, 8);
+        v_माताअस_Byte_माबाबा_Half = svlsr_n_u16_m(svptrue_b16(), vPixel, 8);
     } while (0);
 
-    svuint16_t vLowByteHighHalf = svundef_u16();
-    svuint16_t vHighByteHighHalf = svundef_u16();
+    svuint16_t v_माबाबा_Byte_माताअस_Half = svundef_u16();
+    svuint16_t v_माताअस_Byte_माताअस_Half = svundef_u16();
 
     /* pack high half pixels */
     do {
-        svuint16_t vPixel = sdl_sve_rgb565_pack(vHigh);
+        svuint16_t vPixel = sdl_sve_rgb565_pack(v_माताअस);
 
         // vLowByteHighHalf = vPixel & 0xFF;
-        vLowByteHighHalf = svand_n_u16_m(svptrue_b16(), vPixel, 0xFF);
+        v_माबाबा_Byte_माताअस_Half = svand_n_u16_m(svptrue_b16(), vPixel, 0xFF);
 
         // vHighByteHighHalf = vPixel >> 8;
-        vHighByteHighHalf = svlsr_n_u16_m(svptrue_b16(), vPixel, 8);
+        v_माताअस_Byte_माताअस_Half = svlsr_n_u16_m(svptrue_b16(), vPixel, 8);
     } while (0);
 
     /* save rgb565 pixels */
-    svuint8_t vLowByte = svuzp1_u8(svreinterpret_u8(vLowByteLowHalf),
-                                   svreinterpret_u8(vLowByteHighHalf));
+    svuint8_t v_माबाबा_Byte = svuzp1_u8(svreinterpret_u8(v_माबाबा_Byte_माबाबा_Half),
+                                   svreinterpret_u8(v_माबाबा_Byte_माताअस_Half));
 
-    svuint8_t vHighByte = svuzp1_u8(svreinterpret_u8(vHighByteLowHalf),
-                                    svreinterpret_u8(vHighByteHighHalf));
+    svuint8_t v_माताअस_Byte = svuzp1_u8(svreinterpret_u8(v_माताअस_Byte_माबाबा_Half),
+                                    svreinterpret_u8(v_माताअस_Byte_माताअस_Half));
 
-    svst2_u8(vPredu8, (uint8_t *)phwTarget, svcreate2_u8(vLowByte, vHighByte));
+    svst2_u8(vPredu8, (uint8_t *)phwTarget, svcreate2_u8(v_माबाबा_Byte, v_माताअस_Byte));
 }
 
 #if defined(__GNUC__) && !defined(__clang__)
 #define svld4ub_u16(ma_pred,                                                                                         \
                     ma_src_ptr,                                                                                      \
-                    ma_svuint16x4_low_ptr,                                                                           \
-                    ma_svuint16x4_high_ptr)                                                                          \
+                    ma_svuint16x4_माबाबा_ptr,                                                                           \
+                    ma_svuint16x4_माताअस_ptr)                                                                          \
     do {                                                                                                             \
         svuint8x4_t vInput8x4 = svld4_u8((ma_pred), (ma_src_ptr));                                                   \
                                                                                                                      \
-        *(ma_svuint16x4_low_ptr) = svset4_u16(*(ma_svuint16x4_low_ptr), 0, svunpklo_u16(svget4_u8(vInput8x4, 0)));   \
-        *(ma_svuint16x4_low_ptr) = svset4_u16(*(ma_svuint16x4_low_ptr), 1, svunpklo_u16(svget4_u8(vInput8x4, 1)));   \
-        *(ma_svuint16x4_low_ptr) = svset4_u16(*(ma_svuint16x4_low_ptr), 2, svunpklo_u16(svget4_u8(vInput8x4, 2)));   \
-        *(ma_svuint16x4_low_ptr) = svset4_u16(*(ma_svuint16x4_low_ptr), 3, svunpklo_u16(svget4_u8(vInput8x4, 3)));   \
+        *(ma_svuint16x4_माबाबा_ptr) = svset4_u16(*(ma_svuint16x4_माबाबा_ptr), 0, svunpklo_u16(svget4_u8(vInput8x4, 0)));   \
+        *(ma_svuint16x4_माबाबा_ptr) = svset4_u16(*(ma_svuint16x4_माबाबा_ptr), 1, svunpklo_u16(svget4_u8(vInput8x4, 1)));   \
+        *(ma_svuint16x4_माबाबा_ptr) = svset4_u16(*(ma_svuint16x4_माबाबा_ptr), 2, svunpklo_u16(svget4_u8(vInput8x4, 2)));   \
+        *(ma_svuint16x4_माबाबा_ptr) = svset4_u16(*(ma_svuint16x4_माबाबा_ptr), 3, svunpklo_u16(svget4_u8(vInput8x4, 3)));   \
                                                                                                                      \
-        *(ma_svuint16x4_high_ptr) = svset4_u16(*(ma_svuint16x4_high_ptr), 0, svunpkhi_u16(svget4_u8(vInput8x4, 0))); \
-        *(ma_svuint16x4_high_ptr) = svset4_u16(*(ma_svuint16x4_high_ptr), 1, svunpkhi_u16(svget4_u8(vInput8x4, 1))); \
-        *(ma_svuint16x4_high_ptr) = svset4_u16(*(ma_svuint16x4_high_ptr), 2, svunpkhi_u16(svget4_u8(vInput8x4, 2))); \
-        *(ma_svuint16x4_high_ptr) = svset4_u16(*(ma_svuint16x4_high_ptr), 3, svunpkhi_u16(svget4_u8(vInput8x4, 3))); \
+        *(ma_svuint16x4_माताअस_ptr) = svset4_u16(*(ma_svuint16x4_माताअस_ptr), 0, svunpkhi_u16(svget4_u8(vInput8x4, 0))); \
+        *(ma_svuint16x4_माताअस_ptr) = svset4_u16(*(ma_svuint16x4_माताअस_ptr), 1, svunpkhi_u16(svget4_u8(vInput8x4, 1))); \
+        *(ma_svuint16x4_माताअस_ptr) = svset4_u16(*(ma_svuint16x4_माताअस_ptr), 2, svunpkhi_u16(svget4_u8(vInput8x4, 2))); \
+        *(ma_svuint16x4_माताअस_ptr) = svset4_u16(*(ma_svuint16x4_माताअस_ptr), 3, svunpkhi_u16(svget4_u8(vInput8x4, 3))); \
     } while (0)
 
 #define svst4ub_u16(ma_pred,                                                                 \
                     ma_dst_ptr,                                                              \
-                    ma_svuint16x4_low,                                                       \
-                    ma_svuint16x4_high)                                                      \
+                    ma_svuint16x4_माबाबा,                                                       \
+                    ma_svuint16x4_माताअस)                                                      \
     do {                                                                                     \
-        svuint8_t vCH0u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_low), 0)),   \
-                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_high), 0))); \
+        svuint8_t vCH0u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_माबाबा), 0)),   \
+                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_माताअस), 0))); \
                                                                                              \
-        svuint8_t vCH1u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_low), 1)),   \
-                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_high), 1))); \
+        svuint8_t vCH1u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_माबाबा), 1)),   \
+                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_माताअस), 1))); \
                                                                                              \
-        svuint8_t vCH2u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_low), 2)),   \
-                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_high), 2))); \
+        svuint8_t vCH2u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_माबाबा), 2)),   \
+                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_माताअस), 2))); \
                                                                                              \
-        svuint8_t vCH3u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_low), 3)),   \
-                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_high), 3))); \
+        svuint8_t vCH3u8 = svuzp1_u8(svreinterpret_u8(svget4_u16((ma_svuint16x4_माबाबा), 3)),   \
+                                     svreinterpret_u8(svget4_u16((ma_svuint16x4_माताअस), 3))); \
                                                                                              \
         svst4_u8((ma_pred), (ma_dst_ptr), svcreate4_u8(vCH0u8, vCH1u8, vCH2u8, vCH3u8));     \
     } while (0)
@@ -894,41 +894,41 @@ SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2, 3, 4)
 static inline void svld4ub_u16(svbool_t vPredu8,
                                uint8_t *pchSource,
-                               svuint16x4_t *pvLow,
-                               svuint16x4_t *pvHigh)
+                               svuint16x4_t *pv_माबाबा,
+                               svuint16x4_t *pv_माताअस)
 {
     svuint8x4_t vInput8x4 = svld4_u8(vPredu8, pchSource);
 
-    *pvLow = svset4_u16(*pvLow, 0, svunpklo_u16(svget4_u8(vInput8x4, 0)));
-    *pvLow = svset4_u16(*pvLow, 1, svunpklo_u16(svget4_u8(vInput8x4, 1)));
-    *pvLow = svset4_u16(*pvLow, 2, svunpklo_u16(svget4_u8(vInput8x4, 2)));
-    *pvLow = svset4_u16(*pvLow, 3, svunpklo_u16(svget4_u8(vInput8x4, 3)));
+    *pv_माबाबा = svset4_u16(*pv_माबाबा, 0, svunpklo_u16(svget4_u8(vInput8x4, 0)));
+    *pv_माबाबा = svset4_u16(*pv_माबाबा, 1, svunpklo_u16(svget4_u8(vInput8x4, 1)));
+    *pv_माबाबा = svset4_u16(*pv_माबाबा, 2, svunpklo_u16(svget4_u8(vInput8x4, 2)));
+    *pv_माबाबा = svset4_u16(*pv_माबाबा, 3, svunpklo_u16(svget4_u8(vInput8x4, 3)));
 
-    *pvHigh = svset4_u16(*pvHigh, 0, svunpkhi_u16(svget4_u8(vInput8x4, 0)));
-    *pvHigh = svset4_u16(*pvHigh, 1, svunpkhi_u16(svget4_u8(vInput8x4, 1)));
-    *pvHigh = svset4_u16(*pvHigh, 2, svunpkhi_u16(svget4_u8(vInput8x4, 2)));
-    *pvHigh = svset4_u16(*pvHigh, 3, svunpkhi_u16(svget4_u8(vInput8x4, 3)));
+    *pv_माताअस = svset4_u16(*pv_माताअस, 0, svunpkhi_u16(svget4_u8(vInput8x4, 0)));
+    *pv_माताअस = svset4_u16(*pv_माताअस, 1, svunpkhi_u16(svget4_u8(vInput8x4, 1)));
+    *pv_माताअस = svset4_u16(*pv_माताअस, 2, svunpkhi_u16(svget4_u8(vInput8x4, 2)));
+    *pv_माताअस = svset4_u16(*pv_माताअस, 3, svunpkhi_u16(svget4_u8(vInput8x4, 3)));
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(2)
 static inline void svst4ub_u16(svbool_t vPredu8,
                                uint8_t *pchTarget,
-                               svuint16x4_t vLow,
-                               svuint16x4_t vHigh)
+                               svuint16x4_t v_माबाबा,
+                               svuint16x4_t v_माताअस)
 {
 
-    svuint8_t vCH0u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(vLow, 0)),
-                                 svreinterpret_u8(svget4_u16(vHigh, 0)));
+    svuint8_t vCH0u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(v_माबाबा, 0)),
+                                 svreinterpret_u8(svget4_u16(v_माताअस, 0)));
 
-    svuint8_t vCH1u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(vLow, 1)),
-                                 svreinterpret_u8(svget4_u16(vHigh, 1)));
+    svuint8_t vCH1u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(v_माबाबा, 1)),
+                                 svreinterpret_u8(svget4_u16(v_माताअस, 1)));
 
-    svuint8_t vCH2u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(vLow, 2)),
-                                 svreinterpret_u8(svget4_u16(vHigh, 2)));
+    svuint8_t vCH2u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(v_माबाबा, 2)),
+                                 svreinterpret_u8(svget4_u16(v_माताअस, 2)));
 
-    svuint8_t vCH3u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(vLow, 3)),
-                                 svreinterpret_u8(svget4_u16(vHigh, 3)));
+    svuint8_t vCH3u8 = svuzp1_u8(svreinterpret_u8(svget4_u16(v_माबाबा, 3)),
+                                 svreinterpret_u8(svget4_u16(v_माताअस, 3)));
 
     svst4_u8(vPredu8, pchTarget, svcreate4_u8(vCH0u8, vCH1u8, vCH2u8, vCH3u8));
 }

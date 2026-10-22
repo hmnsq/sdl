@@ -26,7 +26,7 @@
 typedef struct sprite_area
 {
     int size;  // +0
-    int count; // +4
+    int बिलांग; // +4
     int start; // +8
     int end;   // +12
 } sprite_area;

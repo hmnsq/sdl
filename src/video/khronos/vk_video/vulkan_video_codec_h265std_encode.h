@@ -40,14 +40,14 @@ typedef struct StdVideoEncodeH265WeightTable {
     StdVideoEncodeH265WeightTableFlags    flags;
     uint8_t                               luma_log2_weight_denom;
     int8_t                                delta_chroma_log2_weight_denom;
-    int8_t                                delta_luma_weight_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                luma_offset_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                delta_chroma_weight_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_chroma_offset_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_luma_weight_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                luma_offset_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    int8_t                                delta_chroma_weight_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
-    int8_t                                delta_chroma_offset_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_luma_weight_l0[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
+    int8_t                                luma_offset_l0[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
+    int8_t                                delta_chroma_weight_l0[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_chroma_offset_l0[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_luma_weight_l1[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
+    int8_t                                luma_offset_l1[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
+    int8_t                                delta_chroma_weight_l1[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
+    int8_t                                delta_chroma_offset_l1[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF][STD_VIDEO_H265_MAX_CHROMA_PLANES];
 } StdVideoEncodeH265WeightTable;
 
 typedef struct StdVideoEncodeH265SliceSegmentHeaderFlags {
@@ -55,7 +55,7 @@ typedef struct StdVideoEncodeH265SliceSegmentHeaderFlags {
     uint32_t    dependent_slice_segment_flag : 1;
     uint32_t    slice_sao_luma_flag : 1;
     uint32_t    slice_sao_chroma_flag : 1;
-    uint32_t    num_ref_idx_active_override_flag : 1;
+    uint32_t    नुमेरो_ref_idx_active_override_flag : 1;
     uint32_t    mvd_l1_zero_flag : 1;
     uint32_t    cabac_init_flag : 1;
     uint32_t    cu_chroma_qp_offset_enabled_flag : 1;
@@ -71,7 +71,7 @@ typedef struct StdVideoEncodeH265SliceSegmentHeader {
     StdVideoH265SliceType                        slice_type;
     uint32_t                                     slice_segment_address;
     uint8_t                                      collocated_ref_idx;
-    uint8_t                                      MaxNumMergeCand;
+    uint8_t                                      Max_नुमेरो_Merge_Cand;
     int8_t                                       slice_cb_qp_offset;
     int8_t                                       slice_cr_qp_offset;
     int8_t                                       slice_beta_offset_div2;
@@ -92,12 +92,12 @@ typedef struct StdVideoEncodeH265ReferenceListsInfoFlags {
 
 typedef struct StdVideoEncodeH265ReferenceListsInfo {
     StdVideoEncodeH265ReferenceListsInfoFlags    flags;
-    uint8_t                                      num_ref_idx_l0_active_minus1;
-    uint8_t                                      num_ref_idx_l1_active_minus1;
-    uint8_t                                      RefPicList0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      RefPicList1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      list_entry_l0[STD_VIDEO_H265_MAX_NUM_LIST_REF];
-    uint8_t                                      list_entry_l1[STD_VIDEO_H265_MAX_NUM_LIST_REF];
+    uint8_t                                      नुमेरो_ref_idx_l0_active_minus1;
+    uint8_t                                      नुमेरो_ref_idx_l1_active_minus1;
+    uint8_t                                      RefPicList0[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
+    uint8_t                                      RefPicList1[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
+    uint8_t                                      list_entry_l0[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
+    uint8_t                                      list_entry_l1[STD_VIDEO_H265_MAX_नुमेरो_LIST_REF];
 } StdVideoEncodeH265ReferenceListsInfo;
 
 typedef struct StdVideoEncodeH265PictureInfoFlags {
@@ -114,8 +114,8 @@ typedef struct StdVideoEncodeH265PictureInfoFlags {
 } StdVideoEncodeH265PictureInfoFlags;
 
 typedef struct StdVideoEncodeH265LongTermRefPics {
-    uint8_t     num_long_term_sps;
-    uint8_t     num_long_term_pics;
+    uint8_t     नुमेरो_long_term_sps;
+    uint8_t     नुमेरो_long_term_pics;
     uint8_t     lt_idx_sps[STD_VIDEO_H265_MAX_LONG_TERM_REF_PICS_SPS];
     uint8_t     poc_lsb_lt[STD_VIDEO_H265_MAX_LONG_TERM_PICS];
     uint16_t    used_by_curr_pic_lt_flag;

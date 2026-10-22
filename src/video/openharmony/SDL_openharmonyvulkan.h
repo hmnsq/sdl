@@ -36,7 +36,7 @@
 
 extern bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
+extern char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *बिलांग);
 extern bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                          SDL_Window *window,
                                          VkInstance instance,

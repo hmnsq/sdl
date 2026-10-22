@@ -125,8 +125,8 @@ static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
             size_t color_table_size;
             switch (pbih->biCompression) {
             case BI_RGB:
-                if (pbih->biBitCount <= 8) {
-                    color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->biBitCount : pbih->biClrUsed);
+                if (pbih->bi_Bit_बिलांग <= 8) {
+                    color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->bi_Bit_बिलांग : pbih->biClrUsed);
                 } else {
                     color_table_size = 0;
                 }
@@ -278,7 +278,7 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
         EmptyClipboard();
 
         // Set the clipboard text
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        for (i = 0; i < _this->नुमेरो_clipboard_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
 
             if (SDL_IsTextMimeType(mime_type)) {
@@ -291,7 +291,7 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
         }
 
         // Set the clipboard image
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        for (i = 0; i < _this->नुमेरो_clipboard_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
 
             if (SDL_strcmp(mime_type, "image/bmp") == 0 ||
@@ -303,7 +303,7 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
             }
         }
 
-        data->clipboard_count = GetClipboardSequenceNumber();
+        data->clipboard_बिलांग = Get_Clipboard_Sequence_नुमेरो();
         WIN_CloseClipboard();
     } else {
         result = WIN_SetError("Couldn't open clipboard");
@@ -540,16 +540,16 @@ static char **GetMimeTypes(int *pnformats)
 
 void WIN_CheckClipboardUpdate(struct SDL_VideoData *data)
 {
-    DWORD count = GetClipboardSequenceNumber();
-    if (count != data->clipboard_count) {
-        if (count) {
+    DWORD बिलांग = Get_Clipboard_Sequence_नुमेरो();
+    if (बिलांग != data->clipboard_बिलांग) {
+        if (बिलांग) {
             int nformats = 0;
             char **new_mime_types = GetMimeTypes(&nformats);
             if (new_mime_types) {
                 SDL_SendClipboardUpdate(false, new_mime_types, nformats);
             }
         }
-        data->clipboard_count = count;
+        data->clipboard_बिलांग = बिलांग;
     }
 }
 

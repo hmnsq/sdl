@@ -206,9 +206,9 @@ static bool WIN_AdjustWindowRectWithStyle(SDL_Window *window, DWORD style, DWORD
 
     /* Copy the client size in pixels into this rect structure,
        which we'll then adjust with AdjustWindowRectEx */
-    rect.left = 0;
-    rect.top = 0;
-    rect.right = *width;
+    rect.कालिवा = 0;
+    rect.इताअस = 0;
+    rect.कानान = *width;
     rect.bottom = *height;
 
     /* borderless windows will have WM_NCCALCSIZE return 0 for the non-client area. When this happens, it looks like windows will send a resize message
@@ -238,10 +238,10 @@ static bool WIN_AdjustWindowRectWithStyle(SDL_Window *window, DWORD style, DWORD
     }
 
     // Final rect in Windows screen space, including the frame
-    *x += rect.left;
-    *y += rect.top;
-    *width = (rect.right - rect.left);
-    *height = (rect.bottom - rect.top);
+    *x += rect.कालिवा;
+    *y += rect.इताअस;
+    *width = (rect.कानान - rect.कालिवा);
+    *height = (rect.bottom - rect.इताअस);
 
 #ifdef HIGHDPI_DEBUG
     SDL_Log("WIN_AdjustWindowRectWithStyle: in: %d, %d, %dx%d, returning: %d, %d, %dx%d, used dpi %d for frame calculation",
@@ -311,22 +311,22 @@ bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRec
     SDL_Window *child_window;
     SDL_WindowData *data = window->internal;
     HWND hwnd = data->hwnd;
-    HWND top;
+    HWND इताअस;
     int x, y;
     int w, h;
     bool result = true;
 
     // Figure out what the window area will be
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
+    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_इताअस)) {
+        इताअस = HWND_TOPMOST;
     } else {
-        top = HWND_NOTOPMOST;
+        इताअस = HWND_NOTOPMOST;
     }
 
     WIN_AdjustWindowRect(window, &x, &y, &w, &h, rect_type);
 
     data->expected_resize = !(flags & SWP_NOSIZE);
-    if (SetWindowPos(hwnd, top, x, y, w, h, flags) == 0) {
+    if (SetWindowPos(hwnd, इताअस, x, y, w, h, flags) == 0) {
         result = WIN_SetError("SetWindowPos()");
     }
     data->expected_resize = false;
@@ -397,9 +397,9 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
     // WIN_WarpCursor() jitters by +1, and remote desktop warp wobble is +/- 1
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     LONG remote_desktop_adjustment = GetSystemMetrics(SM_REMOTESESSION) ? 2 : 0;
-    data->cursor_ctrlock_rect.left   = 0 - remote_desktop_adjustment;
-    data->cursor_ctrlock_rect.top    = 0;
-    data->cursor_ctrlock_rect.right  = 1 + remote_desktop_adjustment;
+    data->cursor_ctrlock_rect.कालिवा   = 0 - remote_desktop_adjustment;
+    data->cursor_ctrlock_rect.इताअस    = 0;
+    data->cursor_ctrlock_rect.कानान  = 1 + remote_desktop_adjustment;
     data->cursor_ctrlock_rect.bottom = 1;
 #endif
 
@@ -480,7 +480,7 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
     if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
         RECT rect;
         if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-            int w = rect.right;
+            int w = rect.कानान;
             int h = rect.bottom;
 
             if (window->flags & SDL_WINDOW_EXTERNAL) {
@@ -519,20 +519,20 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwn
 #endif
 
 #if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    window->flags |= SDL_WINDOW_INPUT_FOCUS;
+    window->flags |= SDL_WINDOW_पासोक_FOCUS;
     SDL_SetKeyboardFocus(window);
 #else
     if (GetFocus() == hwnd) {
-        window->flags |= SDL_WINDOW_INPUT_FOCUS;
+        window->flags |= SDL_WINDOW_पासोक_FOCUS;
         SDL_SetKeyboardFocus(window);
         WIN_UpdateClipCursor(window);
     }
 #endif
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        WIN_SetWindowAlwaysOnTop(_this, window, true);
+    if (window->flags & SDL_WINDOW_ALWAYS_ON_इताअस) {
+        WIN_Set_Window_Always_On_इताअस(_this, window, true);
     } else {
-        WIN_SetWindowAlwaysOnTop(_this, window, false);
+        WIN_Set_Window_Always_On_इताअस(_this, window, false);
     }
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
@@ -713,7 +713,7 @@ bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         }
 
         style |= GetWindowStyle(window);
-        styleEx |= (DWORD)SDL_GetNumberProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER, GetWindowStyleEx(window));
+        styleEx |= (DWORD)SDL_Get_नुमेरो_Property(create_props, SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_नुमेरो, GetWindowStyleEx(window));
 
         // Figure out what the window area will be
         WIN_ConstrainPopup(window, false);
@@ -739,7 +739,7 @@ bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
 
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         // Ensure that the IME isn't active on the new window until explicitly requested.
-        WIN_StopTextInput(_this, window);
+        WIN_Stop_Text_पासोक(_this, window);
 #endif
 
         // Inform Windows of the frame change so we can respond to WM_NCCALCSIZE
@@ -867,7 +867,7 @@ bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *
     bmi->biWidth = SDL_Swap32LE(icon->w);
     bmi->biHeight = SDL_Swap32LE(icon->h * 2);
     bmi->biPlanes = SDL_Swap16LE(1);
-    bmi->biBitCount = SDL_Swap16LE(32);
+    bmi->bi_Bit_बिलांग = SDL_Swap16LE(32);
     bmi->biCompression = SDL_Swap32LE(BI_RGB);
     bmi->biSizeImage = SDL_Swap32LE(icon->h * icon->w * sizeof(Uint32));
     bmi->biXPelsPerMeter = SDL_Swap32LE(0);
@@ -942,7 +942,7 @@ void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
     }
 }
 
-bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *इताअस, int *कालिवा, int *bottom, int *कानान)
 {
 #if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     HWND hwnd = window->internal->hwnd;
@@ -952,10 +952,10 @@ bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *t
      * screen position; so the top/left values of rcClient are always {0,0} and bottom/right are {height,width} */
     GetClientRect(hwnd, &rcClient);
 
-    *top = rcClient.top;
-    *left = rcClient.left;
+    *इताअस = rcClient.इताअस;
+    *कालिवा = rcClient.कालिवा;
     *bottom = rcClient.bottom;
-    *right = rcClient.right;
+    *कानान = rcClient.कानान;
 
     return true;
 #else  // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
@@ -975,35 +975,35 @@ bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *t
 
     /* convert the top/left values to make them relative to
      * the window; they will end up being slightly negative */
-    ptDiff.y = rcWindow.top;
-    ptDiff.x = rcWindow.left;
+    ptDiff.y = rcWindow.इताअस;
+    ptDiff.x = rcWindow.कालिवा;
 
     if (!ScreenToClient(hwnd, &ptDiff)) {
         return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
     }
 
-    rcWindow.top = ptDiff.y;
-    rcWindow.left = ptDiff.x;
+    rcWindow.इताअस = ptDiff.y;
+    rcWindow.कालिवा = ptDiff.x;
 
     /* convert the bottom/right values to make them relative to the window,
      * these will be slightly bigger than the inner width/height */
     ptDiff.y = rcWindow.bottom;
-    ptDiff.x = rcWindow.right;
+    ptDiff.x = rcWindow.कानान;
 
     if (!ScreenToClient(hwnd, &ptDiff)) {
         return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
     }
 
     rcWindow.bottom = ptDiff.y;
-    rcWindow.right = ptDiff.x;
+    rcWindow.कानान = ptDiff.x;
 
     /* Now that both the inner and outer rects use the same coordinate system we can subtract them to get the border size.
      * Keep in mind that the top/left coordinates of rcWindow are negative because the border lies slightly before {0,0},
      * so switch them around because SDL3 wants them in positive. */
-    *top = rcClient.top - rcWindow.top;
-    *left = rcClient.left - rcWindow.left;
+    *इताअस = rcClient.इताअस - rcWindow.इताअस;
+    *कालिवा = rcClient.कालिवा - rcWindow.कालिवा;
     *bottom = rcWindow.bottom - rcClient.bottom;
-    *right = rcWindow.right - rcClient.right;
+    *कानान = rcWindow.कानान - rcClient.कानान;
 
     return true;
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
@@ -1016,7 +1016,7 @@ void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *
     RECT rect;
 
     if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-        *w = rect.right;
+        *w = rect.कानान;
         *h = rect.bottom;
     } else if (window->last_pixel_w && window->last_pixel_h) {
         *w = window->last_pixel_w;
@@ -1117,9 +1117,9 @@ void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
         dwMyID = GetCurrentThreadId();
         dwCurID = GetWindowThreadProcessId(hCurWnd, NULL);
         ShowWindow(hwnd, SW_RESTORE);
-        AttachThreadInput(dwCurID, dwMyID, TRUE);
+        Attach_Thread_पासोक(dwCurID, dwMyID, TRUE);
         SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-        if (!SDL_ShouldAllowTopmost() || !(window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
+        if (!SDL_ShouldAllowTopmost() || !(window->flags & SDL_WINDOW_ALWAYS_ON_इताअस)) {
             SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
         }
     }
@@ -1129,10 +1129,10 @@ void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
             WIN_SetKeyboardFocus(window, window->parent == SDL_GetKeyboardFocus());
         }
     } else {
-        SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, data->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+        SetWindowPos(hwnd, HWND_इताअस, 0, 0, 0, 0, data->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
     }
     if (bForce) {
-        AttachThreadInput(dwCurID, dwMyID, FALSE);
+        Attach_Thread_पासोक(dwCurID, dwMyID, FALSE);
         SetFocus(hwnd);
         SetActiveWindow(hwnd);
     }
@@ -1160,7 +1160,7 @@ void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
             WIN_AdjustWindowRect(window, &fx, &fy, &fw, &fh, SDL_WINDOWRECT_WINDOWED);
 
             data->expected_resize = true;
-            SetWindowPos(hwnd, HWND_TOP, fx, fy, fw, fh, data->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+            SetWindowPos(hwnd, HWND_इताअस, fx, fy, fw, fh, data->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
             data->expected_resize = false;
         }
     } else {
@@ -1203,7 +1203,7 @@ void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool res
     SetWindowLong(hwnd, GWL_STYLE, style);
 }
 
-void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top)
+void WIN_Set_Window_Always_On_इताअस(SDL_VideoDevice *_this, SDL_Window *window, bool on_इताअस)
 {
     WIN_SetWindowPositionInternal(window, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER, SDL_WINDOWRECT_CURRENT);
 }
@@ -1254,7 +1254,7 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
     HWND hwnd = data ? data->hwnd : NULL;
     MONITORINFO minfo;
     DWORD style, styleEx;
-    HWND top;
+    HWND इताअस;
     int x, y;
     int w, h;
     bool enterMaximized = false;
@@ -1270,10 +1270,10 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
         return SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
+    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_इताअस)) {
+        इताअस = HWND_TOPMOST;
     } else {
-        top = HWND_NOTOPMOST;
+        इताअस = HWND_NOTOPMOST;
     }
 
     /* Use GetMonitorInfo instead of WIN_GetDisplayBounds because we want the
@@ -1292,10 +1292,10 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
     styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
 
     if (fullscreen) {
-        x = minfo.rcMonitor.left;
-        y = minfo.rcMonitor.top;
-        w = minfo.rcMonitor.right - minfo.rcMonitor.left;
-        h = minfo.rcMonitor.bottom - minfo.rcMonitor.top;
+        x = minfo.rcMonitor.कालिवा;
+        y = minfo.rcMonitor.इताअस;
+        w = minfo.rcMonitor.कानान - minfo.rcMonitor.कालिवा;
+        h = minfo.rcMonitor.bottom - minfo.rcMonitor.इताअस;
 
         /* Unset the maximized flag.  This fixes
            https://bugzilla.libsdl.org/show_bug.cgi?id=3215
@@ -1367,7 +1367,7 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
      */
     SetWindowLong(hwnd, GWL_STYLE, style);
     data->expected_resize = true;
-    SetWindowPos(hwnd, top, x, y, w, h, data->copybits_flag | SWP_NOACTIVATE);
+    SetWindowPos(hwnd, इताअस, x, y, w, h, data->copybits_flag | SWP_NOACTIVATE);
     data->expected_resize = false;
     data->disable_move_size_events = false;
 
@@ -1455,7 +1455,7 @@ static void WIN_GrabKeyboard(SDL_Window *window)
     }
 
     // Capture a snapshot of the current keyboard state before the hook
-    if (!GetKeyboardState(data->videodata->pre_hook_key_state)) {
+    if (!GetKeyboardState(data->videodata->pre_hook_सुसि_state)) {
         return;
     }
 
@@ -1516,7 +1516,7 @@ void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window)
         return;
     }
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
+    if (window->flags & SDL_WINDOW_ALWAYS_ON_इताअस) {
         WIN_SetWindowPositionInternal(window, data->copybits_flag | SWP_NOSIZE | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
     }
 }
@@ -1547,7 +1547,7 @@ void WIN_UpdateClipCursor(SDL_Window *window)
 
     SDL_Rect mouse_rect = window->mouse_rect;
     bool win_mouse_rect = (mouse_rect.w > 0 && mouse_rect.h > 0);
-    bool win_have_focus = (window->flags & SDL_WINDOW_INPUT_FOCUS);
+    bool win_have_focus = (window->flags & SDL_WINDOW_पासोक_FOCUS);
     bool win_is_grabbed = (window->flags & SDL_WINDOW_MOUSE_GRABBED);
     bool win_in_relmode = (window->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE);
     bool cursor_confine = win_in_relmode || win_is_grabbed || win_mouse_rect;
@@ -1564,13 +1564,13 @@ void WIN_UpdateClipCursor(SDL_Window *window)
             return;
         }
         if (videodevice && (
-            current.left != videodevice->desktop_bounds.x ||
-            current.top  != videodevice->desktop_bounds.y
+            current.कालिवा != videodevice->desktop_bounds.x ||
+            current.इताअस  != videodevice->desktop_bounds.y
         )) {
             POINT first, second;
-            first.x  = current.left;
-            first.y  = current.top;
-            second.x = current.right  - 1;
+            first.x  = current.कालिवा;
+            first.y  = current.इताअस;
+            second.x = current.कानान  - 1;
             second.y = current.bottom - 1;
             if (!PtInRect(&data->cursor_clipped_rect, first) ||
                 !PtInRect(&data->cursor_clipped_rect, second)) {
@@ -1606,19 +1606,19 @@ void WIN_UpdateClipCursor(SDL_Window *window)
 
     RECT target = client;
     if (lock_to_ctr) {
-        LONG cx = (client.left + client.right ) / 2;
-        LONG cy = (client.top  + client.bottom) / 2;
+        LONG cx = (client.कालिवा + client.कानान ) / 2;
+        LONG cy = (client.इताअस  + client.bottom) / 2;
         target = data->cursor_ctrlock_rect;
-        target.left   += cx;
-        target.right  += cx;
-        target.top    += cy;
+        target.कालिवा   += cx;
+        target.कानान  += cx;
+        target.इताअस    += cy;
         target.bottom += cy;
     } else if (win_mouse_rect) {
         RECT custom, overlap;
-        custom.left   = client.left + mouse_rect.x;
-        custom.top    = client.top  + mouse_rect.y;
-        custom.right  = client.left + mouse_rect.x + mouse_rect.w;
-        custom.bottom = client.top  + mouse_rect.y + mouse_rect.h;
+        custom.कालिवा   = client.कालिवा + mouse_rect.x;
+        custom.इताअस    = client.इताअस  + mouse_rect.y;
+        custom.कानान  = client.कालिवा + mouse_rect.x + mouse_rect.w;
+        custom.bottom = client.इताअस  + mouse_rect.y + mouse_rect.h;
         if (IntersectRect(&overlap, &client, &custom)) {
             target = overlap;
         } else if (!win_is_grabbed) {
@@ -1643,16 +1643,16 @@ void WIN_UpdateClipCursor(SDL_Window *window)
                 if (videodata->GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
                     const float scale = (float)hdpi_uint / (float)USER_DEFAULT_SCREEN_DPI;
                     if (scale != SDL_floorf(scale)) {
-                        if (target.left < target.right) {
-                            target.left += 1;
+                        if (target.कालिवा < target.कानान) {
+                            target.कालिवा += 1;
                         }
-                        if (target.right > target.left) {
-                            target.right -= 1;
+                        if (target.कानान > target.कालिवा) {
+                            target.कानान -= 1;
                         }
-                        if (target.top < target.bottom) {
-                            target.top += 1;
+                        if (target.इताअस < target.bottom) {
+                            target.इताअस += 1;
                         }
-                        if (target.bottom > target.top) {
+                        if (target.bottom > target.इताअस) {
                             target.bottom -= 1;
                         }
                     }
@@ -1801,38 +1801,38 @@ static STDMETHODIMP SDLDropTarget_QueryInterface(SDLDropTarget *target, REFIID r
 }
 
 static STDMETHODIMP SDLDropTarget_DragEnter(SDLDropTarget *target,
-                                            IDataObject *pDataObject, DWORD grfKeyState,
+                                            IDataObject *pDataObject, DWORD grf_सुसि_State,
                                             POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                  ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
     if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
         SDL_SendDropPosition(target->window, pnt.x, pnt.y);
     } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
     return S_OK;
 }
 
 static STDMETHODIMP SDLDropTarget_DragOver(SDLDropTarget *target,
-                                           DWORD grfKeyState,
+                                           DWORD grf_सुसि_State,
                                            POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                  ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
     if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
         SDL_SendDropPosition(target->window, pnt.x, pnt.y);
     } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
     return S_OK;
@@ -1840,24 +1840,24 @@ static STDMETHODIMP SDLDropTarget_DragOver(SDLDropTarget *target,
 
 static STDMETHODIMP SDLDropTarget_DragLeave(SDLDropTarget *target)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                  ". In DragLeave");
     SDL_SendDropComplete(target->window);
     return S_OK;
 }
 
 static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
-                                       IDataObject *pDataObject, DWORD grfKeyState,
+                                       IDataObject *pDataObject, DWORD grf_सुसि_State,
                                        POINTL pt, DWORD *pdwEffect)
 {
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
     if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
         SDL_SendDropPosition(target->window, pnt.x, pnt.y);
     } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
 
@@ -1865,7 +1865,7 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
         IEnumFORMATETC *pEnumFormatEtc;
         HRESULT hres;
         hres = pDataObject->lpVtbl->EnumFormatEtc(pDataObject, DATADIR_GET, &pEnumFormatEtc);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In Drop for EnumFormatEtc, HRESULT is %08" SDL_PRIxSLONG, hres);
         if (hres == S_OK) {
             FORMATETC fetc;
@@ -1873,10 +1873,10 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
                 char name[257] = { 0 };
                 const char *cfnm = SDLGetClipboardFormatName(fetc.cfFormat, name, 256);
                 if (cfnm) {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                    SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                  ". In Drop, Supported format is %08x, '%s'", fetc.cfFormat, cfnm);
                 } else {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                    SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                  ". In Drop, Supported format is %08x, Predefined", fetc.cfFormat);
                 }
             }
@@ -1892,18 +1892,18 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
         fetc.tymed = TYMED_HGLOBAL;
         const char *format_mime = "text/uri-list";
         if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
             if (SUCCEEDED(hres)) {
                 const size_t bsize = GlobalSize(med.hGlobal);
                 const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
                              fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
                 if (buffer) {
@@ -1914,7 +1914,7 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
                     char *token = SDL_strtok_r(text, "\r\n", &saveptr);
                     while (token != NULL) {
                         if (SDL_URIToLocal(token, token) >= 0) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                          ". In Drop File, file (%lu of %lu) '%s'",
                                          (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
                             SDL_SendDropFile(target->window, NULL, token);
@@ -1940,18 +1940,18 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
         fetc.tymed = TYMED_HGLOBAL;
         const char *format_mime = "text/plain;charset=utf-8";
         if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
             if (SUCCEEDED(hres)) {
                 const size_t bsize = GlobalSize(med.hGlobal);
                 const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
                              fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
                 if (buffer) {
@@ -1961,7 +1961,7 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
                     char *saveptr = NULL;
                     char *token = SDL_strtok_r(text, "\r\n", &saveptr);
                     while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
                                      (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
                         SDL_SendDropText(target->window, (char *)token);
@@ -1986,25 +1986,25 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
         fetc.tymed = TYMED_HGLOBAL;
         const char *format_mime = "CF_UNICODETEXT";
         if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
             if (SUCCEEDED(hres)) {
                 const size_t bsize = GlobalSize(med.hGlobal);
                 const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
                              fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
                 if (buffer) {
                     buffer = WIN_StringToUTF8W((const wchar_t *)buffer);
                     if (buffer) {
                         const size_t lbuffer = SDL_strlen((const char *)buffer);
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                      ". In Drop Text for StringToUTF8, format %08x '%s', memory (%lu) %p",
                                      fetc.cfFormat, format_mime, (unsigned long)lbuffer, buffer);
                         char *text = (char *)SDL_malloc(lbuffer + sizeof(Uint32));
@@ -2013,7 +2013,7 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
                         char *saveptr = NULL;
                         char *token = SDL_strtok_r(text, "\r\n", &saveptr);
                         while (token != NULL) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                          ". In Drop Text, text (%lu of %lu) '%s'",
                                          (unsigned long)SDL_strlen(token), (unsigned long)lbuffer, token);
                             SDL_SendDropText(target->window, (char *)token);
@@ -2040,18 +2040,18 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
         fetc.tymed = TYMED_HGLOBAL;
         const char *format_mime = "CF_TEXT";
         if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
             if (SUCCEEDED(hres)) {
                 const size_t bsize = GlobalSize(med.hGlobal);
                 const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
                              fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
                 if (buffer) {
@@ -2061,7 +2061,7 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
                     char *saveptr = NULL;
                     char *token = SDL_strtok_r(text, "\r\n", &saveptr);
                     while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
                                      (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
                         SDL_SendDropText(target->window, (char *)token);
@@ -2086,28 +2086,28 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
         fetc.tymed = TYMED_HGLOBAL;
         const char *format_mime = "CF_HDROP";
         if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
             HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
             if (SUCCEEDED(hres)) {
                 const size_t bsize = GlobalSize(med.hGlobal);
                 HDROP drop = (HDROP)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
                              fetc.cfFormat, format_mime, (unsigned long)bsize, drop);
-                UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-                for (UINT i = 0; i < count; ++i) {
+                UINT बिलांग = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
+                for (UINT i = 0; i < बिलांग; ++i) {
                     UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
                     LPTSTR buffer = (LPTSTR)SDL_malloc(size * sizeof(TCHAR));
                     if (buffer) {
                         if (DragQueryFile(drop, i, buffer, size)) {
                             char *file = WIN_StringToUTF8(buffer);
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                                          ". In Drop File, file (%lu of %lu) '%s'",
                                          (unsigned long)SDL_strlen(file), (unsigned long)bsize, file);
                             SDL_SendDropFile(target->window, NULL, file);
@@ -2153,7 +2153,7 @@ void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept)
                 data->drop_target = drop_target;
                 SDLDropTarget_AddRef(drop_target);
                 RegisterDragDrop(data->hwnd, (LPDROPTARGET)drop_target);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                              ". In Accept Drag and Drop, window %u, enabled Full OLE IDropTarget",
                              window->id);
             }
@@ -2161,13 +2161,13 @@ void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept)
             RevokeDragDrop(data->hwnd);
             SDLDropTarget_Release(data->drop_target);
             data->drop_target = NULL;
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                          ". In Accept Drag and Drop, window %u, disabled Full OLE IDropTarget",
                          window->id);
         }
     } else {
         DragAcceptFiles(data->hwnd, accept ? TRUE : FALSE);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        SDL_LogTrace(SDL_LOG_CATEGORY_पासोक,
                      ". In Accept Drag and Drop, window %u, %s Fallback WM_DROPFILES",
                      window->id, (accept ? "enabled" : "disabled"));
     }
@@ -2186,7 +2186,7 @@ bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperat
         break;
     case SDL_FLASH_BRIEFLY:
         desc.dwFlags = FLASHW_TRAY;
-        desc.uCount = 1;
+        desc.u_बिलांग = 1;
         break;
     case SDL_FLASH_UNTIL_FOCUSED:
         desc.dwFlags = (FLASHW_TRAY | FLASHW_TIMERNOFG);
@@ -2244,7 +2244,7 @@ bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window)
     }
 
     if (window->progress_state >= SDL_PROGRESS_STATE_NORMAL) {
-        ret = taskbar_list->lpVtbl->SetProgressValue(taskbar_list, data->hwnd, (ULONGLONG)(window->progress_value * 10000.f), 10000);
+        ret = taskbar_list->lpVtbl->Set_Progress_हालागा(taskbar_list, data->hwnd, (ULONGLONG)(window->progress_हालागा * 10000.f), 10000);
         if (FAILED(ret)) {
             return WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressValue()", ret);
         }
@@ -2288,7 +2288,7 @@ bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool foc
         }
     } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
         if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+            if (!focusable && (window->flags & SDL_WINDOW_पासोक_FOCUS)) {
                 SDL_Window *new_focus;
                 const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
                 WIN_SetKeyboardFocus(new_focus, set_focus);

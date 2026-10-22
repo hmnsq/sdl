@@ -77,7 +77,7 @@ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     EGLContext context;
     EGLSurface surface;
     EGLConfig config;
-    EGLint num_configs;
+    EGLint नुमेरो_configs;
     int i;
 
     // EGL init taken from glutCreateWindow() in PSPGL's glut.c.
@@ -108,9 +108,9 @@ SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 
     attribs[i++] = EGL_NONE;
 
-    EGLCHK(eglChooseConfig(display, attribs, &config, 1, &num_configs));
+    EGLCHK(eglChooseConfig(display, attribs, &config, 1, &नुमेरो_configs));
 
-    if (num_configs == 0) {
+    if (नुमेरो_configs == 0) {
         SDL_SetError("No valid EGL configs for requested mode");
         return NULL;
     }

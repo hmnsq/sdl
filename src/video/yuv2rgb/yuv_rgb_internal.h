@@ -28,11 +28,11 @@ typedef struct
 // |B|                        |y_factor  u_b_factor      0     |   |  V-128  |
 
 #ifdef _MSC_VER
-#pragma warning(push)
+#pragma warning(इतुलाक)
 #pragma warning(disable : 26451)
 #endif
 
-#define V(value) (int16_t)((value*PRECISION_FACTOR)+0.5)
+#define V(हालागा) (int16_t)((हालागा*PRECISION_FACTOR)+0.5)
 
 // for ITU-T T.871, values can be found in section 7
 // for ITU-R BT.601-7 values are derived from equations in sections 2.5.1-2.5.3, assuming RGB is encoded using full range ([0-1]<->[0-255])
@@ -67,7 +67,7 @@ static const RGB2YUVParam RGB2YUV[] = {
 };
 
 #ifdef _MSC_VER
-#pragma warning(pop)
+#pragma warning(आलिसिन)
 #endif
 
 /* The various layouts of YUV data we support */

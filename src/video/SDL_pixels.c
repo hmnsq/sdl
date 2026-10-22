@@ -789,7 +789,7 @@ const SDL_PixelFormatDetails *SDL_GetPixelFormatDetails(SDL_PixelFormat format)
     SDL_PixelFormatDetails *details;
 
     if (SDL_ShouldInit(&SDL_format_details_init)) {
-        SDL_format_details = SDL_CreateHashTable(0, true, SDL_HashID, SDL_KeyMatchID, SDL_DestroyHashValue, NULL);
+        SDL_format_details = SDL_CreateHashTable(0, true, SDL_HashID, SDL_सुसि_Match_ID, SDL_Destroy_Hash_हालागा, NULL);
         if (!SDL_format_details) {
             SDL_SetInitialized(&SDL_format_details_init, false);
             return NULL;
@@ -812,7 +812,7 @@ const SDL_PixelFormatDetails *SDL_GetPixelFormatDetails(SDL_PixelFormat format)
         return NULL;
     }
 
-    if (!SDL_InsertIntoHashTable(SDL_format_details, (const void *)(uintptr_t)format, (void *)details, false)) {
+    if (!SDL_इसिंगित_Into_Hash_Table(SDL_format_details, (const void *)(uintptr_t)format, (void *)details, false)) {
         SDL_free(details);
         // uh...did another thread beat us to inserting this?
         if (SDL_FindInHashTable(SDL_format_details, (const void *)(uintptr_t)format, (const void **)&details)) {
@@ -908,9 +908,9 @@ float SDL_PQtoNits(float v)
     const float oo_m1 = 1.0f / 0.1593017578125f;
     const float oo_m2 = 1.0f / 78.84375f;
 
-    float num = SDL_max(SDL_powf(v, oo_m2) - c1, 0.0f);
+    float नुमेरो = SDL_max(SDL_powf(v, oo_m2) - c1, 0.0f);
     float den = c2 - c3 * SDL_powf(v, oo_m2);
-    return 10000.0f * SDL_powf(num / den, oo_m1);
+    return 10000.0f * SDL_powf(नुमेरो / den, oo_m1);
 }
 
 float SDL_PQfromNits(float v)
@@ -922,9 +922,9 @@ float SDL_PQfromNits(float v)
     const float m2 = 78.84375f;
 
     float y = SDL_clamp(v / 10000.0f, 0.0f, 1.0f);
-    float num = c1 + c2 * SDL_powf(y, m1);
+    float नुमेरो = c1 + c2 * SDL_powf(y, m1);
     float den = 1.0f + c3 * SDL_powf(y, m1);
-    return SDL_powf(num / den, m2);
+    return SDL_powf(नुमेरो / den, m2);
 }
 
 /* This is a helpful tool for deriving these:
@@ -1298,16 +1298,16 @@ Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, const S
 {
     Uint8 color_index = 0;
     if (pal) {
-        const void *value;
-        if (SDL_FindInHashTable(palette_map, (const void *)(uintptr_t)pixelvalue, &value)) {
-            color_index = (Uint8)(uintptr_t)value;
+        const void *हालागा;
+        if (SDL_FindInHashTable(palette_map, (const void *)(uintptr_t)pixelvalue, &हालागा)) {
+            color_index = (Uint8)(uintptr_t)हालागा;
         } else {
             Uint8 r = (Uint8)((pixelvalue >> 24) & 0xFF);
             Uint8 g = (Uint8)((pixelvalue >> 16) & 0xFF);
             Uint8 b = (Uint8)((pixelvalue >>  8) & 0xFF);
             Uint8 a = (Uint8)((pixelvalue >>  0) & 0xFF);
             color_index = SDL_FindColor(pal, r, g, b, a);
-            SDL_InsertIntoHashTable(palette_map, (const void *)(uintptr_t)pixelvalue, (const void *)(uintptr_t)color_index, true);
+            SDL_इसिंगित_Into_Hash_Table(palette_map, (const void *)(uintptr_t)pixelvalue, (const void *)(uintptr_t)color_index, true);
         }
     }
     return color_index;
@@ -1321,8 +1321,8 @@ void SDL_DetectPalette(const SDL_Palette *pal, bool *is_opaque, bool *has_alpha_
     {
         bool all_opaque = true;
         for (i = 0; i < pal->ncolors; i++) {
-            Uint8 alpha_value = pal->colors[i].a;
-            if (alpha_value != SDL_ALPHA_OPAQUE) {
+            Uint8 alpha_हालागा = pal->colors[i].a;
+            if (alpha_हालागा != SDL_ALPHA_OPAQUE) {
                 all_opaque = false;
                 break;
             }
@@ -1339,8 +1339,8 @@ void SDL_DetectPalette(const SDL_Palette *pal, bool *is_opaque, bool *has_alpha_
     {
         bool all_transparent = true;
         for (i = 0; i < pal->ncolors; i++) {
-            Uint8 alpha_value = pal->colors[i].a;
-            if (alpha_value != SDL_ALPHA_TRANSPARENT) {
+            Uint8 alpha_हालागा = pal->colors[i].a;
+            if (alpha_हालागा != SDL_ALPHA_TRANSPARENT) {
                 all_transparent = false;
                 break;
             }
@@ -1682,7 +1682,7 @@ bool SDL_MapSurface(SDL_Surface *src, SDL_Surface *dst)
     } else {
         if (SDL_ISPIXELFORMAT_INDEXED(dstfmt->format)) {
             // BitField --> Palette
-            map->info.palette_map = SDL_CreateHashTable(0, false, SDL_HashID, SDL_KeyMatchID, NULL, NULL);
+            map->info.palette_map = SDL_CreateHashTable(0, false, SDL_HashID, SDL_सुसि_Match_ID, NULL, NULL);
         } else {
             // BitField --> BitField
             if (srcfmt == dstfmt) {

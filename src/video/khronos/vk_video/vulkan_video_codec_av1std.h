@@ -24,7 +24,7 @@ extern "C" {
 
 #include "vulkan_video_codecs_common.h"
 
-#define STD_VIDEO_AV1_NUM_REF_FRAMES      8U
+#define STD_VIDEO_AV1_नुमेरो_REF_FRAMES      8U
 #define STD_VIDEO_AV1_REFS_PER_FRAME      7U
 #define STD_VIDEO_AV1_TOTAL_REFS_PER_FRAME 8U
 #define STD_VIDEO_AV1_MAX_TILE_COLS       64U
@@ -38,17 +38,17 @@ extern "C" {
 #define STD_VIDEO_AV1_MAX_LOOP_FILTER_STRENGTHS 4U
 #define STD_VIDEO_AV1_LOOP_FILTER_ADJUSTMENTS 2U
 #define STD_VIDEO_AV1_MAX_CDEF_FILTER_STRENGTHS 8U
-#define STD_VIDEO_AV1_MAX_NUM_PLANES      3U
+#define STD_VIDEO_AV1_MAX_नुमेरो_PLANES      3U
 #define STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS 6U
-#define STD_VIDEO_AV1_MAX_NUM_Y_POINTS    14U
-#define STD_VIDEO_AV1_MAX_NUM_CB_POINTS   10U
-#define STD_VIDEO_AV1_MAX_NUM_CR_POINTS   10U
-#define STD_VIDEO_AV1_MAX_NUM_POS_LUMA    24U
-#define STD_VIDEO_AV1_MAX_NUM_POS_CHROMA  25U
+#define STD_VIDEO_AV1_MAX_नुमेरो_Y_POINTS    14U
+#define STD_VIDEO_AV1_MAX_नुमेरो_CB_POINTS   10U
+#define STD_VIDEO_AV1_MAX_नुमेरो_CR_POINTS   10U
+#define STD_VIDEO_AV1_MAX_नुमेरो_POS_LUMA    24U
+#define STD_VIDEO_AV1_MAX_नुमेरो_POS_CHROMA  25U
 
 typedef enum StdVideoAV1Profile {
     STD_VIDEO_AV1_PROFILE_MAIN = 0,
-    STD_VIDEO_AV1_PROFILE_HIGH = 1,
+    STD_VIDEO_AV1_PROFILE_माताअस = 1,
     STD_VIDEO_AV1_PROFILE_PROFESSIONAL = 2,
     STD_VIDEO_AV1_PROFILE_INVALID = 0x7FFFFFFF,
     STD_VIDEO_AV1_PROFILE_MAX_ENUM = 0x7FFFFFFF
@@ -84,7 +84,7 @@ typedef enum StdVideoAV1Level {
 } StdVideoAV1Level;
 
 typedef enum StdVideoAV1FrameType {
-    STD_VIDEO_AV1_FRAME_TYPE_KEY = 0,
+    STD_VIDEO_AV1_FRAME_TYPE_सुसि = 0,
     STD_VIDEO_AV1_FRAME_TYPE_INTER = 1,
     STD_VIDEO_AV1_FRAME_TYPE_INTRA_ONLY = 2,
     STD_VIDEO_AV1_FRAME_TYPE_SWITCH = 3,
@@ -231,9 +231,9 @@ typedef struct StdVideoAV1TimingInfoFlags {
 
 typedef struct StdVideoAV1TimingInfo {
     StdVideoAV1TimingInfoFlags    flags;
-    uint32_t                      num_units_in_display_tick;
+    uint32_t                      नुमेरो_units_in_display_tick;
     uint32_t                      time_scale;
-    uint32_t                      num_ticks_per_picture_minus_1;
+    uint32_t                      नुमेरो_ticks_per_picture_minus_1;
 } StdVideoAV1TimingInfo;
 
 typedef struct StdVideoAV1LoopFilterFlags {
@@ -304,13 +304,13 @@ typedef struct StdVideoAV1CDEF {
 } StdVideoAV1CDEF;
 
 typedef struct StdVideoAV1LoopRestoration {
-    StdVideoAV1FrameRestorationType    FrameRestorationType[STD_VIDEO_AV1_MAX_NUM_PLANES];
-    uint16_t                           LoopRestorationSize[STD_VIDEO_AV1_MAX_NUM_PLANES];
+    StdVideoAV1FrameRestorationType    FrameRestorationType[STD_VIDEO_AV1_MAX_नुमेरो_PLANES];
+    uint16_t                           LoopRestorationSize[STD_VIDEO_AV1_MAX_नुमेरो_PLANES];
 } StdVideoAV1LoopRestoration;
 
 typedef struct StdVideoAV1GlobalMotion {
-    uint8_t    GmType[STD_VIDEO_AV1_NUM_REF_FRAMES];
-    int32_t    gm_params[STD_VIDEO_AV1_NUM_REF_FRAMES][STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS];
+    uint8_t    GmType[STD_VIDEO_AV1_नुमेरो_REF_FRAMES];
+    int32_t    gm_params[STD_VIDEO_AV1_नुमेरो_REF_FRAMES][STD_VIDEO_AV1_GLOBAL_MOTION_PARAMS];
 } StdVideoAV1GlobalMotion;
 
 typedef struct StdVideoAV1FilmGrainFlags {
@@ -329,18 +329,18 @@ typedef struct StdVideoAV1FilmGrain {
     uint8_t                      grain_scale_shift;
     uint16_t                     grain_seed;
     uint8_t                      film_grain_params_ref_idx;
-    uint8_t                      num_y_points;
-    uint8_t                      point_y_value[STD_VIDEO_AV1_MAX_NUM_Y_POINTS];
-    uint8_t                      point_y_scaling[STD_VIDEO_AV1_MAX_NUM_Y_POINTS];
-    uint8_t                      num_cb_points;
-    uint8_t                      point_cb_value[STD_VIDEO_AV1_MAX_NUM_CB_POINTS];
-    uint8_t                      point_cb_scaling[STD_VIDEO_AV1_MAX_NUM_CB_POINTS];
-    uint8_t                      num_cr_points;
-    uint8_t                      point_cr_value[STD_VIDEO_AV1_MAX_NUM_CR_POINTS];
-    uint8_t                      point_cr_scaling[STD_VIDEO_AV1_MAX_NUM_CR_POINTS];
-    int8_t                       ar_coeffs_y_plus_128[STD_VIDEO_AV1_MAX_NUM_POS_LUMA];
-    int8_t                       ar_coeffs_cb_plus_128[STD_VIDEO_AV1_MAX_NUM_POS_CHROMA];
-    int8_t                       ar_coeffs_cr_plus_128[STD_VIDEO_AV1_MAX_NUM_POS_CHROMA];
+    uint8_t                      नुमेरो_y_points;
+    uint8_t                      point_y_हालागा[STD_VIDEO_AV1_MAX_नुमेरो_Y_POINTS];
+    uint8_t                      point_y_scaling[STD_VIDEO_AV1_MAX_नुमेरो_Y_POINTS];
+    uint8_t                      नुमेरो_cb_points;
+    uint8_t                      point_cb_हालागा[STD_VIDEO_AV1_MAX_नुमेरो_CB_POINTS];
+    uint8_t                      point_cb_scaling[STD_VIDEO_AV1_MAX_नुमेरो_CB_POINTS];
+    uint8_t                      नुमेरो_cr_points;
+    uint8_t                      point_cr_हालागा[STD_VIDEO_AV1_MAX_नुमेरो_CR_POINTS];
+    uint8_t                      point_cr_scaling[STD_VIDEO_AV1_MAX_नुमेरो_CR_POINTS];
+    int8_t                       ar_coeffs_y_plus_128[STD_VIDEO_AV1_MAX_नुमेरो_POS_LUMA];
+    int8_t                       ar_coeffs_cb_plus_128[STD_VIDEO_AV1_MAX_नुमेरो_POS_CHROMA];
+    int8_t                       ar_coeffs_cr_plus_128[STD_VIDEO_AV1_MAX_नुमेरो_POS_CHROMA];
     uint8_t                      cb_mult;
     uint8_t                      cb_luma_mult;
     uint16_t                     cb_offset;

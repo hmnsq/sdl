@@ -26,20 +26,20 @@ extern "C" {
 
 #define STD_VIDEO_H265_CPB_CNT_LIST_SIZE  32U
 #define STD_VIDEO_H265_SUBLAYERS_LIST_SIZE 7U
-#define STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS 6U
-#define STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS 16U
-#define STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS 6U
-#define STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS 64U
-#define STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS 6U
-#define STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS 64U
-#define STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS 2U
-#define STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS 64U
+#define STD_VIDEO_H265_SCALING_LIST_4_X4_नुमेरो_LISTS 6U
+#define STD_VIDEO_H265_SCALING_LIST_4_X4_नुमेरो_ELEMENTS 16U
+#define STD_VIDEO_H265_SCALING_LIST_8_X8_नुमेरो_LISTS 6U
+#define STD_VIDEO_H265_SCALING_LIST_8_X8_नुमेरो_ELEMENTS 64U
+#define STD_VIDEO_H265_SCALING_LIST_16_X16_नुमेरो_LISTS 6U
+#define STD_VIDEO_H265_SCALING_LIST_16_X16_नुमेरो_ELEMENTS 64U
+#define STD_VIDEO_H265_SCALING_LIST_32_X32_नुमेरो_LISTS 2U
+#define STD_VIDEO_H265_SCALING_LIST_32_X32_नुमेरो_ELEMENTS 64U
 #define STD_VIDEO_H265_CHROMA_QP_OFFSET_LIST_SIZE 6U
 #define STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE 19U
 #define STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_ROWS_LIST_SIZE 21U
 #define STD_VIDEO_H265_PREDICTOR_PALETTE_COMPONENTS_LIST_SIZE 3U
 #define STD_VIDEO_H265_PREDICTOR_PALETTE_COMP_ENTRIES_LIST_SIZE 128U
-#define STD_VIDEO_H265_MAX_NUM_LIST_REF   15U
+#define STD_VIDEO_H265_MAX_नुमेरो_LIST_REF   15U
 #define STD_VIDEO_H265_MAX_CHROMA_PLANES  2U
 #define STD_VIDEO_H265_MAX_SHORT_TERM_REF_PIC_SETS 64U
 #define STD_VIDEO_H265_MAX_DPB_SIZE       16U
@@ -128,14 +128,14 @@ typedef enum StdVideoH265AspectRatioIdc {
 typedef struct StdVideoH265DecPicBufMgr {
     uint32_t    max_latency_increase_plus1[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
     uint8_t     max_dec_pic_buffering_minus1[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
-    uint8_t     max_num_reorder_pics[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
+    uint8_t     max_नुमेरो_reorder_pics[STD_VIDEO_H265_SUBLAYERS_LIST_SIZE];
 } StdVideoH265DecPicBufMgr;
 
 typedef struct StdVideoH265SubLayerHrdParameters {
-    uint32_t    bit_rate_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
-    uint32_t    cpb_size_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
-    uint32_t    cpb_size_du_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
-    uint32_t    bit_rate_du_value_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+    uint32_t    bit_rate_हालागा_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+    uint32_t    cpb_size_हालागा_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+    uint32_t    cpb_size_du_हालागा_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
+    uint32_t    bit_rate_du_हालागा_minus1[STD_VIDEO_H265_CPB_CNT_LIST_SIZE];
     uint32_t    cbr_flag;
 } StdVideoH265SubLayerHrdParameters;
 
@@ -146,12 +146,12 @@ typedef struct StdVideoH265HrdFlags {
     uint32_t    sub_pic_cpb_params_in_pic_timing_sei_flag : 1;
     uint32_t    fixed_pic_rate_general_flag : 8;
     uint32_t    fixed_pic_rate_within_cvs_flag : 8;
-    uint32_t    low_delay_hrd_flag : 8;
+    uint32_t    माबाबा_delay_hrd_flag : 8;
 } StdVideoH265HrdFlags;
 
 typedef struct StdVideoH265HrdParameters {
     StdVideoH265HrdFlags                        flags;
-    uint8_t                                     tick_divisor_minus2;
+    uint8_t                                     tick_पांगहाति_minus2;
     uint8_t                                     du_cpb_removal_delay_increment_length_minus1;
     uint8_t                                     dpb_output_delay_du_length_minus1;
     uint8_t                                     bit_rate_scale;
@@ -194,9 +194,9 @@ typedef struct StdVideoH265VideoParameterSet {
     uint8_t                                vps_max_sub_layers_minus1;
     uint8_t                                reserved1;
     uint8_t                                reserved2;
-    uint32_t                               vps_num_units_in_tick;
+    uint32_t                               vps_नुमेरो_units_in_tick;
     uint32_t                               vps_time_scale;
-    uint32_t                               vps_num_ticks_poc_diff_one_minus1;
+    uint32_t                               vps_नुमेरो_ticks_poc_diff_one_minus1;
     uint32_t                               reserved3;
     const StdVideoH265DecPicBufMgr*        pDecPicBufMgr;
     const StdVideoH265HrdParameters*       pHrdParameters;
@@ -204,12 +204,12 @@ typedef struct StdVideoH265VideoParameterSet {
 } StdVideoH265VideoParameterSet;
 
 typedef struct StdVideoH265ScalingLists {
-    uint8_t    ScalingList4x4[STD_VIDEO_H265_SCALING_LIST_4X4_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_4X4_NUM_ELEMENTS];
-    uint8_t    ScalingList8x8[STD_VIDEO_H265_SCALING_LIST_8X8_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_8X8_NUM_ELEMENTS];
-    uint8_t    ScalingList16x16[STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_16X16_NUM_ELEMENTS];
-    uint8_t    ScalingList32x32[STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS][STD_VIDEO_H265_SCALING_LIST_32X32_NUM_ELEMENTS];
-    uint8_t    ScalingListDCCoef16x16[STD_VIDEO_H265_SCALING_LIST_16X16_NUM_LISTS];
-    uint8_t    ScalingListDCCoef32x32[STD_VIDEO_H265_SCALING_LIST_32X32_NUM_LISTS];
+    uint8_t    ScalingList4x4[STD_VIDEO_H265_SCALING_LIST_4_X4_नुमेरो_LISTS][STD_VIDEO_H265_SCALING_LIST_4_X4_नुमेरो_ELEMENTS];
+    uint8_t    ScalingList8x8[STD_VIDEO_H265_SCALING_LIST_8_X8_नुमेरो_LISTS][STD_VIDEO_H265_SCALING_LIST_8_X8_नुमेरो_ELEMENTS];
+    uint8_t    ScalingList16x16[STD_VIDEO_H265_SCALING_LIST_16_X16_नुमेरो_LISTS][STD_VIDEO_H265_SCALING_LIST_16_X16_नुमेरो_ELEMENTS];
+    uint8_t    ScalingList32x32[STD_VIDEO_H265_SCALING_LIST_32_X32_नुमेरो_LISTS][STD_VIDEO_H265_SCALING_LIST_32_X32_नुमेरो_ELEMENTS];
+    uint8_t    ScalingListDCCoef16x16[STD_VIDEO_H265_SCALING_LIST_16_X16_नुमेरो_LISTS];
+    uint8_t    ScalingListDCCoef32x32[STD_VIDEO_H265_SCALING_LIST_32_X32_नुमेरो_LISTS];
 } StdVideoH265ScalingLists;
 
 typedef struct StdVideoH265SpsVuiFlags {
@@ -242,17 +242,17 @@ typedef struct StdVideoH265SequenceParameterSetVui {
     uint8_t                             colour_primaries;
     uint8_t                             transfer_characteristics;
     uint8_t                             matrix_coeffs;
-    uint8_t                             chroma_sample_loc_type_top_field;
+    uint8_t                             chroma_sample_loc_type_इताअस_field;
     uint8_t                             chroma_sample_loc_type_bottom_field;
     uint8_t                             reserved1;
     uint8_t                             reserved2;
-    uint16_t                            def_disp_win_left_offset;
-    uint16_t                            def_disp_win_right_offset;
-    uint16_t                            def_disp_win_top_offset;
+    uint16_t                            def_disp_win_कालिवा_offset;
+    uint16_t                            def_disp_win_कानान_offset;
+    uint16_t                            def_disp_win_इताअस_offset;
     uint16_t                            def_disp_win_bottom_offset;
-    uint32_t                            vui_num_units_in_tick;
+    uint32_t                            vui_नुमेरो_units_in_tick;
     uint32_t                            vui_time_scale;
-    uint32_t                            vui_num_ticks_poc_diff_one_minus1;
+    uint32_t                            vui_नुमेरो_ticks_poc_diff_one_minus1;
     uint16_t                            min_spatial_segmentation_idc;
     uint16_t                            reserved3;
     uint8_t                             max_bytes_per_pic_denom;
@@ -289,7 +289,7 @@ typedef struct StdVideoH265SpsFlags {
     uint32_t    explicit_rdpcm_enabled_flag : 1;
     uint32_t    extended_precision_processing_flag : 1;
     uint32_t    intra_smoothing_disabled_flag : 1;
-    uint32_t    high_precision_offsets_enabled_flag : 1;
+    uint32_t    माताअस_precision_offsets_enabled_flag : 1;
     uint32_t    persistent_rice_adaptation_enabled_flag : 1;
     uint32_t    cabac_bypass_alignment_enabled_flag : 1;
     uint32_t    sps_scc_extension_flag : 1;
@@ -315,8 +315,8 @@ typedef struct StdVideoH265ShortTermRefPicSet {
     uint16_t                               reserved1;
     uint8_t                                reserved2;
     uint8_t                                reserved3;
-    uint8_t                                num_negative_pics;
-    uint8_t                                num_positive_pics;
+    uint8_t                                नुमेरो_negative_pics;
+    uint8_t                                नुमेरो_positive_pics;
     uint16_t                               delta_poc_s0_minus1[STD_VIDEO_H265_MAX_DPB_SIZE];
     uint16_t                               delta_poc_s1_minus1[STD_VIDEO_H265_MAX_DPB_SIZE];
 } StdVideoH265ShortTermRefPicSet;
@@ -343,8 +343,8 @@ typedef struct StdVideoH265SequenceParameterSet {
     uint8_t                                       log2_diff_max_min_luma_transform_block_size;
     uint8_t                                       max_transform_hierarchy_depth_inter;
     uint8_t                                       max_transform_hierarchy_depth_intra;
-    uint8_t                                       num_short_term_ref_pic_sets;
-    uint8_t                                       num_long_term_ref_pics_sps;
+    uint8_t                                       नुमेरो_short_term_ref_pic_sets;
+    uint8_t                                       नुमेरो_long_term_ref_pics_sps;
     uint8_t                                       pcm_sample_bit_depth_luma_minus1;
     uint8_t                                       pcm_sample_bit_depth_chroma_minus1;
     uint8_t                                       log2_min_pcm_luma_coding_block_size_minus3;
@@ -354,10 +354,10 @@ typedef struct StdVideoH265SequenceParameterSet {
     uint8_t                                       palette_max_size;
     uint8_t                                       delta_palette_max_predictor_size;
     uint8_t                                       motion_vector_resolution_control_idc;
-    uint8_t                                       sps_num_palette_predictor_initializers_minus1;
-    uint32_t                                      conf_win_left_offset;
-    uint32_t                                      conf_win_right_offset;
-    uint32_t                                      conf_win_top_offset;
+    uint8_t                                       sps_नुमेरो_palette_predictor_initializers_minus1;
+    uint32_t                                      conf_win_कालिवा_offset;
+    uint32_t                                      conf_win_कानान_offset;
+    uint32_t                                      conf_win_इताअस_offset;
     uint32_t                                      conf_win_bottom_offset;
     const StdVideoH265ProfileTierLevel*           pProfileTierLevel;
     const StdVideoH265DecPicBufMgr*               pDecPicBufMgr;
@@ -407,9 +407,9 @@ typedef struct StdVideoH265PictureParameterSet {
     uint8_t                                       pps_pic_parameter_set_id;
     uint8_t                                       pps_seq_parameter_set_id;
     uint8_t                                       sps_video_parameter_set_id;
-    uint8_t                                       num_extra_slice_header_bits;
-    uint8_t                                       num_ref_idx_l0_default_active_minus1;
-    uint8_t                                       num_ref_idx_l1_default_active_minus1;
+    uint8_t                                       नुमेरो_extra_slice_header_bits;
+    uint8_t                                       नुमेरो_ref_idx_l0_default_active_minus1;
+    uint8_t                                       नुमेरो_ref_idx_l1_default_active_minus1;
     int8_t                                        init_qp_minus26;
     uint8_t                                       diff_cu_qp_delta_depth;
     int8_t                                        pps_cb_qp_offset;
@@ -427,11 +427,11 @@ typedef struct StdVideoH265PictureParameterSet {
     int8_t                                        pps_act_y_qp_offset_plus5;
     int8_t                                        pps_act_cb_qp_offset_plus5;
     int8_t                                        pps_act_cr_qp_offset_plus3;
-    uint8_t                                       pps_num_palette_predictor_initializers;
+    uint8_t                                       pps_नुमेरो_palette_predictor_initializers;
     uint8_t                                       luma_bit_depth_entry_minus8;
     uint8_t                                       chroma_bit_depth_entry_minus8;
-    uint8_t                                       num_tile_columns_minus1;
-    uint8_t                                       num_tile_rows_minus1;
+    uint8_t                                       नुमेरो_tile_columns_minus1;
+    uint8_t                                       नुमेरो_tile_rows_minus1;
     uint8_t                                       reserved1;
     uint8_t                                       reserved2;
     uint16_t                                      column_width_minus1[STD_VIDEO_H265_CHROMA_QP_OFFSET_TILE_COLS_LIST_SIZE];

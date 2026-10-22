@@ -392,7 +392,7 @@ SDL_FORCE_INLINE void BlitBto4(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE void Blit_Bto1_सुसि(SDL_BlitInfo *info, const Uint32 srcbpp)
 {
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
@@ -515,7 +515,7 @@ SDL_FORCE_INLINE void BlitBto1Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto2Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE void Blit_Bto2_सुसि(SDL_BlitInfo *info, const Uint32 srcbpp)
 {
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
@@ -589,7 +589,7 @@ SDL_FORCE_INLINE void BlitBto2Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto3Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE void Blit_Bto3_सुसि(SDL_BlitInfo *info, const Uint32 srcbpp)
 {
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
@@ -662,7 +662,7 @@ SDL_FORCE_INLINE void BlitBto3Key(SDL_BlitInfo *info, const Uint32 srcbpp)
     }
 }
 
-SDL_FORCE_INLINE void BlitBto4Key(SDL_BlitInfo *info, const Uint32 srcbpp)
+SDL_FORCE_INLINE void Blit_Bto4_सुसि(SDL_BlitInfo *info, const Uint32 srcbpp)
 {
     const Uint32 mask = (1 << srcbpp) - 1;
     const Uint32 align = (8 / srcbpp) - 1;
@@ -826,7 +826,7 @@ static void BlitBtoNAlpha(SDL_BlitInfo *info)
     }
 }
 
-static void BlitBtoNAlphaKey(SDL_BlitInfo *info)
+static void Blit_Bto_NAlpha_सुसि(SDL_BlitInfo *info)
 {
     int width = info->dst_w;
     int height = info->dst_h;
@@ -939,24 +939,24 @@ static const SDL_BlitFunc bitmap_blit_1b[] = {
     (SDL_BlitFunc)NULL, Blit1bto1, Blit1bto2, Blit1bto3, Blit1bto4
 };
 
-static void Blit1bto1Key(SDL_BlitInfo *info) {
-    BlitBto1Key(info, 1);
+static void Blit1bto1_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto1_सुसि(info, 1);
 }
 
-static void Blit1bto2Key(SDL_BlitInfo *info) {
-    BlitBto2Key(info, 1);
+static void Blit1bto2_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto2_सुसि(info, 1);
 }
 
-static void Blit1bto3Key(SDL_BlitInfo *info) {
-    BlitBto3Key(info, 1);
+static void Blit1bto3_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto3_सुसि(info, 1);
 }
 
-static void Blit1bto4Key(SDL_BlitInfo *info) {
-    BlitBto4Key(info, 1);
+static void Blit1bto4_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto4_सुसि(info, 1);
 }
 
 static const SDL_BlitFunc colorkey_blit_1b[] = {
-    (SDL_BlitFunc)NULL, Blit1bto1Key, Blit1bto2Key, Blit1bto3Key, Blit1bto4Key
+    (SDL_BlitFunc)NULL, Blit1bto1_सुसि, Blit1bto2_सुसि, Blit1bto3_सुसि, Blit1bto4_सुसि
 };
 
 
@@ -981,24 +981,24 @@ static const SDL_BlitFunc bitmap_blit_2b[] = {
     (SDL_BlitFunc)NULL, Blit2bto1, Blit2bto2, Blit2bto3, Blit2bto4
 };
 
-static void Blit2bto1Key(SDL_BlitInfo *info) {
-    BlitBto1Key(info, 2);
+static void Blit2bto1_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto1_सुसि(info, 2);
 }
 
-static void Blit2bto2Key(SDL_BlitInfo *info) {
-    BlitBto2Key(info, 2);
+static void Blit2bto2_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto2_सुसि(info, 2);
 }
 
-static void Blit2bto3Key(SDL_BlitInfo *info) {
-    BlitBto3Key(info, 2);
+static void Blit2bto3_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto3_सुसि(info, 2);
 }
 
-static void Blit2bto4Key(SDL_BlitInfo *info) {
-    BlitBto4Key(info, 2);
+static void Blit2bto4_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto4_सुसि(info, 2);
 }
 
 static const SDL_BlitFunc colorkey_blit_2b[] = {
-    (SDL_BlitFunc)NULL, Blit2bto1Key, Blit2bto2Key, Blit2bto3Key, Blit2bto4Key
+    (SDL_BlitFunc)NULL, Blit2bto1_सुसि, Blit2bto2_सुसि, Blit2bto3_सुसि, Blit2bto4_सुसि
 };
 
 
@@ -1023,24 +1023,24 @@ static const SDL_BlitFunc bitmap_blit_4b[] = {
     (SDL_BlitFunc)NULL, Blit4bto1, Blit4bto2, Blit4bto3, Blit4bto4
 };
 
-static void Blit4bto1Key(SDL_BlitInfo *info) {
-    BlitBto1Key(info, 4);
+static void Blit4bto1_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto1_सुसि(info, 4);
 }
 
-static void Blit4bto2Key(SDL_BlitInfo *info) {
-    BlitBto2Key(info, 4);
+static void Blit4bto2_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto2_सुसि(info, 4);
 }
 
-static void Blit4bto3Key(SDL_BlitInfo *info) {
-    BlitBto3Key(info, 4);
+static void Blit4bto3_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto3_सुसि(info, 4);
 }
 
-static void Blit4bto4Key(SDL_BlitInfo *info) {
-    BlitBto4Key(info, 4);
+static void Blit4bto4_सुसि(SDL_BlitInfo *info) {
+    Blit_Bto4_सुसि(info, 4);
 }
 
 static const SDL_BlitFunc colorkey_blit_4b[] = {
-    (SDL_BlitFunc)NULL, Blit4bto1Key, Blit4bto2Key, Blit4bto3Key, Blit4bto4Key
+    (SDL_BlitFunc)NULL, Blit4bto1_सुसि, Blit4bto2_सुसि, Blit4bto3_सुसि, Blit4bto4_सुसि
 };
 
 
@@ -1073,7 +1073,7 @@ SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface)
             return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
 
         case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+            return which >= 2 ? Blit_Bto_NAlpha_सुसि : (SDL_BlitFunc)NULL;
         }
         return NULL;
     }
@@ -1096,7 +1096,7 @@ SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface)
             return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
 
         case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+            return which >= 2 ? Blit_Bto_NAlpha_सुसि : (SDL_BlitFunc)NULL;
         }
         return NULL;
     }
@@ -1119,7 +1119,7 @@ SDL_BlitFunc SDL_CalculateBlit0(SDL_Surface *surface)
             return which >= 2 ? BlitBtoNAlpha : (SDL_BlitFunc)NULL;
 
         case SDL_COPY_COLORKEY | SDL_COPY_MODULATE_ALPHA | SDL_COPY_BLEND:
-            return which >= 2 ? BlitBtoNAlphaKey : (SDL_BlitFunc)NULL;
+            return which >= 2 ? Blit_Bto_NAlpha_सुसि : (SDL_BlitFunc)NULL;
         }
         return NULL;
     }

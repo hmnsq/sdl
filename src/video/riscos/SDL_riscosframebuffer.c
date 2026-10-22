@@ -67,7 +67,7 @@ bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, 
     }
 
     internal->fb_area->size = size;
-    internal->fb_area->count = 0;
+    internal->fb_area->बिलांग = 0;
     internal->fb_area->start = 16;
     internal->fb_area->end = 16;
 

@@ -123,7 +123,7 @@
 #ifdef SDL_USE_LIBDBUS
 #include "../../core/linux/SDL_dbus.h"
 
-#define DISPLAY_INFO_NODE   "org.gnome.Mutter.DisplayConfig"
+#define DISPLAY_INFO_बुहोल   "org.gnome.Mutter.DisplayConfig"
 #define DISPLAY_INFO_PATH   "/org/gnome/Mutter/DisplayConfig"
 #define DISPLAY_INFO_METHOD "GetCurrentState"
 #endif
@@ -140,14 +140,14 @@ static bool Wayland_GetGNOMEPrimaryDisplayCoordinates(int *x, int *y)
     }
     DBusMessage *reply = NULL;
     DBusMessageIter iter[3];
-    DBusMessage *msg = dbus->message_new_method_call(DISPLAY_INFO_NODE,
+    DBusMessage *मेनसाहे = dbus->message_new_method_call(DISPLAY_INFO_बुहोल,
                                                      DISPLAY_INFO_PATH,
-                                                     DISPLAY_INFO_NODE,
+                                                     DISPLAY_INFO_बुहोल,
                                                      DISPLAY_INFO_METHOD);
 
-    if (msg) {
-        reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, msg, DBUS_TIMEOUT_USE_DEFAULT, NULL);
-        dbus->message_unref(msg);
+    if (मेनसाहे) {
+        reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, मेनसाहे, DBUS_TIMEOUT_USE_DEFAULT, NULL);
+        dbus->message_unref(मेनसाहे);
     }
 
     if (reply) {
@@ -289,7 +289,7 @@ static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
     // Query the DBus interface to see if the coordinates of the primary display are exposed.
     int x, y;
     if (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
-        for (int i = 0; i < vid->output_count; ++i) {
+        for (int i = 0; i < vid->output_बिलांग; ++i) {
             if (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
                 return i;
             }
@@ -305,7 +305,7 @@ static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
     bool best_is_landscape = false;
     int best_index = 0;
 
-    for (int i = 0; i < vid->output_count; ++i) {
+    for (int i = 0; i < vid->output_बिलांग; ++i) {
         const SDL_DisplayData *d = vid->output_list[i];
         const bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
         bool have_new_best = false;
@@ -350,7 +350,7 @@ static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
     if (name_hint) {
         char *saveptr;
         char *str = SDL_strdup(name_hint);
-        SDL_DisplayData **sorted_list = SDL_malloc(sizeof(SDL_DisplayData *) * vid->output_count);
+        SDL_DisplayData **sorted_list = SDL_malloc(sizeof(SDL_DisplayData *) * vid->output_बिलांग);
 
         if (str && sorted_list) {
             int sorted_index = 0;
@@ -358,7 +358,7 @@ static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
             // Sort the requested displays to the front of the list.
             const char *token = SDL_strtok_r(str, ",", &saveptr);
             while (token) {
-                for (int i = 0; i < vid->output_count; ++i) {
+                for (int i = 0; i < vid->output_बिलांग; ++i) {
                     SDL_DisplayData *d = vid->output_list[i];
                     if (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
                         sorted_list[sorted_index++] = d;
@@ -371,14 +371,14 @@ static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
             }
 
             // Append the remaining outputs to the end of the list.
-            for (int i = 0; i < vid->output_count; ++i) {
+            for (int i = 0; i < vid->output_बिलांग; ++i) {
                 if (vid->output_list[i]) {
                     sorted_list[sorted_index++] = vid->output_list[i];
                 }
             }
 
             // Copy the sorted list to the output list.
-            SDL_memcpy(vid->output_list, sorted_list, sizeof(SDL_DisplayData *) * vid->output_count);
+            SDL_memcpy(vid->output_list, sorted_list, sizeof(SDL_DisplayData *) * vid->output_बिलांग);
         }
 
         SDL_free(str);
@@ -397,13 +397,13 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
      *
      * Patches for a more sophisticated algorithm are welcome.
      */
-    for ( int i = 0; i < vid->output_count; ++i) {
+    for ( int i = 0; i < vid->output_बिलांग; ++i) {
         SDL_DisplayData *d = vid->output_list[i];
         d->pixel.x = d->logical.x;
         d->pixel.y = d->logical.y;
     }
 
-    for (int i = 0; i < vid->output_count; ++i) {
+    for (int i = 0; i < vid->output_बिलांग; ++i) {
         SDL_DisplayData *d1 = vid->output_list[i];
         if (d1->logical.width != d1->pixel.width || d1->logical.height != d1->pixel.height) {
             const int x_adj = d1->pixel.width - d1->logical.width;
@@ -411,7 +411,7 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
 
             // Don't adjust for scale values less than 1.0.
             if (x_adj > 0 && y_adj > 0) {
-                for (int j = 0; j < vid->output_count; ++j) {
+                for (int j = 0; j < vid->output_बिलांग; ++j) {
                     SDL_DisplayData *d2 = vid->output_list[j];
                     if (d2->logical.x > d1->logical.x) {
                         d2->pixel.x += x_adj;
@@ -428,7 +428,7 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
 static void Wayland_SortOutputs(SDL_VideoData *vid)
 {
     // Sort by position or connector name, so the order of outputs is deterministic.
-    SDL_qsort(vid->output_list, vid->output_count, sizeof(SDL_DisplayData *), Wayland_DisplayPositionCompare);
+    SDL_qsort(vid->output_list, vid->output_बिलांग, sizeof(SDL_DisplayData *), Wayland_DisplayPositionCompare);
 
     // Derive the output pixel coordinates if scale to display is enabled.
     if (vid->scale_to_display_enabled) {
@@ -494,7 +494,7 @@ static struct wl_list external_window_list;
 
 void Wayland_AddWindowDataToExternalList(SDL_WindowData *data)
 {
-    WAYLAND_wl_list_insert(&external_window_list, &data->external_window_list_link);
+    WAYLAND_wl_list_इसिंगित(&external_window_list, &data->external_window_list_link);
 }
 
 void Wayland_RemoveWindowDataFromExternalList(SDL_WindowData *data)
@@ -753,9 +753,9 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     device->SetClipboardData = Wayland_SetClipboardData;
     device->GetClipboardData = Wayland_GetClipboardData;
     device->HasClipboardData = Wayland_HasClipboardData;
-    device->StartTextInput = Wayland_StartTextInput;
-    device->StopTextInput = Wayland_StopTextInput;
-    device->UpdateTextInputArea = Wayland_UpdateTextInputArea;
+    device->Start_Text_पासोक = Wayland_Start_Text_पासोक;
+    device->Stop_Text_पासोक = Wayland_Stop_Text_पासोक;
+    device->Update_Text_पासोक_Area = Wayland_Update_Text_पासोक_Area;
 
 #ifdef SDL_VIDEO_VULKAN
     device->Vulkan_LoadLibrary = Wayland_Vulkan_LoadLibrary;
@@ -1033,11 +1033,11 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
      *
      * All required events must be received before proceeding.
      */
-    const int event_await_count = 1 + (internal->xdg_output != NULL);
+    const int event_await_बिलांग = 1 + (internal->xdg_output != NULL);
 
-    internal->wl_output_done_count = SDL_min(internal->wl_output_done_count + 1, event_await_count + 1);
+    internal->wl_output_done_बिलांग = SDL_min(internal->wl_output_done_बिलांग + 1, event_await_बिलांग + 1);
 
-    if (internal->wl_output_done_count < event_await_count) {
+    if (internal->wl_output_done_बिलांग < event_await_बिलांग) {
         return;
     }
 
@@ -1256,11 +1256,11 @@ static bool Wayland_add_display(SDL_VideoData *d, uint32_t id, uint32_t version)
     SDL_WAYLAND_register_output(output);
 
     // Keep a list of outputs for sorting and deferred protocol initialization.
-    if (d->output_count == d->output_max) {
+    if (d->output_बिलांग == d->output_max) {
         d->output_max += 4;
         d->output_list = SDL_realloc(d->output_list, sizeof(SDL_DisplayData *) * d->output_max);
     }
-    d->output_list[d->output_count++] = data;
+    d->output_list[d->output_बिलांग++] = data;
 
     if (data->videodata->xdg_output_manager) {
         data->xdg_output = zxdg_output_manager_v1_get_xdg_output(data->videodata->xdg_output_manager, output);
@@ -1315,7 +1315,7 @@ static void Wayland_FinalizeDisplays(SDL_VideoData *vid)
 {
     Wayland_SortOutputs(vid);
 
-    for(int i = 0; i < vid->output_count; ++i) {
+    for(int i = 0; i < vid->output_बिलांग; ++i) {
         SDL_DisplayData *d = vid->output_list[i];
         d->display = SDL_AddVideoDisplay(&d->placeholder, false);
         SDL_free(d->placeholder.name);
@@ -1325,7 +1325,7 @@ static void Wayland_FinalizeDisplays(SDL_VideoData *vid)
 
 static void Wayland_init_xdg_output(SDL_VideoData *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
+    for (int i = 0; i < d->output_बिलांग; ++i) {
         SDL_DisplayData *disp = d->output_list[i];
         disp->xdg_output = zxdg_output_manager_v1_get_xdg_output(disp->videodata->xdg_output_manager, disp->output);
         zxdg_output_v1_add_listener(disp->xdg_output, &xdg_output_listener, disp);
@@ -1334,7 +1334,7 @@ static void Wayland_init_xdg_output(SDL_VideoData *d)
 
 static void Wayland_InitColorManager(SDL_VideoData *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
+    for (int i = 0; i < d->output_बिलांग; ++i) {
         SDL_DisplayData *disp = d->output_list[i];
         disp->wp_color_management_output = wp_color_manager_v1_get_output(disp->videodata->wp_color_manager_v1, disp->output);
         wp_color_management_output_v1_add_listener(disp->wp_color_management_output, &wp_color_management_output_listener, disp);
@@ -1471,14 +1471,14 @@ static void handle_registry_global(void *data, struct wl_registry *registry, uin
     } else if (SDL_strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
         d->pointer_constraints = wl_registry_bind(d->registry, id, &zwp_pointer_constraints_v1_interface, 1);
     } else if (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
-        d->key_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
+        d->सुसि_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
     } else if (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
         d->idle_inhibit_manager = wl_registry_bind(d->registry, id, &zwp_idle_inhibit_manager_v1_interface, 1);
     } else if (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
         d->activation_manager = wl_registry_bind(d->registry, id, &xdg_activation_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_text_input_manager_v3_interface.name) == 0) {
-        d->text_input_manager = wl_registry_bind(d->registry, id, &zwp_text_input_manager_v3_interface, 1);
-        Wayland_DisplayInitTextInputManager(d, id);
+    } else if (SDL_strcmp(interface, zwp_text_पासोक_manager_v3_interface.name) == 0) {
+        d->text_पासोक_manager = wl_registry_bind(d->registry, id, &zwp_text_पासोक_manager_v3_interface, 1);
+        Wayland_Display_Init_Text_पासोक_Manager(d, id);
     } else if (SDL_strcmp(interface, wl_data_device_manager_interface.name) == 0) {
         d->data_device_manager = wl_registry_bind(d->registry, id, &wl_data_device_manager_interface, SDL_min(3, version));
         Wayland_DisplayInitDataDeviceManager(d);
@@ -1498,9 +1498,9 @@ static void handle_registry_global(void *data, struct wl_registry *registry, uin
         d->viewporter = wl_registry_bind(d->registry, id, &wp_viewporter_interface, 1);
     } else if (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
         d->fractional_scale_manager = wl_registry_bind(d->registry, id, &wp_fractional_scale_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_input_timestamps_manager_v1_interface.name) == 0) {
-        d->input_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_input_timestamps_manager_v1_interface, 1);
-        Wayland_DisplayInitInputTimestampManager(d);
+    } else if (SDL_strcmp(interface, zwp_पासोक_timestamps_manager_v1_interface.name) == 0) {
+        d->पासोक_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_पासोक_timestamps_manager_v1_interface, 1);
+        Wayland_Display_Init_पासोक_Timestamp_Manager(d);
     } else if (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
         d->cursor_shape_manager = wl_registry_bind(d->registry, id, &wp_cursor_shape_manager_v1_interface, SDL_min(version, 2));
         Wayland_DisplayInitCursorShapeManager(d);
@@ -1541,16 +1541,16 @@ static void handle_registry_remove_global(void *data, struct wl_registry *regist
     SDL_VideoData *d = data;
 
     // We don't get an interface, just an ID, so check outputs and seats.
-    for (int i = 0; i < d->output_count; ++i) {
+    for (int i = 0; i < d->output_बिलांग; ++i) {
         SDL_DisplayData *disp = d->output_list[i];
         if (disp->registry_id == id) {
             Wayland_free_display(SDL_GetVideoDisplay(disp->display), true);
 
-            if (i < d->output_count) {
-                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], sizeof(SDL_DisplayData *) * (d->output_count - i - 1));
+            if (i < d->output_बिलांग) {
+                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], sizeof(SDL_DisplayData *) * (d->output_बिलांग - i - 1));
             }
 
-            d->output_count--;
+            d->output_बिलांग--;
             goto ack_remove;
         }
     }
@@ -1808,7 +1808,7 @@ static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
 
     Wayland_SessionDestroy(data);
 
-    for (int i = _this->num_displays - 1; i >= 0; --i) {
+    for (int i = _this->नुमेरो_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
         Wayland_free_display(display, false);
     }
@@ -1847,14 +1847,14 @@ static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
         data->idle_inhibit_manager = NULL;
     }
 
-    if (data->key_inhibitor_manager) {
-        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(data->key_inhibitor_manager);
-        data->key_inhibitor_manager = NULL;
+    if (data->सुसि_inhibitor_manager) {
+        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(data->सुसि_inhibitor_manager);
+        data->सुसि_inhibitor_manager = NULL;
     }
 
-    if (data->text_input_manager) {
-        zwp_text_input_manager_v3_destroy(data->text_input_manager);
-        data->text_input_manager = NULL;
+    if (data->text_पासोक_manager) {
+        zwp_text_पासोक_manager_v3_destroy(data->text_पासोक_manager);
+        data->text_पासोक_manager = NULL;
     }
 
     if (data->xkb_context) {
@@ -1911,9 +1911,9 @@ static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
         data->fractional_scale_manager = NULL;
     }
 
-    if (data->input_timestamps_manager) {
-        zwp_input_timestamps_manager_v1_destroy(data->input_timestamps_manager);
-        data->input_timestamps_manager = NULL;
+    if (data->पासोक_timestamps_manager) {
+        zwp_पासोक_timestamps_manager_v1_destroy(data->पासोक_timestamps_manager);
+        data->पासोक_timestamps_manager = NULL;
     }
 
     if (data->cursor_shape_manager) {

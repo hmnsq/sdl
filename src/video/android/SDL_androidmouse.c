@@ -200,11 +200,11 @@ void Android_QuitMouse(void)
 static Uint8 TranslateButton(int state)
 {
     if (state & BUTTON_PRIMARY) {
-        return SDL_BUTTON_LEFT;
+        return SDL_BUTTON_कालिवा;
     } else if (state & BUTTON_SECONDARY) {
-        return SDL_BUTTON_RIGHT;
+        return SDL_BUTTON_कानान;
     } else if (state & BUTTON_TERTIARY) {
-        return SDL_BUTTON_MIDDLE;
+        return SDL_BUTTON_गित्ना;
     } else if (state & BUTTON_FORWARD) {
         return SDL_BUTTON_X1;
     } else if (state & BUTTON_BACK) {

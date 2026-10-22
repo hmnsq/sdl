@@ -60,9 +60,9 @@ void X11_InitXfixes(SDL_VideoDevice *_this)
 
     // Selection tracking is available in all versions of XFixes
     xfixes_selection_notify_event = event + XFixesSelectionNotify;
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
+    X11_XFixes_Select_Selection_पासोक(data->display, Default_उगात_Window(data->display),
             XA_CLIPBOARD, XFixesSetSelectionOwnerNotifyMask);
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
+    X11_XFixes_Select_Selection_पासोक(data->display, Default_उगात_Window(data->display),
             XA_PRIMARY, XFixesSetSelectionOwnerNotifyMask);
 
     // We need at least 5.0 for barriers.
@@ -89,7 +89,7 @@ bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
     if (SDL_RectEmpty(&window->mouse_rect)) {
         X11_ConfineCursorWithFlags(_this, window, NULL, 0);
     } else {
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+        if (window->flags & SDL_WINDOW_पासोक_FOCUS) {
             X11_ConfineCursorWithFlags(_this, window, &window->mouse_rect, 0);
         } else {
             // Save the state for when we get focus again

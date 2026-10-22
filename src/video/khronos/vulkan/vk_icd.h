@@ -54,7 +54,7 @@ typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance
 typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, const char* pName);
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
 typedef VkResult (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
-    uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
+    uint32_t* p_Physical_Device_बिलांग, VkPhysicalDevice* pPhysicalDevices);
 #endif
 
 // Prototypes for loader/ICD interface
@@ -67,7 +67,7 @@ extern "C" {
     VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, const char* pName);
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
     VKAPI_ATTR VkResult VKAPI_CALL vk_icdEnumerateAdapterPhysicalDevices(VkInstance instance, LUID adapterLUID,
-        uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
+        uint32_t* p_Physical_Device_बिलांग, VkPhysicalDevice* pPhysicalDevices);
 #endif
 #ifdef __cplusplus
 }
@@ -87,12 +87,12 @@ typedef union {
     void *loaderData;
 } VK_LOADER_DATA;
 
-static inline void set_loader_magic_value(void *pNewObject) {
+static inline void set_loader_magic_हालागा(void *pNewObject) {
     VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
     loader_info->loaderMagic = ICD_LOADER_MAGIC;
 }
 
-static inline bool valid_loader_magic_value(void *pNewObject) {
+static inline bool valid_loader_magic_हालागा(void *pNewObject) {
     const VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
     return (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
 }
@@ -204,7 +204,7 @@ typedef struct {
     VkIcdSurfaceBase base;
     VkDisplayModeKHR displayMode;
     uint32_t planeIndex;
-    uint32_t planeStackIndex;
+    uint32_t plane_सालानसान_Index;
     VkSurfaceTransformFlagBitsKHR transform;
     float globalAlpha;
     VkDisplayPlaneAlphaFlagBitsKHR alphaMode;

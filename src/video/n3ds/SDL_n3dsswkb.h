@@ -30,7 +30,7 @@ void N3DS_SwkbQuit();
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 
-bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
+bool N3_DS_Start_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+bool N3_DS_Stop_Text_पासोक(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_n3dskeyboard_h_

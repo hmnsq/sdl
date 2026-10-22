@@ -31,12 +31,12 @@ static Uint8 screenToMouseButton(int x)
 {
     //Screen only supports 3 mouse buttons.
     switch(x){
-        case SCREEN_LEFT_MOUSE_BUTTON: // 1 << 0
-        return SDL_BUTTON_LEFT;
-        case SCREEN_RIGHT_MOUSE_BUTTON: //1 << 1
-        return SDL_BUTTON_RIGHT;
-        case SCREEN_MIDDLE_MOUSE_BUTTON: //1 << 2
-        return SDL_BUTTON_MIDDLE;
+        case SCREEN_कालिवा_MOUSE_BUTTON: // 1 << 0
+        return SDL_BUTTON_कालिवा;
+        case SCREEN_कानान_MOUSE_BUTTON: //1 << 1
+        return SDL_BUTTON_कानान;
+        case SCREEN_गित्ना_MOUSE_BUTTON: //1 << 2
+        return SDL_BUTTON_गित्ना;
     }
     return 0;
 }

@@ -66,14 +66,14 @@ SDL_ELF_NOTE_DLOPEN(
 bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
     VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    Uint32 extension_बिलांग = 0;
     bool hasSurfaceExtension = false;
     bool hasHeadlessSurfaceExtension = false;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
     Uint32 i;
     const char **paths;
     const char *foundPath = NULL;
-    Uint32 numPaths;
+    Uint32 नुमेरो_Paths;
 
     if (_this->vulkan_config.loader_handle) {
         return SDL_SetError("Vulkan already loaded");
@@ -99,13 +99,13 @@ bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     {
         if (path) {
             paths = &path;
-            numPaths = 1;
+            नुमेरो_Paths = 1;
         } else {
             paths = s_defaultPaths;
-            numPaths = SDL_arraysize(s_defaultPaths);
+            नुमेरो_Paths = SDL_arraysize(s_defaultPaths);
         }
 
-        for (i = 0; i < numPaths && _this->vulkan_config.loader_handle == NULL; i++) {
+        for (i = 0; i < नुमेरो_Paths && _this->vulkan_config.loader_handle == NULL; i++) {
             foundPath = paths[i];
             _this->vulkan_config.loader_handle = SDL_LoadObject(foundPath);
         }
@@ -135,11 +135,11 @@ bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
+        &extension_बिलांग);
     if (!extensions) {
         goto fail;
     }
-    for (i = 0; i < extensionCount; i++) {
+    for (i = 0; i < extension_बिलांग; i++) {
         if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
         } else if (SDL_strcmp(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
@@ -177,15 +177,15 @@ void OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 }
 
 char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this,
-                                                          Uint32 *count)
+                                                          Uint32 *बिलांग)
 {
     static const char *const returnExtensions[] = { VK_KHR_SURFACE_EXTENSION_NAME, VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME };
 
-    *count = SDL_arraysize(returnExtensions);
+    *बिलांग = SDL_arraysize(returnExtensions);
 
 #if (HEADLESS_SURFACE_EXTENSION_REQUIRED_TO_LOAD == 0)
     VkExtensionProperties *enumerateExtensions = NULL;
-    Uint32 enumerateExtensionCount = 0;
+    Uint32 enumerate_Extension_बिलांग = 0;
     bool hasHeadlessSurfaceExtension = false;
     Uint32 i;
 
@@ -194,8 +194,8 @@ char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this
        But both SDL_VideoData and SDL_VideoDevice::vulkan_config seem like I'd need to touch a bunch of code to do properly.
        And I want a smaller footprint for the first pass*/
     if ( _this->vulkan_config.vkEnumerateInstanceExtensionProperties ) {
-        enumerateExtensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &enumerateExtensionCount);
-        for (i = 0; i < enumerateExtensionCount; i++) {
+        enumerateExtensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &enumerate_Extension_बिलांग);
+        for (i = 0; i < enumerate_Extension_बिलांग; i++) {
             if (SDL_strcmp(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME, enumerateExtensions[i].extensionName) == 0) {
                 hasHeadlessSurfaceExtension = true;
             }
@@ -204,7 +204,7 @@ char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this
     }
 
     if (!hasHeadlessSurfaceExtension) {
-        (*count)--;  // assumes VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME is last
+        (*बिलांग)--;  // assumes VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME is last
     }
 #endif
 

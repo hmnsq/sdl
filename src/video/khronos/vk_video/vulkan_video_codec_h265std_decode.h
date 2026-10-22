@@ -42,9 +42,9 @@ typedef struct StdVideoDecodeH265PictureInfo {
     uint8_t                               sps_video_parameter_set_id;
     uint8_t                               pps_seq_parameter_set_id;
     uint8_t                               pps_pic_parameter_set_id;
-    uint8_t                               NumDeltaPocsOfRefRpsIdx;
+    uint8_t                               नुमेरो_Delta_Pocs_Of_Ref_Rps_Idx;
     int32_t                               PicOrderCntVal;
-    uint16_t                              NumBitsForSTRefPicSetInSlice;
+    uint16_t                              नुमेरो_Bits_For_STRef_Pic_Set_In_Slice;
     uint16_t                              reserved;
     uint8_t                               RefPicSetStCurrBefore[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE];
     uint8_t                               RefPicSetStCurrAfter[STD_VIDEO_DECODE_H265_REF_PIC_SET_LIST_SIZE];

@@ -82,7 +82,7 @@ This file contains expansion macros (X Macros) for OpenXR structures.
     _avail(XrActionStatePose, XR_TYPE_ACTION_STATE_POSE) \
     _avail(XrActionsSyncInfo, XR_TYPE_ACTIONS_SYNC_INFO) \
     _avail(XrBoundSourcesForActionEnumerateInfo, XR_TYPE_BOUND_SOURCES_FOR_ACTION_ENUMERATE_INFO) \
-    _avail(XrInputSourceLocalizedNameGetInfo, XR_TYPE_INPUT_SOURCE_LOCALIZED_NAME_GET_INFO) \
+    _avail(Xr_पासोक_Source_Localized_Name_Get_Info, XR_TYPE_पासोक_SOURCE_LOCALIZED_NAME_GET_INFO) \
     _avail(XrHapticActionInfo, XR_TYPE_HAPTIC_ACTION_INFO) \
     _avail(XrCompositionLayerProjectionView, XR_TYPE_COMPOSITION_LAYER_PROJECTION_VIEW) \
     _avail(XrCompositionLayerProjection, XR_TYPE_COMPOSITION_LAYER_PROJECTION) \
@@ -119,10 +119,10 @@ This file contains expansion macros (X Macros) for OpenXR structures.
     _avail(XrCompositionLayerImageLayoutFB, XR_TYPE_COMPOSITION_LAYER_IMAGE_LAYOUT_FB) \
     _avail(XrCompositionLayerAlphaBlendFB, XR_TYPE_COMPOSITION_LAYER_ALPHA_BLEND_FB) \
     _avail(XrViewConfigurationDepthRangeEXT, XR_TYPE_VIEW_CONFIGURATION_DEPTH_RANGE_EXT) \
-    _avail(XrSpatialGraphNodeSpaceCreateInfoMSFT, XR_TYPE_SPATIAL_GRAPH_NODE_SPACE_CREATE_INFO_MSFT) \
-    _avail(XrSpatialGraphStaticNodeBindingCreateInfoMSFT, XR_TYPE_SPATIAL_GRAPH_STATIC_NODE_BINDING_CREATE_INFO_MSFT) \
-    _avail(XrSpatialGraphNodeBindingPropertiesGetInfoMSFT, XR_TYPE_SPATIAL_GRAPH_NODE_BINDING_PROPERTIES_GET_INFO_MSFT) \
-    _avail(XrSpatialGraphNodeBindingPropertiesMSFT, XR_TYPE_SPATIAL_GRAPH_NODE_BINDING_PROPERTIES_MSFT) \
+    _avail(Xr_Spatial_Graph_बुहोल_Space_Create_Info_MSFT, XR_TYPE_SPATIAL_GRAPH_बुहोल_SPACE_CREATE_INFO_MSFT) \
+    _avail(Xr_Spatial_Graph_Static_बुहोल_Binding_Create_Info_MSFT, XR_TYPE_SPATIAL_GRAPH_STATIC_बुहोल_BINDING_CREATE_INFO_MSFT) \
+    _avail(Xr_Spatial_Graph_बुहोल_Binding_Properties_Get_Info_MSFT, XR_TYPE_SPATIAL_GRAPH_बुहोल_BINDING_PROPERTIES_GET_INFO_MSFT) \
+    _avail(Xr_Spatial_Graph_बुहोल_Binding_Properties_MSFT, XR_TYPE_SPATIAL_GRAPH_बुहोल_BINDING_PROPERTIES_MSFT) \
     _avail(XrSystemHandTrackingPropertiesEXT, XR_TYPE_SYSTEM_HAND_TRACKING_PROPERTIES_EXT) \
     _avail(XrHandTrackerCreateInfoEXT, XR_TYPE_HAND_TRACKER_CREATE_INFO_EXT) \
     _avail(XrHandJointsLocateInfoEXT, XR_TYPE_HAND_JOINTS_LOCATE_INFO_EXT) \
@@ -139,10 +139,10 @@ This file contains expansion macros (X Macros) for OpenXR structures.
     _avail(XrSecondaryViewConfigurationLayerInfoMSFT, XR_TYPE_SECONDARY_VIEW_CONFIGURATION_LAYER_INFO_MSFT) \
     _avail(XrSecondaryViewConfigurationFrameEndInfoMSFT, XR_TYPE_SECONDARY_VIEW_CONFIGURATION_FRAME_END_INFO_MSFT) \
     _avail(XrSecondaryViewConfigurationSwapchainCreateInfoMSFT, XR_TYPE_SECONDARY_VIEW_CONFIGURATION_SWAPCHAIN_CREATE_INFO_MSFT) \
-    _avail(XrControllerModelKeyStateMSFT, XR_TYPE_CONTROLLER_MODEL_KEY_STATE_MSFT) \
-    _avail(XrControllerModelNodePropertiesMSFT, XR_TYPE_CONTROLLER_MODEL_NODE_PROPERTIES_MSFT) \
+    _avail(Xr_Controller_Model_सुसि_State_MSFT, XR_TYPE_CONTROLLER_MODEL_सुसि_STATE_MSFT) \
+    _avail(Xr_Controller_Model_बुहोल_Properties_MSFT, XR_TYPE_CONTROLLER_MODEL_बुहोल_PROPERTIES_MSFT) \
     _avail(XrControllerModelPropertiesMSFT, XR_TYPE_CONTROLLER_MODEL_PROPERTIES_MSFT) \
-    _avail(XrControllerModelNodeStateMSFT, XR_TYPE_CONTROLLER_MODEL_NODE_STATE_MSFT) \
+    _avail(Xr_Controller_Model_बुहोल_State_MSFT, XR_TYPE_CONTROLLER_MODEL_बुहोल_STATE_MSFT) \
     _avail(XrControllerModelStateMSFT, XR_TYPE_CONTROLLER_MODEL_STATE_MSFT) \
     _avail(XrViewConfigurationViewFovEPIC, XR_TYPE_VIEW_CONFIGURATION_VIEW_FOV_EPIC) \
     _avail(XrCompositionLayerReprojectionInfoMSFT, XR_TYPE_COMPOSITION_LAYER_REPROJECTION_INFO_MSFT) \
@@ -316,7 +316,7 @@ This file contains expansion macros (X Macros) for OpenXR structures.
     _avail(XrVirtualKeyboardAnimationStateMETA, XR_TYPE_VIRTUAL_KEYBOARD_ANIMATION_STATE_META) \
     _avail(XrVirtualKeyboardModelAnimationStatesMETA, XR_TYPE_VIRTUAL_KEYBOARD_MODEL_ANIMATION_STATES_META) \
     _avail(XrVirtualKeyboardTextureDataMETA, XR_TYPE_VIRTUAL_KEYBOARD_TEXTURE_DATA_META) \
-    _avail(XrVirtualKeyboardInputInfoMETA, XR_TYPE_VIRTUAL_KEYBOARD_INPUT_INFO_META) \
+    _avail(Xr_Virtual_Keyboard_पासोक_Info_META, XR_TYPE_VIRTUAL_KEYBOARD_पासोक_INFO_META) \
     _avail(XrVirtualKeyboardTextContextChangeInfoMETA, XR_TYPE_VIRTUAL_KEYBOARD_TEXT_CONTEXT_CHANGE_INFO_META) \
     _avail(XrEventDataVirtualKeyboardCommitTextMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_COMMIT_TEXT_META) \
     _avail(XrEventDataVirtualKeyboardBackspaceMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_BACKSPACE_META) \
@@ -387,7 +387,7 @@ This file contains expansion macros (X Macros) for OpenXR structures.
     _avail(XrRenderModelAssetPropertiesEXT, XR_TYPE_RENDER_MODEL_ASSET_PROPERTIES_EXT) \
     _avail(XrInteractionRenderModelIdsEnumerateInfoEXT, XR_TYPE_INTERACTION_RENDER_MODEL_IDS_ENUMERATE_INFO_EXT) \
     _avail(XrInteractionRenderModelSubactionPathInfoEXT, XR_TYPE_INTERACTION_RENDER_MODEL_SUBACTION_PATH_INFO_EXT) \
-    _avail(XrInteractionRenderModelTopLevelUserPathGetInfoEXT, XR_TYPE_INTERACTION_RENDER_MODEL_TOP_LEVEL_USER_PATH_GET_INFO_EXT) \
+    _avail(Xr_Interaction_Render_Model_इताअस_Level_User_Path_Get_Info_EXT, XR_TYPE_INTERACTION_RENDER_MODEL_इताअस_LEVEL_USER_PATH_GET_INFO_EXT) \
     _avail(XrEventDataInteractionRenderModelsChangedEXT, XR_TYPE_EVENT_DATA_INTERACTION_RENDER_MODELS_CHANGED_EXT) \
     _avail(XrPassthroughCreateInfoHTC, XR_TYPE_PASSTHROUGH_CREATE_INFO_HTC) \
     _avail(XrPassthroughColorHTC, XR_TYPE_PASSTHROUGH_COLOR_HTC) \
@@ -718,7 +718,7 @@ This file contains expansion macros (X Macros) for OpenXR structures.
     _avail(XrSpatialRaycastInfoANDROID, XR_TYPE_SPATIAL_RAYCAST_INFO_ANDROID) \
     _avail(XrSpatialComponentRaycastResultListANDROID, XR_TYPE_SPATIAL_COMPONENT_RAYCAST_RESULT_LIST_ANDROID) \
     _avail(XrSpatialRaycastSnapshotCreateInfoANDROID, XR_TYPE_SPATIAL_RAYCAST_SNAPSHOT_CREATE_INFO_ANDROID) \
-    _avail(XrGoogleCloudAuthInfoApiKeyANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_KEY_ANDROID) \
+    _avail(Xr_Google_Cloud_Auth_Info_Api_सुसि_ANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_सुसि_ANDROID) \
     _avail(XrGoogleCloudAuthInfoTokenANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_TOKEN_ANDROID) \
     _avail(XrGoogleCloudAuthInfoKeylessANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_KEYLESS_ANDROID) \
     _avail(XrGoogleCloudAuthErrorResultANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_ERROR_RESULT_ANDROID) \

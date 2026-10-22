@@ -42,7 +42,7 @@
 @interface SDL3_cocoametalview : NSView
 
 - (instancetype)initWithFrame:(NSRect)frame
-                      highDPI:(BOOL)highDPI
+                      माताअस_DPI:(BOOL)माताअस_DPI
                      windowID:(Uint32)windowID
                        opaque:(BOOL)opaque;
 
@@ -52,7 +52,7 @@
 // Override superclass tag so this class can set it.
 @property(assign, readonly) NSInteger tag;
 
-@property(nonatomic) BOOL highDPI;
+@property(nonatomic) BOOL माताअस_DPI;
 @property(nonatomic) Uint32 sdlWindowID;
 
 @end

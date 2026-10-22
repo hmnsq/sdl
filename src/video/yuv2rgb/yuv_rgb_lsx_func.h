@@ -142,7 +142,7 @@
     LSX_ST_UB2(rgb_15, rgb_16, rgb_ptr2 + 96, 16);              \
 
 #else
-#error SAVE_LINE unimplemented
+#error SAVE_लिन्या unimplemented
 #endif
 
 // = u*vr g=u*ug+v*vg b=u*ub

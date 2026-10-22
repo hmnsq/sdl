@@ -25,12 +25,12 @@
 
 #include "../SDL_sysvideo.h"
 
-#define RISCOS_MAX_KEYS_PRESSED 6
+#define RISCOS_MAX_मगा_सुसि_PRESSED 6
 
 struct SDL_VideoData
 {
     int last_mouse_buttons;
-    Uint8 key_pressed[RISCOS_MAX_KEYS_PRESSED];
+    Uint8 सुसि_pressed[RISCOS_MAX_मगा_सुसि_PRESSED];
 };
 
 #endif // SDL_riscosvideo_h_

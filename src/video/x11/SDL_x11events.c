@@ -53,16 +53,16 @@
 #define _NET_WM_MOVERESIZE_SIZE_TOPLEFT 0
 #endif
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_TOP
-#define _NET_WM_MOVERESIZE_SIZE_TOP 1
+#ifndef NET_WM_MOVERESIZE_SIZE_इताअस
+#define NET_WM_MOVERESIZE_SIZE_इताअस 1
 #endif
 
 #ifndef _NET_WM_MOVERESIZE_SIZE_TOPRIGHT
 #define _NET_WM_MOVERESIZE_SIZE_TOPRIGHT 2
 #endif
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_RIGHT
-#define _NET_WM_MOVERESIZE_SIZE_RIGHT 3
+#ifndef NET_WM_MOVERESIZE_SIZE_कानान
+#define NET_WM_MOVERESIZE_SIZE_कानान 3
 #endif
 
 #ifndef _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT
@@ -77,8 +77,8 @@
 #define _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT 6
 #endif
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_LEFT
-#define _NET_WM_MOVERESIZE_SIZE_LEFT 7
+#ifndef NET_WM_MOVERESIZE_SIZE_कालिवा
+#define NET_WM_MOVERESIZE_SIZE_कालिवा 7
 #endif
 
 #ifndef _NET_WM_MOVERESIZE_MOVE
@@ -88,7 +88,7 @@
 typedef struct
 {
     unsigned char *data;
-    int format, count;
+    int format, बिलांग;
     Atom type;
 } SDL_x11Prop;
 
@@ -100,33 +100,33 @@ static void X11_ReadProperty(SDL_x11Prop *p, Display *disp, Window w, Atom prop)
     unsigned char *ret = NULL;
     Atom type;
     int fmt;
-    unsigned long count;
-    unsigned long bytes_left;
+    unsigned long बिलांग;
+    unsigned long bytes_कालिवा;
     int bytes_fetch = 0;
 
     do {
         if (ret) {
             X11_XFree(ret);
         }
-        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &count, &bytes_left, &ret);
-        bytes_fetch += bytes_left;
-    } while (bytes_left != 0);
+        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &बिलांग, &bytes_कालिवा, &ret);
+        bytes_fetch += bytes_कालिवा;
+    } while (bytes_कालिवा != 0);
 
     p->data = ret;
     p->format = fmt;
-    p->count = count;
+    p->बिलांग = बिलांग;
     p->type = type;
 }
 
 /* Find text-uri-list in a list of targets and return it's atom
    if available, else return None */
-static Atom X11_PickTarget(Display *disp, Atom list[], int list_count)
+static Atom X11_PickTarget(Display *disp, Atom list[], int list_बिलांग)
 {
     const Atom text_uri_request = X11_XInternAtom(disp, "text/uri-list", False);
     Atom request = None;
     Atom preferred = None;
 
-    for (int i = 0; i < list_count && request != text_uri_request; i++) {
+    for (int i = 0; i < list_बिलांग && request != text_uri_request; i++) {
         char *name = X11_XGetAtomName(disp, list[i]);
         // Preferred MIME targets
         if ((SDL_strcmp("text/uri-list", name) == 0) ||
@@ -158,31 +158,31 @@ static Atom X11_PickTarget(Display *disp, Atom list[], int list_count)
    case in the Xdnd protocol */
 static Atom X11_PickTargetFromAtoms(Display *disp, Atom a0, Atom a1, Atom a2)
 {
-    int count = 0;
+    int बिलांग = 0;
     Atom atom[3];
     if (a0 != None) {
-        atom[count++] = a0;
+        atom[बिलांग++] = a0;
     }
     if (a1 != None) {
-        atom[count++] = a1;
+        atom[बिलांग++] = a1;
     }
     if (a2 != None) {
-        atom[count++] = a2;
+        atom[बिलांग++] = a2;
     }
-    return X11_PickTarget(disp, atom, count);
+    return X11_PickTarget(disp, atom, बिलांग);
 }
 
-struct KeyRepeatCheckData
+struct सुसि_Repeat_Check_Data
 {
     XEvent *event;
     bool found;
 };
 
-static Bool X11_KeyRepeatCheckIfEvent(Display *display, XEvent *chkev,
+static Bool X11_सुसि_Repeat_Check_If_Event(Display *display, XEvent *chkev,
                                       XPointer arg)
 {
-    struct KeyRepeatCheckData *d = (struct KeyRepeatCheckData *)arg;
-    if (chkev->type == KeyPress && chkev->xkey.keycode == d->event->xkey.keycode && chkev->xkey.time - d->event->xkey.time < 2) {
+    struct सुसि_Repeat_Check_Data *d = (struct सुसि_Repeat_Check_Data *)arg;
+    if (chkev->type == सुसि_Press && chkev->xkey.keycode == d->event->xkey.keycode && chkev->xkey.time - d->event->xkey.time < 2) {
         d->found = true;
     }
     return False;
@@ -191,14 +191,14 @@ static Bool X11_KeyRepeatCheckIfEvent(Display *display, XEvent *chkev,
 /* Check to see if this is a repeated key.
    (idea shamelessly lifted from GII -- thanks guys! :)
  */
-static bool X11_KeyRepeat(Display *display, XEvent *event)
+static bool X11_सुसि_Repeat(Display *display, XEvent *event)
 {
     XEvent dummyev;
-    struct KeyRepeatCheckData d;
+    struct सुसि_Repeat_Check_Data d;
     d.event = event;
     d.found = false;
     if (X11_XPending(display)) {
-        X11_XCheckIfEvent(display, &dummyev, X11_KeyRepeatCheckIfEvent, (XPointer)&d);
+        X11_XCheckIfEvent(display, &dummyev, X11_सुसि_Repeat_Check_If_Event, (XPointer)&d);
     }
     return d.found;
 }
@@ -255,7 +255,7 @@ static void X11_HandleGenericEvent(SDL_VideoDevice *_this, XEvent *xev)
 }
 #endif // SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
 
-static void X11_UpdateSystemKeyModifiers(SDL_VideoData *viddata)
+static void X11_Update_System_सुसि_Modifiers(SDL_VideoData *viddata)
 {
 #ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
     if (viddata->keyboard.xkb_enabled) {
@@ -271,13 +271,13 @@ static void X11_UpdateSystemKeyModifiers(SDL_VideoData *viddata)
         int x, y;
         unsigned int mod_mask;
 
-        X11_XQueryPointer(viddata->display, DefaultRootWindow(viddata->display), &junk_window, &junk_window, &x, &y, &x, &y, &mod_mask);
+        X11_XQueryPointer(viddata->display, Default_उगात_Window(viddata->display), &junk_window, &junk_window, &x, &y, &x, &y, &mod_mask);
         viddata->keyboard.pressed_modifiers = mod_mask & (ShiftMask | ControlMask | Mod1Mask | Mod3Mask | Mod4Mask | Mod5Mask);
         viddata->keyboard.locked_modifiers = mod_mask & (LockMask | viddata->keyboard.numlock_mask | viddata->keyboard.scrolllock_mask);
     }
 }
 
-static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
+static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool सुसि_pressed)
 {
     /* Handle explicit pressed modifier state. This will correct the modifier state
      * if common modifier keys were remapped and the modifiers presumed to be set
@@ -286,7 +286,7 @@ static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
      * modifier state was set by a keypress before the corresponding key event
      * was received.
      */
-    if (key_pressed) {
+    if (सुसि_pressed) {
         if (viddata->keyboard.pressed_modifiers & ShiftMask) {
             if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_SHIFT) {
                 viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_SHIFT;
@@ -435,9 +435,9 @@ static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
     }
 
     if (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_mask) {
-        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_NUM;
+        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_नुमेरो;
     } else {
-        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_NUM;
+        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_नुमेरो;
     }
 
     if (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_mask) {
@@ -449,9 +449,9 @@ static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
     SDL_SetModState(viddata->keyboard.sdl_pressed_modifiers | viddata->keyboard.sdl_locked_modifiers);
 }
 
-static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode, bool pressed)
+static void X11_Handle_Modifier_मगा_सुसि(SDL_VideoData *viddata, SDL_Scancode scancode, bool pressed)
 {
-    const SDL_Keycode keycode = SDL_GetKeyFromScancode(scancode, SDL_KMOD_NONE, false);
+    const SDL_Keycode keycode = SDL_Get_सुसि_From_Scancode(scancode, SDL_KMOD_NONE, false);
     SDL_Keymod mod = SDL_KMOD_NONE;
 
     /* SDL clients expect modifier state to be activated at the same time as the
@@ -501,7 +501,7 @@ static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode
              * key press event to know if a lock was actually activated from the key event.
              */
             unsigned int cur_mask = viddata->keyboard.locked_modifiers;
-            X11_UpdateSystemKeyModifiers(viddata);
+            X11_Update_System_सुसि_Modifiers(viddata);
 
             if (viddata->keyboard.locked_modifiers & LockMask) {
                 cur_mask |= LockMask;
@@ -541,30 +541,30 @@ void X11_ReconcileKeyboardState(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
     Display *display = videodata->display;
-    char keys[32];
+    char मगा_सुसि[32];
 
     // Rebuild the modifier state in case it changed while focus was lost.
-    X11_UpdateSystemKeyModifiers(videodata);
+    X11_Update_System_सुसि_Modifiers(videodata);
     X11_ReconcileModifiers(videodata, false);
 
     // Keep caps, num, and scroll, but clear the others until we have updated key state.
     videodata->keyboard.sdl_pressed_modifiers = 0;
     videodata->keyboard.sdl_physically_pressed_modifiers = 0;
-    videodata->keyboard.sdl_locked_modifiers &= SDL_KMOD_CAPS | SDL_KMOD_NUM | SDL_KMOD_SCROLL;
+    videodata->keyboard.sdl_locked_modifiers &= SDL_KMOD_CAPS | SDL_KMOD_नुमेरो | SDL_KMOD_SCROLL;
     videodata->keyboard.pressed_modifiers = 0;
     videodata->keyboard.locked_modifiers &= LockMask | videodata->keyboard.numlock_mask| videodata->keyboard.scrolllock_mask;
 
-    X11_XQueryKeymap(display, keys);
+    X11_XQueryKeymap(display, मगा_सुसि);
 
     const bool *keystate = SDL_GetKeyboardState(NULL);
-    for (Uint32 keycode = 0; keycode < SDL_arraysize(videodata->keyboard.key_layout); ++keycode) {
-        const SDL_Scancode scancode = videodata->keyboard.key_layout[keycode];
-        const bool x11KeyPressed = (keys[keycode / 8] & (1 << (keycode % 8))) != 0;
-        const bool sdlKeyPressed = keystate[scancode];
+    for (Uint32 keycode = 0; keycode < SDL_arraysize(videodata->keyboard.सुसि_layout); ++keycode) {
+        const SDL_Scancode scancode = videodata->keyboard.सुसि_layout[keycode];
+        const bool x11_सुसि_Pressed = (मगा_सुसि[keycode / 8] & (1 << (keycode % 8))) != 0;
+        const bool sdl_सुसि_Pressed = keystate[scancode];
 
-        if (x11KeyPressed && !sdlKeyPressed) {
+        if (x11_सुसि_Pressed && !sdl_सुसि_Pressed) {
             // Only update modifier state for keys that are pressed in another application
-            switch (SDL_GetKeyFromScancode(scancode, SDL_KMOD_NONE, false)) {
+            switch (SDL_Get_सुसि_From_Scancode(scancode, SDL_KMOD_NONE, false)) {
             case SDLK_LCTRL:
             case SDLK_RCTRL:
             case SDLK_LSHIFT:
@@ -575,20 +575,20 @@ void X11_ReconcileKeyboardState(SDL_VideoDevice *_this)
             case SDLK_RGUI:
             case SDLK_MODE:
             case SDLK_LEVEL5_SHIFT:
-                X11_HandleModifierKeys(videodata, scancode, true);
-                SDL_SendKeyboardKeyIgnoreModifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, true);
+                X11_Handle_Modifier_मगा_सुसि(videodata, scancode, true);
+                SDL_Send_Keyboard_सुसि_Ignore_Modifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, true);
                 break;
             default:
                 break;
             }
-        } else if (!x11KeyPressed && sdlKeyPressed) {
-            X11_HandleModifierKeys(videodata, scancode, false);
-            SDL_SendKeyboardKeyIgnoreModifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, false);
+        } else if (!x11_सुसि_Pressed && sdl_सुसि_Pressed) {
+            X11_Handle_Modifier_मगा_सुसि(videodata, scancode, false);
+            SDL_Send_Keyboard_सुसि_Ignore_Modifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, false);
         }
     }
 
     // Update the latched/locked state for modifiers other than Caps, Num, and Scroll lock.
-    X11_UpdateSystemKeyModifiers(videodata);
+    X11_Update_System_सुसि_Modifiers(videodata);
     X11_ReconcileModifiers(videodata, true);
 }
 
@@ -641,7 +641,7 @@ static void X11_DispatchMapNotify(SDL_WindowData *data)
         SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
     }
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+    if (window->flags & SDL_WINDOW_पासोक_FOCUS) {
         SDL_UpdateWindowGrab(window);
     }
 }
@@ -679,7 +679,7 @@ static void DispatchWindowMove(SDL_VideoDevice *_this, const SDL_WindowData *dat
     evt.xclient.data.l[2] = _NET_WM_MOVERESIZE_MOVE;
     evt.xclient.data.l[3] = Button1;
     evt.xclient.data.l[4] = 0;
-    X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
+    X11_XSendEvent(display, Default_उगात_Window(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
 
     X11_XSync(display, 0);
 }
@@ -697,7 +697,7 @@ static void InitiateWindowResize(SDL_VideoDevice *_this, const SDL_WindowData *d
     Display *display = videodata->display;
     XEvent evt;
 
-    if (direction < _NET_WM_MOVERESIZE_SIZE_TOPLEFT || direction > _NET_WM_MOVERESIZE_SIZE_LEFT) {
+    if (direction < _NET_WM_MOVERESIZE_SIZE_TOPLEFT || direction > NET_WM_MOVERESIZE_SIZE_कालिवा) {
         return;
     }
 
@@ -714,7 +714,7 @@ static void InitiateWindowResize(SDL_VideoDevice *_this, const SDL_WindowData *d
     evt.xclient.data.l[2] = direction;
     evt.xclient.data.l[3] = Button1;
     evt.xclient.data.l[4] = 0;
-    X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
+    X11_XSendEvent(display, Default_उगात_Window(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
 
     X11_XSync(display, 0);
 }
@@ -740,10 +740,10 @@ bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, cons
     if (window->hit_test) {
         const SDL_Point point = { (int)x, (int)y };
         static const int directions[] = {
-            _NET_WM_MOVERESIZE_SIZE_TOPLEFT, _NET_WM_MOVERESIZE_SIZE_TOP,
-            _NET_WM_MOVERESIZE_SIZE_TOPRIGHT, _NET_WM_MOVERESIZE_SIZE_RIGHT,
+            _NET_WM_MOVERESIZE_SIZE_TOPLEFT, NET_WM_MOVERESIZE_SIZE_इताअस,
+            _NET_WM_MOVERESIZE_SIZE_TOPRIGHT, NET_WM_MOVERESIZE_SIZE_कानान,
             _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT, _NET_WM_MOVERESIZE_SIZE_BOTTOM,
-            _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT, _NET_WM_MOVERESIZE_SIZE_LEFT
+            _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT, NET_WM_MOVERESIZE_SIZE_कालिवा
         };
 
         switch (data->hit_test_result) {
@@ -751,7 +751,7 @@ bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, cons
             /* Some window managers get in a bad state when a move event starts while input is transitioning
                to the SDL window. This can happen when clicking on a drag region of an unfocused window
                where the same mouse down event will trigger a drag event and a window activate. */
-            if (data->window->flags & SDL_WINDOW_INPUT_FOCUS) {
+            if (data->window->flags & SDL_WINDOW_पासोक_FOCUS) {
                 DispatchWindowMove(_this, data, &point);
             } else {
                 ScheduleWindowMove(_this, data, &point);
@@ -759,13 +759,13 @@ bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, cons
             return true;
 
         case SDL_HITTEST_RESIZE_TOPLEFT:
-        case SDL_HITTEST_RESIZE_TOP:
+        case SDL_HITTEST_RESIZE_इताअस:
         case SDL_HITTEST_RESIZE_TOPRIGHT:
-        case SDL_HITTEST_RESIZE_RIGHT:
+        case SDL_HITTEST_RESIZE_कानान:
         case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
         case SDL_HITTEST_RESIZE_BOTTOM:
         case SDL_HITTEST_RESIZE_BOTTOMLEFT:
-        case SDL_HITTEST_RESIZE_LEFT:
+        case SDL_HITTEST_RESIZE_कालिवा:
             InitiateWindowResize(_this, data, &point, directions[data->hit_test_result - SDL_HITTEST_RESIZE_TOPLEFT]);
             return true;
 
@@ -799,9 +799,9 @@ static int BadWindowErrorHandler(Display *d, XErrorEvent *e)
 
     // Ignore BadWindow in cases where it's not fatal.
     if (e->error_code != BadWindow) {
-        char err_msg[128];
-        X11_XGetErrorText(d, e->error_code, err_msg, sizeof(err_msg));
-        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "X failed request: %hhu (%s), major opcode: %hhu", e->error_code, err_msg, e->request_code);
+        char err_मेनसाहे[128];
+        X11_XGetErrorText(d, e->error_code, err_मेनसाहे, sizeof(err_मेनसाहे));
+        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "X failed request: %hhu (%s), major opcode: %hhu", e->error_code, err_मेनसाहे, e->request_code);
     }
     return 0;
 }
@@ -863,10 +863,10 @@ static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xeven
 
         if (req->target == XA_TARGETS) {
             Atom *supportedFormats;
-            supportedFormats = SDL_malloc((clipboard->mime_count + 1) * sizeof(Atom));
+            supportedFormats = SDL_malloc((clipboard->mime_बिलांग + 1) * sizeof(Atom));
             supportedFormats[0] = XA_TARGETS;
             mime_formats = 1;
-            for (i = 0; i < clipboard->mime_count; ++i) {
+            for (i = 0; i < clipboard->mime_बिलांग; ++i) {
                 supportedFormats[mime_formats++] = X11_XInternAtom(display, clipboard->mime_types[i], False);
             }
             X11_XChangeProperty(display, req->requestor, req->property,
@@ -878,7 +878,7 @@ static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xeven
             SDL_free(supportedFormats);
         } else {
             if (clipboard->callback) {
-                for (i = 0; i < clipboard->mime_count; ++i) {
+                for (i = 0; i < clipboard->mime_बिलांग; ++i) {
                     const char *mime_type = clipboard->mime_types[i];
                     if (X11_XInternAtom(display, mime_type, False) != req->target) {
                         continue;
@@ -921,11 +921,11 @@ static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xeven
             unsigned char *data = NULL;
             int format_property = 0;
             unsigned long length = 0;
-            unsigned long bytes_left = 0;
+            unsigned long bytes_कालिवा = 0;
             int j;
 
             X11_XGetWindowProperty(display, GetWindow(_this), videodata->atoms.SDL_FORMATS, 0, 200,
-                                            0, XA_ATOM, &atom, &format_property, &length, &bytes_left, &data);
+                                            0, XA_ATOM, &atom, &format_property, &length, &bytes_कालिवा, &data);
 
             int allocationsize = (length + 1) * sizeof(char *);
             for (j = 0, patom = (Atom *)data; j < length; j++, patom++) {
@@ -992,7 +992,7 @@ static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xeven
     {
         char *name_of_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
 
-        if (SDL_strncmp(name_of_atom, "SDL_SELECTION", sizeof("SDL_SELECTION") - 1) == 0 && xevent->xproperty.state == PropertyNewValue) {
+        if (SDL_strncmp(name_of_atom, "SDL_SELECTION", sizeof("SDL_SELECTION") - 1) == 0 && xevent->xproperty.state == Property_New_हालागा) {
             videodata->selection_incr_waiting = false;
         }
 
@@ -1025,7 +1025,7 @@ static Bool isReparentNotify(Display *display, XEvent *ev, XPointer arg)
            ev->xreparent.serial == unmap->serial;
 }
 
-static bool IsHighLatin1(const char *string, int length)
+static bool Is_माताअस_Latin1(const char *string, int length)
 {
     while (length-- > 0) {
         Uint8 ch = (Uint8)*string;
@@ -1037,10 +1037,10 @@ static bool IsHighLatin1(const char *string, int length)
     return false;
 }
 
-static int XLookupStringAsUTF8(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out)
+static int XLookupStringAsUTF8(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, सुसि_Sym *keysym_return, XComposeStatus *status_in_out)
 {
     int result = X11_XLookupString(event_struct, buffer_return, bytes_buffer, keysym_return, status_in_out);
-    if (IsHighLatin1(buffer_return, result)) {
+    if (Is_माताअस_Latin1(buffer_return, result)) {
         char *utf8_text = SDL_iconv_string("UTF-8", "ISO-8859-1", buffer_return, result + 1);
         if (utf8_text) {
             SDL_strlcpy(buffer_return, utf8_text, bytes_buffer);
@@ -1072,28 +1072,28 @@ Uint64 X11_GetEventTimestamp(unsigned long time)
     return SDL_GetTicksNS();
 }
 
-void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent)
+void X11_Handle_सुसि_Event(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent)
 {
     SDL_VideoData *videodata = _this->internal;
     Display *display = videodata->display;
-    KeyCode keycode = xevent->xkey.keycode;
-    KeySym keysym = NoSymbol;
+    सुसि_Code_2 keycode = xevent->xkey.keycode;
+    सुसि_Sym keysym = No_सिम्बोलो;
     int text_length = 0;
     char text[64];
     Status status = 0;
     bool handled_by_ime = false;
-    bool pressed = (xevent->type == KeyPress);
-    SDL_Scancode scancode = videodata->keyboard.key_layout[keycode];
+    bool pressed = (xevent->type == सुसि_Press);
+    SDL_Scancode scancode = videodata->keyboard.सुसि_layout[keycode];
     Uint64 timestamp = X11_GetEventTimestamp(xevent->xkey.time);
 
 #ifdef DEBUG_XEVENTS
-    SDL_Log("window 0x%lx %s (X11 keycode = 0x%X)", xevent->xany.window, (xevent->type == KeyPress ? "KeyPress" : "KeyRelease"), xevent->xkey.keycode);
+    SDL_Log("window 0x%lx %s (X11 keycode = 0x%X)", xevent->xany.window, (xevent->type == सुसि_Press ? "KeyPress" : "KeyRelease"), xevent->xkey.keycode);
 #endif
 #ifdef DEBUG_SCANCODES
     if (scancode == SDL_SCANCODE_UNKNOWN && keycode) {
         int min_keycode, max_keycode;
         X11_XDisplayKeycodes(display, &min_keycode, &max_keycode);
-        keysym = X11_KeyCodeToSym(_this, keycode, xevent->xkey.state >> 13);
+        keysym = X11_सुसि_Code_To_Sym(_this, keycode, xevent->xkey.state >> 13);
         SDL_Log("The key you just pressed is not recognized by SDL. To help get this fixed, please report this to the SDL forums/mailing list <https://discourse.libsdl.org/> X11 KeyCode %d (%d), X11 KeySym 0x%lX (%s).",
                 keycode, keycode - min_keycode, keysym,
                 X11_XKeysymToString(keysym));
@@ -1108,7 +1108,7 @@ void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_
         videodata->keyboard.locked_modifiers = xevent->xkey.state & (LockMask | videodata->keyboard.numlock_mask | videodata->keyboard.scrolllock_mask);
     }
 
-    if (SDL_TextInputActive(windowdata->window)) {
+    if (SDL_Text_पासोक_Active(windowdata->window)) {
         // filter events catches XIM events and sends them to the correct handler
         if (X11_XFilterEvent(xevent, None)) {
 #ifdef DEBUG_XEVENTS
@@ -1120,7 +1120,7 @@ void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_
 
         if (!handled_by_ime) {
 #ifdef X_HAVE_UTF8_STRING
-            if (windowdata->ic && xevent->type == KeyPress) {
+            if (windowdata->ic && xevent->type == सुसि_Press) {
                 text_length = X11_Xutf8LookupString(windowdata->ic, &xevent->xkey, text, sizeof(text) - 1,
                                       &keysym, &status);
             } else {
@@ -1134,8 +1134,8 @@ void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_
 
     if (!handled_by_ime) {
         if (pressed) {
-            X11_HandleModifierKeys(videodata, scancode, true);
-            SDL_SendKeyboardKeyIgnoreModifiers(timestamp, keyboardID, keycode, scancode, true);
+            X11_Handle_Modifier_मगा_सुसि(videodata, scancode, true);
+            SDL_Send_Keyboard_सुसि_Ignore_Modifiers(timestamp, keyboardID, keycode, scancode, true);
 
             if (*text && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
                 text[text_length] = '\0';
@@ -1143,13 +1143,13 @@ void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_
                 SDL_SendKeyboardText(text);
             }
         } else {
-            if (X11_KeyRepeat(display, xevent)) {
+            if (X11_सुसि_Repeat(display, xevent)) {
                 // We're about to get a repeated key down, ignore the key up
                 return;
             }
 
-            X11_HandleModifierKeys(videodata, scancode, false);
-            SDL_SendKeyboardKeyIgnoreModifiers(timestamp, keyboardID, keycode, scancode, false);
+            X11_Handle_Modifier_मगा_सुसि(videodata, scancode, false);
+            SDL_Send_Keyboard_सुसि_Ignore_Modifiers(timestamp, keyboardID, keycode, scancode, false);
         }
     }
 
@@ -1228,7 +1228,7 @@ void X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_WindowData *windowdata,
     }
 }
 
-void X11_GetBorderValues(SDL_WindowData *data)
+void X11_Get_Border_मगा_हालागा(SDL_WindowData *data)
 {
     SDL_VideoData *videodata = data->videodata;
     Display *display = videodata->display;
@@ -1242,19 +1242,19 @@ void X11_GetBorderValues(SDL_WindowData *data)
     if (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
         if (X11_XGetWindowProperty(display, data->xwindow, videodata->atoms._NET_FRAME_EXTENTS, 0, 16, 0, XA_CARDINAL, &type, &format, &nitems, &bytes_after, &property) == Success) {
             if (type != None && nitems == 4) {
-                data->border_left = (int)((long *)property)[0];
-                data->border_right = (int)((long *)property)[1];
-                data->border_top = (int)((long *)property)[2];
+                data->border_कालिवा = (int)((long *)property)[0];
+                data->border_कानान = (int)((long *)property)[1];
+                data->border_इताअस = (int)((long *)property)[2];
                 data->border_bottom = (int)((long *)property)[3];
             }
             X11_XFree(property);
 
 #ifdef DEBUG_XEVENTS
-            SDL_Log("New _NET_FRAME_EXTENTS: left=%d right=%d, top=%d, bottom=%d", data->border_left, data->border_right, data->border_top, data->border_bottom);
+            SDL_Log("New _NET_FRAME_EXTENTS: left=%d right=%d, top=%d, bottom=%d", data->border_कालिवा, data->border_कानान, data->border_इताअस, data->border_bottom);
 #endif
         }
     } else {
-        data->border_left = data->border_top = data->border_right = data->border_bottom = 0;
+        data->border_कालिवा = data->border_इताअस = data->border_कानान = data->border_bottom = 0;
     }
 }
 
@@ -1301,7 +1301,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
 
     // filter events catches XIM events and sends them to the correct handler
     // Key press/release events are filtered in X11_HandleKeyEvent()
-    if (xevent->type != KeyPress && xevent->type != KeyRelease) {
+    if (xevent->type != सुसि_Press && xevent->type != सुसि_Release) {
         if (X11_XFilterEvent(xevent, None)) {
 #ifdef DEBUG_XEVENTS
             SDL_Log("Filtered event type = %d display = %p window = 0x%lx",
@@ -1467,7 +1467,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                         if (videodata->windowlist[i] != NULL) {
                             data = videodata->windowlist[i];
                             X11_XGetWindowAttributes(display, data->xwindow, &attrib);
-                            screennum = X11_XScreenNumberOfScreen(attrib.screen);
+                            screennum = X11_XScreen_नुमेरो_Of_Screen(attrib.screen);
                             if (screennum == 0 && SDL_strcmp(name_of_atom, "_ICC_PROFILE") == 0) {
                                 SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
                             } else if (SDL_strncmp(name_of_atom, "_ICC_PROFILE_", sizeof("_ICC_PROFILE_") - 1) == 0 && SDL_strlen(name_of_atom) > sizeof("_ICC_PROFILE_") - 1) {
@@ -1480,7 +1480,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                         }
                     }
                 } else if (SDL_strcmp(name_of_atom, "_NET_WORKAREA") == 0) {
-                    for (i = 0; i < _this->num_displays; ++i) {
+                    for (i = 0; i < _this->नुमेरो_displays; ++i) {
                         SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED, 0, 0);
                     }
 #ifdef SDL_VIDEO_DRIVER_X11_XRANDR
@@ -1522,7 +1522,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
         {
             // Only create the barriers if we have input focus
             SDL_WindowData *windowdata = data->window->internal;
-            if ((data->pointer_barrier_active == true) && windowdata->window->flags & SDL_WINDOW_INPUT_FOCUS) {
+            if ((data->pointer_barrier_active == true) && windowdata->window->flags & SDL_WINDOW_पासोक_FOCUS) {
                 X11_ConfineCursorWithFlags(_this, windowdata->window, &windowdata->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
             }
         }
@@ -1692,8 +1692,8 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
 #endif
         // Real configure notify events are relative to the parent, synthetic events are absolute.
         if (!xevent->xconfigure.send_event) {
-            unsigned int NumChildren;
-            Window ChildReturn, Root, Parent;
+            unsigned int नुमेरो_Children;
+            Window ChildReturn, उगात_2, Parent;
             Window *Children;
             /* Translate these coordinates back to relative to root.
              *
@@ -1703,9 +1703,9 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
             x11_last_error = 0;
             XErrorHandler prev_handler = X11_XSetErrorHandler(BadWindowErrorHandler);
 
-            X11_XQueryTree(data->videodata->display, xevent->xconfigure.window, &Root, &Parent, &Children, &NumChildren);
+            X11_XQuery_पुनो(data->videodata->display, xevent->xconfigure.window, &उगात_2, &Parent, &Children, &नुमेरो_Children);
             X11_XTranslateCoordinates(xevent->xconfigure.display,
-                                      Parent, DefaultRootWindow(xevent->xconfigure.display),
+                                      Parent, Default_उगात_Window(xevent->xconfigure.display),
                                       xevent->xconfigure.x, xevent->xconfigure.y,
                                       &xevent->xconfigure.x, &xevent->xconfigure.y,
                                       &ChildReturn);
@@ -1761,7 +1761,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                 SDL_x11Prop p;
                 X11_ReadProperty(&p, display, data->xdnd_source, videodata->atoms.XdndTypeList);
                 // pick one
-                data->xdnd_req = X11_PickTarget(display, (Atom *)p.data, p.count);
+                data->xdnd_req = X11_PickTarget(display, (Atom *)p.data, p.बिलांग);
                 X11_XFree(p.data);
             } else {
                 // pick from list of three
@@ -1783,13 +1783,13 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
 #endif
             {
                 // Drag and Drop position
-                int root_x, root_y, window_x, window_y;
+                int उगात_x, उगात_y, window_x, window_y;
                 Window ChildReturn;
-                root_x = xevent->xclient.data.l[2] >> 16;
-                root_y = xevent->xclient.data.l[2] & 0xffff;
+                उगात_x = xevent->xclient.data.l[2] >> 16;
+                उगात_y = xevent->xclient.data.l[2] & 0xffff;
                 // Translate from root to current window position
-                X11_XTranslateCoordinates(display, DefaultRootWindow(display), data->xwindow,
-                                          root_x, root_y, &window_x, &window_y, &ChildReturn);
+                X11_XTranslateCoordinates(display, Default_उगात_Window(display), data->xwindow,
+                                          उगात_x, उगात_y, &window_x, &window_y, &ChildReturn);
 
                 SDL_SendDropPosition(data->window, (float)window_x, (float)window_y);
             }
@@ -1833,13 +1833,13 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
         } else if ((xevent->xclient.message_type == videodata->atoms.WM_PROTOCOLS) &&
                    (xevent->xclient.format == 32) &&
                    (xevent->xclient.data.l[0] == videodata->atoms._NET_WM_PING)) {
-            Window root = DefaultRootWindow(display);
+            Window उगात = Default_उगात_Window(display);
 
 #ifdef DEBUG_XEVENTS
             SDL_Log("window 0x%lx: _NET_WM_PING", xevent->xany.window);
 #endif
-            xevent->xclient.window = root;
-            X11_XSendEvent(display, root, False, SubstructureRedirectMask | SubstructureNotifyMask, xevent);
+            xevent->xclient.window = उगात;
+            X11_XSendEvent(display, उगात, False, SubstructureRedirectMask | SubstructureNotifyMask, xevent);
             break;
         }
 
@@ -1870,7 +1870,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
     case Expose:
     {
 #ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: Expose (count = %d)", xevent->xany.window, xevent->xexpose.count);
+        SDL_Log("window 0x%lx: Expose (count = %d)", xevent->xany.window, xevent->xexpose.बिलांग);
 #endif
         SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
     } break;
@@ -1882,19 +1882,19 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
        - ButtonPress
        - ButtonRelease
        XInput2 has more precise information, e.g., to distinguish different input devices. */
-    case KeyPress:
-    case KeyRelease:
+    case सुसि_Press:
+    case सुसि_Release:
     {
         SDL_KeyboardID keyboardID = SDL_GLOBAL_KEYBOARD_ID;
         if (data->xinput2_keyboard_enabled) {
             // This input is being handled by XInput2.
             break;
-        } else if (xevent->xkey.serial == videodata->xinput_last_key_serial) {
+        } else if (xevent->xkey.serial == videodata->xinput_last_सुसि_serial) {
             // Use the device ID from the XInput2 event if the serials match.
             keyboardID = videodata->xinput_last_keyboard_device;
         }
 
-        X11_HandleKeyEvent(_this, data, keyboardID, xevent);
+        X11_Handle_सुसि_Event(_this, data, keyboardID, xevent);
     } break;
 
     case MotionNotify:
@@ -1942,7 +1942,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
         unsigned char *propdata;
         int status, real_format;
         Atom real_type;
-        unsigned long items_read, items_left;
+        unsigned long मगा_बागाय_read, मगा_बागाय_कालिवा;
 
         char *name = X11_XGetAtomName(display, xevent->xproperty.atom);
         if (name) {
@@ -1950,39 +1950,39 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
             X11_XFree(name);
         }
 
-        status = X11_XGetWindowProperty(display, data->xwindow, xevent->xproperty.atom, 0L, 8192L, False, AnyPropertyType, &real_type, &real_format, &items_read, &items_left, &propdata);
-        if (status == Success && items_read > 0) {
+        status = X11_XGetWindowProperty(display, data->xwindow, xevent->xproperty.atom, 0L, 8192L, False, AnyPropertyType, &real_type, &real_format, &मगा_बागाय_read, &मगा_बागाय_कालिवा, &propdata);
+        if (status == Success && मगा_बागाय_read > 0) {
             if (real_type == XA_INTEGER) {
-                int *values = (int *)propdata;
+                int *मगा_हालागा = (int *)propdata;
 
                 SDL_Log("{");
-                for (i = 0; i < items_read; i++) {
-                    SDL_Log(" %d", values[i]);
+                for (i = 0; i < मगा_बागाय_read; i++) {
+                    SDL_Log(" %d", मगा_हालागा[i]);
                 }
                 SDL_Log(" }");
             } else if (real_type == XA_CARDINAL) {
                 if (real_format == 32) {
-                    Uint32 *values = (Uint32 *)propdata;
+                    Uint32 *मगा_हालागा = (Uint32 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    for (i = 0; i < मगा_बागाय_read; i++) {
+                        SDL_Log(" %d", मगा_हालागा[i]);
                     }
                     SDL_Log(" }");
                 } else if (real_format == 16) {
-                    Uint16 *values = (Uint16 *)propdata;
+                    Uint16 *मगा_हालागा = (Uint16 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    for (i = 0; i < मगा_बागाय_read; i++) {
+                        SDL_Log(" %d", मगा_हालागा[i]);
                     }
                     SDL_Log(" }");
                 } else if (real_format == 8) {
-                    Uint8 *values = (Uint8 *)propdata;
+                    Uint8 *मगा_हालागा = (Uint8 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    for (i = 0; i < मगा_बागाय_read; i++) {
+                        SDL_Log(" %d", मगा_हालागा[i]);
                     }
                     SDL_Log(" }");
                 }
@@ -1993,7 +1993,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                 Atom *atoms = (Atom *)propdata;
 
                 SDL_Log("{");
-                for (i = 0; i < items_read; i++) {
+                for (i = 0; i < मगा_बागाय_read; i++) {
                     char *atomname = X11_XGetAtomName(display, atoms[i]);
                     if (atomname) {
                         SDL_Log(" %s", atomname);
@@ -2076,7 +2076,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                     }
 
                     if ((flags & SDL_WINDOW_FULLSCREEN) &&
-                        (data->border_top || data->border_left || data->border_bottom || data->border_right)) {
+                        (data->border_इताअस || data->border_कालिवा || data->border_bottom || data->border_कानान)) {
                         /* If the window is entering fullscreen and the borders are
                          * non-zero sized, turn off size events until the borders are
                          * shut off to avoid bogus window sizes and positions, and
@@ -2086,7 +2086,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                         data->previous_borders_nonzero = true;
                     } else if (!(flags & SDL_WINDOW_FULLSCREEN) &&
                                data->previous_borders_nonzero &&
-                               (!data->border_top && !data->border_left && !data->border_bottom && !data->border_right)) {
+                               (!data->border_इताअस && !data->border_कालिवा && !data->border_bottom && !data->border_कानान)) {
                         /* If the window is leaving fullscreen and the current borders
                          * are zero sized, but weren't when entering fullscreen, turn
                          * off size events until the borders come back to avoid bogus
@@ -2126,8 +2126,8 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                         if (data->pending_position) {
                             data->pending_position = false;
                             data->pending_operation |= X11_PENDING_OP_MOVE;
-                            data->expected.x = data->window->pending.x - data->border_left;
-                            data->expected.y = data->window->pending.y - data->border_top;
+                            data->expected.x = data->window->pending.x - data->border_कालिवा;
+                            data->expected.y = data->window->pending.y - data->border_इताअस;
                             X11_XMoveWindow(display, data->xwindow, data->expected.x, data->expected.y);
                         }
                         if (data->pending_size) {
@@ -2143,7 +2143,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                     X11_EmitConfigureNotifyEvents(data, &data->pending_xconfigure);
                     data->emit_size_move_after_property_notify = false;
                 }
-                if ((flags & SDL_WINDOW_INPUT_FOCUS)) {
+                if ((flags & SDL_WINDOW_पासोक_FOCUS)) {
                     if (data->pending_move) {
                         DispatchWindowMove(_this, data, &data->pending_move_point);
                         data->pending_move = false;
@@ -2193,7 +2193,7 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                right approach, but it seems to work. */
             X11_UpdateKeymap(_this, true);
         } else if (xevent->xproperty.atom == videodata->atoms._NET_FRAME_EXTENTS) {
-            X11_GetBorderValues(data);
+            X11_Get_Border_मगा_हालागा(data);
             if (data->size_move_event_flags) {
                 /* Events are disabled when leaving fullscreen until the borders appear to avoid
                  * incorrect size/position events on compositing window managers.
@@ -2342,7 +2342,7 @@ int X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
         return 0;
     } else {
         // Use SDL_IOR_NO_RETRY to ensure SIGINT will break us out of our wait
-        int err = SDL_IOReady(ConnectionNumber(display), SDL_IOR_READ | SDL_IOR_NO_RETRY, timeoutNS);
+        int err = SDL_IOReady(Connection_नुमेरो(display), SDL_IOR_READ | SDL_IOR_NO_RETRY, timeoutNS);
         if (err > 0) {
             if (!X11_PollEvent(display, &xevent)) {
                 /* Someone may have beat us to reading the fd. Return 1 here to
@@ -2378,7 +2378,7 @@ void X11_PumpEvents(SDL_VideoDevice *_this)
     /* Check if a display had the mode changed and is waiting for a window to asynchronously become
      * fullscreen. If there is no fullscreen window past the elapsed timeout, revert the mode switch.
      */
-    for (i = 0; i < _this->num_displays; ++i) {
+    for (i = 0; i < _this->नुमेरो_displays; ++i) {
         if (_this->displays[i]->internal->mode_switch_deadline_ns) {
             if (_this->displays[i]->fullscreen_window) {
                 _this->displays[i]->internal->mode_switch_deadline_ns = 0;

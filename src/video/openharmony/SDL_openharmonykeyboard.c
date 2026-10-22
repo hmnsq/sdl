@@ -35,46 +35,46 @@ bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 
 void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    int input_type = 0;
+    int पासोक_type = 0;
     int cap_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
+    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_नुमेरो)) {
+        पासोक_type = (int)SDL_Get_नुमेरो_Property(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_नुमेरो, 0);
     } else {
-        switch (SDL_GetTextInputType(props)) {
-            #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; break
+        switch (SDL_Get_Text_पासोक_Type(props)) {
+            #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: पासोक_type = oh; break
             INPUTTYPE(TEXT, 0);
             INPUTTYPE(TEXT_NAME, 0);
             INPUTTYPE(TEXT_EMAIL, 5);
             INPUTTYPE(TEXT_USERNAME, 10);
             INPUTTYPE(TEXT_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
             INPUTTYPE(TEXT_PASSWORD_VISIBLE, 7);
-            INPUTTYPE(NUMBER_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(NUMBER_PASSWORD_VISIBLE, 8);
+            INPUTTYPE(नुमेरो_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(नुमेरो_PASSWORD_VISIBLE, 8);
             #undef INPUTTYPE
             default: break;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
+        switch (SDL_Get_Text_पासोक_Capitalization(props)) {
             #define CAPTYPE(sdl,oh) case SDL_CAPITALIZE_##sdl: cap_type = oh; break
             CAPTYPE(NONE, 0);
             CAPTYPE(LETTERS, 3);
-            CAPTYPE(WORDS, 2);
+            CAPTYPE(मगा_सालिता, 2);
             CAPTYPE(SENTENCES, 1);
             #undef CAPTYPE
             default: break;
         }
 
         #if 0  // !!! FIXME
-        if (SDL_GetTextInputAutocorrect(props)) {
-            input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        if (SDL_Get_Text_पासोक_Autocorrect(props)) {
+            पासोक_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
         #endif
 
-        if (SDL_GetTextInputMultiline(props)) {
-            input_type = 1;  // sorry, this only works with basic TEXT type.
+        if (SDL_Get_Text_पासोक_Multiline(props)) {
+            पासोक_type = 1;  // sorry, this only works with basic TEXT type.
         }
     }
-    SDL_OpenHarmonyShowScreenKeyboard(input_type, cap_type, &window->text_input_rect);
+    SDL_OpenHarmonyShowScreenKeyboard(पासोक_type, cap_type, &window->text_पासोक_rect);
 }
 
 void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
@@ -85,7 +85,7 @@ void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
     if (_this->screen_keyboard_shown) {
-        OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_input_props);
+        OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_पासोक_props);
     }
 }
 

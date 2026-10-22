@@ -44,7 +44,7 @@ typedef struct
     Sint32 repeat_rate;     // Repeat rate in range of [1, 1000] character(s) per second
     Sint32 repeat_delay_ms; // Time to first repeat event in milliseconds
 
-    Uint32 key;               // Key code of the repeating key
+    Uint32 सुसि;               // Key code of the repeating key
     Uint32 scancode;          // Scancode of the repeating key
     Uint32 keyboard_id;       // ID of the source keyboard
     Uint32 wl_press_time_ms;  // Key press time as reported by the Wayland API in milliseconds
@@ -91,7 +91,7 @@ typedef struct SDL_WaylandPenTool  // a stylus, etc, on a tablet.
         float x;
         float y;
 
-        float axes[SDL_PEN_AXIS_COUNT];
+        float axes[SDL_PEN_AXIS_बिलांग];
         Uint32 axes_set;
 
         enum
@@ -133,8 +133,8 @@ typedef struct SDL_WaylandSeat
     struct
     {
         struct wl_keyboard *wl_keyboard;
-        struct zwp_input_timestamps_v1 *timestamps;
-        struct zwp_keyboard_shortcuts_inhibitor_v1 *key_inhibitor;
+        struct zwp_पासोक_timestamps_v1 *timestamps;
+        struct zwp_keyboard_shortcuts_inhibitor_v1 *सुसि_inhibitor;
         SDL_WindowData *focus;
         SDL_Keymap **sdl_keymap;
         struct wl_array reserved_scancodes;
@@ -158,7 +158,7 @@ typedef struct SDL_WaylandSeat
             struct xkb_compose_state *compose_state;
 
             // Current keyboard layout (aka 'group')
-            xkb_layout_index_t num_layouts;
+            xkb_layout_index_t नुमेरो_layouts;
             xkb_layout_index_t current_layout;
 
             // Modifier bitshift values
@@ -168,7 +168,7 @@ typedef struct SDL_WaylandSeat
             xkb_mod_mask_t gui_mask;
             xkb_mod_mask_t level3_mask;
             xkb_mod_mask_t level5_mask;
-            xkb_mod_mask_t num_mask;
+            xkb_mod_mask_t नुमेरो_mask;
             xkb_mod_mask_t caps_mask;
 
             // Current system modifier flags
@@ -182,7 +182,7 @@ typedef struct SDL_WaylandSeat
     {
         struct wl_pointer *wl_pointer;
         struct zwp_relative_pointer_v1 *relative_pointer;
-        struct zwp_input_timestamps_v1 *timestamps;
+        struct zwp_पासोक_timestamps_v1 *timestamps;
         struct zwp_locked_pointer_v1 *locked_pointer;
         struct zwp_confined_pointer_v1 *confined_pointer;
         struct zwp_pointer_gesture_pinch_v1 *gesture_pinch;
@@ -250,19 +250,19 @@ typedef struct SDL_WaylandSeat
     struct
     {
         struct wl_touch *wl_touch;
-        struct zwp_input_timestamps_v1 *timestamps;
+        struct zwp_पासोक_timestamps_v1 *timestamps;
         Uint64 highres_timestamp_ns;
         struct wl_list points;
     } touch;
 
     struct
     {
-        struct zwp_text_input_v3 *zwp_text_input;
-        SDL_Rect text_input_rect;
-        int text_input_cursor;
+        struct zwp_text_पासोक_v3 *zwp_text_पासोक;
+        SDL_Rect text_पासोक_rect;
+        int text_पासोक_cursor;
         bool enabled;
         bool has_preedit;
-    } text_input;
+    } text_पासोक;
 
     struct
     {
@@ -278,14 +278,14 @@ extern void Wayland_PumpEvents(SDL_VideoDevice *_this);
 extern void Wayland_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
 extern int Wayland_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
-extern void Wayland_DisplayInitInputTimestampManager(SDL_VideoData *display);
+extern void Wayland_Display_Init_पासोक_Timestamp_Manager(SDL_VideoData *display);
 extern void Wayland_DisplayInitCursorShapeManager(SDL_VideoData *display);
 extern void Wayland_DisplayInitPointerGestureManager(SDL_VideoData *display);
 extern void Wayland_DisplayInitTabletManager(SDL_VideoData *display);
 extern void Wayland_DisplayInitDataDeviceManager(SDL_VideoData *display);
 extern void Wayland_DisplayInitPrimarySelectionDeviceManager(SDL_VideoData *display);
 
-extern void Wayland_DisplayInitTextInputManager(SDL_VideoData *d, uint32_t id);
+extern void Wayland_Display_Init_Text_पासोक_Manager(SDL_VideoData *d, uint32_t id);
 
 extern void Wayland_DisplayCreateSeat(SDL_VideoData *display, struct wl_seat *wl_seat, Uint32 id);
 extern void Wayland_SeatDestroy(SDL_WaylandSeat *seat, bool shutting_down);

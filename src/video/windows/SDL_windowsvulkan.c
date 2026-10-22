@@ -38,7 +38,7 @@
 bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
     VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    Uint32 extension_बिलांग = 0;
     Uint32 i;
     bool hasSurfaceExtension = false;
     bool hasWin32SurfaceExtension = false;
@@ -75,11 +75,11 @@ bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
+        &extension_बिलांग);
     if (!extensions) {
         goto fail;
     }
-    for (i = 0; i < extensionCount; i++) {
+    for (i = 0; i < extension_बिलांग; i++) {
         if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
         } else if (SDL_strcmp(VK_KHR_WIN32_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
@@ -110,12 +110,12 @@ void WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
     }
 }
 
-char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *बिलांग)
 {
     static const char *const extensionsForWin32[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME
     };
-    *count = SDL_arraysize(extensionsForWin32);
+    *बिलांग = SDL_arraysize(extensionsForWin32);
     return extensionsForWin32;
 }
 

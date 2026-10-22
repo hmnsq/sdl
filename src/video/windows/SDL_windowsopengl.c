@@ -301,12 +301,12 @@ static void WIN_GL_SetupPixelFormat(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTO
 static bool WIN_GL_ChoosePixelFormat(SDL_VideoDevice *_this, HDC hdc, PIXELFORMATDESCRIPTOR *target)
 {
     PIXELFORMATDESCRIPTOR pfd;
-    int count, index, best = 0;
+    int बिलांग, index, best = 0;
     unsigned int dist, best_dist = ~0U;
 
-    count = DescribePixelFormat(hdc, 1, sizeof(pfd), NULL);
+    बिलांग = DescribePixelFormat(hdc, 1, sizeof(pfd), NULL);
 
-    for (index = 1; index <= count; index++) {
+    for (index = 1; index <= बिलांग; index++) {
 
         if (!DescribePixelFormat(hdc, index, sizeof(pfd), &pfd)) {
             continue;

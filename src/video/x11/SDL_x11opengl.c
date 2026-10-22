@@ -378,10 +378,10 @@ static void X11_GL_InitExtensions(SDL_VideoDevice *_this)
             xattr.background_pixel = 0;
             xattr.border_pixel = 0;
             xattr.colormap =
-                X11_XCreateColormap(display, RootWindow(display, screen),
+                X11_XCreateColormap(display, उगात_Window(display, screen),
                                     vinfo->visual, AllocNone);
-            w = X11_XCreateWindow(display, RootWindow(display, screen), 0, 0,
-                                  32, 32, 0, vinfo->depth, InputOutput, vinfo->visual,
+            w = X11_XCreateWindow(display, उगात_Window(display, screen), 0, 0,
+                                  32, 32, 0, vinfo->depth, पासोक_Output, vinfo->visual,
                                   (CWBackPixel | CWBorderPixel | CWColormap), &xattr);
 
             context = _this->gl_data->glXCreateContext(display, vinfo,
@@ -643,20 +643,20 @@ static XVisualInfo *X11_GL_GetTransparentVisualInfo(Display *display, int screen
 {
     XVisualInfo *visualinfo = NULL;
     XVisualInfo vi_in;
-    int out_count = 0;
+    int out_बिलांग = 0;
 
     vi_in.screen = screen;
-    visualinfo = X11_XGetVisualInfo(display, VisualScreenMask, &vi_in, &out_count);
+    visualinfo = X11_XGetVisualInfo(display, VisualScreenMask, &vi_in, &out_बिलांग);
     if (visualinfo != NULL) {
         int i = 0;
-        for (i = 0; i < out_count; i++) {
+        for (i = 0; i < out_बिलांग; i++) {
             XVisualInfo *v = &visualinfo[i];
             Uint32 format = X11_GetPixelFormatFromVisualInfo(display, v);
             if (SDL_ISPIXELFORMAT_ALPHA(format)) {
                 vi_in.screen = screen;
                 vi_in.visualid = v->visualid;
                 X11_XFree(visualinfo);
-                visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
+                visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_बिलांग);
                 break;
             }
         }

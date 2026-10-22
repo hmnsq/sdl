@@ -34,10 +34,10 @@ struct SDL_DisplayModeData
     Uint16 pitch;
     Uint16 w;
     Uint16 h;
-    Uint8 num_planes;
+    Uint8 नुमेरो_planes;
     Uint8 bpp;
     Uint8 memory_model;
-    Uint8 num_image_pages;
+    Uint8 नुमेरो_image_pages;
     Uint8 red_mask_size;
     Uint8 red_mask_pos;
     Uint8 green_mask_size;

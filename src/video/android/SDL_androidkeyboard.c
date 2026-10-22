@@ -31,7 +31,7 @@
 #include "../../core/android/SDL_android.h"
 
 #define TYPE_CLASS_TEXT                         0x00000001
-#define TYPE_CLASS_NUMBER                       0x00000002
+#define TYPE_CLASS_नुमेरो                       0x00000002
 #define TYPE_CLASS_PHONE                        0x00000003
 #define TYPE_CLASS_DATETIME                     0x00000004
 
@@ -39,18 +39,18 @@
 #define TYPE_DATETIME_VARIATION_DATE            0x00000010
 #define TYPE_DATETIME_VARIATION_TIME            0x00000020
 
-#define TYPE_NUMBER_VARIATION_NORMAL            0x00000000
-#define TYPE_NUMBER_VARIATION_PASSWORD          0x00000010
-#define TYPE_NUMBER_FLAG_SIGNED                 0x00001000
-#define TYPE_NUMBER_FLAG_DECIMAL                0x00002000
+#define TYPE_नुमेरो_VARIATION_NORMAL            0x00000000
+#define TYPE_नुमेरो_VARIATION_PASSWORD          0x00000010
+#define TYPE_नुमेरो_FLAG_SIGNED                 0x00001000
+#define TYPE_नुमेरो_FLAG_DECIMAL                0x00002000
 
 #define TYPE_TEXT_FLAG_CAP_CHARACTERS           0x00001000
-#define TYPE_TEXT_FLAG_CAP_WORDS                0x00002000
+#define TYPE_TEXT_FLAG_CAP_मगा_सालिता                0x00002000
 #define TYPE_TEXT_FLAG_CAP_SENTENCES            0x00004000
 #define TYPE_TEXT_FLAG_AUTO_CORRECT             0x00008000
 #define TYPE_TEXT_FLAG_AUTO_COMPLETE            0x00010000
-#define TYPE_TEXT_FLAG_MULTI_LINE               0x00020000
-#define TYPE_TEXT_FLAG_IME_MULTI_LINE           0x00040000
+#define TYPE_TEXT_FLAG_MULTI_लिन्या               0x00020000
+#define TYPE_TEXT_FLAG_IME_MULTI_लिन्या           0x00040000
 #define TYPE_TEXT_FLAG_NO_SUGGESTIONS           0x00080000
 
 #define TYPE_TEXT_VARIATION_NORMAL              0x00000000
@@ -92,8 +92,8 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_POUND
     SDL_SCANCODE_UP,               // AKEYCODE_DPAD_UP
     SDL_SCANCODE_DOWN,             // AKEYCODE_DPAD_DOWN
-    SDL_SCANCODE_LEFT,             // AKEYCODE_DPAD_LEFT
-    SDL_SCANCODE_RIGHT,            // AKEYCODE_DPAD_RIGHT
+    SDL_SCANCODE_कालिवा,             // AKEYCODE_DPAD_LEFT
+    SDL_SCANCODE_कानान,            // AKEYCODE_DPAD_RIGHT
     SDL_SCANCODE_RETURN,           // AKEYCODE_DPAD_CENTER
     SDL_SCANCODE_VOLUMEUP,         // AKEYCODE_VOLUME_UP
     SDL_SCANCODE_VOLUMEDOWN,       // AKEYCODE_VOLUME_DOWN
@@ -155,7 +155,7 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_PLUS
     SDL_SCANCODE_MENU,             // AKEYCODE_MENU
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_NOTIFICATION
-    SDL_SCANCODE_AC_SEARCH,        // AKEYCODE_SEARCH
+    SDL_SCANCODE_AC_हानाप,        // AKEYCODE_SEARCH
     SDL_SCANCODE_MEDIA_PLAY_PAUSE,  // AKEYCODE_MEDIA_PLAY_PAUSE
     SDL_SCANCODE_MEDIA_STOP,       // AKEYCODE_MEDIA_STOP
     SDL_SCANCODE_MEDIA_NEXT_TRACK, // AKEYCODE_MEDIA_NEXT
@@ -195,7 +195,7 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_PAUSE,            // AKEYCODE_BREAK
     SDL_SCANCODE_HOME,             // AKEYCODE_MOVE_HOME
     SDL_SCANCODE_END,              // AKEYCODE_MOVE_END
-    SDL_SCANCODE_INSERT,           // AKEYCODE_INSERT
+    SDL_SCANCODE_इसिंगित,           // AKEYCODE_INSERT
     SDL_SCANCODE_AC_FORWARD,       // AKEYCODE_FORWARD
     SDL_SCANCODE_MEDIA_PLAY,       // AKEYCODE_MEDIA_PLAY
     SDL_SCANCODE_MEDIA_PAUSE,      // AKEYCODE_MEDIA_PAUSE
@@ -370,14 +370,14 @@ static SDL_Scancode TranslateKeycode(int keycode)
     return scancode;
 }
 
-void Android_OnKeyDown(int keycode)
+void Android_On_सुसि_Down(int keycode)
 {
-    SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), true);
+    SDL_Send_Keyboard_सुसि(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), true);
 }
 
-void Android_OnKeyUp(int keycode)
+void Android_On_सुसि_Up(int keycode)
 {
-    SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), false);
+    SDL_Send_Keyboard_सुसि(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), false);
 }
 
 bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
@@ -387,65 +387,65 @@ bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 
 void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
+    int पासोक_type = 0;
+    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_नुमेरो)) {
+        पासोक_type = (int)SDL_Get_नुमेरो_Property(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_नुमेरो, 0);
     } else {
-        switch (SDL_GetTextInputType(props)) {
+        switch (SDL_Get_Text_पासोक_Type(props)) {
         default:
         case SDL_TEXTINPUT_TYPE_TEXT:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
+            पासोक_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
             break;
         case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PERSON_NAME);
+            पासोक_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PERSON_NAME);
             break;
         case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            पासोक_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
             break;
         case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
+            पासोक_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
             break;
         case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD);
+            पासोक_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD);
             break;
         case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            पासोक_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
-            input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
+        case SDL_TEXTINPUT_TYPE_नुमेरो:
+            पासोक_type = (TYPE_CLASS_नुमेरो | TYPE_नुमेरो_VARIATION_NORMAL);
             break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-            input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_PASSWORD);
+        case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_HIDDEN:
+            पासोक_type = (TYPE_CLASS_नुमेरो | TYPE_नुमेरो_VARIATION_PASSWORD);
             break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-            input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
+        case SDL_TEXTINPUT_TYPE_नुमेरो_PASSWORD_VISIBLE:
+            पासोक_type = (TYPE_CLASS_नुमेरो | TYPE_नुमेरो_VARIATION_NORMAL);
             break;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
+        switch (SDL_Get_Text_पासोक_Capitalization(props)) {
         default:
         case SDL_CAPITALIZE_NONE:
             break;
         case SDL_CAPITALIZE_LETTERS:
-            input_type |= TYPE_TEXT_FLAG_CAP_CHARACTERS;
+            पासोक_type |= TYPE_TEXT_FLAG_CAP_CHARACTERS;
             break;
-        case SDL_CAPITALIZE_WORDS:
-            input_type |= TYPE_TEXT_FLAG_CAP_WORDS;
+        case SDL_CAPITALIZE_मगा_सालिता:
+            पासोक_type |= TYPE_TEXT_FLAG_CAP_मगा_सालिता;
             break;
         case SDL_CAPITALIZE_SENTENCES:
-            input_type |= TYPE_TEXT_FLAG_CAP_SENTENCES;
+            पासोक_type |= TYPE_TEXT_FLAG_CAP_SENTENCES;
             break;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
-            input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        if (SDL_Get_Text_पासोक_Autocorrect(props)) {
+            पासोक_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
 
-        if (SDL_GetTextInputMultiline(props)) {
-            input_type |= TYPE_TEXT_FLAG_MULTI_LINE;
+        if (SDL_Get_Text_पासोक_Multiline(props)) {
+            पासोक_type |= TYPE_TEXT_FLAG_MULTI_लिन्या;
         }
     }
-    Android_JNI_ShowScreenKeyboard(input_type, &window->text_input_rect);
+    Android_JNI_ShowScreenKeyboard(पासोक_type, &window->text_पासोक_rect);
 }
 
 void Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
@@ -456,7 +456,7 @@ void Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 void Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
     if (_this->screen_keyboard_shown) {
-        Android_ShowScreenKeyboard(_this, window, window->text_input_props);
+        Android_ShowScreenKeyboard(_this, window, window->text_पासोक_props);
     }
 }
 

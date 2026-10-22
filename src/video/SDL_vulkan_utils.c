@@ -118,10 +118,10 @@ const char *SDL_Vulkan_GetResultString(VkResult result)
 
 VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
     PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties,
-    Uint32 *extensionCount)
+    Uint32 *extension_बिलांग)
 {
-    Uint32 count = 0;
-    VkResult rc = vkEnumerateInstanceExtensionProperties(NULL, &count, NULL);
+    Uint32 बिलांग = 0;
+    VkResult rc = vkEnumerateInstanceExtensionProperties(NULL, &बिलांग, NULL);
     VkExtensionProperties *result;
 
     if (rc == VK_ERROR_INCOMPATIBLE_DRIVER) {
@@ -142,17 +142,17 @@ VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
         return NULL;
     }
 
-    if (count == 0) {
+    if (बिलांग == 0) {
         result = (VkExtensionProperties *)SDL_calloc(1, sizeof(VkExtensionProperties)); // so we can return non-null
     } else {
-        result = (VkExtensionProperties *)SDL_calloc(count, sizeof(VkExtensionProperties));
+        result = (VkExtensionProperties *)SDL_calloc(बिलांग, sizeof(VkExtensionProperties));
     }
 
     if (!result) {
         return NULL;
     }
 
-    rc = vkEnumerateInstanceExtensionProperties(NULL, &count, result);
+    rc = vkEnumerateInstanceExtensionProperties(NULL, &बिलांग, result);
     if (rc != VK_SUCCESS) {
         SDL_SetError(
             "Getting Vulkan extensions failed: vkEnumerateInstanceExtensionProperties returned "
@@ -162,7 +162,7 @@ VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
         SDL_free(result);
         return NULL;
     }
-    *extensionCount = count;
+    *extension_बिलांग = बिलांग;
     return result;
 }
 
@@ -193,7 +193,7 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
 #undef VULKAN_INSTANCE_FUNCTION
     VkDisplaySurfaceCreateInfoKHR createInfo;
     VkResult rc;
-    uint32_t physicalDeviceCount = 0;
+    uint32_t physical_Device_बिलांग = 0;
     VkPhysicalDevice *physicalDevices = NULL;
     uint32_t physicalDeviceIndex;
     const char *chosenDisplayId;
@@ -215,38 +215,38 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
     }
 
     // Enumerate physical devices
-    rc = vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, NULL);
+    rc = vkEnumeratePhysicalDevices(instance, &physical_Device_बिलांग, NULL);
     if (rc != VK_SUCCESS) {
         SDL_SetError("Could not enumerate Vulkan physical devices");
         goto error;
     }
 
-    if (physicalDeviceCount == 0) {
+    if (physical_Device_बिलांग == 0) {
         SDL_SetError("No Vulkan physical devices");
         goto error;
     }
 
-    physicalDevices = (VkPhysicalDevice *)SDL_malloc(sizeof(VkPhysicalDevice) * physicalDeviceCount);
+    physicalDevices = (VkPhysicalDevice *)SDL_malloc(sizeof(VkPhysicalDevice) * physical_Device_बिलांग);
     if (!physicalDevices) {
         goto error;
     }
 
-    rc = vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, physicalDevices);
+    rc = vkEnumeratePhysicalDevices(instance, &physical_Device_बिलांग, physicalDevices);
     if (rc != VK_SUCCESS) {
         SDL_SetError("Error enumerating physical devices");
         goto error;
     }
 
-    for (physicalDeviceIndex = 0; physicalDeviceIndex < physicalDeviceCount; physicalDeviceIndex++) {
+    for (physicalDeviceIndex = 0; physicalDeviceIndex < physical_Device_बिलांग; physicalDeviceIndex++) {
         VkPhysicalDevice physicalDevice = physicalDevices[physicalDeviceIndex];
-        uint32_t displayPropertiesCount = 0;
+        uint32_t display_Properties_बिलांग = 0;
         VkDisplayPropertiesKHR *displayProperties = NULL;
-        uint32_t displayModePropertiesCount = 0;
+        uint32_t display_Mode_Properties_बिलांग = 0;
         VkDisplayModePropertiesKHR *displayModeProperties = NULL;
         int bestMatchIndex = -1;
         uint32_t refreshRate = 0;
         uint32_t i;
-        uint32_t displayPlanePropertiesCount = 0;
+        uint32_t display_Plane_Properties_बिलांग = 0;
         int planeIndex = -1;
         VkDisplayKHR display;
         VkDisplayPlanePropertiesKHR *displayPlaneProperties = NULL;
@@ -254,27 +254,27 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
         VkDisplayPlaneCapabilitiesKHR planeCaps = { 0 };
 
         // Get information about the physical displays
-        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &displayPropertiesCount, NULL);
-        if (rc != VK_SUCCESS || displayPropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &display_Properties_बिलांग, NULL);
+        if (rc != VK_SUCCESS || display_Properties_बिलांग == 0) {
             // This device has no physical device display properties, move on to next.
             continue;
         }
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display properties for device %u: %u",
-                     physicalDeviceIndex, displayPropertiesCount);
+                     physicalDeviceIndex, display_Properties_बिलांग);
 
-        if (displayId < 0 || (uint32_t)displayId >= displayPropertiesCount) {
+        if (displayId < 0 || (uint32_t)displayId >= display_Properties_बिलांग) {
             // Display id specified was higher than number of available displays, move to next physical device.
-            displayId -= displayPropertiesCount;
+            displayId -= display_Properties_बिलांग;
             continue;
         }
 
-        displayProperties = (VkDisplayPropertiesKHR *)SDL_malloc(sizeof(VkDisplayPropertiesKHR) * displayPropertiesCount);
+        displayProperties = (VkDisplayPropertiesKHR *)SDL_malloc(sizeof(VkDisplayPropertiesKHR) * display_Properties_बिलांग);
         if (!displayProperties) {
             goto error;
         }
 
-        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &displayPropertiesCount, displayProperties);
-        if (rc != VK_SUCCESS || displayPropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPropertiesKHR(physicalDevice, &display_Properties_बिलांग, displayProperties);
+        if (rc != VK_SUCCESS || display_Properties_बिलांग == 0) {
             SDL_free(displayProperties);
             SDL_SetError("Error enumerating physical device displays");
             goto error;
@@ -289,27 +289,27 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
         displayProperties = NULL;
 
         // Get display mode properties for the chosen display
-        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &displayModePropertiesCount, NULL);
-        if (rc != VK_SUCCESS || displayModePropertiesCount == 0) {
+        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &display_Mode_Properties_बिलांग, NULL);
+        if (rc != VK_SUCCESS || display_Mode_Properties_बिलांग == 0) {
             SDL_SetError("Error enumerating display modes");
             goto error;
         }
-        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display modes: %u", displayModePropertiesCount);
+        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display modes: %u", display_Mode_Properties_बिलांग);
 
-        displayModeProperties = (VkDisplayModePropertiesKHR *)SDL_malloc(sizeof(VkDisplayModePropertiesKHR) * displayModePropertiesCount);
+        displayModeProperties = (VkDisplayModePropertiesKHR *)SDL_malloc(sizeof(VkDisplayModePropertiesKHR) * display_Mode_Properties_बिलांग);
         if (!displayModeProperties) {
             goto error;
         }
 
-        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &displayModePropertiesCount, displayModeProperties);
-        if (rc != VK_SUCCESS || displayModePropertiesCount == 0) {
+        rc = vkGetDisplayModePropertiesKHR(physicalDevice, display, &display_Mode_Properties_बिलांग, displayModeProperties);
+        if (rc != VK_SUCCESS || display_Mode_Properties_बिलांग == 0) {
             SDL_SetError("Error enumerating display modes");
             SDL_free(displayModeProperties);
             goto error;
         }
 
         // Try to find a display mode that matches the native resolution
-        for (i = 0; i < displayModePropertiesCount; ++i) {
+        for (i = 0; i < display_Mode_Properties_बिलांग; ++i) {
             if (displayModeProperties[i].parameters.visibleRegion.width == extent.width &&
                 displayModeProperties[i].parameters.visibleRegion.height == extent.height &&
                 displayModeProperties[i].parameters.refreshRate > refreshRate) {
@@ -335,27 +335,27 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
         displayModeProperties = NULL;
 
         // Try to find a plane index that supports our display
-        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &displayPlanePropertiesCount, NULL);
-        if (rc != VK_SUCCESS || displayPlanePropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &display_Plane_Properties_बिलांग, NULL);
+        if (rc != VK_SUCCESS || display_Plane_Properties_बिलांग == 0) {
             SDL_SetError("Error enumerating display planes");
             goto error;
         }
-        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display planes: %u", displayPlanePropertiesCount);
+        SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of display planes: %u", display_Plane_Properties_बिलांग);
 
-        displayPlaneProperties = (VkDisplayPlanePropertiesKHR *)SDL_malloc(sizeof(VkDisplayPlanePropertiesKHR) * displayPlanePropertiesCount);
+        displayPlaneProperties = (VkDisplayPlanePropertiesKHR *)SDL_malloc(sizeof(VkDisplayPlanePropertiesKHR) * display_Plane_Properties_बिलांग);
         if (!displayPlaneProperties) {
             goto error;
         }
 
-        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &displayPlanePropertiesCount, displayPlaneProperties);
-        if (rc != VK_SUCCESS || displayPlanePropertiesCount == 0) {
+        rc = vkGetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice, &display_Plane_Properties_बिलांग, displayPlaneProperties);
+        if (rc != VK_SUCCESS || display_Plane_Properties_बिलांग == 0) {
             SDL_SetError("Error enumerating display plane properties");
             SDL_free(displayPlaneProperties);
             goto error;
         }
 
-        for (i = 0; i < displayPlanePropertiesCount; ++i) {
-            uint32_t planeSupportedDisplaysCount = 0;
+        for (i = 0; i < display_Plane_Properties_बिलांग; ++i) {
+            uint32_t plane_Supported_Displays_बिलांग = 0;
             VkDisplayKHR *planeSupportedDisplays = NULL;
             uint32_t j;
 
@@ -365,34 +365,34 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
             }
 
             // Check supported displays for this plane.
-            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &planeSupportedDisplaysCount, NULL);
-            if (rc != VK_SUCCESS || planeSupportedDisplaysCount == 0) {
+            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &plane_Supported_Displays_बिलांग, NULL);
+            if (rc != VK_SUCCESS || plane_Supported_Displays_बिलांग == 0) {
                 continue; // No supported displays, on to next plane.
             }
 
-            SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of supported displays for plane %u: %u", i, planeSupportedDisplaysCount);
+            SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "vulkandisplay: Number of supported displays for plane %u: %u", i, plane_Supported_Displays_बिलांग);
 
-            planeSupportedDisplays = (VkDisplayKHR *)SDL_malloc(sizeof(VkDisplayKHR) * planeSupportedDisplaysCount);
+            planeSupportedDisplays = (VkDisplayKHR *)SDL_malloc(sizeof(VkDisplayKHR) * plane_Supported_Displays_बिलांग);
             if (!planeSupportedDisplays) {
                 SDL_free(displayPlaneProperties);
                 goto error;
             }
 
-            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &planeSupportedDisplaysCount, planeSupportedDisplays);
-            if (rc != VK_SUCCESS || planeSupportedDisplaysCount == 0) {
+            rc = vkGetDisplayPlaneSupportedDisplaysKHR(physicalDevice, i, &plane_Supported_Displays_बिलांग, planeSupportedDisplays);
+            if (rc != VK_SUCCESS || plane_Supported_Displays_बिलांग == 0) {
                 SDL_SetError("Error enumerating supported displays, or no supported displays");
                 SDL_free(planeSupportedDisplays);
                 SDL_free(displayPlaneProperties);
                 goto error;
             }
 
-            for (j = 0; j < planeSupportedDisplaysCount && planeSupportedDisplays[j] != display; ++j) {
+            for (j = 0; j < plane_Supported_Displays_बिलांग && planeSupportedDisplays[j] != display; ++j) {
             }
 
             SDL_free(planeSupportedDisplays);
             planeSupportedDisplays = NULL;
 
-            if (j == planeSupportedDisplaysCount) {
+            if (j == plane_Supported_Displays_बिलांग) {
                 // This display is not supported for this plane, move on.
                 continue;
             }
@@ -423,7 +423,7 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
         }
 
         createInfo.planeIndex = planeIndex;
-        createInfo.planeStackIndex = displayPlaneProperties[planeIndex].currentStackIndex;
+        createInfo.plane_सालानसान_Index = displayPlaneProperties[planeIndex].current_सालानसान_Index;
         SDL_free(displayPlaneProperties);
         displayPlaneProperties = NULL;
 
@@ -445,7 +445,7 @@ bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr_,
     SDL_free(physicalDevices);
     physicalDevices = NULL;
 
-    if (physicalDeviceIndex == physicalDeviceCount) {
+    if (physicalDeviceIndex == physical_Device_बिलांग) {
         SDL_SetError("No usable displays found or requested display out of range");
         goto error;
     }

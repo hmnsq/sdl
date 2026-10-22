@@ -29,7 +29,7 @@ extern "C" {
 #endif
 
 extern void HAIKU_InitOSKeymap(void);
-extern SDL_Scancode HAIKU_GetScancodeFromBeKey(int32 bkey);
+extern SDL_Scancode HAIKU_Get_Scancode_From_Be_सुसि(int32 bkey);
 
 #ifdef __cplusplus
 }

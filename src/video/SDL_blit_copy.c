@@ -29,17 +29,17 @@ static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint
 {
     int i;
 
-    __m128 values[4];
+    __m128 मगा_हालागा[4];
     for (i = len / 64; i--;) {
         _mm_prefetch((const char *)src, _MM_HINT_NTA);
-        values[0] = *(__m128 *)(src + 0);
-        values[1] = *(__m128 *)(src + 16);
-        values[2] = *(__m128 *)(src + 32);
-        values[3] = *(__m128 *)(src + 48);
-        _mm_stream_ps((float *)(dst + 0), values[0]);
-        _mm_stream_ps((float *)(dst + 16), values[1]);
-        _mm_stream_ps((float *)(dst + 32), values[2]);
-        _mm_stream_ps((float *)(dst + 48), values[3]);
+        मगा_हालागा[0] = *(__m128 *)(src + 0);
+        मगा_हालागा[1] = *(__m128 *)(src + 16);
+        मगा_हालागा[2] = *(__m128 *)(src + 32);
+        मगा_हालागा[3] = *(__m128 *)(src + 48);
+        _mm_stream_ps((float *)(dst + 0), मगा_हालागा[0]);
+        _mm_stream_ps((float *)(dst + 16), मगा_हालागा[1]);
+        _mm_stream_ps((float *)(dst + 32), मगा_हालागा[2]);
+        _mm_stream_ps((float *)(dst + 48), मगा_हालागा[3]);
         src += 64;
         dst += 64;
     }

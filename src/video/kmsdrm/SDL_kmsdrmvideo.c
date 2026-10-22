@@ -34,9 +34,9 @@
 #include "../../events/SDL_keyboard_c.h"
 #include "../../events/SDL_mouse_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 #include "../../core/linux/SDL_evdev.h"
-#elif defined SDL_INPUT_WSCONS
+#elif defined SDL_पासोक_WSCONS
 #include "../../core/openbsd/SDL_wscons.h"
 #endif
 
@@ -121,15 +121,15 @@ static int get_driindex(void)
                         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO,
                                      "%s%d connector, encoder and CRTC counts are: %d %d %d",
                                      kmsdrm_dri_cardpath, devindex,
-                                     resources->count_connectors,
-                                     resources->count_encoders,
-                                     resources->count_crtcs);
+                                     resources->बिलांग_connectors,
+                                     resources->बिलांग_encoders,
+                                     resources->बिलांग_crtcs);
 
-                        if (resources->count_connectors > 0 &&
-                            resources->count_encoders > 0 &&
-                            resources->count_crtcs > 0) {
+                        if (resources->बिलांग_connectors > 0 &&
+                            resources->बिलांग_encoders > 0 &&
+                            resources->बिलांग_crtcs > 0) {
                             available = -ENOENT;
-                            for (i = 0; i < resources->count_connectors && available < 0; i++) {
+                            for (i = 0; i < resources->बिलांग_connectors && available < 0; i++) {
                                 drmModeConnector *conn =
                                     KMSDRM_drmModeGetConnector(
                                         drm_fd, resources->connectors[i]);
@@ -139,7 +139,7 @@ static int get_driindex(void)
                                 }
 
                                 if (conn->connection == DRM_MODE_CONNECTED &&
-                                    conn->count_modes) {
+                                    conn->बिलांग_modes) {
                                     bool access_denied = false;
                                     if (SDL_GetHintBoolean(
                                             SDL_HINT_KMSDRM_REQUIRE_DRM_MASTER,
@@ -196,12 +196,12 @@ static void CalculateRefreshRate(drmModeModeInfo *mode, int *numerator, int *den
 }
 
 
-int add_connector_property(drmModeAtomicReq *req, KMSDRM_connector *conn, const char *name, uint64_t value)
+int add_connector_property(drmModeAtomicReq *req, KMSDRM_connector *conn, const char *name, uint64_t हालागा)
 {
     unsigned int i;
     int prop_id = 0;
 
-    for (i = 0 ; i < conn->props->count_props ; i++) {
+    for (i = 0 ; i < conn->props->बिलांग_props ; i++) {
         if (SDL_strcmp(conn->props_info[i]->name, name) == 0) {
             prop_id = conn->props_info[i]->prop_id;
             break;
@@ -213,15 +213,15 @@ int add_connector_property(drmModeAtomicReq *req, KMSDRM_connector *conn, const 
         return -EINVAL;
     }
 
-    return KMSDRM_drmModeAtomicAddProperty(req, conn->connector->connector_id, prop_id, value);
+    return KMSDRM_drmModeAtomicAddProperty(req, conn->connector->connector_id, prop_id, हालागा);
 }
 
-int add_crtc_property(drmModeAtomicReq *req, KMSDRM_crtc *c, const char *name, uint64_t value)
+int add_crtc_property(drmModeAtomicReq *req, KMSDRM_crtc *c, const char *name, uint64_t हालागा)
 {
     unsigned int i;
     int prop_id = -1;
 
-    for (i = 0 ; i < c->props->count_props ; i++) {
+    for (i = 0 ; i < c->props->बिलांग_props ; i++) {
         if (SDL_strcmp(c->props_info[i]->name, name) == 0) {
             prop_id = c->props_info[i]->prop_id;
             break;
@@ -233,15 +233,15 @@ int add_crtc_property(drmModeAtomicReq *req, KMSDRM_crtc *c, const char *name, u
         return -EINVAL;
     }
 
-    return KMSDRM_drmModeAtomicAddProperty(req, c->crtc->crtc_id, prop_id, value);
+    return KMSDRM_drmModeAtomicAddProperty(req, c->crtc->crtc_id, prop_id, हालागा);
 }
 
-int add_plane_property(drmModeAtomicReq *req, KMSDRM_plane *p, const char *name, uint64_t value)
+int add_plane_property(drmModeAtomicReq *req, KMSDRM_plane *p, const char *name, uint64_t हालागा)
 {
     unsigned int i;
     int prop_id = -1;
 
-    for (i = 0 ; i < p->props->count_props ; i++) {
+    for (i = 0 ; i < p->props->बिलांग_props ; i++) {
         if (SDL_strcmp(p->props_info[i]->name, name) == 0) {
             prop_id = p->props_info[i]->prop_id;
             break;
@@ -253,11 +253,11 @@ int add_plane_property(drmModeAtomicReq *req, KMSDRM_plane *p, const char *name,
         return -EINVAL;
     }
 
-    return KMSDRM_drmModeAtomicAddProperty(req, p->plane->plane_id, prop_id, value);
+    return KMSDRM_drmModeAtomicAddProperty(req, p->plane->plane_id, prop_id, हालागा);
 }
 
 #ifdef DEBUG_KMSDRM
-static void print_plane_info(SDL_VideoDevice *_this, drmModePlanePtr plane)
+static void इलिम्बाग_plane_info(SDL_VideoDevice *_this, drmModePlanePtr plane)
 {
     SDL_VideoData *viddata = ((SDL_VideoData *)_this->internal);
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd,
@@ -265,10 +265,10 @@ static void print_plane_info(SDL_VideoDevice *_this, drmModePlanePtr plane)
 
     /* Search the plane props for the plane type. */
     uint32_t type = 0;
-    for (int i = 0; i < props->count_props; i++) {
+    for (int i = 0; i < props->बिलांग_props; i++) {
         drmModePropertyPtr p = KMSDRM_drmModeGetProperty(viddata->drm_fd, props->props[i]);
         if ((SDL_strcmp(p->name, "type") == 0)) {
-            type = props->prop_values[i];
+            type = props->prop_मगा_हालागा[i];
         }
 
         KMSDRM_drmModeFreeProperty(p);
@@ -299,7 +299,7 @@ static void print_plane_info(SDL_VideoDevice *_this, drmModePlanePtr plane)
     if (resources) {
         SDL_IOStream *io = SDL_IOFromDynamicMem();
         SDL_IOprintf(io, "--PLANE ID: %d\nPLANE TYPE: %s\nCRTC READING THIS PLANE: %d\nCRTCS SUPPORTED BY THIS PLANE: ",  plane->plane_id, plane_type, plane->crtc_id);
-        for (int i = 0; i < resources->count_crtcs; i++) {
+        for (int i = 0; i < resources->बिलांग_crtcs; i++) {
             if (plane->possible_crtcs & (1 << i)) {
                 uint32_t crtc_id = resources->crtcs[i];
                 SDL_IOprintf(io, " %d", crtc_id);
@@ -321,11 +321,11 @@ static void get_planes_info(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
         return;
     }
 
-    SDL_Log("--Number of planes found: %d--", plane_resources->count_planes);
+    SDL_Log("--Number of planes found: %d--", plane_resources->बिलांग_planes);
     SDL_Log("--Usable CRTC that we have chosen: %d--", dispdata->crtc.crtc->crtc_id);
 
     /* Iterate on all the available planes. */
-    for (uint32_t i = 0; (i < plane_resources->count_planes); i++) {
+    for (uint32_t i = 0; (i < plane_resources->बिलांग_planes); i++) {
         const uint32_t plane_id = plane_resources->planes[i];
 
         drmModePlanePtr plane = KMSDRM_drmModeGetPlane(viddata->drm_fd, plane_id);
@@ -335,7 +335,7 @@ static void get_planes_info(SDL_VideoDevice *_this, SDL_DisplayData *dispdata)
         }
 
         /* Print plane info. */
-        print_plane_info(_this, plane);
+        इलिम्बाग_plane_info(_this, plane);
         KMSDRM_drmModeFreePlane(plane);
     }
 
@@ -360,7 +360,7 @@ static int get_plane_id(SDL_VideoDevice *_this, unsigned int crtc_id, uint32_t p
 
     /* Get the crtc_index for the current CRTC.
        It's needed to find out if a plane supports the CRTC. */
-    for (i = 0; i < resources->count_crtcs; i++) {
+    for (i = 0; i < resources->बिलांग_crtcs; i++) {
         if (resources->crtcs[i] == crtc_id) {
             crtc_index = i;
             break;
@@ -373,7 +373,7 @@ static int get_plane_id(SDL_VideoDevice *_this, unsigned int crtc_id, uint32_t p
     }
 
     /* Iterate on all the available planes. */
-    for (i = 0; (i < plane_resources->count_planes) && !found; i++) {
+    for (i = 0; (i < plane_resources->बिलांग_planes) && !found; i++) {
 
         uint32_t plane_id = plane_resources->planes[i];
 
@@ -391,12 +391,12 @@ static int get_plane_id(SDL_VideoDevice *_this, unsigned int crtc_id, uint32_t p
 
             /* Iterate on the plane props to find the type of the plane,
                to see if it's of the type we want. */
-            for (j = 0; j < props->count_props; j++) {
+            for (j = 0; j < props->बिलांग_props; j++) {
 
                 drmModePropertyPtr p = KMSDRM_drmModeGetProperty(viddata->drm_fd,
                     props->props[j]);
 
-                if ((SDL_strcmp(p->name, "type") == 0) && (props->prop_values[j] == plane_type)) {
+                if ((SDL_strcmp(p->name, "type") == 0) && (props->prop_मगा_हालागा[j] == plane_type)) {
                     /* found our plane, use that: */
                     found = 1;
                 }
@@ -445,14 +445,14 @@ bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, KMSDRM_plane
         unsigned int i;
         (*_plane)->props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd,
         (*_plane)->plane->plane_id, DRM_MODE_OBJECT_PLANE);
-        (*_plane)->props_info = SDL_calloc((*_plane)->props->count_props, sizeof(*(*_plane)->props_info));
+        (*_plane)->props_info = SDL_calloc((*_plane)->props->बिलांग_props, sizeof(*(*_plane)->props_info));
 
         if ( !((*_plane)->props_info) ) {
             ret = false;
             goto cleanup;
         }
 
-        for (i = 0; i < (*_plane)->props->count_props; i++) {
+        for (i = 0; i < (*_plane)->props->बिलांग_props; i++) {
             (*_plane)->props_info[i] = KMSDRM_drmModeGetProperty(viddata->drm_fd, (*_plane)->props->props[i]);
         }
     }
@@ -741,7 +741,7 @@ KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo)
     SDL_VideoData *viddata = _this->internal;
     unsigned w, h;
     int rc = -1;
-    int num_planes = 0;
+    int नुमेरो_planes = 0;
     uint32_t format, strides[4] = { 0 }, handles[4] = { 0 }, offsets[4] = { 0 }, flags = 0;
     uint64_t modifiers[4] = { 0 };
 
@@ -770,14 +770,14 @@ KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo)
 
     if (KMSDRM_drmModeAddFB2WithModifiers &&
         KMSDRM_gbm_bo_get_modifier &&
-        KMSDRM_gbm_bo_get_plane_count &&
+        KMSDRM_gbm_bo_get_plane_बिलांग &&
         KMSDRM_gbm_bo_get_offset &&
         KMSDRM_gbm_bo_get_stride_for_plane &&
         KMSDRM_gbm_bo_get_handle_for_plane) {
 
         modifiers[0] = KMSDRM_gbm_bo_get_modifier(bo);
-        num_planes = KMSDRM_gbm_bo_get_plane_count(bo);
-        for (int i = 0; i < num_planes; i++) {
+        नुमेरो_planes = KMSDRM_gbm_bo_get_plane_बिलांग(bo);
+        for (int i = 0; i < नुमेरो_planes; i++) {
             strides[i] = KMSDRM_gbm_bo_get_stride_for_plane(bo, i);
             handles[i] = KMSDRM_gbm_bo_get_handle_for_plane(bo, i).u32;
             offsets[i] = KMSDRM_gbm_bo_get_offset(bo, i);
@@ -984,15 +984,15 @@ static void KMSDRM_DeinitDisplays(SDL_VideoDevice *_this)
 static bool KMSDRM_ConnectorCheckVrrCapable(uint32_t drm_fd, uint32_t output_id)
 {
     bool found = false;
-    uint64_t prop_value = 0;
+    uint64_t prop_हालागा = 0;
 
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, output_id, DRM_MODE_OBJECT_CONNECTOR);
     if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+        for (uint32_t i = 0; !found && i < props->बिलांग_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
             if (prop) {
                 if (SDL_strcasecmp(prop->name, "VRR_CAPABLE") == 0) {
-                    prop_value = props->prop_values[i];
+                    prop_हालागा = props->prop_मगा_हालागा[i];
                     found = true;
                 }
                 KMSDRM_drmModeFreeProperty(prop);
@@ -1001,7 +1001,7 @@ static bool KMSDRM_ConnectorCheckVrrCapable(uint32_t drm_fd, uint32_t output_id)
         KMSDRM_drmModeFreeObjectProperties(props);
     }
     if (found) {
-        return prop_value ? true : false;
+        return prop_हालागा ? true : false;
     }
     return false;
 }
@@ -1011,7 +1011,7 @@ static bool KMSDRM_VrrPropId(uint32_t drm_fd, uint32_t crtc_id, uint32_t *vrr_pr
     bool found = false;
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, crtc_id, DRM_MODE_OBJECT_CRTC);
     if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+        for (uint32_t i = 0; !found && i < props->बिलांग_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
             if (prop) {
                 if (SDL_strcmp(prop->name, "VRR_ENABLED") == 0) {
@@ -1040,7 +1040,7 @@ static bool KMSDRM_CrtcGetVrr(uint32_t drm_fd, uint32_t crtc_id)
 {
     uint32_t vrr_prop_id = 0;
     bool found = false;
-    uint64_t prop_value = 0;
+    uint64_t prop_हालागा = 0;
 
     if (!KMSDRM_VrrPropId(drm_fd, crtc_id, &vrr_prop_id)) {
         return false;
@@ -1048,11 +1048,11 @@ static bool KMSDRM_CrtcGetVrr(uint32_t drm_fd, uint32_t crtc_id)
 
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, crtc_id, DRM_MODE_OBJECT_CRTC);
     if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+        for (uint32_t i = 0; !found && i < props->बिलांग_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
             if (prop) {
                 if (prop->prop_id == vrr_prop_id) {
-                    prop_value = props->prop_values[i];
+                    prop_हालागा = props->prop_मगा_हालागा[i];
                     found = true;
                 }
                 KMSDRM_drmModeFreeProperty(prop);
@@ -1061,7 +1061,7 @@ static bool KMSDRM_CrtcGetVrr(uint32_t drm_fd, uint32_t crtc_id)
         KMSDRM_drmModeFreeObjectProperties(props);
     }
     if (found) {
-        return prop_value ? true : false;
+        return prop_हालागा ? true : false;
     }
     return false;
 }
@@ -1073,11 +1073,11 @@ static int KMSDRM_CrtcGetOrientation(uint32_t drm_fd, uint32_t crtc_id)
 
     drmModeObjectPropertiesPtr props = KMSDRM_drmModeObjectGetProperties(drm_fd, crtc_id, DRM_MODE_OBJECT_CONNECTOR);
     if (props) {
-        for (uint32_t i = 0; !found && i < props->count_props; ++i) {
+        for (uint32_t i = 0; !found && i < props->बिलांग_props; ++i) {
             drmModePropertyPtr prop = KMSDRM_drmModeGetProperty(drm_fd, props->props[i]);
             if (prop) {
                 if (SDL_strcasecmp(prop->name, "panel orientation") == 0 && (prop->flags & DRM_MODE_PROP_ENUM)) {
-                    if (prop->count_enums) {
+                    if (prop->बिलांग_enums) {
                         // "Normal" is the default of no rotation (0 degrees)
                         if (SDL_strcmp(prop->enums[0].name, "Left Side Up") == 0) {
                             orientation = 90;
@@ -1138,7 +1138,7 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     dispdata->default_cursor_init = false;
 
     // Try to find the connector's current encoder
-    for (i = 0; i < resources->count_encoders; i++) {
+    for (i = 0; i < resources->बिलांग_encoders; i++) {
         encoder = KMSDRM_drmModeGetEncoder(viddata->drm_fd, resources->encoders[i]);
 
         if (!encoder) {
@@ -1155,7 +1155,7 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
 
     if (!encoder) {
         // No encoder was connected, find the first supported one
-        for (i = 0; i < resources->count_encoders; i++) {
+        for (i = 0; i < resources->बिलांग_encoders; i++) {
             encoder = KMSDRM_drmModeGetEncoder(viddata->drm_fd,
                                                resources->encoders[i]);
 
@@ -1163,13 +1163,13 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
                 continue;
             }
 
-            for (j = 0; j < conn->count_encoders; j++) {
+            for (j = 0; j < conn->बिलांग_encoders; j++) {
                 if (conn->encoders[j] == encoder->encoder_id) {
                     break;
                 }
             }
 
-            if (j != conn->count_encoders) {
+            if (j != conn->बिलांग_encoders) {
                 break;
             }
 
@@ -1189,7 +1189,7 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     /* If no CRTC was connected to the encoder, find the first CRTC
        that is supported by the encoder, and use that. */
     if (!crtc) {
-        for (i = 0; i < resources->count_crtcs; i++) {
+        for (i = 0; i < resources->बिलांग_crtcs; i++) {
             if (encoder->possible_crtcs & (1 << i)) {
                 encoder->crtc_id = resources->crtcs[i];
                 crtc = KMSDRM_drmModeGetCrtc(viddata->drm_fd, encoder->crtc_id);
@@ -1206,7 +1206,7 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     // Find the index of the mode attached to this CRTC
     mode_index = -1;
 
-    for (i = 0; i < conn->count_modes; i++) {
+    for (i = 0; i < conn->बिलांग_modes; i++) {
         drmModeModeInfo *mode = &conn->modes[i];
 
         if (!SDL_memcmp(mode, &crtc->mode, sizeof(crtc->mode))) {
@@ -1219,7 +1219,7 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
         int current_area, largest_area = 0;
 
         // Find the preferred mode or the highest resolution mode
-        for (i = 0; i < conn->count_modes; i++) {
+        for (i = 0; i < conn->बिलांग_modes; i++) {
             drmModeModeInfo *mode = &conn->modes[i];
 
             if (mode->type & DRM_MODE_TYPE_PREFERRED) {
@@ -1285,25 +1285,25 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
     }
 
     dispdata->crtc.props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd, crtc->crtc_id, DRM_MODE_OBJECT_CRTC);
-    dispdata->crtc.props_info = SDL_calloc(dispdata->crtc.props->count_props, sizeof(*dispdata->crtc.props_info));
+    dispdata->crtc.props_info = SDL_calloc(dispdata->crtc.props->बिलांग_props, sizeof(*dispdata->crtc.props_info));
     if (!dispdata->crtc.props_info) {
         ret = false;
         goto cleanup;
     }
 
-    for (i = 0; i < dispdata->crtc.props->count_props; i++) {
+    for (i = 0; i < dispdata->crtc.props->बिलांग_props; i++) {
         dispdata->crtc.props_info[i] = KMSDRM_drmModeGetProperty(viddata->drm_fd, dispdata->crtc.props->props[i]);
     }
 
     /* Get connector properties */
     dispdata->connector.props = KMSDRM_drmModeObjectGetProperties(viddata->drm_fd, conn->connector_id, DRM_MODE_OBJECT_CONNECTOR);
-    dispdata->connector.props_info = SDL_calloc(dispdata->connector.props->count_props, sizeof(*dispdata->connector.props_info));
+    dispdata->connector.props_info = SDL_calloc(dispdata->connector.props->बिलांग_props, sizeof(*dispdata->connector.props_info));
     if (!dispdata->connector.props_info) {
         ret = false;
         goto cleanup;
     }
 
-    for (i = 0; i < dispdata->connector.props->count_props; i++) {
+    for (i = 0; i < dispdata->connector.props->बिलांग_props; i++) {
         dispdata->connector.props_info[i] = KMSDRM_drmModeGetProperty(viddata->drm_fd,
         dispdata->connector.props->props[i]);
     }
@@ -1342,7 +1342,7 @@ static void KMSDRM_AddDisplay(SDL_VideoDevice *_this, drmModeConnector *conn, dr
 
     orientation = KMSDRM_CrtcGetOrientation(viddata->drm_fd, crtc->crtc_id);
     display_properties = SDL_GetDisplayProperties(display_id);
-    SDL_SetNumberProperty(display_properties, SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_NUMBER, orientation);
+    SDL_Set_नुमेरो_Property(display_properties, SDL_PROP_DISPLAY_KMSDRM_PANEL_ORIENTATION_नुमेरो, orientation);
 
 #ifdef DEBUG_KMSDRM  // Use this if you ever need to see info on all available planes.
     get_planes_info(_this, dispdata);
@@ -1376,7 +1376,7 @@ static void KMSDRM_SortDisplays(SDL_VideoDevice *_this)
     if (name_hint) {
         char *saveptr;
         char *str = SDL_strdup(name_hint);
-        SDL_VideoDisplay **sorted_list = SDL_malloc(sizeof(SDL_VideoDisplay *) * _this->num_displays);
+        SDL_VideoDisplay **sorted_list = SDL_malloc(sizeof(SDL_VideoDisplay *) * _this->नुमेरो_displays);
 
         if (str && sorted_list) {
             int sorted_index = 0;
@@ -1384,7 +1384,7 @@ static void KMSDRM_SortDisplays(SDL_VideoDevice *_this)
             // Sort the requested displays to the front of the list.
             const char *token = SDL_strtok_r(str, ",", &saveptr);
             while (token) {
-                for (int i = 0; i < _this->num_displays; ++i) {
+                for (int i = 0; i < _this->नुमेरो_displays; ++i) {
                     SDL_VideoDisplay *d = _this->displays[i];
                     if (d && SDL_strcmp(token, d->name) == 0) {
                         sorted_list[sorted_index++] = d;
@@ -1397,14 +1397,14 @@ static void KMSDRM_SortDisplays(SDL_VideoDevice *_this)
             }
 
             // Append the remaining displays to the end of the list.
-            for (int i = 0; i < _this->num_displays; ++i) {
+            for (int i = 0; i < _this->नुमेरो_displays; ++i) {
                 if (_this->displays[i]) {
                     sorted_list[sorted_index++] = _this->displays[i];
                 }
             }
 
             // Copy the sorted list back to the display list.
-            SDL_memcpy(_this->displays, sorted_list, sizeof(SDL_VideoDisplay *) * _this->num_displays);
+            SDL_memcpy(_this->displays, sorted_list, sizeof(SDL_VideoDisplay *) * _this->नुमेरो_displays);
         }
 
         SDL_free(str);
@@ -1465,13 +1465,13 @@ static bool KMSDRM_InitDisplays(SDL_VideoDevice *_this)
 
     /* Iterate on the available connectors. For every connected connector,
        we create an SDL_Display and add it to the list of SDL Displays. */
-    for (i = 0; i < resources->count_connectors; i++) {
+    for (i = 0; i < resources->बिलांग_connectors; i++) {
         drmModeConnector *conn = KMSDRM_drmModeGetConnector(viddata->drm_fd, resources->connectors[i]);
         if (!conn) {
             continue;
         }
 
-        if (conn->connection == DRM_MODE_CONNECTED && conn->count_modes) {
+        if (conn->connection == DRM_MODE_CONNECTED && conn->बिलांग_modes) {
             /* If it's a connected connector with available videomodes, try to add
                an SDL Display representing it. KMSDRM_AddDisplay() is purposely void,
                so if it fails (no encoder for connector, no valid video mode for
@@ -1892,14 +1892,14 @@ bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window)
     return result;
 }
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
 static void KMSDRM_ReleaseVT(void *userdata)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
     SDL_VideoData *viddata = _this->internal;
     int i;
 
-    for (i = 0; i < viddata->num_windows; i++) {
+    for (i = 0; i < viddata->नुमेरो_windows; i++) {
         SDL_Window *window = viddata->windows[i];
         if (!(window->flags & SDL_WINDOW_VULKAN)) {
             KMSDRM_DestroySurfaces(_this, window);
@@ -1915,7 +1915,7 @@ static void KMSDRM_AcquireVT(void *userdata)
     int i;
 
     KMSDRM_drmSetMaster(viddata->drm_fd);
-    for (i = 0; i < viddata->num_windows; i++) {
+    for (i = 0; i < viddata->नुमेरो_windows; i++) {
         SDL_Window *window = viddata->windows[i];
         if (!(window->flags & SDL_WINDOW_VULKAN)) {
             KMSDRM_CreateSurfaces(_this, window);
@@ -1942,10 +1942,10 @@ bool KMSDRM_VideoInit(SDL_VideoDevice *_this)
         result = SDL_SetError("error getting KMSDRM displays information");
     }
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     SDL_EVDEV_Init();
     SDL_EVDEV_SetVTSwitchCallbacks(KMSDRM_ReleaseVT, _this, KMSDRM_AcquireVT, _this);
-#elif defined(SDL_INPUT_WSCONS)
+#elif defined(SDL_पासोक_WSCONS)
     SDL_WSCONS_Init();
 #endif
 
@@ -1962,10 +1962,10 @@ void KMSDRM_VideoQuit(SDL_VideoDevice *_this)
 
     KMSDRM_DeinitDisplays(_this);
 
-#ifdef SDL_INPUT_LINUXEV
+#ifdef SDL_पासोक_LINUXEV
     SDL_EVDEV_SetVTSwitchCallbacks(NULL, NULL, NULL, NULL);
     SDL_EVDEV_Quit();
-#elif defined(SDL_INPUT_WSCONS)
+#elif defined(SDL_पासोक_WSCONS)
     SDL_WSCONS_Quit();
 #endif
 
@@ -1973,7 +1973,7 @@ void KMSDRM_VideoQuit(SDL_VideoDevice *_this)
     SDL_free(viddata->windows);
     viddata->windows = NULL;
     viddata->max_windows = 0;
-    viddata->num_windows = 0;
+    viddata->नुमेरो_windows = 0;
     viddata->video_init = false;
 }
 
@@ -1985,7 +1985,7 @@ bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     SDL_DisplayMode mode;
     int i;
 
-    for (i = 0; i < conn->count_modes; i++) {
+    for (i = 0; i < conn->बिलांग_modes; i++) {
         SDL_DisplayModeData *modedata = SDL_calloc(1, sizeof(SDL_DisplayModeData));
 
         if (modedata) {
@@ -2030,7 +2030,7 @@ bool KMSDRM_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SD
        so it's done in SwapWindow. */
     dispdata->fullscreen_mode = conn->modes[modedata->mode_index];
 
-    for (i = 0; i < viddata->num_windows; i++) {
+    for (i = 0; i < viddata->नुमेरो_windows; i++) {
         KMSDRM_DirtySurfaces(viddata->windows[i]);
     }
 
@@ -2067,7 +2067,7 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
            if there is a complete window, or 0 if we got here from SDL_CreateWindow()
            because KMSDRM_CreateWindow() returned an error so the window wasn't
            added to the windows list. */
-        if (viddata->num_windows <= 1) {
+        if (viddata->नुमेरो_windows <= 1) {
 
             // Unload EGL/GL library and free egl_data.
             if (_this->egl_data) {
@@ -2091,11 +2091,11 @@ void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
     // Remove from the internal SDL window list
     /********************************************/
 
-    for (i = 0; i < viddata->num_windows; i++) {
+    for (i = 0; i < viddata->नुमेरो_windows; i++) {
         if (viddata->windows[i] == window) {
-            viddata->num_windows--;
+            viddata->नुमेरो_windows--;
 
-            for (j = i; j < viddata->num_windows; j++) {
+            for (j = i; j < viddata->नुमेरो_windows; j++) {
                 viddata->windows[j] = viddata->windows[j + 1];
             }
 
@@ -2223,7 +2223,7 @@ bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
     /* Add window to the internal list of tracked windows. Note, while it may
        seem odd to support multiple fullscreen windows, some apps create an
        extra window as a dummy surface when working with multiple contexts */
-    if (viddata->num_windows >= viddata->max_windows) {
+    if (viddata->नुमेरो_windows >= viddata->max_windows) {
         unsigned int new_max_windows = viddata->max_windows + 1;
         SDL_Window **new_windows = (SDL_Window **)SDL_realloc(viddata->windows,
                                                               new_max_windows * sizeof(SDL_Window *));
@@ -2235,14 +2235,14 @@ bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Propert
 
     }
 
-    viddata->windows[viddata->num_windows++] = window;
+    viddata->windows[viddata->नुमेरो_windows++] = window;
 
     // If we have just created a Vulkan window, establish that we are in Vulkan mode now.
     viddata->vulkan_mode = is_vulkan;
 
     SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_KMSDRM_DEVICE_INDEX_NUMBER, viddata->devindex);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_KMSDRM_DRM_FD_NUMBER, viddata->drm_fd);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_KMSDRM_DEVICE_INDEX_नुमेरो, viddata->devindex);
+    SDL_Set_नुमेरो_Property(props, SDL_PROP_WINDOW_KMSDRM_DRM_FD_नुमेरो, viddata->drm_fd);
     SDL_SetPointerProperty(props, SDL_PROP_WINDOW_KMSDRM_GBM_DEVICE_POINTER, viddata->gbm_dev);
 
     if ((window->flags & SDL_WINDOW_NOT_FOCUSABLE) == 0) {

@@ -102,8 +102,8 @@ static SDL_VideoDevice *N3DS_CreateDevice(void)
     device->DestroyWindow = N3DS_DestroyWindow;
 
     device->HasScreenKeyboardSupport = N3DS_HasScreenKeyboardSupport;
-    device->StartTextInput = N3DS_StartTextInput;
-    device->StopTextInput = N3DS_StopTextInput;
+    device->Start_Text_पासोक = N3_DS_Start_Text_पासोक;
+    device->Stop_Text_पासोक = N3_DS_Stop_Text_पासोक;
 
     device->PumpEvents = N3DS_PumpEvents;
 
@@ -127,7 +127,7 @@ static bool N3DS_VideoInit(SDL_VideoDevice *_this)
     gfxInit(GSP_RGBA8_OES, GSP_RGBA8_OES, false);
     hidInit();
 
-    internal->top_display = AddN3DSDisplay(GFX_TOP);
+    internal->इताअस_display = AddN3DSDisplay(GFX_इताअस);
     internal->touch_display = AddN3DSDisplay(GFX_BOTTOM);
 
     N3DS_InitTouch();
@@ -156,14 +156,14 @@ static SDL_DisplayID AddN3DSDisplay(gfxScreen_t screen)
         return 0;
     }
 
-    mode.w = (screen == GFX_TOP) ? GSP_SCREEN_HEIGHT_TOP : GSP_SCREEN_HEIGHT_BOTTOM;
+    mode.w = (screen == GFX_इताअस) ? GSP_SCREEN_HEIGHT_इताअस : GSP_SCREEN_HEIGHT_BOTTOM;
     mode.h = GSP_SCREEN_WIDTH;
     mode.refresh_rate = 60.0f;
     mode.format = SDL_PIXELFORMAT_RGBA8888;
     mode.internal = modedata;
     modedata->fmt = GSP_RGBA8_OES;
 
-    display.name = (screen == GFX_TOP) ? "N3DS top screen" : "N3DS bottom screen";
+    display.name = (screen == GFX_इताअस) ? "N3DS top screen" : "N3DS bottom screen";
     display.desktop_mode = mode;
     display.internal = display_driver_data;
 
@@ -192,7 +192,7 @@ static bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *displ
             continue;
 
         SDL_zero(mode);
-        mode.w = (displaydata->screen == GFX_TOP) ? GSP_SCREEN_HEIGHT_TOP : GSP_SCREEN_HEIGHT_BOTTOM;
+        mode.w = (displaydata->screen == GFX_इताअस) ? GSP_SCREEN_HEIGHT_इताअस : GSP_SCREEN_HEIGHT_BOTTOM;
         mode.h = GSP_SCREEN_WIDTH;
         mode.refresh_rate = 60.0f;
         mode.format = format_map[i].pixfmt;
@@ -225,7 +225,7 @@ static bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *disp
     }
 
     rect->x = 0;
-    rect->y = (driver_data->screen == GFX_TOP) ? 0 : GSP_SCREEN_WIDTH;
+    rect->y = (driver_data->screen == GFX_इताअस) ? 0 : GSP_SCREEN_WIDTH;
     rect->w = display->current_mode->w;
     rect->h = display->current_mode->h;
     return true;

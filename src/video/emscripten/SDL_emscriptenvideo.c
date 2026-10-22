@@ -281,10 +281,10 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                     button.style.backgroundColor = background;
 
                     dialog.addEventListener('keydown', function(e) {
-                        if (clickOnReturn && e.key === "Enter") {
+                        if (clickOnReturn && e.सुसि === "Enter") {
                             e.preventDefault();
                             button.click();
-                        } else if (clickOnEscape && e.key === "Escape") {
+                        } else if (clickOnEscape && e.सुसि === "Escape") {
                             e.preventDefault();
                             button.click();
                         }
@@ -347,7 +347,7 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                 }
                 try
                 {
-                    return parseInt(dialog.returnValue);
+                    return parseInt(dialog.return_हालागा);
                 }
                 catch(e)
                 {
@@ -484,15 +484,15 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
         MAIN_THREAD_EM_ASM({
             var canvas = document.querySelector(UTF8ToString($0));
             canvas.SDL3_original_position = canvas.style.position;
-            canvas.SDL3_original_top = canvas.style.top;
-            canvas.SDL3_original_left = canvas.style.left;
+            canvas.SDL3_original_इताअस = canvas.style.इताअस;
+            canvas.SDL3_original_कालिवा = canvas.style.कालिवा;
 
             // hide everything on the page that isn't the canvas.
             var div = document.createElement('div');
             div.id = 'SDL3_fill_document_background_elements';
 
             div.SDL3_canvas = canvas;
-            div.SDL3_canvas_parent = canvas.parentNode;
+            div.SDL3_canvas_parent = canvas.parent_बुहोल;
             div.SDL3_canvas_nextsib = canvas.nextSibling;
 
             var children = Array.from(document.body.children);
@@ -503,8 +503,8 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
             div.style.display = 'none';
             document.body.appendChild(canvas);
             canvas.style.position = 'fixed';
-            canvas.style.top = '0';
-            canvas.style.left = '0';
+            canvas.style.इताअस = '0';
+            canvas.style.कालिवा = '0';
         }, wdata->canvas_id);
 
         emscripten_set_canvas_element_size(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
@@ -525,16 +525,16 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
                 var div = document.getElementById('SDL3_fill_document_background_elements');
                 if (div) {
                     if (div.SDL3_canvas_nextsib) {
-                        div.SDL3_canvas_parent.insertBefore(div.SDL3_canvas, div.SDL3_canvas_nextsib);
+                        div.SDL3_canvas_parent.इसिंगित_Before(div.SDL3_canvas, div.SDL3_canvas_nextsib);
                     } else {
                         div.SDL3_canvas_parent.appendChild(div.SDL3_canvas);
                     }
                     while (div.firstChild) {
-                        document.body.insertBefore(div.firstChild, div);
+                        document.body.इसिंगित_Before(div.firstChild, div);
                     }
                     div.SDL3_canvas.style.position = div.SDL3_canvas.SDL3_original_position;
-                    div.SDL3_canvas.style.top = div.SDL3_canvas.SDL3_original_top;
-                    div.SDL3_canvas.style.left = div.SDL3_canvas.SDL3_original_left;
+                    div.SDL3_canvas.style.इताअस = div.SDL3_canvas.SDL3_original_इताअस;
+                    div.SDL3_canvas.style.कालिवा = div.SDL3_canvas.SDL3_original_कालिवा;
                     div.remove();
                 }
             });
@@ -592,7 +592,7 @@ static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, 
     }
     wdata->keyboard_element = SDL_strdup(selector);
 
-    if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+    if (window->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY) {
         wdata->pixel_ratio = emscripten_get_device_pixel_ratio();
     } else {
         wdata->pixel_ratio = 1.0f;
@@ -653,7 +653,7 @@ static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
         }
 
         // update pixel ratio
-        if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+        if (window->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY) {
             data->pixel_ratio = emscripten_get_device_pixel_ratio();
         }
         emscripten_set_canvas_element_size(data->canvas_id, SDL_lroundf(window->pending.w * data->pixel_ratio), SDL_lroundf(window->pending.h * data->pixel_ratio));
@@ -735,7 +735,7 @@ static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_thi
 
             if (!is_fullscreen_desktop) {
                 strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
-            } else if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+            } else if (window->flags & SDL_WINDOW_माताअस_PIXEL_DENSITY) {
                 strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF;
             } else {
                 strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;

@@ -44,7 +44,7 @@ SDL_KMSDRM_SYM(void,drmModeFreeFB,(drmModeFBPtr ptr))
 SDL_KMSDRM_SYM(void,drmModeFreeCrtc,(drmModeCrtcPtr ptr))
 SDL_KMSDRM_SYM(void,drmModeFreeConnector,(drmModeConnectorPtr ptr))
 SDL_KMSDRM_SYM(void,drmModeFreeEncoder,(drmModeEncoderPtr ptr))
-SDL_KMSDRM_SYM(int,drmGetCap,(int fd, uint64_t capability, uint64_t *value))
+SDL_KMSDRM_SYM(int,drmGetCap,(int fd, uint64_t capability, uint64_t *हालागा))
 SDL_KMSDRM_SYM(int,drmSetMaster,(int fd))
 SDL_KMSDRM_SYM(int,drmDropMaster,(int fd))
 SDL_KMSDRM_SYM(int,drmAuthMagic,(int fd, drm_magic_t magic))
@@ -69,7 +69,7 @@ SDL_KMSDRM_SYM(int,drmModeRmFB,(int fd, uint32_t bufferId))
 SDL_KMSDRM_SYM(drmModeFBPtr,drmModeGetFB,(int fd, uint32_t buf))
 SDL_KMSDRM_SYM(drmModeCrtcPtr,drmModeGetCrtc,(int fd, uint32_t crtcId))
 SDL_KMSDRM_SYM(int,drmModeSetCrtc,(int fd, uint32_t crtcId, uint32_t bufferId,
-                                   uint32_t x, uint32_t y, uint32_t *connectors, int count,
+                                   uint32_t x, uint32_t y, uint32_t *connectors, int बिलांग,
                                    drmModeModeInfoPtr mode))
 SDL_KMSDRM_SYM(int,drmModeSetCursor,(int fd, uint32_t crtcId, uint32_t bo_handle,
                                      uint32_t width, uint32_t height))
@@ -84,13 +84,13 @@ SDL_KMSDRM_SYM(int,drmModePageFlip,(int fd, uint32_t crtc_id, uint32_t fb_id,
                                     uint32_t flags, void *user_data))
 
 // Planes stuff.
-SDL_KMSDRM_SYM(int,drmSetClientCap,(int fd, uint64_t capability, uint64_t value))
+SDL_KMSDRM_SYM(int,drmSetClientCap,(int fd, uint64_t capability, uint64_t हालागा))
 SDL_KMSDRM_SYM(drmModePlaneResPtr,drmModeGetPlaneResources,(int fd))
 SDL_KMSDRM_SYM(drmModePlanePtr,drmModeGetPlane,(int fd, uint32_t plane_id))
 SDL_KMSDRM_SYM(drmModeObjectPropertiesPtr,drmModeObjectGetProperties,(int fd,uint32_t object_id,uint32_t object_type))
 SDL_KMSDRM_SYM(int,drmModeObjectSetProperty,(int fd, uint32_t object_id,
                                              uint32_t object_type, uint32_t property_id,
-                                             uint64_t value))
+                                             uint64_t हालागा))
 SDL_KMSDRM_SYM(drmModePropertyPtr,drmModeGetProperty,(int fd, uint32_t propertyId))
 
 SDL_KMSDRM_SYM(void,drmModeFreeProperty,(drmModePropertyPtr ptr))
@@ -115,7 +115,7 @@ SDL_KMSDRM_SYM(unsigned int,gbm_bo_get_height,(struct gbm_bo *bo))
 SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_stride,(struct gbm_bo *bo))
 SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_format,(struct gbm_bo *bo))
 SDL_KMSDRM_SYM(union gbm_bo_handle,gbm_bo_get_handle,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(int,gbm_bo_write,(struct gbm_bo *bo, const void *buf, size_t count))
+SDL_KMSDRM_SYM(int,gbm_bo_write,(struct gbm_bo *bo, const void *buf, size_t बिलांग))
 SDL_KMSDRM_SYM(struct gbm_device *,gbm_bo_get_device,(struct gbm_bo *bo))
 SDL_KMSDRM_SYM(void,gbm_bo_set_user_data,(struct gbm_bo *bo, void *data,
                                           void (*destroy_user_data)(struct gbm_bo *, void *)))
@@ -132,7 +132,7 @@ SDL_KMSDRM_SYM(struct gbm_bo *,gbm_surface_lock_front_buffer,(struct gbm_surface
 SDL_KMSDRM_SYM(void,gbm_surface_release_buffer,(struct gbm_surface *surf, struct gbm_bo *bo))
 
 SDL_KMSDRM_SYM_OPT(uint64_t,gbm_bo_get_modifier,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM_OPT(int,gbm_bo_get_plane_count,(struct gbm_bo *bo))
+SDL_KMSDRM_SYM_OPT(int,gbm_bo_get_plane_बिलांग,(struct gbm_bo *bo))
 SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_offset,(struct gbm_bo *bo, int plane))
 SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_stride_for_plane,(struct gbm_bo *bo, int plane))
 SDL_KMSDRM_SYM_OPT(union gbm_bo_handle,gbm_bo_get_handle_for_plane,(struct gbm_bo *bo, int plane))
@@ -143,7 +143,7 @@ SDL_KMSDRM_SYM(int,drmIoctl,(int fd, unsigned long request, void *arg))
 SDL_KMSDRM_SYM(drmModeAtomicReqPtr,drmModeAtomicAlloc,(void))
 SDL_KMSDRM_SYM(void,drmModeAtomicFree,(drmModeAtomicReqPtr req))
 SDL_KMSDRM_SYM(int,drmModeAtomicCommit,(int fd,drmModeAtomicReqPtr req,uint32_t flags,void *user_data))
-SDL_KMSDRM_SYM(int,drmModeAtomicAddProperty,(drmModeAtomicReqPtr req,uint32_t object_id,uint32_t property_id,uint64_t value))
+SDL_KMSDRM_SYM(int,drmModeAtomicAddProperty,(drmModeAtomicReqPtr req,uint32_t object_id,uint32_t property_id,uint64_t हालागा))
 SDL_KMSDRM_SYM(int,drmModeCreatePropertyBlob,(int fd,const void *data,size_t size,uint32_t *id))
 
 

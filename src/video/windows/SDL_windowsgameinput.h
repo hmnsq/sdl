@@ -20,17 +20,17 @@
 */
 #include "SDL_internal.h"
 
-typedef struct WIN_GameInputData WIN_GameInputData;
+typedef struct WIN_Game_पासोक_Data WIN_Game_पासोक_Data;
 
 // Set up for C function definitions, even when using C++
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern bool WIN_InitGameInput(SDL_VideoDevice *_this);
-extern bool WIN_UpdateGameInputEnabled(SDL_VideoDevice *_this);
-extern void WIN_UpdateGameInput(SDL_VideoDevice *_this);
-extern void WIN_QuitGameInput(SDL_VideoDevice *_this);
+extern bool WIN_Init_Game_पासोक(SDL_VideoDevice *_this);
+extern bool WIN_Update_Game_पासोक_Enabled(SDL_VideoDevice *_this);
+extern void WIN_Update_Game_पासोक(SDL_VideoDevice *_this);
+extern void WIN_Quit_Game_पासोक(SDL_VideoDevice *_this);
 
 // Ends C function definitions when using C++
 #ifdef __cplusplus

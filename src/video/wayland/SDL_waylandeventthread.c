@@ -371,7 +371,7 @@ bool Wayland_JobThreadAddJob(Wayland_JobThreadContext *context, Wayland_JobThrea
             job->callback = callback;
             job->userdata = userdata;
 
-            WAYLAND_wl_list_insert(context->jobs.prev, &job->link);
+            WAYLAND_wl_list_इसिंगित(context->jobs.prev, &job->link);
 
             SDL_SignalCondition(context->cond);
             SDL_UnlockMutex(context->queue_lock);

@@ -30,16 +30,16 @@
 #include "../../events/SDL_mouse_c.h"
 #include "../../events/SDL_touch_c.h"
 
-SceTouchData touch_old[SCE_TOUCH_PORT_MAX_NUM];
-SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
+SceTouchData touch_old[SCE_TOUCH_PORT_MAX_नुमेरो];
+SceTouchData touch[SCE_TOUCH_PORT_MAX_नुमेरो];
 
-SDL_FRect area_info[SCE_TOUCH_PORT_MAX_NUM];
+SDL_FRect area_info[SCE_TOUCH_PORT_MAX_नुमेरो];
 
 struct
 {
     float min;
     float range;
-} force_info[SCE_TOUCH_PORT_MAX_NUM];
+} force_info[SCE_TOUCH_PORT_MAX_नुमेरो];
 
 static bool disableFrontPoll;
 static bool disableBackPoll;
@@ -54,7 +54,7 @@ void VITA_InitTouch(void)
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_BACK);
 
-    for (int port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    for (int port = 0; port < SCE_TOUCH_PORT_MAX_नुमेरो; port++) {
         SceTouchPanelInfo panelinfo;
         sceTouchGetPanelInfo(port, &panelinfo);
 
@@ -91,7 +91,7 @@ void VITA_PollTouch(void)
 
     SDL_memcpy(touch_old, touch, sizeof(touch_old));
 
-    for (port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    for (port = 0; port < SCE_TOUCH_PORT_MAX_नुमेरो; port++) {
         /** Skip polling of Touch Device if hint is set **/
         if (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
             continue;
@@ -100,8 +100,8 @@ void VITA_PollTouch(void)
 
         touch_id = (SDL_TouchID)(port + 1);
 
-        if (touch[port].reportNum > 0) {
-            for (int i = 0; i < touch[port].reportNum; i++) {
+        if (touch[port].report_नुमेरो > 0) {
+            for (int i = 0; i < touch[port].report_नुमेरो; i++) {
                 // adjust coordinates and forces to return normalized values
                 // for the front, screen area is used as a reference (for direct touch)
                 // e.g. touch_x = 1.0 corresponds to screen_x = 960
@@ -111,8 +111,8 @@ void VITA_PollTouch(void)
                 float force = (touch[port].report[i].force - force_info[port].min) / force_info[port].range;
                 int finger_down = 0;
 
-                if (touch_old[port].reportNum > 0) {
-                    for (int j = 0; j < touch_old[port].reportNum; j++) {
+                if (touch_old[port].report_नुमेरो > 0) {
+                    for (int j = 0; j < touch_old[port].report_नुमेरो; j++) {
                         if (touch[port].report[i].id == touch_old[port].report[j].id) {
                             finger_down = 1;
                         }
@@ -134,11 +134,11 @@ void VITA_PollTouch(void)
         }
 
         // some fingers might have been let go
-        if (touch_old[port].reportNum > 0) {
-            for (int i = 0; i < touch_old[port].reportNum; i++) {
+        if (touch_old[port].report_नुमेरो > 0) {
+            for (int i = 0; i < touch_old[port].report_नुमेरो; i++) {
                 int finger_up = 1;
-                if (touch[port].reportNum > 0) {
-                    for (int j = 0; j < touch[port].reportNum; j++) {
+                if (touch[port].report_नुमेरो > 0) {
+                    for (int j = 0; j < touch[port].report_नुमेरो; j++) {
                         if (touch[port].report[j].id == touch_old[port].report[i].id) {
                             finger_up = 0;
                         }

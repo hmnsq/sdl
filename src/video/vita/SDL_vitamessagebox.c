@@ -33,13 +33,13 @@
 bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
 {
 #ifdef SDL_VIDEO_RENDER_VITA_GXM
-    SceMsgDialogParam param;
-    SceMsgDialogUserMessageParam msgParam;
-    SceMsgDialogButtonsParam buttonParam;
+    Sce_मेनसाहे_Dialog_Param param;
+    Sce_मेनसाहे_Dialog_User_Message_Param मेनसाहे_Param;
+    Sce_मेनसाहे_Dialog_Buttons_Param buttonParam;
     SceDisplayFrameBuf dispparam;
     char message[512];
 
-    SceMsgDialogResult dialog_result;
+    Sce_मेनसाहे_Dialog_Result dialog_result;
     SceCommonDialogErrorCode init_result;
     bool setup_minimal_gxm = false;
 
@@ -48,62 +48,62 @@ bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID
     }
 
     SDL_zero(param);
-    sceMsgDialogParamInit(&param);
-    param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
+    sce_मेनसाहे_Dialog_Param_Init(&param);
+    param.mode = SCE_मेनसाहे_DIALOG_MODE_USER_मेनसाहे;
 
-    SDL_zero(msgParam);
+    SDL_zero(मेनसाहे_Param);
     SDL_snprintf(message, sizeof(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
 
-    msgParam.msg = (const SceChar8 *)message;
+    मेनसाहे_Param.मेनसाहे = (const SceChar8 *)message;
     SDL_zero(buttonParam);
 
     if (messageboxdata->numbuttons == 3) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
-        msgParam.buttonParam = &buttonParam;
+        मेनसाहे_Param.buttonType = SCE_मेनसाहे_DIALOG_BUTTON_TYPE_3_BUTTONS;
+        मेनसाहे_Param.buttonParam = &buttonParam;
         buttonParam.msg1 = messageboxdata->buttons[0].text;
         buttonParam.msg2 = messageboxdata->buttons[1].text;
         buttonParam.msg3 = messageboxdata->buttons[2].text;
     } else if (messageboxdata->numbuttons == 2) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
+        मेनसाहे_Param.buttonType = SCE_मेनसाहे_DIALOG_BUTTON_TYPE_YESNO;
     } else if (messageboxdata->numbuttons == 1) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
+        मेनसाहे_Param.buttonType = SCE_मेनसाहे_DIALOG_BUTTON_TYPE_OK;
     }
-    param.userMsgParam = &msgParam;
+    param.user_मेनसाहे_Param = &मेनसाहे_Param;
 
     dispparam.size = sizeof(dispparam);
 
-    init_result = sceMsgDialogInit(&param);
+    init_result = sce_मेनसाहे_Dialog_Init(&param);
 
     // Setup display if it hasn't been initialized before
     if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
         gxm_minimal_init_for_common_dialog();
-        init_result = sceMsgDialogInit(&param);
+        init_result = sce_मेनसाहे_Dialog_Init(&param);
         setup_minimal_gxm = true;
     }
 
     gxm_init_for_common_dialog();
 
     if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
+        while (sce_मेनसाहे_Dialog_Get_Status() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
             gxm_swap_for_common_dialog();
         }
         SDL_zero(dialog_result);
-        sceMsgDialogGetResult(&dialog_result);
+        sce_मेनसाहे_Dialog_Get_Result(&dialog_result);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        if (dialog_result.buttonId == SCE_मेनसाहे_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } else if (dialog_result.buttonId == SCE_मेनसाहे_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } else if (dialog_result.buttonId == SCE_मेनसाहे_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } else if (dialog_result.buttonId == SCE_मेनसाहे_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } else if (dialog_result.buttonId == SCE_मेनसाहे_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } else if (dialog_result.buttonId == SCE_मेनसाहे_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
-        sceMsgDialogTerm();
+        sce_मेनसाहे_Dialog_Term();
     } else {
         return false;
     }

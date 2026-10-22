@@ -54,7 +54,7 @@ struct SDL_VideoData
     struct wl_compositor *compositor;
     struct wl_shm *shm;
     SDL_WaylandCursorTheme *cursor_themes;
-    int num_cursor_themes;
+    int नुमेरो_cursor_themes;
     struct
     {
         struct xdg_wm_base *xdg;
@@ -70,14 +70,14 @@ struct SDL_VideoData
     struct wl_data_device_manager *data_device_manager;
     struct zwp_primary_selection_device_manager_v1 *primary_selection_device_manager;
     struct zxdg_decoration_manager_v1 *decoration_manager;
-    struct zwp_keyboard_shortcuts_inhibit_manager_v1 *key_inhibitor_manager;
+    struct zwp_keyboard_shortcuts_inhibit_manager_v1 *सुसि_inhibitor_manager;
     struct zwp_idle_inhibit_manager_v1 *idle_inhibit_manager;
     struct xdg_activation_v1 *activation_manager;
-    struct zwp_text_input_manager_v3 *text_input_manager;
+    struct zwp_text_पासोक_manager_v3 *text_पासोक_manager;
     struct zxdg_output_manager_v1 *xdg_output_manager;
     struct wp_viewporter *viewporter;
     struct wp_fractional_scale_manager_v1 *fractional_scale_manager;
-    struct zwp_input_timestamps_manager_v1 *input_timestamps_manager;
+    struct zwp_पासोक_timestamps_manager_v1 *पासोक_timestamps_manager;
     struct zxdg_exporter_v2 *zxdg_exporter_v2;
     struct xdg_wm_dialog_v1 *xdg_wm_dialog_v1;
     struct wp_alpha_modifier_v1 *wp_alpha_modifier_v1;
@@ -102,7 +102,7 @@ struct SDL_VideoData
     Wayland_JobThreadContext *job_thread_context;
 
     SDL_DisplayData **output_list;
-    int output_count;
+    int output_बिलांग;
     int output_max;
 
     bool initializing;
@@ -154,7 +154,7 @@ struct SDL_DisplayData
     SDL_DisplayID display;
     SDL_VideoDisplay placeholder;
 
-    int wl_output_done_count;
+    int wl_output_done_बिलांग;
     bool has_logical_position;
     bool has_logical_size;
     bool geometry_changed;
