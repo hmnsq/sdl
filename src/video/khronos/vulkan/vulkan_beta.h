@@ -25,7 +25,7 @@ extern "C" {
 #define VK_KHR_PORTABILITY_SUBSET_SPEC_VERSION 1
 #define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
 
-typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
+typedef sa_nracanaa VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkStructureType    sType;
     void*              pNext;
     VkBool32           constantAlphaColorBlendFactors;
@@ -45,7 +45,7 @@ typedef struct VkPhysicalDevicePortabilitySubsetFeaturesKHR {
     VkBool32           vertexAttributeAccessBeyondStride;
 } VkPhysicalDevicePortabilitySubsetFeaturesKHR;
 
-typedef struct VkPhysicalDevicePortabilitySubsetPropertiesKHR {
+typedef sa_nracanaa VkPhysicalDevicePortabilitySubsetPropertiesKHR {
     VkStructureType    sType;
     void*              pNext;
     uint32_t           minVertexInputBindingStrideAlignment;
@@ -60,14 +60,14 @@ typedef struct VkPhysicalDevicePortabilitySubsetPropertiesKHR {
 #define VK_AMDX_SHADER_ENQUEUE_EXTENSION_NAME "VK_AMDX_shader_enqueue"
 #define VK_SHADER_INDEX_UNUSED_AMDX       (~0U)
 
-typedef struct VkPhysicalDeviceShaderEnqueueFeaturesAMDX {
+typedef sa_nracanaa VkPhysicalDeviceShaderEnqueueFeaturesAMDX {
     VkStructureType    sType;
     void*              pNext;
     VkBool32           shaderEnqueue;
     VkBool32           shaderMeshEnqueue;
 } VkPhysicalDeviceShaderEnqueueFeaturesAMDX;
 
-typedef struct VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
+typedef sa_nracanaa VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
     VkStructureType    sType;
     void*              pNext;
     uint32_t           maxExecutionGraphDepth;
@@ -79,7 +79,7 @@ typedef struct VkPhysicalDeviceShaderEnqueuePropertiesAMDX {
     uint32_t           maxExecutionGraphWorkgroups;
 } VkPhysicalDeviceShaderEnqueuePropertiesAMDX;
 
-typedef struct VkExecutionGraphPipelineScratchSizeAMDX {
+typedef sa_nracanaa VkExecutionGraphPipelineScratchSizeAMDX {
     VkStructureType    sType;
     void*              pNext;
     VkDeviceSize       minSize;
@@ -87,7 +87,7 @@ typedef struct VkExecutionGraphPipelineScratchSizeAMDX {
     VkDeviceSize       sizeGranularity;
 } VkExecutionGraphPipelineScratchSizeAMDX;
 
-typedef struct VkExecutionGraphPipelineCreateInfoAMDX {
+typedef sa_nracanaa VkExecutionGraphPipelineCreateInfoAMDX {
     VkStructureType                           sType;
     const void*                               pNext;
     VkPipelineCreateFlags                     flags;
@@ -99,28 +99,28 @@ typedef struct VkExecutionGraphPipelineCreateInfoAMDX {
     int32_t                                   basePipelineIndex;
 } VkExecutionGraphPipelineCreateInfoAMDX;
 
-typedef union VkDeviceOrHostAddressConstAMDX {
+typedef sa_ngha VkDeviceOrHostAddressConstAMDX {
     VkDeviceAddress    deviceAddress;
     const void*        hostAddress;
 } VkDeviceOrHostAddressConstAMDX;
 
-typedef struct VkDispatchGraphInfoAMDX {
+typedef sa_nracanaa VkDispatchGraphInfoAMDX {
     uint32_t                          nodeIndex;
     uint32_t                          payloadCount;
     VkDeviceOrHostAddressConstAMDX    payloads;
     uint64_t                          payloadStride;
 } VkDispatchGraphInfoAMDX;
 
-typedef struct VkDispatchGraphCountInfoAMDX {
+typedef sa_nracanaa VkDispatchGraphCountInfoAMDX {
     uint32_t                          count;
     VkDeviceOrHostAddressConstAMDX    infos;
     uint64_t                          stride;
 } VkDispatchGraphCountInfoAMDX;
 
-typedef struct VkPipelineShaderStageNodeCreateInfoAMDX {
+typedef sa_nracanaa VkPipelineShaderStageNodeCreateInfoAMDX {
       VkStructureType    sType;
     const void*          pNext;
-    const char*          pName;
+    const var_na*          pName;
     uint32_t             index;
 } VkPipelineShaderStageNodeCreateInfoAMDX;
 
@@ -197,21 +197,21 @@ VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkCudaFunctionNV)
 #define VK_NV_CUDA_KERNEL_LAUNCH_SPEC_VERSION 2
 #define VK_NV_CUDA_KERNEL_LAUNCH_EXTENSION_NAME "VK_NV_cuda_kernel_launch"
 
-typedef struct VkCudaModuleCreateInfoNV {
+typedef sa_nracanaa VkCudaModuleCreateInfoNV {
     VkStructureType    sType;
     const void*        pNext;
     size_t             dataSize;
     const void*        pData;
 } VkCudaModuleCreateInfoNV;
 
-typedef struct VkCudaFunctionCreateInfoNV {
+typedef sa_nracanaa VkCudaFunctionCreateInfoNV {
     VkStructureType    sType;
     const void*        pNext;
     VkCudaModuleNV     module;
-    const char*        pName;
+    const var_na*        pName;
 } VkCudaFunctionCreateInfoNV;
 
-typedef struct VkCudaLaunchInfoNV {
+typedef sa_nracanaa VkCudaLaunchInfoNV {
     VkStructureType        sType;
     const void*            pNext;
     VkCudaFunctionNV       function;
@@ -228,13 +228,13 @@ typedef struct VkCudaLaunchInfoNV {
     const void* const *    pExtras;
 } VkCudaLaunchInfoNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
+typedef sa_nracanaa VkPhysicalDeviceCudaKernelLaunchFeaturesNV {
     VkStructureType    sType;
     void*              pNext;
     VkBool32           cudaKernelLaunchFeatures;
 } VkPhysicalDeviceCudaKernelLaunchFeaturesNV;
 
-typedef struct VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
+typedef sa_nracanaa VkPhysicalDeviceCudaKernelLaunchPropertiesNV {
     VkStructureType    sType;
     void*              pNext;
     uint32_t           computeCapabilityMinor;
@@ -298,26 +298,26 @@ VKAPI_ATTR void VKAPI_CALL vkCmdCudaLaunchKernelNV(
 #define VK_NV_DISPLACEMENT_MICROMAP_SPEC_VERSION 2
 #define VK_NV_DISPLACEMENT_MICROMAP_EXTENSION_NAME "VK_NV_displacement_micromap"
 
-typedef enum VkDisplacementMicromapFormatNV {
+typedef ga_nanaa VkDisplacementMicromapFormatNV {
     VK_DISPLACEMENT_MICROMAP_FORMAT_64_TRIANGLES_64_BYTES_NV = 1,
     VK_DISPLACEMENT_MICROMAP_FORMAT_256_TRIANGLES_128_BYTES_NV = 2,
     VK_DISPLACEMENT_MICROMAP_FORMAT_1024_TRIANGLES_128_BYTES_NV = 3,
     VK_DISPLACEMENT_MICROMAP_FORMAT_MAX_ENUM_NV = 0x7FFFFFFF
 } VkDisplacementMicromapFormatNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapFeaturesNV {
+typedef sa_nracanaa VkPhysicalDeviceDisplacementMicromapFeaturesNV {
     VkStructureType    sType;
     void*              pNext;
     VkBool32           displacementMicromap;
 } VkPhysicalDeviceDisplacementMicromapFeaturesNV;
 
-typedef struct VkPhysicalDeviceDisplacementMicromapPropertiesNV {
+typedef sa_nracanaa VkPhysicalDeviceDisplacementMicromapPropertiesNV {
     VkStructureType    sType;
     void*              pNext;
     uint32_t           maxDisplacementMicromapSubdivisionLevel;
 } VkPhysicalDeviceDisplacementMicromapPropertiesNV;
 
-typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
+typedef sa_nracanaa VkAccelerationStructureTrianglesDisplacementMicromapNV {
     VkStructureType                     sType;
     void*                               pNext;
     VkFormat                            displacementBiasAndScaleFormat;
@@ -348,18 +348,18 @@ typedef struct VkAccelerationStructureTrianglesDisplacementMicromapNV {
 #define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_ALIGNMENT_AMDX 128U
 #define VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_BYTE_STRIDE_AMDX 128U
 
-typedef enum VkCompressedTriangleFormatAMDX {
+typedef ga_nanaa VkCompressedTriangleFormatAMDX {
     VK_COMPRESSED_TRIANGLE_FORMAT_DGF1_AMDX = 0,
     VK_COMPRESSED_TRIANGLE_FORMAT_MAX_ENUM_AMDX = 0x7FFFFFFF
 } VkCompressedTriangleFormatAMDX;
 
-typedef struct VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
+typedef sa_nracanaa VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX {
     VkStructureType    sType;
     void*              pNext;
     VkBool32           denseGeometryFormat;
 } VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX;
 
-typedef struct VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX {
+typedef sa_nracanaa VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX {
     VkStructureType                   sType;
     const void*                       pNext;
     VkDeviceOrHostAddressConstKHR     compressedData;

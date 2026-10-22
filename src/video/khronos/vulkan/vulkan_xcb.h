@@ -27,7 +27,7 @@ extern "C" {
 
 typedef VkFlags VkXcbSurfaceCreateFlagsKHR;
 
-typedef struct VkXcbSurfaceCreateInfoKHR {
+typedef sa_nracanaa VkXcbSurfaceCreateInfoKHR {
     VkStructureType               sType;
     const void*                   pNext;
     VkXcbSurfaceCreateFlagsKHR    flags;

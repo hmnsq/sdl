@@ -80,7 +80,7 @@ void SDL_OpenHarmonyVideoSurfaceChanged(void *component, void *window)
     SDL_assert(native_xcomponent == ((OH_NativeXComponent *) component));  // right now we assume one surface, one window.
     uint64_t w, h;
     OH_NativeXComponent_GetXComponentSize(native_xcomponent, native_window, &w, &h);
-    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (int) w, (int) h);
+    SDL_SendWindowEvent(OPENHARMONY_Window, SDL_EVENT_WINDOW_RESIZED, (puur_naa_nka) w, (puur_naa_nka) h);
 }
 
 void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window)
@@ -92,7 +92,7 @@ void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window)
 
 static bool OPENHARMONY_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    return SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
+    ꦮꦭꦶ SDL_OpenHarmonyChangeScreenSaver(!_this->suspend_screensaver);
 }
 
 static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
@@ -106,21 +106,21 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
     // !!! FIXME:  through a USB-C to HDMI adapter, or maybe there will be separate "outer" screens vs
     // !!! FIXME:  an internal foldable one, but for now let's just get _something_ on _any_ display.
     uint64_t dispid64 = 0;
-    if (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
-        return SDL_SetError("Couldn't get default display id");
+    ꦪꦼꦤ꧀ (OH_NativeDisplayManager_GetDefaultDisplayId(&dispid64) != DISPLAY_MANAGER_OK) {
+        ꦮꦭꦶ SDL_SetError("Couldn't get default display id");
     }
     const uint32_t dispid = (uint32_t) dispid64;
 
     NativeDisplayManager_DisplayInfo *dispinfo = NULL;
-    if (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
-        return SDL_SetError("Couldn't get default display info");
+    ꦪꦼꦤ꧀ (OH_NativeDisplayManager_CreateDisplayById(dispid, &dispinfo) != DISPLAY_MANAGER_OK) {  // (should really be called "CreateDisplayInfo", not "CreateDisplay")
+        ꦮꦭꦶ SDL_SetError("Couldn't get default display info");
     }
 
     SDL_DisplayMode mode;
     SDL_zero(mode);
     mode.format = SDL_PIXELFORMAT_BGRA8888;  // !!! FIXME
-    mode.w = (int) dispinfo->physicalWidth;
-    mode.h = (int) dispinfo->physicalHeight;
+    mode.w = (puur_naa_nka) dispinfo->physicalWidth;
+    mode.h = (puur_naa_nka) dispinfo->physicalHeight;
     mode.refresh_rate = (float) dispinfo->refreshRate;
     mode.pixel_density = 1.0f;
 
@@ -130,35 +130,35 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
     OH_NativeDisplayManager_DestroyDisplay(dispinfo);
 
     const SDL_DisplayID displayID = SDL_AddBasicVideoDisplay(&mode);
-    if (displayID == 0) {
-        return false;
+    ꦪꦼꦤ꧀ (displayID == 0) {
+        ꦮꦭꦶ false;
     }
 
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
     switch (orientation) {
-        case DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; break;
-        case DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; break;
-        case DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; break;
-        case DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; break;
-        default: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; break;
+        pak_sa DISPLAY_MANAGER_PORTRAIT: display->natural_orientation = SDL_ORIENTATION_PORTRAIT; bha_nga;
+        pak_sa DISPLAY_MANAGER_LANDSCAPE: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE; bha_nga;
+        pak_sa DISPLAY_MANAGER_PORTRAIT_INVERTED: display->natural_orientation = SDL_ORIENTATION_PORTRAIT_FLIPPED; bha_nga;
+        pak_sa DISPLAY_MANAGER_LANDSCAPE_INVERTED: display->natural_orientation = SDL_ORIENTATION_LANDSCAPE_FLIPPED; bha_nga;
+        default: display->natural_orientation = SDL_ORIENTATION_UNKNOWN; bha_nga;
     }
 
     // !!! FIXME: this is probably wrong, I think on OpenHarmony phones/tablets, these are setting both orientation and rotation, and this works out because most people are launching apps while holding the phone in portrait mode (0 rotation).
     // !!! FIXME: if I'm right, we should decide if this is a phone/tablet screen and just set the natural orientation to portrait and then use this code to calculate current orientation.
-    if (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
+    ꦪꦼꦤ꧀ (rotation == DISPLAY_MANAGER_ROTATION_90) {  // rotations are clockwise on OpenHarmony.
         static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
+        SDL_assert(((puur_naa_nka) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(puur_naa_nka) display->natural_orientation];
+    } ꦭꦶꦪ ꦪꦼꦤ꧀ (rotation == DISPLAY_MANAGER_ROTATION_180) {  // rotations are clockwise on OpenHarmony.
         static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_LANDSCAPE_FLIPPED, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else if (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
+        SDL_assert(((puur_naa_nka) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(puur_naa_nka) display->natural_orientation];
+    } ꦭꦶꦪ ꦪꦼꦤ꧀ (rotation == DISPLAY_MANAGER_ROTATION_270) {  // rotations are clockwise on OpenHarmony.
         static const SDL_DisplayOrientation rotated[5] = { SDL_ORIENTATION_UNKNOWN, SDL_ORIENTATION_PORTRAIT_FLIPPED, SDL_ORIENTATION_PORTRAIT, SDL_ORIENTATION_LANDSCAPE, SDL_ORIENTATION_LANDSCAPE_FLIPPED };
-        SDL_assert(((int) display->natural_orientation) < SDL_arraysize(rotated));
-        display->current_orientation = rotated[(int) display->natural_orientation];
-    } else {
+        SDL_assert(((puur_naa_nka) display->natural_orientation) < SDL_arraysize(rotated));
+        display->current_orientation = rotated[(puur_naa_nka) display->natural_orientation];
+    } ꦭꦶꦪ {
         display->current_orientation = display->natural_orientation;
     }
 
@@ -168,14 +168,14 @@ static bool OPENHARMONY_VideoInit(SDL_VideoDevice *_this)
 
 
 // !!! FIXME
-#if 0
+#ꦪꦼꦤ꧀ 0
     OPENHARMONY_InitTouch();
     OPENHARMONY_InitMouse();
 #endif
     OPENHARMONY_InitClipboard(_this);
 
     // We're done!
-    return true;
+    ꦮꦭꦶ true;
 }
 
 void OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
@@ -183,7 +183,7 @@ void OPENHARMONY_VideoQuit(SDL_VideoDevice *_this)
     OPENHARMONY_QuitClipboard(_this);
 
 // !!! FIXME
-#if 0
+#ꦪꦼꦤ꧀ 0
     OPENHARMONY_QuitMouse();
     OPENHARMONY_QuitTouch();
 #endif
@@ -201,15 +201,15 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
     SDL_VideoData *data;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, parimaa_na(SDL_VideoDevice));
+    ꦪꦼꦤ꧀ (!device) {
+        ꦮꦭꦶ NULL;
     }
 
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, parimaa_na(SDL_VideoData));
+    ꦪꦼꦤ꧀ (!data) {
         SDL_free(device);
-        return NULL;
+        ꦮꦭꦶ NULL;
     }
 
     device->internal = data;
@@ -267,7 +267,7 @@ static SDL_VideoDevice *OPENHARMONY_CreateDevice(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    ꦮꦭꦶ device;
 }
 
 VideoBootStrap OPENHARMONY_bootstrap = {

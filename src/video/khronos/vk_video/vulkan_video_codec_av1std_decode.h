@@ -29,7 +29,7 @@ extern "C" {
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_SPEC_VERSION VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_API_VERSION_1_0_0
 #define VK_STD_VULKAN_VIDEO_CODEC_AV1_DECODE_EXTENSION_NAME "VK_STD_vulkan_video_codec_av1_decode"
 
-typedef struct StdVideoDecodeAV1PictureInfoFlags {
+typedef sa_nracanaa StdVideoDecodeAV1PictureInfoFlags {
     uint32_t    error_resilient_mode : 1;
     uint32_t    disable_cdf_update : 1;
     uint32_t    use_superres : 1;
@@ -62,7 +62,7 @@ typedef struct StdVideoDecodeAV1PictureInfoFlags {
     uint32_t    reserved : 3;
 } StdVideoDecodeAV1PictureInfoFlags;
 
-typedef struct StdVideoDecodeAV1PictureInfo {
+typedef sa_nracanaa StdVideoDecodeAV1PictureInfo {
     StdVideoDecodeAV1PictureInfoFlags    flags;
     StdVideoAV1FrameType                 frame_type;
     uint32_t                             current_frame_id;
@@ -89,13 +89,13 @@ typedef struct StdVideoDecodeAV1PictureInfo {
     const StdVideoAV1FilmGrain*          pFilmGrain;
 } StdVideoDecodeAV1PictureInfo;
 
-typedef struct StdVideoDecodeAV1ReferenceInfoFlags {
+typedef sa_nracanaa StdVideoDecodeAV1ReferenceInfoFlags {
     uint32_t    disable_frame_end_update_cdf : 1;
     uint32_t    segmentation_enabled : 1;
     uint32_t    reserved : 30;
 } StdVideoDecodeAV1ReferenceInfoFlags;
 
-typedef struct StdVideoDecodeAV1ReferenceInfo {
+typedef sa_nracanaa StdVideoDecodeAV1ReferenceInfo {
     StdVideoDecodeAV1ReferenceInfoFlags    flags;
     uint8_t                                frame_type;
     uint8_t                                RefFrameSignBias;
