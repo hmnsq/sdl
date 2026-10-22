@@ -18,87 +18,87 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidpen.h"
-#include "../../events/SDL_pen_c.h"
-#include "../../core/android/SDL_android.h"
+#అన్తర్భావ "SDL_androidpen.h"
+#అన్తర్భావ "../../events/SDL_pen_c.h"
+#అన్తర్భావ "../../core/android/SDL_android.h"
 
-#define ACTION_DOWN   0
-#define ACTION_UP     1
-#define ACTION_CANCEL 3
-#define ACTION_POINTER_DOWN 5
-#define ACTION_POINTER_UP   6
-#define ACTION_HOVER_ENTER  9
-#define ACTION_HOVER_EXIT   10
+#నిర్వచించు ACTION_కిందికి   0
+#నిర్వచించు ACTION_పైకి     1
+#నిర్వచించు ACTION_CANCEL 3
+#నిర్వచించు ACTION_సూచిక_కిందికి 5
+#నిర్వచించు ACTION_సూచిక_పైకి   6
+#నిర్వచించు ACTION_HOVER_ENTER  9
+#నిర్వచించు ACTION_HOVER_EXIT   10
 
-void Android_OnPen(SDL_Window *window, int pen_id_in, SDL_PenDeviceType device_type, int button, int action, float x, float y, float p)
+శూన్య Android_OnPen(SDL_కిటికీ *కిటికీ, పూర్ణాంకం pen_id_లోపల, SDL_PenDeviceType device_type, పూర్ణాంకం button, పూర్ణాంకం action, దశాంశం x, దశాంశం y, దశాంశం p)
 {
-    if (!window) {
-        return;
+    ఒకవేళ (!కిటికీ) {
+        తిరిగి;
     }
 
     // pointer index starts from zero.
-    pen_id_in++;
+    pen_id_లోపల++;
 
-    SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) pen_id_in);
-    if (!pen) {
+    SDL_PenID pen = SDL_కనుగొను_Pen_By_Handle((శూన్య *) (size_t) pen_id_లోపల);
+    ఒకవేళ (!pen) {
         // TODO: Query JNI for pen device info
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
         peninfo.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_ERASER;
-        peninfo.num_buttons = 2;
+        peninfo.అంకె_buttons = 2;
         peninfo.subtype = SDL_PEN_TYPE_PEN;
         peninfo.device_type = device_type;
-        pen = SDL_AddPenDevice(0, NULL, window, &peninfo, (void *) (size_t) pen_id_in, true);
-        if (!pen) {
-            SDL_Log("error: can't add a pen device %d", pen_id_in);
-            return;
+        pen = SDL_కూడు_Pen_Device(0, ఖాళీ, కిటికీ, &peninfo, (శూన్య *) (size_t) pen_id_లోపల, true);
+        ఒకవేళ (!pen) {
+            SDL_Log("error: can't add a pen device %d", pen_id_లోపల);
+            తిరిగి;
         }
     }
 
-    SDL_SendPenMotion(0, pen, window, x, y);
-    SDL_SendPenAxis(0, pen, window, SDL_PEN_AXIS_PRESSURE, p);
+    SDL_SendPenMotion(0, pen, కిటికీ, x, y);
+    SDL_SendPenAxis(0, pen, కిటికీ, SDL_PEN_AXIS_PRESSURE, p);
     // TODO: add more axis
 
-    SDL_PenInputFlags current = SDL_GetPenStatus(pen, NULL, 0);
-    int diff = current ^ button;
-    if (diff != 0) {
-        for (Uint8 i = 1; i <= 5; ++i) {
-            Uint8 mask = (1 << i);
-            if (diff & mask) {
-                SDL_SendPenButton(0, pen, window, i, (button & mask) != 0);
+    SDL_Pen_ఆదానం_Flags current = SDL_Get_Pen_స్థితి(pen, ఖాళీ, 0);
+    పూర్ణాంకం diff = current ^ button;
+    ఒకవేళ (diff != 0) {
+        కొరకు (Uint8 i = 1; i <= 5; ++i) {
+            Uint8 ముసుగు = (1 << i);
+            ఒకవేళ (diff & ముసుగు) {
+                SDL_SendPenButton(0, pen, కిటికీ, i, (button & ముసుగు) != 0);
             }
         }
     }
 
     // button contains DOWN/ERASER_TIP on DOWN/UP regardless of pressed state, use action to distinguish
     // we don't compare tip flags above because MotionEvent.getButtonState doesn't return stylus tip/eraser state.
-    switch (action) {
-    case ACTION_HOVER_ENTER:
-        SDL_SendPenProximity(0, pen, window, true, true);
-        break;
+    ఎంపిక (action) {
+    స్థితి ACTION_HOVER_ENTER:
+        SDL_SendPenProximity(0, pen, కిటికీ, true, true);
+        ఆపు;
 
-    case ACTION_CANCEL:
-    case ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
-        SDL_SendPenProximity(0, pen, window, false, false);
-        break;
+    స్థితి ACTION_CANCEL:
+    స్థితి ACTION_HOVER_EXIT:  // strictly speaking, this can mean both "proximity out" and "left the View" but close enough.
+        SDL_SendPenProximity(0, pen, కిటికీ, false, false);
+        ఆపు;
 
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, true);
-        break;
+    స్థితి ACTION_కిందికి:
+    స్థితి ACTION_సూచిక_కిందికి:
+        SDL_SendPenTouch(0, pen, కిటికీ, (button & SDL_PEN_ఆదానం_ERASER_TIP) != 0, true);
+        ఆపు;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
-        SDL_SendPenTouch(0, pen, window, (button & SDL_PEN_INPUT_ERASER_TIP) != 0, false);
-        break;
+    స్థితి ACTION_పైకి:
+    స్థితి ACTION_సూచిక_పైకి:
+        SDL_SendPenTouch(0, pen, కిటికీ, (button & SDL_PEN_ఆదానం_ERASER_TIP) != 0, false);
+        ఆపు;
 
-    default:
-        break;
+    అప్రమేయ:
+        ఆపు;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_ANDROID

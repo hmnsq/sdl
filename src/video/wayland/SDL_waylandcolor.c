@@ -19,122 +19,122 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylandcolor.h"
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
-#include "color-management-v1-client-protocol.h"
-#include "../../events/SDL_windowevents_c.h"
+#అన్తర్భావ "SDL_waylandcolor.h"
+#అన్తర్భావ "SDL_waylandvideo.h"
+#అన్తర్భావ "SDL_waylandwindow.h"
+#అన్తర్భావ "color-management-v1-client-protocol.h"
+#అన్తర్భావ "../../events/SDL_windowevents_c.h"
 
-typedef struct Wayland_ColorInfoState
+రకనిర్వచనం నిర్మాణం Wayland_ColorInfoState
 {
-    struct wp_image_description_v1 *wp_image_description;
-    struct wp_image_description_info_v1 *wp_image_description_info;
-    struct wl_event_queue *queue;
+    నిర్మాణం wp_image_description_v1 *wp_image_description;
+    నిర్మాణం wp_image_description_info_v1 *wp_image_description_info;
+    నిర్మాణం wl_event_వరుస *వరుస;
 
-    union
+    సంఘం
     {
-        SDL_WindowData *window_data;
-        SDL_DisplayData *display_data;
+        SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2;
+        SDL_Display_దత్తాంశం *display_దత్తాంశం;
     };
 
-    enum
+    గణన
     {
-        WAYLAND_COLOR_OBJECT_TYPE_WINDOW,
+        WAYLAND_COLOR_OBJECT_TYPE_కిటికీ,
         WAYLAND_COLOR_OBJECT_TYPE_DISPLAY
     } object_type;
 
     SDL_HDROutputProperties HDR;
 
     // The ICC fd is only valid if the size is non-zero.
-    int icc_fd;
-    Uint32 icc_size;
+    పూర్ణాంకం icc_fd;
+    Uint32 icc_కొలత;
 
     bool deferred_event_processing;
 } Wayland_ColorInfoState;
 
-static void Wayland_CancelColorInfoRequest(Wayland_ColorInfoState *state)
+స్థిర శూన్య Wayland_CancelColorInfoRequest(Wayland_ColorInfoState *state)
 {
-    if (state) {
-        if (state->wp_image_description_info) {
+    ఒకవేళ (state) {
+        ఒకవేళ (state->wp_image_description_info) {
             wp_image_description_info_v1_destroy(state->wp_image_description_info);
-            state->wp_image_description_info = NULL;
+            state->wp_image_description_info = ఖాళీ;
         }
-        if (state->wp_image_description) {
+        ఒకవేళ (state->wp_image_description) {
             wp_image_description_v1_destroy(state->wp_image_description);
-            state->wp_image_description = NULL;
+            state->wp_image_description = ఖాళీ;
         }
     }
 }
 
-void Wayland_FreeColorInfoState(Wayland_ColorInfoState *state)
+శూన్య Wayland_FreeColorInfoState(Wayland_ColorInfoState *state)
 {
-    if (state) {
+    ఒకవేళ (state) {
         Wayland_CancelColorInfoRequest(state);
-        if (state->queue) {
-            WAYLAND_wl_event_queue_destroy(state->queue);
+        ఒకవేళ (state->వరుస) {
+            WAYLAND_wl_event_వరుస_destroy(state->వరుస);
         }
 
-        switch (state->object_type) {
-        case WAYLAND_COLOR_OBJECT_TYPE_WINDOW:
-            state->window_data->color_info_state = NULL;
-            break;
-        case WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
-            state->display_data->color_info_state = NULL;
-            break;
+        ఎంపిక (state->object_type) {
+        స్థితి WAYLAND_COLOR_OBJECT_TYPE_కిటికీ:
+            state->కిటికీ_దత్తాంశం_2->color_info_state = ఖాళీ;
+            ఆపు;
+        స్థితి WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
+            state->display_దత్తాంశం->color_info_state = ఖాళీ;
+            ఆపు;
         }
 
         SDL_free(state);
     }
 }
 
-static void image_description_info_handle_done(void *data,
-                                               struct wp_image_description_info_v1 *wp_image_description_info_v1)
+స్థిర శూన్య image_description_info_handle_పూర్తి(శూన్య *దత్తాంశం,
+                                               నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)దత్తాంశం;
     Wayland_CancelColorInfoRequest(state);
 
-    switch (state->object_type) {
-        case WAYLAND_COLOR_OBJECT_TYPE_WINDOW:
+    ఎంపిక (state->object_type) {
+        స్థితి WAYLAND_COLOR_OBJECT_TYPE_కిటికీ:
         {
-            SDL_SetWindowHDRProperties(state->window_data->sdlwindow, &state->HDR, true);
-            if (state->icc_size) {
-                state->window_data->icc_fd = state->icc_fd;
-                state->window_data->icc_size = state->icc_size;
-                SDL_SendWindowEvent(state->window_data->sdlwindow, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
+            SDL_సమితి_కిటికీ_HDRProperties(state->కిటికీ_దత్తాంశం_2->sdlwindow, &state->HDR, true);
+            ఒకవేళ (state->icc_కొలత) {
+                state->కిటికీ_దత్తాంశం_2->icc_fd = state->icc_fd;
+                state->కిటికీ_దత్తాంశం_2->icc_కొలత = state->icc_కొలత;
+                SDL_Send_కిటికీ_Event(state->కిటికీ_దత్తాంశం_2->sdlwindow, SDL_EVENT_కిటికీ_ICCPROF_మారింది, 0, 0);
             }
-        } break;
-        case WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
+        } ఆపు;
+        స్థితి WAYLAND_COLOR_OBJECT_TYPE_DISPLAY:
         {
-            SDL_copyp(&state->display_data->HDR, &state->HDR);
+            SDL_copyp(&state->display_దత్తాంశం->HDR, &state->HDR);
 
-            if (state->display_data->display) {
-                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(state->display_data->display);
-                if (disp) {
-                    SDL_SetDisplayHDRProperties(disp, &state->HDR);
+            ఒకవేళ (state->display_దత్తాంశం->display) {
+                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(state->display_దత్తాంశం->display);
+                ఒకవేళ (disp) {
+                    SDL_సమితి_Display_HDRProperties(disp, &state->HDR);
                 }
-            } else {
-                SDL_copyp(&state->display_data->placeholder.HDR, &state->HDR);
+            } లేకపోతే {
+                SDL_copyp(&state->display_దత్తాంశం->placeholder.HDR, &state->HDR);
             }
-        } break;
+        } ఆపు;
     }
 }
 
-static void image_description_info_handle_icc_file(void *data,
-                                                   struct wp_image_description_info_v1 *wp_image_description_info_v1,
-                                                   int32_t icc, uint32_t icc_size)
+స్థిర శూన్య image_description_info_handle_icc_file(శూన్య *దత్తాంశం,
+                                                   నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
+                                                   int32_t icc, uint32_t icc_కొలత)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)దత్తాంశం;
 
     state->icc_fd = icc;
-    state->icc_size = icc_size;
+    state->icc_కొలత = icc_కొలత;
 }
 
-static void image_description_info_handle_primaries(void *data,
-                                                    struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_primaries(శూన్య *దత్తాంశం,
+                                                    నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                     int32_t r_x, int32_t r_y,
                                                     int32_t g_x, int32_t g_y,
                                                     int32_t b_x, int32_t b_y,
@@ -143,44 +143,44 @@ static void image_description_info_handle_primaries(void *data,
     // NOP
 }
 
-static void image_description_info_handle_primaries_named(void *data,
-                                                          struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_primaries_named(శూన్య *దత్తాంశం,
+                                                          నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                           uint32_t primaries)
 {
     // NOP
 }
 
-static void image_description_info_handle_tf_power(void *data,
-                                                   struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_tf_power(శూన్య *దత్తాంశం,
+                                                   నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                    uint32_t eexp)
 {
     // NOP
 }
 
-static void image_description_info_handle_tf_named(void *data,
-                                                   struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_tf_named(శూన్య *దత్తాంశం,
+                                                   నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                    uint32_t tf)
 {
     // NOP
 }
 
-static void image_description_info_handle_luminances(void *data,
-                                                     struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_luminances(శూన్య *దత్తాంశం,
+                                                     నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                      uint32_t min_lum,
                                                      uint32_t max_lum,
                                                      uint32_t reference_lum)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
-    if (max_lum > reference_lum && reference_lum > 0) {
-        state->HDR.HDR_headroom = (float)max_lum / (float)reference_lum;
-    } else {
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)దత్తాంశం;
+    ఒకవేళ (max_lum > reference_lum && reference_lum > 0) {
+        state->HDR.HDR_headroom = (దశాంశం)max_lum / (దశాంశం)reference_lum;
+    } లేకపోతే {
         state->HDR.HDR_headroom = 1.0f;
     }
     state->HDR.SDR_white_level = 1.0f;
 }
 
-static void image_description_info_handle_target_primaries(void *data,
-                                                           struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_లక్ష్యం_primaries(శూన్య *దత్తాంశం,
+                                                           నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                            int32_t r_x, int32_t r_y,
                                                            int32_t g_x, int32_t g_y,
                                                            int32_t b_x, int32_t b_y,
@@ -189,165 +189,165 @@ static void image_description_info_handle_target_primaries(void *data,
     // NOP
 }
 
-static void image_description_info_handle_target_luminance(void *data,
-                                                           struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_లక్ష్యం_luminance(శూన్య *దత్తాంశం,
+                                                           నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                            uint32_t min_lum,
                                                            uint32_t max_lum)
 {
     // NOP
 }
 
-static void image_description_info_handle_target_max_cll(void *data,
-                                                         struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_లక్ష్యం_max_cll(శూన్య *దత్తాంశం,
+                                                         నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                          uint32_t max_cll)
 {
     // NOP
 }
 
-static void image_description_info_handle_target_max_fall(void *data,
-                                                          struct wp_image_description_info_v1 *wp_image_description_info_v1,
+స్థిర శూన్య image_description_info_handle_లక్ష్యం_max_fall(శూన్య *దత్తాంశం,
+                                                          నిర్మాణం wp_image_description_info_v1 *wp_image_description_info_v1,
                                                           uint32_t max_fall)
 {
     // NOP
 }
 
-static const struct wp_image_description_info_v1_listener image_description_info_listener = {
-    image_description_info_handle_done,
+స్థిర స్థిరరాశి నిర్మాణం wp_image_description_info_v1_listener image_description_info_listener = {
+    image_description_info_handle_పూర్తి,
     image_description_info_handle_icc_file,
     image_description_info_handle_primaries,
     image_description_info_handle_primaries_named,
     image_description_info_handle_tf_power,
     image_description_info_handle_tf_named,
     image_description_info_handle_luminances,
-    image_description_info_handle_target_primaries,
-    image_description_info_handle_target_luminance,
-    image_description_info_handle_target_max_cll,
-    image_description_info_handle_target_max_fall
+    image_description_info_handle_లక్ష్యం_primaries,
+    image_description_info_handle_లక్ష్యం_luminance,
+    image_description_info_handle_లక్ష్యం_max_cll,
+    image_description_info_handle_లక్ష్యం_max_fall
 };
 
-static void PumpColorspaceEvents(Wayland_ColorInfoState *state)
+స్థిర శూన్య PumpColorspaceEvents(Wayland_ColorInfoState *state)
 {
-    SDL_VideoData *vid = SDL_GetVideoDevice()->internal;
+    SDL_Video_దత్తాంశం *vid = SDL_GetVideoDevice()->అంతర్గత;
 
     // Run the image description sequence to completion in its own queue.
-    while (state->wp_image_description) {
-        WAYLAND_wl_display_dispatch_queue(vid->display, state->queue);
+    అయితే (state->wp_image_description) {
+        WAYLAND_wl_display_dispatch_వరుస(vid->display, state->వరుస);
     }
 
     Wayland_FreeColorInfoState(state);
 }
 
-static void image_description_handle_failed(void *data,
-                                            struct wp_image_description_v1 *wp_image_description_v1,
+స్థిర శూన్య image_description_handle_failed(శూన్య *దత్తాంశం,
+                                            నిర్మాణం wp_image_description_v1 *wp_image_description_v1,
                                             uint32_t cause,
-                                            const char *msg)
+                                            స్థిరరాశి అక్షరం *సందేశం_2)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)దత్తాంశం;
     Wayland_CancelColorInfoRequest(state);
 
-    if (state->deferred_event_processing) {
+    ఒకవేళ (state->deferred_event_processing) {
         Wayland_FreeColorInfoState(state);
     }
 }
 
-static void image_description_handle_ready2(void *data,
-                                            struct wp_image_description_v1 *wp_image_description_v1,
-                                            uint32_t identity_hi, uint32_t identity_lo)
+స్థిర శూన్య image_description_handle_ready2(శూన్య *దత్తాంశం,
+                                            నిర్మాణం wp_image_description_v1 *wp_image_description_v1,
+                                            uint32_t తటస్థం_hi, uint32_t తటస్థం_lo)
 {
-    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)data;
+    Wayland_ColorInfoState *state = (Wayland_ColorInfoState *)దత్తాంశం;
 
     /* If event processing was deferred, then the image description is on the default queue.
      * Otherwise, it will inherit the queue from the image description object.
      */
-    if (state->deferred_event_processing) {
-        SDL_VideoData *vid = SDL_GetVideoDevice()->internal;
-        state->queue = Wayland_DisplayCreateQueue(vid->display, "SDL Color Management Queue");
+    ఒకవేళ (state->deferred_event_processing) {
+        SDL_Video_దత్తాంశం *vid = SDL_GetVideoDevice()->అంతర్గత;
+        state->వరుస = Wayland_Display_Create_వరుస(vid->display, "SDL Color Management Queue");
 
-        struct wl_proxy *image_desc_wrapper = WAYLAND_wl_proxy_create_wrapper(state->wp_image_description);
-        WAYLAND_wl_proxy_set_queue(image_desc_wrapper, state->queue);
-        state->wp_image_description_info = wp_image_description_v1_get_information((struct wp_image_description_v1 *)image_desc_wrapper);
+        నిర్మాణం wl_proxy *image_desc_wrapper = WAYLAND_wl_proxy_create_wrapper(state->wp_image_description);
+        WAYLAND_wl_proxy_సమితి_వరుస(image_desc_wrapper, state->వరుస);
+        state->wp_image_description_info = wp_image_description_v1_get_information((నిర్మాణం wp_image_description_v1 *)image_desc_wrapper);
         WAYLAND_wl_proxy_wrapper_destroy(image_desc_wrapper);
-    } else {
+    } లేకపోతే {
         state->wp_image_description_info = wp_image_description_v1_get_information(state->wp_image_description);
     }
-    wp_image_description_info_v1_add_listener(state->wp_image_description_info, &image_description_info_listener, data);
+    wp_image_description_info_v1_కూడు_listener(state->wp_image_description_info, &image_description_info_listener, దత్తాంశం);
 
-    if (state->deferred_event_processing) {
+    ఒకవేళ (state->deferred_event_processing) {
         PumpColorspaceEvents(state);
     }
 }
 
-static void image_description_handle_ready(void *data,
-                                           struct wp_image_description_v1 *wp_image_description_v1,
-                                           uint32_t identity)
+స్థిర శూన్య image_description_handle_ready(శూన్య *దత్తాంశం,
+                                           నిర్మాణం wp_image_description_v1 *wp_image_description_v1,
+                                           uint32_t తటస్థం)
 {
-    image_description_handle_ready2(data, wp_image_description_v1, 0, identity);
+    image_description_handle_ready2(దత్తాంశం, wp_image_description_v1, 0, తటస్థం);
 }
 
-static const struct wp_image_description_v1_listener image_description_listener = {
+స్థిర స్థిరరాశి నిర్మాణం wp_image_description_v1_listener image_description_listener = {
     image_description_handle_failed,
     image_description_handle_ready,
     image_description_handle_ready2
 };
 
-void Wayland_GetColorInfoForWindow(SDL_WindowData *window_data, bool defer_event_processing)
+శూన్య Wayland_Get_Color_Info_For_కిటికీ(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, bool defer_event_processing)
 {
     // Cancel any pending request, as it is out-of-date.
-    Wayland_FreeColorInfoState(window_data->color_info_state);
-    Wayland_ColorInfoState *state = SDL_calloc(1, sizeof(Wayland_ColorInfoState));
+    Wayland_FreeColorInfoState(కిటికీ_దత్తాంశం_2->color_info_state);
+    Wayland_ColorInfoState *state = SDL_calloc(1, పరిమాణం(Wayland_ColorInfoState));
 
-    if (state) {
-        window_data->color_info_state = state;
-        state->window_data = window_data;
-        state->object_type = WAYLAND_COLOR_OBJECT_TYPE_WINDOW;
+    ఒకవేళ (state) {
+        కిటికీ_దత్తాంశం_2->color_info_state = state;
+        state->కిటికీ_దత్తాంశం_2 = కిటికీ_దత్తాంశం_2;
+        state->object_type = WAYLAND_COLOR_OBJECT_TYPE_కిటికీ;
         state->deferred_event_processing = defer_event_processing;
 
-        if (!defer_event_processing) {
-            state->queue = Wayland_DisplayCreateQueue(window_data->waylandData->display, "SDL Color Management Queue");
+        ఒకవేళ (!defer_event_processing) {
+            state->వరుస = Wayland_Display_Create_వరుస(కిటికీ_దత్తాంశం_2->wayland_దత్తాంశం->display, "SDL Color Management Queue");
 
-            struct wl_proxy *surface_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(window_data->wp_color_management_surface_feedback);
-            WAYLAND_wl_proxy_set_queue(surface_feedback_wrapper, state->queue);
-            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred((struct wp_color_management_surface_feedback_v1 *)surface_feedback_wrapper);
+            నిర్మాణం wl_proxy *surface_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(కిటికీ_దత్తాంశం_2->wp_color_management_surface_feedback);
+            WAYLAND_wl_proxy_సమితి_వరుస(surface_feedback_wrapper, state->వరుస);
+            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred((నిర్మాణం wp_color_management_surface_feedback_v1 *)surface_feedback_wrapper);
             WAYLAND_wl_proxy_wrapper_destroy(surface_feedback_wrapper);
-        } else {
-            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred(window_data->wp_color_management_surface_feedback);
+        } లేకపోతే {
+            state->wp_image_description = wp_color_management_surface_feedback_v1_get_preferred(కిటికీ_దత్తాంశం_2->wp_color_management_surface_feedback);
         }
-        wp_image_description_v1_add_listener(state->wp_image_description, &image_description_listener, state);
+        wp_image_description_v1_కూడు_listener(state->wp_image_description, &image_description_listener, state);
 
-        if (!defer_event_processing) {
+        ఒకవేళ (!defer_event_processing) {
             PumpColorspaceEvents(state);
         }
     }
 }
 
-void Wayland_GetColorInfoForOutput(SDL_DisplayData *display_data, bool defer_event_processing)
+శూన్య Wayland_GetColorInfoForOutput(SDL_Display_దత్తాంశం *display_దత్తాంశం, bool defer_event_processing)
 {
     // Cancel any pending request, as it is out-of-date.
-    Wayland_FreeColorInfoState(display_data->color_info_state);
-    Wayland_ColorInfoState *state = SDL_calloc(1, sizeof(Wayland_ColorInfoState));
+    Wayland_FreeColorInfoState(display_దత్తాంశం->color_info_state);
+    Wayland_ColorInfoState *state = SDL_calloc(1, పరిమాణం(Wayland_ColorInfoState));
 
-    if (state) {
-        display_data->color_info_state = state;
-        state->display_data = display_data;
+    ఒకవేళ (state) {
+        display_దత్తాంశం->color_info_state = state;
+        state->display_దత్తాంశం = display_దత్తాంశం;
         state->object_type = WAYLAND_COLOR_OBJECT_TYPE_DISPLAY;
         state->deferred_event_processing = defer_event_processing;
 
-        if (!defer_event_processing) {
-            state->queue = Wayland_DisplayCreateQueue(display_data->videodata->display, "SDL Color Management Queue");
+        ఒకవేళ (!defer_event_processing) {
+            state->వరుస = Wayland_Display_Create_వరుస(display_దత్తాంశం->videodata->display, "SDL Color Management Queue");
 
-            struct wl_proxy *output_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(display_data->wp_color_management_output);
-            WAYLAND_wl_proxy_set_queue(output_feedback_wrapper, state->queue);
-            state->wp_image_description = wp_color_management_output_v1_get_image_description((struct wp_color_management_output_v1 *)output_feedback_wrapper);
+            నిర్మాణం wl_proxy *output_feedback_wrapper = WAYLAND_wl_proxy_create_wrapper(display_దత్తాంశం->wp_color_management_output);
+            WAYLAND_wl_proxy_సమితి_వరుస(output_feedback_wrapper, state->వరుస);
+            state->wp_image_description = wp_color_management_output_v1_get_image_description((నిర్మాణం wp_color_management_output_v1 *)output_feedback_wrapper);
             WAYLAND_wl_proxy_wrapper_destroy(output_feedback_wrapper);
-        } else {
-            state->wp_image_description = wp_color_management_output_v1_get_image_description(display_data->wp_color_management_output);
+        } లేకపోతే {
+            state->wp_image_description = wp_color_management_output_v1_get_image_description(display_దత్తాంశం->wp_color_management_output);
         }
-        wp_image_description_v1_add_listener(state->wp_image_description, &image_description_listener, state);
+        wp_image_description_v1_కూడు_listener(state->wp_image_description, &image_description_listener, state);
 
-        if (!defer_event_processing) {
+        ఒకవేళ (!defer_event_processing) {
             PumpColorspaceEvents(state);
         }
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WAYLAND

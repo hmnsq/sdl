@@ -7,13 +7,13 @@
 */
 
 
-#ifndef VK_PLATFORM_H_
-#define VK_PLATFORM_H_
+#నిర్వచితం_కాకపోతే VK_PLATFORM_H_
+#నిర్వచించు VK_PLATFORM_H_
 
-#ifdef __cplusplus
-extern "C"
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C"
 {
-#endif // __cplusplus
+#అయితే_ముగింపు // __cplusplus
 
 /*
 ***************************************************************************************************
@@ -35,49 +35,49 @@ extern "C"
  * Function declaration:  VKAPI_ATTR void VKAPI_CALL vkCommand(void);
  * Function pointer type: typedef void (VKAPI_PTR *PFN_vkCommand)(void);
  */
-#if defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
+#ఒకవేళ defined(_WIN32) || defined(__CYGWIN__) /* __CYGWIN__ added by SDL */
     // On Windows, Vulkan commands use the stdcall convention
-    #define VKAPI_ATTR
-    #define VKAPI_CALL __stdcall
-    #define VKAPI_PTR  VKAPI_CALL
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
-    #error "Vulkan is not supported for the 'armeabi' NDK ABI"
-#elif defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
+    #నిర్వచించు VKAPI_ATTR
+    #నిర్వచించు VKAPI_CALL __stdcall
+    #నిర్వచించు VKAPI_PTR  VKAPI_CALL
+#లేదావేళ defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH < 7
+    #దోషం "Vulkan is not supported for the 'armeabi' NDK ABI"
+#లేదావేళ defined(__ANDROID__) && defined(__ARM_ARCH) && __ARM_ARCH >= 7 && defined(__ARM_32BIT_STATE)
     // On Android 32-bit ARM targets, Vulkan functions use the "hardfloat"
     // calling convention, i.e. float parameters are passed in registers. This
     // is true even if the rest of the application passes floats on the stack,
     // as it does by default when compiling for the armeabi-v7a NDK ABI.
-    #define VKAPI_ATTR __attribute__((pcs("aapcs-vfp")))
-    #define VKAPI_CALL
-    #define VKAPI_PTR  VKAPI_ATTR
-#else
+    #నిర్వచించు VKAPI_ATTR __attribute__((pcs("aapcs-vfp")))
+    #నిర్వచించు VKAPI_CALL
+    #నిర్వచించు VKAPI_PTR  VKAPI_ATTR
+#లేకపోతే
     // On other platforms, use the default calling convention
-    #define VKAPI_ATTR
-    #define VKAPI_CALL
-    #define VKAPI_PTR
-#endif
+    #నిర్వచించు VKAPI_ATTR
+    #నిర్వచించు VKAPI_CALL
+    #నిర్వచించు VKAPI_PTR
+#అయితే_ముగింపు
 
-#if !defined(VK_NO_STDDEF_H)
-    #include <stddef.h>
-#endif // !defined(VK_NO_STDDEF_H)
+#ఒకవేళ !defined(VK_NO_STDDEF_H)
+    #అన్తర్భావ <stddef.h>
+#అయితే_ముగింపు // !defined(VK_NO_STDDEF_H)
 
-#if !defined(VK_NO_STDINT_H)
-    #if defined(_MSC_VER) && (_MSC_VER < 1600)
-        typedef signed   __int8  int8_t;
-        typedef unsigned __int8  uint8_t;
-        typedef signed   __int16 int16_t;
-        typedef unsigned __int16 uint16_t;
-        typedef signed   __int32 int32_t;
-        typedef unsigned __int32 uint32_t;
-        typedef signed   __int64 int64_t;
-        typedef unsigned __int64 uint64_t;
-    #else
-        #include <stdint.h>
-    #endif
-#endif // !defined(VK_NO_STDINT_H)
+#ఒకవేళ !defined(VK_NO_STDINT_H)
+    #ఒకవేళ defined(_MSC_VER) && (_MSC_VER < 1600)
+        రకనిర్వచనం గుర్తుగల   __int8  int8_t;
+        రకనిర్వచనం గుర్తులేని __int8  uint8_t;
+        రకనిర్వచనం గుర్తుగల   __int16 int16_t;
+        రకనిర్వచనం గుర్తులేని __int16 uint16_t;
+        రకనిర్వచనం గుర్తుగల   __int32 int32_t;
+        రకనిర్వచనం గుర్తులేని __int32 uint32_t;
+        రకనిర్వచనం గుర్తుగల   __int64 int64_t;
+        రకనిర్వచనం గుర్తులేని __int64 uint64_t;
+    #లేకపోతే
+        #అన్తర్భావ <stdint.h>
+    #అయితే_ముగింపు
+#అయితే_ముగింపు // !defined(VK_NO_STDINT_H)
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 } // extern "C"
-#endif // __cplusplus
+#అయితే_ముగింపు // __cplusplus
 
-#endif
+#అయితే_ముగింపు

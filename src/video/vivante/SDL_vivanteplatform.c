@@ -18,32 +18,32 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_VIVANTE
 
-#include "SDL_vivanteplatform.h"
+#అన్తర్భావ "SDL_vivanteplatform.h"
 
-#ifdef VIVANTE_PLATFORM_GENERIC
+#నిర్వచితమైతే VIVANTE_PLATFORM_GENERIC
 
-bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this)
+bool VIVANTE_అమరిక_Platform(SDL_VideoDevice *_this)
 {
-    return true;
+    తిరిగి true;
 }
 
-char *VIVANTE_GetDisplayName(SDL_VideoDevice *_this)
+అక్షరం *VIVANTE_GetDisplayName(SDL_VideoDevice *_this)
 {
-    return NULL;
+    తిరిగి ఖాళీ;
 }
 
-void VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this)
-{
-}
-
-void VIVANTE_CleanupPlatform(SDL_VideoDevice *_this)
+శూన్య VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this)
 {
 }
 
-#endif // VIVANTE_PLATFORM_GENERIC
+శూన్య VIVANTE_CleanupPlatform(SDL_VideoDevice *_this)
+{
+}
 
-#endif // SDL_VIDEO_DRIVER_VIVANTE
+#అయితే_ముగింపు // VIVANTE_PLATFORM_GENERIC
+
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_VIVANTE

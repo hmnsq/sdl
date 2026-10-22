@@ -18,99 +18,99 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidevents.h"
-#include "SDL_androidkeyboard.h"
-#include "SDL_androidwindow.h"
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
+#అన్తర్భావ "SDL_androidevents.h"
+#అన్తర్భావ "SDL_androidkeyboard.h"
+#అన్తర్భావ "SDL_androidwindow.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
 
-#include "../../audio/aaudio/SDL_aaudio.h"
-#include "../../audio/openslES/SDL_openslES.h"
+#అన్తర్భావ "../../audio/aaudio/SDL_aaudio.h"
+#అన్తర్భావ "../../audio/openslES/SDL_openslES.h"
 
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-static void android_egl_context_restore(SDL_Window *window)
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+స్థిర శూన్య android_egl_context_restore(SDL_కిటికీ *కిటికీ)
 {
-    if (window && (window->flags & SDL_WINDOW_OPENGL)) {
-        SDL_WindowData *data = window->internal;
-        SDL_GL_MakeCurrent(window, NULL);
-        if (!SDL_GL_MakeCurrent(window, (SDL_GLContext)data->egl_context)) {
+    ఒకవేళ (కిటికీ && (కిటికీ->flags & SDL_కిటికీ_OPENGL)) {
+        SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+        SDL_GL_MakeCurrent(కిటికీ, ఖాళీ);
+        ఒకవేళ (!SDL_GL_MakeCurrent(కిటికీ, (SDL_GLContext)దత్తాంశం->egl_context)) {
             // The context is no longer valid, create a new one
-            data->egl_context = (EGLContext)SDL_GL_CreateContext(window);
-            SDL_GL_MakeCurrent(window, (SDL_GLContext)data->egl_context);
+            దత్తాంశం->egl_context = (EGLContext)SDL_GL_CreateContext(కిటికీ);
+            SDL_GL_MakeCurrent(కిటికీ, (SDL_GLContext)దత్తాంశం->egl_context);
             SDL_Event event;
             SDL_zero(event);
             event.type = SDL_EVENT_RENDER_DEVICE_RESET;
-            event.render.windowID = SDL_GetWindowID(window);
-            SDL_PushEvent(&event);
+            event.render.కిటికీ_ID = SDL_Get_కిటికీ_ID(కిటికీ);
+            SDL_నెట్టు_Event(&event);
         }
-        data->backup_done = false;
+        దత్తాంశం->backup_పూర్తి = false;
 
-        SDL_GL_SetSwapInterval(data->swap_interval);
+        SDL_GL_సమితి_మార్పిడి_Interval(దత్తాంశం->మార్పిడి_interval);
     }
 }
 
-static void android_egl_context_backup(SDL_Window *window)
+స్థిర శూన్య android_egl_context_backup(SDL_కిటికీ *కిటికీ)
 {
-    if (window && (window->flags & SDL_WINDOW_OPENGL)) {
-        int interval = 0;
+    ఒకవేళ (కిటికీ && (కిటికీ->flags & SDL_కిటికీ_OPENGL)) {
+        పూర్ణాంకం interval = 0;
         // Keep a copy of the EGL Context so we can try to restore it when we resume
-        SDL_WindowData *data = window->internal;
-        data->egl_context = SDL_GL_GetCurrentContext();
+        SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+        దత్తాంశం->egl_context = SDL_GL_GetCurrentContext();
 
         // Save/Restore the swap interval / vsync
-        if (SDL_GL_GetSwapInterval(&interval)) {
-            data->has_swap_interval = 1;
-            data->swap_interval = interval;
+        ఒకవేళ (SDL_GL_Get_మార్పిడి_Interval(&interval)) {
+            దత్తాంశం->has_మార్పిడి_interval = 1;
+            దత్తాంశం->మార్పిడి_interval = interval;
         }
 
         // We need to do this so the EGLSurface can be freed
-        SDL_GL_MakeCurrent(window, NULL);
-        data->backup_done = true;
+        SDL_GL_MakeCurrent(కిటికీ, ఖాళీ);
+        దత్తాంశం->backup_పూర్తి = true;
     }
 }
-#endif
+#అయితే_ముగింపు
 
 /*
  * Android_ResumeSem and Android_PauseSem are signaled from Java_org_libsdl_app_SDLActivity_nativePause and Java_org_libsdl_app_SDLActivity_nativeResume
  */
-static bool Android_EventsInitialized;
-static bool Android_BlockOnPause = true;
-static bool Android_Paused;
-static bool Android_PausedAudio;
-static bool Android_Destroyed;
+స్థిర bool Android_EventsInitialized;
+స్థిర bool Android_ఖండం_On_Pause = true;
+స్థిర bool Android_Paused;
+స్థిర bool Android_PausedAudio;
+స్థిర bool Android_Destroyed;
 
-void Android_InitEvents(void)
+శూన్య Android_InitEvents(శూన్య)
 {
-    if (!Android_EventsInitialized) {
-        Android_BlockOnPause = SDL_GetHintBoolean(SDL_HINT_ANDROID_BLOCK_ON_PAUSE, true);
+    ఒకవేళ (!Android_EventsInitialized) {
+        Android_ఖండం_On_Pause = SDL_GetHintBoolean(SDL_HINT_ANDROID_ఖండం_ON_PAUSE, true);
         Android_Paused = false;
         Android_Destroyed = false;
         Android_EventsInitialized = true;
     }
 }
 
-static void Android_PauseAudio(void)
+స్థిర శూన్య Android_PauseAudio(శూన్య)
 {
     OPENSLES_PauseDevices();
     AAUDIO_PauseDevices();
     Android_PausedAudio = true;
 }
 
-static void Android_ResumeAudio(void)
+స్థిర శూన్య Android_ResumeAudio(శూన్య)
 {
-    if (Android_PausedAudio) {
+    ఒకవేళ (Android_PausedAudio) {
         OPENSLES_ResumeDevices();
         AAUDIO_ResumeDevices();
         Android_PausedAudio = false;
     }
 }
 
-static void Android_OnPause(void)
+స్థిర శూన్య Android_OnPause(శూన్య)
 {
     SDL_OnApplicationWillEnterBackground();
     SDL_OnApplicationDidEnterBackground();
@@ -120,15 +120,15 @@ static void Android_OnPause(void)
      * do any life cycle handling in an event filter while the event
      * was being queued.
      */
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (Android_Window && !Android_Window->external_graphics_context) {
-        Android_LockActivityMutex();
-        android_egl_context_backup(Android_Window);
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+    ఒకవేళ (Android_కిటికీ && !Android_కిటికీ->external_graphics_context) {
+        Android_తాళం_Activity_Mutex();
+        android_egl_context_backup(Android_కిటికీ);
         Android_UnlockActivityMutex();
     }
-#endif
+#అయితే_ముగింపు
 
-    if (Android_BlockOnPause) {
+    ఒకవేళ (Android_ఖండం_On_Pause) {
         // We're blocking, also pause audio
         Android_PauseAudio();
     }
@@ -136,7 +136,7 @@ static void Android_OnPause(void)
     Android_Paused = true;
 }
 
-static void Android_OnResume(void)
+స్థిర శూన్య Android_OnResume(శూన్య)
 {
     Android_Paused = false;
 
@@ -144,24 +144,24 @@ static void Android_OnResume(void)
 
     Android_ResumeAudio();
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
     // Restore the GL Context from here, as this operation is thread dependent
-    if (Android_Window && !Android_Window->external_graphics_context && !SDL_HasEvent(SDL_EVENT_QUIT)) {
-        Android_LockActivityMutex();
-        android_egl_context_restore(Android_Window);
+    ఒకవేళ (Android_కిటికీ && !Android_కిటికీ->external_graphics_context && !SDL_HasEvent(SDL_EVENT_QUIT)) {
+        Android_తాళం_Activity_Mutex();
+        android_egl_context_restore(Android_కిటికీ);
         Android_UnlockActivityMutex();
     }
-#endif
+#అయితే_ముగింపు
 
     SDL_OnApplicationDidEnterForeground();
 }
 
-static void Android_OnLowMemory(void)
+స్థిర శూన్య Android_On_దిగువ_జ్ఞాపకం(శూన్య)
 {
-    SDL_SendAppEvent(SDL_EVENT_LOW_MEMORY);
+    SDL_SendAppEvent(SDL_EVENT_దిగువ_జ్ఞాపకం);
 }
 
-static void Android_OnDestroy(void)
+స్థిర శూన్య Android_OnDestroy(శూన్య)
 {
     // Make sure we unblock any audio processing before we quit
     Android_ResumeAudio();
@@ -169,122 +169,122 @@ static void Android_OnDestroy(void)
     /* Discard previous events. The user should have handled state storage
      * in SDL_EVENT_WILL_ENTER_BACKGROUND. After nativeSendQuit() is called, no
      * events other than SDL_EVENT_QUIT and SDL_EVENT_TERMINATING should fire */
-    SDL_FlushEvents(SDL_EVENT_FIRST, SDL_EVENT_LAST);
+    SDL_FlushEvents(SDL_EVENT_మొదటి, SDL_EVENT_చివరి);
     SDL_SendQuit();
     SDL_OnApplicationWillTerminate();
 
     Android_Destroyed = true;
 }
 
-static void Android_HandleLifecycleEvent(SDL_AndroidLifecycleEvent event)
+స్థిర శూన్య Android_HandleLifecycleEvent(SDL_AndroidLifecycleEvent event)
 {
-    switch (event) {
-    case SDL_ANDROID_LIFECYCLE_WAKE:
+    ఎంపిక (event) {
+    స్థితి SDL_ANDROID_LIFECYCLE_WAKE:
         // Nothing to do, just return
-        break;
-    case SDL_ANDROID_LIFECYCLE_PAUSE:
+        ఆపు;
+    స్థితి SDL_ANDROID_LIFECYCLE_PAUSE:
         Android_OnPause();
-        break;
-    case SDL_ANDROID_LIFECYCLE_RESUME:
+        ఆపు;
+    స్థితి SDL_ANDROID_LIFECYCLE_RESUME:
         Android_OnResume();
-        break;
-    case SDL_ANDROID_LIFECYCLE_LOWMEMORY:
-        Android_OnLowMemory();
-        break;
-    case SDL_ANDROID_LIFECYCLE_DESTROY:
+        ఆపు;
+    స్థితి SDL_ANDROID_LIFECYCLE_LOWMEMORY:
+        Android_On_దిగువ_జ్ఞాపకం();
+        ఆపు;
+    స్థితి SDL_ANDROID_LIFECYCLE_DESTROY:
         Android_OnDestroy();
-        break;
-    default:
-        break;
+        ఆపు;
+    అప్రమేయ:
+        ఆపు;
     }
 }
 
-static Sint64 GetLifecycleEventTimeout(bool paused, Sint64 timeoutNS)
+స్థిర Sint64 GetLifecycleEventTimeout(bool paused, Sint64 timeoutNS)
 {
-    if (Android_Paused) {
-        if (Android_BlockOnPause) {
+    ఒకవేళ (Android_Paused) {
+        ఒకవేళ (Android_ఖండం_On_Pause) {
             timeoutNS = -1;
-        } else if (timeoutNS == 0) {
-            timeoutNS = SDL_MS_TO_NS(100);
+        } లేకపోతే ఒకవేళ (timeoutNS == 0) {
+            timeoutNS = SDL_MS_గమ్యం_NS(100);
         }
     }
-    return timeoutNS;
+    తిరిగి timeoutNS;
 }
 
-void Android_PumpEvents(Sint64 timeoutNS)
+శూన్య Android_PumpEvents(Sint64 timeoutNS)
 {
     SDL_AndroidLifecycleEvent event;
     bool paused = Android_Paused;
 
-    while (!Android_Destroyed &&
+    అయితే (!Android_Destroyed &&
            Android_WaitLifecycleEvent(&event, GetLifecycleEventTimeout(paused, timeoutNS))) {
         Android_HandleLifecycleEvent(event);
 
-        switch (event) {
-        case SDL_ANDROID_LIFECYCLE_WAKE:
+        ఎంపిక (event) {
+        స్థితి SDL_ANDROID_LIFECYCLE_WAKE:
             // Finish handling events quickly if we're not paused
             timeoutNS = 0;
-            break;
-        case SDL_ANDROID_LIFECYCLE_PAUSE:
+            ఆపు;
+        స్థితి SDL_ANDROID_LIFECYCLE_PAUSE:
             // Finish handling events at the current timeout and return to process events one more time before blocking.
-            break;
-        case SDL_ANDROID_LIFECYCLE_RESUME:
+            ఆపు;
+        స్థితి SDL_ANDROID_LIFECYCLE_RESUME:
             // Finish handling events at the resume state timeout
             paused = false;
-            break;
-        default:
-            break;
+            ఆపు;
+        అప్రమేయ:
+            ఆపు;
         }
     }
 }
 
-bool Android_WaitActiveAndLockActivity(void)
+bool Android_Wait_చురుకైన_And_తాళం_Activity(శూన్య)
 {
     /* Make sure we have pumped all events so that Android_Paused state is correct */
     SDL_AndroidLifecycleEvent event;
-    while (!Android_Destroyed && Android_WaitLifecycleEvent(&event, 0)) {
+    అయితే (!Android_Destroyed && Android_WaitLifecycleEvent(&event, 0)) {
         Android_HandleLifecycleEvent(event);
     }
 
-    while (Android_Paused && !Android_Destroyed) {
+    అయితే (Android_Paused && !Android_Destroyed) {
         Android_PumpEvents(-1);
     }
 
-    if (Android_Destroyed) {
-        SDL_SetError("Android activity has been destroyed");
-        return false;
+    ఒకవేళ (Android_Destroyed) {
+        SDL_సమితి_Error("Android activity has been destroyed");
+        తిరిగి false;
     }
 
-    Android_LockActivityMutex();
-    return true;
+    Android_తాళం_Activity_Mutex();
+    తిరిగి true;
 }
 
-void Android_QuitEvents(void)
+శూన్య Android_QuitEvents(శూన్య)
 {
     Android_EventsInitialized = false;
 }
 
-#else
+#లేకపోతే
 
-#include "../../core/android/SDL_android.h"
+#అన్తర్భావ "../../core/android/SDL_android.h"
 
-void Android_InitEvents(void)
+శూన్య Android_InitEvents(శూన్య)
 {
 }
 
-void Android_PumpEvents(Sint64 timeoutNS)
+శూన్య Android_PumpEvents(Sint64 timeoutNS)
 {
-    (void)timeoutNS;
+    (శూన్య)timeoutNS;
 }
 
-bool Android_WaitActiveAndLockActivity(void)
+bool Android_Wait_చురుకైన_And_తాళం_Activity(శూన్య)
 {
-    Android_LockActivityMutex();
-    return true;
+    Android_తాళం_Activity_Mutex();
+    తిరిగి true;
 }
 
-void Android_QuitEvents(void)
+శూన్య Android_QuitEvents(శూన్య)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_ANDROID

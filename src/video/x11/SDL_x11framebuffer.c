@@ -18,244 +18,244 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11framebuffer.h"
-#include "SDL_x11xsync.h"
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11framebuffer.h"
+#అన్తర్భావ "SDL_x11xsync.h"
 
-#ifndef NO_SHARED_MEMORY
+#నిర్వచితం_కాకపోతే NO_SHARED_జ్ఞాపకం
 
 // Shared memory error handler routine
-static int shm_error;
-static int (*X_handler)(Display *, XErrorEvent *) = NULL;
-static int shm_errhandler(Display *d, XErrorEvent *e)
+స్థిర పూర్ణాంకం shm_error;
+స్థిర పూర్ణాంకం (*X_handler)(Display *, XErrorEvent *) = ఖాళీ;
+స్థిర పూర్ణాంకం shm_errhandler(Display *d, XErrorEvent *e)
 {
-    if (e->error_code == BadAccess || e->error_code == BadRequest) {
+    ఒకవేళ (e->error_సంకేతం == BadAccess || e->error_సంకేతం == BadRequest) {
         shm_error = True;
-        return 0;
+        తిరిగి 0;
     }
-    return X_handler(d, e);
+    తిరిగి X_handler(d, e);
 }
 
-static bool have_mitshm(Display *dpy)
+స్థిర bool have_mitshm(Display *dpy)
 {
     // Only use shared memory on local X servers
-    return X11_XShmQueryExtension(dpy) ? SDL_X11_HAVE_SHM : false;
+    తిరిగి X11_XShmQueryExtension(dpy) ? SDL_X11_HAVE_SHM : false;
 }
 
-#endif // !NO_SHARED_MEMORY
+#అయితే_ముగింపు // !NO_SHARED_MEMORY
 
-bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format,
-                                void **pixels, int *pitch)
+bool X11_Create_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PixelFormat *format,
+                                శూన్య **pixels, పూర్ణాంకం *pitch)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
     XGCValues gcv;
     XVisualInfo vinfo;
-    int w, h;
+    పూర్ణాంకం w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &w, &h);
 
     // Free the old framebuffer surface
-    X11_DestroyWindowFramebuffer(_this, window);
+    X11_Destroy_కిటికీ_Framebuffer(_this, కిటికీ);
 
     // Create the graphics context for drawing
     gcv.graphics_exposures = False;
-    data->gc = X11_XCreateGC(display, data->xwindow, GCGraphicsExposures, &gcv);
-    if (!data->gc) {
-        return SDL_SetError("Couldn't create graphics context");
+    దత్తాంశం->gc = X11_XCreateGC(display, దత్తాంశం->xwindow, GCGraphicsExposures, &gcv);
+    ఒకవేళ (!దత్తాంశం->gc) {
+        తిరిగి SDL_సమితి_Error("Couldn't create graphics context");
     }
 
     // Find out the pixel format and depth
-    if (!X11_GetVisualInfoFromVisual(display, data->visual, &vinfo)) {
-        return SDL_SetError("Couldn't get window visual information");
+    ఒకవేళ (!X11_GetVisualInfoFromVisual(display, దత్తాంశం->visual, &vinfo)) {
+        తిరిగి SDL_సమితి_Error("Couldn't get window visual information");
     }
 
     *format = X11_GetPixelFormatFromVisualInfo(display, &vinfo);
-    if (*format == SDL_PIXELFORMAT_UNKNOWN) {
-        return SDL_SetError("Unknown window pixel format");
+    ఒకవేళ (*format == SDL_PIXELFORMAT_UNKNOWN) {
+        తిరిగి SDL_సమితి_Error("Unknown window pixel format");
     }
 
     // Calculate pitch
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
 
     // Create the actual image
-#ifndef NO_SHARED_MEMORY
-    if (have_mitshm(display)) {
-        XShmSegmentInfo *shminfo = &data->shminfo;
+#నిర్వచితం_కాకపోతే NO_SHARED_జ్ఞాపకం
+    ఒకవేళ (have_mitshm(display)) {
+        XShmSegmentInfo *shminfo = &దత్తాంశం->shminfo;
 
-        shminfo->shmid = shmget(IPC_PRIVATE, (size_t)h * (*pitch), IPC_CREAT | 0777);
-        if (shminfo->shmid >= 0) {
-            shminfo->shmaddr = (char *)shmat(shminfo->shmid, NULL, 0);
+        shminfo->shmid = shmget(IPC_వ్యక్తిగత, (size_t)h * (*pitch), IPC_CREAT | 0777);
+        ఒకవేళ (shminfo->shmid >= 0) {
+            shminfo->shmaddr = (అక్షరం *)shmat(shminfo->shmid, ఖాళీ, 0);
             shminfo->readOnly = False;
-            if (shminfo->shmaddr != (char *)-1) {
+            ఒకవేళ (shminfo->shmaddr != (అక్షరం *)-1) {
                 shm_error = False;
                 X_handler = X11_XSetErrorHandler(shm_errhandler);
                 X11_XShmAttach(display, shminfo);
                 X11_XSync(display, False);
                 X11_XSetErrorHandler(X_handler);
-                if (shm_error) {
+                ఒకవేళ (shm_error) {
                     shmdt(shminfo->shmaddr);
                 }
-            } else {
+            } లేకపోతే {
                 shm_error = True;
             }
-            shmctl(shminfo->shmid, IPC_RMID, NULL);
-        } else {
+            shmctl(shminfo->shmid, IPC_RMID, ఖాళీ);
+        } లేకపోతే {
             shm_error = True;
         }
-        if (!shm_error) {
-            data->ximage = X11_XShmCreateImage(display, data->visual,
-                                               vinfo.depth, ZPixmap,
+        ఒకవేళ (!shm_error) {
+            దత్తాంశం->ximage = X11_XShmCreateImage(display, దత్తాంశం->visual,
+                                               vinfo.లోతు_2, ZPixmap,
                                                shminfo->shmaddr, shminfo,
                                                w, h);
-            if (!data->ximage) {
+            ఒకవేళ (!దత్తాంశం->ximage) {
                 X11_XShmDetach(display, shminfo);
                 X11_XSync(display, False);
                 shmdt(shminfo->shmaddr);
-            } else {
+            } లేకపోతే {
                 // Done!
-                data->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
-                data->use_mitshm = true;
+                దత్తాంశం->ximage->byte_క్రమం = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
+                దత్తాంశం->use_mitshm = true;
                 *pixels = shminfo->shmaddr;
-                return true;
+                తిరిగి true;
             }
         }
     }
-#endif // not NO_SHARED_MEMORY
+#అయితే_ముగింపు // not NO_SHARED_MEMORY
 
     *pixels = SDL_malloc((size_t)h * (*pitch));
-    if (!*pixels) {
-        return false;
+    ఒకవేళ (!*pixels) {
+        తిరిగి false;
     }
 
-    data->ximage = X11_XCreateImage(display, data->visual,
-                                    vinfo.depth, ZPixmap, 0, (char *)(*pixels),
+    దత్తాంశం->ximage = X11_XCreateImage(display, దత్తాంశం->visual,
+                                    vinfo.లోతు_2, ZPixmap, 0, (అక్షరం *)(*pixels),
                                     w, h, 32, 0);
-    if (!data->ximage) {
+    ఒకవేళ (!దత్తాంశం->ximage) {
         SDL_free(*pixels);
-        return SDL_SetError("Couldn't create XImage");
+        తిరిగి SDL_సమితి_Error("Couldn't create XImage");
     }
-    data->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
-    return true;
+    దత్తాంశం->ximage->byte_క్రమం = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
+    తిరిగి true;
 }
 
-bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects,
-                                int numrects)
+bool X11_Update_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rects,
+                                పూర్ణాంకం numrects)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int i;
-    int x, y, w, h;
-    int window_w, window_h;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    పూర్ణాంకం i;
+    పూర్ణాంకం x, y, w, h;
+    పూర్ణాంకం కిటికీ_w, కిటికీ_h;
 
-    SDL_GetWindowSizeInPixels(window, &window_w, &window_h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &కిటికీ_w, &కిటికీ_h);
 
-#ifndef NO_SHARED_MEMORY
-    if (data->use_mitshm) {
-        for (i = 0; i < numrects; ++i) {
+#నిర్వచితం_కాకపోతే NO_SHARED_జ్ఞాపకం
+    ఒకవేళ (దత్తాంశం->use_mitshm) {
+        కొరకు (i = 0; i < numrects; ++i) {
             x = rects[i].x;
             y = rects[i].y;
             w = rects[i].w;
             h = rects[i].h;
 
-            if (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
+            ఒకవేళ (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
                 // Clipped?
-                continue;
+                కొనసాగు;
             }
-            if (x < 0) {
+            ఒకవేళ (x < 0) {
                 x += w;
                 w += rects[i].x;
             }
-            if (y < 0) {
+            ఒకవేళ (y < 0) {
                 y += h;
                 h += rects[i].y;
             }
-            if (x + w > window_w) {
-                w = window_w - x;
+            ఒకవేళ (x + w > కిటికీ_w) {
+                w = కిటికీ_w - x;
             }
-            if (y + h > window_h) {
-                h = window_h - y;
+            ఒకవేళ (y + h > కిటికీ_h) {
+                h = కిటికీ_h - y;
             }
 
-            X11_XShmPutImage(display, data->xwindow, data->gc, data->ximage,
+            X11_XShmPutImage(display, దత్తాంశం->xwindow, దత్తాంశం->gc, దత్తాంశం->ximage,
                              x, y, x, y, w, h, False);
         }
-    } else
-#endif // !NO_SHARED_MEMORY
+    } లేకపోతే
+#అయితే_ముగింపు // !NO_SHARED_MEMORY
     {
-        for (i = 0; i < numrects; ++i) {
+        కొరకు (i = 0; i < numrects; ++i) {
             x = rects[i].x;
             y = rects[i].y;
             w = rects[i].w;
             h = rects[i].h;
 
-            if (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
+            ఒకవేళ (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
                 // Clipped?
-                continue;
+                కొనసాగు;
             }
-            if (x < 0) {
+            ఒకవేళ (x < 0) {
                 x += w;
                 w += rects[i].x;
             }
-            if (y < 0) {
+            ఒకవేళ (y < 0) {
                 y += h;
                 h += rects[i].y;
             }
-            if (x + w > window_w) {
-                w = window_w - x;
+            ఒకవేళ (x + w > కిటికీ_w) {
+                w = కిటికీ_w - x;
             }
-            if (y + h > window_h) {
-                h = window_h - y;
+            ఒకవేళ (y + h > కిటికీ_h) {
+                h = కిటికీ_h - y;
             }
 
-            X11_XPutImage(display, data->xwindow, data->gc, data->ximage,
+            X11_XPutImage(display, దత్తాంశం->xwindow, దత్తాంశం->gc, దత్తాంశం->ximage,
                           x, y, x, y, w, h);
         }
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    X11_HandlePresent(data->window);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
+    X11_HandlePresent(దత్తాంశం->కిటికీ);
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
     X11_XSync(display, False);
 
-    return true;
+    తిరిగి true;
 }
 
-void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Destroy_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
     Display *display;
 
-    if (!data) {
+    ఒకవేళ (!దత్తాంశం) {
         // The window wasn't fully initialized
-        return;
+        తిరిగి;
     }
 
-    display = data->videodata->display;
+    display = దత్తాంశం->videodata->display;
 
-    if (data->ximage) {
-        XDestroyImage(data->ximage);
+    ఒకవేళ (దత్తాంశం->ximage) {
+        XDestroyImage(దత్తాంశం->ximage);
 
-#ifndef NO_SHARED_MEMORY
-        if (data->use_mitshm) {
-            X11_XShmDetach(display, &data->shminfo);
+#నిర్వచితం_కాకపోతే NO_SHARED_జ్ఞాపకం
+        ఒకవేళ (దత్తాంశం->use_mitshm) {
+            X11_XShmDetach(display, &దత్తాంశం->shminfo);
             X11_XSync(display, False);
-            shmdt(data->shminfo.shmaddr);
-            data->use_mitshm = false;
+            shmdt(దత్తాంశం->shminfo.shmaddr);
+            దత్తాంశం->use_mitshm = false;
         }
-#endif // !NO_SHARED_MEMORY
+#అయితే_ముగింపు // !NO_SHARED_MEMORY
 
-        data->ximage = NULL;
+        దత్తాంశం->ximage = ఖాళీ;
     }
-    if (data->gc) {
-        X11_XFreeGC(display, data->gc);
-        data->gc = NULL;
+    ఒకవేళ (దత్తాంశం->gc) {
+        X11_XFreeGC(display, దత్తాంశం->gc);
+        దత్తాంశం->gc = ఖాళీ;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11

@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_n3dsevents_c_h_
-#define SDL_n3dsevents_c_h_
+#నిర్వచితం_కాకపోతే SDL_n3dsevents_c_h_
+#నిర్వచించు SDL_n3dsevents_c_h_
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-extern void N3DS_PumpEvents(SDL_VideoDevice *_this);
+బాహ్య శూన్య N3DS_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_n3dsevents_c_h_
+#అయితే_ముగింపు // SDL_n3dsevents_c_h_

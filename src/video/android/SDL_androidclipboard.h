@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_androidclipboard_h_
-#define SDL_androidclipboard_h_
+#నిర్వచితం_కాకపోతే SDL_androidclipboard_h_
+#నిర్వచించు SDL_androidclipboard_h_
 
-extern bool Android_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *Android_GetClipboardText(SDL_VideoDevice *_this);
-extern bool Android_HasClipboardText(SDL_VideoDevice *_this);
+బాహ్య bool Android_సమితి_Clipboard_పాఠ్యం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *పాఠ్యం);
+బాహ్య అక్షరం *Android_Get_Clipboard_పాఠ్యం(SDL_VideoDevice *_this);
+బాహ్య bool Android_Has_Clipboard_పాఠ్యం(SDL_VideoDevice *_this);
 
-#endif // SDL_androidclipboard_h_
+#అయితే_ముగింపు // SDL_androidclipboard_h_

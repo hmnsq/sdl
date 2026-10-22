@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/html5.h>
-#include <emscripten/dom_pk_codes.h>
+#అన్తర్భావ <emscripten/html5.h>
+#అన్తర్భావ <emscripten/dom_pk_codes.h>
 
-#include "../../events/SDL_dropevents_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_touch_c.h"
+#అన్తర్భావ "../../events/SDL_dropevents_c.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
+#అన్తర్భావ "../../events/SDL_keyboard_c.h"
+#అన్తర్భావ "../../events/SDL_touch_c.h"
 
-#include "SDL_emscriptenevents.h"
-#include "SDL_emscriptenvideo.h"
+#అన్తర్భావ "SDL_emscriptenevents.h"
+#అన్తర్భావ "SDL_emscriptenvideo.h"
 
 /*
 Emscripten PK code to scancode
 https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
 https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
 */
-static const SDL_Scancode emscripten_scancode_table[] = {
+స్థిర స్థిరరాశి SDL_Scancode emscripten_scancode_పట్టిక[] = {
     /* 0x00 "Unidentified"   */ SDL_SCANCODE_UNKNOWN,
     /* 0x01 "Escape"         */ SDL_SCANCODE_ESCAPE,
     /* 0x02 "Digit0"         */ SDL_SCANCODE_0,
@@ -169,836 +169,836 @@ static const SDL_Scancode emscripten_scancode_table[] = {
     /* 0x7E "NumpadComma"    */ SDL_SCANCODE_KP_COMMA
 };
 
-static SDL_Scancode Emscripten_MapScanCode(const char *code)
+స్థిర SDL_Scancode Emscripten_Map_పరిశీలన_సంకేతం(స్థిరరాశి అక్షరం *సంకేతం_2)
 {
-    const DOM_PK_CODE_TYPE pk_code = emscripten_compute_dom_pk_code(code);
-    if (pk_code < SDL_arraysize(emscripten_scancode_table)) {
-        return emscripten_scancode_table[pk_code];
+    స్థిరరాశి DOM_PK_సంకేతం_TYPE pk_సంకేతం = emscripten_compute_dom_pk_సంకేతం(సంకేతం_2);
+    ఒకవేళ (pk_సంకేతం < SDL_arraysize(emscripten_scancode_పట్టిక)) {
+        తిరిగి emscripten_scancode_పట్టిక[pk_సంకేతం];
     }
 
-    switch (pk_code) {
-    case DOM_PK_PASTE:
-        return SDL_SCANCODE_PASTE;
-    case DOM_PK_MEDIA_TRACK_PREVIOUS:
-        return SDL_SCANCODE_MEDIA_PREVIOUS_TRACK;
-    case DOM_PK_CUT:
-        return SDL_SCANCODE_CUT;
-    case DOM_PK_COPY:
-        return SDL_SCANCODE_COPY;
-    case DOM_PK_MEDIA_TRACK_NEXT:
-        return SDL_SCANCODE_MEDIA_NEXT_TRACK;
-    case DOM_PK_NUMPAD_ENTER:
-        return SDL_SCANCODE_KP_ENTER;
-    case DOM_PK_CONTROL_RIGHT:
-        return SDL_SCANCODE_RCTRL;
-    case DOM_PK_AUDIO_VOLUME_MUTE:
-        return SDL_SCANCODE_MUTE;
-    case DOM_PK_MEDIA_PLAY_PAUSE:
-        return SDL_SCANCODE_MEDIA_PLAY_PAUSE;
-    case DOM_PK_MEDIA_STOP:
-        return SDL_SCANCODE_MEDIA_STOP;
-    case DOM_PK_EJECT:
-        return SDL_SCANCODE_MEDIA_EJECT;
-    case DOM_PK_AUDIO_VOLUME_DOWN:
-        return SDL_SCANCODE_VOLUMEDOWN;
-    case DOM_PK_AUDIO_VOLUME_UP:
-        return SDL_SCANCODE_VOLUMEUP;
-    case DOM_PK_BROWSER_HOME:
-        return SDL_SCANCODE_AC_HOME;
-    case DOM_PK_NUMPAD_DIVIDE:
-        return SDL_SCANCODE_KP_DIVIDE;
-    case DOM_PK_ALT_RIGHT:
-        return SDL_SCANCODE_RALT;
-    case DOM_PK_HELP:
-        return SDL_SCANCODE_HELP;
-    case DOM_PK_NUM_LOCK:
-        return SDL_SCANCODE_NUMLOCKCLEAR;
-    case DOM_PK_HOME:
-        return SDL_SCANCODE_HOME;
-    case DOM_PK_ARROW_UP:
-        return SDL_SCANCODE_UP;
-    case DOM_PK_PAGE_UP:
-        return SDL_SCANCODE_PAGEUP;
-    case DOM_PK_ARROW_LEFT:
-        return SDL_SCANCODE_LEFT;
-    case DOM_PK_ARROW_RIGHT:
-        return SDL_SCANCODE_RIGHT;
-    case DOM_PK_END:
-        return SDL_SCANCODE_END;
-    case DOM_PK_ARROW_DOWN:
-        return SDL_SCANCODE_DOWN;
-    case DOM_PK_PAGE_DOWN:
-        return SDL_SCANCODE_PAGEDOWN;
-    case DOM_PK_INSERT:
-        return SDL_SCANCODE_INSERT;
-    case DOM_PK_DELETE:
-        return SDL_SCANCODE_DELETE;
-    case DOM_PK_META_LEFT:
-        return SDL_SCANCODE_LGUI;
-    case DOM_PK_META_RIGHT:
-        return SDL_SCANCODE_RGUI;
-    case DOM_PK_CONTEXT_MENU:
-        return SDL_SCANCODE_APPLICATION;
-    case DOM_PK_POWER:
-        return SDL_SCANCODE_POWER;
-    case DOM_PK_BROWSER_SEARCH:
-        return SDL_SCANCODE_AC_SEARCH;
-    case DOM_PK_BROWSER_FAVORITES:
-        return SDL_SCANCODE_AC_BOOKMARKS;
-    case DOM_PK_BROWSER_REFRESH:
-        return SDL_SCANCODE_AC_REFRESH;
-    case DOM_PK_BROWSER_STOP:
-        return SDL_SCANCODE_AC_STOP;
-    case DOM_PK_BROWSER_FORWARD:
-        return SDL_SCANCODE_AC_FORWARD;
-    case DOM_PK_BROWSER_BACK:
-        return SDL_SCANCODE_AC_BACK;
-    case DOM_PK_MEDIA_SELECT:
-        return SDL_SCANCODE_MEDIA_SELECT;
+    ఎంపిక (pk_సంకేతం) {
+    స్థితి DOM_PK_PASTE:
+        తిరిగి SDL_SCANCODE_PASTE;
+    స్థితి DOM_PK_MEDIA_TRACK_మునుపటి:
+        తిరిగి SDL_SCANCODE_MEDIA_మునుపటి_TRACK;
+    స్థితి DOM_PK_CUT:
+        తిరిగి SDL_SCANCODE_CUT;
+    స్థితి DOM_PK_COPY:
+        తిరిగి SDL_SCANCODE_COPY;
+    స్థితి DOM_PK_MEDIA_TRACK_తదుపరి:
+        తిరిగి SDL_SCANCODE_MEDIA_తదుపరి_TRACK;
+    స్థితి DOM_PK_NUMPAD_ENTER:
+        తిరిగి SDL_SCANCODE_KP_ENTER;
+    స్థితి DOM_PK_CONTROL_కుడి:
+        తిరిగి SDL_SCANCODE_RCTRL;
+    స్థితి DOM_PK_AUDIO_VOLUME_MUTE:
+        తిరిగి SDL_SCANCODE_MUTE;
+    స్థితి DOM_PK_MEDIA_PLAY_PAUSE:
+        తిరిగి SDL_SCANCODE_MEDIA_PLAY_PAUSE;
+    స్థితి DOM_PK_MEDIA_STOP:
+        తిరిగి SDL_SCANCODE_MEDIA_STOP;
+    స్థితి DOM_PK_EJECT:
+        తిరిగి SDL_SCANCODE_MEDIA_EJECT;
+    స్థితి DOM_PK_AUDIO_VOLUME_కిందికి:
+        తిరిగి SDL_SCANCODE_VOLUMEDOWN;
+    స్థితి DOM_PK_AUDIO_VOLUME_పైకి:
+        తిరిగి SDL_SCANCODE_VOLUMEUP;
+    స్థితి DOM_PK_BROWSER_HOME:
+        తిరిగి SDL_SCANCODE_AC_HOME;
+    స్థితి DOM_PK_NUMPAD_DIVIDE:
+        తిరిగి SDL_SCANCODE_KP_DIVIDE;
+    స్థితి DOM_PK_ALT_కుడి:
+        తిరిగి SDL_SCANCODE_RALT;
+    స్థితి DOM_PK_HELP:
+        తిరిగి SDL_SCANCODE_HELP;
+    స్థితి DOM_PK_అంకె_తాళం:
+        తిరిగి SDL_SCANCODE_NUMLOCKCLEAR;
+    స్థితి DOM_PK_HOME:
+        తిరిగి SDL_SCANCODE_HOME;
+    స్థితి DOM_PK_ARROW_పైకి:
+        తిరిగి SDL_SCANCODE_పైకి;
+    స్థితి DOM_PK_పుట_పైకి:
+        తిరిగి SDL_SCANCODE_PAGEUP;
+    స్థితి DOM_PK_ARROW_ఎడమ:
+        తిరిగి SDL_SCANCODE_ఎడమ;
+    స్థితి DOM_PK_ARROW_కుడి:
+        తిరిగి SDL_SCANCODE_కుడి;
+    స్థితి DOM_PK_చివర:
+        తిరిగి SDL_SCANCODE_చివర;
+    స్థితి DOM_PK_ARROW_కిందికి:
+        తిరిగి SDL_SCANCODE_కిందికి;
+    స్థితి DOM_PK_పుట_కిందికి:
+        తిరిగి SDL_SCANCODE_PAGEDOWN;
+    స్థితి DOM_PK_చొప్పించు:
+        తిరిగి SDL_SCANCODE_చొప్పించు;
+    స్థితి DOM_PK_DELETE:
+        తిరిగి SDL_SCANCODE_DELETE;
+    స్థితి DOM_PK_META_ఎడమ:
+        తిరిగి SDL_SCANCODE_LGUI;
+    స్థితి DOM_PK_META_కుడి:
+        తిరిగి SDL_SCANCODE_RGUI;
+    స్థితి DOM_PK_CONTEXT_MENU:
+        తిరిగి SDL_SCANCODE_APPLICATION;
+    స్థితి DOM_PK_POWER:
+        తిరిగి SDL_SCANCODE_POWER;
+    స్థితి DOM_PK_BROWSER_శోధన:
+        తిరిగి SDL_SCANCODE_AC_శోధన;
+    స్థితి DOM_PK_BROWSER_FAVORITES:
+        తిరిగి SDL_SCANCODE_AC_BOOKMARKS;
+    స్థితి DOM_PK_BROWSER_REFRESH:
+        తిరిగి SDL_SCANCODE_AC_REFRESH;
+    స్థితి DOM_PK_BROWSER_STOP:
+        తిరిగి SDL_SCANCODE_AC_STOP;
+    స్థితి DOM_PK_BROWSER_FORWARD:
+        తిరిగి SDL_SCANCODE_AC_FORWARD;
+    స్థితి DOM_PK_BROWSER_వెనుక:
+        తిరిగి SDL_SCANCODE_AC_వెనుక;
+    స్థితి DOM_PK_MEDIA_SELECT:
+        తిరిగి SDL_SCANCODE_MEDIA_SELECT;
     }
 
-    return SDL_SCANCODE_UNKNOWN;
+    తిరిగి SDL_SCANCODE_UNKNOWN;
 }
 
-static SDL_Window *Emscripten_GetFocusedWindow(SDL_VideoDevice *device)
+స్థిర SDL_కిటికీ *Emscripten_Get_Focused_కిటికీ(SDL_VideoDevice *device)
 {
-    SDL_Window *window;
-    for (window = device->windows; window; window = window->next) {
-        SDL_WindowData *wdata = window->internal;
+    SDL_కిటికీ *కిటికీ;
+    కొరకు (కిటికీ = device->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+        SDL_కిటికీ_దత్తాంశం *wdata = కిటికీ->అంతర్గత;
 
-        const int focused = MAIN_THREAD_EM_ASM_INT({
-            var id = UTF8ToString($0);
+        స్థిరరాశి పూర్ణాంకం focused = MAIN_THREAD_EM_ASM_INT({
+            var id = UTF8_గమ్యం_String($0);
             try
             {
                 var canvas = document.querySelector(id);
-                if (canvas) {
-                    return canvas === document.activeElement;
+                ఒకవేళ (canvas) {
+                    తిరిగి canvas === document.చురుకైన_Element;
                 }
             }
             catch (e)
             {
                 // querySelector throws if not a valid selector
             }
-            return false;
+            తిరిగి false;
         }, wdata->canvas_id);
 
-        if (focused) {
-            break;
+        ఒకవేళ (focused) {
+            ఆపు;
         }
     }
     // If the DOM is focused, then at least one canvas in the DOM should be considered focused.
     // So in this case, just assume that the first canvas is focused.
-    if (!window) {
-        const int focused = MAIN_THREAD_EM_ASM_INT({
-            return document.hasFocus();
+    ఒకవేళ (!కిటికీ) {
+        స్థిరరాశి పూర్ణాంకం focused = MAIN_THREAD_EM_ASM_INT({
+            తిరిగి document.hasFocus();
         });
-        if (focused) {
-            window = device->windows;
+        ఒకవేళ (focused) {
+            కిటికీ = device->windows;
         }
     }
-    return window;
+    తిరిగి కిటికీ;
 }
 
-static EM_BOOL Emscripten_HandlePointerLockChange(int eventType, const EmscriptenPointerlockChangeEvent *changeEvent, void *userData)
+స్థిర EM_BOOL Emscripten_Handle_సూచిక_తాళం_Change(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenPointerlockChangeEvent *changeEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_WindowData *window_data = (SDL_WindowData *)userData;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = (SDL_కిటికీ_దత్తాంశం *)user_దత్తాంశం;
     // keep track of lock losses, so we can regrab if/when appropriate.
-    window_data->has_pointer_lock = changeEvent->isActive;
-    return 0;
+    కిటికీ_దత్తాంశం_2->has_సూచిక_తాళం = changeEvent->is_చురుకైన;
+    తిరిగి 0;
 }
 
-static EM_BOOL Emscripten_HandlePointerLockChangeGlobal(int eventType, const EmscriptenPointerlockChangeEvent *changeEvent, void *userData)
+స్థిర EM_BOOL Emscripten_Handle_సూచిక_తాళం_Change_Global(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenPointerlockChangeEvent *changeEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_VideoDevice *device = userData;
+    SDL_VideoDevice *device = user_దత్తాంశం;
     bool prevent_default = false;
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
 
-    for (window = device->windows; window; window = window->next) {
-        prevent_default |= Emscripten_HandlePointerLockChange(eventType, changeEvent, window->internal);
+    కొరకు (కిటికీ = device->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+        prevent_default |= Emscripten_Handle_సూచిక_తాళం_Change(eventType, changeEvent, కిటికీ->అంతర్గత);
     }
 
-    return prevent_default;
+    తిరిగి prevent_default;
 }
 
-static EM_BOOL Emscripten_HandleWheel(int eventType, const EmscriptenWheelEvent *wheelEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleWheel(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenWheelEvent *wheelEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_WindowData *window_data = userData;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = user_దత్తాంశం;
 
-    float deltaY = wheelEvent->deltaY;
-    float deltaX = wheelEvent->deltaX;
+    దశాంశం deltaY = wheelEvent->deltaY;
+    దశాంశం deltaX = wheelEvent->deltaX;
 
-    switch (wheelEvent->deltaMode) {
-    case DOM_DELTA_PIXEL:
+    ఎంపిక (wheelEvent->delta_బహుళకం) {
+    స్థితి DOM_DELTA_PIXEL:
         deltaX /= 100; // 100 pixels make up a step
         deltaY /= 100; // 100 pixels make up a step
-        break;
-    case DOM_DELTA_LINE:
+        ఆపు;
+    స్థితి DOM_DELTA_పంక్తి:
         deltaX /= 3; // 3 lines make up a step
         deltaY /= 3; // 3 lines make up a step
-        break;
-    case DOM_DELTA_PAGE:
+        ఆపు;
+    స్థితి DOM_DELTA_పుట:
         deltaX *= 80; // A page makes up 80 steps
         deltaY *= 80; // A page makes up 80 steps
-        break;
+        ఆపు;
     }
 
-    SDL_SendMouseWheel(0, window_data->window, SDL_DEFAULT_MOUSE_ID, deltaX, -deltaY, SDL_MOUSEWHEEL_NORMAL);
-    return SDL_EventEnabled(SDL_EVENT_MOUSE_WHEEL);
+    SDL_SendMouseWheel(0, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_DEFAULT_MOUSE_ID, deltaX, -deltaY, SDL_MOUSEWHEEL_సాధారణ);
+    తిరిగి SDL_EventEnabled(SDL_EVENT_MOUSE_WHEEL);
 }
 
-static EM_BOOL Emscripten_HandleFocus(int eventType, const EmscriptenFocusEvent *focusEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleFocus(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenFocusEvent *focusEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_VideoDevice *device = userData;
-    SDL_Window *window = Emscripten_GetFocusedWindow(device);
+    SDL_VideoDevice *device = user_దత్తాంశం;
+    SDL_కిటికీ *కిటికీ = Emscripten_Get_Focused_కిటికీ(device);
 
     SDL_EventType sdl_event_type;
 
     /* If the user switches away while keys are pressed (such as
      * via Alt+Tab), key release events won't be received. */
-    if (eventType == EMSCRIPTEN_EVENT_BLUR) {
+    ఒకవేళ (eventType == EMSCRIPTEN_EVENT_BLUR) {
         SDL_ResetKeyboard();
     }
 
-    sdl_event_type = (eventType == EMSCRIPTEN_EVENT_FOCUS) ? SDL_EVENT_WINDOW_FOCUS_GAINED : SDL_EVENT_WINDOW_FOCUS_LOST;
-    SDL_SetKeyboardFocus(sdl_event_type == SDL_EVENT_WINDOW_FOCUS_GAINED ? window : NULL);
-    return SDL_EventEnabled(sdl_event_type);
+    sdl_event_type = (eventType == EMSCRIPTEN_EVENT_FOCUS) ? SDL_EVENT_కిటికీ_FOCUS_GAINED : SDL_EVENT_కిటికీ_FOCUS_కోల్పోయిన;
+    SDL_సమితి_Keyboard_Focus(sdl_event_type == SDL_EVENT_కిటికీ_FOCUS_GAINED ? కిటికీ : ఖాళీ);
+    తిరిగి SDL_EventEnabled(sdl_event_type);
 }
 
-static bool IsFunctionKey(SDL_Scancode scancode)
+స్థిర bool Is_Function_కీలకం(SDL_Scancode scancode)
 {
-    if (scancode >= SDL_SCANCODE_F1 && scancode <= SDL_SCANCODE_F12) {
-        return true;
+    ఒకవేళ (scancode >= SDL_SCANCODE_F1 && scancode <= SDL_SCANCODE_F12) {
+        తిరిగి true;
     }
-    if (scancode >= SDL_SCANCODE_F13 && scancode <= SDL_SCANCODE_F24) {
-        return true;
+    ఒకవేళ (scancode >= SDL_SCANCODE_F13 && scancode <= SDL_SCANCODE_F24) {
+        తిరిగి true;
     }
-    return false;
+    తిరిగి false;
 }
 
 /* This is a great tool to see web keyboard events live:
  * https://w3c.github.io/uievents/tools/key-event-viewer.html
  */
-static EM_BOOL Emscripten_HandleKey(int eventType, const EmscriptenKeyboardEvent *keyEvent, void *userData)
+స్థిర EM_BOOL Emscripten_Handle_కీలకం(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenKeyboardEvent *కీలకం_Event, శూన్య *user_దత్తాంశం)
 {
-    SDL_WindowData *window_data = (SDL_WindowData *)userData;
-    SDL_Scancode scancode = Emscripten_MapScanCode(keyEvent->code);
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = (SDL_కిటికీ_దత్తాంశం *)user_దత్తాంశం;
+    SDL_Scancode scancode = Emscripten_Map_పరిశీలన_సంకేతం(కీలకం_Event->సంకేతం_2);
     SDL_Keycode keycode = SDLK_UNKNOWN;
     bool prevent_default = false;
-    bool is_nav_key = false;
+    bool is_nav_కీలకం = false;
 
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
-        if (SDL_strcmp(keyEvent->key, "Sleep") == 0) {
+    ఒకవేళ (scancode == SDL_SCANCODE_UNKNOWN) {
+        ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "Sleep") == 0) {
             scancode = SDL_SCANCODE_SLEEP;
-        } else if (SDL_strcmp(keyEvent->key, "ChannelUp") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "ChannelUp") == 0) {
             scancode = SDL_SCANCODE_CHANNEL_INCREMENT;
-        } else if (SDL_strcmp(keyEvent->key, "ChannelDown") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "ChannelDown") == 0) {
             scancode = SDL_SCANCODE_CHANNEL_DECREMENT;
-        } else if (SDL_strcmp(keyEvent->key, "MediaPlay") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "MediaPlay") == 0) {
             scancode = SDL_SCANCODE_MEDIA_PLAY;
-        } else if (SDL_strcmp(keyEvent->key, "MediaPause") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "MediaPause") == 0) {
             scancode = SDL_SCANCODE_MEDIA_PAUSE;
-        } else if (SDL_strcmp(keyEvent->key, "MediaRecord") == 0) {
-            scancode = SDL_SCANCODE_MEDIA_RECORD;
-        } else if (SDL_strcmp(keyEvent->key, "MediaFastForward") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "MediaRecord") == 0) {
+            scancode = SDL_SCANCODE_MEDIA_రికార్డు;
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "MediaFastForward") == 0) {
             scancode = SDL_SCANCODE_MEDIA_FAST_FORWARD;
-        } else if (SDL_strcmp(keyEvent->key, "MediaRewind") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "MediaRewind") == 0) {
             scancode = SDL_SCANCODE_MEDIA_REWIND;
-        } else if (SDL_strcmp(keyEvent->key, "Close") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "Close") == 0) {
             scancode = SDL_SCANCODE_AC_CLOSE;
-        } else if (SDL_strcmp(keyEvent->key, "New") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "New") == 0) {
             scancode = SDL_SCANCODE_AC_NEW;
-        } else if (SDL_strcmp(keyEvent->key, "Open") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "Open") == 0) {
             scancode = SDL_SCANCODE_AC_OPEN;
-        } else if (SDL_strcmp(keyEvent->key, "Print") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "Print") == 0) {
             scancode = SDL_SCANCODE_AC_PRINT;
-        } else if (SDL_strcmp(keyEvent->key, "Save") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "Save") == 0) {
             scancode = SDL_SCANCODE_AC_SAVE;
-        } else if (SDL_strcmp(keyEvent->key, "Props") == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "Props") == 0) {
             scancode = SDL_SCANCODE_AC_PROPERTIES;
         }
     }
 
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
+    ఒకవేళ (scancode == SDL_SCANCODE_UNKNOWN) {
         // KaiOS Left Soft Key and Right Soft Key, they act as OK/Next/Menu and Cancel/Back/Clear
-        if (SDL_strcmp(keyEvent->key, "SoftLeft") == 0) {
+        ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "SoftLeft") == 0) {
             scancode = SDL_SCANCODE_AC_FORWARD;
-        } else if (SDL_strcmp(keyEvent->key, "SoftRight") == 0) {
-            scancode = SDL_SCANCODE_AC_BACK;
+        } లేకపోతే ఒకవేళ (SDL_strcmp(కీలకం_Event->కీలకం, "SoftRight") == 0) {
+            scancode = SDL_SCANCODE_AC_వెనుక;
         }
     }
 
-    if (keyEvent->location == 0 && SDL_utf8strlen(keyEvent->key) == 1) {
-        const char *key = keyEvent->key;
-        keycode = SDL_StepUTF8(&key, NULL);
-        if (keycode == SDL_INVALID_UNICODE_CODEPOINT) {
+    ఒకవేళ (కీలకం_Event->location == 0 && SDL_utf8strlen(కీలకం_Event->కీలకం) == 1) {
+        స్థిరరాశి అక్షరం *కీలకం = కీలకం_Event->కీలకం;
+        keycode = SDL_అడుగు_UTF8(&కీలకం, ఖాళీ);
+        ఒకవేళ (keycode == SDL_INVALID_UNICODE_CODEPOINT) {
             keycode = SDLK_UNKNOWN;
         }
     }
 
-    if (keycode != SDLK_UNKNOWN) {
-        prevent_default = SDL_SendKeyboardKeyAndKeycode(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, keycode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
-    } else {
-        prevent_default = SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
+    ఒకవేళ (keycode != SDLK_UNKNOWN) {
+        prevent_default = SDL_Send_Keyboard_కీలకం_And_Keycode(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, keycode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
+    } లేకపోతే {
+        prevent_default = SDL_Send_Keyboard_కీలకం(0, SDL_DEFAULT_KEYBOARD_ID, 0, scancode, (eventType == EMSCRIPTEN_EVENT_KEYDOWN));
     }
 
     /* if TEXTINPUT events are enabled we can't prevent keydown or we won't get keypress
      * we need to ALWAYS prevent backspace and tab otherwise chrome takes action and does bad navigation UX
      */
-    if ((scancode == SDL_SCANCODE_BACKSPACE) ||
+    ఒకవేళ ((scancode == SDL_SCANCODE_BACKSPACE) ||
         (scancode == SDL_SCANCODE_TAB) ||
-        (scancode == SDL_SCANCODE_LEFT) ||
-        (scancode == SDL_SCANCODE_UP) ||
-        (scancode == SDL_SCANCODE_RIGHT) ||
-        (scancode == SDL_SCANCODE_DOWN) ||
-        IsFunctionKey(scancode) ||
-        keyEvent->ctrlKey) {
-        is_nav_key = true;
+        (scancode == SDL_SCANCODE_ఎడమ) ||
+        (scancode == SDL_SCANCODE_పైకి) ||
+        (scancode == SDL_SCANCODE_కుడి) ||
+        (scancode == SDL_SCANCODE_కిందికి) ||
+        Is_Function_కీలకం(scancode) ||
+        కీలకం_Event->ctrl_కీలకం) {
+        is_nav_కీలకం = true;
     }
 
-    if ((eventType == EMSCRIPTEN_EVENT_KEYDOWN) && SDL_TextInputActive(window_data->window) && !is_nav_key) {
+    ఒకవేళ ((eventType == EMSCRIPTEN_EVENT_KEYDOWN) && SDL_పాఠ్యం_ఆదానం_చురుకైన(కిటికీ_దత్తాంశం_2->కిటికీ) && !is_nav_కీలకం) {
         prevent_default = false;
     }
 
-    return prevent_default;
+    తిరిగి prevent_default;
 }
 
-static EM_BOOL Emscripten_HandleKeyPress(int eventType, const EmscriptenKeyboardEvent *keyEvent, void *userData)
+స్థిర EM_BOOL Emscripten_Handle_కీలకం_Press(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenKeyboardEvent *కీలకం_Event, శూన్య *user_దత్తాంశం)
 {
-    SDL_WindowData *window_data = (SDL_WindowData *)userData;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = (SDL_కిటికీ_దత్తాంశం *)user_దత్తాంశం;
 
-    if (SDL_TextInputActive(window_data->window)) {
-        if (SDL_utf8strlen(keyEvent->key) == 1) {
-            SDL_SendKeyboardText(keyEvent->key);
-            return EM_TRUE;
+    ఒకవేళ (SDL_పాఠ్యం_ఆదానం_చురుకైన(కిటికీ_దత్తాంశం_2->కిటికీ)) {
+        ఒకవేళ (SDL_utf8strlen(కీలకం_Event->కీలకం) == 1) {
+            SDL_Send_Keyboard_పాఠ్యం(కీలకం_Event->కీలకం);
+            తిరిగి EM_TRUE;
         }
     }
-    return EM_FALSE;
+    తిరిగి EM_FALSE;
 }
 
-static EM_BOOL Emscripten_HandleFullscreenChange(int eventType, const EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleFullscreenChange(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_WindowData *window_data = userData;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = user_దత్తాంశం;
 
-    window_data->fullscreen_change_in_progress = false;
+    కిటికీ_దత్తాంశం_2->fullscreen_change_లోపల_పురోగతి = false;
 
-    if (fullscreenChangeEvent->isFullscreen) {
-        SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
-        window_data->fullscreen_mode_flags = 0;
-    } else {
-        SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
+    ఒకవేళ (fullscreenChangeEvent->isFullscreen) {
+        SDL_Send_కిటికీ_Event(కిటికీ_దత్తాంశం_2->కిటికీ, SDL_EVENT_కిటికీ_ENTER_FULLSCREEN, 0, 0);
+        కిటికీ_దత్తాంశం_2->fullscreen_బహుళకం_flags = 0;
+    } లేకపోతే {
+        SDL_Send_కిటికీ_Event(కిటికీ_దత్తాంశం_2->కిటికీ, SDL_EVENT_కిటికీ_LEAVE_FULLSCREEN, 0, 0);
     }
 
-    SDL_UpdateFullscreenMode(window_data->window, fullscreenChangeEvent->isFullscreen, false);
+    SDL_Update_Fullscreen_బహుళకం(కిటికీ_దత్తాంశం_2->కిటికీ, fullscreenChangeEvent->isFullscreen, false);
 
-    return 0;
+    తిరిగి 0;
 }
 
-static EM_BOOL Emscripten_HandleFullscreenChangeGlobal(int eventType, const EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleFullscreenChangeGlobal(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenFullscreenChangeEvent *fullscreenChangeEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_VideoDevice *device = userData;
-    SDL_Window *window = NULL;
-    for (window = device->windows; window != NULL; window = window->next) {
-        const char *canvas_id = window->internal->canvas_id;
-        if (*canvas_id == '#') {
+    SDL_VideoDevice *device = user_దత్తాంశం;
+    SDL_కిటికీ *కిటికీ = ఖాళీ;
+    కొరకు (కిటికీ = device->windows; కిటికీ != ఖాళీ; కిటికీ = కిటికీ->తదుపరి) {
+        స్థిరరాశి అక్షరం *canvas_id = కిటికీ->అంతర్గత->canvas_id;
+        ఒకవేళ (*canvas_id == '#') {
             canvas_id++;
         }
-        if (SDL_strcmp(fullscreenChangeEvent->id, canvas_id) == 0) {
-            break;  // this is the window.
+        ఒకవేళ (SDL_strcmp(fullscreenChangeEvent->id, canvas_id) == 0) {
+            ఆపు;  // this is the window.
         }
     }
 
-    if (window) {
-        return Emscripten_HandleFullscreenChange(eventType, fullscreenChangeEvent, window->internal);
+    ఒకవేళ (కిటికీ) {
+        తిరిగి Emscripten_HandleFullscreenChange(eventType, fullscreenChangeEvent, కిటికీ->అంతర్గత);
     }
 
-    return EM_FALSE;
+    తిరిగి EM_FALSE;
 }
 
-static EM_BOOL Emscripten_HandleResize(int eventType, const EmscriptenUiEvent *uiEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleResize(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenUiEvent *uiEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_WindowData *window_data = userData;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = user_దత్తాంశం;
 
     bool force = false;
 
     // update pixel ratio
-    if (window_data->window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-        if (window_data->pixel_ratio != emscripten_get_device_pixel_ratio()) {
-            window_data->pixel_ratio = emscripten_get_device_pixel_ratio();
+    ఒకవేళ (కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_ఎగువ_PIXEL_DENSITY) {
+        ఒకవేళ (కిటికీ_దత్తాంశం_2->pixel_నిష్పత్తి != emscripten_get_device_pixel_నిష్పత్తి()) {
+            కిటికీ_దత్తాంశం_2->pixel_నిష్పత్తి = emscripten_get_device_pixel_నిష్పత్తి();
             force = true;
         }
     }
 
-    const bool fill_document = (Emscripten_fill_document_window == window_data->window);
-    const bool fullscreen = (window_data->window->flags & SDL_WINDOW_FULLSCREEN) != 0;  // fullscreen windows can resize on Emscripten, and the canvas should fill it.
-    const bool resizable = (window_data->window->flags & SDL_WINDOW_RESIZABLE) != 0;
-    if (fill_document || fullscreen || resizable) {
-        double w, h;
-        if (fill_document || fullscreen) {
-            w = (double) uiEvent->windowInnerWidth;
-            h = (double) uiEvent->windowInnerHeight;
-        } else {
-            SDL_assert(window_data->window->flags & SDL_WINDOW_RESIZABLE);
-            w = window_data->window->w;
-            h = window_data->window->h;
+    స్థిరరాశి bool fill_document = (Emscripten_fill_document_కిటికీ == కిటికీ_దత్తాంశం_2->కిటికీ);
+    స్థిరరాశి bool fullscreen = (కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) != 0;  // fullscreen windows can resize on Emscripten, and the canvas should fill it.
+    స్థిరరాశి bool resizable = (కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_RESIZABLE) != 0;
+    ఒకవేళ (fill_document || fullscreen || resizable) {
+        ద్విగుణ w, h;
+        ఒకవేళ (fill_document || fullscreen) {
+            w = (ద్విగుణ) uiEvent->కిటికీ_Inner_వెడల్పు;
+            h = (ద్విగుణ) uiEvent->కిటికీ_Inner_ఎత్తు;
+        } లేకపోతే {
+            SDL_assert(కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_RESIZABLE);
+            w = కిటికీ_దత్తాంశం_2->కిటికీ->w;
+            h = కిటికీ_దత్తాంశం_2->కిటికీ->h;
             // this will only work if the canvas size is set through css
-            if (window_data->external_size) {
-                emscripten_get_element_css_size(window_data->canvas_id, &w, &h);
+            ఒకవేళ (కిటికీ_దత్తాంశం_2->external_కొలత) {
+                emscripten_get_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, &w, &h);
             }
         }
 
-        emscripten_set_canvas_element_size(window_data->canvas_id, SDL_lroundf(w * window_data->pixel_ratio), SDL_lroundf(h * window_data->pixel_ratio));
+        emscripten_సమితి_canvas_element_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, SDL_lroundf(w * కిటికీ_దత్తాంశం_2->pixel_నిష్పత్తి), SDL_lroundf(h * కిటికీ_దత్తాంశం_2->pixel_నిష్పత్తి));
 
         // set_canvas_size unsets this
-        if (!window_data->external_size && window_data->pixel_ratio != 1.0f) {
-            emscripten_set_element_css_size(window_data->canvas_id, w, h);
+        ఒకవేళ (!కిటికీ_దత్తాంశం_2->external_కొలత && కిటికీ_దత్తాంశం_2->pixel_నిష్పత్తి != 1.0f) {
+            emscripten_సమితి_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, w, h);
         }
 
-        if (force) {
+        ఒకవేళ (force) {
             // force the event to trigger, so pixel ratio changes can be handled
-            window_data->window->w = 0;
-            window_data->window->h = 0;
+            కిటికీ_దత్తాంశం_2->కిటికీ->w = 0;
+            కిటికీ_దత్తాంశం_2->కిటికీ->h = 0;
         }
 
-        SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
+        SDL_Send_కిటికీ_Event(కిటికీ_దత్తాంశం_2->కిటికీ, SDL_EVENT_కిటికీ_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
     }
 
-    return 0;
+    తిరిగి 0;
 }
 
-static EM_BOOL Emscripten_HandleResizeGlobal(int eventType, const EmscriptenUiEvent *uiEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleResizeGlobal(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenUiEvent *uiEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_VideoDevice *device = userData;
+    SDL_VideoDevice *device = user_దత్తాంశం;
     bool prevent_default = false;
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
 
-    for (window = device->windows; window; window = window->next) {
-        prevent_default |= Emscripten_HandleResize(eventType, uiEvent, window->internal);
+    కొరకు (కిటికీ = device->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+        prevent_default |= Emscripten_HandleResize(eventType, uiEvent, కిటికీ->అంతర్గత);
     }
 
-    return prevent_default;
+    తిరిగి prevent_default;
 }
 
 EM_BOOL
-Emscripten_HandleCanvasResize(int eventType, const void *reserved, void *userData)
+Emscripten_HandleCanvasResize(పూర్ణాంకం eventType, స్థిరరాశి శూన్య *reserved, శూన్య *user_దత్తాంశం)
 {
     // this is used during fullscreen changes
-    SDL_WindowData *window_data = userData;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = user_దత్తాంశం;
 
-    if (window_data->fullscreen_resize) {
-        double css_w, css_h;
-        emscripten_get_element_css_size(window_data->canvas_id, &css_w, &css_h);
-        SDL_SendWindowEvent(window_data->window, SDL_EVENT_WINDOW_RESIZED, SDL_lroundf(css_w), SDL_lroundf(css_h));
+    ఒకవేళ (కిటికీ_దత్తాంశం_2->fullscreen_resize) {
+        ద్విగుణ css_w, css_h;
+        emscripten_get_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, &css_w, &css_h);
+        SDL_Send_కిటికీ_Event(కిటికీ_దత్తాంశం_2->కిటికీ, SDL_EVENT_కిటికీ_RESIZED, SDL_lroundf(css_w), SDL_lroundf(css_h));
     }
 
-    return 0;
+    తిరిగి 0;
 }
 
-static EM_BOOL Emscripten_HandleVisibilityChange(int eventType, const EmscriptenVisibilityChangeEvent *visEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleVisibilityChange(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenVisibilityChangeEvent *visEvent, శూన్య *user_దత్తాంశం)
 {
-    SDL_WindowData *window_data = userData;
-    SDL_SendWindowEvent(window_data->window, visEvent->hidden ? SDL_EVENT_WINDOW_HIDDEN : SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    return 0;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = user_దత్తాంశం;
+    SDL_Send_కిటికీ_Event(కిటికీ_దత్తాంశం_2->కిటికీ, visEvent->hidden ? SDL_EVENT_కిటికీ_HIDDEN : SDL_EVENT_కిటికీ_SHOWN, 0, 0);
+    తిరిగి 0;
 }
 
-static const char *Emscripten_HandleBeforeUnload(int eventType, const void *reserved, void *userData)
+స్థిర స్థిరరాశి అక్షరం *Emscripten_HandleBeforeUnload(పూర్ణాంకం eventType, స్థిరరాశి శూన్య *reserved, శూన్య *user_దత్తాంశం)
 {
     /* This event will need to be handled synchronously, e.g. using
        SDL_AddEventWatch, as the page is being closed *now*. */
     SDL_SendQuit();  // the app might see this if they installed an event watcher.
     SDL_OnApplicationWillTerminate();  // calls SDL_AppQuit if appropriate, etc.
-    return ""; // don't trigger confirmation dialog
+    తిరిగి ""; // don't trigger confirmation dialog
 }
 
-static EM_BOOL Emscripten_HandleOrientationChange(int eventType, const EmscriptenOrientationChangeEvent *orientationChangeEvent, void *userData)
+స్థిర EM_BOOL Emscripten_HandleOrientationChange(పూర్ణాంకం eventType, స్థిరరాశి EmscriptenOrientationChangeEvent *orientationChangeEvent, శూన్య *user_దత్తాంశం)
 {
     SDL_DisplayOrientation orientation;
-    switch (orientationChangeEvent->orientationIndex) {
-        #define CHECK_ORIENTATION(emsdk, sdl) case EMSCRIPTEN_ORIENTATION_##emsdk: orientation = SDL_ORIENTATION_##sdl; break
+    ఎంపిక (orientationChangeEvent->orientation_సూచీ) {
+        #నిర్వచించు CHECK_ORIENTATION(emsdk, sdl) స్థితి EMSCRIPTEN_ORIENTATION_##emsdk: orientation = SDL_ORIENTATION_##sdl; ఆపు
         CHECK_ORIENTATION(LANDSCAPE_PRIMARY, LANDSCAPE);
         CHECK_ORIENTATION(LANDSCAPE_SECONDARY, LANDSCAPE_FLIPPED);
         CHECK_ORIENTATION(PORTRAIT_PRIMARY, PORTRAIT);
         CHECK_ORIENTATION(PORTRAIT_SECONDARY, PORTRAIT_FLIPPED);
-        #undef CHECK_ORIENTATION
-        default: orientation = SDL_ORIENTATION_UNKNOWN; break;
+        #నిర్వచనం_రద్దు CHECK_ORIENTATION
+        అప్రమేయ: orientation = SDL_ORIENTATION_UNKNOWN; ఆపు;
     }
 
-    SDL_WindowData *window_data = (SDL_WindowData *) userData;
-    SDL_SendDisplayEvent(SDL_GetVideoDisplayForWindow(window_data->window), SDL_EVENT_DISPLAY_ORIENTATION, orientation, 0);
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = (SDL_కిటికీ_దత్తాంశం *) user_దత్తాంశం;
+    SDL_SendDisplayEvent(SDL_Get_Video_Display_For_కిటికీ(కిటికీ_దత్తాంశం_2->కిటికీ), SDL_EVENT_DISPLAY_ORIENTATION, orientation, 0);
 
     // fake a UI event so we can tell the app the canvas might have resized.
     EmscriptenUiEvent uiEvent;
     SDL_zero(uiEvent);
-    uiEvent.documentBodyClientWidth = MAIN_THREAD_EM_ASM_INT( { return document.body.clientWidth; } );
-    uiEvent.documentBodyClientHeight = MAIN_THREAD_EM_ASM_INT( { return document.body.clientHeight; } );
-    uiEvent.windowInnerWidth = MAIN_THREAD_EM_ASM_INT( { return window.innerWidth; } );
-    uiEvent.windowInnerHeight = MAIN_THREAD_EM_ASM_INT( { return window.innerHeight; } );
-    uiEvent.windowOuterWidth = MAIN_THREAD_EM_ASM_INT( { return window.outerWidth; } );
-    uiEvent.windowOuterHeight = MAIN_THREAD_EM_ASM_INT( { return window.outerHeight; } );
-    uiEvent.scrollTop = MAIN_THREAD_EM_ASM_INT( { return window.pageXOffset; } );
-    uiEvent.scrollLeft = MAIN_THREAD_EM_ASM_INT( { return window.pageYOffset; } );
-    Emscripten_HandleResize(EMSCRIPTEN_EVENT_RESIZE, &uiEvent, userData);
+    uiEvent.document_Body_Client_వెడల్పు = MAIN_THREAD_EM_ASM_INT( { తిరిగి document.body.client_వెడల్పు; } );
+    uiEvent.document_Body_Client_ఎత్తు = MAIN_THREAD_EM_ASM_INT( { తిరిగి document.body.client_ఎత్తు; } );
+    uiEvent.కిటికీ_Inner_వెడల్పు = MAIN_THREAD_EM_ASM_INT( { తిరిగి కిటికీ.inner_వెడల్పు; } );
+    uiEvent.కిటికీ_Inner_ఎత్తు = MAIN_THREAD_EM_ASM_INT( { తిరిగి కిటికీ.inner_ఎత్తు; } );
+    uiEvent.కిటికీ_Outer_వెడల్పు = MAIN_THREAD_EM_ASM_INT( { తిరిగి కిటికీ.outer_వెడల్పు; } );
+    uiEvent.కిటికీ_Outer_ఎత్తు = MAIN_THREAD_EM_ASM_INT( { తిరిగి కిటికీ.outer_ఎత్తు; } );
+    uiEvent.scroll_శిఖరం = MAIN_THREAD_EM_ASM_INT( { తిరిగి కిటికీ.పుట_XOffset; } );
+    uiEvent.scroll_ఎడమ = MAIN_THREAD_EM_ASM_INT( { తిరిగి కిటికీ.పుట_YOffset; } );
+    Emscripten_HandleResize(EMSCRIPTEN_EVENT_RESIZE, &uiEvent, user_దత్తాంశం);
 
-    return 0;
+    తిరిగి 0;
 }
 
 // IF YOU CHANGE THIS STRUCTURE, YOU NEED TO UPDATE THE JAVASCRIPT THAT FILLS IT IN: SDL3.makePointerEventCStruct, below.
-#define PTRTYPE_MOUSE 1
-#define PTRTYPE_TOUCH 2
-#define PTRTYPE_PEN 3
-typedef struct Emscripten_PointerEvent
+#నిర్వచించు PTRTYPE_MOUSE 1
+#నిర్వచించు PTRTYPE_TOUCH 2
+#నిర్వచించు PTRTYPE_PEN 3
+రకనిర్వచనం నిర్మాణం Emscripten_సూచిక_Event
 {
-    int pointer_type;
-    int pointerid;
-    int button;
-    int buttons;
-    int down;
-    float movementX;
-    float movementY;
-    float targetX;
-    float targetY;
-    float pressure;
-    float tangential_pressure;
-    float tiltx;
-    float tilty;
-    float rotation;
-} Emscripten_PointerEvent;
+    పూర్ణాంకం సూచిక_type;
+    పూర్ణాంకం pointerid;
+    పూర్ణాంకం button;
+    పూర్ణాంకం buttons;
+    పూర్ణాంకం కిందికి;
+    దశాంశం movementX;
+    దశాంశం movementY;
+    దశాంశం లక్ష్యం_X;
+    దశాంశం లక్ష్యం_Y;
+    దశాంశం pressure;
+    దశాంశం tangential_pressure;
+    దశాంశం tiltx;
+    దశాంశం tilty;
+    దశాంశం rotation;
+} Emscripten_సూచిక_Event;
 
-static void Emscripten_HandleMouseButton(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_HandleMouseButton(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
     Uint8 sdl_button;
-    bool down = false;
-    switch (event->button) {
-        #define CHECK_MOUSE_BUTTON(jsbutton, downflag, sdlbutton) case jsbutton: sdl_button = SDL_BUTTON_##sdlbutton; down = (event->down != 0) || ((event->buttons & downflag) != 0); break
-        CHECK_MOUSE_BUTTON(0, 1, LEFT);
-        CHECK_MOUSE_BUTTON(1, 4, MIDDLE);
-        CHECK_MOUSE_BUTTON(2, 2, RIGHT);
+    bool కిందికి = false;
+    ఎంపిక (event->button) {
+        #నిర్వచించు CHECK_MOUSE_BUTTON(jsbutton, downflag, sdlbutton) స్థితి jsbutton: sdl_button = SDL_BUTTON_##sdlbutton; కిందికి = (event->కిందికి != 0) || ((event->buttons & downflag) != 0); ఆపు
+        CHECK_MOUSE_BUTTON(0, 1, ఎడమ_2);
+        CHECK_MOUSE_BUTTON(1, 4, మధ్య_2);
+        CHECK_MOUSE_BUTTON(2, 2, కుడి_2);
         CHECK_MOUSE_BUTTON(3, 8, X1);
         CHECK_MOUSE_BUTTON(4, 16, X2);
-        #undef CHECK_MOUSE_BUTTON
-        default: sdl_button = 0; break;
+        #నిర్వచనం_రద్దు CHECK_MOUSE_BUTTON
+        అప్రమేయ: sdl_button = 0; ఆపు;
     }
 
-    if (sdl_button) {
-        const SDL_Mouse *mouse = SDL_GetMouse();
-        SDL_assert(mouse != NULL);
+    ఒకవేళ (sdl_button) {
+        స్థిరరాశి SDL_Mouse *mouse = SDL_GetMouse();
+        SDL_assert(mouse != ఖాళీ);
 
-        if (down) {
-            if (mouse->relative_mode && !window_data->has_pointer_lock) {
-                emscripten_request_pointerlock(window_data->canvas_id, 0); // try to regrab lost pointer lock.
+        ఒకవేళ (కిందికి) {
+            ఒకవేళ (mouse->relative_బహుళకం && !కిటికీ_దత్తాంశం_2->has_సూచిక_తాళం) {
+                emscripten_request_pointerlock(కిటికీ_దత్తాంశం_2->canvas_id, 0); // try to regrab lost pointer lock.
             }
         }
 
-        SDL_SendMouseButton(0, window_data->window, SDL_DEFAULT_MOUSE_ID, sdl_button, down);
+        SDL_SendMouseButton(0, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_DEFAULT_MOUSE_ID, sdl_button, కిందికి);
 
         // We have an imaginary mouse capture, because we need SDL to not drop our imaginary mouse focus when we leave the canvas.
-        if (mouse->auto_capture) {
-            if (SDL_GetMouseState(NULL, NULL) != 0) {
-                window_data->window->flags |= SDL_WINDOW_MOUSE_CAPTURE;
-            } else {
-                window_data->window->flags &= ~SDL_WINDOW_MOUSE_CAPTURE;
+        ఒకవేళ (mouse->auto_capture) {
+            ఒకవేళ (SDL_GetMouseState(ఖాళీ, ఖాళీ) != 0) {
+                కిటికీ_దత్తాంశం_2->కిటికీ->flags |= SDL_కిటికీ_MOUSE_CAPTURE;
+            } లేకపోతే {
+                కిటికీ_దత్తాంశం_2->కిటికీ->flags &= ~SDL_కిటికీ_MOUSE_CAPTURE;
             }
         }
 
-        if (!down && window_data->mouse_focus_loss_pending) {
-            window_data->mouse_focus_loss_pending = (window_data->window->flags & SDL_WINDOW_MOUSE_CAPTURE) != 0;
-            if (!window_data->mouse_focus_loss_pending) {
-                SDL_SetMouseFocus(NULL);
+        ఒకవేళ (!కిందికి && కిటికీ_దత్తాంశం_2->mouse_focus_loss_pending) {
+            కిటికీ_దత్తాంశం_2->mouse_focus_loss_pending = (కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_MOUSE_CAPTURE) != 0;
+            ఒకవేళ (!కిటికీ_దత్తాంశం_2->mouse_focus_loss_pending) {
+                SDL_సమితి_Mouse_Focus(ఖాళీ);
             }
         }
     }
 }
 
-static void Emscripten_UpdateMouseFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_UpdateMouseFromEvent(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event->pointer_type == PTRTYPE_MOUSE);
+    SDL_assert(event->సూచిక_type == PTRTYPE_MOUSE);
 
     // Hidden windows (e.g. a shared GL-context window) may share the DOM canvas with the
     // visible window. Their pointer-event listeners would otherwise fire alongside the
     // visible window's, fighting over `mouse->focus` and producing events tagged with the
     // hidden window's ID -- causing downstream consumers that key by window ID to silently
     // drop them. Hidden windows shouldn't take part in user-input dispatch.
-    if (window_data->window->flags & SDL_WINDOW_HIDDEN) {
-        return;
+    ఒకవేళ (కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        తిరిగి;
     }
 
     // rescale (in case canvas is being scaled)
-    double client_w, client_h;
-    emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
-    const double xscale = window_data->window->w / client_w;
-    const double yscale = window_data->window->h / client_h;
+    ద్విగుణ client_w, client_h;
+    emscripten_get_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, &client_w, &client_h);
+    స్థిరరాశి ద్విగుణ xscale = కిటికీ_దత్తాంశం_2->కిటికీ->w / client_w;
+    స్థిరరాశి ద్విగుణ yscale = కిటికీ_దత్తాంశం_2->కిటికీ->h / client_h;
 
-    const bool isPointerLocked = window_data->has_pointer_lock;
-    float mx, my;
-    if (isPointerLocked) {
-        mx = (float)(event->movementX * xscale);
-        my = (float)(event->movementY * yscale);
-    } else {
-        mx = (float)(event->targetX * xscale);
-        my = (float)(event->targetY * yscale);
+    స్థిరరాశి bool is_సూచిక_Locked = కిటికీ_దత్తాంశం_2->has_సూచిక_తాళం;
+    దశాంశం mx, my;
+    ఒకవేళ (is_సూచిక_Locked) {
+        mx = (దశాంశం)(event->movementX * xscale);
+        my = (దశాంశం)(event->movementY * yscale);
+    } లేకపోతే {
+        mx = (దశాంశం)(event->లక్ష్యం_X * xscale);
+        my = (దశాంశం)(event->లక్ష్యం_Y * yscale);
     }
 
-    SDL_SendMouseMotion(0, window_data->window, SDL_DEFAULT_MOUSE_ID, isPointerLocked, mx, my);
+    SDL_SendMouseMotion(0, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_DEFAULT_MOUSE_ID, is_సూచిక_Locked, mx, my);
 
-    Emscripten_HandleMouseButton(window_data, event);
+    Emscripten_HandleMouseButton(కిటికీ_దత్తాంశం_2, event);
 }
 
-static void Emscripten_UpdateTouchFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_UpdateTouchFromEvent(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event->pointer_type == PTRTYPE_TOUCH);
+    SDL_assert(event->సూచిక_type == PTRTYPE_TOUCH);
 
-    const SDL_TouchID deviceId = 1;
-    if (SDL_AddTouch(deviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    స్థిరరాశి SDL_TouchID deviceId = 1;
+    ఒకవేళ (SDL_కూడు_Touch(deviceId, SDL_TOUCH_DEVICE_ప్రత్యక్ష, "") < 0) {
+        తిరిగి;
     }
 
-    double client_w, client_h;
-    emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
+    ద్విగుణ client_w, client_h;
+    emscripten_get_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, &client_w, &client_h);
 
-    const SDL_FingerID id = event->pointerid + 1;
-    float x, y;
-    if (client_w <= 1) {
+    స్థిరరాశి SDL_FingerID id = event->pointerid + 1;
+    దశాంశం x, y;
+    ఒకవేళ (client_w <= 1) {
         x = 0.5f;
-    } else {
-        x = event->targetX / (client_w - 1);
+    } లేకపోతే {
+        x = event->లక్ష్యం_X / (client_w - 1);
     }
-    if (client_h <= 1) {
+    ఒకవేళ (client_h <= 1) {
         y = 0.5f;
-    } else {
-        y = event->targetY / (client_h - 1);
+    } లేకపోతే {
+        y = event->లక్ష్యం_Y / (client_h - 1);
     }
 
-    const bool down = (event->buttons & 1) != 0;
-    if (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
-        if (down) {
-            SDL_SendTouch(0, deviceId, id, window_data->window, SDL_EVENT_FINGER_DOWN, x, y, 1.0f);
+    స్థిరరాశి bool కిందికి = (event->buttons & 1) != 0;
+    ఒకవేళ (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
+        ఒకవేళ (కిందికి) {
+            SDL_SendTouch(0, deviceId, id, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_EVENT_FINGER_కిందికి, x, y, 1.0f);
         }
     }
 
-    SDL_SendTouchMotion(0, deviceId, id, window_data->window, x, y, 1.0f);
+    SDL_SendTouchMotion(0, deviceId, id, కిటికీ_దత్తాంశం_2->కిటికీ, x, y, 1.0f);
 
-    if (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
-        if (!down) {
-            SDL_SendTouch(0, deviceId, id, window_data->window, SDL_EVENT_FINGER_UP, x, y, 1.0f);
+    ఒకవేళ (event->button == 0) {  // touch is starting or ending if this is zero (-1 means "no change").
+        ఒకవేళ (!కిందికి) {
+            SDL_SendTouch(0, deviceId, id, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_EVENT_FINGER_పైకి, x, y, 1.0f);
         }
     }
 }
 
-static void Emscripten_UpdatePenFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_UpdatePenFromEvent(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event->pointer_type == PTRTYPE_PEN);
-    const SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) 1);   // something > 0 for the single pen handle.
-    if (pen) {
+    SDL_assert(event->సూచిక_type == PTRTYPE_PEN);
+    స్థిరరాశి SDL_PenID pen = SDL_కనుగొను_Pen_By_Handle((శూన్య *) (size_t) 1);   // something > 0 for the single pen handle.
+    ఒకవేళ (pen) {
         // rescale (in case canvas is being scaled)
-        double client_w, client_h;
-        emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
-        const double xscale = window_data->window->w / client_w;
-        const double yscale = window_data->window->h / client_h;
+        ద్విగుణ client_w, client_h;
+        emscripten_get_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, &client_w, &client_h);
+        స్థిరరాశి ద్విగుణ xscale = కిటికీ_దత్తాంశం_2->కిటికీ->w / client_w;
+        స్థిరరాశి ద్విగుణ yscale = కిటికీ_దత్తాంశం_2->కిటికీ->h / client_h;
 
-        const bool isPointerLocked = window_data->has_pointer_lock;
-        float mx, my;
-        if (isPointerLocked) {
-            mx = (float)(event->movementX * xscale);
-            my = (float)(event->movementY * yscale);
-        } else {
-            mx = (float)(event->targetX * xscale);
-            my = (float)(event->targetY * yscale);
+        స్థిరరాశి bool is_సూచిక_Locked = కిటికీ_దత్తాంశం_2->has_సూచిక_తాళం;
+        దశాంశం mx, my;
+        ఒకవేళ (is_సూచిక_Locked) {
+            mx = (దశాంశం)(event->movementX * xscale);
+            my = (దశాంశం)(event->movementY * yscale);
+        } లేకపోతే {
+            mx = (దశాంశం)(event->లక్ష్యం_X * xscale);
+            my = (దశాంశం)(event->లక్ష్యం_Y * yscale);
         }
 
-        SDL_SendPenMotion(0, pen, window_data->window, mx, my);
+        SDL_SendPenMotion(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, mx, my);
 
-        if (event->button == 0) {  // pen touch
-            bool down = ((event->buttons & 1) != 0);
-            SDL_SendPenTouch(0, pen, window_data->window, false, down);
-        } else if (event->button == 5) {  // eraser touch...? Not sure if this is right...
-            bool down = ((event->buttons & 32) != 0);
-            SDL_SendPenTouch(0, pen, window_data->window, true, down);
-        } else if (event->button == 1) {
-            bool down = ((event->buttons & 4) != 0);
-            SDL_SendPenButton(0, pen, window_data->window, 2, down);
-        } else if (event->button == 2) {
-            bool down = ((event->buttons & 2) != 0);
-            SDL_SendPenButton(0, pen, window_data->window, 1, down);
+        ఒకవేళ (event->button == 0) {  // pen touch
+            bool కిందికి = ((event->buttons & 1) != 0);
+            SDL_SendPenTouch(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, false, కిందికి);
+        } లేకపోతే ఒకవేళ (event->button == 5) {  // eraser touch...? Not sure if this is right...
+            bool కిందికి = ((event->buttons & 32) != 0);
+            SDL_SendPenTouch(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, true, కిందికి);
+        } లేకపోతే ఒకవేళ (event->button == 1) {
+            bool కిందికి = ((event->buttons & 4) != 0);
+            SDL_SendPenButton(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, 2, కిందికి);
+        } లేకపోతే ఒకవేళ (event->button == 2) {
+            bool కిందికి = ((event->buttons & 2) != 0);
+            SDL_SendPenButton(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, 1, కిందికి);
         }
 
-        SDL_SendPenAxis(0, pen, window_data->window, SDL_PEN_AXIS_PRESSURE, event->pressure);
-        SDL_SendPenAxis(0, pen, window_data->window, SDL_PEN_AXIS_TANGENTIAL_PRESSURE, event->tangential_pressure);
-        SDL_SendPenAxis(0, pen, window_data->window, SDL_PEN_AXIS_XTILT, event->tiltx);
-        SDL_SendPenAxis(0, pen, window_data->window, SDL_PEN_AXIS_YTILT, event->tilty);
-        SDL_SendPenAxis(0, pen, window_data->window, SDL_PEN_AXIS_ROTATION, event->rotation);
+        SDL_SendPenAxis(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_PEN_AXIS_PRESSURE, event->pressure);
+        SDL_SendPenAxis(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_PEN_AXIS_TANGENTIAL_PRESSURE, event->tangential_pressure);
+        SDL_SendPenAxis(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_PEN_AXIS_XTILT, event->tiltx);
+        SDL_SendPenAxis(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_PEN_AXIS_YTILT, event->tilty);
+        SDL_SendPenAxis(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_PEN_AXIS_ROTATION, event->rotation);
     }
 }
 
-static void Emscripten_UpdatePointerFromEvent(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_Update_సూచిక_From_Event(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
-        Emscripten_UpdateMouseFromEvent(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_TOUCH) {
-        Emscripten_UpdateTouchFromEvent(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_PEN) {
-        Emscripten_UpdatePenFromEvent(window_data, event);
-    } else {
+    SDL_assert(event != ఖాళీ);
+    ఒకవేళ (event->సూచిక_type == PTRTYPE_MOUSE) {
+        Emscripten_UpdateMouseFromEvent(కిటికీ_దత్తాంశం_2, event);
+    } లేకపోతే ఒకవేళ (event->సూచిక_type == PTRTYPE_TOUCH) {
+        Emscripten_UpdateTouchFromEvent(కిటికీ_దత్తాంశం_2, event);
+    } లేకపోతే ఒకవేళ (event->సూచిక_type == PTRTYPE_PEN) {
+        Emscripten_UpdatePenFromEvent(కిటికీ_దత్తాంశం_2, event);
+    } లేకపోతే {
         SDL_assert(!"Unexpected pointer event type");
     }
 }
 
-static void Emscripten_HandleMouseFocus(SDL_WindowData *window_data, const Emscripten_PointerEvent *event, bool isenter)
+స్థిర శూన్య Emscripten_HandleMouseFocus(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event, bool isenter)
 {
-    SDL_assert(event->pointer_type == PTRTYPE_MOUSE);
+    SDL_assert(event->సూచిక_type == PTRTYPE_MOUSE);
 
     // Hidden windows shouldn't ever become the mouse-focus target.
-    if (window_data->window->flags & SDL_WINDOW_HIDDEN) {
-        return;
+    ఒకవేళ (కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        తిరిగి;
     }
 
-    const bool isPointerLocked = window_data->has_pointer_lock;
+    స్థిరరాశి bool is_సూచిక_Locked = కిటికీ_దత్తాంశం_2->has_సూచిక_తాళం;
 
-    if (!isPointerLocked) {
+    ఒకవేళ (!is_సూచిక_Locked) {
         // rescale (in case canvas is being scaled)
-        float mx, my;
-        double client_w, client_h;
-        emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
+        దశాంశం mx, my;
+        ద్విగుణ client_w, client_h;
+        emscripten_get_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, &client_w, &client_h);
 
-        mx = (float)(event->targetX * (window_data->window->w / client_w));
-        my = (float)(event->targetY * (window_data->window->h / client_h));
-        SDL_SendMouseMotion(0, window_data->window, SDL_GLOBAL_MOUSE_ID, isPointerLocked, mx, my);
+        mx = (దశాంశం)(event->లక్ష్యం_X * (కిటికీ_దత్తాంశం_2->కిటికీ->w / client_w));
+        my = (దశాంశం)(event->లక్ష్యం_Y * (కిటికీ_దత్తాంశం_2->కిటికీ->h / client_h));
+        SDL_SendMouseMotion(0, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_GLOBAL_MOUSE_ID, is_సూచిక_Locked, mx, my);
     }
 
-    if (isenter && window_data->mouse_focus_loss_pending) {
-        window_data->mouse_focus_loss_pending = false;  // just drop the state, but don't send the enter event.
-    } else if (!isenter && (window_data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-        window_data->mouse_focus_loss_pending = true;  // waiting on a mouse button to let go before we send the mouse focus update.
-    } else {
-        SDL_SetMouseFocus(isenter ? window_data->window : NULL);
+    ఒకవేళ (isenter && కిటికీ_దత్తాంశం_2->mouse_focus_loss_pending) {
+        కిటికీ_దత్తాంశం_2->mouse_focus_loss_pending = false;  // just drop the state, but don't send the enter event.
+    } లేకపోతే ఒకవేళ (!isenter && (కిటికీ_దత్తాంశం_2->కిటికీ->flags & SDL_కిటికీ_MOUSE_CAPTURE)) {
+        కిటికీ_దత్తాంశం_2->mouse_focus_loss_pending = true;  // waiting on a mouse button to let go before we send the mouse focus update.
+    } లేకపోతే {
+        SDL_సమితి_Mouse_Focus(isenter ? కిటికీ_దత్తాంశం_2->కిటికీ : ఖాళీ);
     }
 }
 
-static void Emscripten_HandlePenEnter(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_HandlePenEnter(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event->pointer_type == PTRTYPE_PEN);
+    SDL_assert(event->సూచిక_type == PTRTYPE_PEN);
 
     // event->pointerid is one continuous interaction; it doesn't necessarily track a specific tool over time, like the same finger's ID changed on each new touch event.
     // as such, we only expose a single pen, and when the touch ends, we say it lost proximity instead of the calling SDL_RemovePenDevice().
 
-    SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) 1);  // something > 0 for the single pen handle.
-    if (pen) {
-        SDL_SendPenProximity(0, pen, window_data->window, true, true);
-    } else {
+    SDL_PenID pen = SDL_కనుగొను_Pen_By_Handle((శూన్య *) (size_t) 1);  // something > 0 for the single pen handle.
+    ఒకవేళ (pen) {
+        SDL_SendPenProximity(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, true, true);
+    } లేకపోతే {
         // Web browsers offer almost none of this information as specifics, but can without warning offer any of these specific things.
         SDL_PenInfo peninfo;
         SDL_zero(peninfo);
         peninfo.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_ROTATION | SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT | SDL_PEN_CAPABILITY_TANGENTIAL_PRESSURE | SDL_PEN_CAPABILITY_ERASER;
         peninfo.max_tilt = 90.0f;
-        peninfo.num_buttons = 2;
+        peninfo.అంకె_buttons = 2;
         peninfo.subtype = SDL_PEN_TYPE_PEN;
-        SDL_AddPenDevice(0, NULL, window_data->window, &peninfo, (void *) (size_t) 1, true);
+        SDL_కూడు_Pen_Device(0, ఖాళీ, కిటికీ_దత్తాంశం_2->కిటికీ, &peninfo, (శూన్య *) (size_t) 1, true);
     }
 
-    Emscripten_UpdatePenFromEvent(window_data, event);
+    Emscripten_UpdatePenFromEvent(కిటికీ_దత్తాంశం_2, event);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandlePointerEnter(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_Handle_సూచిక_Enter(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
-        Emscripten_HandleMouseFocus(window_data, event, true);
-    } else if (event->pointer_type == PTRTYPE_PEN) {
-        Emscripten_HandlePenEnter(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_TOUCH) {
+    SDL_assert(event != ఖాళీ);
+    ఒకవేళ (event->సూచిక_type == PTRTYPE_MOUSE) {
+        Emscripten_HandleMouseFocus(కిటికీ_దత్తాంశం_2, event, true);
+    } లేకపోతే ఒకవేళ (event->సూచిక_type == PTRTYPE_PEN) {
+        Emscripten_HandlePenEnter(కిటికీ_దత్తాంశం_2, event);
+    } లేకపోతే ఒకవేళ (event->సూచిక_type == PTRTYPE_TOUCH) {
         // do nothing.
-    } else {
+    } లేకపోతే {
         SDL_assert(!"Unexpected pointer event type");
     }
 }
 
-static void Emscripten_HandlePenLeave(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_HandlePenLeave(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    const SDL_PenID pen = SDL_FindPenByHandle((void *) (size_t) 1);   // something > 0 for the single pen handle.
-    if (pen) {
-        Emscripten_UpdatePointerFromEvent(window_data, event);  // last data updates?
-        SDL_SendPenProximity(0, pen, window_data->window, false, false);
+    స్థిరరాశి SDL_PenID pen = SDL_కనుగొను_Pen_By_Handle((శూన్య *) (size_t) 1);   // something > 0 for the single pen handle.
+    ఒకవేళ (pen) {
+        Emscripten_Update_సూచిక_From_Event(కిటికీ_దత్తాంశం_2, event);  // last data updates?
+        SDL_SendPenProximity(0, pen, కిటికీ_దత్తాంశం_2->కిటికీ, false, false);
     }
 }
 
-static void Emscripten_HandleTouchCancel(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+స్థిర శూన్య Emscripten_HandleTouchCancel(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event->pointer_type == PTRTYPE_TOUCH);
+    SDL_assert(event->సూచిక_type == PTRTYPE_TOUCH);
 
-    const SDL_TouchID deviceId = 1;
-    if (SDL_AddTouch(deviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    స్థిరరాశి SDL_TouchID deviceId = 1;
+    ఒకవేళ (SDL_కూడు_Touch(deviceId, SDL_TOUCH_DEVICE_ప్రత్యక్ష, "") < 0) {
+        తిరిగి;
     }
 
-    double client_w, client_h;
-    emscripten_get_element_css_size(window_data->canvas_id, &client_w, &client_h);
+    ద్విగుణ client_w, client_h;
+    emscripten_get_element_css_కొలత(కిటికీ_దత్తాంశం_2->canvas_id, &client_w, &client_h);
 
-    const SDL_FingerID id = event->pointerid + 1;
-    float x, y;
-    if (client_w <= 1) {
+    స్థిరరాశి SDL_FingerID id = event->pointerid + 1;
+    దశాంశం x, y;
+    ఒకవేళ (client_w <= 1) {
         x = 0.5f;
-    } else {
-        x = event->targetX / (client_w - 1);
+    } లేకపోతే {
+        x = event->లక్ష్యం_X / (client_w - 1);
     }
-    if (client_h <= 1) {
+    ఒకవేళ (client_h <= 1) {
         y = 0.5f;
-    } else {
-        y = event->targetY / (client_h - 1);
+    } లేకపోతే {
+        y = event->లక్ష్యం_Y / (client_h - 1);
     }
 
-    SDL_SendTouch(0, deviceId, id, window_data->window, SDL_EVENT_FINGER_CANCELED, x, y, 1.0f);
+    SDL_SendTouch(0, deviceId, id, కిటికీ_దత్తాంశం_2->కిటికీ, SDL_EVENT_FINGER_CANCELED, x, y, 1.0f);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandlePointerLeave(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_Handle_సూచిక_Leave(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
-        Emscripten_HandleMouseFocus(window_data, event, false);
-    } else if (event->pointer_type == PTRTYPE_PEN) {
-        Emscripten_HandlePenLeave(window_data, event);
-    } else if (event->pointer_type == PTRTYPE_TOUCH) {
-        Emscripten_HandleTouchCancel(window_data, event);
-    } else {
+    SDL_assert(event != ఖాళీ);
+    ఒకవేళ (event->సూచిక_type == PTRTYPE_MOUSE) {
+        Emscripten_HandleMouseFocus(కిటికీ_దత్తాంశం_2, event, false);
+    } లేకపోతే ఒకవేళ (event->సూచిక_type == PTRTYPE_PEN) {
+        Emscripten_HandlePenLeave(కిటికీ_దత్తాంశం_2, event);
+    } లేకపోతే ఒకవేళ (event->సూచిక_type == PTRTYPE_TOUCH) {
+        Emscripten_HandleTouchCancel(కిటికీ_దత్తాంశం_2, event);
+    } లేకపోతే {
         SDL_assert(!"Unexpected pointer event type");
     }
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandlePointerGeneric(SDL_WindowData *window_data, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_Handle_సూచిక_Generic(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(event != NULL);
-    Emscripten_UpdatePointerFromEvent(window_data, event);
+    SDL_assert(event != ఖాళీ);
+    Emscripten_Update_సూచిక_From_Event(కిటికీ_దత్తాంశం_2, event);
 }
 
-static void Emscripten_prep_pointer_event_callbacks(void)
+స్థిర శూన్య Emscripten_prep_సూచిక_event_callbacks(శూన్య)
 {
     MAIN_THREAD_EM_ASM({
         var SDL3 = Module['SDL3'];
 
-        if (SDL3.makePointerEventCStruct === undefined) {
-            SDL3.makePointerEventCStruct = function(left, top, event) {
+        ఒకవేళ (SDL3.make_సూచిక_Event_CStruct === undefined) {
+            SDL3.make_సూచిక_Event_CStruct = function(ఎడమ, శిఖరం, event) {
                 var ptrtype = 0;
-                if (event.pointerType == "mouse") {
+                ఒకవేళ (event.సూచిక_Type == "mouse") {
                     ptrtype = 1;
-                } else if (event.pointerType == "touch") {
+                } లేకపోతే ఒకవేళ (event.సూచిక_Type == "touch") {
                     ptrtype = 2;
-                } else if (event.pointerType == "pen") {
+                } లేకపోతే ఒకవేళ (event.సూచిక_Type == "pen") {
                     ptrtype = 3;
-                } else {
-                    return 0;
+                } లేకపోతే {
+                    తిరిగి 0;
                 }
 
                 var ptr = _SDL_malloc($0);
-                if (ptr != 0) {
-                    var idx = SDL3.CPtrToHeap32Index(ptr);
+                ఒకవేళ (ptr != 0) {
+                    var idx = SDL3.CPtr_గమ్యం_Heap32_సూచీ(ptr);
                     HEAP32[idx++] = ptrtype;
-                    HEAP32[idx++] = event.pointerId;
+                    HEAP32[idx++] = event.సూచిక_Id;
                     HEAP32[idx++] = (typeof(event.button) !== "undefined") ? event.button : -1;
                     HEAP32[idx++] = event.buttons;
                     HEAP32[idx++] = (event.type == "pointerdown") ? 1 : 0;
                     HEAPF32[idx++] = event.movementX;
                     HEAPF32[idx++] = event.movementY;
-                    HEAPF32[idx++] = event.clientX - left;
-                    HEAPF32[idx++] = event.clientY - top;
-                    if (ptrtype == 3) {
+                    HEAPF32[idx++] = event.clientX - ఎడమ;
+                    HEAPF32[idx++] = event.clientY - శిఖరం;
+                    ఒకవేళ (ptrtype == 3) {
                         HEAPF32[idx++] = event.pressure;
                         HEAPF32[idx++] = event.tangentialPressure;
                         HEAPF32[idx++] = event.tiltX;
@@ -1006,178 +1006,178 @@ static void Emscripten_prep_pointer_event_callbacks(void)
                         HEAPF32[idx++] = event.twist;
                     }
                 }
-                return ptr;
+                తిరిగి ptr;
             };
         }
-    }, sizeof (Emscripten_PointerEvent));
+    }, పరిమాణం (Emscripten_సూచిక_Event));
 }
 
-static void Emscripten_set_pointer_event_callbacks(SDL_WindowData *data)
+స్థిర శూన్య Emscripten_సమితి_సూచిక_event_callbacks(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    Emscripten_prep_pointer_event_callbacks();
+    Emscripten_prep_సూచిక_event_callbacks();
 
     MAIN_THREAD_EM_ASM({
-        var target = document.querySelector(UTF8ToString($1));
-        if (target) {
+        var లక్ష్యం = document.querySelector(UTF8_గమ్యం_String($1));
+        ఒకవేళ (లక్ష్యం) {
             var SDL3 = Module['SDL3'];
-            var data = $0;
-            target.sdlEventHandlerPointerEnter = function(event) {
-                var rect = target.getBoundingClientRect();
-                var d = SDL3.makePointerEventCStruct(rect.left, rect.top, event);
-                if (d != 0)
+            var దత్తాంశం = $0;
+            లక్ష్యం.sdl_Event_Handler_సూచిక_Enter = function(event) {
+                var rect = లక్ష్యం.getBoundingClientRect();
+                var d = SDL3.make_సూచిక_Event_CStruct(rect.ఎడమ, rect.శిఖరం, event);
+                ఒకవేళ (d != 0)
                 {
-                    _Emscripten_HandlePointerEnter(SDL3.JSVarToCPtr(data), d);
+                    Emscripten_Handle_సూచిక_Enter_2(SDL3.JSVar_గమ్యం_CPtr(దత్తాంశం), d);
                     _SDL_free(d);
                 }
             };
-            target.sdlEventHandlerPointerLeave = function(event) {
-                var rect = target.getBoundingClientRect();
-                var d = SDL3.makePointerEventCStruct(rect.left, rect.top, event);
-                if (d != 0)
+            లక్ష్యం.sdl_Event_Handler_సూచిక_Leave = function(event) {
+                var rect = లక్ష్యం.getBoundingClientRect();
+                var d = SDL3.make_సూచిక_Event_CStruct(rect.ఎడమ, rect.శిఖరం, event);
+                ఒకవేళ (d != 0)
                 {
-                    _Emscripten_HandlePointerLeave(SDL3.JSVarToCPtr(data), d);
+                    Emscripten_Handle_సూచిక_Leave_2(SDL3.JSVar_గమ్యం_CPtr(దత్తాంశం), d);
                     _SDL_free(d);
                 }
             };
-            target.sdlEventHandlerPointerGeneric = function(event) {
-                var rect = target.getBoundingClientRect();
-                var d = SDL3.makePointerEventCStruct(rect.left, rect.top, event);
-                if (d != 0)
+            లక్ష్యం.sdl_Event_Handler_సూచిక_Generic = function(event) {
+                var rect = లక్ష్యం.getBoundingClientRect();
+                var d = SDL3.make_సూచిక_Event_CStruct(rect.ఎడమ, rect.శిఖరం, event);
+                ఒకవేళ (d != 0)
                 {
-                    _Emscripten_HandlePointerGeneric(SDL3.JSVarToCPtr(data), d);
+                    Emscripten_Handle_సూచిక_Generic_2(SDL3.JSVar_గమ్యం_CPtr(దత్తాంశం), d);
                     _SDL_free(d);
                 }
             };
 
-            target.style.touchAction = "none";  // or mobile devices will scroll as your touch moves across the element.
-            target.addEventListener("pointerenter", target.sdlEventHandlerPointerEnter);
-            target.addEventListener("pointerleave", target.sdlEventHandlerPointerLeave);
-            target.addEventListener("pointercancel", target.sdlEventHandlerPointerLeave);
-            target.addEventListener("pointerdown", target.sdlEventHandlerPointerGeneric);
-            target.addEventListener("pointermove", target.sdlEventHandlerPointerGeneric);
-            target.addEventListener("pointerup", target.sdlEventHandlerPointerGeneric);
+            లక్ష్యం.style.touchAction = "none";  // or mobile devices will scroll as your touch moves across the element.
+            లక్ష్యం.కూడు_Event_Listener("pointerenter", లక్ష్యం.sdl_Event_Handler_సూచిక_Enter);
+            లక్ష్యం.కూడు_Event_Listener("pointerleave", లక్ష్యం.sdl_Event_Handler_సూచిక_Leave);
+            లక్ష్యం.కూడు_Event_Listener("pointercancel", లక్ష్యం.sdl_Event_Handler_సూచిక_Leave);
+            లక్ష్యం.కూడు_Event_Listener("pointerdown", లక్ష్యం.sdl_Event_Handler_సూచిక_Generic);
+            లక్ష్యం.కూడు_Event_Listener("pointermove", లక్ష్యం.sdl_Event_Handler_సూచిక_Generic);
+            లక్ష్యం.కూడు_Event_Listener("pointerup", లక్ష్యం.sdl_Event_Handler_సూచిక_Generic);
         }
-    }, data, data->canvas_id);
+    }, దత్తాంశం, దత్తాంశం->canvas_id);
 }
 
-static void Emscripten_unset_pointer_event_callbacks(SDL_WindowData *data)
+స్థిర శూన్య Emscripten_unset_సూచిక_event_callbacks(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
     MAIN_THREAD_EM_ASM({
-        var target = document.querySelector(UTF8ToString($0));
-        if (target) {
-            target.removeEventListener("pointerenter", target.sdlEventHandlerPointerEnter);
-            target.removeEventListener("pointerleave", target.sdlEventHandlerPointerLeave);
-            target.removeEventListener("pointercancel", target.sdlEventHandlerPointerLeave);
-            target.removeEventListener("pointerdown", target.sdlEventHandlerPointerGeneric);
-            target.removeEventListener("pointermove", target.sdlEventHandlerPointerGeneric);
-            target.removeEventListener("pointerup", target.sdlEventHandlerPointerGeneric);
-            target.style.touchAction = "";  // let mobile devices scroll again as your touch moves across the element.
-            target.sdlEventHandlerPointerEnter = undefined;
-            target.sdlEventHandlerPointerLeave = undefined;
-            target.sdlEventHandlerPointerGeneric = undefined;
+        var లక్ష్యం = document.querySelector(UTF8_గమ్యం_String($0));
+        ఒకవేళ (లక్ష్యం) {
+            లక్ష్యం.removeEventListener("pointerenter", లక్ష్యం.sdl_Event_Handler_సూచిక_Enter);
+            లక్ష్యం.removeEventListener("pointerleave", లక్ష్యం.sdl_Event_Handler_సూచిక_Leave);
+            లక్ష్యం.removeEventListener("pointercancel", లక్ష్యం.sdl_Event_Handler_సూచిక_Leave);
+            లక్ష్యం.removeEventListener("pointerdown", లక్ష్యం.sdl_Event_Handler_సూచిక_Generic);
+            లక్ష్యం.removeEventListener("pointermove", లక్ష్యం.sdl_Event_Handler_సూచిక_Generic);
+            లక్ష్యం.removeEventListener("pointerup", లక్ష్యం.sdl_Event_Handler_సూచిక_Generic);
+            లక్ష్యం.style.touchAction = "";  // let mobile devices scroll again as your touch moves across the element.
+            లక్ష్యం.sdl_Event_Handler_సూచిక_Enter = undefined;
+            లక్ష్యం.sdl_Event_Handler_సూచిక_Leave = undefined;
+            లక్ష్యం.sdl_Event_Handler_సూచిక_Generic = undefined;
         }
-    }, data->canvas_id);
+    }, దత్తాంశం->canvas_id);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandleMouseButtonUpGlobal(SDL_VideoDevice *device, const Emscripten_PointerEvent *event)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_Handle_Mouse_Button_పైకి_Global(SDL_VideoDevice *device, స్థిరరాశి Emscripten_సూచిక_Event *event)
 {
-    SDL_assert(device != NULL);
-    SDL_assert(event != NULL);
-    if (event->pointer_type == PTRTYPE_MOUSE) {
-        for (SDL_Window *window = device->windows; window; window = window->next) {
-            Emscripten_HandleMouseButton(window->internal, event);
+    SDL_assert(device != ఖాళీ);
+    SDL_assert(event != ఖాళీ);
+    ఒకవేళ (event->సూచిక_type == PTRTYPE_MOUSE) {
+        కొరకు (SDL_కిటికీ *కిటికీ = device->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            Emscripten_HandleMouseButton(కిటికీ->అంతర్గత, event);
         }
     }
 }
 
-static void Emscripten_set_global_mouseup_callback(SDL_VideoDevice *device)
+స్థిర శూన్య Emscripten_సమితి_global_mouseup_callback(SDL_VideoDevice *device)
 {
-    Emscripten_prep_pointer_event_callbacks();
+    Emscripten_prep_సూచిక_event_callbacks();
 
     MAIN_THREAD_EM_ASM({
-        var target = document;
-        if (target) {
-            target.sdlEventHandlerMouseButtonUpGlobal = function(event) {
+        var లక్ష్యం = document;
+        ఒకవేళ (లక్ష్యం) {
+            లక్ష్యం.sdl_Event_Handler_Mouse_Button_పైకి_Global = function(event) {
                 var SDL3 = Module['SDL3'];
-                var d = SDL3.makePointerEventCStruct(0, 0, event);
-                if (d != 0)
+                var d = SDL3.make_సూచిక_Event_CStruct(0, 0, event);
+                ఒకవేళ (d != 0)
                 {
-                    _Emscripten_HandleMouseButtonUpGlobal(SDL3.JSVarToCPtr($0), d);
+                    Emscripten_Handle_Mouse_Button_పైకి_Global_2(SDL3.JSVar_గమ్యం_CPtr($0), d);
                     _SDL_free(d);
                 }
             };
-            target.addEventListener("pointerup", target.sdlEventHandlerMouseButtonUpGlobal);
+            లక్ష్యం.కూడు_Event_Listener("pointerup", లక్ష్యం.sdl_Event_Handler_Mouse_Button_పైకి_Global);
         }
     }, device);
 }
 
-static void Emscripten_unset_global_mouseup_callback(SDL_VideoDevice *device)
+స్థిర శూన్య Emscripten_unset_global_mouseup_callback(SDL_VideoDevice *device)
 {
     MAIN_THREAD_EM_ASM({
-        var target = document;
-        if (target) {
-            target.removeEventListener("pointerup", target.sdlEventHandlerMouseButtonUpGlobal);
-            target.sdlEventHandlerMouseButtonUpGlobal = undefined;
+        var లక్ష్యం = document;
+        ఒకవేళ (లక్ష్యం) {
+            లక్ష్యం.removeEventListener("pointerup", లక్ష్యం.sdl_Event_Handler_Mouse_Button_పైకి_Global);
+            లక్ష్యం.sdl_Event_Handler_Mouse_Button_పైకి_Global = undefined;
         }
     });
 }
 
 // IF YOU CHANGE THIS STRUCTURE, YOU NEED TO UPDATE THE JAVASCRIPT THAT FILLS IT IN: makeDropEventCStruct, below.
-typedef struct Emscripten_DropEvent
+రకనిర్వచనం నిర్మాణం Emscripten_DropEvent
 {
-    int x;
-    int y;
+    పూర్ణాంకం x;
+    పూర్ణాంకం y;
 } Emscripten_DropEvent;
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragEvent(SDL_WindowData *window_data, const Emscripten_DropEvent *event)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_SendDragEvent(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, స్థిరరాశి Emscripten_DropEvent *event)
 {
-    SDL_SendDropPosition(window_data->window, event->x, event->y);
+    SDL_SendDropPosition(కిటికీ_దత్తాంశం_2->కిటికీ, event->x, event->y);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragCompleteEvent(SDL_WindowData *window_data)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_SendDragCompleteEvent(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2)
 {
-    SDL_SendDropComplete(window_data->window);
+    SDL_SendDropComplete(కిటికీ_దత్తాంశం_2->కిటికీ);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragTextEvent(SDL_WindowData *window_data, char *text)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_Send_Drag_పాఠ్యం_Event(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, అక్షరం *పాఠ్యం)
 {
-    SDL_SendDropText(window_data->window, text);
+    SDL_Send_Drop_పాఠ్యం(కిటికీ_దత్తాంశం_2->కిటికీ, పాఠ్యం);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendDragFileEvent(SDL_WindowData *window_data, char *filename)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_SendDragFileEvent(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, అక్షరం *filename)
 {
-    SDL_SendDropFile(window_data->window, NULL, filename);
+    SDL_SendDropFile(కిటికీ_దత్తాంశం_2->కిటికీ, ఖాళీ, filename);
 }
 
 EM_JS_DEPS(dragndrop, "$writeArrayToMemory");
 
-static void Emscripten_set_drag_event_callbacks(SDL_WindowData *data)
+స్థిర శూన్య Emscripten_సమితి_drag_event_callbacks(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
     MAIN_THREAD_EM_ASM({
-        var target = document.querySelector(UTF8ToString($1));
-        if (target) {
-            var data = $0;
+        var లక్ష్యం = document.querySelector(UTF8_గమ్యం_String($1));
+        ఒకవేళ (లక్ష్యం) {
+            var దత్తాంశం = $0;
             var SDL3 = Module['SDL3'];
 
             var makeDropEventCStruct = function(event) {
                 var ptr = 0;
                 ptr = _SDL_malloc($2);
-                if (ptr != 0) {
+                ఒకవేళ (ptr != 0) {
                     var idx = ptr >> 2;
-                    var rect = target.getBoundingClientRect();
-                    HEAP32[idx++] = event.clientX - rect.left;
-                    HEAP32[idx++] = event.clientY - rect.top;
+                    var rect = లక్ష్యం.getBoundingClientRect();
+                    HEAP32[idx++] = event.clientX - rect.ఎడమ;
+                    HEAP32[idx++] = event.clientY - rect.శిఖరం;
                 }
-                return ptr;
+                తిరిగి ptr;
             };
 
             SDL3.eventHandlerDropDragover = function(event) {
                 event.preventDefault();
-                var d = makeDropEventCStruct(event); if (d != 0) { _Emscripten_SendDragEvent(data, d); _SDL_free(d); }
+                var d = makeDropEventCStruct(event); ఒకవేళ (d != 0) { _Emscripten_SendDragEvent(దత్తాంశం, d); _SDL_free(d); }
             };
-            target.addEventListener("dragover", SDL3.eventHandlerDropDragover);
+            లక్ష్యం.కూడు_Event_Listener("dragover", SDL3.eventHandlerDropDragover);
 
-            SDL3.drop_count = 0;
+            SDL3.drop_లెక్క = 0;
 
             // FS.* functions throw exceptions when there are errors (such as the temp dir already existing),
             //  but we ignore all of these in a catch handler; you just won't get the drop event if there's a problem.
@@ -1185,31 +1185,31 @@ static void Emscripten_set_drag_event_callbacks(SDL_WindowData *data)
 
             SDL3.eventHandlerDropDrop = function(event) {
                 event.preventDefault();
-                if (event.dataTransfer.types.includes("text/plain")) {
-                    let plain_text = stringToNewUTF8(event.dataTransfer.getData("text/plain"));
-                    _Emscripten_SendDragTextEvent(data, plain_text);
-                    _Emscripten_force_free(plain_text);
-                } else if (event.dataTransfer.types.includes("Files")) {
+                ఒకవేళ (event.దత్తాంశం_Transfer.types.includes("text/plain")) {
+                    let plain_పాఠ్యం = string_గమ్యం_New_UTF8(event.దత్తాంశం_Transfer.get_దత్తాంశం("text/plain"));
+                    Emscripten_Send_Drag_పాఠ్యం_Event_2(దత్తాంశం, plain_పాఠ్యం);
+                    _Emscripten_force_free(plain_పాఠ్యం);
+                } లేకపోతే ఒకవేళ (event.దత్తాంశం_Transfer.types.includes("Files")) {
                     let files_read = 0;
-                    const files_to_read = event.dataTransfer.files.length;
-                    for (let i = 0; i < files_to_read; i++) {
-                        const file = event.dataTransfer.files.item(i);
-                        const file_reader = new FileReader();
-                        file_reader.readAsArrayBuffer(file);
+                    స్థిరరాశి files_గమ్యం_read = event.దత్తాంశం_Transfer.files.నిడివి;
+                    కొరకు (let i = 0; i < files_గమ్యం_read; i++) {
+                        స్థిరరాశి file = event.దత్తాంశం_Transfer.files.అంశం(i);
+                        స్థిరరాశి file_reader = new FileReader();
+                        file_reader.read_As_Array_బఫరు(file);
                         file_reader.onload = function(event) {
-                            const fs_dropdir = `/tmp/filedrop/${SDL3.drop_count}`;
-                            SDL3.drop_count += 1;
+                            స్థిరరాశి fs_dropdir = `/tmp/filedrop/${SDL3.drop_లెక్క}`;
+                            SDL3.drop_లెక్క += 1;
 
-                            const fs_filepath = `${fs_dropdir}/${file.name}`;
-                            const c_fs_filepath = stringToNewUTF8(fs_filepath);
-                            const contents_array8 = new Uint8Array(event.target.result);
+                            స్థిరరాశి fs_filepath = `${fs_dropdir}/${file.name}`;
+                            స్థిరరాశి c_fs_filepath = string_గమ్యం_New_UTF8(fs_filepath);
+                            స్థిరరాశి contents_array8 = new Uint8Array(event.లక్ష్యం.ఫలితం);
 
                             try {
                                 FS.mkdir(fs_dropdir);
-                                var stream = FS.open(fs_filepath, "w");
-                                FS.write(stream, contents_array8, 0, contents_array8.length, 0);
-                                FS.close(stream);
-                                _Emscripten_SendDragFileEvent(data, c_fs_filepath);
+                                var ప్రవాహం = FS.open(fs_filepath, "w");
+                                FS.లిఖ(ప్రవాహం, contents_array8, 0, contents_array8.నిడివి, 0);
+                                FS.close(ప్రవాహం);
+                                _Emscripten_SendDragFileEvent(దత్తాంశం, c_fs_filepath);
                             } catch (e) {
                                 // if this threw an exception at any point, we skip this drop event. Sorry!
                             }
@@ -1223,43 +1223,43 @@ static void Emscripten_set_drag_event_callbacks(SDL_WindowData *data)
                     }
                     function onFileRead() {
                         ++files_read;
-                        if (files_read === files_to_read) {
-                            _Emscripten_SendDragCompleteEvent(data);
+                        ఒకవేళ (files_read === files_గమ్యం_read) {
+                            _Emscripten_SendDragCompleteEvent(దత్తాంశం);
                         }
                     }
                 }
-                _Emscripten_SendDragCompleteEvent(data);
+                _Emscripten_SendDragCompleteEvent(దత్తాంశం);
             };
-            target.addEventListener("drop", SDL3.eventHandlerDropDrop);
+            లక్ష్యం.కూడు_Event_Listener("drop", SDL3.eventHandlerDropDrop);
 
             SDL3.eventHandlerDropDragend = function(event) {
                 event.preventDefault();
-                _Emscripten_SendDragCompleteEvent(data);
+                _Emscripten_SendDragCompleteEvent(దత్తాంశం);
             };
-            target.addEventListener("dragend", SDL3.eventHandlerDropDragend);
-            target.addEventListener("dragleave", SDL3.eventHandlerDropDragend);
+            లక్ష్యం.కూడు_Event_Listener("dragend", SDL3.eventHandlerDropDragend);
+            లక్ష్యం.కూడు_Event_Listener("dragleave", SDL3.eventHandlerDropDragend);
         }
-    }, data, data->canvas_id, sizeof (Emscripten_DropEvent));
+    }, దత్తాంశం, దత్తాంశం->canvas_id, పరిమాణం (Emscripten_DropEvent));
 }
 
-static void Emscripten_unset_drag_event_callbacks(SDL_WindowData *data)
+స్థిర శూన్య Emscripten_unset_drag_event_callbacks(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
     MAIN_THREAD_EM_ASM({
-        var target = document.querySelector(UTF8ToString($0));
-        if (target) {
+        var లక్ష్యం = document.querySelector(UTF8_గమ్యం_String($0));
+        ఒకవేళ (లక్ష్యం) {
             var SDL3 = Module['SDL3'];
-            target.removeEventListener("dragleave", SDL3.eventHandlerDropDragend);
-            target.removeEventListener("dragend", SDL3.eventHandlerDropDragend);
-            target.removeEventListener("drop", SDL3.eventHandlerDropDrop);
-            SDL3.drop_count = undefined;
+            లక్ష్యం.removeEventListener("dragleave", SDL3.eventHandlerDropDragend);
+            లక్ష్యం.removeEventListener("dragend", SDL3.eventHandlerDropDragend);
+            లక్ష్యం.removeEventListener("drop", SDL3.eventHandlerDropDrop);
+            SDL3.drop_లెక్క = undefined;
 
             function recursive_remove(dirpath) {
                 FS.readdir(dirpath).forEach((filename) => {
-                    const p = `${dirpath}/${filename}`;
-                    const p_s = FS.stat(p);
-                    if (FS.isFile(p_s.mode)) {
+                    స్థిరరాశి p = `${dirpath}/${filename}`;
+                    స్థిరరాశి p_s = FS.stat(p);
+                    ఒకవేళ (FS.isFile(p_s.బహుళకం)) {
                         FS.unlink(p);
-                    } else if (FS.isDir(p)) {
+                    } లేకపోతే ఒకవేళ (FS.isDir(p)) {
                         recursive_remove(p);
                     }
                 });
@@ -1267,79 +1267,79 @@ static void Emscripten_unset_drag_event_callbacks(SDL_WindowData *data)
             }("/tmp/filedrop");
 
             FS.rmdir("/tmp/filedrop");
-            target.removeEventListener("dragover", SDL3.eventHandlerDropDragover);
+            లక్ష్యం.removeEventListener("dragover", SDL3.eventHandlerDropDragover);
             SDL3.eventHandlerDropDragover = undefined;
             SDL3.eventHandlerDropDrop = undefined;
             SDL3.eventHandlerDropDragend = undefined;
         }
-    }, data->canvas_id);
+    }, దత్తాంశం->canvas_id);
 }
 
-static const char *Emscripten_GetKeyboardTargetElement(const char *target)
+స్థిర స్థిరరాశి అక్షరం *Emscripten_Get_Keyboard_లక్ష్యం_Element(స్థిరరాశి అక్షరం *లక్ష్యం)
 {
-    if (SDL_strcmp(target, "#none") == 0) {
-        return NULL;
-    } else if (SDL_strcmp(target, "#window") == 0) {
-        return EMSCRIPTEN_EVENT_TARGET_WINDOW;
-    } else if (SDL_strcmp(target, "#document") == 0) {
-        return EMSCRIPTEN_EVENT_TARGET_DOCUMENT;
-    } else if (SDL_strcmp(target, "#screen") == 0) {
-        return EMSCRIPTEN_EVENT_TARGET_SCREEN;
+    ఒకవేళ (SDL_strcmp(లక్ష్యం, "#none") == 0) {
+        తిరిగి ఖాళీ;
+    } లేకపోతే ఒకవేళ (SDL_strcmp(లక్ష్యం, "#window") == 0) {
+        తిరిగి EMSCRIPTEN_EVENT_లక్ష్యం_కిటికీ;
+    } లేకపోతే ఒకవేళ (SDL_strcmp(లక్ష్యం, "#document") == 0) {
+        తిరిగి EMSCRIPTEN_EVENT_లక్ష్యం_DOCUMENT;
+    } లేకపోతే ఒకవేళ (SDL_strcmp(లక్ష్యం, "#screen") == 0) {
+        తిరిగి EMSCRIPTEN_EVENT_లక్ష్యం_SCREEN;
     }
 
-    return target;
+    తిరిగి లక్ష్యం;
 }
 
-void Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device)
+శూన్య Emscripten_రిజిస్టరు_Global_Event_Handlers(SDL_VideoDevice *device)
 {
-    Emscripten_set_global_mouseup_callback(device);
+    Emscripten_సమితి_global_mouseup_callback(device);
 
-    emscripten_set_focus_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, device, 0, Emscripten_HandleFocus);
-    emscripten_set_blur_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, device, 0, Emscripten_HandleFocus);
+    emscripten_సమితి_focus_callback(EMSCRIPTEN_EVENT_లక్ష్యం_కిటికీ, device, 0, Emscripten_HandleFocus);
+    emscripten_సమితి_blur_callback(EMSCRIPTEN_EVENT_లక్ష్యం_కిటికీ, device, 0, Emscripten_HandleFocus);
 
-    emscripten_set_pointerlockchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, device, 0, Emscripten_HandlePointerLockChangeGlobal);
+    emscripten_సమితి_pointerlockchange_callback(EMSCRIPTEN_EVENT_లక్ష్యం_DOCUMENT, device, 0, Emscripten_Handle_సూచిక_తాళం_Change_Global);
 
-    emscripten_set_fullscreenchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, device, 0, Emscripten_HandleFullscreenChangeGlobal);
+    emscripten_సమితి_fullscreenchange_callback(EMSCRIPTEN_EVENT_లక్ష్యం_DOCUMENT, device, 0, Emscripten_HandleFullscreenChangeGlobal);
 
-    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, device, 0, Emscripten_HandleResizeGlobal);
+    emscripten_సమితి_resize_callback(EMSCRIPTEN_EVENT_లక్ష్యం_కిటికీ, device, 0, Emscripten_HandleResizeGlobal);
 }
 
-void Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device)
+శూన్య Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device)
 {
     Emscripten_unset_global_mouseup_callback(device);
 
-    emscripten_set_focus_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, NULL, 0, NULL);
-    emscripten_set_blur_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, NULL, 0, NULL);
+    emscripten_సమితి_focus_callback(EMSCRIPTEN_EVENT_లక్ష్యం_కిటికీ, ఖాళీ, 0, ఖాళీ);
+    emscripten_సమితి_blur_callback(EMSCRIPTEN_EVENT_లక్ష్యం_కిటికీ, ఖాళీ, 0, ఖాళీ);
 
-    emscripten_set_pointerlockchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, NULL, 0, NULL);
+    emscripten_సమితి_pointerlockchange_callback(EMSCRIPTEN_EVENT_లక్ష్యం_DOCUMENT, ఖాళీ, 0, ఖాళీ);
 
-    emscripten_set_fullscreenchange_callback(EMSCRIPTEN_EVENT_TARGET_DOCUMENT, NULL, 0, NULL);
+    emscripten_సమితి_fullscreenchange_callback(EMSCRIPTEN_EVENT_లక్ష్యం_DOCUMENT, ఖాళీ, 0, ఖాళీ);
 
-    emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, NULL, 0, NULL);
+    emscripten_సమితి_resize_callback(EMSCRIPTEN_EVENT_లక్ష్యం_కిటికీ, ఖాళీ, 0, ఖాళీ);
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_HandleLockKeysCheck(SDL_WindowData *window_data, EM_BOOL capslock, EM_BOOL numlock, EM_BOOL scrolllock)
+EMSCRIPTEN_KEEPALIVE శూన్య Emscripten_Handle_తాళం_కీలకాలు_Check(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2, EM_BOOL capslock, EM_BOOL numlock, EM_BOOL scrolllock)
 {
-    const SDL_Keymod new_mods = (capslock ? SDL_KMOD_CAPS : 0) | (numlock ? SDL_KMOD_NUM : 0) | (scrolllock ? SDL_KMOD_SCROLL : 0);
+    స్థిరరాశి SDL_Keymod new_mods = (capslock ? SDL_KMOD_CAPS : 0) | (numlock ? SDL_KMOD_అంకె : 0) | (scrolllock ? SDL_KMOD_SCROLL : 0);
     SDL_Keymod modstate = SDL_GetModState();
-    if ((modstate & (SDL_KMOD_CAPS|SDL_KMOD_NUM|SDL_KMOD_SCROLL)) != new_mods) {
-        modstate &= ~(SDL_KMOD_CAPS|SDL_KMOD_NUM|SDL_KMOD_SCROLL);
+    ఒకవేళ ((modstate & (SDL_KMOD_CAPS|SDL_KMOD_అంకె|SDL_KMOD_SCROLL)) != new_mods) {
+        modstate &= ~(SDL_KMOD_CAPS|SDL_KMOD_అంకె|SDL_KMOD_SCROLL);
         modstate |= new_mods;
-        SDL_SetModState(modstate);
+        SDL_సమితి_Mod_State(modstate);
     }
 }
 
-void Emscripten_RegisterEventHandlers(SDL_WindowData *data)
+శూన్య Emscripten_రిజిస్టరు_Event_Handlers(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    const char *keyElement;
+    స్థిరరాశి అక్షరం *కీలకం_Element;
 
     // There is only one window and that window is the canvas
-    emscripten_set_wheel_callback(data->canvas_id, data, 0, Emscripten_HandleWheel);
+    emscripten_సమితి_wheel_callback(దత్తాంశం->canvas_id, దత్తాంశం, 0, Emscripten_HandleWheel);
 
-    emscripten_set_orientationchange_callback(data, 0, Emscripten_HandleOrientationChange);
+    emscripten_సమితి_orientationchange_callback(దత్తాంశం, 0, Emscripten_HandleOrientationChange);
 
-    keyElement = Emscripten_GetKeyboardTargetElement(data->keyboard_element);
-    if (keyElement) {
+    కీలకం_Element = Emscripten_Get_Keyboard_లక్ష్యం_Element(దత్తాంశం->keyboard_element);
+    ఒకవేళ (కీలకం_Element) {
         // Emscripten's HTML5 helpers do not deduplicate `addEventListener` calls:
         // see `registerOrRemoveHandler` in `emscripten/src/lib/libhtml5.js`.
         //
@@ -1352,76 +1352,76 @@ void Emscripten_RegisterEventHandlers(SDL_WindowData *data)
         // detection in `SDL_SendKeyboardKeyInternal`).
         //
         // We must clear any prior handler on this target before installing ours:
-        emscripten_set_keydown_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keyup_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keypress_callback(keyElement, NULL, 0, NULL);
+        emscripten_సమితి_keydown_callback(కీలకం_Element, ఖాళీ, 0, ఖాళీ);
+        emscripten_సమితి_keyup_callback(కీలకం_Element, ఖాళీ, 0, ఖాళీ);
+        emscripten_సమితి_keypress_callback(కీలకం_Element, ఖాళీ, 0, ఖాళీ);
 
         MAIN_THREAD_EM_ASM_INT({
-            var data = $0;
+            var దత్తాంశం = $0;
             // our keymod state can get confused in various ways (changed capslock when browser didn't have focus, etc), and you can't query the current
             //  state from the DOM, outside of a keyboard event, so catch keypresses globally and reset mod state if it's unexpectedly wrong. Best we can do.
             //  Note that this thing _only_ adjusts the lock keys if necessary; the real SDL keypress handling happens elsewhere.
 
             // Remove any prior listener first -- `addEventListener` does not deduplicate either.
-            if (document.sdlEventHandlerLockKeysCheck) {
-                document.removeEventListener("keydown", document.sdlEventHandlerLockKeysCheck);
+            ఒకవేళ (document.sdl_Event_Handler_తాళం_కీలకాలు_Check) {
+                document.removeEventListener("keydown", document.sdl_Event_Handler_తాళం_కీలకాలు_Check);
             }
 
-            document.sdlEventHandlerLockKeysCheck = function(event) {
+            document.sdl_Event_Handler_తాళం_కీలకాలు_Check = function(event) {
                 // don't try to adjust the state on the actual lock key presses; the normal key handler will catch that and adjust.
-                if ((event.key != "CapsLock") && (event.key != "NumLock") && (event.key != "ScrollLock"))
+                ఒకవేళ ((event.కీలకం != "CapsLock") && (event.కీలకం != "NumLock") && (event.కీలకం != "ScrollLock"))
                 {
-                    _Emscripten_HandleLockKeysCheck(Module['SDL3'].JSVarToCPtr(data), event.getModifierState("CapsLock"), event.getModifierState("NumLock"), event.getModifierState("ScrollLock"));
+                    Emscripten_Handle_తాళం_కీలకాలు_Check_2(Module['SDL3'].JSVar_గమ్యం_CPtr(దత్తాంశం), event.getModifierState("CapsLock"), event.getModifierState("NumLock"), event.getModifierState("ScrollLock"));
                 }
             };
-            document.addEventListener("keydown", document.sdlEventHandlerLockKeysCheck);
-        }, data);
-        emscripten_set_keydown_callback(keyElement, data, 0, Emscripten_HandleKey);
-        emscripten_set_keyup_callback(keyElement, data, 0, Emscripten_HandleKey);
-        emscripten_set_keypress_callback(keyElement, data, 0, Emscripten_HandleKeyPress);
+            document.కూడు_Event_Listener("keydown", document.sdl_Event_Handler_తాళం_కీలకాలు_Check);
+        }, దత్తాంశం);
+        emscripten_సమితి_keydown_callback(కీలకం_Element, దత్తాంశం, 0, Emscripten_Handle_కీలకం);
+        emscripten_సమితి_keyup_callback(కీలకం_Element, దత్తాంశం, 0, Emscripten_Handle_కీలకం);
+        emscripten_సమితి_keypress_callback(కీలకం_Element, దత్తాంశం, 0, Emscripten_Handle_కీలకం_Press);
     }
 
-    emscripten_set_visibilitychange_callback(data, 0, Emscripten_HandleVisibilityChange);
+    emscripten_సమితి_visibilitychange_callback(దత్తాంశం, 0, Emscripten_HandleVisibilityChange);
 
-    emscripten_set_beforeunload_callback(data, Emscripten_HandleBeforeUnload);
+    emscripten_సమితి_beforeunload_callback(దత్తాంశం, Emscripten_HandleBeforeUnload);
 
     // !!! FIXME: currently Emscripten doesn't have a Pointer Events functions like emscripten_set_*_callback, but we should use those when they do:
     // !!! FIXME:  https://github.com/emscripten-core/emscripten/issues/7278#issuecomment-2280024621
-    Emscripten_set_pointer_event_callbacks(data);
+    Emscripten_సమితి_సూచిక_event_callbacks(దత్తాంశం);
 
     // !!! FIXME: currently Emscripten doesn't have a Drop Events functions like emscripten_set_*_callback, but we should use those when they do:
-    Emscripten_set_drag_event_callbacks(data);
+    Emscripten_సమితి_drag_event_callbacks(దత్తాంశం);
 }
 
-void Emscripten_UnregisterEventHandlers(SDL_WindowData *data)
+శూన్య Emscripten_UnregisterEventHandlers(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    const char *keyElement;
+    స్థిరరాశి అక్షరం *కీలకం_Element;
 
     // !!! FIXME: currently Emscripten doesn't have a Drop Events functions like emscripten_set_*_callback, but we should use those when they do:
-    Emscripten_unset_drag_event_callbacks(data);
+    Emscripten_unset_drag_event_callbacks(దత్తాంశం);
 
     // !!! FIXME: currently Emscripten doesn't have a Pointer Events functions like emscripten_set_*_callback, but we should use those when they do:
     // !!! FIXME:  https://github.com/emscripten-core/emscripten/issues/7278#issuecomment-2280024621
-    Emscripten_unset_pointer_event_callbacks(data);
+    Emscripten_unset_సూచిక_event_callbacks(దత్తాంశం);
 
     // only works due to having one window
-    emscripten_set_wheel_callback(data->canvas_id, NULL, 0, NULL);
+    emscripten_సమితి_wheel_callback(దత్తాంశం->canvas_id, ఖాళీ, 0, ఖాళీ);
 
-    emscripten_set_orientationchange_callback(NULL, 0, NULL);
+    emscripten_సమితి_orientationchange_callback(ఖాళీ, 0, ఖాళీ);
 
-    keyElement = Emscripten_GetKeyboardTargetElement(data->keyboard_element);
-    if (keyElement) {
-        emscripten_set_keydown_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keyup_callback(keyElement, NULL, 0, NULL);
-        emscripten_set_keypress_callback(keyElement, NULL, 0, NULL);
+    కీలకం_Element = Emscripten_Get_Keyboard_లక్ష్యం_Element(దత్తాంశం->keyboard_element);
+    ఒకవేళ (కీలకం_Element) {
+        emscripten_సమితి_keydown_callback(కీలకం_Element, ఖాళీ, 0, ఖాళీ);
+        emscripten_సమితి_keyup_callback(కీలకం_Element, ఖాళీ, 0, ఖాళీ);
+        emscripten_సమితి_keypress_callback(కీలకం_Element, ఖాళీ, 0, ఖాళీ);
         MAIN_THREAD_EM_ASM_INT({
-            document.removeEventListener("keydown", document.sdlEventHandlerLockKeysCheck);
+            document.removeEventListener("keydown", document.sdl_Event_Handler_తాళం_కీలకాలు_Check);
         });
     }
 
-    emscripten_set_visibilitychange_callback(NULL, 0, NULL);
+    emscripten_సమితి_visibilitychange_callback(ఖాళీ, 0, ఖాళీ);
 
-    emscripten_set_beforeunload_callback(NULL, NULL);
+    emscripten_సమితి_beforeunload_callback(ఖాళీ, ఖాళీ);
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_EMSCRIPTEN

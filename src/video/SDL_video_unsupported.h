@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if !defined(SDL_VIDEO_DRIVER_WINDOWS)
+#ఒకవేళ !defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#ఒకవేళ defined(SDL_PLATFORM_WINDOWS)
 
-extern SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void *hInst);
-extern SDL_DECLSPEC void SDLCALL SDL_UnregisterApp(void);
-extern SDL_DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata);
+బాహ్య SDL_DECLSPEC bool SDLCALL SDL_రిజిస్టరు_App(స్థిరరాశి అక్షరం *name, Uint32 style, శూన్య *hInst);
+బాహ్య SDL_DECLSPEC శూన్య SDLCALL SDL_UnregisterApp(శూన్య);
+బాహ్య SDL_DECLSPEC శూన్య SDLCALL SDL_సమితి_Windows_సందేశం_Hook(SDL_Windows_సందేశం_Hook callback, శూన్య *userdata);
 
-#endif /* SDL_PLATFORM_WINDOWS */
+#అయితే_ముగింపు /* SDL_PLATFORM_WINDOWS */
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex);
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+బాహ్య SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, పూర్ణాంకం *adapter_సూచీ, పూర్ణాంకం *output_సూచీ);
+బాహ్య SDL_DECLSPEC పూర్ణాంకం SDLCALL SDL_Get_Direct3_D9_Adapter_సూచీ(SDL_DisplayID displayID);
 
-#elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#లేదావేళ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+బాహ్య SDL_DECLSPEC పూర్ణాంకం SDLCALL SDL_Get_Direct3_D9_Adapter_సూచీ(SDL_DisplayID displayID);
 
-#endif /* !SDL_VIDEO_DRIVER_WINDOWS */
+#అయితే_ముగింపు /* !SDL_VIDEO_DRIVER_WINDOWS */
 
-#if !defined(SDL_PLATFORM_GDK)
+#ఒకవేళ !defined(SDL_PLATFORM_GDK)
 
-typedef struct XTaskQueueHandle XTaskQueueHandle;
+రకనిర్వచనం నిర్మాణం XTask_వరుస_Handle XTask_వరుస_Handle;
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
+బాహ్య SDL_DECLSPEC bool SDLCALL SDL_Get_GDKTask_వరుస(XTask_వరుస_Handle *బహిర్గతం_Task_వరుస);
 
-#endif /* !SDL_PLATFORM_GDK */
+#అయితే_ముగింపు /* !SDL_PLATFORM_GDK */
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#ఒకవేళ !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
-extern SDL_DECLSPEC void SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(void);
+బాహ్య SDL_DECLSPEC శూన్య SDLCALL SDL_On_Application_Did_Change_స్థితి_Bar_Orientation(శూన్య);
 
-#endif
+#అయితే_ముగింపు
 
-#if !defined(SDL_VIDEO_DRIVER_UIKIT)
+#ఒకవేళ !defined(SDL_VIDEO_DRIVER_UIKIT)
 
-typedef void (SDLCALL *SDL_iOSAnimationCallback)(void *userdata);
+రకనిర్వచనం శూన్య (SDLCALL *SDL_iOSAnimationCallback)(శూన్య *userdata);
 
-extern SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam);
-extern SDL_DECLSPEC void SDLCALL SDL_SetiOSEventPump(bool enabled);
-#endif
+బాహ్య SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_కిటికీ *కిటికీ, పూర్ణాంకం interval, SDL_iOSAnimationCallback callback, శూన్య *callbackParam);
+బాహ్య SDL_DECLSPEC శూన్య SDLCALL SDL_SetiOSEventPump(bool enabled);
+#అయితే_ముగింపు

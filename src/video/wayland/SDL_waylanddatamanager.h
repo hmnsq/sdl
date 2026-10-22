@@ -19,131 +19,131 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_waylanddatamanager_h_
-#define SDL_waylanddatamanager_h_
+#నిర్వచితం_కాకపోతే SDL_waylanddatamanager_h_
+#నిర్వచించు SDL_waylanddatamanager_h_
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
+#అన్తర్భావ "SDL_waylandvideo.h"
+#అన్తర్భావ "SDL_waylandwindow.h"
 
-#define TEXT_MIME            "text/plain;charset=utf-8"
-#define FILE_MIME            "text/uri-list"
-#define FILE_PORTAL_MIME     "application/vnd.portal.filetransfer"
-#define SDL_DATA_ORIGIN_MIME "application/x-sdl3-source-id"
+#నిర్వచించు పాఠ్యం_MIME            "text/plain;charset=utf-8"
+#నిర్వచించు FILE_MIME            "text/uri-list"
+#నిర్వచించు FILE_PORTAL_MIME     "application/vnd.portal.filetransfer"
+#నిర్వచించు SDL_దత్తాంశం_ORIGIN_MIME "application/x-sdl3-source-id"
 
-typedef struct SDL_WaylandDataDevice SDL_WaylandDataDevice;
-typedef struct SDL_WaylandPrimarySelectionDevice SDL_WaylandPrimarySelectionDevice;
+రకనిర్వచనం నిర్మాణం SDL_Wayland_దత్తాంశం_Device SDL_Wayland_దత్తాంశం_Device;
+రకనిర్వచనం నిర్మాణం SDL_WaylandPrimarySelectionDevice SDL_WaylandPrimarySelectionDevice;
 
-typedef struct SDL_WaylandUserdata
+రకనిర్వచనం నిర్మాణం SDL_WaylandUserdata
 {
-    void *data;
+    శూన్య *దత్తాంశం;
     Uint32 sequence;
 } SDL_WaylandUserdata;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    struct wl_data_source *source;
-    SDL_WaylandDataDevice *data_device;
-    SDL_ClipboardDataCallback data_callback;
+    నిర్మాణం wl_దత్తాంశం_ఆధారం *ఆధారం;
+    SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device;
+    SDL_Clipboard_దత్తాంశం_Callback దత్తాంశం_callback;
     SDL_ClipboardCleanupCallback cleanup_callback;
     SDL_WaylandUserdata userdata;
-} SDL_WaylandDataSource;
+} SDL_Wayland_దత్తాంశం_ఆధారం;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    struct zwp_primary_selection_source_v1 *source;
+    నిర్మాణం zwp_primary_selection_ఆధారం_v1 *ఆధారం;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
-    SDL_ClipboardDataCallback data_callback;
+    SDL_Clipboard_దత్తాంశం_Callback దత్తాంశం_callback;
     SDL_ClipboardCleanupCallback cleanup_callback;
     SDL_WaylandUserdata userdata;
-} SDL_WaylandPrimarySelectionSource;
+} SDL_Wayland_Primary_Selection_ఆధారం;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    struct wl_data_offer *offer;
-    struct wl_array mimes;
-    SDL_WaylandDataDevice *data_device;
+    నిర్మాణం wl_దత్తాంశం_offer *offer;
+    నిర్మాణం wl_array mimes;
+    SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device;
 
     // Callback data for queued receive.
-    struct wl_callback *callback;
-    int read_fd;
-} SDL_WaylandDataOffer;
+    నిర్మాణం wl_callback *callback;
+    పూర్ణాంకం read_fd;
+} SDL_Wayland_దత్తాంశం_Offer;
 
-typedef struct Wayland_DropData
+రకనిర్వచనం నిర్మాణం Wayland_Drop_దత్తాంశం
 {
-    SDL_WaylandDataOffer *offer;
-    SDL_Window *dnd_window;
-    const char *text_mime_type;
-    struct wl_callback *cleanup_callback;
-    Wayland_JobID id;
+    SDL_Wayland_దత్తాంశం_Offer *offer;
+    SDL_కిటికీ *dnd_కిటికీ;
+    స్థిరరాశి అక్షరం *పాఠ్యం_mime_type;
+    నిర్మాణం wl_callback *cleanup_callback;
+    Wayland_పని_ID id;
 
-    struct wl_list link;
-} Wayland_DropData;
+    నిర్మాణం wl_list link;
+} Wayland_Drop_దత్తాంశం;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    struct zwp_primary_selection_offer_v1 *offer;
-    struct wl_array mimes;
+    నిర్మాణం zwp_primary_selection_offer_v1 *offer;
+    నిర్మాణం wl_array mimes;
     SDL_WaylandPrimarySelectionDevice *primary_selection_device;
 } SDL_WaylandPrimarySelectionOffer;
 
-struct SDL_WaylandDataDevice
+నిర్మాణం SDL_Wayland_దత్తాంశం_Device
 {
-    struct wl_data_device *data_device;
-    struct SDL_WaylandSeat *seat;
-    char *id_str;
+    నిర్మాణం wl_దత్తాంశం_device *దత్తాంశం_device;
+    నిర్మాణం SDL_WaylandSeat *seat;
+    అక్షరం *id_str;
 
     // Drag and Drop
     uint32_t drag_serial;
-    SDL_WaylandDataOffer *drag_offer;
-    SDL_WaylandDataOffer *selection_offer;
-    const char *text_mime_type;
+    SDL_Wayland_దత్తాంశం_Offer *drag_offer;
+    SDL_Wayland_దత్తాంశం_Offer *selection_offer;
+    స్థిరరాశి అక్షరం *పాఠ్యం_mime_type;
     bool has_mime_file;
-    SDL_Window *dnd_window;
-    struct wl_surface *dnd_surface;
-    struct wl_list pending_drops;
+    SDL_కిటికీ *dnd_కిటికీ;
+    నిర్మాణం wl_surface *dnd_surface;
+    నిర్మాణం wl_list pending_drops;
 
     // Clipboard and Primary Selection
-    SDL_WaylandDataSource *selection_source;
+    SDL_Wayland_దత్తాంశం_ఆధారం *selection_ఆధారం;
 };
 
-struct SDL_WaylandPrimarySelectionDevice
+నిర్మాణం SDL_WaylandPrimarySelectionDevice
 {
-    struct zwp_primary_selection_device_v1 *primary_selection_device;
-    struct SDL_WaylandSeat *seat;
+    నిర్మాణం zwp_primary_selection_device_v1 *primary_selection_device;
+    నిర్మాణం SDL_WaylandSeat *seat;
 
-    SDL_WaylandPrimarySelectionSource *selection_source;
+    SDL_Wayland_Primary_Selection_ఆధారం *selection_ఆధారం;
     SDL_WaylandPrimarySelectionOffer *selection_offer;
 };
 
 // Wayland Data Source / Primary Selection Source - (Sending)
-extern SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data);
-extern SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data);
-extern ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd);
-extern ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd);
-extern void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence);
-extern void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata);
-extern void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length);
-extern void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length);
-extern void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source);
-extern void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source);
+బాహ్య SDL_Wayland_దత్తాంశం_ఆధారం *Wayland_దత్తాంశం_ఆధారం_Create(SDL_Video_దత్తాంశం *video_దత్తాంశం);
+బాహ్య SDL_Wayland_Primary_Selection_ఆధారం *Wayland_Primary_Selection_ఆధారం_Create(SDL_Video_దత్తాంశం *video_దత్తాంశం);
+బాహ్య ssize_t Wayland_దత్తాంశం_ఆధారం_Send(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, పూర్ణాంకం fd);
+బాహ్య ssize_t Wayland_Primary_Selection_ఆధారం_Send(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, పూర్ణాంకం fd);
+బాహ్య శూన్య Wayland_దత్తాంశం_ఆధారం_సమితి_Callback(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, SDL_Clipboard_దత్తాంశం_Callback దత్తాంశం_callback, SDL_ClipboardCleanupCallback cleanup_callback, శూన్య *userdata, Uint32 sequence);
+బాహ్య శూన్య Wayland_Primary_Selection_ఆధారం_సమితి_Callback(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం, SDL_Clipboard_దత్తాంశం_Callback దత్తాంశం_callback, SDL_ClipboardCleanupCallback cleanup_callback, శూన్య *userdata);
+బాహ్య శూన్య *Wayland_దత్తాంశం_ఆధారం_Get_దత్తాంశం(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి);
+బాహ్య శూన్య *Wayland_Primary_Selection_ఆధారం_Get_దత్తాంశం(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి);
+బాహ్య శూన్య Wayland_దత్తాంశం_ఆధారం_Destroy(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం);
+బాహ్య శూన్య Wayland_Primary_Selection_ఆధారం_Destroy(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం);
 
 // Wayland Data / Primary Selection Offer - (Receiving)
-extern bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata);
-extern void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length);
-extern void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length);
-extern void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length);
-extern bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type);
-extern void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer);
-extern bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type);
-extern bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type);
-extern bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type);
-extern void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer);
-extern void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer);
+బాహ్య bool Wayland_దత్తాంశం_Offer_Request_దత్తాంశం_From_Self(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type, స్థిరరాశి నిర్మాణం wl_callback_listener *completion_listener, శూన్య *userdata);
+బాహ్య శూన్య *Wayland_దత్తాంశం_Offer_Get_దత్తాంశం_From_Self(SDL_Wayland_దత్తాంశం_Offer *offer, size_t *నిడివి);
+బాహ్య శూన్య *Wayland_దత్తాంశం_Offer_Receive(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి);
+బాహ్య శూన్య *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి);
+బాహ్య bool Wayland_దత్తాంశం_Offer_Has_MIME(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type);
+బాహ్య శూన్య Wayland_దత్తాంశం_Device_సమితి_Selection_Offer(SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device, SDL_Wayland_దత్తాంశం_Offer *offer);
+బాహ్య bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, స్థిరరాశి అక్షరం *mime_type);
+బాహ్య bool Wayland_దత్తాంశం_Offer_కూడు_MIME(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type);
+బాహ్య bool Wayland_Primary_Selection_Offer_కూడు_MIME(SDL_WaylandPrimarySelectionOffer *offer, స్థిరరాశి అక్షరం *mime_type);
+బాహ్య శూన్య Wayland_దత్తాంశం_Offer_Destroy(SDL_Wayland_దత్తాంశం_Offer *offer);
+బాహ్య శూన్య Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer);
 
 // Clipboard / Primary Selection
-extern bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count);
-extern bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *device, SDL_WaylandPrimarySelectionSource *source, const char *const *mime_types, size_t mime_count);
+బాహ్య bool Wayland_దత్తాంశం_Device_సమితి_Selection_ఆధారం(SDL_Wayland_దత్తాంశం_Device *device, SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం **mime_types, size_t mime_లెక్క);
+బాహ్య bool Wayland_Primary_Selection_Device_సమితి_Selection(SDL_WaylandPrimarySelectionDevice *device, SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *స్థిరరాశి *mime_types, size_t mime_లెక్క);
 
-#endif // SDL_waylanddatamanager_h_
+#అయితే_ముగింపు // SDL_waylanddatamanager_h_

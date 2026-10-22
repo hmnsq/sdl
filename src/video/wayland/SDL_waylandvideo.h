@@ -19,134 +19,134 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_waylandvideo_h_
-#define SDL_waylandvideo_h_
+#నిర్వచితం_కాకపోతే SDL_waylandvideo_h_
+#నిర్వచించు SDL_waylandvideo_h_
 
-#include <EGL/egl.h>
-#include "wayland-util.h"
+#అన్తర్భావ <EGL/egl.h>
+#అన్తర్భావ "wayland-util.h"
 
-#include "../SDL_sysvideo.h"
-#include "../../core/linux/SDL_dbus.h"
-#include "../../core/linux/SDL_ime.h"
-#include "SDL_waylandeventthread.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../core/linux/SDL_dbus.h"
+#అన్తర్భావ "../../core/linux/SDL_ime.h"
+#అన్తర్భావ "SDL_waylandeventthread.h"
 
-struct xkb_context;
-struct SDL_WaylandSeat;
+నిర్మాణం xkb_context;
+నిర్మాణం SDL_WaylandSeat;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    struct wl_cursor_theme *theme;
-    int size;
+    నిర్మాణం wl_cursor_theme *theme;
+    పూర్ణాంకం కొలత;
 } SDL_WaylandCursorTheme;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    struct wl_list link;
-    char wl_output_name[];
+    నిర్మాణం wl_list link;
+    అక్షరం wl_output_name[];
 } SDL_WaylandConnectorName;
 
-struct SDL_VideoData
+నిర్మాణం SDL_Video_దత్తాంశం
 {
-    struct wl_display *display;
-    struct wl_registry *registry;
-    struct wl_compositor *compositor;
-    struct wl_shm *shm;
+    నిర్మాణం wl_display *display;
+    నిర్మాణం wl_registry *registry;
+    నిర్మాణం wl_compositor *compositor;
+    నిర్మాణం wl_shm *shm;
     SDL_WaylandCursorTheme *cursor_themes;
-    int num_cursor_themes;
-    struct
+    పూర్ణాంకం అంకె_cursor_themes;
+    నిర్మాణం
     {
-        struct xdg_wm_base *xdg;
-#ifdef HAVE_LIBDECOR_H
-        struct libdecor *libdecor;
-#endif
+        నిర్మాణం xdg_wm_పునాది *xdg;
+#నిర్వచితమైతే HAVE_LIBDECOR_H
+        నిర్మాణం libdecor *libdecor;
+#అయితే_ముగింపు
     } shell;
-    struct wl_subcompositor *subcompositor;
-    struct zwp_relative_pointer_manager_v1 *relative_pointer_manager;
-    struct zwp_pointer_constraints_v1 *pointer_constraints;
-    struct wp_pointer_warp_v1 *wp_pointer_warp_v1;
-    struct wp_cursor_shape_manager_v1 *cursor_shape_manager;
-    struct wl_data_device_manager *data_device_manager;
-    struct zwp_primary_selection_device_manager_v1 *primary_selection_device_manager;
-    struct zxdg_decoration_manager_v1 *decoration_manager;
-    struct zwp_keyboard_shortcuts_inhibit_manager_v1 *key_inhibitor_manager;
-    struct zwp_idle_inhibit_manager_v1 *idle_inhibit_manager;
-    struct xdg_activation_v1 *activation_manager;
-    struct zwp_text_input_manager_v3 *text_input_manager;
-    struct zxdg_output_manager_v1 *xdg_output_manager;
-    struct wp_viewporter *viewporter;
-    struct wp_fractional_scale_manager_v1 *fractional_scale_manager;
-    struct zwp_input_timestamps_manager_v1 *input_timestamps_manager;
-    struct zxdg_exporter_v2 *zxdg_exporter_v2;
-    struct xdg_wm_dialog_v1 *xdg_wm_dialog_v1;
-    struct wp_alpha_modifier_v1 *wp_alpha_modifier_v1;
-    struct xdg_toplevel_icon_manager_v1 *xdg_toplevel_icon_manager_v1;
-    struct frog_color_management_factory_v1 *frog_color_management_factory_v1;
-    struct wp_color_manager_v1 *wp_color_manager_v1;
-    struct zwp_tablet_manager_v2 *tablet_manager;
-    struct wl_fixes *wl_fixes;
-    struct zwp_pointer_gestures_v1 *zwp_pointer_gestures;
-    struct wp_single_pixel_buffer_manager_v1 *single_pixel_buffer_manager;
-    struct xdg_session_manager_v1 *xdg_session_manager;
-    struct xdg_toplevel_tag_manager_v1 *xdg_toplevel_tag_manager;
+    నిర్మాణం wl_subcompositor *subcompositor;
+    నిర్మాణం zwp_relative_సూచిక_manager_v1 *relative_సూచిక_manager;
+    నిర్మాణం zwp_సూచిక_constraints_v1 *సూచిక_constraints;
+    నిర్మాణం wp_సూచిక_warp_v1 *wp_సూచిక_warp_v1;
+    నిర్మాణం wp_cursor_shape_manager_v1 *cursor_shape_manager;
+    నిర్మాణం wl_దత్తాంశం_device_manager *దత్తాంశం_device_manager;
+    నిర్మాణం zwp_primary_selection_device_manager_v1 *primary_selection_device_manager;
+    నిర్మాణం zxdg_decoration_manager_v1 *decoration_manager;
+    నిర్మాణం zwp_keyboard_shortcuts_inhibit_manager_v1 *కీలకం_inhibitor_manager;
+    నిర్మాణం zwp_idle_inhibit_manager_v1 *idle_inhibit_manager;
+    నిర్మాణం xdg_activation_v1 *activation_manager;
+    నిర్మాణం zwp_పాఠ్యం_ఆదానం_manager_v3 *పాఠ్యం_ఆదానం_manager;
+    నిర్మాణం zxdg_output_manager_v1 *xdg_output_manager;
+    నిర్మాణం wp_viewporter *viewporter;
+    నిర్మాణం wp_fractional_scale_manager_v1 *fractional_scale_manager;
+    నిర్మాణం zwp_ఆదానం_timestamps_manager_v1 *ఆదానం_timestamps_manager;
+    నిర్మాణం zxdg_exporter_v2 *zxdg_exporter_v2;
+    నిర్మాణం xdg_wm_dialog_v1 *xdg_wm_dialog_v1;
+    నిర్మాణం wp_alpha_modifier_v1 *wp_alpha_modifier_v1;
+    నిర్మాణం xdg_toplevel_icon_manager_v1 *xdg_toplevel_icon_manager_v1;
+    నిర్మాణం frog_color_management_factory_v1 *frog_color_management_factory_v1;
+    నిర్మాణం wp_color_manager_v1 *wp_color_manager_v1;
+    నిర్మాణం zwp_tablet_manager_v2 *tablet_manager;
+    నిర్మాణం wl_fixes *wl_fixes;
+    నిర్మాణం zwp_సూచిక_gestures_v1 *zwp_సూచిక_gestures;
+    నిర్మాణం wp_single_pixel_బఫరు_manager_v1 *single_pixel_బఫరు_manager;
+    నిర్మాణం xdg_session_manager_v1 *xdg_session_manager;
+    నిర్మాణం xdg_toplevel_ట్యాగ్_manager_v1 *xdg_toplevel_ట్యాగ్_manager;
 
-    struct xdg_session_v1 *xdg_session;
-    struct xkb_context *xkb_context;
+    నిర్మాణం xdg_session_v1 *xdg_session;
+    నిర్మాణం xkb_context *xkb_context;
 
-    struct wl_list seat_list;
-    struct SDL_WaylandSeat *last_implicit_grab_seat;
-    struct SDL_WaylandSeat *current_data_offer_seat;
-    struct SDL_WaylandSeat *current_primary_selection_seat;
+    నిర్మాణం wl_list seat_list;
+    నిర్మాణం SDL_WaylandSeat *చివరి_implicit_grab_seat;
+    నిర్మాణం SDL_WaylandSeat *current_దత్తాంశం_offer_seat;
+    నిర్మాణం SDL_WaylandSeat *current_primary_selection_seat;
     Wayland_EventThreadContext *event_thread_context;
-    Wayland_JobThreadContext *job_thread_context;
+    Wayland_పని_Thread_Context *పని_thread_context;
 
-    SDL_DisplayData **output_list;
-    int output_count;
-    int output_max;
+    SDL_Display_దత్తాంశం **output_list;
+    పూర్ణాంకం output_లెక్క;
+    పూర్ణాంకం output_max;
 
     bool initializing;
     bool display_disconnected;
     bool display_externally_owned;
-    bool scale_to_display_enabled;
+    bool scale_గమ్యం_display_enabled;
 };
 
-struct SDL_DisplayData
+నిర్మాణం SDL_Display_దత్తాంశం
 {
-    SDL_VideoData *videodata;
-    struct wl_output *output;
-    struct zxdg_output_v1 *xdg_output;
-    struct wp_color_management_output_v1 *wp_color_management_output;
-    struct Wayland_ColorInfoState *color_info_state;
-    char *wl_output_name;
-    double scale_factor;
-    int integer_scale_factor; // The integer scale factor set by wl_output.
+    SDL_Video_దత్తాంశం *videodata;
+    నిర్మాణం wl_output *output;
+    నిర్మాణం zxdg_output_v1 *xdg_output;
+    నిర్మాణం wp_color_management_output_v1 *wp_color_management_output;
+    నిర్మాణం Wayland_ColorInfoState *color_info_state;
+    అక్షరం *wl_output_name;
+    ద్విగుణ scale_గుణకం_2;
+    పూర్ణాంకం integer_scale_గుణకం; // The integer scale factor set by wl_output.
     Uint32 registry_id;
 
-    struct
+    నిర్మాణం
     {
-        int x;
-        int y;
-        int width;
-        int height;
+        పూర్ణాంకం x;
+        పూర్ణాంకం y;
+        పూర్ణాంకం వెడల్పు;
+        పూర్ణాంకం ఎత్తు;
     } logical;
 
-    struct
+    నిర్మాణం
     {
-        int x;
-        int y;
-        int width;
-        int height;
+        పూర్ణాంకం x;
+        పూర్ణాంకం y;
+        పూర్ణాంకం వెడల్పు;
+        పూర్ణాంకం ఎత్తు;
     } pixel;
 
-    struct
+    నిర్మాణం
     {
-        int width_mm;  // Physical width in millimeters.
-        int height_mm; // Physical height in millimeters.
+        పూర్ణాంకం వెడల్పు_mm;  // Physical width in millimeters.
+        పూర్ణాంకం ఎత్తు_mm; // Physical height in millimeters.
     } physical;
 
-    int refresh;   // Refresh in mHz
-    int transform; // wl_output_transform enum
+    పూర్ణాంకం refresh;   // Refresh in mHz
+    పూర్ణాంకం transform; // wl_output_transform enum
     SDL_DisplayOrientation orientation;
 
     SDL_HDROutputProperties HDR;
@@ -154,28 +154,28 @@ struct SDL_DisplayData
     SDL_DisplayID display;
     SDL_VideoDisplay placeholder;
 
-    int wl_output_done_count;
+    పూర్ణాంకం wl_output_పూర్తి_లెక్క;
     bool has_logical_position;
-    bool has_logical_size;
-    bool geometry_changed;
+    bool has_logical_కొలత;
+    bool geometry_మారింది;
 };
 
 // Needed here to get wl_surface declaration, fixes GitHub#4594
-#include "SDL_waylanddyn.h"
+#అన్తర్భావ "SDL_waylanddyn.h"
 
-extern void SDL_WAYLAND_register_surface(struct wl_surface *surface);
-extern void SDL_WAYLAND_register_output(struct wl_output *output);
-extern bool SDL_WAYLAND_own_surface(struct wl_surface *surface);
-extern bool SDL_WAYLAND_own_output(struct wl_output *output);
+బాహ్య శూన్య SDL_WAYLAND_రిజిస్టరు_surface(నిర్మాణం wl_surface *surface);
+బాహ్య శూన్య SDL_WAYLAND_రిజిస్టరు_output(నిర్మాణం wl_output *output);
+బాహ్య bool SDL_WAYLAND_own_surface(నిర్మాణం wl_surface *surface);
+బాహ్య bool SDL_WAYLAND_own_output(నిర్మాణం wl_output *output);
 
-extern SDL_WindowData *Wayland_GetWindowDataForOwnedSurface(struct wl_surface *surface);
-extern void Wayland_AddWindowDataToExternalList(SDL_WindowData *data);
-extern void Wayland_RemoveWindowDataFromExternalList(SDL_WindowData *data);
-extern struct wl_event_queue *Wayland_DisplayCreateQueue(struct wl_display *display, const char *name);
-extern void Wayland_CreateSession(SDL_VideoData *data);
+బాహ్య SDL_కిటికీ_దత్తాంశం *Wayland_Get_కిటికీ_దత్తాంశం_For_Owned_Surface(నిర్మాణం wl_surface *surface);
+బాహ్య శూన్య Wayland_కూడు_కిటికీ_దత్తాంశం_గమ్యం_External_List(SDL_కిటికీ_దత్తాంశం *దత్తాంశం);
+బాహ్య శూన్య Wayland_Remove_కిటికీ_దత్తాంశం_From_External_List(SDL_కిటికీ_దత్తాంశం *దత్తాంశం);
+బాహ్య నిర్మాణం wl_event_వరుస *Wayland_Display_Create_వరుస(నిర్మాణం wl_display *display, స్థిరరాశి అక్షరం *name);
+బాహ్య శూన్య Wayland_CreateSession(SDL_Video_దత్తాంశం *దత్తాంశం);
 
-extern bool Wayland_LoadLibdecor(SDL_VideoData *data, bool ignore_xdg);
+బాహ్య bool Wayland_ఎక్కించు_Libdecor(SDL_Video_దత్తాంశం *దత్తాంశం, bool ignore_xdg);
 
-extern bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this);
+బాహ్య bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this);
 
-#endif // SDL_waylandvideo_h_
+#అయితే_ముగింపు // SDL_waylandvideo_h_

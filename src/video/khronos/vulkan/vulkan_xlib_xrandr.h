@@ -1,5 +1,5 @@
-#ifndef VULKAN_XLIB_XRANDR_H_
-#define VULKAN_XLIB_XRANDR_H_ 1
+#నిర్వచితం_కాకపోతే VULKAN_XLIB_XRANDR_H_
+#నిర్వచించు VULKAN_XLIB_XRANDR_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,40 +13,40 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
 
 
 // VK_EXT_acquire_xlib_display is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_acquire_xlib_display 1
+#నిర్వచించు VK_EXT_acquire_xlib_display 1
 
-#define VK_EXT_ACQUIRE_XLIB_DISPLAY_SPEC_VERSION 1
-#define VK_EXT_ACQUIRE_XLIB_DISPLAY_EXTENSION_NAME "VK_EXT_acquire_xlib_display"
+#నిర్వచించు VK_EXT_ACQUIRE_XLIB_DISPLAY_SPEC_సంస్కరణ 1
+#నిర్వచించు VK_EXT_ACQUIRE_XLIB_DISPLAY_EXTENSION_NAME "VK_EXT_acquire_xlib_display"
 
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireXlibDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, VkDisplayKHR display);
-typedef VkResult (VKAPI_PTR *PFN_vkGetRandROutputDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, RROutput rrOutput, VkDisplayKHR* pDisplay);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vkAcquireXlibDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, VkDisplayKHR display);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vkGetRandROutputDisplayEXT)(VkPhysicalDevice physicalDevice, Display* dpy, RROutput rrOutput, VkDisplayKHR* pDisplay);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireXlibDisplayEXT(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vkAcquireXlibDisplayEXT(
     VkPhysicalDevice                            physicalDevice,
     Display*                                    dpy,
     VkDisplayKHR                                display);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetRandROutputDisplayEXT(
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vkGetRandROutputDisplayEXT(
     VkPhysicalDevice                            physicalDevice,
     Display*                                    dpy,
     RROutput                                    rrOutput,
     VkDisplayKHR*                               pDisplay);
-#endif
-#endif
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif
+#అయితే_ముగింపు

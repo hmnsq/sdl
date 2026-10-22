@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_riscosmodes_h_
-#define SDL_riscosmodes_h_
+#నిర్వచితం_కాకపోతే SDL_riscosmodes_h_
+#నిర్వచించు SDL_riscosmodes_h_
 
-extern bool RISCOS_InitModes(SDL_VideoDevice *_this);
-extern bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool RISCOS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+బాహ్య bool RISCOS_InitModes(SDL_VideoDevice *_this);
+బాహ్య bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+బాహ్య bool RISCOS_సమితి_Display_బహుళకం(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_బహుళకం *బహుళకం);
 
-#endif // SDL_riscosmodes_h_
+#అయితే_ముగింపు // SDL_riscosmodes_h_

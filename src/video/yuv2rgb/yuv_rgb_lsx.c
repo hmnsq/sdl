@@ -1,43 +1,43 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_HAVE_YUV
-#include "yuv_rgb_lsx.h"
-#include "yuv_rgb_internal.h"
+#నిర్వచితమైతే SDL_HAVE_YUV
+#అన్తర్భావ "yuv_rgb_lsx.h"
+#అన్తర్భావ "yuv_rgb_internal.h"
 
-#ifdef SDL_LSX_INTRINSICS
+#నిర్వచితమైతే SDL_LSX_INTRINSICS
 
-#define LSX_FUNCTION_NAME	yuv420_rgb24_lsx
-#define STD_FUNCTION_NAME	yuv420_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_lsx_func.h"
+#నిర్వచించు LSX_FUNCTION_NAME	yuv420_rgb24_lsx
+#నిర్వచించు STD_FUNCTION_NAME	yuv420_rgb24_std
+#నిర్వచించు YUV_FORMAT			YUV_FORMAT_420
+#నిర్వచించు RGB_FORMAT			RGB_FORMAT_RGB24
+#అన్తర్భావ "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_rgba_lsx
-#define STD_FUNCTION_NAME	yuv420_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_lsx_func.h"
+#నిర్వచించు LSX_FUNCTION_NAME	yuv420_rgba_lsx
+#నిర్వచించు STD_FUNCTION_NAME	yuv420_rgba_std
+#నిర్వచించు YUV_FORMAT			YUV_FORMAT_420
+#నిర్వచించు RGB_FORMAT			RGB_FORMAT_RGBA
+#అన్తర్భావ "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_bgra_lsx
-#define STD_FUNCTION_NAME	yuv420_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_lsx_func.h"
+#నిర్వచించు LSX_FUNCTION_NAME	yuv420_bgra_lsx
+#నిర్వచించు STD_FUNCTION_NAME	yuv420_bgra_std
+#నిర్వచించు YUV_FORMAT			YUV_FORMAT_420
+#నిర్వచించు RGB_FORMAT			RGB_FORMAT_BGRA
+#అన్తర్భావ "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_argb_lsx
-#define STD_FUNCTION_NAME	yuv420_argb_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_lsx_func.h"
+#నిర్వచించు LSX_FUNCTION_NAME	yuv420_argb_lsx
+#నిర్వచించు STD_FUNCTION_NAME	yuv420_argb_std
+#నిర్వచించు YUV_FORMAT			YUV_FORMAT_420
+#నిర్వచించు RGB_FORMAT			RGB_FORMAT_ARGB
+#అన్తర్భావ "yuv_rgb_lsx_func.h"
 
-#define LSX_FUNCTION_NAME	yuv420_abgr_lsx
-#define STD_FUNCTION_NAME	yuv420_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_lsx_func.h"
+#నిర్వచించు LSX_FUNCTION_NAME	yuv420_abgr_lsx
+#నిర్వచించు STD_FUNCTION_NAME	yuv420_abgr_std
+#నిర్వచించు YUV_FORMAT			YUV_FORMAT_420
+#నిర్వచించు RGB_FORMAT			RGB_FORMAT_ABGR
+#అన్తర్భావ "yuv_rgb_lsx_func.h"
 
-#endif  // SDL_LSX_INTRINSICS
+#అయితే_ముగింపు  // SDL_LSX_INTRINSICS
 
-#endif // SDL_HAVE_YUV
+#అయితే_ముగింపు // SDL_HAVE_YUV

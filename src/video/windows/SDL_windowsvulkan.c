@@ -24,108 +24,108 @@
  * SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
+#ఒకవేళ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#include "../SDL_vulkan_internal.h"
+#అన్తర్భావ "../SDL_vulkan_internal.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
+#అన్తర్భావ "SDL_windowsvideo.h"
+#అన్తర్భావ "SDL_windowswindow.h"
 
-#include "SDL_windowsvulkan.h"
+#అన్తర్భావ "SDL_windowsvulkan.h"
 
-bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool WIN_Vulkan_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
-    VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    VkExtensionProperties *extensions = ఖాళీ;
+    Uint32 extension_లెక్క = 0;
     Uint32 i;
     bool hasSurfaceExtension = false;
     bool hasWin32SurfaceExtension = false;
-    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = ఖాళీ;
+    ఒకవేళ (_this->vulkan_config.loader_handle) {
+        తిరిగి SDL_సమితి_Error("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
-        path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
+    ఒకవేళ (!మార్గం) {
+        మార్గం = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
-    if (!path) {
-        path = "vulkan-1.dll";
+    ఒకవేళ (!మార్గం) {
+        మార్గం = "vulkan-1.dll";
     }
-    _this->vulkan_config.loader_handle = SDL_LoadObject(path);
-    if (!_this->vulkan_config.loader_handle) {
-        return false;
+    _this->vulkan_config.loader_handle = SDL_ఎక్కించు_Object(మార్గం);
+    ఒకవేళ (!_this->vulkan_config.loader_handle) {
+        తిరిగి false;
     }
-    SDL_strlcpy(_this->vulkan_config.loader_path, path,
-                SDL_arraysize(_this->vulkan_config.loader_path));
-    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
+    SDL_strlcpy(_this->vulkan_config.loader_మార్గం, మార్గం,
+                SDL_arraysize(_this->vulkan_config.loader_మార్గం));
+    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_ఎక్కించు_Function(
         _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
-        goto fail;
+    ఒకవేళ (!vkGetInstanceProcAddr) {
+        వెళ్ళు fail;
     }
-    _this->vulkan_config.vkGetInstanceProcAddr = (SDL_FunctionPointer)vkGetInstanceProcAddr;
+    _this->vulkan_config.vkGetInstanceProcAddr = (SDL_Function_సూచిక)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
-        (SDL_FunctionPointer)vkGetInstanceProcAddr(
+        (SDL_Function_సూచిక)vkGetInstanceProcAddr(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
-        goto fail;
+    ఒకవేళ (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+        వెళ్ళు fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
-    if (!extensions) {
-        goto fail;
+        &extension_లెక్క);
+    ఒకవేళ (!extensions) {
+        వెళ్ళు fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    కొరకు (i = 0; i < extension_లెక్క; i++) {
+        ఒకవేళ (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_WIN32_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } లేకపోతే ఒకవేళ (SDL_strcmp(VK_KHR_WIN32_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasWin32SurfaceExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
-    } else if (!hasWin32SurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
+    ఒకవేళ (!hasSurfaceExtension) {
+        SDL_సమితి_Error("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
+        వెళ్ళు fail;
+    } లేకపోతే ఒకవేళ (!hasWin32SurfaceExtension) {
+        SDL_సమితి_Error("Installed Vulkan doesn't implement the " VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension");
+        వెళ్ళు fail;
     }
-    return true;
+    తిరిగి true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
-    _this->vulkan_config.loader_handle = NULL;
-    return false;
+    _this->vulkan_config.loader_handle = ఖాళీ;
+    తిరిగి false;
 }
 
-void WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
+శూన్య WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    ఒకవేళ (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
-        _this->vulkan_config.loader_handle = NULL;
+        _this->vulkan_config.loader_handle = ఖాళీ;
     }
 }
 
-char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+అక్షరం స్థిరరాశి * స్థిరరాశి *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *లెక్క)
 {
-    static const char *const extensionsForWin32[] = {
+    స్థిర స్థిరరాశి అక్షరం *స్థిరరాశి extensionsForWin32[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME
     };
-    *count = SDL_arraysize(extensionsForWin32);
-    return extensionsForWin32;
+    *లెక్క = SDL_arraysize(extensionsForWin32);
+    తిరిగి extensionsForWin32;
 }
 
 bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                             SDL_Window *window,
+                             SDL_కిటికీ *కిటికీ,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator,
                              VkSurfaceKHR *surface)
 {
-    SDL_WindowData *windowData = window->internal;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం = కిటికీ->అంతర్గత;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
     PFN_vkCreateWin32SurfaceKHR vkCreateWin32SurfaceKHR =
@@ -133,42 +133,42 @@ bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
             instance,
             "vkCreateWin32SurfaceKHR");
     VkWin32SurfaceCreateInfoKHR createInfo;
-    VkResult result;
+    Vk_ఫలితం ఫలితం;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ఒకవేళ (!_this->vulkan_config.loader_handle) {
+        తిరిగి SDL_సమితి_Error("Vulkan is not loaded");
     }
 
-    if (!vkCreateWin32SurfaceKHR) {
-        return SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME
+    ఒకవేళ (!vkCreateWin32SurfaceKHR) {
+        తిరిగి SDL_సమితి_Error(VK_KHR_WIN32_SURFACE_EXTENSION_NAME
                             " extension is not enabled in the Vulkan instance.");
     }
     createInfo.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
-    createInfo.pNext = NULL;
+    createInfo.p_తదుపరి = ఖాళీ;
     createInfo.flags = 0;
-    createInfo.hinstance = windowData->hinstance;
-    createInfo.hwnd = windowData->hwnd;
-    result = vkCreateWin32SurfaceKHR(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        return SDL_SetError("vkCreateWin32SurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
+    createInfo.hinstance = కిటికీ_దత్తాంశం->hinstance;
+    createInfo.hwnd = కిటికీ_దత్తాంశం->hwnd;
+    ఫలితం = vkCreateWin32SurfaceKHR(instance, &createInfo, allocator, surface);
+    ఒకవేళ (ఫలితం != VK_SUCCESS) {
+        తిరిగి SDL_సమితి_Error("vkCreateWin32SurfaceKHR failed: %s", SDL_Vulkan_Get_ఫలితం_String(ఫలితం));
     }
-    return true;
+    తిరిగి true;
 }
 
-void WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+శూన్య WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator)
+                               స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
-        SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
+    ఒకవేళ (_this->vulkan_config.loader_handle) {
+        SDL_Vulkan_Destroy_Surface_అంతర్గత(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }
 
 bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex)
+                                           Uint32 వరుస_Family_సూచీ)
 {
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
@@ -177,16 +177,16 @@ bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
             instance,
             "vkGetPhysicalDeviceWin32PresentationSupportKHR");
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ఒకవేళ (!_this->vulkan_config.loader_handle) {
+        తిరిగి SDL_సమితి_Error("Vulkan is not loaded");
     }
 
-    if (!vkGetPhysicalDeviceWin32PresentationSupportKHR) {
-        return SDL_SetError(VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+    ఒకవేళ (!vkGetPhysicalDeviceWin32PresentationSupportKHR) {
+        తిరిగి SDL_సమితి_Error(VK_KHR_WIN32_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
     }
 
-    return vkGetPhysicalDeviceWin32PresentationSupportKHR(physicalDevice,
-                                                          queueFamilyIndex);
+    తిరిగి vkGetPhysicalDeviceWin32PresentationSupportKHR(physicalDevice,
+                                                          వరుస_Family_సూచీ);
 }
 
-#endif
+#అయితే_ముగింపు

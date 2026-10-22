@@ -18,129 +18,129 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
 
-#include <sys/types.h>
-#include <sys/time.h>
-#include <signal.h>
-#include <unistd.h>
-#include <limits.h> // For INT_MAX
+#అన్తర్భావ <sys/types.h>
+#అన్తర్భావ <sys/time.h>
+#అన్తర్భావ <signal.h>
+#అన్తర్భావ <unistd.h>
+#అన్తర్భావ <limits.h> // For INT_MAX
 
-#include "SDL_x11video.h"
-#include "SDL_x11pen.h"
-#include "SDL_x11touch.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11xfixes.h"
-#include "SDL_x11settings.h"
-#include "../SDL_clipboard_c.h"
-#include "SDL_x11xsync.h"
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../core/linux/SDL_system_theme.h"
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11pen.h"
+#అన్తర్భావ "SDL_x11touch.h"
+#అన్తర్భావ "SDL_x11xinput2.h"
+#అన్తర్భావ "SDL_x11xfixes.h"
+#అన్తర్భావ "SDL_x11settings.h"
+#అన్తర్భావ "../SDL_clipboard_c.h"
+#అన్తర్భావ "SDL_x11xsync.h"
+#అన్తర్భావ "../../core/unix/SDL_poll.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/SDL_touch_c.h"
+#అన్తర్భావ "../../core/linux/SDL_system_theme.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
-#include <stdio.h>
+#అన్తర్భావ <stdio.h>
 
-#if 0
-#define DEBUG_XEVENTS
-#endif
+#ఒకవేళ 0
+#నిర్వచించు DEBUG_XEVENTS
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_TOPLEFT
-#define _NET_WM_MOVERESIZE_SIZE_TOPLEFT 0
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_TOPLEFT
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_TOPLEFT 0
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_TOP
-#define _NET_WM_MOVERESIZE_SIZE_TOP 1
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_శిఖరం
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_శిఖరం 1
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_TOPRIGHT
-#define _NET_WM_MOVERESIZE_SIZE_TOPRIGHT 2
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_TOPRIGHT
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_TOPRIGHT 2
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_RIGHT
-#define _NET_WM_MOVERESIZE_SIZE_RIGHT 3
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_కుడి
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_కుడి 3
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT
-#define _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT 4
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_BOTTOMRIGHT
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_BOTTOMRIGHT 4
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_BOTTOM
-#define _NET_WM_MOVERESIZE_SIZE_BOTTOM 5
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_BOTTOM
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_BOTTOM 5
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT
-#define _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT 6
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_BOTTOMLEFT
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_BOTTOMLEFT 6
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_LEFT
-#define _NET_WM_MOVERESIZE_SIZE_LEFT 7
-#endif
+#నిర్వచితం_కాకపోతే NET_WM_MOVERESIZE_కొలత_ఎడమ
+#నిర్వచించు NET_WM_MOVERESIZE_కొలత_ఎడమ 7
+#అయితే_ముగింపు
 
-#ifndef _NET_WM_MOVERESIZE_MOVE
-#define _NET_WM_MOVERESIZE_MOVE 8
-#endif
+#నిర్వచితం_కాకపోతే _NET_WM_MOVERESIZE_MOVE
+#నిర్వచించు _NET_WM_MOVERESIZE_MOVE 8
+#అయితే_ముగింపు
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    unsigned char *data;
-    int format, count;
+    గుర్తులేని అక్షరం *దత్తాంశం;
+    పూర్ణాంకం format, లెక్క;
     Atom type;
 } SDL_x11Prop;
 
 /* Reads property
    Must call X11_XFree on results
  */
-static void X11_ReadProperty(SDL_x11Prop *p, Display *disp, Window w, Atom prop)
+స్థిర శూన్య X11_ReadProperty(SDL_x11Prop *p, Display *disp, కిటికీ_2 w, Atom prop)
 {
-    unsigned char *ret = NULL;
+    గుర్తులేని అక్షరం *ret = ఖాళీ;
     Atom type;
-    int fmt;
-    unsigned long count;
-    unsigned long bytes_left;
-    int bytes_fetch = 0;
+    పూర్ణాంకం fmt;
+    గుర్తులేని దీర్ఘ లెక్క;
+    గుర్తులేని దీర్ఘ బైట్లు_ఎడమ;
+    పూర్ణాంకం బైట్లు_fetch = 0;
 
-    do {
-        if (ret) {
+    చేయి {
+        ఒకవేళ (ret) {
             X11_XFree(ret);
         }
-        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &count, &bytes_left, &ret);
-        bytes_fetch += bytes_left;
-    } while (bytes_left != 0);
+        X11_XGet_కిటికీ_Property(disp, w, prop, 0, బైట్లు_fetch, False, AnyPropertyType, &type, &fmt, &లెక్క, &బైట్లు_ఎడమ, &ret);
+        బైట్లు_fetch += బైట్లు_ఎడమ;
+    } అయితే (బైట్లు_ఎడమ != 0);
 
-    p->data = ret;
+    p->దత్తాంశం = ret;
     p->format = fmt;
-    p->count = count;
+    p->లెక్క = లెక్క;
     p->type = type;
 }
 
 /* Find text-uri-list in a list of targets and return it's atom
    if available, else return None */
-static Atom X11_PickTarget(Display *disp, Atom list[], int list_count)
+స్థిర Atom X11_Pick_లక్ష్యం(Display *disp, Atom list[], పూర్ణాంకం list_లెక్క)
 {
-    const Atom text_uri_request = X11_XInternAtom(disp, "text/uri-list", False);
+    స్థిరరాశి Atom పాఠ్యం_uri_request = X11_XInternAtom(disp, "text/uri-list", False);
     Atom request = None;
     Atom preferred = None;
 
-    for (int i = 0; i < list_count && request != text_uri_request; i++) {
-        char *name = X11_XGetAtomName(disp, list[i]);
+    కొరకు (పూర్ణాంకం i = 0; i < list_లెక్క && request != పాఠ్యం_uri_request; i++) {
+        అక్షరం *name = X11_XGetAtomName(disp, list[i]);
         // Preferred MIME targets
-        if ((SDL_strcmp("text/uri-list", name) == 0) ||
+        ఒకవేళ ((SDL_strcmp("text/uri-list", name) == 0) ||
             (SDL_strcmp("text/plain;charset=utf-8", name) == 0) ||
             (SDL_strcmp("UTF8_STRING", name) == 0)) {
-            if (preferred == None) {
+            ఒకవేళ (preferred == None) {
                 preferred = list[i];
             }
             request = list[i];
         }
         // Fallback MIME targets
-        if ((SDL_strcmp("text/plain", name) == 0) ||
+        ఒకవేళ ((SDL_strcmp("text/plain", name) == 0) ||
             (SDL_strcmp("TEXT", name) == 0)) {
-            if (request == None) {
+            ఒకవేళ (request == None) {
                 request = list[i];
             }
         }
@@ -148,136 +148,136 @@ static Atom X11_PickTarget(Display *disp, Atom list[], int list_count)
     }
 
     // The type 'text/uri-list' is preferred over all others.
-    if (preferred != None && request != text_uri_request) {
+    ఒకవేళ (preferred != None && request != పాఠ్యం_uri_request) {
         request = preferred;
     }
-    return request;
+    తిరిగి request;
 }
 
 /* Wrapper for X11_PickTarget for a maximum of three targets, a special
    case in the Xdnd protocol */
-static Atom X11_PickTargetFromAtoms(Display *disp, Atom a0, Atom a1, Atom a2)
+స్థిర Atom X11_Pick_లక్ష్యం_From_Atoms(Display *disp, Atom a0, Atom a1, Atom a2)
 {
-    int count = 0;
+    పూర్ణాంకం లెక్క = 0;
     Atom atom[3];
-    if (a0 != None) {
-        atom[count++] = a0;
+    ఒకవేళ (a0 != None) {
+        atom[లెక్క++] = a0;
     }
-    if (a1 != None) {
-        atom[count++] = a1;
+    ఒకవేళ (a1 != None) {
+        atom[లెక్క++] = a1;
     }
-    if (a2 != None) {
-        atom[count++] = a2;
+    ఒకవేళ (a2 != None) {
+        atom[లెక్క++] = a2;
     }
-    return X11_PickTarget(disp, atom, count);
+    తిరిగి X11_Pick_లక్ష్యం(disp, atom, లెక్క);
 }
 
-struct KeyRepeatCheckData
+నిర్మాణం కీలకం_Repeat_Check_దత్తాంశం
 {
     XEvent *event;
-    bool found;
+    bool దొరికింది;
 };
 
-static Bool X11_KeyRepeatCheckIfEvent(Display *display, XEvent *chkev,
+స్థిర Bool X11_కీలకం_Repeat_Check_If_Event(Display *display, XEvent *chkev,
                                       XPointer arg)
 {
-    struct KeyRepeatCheckData *d = (struct KeyRepeatCheckData *)arg;
-    if (chkev->type == KeyPress && chkev->xkey.keycode == d->event->xkey.keycode && chkev->xkey.time - d->event->xkey.time < 2) {
-        d->found = true;
+    నిర్మాణం కీలకం_Repeat_Check_దత్తాంశం *d = (నిర్మాణం కీలకం_Repeat_Check_దత్తాంశం *)arg;
+    ఒకవేళ (chkev->type == కీలకం_Press && chkev->xkey.keycode == d->event->xkey.keycode && chkev->xkey.సమయం - d->event->xkey.సమయం < 2) {
+        d->దొరికింది = true;
     }
-    return False;
+    తిరిగి False;
 }
 
 /* Check to see if this is a repeated key.
    (idea shamelessly lifted from GII -- thanks guys! :)
  */
-static bool X11_KeyRepeat(Display *display, XEvent *event)
+స్థిర bool X11_కీలకం_Repeat(Display *display, XEvent *event)
 {
     XEvent dummyev;
-    struct KeyRepeatCheckData d;
+    నిర్మాణం కీలకం_Repeat_Check_దత్తాంశం d;
     d.event = event;
-    d.found = false;
-    if (X11_XPending(display)) {
-        X11_XCheckIfEvent(display, &dummyev, X11_KeyRepeatCheckIfEvent, (XPointer)&d);
+    d.దొరికింది = false;
+    ఒకవేళ (X11_XPending(display)) {
+        X11_XCheckIfEvent(display, &dummyev, X11_కీలకం_Repeat_Check_If_Event, (XPointer)&d);
     }
-    return d.found;
+    తిరిగి d.దొరికింది;
 }
 
-bool X11_IsWheelEvent(int button, int *xticks, int *yticks)
+bool X11_IsWheelEvent(పూర్ణాంకం button, పూర్ణాంకం *xticks, పూర్ణాంకం *yticks)
 {
     /* according to the xlib docs, no specific mouse wheel events exist.
        However, the defacto standard is that the vertical wheel is X buttons
        4 (up) and 5 (down) and a horizontal wheel is 6 (left) and 7 (right). */
 
     // Xlib defines "Button1" through 5, so we just use literals here.
-    switch (button) {
-    case 4:
+    ఎంపిక (button) {
+    స్థితి 4:
         *yticks = 1;
-        return true;
-    case 5:
+        తిరిగి true;
+    స్థితి 5:
         *yticks = -1;
-        return true;
-    case 6:
+        తిరిగి true;
+    స్థితి 6:
         *xticks = 1;
-        return true;
-    case 7:
+        తిరిగి true;
+    స్థితి 7:
         *xticks = -1;
-        return true;
-    default:
-        break;
+        తిరిగి true;
+    అప్రమేయ:
+        ఆపు;
     }
-    return false;
+    తిరిగి false;
 }
 
 // An X11 event hook
-static SDL_X11EventHook g_X11EventHook = NULL;
-static void *g_X11EventHookData = NULL;
+స్థిర SDL_X11EventHook g_X11EventHook = ఖాళీ;
+స్థిర శూన్య *g_X11_Event_Hook_దత్తాంశం = ఖాళీ;
 
-void SDL_SetX11EventHook(SDL_X11EventHook callback, void *userdata)
+శూన్య SDL_సమితి_X11_Event_Hook(SDL_X11EventHook callback, శూన్య *userdata)
 {
     g_X11EventHook = callback;
-    g_X11EventHookData = userdata;
+    g_X11_Event_Hook_దత్తాంశం = userdata;
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
-static void X11_HandleGenericEvent(SDL_VideoDevice *_this, XEvent *xev)
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
+స్థిర శూన్య X11_HandleGenericEvent(SDL_VideoDevice *_this, XEvent *xev)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
 
     // event is a union, so cookie == &event, but this is type safe.
     XGenericEventCookie *cookie = &xev->xcookie;
-    if (X11_XGetEventData(videodata->display, cookie)) {
-        if (!g_X11EventHook || g_X11EventHook(g_X11EventHookData, xev)) {
+    ఒకవేళ (X11_XGet_Event_దత్తాంశం(videodata->display, cookie)) {
+        ఒకవేళ (!g_X11EventHook || g_X11EventHook(g_X11_Event_Hook_దత్తాంశం, xev)) {
             X11_HandleXinput2Event(_this, cookie);
         }
-        X11_XFreeEventData(videodata->display, cookie);
+        X11_XFree_Event_దత్తాంశం(videodata->display, cookie);
     }
 }
-#endif // SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
 
-static void X11_UpdateSystemKeyModifiers(SDL_VideoData *viddata)
+స్థిర శూన్య X11_Update_System_కీలకం_Modifiers(SDL_Video_దత్తాంశం *viddata)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-    if (viddata->keyboard.xkb_enabled) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+    ఒకవేళ (viddata->keyboard.xkb_enabled) {
         XkbStateRec xkb_state;
-        if (X11_XkbGetState(viddata->display, XkbUseCoreKbd, &xkb_state) == Success) {
-            viddata->keyboard.pressed_modifiers = xkb_state.base_mods;
+        ఒకవేళ (X11_XkbGetState(viddata->display, XkbUseCoreKbd, &xkb_state) == Success) {
+            viddata->keyboard.pressed_modifiers = xkb_state.పునాది_mods;
             viddata->keyboard.locked_modifiers = xkb_state.latched_mods | xkb_state.locked_mods;
         }
-    } else
-#endif
+    } లేకపోతే
+#అయితే_ముగింపు
         {
-        Window junk_window;
-        int x, y;
-        unsigned int mod_mask;
+        కిటికీ_2 junk_కిటికీ;
+        పూర్ణాంకం x, y;
+        గుర్తులేని పూర్ణాంకం mod_ముసుగు;
 
-        X11_XQueryPointer(viddata->display, DefaultRootWindow(viddata->display), &junk_window, &junk_window, &x, &y, &x, &y, &mod_mask);
-        viddata->keyboard.pressed_modifiers = mod_mask & (ShiftMask | ControlMask | Mod1Mask | Mod3Mask | Mod4Mask | Mod5Mask);
-        viddata->keyboard.locked_modifiers = mod_mask & (LockMask | viddata->keyboard.numlock_mask | viddata->keyboard.scrolllock_mask);
+        X11_XQuery_సూచిక(viddata->display, Default_మూలం_కిటికీ(viddata->display), &junk_కిటికీ, &junk_కిటికీ, &x, &y, &x, &y, &mod_ముసుగు);
+        viddata->keyboard.pressed_modifiers = mod_ముసుగు & (జరుపు_ముసుగు_2 | Control_ముసుగు | Mod1_ముసుగు | Mod3_ముసుగు | Mod4_ముసుగు | Mod5_ముసుగు);
+        viddata->keyboard.locked_modifiers = mod_ముసుగు & (తాళం_ముసుగు | viddata->keyboard.numlock_ముసుగు | viddata->keyboard.scrolllock_ముసుగు);
     }
 }
 
-static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
+స్థిర శూన్య X11_ReconcileModifiers(SDL_Video_దత్తాంశం *viddata, bool కీలకం_pressed)
 {
     /* Handle explicit pressed modifier state. This will correct the modifier state
      * if common modifier keys were remapped and the modifiers presumed to be set
@@ -286,80 +286,80 @@ static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
      * modifier state was set by a keypress before the corresponding key event
      * was received.
      */
-    if (key_pressed) {
-        if (viddata->keyboard.pressed_modifiers & ShiftMask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_SHIFT) {
-                viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_SHIFT;
-                viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_SHIFT);
+    ఒకవేళ (కీలకం_pressed) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & జరుపు_ముసుగు_2) {
+            ఒకవేళ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_జరుపు) {
+                viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_జరుపు;
+                viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_జరుపు);
             }
         }
 
-        if (viddata->keyboard.pressed_modifiers & ControlMask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_CTRL) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & Control_ముసుగు) {
+            ఒకవేళ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_CTRL) {
                 viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_CTRL;
                 viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_CTRL);
             }
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_mask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ALT) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_ముసుగు) {
+            ఒకవేళ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ALT) {
                 viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_ALT;
                 viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ALT);
             }
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_mask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_GUI) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_ముసుగు) {
+            ఒకవేళ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_GUI) {
                 viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_GUI;
                 viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_GUI);
             }
         }
-    } else {
-        if (viddata->keyboard.pressed_modifiers & ShiftMask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_SHIFT)) {
-                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_SHIFT;
+    } లేకపోతే {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & జరుపు_ముసుగు_2) {
+            ఒకవేళ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_జరుపు)) {
+                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_జరుపు;
             }
-        } else {
-            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_SHIFT;
+        } లేకపోతే {
+            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_జరుపు;
         }
 
-        if (viddata->keyboard.pressed_modifiers & ControlMask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL)) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & Control_ముసుగు) {
+            ఒకవేళ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_CTRL;
             }
-        } else {
+        } లేకపోతే {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_CTRL;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT)) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_ముసుగు) {
+            ఒకవేళ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_ALT;
             }
-        } else {
+        } లేకపోతే {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_ALT;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI)) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_ముసుగు) {
+            ఒకవేళ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_GUI;
             }
-        } else {
+        } లేకపోతే {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_GUI;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.level3_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_MODE)) {
-                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_MODE;
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & viddata->keyboard.level3_ముసుగు) {
+            ఒకవేళ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_బహుళకం)) {
+                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_బహుళకం;
             }
-        } else {
-            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_MODE;
+        } లేకపోతే {
+            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_బహుళకం;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.level5_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_LEVEL5)) {
+        ఒకవేళ (viddata->keyboard.pressed_modifiers & viddata->keyboard.level5_ముసుగు) {
+            ఒకవేళ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_LEVEL5)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_LEVEL5;
             }
-        } else {
+        } లేకపోతే {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_LEVEL5;
         }
     }
@@ -371,87 +371,87 @@ static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
      * The modifier will remain active until the latch/lock is released by
      * the system.
      */
-    if (viddata->keyboard.locked_modifiers & ShiftMask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_SHIFT) {
-            viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_SHIFT;
-            viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_SHIFT);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_SHIFT)) {
-            viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_SHIFT;
+    ఒకవేళ (viddata->keyboard.locked_modifiers & జరుపు_ముసుగు_2) {
+        ఒకవేళ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_జరుపు) {
+            viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_జరుపు;
+            viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_జరుపు);
+        } లేకపోతే ఒకవేళ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_జరుపు)) {
+            viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_జరుపు;
         }
-    } else {
-        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_SHIFT;
+    } లేకపోతే {
+        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_జరుపు;
     }
 
-    if (viddata->keyboard.locked_modifiers & ControlMask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL) {
+    ఒకవేళ (viddata->keyboard.locked_modifiers & Control_ముసుగు) {
+        ఒకవేళ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL) {
             viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_CTRL;
             viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_CTRL)) {
+        } లేకపోతే ఒకవేళ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_CTRL)) {
             viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_CTRL;
         }
-    } else {
+    } లేకపోతే {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_CTRL;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.alt_mask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT) {
+    ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.alt_ముసుగు) {
+        ఒకవేళ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT) {
             viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ALT;
             viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_ALT)) {
+        } లేకపోతే ఒకవేళ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_ALT)) {
             viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_ALT;
         }
-    } else {
+    } లేకపోతే {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ALT;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.gui_mask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI) {
+    ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.gui_ముసుగు) {
+        ఒకవేళ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI) {
             viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_GUI;
             viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_GUI)) {
+        } లేకపోతే ఒకవేళ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_GUI)) {
             viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_GUI;
         }
-    } else {
+    } లేకపోతే {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_GUI;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.level3_mask) {
-        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_MODE;
-    } else {
-        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_MODE;
+    ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.level3_ముసుగు) {
+        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_బహుళకం;
+    } లేకపోతే {
+        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_బహుళకం;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.level5_mask) {
+    ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.level5_ముసుగు) {
         viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_LEVEL5;
-    } else {
+    } లేకపోతే {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_LEVEL5;
     }
 
     // Capslock, Numlock, and Scrolllock can only be locked, not pressed.
-    if (viddata->keyboard.locked_modifiers & LockMask) {
+    ఒకవేళ (viddata->keyboard.locked_modifiers & తాళం_ముసుగు) {
         viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_CAPS;
-    } else {
+    } లేకపోతే {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_CAPS;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_mask) {
-        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_NUM;
-    } else {
-        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_NUM;
+    ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_ముసుగు) {
+        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_అంకె;
+    } లేకపోతే {
+        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_అంకె;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_mask) {
+    ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_ముసుగు) {
         viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_SCROLL;
-    } else {
+    } లేకపోతే {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_SCROLL;
     }
 
-    SDL_SetModState(viddata->keyboard.sdl_pressed_modifiers | viddata->keyboard.sdl_locked_modifiers);
+    SDL_సమితి_Mod_State(viddata->keyboard.sdl_pressed_modifiers | viddata->keyboard.sdl_locked_modifiers);
 }
 
-static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode, bool pressed)
+స్థిర శూన్య X11_Handle_Modifier_కీలకాలు(SDL_Video_దత్తాంశం *viddata, SDL_Scancode scancode, bool pressed)
 {
-    const SDL_Keycode keycode = SDL_GetKeyFromScancode(scancode, SDL_KMOD_NONE, false);
+    స్థిరరాశి SDL_Keycode keycode = SDL_Get_కీలకం_From_Scancode(scancode, SDL_KMOD_NONE, false);
     SDL_Keymod mod = SDL_KMOD_NONE;
 
     /* SDL clients expect modifier state to be activated at the same time as the
@@ -460,76 +460,76 @@ static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode
      * keypress event. If this is wrong, it will be corrected when the explicit
      * modifier state is checked.
      */
-    switch (keycode) {
-    case SDLK_LSHIFT:
+    ఎంపిక (keycode) {
+    స్థితి SDLK_LSHIFT:
         mod = SDL_KMOD_LSHIFT;
-        break;
-    case SDLK_RSHIFT:
+        ఆపు;
+    స్థితి SDLK_RSHIFT:
         mod = SDL_KMOD_RSHIFT;
-        break;
-    case SDLK_LCTRL:
+        ఆపు;
+    స్థితి SDLK_LCTRL:
         mod = SDL_KMOD_LCTRL;
-        break;
-    case SDLK_RCTRL:
+        ఆపు;
+    స్థితి SDLK_RCTRL:
         mod = SDL_KMOD_RCTRL;
-        break;
-    case SDLK_LALT:
+        ఆపు;
+    స్థితి SDLK_LALT:
         mod = SDL_KMOD_LALT;
-        break;
-    case SDLK_RALT:
+        ఆపు;
+    స్థితి SDLK_RALT:
         mod = SDL_KMOD_RALT;
-        break;
-    case SDLK_LGUI:
+        ఆపు;
+    స్థితి SDLK_LGUI:
         mod = SDL_KMOD_LGUI;
-        break;
-    case SDLK_RGUI:
+        ఆపు;
+    స్థితి SDLK_RGUI:
         mod = SDL_KMOD_RGUI;
-        break;
-    case SDLK_MODE:
-        mod = SDL_KMOD_MODE;
-        break;
-    case SDLK_LEVEL5_SHIFT:
+        ఆపు;
+    స్థితి SDLK_బహుళకం:
+        mod = SDL_KMOD_బహుళకం;
+        ఆపు;
+    స్థితి SDLK_LEVEL5_జరుపు:
         mod = SDL_KMOD_LEVEL5;
-        break;
-    case SDLK_CAPSLOCK:
-    case SDLK_NUMLOCKCLEAR:
-    case SDLK_SCROLLLOCK:
+        ఆపు;
+    స్థితి SDLK_CAPSLOCK:
+    స్థితి SDLK_NUMLOCKCLEAR:
+    స్థితి SDLK_SCROLLLOCK:
     {
         // XKB provides the latched/locked state explicitly.
-        if (viddata->keyboard.xkb_enabled) {
+        ఒకవేళ (viddata->keyboard.xkb_enabled) {
             /* For locking modifier keys, query the lock state directly, or we may have to wait until the next
              * key press event to know if a lock was actually activated from the key event.
              */
-            unsigned int cur_mask = viddata->keyboard.locked_modifiers;
-            X11_UpdateSystemKeyModifiers(viddata);
+            గుర్తులేని పూర్ణాంకం cur_ముసుగు = viddata->keyboard.locked_modifiers;
+            X11_Update_System_కీలకం_Modifiers(viddata);
 
-            if (viddata->keyboard.locked_modifiers & LockMask) {
-                cur_mask |= LockMask;
-            } else {
-                cur_mask &= ~LockMask;
+            ఒకవేళ (viddata->keyboard.locked_modifiers & తాళం_ముసుగు) {
+                cur_ముసుగు |= తాళం_ముసుగు;
+            } లేకపోతే {
+                cur_ముసుగు &= ~తాళం_ముసుగు;
             }
-            if (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_mask) {
-                cur_mask |= viddata->keyboard.numlock_mask;
-            } else {
-                cur_mask &= ~viddata->keyboard.numlock_mask;
+            ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_ముసుగు) {
+                cur_ముసుగు |= viddata->keyboard.numlock_ముసుగు;
+            } లేకపోతే {
+                cur_ముసుగు &= ~viddata->keyboard.numlock_ముసుగు;
             }
-            if (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_mask) {
-                cur_mask |= viddata->keyboard.scrolllock_mask;
-            } else {
-                cur_mask &= ~viddata->keyboard.scrolllock_mask;
+            ఒకవేళ (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_ముసుగు) {
+                cur_ముసుగు |= viddata->keyboard.scrolllock_ముసుగు;
+            } లేకపోతే {
+                cur_ముసుగు &= ~viddata->keyboard.scrolllock_ముసుగు;
             }
 
-            viddata->keyboard.locked_modifiers = cur_mask;
+            viddata->keyboard.locked_modifiers = cur_ముసుగు;
         }
-    } break;
-    default:
-        return;
+    } ఆపు;
+    అప్రమేయ:
+        తిరిగి;
     }
 
-    if (pressed) {
+    ఒకవేళ (pressed) {
         viddata->keyboard.sdl_pressed_modifiers |= mod;
         viddata->keyboard.sdl_physically_pressed_modifiers |= mod;
-    } else {
+    } లేకపోతే {
         viddata->keyboard.sdl_pressed_modifiers &= ~mod;
         viddata->keyboard.sdl_physically_pressed_modifiers &= ~mod;
     }
@@ -537,364 +537,364 @@ static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode
     X11_ReconcileModifiers(viddata, true);
 }
 
-void X11_ReconcileKeyboardState(SDL_VideoDevice *_this)
+శూన్య X11_ReconcileKeyboardState(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     Display *display = videodata->display;
-    char keys[32];
+    అక్షరం కీలకాలు[32];
 
     // Rebuild the modifier state in case it changed while focus was lost.
-    X11_UpdateSystemKeyModifiers(videodata);
+    X11_Update_System_కీలకం_Modifiers(videodata);
     X11_ReconcileModifiers(videodata, false);
 
     // Keep caps, num, and scroll, but clear the others until we have updated key state.
     videodata->keyboard.sdl_pressed_modifiers = 0;
     videodata->keyboard.sdl_physically_pressed_modifiers = 0;
-    videodata->keyboard.sdl_locked_modifiers &= SDL_KMOD_CAPS | SDL_KMOD_NUM | SDL_KMOD_SCROLL;
+    videodata->keyboard.sdl_locked_modifiers &= SDL_KMOD_CAPS | SDL_KMOD_అంకె | SDL_KMOD_SCROLL;
     videodata->keyboard.pressed_modifiers = 0;
-    videodata->keyboard.locked_modifiers &= LockMask | videodata->keyboard.numlock_mask| videodata->keyboard.scrolllock_mask;
+    videodata->keyboard.locked_modifiers &= తాళం_ముసుగు | videodata->keyboard.numlock_ముసుగు| videodata->keyboard.scrolllock_ముసుగు;
 
-    X11_XQueryKeymap(display, keys);
+    X11_XQueryKeymap(display, కీలకాలు);
 
-    const bool *keystate = SDL_GetKeyboardState(NULL);
-    for (Uint32 keycode = 0; keycode < SDL_arraysize(videodata->keyboard.key_layout); ++keycode) {
-        const SDL_Scancode scancode = videodata->keyboard.key_layout[keycode];
-        const bool x11KeyPressed = (keys[keycode / 8] & (1 << (keycode % 8))) != 0;
-        const bool sdlKeyPressed = keystate[scancode];
+    స్థిరరాశి bool *keystate = SDL_GetKeyboardState(ఖాళీ);
+    కొరకు (Uint32 keycode = 0; keycode < SDL_arraysize(videodata->keyboard.కీలకం_layout); ++keycode) {
+        స్థిరరాశి SDL_Scancode scancode = videodata->keyboard.కీలకం_layout[keycode];
+        స్థిరరాశి bool x11_కీలకం_Pressed = (కీలకాలు[keycode / 8] & (1 << (keycode % 8))) != 0;
+        స్థిరరాశి bool sdl_కీలకం_Pressed = keystate[scancode];
 
-        if (x11KeyPressed && !sdlKeyPressed) {
+        ఒకవేళ (x11_కీలకం_Pressed && !sdl_కీలకం_Pressed) {
             // Only update modifier state for keys that are pressed in another application
-            switch (SDL_GetKeyFromScancode(scancode, SDL_KMOD_NONE, false)) {
-            case SDLK_LCTRL:
-            case SDLK_RCTRL:
-            case SDLK_LSHIFT:
-            case SDLK_RSHIFT:
-            case SDLK_LALT:
-            case SDLK_RALT:
-            case SDLK_LGUI:
-            case SDLK_RGUI:
-            case SDLK_MODE:
-            case SDLK_LEVEL5_SHIFT:
-                X11_HandleModifierKeys(videodata, scancode, true);
-                SDL_SendKeyboardKeyIgnoreModifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, true);
-                break;
-            default:
-                break;
+            ఎంపిక (SDL_Get_కీలకం_From_Scancode(scancode, SDL_KMOD_NONE, false)) {
+            స్థితి SDLK_LCTRL:
+            స్థితి SDLK_RCTRL:
+            స్థితి SDLK_LSHIFT:
+            స్థితి SDLK_RSHIFT:
+            స్థితి SDLK_LALT:
+            స్థితి SDLK_RALT:
+            స్థితి SDLK_LGUI:
+            స్థితి SDLK_RGUI:
+            స్థితి SDLK_బహుళకం:
+            స్థితి SDLK_LEVEL5_జరుపు:
+                X11_Handle_Modifier_కీలకాలు(videodata, scancode, true);
+                SDL_Send_Keyboard_కీలకం_Ignore_Modifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, true);
+                ఆపు;
+            అప్రమేయ:
+                ఆపు;
             }
-        } else if (!x11KeyPressed && sdlKeyPressed) {
-            X11_HandleModifierKeys(videodata, scancode, false);
-            SDL_SendKeyboardKeyIgnoreModifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, false);
+        } లేకపోతే ఒకవేళ (!x11_కీలకం_Pressed && sdl_కీలకం_Pressed) {
+            X11_Handle_Modifier_కీలకాలు(videodata, scancode, false);
+            SDL_Send_Keyboard_కీలకం_Ignore_Modifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, false);
         }
     }
 
     // Update the latched/locked state for modifiers other than Caps, Num, and Scroll lock.
-    X11_UpdateSystemKeyModifiers(videodata);
+    X11_Update_System_కీలకం_Modifiers(videodata);
     X11_ReconcileModifiers(videodata, true);
 }
 
-static void X11_DispatchFocusIn(SDL_VideoDevice *_this, SDL_WindowData *data)
+స్థిర శూన్య X11_Dispatch_Focus_లోపల(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-#ifdef DEBUG_XEVENTS
-    SDL_Log("window 0x%lx: Dispatching FocusIn", data->xwindow);
-#endif
-    SDL_SetKeyboardFocus(data->window);
+#నిర్వచితమైతే DEBUG_XEVENTS
+    SDL_Log("window 0x%lx: Dispatching FocusIn", దత్తాంశం->xwindow);
+#అయితే_ముగింపు
+    SDL_సమితి_Keyboard_Focus(దత్తాంశం->కిటికీ);
     X11_ReconcileKeyboardState(_this);
-#ifdef X_HAVE_UTF8_STRING
-    if (data->ic) {
-        X11_XSetICFocus(data->ic);
+#నిర్వచితమైతే X_HAVE_UTF8_STRING
+    ఒకవేళ (దత్తాంశం->ic) {
+        X11_XSetICFocus(దత్తాంశం->ic);
     }
-#endif
-    if (data->flashing_window) {
-        X11_FlashWindow(_this, data->window, SDL_FLASH_CANCEL);
+#అయితే_ముగింపు
+    ఒకవేళ (దత్తాంశం->flashing_కిటికీ) {
+        X11_Flash_కిటికీ(_this, దత్తాంశం->కిటికీ, SDL_FLASH_CANCEL);
     }
 }
 
-static void X11_DispatchFocusOut(SDL_VideoDevice *_this, SDL_WindowData *data)
+స్థిర శూన్య X11_Dispatch_Focus_బహిర్గతం(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-#ifdef DEBUG_XEVENTS
-    SDL_Log("window 0x%lx: Dispatching FocusOut", data->xwindow);
-#endif
+#నిర్వచితమైతే DEBUG_XEVENTS
+    SDL_Log("window 0x%lx: Dispatching FocusOut", దత్తాంశం->xwindow);
+#అయితే_ముగింపు
     /* If another window has already processed a focus in, then don't try to
      * remove focus here.  Doing so will incorrectly remove focus from that
      * window, and the focus lost event for this window will have already
      * been dispatched anyway. */
-    if (data->window == SDL_GetKeyboardFocus()) {
-        SDL_SetKeyboardFocus(NULL);
+    ఒకవేళ (దత్తాంశం->కిటికీ == SDL_GetKeyboardFocus()) {
+        SDL_సమితి_Keyboard_Focus(ఖాళీ);
     }
-#ifdef X_HAVE_UTF8_STRING
-    if (data->ic) {
-        X11_XUnsetICFocus(data->ic);
+#నిర్వచితమైతే X_HAVE_UTF8_STRING
+    ఒకవేళ (దత్తాంశం->ic) {
+        X11_XUnsetICFocus(దత్తాంశం->ic);
     }
-#endif
+#అయితే_ముగింపు
 }
 
-static void X11_DispatchMapNotify(SDL_WindowData *data)
+స్థిర శూన్య X11_DispatchMapNotify(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    SDL_Window *window = data->window;
+    SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
 
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    data->was_shown = true;
+    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_SHOWN, 0, 0);
+    దత్తాంశం->was_shown = true;
 
     // This may be sent when restoring a minimized window.
-    if (window->flags & SDL_WINDOW_MINIMIZED) {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MINIMIZED) {
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_EXPOSED, 0, 0);
     }
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-        SDL_UpdateWindowGrab(window);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS) {
+        SDL_Update_కిటికీ_Grab(కిటికీ);
     }
 }
 
-static void X11_DispatchUnmapNotify(SDL_WindowData *data)
+స్థిర శూన్య X11_DispatchUnmapNotify(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    SDL_Window *window = data->window;
+    SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
 
     // This may be sent when minimizing a window.
-    if (!window->is_hiding) {
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
-    } else {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
+    ఒకవేళ (!కిటికీ->is_hiding) {
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MINIMIZED, 0, 0);
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_OCCLUDED, 0, 0);
+    } లేకపోతే {
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_HIDDEN, 0, 0);
     }
 }
 
-static void DispatchWindowMove(SDL_VideoDevice *_this, const SDL_WindowData *data, const SDL_Point *point)
+స్థిర శూన్య Dispatch_కిటికీ_Move(SDL_VideoDevice *_this, స్థిరరాశి SDL_కిటికీ_దత్తాంశం *దత్తాంశం, స్థిరరాశి SDL_బిందువు *బిందువు)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_Window *window = data->window;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
+    SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
     Display *display = videodata->display;
     XEvent evt;
 
     // !!! FIXME: we need to regrab this if necessary when the drag is done.
-    X11_XUngrabPointer(display, 0L);
+    X11_XUngrab_సూచిక(display, 0L);
     X11_XFlush(display);
 
-    evt.xclient.type = ClientMessage;
-    evt.xclient.window = data->xwindow;
-    evt.xclient.message_type = videodata->atoms._NET_WM_MOVERESIZE;
+    evt.xclient.type = Client_సందేశం;
+    evt.xclient.కిటికీ = దత్తాంశం->xwindow;
+    evt.xclient.సందేశం_type = videodata->atoms._NET_WM_MOVERESIZE;
     evt.xclient.format = 32;
-    evt.xclient.data.l[0] = (size_t)window->x + point->x;
-    evt.xclient.data.l[1] = (size_t)window->y + point->y;
-    evt.xclient.data.l[2] = _NET_WM_MOVERESIZE_MOVE;
-    evt.xclient.data.l[3] = Button1;
-    evt.xclient.data.l[4] = 0;
-    X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
+    evt.xclient.దత్తాంశం.l[0] = (size_t)కిటికీ->x + బిందువు->x;
+    evt.xclient.దత్తాంశం.l[1] = (size_t)కిటికీ->y + బిందువు->y;
+    evt.xclient.దత్తాంశం.l[2] = _NET_WM_MOVERESIZE_MOVE;
+    evt.xclient.దత్తాంశం.l[3] = Button1;
+    evt.xclient.దత్తాంశం.l[4] = 0;
+    X11_XSendEvent(display, Default_మూలం_కిటికీ(display), False, Substructure_Redirect_ముసుగు | Substructure_Notify_ముసుగు, &evt);
 
     X11_XSync(display, 0);
 }
 
-static void ScheduleWindowMove(SDL_VideoDevice *_this, SDL_WindowData *data, const SDL_Point *point)
+స్థిర శూన్య కాలపట్టిక_కిటికీ_Move(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *దత్తాంశం, స్థిరరాశి SDL_బిందువు *బిందువు)
 {
-    data->pending_move = true;
-    data->pending_move_point = *point;
+    దత్తాంశం->pending_move = true;
+    దత్తాంశం->pending_move_బిందువు = *బిందువు;
 }
 
-static void InitiateWindowResize(SDL_VideoDevice *_this, const SDL_WindowData *data, const SDL_Point *point, int direction)
+స్థిర శూన్య Initiate_కిటికీ_Resize(SDL_VideoDevice *_this, స్థిరరాశి SDL_కిటికీ_దత్తాంశం *దత్తాంశం, స్థిరరాశి SDL_బిందువు *బిందువు, పూర్ణాంకం direction)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_Window *window = data->window;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
+    SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
     Display *display = videodata->display;
     XEvent evt;
 
-    if (direction < _NET_WM_MOVERESIZE_SIZE_TOPLEFT || direction > _NET_WM_MOVERESIZE_SIZE_LEFT) {
-        return;
+    ఒకవేళ (direction < NET_WM_MOVERESIZE_కొలత_TOPLEFT || direction > NET_WM_MOVERESIZE_కొలత_ఎడమ) {
+        తిరిగి;
     }
 
     // !!! FIXME: we need to regrab this if necessary when the drag is done.
-    X11_XUngrabPointer(display, 0L);
+    X11_XUngrab_సూచిక(display, 0L);
     X11_XFlush(display);
 
-    evt.xclient.type = ClientMessage;
-    evt.xclient.window = data->xwindow;
-    evt.xclient.message_type = videodata->atoms._NET_WM_MOVERESIZE;
+    evt.xclient.type = Client_సందేశం;
+    evt.xclient.కిటికీ = దత్తాంశం->xwindow;
+    evt.xclient.సందేశం_type = videodata->atoms._NET_WM_MOVERESIZE;
     evt.xclient.format = 32;
-    evt.xclient.data.l[0] = (size_t)window->x + point->x;
-    evt.xclient.data.l[1] = (size_t)window->y + point->y;
-    evt.xclient.data.l[2] = direction;
-    evt.xclient.data.l[3] = Button1;
-    evt.xclient.data.l[4] = 0;
-    X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
+    evt.xclient.దత్తాంశం.l[0] = (size_t)కిటికీ->x + బిందువు->x;
+    evt.xclient.దత్తాంశం.l[1] = (size_t)కిటికీ->y + బిందువు->y;
+    evt.xclient.దత్తాంశం.l[2] = direction;
+    evt.xclient.దత్తాంశం.l[3] = Button1;
+    evt.xclient.దత్తాంశం.l[4] = 0;
+    X11_XSendEvent(display, Default_మూలం_కిటికీ(display), False, Substructure_Redirect_ముసుగు | Substructure_Notify_ముసుగు, &evt);
 
     X11_XSync(display, 0);
 }
 
-bool X11_ProcessHitTest(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y, bool force_new_result)
+bool X11_Process_తగిలింది_Test(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *దత్తాంశం, స్థిరరాశి దశాంశం x, స్థిరరాశి దశాంశం y, bool force_new_ఫలితం)
 {
-    SDL_Window *window = data->window;
-    if (!window->hit_test) return false;
-    const SDL_Point point = { (int)x, (int)y };
-    SDL_HitTestResult rc = window->hit_test(window, &point, window->hit_test_data);
-    if (!force_new_result && rc == data->hit_test_result) {
-        return true;
+    SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
+    ఒకవేళ (!కిటికీ->తగిలింది_test) తిరిగి false;
+    స్థిరరాశి SDL_బిందువు బిందువు = { (పూర్ణాంకం)x, (పూర్ణాంకం)y };
+    SDL_తగిలింది_Test_ఫలితం rc = కిటికీ->తగిలింది_test(కిటికీ, &బిందువు, కిటికీ->తగిలింది_test_దత్తాంశం);
+    ఒకవేళ (!force_new_ఫలితం && rc == దత్తాంశం->తగిలింది_test_ఫలితం) {
+        తిరిగి true;
     }
-    X11_SetHitTestCursor(rc);
-    data->hit_test_result = rc;
-    return true;
+    X11_సమితి_తగిలింది_Test_Cursor(rc);
+    దత్తాంశం->తగిలింది_test_ఫలితం = rc;
+    తిరిగి true;
 }
 
-bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y)
+bool X11_Trigger_తగిలింది_Test_Action(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *దత్తాంశం, స్థిరరాశి దశాంశం x, స్థిరరాశి దశాంశం y)
 {
-    SDL_Window *window = data->window;
+    SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
 
-    if (window->hit_test) {
-        const SDL_Point point = { (int)x, (int)y };
-        static const int directions[] = {
-            _NET_WM_MOVERESIZE_SIZE_TOPLEFT, _NET_WM_MOVERESIZE_SIZE_TOP,
-            _NET_WM_MOVERESIZE_SIZE_TOPRIGHT, _NET_WM_MOVERESIZE_SIZE_RIGHT,
-            _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT, _NET_WM_MOVERESIZE_SIZE_BOTTOM,
-            _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT, _NET_WM_MOVERESIZE_SIZE_LEFT
+    ఒకవేళ (కిటికీ->తగిలింది_test) {
+        స్థిరరాశి SDL_బిందువు బిందువు = { (పూర్ణాంకం)x, (పూర్ణాంకం)y };
+        స్థిర స్థిరరాశి పూర్ణాంకం directions[] = {
+            NET_WM_MOVERESIZE_కొలత_TOPLEFT, NET_WM_MOVERESIZE_కొలత_శిఖరం,
+            NET_WM_MOVERESIZE_కొలత_TOPRIGHT, NET_WM_MOVERESIZE_కొలత_కుడి,
+            NET_WM_MOVERESIZE_కొలత_BOTTOMRIGHT, NET_WM_MOVERESIZE_కొలత_BOTTOM,
+            NET_WM_MOVERESIZE_కొలత_BOTTOMLEFT, NET_WM_MOVERESIZE_కొలత_ఎడమ
         };
 
-        switch (data->hit_test_result) {
-        case SDL_HITTEST_DRAGGABLE:
+        ఎంపిక (దత్తాంశం->తగిలింది_test_ఫలితం) {
+        స్థితి SDL_HITTEST_DRAGGABLE:
             /* Some window managers get in a bad state when a move event starts while input is transitioning
                to the SDL window. This can happen when clicking on a drag region of an unfocused window
                where the same mouse down event will trigger a drag event and a window activate. */
-            if (data->window->flags & SDL_WINDOW_INPUT_FOCUS) {
-                DispatchWindowMove(_this, data, &point);
-            } else {
-                ScheduleWindowMove(_this, data, &point);
+            ఒకవేళ (దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS) {
+                Dispatch_కిటికీ_Move(_this, దత్తాంశం, &బిందువు);
+            } లేకపోతే {
+                కాలపట్టిక_కిటికీ_Move(_this, దత్తాంశం, &బిందువు);
             }
-            return true;
+            తిరిగి true;
 
-        case SDL_HITTEST_RESIZE_TOPLEFT:
-        case SDL_HITTEST_RESIZE_TOP:
-        case SDL_HITTEST_RESIZE_TOPRIGHT:
-        case SDL_HITTEST_RESIZE_RIGHT:
-        case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
-        case SDL_HITTEST_RESIZE_BOTTOM:
-        case SDL_HITTEST_RESIZE_BOTTOMLEFT:
-        case SDL_HITTEST_RESIZE_LEFT:
-            InitiateWindowResize(_this, data, &point, directions[data->hit_test_result - SDL_HITTEST_RESIZE_TOPLEFT]);
-            return true;
+        స్థితి SDL_HITTEST_RESIZE_TOPLEFT:
+        స్థితి SDL_HITTEST_RESIZE_శిఖరం:
+        స్థితి SDL_HITTEST_RESIZE_TOPRIGHT:
+        స్థితి SDL_HITTEST_RESIZE_కుడి:
+        స్థితి SDL_HITTEST_RESIZE_BOTTOMRIGHT:
+        స్థితి SDL_HITTEST_RESIZE_BOTTOM:
+        స్థితి SDL_HITTEST_RESIZE_BOTTOMLEFT:
+        స్థితి SDL_HITTEST_RESIZE_ఎడమ:
+            Initiate_కిటికీ_Resize(_this, దత్తాంశం, &బిందువు, directions[దత్తాంశం->తగిలింది_test_ఫలితం - SDL_HITTEST_RESIZE_TOPLEFT]);
+            తిరిగి true;
 
-        default:
-            return false;
+        అప్రమేయ:
+            తిరిగి false;
         }
     }
 
-    return false;
+    తిరిగి false;
 }
 
-static void X11_UpdateUserTime(SDL_WindowData *data, const unsigned long latest)
+స్థిర శూన్య X11_Update_User_సమయం(SDL_కిటికీ_దత్తాంశం *దత్తాంశం, స్థిరరాశి గుర్తులేని దీర్ఘ latest)
 {
-    if (latest && (latest != data->user_time)) {
-        SDL_VideoData *videodata = data->videodata;
+    ఒకవేళ (latest && (latest != దత్తాంశం->user_సమయం)) {
+        SDL_Video_దత్తాంశం *videodata = దత్తాంశం->videodata;
         Display *display = videodata->display;
-        X11_XChangeProperty(display, data->xwindow, videodata->atoms._NET_WM_USER_TIME,
-                            XA_CARDINAL, 32, PropModeReplace,
-                            (const unsigned char *)&latest, 1);
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: updating _NET_WM_USER_TIME to %lu", data->xwindow, latest);
-#endif
-        data->user_time = latest;
+        X11_XChangeProperty(display, దత్తాంశం->xwindow, videodata->atoms.NET_WM_USER_సమయం,
+                            XA_CARDINAL, 32, Prop_బహుళకం_Replace,
+                            (స్థిరరాశి గుర్తులేని అక్షరం *)&latest, 1);
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: updating _NET_WM_USER_TIME to %lu", దత్తాంశం->xwindow, latest);
+#అయితే_ముగింపు
+        దత్తాంశం->user_సమయం = latest;
     }
 }
 
-static unsigned char x11_last_error;
-static int BadWindowErrorHandler(Display *d, XErrorEvent *e)
+స్థిర గుర్తులేని అక్షరం x11_చివరి_error;
+స్థిర పూర్ణాంకం Bad_కిటికీ_Error_Handler(Display *d, XErrorEvent *e)
 {
-    x11_last_error = e->error_code;
+    x11_చివరి_error = e->error_సంకేతం;
 
     // Ignore BadWindow in cases where it's not fatal.
-    if (e->error_code != BadWindow) {
-        char err_msg[128];
-        X11_XGetErrorText(d, e->error_code, err_msg, sizeof(err_msg));
-        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "X failed request: %hhu (%s), major opcode: %hhu", e->error_code, err_msg, e->request_code);
+    ఒకవేళ (e->error_సంకేతం != Bad_కిటికీ) {
+        అక్షరం err_సందేశం[128];
+        X11_XGet_Error_పాఠ్యం(d, e->error_సంకేతం, err_సందేశం, పరిమాణం(err_సందేశం));
+        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "X failed request: %hhu (%s), major opcode: %hhu", e->error_సంకేతం, err_సందేశం, e->request_సంకేతం);
     }
-    return 0;
+    తిరిగి 0;
 }
 
-static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xevent)
+స్థిర శూన్య X11_HandleClipboardEvent(SDL_VideoDevice *_this, స్థిరరాశి XEvent *xevent)
 {
-    int i;
-    SDL_VideoData *videodata = _this->internal;
+    పూర్ణాంకం i;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     Display *display = videodata->display;
 
-    SDL_assert(videodata->clipboard_window != None);
-    SDL_assert(xevent->xany.window == videodata->clipboard_window);
+    SDL_assert(videodata->clipboard_కిటికీ != None);
+    SDL_assert(xevent->xany.కిటికీ == videodata->clipboard_కిటికీ);
 
-    switch (xevent->type) {
+    ఎంపిక (xevent->type) {
         // Copy the selection from our own CUTBUFFER to the requested property
-    case SelectionRequest:
+    స్థితి SelectionRequest:
     {
-        const XSelectionRequestEvent *req = &xevent->xselectionrequest;
+        స్థిరరాశి XSelectionRequestEvent *req = &xevent->xselectionrequest;
         XEvent sevent;
-        int mime_formats;
-        unsigned char *seln_data;
-        size_t seln_length = 0;
+        పూర్ణాంకం mime_formats;
+        గుర్తులేని అక్షరం *seln_దత్తాంశం;
+        size_t seln_నిడివి = 0;
         Atom XA_TARGETS = videodata->atoms.TARGETS;
-        SDLX11_ClipboardData *clipboard;
+        SDLX11_Clipboard_దత్తాంశం *clipboard;
 
-#ifdef DEBUG_XEVENTS
-        char *atom_name;
-        atom_name = X11_XGetAtomName(display, req->target);
+#నిర్వచితమైతే DEBUG_XEVENTS
+        అక్షరం *atom_name;
+        atom_name = X11_XGetAtomName(display, req->లక్ష్యం);
         SDL_Log("window CLIPBOARD: SelectionRequest (requestor = 0x%lx, target = 0x%lx, mime_type = %s)",
-               req->requestor, req->target, atom_name);
-        if (atom_name) {
+               req->requestor, req->లక్ష్యం, atom_name);
+        ఒకవేళ (atom_name) {
             X11_XFree(atom_name);
         }
-#endif
+#అయితే_ముగింపు
 
         /* If the requesting window was already destroyed, XChangeProperty can generate a BadWindow
          * error. Register an error handler to catch this, and prevent it from being fatal.
          */
-        x11_last_error = 0;
-        XErrorHandler prev_handler = X11_XSetErrorHandler(BadWindowErrorHandler);
+        x11_చివరి_error = 0;
+        XErrorHandler prev_handler = X11_XSetErrorHandler(Bad_కిటికీ_Error_Handler);
 
-        if (req->selection == XA_PRIMARY) {
+        ఒకవేళ (req->selection == XA_PRIMARY) {
             clipboard = &videodata->primary_selection;
-        } else {
+        } లేకపోతే {
             clipboard = &videodata->clipboard;
         }
 
         SDL_zero(sevent);
         sevent.xany.type = SelectionNotify;
         sevent.xselection.selection = req->selection;
-        sevent.xselection.target = None;
+        sevent.xselection.లక్ష్యం = None;
         sevent.xselection.property = None; // tell them no by default
         sevent.xselection.requestor = req->requestor;
-        sevent.xselection.time = req->time;
+        sevent.xselection.సమయం = req->సమయం;
 
         /* !!! FIXME: We were probably storing this on the root window
            because an SDL window might go away...? but we don't have to do
            this now (or ever, really). */
 
-        if (req->target == XA_TARGETS) {
+        ఒకవేళ (req->లక్ష్యం == XA_TARGETS) {
             Atom *supportedFormats;
-            supportedFormats = SDL_malloc((clipboard->mime_count + 1) * sizeof(Atom));
+            supportedFormats = SDL_malloc((clipboard->mime_లెక్క + 1) * పరిమాణం(Atom));
             supportedFormats[0] = XA_TARGETS;
             mime_formats = 1;
-            for (i = 0; i < clipboard->mime_count; ++i) {
+            కొరకు (i = 0; i < clipboard->mime_లెక్క; ++i) {
                 supportedFormats[mime_formats++] = X11_XInternAtom(display, clipboard->mime_types[i], False);
             }
             X11_XChangeProperty(display, req->requestor, req->property,
-                                XA_ATOM, 32, PropModeReplace,
-                                (unsigned char *)supportedFormats,
+                                XA_ATOM, 32, Prop_బహుళకం_Replace,
+                                (గుర్తులేని అక్షరం *)supportedFormats,
                                 mime_formats);
             sevent.xselection.property = req->property;
-            sevent.xselection.target = XA_TARGETS;
+            sevent.xselection.లక్ష్యం = XA_TARGETS;
             SDL_free(supportedFormats);
-        } else {
-            if (clipboard->callback) {
-                for (i = 0; i < clipboard->mime_count; ++i) {
-                    const char *mime_type = clipboard->mime_types[i];
-                    if (X11_XInternAtom(display, mime_type, False) != req->target) {
-                        continue;
+        } లేకపోతే {
+            ఒకవేళ (clipboard->callback) {
+                కొరకు (i = 0; i < clipboard->mime_లెక్క; ++i) {
+                    స్థిరరాశి అక్షరం *mime_type = clipboard->mime_types[i];
+                    ఒకవేళ (X11_XInternAtom(display, mime_type, False) != req->లక్ష్యం) {
+                        కొనసాగు;
                     }
 
                     // FIXME: We don't support the X11 INCR protocol for large clipboards. Do we want that? - Yes, yes we do.
                     // This is a safe cast, XChangeProperty() doesn't take a const value, but it doesn't modify the data
-                    seln_data = (unsigned char *)clipboard->callback(clipboard->userdata, mime_type, &seln_length);
-                    if (seln_data) {
+                    seln_దత్తాంశం = (గుర్తులేని అక్షరం *)clipboard->callback(clipboard->userdata, mime_type, &seln_నిడివి);
+                    ఒకవేళ (seln_దత్తాంశం) {
                         X11_XChangeProperty(display, req->requestor, req->property,
-                                            req->target, 8, PropModeReplace,
-                                            seln_data, seln_length);
+                                            req->లక్ష్యం, 8, Prop_బహుళకం_Replace,
+                                            seln_దత్తాంశం, seln_నిడివి);
                         sevent.xselection.property = req->property;
-                        sevent.xselection.target = req->target;
+                        sevent.xselection.లక్ష్యం = req->లక్ష్యం;
                     }
-                    break;
+                    ఆపు;
                 }
             }
         }
@@ -902,457 +902,457 @@ static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xeven
         X11_XSync(display, False);
 
         X11_XSetErrorHandler(prev_handler);
-    } break;
+    } ఆపు;
 
-    case SelectionNotify:
+    స్థితి SelectionNotify:
     {
-        const XSelectionEvent *xsel = &xevent->xselection;
-#ifdef DEBUG_XEVENTS
-        const char *propName = xsel->property ? X11_XGetAtomName(display, xsel->property) : "None";
-        const char *targetName = xsel->target ? X11_XGetAtomName(display, xsel->target) : "None";
+        స్థిరరాశి XSelectionEvent *xsel = &xevent->xselection;
+#నిర్వచితమైతే DEBUG_XEVENTS
+        స్థిరరాశి అక్షరం *propName = xsel->property ? X11_XGetAtomName(display, xsel->property) : "None";
+        స్థిరరాశి అక్షరం *లక్ష్యం_Name = xsel->లక్ష్యం ? X11_XGetAtomName(display, xsel->లక్ష్యం) : "None";
 
         SDL_Log("window CLIPBOARD: SelectionNotify (requestor = 0x%lx, target = %s, property = %s)",
-               xsel->requestor, targetName, propName);
-#endif
-        if (xsel->target == videodata->atoms.TARGETS && xsel->property == videodata->atoms.SDL_FORMATS) {
+               xsel->requestor, లక్ష్యం_Name, propName);
+#అయితే_ముగింపు
+        ఒకవేళ (xsel->లక్ష్యం == videodata->atoms.TARGETS && xsel->property == videodata->atoms.SDL_FORMATS) {
             /* the new mime formats are the SDL_FORMATS property as an array of Atoms */
             Atom atom = None;
             Atom *patom;
-            unsigned char *data = NULL;
-            int format_property = 0;
-            unsigned long length = 0;
-            unsigned long bytes_left = 0;
-            int j;
+            గుర్తులేని అక్షరం *దత్తాంశం = ఖాళీ;
+            పూర్ణాంకం format_property = 0;
+            గుర్తులేని దీర్ఘ నిడివి = 0;
+            గుర్తులేని దీర్ఘ బైట్లు_ఎడమ = 0;
+            పూర్ణాంకం j;
 
-            X11_XGetWindowProperty(display, GetWindow(_this), videodata->atoms.SDL_FORMATS, 0, 200,
-                                            0, XA_ATOM, &atom, &format_property, &length, &bytes_left, &data);
+            X11_XGet_కిటికీ_Property(display, Get_కిటికీ(_this), videodata->atoms.SDL_FORMATS, 0, 200,
+                                            0, XA_ATOM, &atom, &format_property, &నిడివి, &బైట్లు_ఎడమ, &దత్తాంశం);
 
-            int allocationsize = (length + 1) * sizeof(char *);
-            for (j = 0, patom = (Atom *)data; j < length; j++, patom++) {
-                char *atomStr = X11_XGetAtomName(display, *patom);
+            పూర్ణాంకం allocationsize = (నిడివి + 1) * పరిమాణం(అక్షరం *);
+            కొరకు (j = 0, patom = (Atom *)దత్తాంశం; j < నిడివి; j++, patom++) {
+                అక్షరం *atomStr = X11_XGetAtomName(display, *patom);
                 allocationsize += SDL_strlen(atomStr) + 1;
                 X11_XFree(atomStr);
             }
 
-            char **new_mime_types = SDL_AllocateTemporaryMemory(allocationsize);
-            if (new_mime_types) {
-                char *strPtr = (char *)(new_mime_types + length + 1);
+            అక్షరం **new_mime_types = SDL_Allocate_Temporary_జ్ఞాపకం(allocationsize);
+            ఒకవేళ (new_mime_types) {
+                అక్షరం *strPtr = (అక్షరం *)(new_mime_types + నిడివి + 1);
                 allocationsize -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
-                for (j = 0, patom = (Atom *)data; j < length; j++, patom++) {
-                    char *atomStr = X11_XGetAtomName(display, *patom);
+                కొరకు (j = 0, patom = (Atom *)దత్తాంశం; j < నిడివి; j++, patom++) {
+                    అక్షరం *atomStr = X11_XGetAtomName(display, *patom);
                     new_mime_types[j] = strPtr;
-                    const size_t len = SDL_strlcpy(strPtr, atomStr, allocationsize) + 1;
+                    స్థిరరాశి size_t len = SDL_strlcpy(strPtr, atomStr, allocationsize) + 1;
                     strPtr += len;
                     allocationsize -= len;
                     X11_XFree(atomStr);
                 }
-                new_mime_types[length] = NULL;
+                new_mime_types[నిడివి] = ఖాళీ;
 
-                SDL_SendClipboardUpdate(false, new_mime_types, length);
+                SDL_SendClipboardUpdate(false, new_mime_types, నిడివి);
 
                 // Clear the internal selection source data, as it was invalided after updating the clipboard.
                 SDL_zero(videodata->clipboard);
             }
 
-            if (data) {
-                X11_XFree(data);
+            ఒకవేళ (దత్తాంశం) {
+                X11_XFree(దత్తాంశం);
             }
         }
 
-        videodata->selection_waiting = false;
-    } break;
+        videodata->selection_నిరీక్షణ = false;
+    } ఆపు;
 
-    case SelectionClear:
+    స్థితి SelectionClear:
     {
         Atom XA_CLIPBOARD = videodata->atoms.CLIPBOARD;
-        SDLX11_ClipboardData *clipboard = NULL;
+        SDLX11_Clipboard_దత్తాంశం *clipboard = ఖాళీ;
 
-#ifdef DEBUG_XEVENTS
+#నిర్వచితమైతే DEBUG_XEVENTS
         SDL_Log("window CLIPBOARD: SelectionClear (requestor = 0x%lx, target = 0x%lx)",
-               xevent->xselection.requestor, xevent->xselection.target);
-#endif
+               xevent->xselection.requestor, xevent->xselection.లక్ష్యం);
+#అయితే_ముగింపు
 
-        if (xevent->xselectionclear.selection == XA_PRIMARY) {
+        ఒకవేళ (xevent->xselectionclear.selection == XA_PRIMARY) {
             clipboard = &videodata->primary_selection;
-        } else if (XA_CLIPBOARD != None && xevent->xselectionclear.selection == XA_CLIPBOARD) {
+        } లేకపోతే ఒకవేళ (XA_CLIPBOARD != None && xevent->xselectionclear.selection == XA_CLIPBOARD) {
             clipboard = &videodata->clipboard;
         }
-        if (clipboard && clipboard->callback) {
-            if (clipboard->sequence) {
-                SDL_CancelClipboardData(clipboard->sequence);
-            } else {
+        ఒకవేళ (clipboard && clipboard->callback) {
+            ఒకవేళ (clipboard->sequence) {
+                SDL_Cancel_Clipboard_దత్తాంశం(clipboard->sequence);
+            } లేకపోతే {
                 SDL_free(clipboard->userdata);
             }
             SDL_zerop(clipboard);
         }
-    } break;
+    } ఆపు;
 
-    case PropertyNotify:
+    స్థితి PropertyNotify:
     {
-        char *name_of_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
+        అక్షరం *name_యొక్క_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
 
-        if (SDL_strncmp(name_of_atom, "SDL_SELECTION", sizeof("SDL_SELECTION") - 1) == 0 && xevent->xproperty.state == PropertyNewValue) {
-            videodata->selection_incr_waiting = false;
+        ఒకవేళ (SDL_strncmp(name_యొక్క_atom, "SDL_SELECTION", పరిమాణం("SDL_SELECTION") - 1) == 0 && xevent->xproperty.state == Property_New_విలువ) {
+            videodata->selection_incr_నిరీక్షణ = false;
         }
 
-        if (name_of_atom) {
-            X11_XFree(name_of_atom);
+        ఒకవేళ (name_యొక్క_atom) {
+            X11_XFree(name_యొక్క_atom);
         }
-    } break;
+    } ఆపు;
     }
 }
 
-static Bool isMapNotify(Display *display, XEvent *ev, XPointer arg)
+స్థిర Bool isMapNotify(Display *display, XEvent *ev, XPointer arg)
 {
     XUnmapEvent *unmap;
 
     unmap = (XUnmapEvent *)arg;
 
-    return ev->type == MapNotify &&
-           ev->xmap.window == unmap->window &&
+    తిరిగి ev->type == MapNotify &&
+           ev->xmap.కిటికీ == unmap->కిటికీ &&
            ev->xmap.serial == unmap->serial;
 }
 
-static Bool isReparentNotify(Display *display, XEvent *ev, XPointer arg)
+స్థిర Bool isReparentNotify(Display *display, XEvent *ev, XPointer arg)
 {
     XUnmapEvent *unmap;
 
     unmap = (XUnmapEvent *)arg;
 
-    return ev->type == ReparentNotify &&
-           ev->xreparent.window == unmap->window &&
+    తిరిగి ev->type == ReparentNotify &&
+           ev->xreparent.కిటికీ == unmap->కిటికీ &&
            ev->xreparent.serial == unmap->serial;
 }
 
-static bool IsHighLatin1(const char *string, int length)
+స్థిర bool Is_ఎగువ_Latin1(స్థిరరాశి అక్షరం *string, పూర్ణాంకం నిడివి)
 {
-    while (length-- > 0) {
+    అయితే (నిడివి-- > 0) {
         Uint8 ch = (Uint8)*string;
-        if (ch >= 0x80) {
-            return true;
+        ఒకవేళ (ch >= 0x80) {
+            తిరిగి true;
         }
         ++string;
     }
-    return false;
+    తిరిగి false;
 }
 
-static int XLookupStringAsUTF8(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out)
+స్థిర పూర్ణాంకం XLookupStringAsUTF8(XKeyEvent *event_struct, అక్షరం *బఫరు_return, పూర్ణాంకం బైట్లు_బఫరు, కీలకం_Sym *keysym_return, XCompose_స్థితి *స్థితి_లోపల_బహిర్గతం)
 {
-    int result = X11_XLookupString(event_struct, buffer_return, bytes_buffer, keysym_return, status_in_out);
-    if (IsHighLatin1(buffer_return, result)) {
-        char *utf8_text = SDL_iconv_string("UTF-8", "ISO-8859-1", buffer_return, result + 1);
-        if (utf8_text) {
-            SDL_strlcpy(buffer_return, utf8_text, bytes_buffer);
-            SDL_free(utf8_text);
-            return SDL_strlen(buffer_return);
-        } else {
-            return 0;
+    పూర్ణాంకం ఫలితం = X11_XLookupString(event_struct, బఫరు_return, బైట్లు_బఫరు, keysym_return, స్థితి_లోపల_బహిర్గతం);
+    ఒకవేళ (Is_ఎగువ_Latin1(బఫరు_return, ఫలితం)) {
+        అక్షరం *utf8_పాఠ్యం = SDL_iconv_string("UTF-8", "ISO-8859-1", బఫరు_return, ఫలితం + 1);
+        ఒకవేళ (utf8_పాఠ్యం) {
+            SDL_strlcpy(బఫరు_return, utf8_పాఠ్యం, బైట్లు_బఫరు);
+            SDL_free(utf8_పాఠ్యం);
+            తిరిగి SDL_strlen(బఫరు_return);
+        } లేకపోతే {
+            తిరిగి 0;
         }
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-SDL_WindowData *X11_FindWindow(SDL_VideoData *videodata, Window window)
+SDL_కిటికీ_దత్తాంశం *X11_కనుగొను_కిటికీ(SDL_Video_దత్తాంశం *videodata, కిటికీ_2 కిటికీ)
 {
-    if (videodata && videodata->windowlist) {
-        for (int i = 0; i < videodata->numwindows; ++i) {
-            if ((videodata->windowlist[i] != NULL) &&
-                (videodata->windowlist[i]->xwindow == window)) {
-                return videodata->windowlist[i];
+    ఒకవేళ (videodata && videodata->windowlist) {
+        కొరకు (పూర్ణాంకం i = 0; i < videodata->numwindows; ++i) {
+            ఒకవేళ ((videodata->windowlist[i] != ఖాళీ) &&
+                (videodata->windowlist[i]->xwindow == కిటికీ)) {
+                తిరిగి videodata->windowlist[i];
             }
         }
     }
-    return NULL;
+    తిరిగి ఖాళీ;
 }
 
-Uint64 X11_GetEventTimestamp(unsigned long time)
+Uint64 X11_GetEventTimestamp(గుర్తులేని దీర్ఘ సమయం)
 {
     // FIXME: Get the event time in the SDL tick time base
-    return SDL_GetTicksNS();
+    తిరిగి SDL_GetTicksNS();
 }
 
-void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent)
+శూన్య X11_Handle_కీలకం_Event(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     Display *display = videodata->display;
-    KeyCode keycode = xevent->xkey.keycode;
-    KeySym keysym = NoSymbol;
-    int text_length = 0;
-    char text[64];
-    Status status = 0;
+    కీలకం_సంకేతం_2 keycode = xevent->xkey.keycode;
+    కీలకం_Sym keysym = No_చిహ్నం;
+    పూర్ణాంకం పాఠ్యం_నిడివి = 0;
+    అక్షరం పాఠ్యం[64];
+    స్థితి_3 స్థితి_2 = 0;
     bool handled_by_ime = false;
-    bool pressed = (xevent->type == KeyPress);
-    SDL_Scancode scancode = videodata->keyboard.key_layout[keycode];
-    Uint64 timestamp = X11_GetEventTimestamp(xevent->xkey.time);
+    bool pressed = (xevent->type == కీలకం_Press);
+    SDL_Scancode scancode = videodata->keyboard.కీలకం_layout[keycode];
+    Uint64 timestamp = X11_GetEventTimestamp(xevent->xkey.సమయం);
 
-#ifdef DEBUG_XEVENTS
-    SDL_Log("window 0x%lx %s (X11 keycode = 0x%X)", xevent->xany.window, (xevent->type == KeyPress ? "KeyPress" : "KeyRelease"), xevent->xkey.keycode);
-#endif
-#ifdef DEBUG_SCANCODES
-    if (scancode == SDL_SCANCODE_UNKNOWN && keycode) {
-        int min_keycode, max_keycode;
+#నిర్వచితమైతే DEBUG_XEVENTS
+    SDL_Log("window 0x%lx %s (X11 keycode = 0x%X)", xevent->xany.కిటికీ, (xevent->type == కీలకం_Press ? "KeyPress" : "KeyRelease"), xevent->xkey.keycode);
+#అయితే_ముగింపు
+#నిర్వచితమైతే DEBUG_SCANCODES
+    ఒకవేళ (scancode == SDL_SCANCODE_UNKNOWN && keycode) {
+        పూర్ణాంకం min_keycode, max_keycode;
         X11_XDisplayKeycodes(display, &min_keycode, &max_keycode);
-        keysym = X11_KeyCodeToSym(_this, keycode, xevent->xkey.state >> 13);
+        keysym = X11_కీలకం_సంకేతం_గమ్యం_Sym(_this, keycode, xevent->xkey.state >> 13);
         SDL_Log("The key you just pressed is not recognized by SDL. To help get this fixed, please report this to the SDL forums/mailing list <https://discourse.libsdl.org/> X11 KeyCode %d (%d), X11 KeySym 0x%lX (%s).",
                 keycode, keycode - min_keycode, keysym,
-                X11_XKeysymToString(keysym));
+                X11_XKeysym_గమ్యం_String(keysym));
     }
-#endif // DEBUG SCANCODES
+#అయితే_ముగింపు // DEBUG SCANCODES
 
-    text[0] = '\0';
+    పాఠ్యం[0] = '\0';
 
     // XKB updates the modifiers explicitly via a state event.
-    if (!videodata->keyboard.xkb_enabled) {
-        videodata->keyboard.pressed_modifiers = xevent->xkey.state & (ShiftMask | ControlMask | Mod1Mask | Mod3Mask | Mod4Mask | Mod5Mask);
-        videodata->keyboard.locked_modifiers = xevent->xkey.state & (LockMask | videodata->keyboard.numlock_mask | videodata->keyboard.scrolllock_mask);
+    ఒకవేళ (!videodata->keyboard.xkb_enabled) {
+        videodata->keyboard.pressed_modifiers = xevent->xkey.state & (జరుపు_ముసుగు_2 | Control_ముసుగు | Mod1_ముసుగు | Mod3_ముసుగు | Mod4_ముసుగు | Mod5_ముసుగు);
+        videodata->keyboard.locked_modifiers = xevent->xkey.state & (తాళం_ముసుగు | videodata->keyboard.numlock_ముసుగు | videodata->keyboard.scrolllock_ముసుగు);
     }
 
-    if (SDL_TextInputActive(windowdata->window)) {
+    ఒకవేళ (SDL_పాఠ్యం_ఆదానం_చురుకైన(windowdata->కిటికీ)) {
         // filter events catches XIM events and sends them to the correct handler
-        if (X11_XFilterEvent(xevent, None)) {
-#ifdef DEBUG_XEVENTS
+        ఒకవేళ (X11_XFilterEvent(xevent, None)) {
+#నిర్వచితమైతే DEBUG_XEVENTS
             SDL_Log("Filtered event type = %d display = %p window = 0x%lx",
-                   xevent->type, xevent->xany.display, xevent->xany.window);
-#endif
+                   xevent->type, xevent->xany.display, xevent->xany.కిటికీ);
+#అయితే_ముగింపు
             handled_by_ime = true;
         }
 
-        if (!handled_by_ime) {
-#ifdef X_HAVE_UTF8_STRING
-            if (windowdata->ic && xevent->type == KeyPress) {
-                text_length = X11_Xutf8LookupString(windowdata->ic, &xevent->xkey, text, sizeof(text) - 1,
-                                      &keysym, &status);
-            } else {
-                text_length = XLookupStringAsUTF8(&xevent->xkey, text, sizeof(text) - 1, &keysym, NULL);
+        ఒకవేళ (!handled_by_ime) {
+#నిర్వచితమైతే X_HAVE_UTF8_STRING
+            ఒకవేళ (windowdata->ic && xevent->type == కీలకం_Press) {
+                పాఠ్యం_నిడివి = X11_Xutf8LookupString(windowdata->ic, &xevent->xkey, పాఠ్యం, పరిమాణం(పాఠ్యం) - 1,
+                                      &keysym, &స్థితి_2);
+            } లేకపోతే {
+                పాఠ్యం_నిడివి = XLookupStringAsUTF8(&xevent->xkey, పాఠ్యం, పరిమాణం(పాఠ్యం) - 1, &keysym, ఖాళీ);
             }
-#else
-            text_length = XLookupStringAsUTF8(&xevent->xkey, text, sizeof(text) - 1, &keysym, NULL);
-#endif
+#లేకపోతే
+            పాఠ్యం_నిడివి = XLookupStringAsUTF8(&xevent->xkey, పాఠ్యం, పరిమాణం(పాఠ్యం) - 1, &keysym, ఖాళీ);
+#అయితే_ముగింపు
         }
     }
 
-    if (!handled_by_ime) {
-        if (pressed) {
-            X11_HandleModifierKeys(videodata, scancode, true);
-            SDL_SendKeyboardKeyIgnoreModifiers(timestamp, keyboardID, keycode, scancode, true);
+    ఒకవేళ (!handled_by_ime) {
+        ఒకవేళ (pressed) {
+            X11_Handle_Modifier_కీలకాలు(videodata, scancode, true);
+            SDL_Send_Keyboard_కీలకం_Ignore_Modifiers(timestamp, keyboardID, keycode, scancode, true);
 
-            if (*text && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
-                text[text_length] = '\0';
+            ఒకవేళ (*పాఠ్యం && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
+                పాఠ్యం[పాఠ్యం_నిడివి] = '\0';
                 X11_ClearComposition(windowdata);
-                SDL_SendKeyboardText(text);
+                SDL_Send_Keyboard_పాఠ్యం(పాఠ్యం);
             }
-        } else {
-            if (X11_KeyRepeat(display, xevent)) {
+        } లేకపోతే {
+            ఒకవేళ (X11_కీలకం_Repeat(display, xevent)) {
                 // We're about to get a repeated key down, ignore the key up
-                return;
+                తిరిగి;
             }
 
-            X11_HandleModifierKeys(videodata, scancode, false);
-            SDL_SendKeyboardKeyIgnoreModifiers(timestamp, keyboardID, keycode, scancode, false);
+            X11_Handle_Modifier_కీలకాలు(videodata, scancode, false);
+            SDL_Send_Keyboard_కీలకం_Ignore_Modifiers(timestamp, keyboardID, keycode, scancode, false);
         }
     }
 
-    if (pressed) {
-        X11_UpdateUserTime(windowdata, xevent->xkey.time);
+    ఒకవేళ (pressed) {
+        X11_Update_User_సమయం(windowdata, xevent->xkey.సమయం);
     }
 }
 
-void X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, float x, float y, unsigned long time, unsigned long serial)
+శూన్య X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *windowdata, SDL_MouseID mouseID, పూర్ణాంకం button, దశాంశం x, దశాంశం y, గుర్తులేని దీర్ఘ సమయం, గుర్తులేని దీర్ఘ serial)
 {
-    SDL_Window *window = windowdata->window;
-    int xticks = 0, yticks = 0;
-    Uint64 timestamp = X11_GetEventTimestamp(time);
+    SDL_కిటికీ *కిటికీ = windowdata->కిటికీ;
+    పూర్ణాంకం xticks = 0, yticks = 0;
+    Uint64 timestamp = X11_GetEventTimestamp(సమయం);
 
-#ifdef DEBUG_XEVENTS
+#నిర్వచితమైతే DEBUG_XEVENTS
     SDL_Log("window 0x%lx: ButtonPress (X11 button = %d)", windowdata->xwindow, button);
-#endif
+#అయితే_ముగింపు
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (!mouse->relative_mode && (x != mouse->x || y != mouse->y)) {
-        X11_ProcessHitTest(_this, windowdata, x, y, false);
-        SDL_SendMouseMotion(timestamp, window, mouseID, false, x, y);
+    ఒకవేళ (!mouse->relative_బహుళకం && (x != mouse->x || y != mouse->y)) {
+        X11_Process_తగిలింది_Test(_this, windowdata, x, y, false);
+        SDL_SendMouseMotion(timestamp, కిటికీ, mouseID, false, x, y);
     }
 
-    if (X11_IsWheelEvent(button, &xticks, &yticks)) {
-        SDL_SendMouseWheel(timestamp, window, mouseID, (float)-xticks, (float)yticks, SDL_MOUSEWHEEL_NORMAL);
-    } else {
-        if (button > 7) {
+    ఒకవేళ (X11_IsWheelEvent(button, &xticks, &yticks)) {
+        SDL_SendMouseWheel(timestamp, కిటికీ, mouseID, (దశాంశం)-xticks, (దశాంశం)yticks, SDL_MOUSEWHEEL_సాధారణ);
+    } లేకపోతే {
+        ఒకవేళ (button > 7) {
             /* X button values 4-7 are used for scrolling, so X1 is 8, X2 is 9, ...
                => subtract (8-SDL_BUTTON_X1) to get value SDL expects */
             button -= (8 - SDL_BUTTON_X1);
         }
-        if (button == Button1) {
-            if (X11_TriggerHitTestAction(_this, windowdata, x, y)) {
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HIT_TEST, 0, 0);
-                return; // don't pass this event on to app.
+        ఒకవేళ (button == Button1) {
+            ఒకవేళ (X11_Trigger_తగిలింది_Test_Action(_this, windowdata, x, y)) {
+                SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_తగిలింది_TEST, 0, 0);
+                తిరిగి; // don't pass this event on to app.
             }
         }
-        if (windowdata->last_focus_event_time) {
-            const int X11_FOCUS_CLICK_TIMEOUT = 10;
-            if (SDL_GetTicks() < (windowdata->last_focus_event_time + X11_FOCUS_CLICK_TIMEOUT)) {
-                if (!SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false)) {
+        ఒకవేళ (windowdata->చివరి_focus_event_సమయం) {
+            స్థిరరాశి పూర్ణాంకం X11_FOCUS_CLICK_TIMEOUT = 10;
+            ఒకవేళ (SDL_GetTicks() < (windowdata->చివరి_focus_event_సమయం + X11_FOCUS_CLICK_TIMEOUT)) {
+                ఒకవేళ (!SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false)) {
                     // Ignore all press events with this serial.
                     windowdata->ignore_button_press_serial = serial;
                 }
             }
-            windowdata->last_focus_event_time = 0;
+            windowdata->చివరి_focus_event_సమయం = 0;
         }
-        if (serial != windowdata->ignore_button_press_serial) {
-            SDL_SendMouseButton(timestamp, window, mouseID, button, true);
+        ఒకవేళ (serial != windowdata->ignore_button_press_serial) {
+            SDL_SendMouseButton(timestamp, కిటికీ, mouseID, button, true);
         }
     }
-    X11_UpdateUserTime(windowdata, time);
+    X11_Update_User_సమయం(windowdata, సమయం);
 }
 
-void X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, unsigned long time)
+శూన్య X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *windowdata, SDL_MouseID mouseID, పూర్ణాంకం button, గుర్తులేని దీర్ఘ సమయం)
 {
-    SDL_Window *window = windowdata->window;
+    SDL_కిటికీ *కిటికీ = windowdata->కిటికీ;
     // The X server sends a Release event for each Press for wheels. Ignore them.
-    int xticks = 0, yticks = 0;
-    Uint64 timestamp = X11_GetEventTimestamp(time);
+    పూర్ణాంకం xticks = 0, yticks = 0;
+    Uint64 timestamp = X11_GetEventTimestamp(సమయం);
 
-#ifdef DEBUG_XEVENTS
+#నిర్వచితమైతే DEBUG_XEVENTS
     SDL_Log("window 0x%lx: ButtonRelease (X11 button = %d)", windowdata->xwindow, button);
-#endif
-    if (!X11_IsWheelEvent(button, &xticks, &yticks)) {
-        if (button > 7) {
+#అయితే_ముగింపు
+    ఒకవేళ (!X11_IsWheelEvent(button, &xticks, &yticks)) {
+        ఒకవేళ (button > 7) {
             // see explanation at case ButtonPress
             button -= (8 - SDL_BUTTON_X1);
         }
-        SDL_SendMouseButton(timestamp, window, mouseID, button, false);
+        SDL_SendMouseButton(timestamp, కిటికీ, mouseID, button, false);
 
-        if (window->internal->pending_grab) {
-            X11_SetWindowMouseGrab(_this, window, true);
+        ఒకవేళ (కిటికీ->అంతర్గత->pending_grab) {
+            X11_సమితి_కిటికీ_Mouse_Grab(_this, కిటికీ, true);
         }
     }
 }
 
-void X11_GetBorderValues(SDL_WindowData *data)
+శూన్య X11_Get_Border_విలువలు(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    SDL_VideoData *videodata = data->videodata;
+    SDL_Video_దత్తాంశం *videodata = దత్తాంశం->videodata;
     Display *display = videodata->display;
 
     Atom type;
-    int format;
-    unsigned long nitems, bytes_after;
-    unsigned char *property;
+    పూర్ణాంకం format;
+    గుర్తులేని దీర్ఘ nitems, బైట్లు_after;
+    గుర్తులేని అక్షరం *property;
 
     // Some compositors will send extents even when the border hint is turned off. Ignore them in this case.
-    if (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
-        if (X11_XGetWindowProperty(display, data->xwindow, videodata->atoms._NET_FRAME_EXTENTS, 0, 16, 0, XA_CARDINAL, &type, &format, &nitems, &bytes_after, &property) == Success) {
-            if (type != None && nitems == 4) {
-                data->border_left = (int)((long *)property)[0];
-                data->border_right = (int)((long *)property)[1];
-                data->border_top = (int)((long *)property)[2];
-                data->border_bottom = (int)((long *)property)[3];
+    ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS)) {
+        ఒకవేళ (X11_XGet_కిటికీ_Property(display, దత్తాంశం->xwindow, videodata->atoms.NET_చట్రం_EXTENTS, 0, 16, 0, XA_CARDINAL, &type, &format, &nitems, &బైట్లు_after, &property) == Success) {
+            ఒకవేళ (type != None && nitems == 4) {
+                దత్తాంశం->border_ఎడమ = (పూర్ణాంకం)((దీర్ఘ *)property)[0];
+                దత్తాంశం->border_కుడి = (పూర్ణాంకం)((దీర్ఘ *)property)[1];
+                దత్తాంశం->border_శిఖరం = (పూర్ణాంకం)((దీర్ఘ *)property)[2];
+                దత్తాంశం->border_bottom = (పూర్ణాంకం)((దీర్ఘ *)property)[3];
             }
             X11_XFree(property);
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("New _NET_FRAME_EXTENTS: left=%d right=%d, top=%d, bottom=%d", data->border_left, data->border_right, data->border_top, data->border_bottom);
-#endif
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("New _NET_FRAME_EXTENTS: left=%d right=%d, top=%d, bottom=%d", దత్తాంశం->border_ఎడమ, దత్తాంశం->border_కుడి, దత్తాంశం->border_శిఖరం, దత్తాంశం->border_bottom);
+#అయితే_ముగింపు
         }
-    } else {
-        data->border_left = data->border_top = data->border_right = data->border_bottom = 0;
+    } లేకపోతే {
+        దత్తాంశం->border_ఎడమ = దత్తాంశం->border_శిఖరం = దత్తాంశం->border_కుడి = దత్తాంశం->border_bottom = 0;
     }
 }
 
-void X11_EmitConfigureNotifyEvents(SDL_WindowData *data, XConfigureEvent *xevent)
+శూన్య X11_EmitConfigureNotifyEvents(SDL_కిటికీ_దత్తాంశం *దత్తాంశం, XConfigureEvent *xevent)
 {
-    if (!data->size_move_event_flags) {
-        int x = xevent->x;
-        int y = xevent->y;
+    ఒకవేళ (!దత్తాంశం->కొలత_move_event_flags) {
+        పూర్ణాంకం x = xevent->x;
+        పూర్ణాంకం y = xevent->y;
 
-        if (xevent->x != data->last_xconfigure.x ||
-            xevent->y != data->last_xconfigure.y) {
-            data->pending_operation &= ~X11_PENDING_OP_MOVE;
+        ఒకవేళ (xevent->x != దత్తాంశం->చివరి_xconfigure.x ||
+            xevent->y != దత్తాంశం->చివరి_xconfigure.y) {
+            దత్తాంశం->pending_operation &= ~X11_PENDING_OP_MOVE;
         }
-        SDL_GlobalToRelativeForWindow(data->window, x, y, &x, &y);
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MOVED, x, y);
+        SDL_Global_గమ్యం_Relative_For_కిటికీ(దత్తాంశం->కిటికీ, x, y, &x, &y);
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MOVED, x, y);
 
-        for (SDL_Window *w = data->window->first_child; w; w = w->next_sibling) {
+        కొరకు (SDL_కిటికీ *w = దత్తాంశం->కిటికీ->మొదటి_బిడ్డ; w; w = w->తదుపరి_sibling) {
             // Don't update hidden child popup windows, their relative position doesn't change
-            if (SDL_WINDOW_IS_POPUP(w) && !(w->flags & SDL_WINDOW_HIDDEN)) {
-                X11_UpdateWindowPosition(w, true);
+            ఒకవేళ (SDL_కిటికీ_IS_POPUP(w) && !(w->flags & SDL_కిటికీ_HIDDEN)) {
+                X11_Update_కిటికీ_Position(w, true);
             }
         }
 
-        if (xevent->width != data->last_xconfigure.width ||
-            xevent->height != data->last_xconfigure.height) {
-            data->pending_operation &= ~X11_PENDING_OP_RESIZE;
+        ఒకవేళ (xevent->వెడల్పు != దత్తాంశం->చివరి_xconfigure.వెడల్పు ||
+            xevent->ఎత్తు != దత్తాంశం->చివరి_xconfigure.ఎత్తు) {
+            దత్తాంశం->pending_operation &= ~X11_PENDING_OP_RESIZE;
         }
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, xevent->width, xevent->height);
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESIZED, xevent->వెడల్పు, xevent->ఎత్తు);
     }
 
-    SDL_copyp(&data->last_xconfigure, xevent);
+    SDL_copyp(&దత్తాంశం->చివరి_xconfigure, xevent);
 }
 
-static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
+స్థిర శూన్య X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     Display *display;
-    SDL_WindowData *data;
-    XClientMessageEvent m;
-    int i;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం;
+    XClient_సందేశం_Event m;
+    పూర్ణాంకం i;
 
-    SDL_assert(videodata != NULL);
+    SDL_assert(videodata != ఖాళీ);
     display = videodata->display;
 
     // filter events catches XIM events and sends them to the correct handler
     // Key press/release events are filtered in X11_HandleKeyEvent()
-    if (xevent->type != KeyPress && xevent->type != KeyRelease) {
-        if (X11_XFilterEvent(xevent, None)) {
-#ifdef DEBUG_XEVENTS
+    ఒకవేళ (xevent->type != కీలకం_Press && xevent->type != కీలకం_Release) {
+        ఒకవేళ (X11_XFilterEvent(xevent, None)) {
+#నిర్వచితమైతే DEBUG_XEVENTS
             SDL_Log("Filtered event type = %d display = %p window = 0x%lx",
-                   xevent->type, xevent->xany.display, xevent->xany.window);
-#endif
-            return;
+                   xevent->type, xevent->xany.display, xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            తిరిగి;
         }
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
-    if (xevent->type == GenericEvent) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
+    ఒకవేళ (xevent->type == GenericEvent) {
         X11_HandleGenericEvent(_this, xevent);
-        return;
+        తిరిగి;
     }
-#endif
+#అయితే_ముగింపు
 
     // Calling the event hook for generic events happens in X11_HandleGenericEvent(), where the event data is available
-    if (g_X11EventHook) {
-        if (!g_X11EventHook(g_X11EventHookData, xevent)) {
-            return;
+    ఒకవేళ (g_X11EventHook) {
+        ఒకవేళ (!g_X11EventHook(g_X11_Event_Hook_దత్తాంశం, xevent)) {
+            తిరిగి;
         }
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-    if (videodata->xrandr_event_base && (xevent->type == (videodata->xrandr_event_base + RRNotify))) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XRANDR
+    ఒకవేళ (videodata->xrandr_event_పునాది && (xevent->type == (videodata->xrandr_event_పునాది + RRNotify))) {
         X11_HandleXRandREvent(_this, xevent);
     }
-#endif
+#అయితే_ముగింపు
 
-#ifdef DEBUG_XEVENTS
+#నిర్వచితమైతే DEBUG_XEVENTS
     SDL_Log("X11 event type = %d display = %p window = 0x%lx",
-           xevent->type, xevent->xany.display, xevent->xany.window);
-#endif
+           xevent->type, xevent->xany.display, xevent->xany.కిటికీ);
+#అయితే_ముగింపు
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    if (SDL_X11_HAVE_XFIXES &&
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
+    ఒకవేళ (SDL_X11_HAVE_XFIXES &&
         xevent->type == X11_GetXFixesSelectionNotifyEvent()) {
         XFixesSelectionNotifyEvent *ev = (XFixesSelectionNotifyEvent *)xevent;
 
-#ifdef DEBUG_XEVENTS
+#నిర్వచితమైతే DEBUG_XEVENTS
         SDL_Log("window CLIPBOARD: XFixesSelectionNotify (selection = %s)",
                X11_XGetAtomName(display, ev->selection));
-#endif
+#అయితే_ముగింపు
 
-        if (ev->subtype == XFixesSetSelectionOwnerNotify)
+        ఒకవేళ (ev->subtype == XFixes_సమితి_Selection_Owner_Notify)
         {
-            if (ev->selection != videodata->atoms.CLIPBOARD)
-                return;
+            ఒకవేళ (ev->selection != videodata->atoms.CLIPBOARD)
+                తిరిగి;
 
-            if (X11_XGetSelectionOwner(display, ev->selection) == videodata->clipboard_window)
-                return;
+            ఒకవేళ (X11_XGetSelectionOwner(display, ev->selection) == videodata->clipboard_కిటికీ)
+                తిరిగి;
 
             /* when here we're notified that the clipboard had an external change, we request the
              * available mime types by asking for a conversion to the TARGETS format. We should get a
@@ -1361,362 +1361,362 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
              */
 
             X11_XConvertSelection(display, videodata->atoms.CLIPBOARD, videodata->atoms.TARGETS,
-                    videodata->atoms.SDL_FORMATS, GetWindow(_this), CurrentTime);
+                    videodata->atoms.SDL_FORMATS, Get_కిటికీ(_this), Current_సమయం);
         }
 
-        return;
+        తిరిగి;
     }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XFIXES
 
-    if ((videodata->clipboard_window != None) &&
-        (videodata->clipboard_window == xevent->xany.window)) {
+    ఒకవేళ ((videodata->clipboard_కిటికీ != None) &&
+        (videodata->clipboard_కిటికీ == xevent->xany.కిటికీ)) {
         X11_HandleClipboardEvent(_this, xevent);
-        return;
+        తిరిగి;
     }
 
     // xsettings internally filters events for the windows it watches
     X11_HandleXsettingsEvent(_this, xevent);
 
-    data = X11_FindWindow(videodata, xevent->xany.window);
+    దత్తాంశం = X11_కనుగొను_కిటికీ(videodata, xevent->xany.కిటికీ);
 
-    if (!data) {
+    ఒకవేళ (!దత్తాంశం) {
         // The window for KeymapNotify, etc events is 0
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-        if (videodata->keyboard.xkb_enabled && xevent->type == videodata->keyboard.xkb.event) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+        ఒకవేళ (videodata->keyboard.xkb_enabled && xevent->type == videodata->keyboard.xkb.event) {
             XkbEvent *xkbevent = (XkbEvent *)xevent;
-            switch (xkbevent->any.xkb_type) {
-            case XkbStateNotify:
+            ఎంపిక (xkbevent->any.xkb_type) {
+            స్థితి XkbStateNotify:
             {
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: XkbStateNotify!", xevent->xany.window);
-#endif
-                if ((xkbevent->state.changed & XkbGroupStateMask) && xkbevent->state.group != videodata->keyboard.xkb.current_group) {
-                    videodata->keyboard.xkb.current_group = xkbevent->state.group;
-                    SDL_SetKeymap(videodata->keyboard.xkb.keymaps[videodata->keyboard.xkb.current_group], true);
+#నిర్వచితమైతే DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: XkbStateNotify!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+                ఒకవేళ ((xkbevent->state.మారింది & Xkb_సమూహం_State_ముసుగు) && xkbevent->state.సమూహం != videodata->keyboard.xkb.current_సమూహం) {
+                    videodata->keyboard.xkb.current_సమూహం = xkbevent->state.సమూహం;
+                    SDL_సమితి_Keymap(videodata->keyboard.xkb.keymaps[videodata->keyboard.xkb.current_సమూహం], true);
                 }
 
-                if (xkbevent->state.changed & XkbModifierStateMask) {
-                    videodata->keyboard.pressed_modifiers = xkbevent->state.base_mods;
+                ఒకవేళ (xkbevent->state.మారింది & Xkb_Modifier_State_ముసుగు) {
+                    videodata->keyboard.pressed_modifiers = xkbevent->state.పునాది_mods;
                     videodata->keyboard.locked_modifiers = xkbevent->state.latched_mods | xkbevent->state.locked_mods;
                     X11_ReconcileModifiers(videodata, false);
                 }
-            } break;
+            } ఆపు;
 
-            case XkbMapNotify:
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: XkbMapNotify!", xevent->xany.window);
+            స్థితి XkbMapNotify:
+#నిర్వచితమైతే DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: XkbMapNotify!", xevent->xany.కిటికీ);
                 SDL_FALLTHROUGH;
-#endif
-            case XkbNewKeyboardNotify:
+#అయితే_ముగింపు
+            స్థితి XkbNewKeyboardNotify:
             {
-#ifdef DEBUG_XEVENTS
-                if (xkbevent->any.xkb_type == XkbNewKeyboardNotify) {
-                    SDL_Log("window 0x%lx: XkbNewKeyboardNotify!", xevent->xany.window);
+#నిర్వచితమైతే DEBUG_XEVENTS
+                ఒకవేళ (xkbevent->any.xkb_type == XkbNewKeyboardNotify) {
+                    SDL_Log("window 0x%lx: XkbNewKeyboardNotify!", xevent->xany.కిటికీ);
                 }
-#endif
+#అయితే_ముగింపు
                 X11_XkbRefreshKeyboardMapping(&xkbevent->map);
 
                 // Don't redundantly rebuild the keymap if this is a duplicate event.
-                if (xkbevent->any.serial != videodata->keyboard.xkb.last_map_serial) {
-                    videodata->keyboard.xkb.last_map_serial = xkbevent->any.serial;
+                ఒకవేళ (xkbevent->any.serial != videodata->keyboard.xkb.చివరి_map_serial) {
+                    videodata->keyboard.xkb.చివరి_map_serial = xkbevent->any.serial;
                     X11_UpdateKeymap(_this, true);
                 }
-            } break;
+            } ఆపు;
 
-            default:
-                break;
+            అప్రమేయ:
+                ఆపు;
             }
-        } else
-#endif
-        if (xevent->type == KeymapNotify) {
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: KeymapNotify!", xevent->xany.window);
-#endif
-            if (SDL_GetKeyboardFocus() != NULL) {
-                if (!videodata->keyboard.xkb_enabled) {
+        } లేకపోతే
+#అయితే_ముగింపు
+        ఒకవేళ (xevent->type == KeymapNotify) {
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: KeymapNotify!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            ఒకవేళ (SDL_GetKeyboardFocus() != ఖాళీ) {
+                ఒకవేళ (!videodata->keyboard.xkb_enabled) {
                     X11_UpdateKeymap(_this, true);
                 }
                 X11_ReconcileKeyboardState(_this);
             }
-        } else if (xevent->type == MappingNotify) {
-            const int request = xevent->xmapping.request;
+        } లేకపోతే ఒకవేళ (xevent->type == MappingNotify) {
+            స్థిరరాశి పూర్ణాంకం request = xevent->xmapping.request;
 
-            if (request == MappingPointer) {
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.window);
-#endif
-                X11_Xinput2UpdatePointerMapping(_this);
-            } else if (!videodata->keyboard.xkb_enabled) {
+            ఒకవేళ (request == Mapping_సూచిక) {
+#నిర్వచితమైతే DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+                X11_Xinput2_Update_సూచిక_Mapping(_this);
+            } లేకపోతే ఒకవేళ (!videodata->keyboard.xkb_enabled) {
                 // Has the keyboard layout changed?
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.window);
-#endif
-                if (request == MappingKeyboard || request == MappingModifier) {
+#నిర్వచితమైతే DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+                ఒకవేళ (request == MappingKeyboard || request == MappingModifier) {
                     X11_XRefreshKeyboardMapping(&xevent->xmapping);
                 }
 
                 X11_UpdateKeymap(_this, true);
             }
-        } else if (xevent->type == PropertyNotify && videodata) {
-            char *name_of_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
-            if (name_of_atom) {
-                if (SDL_startswith(name_of_atom, "_ICC_PROFILE")) {
-                    XWindowAttributes attrib;
-                    int screennum;
-                    for (i = 0; i < videodata->numwindows; ++i) {
-                        if (videodata->windowlist[i] != NULL) {
-                            data = videodata->windowlist[i];
-                            X11_XGetWindowAttributes(display, data->xwindow, &attrib);
-                            screennum = X11_XScreenNumberOfScreen(attrib.screen);
-                            if (screennum == 0 && SDL_strcmp(name_of_atom, "_ICC_PROFILE") == 0) {
-                                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
-                            } else if (SDL_strncmp(name_of_atom, "_ICC_PROFILE_", sizeof("_ICC_PROFILE_") - 1) == 0 && SDL_strlen(name_of_atom) > sizeof("_ICC_PROFILE_") - 1) {
-                                int iccscreennum = SDL_atoi(&name_of_atom[sizeof("_ICC_PROFILE_") - 1]);
+        } లేకపోతే ఒకవేళ (xevent->type == PropertyNotify && videodata) {
+            అక్షరం *name_యొక్క_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
+            ఒకవేళ (name_యొక్క_atom) {
+                ఒకవేళ (SDL_startswith(name_యొక్క_atom, "_ICC_PROFILE")) {
+                    XWindow_లక్షణాలు attrib;
+                    పూర్ణాంకం screennum;
+                    కొరకు (i = 0; i < videodata->numwindows; ++i) {
+                        ఒకవేళ (videodata->windowlist[i] != ఖాళీ) {
+                            దత్తాంశం = videodata->windowlist[i];
+                            X11_XGet_కిటికీ_లక్షణాలు(display, దత్తాంశం->xwindow, &attrib);
+                            screennum = X11_XScreen_సంఖ్య_యొక్క_Screen(attrib.screen);
+                            ఒకవేళ (screennum == 0 && SDL_strcmp(name_యొక్క_atom, "_ICC_PROFILE") == 0) {
+                                SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_ICCPROF_మారింది, 0, 0);
+                            } లేకపోతే ఒకవేళ (SDL_strncmp(name_యొక్క_atom, "_ICC_PROFILE_", పరిమాణం("_ICC_PROFILE_") - 1) == 0 && SDL_strlen(name_యొక్క_atom) > పరిమాణం("_ICC_PROFILE_") - 1) {
+                                పూర్ణాంకం iccscreennum = SDL_atoi(&name_యొక్క_atom[పరిమాణం("_ICC_PROFILE_") - 1]);
 
-                                if (screennum == iccscreennum) {
-                                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
+                                ఒకవేళ (screennum == iccscreennum) {
+                                    SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_ICCPROF_మారింది, 0, 0);
                                 }
                             }
                         }
                     }
-                } else if (SDL_strcmp(name_of_atom, "_NET_WORKAREA") == 0) {
-                    for (i = 0; i < _this->num_displays; ++i) {
-                        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED, 0, 0);
+                } లేకపోతే ఒకవేళ (SDL_strcmp(name_యొక్క_atom, "_NET_WORKAREA") == 0) {
+                    కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
+                        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_మారింది, 0, 0);
                     }
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-                } else if (SDL_strcmp(name_of_atom, "GAMESCOPE_DISPLAY_IS_EXTERNAL") == 0 ||
-                           SDL_strcmp(name_of_atom, "GAMESCOPE_SDR_ON_HDR_CONTENT_BRIGHTNESS") == 0) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XRANDR
+                } లేకపోతే ఒకవేళ (SDL_strcmp(name_యొక్క_atom, "GAMESCOPE_DISPLAY_IS_EXTERNAL") == 0 ||
+                           SDL_strcmp(name_యొక్క_atom, "GAMESCOPE_SDR_ON_HDR_CONTENT_BRIGHTNESS") == 0) {
                     X11_CheckDisplaysMoved(_this, display);
-#endif
+#అయితే_ముగింపు
                 }
-                X11_XFree(name_of_atom);
+                X11_XFree(name_యొక్క_atom);
             }
         }
-        return;
+        తిరిగి;
     }
 
-    switch (xevent->type) {
+    ఎంపిక (xevent->type) {
 
         // Gaining mouse coverage?
-    case EnterNotify:
+    స్థితి EnterNotify:
     {
         SDL_Mouse *mouse = SDL_GetMouse();
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: EnterNotify! (%d,%d,%d)", xevent->xany.window,
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: EnterNotify! (%d,%d,%d)", xevent->xany.కిటికీ,
                xevent->xcrossing.x,
                xevent->xcrossing.y,
-               xevent->xcrossing.mode);
-        if (xevent->xcrossing.mode == NotifyGrab) {
+               xevent->xcrossing.బహుళకం);
+        ఒకవేళ (xevent->xcrossing.బహుళకం == NotifyGrab) {
             SDL_Log("Mode: NotifyGrab");
         }
-        if (xevent->xcrossing.mode == NotifyUngrab) {
+        ఒకవేళ (xevent->xcrossing.బహుళకం == NotifyUngrab) {
             SDL_Log("Mode: NotifyUngrab");
         }
-#endif
-        SDL_SetMouseFocus(data->window);
+#అయితే_ముగింపు
+        SDL_సమితి_Mouse_Focus(దత్తాంశం->కిటికీ);
 
-        mouse->last_x = xevent->xcrossing.x;
-        mouse->last_y = xevent->xcrossing.y;
+        mouse->చివరి_x = xevent->xcrossing.x;
+        mouse->చివరి_y = xevent->xcrossing.y;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
         {
             // Only create the barriers if we have input focus
-            SDL_WindowData *windowdata = data->window->internal;
-            if ((data->pointer_barrier_active == true) && windowdata->window->flags & SDL_WINDOW_INPUT_FOCUS) {
-                X11_ConfineCursorWithFlags(_this, windowdata->window, &windowdata->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
+            SDL_కిటికీ_దత్తాంశం *windowdata = దత్తాంశం->కిటికీ->అంతర్గత;
+            ఒకవేళ ((దత్తాంశం->సూచిక_barrier_చురుకైన == true) && windowdata->కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS) {
+                X11_ConfineCursorWithFlags(_this, windowdata->కిటికీ, &windowdata->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
             }
         }
-#endif
+#అయితే_ముగింపు
 
-        if (!mouse->relative_mode) {
-            SDL_SendMouseMotion(0, data->window, SDL_GLOBAL_MOUSE_ID, false, (float)xevent->xcrossing.x, (float)xevent->xcrossing.y);
+        ఒకవేళ (!mouse->relative_బహుళకం) {
+            SDL_SendMouseMotion(0, దత్తాంశం->కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)xevent->xcrossing.x, (దశాంశం)xevent->xcrossing.y);
         }
 
         // We ungrab in LeaveNotify, so we may need to grab again here, but not if captured, as the capture can be lost.
-        if (!(data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-            SDL_UpdateWindowGrab(data->window);
+        ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_MOUSE_CAPTURE)) {
+            SDL_Update_కిటికీ_Grab(దత్తాంశం->కిటికీ);
         }
 
-        X11_ProcessHitTest(_this, data, mouse->last_x, mouse->last_y, true);
-    } break;
+        X11_Process_తగిలింది_Test(_this, దత్తాంశం, mouse->చివరి_x, mouse->చివరి_y, true);
+    } ఆపు;
         // Losing mouse coverage?
-    case LeaveNotify:
+    స్థితి LeaveNotify:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: LeaveNotify! (%d,%d,%d)", xevent->xany.window,
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: LeaveNotify! (%d,%d,%d)", xevent->xany.కిటికీ,
                xevent->xcrossing.x,
                xevent->xcrossing.y,
-               xevent->xcrossing.mode);
-        if (xevent->xcrossing.mode == NotifyGrab) {
+               xevent->xcrossing.బహుళకం);
+        ఒకవేళ (xevent->xcrossing.బహుళకం == NotifyGrab) {
             SDL_Log("Mode: NotifyGrab");
         }
-        if (xevent->xcrossing.mode == NotifyUngrab) {
+        ఒకవేళ (xevent->xcrossing.బహుళకం == NotifyUngrab) {
             SDL_Log("Mode: NotifyUngrab");
         }
-#endif
-        if (!SDL_GetMouse()->relative_mode) {
-            SDL_SendMouseMotion(0, data->window, SDL_GLOBAL_MOUSE_ID, false, (float)xevent->xcrossing.x, (float)xevent->xcrossing.y);
+#అయితే_ముగింపు
+        ఒకవేళ (!SDL_GetMouse()->relative_బహుళకం) {
+            SDL_SendMouseMotion(0, దత్తాంశం->కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)xevent->xcrossing.x, (దశాంశం)xevent->xcrossing.y);
         }
 
-        if (xevent->xcrossing.mode != NotifyGrab &&
-            xevent->xcrossing.mode != NotifyUngrab &&
+        ఒకవేళ (xevent->xcrossing.బహుళకం != NotifyGrab &&
+            xevent->xcrossing.బహుళకం != NotifyUngrab &&
             xevent->xcrossing.detail != NotifyInferior) {
 
             /* In order for interaction with the window decorations and menu to work properly
                on Mutter, we need to ungrab the keyboard when the mouse leaves. */
-            if (!(data->window->flags & SDL_WINDOW_FULLSCREEN)) {
-                X11_SetWindowKeyboardGrab(_this, data->window, false);
+            ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+                X11_సమితి_కిటికీ_Keyboard_Grab(_this, దత్తాంశం->కిటికీ, false);
             }
 
-            SDL_SetMouseFocus(NULL);
+            SDL_సమితి_Mouse_Focus(ఖాళీ);
         }
-    } break;
+    } ఆపు;
 
         // Gaining input focus?
-    case FocusIn:
+    స్థితి Focus_లోపల:
     {
-        if (xevent->xfocus.mode == NotifyGrab || xevent->xfocus.mode == NotifyUngrab) {
+        ఒకవేళ (xevent->xfocus.బహుళకం == NotifyGrab || xevent->xfocus.బహుళకం == NotifyUngrab) {
             // Someone is handling a global hotkey, ignore it
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusIn (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.window);
-#endif
-            break;
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusIn (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            ఆపు;
         }
 
-        if (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == NotifyPointer) {
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusIn (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.window);
-#endif
-            break;
+        ఒకవేళ (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == Notify_సూచిక) {
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusIn (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            ఆపు;
         }
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: FocusIn!", xevent->xany.window);
-#endif
-        if (!videodata->last_mode_change_deadline) /* no recent mode changes */ {
-            data->pending_focus = PENDING_FOCUS_NONE;
-            data->pending_focus_time = 0;
-            X11_DispatchFocusIn(_this, data);
-        } else {
-            data->pending_focus = PENDING_FOCUS_IN;
-            data->pending_focus_time = SDL_GetTicks() + PENDING_FOCUS_TIME;
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: FocusIn!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+        ఒకవేళ (!videodata->చివరి_బహుళకం_change_deadline) /* no recent mode changes */ {
+            దత్తాంశం->pending_focus = PENDING_FOCUS_NONE;
+            దత్తాంశం->pending_focus_సమయం = 0;
+            X11_Dispatch_Focus_లోపల(_this, దత్తాంశం);
+        } లేకపోతే {
+            దత్తాంశం->pending_focus = PENDING_FOCUS_లోపల;
+            దత్తాంశం->pending_focus_సమయం = SDL_GetTicks() + PENDING_FOCUS_సమయం;
         }
-        data->last_focus_event_time = SDL_GetTicks();
-    } break;
+        దత్తాంశం->చివరి_focus_event_సమయం = SDL_GetTicks();
+    } ఆపు;
 
         // Losing input focus?
-    case FocusOut:
+    స్థితి Focus_బహిర్గతం:
     {
-        if (xevent->xfocus.mode == NotifyGrab || xevent->xfocus.mode == NotifyUngrab) {
+        ఒకవేళ (xevent->xfocus.బహుళకం == NotifyGrab || xevent->xfocus.బహుళకం == NotifyUngrab) {
             // Someone is handling a global hotkey, ignore it
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusOut (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.window);
-#endif
-            break;
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusOut (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            ఆపు;
         }
-        if (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == NotifyPointer) {
+        ఒకవేళ (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == Notify_సూచిక) {
             /* We still have focus if a child gets focus. We also don't
                care about the position of the pointer when the keyboard
                focus changed. */
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusOut (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.window);
-#endif
-            break;
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusOut (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            ఆపు;
         }
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: FocusOut!", xevent->xany.window);
-#endif
-        if (!videodata->last_mode_change_deadline) /* no recent mode changes */ {
-            data->pending_focus = PENDING_FOCUS_NONE;
-            data->pending_focus_time = 0;
-            X11_DispatchFocusOut(_this, data);
-        } else {
-            data->pending_focus = PENDING_FOCUS_OUT;
-            data->pending_focus_time = SDL_GetTicks() + PENDING_FOCUS_TIME;
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: FocusOut!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+        ఒకవేళ (!videodata->చివరి_బహుళకం_change_deadline) /* no recent mode changes */ {
+            దత్తాంశం->pending_focus = PENDING_FOCUS_NONE;
+            దత్తాంశం->pending_focus_సమయం = 0;
+            X11_Dispatch_Focus_బహిర్గతం(_this, దత్తాంశం);
+        } లేకపోతే {
+            దత్తాంశం->pending_focus = PENDING_FOCUS_బహిర్గతం;
+            దత్తాంశం->pending_focus_సమయం = SDL_GetTicks() + PENDING_FOCUS_సమయం;
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
         // Disable confinement if it is activated.
-        if (data->pointer_barrier_active == true) {
-            X11_ConfineCursorWithFlags(_this, data->window, NULL, X11_BARRIER_HANDLED_BY_EVENT);
+        ఒకవేళ (దత్తాంశం->సూచిక_barrier_చురుకైన == true) {
+            X11_ConfineCursorWithFlags(_this, దత్తాంశం->కిటికీ, ఖాళీ, X11_BARRIER_HANDLED_BY_EVENT);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    } break;
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XFIXES
+    } ఆపు;
 
 
         // Have we been iconified?
-    case UnmapNotify:
+    స్థితి UnmapNotify:
     {
         XEvent ev;
 
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: UnmapNotify!", xevent->xany.window);
-#endif
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: UnmapNotify!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
 
-        if (X11_XCheckIfEvent(display, &ev, &isReparentNotify, (XPointer)&xevent->xunmap)) {
+        ఒకవేళ (X11_XCheckIfEvent(display, &ev, &isReparentNotify, (XPointer)&xevent->xunmap)) {
             X11_XCheckIfEvent(display, &ev, &isMapNotify, (XPointer)&xevent->xunmap);
-        } else {
-            X11_DispatchUnmapNotify(data);
+        } లేకపోతే {
+            X11_DispatchUnmapNotify(దత్తాంశం);
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
         // Disable confinement if the window gets hidden.
-        if (data->pointer_barrier_active == true) {
-            X11_ConfineCursorWithFlags(_this, data->window, NULL, X11_BARRIER_HANDLED_BY_EVENT);
+        ఒకవేళ (దత్తాంశం->సూచిక_barrier_చురుకైన == true) {
+            X11_ConfineCursorWithFlags(_this, దత్తాంశం->కిటికీ, ఖాళీ, X11_BARRIER_HANDLED_BY_EVENT);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    } break;
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XFIXES
+    } ఆపు;
 
         // Have we been restored?
-    case MapNotify:
+    స్థితి MapNotify:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: MapNotify!", xevent->xany.window);
-#endif
-        X11_DispatchMapNotify(data);
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: MapNotify!", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+        X11_DispatchMapNotify(దత్తాంశం);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
         // Enable confinement if it was activated.
-        if (data->pointer_barrier_active == true) {
-            X11_ConfineCursorWithFlags(_this, data->window, &data->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
+        ఒకవేళ (దత్తాంశం->సూచిక_barrier_చురుకైన == true) {
+            X11_ConfineCursorWithFlags(_this, దత్తాంశం->కిటికీ, &దత్తాంశం->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    } break;
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XFIXES
+    } ఆపు;
 
         // Have we been resized or moved?
-    case ConfigureNotify:
+    స్థితి ConfigureNotify:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: ConfigureNotify! (position: %d,%d, size: %dx%d)", xevent->xany.window,
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: ConfigureNotify! (position: %d,%d, size: %dx%d)", xevent->xany.కిటికీ,
                xevent->xconfigure.x, xevent->xconfigure.y,
-               xevent->xconfigure.width, xevent->xconfigure.height);
-#endif
+               xevent->xconfigure.వెడల్పు, xevent->xconfigure.ఎత్తు);
+#అయితే_ముగింపు
         // Real configure notify events are relative to the parent, synthetic events are absolute.
-        if (!xevent->xconfigure.send_event) {
-            unsigned int NumChildren;
-            Window ChildReturn, Root, Parent;
-            Window *Children;
+        ఒకవేళ (!xevent->xconfigure.send_event) {
+            గుర్తులేని పూర్ణాంకం అంకె_Children;
+            కిటికీ_2 బిడ్డ_Return, మూలం_2, మాతృ_2;
+            కిటికీ_2 *Children;
             /* Translate these coordinates back to relative to root.
              *
              * XTranslateCoordinates can generate a BadWindow error if called during a racy
              * reparenting operation, so a non-fatal error handler is required.
              */
-            x11_last_error = 0;
-            XErrorHandler prev_handler = X11_XSetErrorHandler(BadWindowErrorHandler);
+            x11_చివరి_error = 0;
+            XErrorHandler prev_handler = X11_XSetErrorHandler(Bad_కిటికీ_Error_Handler);
 
-            X11_XQueryTree(data->videodata->display, xevent->xconfigure.window, &Root, &Parent, &Children, &NumChildren);
+            X11_XQuery_వృక్షం(దత్తాంశం->videodata->display, xevent->xconfigure.కిటికీ, &మూలం_2, &మాతృ_2, &Children, &అంకె_Children);
             X11_XTranslateCoordinates(xevent->xconfigure.display,
-                                      Parent, DefaultRootWindow(xevent->xconfigure.display),
+                                      మాతృ_2, Default_మూలం_కిటికీ(xevent->xconfigure.display),
                                       xevent->xconfigure.x, xevent->xconfigure.y,
                                       &xevent->xconfigure.x, &xevent->xconfigure.y,
-                                      &ChildReturn);
+                                      &బిడ్డ_Return);
 
             // Make sure the error callback was called if XTranslateCoordinates() failed.
             X11_XSync(display, False);
             X11_XSetErrorHandler(prev_handler);
 
             // If XTranslateCoordinates failed due to a BadWindow error, nothing more to do here.
-            if (x11_last_error == BadWindow) {
-                break;
+            ఒకవేళ (x11_చివరి_error == Bad_కిటికీ) {
+                ఆపు;
             }
         }
 
@@ -1725,155 +1725,155 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
          * expected by SDL and its clients. Defer emitting the size/move events until the corresponding
          * PropertyNotify arrives for consistency.
          */
-        const SDL_WindowFlags changed = X11_GetNetWMState(_this, data->window, xevent->xproperty.window) ^ data->window->flags;
-        if (changed & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED)) {
-            SDL_copyp(&data->pending_xconfigure, &xevent->xconfigure);
-            data->emit_size_move_after_property_notify = true;
+        స్థిరరాశి SDL_కిటికీ_Flags మారింది = X11_GetNetWMState(_this, దత్తాంశం->కిటికీ, xevent->xproperty.కిటికీ) ^ దత్తాంశం->కిటికీ->flags;
+        ఒకవేళ (మారింది & (SDL_కిటికీ_FULLSCREEN | SDL_కిటికీ_MAXIMIZED)) {
+            SDL_copyp(&దత్తాంశం->pending_xconfigure, &xevent->xconfigure);
+            దత్తాంశం->emit_కొలత_move_after_property_notify = true;
         }
 
-        if (!data->emit_size_move_after_property_notify) {
-            X11_EmitConfigureNotifyEvents(data, &xevent->xconfigure);
+        ఒకవేళ (!దత్తాంశం->emit_కొలత_move_after_property_notify) {
+            X11_EmitConfigureNotifyEvents(దత్తాంశం, &xevent->xconfigure);
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-        X11_HandleConfigure(data->window, &xevent->xconfigure);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
-    } break;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
+        X11_HandleConfigure(దత్తాంశం->కిటికీ, &xevent->xconfigure);
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11_XSYNC */
+    } ఆపు;
 
         // Have we been requested to quit (or another client message?)
-    case ClientMessage:
+    స్థితి Client_సందేశం:
     {
-        static int xdnd_version = 0;
+        స్థిర పూర్ణాంకం xdnd_సంస్కరణ = 0;
 
-        if (xevent->xclient.message_type == videodata->atoms.XdndEnter) {
+        ఒకవేళ (xevent->xclient.సందేశం_type == videodata->atoms.XdndEnter) {
 
-            bool use_list = xevent->xclient.data.l[1] & 1;
-            data->xdnd_source = xevent->xclient.data.l[0];
-            xdnd_version = (xevent->xclient.data.l[1] >> 24);
-#ifdef DEBUG_XEVENTS
-            SDL_Log("XID of source window : 0x%lx", data->xdnd_source);
-            SDL_Log("Protocol version to use : %d", xdnd_version);
-            SDL_Log("More then 3 data types : %d", (int)use_list);
-#endif
+            bool use_list = xevent->xclient.దత్తాంశం.l[1] & 1;
+            దత్తాంశం->xdnd_ఆధారం = xevent->xclient.దత్తాంశం.l[0];
+            xdnd_సంస్కరణ = (xevent->xclient.దత్తాంశం.l[1] >> 24);
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("XID of source window : 0x%lx", దత్తాంశం->xdnd_ఆధారం);
+            SDL_Log("Protocol version to use : %d", xdnd_సంస్కరణ);
+            SDL_Log("More then 3 data types : %d", (పూర్ణాంకం)use_list);
+#అయితే_ముగింపు
 
-            if (use_list) {
+            ఒకవేళ (use_list) {
                 // fetch conversion targets
                 SDL_x11Prop p;
-                X11_ReadProperty(&p, display, data->xdnd_source, videodata->atoms.XdndTypeList);
+                X11_ReadProperty(&p, display, దత్తాంశం->xdnd_ఆధారం, videodata->atoms.XdndTypeList);
                 // pick one
-                data->xdnd_req = X11_PickTarget(display, (Atom *)p.data, p.count);
-                X11_XFree(p.data);
-            } else {
+                దత్తాంశం->xdnd_req = X11_Pick_లక్ష్యం(display, (Atom *)p.దత్తాంశం, p.లెక్క);
+                X11_XFree(p.దత్తాంశం);
+            } లేకపోతే {
                 // pick from list of three
-                data->xdnd_req = X11_PickTargetFromAtoms(display, xevent->xclient.data.l[2], xevent->xclient.data.l[3], xevent->xclient.data.l[4]);
+                దత్తాంశం->xdnd_req = X11_Pick_లక్ష్యం_From_Atoms(display, xevent->xclient.దత్తాంశం.l[2], xevent->xclient.దత్తాంశం.l[3], xevent->xclient.దత్తాంశం.l[4]);
             }
-        } else if (xevent->xclient.message_type == videodata->atoms.XdndLeave) {
-#ifdef DEBUG_XEVENTS
-            SDL_Log("XID of source window : 0x%lx", xevent->xclient.data.l[0]);
-#endif
-            SDL_SendDropComplete(data->window);
-        } else if (xevent->xclient.message_type == videodata->atoms.XdndPosition) {
+        } లేకపోతే ఒకవేళ (xevent->xclient.సందేశం_type == videodata->atoms.XdndLeave) {
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("XID of source window : 0x%lx", xevent->xclient.దత్తాంశం.l[0]);
+#అయితే_ముగింపు
+            SDL_SendDropComplete(దత్తాంశం->కిటికీ);
+        } లేకపోతే ఒకవేళ (xevent->xclient.సందేశం_type == videodata->atoms.XdndPosition) {
 
-#ifdef DEBUG_XEVENTS
+#నిర్వచితమైతే DEBUG_XEVENTS
             Atom act = videodata->atoms.XdndActionCopy;
-            if (xdnd_version >= 2) {
-                act = xevent->xclient.data.l[4];
+            ఒకవేళ (xdnd_సంస్కరణ >= 2) {
+                act = xevent->xclient.దత్తాంశం.l[4];
             }
             SDL_Log("Action requested by user is : %s", X11_XGetAtomName(display, act));
-#endif
+#అయితే_ముగింపు
             {
                 // Drag and Drop position
-                int root_x, root_y, window_x, window_y;
-                Window ChildReturn;
-                root_x = xevent->xclient.data.l[2] >> 16;
-                root_y = xevent->xclient.data.l[2] & 0xffff;
+                పూర్ణాంకం మూలం_x, మూలం_y, కిటికీ_x, కిటికీ_y;
+                కిటికీ_2 బిడ్డ_Return;
+                మూలం_x = xevent->xclient.దత్తాంశం.l[2] >> 16;
+                మూలం_y = xevent->xclient.దత్తాంశం.l[2] & 0xffff;
                 // Translate from root to current window position
-                X11_XTranslateCoordinates(display, DefaultRootWindow(display), data->xwindow,
-                                          root_x, root_y, &window_x, &window_y, &ChildReturn);
+                X11_XTranslateCoordinates(display, Default_మూలం_కిటికీ(display), దత్తాంశం->xwindow,
+                                          మూలం_x, మూలం_y, &కిటికీ_x, &కిటికీ_y, &బిడ్డ_Return);
 
-                SDL_SendDropPosition(data->window, (float)window_x, (float)window_y);
+                SDL_SendDropPosition(దత్తాంశం->కిటికీ, (దశాంశం)కిటికీ_x, (దశాంశం)కిటికీ_y);
             }
 
             // reply with status
             SDL_zero(m);
-            m.type = ClientMessage;
+            m.type = Client_సందేశం;
             m.display = xevent->xclient.display;
-            m.window = xevent->xclient.data.l[0];
-            m.message_type = videodata->atoms.XdndStatus;
+            m.కిటికీ = xevent->xclient.దత్తాంశం.l[0];
+            m.సందేశం_type = videodata->atoms.Xdnd_స్థితి;
             m.format = 32;
-            m.data.l[0] = data->xwindow;
-            m.data.l[1] = (data->xdnd_req != None);
-            m.data.l[2] = 0; // specify an empty rectangle
-            m.data.l[3] = 0;
-            m.data.l[4] = videodata->atoms.XdndActionCopy; // we only accept copying anyway
+            m.దత్తాంశం.l[0] = దత్తాంశం->xwindow;
+            m.దత్తాంశం.l[1] = (దత్తాంశం->xdnd_req != None);
+            m.దత్తాంశం.l[2] = 0; // specify an empty rectangle
+            m.దత్తాంశం.l[3] = 0;
+            m.దత్తాంశం.l[4] = videodata->atoms.XdndActionCopy; // we only accept copying anyway
 
-            X11_XSendEvent(display, xevent->xclient.data.l[0], False, NoEventMask, (XEvent *)&m);
+            X11_XSendEvent(display, xevent->xclient.దత్తాంశం.l[0], False, No_Event_ముసుగు, (XEvent *)&m);
             X11_XFlush(display);
-        } else if (xevent->xclient.message_type == videodata->atoms.XdndDrop) {
-            if (data->xdnd_req == None) {
+        } లేకపోతే ఒకవేళ (xevent->xclient.సందేశం_type == videodata->atoms.XdndDrop) {
+            ఒకవేళ (దత్తాంశం->xdnd_req == None) {
                 // say again - not interested!
                 SDL_zero(m);
-                m.type = ClientMessage;
+                m.type = Client_సందేశం;
                 m.display = xevent->xclient.display;
-                m.window = xevent->xclient.data.l[0];
-                m.message_type = videodata->atoms.XdndFinished;
+                m.కిటికీ = xevent->xclient.దత్తాంశం.l[0];
+                m.సందేశం_type = videodata->atoms.Xdnd_ముగిసిన;
                 m.format = 32;
-                m.data.l[0] = data->xwindow;
-                m.data.l[1] = 0;
-                m.data.l[2] = None; // fail!
-                X11_XSendEvent(display, xevent->xclient.data.l[0], False, NoEventMask, (XEvent *)&m);
-            } else {
+                m.దత్తాంశం.l[0] = దత్తాంశం->xwindow;
+                m.దత్తాంశం.l[1] = 0;
+                m.దత్తాంశం.l[2] = None; // fail!
+                X11_XSendEvent(display, xevent->xclient.దత్తాంశం.l[0], False, No_Event_ముసుగు, (XEvent *)&m);
+            } లేకపోతే {
                 // convert
-                if (xdnd_version >= 1) {
-                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, data->xdnd_req, videodata->atoms.PRIMARY, data->xwindow, xevent->xclient.data.l[2]);
-                } else {
-                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, data->xdnd_req, videodata->atoms.PRIMARY, data->xwindow, CurrentTime);
+                ఒకవేళ (xdnd_సంస్కరణ >= 1) {
+                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, దత్తాంశం->xdnd_req, videodata->atoms.PRIMARY, దత్తాంశం->xwindow, xevent->xclient.దత్తాంశం.l[2]);
+                } లేకపోతే {
+                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, దత్తాంశం->xdnd_req, videodata->atoms.PRIMARY, దత్తాంశం->xwindow, Current_సమయం);
                 }
             }
-        } else if ((xevent->xclient.message_type == videodata->atoms.WM_PROTOCOLS) &&
+        } లేకపోతే ఒకవేళ ((xevent->xclient.సందేశం_type == videodata->atoms.WM_PROTOCOLS) &&
                    (xevent->xclient.format == 32) &&
-                   (xevent->xclient.data.l[0] == videodata->atoms._NET_WM_PING)) {
-            Window root = DefaultRootWindow(display);
+                   (xevent->xclient.దత్తాంశం.l[0] == videodata->atoms._NET_WM_PING)) {
+            కిటికీ_2 మూలం = Default_మూలం_కిటికీ(display);
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: _NET_WM_PING", xevent->xany.window);
-#endif
-            xevent->xclient.window = root;
-            X11_XSendEvent(display, root, False, SubstructureRedirectMask | SubstructureNotifyMask, xevent);
-            break;
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: _NET_WM_PING", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            xevent->xclient.కిటికీ = మూలం;
+            X11_XSendEvent(display, మూలం, False, Substructure_Redirect_ముసుగు | Substructure_Notify_ముసుగు, xevent);
+            ఆపు;
         }
 
-        else if ((xevent->xclient.message_type == videodata->atoms.WM_PROTOCOLS) &&
+        లేకపోతే ఒకవేళ ((xevent->xclient.సందేశం_type == videodata->atoms.WM_PROTOCOLS) &&
                  (xevent->xclient.format == 32) &&
-                 (xevent->xclient.data.l[0] == videodata->atoms.WM_DELETE_WINDOW)) {
+                 (xevent->xclient.దత్తాంశం.l[0] == videodata->atoms.WM_DELETE_కిటికీ)) {
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: WM_DELETE_WINDOW", xevent->xany.window);
-#endif
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
-            break;
-        } else if ((xevent->xclient.message_type == videodata->atoms.WM_PROTOCOLS) &&
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: WM_DELETE_WINDOW", xevent->xany.కిటికీ);
+#అయితే_ముగింపు
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_CLOSE_REQUESTED, 0, 0);
+            ఆపు;
+        } లేకపోతే ఒకవేళ ((xevent->xclient.సందేశం_type == videodata->atoms.WM_PROTOCOLS) &&
                    (xevent->xclient.format == 32) &&
-                   (xevent->xclient.data.l[0] == videodata->atoms._NET_WM_SYNC_REQUEST)) {
+                   (xevent->xclient.దత్తాంశం.l[0] == videodata->atoms._NET_WM_SYNC_REQUEST)) {
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window %p: _NET_WM_SYNC_REQUEST", data);
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-            X11_HandleSyncRequest(data->window, &xevent->xclient);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
-            break;
+#నిర్వచితమైతే DEBUG_XEVENTS
+            SDL_Log("window %p: _NET_WM_SYNC_REQUEST", దత్తాంశం);
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
+            X11_HandleSyncRequest(దత్తాంశం->కిటికీ, &xevent->xclient);
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11_XSYNC */
+            ఆపు;
         }
-    } break;
+    } ఆపు;
 
         // Do we need to refresh ourselves?
-    case Expose:
+    స్థితి Expose:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: Expose (count = %d)", xevent->xany.window, xevent->xexpose.count);
-#endif
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
-    } break;
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: Expose (count = %d)", xevent->xany.కిటికీ, xevent->xexpose.లెక్క);
+#అయితే_ముగింపు
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_EXPOSED, 0, 0);
+    } ఆపు;
 
     /* Use XInput2 instead of the xevents API if possible, for:
        - KeyPress
@@ -1882,137 +1882,137 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
        - ButtonPress
        - ButtonRelease
        XInput2 has more precise information, e.g., to distinguish different input devices. */
-    case KeyPress:
-    case KeyRelease:
+    స్థితి కీలకం_Press:
+    స్థితి కీలకం_Release:
     {
         SDL_KeyboardID keyboardID = SDL_GLOBAL_KEYBOARD_ID;
-        if (data->xinput2_keyboard_enabled) {
+        ఒకవేళ (దత్తాంశం->xinput2_keyboard_enabled) {
             // This input is being handled by XInput2.
-            break;
-        } else if (xevent->xkey.serial == videodata->xinput_last_key_serial) {
+            ఆపు;
+        } లేకపోతే ఒకవేళ (xevent->xkey.serial == videodata->xinput_చివరి_కీలకం_serial) {
             // Use the device ID from the XInput2 event if the serials match.
-            keyboardID = videodata->xinput_last_keyboard_device;
+            keyboardID = videodata->xinput_చివరి_keyboard_device;
         }
 
-        X11_HandleKeyEvent(_this, data, keyboardID, xevent);
-    } break;
+        X11_Handle_కీలకం_Event(_this, దత్తాంశం, keyboardID, xevent);
+    } ఆపు;
 
-    case MotionNotify:
+    స్థితి MotionNotify:
     {
-        if (X11_Xinput2HandlesMotionForWindow(data)) {
+        ఒకవేళ (X11_Xinput2_Handles_Motion_For_కిటికీ(దత్తాంశం)) {
             // This input is being handled by XInput2
-            break;
+            ఆపు;
         }
 
         SDL_Mouse *mouse = SDL_GetMouse();
-        if (!mouse->relative_mode) {
-#ifdef DEBUG_MOTION
-            SDL_Log("window 0x%lx: X11 motion: %d,%d", xevent->xany.window, xevent->xmotion.x, xevent->xmotion.y);
-#endif
+        ఒకవేళ (!mouse->relative_బహుళకం) {
+#నిర్వచితమైతే DEBUG_MOTION
+            SDL_Log("window 0x%lx: X11 motion: %d,%d", xevent->xany.కిటికీ, xevent->xmotion.x, xevent->xmotion.y);
+#అయితే_ముగింపు
 
-            X11_ProcessHitTest(_this, data, (float)xevent->xmotion.x, (float)xevent->xmotion.y, false);
-            SDL_SendMouseMotion(0, data->window, SDL_GLOBAL_MOUSE_ID, false, (float)xevent->xmotion.x, (float)xevent->xmotion.y);
+            X11_Process_తగిలింది_Test(_this, దత్తాంశం, (దశాంశం)xevent->xmotion.x, (దశాంశం)xevent->xmotion.y, false);
+            SDL_SendMouseMotion(0, దత్తాంశం->కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)xevent->xmotion.x, (దశాంశం)xevent->xmotion.y);
         }
-    } break;
+    } ఆపు;
 
-    case ButtonPress:
+    స్థితి ButtonPress:
     {
-        if (data->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_last_button_serial) {
+        ఒకవేళ (దత్తాంశం->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_చివరి_button_serial) {
             // This input event was handled by XInput2.
-            break;
+            ఆపు;
         }
 
-        X11_HandleButtonPress(_this, data, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button,
-                              xevent->xbutton.x, xevent->xbutton.y, xevent->xbutton.time, xevent->xbutton.serial);
-    } break;
+        X11_HandleButtonPress(_this, దత్తాంశం, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button,
+                              xevent->xbutton.x, xevent->xbutton.y, xevent->xbutton.సమయం, xevent->xbutton.serial);
+    } ఆపు;
 
-    case ButtonRelease:
+    స్థితి ButtonRelease:
     {
-        if (data->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_last_button_serial) {
+        ఒకవేళ (దత్తాంశం->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_చివరి_button_serial) {
             // This input event was handled by XInput2.
-            break;
+            ఆపు;
         }
 
-        X11_HandleButtonRelease(_this, data, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button, xevent->xbutton.time);
-    } break;
+        X11_HandleButtonRelease(_this, దత్తాంశం, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button, xevent->xbutton.సమయం);
+    } ఆపు;
 
-    case PropertyNotify:
+    స్థితి PropertyNotify:
     {
-#ifdef DEBUG_XEVENTS
-        unsigned char *propdata;
-        int status, real_format;
+#నిర్వచితమైతే DEBUG_XEVENTS
+        గుర్తులేని అక్షరం *propdata;
+        పూర్ణాంకం స్థితి_2, real_format;
         Atom real_type;
-        unsigned long items_read, items_left;
+        గుర్తులేని దీర్ఘ వస్తువులు_read, వస్తువులు_ఎడమ;
 
-        char *name = X11_XGetAtomName(display, xevent->xproperty.atom);
-        if (name) {
-            SDL_Log("window 0x%lx: PropertyNotify: %s %s time=%lu", xevent->xany.window, name, (xevent->xproperty.state == PropertyDelete) ? "deleted" : "changed", xevent->xproperty.time);
+        అక్షరం *name = X11_XGetAtomName(display, xevent->xproperty.atom);
+        ఒకవేళ (name) {
+            SDL_Log("window 0x%lx: PropertyNotify: %s %s time=%lu", xevent->xany.కిటికీ, name, (xevent->xproperty.state == PropertyDelete) ? "deleted" : "changed", xevent->xproperty.సమయం);
             X11_XFree(name);
         }
 
-        status = X11_XGetWindowProperty(display, data->xwindow, xevent->xproperty.atom, 0L, 8192L, False, AnyPropertyType, &real_type, &real_format, &items_read, &items_left, &propdata);
-        if (status == Success && items_read > 0) {
-            if (real_type == XA_INTEGER) {
-                int *values = (int *)propdata;
+        స్థితి_2 = X11_XGet_కిటికీ_Property(display, దత్తాంశం->xwindow, xevent->xproperty.atom, 0L, 8192L, False, AnyPropertyType, &real_type, &real_format, &వస్తువులు_read, &వస్తువులు_ఎడమ, &propdata);
+        ఒకవేళ (స్థితి_2 == Success && వస్తువులు_read > 0) {
+            ఒకవేళ (real_type == XA_INTEGER) {
+                పూర్ణాంకం *విలువలు = (పూర్ణాంకం *)propdata;
 
                 SDL_Log("{");
-                for (i = 0; i < items_read; i++) {
-                    SDL_Log(" %d", values[i]);
+                కొరకు (i = 0; i < వస్తువులు_read; i++) {
+                    SDL_Log(" %d", విలువలు[i]);
                 }
                 SDL_Log(" }");
-            } else if (real_type == XA_CARDINAL) {
-                if (real_format == 32) {
-                    Uint32 *values = (Uint32 *)propdata;
+            } లేకపోతే ఒకవేళ (real_type == XA_CARDINAL) {
+                ఒకవేళ (real_format == 32) {
+                    Uint32 *విలువలు = (Uint32 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    కొరకు (i = 0; i < వస్తువులు_read; i++) {
+                        SDL_Log(" %d", విలువలు[i]);
                     }
                     SDL_Log(" }");
-                } else if (real_format == 16) {
-                    Uint16 *values = (Uint16 *)propdata;
+                } లేకపోతే ఒకవేళ (real_format == 16) {
+                    Uint16 *విలువలు = (Uint16 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    కొరకు (i = 0; i < వస్తువులు_read; i++) {
+                        SDL_Log(" %d", విలువలు[i]);
                     }
                     SDL_Log(" }");
-                } else if (real_format == 8) {
-                    Uint8 *values = (Uint8 *)propdata;
+                } లేకపోతే ఒకవేళ (real_format == 8) {
+                    Uint8 *విలువలు = (Uint8 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    కొరకు (i = 0; i < వస్తువులు_read; i++) {
+                        SDL_Log(" %d", విలువలు[i]);
                     }
                     SDL_Log(" }");
                 }
-            } else if (real_type == XA_STRING ||
+            } లేకపోతే ఒకవేళ (real_type == XA_STRING ||
                        real_type == videodata->atoms.UTF8_STRING) {
                 SDL_Log("{ \"%s\" }", propdata);
-            } else if (real_type == XA_ATOM) {
+            } లేకపోతే ఒకవేళ (real_type == XA_ATOM) {
                 Atom *atoms = (Atom *)propdata;
 
                 SDL_Log("{");
-                for (i = 0; i < items_read; i++) {
-                    char *atomname = X11_XGetAtomName(display, atoms[i]);
-                    if (atomname) {
+                కొరకు (i = 0; i < వస్తువులు_read; i++) {
+                    అక్షరం *atomname = X11_XGetAtomName(display, atoms[i]);
+                    ఒకవేళ (atomname) {
                         SDL_Log(" %s", atomname);
                         X11_XFree(atomname);
                     }
                 }
                 SDL_Log(" }");
-            } else {
-                char *atomname = X11_XGetAtomName(display, real_type);
+            } లేకపోతే {
+                అక్షరం *atomname = X11_XGetAtomName(display, real_type);
                 SDL_Log("Unknown type: 0x%lx (%s)", real_type, atomname ? atomname : "UNKNOWN");
-                if (atomname) {
+                ఒకవేళ (atomname) {
                     X11_XFree(atomname);
                 }
             }
         }
-        if (status == Success) {
+        ఒకవేళ (స్థితి_2 == Success) {
             X11_XFree(propdata);
         }
-#endif // DEBUG_XEVENTS
+#అయితే_ముగింపు // DEBUG_XEVENTS
 
         /* Take advantage of this moment to make sure user_time has a
             valid timestamp from the X server, so if we later try to
@@ -2021,170 +2021,170 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
             key press to this window so far. Note that we don't try to
             set _NET_WM_USER_TIME here, though. That's only for legit
             user interaction with the window. */
-        if (!data->user_time) {
-            data->user_time = xevent->xproperty.time;
+        ఒకవేళ (!దత్తాంశం->user_సమయం) {
+            దత్తాంశం->user_సమయం = xevent->xproperty.సమయం;
         }
 
-        if (xevent->xproperty.atom == data->videodata->atoms._NET_WM_STATE) {
+        ఒకవేళ (xevent->xproperty.atom == దత్తాంశం->videodata->atoms._NET_WM_STATE) {
             /* Get the new state from the window manager.
              * Compositing window managers can alter visibility of windows
              * without ever mapping / unmapping them, so we handle that here,
              * because they use the NETWM protocol to notify us of changes.
              */
-            const SDL_WindowFlags flags = X11_GetNetWMState(_this, data->window, xevent->xproperty.window);
-            const SDL_WindowFlags changed = flags ^ data->window->flags;
+            స్థిరరాశి SDL_కిటికీ_Flags flags = X11_GetNetWMState(_this, దత్తాంశం->కిటికీ, xevent->xproperty.కిటికీ);
+            స్థిరరాశి SDL_కిటికీ_Flags మారింది = flags ^ దత్తాంశం->కిటికీ->flags;
 
-            if ((changed & SDL_WINDOW_HIDDEN) && !(flags & SDL_WINDOW_HIDDEN)) {
-                X11_DispatchMapNotify(data);
+            ఒకవేళ ((మారింది & SDL_కిటికీ_HIDDEN) && !(flags & SDL_కిటికీ_HIDDEN)) {
+                X11_DispatchMapNotify(దత్తాంశం);
             }
 
-            if (!SDL_WINDOW_IS_POPUP(data->window)) {
-                if (changed & SDL_WINDOW_FULLSCREEN) {
-                    data->pending_operation &= ~X11_PENDING_OP_FULLSCREEN;
+            ఒకవేళ (!SDL_కిటికీ_IS_POPUP(దత్తాంశం->కిటికీ)) {
+                ఒకవేళ (మారింది & SDL_కిటికీ_FULLSCREEN) {
+                    దత్తాంశం->pending_operation &= ~X11_PENDING_OP_FULLSCREEN;
 
-                    if (flags & SDL_WINDOW_FULLSCREEN) {
-                        if (!(flags & SDL_WINDOW_MINIMIZED)) {
-                            const bool commit = SDL_memcmp(&data->window->current_fullscreen_mode, &data->requested_fullscreen_mode, sizeof(SDL_DisplayMode)) != 0;
+                    ఒకవేళ (flags & SDL_కిటికీ_FULLSCREEN) {
+                        ఒకవేళ (!(flags & SDL_కిటికీ_MINIMIZED)) {
+                            స్థిరరాశి bool commit = SDL_memcmp(&దత్తాంశం->కిటికీ->current_fullscreen_బహుళకం, &దత్తాంశం->requested_fullscreen_బహుళకం, పరిమాణం(SDL_Display_బహుళకం)) != 0;
 
                             // Ensure the maximized flag is cleared before entering fullscreen.
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
-                            if (commit) {
+                            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
+                            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_ENTER_FULLSCREEN, 0, 0);
+                            ఒకవేళ (commit) {
                                 /* This was initiated by the compositor, or the mode was changed between the request and the window
                                  * becoming fullscreen. Switch to the application requested mode if necessary.
                                  */
-                                SDL_copyp(&data->window->current_fullscreen_mode, &data->window->requested_fullscreen_mode);
-                                SDL_UpdateFullscreenMode(data->window, SDL_FULLSCREEN_OP_UPDATE, true);
-                            } else {
-                                SDL_UpdateFullscreenMode(data->window, SDL_FULLSCREEN_OP_ENTER, false);
+                                SDL_copyp(&దత్తాంశం->కిటికీ->current_fullscreen_బహుళకం, &దత్తాంశం->కిటికీ->requested_fullscreen_బహుళకం);
+                                SDL_Update_Fullscreen_బహుళకం(దత్తాంశం->కిటికీ, SDL_FULLSCREEN_OP_UPDATE, true);
+                            } లేకపోతే {
+                                SDL_Update_Fullscreen_బహుళకం(దత్తాంశం->కిటికీ, SDL_FULLSCREEN_OP_ENTER, false);
                             }
                         }
-                    } else {
-                        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-                        SDL_UpdateFullscreenMode(data->window, false, false);
+                    } లేకపోతే {
+                        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_LEAVE_FULLSCREEN, 0, 0);
+                        SDL_Update_Fullscreen_బహుళకం(దత్తాంశం->కిటికీ, false, false);
 
-                        SDL_zero(data->requested_fullscreen_mode);
+                        SDL_zero(దత్తాంశం->requested_fullscreen_బహుళకం);
 
                         // Need to restore or update any limits changed while the window was fullscreen.
-                        X11_SetWindowMinMax(data->window, !!(flags & SDL_WINDOW_MAXIMIZED));
+                        X11_సమితి_కిటికీ_Min_Max(దత్తాంశం->కిటికీ, !!(flags & SDL_కిటికీ_MAXIMIZED));
 
                         // Toggle the borders if they were forced on while creating a borderless fullscreen window.
-                        if (data->fullscreen_borders_forced_on) {
-                            data->toggle_borders = true;
-                            data->fullscreen_borders_forced_on = false;
+                        ఒకవేళ (దత్తాంశం->fullscreen_borders_forced_on) {
+                            దత్తాంశం->toggle_borders = true;
+                            దత్తాంశం->fullscreen_borders_forced_on = false;
                         }
                     }
 
-                    if ((flags & SDL_WINDOW_FULLSCREEN) &&
-                        (data->border_top || data->border_left || data->border_bottom || data->border_right)) {
+                    ఒకవేళ ((flags & SDL_కిటికీ_FULLSCREEN) &&
+                        (దత్తాంశం->border_శిఖరం || దత్తాంశం->border_ఎడమ || దత్తాంశం->border_bottom || దత్తాంశం->border_కుడి)) {
                         /* If the window is entering fullscreen and the borders are
                          * non-zero sized, turn off size events until the borders are
                          * shut off to avoid bogus window sizes and positions, and
                          * note that the old borders were non-zero for restoration.
                          */
-                        data->size_move_event_flags |= X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS;
-                        data->previous_borders_nonzero = true;
-                    } else if (!(flags & SDL_WINDOW_FULLSCREEN) &&
-                               data->previous_borders_nonzero &&
-                               (!data->border_top && !data->border_left && !data->border_bottom && !data->border_right)) {
+                        దత్తాంశం->కొలత_move_event_flags |= X11_కొలత_MOVE_EVENTS_WAIT_FOR_BORDERS;
+                        దత్తాంశం->మునుపటి_borders_nonzero = true;
+                    } లేకపోతే ఒకవేళ (!(flags & SDL_కిటికీ_FULLSCREEN) &&
+                               దత్తాంశం->మునుపటి_borders_nonzero &&
+                               (!దత్తాంశం->border_శిఖరం && !దత్తాంశం->border_ఎడమ && !దత్తాంశం->border_bottom && !దత్తాంశం->border_కుడి)) {
                         /* If the window is leaving fullscreen and the current borders
                          * are zero sized, but weren't when entering fullscreen, turn
                          * off size events until the borders come back to avoid bogus
                          * window sizes and positions.
                          */
-                        data->size_move_event_flags |= X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS;
-                        data->previous_borders_nonzero = false;
-                    } else {
-                        data->size_move_event_flags = 0;
-                        data->previous_borders_nonzero = false;
+                        దత్తాంశం->కొలత_move_event_flags |= X11_కొలత_MOVE_EVENTS_WAIT_FOR_BORDERS;
+                        దత్తాంశం->మునుపటి_borders_nonzero = false;
+                    } లేకపోతే {
+                        దత్తాంశం->కొలత_move_event_flags = 0;
+                        దత్తాంశం->మునుపటి_borders_nonzero = false;
 
-                        if (!(data->window->flags & SDL_WINDOW_FULLSCREEN) && data->toggle_borders) {
-                            data->toggle_borders = false;
-                            X11_SetWindowBordered(_this, data->window, !(data->window->flags & SDL_WINDOW_BORDERLESS));
+                        ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) && దత్తాంశం->toggle_borders) {
+                            దత్తాంశం->toggle_borders = false;
+                            X11_సమితి_కిటికీ_Bordered(_this, దత్తాంశం->కిటికీ, !(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS));
                         }
                     }
                 }
-                if ((changed & SDL_WINDOW_MAXIMIZED) && ((flags & SDL_WINDOW_MAXIMIZED) && !(flags & SDL_WINDOW_MINIMIZED))) {
-                    data->pending_operation &= ~X11_PENDING_OP_MAXIMIZE;
-                    if ((changed & SDL_WINDOW_MINIMIZED)) {
-                        data->pending_operation &= ~X11_PENDING_OP_RESTORE;
+                ఒకవేళ ((మారింది & SDL_కిటికీ_MAXIMIZED) && ((flags & SDL_కిటికీ_MAXIMIZED) && !(flags & SDL_కిటికీ_MINIMIZED))) {
+                    దత్తాంశం->pending_operation &= ~X11_PENDING_OP_MAXIMIZE;
+                    ఒకవేళ ((మారింది & SDL_కిటికీ_MINIMIZED)) {
+                        దత్తాంశం->pending_operation &= ~X11_PENDING_OP_RESTORE;
                         // If coming out of minimized, send a restore event before sending maximized.
-                        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+                        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
                     }
-                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MAXIMIZED, 0, 0);
+                    SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MAXIMIZED, 0, 0);
                 }
-                if ((changed & SDL_WINDOW_MINIMIZED) && (flags & SDL_WINDOW_MINIMIZED)) {
-                    data->pending_operation &= ~X11_PENDING_OP_MINIMIZE;
-                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
+                ఒకవేళ ((మారింది & SDL_కిటికీ_MINIMIZED) && (flags & SDL_కిటికీ_MINIMIZED)) {
+                    దత్తాంశం->pending_operation &= ~X11_PENDING_OP_MINIMIZE;
+                    SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MINIMIZED, 0, 0);
                 }
-                if (!(flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED))) {
-                    data->pending_operation &= ~X11_PENDING_OP_RESTORE;
-                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+                ఒకవేళ (!(flags & (SDL_కిటికీ_MAXIMIZED | SDL_కిటికీ_MINIMIZED))) {
+                    దత్తాంశం->pending_operation &= ~X11_PENDING_OP_RESTORE;
+                    SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
 
                     // Apply any pending state if restored.
-                    if (!(flags & SDL_WINDOW_FULLSCREEN)) {
-                        if (data->pending_position) {
-                            data->pending_position = false;
-                            data->pending_operation |= X11_PENDING_OP_MOVE;
-                            data->expected.x = data->window->pending.x - data->border_left;
-                            data->expected.y = data->window->pending.y - data->border_top;
-                            X11_XMoveWindow(display, data->xwindow, data->expected.x, data->expected.y);
+                    ఒకవేళ (!(flags & SDL_కిటికీ_FULLSCREEN)) {
+                        ఒకవేళ (దత్తాంశం->pending_position) {
+                            దత్తాంశం->pending_position = false;
+                            దత్తాంశం->pending_operation |= X11_PENDING_OP_MOVE;
+                            దత్తాంశం->expected.x = దత్తాంశం->కిటికీ->pending.x - దత్తాంశం->border_ఎడమ;
+                            దత్తాంశం->expected.y = దత్తాంశం->కిటికీ->pending.y - దత్తాంశం->border_శిఖరం;
+                            X11_XMove_కిటికీ(display, దత్తాంశం->xwindow, దత్తాంశం->expected.x, దత్తాంశం->expected.y);
                         }
-                        if (data->pending_size) {
-                            data->pending_size = false;
-                            data->pending_operation |= X11_PENDING_OP_RESIZE;
-                            data->expected.w = data->window->pending.w;
-                            data->expected.h = data->window->pending.h;
-                            X11_XResizeWindow(display, data->xwindow, data->window->pending.w, data->window->pending.h);
+                        ఒకవేళ (దత్తాంశం->pending_కొలత) {
+                            దత్తాంశం->pending_కొలత = false;
+                            దత్తాంశం->pending_operation |= X11_PENDING_OP_RESIZE;
+                            దత్తాంశం->expected.w = దత్తాంశం->కిటికీ->pending.w;
+                            దత్తాంశం->expected.h = దత్తాంశం->కిటికీ->pending.h;
+                            X11_XResize_కిటికీ(display, దత్తాంశం->xwindow, దత్తాంశం->కిటికీ->pending.w, దత్తాంశం->కిటికీ->pending.h);
                         }
                     }
                 }
-                if (data->emit_size_move_after_property_notify) {
-                    X11_EmitConfigureNotifyEvents(data, &data->pending_xconfigure);
-                    data->emit_size_move_after_property_notify = false;
+                ఒకవేళ (దత్తాంశం->emit_కొలత_move_after_property_notify) {
+                    X11_EmitConfigureNotifyEvents(దత్తాంశం, &దత్తాంశం->pending_xconfigure);
+                    దత్తాంశం->emit_కొలత_move_after_property_notify = false;
                 }
-                if ((flags & SDL_WINDOW_INPUT_FOCUS)) {
-                    if (data->pending_move) {
-                        DispatchWindowMove(_this, data, &data->pending_move_point);
-                        data->pending_move = false;
+                ఒకవేళ ((flags & SDL_కిటికీ_ఆదానం_FOCUS)) {
+                    ఒకవేళ (దత్తాంశం->pending_move) {
+                        Dispatch_కిటికీ_Move(_this, దత్తాంశం, &దత్తాంశం->pending_move_బిందువు);
+                        దత్తాంశం->pending_move = false;
                     }
                 }
             }
-            if (changed & SDL_WINDOW_OCCLUDED) {
-                SDL_SendWindowEvent(data->window, (flags & SDL_WINDOW_OCCLUDED) ? SDL_EVENT_WINDOW_OCCLUDED : SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+            ఒకవేళ (మారింది & SDL_కిటికీ_OCCLUDED) {
+                SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, (flags & SDL_కిటికీ_OCCLUDED) ? SDL_EVENT_కిటికీ_OCCLUDED : SDL_EVENT_కిటికీ_EXPOSED, 0, 0);
             }
-        } else if (xevent->xproperty.atom == videodata->atoms.WM_STATE) {
+        } లేకపోతే ఒకవేళ (xevent->xproperty.atom == videodata->atoms.WM_STATE) {
             /* Support for ICCCM-compliant window managers (like i3) that change
                WM_STATE to WithdrawnState without sending UnmapNotify or updating
                _NET_WM_STATE when moving windows to invisible workspaces. */
             Atom type;
-            int format;
-            unsigned long nitems, bytes_after;
-            unsigned char *prop_data = NULL;
+            పూర్ణాంకం format;
+            గుర్తులేని దీర్ఘ nitems, బైట్లు_after;
+            గుర్తులేని అక్షరం *prop_దత్తాంశం = ఖాళీ;
 
-            if (X11_XGetWindowProperty(display, data->xwindow, videodata->atoms.WM_STATE,
+            ఒకవేళ (X11_XGet_కిటికీ_Property(display, దత్తాంశం->xwindow, videodata->atoms.WM_STATE,
                                        0L, 2L, False, videodata->atoms.WM_STATE,
-                                       &type, &format, &nitems, &bytes_after, &prop_data) == Success) {
-                if (nitems > 0) {
+                                       &type, &format, &nitems, &బైట్లు_after, &prop_దత్తాంశం) == Success) {
+                ఒకవేళ (nitems > 0) {
                     // WM_STATE: 0=Withdrawn, 1=Normal, 3=Iconic
-                    Uint32 state = *(Uint32 *)prop_data;
+                    Uint32 state = *(Uint32 *)prop_దత్తాంశం;
 
-                    if ((state == 0 || state == 3) && !data->window->is_hiding && !(data->window->flags & SDL_WINDOW_HIDDEN)) {
+                    ఒకవేళ ((state == 0 || state == 3) && !దత్తాంశం->కిటికీ->is_hiding && !(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_HIDDEN)) {
                         // Withdrawn or Iconic
-                        if (!(data->window->flags & SDL_WINDOW_MINIMIZED)) {
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
+                        ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_MINIMIZED)) {
+                            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MINIMIZED, 0, 0);
+                            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_OCCLUDED, 0, 0);
                         }
-                    } else if (state == 1) { // NormalState
-                        if (data->window->flags & SDL_WINDOW_MINIMIZED) {
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+                    } లేకపోతే ఒకవేళ (state == 1) { // NormalState
+                        ఒకవేళ (దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_MINIMIZED) {
+                            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
+                            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_EXPOSED, 0, 0);
                         }
                     }
                 }
-                X11_XFree(prop_data);
+                X11_XFree(prop_దత్తాంశం);
             }
-        } else if (xevent->xproperty.atom == videodata->atoms.XKLAVIER_STATE) {
+        } లేకపోతే ఒకవేళ (xevent->xproperty.atom == videodata->atoms.XKLAVIER_STATE) {
             /* Hack for Ubuntu 12.04 (etc) that doesn't send MappingNotify
                events when the keyboard layout changes (for example,
                changing from English to French on the menubar's keyboard
@@ -2192,142 +2192,142 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                notice and reinit our keymap here. This might not be the
                right approach, but it seems to work. */
             X11_UpdateKeymap(_this, true);
-        } else if (xevent->xproperty.atom == videodata->atoms._NET_FRAME_EXTENTS) {
-            X11_GetBorderValues(data);
-            if (data->size_move_event_flags) {
+        } లేకపోతే ఒకవేళ (xevent->xproperty.atom == videodata->atoms.NET_చట్రం_EXTENTS) {
+            X11_Get_Border_విలువలు(దత్తాంశం);
+            ఒకవేళ (దత్తాంశం->కొలత_move_event_flags) {
                 /* Events are disabled when leaving fullscreen until the borders appear to avoid
                  * incorrect size/position events on compositing window managers.
                  */
-                data->size_move_event_flags &= ~X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS;
+                దత్తాంశం->కొలత_move_event_flags &= ~X11_కొలత_MOVE_EVENTS_WAIT_FOR_BORDERS;
             }
-            if (!(data->window->flags & SDL_WINDOW_FULLSCREEN) && data->toggle_borders) {
-                data->toggle_borders = false;
-                X11_SetWindowBordered(_this, data->window, !(data->window->flags & SDL_WINDOW_BORDERLESS));
+            ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) && దత్తాంశం->toggle_borders) {
+                దత్తాంశం->toggle_borders = false;
+                X11_సమితి_కిటికీ_Bordered(_this, దత్తాంశం->కిటికీ, !(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS));
             }
         }
-    } break;
+    } ఆపు;
 
-    case SelectionNotify:
+    స్థితి SelectionNotify:
     {
-        Atom target = xevent->xselection.target;
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: SelectionNotify (requestor = 0x%lx, target = 0x%lx)", xevent->xany.window,
-               xevent->xselection.requestor, xevent->xselection.target);
-#endif
-        if (target == data->xdnd_req) {
+        Atom లక్ష్యం = xevent->xselection.లక్ష్యం;
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: SelectionNotify (requestor = 0x%lx, target = 0x%lx)", xevent->xany.కిటికీ,
+               xevent->xselection.requestor, xevent->xselection.లక్ష్యం);
+#అయితే_ముగింపు
+        ఒకవేళ (లక్ష్యం == దత్తాంశం->xdnd_req) {
             // read data
             SDL_x11Prop p;
-            X11_ReadProperty(&p, display, data->xwindow, videodata->atoms.PRIMARY);
+            X11_ReadProperty(&p, display, దత్తాంశం->xwindow, videodata->atoms.PRIMARY);
 
-            if (p.format == 8) {
-                char *saveptr = NULL;
-                char *name = X11_XGetAtomName(display, target);
-                if (name) {
-                    char *token = SDL_strtok_r((char *)p.data, "\r\n", &saveptr);
-                    while (token) {
-                        if ((SDL_strcmp("text/plain;charset=utf-8", name) == 0) ||
+            ఒకవేళ (p.format == 8) {
+                అక్షరం *saveptr = ఖాళీ;
+                అక్షరం *name = X11_XGetAtomName(display, లక్ష్యం);
+                ఒకవేళ (name) {
+                    అక్షరం *token = SDL_strtok_r((అక్షరం *)p.దత్తాంశం, "\r\n", &saveptr);
+                    అయితే (token) {
+                        ఒకవేళ ((SDL_strcmp("text/plain;charset=utf-8", name) == 0) ||
                             (SDL_strcmp("UTF8_STRING", name) == 0) ||
                             (SDL_strcmp("text/plain", name) == 0) ||
                             (SDL_strcmp("TEXT", name) == 0)) {
-                            SDL_SendDropText(data->window, token);
-                        } else if (SDL_strcmp("text/uri-list", name) == 0) {
-                            if (SDL_URIToLocal(token, token) >= 0) {
-                                SDL_SendDropFile(data->window, NULL, token);
+                            SDL_Send_Drop_పాఠ్యం(దత్తాంశం->కిటికీ, token);
+                        } లేకపోతే ఒకవేళ (SDL_strcmp("text/uri-list", name) == 0) {
+                            ఒకవేళ (SDL_URIToLocal(token, token) >= 0) {
+                                SDL_SendDropFile(దత్తాంశం->కిటికీ, ఖాళీ, token);
                             }
                         }
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                        token = SDL_strtok_r(ఖాళీ, "\r\n", &saveptr);
                     }
                     X11_XFree(name);
                 }
-                SDL_SendDropComplete(data->window);
+                SDL_SendDropComplete(దత్తాంశం->కిటికీ);
             }
-            X11_XFree(p.data);
+            X11_XFree(p.దత్తాంశం);
 
             // send reply
             SDL_zero(m);
-            m.type = ClientMessage;
+            m.type = Client_సందేశం;
             m.display = display;
-            m.window = data->xdnd_source;
-            m.message_type = videodata->atoms.XdndFinished;
+            m.కిటికీ = దత్తాంశం->xdnd_ఆధారం;
+            m.సందేశం_type = videodata->atoms.Xdnd_ముగిసిన;
             m.format = 32;
-            m.data.l[0] = data->xwindow;
-            m.data.l[1] = 1;
-            m.data.l[2] = videodata->atoms.XdndActionCopy;
-            X11_XSendEvent(display, data->xdnd_source, False, NoEventMask, (XEvent *)&m);
+            m.దత్తాంశం.l[0] = దత్తాంశం->xwindow;
+            m.దత్తాంశం.l[1] = 1;
+            m.దత్తాంశం.l[2] = videodata->atoms.XdndActionCopy;
+            X11_XSendEvent(display, దత్తాంశం->xdnd_ఆధారం, False, No_Event_ముసుగు, (XEvent *)&m);
 
             X11_XSync(display, False);
         }
-    } break;
+    } ఆపు;
 
-    default:
+    అప్రమేయ:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: Unhandled event %d", xevent->xany.window, xevent->type);
-#endif
-    } break;
+#నిర్వచితమైతే DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: Unhandled event %d", xevent->xany.కిటికీ, xevent->type);
+#అయితే_ముగింపు
+    } ఆపు;
     }
 }
 
-static void X11_HandleFocusChanges(SDL_VideoDevice *_this)
+స్థిర శూన్య X11_HandleFocusChanges(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
-    int i;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
+    పూర్ణాంకం i;
 
-    if (videodata && videodata->windowlist) {
-        for (i = 0; i < videodata->numwindows; ++i) {
-            SDL_WindowData *data = videodata->windowlist[i];
-            if (data && data->pending_focus != PENDING_FOCUS_NONE) {
+    ఒకవేళ (videodata && videodata->windowlist) {
+        కొరకు (i = 0; i < videodata->numwindows; ++i) {
+            SDL_కిటికీ_దత్తాంశం *దత్తాంశం = videodata->windowlist[i];
+            ఒకవేళ (దత్తాంశం && దత్తాంశం->pending_focus != PENDING_FOCUS_NONE) {
                 Uint64 now = SDL_GetTicks();
-                if (now >= data->pending_focus_time) {
-                    if (data->pending_focus == PENDING_FOCUS_IN) {
-                        X11_DispatchFocusIn(_this, data);
-                    } else {
-                        X11_DispatchFocusOut(_this, data);
+                ఒకవేళ (now >= దత్తాంశం->pending_focus_సమయం) {
+                    ఒకవేళ (దత్తాంశం->pending_focus == PENDING_FOCUS_లోపల) {
+                        X11_Dispatch_Focus_లోపల(_this, దత్తాంశం);
+                    } లేకపోతే {
+                        X11_Dispatch_Focus_బహిర్గతం(_this, దత్తాంశం);
                     }
-                    data->pending_focus = PENDING_FOCUS_NONE;
+                    దత్తాంశం->pending_focus = PENDING_FOCUS_NONE;
                 }
             }
         }
     }
 }
 
-static Bool isAnyEvent(Display *display, XEvent *ev, XPointer arg)
+స్థిర Bool isAnyEvent(Display *display, XEvent *ev, XPointer arg)
 {
-    return True;
+    తిరిగి True;
 }
 
-static bool X11_PollEvent(Display *display, XEvent *event)
+స్థిర bool X11_PollEvent(Display *display, XEvent *event)
 {
-    if (!X11_XCheckIfEvent(display, event, isAnyEvent, NULL)) {
-        return false;
+    ఒకవేళ (!X11_XCheckIfEvent(display, event, isAnyEvent, ఖాళీ)) {
+        తిరిగి false;
     }
 
-    return true;
+    తిరిగి true;
 }
 
-void X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_VideoData *data = _this->internal;
-    Display *req_display = data->request_display;
-    Window xwindow = window->internal->xwindow;
-    XClientMessageEvent event;
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
+    Display *req_display = దత్తాంశం->request_display;
+    కిటికీ_2 xwindow = కిటికీ->అంతర్గత->xwindow;
+    XClient_సందేశం_Event event;
 
     SDL_zero(event);
-    event.type = ClientMessage;
+    event.type = Client_సందేశం;
     event.display = req_display;
     event.send_event = True;
-    event.message_type = data->atoms._SDL_WAKEUP;
+    event.సందేశం_type = దత్తాంశం->atoms._SDL_WAKEUP;
     event.format = 8;
 
-    X11_XSendEvent(req_display, xwindow, False, NoEventMask, (XEvent *)&event);
+    X11_XSendEvent(req_display, xwindow, False, No_Event_ముసుగు, (XEvent *)&event);
     /* XSendEvent returns a status and it could be BadValue or BadWindow. If an
       error happens it is an SDL's internal error and there is nothing we can do here. */
     X11_XFlush(req_display);
 }
 
-int X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
+పూర్ణాంకం X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     Display *display;
     XEvent xevent;
     display = videodata->display;
@@ -2336,85 +2336,85 @@ int X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 
     // Flush and poll to grab any events already read and queued
     X11_XFlush(display);
-    if (X11_PollEvent(display, &xevent)) {
+    ఒకవేళ (X11_PollEvent(display, &xevent)) {
         // Fall through
-    } else if (timeoutNS == 0) {
-        return 0;
-    } else {
+    } లేకపోతే ఒకవేళ (timeoutNS == 0) {
+        తిరిగి 0;
+    } లేకపోతే {
         // Use SDL_IOR_NO_RETRY to ensure SIGINT will break us out of our wait
-        int err = SDL_IOReady(ConnectionNumber(display), SDL_IOR_READ | SDL_IOR_NO_RETRY, timeoutNS);
-        if (err > 0) {
-            if (!X11_PollEvent(display, &xevent)) {
+        పూర్ణాంకం err = SDL_IOReady(Connection_సంఖ్య(display), SDL_IOR_READ | SDL_IOR_NO_RETRY, timeoutNS);
+        ఒకవేళ (err > 0) {
+            ఒకవేళ (!X11_PollEvent(display, &xevent)) {
                 /* Someone may have beat us to reading the fd. Return 1 here to
                  * trigger the normal spurious wakeup logic in the event core. */
-                return 1;
+                తిరిగి 1;
             }
-        } else if (err == 0) {
+        } లేకపోతే ఒకవేళ (err == 0) {
             // Timeout
-            return 0;
-        } else {
+            తిరిగి 0;
+        } లేకపోతే {
             // Error returned from poll()/select()
 
-            if (errno == EINTR) {
+            ఒకవేళ (errno == EINTR) {
                 /* If the wait was interrupted by a signal, we may have generated a
                  * SDL_EVENT_QUIT event. Let the caller know to call SDL_PumpEvents(). */
-                return 1;
-            } else {
-                return err;
+                తిరిగి 1;
+            } లేకపోతే {
+                తిరిగి err;
             }
         }
     }
 
     X11_DispatchEvent(_this, &xevent);
-    return 1;
+    తిరిగి 1;
 }
 
-void X11_PumpEvents(SDL_VideoDevice *_this)
+శూన్య X11_PumpEvents(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
     XEvent xevent;
-    int i;
+    పూర్ణాంకం i;
 
     /* Check if a display had the mode changed and is waiting for a window to asynchronously become
      * fullscreen. If there is no fullscreen window past the elapsed timeout, revert the mode switch.
      */
-    for (i = 0; i < _this->num_displays; ++i) {
-        if (_this->displays[i]->internal->mode_switch_deadline_ns) {
-            if (_this->displays[i]->fullscreen_window) {
-                _this->displays[i]->internal->mode_switch_deadline_ns = 0;
-            } else if (SDL_GetTicksNS() >= _this->displays[i]->internal->mode_switch_deadline_ns) {
+    కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
+        ఒకవేళ (_this->displays[i]->అంతర్గత->బహుళకం_switch_deadline_ns) {
+            ఒకవేళ (_this->displays[i]->fullscreen_కిటికీ) {
+                _this->displays[i]->అంతర్గత->బహుళకం_switch_deadline_ns = 0;
+            } లేకపోతే ఒకవేళ (SDL_GetTicksNS() >= _this->displays[i]->అంతర్గత->బహుళకం_switch_deadline_ns) {
                 SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
                              "Time out elapsed after mode switch on display %" SDL_PRIu32 " with no window becoming fullscreen; reverting", _this->displays[i]->id);
-                SDL_SetDisplayModeForDisplay(_this->displays[i], NULL);
-                _this->displays[i]->internal->mode_switch_deadline_ns = 0;
+                SDL_సమితి_Display_బహుళకం_For_Display(_this->displays[i], ఖాళీ);
+                _this->displays[i]->అంతర్గత->బహుళకం_switch_deadline_ns = 0;
             }
         }
     }
 
-    if (data->last_mode_change_deadline) {
-        if (SDL_GetTicks() >= data->last_mode_change_deadline) {
-            data->last_mode_change_deadline = 0; // assume we're done.
+    ఒకవేళ (దత్తాంశం->చివరి_బహుళకం_change_deadline) {
+        ఒకవేళ (SDL_GetTicks() >= దత్తాంశం->చివరి_బహుళకం_change_deadline) {
+            దత్తాంశం->చివరి_బహుళకం_change_deadline = 0; // assume we're done.
         }
     }
 
     // Update activity every 30 seconds to prevent screensaver
-    if (_this->suspend_screensaver) {
+    ఒకవేళ (_this->suspend_screensaver) {
         Uint64 now = SDL_GetTicks();
-        if (!data->screensaver_activity || now >= (data->screensaver_activity + 30000)) {
-            X11_XResetScreenSaver(data->display);
+        ఒకవేళ (!దత్తాంశం->screensaver_activity || now >= (దత్తాంశం->screensaver_activity + 30000)) {
+            X11_XResetScreenSaver(దత్తాంశం->display);
 
-#ifdef SDL_USE_LIBDBUS
+#నిర్వచితమైతే SDL_USE_LIBDBUS
             SDL_DBus_ScreensaverTickle();
-#endif
+#అయితే_ముగింపు
 
-            data->screensaver_activity = now;
+            దత్తాంశం->screensaver_activity = now;
         }
     }
 
     SDL_zero(xevent);
 
     // Keep processing pending events
-    while (X11_PollEvent(data->display, &xevent)) {
+    అయితే (X11_PollEvent(దత్తాంశం->display, &xevent)) {
         X11_DispatchEvent(_this, &xevent);
     }
 
@@ -2422,54 +2422,54 @@ void X11_PumpEvents(SDL_VideoDevice *_this)
     X11_HandleFocusChanges(_this);
 
     // FIXME: Only need to do this when there are flashing windows
-    for (i = 0; i < data->numwindows; ++i) {
-        if (data->windowlist[i] != NULL &&
-            data->windowlist[i]->flash_cancel_time &&
-            SDL_GetTicks() >= data->windowlist[i]->flash_cancel_time) {
-            X11_FlashWindow(_this, data->windowlist[i]->window, SDL_FLASH_CANCEL);
+    కొరకు (i = 0; i < దత్తాంశం->numwindows; ++i) {
+        ఒకవేళ (దత్తాంశం->windowlist[i] != ఖాళీ &&
+            దత్తాంశం->windowlist[i]->flash_cancel_సమయం &&
+            SDL_GetTicks() >= దత్తాంశం->windowlist[i]->flash_cancel_సమయం) {
+            X11_Flash_కిటికీ(_this, దత్తాంశం->windowlist[i]->కిటికీ, SDL_FLASH_CANCEL);
         }
     }
 
-    if (data->xinput_hierarchy_changed) {
+    ఒకవేళ (దత్తాంశం->xinput_hierarchy_మారింది) {
         X11_Xinput2UpdateDevices(_this);
-        data->xinput_hierarchy_changed = false;
+        దత్తాంశం->xinput_hierarchy_మారింది = false;
     }
 }
 
 bool X11_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XSCRNSAVER
-    SDL_VideoData *data = _this->internal;
-    int dummy;
-    int major_version, minor_version;
-#endif // SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
+    పూర్ణాంకం dummy;
+    పూర్ణాంకం major_సంస్కరణ, minor_సంస్కరణ;
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XSCRNSAVER
 
-#ifdef SDL_USE_LIBDBUS
-    if (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
-        return true;
+#నిర్వచితమైతే SDL_USE_LIBDBUS
+    ఒకవేళ (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
+        తిరిగి true;
     }
 
-    if (_this->suspend_screensaver) {
+    ఒకవేళ (_this->suspend_screensaver) {
         SDL_DBus_ScreensaverTickle();
     }
-#endif
+#అయితే_ముగింపు
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSCRNSAVER
-    if (SDL_X11_HAVE_XSS) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+    ఒకవేళ (SDL_X11_HAVE_XSS) {
         // X11_XScreenSaverSuspend was introduced in MIT-SCREEN-SAVER 1.1
-        if (!X11_XScreenSaverQueryExtension(data->display, &dummy, &dummy) ||
-            !X11_XScreenSaverQueryVersion(data->display,
-                                          &major_version, &minor_version) ||
-            major_version < 1 || (major_version == 1 && minor_version < 1)) {
-            return SDL_Unsupported();
+        ఒకవేళ (!X11_XScreenSaverQueryExtension(దత్తాంశం->display, &dummy, &dummy) ||
+            !X11_XScreen_Saver_Query_సంస్కరణ(దత్తాంశం->display,
+                                          &major_సంస్కరణ, &minor_సంస్కరణ) ||
+            major_సంస్కరణ < 1 || (major_సంస్కరణ == 1 && minor_సంస్కరణ < 1)) {
+            తిరిగి SDL_Unsupported();
         }
 
-        X11_XScreenSaverSuspend(data->display, _this->suspend_screensaver);
-        X11_XResetScreenSaver(data->display);
-        return true;
+        X11_XScreenSaverSuspend(దత్తాంశం->display, _this->suspend_screensaver);
+        X11_XResetScreenSaver(దత్తాంశం->display);
+        తిరిగి true;
     }
-#endif
-    return SDL_Unsupported();
+#అయితే_ముగింపు
+    తిరిగి SDL_Unsupported();
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11

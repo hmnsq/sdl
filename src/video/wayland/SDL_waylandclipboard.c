@@ -18,200 +18,200 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylanddatamanager.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandclipboard.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
+#అన్తర్భావ "SDL_waylanddatamanager.h"
+#అన్తర్భావ "SDL_waylandevents_c.h"
+#అన్తర్భావ "SDL_waylandclipboard.h"
+#అన్తర్భావ "../SDL_clipboard_c.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
 
-bool Wayland_SetClipboardData(SDL_VideoDevice *_this)
+bool Wayland_సమితి_Clipboard_దత్తాంశం(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result = false;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    SDL_WaylandSeat *seat = video_దత్తాంశం->చివరి_implicit_grab_seat;
+    bool ఫలితం = false;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    ఒకవేళ (!seat && !WAYLAND_wl_list_ఖాళీలు(&video_దత్తాంశం->seat_list)) {
+        seat = wl_container_యొక్క(video_దత్తాంశం->seat_list.తదుపరి, seat, link);
     }
 
-    video_data->current_data_offer_seat = seat;
+    video_దత్తాంశం->current_దత్తాంశం_offer_seat = seat;
 
-    if (seat && seat->data_device) {
+    ఒకవేళ (seat && seat->దత్తాంశం_device) {
         /* Clear references to the clipboard held by other seats, as they are about to become invalid.
          * For the target seat, the new source data is set before clearing the old source, as some
          * clipboard managers prefer this behavior.
          */
         SDL_WaylandSeat *s;
-        wl_list_for_each (s, &video_data->seat_list, link) {
-            if (s->data_device) {
-                if (s != seat) {
-                    Wayland_DataSourceDestroy(s->data_device->selection_source);
-                    s->data_device->selection_source = NULL;
+        wl_list_for_each (s, &video_దత్తాంశం->seat_list, link) {
+            ఒకవేళ (s->దత్తాంశం_device) {
+                ఒకవేళ (s != seat) {
+                    Wayland_దత్తాంశం_ఆధారం_Destroy(s->దత్తాంశం_device->selection_ఆధారం);
+                    s->దత్తాంశం_device->selection_ఆధారం = ఖాళీ;
                 }
 
-                Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+                Wayland_దత్తాంశం_Offer_Destroy(s->దత్తాంశం_device->selection_offer);
+                s->దత్తాంశం_device->selection_offer = ఖాళీ;
             }
         }
 
-        SDL_WaylandDataDevice *data_device = seat->data_device;
+        SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device = seat->దత్తాంశం_device;
 
-        if (_this->clipboard_callback && _this->clipboard_mime_types) {
-            SDL_WaylandDataSource *source = Wayland_DataSourceCreate(video_data);
-            Wayland_DataSourceSetCallback(source, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
+        ఒకవేళ (_this->clipboard_callback && _this->clipboard_mime_types) {
+            SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం = Wayland_దత్తాంశం_ఆధారం_Create(video_దత్తాంశం);
+            Wayland_దత్తాంశం_ఆధారం_సమితి_Callback(ఆధారం, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
 
-            result = Wayland_DataDeviceSetSelectionSource(data_device, source, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types);
-            if (!result) {
-                Wayland_DataSourceDestroy(source);
+            ఫలితం = Wayland_దత్తాంశం_Device_సమితి_Selection_ఆధారం(దత్తాంశం_device, ఆధారం, (స్థిరరాశి అక్షరం **)_this->clipboard_mime_types, _this->అంకె_clipboard_mime_types);
+            ఒకవేళ (!ఫలితం) {
+                Wayland_దత్తాంశం_ఆధారం_Destroy(ఆధారం);
             }
-        } else {
-            Wayland_DataSourceDestroy(data_device->selection_source);
-            data_device->selection_source = NULL;
-            result = true;
+        } లేకపోతే {
+            Wayland_దత్తాంశం_ఆధారం_Destroy(దత్తాంశం_device->selection_ఆధారం);
+            దత్తాంశం_device->selection_ఆధారం = ఖాళీ;
+            ఫలితం = true;
         }
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length)
+శూన్య *Wayland_Get_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    void *buffer = NULL;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    SDL_WaylandSeat *seat = video_దత్తాంశం->current_దత్తాంశం_offer_seat;
+    శూన్య *బఫరు_2 = ఖాళీ;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            buffer = SDL_GetInternalClipboardData(_this, mime_type, length);
-        } else if (Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type)) {
-            buffer = Wayland_DataOfferReceive(data_device->selection_offer, mime_type, length);
+    ఒకవేళ (seat && seat->దత్తాంశం_device) {
+        SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device = seat->దత్తాంశం_device;
+        ఒకవేళ (దత్తాంశం_device->selection_ఆధారం) {
+            బఫరు_2 = SDL_Get_అంతర్గత_Clipboard_దత్తాంశం(_this, mime_type, నిడివి);
+        } లేకపోతే ఒకవేళ (Wayland_దత్తాంశం_Offer_Has_MIME(దత్తాంశం_device->selection_offer, mime_type)) {
+            బఫరు_2 = Wayland_దత్తాంశం_Offer_Receive(దత్తాంశం_device->selection_offer, mime_type, నిడివి);
         }
     }
 
-    return buffer;
+    తిరిగి బఫరు_2;
 }
 
-bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool Wayland_Has_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    bool result = false;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    SDL_WaylandSeat *seat = video_దత్తాంశం->current_దత్తాంశం_offer_seat;
+    bool ఫలితం = false;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            result = SDL_HasInternalClipboardData(_this, mime_type);
-        } else {
-            result = Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type);
+    ఒకవేళ (seat && seat->దత్తాంశం_device) {
+        SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device = seat->దత్తాంశం_device;
+        ఒకవేళ (దత్తాంశం_device->selection_ఆధారం) {
+            ఫలితం = SDL_Has_అంతర్గత_Clipboard_దత్తాంశం(_this, mime_type);
+        } లేకపోతే {
+            ఫలితం = Wayland_దత్తాంశం_Offer_Has_MIME(దత్తాంశం_device->selection_offer, mime_type);
         }
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-static const char *const text_mime_types[] = {
-    TEXT_MIME,
+స్థిర స్థిరరాశి అక్షరం *స్థిరరాశి పాఠ్యం_mime_types[] = {
+    పాఠ్యం_MIME,
     "text/plain",
     "TEXT",
     "UTF8_STRING",
     "STRING"
 };
 
-const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+స్థిరరాశి అక్షరం *స్థిరరాశి *Wayland_Get_పాఠ్యం_Mime_Types(SDL_VideoDevice *_this, size_t *అంకె_mime_types)
 {
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    *అంకె_mime_types = SDL_arraysize(పాఠ్యం_mime_types);
+    తిరిగి పాఠ్యం_mime_types;
 }
 
-bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text)
+bool Wayland_సమితి_Primary_Selection_పాఠ్యం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *పాఠ్యం)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    SDL_WaylandSeat *seat = video_దత్తాంశం->చివరి_implicit_grab_seat;
+    bool ఫలితం;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    ఒకవేళ (!seat && !WAYLAND_wl_list_ఖాళీలు(&video_దత్తాంశం->seat_list)) {
+        seat = wl_container_యొక్క(video_దత్తాంశం->seat_list.తదుపరి, seat, link);
     }
 
-    video_data->current_primary_selection_seat = seat;
+    video_దత్తాంశం->current_primary_selection_seat = seat;
 
-    if (seat && seat->primary_selection_device) {
+    ఒకవేళ (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (text[0] != '\0') {
-            SDL_WaylandPrimarySelectionSource *source = Wayland_PrimarySelectionSourceCreate(video_data);
-            Wayland_PrimarySelectionSourceSetCallback(source, SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text));
+        ఒకవేళ (పాఠ్యం[0] != '\0') {
+            SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం = Wayland_Primary_Selection_ఆధారం_Create(video_దత్తాంశం);
+            Wayland_Primary_Selection_ఆధారం_సమితి_Callback(ఆధారం, SDL_Clipboard_పాఠ్యం_Callback, SDL_free, SDL_strdup(పాఠ్యం));
 
-            result = Wayland_PrimarySelectionDeviceSetSelection(primary_selection_device, source, text_mime_types, SDL_arraysize(text_mime_types));
-            if (!result) {
-                Wayland_PrimarySelectionSourceDestroy(source);
+            ఫలితం = Wayland_Primary_Selection_Device_సమితి_Selection(primary_selection_device, ఆధారం, పాఠ్యం_mime_types, SDL_arraysize(పాఠ్యం_mime_types));
+            ఒకవేళ (!ఫలితం) {
+                Wayland_Primary_Selection_ఆధారం_Destroy(ఆధారం);
             }
-        } else {
-            Wayland_PrimarySelectionSourceDestroy(seat->primary_selection_device->selection_source);
-            seat->primary_selection_device->selection_source = NULL;
-            result = true;
+        } లేకపోతే {
+            Wayland_Primary_Selection_ఆధారం_Destroy(seat->primary_selection_device->selection_ఆధారం);
+            seat->primary_selection_device->selection_ఆధారం = ఖాళీ;
+            ఫలితం = true;
         }
-    } else {
-        result = SDL_SetError("Primary selection not supported");
+    } లేకపోతే {
+        ఫలితం = SDL_సమితి_Error("Primary selection not supported");
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this)
+అక్షరం *Wayland_Get_Primary_Selection_పాఠ్యం(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    char *text = NULL;
-    size_t length = 0;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    SDL_WaylandSeat *seat = video_దత్తాంశం->current_primary_selection_seat;
+    అక్షరం *పాఠ్యం = ఖాళీ;
+    size_t నిడివి = 0;
 
-    if (seat && seat->primary_selection_device) {
+    ఒకవేళ (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            text = Wayland_PrimarySelectionSourceGetData(primary_selection_device->selection_source, TEXT_MIME, &length);
-        } else {
-            for (size_t i = 0; i < SDL_arraysize(text_mime_types); i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, text_mime_types[i])) {
-                    text = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, text_mime_types[i], &length);
-                    break;
+        ఒకవేళ (primary_selection_device->selection_ఆధారం) {
+            పాఠ్యం = Wayland_Primary_Selection_ఆధారం_Get_దత్తాంశం(primary_selection_device->selection_ఆధారం, పాఠ్యం_MIME, &నిడివి);
+        } లేకపోతే {
+            కొరకు (size_t i = 0; i < SDL_arraysize(పాఠ్యం_mime_types); i++) {
+                ఒకవేళ (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, పాఠ్యం_mime_types[i])) {
+                    పాఠ్యం = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, పాఠ్యం_mime_types[i], &నిడివి);
+                    ఆపు;
                 }
             }
         }
     }
 
-    if (!text) {
-        text = SDL_strdup("");
+    ఒకవేళ (!పాఠ్యం) {
+        పాఠ్యం = SDL_strdup("");
     }
 
-    return text;
+    తిరిగి పాఠ్యం;
 }
 
-bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this)
+bool Wayland_Has_Primary_Selection_పాఠ్యం(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    bool result = false;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    SDL_WaylandSeat *seat = video_దత్తాంశం->current_primary_selection_seat;
+    bool ఫలితం = false;
 
-    if (seat && seat->primary_selection_device) {
+    ఒకవేళ (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            result = true;
-        } else {
-            size_t mime_count = 0;
-            const char *const *mime_types = Wayland_GetTextMimeTypes(_this, &mime_count);
-            for (size_t i = 0; i < mime_count; i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
-                    result = true;
-                    break;
+        ఒకవేళ (primary_selection_device->selection_ఆధారం) {
+            ఫలితం = true;
+        } లేకపోతే {
+            size_t mime_లెక్క = 0;
+            స్థిరరాశి అక్షరం *స్థిరరాశి *mime_types = Wayland_Get_పాఠ్యం_Mime_Types(_this, &mime_లెక్క);
+            కొరకు (size_t i = 0; i < mime_లెక్క; i++) {
+                ఒకవేళ (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
+                    ఫలితం = true;
+                    ఆపు;
                 }
             }
         }
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WAYLAND

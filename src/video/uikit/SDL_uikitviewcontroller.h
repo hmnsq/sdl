@@ -18,84 +18,84 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
-#ifdef SDL_PLATFORM_TVOS
+#నిర్వచితమైతే SDL_PLATFORM_TVOS
 #import <GameController/GameController.h>
-#define SDLRootViewController GCEventViewController
-#else
-#define SDLRootViewController UIViewController
-#endif
+#నిర్వచించు SDLRootViewController GCEventViewController
+#లేకపోతే
+#నిర్వచించు SDLRootViewController UIViewController
+#అయితే_ముగింపు
 
-@interface SDLUITextField : UITextField
+@interface SDLUIText_క్షేత్రం : UIText_క్షేత్రం
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender;
-@end
+@చివర
 
-#ifdef SDL_IPHONE_KEYBOARD
-@interface SDL_uikitviewcontroller : SDLRootViewController <UITextFieldDelegate>
-#else
+#నిర్వచితమైతే SDL_IPHONE_KEYBOARD
+@interface SDL_uikitviewcontroller : SDLRootViewController <UIText_క్షేత్రం_Delegate>
+#లేకపోతే
 @interface SDL_uikitviewcontroller : SDLRootViewController
-#endif
+#అయితే_ముగింపు
 
-@property(nonatomic, assign) SDL_Window *window;
+@property(nonatomic, కేటాయించు) SDL_కిటికీ *కిటికీ;
 
-- (instancetype)initWithSDLWindow:(SDL_Window *)_window;
+- (instancetype)initWithSDLWindow:(SDL_కిటికీ *)కిటికీ_3;
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
+- (శూన్య)traitCollectionDidChange:(UITraitCollection *)మునుపటి_Trait_Collection;
 
-- (void)setAnimationCallback:(int)interval
-                    callback:(void (*)(void *))callback
-               callbackParam:(void *)callbackParam;
+- (శూన్య)సమితి_Animation_Callback:(పూర్ణాంకం)interval
+                    callback:(శూన్య (*)(శూన్య *))callback
+               callbackParam:(శూన్య *)callbackParam;
 
-- (void)startAnimation;
-- (void)stopAnimation;
+- (శూన్య)ప్రారంభం_Animation;
+- (శూన్య)stopAnimation;
 
-- (void)doLoop:(CADisplayLink *)sender;
+- (శూన్య)doLoop:(CADisplayLink *)sender;
 
-- (void)loadView;
-- (void)viewDidLayoutSubviews;
+- (శూన్య)ఎక్కించు_View;
+- (శూన్య)viewDidLayoutSubviews;
 
-#ifdef SDL_PLATFORM_VISIONOS
-- (void)initializeVisionOSCurvedUI;
-#endif
+#నిర్వచితమైతే SDL_PLATFORM_VISIONOS
+- (శూన్య)initializeVisionOSCurvedUI;
+#అయితే_ముగింపు
 
-#ifndef SDL_PLATFORM_TVOS
+#నిర్వచితం_కాకపోతే SDL_PLATFORM_TVOS
 - (NSUInteger)supportedInterfaceOrientations;
-- (BOOL)prefersStatusBarHidden;
+- (BOOL)prefers_స్థితి_Bar_Hidden;
 - (BOOL)prefersHomeIndicatorAutoHidden;
-- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures;
+- (UIRect_అంచు)preferred_Screen_అంచులు_Deferring_System_Gestures;
 
-@property(nonatomic, assign) int homeIndicatorHidden;
-#endif
+@property(nonatomic, కేటాయించు) పూర్ణాంకం homeIndicatorHidden;
+#అయితే_ముగింపు
 
-#ifdef SDL_IPHONE_KEYBOARD
-- (bool)startTextInput;
-- (bool)stopTextInput;
-- (void)initKeyboard;
-- (void)deinitKeyboard;
+#నిర్వచితమైతే SDL_IPHONE_KEYBOARD
+- (bool)ప్రారంభం_పాఠ్యం_ఆదానం_2;
+- (bool)stop_పాఠ్యం_ఆదానం;
+- (శూన్య)initKeyboard;
+- (శూన్య)deinitKeyboard;
 
-- (void)keyboardWillShow:(NSNotification *)notification;
-- (void)keyboardDidShow:(NSNotification *)notification;
-- (void)keyboardWillHide:(NSNotification *)notification;
-- (void)keyboardDidHide:(NSNotification *)notification;
+- (శూన్య)keyboardWillShow:(NSNotification *)notification;
+- (శూన్య)keyboardDidShow:(NSNotification *)notification;
+- (శూన్య)keyboardWillHide:(NSNotification *)notification;
+- (శూన్య)keyboardDidHide:(NSNotification *)notification;
 
-- (void)updateKeyboard;
+- (శూన్య)updateKeyboard;
 
-@property(nonatomic, assign, getter=isTextFieldFocused) BOOL textFieldFocused;
-@property(nonatomic, assign) SDL_Rect textInputRect;
-@property(nonatomic, assign) int keyboardHeight;
-#endif
+@property(nonatomic, కేటాయించు, getter=is_పాఠ్యం_క్షేత్రం_Focused) BOOL పాఠ్యం_క్షేత్రం_Focused;
+@property(nonatomic, కేటాయించు) SDL_Rect పాఠ్యం_ఆదానం_Rect;
+@property(nonatomic, కేటాయించు) పూర్ణాంకం keyboard_ఎత్తు;
+#అయితే_ముగింపు
 
-@end
+@చివర
 
-#ifdef SDL_IPHONE_KEYBOARD
+#నిర్వచితమైతే SDL_IPHONE_KEYBOARD
 bool UIKit_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-bool UIKit_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_SetTextInputProperties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-#endif
+bool UIKit_ప్రారంభం_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props);
+bool UIKit_Stop_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+శూన్య UIKit_సమితి_పాఠ్యం_ఆదానం_Properties(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props);
+bool UIKit_Update_పాఠ్యం_ఆదానం_Area(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+#అయితే_ముగింపు

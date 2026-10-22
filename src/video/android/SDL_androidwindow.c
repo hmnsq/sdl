@@ -18,109 +18,109 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../core/android/SDL_android.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_keyboard_c.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/SDL_windowevents_c.h"
+#అన్తర్భావ "../../core/android/SDL_android.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidwindow.h"
+#అన్తర్భావ "SDL_androidvideo.h"
+#అన్తర్భావ "SDL_androidevents.h"
+#అన్తర్భావ "SDL_androidwindow.h"
 
 
 // Currently only one window
-SDL_Window *Android_Window = NULL;
+SDL_కిటికీ *Android_కిటికీ = ఖాళీ;
 
-bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool Android_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
-    bool result = true;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం;
+    bool ఫలితం = true;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return false;
+    ఒకవేళ (!Android_Wait_చురుకైన_And_తాళం_Activity()) {
+        తిరిగి false;
     }
 
-    if (Android_Window) {
-        result = SDL_SetError("Android only supports one window");
-        goto endfunction;
+    ఒకవేళ (Android_కిటికీ) {
+        ఫలితం = SDL_సమితి_Error("Android only supports one window");
+        వెళ్ళు endfunction;
     }
 
     // Set orientation
-    Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
+    Android_JNI_సమితి_Orientation(కిటికీ->w, కిటికీ->h, కిటికీ->flags & SDL_కిటికీ_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 
     // Adjust the window data to match the screen
-    window->x = 0;
-    window->y = 0;
-    window->w = Android_SurfaceWidth;
-    window->h = Android_SurfaceHeight;
+    కిటికీ->x = 0;
+    కిటికీ->y = 0;
+    కిటికీ->w = Android_Surface_వెడల్పు;
+    కిటికీ->h = Android_Surface_ఎత్తు;
 
     // One window, it always has focus
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    SDL_సమితి_Mouse_Focus(కిటికీ);
+    SDL_సమితి_Keyboard_Focus(కిటికీ);
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        result = false;
-        goto endfunction;
+    దత్తాంశం = (SDL_కిటికీ_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*దత్తాంశం));
+    ఒకవేళ (!దత్తాంశం) {
+        ఫలితం = false;
+        వెళ్ళు endfunction;
     }
 
-    data->native_window = Android_JNI_GetNativeWindow();
-    if (!data->native_window) {
-        SDL_free(data);
-        result = SDL_SetError("Could not fetch native window");
-        goto endfunction;
+    దత్తాంశం->native_కిటికీ = Android_JNI_Get_Native_కిటికీ();
+    ఒకవేళ (!దత్తాంశం->native_కిటికీ) {
+        SDL_free(దత్తాంశం);
+        ఫలితం = SDL_సమితి_Error("Could not fetch native window");
+        వెళ్ళు endfunction;
     }
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_WINDOW_POINTER, data->native_window);
+    SDL_సమితి_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), SDL_PROP_కిటికీ_ANDROID_కిటికీ_సూచిక, దత్తాంశం->native_కిటికీ);
 
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
+        దత్తాంశం->egl_surface = SDL_EGL_CreateSurface(_this, కిటికీ, (Native_కిటికీ_Type)దత్తాంశం->native_కిటికీ);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            ANativeWindow_release(data->native_window);
-            SDL_free(data);
-            result = false;
-            goto endfunction;
+        ఒకవేళ (దత్తాంశం->egl_surface == EGL_NO_SURFACE) {
+            ANative_కిటికీ_release(దత్తాంశం->native_కిటికీ);
+            SDL_free(దత్తాంశం);
+            ఫలితం = false;
+            వెళ్ళు endfunction;
         }
     }
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_ANDROID_SURFACE_POINTER, data->egl_surface);
-#endif
+    SDL_సమితి_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), SDL_PROP_కిటికీ_ANDROID_SURFACE_సూచిక, దత్తాంశం->egl_surface);
+#అయితే_ముగింపు
 
-    SDL_SetWindowSafeAreaInsets(window, Android_SafeInsetLeft, Android_SafeInsetRight, Android_SafeInsetTop, Android_SafeInsetBottom);
+    SDL_సమితి_కిటికీ_సురక్షిత_Area_Insets(కిటికీ, Android_సురక్షిత_Inset_ఎడమ, Android_సురక్షిత_Inset_కుడి, Android_సురక్షిత_Inset_శిఖరం, Android_సురక్షిత_Inset_Bottom);
 
-    window->internal = data;
-    Android_Window = window;
+    కిటికీ->అంతర్గత = దత్తాంశం;
+    Android_కిటికీ = కిటికీ;
 
 endfunction:
 
     Android_UnlockActivityMutex();
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య Android_సమితి_కిటికీ_Title(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    Android_JNI_SetActivityTitle(window->title);
+    Android_JNI_సమితి_Activity_Title(కిటికీ->title);
 }
 
-SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_ఫలితం Android_సమితి_కిటికీ_Fullscreen(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    Android_LockActivityMutex();
+    Android_తాళం_Activity_Mutex();
 
-    if (window == Android_Window) {
-        SDL_WindowData *data;
-        int old_w, old_h, new_w, new_h;
+    ఒకవేళ (కిటికీ == Android_కిటికీ) {
+        SDL_కిటికీ_దత్తాంశం *దత్తాంశం;
+        పూర్ణాంకం old_w, old_h, new_w, new_h;
 
         // If the window is being destroyed don't change visible state
-        if (!window->is_destroying) {
-            Android_JNI_SetWindowStyle(fullscreen);
+        ఒకవేళ (!కిటికీ->is_destroying) {
+            Android_JNI_సమితి_కిటికీ_Style(fullscreen);
         }
 
         /* Ensure our size matches reality after we've executed the window style change.
@@ -129,30 +129,30 @@ SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * Samsung DeX or Chromebooks or other windowed Android environments, our window may
          * still not be the full display size.
          */
-        if (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
-            goto endfunction;
+        ఒకవేళ (!SDL_IsDeXMode() && !SDL_IsChromebook()) {
+            వెళ్ళు endfunction;
         }
 
-        data = window->internal;
-        if (!data || !data->native_window) {
-            if (data && !data->native_window) {
-                SDL_SetError("Missing native window");
+        దత్తాంశం = కిటికీ->అంతర్గత;
+        ఒకవేళ (!దత్తాంశం || !దత్తాంశం->native_కిటికీ) {
+            ఒకవేళ (దత్తాంశం && !దత్తాంశం->native_కిటికీ) {
+                SDL_సమితి_Error("Missing native window");
             }
-            goto endfunction;
+            వెళ్ళు endfunction;
         }
 
-        old_w = window->w;
-        old_h = window->h;
+        old_w = కిటికీ->w;
+        old_h = కిటికీ->h;
 
-        new_w = ANativeWindow_getWidth(data->native_window);
-        new_h = ANativeWindow_getHeight(data->native_window);
+        new_w = ANative_కిటికీ_get_వెడల్పు(దత్తాంశం->native_కిటికీ);
+        new_h = ANative_కిటికీ_get_ఎత్తు(దత్తాంశం->native_కిటికీ);
 
-        if (new_w < 0 || new_h < 0) {
-            SDL_SetError("ANativeWindow_getWidth/Height() fails");
+        ఒకవేళ (new_w < 0 || new_h < 0) {
+            SDL_సమితి_Error("ANativeWindow_getWidth/Height() fails");
         }
 
-        if (old_w != new_w || old_h != new_h) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, new_w, new_h);
+        ఒకవేళ (old_w != new_w || old_h != new_h) {
+            SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESIZED, new_w, new_h);
         }
     }
 
@@ -160,45 +160,45 @@ endfunction:
 
     Android_UnlockActivityMutex();
 
-    return SDL_FULLSCREEN_SUCCEEDED;
+    తిరిగి SDL_FULLSCREEN_SUCCEEDED;
 }
 
-void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య Android_Minimize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    Android_JNI_MinimizeWindow();
+    Android_JNI_Minimize_కిటికీ();
 }
 
-void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+శూన్య Android_సమితి_కిటికీ_Resizable(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool resizable)
 {
     // Set orientation
-    Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
+    Android_JNI_సమితి_Orientation(కిటికీ->w, కిటికీ->h, కిటికీ->flags & SDL_కిటికీ_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
 }
 
-void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య Android_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    Android_LockActivityMutex();
+    Android_తాళం_Activity_Mutex();
 
-    if (window == Android_Window) {
-        Android_Window = NULL;
+    ఒకవేళ (కిటికీ == Android_కిటికీ) {
+        Android_కిటికీ = ఖాళీ;
 
-        if (window->internal) {
-            SDL_WindowData *data = window->internal;
+        ఒకవేళ (కిటికీ->అంతర్గత) {
+            SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
-                SDL_EGL_DestroySurface(_this, data->egl_surface);
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+            ఒకవేళ (దత్తాంశం->egl_surface != EGL_NO_SURFACE) {
+                SDL_EGL_DestroySurface(_this, దత్తాంశం->egl_surface);
             }
-#endif
+#అయితే_ముగింపు
 
-            if (data->native_window) {
-                ANativeWindow_release(data->native_window);
+            ఒకవేళ (దత్తాంశం->native_కిటికీ) {
+                ANative_కిటికీ_release(దత్తాంశం->native_కిటికీ);
             }
-            SDL_free(window->internal);
-            window->internal = NULL;
+            SDL_free(కిటికీ->అంతర్గత);
+            కిటికీ->అంతర్గత = ఖాళీ;
         }
     }
 
     Android_UnlockActivityMutex();
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_ANDROID

@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_clipboard_c_h_
-#define SDL_clipboard_c_h_
+#నిర్వచితం_కాకపోతే SDL_clipboard_c_h_
+#నిర్వచించు SDL_clipboard_c_h_
 
-#include "SDL_sysvideo.h"
+#అన్తర్భావ "SDL_sysvideo.h"
 
 
 // Return true if the mime type is valid clipboard text
-extern bool SDL_IsTextMimeType(const char *mime_type);
+బాహ్య bool SDL_Is_పాఠ్యం_Mime_Type(స్థిరరాశి అక్షరం *mime_type);
 
 // Cancel the clipboard data callback, called internally for cleanup
-extern void SDL_CancelClipboardData(Uint32 sequence);
+బాహ్య శూన్య SDL_Cancel_Clipboard_దత్తాంశం(Uint32 sequence);
 
 // Call the clipboard callback for application data
-extern void *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-extern bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type);
+బాహ్య శూన్య *SDL_Get_అంతర్గత_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type, size_t *కొలత);
+బాహ్య bool SDL_Has_అంతర్గత_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type);
 
 // General purpose clipboard text callback
-const void * SDLCALL SDL_ClipboardTextCallback(void *userdata, const char *mime_type, size_t *size);
+స్థిరరాశి శూన్య * SDLCALL SDL_Clipboard_పాఠ్యం_Callback(శూన్య *userdata, స్థిరరాశి అక్షరం *mime_type, size_t *కొలత);
 
-bool SDL_SaveClipboardMimeTypes(const char *const *mime_types, size_t num_mime_types);
-void SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this);
-char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_t num_mime_types, bool temporary);
+bool SDL_SaveClipboardMimeTypes(స్థిరరాశి అక్షరం *స్థిరరాశి *mime_types, size_t అంకె_mime_types);
+శూన్య SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this);
+అక్షరం **SDL_CopyClipboardMimeTypes(స్థిరరాశి అక్షరం *స్థిరరాశి *clipboard_mime_types, size_t అంకె_mime_types, bool temporary);
 
-#endif // SDL_clipboard_c_h_
+#అయితే_ముగింపు // SDL_clipboard_c_h_

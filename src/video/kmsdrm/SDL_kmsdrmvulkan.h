@@ -24,28 +24,28 @@
  * Based on Jacob Lifshay's SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_kmsdrm_vulkan_h_
-#define SDL_kmsdrm_vulkan_h_
+#నిర్వచితం_కాకపోతే SDL_kmsdrm_vulkan_h_
+#నిర్వచించు SDL_kmsdrm_vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#అన్తర్భావ <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
+#ఒకవేళ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
 
-extern bool KMSDRM_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                SDL_Window *window,
+బాహ్య bool KMSDRM_Vulkan_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య శూన్య KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+బాహ్య అక్షరం స్థిరరాశి * స్థిరరాశి *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *లెక్క);
+బాహ్య bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                SDL_కిటికీ *కిటికీ,
                                 VkInstance instance,
-                                const struct VkAllocationCallbacks *allocator,
+                                స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator,
                                 VkSurfaceKHR *surface);
-extern void KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+బాహ్య శూన్య KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                   VkInstance instance,
                                   VkSurfaceKHR surface,
-                                  const struct VkAllocationCallbacks *allocator);
+                                  స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator);
 
-#endif
+#అయితే_ముగింపు
 
-#endif // SDL_kmsdrm_vulkan_h_
+#అయితే_ముగింపు // SDL_kmsdrm_vulkan_h_

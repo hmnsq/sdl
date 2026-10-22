@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitopengles_
-#define SDL_uikitopengles_
+#నిర్వచితం_కాకపోతే SDL_uikitopengles_
+#నిర్వచించు SDL_uikitopengles_
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ఒకవేళ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
-extern bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+బాహ్య bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ,
                                 SDL_GLContext context);
-extern bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+బాహ్య bool UIKit_GL_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+బాహ్య SDL_Function_సూచిక UIKit_GL_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc);
+బాహ్య bool UIKit_GL_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
 
-extern void UIKit_GL_RestoreCurrentContext(void);
+బాహ్య శూన్య UIKit_GL_RestoreCurrentContext(శూన్య);
 
-#endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 
-#endif // SDL_uikitopengles_
+#అయితే_ముగింపు // SDL_uikitopengles_

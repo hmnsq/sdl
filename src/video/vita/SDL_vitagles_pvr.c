@@ -18,74 +18,74 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
-#include <stdlib.h>
-#include <string.h>
-#include <psp2/kernel/modulemgr.h>
-#include <gpu_es4/psp2_pvr_hint.h>
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
+#అన్తర్భావ <psp2/kernel/modulemgr.h>
+#అన్తర్భావ <gpu_es4/psp2_pvr_hint.h>
 
-#include "SDL_vitavideo.h"
-#include "../SDL_egl_c.h"
+#అన్తర్భావ "SDL_vitavideo.h"
+#అన్తర్భావ "../SDL_egl_c.h"
 
-#define MAX_PATH 256 // vita limits are somehow wrong
+#నిర్వచించు MAX_మార్గం 256 // vita limits are somehow wrong
 
-bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
     PVRSRV_PSP2_APPHINT hint;
-    const char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    స్థిరరాశి అక్షరం *default_మార్గం = "app0:module";
+    అక్షరం లక్ష్యం_మార్గం[MAX_మార్గం];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        స్థిరరాశి అక్షరం *override = SDL_GetHint(SDL_HINT_VITA_MODULE_మార్గం);
 
-        if (override && *override) {
-            default_path = override;
+        ఒకవేళ (override && *override) {
+            default_మార్గం = override;
         }
 
-        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, NULL, 0, NULL, NULL);
-        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, NULL, 0, NULL, NULL);
+        sce_Kernel_ఎక్కించు_ప్రారంభం_Module("vs0:sys/external/libfios2.suprx", 0, ఖాళీ, 0, ఖాళీ, ఖాళీ);
+        sce_Kernel_ఎక్కించు_ప్రారంభం_Module("vs0:sys/external/libc.suprx", 0, ఖాళీ, 0, ఖాళీ, ఖాళీ);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libgpu_es4_ext.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(లక్ష్యం_మార్గం, MAX_మార్గం, "%s/%s", default_మార్గం, "libgpu_es4_ext.suprx");
+        sce_Kernel_ఎక్కించు_ప్రారంభం_Module(లక్ష్యం_మార్గం, 0, ఖాళీ, 0, ఖాళీ, ఖాళీ);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libIMGEGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(లక్ష్యం_మార్గం, MAX_మార్గం, "%s/%s", default_మార్గం, "libIMGEGL.suprx");
+        sce_Kernel_ఎక్కించు_ప్రారంభం_Module(లక్ష్యం_మార్గం, 0, ఖాళీ, 0, ఖాళీ, ఖాళీ);
 
         PVRSRVInitializeAppHint(&hint);
 
-        SDL_snprintf(hint.szGLES1, MAX_PATH, "%s/%s", default_path, "libGLESv1_CM.suprx");
-        SDL_snprintf(hint.szGLES2, MAX_PATH, "%s/%s", default_path, "libGLESv2.suprx");
-        SDL_snprintf(hint.szWindowSystem, MAX_PATH, "%s/%s", default_path, "libpvrPSP2_WSEGL.suprx");
+        SDL_snprintf(hint.szGLES1, MAX_మార్గం, "%s/%s", default_మార్గం, "libGLESv1_CM.suprx");
+        SDL_snprintf(hint.szGLES2, MAX_మార్గం, "%s/%s", default_మార్గం, "libGLESv2.suprx");
+        SDL_snprintf(hint.sz_కిటికీ_System, MAX_మార్గం, "%s/%s", default_మార్గం, "libpvrPSP2_WSEGL.suprx");
 
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    తిరిగి SDL_EGL_ఎక్కించు_Library(_this, మార్గం, EGL_DEFAULT_DISPLAY);
 }
 
-SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    return SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    తిరిగి SDL_EGL_CreateContext(_this, కిటికీ->అంతర్గత->egl_surface);
 }
 
-bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    ఒకవేళ (కిటికీ && context) {
+        తిరిగి SDL_EGL_MakeCurrent(_this, కిటికీ->అంతర్గత->egl_surface, context);
+    } లేకపోతే {
+        తిరిగి SDL_EGL_MakeCurrent(_this, ఖాళీ, ఖాళీ);
     }
 }
 
-bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool VITA_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_VideoData *videodata = _this->internal;
-    if (videodata->ime_active) {
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
+    ఒకవేళ (videodata->ime_చురుకైన) {
         sceImeUpdate();
     }
-    return SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
+    తిరిగి SDL_EGL_మార్పిడి_Buffers(_this, కిటికీ->అంతర్గత->egl_surface);
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

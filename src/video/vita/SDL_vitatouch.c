@@ -18,159 +18,159 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/touch.h>
+#అన్తర్భావ <psp2/kernel/processmgr.h>
+#అన్తర్భావ <psp2/touch.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitatouch.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#అన్తర్భావ "SDL_vitavideo.h"
+#అన్తర్భావ "SDL_vitatouch.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/SDL_touch_c.h"
 
-SceTouchData touch_old[SCE_TOUCH_PORT_MAX_NUM];
-SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
+Sce_Touch_దత్తాంశం touch_old[SCE_TOUCH_పోర్టు_MAX_అంకె];
+Sce_Touch_దత్తాంశం touch[SCE_TOUCH_పోర్టు_MAX_అంకె];
 
-SDL_FRect area_info[SCE_TOUCH_PORT_MAX_NUM];
+SDL_FRect area_info[SCE_TOUCH_పోర్టు_MAX_అంకె];
 
-struct
+నిర్మాణం
 {
-    float min;
-    float range;
-} force_info[SCE_TOUCH_PORT_MAX_NUM];
+    దశాంశం min;
+    దశాంశం range;
+} force_info[SCE_TOUCH_పోర్టు_MAX_అంకె];
 
-static bool disableFrontPoll;
-static bool disableBackPoll;
+స్థిర bool disableFrontPoll;
+స్థిర bool disable_వెనుక_Poll;
 
-void VITA_InitTouch(void)
+శూన్య VITA_InitTouch(శూన్య)
 {
     disableFrontPoll = !SDL_GetHintBoolean(SDL_HINT_VITA_ENABLE_FRONT_TOUCH, true);
-    disableBackPoll = !SDL_GetHintBoolean(SDL_HINT_VITA_ENABLE_BACK_TOUCH, true);
+    disable_వెనుక_Poll = !SDL_GetHintBoolean(SDL_HINT_VITA_ENABLE_వెనుక_TOUCH, true);
 
-    sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, SCE_TOUCH_SAMPLING_STATE_START);
-    sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, SCE_TOUCH_SAMPLING_STATE_START);
-    sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
-    sceTouchEnableTouchForce(SCE_TOUCH_PORT_BACK);
+    sce_Touch_సమితి_Sampling_State(SCE_TOUCH_పోర్టు_FRONT, SCE_TOUCH_SAMPLING_STATE_ప్రారంభం);
+    sce_Touch_సమితి_Sampling_State(SCE_TOUCH_పోర్టు_వెనుక, SCE_TOUCH_SAMPLING_STATE_ప్రారంభం);
+    sceTouchEnableTouchForce(SCE_TOUCH_పోర్టు_FRONT);
+    sceTouchEnableTouchForce(SCE_TOUCH_పోర్టు_వెనుక);
 
-    for (int port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    కొరకు (పూర్ణాంకం పోర్టు = 0; పోర్టు < SCE_TOUCH_పోర్టు_MAX_అంకె; పోర్టు++) {
         SceTouchPanelInfo panelinfo;
-        sceTouchGetPanelInfo(port, &panelinfo);
+        sceTouchGetPanelInfo(పోర్టు, &panelinfo);
 
-        area_info[port].x = (float)panelinfo.minAaX;
-        area_info[port].y = (float)panelinfo.minAaY;
-        area_info[port].w = (float)(panelinfo.maxAaX - panelinfo.minAaX);
-        area_info[port].h = (float)(panelinfo.maxAaY - panelinfo.minAaY);
+        area_info[పోర్టు].x = (దశాంశం)panelinfo.minAaX;
+        area_info[పోర్టు].y = (దశాంశం)panelinfo.minAaY;
+        area_info[పోర్టు].w = (దశాంశం)(panelinfo.maxAaX - panelinfo.minAaX);
+        area_info[పోర్టు].h = (దశాంశం)(panelinfo.maxAaY - panelinfo.minAaY);
 
-        force_info[port].min = (float)panelinfo.minForce;
-        force_info[port].range = (float)(panelinfo.maxForce - panelinfo.minForce);
+        force_info[పోర్టు].min = (దశాంశం)panelinfo.minForce;
+        force_info[పోర్టు].range = (దశాంశం)(panelinfo.maxForce - panelinfo.minForce);
     }
 
     // Support passing both front and back touch devices in events
-    SDL_AddTouch(1, SDL_TOUCH_DEVICE_DIRECT, "Front");
-    SDL_AddTouch(2, SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE, "Back");
+    SDL_కూడు_Touch(1, SDL_TOUCH_DEVICE_ప్రత్యక్ష, "Front");
+    SDL_కూడు_Touch(2, SDL_TOUCH_DEVICE_పరోక్ష_ABSOLUTE, "Back");
 }
 
-void VITA_QuitTouch(void)
+శూన్య VITA_QuitTouch(శూన్య)
 {
-    sceTouchDisableTouchForce(SCE_TOUCH_PORT_FRONT);
-    sceTouchDisableTouchForce(SCE_TOUCH_PORT_BACK);
+    sceTouchDisableTouchForce(SCE_TOUCH_పోర్టు_FRONT);
+    sceTouchDisableTouchForce(SCE_TOUCH_పోర్టు_వెనుక);
 }
 
-void VITA_PollTouch(void)
+శూన్య VITA_PollTouch(శూన్య)
 {
     SDL_TouchID touch_id;
     SDL_FingerID finger_id;
-    int port;
+    పూర్ణాంకం పోర్టు;
 
     // We skip polling touch if no window is created
-    if (!Vita_Window) {
-        return;
+    ఒకవేళ (!Vita_కిటికీ) {
+        తిరిగి;
     }
 
-    SDL_memcpy(touch_old, touch, sizeof(touch_old));
+    SDL_memcpy(touch_old, touch, పరిమాణం(touch_old));
 
-    for (port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    కొరకు (పోర్టు = 0; పోర్టు < SCE_TOUCH_పోర్టు_MAX_అంకె; పోర్టు++) {
         /** Skip polling of Touch Device if hint is set **/
-        if (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
-            continue;
+        ఒకవేళ (((పోర్టు == 0) && disableFrontPoll) || ((పోర్టు == 1) && disable_వెనుక_Poll)) {
+            కొనసాగు;
         }
-        sceTouchPeek(port, &touch[port], 1);
+        sceTouchPeek(పోర్టు, &touch[పోర్టు], 1);
 
-        touch_id = (SDL_TouchID)(port + 1);
+        touch_id = (SDL_TouchID)(పోర్టు + 1);
 
-        if (touch[port].reportNum > 0) {
-            for (int i = 0; i < touch[port].reportNum; i++) {
+        ఒకవేళ (touch[పోర్టు].report_అంకె > 0) {
+            కొరకు (పూర్ణాంకం i = 0; i < touch[పోర్టు].report_అంకె; i++) {
                 // adjust coordinates and forces to return normalized values
                 // for the front, screen area is used as a reference (for direct touch)
                 // e.g. touch_x = 1.0 corresponds to screen_x = 960
                 // for the back panel, the active touch area is used as reference
-                float x = 0;
-                float y = 0;
-                float force = (touch[port].report[i].force - force_info[port].min) / force_info[port].range;
-                int finger_down = 0;
+                దశాంశం x = 0;
+                దశాంశం y = 0;
+                దశాంశం force = (touch[పోర్టు].report[i].force - force_info[పోర్టు].min) / force_info[పోర్టు].range;
+                పూర్ణాంకం finger_కిందికి = 0;
 
-                if (touch_old[port].reportNum > 0) {
-                    for (int j = 0; j < touch_old[port].reportNum; j++) {
-                        if (touch[port].report[i].id == touch_old[port].report[j].id) {
-                            finger_down = 1;
+                ఒకవేళ (touch_old[పోర్టు].report_అంకె > 0) {
+                    కొరకు (పూర్ణాంకం j = 0; j < touch_old[పోర్టు].report_అంకె; j++) {
+                        ఒకవేళ (touch[పోర్టు].report[i].id == touch_old[పోర్టు].report[j].id) {
+                            finger_కిందికి = 1;
                         }
                     }
                 }
 
-                VITA_ConvertTouchXYToSDLXY(&x, &y, touch[port].report[i].x, touch[port].report[i].y, port);
-                finger_id = (SDL_FingerID)(touch[port].report[i].id + 1);
+                VITA_ConvertTouchXYToSDLXY(&x, &y, touch[పోర్టు].report[i].x, touch[పోర్టు].report[i].y, పోర్టు);
+                finger_id = (SDL_FingerID)(touch[పోర్టు].report[i].id + 1);
 
                 // Skip if finger was already previously down
-                if (!finger_down) {
+                ఒకవేళ (!finger_కిందికి) {
                     // Send an initial touch
-                    SDL_SendTouch(0, touch_id, finger_id, Vita_Window, SDL_EVENT_FINGER_DOWN, x, y, force);
+                    SDL_SendTouch(0, touch_id, finger_id, Vita_కిటికీ, SDL_EVENT_FINGER_కిందికి, x, y, force);
                 }
 
                 // Always send the motion
-                SDL_SendTouchMotion(0, touch_id, finger_id, Vita_Window, x, y, force);
+                SDL_SendTouchMotion(0, touch_id, finger_id, Vita_కిటికీ, x, y, force);
             }
         }
 
         // some fingers might have been let go
-        if (touch_old[port].reportNum > 0) {
-            for (int i = 0; i < touch_old[port].reportNum; i++) {
-                int finger_up = 1;
-                if (touch[port].reportNum > 0) {
-                    for (int j = 0; j < touch[port].reportNum; j++) {
-                        if (touch[port].report[j].id == touch_old[port].report[i].id) {
-                            finger_up = 0;
+        ఒకవేళ (touch_old[పోర్టు].report_అంకె > 0) {
+            కొరకు (పూర్ణాంకం i = 0; i < touch_old[పోర్టు].report_అంకె; i++) {
+                పూర్ణాంకం finger_పైకి = 1;
+                ఒకవేళ (touch[పోర్టు].report_అంకె > 0) {
+                    కొరకు (పూర్ణాంకం j = 0; j < touch[పోర్టు].report_అంకె; j++) {
+                        ఒకవేళ (touch[పోర్టు].report[j].id == touch_old[పోర్టు].report[i].id) {
+                            finger_పైకి = 0;
                         }
                     }
                 }
-                if (finger_up == 1) {
-                    float x = 0;
-                    float y = 0;
-                    float force = (touch_old[port].report[i].force - force_info[port].min) / force_info[port].range;
-                    VITA_ConvertTouchXYToSDLXY(&x, &y, touch_old[port].report[i].x, touch_old[port].report[i].y, port);
-                    finger_id = (SDL_FingerID)(touch_old[port].report[i].id + 1);
+                ఒకవేళ (finger_పైకి == 1) {
+                    దశాంశం x = 0;
+                    దశాంశం y = 0;
+                    దశాంశం force = (touch_old[పోర్టు].report[i].force - force_info[పోర్టు].min) / force_info[పోర్టు].range;
+                    VITA_ConvertTouchXYToSDLXY(&x, &y, touch_old[పోర్టు].report[i].x, touch_old[పోర్టు].report[i].y, పోర్టు);
+                    finger_id = (SDL_FingerID)(touch_old[పోర్టు].report[i].id + 1);
                     // Finger released from screen
-                    SDL_SendTouch(0, touch_id, finger_id, Vita_Window, SDL_EVENT_FINGER_UP, x, y, force);
+                    SDL_SendTouch(0, touch_id, finger_id, Vita_కిటికీ, SDL_EVENT_FINGER_పైకి, x, y, force);
                 }
             }
         }
     }
 }
 
-void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita_y, int port)
+శూన్య VITA_ConvertTouchXYToSDLXY(దశాంశం *sdl_x, దశాంశం *sdl_y, పూర్ణాంకం vita_x, పూర్ణాంకం vita_y, పూర్ణాంకం పోర్టు)
 {
-    float x, y;
+    దశాంశం x, y;
 
-    if (area_info[port].w <= 1) {
+    ఒకవేళ (area_info[పోర్టు].w <= 1) {
         x = 0.5f;
-    } else {
-        x = (vita_x - area_info[port].x) / (area_info[port].w - 1);
+    } లేకపోతే {
+        x = (vita_x - area_info[పోర్టు].x) / (area_info[పోర్టు].w - 1);
     }
-    if (area_info[port].h <= 1) {
+    ఒకవేళ (area_info[పోర్టు].h <= 1) {
         y = 0.5f;
-    } else {
-        y = (vita_y - area_info[port].y) / (area_info[port].h - 1);
+    } లేకపోతే {
+        y = (vita_y - area_info[పోర్టు].y) / (area_info[పోర్టు].h - 1);
     }
 
     x = SDL_max(x, 0.0f);
@@ -183,4 +183,4 @@ void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita
     *sdl_y = y;
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_VITA

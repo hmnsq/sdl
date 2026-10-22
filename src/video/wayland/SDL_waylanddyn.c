@@ -18,200 +18,200 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND
 
-#define DEBUG_DYNAMIC_WAYLAND 0
+#నిర్వచించు DEBUG_DYNAMIC_WAYLAND 0
 
-#include "SDL_waylanddyn.h"
+#అన్తర్భావ "SDL_waylanddyn.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 )
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
 )
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
 )
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
 )
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
 SDL_ELF_NOTE_DLOPEN(
     "wayland",
     "Support for Wayland video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
 )
-#endif
+#అయితే_ముగింపు
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
     SDL_SharedObject *lib;
-    const char *libname;
-    const char *hint;
+    స్థిరరాశి అక్షరం *libname;
+    స్థిరరాశి అక్షరం *hint;
     bool hint_default;
 } waylanddynlib;
 
-static waylanddynlib waylandlibs[] = {
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC, NULL, false },
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL, NULL, false },
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR, NULL, false },
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON, NULL, false },
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    { NULL, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR, SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR, true },
-#endif
-    { NULL, NULL, NULL, false }
+స్థిర waylanddynlib waylandlibs[] = {
+    { ఖాళీ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC, ఖాళీ, false },
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL
+    { ఖాళీ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL, ఖాళీ, false },
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR
+    { ఖాళీ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR, ఖాళీ, false },
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON
+    { ఖాళీ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON, ఖాళీ, false },
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    { ఖాళీ, SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR, SDL_HINT_VIDEO_WAYLAND_ALLOW_LIBDECOR, true },
+#అయితే_ముగింపు
+    { ఖాళీ, ఖాళీ, ఖాళీ, false }
 };
 
-static void *WAYLAND_GetSym(const char *fnname, int *pHasModule, bool required)
+స్థిర శూన్య *WAYLAND_GetSym(స్థిరరాశి అక్షరం *fnname, పూర్ణాంకం *pHasModule, bool required)
 {
-    void *fn = NULL;
+    శూన్య *fn = ఖాళీ;
     waylanddynlib *dynlib;
-    for (dynlib = waylandlibs; dynlib->libname; dynlib++) {
-        if (dynlib->lib) {
-            fn = SDL_LoadFunction(dynlib->lib, fnname);
-            if (fn) {
-                break;
+    కొరకు (dynlib = waylandlibs; dynlib->libname; dynlib++) {
+        ఒకవేళ (dynlib->lib) {
+            fn = SDL_ఎక్కించు_Function(dynlib->lib, fnname);
+            ఒకవేళ (fn) {
+                ఆపు;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_WAYLAND
-    if (fn) {
+#ఒకవేళ DEBUG_DYNAMIC_WAYLAND
+    ఒకవేళ (fn) {
         SDL_Log("WAYLAND: Found '%s' in %s (%p)", fnname, dynlib->libname, fn);
-    } else {
+    } లేకపోతే {
         SDL_Log("WAYLAND: Symbol '%s' NOT FOUND!", fnname);
     }
-#endif
+#అయితే_ముగింపు
 
-    if (!fn && required) {
+    ఒకవేళ (!fn && required) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    తిరిగి fn;
 }
 
-#else
+#లేకపోతే
 
-#include <wayland-egl.h>
+#అన్తర్భావ <wayland-egl.h>
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_WAYLAND_MODULE(modname)         int SDL_WAYLAND_HAVE_##modname = 0;
-#define SDL_WAYLAND_SYM(rc, fn, params)     SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = NULL;
-#include "SDL_waylandsym.h"
+#నిర్వచించు SDL_WAYLAND_MODULE(modname)         పూర్ణాంకం SDL_WAYLAND_HAVE_##modname = 0;
+#నిర్వచించు SDL_WAYLAND_SYM(rc, fn, params)     SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = ఖాళీ;
+#నిర్వచించు SDL_WAYLAND_SYM_OPT(rc, fn, params) SDL_DYNWAYLANDFN_##fn WAYLAND_##fn = ఖాళీ;
+#అన్తర్భావ "SDL_waylandsym.h"
 
-static int wayland_load_refcount = 0;
+స్థిర పూర్ణాంకం wayland_ఎక్కించు_refcount = 0;
 
-void SDL_WAYLAND_UnloadSymbols(void)
+శూన్య SDL_WAYLAND_UnloadSymbols(శూన్య)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (wayland_load_refcount > 0) {
-        if (--wayland_load_refcount == 0) {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            int i;
-#endif
+    ఒకవేళ (wayland_ఎక్కించు_refcount > 0) {
+        ఒకవేళ (--wayland_ఎక్కించు_refcount == 0) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+            పూర్ణాంకం i;
+#అయితే_ముగింపు
 
             // set all the function pointers to NULL.
-#define SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 0;
-#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = NULL;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = NULL;
-#include "SDL_waylandsym.h"
+#నిర్వచించు SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 0;
+#నిర్వచించు SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = ఖాళీ;
+#నిర్వచించు SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = ఖాళీ;
+#అన్తర్భావ "SDL_waylandsym.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-            for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-                if (waylandlibs[i].lib) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+            కొరకు (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+                ఒకవేళ (waylandlibs[i].lib) {
                     SDL_UnloadObject(waylandlibs[i].lib);
-                    waylandlibs[i].lib = NULL;
+                    waylandlibs[i].lib = ఖాళీ;
                 }
             }
-#endif
+#అయితే_ముగింపు
         }
     }
 }
 
 // returns non-zero if all needed symbols were loaded.
-bool SDL_WAYLAND_LoadSymbols(void)
+bool SDL_WAYLAND_ఎక్కించు_Symbols(శూన్య)
 {
-    bool result = true; // always succeed if not using Dynamic WAYLAND stuff.
+    bool ఫలితం = true; // always succeed if not using Dynamic WAYLAND stuff.
 
     // deal with multiple modules (dga, wayland, etc) needing these symbols...
-    if (wayland_load_refcount++ == 0) {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(waylandlibs); i++) {
-            if (waylandlibs[i].libname) {
-                if (waylandlibs[i].hint &&
+    ఒకవేళ (wayland_ఎక్కించు_refcount++ == 0) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+        పూర్ణాంకం i;
+        పూర్ణాంకం *thismod = ఖాళీ;
+        కొరకు (i = 0; i < SDL_arraysize(waylandlibs); i++) {
+            ఒకవేళ (waylandlibs[i].libname) {
+                ఒకవేళ (waylandlibs[i].hint &&
                     !SDL_GetHintBoolean(waylandlibs[i].hint, waylandlibs[i].hint_default)) {
-                    continue;
+                    కొనసాగు;
                 }
-                waylandlibs[i].lib = SDL_LoadObject(waylandlibs[i].libname);
+                waylandlibs[i].lib = SDL_ఎక్కించు_Object(waylandlibs[i].libname);
             }
         }
 
-#define SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 1; // default yes
-#include "SDL_waylandsym.h"
+#నిర్వచించు SDL_WAYLAND_MODULE(modname) SDL_WAYLAND_HAVE_##modname = 1; // default yes
+#అన్తర్భావ "SDL_waylandsym.h"
 
-#define SDL_WAYLAND_MODULE(modname)         thismod = &SDL_WAYLAND_HAVE_##modname;
-#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, true);
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, false);
-#include "SDL_waylandsym.h"
+#నిర్వచించు SDL_WAYLAND_MODULE(modname)         thismod = &SDL_WAYLAND_HAVE_##modname;
+#నిర్వచించు SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, true);
+#నిర్వచించు SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = (SDL_DYNWAYLANDFN_##fn)WAYLAND_GetSym(#fn, thismod, false);
+#అన్తర్భావ "SDL_waylandsym.h"
 
-        if (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
+        ఒకవేళ (SDL_WAYLAND_HAVE_WAYLAND_CLIENT &&
             SDL_WAYLAND_HAVE_WAYLAND_CURSOR &&
             SDL_WAYLAND_HAVE_WAYLAND_EGL &&
             SDL_WAYLAND_HAVE_WAYLAND_XKB) {
             // All required symbols loaded, only libdecor is optional.
             SDL_ClearError();
-        } else {
+        } లేకపోతే {
             // in case something got loaded...
             SDL_WAYLAND_UnloadSymbols();
-            result = false;
+            ఫలితం = false;
         }
 
-#else // no dynamic WAYLAND
+#లేకపోతే // no dynamic WAYLAND
 
-#define SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 1; // default yes
-#define SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = fn;
-#define SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = fn;
-#include "SDL_waylandsym.h"
+#నిర్వచించు SDL_WAYLAND_MODULE(modname)         SDL_WAYLAND_HAVE_##modname = 1; // default yes
+#నిర్వచించు SDL_WAYLAND_SYM(rc, fn, params)     WAYLAND_##fn = fn;
+#నిర్వచించు SDL_WAYLAND_SYM_OPT(rc, fn, params) WAYLAND_##fn = fn;
+#అన్తర్భావ "SDL_waylandsym.h"
 
-#endif
+#అయితే_ముగింపు
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WAYLAND

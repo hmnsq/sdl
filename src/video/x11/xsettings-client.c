@@ -22,31 +22,31 @@
  * Author:  Owen Taylor, Red Hat, Inc.
  */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11video.h"
 
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#అన్తర్భావ <limits.h>
+#అన్తర్భావ <stdio.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
 
-#include "xsettings-client.h"
+#అన్తర్భావ "xsettings-client.h"
 
-struct _XSettingsClient
+నిర్మాణం _XSettingsClient
 {
   Display *display;
-  int screen;
+  పూర్ణాంకం screen;
   XSettingsNotifyFunc notify;
   XSettingsWatchFunc watch;
-  void *cb_data;
+  శూన్య *cb_దత్తాంశం;
 
   XSettingsGrabFunc grab;
   XSettingsGrabFunc ungrab;
 
-  Window manager_window;
+  కిటికీ_2 manager_కిటికీ;
   Atom manager_atom;
   Atom selection_atom;
   Atom xsettings_atom;
@@ -54,360 +54,360 @@ struct _XSettingsClient
   XSettingsList *settings;
 };
 
-static void
+స్థిర శూన్య
 notify_changes (XSettingsClient *client,
                 XSettingsList   *old_list)
 {
   XSettingsList *old_iter = old_list;
   XSettingsList *new_iter = client->settings;
 
-  if (!client->notify)
-    return;
+  ఒకవేళ (!client->notify)
+    తిరిగి;
 
-  while (old_iter || new_iter)
+  అయితే (old_iter || new_iter)
     {
-      int cmp;
+      పూర్ణాంకం cmp;
 
-      if (old_iter && new_iter)
+      ఒకవేళ (old_iter && new_iter)
         cmp = strcmp (old_iter->setting->name, new_iter->setting->name);
-      else if (old_iter)
+      లేకపోతే ఒకవేళ (old_iter)
         cmp = -1;
-      else
+      లేకపోతే
         cmp = 1;
 
-      if (cmp < 0)
+      ఒకవేళ (cmp < 0)
         {
           client->notify (old_iter->setting->name,
                           XSETTINGS_ACTION_DELETED,
-                          NULL,
-                          client->cb_data);
+                          ఖాళీ,
+                          client->cb_దత్తాంశం);
         }
-      else if (cmp == 0)
+      లేకపోతే ఒకవేళ (cmp == 0)
         {
-          if (!xsettings_setting_equal (old_iter->setting,
+          ఒకవేళ (!xsettings_setting_equal (old_iter->setting,
                                         new_iter->setting))
             client->notify (old_iter->setting->name,
-                            XSETTINGS_ACTION_CHANGED,
+                            XSETTINGS_ACTION_మారింది,
                             new_iter->setting,
-                            client->cb_data);
+                            client->cb_దత్తాంశం);
         }
-      else
+      లేకపోతే
         {
           client->notify (new_iter->setting->name,
                           XSETTINGS_ACTION_NEW,
                           new_iter->setting,
-                          client->cb_data);
+                          client->cb_దత్తాంశం);
         }
 
-      if (old_iter)
-        old_iter = old_iter->next;
-      if (new_iter)
-        new_iter = new_iter->next;
+      ఒకవేళ (old_iter)
+        old_iter = old_iter->తదుపరి;
+      ఒకవేళ (new_iter)
+        new_iter = new_iter->తదుపరి;
     }
 }
 
-static int
+స్థిర పూర్ణాంకం
 ignore_errors (Display *display, XErrorEvent *event)
 {
-  return True;
+  తిరిగి True;
 }
 
-static char local_byte_order = '\0';
+స్థిర అక్షరం local_byte_క్రమం = '\0';
 
-#define BYTES_LEFT(buffer) ((buffer)->data + (buffer)->len - (buffer)->pos)
+#నిర్వచించు బైట్లు_ఎడమ_2(బఫరు_2) ((బఫరు_2)->దత్తాంశం + (బఫరు_2)->len - (బఫరు_2)->pos)
 
-static XSettingsResult
-fetch_card16 (XSettingsBuffer *buffer,
-              CARD16          *result)
+స్థిర XSettings_ఫలితం
+fetch_card16 (XSettings_బఫరు *బఫరు_2,
+              CARD16          *ఫలితం)
 {
   CARD16 x;
 
-  if (BYTES_LEFT (buffer) < 2)
-    return XSETTINGS_ACCESS;
+  ఒకవేళ (బైట్లు_ఎడమ_2 (బఫరు_2) < 2)
+    తిరిగి XSETTINGS_ACCESS;
 
-  x = *(CARD16 *)buffer->pos;
-  buffer->pos += 2;
+  x = *(CARD16 *)బఫరు_2->pos;
+  బఫరు_2->pos += 2;
 
-  if (buffer->byte_order == local_byte_order)
-    *result = x;
-  else
-    *result = (x << 8) | (x >> 8);
+  ఒకవేళ (బఫరు_2->byte_క్రమం == local_byte_క్రమం)
+    *ఫలితం = x;
+  లేకపోతే
+    *ఫలితం = (x << 8) | (x >> 8);
 
-  return XSETTINGS_SUCCESS;
+  తిరిగి XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
-fetch_ushort (XSettingsBuffer *buffer,
-              unsigned short  *result)
+స్థిర XSettings_ఫలితం
+fetch_ushort (XSettings_బఫరు *బఫరు_2,
+              గుర్తులేని పొట్టి  *ఫలితం)
 {
   CARD16 x;
-  XSettingsResult r;
+  XSettings_ఫలితం r;
 
-  r = fetch_card16 (buffer, &x);
-  if (r == XSETTINGS_SUCCESS)
-    *result = x;
+  r = fetch_card16 (బఫరు_2, &x);
+  ఒకవేళ (r == XSETTINGS_SUCCESS)
+    *ఫలితం = x;
 
-  return r;
+  తిరిగి r;
 }
 
-static XSettingsResult
-fetch_card32 (XSettingsBuffer *buffer,
-              CARD32          *result)
+స్థిర XSettings_ఫలితం
+fetch_card32 (XSettings_బఫరు *బఫరు_2,
+              CARD32          *ఫలితం)
 {
   CARD32 x;
 
-  if (BYTES_LEFT (buffer) < 4)
-    return XSETTINGS_ACCESS;
+  ఒకవేళ (బైట్లు_ఎడమ_2 (బఫరు_2) < 4)
+    తిరిగి XSETTINGS_ACCESS;
 
-  x = *(CARD32 *)buffer->pos;
-  buffer->pos += 4;
+  x = *(CARD32 *)బఫరు_2->pos;
+  బఫరు_2->pos += 4;
 
-  if (buffer->byte_order == local_byte_order)
-    *result = x;
-  else
-    *result = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
+  ఒకవేళ (బఫరు_2->byte_క్రమం == local_byte_క్రమం)
+    *ఫలితం = x;
+  లేకపోతే
+    *ఫలితం = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
 
-  return XSETTINGS_SUCCESS;
+  తిరిగి XSETTINGS_SUCCESS;
 }
 
-static XSettingsResult
-fetch_card8 (XSettingsBuffer *buffer,
-             CARD8           *result)
+స్థిర XSettings_ఫలితం
+fetch_card8 (XSettings_బఫరు *బఫరు_2,
+             CARD8           *ఫలితం)
 {
-  if (BYTES_LEFT (buffer) < 1)
-    return XSETTINGS_ACCESS;
+  ఒకవేళ (బైట్లు_ఎడమ_2 (బఫరు_2) < 1)
+    తిరిగి XSETTINGS_ACCESS;
 
-  *result = *(CARD8 *)buffer->pos;
-  buffer->pos += 1;
+  *ఫలితం = *(CARD8 *)బఫరు_2->pos;
+  బఫరు_2->pos += 1;
 
-  return XSETTINGS_SUCCESS;
+  తిరిగి XSETTINGS_SUCCESS;
 }
 
-#define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
+#నిర్వచించు XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-static XSettingsList *
-parse_settings (unsigned char *data,
+స్థిర XSettingsList *
+parse_settings (గుర్తులేని అక్షరం *దత్తాంశం,
                 size_t         len)
 {
-  XSettingsBuffer buffer;
-  XSettingsResult result = XSETTINGS_SUCCESS;
-  XSettingsList *settings = NULL;
+  XSettings_బఫరు బఫరు_2;
+  XSettings_ఫలితం ఫలితం = XSETTINGS_SUCCESS;
+  XSettingsList *settings = ఖాళీ;
   CARD32 serial;
   CARD32 n_entries;
   CARD32 i;
-  XSettingsSetting *setting = NULL;
-  char buffer_byte_order = '\0';
+  XSettingsSetting *setting = ఖాళీ;
+  అక్షరం బఫరు_byte_క్రమం = '\0';
 
-  local_byte_order = xsettings_byte_order ();
+  local_byte_క్రమం = xsettings_byte_క్రమం ();
 
-  buffer.pos = buffer.data = data;
-  buffer.len = len;
-  buffer.byte_order = '\0';
+  బఫరు_2.pos = బఫరు_2.దత్తాంశం = దత్తాంశం;
+  బఫరు_2.len = len;
+  బఫరు_2.byte_క్రమం = '\0';
 
-  result = fetch_card8 (&buffer, (unsigned char *) &buffer_byte_order);
-  if (buffer_byte_order != MSBFirst &&
-      buffer_byte_order != LSBFirst)
+  ఫలితం = fetch_card8 (&బఫరు_2, (గుర్తులేని అక్షరం *) &బఫరు_byte_క్రమం);
+  ఒకవేళ (బఫరు_byte_క్రమం != MSBFirst &&
+      బఫరు_byte_క్రమం != LSBFirst)
     {
       fprintf (stderr, "Invalid byte order in XSETTINGS property\n");
-      result = XSETTINGS_FAILED;
-      goto out;
+      ఫలితం = XSETTINGS_FAILED;
+      వెళ్ళు బహిర్గతం;
     }
 
-  buffer.byte_order = buffer_byte_order;
-  buffer.pos += 3;
+  బఫరు_2.byte_క్రమం = బఫరు_byte_క్రమం;
+  బఫరు_2.pos += 3;
 
-  result = fetch_card32 (&buffer, &serial);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  ఫలితం = fetch_card32 (&బఫరు_2, &serial);
+  ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+    వెళ్ళు బహిర్గతం;
 
-  result = fetch_card32 (&buffer, &n_entries);
-  if (result != XSETTINGS_SUCCESS)
-    goto out;
+  ఫలితం = fetch_card32 (&బఫరు_2, &n_entries);
+  ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+    వెళ్ళు బహిర్గతం;
 
-  for (i = 0; i < n_entries; i++)
+  కొరకు (i = 0; i < n_entries; i++)
     {
       CARD8 type;
       CARD16 name_len;
       CARD32 v_int;
       size_t pad_len;
 
-      result = fetch_card8 (&buffer, &type);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ఫలితం = fetch_card8 (&బఫరు_2, &type);
+      ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+        వెళ్ళు బహిర్గతం;
 
-      buffer.pos += 1;
+      బఫరు_2.pos += 1;
 
-      result = fetch_card16 (&buffer, &name_len);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ఫలితం = fetch_card16 (&బఫరు_2, &name_len);
+      ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+        వెళ్ళు బహిర్గతం;
 
       pad_len = XSETTINGS_PAD(name_len, 4);
-      if (BYTES_LEFT (&buffer) < pad_len)
+      ఒకవేళ (బైట్లు_ఎడమ_2 (&బఫరు_2) < pad_len)
         {
-          result = XSETTINGS_ACCESS;
-          goto out;
+          ఫలితం = XSETTINGS_ACCESS;
+          వెళ్ళు బహిర్గతం;
         }
 
-      setting = malloc (sizeof *setting);
-      if (!setting)
+      setting = జ్ఞాపకం_ఇవ్వు (పరిమాణం *setting);
+      ఒకవేళ (!setting)
         {
-          result = XSETTINGS_NO_MEM;
-          goto out;
+          ఫలితం = XSETTINGS_NO_MEM;
+          వెళ్ళు బహిర్గతం;
         }
       setting->type = XSETTINGS_TYPE_INT; /* No allocated memory */
 
-      setting->name = malloc (name_len + 1);
-      if (!setting->name)
+      setting->name = జ్ఞాపకం_ఇవ్వు (name_len + 1);
+      ఒకవేళ (!setting->name)
         {
-          result = XSETTINGS_NO_MEM;
-          goto out;
+          ఫలితం = XSETTINGS_NO_MEM;
+          వెళ్ళు బహిర్గతం;
         }
 
-      memcpy (setting->name, buffer.pos, name_len);
+      జ్ఞాపకం_నకలు (setting->name, బఫరు_2.pos, name_len);
       setting->name[name_len] = '\0';
-      buffer.pos += pad_len;
+      బఫరు_2.pos += pad_len;
 
-      result = fetch_card32 (&buffer, &v_int);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
-      setting->last_change_serial = v_int;
+      ఫలితం = fetch_card32 (&బఫరు_2, &v_int);
+      ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+        వెళ్ళు బహిర్గతం;
+      setting->చివరి_change_serial = v_int;
 
-      switch (type)
+      ఎంపిక (type)
         {
-        case XSETTINGS_TYPE_INT:
-          result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+        స్థితి XSETTINGS_TYPE_INT:
+          ఫలితం = fetch_card32 (&బఫరు_2, &v_int);
+          ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+            వెళ్ళు బహిర్గతం;
 
-          setting->data.v_int = (INT32)v_int;
-          break;
-        case XSETTINGS_TYPE_STRING:
-          result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          setting->దత్తాంశం.v_int = (INT32)v_int;
+          ఆపు;
+        స్థితి XSETTINGS_TYPE_STRING:
+          ఫలితం = fetch_card32 (&బఫరు_2, &v_int);
+          ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+            వెళ్ళు బహిర్గతం;
 
           pad_len = XSETTINGS_PAD (v_int, 4);
-          if (v_int + 1 == 0 || /* Guard against wrap-around */
-              BYTES_LEFT (&buffer) < pad_len)
+          ఒకవేళ (v_int + 1 == 0 || /* Guard against wrap-around */
+              బైట్లు_ఎడమ_2 (&బఫరు_2) < pad_len)
             {
-              result = XSETTINGS_ACCESS;
-              goto out;
+              ఫలితం = XSETTINGS_ACCESS;
+              వెళ్ళు బహిర్గతం;
             }
 
-          setting->data.v_string = malloc (v_int + 1);
-          if (!setting->data.v_string)
+          setting->దత్తాంశం.v_string = జ్ఞాపకం_ఇవ్వు (v_int + 1);
+          ఒకవేళ (!setting->దత్తాంశం.v_string)
             {
-              result = XSETTINGS_NO_MEM;
-              goto out;
+              ఫలితం = XSETTINGS_NO_MEM;
+              వెళ్ళు బహిర్గతం;
             }
 
-          memcpy (setting->data.v_string, buffer.pos, v_int);
-          setting->data.v_string[v_int] = '\0';
-          buffer.pos += pad_len;
+          జ్ఞాపకం_నకలు (setting->దత్తాంశం.v_string, బఫరు_2.pos, v_int);
+          setting->దత్తాంశం.v_string[v_int] = '\0';
+          బఫరు_2.pos += pad_len;
 
-          break;
-        case XSETTINGS_TYPE_COLOR:
-          result = fetch_ushort (&buffer, &setting->data.v_color.red);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
-          result = fetch_ushort (&buffer, &setting->data.v_color.green);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
-          result = fetch_ushort (&buffer, &setting->data.v_color.blue);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
-          result = fetch_ushort (&buffer, &setting->data.v_color.alpha);
-          if (result != XSETTINGS_SUCCESS)
-            goto out;
+          ఆపు;
+        స్థితి XSETTINGS_TYPE_COLOR:
+          ఫలితం = fetch_ushort (&బఫరు_2, &setting->దత్తాంశం.v_color.red);
+          ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+            వెళ్ళు బహిర్గతం;
+          ఫలితం = fetch_ushort (&బఫరు_2, &setting->దత్తాంశం.v_color.green);
+          ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+            వెళ్ళు బహిర్గతం;
+          ఫలితం = fetch_ushort (&బఫరు_2, &setting->దత్తాంశం.v_color.blue);
+          ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+            వెళ్ళు బహిర్గతం;
+          ఫలితం = fetch_ushort (&బఫరు_2, &setting->దత్తాంశం.v_color.alpha);
+          ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+            వెళ్ళు బహిర్గతం;
 
-          break;
-        default:
+          ఆపు;
+        అప్రమేయ:
           /* Quietly ignore unknown types */
-          break;
+          ఆపు;
         }
 
       setting->type = type;
 
-      result = xsettings_list_insert (&settings, setting);
-      if (result != XSETTINGS_SUCCESS)
-        goto out;
+      ఫలితం = xsettings_list_చొప్పించు (&settings, setting);
+      ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
+        వెళ్ళు బహిర్గతం;
 
-      setting = NULL;
+      setting = ఖాళీ;
     }
 
- out:
+ బహిర్గతం:
 
-  if (result != XSETTINGS_SUCCESS)
+  ఒకవేళ (ఫలితం != XSETTINGS_SUCCESS)
     {
-      switch (result)
+      ఎంపిక (ఫలితం)
         {
-        case XSETTINGS_NO_MEM:
+        స్థితి XSETTINGS_NO_MEM:
           fprintf(stderr, "Out of memory reading XSETTINGS property\n");
-          break;
-        case XSETTINGS_ACCESS:
+          ఆపు;
+        స్థితి XSETTINGS_ACCESS:
           fprintf(stderr, "Invalid XSETTINGS property (read off end)\n");
-          break;
-        case XSETTINGS_DUPLICATE_ENTRY:
+          ఆపు;
+        స్థితి XSETTINGS_DUPLICATE_నమోదు:
           fprintf (stderr, "Duplicate XSETTINGS entry for '%s'\n", setting->name);
           SDL_FALLTHROUGH;
-        case XSETTINGS_FAILED:
+        స్థితి XSETTINGS_FAILED:
           SDL_FALLTHROUGH;
-        case XSETTINGS_SUCCESS:
+        స్థితి XSETTINGS_SUCCESS:
           SDL_FALLTHROUGH;
-        case XSETTINGS_NO_ENTRY:
-          break;
+        స్థితి XSETTINGS_NO_నమోదు:
+          ఆపు;
         }
 
-      if (setting)
+      ఒకవేళ (setting)
         xsettings_setting_free (setting);
 
       xsettings_list_free (settings);
-      settings = NULL;
+      settings = ఖాళీ;
 
     }
 
-  return settings;
+  తిరిగి settings;
 }
 
-static void
+స్థిర శూన్య
 read_settings (XSettingsClient *client)
 {
   Atom type;
-  int format;
-  unsigned long n_items;
-  unsigned long bytes_after;
-  unsigned char *data;
-  int result;
+  పూర్ణాంకం format;
+  గుర్తులేని దీర్ఘ n_వస్తువులు;
+  గుర్తులేని దీర్ఘ బైట్లు_after;
+  గుర్తులేని అక్షరం *దత్తాంశం;
+  పూర్ణాంకం ఫలితం;
 
-  int (*old_handler) (Display *, XErrorEvent *);
+  పూర్ణాంకం (*old_handler) (Display *, XErrorEvent *);
 
   XSettingsList *old_list = client->settings;
 
-  client->settings = NULL;
+  client->settings = ఖాళీ;
 
-  if (client->manager_window)
+  ఒకవేళ (client->manager_కిటికీ)
     {
       old_handler = X11_XSetErrorHandler (ignore_errors);
-      result = X11_XGetWindowProperty (client->display, client->manager_window,
+      ఫలితం = X11_XGet_కిటికీ_Property (client->display, client->manager_కిటికీ,
                                        client->xsettings_atom, 0, LONG_MAX,
                                        False, client->xsettings_atom,
-                                       &type, &format, &n_items, &bytes_after, &data);
+                                       &type, &format, &n_వస్తువులు, &బైట్లు_after, &దత్తాంశం);
       X11_XSetErrorHandler (old_handler);
 
-      if (result == Success && type != None)
+      ఒకవేళ (ఫలితం == Success && type != None)
         {
-          if (type != client->xsettings_atom)
+          ఒకవేళ (type != client->xsettings_atom)
             {
               fprintf (stderr, "Invalid type for XSETTINGS property");
             }
-          else if (format != 8)
+          లేకపోతే ఒకవేళ (format != 8)
             {
               fprintf (stderr, "Invalid format for XSETTINGS property %d", format);
             }
-          else
-            client->settings = parse_settings (data, n_items);
+          లేకపోతే
+            client->settings = parse_settings (దత్తాంశం, n_వస్తువులు);
 
-          X11_XFree (data);
+          X11_XFree (దత్తాంశం);
         }
     }
 
@@ -415,52 +415,52 @@ read_settings (XSettingsClient *client)
   xsettings_list_free (old_list);
 }
 
-static void
-add_events (Display *display,
-            Window   window,
-            long     mask)
+స్థిర శూన్య
+కూడు_events (Display *display,
+            కిటికీ_2   కిటికీ,
+            దీర్ఘ     ముసుగు)
 {
-  XWindowAttributes attr;
+  XWindow_లక్షణాలు attr;
 
-  X11_XGetWindowAttributes (display, window, &attr);
-  X11_XSelectInput (display, window, attr.your_event_mask | mask);
+  X11_XGet_కిటికీ_లక్షణాలు (display, కిటికీ, &attr);
+  X11_XSelect_ఆదానం (display, కిటికీ, attr.your_event_ముసుగు | ముసుగు);
 }
 
-static void
-check_manager_window (XSettingsClient *client)
+స్థిర శూన్య
+check_manager_కిటికీ (XSettingsClient *client)
 {
-  if (client->manager_window && client->watch)
-    client->watch (client->manager_window, False, 0, client->cb_data);
+  ఒకవేళ (client->manager_కిటికీ && client->watch)
+    client->watch (client->manager_కిటికీ, False, 0, client->cb_దత్తాంశం);
 
-  if (client->grab)
+  ఒకవేళ (client->grab)
     client->grab (client->display);
-  else
+  లేకపోతే
     X11_XGrabServer (client->display);
 
-  client->manager_window = X11_XGetSelectionOwner (client->display,
+  client->manager_కిటికీ = X11_XGetSelectionOwner (client->display,
                                                    client->selection_atom);
-  if (client->manager_window)
-    X11_XSelectInput (client->display, client->manager_window,
-                      PropertyChangeMask | StructureNotifyMask);
+  ఒకవేళ (client->manager_కిటికీ)
+    X11_XSelect_ఆదానం (client->display, client->manager_కిటికీ,
+                      Property_Change_ముసుగు | Structure_Notify_ముసుగు);
 
-  if (client->ungrab)
+  ఒకవేళ (client->ungrab)
     client->ungrab (client->display);
-  else
+  లేకపోతే
     X11_XUngrabServer (client->display);
 
   X11_XFlush (client->display);
 
-  if (client->manager_window && client->watch)
+  ఒకవేళ (client->manager_కిటికీ && client->watch)
     {
-      if (!client->watch (client->manager_window, True,
-                          PropertyChangeMask | StructureNotifyMask,
-                          client->cb_data))
+      ఒకవేళ (!client->watch (client->manager_కిటికీ, True,
+                          Property_Change_ముసుగు | Structure_Notify_ముసుగు,
+                          client->cb_దత్తాంశం))
         {
           /* Inability to watch the window probably means that it was destroyed
            * after we ungrabbed
            */
-          client->manager_window = None;
-          return;
+          client->manager_కిటికీ = None;
+          తిరిగి;
         }
     }
 
@@ -470,56 +470,56 @@ check_manager_window (XSettingsClient *client)
 
 XSettingsClient *
 xsettings_client_new (Display             *display,
-                      int                  screen,
+                      పూర్ణాంకం                  screen,
                       XSettingsNotifyFunc  notify,
                       XSettingsWatchFunc   watch,
-                      void                *cb_data)
+                      శూన్య                *cb_దత్తాంశం)
 {
-  return xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
-                                               NULL, NULL);
+  తిరిగి xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_దత్తాంశం,
+                                               ఖాళీ, ఖాళీ);
 }
 
 XSettingsClient *
 xsettings_client_new_with_grab_funcs (Display             *display,
-                                      int                  screen,
+                                      పూర్ణాంకం                  screen,
                                       XSettingsNotifyFunc  notify,
                                       XSettingsWatchFunc   watch,
-                                      void                *cb_data,
+                                      శూన్య                *cb_దత్తాంశం,
                                       XSettingsGrabFunc    grab,
                                       XSettingsGrabFunc    ungrab)
 {
   XSettingsClient *client;
-  char buffer[256];
-  char *atom_names[3];
+  అక్షరం బఫరు_2[256];
+  అక్షరం *atom_పేర్లు[3];
   Atom atoms[3];
 
-  client = malloc (sizeof *client);
-  if (!client)
-    return NULL;
+  client = జ్ఞాపకం_ఇవ్వు (పరిమాణం *client);
+  ఒకవేళ (!client)
+    తిరిగి ఖాళీ;
 
   client->display = display;
   client->screen = screen;
   client->notify = notify;
   client->watch = watch;
-  client->cb_data = cb_data;
+  client->cb_దత్తాంశం = cb_దత్తాంశం;
   client->grab = grab;
   client->ungrab = ungrab;
 
-  client->manager_window = None;
-  client->settings = NULL;
+  client->manager_కిటికీ = None;
+  client->settings = ఖాళీ;
 
-  SDL_snprintf(buffer, sizeof(buffer), "_XSETTINGS_S%d", screen);
-  atom_names[0] = buffer;
-  atom_names[1] = "_XSETTINGS_SETTINGS";
-  atom_names[2] = "MANAGER";
+  SDL_snprintf(బఫరు_2, పరిమాణం(బఫరు_2), "_XSETTINGS_S%d", screen);
+  atom_పేర్లు[0] = బఫరు_2;
+  atom_పేర్లు[1] = "_XSETTINGS_SETTINGS";
+  atom_పేర్లు[2] = "MANAGER";
 
-#ifdef HAVE_XINTERNATOMS
-  XInternAtoms (display, atom_names, 3, False, atoms);
-#else
-  atoms[0] = X11_XInternAtom (display, atom_names[0], False);
-  atoms[1] = X11_XInternAtom (display, atom_names[1], False);
-  atoms[2] = X11_XInternAtom (display, atom_names[2], False);
-#endif
+#నిర్వచితమైతే HAVE_XINTERNATOMS
+  XInternAtoms (display, atom_పేర్లు, 3, False, atoms);
+#లేకపోతే
+  atoms[0] = X11_XInternAtom (display, atom_పేర్లు[0], False);
+  atoms[1] = X11_XInternAtom (display, atom_పేర్లు[1], False);
+  atoms[2] = X11_XInternAtom (display, atom_పేర్లు[2], False);
+#అయితే_ముగింపు
 
   client->selection_atom = atoms[0];
   client->xsettings_atom = atoms[1];
@@ -527,330 +527,330 @@ xsettings_client_new_with_grab_funcs (Display             *display,
 
   /* Select on StructureNotify so we get MANAGER events
    */
-  add_events (display, RootWindow (display, screen), StructureNotifyMask);
+  కూడు_events (display, మూలం_కిటికీ (display, screen), Structure_Notify_ముసుగు);
 
-  if (client->watch)
-    client->watch (RootWindow (display, screen), True, StructureNotifyMask,
-                   client->cb_data);
+  ఒకవేళ (client->watch)
+    client->watch (మూలం_కిటికీ (display, screen), True, Structure_Notify_ముసుగు,
+                   client->cb_దత్తాంశం);
 
-  check_manager_window (client);
+  check_manager_కిటికీ (client);
 
-  return client;
+  తిరిగి client;
 }
 
 
-void
-xsettings_client_set_grab_func   (XSettingsClient      *client,
+శూన్య
+xsettings_client_సమితి_grab_func   (XSettingsClient      *client,
                                   XSettingsGrabFunc     grab)
 {
   client->grab = grab;
 }
 
-void
-xsettings_client_set_ungrab_func (XSettingsClient      *client,
+శూన్య
+xsettings_client_సమితి_ungrab_func (XSettingsClient      *client,
                                   XSettingsGrabFunc     ungrab)
 {
   client->ungrab = ungrab;
 }
 
-void
+శూన్య
 xsettings_client_destroy (XSettingsClient *client)
 {
-  if (client->watch)
-    client->watch (RootWindow (client->display, client->screen),
-                   False, 0, client->cb_data);
-  if (client->manager_window && client->watch)
-    client->watch (client->manager_window, False, 0, client->cb_data);
+  ఒకవేళ (client->watch)
+    client->watch (మూలం_కిటికీ (client->display, client->screen),
+                   False, 0, client->cb_దత్తాంశం);
+  ఒకవేళ (client->manager_కిటికీ && client->watch)
+    client->watch (client->manager_కిటికీ, False, 0, client->cb_దత్తాంశం);
 
   xsettings_list_free (client->settings);
-  free (client);
+  విడుదల (client);
 }
 
-XSettingsResult
+XSettings_ఫలితం
 xsettings_client_get_setting (XSettingsClient   *client,
-                              const char        *name,
+                              స్థిరరాశి అక్షరం        *name,
                               XSettingsSetting **setting)
 {
-  XSettingsSetting *search = xsettings_list_lookup (client->settings, name);
-  if (search)
+  XSettingsSetting *శోధన = xsettings_list_lookup (client->settings, name);
+  ఒకవేళ (శోధన)
     {
-      *setting = xsettings_setting_copy (search);
-      return *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
+      *setting = xsettings_setting_copy (శోధన);
+      తిరిగి *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
     }
-  else
-    return XSETTINGS_NO_ENTRY;
+  లేకపోతే
+    తిరిగి XSETTINGS_NO_నమోదు;
 }
 
 Bool
 xsettings_client_process_event (XSettingsClient *client,
-                                const XEvent    *xev)
+                                స్థిరరాశి XEvent    *xev)
 {
   /* The checks here will not unlikely cause us to reread
    * the properties from the manager window a number of
    * times when the manager changes from A->B. But manager changes
    * are going to be pretty rare.
    */
-  if (xev->xany.window == RootWindow (client->display, client->screen))
+  ఒకవేళ (xev->xany.కిటికీ == మూలం_కిటికీ (client->display, client->screen))
     {
-      if (xev->xany.type == ClientMessage &&
-          xev->xclient.message_type == client->manager_atom &&
-          xev->xclient.data.l[1] == client->selection_atom)
+      ఒకవేళ (xev->xany.type == Client_సందేశం &&
+          xev->xclient.సందేశం_type == client->manager_atom &&
+          xev->xclient.దత్తాంశం.l[1] == client->selection_atom)
         {
-          check_manager_window (client);
-          return True;
+          check_manager_కిటికీ (client);
+          తిరిగి True;
         }
     }
-  else if (xev->xany.window == client->manager_window)
+  లేకపోతే ఒకవేళ (xev->xany.కిటికీ == client->manager_కిటికీ)
     {
-      if (xev->xany.type == DestroyNotify)
+      ఒకవేళ (xev->xany.type == DestroyNotify)
         {
-          check_manager_window (client);
-          return False;
+          check_manager_కిటికీ (client);
+          తిరిగి False;
         }
-      else if (xev->xany.type == PropertyNotify)
+      లేకపోతే ఒకవేళ (xev->xany.type == PropertyNotify)
         {
           read_settings (client);
-          return True;
+          తిరిగి True;
         }
     }
 
-  return False;
+  తిరిగి False;
 }
 
 XSettingsSetting *
 xsettings_setting_copy (XSettingsSetting *setting)
 {
-  XSettingsSetting *result;
+  XSettingsSetting *ఫలితం;
   size_t str_len;
 
-  result = malloc (sizeof *result);
-  if (!result)
-    return NULL;
+  ఫలితం = జ్ఞాపకం_ఇవ్వు (పరిమాణం *ఫలితం);
+  ఒకవేళ (!ఫలితం)
+    తిరిగి ఖాళీ;
 
-  str_len = strlen (setting->name);
-  result->name = malloc (str_len + 1);
-  if (!result->name)
-    goto err;
+  str_len = అక్షరశ్రేణి_పొడవు (setting->name);
+  ఫలితం->name = జ్ఞాపకం_ఇవ్వు (str_len + 1);
+  ఒకవేళ (!ఫలితం->name)
+    వెళ్ళు err;
 
-  memcpy (result->name, setting->name, str_len + 1);
+  జ్ఞాపకం_నకలు (ఫలితం->name, setting->name, str_len + 1);
 
-  result->type = setting->type;
+  ఫలితం->type = setting->type;
 
-  switch (setting->type)
+  ఎంపిక (setting->type)
     {
-    case XSETTINGS_TYPE_INT:
-      result->data.v_int = setting->data.v_int;
-      break;
-    case XSETTINGS_TYPE_COLOR:
-      result->data.v_color = setting->data.v_color;
-      break;
-    case XSETTINGS_TYPE_STRING:
-      str_len = strlen (setting->data.v_string);
-      result->data.v_string = malloc (str_len + 1);
-      if (!result->data.v_string)
-        goto err;
+    స్థితి XSETTINGS_TYPE_INT:
+      ఫలితం->దత్తాంశం.v_int = setting->దత్తాంశం.v_int;
+      ఆపు;
+    స్థితి XSETTINGS_TYPE_COLOR:
+      ఫలితం->దత్తాంశం.v_color = setting->దత్తాంశం.v_color;
+      ఆపు;
+    స్థితి XSETTINGS_TYPE_STRING:
+      str_len = అక్షరశ్రేణి_పొడవు (setting->దత్తాంశం.v_string);
+      ఫలితం->దత్తాంశం.v_string = జ్ఞాపకం_ఇవ్వు (str_len + 1);
+      ఒకవేళ (!ఫలితం->దత్తాంశం.v_string)
+        వెళ్ళు err;
 
-      memcpy (result->data.v_string, setting->data.v_string, str_len + 1);
-      break;
+      జ్ఞాపకం_నకలు (ఫలితం->దత్తాంశం.v_string, setting->దత్తాంశం.v_string, str_len + 1);
+      ఆపు;
     }
 
-  result->last_change_serial = setting->last_change_serial;
+  ఫలితం->చివరి_change_serial = setting->చివరి_change_serial;
 
-  return result;
+  తిరిగి ఫలితం;
 
  err:
-  free(result->name); // This should NOT be SDL_free()
-  free(result); // This should NOT be SDL_free()
+  విడుదల(ఫలితం->name); // This should NOT be SDL_free()
+  విడుదల(ఫలితం); // This should NOT be SDL_free()
 
-  return NULL;
+  తిరిగి ఖాళీ;
 }
 
 XSettingsList *
 xsettings_list_copy (XSettingsList *list)
 {
-  XSettingsList *new = NULL;
+  XSettingsList *new = ఖాళీ;
   XSettingsList *old_iter = list;
-  XSettingsList *new_iter = NULL;
+  XSettingsList *new_iter = ఖాళీ;
 
-  while (old_iter)
+  అయితే (old_iter)
     {
-      XSettingsList *new_node;
+      XSettingsList *new_కణుపు;
 
-      new_node = malloc (sizeof *new_node);
-      if (!new_node)
-        goto error;
+      new_కణుపు = జ్ఞాపకం_ఇవ్వు (పరిమాణం *new_కణుపు);
+      ఒకవేళ (!new_కణుపు)
+        వెళ్ళు error;
 
-      new_node->setting = xsettings_setting_copy (old_iter->setting);
-      if (!new_node->setting)
+      new_కణుపు->setting = xsettings_setting_copy (old_iter->setting);
+      ఒకవేళ (!new_కణుపు->setting)
         {
-          free (new_node);
-          goto error;
+          విడుదల (new_కణుపు);
+          వెళ్ళు error;
         }
 
-      if (new_iter)
-        new_iter->next = new_node;
-      else
+      ఒకవేళ (new_iter)
+        new_iter->తదుపరి = new_కణుపు;
+      లేకపోతే
         {
-          new = new_node;
-          new->next = NULL;
+          new = new_కణుపు;
+          new->తదుపరి = ఖాళీ;
         }
 
 
-      new_iter = new_node;
+      new_iter = new_కణుపు;
 
-      old_iter = old_iter->next;
+      old_iter = old_iter->తదుపరి;
     }
 
-  return new;
+  తిరిగి new;
 
  error:
   xsettings_list_free (new);
-  return NULL;
+  తిరిగి ఖాళీ;
 }
 
-int
+పూర్ణాంకం
 xsettings_setting_equal (XSettingsSetting *setting_a,
                          XSettingsSetting *setting_b)
 {
-  if (setting_a->type != setting_b->type)
-    return 0;
+  ఒకవేళ (setting_a->type != setting_b->type)
+    తిరిగి 0;
 
-  if (strcmp (setting_a->name, setting_b->name) != 0)
-    return 0;
+  ఒకవేళ (strcmp (setting_a->name, setting_b->name) != 0)
+    తిరిగి 0;
 
-  switch (setting_a->type)
+  ఎంపిక (setting_a->type)
     {
-    case XSETTINGS_TYPE_INT:
-      return setting_a->data.v_int == setting_b->data.v_int;
-    case XSETTINGS_TYPE_COLOR:
-      return (setting_a->data.v_color.red == setting_b->data.v_color.red &&
-              setting_a->data.v_color.green == setting_b->data.v_color.green &&
-              setting_a->data.v_color.blue == setting_b->data.v_color.blue &&
-              setting_a->data.v_color.alpha == setting_b->data.v_color.alpha);
-    case XSETTINGS_TYPE_STRING:
-      return strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
+    స్థితి XSETTINGS_TYPE_INT:
+      తిరిగి setting_a->దత్తాంశం.v_int == setting_b->దత్తాంశం.v_int;
+    స్థితి XSETTINGS_TYPE_COLOR:
+      తిరిగి (setting_a->దత్తాంశం.v_color.red == setting_b->దత్తాంశం.v_color.red &&
+              setting_a->దత్తాంశం.v_color.green == setting_b->దత్తాంశం.v_color.green &&
+              setting_a->దత్తాంశం.v_color.blue == setting_b->దత్తాంశం.v_color.blue &&
+              setting_a->దత్తాంశం.v_color.alpha == setting_b->దత్తాంశం.v_color.alpha);
+    స్థితి XSETTINGS_TYPE_STRING:
+      తిరిగి strcmp (setting_a->దత్తాంశం.v_string, setting_b->దత్తాంశం.v_string) == 0;
     }
 
-  return 0;
+  తిరిగి 0;
 }
 
-void
+శూన్య
 xsettings_setting_free (XSettingsSetting *setting)
 {
-  if (setting->type == XSETTINGS_TYPE_STRING)
-    free (setting->data.v_string);
+  ఒకవేళ (setting->type == XSETTINGS_TYPE_STRING)
+    విడుదల (setting->దత్తాంశం.v_string);
 
-  free(setting->name); // This should NOT be SDL_free()
-  free(setting); // This should NOT be SDL_free()
+  విడుదల(setting->name); // This should NOT be SDL_free()
+  విడుదల(setting); // This should NOT be SDL_free()
 }
 
-void
+శూన్య
 xsettings_list_free (XSettingsList *list)
 {
-  while (list)
+  అయితే (list)
     {
-      XSettingsList *next = list->next;
+      XSettingsList *తదుపరి = list->తదుపరి;
 
       xsettings_setting_free (list->setting);
-      free (list);
+      విడుదల (list);
 
-      list = next;
+      list = తదుపరి;
     }
 }
 
-XSettingsResult
-xsettings_list_insert (XSettingsList    **list,
+XSettings_ఫలితం
+xsettings_list_చొప్పించు (XSettingsList    **list,
                        XSettingsSetting  *setting)
 {
-  XSettingsList *node;
+  XSettingsList *కణుపు;
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *చివరి = ఖాళీ;
 
-  node = malloc (sizeof *node);
-  if (!node)
-    return XSETTINGS_NO_MEM;
-  node->setting = setting;
+  కణుపు = జ్ఞాపకం_ఇవ్వు (పరిమాణం *కణుపు);
+  ఒకవేళ (!కణుపు)
+    తిరిగి XSETTINGS_NO_MEM;
+  కణుపు->setting = setting;
 
   iter = *list;
-  while (iter)
+  అయితే (iter)
     {
-      int cmp = strcmp (setting->name, iter->setting->name);
+      పూర్ణాంకం cmp = strcmp (setting->name, iter->setting->name);
 
-      if (cmp < 0)
-        break;
-      else if (cmp == 0)
+      ఒకవేళ (cmp < 0)
+        ఆపు;
+      లేకపోతే ఒకవేళ (cmp == 0)
         {
-          free (node);
-          return XSETTINGS_DUPLICATE_ENTRY;
+          విడుదల (కణుపు);
+          తిరిగి XSETTINGS_DUPLICATE_నమోదు;
         }
 
-      last = iter;
-      iter = iter->next;
+      చివరి = iter;
+      iter = iter->తదుపరి;
     }
 
-  if (last)
-    last->next = node;
-  else
-    *list = node;
+  ఒకవేళ (చివరి)
+    చివరి->తదుపరి = కణుపు;
+  లేకపోతే
+    *list = కణుపు;
 
-  node->next = iter;
+  కణుపు->తదుపరి = iter;
 
-  return XSETTINGS_SUCCESS;
+  తిరిగి XSETTINGS_SUCCESS;
 }
 
-XSettingsResult
+XSettings_ఫలితం
 xsettings_list_delete (XSettingsList **list,
-                       const char     *name)
+                       స్థిరరాశి అక్షరం     *name)
 {
   XSettingsList *iter;
-  XSettingsList *last = NULL;
+  XSettingsList *చివరి = ఖాళీ;
 
   iter = *list;
-  while (iter)
+  అయితే (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
+      ఒకవేళ (strcmp (name, iter->setting->name) == 0)
         {
-          if (last)
-            last->next = iter->next;
-          else
-            *list = iter->next;
+          ఒకవేళ (చివరి)
+            చివరి->తదుపరి = iter->తదుపరి;
+          లేకపోతే
+            *list = iter->తదుపరి;
 
           xsettings_setting_free (iter->setting);
-          free (iter);
+          విడుదల (iter);
 
-          return XSETTINGS_SUCCESS;
+          తిరిగి XSETTINGS_SUCCESS;
         }
 
-      last = iter;
-      iter = iter->next;
+      చివరి = iter;
+      iter = iter->తదుపరి;
     }
 
-  return XSETTINGS_FAILED;
+  తిరిగి XSETTINGS_FAILED;
 }
 
 XSettingsSetting *
 xsettings_list_lookup (XSettingsList *list,
-                       const char    *name)
+                       స్థిరరాశి అక్షరం    *name)
 {
   XSettingsList *iter;
 
   iter = list;
-  while (iter)
+  అయితే (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
-        return iter->setting;
+      ఒకవేళ (strcmp (name, iter->setting->name) == 0)
+        తిరిగి iter->setting;
 
-      iter = iter->next;
+      iter = iter->తదుపరి;
     }
 
-  return NULL;
+  తిరిగి ఖాళీ;
 }
 
-char
-xsettings_byte_order (void)
+అక్షరం
+xsettings_byte_క్రమం (శూన్య)
 {
   CARD32 myint = 0x01020304;
-  return (*(char *)&myint == 1) ? MSBFirst : LSBFirst;
+  తిరిగి (*(అక్షరం *)&myint == 1) ? MSBFirst : LSBFirst;
 }
 
-#endif /* SDL_VIDEO_DRIVER_X11 */
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11 */

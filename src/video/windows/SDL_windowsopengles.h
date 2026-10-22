@@ -18,31 +18,31 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_winopengles_h_
-#define SDL_winopengles_h_
+#నిర్వచితం_కాకపోతే SDL_winopengles_h_
+#నిర్వచించు SDL_winopengles_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define WIN_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define WIN_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define WIN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define WIN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define WIN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
+#నిర్వచించు WIN_GLES_GetAttribute    SDL_EGL_GetAttribute
+#నిర్వచించు WIN_GLES_Get_Proc_చిరునామా  SDL_EGL_Get_Proc_చిరునామా_అంతర్గత
+#నిర్వచించు WIN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#నిర్వచించు WIN_GLES_Get_మార్పిడి_Interval SDL_EGL_Get_మార్పిడి_Interval
+#నిర్వచించు WIN_GLES_సమితి_మార్పిడి_Interval SDL_EGL_సమితి_మార్పిడి_Interval
 
-extern bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool WIN_GLES_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+బాహ్య bool WIN_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య SDL_GLContext WIN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool WIN_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool WIN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context);
+బాహ్య bool WIN_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+బాహ్య bool WIN_GLES_అమరిక_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య SDL_EGLSurface WIN_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 
-#endif // SDL_VIDEO_OPENGL_EGL
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_winopengles_h_
+#అయితే_ముగింపు // SDL_winopengles_h_

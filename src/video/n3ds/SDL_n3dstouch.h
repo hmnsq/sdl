@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_n3dstouch_h_
-#define SDL_n3dstouch_h_
+#నిర్వచితం_కాకపోతే SDL_n3dstouch_h_
+#నిర్వచించు SDL_n3dstouch_h_
 
-void N3DS_InitTouch(void);
-void N3DS_QuitTouch(void);
-void N3DS_PollTouch(SDL_VideoDevice *_this);
+శూన్య N3DS_InitTouch(శూన్య);
+శూన్య N3DS_QuitTouch(శూన్య);
+శూన్య N3DS_PollTouch(SDL_VideoDevice *_this);
 
-#endif // SDL_n3dstouch_h_
+#అయితే_ముగింపు // SDL_n3dstouch_h_

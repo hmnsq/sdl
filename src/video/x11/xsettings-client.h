@@ -21,133 +21,133 @@
  *
  * Author:  Owen Taylor, Red Hat, Inc.
  */
-#ifndef XSETTINGS_CLIENT_H
-#define XSETTINGS_CLIENT_H
+#నిర్వచితం_కాకపోతే XSETTINGS_CLIENT_H
+#నిర్వచించు XSETTINGS_CLIENT_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు /* __cplusplus */
 
-typedef struct _XSettingsBuffer  XSettingsBuffer;
-typedef struct _XSettingsColor   XSettingsColor;
-typedef struct _XSettingsList    XSettingsList;
-typedef struct _XSettingsSetting XSettingsSetting;
+రకనిర్వచనం నిర్మాణం XSettings_బఫరు_2  XSettings_బఫరు;
+రకనిర్వచనం నిర్మాణం _XSettingsColor   XSettingsColor;
+రకనిర్వచనం నిర్మాణం _XSettingsList    XSettingsList;
+రకనిర్వచనం నిర్మాణం _XSettingsSetting XSettingsSetting;
 
 /* Types of settings possible. Enum values correspond to
  * protocol values.
  */
-typedef enum
+రకనిర్వచనం గణన
 {
   XSETTINGS_TYPE_INT     = 0,
   XSETTINGS_TYPE_STRING  = 1,
   XSETTINGS_TYPE_COLOR   = 2
 } XSettingsType;
 
-typedef enum
+రకనిర్వచనం గణన
 {
   XSETTINGS_SUCCESS,
   XSETTINGS_NO_MEM,
   XSETTINGS_ACCESS,
   XSETTINGS_FAILED,
-  XSETTINGS_NO_ENTRY,
-  XSETTINGS_DUPLICATE_ENTRY
-} XSettingsResult;
+  XSETTINGS_NO_నమోదు,
+  XSETTINGS_DUPLICATE_నమోదు
+} XSettings_ఫలితం;
 
-struct _XSettingsBuffer
+నిర్మాణం XSettings_బఫరు_2
 {
-  char byte_order;
+  అక్షరం byte_క్రమం;
   size_t len;
-  unsigned char *data;
-  unsigned char *pos;
+  గుర్తులేని అక్షరం *దత్తాంశం;
+  గుర్తులేని అక్షరం *pos;
 };
 
-struct _XSettingsColor
+నిర్మాణం _XSettingsColor
 {
-  unsigned short red, green, blue, alpha;
+  గుర్తులేని పొట్టి red, green, blue, alpha;
 };
 
-struct _XSettingsList
+నిర్మాణం _XSettingsList
 {
   XSettingsSetting *setting;
-  XSettingsList *next;
+  XSettingsList *తదుపరి;
 };
 
-struct _XSettingsSetting
+నిర్మాణం _XSettingsSetting
 {
-  char *name;
+  అక్షరం *name;
   XSettingsType type;
 
-  union {
-    int v_int;
-    char *v_string;
+  సంఘం {
+    పూర్ణాంకం v_int;
+    అక్షరం *v_string;
     XSettingsColor v_color;
-  } data;
+  } దత్తాంశం;
 
-  unsigned long last_change_serial;
+  గుర్తులేని దీర్ఘ చివరి_change_serial;
 };
 
 XSettingsSetting *xsettings_setting_copy  (XSettingsSetting *setting);
-void              xsettings_setting_free  (XSettingsSetting *setting);
-int               xsettings_setting_equal (XSettingsSetting *setting_a,
+శూన్య              xsettings_setting_free  (XSettingsSetting *setting);
+పూర్ణాంకం               xsettings_setting_equal (XSettingsSetting *setting_a,
                                            XSettingsSetting *setting_b);
 
-void              xsettings_list_free   (XSettingsList     *list);
+శూన్య              xsettings_list_free   (XSettingsList     *list);
 XSettingsList    *xsettings_list_copy   (XSettingsList     *list);
-XSettingsResult   xsettings_list_insert (XSettingsList    **list,
+XSettings_ఫలితం   xsettings_list_చొప్పించు (XSettingsList    **list,
                                          XSettingsSetting  *setting);
 XSettingsSetting *xsettings_list_lookup (XSettingsList     *list,
-                                         const char        *name);
-XSettingsResult   xsettings_list_delete (XSettingsList    **list,
-                                         const char        *name);
+                                         స్థిరరాశి అక్షరం        *name);
+XSettings_ఫలితం   xsettings_list_delete (XSettingsList    **list,
+                                         స్థిరరాశి అక్షరం        *name);
 
-char xsettings_byte_order (void);
+అక్షరం xsettings_byte_క్రమం (శూన్య);
 
-#define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
+#నిర్వచించు XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-typedef struct _XSettingsClient XSettingsClient;
+రకనిర్వచనం నిర్మాణం _XSettingsClient XSettingsClient;
 
-typedef enum
+రకనిర్వచనం గణన
 {
   XSETTINGS_ACTION_NEW,
-  XSETTINGS_ACTION_CHANGED,
+  XSETTINGS_ACTION_మారింది,
   XSETTINGS_ACTION_DELETED
 } XSettingsAction;
 
-typedef void (*XSettingsNotifyFunc) (const char       *name,
+రకనిర్వచనం శూన్య (*XSettingsNotifyFunc) (స్థిరరాశి అక్షరం       *name,
                                      XSettingsAction   action,
                                      XSettingsSetting *setting,
-                                     void             *cb_data);
-typedef Bool (*XSettingsWatchFunc)  (Window            window,
-                                     Bool              is_start,
-                                     long              mask,
-                                     void             *cb_data);
-typedef void (*XSettingsGrabFunc)   (Display          *display);
+                                     శూన్య             *cb_దత్తాంశం);
+రకనిర్వచనం Bool (*XSettingsWatchFunc)  (కిటికీ_2            కిటికీ,
+                                     Bool              is_ప్రారంభం,
+                                     దీర్ఘ              ముసుగు,
+                                     శూన్య             *cb_దత్తాంశం);
+రకనిర్వచనం శూన్య (*XSettingsGrabFunc)   (Display          *display);
 
 XSettingsClient *xsettings_client_new             (Display             *display,
-                                                   int                  screen,
+                                                   పూర్ణాంకం                  screen,
                                                    XSettingsNotifyFunc  notify,
                                                    XSettingsWatchFunc   watch,
-                                                   void                *cb_data);
+                                                   శూన్య                *cb_దత్తాంశం);
 XSettingsClient *xsettings_client_new_with_grab_funcs (Display             *display,
-                                                       int                  screen,
+                                                       పూర్ణాంకం                  screen,
                                                        XSettingsNotifyFunc  notify,
                                                        XSettingsWatchFunc   watch,
-                                                       void                *cb_data,
+                                                       శూన్య                *cb_దత్తాంశం,
                                                        XSettingsGrabFunc    grab,
                                                        XSettingsGrabFunc    ungrab);
-void             xsettings_client_set_grab_func   (XSettingsClient     *client,
+శూన్య             xsettings_client_సమితి_grab_func   (XSettingsClient     *client,
                                                    XSettingsGrabFunc    grab);
-void             xsettings_client_set_ungrab_func (XSettingsClient     *client,
+శూన్య             xsettings_client_సమితి_ungrab_func (XSettingsClient     *client,
                                                    XSettingsGrabFunc    ungrab);
-void             xsettings_client_destroy         (XSettingsClient     *client);
+శూన్య             xsettings_client_destroy         (XSettingsClient     *client);
 Bool             xsettings_client_process_event   (XSettingsClient     *client,
-                                                   const XEvent        *xev);
-XSettingsResult  xsettings_client_get_setting     (XSettingsClient     *client,
-                                                   const char          *name,
+                                                   స్థిరరాశి XEvent        *xev);
+XSettings_ఫలితం  xsettings_client_get_setting     (XSettingsClient     *client,
+                                                   స్థిరరాశి అక్షరం          *name,
                                                    XSettingsSetting   **setting);
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif /* __cplusplus */
+#అయితే_ముగింపు /* __cplusplus */
 
-#endif /* XSETTINGS_CLIENT_H */
+#అయితే_ముగింపు /* XSETTINGS_CLIENT_H */

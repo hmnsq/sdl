@@ -19,25 +19,25 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RPI
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RPI
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_rpivideo.h"
-#include "SDL_rpievents_c.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
+#అన్తర్భావ "../../events/SDL_keyboard_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "SDL_rpivideo.h"
+#అన్తర్భావ "SDL_rpievents_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#endif
+#నిర్వచితమైతే SDL_ఆదానం_LINUXEV
+#అన్తర్భావ "../../core/linux/SDL_evdev.h"
+#అయితే_ముగింపు
 
-void RPI_PumpEvents(SDL_VideoDevice *_this)
+శూన్య RPI_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#నిర్వచితమైతే SDL_ఆదానం_LINUXEV
     SDL_EVDEV_Poll();
-#endif
+#అయితే_ముగింపు
 }
 
-#endif // SDL_VIDEO_DRIVER_RPI
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_RPI

@@ -18,74 +18,74 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_windowsvideo_h_
-#define SDL_windowsvideo_h_
+#నిర్వచితం_కాకపోతే SDL_windowsvideo_h_
+#నిర్వచించు SDL_windowsvideo_h_
 
-#include "../../core/windows/SDL_windows.h"
+#అన్తర్భావ "../../core/windows/SDL_windows.h"
 
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
-#ifdef HAVE_DXGI_H
-#ifndef __cplusplus
-#define CINTERFACE
-#define COBJMACROS
-#endif
-#include <dxgi.h>
-#endif
+#నిర్వచితమైతే HAVE_DXGI_H
+#నిర్వచితం_కాకపోతే __cplusplus
+#నిర్వచించు CINTERFACE
+#నిర్వచించు COBJMACROS
+#అయితే_ముగింపు
+#అన్తర్భావ <dxgi.h>
+#అయితే_ముగింపు
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#include <msctf.h>
-#else
-#include "SDL_msctf.h"
-#endif
+#ఒకవేళ defined(_MSC_VER) && (_MSC_VER >= 1500) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అన్తర్భావ <msctf.h>
+#లేకపోతే
+#అన్తర్భావ "SDL_msctf.h"
+#అయితే_ముగింపు
 
-#include <imm.h>
+#అన్తర్భావ <imm.h>
 
-#define MAX_CANDLIST   10
-#define MAX_CANDLENGTH 256
-#define MAX_CANDSIZE   (sizeof(WCHAR) * MAX_CANDLIST * MAX_CANDLENGTH)
+#నిర్వచించు MAX_CANDLIST   10
+#నిర్వచించు MAX_CANDLENGTH 256
+#నిర్వచించు MAX_CANDSIZE   (పరిమాణం(WCHAR) * MAX_CANDLIST * MAX_CANDLENGTH)
 
-#include "SDL_windowsclipboard.h"
-#include "SDL_windowsevents.h"
-#include "SDL_windowsgameinput.h"
-#include "SDL_windowsopengl.h"
+#అన్తర్భావ "SDL_windowsclipboard.h"
+#అన్తర్భావ "SDL_windowsevents.h"
+#అన్తర్భావ "SDL_windowsgameinput.h"
+#అన్తర్భావ "SDL_windowsopengl.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#include "SDL_windowsshape.h"
-#include "SDL_windowskeyboard.h"
-#include "SDL_windowsmodes.h"
-#include "SDL_windowsmouse.h"
-#include "SDL_windowsopengles.h"
-#endif
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అన్తర్భావ "SDL_windowsshape.h"
+#అన్తర్భావ "SDL_windowskeyboard.h"
+#అన్తర్భావ "SDL_windowsmodes.h"
+#అన్తర్భావ "SDL_windowsmouse.h"
+#అన్తర్భావ "SDL_windowsopengles.h"
+#అయితే_ముగింపు
 
-#include "SDL_windowswindow.h"
+#అన్తర్భావ "SDL_windowswindow.h"
 
-#ifndef USER_DEFAULT_SCREEN_DPI
-#define USER_DEFAULT_SCREEN_DPI 96
-#endif
+#నిర్వచితం_కాకపోతే USER_DEFAULT_SCREEN_DPI
+#నిర్వచించు USER_DEFAULT_SCREEN_DPI 96
+#అయితే_ముగింపు
 
-#if WINVER < _WIN32_WINNT_WIN7
+#ఒకవేళ WINVER < _WIN32_WINNT_WIN7
 // Touch input definitions
-#define TWF_FINETOUCH 1
-#define TWF_WANTPALM  2
+#నిర్వచించు TWF_FINETOUCH 1
+#నిర్వచించు TWF_WANTPALM  2
 
-#define TOUCHEVENTF_MOVE 0x0001
-#define TOUCHEVENTF_DOWN 0x0002
-#define TOUCHEVENTF_UP   0x0004
+#నిర్వచించు TOUCHEVENTF_MOVE 0x0001
+#నిర్వచించు TOUCHEVENTF_కిందికి 0x0002
+#నిర్వచించు TOUCHEVENTF_పైకి   0x0004
 
 DECLARE_HANDLE(HTOUCHINPUT);
 
-typedef struct _TOUCHINPUT
+రకనిర్వచనం నిర్మాణం _TOUCHINPUT
 {
     LONG x;
     LONG y;
-    HANDLE hSource;
+    HANDLE h_ఆధారం;
     DWORD dwID;
     DWORD dwFlags;
-    DWORD dwMask;
-    DWORD dwTime;
+    DWORD dw_ముసుగు;
+    DWORD dw_సమయం;
     ULONG_PTR dwExtraInfo;
     DWORD cxContact;
     DWORD cyContact;
@@ -93,83 +93,83 @@ typedef struct _TOUCHINPUT
 
 // More-robust display information in Vista...
 // This is a huge amount of data to be stuffing into three API calls. :(
-typedef struct DISPLAYCONFIG_PATH_SOURCE_INFO
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_మార్గం_ఆధారం_INFO
 {
     LUID adapterId;
     UINT32 id;
-    union
+    సంఘం
     {
-        UINT32 modeInfoIdx;
-        struct
+        UINT32 బహుళకం_Info_Idx;
+        నిర్మాణం
         {
-            UINT32 cloneGroupId : 16;
-            UINT32 sourceModeInfoIdx : 16;
+            UINT32 clone_సమూహం_Id : 16;
+            UINT32 ఆధారం_బహుళకం_Info_Idx : 16;
         } DUMMYSTRUCTNAME;
     } DUMMYUNIONNAME;
 
-    UINT32 statusFlags;
-} DISPLAYCONFIG_PATH_SOURCE_INFO;
+    UINT32 స్థితి_Flags;
+} DISPLAYCONFIG_మార్గం_ఆధారం_INFO;
 
-typedef struct DISPLAYCONFIG_RATIONAL
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_RATIONAL
 {
     UINT32 Numerator;
     UINT32 Denominator;
 } DISPLAYCONFIG_RATIONAL;
 
-typedef struct DISPLAYCONFIG_PATH_TARGET_INFO
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_మార్గం_లక్ష్యం_INFO
 {
     LUID adapterId;
     UINT32 id;
-    union
+    సంఘం
     {
-        UINT32 modeInfoIdx;
-        struct
+        UINT32 బహుళకం_Info_Idx;
+        నిర్మాణం
         {
-            UINT32 desktopModeInfoIdx : 16;
-            UINT32 targetModeInfoIdx : 16;
+            UINT32 desktop_బహుళకం_Info_Idx : 16;
+            UINT32 లక్ష్యం_బహుళకం_Info_Idx : 16;
         } DUMMYSTRUCTNAME;
     } DUMMYUNIONNAME;
     UINT32 /*DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY*/ outputTechnology;
     UINT32 /*DISPLAYCONFIG_ROTATION*/ rotation;
     UINT32 /*DISPLAYCONFIG_SCALING*/ scaling;
-    DISPLAYCONFIG_RATIONAL refreshRate;
-    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scanLineOrdering;
-    BOOL targetAvailable;
-    UINT32 statusFlags;
-} DISPLAYCONFIG_PATH_TARGET_INFO;
+    DISPLAYCONFIG_RATIONAL refresh_రేటు_2;
+    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ పరిశీలన_పంక్తి_Ordering;
+    BOOL లక్ష్యం_అందుబాటు;
+    UINT32 స్థితి_Flags;
+} DISPLAYCONFIG_మార్గం_లక్ష్యం_INFO;
 
-typedef struct DISPLAYCONFIG_PATH_INFO
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_మార్గం_INFO
 {
-    DISPLAYCONFIG_PATH_SOURCE_INFO sourceInfo;
-    DISPLAYCONFIG_PATH_TARGET_INFO targetInfo;
+    DISPLAYCONFIG_మార్గం_ఆధారం_INFO ఆధారం_Info;
+    DISPLAYCONFIG_మార్గం_లక్ష్యం_INFO లక్ష్యం_Info;
     UINT32 flags;
-} DISPLAYCONFIG_PATH_INFO;
+} DISPLAYCONFIG_మార్గం_INFO;
 
-typedef enum
+రకనిర్వచనం గణన
 {
-    DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE = 1,
-    DISPLAYCONFIG_MODE_INFO_TYPE_TARGET = 2,
-    DISPLAYCONFIG_MODE_INFO_TYPE_DESKTOP_IMAGE = 3,
-    DISPLAYCONFIG_MODE_INFO_TYPE_FORCE_UINT32 = 0xFFFFFFFF
-} DISPLAYCONFIG_MODE_INFO_TYPE;
+    DISPLAYCONFIG_బహుళకం_INFO_TYPE_ఆధారం = 1,
+    DISPLAYCONFIG_బహుళకం_INFO_TYPE_లక్ష్యం = 2,
+    DISPLAYCONFIG_బహుళకం_INFO_TYPE_DESKTOP_IMAGE = 3,
+    DISPLAYCONFIG_బహుళకం_INFO_TYPE_FORCE_UINT32 = 0xFFFFFFFF
+} DISPLAYCONFIG_బహుళకం_INFO_TYPE;
 
-typedef struct DISPLAYCONFIG_2DREGION
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_2DREGION
 {
     UINT32 cx;
     UINT32 cy;
 } DISPLAYCONFIG_2DREGION;
 
-typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_VIDEO_SIGNAL_INFO
 {
-    UINT64 pixelRate;
+    UINT64 pixel_రేటు;
     DISPLAYCONFIG_RATIONAL hSyncFreq;
     DISPLAYCONFIG_RATIONAL vSyncFreq;
-    DISPLAYCONFIG_2DREGION activeSize;
-    DISPLAYCONFIG_2DREGION totalSize;
+    DISPLAYCONFIG_2DREGION చురుకైన_కొలత;
+    DISPLAYCONFIG_2DREGION మొత్తం_కొలత;
 
-    union
+    సంఘం
     {
-        struct
+        నిర్మాణం
         {
             UINT32 videoStandard : 16;
 
@@ -183,208 +183,208 @@ typedef struct DISPLAYCONFIG_VIDEO_SIGNAL_INFO
     } DUMMYUNIONNAME;
 
     // Scan line ordering (e.g. progressive, interlaced).
-    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ scanLineOrdering;
+    UINT32 /*DISPLAYCONFIG_SCANLINE_ORDERING*/ పరిశీలన_పంక్తి_Ordering;
 } DISPLAYCONFIG_VIDEO_SIGNAL_INFO;
 
-typedef struct DISPLAYCONFIG_SOURCE_MODE
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_ఆధారం_బహుళకం
 {
-    UINT32 width;
-    UINT32 height;
+    UINT32 వెడల్పు;
+    UINT32 ఎత్తు;
     UINT32 /*DISPLAYCONFIG_PIXELFORMAT*/ pixelFormat;
     POINTL position;
-} DISPLAYCONFIG_SOURCE_MODE;
+} DISPLAYCONFIG_ఆధారం_బహుళకం;
 
-typedef struct DISPLAYCONFIG_TARGET_MODE
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_లక్ష్యం_బహుళకం
 {
-    DISPLAYCONFIG_VIDEO_SIGNAL_INFO targetVideoSignalInfo;
-} DISPLAYCONFIG_TARGET_MODE;
+    DISPLAYCONFIG_VIDEO_SIGNAL_INFO లక్ష్యం_Video_Signal_Info;
+} DISPLAYCONFIG_లక్ష్యం_బహుళకం;
 
-typedef struct DISPLAYCONFIG_DESKTOP_IMAGE_INFO
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_DESKTOP_IMAGE_INFO
 {
-    POINTL PathSourceSize;
+    POINTL మార్గం_ఆధారం_కొలత;
     RECTL DesktopImageRegion;
     RECTL DesktopImageClip;
 } DISPLAYCONFIG_DESKTOP_IMAGE_INFO;
 
-typedef struct DISPLAYCONFIG_MODE_INFO
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_బహుళకం_INFO
 {
-    DISPLAYCONFIG_MODE_INFO_TYPE infoType;
+    DISPLAYCONFIG_బహుళకం_INFO_TYPE infoType;
     UINT32 id;
     LUID adapterId;
-    union
+    సంఘం
     {
-        DISPLAYCONFIG_TARGET_MODE targetMode;
-        DISPLAYCONFIG_SOURCE_MODE sourceMode;
+        DISPLAYCONFIG_లక్ష్యం_బహుళకం లక్ష్యం_బహుళకం;
+        DISPLAYCONFIG_ఆధారం_బహుళకం ఆధారం_బహుళకం;
         DISPLAYCONFIG_DESKTOP_IMAGE_INFO desktopImageInfo;
     } DUMMYUNIONNAME;
-} DISPLAYCONFIG_MODE_INFO;
+} DISPLAYCONFIG_బహుళకం_INFO;
 
-typedef enum DISPLAYCONFIG_TOPOLOGY_ID
+రకనిర్వచనం గణన DISPLAYCONFIG_TOPOLOGY_ID
 {
-    DISPLAYCONFIG_TOPOLOGY_INTERNAL = 0x00000001,
+    DISPLAYCONFIG_TOPOLOGY_అంతర్గత = 0x00000001,
     DISPLAYCONFIG_TOPOLOGY_CLONE = 0x00000002,
     DISPLAYCONFIG_TOPOLOGY_EXTEND = 0x00000004,
     DISPLAYCONFIG_TOPOLOGY_EXTERNAL = 0x00000008,
     DISPLAYCONFIG_TOPOLOGY_FORCE_UINT32 = 0xFFFFFFFF
 } DISPLAYCONFIG_TOPOLOGY_ID;
 
-typedef enum
+రకనిర్వచనం గణన
 {
-    DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME = 1,
-    DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME = 2,
-    DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_PREFERRED_MODE = 3,
+    DISPLAYCONFIG_DEVICE_INFO_GET_ఆధారం_NAME = 1,
+    DISPLAYCONFIG_DEVICE_INFO_GET_లక్ష్యం_NAME = 2,
+    DISPLAYCONFIG_DEVICE_INFO_GET_లక్ష్యం_PREFERRED_బహుళకం = 3,
     DISPLAYCONFIG_DEVICE_INFO_GET_ADAPTER_NAME = 4,
-    DISPLAYCONFIG_DEVICE_INFO_SET_TARGET_PERSISTENCE = 5,
-    DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_BASE_TYPE = 6,
+    DISPLAYCONFIG_DEVICE_INFO_సమితి_లక్ష్యం_PERSISTENCE = 5,
+    DISPLAYCONFIG_DEVICE_INFO_GET_లక్ష్యం_పునాది_TYPE = 6,
     DISPLAYCONFIG_DEVICE_INFO_GET_SUPPORT_VIRTUAL_RESOLUTION = 7,
-    DISPLAYCONFIG_DEVICE_INFO_SET_SUPPORT_VIRTUAL_RESOLUTION = 8,
+    DISPLAYCONFIG_DEVICE_INFO_సమితి_SUPPORT_VIRTUAL_RESOLUTION = 8,
     DISPLAYCONFIG_DEVICE_INFO_GET_ADVANCED_COLOR_INFO = 9,
-    DISPLAYCONFIG_DEVICE_INFO_SET_ADVANCED_COLOR_STATE = 10,
+    DISPLAYCONFIG_DEVICE_INFO_సమితి_ADVANCED_COLOR_STATE = 10,
     DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL = 11,
     DISPLAYCONFIG_DEVICE_INFO_FORCE_UINT32 = 0xFFFFFFFF
 } DISPLAYCONFIG_DEVICE_INFO_TYPE;
 
-typedef struct DISPLAYCONFIG_DEVICE_INFO_HEADER
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_DEVICE_INFO_శీర్షిక
 {
     DISPLAYCONFIG_DEVICE_INFO_TYPE type;
-    UINT32 size;
+    UINT32 కొలత;
     LUID adapterId;
     UINT32 id;
-} DISPLAYCONFIG_DEVICE_INFO_HEADER;
+} DISPLAYCONFIG_DEVICE_INFO_శీర్షిక;
 
-typedef struct DISPLAYCONFIG_SOURCE_DEVICE_NAME
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_ఆధారం_DEVICE_NAME
 {
-    DISPLAYCONFIG_DEVICE_INFO_HEADER header;
+    DISPLAYCONFIG_DEVICE_INFO_శీర్షిక శీర్షిక;
     WCHAR viewGdiDeviceName[CCHDEVICENAME];
-} DISPLAYCONFIG_SOURCE_DEVICE_NAME;
+} DISPLAYCONFIG_ఆధారం_DEVICE_NAME;
 
-typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_లక్ష్యం_DEVICE_NAME_FLAGS
 {
-    union
+    సంఘం
     {
-        struct
+        నిర్మాణం
         {
             UINT32 friendlyNameFromEdid : 1;
             UINT32 friendlyNameForced : 1;
             UINT32 edidIdsValid : 1;
             UINT32 reserved : 29;
         } DUMMYSTRUCTNAME;
-        UINT32 value;
+        UINT32 విలువ;
     } DUMMYUNIONNAME;
-} DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS;
+} DISPLAYCONFIG_లక్ష్యం_DEVICE_NAME_FLAGS;
 
-typedef struct DISPLAYCONFIG_TARGET_DEVICE_NAME
+రకనిర్వచనం నిర్మాణం DISPLAYCONFIG_లక్ష్యం_DEVICE_NAME
 {
-    DISPLAYCONFIG_DEVICE_INFO_HEADER header;
-    DISPLAYCONFIG_TARGET_DEVICE_NAME_FLAGS flags;
+    DISPLAYCONFIG_DEVICE_INFO_శీర్షిక శీర్షిక;
+    DISPLAYCONFIG_లక్ష్యం_DEVICE_NAME_FLAGS flags;
     UINT32 /*DISPLAYCONFIG_VIDEO_OUTPUT_TECHNOLOGY*/ outputTechnology;
     UINT16 edidManufactureId;
-    UINT16 edidProductCodeId;
+    UINT16 edid_లబ్ధం_సంకేతం_Id;
     UINT32 connectorInstance;
     WCHAR monitorFriendlyDeviceName[64];
-    WCHAR monitorDevicePath[128];
-} DISPLAYCONFIG_TARGET_DEVICE_NAME;
+    WCHAR monitor_Device_మార్గం[128];
+} DISPLAYCONFIG_లక్ష్యం_DEVICE_NAME;
 
-#define QDC_ONLY_ACTIVE_PATHS 0x00000002
+#నిర్వచించు QDC_ONLY_చురుకైన_PATHS 0x00000002
 
-#endif // WINVER < _WIN32_WINNT_WIN7
+#అయితే_ముగింపు // WINVER < _WIN32_WINNT_WIN7
 
-#if WINVER < _WIN32_WINNT_WIN8
+#ఒకవేళ WINVER < _WIN32_WINNT_WIN8
 // Pen input definitions
-#define POINTER_MESSAGE_FLAG_NEW 0x00000001
-#define POINTER_MESSAGE_FLAG_INRANGE 0x00000002
-#define POINTER_MESSAGE_FLAG_INCONTACT 0x00000004
-#define POINTER_MESSAGE_FLAG_FIRSTBUTTON 0x00000010
-#define POINTER_MESSAGE_FLAG_SECONDBUTTON 0x00000020
-#define POINTER_MESSAGE_FLAG_THIRDBUTTON 0x00000040
-#define POINTER_MESSAGE_FLAG_FOURTHBUTTON 0x00000080
-#define POINTER_MESSAGE_FLAG_FIFTHBUTTON 0x00000100
-#define POINTER_MESSAGE_FLAG_PRIMARY 0x00002000
-#define POINTER_MESSAGE_FLAG_CONFIDENCE 0x00004000
-#define POINTER_MESSAGE_FLAG_CANCELED 0x00008000
+#నిర్వచించు సూచిక_సందేశం_FLAG_NEW 0x00000001
+#నిర్వచించు సూచిక_సందేశం_FLAG_INRANGE 0x00000002
+#నిర్వచించు సూచిక_సందేశం_FLAG_INCONTACT 0x00000004
+#నిర్వచించు సూచిక_సందేశం_FLAG_FIRSTBUTTON 0x00000010
+#నిర్వచించు సూచిక_సందేశం_FLAG_SECONDBUTTON 0x00000020
+#నిర్వచించు సూచిక_సందేశం_FLAG_THIRDBUTTON 0x00000040
+#నిర్వచించు సూచిక_సందేశం_FLAG_FOURTHBUTTON 0x00000080
+#నిర్వచించు సూచిక_సందేశం_FLAG_FIFTHBUTTON 0x00000100
+#నిర్వచించు సూచిక_సందేశం_FLAG_PRIMARY 0x00002000
+#నిర్వచించు సూచిక_సందేశం_FLAG_CONFIDENCE 0x00004000
+#నిర్వచించు సూచిక_సందేశం_FLAG_CANCELED 0x00008000
 
-#define GET_POINTERID_WPARAM(wParam) (LOWORD(wParam))
-#define IS_POINTER_FLAG_SET_WPARAM(wParam, flag) (((DWORD)HIWORD(wParam) & (flag)) == (flag))
-#define IS_POINTER_INCONTACT_WPARAM(wParam) IS_POINTER_FLAG_SET_WPARAM(wParam, POINTER_MESSAGE_FLAG_INCONTACT)
-#define IS_POINTER_FIRSTBUTTON_WPARAM(wParam) IS_POINTER_FLAG_SET_WPARAM(wParam, POINTER_MESSAGE_FLAG_FIRSTBUTTON)
+#నిర్వచించు GET_POINTERID_WPARAM(wParam) (LOWORD(wParam))
+#నిర్వచించు IS_సూచిక_FLAG_సమితి_WPARAM(wParam, flag) (((DWORD)HIWORD(wParam) & (flag)) == (flag))
+#నిర్వచించు IS_సూచిక_INCONTACT_WPARAM(wParam) IS_సూచిక_FLAG_సమితి_WPARAM(wParam, సూచిక_సందేశం_FLAG_INCONTACT)
+#నిర్వచించు IS_సూచిక_FIRSTBUTTON_WPARAM(wParam) IS_సూచిక_FLAG_సమితి_WPARAM(wParam, సూచిక_సందేశం_FLAG_FIRSTBUTTON)
 
-typedef DWORD POINTER_INPUT_TYPE;
+రకనిర్వచనం DWORD సూచిక_ఆదానం_TYPE;
 
-enum tagPOINTER_INPUT_TYPE
+గణన ట్యాగ్_సూచిక_ఆదానం_TYPE
 {
-    PT_POINTER = 1,
+    PT_సూచిక = 1,
     PT_TOUCH,
     PT_PEN,
     PT_MOUSE,
     PT_TOUCHPAD
 };
 
-typedef UINT32 POINTER_FLAGS;
+రకనిర్వచనం UINT32 సూచిక_FLAGS;
 
-typedef UINT32 PEN_FLAGS;
-#define PEN_FLAG_NONE 0x00000000
-#define PEN_FLAG_BARREL 0x00000001
-#define PEN_FLAG_INVERTED 0x00000002
-#define PEN_FLAG_ERASER 0x00000004
+రకనిర్వచనం UINT32 PEN_FLAGS;
+#నిర్వచించు PEN_FLAG_NONE 0x00000000
+#నిర్వచించు PEN_FLAG_BARREL 0x00000001
+#నిర్వచించు PEN_FLAG_INVERTED 0x00000002
+#నిర్వచించు PEN_FLAG_ERASER 0x00000004
 
-typedef UINT32 PEN_MASK;
-#define PEN_MASK_NONE 0x00000000
-#define PEN_MASK_PRESSURE 0x00000001
-#define PEN_MASK_ROTATION 0x00000002
-#define PEN_MASK_TILT_X 0x00000004
-#define PEN_MASK_TILT_Y 0x00000008
+రకనిర్వచనం UINT32 PEN_ముసుగు;
+#నిర్వచించు PEN_ముసుగు_NONE 0x00000000
+#నిర్వచించు PEN_ముసుగు_PRESSURE 0x00000001
+#నిర్వచించు PEN_ముసుగు_ROTATION 0x00000002
+#నిర్వచించు PEN_ముసుగు_TILT_X 0x00000004
+#నిర్వచించు PEN_ముసుగు_TILT_Y 0x00000008
 
-typedef enum tagPOINTER_BUTTON_CHANGE_TYPE
+రకనిర్వచనం గణన ట్యాగ్_సూచిక_BUTTON_CHANGE_TYPE
 {
-    POINTER_CHANGE_NONE,
-    POINTER_CHANGE_FIRSTBUTTON_DOWN,
-    POINTER_CHANGE_FIRSTBUTTON_UP,
-    POINTER_CHANGE_SECONDBUTTON_DOWN,
-    POINTER_CHANGE_SECONDBUTTON_UP,
-    POINTER_CHANGE_THIRDBUTTON_DOWN,
-    POINTER_CHANGE_THIRDBUTTON_UP,
-    POINTER_CHANGE_FOURTHBUTTON_DOWN,
-    POINTER_CHANGE_FOURTHBUTTON_UP,
-    POINTER_CHANGE_FIFTHBUTTON_DOWN,
-    POINTER_CHANGE_FIFTHBUTTON_UP
-} POINTER_BUTTON_CHANGE_TYPE;
+    సూచిక_CHANGE_NONE,
+    సూచిక_CHANGE_FIRSTBUTTON_కిందికి,
+    సూచిక_CHANGE_FIRSTBUTTON_పైకి,
+    సూచిక_CHANGE_SECONDBUTTON_కిందికి,
+    సూచిక_CHANGE_SECONDBUTTON_పైకి,
+    సూచిక_CHANGE_THIRDBUTTON_కిందికి,
+    సూచిక_CHANGE_THIRDBUTTON_పైకి,
+    సూచిక_CHANGE_FOURTHBUTTON_కిందికి,
+    సూచిక_CHANGE_FOURTHBUTTON_పైకి,
+    సూచిక_CHANGE_FIFTHBUTTON_కిందికి,
+    సూచిక_CHANGE_FIFTHBUTTON_పైకి
+} సూచిక_BUTTON_CHANGE_TYPE;
 
-typedef struct tagPOINTER_INFO
+రకనిర్వచనం నిర్మాణం ట్యాగ్_సూచిక_INFO
 {
-    POINTER_INPUT_TYPE pointerType;
-    UINT32 pointerId;
-    UINT32 frameId;
-    POINTER_FLAGS pointerFlags;
-    HANDLE sourceDevice;
-    HWND hwndTarget;
-    POINT ptPixelLocation;
-    POINT ptHimetricLocation;
-    POINT ptPixelLocationRaw;
-    POINT ptHimetricLocationRaw;
-    DWORD dwTime;
-    UINT32 historyCount;
-    INT32 InputData;
-    DWORD dwKeyStates;
-    UINT64 PerformanceCount;
-    POINTER_BUTTON_CHANGE_TYPE ButtonChangeType;
-} POINTER_INFO;
+    సూచిక_ఆదానం_TYPE సూచిక_Type;
+    UINT32 సూచిక_Id;
+    UINT32 చట్రం_Id;
+    సూచిక_FLAGS సూచిక_Flags;
+    HANDLE ఆధారం_Device;
+    HWND hwnd_లక్ష్యం;
+    బిందువు_2 ptPixelLocation;
+    బిందువు_2 ptHimetricLocation;
+    బిందువు_2 ptPixelLocationRaw;
+    బిందువు_2 ptHimetricLocationRaw;
+    DWORD dw_సమయం;
+    UINT32 history_లెక్క;
+    INT32 ఆదానం_దత్తాంశం;
+    DWORD dw_కీలకం_స్థితులు;
+    UINT64 Performance_లెక్క;
+    సూచిక_BUTTON_CHANGE_TYPE ButtonChangeType;
+} సూచిక_INFO;
 
-typedef struct tagPOINTER_PEN_INFO
+రకనిర్వచనం నిర్మాణం ట్యాగ్_సూచిక_PEN_INFO
 {
-    POINTER_INFO pointerInfo;
+    సూచిక_INFO సూచిక_Info;
     PEN_FLAGS penFlags;
-    PEN_MASK penMask;
+    PEN_ముసుగు pen_ముసుగు;
     UINT32 pressure;
     UINT32 rotation;
     INT32 tiltX;
     INT32 tiltY;
-} POINTER_PEN_INFO;
+} సూచిక_PEN_INFO;
 
-#endif // WINVER < _WIN32_WINNT_WIN8
+#అయితే_ముగింపు // WINVER < _WIN32_WINNT_WIN8
 
-#ifndef HAVE_SHELLSCALINGAPI_H
+#నిర్వచితం_కాకపోతే HAVE_SHELLSCALINGAPI_H
 
-typedef enum MONITOR_DPI_TYPE
+రకనిర్వచనం గణన MONITOR_DPI_TYPE
 {
     MDT_EFFECTIVE_DPI = 0,
     MDT_ANGULAR_DPI = 1,
@@ -392,68 +392,68 @@ typedef enum MONITOR_DPI_TYPE
     MDT_DEFAULT = MDT_EFFECTIVE_DPI
 } MONITOR_DPI_TYPE;
 
-typedef enum PROCESS_DPI_AWARENESS
+రకనిర్వచనం గణన PROCESS_DPI_AWARENESS
 {
     PROCESS_DPI_UNAWARE = 0,
     PROCESS_SYSTEM_DPI_AWARE = 1,
-    PROCESS_PER_MONITOR_DPI_AWARE = 2
+    PROCESS_చొప్పున_MONITOR_DPI_AWARE = 2
 } PROCESS_DPI_AWARENESS;
 
-#else
-#include <shellscalingapi.h>
-#endif
+#లేకపోతే
+#అన్తర్భావ <shellscalingapi.h>
+#అయితే_ముగింపు
 
-typedef struct ITaskbarList3 ITaskbarList3;
+రకనిర్వచనం నిర్మాణం ITaskbarList3 ITaskbarList3;
 
-#ifndef _DPI_AWARENESS_CONTEXTS_
+#నిర్వచితం_కాకపోతే _DPI_AWARENESS_CONTEXTS_
 
-typedef enum DPI_AWARENESS
+రకనిర్వచనం గణన DPI_AWARENESS
 {
     DPI_AWARENESS_INVALID = -1,
     DPI_AWARENESS_UNAWARE = 0,
     DPI_AWARENESS_SYSTEM_AWARE = 1,
-    DPI_AWARENESS_PER_MONITOR_AWARE = 2
+    DPI_AWARENESS_చొప్పున_MONITOR_AWARE = 2
 } DPI_AWARENESS;
 
 DECLARE_HANDLE(DPI_AWARENESS_CONTEXT);
 
-#define DPI_AWARENESS_CONTEXT_UNAWARE           ((DPI_AWARENESS_CONTEXT)-1)
-#define DPI_AWARENESS_CONTEXT_SYSTEM_AWARE      ((DPI_AWARENESS_CONTEXT)-2)
-#define DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE ((DPI_AWARENESS_CONTEXT)-3)
+#నిర్వచించు DPI_AWARENESS_CONTEXT_UNAWARE           ((DPI_AWARENESS_CONTEXT)-1)
+#నిర్వచించు DPI_AWARENESS_CONTEXT_SYSTEM_AWARE      ((DPI_AWARENESS_CONTEXT)-2)
+#నిర్వచించు DPI_AWARENESS_CONTEXT_చొప్పున_MONITOR_AWARE ((DPI_AWARENESS_CONTEXT)-3)
 
-#endif // _DPI_AWARENESS_CONTEXTS_
+#అయితే_ముగింపు // _DPI_AWARENESS_CONTEXTS_
 
 // Windows 10 Creators Update
-#if NTDDI_VERSION < 0x0A000003
-#define DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 ((DPI_AWARENESS_CONTEXT)-4)
-#endif // NTDDI_VERSION < 0x0A000003
+#ఒకవేళ NTDDI_సంస్కరణ < 0x0A000003
+#నిర్వచించు DPI_AWARENESS_CONTEXT_చొప్పున_MONITOR_AWARE_V2 ((DPI_AWARENESS_CONTEXT)-4)
+#అయితే_ముగింపు // NTDDI_VERSION < 0x0A000003
 
 // Windows 10 version 1809
-#if NTDDI_VERSION < 0x0A000006
-#define DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED ((DPI_AWARENESS_CONTEXT)-5)
-#endif // NTDDI_VERSION < 0x0A000006
+#ఒకవేళ NTDDI_సంస్కరణ < 0x0A000006
+#నిర్వచించు DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED ((DPI_AWARENESS_CONTEXT)-5)
+#అయితే_ముగింపు // NTDDI_VERSION < 0x0A000006
 
-typedef BOOL (*PFNSHFullScreen)(HWND, DWORD);
-typedef void (*PFCoordTransform)(SDL_Window *, POINT *);
+రకనిర్వచనం BOOL (*PFNSHFullScreen)(HWND, DWORD);
+రకనిర్వచనం శూన్య (*PFCoordTransform)(SDL_కిటికీ *, బిందువు_2 *);
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    void **lpVtbl;
-    int refcount;
-    void *data;
+    శూన్య **lpVtbl;
+    పూర్ణాంకం refcount;
+    శూన్య *దత్తాంశం;
 } TSFSink;
 
-#ifndef SDL_DISABLE_WINDOWS_IME
+#నిర్వచితం_కాకపోతే SDL_DISABLE_WINDOWS_IME
 // Definition from Win98DDK version of IMM.H
-typedef struct tagINPUTCONTEXT2
+రకనిర్వచనం నిర్మాణం ట్యాగ్_INPUTCONTEXT2
 {
     HWND hWnd;
     BOOL fOpen;
-    POINT ptStatusWndPos;
-    POINT ptSoftKbdPos;
+    బిందువు_2 pt_స్థితి_Wnd_Pos;
+    బిందువు_2 ptSoftKbdPos;
     DWORD fdwConversion;
     DWORD fdwSentence;
-    union
+    సంఘం
     {
         LOGFONTA A;
         LOGFONTW W;
@@ -462,47 +462,47 @@ typedef struct tagINPUTCONTEXT2
     CANDIDATEFORM cfCandForm[4];
     HIMCC hCompStr;
     HIMCC hCandInfo;
-    HIMCC hGuideLine;
-    HIMCC hPrivate;
-    DWORD dwNumMsgBuf;
-    HIMCC hMsgBuf;
+    HIMCC h_Guide_పంక్తి;
+    HIMCC h_వ్యక్తిగత;
+    DWORD dw_అంకె_సందేశం_Buf;
+    HIMCC h_సందేశం_Buf;
     DWORD fdwInit;
     DWORD dwReserve[3];
 } INPUTCONTEXT2, *PINPUTCONTEXT2, NEAR *NPINPUTCONTEXT2, FAR *LPINPUTCONTEXT2;
-#endif
+#అయితే_ముగింపు
 
 // Corner rounding support  (Win 11+)
-#ifndef DWMWA_WINDOW_CORNER_PREFERENCE
-#define DWMWA_WINDOW_CORNER_PREFERENCE 33
-#endif
-typedef enum {
+#నిర్వచితం_కాకపోతే DWMWA_కిటికీ_మూల_PREFERENCE
+#నిర్వచించు DWMWA_కిటికీ_మూల_PREFERENCE 33
+#అయితే_ముగింపు
+రకనిర్వచనం గణన {
     DWMWCP_DEFAULT = 0,
     DWMWCP_DONOTROUND = 1,
-    DWMWCP_ROUND = 2,
+    DWMWCP_విడత = 2,
     DWMWCP_ROUNDSMALL = 3
-} DWM_WINDOW_CORNER_PREFERENCE;
+} DWM_కిటికీ_మూల_PREFERENCE;
 
 // Border Color support (Win 11+)
-#ifndef DWMWA_BORDER_COLOR
-#define DWMWA_BORDER_COLOR 34
-#endif
+#నిర్వచితం_కాకపోతే DWMWA_BORDER_COLOR
+#నిర్వచించు DWMWA_BORDER_COLOR 34
+#అయితే_ముగింపు
 
-#ifndef DWMWA_COLOR_DEFAULT
-#define DWMWA_COLOR_DEFAULT 0xFFFFFFFF
-#endif
+#నిర్వచితం_కాకపోతే DWMWA_COLOR_DEFAULT
+#నిర్వచించు DWMWA_COLOR_DEFAULT 0xFFFFFFFF
+#అయితే_ముగింపు
 
-#ifndef DWMWA_COLOR_NONE
-#define DWMWA_COLOR_NONE 0xFFFFFFFE
-#endif
+#నిర్వచితం_కాకపోతే DWMWA_COLOR_NONE
+#నిర్వచించు DWMWA_COLOR_NONE 0xFFFFFFFE
+#అయితే_ముగింపు
 
 // Transparent window support
-#ifndef DWM_BB_ENABLE
-#define DWM_BB_ENABLE 0x00000001
-#endif
-#ifndef DWM_BB_BLURREGION
-#define DWM_BB_BLURREGION 0x00000002
-#endif
-typedef struct
+#నిర్వచితం_కాకపోతే DWM_BB_ENABLE
+#నిర్వచించు DWM_BB_ENABLE 0x00000001
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే DWM_BB_BLURREGION
+#నిర్వచించు DWM_BB_BLURREGION 0x00000002
+#అయితే_ముగింపు
+రకనిర్వచనం నిర్మాణం
 {
     DWORD flags;
     BOOL enable;
@@ -512,74 +512,74 @@ typedef struct
 
 // Private display data
 
-struct SDL_VideoData
+నిర్మాణం SDL_Video_దత్తాంశం
 {
-    int render;
+    పూర్ణాంకం render;
 
     bool coinitialized;
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#ఒకవేళ !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
     bool oleinitialized;
-#endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#అయితే_ముగింపు // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-    DWORD clipboard_count;
+    DWORD clipboard_లెక్క;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES) // Xbox doesn't support user32/shcore
     SDL_SharedObject *userDLL;
 
     // DisplayConfig functions
     /* *INDENT-OFF* */ // clang-format off
-    LONG (WINAPI *GetDisplayConfigBufferSizes)( UINT32, UINT32 *, UINT32 *);
-    LONG (WINAPI *QueryDisplayConfig)( UINT32, UINT32 *, DISPLAYCONFIG_PATH_INFO*, UINT32 *, DISPLAYCONFIG_MODE_INFO*, DISPLAYCONFIG_TOPOLOGY_ID*);
-    LONG (WINAPI *DisplayConfigGetDeviceInfo)( DISPLAYCONFIG_DEVICE_INFO_HEADER*);
+    LONG (WINAPI *Get_Display_Config_బఫరు_Sizes)( UINT32, UINT32 *, UINT32 *);
+    LONG (WINAPI *QueryDisplayConfig)( UINT32, UINT32 *, DISPLAYCONFIG_మార్గం_INFO*, UINT32 *, DISPLAYCONFIG_బహుళకం_INFO*, DISPLAYCONFIG_TOPOLOGY_ID*);
+    LONG (WINAPI *DisplayConfigGetDeviceInfo)( DISPLAYCONFIG_DEVICE_INFO_శీర్షిక*);
     /* *INDENT-ON* */ // clang-format on
 
     // Touch input functions
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *CloseTouchInputHandle)( HTOUCHINPUT );
-    BOOL (WINAPI *GetTouchInputInfo)( HTOUCHINPUT, UINT, PTOUCHINPUT, int );
-    BOOL (WINAPI *RegisterTouchWindow)( HWND, ULONG );
+    BOOL (WINAPI *Close_Touch_ఆదానం_Handle)( HTOUCHINPUT );
+    BOOL (WINAPI *Get_Touch_ఆదానం_Info)( HTOUCHINPUT, UINT, PTOUCHINPUT, పూర్ణాంకం );
+    BOOL (WINAPI *రిజిస్టరు_Touch_కిటికీ)( HWND, ULONG );
     /* *INDENT-ON* */ // clang-format on
 
     // DWM functions
     SDL_SharedObject *dwmapiDLL;
     /* *INDENT-OFF* */ // clang-format off
-    HRESULT (WINAPI *DwmFlush)(void);
-    HRESULT (WINAPI *DwmEnableBlurBehindWindow)(HWND hwnd, const DWM_BLURBEHIND *pBlurBehind);
-    HRESULT (WINAPI *DwmSetWindowAttribute)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
+    HRESULT (WINAPI *DwmFlush)(శూన్య);
+    HRESULT (WINAPI *Dwm_Enable_Blur_Behind_కిటికీ)(HWND hwnd, స్థిరరాశి DWM_BLURBEHIND *pBlurBehind);
+    HRESULT (WINAPI *Dwm_సమితి_కిటికీ_Attribute)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
     /* *INDENT-ON* */ // clang-format on
 
     // Pen input functions
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *GetPointerType)(UINT32 pointerId, POINTER_INPUT_TYPE *pointerType);
-    BOOL (WINAPI *GetPointerPenInfo)(UINT32 pointerId, POINTER_PEN_INFO *penInfo);
-    BOOL (WINAPI *GetPointerDeviceRects)(HANDLE device, RECT *pointerDeviceRect, RECT *displayRect);
+    BOOL (WINAPI *Get_సూచిక_Type)(UINT32 సూచిక_Id, సూచిక_ఆదానం_TYPE *సూచిక_Type);
+    BOOL (WINAPI *Get_సూచిక_Pen_Info)(UINT32 సూచిక_Id, సూచిక_PEN_INFO *penInfo);
+    BOOL (WINAPI *Get_సూచిక_Device_Rects)(HANDLE device, RECT *సూచిక_Device_Rect, RECT *displayRect);
     /* *INDENT-ON* */ // clang-format on
 
     // DPI functions
     SDL_SharedObject *shcoreDLL;
     /* *INDENT-OFF* */ // clang-format off
-    BOOL (WINAPI *SetProcessDPIAware)( void );
-    BOOL (WINAPI *SetProcessDpiAwarenessContext)( DPI_AWARENESS_CONTEXT );
-    DPI_AWARENESS_CONTEXT (WINAPI *SetThreadDpiAwarenessContext)( DPI_AWARENESS_CONTEXT );
-    DPI_AWARENESS_CONTEXT (WINAPI *GetThreadDpiAwarenessContext)( void );
+    BOOL (WINAPI *సమితి_Process_DPIAware)( శూన్య );
+    BOOL (WINAPI *సమితి_Process_Dpi_Awareness_Context)( DPI_AWARENESS_CONTEXT );
+    DPI_AWARENESS_CONTEXT (WINAPI *సమితి_Thread_Dpi_Awareness_Context)( DPI_AWARENESS_CONTEXT );
+    DPI_AWARENESS_CONTEXT (WINAPI *GetThreadDpiAwarenessContext)( శూన్య );
     DPI_AWARENESS (WINAPI *GetAwarenessFromDpiAwarenessContext)( DPI_AWARENESS_CONTEXT );
     BOOL (WINAPI *EnableNonClientDpiScaling)( HWND );
-    BOOL (WINAPI *AdjustWindowRectExForDpi)( LPRECT, DWORD, BOOL, DWORD, UINT );
-    UINT (WINAPI *GetDpiForWindow)( HWND );
+    BOOL (WINAPI *Adjust_కిటికీ_Rect_Ex_For_Dpi)( LPRECT, DWORD, BOOL, DWORD, UINT );
+    UINT (WINAPI *Get_Dpi_For_కిటికీ)( HWND );
     BOOL (WINAPI *AreDpiAwarenessContextsEqual)(DPI_AWARENESS_CONTEXT, DPI_AWARENESS_CONTEXT);
     BOOL (WINAPI *IsValidDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
     HRESULT (WINAPI *GetDpiForMonitor)( HMONITOR         hmonitor,
                                         MONITOR_DPI_TYPE dpiType,
                                         UINT             *dpiX,
                                         UINT             *dpiY );
-    HRESULT (WINAPI *SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS dpiAwareness);
+    HRESULT (WINAPI *సమితి_Process_Dpi_Awareness)(PROCESS_DPI_AWARENESS dpiAwareness);
     /* *INDENT-ON* */ // clang-format on
-#endif                // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు                // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef HAVE_DXGI_H
+#నిర్వచితమైతే HAVE_DXGI_H
     SDL_SharedObject *dxgiDLL;
     IDXGIFactory *pDXGIFactory;
-#endif
+#అయితే_ముగింపు
 
     bool cleared;
     bool dpi_unaware_context_declared;
@@ -587,85 +587,85 @@ struct SDL_VideoData
     bool detect_device_hotplug;
 
     BYTE *rawinput;
-    UINT rawinput_offset;
-    UINT rawinput_size;
-    UINT rawinput_count;
-    Uint64 last_rawinput_poll;
-    SDL_Point last_raw_mouse_position;
+    UINT rawinput_స్థానభ్రంశం;
+    UINT rawinput_కొలత;
+    UINT rawinput_లెక్క;
+    Uint64 చివరి_rawinput_poll;
+    SDL_బిందువు చివరి_raw_mouse_position;
     bool raw_mouse_enabled;
     bool raw_mouse_flag_nolegacy;
     bool raw_keyboard_enabled;
     bool raw_keyboard_flag_nohotkeys;
     bool raw_keyboard_flag_inputsink;
-    bool pending_E1_key_sequence;
-    SDL_PenID raw_input_fake_pen_id;
+    bool pending_E1_కీలకం_sequence;
+    SDL_PenID raw_ఆదానం_fake_pen_id;
 
-    WIN_GameInputData *gameinput_context;
+    WIN_Game_ఆదానం_దత్తాంశం *gameinput_context;
 
-#ifndef SDL_DISABLE_WINDOWS_IME
+#నిర్వచితం_కాకపోతే SDL_DISABLE_WINDOWS_IME
     bool ime_initialized;
     bool ime_enabled;
-    bool ime_available;
-    bool ime_internal_composition;
-    bool ime_internal_candidates;
+    bool ime_అందుబాటు;
+    bool ime_అంతర్గత_composition;
+    bool ime_అంతర్గత_candidates;
     HWND ime_hwnd_main;
     HWND ime_hwnd_current;
     bool ime_needs_clear_composition;
     HIMC ime_himc;
 
     WCHAR *ime_composition;
-    int ime_composition_length;
+    పూర్ణాంకం ime_composition_నిడివి;
     WCHAR ime_readingstring[16];
-    int ime_cursor;
-    int ime_selected_start;
-    int ime_selected_length;
+    పూర్ణాంకం ime_cursor;
+    పూర్ణాంకం ime_selected_ప్రారంభం;
+    పూర్ణాంకం ime_selected_నిడివి;
 
     bool ime_candidates_open;
     bool ime_update_candidates;
-    char *ime_candidates[MAX_CANDLIST];
-    int ime_candcount;
+    అక్షరం *ime_candidates[MAX_CANDLIST];
+    పూర్ణాంకం ime_candcount;
     DWORD ime_candref;
     DWORD ime_candsel;
-    int ime_candlistindexbase;
+    పూర్ణాంకం ime_candlistindexbase;
     bool ime_horizontal_candidates;
-#endif
+#అయితే_ముగింపు
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     COMPOSITIONFORM ime_composition_area;
     CANDIDATEFORM ime_candidate_area;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifndef SDL_DISABLE_WINDOWS_IME
+#నిర్వచితం_కాకపోతే SDL_DISABLE_WINDOWS_IME
     HKL ime_hkl;
     SDL_SharedObject *ime_himm32;
     /* *INDENT-OFF* */ // clang-format off
-    UINT (WINAPI *GetReadingString)(HIMC himc, UINT uReadingBufLen, LPWSTR lpwReadingBuf, PINT pnErrorIndex, BOOL *pfIsVertical, PUINT puMaxReadingLen);
-    BOOL (WINAPI *ShowReadingWindow)(HIMC himc, BOOL bShow);
-    LPINPUTCONTEXT2 (WINAPI *ImmLockIMC)(HIMC himc);
+    UINT (WINAPI *GetReadingString)(HIMC himc, UINT uReadingBufLen, LPWSTR lpwReadingBuf, PINT pn_Error_సూచీ, BOOL *pfIsVertical, PUINT puMaxReadingLen);
+    BOOL (WINAPI *Show_Reading_కిటికీ)(HIMC himc, BOOL bShow);
+    LPINPUTCONTEXT2 (WINAPI *Imm_తాళం_IMC)(HIMC himc);
     BOOL (WINAPI *ImmUnlockIMC)(HIMC himc);
-    LPVOID (WINAPI *ImmLockIMCC)(HIMCC himcc);
+    LPVOID (WINAPI *Imm_తాళం_IMCC)(HIMCC himcc);
     BOOL (WINAPI *ImmUnlockIMCC)(HIMCC himcc);
     /* *INDENT-ON* */ // clang-format on
 
-#endif // !SDL_DISABLE_WINDOWS_IME
+#అయితే_ముగింపు // !SDL_DISABLE_WINDOWS_IME
 
-    BYTE pre_hook_key_state[256];
+    BYTE pre_hook_కీలకం_state[256];
     UINT _SDL_WAKEUP;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     UINT WM_TASKBAR_BUTTON_CREATED;
     ITaskbarList3 *taskbar_list;
-#endif
+#అయితే_ముగింపు
 };
 
-extern bool g_WindowsEnableMessageLoop;
-extern bool g_WindowsEnableMenuMnemonics;
-extern bool g_WindowFrameUsableWhileCursorHidden;
+బాహ్య bool g_Windows_Enable_సందేశం_Loop;
+బాహ్య bool g_WindowsEnableMenuMnemonics;
+బాహ్య bool g_కిటికీ_చట్రం_Usable_While_Cursor_Hidden;
 
-typedef struct IDirect3D9 IDirect3D9;
-extern bool D3D_LoadDLL(void **pD3DDLL, IDirect3D9 **pDirect3D9Interface);
+రకనిర్వచనం నిర్మాణం IDirect3D9 IDirect3D9;
+బాహ్య bool D3_D_ఎక్కించు_DLL(శూన్య **pD3DDLL, IDirect3D9 **pDirect3D9Interface);
 
-extern SDL_SystemTheme WIN_GetSystemTheme(void);
-extern bool WIN_IsPerMonitorV2DPIAware(SDL_VideoDevice *_this);
+బాహ్య SDL_SystemTheme WIN_GetSystemTheme(శూన్య);
+బాహ్య bool WIN_Is_చొప్పున_Monitor_V2_DPIAware(SDL_VideoDevice *_this);
 
-#endif // SDL_windowsvideo_h_
+#అయితే_ముగింపు // SDL_windowsvideo_h_

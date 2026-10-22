@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_KMSDRM
 
-#include "SDL_kmsdrmvideo.h"
-#include "SDL_kmsdrmmouse.h"
-#include "SDL_kmsdrmdyn.h"
+#అన్తర్భావ "SDL_kmsdrmvideo.h"
+#అన్తర్భావ "SDL_kmsdrmmouse.h"
+#అన్తర్భావ "SDL_kmsdrmdyn.h"
 
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/default_cursor.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/default_cursor.h"
 
-#include "../SDL_pixels_c.h"
+#అన్తర్భావ "../SDL_pixels_c.h"
 
 // !!! FIXME: atomic cursors are broken right now.
-#define USE_ATOMIC_CURSOR 0
+#నిర్వచించు USE_ATOMIC_CURSOR 0
 
-static SDL_Cursor *KMSDRM_CreateDefaultCursor(void);
-static SDL_Cursor *KMSDRM_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y);
-static bool KMSDRM_ShowCursor(SDL_Cursor *cursor);
-static bool KMSDRM_MoveCursor(SDL_Cursor *cursor);
-static void KMSDRM_FreeCursor(SDL_Cursor *cursor);
+స్థిర SDL_Cursor *KMSDRM_CreateDefaultCursor(శూన్య);
+స్థిర SDL_Cursor *KMSDRM_CreateCursor(SDL_Surface *surface, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y);
+స్థిర bool KMSDRM_ShowCursor(SDL_Cursor *cursor);
+స్థిర bool KMSDRM_MoveCursor(SDL_Cursor *cursor);
+స్థిర శూన్య KMSDRM_FreeCursor(SDL_Cursor *cursor);
 
 /**************************************************************************************/
 // BEFORE CODING ANYTHING MOUSE/CURSOR RELATED, REMEMBER THIS.
@@ -56,31 +56,31 @@ static void KMSDRM_FreeCursor(SDL_Cursor *cursor);
 // mouse->cur_cursor and mouse->cursor_visible is 1.
 /**************************************************************************************/
 
-static SDL_Cursor *KMSDRM_CreateDefaultCursor(void)
+స్థిర SDL_Cursor *KMSDRM_CreateDefaultCursor(శూన్య)
 {
-    return SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
+    తిరిగి SDL_CreateCursor(default_cdata, default_cmask, DEFAULT_CWIDTH, DEFAULT_CHEIGHT, DEFAULT_CHOTX, DEFAULT_CHOTY);
 }
 
 /* Given a display's internal, destroy the cursor BO for it.
    To be called from KMSDRM_DestroyWindow(), as that's where we
    destroy the internal for the window's display. */
-void KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
+శూన్య KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_దత్తాంశం *dispdata = display->అంతర్గత;
 
     // Destroy the curso GBM BO.
-    if (dispdata->cursor_bo) {
-        SDL_VideoData *viddata = (SDL_VideoData *) _this->internal;
-        if (USE_ATOMIC_CURSOR && viddata->is_atomic) {
-            if (dispdata->cursor_plane) {
+    ఒకవేళ (dispdata->cursor_bo) {
+        SDL_Video_దత్తాంశం *viddata = (SDL_Video_దత్తాంశం *) _this->అంతర్గత;
+        ఒకవేళ (USE_ATOMIC_CURSOR && viddata->is_atomic) {
+            ఒకవేళ (dispdata->cursor_plane) {
                 // Unset the the cursor BO from the cursor plane.
                 KMSDRM_PlaneInfo info;
                 SDL_zero(info);
                 info.plane = dispdata->cursor_plane;
-                drm_atomic_set_plane_props(dispdata, &info);
+                drm_atomic_సమితి_plane_props(dispdata, &info);
                 // Wait until the cursor is unset from the cursor plane before destroying it's BO.
-                if (drm_atomic_commit(_this, dispdata, true, false)) {
-                    SDL_SetError("Failed atomic commit in KMSDRM_DenitMouse.");
+                ఒకవేళ (drm_atomic_commit(_this, dispdata, true, false)) {
+                    SDL_సమితి_Error("Failed atomic commit in KMSDRM_DenitMouse.");
                 }
                 // Free the cursor plane, on which the cursor was being shown.
                 free_plane(&dispdata->cursor_plane);
@@ -88,7 +88,7 @@ void KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
         }
 
         KMSDRM_gbm_bo_destroy(dispdata->cursor_bo);
-        dispdata->cursor_bo = NULL;
+        dispdata->cursor_bo = ఖాళీ;
         dispdata->cursor_bo_drm_fd = -1;
     }
 }
@@ -99,91 +99,91 @@ void KMSDRM_DestroyCursorBO(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 bool KMSDRM_CreateCursorBO(SDL_VideoDisplay *display)
 {
     SDL_VideoDevice *dev = SDL_GetVideoDevice();
-    SDL_VideoData *viddata = dev->internal;
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Video_దత్తాంశం *viddata = dev->అంతర్గత;
+    SDL_Display_దత్తాంశం *dispdata = display->అంతర్గత;
 
-    if (USE_ATOMIC_CURSOR && viddata->is_atomic) {
-        setup_plane(dev, dispdata, &dispdata->cursor_plane, DRM_PLANE_TYPE_CURSOR);
+    ఒకవేళ (USE_ATOMIC_CURSOR && viddata->is_atomic) {
+        అమరిక_plane(dev, dispdata, &dispdata->cursor_plane, DRM_PLANE_TYPE_CURSOR);
     }
 
-    if (!KMSDRM_gbm_device_is_format_supported(viddata->gbm_dev,
+    ఒకవేళ (!KMSDRM_gbm_device_is_format_supported(viddata->gbm_dev,
                                                GBM_FORMAT_ARGB8888,
                                                GBM_BO_USE_CURSOR | GBM_BO_USE_WRITE)) {
-        return SDL_SetError("Unsupported pixel format for cursor");
+        తిరిగి SDL_సమితి_Error("Unsupported pixel format for cursor");
     }
 
-    if (KMSDRM_drmGetCap(viddata->drm_fd,
-                         DRM_CAP_CURSOR_WIDTH, &dispdata->cursor_w) ||
-        KMSDRM_drmGetCap(viddata->drm_fd, DRM_CAP_CURSOR_HEIGHT,
+    ఒకవేళ (KMSDRM_drmGetCap(viddata->drm_fd,
+                         DRM_CAP_CURSOR_వెడల్పు, &dispdata->cursor_w) ||
+        KMSDRM_drmGetCap(viddata->drm_fd, DRM_CAP_CURSOR_ఎత్తు,
                          &dispdata->cursor_h)) {
-        return SDL_SetError("Could not get the recommended GBM cursor size");
+        తిరిగి SDL_సమితి_Error("Could not get the recommended GBM cursor size");
     }
 
-    if (dispdata->cursor_w == 0 || dispdata->cursor_h == 0) {
-        return SDL_SetError("Could not get an usable GBM cursor size");
+    ఒకవేళ (dispdata->cursor_w == 0 || dispdata->cursor_h == 0) {
+        తిరిగి SDL_సమితి_Error("Could not get an usable GBM cursor size");
     }
 
     dispdata->cursor_bo = KMSDRM_gbm_bo_create(viddata->gbm_dev,
                                                dispdata->cursor_w, dispdata->cursor_h,
-                                               GBM_FORMAT_ARGB8888, GBM_BO_USE_CURSOR | GBM_BO_USE_WRITE | GBM_BO_USE_LINEAR);
+                                               GBM_FORMAT_ARGB8888, GBM_BO_USE_CURSOR | GBM_BO_USE_WRITE | GBM_BO_USE_రేఖీయ);
 
-    if (!dispdata->cursor_bo) {
-        return SDL_SetError("Could not create GBM cursor BO");
+    ఒకవేళ (!dispdata->cursor_bo) {
+        తిరిగి SDL_సమితి_Error("Could not create GBM cursor BO");
     }
 
     dispdata->cursor_bo_drm_fd = viddata->drm_fd;
-    return true;
+    తిరిగి true;
 }
 
 // Remove a cursor buffer from a display's DRM cursor BO.
-static bool KMSDRM_RemoveCursorFromBO(SDL_VideoDisplay *display)
+స్థిర bool KMSDRM_RemoveCursorFromBO(SDL_VideoDisplay *display)
 {
-    bool result = true;
+    bool ఫలితం = true;
 
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_దత్తాంశం *dispdata = display->అంతర్గత;
     SDL_VideoDevice *video_device = SDL_GetVideoDevice();
-    SDL_VideoData *viddata = video_device->internal;
+    SDL_Video_దత్తాంశం *viddata = video_device->అంతర్గత;
 
-    if (USE_ATOMIC_CURSOR && viddata->is_atomic) {
-        if (dispdata->cursor_plane) {
+    ఒకవేళ (USE_ATOMIC_CURSOR && viddata->is_atomic) {
+        ఒకవేళ (dispdata->cursor_plane) {
             KMSDRM_PlaneInfo info;
             SDL_zero(info);
             info.plane = dispdata->cursor_plane;
             // The rest of the members are zeroed, so this takes away the cursor from the cursor plane.
-            drm_atomic_set_plane_props(dispdata, &info);
-            if (drm_atomic_commit(video_device, dispdata, true, false)) {
-                result = SDL_SetError("Failed atomic commit in KMSDRM_ShowCursor.");
+            drm_atomic_సమితి_plane_props(dispdata, &info);
+            ఒకవేళ (drm_atomic_commit(video_device, dispdata, true, false)) {
+                ఫలితం = SDL_సమితి_Error("Failed atomic commit in KMSDRM_ShowCursor.");
             }
         }
-    } else {
-        const int rc = KMSDRM_drmModeSetCursor(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, 0, 0, 0);
-        if (rc < 0) {
-            result = SDL_SetError("drmModeSetCursor() failed: %s", strerror(-rc));
+    } లేకపోతే {
+        స్థిరరాశి పూర్ణాంకం rc = KMSDRM_drm_బహుళకం_సమితి_Cursor(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, 0, 0, 0);
+        ఒకవేళ (rc < 0) {
+            ఫలితం = SDL_సమితి_Error("drmModeSetCursor() failed: %s", strerror(-rc));
         }
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
 // Dump a cursor buffer to a display's DRM cursor BO.
-static bool KMSDRM_DumpCursorToBO(SDL_VideoDisplay *display, SDL_Mouse *mouse, SDL_Cursor *cursor)
+స్థిర bool KMSDRM_Dump_Cursor_గమ్యం_BO(SDL_VideoDisplay *display, SDL_Mouse *mouse, SDL_Cursor *cursor)
 {
-    SDL_DisplayData *dispdata = display->internal;
-    SDL_CursorData *curdata = cursor->internal;
+    SDL_Display_దత్తాంశం *dispdata = display->అంతర్గత;
+    SDL_Cursor_దత్తాంశం *curdata = cursor->అంతర్గత;
     SDL_VideoDevice *video_device = SDL_GetVideoDevice();
-    SDL_VideoData *viddata = video_device->internal;
+    SDL_Video_దత్తాంశం *viddata = video_device->అంతర్గత;
 
     uint32_t bo_handle;
     size_t bo_stride;
     size_t bufsize;
-    uint8_t *ready_buffer = NULL;
-    uint8_t *src_row;
+    uint8_t *ready_బఫరు = ఖాళీ;
+    uint8_t *src_అడ్డువరుస;
 
-    int i, rc;
-    bool result = true;
+    పూర్ణాంకం i, rc;
+    bool ఫలితం = true;
 
-    if (!curdata || !dispdata->cursor_bo) {
-        return SDL_SetError("Cursor or display not initialized properly.");
+    ఒకవేళ (!curdata || !dispdata->cursor_bo) {
+        తిరిగి SDL_సమితి_Error("Cursor or display not initialized properly.");
     }
 
     /* Prepare a buffer we can dump to our GBM BO (different
@@ -191,33 +191,33 @@ static bool KMSDRM_DumpCursorToBO(SDL_VideoDisplay *display, SDL_Mouse *mouse, S
     bo_stride = KMSDRM_gbm_bo_get_stride(dispdata->cursor_bo);
     bufsize = bo_stride * dispdata->cursor_h;
 
-    ready_buffer = (uint8_t *)SDL_calloc(1, bufsize);
+    ready_బఫరు = (uint8_t *)SDL_calloc(1, bufsize);
 
-    if (!ready_buffer) {
-        result = false;
-        goto cleanup;
+    ఒకవేళ (!ready_బఫరు) {
+        ఫలితం = false;
+        వెళ్ళు cleanup;
     }
 
     // Copy from the cursor buffer to a buffer that we can dump to the GBM BO.
-    for (i = 0; i < curdata->h; i++) {
-        src_row = &((uint8_t *)curdata->buffer)[i * curdata->w * 4];
-        SDL_memcpy(ready_buffer + (i * bo_stride), src_row, (size_t)4 * curdata->w);
+    కొరకు (i = 0; i < curdata->h; i++) {
+        src_అడ్డువరుస = &((uint8_t *)curdata->బఫరు_2)[i * curdata->w * 4];
+        SDL_memcpy(ready_బఫరు + (i * bo_stride), src_అడ్డువరుస, (size_t)4 * curdata->w);
     }
 
     // Dump the cursor buffer to our GBM BO.
-    if (KMSDRM_gbm_bo_write(dispdata->cursor_bo, ready_buffer, bufsize)) {
-        result = SDL_SetError("Could not write to GBM cursor BO");
-        goto cleanup;
+    ఒకవేళ (KMSDRM_gbm_bo_write(dispdata->cursor_bo, ready_బఫరు, bufsize)) {
+        ఫలితం = SDL_సమితి_Error("Could not write to GBM cursor BO");
+        వెళ్ళు cleanup;
     }
 
-    if (USE_ATOMIC_CURSOR && viddata->is_atomic) {
+    ఒకవేళ (USE_ATOMIC_CURSOR && viddata->is_atomic) {
         // Get the fb_id for the GBM BO so we can show it on the cursor plane.
         KMSDRM_FBInfo *fb = KMSDRM_FBFromBO(video_device, dispdata->cursor_bo);
         KMSDRM_PlaneInfo info;
 
-        if (!fb) {
-            result = SDL_SetError("Failed to get cursor FB from BO");
-            goto cleanup;
+        ఒకవేళ (!fb) {
+            ఫలితం = SDL_సమితి_Error("Failed to get cursor FB from BO");
+            వెళ్ళు cleanup;
         }
 
         // Show the GBM BO buffer on the cursor plane.
@@ -231,45 +231,45 @@ static bool KMSDRM_DumpCursorToBO(SDL_VideoDisplay *display, SDL_Mouse *mouse, S
         info.crtc_y = ((int32_t) SDL_roundf(mouse->y)) - curdata->hot_y;
         info.crtc_w = curdata->w;
         info.crtc_h = curdata->h;
-        drm_atomic_set_plane_props(dispdata, &info);
-        if (drm_atomic_commit(video_device, dispdata, true, false)) {
-            result = SDL_SetError("Failed atomic commit in KMSDRM_ShowCursor.");
-            goto cleanup;
+        drm_atomic_సమితి_plane_props(dispdata, &info);
+        ఒకవేళ (drm_atomic_commit(video_device, dispdata, true, false)) {
+            ఫలితం = SDL_సమితి_Error("Failed atomic commit in KMSDRM_ShowCursor.");
+            వెళ్ళు cleanup;
         }
-    } else {
+    } లేకపోతే {
         // Put the GBM BO buffer on screen using the DRM interface.
         bo_handle = KMSDRM_gbm_bo_get_handle(dispdata->cursor_bo).u32;
-        if (curdata->hot_x == 0 && curdata->hot_y == 0) {
-            rc = KMSDRM_drmModeSetCursor(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, bo_handle, dispdata->cursor_w, dispdata->cursor_h);
-        } else {
-            rc = KMSDRM_drmModeSetCursor2(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, bo_handle, dispdata->cursor_w, dispdata->cursor_h, curdata->hot_x, curdata->hot_y);
+        ఒకవేళ (curdata->hot_x == 0 && curdata->hot_y == 0) {
+            rc = KMSDRM_drm_బహుళకం_సమితి_Cursor(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, bo_handle, dispdata->cursor_w, dispdata->cursor_h);
+        } లేకపోతే {
+            rc = KMSDRM_drm_బహుళకం_సమితి_Cursor2(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, bo_handle, dispdata->cursor_w, dispdata->cursor_h, curdata->hot_x, curdata->hot_y);
         }
-        if (rc < 0) {
-            result = SDL_SetError("Failed to set DRM cursor: %s", strerror(-rc));
-            goto cleanup;
+        ఒకవేళ (rc < 0) {
+            ఫలితం = SDL_సమితి_Error("Failed to set DRM cursor: %s", strerror(-rc));
+            వెళ్ళు cleanup;
         }
     }
 
 cleanup:
-    SDL_free(ready_buffer);
-    return result;
+    SDL_free(ready_బఫరు);
+    తిరిగి ఫలితం;
 }
 
 // This is only for freeing the SDL_cursor.
-static void KMSDRM_FreeCursor(SDL_Cursor *cursor)
+స్థిర శూన్య KMSDRM_FreeCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *curdata;
+    SDL_Cursor_దత్తాంశం *curdata;
 
     // Even if the cursor is not ours, free it.
-    if (cursor) {
-        curdata = cursor->internal;
+    ఒకవేళ (cursor) {
+        curdata = cursor->అంతర్గత;
         // Free cursor buffer
-        if (curdata->buffer) {
-            SDL_free(curdata->buffer);
-            curdata->buffer = NULL;
+        ఒకవేళ (curdata->బఫరు_2) {
+            SDL_free(curdata->బఫరు_2);
+            curdata->బఫరు_2 = ఖాళీ;
         }
         // Free cursor itself
-        SDL_free(cursor->internal);
+        SDL_free(cursor->అంతర్గత);
         SDL_free(cursor);
     }
 }
@@ -277,21 +277,21 @@ static void KMSDRM_FreeCursor(SDL_Cursor *cursor)
 /* This simply gets the cursor soft-buffer ready.
    We don't copy it to a GBO BO until ShowCursor() because the cusor GBM BO (living
    in dispata) is destroyed and recreated when we recreate windows, etc. */
-static SDL_Cursor *KMSDRM_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+స్థిర SDL_Cursor *KMSDRM_CreateCursor(SDL_Surface *surface, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y)
 {
-    SDL_CursorData *curdata;
-    SDL_Cursor *cursor, *result;
+    SDL_Cursor_దత్తాంశం *curdata;
+    SDL_Cursor *cursor, *ఫలితం;
 
-    curdata = NULL;
-    result = NULL;
+    curdata = ఖాళీ;
+    ఫలితం = ఖాళీ;
 
-    cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (!cursor) {
-        goto cleanup;
+    cursor = (SDL_Cursor *)SDL_calloc(1, పరిమాణం(*cursor));
+    ఒకవేళ (!cursor) {
+        వెళ్ళు cleanup;
     }
-    curdata = (SDL_CursorData *)SDL_calloc(1, sizeof(*curdata));
-    if (!curdata) {
-        goto cleanup;
+    curdata = (SDL_Cursor_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*curdata));
+    ఒకవేళ (!curdata) {
+        వెళ్ళు cleanup;
     }
 
     // hox_x and hot_y are the coordinates of the "tip of the cursor" from it's base.
@@ -299,16 +299,16 @@ static SDL_Cursor *KMSDRM_CreateCursor(SDL_Surface *surface, int hot_x, int hot_
     curdata->hot_y = hot_y;
     curdata->w = surface->w;
     curdata->h = surface->h;
-    curdata->buffer = NULL;
+    curdata->బఫరు_2 = ఖాళీ;
 
     /* Configure the cursor buffer info.
        This buffer has the original size of the cursor surface we are given. */
-    curdata->buffer_pitch = surface->w;
-    curdata->buffer_size = (size_t)surface->w * surface->h * 4;
-    curdata->buffer = (uint32_t *)SDL_malloc(curdata->buffer_size);
+    curdata->బఫరు_pitch = surface->w;
+    curdata->బఫరు_కొలత = (size_t)surface->w * surface->h * 4;
+    curdata->బఫరు_2 = (uint32_t *)SDL_malloc(curdata->బఫరు_కొలత);
 
-    if (!curdata->buffer) {
-        goto cleanup;
+    ఒకవేళ (!curdata->బఫరు_2) {
+        వెళ్ళు cleanup;
     }
 
     /* All code below assumes ARGB8888 format for the cursor surface,
@@ -317,126 +317,126 @@ static SDL_Cursor *KMSDRM_CreateCursor(SDL_Surface *surface, int hot_x, int hot_
        straight-alpha pixels, so we always have to convert. */
     SDL_PremultiplyAlpha(surface->w, surface->h,
                          surface->format, surface->pixels, surface->pitch,
-                         SDL_PIXELFORMAT_ARGB8888, curdata->buffer, surface->w * 4, true);
+                         SDL_PIXELFORMAT_ARGB8888, curdata->బఫరు_2, surface->w * 4, true);
 
-    cursor->internal = curdata;
+    cursor->అంతర్గత = curdata;
 
-    result = cursor;
+    ఫలితం = cursor;
 
 cleanup:
-    if (!result) {
-        if (curdata) {
-            SDL_free(curdata->buffer);
+    ఒకవేళ (!ఫలితం) {
+        ఒకవేళ (curdata) {
+            SDL_free(curdata->బఫరు_2);
             SDL_free(curdata);
         }
         SDL_free(cursor);
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
 // Show the specified cursor, or hide if cursor is NULL or has no focus.
-static bool KMSDRM_ShowCursor(SDL_Cursor *cursor)
+స్థిర bool KMSDRM_ShowCursor(SDL_Cursor *cursor)
 {
     SDL_VideoDisplay *display;
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    int i;
-    bool result = true;
+    పూర్ణాంకం i;
+    bool ఫలితం = true;
 
     // Get the mouse focused window, if any.
-    window = mouse->focus;
+    కిటికీ = mouse->focus;
 
-    if (!window || !cursor) {
+    ఒకవేళ (!కిటికీ || !cursor) {
         /* If no window is focused by mouse or cursor is NULL,
            since we have no window (no mouse->focus) and hence
            we have no display, we simply hide mouse on all displays.
            This happens on video quit, where we get here after
            the mouse focus has been unset, yet SDL wants to
            restore the system default cursor (makes no sense here). */
-        SDL_DisplayID *displays = SDL_GetDisplays(NULL);
-        if (displays) {
+        SDL_DisplayID *displays = SDL_GetDisplays(ఖాళీ);
+        ఒకవేళ (displays) {
             // Iterate on the displays, hiding the cursor.
-            for (i = 0; i < displays[i]; i++) {
+            కొరకు (i = 0; i < displays[i]; i++) {
                 display = SDL_GetVideoDisplay(displays[i]);
-                result = KMSDRM_RemoveCursorFromBO(display);
+                ఫలితం = KMSDRM_RemoveCursorFromBO(display);
             }
             SDL_free(displays);
         }
-    } else {
-        display = SDL_GetVideoDisplayForWindow(window);
-        if (display) {
-            if (cursor) {
+    } లేకపోతే {
+        display = SDL_Get_Video_Display_For_కిటికీ(కిటికీ);
+        ఒకవేళ (display) {
+            ఒకవేళ (cursor) {
                 /* Dump the cursor to the display DRM cursor BO so it becomes visible
                    on that display. */
-                result = KMSDRM_DumpCursorToBO(display, mouse, cursor);
-            } else {
+                ఫలితం = KMSDRM_Dump_Cursor_గమ్యం_BO(display, mouse, cursor);
+            } లేకపోతే {
                 // Hide the cursor on that display.
-                result = KMSDRM_RemoveCursorFromBO(display);
+                ఫలితం = KMSDRM_RemoveCursorFromBO(display);
             }
         }
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-static void drm_atomic_movecursor(SDL_DisplayData *dispdata, const SDL_CursorData *curdata, uint16_t x, uint16_t y)
+స్థిర శూన్య drm_atomic_movecursor(SDL_Display_దత్తాంశం *dispdata, స్థిరరాశి SDL_Cursor_దత్తాంశం *curdata, uint16_t x, uint16_t y)
 {
-    if (dispdata->cursor_plane) {  // We can't move a non-existing cursor, but that's ok.
+    ఒకవేళ (dispdata->cursor_plane) {  // We can't move a non-existing cursor, but that's ok.
         // Do we have a set of changes already in the making? If not, allocate a new one.
-        if (!dispdata->atomic_req) {
-            dispdata->atomic_req = KMSDRM_drmModeAtomicAlloc();
+        ఒకవేళ (!dispdata->atomic_req) {
+            dispdata->atomic_req = KMSDRM_drm_బహుళకం_Atomic_Alloc();
         }
-        add_plane_property(dispdata->atomic_req, dispdata->cursor_plane, "CRTC_X", x - curdata->hot_x);
-        add_plane_property(dispdata->atomic_req, dispdata->cursor_plane, "CRTC_Y", y - curdata->hot_y);
+        కూడు_plane_property(dispdata->atomic_req, dispdata->cursor_plane, "CRTC_X", x - curdata->hot_x);
+        కూడు_plane_property(dispdata->atomic_req, dispdata->cursor_plane, "CRTC_Y", y - curdata->hot_y);
     }
 }
 
-static bool KMSDRM_WarpMouseGlobal(float x, float y)
+స్థిర bool KMSDRM_WarpMouseGlobal(దశాంశం x, దశాంశం y)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (mouse && mouse->cur_cursor && mouse->focus) {
-        SDL_Window *window = mouse->focus;
-        SDL_DisplayData *dispdata = SDL_GetDisplayDriverDataForWindow(window);
+    ఒకవేళ (mouse && mouse->cur_cursor && mouse->focus) {
+        SDL_కిటికీ *కిటికీ = mouse->focus;
+        SDL_Display_దత్తాంశం *dispdata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
 
         // Update internal mouse position.
         SDL_SendMouseMotion(0, mouse->focus, SDL_GLOBAL_MOUSE_ID, false, x, y);
 
         // And now update the cursor graphic position on screen.
-        if (dispdata->cursor_bo) {
+        ఒకవేళ (dispdata->cursor_bo) {
             SDL_VideoDevice *dev = SDL_GetVideoDevice();
-            SDL_VideoData *viddata = dev->internal;
-            if (USE_ATOMIC_CURSOR && viddata->is_atomic) {
-                const SDL_CursorData *curdata = (const SDL_CursorData *) mouse->cur_cursor->internal;
-                drm_atomic_movecursor(dispdata, curdata, (uint16_t) (int) x, (uint16_t) (int) y);
-            } else {
-                const int rc = KMSDRM_drmModeMoveCursor(dispdata->cursor_bo_drm_fd, dispdata->crtc.crtc->crtc_id, (int)x, (int)y);
-                if (rc < 0) {
-                    return SDL_SetError("drmModeMoveCursor() failed: %s", strerror(-rc));
+            SDL_Video_దత్తాంశం *viddata = dev->అంతర్గత;
+            ఒకవేళ (USE_ATOMIC_CURSOR && viddata->is_atomic) {
+                స్థిరరాశి SDL_Cursor_దత్తాంశం *curdata = (స్థిరరాశి SDL_Cursor_దత్తాంశం *) mouse->cur_cursor->అంతర్గత;
+                drm_atomic_movecursor(dispdata, curdata, (uint16_t) (పూర్ణాంకం) x, (uint16_t) (పూర్ణాంకం) y);
+            } లేకపోతే {
+                స్థిరరాశి పూర్ణాంకం rc = KMSDRM_drm_బహుళకం_Move_Cursor(dispdata->cursor_bo_drm_fd, dispdata->crtc.crtc->crtc_id, (పూర్ణాంకం)x, (పూర్ణాంకం)y);
+                ఒకవేళ (rc < 0) {
+                    తిరిగి SDL_సమితి_Error("drmModeMoveCursor() failed: %s", strerror(-rc));
                 }
             }
-        } else {
-            return SDL_SetError("Cursor not initialized properly.");
+        } లేకపోతే {
+            తిరిగి SDL_సమితి_Error("Cursor not initialized properly.");
         }
-    } else {
-        return SDL_SetError("No mouse or current cursor.");
+    } లేకపోతే {
+        తిరిగి SDL_సమితి_Error("No mouse or current cursor.");
     }
 
-    return true;
+    తిరిగి true;
 }
 
-static bool KMSDRM_WarpMouse(SDL_Window *window, float x, float y)
+స్థిర bool KMSDRM_WarpMouse(SDL_కిటికీ *కిటికీ, దశాంశం x, దశాంశం y)
 {
     // Only one global/fullscreen window is supported
-    return KMSDRM_WarpMouseGlobal(x, y);
+    తిరిగి KMSDRM_WarpMouseGlobal(x, y);
 }
 
-void KMSDRM_InitMouse(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
+శూన్య KMSDRM_InitMouse(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
-    SDL_DisplayData *dispdata = display->internal;
+    SDL_Display_దత్తాంశం *dispdata = display->అంతర్గత;
 
     mouse->CreateCursor = KMSDRM_CreateCursor;
     mouse->ShowCursor = KMSDRM_ShowCursor;
@@ -447,51 +447,51 @@ void KMSDRM_InitMouse(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 
     /* Only create the default cursor for this display if we haven't done so before,
        we don't want several cursors to be created for the same display. */
-    if (!dispdata->default_cursor_init) {
-        SDL_SetDefaultCursor(KMSDRM_CreateDefaultCursor());
+    ఒకవేళ (!dispdata->default_cursor_init) {
+        SDL_సమితి_Default_Cursor(KMSDRM_CreateDefaultCursor());
         dispdata->default_cursor_init = true;
     }
 }
 
-void KMSDRM_QuitMouse(SDL_VideoDevice *_this)
+శూన్య KMSDRM_QuitMouse(SDL_VideoDevice *_this)
 {
     // TODO: ?
 }
 
 // This is called when a mouse motion event occurs
-static bool KMSDRM_MoveCursor(SDL_Cursor *cursor)
+స్థిర bool KMSDRM_MoveCursor(SDL_Cursor *cursor)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
     /* We must NOT call SDL_SendMouseMotion() here or we will enter recursivity!
        That's why we move the cursor graphic ONLY. */
-    if (mouse && mouse->cur_cursor && mouse->focus) {
-        SDL_Window *window = mouse->focus;
-        SDL_DisplayData *dispdata = SDL_GetDisplayDriverDataForWindow(window);
+    ఒకవేళ (mouse && mouse->cur_cursor && mouse->focus) {
+        SDL_కిటికీ *కిటికీ = mouse->focus;
+        SDL_Display_దత్తాంశం *dispdata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
         SDL_VideoDevice *dev = SDL_GetVideoDevice();
-        SDL_VideoData *viddata = dev->internal;
+        SDL_Video_దత్తాంశం *viddata = dev->అంతర్గత;
 
-        if (!dispdata->cursor_bo) {
-            return SDL_SetError("Cursor not initialized properly.");
+        ఒకవేళ (!dispdata->cursor_bo) {
+            తిరిగి SDL_సమితి_Error("Cursor not initialized properly.");
         }
 
-        if (USE_ATOMIC_CURSOR && viddata->is_atomic) {
+        ఒకవేళ (USE_ATOMIC_CURSOR && viddata->is_atomic) {
             /* !!! FIXME: Some programs expect cursor movement even while they don't do SwapWindow() calls,
                and since we ride on the atomic_commit() in SwapWindow() for cursor movement,
                cursor won't move in these situations. We could do an atomic_commit() here
                for each cursor movement request, but it cripples the movement to 30FPS,
                so a future solution is needed. SDLPoP "QUIT?" menu is an example of this
                situation. */
-            const SDL_CursorData *curdata = (const SDL_CursorData *) mouse->cur_cursor->internal;
-            drm_atomic_movecursor(dispdata, curdata, (uint16_t) (int) mouse->x, (uint16_t) (int) mouse->y);
-        } else {
-            const int rc = KMSDRM_drmModeMoveCursor(dispdata->cursor_bo_drm_fd, dispdata->crtc.crtc->crtc_id, (int)mouse->x, (int)mouse->y);
-            if (rc < 0) {
-                return SDL_SetError("drmModeMoveCursor() failed: %s", strerror(-rc));
+            స్థిరరాశి SDL_Cursor_దత్తాంశం *curdata = (స్థిరరాశి SDL_Cursor_దత్తాంశం *) mouse->cur_cursor->అంతర్గత;
+            drm_atomic_movecursor(dispdata, curdata, (uint16_t) (పూర్ణాంకం) mouse->x, (uint16_t) (పూర్ణాంకం) mouse->y);
+        } లేకపోతే {
+            స్థిరరాశి పూర్ణాంకం rc = KMSDRM_drm_బహుళకం_Move_Cursor(dispdata->cursor_bo_drm_fd, dispdata->crtc.crtc->crtc_id, (పూర్ణాంకం)mouse->x, (పూర్ణాంకం)mouse->y);
+            ఒకవేళ (rc < 0) {
+                తిరిగి SDL_సమితి_Error("drmModeMoveCursor() failed: %s", strerror(-rc));
             }
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-#endif // SDL_VIDEO_DRIVER_KMSDRM
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_KMSDRM

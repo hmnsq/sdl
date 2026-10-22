@@ -19,55 +19,55 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_waylandwindow_h_
-#define SDL_waylandwindow_h_
+#నిర్వచితం_కాకపోతే SDL_waylandwindow_h_
+#నిర్వచించు SDL_waylandwindow_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_touch_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandshmbuffer.h"
+#అన్తర్భావ "SDL_waylandvideo.h"
+#అన్తర్భావ "SDL_waylandshmbuffer.h"
 
-struct SDL_WindowData
+నిర్మాణం SDL_కిటికీ_దత్తాంశం
 {
-    SDL_Window *sdlwindow;
-    SDL_VideoData *waylandData;
-    struct wl_surface *surface;
-    struct wl_callback *gles_swap_frame_callback;
-    struct wl_event_queue *gles_swap_frame_event_queue;
-    struct wl_surface *gles_swap_frame_surface_wrapper;
-    struct wl_callback *surface_frame_callback;
+    SDL_కిటికీ *sdlwindow;
+    SDL_Video_దత్తాంశం *wayland_దత్తాంశం;
+    నిర్మాణం wl_surface *surface;
+    నిర్మాణం wl_callback *gles_మార్పిడి_చట్రం_callback;
+    నిర్మాణం wl_event_వరుస *gles_మార్పిడి_చట్రం_event_వరుస;
+    నిర్మాణం wl_surface *gles_మార్పిడి_చట్రం_surface_wrapper;
+    నిర్మాణం wl_callback *surface_చట్రం_callback;
 
-    union
+    సంఘం
     {
-#ifdef HAVE_LIBDECOR_H
-        struct
+#నిర్వచితమైతే HAVE_LIBDECOR_H
+        నిర్మాణం
         {
-            struct libdecor_frame *frame;
+            నిర్మాణం libdecor_చట్రం *చట్రం;
         } libdecor;
-#endif
-        struct
+#అయితే_ముగింపు
+        నిర్మాణం
         {
-            struct xdg_surface *surface;
-            union
+            నిర్మాణం xdg_surface *surface;
+            సంఘం
             {
-                struct
+                నిర్మాణం
                 {
-                    struct xdg_toplevel *xdg_toplevel;
+                    నిర్మాణం xdg_toplevel *xdg_toplevel;
                 } toplevel;
-                struct
+                నిర్మాణం
                 {
-                    struct xdg_popup *xdg_popup;
-                    struct xdg_positioner *xdg_positioner;
+                    నిర్మాణం xdg_popup *xdg_popup;
+                    నిర్మాణం xdg_positioner *xdg_positioner;
                 } popup;
             };
 
             Uint32 serial;
         } xdg;
     } shell_surface;
-    enum
+    గణన
     {
         WAYLAND_SHELL_SURFACE_TYPE_UNKNOWN = 0,
         WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL,
@@ -75,224 +75,224 @@ struct SDL_WindowData
         WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR,
         WAYLAND_SHELL_SURFACE_TYPE_CUSTOM
     } shell_surface_type;
-    enum
+    గణన
     {
-        WAYLAND_SHELL_SURFACE_STATUS_HIDDEN = 0,
-        WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE,
-        WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME,
-        WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING,
-        WAYLAND_SHELL_SURFACE_STATUS_SHOWN
-    } shell_surface_status;
-    enum
+        WAYLAND_SHELL_SURFACE_స్థితి_HIDDEN = 0,
+        WAYLAND_SHELL_SURFACE_స్థితి_నిరీక్షణ_FOR_CONFIGURE,
+        WAYLAND_SHELL_SURFACE_స్థితి_నిరీక్షణ_FOR_చట్రం,
+        WAYLAND_SHELL_SURFACE_స్థితి_SHOW_PENDING,
+        WAYLAND_SHELL_SURFACE_స్థితి_SHOWN
+    } shell_surface_స్థితి;
+    గణన
     {
-        WAYLAND_WM_CAPS_WINDOW_MENU = 0x01,
+        WAYLAND_WM_CAPS_కిటికీ_MENU = 0x01,
         WAYLAND_WM_CAPS_MAXIMIZE = 0x02,
         WAYLAND_WM_CAPS_FULLSCREEN = 0x04,
         WAYLAND_WM_CAPS_MINIMIZE = 0x08,
 
-        WAYLAND_WM_CAPS_ALL = WAYLAND_WM_CAPS_WINDOW_MENU |
+        WAYLAND_WM_CAPS_ALL = WAYLAND_WM_CAPS_కిటికీ_MENU |
                               WAYLAND_WM_CAPS_MAXIMIZE |
                               WAYLAND_WM_CAPS_FULLSCREEN |
                               WAYLAND_WM_CAPS_MINIMIZE
     } wm_caps;
-    enum
+    గణన
     {
-        WAYLAND_TOPLEVEL_CONSTRAINED_LEFT = 0x01,
-        WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT = 0x02,
-        WAYLAND_TOPLEVEL_CONSTRAINED_TOP = 0x04,
+        WAYLAND_TOPLEVEL_CONSTRAINED_ఎడమ = 0x01,
+        WAYLAND_TOPLEVEL_CONSTRAINED_కుడి = 0x02,
+        WAYLAND_TOPLEVEL_CONSTRAINED_శిఖరం = 0x04,
         WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM = 0x08
     } toplevel_constraints;
 
-    enum
+    గణన
     {
-        WAYLAND_RESIZE_EDGE_LR = 0x01,
-        WAYLAND_RESIZE_EDGE_TB = 0x02,
-        WAYLAND_RESIZE_EDGE_CORNER = WAYLAND_RESIZE_EDGE_LR | WAYLAND_RESIZE_EDGE_TB,
-    } resize_edge;
+        WAYLAND_RESIZE_అంచు_LR = 0x01,
+        WAYLAND_RESIZE_అంచు_TB = 0x02,
+        WAYLAND_RESIZE_అంచు_మూల = WAYLAND_RESIZE_అంచు_LR | WAYLAND_RESIZE_అంచు_TB,
+    } resize_అంచు;
 
-    struct wl_egl_window *egl_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    నిర్మాణం wl_egl_కిటికీ *egl_కిటికీ;
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
-    struct zxdg_toplevel_decoration_v1 *server_decoration;
-    struct zwp_idle_inhibitor_v1 *idle_inhibitor;
-    struct xdg_activation_token_v1 *activation_token;
-    struct wp_viewport *viewport;
-    struct wp_fractional_scale_v1 *fractional_scale;
-    struct zxdg_exported_v2 *exported;
-    struct xdg_dialog_v1 *xdg_dialog_v1;
-    struct wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
-    struct xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
-    struct frog_color_managed_surface *frog_color_managed_surface;
-    struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
-    struct xdg_toplevel_session_v1 *xdg_toplevel_session;
+#అయితే_ముగింపు
+    నిర్మాణం zxdg_toplevel_decoration_v1 *server_decoration;
+    నిర్మాణం zwp_idle_inhibitor_v1 *idle_inhibitor;
+    నిర్మాణం xdg_activation_token_v1 *activation_token;
+    నిర్మాణం wp_viewport *viewport;
+    నిర్మాణం wp_fractional_scale_v1 *fractional_scale;
+    నిర్మాణం zxdg_exported_v2 *exported;
+    నిర్మాణం xdg_dialog_v1 *xdg_dialog_v1;
+    నిర్మాణం wp_alpha_modifier_surface_v1 *wp_alpha_modifier_surface_v1;
+    నిర్మాణం xdg_toplevel_icon_v1 *xdg_toplevel_icon_v1;
+    నిర్మాణం frog_color_managed_surface *frog_color_managed_surface;
+    నిర్మాణం wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback;
+    నిర్మాణం xdg_toplevel_session_v1 *xdg_toplevel_session;
 
-    struct Wayland_ColorInfoState *color_info_state;
+    నిర్మాణం Wayland_ColorInfoState *color_info_state;
 
-    SDL_AtomicInt swap_interval_ready;
+    SDL_AtomicInt మార్పిడి_interval_ready;
 
-    SDL_DisplayData **outputs;
-    int num_outputs;
+    SDL_Display_దత్తాంశం **outputs;
+    పూర్ణాంకం అంకె_outputs;
 
-    char *app_id;
-    char *session_id;
-    double scale_factor;
+    అక్షరం *app_id;
+    అక్షరం *session_id;
+    ద్విగుణ scale_గుణకం_2;
 
-    struct wl_buffer **icon_buffers;
-    int icon_buffer_count;
+    నిర్మాణం wl_బఫరు **icon_buffers;
+    పూర్ణాంకం icon_బఫరు_లెక్క;
 
     // Keyboard, pointer, and touch focus refcount.
-    int keyboard_focus_count;
-    int pointer_focus_count;
-    int active_touch_count;
+    పూర్ణాంకం keyboard_focus_లెక్క;
+    పూర్ణాంకం సూచిక_focus_లెక్క;
+    పూర్ణాంకం చురుకైన_touch_లెక్క;
 
-    struct
+    నిర్మాణం
     {
-        double x;
-        double y;
-    } pointer_scale;
+        ద్విగుణ x;
+        ద్విగుణ y;
+    } సూచిక_scale;
 
     // The in-flight window size request.
-    struct
+    నిర్మాణం
     {
         // The requested logical window size.
-        int logical_width;
-        int logical_height;
+        పూర్ణాంకం logical_వెడల్పు;
+        పూర్ణాంకం logical_ఎత్తు;
 
         // The size of the window in pixels, when using screen space scaling.
-        int pixel_width;
-        int pixel_height;
+        పూర్ణాంకం pixel_వెడల్పు;
+        పూర్ణాంకం pixel_ఎత్తు;
     } requested;
 
     // The current size of the window and drawable backing store.
-    struct
+    నిర్మాణం
     {
         // The size of the underlying window.
-        int logical_width;
-        int logical_height;
+        పూర్ణాంకం logical_వెడల్పు;
+        పూర్ణాంకం logical_ఎత్తు;
 
         // The size of the window backbuffer in pixels.
-        int pixel_width;
-        int pixel_height;
+        పూర్ణాంకం pixel_వెడల్పు;
+        పూర్ణాంకం pixel_ఎత్తు;
 
         // The dimensions of the active viewport, in logical units.
-        int viewport_width;
-        int viewport_height;
+        పూర్ణాంకం viewport_వెడల్పు;
+        పూర్ణాంకం viewport_ఎత్తు;
     } current;
 
     // The last compositor requested parameters; used for deduplication of window geometry configuration.
-    struct
+    నిర్మాణం
     {
-        int width;
-        int height;
+        పూర్ణాంకం వెడల్పు;
+        పూర్ణాంకం ఎత్తు;
         bool insets_apply;
-    } last_configure;
+    } చివరి_configure;
 
     // System enforced window size limits.
-    struct
+    నిర్మాణం
     {
         // Minimum allowed logical window size.
-        int min_width;
-        int min_height;
+        పూర్ణాంకం min_వెడల్పు_2;
+        పూర్ణాంకం min_ఎత్తు_2;
     } system_limits;
 
-    struct
+    నిర్మాణం
     {
-        int width;
-        int height;
+        పూర్ణాంకం వెడల్పు;
+        పూర్ణాంకం ఎత్తు;
     } toplevel_bounds;
 
-    struct
+    నిర్మాణం
     {
-        struct wl_surface *surface;
-        struct wl_subsurface *subsurface;
-        struct wl_buffer *buffer;
-        struct wp_viewport *viewport;
+        నిర్మాణం wl_surface *surface;
+        నిర్మాణం wl_subsurface *subsurface;
+        నిర్మాణం wl_బఫరు *బఫరు_2;
+        నిర్మాణం wp_viewport *viewport;
 
-        int offset_x;
-        int offset_y;
+        పూర్ణాంకం స్థానభ్రంశం_x;
+        పూర్ణాంకం స్థానభ్రంశం_y;
 
         bool mapped;
         bool opaque;
-    } mask;
+    } ముసుగు;
 
-    struct
+    నిర్మాణం
     {
-        int hint;
-        int purpose;
-        bool active;
-    } text_input_props;
+        పూర్ణాంకం hint;
+        పూర్ణాంకం purpose;
+        bool చురుకైన;
+    } పాఠ్యం_ఆదానం_props;
 
     SDL_Rect explicit_geometry;
-    SDL_DisplayID last_displayID;
-    int pending_state_deadline_count;
-    Uint64 last_focus_event_time_ns;
-    Uint64 last_resize_event_time_ns;
-    int icc_fd;
-    Uint32 icc_size;
+    SDL_DisplayID చివరి_display_ID;
+    పూర్ణాంకం pending_state_deadline_లెక్క;
+    Uint64 చివరి_focus_event_సమయం_ns;
+    Uint64 చివరి_resize_event_సమయం_ns;
+    పూర్ణాంకం icc_fd;
+    Uint32 icc_కొలత;
     bool floating;
     bool suspended;
     bool resizing;
-    bool active;
+    bool చురుకైన;
     bool pending_config_ack;
     bool pending_state_commit;
-    bool limits_changed;
+    bool limits_మారింది;
     bool is_fullscreen;
     bool fullscreen_exclusive;
-    bool drop_fullscreen_requests;
-    bool showing_window;
+    bool drop_fullscreen_అభ్యర్థనలు;
+    bool showing_కిటికీ;
     bool fullscreen_was_positioned;
     bool show_hide_sync_required;
-    bool scale_to_display;
+    bool scale_గమ్యం_display;
     bool reparenting_required;
-    bool double_buffer;
-    bool accepts_drag_and_drop;
+    bool double_బఫరు;
+    bool స్వీకరించు_drag_and_drop;
     bool enable_insets;
 
-    SDL_HitTestResult hit_test_result;
+    SDL_తగిలింది_Test_ఫలితం తగిలింది_test_ఫలితం;
 
-    struct wl_list external_window_list_link;
+    నిర్మాణం wl_list external_కిటికీ_list_link;
 };
 
-extern void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
-extern void Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-extern SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window);
-extern bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
-extern bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
-extern bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern float Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window);
-extern void *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern void Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept);
+బాహ్య శూన్య Wayland_Show_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_Hide_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_Raise_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య SDL_Fullscreen_ఫలితం Wayland_సమితి_కిటికీ_Fullscreen(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
+బాహ్య శూన్య Wayland_Maximize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_Minimize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Wayland_సమితి_కిటికీ_Mouse_Rect(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Wayland_సమితి_కిటికీ_Mouse_Grab(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool grabbed);
+బాహ్య bool Wayland_సమితి_కిటికీ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool grabbed);
+బాహ్య శూన్య Wayland_Restore_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_సమితి_కిటికీ_Bordered(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool bordered);
+బాహ్య శూన్య Wayland_సమితి_కిటికీ_Resizable(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool resizable);
+బాహ్య bool Wayland_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props);
+బాహ్య bool Wayland_సమితి_కిటికీ_Position(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_సమితి_కిటికీ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_సమితి_కిటికీ_Aspect_నిష్పత్తి(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_సమితి_కిటికీ_Minimum_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_సమితి_కిటికీ_గరిష్ఠ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_Get_కిటికీ_కొలత_లోపల_Pixels(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, పూర్ణాంకం *w, పూర్ణాంకం *h);
+బాహ్య SDL_DisplayID Wayland_Get_Display_For_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Wayland_సమితి_కిటికీ_మాతృ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_కిటికీ *మాతృ_కిటికీ);
+బాహ్య bool Wayland_సమితి_కిటికీ_Modal(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool modal);
+బాహ్య bool Wayland_సమితి_కిటికీ_Opacity(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, దశాంశం opacity);
+బాహ్య శూన్య Wayland_సమితి_కిటికీ_Title(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Wayland_Show_కిటికీ_System_Menu(SDL_కిటికీ *కిటికీ, పూర్ణాంకం x, పూర్ణాంకం y);
+బాహ్య శూన్య Wayland_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this);
+బాహ్య bool Wayland_సమితి_కిటికీ_Icon(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_Surface *icon);
+బాహ్య bool Wayland_సమితి_కిటికీ_Focusable(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool focusable);
+బాహ్య దశాంశం Wayland_Get_కిటికీ_Content_Scale(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య *Wayland_Get_కిటికీ_ICCProfile(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, size_t *కొలత);
+బాహ్య శూన్య Wayland_AcceptDragAndDrop(SDL_కిటికీ *కిటికీ, bool accept);
 
-extern bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags);
+బాహ్య bool Wayland_సమితి_కిటికీ_తగిలింది_Test(SDL_కిటికీ *కిటికీ, bool enabled);
+బాహ్య bool Wayland_Flash_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_FlashOperation operation);
+బాహ్య bool Wayland_Sync_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Wayland_Reconfigure_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_కిటికీ_Flags flags);
 
-extern void Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data);
-extern void Wayland_UpdateWindowPosition(SDL_Window *window);
+బాహ్య శూన్య Wayland_Remove_Output_From_కిటికీ(SDL_కిటికీ_దత్తాంశం *కిటికీ, SDL_Display_దత్తాంశం *display_దత్తాంశం);
+బాహ్య శూన్య Wayland_Update_కిటికీ_Position(SDL_కిటికీ *కిటికీ);
 
-#endif // SDL_waylandwindow_h_
+#అయితే_ముగింపు // SDL_waylandwindow_h_

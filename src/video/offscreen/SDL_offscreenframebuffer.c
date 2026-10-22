@@ -18,62 +18,62 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_offscreenframebuffer_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../SDL_properties_c.h"
+#అన్తర్భావ "SDL_offscreenframebuffer_c.h"
 
-#define OFFSCREEN_SURFACE "SDL.internal.window.surface"
+#నిర్వచించు OFFSCREEN_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_OFFSCREEN_Create_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PixelFormat *format, శూన్య **pixels, పూర్ణాంకం *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    స్థిరరాశి SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
+    పూర్ణాంకం w, h;
 
     // Create a new framebuffer
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    ఒకవేళ (!surface) {
+        తిరిగి false;
     }
 
     // Save the info and return!
-    SDL_SetSurfaceProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, surface);
+    SDL_సమితి_Surface_Property(SDL_Get_కిటికీ_Properties(కిటికీ), OFFSCREEN_SURFACE, surface);
     *format = surface_format;
     *pixels = surface->pixels;
     *pitch = surface->pitch;
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_OFFSCREEN_Update_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rects, పూర్ణాంకం numrects)
 {
-    static int frame_number;
+    స్థిర పూర్ణాంకం చట్రం_సంఖ్య;
     SDL_Surface *surface;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find offscreen surface for window");
+    surface = (SDL_Surface *)SDL_Get_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), OFFSCREEN_SURFACE, ఖాళీ);
+    ఒకవేళ (!surface) {
+        తిరిగి SDL_సమితి_Error("Couldn't find offscreen surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
-                           SDL_GetWindowID(window), ++frame_number);
+    ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_చట్రాలు, false)) {
+        అక్షరం file[128];
+        (శూన్య)SDL_snprintf(file, పరిమాణం(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+                           SDL_Get_కిటికీ_ID(కిటికీ), ++చట్రం_సంఖ్య);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    తిరిగి true;
 }
 
-void SDL_OFFSCREEN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య SDL_OFFSCREEN_Destroy_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_ClearProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE);
+    SDL_ClearProperty(SDL_Get_కిటికీ_Properties(కిటికీ), OFFSCREEN_SURFACE);
 }
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_OFFSCREEN

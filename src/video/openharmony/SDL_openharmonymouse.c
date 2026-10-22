@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "SDL_openharmonymouse.h"
+#అన్తర్భావ "SDL_openharmonymouse.h"
 
-#include "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#అన్తర్భావ "../../core/openharmony/SDL_openharmony.h"
 
-static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
+స్థిర bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
-        cursor = OPENHARMONY_CreateEmptyCursor();
+తిరిగి false;
+#ఒకవేళ 0
+    ఒకవేళ (!cursor) {
+        cursor = OPENHARMONY_Create_ఖాళీలు_Cursor();
     }
-    if (cursor) {
-        SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+    ఒకవేళ (cursor) {
+        SDL_Cursor_దత్తాంశం *దత్తాంశం = cursor->అంతర్గత;
+        ఒకవేళ (దత్తాంశం->custom_cursor) {
+            ఒకవేళ (!OPENHARMONY_JNI_సమితి_Custom_Cursor(దత్తాంశం->custom_cursor)) {
+                తిరిగి SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } లేకపోతే {
+            ఒకవేళ (!OPENHARMONY_JNI_సమితి_System_Cursor(దత్తాంశం->system_cursor)) {
+                తిరిగి SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        తిరిగి true;
+    } లేకపోతే {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        తిరిగి false;
     }
-#endif
+#అయితే_ముగింపు
 }
 
-void OPENHARMONY_InitMouse(void)
+శూన్య OPENHARMONY_InitMouse(శూన్య)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 //!!! FIXME:    mouse->CreateCursor = OPENHARMONY_CreateCursor;
@@ -67,10 +67,10 @@ void OPENHARMONY_InitMouse(void)
 //!!! FIXME:    SDL_SetDefaultCursor(OPENHARMONY_CreateDefaultCursor());
 }
 
-void OPENHARMONY_QuitMouse(void)
+శూన్య OPENHARMONY_QuitMouse(శూన్య)
 {
 //!!! FIXME:    OPENHARMONY_DestroyEmptyCursor();
 }
 
-#endif
+#అయితే_ముగింపు
 

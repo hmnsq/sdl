@@ -21,138 +21,138 @@
  */
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#include "edid.h"
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <stdio.h>
+#అన్తర్భావ "edid.h"
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
+#అన్తర్భావ <math.h>
+#అన్తర్భావ <stdio.h>
 
-#define TRUE 1
-#define FALSE 0
+#నిర్వచించు TRUE 1
+#నిర్వచించు FALSE 0
 
-static int
-get_bit (int in, int bit)
+స్థిర పూర్ణాంకం
+get_బిట్టు (పూర్ణాంకం లోపల_2, పూర్ణాంకం బిట్టు)
 {
-    return (in & (1 << bit)) >> bit;
+    తిరిగి (లోపల_2 & (1 << బిట్టు)) >> బిట్టు;
 }
 
-static int
-get_bits (int in, int begin, int end)
+స్థిర పూర్ణాంకం
+get_బిట్లు (పూర్ణాంకం లోపల_2, పూర్ణాంకం begin, పూర్ణాంకం చివర)
 {
-    int mask = (1 << (end - begin + 1)) - 1;
+    పూర్ణాంకం ముసుగు = (1 << (చివర - begin + 1)) - 1;
     
-    return (in >> begin) & mask;
+    తిరిగి (లోపల_2 >> begin) & ముసుగు;
 }
 
-static int
-decode_header (const uchar *edid)
+స్థిర పూర్ణాంకం
+decode_శీర్షిక (స్థిరరాశి uchar *edid)
 {
-    if (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
-	return TRUE;
-    return FALSE;
+    ఒకవేళ (SDL_memcmp (edid, "\x00\xff\xff\xff\xff\xff\xff\x00", 8) == 0)
+	తిరిగి TRUE;
+    తిరిగి FALSE;
 }
 
-static int
-decode_vendor_and_product_identification (const uchar *edid, MonitorInfo *info)
+స్థిర పూర్ణాంకం
+decode_vendor_and_లబ్ధం_identification (స్థిరరాశి uchar *edid, MonitorInfo *info)
 {
-    int is_model_year;
+    పూర్ణాంకం is_model_year;
     
     /* Manufacturer Code */
-    info->manufacturer_code[0]  = get_bits (edid[0x08], 2, 6);
-    info->manufacturer_code[1]  = get_bits (edid[0x08], 0, 1) << 3;
-    info->manufacturer_code[1] |= get_bits (edid[0x09], 5, 7);
-    info->manufacturer_code[2]  = get_bits (edid[0x09], 0, 4);
-    info->manufacturer_code[3]  = '\0';
+    info->manufacturer_సంకేతం[0]  = get_బిట్లు (edid[0x08], 2, 6);
+    info->manufacturer_సంకేతం[1]  = get_బిట్లు (edid[0x08], 0, 1) << 3;
+    info->manufacturer_సంకేతం[1] |= get_బిట్లు (edid[0x09], 5, 7);
+    info->manufacturer_సంకేతం[2]  = get_బిట్లు (edid[0x09], 0, 4);
+    info->manufacturer_సంకేతం[3]  = '\0';
     
-    info->manufacturer_code[0] += 'A' - 1;
-    info->manufacturer_code[1] += 'A' - 1;
-    info->manufacturer_code[2] += 'A' - 1;
+    info->manufacturer_సంకేతం[0] += 'A' - 1;
+    info->manufacturer_సంకేతం[1] += 'A' - 1;
+    info->manufacturer_సంకేతం[2] += 'A' - 1;
 
     /* Product Code */
-    info->product_code = edid[0x0b] << 8 | edid[0x0a];
+    info->లబ్ధం_సంకేతం = edid[0x0b] << 8 | edid[0x0a];
 
     /* Serial Number */
-    info->serial_number =
+    info->serial_సంఖ్య =
 	edid[0x0c] | edid[0x0d] << 8 | edid[0x0e] << 16 | (Uint32)edid[0x0f] << 24;
 
     /* Week and Year */
     is_model_year = FALSE;
-    switch (edid[0x10])
+    ఎంపిక (edid[0x10])
     {
-    case 0x00:
+    స్థితి 0x00:
 	info->production_week = -1;
-	break;
+	ఆపు;
 
-    case 0xff:
+    స్థితి 0xff:
 	info->production_week = -1;
 	is_model_year = TRUE;
-	break;
+	ఆపు;
 
-    default:
+    అప్రమేయ:
 	info->production_week = edid[0x10];
-	break;
+	ఆపు;
     }
 
-    if (is_model_year)
+    ఒకవేళ (is_model_year)
     {
 	info->production_year = -1;
 	info->model_year = 1990 + edid[0x11];
     }
-    else
+    లేకపోతే
     {
 	info->production_year = 1990 + edid[0x11];
 	info->model_year = -1;
     }
 
-    return TRUE;
+    తిరిగి TRUE;
 }
 
-static int
-decode_edid_version (const uchar *edid, MonitorInfo *info)
+స్థిర పూర్ణాంకం
+decode_edid_సంస్కరణ (స్థిరరాశి uchar *edid, MonitorInfo *info)
 {
-    info->major_version = edid[0x12];
-    info->minor_version = edid[0x13];
+    info->major_సంస్కరణ = edid[0x12];
+    info->minor_సంస్కరణ = edid[0x13];
 
-    return TRUE;
+    తిరిగి TRUE;
 }
 
-static int
-decode_display_parameters (const uchar *edid, MonitorInfo *info)
+స్థిర పూర్ణాంకం
+decode_display_parameters (స్థిరరాశి uchar *edid, MonitorInfo *info)
 {
     /* Digital vs Analog */
-    info->is_digital = get_bit (edid[0x14], 7);
+    info->is_digital = get_బిట్టు (edid[0x14], 7);
 
-    if (info->is_digital)
+    ఒకవేళ (info->is_digital)
     {
-	int bits;
+	పూర్ణాంకం బిట్లు;
 	
-	static const int bit_depth[8] =
+	స్థిర స్థిరరాశి పూర్ణాంకం బిట్టు_లోతు_2[8] =
 	{
 	    -1, 6, 8, 10, 12, 14, 16, -1
 	};
 
-	static const Interface interfaces[6] =
+	స్థిర స్థిరరాశి Interface interfaces[6] =
 	{
-	    UNDEFINED, DVI, HDMI_A, HDMI_B, MDDI, DISPLAY_PORT
+	    UNDEFINED, DVI, HDMI_A, HDMI_B, MDDI, DISPLAY_పోర్టు
 	};
 
-	bits = get_bits (edid[0x14], 4, 6);
-	info->ad.digital.bits_per_primary = bit_depth[bits];
+	బిట్లు = get_బిట్లు (edid[0x14], 4, 6);
+	info->ad.digital.బిట్లు_చొప్పున_primary = బిట్టు_లోతు_2[బిట్లు];
 
-	bits = get_bits (edid[0x14], 0, 3);
+	బిట్లు = get_బిట్లు (edid[0x14], 0, 3);
 	
-	if (bits <= 5)
-	    info->ad.digital.interface = interfaces[bits];
-	else
+	ఒకవేళ (బిట్లు <= 5)
+	    info->ad.digital.interface = interfaces[బిట్లు];
+	లేకపోతే
 	    info->ad.digital.interface = UNDEFINED;
     }
-    else
+    లేకపోతే
     {
-	int bits = get_bits (edid[0x14], 5, 6);
+	పూర్ణాంకం బిట్లు = get_బిట్లు (edid[0x14], 5, 6);
 	
-	static const double levels[][3] =
+	స్థిర స్థిరరాశి ద్విగుణ స్థాయిలు[][3] =
 	{
 	    { 0.7,   0.3,    1.0 },
 	    { 0.714, 0.286,  1.0 },
@@ -160,118 +160,118 @@ decode_display_parameters (const uchar *edid, MonitorInfo *info)
 	    { 0.7,   0.0,    0.7 },
 	};
 
-	info->ad.analog.video_signal_level = levels[bits][0];
-	info->ad.analog.sync_signal_level = levels[bits][1];
-	info->ad.analog.total_signal_level = levels[bits][2];
+	info->ad.analog.video_signal_level = స్థాయిలు[బిట్లు][0];
+	info->ad.analog.sync_signal_level = స్థాయిలు[బిట్లు][1];
+	info->ad.analog.మొత్తం_signal_level = స్థాయిలు[బిట్లు][2];
 
-	info->ad.analog.blank_to_black = get_bit (edid[0x14], 4);
+	info->ad.analog.blank_గమ్యం_black = get_బిట్టు (edid[0x14], 4);
 
-	info->ad.analog.separate_hv_sync = get_bit (edid[0x14], 3);
-	info->ad.analog.composite_sync_on_h = get_bit (edid[0x14], 2);
-	info->ad.analog.composite_sync_on_green = get_bit (edid[0x14], 1);
+	info->ad.analog.separate_hv_sync = get_బిట్టు (edid[0x14], 3);
+	info->ad.analog.సంయుక్త_sync_on_h = get_బిట్టు (edid[0x14], 2);
+	info->ad.analog.సంయుక్త_sync_on_green = get_బిట్టు (edid[0x14], 1);
 
-	info->ad.analog.serration_on_vsync = get_bit (edid[0x14], 0);
+	info->ad.analog.serration_on_vsync = get_బిట్టు (edid[0x14], 0);
     }
 
     /* Screen Size / Aspect Ratio */
-    if (edid[0x15] == 0 && edid[0x16] == 0)
+    ఒకవేళ (edid[0x15] == 0 && edid[0x16] == 0)
     {
-	info->width_mm = -1;
-	info->height_mm = -1;
-	info->aspect_ratio = -1.0;
+	info->వెడల్పు_mm = -1;
+	info->ఎత్తు_mm = -1;
+	info->aspect_నిష్పత్తి = -1.0;
     }
-    else if (edid[0x16] == 0)
+    లేకపోతే ఒకవేళ (edid[0x16] == 0)
     {
-	info->width_mm = -1;
-	info->height_mm = -1; 
-	info->aspect_ratio = 100.0 / (edid[0x15] + 99);
+	info->వెడల్పు_mm = -1;
+	info->ఎత్తు_mm = -1; 
+	info->aspect_నిష్పత్తి = 100.0 / (edid[0x15] + 99);
     }
-    else if (edid[0x15] == 0)
+    లేకపోతే ఒకవేళ (edid[0x15] == 0)
     {
-	info->width_mm = -1;
-	info->height_mm = -1;
-	info->aspect_ratio = 100.0 / (edid[0x16] + 99);
-	info->aspect_ratio = 1/info->aspect_ratio; /* portrait */
+	info->వెడల్పు_mm = -1;
+	info->ఎత్తు_mm = -1;
+	info->aspect_నిష్పత్తి = 100.0 / (edid[0x16] + 99);
+	info->aspect_నిష్పత్తి = 1/info->aspect_నిష్పత్తి; /* portrait */
     }
-    else
+    లేకపోతే
     {
-	info->width_mm = 10 * edid[0x15];
-	info->height_mm = 10 * edid[0x16];
+	info->వెడల్పు_mm = 10 * edid[0x15];
+	info->ఎత్తు_mm = 10 * edid[0x16];
     }
 
     /* Gamma */
-    if (edid[0x17] == 0xFF)
+    ఒకవేళ (edid[0x17] == 0xFF)
 	info->gamma = -1.0;
-    else
+    లేకపోతే
 	info->gamma = (edid[0x17] + 100.0) / 100.0;
 
     /* Features */
-    info->standby = get_bit (edid[0x18], 7);
-    info->suspend = get_bit (edid[0x18], 6);
-    info->active_off = get_bit (edid[0x18], 5);
+    info->standby = get_బిట్టు (edid[0x18], 7);
+    info->suspend = get_బిట్టు (edid[0x18], 6);
+    info->చురుకైన_off = get_బిట్టు (edid[0x18], 5);
 
-    if (info->is_digital)
+    ఒకవేళ (info->is_digital)
     {
 	info->ad.digital.rgb444 = TRUE;
-	if (get_bit (edid[0x18], 3))
+	ఒకవేళ (get_బిట్టు (edid[0x18], 3))
 	    info->ad.digital.ycrcb444 = 1;
-	if (get_bit (edid[0x18], 4))
+	ఒకవేళ (get_బిట్టు (edid[0x18], 4))
 	    info->ad.digital.ycrcb422 = 1;
     }
-    else
+    లేకపోతే
     {
-	int bits = get_bits (edid[0x18], 3, 4);
+	పూర్ణాంకం బిట్లు = get_బిట్లు (edid[0x18], 3, 4);
 	ColorType color_type[4] =
 	{
 	    MONOCHROME, RGB, OTHER_COLOR, UNDEFINED_COLOR
 	};
 
-	info->ad.analog.color_type = color_type[bits];
+	info->ad.analog.color_type = color_type[బిట్లు];
     }
 
-    info->srgb_is_standard = get_bit (edid[0x18], 2);
+    info->srgb_is_standard = get_బిట్టు (edid[0x18], 2);
 
     /* In 1.3 this is called "has preferred timing" */
-    info->preferred_timing_includes_native = get_bit (edid[0x18], 1);
+    info->preferred_timing_includes_native = get_బిట్టు (edid[0x18], 1);
 
     /* FIXME: In 1.3 this indicates whether the monitor accepts GTF */
-    info->continuous_frequency = get_bit (edid[0x18], 0);
-    return TRUE;
+    info->continuous_frequency = get_బిట్టు (edid[0x18], 0);
+    తిరిగి TRUE;
 }
 
-static double
-decode_fraction (int high, int low)
+స్థిర ద్విగుణ
+decode_fraction (పూర్ణాంకం ఎగువ, పూర్ణాంకం దిగువ)
 {
-    double result = 0.0;
-    int i;
+    ద్విగుణ ఫలితం = 0.0;
+    పూర్ణాంకం i;
 
-    high = (high << 2) | low;
+    ఎగువ = (ఎగువ << 2) | దిగువ;
 
-    for (i = 0; i < 10; ++i)
-	result += get_bit (high, i) * SDL_pow (2, i - 10);
+    కొరకు (i = 0; i < 10; ++i)
+	ఫలితం += get_బిట్టు (ఎగువ, i) * SDL_pow (2, i - 10);
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-static int
-decode_color_characteristics (const uchar *edid, MonitorInfo *info)
+స్థిర పూర్ణాంకం
+decode_color_characteristics (స్థిరరాశి uchar *edid, MonitorInfo *info)
 {
-    info->red_x = decode_fraction (edid[0x1b], get_bits (edid[0x19], 6, 7));
-    info->red_y = decode_fraction (edid[0x1c], get_bits (edid[0x19], 5, 4));
-    info->green_x = decode_fraction (edid[0x1d], get_bits (edid[0x19], 2, 3));
-    info->green_y = decode_fraction (edid[0x1e], get_bits (edid[0x19], 0, 1));
-    info->blue_x = decode_fraction (edid[0x1f], get_bits (edid[0x1a], 6, 7));
-    info->blue_y = decode_fraction (edid[0x20], get_bits (edid[0x1a], 4, 5));
-    info->white_x = decode_fraction (edid[0x21], get_bits (edid[0x1a], 2, 3));
-    info->white_y = decode_fraction (edid[0x22], get_bits (edid[0x1a], 0, 1));
+    info->red_x = decode_fraction (edid[0x1b], get_బిట్లు (edid[0x19], 6, 7));
+    info->red_y = decode_fraction (edid[0x1c], get_బిట్లు (edid[0x19], 5, 4));
+    info->green_x = decode_fraction (edid[0x1d], get_బిట్లు (edid[0x19], 2, 3));
+    info->green_y = decode_fraction (edid[0x1e], get_బిట్లు (edid[0x19], 0, 1));
+    info->blue_x = decode_fraction (edid[0x1f], get_బిట్లు (edid[0x1a], 6, 7));
+    info->blue_y = decode_fraction (edid[0x20], get_బిట్లు (edid[0x1a], 4, 5));
+    info->white_x = decode_fraction (edid[0x21], get_బిట్లు (edid[0x1a], 2, 3));
+    info->white_y = decode_fraction (edid[0x22], get_బిట్లు (edid[0x1a], 0, 1));
 
-    return TRUE;
+    తిరిగి TRUE;
 }
 
-static int
-decode_established_timings (const uchar *edid, MonitorInfo *info)
+స్థిర పూర్ణాంకం
+decode_established_timings (స్థిరరాశి uchar *edid, MonitorInfo *info)
 {
-    static const Timing established[][8] = 
+    స్థిర స్థిరరాశి Timing established[][8] = 
     {
 	{
 	    { 800, 600, 60 },
@@ -305,124 +305,124 @@ decode_established_timings (const uchar *edid, MonitorInfo *info)
 	},
     };
 
-    int i, j, idx;
+    పూర్ణాంకం i, j, idx;
 
     idx = 0;
-    for (i = 0; i < 3; ++i)
+    కొరకు (i = 0; i < 3; ++i)
     {
-	for (j = 0; j < 8; ++j)
+	కొరకు (j = 0; j < 8; ++j)
 	{
-	    int byte = edid[0x23 + i];
+	    పూర్ణాంకం byte = edid[0x23 + i];
 
-	    if (get_bit (byte, j) && established[i][j].frequency != 0)
+	    ఒకవేళ (get_బిట్టు (byte, j) && established[i][j].frequency != 0)
 		info->established[idx++] = established[i][j];
 	}
     }
-    return TRUE;
+    తిరిగి TRUE;
 }
 
-static int
-decode_standard_timings (const uchar *edid, MonitorInfo *info)
+స్థిర పూర్ణాంకం
+decode_standard_timings (స్థిరరాశి uchar *edid, MonitorInfo *info)
 {
-    int i;
+    పూర్ణాంకం i;
     
-    for (i = 0; i < 8; i++)
+    కొరకు (i = 0; i < 8; i++)
     {
-	int first = edid[0x26 + 2 * i];
-	int second = edid[0x27 + 2 * i];
+	పూర్ణాంకం మొదటి = edid[0x26 + 2 * i];
+	పూర్ణాంకం రెండవ = edid[0x27 + 2 * i];
 
-	if (first != 0x01 && second != 0x01)
+	ఒకవేళ (మొదటి != 0x01 && రెండవ != 0x01)
 	{
-	    int w = 8 * (first + 31);
-	    int h = 0;
+	    పూర్ణాంకం w = 8 * (మొదటి + 31);
+	    పూర్ణాంకం h = 0;
 
-	    switch (get_bits (second, 6, 7))
+	    ఎంపిక (get_బిట్లు (రెండవ, 6, 7))
 	    {
-	    case 0x00: h = (w / 16) * 10; break;
-	    case 0x01: h = (w / 4) * 3; break;
-	    case 0x02: h = (w / 5) * 4; break;
-	    case 0x03: h = (w / 16) * 9; break;
+	    స్థితి 0x00: h = (w / 16) * 10; ఆపు;
+	    స్థితి 0x01: h = (w / 4) * 3; ఆపు;
+	    స్థితి 0x02: h = (w / 5) * 4; ఆపు;
+	    స్థితి 0x03: h = (w / 16) * 9; ఆపు;
 	    }
 
-	    info->standard[i].width = w;
-	    info->standard[i].height = h;
-	    info->standard[i].frequency = get_bits (second, 0, 5) + 60;
+	    info->standard[i].వెడల్పు = w;
+	    info->standard[i].ఎత్తు = h;
+	    info->standard[i].frequency = get_బిట్లు (రెండవ, 0, 5) + 60;
 	}
     }
     
-    return TRUE;
+    తిరిగి TRUE;
 }
 
-static void
-decode_lf_string (const uchar *s, int n_chars, char *result)
+స్థిర శూన్య
+decode_lf_string (స్థిరరాశి uchar *s, పూర్ణాంకం n_chars, అక్షరం *ఫలితం)
 {
-    int i;
-    for (i = 0; i < n_chars; ++i)
+    పూర్ణాంకం i;
+    కొరకు (i = 0; i < n_chars; ++i)
     {
-	if (s[i] == 0x0a)
+	ఒకవేళ (s[i] == 0x0a)
 	{
-	    *result++ = '\0';
-	    break;
+	    *ఫలితం++ = '\0';
+	    ఆపు;
 	}
-	else if (s[i] == 0x00)
+	లేకపోతే ఒకవేళ (s[i] == 0x00)
 	{
 	    /* Convert embedded 0's to spaces */
-	    *result++ = ' ';
+	    *ఫలితం++ = ' ';
 	}
-	else
+	లేకపోతే
 	{
-	    *result++ = s[i];
+	    *ఫలితం++ = s[i];
 	}
     }
 }
 
-static void
-decode_display_descriptor (const uchar *desc,
+స్థిర శూన్య
+decode_display_descriptor (స్థిరరాశి uchar *desc,
 			   MonitorInfo *info)
 {
-    switch (desc[0x03])
+    ఎంపిక (desc[0x03])
     {
-    case 0xFC:
-	decode_lf_string (desc + 5, 13, info->dsc_product_name);
-	break;
-    case 0xFF:
-	decode_lf_string (desc + 5, 13, info->dsc_serial_number);
-	break;
-    case 0xFE:
+    స్థితి 0xFC:
+	decode_lf_string (desc + 5, 13, info->dsc_లబ్ధం_name);
+	ఆపు;
+    స్థితి 0xFF:
+	decode_lf_string (desc + 5, 13, info->dsc_serial_సంఖ్య);
+	ఆపు;
+    స్థితి 0xFE:
 	decode_lf_string (desc + 5, 13, info->dsc_string);
-	break;
-    case 0xFD:
+	ఆపు;
+    స్థితి 0xFD:
 	/* Range Limits */
-	break;
-    case 0xFB:
+	ఆపు;
+    స్థితి 0xFB:
 	/* Color Point */
-	break;
-    case 0xFA:
+	ఆపు;
+    స్థితి 0xFA:
 	/* Timing Identifications */
-	break;
-    case 0xF9:
+	ఆపు;
+    స్థితి 0xF9:
 	/* Color Management */
-	break;
-    case 0xF8:
+	ఆపు;
+    స్థితి 0xF8:
 	/* Timing Codes */
-	break;
-    case 0xF7:
+	ఆపు;
+    స్థితి 0xF7:
 	/* Established Timings */
-	break;
-    case 0x10:
-	break;
+	ఆపు;
+    స్థితి 0x10:
+	ఆపు;
     }
 }
 
-static void
-decode_detailed_timing (const uchar *timing,
+స్థిర శూన్య
+decode_detailed_timing (స్థిరరాశి uchar *timing,
 			DetailedTiming *detailed)
 {
-    int bits;
+    పూర్ణాంకం బిట్లు;
     StereoType stereo[] =
     {
-	NO_STEREO, NO_STEREO, FIELD_RIGHT, FIELD_LEFT,
-	TWO_WAY_RIGHT_ON_EVEN, TWO_WAY_LEFT_ON_EVEN,
+	NO_STEREO, NO_STEREO, క్షేత్రం_కుడి, క్షేత్రం_ఎడమ,
+	TWO_WAY_కుడి_ON_EVEN, TWO_WAY_ఎడమ_ON_EVEN,
 	FOUR_WAY_INTERLEAVED, SIDE_BY_SIDE
     };
     
@@ -431,381 +431,381 @@ decode_detailed_timing (const uchar *timing,
     detailed->h_blank = timing[0x03] | ((timing[0x04] & 0x0f) << 8);
     detailed->v_addr = timing[0x05] | ((timing[0x07] & 0xf0) << 4);
     detailed->v_blank = timing[0x06] | ((timing[0x07] & 0x0f) << 8);
-    detailed->h_front_porch = timing[0x08] | get_bits (timing[0x0b], 6, 7) << 8;
-    detailed->h_sync = timing[0x09] | get_bits (timing[0x0b], 4, 5) << 8;
+    detailed->h_front_porch = timing[0x08] | get_బిట్లు (timing[0x0b], 6, 7) << 8;
+    detailed->h_sync = timing[0x09] | get_బిట్లు (timing[0x0b], 4, 5) << 8;
     detailed->v_front_porch =
-	get_bits (timing[0x0a], 4, 7) | get_bits (timing[0x0b], 2, 3) << 4;
+	get_బిట్లు (timing[0x0a], 4, 7) | get_బిట్లు (timing[0x0b], 2, 3) << 4;
     detailed->v_sync =
-	get_bits (timing[0x0a], 0, 3) | get_bits (timing[0x0b], 0, 1) << 4;
-    detailed->width_mm =  timing[0x0c] | get_bits (timing[0x0e], 4, 7) << 8;
-    detailed->height_mm = timing[0x0d] | get_bits (timing[0x0e], 0, 3) << 8;
-    detailed->right_border = timing[0x0f];
-    detailed->top_border = timing[0x10];
+	get_బిట్లు (timing[0x0a], 0, 3) | get_బిట్లు (timing[0x0b], 0, 1) << 4;
+    detailed->వెడల్పు_mm =  timing[0x0c] | get_బిట్లు (timing[0x0e], 4, 7) << 8;
+    detailed->ఎత్తు_mm = timing[0x0d] | get_బిట్లు (timing[0x0e], 0, 3) << 8;
+    detailed->కుడి_border = timing[0x0f];
+    detailed->శిఖరం_border = timing[0x10];
 
-    detailed->interlaced = get_bit (timing[0x11], 7);
+    detailed->interlaced = get_బిట్టు (timing[0x11], 7);
 
     /* Stereo */
-    bits = get_bits (timing[0x11], 5, 6) << 1 | get_bit (timing[0x11], 0);
-    detailed->stereo = stereo[bits];
+    బిట్లు = get_బిట్లు (timing[0x11], 5, 6) << 1 | get_బిట్టు (timing[0x11], 0);
+    detailed->stereo = stereo[బిట్లు];
 
     /* Sync */
-    bits = timing[0x11];
+    బిట్లు = timing[0x11];
 
-    detailed->digital_sync = get_bit (bits, 4);
-    if (detailed->digital_sync)
+    detailed->digital_sync = get_బిట్టు (బిట్లు, 4);
+    ఒకవేళ (detailed->digital_sync)
     {
-	detailed->ad.digital.composite = !get_bit (bits, 3);
+	detailed->ad.digital.సంయుక్త = !get_బిట్టు (బిట్లు, 3);
 
-	if (detailed->ad.digital.composite)
+	ఒకవేళ (detailed->ad.digital.సంయుక్త)
 	{
-	    detailed->ad.digital.serrations = get_bit (bits, 2);
+	    detailed->ad.digital.serrations = get_బిట్టు (బిట్లు, 2);
 	    detailed->ad.digital.negative_vsync = FALSE;
 	}
-	else
+	లేకపోతే
 	{
 	    detailed->ad.digital.serrations = FALSE;
-	    detailed->ad.digital.negative_vsync = !get_bit (bits, 2);
+	    detailed->ad.digital.negative_vsync = !get_బిట్టు (బిట్లు, 2);
 	}
 
-	detailed->ad.digital.negative_hsync = !get_bit (bits, 0);
+	detailed->ad.digital.negative_hsync = !get_బిట్టు (బిట్లు, 0);
     }
-    else
+    లేకపోతే
     {
-	detailed->ad.analog.bipolar = get_bit (bits, 3);
-	detailed->ad.analog.serrations = get_bit (bits, 2);
-	detailed->ad.analog.sync_on_green = !get_bit (bits, 1);
+	detailed->ad.analog.bipolar = get_బిట్టు (బిట్లు, 3);
+	detailed->ad.analog.serrations = get_బిట్టు (బిట్లు, 2);
+	detailed->ad.analog.sync_on_green = !get_బిట్టు (బిట్లు, 1);
     }
 }
 
-static int
-decode_descriptors (const uchar *edid, MonitorInfo *info)
+స్థిర పూర్ణాంకం
+decode_descriptors (స్థిరరాశి uchar *edid, MonitorInfo *info)
 {
-    int i;
-    int timing_idx;
+    పూర్ణాంకం i;
+    పూర్ణాంకం timing_idx;
     
     timing_idx = 0;
     
-    for (i = 0; i < 4; ++i)
+    కొరకు (i = 0; i < 4; ++i)
     {
-	int index = 0x36 + i * 18;
+	పూర్ణాంకం సూచీ = 0x36 + i * 18;
 
-	if (edid[index + 0] == 0x00 && edid[index + 1] == 0x00)
+	ఒకవేళ (edid[సూచీ + 0] == 0x00 && edid[సూచీ + 1] == 0x00)
 	{
-	    decode_display_descriptor (edid + index, info);
+	    decode_display_descriptor (edid + సూచీ, info);
 	}
-	else
+	లేకపోతే
 	{
 	    decode_detailed_timing (
-		edid + index, &(info->detailed_timings[timing_idx++]));
+		edid + సూచీ, &(info->detailed_timings[timing_idx++]));
 	}
     }
 
     info->n_detailed_timings = timing_idx;
 
-    return TRUE;
+    తిరిగి TRUE;
 }
 
-static void
-decode_check_sum (const uchar *edid,
+స్థిర శూన్య
+decode_check_కూడిక (స్థిరరాశి uchar *edid,
 		  MonitorInfo *info)
 {
-    int i;
+    పూర్ణాంకం i;
     uchar check = 0;
 
-    for (i = 0; i < 128; ++i)
+    కొరకు (i = 0; i < 128; ++i)
 	check += edid[i];
 
     info->checksum = check;
 }
 
-static void
-decode_HDR_metadata_block (const uchar *data, int length, MonitorInfo *info)
+స్థిర శూన్య
+decode_HDR_metadata_ఖండం (స్థిరరాశి uchar *దత్తాంశం, పూర్ణాంకం నిడివి, MonitorInfo *info)
 {
-    if (length >= 3)
-	info->max_luminance = 50.0 * SDL_pow(2, data[2] / 32.0);
+    ఒకవేళ (నిడివి >= 3)
+	info->max_luminance = 50.0 * SDL_pow(2, దత్తాంశం[2] / 32.0);
 
-    if (length >= 4)
-	info->max_frame_average_luminance = 50.0 * SDL_pow(2, data[3] / 32.0);
+    ఒకవేళ (నిడివి >= 4)
+	info->max_చట్రం_సరాసరి_luminance = 50.0 * SDL_pow(2, దత్తాంశం[3] / 32.0);
 
-    if (length >= 5)
-	info->min_luminance = 50.0 * SDL_pow(2, data[4] / 32.0);
+    ఒకవేళ (నిడివి >= 5)
+	info->min_luminance = 50.0 * SDL_pow(2, దత్తాంశం[4] / 32.0);
 }
 
 
-static void
-decode_cta_block (const uchar *edid,
+స్థిర శూన్య
+decode_cta_ఖండం (స్థిరరాశి uchar *edid,
 		  MonitorInfo *info)
 {
-    int offset = 4;
-    while (offset < 128) {
-	int length = edid[offset] & 0x1f;
-	int type = edid[offset] >> 5;
-	if (length == 0) {
-	    break;
+    పూర్ణాంకం స్థానభ్రంశం_2 = 4;
+    అయితే (స్థానభ్రంశం_2 < 128) {
+	పూర్ణాంకం నిడివి = edid[స్థానభ్రంశం_2] & 0x1f;
+	పూర్ణాంకం type = edid[స్థానభ్రంశం_2] >> 5;
+	ఒకవేళ (నిడివి == 0) {
+	    ఆపు;
 	}
-	if (type == 7) {
+	ఒకవేళ (type == 7) {
 	    type <<= 8;
-	    type |= edid[offset + 1];
+	    type |= edid[స్థానభ్రంశం_2 + 1];
 	}
-	if (type == 0x706) {
-	    decode_HDR_metadata_block (&edid[offset + 2], length - 1, info);
+	ఒకవేళ (type == 0x706) {
+	    decode_HDR_metadata_ఖండం (&edid[స్థానభ్రంశం_2 + 2], నిడివి - 1, info);
 	}
-	offset += (1 + length);
+	స్థానభ్రంశం_2 += (1 + నిడివి);
     }
 }
 
 MonitorInfo *
-decode_edid (const uchar *edid, size_t size)
+decode_edid (స్థిరరాశి uchar *edid, size_t కొలత)
 {
-    const int EDID_PAGE_SIZE = 128;
-    int num_blocks = (size / EDID_PAGE_SIZE);
+    స్థిరరాశి పూర్ణాంకం EDID_పుట_కొలత = 128;
+    పూర్ణాంకం అంకె_ఖండాలు = (కొలత / EDID_పుట_కొలత);
     MonitorInfo *info;
 
-    if ((size % EDID_PAGE_SIZE) != 0) {
-	return NULL;
+    ఒకవేళ ((కొలత % EDID_పుట_కొలత) != 0) {
+	తిరిగి ఖాళీ;
     }
 
-    info = SDL_calloc (1, sizeof (MonitorInfo));
+    info = SDL_calloc (1, పరిమాణం (MonitorInfo));
 
-    decode_check_sum (edid, info);
+    decode_check_కూడిక (edid, info);
     
-    if (!decode_header (edid) ||
-        !decode_vendor_and_product_identification (edid, info) ||
-        !decode_edid_version (edid, info) ||
+    ఒకవేళ (!decode_శీర్షిక (edid) ||
+        !decode_vendor_and_లబ్ధం_identification (edid, info) ||
+        !decode_edid_సంస్కరణ (edid, info) ||
         !decode_display_parameters (edid, info) ||
         !decode_color_characteristics (edid, info) ||
         !decode_established_timings (edid, info) ||
         !decode_standard_timings (edid, info) ||
         !decode_descriptors (edid, info)) {
 	SDL_free(info);
-	return NULL;
+	తిరిగి ఖాళీ;
     }
     
-    if (num_blocks > 1) {
-	for (int i = 1; i < num_blocks; ++i) {
-	    int offset = i * EDID_PAGE_SIZE;
-	    uchar extension = edid[offset];
-	    if (extension == 0x02) {
+    ఒకవేళ (అంకె_ఖండాలు > 1) {
+	కొరకు (పూర్ణాంకం i = 1; i < అంకె_ఖండాలు; ++i) {
+	    పూర్ణాంకం స్థానభ్రంశం_2 = i * EDID_పుట_కొలత;
+	    uchar extension = edid[స్థానభ్రంశం_2];
+	    ఒకవేళ (extension == 0x02) {
 		// CTA-861 Extension Block
-		decode_cta_block (&edid[offset], info);
+		decode_cta_ఖండం (&edid[స్థానభ్రంశం_2], info);
 	    }
 	}
     }
 
-    return info;
+    తిరిగి info;
 }
 
-static const char *
-yesno (int v)
+స్థిర స్థిరరాశి అక్షరం *
+yesno (పూర్ణాంకం v)
 {
-    return v? "yes" : "no";
+    తిరిగి v? "yes" : "no";
 }
 
-void
+శూన్య
 dump_monitor_info (MonitorInfo *info)
 {
-    int i;
+    పూర్ణాంకం i;
     
-    printf ("Checksum: %d (%s)\n",
+    రాయి ("Checksum: %d (%s)\n",
 	    info->checksum, info->checksum? "incorrect" : "correct");
-    printf ("Manufacturer Code: %s\n", info->manufacturer_code);
-    printf ("Product Code: 0x%x\n", info->product_code);
-    printf ("Serial Number: %u\n", info->serial_number);
+    రాయి ("Manufacturer Code: %s\n", info->manufacturer_సంకేతం);
+    రాయి ("Product Code: 0x%x\n", info->లబ్ధం_సంకేతం);
+    రాయి ("Serial Number: %u\n", info->serial_సంఖ్య);
     
-    if (info->production_week != -1)
-	printf ("Production Week: %d\n", info->production_week);
-    else
-	printf ("Production Week: unspecified\n");
+    ఒకవేళ (info->production_week != -1)
+	రాయి ("Production Week: %d\n", info->production_week);
+    లేకపోతే
+	రాయి ("Production Week: unspecified\n");
     
-    if (info->production_year != -1)
-	printf ("Production Year: %d\n", info->production_year);
-    else
-	printf ("Production Year: unspecified\n");
+    ఒకవేళ (info->production_year != -1)
+	రాయి ("Production Year: %d\n", info->production_year);
+    లేకపోతే
+	రాయి ("Production Year: unspecified\n");
     
-    if (info->model_year != -1)
-	printf ("Model Year: %d\n", info->model_year);
-    else
-	printf ("Model Year: unspecified\n");
+    ఒకవేళ (info->model_year != -1)
+	రాయి ("Model Year: %d\n", info->model_year);
+    లేకపోతే
+	రాయి ("Model Year: unspecified\n");
     
-    printf ("EDID revision: %d.%d\n", info->major_version, info->minor_version);
+    రాయి ("EDID revision: %d.%d\n", info->major_సంస్కరణ, info->minor_సంస్కరణ);
     
-    printf ("Display is %s\n", info->is_digital? "digital" : "analog");
-    if (info->is_digital)
+    రాయి ("Display is %s\n", info->is_digital? "digital" : "analog");
+    ఒకవేళ (info->is_digital)
     {
-	const char *interface;
-	if (info->ad.digital.bits_per_primary != -1)
-	    printf ("Bits Per Primary: %d\n", info->ad.digital.bits_per_primary);
-	else
-	    printf ("Bits Per Primary: undefined\n");
+	స్థిరరాశి అక్షరం *interface;
+	ఒకవేళ (info->ad.digital.బిట్లు_చొప్పున_primary != -1)
+	    రాయి ("Bits Per Primary: %d\n", info->ad.digital.బిట్లు_చొప్పున_primary);
+	లేకపోతే
+	    రాయి ("Bits Per Primary: undefined\n");
 	
-	switch (info->ad.digital.interface)
+	ఎంపిక (info->ad.digital.interface)
 	{
-	case DVI: interface = "DVI"; break;
-	case HDMI_A: interface = "HDMI-a"; break;
-	case HDMI_B: interface = "HDMI-b"; break;
-	case MDDI: interface = "MDDI"; break;
-	case DISPLAY_PORT: interface = "DisplayPort"; break;
-	case UNDEFINED: interface = "undefined"; break;
-	default: interface = "unknown"; break;
+	స్థితి DVI: interface = "DVI"; ఆపు;
+	స్థితి HDMI_A: interface = "HDMI-a"; ఆపు;
+	స్థితి HDMI_B: interface = "HDMI-b"; ఆపు;
+	స్థితి MDDI: interface = "MDDI"; ఆపు;
+	స్థితి DISPLAY_పోర్టు: interface = "DisplayPort"; ఆపు;
+	స్థితి UNDEFINED: interface = "undefined"; ఆపు;
+	అప్రమేయ: interface = "unknown"; ఆపు;
 	}
-	printf ("Interface: %s\n", interface);
+	రాయి ("Interface: %s\n", interface);
 	
-	printf ("RGB 4:4:4: %s\n", yesno (info->ad.digital.rgb444));
-	printf ("YCrCb 4:4:4: %s\n", yesno (info->ad.digital.ycrcb444));
-	printf ("YCrCb 4:2:2: %s\n", yesno (info->ad.digital.ycrcb422));
+	రాయి ("RGB 4:4:4: %s\n", yesno (info->ad.digital.rgb444));
+	రాయి ("YCrCb 4:4:4: %s\n", yesno (info->ad.digital.ycrcb444));
+	రాయి ("YCrCb 4:2:2: %s\n", yesno (info->ad.digital.ycrcb422));
     }
-    else
+    లేకపోతే
     {
-       const char *s;
-	printf ("Video Signal Level: %f\n", info->ad.analog.video_signal_level);
-	printf ("Sync Signal Level: %f\n", info->ad.analog.sync_signal_level);
-	printf ("Total Signal Level: %f\n", info->ad.analog.total_signal_level);
+       స్థిరరాశి అక్షరం *s;
+	రాయి ("Video Signal Level: %f\n", info->ad.analog.video_signal_level);
+	రాయి ("Sync Signal Level: %f\n", info->ad.analog.sync_signal_level);
+	రాయి ("Total Signal Level: %f\n", info->ad.analog.మొత్తం_signal_level);
 	
-	printf ("Blank to Black: %s\n",
-		yesno (info->ad.analog.blank_to_black));
-	printf ("Separate HV Sync: %s\n",
+	రాయి ("Blank to Black: %s\n",
+		yesno (info->ad.analog.blank_గమ్యం_black));
+	రాయి ("Separate HV Sync: %s\n",
 		yesno (info->ad.analog.separate_hv_sync));
-	printf ("Composite Sync on H: %s\n",
-		yesno (info->ad.analog.composite_sync_on_h));
-	printf ("Serration on VSync: %s\n",
+	రాయి ("Composite Sync on H: %s\n",
+		yesno (info->ad.analog.సంయుక్త_sync_on_h));
+	రాయి ("Serration on VSync: %s\n",
 		yesno (info->ad.analog.serration_on_vsync));
 	
-	switch (info->ad.analog.color_type)
+	ఎంపిక (info->ad.analog.color_type)
 	{
-	case UNDEFINED_COLOR: s = "undefined"; break;
-	case MONOCHROME: s = "monochrome"; break;
-	case RGB: s = "rgb"; break;
-	case OTHER_COLOR: s = "other color"; break;
-	default: s = "unknown"; break;
+	స్థితి UNDEFINED_COLOR: s = "undefined"; ఆపు;
+	స్థితి MONOCHROME: s = "monochrome"; ఆపు;
+	స్థితి RGB: s = "rgb"; ఆపు;
+	స్థితి OTHER_COLOR: s = "other color"; ఆపు;
+	అప్రమేయ: s = "unknown"; ఆపు;
 	}
 	
-	printf ("Color: %s\n", s);
+	రాయి ("Color: %s\n", s);
     }
     
-    if (info->width_mm == -1)
-	printf ("Width: undefined\n");
-    else
-	printf ("Width: %d mm\n", info->width_mm);
+    ఒకవేళ (info->వెడల్పు_mm == -1)
+	రాయి ("Width: undefined\n");
+    లేకపోతే
+	రాయి ("Width: %d mm\n", info->వెడల్పు_mm);
     
-    if (info->height_mm == -1)
-	printf ("Height: undefined\n");
-    else
-	printf ("Height: %d mm\n", info->height_mm);
+    ఒకవేళ (info->ఎత్తు_mm == -1)
+	రాయి ("Height: undefined\n");
+    లేకపోతే
+	రాయి ("Height: %d mm\n", info->ఎత్తు_mm);
     
-    if (info->aspect_ratio > 0)
-	printf ("Aspect Ratio: %f\n", info->aspect_ratio);
-    else
-	printf ("Aspect Ratio: undefined\n");
+    ఒకవేళ (info->aspect_నిష్పత్తి > 0)
+	రాయి ("Aspect Ratio: %f\n", info->aspect_నిష్పత్తి);
+    లేకపోతే
+	రాయి ("Aspect Ratio: undefined\n");
     
-    if (info->gamma >= 0)
-	printf ("Gamma: %f\n", info->gamma);
-    else
-	printf ("Gamma: undefined\n");
+    ఒకవేళ (info->gamma >= 0)
+	రాయి ("Gamma: %f\n", info->gamma);
+    లేకపోతే
+	రాయి ("Gamma: undefined\n");
     
-    printf ("Standby: %s\n", yesno (info->standby));
-    printf ("Suspend: %s\n", yesno (info->suspend));
-    printf ("Active Off: %s\n", yesno (info->active_off));
+    రాయి ("Standby: %s\n", yesno (info->standby));
+    రాయి ("Suspend: %s\n", yesno (info->suspend));
+    రాయి ("Active Off: %s\n", yesno (info->చురుకైన_off));
     
-    printf ("SRGB is Standard: %s\n", yesno (info->srgb_is_standard));
-    printf ("Preferred Timing Includes Native: %s\n",
+    రాయి ("SRGB is Standard: %s\n", yesno (info->srgb_is_standard));
+    రాయి ("Preferred Timing Includes Native: %s\n",
 	    yesno (info->preferred_timing_includes_native));
-    printf ("Continuous Frequency: %s\n", yesno (info->continuous_frequency));
+    రాయి ("Continuous Frequency: %s\n", yesno (info->continuous_frequency));
     
-    printf ("Red X: %f\n", info->red_x);
-    printf ("Red Y: %f\n", info->red_y);
-    printf ("Green X: %f\n", info->green_x);
-    printf ("Green Y: %f\n", info->green_y);
-    printf ("Blue X: %f\n", info->blue_x);
-    printf ("Blue Y: %f\n", info->blue_y);
-    printf ("White X: %f\n", info->white_x);
-    printf ("White Y: %f\n", info->white_y);
-    printf ("Min luminance: %f\n", info->min_luminance);
-    printf ("Max luminance: %f\n", info->max_luminance);
-    printf ("Max frame average luminance %f\n", info->max_frame_average_luminance);
+    రాయి ("Red X: %f\n", info->red_x);
+    రాయి ("Red Y: %f\n", info->red_y);
+    రాయి ("Green X: %f\n", info->green_x);
+    రాయి ("Green Y: %f\n", info->green_y);
+    రాయి ("Blue X: %f\n", info->blue_x);
+    రాయి ("Blue Y: %f\n", info->blue_y);
+    రాయి ("White X: %f\n", info->white_x);
+    రాయి ("White Y: %f\n", info->white_y);
+    రాయి ("Min luminance: %f\n", info->min_luminance);
+    రాయి ("Max luminance: %f\n", info->max_luminance);
+    రాయి ("Max frame average luminance %f\n", info->max_చట్రం_సరాసరి_luminance);
     
-    printf ("Established Timings:\n");
+    రాయి ("Established Timings:\n");
     
-    for (i = 0; i < 24; ++i)
+    కొరకు (i = 0; i < 24; ++i)
     {
 	Timing *timing = &(info->established[i]);
 	
-	if (timing->frequency == 0)
-	    break;
+	ఒకవేళ (timing->frequency == 0)
+	    ఆపు;
 	
-	printf ("  %d x %d @ %d Hz\n",
-		timing->width, timing->height, timing->frequency);
+	రాయి ("  %d x %d @ %d Hz\n",
+		timing->వెడల్పు, timing->ఎత్తు, timing->frequency);
 	
     }
     
-    printf ("Standard Timings:\n");
-    for (i = 0; i < 8; ++i)
+    రాయి ("Standard Timings:\n");
+    కొరకు (i = 0; i < 8; ++i)
     {
 	Timing *timing = &(info->standard[i]);
 	
-	if (timing->frequency == 0)
-	    break;
+	ఒకవేళ (timing->frequency == 0)
+	    ఆపు;
 	
-	printf ("  %d x %d @ %d Hz\n",
-		timing->width, timing->height, timing->frequency);
+	రాయి ("  %d x %d @ %d Hz\n",
+		timing->వెడల్పు, timing->ఎత్తు, timing->frequency);
     }
     
-    for (i = 0; i < info->n_detailed_timings; ++i)
+    కొరకు (i = 0; i < info->n_detailed_timings; ++i)
     {
 	DetailedTiming *timing = &(info->detailed_timings[i]);
-	const char *s;
+	స్థిరరాశి అక్షరం *s;
 	
-	printf ("Timing%s: \n",
+	రాయి ("Timing%s: \n",
 		(i == 0 && info->preferred_timing_includes_native)?
 		" (Preferred)" : "");
-	printf ("  Pixel Clock: %d\n", timing->pixel_clock);
-	printf ("  H Addressable: %d\n", timing->h_addr);
-	printf ("  H Blank: %d\n", timing->h_blank);
-	printf ("  H Front Porch: %d\n", timing->h_front_porch);
-	printf ("  H Sync: %d\n", timing->h_sync);
-	printf ("  V Addressable: %d\n", timing->v_addr);
-	printf ("  V Blank: %d\n", timing->v_blank);
-	printf ("  V Front Porch: %d\n", timing->v_front_porch);
-	printf ("  V Sync: %d\n", timing->v_sync);
-	printf ("  Width: %d mm\n", timing->width_mm);
-	printf ("  Height: %d mm\n", timing->height_mm);
-	printf ("  Right Border: %d\n", timing->right_border);
-	printf ("  Top Border: %d\n", timing->top_border);
-	switch (timing->stereo)
+	రాయి ("  Pixel Clock: %d\n", timing->pixel_clock);
+	రాయి ("  H Addressable: %d\n", timing->h_addr);
+	రాయి ("  H Blank: %d\n", timing->h_blank);
+	రాయి ("  H Front Porch: %d\n", timing->h_front_porch);
+	రాయి ("  H Sync: %d\n", timing->h_sync);
+	రాయి ("  V Addressable: %d\n", timing->v_addr);
+	రాయి ("  V Blank: %d\n", timing->v_blank);
+	రాయి ("  V Front Porch: %d\n", timing->v_front_porch);
+	రాయి ("  V Sync: %d\n", timing->v_sync);
+	రాయి ("  Width: %d mm\n", timing->వెడల్పు_mm);
+	రాయి ("  Height: %d mm\n", timing->ఎత్తు_mm);
+	రాయి ("  Right Border: %d\n", timing->కుడి_border);
+	రాయి ("  Top Border: %d\n", timing->శిఖరం_border);
+	ఎంపిక (timing->stereo)
 	{
-	default:
-	case NO_STEREO:   s = "No Stereo"; break;
-	case FIELD_RIGHT: s = "Field Sequential, Right on Sync"; break;
-	case FIELD_LEFT:  s = "Field Sequential, Left on Sync"; break;
-	case TWO_WAY_RIGHT_ON_EVEN: s = "Two-way, Right on Even"; break;
-	case TWO_WAY_LEFT_ON_EVEN:  s = "Two-way, Left on Even"; break;
-	case FOUR_WAY_INTERLEAVED:  s = "Four-way Interleaved"; break;
-	case SIDE_BY_SIDE:          s = "Side-by-Side"; break;
+	అప్రమేయ:
+	స్థితి NO_STEREO:   s = "No Stereo"; ఆపు;
+	స్థితి క్షేత్రం_కుడి: s = "Field Sequential, Right on Sync"; ఆపు;
+	స్థితి క్షేత్రం_ఎడమ:  s = "Field Sequential, Left on Sync"; ఆపు;
+	స్థితి TWO_WAY_కుడి_ON_EVEN: s = "Two-way, Right on Even"; ఆపు;
+	స్థితి TWO_WAY_ఎడమ_ON_EVEN:  s = "Two-way, Left on Even"; ఆపు;
+	స్థితి FOUR_WAY_INTERLEAVED:  s = "Four-way Interleaved"; ఆపు;
+	స్థితి SIDE_BY_SIDE:          s = "Side-by-Side"; ఆపు;
 	}
-	printf ("  Stereo: %s\n", s);
+	రాయి ("  Stereo: %s\n", s);
 	
-	if (timing->digital_sync)
+	ఒకవేళ (timing->digital_sync)
 	{
-	    printf ("  Digital Sync:\n");
-	    printf ("    composite: %s\n", yesno (timing->ad.digital.composite));
-	    printf ("    serrations: %s\n", yesno (timing->ad.digital.serrations));
-	    printf ("    negative vsync: %s\n",
+	    రాయి ("  Digital Sync:\n");
+	    రాయి ("    composite: %s\n", yesno (timing->ad.digital.సంయుక్త));
+	    రాయి ("    serrations: %s\n", yesno (timing->ad.digital.serrations));
+	    రాయి ("    negative vsync: %s\n",
 		    yesno (timing->ad.digital.negative_vsync));
-	    printf ("    negative hsync: %s\n",
+	    రాయి ("    negative hsync: %s\n",
 		    yesno (timing->ad.digital.negative_hsync));
 	}
-	else
+	లేకపోతే
 	{
-	    printf ("  Analog Sync:\n");
-	    printf ("    bipolar: %s\n", yesno (timing->ad.analog.bipolar));
-	    printf ("    serrations: %s\n", yesno (timing->ad.analog.serrations));
-	    printf ("    sync on green: %s\n", yesno (
+	    రాయి ("  Analog Sync:\n");
+	    రాయి ("    bipolar: %s\n", yesno (timing->ad.analog.bipolar));
+	    రాయి ("    serrations: %s\n", yesno (timing->ad.analog.serrations));
+	    రాయి ("    sync on green: %s\n", yesno (
 			timing->ad.analog.sync_on_green));
 	}
     }
     
-    printf ("Detailed Product information:\n");
-    printf ("  Product Name: %s\n", info->dsc_product_name);
-    printf ("  Serial Number: %s\n", info->dsc_serial_number);
-    printf ("  Unspecified String: %s\n", info->dsc_string);
+    రాయి ("Detailed Product information:\n");
+    రాయి ("  Product Name: %s\n", info->dsc_లబ్ధం_name);
+    రాయి ("  Serial Number: %s\n", info->dsc_serial_సంఖ్య);
+    రాయి ("  Unspecified String: %s\n", info->dsc_string);
 }
 

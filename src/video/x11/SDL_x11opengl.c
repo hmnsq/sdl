@@ -19,252 +19,252 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11xsync.h"
-#include "../../SDL_hints_c.h"
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11xsync.h"
+#అన్తర్భావ "../../SDL_hints_c.h"
 
 // GLX implementation of SDL OpenGL support
 
-#ifdef SDL_VIDEO_OPENGL_GLX
-#include "SDL_x11opengles.h"
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_GLX
+#అన్తర్భావ "SDL_x11opengles.h"
 
-#if defined(SDL_PLATFORM_IRIX) || defined(SDL_PLATFORM_NETBSD) || defined(SDL_PLATFORM_OPENBSD)
+#ఒకవేళ defined(SDL_PLATFORM_IRIX) || defined(SDL_PLATFORM_NETBSD) || defined(SDL_PLATFORM_OPENBSD)
 /*
  * IRIX doesn't have a GL library versioning system.
  * NetBSD and OpenBSD have different GL library versions depending on how
  * the library was installed.
  */
-#define DEFAULT_OPENGL "libGL.so"
-#elif defined(SDL_PLATFORM_MACOS)
-#define DEFAULT_OPENGL "/opt/X11/lib/libGL.1.dylib"
-#else
-#define DEFAULT_OPENGL "libGL.so.1"
-#endif
+#నిర్వచించు DEFAULT_OPENGL "libGL.so"
+#లేదావేళ defined(SDL_PLATFORM_MACOS)
+#నిర్వచించు DEFAULT_OPENGL "/opt/X11/lib/libGL.1.dylib"
+#లేకపోతే
+#నిర్వచించు DEFAULT_OPENGL "libGL.so.1"
+#అయితే_ముగింపు
 
-#ifndef GLX_NONE_EXT
-#define GLX_NONE_EXT 0x8000
-#endif
+#నిర్వచితం_కాకపోతే GLX_NONE_EXT
+#నిర్వచించు GLX_NONE_EXT 0x8000
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_multisample
-#define GLX_ARB_multisample
-#define GLX_SAMPLE_BUFFERS_ARB 100000
-#define GLX_SAMPLES_ARB        100001
-#endif
+#నిర్వచితం_కాకపోతే GLX_ARB_multisample
+#నిర్వచించు GLX_ARB_multisample
+#నిర్వచించు GLX_SAMPLE_BUFFERS_ARB 100000
+#నిర్వచించు GLX_SAMPLES_ARB        100001
+#అయితే_ముగింపు
 
-#ifndef GLX_EXT_visual_rating
-#define GLX_EXT_visual_rating
-#define GLX_VISUAL_CAVEAT_EXT         0x20
-#define GLX_NONE_EXT                  0x8000
-#define GLX_SLOW_VISUAL_EXT           0x8001
-#define GLX_NON_CONFORMANT_VISUAL_EXT 0x800D
-#endif
+#నిర్వచితం_కాకపోతే GLX_EXT_visual_rating
+#నిర్వచించు GLX_EXT_visual_rating
+#నిర్వచించు GLX_VISUAL_CAVEAT_EXT         0x20
+#నిర్వచించు GLX_NONE_EXT                  0x8000
+#నిర్వచించు GLX_SLOW_VISUAL_EXT           0x8001
+#నిర్వచించు GLX_NON_CONFORMANT_VISUAL_EXT 0x800D
+#అయితే_ముగింపు
 
-#ifndef GLX_EXT_visual_info
-#define GLX_EXT_visual_info
-#define GLX_X_VISUAL_TYPE_EXT 0x22
-#define GLX_DIRECT_COLOR_EXT  0x8003
-#endif
+#నిర్వచితం_కాకపోతే GLX_EXT_visual_info
+#నిర్వచించు GLX_EXT_visual_info
+#నిర్వచించు GLX_X_VISUAL_TYPE_EXT 0x22
+#నిర్వచించు GLX_ప్రత్యక్ష_COLOR_EXT  0x8003
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_create_context
-#define GLX_ARB_create_context
-#define GLX_CONTEXT_MAJOR_VERSION_ARB          0x2091
-#define GLX_CONTEXT_MINOR_VERSION_ARB          0x2092
-#define GLX_CONTEXT_FLAGS_ARB                  0x2094
-#define GLX_CONTEXT_DEBUG_BIT_ARB              0x0001
-#define GLX_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB 0x0002
+#నిర్వచితం_కాకపోతే GLX_ARB_create_context
+#నిర్వచించు GLX_ARB_create_context
+#నిర్వచించు GLX_CONTEXT_MAJOR_సంస్కరణ_ARB          0x2091
+#నిర్వచించు GLX_CONTEXT_MINOR_సంస్కరణ_ARB          0x2092
+#నిర్వచించు GLX_CONTEXT_FLAGS_ARB                  0x2094
+#నిర్వచించు GLX_CONTEXT_DEBUG_బిట్టు_ARB              0x0001
+#నిర్వచించు GLX_CONTEXT_FORWARD_COMPATIBLE_బిట్టు_ARB 0x0002
 
 // Typedef for the GL 3.0 context creation function
-typedef GLXContext (*PFNGLXCREATECONTEXTATTRIBSARBPROC)(Display *dpy,
+రకనిర్వచనం GLXContext (*PFNGLXCREATECONTEXTATTRIBSARBPROC)(Display *dpy,
                                                         GLXFBConfig config,
                                                         GLXContext
                                                             share_context,
-                                                        Bool direct,
-                                                        const int
+                                                        Bool ప్రత్యక్ష,
+                                                        స్థిరరాశి పూర్ణాంకం
                                                             *attrib_list);
-#endif
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_create_context_profile
-#define GLX_ARB_create_context_profile
-#define GLX_CONTEXT_PROFILE_MASK_ARB              0x9126
-#define GLX_CONTEXT_CORE_PROFILE_BIT_ARB          0x00000001
-#define GLX_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB 0x00000002
-#endif
+#నిర్వచితం_కాకపోతే GLX_ARB_create_context_profile
+#నిర్వచించు GLX_ARB_create_context_profile
+#నిర్వచించు GLX_CONTEXT_PROFILE_ముసుగు_ARB              0x9126
+#నిర్వచించు GLX_CONTEXT_CORE_PROFILE_బిట్టు_ARB          0x00000001
+#నిర్వచించు GLX_CONTEXT_COMPATIBILITY_PROFILE_బిట్టు_ARB 0x00000002
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_create_context_robustness
-#define GLX_ARB_create_context_robustness
-#define GLX_CONTEXT_ROBUST_ACCESS_BIT_ARB           0x00000004
-#define GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB 0x8256
-#define GLX_NO_RESET_NOTIFICATION_ARB               0x8261
-#define GLX_LOSE_CONTEXT_ON_RESET_ARB               0x8252
-#endif
+#నిర్వచితం_కాకపోతే GLX_ARB_create_context_robustness
+#నిర్వచించు GLX_ARB_create_context_robustness
+#నిర్వచించు GLX_CONTEXT_ROBUST_ACCESS_బిట్టు_ARB           0x00000004
+#నిర్వచించు GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB 0x8256
+#నిర్వచించు GLX_NO_RESET_NOTIFICATION_ARB               0x8261
+#నిర్వచించు GLX_LOSE_CONTEXT_ON_RESET_ARB               0x8252
+#అయితే_ముగింపు
 
-#ifndef GLX_EXT_create_context_es2_profile
-#define GLX_EXT_create_context_es2_profile
-#ifndef GLX_CONTEXT_ES2_PROFILE_BIT_EXT
-#define GLX_CONTEXT_ES2_PROFILE_BIT_EXT 0x00000002
-#endif
-#endif
+#నిర్వచితం_కాకపోతే GLX_EXT_create_context_es2_profile
+#నిర్వచించు GLX_EXT_create_context_es2_profile
+#నిర్వచితం_కాకపోతే GLX_CONTEXT_ES2_PROFILE_బిట్టు_EXT
+#నిర్వచించు GLX_CONTEXT_ES2_PROFILE_బిట్టు_EXT 0x00000002
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_framebuffer_sRGB
-#define GLX_ARB_framebuffer_sRGB
-#ifndef GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB
-#define GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20B2
-#endif
-#endif
+#నిర్వచితం_కాకపోతే GLX_ARB_framebuffer_sRGB
+#నిర్వచించు GLX_ARB_framebuffer_sRGB
+#నిర్వచితం_కాకపోతే GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB
+#నిర్వచించు GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20B2
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_fbconfig_float
-#define GLX_ARB_fbconfig_float
-#ifndef GLX_RGBA_FLOAT_TYPE_ARB
-#define GLX_RGBA_FLOAT_TYPE_ARB 0x20B9
-#endif
-#ifndef GLX_RGBA_FLOAT_BIT_ARB
-#define GLX_RGBA_FLOAT_BIT_ARB 0x00000004
-#endif
-#endif
+#నిర్వచితం_కాకపోతే GLX_ARB_fbconfig_float
+#నిర్వచించు GLX_ARB_fbconfig_float
+#నిర్వచితం_కాకపోతే GLX_RGBA_FLOAT_TYPE_ARB
+#నిర్వచించు GLX_RGBA_FLOAT_TYPE_ARB 0x20B9
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే GLX_RGBA_FLOAT_బిట్టు_ARB
+#నిర్వచించు GLX_RGBA_FLOAT_బిట్టు_ARB 0x00000004
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_create_context_no_error
-#define GLX_ARB_create_context_no_error
-#ifndef GLX_CONTEXT_OPENGL_NO_ERROR_ARB
-#define GLX_CONTEXT_OPENGL_NO_ERROR_ARB 0x31B3
-#endif
-#endif
+#నిర్వచితం_కాకపోతే GLX_ARB_create_context_no_error
+#నిర్వచించు GLX_ARB_create_context_no_error
+#నిర్వచితం_కాకపోతే GLX_CONTEXT_OPENGL_NO_ERROR_ARB
+#నిర్వచించు GLX_CONTEXT_OPENGL_NO_ERROR_ARB 0x31B3
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifndef GLX_EXT_swap_control
-#define GLX_SWAP_INTERVAL_EXT     0x20F1
-#define GLX_MAX_SWAP_INTERVAL_EXT 0x20F2
-#endif
+#నిర్వచితం_కాకపోతే GLX_EXT_మార్పిడి_control
+#నిర్వచించు GLX_మార్పిడి_INTERVAL_EXT     0x20F1
+#నిర్వచించు GLX_MAX_మార్పిడి_INTERVAL_EXT 0x20F2
+#అయితే_ముగింపు
 
-#ifndef GLX_EXT_swap_control_tear
-#define GLX_LATE_SWAPS_TEAR_EXT 0x20F3
-#endif
+#నిర్వచితం_కాకపోతే GLX_EXT_మార్పిడి_control_tear
+#నిర్వచించు GLX_LATE_SWAPS_TEAR_EXT 0x20F3
+#అయితే_ముగింపు
 
-#ifndef GLX_ARB_context_flush_control
-#define GLX_ARB_context_flush_control
-#define GLX_CONTEXT_RELEASE_BEHAVIOR_ARB       0x2097
-#define GLX_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB  0x0000
-#define GLX_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB 0x2098
-#endif
+#నిర్వచితం_కాకపోతే GLX_ARB_context_flush_control
+#నిర్వచించు GLX_ARB_context_flush_control
+#నిర్వచించు GLX_CONTEXT_RELEASE_BEHAVIOR_ARB       0x2097
+#నిర్వచించు GLX_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB  0x0000
+#నిర్వచించు GLX_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB 0x2098
+#అయితే_ముగింపు
 
-#define OPENGL_REQUIRES_DLOPEN
-#if defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
-#include <dlfcn.h>
-#define GL_LoadObject(X) dlopen(X, (RTLD_NOW | RTLD_GLOBAL))
-#define GL_LoadFunction  dlsym
-#define GL_UnloadObject  dlclose
-#else
-#define GL_LoadObject   SDL_LoadObject
-#define GL_LoadFunction SDL_LoadFunction
-#define GL_UnloadObject SDL_UnloadObject
-#endif
+#నిర్వచించు OPENGL_REQUIRES_DLOPEN
+#ఒకవేళ defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
+#అన్తర్భావ <dlfcn.h>
+#నిర్వచించు GL_ఎక్కించు_Object(X) dlopen(X, (RTLD_NOW | RTLD_GLOBAL))
+#నిర్వచించు GL_ఎక్కించు_Function  dlsym
+#నిర్వచించు GL_UnloadObject  dlclose
+#లేకపోతే
+#నిర్వచించు GL_ఎక్కించు_Object   SDL_ఎక్కించు_Object
+#నిర్వచించు GL_ఎక్కించు_Function SDL_ఎక్కించు_Function
+#నిర్వచించు GL_UnloadObject SDL_UnloadObject
+#అయితే_ముగింపు
 
-static void X11_GL_InitExtensions(SDL_VideoDevice *_this);
+స్థిర శూన్య X11_GL_InitExtensions(SDL_VideoDevice *_this);
 
-static bool X11_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const char *path)
+స్థిర bool X11_GL_ఎక్కించు_Library_EGLFallback(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
     X11_GL_UnloadLibrary(_this);
-    _this->GL_LoadLibrary = X11_GLES_LoadLibrary;
-    _this->GL_GetProcAddress = X11_GLES_GetProcAddress;
+    _this->GL_ఎక్కించు_Library = X11_GLES_ఎక్కించు_Library;
+    _this->GL_Get_Proc_చిరునామా = X11_GLES_Get_Proc_చిరునామా;
     _this->GL_UnloadLibrary = X11_GLES_UnloadLibrary;
     _this->GL_CreateContext = X11_GLES_CreateContext;
     _this->GL_MakeCurrent = X11_GLES_MakeCurrent;
-    _this->GL_SetSwapInterval = X11_GLES_SetSwapInterval;
-    _this->GL_GetSwapInterval = X11_GLES_GetSwapInterval;
-    _this->GL_SwapWindow = X11_GLES_SwapWindow;
+    _this->GL_సమితి_మార్పిడి_Interval = X11_GLES_సమితి_మార్పిడి_Interval;
+    _this->GL_Get_మార్పిడి_Interval = X11_GLES_Get_మార్పిడి_Interval;
+    _this->GL_మార్పిడి_కిటికీ = X11_GLES_మార్పిడి_కిటికీ;
     _this->GL_DestroyContext = X11_GLES_DestroyContext;
     _this->GL_GetEGLSurface = X11_GLES_GetEGLSurface;
-    return X11_GLES_LoadLibrary(_this, path);
-#else
-    return SDL_SetError("SDL not configured with EGL support");
-#endif
+    తిరిగి X11_GLES_ఎక్కించు_Library(_this, మార్గం);
+#లేకపోతే
+    తిరిగి SDL_సమితి_Error("SDL not configured with EGL support");
+#అయితే_ముగింపు
 }
 
-bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool X11_GL_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
     Display *display;
     SDL_SharedObject *handle;
 
-    if (_this->gl_data) {
-        return SDL_SetError("OpenGL context already created");
+    ఒకవేళ (_this->gl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("OpenGL context already created");
     }
 
-    if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) &&
+    ఒకవేళ ((_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES) &&
         SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false)) {
-        return X11_GL_LoadLibrary_EGLFallback(_this, path);
+        తిరిగి X11_GL_ఎక్కించు_Library_EGLFallback(_this, మార్గం);
     }
 
     // Load the OpenGL library
-    if (path == NULL) {
-        path = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
+    ఒకవేళ (మార్గం == ఖాళీ) {
+        మార్గం = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
     }
-    if (path == NULL) {
-        path = DEFAULT_OPENGL;
+    ఒకవేళ (మార్గం == ఖాళీ) {
+        మార్గం = DEFAULT_OPENGL;
     }
-    _this->gl_config.dll_handle = GL_LoadObject(path);
-    if (!_this->gl_config.dll_handle) {
-#if defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
-        SDL_SetError("Failed loading %s: %s", path, dlerror());
-#endif
-        return false;
+    _this->gl_config.dll_handle = GL_ఎక్కించు_Object(మార్గం);
+    ఒకవేళ (!_this->gl_config.dll_handle) {
+#ఒకవేళ defined(OPENGL_REQUIRES_DLOPEN) && defined(HAVE_DLOPEN)
+        SDL_సమితి_Error("Failed loading %s: %s", మార్గం, dlerror());
+#అయితే_ముగింపు
+        తిరిగి false;
     }
-    SDL_strlcpy(_this->gl_config.driver_path, path,
-                SDL_arraysize(_this->gl_config.driver_path));
+    SDL_strlcpy(_this->gl_config.driver_మార్గం, మార్గం,
+                SDL_arraysize(_this->gl_config.driver_మార్గం));
 
     // Allocate OpenGL memory
-    _this->gl_data =
-        (struct SDL_GLDriverData *)SDL_calloc(1,
-                                              sizeof(struct
-                                                     SDL_GLDriverData));
-    if (!_this->gl_data) {
-        return false;
+    _this->gl_దత్తాంశం =
+        (నిర్మాణం SDL_GLDriver_దత్తాంశం *)SDL_calloc(1,
+                                              పరిమాణం(నిర్మాణం
+                                                     SDL_GLDriver_దత్తాంశం));
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
+        తిరిగి false;
     }
 
     // Load function pointers
     handle = _this->gl_config.dll_handle;
-    _this->gl_data->glXQueryExtension =
-        (Bool(*)(Display *, int *, int *))
-            GL_LoadFunction(handle, "glXQueryExtension");
-    _this->gl_data->glXGetProcAddress =
-        (__GLXextFuncPtr (*)(const GLubyte *))
-            GL_LoadFunction(handle, "glXGetProcAddressARB");
-    _this->gl_data->glXChooseVisual =
-        (XVisualInfo * (*)(Display *, int, int *))
-            X11_GL_GetProcAddress(_this, "glXChooseVisual");
-    _this->gl_data->glXCreateContext =
-        (GLXContext(*)(Display *, XVisualInfo *, GLXContext, int))
-            X11_GL_GetProcAddress(_this, "glXCreateContext");
-    _this->gl_data->glXDestroyContext =
-        (void (*)(Display *, GLXContext))
-            X11_GL_GetProcAddress(_this, "glXDestroyContext");
-    _this->gl_data->glXMakeCurrent =
-        (int (*)(Display *, GLXDrawable, GLXContext))
-            X11_GL_GetProcAddress(_this, "glXMakeCurrent");
-    _this->gl_data->glXSwapBuffers =
-        (void (*)(Display *, GLXDrawable))
-            X11_GL_GetProcAddress(_this, "glXSwapBuffers");
-    _this->gl_data->glXQueryDrawable =
-        (void (*)(Display *, GLXDrawable, int, unsigned int *))
-            X11_GL_GetProcAddress(_this, "glXQueryDrawable");
+    _this->gl_దత్తాంశం->glXQueryExtension =
+        (Bool(*)(Display *, పూర్ణాంకం *, పూర్ణాంకం *))
+            GL_ఎక్కించు_Function(handle, "glXQueryExtension");
+    _this->gl_దత్తాంశం->gl_XGet_Proc_చిరునామా =
+        (__GLXextFuncPtr (*)(స్థిరరాశి GLubyte *))
+            GL_ఎక్కించు_Function(handle, "glXGetProcAddressARB");
+    _this->gl_దత్తాంశం->glXChooseVisual =
+        (XVisualInfo * (*)(Display *, పూర్ణాంకం, పూర్ణాంకం *))
+            X11_GL_Get_Proc_చిరునామా(_this, "glXChooseVisual");
+    _this->gl_దత్తాంశం->glXCreateContext =
+        (GLXContext(*)(Display *, XVisualInfo *, GLXContext, పూర్ణాంకం))
+            X11_GL_Get_Proc_చిరునామా(_this, "glXCreateContext");
+    _this->gl_దత్తాంశం->glXDestroyContext =
+        (శూన్య (*)(Display *, GLXContext))
+            X11_GL_Get_Proc_చిరునామా(_this, "glXDestroyContext");
+    _this->gl_దత్తాంశం->glXMakeCurrent =
+        (పూర్ణాంకం (*)(Display *, GLXDrawable, GLXContext))
+            X11_GL_Get_Proc_చిరునామా(_this, "glXMakeCurrent");
+    _this->gl_దత్తాంశం->glXSwapBuffers =
+        (శూన్య (*)(Display *, GLXDrawable))
+            X11_GL_Get_Proc_చిరునామా(_this, "glXSwapBuffers");
+    _this->gl_దత్తాంశం->glXQueryDrawable =
+        (శూన్య (*)(Display *, GLXDrawable, పూర్ణాంకం, గుర్తులేని పూర్ణాంకం *))
+            X11_GL_Get_Proc_చిరునామా(_this, "glXQueryDrawable");
 
-    if (!_this->gl_data->glXQueryExtension ||
-        !_this->gl_data->glXChooseVisual ||
-        !_this->gl_data->glXCreateContext ||
-        !_this->gl_data->glXDestroyContext ||
-        !_this->gl_data->glXMakeCurrent ||
-        !_this->gl_data->glXSwapBuffers) {
-        return SDL_SetError("Could not retrieve OpenGL functions");
+    ఒకవేళ (!_this->gl_దత్తాంశం->glXQueryExtension ||
+        !_this->gl_దత్తాంశం->glXChooseVisual ||
+        !_this->gl_దత్తాంశం->glXCreateContext ||
+        !_this->gl_దత్తాంశం->glXDestroyContext ||
+        !_this->gl_దత్తాంశం->glXMakeCurrent ||
+        !_this->gl_దత్తాంశం->glXSwapBuffers) {
+        తిరిగి SDL_సమితి_Error("Could not retrieve OpenGL functions");
     }
 
-    display = _this->internal->display;
-    if (!_this->gl_data->glXQueryExtension(display, &_this->gl_data->errorBase, &_this->gl_data->eventBase)) {
-        return SDL_SetError("GLX is not supported");
+    display = _this->అంతర్గత->display;
+    ఒకవేళ (!_this->gl_దత్తాంశం->glXQueryExtension(display, &_this->gl_దత్తాంశం->error_పునాది, &_this->gl_దత్తాంశం->event_పునాది)) {
+        తిరిగి SDL_సమితి_Error("GLX is not supported");
     }
 
-    _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNTESTED;
+    _this->gl_దత్తాంశం->మార్పిడి_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNTESTED;
 
     // Initialize extensions
     /* See lengthy comment about the inc/dec in
@@ -276,118 +276,118 @@ bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     /* If we need a GL ES context and there's no
      * GLX_EXT_create_context_es2_profile extension, switch over to X11_GLES functions
      */
-    if (((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
+    ఒకవేళ (((_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES) ||
          SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) &&
         X11_GL_UseEGL(_this)) {
-        return X11_GL_LoadLibrary_EGLFallback(_this, NULL);
+        తిరిగి X11_GL_ఎక్కించు_Library_EGLFallback(_this, ఖాళీ);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_సూచిక X11_GL_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc)
 {
-    if (_this->gl_data->glXGetProcAddress) {
-        return _this->gl_data->glXGetProcAddress((const GLubyte *)proc);
+    ఒకవేళ (_this->gl_దత్తాంశం->gl_XGet_Proc_చిరునామా) {
+        తిరిగి _this->gl_దత్తాంశం->gl_XGet_Proc_చిరునామా((స్థిరరాశి GLubyte *)proc);
     }
-    return GL_LoadFunction(_this->gl_config.dll_handle, proc);
+    తిరిగి GL_ఎక్కించు_Function(_this->gl_config.dll_handle, proc);
 }
 
-void X11_GL_UnloadLibrary(SDL_VideoDevice *_this)
+శూన్య X11_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
     /* Don't actually unload the library, since it may have registered
      * X11 shutdown hooks, per the notes at:
      * http://dri.sourceforge.net/doc/DRIuserguide.html
      */
-#if 0
+#ఒకవేళ 0
     GL_UnloadObject(_this->gl_config.dll_handle);
-    _this->gl_config.dll_handle = NULL;
-#endif
+    _this->gl_config.dll_handle = ఖాళీ;
+#అయితే_ముగింపు
 
     // Free OpenGL memory
-    SDL_free(_this->gl_data);
-    _this->gl_data = NULL;
+    SDL_free(_this->gl_దత్తాంశం);
+    _this->gl_దత్తాంశం = ఖాళీ;
 }
 
-static bool HasExtension(const char *extension, const char *extensions)
+స్థిర bool HasExtension(స్థిరరాశి అక్షరం *extension, స్థిరరాశి అక్షరం *extensions)
 {
-    const char *start;
-    const char *where, *terminator;
+    స్థిరరాశి అక్షరం *ప్రారంభం;
+    స్థిరరాశి అక్షరం *where, *terminator;
 
-    if (!extensions) {
-        return false;
+    ఒకవేళ (!extensions) {
+        తిరిగి false;
     }
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    ఒకవేళ (where || *extension == '\0') {
+        తిరిగి false;
     }
 
     /* It takes a bit of care to be fool-proof about parsing the
      * OpenGL extensions string. Don't be fooled by sub-strings,
      * etc. */
 
-    start = extensions;
+    ప్రారంభం = extensions;
 
-    for (;;) {
-        where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+    కొరకు (;;) {
+        where = SDL_strstr(ప్రారంభం, extension);
+        ఒకవేళ (!where) {
+            ఆపు;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == start || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        ఒకవేళ (where == ప్రారంభం || *(where - 1) == ' ') {
+            ఒకవేళ (*terminator == ' ' || *terminator == '\0') {
+                తిరిగి true;
             }
         }
 
-        start = terminator;
+        ప్రారంభం = terminator;
     }
-    return false;
+    తిరిగి false;
 }
 
-static void X11_GL_InitExtensions(SDL_VideoDevice *_this)
+స్థిర శూన్య X11_GL_InitExtensions(SDL_VideoDevice *_this)
 {
-    Display *display = _this->internal->display;
-    const int screen = DefaultScreen(display);
-    XVisualInfo *vinfo = NULL;
-    Window w = 0;
-    GLXContext prev_ctx = NULL;
+    Display *display = _this->అంతర్గత->display;
+    స్థిరరాశి పూర్ణాంకం screen = DefaultScreen(display);
+    XVisualInfo *vinfo = ఖాళీ;
+    కిటికీ_2 w = 0;
+    GLXContext prev_ctx = ఖాళీ;
     GLXDrawable prev_drawable = 0;
-    GLXContext context = NULL;
-    const char *(*glXQueryExtensionsStringFunc)(Display *, int);
-    const char *extensions;
+    GLXContext context = ఖాళీ;
+    స్థిరరాశి అక్షరం *(*glXQueryExtensionsStringFunc)(Display *, పూర్ణాంకం);
+    స్థిరరాశి అక్షరం *extensions;
 
     vinfo = X11_GL_GetVisual(_this, display, screen, false);
-    if (vinfo) {
-        GLXContext (*glXGetCurrentContextFunc)(void) =
-            (GLXContext(*)(void))
-                X11_GL_GetProcAddress(_this, "glXGetCurrentContext");
+    ఒకవేళ (vinfo) {
+        GLXContext (*glXGetCurrentContextFunc)(శూన్య) =
+            (GLXContext(*)(శూన్య))
+                X11_GL_Get_Proc_చిరునామా(_this, "glXGetCurrentContext");
 
-        GLXDrawable (*glXGetCurrentDrawableFunc)(void) =
-            (GLXDrawable(*)(void))
-                X11_GL_GetProcAddress(_this, "glXGetCurrentDrawable");
+        GLXDrawable (*glXGetCurrentDrawableFunc)(శూన్య) =
+            (GLXDrawable(*)(శూన్య))
+                X11_GL_Get_Proc_చిరునామా(_this, "glXGetCurrentDrawable");
 
-        if (glXGetCurrentContextFunc && glXGetCurrentDrawableFunc) {
-            XSetWindowAttributes xattr;
+        ఒకవేళ (glXGetCurrentContextFunc && glXGetCurrentDrawableFunc) {
+            XSet_కిటికీ_లక్షణాలు xattr;
             prev_ctx = glXGetCurrentContextFunc();
             prev_drawable = glXGetCurrentDrawableFunc();
 
             xattr.background_pixel = 0;
             xattr.border_pixel = 0;
             xattr.colormap =
-                X11_XCreateColormap(display, RootWindow(display, screen),
+                X11_XCreateColormap(display, మూలం_కిటికీ(display, screen),
                                     vinfo->visual, AllocNone);
-            w = X11_XCreateWindow(display, RootWindow(display, screen), 0, 0,
-                                  32, 32, 0, vinfo->depth, InputOutput, vinfo->visual,
+            w = X11_XCreate_కిటికీ(display, మూలం_కిటికీ(display, screen), 0, 0,
+                                  32, 32, 0, vinfo->లోతు_2, ఆదానం_Output, vinfo->visual,
                                   (CWBackPixel | CWBorderPixel | CWColormap), &xattr);
 
-            context = _this->gl_data->glXCreateContext(display, vinfo,
-                                                       NULL, True);
-            if (context) {
-                _this->gl_data->glXMakeCurrent(display, w, context);
+            context = _this->gl_దత్తాంశం->glXCreateContext(display, vinfo,
+                                                       ఖాళీ, True);
+            ఒకవేళ (context) {
+                _this->gl_దత్తాంశం->glXMakeCurrent(display, w, context);
             }
         }
 
@@ -395,106 +395,106 @@ static void X11_GL_InitExtensions(SDL_VideoDevice *_this)
     }
 
     glXQueryExtensionsStringFunc =
-        (const char *(*)(Display *, int))X11_GL_GetProcAddress(_this,
+        (స్థిరరాశి అక్షరం *(*)(Display *, పూర్ణాంకం))X11_GL_Get_Proc_చిరునామా(_this,
                                                                "glXQueryExtensionsString");
-    if (glXQueryExtensionsStringFunc) {
+    ఒకవేళ (glXQueryExtensionsStringFunc) {
         extensions = glXQueryExtensionsStringFunc(display, screen);
-    } else {
-        extensions = NULL;
+    } లేకపోతే {
+        extensions = ఖాళీ;
     }
 
     // Check for GLX_EXT_swap_control(_tear)
-    _this->gl_data->HAS_GLX_EXT_swap_control_tear = false;
-    if (HasExtension("GLX_EXT_swap_control", extensions)) {
-        _this->gl_data->glXSwapIntervalEXT =
-            (void (*)(Display *, GLXDrawable, int))
-                X11_GL_GetProcAddress(_this, "glXSwapIntervalEXT");
-        if (HasExtension("GLX_EXT_swap_control_tear", extensions)) {
-            _this->gl_data->HAS_GLX_EXT_swap_control_tear = true;
+    _this->gl_దత్తాంశం->HAS_GLX_EXT_మార్పిడి_control_tear = false;
+    ఒకవేళ (HasExtension("GLX_EXT_swap_control", extensions)) {
+        _this->gl_దత్తాంశం->glXSwapIntervalEXT =
+            (శూన్య (*)(Display *, GLXDrawable, పూర్ణాంకం))
+                X11_GL_Get_Proc_చిరునామా(_this, "glXSwapIntervalEXT");
+        ఒకవేళ (HasExtension("GLX_EXT_swap_control_tear", extensions)) {
+            _this->gl_దత్తాంశం->HAS_GLX_EXT_మార్పిడి_control_tear = true;
         }
     }
 
     // Check for GLX_MESA_swap_control
-    if (HasExtension("GLX_MESA_swap_control", extensions)) {
-        _this->gl_data->glXSwapIntervalMESA =
-            (int (*)(int))X11_GL_GetProcAddress(_this, "glXSwapIntervalMESA");
-        _this->gl_data->glXGetSwapIntervalMESA =
-            (int (*)(void))X11_GL_GetProcAddress(_this,
+    ఒకవేళ (HasExtension("GLX_MESA_swap_control", extensions)) {
+        _this->gl_దత్తాంశం->glXSwapIntervalMESA =
+            (పూర్ణాంకం (*)(పూర్ణాంకం))X11_GL_Get_Proc_చిరునామా(_this, "glXSwapIntervalMESA");
+        _this->gl_దత్తాంశం->gl_XGet_మార్పిడి_Interval_MESA =
+            (పూర్ణాంకం (*)(శూన్య))X11_GL_Get_Proc_చిరునామా(_this,
                                                  "glXGetSwapIntervalMESA");
     }
 
     // Check for GLX_SGI_swap_control
-    if (HasExtension("GLX_SGI_swap_control", extensions)) {
-        _this->gl_data->glXSwapIntervalSGI =
-            (int (*)(int))X11_GL_GetProcAddress(_this, "glXSwapIntervalSGI");
+    ఒకవేళ (HasExtension("GLX_SGI_swap_control", extensions)) {
+        _this->gl_దత్తాంశం->glXSwapIntervalSGI =
+            (పూర్ణాంకం (*)(పూర్ణాంకం))X11_GL_Get_Proc_చిరునామా(_this, "glXSwapIntervalSGI");
     }
 
     // Check for GLX_ARB_create_context
-    if (HasExtension("GLX_ARB_create_context", extensions)) {
-        _this->gl_data->glXCreateContextAttribsARB =
-            (GLXContext(*)(Display *, GLXFBConfig, GLXContext, Bool, const int *))
-                X11_GL_GetProcAddress(_this, "glXCreateContextAttribsARB");
-        _this->gl_data->glXChooseFBConfig =
-            (GLXFBConfig * (*)(Display *, int, const int *, int *))
-                X11_GL_GetProcAddress(_this, "glXChooseFBConfig");
-        _this->gl_data->glXGetVisualFromFBConfig =
+    ఒకవేళ (HasExtension("GLX_ARB_create_context", extensions)) {
+        _this->gl_దత్తాంశం->glXCreateContextAttribsARB =
+            (GLXContext(*)(Display *, GLXFBConfig, GLXContext, Bool, స్థిరరాశి పూర్ణాంకం *))
+                X11_GL_Get_Proc_చిరునామా(_this, "glXCreateContextAttribsARB");
+        _this->gl_దత్తాంశం->glXChooseFBConfig =
+            (GLXFBConfig * (*)(Display *, పూర్ణాంకం, స్థిరరాశి పూర్ణాంకం *, పూర్ణాంకం *))
+                X11_GL_Get_Proc_చిరునామా(_this, "glXChooseFBConfig");
+        _this->gl_దత్తాంశం->glXGetVisualFromFBConfig =
             (XVisualInfo * (*)(Display *, GLXFBConfig))
-                X11_GL_GetProcAddress(_this, "glXGetVisualFromFBConfig");
+                X11_GL_Get_Proc_చిరునామా(_this, "glXGetVisualFromFBConfig");
     }
 
     // Check for GLX_EXT_visual_rating
-    if (HasExtension("GLX_EXT_visual_rating", extensions)) {
-        _this->gl_data->HAS_GLX_EXT_visual_rating = true;
+    ఒకవేళ (HasExtension("GLX_EXT_visual_rating", extensions)) {
+        _this->gl_దత్తాంశం->HAS_GLX_EXT_visual_rating = true;
     }
 
     // Check for GLX_EXT_visual_info
-    if (HasExtension("GLX_EXT_visual_info", extensions)) {
-        _this->gl_data->HAS_GLX_EXT_visual_info = true;
+    ఒకవేళ (HasExtension("GLX_EXT_visual_info", extensions)) {
+        _this->gl_దత్తాంశం->HAS_GLX_EXT_visual_info = true;
     }
 
     // Check for GLX_EXT_create_context_es2_profile
-    if (HasExtension("GLX_EXT_create_context_es2_profile", extensions)) {
+    ఒకవేళ (HasExtension("GLX_EXT_create_context_es2_profile", extensions)) {
         // this wants to call glGetString(), so it needs a context.
         // !!! FIXME: it would be nice not to make a context here though!
-        if (context) {
+        ఒకవేళ (context) {
             SDL_GL_DeduceMaxSupportedESProfile(
-                &_this->gl_data->es_profile_max_supported_version.major,
-                &_this->gl_data->es_profile_max_supported_version.minor);
+                &_this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.major,
+                &_this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.minor);
         }
     }
 
     // Check for GLX_ARB_context_flush_control
-    if (HasExtension("GLX_ARB_context_flush_control", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_context_flush_control = true;
+    ఒకవేళ (HasExtension("GLX_ARB_context_flush_control", extensions)) {
+        _this->gl_దత్తాంశం->HAS_GLX_ARB_context_flush_control = true;
     }
 
     // Check for GLX_ARB_create_context_robustness
-    if (HasExtension("GLX_ARB_create_context_robustness", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_create_context_robustness = true;
+    ఒకవేళ (HasExtension("GLX_ARB_create_context_robustness", extensions)) {
+        _this->gl_దత్తాంశం->HAS_GLX_ARB_create_context_robustness = true;
     }
 
     // Check for GLX_ARB_create_context_no_error
-    if (HasExtension("GLX_ARB_create_context_no_error", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_create_context_no_error = true;
+    ఒకవేళ (HasExtension("GLX_ARB_create_context_no_error", extensions)) {
+        _this->gl_దత్తాంశం->HAS_GLX_ARB_create_context_no_error = true;
     }
 
     // Check for GLX_ARB_framebuffer_sRGB
-    if (HasExtension("GLX_ARB_framebuffer_sRGB", extensions)) {
-        _this->gl_data->HAS_GLX_ARB_framebuffer_sRGB = true;
-    } else if (HasExtension("GLX_EXT_framebuffer_sRGB", extensions)) {   // same thing.
-        _this->gl_data->HAS_GLX_ARB_framebuffer_sRGB = true;
+    ఒకవేళ (HasExtension("GLX_ARB_framebuffer_sRGB", extensions)) {
+        _this->gl_దత్తాంశం->HAS_GLX_ARB_framebuffer_sRGB = true;
+    } లేకపోతే ఒకవేళ (HasExtension("GLX_EXT_framebuffer_sRGB", extensions)) {   // same thing.
+        _this->gl_దత్తాంశం->HAS_GLX_ARB_framebuffer_sRGB = true;
     }
 
-    if (context) {
-        _this->gl_data->glXMakeCurrent(display, None, NULL);
-        _this->gl_data->glXDestroyContext(display, context);
-        if (prev_ctx && prev_drawable) {
-            _this->gl_data->glXMakeCurrent(display, prev_drawable, prev_ctx);
+    ఒకవేళ (context) {
+        _this->gl_దత్తాంశం->glXMakeCurrent(display, None, ఖాళీ);
+        _this->gl_దత్తాంశం->glXDestroyContext(display, context);
+        ఒకవేళ (prev_ctx && prev_drawable) {
+            _this->gl_దత్తాంశం->glXMakeCurrent(display, prev_drawable, prev_ctx);
         }
     }
 
-    if (w) {
-        X11_XDestroyWindow(display, w);
+    ఒకవేళ (w) {
+        X11_XDestroy_కిటికీ(display, w);
     }
     X11_PumpEvents(_this);
 }
@@ -506,351 +506,351 @@ static void X11_GL_InitExtensions(SDL_VideoDevice *_this)
  *  In case of failure, if that pointer is not NULL, set that pointer to None
  *  and try again.
  */
-static int X11_GL_GetAttributes(SDL_VideoDevice *_this, Display *display, int screen, int *attribs, int size, Bool for_FBConfig, int **_pvistypeattr, bool transparent)
+స్థిర పూర్ణాంకం X11_GL_Get_లక్షణాలు(SDL_VideoDevice *_this, Display *display, పూర్ణాంకం screen, పూర్ణాంకం *attribs, పూర్ణాంకం కొలత, Bool for_FBConfig, పూర్ణాంకం **_pvistypeattr, bool transparent)
 {
-    int i = 0;
-    const int MAX_ATTRIBUTES = 64;
-    int *pvistypeattr = NULL;
+    పూర్ణాంకం i = 0;
+    స్థిరరాశి పూర్ణాంకం MAX_లక్షణాలు = 64;
+    పూర్ణాంకం *pvistypeattr = ఖాళీ;
 
     // assert buffer is large enough to hold all SDL attributes.
-    SDL_assert(size >= MAX_ATTRIBUTES);
+    SDL_assert(కొలత >= MAX_లక్షణాలు);
 
     // Setup our GLX attributes according to the gl_config.
-    if (for_FBConfig) {
+    ఒకవేళ (for_FBConfig) {
         attribs[i++] = GLX_RENDER_TYPE;
-        if (_this->gl_config.floatbuffers) {
-            attribs[i++] = GLX_RGBA_FLOAT_BIT_ARB;
-        } else {
-            attribs[i++] = GLX_RGBA_BIT;
+        ఒకవేళ (_this->gl_config.floatbuffers) {
+            attribs[i++] = GLX_RGBA_FLOAT_బిట్టు_ARB;
+        } లేకపోతే {
+            attribs[i++] = GLX_RGBA_బిట్టు;
         }
-    } else {
+    } లేకపోతే {
         attribs[i++] = GLX_RGBA;
     }
-    attribs[i++] = GLX_RED_SIZE;
-    attribs[i++] = _this->gl_config.red_size;
-    attribs[i++] = GLX_GREEN_SIZE;
-    attribs[i++] = _this->gl_config.green_size;
-    attribs[i++] = GLX_BLUE_SIZE;
-    attribs[i++] = _this->gl_config.blue_size;
+    attribs[i++] = GLX_RED_కొలత;
+    attribs[i++] = _this->gl_config.red_కొలత;
+    attribs[i++] = GLX_GREEN_కొలత;
+    attribs[i++] = _this->gl_config.green_కొలత;
+    attribs[i++] = GLX_BLUE_కొలత;
+    attribs[i++] = _this->gl_config.blue_కొలత;
 
-    if (_this->gl_config.alpha_size) {
-        attribs[i++] = GLX_ALPHA_SIZE;
-        attribs[i++] = _this->gl_config.alpha_size;
+    ఒకవేళ (_this->gl_config.alpha_కొలత) {
+        attribs[i++] = GLX_ALPHA_కొలత;
+        attribs[i++] = _this->gl_config.alpha_కొలత;
     }
 
-    if (_this->gl_config.double_buffer) {
+    ఒకవేళ (_this->gl_config.double_బఫరు) {
         attribs[i++] = GLX_DOUBLEBUFFER;
-        if (for_FBConfig) {
+        ఒకవేళ (for_FBConfig) {
             attribs[i++] = True;
         }
     }
 
-    attribs[i++] = GLX_DEPTH_SIZE;
-    attribs[i++] = _this->gl_config.depth_size;
+    attribs[i++] = GLX_లోతు_కొలత;
+    attribs[i++] = _this->gl_config.లోతు_కొలత;
 
-    if (_this->gl_config.stencil_size) {
-        attribs[i++] = GLX_STENCIL_SIZE;
-        attribs[i++] = _this->gl_config.stencil_size;
+    ఒకవేళ (_this->gl_config.stencil_కొలత) {
+        attribs[i++] = GLX_STENCIL_కొలత;
+        attribs[i++] = _this->gl_config.stencil_కొలత;
     }
 
-    if (_this->gl_config.accum_red_size) {
-        attribs[i++] = GLX_ACCUM_RED_SIZE;
-        attribs[i++] = _this->gl_config.accum_red_size;
+    ఒకవేళ (_this->gl_config.accum_red_కొలత) {
+        attribs[i++] = GLX_ACCUM_RED_కొలత;
+        attribs[i++] = _this->gl_config.accum_red_కొలత;
     }
 
-    if (_this->gl_config.accum_green_size) {
-        attribs[i++] = GLX_ACCUM_GREEN_SIZE;
-        attribs[i++] = _this->gl_config.accum_green_size;
+    ఒకవేళ (_this->gl_config.accum_green_కొలత) {
+        attribs[i++] = GLX_ACCUM_GREEN_కొలత;
+        attribs[i++] = _this->gl_config.accum_green_కొలత;
     }
 
-    if (_this->gl_config.accum_blue_size) {
-        attribs[i++] = GLX_ACCUM_BLUE_SIZE;
-        attribs[i++] = _this->gl_config.accum_blue_size;
+    ఒకవేళ (_this->gl_config.accum_blue_కొలత) {
+        attribs[i++] = GLX_ACCUM_BLUE_కొలత;
+        attribs[i++] = _this->gl_config.accum_blue_కొలత;
     }
 
-    if (_this->gl_config.accum_alpha_size) {
-        attribs[i++] = GLX_ACCUM_ALPHA_SIZE;
-        attribs[i++] = _this->gl_config.accum_alpha_size;
+    ఒకవేళ (_this->gl_config.accum_alpha_కొలత) {
+        attribs[i++] = GLX_ACCUM_ALPHA_కొలత;
+        attribs[i++] = _this->gl_config.accum_alpha_కొలత;
     }
 
-    if (_this->gl_config.stereo) {
+    ఒకవేళ (_this->gl_config.stereo) {
         attribs[i++] = GLX_STEREO;
-        if (for_FBConfig) {
+        ఒకవేళ (for_FBConfig) {
             attribs[i++] = True;
         }
     }
 
-    if (_this->gl_config.multisamplebuffers) {
+    ఒకవేళ (_this->gl_config.multisamplebuffers) {
         attribs[i++] = GLX_SAMPLE_BUFFERS_ARB;
         attribs[i++] = _this->gl_config.multisamplebuffers;
     }
 
-    if (_this->gl_config.multisamplesamples) {
+    ఒకవేళ (_this->gl_config.multisamplesamples) {
         attribs[i++] = GLX_SAMPLES_ARB;
         attribs[i++] = _this->gl_config.multisamplesamples;
     }
 
-    if (_this->gl_config.floatbuffers) {
+    ఒకవేళ (_this->gl_config.floatbuffers) {
         attribs[i++] = GLX_RENDER_TYPE;
         attribs[i++] = GLX_RGBA_FLOAT_TYPE_ARB;
     }
 
-    if (_this->gl_data->HAS_GLX_ARB_framebuffer_sRGB) {
-        const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-        if (srgbhint && *srgbhint) {
-            if (SDL_strcmp(srgbhint, "skip") == 0) {
+    ఒకవేళ (_this->gl_దత్తాంశం->HAS_GLX_ARB_framebuffer_sRGB) {
+        స్థిరరాశి అక్షరం *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+        ఒకవేళ (srgbhint && *srgbhint) {
+            ఒకవేళ (SDL_strcmp(srgbhint, "skip") == 0) {
                 // don't set an attribute at all.
-            } else {
+            } లేకపోతే {
                 attribs[i++] = GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB;
                 attribs[i++] = SDL_GetStringBoolean(srgbhint, false) ? True : False;  // always needed, for_FBConfig or not!
             }
-        } else if (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
+        } లేకపోతే ఒకవేళ (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
             attribs[i++] = GLX_FRAMEBUFFER_SRGB_CAPABLE_ARB;
             attribs[i++] = True; // always needed, for_FBConfig or not!
         }
     }
 
-    if (_this->gl_config.accelerated >= 0 &&
-        _this->gl_data->HAS_GLX_EXT_visual_rating) {
+    ఒకవేళ (_this->gl_config.accelerated >= 0 &&
+        _this->gl_దత్తాంశం->HAS_GLX_EXT_visual_rating) {
         attribs[i++] = GLX_VISUAL_CAVEAT_EXT;
         attribs[i++] = _this->gl_config.accelerated ? GLX_NONE_EXT : GLX_SLOW_VISUAL_EXT;
     }
 
     // Un-wanted when we request a transparent buffer
-    if (!transparent) {
+    ఒకవేళ (!transparent) {
         /* If we're supposed to use DirectColor visuals, and we've got the
            EXT_visual_info extension, then add GLX_X_VISUAL_TYPE_EXT. */
-        if (X11_UseDirectColorVisuals() && _this->gl_data->HAS_GLX_EXT_visual_info) {
+        ఒకవేళ (X11_Use_ప్రత్యక్ష_Color_Visuals() && _this->gl_దత్తాంశం->HAS_GLX_EXT_visual_info) {
             pvistypeattr = &attribs[i];
             attribs[i++] = GLX_X_VISUAL_TYPE_EXT;
-            attribs[i++] = GLX_DIRECT_COLOR_EXT;
+            attribs[i++] = GLX_ప్రత్యక్ష_COLOR_EXT;
         }
     }
 
     attribs[i++] = None;
 
-    SDL_assert(i <= MAX_ATTRIBUTES);
+    SDL_assert(i <= MAX_లక్షణాలు);
 
-    if (_pvistypeattr) {
+    ఒకవేళ (_pvistypeattr) {
         *_pvistypeattr = pvistypeattr;
     }
 
-    return i;
+    తిరిగి i;
 }
 
 //get the first transparent Visual
-static XVisualInfo *X11_GL_GetTransparentVisualInfo(Display *display, int screen)
+స్థిర XVisualInfo *X11_GL_GetTransparentVisualInfo(Display *display, పూర్ణాంకం screen)
 {
-    XVisualInfo *visualinfo = NULL;
-    XVisualInfo vi_in;
-    int out_count = 0;
+    XVisualInfo *visualinfo = ఖాళీ;
+    XVisualInfo vi_లోపల;
+    పూర్ణాంకం బహిర్గతం_లెక్క = 0;
 
-    vi_in.screen = screen;
-    visualinfo = X11_XGetVisualInfo(display, VisualScreenMask, &vi_in, &out_count);
-    if (visualinfo != NULL) {
-        int i = 0;
-        for (i = 0; i < out_count; i++) {
+    vi_లోపల.screen = screen;
+    visualinfo = X11_XGetVisualInfo(display, Visual_Screen_ముసుగు, &vi_లోపల, &బహిర్గతం_లెక్క);
+    ఒకవేళ (visualinfo != ఖాళీ) {
+        పూర్ణాంకం i = 0;
+        కొరకు (i = 0; i < బహిర్గతం_లెక్క; i++) {
             XVisualInfo *v = &visualinfo[i];
             Uint32 format = X11_GetPixelFormatFromVisualInfo(display, v);
-            if (SDL_ISPIXELFORMAT_ALPHA(format)) {
-                vi_in.screen = screen;
-                vi_in.visualid = v->visualid;
+            ఒకవేళ (SDL_ISPIXELFORMAT_ALPHA(format)) {
+                vi_లోపల.screen = screen;
+                vi_లోపల.visualid = v->visualid;
                 X11_XFree(visualinfo);
-                visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
-                break;
+                visualinfo = X11_XGetVisualInfo(display, Visual_Screen_ముసుగు | VisualIDMask, &vi_లోపల, &బహిర్గతం_లెక్క);
+                ఆపు;
             }
         }
     }
-    return visualinfo;
+    తిరిగి visualinfo;
 }
 
-XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent)
+XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, పూర్ణాంకం screen, bool transparent)
 {
     // 64 seems nice.
-    int attribs[64];
-    XVisualInfo *vinfo = NULL;
-    int *pvistypeattr = NULL;
+    పూర్ణాంకం attribs[64];
+    XVisualInfo *vinfo = ఖాళీ;
+    పూర్ణాంకం *pvistypeattr = ఖాళీ;
 
-    if (!_this->gl_data) {
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
         // The OpenGL library wasn't loaded, SDL_GetError() should have info
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    if (_this->gl_data->glXChooseFBConfig &&
-        _this->gl_data->glXGetVisualFromFBConfig) {
-        GLXFBConfig *framebuffer_config = NULL;
-        int fbcount = 0;
+    ఒకవేళ (_this->gl_దత్తాంశం->glXChooseFBConfig &&
+        _this->gl_దత్తాంశం->glXGetVisualFromFBConfig) {
+        GLXFBConfig *framebuffer_config = ఖాళీ;
+        పూర్ణాంకం fbcount = 0;
 
-        X11_GL_GetAttributes(_this, display, screen, attribs, 64, true, &pvistypeattr, transparent);
-        framebuffer_config = _this->gl_data->glXChooseFBConfig(display, screen, attribs, &fbcount);
-        if (!framebuffer_config && (pvistypeattr != NULL)) {
+        X11_GL_Get_లక్షణాలు(_this, display, screen, attribs, 64, true, &pvistypeattr, transparent);
+        framebuffer_config = _this->gl_దత్తాంశం->glXChooseFBConfig(display, screen, attribs, &fbcount);
+        ఒకవేళ (!framebuffer_config && (pvistypeattr != ఖాళీ)) {
             *pvistypeattr = None;
-            framebuffer_config = _this->gl_data->glXChooseFBConfig(display, screen, attribs, &fbcount);
+            framebuffer_config = _this->gl_దత్తాంశం->glXChooseFBConfig(display, screen, attribs, &fbcount);
         }
 
-        if (transparent) {
+        ఒకవేళ (transparent) {
             // Return the first transparent Visual
-            int i;
-            for (i = 0; i < fbcount; i++) {
+            పూర్ణాంకం i;
+            కొరకు (i = 0; i < fbcount; i++) {
                 Uint32 format;
-                vinfo = _this->gl_data->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
+                vinfo = _this->gl_దత్తాంశం->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
                 format = X11_GetPixelFormatFromVisualInfo(display, vinfo);
-                if (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
+                ఒకవేళ (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
                     X11_XFree(framebuffer_config);
-                    framebuffer_config = NULL;
-                    break;
+                    framebuffer_config = ఖాళీ;
+                    ఆపు;
                 }
                 X11_XFree(vinfo);
-                vinfo = NULL;
+                vinfo = ఖాళీ;
             }
         }
 
-        if (framebuffer_config) {
-            vinfo = _this->gl_data->glXGetVisualFromFBConfig(display, framebuffer_config[0]);
+        ఒకవేళ (framebuffer_config) {
+            vinfo = _this->gl_దత్తాంశం->glXGetVisualFromFBConfig(display, framebuffer_config[0]);
         }
 
         X11_XFree(framebuffer_config);
     }
 
-    if (!vinfo) {
-        X11_GL_GetAttributes(_this, display, screen, attribs, 64, false, &pvistypeattr, transparent);
-        vinfo = _this->gl_data->glXChooseVisual(display, screen, attribs);
+    ఒకవేళ (!vinfo) {
+        X11_GL_Get_లక్షణాలు(_this, display, screen, attribs, 64, false, &pvistypeattr, transparent);
+        vinfo = _this->gl_దత్తాంశం->glXChooseVisual(display, screen, attribs);
 
-        if (!vinfo && (pvistypeattr != NULL)) {
+        ఒకవేళ (!vinfo && (pvistypeattr != ఖాళీ)) {
             *pvistypeattr = None;
-            vinfo = _this->gl_data->glXChooseVisual(display, screen, attribs);
+            vinfo = _this->gl_దత్తాంశం->glXChooseVisual(display, screen, attribs);
         }
     }
 
-    if (transparent && vinfo) {
+    ఒకవేళ (transparent && vinfo) {
         Uint32 format = X11_GetPixelFormatFromVisualInfo(display, vinfo);
-        if (!SDL_ISPIXELFORMAT_ALPHA(format)) {
+        ఒకవేళ (!SDL_ISPIXELFORMAT_ALPHA(format)) {
             // not transparent!
             XVisualInfo *visualinfo = X11_GL_GetTransparentVisualInfo(display, screen);
-            if (visualinfo != NULL) {
+            ఒకవేళ (visualinfo != ఖాళీ) {
                 X11_XFree(vinfo);
                 vinfo = visualinfo;
             }
         }
     }
 
-    if (!vinfo) {
-        SDL_SetError("Couldn't find matching GLX visual");
+    ఒకవేళ (!vinfo) {
+        SDL_సమితి_Error("Couldn't find matching GLX visual");
     }
-    return vinfo;
+    తిరిగి vinfo;
 }
 
-static int (*handler)(Display *, XErrorEvent *) = NULL;
-static const char *errorHandlerOperation = NULL;
-static int errorBase = 0;
-static int errorCode = 0;
-static int X11_GL_ErrorHandler(Display *d, XErrorEvent *e)
+స్థిర పూర్ణాంకం (*handler)(Display *, XErrorEvent *) = ఖాళీ;
+స్థిర స్థిరరాశి అక్షరం *errorHandlerOperation = ఖాళీ;
+స్థిర పూర్ణాంకం error_పునాది = 0;
+స్థిర పూర్ణాంకం error_సంకేతం_2 = 0;
+స్థిర పూర్ణాంకం X11_GL_ErrorHandler(Display *d, XErrorEvent *e)
 {
-    char *x11_error = NULL;
-    char x11_error_locale[256];
+    అక్షరం *x11_error = ఖాళీ;
+    అక్షరం x11_error_locale[256];
 
-    errorCode = e->error_code;
-    if (X11_XGetErrorText(d, errorCode, x11_error_locale, sizeof(x11_error_locale)) == Success) {
+    error_సంకేతం_2 = e->error_సంకేతం;
+    ఒకవేళ (X11_XGet_Error_పాఠ్యం(d, error_సంకేతం_2, x11_error_locale, పరిమాణం(x11_error_locale)) == Success) {
         x11_error = SDL_iconv_string("UTF-8", "", x11_error_locale, SDL_strlen(x11_error_locale) + 1);
     }
 
-    if (x11_error) {
-        SDL_SetError("Could not %s: %s", errorHandlerOperation, x11_error);
+    ఒకవేళ (x11_error) {
+        SDL_సమితి_Error("Could not %s: %s", errorHandlerOperation, x11_error);
         SDL_free(x11_error);
-    } else {
-        SDL_SetError("Could not %s: %i (Base %i)", errorHandlerOperation, errorCode, errorBase);
+    } లేకపోతే {
+        SDL_సమితి_Error("Could not %s: %i (Base %i)", errorHandlerOperation, error_సంకేతం_2, error_పునాది);
     }
 
-    return 0;
+    తిరిగి 0;
 }
 
 bool X11_GL_UseEGL(SDL_VideoDevice *_this)
 {
-    SDL_assert(_this->gl_data != NULL);
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
+    SDL_assert(_this->gl_దత్తాంశం != ఖాళీ);
+    ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
         // use of EGL has been requested, even for desktop GL
-        return true;
+        తిరిగి true;
     }
 
-    SDL_assert(_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES);
-    return (SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false) || _this->gl_config.major_version == 1 // No GLX extension for OpenGL ES 1.x profiles.
-            || _this->gl_config.major_version > _this->gl_data->es_profile_max_supported_version.major || (_this->gl_config.major_version == _this->gl_data->es_profile_max_supported_version.major && _this->gl_config.minor_version > _this->gl_data->es_profile_max_supported_version.minor));
+    SDL_assert(_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES);
+    తిరిగి (SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false) || _this->gl_config.major_సంస్కరణ == 1 // No GLX extension for OpenGL ES 1.x profiles.
+            || _this->gl_config.major_సంస్కరణ > _this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.major || (_this->gl_config.major_సంస్కరణ == _this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.major && _this->gl_config.minor_సంస్కరణ > _this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.minor));
 }
 
-SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int screen = SDL_GetDisplayDriverDataForWindow(window)->screen;
-    XWindowAttributes xattr;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    పూర్ణాంకం screen = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ)->screen;
+    XWindow_లక్షణాలు xattr;
     XVisualInfo v, *vinfo;
-    int n;
-    SDL_GLContext context = NULL;
+    పూర్ణాంకం n;
+    SDL_GLContext context = ఖాళీ;
     GLXContext share_context;
-    const int transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
+    స్థిరరాశి పూర్ణాంకం transparent = (కిటికీ->flags & SDL_కిటికీ_TRANSPARENT) ? true : false;
 
-    if (_this->gl_config.share_with_current_context) {
+    ఒకవేళ (_this->gl_config.share_with_current_context) {
         share_context = (GLXContext)SDL_GL_GetCurrentContext();
-    } else {
-        share_context = NULL;
+    } లేకపోతే {
+        share_context = ఖాళీ;
     }
 
     // We do this to create a clean separation between X and GLX errors.
     X11_XSync(display, False);
     errorHandlerOperation = "create GL context";
-    errorBase = _this->gl_data->errorBase;
-    errorCode = Success;
+    error_పునాది = _this->gl_దత్తాంశం->error_పునాది;
+    error_సంకేతం_2 = Success;
     handler = X11_XSetErrorHandler(X11_GL_ErrorHandler);
-    X11_XGetWindowAttributes(display, data->xwindow, &xattr);
+    X11_XGet_కిటికీ_లక్షణాలు(display, దత్తాంశం->xwindow, &xattr);
     v.screen = screen;
     v.visualid = X11_XVisualIDFromVisual(xattr.visual);
-    vinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &v, &n);
-    if (vinfo) {
-        if (_this->gl_config.major_version < 3 &&
-            _this->gl_config.profile_mask == 0 &&
+    vinfo = X11_XGetVisualInfo(display, Visual_Screen_ముసుగు | VisualIDMask, &v, &n);
+    ఒకవేళ (vinfo) {
+        ఒకవేళ (_this->gl_config.major_సంస్కరణ < 3 &&
+            _this->gl_config.profile_ముసుగు == 0 &&
             _this->gl_config.flags == 0 && !transparent) {
             // Create legacy context
             context =
-                (SDL_GLContext)_this->gl_data->glXCreateContext(display, vinfo, share_context, True);
-        } else {
+                (SDL_GLContext)_this->gl_దత్తాంశం->glXCreateContext(display, vinfo, share_context, True);
+        } లేకపోతే {
             // max 14 attributes plus terminator
-            int attribs[15] = {
-                GLX_CONTEXT_MAJOR_VERSION_ARB,
-                _this->gl_config.major_version,
-                GLX_CONTEXT_MINOR_VERSION_ARB,
-                _this->gl_config.minor_version,
+            పూర్ణాంకం attribs[15] = {
+                GLX_CONTEXT_MAJOR_సంస్కరణ_ARB,
+                _this->gl_config.major_సంస్కరణ,
+                GLX_CONTEXT_MINOR_సంస్కరణ_ARB,
+                _this->gl_config.minor_సంస్కరణ,
                 0
             };
-            int iattr = 4;
+            పూర్ణాంకం iattr = 4;
 
             // SDL profile bits match GLX profile bits
-            if (_this->gl_config.profile_mask != 0) {
-                attribs[iattr++] = GLX_CONTEXT_PROFILE_MASK_ARB;
-                attribs[iattr++] = _this->gl_config.profile_mask;
+            ఒకవేళ (_this->gl_config.profile_ముసుగు != 0) {
+                attribs[iattr++] = GLX_CONTEXT_PROFILE_ముసుగు_ARB;
+                attribs[iattr++] = _this->gl_config.profile_ముసుగు;
             }
 
             // SDL flags match GLX flags
-            if (_this->gl_config.flags != 0) {
+            ఒకవేళ (_this->gl_config.flags != 0) {
                 attribs[iattr++] = GLX_CONTEXT_FLAGS_ARB;
                 attribs[iattr++] = _this->gl_config.flags;
             }
 
             // only set if glx extension is available and not the default setting
-            if ((_this->gl_data->HAS_GLX_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
+            ఒకవేళ ((_this->gl_దత్తాంశం->HAS_GLX_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
                 attribs[iattr++] = GLX_CONTEXT_RELEASE_BEHAVIOR_ARB;
                 attribs[iattr++] =
                     _this->gl_config.release_behavior ? GLX_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB : GLX_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB;
             }
 
             // only set if glx extension is available and not the default setting
-            if ((_this->gl_data->HAS_GLX_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
+            ఒకవేళ ((_this->gl_దత్తాంశం->HAS_GLX_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
                 attribs[iattr++] = GLX_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB;
                 attribs[iattr++] =
                     _this->gl_config.reset_notification ? GLX_LOSE_CONTEXT_ON_RESET_ARB : GLX_NO_RESET_NOTIFICATION_ARB;
             }
 
             // only set if glx extension is available and not the default setting
-            if ((_this->gl_data->HAS_GLX_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
+            ఒకవేళ ((_this->gl_దత్తాంశం->HAS_GLX_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
                 attribs[iattr++] = GLX_CONTEXT_OPENGL_NO_ERROR_ARB;
                 attribs[iattr++] = _this->gl_config.no_error;
             }
@@ -858,52 +858,52 @@ SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
             attribs[iattr++] = 0;
 
             // Get a pointer to the context creation function for GL 3.0
-            if (!_this->gl_data->glXCreateContextAttribsARB) {
-                SDL_SetError("OpenGL 3.0 and later are not supported by this system");
-            } else {
-                int glxAttribs[64];
+            ఒకవేళ (!_this->gl_దత్తాంశం->glXCreateContextAttribsARB) {
+                SDL_సమితి_Error("OpenGL 3.0 and later are not supported by this system");
+            } లేకపోతే {
+                పూర్ణాంకం glxAttribs[64];
 
                 // Create a GL 3.x context
-                GLXFBConfig *framebuffer_config = NULL;
-                int fbcount = 0;
-                int *pvistypeattr = NULL;
+                GLXFBConfig *framebuffer_config = ఖాళీ;
+                పూర్ణాంకం fbcount = 0;
+                పూర్ణాంకం *pvistypeattr = ఖాళీ;
 
-                X11_GL_GetAttributes(_this, display, screen, glxAttribs, 64, true, &pvistypeattr, transparent);
+                X11_GL_Get_లక్షణాలు(_this, display, screen, glxAttribs, 64, true, &pvistypeattr, transparent);
 
-                if (_this->gl_data->glXChooseFBConfig) {
-                    framebuffer_config = _this->gl_data->glXChooseFBConfig(display,
+                ఒకవేళ (_this->gl_దత్తాంశం->glXChooseFBConfig) {
+                    framebuffer_config = _this->gl_దత్తాంశం->glXChooseFBConfig(display,
                                                                            DefaultScreen(display), glxAttribs,
                                                                            &fbcount);
 
-                    if (!framebuffer_config && (pvistypeattr != NULL)) {
+                    ఒకవేళ (!framebuffer_config && (pvistypeattr != ఖాళీ)) {
                         *pvistypeattr = None;
-                        framebuffer_config = _this->gl_data->glXChooseFBConfig(display,
+                        framebuffer_config = _this->gl_దత్తాంశం->glXChooseFBConfig(display,
                                                                                DefaultScreen(display), glxAttribs,
                                                                                &fbcount);
                     }
 
-                    if (transparent && (framebuffer_config != NULL)) {
-                        int i;
-                        for (i = 0; i < fbcount; i++) {
-                            XVisualInfo *vinfo_temp = _this->gl_data->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
-                            if ( vinfo_temp != NULL) {
-                                Uint32 format = X11_GetPixelFormatFromVisualInfo(display, vinfo_temp);
-                                if (SDL_ISPIXELFORMAT_ALPHA(format)) {
+                    ఒకవేళ (transparent && (framebuffer_config != ఖాళీ)) {
+                        పూర్ణాంకం i;
+                        కొరకు (i = 0; i < fbcount; i++) {
+                            XVisualInfo *vinfo_తాత్కాలిక = _this->gl_దత్తాంశం->glXGetVisualFromFBConfig(display, framebuffer_config[i]);
+                            ఒకవేళ ( vinfo_తాత్కాలిక != ఖాళీ) {
+                                Uint32 format = X11_GetPixelFormatFromVisualInfo(display, vinfo_తాత్కాలిక);
+                                ఒకవేళ (SDL_ISPIXELFORMAT_ALPHA(format)) {
                                     // found!
-                                    context = (SDL_GLContext)_this->gl_data->glXCreateContextAttribsARB(display,
+                                    context = (SDL_GLContext)_this->gl_దత్తాంశం->glXCreateContextAttribsARB(display,
                                                                                                         framebuffer_config[i],
                                                                                                         share_context, True, attribs);
                                     X11_XFree(framebuffer_config);
-                                    framebuffer_config = NULL;
-                                    X11_XFree(vinfo_temp);
-                                    break;
+                                    framebuffer_config = ఖాళీ;
+                                    X11_XFree(vinfo_తాత్కాలిక);
+                                    ఆపు;
                                 }
-                                X11_XFree(vinfo_temp);
+                                X11_XFree(vinfo_తాత్కాలిక);
                             }
                         }
                     }
-                    if (framebuffer_config) {
-                        context = (SDL_GLContext)_this->gl_data->glXCreateContextAttribsARB(display,
+                    ఒకవేళ (framebuffer_config) {
+                        context = (SDL_GLContext)_this->gl_దత్తాంశం->glXCreateContextAttribsARB(display,
                                                                              framebuffer_config[0],
                                                                              share_context, True, attribs);
                         X11_XFree(framebuffer_config);
@@ -916,49 +916,49 @@ SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     X11_XSync(display, False);
     X11_XSetErrorHandler(handler);
 
-    if (!context) {
-        if (errorCode == Success) {
-            SDL_SetError("Could not create GL context");
+    ఒకవేళ (!context) {
+        ఒకవేళ (error_సంకేతం_2 == Success) {
+            SDL_సమితి_Error("Could not create GL context");
         }
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    if (!X11_GL_MakeCurrent(_this, window, context)) {
+    ఒకవేళ (!X11_GL_MakeCurrent(_this, కిటికీ, context)) {
         X11_GL_DestroyContext(_this, context);
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    return context;
+    తిరిగి context;
 }
 
-bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context)
 {
-    Display *display = _this->internal->display;
-    Window drawable =
-        (context ? window->internal->xwindow : None);
+    Display *display = _this->అంతర్గత->display;
+    కిటికీ_2 drawable =
+        (context ? కిటికీ->అంతర్గత->xwindow : None);
     GLXContext glx_context = (GLXContext)context;
-    int rc;
+    పూర్ణాంకం rc;
 
-    if (!_this->gl_data) {
-        return SDL_SetError("OpenGL not initialized");
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("OpenGL not initialized");
     }
 
     // We do this to create a clean separation between X and GLX errors.
     X11_XSync(display, False);
     errorHandlerOperation = "make GL context current";
-    errorBase = _this->gl_data->errorBase;
-    errorCode = Success;
+    error_పునాది = _this->gl_దత్తాంశం->error_పునాది;
+    error_సంకేతం_2 = Success;
     handler = X11_XSetErrorHandler(X11_GL_ErrorHandler);
-    rc = _this->gl_data->glXMakeCurrent(display, drawable, glx_context);
+    rc = _this->gl_దత్తాంశం->glXMakeCurrent(display, drawable, glx_context);
     X11_XSetErrorHandler(handler);
 
-    if (errorCode != Success) { // uhoh, an X error was thrown!
-        return false;              // the error handler called SDL_SetError() already.
-    } else if (!rc) {           // glXMakeCurrent() failed without throwing an X error
-        return SDL_SetError("Unable to make GL context current");
+    ఒకవేళ (error_సంకేతం_2 != Success) { // uhoh, an X error was thrown!
+        తిరిగి false;              // the error handler called SDL_SetError() already.
+    } లేకపోతే ఒకవేళ (!rc) {           // glXMakeCurrent() failed without throwing an X error
+        తిరిగి SDL_సమితి_Error("Unable to make GL context current");
     }
 
-    return true;
+    తిరిగి true;
 }
 
 /*
@@ -969,18 +969,18 @@ bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContex
    with 0 as an argument.
 */
 
-static int swapinterval = 0;
-bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+స్థిర పూర్ణాంకం swapinterval = 0;
+bool X11_GL_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval)
 {
-    bool result = false;
+    bool ఫలితం = false;
 
-    if ((interval < 0) && (!_this->gl_data->HAS_GLX_EXT_swap_control_tear)) {
-        return SDL_SetError("Negative swap interval unsupported in this GL");
-    } else if (_this->gl_data->glXSwapIntervalEXT) {
-        Display *display = _this->internal->display;
-        const SDL_WindowData *windowdata = SDL_GL_GetCurrentWindow()->internal;
+    ఒకవేళ ((interval < 0) && (!_this->gl_దత్తాంశం->HAS_GLX_EXT_మార్పిడి_control_tear)) {
+        తిరిగి SDL_సమితి_Error("Negative swap interval unsupported in this GL");
+    } లేకపోతే ఒకవేళ (_this->gl_దత్తాంశం->glXSwapIntervalEXT) {
+        Display *display = _this->అంతర్గత->display;
+        స్థిరరాశి SDL_కిటికీ_దత్తాంశం *windowdata = SDL_GL_Get_Current_కిటికీ()->అంతర్గత;
 
-        Window drawable = windowdata->xwindow;
+        కిటికీ_2 drawable = windowdata->xwindow;
 
         /*
          * This is a workaround for a bug in NVIDIA drivers. Bug has been reported
@@ -990,46 +990,46 @@ bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
          * it has the wrong value cached. To work around it, we just run a no-op
          * update to the current value.
          */
-        int currentInterval = 0;
-        X11_GL_GetSwapInterval(_this, &currentInterval);
-        _this->gl_data->glXSwapIntervalEXT(display, drawable, currentInterval);
-        _this->gl_data->glXSwapIntervalEXT(display, drawable, interval);
-        result = true;
+        పూర్ణాంకం currentInterval = 0;
+        X11_GL_Get_మార్పిడి_Interval(_this, &currentInterval);
+        _this->gl_దత్తాంశం->glXSwapIntervalEXT(display, drawable, currentInterval);
+        _this->gl_దత్తాంశం->glXSwapIntervalEXT(display, drawable, interval);
+        ఫలితం = true;
         swapinterval = interval;
-    } else if (_this->gl_data->glXSwapIntervalMESA) {
-        const int rc = _this->gl_data->glXSwapIntervalMESA(interval);
-        if (rc == 0) {
+    } లేకపోతే ఒకవేళ (_this->gl_దత్తాంశం->glXSwapIntervalMESA) {
+        స్థిరరాశి పూర్ణాంకం rc = _this->gl_దత్తాంశం->glXSwapIntervalMESA(interval);
+        ఒకవేళ (rc == 0) {
             swapinterval = interval;
-            result = true;
-        } else {
-            result = SDL_SetError("glXSwapIntervalMESA failed");
+            ఫలితం = true;
+        } లేకపోతే {
+            ఫలితం = SDL_సమితి_Error("glXSwapIntervalMESA failed");
         }
-    } else if (_this->gl_data->glXSwapIntervalSGI) {
-        const int rc = _this->gl_data->glXSwapIntervalSGI(interval);
-        if (rc == 0) {
+    } లేకపోతే ఒకవేళ (_this->gl_దత్తాంశం->glXSwapIntervalSGI) {
+        స్థిరరాశి పూర్ణాంకం rc = _this->gl_దత్తాంశం->glXSwapIntervalSGI(interval);
+        ఒకవేళ (rc == 0) {
             swapinterval = interval;
-            result = true;
-        } else {
-            result = SDL_SetError("glXSwapIntervalSGI failed");
+            ఫలితం = true;
+        } లేకపోతే {
+            ఫలితం = SDL_సమితి_Error("glXSwapIntervalSGI failed");
         }
-    } else {
-        return SDL_Unsupported();
+    } లేకపోతే {
+        తిరిగి SDL_Unsupported();
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-static SDL_GLSwapIntervalTearBehavior CheckSwapIntervalTearBehavior(SDL_VideoDevice *_this, Window drawable, unsigned int current_val, unsigned int current_allow_late)
+స్థిర SDL_GLSwapIntervalTearBehavior Check_మార్పిడి_Interval_Tear_Behavior(SDL_VideoDevice *_this, కిటికీ_2 drawable, గుర్తులేని పూర్ణాంకం current_val, గుర్తులేని పూర్ణాంకం current_allow_late)
 {
     /* Mesa and Nvidia interpret GLX_EXT_swap_control_tear differently, as of this writing, so
         figure out which behavior we have.
        Technical details: https://github.com/libsdl-org/SDL/issues/8004#issuecomment-1819603282 */
-    if (_this->gl_data->swap_interval_tear_behavior == SDL_SWAPINTERVALTEAR_UNTESTED) {
-        if (!_this->gl_data->HAS_GLX_EXT_swap_control_tear) {
-            _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
-        } else {
-            Display *display = _this->internal->display;
-            unsigned int allow_late_swap_tearing = 22;
-            int original_val = (int) current_val;
+    ఒకవేళ (_this->gl_దత్తాంశం->మార్పిడి_interval_tear_behavior == SDL_SWAPINTERVALTEAR_UNTESTED) {
+        ఒకవేళ (!_this->gl_దత్తాంశం->HAS_GLX_EXT_మార్పిడి_control_tear) {
+            _this->gl_దత్తాంశం->మార్పిడి_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
+        } లేకపోతే {
+            Display *display = _this->అంతర్గత->display;
+            గుర్తులేని పూర్ణాంకం allow_late_మార్పిడి_tearing = 22;
+            పూర్ణాంకం original_val = (పూర్ణాంకం) current_val;
 
             /*
              * This is a workaround for a bug in NVIDIA drivers. Bug has been reported
@@ -1039,107 +1039,107 @@ static SDL_GLSwapIntervalTearBehavior CheckSwapIntervalTearBehavior(SDL_VideoDev
              * it has the wrong value cached. To work around it, we just run a no-op
              * update to the current value.
              */
-            _this->gl_data->glXSwapIntervalEXT(display, drawable, current_val);
+            _this->gl_దత్తాంశం->glXSwapIntervalEXT(display, drawable, current_val);
 
             // set it to no swap interval and see how it affects GLX_LATE_SWAPS_TEAR_EXT...
-            _this->gl_data->glXSwapIntervalEXT(display, drawable, 0);
-            _this->gl_data->glXQueryDrawable(display, drawable, GLX_LATE_SWAPS_TEAR_EXT, &allow_late_swap_tearing);
+            _this->gl_దత్తాంశం->glXSwapIntervalEXT(display, drawable, 0);
+            _this->gl_దత్తాంశం->glXQueryDrawable(display, drawable, GLX_LATE_SWAPS_TEAR_EXT, &allow_late_మార్పిడి_tearing);
 
-            if (allow_late_swap_tearing == 0) { // GLX_LATE_SWAPS_TEAR_EXT says whether late swapping is currently in use
-                _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_NVIDIA;
-                if (current_allow_late) {
+            ఒకవేళ (allow_late_మార్పిడి_tearing == 0) { // GLX_LATE_SWAPS_TEAR_EXT says whether late swapping is currently in use
+                _this->gl_దత్తాంశం->మార్పిడి_interval_tear_behavior = SDL_SWAPINTERVALTEAR_NVIDIA;
+                ఒకవేళ (current_allow_late) {
                     original_val = -original_val;
                 }
-            } else if (allow_late_swap_tearing == 1) {  // GLX_LATE_SWAPS_TEAR_EXT says whether the Drawable can use late swapping at all
-                _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_MESA;
-            } else {  // unexpected outcome!
-                _this->gl_data->swap_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
+            } లేకపోతే ఒకవేళ (allow_late_మార్పిడి_tearing == 1) {  // GLX_LATE_SWAPS_TEAR_EXT says whether the Drawable can use late swapping at all
+                _this->gl_దత్తాంశం->మార్పిడి_interval_tear_behavior = SDL_SWAPINTERVALTEAR_MESA;
+            } లేకపోతే {  // unexpected outcome!
+                _this->gl_దత్తాంశం->మార్పిడి_interval_tear_behavior = SDL_SWAPINTERVALTEAR_UNKNOWN;
             }
 
             // set us back to what it was originally...
-            _this->gl_data->glXSwapIntervalEXT(display, drawable, original_val);
+            _this->gl_దత్తాంశం->glXSwapIntervalEXT(display, drawable, original_val);
         }
     }
 
-    return _this->gl_data->swap_interval_tear_behavior;
+    తిరిగి _this->gl_దత్తాంశం->మార్పిడి_interval_tear_behavior;
 }
 
 
-bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool X11_GL_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval)
 {
-    if (_this->gl_data->glXSwapIntervalEXT) {
-        Display *display = _this->internal->display;
-        const SDL_WindowData *windowdata = SDL_GL_GetCurrentWindow()->internal;
-        Window drawable = windowdata->xwindow;
-        unsigned int allow_late_swap_tearing = 0;
-        unsigned int val = 0;
+    ఒకవేళ (_this->gl_దత్తాంశం->glXSwapIntervalEXT) {
+        Display *display = _this->అంతర్గత->display;
+        స్థిరరాశి SDL_కిటికీ_దత్తాంశం *windowdata = SDL_GL_Get_Current_కిటికీ()->అంతర్గత;
+        కిటికీ_2 drawable = windowdata->xwindow;
+        గుర్తులేని పూర్ణాంకం allow_late_మార్పిడి_tearing = 0;
+        గుర్తులేని పూర్ణాంకం val = 0;
 
-        if (_this->gl_data->HAS_GLX_EXT_swap_control_tear) {
-            allow_late_swap_tearing = 22;  // set this to nonsense.
-            _this->gl_data->glXQueryDrawable(display, drawable,
+        ఒకవేళ (_this->gl_దత్తాంశం->HAS_GLX_EXT_మార్పిడి_control_tear) {
+            allow_late_మార్పిడి_tearing = 22;  // set this to nonsense.
+            _this->gl_దత్తాంశం->glXQueryDrawable(display, drawable,
                                              GLX_LATE_SWAPS_TEAR_EXT,
-                                             &allow_late_swap_tearing);
+                                             &allow_late_మార్పిడి_tearing);
         }
 
-        _this->gl_data->glXQueryDrawable(display, drawable,
-                                         GLX_SWAP_INTERVAL_EXT, &val);
+        _this->gl_దత్తాంశం->glXQueryDrawable(display, drawable,
+                                         GLX_మార్పిడి_INTERVAL_EXT, &val);
 
-        *interval = (int)val;
+        *interval = (పూర్ణాంకం)val;
 
-        switch (CheckSwapIntervalTearBehavior(_this, drawable, val, allow_late_swap_tearing)) {
-            case SDL_SWAPINTERVALTEAR_MESA:
-                *interval = (int)val;  // unsigned int cast to signed that generates negative value if necessary.
-                break;
+        ఎంపిక (Check_మార్పిడి_Interval_Tear_Behavior(_this, drawable, val, allow_late_మార్పిడి_tearing)) {
+            స్థితి SDL_SWAPINTERVALTEAR_MESA:
+                *interval = (పూర్ణాంకం)val;  // unsigned int cast to signed that generates negative value if necessary.
+                ఆపు;
 
-            case SDL_SWAPINTERVALTEAR_NVIDIA:
-            default:
-                if ((allow_late_swap_tearing) && (val > 0)) {
-                    *interval = -((int)val);
+            స్థితి SDL_SWAPINTERVALTEAR_NVIDIA:
+            అప్రమేయ:
+                ఒకవేళ ((allow_late_మార్పిడి_tearing) && (val > 0)) {
+                    *interval = -((పూర్ణాంకం)val);
                 }
-                break;
+                ఆపు;
         }
 
-        return true;
-    } else if (_this->gl_data->glXGetSwapIntervalMESA) {
-        int val = _this->gl_data->glXGetSwapIntervalMESA();
-        if (val == GLX_BAD_CONTEXT) {
-            return SDL_SetError("GLX_BAD_CONTEXT");
+        తిరిగి true;
+    } లేకపోతే ఒకవేళ (_this->gl_దత్తాంశం->gl_XGet_మార్పిడి_Interval_MESA) {
+        పూర్ణాంకం val = _this->gl_దత్తాంశం->gl_XGet_మార్పిడి_Interval_MESA();
+        ఒకవేళ (val == GLX_BAD_CONTEXT) {
+            తిరిగి SDL_సమితి_Error("GLX_BAD_CONTEXT");
         }
         *interval = val;
-        return true;
-    } else {
+        తిరిగి true;
+    } లేకపోతే {
         *interval = swapinterval;
-        return true;
+        తిరిగి true;
     }
 }
 
-bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_GL_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
 
-    _this->gl_data->glXSwapBuffers(display, data->xwindow);
+    _this->gl_దత్తాంశం->glXSwapBuffers(display, దత్తాంశం->xwindow);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    X11_HandlePresent(data->window);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
+    X11_HandlePresent(దత్తాంశం->కిటికీ);
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-    return true;
+    తిరిగి true;
 }
 
 bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    Display *display = _this->internal->display;
+    Display *display = _this->అంతర్గత->display;
     GLXContext glx_context = (GLXContext)context;
 
-    if (!_this->gl_data) {
-        return true;
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
+        తిరిగి true;
     }
-    _this->gl_data->glXDestroyContext(display, glx_context);
+    _this->gl_దత్తాంశం->glXDestroyContext(display, glx_context);
     X11_XSync(display, False);
-    return true;
+    తిరిగి true;
 }
 
-#endif // SDL_VIDEO_OPENGL_GLX
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_GLX
 
-#endif // SDL_VIDEO_DRIVER_X11
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11

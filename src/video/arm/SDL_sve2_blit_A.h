@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_sve2_blit_A_h_
-#define SDL_sve2_blit_A_h_
+#నిర్వచితం_కాకపోతే SDL_sve2_blit_A_h_
+#నిర్వచించు SDL_sve2_blit_A_h_
 
-#include "../../SDL_internal.h"
-#include "../SDL_blit.h"
+#అన్తర్భావ "../../SDL_internal.h"
+#అన్తర్భావ "../SDL_blit.h"
 
-#ifdef SDL_SVE2_INTRINSICS
+#నిర్వచితమైతే SDL_SVE2_INTRINSICS
 
-void Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
-void Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
+శూన్య Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
+శూన్య Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info);
 
-void Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info);
+శూన్య Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info);
 
-size_t SDL_GetSVEVectorSize(void);
+size_t SDL_Get_SVEVector_కొలత(శూన్య);
 
-#endif /* SDL_SVE2_INTRINSICS */
+#అయితే_ముగింపు /* SDL_SVE2_INTRINSICS */
 
-#endif /* SDL_sve2_blitters_h_ */
+#అయితే_ముగింపు /* SDL_sve2_blitters_h_ */

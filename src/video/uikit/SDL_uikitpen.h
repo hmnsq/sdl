@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_uikitpen_h_
-#define SDL_uikitpen_h_
+#నిర్వచితం_కాకపోతే SDL_uikitpen_h_
+#నిర్వచించు SDL_uikitpen_h_
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitwindow.h"
+#అన్తర్భావ "SDL_uikitvideo.h"
+#అన్తర్భావ "SDL_uikitwindow.h"
 
-extern bool UIKit_InitPen(SDL_VideoDevice *_this);
-extern void UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
+బాహ్య bool UIKit_InitPen(SDL_VideoDevice *_this);
+బాహ్య శూన్య UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
+బాహ్య శూన్య UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
+బాహ్య శూన్య UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
 
-#if !defined(SDL_PLATFORM_TVOS)
-extern void UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_AVAILABLE(ios(13.0));
-#endif
+#ఒకవేళ !defined(SDL_PLATFORM_TVOS)
+బాహ్య శూన్య UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_అందుబాటు(ios(13.0));
+#అయితే_ముగింపు
 
-extern void UIKit_QuitPen(SDL_VideoDevice *_this);
+బాహ్య శూన్య UIKit_QuitPen(SDL_VideoDevice *_this);
 
-#endif // SDL_uikitpen_h_
+#అయితే_ముగింపు // SDL_uikitpen_h_

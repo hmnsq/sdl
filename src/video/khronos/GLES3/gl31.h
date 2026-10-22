@@ -1,9 +1,9 @@
-#ifndef __gles2_gl31_h_
-#define __gles2_gl31_h_ 1
+#నిర్వచితం_కాకపోతే __gles2_gl31_h_
+#నిర్వచించు __gles2_gl31_h_ 1
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
 /*
 ** Copyright 2013-2026 The Khronos Group Inc.
@@ -15,15 +15,15 @@ extern "C" {
 **   https://github.com/KhronosGroup/OpenGL-Registry
 */
 
-#include <GLES3/gl3platform.h>
+#అన్తర్భావ <GLES3/gl3platform.h>
 
-#ifndef GL_APIENTRYP
-#define GL_APIENTRYP GL_APIENTRY*
-#endif
+#నిర్వచితం_కాకపోతే GL_APIENTRYP
+#నిర్వచించు GL_APIENTRYP GL_APIENTRY*
+#అయితే_ముగింపు
 
-#ifndef GL_GLES_PROTOTYPES
-#define GL_GLES_PROTOTYPES 1
-#endif
+#నిర్వచితం_కాకపోతే GL_GLES_PROTOTYPES
+#నిర్వచించు GL_GLES_PROTOTYPES 1
+#అయితే_ముగింపు
 
 /* Generated on date 20260803 */
 
@@ -37,1471 +37,1471 @@ extern "C" {
  * Extensions removed: _nomatch_^
  */
 
-#ifndef GL_ES_VERSION_2_0
-#define GL_ES_VERSION_2_0 1
-#include <KHR/khrplatform.h>
-typedef khronos_int8_t GLbyte;
-typedef khronos_float_t GLclampf;
-typedef khronos_int32_t GLfixed;
-typedef khronos_int16_t GLshort;
-typedef khronos_uint16_t GLushort;
-typedef void GLvoid;
-typedef struct __GLsync *GLsync;
-typedef khronos_int64_t GLint64;
-typedef khronos_uint64_t GLuint64;
-typedef unsigned int GLenum;
-typedef unsigned int GLuint;
-typedef char GLchar;
-typedef khronos_float_t GLfloat;
-typedef khronos_ssize_t GLsizeiptr;
-typedef khronos_intptr_t GLintptr;
-typedef unsigned int GLbitfield;
-typedef int GLint;
-typedef unsigned char GLboolean;
-typedef int GLsizei;
-typedef khronos_uint8_t GLubyte;
-#define GL_DEPTH_BUFFER_BIT               0x00000100
-#define GL_STENCIL_BUFFER_BIT             0x00000400
-#define GL_COLOR_BUFFER_BIT               0x00004000
-#define GL_FALSE                          0
-#define GL_TRUE                           1
-#define GL_POINTS                         0x0000
-#define GL_LINES                          0x0001
-#define GL_LINE_LOOP                      0x0002
-#define GL_LINE_STRIP                     0x0003
-#define GL_TRIANGLES                      0x0004
-#define GL_TRIANGLE_STRIP                 0x0005
-#define GL_TRIANGLE_FAN                   0x0006
-#define GL_ZERO                           0
-#define GL_ONE                            1
-#define GL_SRC_COLOR                      0x0300
-#define GL_ONE_MINUS_SRC_COLOR            0x0301
-#define GL_SRC_ALPHA                      0x0302
-#define GL_ONE_MINUS_SRC_ALPHA            0x0303
-#define GL_DST_ALPHA                      0x0304
-#define GL_ONE_MINUS_DST_ALPHA            0x0305
-#define GL_DST_COLOR                      0x0306
-#define GL_ONE_MINUS_DST_COLOR            0x0307
-#define GL_SRC_ALPHA_SATURATE             0x0308
-#define GL_FUNC_ADD                       0x8006
-#define GL_BLEND_EQUATION                 0x8009
-#define GL_BLEND_EQUATION_RGB             0x8009
-#define GL_BLEND_EQUATION_ALPHA           0x883D
-#define GL_FUNC_SUBTRACT                  0x800A
-#define GL_FUNC_REVERSE_SUBTRACT          0x800B
-#define GL_BLEND_DST_RGB                  0x80C8
-#define GL_BLEND_SRC_RGB                  0x80C9
-#define GL_BLEND_DST_ALPHA                0x80CA
-#define GL_BLEND_SRC_ALPHA                0x80CB
-#define GL_CONSTANT_COLOR                 0x8001
-#define GL_ONE_MINUS_CONSTANT_COLOR       0x8002
-#define GL_CONSTANT_ALPHA                 0x8003
-#define GL_ONE_MINUS_CONSTANT_ALPHA       0x8004
-#define GL_BLEND_COLOR                    0x8005
-#define GL_ARRAY_BUFFER                   0x8892
-#define GL_ELEMENT_ARRAY_BUFFER           0x8893
-#define GL_ARRAY_BUFFER_BINDING           0x8894
-#define GL_ELEMENT_ARRAY_BUFFER_BINDING   0x8895
-#define GL_STREAM_DRAW                    0x88E0
-#define GL_STATIC_DRAW                    0x88E4
-#define GL_DYNAMIC_DRAW                   0x88E8
-#define GL_BUFFER_SIZE                    0x8764
-#define GL_BUFFER_USAGE                   0x8765
-#define GL_CURRENT_VERTEX_ATTRIB          0x8626
-#define GL_FRONT                          0x0404
-#define GL_BACK                           0x0405
-#define GL_FRONT_AND_BACK                 0x0408
-#define GL_TEXTURE_2D                     0x0DE1
-#define GL_CULL_FACE                      0x0B44
-#define GL_BLEND                          0x0BE2
-#define GL_DITHER                         0x0BD0
-#define GL_STENCIL_TEST                   0x0B90
-#define GL_DEPTH_TEST                     0x0B71
-#define GL_SCISSOR_TEST                   0x0C11
-#define GL_POLYGON_OFFSET_FILL            0x8037
-#define GL_SAMPLE_ALPHA_TO_COVERAGE       0x809E
-#define GL_SAMPLE_COVERAGE                0x80A0
-#define GL_NO_ERROR                       0
-#define GL_INVALID_ENUM                   0x0500
-#define GL_INVALID_VALUE                  0x0501
-#define GL_INVALID_OPERATION              0x0502
-#define GL_OUT_OF_MEMORY                  0x0505
-#define GL_CW                             0x0900
-#define GL_CCW                            0x0901
-#define GL_LINE_WIDTH                     0x0B21
-#define GL_ALIASED_POINT_SIZE_RANGE       0x846D
-#define GL_ALIASED_LINE_WIDTH_RANGE       0x846E
-#define GL_CULL_FACE_MODE                 0x0B45
-#define GL_FRONT_FACE                     0x0B46
-#define GL_DEPTH_RANGE                    0x0B70
-#define GL_DEPTH_WRITEMASK                0x0B72
-#define GL_DEPTH_CLEAR_VALUE              0x0B73
-#define GL_DEPTH_FUNC                     0x0B74
-#define GL_STENCIL_CLEAR_VALUE            0x0B91
-#define GL_STENCIL_FUNC                   0x0B92
-#define GL_STENCIL_FAIL                   0x0B94
-#define GL_STENCIL_PASS_DEPTH_FAIL        0x0B95
-#define GL_STENCIL_PASS_DEPTH_PASS        0x0B96
-#define GL_STENCIL_REF                    0x0B97
-#define GL_STENCIL_VALUE_MASK             0x0B93
-#define GL_STENCIL_WRITEMASK              0x0B98
-#define GL_STENCIL_BACK_FUNC              0x8800
-#define GL_STENCIL_BACK_FAIL              0x8801
-#define GL_STENCIL_BACK_PASS_DEPTH_FAIL   0x8802
-#define GL_STENCIL_BACK_PASS_DEPTH_PASS   0x8803
-#define GL_STENCIL_BACK_REF               0x8CA3
-#define GL_STENCIL_BACK_VALUE_MASK        0x8CA4
-#define GL_STENCIL_BACK_WRITEMASK         0x8CA5
-#define GL_VIEWPORT                       0x0BA2
-#define GL_SCISSOR_BOX                    0x0C10
-#define GL_COLOR_CLEAR_VALUE              0x0C22
-#define GL_COLOR_WRITEMASK                0x0C23
-#define GL_UNPACK_ALIGNMENT               0x0CF5
-#define GL_PACK_ALIGNMENT                 0x0D05
-#define GL_MAX_TEXTURE_SIZE               0x0D33
-#define GL_MAX_VIEWPORT_DIMS              0x0D3A
-#define GL_SUBPIXEL_BITS                  0x0D50
-#define GL_RED_BITS                       0x0D52
-#define GL_GREEN_BITS                     0x0D53
-#define GL_BLUE_BITS                      0x0D54
-#define GL_ALPHA_BITS                     0x0D55
-#define GL_DEPTH_BITS                     0x0D56
-#define GL_STENCIL_BITS                   0x0D57
-#define GL_POLYGON_OFFSET_UNITS           0x2A00
-#define GL_POLYGON_OFFSET_FACTOR          0x8038
-#define GL_TEXTURE_BINDING_2D             0x8069
-#define GL_SAMPLE_BUFFERS                 0x80A8
-#define GL_SAMPLES                        0x80A9
-#define GL_SAMPLE_COVERAGE_VALUE          0x80AA
-#define GL_SAMPLE_COVERAGE_INVERT         0x80AB
-#define GL_NUM_COMPRESSED_TEXTURE_FORMATS 0x86A2
-#define GL_COMPRESSED_TEXTURE_FORMATS     0x86A3
-#define GL_DONT_CARE                      0x1100
-#define GL_FASTEST                        0x1101
-#define GL_NICEST                         0x1102
-#define GL_GENERATE_MIPMAP_HINT           0x8192
-#define GL_BYTE                           0x1400
-#define GL_UNSIGNED_BYTE                  0x1401
-#define GL_SHORT                          0x1402
-#define GL_UNSIGNED_SHORT                 0x1403
-#define GL_INT                            0x1404
-#define GL_UNSIGNED_INT                   0x1405
-#define GL_FLOAT                          0x1406
-#define GL_FIXED                          0x140C
-#define GL_DEPTH_COMPONENT                0x1902
-#define GL_ALPHA                          0x1906
-#define GL_RGB                            0x1907
-#define GL_RGBA                           0x1908
-#define GL_LUMINANCE                      0x1909
-#define GL_LUMINANCE_ALPHA                0x190A
-#define GL_UNSIGNED_SHORT_4_4_4_4         0x8033
-#define GL_UNSIGNED_SHORT_5_5_5_1         0x8034
-#define GL_UNSIGNED_SHORT_5_6_5           0x8363
-#define GL_FRAGMENT_SHADER                0x8B30
-#define GL_VERTEX_SHADER                  0x8B31
-#define GL_MAX_VERTEX_ATTRIBS             0x8869
-#define GL_MAX_VERTEX_UNIFORM_VECTORS     0x8DFB
-#define GL_MAX_VARYING_VECTORS            0x8DFC
-#define GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS 0x8B4D
-#define GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS 0x8B4C
-#define GL_MAX_TEXTURE_IMAGE_UNITS        0x8872
-#define GL_MAX_FRAGMENT_UNIFORM_VECTORS   0x8DFD
-#define GL_SHADER_TYPE                    0x8B4F
-#define GL_DELETE_STATUS                  0x8B80
-#define GL_LINK_STATUS                    0x8B82
-#define GL_VALIDATE_STATUS                0x8B83
-#define GL_ATTACHED_SHADERS               0x8B85
-#define GL_ACTIVE_UNIFORMS                0x8B86
-#define GL_ACTIVE_UNIFORM_MAX_LENGTH      0x8B87
-#define GL_ACTIVE_ATTRIBUTES              0x8B89
-#define GL_ACTIVE_ATTRIBUTE_MAX_LENGTH    0x8B8A
-#define GL_SHADING_LANGUAGE_VERSION       0x8B8C
-#define GL_CURRENT_PROGRAM                0x8B8D
-#define GL_NEVER                          0x0200
-#define GL_LESS                           0x0201
-#define GL_EQUAL                          0x0202
-#define GL_LEQUAL                         0x0203
-#define GL_GREATER                        0x0204
-#define GL_NOTEQUAL                       0x0205
-#define GL_GEQUAL                         0x0206
-#define GL_ALWAYS                         0x0207
-#define GL_KEEP                           0x1E00
-#define GL_REPLACE                        0x1E01
-#define GL_INCR                           0x1E02
-#define GL_DECR                           0x1E03
-#define GL_INVERT                         0x150A
-#define GL_INCR_WRAP                      0x8507
-#define GL_DECR_WRAP                      0x8508
-#define GL_VENDOR                         0x1F00
-#define GL_RENDERER                       0x1F01
-#define GL_VERSION                        0x1F02
-#define GL_EXTENSIONS                     0x1F03
-#define GL_NEAREST                        0x2600
-#define GL_LINEAR                         0x2601
-#define GL_NEAREST_MIPMAP_NEAREST         0x2700
-#define GL_LINEAR_MIPMAP_NEAREST          0x2701
-#define GL_NEAREST_MIPMAP_LINEAR          0x2702
-#define GL_LINEAR_MIPMAP_LINEAR           0x2703
-#define GL_TEXTURE_MAG_FILTER             0x2800
-#define GL_TEXTURE_MIN_FILTER             0x2801
-#define GL_TEXTURE_WRAP_S                 0x2802
-#define GL_TEXTURE_WRAP_T                 0x2803
-#define GL_TEXTURE                        0x1702
-#define GL_TEXTURE_CUBE_MAP               0x8513
-#define GL_TEXTURE_BINDING_CUBE_MAP       0x8514
-#define GL_TEXTURE_CUBE_MAP_POSITIVE_X    0x8515
-#define GL_TEXTURE_CUBE_MAP_NEGATIVE_X    0x8516
-#define GL_TEXTURE_CUBE_MAP_POSITIVE_Y    0x8517
-#define GL_TEXTURE_CUBE_MAP_NEGATIVE_Y    0x8518
-#define GL_TEXTURE_CUBE_MAP_POSITIVE_Z    0x8519
-#define GL_TEXTURE_CUBE_MAP_NEGATIVE_Z    0x851A
-#define GL_MAX_CUBE_MAP_TEXTURE_SIZE      0x851C
-#define GL_TEXTURE0                       0x84C0
-#define GL_TEXTURE1                       0x84C1
-#define GL_TEXTURE2                       0x84C2
-#define GL_TEXTURE3                       0x84C3
-#define GL_TEXTURE4                       0x84C4
-#define GL_TEXTURE5                       0x84C5
-#define GL_TEXTURE6                       0x84C6
-#define GL_TEXTURE7                       0x84C7
-#define GL_TEXTURE8                       0x84C8
-#define GL_TEXTURE9                       0x84C9
-#define GL_TEXTURE10                      0x84CA
-#define GL_TEXTURE11                      0x84CB
-#define GL_TEXTURE12                      0x84CC
-#define GL_TEXTURE13                      0x84CD
-#define GL_TEXTURE14                      0x84CE
-#define GL_TEXTURE15                      0x84CF
-#define GL_TEXTURE16                      0x84D0
-#define GL_TEXTURE17                      0x84D1
-#define GL_TEXTURE18                      0x84D2
-#define GL_TEXTURE19                      0x84D3
-#define GL_TEXTURE20                      0x84D4
-#define GL_TEXTURE21                      0x84D5
-#define GL_TEXTURE22                      0x84D6
-#define GL_TEXTURE23                      0x84D7
-#define GL_TEXTURE24                      0x84D8
-#define GL_TEXTURE25                      0x84D9
-#define GL_TEXTURE26                      0x84DA
-#define GL_TEXTURE27                      0x84DB
-#define GL_TEXTURE28                      0x84DC
-#define GL_TEXTURE29                      0x84DD
-#define GL_TEXTURE30                      0x84DE
-#define GL_TEXTURE31                      0x84DF
-#define GL_ACTIVE_TEXTURE                 0x84E0
-#define GL_REPEAT                         0x2901
-#define GL_CLAMP_TO_EDGE                  0x812F
-#define GL_MIRRORED_REPEAT                0x8370
-#define GL_FLOAT_VEC2                     0x8B50
-#define GL_FLOAT_VEC3                     0x8B51
-#define GL_FLOAT_VEC4                     0x8B52
-#define GL_INT_VEC2                       0x8B53
-#define GL_INT_VEC3                       0x8B54
-#define GL_INT_VEC4                       0x8B55
-#define GL_BOOL                           0x8B56
-#define GL_BOOL_VEC2                      0x8B57
-#define GL_BOOL_VEC3                      0x8B58
-#define GL_BOOL_VEC4                      0x8B59
-#define GL_FLOAT_MAT2                     0x8B5A
-#define GL_FLOAT_MAT3                     0x8B5B
-#define GL_FLOAT_MAT4                     0x8B5C
-#define GL_SAMPLER_2D                     0x8B5E
-#define GL_SAMPLER_CUBE                   0x8B60
-#define GL_VERTEX_ATTRIB_ARRAY_ENABLED    0x8622
-#define GL_VERTEX_ATTRIB_ARRAY_SIZE       0x8623
-#define GL_VERTEX_ATTRIB_ARRAY_STRIDE     0x8624
-#define GL_VERTEX_ATTRIB_ARRAY_TYPE       0x8625
-#define GL_VERTEX_ATTRIB_ARRAY_NORMALIZED 0x886A
-#define GL_VERTEX_ATTRIB_ARRAY_POINTER    0x8645
-#define GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING 0x889F
-#define GL_IMPLEMENTATION_COLOR_READ_TYPE 0x8B9A
-#define GL_IMPLEMENTATION_COLOR_READ_FORMAT 0x8B9B
-#define GL_COMPILE_STATUS                 0x8B81
-#define GL_INFO_LOG_LENGTH                0x8B84
-#define GL_SHADER_SOURCE_LENGTH           0x8B88
-#define GL_SHADER_COMPILER                0x8DFA
-#define GL_SHADER_BINARY_FORMATS          0x8DF8
-#define GL_NUM_SHADER_BINARY_FORMATS      0x8DF9
-#define GL_LOW_FLOAT                      0x8DF0
-#define GL_MEDIUM_FLOAT                   0x8DF1
-#define GL_HIGH_FLOAT                     0x8DF2
-#define GL_LOW_INT                        0x8DF3
-#define GL_MEDIUM_INT                     0x8DF4
-#define GL_HIGH_INT                       0x8DF5
-#define GL_FRAMEBUFFER                    0x8D40
-#define GL_RENDERBUFFER                   0x8D41
-#define GL_RGBA4                          0x8056
-#define GL_RGB5_A1                        0x8057
-#define GL_RGB565                         0x8D62
-#define GL_DEPTH_COMPONENT16              0x81A5
-#define GL_STENCIL_INDEX8                 0x8D48
-#define GL_RENDERBUFFER_WIDTH             0x8D42
-#define GL_RENDERBUFFER_HEIGHT            0x8D43
-#define GL_RENDERBUFFER_INTERNAL_FORMAT   0x8D44
-#define GL_RENDERBUFFER_RED_SIZE          0x8D50
-#define GL_RENDERBUFFER_GREEN_SIZE        0x8D51
-#define GL_RENDERBUFFER_BLUE_SIZE         0x8D52
-#define GL_RENDERBUFFER_ALPHA_SIZE        0x8D53
-#define GL_RENDERBUFFER_DEPTH_SIZE        0x8D54
-#define GL_RENDERBUFFER_STENCIL_SIZE      0x8D55
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE 0x8CD0
-#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME 0x8CD1
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL 0x8CD2
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE 0x8CD3
-#define GL_COLOR_ATTACHMENT0              0x8CE0
-#define GL_DEPTH_ATTACHMENT               0x8D00
-#define GL_STENCIL_ATTACHMENT             0x8D20
-#define GL_NONE                           0
-#define GL_FRAMEBUFFER_COMPLETE           0x8CD5
-#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT 0x8CD6
-#define GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT 0x8CD7
-#define GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS 0x8CD9
-#define GL_FRAMEBUFFER_UNSUPPORTED        0x8CDD
-#define GL_FRAMEBUFFER_BINDING            0x8CA6
-#define GL_RENDERBUFFER_BINDING           0x8CA7
-#define GL_MAX_RENDERBUFFER_SIZE          0x84E8
-#define GL_INVALID_FRAMEBUFFER_OPERATION  0x0506
-typedef void (GL_APIENTRYP PFNGLACTIVETEXTUREPROC) (GLenum texture);
-typedef void (GL_APIENTRYP PFNGLATTACHSHADERPROC) (GLuint program, GLuint shader);
-typedef void (GL_APIENTRYP PFNGLBINDATTRIBLOCATIONPROC) (GLuint program, GLuint index, const GLchar *name);
-typedef void (GL_APIENTRYP PFNGLBINDBUFFERPROC) (GLenum target, GLuint buffer);
-typedef void (GL_APIENTRYP PFNGLBINDFRAMEBUFFERPROC) (GLenum target, GLuint framebuffer);
-typedef void (GL_APIENTRYP PFNGLBINDRENDERBUFFERPROC) (GLenum target, GLuint renderbuffer);
-typedef void (GL_APIENTRYP PFNGLBINDTEXTUREPROC) (GLenum target, GLuint texture);
-typedef void (GL_APIENTRYP PFNGLBLENDCOLORPROC) (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-typedef void (GL_APIENTRYP PFNGLBLENDEQUATIONPROC) (GLenum mode);
-typedef void (GL_APIENTRYP PFNGLBLENDEQUATIONSEPARATEPROC) (GLenum modeRGB, GLenum modeAlpha);
-typedef void (GL_APIENTRYP PFNGLBLENDFUNCPROC) (GLenum sfactor, GLenum dfactor);
-typedef void (GL_APIENTRYP PFNGLBLENDFUNCSEPARATEPROC) (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-typedef void (GL_APIENTRYP PFNGLBUFFERDATAPROC) (GLenum target, GLsizeiptr size, const void *data, GLenum usage);
-typedef void (GL_APIENTRYP PFNGLBUFFERSUBDATAPROC) (GLenum target, GLintptr offset, GLsizeiptr size, const void *data);
-typedef GLenum (GL_APIENTRYP PFNGLCHECKFRAMEBUFFERSTATUSPROC) (GLenum target);
-typedef void (GL_APIENTRYP PFNGLCLEARPROC) (GLbitfield mask);
-typedef void (GL_APIENTRYP PFNGLCLEARCOLORPROC) (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-typedef void (GL_APIENTRYP PFNGLCLEARDEPTHFPROC) (GLfloat d);
-typedef void (GL_APIENTRYP PFNGLCLEARSTENCILPROC) (GLint s);
-typedef void (GL_APIENTRYP PFNGLCOLORMASKPROC) (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-typedef void (GL_APIENTRYP PFNGLCOMPILESHADERPROC) (GLuint shader);
-typedef void (GL_APIENTRYP PFNGLCOMPRESSEDTEXIMAGE2DPROC) (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void *data);
-typedef void (GL_APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void *data);
-typedef void (GL_APIENTRYP PFNGLCOPYTEXIMAGE2DPROC) (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-typedef void (GL_APIENTRYP PFNGLCOPYTEXSUBIMAGE2DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef GLuint (GL_APIENTRYP PFNGLCREATEPROGRAMPROC) (void);
-typedef GLuint (GL_APIENTRYP PFNGLCREATESHADERPROC) (GLenum type);
-typedef void (GL_APIENTRYP PFNGLCULLFACEPROC) (GLenum mode);
-typedef void (GL_APIENTRYP PFNGLDELETEBUFFERSPROC) (GLsizei n, const GLuint *buffers);
-typedef void (GL_APIENTRYP PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, const GLuint *framebuffers);
-typedef void (GL_APIENTRYP PFNGLDELETEPROGRAMPROC) (GLuint program);
-typedef void (GL_APIENTRYP PFNGLDELETERENDERBUFFERSPROC) (GLsizei n, const GLuint *renderbuffers);
-typedef void (GL_APIENTRYP PFNGLDELETESHADERPROC) (GLuint shader);
-typedef void (GL_APIENTRYP PFNGLDELETETEXTURESPROC) (GLsizei n, const GLuint *textures);
-typedef void (GL_APIENTRYP PFNGLDEPTHFUNCPROC) (GLenum func);
-typedef void (GL_APIENTRYP PFNGLDEPTHMASKPROC) (GLboolean flag);
-typedef void (GL_APIENTRYP PFNGLDEPTHRANGEFPROC) (GLfloat n, GLfloat f);
-typedef void (GL_APIENTRYP PFNGLDETACHSHADERPROC) (GLuint program, GLuint shader);
-typedef void (GL_APIENTRYP PFNGLDISABLEPROC) (GLenum cap);
-typedef void (GL_APIENTRYP PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLuint index);
-typedef void (GL_APIENTRYP PFNGLDRAWARRAYSPROC) (GLenum mode, GLint first, GLsizei count);
-typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSPROC) (GLenum mode, GLsizei count, GLenum type, const void *indices);
-typedef void (GL_APIENTRYP PFNGLENABLEPROC) (GLenum cap);
-typedef void (GL_APIENTRYP PFNGLENABLEVERTEXATTRIBARRAYPROC) (GLuint index);
-typedef void (GL_APIENTRYP PFNGLFINISHPROC) (void);
-typedef void (GL_APIENTRYP PFNGLFLUSHPROC) (void);
-typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERRENDERBUFFERPROC) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DPROC) (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (GL_APIENTRYP PFNGLFRONTFACEPROC) (GLenum mode);
-typedef void (GL_APIENTRYP PFNGLGENBUFFERSPROC) (GLsizei n, GLuint *buffers);
-typedef void (GL_APIENTRYP PFNGLGENERATEMIPMAPPROC) (GLenum target);
-typedef void (GL_APIENTRYP PFNGLGENFRAMEBUFFERSPROC) (GLsizei n, GLuint *framebuffers);
-typedef void (GL_APIENTRYP PFNGLGENRENDERBUFFERSPROC) (GLsizei n, GLuint *renderbuffers);
-typedef void (GL_APIENTRYP PFNGLGENTEXTURESPROC) (GLsizei n, GLuint *textures);
-typedef void (GL_APIENTRYP PFNGLGETACTIVEATTRIBPROC) (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMPROC) (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETATTACHEDSHADERSPROC) (GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders);
-typedef GLint (GL_APIENTRYP PFNGLGETATTRIBLOCATIONPROC) (GLuint program, const GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETBOOLEANVPROC) (GLenum pname, GLboolean *data);
-typedef void (GL_APIENTRYP PFNGLGETBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint *params);
-typedef GLenum (GL_APIENTRYP PFNGLGETERRORPROC) (void);
-typedef void (GL_APIENTRYP PFNGLGETFLOATVPROC) (GLenum pname, GLfloat *data);
-typedef void (GL_APIENTRYP PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) (GLenum target, GLenum attachment, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETINTEGERVPROC) (GLenum pname, GLint *data);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMIVPROC) (GLuint program, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMINFOLOGPROC) (GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
-typedef void (GL_APIENTRYP PFNGLGETRENDERBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETSHADERIVPROC) (GLuint shader, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETSHADERINFOLOGPROC) (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
-typedef void (GL_APIENTRYP PFNGLGETSHADERPRECISIONFORMATPROC) (GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision);
-typedef void (GL_APIENTRYP PFNGLGETSHADERSOURCEPROC) (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source);
-typedef const GLubyte *(GL_APIENTRYP PFNGLGETSTRINGPROC) (GLenum name);
-typedef void (GL_APIENTRYP PFNGLGETTEXPARAMETERFVPROC) (GLenum target, GLenum pname, GLfloat *params);
-typedef void (GL_APIENTRYP PFNGLGETTEXPARAMETERIVPROC) (GLenum target, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETUNIFORMFVPROC) (GLuint program, GLint location, GLfloat *params);
-typedef void (GL_APIENTRYP PFNGLGETUNIFORMIVPROC) (GLuint program, GLint location, GLint *params);
-typedef GLint (GL_APIENTRYP PFNGLGETUNIFORMLOCATIONPROC) (GLuint program, const GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETVERTEXATTRIBFVPROC) (GLuint index, GLenum pname, GLfloat *params);
-typedef void (GL_APIENTRYP PFNGLGETVERTEXATTRIBIVPROC) (GLuint index, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETVERTEXATTRIBPOINTERVPROC) (GLuint index, GLenum pname, void **pointer);
-typedef void (GL_APIENTRYP PFNGLHINTPROC) (GLenum target, GLenum mode);
-typedef GLboolean (GL_APIENTRYP PFNGLISBUFFERPROC) (GLuint buffer);
-typedef GLboolean (GL_APIENTRYP PFNGLISENABLEDPROC) (GLenum cap);
-typedef GLboolean (GL_APIENTRYP PFNGLISFRAMEBUFFERPROC) (GLuint framebuffer);
-typedef GLboolean (GL_APIENTRYP PFNGLISPROGRAMPROC) (GLuint program);
-typedef GLboolean (GL_APIENTRYP PFNGLISRENDERBUFFERPROC) (GLuint renderbuffer);
-typedef GLboolean (GL_APIENTRYP PFNGLISSHADERPROC) (GLuint shader);
-typedef GLboolean (GL_APIENTRYP PFNGLISTEXTUREPROC) (GLuint texture);
-typedef void (GL_APIENTRYP PFNGLLINEWIDTHPROC) (GLfloat width);
-typedef void (GL_APIENTRYP PFNGLLINKPROGRAMPROC) (GLuint program);
-typedef void (GL_APIENTRYP PFNGLPIXELSTOREIPROC) (GLenum pname, GLint param);
-typedef void (GL_APIENTRYP PFNGLPOLYGONOFFSETPROC) (GLfloat factor, GLfloat units);
-typedef void (GL_APIENTRYP PFNGLREADPIXELSPROC) (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void *pixels);
-typedef void (GL_APIENTRYP PFNGLRELEASESHADERCOMPILERPROC) (void);
-typedef void (GL_APIENTRYP PFNGLRENDERBUFFERSTORAGEPROC) (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLSAMPLECOVERAGEPROC) (GLfloat value, GLboolean invert);
-typedef void (GL_APIENTRYP PFNGLSCISSORPROC) (GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLSHADERBINARYPROC) (GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
-typedef void (GL_APIENTRYP PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei count, const GLchar *const*string, const GLint *length);
-typedef void (GL_APIENTRYP PFNGLSTENCILFUNCPROC) (GLenum func, GLint ref, GLuint mask);
-typedef void (GL_APIENTRYP PFNGLSTENCILFUNCSEPARATEPROC) (GLenum face, GLenum func, GLint ref, GLuint mask);
-typedef void (GL_APIENTRYP PFNGLSTENCILMASKPROC) (GLuint mask);
-typedef void (GL_APIENTRYP PFNGLSTENCILMASKSEPARATEPROC) (GLenum face, GLuint mask);
-typedef void (GL_APIENTRYP PFNGLSTENCILOPPROC) (GLenum fail, GLenum zfail, GLenum zpass);
-typedef void (GL_APIENTRYP PFNGLSTENCILOPSEPARATEPROC) (GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
-typedef void (GL_APIENTRYP PFNGLTEXIMAGE2DPROC) (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels);
-typedef void (GL_APIENTRYP PFNGLTEXPARAMETERFPROC) (GLenum target, GLenum pname, GLfloat param);
-typedef void (GL_APIENTRYP PFNGLTEXPARAMETERFVPROC) (GLenum target, GLenum pname, const GLfloat *params);
-typedef void (GL_APIENTRYP PFNGLTEXPARAMETERIPROC) (GLenum target, GLenum pname, GLint param);
-typedef void (GL_APIENTRYP PFNGLTEXPARAMETERIVPROC) (GLenum target, GLenum pname, const GLint *params);
-typedef void (GL_APIENTRYP PFNGLTEXSUBIMAGE2DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1FPROC) (GLint location, GLfloat v0);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1FVPROC) (GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1IPROC) (GLint location, GLint v0);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1IVPROC) (GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2FPROC) (GLint location, GLfloat v0, GLfloat v1);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2FVPROC) (GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2IPROC) (GLint location, GLint v0, GLint v1);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2IVPROC) (GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3FPROC) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3FVPROC) (GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3IPROC) (GLint location, GLint v0, GLint v1, GLint v2);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3IVPROC) (GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4FPROC) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4FVPROC) (GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4IPROC) (GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4IVPROC) (GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUSEPROGRAMPROC) (GLuint program);
-typedef void (GL_APIENTRYP PFNGLVALIDATEPROGRAMPROC) (GLuint program);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB1FPROC) (GLuint index, GLfloat x);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB1FVPROC) (GLuint index, const GLfloat *v);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB2FPROC) (GLuint index, GLfloat x, GLfloat y);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB2FVPROC) (GLuint index, const GLfloat *v);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB3FPROC) (GLuint index, GLfloat x, GLfloat y, GLfloat z);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB3FVPROC) (GLuint index, const GLfloat *v);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB4FPROC) (GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIB4FVPROC) (GLuint index, const GLfloat *v);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBPOINTERPROC) (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer);
-typedef void (GL_APIENTRYP PFNGLVIEWPORTPROC) (GLint x, GLint y, GLsizei width, GLsizei height);
-#if GL_GLES_PROTOTYPES
-GL_APICALL void GL_APIENTRY glActiveTexture (GLenum texture);
-GL_APICALL void GL_APIENTRY glAttachShader (GLuint program, GLuint shader);
-GL_APICALL void GL_APIENTRY glBindAttribLocation (GLuint program, GLuint index, const GLchar *name);
-GL_APICALL void GL_APIENTRY glBindBuffer (GLenum target, GLuint buffer);
-GL_APICALL void GL_APIENTRY glBindFramebuffer (GLenum target, GLuint framebuffer);
-GL_APICALL void GL_APIENTRY glBindRenderbuffer (GLenum target, GLuint renderbuffer);
-GL_APICALL void GL_APIENTRY glBindTexture (GLenum target, GLuint texture);
-GL_APICALL void GL_APIENTRY glBlendColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-GL_APICALL void GL_APIENTRY glBlendEquation (GLenum mode);
-GL_APICALL void GL_APIENTRY glBlendEquationSeparate (GLenum modeRGB, GLenum modeAlpha);
-GL_APICALL void GL_APIENTRY glBlendFunc (GLenum sfactor, GLenum dfactor);
-GL_APICALL void GL_APIENTRY glBlendFuncSeparate (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-GL_APICALL void GL_APIENTRY glBufferData (GLenum target, GLsizeiptr size, const void *data, GLenum usage);
-GL_APICALL void GL_APIENTRY glBufferSubData (GLenum target, GLintptr offset, GLsizeiptr size, const void *data);
-GL_APICALL GLenum GL_APIENTRY glCheckFramebufferStatus (GLenum target);
-GL_APICALL void GL_APIENTRY glClear (GLbitfield mask);
-GL_APICALL void GL_APIENTRY glClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-GL_APICALL void GL_APIENTRY glClearDepthf (GLfloat d);
-GL_APICALL void GL_APIENTRY glClearStencil (GLint s);
-GL_APICALL void GL_APIENTRY glColorMask (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-GL_APICALL void GL_APIENTRY glCompileShader (GLuint shader);
-GL_APICALL void GL_APIENTRY glCompressedTexImage2D (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void *data);
-GL_APICALL void GL_APIENTRY glCompressedTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void *data);
-GL_APICALL void GL_APIENTRY glCopyTexImage2D (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-GL_APICALL void GL_APIENTRY glCopyTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-GL_APICALL GLuint GL_APIENTRY glCreateProgram (void);
+#నిర్వచితం_కాకపోతే GL_ES_సంస్కరణ_2_0
+#నిర్వచించు GL_ES_సంస్కరణ_2_0 1
+#అన్తర్భావ <KHR/khrplatform.h>
+రకనిర్వచనం khronos_int8_t GLbyte;
+రకనిర్వచనం khronos_float_t GLclampf;
+రకనిర్వచనం khronos_int32_t GLfixed;
+రకనిర్వచనం khronos_int16_t GLshort;
+రకనిర్వచనం khronos_uint16_t GLushort;
+రకనిర్వచనం శూన్య GLvoid;
+రకనిర్వచనం నిర్మాణం __GLsync *GLsync;
+రకనిర్వచనం khronos_int64_t GLint64;
+రకనిర్వచనం khronos_uint64_t GLuint64;
+రకనిర్వచనం గుర్తులేని పూర్ణాంకం GLenum;
+రకనిర్వచనం గుర్తులేని పూర్ణాంకం GLuint;
+రకనిర్వచనం అక్షరం GLchar;
+రకనిర్వచనం khronos_float_t GLfloat;
+రకనిర్వచనం khronos_ssize_t GLsizeiptr;
+రకనిర్వచనం khronos_intptr_t GLintptr;
+రకనిర్వచనం గుర్తులేని పూర్ణాంకం GLbitfield;
+రకనిర్వచనం పూర్ణాంకం GLint;
+రకనిర్వచనం గుర్తులేని అక్షరం GLboolean;
+రకనిర్వచనం పూర్ణాంకం GLsizei;
+రకనిర్వచనం khronos_uint8_t GLubyte;
+#నిర్వచించు GL_లోతు_బఫరు_బిట్టు               0x00000100
+#నిర్వచించు GL_STENCIL_బఫరు_బిట్టు             0x00000400
+#నిర్వచించు GL_COLOR_బఫరు_బిట్టు               0x00004000
+#నిర్వచించు GL_FALSE                          0
+#నిర్వచించు GL_TRUE                           1
+#నిర్వచించు GL_POINTS                         0x0000
+#నిర్వచించు GL_పంక్తులు                          0x0001
+#నిర్వచించు GL_పంక్తి_LOOP                      0x0002
+#నిర్వచించు GL_పంక్తి_STRIP                     0x0003
+#నిర్వచించు GL_TRIANGLES                      0x0004
+#నిర్వచించు GL_TRIANGLE_STRIP                 0x0005
+#నిర్వచించు GL_TRIANGLE_FAN                   0x0006
+#నిర్వచించు GL_ZERO                           0
+#నిర్వచించు GL_ONE                            1
+#నిర్వచించు GL_SRC_COLOR                      0x0300
+#నిర్వచించు GL_ONE_MINUS_SRC_COLOR            0x0301
+#నిర్వచించు GL_SRC_ALPHA                      0x0302
+#నిర్వచించు GL_ONE_MINUS_SRC_ALPHA            0x0303
+#నిర్వచించు GL_DST_ALPHA                      0x0304
+#నిర్వచించు GL_ONE_MINUS_DST_ALPHA            0x0305
+#నిర్వచించు GL_DST_COLOR                      0x0306
+#నిర్వచించు GL_ONE_MINUS_DST_COLOR            0x0307
+#నిర్వచించు GL_SRC_ALPHA_SATURATE             0x0308
+#నిర్వచించు GL_FUNC_కూడు                       0x8006
+#నిర్వచించు GL_BLEND_EQUATION                 0x8009
+#నిర్వచించు GL_BLEND_EQUATION_RGB             0x8009
+#నిర్వచించు GL_BLEND_EQUATION_ALPHA           0x883D
+#నిర్వచించు GL_FUNC_వ్యవకలనం                  0x800A
+#నిర్వచించు GL_FUNC_తిరగేయి_వ్యవకలనం          0x800B
+#నిర్వచించు GL_BLEND_DST_RGB                  0x80C8
+#నిర్వచించు GL_BLEND_SRC_RGB                  0x80C9
+#నిర్వచించు GL_BLEND_DST_ALPHA                0x80CA
+#నిర్వచించు GL_BLEND_SRC_ALPHA                0x80CB
+#నిర్వచించు GL_CONSTANT_COLOR                 0x8001
+#నిర్వచించు GL_ONE_MINUS_CONSTANT_COLOR       0x8002
+#నిర్వచించు GL_CONSTANT_ALPHA                 0x8003
+#నిర్వచించు GL_ONE_MINUS_CONSTANT_ALPHA       0x8004
+#నిర్వచించు GL_BLEND_COLOR                    0x8005
+#నిర్వచించు GL_ARRAY_బఫరు                   0x8892
+#నిర్వచించు GL_ELEMENT_ARRAY_బఫరు           0x8893
+#నిర్వచించు GL_ARRAY_బఫరు_BINDING           0x8894
+#నిర్వచించు GL_ELEMENT_ARRAY_బఫరు_BINDING   0x8895
+#నిర్వచించు GL_ప్రవాహం_DRAW                    0x88E0
+#నిర్వచించు GL_STATIC_DRAW                    0x88E4
+#నిర్వచించు GL_DYNAMIC_DRAW                   0x88E8
+#నిర్వచించు GL_బఫరు_కొలత                    0x8764
+#నిర్వచించు GL_బఫరు_USAGE                   0x8765
+#నిర్వచించు GL_CURRENT_శీర్షం_ATTRIB          0x8626
+#నిర్వచించు GL_FRONT                          0x0404
+#నిర్వచించు GL_వెనుక                           0x0405
+#నిర్వచించు GL_FRONT_AND_వెనుక                 0x0408
+#నిర్వచించు GL_TEXTURE_2D                     0x0DE1
+#నిర్వచించు GL_CULL_FACE                      0x0B44
+#నిర్వచించు GL_BLEND                          0x0BE2
+#నిర్వచించు GL_DITHER                         0x0BD0
+#నిర్వచించు GL_STENCIL_TEST                   0x0B90
+#నిర్వచించు GL_లోతు_TEST                     0x0B71
+#నిర్వచించు GL_SCISSOR_TEST                   0x0C11
+#నిర్వచించు GL_POLYGON_స్థానభ్రంశం_FILL            0x8037
+#నిర్వచించు GL_SAMPLE_ALPHA_గమ్యం_COVERAGE       0x809E
+#నిర్వచించు GL_SAMPLE_COVERAGE                0x80A0
+#నిర్వచించు GL_NO_ERROR                       0
+#నిర్వచించు GL_INVALID_ENUM                   0x0500
+#నిర్వచించు GL_INVALID_విలువ                  0x0501
+#నిర్వచించు GL_INVALID_OPERATION              0x0502
+#నిర్వచించు GL_బహిర్గతం_యొక్క_జ్ఞాపకం                  0x0505
+#నిర్వచించు GL_CW                             0x0900
+#నిర్వచించు GL_CCW                            0x0901
+#నిర్వచించు GL_పంక్తి_వెడల్పు                     0x0B21
+#నిర్వచించు GL_ALIASED_బిందువు_కొలత_RANGE       0x846D
+#నిర్వచించు GL_ALIASED_పంక్తి_వెడల్పు_RANGE       0x846E
+#నిర్వచించు GL_CULL_FACE_బహుళకం                 0x0B45
+#నిర్వచించు GL_FRONT_FACE                     0x0B46
+#నిర్వచించు GL_లోతు_RANGE                    0x0B70
+#నిర్వచించు GL_లోతు_WRITEMASK                0x0B72
+#నిర్వచించు GL_లోతు_CLEAR_విలువ              0x0B73
+#నిర్వచించు GL_లోతు_FUNC                     0x0B74
+#నిర్వచించు GL_STENCIL_CLEAR_విలువ            0x0B91
+#నిర్వచించు GL_STENCIL_FUNC                   0x0B92
+#నిర్వచించు GL_STENCIL_FAIL                   0x0B94
+#నిర్వచించు GL_STENCIL_PASS_లోతు_FAIL        0x0B95
+#నిర్వచించు GL_STENCIL_PASS_లోతు_PASS        0x0B96
+#నిర్వచించు GL_STENCIL_REF                    0x0B97
+#నిర్వచించు GL_STENCIL_విలువ_ముసుగు             0x0B93
+#నిర్వచించు GL_STENCIL_WRITEMASK              0x0B98
+#నిర్వచించు GL_STENCIL_వెనుక_FUNC              0x8800
+#నిర్వచించు GL_STENCIL_వెనుక_FAIL              0x8801
+#నిర్వచించు GL_STENCIL_వెనుక_PASS_లోతు_FAIL   0x8802
+#నిర్వచించు GL_STENCIL_వెనుక_PASS_లోతు_PASS   0x8803
+#నిర్వచించు GL_STENCIL_వెనుక_REF               0x8CA3
+#నిర్వచించు GL_STENCIL_వెనుక_విలువ_ముసుగు        0x8CA4
+#నిర్వచించు GL_STENCIL_వెనుక_WRITEMASK         0x8CA5
+#నిర్వచించు GL_VIEWPORT                       0x0BA2
+#నిర్వచించు GL_SCISSOR_BOX                    0x0C10
+#నిర్వచించు GL_COLOR_CLEAR_విలువ              0x0C22
+#నిర్వచించు GL_COLOR_WRITEMASK                0x0C23
+#నిర్వచించు GL_UNPACK_ALIGNMENT               0x0CF5
+#నిర్వచించు GL_PACK_ALIGNMENT                 0x0D05
+#నిర్వచించు GL_MAX_TEXTURE_కొలత               0x0D33
+#నిర్వచించు GL_MAX_VIEWPORT_DIMS              0x0D3A
+#నిర్వచించు GL_SUBPIXEL_బిట్లు                  0x0D50
+#నిర్వచించు GL_RED_బిట్లు                       0x0D52
+#నిర్వచించు GL_GREEN_బిట్లు                     0x0D53
+#నిర్వచించు GL_BLUE_బిట్లు                      0x0D54
+#నిర్వచించు GL_ALPHA_బిట్లు                     0x0D55
+#నిర్వచించు GL_లోతు_బిట్లు                     0x0D56
+#నిర్వచించు GL_STENCIL_బిట్లు                   0x0D57
+#నిర్వచించు GL_POLYGON_స్థానభ్రంశం_UNITS           0x2A00
+#నిర్వచించు GL_POLYGON_స్థానభ్రంశం_గుణకం          0x8038
+#నిర్వచించు GL_TEXTURE_BINDING_2D             0x8069
+#నిర్వచించు GL_SAMPLE_BUFFERS                 0x80A8
+#నిర్వచించు GL_SAMPLES                        0x80A9
+#నిర్వచించు GL_SAMPLE_COVERAGE_విలువ          0x80AA
+#నిర్వచించు GL_SAMPLE_COVERAGE_INVERT         0x80AB
+#నిర్వచించు GL_అంకె_COMPRESSED_TEXTURE_FORMATS 0x86A2
+#నిర్వచించు GL_COMPRESSED_TEXTURE_FORMATS     0x86A3
+#నిర్వచించు GL_DONT_CARE                      0x1100
+#నిర్వచించు GL_FASTEST                        0x1101
+#నిర్వచించు GL_NICEST                         0x1102
+#నిర్వచించు GL_GENERATE_MIPMAP_HINT           0x8192
+#నిర్వచించు GL_BYTE                           0x1400
+#నిర్వచించు GL_UNSIGNED_BYTE                  0x1401
+#నిర్వచించు GL_SHORT                          0x1402
+#నిర్వచించు GL_UNSIGNED_SHORT                 0x1403
+#నిర్వచించు GL_INT                            0x1404
+#నిర్వచించు GL_UNSIGNED_INT                   0x1405
+#నిర్వచించు GL_FLOAT                          0x1406
+#నిర్వచించు GL_FIXED                          0x140C
+#నిర్వచించు GL_లోతు_COMPONENT                0x1902
+#నిర్వచించు GL_ALPHA                          0x1906
+#నిర్వచించు GL_RGB                            0x1907
+#నిర్వచించు GL_RGBA                           0x1908
+#నిర్వచించు GL_LUMINANCE                      0x1909
+#నిర్వచించు GL_LUMINANCE_ALPHA                0x190A
+#నిర్వచించు GL_UNSIGNED_SHORT_4_4_4_4         0x8033
+#నిర్వచించు GL_UNSIGNED_SHORT_5_5_5_1         0x8034
+#నిర్వచించు GL_UNSIGNED_SHORT_5_6_5           0x8363
+#నిర్వచించు GL_FRAGMENT_SHADER                0x8B30
+#నిర్వచించు GL_శీర్షం_SHADER                  0x8B31
+#నిర్వచించు GL_MAX_శీర్షం_ATTRIBS             0x8869
+#నిర్వచించు GL_MAX_శీర్షం_ఏకరీతి_VECTORS     0x8DFB
+#నిర్వచించు GL_MAX_VARYING_VECTORS            0x8DFC
+#నిర్వచించు GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS 0x8B4D
+#నిర్వచించు GL_MAX_శీర్షం_TEXTURE_IMAGE_UNITS 0x8B4C
+#నిర్వచించు GL_MAX_TEXTURE_IMAGE_UNITS        0x8872
+#నిర్వచించు GL_MAX_FRAGMENT_ఏకరీతి_VECTORS   0x8DFD
+#నిర్వచించు GL_SHADER_TYPE                    0x8B4F
+#నిర్వచించు GL_DELETE_స్థితి                  0x8B80
+#నిర్వచించు GL_LINK_స్థితి                    0x8B82
+#నిర్వచించు GL_VALIDATE_స్థితి                0x8B83
+#నిర్వచించు GL_ATTACHED_SHADERS               0x8B85
+#నిర్వచించు GL_చురుకైన_UNIFORMS                0x8B86
+#నిర్వచించు GL_చురుకైన_ఏకరీతి_MAX_నిడివి      0x8B87
+#నిర్వచించు GL_చురుకైన_లక్షణాలు              0x8B89
+#నిర్వచించు GL_చురుకైన_ATTRIBUTE_MAX_నిడివి    0x8B8A
+#నిర్వచించు GL_SHADING_LANGUAGE_సంస్కరణ       0x8B8C
+#నిర్వచించు GL_CURRENT_కార్యక్రమం                0x8B8D
+#నిర్వచించు GL_NEVER                          0x0200
+#నిర్వచించు GL_LESS                           0x0201
+#నిర్వచించు GL_EQUAL                          0x0202
+#నిర్వచించు GL_LEQUAL                         0x0203
+#నిర్వచించు GL_GREATER                        0x0204
+#నిర్వచించు GL_NOTEQUAL                       0x0205
+#నిర్వచించు GL_GEQUAL                         0x0206
+#నిర్వచించు GL_ALWAYS                         0x0207
+#నిర్వచించు GL_KEEP                           0x1E00
+#నిర్వచించు GL_REPLACE                        0x1E01
+#నిర్వచించు GL_INCR                           0x1E02
+#నిర్వచించు GL_DECR                           0x1E03
+#నిర్వచించు GL_INVERT                         0x150A
+#నిర్వచించు GL_INCR_WRAP                      0x8507
+#నిర్వచించు GL_DECR_WRAP                      0x8508
+#నిర్వచించు GL_VENDOR                         0x1F00
+#నిర్వచించు GL_RENDERER                       0x1F01
+#నిర్వచించు GL_సంస్కరణ                        0x1F02
+#నిర్వచించు GL_EXTENSIONS                     0x1F03
+#నిర్వచించు GL_సమీప                        0x2600
+#నిర్వచించు GL_రేఖీయ                         0x2601
+#నిర్వచించు GL_సమీప_MIPMAP_సమీప         0x2700
+#నిర్వచించు GL_రేఖీయ_MIPMAP_సమీప          0x2701
+#నిర్వచించు GL_సమీప_MIPMAP_రేఖీయ          0x2702
+#నిర్వచించు GL_రేఖీయ_MIPMAP_రేఖీయ           0x2703
+#నిర్వచించు GL_TEXTURE_MAG_FILTER             0x2800
+#నిర్వచించు GL_TEXTURE_MIN_FILTER             0x2801
+#నిర్వచించు GL_TEXTURE_WRAP_S                 0x2802
+#నిర్వచించు GL_TEXTURE_WRAP_T                 0x2803
+#నిర్వచించు GL_TEXTURE                        0x1702
+#నిర్వచించు GL_TEXTURE_CUBE_MAP               0x8513
+#నిర్వచించు GL_TEXTURE_BINDING_CUBE_MAP       0x8514
+#నిర్వచించు GL_TEXTURE_CUBE_MAP_ధనాత్మక_X    0x8515
+#నిర్వచించు GL_TEXTURE_CUBE_MAP_NEGATIVE_X    0x8516
+#నిర్వచించు GL_TEXTURE_CUBE_MAP_ధనాత్మక_Y    0x8517
+#నిర్వచించు GL_TEXTURE_CUBE_MAP_NEGATIVE_Y    0x8518
+#నిర్వచించు GL_TEXTURE_CUBE_MAP_ధనాత్మక_Z    0x8519
+#నిర్వచించు GL_TEXTURE_CUBE_MAP_NEGATIVE_Z    0x851A
+#నిర్వచించు GL_MAX_CUBE_MAP_TEXTURE_కొలత      0x851C
+#నిర్వచించు GL_TEXTURE0                       0x84C0
+#నిర్వచించు GL_TEXTURE1                       0x84C1
+#నిర్వచించు GL_TEXTURE2                       0x84C2
+#నిర్వచించు GL_TEXTURE3                       0x84C3
+#నిర్వచించు GL_TEXTURE4                       0x84C4
+#నిర్వచించు GL_TEXTURE5                       0x84C5
+#నిర్వచించు GL_TEXTURE6                       0x84C6
+#నిర్వచించు GL_TEXTURE7                       0x84C7
+#నిర్వచించు GL_TEXTURE8                       0x84C8
+#నిర్వచించు GL_TEXTURE9                       0x84C9
+#నిర్వచించు GL_TEXTURE10                      0x84CA
+#నిర్వచించు GL_TEXTURE11                      0x84CB
+#నిర్వచించు GL_TEXTURE12                      0x84CC
+#నిర్వచించు GL_TEXTURE13                      0x84CD
+#నిర్వచించు GL_TEXTURE14                      0x84CE
+#నిర్వచించు GL_TEXTURE15                      0x84CF
+#నిర్వచించు GL_TEXTURE16                      0x84D0
+#నిర్వచించు GL_TEXTURE17                      0x84D1
+#నిర్వచించు GL_TEXTURE18                      0x84D2
+#నిర్వచించు GL_TEXTURE19                      0x84D3
+#నిర్వచించు GL_TEXTURE20                      0x84D4
+#నిర్వచించు GL_TEXTURE21                      0x84D5
+#నిర్వచించు GL_TEXTURE22                      0x84D6
+#నిర్వచించు GL_TEXTURE23                      0x84D7
+#నిర్వచించు GL_TEXTURE24                      0x84D8
+#నిర్వచించు GL_TEXTURE25                      0x84D9
+#నిర్వచించు GL_TEXTURE26                      0x84DA
+#నిర్వచించు GL_TEXTURE27                      0x84DB
+#నిర్వచించు GL_TEXTURE28                      0x84DC
+#నిర్వచించు GL_TEXTURE29                      0x84DD
+#నిర్వచించు GL_TEXTURE30                      0x84DE
+#నిర్వచించు GL_TEXTURE31                      0x84DF
+#నిర్వచించు GL_చురుకైన_TEXTURE                 0x84E0
+#నిర్వచించు GL_REPEAT                         0x2901
+#నిర్వచించు GL_CLAMP_గమ్యం_అంచు                  0x812F
+#నిర్వచించు GL_MIRRORED_REPEAT                0x8370
+#నిర్వచించు GL_FLOAT_VEC2                     0x8B50
+#నిర్వచించు GL_FLOAT_VEC3                     0x8B51
+#నిర్వచించు GL_FLOAT_VEC4                     0x8B52
+#నిర్వచించు GL_INT_VEC2                       0x8B53
+#నిర్వచించు GL_INT_VEC3                       0x8B54
+#నిర్వచించు GL_INT_VEC4                       0x8B55
+#నిర్వచించు GL_BOOL                           0x8B56
+#నిర్వచించు GL_BOOL_VEC2                      0x8B57
+#నిర్వచించు GL_BOOL_VEC3                      0x8B58
+#నిర్వచించు GL_BOOL_VEC4                      0x8B59
+#నిర్వచించు GL_FLOAT_MAT2                     0x8B5A
+#నిర్వచించు GL_FLOAT_MAT3                     0x8B5B
+#నిర్వచించు GL_FLOAT_MAT4                     0x8B5C
+#నిర్వచించు GL_SAMPLER_2D                     0x8B5E
+#నిర్వచించు GL_SAMPLER_CUBE                   0x8B60
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_ENABLED    0x8622
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_కొలత       0x8623
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_STRIDE     0x8624
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_TYPE       0x8625
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_NORMALIZED 0x886A
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_సూచిక    0x8645
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_బఫరు_BINDING 0x889F
+#నిర్వచించు GL_IMPLEMENTATION_COLOR_READ_TYPE 0x8B9A
+#నిర్వచించు GL_IMPLEMENTATION_COLOR_READ_FORMAT 0x8B9B
+#నిర్వచించు GL_COMPILE_స్థితి                 0x8B81
+#నిర్వచించు GL_INFO_LOG_నిడివి                0x8B84
+#నిర్వచించు GL_SHADER_ఆధారం_నిడివి           0x8B88
+#నిర్వచించు GL_SHADER_COMPILER                0x8DFA
+#నిర్వచించు GL_SHADER_ద్విమాన_FORMATS          0x8DF8
+#నిర్వచించు GL_అంకె_SHADER_ద్విమాన_FORMATS      0x8DF9
+#నిర్వచించు GL_దిగువ_FLOAT                      0x8DF0
+#నిర్వచించు GL_MEDIUM_FLOAT                   0x8DF1
+#నిర్వచించు GL_ఎగువ_FLOAT                     0x8DF2
+#నిర్వచించు GL_దిగువ_INT                        0x8DF3
+#నిర్వచించు GL_MEDIUM_INT                     0x8DF4
+#నిర్వచించు GL_ఎగువ_INT                       0x8DF5
+#నిర్వచించు GL_FRAMEBUFFER                    0x8D40
+#నిర్వచించు GL_RENDERBUFFER                   0x8D41
+#నిర్వచించు GL_RGBA4                          0x8056
+#నిర్వచించు GL_RGB5_A1                        0x8057
+#నిర్వచించు GL_RGB565                         0x8D62
+#నిర్వచించు GL_లోతు_COMPONENT16              0x81A5
+#నిర్వచించు GL_STENCIL_INDEX8                 0x8D48
+#నిర్వచించు GL_RENDERBUFFER_వెడల్పు             0x8D42
+#నిర్వచించు GL_RENDERBUFFER_ఎత్తు            0x8D43
+#నిర్వచించు GL_RENDERBUFFER_అంతర్గత_FORMAT   0x8D44
+#నిర్వచించు GL_RENDERBUFFER_RED_కొలత          0x8D50
+#నిర్వచించు GL_RENDERBUFFER_GREEN_కొలత        0x8D51
+#నిర్వచించు GL_RENDERBUFFER_BLUE_కొలత         0x8D52
+#నిర్వచించు GL_RENDERBUFFER_ALPHA_కొలత        0x8D53
+#నిర్వచించు GL_RENDERBUFFER_లోతు_కొలత        0x8D54
+#నిర్వచించు GL_RENDERBUFFER_STENCIL_కొలత      0x8D55
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE 0x8CD0
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME 0x8CD1
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL 0x8CD2
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE 0x8CD3
+#నిర్వచించు GL_COLOR_ATTACHMENT0              0x8CE0
+#నిర్వచించు GL_లోతు_ATTACHMENT               0x8D00
+#నిర్వచించు GL_STENCIL_ATTACHMENT             0x8D20
+#నిర్వచించు GL_NONE                           0
+#నిర్వచించు GL_FRAMEBUFFER_COMPLETE           0x8CD5
+#నిర్వచించు GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT 0x8CD6
+#నిర్వచించు GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT 0x8CD7
+#నిర్వచించు GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS 0x8CD9
+#నిర్వచించు GL_FRAMEBUFFER_UNSUPPORTED        0x8CDD
+#నిర్వచించు GL_FRAMEBUFFER_BINDING            0x8CA6
+#నిర్వచించు GL_RENDERBUFFER_BINDING           0x8CA7
+#నిర్వచించు GL_MAX_RENDERBUFFER_కొలత          0x84E8
+#నిర్వచించు GL_INVALID_FRAMEBUFFER_OPERATION  0x0506
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLACTIVETEXTUREPROC) (GLenum texture);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLATTACHSHADERPROC) (GLuint కార్యక్రమం, GLuint shader);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDATTRIBLOCATIONPROC) (GLuint కార్యక్రమం, GLuint సూచీ, స్థిరరాశి GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDBUFFERPROC) (GLenum లక్ష్యం, GLuint బఫరు_2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDFRAMEBUFFERPROC) (GLenum లక్ష్యం, GLuint framebuffer);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDRENDERBUFFERPROC) (GLenum లక్ష్యం, GLuint renderbuffer);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDTEXTUREPROC) (GLenum లక్ష్యం, GLuint texture);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBLENDCOLORPROC) (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBLENDEQUATIONPROC) (GLenum బహుళకం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBLENDEQUATIONSEPARATEPROC) (GLenum బహుళకం_RGB, GLenum బహుళకం_Alpha);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBLENDFUNCPROC) (GLenum sfactor, GLenum dfactor);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBLENDFUNCSEPARATEPROC) (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBUFFERDATAPROC) (GLenum లక్ష్యం, GLsizeiptr కొలత, స్థిరరాశి శూన్య *దత్తాంశం, GLenum usage);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBUFFERSUBDATAPROC) (GLenum లక్ష్యం, GLintptr స్థానభ్రంశం_2, GLsizeiptr కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+రకనిర్వచనం GLenum (GL_APIENTRYP PFNGLCHECKFRAMEBUFFERSTATUSPROC) (GLenum లక్ష్యం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARPROC) (GLbitfield ముసుగు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARCOLORPROC) (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARDEPTHFPROC) (GLfloat d);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARSTENCILPROC) (GLint s);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOLORMASKPROC) (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOMPILESHADERPROC) (GLuint shader);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOMPRESSEDTEXIMAGE2DPROC) (GLenum లక్ష్యం, GLint level, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLint border, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC) (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLenum format, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOPYTEXIMAGE2DPROC) (GLenum లక్ష్యం, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు, GLint border);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOPYTEXSUBIMAGE2DPROC) (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+రకనిర్వచనం GLuint (GL_APIENTRYP PFNGLCREATEPROGRAMPROC) (శూన్య);
+రకనిర్వచనం GLuint (GL_APIENTRYP PFNGLCREATESHADERPROC) (GLenum type);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCULLFACEPROC) (GLenum బహుళకం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETEBUFFERSPROC) (GLsizei n, స్థిరరాశి GLuint *buffers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETEFRAMEBUFFERSPROC) (GLsizei n, స్థిరరాశి GLuint *framebuffers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETEPROGRAMPROC) (GLuint కార్యక్రమం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETERENDERBUFFERSPROC) (GLsizei n, స్థిరరాశి GLuint *renderbuffers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETESHADERPROC) (GLuint shader);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETETEXTURESPROC) (GLsizei n, స్థిరరాశి GLuint *textures);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDEPTHFUNCPROC) (GLenum func);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDEPTHMASKPROC) (GLboolean flag);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDEPTHRANGEFPROC) (GLfloat n, GLfloat f);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDETACHSHADERPROC) (GLuint కార్యక్రమం, GLuint shader);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDISABLEPROC) (GLenum cap);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDISABLEVERTEXATTRIBARRAYPROC) (GLuint సూచీ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWARRAYSPROC) (GLenum బహుళకం, GLint మొదటి, GLsizei లెక్క);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWELEMENTSPROC) (GLenum బహుళకం, GLsizei లెక్క, GLenum type, స్థిరరాశి శూన్య *indices);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLENABLEPROC) (GLenum cap);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLENABLEVERTEXATTRIBARRAYPROC) (GLuint సూచీ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFINISHPROC) (శూన్య);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFLUSHPROC) (శూన్య);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFRAMEBUFFERRENDERBUFFERPROC) (GLenum లక్ష్యం, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURE2DPROC) (GLenum లక్ష్యం, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFRONTFACEPROC) (GLenum బహుళకం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENBUFFERSPROC) (GLsizei n, GLuint *buffers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENERATEMIPMAPPROC) (GLenum లక్ష్యం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENFRAMEBUFFERSPROC) (GLsizei n, GLuint *framebuffers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENRENDERBUFFERSPROC) (GLsizei n, GLuint *renderbuffers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENTEXTURESPROC) (GLsizei n, GLuint *textures);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETACTIVEATTRIBPROC) (GLuint కార్యక్రమం, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLint *కొలత, GLenum *type, GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETACTIVEUNIFORMPROC) (GLuint కార్యక్రమం, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLint *కొలత, GLenum *type, GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETATTACHEDSHADERSPROC) (GLuint కార్యక్రమం, GLsizei max_లెక్క, GLsizei *లెక్క, GLuint *shaders);
+రకనిర్వచనం GLint (GL_APIENTRYP PFNGLGETATTRIBLOCATIONPROC) (GLuint కార్యక్రమం, స్థిరరాశి GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETBOOLEANVPROC) (GLenum pname, GLboolean *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETBUFFERPARAMETERIVPROC) (GLenum లక్ష్యం, GLenum pname, GLint *params);
+రకనిర్వచనం GLenum (GL_APIENTRYP PFNGLGETERRORPROC) (శూన్య);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETFLOATVPROC) (GLenum pname, GLfloat *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC) (GLenum లక్ష్యం, GLenum attachment, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETINTEGERVPROC) (GLenum pname, GLint *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMIVPROC) (GLuint కార్యక్రమం, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMINFOLOGPROC) (GLuint కార్యక్రమం, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *infoLog);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETRENDERBUFFERPARAMETERIVPROC) (GLenum లక్ష్యం, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETSHADERIVPROC) (GLuint shader, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETSHADERINFOLOGPROC) (GLuint shader, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *infoLog);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETSHADERPRECISIONFORMATPROC) (GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETSHADERSOURCEPROC) (GLuint shader, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *ఆధారం);
+రకనిర్వచనం స్థిరరాశి GLubyte *(GL_APIENTRYP PFNGLGETSTRINGPROC) (GLenum name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETTEXPARAMETERFVPROC) (GLenum లక్ష్యం, GLenum pname, GLfloat *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETTEXPARAMETERIVPROC) (GLenum లక్ష్యం, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETUNIFORMFVPROC) (GLuint కార్యక్రమం, GLint location, GLfloat *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETUNIFORMIVPROC) (GLuint కార్యక్రమం, GLint location, GLint *params);
+రకనిర్వచనం GLint (GL_APIENTRYP PFNGLGETUNIFORMLOCATIONPROC) (GLuint కార్యక్రమం, స్థిరరాశి GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETVERTEXATTRIBFVPROC) (GLuint సూచీ, GLenum pname, GLfloat *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETVERTEXATTRIBIVPROC) (GLuint సూచీ, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETVERTEXATTRIBPOINTERVPROC) (GLuint సూచీ, GLenum pname, శూన్య **సూచిక_2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLHINTPROC) (GLenum లక్ష్యం, GLenum బహుళకం);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISBUFFERPROC) (GLuint బఫరు_2);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISENABLEDPROC) (GLenum cap);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISFRAMEBUFFERPROC) (GLuint framebuffer);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISPROGRAMPROC) (GLuint కార్యక్రమం);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISRENDERBUFFERPROC) (GLuint renderbuffer);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISSHADERPROC) (GLuint shader);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISTEXTUREPROC) (GLuint texture);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLLINEWIDTHPROC) (GLfloat వెడల్పు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLLINKPROGRAMPROC) (GLuint కార్యక్రమం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPIXELSTOREIPROC) (GLenum pname, GLint param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPOLYGONOFFSETPROC) (GLfloat గుణకం, GLfloat units);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLREADPIXELSPROC) (GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు, GLenum format, GLenum type, శూన్య *pixels);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLRELEASESHADERCOMPILERPROC) (శూన్య);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLRENDERBUFFERSTORAGEPROC) (GLenum లక్ష్యం, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSAMPLECOVERAGEPROC) (GLfloat విలువ, GLboolean invert);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSCISSORPROC) (GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSHADERBINARYPROC) (GLsizei లెక్క, స్థిరరాశి GLuint *shaders, GLenum ద్విమాన_Format, స్థిరరాశి శూన్య *ద్విమాన, GLsizei నిడివి);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSHADERSOURCEPROC) (GLuint shader, GLsizei లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*string, స్థిరరాశి GLint *నిడివి);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSTENCILFUNCPROC) (GLenum func, GLint ref, GLuint ముసుగు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSTENCILFUNCSEPARATEPROC) (GLenum face, GLenum func, GLint ref, GLuint ముసుగు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSTENCILMASKPROC) (GLuint ముసుగు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSTENCILMASKSEPARATEPROC) (GLenum face, GLuint ముసుగు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSTENCILOPPROC) (GLenum fail, GLenum zfail, GLenum zpass);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSTENCILOPSEPARATEPROC) (GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXIMAGE2DPROC) (GLenum లక్ష్యం, GLint level, GLint internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLint border, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXPARAMETERFPROC) (GLenum లక్ష్యం, GLenum pname, GLfloat param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXPARAMETERFVPROC) (GLenum లక్ష్యం, GLenum pname, స్థిరరాశి GLfloat *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXPARAMETERIPROC) (GLenum లక్ష్యం, GLenum pname, GLint param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXPARAMETERIVPROC) (GLenum లక్ష్యం, GLenum pname, స్థిరరాశి GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXSUBIMAGE2DPROC) (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM1FPROC) (GLint location, GLfloat v0);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM1FVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM1IPROC) (GLint location, GLint v0);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM1IVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM2FPROC) (GLint location, GLfloat v0, GLfloat v1);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM2FVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM2IPROC) (GLint location, GLint v0, GLint v1);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM2IVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM3FPROC) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM3FVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM3IPROC) (GLint location, GLint v0, GLint v1, GLint v2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM3IVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM4FPROC) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM4FVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM4IPROC) (GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM4IVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX2FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX3FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX4FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUSEPROGRAMPROC) (GLuint కార్యక్రమం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVALIDATEPROGRAMPROC) (GLuint కార్యక్రమం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB1FPROC) (GLuint సూచీ, GLfloat x);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB1FVPROC) (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB2FPROC) (GLuint సూచీ, GLfloat x, GLfloat y);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB2FVPROC) (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB3FPROC) (GLuint సూచీ, GLfloat x, GLfloat y, GLfloat z);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB3FVPROC) (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB4FPROC) (GLuint సూచీ, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIB4FVPROC) (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBPOINTERPROC) (GLuint సూచీ, GLint కొలత, GLenum type, GLboolean normalized, GLsizei stride, స్థిరరాశి శూన్య *సూచిక_2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVIEWPORTPROC) (GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+#ఒకవేళ GL_GLES_PROTOTYPES
+GL_APICALL శూన్య GL_APIENTRY gl_చురుకైన_Texture (GLenum texture);
+GL_APICALL శూన్య GL_APIENTRY glAttachShader (GLuint కార్యక్రమం, GLuint shader);
+GL_APICALL శూన్య GL_APIENTRY glBindAttribLocation (GLuint కార్యక్రమం, GLuint సూచీ, స్థిరరాశి GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY gl_Bind_బఫరు (GLenum లక్ష్యం, GLuint బఫరు_2);
+GL_APICALL శూన్య GL_APIENTRY glBindFramebuffer (GLenum లక్ష్యం, GLuint framebuffer);
+GL_APICALL శూన్య GL_APIENTRY glBindRenderbuffer (GLenum లక్ష్యం, GLuint renderbuffer);
+GL_APICALL శూన్య GL_APIENTRY glBindTexture (GLenum లక్ష్యం, GLuint texture);
+GL_APICALL శూన్య GL_APIENTRY glBlendColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+GL_APICALL శూన్య GL_APIENTRY glBlendEquation (GLenum బహుళకం);
+GL_APICALL శూన్య GL_APIENTRY glBlendEquationSeparate (GLenum బహుళకం_RGB, GLenum బహుళకం_Alpha);
+GL_APICALL శూన్య GL_APIENTRY glBlendFunc (GLenum sfactor, GLenum dfactor);
+GL_APICALL శూన్య GL_APIENTRY glBlendFuncSeparate (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
+GL_APICALL శూన్య GL_APIENTRY gl_బఫరు_దత్తాంశం (GLenum లక్ష్యం, GLsizeiptr కొలత, స్థిరరాశి శూన్య *దత్తాంశం, GLenum usage);
+GL_APICALL శూన్య GL_APIENTRY gl_బఫరు_Sub_దత్తాంశం (GLenum లక్ష్యం, GLintptr స్థానభ్రంశం_2, GLsizeiptr కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+GL_APICALL GLenum GL_APIENTRY gl_Check_Framebuffer_స్థితి (GLenum లక్ష్యం);
+GL_APICALL శూన్య GL_APIENTRY glClear (GLbitfield ముసుగు);
+GL_APICALL శూన్య GL_APIENTRY glClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+GL_APICALL శూన్య GL_APIENTRY glClearDepthf (GLfloat d);
+GL_APICALL శూన్య GL_APIENTRY glClearStencil (GLint s);
+GL_APICALL శూన్య GL_APIENTRY gl_Color_ముసుగు (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+GL_APICALL శూన్య GL_APIENTRY glCompileShader (GLuint shader);
+GL_APICALL శూన్య GL_APIENTRY glCompressedTexImage2D (GLenum లక్ష్యం, GLint level, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLint border, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glCompressedTexSubImage2D (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLenum format, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glCopyTexImage2D (GLenum లక్ష్యం, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు, GLint border);
+GL_APICALL శూన్య GL_APIENTRY glCopyTexSubImage2D (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+GL_APICALL GLuint GL_APIENTRY gl_Create_కార్యక్రమం (శూన్య);
 GL_APICALL GLuint GL_APIENTRY glCreateShader (GLenum type);
-GL_APICALL void GL_APIENTRY glCullFace (GLenum mode);
-GL_APICALL void GL_APIENTRY glDeleteBuffers (GLsizei n, const GLuint *buffers);
-GL_APICALL void GL_APIENTRY glDeleteFramebuffers (GLsizei n, const GLuint *framebuffers);
-GL_APICALL void GL_APIENTRY glDeleteProgram (GLuint program);
-GL_APICALL void GL_APIENTRY glDeleteRenderbuffers (GLsizei n, const GLuint *renderbuffers);
-GL_APICALL void GL_APIENTRY glDeleteShader (GLuint shader);
-GL_APICALL void GL_APIENTRY glDeleteTextures (GLsizei n, const GLuint *textures);
-GL_APICALL void GL_APIENTRY glDepthFunc (GLenum func);
-GL_APICALL void GL_APIENTRY glDepthMask (GLboolean flag);
-GL_APICALL void GL_APIENTRY glDepthRangef (GLfloat n, GLfloat f);
-GL_APICALL void GL_APIENTRY glDetachShader (GLuint program, GLuint shader);
-GL_APICALL void GL_APIENTRY glDisable (GLenum cap);
-GL_APICALL void GL_APIENTRY glDisableVertexAttribArray (GLuint index);
-GL_APICALL void GL_APIENTRY glDrawArrays (GLenum mode, GLint first, GLsizei count);
-GL_APICALL void GL_APIENTRY glDrawElements (GLenum mode, GLsizei count, GLenum type, const void *indices);
-GL_APICALL void GL_APIENTRY glEnable (GLenum cap);
-GL_APICALL void GL_APIENTRY glEnableVertexAttribArray (GLuint index);
-GL_APICALL void GL_APIENTRY glFinish (void);
-GL_APICALL void GL_APIENTRY glFlush (void);
-GL_APICALL void GL_APIENTRY glFramebufferRenderbuffer (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-GL_APICALL void GL_APIENTRY glFramebufferTexture2D (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-GL_APICALL void GL_APIENTRY glFrontFace (GLenum mode);
-GL_APICALL void GL_APIENTRY glGenBuffers (GLsizei n, GLuint *buffers);
-GL_APICALL void GL_APIENTRY glGenerateMipmap (GLenum target);
-GL_APICALL void GL_APIENTRY glGenFramebuffers (GLsizei n, GLuint *framebuffers);
-GL_APICALL void GL_APIENTRY glGenRenderbuffers (GLsizei n, GLuint *renderbuffers);
-GL_APICALL void GL_APIENTRY glGenTextures (GLsizei n, GLuint *textures);
-GL_APICALL void GL_APIENTRY glGetActiveAttrib (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
-GL_APICALL void GL_APIENTRY glGetActiveUniform (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLint *size, GLenum *type, GLchar *name);
-GL_APICALL void GL_APIENTRY glGetAttachedShaders (GLuint program, GLsizei maxCount, GLsizei *count, GLuint *shaders);
-GL_APICALL GLint GL_APIENTRY glGetAttribLocation (GLuint program, const GLchar *name);
-GL_APICALL void GL_APIENTRY glGetBooleanv (GLenum pname, GLboolean *data);
-GL_APICALL void GL_APIENTRY glGetBufferParameteriv (GLenum target, GLenum pname, GLint *params);
-GL_APICALL GLenum GL_APIENTRY glGetError (void);
-GL_APICALL void GL_APIENTRY glGetFloatv (GLenum pname, GLfloat *data);
-GL_APICALL void GL_APIENTRY glGetFramebufferAttachmentParameteriv (GLenum target, GLenum attachment, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetIntegerv (GLenum pname, GLint *data);
-GL_APICALL void GL_APIENTRY glGetProgramiv (GLuint program, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetProgramInfoLog (GLuint program, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
-GL_APICALL void GL_APIENTRY glGetRenderbufferParameteriv (GLenum target, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
-GL_APICALL void GL_APIENTRY glGetShaderPrecisionFormat (GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision);
-GL_APICALL void GL_APIENTRY glGetShaderSource (GLuint shader, GLsizei bufSize, GLsizei *length, GLchar *source);
-GL_APICALL const GLubyte *GL_APIENTRY glGetString (GLenum name);
-GL_APICALL void GL_APIENTRY glGetTexParameterfv (GLenum target, GLenum pname, GLfloat *params);
-GL_APICALL void GL_APIENTRY glGetTexParameteriv (GLenum target, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetUniformfv (GLuint program, GLint location, GLfloat *params);
-GL_APICALL void GL_APIENTRY glGetUniformiv (GLuint program, GLint location, GLint *params);
-GL_APICALL GLint GL_APIENTRY glGetUniformLocation (GLuint program, const GLchar *name);
-GL_APICALL void GL_APIENTRY glGetVertexAttribfv (GLuint index, GLenum pname, GLfloat *params);
-GL_APICALL void GL_APIENTRY glGetVertexAttribiv (GLuint index, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetVertexAttribPointerv (GLuint index, GLenum pname, void **pointer);
-GL_APICALL void GL_APIENTRY glHint (GLenum target, GLenum mode);
-GL_APICALL GLboolean GL_APIENTRY glIsBuffer (GLuint buffer);
+GL_APICALL శూన్య GL_APIENTRY glCullFace (GLenum బహుళకం);
+GL_APICALL శూన్య GL_APIENTRY glDeleteBuffers (GLsizei n, స్థిరరాశి GLuint *buffers);
+GL_APICALL శూన్య GL_APIENTRY glDeleteFramebuffers (GLsizei n, స్థిరరాశి GLuint *framebuffers);
+GL_APICALL శూన్య GL_APIENTRY gl_Delete_కార్యక్రమం (GLuint కార్యక్రమం);
+GL_APICALL శూన్య GL_APIENTRY glDeleteRenderbuffers (GLsizei n, స్థిరరాశి GLuint *renderbuffers);
+GL_APICALL శూన్య GL_APIENTRY glDeleteShader (GLuint shader);
+GL_APICALL శూన్య GL_APIENTRY glDeleteTextures (GLsizei n, స్థిరరాశి GLuint *textures);
+GL_APICALL శూన్య GL_APIENTRY gl_లోతు_Func (GLenum func);
+GL_APICALL శూన్య GL_APIENTRY gl_లోతు_ముసుగు (GLboolean flag);
+GL_APICALL శూన్య GL_APIENTRY gl_లోతు_Rangef (GLfloat n, GLfloat f);
+GL_APICALL శూన్య GL_APIENTRY glDetachShader (GLuint కార్యక్రమం, GLuint shader);
+GL_APICALL శూన్య GL_APIENTRY glDisable (GLenum cap);
+GL_APICALL శూన్య GL_APIENTRY gl_Disable_శీర్షం_Attrib_Array (GLuint సూచీ);
+GL_APICALL శూన్య GL_APIENTRY glDrawArrays (GLenum బహుళకం, GLint మొదటి, GLsizei లెక్క);
+GL_APICALL శూన్య GL_APIENTRY glDrawElements (GLenum బహుళకం, GLsizei లెక్క, GLenum type, స్థిరరాశి శూన్య *indices);
+GL_APICALL శూన్య GL_APIENTRY glEnable (GLenum cap);
+GL_APICALL శూన్య GL_APIENTRY gl_Enable_శీర్షం_Attrib_Array (GLuint సూచీ);
+GL_APICALL శూన్య GL_APIENTRY gl_ముగింపు (శూన్య);
+GL_APICALL శూన్య GL_APIENTRY glFlush (శూన్య);
+GL_APICALL శూన్య GL_APIENTRY glFramebufferRenderbuffer (GLenum లక్ష్యం, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+GL_APICALL శూన్య GL_APIENTRY glFramebufferTexture2D (GLenum లక్ష్యం, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+GL_APICALL శూన్య GL_APIENTRY glFrontFace (GLenum బహుళకం);
+GL_APICALL శూన్య GL_APIENTRY glGenBuffers (GLsizei n, GLuint *buffers);
+GL_APICALL శూన్య GL_APIENTRY glGenerateMipmap (GLenum లక్ష్యం);
+GL_APICALL శూన్య GL_APIENTRY glGenFramebuffers (GLsizei n, GLuint *framebuffers);
+GL_APICALL శూన్య GL_APIENTRY glGenRenderbuffers (GLsizei n, GLuint *renderbuffers);
+GL_APICALL శూన్య GL_APIENTRY glGenTextures (GLsizei n, GLuint *textures);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_చురుకైన_Attrib (GLuint కార్యక్రమం, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLint *కొలత, GLenum *type, GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_చురుకైన_ఏకరీతి (GLuint కార్యక్రమం, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLint *కొలత, GLenum *type, GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY glGetAttachedShaders (GLuint కార్యక్రమం, GLsizei max_లెక్క, GLsizei *లెక్క, GLuint *shaders);
+GL_APICALL GLint GL_APIENTRY glGetAttribLocation (GLuint కార్యక్రమం, స్థిరరాశి GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY glGetBooleanv (GLenum pname, GLboolean *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_బఫరు_Parameteriv (GLenum లక్ష్యం, GLenum pname, GLint *params);
+GL_APICALL GLenum GL_APIENTRY glGetError (శూన్య);
+GL_APICALL శూన్య GL_APIENTRY glGetFloatv (GLenum pname, GLfloat *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glGetFramebufferAttachmentParameteriv (GLenum లక్ష్యం, GLenum attachment, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glGetIntegerv (GLenum pname, GLint *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glGetProgramiv (GLuint కార్యక్రమం, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_కార్యక్రమం_Info_Log (GLuint కార్యక్రమం, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *infoLog);
+GL_APICALL శూన్య GL_APIENTRY glGetRenderbufferParameteriv (GLenum లక్ష్యం, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glGetShaderiv (GLuint shader, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glGetShaderInfoLog (GLuint shader, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *infoLog);
+GL_APICALL శూన్య GL_APIENTRY glGetShaderPrecisionFormat (GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_Shader_ఆధారం (GLuint shader, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *ఆధారం);
+GL_APICALL స్థిరరాశి GLubyte *GL_APIENTRY glGetString (GLenum name);
+GL_APICALL శూన్య GL_APIENTRY glGetTexParameterfv (GLenum లక్ష్యం, GLenum pname, GLfloat *params);
+GL_APICALL శూన్య GL_APIENTRY glGetTexParameteriv (GLenum లక్ష్యం, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glGetUniformfv (GLuint కార్యక్రమం, GLint location, GLfloat *params);
+GL_APICALL శూన్య GL_APIENTRY glGetUniformiv (GLuint కార్యక్రమం, GLint location, GLint *params);
+GL_APICALL GLint GL_APIENTRY gl_Get_ఏకరీతి_Location (GLuint కార్యక్రమం, స్థిరరాశి GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_శీర్షం_Attribfv (GLuint సూచీ, GLenum pname, GLfloat *params);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_శీర్షం_Attribiv (GLuint సూచీ, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_శీర్షం_Attrib_Pointerv (GLuint సూచీ, GLenum pname, శూన్య **సూచిక_2);
+GL_APICALL శూన్య GL_APIENTRY glHint (GLenum లక్ష్యం, GLenum బహుళకం);
+GL_APICALL GLboolean GL_APIENTRY gl_Is_బఫరు (GLuint బఫరు_2);
 GL_APICALL GLboolean GL_APIENTRY glIsEnabled (GLenum cap);
 GL_APICALL GLboolean GL_APIENTRY glIsFramebuffer (GLuint framebuffer);
-GL_APICALL GLboolean GL_APIENTRY glIsProgram (GLuint program);
+GL_APICALL GLboolean GL_APIENTRY gl_Is_కార్యక్రమం (GLuint కార్యక్రమం);
 GL_APICALL GLboolean GL_APIENTRY glIsRenderbuffer (GLuint renderbuffer);
 GL_APICALL GLboolean GL_APIENTRY glIsShader (GLuint shader);
 GL_APICALL GLboolean GL_APIENTRY glIsTexture (GLuint texture);
-GL_APICALL void GL_APIENTRY glLineWidth (GLfloat width);
-GL_APICALL void GL_APIENTRY glLinkProgram (GLuint program);
-GL_APICALL void GL_APIENTRY glPixelStorei (GLenum pname, GLint param);
-GL_APICALL void GL_APIENTRY glPolygonOffset (GLfloat factor, GLfloat units);
-GL_APICALL void GL_APIENTRY glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void *pixels);
-GL_APICALL void GL_APIENTRY glReleaseShaderCompiler (void);
-GL_APICALL void GL_APIENTRY glRenderbufferStorage (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glSampleCoverage (GLfloat value, GLboolean invert);
-GL_APICALL void GL_APIENTRY glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glShaderBinary (GLsizei count, const GLuint *shaders, GLenum binaryFormat, const void *binary, GLsizei length);
-GL_APICALL void GL_APIENTRY glShaderSource (GLuint shader, GLsizei count, const GLchar *const*string, const GLint *length);
-GL_APICALL void GL_APIENTRY glStencilFunc (GLenum func, GLint ref, GLuint mask);
-GL_APICALL void GL_APIENTRY glStencilFuncSeparate (GLenum face, GLenum func, GLint ref, GLuint mask);
-GL_APICALL void GL_APIENTRY glStencilMask (GLuint mask);
-GL_APICALL void GL_APIENTRY glStencilMaskSeparate (GLenum face, GLuint mask);
-GL_APICALL void GL_APIENTRY glStencilOp (GLenum fail, GLenum zfail, GLenum zpass);
-GL_APICALL void GL_APIENTRY glStencilOpSeparate (GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
-GL_APICALL void GL_APIENTRY glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *pixels);
-GL_APICALL void GL_APIENTRY glTexParameterf (GLenum target, GLenum pname, GLfloat param);
-GL_APICALL void GL_APIENTRY glTexParameterfv (GLenum target, GLenum pname, const GLfloat *params);
-GL_APICALL void GL_APIENTRY glTexParameteri (GLenum target, GLenum pname, GLint param);
-GL_APICALL void GL_APIENTRY glTexParameteriv (GLenum target, GLenum pname, const GLint *params);
-GL_APICALL void GL_APIENTRY glTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const void *pixels);
-GL_APICALL void GL_APIENTRY glUniform1f (GLint location, GLfloat v0);
-GL_APICALL void GL_APIENTRY glUniform1fv (GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniform1i (GLint location, GLint v0);
-GL_APICALL void GL_APIENTRY glUniform1iv (GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1);
-GL_APICALL void GL_APIENTRY glUniform2fv (GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniform2i (GLint location, GLint v0, GLint v1);
-GL_APICALL void GL_APIENTRY glUniform2iv (GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glUniform3f (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-GL_APICALL void GL_APIENTRY glUniform3fv (GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniform3i (GLint location, GLint v0, GLint v1, GLint v2);
-GL_APICALL void GL_APIENTRY glUniform3iv (GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glUniform4f (GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-GL_APICALL void GL_APIENTRY glUniform4fv (GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniform4i (GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-GL_APICALL void GL_APIENTRY glUniform4iv (GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUseProgram (GLuint program);
-GL_APICALL void GL_APIENTRY glValidateProgram (GLuint program);
-GL_APICALL void GL_APIENTRY glVertexAttrib1f (GLuint index, GLfloat x);
-GL_APICALL void GL_APIENTRY glVertexAttrib1fv (GLuint index, const GLfloat *v);
-GL_APICALL void GL_APIENTRY glVertexAttrib2f (GLuint index, GLfloat x, GLfloat y);
-GL_APICALL void GL_APIENTRY glVertexAttrib2fv (GLuint index, const GLfloat *v);
-GL_APICALL void GL_APIENTRY glVertexAttrib3f (GLuint index, GLfloat x, GLfloat y, GLfloat z);
-GL_APICALL void GL_APIENTRY glVertexAttrib3fv (GLuint index, const GLfloat *v);
-GL_APICALL void GL_APIENTRY glVertexAttrib4f (GLuint index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-GL_APICALL void GL_APIENTRY glVertexAttrib4fv (GLuint index, const GLfloat *v);
-GL_APICALL void GL_APIENTRY glVertexAttribPointer (GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer);
-GL_APICALL void GL_APIENTRY glViewport (GLint x, GLint y, GLsizei width, GLsizei height);
-#endif
-#endif /* GL_ES_VERSION_2_0 */
+GL_APICALL శూన్య GL_APIENTRY gl_పంక్తి_వెడల్పు (GLfloat వెడల్పు);
+GL_APICALL శూన్య GL_APIENTRY gl_Link_కార్యక్రమం (GLuint కార్యక్రమం);
+GL_APICALL శూన్య GL_APIENTRY glPixelStorei (GLenum pname, GLint param);
+GL_APICALL శూన్య GL_APIENTRY gl_Polygon_స్థానభ్రంశం (GLfloat గుణకం, GLfloat units);
+GL_APICALL శూన్య GL_APIENTRY glReadPixels (GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు, GLenum format, GLenum type, శూన్య *pixels);
+GL_APICALL శూన్య GL_APIENTRY glReleaseShaderCompiler (శూన్య);
+GL_APICALL శూన్య GL_APIENTRY glRenderbufferStorage (GLenum లక్ష్యం, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు);
+GL_APICALL శూన్య GL_APIENTRY glSampleCoverage (GLfloat విలువ, GLboolean invert);
+GL_APICALL శూన్య GL_APIENTRY glScissor (GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+GL_APICALL శూన్య GL_APIENTRY gl_Shader_ద్విమాన (GLsizei లెక్క, స్థిరరాశి GLuint *shaders, GLenum ద్విమాన_Format, స్థిరరాశి శూన్య *ద్విమాన, GLsizei నిడివి);
+GL_APICALL శూన్య GL_APIENTRY gl_Shader_ఆధారం (GLuint shader, GLsizei లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*string, స్థిరరాశి GLint *నిడివి);
+GL_APICALL శూన్య GL_APIENTRY glStencilFunc (GLenum func, GLint ref, GLuint ముసుగు);
+GL_APICALL శూన్య GL_APIENTRY glStencilFuncSeparate (GLenum face, GLenum func, GLint ref, GLuint ముసుగు);
+GL_APICALL శూన్య GL_APIENTRY gl_Stencil_ముసుగు (GLuint ముసుగు);
+GL_APICALL శూన్య GL_APIENTRY gl_Stencil_ముసుగు_Separate (GLenum face, GLuint ముసుగు);
+GL_APICALL శూన్య GL_APIENTRY glStencilOp (GLenum fail, GLenum zfail, GLenum zpass);
+GL_APICALL శూన్య GL_APIENTRY glStencilOpSeparate (GLenum face, GLenum sfail, GLenum dpfail, GLenum dppass);
+GL_APICALL శూన్య GL_APIENTRY glTexImage2D (GLenum లక్ష్యం, GLint level, GLint internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLint border, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+GL_APICALL శూన్య GL_APIENTRY glTexParameterf (GLenum లక్ష్యం, GLenum pname, GLfloat param);
+GL_APICALL శూన్య GL_APIENTRY glTexParameterfv (GLenum లక్ష్యం, GLenum pname, స్థిరరాశి GLfloat *params);
+GL_APICALL శూన్య GL_APIENTRY glTexParameteri (GLenum లక్ష్యం, GLenum pname, GLint param);
+GL_APICALL శూన్య GL_APIENTRY glTexParameteriv (GLenum లక్ష్యం, GLenum pname, స్థిరరాశి GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glTexSubImage2D (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+GL_APICALL శూన్య GL_APIENTRY glUniform1f (GLint location, GLfloat v0);
+GL_APICALL శూన్య GL_APIENTRY glUniform1fv (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform1i (GLint location, GLint v0);
+GL_APICALL శూన్య GL_APIENTRY glUniform1iv (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform2f (GLint location, GLfloat v0, GLfloat v1);
+GL_APICALL శూన్య GL_APIENTRY glUniform2fv (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform2i (GLint location, GLint v0, GLint v1);
+GL_APICALL శూన్య GL_APIENTRY glUniform2iv (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform3f (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+GL_APICALL శూన్య GL_APIENTRY glUniform3fv (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform3i (GLint location, GLint v0, GLint v1, GLint v2);
+GL_APICALL శూన్య GL_APIENTRY glUniform3iv (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform4f (GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+GL_APICALL శూన్య GL_APIENTRY glUniform4fv (GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform4i (GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+GL_APICALL శూన్య GL_APIENTRY glUniform4iv (GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix2fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix3fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix4fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_Use_కార్యక్రమం (GLuint కార్యక్రమం);
+GL_APICALL శూన్య GL_APIENTRY gl_Validate_కార్యక్రమం (GLuint కార్యక్రమం);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib1f (GLuint సూచీ, GLfloat x);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib1fv (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib2f (GLuint సూచీ, GLfloat x, GLfloat y);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib2fv (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib3f (GLuint సూచీ, GLfloat x, GLfloat y, GLfloat z);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib3fv (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib4f (GLuint సూచీ, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib4fv (GLuint సూచీ, స్థిరరాశి GLfloat *v);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_సూచిక (GLuint సూచీ, GLint కొలత, GLenum type, GLboolean normalized, GLsizei stride, స్థిరరాశి శూన్య *సూచిక_2);
+GL_APICALL శూన్య GL_APIENTRY glViewport (GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+#అయితే_ముగింపు
+#అయితే_ముగింపు /* GL_ES_VERSION_2_0 */
 
-#ifndef GL_ES_VERSION_3_0
-#define GL_ES_VERSION_3_0 1
-typedef khronos_uint16_t GLhalf;
-#define GL_READ_BUFFER                    0x0C02
-#define GL_UNPACK_ROW_LENGTH              0x0CF2
-#define GL_UNPACK_SKIP_ROWS               0x0CF3
-#define GL_UNPACK_SKIP_PIXELS             0x0CF4
-#define GL_PACK_ROW_LENGTH                0x0D02
-#define GL_PACK_SKIP_ROWS                 0x0D03
-#define GL_PACK_SKIP_PIXELS               0x0D04
-#define GL_COLOR                          0x1800
-#define GL_DEPTH                          0x1801
-#define GL_STENCIL                        0x1802
-#define GL_RED                            0x1903
-#define GL_RGB8                           0x8051
-#define GL_RGBA8                          0x8058
-#define GL_RGB10_A2                       0x8059
-#define GL_TEXTURE_BINDING_3D             0x806A
-#define GL_UNPACK_SKIP_IMAGES             0x806D
-#define GL_UNPACK_IMAGE_HEIGHT            0x806E
-#define GL_TEXTURE_3D                     0x806F
-#define GL_TEXTURE_WRAP_R                 0x8072
-#define GL_MAX_3D_TEXTURE_SIZE            0x8073
-#define GL_UNSIGNED_INT_2_10_10_10_REV    0x8368
-#define GL_MAX_ELEMENTS_VERTICES          0x80E8
-#define GL_MAX_ELEMENTS_INDICES           0x80E9
-#define GL_TEXTURE_MIN_LOD                0x813A
-#define GL_TEXTURE_MAX_LOD                0x813B
-#define GL_TEXTURE_BASE_LEVEL             0x813C
-#define GL_TEXTURE_MAX_LEVEL              0x813D
-#define GL_MIN                            0x8007
-#define GL_MAX                            0x8008
-#define GL_DEPTH_COMPONENT24              0x81A6
-#define GL_MAX_TEXTURE_LOD_BIAS           0x84FD
-#define GL_TEXTURE_COMPARE_MODE           0x884C
-#define GL_TEXTURE_COMPARE_FUNC           0x884D
-#define GL_CURRENT_QUERY                  0x8865
-#define GL_QUERY_RESULT                   0x8866
-#define GL_QUERY_RESULT_AVAILABLE         0x8867
-#define GL_BUFFER_MAPPED                  0x88BC
-#define GL_BUFFER_MAP_POINTER             0x88BD
-#define GL_STREAM_READ                    0x88E1
-#define GL_STREAM_COPY                    0x88E2
-#define GL_STATIC_READ                    0x88E5
-#define GL_STATIC_COPY                    0x88E6
-#define GL_DYNAMIC_READ                   0x88E9
-#define GL_DYNAMIC_COPY                   0x88EA
-#define GL_MAX_DRAW_BUFFERS               0x8824
-#define GL_DRAW_BUFFER0                   0x8825
-#define GL_DRAW_BUFFER1                   0x8826
-#define GL_DRAW_BUFFER2                   0x8827
-#define GL_DRAW_BUFFER3                   0x8828
-#define GL_DRAW_BUFFER4                   0x8829
-#define GL_DRAW_BUFFER5                   0x882A
-#define GL_DRAW_BUFFER6                   0x882B
-#define GL_DRAW_BUFFER7                   0x882C
-#define GL_DRAW_BUFFER8                   0x882D
-#define GL_DRAW_BUFFER9                   0x882E
-#define GL_DRAW_BUFFER10                  0x882F
-#define GL_DRAW_BUFFER11                  0x8830
-#define GL_DRAW_BUFFER12                  0x8831
-#define GL_DRAW_BUFFER13                  0x8832
-#define GL_DRAW_BUFFER14                  0x8833
-#define GL_DRAW_BUFFER15                  0x8834
-#define GL_MAX_FRAGMENT_UNIFORM_COMPONENTS 0x8B49
-#define GL_MAX_VERTEX_UNIFORM_COMPONENTS  0x8B4A
-#define GL_SAMPLER_3D                     0x8B5F
-#define GL_SAMPLER_2D_SHADOW              0x8B62
-#define GL_FRAGMENT_SHADER_DERIVATIVE_HINT 0x8B8B
-#define GL_PIXEL_PACK_BUFFER              0x88EB
-#define GL_PIXEL_UNPACK_BUFFER            0x88EC
-#define GL_PIXEL_PACK_BUFFER_BINDING      0x88ED
-#define GL_PIXEL_UNPACK_BUFFER_BINDING    0x88EF
-#define GL_FLOAT_MAT2x3                   0x8B65
-#define GL_FLOAT_MAT2x4                   0x8B66
-#define GL_FLOAT_MAT3x2                   0x8B67
-#define GL_FLOAT_MAT3x4                   0x8B68
-#define GL_FLOAT_MAT4x2                   0x8B69
-#define GL_FLOAT_MAT4x3                   0x8B6A
-#define GL_SRGB                           0x8C40
-#define GL_SRGB8                          0x8C41
-#define GL_SRGB8_ALPHA8                   0x8C43
-#define GL_COMPARE_REF_TO_TEXTURE         0x884E
-#define GL_MAJOR_VERSION                  0x821B
-#define GL_MINOR_VERSION                  0x821C
-#define GL_NUM_EXTENSIONS                 0x821D
-#define GL_RGBA32F                        0x8814
-#define GL_RGB32F                         0x8815
-#define GL_RGBA16F                        0x881A
-#define GL_RGB16F                         0x881B
-#define GL_VERTEX_ATTRIB_ARRAY_INTEGER    0x88FD
-#define GL_MAX_ARRAY_TEXTURE_LAYERS       0x88FF
-#define GL_MIN_PROGRAM_TEXEL_OFFSET       0x8904
-#define GL_MAX_PROGRAM_TEXEL_OFFSET       0x8905
-#define GL_MAX_VARYING_COMPONENTS         0x8B4B
-#define GL_TEXTURE_2D_ARRAY               0x8C1A
-#define GL_TEXTURE_BINDING_2D_ARRAY       0x8C1D
-#define GL_R11F_G11F_B10F                 0x8C3A
-#define GL_UNSIGNED_INT_10F_11F_11F_REV   0x8C3B
-#define GL_RGB9_E5                        0x8C3D
-#define GL_UNSIGNED_INT_5_9_9_9_REV       0x8C3E
-#define GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH 0x8C76
-#define GL_TRANSFORM_FEEDBACK_BUFFER_MODE 0x8C7F
-#define GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS 0x8C80
-#define GL_TRANSFORM_FEEDBACK_VARYINGS    0x8C83
-#define GL_TRANSFORM_FEEDBACK_BUFFER_START 0x8C84
-#define GL_TRANSFORM_FEEDBACK_BUFFER_SIZE 0x8C85
-#define GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN 0x8C88
-#define GL_RASTERIZER_DISCARD             0x8C89
-#define GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS 0x8C8A
-#define GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS 0x8C8B
-#define GL_INTERLEAVED_ATTRIBS            0x8C8C
-#define GL_SEPARATE_ATTRIBS               0x8C8D
-#define GL_TRANSFORM_FEEDBACK_BUFFER      0x8C8E
-#define GL_TRANSFORM_FEEDBACK_BUFFER_BINDING 0x8C8F
-#define GL_RGBA32UI                       0x8D70
-#define GL_RGB32UI                        0x8D71
-#define GL_RGBA16UI                       0x8D76
-#define GL_RGB16UI                        0x8D77
-#define GL_RGBA8UI                        0x8D7C
-#define GL_RGB8UI                         0x8D7D
-#define GL_RGBA32I                        0x8D82
-#define GL_RGB32I                         0x8D83
-#define GL_RGBA16I                        0x8D88
-#define GL_RGB16I                         0x8D89
-#define GL_RGBA8I                         0x8D8E
-#define GL_RGB8I                          0x8D8F
-#define GL_RED_INTEGER                    0x8D94
-#define GL_RGB_INTEGER                    0x8D98
-#define GL_RGBA_INTEGER                   0x8D99
-#define GL_SAMPLER_2D_ARRAY               0x8DC1
-#define GL_SAMPLER_2D_ARRAY_SHADOW        0x8DC4
-#define GL_SAMPLER_CUBE_SHADOW            0x8DC5
-#define GL_UNSIGNED_INT_VEC2              0x8DC6
-#define GL_UNSIGNED_INT_VEC3              0x8DC7
-#define GL_UNSIGNED_INT_VEC4              0x8DC8
-#define GL_INT_SAMPLER_2D                 0x8DCA
-#define GL_INT_SAMPLER_3D                 0x8DCB
-#define GL_INT_SAMPLER_CUBE               0x8DCC
-#define GL_INT_SAMPLER_2D_ARRAY           0x8DCF
-#define GL_UNSIGNED_INT_SAMPLER_2D        0x8DD2
-#define GL_UNSIGNED_INT_SAMPLER_3D        0x8DD3
-#define GL_UNSIGNED_INT_SAMPLER_CUBE      0x8DD4
-#define GL_UNSIGNED_INT_SAMPLER_2D_ARRAY  0x8DD7
-#define GL_BUFFER_ACCESS_FLAGS            0x911F
-#define GL_BUFFER_MAP_LENGTH              0x9120
-#define GL_BUFFER_MAP_OFFSET              0x9121
-#define GL_DEPTH_COMPONENT32F             0x8CAC
-#define GL_DEPTH32F_STENCIL8              0x8CAD
-#define GL_FLOAT_32_UNSIGNED_INT_24_8_REV 0x8DAD
-#define GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING 0x8210
-#define GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE 0x8211
-#define GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE 0x8212
-#define GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE 0x8213
-#define GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE 0x8214
-#define GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE 0x8215
-#define GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE 0x8216
-#define GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE 0x8217
-#define GL_FRAMEBUFFER_DEFAULT            0x8218
-#define GL_FRAMEBUFFER_UNDEFINED          0x8219
-#define GL_DEPTH_STENCIL_ATTACHMENT       0x821A
-#define GL_DEPTH_STENCIL                  0x84F9
-#define GL_UNSIGNED_INT_24_8              0x84FA
-#define GL_DEPTH24_STENCIL8               0x88F0
-#define GL_UNSIGNED_NORMALIZED            0x8C17
-#define GL_DRAW_FRAMEBUFFER_BINDING       0x8CA6
-#define GL_READ_FRAMEBUFFER               0x8CA8
-#define GL_DRAW_FRAMEBUFFER               0x8CA9
-#define GL_READ_FRAMEBUFFER_BINDING       0x8CAA
-#define GL_RENDERBUFFER_SAMPLES           0x8CAB
-#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER 0x8CD4
-#define GL_MAX_COLOR_ATTACHMENTS          0x8CDF
-#define GL_COLOR_ATTACHMENT1              0x8CE1
-#define GL_COLOR_ATTACHMENT2              0x8CE2
-#define GL_COLOR_ATTACHMENT3              0x8CE3
-#define GL_COLOR_ATTACHMENT4              0x8CE4
-#define GL_COLOR_ATTACHMENT5              0x8CE5
-#define GL_COLOR_ATTACHMENT6              0x8CE6
-#define GL_COLOR_ATTACHMENT7              0x8CE7
-#define GL_COLOR_ATTACHMENT8              0x8CE8
-#define GL_COLOR_ATTACHMENT9              0x8CE9
-#define GL_COLOR_ATTACHMENT10             0x8CEA
-#define GL_COLOR_ATTACHMENT11             0x8CEB
-#define GL_COLOR_ATTACHMENT12             0x8CEC
-#define GL_COLOR_ATTACHMENT13             0x8CED
-#define GL_COLOR_ATTACHMENT14             0x8CEE
-#define GL_COLOR_ATTACHMENT15             0x8CEF
-#define GL_COLOR_ATTACHMENT16             0x8CF0
-#define GL_COLOR_ATTACHMENT17             0x8CF1
-#define GL_COLOR_ATTACHMENT18             0x8CF2
-#define GL_COLOR_ATTACHMENT19             0x8CF3
-#define GL_COLOR_ATTACHMENT20             0x8CF4
-#define GL_COLOR_ATTACHMENT21             0x8CF5
-#define GL_COLOR_ATTACHMENT22             0x8CF6
-#define GL_COLOR_ATTACHMENT23             0x8CF7
-#define GL_COLOR_ATTACHMENT24             0x8CF8
-#define GL_COLOR_ATTACHMENT25             0x8CF9
-#define GL_COLOR_ATTACHMENT26             0x8CFA
-#define GL_COLOR_ATTACHMENT27             0x8CFB
-#define GL_COLOR_ATTACHMENT28             0x8CFC
-#define GL_COLOR_ATTACHMENT29             0x8CFD
-#define GL_COLOR_ATTACHMENT30             0x8CFE
-#define GL_COLOR_ATTACHMENT31             0x8CFF
-#define GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE 0x8D56
-#define GL_MAX_SAMPLES                    0x8D57
-#define GL_HALF_FLOAT                     0x140B
-#define GL_MAP_READ_BIT                   0x0001
-#define GL_MAP_WRITE_BIT                  0x0002
-#define GL_MAP_INVALIDATE_RANGE_BIT       0x0004
-#define GL_MAP_INVALIDATE_BUFFER_BIT      0x0008
-#define GL_MAP_FLUSH_EXPLICIT_BIT         0x0010
-#define GL_MAP_UNSYNCHRONIZED_BIT         0x0020
-#define GL_RG                             0x8227
-#define GL_RG_INTEGER                     0x8228
-#define GL_R8                             0x8229
-#define GL_RG8                            0x822B
-#define GL_R16F                           0x822D
-#define GL_R32F                           0x822E
-#define GL_RG16F                          0x822F
-#define GL_RG32F                          0x8230
-#define GL_R8I                            0x8231
-#define GL_R8UI                           0x8232
-#define GL_R16I                           0x8233
-#define GL_R16UI                          0x8234
-#define GL_R32I                           0x8235
-#define GL_R32UI                          0x8236
-#define GL_RG8I                           0x8237
-#define GL_RG8UI                          0x8238
-#define GL_RG16I                          0x8239
-#define GL_RG16UI                         0x823A
-#define GL_RG32I                          0x823B
-#define GL_RG32UI                         0x823C
-#define GL_VERTEX_ARRAY_BINDING           0x85B5
-#define GL_R8_SNORM                       0x8F94
-#define GL_RG8_SNORM                      0x8F95
-#define GL_RGB8_SNORM                     0x8F96
-#define GL_RGBA8_SNORM                    0x8F97
-#define GL_SIGNED_NORMALIZED              0x8F9C
-#define GL_PRIMITIVE_RESTART_FIXED_INDEX  0x8D69
-#define GL_COPY_READ_BUFFER               0x8F36
-#define GL_COPY_WRITE_BUFFER              0x8F37
-#define GL_COPY_READ_BUFFER_BINDING       0x8F36
-#define GL_COPY_WRITE_BUFFER_BINDING      0x8F37
-#define GL_UNIFORM_BUFFER                 0x8A11
-#define GL_UNIFORM_BUFFER_BINDING         0x8A28
-#define GL_UNIFORM_BUFFER_START           0x8A29
-#define GL_UNIFORM_BUFFER_SIZE            0x8A2A
-#define GL_MAX_VERTEX_UNIFORM_BLOCKS      0x8A2B
-#define GL_MAX_FRAGMENT_UNIFORM_BLOCKS    0x8A2D
-#define GL_MAX_COMBINED_UNIFORM_BLOCKS    0x8A2E
-#define GL_MAX_UNIFORM_BUFFER_BINDINGS    0x8A2F
-#define GL_MAX_UNIFORM_BLOCK_SIZE         0x8A30
-#define GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS 0x8A31
-#define GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS 0x8A33
-#define GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT 0x8A34
-#define GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH 0x8A35
-#define GL_ACTIVE_UNIFORM_BLOCKS          0x8A36
-#define GL_UNIFORM_TYPE                   0x8A37
-#define GL_UNIFORM_SIZE                   0x8A38
-#define GL_UNIFORM_NAME_LENGTH            0x8A39
-#define GL_UNIFORM_BLOCK_INDEX            0x8A3A
-#define GL_UNIFORM_OFFSET                 0x8A3B
-#define GL_UNIFORM_ARRAY_STRIDE           0x8A3C
-#define GL_UNIFORM_MATRIX_STRIDE          0x8A3D
-#define GL_UNIFORM_IS_ROW_MAJOR           0x8A3E
-#define GL_UNIFORM_BLOCK_BINDING          0x8A3F
-#define GL_UNIFORM_BLOCK_DATA_SIZE        0x8A40
-#define GL_UNIFORM_BLOCK_NAME_LENGTH      0x8A41
-#define GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS  0x8A42
-#define GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES 0x8A43
-#define GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER 0x8A44
-#define GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER 0x8A46
-#define GL_INVALID_INDEX                  0xFFFFFFFFu
-#define GL_MAX_VERTEX_OUTPUT_COMPONENTS   0x9122
-#define GL_MAX_FRAGMENT_INPUT_COMPONENTS  0x9125
-#define GL_MAX_SERVER_WAIT_TIMEOUT        0x9111
-#define GL_OBJECT_TYPE                    0x9112
-#define GL_SYNC_CONDITION                 0x9113
-#define GL_SYNC_STATUS                    0x9114
-#define GL_SYNC_FLAGS                     0x9115
-#define GL_SYNC_FENCE                     0x9116
-#define GL_SYNC_GPU_COMMANDS_COMPLETE     0x9117
-#define GL_UNSIGNALED                     0x9118
-#define GL_SIGNALED                       0x9119
-#define GL_ALREADY_SIGNALED               0x911A
-#define GL_TIMEOUT_EXPIRED                0x911B
-#define GL_CONDITION_SATISFIED            0x911C
-#define GL_WAIT_FAILED                    0x911D
-#define GL_SYNC_FLUSH_COMMANDS_BIT        0x00000001
-#define GL_TIMEOUT_IGNORED                0xFFFFFFFFFFFFFFFFull
-#define GL_VERTEX_ATTRIB_ARRAY_DIVISOR    0x88FE
-#define GL_ANY_SAMPLES_PASSED             0x8C2F
-#define GL_ANY_SAMPLES_PASSED_CONSERVATIVE 0x8D6A
-#define GL_SAMPLER_BINDING                0x8919
-#define GL_RGB10_A2UI                     0x906F
-#define GL_TEXTURE_SWIZZLE_R              0x8E42
-#define GL_TEXTURE_SWIZZLE_G              0x8E43
-#define GL_TEXTURE_SWIZZLE_B              0x8E44
-#define GL_TEXTURE_SWIZZLE_A              0x8E45
-#define GL_GREEN                          0x1904
-#define GL_BLUE                           0x1905
-#define GL_INT_2_10_10_10_REV             0x8D9F
-#define GL_TRANSFORM_FEEDBACK             0x8E22
-#define GL_TRANSFORM_FEEDBACK_PAUSED      0x8E23
-#define GL_TRANSFORM_FEEDBACK_ACTIVE      0x8E24
-#define GL_TRANSFORM_FEEDBACK_BINDING     0x8E25
-#define GL_PROGRAM_BINARY_RETRIEVABLE_HINT 0x8257
-#define GL_PROGRAM_BINARY_LENGTH          0x8741
-#define GL_NUM_PROGRAM_BINARY_FORMATS     0x87FE
-#define GL_PROGRAM_BINARY_FORMATS         0x87FF
-#define GL_COMPRESSED_R11_EAC             0x9270
-#define GL_COMPRESSED_SIGNED_R11_EAC      0x9271
-#define GL_COMPRESSED_RG11_EAC            0x9272
-#define GL_COMPRESSED_SIGNED_RG11_EAC     0x9273
-#define GL_COMPRESSED_RGB8_ETC2           0x9274
-#define GL_COMPRESSED_SRGB8_ETC2          0x9275
-#define GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9276
-#define GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9277
-#define GL_COMPRESSED_RGBA8_ETC2_EAC      0x9278
-#define GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC 0x9279
-#define GL_TEXTURE_IMMUTABLE_FORMAT       0x912F
-#define GL_MAX_ELEMENT_INDEX              0x8D6B
-#define GL_NUM_SAMPLE_COUNTS              0x9380
-#define GL_TEXTURE_IMMUTABLE_LEVELS       0x82DF
-typedef void (GL_APIENTRYP PFNGLREADBUFFERPROC) (GLenum src);
-typedef void (GL_APIENTRYP PFNGLDRAWRANGEELEMENTSPROC) (GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices);
-typedef void (GL_APIENTRYP PFNGLTEXIMAGE3DPROC) (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const void *pixels);
-typedef void (GL_APIENTRYP PFNGLTEXSUBIMAGE3DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void *pixels);
-typedef void (GL_APIENTRYP PFNGLCOPYTEXSUBIMAGE3DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLCOMPRESSEDTEXIMAGE3DPROC) (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const void *data);
-typedef void (GL_APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC) (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const void *data);
-typedef void (GL_APIENTRYP PFNGLGENQUERIESPROC) (GLsizei n, GLuint *ids);
-typedef void (GL_APIENTRYP PFNGLDELETEQUERIESPROC) (GLsizei n, const GLuint *ids);
-typedef GLboolean (GL_APIENTRYP PFNGLISQUERYPROC) (GLuint id);
-typedef void (GL_APIENTRYP PFNGLBEGINQUERYPROC) (GLenum target, GLuint id);
-typedef void (GL_APIENTRYP PFNGLENDQUERYPROC) (GLenum target);
-typedef void (GL_APIENTRYP PFNGLGETQUERYIVPROC) (GLenum target, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETQUERYOBJECTUIVPROC) (GLuint id, GLenum pname, GLuint *params);
-typedef GLboolean (GL_APIENTRYP PFNGLUNMAPBUFFERPROC) (GLenum target);
-typedef void (GL_APIENTRYP PFNGLGETBUFFERPOINTERVPROC) (GLenum target, GLenum pname, void **params);
-typedef void (GL_APIENTRYP PFNGLDRAWBUFFERSPROC) (GLsizei n, const GLenum *bufs);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2X3FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3X2FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX2X4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4X2FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX3X4FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORMMATRIX4X3FVPROC) (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLBLITFRAMEBUFFERPROC) (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
-typedef void (GL_APIENTRYP PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURELAYERPROC) (GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
-typedef void *(GL_APIENTRYP PFNGLMAPBUFFERRANGEPROC) (GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
-typedef void (GL_APIENTRYP PFNGLFLUSHMAPPEDBUFFERRANGEPROC) (GLenum target, GLintptr offset, GLsizeiptr length);
-typedef void (GL_APIENTRYP PFNGLBINDVERTEXARRAYPROC) (GLuint array);
-typedef void (GL_APIENTRYP PFNGLDELETEVERTEXARRAYSPROC) (GLsizei n, const GLuint *arrays);
-typedef void (GL_APIENTRYP PFNGLGENVERTEXARRAYSPROC) (GLsizei n, GLuint *arrays);
-typedef GLboolean (GL_APIENTRYP PFNGLISVERTEXARRAYPROC) (GLuint array);
-typedef void (GL_APIENTRYP PFNGLGETINTEGERI_VPROC) (GLenum target, GLuint index, GLint *data);
-typedef void (GL_APIENTRYP PFNGLBEGINTRANSFORMFEEDBACKPROC) (GLenum primitiveMode);
-typedef void (GL_APIENTRYP PFNGLENDTRANSFORMFEEDBACKPROC) (void);
-typedef void (GL_APIENTRYP PFNGLBINDBUFFERRANGEPROC) (GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
-typedef void (GL_APIENTRYP PFNGLBINDBUFFERBASEPROC) (GLenum target, GLuint index, GLuint buffer);
-typedef void (GL_APIENTRYP PFNGLTRANSFORMFEEDBACKVARYINGSPROC) (GLuint program, GLsizei count, const GLchar *const*varyings, GLenum bufferMode);
-typedef void (GL_APIENTRYP PFNGLGETTRANSFORMFEEDBACKVARYINGPROC) (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, GLchar *name);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBIPOINTERPROC) (GLuint index, GLint size, GLenum type, GLsizei stride, const void *pointer);
-typedef void (GL_APIENTRYP PFNGLGETVERTEXATTRIBIIVPROC) (GLuint index, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETVERTEXATTRIBIUIVPROC) (GLuint index, GLenum pname, GLuint *params);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBI4IPROC) (GLuint index, GLint x, GLint y, GLint z, GLint w);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBI4UIPROC) (GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBI4IVPROC) (GLuint index, const GLint *v);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBI4UIVPROC) (GLuint index, const GLuint *v);
-typedef void (GL_APIENTRYP PFNGLGETUNIFORMUIVPROC) (GLuint program, GLint location, GLuint *params);
-typedef GLint (GL_APIENTRYP PFNGLGETFRAGDATALOCATIONPROC) (GLuint program, const GLchar *name);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1UIPROC) (GLint location, GLuint v0);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2UIPROC) (GLint location, GLuint v0, GLuint v1);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3UIPROC) (GLint location, GLuint v0, GLuint v1, GLuint v2);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4UIPROC) (GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-typedef void (GL_APIENTRYP PFNGLUNIFORM1UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM2UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM3UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLUNIFORM4UIVPROC) (GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLCLEARBUFFERIVPROC) (GLenum buffer, GLint drawbuffer, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLCLEARBUFFERUIVPROC) (GLenum buffer, GLint drawbuffer, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLCLEARBUFFERFVPROC) (GLenum buffer, GLint drawbuffer, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLCLEARBUFFERFIPROC) (GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
-typedef const GLubyte *(GL_APIENTRYP PFNGLGETSTRINGIPROC) (GLenum name, GLuint index);
-typedef void (GL_APIENTRYP PFNGLCOPYBUFFERSUBDATAPROC) (GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-typedef void (GL_APIENTRYP PFNGLGETUNIFORMINDICESPROC) (GLuint program, GLsizei uniformCount, const GLchar *const*uniformNames, GLuint *uniformIndices);
-typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMSIVPROC) (GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params);
-typedef GLuint (GL_APIENTRYP PFNGLGETUNIFORMBLOCKINDEXPROC) (GLuint program, const GLchar *uniformBlockName);
-typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKIVPROC) (GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC) (GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformBlockName);
-typedef void (GL_APIENTRYP PFNGLUNIFORMBLOCKBINDINGPROC) (GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
-typedef void (GL_APIENTRYP PFNGLDRAWARRAYSINSTANCEDPROC) (GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
-typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSINSTANCEDPROC) (GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei instancecount);
-typedef GLsync (GL_APIENTRYP PFNGLFENCESYNCPROC) (GLenum condition, GLbitfield flags);
-typedef GLboolean (GL_APIENTRYP PFNGLISSYNCPROC) (GLsync sync);
-typedef void (GL_APIENTRYP PFNGLDELETESYNCPROC) (GLsync sync);
-typedef GLenum (GL_APIENTRYP PFNGLCLIENTWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
-typedef void (GL_APIENTRYP PFNGLWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
-typedef void (GL_APIENTRYP PFNGLGETINTEGER64VPROC) (GLenum pname, GLint64 *data);
-typedef void (GL_APIENTRYP PFNGLGETSYNCIVPROC) (GLsync sync, GLenum pname, GLsizei count, GLsizei *length, GLint *values);
-typedef void (GL_APIENTRYP PFNGLGETINTEGER64I_VPROC) (GLenum target, GLuint index, GLint64 *data);
-typedef void (GL_APIENTRYP PFNGLGETBUFFERPARAMETERI64VPROC) (GLenum target, GLenum pname, GLint64 *params);
-typedef void (GL_APIENTRYP PFNGLGENSAMPLERSPROC) (GLsizei count, GLuint *samplers);
-typedef void (GL_APIENTRYP PFNGLDELETESAMPLERSPROC) (GLsizei count, const GLuint *samplers);
-typedef GLboolean (GL_APIENTRYP PFNGLISSAMPLERPROC) (GLuint sampler);
-typedef void (GL_APIENTRYP PFNGLBINDSAMPLERPROC) (GLuint unit, GLuint sampler);
-typedef void (GL_APIENTRYP PFNGLSAMPLERPARAMETERIPROC) (GLuint sampler, GLenum pname, GLint param);
-typedef void (GL_APIENTRYP PFNGLSAMPLERPARAMETERIVPROC) (GLuint sampler, GLenum pname, const GLint *param);
-typedef void (GL_APIENTRYP PFNGLSAMPLERPARAMETERFPROC) (GLuint sampler, GLenum pname, GLfloat param);
-typedef void (GL_APIENTRYP PFNGLSAMPLERPARAMETERFVPROC) (GLuint sampler, GLenum pname, const GLfloat *param);
-typedef void (GL_APIENTRYP PFNGLGETSAMPLERPARAMETERIVPROC) (GLuint sampler, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETSAMPLERPARAMETERFVPROC) (GLuint sampler, GLenum pname, GLfloat *params);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBDIVISORPROC) (GLuint index, GLuint divisor);
-typedef void (GL_APIENTRYP PFNGLBINDTRANSFORMFEEDBACKPROC) (GLenum target, GLuint id);
-typedef void (GL_APIENTRYP PFNGLDELETETRANSFORMFEEDBACKSPROC) (GLsizei n, const GLuint *ids);
-typedef void (GL_APIENTRYP PFNGLGENTRANSFORMFEEDBACKSPROC) (GLsizei n, GLuint *ids);
-typedef GLboolean (GL_APIENTRYP PFNGLISTRANSFORMFEEDBACKPROC) (GLuint id);
-typedef void (GL_APIENTRYP PFNGLPAUSETRANSFORMFEEDBACKPROC) (void);
-typedef void (GL_APIENTRYP PFNGLRESUMETRANSFORMFEEDBACKPROC) (void);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMBINARYPROC) (GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary);
-typedef void (GL_APIENTRYP PFNGLPROGRAMBINARYPROC) (GLuint program, GLenum binaryFormat, const void *binary, GLsizei length);
-typedef void (GL_APIENTRYP PFNGLPROGRAMPARAMETERIPROC) (GLuint program, GLenum pname, GLint value);
-typedef void (GL_APIENTRYP PFNGLINVALIDATEFRAMEBUFFERPROC) (GLenum target, GLsizei numAttachments, const GLenum *attachments);
-typedef void (GL_APIENTRYP PFNGLINVALIDATESUBFRAMEBUFFERPROC) (GLenum target, GLsizei numAttachments, const GLenum *attachments, GLint x, GLint y, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLTEXSTORAGE2DPROC) (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
-typedef void (GL_APIENTRYP PFNGLTEXSTORAGE3DPROC) (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-typedef void (GL_APIENTRYP PFNGLGETINTERNALFORMATIVPROC) (GLenum target, GLenum internalformat, GLenum pname, GLsizei count, GLint *params);
-#if GL_GLES_PROTOTYPES
-GL_APICALL void GL_APIENTRY glReadBuffer (GLenum src);
-GL_APICALL void GL_APIENTRY glDrawRangeElements (GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices);
-GL_APICALL void GL_APIENTRY glTexImage3D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const void *pixels);
-GL_APICALL void GL_APIENTRY glTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void *pixels);
-GL_APICALL void GL_APIENTRY glCopyTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glCompressedTexImage3D (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const void *data);
-GL_APICALL void GL_APIENTRY glCompressedTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const void *data);
-GL_APICALL void GL_APIENTRY glGenQueries (GLsizei n, GLuint *ids);
-GL_APICALL void GL_APIENTRY glDeleteQueries (GLsizei n, const GLuint *ids);
+#నిర్వచితం_కాకపోతే GL_ES_సంస్కరణ_3_0
+#నిర్వచించు GL_ES_సంస్కరణ_3_0 1
+రకనిర్వచనం khronos_uint16_t GLhalf;
+#నిర్వచించు GL_READ_బఫరు                    0x0C02
+#నిర్వచించు GL_UNPACK_అడ్డువరుస_నిడివి              0x0CF2
+#నిర్వచించు GL_UNPACK_SKIP_అడ్డువరుసలు               0x0CF3
+#నిర్వచించు GL_UNPACK_SKIP_PIXELS             0x0CF4
+#నిర్వచించు GL_PACK_అడ్డువరుస_నిడివి                0x0D02
+#నిర్వచించు GL_PACK_SKIP_అడ్డువరుసలు                 0x0D03
+#నిర్వచించు GL_PACK_SKIP_PIXELS               0x0D04
+#నిర్వచించు GL_COLOR                          0x1800
+#నిర్వచించు GL_లోతు                          0x1801
+#నిర్వచించు GL_STENCIL                        0x1802
+#నిర్వచించు GL_RED                            0x1903
+#నిర్వచించు GL_RGB8                           0x8051
+#నిర్వచించు GL_RGBA8                          0x8058
+#నిర్వచించు GL_RGB10_A2                       0x8059
+#నిర్వచించు GL_TEXTURE_BINDING_3D             0x806A
+#నిర్వచించు GL_UNPACK_SKIP_IMAGES             0x806D
+#నిర్వచించు GL_UNPACK_IMAGE_ఎత్తు            0x806E
+#నిర్వచించు GL_TEXTURE_3D                     0x806F
+#నిర్వచించు GL_TEXTURE_WRAP_R                 0x8072
+#నిర్వచించు GL_MAX_3_D_TEXTURE_కొలత            0x8073
+#నిర్వచించు GL_UNSIGNED_INT_2_10_10_10_REV    0x8368
+#నిర్వచించు GL_MAX_ELEMENTS_VERTICES          0x80E8
+#నిర్వచించు GL_MAX_ELEMENTS_INDICES           0x80E9
+#నిర్వచించు GL_TEXTURE_MIN_LOD                0x813A
+#నిర్వచించు GL_TEXTURE_MAX_LOD                0x813B
+#నిర్వచించు GL_TEXTURE_పునాది_LEVEL             0x813C
+#నిర్వచించు GL_TEXTURE_MAX_LEVEL              0x813D
+#నిర్వచించు GL_MIN                            0x8007
+#నిర్వచించు GL_MAX                            0x8008
+#నిర్వచించు GL_లోతు_COMPONENT24              0x81A6
+#నిర్వచించు GL_MAX_TEXTURE_LOD_BIAS           0x84FD
+#నిర్వచించు GL_TEXTURE_COMPARE_బహుళకం           0x884C
+#నిర్వచించు GL_TEXTURE_COMPARE_FUNC           0x884D
+#నిర్వచించు GL_CURRENT_QUERY                  0x8865
+#నిర్వచించు GL_QUERY_ఫలితం                   0x8866
+#నిర్వచించు GL_QUERY_ఫలితం_అందుబాటు         0x8867
+#నిర్వచించు GL_బఫరు_MAPPED                  0x88BC
+#నిర్వచించు GL_బఫరు_MAP_సూచిక             0x88BD
+#నిర్వచించు GL_ప్రవాహం_READ                    0x88E1
+#నిర్వచించు GL_ప్రవాహం_COPY                    0x88E2
+#నిర్వచించు GL_STATIC_READ                    0x88E5
+#నిర్వచించు GL_STATIC_COPY                    0x88E6
+#నిర్వచించు GL_DYNAMIC_READ                   0x88E9
+#నిర్వచించు GL_DYNAMIC_COPY                   0x88EA
+#నిర్వచించు GL_MAX_DRAW_BUFFERS               0x8824
+#నిర్వచించు GL_DRAW_BUFFER0                   0x8825
+#నిర్వచించు GL_DRAW_BUFFER1                   0x8826
+#నిర్వచించు GL_DRAW_BUFFER2                   0x8827
+#నిర్వచించు GL_DRAW_BUFFER3                   0x8828
+#నిర్వచించు GL_DRAW_BUFFER4                   0x8829
+#నిర్వచించు GL_DRAW_BUFFER5                   0x882A
+#నిర్వచించు GL_DRAW_BUFFER6                   0x882B
+#నిర్వచించు GL_DRAW_BUFFER7                   0x882C
+#నిర్వచించు GL_DRAW_BUFFER8                   0x882D
+#నిర్వచించు GL_DRAW_BUFFER9                   0x882E
+#నిర్వచించు GL_DRAW_BUFFER10                  0x882F
+#నిర్వచించు GL_DRAW_BUFFER11                  0x8830
+#నిర్వచించు GL_DRAW_BUFFER12                  0x8831
+#నిర్వచించు GL_DRAW_BUFFER13                  0x8832
+#నిర్వచించు GL_DRAW_BUFFER14                  0x8833
+#నిర్వచించు GL_DRAW_BUFFER15                  0x8834
+#నిర్వచించు GL_MAX_FRAGMENT_ఏకరీతి_COMPONENTS 0x8B49
+#నిర్వచించు GL_MAX_శీర్షం_ఏకరీతి_COMPONENTS  0x8B4A
+#నిర్వచించు GL_SAMPLER_3D                     0x8B5F
+#నిర్వచించు GL_SAMPLER_2D_SHADOW              0x8B62
+#నిర్వచించు GL_FRAGMENT_SHADER_DERIVATIVE_HINT 0x8B8B
+#నిర్వచించు GL_PIXEL_PACK_బఫరు              0x88EB
+#నిర్వచించు GL_PIXEL_UNPACK_బఫరు            0x88EC
+#నిర్వచించు GL_PIXEL_PACK_బఫరు_BINDING      0x88ED
+#నిర్వచించు GL_PIXEL_UNPACK_బఫరు_BINDING    0x88EF
+#నిర్వచించు GL_FLOAT_MAT2x3                   0x8B65
+#నిర్వచించు GL_FLOAT_MAT2x4                   0x8B66
+#నిర్వచించు GL_FLOAT_MAT3x2                   0x8B67
+#నిర్వచించు GL_FLOAT_MAT3x4                   0x8B68
+#నిర్వచించు GL_FLOAT_MAT4x2                   0x8B69
+#నిర్వచించు GL_FLOAT_MAT4x3                   0x8B6A
+#నిర్వచించు GL_SRGB                           0x8C40
+#నిర్వచించు GL_SRGB8                          0x8C41
+#నిర్వచించు GL_SRGB8_ALPHA8                   0x8C43
+#నిర్వచించు GL_COMPARE_REF_గమ్యం_TEXTURE         0x884E
+#నిర్వచించు GL_MAJOR_సంస్కరణ                  0x821B
+#నిర్వచించు GL_MINOR_సంస్కరణ                  0x821C
+#నిర్వచించు GL_అంకె_EXTENSIONS                 0x821D
+#నిర్వచించు GL_RGBA32F                        0x8814
+#నిర్వచించు GL_RGB32F                         0x8815
+#నిర్వచించు GL_RGBA16F                        0x881A
+#నిర్వచించు GL_RGB16F                         0x881B
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_INTEGER    0x88FD
+#నిర్వచించు GL_MAX_ARRAY_TEXTURE_LAYERS       0x88FF
+#నిర్వచించు GL_MIN_కార్యక్రమం_TEXEL_స్థానభ్రంశం       0x8904
+#నిర్వచించు GL_MAX_కార్యక్రమం_TEXEL_స్థానభ్రంశం       0x8905
+#నిర్వచించు GL_MAX_VARYING_COMPONENTS         0x8B4B
+#నిర్వచించు GL_TEXTURE_2D_ARRAY               0x8C1A
+#నిర్వచించు GL_TEXTURE_BINDING_2D_ARRAY       0x8C1D
+#నిర్వచించు GL_R11F_G11F_B10F                 0x8C3A
+#నిర్వచించు GL_UNSIGNED_INT_10F_11F_11F_REV   0x8C3B
+#నిర్వచించు GL_RGB9_E5                        0x8C3D
+#నిర్వచించు GL_UNSIGNED_INT_5_9_9_9_REV       0x8C3E
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_VARYING_MAX_నిడివి 0x8C76
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_బఫరు_బహుళకం 0x8C7F
+#నిర్వచించు GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS 0x8C80
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_VARYINGS    0x8C83
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_బఫరు_ప్రారంభం 0x8C84
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_బఫరు_కొలత 0x8C85
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN 0x8C88
+#నిర్వచించు GL_RASTERIZER_DISCARD             0x8C89
+#నిర్వచించు GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS 0x8C8A
+#నిర్వచించు GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS 0x8C8B
+#నిర్వచించు GL_INTERLEAVED_ATTRIBS            0x8C8C
+#నిర్వచించు GL_SEPARATE_ATTRIBS               0x8C8D
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_బఫరు      0x8C8E
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_బఫరు_BINDING 0x8C8F
+#నిర్వచించు GL_RGBA32UI                       0x8D70
+#నిర్వచించు GL_RGB32UI                        0x8D71
+#నిర్వచించు GL_RGBA16UI                       0x8D76
+#నిర్వచించు GL_RGB16UI                        0x8D77
+#నిర్వచించు GL_RGBA8UI                        0x8D7C
+#నిర్వచించు GL_RGB8UI                         0x8D7D
+#నిర్వచించు GL_RGBA32I                        0x8D82
+#నిర్వచించు GL_RGB32I                         0x8D83
+#నిర్వచించు GL_RGBA16I                        0x8D88
+#నిర్వచించు GL_RGB16I                         0x8D89
+#నిర్వచించు GL_RGBA8I                         0x8D8E
+#నిర్వచించు GL_RGB8I                          0x8D8F
+#నిర్వచించు GL_RED_INTEGER                    0x8D94
+#నిర్వచించు GL_RGB_INTEGER                    0x8D98
+#నిర్వచించు GL_RGBA_INTEGER                   0x8D99
+#నిర్వచించు GL_SAMPLER_2D_ARRAY               0x8DC1
+#నిర్వచించు GL_SAMPLER_2D_ARRAY_SHADOW        0x8DC4
+#నిర్వచించు GL_SAMPLER_CUBE_SHADOW            0x8DC5
+#నిర్వచించు GL_UNSIGNED_INT_VEC2              0x8DC6
+#నిర్వచించు GL_UNSIGNED_INT_VEC3              0x8DC7
+#నిర్వచించు GL_UNSIGNED_INT_VEC4              0x8DC8
+#నిర్వచించు GL_INT_SAMPLER_2D                 0x8DCA
+#నిర్వచించు GL_INT_SAMPLER_3D                 0x8DCB
+#నిర్వచించు GL_INT_SAMPLER_CUBE               0x8DCC
+#నిర్వచించు GL_INT_SAMPLER_2D_ARRAY           0x8DCF
+#నిర్వచించు GL_UNSIGNED_INT_SAMPLER_2D        0x8DD2
+#నిర్వచించు GL_UNSIGNED_INT_SAMPLER_3D        0x8DD3
+#నిర్వచించు GL_UNSIGNED_INT_SAMPLER_CUBE      0x8DD4
+#నిర్వచించు GL_UNSIGNED_INT_SAMPLER_2D_ARRAY  0x8DD7
+#నిర్వచించు GL_బఫరు_ACCESS_FLAGS            0x911F
+#నిర్వచించు GL_బఫరు_MAP_నిడివి              0x9120
+#నిర్వచించు GL_బఫరు_MAP_స్థానభ్రంశం              0x9121
+#నిర్వచించు GL_లోతు_COMPONENT32_F             0x8CAC
+#నిర్వచించు GL_DEPTH32F_STENCIL8              0x8CAD
+#నిర్వచించు GL_FLOAT_32_UNSIGNED_INT_24_8_REV 0x8DAD
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING 0x8210
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE 0x8211
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_RED_కొలత 0x8212
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_GREEN_కొలత 0x8213
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_BLUE_కొలత 0x8214
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_ALPHA_కొలత 0x8215
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_లోతు_కొలత 0x8216
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_STENCIL_కొలత 0x8217
+#నిర్వచించు GL_FRAMEBUFFER_DEFAULT            0x8218
+#నిర్వచించు GL_FRAMEBUFFER_UNDEFINED          0x8219
+#నిర్వచించు GL_లోతు_STENCIL_ATTACHMENT       0x821A
+#నిర్వచించు GL_లోతు_STENCIL                  0x84F9
+#నిర్వచించు GL_UNSIGNED_INT_24_8              0x84FA
+#నిర్వచించు GL_DEPTH24_STENCIL8               0x88F0
+#నిర్వచించు GL_UNSIGNED_NORMALIZED            0x8C17
+#నిర్వచించు GL_DRAW_FRAMEBUFFER_BINDING       0x8CA6
+#నిర్వచించు GL_READ_FRAMEBUFFER               0x8CA8
+#నిర్వచించు GL_DRAW_FRAMEBUFFER               0x8CA9
+#నిర్వచించు GL_READ_FRAMEBUFFER_BINDING       0x8CAA
+#నిర్వచించు GL_RENDERBUFFER_SAMPLES           0x8CAB
+#నిర్వచించు GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER 0x8CD4
+#నిర్వచించు GL_MAX_COLOR_ATTACHMENTS          0x8CDF
+#నిర్వచించు GL_COLOR_ATTACHMENT1              0x8CE1
+#నిర్వచించు GL_COLOR_ATTACHMENT2              0x8CE2
+#నిర్వచించు GL_COLOR_ATTACHMENT3              0x8CE3
+#నిర్వచించు GL_COLOR_ATTACHMENT4              0x8CE4
+#నిర్వచించు GL_COLOR_ATTACHMENT5              0x8CE5
+#నిర్వచించు GL_COLOR_ATTACHMENT6              0x8CE6
+#నిర్వచించు GL_COLOR_ATTACHMENT7              0x8CE7
+#నిర్వచించు GL_COLOR_ATTACHMENT8              0x8CE8
+#నిర్వచించు GL_COLOR_ATTACHMENT9              0x8CE9
+#నిర్వచించు GL_COLOR_ATTACHMENT10             0x8CEA
+#నిర్వచించు GL_COLOR_ATTACHMENT11             0x8CEB
+#నిర్వచించు GL_COLOR_ATTACHMENT12             0x8CEC
+#నిర్వచించు GL_COLOR_ATTACHMENT13             0x8CED
+#నిర్వచించు GL_COLOR_ATTACHMENT14             0x8CEE
+#నిర్వచించు GL_COLOR_ATTACHMENT15             0x8CEF
+#నిర్వచించు GL_COLOR_ATTACHMENT16             0x8CF0
+#నిర్వచించు GL_COLOR_ATTACHMENT17             0x8CF1
+#నిర్వచించు GL_COLOR_ATTACHMENT18             0x8CF2
+#నిర్వచించు GL_COLOR_ATTACHMENT19             0x8CF3
+#నిర్వచించు GL_COLOR_ATTACHMENT20             0x8CF4
+#నిర్వచించు GL_COLOR_ATTACHMENT21             0x8CF5
+#నిర్వచించు GL_COLOR_ATTACHMENT22             0x8CF6
+#నిర్వచించు GL_COLOR_ATTACHMENT23             0x8CF7
+#నిర్వచించు GL_COLOR_ATTACHMENT24             0x8CF8
+#నిర్వచించు GL_COLOR_ATTACHMENT25             0x8CF9
+#నిర్వచించు GL_COLOR_ATTACHMENT26             0x8CFA
+#నిర్వచించు GL_COLOR_ATTACHMENT27             0x8CFB
+#నిర్వచించు GL_COLOR_ATTACHMENT28             0x8CFC
+#నిర్వచించు GL_COLOR_ATTACHMENT29             0x8CFD
+#నిర్వచించు GL_COLOR_ATTACHMENT30             0x8CFE
+#నిర్వచించు GL_COLOR_ATTACHMENT31             0x8CFF
+#నిర్వచించు GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE 0x8D56
+#నిర్వచించు GL_MAX_SAMPLES                    0x8D57
+#నిర్వచించు GL_HALF_FLOAT                     0x140B
+#నిర్వచించు GL_MAP_READ_బిట్టు                   0x0001
+#నిర్వచించు GL_MAP_WRITE_బిట్టు                  0x0002
+#నిర్వచించు GL_MAP_INVALIDATE_RANGE_బిట్టు       0x0004
+#నిర్వచించు GL_MAP_INVALIDATE_బఫరు_బిట్టు      0x0008
+#నిర్వచించు GL_MAP_FLUSH_EXPLICIT_బిట్టు         0x0010
+#నిర్వచించు GL_MAP_UNSYNCHRONIZED_బిట్టు         0x0020
+#నిర్వచించు GL_RG                             0x8227
+#నిర్వచించు GL_RG_INTEGER                     0x8228
+#నిర్వచించు GL_R8                             0x8229
+#నిర్వచించు GL_RG8                            0x822B
+#నిర్వచించు GL_R16F                           0x822D
+#నిర్వచించు GL_R32F                           0x822E
+#నిర్వచించు GL_RG16F                          0x822F
+#నిర్వచించు GL_RG32F                          0x8230
+#నిర్వచించు GL_R8I                            0x8231
+#నిర్వచించు GL_R8UI                           0x8232
+#నిర్వచించు GL_R16I                           0x8233
+#నిర్వచించు GL_R16UI                          0x8234
+#నిర్వచించు GL_R32I                           0x8235
+#నిర్వచించు GL_R32UI                          0x8236
+#నిర్వచించు GL_RG8I                           0x8237
+#నిర్వచించు GL_RG8UI                          0x8238
+#నిర్వచించు GL_RG16I                          0x8239
+#నిర్వచించు GL_RG16UI                         0x823A
+#నిర్వచించు GL_RG32I                          0x823B
+#నిర్వచించు GL_RG32UI                         0x823C
+#నిర్వచించు GL_శీర్షం_ARRAY_BINDING           0x85B5
+#నిర్వచించు GL_R8_SNORM                       0x8F94
+#నిర్వచించు GL_RG8_SNORM                      0x8F95
+#నిర్వచించు GL_RGB8_SNORM                     0x8F96
+#నిర్వచించు GL_RGBA8_SNORM                    0x8F97
+#నిర్వచించు GL_SIGNED_NORMALIZED              0x8F9C
+#నిర్వచించు GL_PRIMITIVE_RESTART_FIXED_సూచీ  0x8D69
+#నిర్వచించు GL_COPY_READ_బఫరు               0x8F36
+#నిర్వచించు GL_COPY_WRITE_బఫరు              0x8F37
+#నిర్వచించు GL_COPY_READ_బఫరు_BINDING       0x8F36
+#నిర్వచించు GL_COPY_WRITE_బఫరు_BINDING      0x8F37
+#నిర్వచించు GL_ఏకరీతి_బఫరు                 0x8A11
+#నిర్వచించు GL_ఏకరీతి_బఫరు_BINDING         0x8A28
+#నిర్వచించు GL_ఏకరీతి_బఫరు_ప్రారంభం           0x8A29
+#నిర్వచించు GL_ఏకరీతి_బఫరు_కొలత            0x8A2A
+#నిర్వచించు GL_MAX_శీర్షం_ఏకరీతి_ఖండాలు      0x8A2B
+#నిర్వచించు GL_MAX_FRAGMENT_ఏకరీతి_ఖండాలు    0x8A2D
+#నిర్వచించు GL_MAX_COMBINED_ఏకరీతి_ఖండాలు    0x8A2E
+#నిర్వచించు GL_MAX_ఏకరీతి_బఫరు_BINDINGS    0x8A2F
+#నిర్వచించు GL_MAX_ఏకరీతి_ఖండం_కొలత         0x8A30
+#నిర్వచించు GL_MAX_COMBINED_శీర్షం_ఏకరీతి_COMPONENTS 0x8A31
+#నిర్వచించు GL_MAX_COMBINED_FRAGMENT_ఏకరీతి_COMPONENTS 0x8A33
+#నిర్వచించు GL_ఏకరీతి_బఫరు_స్థానభ్రంశం_ALIGNMENT 0x8A34
+#నిర్వచించు GL_చురుకైన_ఏకరీతి_ఖండం_MAX_NAME_నిడివి 0x8A35
+#నిర్వచించు GL_చురుకైన_ఏకరీతి_ఖండాలు          0x8A36
+#నిర్వచించు GL_ఏకరీతి_TYPE                   0x8A37
+#నిర్వచించు GL_ఏకరీతి_కొలత                   0x8A38
+#నిర్వచించు GL_ఏకరీతి_NAME_నిడివి            0x8A39
+#నిర్వచించు GL_ఏకరీతి_ఖండం_సూచీ            0x8A3A
+#నిర్వచించు GL_ఏకరీతి_స్థానభ్రంశం                 0x8A3B
+#నిర్వచించు GL_ఏకరీతి_ARRAY_STRIDE           0x8A3C
+#నిర్వచించు GL_ఏకరీతి_మాతృక_STRIDE          0x8A3D
+#నిర్వచించు GL_ఏకరీతి_IS_అడ్డువరుస_MAJOR           0x8A3E
+#నిర్వచించు GL_ఏకరీతి_ఖండం_BINDING          0x8A3F
+#నిర్వచించు GL_ఏకరీతి_ఖండం_దత్తాంశం_కొలత        0x8A40
+#నిర్వచించు GL_ఏకరీతి_ఖండం_NAME_నిడివి      0x8A41
+#నిర్వచించు GL_ఏకరీతి_ఖండం_చురుకైన_UNIFORMS  0x8A42
+#నిర్వచించు GL_ఏకరీతి_ఖండం_చురుకైన_ఏకరీతి_INDICES 0x8A43
+#నిర్వచించు GL_ఏకరీతి_ఖండం_REFERENCED_BY_శీర్షం_SHADER 0x8A44
+#నిర్వచించు GL_ఏకరీతి_ఖండం_REFERENCED_BY_FRAGMENT_SHADER 0x8A46
+#నిర్వచించు GL_INVALID_సూచీ                  0xFFFFFFFFu
+#నిర్వచించు GL_MAX_శీర్షం_OUTPUT_COMPONENTS   0x9122
+#నిర్వచించు GL_MAX_FRAGMENT_ఆదానం_COMPONENTS  0x9125
+#నిర్వచించు GL_MAX_SERVER_WAIT_TIMEOUT        0x9111
+#నిర్వచించు GL_OBJECT_TYPE                    0x9112
+#నిర్వచించు GL_SYNC_CONDITION                 0x9113
+#నిర్వచించు GL_SYNC_స్థితి                    0x9114
+#నిర్వచించు GL_SYNC_FLAGS                     0x9115
+#నిర్వచించు GL_SYNC_FENCE                     0x9116
+#నిర్వచించు GL_SYNC_GPU_COMMANDS_COMPLETE     0x9117
+#నిర్వచించు GL_UNSIGNALED                     0x9118
+#నిర్వచించు GL_SIGNALED                       0x9119
+#నిర్వచించు GL_ALREADY_SIGNALED               0x911A
+#నిర్వచించు GL_TIMEOUT_EXPIRED                0x911B
+#నిర్వచించు GL_CONDITION_SATISFIED            0x911C
+#నిర్వచించు GL_WAIT_FAILED                    0x911D
+#నిర్వచించు GL_SYNC_FLUSH_COMMANDS_బిట్టు        0x00000001
+#నిర్వచించు GL_TIMEOUT_IGNORED                0xFFFFFFFFFFFFFFFFull
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_భాజకం    0x88FE
+#నిర్వచించు GL_ANY_SAMPLES_PASSED             0x8C2F
+#నిర్వచించు GL_ANY_SAMPLES_PASSED_CONSERVATIVE 0x8D6A
+#నిర్వచించు GL_SAMPLER_BINDING                0x8919
+#నిర్వచించు GL_RGB10_A2UI                     0x906F
+#నిర్వచించు GL_TEXTURE_SWIZZLE_R              0x8E42
+#నిర్వచించు GL_TEXTURE_SWIZZLE_G              0x8E43
+#నిర్వచించు GL_TEXTURE_SWIZZLE_B              0x8E44
+#నిర్వచించు GL_TEXTURE_SWIZZLE_A              0x8E45
+#నిర్వచించు GL_GREEN                          0x1904
+#నిర్వచించు GL_BLUE                           0x1905
+#నిర్వచించు GL_INT_2_10_10_10_REV             0x8D9F
+#నిర్వచించు GL_TRANSFORM_FEEDBACK             0x8E22
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_PAUSED      0x8E23
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_చురుకైన      0x8E24
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_BINDING     0x8E25
+#నిర్వచించు GL_కార్యక్రమం_ద్విమాన_RETRIEVABLE_HINT 0x8257
+#నిర్వచించు GL_కార్యక్రమం_ద్విమాన_నిడివి          0x8741
+#నిర్వచించు GL_అంకె_కార్యక్రమం_ద్విమాన_FORMATS     0x87FE
+#నిర్వచించు GL_కార్యక్రమం_ద్విమాన_FORMATS         0x87FF
+#నిర్వచించు GL_COMPRESSED_R11_EAC             0x9270
+#నిర్వచించు GL_COMPRESSED_SIGNED_R11_EAC      0x9271
+#నిర్వచించు GL_COMPRESSED_RG11_EAC            0x9272
+#నిర్వచించు GL_COMPRESSED_SIGNED_RG11_EAC     0x9273
+#నిర్వచించు GL_COMPRESSED_RGB8_ETC2           0x9274
+#నిర్వచించు GL_COMPRESSED_SRGB8_ETC2          0x9275
+#నిర్వచించు GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9276
+#నిర్వచించు GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9277
+#నిర్వచించు GL_COMPRESSED_RGBA8_ETC2_EAC      0x9278
+#నిర్వచించు GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC 0x9279
+#నిర్వచించు GL_TEXTURE_IMMUTABLE_FORMAT       0x912F
+#నిర్వచించు GL_MAX_ELEMENT_సూచీ              0x8D6B
+#నిర్వచించు GL_అంకె_SAMPLE_COUNTS              0x9380
+#నిర్వచించు GL_TEXTURE_IMMUTABLE_స్థాయిలు       0x82DF
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLREADBUFFERPROC) (GLenum src);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWRANGEELEMENTSPROC) (GLenum బహుళకం, GLuint ప్రారంభం, GLuint చివర, GLsizei లెక్క, GLenum type, స్థిరరాశి శూన్య *indices);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXIMAGE3DPROC) (GLenum లక్ష్యం, GLint level, GLint internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLint border, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXSUBIMAGE3DPROC) (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOPYTEXSUBIMAGE3DPROC) (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOMPRESSEDTEXIMAGE3DPROC) (GLenum లక్ష్యం, GLint level, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLint border, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC) (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLenum format, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENQUERIESPROC) (GLsizei n, GLuint *ids);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETEQUERIESPROC) (GLsizei n, స్థిరరాశి GLuint *ids);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISQUERYPROC) (GLuint id);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBEGINQUERYPROC) (GLenum లక్ష్యం, GLuint id);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLENDQUERYPROC) (GLenum లక్ష్యం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETQUERYIVPROC) (GLenum లక్ష్యం, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETQUERYOBJECTUIVPROC) (GLuint id, GLenum pname, GLuint *params);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLUNMAPBUFFERPROC) (GLenum లక్ష్యం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETBUFFERPOINTERVPROC) (GLenum లక్ష్యం, GLenum pname, శూన్య **params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWBUFFERSPROC) (GLsizei n, స్థిరరాశి GLenum *bufs);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX2X3FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX3X2FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX2X4FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX4X2FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX3X4FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMMATRIX4X3FVPROC) (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBLITFRAMEBUFFERPROC) (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield ముసుగు, GLenum filter);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC) (GLenum లక్ష్యం, GLsizei samples, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFRAMEBUFFERTEXTURELAYERPROC) (GLenum లక్ష్యం, GLenum attachment, GLuint texture, GLint level, GLint layer);
+రకనిర్వచనం శూన్య *(GL_APIENTRYP PFNGLMAPBUFFERRANGEPROC) (GLenum లక్ష్యం, GLintptr స్థానభ్రంశం_2, GLsizeiptr నిడివి, GLbitfield access);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFLUSHMAPPEDBUFFERRANGEPROC) (GLenum లక్ష్యం, GLintptr స్థానభ్రంశం_2, GLsizeiptr నిడివి);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDVERTEXARRAYPROC) (GLuint array);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETEVERTEXARRAYSPROC) (GLsizei n, స్థిరరాశి GLuint *arrays);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENVERTEXARRAYSPROC) (GLsizei n, GLuint *arrays);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISVERTEXARRAYPROC) (GLuint array);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETINTEGERI_VPROC) (GLenum లక్ష్యం, GLuint సూచీ, GLint *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBEGINTRANSFORMFEEDBACKPROC) (GLenum primitive_బహుళకం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLENDTRANSFORMFEEDBACKPROC) (శూన్య);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDBUFFERRANGEPROC) (GLenum లక్ష్యం, GLuint సూచీ, GLuint బఫరు_2, GLintptr స్థానభ్రంశం_2, GLsizeiptr కొలత);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDBUFFERBASEPROC) (GLenum లక్ష్యం, GLuint సూచీ, GLuint బఫరు_2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTRANSFORMFEEDBACKVARYINGSPROC) (GLuint కార్యక్రమం, GLsizei లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*varyings, GLenum బఫరు_బహుళకం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETTRANSFORMFEEDBACKVARYINGPROC) (GLuint కార్యక్రమం, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLsizei *కొలత, GLenum *type, GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBIPOINTERPROC) (GLuint సూచీ, GLint కొలత, GLenum type, GLsizei stride, స్థిరరాశి శూన్య *సూచిక_2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETVERTEXATTRIBIIVPROC) (GLuint సూచీ, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETVERTEXATTRIBIUIVPROC) (GLuint సూచీ, GLenum pname, GLuint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBI4IPROC) (GLuint సూచీ, GLint x, GLint y, GLint z, GLint w);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBI4UIPROC) (GLuint సూచీ, GLuint x, GLuint y, GLuint z, GLuint w);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBI4IVPROC) (GLuint సూచీ, స్థిరరాశి GLint *v);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBI4UIVPROC) (GLuint సూచీ, స్థిరరాశి GLuint *v);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETUNIFORMUIVPROC) (GLuint కార్యక్రమం, GLint location, GLuint *params);
+రకనిర్వచనం GLint (GL_APIENTRYP PFNGLGETFRAGDATALOCATIONPROC) (GLuint కార్యక్రమం, స్థిరరాశి GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM1UIPROC) (GLint location, GLuint v0);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM2UIPROC) (GLint location, GLuint v0, GLuint v1);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM3UIPROC) (GLint location, GLuint v0, GLuint v1, GLuint v2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM4UIPROC) (GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM1UIVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM2UIVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM3UIVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORM4UIVPROC) (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARBUFFERIVPROC) (GLenum బఫరు_2, GLint drawbuffer, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARBUFFERUIVPROC) (GLenum బఫరు_2, GLint drawbuffer, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARBUFFERFVPROC) (GLenum బఫరు_2, GLint drawbuffer, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCLEARBUFFERFIPROC) (GLenum బఫరు_2, GLint drawbuffer, GLfloat లోతు_2, GLint stencil);
+రకనిర్వచనం స్థిరరాశి GLubyte *(GL_APIENTRYP PFNGLGETSTRINGIPROC) (GLenum name, GLuint సూచీ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLCOPYBUFFERSUBDATAPROC) (GLenum read_లక్ష్యం, GLenum write_లక్ష్యం, GLintptr read_స్థానభ్రంశం, GLintptr write_స్థానభ్రంశం, GLsizeiptr కొలత);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETUNIFORMINDICESPROC) (GLuint కార్యక్రమం, GLsizei ఏకరీతి_లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*ఏకరీతి_పేర్లు, GLuint *ఏకరీతి_Indices);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETACTIVEUNIFORMSIVPROC) (GLuint కార్యక్రమం, GLsizei ఏకరీతి_లెక్క, స్థిరరాశి GLuint *ఏకరీతి_Indices, GLenum pname, GLint *params);
+రకనిర్వచనం GLuint (GL_APIENTRYP PFNGLGETUNIFORMBLOCKINDEXPROC) (GLuint కార్యక్రమం, స్థిరరాశి GLchar *ఏకరీతి_ఖండం_Name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKIVPROC) (GLuint కార్యక్రమం, GLuint ఏకరీతి_ఖండం_సూచీ, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC) (GLuint కార్యక్రమం, GLuint ఏకరీతి_ఖండం_సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *ఏకరీతి_ఖండం_Name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUNIFORMBLOCKBINDINGPROC) (GLuint కార్యక్రమం, GLuint ఏకరీతి_ఖండం_సూచీ, GLuint ఏకరీతి_ఖండం_Binding);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWARRAYSINSTANCEDPROC) (GLenum బహుళకం, GLint మొదటి, GLsizei లెక్క, GLsizei instancecount);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWELEMENTSINSTANCEDPROC) (GLenum బహుళకం, GLsizei లెక్క, GLenum type, స్థిరరాశి శూన్య *indices, GLsizei instancecount);
+రకనిర్వచనం GLsync (GL_APIENTRYP PFNGLFENCESYNCPROC) (GLenum condition, GLbitfield flags);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISSYNCPROC) (GLsync sync);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETESYNCPROC) (GLsync sync);
+రకనిర్వచనం GLenum (GL_APIENTRYP PFNGLCLIENTWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLWAITSYNCPROC) (GLsync sync, GLbitfield flags, GLuint64 timeout);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETINTEGER64VPROC) (GLenum pname, GLint64 *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETSYNCIVPROC) (GLsync sync, GLenum pname, GLsizei లెక్క, GLsizei *నిడివి, GLint *విలువలు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETINTEGER64I_VPROC) (GLenum లక్ష్యం, GLuint సూచీ, GLint64 *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETBUFFERPARAMETERI64VPROC) (GLenum లక్ష్యం, GLenum pname, GLint64 *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENSAMPLERSPROC) (GLsizei లెక్క, GLuint *samplers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETESAMPLERSPROC) (GLsizei లెక్క, స్థిరరాశి GLuint *samplers);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISSAMPLERPROC) (GLuint sampler);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDSAMPLERPROC) (GLuint unit, GLuint sampler);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSAMPLERPARAMETERIPROC) (GLuint sampler, GLenum pname, GLint param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSAMPLERPARAMETERIVPROC) (GLuint sampler, GLenum pname, స్థిరరాశి GLint *param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSAMPLERPARAMETERFPROC) (GLuint sampler, GLenum pname, GLfloat param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSAMPLERPARAMETERFVPROC) (GLuint sampler, GLenum pname, స్థిరరాశి GLfloat *param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETSAMPLERPARAMETERIVPROC) (GLuint sampler, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETSAMPLERPARAMETERFVPROC) (GLuint sampler, GLenum pname, GLfloat *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBDIVISORPROC) (GLuint సూచీ, GLuint భాజకం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDTRANSFORMFEEDBACKPROC) (GLenum లక్ష్యం, GLuint id);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETETRANSFORMFEEDBACKSPROC) (GLsizei n, స్థిరరాశి GLuint *ids);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENTRANSFORMFEEDBACKSPROC) (GLsizei n, GLuint *ids);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISTRANSFORMFEEDBACKPROC) (GLuint id);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPAUSETRANSFORMFEEDBACKPROC) (శూన్య);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLRESUMETRANSFORMFEEDBACKPROC) (శూన్య);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMBINARYPROC) (GLuint కార్యక్రమం, GLsizei buf_కొలత, GLsizei *నిడివి, GLenum *ద్విమాన_Format, శూన్య *ద్విమాన);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMBINARYPROC) (GLuint కార్యక్రమం, GLenum ద్విమాన_Format, స్థిరరాశి శూన్య *ద్విమాన, GLsizei నిడివి);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMPARAMETERIPROC) (GLuint కార్యక్రమం, GLenum pname, GLint విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLINVALIDATEFRAMEBUFFERPROC) (GLenum లక్ష్యం, GLsizei అంకె_Attachments, స్థిరరాశి GLenum *attachments);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLINVALIDATESUBFRAMEBUFFERPROC) (GLenum లక్ష్యం, GLsizei అంకె_Attachments, స్థిరరాశి GLenum *attachments, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXSTORAGE2DPROC) (GLenum లక్ష్యం, GLsizei స్థాయిలు, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXSTORAGE3DPROC) (GLenum లక్ష్యం, GLsizei స్థాయిలు, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETINTERNALFORMATIVPROC) (GLenum లక్ష్యం, GLenum internalformat, GLenum pname, GLsizei లెక్క, GLint *params);
+#ఒకవేళ GL_GLES_PROTOTYPES
+GL_APICALL శూన్య GL_APIENTRY gl_Read_బఫరు (GLenum src);
+GL_APICALL శూన్య GL_APIENTRY glDrawRangeElements (GLenum బహుళకం, GLuint ప్రారంభం, GLuint చివర, GLsizei లెక్క, GLenum type, స్థిరరాశి శూన్య *indices);
+GL_APICALL శూన్య GL_APIENTRY glTexImage3D (GLenum లక్ష్యం, GLint level, GLint internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLint border, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+GL_APICALL శూన్య GL_APIENTRY glTexSubImage3D (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLenum format, GLenum type, స్థిరరాశి శూన్య *pixels);
+GL_APICALL శూన్య GL_APIENTRY glCopyTexSubImage3D (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+GL_APICALL శూన్య GL_APIENTRY glCompressedTexImage3D (GLenum లక్ష్యం, GLint level, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLint border, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glCompressedTexSubImage3D (GLenum లక్ష్యం, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2, GLenum format, GLsizei image_కొలత, స్థిరరాశి శూన్య *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glGenQueries (GLsizei n, GLuint *ids);
+GL_APICALL శూన్య GL_APIENTRY glDeleteQueries (GLsizei n, స్థిరరాశి GLuint *ids);
 GL_APICALL GLboolean GL_APIENTRY glIsQuery (GLuint id);
-GL_APICALL void GL_APIENTRY glBeginQuery (GLenum target, GLuint id);
-GL_APICALL void GL_APIENTRY glEndQuery (GLenum target);
-GL_APICALL void GL_APIENTRY glGetQueryiv (GLenum target, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetQueryObjectuiv (GLuint id, GLenum pname, GLuint *params);
-GL_APICALL GLboolean GL_APIENTRY glUnmapBuffer (GLenum target);
-GL_APICALL void GL_APIENTRY glGetBufferPointerv (GLenum target, GLenum pname, void **params);
-GL_APICALL void GL_APIENTRY glDrawBuffers (GLsizei n, const GLenum *bufs);
-GL_APICALL void GL_APIENTRY glUniformMatrix2x3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix3x2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix2x4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix4x2fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix3x4fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glUniformMatrix4x3fv (GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glBlitFramebuffer (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
-GL_APICALL void GL_APIENTRY glRenderbufferStorageMultisample (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glFramebufferTextureLayer (GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
-GL_APICALL void *GL_APIENTRY glMapBufferRange (GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
-GL_APICALL void GL_APIENTRY glFlushMappedBufferRange (GLenum target, GLintptr offset, GLsizeiptr length);
-GL_APICALL void GL_APIENTRY glBindVertexArray (GLuint array);
-GL_APICALL void GL_APIENTRY glDeleteVertexArrays (GLsizei n, const GLuint *arrays);
-GL_APICALL void GL_APIENTRY glGenVertexArrays (GLsizei n, GLuint *arrays);
-GL_APICALL GLboolean GL_APIENTRY glIsVertexArray (GLuint array);
-GL_APICALL void GL_APIENTRY glGetIntegeri_v (GLenum target, GLuint index, GLint *data);
-GL_APICALL void GL_APIENTRY glBeginTransformFeedback (GLenum primitiveMode);
-GL_APICALL void GL_APIENTRY glEndTransformFeedback (void);
-GL_APICALL void GL_APIENTRY glBindBufferRange (GLenum target, GLuint index, GLuint buffer, GLintptr offset, GLsizeiptr size);
-GL_APICALL void GL_APIENTRY glBindBufferBase (GLenum target, GLuint index, GLuint buffer);
-GL_APICALL void GL_APIENTRY glTransformFeedbackVaryings (GLuint program, GLsizei count, const GLchar *const*varyings, GLenum bufferMode);
-GL_APICALL void GL_APIENTRY glGetTransformFeedbackVarying (GLuint program, GLuint index, GLsizei bufSize, GLsizei *length, GLsizei *size, GLenum *type, GLchar *name);
-GL_APICALL void GL_APIENTRY glVertexAttribIPointer (GLuint index, GLint size, GLenum type, GLsizei stride, const void *pointer);
-GL_APICALL void GL_APIENTRY glGetVertexAttribIiv (GLuint index, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetVertexAttribIuiv (GLuint index, GLenum pname, GLuint *params);
-GL_APICALL void GL_APIENTRY glVertexAttribI4i (GLuint index, GLint x, GLint y, GLint z, GLint w);
-GL_APICALL void GL_APIENTRY glVertexAttribI4ui (GLuint index, GLuint x, GLuint y, GLuint z, GLuint w);
-GL_APICALL void GL_APIENTRY glVertexAttribI4iv (GLuint index, const GLint *v);
-GL_APICALL void GL_APIENTRY glVertexAttribI4uiv (GLuint index, const GLuint *v);
-GL_APICALL void GL_APIENTRY glGetUniformuiv (GLuint program, GLint location, GLuint *params);
-GL_APICALL GLint GL_APIENTRY glGetFragDataLocation (GLuint program, const GLchar *name);
-GL_APICALL void GL_APIENTRY glUniform1ui (GLint location, GLuint v0);
-GL_APICALL void GL_APIENTRY glUniform2ui (GLint location, GLuint v0, GLuint v1);
-GL_APICALL void GL_APIENTRY glUniform3ui (GLint location, GLuint v0, GLuint v1, GLuint v2);
-GL_APICALL void GL_APIENTRY glUniform4ui (GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-GL_APICALL void GL_APIENTRY glUniform1uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glUniform2uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glUniform3uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glUniform4uiv (GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glClearBufferiv (GLenum buffer, GLint drawbuffer, const GLint *value);
-GL_APICALL void GL_APIENTRY glClearBufferuiv (GLenum buffer, GLint drawbuffer, const GLuint *value);
-GL_APICALL void GL_APIENTRY glClearBufferfv (GLenum buffer, GLint drawbuffer, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glClearBufferfi (GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
-GL_APICALL const GLubyte *GL_APIENTRY glGetStringi (GLenum name, GLuint index);
-GL_APICALL void GL_APIENTRY glCopyBufferSubData (GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
-GL_APICALL void GL_APIENTRY glGetUniformIndices (GLuint program, GLsizei uniformCount, const GLchar *const*uniformNames, GLuint *uniformIndices);
-GL_APICALL void GL_APIENTRY glGetActiveUniformsiv (GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params);
-GL_APICALL GLuint GL_APIENTRY glGetUniformBlockIndex (GLuint program, const GLchar *uniformBlockName);
-GL_APICALL void GL_APIENTRY glGetActiveUniformBlockiv (GLuint program, GLuint uniformBlockIndex, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetActiveUniformBlockName (GLuint program, GLuint uniformBlockIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformBlockName);
-GL_APICALL void GL_APIENTRY glUniformBlockBinding (GLuint program, GLuint uniformBlockIndex, GLuint uniformBlockBinding);
-GL_APICALL void GL_APIENTRY glDrawArraysInstanced (GLenum mode, GLint first, GLsizei count, GLsizei instancecount);
-GL_APICALL void GL_APIENTRY glDrawElementsInstanced (GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei instancecount);
+GL_APICALL శూన్య GL_APIENTRY glBeginQuery (GLenum లక్ష్యం, GLuint id);
+GL_APICALL శూన్య GL_APIENTRY gl_చివర_Query (GLenum లక్ష్యం);
+GL_APICALL శూన్య GL_APIENTRY glGetQueryiv (GLenum లక్ష్యం, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glGetQueryObjectuiv (GLuint id, GLenum pname, GLuint *params);
+GL_APICALL GLboolean GL_APIENTRY gl_Unmap_బఫరు (GLenum లక్ష్యం);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_బఫరు_Pointerv (GLenum లక్ష్యం, GLenum pname, శూన్య **params);
+GL_APICALL శూన్య GL_APIENTRY glDrawBuffers (GLsizei n, స్థిరరాశి GLenum *bufs);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix2x3fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix3x2fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix2x4fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix4x2fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix3x4fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_Matrix4x3fv (GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glBlitFramebuffer (GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield ముసుగు, GLenum filter);
+GL_APICALL శూన్య GL_APIENTRY glRenderbufferStorageMultisample (GLenum లక్ష్యం, GLsizei samples, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు);
+GL_APICALL శూన్య GL_APIENTRY glFramebufferTextureLayer (GLenum లక్ష్యం, GLenum attachment, GLuint texture, GLint level, GLint layer);
+GL_APICALL శూన్య *GL_APIENTRY gl_Map_బఫరు_Range (GLenum లక్ష్యం, GLintptr స్థానభ్రంశం_2, GLsizeiptr నిడివి, GLbitfield access);
+GL_APICALL శూన్య GL_APIENTRY gl_Flush_Mapped_బఫరు_Range (GLenum లక్ష్యం, GLintptr స్థానభ్రంశం_2, GLsizeiptr నిడివి);
+GL_APICALL శూన్య GL_APIENTRY gl_Bind_శీర్షం_Array (GLuint array);
+GL_APICALL శూన్య GL_APIENTRY gl_Delete_శీర్షం_Arrays (GLsizei n, స్థిరరాశి GLuint *arrays);
+GL_APICALL శూన్య GL_APIENTRY gl_Gen_శీర్షం_Arrays (GLsizei n, GLuint *arrays);
+GL_APICALL GLboolean GL_APIENTRY gl_Is_శీర్షం_Array (GLuint array);
+GL_APICALL శూన్య GL_APIENTRY glGetIntegeri_v (GLenum లక్ష్యం, GLuint సూచీ, GLint *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glBeginTransformFeedback (GLenum primitive_బహుళకం);
+GL_APICALL శూన్య GL_APIENTRY gl_చివర_Transform_Feedback (శూన్య);
+GL_APICALL శూన్య GL_APIENTRY gl_Bind_బఫరు_Range (GLenum లక్ష్యం, GLuint సూచీ, GLuint బఫరు_2, GLintptr స్థానభ్రంశం_2, GLsizeiptr కొలత);
+GL_APICALL శూన్య GL_APIENTRY gl_Bind_బఫరు_పునాది (GLenum లక్ష్యం, GLuint సూచీ, GLuint బఫరు_2);
+GL_APICALL శూన్య GL_APIENTRY glTransformFeedbackVaryings (GLuint కార్యక్రమం, GLsizei లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*varyings, GLenum బఫరు_బహుళకం);
+GL_APICALL శూన్య GL_APIENTRY glGetTransformFeedbackVarying (GLuint కార్యక్రమం, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLsizei *కొలత, GLenum *type, GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_IPointer (GLuint సూచీ, GLint కొలత, GLenum type, GLsizei stride, స్థిరరాశి శూన్య *సూచిక_2);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_శీర్షం_Attrib_Iiv (GLuint సూచీ, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_శీర్షం_Attrib_Iuiv (GLuint సూచీ, GLenum pname, GLuint *params);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_I4i (GLuint సూచీ, GLint x, GLint y, GLint z, GLint w);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_I4ui (GLuint సూచీ, GLuint x, GLuint y, GLuint z, GLuint w);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_I4iv (GLuint సూచీ, స్థిరరాశి GLint *v);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_I4uiv (GLuint సూచీ, స్థిరరాశి GLuint *v);
+GL_APICALL శూన్య GL_APIENTRY glGetUniformuiv (GLuint కార్యక్రమం, GLint location, GLuint *params);
+GL_APICALL GLint GL_APIENTRY gl_Get_Frag_దత్తాంశం_Location (GLuint కార్యక్రమం, స్థిరరాశి GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY glUniform1ui (GLint location, GLuint v0);
+GL_APICALL శూన్య GL_APIENTRY glUniform2ui (GLint location, GLuint v0, GLuint v1);
+GL_APICALL శూన్య GL_APIENTRY glUniform3ui (GLint location, GLuint v0, GLuint v1, GLuint v2);
+GL_APICALL శూన్య GL_APIENTRY glUniform4ui (GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
+GL_APICALL శూన్య GL_APIENTRY glUniform1uiv (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform2uiv (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform3uiv (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glUniform4uiv (GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glClearBufferiv (GLenum బఫరు_2, GLint drawbuffer, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glClearBufferuiv (GLenum బఫరు_2, GLint drawbuffer, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glClearBufferfv (GLenum బఫరు_2, GLint drawbuffer, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY glClearBufferfi (GLenum బఫరు_2, GLint drawbuffer, GLfloat లోతు_2, GLint stencil);
+GL_APICALL స్థిరరాశి GLubyte *GL_APIENTRY glGetStringi (GLenum name, GLuint సూచీ);
+GL_APICALL శూన్య GL_APIENTRY gl_Copy_బఫరు_Sub_దత్తాంశం (GLenum read_లక్ష్యం, GLenum write_లక్ష్యం, GLintptr read_స్థానభ్రంశం, GLintptr write_స్థానభ్రంశం, GLsizeiptr కొలత);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_ఏకరీతి_Indices (GLuint కార్యక్రమం, GLsizei ఏకరీతి_లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*ఏకరీతి_పేర్లు, GLuint *ఏకరీతి_Indices);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_చురుకైన_Uniformsiv (GLuint కార్యక్రమం, GLsizei ఏకరీతి_లెక్క, స్థిరరాశి GLuint *ఏకరీతి_Indices, GLenum pname, GLint *params);
+GL_APICALL GLuint GL_APIENTRY gl_Get_ఏకరీతి_ఖండం_సూచీ (GLuint కార్యక్రమం, స్థిరరాశి GLchar *ఏకరీతి_ఖండం_Name);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_చురుకైన_ఏకరీతి_Blockiv (GLuint కార్యక్రమం, GLuint ఏకరీతి_ఖండం_సూచీ, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_చురుకైన_ఏకరీతి_ఖండం_Name (GLuint కార్యక్రమం, GLuint ఏకరీతి_ఖండం_సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *ఏకరీతి_ఖండం_Name);
+GL_APICALL శూన్య GL_APIENTRY gl_ఏకరీతి_ఖండం_Binding (GLuint కార్యక్రమం, GLuint ఏకరీతి_ఖండం_సూచీ, GLuint ఏకరీతి_ఖండం_Binding);
+GL_APICALL శూన్య GL_APIENTRY glDrawArraysInstanced (GLenum బహుళకం, GLint మొదటి, GLsizei లెక్క, GLsizei instancecount);
+GL_APICALL శూన్య GL_APIENTRY glDrawElementsInstanced (GLenum బహుళకం, GLsizei లెక్క, GLenum type, స్థిరరాశి శూన్య *indices, GLsizei instancecount);
 GL_APICALL GLsync GL_APIENTRY glFenceSync (GLenum condition, GLbitfield flags);
 GL_APICALL GLboolean GL_APIENTRY glIsSync (GLsync sync);
-GL_APICALL void GL_APIENTRY glDeleteSync (GLsync sync);
+GL_APICALL శూన్య GL_APIENTRY glDeleteSync (GLsync sync);
 GL_APICALL GLenum GL_APIENTRY glClientWaitSync (GLsync sync, GLbitfield flags, GLuint64 timeout);
-GL_APICALL void GL_APIENTRY glWaitSync (GLsync sync, GLbitfield flags, GLuint64 timeout);
-GL_APICALL void GL_APIENTRY glGetInteger64v (GLenum pname, GLint64 *data);
-GL_APICALL void GL_APIENTRY glGetSynciv (GLsync sync, GLenum pname, GLsizei count, GLsizei *length, GLint *values);
-GL_APICALL void GL_APIENTRY glGetInteger64i_v (GLenum target, GLuint index, GLint64 *data);
-GL_APICALL void GL_APIENTRY glGetBufferParameteri64v (GLenum target, GLenum pname, GLint64 *params);
-GL_APICALL void GL_APIENTRY glGenSamplers (GLsizei count, GLuint *samplers);
-GL_APICALL void GL_APIENTRY glDeleteSamplers (GLsizei count, const GLuint *samplers);
+GL_APICALL శూన్య GL_APIENTRY glWaitSync (GLsync sync, GLbitfield flags, GLuint64 timeout);
+GL_APICALL శూన్య GL_APIENTRY glGetInteger64v (GLenum pname, GLint64 *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY glGetSynciv (GLsync sync, GLenum pname, GLsizei లెక్క, GLsizei *నిడివి, GLint *విలువలు);
+GL_APICALL శూన్య GL_APIENTRY glGetInteger64i_v (GLenum లక్ష్యం, GLuint సూచీ, GLint64 *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_బఫరు_Parameteri64v (GLenum లక్ష్యం, GLenum pname, GLint64 *params);
+GL_APICALL శూన్య GL_APIENTRY glGenSamplers (GLsizei లెక్క, GLuint *samplers);
+GL_APICALL శూన్య GL_APIENTRY glDeleteSamplers (GLsizei లెక్క, స్థిరరాశి GLuint *samplers);
 GL_APICALL GLboolean GL_APIENTRY glIsSampler (GLuint sampler);
-GL_APICALL void GL_APIENTRY glBindSampler (GLuint unit, GLuint sampler);
-GL_APICALL void GL_APIENTRY glSamplerParameteri (GLuint sampler, GLenum pname, GLint param);
-GL_APICALL void GL_APIENTRY glSamplerParameteriv (GLuint sampler, GLenum pname, const GLint *param);
-GL_APICALL void GL_APIENTRY glSamplerParameterf (GLuint sampler, GLenum pname, GLfloat param);
-GL_APICALL void GL_APIENTRY glSamplerParameterfv (GLuint sampler, GLenum pname, const GLfloat *param);
-GL_APICALL void GL_APIENTRY glGetSamplerParameteriv (GLuint sampler, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetSamplerParameterfv (GLuint sampler, GLenum pname, GLfloat *params);
-GL_APICALL void GL_APIENTRY glVertexAttribDivisor (GLuint index, GLuint divisor);
-GL_APICALL void GL_APIENTRY glBindTransformFeedback (GLenum target, GLuint id);
-GL_APICALL void GL_APIENTRY glDeleteTransformFeedbacks (GLsizei n, const GLuint *ids);
-GL_APICALL void GL_APIENTRY glGenTransformFeedbacks (GLsizei n, GLuint *ids);
+GL_APICALL శూన్య GL_APIENTRY glBindSampler (GLuint unit, GLuint sampler);
+GL_APICALL శూన్య GL_APIENTRY glSamplerParameteri (GLuint sampler, GLenum pname, GLint param);
+GL_APICALL శూన్య GL_APIENTRY glSamplerParameteriv (GLuint sampler, GLenum pname, స్థిరరాశి GLint *param);
+GL_APICALL శూన్య GL_APIENTRY glSamplerParameterf (GLuint sampler, GLenum pname, GLfloat param);
+GL_APICALL శూన్య GL_APIENTRY glSamplerParameterfv (GLuint sampler, GLenum pname, స్థిరరాశి GLfloat *param);
+GL_APICALL శూన్య GL_APIENTRY glGetSamplerParameteriv (GLuint sampler, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glGetSamplerParameterfv (GLuint sampler, GLenum pname, GLfloat *params);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_భాజకం (GLuint సూచీ, GLuint భాజకం);
+GL_APICALL శూన్య GL_APIENTRY glBindTransformFeedback (GLenum లక్ష్యం, GLuint id);
+GL_APICALL శూన్య GL_APIENTRY glDeleteTransformFeedbacks (GLsizei n, స్థిరరాశి GLuint *ids);
+GL_APICALL శూన్య GL_APIENTRY glGenTransformFeedbacks (GLsizei n, GLuint *ids);
 GL_APICALL GLboolean GL_APIENTRY glIsTransformFeedback (GLuint id);
-GL_APICALL void GL_APIENTRY glPauseTransformFeedback (void);
-GL_APICALL void GL_APIENTRY glResumeTransformFeedback (void);
-GL_APICALL void GL_APIENTRY glGetProgramBinary (GLuint program, GLsizei bufSize, GLsizei *length, GLenum *binaryFormat, void *binary);
-GL_APICALL void GL_APIENTRY glProgramBinary (GLuint program, GLenum binaryFormat, const void *binary, GLsizei length);
-GL_APICALL void GL_APIENTRY glProgramParameteri (GLuint program, GLenum pname, GLint value);
-GL_APICALL void GL_APIENTRY glInvalidateFramebuffer (GLenum target, GLsizei numAttachments, const GLenum *attachments);
-GL_APICALL void GL_APIENTRY glInvalidateSubFramebuffer (GLenum target, GLsizei numAttachments, const GLenum *attachments, GLint x, GLint y, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glTexStorage2D (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height);
-GL_APICALL void GL_APIENTRY glTexStorage3D (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth);
-GL_APICALL void GL_APIENTRY glGetInternalformativ (GLenum target, GLenum internalformat, GLenum pname, GLsizei count, GLint *params);
-#endif
-#endif /* GL_ES_VERSION_3_0 */
+GL_APICALL శూన్య GL_APIENTRY glPauseTransformFeedback (శూన్య);
+GL_APICALL శూన్య GL_APIENTRY glResumeTransformFeedback (శూన్య);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_కార్యక్రమం_ద్విమాన (GLuint కార్యక్రమం, GLsizei buf_కొలత, GLsizei *నిడివి, GLenum *ద్విమాన_Format, శూన్య *ద్విమాన);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ద్విమాన (GLuint కార్యక్రమం, GLenum ద్విమాన_Format, స్థిరరాశి శూన్య *ద్విమాన, GLsizei నిడివి);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Parameteri (GLuint కార్యక్రమం, GLenum pname, GLint విలువ);
+GL_APICALL శూన్య GL_APIENTRY glInvalidateFramebuffer (GLenum లక్ష్యం, GLsizei అంకె_Attachments, స్థిరరాశి GLenum *attachments);
+GL_APICALL శూన్య GL_APIENTRY glInvalidateSubFramebuffer (GLenum లక్ష్యం, GLsizei అంకె_Attachments, స్థిరరాశి GLenum *attachments, GLint x, GLint y, GLsizei వెడల్పు, GLsizei ఎత్తు);
+GL_APICALL శూన్య GL_APIENTRY glTexStorage2D (GLenum లక్ష్యం, GLsizei స్థాయిలు, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు);
+GL_APICALL శూన్య GL_APIENTRY glTexStorage3D (GLenum లక్ష్యం, GLsizei స్థాయిలు, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLsizei లోతు_2);
+GL_APICALL శూన్య GL_APIENTRY glGetInternalformativ (GLenum లక్ష్యం, GLenum internalformat, GLenum pname, GLsizei లెక్క, GLint *params);
+#అయితే_ముగింపు
+#అయితే_ముగింపు /* GL_ES_VERSION_3_0 */
 
-#ifndef GL_ES_VERSION_3_1
-#define GL_ES_VERSION_3_1 1
-#define GL_COMPUTE_SHADER                 0x91B9
-#define GL_MAX_COMPUTE_UNIFORM_BLOCKS     0x91BB
-#define GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS 0x91BC
-#define GL_MAX_COMPUTE_IMAGE_UNIFORMS     0x91BD
-#define GL_MAX_COMPUTE_SHARED_MEMORY_SIZE 0x8262
-#define GL_MAX_COMPUTE_UNIFORM_COMPONENTS 0x8263
-#define GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS 0x8264
-#define GL_MAX_COMPUTE_ATOMIC_COUNTERS    0x8265
-#define GL_MAX_COMBINED_COMPUTE_UNIFORM_COMPONENTS 0x8266
-#define GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS 0x90EB
-#define GL_MAX_COMPUTE_WORK_GROUP_COUNT   0x91BE
-#define GL_MAX_COMPUTE_WORK_GROUP_SIZE    0x91BF
-#define GL_COMPUTE_WORK_GROUP_SIZE        0x8267
-#define GL_DISPATCH_INDIRECT_BUFFER       0x90EE
-#define GL_DISPATCH_INDIRECT_BUFFER_BINDING 0x90EF
-#define GL_COMPUTE_SHADER_BIT             0x00000020
-#define GL_DRAW_INDIRECT_BUFFER           0x8F3F
-#define GL_DRAW_INDIRECT_BUFFER_BINDING   0x8F43
-#define GL_MAX_UNIFORM_LOCATIONS          0x826E
-#define GL_FRAMEBUFFER_DEFAULT_WIDTH      0x9310
-#define GL_FRAMEBUFFER_DEFAULT_HEIGHT     0x9311
-#define GL_FRAMEBUFFER_DEFAULT_SAMPLES    0x9313
-#define GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS 0x9314
-#define GL_MAX_FRAMEBUFFER_WIDTH          0x9315
-#define GL_MAX_FRAMEBUFFER_HEIGHT         0x9316
-#define GL_MAX_FRAMEBUFFER_SAMPLES        0x9318
-#define GL_UNIFORM                        0x92E1
-#define GL_UNIFORM_BLOCK                  0x92E2
-#define GL_PROGRAM_INPUT                  0x92E3
-#define GL_PROGRAM_OUTPUT                 0x92E4
-#define GL_BUFFER_VARIABLE                0x92E5
-#define GL_SHADER_STORAGE_BLOCK           0x92E6
-#define GL_ATOMIC_COUNTER_BUFFER          0x92C0
-#define GL_TRANSFORM_FEEDBACK_VARYING     0x92F4
-#define GL_ACTIVE_RESOURCES               0x92F5
-#define GL_MAX_NAME_LENGTH                0x92F6
-#define GL_MAX_NUM_ACTIVE_VARIABLES       0x92F7
-#define GL_NAME_LENGTH                    0x92F9
-#define GL_TYPE                           0x92FA
-#define GL_ARRAY_SIZE                     0x92FB
-#define GL_OFFSET                         0x92FC
-#define GL_BLOCK_INDEX                    0x92FD
-#define GL_ARRAY_STRIDE                   0x92FE
-#define GL_MATRIX_STRIDE                  0x92FF
-#define GL_IS_ROW_MAJOR                   0x9300
-#define GL_ATOMIC_COUNTER_BUFFER_INDEX    0x9301
-#define GL_BUFFER_BINDING                 0x9302
-#define GL_BUFFER_DATA_SIZE               0x9303
-#define GL_NUM_ACTIVE_VARIABLES           0x9304
-#define GL_ACTIVE_VARIABLES               0x9305
-#define GL_REFERENCED_BY_VERTEX_SHADER    0x9306
-#define GL_REFERENCED_BY_FRAGMENT_SHADER  0x930A
-#define GL_REFERENCED_BY_COMPUTE_SHADER   0x930B
-#define GL_TOP_LEVEL_ARRAY_SIZE           0x930C
-#define GL_TOP_LEVEL_ARRAY_STRIDE         0x930D
-#define GL_LOCATION                       0x930E
-#define GL_VERTEX_SHADER_BIT              0x00000001
-#define GL_FRAGMENT_SHADER_BIT            0x00000002
-#define GL_ALL_SHADER_BITS                0xFFFFFFFF
-#define GL_PROGRAM_SEPARABLE              0x8258
-#define GL_ACTIVE_PROGRAM                 0x8259
-#define GL_PROGRAM_PIPELINE_BINDING       0x825A
-#define GL_ATOMIC_COUNTER_BUFFER_BINDING  0x92C1
-#define GL_ATOMIC_COUNTER_BUFFER_START    0x92C2
-#define GL_ATOMIC_COUNTER_BUFFER_SIZE     0x92C3
-#define GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS 0x92CC
-#define GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS 0x92D0
-#define GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS 0x92D1
-#define GL_MAX_VERTEX_ATOMIC_COUNTERS     0x92D2
-#define GL_MAX_FRAGMENT_ATOMIC_COUNTERS   0x92D6
-#define GL_MAX_COMBINED_ATOMIC_COUNTERS   0x92D7
-#define GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE 0x92D8
-#define GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS 0x92DC
-#define GL_ACTIVE_ATOMIC_COUNTER_BUFFERS  0x92D9
-#define GL_UNSIGNED_INT_ATOMIC_COUNTER    0x92DB
-#define GL_MAX_IMAGE_UNITS                0x8F38
-#define GL_MAX_VERTEX_IMAGE_UNIFORMS      0x90CA
-#define GL_MAX_FRAGMENT_IMAGE_UNIFORMS    0x90CE
-#define GL_MAX_COMBINED_IMAGE_UNIFORMS    0x90CF
-#define GL_IMAGE_BINDING_NAME             0x8F3A
-#define GL_IMAGE_BINDING_LEVEL            0x8F3B
-#define GL_IMAGE_BINDING_LAYERED          0x8F3C
-#define GL_IMAGE_BINDING_LAYER            0x8F3D
-#define GL_IMAGE_BINDING_ACCESS           0x8F3E
-#define GL_IMAGE_BINDING_FORMAT           0x906E
-#define GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT 0x00000001
-#define GL_ELEMENT_ARRAY_BARRIER_BIT      0x00000002
-#define GL_UNIFORM_BARRIER_BIT            0x00000004
-#define GL_TEXTURE_FETCH_BARRIER_BIT      0x00000008
-#define GL_SHADER_IMAGE_ACCESS_BARRIER_BIT 0x00000020
-#define GL_COMMAND_BARRIER_BIT            0x00000040
-#define GL_PIXEL_BUFFER_BARRIER_BIT       0x00000080
-#define GL_TEXTURE_UPDATE_BARRIER_BIT     0x00000100
-#define GL_BUFFER_UPDATE_BARRIER_BIT      0x00000200
-#define GL_FRAMEBUFFER_BARRIER_BIT        0x00000400
-#define GL_TRANSFORM_FEEDBACK_BARRIER_BIT 0x00000800
-#define GL_ATOMIC_COUNTER_BARRIER_BIT     0x00001000
-#define GL_ALL_BARRIER_BITS               0xFFFFFFFF
-#define GL_IMAGE_2D                       0x904D
-#define GL_IMAGE_3D                       0x904E
-#define GL_IMAGE_CUBE                     0x9050
-#define GL_IMAGE_2D_ARRAY                 0x9053
-#define GL_INT_IMAGE_2D                   0x9058
-#define GL_INT_IMAGE_3D                   0x9059
-#define GL_INT_IMAGE_CUBE                 0x905B
-#define GL_INT_IMAGE_2D_ARRAY             0x905E
-#define GL_UNSIGNED_INT_IMAGE_2D          0x9063
-#define GL_UNSIGNED_INT_IMAGE_3D          0x9064
-#define GL_UNSIGNED_INT_IMAGE_CUBE        0x9066
-#define GL_UNSIGNED_INT_IMAGE_2D_ARRAY    0x9069
-#define GL_IMAGE_FORMAT_COMPATIBILITY_TYPE 0x90C7
-#define GL_IMAGE_FORMAT_COMPATIBILITY_BY_SIZE 0x90C8
-#define GL_IMAGE_FORMAT_COMPATIBILITY_BY_CLASS 0x90C9
-#define GL_READ_ONLY                      0x88B8
-#define GL_WRITE_ONLY                     0x88B9
-#define GL_READ_WRITE                     0x88BA
-#define GL_SHADER_STORAGE_BUFFER          0x90D2
-#define GL_SHADER_STORAGE_BUFFER_BINDING  0x90D3
-#define GL_SHADER_STORAGE_BUFFER_START    0x90D4
-#define GL_SHADER_STORAGE_BUFFER_SIZE     0x90D5
-#define GL_MAX_VERTEX_SHADER_STORAGE_BLOCKS 0x90D6
-#define GL_MAX_FRAGMENT_SHADER_STORAGE_BLOCKS 0x90DA
-#define GL_MAX_COMPUTE_SHADER_STORAGE_BLOCKS 0x90DB
-#define GL_MAX_COMBINED_SHADER_STORAGE_BLOCKS 0x90DC
-#define GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS 0x90DD
-#define GL_MAX_SHADER_STORAGE_BLOCK_SIZE  0x90DE
-#define GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT 0x90DF
-#define GL_SHADER_STORAGE_BARRIER_BIT     0x00002000
-#define GL_MAX_COMBINED_SHADER_OUTPUT_RESOURCES 0x8F39
-#define GL_DEPTH_STENCIL_TEXTURE_MODE     0x90EA
-#define GL_STENCIL_INDEX                  0x1901
-#define GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET 0x8E5E
-#define GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET 0x8E5F
-#define GL_SAMPLE_POSITION                0x8E50
-#define GL_SAMPLE_MASK                    0x8E51
-#define GL_SAMPLE_MASK_VALUE              0x8E52
-#define GL_TEXTURE_2D_MULTISAMPLE         0x9100
-#define GL_MAX_SAMPLE_MASK_WORDS          0x8E59
-#define GL_MAX_COLOR_TEXTURE_SAMPLES      0x910E
-#define GL_MAX_DEPTH_TEXTURE_SAMPLES      0x910F
-#define GL_MAX_INTEGER_SAMPLES            0x9110
-#define GL_TEXTURE_BINDING_2D_MULTISAMPLE 0x9104
-#define GL_TEXTURE_SAMPLES                0x9106
-#define GL_TEXTURE_FIXED_SAMPLE_LOCATIONS 0x9107
-#define GL_TEXTURE_WIDTH                  0x1000
-#define GL_TEXTURE_HEIGHT                 0x1001
-#define GL_TEXTURE_DEPTH                  0x8071
-#define GL_TEXTURE_INTERNAL_FORMAT        0x1003
-#define GL_TEXTURE_RED_SIZE               0x805C
-#define GL_TEXTURE_GREEN_SIZE             0x805D
-#define GL_TEXTURE_BLUE_SIZE              0x805E
-#define GL_TEXTURE_ALPHA_SIZE             0x805F
-#define GL_TEXTURE_DEPTH_SIZE             0x884A
-#define GL_TEXTURE_STENCIL_SIZE           0x88F1
-#define GL_TEXTURE_SHARED_SIZE            0x8C3F
-#define GL_TEXTURE_RED_TYPE               0x8C10
-#define GL_TEXTURE_GREEN_TYPE             0x8C11
-#define GL_TEXTURE_BLUE_TYPE              0x8C12
-#define GL_TEXTURE_ALPHA_TYPE             0x8C13
-#define GL_TEXTURE_DEPTH_TYPE             0x8C16
-#define GL_TEXTURE_COMPRESSED             0x86A1
-#define GL_SAMPLER_2D_MULTISAMPLE         0x9108
-#define GL_INT_SAMPLER_2D_MULTISAMPLE     0x9109
-#define GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE 0x910A
-#define GL_VERTEX_ATTRIB_BINDING          0x82D4
-#define GL_VERTEX_ATTRIB_RELATIVE_OFFSET  0x82D5
-#define GL_VERTEX_BINDING_DIVISOR         0x82D6
-#define GL_VERTEX_BINDING_OFFSET          0x82D7
-#define GL_VERTEX_BINDING_STRIDE          0x82D8
-#define GL_VERTEX_BINDING_BUFFER          0x8F4F
-#define GL_MAX_VERTEX_ATTRIB_RELATIVE_OFFSET 0x82D9
-#define GL_MAX_VERTEX_ATTRIB_BINDINGS     0x82DA
-#define GL_MAX_VERTEX_ATTRIB_STRIDE       0x82E5
-typedef void (GL_APIENTRYP PFNGLDISPATCHCOMPUTEPROC) (GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
-typedef void (GL_APIENTRYP PFNGLDISPATCHCOMPUTEINDIRECTPROC) (GLintptr indirect);
-typedef void (GL_APIENTRYP PFNGLDRAWARRAYSINDIRECTPROC) (GLenum mode, const void *indirect);
-typedef void (GL_APIENTRYP PFNGLDRAWELEMENTSINDIRECTPROC) (GLenum mode, GLenum type, const void *indirect);
-typedef void (GL_APIENTRYP PFNGLFRAMEBUFFERPARAMETERIPROC) (GLenum target, GLenum pname, GLint param);
-typedef void (GL_APIENTRYP PFNGLGETFRAMEBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMINTERFACEIVPROC) (GLuint program, GLenum programInterface, GLenum pname, GLint *params);
-typedef GLuint (GL_APIENTRYP PFNGLGETPROGRAMRESOURCEINDEXPROC) (GLuint program, GLenum programInterface, const GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMRESOURCENAMEPROC) (GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei *length, GLchar *name);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMRESOURCEIVPROC) (GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, const GLenum *props, GLsizei count, GLsizei *length, GLint *params);
-typedef GLint (GL_APIENTRYP PFNGLGETPROGRAMRESOURCELOCATIONPROC) (GLuint program, GLenum programInterface, const GLchar *name);
-typedef void (GL_APIENTRYP PFNGLUSEPROGRAMSTAGESPROC) (GLuint pipeline, GLbitfield stages, GLuint program);
-typedef void (GL_APIENTRYP PFNGLACTIVESHADERPROGRAMPROC) (GLuint pipeline, GLuint program);
-typedef GLuint (GL_APIENTRYP PFNGLCREATESHADERPROGRAMVPROC) (GLenum type, GLsizei count, const GLchar *const*strings);
-typedef void (GL_APIENTRYP PFNGLBINDPROGRAMPIPELINEPROC) (GLuint pipeline);
-typedef void (GL_APIENTRYP PFNGLDELETEPROGRAMPIPELINESPROC) (GLsizei n, const GLuint *pipelines);
-typedef void (GL_APIENTRYP PFNGLGENPROGRAMPIPELINESPROC) (GLsizei n, GLuint *pipelines);
-typedef GLboolean (GL_APIENTRYP PFNGLISPROGRAMPIPELINEPROC) (GLuint pipeline);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMPIPELINEIVPROC) (GLuint pipeline, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1IPROC) (GLuint program, GLint location, GLint v0);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2IPROC) (GLuint program, GLint location, GLint v0, GLint v1);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3IPROC) (GLuint program, GLint location, GLint v0, GLint v1, GLint v2);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4IPROC) (GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1UIPROC) (GLuint program, GLint location, GLuint v0);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2UIPROC) (GLuint program, GLint location, GLuint v0, GLuint v1);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3UIPROC) (GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4UIPROC) (GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1FPROC) (GLuint program, GLint location, GLfloat v0);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2FPROC) (GLuint program, GLint location, GLfloat v0, GLfloat v1);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3FPROC) (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4FPROC) (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4IVPROC) (GLuint program, GLint location, GLsizei count, const GLint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4UIVPROC) (GLuint program, GLint location, GLsizei count, const GLuint *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM1FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM2FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM3FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORM4FVPROC) (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC) (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-typedef void (GL_APIENTRYP PFNGLVALIDATEPROGRAMPIPELINEPROC) (GLuint pipeline);
-typedef void (GL_APIENTRYP PFNGLGETPROGRAMPIPELINEINFOLOGPROC) (GLuint pipeline, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
-typedef void (GL_APIENTRYP PFNGLBINDIMAGETEXTUREPROC) (GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
-typedef void (GL_APIENTRYP PFNGLGETBOOLEANI_VPROC) (GLenum target, GLuint index, GLboolean *data);
-typedef void (GL_APIENTRYP PFNGLMEMORYBARRIERPROC) (GLbitfield barriers);
-typedef void (GL_APIENTRYP PFNGLMEMORYBARRIERBYREGIONPROC) (GLbitfield barriers);
-typedef void (GL_APIENTRYP PFNGLTEXSTORAGE2DMULTISAMPLEPROC) (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
-typedef void (GL_APIENTRYP PFNGLGETMULTISAMPLEFVPROC) (GLenum pname, GLuint index, GLfloat *val);
-typedef void (GL_APIENTRYP PFNGLSAMPLEMASKIPROC) (GLuint maskNumber, GLbitfield mask);
-typedef void (GL_APIENTRYP PFNGLGETTEXLEVELPARAMETERIVPROC) (GLenum target, GLint level, GLenum pname, GLint *params);
-typedef void (GL_APIENTRYP PFNGLGETTEXLEVELPARAMETERFVPROC) (GLenum target, GLint level, GLenum pname, GLfloat *params);
-typedef void (GL_APIENTRYP PFNGLBINDVERTEXBUFFERPROC) (GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBFORMATPROC) (GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBIFORMATPROC) (GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
-typedef void (GL_APIENTRYP PFNGLVERTEXATTRIBBINDINGPROC) (GLuint attribindex, GLuint bindingindex);
-typedef void (GL_APIENTRYP PFNGLVERTEXBINDINGDIVISORPROC) (GLuint bindingindex, GLuint divisor);
-#if GL_GLES_PROTOTYPES
-GL_APICALL void GL_APIENTRY glDispatchCompute (GLuint num_groups_x, GLuint num_groups_y, GLuint num_groups_z);
-GL_APICALL void GL_APIENTRY glDispatchComputeIndirect (GLintptr indirect);
-GL_APICALL void GL_APIENTRY glDrawArraysIndirect (GLenum mode, const void *indirect);
-GL_APICALL void GL_APIENTRY glDrawElementsIndirect (GLenum mode, GLenum type, const void *indirect);
-GL_APICALL void GL_APIENTRY glFramebufferParameteri (GLenum target, GLenum pname, GLint param);
-GL_APICALL void GL_APIENTRY glGetFramebufferParameteriv (GLenum target, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetProgramInterfaceiv (GLuint program, GLenum programInterface, GLenum pname, GLint *params);
-GL_APICALL GLuint GL_APIENTRY glGetProgramResourceIndex (GLuint program, GLenum programInterface, const GLchar *name);
-GL_APICALL void GL_APIENTRY glGetProgramResourceName (GLuint program, GLenum programInterface, GLuint index, GLsizei bufSize, GLsizei *length, GLchar *name);
-GL_APICALL void GL_APIENTRY glGetProgramResourceiv (GLuint program, GLenum programInterface, GLuint index, GLsizei propCount, const GLenum *props, GLsizei count, GLsizei *length, GLint *params);
-GL_APICALL GLint GL_APIENTRY glGetProgramResourceLocation (GLuint program, GLenum programInterface, const GLchar *name);
-GL_APICALL void GL_APIENTRY glUseProgramStages (GLuint pipeline, GLbitfield stages, GLuint program);
-GL_APICALL void GL_APIENTRY glActiveShaderProgram (GLuint pipeline, GLuint program);
-GL_APICALL GLuint GL_APIENTRY glCreateShaderProgramv (GLenum type, GLsizei count, const GLchar *const*strings);
-GL_APICALL void GL_APIENTRY glBindProgramPipeline (GLuint pipeline);
-GL_APICALL void GL_APIENTRY glDeleteProgramPipelines (GLsizei n, const GLuint *pipelines);
-GL_APICALL void GL_APIENTRY glGenProgramPipelines (GLsizei n, GLuint *pipelines);
-GL_APICALL GLboolean GL_APIENTRY glIsProgramPipeline (GLuint pipeline);
-GL_APICALL void GL_APIENTRY glGetProgramPipelineiv (GLuint pipeline, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glProgramUniform1i (GLuint program, GLint location, GLint v0);
-GL_APICALL void GL_APIENTRY glProgramUniform2i (GLuint program, GLint location, GLint v0, GLint v1);
-GL_APICALL void GL_APIENTRY glProgramUniform3i (GLuint program, GLint location, GLint v0, GLint v1, GLint v2);
-GL_APICALL void GL_APIENTRY glProgramUniform4i (GLuint program, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
-GL_APICALL void GL_APIENTRY glProgramUniform1ui (GLuint program, GLint location, GLuint v0);
-GL_APICALL void GL_APIENTRY glProgramUniform2ui (GLuint program, GLint location, GLuint v0, GLuint v1);
-GL_APICALL void GL_APIENTRY glProgramUniform3ui (GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2);
-GL_APICALL void GL_APIENTRY glProgramUniform4ui (GLuint program, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
-GL_APICALL void GL_APIENTRY glProgramUniform1f (GLuint program, GLint location, GLfloat v0);
-GL_APICALL void GL_APIENTRY glProgramUniform2f (GLuint program, GLint location, GLfloat v0, GLfloat v1);
-GL_APICALL void GL_APIENTRY glProgramUniform3f (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
-GL_APICALL void GL_APIENTRY glProgramUniform4f (GLuint program, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
-GL_APICALL void GL_APIENTRY glProgramUniform1iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform2iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform3iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform4iv (GLuint program, GLint location, GLsizei count, const GLint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform1uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform2uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform3uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform4uiv (GLuint program, GLint location, GLsizei count, const GLuint *value);
-GL_APICALL void GL_APIENTRY glProgramUniform1fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniform2fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniform3fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniform4fv (GLuint program, GLint location, GLsizei count, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix2fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix3fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix4fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix2x3fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix3x2fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix2x4fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix4x2fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix3x4fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glProgramUniformMatrix4x3fv (GLuint program, GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
-GL_APICALL void GL_APIENTRY glValidateProgramPipeline (GLuint pipeline);
-GL_APICALL void GL_APIENTRY glGetProgramPipelineInfoLog (GLuint pipeline, GLsizei bufSize, GLsizei *length, GLchar *infoLog);
-GL_APICALL void GL_APIENTRY glBindImageTexture (GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
-GL_APICALL void GL_APIENTRY glGetBooleani_v (GLenum target, GLuint index, GLboolean *data);
-GL_APICALL void GL_APIENTRY glMemoryBarrier (GLbitfield barriers);
-GL_APICALL void GL_APIENTRY glMemoryBarrierByRegion (GLbitfield barriers);
-GL_APICALL void GL_APIENTRY glTexStorage2DMultisample (GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height, GLboolean fixedsamplelocations);
-GL_APICALL void GL_APIENTRY glGetMultisamplefv (GLenum pname, GLuint index, GLfloat *val);
-GL_APICALL void GL_APIENTRY glSampleMaski (GLuint maskNumber, GLbitfield mask);
-GL_APICALL void GL_APIENTRY glGetTexLevelParameteriv (GLenum target, GLint level, GLenum pname, GLint *params);
-GL_APICALL void GL_APIENTRY glGetTexLevelParameterfv (GLenum target, GLint level, GLenum pname, GLfloat *params);
-GL_APICALL void GL_APIENTRY glBindVertexBuffer (GLuint bindingindex, GLuint buffer, GLintptr offset, GLsizei stride);
-GL_APICALL void GL_APIENTRY glVertexAttribFormat (GLuint attribindex, GLint size, GLenum type, GLboolean normalized, GLuint relativeoffset);
-GL_APICALL void GL_APIENTRY glVertexAttribIFormat (GLuint attribindex, GLint size, GLenum type, GLuint relativeoffset);
-GL_APICALL void GL_APIENTRY glVertexAttribBinding (GLuint attribindex, GLuint bindingindex);
-GL_APICALL void GL_APIENTRY glVertexBindingDivisor (GLuint bindingindex, GLuint divisor);
-#endif
-#endif /* GL_ES_VERSION_3_1 */
+#నిర్వచితం_కాకపోతే GL_ES_సంస్కరణ_3_1
+#నిర్వచించు GL_ES_సంస్కరణ_3_1 1
+#నిర్వచించు GL_COMPUTE_SHADER                 0x91B9
+#నిర్వచించు GL_MAX_COMPUTE_ఏకరీతి_ఖండాలు     0x91BB
+#నిర్వచించు GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS 0x91BC
+#నిర్వచించు GL_MAX_COMPUTE_IMAGE_UNIFORMS     0x91BD
+#నిర్వచించు GL_MAX_COMPUTE_SHARED_జ్ఞాపకం_కొలత 0x8262
+#నిర్వచించు GL_MAX_COMPUTE_ఏకరీతి_COMPONENTS 0x8263
+#నిర్వచించు GL_MAX_COMPUTE_ATOMIC_COUNTER_BUFFERS 0x8264
+#నిర్వచించు GL_MAX_COMPUTE_ATOMIC_COUNTERS    0x8265
+#నిర్వచించు GL_MAX_COMBINED_COMPUTE_ఏకరీతి_COMPONENTS 0x8266
+#నిర్వచించు GL_MAX_COMPUTE_WORK_సమూహం_INVOCATIONS 0x90EB
+#నిర్వచించు GL_MAX_COMPUTE_WORK_సమూహం_లెక్క   0x91BE
+#నిర్వచించు GL_MAX_COMPUTE_WORK_సమూహం_కొలత    0x91BF
+#నిర్వచించు GL_COMPUTE_WORK_సమూహం_కొలత        0x8267
+#నిర్వచించు GL_DISPATCH_పరోక్ష_బఫరు       0x90EE
+#నిర్వచించు GL_DISPATCH_పరోక్ష_బఫరు_BINDING 0x90EF
+#నిర్వచించు GL_COMPUTE_SHADER_బిట్టు             0x00000020
+#నిర్వచించు GL_DRAW_పరోక్ష_బఫరు           0x8F3F
+#నిర్వచించు GL_DRAW_పరోక్ష_బఫరు_BINDING   0x8F43
+#నిర్వచించు GL_MAX_ఏకరీతి_LOCATIONS          0x826E
+#నిర్వచించు GL_FRAMEBUFFER_DEFAULT_వెడల్పు      0x9310
+#నిర్వచించు GL_FRAMEBUFFER_DEFAULT_ఎత్తు     0x9311
+#నిర్వచించు GL_FRAMEBUFFER_DEFAULT_SAMPLES    0x9313
+#నిర్వచించు GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS 0x9314
+#నిర్వచించు GL_MAX_FRAMEBUFFER_వెడల్పు          0x9315
+#నిర్వచించు GL_MAX_FRAMEBUFFER_ఎత్తు         0x9316
+#నిర్వచించు GL_MAX_FRAMEBUFFER_SAMPLES        0x9318
+#నిర్వచించు GL_ఏకరీతి                        0x92E1
+#నిర్వచించు GL_ఏకరీతి_ఖండం                  0x92E2
+#నిర్వచించు GL_కార్యక్రమం_ఆదానం                  0x92E3
+#నిర్వచించు GL_కార్యక్రమం_OUTPUT                 0x92E4
+#నిర్వచించు GL_బఫరు_VARIABLE                0x92E5
+#నిర్వచించు GL_SHADER_STORAGE_ఖండం           0x92E6
+#నిర్వచించు GL_ATOMIC_COUNTER_బఫరు          0x92C0
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_VARYING     0x92F4
+#నిర్వచించు GL_చురుకైన_RESOURCES               0x92F5
+#నిర్వచించు GL_MAX_NAME_నిడివి                0x92F6
+#నిర్వచించు GL_MAX_అంకె_చురుకైన_VARIABLES       0x92F7
+#నిర్వచించు GL_NAME_నిడివి                    0x92F9
+#నిర్వచించు GL_TYPE                           0x92FA
+#నిర్వచించు GL_ARRAY_కొలత                     0x92FB
+#నిర్వచించు GL_స్థానభ్రంశం                         0x92FC
+#నిర్వచించు GL_ఖండం_సూచీ                    0x92FD
+#నిర్వచించు GL_ARRAY_STRIDE                   0x92FE
+#నిర్వచించు GL_మాతృక_STRIDE                  0x92FF
+#నిర్వచించు GL_IS_అడ్డువరుస_MAJOR                   0x9300
+#నిర్వచించు GL_ATOMIC_COUNTER_బఫరు_సూచీ    0x9301
+#నిర్వచించు GL_బఫరు_BINDING                 0x9302
+#నిర్వచించు GL_బఫరు_దత్తాంశం_కొలత               0x9303
+#నిర్వచించు GL_అంకె_చురుకైన_VARIABLES           0x9304
+#నిర్వచించు GL_చురుకైన_VARIABLES               0x9305
+#నిర్వచించు GL_REFERENCED_BY_శీర్షం_SHADER    0x9306
+#నిర్వచించు GL_REFERENCED_BY_FRAGMENT_SHADER  0x930A
+#నిర్వచించు GL_REFERENCED_BY_COMPUTE_SHADER   0x930B
+#నిర్వచించు GL_శిఖరం_LEVEL_ARRAY_కొలత           0x930C
+#నిర్వచించు GL_శిఖరం_LEVEL_ARRAY_STRIDE         0x930D
+#నిర్వచించు GL_LOCATION                       0x930E
+#నిర్వచించు GL_శీర్షం_SHADER_బిట్టు              0x00000001
+#నిర్వచించు GL_FRAGMENT_SHADER_బిట్టు            0x00000002
+#నిర్వచించు GL_ALL_SHADER_బిట్లు                0xFFFFFFFF
+#నిర్వచించు GL_కార్యక్రమం_SEPARABLE              0x8258
+#నిర్వచించు GL_చురుకైన_కార్యక్రమం                 0x8259
+#నిర్వచించు GL_కార్యక్రమం_PIPELINE_BINDING       0x825A
+#నిర్వచించు GL_ATOMIC_COUNTER_బఫరు_BINDING  0x92C1
+#నిర్వచించు GL_ATOMIC_COUNTER_బఫరు_ప్రారంభం    0x92C2
+#నిర్వచించు GL_ATOMIC_COUNTER_బఫరు_కొలత     0x92C3
+#నిర్వచించు GL_MAX_శీర్షం_ATOMIC_COUNTER_BUFFERS 0x92CC
+#నిర్వచించు GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS 0x92D0
+#నిర్వచించు GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS 0x92D1
+#నిర్వచించు GL_MAX_శీర్షం_ATOMIC_COUNTERS     0x92D2
+#నిర్వచించు GL_MAX_FRAGMENT_ATOMIC_COUNTERS   0x92D6
+#నిర్వచించు GL_MAX_COMBINED_ATOMIC_COUNTERS   0x92D7
+#నిర్వచించు GL_MAX_ATOMIC_COUNTER_బఫరు_కొలత 0x92D8
+#నిర్వచించు GL_MAX_ATOMIC_COUNTER_బఫరు_BINDINGS 0x92DC
+#నిర్వచించు GL_చురుకైన_ATOMIC_COUNTER_BUFFERS  0x92D9
+#నిర్వచించు GL_UNSIGNED_INT_ATOMIC_COUNTER    0x92DB
+#నిర్వచించు GL_MAX_IMAGE_UNITS                0x8F38
+#నిర్వచించు GL_MAX_శీర్షం_IMAGE_UNIFORMS      0x90CA
+#నిర్వచించు GL_MAX_FRAGMENT_IMAGE_UNIFORMS    0x90CE
+#నిర్వచించు GL_MAX_COMBINED_IMAGE_UNIFORMS    0x90CF
+#నిర్వచించు GL_IMAGE_BINDING_NAME             0x8F3A
+#నిర్వచించు GL_IMAGE_BINDING_LEVEL            0x8F3B
+#నిర్వచించు GL_IMAGE_BINDING_LAYERED          0x8F3C
+#నిర్వచించు GL_IMAGE_BINDING_LAYER            0x8F3D
+#నిర్వచించు GL_IMAGE_BINDING_ACCESS           0x8F3E
+#నిర్వచించు GL_IMAGE_BINDING_FORMAT           0x906E
+#నిర్వచించు GL_శీర్షం_ATTRIB_ARRAY_BARRIER_బిట్టు 0x00000001
+#నిర్వచించు GL_ELEMENT_ARRAY_BARRIER_బిట్టు      0x00000002
+#నిర్వచించు GL_ఏకరీతి_BARRIER_బిట్టు            0x00000004
+#నిర్వచించు GL_TEXTURE_FETCH_BARRIER_బిట్టు      0x00000008
+#నిర్వచించు GL_SHADER_IMAGE_ACCESS_BARRIER_బిట్టు 0x00000020
+#నిర్వచించు GL_COMMAND_BARRIER_బిట్టు            0x00000040
+#నిర్వచించు GL_PIXEL_బఫరు_BARRIER_బిట్టు       0x00000080
+#నిర్వచించు GL_TEXTURE_UPDATE_BARRIER_బిట్టు     0x00000100
+#నిర్వచించు GL_బఫరు_UPDATE_BARRIER_బిట్టు      0x00000200
+#నిర్వచించు GL_FRAMEBUFFER_BARRIER_బిట్టు        0x00000400
+#నిర్వచించు GL_TRANSFORM_FEEDBACK_BARRIER_బిట్టు 0x00000800
+#నిర్వచించు GL_ATOMIC_COUNTER_BARRIER_బిట్టు     0x00001000
+#నిర్వచించు GL_ALL_BARRIER_బిట్లు               0xFFFFFFFF
+#నిర్వచించు GL_IMAGE_2D                       0x904D
+#నిర్వచించు GL_IMAGE_3D                       0x904E
+#నిర్వచించు GL_IMAGE_CUBE                     0x9050
+#నిర్వచించు GL_IMAGE_2D_ARRAY                 0x9053
+#నిర్వచించు GL_INT_IMAGE_2D                   0x9058
+#నిర్వచించు GL_INT_IMAGE_3D                   0x9059
+#నిర్వచించు GL_INT_IMAGE_CUBE                 0x905B
+#నిర్వచించు GL_INT_IMAGE_2D_ARRAY             0x905E
+#నిర్వచించు GL_UNSIGNED_INT_IMAGE_2D          0x9063
+#నిర్వచించు GL_UNSIGNED_INT_IMAGE_3D          0x9064
+#నిర్వచించు GL_UNSIGNED_INT_IMAGE_CUBE        0x9066
+#నిర్వచించు GL_UNSIGNED_INT_IMAGE_2D_ARRAY    0x9069
+#నిర్వచించు GL_IMAGE_FORMAT_COMPATIBILITY_TYPE 0x90C7
+#నిర్వచించు GL_IMAGE_FORMAT_COMPATIBILITY_BY_కొలత 0x90C8
+#నిర్వచించు GL_IMAGE_FORMAT_COMPATIBILITY_BY_CLASS 0x90C9
+#నిర్వచించు GL_READ_ONLY                      0x88B8
+#నిర్వచించు GL_WRITE_ONLY                     0x88B9
+#నిర్వచించు GL_READ_WRITE                     0x88BA
+#నిర్వచించు GL_SHADER_STORAGE_బఫరు          0x90D2
+#నిర్వచించు GL_SHADER_STORAGE_బఫరు_BINDING  0x90D3
+#నిర్వచించు GL_SHADER_STORAGE_బఫరు_ప్రారంభం    0x90D4
+#నిర్వచించు GL_SHADER_STORAGE_బఫరు_కొలత     0x90D5
+#నిర్వచించు GL_MAX_శీర్షం_SHADER_STORAGE_ఖండాలు 0x90D6
+#నిర్వచించు GL_MAX_FRAGMENT_SHADER_STORAGE_ఖండాలు 0x90DA
+#నిర్వచించు GL_MAX_COMPUTE_SHADER_STORAGE_ఖండాలు 0x90DB
+#నిర్వచించు GL_MAX_COMBINED_SHADER_STORAGE_ఖండాలు 0x90DC
+#నిర్వచించు GL_MAX_SHADER_STORAGE_బఫరు_BINDINGS 0x90DD
+#నిర్వచించు GL_MAX_SHADER_STORAGE_ఖండం_కొలత  0x90DE
+#నిర్వచించు GL_SHADER_STORAGE_బఫరు_స్థానభ్రంశం_ALIGNMENT 0x90DF
+#నిర్వచించు GL_SHADER_STORAGE_BARRIER_బిట్టు     0x00002000
+#నిర్వచించు GL_MAX_COMBINED_SHADER_OUTPUT_RESOURCES 0x8F39
+#నిర్వచించు GL_లోతు_STENCIL_TEXTURE_బహుళకం     0x90EA
+#నిర్వచించు GL_STENCIL_సూచీ                  0x1901
+#నిర్వచించు GL_MIN_కార్యక్రమం_TEXTURE_GATHER_స్థానభ్రంశం 0x8E5E
+#నిర్వచించు GL_MAX_కార్యక్రమం_TEXTURE_GATHER_స్థానభ్రంశం 0x8E5F
+#నిర్వచించు GL_SAMPLE_POSITION                0x8E50
+#నిర్వచించు GL_SAMPLE_ముసుగు                    0x8E51
+#నిర్వచించు GL_SAMPLE_ముసుగు_విలువ              0x8E52
+#నిర్వచించు GL_TEXTURE_2D_MULTISAMPLE         0x9100
+#నిర్వచించు GL_MAX_SAMPLE_ముసుగు_పదాలు          0x8E59
+#నిర్వచించు GL_MAX_COLOR_TEXTURE_SAMPLES      0x910E
+#నిర్వచించు GL_MAX_లోతు_TEXTURE_SAMPLES      0x910F
+#నిర్వచించు GL_MAX_INTEGER_SAMPLES            0x9110
+#నిర్వచించు GL_TEXTURE_BINDING_2D_MULTISAMPLE 0x9104
+#నిర్వచించు GL_TEXTURE_SAMPLES                0x9106
+#నిర్వచించు GL_TEXTURE_FIXED_SAMPLE_LOCATIONS 0x9107
+#నిర్వచించు GL_TEXTURE_వెడల్పు                  0x1000
+#నిర్వచించు GL_TEXTURE_ఎత్తు                 0x1001
+#నిర్వచించు GL_TEXTURE_లోతు                  0x8071
+#నిర్వచించు GL_TEXTURE_అంతర్గత_FORMAT        0x1003
+#నిర్వచించు GL_TEXTURE_RED_కొలత               0x805C
+#నిర్వచించు GL_TEXTURE_GREEN_కొలత             0x805D
+#నిర్వచించు GL_TEXTURE_BLUE_కొలత              0x805E
+#నిర్వచించు GL_TEXTURE_ALPHA_కొలత             0x805F
+#నిర్వచించు GL_TEXTURE_లోతు_కొలత             0x884A
+#నిర్వచించు GL_TEXTURE_STENCIL_కొలత           0x88F1
+#నిర్వచించు GL_TEXTURE_SHARED_కొలత            0x8C3F
+#నిర్వచించు GL_TEXTURE_RED_TYPE               0x8C10
+#నిర్వచించు GL_TEXTURE_GREEN_TYPE             0x8C11
+#నిర్వచించు GL_TEXTURE_BLUE_TYPE              0x8C12
+#నిర్వచించు GL_TEXTURE_ALPHA_TYPE             0x8C13
+#నిర్వచించు GL_TEXTURE_లోతు_TYPE             0x8C16
+#నిర్వచించు GL_TEXTURE_COMPRESSED             0x86A1
+#నిర్వచించు GL_SAMPLER_2D_MULTISAMPLE         0x9108
+#నిర్వచించు GL_INT_SAMPLER_2D_MULTISAMPLE     0x9109
+#నిర్వచించు GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE 0x910A
+#నిర్వచించు GL_శీర్షం_ATTRIB_BINDING          0x82D4
+#నిర్వచించు GL_శీర్షం_ATTRIB_RELATIVE_స్థానభ్రంశం  0x82D5
+#నిర్వచించు GL_శీర్షం_BINDING_భాజకం         0x82D6
+#నిర్వచించు GL_శీర్షం_BINDING_స్థానభ్రంశం          0x82D7
+#నిర్వచించు GL_శీర్షం_BINDING_STRIDE          0x82D8
+#నిర్వచించు GL_శీర్షం_BINDING_బఫరు          0x8F4F
+#నిర్వచించు GL_MAX_శీర్షం_ATTRIB_RELATIVE_స్థానభ్రంశం 0x82D9
+#నిర్వచించు GL_MAX_శీర్షం_ATTRIB_BINDINGS     0x82DA
+#నిర్వచించు GL_MAX_శీర్షం_ATTRIB_STRIDE       0x82E5
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDISPATCHCOMPUTEPROC) (GLuint అంకె_groups_x, GLuint అంకె_groups_y, GLuint అంకె_groups_z);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDISPATCHCOMPUTEINDIRECTPROC) (GLintptr పరోక్ష);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWARRAYSINDIRECTPROC) (GLenum బహుళకం, స్థిరరాశి శూన్య *పరోక్ష);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDRAWELEMENTSINDIRECTPROC) (GLenum బహుళకం, GLenum type, స్థిరరాశి శూన్య *పరోక్ష);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLFRAMEBUFFERPARAMETERIPROC) (GLenum లక్ష్యం, GLenum pname, GLint param);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETFRAMEBUFFERPARAMETERIVPROC) (GLenum లక్ష్యం, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMINTERFACEIVPROC) (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, GLenum pname, GLint *params);
+రకనిర్వచనం GLuint (GL_APIENTRYP PFNGLGETPROGRAMRESOURCEINDEXPROC) (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, స్థిరరాశి GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMRESOURCENAMEPROC) (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMRESOURCEIVPROC) (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, GLuint సూచీ, GLsizei prop_లెక్క, స్థిరరాశి GLenum *props, GLsizei లెక్క, GLsizei *నిడివి, GLint *params);
+రకనిర్వచనం GLint (GL_APIENTRYP PFNGLGETPROGRAMRESOURCELOCATIONPROC) (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, స్థిరరాశి GLchar *name);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLUSEPROGRAMSTAGESPROC) (GLuint pipeline, GLbitfield stages, GLuint కార్యక్రమం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLACTIVESHADERPROGRAMPROC) (GLuint pipeline, GLuint కార్యక్రమం);
+రకనిర్వచనం GLuint (GL_APIENTRYP PFNGLCREATESHADERPROGRAMVPROC) (GLenum type, GLsizei లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*అక్షరశ్రేణులు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDPROGRAMPIPELINEPROC) (GLuint pipeline);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLDELETEPROGRAMPIPELINESPROC) (GLsizei n, స్థిరరాశి GLuint *pipelines);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGENPROGRAMPIPELINESPROC) (GLsizei n, GLuint *pipelines);
+రకనిర్వచనం GLboolean (GL_APIENTRYP PFNGLISPROGRAMPIPELINEPROC) (GLuint pipeline);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMPIPELINEIVPROC) (GLuint pipeline, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM1IPROC) (GLuint కార్యక్రమం, GLint location, GLint v0);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM2IPROC) (GLuint కార్యక్రమం, GLint location, GLint v0, GLint v1);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM3IPROC) (GLuint కార్యక్రమం, GLint location, GLint v0, GLint v1, GLint v2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM4IPROC) (GLuint కార్యక్రమం, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM1UIPROC) (GLuint కార్యక్రమం, GLint location, GLuint v0);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM2UIPROC) (GLuint కార్యక్రమం, GLint location, GLuint v0, GLuint v1);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM3UIPROC) (GLuint కార్యక్రమం, GLint location, GLuint v0, GLuint v1, GLuint v2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM4UIPROC) (GLuint కార్యక్రమం, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM1FPROC) (GLuint కార్యక్రమం, GLint location, GLfloat v0);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM2FPROC) (GLuint కార్యక్రమం, GLint location, GLfloat v0, GLfloat v1);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM3FPROC) (GLuint కార్యక్రమం, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM4FPROC) (GLuint కార్యక్రమం, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM1IVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM2IVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM3IVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM4IVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM1UIVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM2UIVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM3UIVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM4UIVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM1FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM2FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM3FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORM4FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC) (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVALIDATEPROGRAMPIPELINEPROC) (GLuint pipeline);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETPROGRAMPIPELINEINFOLOGPROC) (GLuint pipeline, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *infoLog);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDIMAGETEXTUREPROC) (GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETBOOLEANI_VPROC) (GLenum లక్ష్యం, GLuint సూచీ, GLboolean *దత్తాంశం);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLMEMORYBARRIERPROC) (GLbitfield barriers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLMEMORYBARRIERBYREGIONPROC) (GLbitfield barriers);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLTEXSTORAGE2DMULTISAMPLEPROC) (GLenum లక్ష్యం, GLsizei samples, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLboolean fixedsamplelocations);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETMULTISAMPLEFVPROC) (GLenum pname, GLuint సూచీ, GLfloat *val);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLSAMPLEMASKIPROC) (GLuint ముసుగు_సంఖ్య, GLbitfield ముసుగు);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETTEXLEVELPARAMETERIVPROC) (GLenum లక్ష్యం, GLint level, GLenum pname, GLint *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLGETTEXLEVELPARAMETERFVPROC) (GLenum లక్ష్యం, GLint level, GLenum pname, GLfloat *params);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLBINDVERTEXBUFFERPROC) (GLuint bindingindex, GLuint బఫరు_2, GLintptr స్థానభ్రంశం_2, GLsizei stride);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBFORMATPROC) (GLuint attribindex, GLint కొలత, GLenum type, GLboolean normalized, GLuint relativeoffset);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBIFORMATPROC) (GLuint attribindex, GLint కొలత, GLenum type, GLuint relativeoffset);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXATTRIBBINDINGPROC) (GLuint attribindex, GLuint bindingindex);
+రకనిర్వచనం శూన్య (GL_APIENTRYP PFNGLVERTEXBINDINGDIVISORPROC) (GLuint bindingindex, GLuint భాజకం);
+#ఒకవేళ GL_GLES_PROTOTYPES
+GL_APICALL శూన్య GL_APIENTRY glDispatchCompute (GLuint అంకె_groups_x, GLuint అంకె_groups_y, GLuint అంకె_groups_z);
+GL_APICALL శూన్య GL_APIENTRY gl_Dispatch_Compute_పరోక్ష (GLintptr పరోక్ష);
+GL_APICALL శూన్య GL_APIENTRY gl_Draw_Arrays_పరోక్ష (GLenum బహుళకం, స్థిరరాశి శూన్య *పరోక్ష);
+GL_APICALL శూన్య GL_APIENTRY gl_Draw_Elements_పరోక్ష (GLenum బహుళకం, GLenum type, స్థిరరాశి శూన్య *పరోక్ష);
+GL_APICALL శూన్య GL_APIENTRY glFramebufferParameteri (GLenum లక్ష్యం, GLenum pname, GLint param);
+GL_APICALL శూన్య GL_APIENTRY glGetFramebufferParameteriv (GLenum లక్ష్యం, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_కార్యక్రమం_Interfaceiv (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, GLenum pname, GLint *params);
+GL_APICALL GLuint GL_APIENTRY gl_Get_కార్యక్రమం_Resource_సూచీ (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, స్థిరరాశి GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_కార్యక్రమం_Resource_Name (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, GLuint సూచీ, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_కార్యక్రమం_Resourceiv (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, GLuint సూచీ, GLsizei prop_లెక్క, స్థిరరాశి GLenum *props, GLsizei లెక్క, GLsizei *నిడివి, GLint *params);
+GL_APICALL GLint GL_APIENTRY gl_Get_కార్యక్రమం_Resource_Location (GLuint కార్యక్రమం, GLenum కార్యక్రమం_Interface, స్థిరరాశి GLchar *name);
+GL_APICALL శూన్య GL_APIENTRY gl_Use_కార్యక్రమం_Stages (GLuint pipeline, GLbitfield stages, GLuint కార్యక్రమం);
+GL_APICALL శూన్య GL_APIENTRY gl_చురుకైన_Shader_కార్యక్రమం (GLuint pipeline, GLuint కార్యక్రమం);
+GL_APICALL GLuint GL_APIENTRY glCreateShaderProgramv (GLenum type, GLsizei లెక్క, స్థిరరాశి GLchar *స్థిరరాశి*అక్షరశ్రేణులు);
+GL_APICALL శూన్య GL_APIENTRY gl_Bind_కార్యక్రమం_Pipeline (GLuint pipeline);
+GL_APICALL శూన్య GL_APIENTRY gl_Delete_కార్యక్రమం_Pipelines (GLsizei n, స్థిరరాశి GLuint *pipelines);
+GL_APICALL శూన్య GL_APIENTRY gl_Gen_కార్యక్రమం_Pipelines (GLsizei n, GLuint *pipelines);
+GL_APICALL GLboolean GL_APIENTRY gl_Is_కార్యక్రమం_Pipeline (GLuint pipeline);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_కార్యక్రమం_Pipelineiv (GLuint pipeline, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform1i (GLuint కార్యక్రమం, GLint location, GLint v0);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform2i (GLuint కార్యక్రమం, GLint location, GLint v0, GLint v1);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform3i (GLuint కార్యక్రమం, GLint location, GLint v0, GLint v1, GLint v2);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform4i (GLuint కార్యక్రమం, GLint location, GLint v0, GLint v1, GLint v2, GLint v3);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform1ui (GLuint కార్యక్రమం, GLint location, GLuint v0);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform2ui (GLuint కార్యక్రమం, GLint location, GLuint v0, GLuint v1);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform3ui (GLuint కార్యక్రమం, GLint location, GLuint v0, GLuint v1, GLuint v2);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform4ui (GLuint కార్యక్రమం, GLint location, GLuint v0, GLuint v1, GLuint v2, GLuint v3);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform1f (GLuint కార్యక్రమం, GLint location, GLfloat v0);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform2f (GLuint కార్యక్రమం, GLint location, GLfloat v0, GLfloat v1);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform3f (GLuint కార్యక్రమం, GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform4f (GLuint కార్యక్రమం, GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform1iv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform2iv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform3iv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform4iv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform1uiv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform2uiv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform3uiv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform4uiv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLuint *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform1fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform2fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform3fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_Uniform4fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix2fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix3fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix4fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix2x3fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix3x2fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix2x4fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix4x2fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix3x4fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_కార్యక్రమం_ఏకరీతి_Matrix4x3fv (GLuint కార్యక్రమం, GLint location, GLsizei లెక్క, GLboolean transpose, స్థిరరాశి GLfloat *విలువ);
+GL_APICALL శూన్య GL_APIENTRY gl_Validate_కార్యక్రమం_Pipeline (GLuint pipeline);
+GL_APICALL శూన్య GL_APIENTRY gl_Get_కార్యక్రమం_Pipeline_Info_Log (GLuint pipeline, GLsizei buf_కొలత, GLsizei *నిడివి, GLchar *infoLog);
+GL_APICALL శూన్య GL_APIENTRY glBindImageTexture (GLuint unit, GLuint texture, GLint level, GLboolean layered, GLint layer, GLenum access, GLenum format);
+GL_APICALL శూన్య GL_APIENTRY glGetBooleani_v (GLenum లక్ష్యం, GLuint సూచీ, GLboolean *దత్తాంశం);
+GL_APICALL శూన్య GL_APIENTRY gl_జ్ఞాపకం_Barrier (GLbitfield barriers);
+GL_APICALL శూన్య GL_APIENTRY gl_జ్ఞాపకం_Barrier_By_Region (GLbitfield barriers);
+GL_APICALL శూన్య GL_APIENTRY glTexStorage2DMultisample (GLenum లక్ష్యం, GLsizei samples, GLenum internalformat, GLsizei వెడల్పు, GLsizei ఎత్తు, GLboolean fixedsamplelocations);
+GL_APICALL శూన్య GL_APIENTRY glGetMultisamplefv (GLenum pname, GLuint సూచీ, GLfloat *val);
+GL_APICALL శూన్య GL_APIENTRY glSampleMaski (GLuint ముసుగు_సంఖ్య, GLbitfield ముసుగు);
+GL_APICALL శూన్య GL_APIENTRY glGetTexLevelParameteriv (GLenum లక్ష్యం, GLint level, GLenum pname, GLint *params);
+GL_APICALL శూన్య GL_APIENTRY glGetTexLevelParameterfv (GLenum లక్ష్యం, GLint level, GLenum pname, GLfloat *params);
+GL_APICALL శూన్య GL_APIENTRY gl_Bind_శీర్షం_బఫరు (GLuint bindingindex, GLuint బఫరు_2, GLintptr స్థానభ్రంశం_2, GLsizei stride);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_Format (GLuint attribindex, GLint కొలత, GLenum type, GLboolean normalized, GLuint relativeoffset);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_IFormat (GLuint attribindex, GLint కొలత, GLenum type, GLuint relativeoffset);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Attrib_Binding (GLuint attribindex, GLuint bindingindex);
+GL_APICALL శూన్య GL_APIENTRY gl_శీర్షం_Binding_భాజకం (GLuint bindingindex, GLuint భాజకం);
+#అయితే_ముగింపు
+#అయితే_ముగింపు /* GL_ES_VERSION_3_1 */
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif
+#అయితే_ముగింపు

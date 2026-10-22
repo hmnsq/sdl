@@ -18,176 +18,176 @@
  *     misrepresented as being the original software.
  *  3. This notice may not be removed or altered from any source distribution.
  */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS)
-#include "../core/windows/SDL_windows.h"
-#endif
-#ifdef SDL_VIDEO_DRIVER_ANDROID
-#include <android/native_window.h>
-#include "../video/android/SDL_androidvideo.h"
-#endif
-#ifdef SDL_VIDEO_DRIVER_QNX
-#include <screen/screen.h>
-#include "../video/qnx/SDL_qnx.h"
-#endif
-#ifdef SDL_VIDEO_DRIVER_RPI
-#include <unistd.h>
-#endif
-#ifdef SDL_VIDEO_VITA_PVR_OGL
-#include <GLES2/gl2.h>
-#endif
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_WINDOWS)
+#అన్తర్భావ "../core/windows/SDL_windows.h"
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
+#అన్తర్భావ <android/native_window.h>
+#అన్తర్భావ "../video/android/SDL_androidvideo.h"
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_QNX
+#అన్తర్భావ <screen/screen.h>
+#అన్తర్భావ "../video/qnx/SDL_qnx.h"
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RPI
+#అన్తర్భావ <unistd.h>
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR_OGL
+#అన్తర్భావ <GLES2/gl2.h>
+#అయితే_ముగింపు
 
-#include "SDL_sysvideo.h"
-#include "SDL_egl_c.h"
-#include "../SDL_hints_c.h"
+#అన్తర్భావ "SDL_sysvideo.h"
+#అన్తర్భావ "SDL_egl_c.h"
+#అన్తర్భావ "../SDL_hints_c.h"
 
-#ifdef EGL_KHR_create_context
+#నిర్వచితమైతే EGL_KHR_create_context
 // EGL_OPENGL_ES3_BIT_KHR was added in version 13 of the extension.
-#ifndef EGL_OPENGL_ES3_BIT_KHR
-#define EGL_OPENGL_ES3_BIT_KHR 0x00000040
-#endif
-#endif // EGL_KHR_create_context
+#నిర్వచితం_కాకపోతే EGL_OPENGL_ES3_బిట్టు_KHR
+#నిర్వచించు EGL_OPENGL_ES3_బిట్టు_KHR 0x00000040
+#అయితే_ముగింపు
+#అయితే_ముగింపు // EGL_KHR_create_context
 
-#ifndef EGL_EXT_pixel_format_float
-#define EGL_EXT_pixel_format_float
-#define EGL_COLOR_COMPONENT_TYPE_EXT       0x3339
-#define EGL_COLOR_COMPONENT_TYPE_FIXED_EXT 0x333A
-#define EGL_COLOR_COMPONENT_TYPE_FLOAT_EXT 0x333B
-#endif // EGL_EXT_pixel_format_float
+#నిర్వచితం_కాకపోతే EGL_EXT_pixel_format_float
+#నిర్వచించు EGL_EXT_pixel_format_float
+#నిర్వచించు EGL_COLOR_COMPONENT_TYPE_EXT       0x3339
+#నిర్వచించు EGL_COLOR_COMPONENT_TYPE_FIXED_EXT 0x333A
+#నిర్వచించు EGL_COLOR_COMPONENT_TYPE_FLOAT_EXT 0x333B
+#అయితే_ముగింపు // EGL_EXT_pixel_format_float
 
-#ifndef EGL_EXT_platform_device
-#define EGL_EXT_platform_device 1
-#define EGL_PLATFORM_DEVICE_EXT 0x313F
-#endif // EGL_EXT_platform_device
+#నిర్వచితం_కాకపోతే EGL_EXT_platform_device
+#నిర్వచించు EGL_EXT_platform_device 1
+#నిర్వచించు EGL_PLATFORM_DEVICE_EXT 0x313F
+#అయితే_ముగింపు // EGL_EXT_platform_device
 
-#ifndef EGL_EXT_present_opaque
-#define EGL_EXT_present_opaque 1
-#define EGL_PRESENT_OPAQUE_EXT 0x31DF
-#endif // EGL_EXT_present_opaque
+#నిర్వచితం_కాకపోతే EGL_EXT_present_opaque
+#నిర్వచించు EGL_EXT_present_opaque 1
+#నిర్వచించు EGL_PRESENT_OPAQUE_EXT 0x31DF
+#అయితే_ముగింపు // EGL_EXT_present_opaque
 
-#ifdef SDL_VIDEO_DRIVER_RPI
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RPI
 // Raspbian places the OpenGL ES/EGL binaries in a non standard path
-#define DEFAULT_EGL        (vc4 ? "libEGL.so.1" : "libbrcmEGL.so")
-#define ALT_EGL            "libEGL.so"
-#define DEFAULT_OGL_ES2    (vc4 ? "libGLESv2.so.2" : "libbrcmGLESv2.so")
-#define ALT_OGL_ES2        "libGLESv2.so"
+#నిర్వచించు DEFAULT_EGL        (vc4 ? "libEGL.so.1" : "libbrcmEGL.so")
+#నిర్వచించు ALT_EGL            "libEGL.so"
+#నిర్వచించు DEFAULT_OGL_ES2    (vc4 ? "libGLESv2.so.2" : "libbrcmGLESv2.so")
+#నిర్వచించు ALT_OGL_ES2        "libGLESv2.so"
 // The GLESv2 library also contains GLESv1 exports when using the dispmanx implementation
-#define DEFAULT_OGL_ES_PVR (vc4 ? "libGLES_CM.so.1" : "libbrcmGLESv2.so")
-#define DEFAULT_OGL_ES     (vc4 ? "libGLESv1_CM.so.1" : "libbrcmGLESv2.so")
-#define ALT_OGL_ES         "libGLESv2.so"
+#నిర్వచించు DEFAULT_OGL_ES_PVR (vc4 ? "libGLES_CM.so.1" : "libbrcmGLESv2.so")
+#నిర్వచించు DEFAULT_OGL_ES     (vc4 ? "libGLESv1_CM.so.1" : "libbrcmGLESv2.so")
+#నిర్వచించు ALT_OGL_ES         "libGLESv2.so"
 
-#elif defined(SDL_VIDEO_DRIVER_ANDROID) || defined(SDL_VIDEO_DRIVER_VIVANTE)
+#లేదావేళ defined(SDL_VIDEO_DRIVER_ANDROID) || defined(SDL_VIDEO_DRIVER_VIVANTE)
 // Android
-#define DEFAULT_EGL        "libEGL.so"
-#define DEFAULT_OGL_ES2    "libGLESv2.so"
-#define DEFAULT_OGL_ES_PVR "libGLES_CM.so"
-#define DEFAULT_OGL_ES     "libGLESv1_CM.so"
+#నిర్వచించు DEFAULT_EGL        "libEGL.so"
+#నిర్వచించు DEFAULT_OGL_ES2    "libGLESv2.so"
+#నిర్వచించు DEFAULT_OGL_ES_PVR "libGLES_CM.so"
+#నిర్వచించు DEFAULT_OGL_ES     "libGLESv1_CM.so"
 
-#elif defined(SDL_VIDEO_DRIVER_OPENHARMONY)
-#define DEFAULT_EGL        "libEGL.so"
-#define DEFAULT_OGL_ES2    "libGLESv3.so"
+#లేదావేళ defined(SDL_VIDEO_DRIVER_OPENHARMONY)
+#నిర్వచించు DEFAULT_EGL        "libEGL.so"
+#నిర్వచించు DEFAULT_OGL_ES2    "libGLESv3.so"
 
-#elif defined(SDL_VIDEO_DRIVER_WINDOWS)
+#లేదావేళ defined(SDL_VIDEO_DRIVER_WINDOWS)
 // EGL AND OpenGL ES support via ANGLE
-#define DEFAULT_EGL        "libEGL.dll"
-#define DEFAULT_OGL        "opengl32.dll"
-#define DEFAULT_OGL_ES2    "libGLESv2.dll"
-#define DEFAULT_OGL_ES_PVR "libGLES_CM.dll"
-#define DEFAULT_OGL_ES     "libGLESv1_CM.dll"
+#నిర్వచించు DEFAULT_EGL        "libEGL.dll"
+#నిర్వచించు DEFAULT_OGL        "opengl32.dll"
+#నిర్వచించు DEFAULT_OGL_ES2    "libGLESv2.dll"
+#నిర్వచించు DEFAULT_OGL_ES_PVR "libGLES_CM.dll"
+#నిర్వచించు DEFAULT_OGL_ES     "libGLESv1_CM.dll"
 
-#elif defined(SDL_VIDEO_DRIVER_COCOA)
+#లేదావేళ defined(SDL_VIDEO_DRIVER_COCOA)
 // EGL AND OpenGL ES support via ANGLE
-#define DEFAULT_EGL        "libEGL.dylib"
-#define DEFAULT_OGL_ES2    "libGLESv2.dylib"
-#define DEFAULT_OGL_ES_PVR "libGLES_CM.dylib"   //???
-#define DEFAULT_OGL_ES     "libGLESv1_CM.dylib" //???
+#నిర్వచించు DEFAULT_EGL        "libEGL.dylib"
+#నిర్వచించు DEFAULT_OGL_ES2    "libGLESv2.dylib"
+#నిర్వచించు DEFAULT_OGL_ES_PVR "libGLES_CM.dylib"   //???
+#నిర్వచించు DEFAULT_OGL_ES     "libGLESv1_CM.dylib" //???
 
-#elif defined(SDL_PLATFORM_OPENBSD)
+#లేదావేళ defined(SDL_PLATFORM_OPENBSD)
 // OpenBSD
-#define DEFAULT_OGL        "libGL.so"
-#define DEFAULT_EGL        "libEGL.so"
-#define DEFAULT_OGL_ES2    "libGLESv2.so"
-#define DEFAULT_OGL_ES_PVR "libGLES_CM.so"
-#define DEFAULT_OGL_ES     "libGLESv1_CM.so"
+#నిర్వచించు DEFAULT_OGL        "libGL.so"
+#నిర్వచించు DEFAULT_EGL        "libEGL.so"
+#నిర్వచించు DEFAULT_OGL_ES2    "libGLESv2.so"
+#నిర్వచించు DEFAULT_OGL_ES_PVR "libGLES_CM.so"
+#నిర్వచించు DEFAULT_OGL_ES     "libGLESv1_CM.so"
 
-#elif defined(SDL_VIDEO_DRIVER_QNX)
+#లేదావేళ defined(SDL_VIDEO_DRIVER_QNX)
 // QNX
-#define DEFAULT_EGL        "libEGL.so.1"
-#define DEFAULT_OGL_ES2    "libGLESv2.so.1"
+#నిర్వచించు DEFAULT_EGL        "libEGL.so.1"
+#నిర్వచించు DEFAULT_OGL_ES2    "libGLESv2.so.1"
 
-#else
+#లేకపోతే
 // Desktop Linux/Unix-like
-#define DEFAULT_OGL        "libGL.so.1"
-#define DEFAULT_EGL        "libEGL.so.1"
-#define ALT_OGL            "libOpenGL.so.0"
-#define DEFAULT_OGL_ES2    "libGLESv2.so.2"
-#define DEFAULT_OGL_ES_PVR "libGLES_CM.so.1"
-#define DEFAULT_OGL_ES     "libGLESv1_CM.so.1"
+#నిర్వచించు DEFAULT_OGL        "libGL.so.1"
+#నిర్వచించు DEFAULT_EGL        "libEGL.so.1"
+#నిర్వచించు ALT_OGL            "libOpenGL.so.0"
+#నిర్వచించు DEFAULT_OGL_ES2    "libGLESv2.so.2"
+#నిర్వచించు DEFAULT_OGL_ES_PVR "libGLES_CM.so.1"
+#నిర్వచించు DEFAULT_OGL_ES     "libGLESv1_CM.so.1"
 
 SDL_ELF_NOTE_DLOPEN(
     "egl-opengl",
     "Support for OpenGL",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     DEFAULT_OGL, ALT_OGL
 )
 SDL_ELF_NOTE_DLOPEN(
     "egl-egl",
     "Support for EGL",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     DEFAULT_EGL
 )
 SDL_ELF_NOTE_DLOPEN(
     "egl-es2",
     "Support for EGL ES2",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     DEFAULT_OGL_ES2
 )
 SDL_ELF_NOTE_DLOPEN(
     "egl-es-pvr",
     "Support for EGL ES PVR",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     DEFAULT_OGL_ES_PVR
 )
 SDL_ELF_NOTE_DLOPEN(
     "egl-ogl-es",
     "Support for OpenGL ES",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ప్రాధాన్యత_SUGGESTED,
     DEFAULT_OGL_ES
 )
-#endif // SDL_VIDEO_DRIVER_RPI
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_RPI
 
-#if defined(SDL_VIDEO_OPENGL) && !defined(SDL_VIDEO_VITA_PVR_OGL)
-#include <SDL3/SDL_opengl.h>
-#endif
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) && !defined(SDL_VIDEO_VITA_PVR_OGL)
+#అన్తర్భావ <SDL3/SDL_opengl.h>
+#అయితే_ముగింపు
 
-#ifdef SDL_VIDEO_OPENGL
-typedef void (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint * params);
-#endif
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+రకనిర్వచనం శూన్య (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint * params);
+#అయితే_ముగింపు
 
-#if defined(SDL_VIDEO_STATIC_ANGLE) || defined(SDL_VIDEO_DRIVER_VITA)
-#define LOAD_FUNC(TYPE, NAME) \
-    _this->egl_data->NAME = NAME;
-#else
-#define LOAD_FUNC(TYPE, NAME)                                                               \
-    _this->egl_data->NAME = (TYPE)SDL_LoadFunction(_this->egl_data->egl_dll_handle, #NAME); \
-    if (!_this->egl_data->NAME) {                                                     \
-        return SDL_SetError("Could not retrieve EGL function " #NAME);                \
+#ఒకవేళ defined(SDL_VIDEO_STATIC_ANGLE) || defined(SDL_VIDEO_DRIVER_VITA)
+#నిర్వచించు ఎక్కించు_FUNC(TYPE, NAME) \
+    _this->egl_దత్తాంశం->NAME = NAME;
+#లేకపోతే
+#నిర్వచించు ఎక్కించు_FUNC(TYPE, NAME)                                                               \
+    _this->egl_దత్తాంశం->NAME = (TYPE)SDL_ఎక్కించు_Function(_this->egl_దత్తాంశం->egl_dll_handle, #NAME); \
+    ఒకవేళ (!_this->egl_దత్తాంశం->NAME) {                                                     \
+        తిరిగి SDL_సమితి_Error("Could not retrieve EGL function " #NAME);                \
     }
-#endif
+#అయితే_ముగింపు
 
 // it is allowed to not have some of the EGL extensions on start - attempts to use them will fail later.
-#define LOAD_FUNC_EGLEXT(TYPE, NAME) \
-    _this->egl_data->NAME = (TYPE)_this->egl_data->eglGetProcAddress(#NAME);
+#నిర్వచించు ఎక్కించు_FUNC_EGLEXT(TYPE, NAME) \
+    _this->egl_దత్తాంశం->NAME = (TYPE)_this->egl_దత్తాంశం->egl_Get_Proc_చిరునామా(#NAME);
 
-static const char *SDL_EGL_GetErrorName(EGLint eglErrorCode)
+స్థిర స్థిరరాశి అక్షరం *SDL_EGL_GetErrorName(EGLint egl_Error_సంకేతం)
 {
-#define SDL_EGL_ERROR_TRANSLATE(e) \
-    case e:                        \
-        return #e
-    switch (eglErrorCode) {
+#నిర్వచించు SDL_EGL_ERROR_TRANSLATE(e) \
+    స్థితి e:                        \
+        తిరిగి #e
+    ఎంపిక (egl_Error_సంకేతం) {
         SDL_EGL_ERROR_TRANSLATE(EGL_SUCCESS);
         SDL_EGL_ERROR_TRANSLATE(EGL_NOT_INITIALIZED);
         SDL_EGL_ERROR_TRANSLATE(EGL_BAD_ACCESS);
@@ -198,40 +198,40 @@ static const char *SDL_EGL_GetErrorName(EGLint eglErrorCode)
         SDL_EGL_ERROR_TRANSLATE(EGL_BAD_CURRENT_SURFACE);
         SDL_EGL_ERROR_TRANSLATE(EGL_BAD_DISPLAY);
         SDL_EGL_ERROR_TRANSLATE(EGL_BAD_SURFACE);
-        SDL_EGL_ERROR_TRANSLATE(EGL_BAD_MATCH);
+        SDL_EGL_ERROR_TRANSLATE(EGL_BAD_సరిపోలిక);
         SDL_EGL_ERROR_TRANSLATE(EGL_BAD_PARAMETER);
         SDL_EGL_ERROR_TRANSLATE(EGL_BAD_NATIVE_PIXMAP);
-        SDL_EGL_ERROR_TRANSLATE(EGL_BAD_NATIVE_WINDOW);
-        SDL_EGL_ERROR_TRANSLATE(EGL_CONTEXT_LOST);
+        SDL_EGL_ERROR_TRANSLATE(EGL_BAD_NATIVE_కిటికీ);
+        SDL_EGL_ERROR_TRANSLATE(EGL_CONTEXT_కోల్పోయిన);
     }
-    return "";
+    తిరిగి "";
 }
 
-bool SDL_EGL_SetErrorEx(const char *message, const char *eglFunctionName, EGLint eglErrorCode)
+bool SDL_EGL_సమితి_Error_Ex(స్థిరరాశి అక్షరం *సందేశం, స్థిరరాశి అక్షరం *eglFunctionName, EGLint egl_Error_సంకేతం)
 {
-    const char *errorText = SDL_EGL_GetErrorName(eglErrorCode);
-    char altErrorText[32];
-    if (errorText[0] == '\0') {
+    స్థిరరాశి అక్షరం *error_పాఠ్యం = SDL_EGL_GetErrorName(egl_Error_సంకేతం);
+    అక్షరం alt_Error_పాఠ్యం[32];
+    ఒకవేళ (error_పాఠ్యం[0] == '\0') {
         // An unknown-to-SDL error code was reported.  Report its hexadecimal value, instead of its name.
-        (void)SDL_snprintf(altErrorText, SDL_arraysize(altErrorText), "0x%x", (unsigned int)eglErrorCode);
-        errorText = altErrorText;
+        (శూన్య)SDL_snprintf(alt_Error_పాఠ్యం, SDL_arraysize(alt_Error_పాఠ్యం), "0x%x", (గుర్తులేని పూర్ణాంకం)egl_Error_సంకేతం);
+        error_పాఠ్యం = alt_Error_పాఠ్యం;
     }
-    return SDL_SetError("%s (call to %s failed, reporting an error of %s)", message, eglFunctionName, errorText);
+    తిరిగి SDL_సమితి_Error("%s (call to %s failed, reporting an error of %s)", సందేశం, eglFunctionName, error_పాఠ్యం);
 }
 
 // EGL implementation of SDL OpenGL ES support
 
-bool SDL_EGL_HasExtension(SDL_VideoDevice *_this, SDL_EGL_ExtensionType type, const char *ext)
+bool SDL_EGL_HasExtension(SDL_VideoDevice *_this, SDL_EGL_ExtensionType type, స్థిరరాశి అక్షరం *ext)
 {
     size_t ext_len;
-    const char *ext_override;
-    const char *egl_extstr;
-    const char *ext_start;
+    స్థిరరాశి అక్షరం *ext_override;
+    స్థిరరాశి అక్షరం *egl_extstr;
+    స్థిరరాశి అక్షరం *ext_ప్రారంభం;
 
     // Invalid extensions can be rejected early
-    if (!ext || *ext == 0 || SDL_strchr(ext, ' ') != NULL) {
+    ఒకవేళ (!ext || *ext == 0 || SDL_strchr(ext, ' ') != ఖాళీ) {
         // SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "SDL_EGL_HasExtension: Invalid EGL extension");
-        return false;
+        తిరిగి false;
     }
 
     /* Extensions can be masked with a hint or environment variable.
@@ -242,391 +242,391 @@ bool SDL_EGL_HasExtension(SDL_VideoDevice *_this, SDL_EGL_ExtensionType type, co
      *  1     If set, the client extension is masked and not present to SDL.
      */
     ext_override = SDL_GetHint(ext);
-    if (ext_override) {
-        int disable_ext = SDL_atoi(ext_override);
-        if (disable_ext & 0x01 && type == SDL_EGL_DISPLAY_EXTENSION) {
-            return false;
-        } else if (disable_ext & 0x02 && type == SDL_EGL_CLIENT_EXTENSION) {
-            return false;
+    ఒకవేళ (ext_override) {
+        పూర్ణాంకం disable_ext = SDL_atoi(ext_override);
+        ఒకవేళ (disable_ext & 0x01 && type == SDL_EGL_DISPLAY_EXTENSION) {
+            తిరిగి false;
+        } లేకపోతే ఒకవేళ (disable_ext & 0x02 && type == SDL_EGL_CLIENT_EXTENSION) {
+            తిరిగి false;
         }
     }
 
     ext_len = SDL_strlen(ext);
-    switch (type) {
-    case SDL_EGL_DISPLAY_EXTENSION:
-        egl_extstr = _this->egl_data->eglQueryString(_this->egl_data->egl_display, EGL_EXTENSIONS);
-        break;
-    case SDL_EGL_CLIENT_EXTENSION:
+    ఎంపిక (type) {
+    స్థితి SDL_EGL_DISPLAY_EXTENSION:
+        egl_extstr = _this->egl_దత్తాంశం->eglQueryString(_this->egl_దత్తాంశం->egl_display, EGL_EXTENSIONS);
+        ఆపు;
+    స్థితి SDL_EGL_CLIENT_EXTENSION:
         /* EGL_EXT_client_extensions modifies eglQueryString to return client extensions
          * if EGL_NO_DISPLAY is passed. Implementations without it are required to return NULL.
          * This behavior is included in EGL 1.5.
          */
-        egl_extstr = _this->egl_data->eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
-        break;
-    default:
+        egl_extstr = _this->egl_దత్తాంశం->eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
+        ఆపు;
+    అప్రమేయ:
         // SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "SDL_EGL_HasExtension: Invalid extension type");
-        return false;
+        తిరిగి false;
     }
 
-    if (egl_extstr) {
-        ext_start = egl_extstr;
+    ఒకవేళ (egl_extstr) {
+        ext_ప్రారంభం = egl_extstr;
 
-        while (*ext_start) {
-            ext_start = SDL_strstr(ext_start, ext);
-            if (!ext_start) {
-                return false;
+        అయితే (*ext_ప్రారంభం) {
+            ext_ప్రారంభం = SDL_strstr(ext_ప్రారంభం, ext);
+            ఒకవేళ (!ext_ప్రారంభం) {
+                తిరిగి false;
             }
             // Check if the match is not just a substring of one of the extensions
-            if (ext_start == egl_extstr || *(ext_start - 1) == ' ') {
-                if (ext_start[ext_len] == ' ' || ext_start[ext_len] == 0) {
-                    return true;
+            ఒకవేళ (ext_ప్రారంభం == egl_extstr || *(ext_ప్రారంభం - 1) == ' ') {
+                ఒకవేళ (ext_ప్రారంభం[ext_len] == ' ' || ext_ప్రారంభం[ext_len] == 0) {
+                    తిరిగి true;
                 }
             }
             // If the search stopped in the middle of an extension, skip to the end of it
-            ext_start += ext_len;
-            while (*ext_start != ' ' && *ext_start != 0) {
-                ext_start++;
+            ext_ప్రారంభం += ext_len;
+            అయితే (*ext_ప్రారంభం != ' ' && *ext_ప్రారంభం != 0) {
+                ext_ప్రారంభం++;
             }
         }
     }
 
-    return false;
+    తిరిగి false;
 }
 
-SDL_FunctionPointer SDL_EGL_GetProcAddressInternal(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_సూచిక SDL_EGL_Get_Proc_చిరునామా_అంతర్గత(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc)
 {
-    SDL_FunctionPointer result = NULL;
-    if (_this->egl_data) {
-        const Uint32 eglver = (((Uint32)_this->egl_data->egl_version_major) << 16) | ((Uint32)_this->egl_data->egl_version_minor);
-        const bool is_egl_15_or_later = eglver >= ((((Uint32)1) << 16) | 5);
+    SDL_Function_సూచిక ఫలితం = ఖాళీ;
+    ఒకవేళ (_this->egl_దత్తాంశం) {
+        స్థిరరాశి Uint32 eglver = (((Uint32)_this->egl_దత్తాంశం->egl_సంస్కరణ_major) << 16) | ((Uint32)_this->egl_దత్తాంశం->egl_సంస్కరణ_minor);
+        స్థిరరాశి bool is_egl_15_or_later = eglver >= ((((Uint32)1) << 16) | 5);
 
         // EGL 1.5 can use eglGetProcAddress() for any symbol. 1.4 and earlier can't use it for core entry points.
-        if (!result && is_egl_15_or_later && _this->egl_data->eglGetProcAddress) {
-            result = _this->egl_data->eglGetProcAddress(proc);
+        ఒకవేళ (!ఫలితం && is_egl_15_or_later && _this->egl_దత్తాంశం->egl_Get_Proc_చిరునామా) {
+            ఫలితం = _this->egl_దత్తాంశం->egl_Get_Proc_చిరునామా(proc);
         }
 
-#if !defined(SDL_VIDEO_DRIVER_VITA)
+#ఒకవేళ !defined(SDL_VIDEO_DRIVER_VITA)
         // Try SDL_LoadFunction() first for EGL <= 1.4, or as a fallback for >= 1.5.
-        if (!result) {
-            result = SDL_LoadFunction(_this->egl_data->opengl_dll_handle, proc);
+        ఒకవేళ (!ఫలితం) {
+            ఫలితం = SDL_ఎక్కించు_Function(_this->egl_దత్తాంశం->opengl_dll_handle, proc);
         }
-#endif
+#అయితే_ముగింపు
 
         // Try eglGetProcAddress if we're on <= 1.4 and still searching...
-        if (!result && !is_egl_15_or_later && _this->egl_data->eglGetProcAddress) {
-            result = _this->egl_data->eglGetProcAddress(proc);
+        ఒకవేళ (!ఫలితం && !is_egl_15_or_later && _this->egl_దత్తాంశం->egl_Get_Proc_చిరునామా) {
+            ఫలితం = _this->egl_దత్తాంశం->egl_Get_Proc_చిరునామా(proc);
         }
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-void SDL_EGL_UnloadLibrary(SDL_VideoDevice *_this)
+శూన్య SDL_EGL_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->egl_data) {
-        if (_this->egl_data->egl_display) {
-            _this->egl_data->eglTerminate(_this->egl_data->egl_display);
-            _this->egl_data->egl_display = NULL;
+    ఒకవేళ (_this->egl_దత్తాంశం) {
+        ఒకవేళ (_this->egl_దత్తాంశం->egl_display) {
+            _this->egl_దత్తాంశం->eglTerminate(_this->egl_దత్తాంశం->egl_display);
+            _this->egl_దత్తాంశం->egl_display = ఖాళీ;
         }
 
-        if (_this->egl_data->egl_dll_handle) {
-            SDL_UnloadObject(_this->egl_data->egl_dll_handle);
-            _this->egl_data->egl_dll_handle = NULL;
+        ఒకవేళ (_this->egl_దత్తాంశం->egl_dll_handle) {
+            SDL_UnloadObject(_this->egl_దత్తాంశం->egl_dll_handle);
+            _this->egl_దత్తాంశం->egl_dll_handle = ఖాళీ;
         }
-        if (_this->egl_data->opengl_dll_handle) {
-            SDL_UnloadObject(_this->egl_data->opengl_dll_handle);
-            _this->egl_data->opengl_dll_handle = NULL;
+        ఒకవేళ (_this->egl_దత్తాంశం->opengl_dll_handle) {
+            SDL_UnloadObject(_this->egl_దత్తాంశం->opengl_dll_handle);
+            _this->egl_దత్తాంశం->opengl_dll_handle = ఖాళీ;
         }
 
-        SDL_free(_this->egl_data);
-        _this->egl_data = NULL;
+        SDL_free(_this->egl_దత్తాంశం);
+        _this->egl_దత్తాంశం = ఖాళీ;
     }
 }
 
-static bool SDL_EGL_LoadLibraryInternal(SDL_VideoDevice *_this, const char *egl_path)
+స్థిర bool SDL_EGL_ఎక్కించు_Library_అంతర్గత(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *egl_మార్గం)
 {
-    SDL_SharedObject *egl_dll_handle = NULL;
-#if !defined(SDL_VIDEO_STATIC_ANGLE) && !defined(SDL_VIDEO_DRIVER_VITA)
-    SDL_SharedObject *opengl_dll_handle = NULL;
-#endif
-    const char *path = NULL;
-#if defined(SDL_VIDEO_DRIVER_WINDOWS)
-    const char *d3dcompiler;
-#endif
-#ifdef SDL_VIDEO_DRIVER_RPI
+    SDL_SharedObject *egl_dll_handle = ఖాళీ;
+#ఒకవేళ !defined(SDL_VIDEO_STATIC_ANGLE) && !defined(SDL_VIDEO_DRIVER_VITA)
+    SDL_SharedObject *opengl_dll_handle = ఖాళీ;
+#అయితే_ముగింపు
+    స్థిరరాశి అక్షరం *మార్గం = ఖాళీ;
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_WINDOWS)
+    స్థిరరాశి అక్షరం *d3dcompiler;
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RPI
     bool vc4 = (0 == access("/sys/module/vc4/", F_OK));
-#endif
+#అయితే_ముగింపు
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_WINDOWS)
     d3dcompiler = SDL_GetHint(SDL_HINT_VIDEO_WIN_D3DCOMPILER);
-    if (d3dcompiler) {
-        if (SDL_strcasecmp(d3dcompiler, "none") != 0) {
-            if (SDL_LoadObject(d3dcompiler) == NULL) {
+    ఒకవేళ (d3dcompiler) {
+        ఒకవేళ (SDL_strcasecmp(d3dcompiler, "none") != 0) {
+            ఒకవేళ (SDL_ఎక్కించు_Object(d3dcompiler) == ఖాళీ) {
                 SDL_ClearError();
             }
         }
-    } else {
-        if (WIN_IsWindowsVistaOrGreater()) {
+    } లేకపోతే {
+        ఒకవేళ (WIN_IsWindowsVistaOrGreater()) {
             // Try the newer d3d compilers first
-            const char *d3dcompiler_list[] = {
+            స్థిరరాశి అక్షరం *d3dcompiler_list[] = {
                 "d3dcompiler_47.dll",
                 "d3dcompiler_46.dll",
             };
-            int i;
+            పూర్ణాంకం i;
 
-            for (i = 0; i < SDL_arraysize(d3dcompiler_list); ++i) {
-                if (SDL_LoadObject(d3dcompiler_list[i]) != NULL) {
-                    break;
+            కొరకు (i = 0; i < SDL_arraysize(d3dcompiler_list); ++i) {
+                ఒకవేళ (SDL_ఎక్కించు_Object(d3dcompiler_list[i]) != ఖాళీ) {
+                    ఆపు;
                 }
                 SDL_ClearError();
             }
-        } else {
-            if (SDL_LoadObject("d3dcompiler_43.dll") == NULL) {
+        } లేకపోతే {
+            ఒకవేళ (SDL_ఎక్కించు_Object("d3dcompiler_43.dll") == ఖాళీ) {
                 SDL_ClearError();
             }
         }
     }
-#endif
+#అయితే_ముగింపు
 
-#if !defined(SDL_VIDEO_STATIC_ANGLE) && !defined(SDL_VIDEO_DRIVER_VITA)
+#ఒకవేళ !defined(SDL_VIDEO_STATIC_ANGLE) && !defined(SDL_VIDEO_DRIVER_VITA)
     /* A funny thing, loading EGL.so first does not work on the Raspberry, so we load libGL* first */
-    path = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
-    if (path) {
-        opengl_dll_handle = SDL_LoadObject(path);
+    మార్గం = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
+    ఒకవేళ (మార్గం) {
+        opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
     }
 
-    if (!opengl_dll_handle) {
-        if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) {
-            if (_this->gl_config.major_version > 1) {
-#ifdef DEFAULT_OGL_ES2
-                if (!opengl_dll_handle) {
-                    path = DEFAULT_OGL_ES2;
-                    opengl_dll_handle = SDL_LoadObject(path);
+    ఒకవేళ (!opengl_dll_handle) {
+        ఒకవేళ (_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES) {
+            ఒకవేళ (_this->gl_config.major_సంస్కరణ > 1) {
+#నిర్వచితమైతే DEFAULT_OGL_ES2
+                ఒకవేళ (!opengl_dll_handle) {
+                    మార్గం = DEFAULT_OGL_ES2;
+                    opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
                 }
-#endif
-#ifdef ALT_OGL_ES2
-                if (!opengl_dll_handle && !vc4) {
-                    path = ALT_OGL_ES2;
-                    opengl_dll_handle = SDL_LoadObject(path);
+#అయితే_ముగింపు
+#నిర్వచితమైతే ALT_OGL_ES2
+                ఒకవేళ (!opengl_dll_handle && !vc4) {
+                    మార్గం = ALT_OGL_ES2;
+                    opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
                 }
-#endif
-            } else {
-#ifdef DEFAULT_OGL_ES
-                if (!opengl_dll_handle) {
-                    path = DEFAULT_OGL_ES;
-                    opengl_dll_handle = SDL_LoadObject(path);
+#అయితే_ముగింపు
+            } లేకపోతే {
+#నిర్వచితమైతే DEFAULT_OGL_ES
+                ఒకవేళ (!opengl_dll_handle) {
+                    మార్గం = DEFAULT_OGL_ES;
+                    opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
                 }
-#endif
-#ifdef DEFAULT_OGL_ES_PVR
-                if (!opengl_dll_handle) {
-                    path = DEFAULT_OGL_ES_PVR;
-                    opengl_dll_handle = SDL_LoadObject(path);
+#అయితే_ముగింపు
+#నిర్వచితమైతే DEFAULT_OGL_ES_PVR
+                ఒకవేళ (!opengl_dll_handle) {
+                    మార్గం = DEFAULT_OGL_ES_PVR;
+                    opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
                 }
-#endif
-#ifdef ALT_OGL_ES
-                if (!opengl_dll_handle && !vc4) {
-                    path = ALT_OGL_ES;
-                    opengl_dll_handle = SDL_LoadObject(path);
+#అయితే_ముగింపు
+#నిర్వచితమైతే ALT_OGL_ES
+                ఒకవేళ (!opengl_dll_handle && !vc4) {
+                    మార్గం = ALT_OGL_ES;
+                    opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
                 }
-#endif
+#అయితే_ముగింపు
             }
-        } else {
-#ifdef DEFAULT_OGL
-            if (!opengl_dll_handle) {
-                path = DEFAULT_OGL;
-                opengl_dll_handle = SDL_LoadObject(path);
+        } లేకపోతే {
+#నిర్వచితమైతే DEFAULT_OGL
+            ఒకవేళ (!opengl_dll_handle) {
+                మార్గం = DEFAULT_OGL;
+                opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
             }
-#endif
-#ifdef ALT_OGL
-            if (!opengl_dll_handle) {
-                path = ALT_OGL;
-                opengl_dll_handle = SDL_LoadObject(path);
+#అయితే_ముగింపు
+#నిర్వచితమైతే ALT_OGL
+            ఒకవేళ (!opengl_dll_handle) {
+                మార్గం = ALT_OGL;
+                opengl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
             }
-#endif
+#అయితే_ముగింపు
         }
     }
-    _this->egl_data->opengl_dll_handle = opengl_dll_handle;
+    _this->egl_దత్తాంశం->opengl_dll_handle = opengl_dll_handle;
 
-    if (!opengl_dll_handle) {
-        return SDL_SetError("Could not initialize OpenGL / GLES library");
+    ఒకవేళ (!opengl_dll_handle) {
+        తిరిగి SDL_సమితి_Error("Could not initialize OpenGL / GLES library");
     }
 
     /* Loading libGL* in the previous step took care of loading libEGL.so, but we future proof by double checking */
-    if (egl_path) {
-        egl_dll_handle = SDL_LoadObject(egl_path);
+    ఒకవేళ (egl_మార్గం) {
+        egl_dll_handle = SDL_ఎక్కించు_Object(egl_మార్గం);
     }
     // Try loading a EGL symbol, if it does not work try the default library paths
-    if (!egl_dll_handle || SDL_LoadFunction(egl_dll_handle, "eglChooseConfig") == NULL) {
-        if (egl_dll_handle) {
+    ఒకవేళ (!egl_dll_handle || SDL_ఎక్కించు_Function(egl_dll_handle, "eglChooseConfig") == ఖాళీ) {
+        ఒకవేళ (egl_dll_handle) {
             SDL_UnloadObject(egl_dll_handle);
         }
-        path = SDL_GetHint(SDL_HINT_EGL_LIBRARY);
-        if (!path) {
-            path = DEFAULT_EGL;
+        మార్గం = SDL_GetHint(SDL_HINT_EGL_LIBRARY);
+        ఒకవేళ (!మార్గం) {
+            మార్గం = DEFAULT_EGL;
         }
-        egl_dll_handle = SDL_LoadObject(path);
+        egl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
 
-#ifdef ALT_EGL
-        if (!egl_dll_handle && !vc4) {
-            path = ALT_EGL;
-            egl_dll_handle = SDL_LoadObject(path);
+#నిర్వచితమైతే ALT_EGL
+        ఒకవేళ (!egl_dll_handle && !vc4) {
+            మార్గం = ALT_EGL;
+            egl_dll_handle = SDL_ఎక్కించు_Object(మార్గం);
         }
-#endif
+#అయితే_ముగింపు
 
-        if (!egl_dll_handle || SDL_LoadFunction(egl_dll_handle, "eglChooseConfig") == NULL) {
-            if (egl_dll_handle) {
+        ఒకవేళ (!egl_dll_handle || SDL_ఎక్కించు_Function(egl_dll_handle, "eglChooseConfig") == ఖాళీ) {
+            ఒకవేళ (egl_dll_handle) {
                 SDL_UnloadObject(egl_dll_handle);
             }
-            return SDL_SetError("Could not load EGL library");
+            తిరిగి SDL_సమితి_Error("Could not load EGL library");
         }
         SDL_ClearError();
     }
-#endif
+#అయితే_ముగింపు
 
-    _this->egl_data->egl_dll_handle = egl_dll_handle;
+    _this->egl_దత్తాంశం->egl_dll_handle = egl_dll_handle;
 
     // Load new function pointers
-    LOAD_FUNC(PFNEGLGETDISPLAYPROC, eglGetDisplay);
-    LOAD_FUNC(PFNEGLINITIALIZEPROC, eglInitialize);
-    LOAD_FUNC(PFNEGLTERMINATEPROC, eglTerminate);
-    LOAD_FUNC(PFNEGLGETPROCADDRESSPROC, eglGetProcAddress);
-    LOAD_FUNC(PFNEGLCHOOSECONFIGPROC, eglChooseConfig);
-    LOAD_FUNC(PFNEGLCREATECONTEXTPROC, eglCreateContext);
-    LOAD_FUNC(PFNEGLDESTROYCONTEXTPROC, eglDestroyContext);
-    LOAD_FUNC(PFNEGLCREATEPBUFFERSURFACEPROC, eglCreatePbufferSurface);
-    LOAD_FUNC(PFNEGLCREATEWINDOWSURFACEPROC, eglCreateWindowSurface);
-    LOAD_FUNC(PFNEGLDESTROYSURFACEPROC, eglDestroySurface);
-    LOAD_FUNC(PFNEGLMAKECURRENTPROC, eglMakeCurrent);
-    LOAD_FUNC(PFNEGLSWAPBUFFERSPROC, eglSwapBuffers);
-    LOAD_FUNC(PFNEGLSWAPINTERVALPROC, eglSwapInterval);
-    LOAD_FUNC(PFNEGLQUERYSTRINGPROC, eglQueryString);
-    LOAD_FUNC(PFNEGLGETCONFIGATTRIBPROC, eglGetConfigAttrib);
-    LOAD_FUNC(PFNEGLWAITNATIVEPROC, eglWaitNative);
-    LOAD_FUNC(PFNEGLWAITGLPROC, eglWaitGL);
-    LOAD_FUNC(PFNEGLBINDAPIPROC, eglBindAPI);
-    LOAD_FUNC(PFNEGLGETERRORPROC, eglGetError);
-    LOAD_FUNC_EGLEXT(PFNEGLQUERYDEVICESEXTPROC, eglQueryDevicesEXT);
-    LOAD_FUNC_EGLEXT(PFNEGLGETPLATFORMDISPLAYEXTPROC, eglGetPlatformDisplayEXT);
+    ఎక్కించు_FUNC(PFNEGLGETDISPLAYPROC, eglGetDisplay);
+    ఎక్కించు_FUNC(PFNEGLINITIALIZEPROC, eglInitialize);
+    ఎక్కించు_FUNC(PFNEGLTERMINATEPROC, eglTerminate);
+    ఎక్కించు_FUNC(PFNEGLGETPROCADDRESSPROC, egl_Get_Proc_చిరునామా);
+    ఎక్కించు_FUNC(PFNEGLCHOOSECONFIGPROC, egl_ఎంచుకో_Config);
+    ఎక్కించు_FUNC(PFNEGLCREATECONTEXTPROC, eglCreateContext);
+    ఎక్కించు_FUNC(PFNEGLDESTROYCONTEXTPROC, eglDestroyContext);
+    ఎక్కించు_FUNC(PFNEGLCREATEPBUFFERSURFACEPROC, eglCreatePbufferSurface);
+    ఎక్కించు_FUNC(PFNEGLCREATEWINDOWSURFACEPROC, egl_Create_కిటికీ_Surface);
+    ఎక్కించు_FUNC(PFNEGLDESTROYSURFACEPROC, eglDestroySurface);
+    ఎక్కించు_FUNC(PFNEGLMAKECURRENTPROC, eglMakeCurrent);
+    ఎక్కించు_FUNC(PFNEGLSWAPBUFFERSPROC, egl_మార్పిడి_Buffers);
+    ఎక్కించు_FUNC(PFNEGLSWAPINTERVALPROC, egl_మార్పిడి_Interval);
+    ఎక్కించు_FUNC(PFNEGLQUERYSTRINGPROC, eglQueryString);
+    ఎక్కించు_FUNC(PFNEGLGETCONFIGATTRIBPROC, eglGetConfigAttrib);
+    ఎక్కించు_FUNC(PFNEGLWAITNATIVEPROC, eglWaitNative);
+    ఎక్కించు_FUNC(PFNEGLWAITGLPROC, eglWaitGL);
+    ఎక్కించు_FUNC(PFNEGLBINDAPIPROC, eglBindAPI);
+    ఎక్కించు_FUNC(PFNEGLGETERRORPROC, eglGetError);
+    ఎక్కించు_FUNC_EGLEXT(PFNEGLQUERYDEVICESEXTPROC, eglQueryDevicesEXT);
+    ఎక్కించు_FUNC_EGLEXT(PFNEGLGETPLATFORMDISPLAYEXTPROC, eglGetPlatformDisplayEXT);
     // Atomic functions
-    LOAD_FUNC_EGLEXT(PFNEGLCREATESYNCKHRPROC, eglCreateSyncKHR);
-    LOAD_FUNC_EGLEXT(PFNEGLDESTROYSYNCKHRPROC, eglDestroySyncKHR);
-    LOAD_FUNC_EGLEXT(PFNEGLDUPNATIVEFENCEFDANDROIDPROC, eglDupNativeFenceFDANDROID);
-    LOAD_FUNC_EGLEXT(PFNEGLWAITSYNCKHRPROC, eglWaitSyncKHR);
-    LOAD_FUNC_EGLEXT(PFNEGLCLIENTWAITSYNCKHRPROC, eglClientWaitSyncKHR);
+    ఎక్కించు_FUNC_EGLEXT(PFNEGLCREATESYNCKHRPROC, eglCreateSyncKHR);
+    ఎక్కించు_FUNC_EGLEXT(PFNEGLDESTROYSYNCKHRPROC, eglDestroySyncKHR);
+    ఎక్కించు_FUNC_EGLEXT(PFNEGLDUPNATIVEFENCEFDANDROIDPROC, eglDupNativeFenceFDANDROID);
+    ఎక్కించు_FUNC_EGLEXT(PFNEGLWAITSYNCKHRPROC, eglWaitSyncKHR);
+    ఎక్కించు_FUNC_EGLEXT(PFNEGLCLIENTWAITSYNCKHRPROC, eglClientWaitSyncKHR);
     // Atomic functions end
 
-    if (path) {
-        SDL_strlcpy(_this->gl_config.driver_path, path, sizeof(_this->gl_config.driver_path) - 1);
-    } else {
-        *_this->gl_config.driver_path = '\0';
+    ఒకవేళ (మార్గం) {
+        SDL_strlcpy(_this->gl_config.driver_మార్గం, మార్గం, పరిమాణం(_this->gl_config.driver_మార్గం) - 1);
+    } లేకపోతే {
+        *_this->gl_config.driver_మార్గం = '\0';
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_EGL_LoadLibraryOnly(SDL_VideoDevice *_this, const char *egl_path)
+bool SDL_EGL_ఎక్కించు_Library_Only(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *egl_మార్గం)
 {
-    if (_this->egl_data) {
-        return SDL_SetError("EGL context already created");
+    ఒకవేళ (_this->egl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("EGL context already created");
     }
 
-    _this->egl_data = (struct SDL_EGL_VideoData *)SDL_calloc(1, sizeof(SDL_EGL_VideoData));
-    if (!_this->egl_data) {
-        return false;
+    _this->egl_దత్తాంశం = (నిర్మాణం SDL_EGL_Video_దత్తాంశం *)SDL_calloc(1, పరిమాణం(SDL_EGL_Video_దత్తాంశం));
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        తిరిగి false;
     }
 
-    if (!SDL_EGL_LoadLibraryInternal(_this, egl_path)) {
-        SDL_free(_this->egl_data);
-        _this->egl_data = NULL;
-        return false;
+    ఒకవేళ (!SDL_EGL_ఎక్కించు_Library_అంతర్గత(_this, egl_మార్గం)) {
+        SDL_free(_this->egl_దత్తాంశం);
+        _this->egl_దత్తాంశం = ఖాళీ;
+        తిరిగి false;
     }
-    return true;
+    తిరిగి true;
 }
 
-static void SDL_EGL_GetVersion(SDL_VideoDevice *_this)
+స్థిర శూన్య SDL_EGL_Get_సంస్కరణ(SDL_VideoDevice *_this)
 {
-    if (_this->egl_data->eglQueryString) {
-        const char *egl_version = _this->egl_data->eglQueryString(_this->egl_data->egl_display, EGL_VERSION);
-        if (egl_version) {
-            int major = 0, minor = 0;
-            if (SDL_sscanf(egl_version, "%d.%d", &major, &minor) == 2) {
-                _this->egl_data->egl_version_major = major;
-                _this->egl_data->egl_version_minor = minor;
-            } else {
-                SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "Could not parse EGL version string: %s", egl_version);
+    ఒకవేళ (_this->egl_దత్తాంశం->eglQueryString) {
+        స్థిరరాశి అక్షరం *egl_సంస్కరణ = _this->egl_దత్తాంశం->eglQueryString(_this->egl_దత్తాంశం->egl_display, EGL_సంస్కరణ);
+        ఒకవేళ (egl_సంస్కరణ) {
+            పూర్ణాంకం major = 0, minor = 0;
+            ఒకవేళ (SDL_sscanf(egl_సంస్కరణ, "%d.%d", &major, &minor) == 2) {
+                _this->egl_దత్తాంశం->egl_సంస్కరణ_major = major;
+                _this->egl_దత్తాంశం->egl_సంస్కరణ_minor = minor;
+            } లేకపోతే {
+                SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO, "Could not parse EGL version string: %s", egl_సంస్కరణ);
             }
         }
     }
 }
 
-bool SDL_EGL_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path, NativeDisplayType native_display)
+bool SDL_EGL_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *egl_మార్గం, NativeDisplayType native_display)
 {
-    if (!SDL_EGL_LoadLibraryOnly(_this, egl_path)) {
-        return false;
+    ఒకవేళ (!SDL_EGL_ఎక్కించు_Library_Only(_this, egl_మార్గం)) {
+        తిరిగి false;
     }
 
-    _this->egl_data->egl_display = EGL_NO_DISPLAY;
+    _this->egl_దత్తాంశం->egl_display = EGL_NO_DISPLAY;
 
-#ifndef SDL_VIDEO_DRIVER_VITA
+#నిర్వచితం_కాకపోతే SDL_VIDEO_DRIVER_VITA
     EGLenum platform = _this->gl_config.egl_platform;
-    if (platform) {
+    ఒకవేళ (platform) {
         /* EGL 1.5 allows querying for client version with EGL_NO_DISPLAY
          * --
          * Khronos doc: "EGL_BAD_DISPLAY is generated if display is not an EGL display connection, unless display is EGL_NO_DISPLAY and name is EGL_EXTENSIONS."
          * Therefore SDL_EGL_GetVersion() shouldn't work with uninitialized display.
          * - it actually doesn't work on Android that has 1.5 egl client
          * - it works on desktop X11 (using SDL_VIDEO_FORCE_EGL=1) */
-        SDL_EGL_GetVersion(_this);
+        SDL_EGL_Get_సంస్కరణ(_this);
 
-        if (_this->egl_data->egl_version_major == 1 && _this->egl_data->egl_version_minor == 5) {
-            LOAD_FUNC(PFNEGLGETPLATFORMDISPLAYPROC, eglGetPlatformDisplay);
+        ఒకవేళ (_this->egl_దత్తాంశం->egl_సంస్కరణ_major == 1 && _this->egl_దత్తాంశం->egl_సంస్కరణ_minor == 5) {
+            ఎక్కించు_FUNC(PFNEGLGETPLATFORMDISPLAYPROC, eglGetPlatformDisplay);
         }
 
-        if (_this->egl_data->eglGetPlatformDisplay) {
-            EGLAttrib *attribs = NULL;
-            if (_this->egl_platformattrib_callback) {
+        ఒకవేళ (_this->egl_దత్తాంశం->eglGetPlatformDisplay) {
+            EGLAttrib *attribs = ఖాళీ;
+            ఒకవేళ (_this->egl_platformattrib_callback) {
                 attribs = _this->egl_platformattrib_callback(_this->egl_attrib_callback_userdata);
-                if (!attribs) {
+                ఒకవేళ (!attribs) {
                     _this->gl_config.driver_loaded = 0;
-                    *_this->gl_config.driver_path = '\0';
-                    return SDL_SetError("EGL platform attribute callback returned NULL pointer");
+                    *_this->gl_config.driver_మార్గం = '\0';
+                    తిరిగి SDL_సమితి_Error("EGL platform attribute callback returned NULL pointer");
                 }
             }
-            _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, attribs);
+            _this->egl_దత్తాంశం->egl_display = _this->egl_దత్తాంశం->eglGetPlatformDisplay(platform, (శూన్య *)(uintptr_t)native_display, attribs);
             SDL_free(attribs);
-        } else {
-            if (SDL_EGL_HasExtension(_this, SDL_EGL_CLIENT_EXTENSION, "EGL_EXT_platform_base")) {
-                _this->egl_data->eglGetPlatformDisplayEXT = (PFNEGLGETPLATFORMDISPLAYEXTPROC)SDL_EGL_GetProcAddressInternal(_this, "eglGetPlatformDisplayEXT");
-                if (_this->egl_data->eglGetPlatformDisplayEXT) {
-                    _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(platform, (void *)(uintptr_t)native_display, NULL);
+        } లేకపోతే {
+            ఒకవేళ (SDL_EGL_HasExtension(_this, SDL_EGL_CLIENT_EXTENSION, "EGL_EXT_platform_base")) {
+                _this->egl_దత్తాంశం->eglGetPlatformDisplayEXT = (PFNEGLGETPLATFORMDISPLAYEXTPROC)SDL_EGL_Get_Proc_చిరునామా_అంతర్గత(_this, "eglGetPlatformDisplayEXT");
+                ఒకవేళ (_this->egl_దత్తాంశం->eglGetPlatformDisplayEXT) {
+                    _this->egl_దత్తాంశం->egl_display = _this->egl_దత్తాంశం->eglGetPlatformDisplayEXT(platform, (శూన్య *)(uintptr_t)native_display, ఖాళీ);
                 }
             }
         }
     }
-#endif
+#అయితే_ముగింపు
     // Try the implementation-specific eglGetDisplay even if eglGetPlatformDisplay fails
-    if ((_this->egl_data->egl_display == EGL_NO_DISPLAY) &&
-        (_this->egl_data->eglGetDisplay) &&
+    ఒకవేళ ((_this->egl_దత్తాంశం->egl_display == EGL_NO_DISPLAY) &&
+        (_this->egl_దత్తాంశం->eglGetDisplay) &&
         SDL_GetHintBoolean(SDL_HINT_VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK, true)) {
-        _this->egl_data->egl_display = _this->egl_data->eglGetDisplay(native_display);
+        _this->egl_దత్తాంశం->egl_display = _this->egl_దత్తాంశం->eglGetDisplay(native_display);
     }
-    if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
+    ఒకవేళ (_this->egl_దత్తాంశం->egl_display == EGL_NO_DISPLAY) {
         _this->gl_config.driver_loaded = 0;
-        *_this->gl_config.driver_path = '\0';
-        return SDL_SetError("Could not get EGL display");
+        *_this->gl_config.driver_మార్గం = '\0';
+        తిరిగి SDL_సమితి_Error("Could not get EGL display");
     }
 
-    if (_this->egl_data->eglInitialize(_this->egl_data->egl_display, NULL, NULL) != EGL_TRUE) {
+    ఒకవేళ (_this->egl_దత్తాంశం->eglInitialize(_this->egl_దత్తాంశం->egl_display, ఖాళీ, ఖాళీ) != EGL_TRUE) {
         _this->gl_config.driver_loaded = 0;
-        *_this->gl_config.driver_path = '\0';
-        return SDL_SetError("Could not initialize EGL");
+        *_this->gl_config.driver_మార్గం = '\0';
+        తిరిగి SDL_సమితి_Error("Could not initialize EGL");
     }
 
     // Get the EGL version with a valid egl_display, for EGL <= 1.4
-    SDL_EGL_GetVersion(_this);
+    SDL_EGL_Get_సంస్కరణ(_this);
 
-    _this->egl_data->is_offscreen = false;
+    _this->egl_దత్తాంశం->is_offscreen = false;
 
-    return true;
+    తిరిగి true;
 }
 
 /**
@@ -637,115 +637,115 @@ bool SDL_EGL_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path, NativeDis
    valid available GPU for EGL to use.
 */
 
-bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, int device)
+bool SDL_EGL_InitializeOffscreen(SDL_VideoDevice *_this, పూర్ణాంకం device)
 {
-    void *egl_devices[SDL_EGL_MAX_DEVICES];
-    EGLint num_egl_devices = 0;
-    const char *egl_device_hint;
+    శూన్య *egl_devices[SDL_EGL_MAX_DEVICES];
+    EGLint అంకె_egl_devices = 0;
+    స్థిరరాశి అక్షరం *egl_device_hint;
 
-    if (_this->gl_config.driver_loaded <= 0) {
-        return SDL_SetError("SDL_EGL_LoadLibraryOnly() has not been called or has failed.");
+    ఒకవేళ (_this->gl_config.driver_loaded <= 0) {
+        తిరిగి SDL_సమితి_Error("SDL_EGL_LoadLibraryOnly() has not been called or has failed.");
     }
 
     // Check for all extensions that are optional until used and fail if any is missing
-    if (!_this->egl_data->eglQueryDevicesEXT) {
-        return SDL_SetError("eglQueryDevicesEXT is missing (EXT_device_enumeration not supported by the drivers?)");
+    ఒకవేళ (!_this->egl_దత్తాంశం->eglQueryDevicesEXT) {
+        తిరిగి SDL_సమితి_Error("eglQueryDevicesEXT is missing (EXT_device_enumeration not supported by the drivers?)");
     }
 
-    if (!_this->egl_data->eglGetPlatformDisplayEXT) {
-        return SDL_SetError("eglGetPlatformDisplayEXT is missing (EXT_platform_base not supported by the drivers?)");
+    ఒకవేళ (!_this->egl_దత్తాంశం->eglGetPlatformDisplayEXT) {
+        తిరిగి SDL_సమితి_Error("eglGetPlatformDisplayEXT is missing (EXT_platform_base not supported by the drivers?)");
     }
 
-    if (_this->egl_data->eglQueryDevicesEXT(SDL_EGL_MAX_DEVICES, egl_devices, &num_egl_devices) != EGL_TRUE) {
-        return SDL_SetError("eglQueryDevicesEXT() failed");
+    ఒకవేళ (_this->egl_దత్తాంశం->eglQueryDevicesEXT(SDL_EGL_MAX_DEVICES, egl_devices, &అంకె_egl_devices) != EGL_TRUE) {
+        తిరిగి SDL_సమితి_Error("eglQueryDevicesEXT() failed");
     }
 
     egl_device_hint = SDL_GetHint("SDL_HINT_EGL_DEVICE");
-    if (egl_device_hint) {
+    ఒకవేళ (egl_device_hint) {
         device = SDL_atoi(egl_device_hint);
 
-        if (device >= num_egl_devices) {
-            return SDL_SetError("Invalid EGL device is requested.");
+        ఒకవేళ (device >= అంకె_egl_devices) {
+            తిరిగి SDL_సమితి_Error("Invalid EGL device is requested.");
         }
 
-        _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(EGL_PLATFORM_DEVICE_EXT, egl_devices[device], NULL);
+        _this->egl_దత్తాంశం->egl_display = _this->egl_దత్తాంశం->eglGetPlatformDisplayEXT(EGL_PLATFORM_DEVICE_EXT, egl_devices[device], ఖాళీ);
 
-        if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
-            return SDL_SetError("eglGetPlatformDisplayEXT() failed.");
+        ఒకవేళ (_this->egl_దత్తాంశం->egl_display == EGL_NO_DISPLAY) {
+            తిరిగి SDL_సమితి_Error("eglGetPlatformDisplayEXT() failed.");
         }
 
-        if (_this->egl_data->eglInitialize(_this->egl_data->egl_display, NULL, NULL) != EGL_TRUE) {
-            return SDL_SetError("Could not initialize EGL");
+        ఒకవేళ (_this->egl_దత్తాంశం->eglInitialize(_this->egl_దత్తాంశం->egl_display, ఖాళీ, ఖాళీ) != EGL_TRUE) {
+            తిరిగి SDL_సమితి_Error("Could not initialize EGL");
         }
-    } else {
-        int i;
-        bool found = false;
+    } లేకపోతే {
+        పూర్ణాంకం i;
+        bool దొరికింది = false;
         EGLDisplay attempted_egl_display;
 
         // If no hint is provided lets look for the first device/display that will allow us to eglInit
-        for (i = 0; i < num_egl_devices; i++) {
-            attempted_egl_display = _this->egl_data->eglGetPlatformDisplayEXT(EGL_PLATFORM_DEVICE_EXT, egl_devices[i], NULL);
+        కొరకు (i = 0; i < అంకె_egl_devices; i++) {
+            attempted_egl_display = _this->egl_దత్తాంశం->eglGetPlatformDisplayEXT(EGL_PLATFORM_DEVICE_EXT, egl_devices[i], ఖాళీ);
 
-            if (attempted_egl_display == EGL_NO_DISPLAY) {
-                continue;
+            ఒకవేళ (attempted_egl_display == EGL_NO_DISPLAY) {
+                కొనసాగు;
             }
 
-            if (_this->egl_data->eglInitialize(attempted_egl_display, NULL, NULL) != EGL_TRUE) {
-                _this->egl_data->eglTerminate(attempted_egl_display);
-                continue;
+            ఒకవేళ (_this->egl_దత్తాంశం->eglInitialize(attempted_egl_display, ఖాళీ, ఖాళీ) != EGL_TRUE) {
+                _this->egl_దత్తాంశం->eglTerminate(attempted_egl_display);
+                కొనసాగు;
             }
 
             // We did not fail, we'll pick this one!
-            _this->egl_data->egl_display = attempted_egl_display;
-            found = true;
+            _this->egl_దత్తాంశం->egl_display = attempted_egl_display;
+            దొరికింది = true;
 
-            break;
+            ఆపు;
         }
 
-        if (!found) {
-            return SDL_SetError("Could not find a valid EGL device to initialize");
+        ఒకవేళ (!దొరికింది) {
+            తిరిగి SDL_సమితి_Error("Could not find a valid EGL device to initialize");
         }
     }
 
     // Get the EGL version with a valid egl_display, for EGL <= 1.4
-    SDL_EGL_GetVersion(_this);
+    SDL_EGL_Get_సంస్కరణ(_this);
 
-    _this->egl_data->is_offscreen = true;
+    _this->egl_దత్తాంశం->is_offscreen = true;
 
-    return true;
+    తిరిగి true;
 }
 
-void SDL_EGL_SetRequiredVisualId(SDL_VideoDevice *_this, int visual_id)
+శూన్య SDL_EGL_సమితి_Required_Visual_Id(SDL_VideoDevice *_this, పూర్ణాంకం visual_id)
 {
-    _this->egl_data->egl_required_visual_id = visual_id;
+    _this->egl_దత్తాంశం->egl_required_visual_id = visual_id;
 }
 
-#ifdef DUMP_EGL_CONFIG
+#నిర్వచితమైతే DUMP_EGL_CONFIG
 
-#define ATTRIBUTE(_attr) \
+#నిర్వచించు ATTRIBUTE(_attr) \
     {                    \
         _attr, #_attr    \
     }
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
     EGLint attribute;
-    char const *name;
+    అక్షరం స్థిరరాశి *name;
 } Attribute;
 
-static Attribute all_attributes[] = {
-    ATTRIBUTE(EGL_BUFFER_SIZE),
-    ATTRIBUTE(EGL_ALPHA_SIZE),
-    ATTRIBUTE(EGL_BLUE_SIZE),
-    ATTRIBUTE(EGL_GREEN_SIZE),
-    ATTRIBUTE(EGL_RED_SIZE),
-    ATTRIBUTE(EGL_DEPTH_SIZE),
-    ATTRIBUTE(EGL_STENCIL_SIZE),
+స్థిర Attribute all_లక్షణాలు[] = {
+    ATTRIBUTE(EGL_బఫరు_కొలత),
+    ATTRIBUTE(EGL_ALPHA_కొలత),
+    ATTRIBUTE(EGL_BLUE_కొలత),
+    ATTRIBUTE(EGL_GREEN_కొలత),
+    ATTRIBUTE(EGL_RED_కొలత),
+    ATTRIBUTE(EGL_లోతు_కొలత),
+    ATTRIBUTE(EGL_STENCIL_కొలత),
     ATTRIBUTE(EGL_CONFIG_CAVEAT),
     ATTRIBUTE(EGL_CONFIG_ID),
     ATTRIBUTE(EGL_LEVEL),
-    ATTRIBUTE(EGL_MAX_PBUFFER_HEIGHT),
-    ATTRIBUTE(EGL_MAX_PBUFFER_WIDTH),
+    ATTRIBUTE(EGL_MAX_PBUFFER_ఎత్తు),
+    ATTRIBUTE(EGL_MAX_PBUFFER_వెడల్పు),
     ATTRIBUTE(EGL_MAX_PBUFFER_PIXELS),
     ATTRIBUTE(EGL_NATIVE_RENDERABLE),
     ATTRIBUTE(EGL_NATIVE_VISUAL_ID),
@@ -754,144 +754,144 @@ static Attribute all_attributes[] = {
     ATTRIBUTE(EGL_SAMPLE_BUFFERS),
     ATTRIBUTE(EGL_SURFACE_TYPE),
     ATTRIBUTE(EGL_TRANSPARENT_TYPE),
-    ATTRIBUTE(EGL_TRANSPARENT_BLUE_VALUE),
-    ATTRIBUTE(EGL_TRANSPARENT_GREEN_VALUE),
-    ATTRIBUTE(EGL_TRANSPARENT_RED_VALUE),
-    ATTRIBUTE(EGL_BIND_TO_TEXTURE_RGB),
-    ATTRIBUTE(EGL_BIND_TO_TEXTURE_RGBA),
-    ATTRIBUTE(EGL_MIN_SWAP_INTERVAL),
-    ATTRIBUTE(EGL_MAX_SWAP_INTERVAL),
-    ATTRIBUTE(EGL_LUMINANCE_SIZE),
-    ATTRIBUTE(EGL_ALPHA_MASK_SIZE),
-    ATTRIBUTE(EGL_COLOR_BUFFER_TYPE),
+    ATTRIBUTE(EGL_TRANSPARENT_BLUE_విలువ),
+    ATTRIBUTE(EGL_TRANSPARENT_GREEN_విలువ),
+    ATTRIBUTE(EGL_TRANSPARENT_RED_విలువ),
+    ATTRIBUTE(EGL_BIND_గమ్యం_TEXTURE_RGB),
+    ATTRIBUTE(EGL_BIND_గమ్యం_TEXTURE_RGBA),
+    ATTRIBUTE(EGL_MIN_మార్పిడి_INTERVAL),
+    ATTRIBUTE(EGL_MAX_మార్పిడి_INTERVAL),
+    ATTRIBUTE(EGL_LUMINANCE_కొలత),
+    ATTRIBUTE(EGL_ALPHA_ముసుగు_కొలత),
+    ATTRIBUTE(EGL_COLOR_బఫరు_TYPE),
     ATTRIBUTE(EGL_RENDERABLE_TYPE),
-    ATTRIBUTE(EGL_MATCH_NATIVE_PIXMAP),
+    ATTRIBUTE(EGL_సరిపోలిక_NATIVE_PIXMAP),
     ATTRIBUTE(EGL_CONFORMANT),
 };
 
-static void dumpconfig(SDL_VideoDevice *_this, EGLConfig config)
+స్థిర శూన్య dumpconfig(SDL_VideoDevice *_this, EGLConfig config)
 {
-    int attr;
-    for (attr = 0; attr < SDL_arraysize(all_attributes); attr++) {
-        EGLint value;
-        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, config, all_attributes[attr].attribute, &value);
-        SDL_Log("\t%-32s: %10d (0x%08x)", all_attributes[attr].name, value, value);
+    పూర్ణాంకం attr;
+    కొరకు (attr = 0; attr < SDL_arraysize(all_లక్షణాలు); attr++) {
+        EGLint విలువ;
+        _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display, config, all_లక్షణాలు[attr].attribute, &విలువ);
+        SDL_Log("\t%-32s: %10d (0x%08x)", all_లక్షణాలు[attr].name, విలువ, విలువ);
     }
 }
 
-#endif // DUMP_EGL_CONFIG
+#అయితే_ముగింపు // DUMP_EGL_CONFIG
 
-static bool SDL_EGL_PrivateChooseConfig(SDL_VideoDevice *_this, bool set_config_caveat_none)
+స్థిర bool SDL_EGL_వ్యక్తిగత_ఎంచుకో_Config(SDL_VideoDevice *_this, bool సమితి_config_caveat_none)
 {
     // 64 seems nice.
     EGLint attribs[64];
-    EGLint found_configs = 0, value;
+    EGLint దొరికింది_configs = 0, విలువ;
     // 128 seems even nicer here
     EGLConfig configs[128];
     bool has_matching_format = false;
-    int i, j, best_bitdiff = -1, best_truecolor_bitdiff = -1;
-    int truecolor_config_idx = -1;
+    పూర్ణాంకం i, j, ఉత్తమ_bitdiff = -1, ఉత్తమ_truecolor_bitdiff = -1;
+    పూర్ణాంకం truecolor_config_idx = -1;
 
     // Get a valid EGL configuration
     i = 0;
-    attribs[i++] = EGL_RED_SIZE;
-    attribs[i++] = _this->gl_config.red_size;
-    attribs[i++] = EGL_GREEN_SIZE;
-    attribs[i++] = _this->gl_config.green_size;
-    attribs[i++] = EGL_BLUE_SIZE;
-    attribs[i++] = _this->gl_config.blue_size;
+    attribs[i++] = EGL_RED_కొలత;
+    attribs[i++] = _this->gl_config.red_కొలత;
+    attribs[i++] = EGL_GREEN_కొలత;
+    attribs[i++] = _this->gl_config.green_కొలత;
+    attribs[i++] = EGL_BLUE_కొలత;
+    attribs[i++] = _this->gl_config.blue_కొలత;
 
-    if (set_config_caveat_none) {
+    ఒకవేళ (సమితి_config_caveat_none) {
         attribs[i++] = EGL_CONFIG_CAVEAT;
         attribs[i++] = EGL_NONE;
     }
 
-    if (_this->gl_config.alpha_size) {
-        attribs[i++] = EGL_ALPHA_SIZE;
-        attribs[i++] = _this->gl_config.alpha_size;
+    ఒకవేళ (_this->gl_config.alpha_కొలత) {
+        attribs[i++] = EGL_ALPHA_కొలత;
+        attribs[i++] = _this->gl_config.alpha_కొలత;
     }
 
-    if (_this->gl_config.buffer_size) {
-        attribs[i++] = EGL_BUFFER_SIZE;
-        attribs[i++] = _this->gl_config.buffer_size;
+    ఒకవేళ (_this->gl_config.బఫరు_కొలత) {
+        attribs[i++] = EGL_బఫరు_కొలత;
+        attribs[i++] = _this->gl_config.బఫరు_కొలత;
     }
 
-    if (_this->gl_config.depth_size) {
-        attribs[i++] = EGL_DEPTH_SIZE;
-        attribs[i++] = _this->gl_config.depth_size;
+    ఒకవేళ (_this->gl_config.లోతు_కొలత) {
+        attribs[i++] = EGL_లోతు_కొలత;
+        attribs[i++] = _this->gl_config.లోతు_కొలత;
     }
 
-    if (_this->gl_config.stencil_size) {
-        attribs[i++] = EGL_STENCIL_SIZE;
-        attribs[i++] = _this->gl_config.stencil_size;
+    ఒకవేళ (_this->gl_config.stencil_కొలత) {
+        attribs[i++] = EGL_STENCIL_కొలత;
+        attribs[i++] = _this->gl_config.stencil_కొలత;
     }
 
-    if (_this->gl_config.multisamplebuffers) {
+    ఒకవేళ (_this->gl_config.multisamplebuffers) {
         attribs[i++] = EGL_SAMPLE_BUFFERS;
         attribs[i++] = _this->gl_config.multisamplebuffers;
     }
 
-    if (_this->gl_config.multisamplesamples) {
+    ఒకవేళ (_this->gl_config.multisamplesamples) {
         attribs[i++] = EGL_SAMPLES;
         attribs[i++] = _this->gl_config.multisamplesamples;
     }
 
-    if (_this->gl_config.floatbuffers) {
+    ఒకవేళ (_this->gl_config.floatbuffers) {
         attribs[i++] = EGL_COLOR_COMPONENT_TYPE_EXT;
         attribs[i++] = EGL_COLOR_COMPONENT_TYPE_FLOAT_EXT;
     }
 
-    if (_this->egl_data->is_offscreen) {
+    ఒకవేళ (_this->egl_దత్తాంశం->is_offscreen) {
         attribs[i++] = EGL_SURFACE_TYPE;
-        attribs[i++] = EGL_PBUFFER_BIT;
+        attribs[i++] = EGL_PBUFFER_బిట్టు;
     }
 
     attribs[i++] = EGL_RENDERABLE_TYPE;
-    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) {
-#ifdef EGL_KHR_create_context
-        if (_this->gl_config.major_version >= 3 &&
+    ఒకవేళ (_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES) {
+#నిర్వచితమైతే EGL_KHR_create_context
+        ఒకవేళ (_this->gl_config.major_సంస్కరణ >= 3 &&
             SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_create_context")) {
-            attribs[i++] = EGL_OPENGL_ES3_BIT_KHR;
-        } else
-#endif
-            if (_this->gl_config.major_version >= 2) {
-            attribs[i++] = EGL_OPENGL_ES2_BIT;
-        } else {
-            attribs[i++] = EGL_OPENGL_ES_BIT;
+            attribs[i++] = EGL_OPENGL_ES3_బిట్టు_KHR;
+        } లేకపోతే
+#అయితే_ముగింపు
+            ఒకవేళ (_this->gl_config.major_సంస్కరణ >= 2) {
+            attribs[i++] = EGL_OPENGL_ES2_బిట్టు;
+        } లేకపోతే {
+            attribs[i++] = EGL_OPENGL_ES_బిట్టు;
         }
-        _this->egl_data->eglBindAPI(EGL_OPENGL_ES_API);
-    } else {
-        attribs[i++] = EGL_OPENGL_BIT;
-        _this->egl_data->eglBindAPI(EGL_OPENGL_API);
+        _this->egl_దత్తాంశం->eglBindAPI(EGL_OPENGL_ES_API);
+    } లేకపోతే {
+        attribs[i++] = EGL_OPENGL_బిట్టు;
+        _this->egl_దత్తాంశం->eglBindAPI(EGL_OPENGL_API);
     }
 
-    if (_this->egl_data->egl_surfacetype) {
+    ఒకవేళ (_this->egl_దత్తాంశం->egl_surfacetype) {
         attribs[i++] = EGL_SURFACE_TYPE;
-        attribs[i++] = _this->egl_data->egl_surfacetype;
+        attribs[i++] = _this->egl_దత్తాంశం->egl_surfacetype;
     }
 
     attribs[i++] = EGL_NONE;
 
     SDL_assert(i < SDL_arraysize(attribs));
 
-    if (_this->egl_data->eglChooseConfig(_this->egl_data->egl_display,
+    ఒకవేళ (_this->egl_దత్తాంశం->egl_ఎంచుకో_Config(_this->egl_దత్తాంశం->egl_display,
                                          attribs,
                                          configs, SDL_arraysize(configs),
-                                         &found_configs) == EGL_FALSE ||
-        found_configs == 0) {
-        return false;
+                                         &దొరికింది_configs) == EGL_FALSE ||
+        దొరికింది_configs == 0) {
+        తిరిగి false;
     }
 
     // first ensure that a found config has a matching format, or the function will fall through.
-    if (_this->egl_data->egl_required_visual_id) {
-        for (i = 0; i < found_configs; i++) {
+    ఒకవేళ (_this->egl_దత్తాంశం->egl_required_visual_id) {
+        కొరకు (i = 0; i < దొరికింది_configs; i++) {
             EGLint format;
-            _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
+            _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display,
                                                 configs[i],
                                                 EGL_NATIVE_VISUAL_ID, &format);
-            if (_this->egl_data->egl_required_visual_id == format) {
+            ఒకవేళ (_this->egl_దత్తాంశం->egl_required_visual_id == format) {
                 has_matching_format = true;
-                break;
+                ఆపు;
             }
         }
     }
@@ -899,60 +899,60 @@ static bool SDL_EGL_PrivateChooseConfig(SDL_VideoDevice *_this, bool set_config_
     // eglChooseConfig returns a number of configurations that match or exceed the requested attribs.
     // From those, we select the one that matches our requirements more closely via a makeshift algorithm
 
-    for (i = 0; i < found_configs; i++) {
+    కొరకు (i = 0; i < దొరికింది_configs; i++) {
         bool is_truecolor = false;
-        int bitdiff = 0;
+        పూర్ణాంకం bitdiff = 0;
 
-        if (has_matching_format && _this->egl_data->egl_required_visual_id) {
+        ఒకవేళ (has_matching_format && _this->egl_దత్తాంశం->egl_required_visual_id) {
             EGLint format;
-            _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
+            _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display,
                                                 configs[i],
                                                 EGL_NATIVE_VISUAL_ID, &format);
-            if (_this->egl_data->egl_required_visual_id != format) {
-                continue;
+            ఒకవేళ (_this->egl_దత్తాంశం->egl_required_visual_id != format) {
+                కొనసాగు;
             }
         }
 
-        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_RED_SIZE, &value);
-        if (value == 8) {
-            _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_GREEN_SIZE, &value);
-            if (value == 8) {
-                _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], EGL_BLUE_SIZE, &value);
-                if (value == 8) {
+        _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display, configs[i], EGL_RED_కొలత, &విలువ);
+        ఒకవేళ (విలువ == 8) {
+            _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display, configs[i], EGL_GREEN_కొలత, &విలువ);
+            ఒకవేళ (విలువ == 8) {
+                _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display, configs[i], EGL_BLUE_కొలత, &విలువ);
+                ఒకవేళ (విలువ == 8) {
                     is_truecolor = true;
                 }
             }
         }
 
-        for (j = 0; j < SDL_arraysize(attribs) - 1; j += 2) {
-            if (attribs[j] == EGL_NONE) {
-                break;
+        కొరకు (j = 0; j < SDL_arraysize(attribs) - 1; j += 2) {
+            ఒకవేళ (attribs[j] == EGL_NONE) {
+                ఆపు;
             }
 
-            if (attribs[j + 1] != EGL_DONT_CARE && (attribs[j] == EGL_RED_SIZE ||
-                                                    attribs[j] == EGL_GREEN_SIZE ||
-                                                    attribs[j] == EGL_BLUE_SIZE ||
-                                                    attribs[j] == EGL_ALPHA_SIZE ||
-                                                    attribs[j] == EGL_DEPTH_SIZE ||
-                                                    attribs[j] == EGL_STENCIL_SIZE)) {
-                _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, configs[i], attribs[j], &value);
-                bitdiff += value - attribs[j + 1]; // value is always >= attrib
+            ఒకవేళ (attribs[j + 1] != EGL_DONT_CARE && (attribs[j] == EGL_RED_కొలత ||
+                                                    attribs[j] == EGL_GREEN_కొలత ||
+                                                    attribs[j] == EGL_BLUE_కొలత ||
+                                                    attribs[j] == EGL_ALPHA_కొలత ||
+                                                    attribs[j] == EGL_లోతు_కొలత ||
+                                                    attribs[j] == EGL_STENCIL_కొలత)) {
+                _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display, configs[i], attribs[j], &విలువ);
+                bitdiff += విలువ - attribs[j + 1]; // value is always >= attrib
             }
         }
 
-        if ((bitdiff < best_bitdiff) || (best_bitdiff == -1)) {
-            _this->egl_data->egl_config = configs[i];
-            best_bitdiff = bitdiff;
+        ఒకవేళ ((bitdiff < ఉత్తమ_bitdiff) || (ఉత్తమ_bitdiff == -1)) {
+            _this->egl_దత్తాంశం->egl_config = configs[i];
+            ఉత్తమ_bitdiff = bitdiff;
         }
 
-        if (is_truecolor && ((bitdiff < best_truecolor_bitdiff) || (best_truecolor_bitdiff == -1))) {
+        ఒకవేళ (is_truecolor && ((bitdiff < ఉత్తమ_truecolor_bitdiff) || (ఉత్తమ_truecolor_bitdiff == -1))) {
             truecolor_config_idx = i;
-            best_truecolor_bitdiff = bitdiff;
+            ఉత్తమ_truecolor_bitdiff = bitdiff;
         }
     }
 
-#define FAVOR_TRUECOLOR 1
-#if FAVOR_TRUECOLOR
+#నిర్వచించు FAVOR_TRUECOLOR 1
+#ఒకవేళ FAVOR_TRUECOLOR
     /* Some apps request a low color depth, either because they _assume_
        they'll get a larger one but don't want to fail if only smaller ones
        are available, or they just never called SDL_GL_SetAttribute at all and
@@ -965,149 +965,149 @@ static bool SDL_EGL_PrivateChooseConfig(SDL_VideoDevice *_this, bool set_config_
        on small hardware that all expected to actually get 16-bit color. In this
        case, turn off FAVOR_TRUECOLOR (and maybe send a patch to make this more
        flexible). */
-    if (((_this->gl_config.red_size + _this->gl_config.blue_size + _this->gl_config.green_size) <= 16)) {
-        if (truecolor_config_idx != -1) {
-            _this->egl_data->egl_config = configs[truecolor_config_idx];
+    ఒకవేళ (((_this->gl_config.red_కొలత + _this->gl_config.blue_కొలత + _this->gl_config.green_కొలత) <= 16)) {
+        ఒకవేళ (truecolor_config_idx != -1) {
+            _this->egl_దత్తాంశం->egl_config = configs[truecolor_config_idx];
         }
     }
-#endif
+#అయితే_ముగింపు
 
-#ifdef DUMP_EGL_CONFIG
-    dumpconfig(_this, _this->egl_data->egl_config);
-#endif
+#నిర్వచితమైతే DUMP_EGL_CONFIG
+    dumpconfig(_this, _this->egl_దత్తాంశం->egl_config);
+#అయితే_ముగింపు
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_EGL_ChooseConfig(SDL_VideoDevice *_this)
+bool SDL_EGL_ఎంచుకో_Config(SDL_VideoDevice *_this)
 {
-    if (!_this->egl_data) {
-        return SDL_SetError("EGL not initialized");
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("EGL not initialized");
     }
 
     // Try with EGL_CONFIG_CAVEAT set to EGL_NONE, to avoid any EGL_SLOW_CONFIG or EGL_NON_CONFORMANT_CONFIG
-    if (SDL_EGL_PrivateChooseConfig(_this, true)) {
-        return true;
+    ఒకవేళ (SDL_EGL_వ్యక్తిగత_ఎంచుకో_Config(_this, true)) {
+        తిరిగి true;
     }
 
     // Fallback with all configs
-    if (SDL_EGL_PrivateChooseConfig(_this, false)) {
+    ఒకవేళ (SDL_EGL_వ్యక్తిగత_ఎంచుకో_Config(_this, false)) {
         SDL_Log("SDL_EGL_ChooseConfig: found a slow EGL config");
-        return true;
+        తిరిగి true;
     }
 
-    return SDL_EGL_SetError("Couldn't find matching EGL config", "eglChooseConfig");
+    తిరిగి SDL_EGL_సమితి_Error("Couldn't find matching EGL config", "eglChooseConfig");
 }
 
 SDL_GLContext SDL_EGL_CreateContext(SDL_VideoDevice *_this, EGLSurface egl_surface)
 {
     // max 16 key+value pairs plus terminator.
     EGLint attribs[33];
-    int attr = 0;
+    పూర్ణాంకం attr = 0;
 
     EGLContext egl_context, share_context = EGL_NO_CONTEXT;
-    EGLint profile_mask = _this->gl_config.profile_mask;
-    EGLint major_version = _this->gl_config.major_version;
-    EGLint minor_version = _this->gl_config.minor_version;
-    bool profile_es = (profile_mask == SDL_GL_CONTEXT_PROFILE_ES);
+    EGLint profile_ముసుగు = _this->gl_config.profile_ముసుగు;
+    EGLint major_సంస్కరణ = _this->gl_config.major_సంస్కరణ;
+    EGLint minor_సంస్కరణ = _this->gl_config.minor_సంస్కరణ;
+    bool profile_es = (profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES);
 
-    if (!_this->egl_data) {
-        SDL_SetError("EGL not initialized");
-        return NULL;
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        SDL_సమితి_Error("EGL not initialized");
+        తిరిగి ఖాళీ;
     }
 
-    if (_this->gl_config.share_with_current_context) {
+    ఒకవేళ (_this->gl_config.share_with_current_context) {
         share_context = (EGLContext)SDL_GL_GetCurrentContext();
     }
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
-    if (_this->gl_config.flags & SDL_GL_CONTEXT_DEBUG_FLAG) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
+    ఒకవేళ (_this->gl_config.flags & SDL_GL_CONTEXT_DEBUG_FLAG) {
         /* If SDL_GL_CONTEXT_DEBUG_FLAG is set but EGL_KHR_debug unsupported, unset.
          * This is required because some Android devices like to complain about it
          * by "silently" failing, logging a hint which could be easily overlooked:
          * E/libEGL  (26984): validate_display:255 error 3008 (EGL_BAD_DISPLAY)
          * The following explicitly checks for EGL_KHR_debug before EGL 1.5
          */
-        int egl_version_major = _this->egl_data->egl_version_major;
-        int egl_version_minor = _this->egl_data->egl_version_minor;
-        if (((egl_version_major < 1) || (egl_version_major == 1 && egl_version_minor < 5)) &&
+        పూర్ణాంకం egl_సంస్కరణ_major = _this->egl_దత్తాంశం->egl_సంస్కరణ_major;
+        పూర్ణాంకం egl_సంస్కరణ_minor = _this->egl_దత్తాంశం->egl_సంస్కరణ_minor;
+        ఒకవేళ (((egl_సంస్కరణ_major < 1) || (egl_సంస్కరణ_major == 1 && egl_సంస్కరణ_minor < 5)) &&
             !SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_debug")) {
             // SDL profile bits match EGL profile bits.
             _this->gl_config.flags &= ~SDL_GL_CONTEXT_DEBUG_FLAG;
         }
     }
-#endif
+#అయితే_ముగింపు
 
     // Set the context version and other attributes.
-    if ((major_version < 3 || (minor_version == 0 && profile_es)) &&
+    ఒకవేళ ((major_సంస్కరణ < 3 || (minor_సంస్కరణ == 0 && profile_es)) &&
         _this->gl_config.flags == 0 &&
-        (profile_mask == 0 || profile_es)) {
+        (profile_ముసుగు == 0 || profile_es)) {
         /* Create a context without using EGL_KHR_create_context attribs.
          * When creating a GLES context without EGL_KHR_create_context we can
          * only specify the major version. When creating a desktop GL context
          * we can't specify any version, so we only try in that case when the
          * version is less than 3.0 (matches SDL's GLX/WGL behavior.)
          */
-        if (profile_es) {
-            attribs[attr++] = EGL_CONTEXT_CLIENT_VERSION;
-            attribs[attr++] = SDL_max(major_version, 1);
+        ఒకవేళ (profile_es) {
+            attribs[attr++] = EGL_CONTEXT_CLIENT_సంస్కరణ;
+            attribs[attr++] = SDL_max(major_సంస్కరణ, 1);
         }
-    } else {
-#ifdef EGL_KHR_create_context
+    } లేకపోతే {
+#నిర్వచితమైతే EGL_KHR_create_context
         /* The Major/minor version, context profiles, and context flags can
          * only be specified when this extension is available.
          */
-        if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_create_context")) {
-            attribs[attr++] = EGL_CONTEXT_MAJOR_VERSION_KHR;
-            attribs[attr++] = major_version;
-            attribs[attr++] = EGL_CONTEXT_MINOR_VERSION_KHR;
-            attribs[attr++] = minor_version;
+        ఒకవేళ (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_create_context")) {
+            attribs[attr++] = EGL_CONTEXT_MAJOR_సంస్కరణ_KHR;
+            attribs[attr++] = major_సంస్కరణ;
+            attribs[attr++] = EGL_CONTEXT_MINOR_సంస్కరణ_KHR;
+            attribs[attr++] = minor_సంస్కరణ;
 
             // SDL profile bits match EGL profile bits.
-            if (profile_mask != 0 && profile_mask != SDL_GL_CONTEXT_PROFILE_ES) {
-                attribs[attr++] = EGL_CONTEXT_OPENGL_PROFILE_MASK_KHR;
-                attribs[attr++] = profile_mask;
+            ఒకవేళ (profile_ముసుగు != 0 && profile_ముసుగు != SDL_GL_CONTEXT_PROFILE_ES) {
+                attribs[attr++] = EGL_CONTEXT_OPENGL_PROFILE_ముసుగు_KHR;
+                attribs[attr++] = profile_ముసుగు;
             }
 
             // SDL flags match EGL flags.
-            if (_this->gl_config.flags != 0) {
+            ఒకవేళ (_this->gl_config.flags != 0) {
                 attribs[attr++] = EGL_CONTEXT_FLAGS_KHR;
                 attribs[attr++] = _this->gl_config.flags;
             }
-        } else
-#endif // EGL_KHR_create_context
+        } లేకపోతే
+#అయితే_ముగింపు // EGL_KHR_create_context
         {
-            SDL_SetError("Could not create EGL context (context attributes are not supported)");
-            return NULL;
+            SDL_సమితి_Error("Could not create EGL context (context attributes are not supported)");
+            తిరిగి ఖాళీ;
         }
     }
 
-#ifdef EGL_KHR_create_context_no_error
-    if (_this->gl_config.no_error) {
-        if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_create_context_no_error")) {
+#నిర్వచితమైతే EGL_KHR_create_context_no_error
+    ఒకవేళ (_this->gl_config.no_error) {
+        ఒకవేళ (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_create_context_no_error")) {
             attribs[attr++] = EGL_CONTEXT_OPENGL_NO_ERROR_KHR;
             attribs[attr++] = _this->gl_config.no_error;
         }
     }
-#endif
+#అయితే_ముగింపు
 
-    if (_this->egl_contextattrib_callback) {
-        const int maxAttribs = SDL_arraysize(attribs);
+    ఒకవేళ (_this->egl_contextattrib_callback) {
+        స్థిరరాశి పూర్ణాంకం maxAttribs = SDL_arraysize(attribs);
         EGLint *userAttribs, *userAttribP;
-        userAttribs = _this->egl_contextattrib_callback(_this->egl_attrib_callback_userdata, _this->egl_data->egl_display, _this->egl_data->egl_config);
-        if (!userAttribs) {
+        userAttribs = _this->egl_contextattrib_callback(_this->egl_attrib_callback_userdata, _this->egl_దత్తాంశం->egl_display, _this->egl_దత్తాంశం->egl_config);
+        ఒకవేళ (!userAttribs) {
             _this->gl_config.driver_loaded = 0;
-            *_this->gl_config.driver_path = '\0';
-            SDL_SetError("EGL context attribute callback returned NULL pointer");
-            return NULL;
+            *_this->gl_config.driver_మార్గం = '\0';
+            SDL_సమితి_Error("EGL context attribute callback returned NULL pointer");
+            తిరిగి ఖాళీ;
         }
 
-        for (userAttribP = userAttribs; *userAttribP != EGL_NONE;) {
-            if (attr + 3 >= maxAttribs) {
+        కొరకు (userAttribP = userAttribs; *userAttribP != EGL_NONE;) {
+            ఒకవేళ (attr + 3 >= maxAttribs) {
                 _this->gl_config.driver_loaded = 0;
-                *_this->gl_config.driver_path = '\0';
-                SDL_SetError("EGL context attribute callback returned too many attributes");
-                return NULL;
+                *_this->gl_config.driver_మార్గం = '\0';
+                SDL_సమితి_Error("EGL context attribute callback returned too many attributes");
+                తిరిగి ఖాళీ;
             }
             attribs[attr++] = *userAttribP++;
             attribs[attr++] = *userAttribP++;
@@ -1118,144 +1118,144 @@ SDL_GLContext SDL_EGL_CreateContext(SDL_VideoDevice *_this, EGLSurface egl_surfa
     attribs[attr++] = EGL_NONE;
 
     // Bind the API
-    if (profile_es) {
-        _this->egl_data->apitype = EGL_OPENGL_ES_API;
-    } else {
-        _this->egl_data->apitype = EGL_OPENGL_API;
+    ఒకవేళ (profile_es) {
+        _this->egl_దత్తాంశం->apitype = EGL_OPENGL_ES_API;
+    } లేకపోతే {
+        _this->egl_దత్తాంశం->apitype = EGL_OPENGL_API;
     }
-    if (!_this->egl_data->eglBindAPI(_this->egl_data->apitype)) {
-        SDL_SetError("Could not bind EGL API");
-        return NULL;
+    ఒకవేళ (!_this->egl_దత్తాంశం->eglBindAPI(_this->egl_దత్తాంశం->apitype)) {
+        SDL_సమితి_Error("Could not bind EGL API");
+        తిరిగి ఖాళీ;
     }
 
-    egl_context = _this->egl_data->eglCreateContext(_this->egl_data->egl_display,
-                                                    _this->egl_data->egl_config,
+    egl_context = _this->egl_దత్తాంశం->eglCreateContext(_this->egl_దత్తాంశం->egl_display,
+                                                    _this->egl_దత్తాంశం->egl_config,
                                                     share_context, attribs);
 
-    if (egl_context == EGL_NO_CONTEXT) {
-        SDL_EGL_SetError("Could not create EGL context", "eglCreateContext");
-        return NULL;
+    ఒకవేళ (egl_context == EGL_NO_CONTEXT) {
+        SDL_EGL_సమితి_Error("Could not create EGL context", "eglCreateContext");
+        తిరిగి ఖాళీ;
     }
 
     // The default swap interval is 1, according to the spec, but SDL3's policy is to default vsync to off by default.
-    _this->egl_data->egl_swapinterval = 0;
+    _this->egl_దత్తాంశం->egl_swapinterval = 0;
 
-    if (!SDL_EGL_MakeCurrent(_this, egl_surface, (SDL_GLContext)egl_context)) {
+    ఒకవేళ (!SDL_EGL_MakeCurrent(_this, egl_surface, (SDL_GLContext)egl_context)) {
         // Delete the context
         SDL_EGL_DestroyContext(_this, (SDL_GLContext)egl_context);
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
     /* Check whether making contexts current without a surface is supported.
      * First condition: EGL must support it. That's the case for EGL 1.5
      * or later, or if the EGL_KHR_surfaceless_context extension is present. */
-    if ((_this->egl_data->egl_version_major > 1) ||
-        ((_this->egl_data->egl_version_major == 1) && (_this->egl_data->egl_version_minor >= 5)) ||
+    ఒకవేళ ((_this->egl_దత్తాంశం->egl_సంస్కరణ_major > 1) ||
+        ((_this->egl_దత్తాంశం->egl_సంస్కరణ_major == 1) && (_this->egl_దత్తాంశం->egl_సంస్కరణ_minor >= 5)) ||
         SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_surfaceless_context")) {
         // Secondary condition: The client API must support it.
-        if (profile_es) {
+        ఒకవేళ (profile_es) {
             /* On OpenGL ES, the GL_OES_surfaceless_context extension must be
              * present. */
-            if (SDL_GL_ExtensionSupported("GL_OES_surfaceless_context")) {
+            ఒకవేళ (SDL_GL_ExtensionSupported("GL_OES_surfaceless_context")) {
                 _this->gl_allow_no_surface = true;
             }
-#if defined(SDL_VIDEO_OPENGL) && !defined(SDL_VIDEO_DRIVER_VITA)
-        } else {
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) && !defined(SDL_VIDEO_DRIVER_VITA)
+        } లేకపోతే {
             // Desktop OpenGL supports it by default from version 3.0 on.
-             PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
-            if (glGetIntegervFunc) {
+             PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_Get_Proc_చిరునామా("glGetIntegerv");
+            ఒకవేళ (glGetIntegervFunc) {
                 GLint v = 0;
-                glGetIntegervFunc(GL_MAJOR_VERSION, &v);
-                if (v >= 3) {
+                glGetIntegervFunc(GL_MAJOR_సంస్కరణ, &v);
+                ఒకవేళ (v >= 3) {
                     _this->gl_allow_no_surface = true;
                 }
             }
-#endif
+#అయితే_ముగింపు
         }
     }
 
-    SDL_EGL_SetSwapInterval(_this, 0);  // EGL tends to default to vsync=1. To make this consistent with the rest of SDL, we force it off at startup. Apps can explicitly enable it afterwards.
+    SDL_EGL_సమితి_మార్పిడి_Interval(_this, 0);  // EGL tends to default to vsync=1. To make this consistent with the rest of SDL, we force it off at startup. Apps can explicitly enable it afterwards.
 
-    return (SDL_GLContext)egl_context;
+    తిరిగి (SDL_GLContext)egl_context;
 }
 
 bool SDL_EGL_MakeCurrent(SDL_VideoDevice *_this, EGLSurface egl_surface, SDL_GLContext context)
 {
     EGLContext egl_context = (EGLContext)context;
 
-    if (!_this->egl_data) {
-        return SDL_SetError("EGL not initialized");
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("EGL not initialized");
     }
 
-    if (!_this->egl_data->eglMakeCurrent) {
-        if (!egl_surface && !context) {
+    ఒకవేళ (!_this->egl_దత్తాంశం->eglMakeCurrent) {
+        ఒకవేళ (!egl_surface && !context) {
             // Can't do the nothing there is to do? Probably trying to cleanup a failed startup, just return.
-            return true;
-        } else {
-            return SDL_SetError("EGL not initialized"); // something clearly went wrong somewhere.
+            తిరిగి true;
+        } లేకపోతే {
+            తిరిగి SDL_సమితి_Error("EGL not initialized"); // something clearly went wrong somewhere.
         }
     }
 
     // Make sure current thread has a valid API bound to it.
-    if (_this->egl_data->eglBindAPI) {
-        _this->egl_data->eglBindAPI(_this->egl_data->apitype);
+    ఒకవేళ (_this->egl_దత్తాంశం->eglBindAPI) {
+        _this->egl_దత్తాంశం->eglBindAPI(_this->egl_దత్తాంశం->apitype);
     }
 
     /* The android emulator crashes badly if you try to eglMakeCurrent
      * with a valid context and invalid surface, so we have to check for both here.
      */
-    if (!egl_context || (!egl_surface && !_this->gl_allow_no_surface)) {
-        _this->egl_data->eglMakeCurrent(_this->egl_data->egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
-    } else {
-        if (!_this->egl_data->eglMakeCurrent(_this->egl_data->egl_display,
+    ఒకవేళ (!egl_context || (!egl_surface && !_this->gl_allow_no_surface)) {
+        _this->egl_దత్తాంశం->eglMakeCurrent(_this->egl_దత్తాంశం->egl_display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
+    } లేకపోతే {
+        ఒకవేళ (!_this->egl_దత్తాంశం->eglMakeCurrent(_this->egl_దత్తాంశం->egl_display,
                                              egl_surface, egl_surface, egl_context)) {
-            return SDL_EGL_SetError("Unable to make EGL context current", "eglMakeCurrent");
+            తిరిగి SDL_EGL_సమితి_Error("Unable to make EGL context current", "eglMakeCurrent");
         }
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_EGL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool SDL_EGL_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval)
 {
-    EGLBoolean status;
+    EGLBoolean స్థితి_2;
 
-    if (!_this->egl_data) {
-        return SDL_SetError("EGL not initialized");
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("EGL not initialized");
     }
 
     /* FIXME: Revisit this check when EGL_EXT_swap_control_tear is published:
      * https://github.com/KhronosGroup/EGL-Registry/pull/113
      */
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
+    ఒకవేళ (interval < 0) {
+        తిరిగి SDL_సమితి_Error("Late swap tearing currently unsupported");
     }
 
-    status = _this->egl_data->eglSwapInterval(_this->egl_data->egl_display, interval);
-    if (status == EGL_TRUE) {
-        _this->egl_data->egl_swapinterval = interval;
-        return true;
+    స్థితి_2 = _this->egl_దత్తాంశం->egl_మార్పిడి_Interval(_this->egl_దత్తాంశం->egl_display, interval);
+    ఒకవేళ (స్థితి_2 == EGL_TRUE) {
+        _this->egl_దత్తాంశం->egl_swapinterval = interval;
+        తిరిగి true;
     }
 
-    return SDL_EGL_SetError("Unable to set the EGL swap interval", "eglSwapInterval");
+    తిరిగి SDL_EGL_సమితి_Error("Unable to set the EGL swap interval", "eglSwapInterval");
 }
 
-bool SDL_EGL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool SDL_EGL_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval)
 {
-    if (!_this->egl_data) {
-        return SDL_SetError("EGL not initialized");
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("EGL not initialized");
     }
 
-    *interval = _this->egl_data->egl_swapinterval;
-    return true;
+    *interval = _this->egl_దత్తాంశం->egl_swapinterval;
+    తిరిగి true;
 }
 
-bool SDL_EGL_SwapBuffers(SDL_VideoDevice *_this, EGLSurface egl_surface)
+bool SDL_EGL_మార్పిడి_Buffers(SDL_VideoDevice *_this, EGLSurface egl_surface)
 {
-    if (!_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, egl_surface)) {
-        return SDL_EGL_SetError("unable to show color buffer in an OS-native window", "eglSwapBuffers");
+    ఒకవేళ (!_this->egl_దత్తాంశం->egl_మార్పిడి_Buffers(_this->egl_దత్తాంశం->egl_display, egl_surface)) {
+        తిరిగి SDL_EGL_సమితి_Error("unable to show color buffer in an OS-native window", "eglSwapBuffers");
     }
-    return true;
+    తిరిగి true;
 }
 
 bool SDL_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
@@ -1263,102 +1263,102 @@ bool SDL_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
     EGLContext egl_context = (EGLContext)context;
 
     // Clean up GLES and EGL
-    if (!_this->egl_data) {
-        return true;
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        తిరిగి true;
     }
 
-    if (egl_context != NULL && egl_context != EGL_NO_CONTEXT) {
-        _this->egl_data->eglDestroyContext(_this->egl_data->egl_display, egl_context);
+    ఒకవేళ (egl_context != ఖాళీ && egl_context != EGL_NO_CONTEXT) {
+        _this->egl_దత్తాంశం->eglDestroyContext(_this->egl_దత్తాంశం->egl_display, egl_context);
     }
-    return true;
+    తిరిగి true;
 }
 
-EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, NativeWindowType nw)
+EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, Native_కిటికీ_Type nw)
 {
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
     EGLint format_wanted;
     EGLint format_got;
-#endif
+#అయితే_ముగింపు
     // max 16 key+value pairs, plus terminator.
     EGLint attribs[33];
-    int attr = 0;
+    పూర్ణాంకం attr = 0;
 
     EGLSurface surface;
 
-    if (!SDL_EGL_ChooseConfig(_this)) {
-        return EGL_NO_SURFACE;
+    ఒకవేళ (!SDL_EGL_ఎంచుకో_Config(_this)) {
+        తిరిగి EGL_NO_SURFACE;
     }
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
     /* On Android, EGL_NATIVE_VISUAL_ID is an attribute of the EGLConfig that is
      * guaranteed to be accepted by ANativeWindow_setBuffersGeometry(). */
-    _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
-                                        _this->egl_data->egl_config,
+    _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display,
+                                        _this->egl_దత్తాంశం->egl_config,
                                         EGL_NATIVE_VISUAL_ID, &format_wanted);
 
     // Format based on selected egl config.
-    ANativeWindow_setBuffersGeometry(nw, 0, 0, format_wanted);
-#endif
+    ANative_కిటికీ_సమితి_Buffers_Geometry(nw, 0, 0, format_wanted);
+#అయితే_ముగింపు
 
-#ifdef SDL_VIDEO_DRIVER_QNX
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_QNX
     // Wayland is also a supported platform on QNX, so we need to be specific.
-    if (SDL_strcmp(_this->name, "qnx") == 0) {
-        int format = QNX_ChooseFormat(_this, _this->egl_data->egl_config);
+    ఒకవేళ (SDL_strcmp(_this->name, "qnx") == 0) {
+        పూర్ణాంకం format = QNX_ఎంచుకో_Format(_this, _this->egl_దత్తాంశం->egl_config);
 
-        if (screen_set_window_property_iv(nw, SCREEN_PROPERTY_FORMAT, &format) < 0) {
-            return EGL_NO_SURFACE;
+        ఒకవేళ (screen_సమితి_కిటికీ_property_iv(nw, SCREEN_PROPERTY_FORMAT, &format) < 0) {
+            తిరిగి EGL_NO_SURFACE;
         }
     }
-#endif
+#అయితే_ముగింపు
 
-#ifdef EGL_KHR_gl_colorspace
-    if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_gl_colorspace")) {
-        const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-        if (srgbhint && *srgbhint) {
-            if (SDL_strcmp(srgbhint, "skip") == 0) {
+#నిర్వచితమైతే EGL_KHR_gl_colorspace
+    ఒకవేళ (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_KHR_gl_colorspace")) {
+        స్థిరరాశి అక్షరం *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+        ఒకవేళ (srgbhint && *srgbhint) {
+            ఒకవేళ (SDL_strcmp(srgbhint, "skip") == 0) {
                 // don't set an attribute at all.
-            } else {
+            } లేకపోతే {
                 attribs[attr++] = EGL_GL_COLORSPACE_KHR;
-                attribs[attr++] = SDL_GetStringBoolean(srgbhint, false) ? EGL_GL_COLORSPACE_SRGB_KHR : EGL_GL_COLORSPACE_LINEAR_KHR;
+                attribs[attr++] = SDL_GetStringBoolean(srgbhint, false) ? EGL_GL_COLORSPACE_SRGB_KHR : EGL_GL_COLORSPACE_రేఖీయ_KHR;
             }
-        } else if (_this->gl_config.framebuffer_srgb_capable >= 0) {  // default behavior without the hint.
+        } లేకపోతే ఒకవేళ (_this->gl_config.framebuffer_srgb_capable >= 0) {  // default behavior without the hint.
             attribs[attr++] = EGL_GL_COLORSPACE_KHR;
-            attribs[attr++] = _this->gl_config.framebuffer_srgb_capable ? EGL_GL_COLORSPACE_SRGB_KHR : EGL_GL_COLORSPACE_LINEAR_KHR;
+            attribs[attr++] = _this->gl_config.framebuffer_srgb_capable ? EGL_GL_COLORSPACE_SRGB_KHR : EGL_GL_COLORSPACE_రేఖీయ_KHR;
         }
     }
-#endif
+#అయితే_ముగింపు
 
-    int opaque_ext_idx = -1;
+    పూర్ణాంకం opaque_ext_idx = -1;
 
-#ifdef EGL_EXT_present_opaque
-    if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_EXT_present_opaque")) {
+#నిర్వచితమైతే EGL_EXT_present_opaque
+    ఒకవేళ (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_EXT_present_opaque")) {
         opaque_ext_idx = attr;
         bool allow_transparent = false;
-        if (window && (window->flags & SDL_WINDOW_TRANSPARENT)) {
+        ఒకవేళ (కిటికీ && (కిటికీ->flags & SDL_కిటికీ_TRANSPARENT)) {
             allow_transparent = true;
         }
         attribs[attr++] = EGL_PRESENT_OPAQUE_EXT;
         attribs[attr++] = allow_transparent ? EGL_FALSE : EGL_TRUE;
     }
-#endif
+#అయితే_ముగింపు
 
-    if (_this->egl_surfaceattrib_callback) {
-        const int maxAttribs = SDL_arraysize(attribs);
+    ఒకవేళ (_this->egl_surfaceattrib_callback) {
+        స్థిరరాశి పూర్ణాంకం maxAttribs = SDL_arraysize(attribs);
         EGLint *userAttribs, *userAttribP;
-        userAttribs = _this->egl_surfaceattrib_callback(_this->egl_attrib_callback_userdata, _this->egl_data->egl_display, _this->egl_data->egl_config);
-        if (!userAttribs) {
+        userAttribs = _this->egl_surfaceattrib_callback(_this->egl_attrib_callback_userdata, _this->egl_దత్తాంశం->egl_display, _this->egl_దత్తాంశం->egl_config);
+        ఒకవేళ (!userAttribs) {
             _this->gl_config.driver_loaded = 0;
-            *_this->gl_config.driver_path = '\0';
-            SDL_SetError("EGL surface attribute callback returned NULL pointer");
-            return EGL_NO_SURFACE;
+            *_this->gl_config.driver_మార్గం = '\0';
+            SDL_సమితి_Error("EGL surface attribute callback returned NULL pointer");
+            తిరిగి EGL_NO_SURFACE;
         }
 
-        for (userAttribP = userAttribs; *userAttribP != EGL_NONE;) {
-            if (attr + 3 >= maxAttribs) {
+        కొరకు (userAttribP = userAttribs; *userAttribP != EGL_NONE;) {
+            ఒకవేళ (attr + 3 >= maxAttribs) {
                 _this->gl_config.driver_loaded = 0;
-                *_this->gl_config.driver_path = '\0';
-                SDL_SetError("EGL surface attribute callback returned too many attributes");
-                return EGL_NO_SURFACE;
+                *_this->gl_config.driver_మార్గం = '\0';
+                SDL_సమితి_Error("EGL surface attribute callback returned too many attributes");
+                తిరిగి EGL_NO_SURFACE;
             }
             attribs[attr++] = *userAttribP++;
             attribs[attr++] = *userAttribP++;
@@ -1368,59 +1368,59 @@ EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, Nat
 
     attribs[attr++] = EGL_NONE;
 
-    surface = _this->egl_data->eglCreateWindowSurface(_this->egl_data->egl_display, _this->egl_data->egl_config, nw, &attribs[0]);
-    if (surface == EGL_NO_SURFACE) {
+    surface = _this->egl_దత్తాంశం->egl_Create_కిటికీ_Surface(_this->egl_దత్తాంశం->egl_display, _this->egl_దత్తాంశం->egl_config, nw, &attribs[0]);
+    ఒకవేళ (surface == EGL_NO_SURFACE) {
         // we had a report of Nvidia drivers that report EGL_BAD_ATTRIBUTE if you try to
         //  use EGL_PRESENT_OPAQUE_EXT, even when EGL_EXT_present_opaque is reported as available.
         //  If we used it, try a second time without this attribute.
-        if ((_this->egl_data->eglGetError() == EGL_BAD_ATTRIBUTE) && (opaque_ext_idx >= 0)) {
-            SDL_memmove(&attribs[opaque_ext_idx], &attribs[opaque_ext_idx + 2], sizeof (attribs[0]) * ((attr - opaque_ext_idx) - 2));
-            surface = _this->egl_data->eglCreateWindowSurface(_this->egl_data->egl_display, _this->egl_data->egl_config, nw, &attribs[0]);
+        ఒకవేళ ((_this->egl_దత్తాంశం->eglGetError() == EGL_BAD_ATTRIBUTE) && (opaque_ext_idx >= 0)) {
+            SDL_memmove(&attribs[opaque_ext_idx], &attribs[opaque_ext_idx + 2], పరిమాణం (attribs[0]) * ((attr - opaque_ext_idx) - 2));
+            surface = _this->egl_దత్తాంశం->egl_Create_కిటికీ_Surface(_this->egl_దత్తాంశం->egl_display, _this->egl_దత్తాంశం->egl_config, nw, &attribs[0]);
         }
     }
 
-    if (surface == EGL_NO_SURFACE) {
-        SDL_EGL_SetError("unable to create an EGL window surface", "eglCreateWindowSurface");
+    ఒకవేళ (surface == EGL_NO_SURFACE) {
+        SDL_EGL_సమితి_Error("unable to create an EGL window surface", "eglCreateWindowSurface");
     }
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
-    format_got = ANativeWindow_getFormat(nw);
-    Android_SetFormat(format_wanted, format_got);
-#endif
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
+    format_got = ANative_కిటికీ_get_Format(nw);
+    Android_సమితి_Format(format_wanted, format_got);
+#అయితే_ముగింపు
 
-    return surface;
+    తిరిగి surface;
 }
 
 EGLSurface
-SDL_EGL_CreateOffscreenSurface(SDL_VideoDevice *_this, int width, int height)
+SDL_EGL_CreateOffscreenSurface(SDL_VideoDevice *_this, పూర్ణాంకం వెడల్పు, పూర్ణాంకం ఎత్తు)
 {
-    EGLint attributes[] = {
-        EGL_WIDTH, 0,
-        EGL_HEIGHT, 0,
+    EGLint లక్షణాలు[] = {
+        EGL_వెడల్పు, 0,
+        EGL_ఎత్తు, 0,
         EGL_NONE
     };
-    attributes[1] = width;
-    attributes[3] = height;
+    లక్షణాలు[1] = వెడల్పు;
+    లక్షణాలు[3] = ఎత్తు;
 
-    if (!SDL_EGL_ChooseConfig(_this)) {
-        return EGL_NO_SURFACE;
+    ఒకవేళ (!SDL_EGL_ఎంచుకో_Config(_this)) {
+        తిరిగి EGL_NO_SURFACE;
     }
 
-    return _this->egl_data->eglCreatePbufferSurface(
-        _this->egl_data->egl_display,
-        _this->egl_data->egl_config,
-        attributes);
+    తిరిగి _this->egl_దత్తాంశం->eglCreatePbufferSurface(
+        _this->egl_దత్తాంశం->egl_display,
+        _this->egl_దత్తాంశం->egl_config,
+        లక్షణాలు);
 }
 
-void SDL_EGL_DestroySurface(SDL_VideoDevice *_this, EGLSurface egl_surface)
+శూన్య SDL_EGL_DestroySurface(SDL_VideoDevice *_this, EGLSurface egl_surface)
 {
-    if (!_this->egl_data) {
-        return;
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        తిరిగి;
     }
 
-    if (egl_surface != EGL_NO_SURFACE) {
-        _this->egl_data->eglDestroySurface(_this->egl_data->egl_display, egl_surface);
+    ఒకవేళ (egl_surface != EGL_NO_SURFACE) {
+        _this->egl_దత్తాంశం->eglDestroySurface(_this->egl_దత్తాంశం->egl_display, egl_surface);
     }
 }
 
-#endif // SDL_VIDEO_OPENGL_EGL
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_EGL

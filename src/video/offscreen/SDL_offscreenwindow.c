@@ -18,73 +18,73 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_egl_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_windowevents_c.h"
+#అన్తర్భావ "../SDL_egl_c.h"
 
-#include "SDL_offscreenwindow.h"
+#అన్తర్భావ "SDL_offscreenwindow.h"
 
-bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool OFFSCREEN_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
+    SDL_కిటికీ_దత్తాంశం *offscreen_కిటికీ = (SDL_కిటికీ_దత్తాంశం *)SDL_calloc(1, పరిమాణం(SDL_కిటికీ_దత్తాంశం));
 
-    if (!offscreen_window) {
-        return false;
+    ఒకవేళ (!offscreen_కిటికీ) {
+        తిరిగి false;
     }
 
-    window->internal = offscreen_window;
+    కిటికీ->అంతర్గత = offscreen_కిటికీ;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
-        window->x = 0;
+    ఒకవేళ (కిటికీ->x == SDL_WINDOWPOS_UNDEFINED) {
+        కిటికీ->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
-        window->y = 0;
+    ఒకవేళ (కిటికీ->y == SDL_WINDOWPOS_UNDEFINED) {
+        కిటికీ->y = 0;
     }
 
-    offscreen_window->sdl_window = window;
+    offscreen_కిటికీ->sdl_కిటికీ = కిటికీ;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        ఒకవేళ (!_this->egl_దత్తాంశం) {
+            తిరిగి SDL_సమితి_Error("Cannot create an OPENGL window invalid egl_data");
         }
 
-        offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
+        offscreen_కిటికీ->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, కిటికీ->w, కిటికీ->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
-                                _this->egl_data->egl_display);
+        ఒకవేళ (offscreen_కిటికీ->egl_surface == EGL_NO_SURFACE) {
+            తిరిగి SDL_సమితి_Error("Failed to created an offscreen surface (EGL display: %p)",
+                                _this->egl_దత్తాంశం->egl_display);
         }
-    } else {
-        offscreen_window->egl_surface = EGL_NO_SURFACE;
+    } లేకపోతే {
+        offscreen_కిటికీ->egl_surface = EGL_NO_SURFACE;
     }
-#endif // SDL_VIDEO_OPENGL_EGL
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    తిరిగి true;
 }
 
-void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య OFFSCREEN_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *offscreen_window = window->internal;
+    SDL_కిటికీ_దత్తాంశం *offscreen_కిటికీ = కిటికీ->అంతర్గత;
 
-    if (offscreen_window) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
-#endif
-        SDL_free(offscreen_window);
+    ఒకవేళ (offscreen_కిటికీ) {
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+        SDL_EGL_DestroySurface(_this, offscreen_కిటికీ->egl_surface);
+#అయితే_ముగింపు
+        SDL_free(offscreen_కిటికీ);
     }
 
-    window->internal = NULL;
+    కిటికీ->అంతర్గత = ఖాళీ;
 }
 
-void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య OFFSCREEN_సమితి_కిటికీ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESIZED, కిటికీ->pending.w, కిటికీ->pending.h);
 }
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_OFFSCREEN

@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_androidgl_h_
-#define SDL_androidgl_h_
+#నిర్వచితం_కాకపోతే SDL_androidgl_h_
+#నిర్వచించు SDL_androidgl_h_
 
-extern SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Android_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+బాహ్య SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context);
+బాహ్య bool Android_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Android_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
 
-#endif // SDL_androidgl_h_
+#అయితే_ముగింపు // SDL_androidgl_h_

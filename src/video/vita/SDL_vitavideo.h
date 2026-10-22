@@ -19,102 +19,102 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_vitavideo_h
-#define SDL_vitavideo_h
+#నిర్వచితం_కాకపోతే SDL_vitavideo_h
+#నిర్వచించు SDL_vitavideo_h
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#అన్తర్భావ "SDL_internal.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_egl_c.h"
 
-#include <psp2/types.h>
-#include <psp2/display.h>
-#include <psp2/ime_dialog.h>
-#include <psp2/sysmodule.h>
+#అన్తర్భావ <psp2/types.h>
+#అన్తర్భావ <psp2/display.h>
+#అన్తర్భావ <psp2/ime_dialog.h>
+#అన్తర్భావ <psp2/sysmodule.h>
 
-#ifdef SDL_VIDEO_VITA_PIB
-#include <psp2/gxm.h>
-#include <psp2/display.h>
-#include <pib.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-typedef struct SDL_GLDriverData
+#నిర్వచితమైతే SDL_VIDEO_VITA_PIB
+#అన్తర్భావ <psp2/gxm.h>
+#అన్తర్భావ <psp2/display.h>
+#అన్తర్భావ <pib.h>
+#అన్తర్భావ <EGL/egl.h>
+#అన్తర్భావ <EGL/eglext.h>
+#అన్తర్భావ <GLES2/gl2.h>
+#అన్తర్భావ <GLES2/gl2ext.h>
+రకనిర్వచనం నిర్మాణం SDL_GLDriver_దత్తాంశం
 {
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     uint32_t swapinterval;
-} SDL_GLDriverData;
-#endif
+} SDL_GLDriver_దత్తాంశం;
+#అయితే_ముగింపు
 
-struct SDL_VideoData
+నిర్మాణం SDL_Video_దత్తాంశం
 {
     bool egl_initialized; // OpenGL device initialization status
     uint32_t egl_refcount;    // OpenGL reference count
 
-    SceWChar16 ime_buffer[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
-    bool ime_active;
+    SceWChar16 ime_బఫరు[SCE_IME_DIALOG_MAX_పాఠ్యం_నిడివి];
+    bool ime_చురుకైన;
 };
 
-struct SDL_WindowData
+నిర్మాణం SDL_కిటికీ_దత్తాంశం
 {
-    bool uses_gles;
-    SceUID buffer_uid;
-    void *buffer;
-#ifdef SDL_VIDEO_VITA_PVR
+    bool ఉపయోగిస్తుంది_gles;
+    SceUID బఫరు_uid;
+    శూన్య *బఫరు_2;
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
     EGLSurface egl_surface;
     EGLContext egl_context;
-#endif
+#అయితే_ముగింపు
 };
 
-extern SDL_Window *Vita_Window;
+బాహ్య SDL_కిటికీ *Vita_కిటికీ;
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration
 /****************************************************************************/
 
 // Display and window functions
-extern bool VITA_VideoInit(SDL_VideoDevice *_this);
-extern void VITA_VideoQuit(SDL_VideoDevice *_this);
-extern bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void VITA_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_SetWindowGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+బాహ్య bool VITA_VideoInit(SDL_VideoDevice *_this);
+బాహ్య శూన్య VITA_VideoQuit(SDL_VideoDevice *_this);
+బాహ్య bool VITA_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props);
+బాహ్య శూన్య VITA_సమితి_కిటికీ_Title(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool VITA_సమితి_కిటికీ_Position(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య VITA_సమితి_కిటికీ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య VITA_Show_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య VITA_Hide_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య VITA_Raise_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య VITA_Maximize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య VITA_Minimize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య VITA_Restore_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool VITA_సమితి_కిటికీ_Grab(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool grabbed);
+బాహ్య శూన్య VITA_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 
-#ifdef SDL_VIDEO_DRIVER_VITA
-#ifdef SDL_VIDEO_VITA_PVR_OGL
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_VITA
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR_OGL
 // OpenGL functions
-extern bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-#endif
+బాహ్య bool VITA_GL_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య SDL_Function_సూచిక VITA_GL_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc);
+#అయితే_ముగింపు
 
 // OpenGLES functions
-extern bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer VITA_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool VITA_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool VITA_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-#endif
+బాహ్య bool VITA_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య SDL_Function_సూచిక VITA_GLES_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc);
+బాహ్య శూన్య VITA_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+బాహ్య SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context);
+బాహ్య bool VITA_GLES_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval);
+బాహ్య bool VITA_GLES_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval);
+బాహ్య bool VITA_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool VITA_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+#అయితే_ముగింపు
 
 // VITA on screen keyboard
-extern bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+బాహ్య bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+బాహ్య శూన్య VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props);
+బాహ్య శూన్య VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 
-extern void VITA_PumpEvents(SDL_VideoDevice *_this);
+బాహ్య శూన్య VITA_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_vitavideo_h
+#అయితే_ముగింపు // SDL_vitavideo_h

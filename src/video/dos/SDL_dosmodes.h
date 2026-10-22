@@ -19,32 +19,32 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosmodes_h_
-#define SDL_dosmodes_h_
+#నిర్వచితం_కాకపోతే SDL_dosmodes_h_
+#నిర్వచించు SDL_dosmodes_h_
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-extern bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display);
-extern bool DOSVESA_SetDisplayMode(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_DisplayMode *mode);
-extern bool DOSVESA_SupportsVESA(void);
-extern void DOSVESA_FreeVESAInfo(void);
-extern Uint32 DOSVESA_GetVESATotalMemory(void);
-extern const char *DOSVESA_GetGPUName(void);
+బాహ్య bool DOSVESA_GetDisplayModes(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display);
+బాహ్య bool DOSVESA_సమితి_Display_బహుళకం(SDL_VideoDevice *device, SDL_VideoDisplay *sdl_display, SDL_Display_బహుళకం *బహుళకం);
+బాహ్య bool DOSVESA_SupportsVESA(శూన్య);
+బాహ్య శూన్య DOSVESA_FreeVESAInfo(శూన్య);
+బాహ్య Uint32 DOSVESA_Get_VESATotal_జ్ఞాపకం(శూన్య);
+బాహ్య స్థిరరాశి అక్షరం *DOSVESA_GetGPUName(శూన్య);
 
 // VGA DAC (Digital-to-Analog Converter) ports for palette programming
-#define VGA_DAC_PIXEL_MASK  0x3C6 // pixel mask register (read/write, VGA-only)
-#define VGA_DAC_WRITE_INDEX 0x3C8 // write index register (set starting color index)
-#define VGA_DAC_DATA        0x3C9 // data register (write R, G, B in sequence)
+#నిర్వచించు VGA_DAC_PIXEL_ముసుగు  0x3C6 // pixel mask register (read/write, VGA-only)
+#నిర్వచించు VGA_DAC_WRITE_సూచీ 0x3C8 // write index register (set starting color index)
+#నిర్వచించు VGA_DAC_దత్తాంశం        0x3C9 // data register (write R, G, B in sequence)
 
 // VGA Input Status Register 1 (for vblank detection)
-#define VGA_STATUS_PORT   0x3DA
-#define VGA_STATUS_VBLANK 0x08 // bit 3: vertical retrace active
+#నిర్వచించు VGA_స్థితి_పోర్టు   0x3DA
+#నిర్వచించు VGA_స్థితి_VBLANK 0x08 // bit 3: vertical retrace active
 
 // VBE window attribute bits (WinAAttributes / WinBAttributes field)
-#define VBE_WINATTR_SUPPORTED 0x01 // bit 0: window is supported
-#define VBE_WINATTR_WRITABLE  0x04 // bit 2: window is writable
+#నిర్వచించు VBE_WINATTR_SUPPORTED 0x01 // bit 0: window is supported
+#నిర్వచించు VBE_WINATTR_WRITABLE  0x04 // bit 2: window is writable
 
 // Combination: a usable banked window must be both supported and writable
-#define VBE_WINATTR_USABLE (VBE_WINATTR_SUPPORTED | VBE_WINATTR_WRITABLE)
+#నిర్వచించు VBE_WINATTR_USABLE (VBE_WINATTR_SUPPORTED | VBE_WINATTR_WRITABLE)
 
-#endif // SDL_dosmodes_h_
+#అయితే_ముగింపు // SDL_dosmodes_h_

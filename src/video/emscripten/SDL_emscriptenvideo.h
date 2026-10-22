@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_emscriptenvideo_h_
-#define SDL_emscriptenvideo_h_
+#నిర్వచితం_కాకపోతే SDL_emscriptenvideo_h_
+#నిర్వచించు SDL_emscriptenvideo_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_touch_c.h"
+#అన్తర్భావ <emscripten/emscripten.h>
+#అన్తర్భావ <emscripten/html5.h>
 
-struct SDL_WindowData
+నిర్మాణం SDL_కిటికీ_దత్తాంశం
 {
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    పూర్ణాంకం non_fill_document_వెడల్పు;
+    పూర్ణాంకం non_fill_document_ఎత్తు;
 
-    char *canvas_id;
-    char *keyboard_element;
+    అక్షరం *canvas_id;
+    అక్షరం *keyboard_element;
 
-    float pixel_ratio;
+    దశాంశం pixel_నిష్పత్తి;
 
-    bool external_size;
+    bool external_కొలత;
 
-    Uint32 fullscreen_mode_flags;
+    Uint32 fullscreen_బహుళకం_flags;
     bool fullscreen_resize;
-    bool fullscreen_change_in_progress;
+    bool fullscreen_change_లోపల_పురోగతి;
 
-    bool has_pointer_lock;
+    bool has_సూచిక_తాళం;
 
     bool mouse_focus_loss_pending;
 };
 
-extern SDL_Window *Emscripten_fill_document_window;
+బాహ్య SDL_కిటికీ *Emscripten_fill_document_కిటికీ;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_Should_సమితి_మార్పిడి_Interval(పూర్ణాంకం interval);
+పూర్ణాంకం Emscripten_Get_Pending_మార్పిడి_Interval(శూన్య);
 
-#endif // SDL_emscriptenvideo_h_
+#అయితే_ముగింపు // SDL_emscriptenvideo_h_

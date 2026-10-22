@@ -18,32 +18,32 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_waylandopengles_h_
-#define SDL_waylandopengles_h_
+#నిర్వచితం_కాకపోతే SDL_waylandopengles_h_
+#నిర్వచించు SDL_waylandopengles_h_
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+రకనిర్వచనం నిర్మాణం SDL_వ్యక్తిగత_GLESData
 {
-    int dummy;
-} SDL_PrivateGLESData;
+    పూర్ణాంకం dummy;
+} SDL_వ్యక్తిగత_GLESData;
 
 // OpenGLES functions
-#define Wayland_GLES_GetAttribute   SDL_EGL_GetAttribute
-#define Wayland_GLES_GetProcAddress SDL_EGL_GetProcAddressInternal
-#define Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
+#నిర్వచించు Wayland_GLES_GetAttribute   SDL_EGL_GetAttribute
+#నిర్వచించు Wayland_GLES_Get_Proc_చిరునామా SDL_EGL_Get_Proc_చిరునామా_అంతర్గత
+#నిర్వచించు Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
 
-extern bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void Wayland_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+బాహ్య bool Wayland_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Wayland_GLES_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval);
+బాహ్య bool Wayland_GLES_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval);
+బాహ్య bool Wayland_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context);
+బాహ్య bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+బాహ్య శూన్య Wayland_GLES_సమితి_Default_Profile_Config(SDL_VideoDevice *_this);
+బాహ్య SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 
-#endif // SDL_waylandopengles_h_
+#అయితే_ముగింపు // SDL_waylandopengles_h_

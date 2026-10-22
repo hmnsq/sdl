@@ -18,70 +18,70 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
-#include <emscripten/threading.h>
+#అన్తర్భావ <emscripten/emscripten.h>
+#అన్తర్భావ <emscripten/html5.h>
+#అన్తర్భావ <emscripten/threading.h>
 
-#include "SDL_emscriptenmouse.h"
-#include "SDL_emscriptenvideo.h"
+#అన్తర్భావ "SDL_emscriptenmouse.h"
+#అన్తర్భావ "SDL_emscriptenvideo.h"
 
-#include "../SDL_video_c.h"
-#include "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../SDL_video_c.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
 
 // older Emscriptens don't have this, but we need to for wasm64 compatibility.
-#ifndef MAIN_THREAD_EM_ASM_PTR
-    #ifdef __wasm64__
-        #error You need to upgrade your Emscripten compiler to support wasm64
-    #else
-        #define MAIN_THREAD_EM_ASM_PTR MAIN_THREAD_EM_ASM_INT
-    #endif
-#endif
+#నిర్వచితం_కాకపోతే MAIN_THREAD_EM_ASM_PTR
+    #నిర్వచితమైతే __wasm64__
+        #దోషం You need గమ్యం upgrade your Emscripten compiler గమ్యం support wasm64
+    #లేకపోతే
+        #నిర్వచించు MAIN_THREAD_EM_ASM_PTR MAIN_THREAD_EM_ASM_INT
+    #అయితే_ముగింపు
+#అయితే_ముగింపు
 
-static SDL_Cursor *Emscripten_CreateCursorFromString(const char *cursor_str, bool is_custom)
+స్థిర SDL_Cursor *Emscripten_CreateCursorFromString(స్థిరరాశి అక్షరం *cursor_str, bool is_custom)
 {
-    SDL_CursorData *curdata;
-    SDL_Cursor *cursor = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (cursor) {
-        curdata = (SDL_CursorData *)SDL_calloc(1, sizeof(*curdata));
-        if (!curdata) {
+    SDL_Cursor_దత్తాంశం *curdata;
+    SDL_Cursor *cursor = SDL_calloc(1, పరిమాణం(SDL_Cursor));
+    ఒకవేళ (cursor) {
+        curdata = (SDL_Cursor_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*curdata));
+        ఒకవేళ (!curdata) {
             SDL_free(cursor);
-            return NULL;
+            తిరిగి ఖాళీ;
         }
 
         curdata->system_cursor = cursor_str;
         curdata->is_custom = is_custom;
-        cursor->internal = curdata;
+        cursor->అంతర్గత = curdata;
     }
 
-    return cursor;
+    తిరిగి cursor;
 }
 
-static SDL_Cursor *Emscripten_CreateDefaultCursor(void)
+స్థిర SDL_Cursor *Emscripten_CreateDefaultCursor(శూన్య)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    const char *cursor_name = SDL_GetCSSCursorName(id, NULL);
-    return Emscripten_CreateCursorFromString(cursor_name, false);
+    స్థిరరాశి అక్షరం *cursor_name = SDL_GetCSSCursorName(id, ఖాళీ);
+    తిరిగి Emscripten_CreateCursorFromString(cursor_name, false);
 }
 
 EM_JS_DEPS(sdlmouse, "$stringToUTF8,$UTF8ToString");
 
-static SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+స్థిర SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y)
 {
-    const char *cursor_url = NULL;
+    స్థిరరాశి అక్షరం *cursor_url = ఖాళీ;
     SDL_Surface *conv_surf;
 
     conv_surf = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
 
-    if (!conv_surf) {
-        return NULL;
+    ఒకవేళ (!conv_surf) {
+        తిరిగి ఖాళీ;
     }
 
     /* *INDENT-OFF* */ // clang-format off
-    cursor_url = (const char *)MAIN_THREAD_EM_ASM_PTR({
+    cursor_url = (స్థిరరాశి అక్షరం *)MAIN_THREAD_EM_ASM_PTR({
         var w = $0;
         var h = $1;
         var hot_x = $2;
@@ -89,134 +89,134 @@ static SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, int hot_x, int 
         var pixels = $4;
 
         var canvas = document.createElement("canvas");
-        canvas.width = w;
-        canvas.height = h;
+        canvas.వెడల్పు = w;
+        canvas.ఎత్తు = h;
 
         var ctx = canvas.getContext("2d");
 
-        var image = ctx.createImageData(w, h);
-        var data = image.data;
+        var image = ctx.create_Image_దత్తాంశం(w, h);
+        var దత్తాంశం = image.దత్తాంశం;
         var src = pixels / 4;
 
-        var data32 = new Int32Array(data.buffer);
-        data32.set(HEAP32.subarray(src, src + data32.length));
+        var data32 = new Int32Array(దత్తాంశం.బఫరు_2);
+        data32.సమితి(HEAP32.subarray(src, src + data32.నిడివి));
 
-        ctx.putImageData(image, 0, 0);
+        ctx.put_Image_దత్తాంశం(image, 0, 0);
         var url = hot_x === 0 && hot_y === 0
-            ? "url(" + canvas.toDataURL() + "), auto"
-            : "url(" + canvas.toDataURL() + ") " + hot_x + " " + hot_y + ", auto";
+            ? "url(" + canvas.గమ్యం_దత్తాంశం_URL() + "), auto"
+            : "url(" + canvas.గమ్యం_దత్తాంశం_URL() + ") " + hot_x + " " + hot_y + ", auto";
 
-        var urlBuf = _SDL_malloc(url.length + 1);
-        stringToUTF8(url, urlBuf, url.length + 1);
+        var urlBuf = _SDL_malloc(url.నిడివి + 1);
+        string_గమ్యం_UTF8(url, urlBuf, url.నిడివి + 1);
 
-        return urlBuf;
+        తిరిగి urlBuf;
     }, surface->w, surface->h, hot_x, hot_y, conv_surf->pixels);
     /* *INDENT-ON* */ // clang-format on
 
     SDL_DestroySurface(conv_surf);
 
-    return Emscripten_CreateCursorFromString(cursor_url, true);
+    తిరిగి Emscripten_CreateCursorFromString(cursor_url, true);
 }
 
-static SDL_Cursor *Emscripten_CreateSystemCursor(SDL_SystemCursor id)
+స్థిర SDL_Cursor *Emscripten_CreateSystemCursor(SDL_SystemCursor id)
 {
-    const char *cursor_name = SDL_GetCSSCursorName(id, NULL);
+    స్థిరరాశి అక్షరం *cursor_name = SDL_GetCSSCursorName(id, ఖాళీ);
 
-    return Emscripten_CreateCursorFromString(cursor_name, false);
+    తిరిగి Emscripten_CreateCursorFromString(cursor_name, false);
 }
 
-static void Emscripten_FreeCursor(SDL_Cursor *cursor)
+స్థిర శూన్య Emscripten_FreeCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *curdata;
-    if (cursor) {
-        curdata = cursor->internal;
+    SDL_Cursor_దత్తాంశం *curdata;
+    ఒకవేళ (cursor) {
+        curdata = cursor->అంతర్గత;
 
-        if (curdata) {
-            if (curdata->is_custom) {
-                SDL_free((char *)curdata->system_cursor);
+        ఒకవేళ (curdata) {
+            ఒకవేళ (curdata->is_custom) {
+                SDL_free((అక్షరం *)curdata->system_cursor);
             }
-            SDL_free(cursor->internal);
+            SDL_free(cursor->అంతర్గత);
         }
 
         SDL_free(cursor);
     }
 }
 
-static bool Emscripten_ShowCursor(SDL_Cursor *cursor)
+స్థిర bool Emscripten_ShowCursor(SDL_Cursor *cursor)
 {
-    SDL_CursorData *curdata;
-    if (SDL_GetMouseFocus() != NULL) {
-        if (cursor && cursor->internal) {
-            curdata = cursor->internal;
+    SDL_Cursor_దత్తాంశం *curdata;
+    ఒకవేళ (SDL_GetMouseFocus() != ఖాళీ) {
+        ఒకవేళ (cursor && cursor->అంతర్గత) {
+            curdata = cursor->అంతర్గత;
 
-            if (curdata->system_cursor) {
+            ఒకవేళ (curdata->system_cursor) {
                 /* *INDENT-OFF* */ // clang-format off
                 MAIN_THREAD_EM_ASM({
-                    if (Module['canvas']) {
-                        Module['canvas'].style['cursor'] = UTF8ToString($0);
+                    ఒకవేళ (Module['canvas']) {
+                        Module['canvas'].style['cursor'] = UTF8_గమ్యం_String($0);
                     }
                 }, curdata->system_cursor);
                 /* *INDENT-ON* */ // clang-format on
             }
-        } else {
+        } లేకపోతే {
             /* *INDENT-OFF* */ // clang-format off
             MAIN_THREAD_EM_ASM(
-                if (Module['canvas']) {
+                ఒకవేళ (Module['canvas']) {
                     Module['canvas'].style['cursor'] = 'none';
                 }
             );
             /* *INDENT-ON* */ // clang-format on
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-static bool Emscripten_SetRelativeMouseMode(bool enabled)
+స్థిర bool Emscripten_సమితి_Relative_Mouse_బహుళకం(bool enabled)
 {
-    SDL_Window *window;
-    SDL_WindowData *window_data;
+    SDL_కిటికీ *కిటికీ;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2;
 
     // TODO: pointer lock isn't actually enabled yet
-    if (enabled) {
-        window = SDL_GetMouseFocus();
-        if (!window) {
-            return false;
+    ఒకవేళ (enabled) {
+        కిటికీ = SDL_GetMouseFocus();
+        ఒకవేళ (!కిటికీ) {
+            తిరిగి false;
         }
 
-        window_data = window->internal;
+        కిటికీ_దత్తాంశం_2 = కిటికీ->అంతర్గత;
 
-        if (emscripten_request_pointerlock(window_data->canvas_id, 1) >= EMSCRIPTEN_RESULT_SUCCESS) {
-            return true;
+        ఒకవేళ (emscripten_request_pointerlock(కిటికీ_దత్తాంశం_2->canvas_id, 1) >= EMSCRIPTEN_ఫలితం_SUCCESS) {
+            తిరిగి true;
         }
-    } else {
-        if (emscripten_exit_pointerlock() >= EMSCRIPTEN_RESULT_SUCCESS) {
-            return true;
+    } లేకపోతే {
+        ఒకవేళ (emscripten_exit_pointerlock() >= EMSCRIPTEN_ఫలితం_SUCCESS) {
+            తిరిగి true;
         }
     }
-    return false;
+    తిరిగి false;
 }
 
-static SDL_MouseButtonFlags Emscripten_GetGlobalMouseState(float *x, float *y)
+స్థిర SDL_MouseButtonFlags Emscripten_GetGlobalMouseState(దశాంశం *x, దశాంశం *y)
 {
     *x = MAIN_THREAD_EM_ASM_DOUBLE({
-        return Module['SDL3']['mouse_x'];
+        తిరిగి Module['SDL3']['mouse_x'];
     });
     *y = MAIN_THREAD_EM_ASM_DOUBLE({
-        return Module['SDL3']['mouse_y'];
+        తిరిగి Module['SDL3']['mouse_y'];
     });
     SDL_MouseButtonFlags flags = 0;
-    for (int i = 0; i < 5; ++i) {
-        const bool button_down = MAIN_THREAD_EM_ASM_INT({
-            return Module['SDL3']['mouse_buttons'][$0];
+    కొరకు (పూర్ణాంకం i = 0; i < 5; ++i) {
+        స్థిరరాశి bool button_కిందికి = MAIN_THREAD_EM_ASM_INT({
+            తిరిగి Module['SDL3']['mouse_buttons'][$0];
         }, i);
-        if (button_down) {
+        ఒకవేళ (button_కిందికి) {
             flags |= 1 << i;
         }
     }
-    return flags;
+    తిరిగి flags;
 }
 
-void Emscripten_InitMouse(void)
+శూన్య Emscripten_InitMouse(శూన్య)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -224,7 +224,7 @@ void Emscripten_InitMouse(void)
     mouse->ShowCursor = Emscripten_ShowCursor;
     mouse->FreeCursor = Emscripten_FreeCursor;
     mouse->CreateSystemCursor = Emscripten_CreateSystemCursor;
-    mouse->SetRelativeMouseMode = Emscripten_SetRelativeMouseMode;
+    mouse->సమితి_Relative_Mouse_బహుళకం = Emscripten_సమితి_Relative_Mouse_బహుళకం;
 
     // Add event listeners to track mouse events on the document
     MAIN_THREAD_EM_ASM({
@@ -237,37 +237,37 @@ void Emscripten_InitMouse(void)
             NOTE: Some browsers do not allow handling the forwards and backwards buttons
         */
         SDL3['mouse_buttons'] = [];
-        for (var i = 0; i < 5; ++i) {
+        కొరకు (var i = 0; i < 5; ++i) {
             SDL3['mouse_buttons'][i] = false;
         }
-        document.addEventListener('mousemove', function(e) {
+        document.కూడు_Event_Listener('mousemove', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
             SDL3['mouse_x'] = e.clientX;
             SDL3['mouse_y'] = e.clientY;
         });
-        document.addEventListener('mousedown', function(e) {
+        document.కూడు_Event_Listener('mousedown', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
-            if (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
+            ఒకవేళ (0 <= e.button && e.button < SDL3['mouse_buttons'].నిడివి) {
                 SDL3['mouse_buttons'][e.button] = true;
             }
         });
-        document.addEventListener('mouseup', function(e) {
+        document.కూడు_Event_Listener('mouseup', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
-            if (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
+            ఒకవేళ (0 <= e.button && e.button < SDL3['mouse_buttons'].నిడివి) {
                 SDL3['mouse_buttons'][e.button] = false;
             }
         });
     });
     mouse->GetGlobalMouseState = Emscripten_GetGlobalMouseState;
 
-    SDL_SetDefaultCursor(Emscripten_CreateDefaultCursor());
+    SDL_సమితి_Default_Cursor(Emscripten_CreateDefaultCursor());
 }
 
-void Emscripten_QuitMouse(void)
+శూన్య Emscripten_QuitMouse(శూన్య)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_EMSCRIPTEN

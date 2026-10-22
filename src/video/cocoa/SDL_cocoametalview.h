@@ -24,12 +24,12 @@
  * Thanks to @slime73 on GitHub for their gist showing how to add a CAMetalLayer
  * backed view.
  */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_cocoametalview_h_
-#define SDL_cocoametalview_h_
+#నిర్వచితం_కాకపోతే SDL_cocoametalview_h_
+#నిర్వచించు SDL_cocoametalview_h_
 
-#if defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import "../SDL_sysvideo.h"
 
@@ -41,26 +41,26 @@
 
 @interface SDL3_cocoametalview : NSView
 
-- (instancetype)initWithFrame:(NSRect)frame
-                      highDPI:(BOOL)highDPI
-                     windowID:(Uint32)windowID
+- (instancetype)init_With_చట్రం:(NSRect)చట్రం
+                      ఎగువ_DPI:(BOOL)ఎగువ_DPI
+                     కిటికీ_ID:(Uint32)కిటికీ_ID
                        opaque:(BOOL)opaque;
 
-- (void)updateDrawableSize;
-- (NSView *)hitTest:(NSPoint)point;
+- (శూన్య)update_Drawable_కొలత;
+- (NSView *)తగిలింది_Test:(NSPoint)బిందువు;
 
 // Override superclass tag so this class can set it.
-@property(assign, readonly) NSInteger tag;
+@property(కేటాయించు, readonly) NSInteger ట్యాగ్;
 
-@property(nonatomic) BOOL highDPI;
-@property(nonatomic) Uint32 sdlWindowID;
+@property(nonatomic) BOOL ఎగువ_DPI;
+@property(nonatomic) Uint32 sdl_కిటికీ_ID;
 
-@end
+@చివర
 
-SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+శూన్య Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+శూన్య *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
-#endif // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#endif // SDL_cocoametalview_h_
+#అయితే_ముగింపు // SDL_cocoametalview_h_

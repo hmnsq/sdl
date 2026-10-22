@@ -22,164 +22,164 @@
   Screen keyboard and text input backend
   for GDK platforms.
 */
-#include "SDL_internal.h"
-#include "SDL_gdktextinput.h"
+#అన్తర్భావ "SDL_internal.h"
+#అన్తర్భావ "SDL_gdktextinput.h"
 
-#ifdef SDL_GDK_TEXTINPUT
+#నిర్వచితమైతే SDL_GDK_TEXTINPUT
 
 // GDK headers are weird here
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
-#include <Windows.h>
-#include <XGameUI.h>
-#include <XUser.h>
+#నిర్వచితం_కాకపోతే WIN32_LEAN_AND_సగటు
+#నిర్వచించు WIN32_LEAN_AND_సగటు
+#అయితే_ముగింపు
+#అన్తర్భావ <Windows.h>
+#అన్తర్భావ <XGameUI.h>
+#అన్తర్భావ <XUser.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
-#include "../../events/SDL_keyboard_c.h"
-#include "../windows/SDL_windowsvideo.h"
+#అన్తర్భావ "../../events/SDL_keyboard_c.h"
+#అన్తర్భావ "../windows/SDL_windowsvideo.h"
 
 // TODO: Have a separate task queue for text input perhaps?
-static XTaskQueueHandle g_TextTaskQueue = NULL;
+స్థిర XTask_వరుస_Handle g_పాఠ్యం_Task_వరుస = ఖాళీ;
 // Global because there can be only one text entry shown at once.
-static XAsyncBlock *g_TextBlock = NULL;
+స్థిర XAsync_ఖండం *g_పాఠ్యం_ఖండం = ఖాళీ;
 
 // Creation parameters
-static bool g_DidRegisterHints = false;
-static char *g_TitleText = NULL;
-static char *g_DescriptionText = NULL;
-static char *g_DefaultText = NULL;
-static const Sint32 g_DefaultTextInputScope = (Sint32)XGameUiTextEntryInputScope::Default;
-static Sint32 g_TextInputScope = g_DefaultTextInputScope;
-static const Sint32 g_DefaultMaxTextLength = 1024; // as per doc: maximum allowed amount on consoles
-static Sint32 g_MaxTextLength = g_DefaultMaxTextLength;
+స్థిర తార్కిక g_Did_రిజిస్టరు_Hints = అబద్ధం;
+స్థిర అక్షరం *g_Title_పాఠ్యం = ఖాళీ;
+స్థిర అక్షరం *g_Description_పాఠ్యం = ఖాళీ;
+స్థిర అక్షరం *g_Default_పాఠ్యం = ఖాళీ;
+స్థిర స్థిరరాశి Sint32 g_Default_పాఠ్యం_ఆదానం_Scope = (Sint32)XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::Default;
+స్థిర Sint32 g_పాఠ్యం_ఆదానం_Scope = g_Default_పాఠ్యం_ఆదానం_Scope;
+స్థిర స్థిరరాశి Sint32 g_Default_Max_పాఠ్యం_నిడివి = 1024; // as per doc: maximum allowed amount on consoles
+స్థిర Sint32 g_Max_పాఠ్యం_నిడివి = g_Default_Max_పాఠ్యం_నిడివి;
 
-static void SDLCALL GDK_InternalHintCallback(
-    void *userdata,
-    const char *name,
-    const char *oldValue,
-    const char *newValue)
+స్థిర శూన్య SDLCALL GDK_అంతర్గత_Hint_Callback(
+    శూన్య *userdata,
+    స్థిరరాశి అక్షరం *name,
+    స్థిరరాశి అక్షరం *old_విలువ,
+    స్థిరరాశి అక్షరం *new_విలువ)
 {
-    if (!userdata) {
-        return;
+    ఒకవేళ (!userdata) {
+        తిరిగి;
     }
 
     // oldValue is ignored because we store it ourselves.
     // name is ignored because we deduce it from userdata
 
-    if (userdata == &g_TextInputScope || userdata == &g_MaxTextLength) {
+    ఒకవేళ (userdata == &g_పాఠ్యం_ఆదానం_Scope || userdata == &g_Max_పాఠ్యం_నిడివి) {
         // int32 hint
-        Sint32 intValue = (!newValue || newValue[0] == '\0') ? 0 : SDL_atoi(newValue);
-        if (userdata == &g_MaxTextLength && intValue <= 0) {
-            intValue = g_DefaultMaxTextLength;
-        } else if (userdata == &g_TextInputScope && intValue < 0) {
-            intValue = g_DefaultTextInputScope;
+        Sint32 int_విలువ = (!new_విలువ || new_విలువ[0] == '\0') ? 0 : SDL_atoi(new_విలువ);
+        ఒకవేళ (userdata == &g_Max_పాఠ్యం_నిడివి && int_విలువ <= 0) {
+            int_విలువ = g_Default_Max_పాఠ్యం_నిడివి;
+        } లేకపోతే ఒకవేళ (userdata == &g_పాఠ్యం_ఆదానం_Scope && int_విలువ < 0) {
+            int_విలువ = g_Default_పాఠ్యం_ఆదానం_Scope;
         }
 
-        *(Sint32 *)userdata = intValue;
-    } else {
+        *(Sint32 *)userdata = int_విలువ;
+    } లేకపోతే {
         // string hint
-        if (!newValue || newValue[0] == '\0') {
+        ఒకవేళ (!new_విలువ || new_విలువ[0] == '\0') {
             // treat empty or NULL strings as just NULL for this impl
-            SDL_free(*(char **)userdata);
-            *(char **)userdata = NULL;
-        } else {
-            char *newString = SDL_strdup(newValue);
-            if (newString) {
+            SDL_free(*(అక్షరం **)userdata);
+            *(అక్షరం **)userdata = ఖాళీ;
+        } లేకపోతే {
+            అక్షరం *newString = SDL_strdup(new_విలువ);
+            ఒకవేళ (newString) {
                 // free previous value and write the new one
-                SDL_free(*(char **)userdata);
-                *(char **)userdata = newString;
+                SDL_free(*(అక్షరం **)userdata);
+                *(అక్షరం **)userdata = newString;
             }
         }
     }
 }
 
-static bool GDK_InternalEnsureTaskQueue(void)
+స్థిర తార్కిక GDK_అంతర్గత_Ensure_Task_వరుస(శూన్య)
 {
-    if (!g_TextTaskQueue) {
-        if (!SDL_GetGDKTaskQueue(&g_TextTaskQueue)) {
+    ఒకవేళ (!g_పాఠ్యం_Task_వరుస) {
+        ఒకవేళ (!SDL_Get_GDKTask_వరుస(&g_పాఠ్యం_Task_వరుస)) {
             // SetError will be done for us.
-            return false;
+            తిరిగి అబద్ధం;
         }
     }
-    return true;
+    తిరిగి నిజం;
 }
 
-static void CALLBACK GDK_InternalTextEntryCallback(XAsyncBlock *asyncBlock)
+స్థిర శూన్య CALLBACK GDK_అంతర్గత_పాఠ్యం_నమోదు_Callback(XAsync_ఖండం *async_ఖండం)
 {
     HRESULT hR = S_OK;
-    Uint32 resultSize = 0;
-    Uint32 resultUsed = 0;
-    char *resultBuffer = NULL;
+    Uint32 ఫలితం_కొలత = 0;
+    Uint32 ఫలితం_వాడిన = 0;
+    అక్షరం *ఫలితం_బఫరు = ఖాళీ;
 
     // The keyboard will be already hidden when we reach this code
 
-    if (FAILED(hR = XGameUiShowTextEntryResultSize(
-                   asyncBlock,
-                   &resultSize))) {
-        SDL_SetError("XGameUiShowTextEntryResultSize failure with HRESULT of %08X", hR);
-    } else if (resultSize > 0) {
+    ఒకవేళ (FAILED(hR = XGame_Ui_Show_పాఠ్యం_నమోదు_ఫలితం_కొలత(
+                   async_ఖండం,
+                   &ఫలితం_కొలత))) {
+        SDL_సమితి_Error("XGameUiShowTextEntryResultSize failure with HRESULT of %08X", hR);
+    } లేకపోతే ఒకవేళ (ఫలితం_కొలత > 0) {
         // +1 to be super sure that the buffer will be null terminated
-        resultBuffer = (char *)SDL_calloc(1 + (size_t)resultSize, sizeof(*resultBuffer));
-        if (resultBuffer) {
+        ఫలితం_బఫరు = (అక్షరం *)SDL_calloc(1 + (size_t)ఫలితం_కొలత, పరిమాణం(*ఫలితం_బఫరు));
+        ఒకవేళ (ఫలితం_బఫరు) {
             // still pass the original size that we got from ResultSize
-            if (FAILED(hR = XGameUiShowTextEntryResult(
-                           asyncBlock,
-                           resultSize,
-                           resultBuffer,
-                           &resultUsed))) {
-                SDL_SetError("XGameUiShowTextEntryResult failure with HRESULT of %08X", hR);
+            ఒకవేళ (FAILED(hR = XGame_Ui_Show_పాఠ్యం_నమోదు_ఫలితం(
+                           async_ఖండం,
+                           ఫలితం_కొలత,
+                           ఫలితం_బఫరు,
+                           &ఫలితం_వాడిన))) {
+                SDL_సమితి_Error("XGameUiShowTextEntryResult failure with HRESULT of %08X", hR);
             }
             // check that we have some text and that we weren't cancelled
-            else if (resultUsed > 0 && resultBuffer[0] != '\0') {
+            లేకపోతే ఒకవేళ (ఫలితం_వాడిన > 0 && ఫలితం_బఫరు[0] != '\0') {
                 // it's null terminated so it's fine
-                SDL_SendKeyboardText(resultBuffer);
+                SDL_Send_Keyboard_పాఠ్యం(ఫలితం_బఫరు);
             }
             // we're done with the buffer
-            SDL_free(resultBuffer);
-            resultBuffer = NULL;
+            SDL_free(ఫలితం_బఫరు);
+            ఫలితం_బఫరు = ఖాళీ;
         }
     }
 
     // free the async block after we're done
-    SDL_free(asyncBlock);
-    asyncBlock = NULL;
-    g_TextBlock = NULL; // once we do this we're fully done with the keyboard
+    SDL_free(async_ఖండం);
+    async_ఖండం = ఖాళీ;
+    g_పాఠ్యం_ఖండం = ఖాళీ; // once we do this we're fully done with the keyboard
 
     SDL_SendScreenKeyboardHidden();
 }
 
-void GDK_EnsureHints(void)
+శూన్య GDK_EnsureHints(శూన్య)
 {
-    if (g_DidRegisterHints == false) {
-        SDL_AddHintCallback(
+    ఒకవేళ (g_Did_రిజిస్టరు_Hints == అబద్ధం) {
+        SDL_కూడు_Hint_Callback(
             SDL_HINT_GDK_TEXTINPUT_TITLE,
-            GDK_InternalHintCallback,
-            &g_TitleText);
-        SDL_AddHintCallback(
+            GDK_అంతర్గత_Hint_Callback,
+            &g_Title_పాఠ్యం);
+        SDL_కూడు_Hint_Callback(
             SDL_HINT_GDK_TEXTINPUT_DESCRIPTION,
-            GDK_InternalHintCallback,
-            &g_DescriptionText);
-        SDL_AddHintCallback(
-            SDL_HINT_GDK_TEXTINPUT_DEFAULT_TEXT,
-            GDK_InternalHintCallback,
-            &g_DefaultText);
-        SDL_AddHintCallback(
+            GDK_అంతర్గత_Hint_Callback,
+            &g_Description_పాఠ్యం);
+        SDL_కూడు_Hint_Callback(
+            SDL_HINT_GDK_TEXTINPUT_DEFAULT_పాఠ్యం,
+            GDK_అంతర్గత_Hint_Callback,
+            &g_Default_పాఠ్యం);
+        SDL_కూడు_Hint_Callback(
             SDL_HINT_GDK_TEXTINPUT_SCOPE,
-            GDK_InternalHintCallback,
-            &g_TextInputScope);
-        SDL_AddHintCallback(
-            SDL_HINT_GDK_TEXTINPUT_MAX_LENGTH,
-            GDK_InternalHintCallback,
-            &g_MaxTextLength);
-        g_DidRegisterHints = true;
+            GDK_అంతర్గత_Hint_Callback,
+            &g_పాఠ్యం_ఆదానం_Scope);
+        SDL_కూడు_Hint_Callback(
+            SDL_HINT_GDK_TEXTINPUT_MAX_నిడివి,
+            GDK_అంతర్గత_Hint_Callback,
+            &g_Max_పాఠ్యం_నిడివి);
+        g_Did_రిజిస్టరు_Hints = నిజం;
     }
 }
 
-bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+తార్కిక GDK_ప్రారంభం_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props)
 {
     /*
      * Currently a stub, since all input is handled by the virtual keyboard,
@@ -192,16 +192,16 @@ bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properti
      * Right now this function isn't implemented on Desktop
      * and seems to be present only in the docs? So I didn't bother.
      */
-    return true;
+    తిరిగి నిజం;
 }
 
-bool GDK_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+తార్కిక GDK_Stop_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     // See notice in GDK_StartTextInput
-    return true;
+    తిరిగి నిజం;
 }
 
-bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+తార్కిక GDK_Update_పాఠ్యం_ఆదానం_Area(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     /*
      * XGameUiShowTextEntryAsync does not allow you to set
@@ -212,22 +212,22 @@ bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
      *
      * Right now it's a stub which may be useful later.
      */
-    return true;
+    తిరిగి నిజం;
 }
 
-bool GDK_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window)
+తార్కిక GDK_ClearComposition(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     // See notice in GDK_StartTextInput
-    return true;
+    తిరిగి నిజం;
 }
 
-bool GDK_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
+తార్కిక GDK_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
     // Currently always true for this input method
-    return true;
+    తిరిగి నిజం;
 }
 
-void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+శూన్య GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props)
 {
     /*
      * There is XGameUiTextEntryOpen but it's only in online docs,
@@ -239,82 +239,82 @@ void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 
     HRESULT hR = S_OK;
 
-    if (g_TextBlock) {
+    ఒకవేళ (g_పాఠ్యం_ఖండం) {
         // already showing the keyboard
-        return;
+        తిరిగి;
     }
 
-    if (!GDK_InternalEnsureTaskQueue()) {
+    ఒకవేళ (!GDK_అంతర్గత_Ensure_Task_వరుస()) {
         // unable to obtain the SDL GDK queue
-        return;
+        తిరిగి;
     }
 
-    g_TextBlock = (XAsyncBlock *)SDL_calloc(1, sizeof(*g_TextBlock));
-    if (!g_TextBlock) {
-        return;
+    g_పాఠ్యం_ఖండం = (XAsync_ఖండం *)SDL_calloc(1, పరిమాణం(*g_పాఠ్యం_ఖండం));
+    ఒకవేళ (!g_పాఠ్యం_ఖండం) {
+        తిరిగి;
     }
 
-    XGameUiTextEntryInputScope scope;
-    switch (SDL_GetTextInputType(props)) {
-    default:
-    case SDL_TEXTINPUT_TYPE_TEXT:
-        scope = (XGameUiTextEntryInputScope)g_TextInputScope;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-        scope = XGameUiTextEntryInputScope::Default;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-        scope = XGameUiTextEntryInputScope::EmailSmtpAddress;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
-        scope = XGameUiTextEntryInputScope::Default;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-        scope = XGameUiTextEntryInputScope::Password;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
-        scope = XGameUiTextEntryInputScope::Default;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER:
-        scope = XGameUiTextEntryInputScope::Number;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
+    XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope scope;
+    ఎంపిక (SDL_Get_పాఠ్యం_ఆదానం_Type(props)) {
+    అప్రమేయ:
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం:
+        scope = (XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope)g_పాఠ్యం_ఆదానం_Scope;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_NAME:
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::Default;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_EMAIL:
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::Email_Smtp_చిరునామా;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_USERNAME:
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::Default;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_PASSWORD_HIDDEN:
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::Password;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_PASSWORD_VISIBLE:
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::Default;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య:
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::సంఖ్య;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య_PASSWORD_HIDDEN:
         // FIXME: Password or number scope?
-        scope = XGameUiTextEntryInputScope::Number;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-        scope = XGameUiTextEntryInputScope::Number;
-        break;
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::సంఖ్య;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య_PASSWORD_VISIBLE:
+        scope = XGame_Ui_పాఠ్యం_నమోదు_ఆదానం_Scope::సంఖ్య;
+        ఆపు;
     }
 
-    g_TextBlock->queue = g_TextTaskQueue;
-    g_TextBlock->context = _this;
-    g_TextBlock->callback = GDK_InternalTextEntryCallback;
-    if (SUCCEEDED(hR = XGameUiShowTextEntryAsync(
-                   g_TextBlock,
-                   g_TitleText,
-                   g_DescriptionText,
-                   g_DefaultText,
+    g_పాఠ్యం_ఖండం->వరుస = g_పాఠ్యం_Task_వరుస;
+    g_పాఠ్యం_ఖండం->context = _this;
+    g_పాఠ్యం_ఖండం->callback = GDK_అంతర్గత_పాఠ్యం_నమోదు_Callback;
+    ఒకవేళ (SUCCEEDED(hR = XGame_Ui_Show_పాఠ్యం_నమోదు_Async(
+                   g_పాఠ్యం_ఖండం,
+                   g_Title_పాఠ్యం,
+                   g_Description_పాఠ్యం,
+                   g_Default_పాఠ్యం,
                    scope,
-                   (uint32_t)g_MaxTextLength))) {
+                   (uint32_t)g_Max_పాఠ్యం_నిడివి))) {
         SDL_SendScreenKeyboardShown();
-    } else {
-        SDL_free(g_TextBlock);
-        g_TextBlock = NULL;
-        SDL_SetError("XGameUiShowTextEntryAsync failure with HRESULT of %08X", hR);
+    } లేకపోతే {
+        SDL_free(g_పాఠ్యం_ఖండం);
+        g_పాఠ్యం_ఖండం = ఖాళీ;
+        SDL_సమితి_Error("XGameUiShowTextEntryAsync failure with HRESULT of %08X", hR);
     }
 }
 
-void GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (g_TextBlock) {
-        XAsyncCancel(g_TextBlock);
+    ఒకవేళ (g_పాఠ్యం_ఖండం) {
+        XAsyncCancel(g_పాఠ్యం_ఖండం);
         // the completion callback will free the block
     }
 }
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif
+#అయితే_ముగింపు

@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_PSP
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_PSP
 
-#include <stdlib.h>
-#include <string.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
 
-#include "SDL_pspvideo.h"
-#include "SDL_pspgl_c.h"
+#అన్తర్భావ "SDL_pspvideo.h"
+#అన్తర్భావ "SDL_pspgl_c.h"
 
 /*****************************************************************************/
 // SDL OpenGL/OpenGL ES functions
 /*****************************************************************************/
-#define EGLCHK(stmt)                           \
-    do {                                       \
+#నిర్వచించు EGLCHK(stmt)                           \
+    చేయి {                                       \
         EGLint err;                            \
                                                \
         stmt;                                  \
         err = eglGetError();                   \
-        if (err != EGL_SUCCESS) {              \
-            SDL_SetError("EGL error %d", err); \
-            return NULL;                          \
+        ఒకవేళ (err != EGL_SUCCESS) {              \
+            SDL_సమితి_Error("EGL error %d", err); \
+            తిరిగి ఖాళీ;                          \
         }                                      \
-    } while (0)
+    } అయితే (0)
 
-bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool PSP_GL_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
-    return true;
+    తిరిగి true;
 }
 
 /* pspgl doesn't provide this call, so stub it out since SDL requires it.
@@ -54,137 +54,137 @@ bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 GLSTUB(glOrtho,(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top,
                     GLdouble zNear, GLdouble zFar))
 */
-SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_సూచిక PSP_GL_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc)
 {
-    return eglGetProcAddress(proc);
+    తిరిగి egl_Get_Proc_చిరునామా(proc);
 }
 
-void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this)
+శూన్య PSP_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    eglTerminate(_this->gl_data->display);
+    eglTerminate(_this->gl_దత్తాంశం->display);
 }
 
-static EGLint width = 480;
-static EGLint height = 272;
+స్థిర EGLint వెడల్పు = 480;
+స్థిర EGLint ఎత్తు = 272;
 
-SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 
-    SDL_WindowData *wdata = window->internal;
+    SDL_కిటికీ_దత్తాంశం *wdata = కిటికీ->అంతర్గత;
 
     EGLint attribs[32];
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     EGLConfig config;
-    EGLint num_configs;
-    int i;
+    EGLint అంకె_configs;
+    పూర్ణాంకం i;
 
     // EGL init taken from glutCreateWindow() in PSPGL's glut.c.
     EGLCHK(display = eglGetDisplay(0));
-    EGLCHK(eglInitialize(display, NULL, NULL));
-    wdata->uses_gles = true;
-    window->flags |= SDL_WINDOW_FULLSCREEN;
+    EGLCHK(eglInitialize(display, ఖాళీ, ఖాళీ));
+    wdata->ఉపయోగిస్తుంది_gles = true;
+    కిటికీ->flags |= SDL_కిటికీ_FULLSCREEN;
 
     // Setup the config based on SDL's current values.
     i = 0;
-    attribs[i++] = EGL_RED_SIZE;
-    attribs[i++] = _this->gl_config.red_size;
-    attribs[i++] = EGL_GREEN_SIZE;
-    attribs[i++] = _this->gl_config.green_size;
-    attribs[i++] = EGL_BLUE_SIZE;
-    attribs[i++] = _this->gl_config.blue_size;
-    attribs[i++] = EGL_DEPTH_SIZE;
-    attribs[i++] = _this->gl_config.depth_size;
+    attribs[i++] = EGL_RED_కొలత;
+    attribs[i++] = _this->gl_config.red_కొలత;
+    attribs[i++] = EGL_GREEN_కొలత;
+    attribs[i++] = _this->gl_config.green_కొలత;
+    attribs[i++] = EGL_BLUE_కొలత;
+    attribs[i++] = _this->gl_config.blue_కొలత;
+    attribs[i++] = EGL_లోతు_కొలత;
+    attribs[i++] = _this->gl_config.లోతు_కొలత;
 
-    if (_this->gl_config.alpha_size) {
-        attribs[i++] = EGL_ALPHA_SIZE;
-        attribs[i++] = _this->gl_config.alpha_size;
+    ఒకవేళ (_this->gl_config.alpha_కొలత) {
+        attribs[i++] = EGL_ALPHA_కొలత;
+        attribs[i++] = _this->gl_config.alpha_కొలత;
     }
-    if (_this->gl_config.stencil_size) {
-        attribs[i++] = EGL_STENCIL_SIZE;
-        attribs[i++] = _this->gl_config.stencil_size;
+    ఒకవేళ (_this->gl_config.stencil_కొలత) {
+        attribs[i++] = EGL_STENCIL_కొలత;
+        attribs[i++] = _this->gl_config.stencil_కొలత;
     }
 
     attribs[i++] = EGL_NONE;
 
-    EGLCHK(eglChooseConfig(display, attribs, &config, 1, &num_configs));
+    EGLCHK(egl_ఎంచుకో_Config(display, attribs, &config, 1, &అంకె_configs));
 
-    if (num_configs == 0) {
-        SDL_SetError("No valid EGL configs for requested mode");
-        return NULL;
+    ఒకవేళ (అంకె_configs == 0) {
+        SDL_సమితి_Error("No valid EGL configs for requested mode");
+        తిరిగి ఖాళీ;
     }
 
-    EGLCHK(eglGetConfigAttrib(display, config, EGL_WIDTH, &width));
-    EGLCHK(eglGetConfigAttrib(display, config, EGL_HEIGHT, &height));
+    EGLCHK(eglGetConfigAttrib(display, config, EGL_వెడల్పు, &వెడల్పు));
+    EGLCHK(eglGetConfigAttrib(display, config, EGL_ఎత్తు, &ఎత్తు));
 
-    EGLCHK(context = eglCreateContext(display, config, NULL, NULL));
-    EGLCHK(surface = eglCreateWindowSurface(display, config, 0, NULL));
+    EGLCHK(context = eglCreateContext(display, config, ఖాళీ, ఖాళీ));
+    EGLCHK(surface = egl_Create_కిటికీ_Surface(display, config, 0, ఖాళీ));
     EGLCHK(eglMakeCurrent(display, surface, surface, context));
 
-    _this->gl_data->display = display;
-    _this->gl_data->context = context;
-    _this->gl_data->surface = surface;
+    _this->gl_దత్తాంశం->display = display;
+    _this->gl_దత్తాంశం->context = context;
+    _this->gl_దత్తాంశం->surface = surface;
 
-    return context;
+    తిరిగి context;
 }
 
-bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context)
 {
-    if (!eglMakeCurrent(_this->gl_data->display, _this->gl_data->surface,
-                        _this->gl_data->surface, _this->gl_data->context)) {
-        return SDL_SetError("Unable to make EGL context current");
+    ఒకవేళ (!eglMakeCurrent(_this->gl_దత్తాంశం->display, _this->gl_దత్తాంశం->surface,
+                        _this->gl_దత్తాంశం->surface, _this->gl_దత్తాంశం->context)) {
+        తిరిగి SDL_సమితి_Error("Unable to make EGL context current");
     }
-    return true;
+    తిరిగి true;
 }
 
-bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool PSP_GL_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval)
 {
-    EGLBoolean status;
-    status = eglSwapInterval(_this->gl_data->display, interval);
-    if (status == EGL_TRUE) {
+    EGLBoolean స్థితి_2;
+    స్థితి_2 = egl_మార్పిడి_Interval(_this->gl_దత్తాంశం->display, interval);
+    ఒకవేళ (స్థితి_2 == EGL_TRUE) {
         // Return success to upper level
-        _this->gl_data->swapinterval = interval;
-        return true;
+        _this->gl_దత్తాంశం->swapinterval = interval;
+        తిరిగి true;
     }
     // Failed to set swap interval
-    return SDL_SetError("Unable to set the EGL swap interval");
+    తిరిగి SDL_సమితి_Error("Unable to set the EGL swap interval");
 }
 
-bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool PSP_GL_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval)
 {
-    *interval = _this->gl_data->swapinterval;
-    return true;
+    *interval = _this->gl_దత్తాంశం->swapinterval;
+    తిరిగి true;
 }
 
-bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool PSP_GL_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (!eglSwapBuffers(_this->gl_data->display, _this->gl_data->surface)) {
-        return SDL_SetError("eglSwapBuffers() failed");
+    ఒకవేళ (!egl_మార్పిడి_Buffers(_this->gl_దత్తాంశం->display, _this->gl_దత్తాంశం->surface)) {
+        తిరిగి SDL_సమితి_Error("eglSwapBuffers() failed");
     }
-    return true;
+    తిరిగి true;
 }
 
 bool PSP_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    SDL_VideoData *phdata = _this->internal;
-    EGLBoolean status;
+    SDL_Video_దత్తాంశం *phdata = _this->అంతర్గత;
+    EGLBoolean స్థితి_2;
 
-    if (phdata->egl_initialized != true) {
-        return SDL_SetError("PSP: GLES initialization failed, no OpenGL ES support");
+    ఒకవేళ (phdata->egl_initialized != true) {
+        తిరిగి SDL_సమితి_Error("PSP: GLES initialization failed, no OpenGL ES support");
     }
 
     // Check if OpenGL ES connection has been initialized
-    if (_this->gl_data->display != EGL_NO_DISPLAY) {
-        if (context != EGL_NO_CONTEXT) {
-            status = eglDestroyContext(_this->gl_data->display, context);
-            if (status != EGL_TRUE) {
+    ఒకవేళ (_this->gl_దత్తాంశం->display != EGL_NO_DISPLAY) {
+        ఒకవేళ (context != EGL_NO_CONTEXT) {
+            స్థితి_2 = eglDestroyContext(_this->gl_దత్తాంశం->display, context);
+            ఒకవేళ (స్థితి_2 != EGL_TRUE) {
                 // Error during OpenGL ES context destroying
-                return SDL_SetError("PSP: OpenGL ES context destroy error");
+                తిరిగి SDL_సమితి_Error("PSP: OpenGL ES context destroy error");
             }
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-#endif // SDL_VIDEO_DRIVER_PSP
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_PSP

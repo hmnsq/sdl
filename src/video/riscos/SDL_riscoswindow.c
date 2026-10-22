@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#అన్తర్భావ "SDL_riscosvideo.h"
+#అన్తర్భావ "SDL_riscoswindow.h"
 
-bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool RISCOS_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం;
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    దత్తాంశం = (SDL_కిటికీ_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*దత్తాంశం));
+    ఒకవేళ (!దత్తాంశం) {
+        తిరిగి false;
     }
-    data->window = window;
+    దత్తాంశం->కిటికీ = కిటికీ;
 
-    SDL_SetMouseFocus(window);
+    SDL_సమితి_Mouse_Focus(కిటికీ);
 
     // All done!
-    window->internal = data;
-    return true;
+    కిటికీ->అంతర్గత = దత్తాంశం;
+    తిరిగి true;
 }
 
-void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య RISCOS_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (window->internal) {
-        SDL_free(window->internal);
-        window->internal = NULL;
+    ఒకవేళ (కిటికీ->అంతర్గత) {
+        SDL_free(కిటికీ->అంతర్గత);
+        కిటికీ->అంతర్గత = ఖాళీ;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_RISCOS

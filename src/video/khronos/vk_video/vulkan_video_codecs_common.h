@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODECS_COMMON_H_
-#define VULKAN_VIDEO_CODECS_COMMON_H_ 1
+#నిర్వచితం_కాకపోతే VULKAN_VIDEO_CODECS_COMMON_H_
+#నిర్వచించు VULKAN_VIDEO_CODECS_COMMON_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,24 +13,24 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
 
 
 // vulkan_video_codecs_common is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codecs_common 1
+#నిర్వచించు vulkan_video_codecs_common 1
 
-#if !defined(VK_NO_STDINT_H)
-    #include <stdint.h>
-#endif
+#ఒకవేళ !defined(VK_NO_STDINT_H)
+    #అన్తర్భావ <stdint.h>
+#అయితే_ముగింపు
 
-#define VK_MAKE_VIDEO_STD_VERSION(major, minor, patch) \
+#నిర్వచించు VK_MAKE_VIDEO_STD_సంస్కరణ(major, minor, patch) \
     ((((uint32_t)(major)) << 22) | (((uint32_t)(minor)) << 12) | ((uint32_t)(patch)))
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif
+#అయితే_ముగింపు

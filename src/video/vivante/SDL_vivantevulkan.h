@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
 /*
  * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
  * SDL_x11vulkan.h and Mark Callow's SDL_vivantevulkan.h
  */
 
-#ifndef SDL_vivantevulkan_h_
-#define SDL_vivantevulkan_h_
+#నిర్వచితం_కాకపోతే SDL_vivantevulkan_h_
+#నిర్వచించు SDL_vivantevulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_vulkan_internal.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#ఒకవేళ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
-extern bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+బాహ్య bool VIVANTE_Vulkan_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య శూన్య VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+బాహ్య అక్షరం స్థిరరాశి * స్థిరరాశి *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *లెక్క);
+బాహ్య bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                 SDL_కిటికీ *కిటికీ,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator,
                                  VkSurfaceKHR *surface);
-extern void VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+బాహ్య శూన్య VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator);
+                                   స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator);
 
-#endif
+#అయితే_ముగింపు
 
-#endif // SDL_vivantevulkan_h_
+#అయితే_ముగింపు // SDL_vivantevulkan_h_

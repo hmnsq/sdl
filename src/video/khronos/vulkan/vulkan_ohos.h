@@ -1,5 +1,5 @@
-#ifndef VULKAN_OHOS_H_
-#define VULKAN_OHOS_H_ 1
+#నిర్వచితం_కాకపోతే VULKAN_OHOS_H_
+#నిర్వచించు VULKAN_OHOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,118 +13,118 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
 
 
 // VK_OHOS_external_memory is a preprocessor guard. Do not pass it to API calls.
-#define VK_OHOS_external_memory 1
+#నిర్వచించు VK_OHOS_external_జ్ఞాపకం 1
 
-struct OH_NativeBuffer;
+నిర్మాణం OH_Native_బఫరు;
 
-#define VK_OHOS_EXTERNAL_MEMORY_SPEC_VERSION 1
-#define VK_OHOS_EXTERNAL_MEMORY_EXTENSION_NAME "VK_OHOS_external_memory"
+#నిర్వచించు VK_OHOS_EXTERNAL_జ్ఞాపకం_SPEC_సంస్కరణ 1
+#నిర్వచించు VK_OHOS_EXTERNAL_జ్ఞాపకం_EXTENSION_NAME "VK_OHOS_external_memory"
 
-typedef struct VkNativeBufferUsageOHOS {
+రకనిర్వచనం నిర్మాణం Vk_Native_బఫరు_Usage_OHOS {
     VkStructureType    sType;
-    void*              pNext;
-    uint64_t           OHOSNativeBufferUsage;
-} VkNativeBufferUsageOHOS;
+    శూన్య*              p_తదుపరి;
+    uint64_t           OHOSNative_బఫరు_Usage;
+} Vk_Native_బఫరు_Usage_OHOS;
 
-typedef struct VkNativeBufferPropertiesOHOS {
+రకనిర్వచనం నిర్మాణం Vk_Native_బఫరు_Properties_OHOS {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       allocationSize;
-    uint32_t           memoryTypeBits;
-} VkNativeBufferPropertiesOHOS;
+    శూన్య*              p_తదుపరి;
+    Vk_Device_కొలత       కేటాయింపు_కొలత;
+    uint32_t           జ్ఞాపకం_Type_బిట్లు;
+} Vk_Native_బఫరు_Properties_OHOS;
 
-typedef struct VkNativeBufferFormatPropertiesOHOS {
+రకనిర్వచనం నిర్మాణం Vk_Native_బఫరు_Format_Properties_OHOS {
     VkStructureType                  sType;
-    void*                            pNext;
+    శూన్య*                            p_తదుపరి;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags             formatFeatures;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkNativeBufferFormatPropertiesOHOS;
+    VkChromaLocation                 suggested_XChroma_స్థానభ్రంశం;
+    VkChromaLocation                 suggested_YChroma_స్థానభ్రంశం;
+} Vk_Native_బఫరు_Format_Properties_OHOS;
 
-typedef struct VkImportNativeBufferInfoOHOS {
+రకనిర్వచనం నిర్మాణం Vk_Import_Native_బఫరు_Info_OHOS {
     VkStructureType            sType;
-    const void*                pNext;
-    struct OH_NativeBuffer*    buffer;
-} VkImportNativeBufferInfoOHOS;
+    స్థిరరాశి శూన్య*                p_తదుపరి;
+    నిర్మాణం OH_Native_బఫరు*    బఫరు_2;
+} Vk_Import_Native_బఫరు_Info_OHOS;
 
-typedef struct VkMemoryGetNativeBufferInfoOHOS {
+రకనిర్వచనం నిర్మాణం Vk_జ్ఞాపకం_Get_Native_బఫరు_Info_OHOS {
     VkStructureType    sType;
-    const void*        pNext;
-    VkDeviceMemory     memory;
-} VkMemoryGetNativeBufferInfoOHOS;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
+    Vk_Device_జ్ఞాపకం     జ్ఞాపకం;
+} Vk_జ్ఞాపకం_Get_Native_బఫరు_Info_OHOS;
 
-typedef struct VkExternalFormatOHOS {
+రకనిర్వచనం నిర్మాణం VkExternalFormatOHOS {
     VkStructureType    sType;
-    void*              pNext;
+    శూన్య*              p_తదుపరి;
     uint64_t           externalFormat;
 } VkExternalFormatOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetNativeBufferPropertiesOHOS)(VkDevice device, const struct OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryNativeBufferOHOS)(VkDevice device, const VkMemoryGetNativeBufferInfoOHOS* pInfo, struct OH_NativeBuffer** pBuffer);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Get_Native_బఫరు_Properties_OHOS)(VkDevice device, స్థిరరాశి నిర్మాణం OH_Native_బఫరు* బఫరు_2, Vk_Native_బఫరు_Properties_OHOS* pProperties);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Get_జ్ఞాపకం_Native_బఫరు_OHOS)(VkDevice device, స్థిరరాశి Vk_జ్ఞాపకం_Get_Native_బఫరు_Info_OHOS* pInfo, నిర్మాణం OH_Native_బఫరు** p_బఫరు);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetNativeBufferPropertiesOHOS(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Get_Native_బఫరు_Properties_OHOS(
     VkDevice                                    device,
-    const struct OH_NativeBuffer*               buffer,
-    VkNativeBufferPropertiesOHOS*               pProperties);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryNativeBufferOHOS(
+    స్థిరరాశి నిర్మాణం OH_Native_బఫరు*               బఫరు_2,
+    Vk_Native_బఫరు_Properties_OHOS*               pProperties);
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Get_జ్ఞాపకం_Native_బఫరు_OHOS(
     VkDevice                                    device,
-    const VkMemoryGetNativeBufferInfoOHOS*      pInfo,
-    struct OH_NativeBuffer**                    pBuffer);
-#endif
-#endif
+    స్థిరరాశి Vk_జ్ఞాపకం_Get_Native_బఫరు_Info_OHOS*      pInfo,
+    నిర్మాణం OH_Native_బఫరు**                    p_బఫరు);
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
 
 // VK_OHOS_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_OHOS_surface 1
+#నిర్వచించు VK_OHOS_surface 1
 
-typedef struct NativeWindow OHNativeWindow;
+రకనిర్వచనం నిర్మాణం Native_కిటికీ OHNative_కిటికీ;
 
-#define VK_OHOS_SURFACE_SPEC_VERSION      1
-#define VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
+#నిర్వచించు VK_OHOS_SURFACE_SPEC_సంస్కరణ      1
+#నిర్వచించు VK_OHOS_SURFACE_EXTENSION_NAME    "VK_OHOS_surface"
 
-typedef VkFlags VkSurfaceCreateFlagsOHOS;
+రకనిర్వచనం VkFlags VkSurfaceCreateFlagsOHOS;
 
-typedef struct VkSurfaceCreateInfoOHOS {
+రకనిర్వచనం నిర్మాణం VkSurfaceCreateInfoOHOS {
     VkStructureType             sType;
-    const void*                 pNext;
+    స్థిరరాశి శూన్య*                 p_తదుపరి;
     VkSurfaceCreateFlagsOHOS    flags;
-    OHNativeWindow*             window;
+    OHNative_కిటికీ*             కిటికీ;
 } VkSurfaceCreateInfoOHOS;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vkCreateSurfaceOHOS)(VkInstance instance, స్థిరరాశి VkSurfaceCreateInfoOHOS* pCreateInfo, స్థిరరాశి Vk_కేటాయింపు_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateSurfaceOHOS(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vkCreateSurfaceOHOS(
     VkInstance                                  instance,
-    const VkSurfaceCreateInfoOHOS*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    స్థిరరాశి VkSurfaceCreateInfoOHOS*              pCreateInfo,
+    స్థిరరాశి Vk_కేటాయింపు_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif
+#అయితే_ముగింపు

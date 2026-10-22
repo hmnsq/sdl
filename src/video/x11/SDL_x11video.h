@@ -18,58 +18,58 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_x11video_h_
-#define SDL_x11video_h_
+#నిర్వచితం_కాకపోతే SDL_x11video_h_
+#నిర్వచించు SDL_x11video_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keymap_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_keymap_c.h"
 
-#include "../../core/linux/SDL_dbus.h"
-#include "../../core/linux/SDL_ime.h"
+#అన్తర్భావ "../../core/linux/SDL_dbus.h"
+#అన్తర్భావ "../../core/linux/SDL_ime.h"
 
-#include "SDL_x11dyn.h"
+#అన్తర్భావ "SDL_x11dyn.h"
 
-#include "SDL_x11clipboard.h"
-#include "SDL_x11events.h"
-#include "SDL_x11keyboard.h"
-#include "SDL_x11modes.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11settings.h"
-#include "SDL_x11window.h"
-#include "SDL_x11vulkan.h"
+#అన్తర్భావ "SDL_x11clipboard.h"
+#అన్తర్భావ "SDL_x11events.h"
+#అన్తర్భావ "SDL_x11keyboard.h"
+#అన్తర్భావ "SDL_x11modes.h"
+#అన్తర్భావ "SDL_x11mouse.h"
+#అన్తర్భావ "SDL_x11opengl.h"
+#అన్తర్భావ "SDL_x11settings.h"
+#అన్తర్భావ "SDL_x11window.h"
+#అన్తర్భావ "SDL_x11vulkan.h"
 
 // Private display data
 
-struct SDL_VideoData
+నిర్మాణం SDL_Video_దత్తాంశం
 {
     Display *display;
     Display *request_display;
     pid_t pid;
     XIM im;
     Uint64 screensaver_activity;
-    int numwindows;
-    SDL_WindowData **windowlist;
-    int windowlistlength;
-    XID window_group;
-    Window clipboard_window;
-    SDLX11_ClipboardData clipboard;
-    SDLX11_ClipboardData primary_selection;
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    SDL_Window *active_cursor_confined_window;
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    Window xsettings_window;
-    SDLX11_SettingsData xsettings_data;
+    పూర్ణాంకం numwindows;
+    SDL_కిటికీ_దత్తాంశం **windowlist;
+    పూర్ణాంకం windowlistlength;
+    XID కిటికీ_సమూహం;
+    కిటికీ_2 clipboard_కిటికీ;
+    SDLX11_Clipboard_దత్తాంశం clipboard;
+    SDLX11_Clipboard_దత్తాంశం primary_selection;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
+    SDL_కిటికీ *చురుకైన_cursor_confined_కిటికీ;
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XFIXES
+    కిటికీ_2 xsettings_కిటికీ;
+    SDLX11_Settings_దత్తాంశం xsettings_దత్తాంశం;
 
     // This is true for ICCCM2.0-compliant window managers
     bool net_wm;
 
     // Useful atoms
-    struct {
+    నిర్మాణం {
         Atom WM_PROTOCOLS;
-        Atom WM_DELETE_WINDOW;
+        Atom WM_DELETE_కిటికీ;
         Atom WM_NAME;
         Atom WM_TRANSIENT_FOR;
         Atom WM_STATE;
@@ -92,10 +92,10 @@ struct SDL_VideoData
         Atom _NET_WM_PING;
         Atom _NET_WM_SYNC_REQUEST;
         Atom _NET_WM_SYNC_REQUEST_COUNTER;
-        Atom _NET_WM_WINDOW_OPACITY;
-        Atom _NET_WM_USER_TIME;
-        Atom _NET_ACTIVE_WINDOW;
-        Atom _NET_FRAME_EXTENTS;
+        Atom NET_WM_కిటికీ_OPACITY;
+        Atom NET_WM_USER_సమయం;
+        Atom NET_చురుకైన_కిటికీ;
+        Atom NET_చట్రం_EXTENTS;
         Atom _SDL_WAKEUP;
         Atom UTF8_STRING;
         Atom PRIMARY;
@@ -109,16 +109,16 @@ struct SDL_VideoData
         Atom XdndEnter;
         Atom XdndLeave;
         Atom XdndPosition;
-        Atom XdndStatus;
+        Atom Xdnd_స్థితి;
         Atom XdndTypeList;
         Atom XdndActionCopy;
         Atom XdndDrop;
-        Atom XdndFinished;
+        Atom Xdnd_ముగిసిన;
         Atom XdndSelection;
         Atom XKLAVIER_STATE;
 
         // Pen atoms (these have names that don't map well to C symbols)
-        Atom pen_atom_device_product_id;
+        Atom pen_atom_device_లబ్ధం_id;
         Atom pen_atom_abs_pressure;
         Atom pen_atom_abs_tilt_x;
         Atom pen_atom_abs_tilt_y;
@@ -126,47 +126,47 @@ struct SDL_VideoData
         Atom pen_atom_wacom_tool_type;
     } atoms;
 
-    bool selection_waiting;
-    bool selection_incr_waiting;
+    bool selection_నిరీక్షణ;
+    bool selection_incr_నిరీక్షణ;
 
-    bool broken_pointer_grab; // true if XGrabPointer seems unreliable.
+    bool broken_సూచిక_grab; // true if XGrabPointer seems unreliable.
 
-    Uint64 last_mode_change_deadline;
+    Uint64 చివరి_బహుళకం_change_deadline;
 
-    bool global_mouse_changed;
-    SDL_Point global_mouse_position;
+    bool global_mouse_మారింది;
+    SDL_బిందువు global_mouse_position;
     Uint32 global_mouse_buttons;
 
-    unsigned long xinput_last_button_serial;
-    unsigned long xinput_last_key_serial;
-    int xinput_last_keyboard_device;
-    int xinput_master_pointer_device;
-    bool xinput_hierarchy_changed;
+    గుర్తులేని దీర్ఘ xinput_చివరి_button_serial;
+    గుర్తులేని దీర్ఘ xinput_చివరి_కీలకం_serial;
+    పూర్ణాంకం xinput_చివరి_keyboard_device;
+    పూర్ణాంకం xinput_master_సూచిక_device;
+    bool xinput_hierarchy_మారింది;
 
-    int xrandr_event_base;
-    struct
+    పూర్ణాంకం xrandr_event_పునాది;
+    నిర్మాణం
     {
         bool xkb_enabled;
-        SDL_Scancode key_layout[256];
+        SDL_Scancode కీలకం_layout[256];
 
-        union
+        సంఘం
         {
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-            struct
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+            నిర్మాణం
             {
                 XkbDescPtr desc_ptr;
-                SDL_Keymap *keymaps[XkbNumKbdGroups];
-                unsigned long last_map_serial;
-                int event;
-                Uint32 current_group;
+                SDL_Keymap *keymaps[Xkb_అంకె_Kbd_Groups];
+                గుర్తులేని దీర్ఘ చివరి_map_serial;
+                పూర్ణాంకం event;
+                Uint32 current_సమూహం;
             } xkb; // Modern XKB keyboard handling
-#endif
-            struct
+#అయితే_ముగింపు
+            నిర్మాణం
             {
-                KeySym *keysym_map;
-                int keysyms_per_key;
-                int min_keycode;
-                int max_keycode;
+                కీలకం_Sym *keysym_map;
+                పూర్ణాంకం keysyms_చొప్పున_కీలకం;
+                పూర్ణాంకం min_keycode;
+                పూర్ణాంకం max_keycode;
             } core; // Legacy core keyboard handling
         };
         Uint32 pressed_modifiers;
@@ -176,19 +176,19 @@ struct SDL_VideoData
         SDL_Keymod sdl_locked_modifiers;
 
         // Virtual modifiers looked up by name.
-        Uint32 alt_mask;
-        Uint32 gui_mask;
-        Uint32 level3_mask;
-        Uint32 level5_mask;
-        Uint32 numlock_mask;
-        Uint32 scrolllock_mask;
+        Uint32 alt_ముసుగు;
+        Uint32 gui_ముసుగు;
+        Uint32 level3_ముసుగు;
+        Uint32 level5_ముసుగు;
+        Uint32 numlock_ముసుగు;
+        Uint32 scrolllock_ముసుగు;
     } keyboard;
 
-#ifdef SDL_VIDEO_VULKAN
+#నిర్వచితమైతే SDL_VIDEO_VULKAN
     // Vulkan variables only valid if _this->vulkan_config.loader_handle is not NULL
     SDL_SharedObject *vulkan_xlib_xcb_library;
     PFN_XGetXCBConnection vulkan_XGetXCBConnection;
-#endif
+#అయితే_ముగింపు
 
     // Used to interact with the on-screen keyboard
     bool use_steam_screen_keyboard;
@@ -196,6 +196,6 @@ struct SDL_VideoData
     bool is_xwayland;
 };
 
-extern bool X11_UseDirectColorVisuals(void);
+బాహ్య bool X11_Use_ప్రత్యక్ష_Color_Visuals(శూన్య);
 
-#endif // SDL_x11video_h_
+#అయితే_ముగింపు // SDL_x11video_h_

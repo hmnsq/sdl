@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_windowsshape_h_
-#define SDL_windowsshape_h_
+#నిర్వచితం_కాకపోతే SDL_windowsshape_h_
+#నిర్వచించు SDL_windowsshape_h_
 
-extern bool WIN_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape);
+బాహ్య bool WIN_Update_కిటికీ_Shape(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_Surface *shape);
 
-#endif // SDL_windowsshape_h_
+#అయితే_ముగింపు // SDL_windowsshape_h_

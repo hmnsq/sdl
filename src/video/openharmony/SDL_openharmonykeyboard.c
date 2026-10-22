@@ -18,76 +18,76 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "../../events/SDL_events_c.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
 
-#include "SDL_openharmonykeyboard.h"
+#అన్తర్భావ "SDL_openharmonykeyboard.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#అన్తర్భావ "../../core/openharmony/SDL_openharmony.h"
 
 bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    తిరిగి true;
 }
 
-void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+శూన్య OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    int cap_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
-    } else {
-        switch (SDL_GetTextInputType(props)) {
-            #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; break
-            INPUTTYPE(TEXT, 0);
-            INPUTTYPE(TEXT_NAME, 0);
-            INPUTTYPE(TEXT_EMAIL, 5);
-            INPUTTYPE(TEXT_USERNAME, 10);
-            INPUTTYPE(TEXT_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(TEXT_PASSWORD_VISIBLE, 7);
-            INPUTTYPE(NUMBER_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(NUMBER_PASSWORD_VISIBLE, 8);
-            #undef INPUTTYPE
-            default: break;
+    పూర్ణాంకం ఆదానం_type = 0;
+    పూర్ణాంకం cap_type = 0;
+    ఒకవేళ (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_సంఖ్య)) {
+        ఆదానం_type = (పూర్ణాంకం)SDL_Get_సంఖ్య_Property(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_సంఖ్య, 0);
+    } లేకపోతే {
+        ఎంపిక (SDL_Get_పాఠ్యం_ఆదానం_Type(props)) {
+            #నిర్వచించు INPUTTYPE(sdl,oh) స్థితి SDL_TEXTINPUT_TYPE_##sdl: ఆదానం_type = oh; ఆపు
+            INPUTTYPE(పాఠ్యం_2, 0);
+            INPUTTYPE(పాఠ్యం_NAME, 0);
+            INPUTTYPE(పాఠ్యం_EMAIL, 5);
+            INPUTTYPE(పాఠ్యం_USERNAME, 10);
+            INPUTTYPE(పాఠ్యం_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(పాఠ్యం_PASSWORD_VISIBLE, 7);
+            INPUTTYPE(సంఖ్య_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(సంఖ్య_PASSWORD_VISIBLE, 8);
+            #నిర్వచనం_రద్దు INPUTTYPE
+            అప్రమేయ: ఆపు;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
-            #define CAPTYPE(sdl,oh) case SDL_CAPITALIZE_##sdl: cap_type = oh; break
+        ఎంపిక (SDL_Get_పాఠ్యం_ఆదానం_Capitalization(props)) {
+            #నిర్వచించు CAPTYPE(sdl,oh) స్థితి SDL_CAPITALIZE_##sdl: cap_type = oh; ఆపు
             CAPTYPE(NONE, 0);
             CAPTYPE(LETTERS, 3);
-            CAPTYPE(WORDS, 2);
+            CAPTYPE(పదాలు, 2);
             CAPTYPE(SENTENCES, 1);
-            #undef CAPTYPE
-            default: break;
+            #నిర్వచనం_రద్దు CAPTYPE
+            అప్రమేయ: ఆపు;
         }
 
-        #if 0  // !!! FIXME
-        if (SDL_GetTextInputAutocorrect(props)) {
-            input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        #ఒకవేళ 0  // !!! FIXME
+        ఒకవేళ (SDL_Get_పాఠ్యం_ఆదానం_Autocorrect(props)) {
+            ఆదానం_type |= (TYPE_పాఠ్యం_FLAG_AUTO_CORRECT | TYPE_పాఠ్యం_FLAG_AUTO_COMPLETE);
         }
-        #endif
+        #అయితే_ముగింపు
 
-        if (SDL_GetTextInputMultiline(props)) {
-            input_type = 1;  // sorry, this only works with basic TEXT type.
+        ఒకవేళ (SDL_Get_పాఠ్యం_ఆదానం_Multiline(props)) {
+            ఆదానం_type = 1;  // sorry, this only works with basic TEXT type.
         }
     }
-    SDL_OpenHarmonyShowScreenKeyboard(input_type, cap_type, &window->text_input_rect);
+    SDL_OpenHarmonyShowScreenKeyboard(ఆదానం_type, cap_type, &కిటికీ->పాఠ్యం_ఆదానం_rect);
 }
 
-void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     SDL_OpenHarmonyHideScreenKeyboard();
 }
 
-void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (_this->screen_keyboard_shown) {
-        OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_input_props);
+    ఒకవేళ (_this->screen_keyboard_shown) {
+        OPENHARMONY_ShowScreenKeyboard(_this, కిటికీ, కిటికీ->పాఠ్యం_ఆదానం_props);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_OPENHARMONY
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_OPENHARMONY
 

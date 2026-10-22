@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_androidvideo_h_
-#define SDL_androidvideo_h_
+#నిర్వచితం_కాకపోతే SDL_androidvideo_h_
+#నిర్వచించు SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+బాహ్య శూన్య Android_సమితి_Screen_Resolution(పూర్ణాంకం surface_వెడల్పు, పూర్ణాంకం surface_ఎత్తు, పూర్ణాంకం device_వెడల్పు, పూర్ణాంకం device_ఎత్తు, దశాంశం density, దశాంశం రేటు);
+బాహ్య శూన్య Android_సమితి_Screen_HDRHeadroom(దశాంశం headroom);
+బాహ్య శూన్య Android_సమితి_Format(పూర్ణాంకం format_wanted, పూర్ణాంకం format_got);
+బాహ్య శూన్య Android_సమితి_Orientation(SDL_DisplayOrientation orientation);
+బాహ్య శూన్య Android_SendResize(SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య Android_సమితి_కిటికీ_సురక్షిత_Area_Insets(పూర్ణాంకం ఎడమ, పూర్ణాంకం కుడి, పూర్ణాంకం శిఖరం, పూర్ణాంకం bottom);
+బాహ్య శూన్య Android_సమితి_Dark_బహుళకం(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+నిర్మాణం SDL_Video_దత్తాంశం
 {
-    int isPaused;
-    int isPausing;
+    పూర్ణాంకం isPaused;
+    పూర్ణాంకం isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+బాహ్య పూర్ణాంకం Android_Surface_వెడల్పు;
+బాహ్య పూర్ణాంకం Android_Surface_ఎత్తు;
+బాహ్య దశాంశం Android_ScreenDensity;
+బాహ్య పూర్ణాంకం Android_సురక్షిత_Inset_ఎడమ;
+బాహ్య పూర్ణాంకం Android_సురక్షిత_Inset_కుడి;
+బాహ్య పూర్ణాంకం Android_సురక్షిత_Inset_శిఖరం;
+బాహ్య పూర్ణాంకం Android_సురక్షిత_Inset_Bottom;
 
-#endif // SDL_androidvideo_h_
+#అయితే_ముగింపు // SDL_androidvideo_h_

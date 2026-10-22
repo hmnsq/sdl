@@ -21,96 +21,96 @@
 
 // Atomic KMSDRM backend originally written by Manuel Alfayate Corchete <redwindwanderer@gmail.com>
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_kmsdrmvideo_h
-#define SDL_kmsdrmvideo_h
+#నిర్వచితం_కాకపోతే SDL_kmsdrmvideo_h
+#నిర్వచించు SDL_kmsdrmvideo_h
 
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <xf86drm.h>
-#include <xf86drmMode.h>
-#include <gbm.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
+#అన్తర్భావ <fcntl.h>
+#అన్తర్భావ <unistd.h>
+#అన్తర్భావ <xf86drm.h>
+#అన్తర్భావ <xf86drmMode.h>
+#అన్తర్భావ <gbm.h>
+#అన్తర్భావ <EGL/egl.h>
+#అన్తర్భావ <EGL/eglext.h>
 
-#ifndef DRM_FORMAT_MOD_INVALID
-#define DRM_FORMAT_MOD_INVALID 0x00ffffffffffffffULL
-#endif
+#నిర్వచితం_కాకపోతే DRM_FORMAT_MOD_INVALID
+#నిర్వచించు DRM_FORMAT_MOD_INVALID 0x00ffffffffffffffULL
+#అయితే_ముగింపు
 
-#ifndef DRM_MODE_FB_MODIFIERS
-#define DRM_MODE_FB_MODIFIERS	2
-#endif
+#నిర్వచితం_కాకపోతే DRM_బహుళకం_FB_MODIFIERS
+#నిర్వచించు DRM_బహుళకం_FB_MODIFIERS	2
+#అయితే_ముగింపు
 
-#ifndef DRM_MODE_PAGE_FLIP_ASYNC
-#define DRM_MODE_PAGE_FLIP_ASYNC    2
-#endif
+#నిర్వచితం_కాకపోతే DRM_బహుళకం_పుట_FLIP_ASYNC
+#నిర్వచించు DRM_బహుళకం_పుట_FLIP_ASYNC    2
+#అయితే_ముగింపు
 
-#ifndef DRM_MODE_OBJECT_CONNECTOR
-#define DRM_MODE_OBJECT_CONNECTOR   0xc0c0c0c0
-#endif
+#నిర్వచితం_కాకపోతే DRM_బహుళకం_OBJECT_CONNECTOR
+#నిర్వచించు DRM_బహుళకం_OBJECT_CONNECTOR   0xc0c0c0c0
+#అయితే_ముగింపు
 
-#ifndef DRM_MODE_OBJECT_CRTC
-#define DRM_MODE_OBJECT_CRTC        0xcccccccc
-#endif
+#నిర్వచితం_కాకపోతే DRM_బహుళకం_OBJECT_CRTC
+#నిర్వచించు DRM_బహుళకం_OBJECT_CRTC        0xcccccccc
+#అయితే_ముగింపు
 
-#ifndef DRM_CAP_ASYNC_PAGE_FLIP
-#define DRM_CAP_ASYNC_PAGE_FLIP 7
-#endif
+#నిర్వచితం_కాకపోతే DRM_CAP_ASYNC_పుట_FLIP
+#నిర్వచించు DRM_CAP_ASYNC_పుట_FLIP 7
+#అయితే_ముగింపు
 
-#ifndef DRM_CAP_CURSOR_WIDTH
-#define DRM_CAP_CURSOR_WIDTH    8
-#endif
+#నిర్వచితం_కాకపోతే DRM_CAP_CURSOR_వెడల్పు
+#నిర్వచించు DRM_CAP_CURSOR_వెడల్పు    8
+#అయితే_ముగింపు
 
-#ifndef DRM_CAP_CURSOR_HEIGHT
-#define DRM_CAP_CURSOR_HEIGHT   9
-#endif
+#నిర్వచితం_కాకపోతే DRM_CAP_CURSOR_ఎత్తు
+#నిర్వచించు DRM_CAP_CURSOR_ఎత్తు   9
+#అయితే_ముగింపు
 
-#ifndef GBM_FORMAT_ARGB8888
-#define GBM_FORMAT_ARGB8888  ((uint32_t)('A') | ((uint32_t)('R') << 8) | ((uint32_t)('2') << 16) | ((uint32_t)('4') << 24))
-#define GBM_BO_USE_CURSOR   (1 << 1)
-#define GBM_BO_USE_WRITE    (1 << 3)
-#define GBM_BO_USE_LINEAR   (1 << 4)
-#endif
+#నిర్వచితం_కాకపోతే GBM_FORMAT_ARGB8888
+#నిర్వచించు GBM_FORMAT_ARGB8888  ((uint32_t)('A') | ((uint32_t)('R') << 8) | ((uint32_t)('2') << 16) | ((uint32_t)('4') << 24))
+#నిర్వచించు GBM_BO_USE_CURSOR   (1 << 1)
+#నిర్వచించు GBM_BO_USE_WRITE    (1 << 3)
+#నిర్వచించు GBM_BO_USE_రేఖీయ   (1 << 4)
+#అయితే_ముగింపు
 
-typedef struct KMSDRM_plane
+రకనిర్వచనం నిర్మాణం KMSDRM_plane
 {
-    drmModePlane *plane;
-    drmModeObjectProperties *props;
-    drmModePropertyRes **props_info;
+    drm_బహుళకం_Plane *plane;
+    drm_బహుళకం_Object_Properties *props;
+    drm_బహుళకం_Property_Res **props_info;
 } KMSDRM_plane;
  
-typedef struct KMSDRM_crtc
+రకనిర్వచనం నిర్మాణం KMSDRM_crtc
 {
-    drmModeCrtc *crtc;
-    drmModeObjectProperties *props;
-    drmModePropertyRes **props_info;
+    drm_బహుళకం_Crtc *crtc;
+    drm_బహుళకం_Object_Properties *props;
+    drm_బహుళకం_Property_Res **props_info;
 } KMSDRM_crtc;
 
-typedef struct KMSDRM_connector
+రకనిర్వచనం నిర్మాణం KMSDRM_connector
 {
-    drmModeConnector *connector;
-    drmModeObjectProperties *props;
-    drmModePropertyRes **props_info;
+    drm_బహుళకం_Connector *connector;
+    drm_బహుళకం_Object_Properties *props;
+    drm_బహుళకం_Property_Res **props_info;
 } KMSDRM_connector;
 
-struct SDL_VideoData
+నిర్మాణం SDL_Video_దత్తాంశం
 {
-    int devindex;     // device index that was passed on creation
-    int drm_fd;       // DRM file desc
-    char devpath[32]; // DRM dev path.
+    పూర్ణాంకం devindex;     // device index that was passed on creation
+    పూర్ణాంకం drm_fd;       // DRM file desc
+    అక్షరం devpath[32]; // DRM dev path.
 
-    struct gbm_device *gbm_dev;
+    నిర్మాణం gbm_device *gbm_dev;
 
     bool video_init;             // Has VideoInit succeeded?
-    bool vulkan_mode;            // Are we in Vulkan mode? One VK window is enough to be.
+    bool vulkan_బహుళకం;            // Are we in Vulkan mode? One VK window is enough to be.
     bool async_pageflip_support; // Does the hardware support async. pageflips?
 
-    SDL_Window **windows;
-    int max_windows;
-    int num_windows;
+    SDL_కిటికీ **windows;
+    పూర్ణాంకం max_windows;
+    పూర్ణాంకం అంకె_windows;
 
     /* Even if we have several displays, we only have to
        open 1 FD and create 1 gbm device. */
@@ -119,75 +119,75 @@ struct SDL_VideoData
     bool is_atomic;  // true if atomic interfaces are supported.
 };
 
-struct SDL_DisplayModeData
+నిర్మాణం SDL_Display_బహుళకం_దత్తాంశం
 {
-    int mode_index;
+    పూర్ణాంకం బహుళకం_సూచీ;
 };
 
-struct SDL_DisplayData
+నిర్మాణం SDL_Display_దత్తాంశం
 {
     KMSDRM_plane *display_plane;
     KMSDRM_plane *cursor_plane;
     KMSDRM_crtc crtc;
     KMSDRM_connector connector;
 
-    drmModeModeInfo mode;
-    drmModeModeInfo original_mode;
-    drmModeModeInfo fullscreen_mode;
+    drm_బహుళకం_బహుళకం_Info బహుళకం;
+    drm_బహుళకం_బహుళకం_Info original_బహుళకం;
+    drm_బహుళకం_బహుళకం_Info fullscreen_బహుళకం;
 
-    drmModeCrtc *saved_crtc; // CRTC to restore on quit
+    drm_బహుళకం_Crtc *saved_crtc; // CRTC to restore on quit
     bool saved_vrr;
 
     /* DRM & GBM cursor stuff lives here, not in an SDL_Cursor's internal struct,
        because setting/unsetting up these is done on window creation/destruction,
        where we may not have an SDL_Cursor at all (so no SDL_Cursor internal).
        There's only one cursor GBM BO because we only support one cursor. */
-    struct gbm_bo *cursor_bo;
-    int cursor_bo_drm_fd;
+    నిర్మాణం gbm_bo *cursor_bo;
+    పూర్ణాంకం cursor_bo_drm_fd;
     uint64_t cursor_w, cursor_h;
 
     /* Central atomic request list, used for the prop
        changeset related to pageflip in SwapWindow. */
-    drmModeAtomicReq *atomic_req;
+    drm_బహుళకం_Atomic_Req *atomic_req;
 
-    int kms_in_fence_fd;
-    int kms_out_fence_fd;
+    పూర్ణాంకం kms_లోపల_fence_fd;
+    పూర్ణాంకం kms_బహిర్గతం_fence_fd;
     EGLSyncKHR kms_fence;
     EGLSyncKHR gpu_fence;
 
     bool default_cursor_init;
 };
 
-struct SDL_WindowData
+నిర్మాణం SDL_కిటికీ_దత్తాంశం
 {
-    SDL_VideoData *viddata;
+    SDL_Video_దత్తాంశం *viddata;
     /* SDL internals expect EGL surface to be here, and in KMSDRM the GBM surface is
        what supports the EGL surface on the driver side, so all these surfaces and buffers
        are expected to be here, in the struct pointed by SDL_Window internal pointer:
        this one. So don't try to move these to dispdata!  */
-    struct gbm_surface *gs;
-    struct gbm_bo *bo;
-    struct gbm_bo *next_bo;
+    నిర్మాణం gbm_surface *gs;
+    నిర్మాణం gbm_bo *bo;
+    నిర్మాణం gbm_bo *తదుపరి_bo;
 
-    bool waiting_for_flip;
-    bool double_buffer;
+    bool నిరీక్షణ_for_flip;
+    bool double_బఫరు;
 
     EGLSurface egl_surface;
     bool egl_surface_dirty;
 
     /* This dictates what approach we'll use for SwapBuffers. */
-    bool (*swap_window)(SDL_VideoDevice *_this, SDL_Window *window);
+    bool (*మార్పిడి_కిటికీ)(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 };
 
-typedef struct KMSDRM_FBInfo
+రకనిర్వచనం నిర్మాణం KMSDRM_FBInfo
 {
-    int drm_fd;     // DRM file desc
+    పూర్ణాంకం drm_fd;     // DRM file desc
     uint32_t fb_id; // DRM framebuffer ID
 } KMSDRM_FBInfo;
 
-typedef struct KMSDRM_PlaneInfo
+రకనిర్వచనం నిర్మాణం KMSDRM_PlaneInfo
 {
-    struct KMSDRM_plane *plane;
+    నిర్మాణం KMSDRM_plane *plane;
     uint32_t fb_id;
     uint32_t crtc_id;
     int32_t src_x;
@@ -201,42 +201,42 @@ typedef struct KMSDRM_PlaneInfo
 } KMSDRM_PlaneInfo;
 
 // Helper functions
-extern bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, struct gbm_bo *bo, int w, int h);
-extern bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata);
+బాహ్య bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, నిర్మాణం gbm_bo *bo);
+బాహ్య KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, నిర్మాణం gbm_bo *bo, పూర్ణాంకం w, పూర్ణాంకం h);
+బాహ్య bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_కిటికీ_దత్తాంశం *windata);
 
 // Atomic functions that are used from SDL_kmsdrmopengles.c and SDL_kmsdrmmouse.c
-void drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *info);
-void drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata);
-int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
-int add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t value);
-int add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t value);
-int add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t value);
-bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, struct KMSDRM_plane **plane, uint32_t plane_type);
-void free_plane(struct KMSDRM_plane **plane);
+శూన్య drm_atomic_సమితి_plane_props(SDL_Display_దత్తాంశం *dispdata, నిర్మాణం KMSDRM_PlaneInfo *info);
+శూన్య drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_Display_దత్తాంశం *dispdata);
+పూర్ణాంకం drm_atomic_commit(SDL_VideoDevice *_this, SDL_Display_దత్తాంశం *dispdata, bool blocking, bool allow_modeset);
+పూర్ణాంకం కూడు_plane_property(drm_బహుళకం_Atomic_Req *req, నిర్మాణం KMSDRM_plane *plane, స్థిరరాశి అక్షరం *name, uint64_t విలువ);
+పూర్ణాంకం కూడు_crtc_property(drm_బహుళకం_Atomic_Req *req, నిర్మాణం KMSDRM_crtc *crtc, స్థిరరాశి అక్షరం *name, uint64_t విలువ);
+పూర్ణాంకం కూడు_connector_property(drm_బహుళకం_Atomic_Req *req, నిర్మాణం KMSDRM_connector *connector, స్థిరరాశి అక్షరం *name, uint64_t విలువ);
+bool అమరిక_plane(SDL_VideoDevice *_this, SDL_Display_దత్తాంశం *dispdata, నిర్మాణం KMSDRM_plane **plane, uint32_t plane_type);
+శూన్య free_plane(నిర్మాణం KMSDRM_plane **plane);
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration
 /****************************************************************************/
 
 // Display and window functions
-extern bool KMSDRM_VideoInit(SDL_VideoDevice *_this);
-extern void KMSDRM_VideoQuit(SDL_VideoDevice *_this);
-extern bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool KMSDRM_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void KMSDRM_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult KMSDRM_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
-extern void KMSDRM_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+బాహ్య bool KMSDRM_VideoInit(SDL_VideoDevice *_this);
+బాహ్య శూన్య KMSDRM_VideoQuit(SDL_VideoDevice *_this);
+బాహ్య bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+బాహ్య bool KMSDRM_సమితి_Display_బహుళకం(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_బహుళకం *బహుళకం);
+బాహ్య bool KMSDRM_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props);
+బాహ్య శూన్య KMSDRM_సమితి_కిటికీ_Title(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool KMSDRM_సమితి_కిటికీ_Position(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య KMSDRM_సమితి_కిటికీ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య SDL_Fullscreen_ఫలితం KMSDRM_సమితి_కిటికీ_Fullscreen(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
+బాహ్య శూన్య KMSDRM_Show_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య KMSDRM_Hide_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య KMSDRM_Raise_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య KMSDRM_Maximize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య KMSDRM_Minimize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య KMSDRM_Restore_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య KMSDRM_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool KMSDRM_సమితి_కిటికీ_Focusable(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool focusable);
 
-#endif // SDL_kmsdrmvideo_h
+#అయితే_ముగింపు // SDL_kmsdrmvideo_h

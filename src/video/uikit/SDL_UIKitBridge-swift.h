@@ -21,25 +21,25 @@
 #import "SDL_uikitviewcontroller.h"
 
 // Called from Swift scene delegates when window size changes
-void SDL_VisionOS_SendSizeChanged(long width, long height);
+శూన్య SDL_Vision_OS_Send_కొలత_మారింది(దీర్ఘ వెడల్పు, దీర్ఘ ఎత్తు);
 
 // Called from Swift scene delegates to get the initial window settings
-NSString *SDL_VisionOS_GetWindowSettings();
+NSString *SDL_Vision_OS_Get_కిటికీ_Settings();
 
 // Called from Swift scene delegates when window settings change
-void SDL_VisionOS_SendWindowSettings(NSString *settings);
+శూన్య SDL_Vision_OS_Send_కిటికీ_Settings(NSString *settings);
 
 // Called from Swift scene delegates when pointer mode changes
-void SDL_VisionOS_SendPointerMode(bool enabled);
+శూన్య SDL_Vision_OS_Send_సూచిక_బహుళకం(bool enabled);
 
 // Called from Swift scene delegates when window settings are loaded
 bool SDL_VisionOS_ShouldShowHeadroomUI();
 
 // Called from Swift scene delegates when headroom changes
-void SDL_VisionOS_SendHeadroom(float headroom);
+శూన్య SDL_VisionOS_SendHeadroom(దశాంశం headroom);
 
 // Called from Swift scene delegates when visionOS delivers a touch event
-void SDL_VisionOS_SendTouch(NSTimeInterval timestamp, SDL_FingerID fingerID, Uint32 eventType, float x, float y);
+శూన్య SDL_VisionOS_SendTouch(NSTimeInterval timestamp, SDL_FingerID fingerID, Uint32 eventType, దశాంశం x, దశాంశం y);
 
 // Called from Swift to register the RealityKit hosting object with the SDL window
-void SDL_VisionOS_SetWindowRealityKitHosting(id hosting);
+శూన్య SDL_Vision_OS_సమితి_కిటికీ_Reality_Kit_Hosting(id hosting);

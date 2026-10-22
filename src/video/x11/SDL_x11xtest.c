@@ -19,66 +19,66 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xtest.h"
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11xtest.h"
 
-static bool xtest_initialized = false;
+స్థిర bool xtest_initialized = false;
 
-void X11_InitXTest(SDL_VideoDevice *_this)
+శూన్య X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
-    Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+#ఒకవేళ 0//def SDL_VIDEO_DRIVER_X11_XTEST
+    Display *display = _this->అంతర్గత->display;
+    పూర్ణాంకం event, error;
+    పూర్ణాంకం opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    ఒకవేళ (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        తిరిగి;
     }
 
     xtest_initialized = true;
-#endif
+#అయితే_ముగింపు
 }
 
-bool X11_XTestIsInitialized(void)
+bool X11_XTestIsInitialized(శూన్య)
 {
-    return xtest_initialized;
+    తిరిగి xtest_initialized;
 }
 
-bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
+bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, దశాంశం x, దశాంశం y)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XTEST
+    ఒకవేళ (!X11_XTestIsInitialized()) {
+        తిరిగి false;
     }
 
-    Display *display = _this->internal->display;
-    SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    Display *display = _this->అంతర్గత->display;
+    SDL_Display_దత్తాంశం *displaydata = కిటికీ ? SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ) : SDL_Get_Display_Driver_దత్తాంశం(SDL_GetPrimaryDisplay());
+    ఒకవేళ (!displaydata) {
+        తిరిగి false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
-        motion_x += window->x;
-        motion_y += window->y;
+    పూర్ణాంకం motion_x = (పూర్ణాంకం)SDL_roundf(x);
+    పూర్ణాంకం motion_y = (పూర్ణాంకం)SDL_roundf(y);
+    ఒకవేళ (కిటికీ) {
+        motion_x += కిటికీ->x;
+        motion_y += కిటికీ->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    ఒకవేళ (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, Current_సమయం)) {
+        తిరిగి false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
-#endif
+    తిరిగి true;
+#లేకపోతే
+    తిరిగి false;
+#అయితే_ముగింపు
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11

@@ -1,5 +1,5 @@
-#ifndef VULKAN_METAL_H_
-#define VULKAN_METAL_H_ 1
+#నిర్వచితం_కాకపోతే VULKAN_METAL_H_
+#నిర్వచించు VULKAN_METAL_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,251 +13,251 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
 
 
 // VK_EXT_metal_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_metal_surface 1
+#నిర్వచించు VK_EXT_metal_surface 1
 
-#ifdef __OBJC__
+#నిర్వచితమైతే __OBJC__
 @class CAMetalLayer;
-#else
-typedef void CAMetalLayer;
-#endif
+#లేకపోతే
+రకనిర్వచనం శూన్య CAMetalLayer;
+#అయితే_ముగింపు
 
-#define SDL_UNSAFE_UNRETAINED
-#if defined(__OBJC__) && defined(__has_feature)
-#if __has_feature(objc_arc)
-#undef SDL_UNSAFE_UNRETAINED
-#define SDL_UNSAFE_UNRETAINED __unsafe_unretained
-#endif
-#endif
+#నిర్వచించు SDL_UNSAFE_UNRETAINED
+#ఒకవేళ defined(__OBJC__) && defined(__has_feature)
+#ఒకవేళ __has_feature(objc_arc)
+#నిర్వచనం_రద్దు SDL_UNSAFE_UNRETAINED
+#నిర్వచించు SDL_UNSAFE_UNRETAINED __unsafe_unretained
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#define VK_EXT_METAL_SURFACE_SPEC_VERSION 1
-#define VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
+#నిర్వచించు VK_EXT_METAL_SURFACE_SPEC_సంస్కరణ 1
+#నిర్వచించు VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
 
-typedef VkFlags VkMetalSurfaceCreateFlagsEXT;
+రకనిర్వచనం VkFlags VkMetalSurfaceCreateFlagsEXT;
 
-typedef struct VkMetalSurfaceCreateInfoEXT {
+రకనిర్వచనం నిర్మాణం VkMetalSurfaceCreateInfoEXT {
     VkStructureType                 sType;
-    const void*                     pNext;
+    స్థిరరాశి శూన్య*                     p_తదుపరి;
     VkMetalSurfaceCreateFlagsEXT    flags;
-    const CAMetalLayer SDL_UNSAFE_UNRETAINED *pLayer;
+    స్థిరరాశి CAMetalLayer SDL_UNSAFE_UNRETAINED *pLayer;
 } VkMetalSurfaceCreateInfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMetalSurfaceEXT)(VkInstance instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vkCreateMetalSurfaceEXT)(VkInstance instance, స్థిరరాశి VkMetalSurfaceCreateInfoEXT* pCreateInfo, స్థిరరాశి Vk_కేటాయింపు_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateMetalSurfaceEXT(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vkCreateMetalSurfaceEXT(
     VkInstance                                  instance,
-    const VkMetalSurfaceCreateInfoEXT*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    స్థిరరాశి VkMetalSurfaceCreateInfoEXT*          pCreateInfo,
+    స్థిరరాశి Vk_కేటాయింపు_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
 
 // VK_EXT_metal_objects is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_metal_objects 1
+#నిర్వచించు VK_EXT_metal_objects 1
 
-#ifdef __OBJC__
+#నిర్వచితమైతే __OBJC__
 @protocol MTLDevice;
-typedef __unsafe_unretained id<MTLDevice> MTLDevice_id;
-#else
-typedef void* MTLDevice_id;
-#endif
-#ifdef __OBJC__
-@protocol MTLCommandQueue;
-typedef __unsafe_unretained id<MTLCommandQueue> MTLCommandQueue_id;
-#else
-typedef void* MTLCommandQueue_id;
-#endif
-#ifdef __OBJC__
+రకనిర్వచనం __unsafe_unretained id<MTLDevice> MTLDevice_id;
+#లేకపోతే
+రకనిర్వచనం శూన్య* MTLDevice_id;
+#అయితే_ముగింపు
+#నిర్వచితమైతే __OBJC__
+@protocol MTLCommand_వరుస;
+రకనిర్వచనం __unsafe_unretained id<MTLCommand_వరుస> MTLCommand_వరుస_id;
+#లేకపోతే
+రకనిర్వచనం శూన్య* MTLCommand_వరుస_id;
+#అయితే_ముగింపు
+#నిర్వచితమైతే __OBJC__
 @protocol MTLBuffer;
-typedef __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
-#else
-typedef void* MTLBuffer_id;
-#endif
-#ifdef __OBJC__
+రకనిర్వచనం __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
+#లేకపోతే
+రకనిర్వచనం శూన్య* MTLBuffer_id;
+#అయితే_ముగింపు
+#నిర్వచితమైతే __OBJC__
 @protocol MTLTexture;
-typedef __unsafe_unretained id<MTLTexture> MTLTexture_id;
-#else
-typedef void* MTLTexture_id;
-#endif
-typedef struct __IOSurface* IOSurfaceRef;
-#ifdef __OBJC__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunguarded-availability"
+రకనిర్వచనం __unsafe_unretained id<MTLTexture> MTLTexture_id;
+#లేకపోతే
+రకనిర్వచనం శూన్య* MTLTexture_id;
+#అయితే_ముగింపు
+రకనిర్వచనం నిర్మాణం __IOSurface* IOSurfaceRef;
+#నిర్వచితమైతే __OBJC__
+#సూచన clang diagnostic నెట్టు
+#సూచన clang diagnostic ignored "-Wunguarded-availability"
 @protocol MTLSharedEvent;
-typedef __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
-#pragma clang diagnostic pop
-#else
-typedef void* MTLSharedEvent_id;
-#endif
+రకనిర్వచనం __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
+#సూచన clang diagnostic తీయి
+#లేకపోతే
+రకనిర్వచనం శూన్య* MTLSharedEvent_id;
+#అయితే_ముగింపు
 
-#define VK_EXT_METAL_OBJECTS_SPEC_VERSION 2
-#define VK_EXT_METAL_OBJECTS_EXTENSION_NAME "VK_EXT_metal_objects"
+#నిర్వచించు VK_EXT_METAL_OBJECTS_SPEC_సంస్కరణ 2
+#నిర్వచించు VK_EXT_METAL_OBJECTS_EXTENSION_NAME "VK_EXT_metal_objects"
 
-typedef enum VkExportMetalObjectTypeFlagBitsEXT {
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_DEVICE_BIT_EXT = 0x00000001,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_COMMAND_QUEUE_BIT_EXT = 0x00000002,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_BUFFER_BIT_EXT = 0x00000004,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_TEXTURE_BIT_EXT = 0x00000008,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_IOSURFACE_BIT_EXT = 0x00000010,
-    VK_EXPORT_METAL_OBJECT_TYPE_METAL_SHARED_EVENT_BIT_EXT = 0x00000020,
-    VK_EXPORT_METAL_OBJECT_TYPE_FLAG_BITS_MAX_ENUM_EXT = 0x7FFFFFFF
-} VkExportMetalObjectTypeFlagBitsEXT;
-typedef VkFlags VkExportMetalObjectTypeFlagsEXT;
+రకనిర్వచనం గణన Vk_Export_Metal_Object_Type_Flag_బిట్లు_EXT {
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_DEVICE_బిట్టు_EXT = 0x00000001,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_COMMAND_వరుస_బిట్టు_EXT = 0x00000002,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_బఫరు_బిట్టు_EXT = 0x00000004,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_TEXTURE_బిట్టు_EXT = 0x00000008,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_IOSURFACE_బిట్టు_EXT = 0x00000010,
+    VK_EXPORT_METAL_OBJECT_TYPE_METAL_SHARED_EVENT_బిట్టు_EXT = 0x00000020,
+    VK_EXPORT_METAL_OBJECT_TYPE_FLAG_బిట్లు_MAX_ENUM_EXT = 0x7FFFFFFF
+} Vk_Export_Metal_Object_Type_Flag_బిట్లు_EXT;
+రకనిర్వచనం VkFlags VkExportMetalObjectTypeFlagsEXT;
 
-typedef struct VkExportMetalObjectCreateInfoEXT {
+రకనిర్వచనం నిర్మాణం VkExportMetalObjectCreateInfoEXT {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExportMetalObjectTypeFlagBitsEXT    exportObjectType;
+    స్థిరరాశి శూన్య*                           p_తదుపరి;
+    Vk_Export_Metal_Object_Type_Flag_బిట్లు_EXT    exportObjectType;
 } VkExportMetalObjectCreateInfoEXT;
 
-typedef struct VkExportMetalObjectsInfoEXT {
+రకనిర్వచనం నిర్మాణం VkExportMetalObjectsInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
 } VkExportMetalObjectsInfoEXT;
 
-typedef struct VkExportMetalDeviceInfoEXT {
+రకనిర్వచనం నిర్మాణం VkExportMetalDeviceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
     MTLDevice_id       mtlDevice;
 } VkExportMetalDeviceInfoEXT;
 
-typedef struct VkExportMetalCommandQueueInfoEXT {
+రకనిర్వచనం నిర్మాణం Vk_Export_Metal_Command_వరుస_Info_EXT {
     VkStructureType       sType;
-    const void*           pNext;
-    VkQueue               queue;
-    MTLCommandQueue_id    mtlCommandQueue;
-} VkExportMetalCommandQueueInfoEXT;
+    స్థిరరాశి శూన్య*           p_తదుపరి;
+    Vk_వరుస               వరుస;
+    MTLCommand_వరుస_id    mtl_Command_వరుస;
+} Vk_Export_Metal_Command_వరుస_Info_EXT;
 
-typedef struct VkExportMetalBufferInfoEXT {
+రకనిర్వచనం నిర్మాణం Vk_Export_Metal_బఫరు_Info_EXT {
     VkStructureType    sType;
-    const void*        pNext;
-    VkDeviceMemory     memory;
-    MTLBuffer_id       mtlBuffer;
-} VkExportMetalBufferInfoEXT;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
+    Vk_Device_జ్ఞాపకం     జ్ఞాపకం;
+    MTLBuffer_id       mtl_బఫరు;
+} Vk_Export_Metal_బఫరు_Info_EXT;
 
-typedef struct VkImportMetalBufferInfoEXT {
+రకనిర్వచనం నిర్మాణం Vk_Import_Metal_బఫరు_Info_EXT {
     VkStructureType    sType;
-    const void*        pNext;
-    MTLBuffer_id       mtlBuffer;
-} VkImportMetalBufferInfoEXT;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
+    MTLBuffer_id       mtl_బఫరు;
+} Vk_Import_Metal_బఫరు_Info_EXT;
 
-typedef struct VkExportMetalTextureInfoEXT {
+రకనిర్వచనం నిర్మాణం VkExportMetalTextureInfoEXT {
     VkStructureType          sType;
-    const void*              pNext;
+    స్థిరరాశి శూన్య*              p_తదుపరి;
     VkImage                  image;
     VkImageView              imageView;
-    VkBufferView             bufferView;
-    VkImageAspectFlagBits    plane;
+    Vk_బఫరు_View             బఫరు_View;
+    Vk_Image_Aspect_Flag_బిట్లు    plane;
     MTLTexture_id            mtlTexture;
 } VkExportMetalTextureInfoEXT;
 
-typedef struct VkImportMetalTextureInfoEXT {
+రకనిర్వచనం నిర్మాణం VkImportMetalTextureInfoEXT {
     VkStructureType          sType;
-    const void*              pNext;
-    VkImageAspectFlagBits    plane;
+    స్థిరరాశి శూన్య*              p_తదుపరి;
+    Vk_Image_Aspect_Flag_బిట్లు    plane;
     MTLTexture_id            mtlTexture;
 } VkImportMetalTextureInfoEXT;
 
-typedef struct VkExportMetalIOSurfaceInfoEXT {
+రకనిర్వచనం నిర్మాణం VkExportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
     VkImage            image;
     IOSurfaceRef       ioSurface;
 } VkExportMetalIOSurfaceInfoEXT;
 
-typedef struct VkImportMetalIOSurfaceInfoEXT {
+రకనిర్వచనం నిర్మాణం VkImportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
     IOSurfaceRef       ioSurface;
 } VkImportMetalIOSurfaceInfoEXT;
 
-typedef struct VkExportMetalSharedEventInfoEXT {
+రకనిర్వచనం నిర్మాణం VkExportMetalSharedEventInfoEXT {
     VkStructureType      sType;
-    const void*          pNext;
+    స్థిరరాశి శూన్య*          p_తదుపరి;
     VkSemaphore          semaphore;
     VkEvent              event;
     MTLSharedEvent_id    mtlSharedEvent;
 } VkExportMetalSharedEventInfoEXT;
 
-typedef struct VkImportMetalSharedEventInfoEXT {
+రకనిర్వచనం నిర్మాణం VkImportMetalSharedEventInfoEXT {
     VkStructureType      sType;
-    const void*          pNext;
+    స్థిరరాశి శూన్య*          p_తదుపరి;
     MTLSharedEvent_id    mtlSharedEvent;
 } VkImportMetalSharedEventInfoEXT;
 
 
-typedef void (VKAPI_PTR *PFN_vkExportMetalObjectsEXT)(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
+రకనిర్వచనం శూన్య (VKAPI_PTR *PFN_vkExportMetalObjectsEXT)(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkExportMetalObjectsEXT(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR శూన్య VKAPI_CALL vkExportMetalObjectsEXT(
     VkDevice                                    device,
     VkExportMetalObjectsInfoEXT*                pMetalObjectsInfo);
-#endif
-#endif
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
 
 // VK_EXT_external_memory_metal is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_external_memory_metal 1
+#నిర్వచించు VK_EXT_external_జ్ఞాపకం_metal 1
 
-#define VK_EXT_EXTERNAL_MEMORY_METAL_SPEC_VERSION 1
-#define VK_EXT_EXTERNAL_MEMORY_METAL_EXTENSION_NAME "VK_EXT_external_memory_metal"
+#నిర్వచించు VK_EXT_EXTERNAL_జ్ఞాపకం_METAL_SPEC_సంస్కరణ 1
+#నిర్వచించు VK_EXT_EXTERNAL_జ్ఞాపకం_METAL_EXTENSION_NAME "VK_EXT_external_memory_metal"
 
-typedef struct VkImportMemoryMetalHandleInfoEXT {
+రకనిర్వచనం నిర్మాణం Vk_Import_జ్ఞాపకం_Metal_Handle_Info_EXT {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-    void*                                 handle;
-} VkImportMemoryMetalHandleInfoEXT;
+    స్థిరరాశి శూన్య*                           p_తదుపరి;
+    Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు    handleType;
+    శూన్య*                                 handle;
+} Vk_Import_జ్ఞాపకం_Metal_Handle_Info_EXT;
 
-typedef struct VkMemoryMetalHandlePropertiesEXT {
+రకనిర్వచనం నిర్మాణం Vk_జ్ఞాపకం_Metal_Handle_Properties_EXT {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           memoryTypeBits;
-} VkMemoryMetalHandlePropertiesEXT;
+    శూన్య*              p_తదుపరి;
+    uint32_t           జ్ఞాపకం_Type_బిట్లు;
+} Vk_జ్ఞాపకం_Metal_Handle_Properties_EXT;
 
-typedef struct VkMemoryGetMetalHandleInfoEXT {
+రకనిర్వచనం నిర్మాణం Vk_జ్ఞాపకం_Get_Metal_Handle_Info_EXT {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkDeviceMemory                        memory;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-} VkMemoryGetMetalHandleInfoEXT;
+    స్థిరరాశి శూన్య*                           p_తదుపరి;
+    Vk_Device_జ్ఞాపకం                        జ్ఞాపకం;
+    Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు    handleType;
+} Vk_జ్ఞాపకం_Get_Metal_Handle_Info_EXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandleEXT)(VkDevice device, const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, void** pHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandlePropertiesEXT)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, const void* pHandle, VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Get_జ్ఞాపకం_Metal_Handle_EXT)(VkDevice device, స్థిరరాశి Vk_జ్ఞాపకం_Get_Metal_Handle_Info_EXT* pGetMetalHandleInfo, శూన్య** pHandle);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Get_జ్ఞాపకం_Metal_Handle_Properties_EXT)(VkDevice device, Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు handleType, స్థిరరాశి శూన్య* pHandle, Vk_జ్ఞాపకం_Metal_Handle_Properties_EXT* p_జ్ఞాపకం_Metal_Handle_Properties);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryMetalHandleEXT(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Get_జ్ఞాపకం_Metal_Handle_EXT(
     VkDevice                                    device,
-    const VkMemoryGetMetalHandleInfoEXT*        pGetMetalHandleInfo,
-    void**                                      pHandle);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryMetalHandlePropertiesEXT(
+    స్థిరరాశి Vk_జ్ఞాపకం_Get_Metal_Handle_Info_EXT*        pGetMetalHandleInfo,
+    శూన్య**                                      pHandle);
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Get_జ్ఞాపకం_Metal_Handle_Properties_EXT(
     VkDevice                                    device,
-    VkExternalMemoryHandleTypeFlagBits          handleType,
-    const void*                                 pHandle,
-    VkMemoryMetalHandlePropertiesEXT*           pMemoryMetalHandleProperties);
-#endif
-#endif
+    Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు          handleType,
+    స్థిరరాశి శూన్య*                                 pHandle,
+    Vk_జ్ఞాపకం_Metal_Handle_Properties_EXT*           p_జ్ఞాపకం_Metal_Handle_Properties);
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif
+#అయితే_ముగింపు

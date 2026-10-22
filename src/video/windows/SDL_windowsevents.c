@@ -18,258 +18,258 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WINDOWS
 
-#include "SDL_windowsvideo.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../events/scancodes_windows.h"
-#include "../../main/SDL_main_callbacks.h"
-#include "../../core/windows/SDL_hid.h"
+#అన్తర్భావ "SDL_windowsvideo.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
+#అన్తర్భావ "../../events/SDL_touch_c.h"
+#అన్తర్భావ "../../events/scancodes_windows.h"
+#అన్తర్భావ "../../main/SDL_main_callbacks.h"
+#అన్తర్భావ "../../core/windows/SDL_hid.h"
 
 // Dropfile support
-#include <shellapi.h>
+#అన్తర్భావ <shellapi.h>
 
 // Device names
-#include <setupapi.h>
+#అన్తర్భావ <setupapi.h>
 
 // For GET_X_LPARAM, GET_Y_LPARAM.
-#include <windowsx.h>
+#అన్తర్భావ <windowsx.h>
 
 // For WM_TABLET_QUERYSYSTEMGESTURESTATUS et. al.
-#ifdef HAVE_TPCSHRD_H
-#include <tpcshrd.h>
-#endif // HAVE_TPCSHRD_H
+#నిర్వచితమైతే HAVE_TPCSHRD_H
+#అన్తర్భావ <tpcshrd.h>
+#అయితే_ముగింపు // HAVE_TPCSHRD_H
 
-#if 0
-#define WMMSG_DEBUG
-#endif
-#ifdef WMMSG_DEBUG
-#include <stdio.h>
-#include "wmmsg.h"
-#endif
+#ఒకవేళ 0
+#నిర్వచించు WMMSG_DEBUG
+#అయితే_ముగింపు
+#నిర్వచితమైతే WMMSG_DEBUG
+#అన్తర్భావ <stdio.h>
+#అన్తర్భావ "wmmsg.h"
+#అయితే_ముగింపు
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-#include <shobjidl.h>
-#endif
+#ఒకవేళ !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#అన్తర్భావ <shobjidl.h>
+#అయితే_ముగింపు
 
-#ifdef SDL_PLATFORM_GDK
-#include "../../core/gdk/SDL_gdk.h"
-#endif
+#నిర్వచితమైతే SDL_PLATFORM_GDK
+#అన్తర్భావ "../../core/gdk/SDL_gdk.h"
+#అయితే_ముగింపు
 
 // #define HIGHDPI_DEBUG
 
 // Undocumented window messages
-#ifndef WM_NCUAHDRAWCAPTION
-#define WM_NCUAHDRAWCAPTION 0xAE
-#endif
-#ifndef WM_NCUAHDRAWFRAME
-#define WM_NCUAHDRAWFRAME 0xAF
-#endif
+#నిర్వచితం_కాకపోతే WM_NCUAHDRAWCAPTION
+#నిర్వచించు WM_NCUAHDRAWCAPTION 0xAE
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_NCUAHDRAWFRAME
+#నిర్వచించు WM_NCUAHDRAWFRAME 0xAF
+#అయితే_ముగింపు
 
 // Make sure XBUTTON stuff is defined that isn't in older Platform SDKs...
-#ifndef WM_XBUTTONDOWN
-#define WM_XBUTTONDOWN 0x020B
-#endif
-#ifndef WM_XBUTTONUP
-#define WM_XBUTTONUP 0x020C
-#endif
-#ifndef GET_XBUTTON_WPARAM
-#define GET_XBUTTON_WPARAM(w) (HIWORD(w))
-#endif
-#ifndef WM_INPUT
-#define WM_INPUT 0x00ff
-#endif
-#ifndef WM_TOUCH
-#define WM_TOUCH 0x0240
-#endif
-#ifndef WM_MOUSEHWHEEL
-#define WM_MOUSEHWHEEL 0x020E
-#endif
-#ifndef RI_MOUSE_HWHEEL
-#define RI_MOUSE_HWHEEL 0x0800
-#endif
-#ifndef WM_POINTERUPDATE
-#define WM_POINTERUPDATE 0x0245
-#endif
-#ifndef WM_POINTERDOWN
-#define WM_POINTERDOWN 0x0246
-#endif
-#ifndef WM_POINTERUP
-#define WM_POINTERUP 0x0247
-#endif
-#ifndef WM_POINTERENTER
-#define WM_POINTERENTER 0x0249
-#endif
-#ifndef WM_POINTERLEAVE
-#define WM_POINTERLEAVE 0x024A
-#endif
-#ifndef WM_POINTERCAPTURECHANGED
-#define WM_POINTERCAPTURECHANGED 0x024C
-#endif
-#ifndef WM_UNICHAR
-#define WM_UNICHAR 0x0109
-#endif
-#ifndef WM_DPICHANGED
-#define WM_DPICHANGED 0x02E0
-#endif
-#ifndef WM_GETDPISCALEDSIZE
-#define WM_GETDPISCALEDSIZE 0x02E4
-#endif
-#ifndef TOUCHEVENTF_PEN
-#define TOUCHEVENTF_PEN 0x0040
-#endif
+#నిర్వచితం_కాకపోతే WM_XBUTTONDOWN
+#నిర్వచించు WM_XBUTTONDOWN 0x020B
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_XBUTTONUP
+#నిర్వచించు WM_XBUTTONUP 0x020C
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే GET_XBUTTON_WPARAM
+#నిర్వచించు GET_XBUTTON_WPARAM(w) (HIWORD(w))
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_ఆదానం
+#నిర్వచించు WM_ఆదానం 0x00ff
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_TOUCH
+#నిర్వచించు WM_TOUCH 0x0240
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_MOUSEHWHEEL
+#నిర్వచించు WM_MOUSEHWHEEL 0x020E
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే RI_MOUSE_HWHEEL
+#నిర్వచించు RI_MOUSE_HWHEEL 0x0800
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_POINTERUPDATE
+#నిర్వచించు WM_POINTERUPDATE 0x0245
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_POINTERDOWN
+#నిర్వచించు WM_POINTERDOWN 0x0246
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_POINTERUP
+#నిర్వచించు WM_POINTERUP 0x0247
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_POINTERENTER
+#నిర్వచించు WM_POINTERENTER 0x0249
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_POINTERLEAVE
+#నిర్వచించు WM_POINTERLEAVE 0x024A
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_POINTERCAPTURECHANGED
+#నిర్వచించు WM_POINTERCAPTURECHANGED 0x024C
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_UNICHAR
+#నిర్వచించు WM_UNICHAR 0x0109
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_DPICHANGED
+#నిర్వచించు WM_DPICHANGED 0x02E0
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే WM_GETDPISCALEDSIZE
+#నిర్వచించు WM_GETDPISCALEDSIZE 0x02E4
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే TOUCHEVENTF_PEN
+#నిర్వచించు TOUCHEVENTF_PEN 0x0040
+#అయితే_ముగింపు
 
-#ifndef MAPVK_VK_TO_VSC_EX
-#define MAPVK_VK_TO_VSC_EX 4
-#endif
+#నిర్వచితం_కాకపోతే MAPVK_VK_గమ్యం_VSC_EX
+#నిర్వచించు MAPVK_VK_గమ్యం_VSC_EX 4
+#అయితే_ముగింపు
 
-#ifndef WC_ERR_INVALID_CHARS
-#define WC_ERR_INVALID_CHARS 0x00000080
-#endif
+#నిర్వచితం_కాకపోతే WC_ERR_INVALID_CHARS
+#నిర్వచించు WC_ERR_INVALID_CHARS 0x00000080
+#అయితే_ముగింపు
 
-#ifndef IS_HIGH_SURROGATE
-#define IS_HIGH_SURROGATE(x) (((x) >= 0xd800) && ((x) <= 0xdbff))
-#endif
+#నిర్వచితం_కాకపోతే IS_ఎగువ_SURROGATE
+#నిర్వచించు IS_ఎగువ_SURROGATE(x) (((x) >= 0xd800) && ((x) <= 0xdbff))
+#అయితే_ముగింపు
 
-#ifndef USER_TIMER_MINIMUM
-#define USER_TIMER_MINIMUM 0x0000000A
-#endif
+#నిర్వచితం_కాకపోతే USER_TIMER_MINIMUM
+#నిర్వచించు USER_TIMER_MINIMUM 0x0000000A
+#అయితే_ముగింపు
 
 // Used to compare Windows message timestamps
-#define SDL_TICKS_PASSED(A, B) ((Sint32)((B) - (A)) <= 0)
+#నిర్వచించు SDL_TICKS_PASSED(A, B) ((Sint32)((B) - (A)) <= 0)
 
-#ifdef _WIN64
-typedef Uint64 QWORD; // Needed for NEXTRAWINPUTBLOCK()
-#endif
+#నిర్వచితమైతే _WIN64
+రకనిర్వచనం Uint64 QWORD; // Needed for NEXTRAWINPUTBLOCK()
+#అయితే_ముగింపు
 
-static bool SDL_processing_messages;
-static DWORD message_tick;
-static Uint64 timestamp_offset;
+స్థిర bool SDL_processing_messages;
+స్థిర DWORD సందేశం_tick;
+స్థిర Uint64 timestamp_స్థానభ్రంశం;
 
-static void WIN_SetMessageTick(DWORD tick)
+స్థిర శూన్య WIN_సమితి_సందేశం_Tick(DWORD tick)
 {
-    message_tick = tick;
+    సందేశం_tick = tick;
 }
 
-static Uint64 WIN_GetEventTimestamp(void)
+స్థిర Uint64 WIN_GetEventTimestamp(శూన్య)
 {
-    const Uint64 TIMESTAMP_WRAP_OFFSET = SDL_MS_TO_NS(0x100000000LL);
+    స్థిరరాశి Uint64 TIMESTAMP_WRAP_స్థానభ్రంశం = SDL_MS_గమ్యం_NS(0x100000000LL);
     Uint64 timestamp, now;
 
-    if (!SDL_processing_messages) {
+    ఒకవేళ (!SDL_processing_messages) {
         // message_tick isn't valid, just use the current time
-        return 0;
+        తిరిగి 0;
     }
 
     now = SDL_GetTicksNS();
-    timestamp = SDL_MS_TO_NS(message_tick);
-    timestamp += timestamp_offset;
-    if (!timestamp_offset) {
+    timestamp = SDL_MS_గమ్యం_NS(సందేశం_tick);
+    timestamp += timestamp_స్థానభ్రంశం;
+    ఒకవేళ (!timestamp_స్థానభ్రంశం) {
         // Initializing timestamp offset
         //SDL_Log("Initializing timestamp offset");
-        timestamp_offset = (now - timestamp);
+        timestamp_స్థానభ్రంశం = (now - timestamp);
         timestamp = now;
-    } else if ((Sint64)(now - timestamp - TIMESTAMP_WRAP_OFFSET) >= 0) {
+    } లేకపోతే ఒకవేళ ((Sint64)(now - timestamp - TIMESTAMP_WRAP_స్థానభ్రంశం) >= 0) {
         // The windows message tick wrapped
         //SDL_Log("Adjusting timestamp offset for wrapping tick");
-        timestamp_offset += TIMESTAMP_WRAP_OFFSET;
-        timestamp += TIMESTAMP_WRAP_OFFSET;
-    } else if (timestamp > now) {
+        timestamp_స్థానభ్రంశం += TIMESTAMP_WRAP_స్థానభ్రంశం;
+        timestamp += TIMESTAMP_WRAP_స్థానభ్రంశం;
+    } లేకపోతే ఒకవేళ (timestamp > now) {
         // We got a newer timestamp, but it can't be newer than now, so adjust our offset
         //SDL_Log("Adjusting timestamp offset, %.2f ms newer", (double)(timestamp - now) / SDL_NS_PER_MS);
-        timestamp_offset -= (timestamp - now);
+        timestamp_స్థానభ్రంశం -= (timestamp - now);
         timestamp = now;
     }
-    return timestamp;
+    తిరిగి timestamp;
 }
 
 // A message hook called before TranslateMessage()
-static SDL_WindowsMessageHook g_WindowsMessageHook = NULL;
-static void *g_WindowsMessageHookData = NULL;
+స్థిర SDL_Windows_సందేశం_Hook g_Windows_సందేశం_Hook = ఖాళీ;
+స్థిర శూన్య *g_Windows_సందేశం_Hook_దత్తాంశం = ఖాళీ;
 
-void SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata)
+శూన్య SDL_సమితి_Windows_సందేశం_Hook(SDL_Windows_సందేశం_Hook callback, శూన్య *userdata)
 {
-    g_WindowsMessageHook = callback;
-    g_WindowsMessageHookData = userdata;
+    g_Windows_సందేశం_Hook = callback;
+    g_Windows_సందేశం_Hook_దత్తాంశం = userdata;
 }
 
-static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, Uint16 *rawcode, bool *virtual_key)
+స్థిర SDL_Scancode Windows_పరిశీలన_సంకేతం_గమ్యం_SDLScan_సంకేతం(LPARAM lParam, WPARAM wParam, Uint16 *rawcode, bool *virtual_కీలకం)
 {
-    SDL_Scancode code;
-    Uint8 index;
-    Uint16 keyFlags = HIWORD(lParam);
-    Uint16 scanCode = LOBYTE(keyFlags);
+    SDL_Scancode సంకేతం_2;
+    Uint8 సూచీ;
+    Uint16 కీలకం_Flags = HIWORD(lParam);
+    Uint16 పరిశీలన_సంకేతం = LOBYTE(కీలకం_Flags);
 
     /* On-Screen Keyboard can send wrong scan codes with high-order bit set (key break code).
      * Strip high-order bit. */
-    scanCode &= ~0x80;
+    పరిశీలన_సంకేతం &= ~0x80;
 
-    *virtual_key = (scanCode == 0);
+    *virtual_కీలకం = (పరిశీలన_సంకేతం == 0);
 
-    if (scanCode != 0) {
-        if ((keyFlags & KF_EXTENDED) == KF_EXTENDED) {
-            scanCode = MAKEWORD(scanCode, 0xe0);
-        } else if (scanCode == 0x45) {
+    ఒకవేళ (పరిశీలన_సంకేతం != 0) {
+        ఒకవేళ ((కీలకం_Flags & KF_EXTENDED) == KF_EXTENDED) {
+            పరిశీలన_సంకేతం = MAKEWORD(పరిశీలన_సంకేతం, 0xe0);
+        } లేకపోతే ఒకవేళ (పరిశీలన_సంకేతం == 0x45) {
             // Pause
-            scanCode = 0xe046;
+            పరిశీలన_సంకేతం = 0xe046;
         }
-    } else {
-        Uint16 vkCode = LOWORD(wParam);
+    } లేకపోతే {
+        Uint16 vk_సంకేతం = LOWORD(wParam);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         /* Windows may not report scan codes for some buttons (multimedia buttons etc).
          * Get scan code from the VK code.*/
-        scanCode = LOWORD(MapVirtualKey(vkCode, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        పరిశీలన_సంకేతం = LOWORD(Map_Virtual_కీలకం(vk_సంకేతం, WIN_IsWindowsXP() ? MAPVK_VK_గమ్యం_VSC : MAPVK_VK_గమ్యం_VSC_EX));
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
         /* Pause/Break key have a special scan code with 0xe1 prefix.
          * Use Pause scan code that is used in Win32. */
-        if (scanCode == 0xe11d) {
-            scanCode = 0xe046;
+        ఒకవేళ (పరిశీలన_సంకేతం == 0xe11d) {
+            పరిశీలన_సంకేతం = 0xe046;
         }
     }
 
     // Pack scan code into one byte to make the index.
-    index = LOBYTE(scanCode) | (HIBYTE(scanCode) ? 0x80 : 0x00);
-    code = windows_scancode_table[index];
-    *rawcode = scanCode;
+    సూచీ = LOBYTE(పరిశీలన_సంకేతం) | (HIBYTE(పరిశీలన_సంకేతం) ? 0x80 : 0x00);
+    సంకేతం_2 = windows_scancode_పట్టిక[సూచీ];
+    *rawcode = పరిశీలన_సంకేతం;
 
-    return code;
+    తిరిగి సంకేతం_2;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static bool WIN_ShouldIgnoreFocusClick(SDL_WindowData *data)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+స్థిర bool WIN_ShouldIgnoreFocusClick(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    return !SDL_WINDOW_IS_POPUP(data->window) &&
+    తిరిగి !SDL_కిటికీ_IS_POPUP(దత్తాంశం->కిటికీ) &&
            !SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false);
 }
 
-static void WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePressed, Uint32 mouseFlags, bool bSwapButtons, SDL_WindowData *data, Uint8 button, SDL_MouseID mouseID)
+స్థిర శూన్య WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePressed, Uint32 mouseFlags, bool b_మార్పిడి_Buttons, SDL_కిటికీ_దత్తాంశం *దత్తాంశం, Uint8 button, SDL_MouseID mouseID)
 {
-    if (bSwapButtons) {
-        if (button == SDL_BUTTON_LEFT) {
-            button = SDL_BUTTON_RIGHT;
-        } else if (button == SDL_BUTTON_RIGHT) {
-            button = SDL_BUTTON_LEFT;
+    ఒకవేళ (b_మార్పిడి_Buttons) {
+        ఒకవేళ (button == SDL_BUTTON_ఎడమ) {
+            button = SDL_BUTTON_కుడి;
+        } లేకపోతే ఒకవేళ (button == SDL_BUTTON_కుడి) {
+            button = SDL_BUTTON_ఎడమ;
         }
     }
 
-    if (data->focus_click_pending & SDL_BUTTON_MASK(button)) {
+    ఒకవేళ (దత్తాంశం->focus_click_pending & SDL_BUTTON_ముసుగు(button)) {
         // Ignore the button click for activation
-        if (!bwParamMousePressed) {
-            data->focus_click_pending &= ~SDL_BUTTON_MASK(button);
-            WIN_UpdateClipCursor(data->window);
+        ఒకవేళ (!bwParamMousePressed) {
+            దత్తాంశం->focus_click_pending &= ~SDL_BUTTON_ముసుగు(button);
+            WIN_UpdateClipCursor(దత్తాంశం->కిటికీ);
         }
-        return;
+        తిరిగి;
     }
 
-    if (bwParamMousePressed && !(mouseFlags & SDL_BUTTON_MASK(button))) {
-        SDL_SendMouseButton(timestamp, data->window, mouseID, button, true);
-    } else if (!bwParamMousePressed && (mouseFlags & SDL_BUTTON_MASK(button))) {
-        SDL_SendMouseButton(timestamp, data->window, mouseID, button, false);
+    ఒకవేళ (bwParamMousePressed && !(mouseFlags & SDL_BUTTON_ముసుగు(button))) {
+        SDL_SendMouseButton(timestamp, దత్తాంశం->కిటికీ, mouseID, button, true);
+    } లేకపోతే ఒకవేళ (!bwParamMousePressed && (mouseFlags & SDL_BUTTON_ముసుగు(button))) {
+        SDL_SendMouseButton(timestamp, దత్తాంశం->కిటికీ, mouseID, button, false);
     }
 }
 
@@ -277,257 +277,257 @@ static void WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePresse
  * Some windows systems fail to send a WM_LBUTTONDOWN sometimes, but each mouse move contains the current button state also
  *  so this function reconciles our view of the world with the current buttons reported by windows
  */
-static void WIN_CheckWParamMouseButtons(Uint64 timestamp, WPARAM wParam, SDL_WindowData *data, SDL_MouseID mouseID)
+స్థిర శూన్య WIN_CheckWParamMouseButtons(Uint64 timestamp, WPARAM wParam, SDL_కిటికీ_దత్తాంశం *దత్తాంశం, SDL_MouseID mouseID)
 {
-    if (wParam != data->mouse_button_flags) {
-        SDL_MouseButtonFlags mouseFlags = SDL_GetMouseState(NULL, NULL);
+    ఒకవేళ (wParam != దత్తాంశం->mouse_button_flags) {
+        SDL_MouseButtonFlags mouseFlags = SDL_GetMouseState(ఖాళీ, ఖాళీ);
 
         // WM_LBUTTONDOWN and friends handle button swapping for us. No need to check SM_SWAPBUTTON here.
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_LBUTTON), mouseFlags, false, data, SDL_BUTTON_LEFT, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_MBUTTON), mouseFlags, false, data, SDL_BUTTON_MIDDLE, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_RBUTTON), mouseFlags, false, data, SDL_BUTTON_RIGHT, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON1), mouseFlags, false, data, SDL_BUTTON_X1, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON2), mouseFlags, false, data, SDL_BUTTON_X2, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_LBUTTON), mouseFlags, false, దత్తాంశం, SDL_BUTTON_ఎడమ, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_MBUTTON), mouseFlags, false, దత్తాంశం, SDL_BUTTON_మధ్య, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_RBUTTON), mouseFlags, false, దత్తాంశం, SDL_BUTTON_కుడి, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON1), mouseFlags, false, దత్తాంశం, SDL_BUTTON_X1, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON2), mouseFlags, false, దత్తాంశం, SDL_BUTTON_X2, mouseID);
 
-        data->mouse_button_flags = wParam;
+        దత్తాంశం->mouse_button_flags = wParam;
     }
 }
 
-static void WIN_CheckAsyncMouseRelease(Uint64 timestamp, SDL_WindowData *data)
+స్థిర శూన్య WIN_CheckAsyncMouseRelease(Uint64 timestamp, SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
     SDL_MouseID mouseID = SDL_GLOBAL_MOUSE_ID;
     Uint32 mouseFlags;
-    SHORT keyState;
-    bool swapButtons;
+    SHORT కీలకం_State;
+    bool మార్పిడి_Buttons;
 
     /* mouse buttons may have changed state here, we need to resync them,
        but we will get a WM_MOUSEMOVE right away which will fix things up if in non raw mode also
     */
-    mouseFlags = SDL_GetMouseState(NULL, NULL);
-    swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
+    mouseFlags = SDL_GetMouseState(ఖాళీ, ఖాళీ);
+    మార్పిడి_Buttons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
 
-    keyState = GetAsyncKeyState(VK_LBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_LEFT, mouseID);
+    కీలకం_State = Get_Async_కీలకం_State(VK_LBUTTON);
+    ఒకవేళ (!(కీలకం_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, మార్పిడి_Buttons, దత్తాంశం, SDL_BUTTON_ఎడమ, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_RBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_RIGHT, mouseID);
+    కీలకం_State = Get_Async_కీలకం_State(VK_RBUTTON);
+    ఒకవేళ (!(కీలకం_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, మార్పిడి_Buttons, దత్తాంశం, SDL_BUTTON_కుడి, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_MBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_MIDDLE, mouseID);
+    కీలకం_State = Get_Async_కీలకం_State(VK_MBUTTON);
+    ఒకవేళ (!(కీలకం_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, మార్పిడి_Buttons, దత్తాంశం, SDL_BUTTON_మధ్య, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_XBUTTON1);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X1, mouseID);
+    కీలకం_State = Get_Async_కీలకం_State(VK_XBUTTON1);
+    ఒకవేళ (!(కీలకం_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, మార్పిడి_Buttons, దత్తాంశం, SDL_BUTTON_X1, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_XBUTTON2);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X2, mouseID);
+    కీలకం_State = Get_Async_కీలకం_State(VK_XBUTTON2);
+    ఒకవేళ (!(కీలకం_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, మార్పిడి_Buttons, దత్తాంశం, SDL_BUTTON_X2, mouseID);
     }
-    data->mouse_button_flags = (WPARAM)-1;
+    దత్తాంశం->mouse_button_flags = (WPARAM)-1;
 }
 
-static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
+స్థిర శూన్య WIN_UpdateFocus(SDL_కిటికీ *కిటికీ, bool expect_focus, LPPOINT pos)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    bool had_focus = (SDL_GetKeyboardFocus() == window);
-    bool has_focus = (GetForegroundWindow() == hwnd);
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    HWND hwnd = దత్తాంశం->hwnd;
+    bool had_focus = (SDL_GetKeyboardFocus() == కిటికీ);
+    bool has_focus = (Get_Foreground_కిటికీ() == hwnd);
 
-    if (had_focus == has_focus || has_focus != expect_focus) {
-        return;
+    ఒకవేళ (had_focus == has_focus || has_focus != expect_focus) {
+        తిరిగి;
     }
 
-    if (has_focus) {
-        POINT cursorPos;
+    ఒకవేళ (has_focus) {
+        బిందువు_2 cursorPos;
 
-        if (WIN_ShouldIgnoreFocusClick(data) && !(window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-            bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
-            if (GetAsyncKeyState(VK_LBUTTON)) {
-                data->focus_click_pending |= !swapButtons ? SDL_BUTTON_LMASK : SDL_BUTTON_RMASK;
+        ఒకవేళ (WIN_ShouldIgnoreFocusClick(దత్తాంశం) && !(కిటికీ->flags & SDL_కిటికీ_MOUSE_CAPTURE)) {
+            bool మార్పిడి_Buttons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
+            ఒకవేళ (Get_Async_కీలకం_State(VK_LBUTTON)) {
+                దత్తాంశం->focus_click_pending |= !మార్పిడి_Buttons ? SDL_BUTTON_LMASK : SDL_BUTTON_RMASK;
             }
-            if (GetAsyncKeyState(VK_RBUTTON)) {
-                data->focus_click_pending |= !swapButtons ? SDL_BUTTON_RMASK : SDL_BUTTON_LMASK;
+            ఒకవేళ (Get_Async_కీలకం_State(VK_RBUTTON)) {
+                దత్తాంశం->focus_click_pending |= !మార్పిడి_Buttons ? SDL_BUTTON_RMASK : SDL_BUTTON_LMASK;
             }
-            if (GetAsyncKeyState(VK_MBUTTON)) {
-                data->focus_click_pending |= SDL_BUTTON_MMASK;
+            ఒకవేళ (Get_Async_కీలకం_State(VK_MBUTTON)) {
+                దత్తాంశం->focus_click_pending |= SDL_BUTTON_MMASK;
             }
-            if (GetAsyncKeyState(VK_XBUTTON1)) {
-                data->focus_click_pending |= SDL_BUTTON_X1MASK;
+            ఒకవేళ (Get_Async_కీలకం_State(VK_XBUTTON1)) {
+                దత్తాంశం->focus_click_pending |= SDL_BUTTON_X1_ముసుగు;
             }
-            if (GetAsyncKeyState(VK_XBUTTON2)) {
-                data->focus_click_pending |= SDL_BUTTON_X2MASK;
+            ఒకవేళ (Get_Async_కీలకం_State(VK_XBUTTON2)) {
+                దత్తాంశం->focus_click_pending |= SDL_BUTTON_X2_ముసుగు;
             }
         }
 
-        SDL_SetKeyboardFocus(window->keyboard_focus ? window->keyboard_focus : window);
+        SDL_సమితి_Keyboard_Focus(కిటికీ->keyboard_focus ? కిటికీ->keyboard_focus : కిటికీ);
 
         // In relative mode we are guaranteed to have mouse focus if we have keyboard focus
-        if (!SDL_GetMouse()->relative_mode) {
+        ఒకవేళ (!SDL_GetMouse()->relative_బహుళకం) {
             cursorPos.x = pos->x;
             cursorPos.y = pos->y;
-            ScreenToClient(hwnd, &cursorPos);
-            SDL_SendMouseMotion(WIN_GetEventTimestamp(), window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
+            Screen_గమ్యం_Client(hwnd, &cursorPos);
+            SDL_SendMouseMotion(WIN_GetEventTimestamp(), కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)cursorPos.x, (దశాంశం)cursorPos.y);
         }
 
-        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
-        WIN_UpdateClipCursor(window);
+        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), దత్తాంశం);
+        WIN_UpdateClipCursor(కిటికీ);
 
         /*
          * FIXME: Update keyboard state
          */
-        WIN_CheckClipboardUpdate(data->videodata);
+        WIN_CheckClipboardUpdate(దత్తాంశం->videodata);
 
-        SDL_ToggleModState(SDL_KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? true : false);
-        SDL_ToggleModState(SDL_KMOD_NUM, (GetKeyState(VK_NUMLOCK) & 0x0001) ? true : false);
-        SDL_ToggleModState(SDL_KMOD_SCROLL, (GetKeyState(VK_SCROLL) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_CAPS, (Get_కీలకం_State(VK_CAPITAL) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_అంకె, (Get_కీలకం_State(VK_NUMLOCK) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_SCROLL, (Get_కీలకం_State(VK_SCROLL) & 0x0001) ? true : false);
 
-        WIN_UpdateWindowICCProfile(data->window, true);
-    } else {
-        data->in_window_deactivation = true;
+        WIN_Update_కిటికీ_ICCProfile(దత్తాంశం->కిటికీ, true);
+    } లేకపోతే {
+        దత్తాంశం->లోపల_కిటికీ_deactivation = true;
 
-        SDL_SetKeyboardFocus(NULL);
+        SDL_సమితి_Keyboard_Focus(ఖాళీ);
         // In relative mode we are guaranteed to not have mouse focus if we don't have keyboard focus
-        if (SDL_GetMouse()->relative_mode) {
-            SDL_SetMouseFocus(NULL);
+        ఒకవేళ (SDL_GetMouse()->relative_బహుళకం) {
+            SDL_సమితి_Mouse_Focus(ఖాళీ);
         }
-        WIN_ResetDeadKeys();
+        WIN_Reset_Dead_కీలకాలు();
 
-        WIN_UnclipCursorForWindow(window);
+        WIN_Unclip_Cursor_For_కిటికీ(కిటికీ);
 
-        data->in_window_deactivation = false;
+        దత్తాంశం->లోపల_కిటికీ_deactivation = false;
     }
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-static bool ShouldGenerateWindowCloseOnAltF4(void)
+స్థిర bool Should_Generate_కిటికీ_Close_On_Alt_F4(శూన్య)
 {
-    return SDL_GetHintBoolean(SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4, true);
+    తిరిగి SDL_GetHintBoolean(SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4, true);
 }
 
-static bool ShouldClearWindowOnEraseBackground(SDL_WindowData *data)
+స్థిర bool Should_Clear_కిటికీ_On_Erase_Background(SDL_కిటికీ_దత్తాంశం *దత్తాంశం)
 {
-    switch (data->hint_erase_background_mode) {
-    case SDL_ERASEBACKGROUNDMODE_NEVER:
-        return false;
-    case SDL_ERASEBACKGROUNDMODE_INITIAL:
-        return !data->videodata->cleared;
-    case SDL_ERASEBACKGROUNDMODE_ALWAYS:
-        return true;
-    default:
+    ఎంపిక (దత్తాంశం->hint_erase_background_బహుళకం) {
+    స్థితి SDL_ERASEBACKGROUNDMODE_NEVER:
+        తిరిగి false;
+    స్థితి SDL_ERASEBACKGROUNDMODE_INITIAL:
+        తిరిగి !దత్తాంశం->videodata->cleared;
+    స్థితి SDL_ERASEBACKGROUNDMODE_ALWAYS:
+        తిరిగి true;
+    అప్రమేయ:
         // Unexpected value, fallback to default behaviour
-        return !data->videodata->cleared;
+        తిరిగి !దత్తాంశం->videodata->cleared;
     }
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 // We want to generate mouse events from mouse and pen, and touch events from touchscreens
-#define MI_WP_SIGNATURE      0xFF515700
-#define MI_WP_SIGNATURE_MASK 0xFFFFFF00
-#define IsTouchEvent(dw)     ((dw)&MI_WP_SIGNATURE_MASK) == MI_WP_SIGNATURE
+#నిర్వచించు MI_WP_SIGNATURE      0xFF515700
+#నిర్వచించు MI_WP_SIGNATURE_ముసుగు 0xFFFFFF00
+#నిర్వచించు IsTouchEvent(dw)     ((dw)&MI_WP_SIGNATURE_ముసుగు) == MI_WP_SIGNATURE
 
-typedef enum
+రకనిర్వచనం గణన
 {
-    SDL_MOUSE_EVENT_SOURCE_UNKNOWN,
-    SDL_MOUSE_EVENT_SOURCE_MOUSE,
-    SDL_MOUSE_EVENT_SOURCE_TOUCH,
-    SDL_MOUSE_EVENT_SOURCE_PEN,
-} SDL_MOUSE_EVENT_SOURCE;
+    SDL_MOUSE_EVENT_ఆధారం_UNKNOWN,
+    SDL_MOUSE_EVENT_ఆధారం_MOUSE,
+    SDL_MOUSE_EVENT_ఆధారం_TOUCH,
+    SDL_MOUSE_EVENT_ఆధారం_PEN,
+} SDL_MOUSE_EVENT_ఆధారం;
 
-static SDL_MOUSE_EVENT_SOURCE GetMouseMessageSource(ULONG extrainfo)
+స్థిర SDL_MOUSE_EVENT_ఆధారం Get_Mouse_సందేశం_ఆధారం(ULONG extrainfo)
 {
     // Mouse data (ignoring synthetic mouse events generated for touchscreens)
     /* Versions below Vista will set the low 7 bits to the Mouse ID and don't use bit 7:
        Check bits 8-31 for the signature (which will indicate a Tablet PC Pen or Touch Device).
        Only check bit 7 when Vista and up(Cleared=Pen, Set=Touch(which we need to filter out)),
        when the signature is set. The Mouse ID will be zero for an actual mouse. */
-    if (IsTouchEvent(extrainfo)) {
-        if (extrainfo & 0x80) {
-            return SDL_MOUSE_EVENT_SOURCE_TOUCH;
-        } else {
-            return SDL_MOUSE_EVENT_SOURCE_PEN;
+    ఒకవేళ (IsTouchEvent(extrainfo)) {
+        ఒకవేళ (extrainfo & 0x80) {
+            తిరిగి SDL_MOUSE_EVENT_ఆధారం_TOUCH;
+        } లేకపోతే {
+            తిరిగి SDL_MOUSE_EVENT_ఆధారం_PEN;
         }
     }
-    return SDL_MOUSE_EVENT_SOURCE_MOUSE;
+    తిరిగి SDL_MOUSE_EVENT_ఆధారం_MOUSE;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-static SDL_WindowData *WIN_GetWindowDataFromHWND(HWND hwnd)
+స్థిర SDL_కిటికీ_దత్తాంశం *WIN_Get_కిటికీ_దత్తాంశం_From_HWND(HWND hwnd)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
 
-    if (_this) {
-        for (window = _this->windows; window; window = window->next) {
-            SDL_WindowData *data = window->internal;
-            if (data && data->hwnd == hwnd) {
-                return data;
+    ఒకవేళ (_this) {
+        కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+            ఒకవేళ (దత్తాంశం && దత్తాంశం->hwnd == hwnd) {
+                తిరిగి దత్తాంశం;
             }
         }
     }
-    return NULL;
+    తిరిగి ఖాళీ;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 LRESULT CALLBACK
-WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
+WIN_KeyboardHookProc(పూర్ణాంకం n_సంకేతం, WPARAM wParam, LPARAM lParam)
 {
-    KBDLLHOOKSTRUCT *hookData = (KBDLLHOOKSTRUCT *)lParam;
-    SDL_VideoData *data = SDL_GetVideoDevice()->internal;
-    SDL_Scancode scanCode;
+    KBDLLHOOKSTRUCT *hook_దత్తాంశం = (KBDLLHOOKSTRUCT *)lParam;
+    SDL_Video_దత్తాంశం *దత్తాంశం = SDL_GetVideoDevice()->అంతర్గత;
+    SDL_Scancode పరిశీలన_సంకేతం;
 
-    if (nCode < 0 || nCode != HC_ACTION) {
-        return CallNextHookEx(NULL, nCode, wParam, lParam);
+    ఒకవేళ (n_సంకేతం < 0 || n_సంకేతం != HC_ACTION) {
+        తిరిగి Call_తదుపరి_Hook_Ex(ఖాళీ, n_సంకేతం, wParam, lParam);
     }
-    if (hookData->scanCode == 0x21d) {
+    ఒకవేళ (hook_దత్తాంశం->పరిశీలన_సంకేతం == 0x21d) {
         // Skip fake LCtrl when RAlt is pressed
-        return 1;
+        తిరిగి 1;
     }
 
-    switch (hookData->vkCode) {
-    case VK_LWIN:
-        scanCode = SDL_SCANCODE_LGUI;
-        break;
-    case VK_RWIN:
-        scanCode = SDL_SCANCODE_RGUI;
-        break;
-    case VK_LMENU:
-        scanCode = SDL_SCANCODE_LALT;
-        break;
-    case VK_RMENU:
-        scanCode = SDL_SCANCODE_RALT;
-        break;
-    case VK_LCONTROL:
-        scanCode = SDL_SCANCODE_LCTRL;
-        break;
-    case VK_RCONTROL:
-        scanCode = SDL_SCANCODE_RCTRL;
-        break;
-    case VK_SNAPSHOT:
-        scanCode = SDL_SCANCODE_PRINTSCREEN;
-        break;
+    ఎంపిక (hook_దత్తాంశం->vk_సంకేతం) {
+    స్థితి VK_LWIN:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_LGUI;
+        ఆపు;
+    స్థితి VK_RWIN:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_RGUI;
+        ఆపు;
+    స్థితి VK_LMENU:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_LALT;
+        ఆపు;
+    స్థితి VK_RMENU:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_RALT;
+        ఆపు;
+    స్థితి VK_LCONTROL:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_LCTRL;
+        ఆపు;
+    స్థితి VK_RCONTROL:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_RCTRL;
+        ఆపు;
+    స్థితి VK_SNAPSHOT:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_PRINTSCREEN;
+        ఆపు;
 
     // These are required to intercept Alt+Tab and Alt+Esc on Windows 7
-    case VK_TAB:
-        scanCode = SDL_SCANCODE_TAB;
-        break;
-    case VK_ESCAPE:
-        scanCode = SDL_SCANCODE_ESCAPE;
-        break;
+    స్థితి VK_TAB:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_TAB;
+        ఆపు;
+    స్థితి VK_ESCAPE:
+        పరిశీలన_సంకేతం = SDL_SCANCODE_ESCAPE;
+        ఆపు;
 
-    default:
-        return CallNextHookEx(NULL, nCode, wParam, lParam);
+    అప్రమేయ:
+        తిరిగి Call_తదుపరి_Hook_Ex(ఖాళీ, n_సంకేతం, wParam, lParam);
     }
 
-    if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
-        if (!data->raw_keyboard_enabled) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, true);
+    ఒకవేళ (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
+        ఒకవేళ (!దత్తాంశం->raw_keyboard_enabled) {
+            SDL_Send_Keyboard_కీలకం(0, SDL_GLOBAL_KEYBOARD_ID, hook_దత్తాంశం->పరిశీలన_సంకేతం, పరిశీలన_సంకేతం, true);
         }
-    } else {
-        if (!data->raw_keyboard_enabled) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, false);
+    } లేకపోతే {
+        ఒకవేళ (!దత్తాంశం->raw_keyboard_enabled) {
+            SDL_Send_Keyboard_కీలకం(0, SDL_GLOBAL_KEYBOARD_ID, hook_దత్తాంశం->పరిశీలన_సంకేతం, పరిశీలన_సంకేతం, false);
         }
 
         /* If the key was down prior to our hook being installed, allow the
@@ -535,77 +535,77 @@ WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
            windows have a consistent view of the key state, and avoids keys
            being stuck down in those windows if they are down when the grab
            happens and raised while grabbed. */
-        if (hookData->vkCode <= 0xFF && data->pre_hook_key_state[hookData->vkCode]) {
-            data->pre_hook_key_state[hookData->vkCode] = 0;
-            return CallNextHookEx(NULL, nCode, wParam, lParam);
+        ఒకవేళ (hook_దత్తాంశం->vk_సంకేతం <= 0xFF && దత్తాంశం->pre_hook_కీలకం_state[hook_దత్తాంశం->vk_సంకేతం]) {
+            దత్తాంశం->pre_hook_కీలకం_state[hook_దత్తాంశం->vk_సంకేతం] = 0;
+            తిరిగి Call_తదుపరి_Hook_Ex(ఖాళీ, n_సంకేతం, wParam, lParam);
         }
     }
 
-    return 1;
+    తిరిగి 1;
 }
 
-static bool WIN_SwapButtons(HANDLE hDevice)
+స్థిర bool WIN_మార్పిడి_Buttons(HANDLE hDevice)
 {
-    if (hDevice == NULL) {
+    ఒకవేళ (hDevice == ఖాళీ) {
         // Touchpad, already has buttons swapped
-        return false;
+        తిరిగి false;
     }
-    return GetSystemMetrics(SM_SWAPBUTTON) != 0;
+    తిరిగి GetSystemMetrics(SM_SWAPBUTTON) != 0;
 }
 
-static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWMOUSE *rawmouse)
+స్థిర శూన్య WIN_Handle_Raw_Mouse_ఆదానం(Uint64 timestamp, SDL_Video_దత్తాంశం *దత్తాంశం, HANDLE hDevice, RAWMOUSE *rawmouse)
 {
-    static struct {
+    స్థిర నిర్మాణం {
         USHORT usButtonFlags;
         Uint8 button;
-        bool down;
+        bool కిందికి;
     } raw_buttons[] = {
-        { RI_MOUSE_LEFT_BUTTON_DOWN, SDL_BUTTON_LEFT, true },
-        { RI_MOUSE_LEFT_BUTTON_UP, SDL_BUTTON_LEFT, false },
-        { RI_MOUSE_RIGHT_BUTTON_DOWN, SDL_BUTTON_RIGHT, true },
-        { RI_MOUSE_RIGHT_BUTTON_UP, SDL_BUTTON_RIGHT, false },
-        { RI_MOUSE_MIDDLE_BUTTON_DOWN, SDL_BUTTON_MIDDLE, true },
-        { RI_MOUSE_MIDDLE_BUTTON_UP, SDL_BUTTON_MIDDLE, false },
-        { RI_MOUSE_BUTTON_4_DOWN, SDL_BUTTON_X1, true },
-        { RI_MOUSE_BUTTON_4_UP, SDL_BUTTON_X1, false },
-        { RI_MOUSE_BUTTON_5_DOWN, SDL_BUTTON_X2, true },
-        { RI_MOUSE_BUTTON_5_UP, SDL_BUTTON_X2, false }
+        { RI_MOUSE_ఎడమ_BUTTON_కిందికి, SDL_BUTTON_ఎడమ, true },
+        { RI_MOUSE_ఎడమ_BUTTON_పైకి, SDL_BUTTON_ఎడమ, false },
+        { RI_MOUSE_కుడి_BUTTON_కిందికి, SDL_BUTTON_కుడి, true },
+        { RI_MOUSE_కుడి_BUTTON_పైకి, SDL_BUTTON_కుడి, false },
+        { RI_MOUSE_మధ్య_BUTTON_కిందికి, SDL_BUTTON_మధ్య, true },
+        { RI_MOUSE_మధ్య_BUTTON_పైకి, SDL_BUTTON_మధ్య, false },
+        { RI_MOUSE_BUTTON_4_కిందికి, SDL_BUTTON_X1, true },
+        { RI_MOUSE_BUTTON_4_పైకి, SDL_BUTTON_X1, false },
+        { RI_MOUSE_BUTTON_5_కిందికి, SDL_BUTTON_X2, true },
+        { RI_MOUSE_BUTTON_5_పైకి, SDL_BUTTON_X2, false }
     };
 
-    int dx = (int)rawmouse->lLastX;
-    int dy = (int)rawmouse->lLastY;
+    పూర్ణాంకం dx = (పూర్ణాంకం)rawmouse->l_చివరి_X;
+    పూర్ణాంకం dy = (పూర్ణాంకం)rawmouse->l_చివరి_Y;
     bool haveMotion = (dx || dy);
     bool haveButton = (rawmouse->usButtonFlags != 0);
     bool isAbsolute = ((rawmouse->usFlags & MOUSE_MOVE_ABSOLUTE) != 0);
     SDL_MouseID mouseID = (SDL_MouseID)(uintptr_t)hDevice;
 
     // Check whether relative mode should also receive events from the rawinput stream
-    if (!data->raw_mouse_enabled) {
-        return;
+    ఒకవేళ (!దత్తాంశం->raw_mouse_enabled) {
+        తిరిగి;
     }
 
     // Relative mouse motion is delivered to the window with keyboard focus
-    SDL_Window *window = SDL_GetKeyboardFocus();
-    if (!window) {
-        return;
+    SDL_కిటికీ *కిటికీ = SDL_GetKeyboardFocus();
+    ఒకవేళ (!కిటికీ) {
+        తిరిగి;
     }
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (!mouse) {
-        return;
+    ఒకవేళ (!mouse) {
+        తిరిగి;
     }
 
-    if (GetMouseMessageSource(rawmouse->ulExtraInformation) != SDL_MOUSE_EVENT_SOURCE_MOUSE ||
-        (SDL_TouchDevicesAvailable() && (rawmouse->ulExtraInformation & 0x80) == 0x80)) {
-        return;
+    ఒకవేళ (Get_Mouse_సందేశం_ఆధారం(rawmouse->ulExtraInformation) != SDL_MOUSE_EVENT_ఆధారం_MOUSE ||
+        (SDL_Touch_Devices_అందుబాటు() && (rawmouse->ulExtraInformation & 0x80) == 0x80)) {
+        తిరిగి;
     }
 
-    SDL_WindowData *windowdata = window->internal;
+    SDL_కిటికీ_దత్తాంశం *windowdata = కిటికీ->అంతర్గత;
 
-    if (haveMotion && !windowdata->in_modal_loop) {
-        if (!isAbsolute) {
-            SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)dx, (float)dy);
-        } else {
+    ఒకవేళ (haveMotion && !windowdata->లోపల_modal_loop) {
+        ఒకవేళ (!isAbsolute) {
+            SDL_SendMouseMotion(timestamp, కిటికీ, mouseID, true, (దశాంశం)dx, (దశాంశం)dy);
+        } లేకపోతే {
             /* This is absolute motion, either using a tablet or mouse over RDP
 
                 Notes on how RDP appears to work, as of Windows 10 2004:
@@ -619,111 +619,111 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
             bool remote_desktop = (GetSystemMetrics(SM_REMOTESESSION) == TRUE);
             bool virtual_desktop = ((rawmouse->usFlags & MOUSE_VIRTUAL_DESKTOP) != 0);
             bool raw_coordinates = ((rawmouse->usFlags & 0x40) != 0);
-            int w = GetSystemMetrics(virtual_desktop ? SM_CXVIRTUALSCREEN : SM_CXSCREEN);
-            int h = GetSystemMetrics(virtual_desktop ? SM_CYVIRTUALSCREEN : SM_CYSCREEN);
-            int x = raw_coordinates ? dx : (int)(((float)dx / 65535.0f) * w);
-            int y = raw_coordinates ? dy : (int)(((float)dy / 65535.0f) * h);
-            int relX, relY;
+            పూర్ణాంకం w = GetSystemMetrics(virtual_desktop ? SM_CXVIRTUALSCREEN : SM_CXSCREEN);
+            పూర్ణాంకం h = GetSystemMetrics(virtual_desktop ? SM_CYVIRTUALSCREEN : SM_CYSCREEN);
+            పూర్ణాంకం x = raw_coordinates ? dx : (పూర్ణాంకం)(((దశాంశం)dx / 65535.0f) * w);
+            పూర్ణాంకం y = raw_coordinates ? dy : (పూర్ణాంకం)(((దశాంశం)dy / 65535.0f) * h);
+            పూర్ణాంకం relX, relY;
 
             /* Calculate relative motion */
-            if (data->last_raw_mouse_position.x == 0 && data->last_raw_mouse_position.y == 0) {
-                data->last_raw_mouse_position.x = x;
-                data->last_raw_mouse_position.y = y;
+            ఒకవేళ (దత్తాంశం->చివరి_raw_mouse_position.x == 0 && దత్తాంశం->చివరి_raw_mouse_position.y == 0) {
+                దత్తాంశం->చివరి_raw_mouse_position.x = x;
+                దత్తాంశం->చివరి_raw_mouse_position.y = y;
             }
-            relX = x - data->last_raw_mouse_position.x;
-            relY = y - data->last_raw_mouse_position.y;
+            relX = x - దత్తాంశం->చివరి_raw_mouse_position.x;
+            relY = y - దత్తాంశం->చివరి_raw_mouse_position.y;
 
-            if (remote_desktop) {
-                if (!windowdata->in_title_click && !windowdata->focus_click_pending) {
-                    static int wobble;
-                    float floatX = (float)x / w;
-                    float floatY = (float)y / h;
+            ఒకవేళ (remote_desktop) {
+                ఒకవేళ (!windowdata->లోపల_title_click && !windowdata->focus_click_pending) {
+                    స్థిర పూర్ణాంకం wobble;
+                    దశాంశం floatX = (దశాంశం)x / w;
+                    దశాంశం floatY = (దశాంశం)y / h;
 
                     /* See if the mouse is at the edge of the screen, or in the RDP title bar area */
-                    if (floatX <= 0.01f || floatX >= 0.99f || floatY <= 0.01f || floatY >= 0.99f || y < 32) {
+                    ఒకవేళ (floatX <= 0.01f || floatX >= 0.99f || floatY <= 0.01f || floatY >= 0.99f || y < 32) {
                         /* Wobble the cursor position so it's not ignored if the last warp didn't have any effect */
                         RECT rect = windowdata->cursor_clipped_rect;
-                        int warpX = rect.left + ((rect.right - rect.left) / 2) + wobble;
-                        int warpY = rect.top + ((rect.bottom - rect.top) / 2);
+                        పూర్ణాంకం warpX = rect.ఎడమ + ((rect.కుడి - rect.ఎడమ) / 2) + wobble;
+                        పూర్ణాంకం warpY = rect.శిఖరం + ((rect.bottom - rect.శిఖరం) / 2);
 
-                        WIN_SetCursorPos(warpX, warpY);
+                        WIN_సమితి_Cursor_Pos(warpX, warpY);
 
                         ++wobble;
-                        if (wobble > 1) {
+                        ఒకవేళ (wobble > 1) {
                             wobble = -1;
                         }
-                    } else {
+                    } లేకపోతే {
                         /* Send relative motion if we didn't warp last frame (had good position data)
                            We also sometimes get large deltas due to coalesced mouse motion and warping,
                            so ignore those.
                          */
-                        const int MAX_RELATIVE_MOTION = (h / 6);
-                        if (SDL_abs(relX) < MAX_RELATIVE_MOTION &&
+                        స్థిరరాశి పూర్ణాంకం MAX_RELATIVE_MOTION = (h / 6);
+                        ఒకవేళ (SDL_abs(relX) < MAX_RELATIVE_MOTION &&
                             SDL_abs(relY) < MAX_RELATIVE_MOTION) {
-                            SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)relX, (float)relY);
+                            SDL_SendMouseMotion(timestamp, కిటికీ, mouseID, true, (దశాంశం)relX, (దశాంశం)relY);
                         }
                     }
                 }
-            } else if (mouse->pen_mouse_events) {
-                const int MAXIMUM_TABLET_RELATIVE_MOTION = 32;
-                if (SDL_abs(relX) > MAXIMUM_TABLET_RELATIVE_MOTION ||
-                    SDL_abs(relY) > MAXIMUM_TABLET_RELATIVE_MOTION) {
+            } లేకపోతే ఒకవేళ (mouse->pen_mouse_events) {
+                స్థిరరాశి పూర్ణాంకం గరిష్ఠ_TABLET_RELATIVE_MOTION = 32;
+                ఒకవేళ (SDL_abs(relX) > గరిష్ఠ_TABLET_RELATIVE_MOTION ||
+                    SDL_abs(relY) > గరిష్ఠ_TABLET_RELATIVE_MOTION) {
                     /* Ignore this motion, probably a pen lift and drop */
-                } else {
-                    SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)relX, (float)relY);
+                } లేకపోతే {
+                    SDL_SendMouseMotion(timestamp, కిటికీ, mouseID, true, (దశాంశం)relX, (దశాంశం)relY);
                 }
-            } else {
-                int screen_x = virtual_desktop ? GetSystemMetrics(SM_XVIRTUALSCREEN) : 0;
-                int screen_y = virtual_desktop ? GetSystemMetrics(SM_YVIRTUALSCREEN) : 0;
+            } లేకపోతే {
+                పూర్ణాంకం screen_x = virtual_desktop ? GetSystemMetrics(SM_XVIRTUALSCREEN) : 0;
+                పూర్ణాంకం screen_y = virtual_desktop ? GetSystemMetrics(SM_YVIRTUALSCREEN) : 0;
 
-                if (!data->raw_input_fake_pen_id) {
-                    data->raw_input_fake_pen_id = SDL_AddPenDevice(timestamp, "raw mouse input", window, NULL, (void *)(size_t)-1, true);
+                ఒకవేళ (!దత్తాంశం->raw_ఆదానం_fake_pen_id) {
+                    దత్తాంశం->raw_ఆదానం_fake_pen_id = SDL_కూడు_Pen_Device(timestamp, "raw mouse input", కిటికీ, ఖాళీ, (శూన్య *)(size_t)-1, true);
                 }
-                SDL_SendPenMotion(timestamp, data->raw_input_fake_pen_id, window, (float)(x + screen_x - window->x), (float)(y + screen_y - window->y));
+                SDL_SendPenMotion(timestamp, దత్తాంశం->raw_ఆదానం_fake_pen_id, కిటికీ, (దశాంశం)(x + screen_x - కిటికీ->x), (దశాంశం)(y + screen_y - కిటికీ->y));
             }
 
-            data->last_raw_mouse_position.x = x;
-            data->last_raw_mouse_position.y = y;
+            దత్తాంశం->చివరి_raw_mouse_position.x = x;
+            దత్తాంశం->చివరి_raw_mouse_position.y = y;
         }
     }
 
-    if (haveButton) {
-        for (int i = 0; i < SDL_arraysize(raw_buttons); ++i) {
-            if (rawmouse->usButtonFlags & raw_buttons[i].usButtonFlags) {
+    ఒకవేళ (haveButton) {
+        కొరకు (పూర్ణాంకం i = 0; i < SDL_arraysize(raw_buttons); ++i) {
+            ఒకవేళ (rawmouse->usButtonFlags & raw_buttons[i].usButtonFlags) {
                 Uint8 button = raw_buttons[i].button;
-                bool down = raw_buttons[i].down;
+                bool కిందికి = raw_buttons[i].కిందికి;
 
-                if (button == SDL_BUTTON_LEFT) {
-                    if (WIN_SwapButtons(hDevice)) {
-                        button = SDL_BUTTON_RIGHT;
+                ఒకవేళ (button == SDL_BUTTON_ఎడమ) {
+                    ఒకవేళ (WIN_మార్పిడి_Buttons(hDevice)) {
+                        button = SDL_BUTTON_కుడి;
                     }
-                } else if (button == SDL_BUTTON_RIGHT) {
-                    if (WIN_SwapButtons(hDevice)) {
-                        button = SDL_BUTTON_LEFT;
+                } లేకపోతే ఒకవేళ (button == SDL_BUTTON_కుడి) {
+                    ఒకవేళ (WIN_మార్పిడి_Buttons(hDevice)) {
+                        button = SDL_BUTTON_ఎడమ;
                     }
                 }
 
-                if (windowdata->focus_click_pending & SDL_BUTTON_MASK(button)) {
+                ఒకవేళ (windowdata->focus_click_pending & SDL_BUTTON_ముసుగు(button)) {
                     // Ignore the button click for activation
-                    if (!down) {
-                        windowdata->focus_click_pending &= ~SDL_BUTTON_MASK(button);
-                        WIN_UpdateClipCursor(window);
+                    ఒకవేళ (!కిందికి) {
+                        windowdata->focus_click_pending &= ~SDL_BUTTON_ముసుగు(button);
+                        WIN_UpdateClipCursor(కిటికీ);
                     }
-                    continue;
+                    కొనసాగు;
                 }
 
-                SDL_SendMouseButton(timestamp, window, mouseID, button, down);
+                SDL_SendMouseButton(timestamp, కిటికీ, mouseID, button, కిందికి);
             }
         }
 
-        if (rawmouse->usButtonFlags & RI_MOUSE_WHEEL) {
-            SHORT amount = (SHORT)rawmouse->usButtonData;
-            float fAmount = (float)amount / WHEEL_DELTA;
-            SDL_SendMouseWheel(timestamp, window, mouseID, 0.0f, fAmount, SDL_MOUSEWHEEL_NORMAL);
-        } else if (rawmouse->usButtonFlags & RI_MOUSE_HWHEEL) {
-            SHORT amount = (SHORT)rawmouse->usButtonData;
-            float fAmount = (float)amount / WHEEL_DELTA;
-            SDL_SendMouseWheel(timestamp, window, mouseID, fAmount, 0.0f, SDL_MOUSEWHEEL_NORMAL);
+        ఒకవేళ (rawmouse->usButtonFlags & RI_MOUSE_WHEEL) {
+            SHORT amount = (SHORT)rawmouse->us_Button_దత్తాంశం;
+            దశాంశం fAmount = (దశాంశం)amount / WHEEL_DELTA;
+            SDL_SendMouseWheel(timestamp, కిటికీ, mouseID, 0.0f, fAmount, SDL_MOUSEWHEEL_సాధారణ);
+        } లేకపోతే ఒకవేళ (rawmouse->usButtonFlags & RI_MOUSE_HWHEEL) {
+            SHORT amount = (SHORT)rawmouse->us_Button_దత్తాంశం;
+            దశాంశం fAmount = (దశాంశం)amount / WHEEL_DELTA;
+            SDL_SendMouseWheel(timestamp, కిటికీ, mouseID, fAmount, 0.0f, SDL_MOUSEWHEEL_సాధారణ);
         }
 
         /* Invalidate the mouse button flags. If we don't do this then disabling raw input
@@ -732,379 +732,379 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
     }
 }
 
-static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWKEYBOARD *rawkeyboard)
+స్థిర శూన్య WIN_Handle_Raw_Keyboard_ఆదానం(Uint64 timestamp, SDL_Video_దత్తాంశం *దత్తాంశం, HANDLE hDevice, RAWKEYBOARD *rawkeyboard)
 {
     SDL_KeyboardID keyboardID = (SDL_KeyboardID)(uintptr_t)hDevice;
 
-    if (!data->raw_keyboard_enabled) {
-        return;
+    ఒకవేళ (!దత్తాంశం->raw_keyboard_enabled) {
+        తిరిగి;
     }
 
-    if (rawkeyboard->Flags & RI_KEY_E1) {
+    ఒకవేళ (rawkeyboard->Flags & RI_కీలకం_E1) {
         // First key in a Ctrl+{key} sequence
-        data->pending_E1_key_sequence = true;
-        return;
+        దత్తాంశం->pending_E1_కీలకం_sequence = true;
+        తిరిగి;
     }
 
-    if ((rawkeyboard->Flags & RI_KEY_E0) && rawkeyboard->MakeCode == 0x2A) {
+    ఒకవేళ ((rawkeyboard->Flags & RI_కీలకం_E0) && rawkeyboard->Make_సంకేతం == 0x2A) {
         // 0xE02A make code prefix, ignored
-        return;
+        తిరిగి;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!rawkeyboard->MakeCode) {
-        rawkeyboard->MakeCode = LOWORD(MapVirtualKey(rawkeyboard->VKey, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ఒకవేళ (!rawkeyboard->Make_సంకేతం) {
+        rawkeyboard->Make_సంకేతం = LOWORD(Map_Virtual_కీలకం(rawkeyboard->VKey, WIN_IsWindowsXP() ? MAPVK_VK_గమ్యం_VSC : MAPVK_VK_గమ్యం_VSC_EX));
     }
-#endif
-    if (!rawkeyboard->MakeCode) {
-        return;
-    }
-
-    bool down;
-    switch (rawkeyboard->Message) {
-    case WM_KEYDOWN:
-    case WM_SYSKEYDOWN:
-        down = true;
-        break;
-    case WM_KEYUP:
-    case WM_SYSKEYUP:
-        down = false;
-        break;
-    default:
-        down = !(rawkeyboard->Flags & RI_KEY_BREAK);
-        break;
+#అయితే_ముగింపు
+    ఒకవేళ (!rawkeyboard->Make_సంకేతం) {
+        తిరిగి;
     }
 
-    SDL_Scancode code;
-    USHORT rawcode = rawkeyboard->MakeCode;
-    if (data->pending_E1_key_sequence) {
+    bool కిందికి;
+    ఎంపిక (rawkeyboard->సందేశం_4) {
+    స్థితి WM_KEYDOWN:
+    స్థితి WM_SYSKEYDOWN:
+        కిందికి = true;
+        ఆపు;
+    స్థితి WM_KEYUP:
+    స్థితి WM_SYSKEYUP:
+        కిందికి = false;
+        ఆపు;
+    అప్రమేయ:
+        కిందికి = !(rawkeyboard->Flags & RI_కీలకం_BREAK);
+        ఆపు;
+    }
+
+    SDL_Scancode సంకేతం_2;
+    USHORT rawcode = rawkeyboard->Make_సంకేతం;
+    ఒకవేళ (దత్తాంశం->pending_E1_కీలకం_sequence) {
         rawcode |= 0xE100;
-        if (rawkeyboard->MakeCode == 0x45) {
+        ఒకవేళ (rawkeyboard->Make_సంకేతం == 0x45) {
             // Ctrl+NumLock == Pause
-            code = SDL_SCANCODE_PAUSE;
-        } else {
+            సంకేతం_2 = SDL_SCANCODE_PAUSE;
+        } లేకపోతే {
             // Ctrl+ScrollLock == Break (no SDL scancode?)
-            code = SDL_SCANCODE_UNKNOWN;
+            సంకేతం_2 = SDL_SCANCODE_UNKNOWN;
         }
-        data->pending_E1_key_sequence = false;
-    } else {
+        దత్తాంశం->pending_E1_కీలకం_sequence = false;
+    } లేకపోతే {
         // The code is in the lower 7 bits, the high bit is set for the E0 prefix
-        Uint8 index = (Uint8)rawkeyboard->MakeCode;
-        if (rawkeyboard->Flags & RI_KEY_E0) {
+        Uint8 సూచీ = (Uint8)rawkeyboard->Make_సంకేతం;
+        ఒకవేళ (rawkeyboard->Flags & RI_కీలకం_E0) {
             rawcode |= 0xE000;
-            index |= 0x80;
+            సూచీ |= 0x80;
         }
-        code = windows_scancode_table[index];
+        సంకేతం_2 = windows_scancode_పట్టిక[సూచీ];
     }
 
-    if (down) {
-        SDL_Window *focus = SDL_GetKeyboardFocus();
+    ఒకవేళ (కిందికి) {
+        SDL_కిటికీ *focus = SDL_GetKeyboardFocus();
         // With input sink flag we want to receive input even if not focused
-        if ((!data->raw_keyboard_flag_inputsink && !focus) || (focus && focus->text_input_active)) {
-            return;
+        ఒకవేళ ((!దత్తాంశం->raw_keyboard_flag_inputsink && !focus) || (focus && focus->పాఠ్యం_ఆదానం_చురుకైన)) {
+            తిరిగి;
         }
     }
 
-    SDL_SendKeyboardKey(timestamp, keyboardID, rawcode, code, down);
+    SDL_Send_Keyboard_కీలకం(timestamp, keyboardID, rawcode, సంకేతం_2, కిందికి);
 }
 
-void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
+శూన్య WIN_Poll_Raw_ఆదానం(SDL_VideoDevice *_this, Uint64 poll_ప్రారంభం)
 {
-    SDL_VideoData *data = _this->internal;
-    UINT size, i, count, total = 0;
-    RAWINPUT *input;
-    Uint64 poll_finish;
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
+    UINT కొలత, i, లెక్క, మొత్తం = 0;
+    RAWINPUT *ఆదానం;
+    Uint64 poll_ముగింపు;
 
-    if (data->rawinput_offset == 0) {
+    ఒకవేళ (దత్తాంశం->rawinput_స్థానభ్రంశం == 0) {
         BOOL isWow64;
 
-        data->rawinput_offset = sizeof(RAWINPUTHEADER);
-        if (IsWow64Process(GetCurrentProcess(), &isWow64) && isWow64) {
+        దత్తాంశం->rawinput_స్థానభ్రంశం = పరిమాణం(RAWINPUTHEADER);
+        ఒకవేళ (IsWow64Process(GetCurrentProcess(), &isWow64) && isWow64) {
             // We're going to get 64-bit data, so use the 64-bit RAWINPUTHEADER size
-            data->rawinput_offset += 8;
+            దత్తాంశం->rawinput_స్థానభ్రంశం += 8;
         }
     }
 
     // Get all available events
-    input = (RAWINPUT *)data->rawinput;
-    for (;;) {
-        size = data->rawinput_size - (UINT)((BYTE *)input - data->rawinput);
-        count = GetRawInputBuffer(input, &size, sizeof(RAWINPUTHEADER));
-        poll_finish = SDL_GetTicksNS();
-        if (count == 0 || count == (UINT)-1) {
-            if (!data->rawinput || (count == (UINT)-1 && GetLastError() == ERROR_INSUFFICIENT_BUFFER)) {
-                const UINT RAWINPUT_BUFFER_SIZE_INCREMENT = 96;   // 2 64-bit raw mouse packets
-                BYTE *rawinput = (BYTE *)SDL_realloc(data->rawinput, data->rawinput_size + RAWINPUT_BUFFER_SIZE_INCREMENT);
-                if (!rawinput) {
-                    break;
+    ఆదానం = (RAWINPUT *)దత్తాంశం->rawinput;
+    కొరకు (;;) {
+        కొలత = దత్తాంశం->rawinput_కొలత - (UINT)((BYTE *)ఆదానం - దత్తాంశం->rawinput);
+        లెక్క = Get_Raw_ఆదానం_బఫరు(ఆదానం, &కొలత, పరిమాణం(RAWINPUTHEADER));
+        poll_ముగింపు = SDL_GetTicksNS();
+        ఒకవేళ (లెక్క == 0 || లెక్క == (UINT)-1) {
+            ఒకవేళ (!దత్తాంశం->rawinput || (లెక్క == (UINT)-1 && Get_చివరి_Error() == ERROR_INSUFFICIENT_బఫరు)) {
+                స్థిరరాశి UINT RAWINPUT_బఫరు_కొలత_INCREMENT = 96;   // 2 64-bit raw mouse packets
+                BYTE *rawinput = (BYTE *)SDL_realloc(దత్తాంశం->rawinput, దత్తాంశం->rawinput_కొలత + RAWINPUT_బఫరు_కొలత_INCREMENT);
+                ఒకవేళ (!rawinput) {
+                    ఆపు;
                 }
-                input = (RAWINPUT *)(rawinput + ((BYTE *)input - data->rawinput));
-                data->rawinput = rawinput;
-                data->rawinput_size += RAWINPUT_BUFFER_SIZE_INCREMENT;
-            } else {
-                break;
+                ఆదానం = (RAWINPUT *)(rawinput + ((BYTE *)ఆదానం - దత్తాంశం->rawinput));
+                దత్తాంశం->rawinput = rawinput;
+                దత్తాంశం->rawinput_కొలత += RAWINPUT_బఫరు_కొలత_INCREMENT;
+            } లేకపోతే {
+                ఆపు;
             }
-        } else {
-            total += count;
+        } లేకపోతే {
+            మొత్తం += లెక్క;
 
             // Advance input to the end of the buffer
-            while (count--) {
-                input = NEXTRAWINPUTBLOCK(input);
+            అయితే (లెక్క--) {
+                ఆదానం = NEXTRAWINPUTBLOCK(ఆదానం);
             }
         }
     }
 
-    if (total > 0) {
-        Uint64 delta = poll_finish - poll_start;
-        UINT mouse_total = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
-                mouse_total += 1;
+    ఒకవేళ (మొత్తం > 0) {
+        Uint64 delta = poll_ముగింపు - poll_ప్రారంభం;
+        UINT mouse_మొత్తం = 0;
+        కొరకు (i = 0, ఆదానం = (RAWINPUT *)దత్తాంశం->rawinput; i < మొత్తం; ++i, ఆదానం = NEXTRAWINPUTBLOCK(ఆదానం)) {
+            ఒకవేళ (ఆదానం->శీర్షిక.dwType == RIM_TYPEMOUSE) {
+                mouse_మొత్తం += 1;
             }
         }
-        int mouse_index = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
-                mouse_index += 1; // increment first so that it starts at one
-                RAWMOUSE *rawmouse = (RAWMOUSE *)((BYTE *)input + data->rawinput_offset);
-                Uint64 time = poll_finish - (delta * (mouse_total - mouse_index)) / mouse_total;
-                WIN_HandleRawMouseInput(time, data, input->header.hDevice, rawmouse);
-            } else if (input->header.dwType == RIM_TYPEKEYBOARD) {
-                RAWKEYBOARD *rawkeyboard = (RAWKEYBOARD *)((BYTE *)input + data->rawinput_offset);
-                WIN_HandleRawKeyboardInput(poll_finish, data, input->header.hDevice, rawkeyboard);
+        పూర్ణాంకం mouse_సూచీ = 0;
+        కొరకు (i = 0, ఆదానం = (RAWINPUT *)దత్తాంశం->rawinput; i < మొత్తం; ++i, ఆదానం = NEXTRAWINPUTBLOCK(ఆదానం)) {
+            ఒకవేళ (ఆదానం->శీర్షిక.dwType == RIM_TYPEMOUSE) {
+                mouse_సూచీ += 1; // increment first so that it starts at one
+                RAWMOUSE *rawmouse = (RAWMOUSE *)((BYTE *)ఆదానం + దత్తాంశం->rawinput_స్థానభ్రంశం);
+                Uint64 సమయం = poll_ముగింపు - (delta * (mouse_మొత్తం - mouse_సూచీ)) / mouse_మొత్తం;
+                WIN_Handle_Raw_Mouse_ఆదానం(సమయం, దత్తాంశం, ఆదానం->శీర్షిక.hDevice, rawmouse);
+            } లేకపోతే ఒకవేళ (ఆదానం->శీర్షిక.dwType == RIM_TYPEKEYBOARD) {
+                RAWKEYBOARD *rawkeyboard = (RAWKEYBOARD *)((BYTE *)ఆదానం + దత్తాంశం->rawinput_స్థానభ్రంశం);
+                WIN_Handle_Raw_Keyboard_ఆదానం(poll_ముగింపు, దత్తాంశం, ఆదానం->శీర్షిక.hDevice, rawkeyboard);
             }
         }
     }
-    data->last_rawinput_poll = poll_finish;
+    దత్తాంశం->చివరి_rawinput_poll = poll_ముగింపు;
 }
 
-static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *count)
+స్థిర శూన్య కూడు_Device_ID(Uint32 deviceID, Uint32 **list, పూర్ణాంకం *లెక్క)
 {
-    int new_count = (*count + 1);
-    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_count * sizeof(*new_list));
-    if (!new_list) {
+    పూర్ణాంకం new_లెక్క = (*లెక్క + 1);
+    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_లెక్క * పరిమాణం(*new_list));
+    ఒకవేళ (!new_list) {
         // Oh well, we'll drop this one
-        return;
+        తిరిగి;
     }
-    new_list[new_count - 1] = deviceID;
+    new_list[new_లెక్క - 1] = deviceID;
 
-    *count = new_count;
+    *లెక్క = new_లెక్క;
     *list = new_list;
 }
 
-static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int count)
+స్థిర bool HasDeviceID(Uint32 deviceID, స్థిరరాశి Uint32 *list, పూర్ణాంకం లెక్క)
 {
-    for (int i = 0; i < count; ++i) {
-        if (deviceID == list[i]) {
-            return true;
+    కొరకు (పూర్ణాంకం i = 0; i < లెక్క; ++i) {
+        ఒకవేళ (deviceID == list[i]) {
+            తిరిగి true;
         }
     }
-    return false;
+    తిరిగి false;
 }
 
-static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instance, Uint16 vendor, Uint16 product, const char *default_name, bool hid_loaded)
+స్థిర అక్షరం *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, స్థిరరాశి అక్షరం *instance, Uint16 vendor, Uint16 లబ్ధం, స్థిరరాశి అక్షరం *default_name, bool hid_loaded)
 {
-    char *vendor_name = NULL;
-    char *product_name = NULL;
-    char *name = NULL;
+    అక్షరం *vendor_name = ఖాళీ;
+    అక్షరం *లబ్ధం_name = ఖాళీ;
+    అక్షరం *name = ఖాళీ;
 
     // These are 126 for USB, but can be longer for Bluetooth devices
     WCHAR vend[256], prod[256];
     vend[0] = 0;
     prod[0] = 0;
 
-    if (hid_loaded) {
-        char devName[MAX_PATH + 1];
+    ఒకవేళ (hid_loaded) {
+        అక్షరం devName[MAX_మార్గం + 1];
         devName[0] = '\0';
-        UINT cap = sizeof(devName) - 1;
-        UINT len = GetRawInputDeviceInfoA(hDevice, RIDI_DEVICENAME, devName, &cap);
-        if (len != (UINT)-1) {
+        UINT cap = పరిమాణం(devName) - 1;
+        UINT len = Get_Raw_ఆదానం_Device_Info_A(hDevice, RIDI_DEVICENAME, devName, &cap);
+        ఒకవేళ (len != (UINT)-1) {
             devName[len] = '\0';
 
             // important: for devices with exclusive access mode as per
             // https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/top-level-collections-opened-by-windows-for-system-use
             // they can only be opened with a desired access of none instead of generic read.
-            HANDLE hFile = CreateFileA(devName, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-            if (hFile != INVALID_HANDLE_VALUE) {
-                SDL_HidD_GetManufacturerString(hFile, vend, sizeof(vend));
-                SDL_HidD_GetProductString(hFile, prod, sizeof(prod));
+            HANDLE hFile = CreateFileA(devName, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, ఖాళీ, OPEN_EXISTING, 0, ఖాళీ);
+            ఒకవేళ (hFile != INVALID_HANDLE_విలువ) {
+                SDL_HidD_GetManufacturerString(hFile, vend, పరిమాణం(vend));
+                SDL_Hid_D_Get_లబ్ధం_String(hFile, prod, పరిమాణం(prod));
                 CloseHandle(hFile);
             }
         }
     }
 
-    if (vend[0]) {
-        vendor_name = WIN_StringToUTF8W(vend);
+    ఒకవేళ (vend[0]) {
+        vendor_name = WIN_String_గమ్యం_UTF8_W(vend);
     }
 
-    if (prod[0]) {
-        product_name = WIN_StringToUTF8W(prod);
-    } else {
-        SP_DEVINFO_DATA data;
-        SDL_zero(data);
-        data.cbSize = sizeof(data);
-        for (DWORD i = 0;; ++i) {
-            if (!SetupDiEnumDeviceInfo(devinfo, i, &data)) {
-                if (GetLastError() == ERROR_NO_MORE_ITEMS) {
-                    break;
-                } else {
-                    continue;
+    ఒకవేళ (prod[0]) {
+        లబ్ధం_name = WIN_String_గమ్యం_UTF8_W(prod);
+    } లేకపోతే {
+        SP_DEVINFO_దత్తాంశం దత్తాంశం;
+        SDL_zero(దత్తాంశం);
+        దత్తాంశం.cb_కొలత = పరిమాణం(దత్తాంశం);
+        కొరకు (DWORD i = 0;; ++i) {
+            ఒకవేళ (!అమరిక_Di_Enum_Device_Info(devinfo, i, &దత్తాంశం)) {
+                ఒకవేళ (Get_చివరి_Error() == ERROR_NO_మరిన్ని_వస్తువులు) {
+                    ఆపు;
+                } లేకపోతే {
+                    కొనసాగు;
                 }
             }
 
-            char DeviceInstanceId[64];
-            if (!SetupDiGetDeviceInstanceIdA(devinfo, &data, DeviceInstanceId, sizeof(DeviceInstanceId), NULL))
-                continue;
+            అక్షరం DeviceInstanceId[64];
+            ఒకవేళ (!అమరిక_Di_Get_Device_Instance_Id_A(devinfo, &దత్తాంశం, DeviceInstanceId, పరిమాణం(DeviceInstanceId), ఖాళీ))
+                కొనసాగు;
 
-            if (SDL_strcasecmp(instance, DeviceInstanceId) == 0) {
-                DWORD size = 0;
-                if (SetupDiGetDeviceRegistryPropertyW(devinfo, &data, SPDRP_DEVICEDESC, NULL, (PBYTE)prod, sizeof(prod), &size)) {
+            ఒకవేళ (SDL_strcasecmp(instance, DeviceInstanceId) == 0) {
+                DWORD కొలత = 0;
+                ఒకవేళ (అమరిక_Di_Get_Device_Registry_Property_W(devinfo, &దత్తాంశం, SPDRP_DEVICEDESC, ఖాళీ, (PBYTE)prod, పరిమాణం(prod), &కొలత)) {
                     // Make sure the device description is null terminated
-                    size /= sizeof(*prod);
-                    if (size >= SDL_arraysize(prod)) {
+                    కొలత /= పరిమాణం(*prod);
+                    ఒకవేళ (కొలత >= SDL_arraysize(prod)) {
                         // Truncated description...
-                        size = (SDL_arraysize(prod) - 1);
+                        కొలత = (SDL_arraysize(prod) - 1);
                     }
-                    prod[size] = 0;
+                    prod[కొలత] = 0;
 
-                    if (vendor || product) {
-                        SDL_asprintf(&product_name, "%S (0x%.4x/0x%.4x)", prod, vendor, product);
-                    } else {
-                        product_name = WIN_StringToUTF8W(prod);
+                    ఒకవేళ (vendor || లబ్ధం) {
+                        SDL_asprintf(&లబ్ధం_name, "%S (0x%.4x/0x%.4x)", prod, vendor, లబ్ధం);
+                    } లేకపోతే {
+                        లబ్ధం_name = WIN_String_గమ్యం_UTF8_W(prod);
                     }
                 }
-                break;
+                ఆపు;
             }
         }
     }
 
-    if (!product_name && (vendor || product)) {
-        SDL_asprintf(&product_name, "%s (0x%.4x/0x%.4x)", default_name, vendor, product);
+    ఒకవేళ (!లబ్ధం_name && (vendor || లబ్ధం)) {
+        SDL_asprintf(&లబ్ధం_name, "%s (0x%.4x/0x%.4x)", default_name, vendor, లబ్ధం);
     }
-    name = SDL_CreateDeviceName(vendor, product, vendor_name, product_name, default_name);
+    name = SDL_CreateDeviceName(vendor, లబ్ధం, vendor_name, లబ్ధం_name, default_name);
     SDL_free(vendor_name);
-    SDL_free(product_name);
+    SDL_free(లబ్ధం_name);
 
-    return name;
+    తిరిగి name;
 }
 
-void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
+శూన్య WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    PRAWINPUTDEVICELIST raw_devices = NULL;
-    UINT raw_device_count = 0;
-    int old_keyboard_count = 0;
-    SDL_KeyboardID *old_keyboards = NULL;
-    int new_keyboard_count = 0;
-    SDL_KeyboardID *new_keyboards = NULL;
-    int old_mouse_count = 0;
-    SDL_MouseID *old_mice = NULL;
-    int new_mouse_count = 0;
-    SDL_MouseID *new_mice = NULL;
+    PRAWINPUTDEVICELIST raw_devices = ఖాళీ;
+    UINT raw_device_లెక్క = 0;
+    పూర్ణాంకం old_keyboard_లెక్క = 0;
+    SDL_KeyboardID *old_keyboards = ఖాళీ;
+    పూర్ణాంకం new_keyboard_లెక్క = 0;
+    SDL_KeyboardID *new_keyboards = ఖాళీ;
+    పూర్ణాంకం old_mouse_లెక్క = 0;
+    SDL_MouseID *old_mice = ఖాళీ;
+    పూర్ణాంకం new_mouse_లెక్క = 0;
+    SDL_MouseID *new_mice = ఖాళీ;
 
-    if (!_this ||
+    ఒకవేళ (!_this ||
         SDL_strcmp(_this->name, "windows") != 0 ||
-        !_this->internal->detect_device_hotplug ||
-        _this->internal->gameinput_context) {
-        return;
+        !_this->అంతర్గత->detect_device_hotplug ||
+        _this->అంతర్గత->gameinput_context) {
+        తిరిగి;
     }
 
-    if ((GetRawInputDeviceList(NULL, &raw_device_count, sizeof(RAWINPUTDEVICELIST)) == -1) || (!raw_device_count)) {
-        return; // oh well.
+    ఒకవేళ ((Get_Raw_ఆదానం_Device_List(ఖాళీ, &raw_device_లెక్క, పరిమాణం(RAWINPUTDEVICELIST)) == -1) || (!raw_device_లెక్క)) {
+        తిరిగి; // oh well.
     }
 
-    raw_devices = (PRAWINPUTDEVICELIST)SDL_malloc(sizeof(RAWINPUTDEVICELIST) * raw_device_count);
-    if (!raw_devices) {
-        return; // oh well.
+    raw_devices = (PRAWINPUTDEVICELIST)SDL_malloc(పరిమాణం(RAWINPUTDEVICELIST) * raw_device_లెక్క);
+    ఒకవేళ (!raw_devices) {
+        తిరిగి; // oh well.
     }
 
-    raw_device_count = GetRawInputDeviceList(raw_devices, &raw_device_count, sizeof(RAWINPUTDEVICELIST));
-    if (raw_device_count == (UINT)-1) {
+    raw_device_లెక్క = Get_Raw_ఆదానం_Device_List(raw_devices, &raw_device_లెక్క, పరిమాణం(RAWINPUTDEVICELIST));
+    ఒకవేళ (raw_device_లెక్క == (UINT)-1) {
         SDL_free(raw_devices);
-        raw_devices = NULL;
-        return; // oh well.
+        raw_devices = ఖాళీ;
+        తిరిగి; // oh well.
     }
 
-    HDEVINFO devinfo = SetupDiGetClassDevsA(NULL, NULL, NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
+    HDEVINFO devinfo = అమరిక_Di_Get_Class_Devs_A(ఖాళీ, ఖాళీ, ఖాళీ, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
 
-    old_keyboards = SDL_GetKeyboards(&old_keyboard_count);
-    old_mice = SDL_GetMice(&old_mouse_count);
+    old_keyboards = SDL_GetKeyboards(&old_keyboard_లెక్క);
+    old_mice = SDL_GetMice(&old_mouse_లెక్క);
 
-    for (UINT i = 0; i < raw_device_count; i++) {
+    కొరకు (UINT i = 0; i < raw_device_లెక్క; i++) {
         RID_DEVICE_INFO rdi;
-        char devName[MAX_PATH] = { 0 };
-        UINT rdiSize = sizeof(rdi);
-        UINT nameSize = SDL_arraysize(devName);
-        int vendor = 0, product = 0;
+        అక్షరం devName[MAX_మార్గం] = { 0 };
+        UINT rdi_కొలత = పరిమాణం(rdi);
+        UINT name_కొలత = SDL_arraysize(devName);
+        పూర్ణాంకం vendor = 0, లబ్ధం = 0;
         DWORD dwType = raw_devices[i].dwType;
-        char *instance, *ptr, *name;
+        అక్షరం *instance, *ptr, *name;
 
-        if (dwType != RIM_TYPEKEYBOARD && dwType != RIM_TYPEMOUSE) {
-            continue;
+        ఒకవేళ (dwType != RIM_TYPEKEYBOARD && dwType != RIM_TYPEMOUSE) {
+            కొనసాగు;
         }
 
-        rdi.cbSize = sizeof(rdi);
-        if (GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdiSize) == ((UINT)-1) ||
-            GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICENAME, devName, &nameSize) == ((UINT)-1)) {
-            continue;
+        rdi.cb_కొలత = పరిమాణం(rdi);
+        ఒకవేళ (Get_Raw_ఆదానం_Device_Info_A(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdi_కొలత) == ((UINT)-1) ||
+            Get_Raw_ఆదానం_Device_Info_A(raw_devices[i].hDevice, RIDI_DEVICENAME, devName, &name_కొలత) == ((UINT)-1)) {
+            కొనసాగు;
         }
 
         // Extract the device instance
         instance = devName;
-        while (*instance == '\\' || *instance == '?') {
+        అయితే (*instance == '\\' || *instance == '?') {
             ++instance;
         }
-        for (ptr = instance; *ptr; ++ptr) {
-            if (*ptr == '#') {
+        కొరకు (ptr = instance; *ptr; ++ptr) {
+            ఒకవేళ (*ptr == '#') {
                 *ptr = '\\';
             }
-            if (*ptr == '{') {
-                if (ptr > instance && ptr[-1] == '\\') {
+            ఒకవేళ (*ptr == '{') {
+                ఒకవేళ (ptr > instance && ptr[-1] == '\\') {
                     --ptr;
                 }
-                break;
+                ఆపు;
             }
         }
         *ptr = '\0';
 
-        SDL_sscanf(instance, "HID\\VID_%X&PID_%X&", &vendor, &product);
+        SDL_sscanf(instance, "HID\\VID_%X&PID_%X&", &vendor, &లబ్ధం);
 
-        switch (dwType) {
-        case RIM_TYPEKEYBOARD:
-            if (SDL_IsKeyboard((Uint16)vendor, (Uint16)product, rdi.keyboard.dwNumberOfKeysTotal)) {
+        ఎంపిక (dwType) {
+        స్థితి RIM_TYPEKEYBOARD:
+            ఒకవేళ (SDL_IsKeyboard((Uint16)vendor, (Uint16)లబ్ధం, rdi.keyboard.dw_సంఖ్య_యొక్క_కీలకాలు_మొత్తం)) {
                 SDL_KeyboardID keyboardID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
-                AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_count);
-                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_count)) {
-                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Keyboard", hid_loaded);
-                    SDL_AddKeyboard(keyboardID, name);
+                కూడు_Device_ID(keyboardID, &new_keyboards, &new_keyboard_లెక్క);
+                ఒకవేళ (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_లెక్క)) {
+                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)లబ్ధం, "Keyboard", hid_loaded);
+                    SDL_కూడు_Keyboard(keyboardID, name);
                     SDL_free(name);
                 }
             }
-            break;
-        case RIM_TYPEMOUSE:
-            if (SDL_IsMouse((Uint16)vendor, (Uint16)product)) {
+            ఆపు;
+        స్థితి RIM_TYPEMOUSE:
+            ఒకవేళ (SDL_IsMouse((Uint16)vendor, (Uint16)లబ్ధం)) {
                 SDL_MouseID mouseID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
-                AddDeviceID(mouseID, &new_mice, &new_mouse_count);
-                if (!HasDeviceID(mouseID, old_mice, old_mouse_count)) {
-                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Mouse", hid_loaded);
-                    SDL_AddMouse(mouseID, name);
+                కూడు_Device_ID(mouseID, &new_mice, &new_mouse_లెక్క);
+                ఒకవేళ (!HasDeviceID(mouseID, old_mice, old_mouse_లెక్క)) {
+                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)లబ్ధం, "Mouse", hid_loaded);
+                    SDL_కూడు_Mouse(mouseID, name);
                     SDL_free(name);
                 }
             }
-            break;
-        default:
-            break;
+            ఆపు;
+        అప్రమేయ:
+            ఆపు;
         }
     }
 
-    for (int i = old_keyboard_count; i--;) {
-        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_count)) {
+    కొరకు (పూర్ణాంకం i = old_keyboard_లెక్క; i--;) {
+        ఒకవేళ (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_లెక్క)) {
             SDL_RemoveKeyboard(old_keyboards[i]);
         }
     }
 
-    for (int i = old_mouse_count; i--;) {
-        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_count)) {
+    కొరకు (పూర్ణాంకం i = old_mouse_లెక్క; i--;) {
+        ఒకవేళ (!HasDeviceID(old_mice[i], new_mice, new_mouse_లెక్క)) {
             SDL_RemoveMouse(old_mice[i]);
         }
     }
@@ -1114,124 +1114,124 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
     SDL_free(old_mice);
     SDL_free(new_mice);
 
-    SetupDiDestroyDeviceInfoList(devinfo);
+    అమరిక_Di_Destroy_Device_Info_List(devinfo);
 
     SDL_free(raw_devices);
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 // Return true if spurious LCtrl is pressed
 // LCtrl is sent when RAltGR is pressed
-static bool SkipAltGrLeftControl(WPARAM wParam, LPARAM lParam)
+స్థిర bool Skip_Alt_Gr_ఎడమ_Control(WPARAM wParam, LPARAM lParam)
 {
-    if (wParam != VK_CONTROL) {
-        return false;
+    ఒకవేళ (wParam != VK_CONTROL) {
+        తిరిగి false;
     }
 
     // Is this an extended key (i.e. right key)?
-    if (lParam & 0x01000000) {
-        return false;
+    ఒకవేళ (lParam & 0x01000000) {
+        తిరిగి false;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Here is a trick: "Alt Gr" sends LCTRL, then RALT. We only
     // want the RALT message, so we try to see if the next message
     // is a RALT message. In that case, this is a false LCTRL!
-    MSG next_msg;
-    DWORD msg_time = GetMessageTime();
-    if (PeekMessage(&next_msg, NULL, 0, 0, PM_NOREMOVE)) {
-        if (next_msg.message == WM_KEYDOWN ||
-            next_msg.message == WM_SYSKEYDOWN) {
-            if (next_msg.wParam == VK_MENU && (next_msg.lParam & 0x01000000) && next_msg.time == msg_time) {
+    సందేశం_3 తదుపరి_సందేశం;
+    DWORD సందేశం_సమయం = Get_సందేశం_సమయం();
+    ఒకవేళ (Peek_సందేశం(&తదుపరి_సందేశం, ఖాళీ, 0, 0, PM_NOREMOVE)) {
+        ఒకవేళ (తదుపరి_సందేశం.సందేశం == WM_KEYDOWN ||
+            తదుపరి_సందేశం.సందేశం == WM_SYSKEYDOWN) {
+            ఒకవేళ (తదుపరి_సందేశం.wParam == VK_MENU && (తదుపరి_సందేశం.lParam & 0x01000000) && తదుపరి_సందేశం.సమయం == సందేశం_సమయం) {
                 // Next message is a RALT down message, which means that this is NOT a proper LCTRL message!
-                return true;
+                తిరిగి true;
             }
         }
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return false;
+    తిరిగి false;
 }
 
-static bool DispatchModalLoopMessageHook(HWND *hwnd, UINT *msg, WPARAM *wParam, LPARAM *lParam)
+స్థిర bool Dispatch_Modal_Loop_సందేశం_Hook(HWND *hwnd, UINT *సందేశం_2, WPARAM *wParam, LPARAM *lParam)
 {
-    MSG dummy;
+    సందేశం_3 dummy;
 
     SDL_zero(dummy);
     dummy.hwnd = *hwnd;
-    dummy.message = *msg;
+    dummy.సందేశం = *సందేశం_2;
     dummy.wParam = *wParam;
     dummy.lParam = *lParam;
-    if (g_WindowsMessageHook(g_WindowsMessageHookData, &dummy)) {
+    ఒకవేళ (g_Windows_సందేశం_Hook(g_Windows_సందేశం_Hook_దత్తాంశం, &dummy)) {
         // Can't modify the hwnd, but everything else is fair game
-        *msg = dummy.message;
+        *సందేశం_2 = dummy.సందేశం;
         *wParam = dummy.wParam;
         *lParam = dummy.lParam;
-        return true;
+        తిరిగి true;
     }
-    return false;
+    తిరిగి false;
 }
 
-LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WIN_కిటికీ_Proc(HWND hwnd, UINT సందేశం_2, WPARAM wParam, LPARAM lParam)
 {
-    SDL_WindowData *data;
-    LRESULT returnCode = -1;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం;
+    LRESULT return_సంకేతం = -1;
 
     // Get the window data for the window
-    data = WIN_GetWindowDataFromHWND(hwnd);
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!data) {
+    దత్తాంశం = WIN_Get_కిటికీ_దత్తాంశం_From_HWND(hwnd);
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ఒకవేళ (!దత్తాంశం) {
         // Fallback
-        data = (SDL_WindowData *)GetProp(hwnd, TEXT("SDL_WindowData"));
+        దత్తాంశం = (SDL_కిటికీ_దత్తాంశం *)GetProp(hwnd, పాఠ్యం_2("SDL_WindowData"));
     }
-#endif
-    if (!data) {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+#అయితే_ముగింపు
+    ఒకవేళ (!దత్తాంశం) {
+        తిరిగి Call_కిటికీ_Proc(Def_కిటికీ_Proc, hwnd, సందేశం_2, wParam, lParam);
     }
 
-#ifdef WMMSG_DEBUG
+#నిర్వచితమైతే WMMSG_DEBUG
     {
-        char message[1024];
-        if (msg > MAX_WMMSG) {
-            SDL_snprintf(message, sizeof(message), "Received windows message: %p UNKNOWN (%d) -- 0x%x, 0x%x\r\n", hwnd, msg, wParam, lParam);
-        } else {
-            SDL_snprintf(message, sizeof(message), "Received windows message: %p %s -- 0x%x, 0x%x\r\n", hwnd, wmtab[msg], wParam, lParam);
+        అక్షరం సందేశం[1024];
+        ఒకవేళ (సందేశం_2 > MAX_WMMSG) {
+            SDL_snprintf(సందేశం, పరిమాణం(సందేశం), "Received windows message: %p UNKNOWN (%d) -- 0x%x, 0x%x\r\n", hwnd, సందేశం_2, wParam, lParam);
+        } లేకపోతే {
+            SDL_snprintf(సందేశం, పరిమాణం(సందేశం), "Received windows message: %p %s -- 0x%x, 0x%x\r\n", hwnd, wmtab[సందేశం_2], wParam, lParam);
         }
-        OutputDebugStringA(message);
+        OutputDebugStringA(సందేశం);
     }
-#endif // WMMSG_DEBUG
+#అయితే_ముగింపు // WMMSG_DEBUG
 
 
-    if (g_WindowsMessageHook && data->in_modal_loop) {
+    ఒకవేళ (g_Windows_సందేశం_Hook && దత్తాంశం->లోపల_modal_loop) {
         // Synthesize a message for window hooks so they can modify the message if desired
-        if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
-            return 0;
+        ఒకవేళ (!Dispatch_Modal_Loop_సందేశం_Hook(&hwnd, &సందేశం_2, &wParam, &lParam)) {
+            తిరిగి 0;
         }
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (WIN_HandleIMEMessage(hwnd, msg, wParam, &lParam, data->videodata)) {
-        return 0;
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ఒకవేళ (WIN_HandleIMEMessage(hwnd, సందేశం_2, wParam, &lParam, దత్తాంశం->videodata)) {
+        తిరిగి 0;
     }
-#endif
+#అయితే_ముగింపు
 
-    switch (msg) {
+    ఎంపిక (సందేశం_2) {
 
-    case WM_SHOWWINDOW:
+    స్థితి WM_SHOWWINDOW:
     {
-        if (wParam) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-        } else {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
+        ఒకవేళ (wParam) {
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_SHOWN, 0, 0);
+        } లేకపోతే {
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_HIDDEN, 0, 0);
         }
-    } break;
+    } ఆపు;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    case WM_NCACTIVATE:
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    స్థితి WM_NCACTIVATE:
     {
         // Don't immediately clip the cursor in case we're clicking minimize/maximize buttons
-        data->postpone_clipcursor = true;
-        data->clipcursor_queued = true;
+        దత్తాంశం->postpone_clipcursor = true;
+        దత్తాంశం->clipcursor_queued = true;
 
         /* Update the focus here, since it's possible to get WM_ACTIVATE and WM_SETFOCUS without
            actually being the foreground window, but this appears to get called in all cases where
@@ -1239,89 +1239,89 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
            The current cursor position is needed here, as the message position contains old
            coordinates if the pointer moved while an overlay was active. */
-        POINT pos = { 0, 0 };
+        బిందువు_2 pos = { 0, 0 };
         GetCursorPos(&pos);
-        WIN_UpdateFocus(data->window, !!wParam, &pos);
+        WIN_UpdateFocus(దత్తాంశం->కిటికీ, !!wParam, &pos);
 
         /* Handle borderless windows; this event is intended for drawing the titlebar, so we need
            to stop that from happening. */
-        if (data->window->flags & SDL_WINDOW_BORDERLESS) {
+        ఒకవేళ (దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS) {
             lParam = -1; // According to MSDN, DefWindowProc will draw a title bar if lParam != -1
         }
-    } break;
+    } ఆపు;
 
-    case WM_NCUAHDRAWCAPTION:
-    case WM_NCUAHDRAWFRAME:
+    స్థితి WM_NCUAHDRAWCAPTION:
+    స్థితి WM_NCUAHDRAWFRAME:
     {
         /* These messages are undocumented. They are responsible for redrawing the window frame and
            caption. Notably, WM_NCUAHDRAWCAPTION is sent when calling SetWindowText on a window.
            For borderless windows, we don't want to draw a frame or caption, so we should stop
            that from happening. */
-        if (data->window->flags & SDL_WINDOW_BORDERLESS) {
-            returnCode = 0;
+        ఒకవేళ (దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS) {
+            return_సంకేతం = 0;
         }
-    } break;
+    } ఆపు;
 
-    case WM_ACTIVATE:
+    స్థితి WM_ACTIVATE:
     {
         // Update the focus in case we changed focus to a child window and then away from the application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
-        WIN_UpdateFocus(data->window, !!LOWORD(wParam), &pos);
-    } break;
+        స్థిరరాశి DWORD సందేశం_Pos = Get_సందేశం_Pos();
+        బిందువు_2 pos = { GET_X_LPARAM(సందేశం_Pos), GET_Y_LPARAM(సందేశం_Pos) };
+        WIN_UpdateFocus(దత్తాంశం->కిటికీ, !!LOWORD(wParam), &pos);
+    } ఆపు;
 
-    case WM_MOUSEACTIVATE:
+    స్థితి WM_MOUSEACTIVATE:
     {
-        if (SDL_WINDOW_IS_POPUP(data->window)) {
-            return MA_NOACTIVATE;
+        ఒకవేళ (SDL_కిటికీ_IS_POPUP(దత్తాంశం->కిటికీ)) {
+            తిరిగి MA_NOACTIVATE;
         }
 
         // Check parents to see if they are in relative mouse mode and focused
-        SDL_Window *parent = data->window->parent;
-        while (parent) {
-            if ((parent->flags & SDL_WINDOW_INPUT_FOCUS) &&
-                (parent->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE)) {
-                return MA_NOACTIVATE;
+        SDL_కిటికీ *మాతృ = దత్తాంశం->కిటికీ->మాతృ;
+        అయితే (మాతృ) {
+            ఒకవేళ ((మాతృ->flags & SDL_కిటికీ_ఆదానం_FOCUS) &&
+                (మాతృ->flags & SDL_కిటికీ_MOUSE_RELATIVE_బహుళకం)) {
+                తిరిగి MA_NOACTIVATE;
             }
-            parent = parent->parent;
+            మాతృ = మాతృ->మాతృ;
         }
-    } break;
+    } ఆపు;
 
-    case WM_SETFOCUS:
+    స్థితి WM_SETFOCUS:
     {
         // Update the focus in case it's changing between top-level windows in the same application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
-        WIN_UpdateFocus(data->window, true, &pos);
-    } break;
+        స్థిరరాశి DWORD సందేశం_Pos = Get_సందేశం_Pos();
+        బిందువు_2 pos = { GET_X_LPARAM(సందేశం_Pos), GET_Y_LPARAM(సందేశం_Pos) };
+        WIN_UpdateFocus(దత్తాంశం->కిటికీ, true, &pos);
+    } ఆపు;
 
-    case WM_KILLFOCUS:
-    case WM_ENTERIDLE:
+    స్థితి WM_KILLFOCUS:
+    స్థితి WM_ENTERIDLE:
     {
         // Update the focus in case it's changing between top-level windows in the same application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
-        WIN_UpdateFocus(data->window, false, &pos);
-    } break;
+        స్థిరరాశి DWORD సందేశం_Pos = Get_సందేశం_Pos();
+        బిందువు_2 pos = { GET_X_LPARAM(సందేశం_Pos), GET_Y_LPARAM(సందేశం_Pos) };
+        WIN_UpdateFocus(దత్తాంశం->కిటికీ, false, &pos);
+    } ఆపు;
 
-    case WM_POINTERENTER:
+    స్థితి WM_POINTERENTER:
     {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
-        const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType) {
-            break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
-        } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
-            break;  // oh well.
-        } else if (pointer_type != PT_PEN) {
-            break;  // we only care about pens here.
+        స్థిరరాశి UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
+        సూచిక_ఆదానం_TYPE సూచిక_type = PT_సూచిక;
+        ఒకవేళ (!దత్తాంశం->videodata->Get_సూచిక_Type) {
+            ఆపు;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
+        } లేకపోతే ఒకవేళ (!దత్తాంశం->videodata->Get_సూచిక_Type(pointerid, &సూచిక_type)) {
+            ఆపు;  // oh well.
+        } లేకపోతే ఒకవేళ (సూచిక_type != PT_PEN) {
+            ఆపు;  // we only care about pens here.
         }
 
-        void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
-        const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        if (pen) {
-            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, data->window, true, true);
-        } else {
+        శూన్య *hpointer = (శూన్య *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
+        స్థిరరాశి SDL_PenID pen = SDL_కనుగొను_Pen_By_Handle(hpointer);
+        ఒకవేళ (pen) {
+            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, దత్తాంశం->కిటికీ, true, true);
+        } లేకపోతే {
             // one can use GetPointerPenInfo() to get the current state of the pen, and check POINTER_PEN_INFO::penMask,
             //  but the docs aren't clear if these masks are _always_ set for pens with specific features, or if they
             //  could be unset at this moment because Windows is still deciding what capabilities the pen has, and/or
@@ -1329,505 +1329,505 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             //  available...we don't expose this information through the public API at the moment anyhow.
             SDL_PenInfo info;
             SDL_zero(info);
-            info.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT | SDL_PEN_CAPABILITY_DISTANCE | SDL_PEN_CAPABILITY_ROTATION | SDL_PEN_CAPABILITY_ERASER;
+            info.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT | SDL_PEN_CAPABILITY_దూరం | SDL_PEN_CAPABILITY_ROTATION | SDL_PEN_CAPABILITY_ERASER;
             info.max_tilt = 90.0f;
-            info.num_buttons = 1;
+            info.అంకె_buttons = 1;
             info.subtype = SDL_PEN_TYPE_PENCIL;
-            SDL_AddPenDevice(WIN_GetEventTimestamp(), NULL, data->window, &info, hpointer, true);
+            SDL_కూడు_Pen_Device(WIN_GetEventTimestamp(), ఖాళీ, దత్తాంశం->కిటికీ, &info, hpointer, true);
         }
-        returnCode = 0;
-    } break;
+        return_సంకేతం = 0;
+    } ఆపు;
 
-    case WM_POINTERCAPTURECHANGED:
-    case WM_POINTERLEAVE:
+    స్థితి WM_POINTERCAPTURECHANGED:
+    స్థితి WM_POINTERLEAVE:
     {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
-        const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType) {
-            break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
-        } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
-            break;  // oh well.
-        } else if (pointer_type != PT_PEN) {
-            break;  // we only care about pens here.
+        స్థిరరాశి UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
+        సూచిక_ఆదానం_TYPE సూచిక_type = PT_సూచిక;
+        ఒకవేళ (!దత్తాంశం->videodata->Get_సూచిక_Type) {
+            ఆపు;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
+        } లేకపోతే ఒకవేళ (!దత్తాంశం->videodata->Get_సూచిక_Type(pointerid, &సూచిక_type)) {
+            ఆపు;  // oh well.
+        } లేకపోతే ఒకవేళ (సూచిక_type != PT_PEN) {
+            ఆపు;  // we only care about pens here.
         }
 
-        void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
-        const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        if (pen == 0) {
-            break;  // not a pen, or not a pen we already knew about.
+        శూన్య *hpointer = (శూన్య *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
+        స్థిరరాశి SDL_PenID pen = SDL_కనుగొను_Pen_By_Handle(hpointer);
+        ఒకవేళ (pen == 0) {
+            ఆపు;  // not a pen, or not a pen we already knew about.
         }
 
         // if this just left the _window_, we don't care. If this is no longer visible to the tablet, time to remove it!
-        if ((msg == WM_POINTERCAPTURECHANGED) || !IS_POINTER_INCONTACT_WPARAM(wParam)) {
+        ఒకవేళ ((సందేశం_2 == WM_POINTERCAPTURECHANGED) || !IS_సూచిక_INCONTACT_WPARAM(wParam)) {
             // technically this isn't just _proximity_ but maybe just leaving the window. Good enough. WinTab apparently has real proximity info.
-            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, data->window, false, false);
+            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, దత్తాంశం->కిటికీ, false, false);
         }
-        returnCode = 0;
-    } break;
+        return_సంకేతం = 0;
+    } ఆపు;
 
-    case WM_POINTERDOWN:
-    case WM_POINTERUP:
-    case WM_POINTERUPDATE: {
+    స్థితి WM_POINTERDOWN:
+    స్థితి WM_POINTERUP:
+    స్థితి WM_POINTERUPDATE: {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
-        const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType || !data->videodata->GetPointerType(pointerid, &pointer_type)) {
-            break;  // oh well.
-        } else if ((msg == WM_POINTERUPDATE) && (pointer_type == PT_MOUSE)) {
-            data->last_pointer_update = lParam;
-            returnCode = 0;
-            break;
-        } else if (pointer_type != PT_PEN) {
-            break; // we only care about pens here.
+        స్థిరరాశి UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
+        సూచిక_ఆదానం_TYPE సూచిక_type = PT_సూచిక;
+        ఒకవేళ (!దత్తాంశం->videodata->Get_సూచిక_Type || !దత్తాంశం->videodata->Get_సూచిక_Type(pointerid, &సూచిక_type)) {
+            ఆపు;  // oh well.
+        } లేకపోతే ఒకవేళ ((సందేశం_2 == WM_POINTERUPDATE) && (సూచిక_type == PT_MOUSE)) {
+            దత్తాంశం->చివరి_సూచిక_update = lParam;
+            return_సంకేతం = 0;
+            ఆపు;
+        } లేకపోతే ఒకవేళ (సూచిక_type != PT_PEN) {
+            ఆపు; // we only care about pens here.
         }
 
-        void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
-        const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        POINTER_PEN_INFO pen_info;
-        if (pen == 0) {
-            break;  // not a pen, or not a pen we already knew about.
-        } else if (!data->videodata->GetPointerPenInfo || !data->videodata->GetPointerPenInfo(pointerid, &pen_info)) {
-            break;  // oh well.
+        శూన్య *hpointer = (శూన్య *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
+        స్థిరరాశి SDL_PenID pen = SDL_కనుగొను_Pen_By_Handle(hpointer);
+        సూచిక_PEN_INFO pen_info;
+        ఒకవేళ (pen == 0) {
+            ఆపు;  // not a pen, or not a pen we already knew about.
+        } లేకపోతే ఒకవేళ (!దత్తాంశం->videodata->Get_సూచిక_Pen_Info || !దత్తాంశం->videodata->Get_సూచిక_Pen_Info(pointerid, &pen_info)) {
+            ఆపు;  // oh well.
         }
 
-        const Uint64 timestamp = WIN_GetEventTimestamp();
-        SDL_Window *window = data->window;
+        స్థిరరాశి Uint64 timestamp = WIN_GetEventTimestamp();
+        SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
 
-        const bool istouching = IS_POINTER_INCONTACT_WPARAM(wParam) && IS_POINTER_FIRSTBUTTON_WPARAM(wParam);
+        స్థిరరాశి bool istouching = IS_సూచిక_INCONTACT_WPARAM(wParam) && IS_సూచిక_FIRSTBUTTON_WPARAM(wParam);
 
         // if lifting off, do it first, so any motion changes don't cause app issues.
-        if (!istouching) {
-            SDL_SendPenTouch(timestamp, pen, window, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, false);
+        ఒకవేళ (!istouching) {
+            SDL_SendPenTouch(timestamp, pen, కిటికీ, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, false);
         }
 
-        const POINTER_INFO *pointer_info = &pen_info.pointerInfo;
+        స్థిరరాశి సూచిక_INFO *సూచిక_info = &pen_info.సూచిక_Info;
         RECT tablet_bounds, tablet_mapping;
-        float fx, fy;
+        దశాంశం fx, fy;
 
         // try to get a more-precise position than is stored in lParam...GetPointerDeviceRects is available starting in Windows 8.
         // we might need to cache this somewhere (and if we cache it, we will need to update it if the display changes)...for now we'll see if GetPointerDeviceRect is fast enough.
-        if (!data->videodata->GetPointerDeviceRects || !data->videodata->GetPointerDeviceRects(pointer_info->sourceDevice, &tablet_bounds, &tablet_mapping)) {
-            POINT position = { (LONG) GET_X_LPARAM(lParam), (LONG) GET_Y_LPARAM(lParam) };
-            ScreenToClient(data->hwnd, &position);
-            fx = (float) position.x;
-            fy = (float) position.y;
-        } else {
-            int ix, iy;
-            SDL_GetWindowPosition(window, &ix, &iy);
-            const SDL_FPoint window_pos = { (float) ix, (float) iy };
+        ఒకవేళ (!దత్తాంశం->videodata->Get_సూచిక_Device_Rects || !దత్తాంశం->videodata->Get_సూచిక_Device_Rects(సూచిక_info->ఆధారం_Device, &tablet_bounds, &tablet_mapping)) {
+            బిందువు_2 position = { (LONG) GET_X_LPARAM(lParam), (LONG) GET_Y_LPARAM(lParam) };
+            Screen_గమ్యం_Client(దత్తాంశం->hwnd, &position);
+            fx = (దశాంశం) position.x;
+            fy = (దశాంశం) position.y;
+        } లేకపోతే {
+            పూర్ణాంకం ix, iy;
+            SDL_Get_కిటికీ_Position(కిటికీ, &ix, &iy);
+            స్థిరరాశి SDL_FPoint కిటికీ_pos = { (దశాంశం) ix, (దశాంశం) iy };
 
-            const float facX = pointer_info->ptHimetricLocationRaw.x / (float) (tablet_bounds.right );
-            const float facY = pointer_info->ptHimetricLocationRaw.y / (float) (tablet_bounds.bottom);
+            స్థిరరాశి దశాంశం facX = సూచిక_info->ptHimetricLocationRaw.x / (దశాంశం) (tablet_bounds.కుడి );
+            స్థిరరాశి దశాంశం facY = సూచిక_info->ptHimetricLocationRaw.y / (దశాంశం) (tablet_bounds.bottom);
 
-            const float w = tablet_mapping.right  - tablet_mapping.left;
-            const float h = tablet_mapping.bottom - tablet_mapping.top;
+            స్థిరరాశి దశాంశం w = tablet_mapping.కుడి  - tablet_mapping.ఎడమ;
+            స్థిరరాశి దశాంశం h = tablet_mapping.bottom - tablet_mapping.శిఖరం;
 
-            fx = (tablet_mapping.left + (facX * w)) - window_pos.x;
-            fy = (tablet_mapping.top  + (facY * h)) - window_pos.y;
+            fx = (tablet_mapping.ఎడమ + (facX * w)) - కిటికీ_pos.x;
+            fy = (tablet_mapping.శిఖరం  + (facY * h)) - కిటికీ_pos.y;
         }
 
-        SDL_SendPenMotion(timestamp, pen, window, fx, fy);
-        SDL_SendPenButton(timestamp, pen, window, 1, (pen_info.penFlags & PEN_FLAG_BARREL) != 0);
-        SDL_SendPenButton(timestamp, pen, window, 2, (pen_info.penFlags & PEN_FLAG_ERASER) != 0);
+        SDL_SendPenMotion(timestamp, pen, కిటికీ, fx, fy);
+        SDL_SendPenButton(timestamp, pen, కిటికీ, 1, (pen_info.penFlags & PEN_FLAG_BARREL) != 0);
+        SDL_SendPenButton(timestamp, pen, కిటికీ, 2, (pen_info.penFlags & PEN_FLAG_ERASER) != 0);
 
-        if (pen_info.penMask & PEN_MASK_PRESSURE) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_PRESSURE, ((float) pen_info.pressure) / 1024.0f);  // pen_info.pressure is in the range 0..1024.
+        ఒకవేళ (pen_info.pen_ముసుగు & PEN_ముసుగు_PRESSURE) {
+            SDL_SendPenAxis(timestamp, pen, కిటికీ, SDL_PEN_AXIS_PRESSURE, ((దశాంశం) pen_info.pressure) / 1024.0f);  // pen_info.pressure is in the range 0..1024.
         }
 
-        if (pen_info.penMask & PEN_MASK_ROTATION) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_ROTATION, ((float) pen_info.rotation));  // it's already in the range of 0 to 359.
+        ఒకవేళ (pen_info.pen_ముసుగు & PEN_ముసుగు_ROTATION) {
+            SDL_SendPenAxis(timestamp, pen, కిటికీ, SDL_PEN_AXIS_ROTATION, ((దశాంశం) pen_info.rotation));  // it's already in the range of 0 to 359.
         }
 
-        if (pen_info.penMask & PEN_MASK_TILT_X) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_XTILT, ((float) pen_info.tiltX));  // it's already in the range of -90 to 90..
+        ఒకవేళ (pen_info.pen_ముసుగు & PEN_ముసుగు_TILT_X) {
+            SDL_SendPenAxis(timestamp, pen, కిటికీ, SDL_PEN_AXIS_XTILT, ((దశాంశం) pen_info.tiltX));  // it's already in the range of -90 to 90..
         }
 
-        if (pen_info.penMask & PEN_MASK_TILT_Y) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_YTILT, ((float) pen_info.tiltY));  // it's already in the range of -90 to 90..
+        ఒకవేళ (pen_info.pen_ముసుగు & PEN_ముసుగు_TILT_Y) {
+            SDL_SendPenAxis(timestamp, pen, కిటికీ, SDL_PEN_AXIS_YTILT, ((దశాంశం) pen_info.tiltY));  // it's already in the range of -90 to 90..
         }
 
         // if setting down, do it last, so the pen is positioned correctly from the first contact.
-        if (istouching) {
-            SDL_SendPenTouch(timestamp, pen, window, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, true);
+        ఒకవేళ (istouching) {
+            SDL_SendPenTouch(timestamp, pen, కిటికీ, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, true);
         }
 
-        returnCode = 0;
-    } break;
+        return_సంకేతం = 0;
+    } ఆపు;
 
-    case WM_MOUSEMOVE:
+    స్థితి WM_MOUSEMOVE:
     {
-        SDL_Window *window = data->window;
+        SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
 
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS) {
             bool wish_clip_cursor = (
-                window->flags & (SDL_WINDOW_MOUSE_RELATIVE_MODE | SDL_WINDOW_MOUSE_GRABBED) ||
-                (window->mouse_rect.w > 0 && window->mouse_rect.h > 0)
+                కిటికీ->flags & (SDL_కిటికీ_MOUSE_RELATIVE_బహుళకం | SDL_కిటికీ_MOUSE_GRABBED) ||
+                (కిటికీ->mouse_rect.w > 0 && కిటికీ->mouse_rect.h > 0)
             );
-            if (wish_clip_cursor) { // queue clipcursor refresh on pump finish
-                data->clipcursor_queued = true;
+            ఒకవేళ (wish_clip_cursor) { // queue clipcursor refresh on pump finish
+                దత్తాంశం->clipcursor_queued = true;
             }
         }
 
-        if (!data->mouse_tracked) {
+        ఒకవేళ (!దత్తాంశం->mouse_tracked) {
             TRACKMOUSEEVENT trackMouseEvent;
 
-            trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
+            trackMouseEvent.cb_కొలత = పరిమాణం(TRACKMOUSEEVENT);
             trackMouseEvent.dwFlags = TME_LEAVE;
-            trackMouseEvent.hwndTrack = data->hwnd;
+            trackMouseEvent.hwndTrack = దత్తాంశం->hwnd;
 
-            if (TrackMouseEvent(&trackMouseEvent)) {
-                data->mouse_tracked = true;
+            ఒకవేళ (TrackMouseEvent(&trackMouseEvent)) {
+                దత్తాంశం->mouse_tracked = true;
             }
 
-            WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
+            WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), దత్తాంశం);
         }
 
-        if (!data->videodata->raw_mouse_enabled) {
+        ఒకవేళ (!దత్తాంశం->videodata->raw_mouse_enabled) {
             // Only generate mouse events for real mouse
-            if (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
-                lParam != data->last_pointer_update) {
-                SDL_SendMouseMotion(WIN_GetEventTimestamp(), window, SDL_GLOBAL_MOUSE_ID, false, (float)GET_X_LPARAM(lParam), (float)GET_Y_LPARAM(lParam));
+            ఒకవేళ (Get_Mouse_సందేశం_ఆధారం((ULONG)Get_సందేశం_Extra_Info()) == SDL_MOUSE_EVENT_ఆధారం_MOUSE &&
+                lParam != దత్తాంశం->చివరి_సూచిక_update) {
+                SDL_SendMouseMotion(WIN_GetEventTimestamp(), కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)GET_X_LPARAM(lParam), (దశాంశం)GET_Y_LPARAM(lParam));
             }
         }
 
-    } break;
+    } ఆపు;
 
-    case WM_LBUTTONUP:
-    case WM_RBUTTONUP:
-    case WM_MBUTTONUP:
-    case WM_XBUTTONUP:
-    case WM_LBUTTONDOWN:
-    case WM_LBUTTONDBLCLK:
-    case WM_RBUTTONDOWN:
-    case WM_RBUTTONDBLCLK:
-    case WM_MBUTTONDOWN:
-    case WM_MBUTTONDBLCLK:
-    case WM_XBUTTONDOWN:
-    case WM_XBUTTONDBLCLK:
+    స్థితి WM_LBUTTONUP:
+    స్థితి WM_RBUTTONUP:
+    స్థితి WM_MBUTTONUP:
+    స్థితి WM_XBUTTONUP:
+    స్థితి WM_LBUTTONDOWN:
+    స్థితి WM_LBUTTONDBLCLK:
+    స్థితి WM_RBUTTONDOWN:
+    స్థితి WM_RBUTTONDBLCLK:
+    స్థితి WM_MBUTTONDOWN:
+    స్థితి WM_MBUTTONDBLCLK:
+    స్థితి WM_XBUTTONDOWN:
+    స్థితి WM_XBUTTONDBLCLK:
     {
         /* SDL_Mouse *mouse = SDL_GetMouse(); */
-        if (!data->videodata->raw_mouse_enabled) {
-            if (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
-                lParam != data->last_pointer_update) {
-                WIN_CheckWParamMouseButtons(WIN_GetEventTimestamp(), wParam, data, SDL_GLOBAL_MOUSE_ID);
+        ఒకవేళ (!దత్తాంశం->videodata->raw_mouse_enabled) {
+            ఒకవేళ (Get_Mouse_సందేశం_ఆధారం((ULONG)Get_సందేశం_Extra_Info()) == SDL_MOUSE_EVENT_ఆధారం_MOUSE &&
+                lParam != దత్తాంశం->చివరి_సూచిక_update) {
+                WIN_CheckWParamMouseButtons(WIN_GetEventTimestamp(), wParam, దత్తాంశం, SDL_GLOBAL_MOUSE_ID);
             }
         }
-    } break;
+    } ఆపు;
 
-#if 0   // We handle raw input all at once instead of using a syscall for each mouse event
-    case WM_INPUT:
+#ఒకవేళ 0   // We handle raw input all at once instead of using a syscall for each mouse event
+    స్థితి WM_ఆదానం:
     {
-        HRAWINPUT hRawInput = (HRAWINPUT)lParam;
+        HRAWINPUT h_Raw_ఆదానం = (HRAWINPUT)lParam;
         RAWINPUT inp;
-        UINT size = sizeof(inp);
+        UINT కొలత = పరిమాణం(inp);
 
         // Relative mouse motion is delivered to the window with keyboard focus
-        if (data->window != SDL_GetKeyboardFocus()) {
-            break;
+        ఒకవేళ (దత్తాంశం->కిటికీ != SDL_GetKeyboardFocus()) {
+            ఆపు;
         }
 
-        GetRawInputData(hRawInput, RID_INPUT, &inp, &size, sizeof(RAWINPUTHEADER));
-        if (inp.header.dwType == RIM_TYPEMOUSE) {
-            WIN_HandleRawMouseInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.mouse);
-        } else if (inp.header.dwType == RIM_TYPEKEYBOARD) {
-            WIN_HandleRawKeyboardInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.keyboard);
+        Get_Raw_ఆదానం_దత్తాంశం(h_Raw_ఆదానం, RID_ఆదానం, &inp, &కొలత, పరిమాణం(RAWINPUTHEADER));
+        ఒకవేళ (inp.శీర్షిక.dwType == RIM_TYPEMOUSE) {
+            WIN_Handle_Raw_Mouse_ఆదానం(WIN_GetEventTimestamp(), దత్తాంశం, inp.శీర్షిక.hDevice, &inp.దత్తాంశం.mouse);
+        } లేకపోతే ఒకవేళ (inp.శీర్షిక.dwType == RIM_TYPEKEYBOARD) {
+            WIN_Handle_Raw_Keyboard_ఆదానం(WIN_GetEventTimestamp(), దత్తాంశం, inp.శీర్షిక.hDevice, &inp.దత్తాంశం.keyboard);
         }
-    } break;
-#endif
+    } ఆపు;
+#అయితే_ముగింపు
 
-    case WM_MOUSEWHEEL:
-    case WM_MOUSEHWHEEL:
+    స్థితి WM_MOUSEWHEEL:
+    స్థితి WM_MOUSEHWHEEL:
     {
-        if (!data->videodata->raw_mouse_enabled) {
-            short amount = GET_WHEEL_DELTA_WPARAM(wParam);
-            float fAmount = (float)amount / WHEEL_DELTA;
-            if (msg == WM_MOUSEWHEEL) {
-                SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, 0.0f, fAmount, SDL_MOUSEWHEEL_NORMAL);
-            } else {
-                SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, fAmount, 0.0f, SDL_MOUSEWHEEL_NORMAL);
+        ఒకవేళ (!దత్తాంశం->videodata->raw_mouse_enabled) {
+            పొట్టి amount = GET_WHEEL_DELTA_WPARAM(wParam);
+            దశాంశం fAmount = (దశాంశం)amount / WHEEL_DELTA;
+            ఒకవేళ (సందేశం_2 == WM_MOUSEWHEEL) {
+                SDL_SendMouseWheel(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, SDL_GLOBAL_MOUSE_ID, 0.0f, fAmount, SDL_MOUSEWHEEL_సాధారణ);
+            } లేకపోతే {
+                SDL_SendMouseWheel(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, SDL_GLOBAL_MOUSE_ID, fAmount, 0.0f, SDL_MOUSEWHEEL_సాధారణ);
             }
         }
-    } break;
+    } ఆపు;
 
-    case WM_MOUSELEAVE:
-        if (!(data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-            if (SDL_GetMouseFocus() == data->window && !SDL_GetMouse()->relative_mode && !IsIconic(hwnd)) {
+    స్థితి WM_MOUSELEAVE:
+        ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_MOUSE_CAPTURE)) {
+            ఒకవేళ (SDL_GetMouseFocus() == దత్తాంశం->కిటికీ && !SDL_GetMouse()->relative_బహుళకం && !IsIconic(hwnd)) {
                 SDL_Mouse *mouse;
-                DWORD pos = GetMessagePos();
-                POINT cursorPos;
+                DWORD pos = Get_సందేశం_Pos();
+                బిందువు_2 cursorPos;
                 cursorPos.x = GET_X_LPARAM(pos);
                 cursorPos.y = GET_Y_LPARAM(pos);
-                ScreenToClient(hwnd, &cursorPos);
+                Screen_గమ్యం_Client(hwnd, &cursorPos);
                 mouse = SDL_GetMouse();
-                if (!mouse->was_touch_mouse_events) { // we're not a touch handler causing a mouse leave?
-                    SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
-                } else {                                       // touch handling?
+                ఒకవేళ (!mouse->was_touch_mouse_events) { // we're not a touch handler causing a mouse leave?
+                    SDL_SendMouseMotion(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)cursorPos.x, (దశాంశం)cursorPos.y);
+                } లేకపోతే {                                       // touch handling?
                     mouse->was_touch_mouse_events = false; // not anymore
-                    if (mouse->touch_mouse_events) {           // convert touch to mouse events
-                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_TOUCH_MOUSEID, false, (float)cursorPos.x, (float)cursorPos.y);
-                    } else { // normal handling
-                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
+                    ఒకవేళ (mouse->touch_mouse_events) {           // convert touch to mouse events
+                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, SDL_TOUCH_MOUSEID, false, (దశాంశం)cursorPos.x, (దశాంశం)cursorPos.y);
+                    } లేకపోతే { // normal handling
+                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)cursorPos.x, (దశాంశం)cursorPos.y);
                     }
                 }
             }
 
-            if (!SDL_GetMouse()->relative_mode) {
+            ఒకవేళ (!SDL_GetMouse()->relative_బహుళకం) {
                 // When WM_MOUSELEAVE is fired we can be assured that the cursor has left the window
-                SDL_SetMouseFocus(NULL);
+                SDL_సమితి_Mouse_Focus(ఖాళీ);
             }
         }
 
         // Once we get WM_MOUSELEAVE we're guaranteed that the window is no longer tracked
-        data->mouse_tracked = false;
+        దత్తాంశం->mouse_tracked = false;
 
-        returnCode = 0;
-        break;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        return_సంకేతం = 0;
+        ఆపు;
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    case WM_KEYDOWN:
-    case WM_SYSKEYDOWN:
+    స్థితి WM_KEYDOWN:
+    స్థితి WM_SYSKEYDOWN:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
-            returnCode = 0;
-            break;
+        ఒకవేళ (Skip_Alt_Gr_ఎడమ_Control(wParam, lParam)) {
+            return_సంకేతం = 0;
+            ఆపు;
         }
 
-        bool virtual_key = false;
+        bool virtual_కీలకం = false;
         Uint16 rawcode = 0;
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
+        SDL_Scancode సంకేతం_2 = Windows_పరిశీలన_సంకేతం_గమ్యం_SDLScan_సంకేతం(lParam, wParam, &rawcode, &virtual_కీలకం);
 
         // Detect relevant keyboard shortcuts
-        if (code == SDL_SCANCODE_F4 && (SDL_GetModState() & SDL_KMOD_ALT)) {
+        ఒకవేళ (సంకేతం_2 == SDL_SCANCODE_F4 && (SDL_GetModState() & SDL_KMOD_ALT)) {
             // ALT+F4: Close window
-            if (ShouldGenerateWindowCloseOnAltF4()) {
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+            ఒకవేళ (Should_Generate_కిటికీ_Close_On_Alt_F4()) {
+                SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_CLOSE_REQUESTED, 0, 0);
             }
         }
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
-            SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
+        ఒకవేళ (virtual_కీలకం || !దత్తాంశం->videodata->raw_keyboard_enabled || దత్తాంశం->కిటికీ->పాఠ్యం_ఆదానం_చురుకైన) {
+            SDL_Send_Keyboard_కీలకం(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, సంకేతం_2, true);
         }
     }
 
-        returnCode = 0;
-        break;
+        return_సంకేతం = 0;
+        ఆపు;
 
-    case WM_SYSKEYUP:
-    case WM_KEYUP:
+    స్థితి WM_SYSKEYUP:
+    స్థితి WM_KEYUP:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
-            returnCode = 0;
-            break;
+        ఒకవేళ (Skip_Alt_Gr_ఎడమ_Control(wParam, lParam)) {
+            return_సంకేతం = 0;
+            ఆపు;
         }
 
-        bool virtual_key = false;
+        bool virtual_కీలకం = false;
         Uint16 rawcode = 0;
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
-        const bool *keyboardState = SDL_GetKeyboardState(NULL);
+        SDL_Scancode సంకేతం_2 = Windows_పరిశీలన_సంకేతం_గమ్యం_SDLScan_సంకేతం(lParam, wParam, &rawcode, &virtual_కీలకం);
+        స్థిరరాశి bool *keyboardState = SDL_GetKeyboardState(ఖాళీ);
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
-            if (code == SDL_SCANCODE_PRINTSCREEN && !keyboardState[code]) {
-                SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
+        ఒకవేళ (virtual_కీలకం || !దత్తాంశం->videodata->raw_keyboard_enabled || దత్తాంశం->కిటికీ->పాఠ్యం_ఆదానం_చురుకైన) {
+            ఒకవేళ (సంకేతం_2 == SDL_SCANCODE_PRINTSCREEN && !keyboardState[సంకేతం_2]) {
+                SDL_Send_Keyboard_కీలకం(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, సంకేతం_2, true);
             }
-            SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, false);
+            SDL_Send_Keyboard_కీలకం(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, సంకేతం_2, false);
         }
     }
-        returnCode = 0;
-        break;
+        return_సంకేతం = 0;
+        ఆపు;
 
-    case WM_UNICHAR:
-        if (wParam == UNICODE_NOCHAR) {
-            returnCode = 1;
-        } else {
-            if (SDL_TextInputActive(data->window)) {
-                char text[5];
-                char *end = SDL_UCS4ToUTF8((Uint32)wParam, text);
-                *end = '\0';
-                SDL_SendKeyboardText(text);
+    స్థితి WM_UNICHAR:
+        ఒకవేళ (wParam == UNICODE_NOCHAR) {
+            return_సంకేతం = 1;
+        } లేకపోతే {
+            ఒకవేళ (SDL_పాఠ్యం_ఆదానం_చురుకైన(దత్తాంశం->కిటికీ)) {
+                అక్షరం పాఠ్యం[5];
+                అక్షరం *చివర = SDL_UCS4_గమ్యం_UTF8((Uint32)wParam, పాఠ్యం);
+                *చివర = '\0';
+                SDL_Send_Keyboard_పాఠ్యం(పాఠ్యం);
             }
-            returnCode = 0;
+            return_సంకేతం = 0;
         }
-        break;
+        ఆపు;
 
-    case WM_CHAR:
-        if (SDL_TextInputActive(data->window)) {
+    స్థితి WM_CHAR:
+        ఒకవేళ (SDL_పాఠ్యం_ఆదానం_చురుకైన(దత్తాంశం->కిటికీ)) {
             /* Characters outside Unicode Basic Multilingual Plane (BMP)
              * are coded as so called "surrogate pair" in two separate UTF-16 character events.
              * Cache high surrogate until next character event. */
-            if (IS_HIGH_SURROGATE(wParam)) {
-                data->high_surrogate = (WCHAR)wParam;
-            } else {
+            ఒకవేళ (IS_ఎగువ_SURROGATE(wParam)) {
+                దత్తాంశం->ఎగువ_surrogate = (WCHAR)wParam;
+            } లేకపోతే {
                 WCHAR utf16[3];
 
-                utf16[0] = data->high_surrogate ? data->high_surrogate : (WCHAR)wParam;
-                utf16[1] = data->high_surrogate ? (WCHAR)wParam : L'\0';
+                utf16[0] = దత్తాంశం->ఎగువ_surrogate ? దత్తాంశం->ఎగువ_surrogate : (WCHAR)wParam;
+                utf16[1] = దత్తాంశం->ఎగువ_surrogate ? (WCHAR)wParam : L'\0';
                 utf16[2] = L'\0';
 
-                char utf8[5];
-                int result = WIN_WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, utf16, -1, utf8, sizeof(utf8), NULL, NULL);
-                if (result > 0) {
-                    SDL_SendKeyboardText(utf8);
+                అక్షరం utf8[5];
+                పూర్ణాంకం ఫలితం = WIN_Wide_Char_గమ్యం_Multi_Byte(CP_UTF8, WC_ERR_INVALID_CHARS, utf16, -1, utf8, పరిమాణం(utf8), ఖాళీ, ఖాళీ);
+                ఒకవేళ (ఫలితం > 0) {
+                    SDL_Send_Keyboard_పాఠ్యం(utf8);
                 }
-                data->high_surrogate = L'\0';
+                దత్తాంశం->ఎగువ_surrogate = L'\0';
             }
-        } else {
-            data->high_surrogate = L'\0';
+        } లేకపోతే {
+            దత్తాంశం->ఎగువ_surrogate = L'\0';
         }
 
-        returnCode = 0;
-        break;
+        return_సంకేతం = 0;
+        ఆపు;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#ifdef WM_INPUTLANGCHANGE
-    case WM_INPUTLANGCHANGE:
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#నిర్వచితమైతే WM_INPUTLANGCHANGE
+    స్థితి WM_INPUTLANGCHANGE:
     {
         WIN_UpdateKeymap(true);
     }
-        returnCode = 1;
-        break;
-#endif // WM_INPUTLANGCHANGE
+        return_సంకేతం = 1;
+        ఆపు;
+#అయితే_ముగింపు // WM_INPUTLANGCHANGE
 
-    case WM_NCLBUTTONDOWN:
+    స్థితి WM_NCLBUTTONDOWN:
     {
-        data->in_title_click = true;
+        దత్తాంశం->లోపల_title_click = true;
 
         // Fix for 500ms hang after user clicks on the title bar, but before moving mouse
         // Reference: https://gamedev.net/forums/topic/672094-keeping-things-moving-during-win32-moveresize-events/5254386/
-        if (SendMessage(hwnd, WM_NCHITTEST, wParam, lParam) == HTCAPTION) {
-            POINT cursorPos;
+        ఒకవేళ (Send_సందేశం(hwnd, WM_NCHITTEST, wParam, lParam) == HTCAPTION) {
+            బిందువు_2 cursorPos;
             GetCursorPos(&cursorPos); // want the most current pos so as to not cause position change
-            ScreenToClient(hwnd, &cursorPos);
-            PostMessage(hwnd, WM_MOUSEMOVE, 0, cursorPos.x | (((Uint32)((Sint16)cursorPos.y)) << 16));
+            Screen_గమ్యం_Client(hwnd, &cursorPos);
+            Post_సందేశం(hwnd, WM_MOUSEMOVE, 0, cursorPos.x | (((Uint32)((Sint16)cursorPos.y)) << 16));
         }
-    } break;
+    } ఆపు;
 
-    case WM_CAPTURECHANGED:
+    స్థితి WM_CAPTURECHANGED:
     {
-        data->in_title_click = false;
+        దత్తాంశం->లోపల_title_click = false;
 
         // The mouse may have been released during a modal loop
-        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
-    } break;
+        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), దత్తాంశం);
+    } ఆపు;
 
-#ifdef WM_GETMINMAXINFO
-    case WM_GETMINMAXINFO:
+#నిర్వచితమైతే WM_GETMINMAXINFO
+    స్థితి WM_GETMINMAXINFO:
     {
         MINMAXINFO *info;
-        RECT size;
-        int x, y;
-        int w, h;
-        int min_w, min_h;
-        int max_w, max_h;
-        BOOL constrain_max_size;
+        RECT కొలత;
+        పూర్ణాంకం x, y;
+        పూర్ణాంకం w, h;
+        పూర్ణాంకం min_w, min_h;
+        పూర్ణాంకం max_w, max_h;
+        BOOL constrain_max_కొలత;
 
         // If this is an expected size change, allow it
-        if (data->expected_resize) {
-            break;
+        ఒకవేళ (దత్తాంశం->expected_resize) {
+            ఆపు;
         }
 
         // Get the current position of our window
-        GetWindowRect(hwnd, &size);
-        x = size.left;
-        y = size.top;
+        Get_కిటికీ_Rect(hwnd, &కొలత);
+        x = కొలత.ఎడమ;
+        y = కొలత.శిఖరం;
 
         // Calculate current size of our window
-        SDL_GetWindowSize(data->window, &w, &h);
-        SDL_GetWindowMinimumSize(data->window, &min_w, &min_h);
-        SDL_GetWindowMaximumSize(data->window, &max_w, &max_h);
+        SDL_Get_కిటికీ_కొలత(దత్తాంశం->కిటికీ, &w, &h);
+        SDL_Get_కిటికీ_Minimum_కొలత(దత్తాంశం->కిటికీ, &min_w, &min_h);
+        SDL_Get_కిటికీ_గరిష్ఠ_కొలత(దత్తాంశం->కిటికీ, &max_w, &max_h);
 
         /* Store in min_w and min_h difference between current size and minimal
            size so we don't need to call AdjustWindowRectEx twice */
         min_w -= w;
         min_h -= h;
-        if (max_w && max_h) {
+        ఒకవేళ (max_w && max_h) {
             max_w -= w;
             max_h -= h;
-            constrain_max_size = TRUE;
-        } else {
-            constrain_max_size = FALSE;
+            constrain_max_కొలత = TRUE;
+        } లేకపోతే {
+            constrain_max_కొలత = FALSE;
         }
 
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
-            size.top = 0;
-            size.left = 0;
-            size.bottom = h;
-            size.right = w;
-            WIN_AdjustWindowRectForHWND(hwnd, &size, 0);
-            w = size.right - size.left;
-            h = size.bottom - size.top;
-#ifdef HIGHDPI_DEBUG
+        ఒకవేళ (!(SDL_Get_కిటికీ_Flags(దత్తాంశం->కిటికీ) & SDL_కిటికీ_BORDERLESS) && !SDL_కిటికీ_IS_POPUP(దత్తాంశం->కిటికీ)) {
+            కొలత.శిఖరం = 0;
+            కొలత.ఎడమ = 0;
+            కొలత.bottom = h;
+            కొలత.కుడి = w;
+            WIN_Adjust_కిటికీ_Rect_For_HWND(hwnd, &కొలత, 0);
+            w = కొలత.కుడి - కొలత.ఎడమ;
+            h = కొలత.bottom - కొలత.శిఖరం;
+#నిర్వచితమైతే HIGHDPI_DEBUG
             SDL_Log("WM_GETMINMAXINFO: max window size: %dx%d using dpi: %u", w, h, dpi);
-#endif
+#అయితే_ముగింపు
         }
 
         // Fix our size to the current size
         info = (MINMAXINFO *)lParam;
-        if (SDL_GetWindowFlags(data->window) & SDL_WINDOW_RESIZABLE) {
-            if (SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) {
-                int screenW = GetSystemMetrics(SM_CXSCREEN);
-                int screenH = GetSystemMetrics(SM_CYSCREEN);
-                info->ptMaxSize.x = SDL_max(w, screenW);
-                info->ptMaxSize.y = SDL_max(h, screenH);
+        ఒకవేళ (SDL_Get_కిటికీ_Flags(దత్తాంశం->కిటికీ) & SDL_కిటికీ_RESIZABLE) {
+            ఒకవేళ (SDL_Get_కిటికీ_Flags(దత్తాంశం->కిటికీ) & SDL_కిటికీ_BORDERLESS) {
+                పూర్ణాంకం screenW = GetSystemMetrics(SM_CXSCREEN);
+                పూర్ణాంకం screenH = GetSystemMetrics(SM_CYSCREEN);
+                info->pt_Max_కొలత.x = SDL_max(w, screenW);
+                info->pt_Max_కొలత.y = SDL_max(h, screenH);
                 info->ptMaxPosition.x = SDL_min(0, ((screenW - w) / 2));
                 info->ptMaxPosition.y = SDL_min(0, ((screenH - h) / 2));
             }
-            info->ptMinTrackSize.x = (LONG)w + min_w;
-            info->ptMinTrackSize.y = (LONG)h + min_h;
-            if (constrain_max_size) {
-                info->ptMaxTrackSize.x = (LONG)w + max_w;
-                info->ptMaxTrackSize.y = (LONG)h + max_h;
+            info->pt_Min_Track_కొలత.x = (LONG)w + min_w;
+            info->pt_Min_Track_కొలత.y = (LONG)h + min_h;
+            ఒకవేళ (constrain_max_కొలత) {
+                info->pt_Max_Track_కొలత.x = (LONG)w + max_w;
+                info->pt_Max_Track_కొలత.y = (LONG)h + max_h;
             }
-        } else {
-            info->ptMaxSize.x = w;
-            info->ptMaxSize.y = h;
+        } లేకపోతే {
+            info->pt_Max_కొలత.x = w;
+            info->pt_Max_కొలత.y = h;
             info->ptMaxPosition.x = x;
             info->ptMaxPosition.y = y;
-            info->ptMinTrackSize.x = w;
-            info->ptMinTrackSize.y = h;
-            info->ptMaxTrackSize.x = w;
-            info->ptMaxTrackSize.y = h;
+            info->pt_Min_Track_కొలత.x = w;
+            info->pt_Min_Track_కొలత.y = h;
+            info->pt_Max_Track_కొలత.x = w;
+            info->pt_Max_Track_కొలత.y = h;
         }
     }
-        returnCode = 0;
-        break;
-#endif // WM_GETMINMAXINFO
+        return_సంకేతం = 0;
+        ఆపు;
+#అయితే_ముగింపు // WM_GETMINMAXINFO
 
-    case WM_WINDOWPOSCHANGING:
+    స్థితి WM_WINDOWPOSCHANGING:
 
-        if (data->expected_resize) {
-            returnCode = 0;
-        } else if (data->in_modal_loop) {
+        ఒకవేళ (దత్తాంశం->expected_resize) {
+            return_సంకేతం = 0;
+        } లేకపోతే ఒకవేళ (దత్తాంశం->లోపల_modal_loop) {
             WINDOWPOS *windowpos = (WINDOWPOS *)lParam;
 
             /* While in a modal loop, the size may only be updated if the window is being resized interactively.
              * Set the SWP_NOSIZE flag if the reported size hasn't changed from the last WM_WINDOWPOSCHANGING
              * event, or a size set programmatically may end up being overwritten by old size data.
              */
-            if (data->last_modal_width == windowpos->cx && data->last_modal_height == windowpos->cy) {
+            ఒకవేళ (దత్తాంశం->చివరి_modal_వెడల్పు == windowpos->cx && దత్తాంశం->చివరి_modal_ఎత్తు == windowpos->cy) {
                 windowpos->flags |= SWP_NOSIZE;
             }
 
-            data->last_modal_width = windowpos->cx;
-            data->last_modal_height = windowpos->cy;
+            దత్తాంశం->చివరి_modal_వెడల్పు = windowpos->cx;
+            దత్తాంశం->చివరి_modal_ఎత్తు = windowpos->cy;
 
-            returnCode = 0;
+            return_సంకేతం = 0;
         }
-        break;
+        ఆపు;
 
-    case WM_WINDOWPOSCHANGED:
+    స్థితి WM_WINDOWPOSCHANGED:
     {
-        SDL_Window *win;
-        const SDL_DisplayID original_displayID = data->window->displayID;
-        const WINDOWPOS *windowpos = (WINDOWPOS *)lParam;
+        SDL_కిటికీ *win;
+        స్థిరరాశి SDL_DisplayID original_displayID = దత్తాంశం->కిటికీ->displayID;
+        స్థిరరాశి WINDOWPOS *windowpos = (WINDOWPOS *)lParam;
         bool iconic;
         bool zoomed;
         RECT rect;
-        int x, y;
-        int w, h;
+        పూర్ణాంకం x, y;
+        పూర్ణాంకం w, h;
 
-        if (windowpos->flags & SWP_SHOWWINDOW) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
+        ఒకవేళ (windowpos->flags & SWP_SHOWWINDOW) {
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_SHOWN, 0, 0);
         }
 
         // These must be set after sending SDL_EVENT_WINDOW_SHOWN as that may apply pending
@@ -1835,556 +1835,556 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         iconic = IsIconic(hwnd);
         zoomed = IsZoomed(hwnd);
 
-        if (iconic) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-        } else if (zoomed) {
-            if (data->window->flags & SDL_WINDOW_MINIMIZED) {
+        ఒకవేళ (iconic) {
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MINIMIZED, 0, 0);
+        } లేకపోతే ఒకవేళ (zoomed) {
+            ఒకవేళ (దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_MINIMIZED) {
                 // If going from minimized to maximized, send the restored event first.
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+                SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
             }
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MAXIMIZED, 0, 0);
-            data->force_ws_maximizebox = true;
-        } else if (data->window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MAXIMIZED, 0, 0);
+            దత్తాంశం->force_ws_maximizebox = true;
+        } లేకపోతే ఒకవేళ (దత్తాంశం->కిటికీ->flags & (SDL_కిటికీ_MAXIMIZED | SDL_కిటికీ_MINIMIZED)) {
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
 
             /* If resizable was forced on for the maximized window, clear the style flags now,
              * but not if the window is fullscreen, as this needs to be preserved in that case.
              */
-            if (!(data->window->flags & SDL_WINDOW_FULLSCREEN)) {
-                data->force_ws_maximizebox = false;
-                WIN_SetWindowResizable(SDL_GetVideoDevice(), data->window, !!(data->window->flags & SDL_WINDOW_RESIZABLE));
+            ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+                దత్తాంశం->force_ws_maximizebox = false;
+                WIN_సమితి_కిటికీ_Resizable(SDL_GetVideoDevice(), దత్తాంశం->కిటికీ, !!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_RESIZABLE));
             }
         }
 
-        if (windowpos->flags & SWP_HIDEWINDOW) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
+        ఒకవేళ (windowpos->flags & SWP_HIDEWINDOW) {
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_HIDDEN, 0, 0);
         }
 
         // When the window is minimized it's resized to the dock icon size, ignore this
-        if (iconic) {
-            break;
+        ఒకవేళ (iconic) {
+            ఆపు;
         }
 
-        if (data->initializing) {
-            break;
+        ఒకవేళ (దత్తాంశం->initializing) {
+            ఆపు;
         }
 
-        if (!data->disable_move_size_events) {
-            if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-                ClientToScreen(hwnd, (LPPOINT) &rect);
-                ClientToScreen(hwnd, (LPPOINT) &rect + 1);
+        ఒకవేళ (!దత్తాంశం->disable_move_కొలత_events) {
+            ఒకవేళ (GetClientRect(hwnd, &rect) && WIN_కిటికీ_Rect_Valid(&rect)) {
+                Client_గమ్యం_Screen(hwnd, (LPPOINT) &rect);
+                Client_గమ్యం_Screen(hwnd, (LPPOINT) &rect + 1);
 
-                x = rect.left;
-                y = rect.top;
+                x = rect.ఎడమ;
+                y = rect.శిఖరం;
 
-                SDL_GlobalToRelativeForWindow(data->window, x, y, &x, &y);
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MOVED, x, y);
+                SDL_Global_గమ్యం_Relative_For_కిటికీ(దత్తాంశం->కిటికీ, x, y, &x, &y);
+                SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_MOVED, x, y);
             }
 
             // Moving the window from one display to another can change the size of the window (in the handling of SDL_EVENT_WINDOW_MOVED), so we need to re-query the bounds
-            if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-                w = rect.right;
+            ఒకవేళ (GetClientRect(hwnd, &rect) && WIN_కిటికీ_Rect_Valid(&rect)) {
+                w = rect.కుడి;
                 h = rect.bottom;
 
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, w, h);
+                SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESIZED, w, h);
             }
         }
 
-        WIN_UpdateClipCursor(data->window);
+        WIN_UpdateClipCursor(దత్తాంశం->కిటికీ);
 
         // Update the window display position
-        if (data->window->displayID != original_displayID) {
+        ఒకవేళ (దత్తాంశం->కిటికీ->displayID != original_displayID) {
             // Display changed, check ICC profile
-            WIN_UpdateWindowICCProfile(data->window, true);
+            WIN_Update_కిటికీ_ICCProfile(దత్తాంశం->కిటికీ, true);
         }
 
         // Update the position of any child windows
-        for (win = data->window->first_child; win; win = win->next_sibling) {
+        కొరకు (win = దత్తాంశం->కిటికీ->మొదటి_బిడ్డ; win; win = win->తదుపరి_sibling) {
             // Don't update hidden child popup windows, their relative position doesn't change
-            if (SDL_WINDOW_IS_POPUP(win) && !(win->flags & SDL_WINDOW_HIDDEN)) {
-                WIN_SetWindowPositionInternal(win, SWP_NOCOPYBITS | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
+            ఒకవేళ (SDL_కిటికీ_IS_POPUP(win) && !(win->flags & SDL_కిటికీ_HIDDEN)) {
+                WIN_సమితి_కిటికీ_Position_అంతర్గత(win, SWP_NOCOPYBITS | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
             }
         }
 
-    } break;
+    } ఆపు;
 
-    case WM_ENTERSIZEMOVE:
-    case WM_ENTERMENULOOP:
+    స్థితి WM_ENTERSIZEMOVE:
+    స్థితి WM_ENTERMENULOOP:
     {
-        if (g_WindowsMessageHook) {
-            if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
-                return 0;
+        ఒకవేళ (g_Windows_సందేశం_Hook) {
+            ఒకవేళ (!Dispatch_Modal_Loop_సందేశం_Hook(&hwnd, &సందేశం_2, &wParam, &lParam)) {
+                తిరిగి 0;
             }
         }
 
-        ++data->in_modal_loop;
-        if (data->in_modal_loop == 1) {
+        ++దత్తాంశం->లోపల_modal_loop;
+        ఒకవేళ (దత్తాంశం->లోపల_modal_loop == 1) {
             RECT rect;
             SDL_zero(rect);
-            GetWindowRect(data->hwnd, &rect);
-            data->last_modal_width = rect.right - rect.left;
-            data->last_modal_height = rect.bottom - rect.top;
+            Get_కిటికీ_Rect(దత్తాంశం->hwnd, &rect);
+            దత్తాంశం->చివరి_modal_వెడల్పు = rect.కుడి - rect.ఎడమ;
+            దత్తాంశం->చివరి_modal_ఎత్తు = rect.bottom - rect.శిఖరం;
 
-            data->initial_size_rect.left = data->window->x;
-            data->initial_size_rect.right = data->window->x + data->window->w;
-            data->initial_size_rect.top = data->window->y;
-            data->initial_size_rect.bottom = data->window->y + data->window->h;
+            దత్తాంశం->initial_కొలత_rect.ఎడమ = దత్తాంశం->కిటికీ->x;
+            దత్తాంశం->initial_కొలత_rect.కుడి = దత్తాంశం->కిటికీ->x + దత్తాంశం->కిటికీ->w;
+            దత్తాంశం->initial_కొలత_rect.శిఖరం = దత్తాంశం->కిటికీ->y;
+            దత్తాంశం->initial_కొలత_rect.bottom = దత్తాంశం->కిటికీ->y + దత్తాంశం->కిటికీ->h;
 
-            SetTimer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks, USER_TIMER_MINIMUM, NULL);
+            సమితి_Timer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks, USER_TIMER_MINIMUM, ఖాళీ);
 
             // Reset the keyboard, as we won't get any key up events during the modal loop
             SDL_ResetKeyboard();
         }
-    } break;
+    } ఆపు;
 
-    case WM_TIMER:
+    స్థితి WM_TIMER:
     {
-        if (wParam == (UINT_PTR)SDL_IterateMainCallbacks) {
-            SDL_OnWindowLiveResizeUpdate(data->window);
+        ఒకవేళ (wParam == (UINT_PTR)SDL_IterateMainCallbacks) {
+            SDL_On_కిటికీ_సజీవ_Resize_Update(దత్తాంశం->కిటికీ);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#if 0 // This locks up the Windows compositor when called by Steam; disabling until we understand why
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ 0 // This locks up the Windows compositor when called by Steam; disabling until we understand why
             // Make sure graphics operations are complete for smooth refresh
-            if (data->videodata->DwmFlush) {
-                data->videodata->DwmFlush();
+            ఒకవేళ (దత్తాంశం->videodata->DwmFlush) {
+                దత్తాంశం->videodata->DwmFlush();
             }
-#endif
-#endif
-            return 0;
+#అయితే_ముగింపు
+#అయితే_ముగింపు
+            తిరిగి 0;
         }
-    } break;
+    } ఆపు;
 
-    case WM_EXITSIZEMOVE:
-    case WM_EXITMENULOOP:
+    స్థితి WM_EXITSIZEMOVE:
+    స్థితి WM_EXITMENULOOP:
     {
-        --data->in_modal_loop;
-        if (data->in_modal_loop == 0) {
+        --దత్తాంశం->లోపల_modal_loop;
+        ఒకవేళ (దత్తాంశం->లోపల_modal_loop == 0) {
             KillTimer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks);
         }
-    } break;
+    } ఆపు;
 
-    case WM_SIZING:
+    స్థితి WM_SIZING:
         {
-            WPARAM edge = wParam;
+            WPARAM అంచు = wParam;
             RECT* dragRect = (RECT*)lParam;
             RECT clientDragRect = *dragRect;
-            bool lock_aspect_ratio = (data->window->max_aspect == data->window->min_aspect) ? true : false;
+            bool తాళం_aspect_నిష్పత్తి = (దత్తాంశం->కిటికీ->max_aspect == దత్తాంశం->కిటికీ->min_aspect) ? true : false;
             RECT rc;
             LONG w, h;
-            float new_aspect;
+            దశాంశం new_aspect;
 
             // if aspect ratio constraints are not enabled then skip this message
-            if (data->window->min_aspect <= 0 && data->window->max_aspect <= 0) {
-                break;
+            ఒకవేళ (దత్తాంశం->కిటికీ->min_aspect <= 0 && దత్తాంశం->కిటికీ->max_aspect <= 0) {
+                ఆపు;
             }
 
             // unadjust the dragRect from the window rect to the client rect
-            SetRectEmpty(&rc);
-            if (!AdjustWindowRectEx(&rc, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
-                break;
+            సమితి_Rect_ఖాళీలు(&rc);
+            ఒకవేళ (!Adjust_కిటికీ_Rect_Ex(&rc, Get_కిటికీ_Style(hwnd), GetMenu(hwnd) != ఖాళీ, Get_కిటికీ_Ex_Style(hwnd))) {
+                ఆపు;
             }
 
-            clientDragRect.left -= rc.left;
-            clientDragRect.top -= rc.top;
-            clientDragRect.right -= rc.right;
+            clientDragRect.ఎడమ -= rc.ఎడమ;
+            clientDragRect.శిఖరం -= rc.శిఖరం;
+            clientDragRect.కుడి -= rc.కుడి;
             clientDragRect.bottom -= rc.bottom;
 
-            w = clientDragRect.right - clientDragRect.left;
-            h = clientDragRect.bottom - clientDragRect.top;
-            new_aspect = w / (float)h;
+            w = clientDragRect.కుడి - clientDragRect.ఎడమ;
+            h = clientDragRect.bottom - clientDragRect.శిఖరం;
+            new_aspect = w / (దశాంశం)h;
 
             // handle the special case in which the min ar and max ar are the same so the window can size symmetrically
-            if (lock_aspect_ratio) {
-                switch (edge) {
-                case WMSZ_LEFT:
-                case WMSZ_RIGHT:
-                    h = (int)SDL_roundf(w / data->window->max_aspect);
-                    break;
-                default:
+            ఒకవేళ (తాళం_aspect_నిష్పత్తి) {
+                ఎంపిక (అంచు) {
+                స్థితి WMSZ_ఎడమ:
+                స్థితి WMSZ_కుడి:
+                    h = (పూర్ణాంకం)SDL_roundf(w / దత్తాంశం->కిటికీ->max_aspect);
+                    ఆపు;
+                అప్రమేయ:
                     // resizing via corners or top or bottom
-                    w = (int)SDL_roundf(h * data->window->max_aspect);
-                    break;
+                    w = (పూర్ణాంకం)SDL_roundf(h * దత్తాంశం->కిటికీ->max_aspect);
+                    ఆపు;
                 }
-            } else {
-                switch (edge) {
-                case WMSZ_LEFT:
-                case WMSZ_RIGHT:
-                    if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        w = (int)SDL_roundf(h * data->window->max_aspect);
-                    } else if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        w = (int)SDL_roundf(h * data->window->min_aspect);
+            } లేకపోతే {
+                ఎంపిక (అంచు) {
+                స్థితి WMSZ_ఎడమ:
+                స్థితి WMSZ_కుడి:
+                    ఒకవేళ (దత్తాంశం->కిటికీ->max_aspect > 0.0f && new_aspect > దత్తాంశం->కిటికీ->max_aspect) {
+                        w = (పూర్ణాంకం)SDL_roundf(h * దత్తాంశం->కిటికీ->max_aspect);
+                    } లేకపోతే ఒకవేళ (దత్తాంశం->కిటికీ->min_aspect > 0.0f && new_aspect < దత్తాంశం->కిటికీ->min_aspect) {
+                        w = (పూర్ణాంకం)SDL_roundf(h * దత్తాంశం->కిటికీ->min_aspect);
                     }
-                    break;
-                case WMSZ_TOP:
-                case WMSZ_BOTTOM:
-                    if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        h = (int)SDL_roundf(w / data->window->min_aspect);
-                    } else if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        h = (int)SDL_roundf(w / data->window->max_aspect);
+                    ఆపు;
+                స్థితి WMSZ_శిఖరం:
+                స్థితి WMSZ_BOTTOM:
+                    ఒకవేళ (దత్తాంశం->కిటికీ->min_aspect > 0.0f && new_aspect < దత్తాంశం->కిటికీ->min_aspect) {
+                        h = (పూర్ణాంకం)SDL_roundf(w / దత్తాంశం->కిటికీ->min_aspect);
+                    } లేకపోతే ఒకవేళ (దత్తాంశం->కిటికీ->max_aspect > 0.0f && new_aspect > దత్తాంశం->కిటికీ->max_aspect) {
+                        h = (పూర్ణాంకం)SDL_roundf(w / దత్తాంశం->కిటికీ->max_aspect);
                     }
-                    break;
+                    ఆపు;
 
-                default:
+                అప్రమేయ:
                     // resizing via corners
-                    if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        w = (int)SDL_roundf(h * data->window->max_aspect);
-                    } else if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        h = (int)SDL_roundf(w / data->window->min_aspect);
+                    ఒకవేళ (దత్తాంశం->కిటికీ->max_aspect > 0.0f && new_aspect > దత్తాంశం->కిటికీ->max_aspect) {
+                        w = (పూర్ణాంకం)SDL_roundf(h * దత్తాంశం->కిటికీ->max_aspect);
+                    } లేకపోతే ఒకవేళ (దత్తాంశం->కిటికీ->min_aspect > 0.0f && new_aspect < దత్తాంశం->కిటికీ->min_aspect) {
+                        h = (పూర్ణాంకం)SDL_roundf(w / దత్తాంశం->కిటికీ->min_aspect);
                     }
-                    break;
+                    ఆపు;
                 }
             }
 
-            switch (edge) {
-            case WMSZ_LEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                if (lock_aspect_ratio) {
-                    clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
+            ఎంపిక (అంచు) {
+            స్థితి WMSZ_ఎడమ:
+                clientDragRect.ఎడమ = clientDragRect.కుడి - w;
+                ఒకవేళ (తాళం_aspect_నిష్పత్తి) {
+                    clientDragRect.శిఖరం = (దత్తాంశం->initial_కొలత_rect.bottom + దత్తాంశం->initial_కొలత_rect.శిఖరం - h) / 2;
                 }
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_BOTTOMLEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_RIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                if (lock_aspect_ratio) {
-                    clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
+                clientDragRect.bottom = h + clientDragRect.శిఖరం;
+                ఆపు;
+            స్థితి WMSZ_BOTTOMLEFT:
+                clientDragRect.ఎడమ = clientDragRect.కుడి - w;
+                clientDragRect.bottom = h + clientDragRect.శిఖరం;
+                ఆపు;
+            స్థితి WMSZ_కుడి:
+                clientDragRect.కుడి = w + clientDragRect.ఎడమ;
+                ఒకవేళ (తాళం_aspect_నిష్పత్తి) {
+                    clientDragRect.శిఖరం = (దత్తాంశం->initial_కొలత_rect.bottom + దత్తాంశం->initial_కొలత_rect.శిఖరం - h) / 2;
                 }
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_TOPRIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.top = clientDragRect.bottom - h;
-                break;
-            case WMSZ_TOP:
-                if (lock_aspect_ratio) {
-                    clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
+                clientDragRect.bottom = h + clientDragRect.శిఖరం;
+                ఆపు;
+            స్థితి WMSZ_TOPRIGHT:
+                clientDragRect.కుడి = w + clientDragRect.ఎడమ;
+                clientDragRect.శిఖరం = clientDragRect.bottom - h;
+                ఆపు;
+            స్థితి WMSZ_శిఖరం:
+                ఒకవేళ (తాళం_aspect_నిష్పత్తి) {
+                    clientDragRect.ఎడమ = (దత్తాంశం->initial_కొలత_rect.కుడి + దత్తాంశం->initial_కొలత_rect.ఎడమ - w) / 2;
                 }
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.top = clientDragRect.bottom - h;
-                break;
-            case WMSZ_TOPLEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                clientDragRect.top = clientDragRect.bottom - h;
-                break;
-            case WMSZ_BOTTOM:
-                if (lock_aspect_ratio) {
-                    clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
+                clientDragRect.కుడి = w + clientDragRect.ఎడమ;
+                clientDragRect.శిఖరం = clientDragRect.bottom - h;
+                ఆపు;
+            స్థితి WMSZ_TOPLEFT:
+                clientDragRect.ఎడమ = clientDragRect.కుడి - w;
+                clientDragRect.శిఖరం = clientDragRect.bottom - h;
+                ఆపు;
+            స్థితి WMSZ_BOTTOM:
+                ఒకవేళ (తాళం_aspect_నిష్పత్తి) {
+                    clientDragRect.ఎడమ = (దత్తాంశం->initial_కొలత_rect.కుడి + దత్తాంశం->initial_కొలత_rect.ఎడమ - w) / 2;
                 }
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_BOTTOMRIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
+                clientDragRect.కుడి = w + clientDragRect.ఎడమ;
+                clientDragRect.bottom = h + clientDragRect.శిఖరం;
+                ఆపు;
+            స్థితి WMSZ_BOTTOMRIGHT:
+                clientDragRect.కుడి = w + clientDragRect.ఎడమ;
+                clientDragRect.bottom = h + clientDragRect.శిఖరం;
+                ఆపు;
             }
 
             // convert the client rect to a window rect
-            if (!AdjustWindowRectEx(&clientDragRect, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
-                break;
+            ఒకవేళ (!Adjust_కిటికీ_Rect_Ex(&clientDragRect, Get_కిటికీ_Style(hwnd), GetMenu(hwnd) != ఖాళీ, Get_కిటికీ_Ex_Style(hwnd))) {
+                ఆపు;
             }
 
             *dragRect = clientDragRect;
         }
-        break;
+        ఆపు;
 
-    case WM_SETCURSOR:
+    స్థితి WM_SETCURSOR:
     {
         Uint16 hittest;
 
         hittest = LOWORD(lParam);
-        if (hittest == HTCLIENT) {
-            SetCursor(SDL_cursor);
-            returnCode = TRUE;
-        } else if (!g_WindowFrameUsableWhileCursorHidden && !SDL_cursor) {
-            SetCursor(NULL);
-            returnCode = TRUE;
+        ఒకవేళ (hittest == HTCLIENT) {
+            సమితి_Cursor(SDL_cursor);
+            return_సంకేతం = TRUE;
+        } లేకపోతే ఒకవేళ (!g_కిటికీ_చట్రం_Usable_While_Cursor_Hidden && !SDL_cursor) {
+            సమితి_Cursor(ఖాళీ);
+            return_సంకేతం = TRUE;
         }
-    } break;
+    } ఆపు;
 
         // We were occluded, refresh our display
-    case WM_PAINT:
+    స్థితి WM_PAINT:
     {
         RECT rect;
-        if (GetUpdateRect(hwnd, &rect, FALSE)) {
-            const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+        ఒకవేళ (GetUpdateRect(hwnd, &rect, FALSE)) {
+            స్థిరరాశి LONG style = Get_కిటికీ_Long(hwnd, GWL_EXSTYLE);
 
             /* Composited windows will continue to receive WM_PAINT messages for update
                regions until the window is actually painted through Begin/EndPaint */
-            if (style & WS_EX_COMPOSITED) {
+            ఒకవేళ (style & WS_EX_COMPOSITED) {
                 PAINTSTRUCT ps;
                 BeginPaint(hwnd, &ps);
-                EndPaint(hwnd, &ps);
+                చివర_Paint(hwnd, &ps);
             }
 
-            ValidateRect(hwnd, NULL);
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+            ValidateRect(hwnd, ఖాళీ);
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_EXPOSED, 0, 0);
         }
     }
-        returnCode = 0;
-        break;
+        return_సంకేతం = 0;
+        ఆపు;
 
         // We'll do our own drawing, prevent flicker
-    case WM_ERASEBKGND:
-        if (ShouldClearWindowOnEraseBackground(data)) {
+    స్థితి WM_ERASEBKGND:
+        ఒకవేళ (Should_Clear_కిటికీ_On_Erase_Background(దత్తాంశం)) {
             RECT client_rect;
             HBRUSH brush;
-            data->videodata->cleared = true;
+            దత్తాంశం->videodata->cleared = true;
             GetClientRect(hwnd, &client_rect);
             brush = CreateSolidBrush(0);
             FillRect(GetDC(hwnd), &client_rect, brush);
             DeleteObject(brush);
         }
-        return 1;
+        తిరిగి 1;
 
-    case WM_SYSCOMMAND:
+    స్థితి WM_SYSCOMMAND:
     {
-        if (!g_WindowsEnableMenuMnemonics) {
-            if ((wParam & 0xFFF0) == SC_KEYMENU) {
-                return 0;
+        ఒకవేళ (!g_WindowsEnableMenuMnemonics) {
+            ఒకవేళ ((wParam & 0xFFF0) == SC_KEYMENU) {
+                తిరిగి 0;
             }
         }
 
-#if defined(SC_SCREENSAVE) || defined(SC_MONITORPOWER)
+#ఒకవేళ defined(SC_SCREENSAVE) || defined(SC_MONITORPOWER)
         // Don't start the screensaver or blank the monitor in fullscreen apps
-        if ((wParam & 0xFFF0) == SC_SCREENSAVE ||
+        ఒకవేళ ((wParam & 0xFFF0) == SC_SCREENSAVE ||
             (wParam & 0xFFF0) == SC_MONITORPOWER) {
-            if (SDL_GetVideoDevice()->suspend_screensaver) {
-                return 0;
+            ఒకవేళ (SDL_GetVideoDevice()->suspend_screensaver) {
+                తిరిగి 0;
             }
         }
-#endif // System has screensaver support
-    } break;
+#అయితే_ముగింపు // System has screensaver support
+    } ఆపు;
 
-    case WM_CLOSE:
+    స్థితి WM_CLOSE:
     {
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_CLOSE_REQUESTED, 0, 0);
     }
-        returnCode = 0;
-        break;
+        return_సంకేతం = 0;
+        ఆపు;
 
-    case WM_TOUCH:
-        if (data->videodata->GetTouchInputInfo && data->videodata->CloseTouchInputHandle) {
-            UINT i, num_inputs = LOWORD(wParam);
+    స్థితి WM_TOUCH:
+        ఒకవేళ (దత్తాంశం->videodata->Get_Touch_ఆదానం_Info && దత్తాంశం->videodata->Close_Touch_ఆదానం_Handle) {
+            UINT i, అంకె_inputs = LOWORD(wParam);
             bool isstack;
-            PTOUCHINPUT inputs = SDL_small_alloc(TOUCHINPUT, num_inputs, &isstack);
-            if (inputs && data->videodata->GetTouchInputInfo((HTOUCHINPUT)lParam, num_inputs, inputs, sizeof(TOUCHINPUT))) {
+            PTOUCHINPUT inputs = SDL_small_alloc(TOUCHINPUT, అంకె_inputs, &isstack);
+            ఒకవేళ (inputs && దత్తాంశం->videodata->Get_Touch_ఆదానం_Info((HTOUCHINPUT)lParam, అంకె_inputs, inputs, పరిమాణం(TOUCHINPUT))) {
                 RECT rect;
-                float x, y;
+                దశాంశం x, y;
 
-                if (!GetClientRect(hwnd, &rect) || !WIN_WindowRectValid(&rect)) {
-                    if (inputs) {
+                ఒకవేళ (!GetClientRect(hwnd, &rect) || !WIN_కిటికీ_Rect_Valid(&rect)) {
+                    ఒకవేళ (inputs) {
                         SDL_small_free(inputs, isstack);
                     }
-                    break;
+                    ఆపు;
                 }
-                ClientToScreen(hwnd, (LPPOINT)&rect);
-                ClientToScreen(hwnd, (LPPOINT)&rect + 1);
-                rect.top *= 100;
-                rect.left *= 100;
+                Client_గమ్యం_Screen(hwnd, (LPPOINT)&rect);
+                Client_గమ్యం_Screen(hwnd, (LPPOINT)&rect + 1);
+                rect.శిఖరం *= 100;
+                rect.ఎడమ *= 100;
                 rect.bottom *= 100;
-                rect.right *= 100;
+                rect.కుడి *= 100;
 
-                for (i = 0; i < num_inputs; ++i) {
-                    PTOUCHINPUT input = &inputs[i];
-                    const int w = (rect.right - rect.left);
-                    const int h = (rect.bottom - rect.top);
+                కొరకు (i = 0; i < అంకె_inputs; ++i) {
+                    PTOUCHINPUT ఆదానం = &inputs[i];
+                    స్థిరరాశి పూర్ణాంకం w = (rect.కుడి - rect.ఎడమ);
+                    స్థిరరాశి పూర్ణాంకం h = (rect.bottom - rect.శిఖరం);
 
-                    const SDL_TouchID touchId = (SDL_TouchID)((uintptr_t)input->hSource);
-                    const SDL_FingerID fingerId = (input->dwID + 1);
+                    స్థిరరాశి SDL_TouchID touchId = (SDL_TouchID)((uintptr_t)ఆదానం->h_ఆధారం);
+                    స్థిరరాశి SDL_FingerID fingerId = (ఆదానం->dwID + 1);
 
                     /* TODO: Can we use GetRawInputDeviceInfo and HID info to
                        determine if this is a direct or indirect touch device?
                      */
-                    if (SDL_AddTouch(touchId, SDL_TOUCH_DEVICE_DIRECT, (input->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
-                        continue;
+                    ఒకవేళ (SDL_కూడు_Touch(touchId, SDL_TOUCH_DEVICE_ప్రత్యక్ష, (ఆదానం->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
+                        కొనసాగు;
                     }
 
                     // Get the normalized coordinates for the window
-                    if (w <= 1) {
+                    ఒకవేళ (w <= 1) {
                         x = 0.5f;
-                    } else {
-                        x = (float)(input->x - rect.left) / (w - 1);
+                    } లేకపోతే {
+                        x = (దశాంశం)(ఆదానం->x - rect.ఎడమ) / (w - 1);
                     }
-                    if (h <= 1) {
+                    ఒకవేళ (h <= 1) {
                         y = 0.5f;
-                    } else {
-                        y = (float)(input->y - rect.top) / (h - 1);
+                    } లేకపోతే {
+                        y = (దశాంశం)(ఆదానం->y - rect.శిఖరం) / (h - 1);
                     }
 
                     // FIXME: Should we use the input->dwTime field for the tick source of the timestamp?
-                    if (input->dwFlags & TOUCHEVENTF_DOWN) {
-                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_DOWN, x, y, 1.0f);
+                    ఒకవేళ (ఆదానం->dwFlags & TOUCHEVENTF_కిందికి) {
+                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, దత్తాంశం->కిటికీ, SDL_EVENT_FINGER_కిందికి, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_MOVE) {
-                        SDL_SendTouchMotion(WIN_GetEventTimestamp(), touchId, fingerId, data->window, x, y, 1.0f);
+                    ఒకవేళ (ఆదానం->dwFlags & TOUCHEVENTF_MOVE) {
+                        SDL_SendTouchMotion(WIN_GetEventTimestamp(), touchId, fingerId, దత్తాంశం->కిటికీ, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_UP) {
-                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_UP, x, y, 1.0f);
+                    ఒకవేళ (ఆదానం->dwFlags & TOUCHEVENTF_పైకి) {
+                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, దత్తాంశం->కిటికీ, SDL_EVENT_FINGER_పైకి, x, y, 1.0f);
                     }
                 }
             }
             SDL_small_free(inputs, isstack);
 
-            data->videodata->CloseTouchInputHandle((HTOUCHINPUT)lParam);
-            return 0;
+            దత్తాంశం->videodata->Close_Touch_ఆదానం_Handle((HTOUCHINPUT)lParam);
+            తిరిగి 0;
         }
-        break;
+        ఆపు;
 
-#ifdef HAVE_TPCSHRD_H
+#నిర్వచితమైతే HAVE_TPCSHRD_H
 
-    case WM_TABLET_QUERYSYSTEMGESTURESTATUS:
+    స్థితి WM_TABLET_QUERYSYSTEMGESTURESTATUS:
         /* See https://msdn.microsoft.com/en-us/library/windows/desktop/bb969148(v=vs.85).aspx .
          * If we're handling our own touches, we don't want any gestures.
          * Not all of these settings are documented.
          * The use of the undocumented ones was suggested by https://github.com/bjarkeck/GCGJ/blob/master/Monogame/Windows/WinFormsGameForm.cs . */
-        return TABLET_DISABLE_PRESSANDHOLD | TABLET_DISABLE_PENTAPFEEDBACK | TABLET_DISABLE_PENBARRELFEEDBACK | TABLET_DISABLE_TOUCHUIFORCEON | TABLET_DISABLE_TOUCHUIFORCEOFF | TABLET_DISABLE_TOUCHSWITCH | TABLET_DISABLE_FLICKS | TABLET_DISABLE_SMOOTHSCROLLING | TABLET_DISABLE_FLICKFALLBACKKEYS; // disables press and hold (right-click) gesture
+        తిరిగి TABLET_DISABLE_PRESSANDHOLD | TABLET_DISABLE_PENTAPFEEDBACK | TABLET_DISABLE_PENBARRELFEEDBACK | TABLET_DISABLE_TOUCHUIFORCEON | TABLET_DISABLE_TOUCHUIFORCEOFF | TABLET_DISABLE_TOUCHSWITCH | TABLET_DISABLE_FLICKS | TABLET_DISABLE_SMOOTHSCROLLING | TABLET_DISABLE_FLICKFALLBACKKEYS; // disables press and hold (right-click) gesture
                                                                                                                                                                                                                                                                                                          // disables UI feedback on pen up (waves)
                                                                                                                                                                                                                                                                                                          // disables UI feedback on pen button down (circle)
                                                                                                                                                                                                                                                                                                          // disables pen flicks (back, forward, drag down, drag up)
 
-#endif // HAVE_TPCSHRD_H
+#అయితే_ముగింపు // HAVE_TPCSHRD_H
 
-    case WM_DROPFILES:
+    స్థితి WM_DROPFILES:
     {
         UINT i;
         HDROP drop = (HDROP)wParam;
-        UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-        for (i = 0; i < count; ++i) {
-            UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
-            LPTSTR buffer = (LPTSTR)SDL_malloc(sizeof(TCHAR) * size);
-            if (buffer) {
-                if (DragQueryFile(drop, i, buffer, size)) {
-                    char *file = WIN_StringToUTF8(buffer);
-                    SDL_SendDropFile(data->window, NULL, file);
+        UINT లెక్క = DragQueryFile(drop, 0xFFFFFFFF, ఖాళీ, 0);
+        కొరకు (i = 0; i < లెక్క; ++i) {
+            UINT కొలత = DragQueryFile(drop, i, ఖాళీ, 0) + 1;
+            LPTSTR బఫరు_2 = (LPTSTR)SDL_malloc(పరిమాణం(TCHAR) * కొలత);
+            ఒకవేళ (బఫరు_2) {
+                ఒకవేళ (DragQueryFile(drop, i, బఫరు_2, కొలత)) {
+                    అక్షరం *file = WIN_String_గమ్యం_UTF8(బఫరు_2);
+                    SDL_SendDropFile(దత్తాంశం->కిటికీ, ఖాళీ, file);
                     SDL_free(file);
                 }
-                SDL_free(buffer);
+                SDL_free(బఫరు_2);
             }
         }
-        SDL_SendDropComplete(data->window);
-        DragFinish(drop);
-        return 0;
+        SDL_SendDropComplete(దత్తాంశం->కిటికీ);
+        Drag_ముగింపు(drop);
+        తిరిగి 0;
     }
 
-    case WM_DISPLAYCHANGE:
+    స్థితి WM_DISPLAYCHANGE:
     {
         // Reacquire displays if any were added or removed
         WIN_RefreshDisplays(SDL_GetVideoDevice());
-    } break;
+    } ఆపు;
 
-    case WM_NCCALCSIZE:
+    స్థితి WM_NCCALCSIZE:
     {
-        SDL_WindowFlags window_flags = data->window->flags;
-        if (wParam == TRUE && (window_flags & SDL_WINDOW_BORDERLESS) && !(window_flags & SDL_WINDOW_FULLSCREEN)) {
+        SDL_కిటికీ_Flags కిటికీ_flags = దత్తాంశం->కిటికీ->flags;
+        ఒకవేళ (wParam == TRUE && (కిటికీ_flags & SDL_కిటికీ_BORDERLESS) && !(కిటికీ_flags & SDL_కిటికీ_FULLSCREEN)) {
             // When borderless, need to tell windows that the size of the non-client area is 0
             NCCALCSIZE_PARAMS *params = (NCCALCSIZE_PARAMS *)lParam;
             WINDOWPLACEMENT placement;
-            if (GetWindowPlacement(hwnd, &placement) && placement.showCmd == SW_MAXIMIZE) {
+            ఒకవేళ (Get_కిటికీ_Placement(hwnd, &placement) && placement.showCmd == SW_MAXIMIZE) {
                 // Maximized borderless windows should use the monitor work area.
-                HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONULL);
-                if (!hMonitor) {
+                HMONITOR hMonitor = Monitor_From_కిటికీ(hwnd, MONITOR_DEFAULTTONULL);
+                ఒకవేళ (!hMonitor) {
                     // The returned monitor can be null when restoring from minimized, so use the last coordinates.
-                    const POINT pt = { data->window->windowed.x, data->window->windowed.y };
-                    hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST);
+                    స్థిరరాశి బిందువు_2 pt = { దత్తాంశం->కిటికీ->windowed.x, దత్తాంశం->కిటికీ->windowed.y };
+                    hMonitor = Monitor_From_బిందువు(pt, MONITOR_DEFAULTTONEAREST);
                 }
-                if (hMonitor) {
+                ఒకవేళ (hMonitor) {
                     MONITORINFO info;
                     SDL_zero(info);
-                    info.cbSize = sizeof(info);
-                    if (GetMonitorInfo(hMonitor, &info)) {
+                    info.cb_కొలత = పరిమాణం(info);
+                    ఒకవేళ (GetMonitorInfo(hMonitor, &info)) {
                         params->rgrc[0] = info.rcWork;
                     }
                 }
-            } else if (!(window_flags & SDL_WINDOW_RESIZABLE) && !data->force_ws_maximizebox) {
-                int w, h;
-                if (data->window->last_size_pending) {
-                    w = data->window->pending.w;
-                    h = data->window->pending.h;
-                } else {
-                    w = data->window->floating.w;
-                    h = data->window->floating.h;
+            } లేకపోతే ఒకవేళ (!(కిటికీ_flags & SDL_కిటికీ_RESIZABLE) && !దత్తాంశం->force_ws_maximizebox) {
+                పూర్ణాంకం w, h;
+                ఒకవేళ (దత్తాంశం->కిటికీ->చివరి_కొలత_pending) {
+                    w = దత్తాంశం->కిటికీ->pending.w;
+                    h = దత్తాంశం->కిటికీ->pending.h;
+                } లేకపోతే {
+                    w = దత్తాంశం->కిటికీ->floating.w;
+                    h = దత్తాంశం->కిటికీ->floating.h;
                 }
-                params->rgrc[0].right = params->rgrc[0].left + w;
-                params->rgrc[0].bottom = params->rgrc[0].top + h;
+                params->rgrc[0].కుడి = params->rgrc[0].ఎడమ + w;
+                params->rgrc[0].bottom = params->rgrc[0].శిఖరం + h;
             }
-            return 0;
+            తిరిగి 0;
         }
-    } break;
+    } ఆపు;
 
-    case WM_NCHITTEST:
+    స్థితి WM_NCHITTEST:
     {
-        SDL_Window *window = data->window;
+        SDL_కిటికీ *కిటికీ = దత్తాంశం->కిటికీ;
 
-        if (window->flags & SDL_WINDOW_TOOLTIP) {
-            return HTTRANSPARENT;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_TOOLTIP) {
+            తిరిగి HTTRANSPARENT;
         }
 
-        if (window->hit_test) {
-            POINT winpoint;
+        ఒకవేళ (కిటికీ->తగిలింది_test) {
+            బిందువు_2 winpoint;
             winpoint.x = GET_X_LPARAM(lParam);
             winpoint.y = GET_Y_LPARAM(lParam);
-            if (ScreenToClient(hwnd, &winpoint)) {
-                SDL_Point point;
-                SDL_HitTestResult rc;
-                point.x = winpoint.x;
-                point.y = winpoint.y;
-                rc = window->hit_test(window, &point, window->hit_test_data);
-                switch (rc) {
-#define POST_HIT_TEST(ret)                                                 \
+            ఒకవేళ (Screen_గమ్యం_Client(hwnd, &winpoint)) {
+                SDL_బిందువు బిందువు;
+                SDL_తగిలింది_Test_ఫలితం rc;
+                బిందువు.x = winpoint.x;
+                బిందువు.y = winpoint.y;
+                rc = కిటికీ->తగిలింది_test(కిటికీ, &బిందువు, కిటికీ->తగిలింది_test_దత్తాంశం);
+                ఎంపిక (rc) {
+#నిర్వచించు POST_తగిలింది_TEST(ret)                                                 \
     {                                                                      \
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIT_TEST, 0, 0); \
-        return ret;                                                        \
+        SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_తగిలింది_TEST, 0, 0); \
+        తిరిగి ret;                                                        \
     }
-                case SDL_HITTEST_DRAGGABLE:
+                స్థితి SDL_HITTEST_DRAGGABLE:
                 {
                     /* If the mouse button state is something other than none or left button down,
                      * return HTCLIENT, or Windows will eat the button press.
                      */
-                    SDL_MouseButtonFlags buttonState = SDL_GetGlobalMouseState(NULL, NULL);
-                    if (buttonState && !(buttonState & SDL_BUTTON_LMASK)) {
+                    SDL_MouseButtonFlags buttonState = SDL_GetGlobalMouseState(ఖాళీ, ఖాళీ);
+                    ఒకవేళ (buttonState && !(buttonState & SDL_BUTTON_LMASK)) {
                         // Set focus in case it was lost while previously moving over a draggable area.
-                        SDL_SetMouseFocus(window);
-                        return HTCLIENT;
+                        SDL_సమితి_Mouse_Focus(కిటికీ);
+                        తిరిగి HTCLIENT;
                     }
 
-                    POST_HIT_TEST(HTCAPTION);
+                    POST_తగిలింది_TEST(HTCAPTION);
                 }
-                case SDL_HITTEST_RESIZE_TOPLEFT:
-                    POST_HIT_TEST(HTTOPLEFT);
-                case SDL_HITTEST_RESIZE_TOP:
-                    POST_HIT_TEST(HTTOP);
-                case SDL_HITTEST_RESIZE_TOPRIGHT:
-                    POST_HIT_TEST(HTTOPRIGHT);
-                case SDL_HITTEST_RESIZE_RIGHT:
-                    POST_HIT_TEST(HTRIGHT);
-                case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
-                    POST_HIT_TEST(HTBOTTOMRIGHT);
-                case SDL_HITTEST_RESIZE_BOTTOM:
-                    POST_HIT_TEST(HTBOTTOM);
-                case SDL_HITTEST_RESIZE_BOTTOMLEFT:
-                    POST_HIT_TEST(HTBOTTOMLEFT);
-                case SDL_HITTEST_RESIZE_LEFT:
-                    POST_HIT_TEST(HTLEFT);
-#undef POST_HIT_TEST
-                case SDL_HITTEST_NORMAL:
-                    return HTCLIENT;
+                స్థితి SDL_HITTEST_RESIZE_TOPLEFT:
+                    POST_తగిలింది_TEST(HTTOPLEFT);
+                స్థితి SDL_HITTEST_RESIZE_శిఖరం:
+                    POST_తగిలింది_TEST(HTTOP);
+                స్థితి SDL_HITTEST_RESIZE_TOPRIGHT:
+                    POST_తగిలింది_TEST(HTTOPRIGHT);
+                స్థితి SDL_HITTEST_RESIZE_కుడి:
+                    POST_తగిలింది_TEST(HTRIGHT);
+                స్థితి SDL_HITTEST_RESIZE_BOTTOMRIGHT:
+                    POST_తగిలింది_TEST(HTBOTTOMRIGHT);
+                స్థితి SDL_HITTEST_RESIZE_BOTTOM:
+                    POST_తగిలింది_TEST(HTBOTTOM);
+                స్థితి SDL_HITTEST_RESIZE_BOTTOMLEFT:
+                    POST_తగిలింది_TEST(HTBOTTOMLEFT);
+                స్థితి SDL_HITTEST_RESIZE_ఎడమ:
+                    POST_తగిలింది_TEST(HTLEFT);
+#నిర్వచనం_రద్దు POST_తగిలింది_TEST
+                స్థితి SDL_HITTEST_సాధారణ:
+                    తిరిగి HTCLIENT;
                 }
             }
             // If we didn't return, this will call DefWindowProc below.
         }
-    } break;
+    } ఆపు;
 
-    case WM_GETDPISCALEDSIZE:
+    స్థితి WM_GETDPISCALEDSIZE:
         // Windows 10 Creators Update+
         /* Documented as only being sent to windows that are per-monitor V2 DPI aware.
 
            Experimentation shows it's only sent during interactive dragging, not in response to
            SetWindowPos. */
-        if (data->videodata->GetDpiForWindow && data->videodata->AdjustWindowRectExForDpi) {
+        ఒకవేళ (దత్తాంశం->videodata->Get_Dpi_For_కిటికీ && దత్తాంశం->videodata->Adjust_కిటికీ_Rect_Ex_For_Dpi) {
             /* Windows expects applications to scale their window rects linearly
                when dragging between monitors with different DPI's.
                e.g. a 100x100 window dragged to a 200% scaled monitor
@@ -2396,75 +2396,75 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                linearly. So, we need to handle this message to request custom
                scaling. */
 
-            const int nextDPI = (int)wParam;
-            const int prevDPI = (int)data->videodata->GetDpiForWindow(hwnd);
-            SIZE *sizeInOut = (SIZE *)lParam;
+            స్థిరరాశి పూర్ణాంకం తదుపరి_DPI = (పూర్ణాంకం)wParam;
+            స్థిరరాశి పూర్ణాంకం prevDPI = (పూర్ణాంకం)దత్తాంశం->videodata->Get_Dpi_For_కిటికీ(hwnd);
+            కొలత_3 *కొలత_లోపల_బహిర్గతం = (కొలత_3 *)lParam;
 
-            int frame_w, frame_h;
-            int query_client_w_win, query_client_h_win;
+            పూర్ణాంకం చట్రం_w, చట్రం_h;
+            పూర్ణాంకం query_client_w_win, query_client_h_win;
 
-#ifdef HIGHDPI_DEBUG
+#నిర్వచితమైతే HIGHDPI_DEBUG
             SDL_Log("WM_GETDPISCALEDSIZE: current DPI: %d potential DPI: %d input size: (%dx%d)",
-                    prevDPI, nextDPI, sizeInOut->cx, sizeInOut->cy);
-#endif
+                    prevDPI, తదుపరి_DPI, కొలత_లోపల_బహిర్గతం->cx, కొలత_లోపల_బహిర్గతం->cy);
+#అయితే_ముగింపు
 
             // Subtract the window frame size that would have been used at prevDPI
             {
                 RECT rect = { 0 };
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
-                    WIN_AdjustWindowRectForHWND(hwnd, &rect, prevDPI);
+                ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS) && !SDL_కిటికీ_IS_POPUP(దత్తాంశం->కిటికీ)) {
+                    WIN_Adjust_కిటికీ_Rect_For_HWND(hwnd, &rect, prevDPI);
                 }
 
-                frame_w = -rect.left + rect.right;
-                frame_h = -rect.top + rect.bottom;
+                చట్రం_w = -rect.ఎడమ + rect.కుడి;
+                చట్రం_h = -rect.శిఖరం + rect.bottom;
 
-                query_client_w_win = sizeInOut->cx - frame_w;
-                query_client_h_win = sizeInOut->cy - frame_h;
+                query_client_w_win = కొలత_లోపల_బహిర్గతం->cx - చట్రం_w;
+                query_client_h_win = కొలత_లోపల_బహిర్గతం->cy - చట్రం_h;
             }
 
             // Add the window frame size that would be used at nextDPI
             {
                 RECT rect = { 0 };
-                rect.right = query_client_w_win;
+                rect.కుడి = query_client_w_win;
                 rect.bottom = query_client_h_win;
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
-                    WIN_AdjustWindowRectForHWND(hwnd, &rect, nextDPI);
+                ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS) && !SDL_కిటికీ_IS_POPUP(దత్తాంశం->కిటికీ)) {
+                    WIN_Adjust_కిటికీ_Rect_For_HWND(hwnd, &rect, తదుపరి_DPI);
                 }
 
                 // This is supposed to control the suggested rect param of WM_DPICHANGED
-                sizeInOut->cx = rect.right - rect.left;
-                sizeInOut->cy = rect.bottom - rect.top;
+                కొలత_లోపల_బహిర్గతం->cx = rect.కుడి - rect.ఎడమ;
+                కొలత_లోపల_బహిర్గతం->cy = rect.bottom - rect.శిఖరం;
             }
 
-#ifdef HIGHDPI_DEBUG
-            SDL_Log("WM_GETDPISCALEDSIZE: output size: (%dx%d)", sizeInOut->cx, sizeInOut->cy);
-#endif
-            return TRUE;
+#నిర్వచితమైతే HIGHDPI_DEBUG
+            SDL_Log("WM_GETDPISCALEDSIZE: output size: (%dx%d)", కొలత_లోపల_బహిర్గతం->cx, కొలత_లోపల_బహిర్గతం->cy);
+#అయితే_ముగింపు
+            తిరిగి TRUE;
         }
-        break;
+        ఆపు;
 
-    case WM_DPICHANGED:
+    స్థితి WM_DPICHANGED:
         // Windows 8.1+
         {
-            const int newDPI = HIWORD(wParam);
-            RECT *const suggestedRect = (RECT *)lParam;
-            int w, h;
+            స్థిరరాశి పూర్ణాంకం newDPI = HIWORD(wParam);
+            RECT *స్థిరరాశి suggestedRect = (RECT *)lParam;
+            పూర్ణాంకం w, h;
 
-#ifdef HIGHDPI_DEBUG
+#నిర్వచితమైతే HIGHDPI_DEBUG
             SDL_Log("WM_DPICHANGED: to %d\tsuggested rect: (%d, %d), (%dx%d)", newDPI,
-                    suggestedRect->left, suggestedRect->top, suggestedRect->right - suggestedRect->left, suggestedRect->bottom - suggestedRect->top);
-#endif
+                    suggestedRect->ఎడమ, suggestedRect->శిఖరం, suggestedRect->కుడి - suggestedRect->ఎడమ, suggestedRect->bottom - suggestedRect->శిఖరం);
+#అయితే_ముగింపు
 
-            if (data->expected_resize) {
+            ఒకవేళ (దత్తాంశం->expected_resize) {
                 /* This DPI change is coming from an explicit SetWindowPos call within SDL.
                    Assume all call sites are calculating the DPI-aware frame correctly, so
                    we don't need to do any further adjustment. */
-#ifdef HIGHDPI_DEBUG
+#నిర్వచితమైతే HIGHDPI_DEBUG
                 SDL_Log("WM_DPICHANGED: Doing nothing, assuming window is already sized correctly");
-#endif
-                return 0;
+#అయితే_ముగింపు
+                తిరిగి 0;
             }
 
             // Interactive user-initiated resizing/movement
@@ -2472,213 +2472,213 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 /* Calculate the new frame w/h such that
                    the client area size is maintained. */
                 RECT rect = { 0 };
-                rect.right = data->window->w;
-                rect.bottom = data->window->h;
+                rect.కుడి = దత్తాంశం->కిటికీ->w;
+                rect.bottom = దత్తాంశం->కిటికీ->h;
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
-                    WIN_AdjustWindowRectForHWND(hwnd, &rect, newDPI);
+                ఒకవేళ (!(దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_BORDERLESS)) {
+                    WIN_Adjust_కిటికీ_Rect_For_HWND(hwnd, &rect, newDPI);
                 }
 
-                w = rect.right - rect.left;
-                h = rect.bottom - rect.top;
+                w = rect.కుడి - rect.ఎడమ;
+                h = rect.bottom - rect.శిఖరం;
             }
 
-#ifdef HIGHDPI_DEBUG
+#నిర్వచితమైతే HIGHDPI_DEBUG
             SDL_Log("WM_DPICHANGED: current SDL window size: (%dx%d)\tcalling SetWindowPos: (%d, %d), (%dx%d)",
-                    data->window->w, data->window->h,
-                    suggestedRect->left, suggestedRect->top, w, h);
-#endif
+                    దత్తాంశం->కిటికీ->w, దత్తాంశం->కిటికీ->h,
+                    suggestedRect->ఎడమ, suggestedRect->శిఖరం, w, h);
+#అయితే_ముగింపు
 
-            data->expected_resize = true;
-            SetWindowPos(hwnd,
-                         NULL,
-                         suggestedRect->left,
-                         suggestedRect->top,
+            దత్తాంశం->expected_resize = true;
+            సమితి_కిటికీ_Pos(hwnd,
+                         ఖాళీ,
+                         suggestedRect->ఎడమ,
+                         suggestedRect->శిఖరం,
                          w,
                          h,
                          SWP_NOZORDER | SWP_NOACTIVATE);
-            data->expected_resize = false;
-            return 0;
+            దత్తాంశం->expected_resize = false;
+            తిరిగి 0;
         }
 
-    case WM_SETTINGCHANGE:
-        if (wParam == 0 && lParam != 0 && SDL_wcscmp((wchar_t *)lParam, L"ImmersiveColorSet") == 0) {
-            SDL_SetSystemTheme(WIN_GetSystemTheme());
-            WIN_UpdateDarkModeForHWND(hwnd);
+    స్థితి WM_SETTINGCHANGE:
+        ఒకవేళ (wParam == 0 && lParam != 0 && SDL_wcscmp((wchar_t *)lParam, L"ImmersiveColorSet") == 0) {
+            SDL_సమితి_System_Theme(WIN_GetSystemTheme());
+            WIN_Update_Dark_బహుళకం_For_HWND(hwnd);
         }
-        if (wParam == SPI_SETMOUSE || wParam == SPI_SETMOUSESPEED) {
+        ఒకవేళ (wParam == SPI_SETMOUSE || wParam == SPI_SETMOUSESPEED) {
             WIN_UpdateMouseSystemScale();
         }
-        if (wParam == SPI_SETWORKAREA) {
+        ఒకవేళ (wParam == SPI_SETWORKAREA) {
             WIN_UpdateDisplayUsableBounds(SDL_GetVideoDevice());
         }
-        break;
-#else
+        ఆపు;
+#లేకపోతే
     // Xbox does not support WM_WINDOWPOSCHANGED, so use WM_SIZE instead to detect window resizes
-    case WM_SIZE:
+    స్థితి WM_కొలత:
     {
         RECT rect;
-        int w, h;
+        పూర్ణాంకం w, h;
 
-        if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-            w = rect.right;
+        ఒకవేళ (GetClientRect(hwnd, &rect) && WIN_కిటికీ_Rect_Valid(&rect)) {
+            w = rect.కుడి;
             h = rect.bottom;
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, w, h);
+            SDL_Send_కిటికీ_Event(దత్తాంశం->కిటికీ, SDL_EVENT_కిటికీ_RESIZED, w, h);
         }
-    } break;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    } ఆపు;
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    default:
-        break;
+    అప్రమేయ:
+        ఆపు;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (msg && msg == data->videodata->WM_TASKBAR_BUTTON_CREATED) {
-        data->taskbar_button_created = true;
-        WIN_ApplyWindowProgress(SDL_GetVideoDevice(), data->window);
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ఒకవేళ (సందేశం_2 && సందేశం_2 == దత్తాంశం->videodata->WM_TASKBAR_BUTTON_CREATED) {
+        దత్తాంశం->taskbar_button_created = true;
+        WIN_Apply_కిటికీ_పురోగతి(SDL_GetVideoDevice(), దత్తాంశం->కిటికీ);
     }
-#endif
+#అయితే_ముగింపు
 
     // If there's a window proc, assume it's going to handle messages
-    if (data->wndproc) {
-        return CallWindowProc(data->wndproc, hwnd, msg, wParam, lParam);
-    } else if (returnCode >= 0) {
-        return returnCode;
-    } else {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+    ఒకవేళ (దత్తాంశం->wndproc) {
+        తిరిగి Call_కిటికీ_Proc(దత్తాంశం->wndproc, hwnd, సందేశం_2, wParam, lParam);
+    } లేకపోతే ఒకవేళ (return_సంకేతం >= 0) {
+        తిరిగి return_సంకేతం;
+    } లేకపోతే {
+        తిరిగి Call_కిటికీ_Proc(Def_కిటికీ_Proc, hwnd, సందేశం_2, wParam, lParam);
     }
 }
 
-int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
+పూర్ణాంకం WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 {
-    if (g_WindowsEnableMessageLoop) {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ఒకవేళ (g_Windows_Enable_సందేశం_Loop) {
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         DWORD timeout, ret;
-        timeout = timeoutNS < 0 ? INFINITE : (DWORD)SDL_NS_TO_MS(timeoutNS);
-        ret = MsgWaitForMultipleObjects(0, NULL, FALSE, timeout, QS_ALLINPUT);
-        if (ret == WAIT_OBJECT_0) {
-            return 1;
-        } else {
-            return 0;
+        timeout = timeoutNS < 0 ? INFINITE : (DWORD)SDL_NS_గమ్యం_MS(timeoutNS);
+        ret = సందేశం_Wait_For_గుణిజం_Objects(0, ఖాళీ, FALSE, timeout, QS_ALLINPUT);
+        ఒకవేళ (ret == WAIT_OBJECT_0) {
+            తిరిగి 1;
+        } లేకపోతే {
+            తిరిగి 0;
         }
-#else
+#లేకపోతే
         // MsgWaitForMultipleObjects is desktop-only.
-        MSG msg;
-        BOOL message_result;
+        సందేశం_3 సందేశం_2;
+        BOOL సందేశం_ఫలితం;
         UINT_PTR timer_id = 0;
-        if (timeoutNS > 0) {
-            timer_id = SetTimer(NULL, 0, (UINT)SDL_NS_TO_MS(timeoutNS), NULL);
-            message_result = GetMessage(&msg, 0, 0, 0);
-            KillTimer(NULL, timer_id);
-        } else if (timeoutNS == 0) {
-            message_result = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-        } else {
-            message_result = GetMessage(&msg, 0, 0, 0);
+        ఒకవేళ (timeoutNS > 0) {
+            timer_id = సమితి_Timer(ఖాళీ, 0, (UINT)SDL_NS_గమ్యం_MS(timeoutNS), ఖాళీ);
+            సందేశం_ఫలితం = Get_సందేశం(&సందేశం_2, 0, 0, 0);
+            KillTimer(ఖాళీ, timer_id);
+        } లేకపోతే ఒకవేళ (timeoutNS == 0) {
+            సందేశం_ఫలితం = Peek_సందేశం(&సందేశం_2, ఖాళీ, 0, 0, PM_REMOVE);
+        } లేకపోతే {
+            సందేశం_ఫలితం = Get_సందేశం(&సందేశం_2, 0, 0, 0);
         }
-        if (message_result) {
-            if (msg.message == WM_TIMER && !msg.hwnd && msg.wParam == timer_id) {
-                return 0;
+        ఒకవేళ (సందేశం_ఫలితం) {
+            ఒకవేళ (సందేశం_2.సందేశం == WM_TIMER && !సందేశం_2.hwnd && సందేశం_2.wParam == timer_id) {
+                తిరిగి 0;
             }
-            if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
-                    return 1;
+            ఒకవేళ (g_Windows_సందేశం_Hook) {
+                ఒకవేళ (!g_Windows_సందేశం_Hook(g_Windows_సందేశం_Hook_దత్తాంశం, &సందేశం_2)) {
+                    తిరిగి 1;
                 }
             }
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-            return 1;
-        } else {
-            return 0;
+            Translate_సందేశం(&సందేశం_2);
+            Dispatch_సందేశం(&సందేశం_2);
+            తిరిగి 1;
+        } లేకపోతే {
+            తిరిగి 0;
         }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    } else {
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    } లేకపోతే {
         // Fail the wait so the caller falls back to polling
-        return -1;
+        తిరిగి -1;
     }
 }
 
-void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    PostMessage(data->hwnd, data->videodata->_SDL_WAKEUP, 0, 0);
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Post_సందేశం(దత్తాంశం->hwnd, దత్తాంశం->videodata->_SDL_WAKEUP, 0, 0);
 }
 
 // Simplified event pump for using when creating and destroying windows
-void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd)
+శూన్య WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd)
 {
-    MSG msg;
+    సందేశం_3 సందేశం_2;
 
-    if (g_WindowsEnableMessageLoop) {
+    ఒకవేళ (g_Windows_Enable_సందేశం_Loop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, hwnd, 0, 0, PM_REMOVE)) {
-            WIN_SetMessageTick(msg.time);
+        అయితే (Peek_సందేశం(&సందేశం_2, hwnd, 0, 0, PM_REMOVE)) {
+            WIN_సమితి_సందేశం_Tick(సందేశం_2.సమయం);
 
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            Translate_సందేశం(&సందేశం_2);
+            Dispatch_సందేశం(&సందేశం_2);
         }
 
         SDL_processing_messages = false;
     }
 }
 
-void WIN_PumpEvents(SDL_VideoDevice *_this)
+శూన్య WIN_PumpEvents(SDL_VideoDevice *_this)
 {
-    MSG msg;
-#ifdef _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
-#pragma warning(push)
-#pragma warning(disable : 28159)
-#endif
-    DWORD end_ticks = GetTickCount() + 1;
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-    int new_messages = 0;
+    సందేశం_3 సందేశం_2;
+#నిర్వచితమైతే _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
+#సూచన warning(నెట్టు)
+#సూచన warning(disable : 28159)
+#అయితే_ముగింపు
+    DWORD చివర_ticks = Get_Tick_లెక్క() + 1;
+#నిర్వచితమైతే _MSC_VER
+#సూచన warning(తీయి)
+#అయితే_ముగింపు
+    పూర్ణాంకం new_messages = 0;
 
-    if (_this->internal->gameinput_context) {
-        WIN_UpdateGameInput(_this);
+    ఒకవేళ (_this->అంతర్గత->gameinput_context) {
+        WIN_Update_Game_ఆదానం(_this);
     }
 
-    if (g_WindowsEnableMessageLoop) {
+    ఒకవేళ (g_Windows_Enable_సందేశం_Loop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-            if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
-                    continue;
+        అయితే (Peek_సందేశం(&సందేశం_2, ఖాళీ, 0, 0, PM_REMOVE)) {
+            ఒకవేళ (g_Windows_సందేశం_Hook) {
+                ఒకవేళ (!g_Windows_సందేశం_Hook(g_Windows_సందేశం_Hook_దత్తాంశం, &సందేశం_2)) {
+                    కొనసాగు;
                 }
             }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
             // Don't dispatch any mouse motion queued prior to or including the last mouse warp
-            if (msg.message == WM_MOUSEMOVE && SDL_last_warp_time) {
-                if (!SDL_TICKS_PASSED(msg.time, (SDL_last_warp_time + 1))) {
-                    continue;
+            ఒకవేళ (సందేశం_2.సందేశం == WM_MOUSEMOVE && SDL_చివరి_warp_సమయం) {
+                ఒకవేళ (!SDL_TICKS_PASSED(సందేశం_2.సమయం, (SDL_చివరి_warp_సమయం + 1))) {
+                    కొనసాగు;
                 }
 
                 // This mouse message happened after the warp
-                SDL_last_warp_time = 0;
+                SDL_చివరి_warp_సమయం = 0;
             }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-            WIN_SetMessageTick(msg.time);
+            WIN_సమితి_సందేశం_Tick(సందేశం_2.సమయం);
 
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            Translate_సందేశం(&సందేశం_2);
+            Dispatch_సందేశం(&సందేశం_2);
 
             // Make sure we don't busy loop here forever if there are lots of events coming in
-            if (SDL_TICKS_PASSED(msg.time, end_ticks)) {
+            ఒకవేళ (SDL_TICKS_PASSED(సందేశం_2.సమయం, చివర_ticks)) {
                 /* We might get a few new messages generated by the Steam overlay or other application hooks
                    In this case those messages will be processed before any pending input, so we want to continue after those messages.
                    (thanks to Peter Deayton for his investigation here)
                  */
-                const int MAX_NEW_MESSAGES = 3;
+                స్థిరరాశి పూర్ణాంకం MAX_NEW_MESSAGES = 3;
                 ++new_messages;
-                if (new_messages > MAX_NEW_MESSAGES) {
-                    break;
+                ఒకవేళ (new_messages > MAX_NEW_MESSAGES) {
+                    ఆపు;
                 }
             }
         }
@@ -2686,42 +2686,42 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
         SDL_processing_messages = false;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     /* Windows loses a shift KEYUP event when you have both pressed at once and let go of one.
        You won't get a KEYUP until both are released, and that keyup will only be for the second
        key you released. Take heroic measures and check the keystate as of the last handled event,
        and if we think a key is pressed when Windows doesn't, unstick it in SDL's state. */
-    const bool *keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_LSHIFT] && !(GetKeyState(VK_LSHIFT) & 0x8000)) {
-        SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LSHIFT, false);
+    స్థిరరాశి bool *keystate = SDL_GetKeyboardState(ఖాళీ);
+    ఒకవేళ (keystate[SDL_SCANCODE_LSHIFT] && !(Get_కీలకం_State(VK_LSHIFT) & 0x8000)) {
+        SDL_Send_Keyboard_కీలకం(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LSHIFT, false);
     }
-    if (keystate[SDL_SCANCODE_RSHIFT] && !(GetKeyState(VK_RSHIFT) & 0x8000)) {
-        SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RSHIFT, false);
+    ఒకవేళ (keystate[SDL_SCANCODE_RSHIFT] && !(Get_కీలకం_State(VK_RSHIFT) & 0x8000)) {
+        SDL_Send_Keyboard_కీలకం(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RSHIFT, false);
     }
 
     /* The Windows key state gets lost when using Windows+Space or Windows+G shortcuts and
        not grabbing the keyboard. Note: If we *are* grabbing the keyboard, GetKeyState()
        will return inaccurate results for VK_LWIN and VK_RWIN but we don't need it anyway. */
-    SDL_Window *focusWindow = SDL_GetKeyboardFocus();
-    if (!focusWindow || !(focusWindow->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        if (keystate[SDL_SCANCODE_LGUI] && !(GetKeyState(VK_LWIN) & 0x8000)) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LGUI, false);
+    SDL_కిటికీ *focus_కిటికీ = SDL_GetKeyboardFocus();
+    ఒకవేళ (!focus_కిటికీ || !(focus_కిటికీ->flags & SDL_కిటికీ_KEYBOARD_GRABBED)) {
+        ఒకవేళ (keystate[SDL_SCANCODE_LGUI] && !(Get_కీలకం_State(VK_LWIN) & 0x8000)) {
+            SDL_Send_Keyboard_కీలకం(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LGUI, false);
         }
-        if (keystate[SDL_SCANCODE_RGUI] && !(GetKeyState(VK_RWIN) & 0x8000)) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RGUI, false);
+        ఒకవేళ (keystate[SDL_SCANCODE_RGUI] && !(Get_కీలకం_State(VK_RWIN) & 0x8000)) {
+            SDL_Send_Keyboard_కీలకం(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RGUI, false);
         }
     }
 
     // fire queued clipcursor refreshes
-    if (_this) {
-        SDL_Window *window = _this->windows;
-        while (window) {
+    ఒకవేళ (_this) {
+        SDL_కిటికీ *కిటికీ = _this->windows;
+        అయితే (కిటికీ) {
             bool refresh_clipcursor = false;
-            SDL_WindowData *data = window->internal;
-            if (data) {
-                refresh_clipcursor = data->clipcursor_queued;
-                data->clipcursor_queued = false;    // Must be cleared unconditionally.
-                data->postpone_clipcursor = false;  // Must be cleared unconditionally.
+            SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+            ఒకవేళ (దత్తాంశం) {
+                refresh_clipcursor = దత్తాంశం->clipcursor_queued;
+                దత్తాంశం->clipcursor_queued = false;    // Must be cleared unconditionally.
+                దత్తాంశం->postpone_clipcursor = false;  // Must be cleared unconditionally.
                                                     // Must happen before UpdateClipCursor.
                                                     // Although its occurrence currently
                                                     // always coincides with the queuing of
@@ -2732,10 +2732,10 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
                                                     // conveys its unconditionality
                                                     // vis-a-vis the queuing of clipcursor.
             }
-            if (refresh_clipcursor) {
-                WIN_UpdateClipCursor(window);
+            ఒకవేళ (refresh_clipcursor) {
+                WIN_UpdateClipCursor(కిటికీ);
             }
-            window = window->next;
+            కిటికీ = కిటికీ->తదుపరి;
         }
     }
 
@@ -2744,159 +2744,159 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
     // ReleaseCapture to pipe in out-of-window mouse events.
     // Formerly WIN_UpdateMouseCapture().
     // TODO: can this go before clipcursor?
-    focusWindow = SDL_GetKeyboardFocus();
-    if (focusWindow && (focusWindow->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-        SDL_WindowData *data = focusWindow->internal;
+    focus_కిటికీ = SDL_GetKeyboardFocus();
+    ఒకవేళ (focus_కిటికీ && (focus_కిటికీ->flags & SDL_కిటికీ_MOUSE_CAPTURE)) {
+        SDL_కిటికీ_దత్తాంశం *దత్తాంశం = focus_కిటికీ->అంతర్గత;
 
-        if (!data->mouse_tracked) {
-            POINT cursorPos;
+        ఒకవేళ (!దత్తాంశం->mouse_tracked) {
+            బిందువు_2 cursorPos;
 
-            if (GetCursorPos(&cursorPos) && ScreenToClient(data->hwnd, &cursorPos)) {
-                bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
+            ఒకవేళ (GetCursorPos(&cursorPos) && Screen_గమ్యం_Client(దత్తాంశం->hwnd, &cursorPos)) {
+                bool మార్పిడి_Buttons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
                 SDL_MouseID mouseID = SDL_GLOBAL_MOUSE_ID;
 
-                SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, mouseID, false, (float)cursorPos.x, (float)cursorPos.y);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    !swapButtons ? SDL_BUTTON_LEFT : SDL_BUTTON_RIGHT,
-                                    (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    !swapButtons ? SDL_BUTTON_RIGHT : SDL_BUTTON_LEFT,
-                                    (GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    SDL_BUTTON_MIDDLE,
-                                    (GetAsyncKeyState(VK_MBUTTON) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
+                SDL_SendMouseMotion(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, mouseID, false, (దశాంశం)cursorPos.x, (దశాంశం)cursorPos.y);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, mouseID,
+                                    !మార్పిడి_Buttons ? SDL_BUTTON_ఎడమ : SDL_BUTTON_కుడి,
+                                    (Get_Async_కీలకం_State(VK_LBUTTON) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, mouseID,
+                                    !మార్పిడి_Buttons ? SDL_BUTTON_కుడి : SDL_BUTTON_ఎడమ,
+                                    (Get_Async_కీలకం_State(VK_RBUTTON) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, mouseID,
+                                    SDL_BUTTON_మధ్య,
+                                    (Get_Async_కీలకం_State(VK_MBUTTON) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, mouseID,
                                     SDL_BUTTON_X1,
-                                    (GetAsyncKeyState(VK_XBUTTON1) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
+                                    (Get_Async_కీలకం_State(VK_XBUTTON1) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), దత్తాంశం->కిటికీ, mouseID,
                                     SDL_BUTTON_X2,
-                                    (GetAsyncKeyState(VK_XBUTTON2) & 0x8000) != 0);
+                                    (Get_Async_కీలకం_State(VK_XBUTTON2) & 0x8000) != 0);
             }
         }
     }
 
     WIN_UpdateIMECandidates(_this);
 
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef SDL_PLATFORM_GDK
-    GDK_DispatchTaskQueue();
-#endif
+#నిర్వచితమైతే SDL_PLATFORM_GDK
+    GDK_Dispatch_Task_వరుస();
+#అయితే_ముగింపు
 }
 
-static int app_registered = 0;
-LPTSTR SDL_Appname = NULL;
+స్థిర పూర్ణాంకం app_registered = 0;
+LPTSTR SDL_Appname = ఖాళీ;
 Uint32 SDL_Appstyle = 0;
-HINSTANCE SDL_Instance = NULL;
+HINSTANCE SDL_Instance = ఖాళీ;
 
-static void WIN_CleanRegisterApp(WNDCLASSEX wcex)
+స్థిర శూన్య WIN_Clean_రిజిస్టరు_App(WNDCLASSEX wcex)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (wcex.hIcon) {
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ఒకవేళ (wcex.hIcon) {
         DestroyIcon(wcex.hIcon);
     }
-    if (wcex.hIconSm) {
+    ఒకవేళ (wcex.hIconSm) {
         DestroyIcon(wcex.hIconSm);
     }
-#endif
+#అయితే_ముగింపు
     SDL_free(SDL_Appname);
-    SDL_Appname = NULL;
+    SDL_Appname = ఖాళీ;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static BOOL CALLBACK WIN_ResourceNameCallback(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+స్థిర BOOL CALLBACK WIN_ResourceNameCallback(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)
 {
     WNDCLASSEX *wcex = (WNDCLASSEX *)lParam;
 
-    (void)lpType; // We already know that the resource type is RT_GROUP_ICON.
+    (శూన్య)lpType; // We already know that the resource type is RT_GROUP_ICON.
 
     /* We leave hIconSm as NULL as it will allow Windows to automatically
        choose the appropriate small icon size to suit the current DPI. */
-    wcex->hIcon = LoadIcon(hModule, lpName);
+    wcex->hIcon = ఎక్కించు_Icon(hModule, lpName);
 
     // Do not bother enumerating any more.
-    return FALSE;
+    తిరిగి FALSE;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 // Register the class for this application
-bool SDL_RegisterApp(const char *name, Uint32 style, void *hInst)
+bool SDL_రిజిస్టరు_App(స్థిరరాశి అక్షరం *name, Uint32 style, శూన్య *hInst)
 {
     WNDCLASSEX wcex;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    const char *hint;
-#endif
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    స్థిరరాశి అక్షరం *hint;
+#అయితే_ముగింపు
 
     // Only do this once...
-    if (app_registered) {
+    ఒకవేళ (app_registered) {
         ++app_registered;
-        return true;
+        తిరిగి true;
     }
     SDL_assert(!SDL_Appname);
-    if (!name) {
+    ఒకవేళ (!name) {
         name = "SDL_app";
-#if defined(CS_BYTEALIGNCLIENT) || defined(CS_OWNDC)
+#ఒకవేళ defined(CS_BYTEALIGNCLIENT) || defined(CS_OWNDC)
         style = (CS_BYTEALIGNCLIENT | CS_OWNDC);
-#endif
+#అయితే_ముగింపు
     }
-    SDL_Appname = WIN_UTF8ToString(name);
+    SDL_Appname = WIN_UTF8_గమ్యం_String(name);
     SDL_Appstyle = style;
-    SDL_Instance = hInst ? (HINSTANCE)hInst : GetModuleHandle(NULL);
+    SDL_Instance = hInst ? (HINSTANCE)hInst : GetModuleHandle(ఖాళీ);
 
     // Register the application class
     SDL_zero(wcex);
-    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.cb_కొలత = పరిమాణం(WNDCLASSEX);
     wcex.lpszClassName = SDL_Appname;
     wcex.style = SDL_Appstyle;
-    wcex.lpfnWndProc = WIN_WindowProc;
+    wcex.lpfnWndProc = WIN_కిటికీ_Proc;
     wcex.hInstance = SDL_Instance;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     hint = SDL_GetHint(SDL_HINT_WINDOWS_INTRESOURCE_ICON);
-    if (hint && *hint) {
-        wcex.hIcon = LoadIcon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
+    ఒకవేళ (hint && *hint) {
+        wcex.hIcon = ఎక్కించు_Icon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
 
         hint = SDL_GetHint(SDL_HINT_WINDOWS_INTRESOURCE_ICON_SMALL);
-        if (hint && *hint) {
-            wcex.hIconSm = LoadIcon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
+        ఒకవేళ (hint && *hint) {
+            wcex.hIconSm = ఎక్కించు_Icon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
         }
-    } else {
+    } లేకపోతే {
         // Use the first icon as a default icon, like in the Explorer.
-        EnumResourceNames(SDL_Instance, RT_GROUP_ICON, WIN_ResourceNameCallback, (LONG_PTR)&wcex);
+        Enum_Resource_పేర్లు(SDL_Instance, RT_సమూహం_ICON, WIN_ResourceNameCallback, (LONG_PTR)&wcex);
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    if (!RegisterClassEx(&wcex)) {
-        WIN_CleanRegisterApp(wcex);
-        return SDL_SetError("Couldn't register application class");
+    ఒకవేళ (!రిజిస్టరు_Class_Ex(&wcex)) {
+        WIN_Clean_రిజిస్టరు_App(wcex);
+        తిరిగి SDL_సమితి_Error("Couldn't register application class");
     }
 
     app_registered = 1;
-    return true;
+    తిరిగి true;
 }
 
 // Unregisters the windowclass registered in SDL_RegisterApp above.
-void SDL_UnregisterApp(void)
+శూన్య SDL_UnregisterApp(శూన్య)
 {
     WNDCLASSEX wcex;
 
     // SDL_RegisterApp might not have been called before
-    if (!app_registered) {
-        return;
+    ఒకవేళ (!app_registered) {
+        తిరిగి;
     }
     --app_registered;
-    if (app_registered == 0) {
+    ఒకవేళ (app_registered == 0) {
         // Ensure the icons are initialized.
-        wcex.hIcon = NULL;
-        wcex.hIconSm = NULL;
+        wcex.hIcon = ఖాళీ;
+        wcex.hIconSm = ఖాళీ;
         // Check for any registered window classes.
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (GetClassInfoEx(SDL_Instance, SDL_Appname, &wcex)) {
+#ఒకవేళ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        ఒకవేళ (GetClassInfoEx(SDL_Instance, SDL_Appname, &wcex)) {
             UnregisterClass(SDL_Appname, SDL_Instance);
         }
-#endif
-        WIN_CleanRegisterApp(wcex);
+#అయితే_ముగింపు
+        WIN_Clean_రిజిస్టరు_App(wcex);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WINDOWS

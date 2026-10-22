@@ -1,108 +1,108 @@
-#ifndef VULKAN_H_
-#define VULKAN_H_ 1
+#నిర్వచితం_కాకపోతే VULKAN_H_
+#నిర్వచించు VULKAN_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
 ** SPDX-License-Identifier: Apache-2.0 OR MIT
 */
 
-#include "vk_platform.h"
-#include "vulkan_core.h"
+#అన్తర్భావ "vk_platform.h"
+#అన్తర్భావ "vulkan_core.h"
 
-#ifdef VK_USE_PLATFORM_ANDROID_KHR
-#include "vulkan_android.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_ANDROID_KHR
+#అన్తర్భావ "vulkan_android.h"
+#అయితే_ముగింపు
 
-#ifdef VK_USE_PLATFORM_FUCHSIA
-#include <zircon/types.h>
-#include "vulkan_fuchsia.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_FUCHSIA
+#అన్తర్భావ <zircon/types.h>
+#అన్తర్భావ "vulkan_fuchsia.h"
+#అయితే_ముగింపు
 
-#ifdef VK_USE_PLATFORM_IOS_MVK
-#include "vulkan_ios.h"
-#endif
-
-
-#ifdef VK_USE_PLATFORM_MACOS_MVK
-#include "vulkan_macos.h"
-#endif
-
-#ifdef VK_USE_PLATFORM_METAL_EXT
-#include "vulkan_metal.h"
-#endif
-
-#ifdef VK_USE_PLATFORM_VI_NN
-#include "vulkan_vi.h"
-#endif
-
-#ifdef VK_USE_PLATFORM_UBM_SEC
-#include "vulkan_ubm.h"
-#endif
-
-#ifdef VK_USE_PLATFORM_WAYLAND_KHR
-#include "vulkan_wayland.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_IOS_MVK
+#అన్తర్భావ "vulkan_ios.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_WIN32_KHR
-#include <windows.h>
-#include "vulkan_win32.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_MACOS_MVK
+#అన్తర్భావ "vulkan_macos.h"
+#అయితే_ముగింపు
+
+#నిర్వచితమైతే VK_USE_PLATFORM_METAL_EXT
+#అన్తర్భావ "vulkan_metal.h"
+#అయితే_ముగింపు
+
+#నిర్వచితమైతే VK_USE_PLATFORM_VI_NN
+#అన్తర్భావ "vulkan_vi.h"
+#అయితే_ముగింపు
+
+#నిర్వచితమైతే VK_USE_PLATFORM_UBM_SEC
+#అన్తర్భావ "vulkan_ubm.h"
+#అయితే_ముగింపు
+
+#నిర్వచితమైతే VK_USE_PLATFORM_WAYLAND_KHR
+#అన్తర్భావ "vulkan_wayland.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_XCB_KHR
-#include <xcb/xcb.h>
-#include "vulkan_xcb.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_WIN32_KHR
+#అన్తర్భావ <windows.h>
+#అన్తర్భావ "vulkan_win32.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_XLIB_KHR
-#include <X11/Xlib.h>
-#include "vulkan_xlib.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_XCB_KHR
+#అన్తర్భావ <xcb/xcb.h>
+#అన్తర్భావ "vulkan_xcb.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-#include <directfb.h>
-#include "vulkan_directfb.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_XLIB_KHR
+#అన్తర్భావ <X11/Xlib.h>
+#అన్తర్భావ "vulkan_xlib.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
-#include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
-#include "vulkan_xlib_xrandr.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_DIRECTFB_EXT
+#అన్తర్భావ <directfb.h>
+#అన్తర్భావ "vulkan_directfb.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_GGP
-#include <ggp_c/vulkan_types.h>
-#include "vulkan_ggp.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_XLIB_XRANDR_EXT
+#అన్తర్భావ <X11/Xlib.h>
+#అన్తర్భావ <X11/extensions/Xrandr.h>
+#అన్తర్భావ "vulkan_xlib_xrandr.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_SCREEN_QNX
-#include <screen/screen.h>
-#include "vulkan_screen.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_GGP
+#అన్తర్భావ <ggp_c/vulkan_types.h>
+#అన్తర్భావ "vulkan_ggp.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_SCI
-#include <nvscisync.h>
-#include <nvscibuf.h>
-#include "vulkan_sci.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_SCREEN_QNX
+#అన్తర్భావ <screen/screen.h>
+#అన్తర్భావ "vulkan_screen.h"
+#అయితే_ముగింపు
 
 
-#ifdef VK_USE_PLATFORM_OHOS
-#include "vulkan_ohos.h"
-#endif
+#నిర్వచితమైతే VK_USE_PLATFORM_SCI
+#అన్తర్భావ <nvscisync.h>
+#అన్తర్భావ <nvscibuf.h>
+#అన్తర్భావ "vulkan_sci.h"
+#అయితే_ముగింపు
+
+
+#నిర్వచితమైతే VK_USE_PLATFORM_OHOS
+#అన్తర్భావ "vulkan_ohos.h"
+#అయితే_ముగింపు
 
 /* vulkan_beta.h should go last in the event any beta extension interactions
  * with platform extensions exist.
  */
-#ifdef VK_ENABLE_BETA_EXTENSIONS
-#include "vulkan_beta.h"
-#endif
+#నిర్వచితమైతే VK_ENABLE_BETA_EXTENSIONS
+#అన్తర్భావ "vulkan_beta.h"
+#అయితే_ముగింపు
 
-#endif // VULKAN_H_
+#అయితే_ముగింపు // VULKAN_H_

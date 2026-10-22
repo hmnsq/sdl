@@ -18,183 +18,183 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WINDOWS
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsopengles.h"
-#include "../../SDL_hints_c.h"
+#అన్తర్భావ "SDL_windowsvideo.h"
+#అన్తర్భావ "SDL_windowsopengles.h"
+#అన్తర్భావ "../../SDL_hints_c.h"
 
 // WGL implementation of SDL OpenGL support
 
-#ifdef SDL_VIDEO_OPENGL_WGL
-#include <SDL3/SDL_opengl.h>
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_WGL
+#అన్తర్భావ <SDL3/SDL_opengl.h>
 
-#define DEFAULT_OPENGL "OPENGL32.DLL"
+#నిర్వచించు DEFAULT_OPENGL "OPENGL32.DLL"
 
-#ifndef WGL_ARB_create_context
-#define WGL_ARB_create_context
-#define WGL_CONTEXT_MAJOR_VERSION_ARB          0x2091
-#define WGL_CONTEXT_MINOR_VERSION_ARB          0x2092
-#define WGL_CONTEXT_LAYER_PLANE_ARB            0x2093
-#define WGL_CONTEXT_FLAGS_ARB                  0x2094
-#define WGL_CONTEXT_DEBUG_BIT_ARB              0x0001
-#define WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB 0x0002
+#నిర్వచితం_కాకపోతే WGL_ARB_create_context
+#నిర్వచించు WGL_ARB_create_context
+#నిర్వచించు WGL_CONTEXT_MAJOR_సంస్కరణ_ARB          0x2091
+#నిర్వచించు WGL_CONTEXT_MINOR_సంస్కరణ_ARB          0x2092
+#నిర్వచించు WGL_CONTEXT_LAYER_PLANE_ARB            0x2093
+#నిర్వచించు WGL_CONTEXT_FLAGS_ARB                  0x2094
+#నిర్వచించు WGL_CONTEXT_DEBUG_బిట్టు_ARB              0x0001
+#నిర్వచించు WGL_CONTEXT_FORWARD_COMPATIBLE_బిట్టు_ARB 0x0002
 
-#ifndef WGL_ARB_create_context_profile
-#define WGL_ARB_create_context_profile
-#define WGL_CONTEXT_PROFILE_MASK_ARB              0x9126
-#define WGL_CONTEXT_CORE_PROFILE_BIT_ARB          0x00000001
-#define WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB 0x00000002
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_create_context_profile
+#నిర్వచించు WGL_ARB_create_context_profile
+#నిర్వచించు WGL_CONTEXT_PROFILE_ముసుగు_ARB              0x9126
+#నిర్వచించు WGL_CONTEXT_CORE_PROFILE_బిట్టు_ARB          0x00000001
+#నిర్వచించు WGL_CONTEXT_COMPATIBILITY_PROFILE_బిట్టు_ARB 0x00000002
+#అయితే_ముగింపు
 
-#ifndef WGL_ARB_create_context_robustness
-#define WGL_ARB_create_context_robustness
-#define WGL_CONTEXT_ROBUST_ACCESS_BIT_ARB           0x00000004
-#define WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB 0x8256
-#define WGL_NO_RESET_NOTIFICATION_ARB               0x8261
-#define WGL_LOSE_CONTEXT_ON_RESET_ARB               0x8252
-#endif
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_create_context_robustness
+#నిర్వచించు WGL_ARB_create_context_robustness
+#నిర్వచించు WGL_CONTEXT_ROBUST_ACCESS_బిట్టు_ARB           0x00000004
+#నిర్వచించు WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB 0x8256
+#నిర్వచించు WGL_NO_RESET_NOTIFICATION_ARB               0x8261
+#నిర్వచించు WGL_LOSE_CONTEXT_ON_RESET_ARB               0x8252
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifndef WGL_EXT_create_context_es2_profile
-#define WGL_EXT_create_context_es2_profile
-#define WGL_CONTEXT_ES2_PROFILE_BIT_EXT 0x00000004
-#endif
+#నిర్వచితం_కాకపోతే WGL_EXT_create_context_es2_profile
+#నిర్వచించు WGL_EXT_create_context_es2_profile
+#నిర్వచించు WGL_CONTEXT_ES2_PROFILE_బిట్టు_EXT 0x00000004
+#అయితే_ముగింపు
 
-#ifndef WGL_EXT_create_context_es_profile
-#define WGL_EXT_create_context_es_profile
-#define WGL_CONTEXT_ES_PROFILE_BIT_EXT 0x00000004
-#endif
+#నిర్వచితం_కాకపోతే WGL_EXT_create_context_es_profile
+#నిర్వచించు WGL_EXT_create_context_es_profile
+#నిర్వచించు WGL_CONTEXT_ES_PROFILE_బిట్టు_EXT 0x00000004
+#అయితే_ముగింపు
 
-#ifndef WGL_ARB_framebuffer_sRGB
-#define WGL_ARB_framebuffer_sRGB
-#define WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20A9
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_framebuffer_sRGB
+#నిర్వచించు WGL_ARB_framebuffer_sRGB
+#నిర్వచించు WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB 0x20A9
+#అయితే_ముగింపు
 
-#ifndef WGL_ARB_pixel_format_float
-#define WGL_ARB_pixel_format_float
-#define WGL_TYPE_RGBA_FLOAT_ARB 0x21A0
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_pixel_format_float
+#నిర్వచించు WGL_ARB_pixel_format_float
+#నిర్వచించు WGL_TYPE_RGBA_FLOAT_ARB 0x21A0
+#అయితే_ముగింపు
 
-#ifndef WGL_ARB_context_flush_control
-#define WGL_ARB_context_flush_control
-#define WGL_CONTEXT_RELEASE_BEHAVIOR_ARB       0x2097
-#define WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB  0x0000
-#define WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB 0x2098
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_context_flush_control
+#నిర్వచించు WGL_ARB_context_flush_control
+#నిర్వచించు WGL_CONTEXT_RELEASE_BEHAVIOR_ARB       0x2097
+#నిర్వచించు WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB  0x0000
+#నిర్వచించు WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB 0x2098
+#అయితే_ముగింపు
 
-#ifndef WGL_ARB_create_context_no_error
-#define WGL_ARB_create_context_no_error
-#define WGL_CONTEXT_OPENGL_NO_ERROR_ARB 0x31B3
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_create_context_no_error
+#నిర్వచించు WGL_ARB_create_context_no_error
+#నిర్వచించు WGL_CONTEXT_OPENGL_NO_ERROR_ARB 0x31B3
+#అయితే_ముగింపు
 
-typedef HGLRC(APIENTRYP PFNWGLCREATECONTEXTATTRIBSARBPROC)(HDC hDC,
+రకనిర్వచనం HGLRC(APIENTRYP PFNWGLCREATECONTEXTATTRIBSARBPROC)(HDC hDC,
                                                            HGLRC
                                                                hShareContext,
-                                                           const int
+                                                           స్థిరరాశి పూర్ణాంకం
                                                                *attribList);
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-#define GetDC(hwnd)          (HDC) hwnd
-#define ReleaseDC(hwnd, hdc) 1
-#define SwapBuffers          _this->gl_data->wglSwapBuffers
-#define DescribePixelFormat  _this->gl_data->wglDescribePixelFormat
-#define ChoosePixelFormat    _this->gl_data->wglChoosePixelFormat
-#define GetPixelFormat       _this->gl_data->wglGetPixelFormat
-#define SetPixelFormat       _this->gl_data->wglSetPixelFormat
-#endif
+#ఒకవేళ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#నిర్వచించు GetDC(hwnd)          (HDC) hwnd
+#నిర్వచించు ReleaseDC(hwnd, hdc) 1
+#నిర్వచించు మార్పిడి_Buffers          _this->gl_దత్తాంశం->wgl_మార్పిడి_Buffers
+#నిర్వచించు DescribePixelFormat  _this->gl_దత్తాంశం->wglDescribePixelFormat
+#నిర్వచించు ఎంచుకో_Pixel_Format    _this->gl_దత్తాంశం->wgl_ఎంచుకో_Pixel_Format
+#నిర్వచించు GetPixelFormat       _this->gl_దత్తాంశం->wglGetPixelFormat
+#నిర్వచించు సమితి_Pixel_Format       _this->gl_దత్తాంశం->wgl_సమితి_Pixel_Format
+#అయితే_ముగింపు
 
-static bool WIN_GL_LoadLibrary_EGLFallback(SDL_VideoDevice *_this, const char *path)
+స్థిర bool WIN_GL_ఎక్కించు_Library_EGLFallback(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
     WIN_GL_UnloadLibrary(_this);
-    _this->GL_LoadLibrary = WIN_GLES_LoadLibrary;
-    _this->GL_GetProcAddress = WIN_GLES_GetProcAddress;
+    _this->GL_ఎక్కించు_Library = WIN_GLES_ఎక్కించు_Library;
+    _this->GL_Get_Proc_చిరునామా = WIN_GLES_Get_Proc_చిరునామా;
     _this->GL_UnloadLibrary = WIN_GLES_UnloadLibrary;
     _this->GL_CreateContext = WIN_GLES_CreateContext;
     _this->GL_MakeCurrent = WIN_GLES_MakeCurrent;
-    _this->GL_SetSwapInterval = WIN_GLES_SetSwapInterval;
-    _this->GL_GetSwapInterval = WIN_GLES_GetSwapInterval;
-    _this->GL_SwapWindow = WIN_GLES_SwapWindow;
+    _this->GL_సమితి_మార్పిడి_Interval = WIN_GLES_సమితి_మార్పిడి_Interval;
+    _this->GL_Get_మార్పిడి_Interval = WIN_GLES_Get_మార్పిడి_Interval;
+    _this->GL_మార్పిడి_కిటికీ = WIN_GLES_మార్పిడి_కిటికీ;
     _this->GL_DestroyContext = WIN_GLES_DestroyContext;
     _this->GL_GetEGLSurface = WIN_GLES_GetEGLSurface;
-    return WIN_GLES_LoadLibrary(_this, path);
-#else
-    return SDL_SetError("SDL not configured with EGL support");
-#endif
+    తిరిగి WIN_GLES_ఎక్కించు_Library(_this, మార్గం);
+#లేకపోతే
+    తిరిగి SDL_సమితి_Error("SDL not configured with EGL support");
+#అయితే_ముగింపు
 }
 
-bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool WIN_GL_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
-    void *handle;
+    శూన్య *handle;
 
-    if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) &&
+    ఒకవేళ ((_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES) &&
         SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false)) {
-        return WIN_GL_LoadLibrary_EGLFallback(_this, path);
+        తిరిగి WIN_GL_ఎక్కించు_Library_EGLFallback(_this, మార్గం);
     }
 
-    if (path == NULL) {
-        path = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
+    ఒకవేళ (మార్గం == ఖాళీ) {
+        మార్గం = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
     }
-    if (path == NULL) {
-        path = DEFAULT_OPENGL;
+    ఒకవేళ (మార్గం == ఖాళీ) {
+        మార్గం = DEFAULT_OPENGL;
     }
-    _this->gl_config.dll_handle = SDL_LoadObject(path);
-    if (!_this->gl_config.dll_handle) {
-        return false;
+    _this->gl_config.dll_handle = SDL_ఎక్కించు_Object(మార్గం);
+    ఒకవేళ (!_this->gl_config.dll_handle) {
+        తిరిగి false;
     }
-    SDL_strlcpy(_this->gl_config.driver_path, path,
-                SDL_arraysize(_this->gl_config.driver_path));
+    SDL_strlcpy(_this->gl_config.driver_మార్గం, మార్గం,
+                SDL_arraysize(_this->gl_config.driver_మార్గం));
 
     // Allocate OpenGL memory
-    _this->gl_data = (struct SDL_GLDriverData *)SDL_calloc(1, sizeof(struct SDL_GLDriverData));
-    if (!_this->gl_data) {
-        return false;
+    _this->gl_దత్తాంశం = (నిర్మాణం SDL_GLDriver_దత్తాంశం *)SDL_calloc(1, పరిమాణం(నిర్మాణం SDL_GLDriver_దత్తాంశం));
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
+        తిరిగి false;
     }
 
     // Load function pointers
     handle = _this->gl_config.dll_handle;
     /* *INDENT-OFF* */ // clang-format off
-    _this->gl_data->wglGetProcAddress = (PROC (WINAPI *)(const char *))
-        SDL_LoadFunction(handle, "wglGetProcAddress");
-    _this->gl_data->wglCreateContext = (HGLRC (WINAPI *)(HDC))
-        SDL_LoadFunction(handle, "wglCreateContext");
-    _this->gl_data->wglDeleteContext = (BOOL (WINAPI *)(HGLRC))
-        SDL_LoadFunction(handle, "wglDeleteContext");
-    _this->gl_data->wglMakeCurrent = (BOOL (WINAPI *)(HDC, HGLRC))
-        SDL_LoadFunction(handle, "wglMakeCurrent");
-    _this->gl_data->wglShareLists = (BOOL (WINAPI *)(HGLRC, HGLRC))
-        SDL_LoadFunction(handle, "wglShareLists");
+    _this->gl_దత్తాంశం->wgl_Get_Proc_చిరునామా = (PROC (WINAPI *)(స్థిరరాశి అక్షరం *))
+        SDL_ఎక్కించు_Function(handle, "wglGetProcAddress");
+    _this->gl_దత్తాంశం->wglCreateContext = (HGLRC (WINAPI *)(HDC))
+        SDL_ఎక్కించు_Function(handle, "wglCreateContext");
+    _this->gl_దత్తాంశం->wglDeleteContext = (BOOL (WINAPI *)(HGLRC))
+        SDL_ఎక్కించు_Function(handle, "wglDeleteContext");
+    _this->gl_దత్తాంశం->wglMakeCurrent = (BOOL (WINAPI *)(HDC, HGLRC))
+        SDL_ఎక్కించు_Function(handle, "wglMakeCurrent");
+    _this->gl_దత్తాంశం->wglShareLists = (BOOL (WINAPI *)(HGLRC, HGLRC))
+        SDL_ఎక్కించు_Function(handle, "wglShareLists");
     /* *INDENT-ON* */ // clang-format on
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    _this->gl_data->wglSwapBuffers = (BOOL(WINAPI *)(HDC))
-        SDL_LoadFunction(handle, "wglSwapBuffers");
-    _this->gl_data->wglDescribePixelFormat = (int(WINAPI *)(HDC, int, UINT, LPPIXELFORMATDESCRIPTOR))
-        SDL_LoadFunction(handle, "wglDescribePixelFormat");
-    _this->gl_data->wglChoosePixelFormat = (int(WINAPI *)(HDC, const PIXELFORMATDESCRIPTOR *))
-        SDL_LoadFunction(handle, "wglChoosePixelFormat");
-    _this->gl_data->wglSetPixelFormat = (BOOL(WINAPI *)(HDC, int, const PIXELFORMATDESCRIPTOR *))
-        SDL_LoadFunction(handle, "wglSetPixelFormat");
-    _this->gl_data->wglGetPixelFormat = (int(WINAPI *)(HDC hdc))
-        SDL_LoadFunction(handle, "wglGetPixelFormat");
-#endif
+#ఒకవేళ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    _this->gl_దత్తాంశం->wgl_మార్పిడి_Buffers = (BOOL(WINAPI *)(HDC))
+        SDL_ఎక్కించు_Function(handle, "wglSwapBuffers");
+    _this->gl_దత్తాంశం->wglDescribePixelFormat = (పూర్ణాంకం(WINAPI *)(HDC, పూర్ణాంకం, UINT, LPPIXELFORMATDESCRIPTOR))
+        SDL_ఎక్కించు_Function(handle, "wglDescribePixelFormat");
+    _this->gl_దత్తాంశం->wgl_ఎంచుకో_Pixel_Format = (పూర్ణాంకం(WINAPI *)(HDC, స్థిరరాశి PIXELFORMATDESCRIPTOR *))
+        SDL_ఎక్కించు_Function(handle, "wglChoosePixelFormat");
+    _this->gl_దత్తాంశం->wgl_సమితి_Pixel_Format = (BOOL(WINAPI *)(HDC, పూర్ణాంకం, స్థిరరాశి PIXELFORMATDESCRIPTOR *))
+        SDL_ఎక్కించు_Function(handle, "wglSetPixelFormat");
+    _this->gl_దత్తాంశం->wglGetPixelFormat = (పూర్ణాంకం(WINAPI *)(HDC hdc))
+        SDL_ఎక్కించు_Function(handle, "wglGetPixelFormat");
+#అయితే_ముగింపు
 
-    if (!_this->gl_data->wglGetProcAddress ||
-        !_this->gl_data->wglCreateContext ||
-        !_this->gl_data->wglDeleteContext ||
-        !_this->gl_data->wglMakeCurrent
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-        || !_this->gl_data->wglSwapBuffers ||
-        !_this->gl_data->wglDescribePixelFormat ||
-        !_this->gl_data->wglChoosePixelFormat ||
-        !_this->gl_data->wglGetPixelFormat ||
-        !_this->gl_data->wglSetPixelFormat
-#endif
+    ఒకవేళ (!_this->gl_దత్తాంశం->wgl_Get_Proc_చిరునామా ||
+        !_this->gl_దత్తాంశం->wglCreateContext ||
+        !_this->gl_దత్తాంశం->wglDeleteContext ||
+        !_this->gl_దత్తాంశం->wglMakeCurrent
+#ఒకవేళ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+        || !_this->gl_దత్తాంశం->wgl_మార్పిడి_Buffers ||
+        !_this->gl_దత్తాంశం->wglDescribePixelFormat ||
+        !_this->gl_దత్తాంశం->wgl_ఎంచుకో_Pixel_Format ||
+        !_this->gl_దత్తాంశం->wglGetPixelFormat ||
+        !_this->gl_దత్తాంశం->wgl_సమితి_Pixel_Format
+#అయితే_ముగింపు
     ) {
-        return SDL_SetError("Could not retrieve OpenGL functions");
+        తిరిగి SDL_సమితి_Error("Could not retrieve OpenGL functions");
     }
 
     /* XXX Too sleazy? WIN_GL_InitExtensions looks for certain OpenGL
@@ -235,466 +235,466 @@ bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     WIN_GL_InitExtensions(_this);
     --_this->gl_config.driver_loaded;
 
-    return true;
+    తిరిగి true;
 }
 
-SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_సూచిక WIN_GL_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc)
 {
-    SDL_FunctionPointer func;
+    SDL_Function_సూచిక func;
 
     // This is to pick up extensions
-    func = (SDL_FunctionPointer)_this->gl_data->wglGetProcAddress(proc);
-    if (!func) {
+    func = (SDL_Function_సూచిక)_this->gl_దత్తాంశం->wgl_Get_Proc_చిరునామా(proc);
+    ఒకవేళ (!func) {
         // This is probably a normal GL function
-        func = (SDL_FunctionPointer)GetProcAddress((HMODULE)_this->gl_config.dll_handle, proc);
+        func = (SDL_Function_సూచిక)Get_Proc_చిరునామా((HMODULE)_this->gl_config.dll_handle, proc);
     }
-    return func;
+    తిరిగి func;
 }
 
-void WIN_GL_UnloadLibrary(SDL_VideoDevice *_this)
+శూన్య WIN_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_UnloadObject(_this->gl_config.dll_handle);
-    _this->gl_config.dll_handle = NULL;
+    _this->gl_config.dll_handle = ఖాళీ;
 
     // Free OpenGL memory
-    SDL_free(_this->gl_data);
-    _this->gl_data = NULL;
+    SDL_free(_this->gl_దత్తాంశం);
+    _this->gl_దత్తాంశం = ఖాళీ;
 }
 
-static void WIN_GL_SetupPixelFormat(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTOR *pfd)
+స్థిర శూన్య WIN_GL_అమరిక_Pixel_Format(SDL_VideoDevice *_this, PIXELFORMATDESCRIPTOR *pfd)
 {
     SDL_zerop(pfd);
-    pfd->nSize = sizeof(*pfd);
-    pfd->nVersion = 1;
-    pfd->dwFlags = (PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL);
-    if (_this->gl_config.double_buffer) {
+    pfd->n_కొలత = పరిమాణం(*pfd);
+    pfd->n_సంస్కరణ = 1;
+    pfd->dwFlags = (PFD_DRAW_గమ్యం_కిటికీ | PFD_SUPPORT_OPENGL);
+    ఒకవేళ (_this->gl_config.double_బఫరు) {
         pfd->dwFlags |= PFD_DOUBLEBUFFER;
     }
-    if (_this->gl_config.stereo) {
+    ఒకవేళ (_this->gl_config.stereo) {
         pfd->dwFlags |= PFD_STEREO;
     }
     pfd->iLayerType = PFD_MAIN_PLANE;
     pfd->iPixelType = PFD_TYPE_RGBA;
-    pfd->cRedBits = (BYTE)_this->gl_config.red_size;
-    pfd->cGreenBits = (BYTE)_this->gl_config.green_size;
-    pfd->cBlueBits = (BYTE)_this->gl_config.blue_size;
-    pfd->cAlphaBits = (BYTE)_this->gl_config.alpha_size;
-    if (_this->gl_config.buffer_size) {
-        pfd->cColorBits = (BYTE)(_this->gl_config.buffer_size - _this->gl_config.alpha_size);
-    } else {
-        pfd->cColorBits = (pfd->cRedBits + pfd->cGreenBits + pfd->cBlueBits);
+    pfd->c_Red_బిట్లు = (BYTE)_this->gl_config.red_కొలత;
+    pfd->c_Green_బిట్లు = (BYTE)_this->gl_config.green_కొలత;
+    pfd->c_Blue_బిట్లు = (BYTE)_this->gl_config.blue_కొలత;
+    pfd->c_Alpha_బిట్లు = (BYTE)_this->gl_config.alpha_కొలత;
+    ఒకవేళ (_this->gl_config.బఫరు_కొలత) {
+        pfd->c_Color_బిట్లు = (BYTE)(_this->gl_config.బఫరు_కొలత - _this->gl_config.alpha_కొలత);
+    } లేకపోతే {
+        pfd->c_Color_బిట్లు = (pfd->c_Red_బిట్లు + pfd->c_Green_బిట్లు + pfd->c_Blue_బిట్లు);
     }
-    pfd->cAccumRedBits = (BYTE)_this->gl_config.accum_red_size;
-    pfd->cAccumGreenBits = (BYTE)_this->gl_config.accum_green_size;
-    pfd->cAccumBlueBits = (BYTE)_this->gl_config.accum_blue_size;
-    pfd->cAccumAlphaBits = (BYTE)_this->gl_config.accum_alpha_size;
-    pfd->cAccumBits =
-        (pfd->cAccumRedBits + pfd->cAccumGreenBits + pfd->cAccumBlueBits +
-         pfd->cAccumAlphaBits);
-    pfd->cDepthBits = (BYTE)_this->gl_config.depth_size;
-    pfd->cStencilBits = (BYTE)_this->gl_config.stencil_size;
+    pfd->c_Accum_Red_బిట్లు = (BYTE)_this->gl_config.accum_red_కొలత;
+    pfd->c_Accum_Green_బిట్లు = (BYTE)_this->gl_config.accum_green_కొలత;
+    pfd->c_Accum_Blue_బిట్లు = (BYTE)_this->gl_config.accum_blue_కొలత;
+    pfd->c_Accum_Alpha_బిట్లు = (BYTE)_this->gl_config.accum_alpha_కొలత;
+    pfd->c_Accum_బిట్లు =
+        (pfd->c_Accum_Red_బిట్లు + pfd->c_Accum_Green_బిట్లు + pfd->c_Accum_Blue_బిట్లు +
+         pfd->c_Accum_Alpha_బిట్లు);
+    pfd->c_లోతు_బిట్లు = (BYTE)_this->gl_config.లోతు_కొలత;
+    pfd->c_Stencil_బిట్లు = (BYTE)_this->gl_config.stencil_కొలత;
 }
 
 /* Choose the closest pixel format that meets or exceeds the target.
    FIXME: Should we weight any particular attribute over any other?
 */
-static bool WIN_GL_ChoosePixelFormat(SDL_VideoDevice *_this, HDC hdc, PIXELFORMATDESCRIPTOR *target)
+స్థిర bool WIN_GL_ఎంచుకో_Pixel_Format(SDL_VideoDevice *_this, HDC hdc, PIXELFORMATDESCRIPTOR *లక్ష్యం)
 {
     PIXELFORMATDESCRIPTOR pfd;
-    int count, index, best = 0;
-    unsigned int dist, best_dist = ~0U;
+    పూర్ణాంకం లెక్క, సూచీ, ఉత్తమ = 0;
+    గుర్తులేని పూర్ణాంకం dist, ఉత్తమ_dist = ~0U;
 
-    count = DescribePixelFormat(hdc, 1, sizeof(pfd), NULL);
+    లెక్క = DescribePixelFormat(hdc, 1, పరిమాణం(pfd), ఖాళీ);
 
-    for (index = 1; index <= count; index++) {
+    కొరకు (సూచీ = 1; సూచీ <= లెక్క; సూచీ++) {
 
-        if (!DescribePixelFormat(hdc, index, sizeof(pfd), &pfd)) {
-            continue;
+        ఒకవేళ (!DescribePixelFormat(hdc, సూచీ, పరిమాణం(pfd), &pfd)) {
+            కొనసాగు;
         }
 
-        if ((pfd.dwFlags & target->dwFlags) != target->dwFlags) {
-            continue;
+        ఒకవేళ ((pfd.dwFlags & లక్ష్యం->dwFlags) != లక్ష్యం->dwFlags) {
+            కొనసాగు;
         }
 
-        if (pfd.iLayerType != target->iLayerType) {
-            continue;
+        ఒకవేళ (pfd.iLayerType != లక్ష్యం->iLayerType) {
+            కొనసాగు;
         }
-        if (pfd.iPixelType != target->iPixelType) {
-            continue;
+        ఒకవేళ (pfd.iPixelType != లక్ష్యం->iPixelType) {
+            కొనసాగు;
         }
 
         dist = 0;
 
-        if (pfd.cColorBits < target->cColorBits) {
-            continue;
-        } else {
-            dist += (pfd.cColorBits - target->cColorBits);
+        ఒకవేళ (pfd.c_Color_బిట్లు < లక్ష్యం->c_Color_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Color_బిట్లు - లక్ష్యం->c_Color_బిట్లు);
         }
-        if (pfd.cRedBits < target->cRedBits) {
-            continue;
-        } else {
-            dist += (pfd.cRedBits - target->cRedBits);
+        ఒకవేళ (pfd.c_Red_బిట్లు < లక్ష్యం->c_Red_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Red_బిట్లు - లక్ష్యం->c_Red_బిట్లు);
         }
-        if (pfd.cGreenBits < target->cGreenBits) {
-            continue;
-        } else {
-            dist += (pfd.cGreenBits - target->cGreenBits);
+        ఒకవేళ (pfd.c_Green_బిట్లు < లక్ష్యం->c_Green_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Green_బిట్లు - లక్ష్యం->c_Green_బిట్లు);
         }
-        if (pfd.cBlueBits < target->cBlueBits) {
-            continue;
-        } else {
-            dist += (pfd.cBlueBits - target->cBlueBits);
+        ఒకవేళ (pfd.c_Blue_బిట్లు < లక్ష్యం->c_Blue_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Blue_బిట్లు - లక్ష్యం->c_Blue_బిట్లు);
         }
-        if (pfd.cAlphaBits < target->cAlphaBits) {
-            continue;
-        } else {
-            dist += (pfd.cAlphaBits - target->cAlphaBits);
+        ఒకవేళ (pfd.c_Alpha_బిట్లు < లక్ష్యం->c_Alpha_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Alpha_బిట్లు - లక్ష్యం->c_Alpha_బిట్లు);
         }
-        if (pfd.cAccumBits < target->cAccumBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumBits - target->cAccumBits);
+        ఒకవేళ (pfd.c_Accum_బిట్లు < లక్ష్యం->c_Accum_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Accum_బిట్లు - లక్ష్యం->c_Accum_బిట్లు);
         }
-        if (pfd.cAccumRedBits < target->cAccumRedBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumRedBits - target->cAccumRedBits);
+        ఒకవేళ (pfd.c_Accum_Red_బిట్లు < లక్ష్యం->c_Accum_Red_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Accum_Red_బిట్లు - లక్ష్యం->c_Accum_Red_బిట్లు);
         }
-        if (pfd.cAccumGreenBits < target->cAccumGreenBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumGreenBits - target->cAccumGreenBits);
+        ఒకవేళ (pfd.c_Accum_Green_బిట్లు < లక్ష్యం->c_Accum_Green_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Accum_Green_బిట్లు - లక్ష్యం->c_Accum_Green_బిట్లు);
         }
-        if (pfd.cAccumBlueBits < target->cAccumBlueBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumBlueBits - target->cAccumBlueBits);
+        ఒకవేళ (pfd.c_Accum_Blue_బిట్లు < లక్ష్యం->c_Accum_Blue_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Accum_Blue_బిట్లు - లక్ష్యం->c_Accum_Blue_బిట్లు);
         }
-        if (pfd.cAccumAlphaBits < target->cAccumAlphaBits) {
-            continue;
-        } else {
-            dist += (pfd.cAccumAlphaBits - target->cAccumAlphaBits);
+        ఒకవేళ (pfd.c_Accum_Alpha_బిట్లు < లక్ష్యం->c_Accum_Alpha_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Accum_Alpha_బిట్లు - లక్ష్యం->c_Accum_Alpha_బిట్లు);
         }
-        if (pfd.cDepthBits < target->cDepthBits) {
-            continue;
-        } else {
-            dist += (pfd.cDepthBits - target->cDepthBits);
+        ఒకవేళ (pfd.c_లోతు_బిట్లు < లక్ష్యం->c_లోతు_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_లోతు_బిట్లు - లక్ష్యం->c_లోతు_బిట్లు);
         }
-        if (pfd.cStencilBits < target->cStencilBits) {
-            continue;
-        } else {
-            dist += (pfd.cStencilBits - target->cStencilBits);
+        ఒకవేళ (pfd.c_Stencil_బిట్లు < లక్ష్యం->c_Stencil_బిట్లు) {
+            కొనసాగు;
+        } లేకపోతే {
+            dist += (pfd.c_Stencil_బిట్లు - లక్ష్యం->c_Stencil_బిట్లు);
         }
 
-        if (dist < best_dist) {
-            best = index;
-            best_dist = dist;
+        ఒకవేళ (dist < ఉత్తమ_dist) {
+            ఉత్తమ = సూచీ;
+            ఉత్తమ_dist = dist;
         }
     }
 
-    return best;
+    తిరిగి ఉత్తమ;
 }
 
-static bool HasExtension(const char *extension, const char *extensions)
+స్థిర bool HasExtension(స్థిరరాశి అక్షరం *extension, స్థిరరాశి అక్షరం *extensions)
 {
-    const char *start;
-    const char *where, *terminator;
+    స్థిరరాశి అక్షరం *ప్రారంభం;
+    స్థిరరాశి అక్షరం *where, *terminator;
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    ఒకవేళ (where || *extension == '\0') {
+        తిరిగి false;
     }
 
-    if (!extensions) {
-        return false;
+    ఒకవేళ (!extensions) {
+        తిరిగి false;
     }
 
     /* It takes a bit of care to be fool-proof about parsing the
      * OpenGL extensions string. Don't be fooled by sub-strings,
      * etc. */
 
-    start = extensions;
+    ప్రారంభం = extensions;
 
-    for (;;) {
-        where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+    కొరకు (;;) {
+        where = SDL_strstr(ప్రారంభం, extension);
+        ఒకవేళ (!where) {
+            ఆపు;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == start || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        ఒకవేళ (where == ప్రారంభం || *(where - 1) == ' ') {
+            ఒకవేళ (*terminator == ' ' || *terminator == '\0') {
+                తిరిగి true;
             }
         }
 
-        start = terminator;
+        ప్రారంభం = terminator;
     }
-    return false;
+    తిరిగి false;
 }
 
-void WIN_GL_InitExtensions(SDL_VideoDevice *_this)
+శూన్య WIN_GL_InitExtensions(SDL_VideoDevice *_this)
 {
     /* *INDENT-OFF* */ // clang-format off
-    const char *(WINAPI * wglGetExtensionsStringARB)(HDC) = 0;
+    స్థిరరాశి అక్షరం *(WINAPI * wglGetExtensionsStringARB)(HDC) = 0;
     /* *INDENT-ON* */ // clang-format on
-    const char *extensions;
+    స్థిరరాశి అక్షరం *extensions;
     HWND hwnd;
     HDC hdc;
     HGLRC hglrc;
     PIXELFORMATDESCRIPTOR pfd;
 
-    if (!_this->gl_data) {
-        return;
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
+        తిరిగి;
     }
 
     hwnd =
-        CreateWindow(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
-                     10, 10, NULL, NULL, SDL_Instance, NULL);
-    if (!hwnd) {
-        return;
+        Create_కిటికీ(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
+                     10, 10, ఖాళీ, ఖాళీ, SDL_Instance, ఖాళీ);
+    ఒకవేళ (!hwnd) {
+        తిరిగి;
     }
     WIN_PumpEventsForHWND(_this, hwnd);
 
     hdc = GetDC(hwnd);
 
-    WIN_GL_SetupPixelFormat(_this, &pfd);
+    WIN_GL_అమరిక_Pixel_Format(_this, &pfd);
 
-    SetPixelFormat(hdc, ChoosePixelFormat(hdc, &pfd), &pfd);
+    సమితి_Pixel_Format(hdc, ఎంచుకో_Pixel_Format(hdc, &pfd), &pfd);
 
-    hglrc = _this->gl_data->wglCreateContext(hdc);
-    if (!hglrc) {
-        return;
+    hglrc = _this->gl_దత్తాంశం->wglCreateContext(hdc);
+    ఒకవేళ (!hglrc) {
+        తిరిగి;
     }
-    _this->gl_data->wglMakeCurrent(hdc, hglrc);
+    _this->gl_దత్తాంశం->wglMakeCurrent(hdc, hglrc);
 
     /* *INDENT-OFF* */ // clang-format off
-    wglGetExtensionsStringARB = (const char *(WINAPI *)(HDC))
-        _this->gl_data->wglGetProcAddress("wglGetExtensionsStringARB");
+    wglGetExtensionsStringARB = (స్థిరరాశి అక్షరం *(WINAPI *)(HDC))
+        _this->gl_దత్తాంశం->wgl_Get_Proc_చిరునామా("wglGetExtensionsStringARB");
     /* *INDENT-ON* */ // clang-format on
-    if (wglGetExtensionsStringARB) {
+    ఒకవేళ (wglGetExtensionsStringARB) {
         extensions = wglGetExtensionsStringARB(hdc);
-    } else {
-        extensions = NULL;
+    } లేకపోతే {
+        extensions = ఖాళీ;
     }
 
     // Check for WGL_ARB_pixel_format
-    _this->gl_data->HAS_WGL_ARB_pixel_format = false;
-    if (HasExtension("WGL_ARB_pixel_format", extensions)) {
+    _this->gl_దత్తాంశం->HAS_WGL_ARB_pixel_format = false;
+    ఒకవేళ (HasExtension("WGL_ARB_pixel_format", extensions)) {
         /* *INDENT-OFF* */ // clang-format off
-        _this->gl_data->wglChoosePixelFormatARB =
-            (BOOL (WINAPI *)(HDC, const int *, const FLOAT *, UINT, int *, UINT *))
-            WIN_GL_GetProcAddress(_this, "wglChoosePixelFormatARB");
-        _this->gl_data->wglGetPixelFormatAttribivARB =
-            (BOOL (WINAPI *)(HDC, int, int, UINT, const int *, int *))
-            WIN_GL_GetProcAddress(_this, "wglGetPixelFormatAttribivARB");
+        _this->gl_దత్తాంశం->wgl_ఎంచుకో_Pixel_Format_ARB =
+            (BOOL (WINAPI *)(HDC, స్థిరరాశి పూర్ణాంకం *, స్థిరరాశి FLOAT *, UINT, పూర్ణాంకం *, UINT *))
+            WIN_GL_Get_Proc_చిరునామా(_this, "wglChoosePixelFormatARB");
+        _this->gl_దత్తాంశం->wglGetPixelFormatAttribivARB =
+            (BOOL (WINAPI *)(HDC, పూర్ణాంకం, పూర్ణాంకం, UINT, స్థిరరాశి పూర్ణాంకం *, పూర్ణాంకం *))
+            WIN_GL_Get_Proc_చిరునామా(_this, "wglGetPixelFormatAttribivARB");
         /* *INDENT-ON* */ // clang-format on
 
-        if ((_this->gl_data->wglChoosePixelFormatARB != NULL) &&
-            (_this->gl_data->wglGetPixelFormatAttribivARB != NULL)) {
-            _this->gl_data->HAS_WGL_ARB_pixel_format = true;
+        ఒకవేళ ((_this->gl_దత్తాంశం->wgl_ఎంచుకో_Pixel_Format_ARB != ఖాళీ) &&
+            (_this->gl_దత్తాంశం->wglGetPixelFormatAttribivARB != ఖాళీ)) {
+            _this->gl_దత్తాంశం->HAS_WGL_ARB_pixel_format = true;
         }
     }
 
     // Check for WGL_EXT_swap_control
-    _this->gl_data->HAS_WGL_EXT_swap_control_tear = false;
-    if (HasExtension("WGL_EXT_swap_control", extensions)) {
-        _this->gl_data->wglSwapIntervalEXT =
-            (BOOL (WINAPI *)(int))
-            WIN_GL_GetProcAddress(_this, "wglSwapIntervalEXT");
-        _this->gl_data->wglGetSwapIntervalEXT =
-            (int (WINAPI *)(void))
-            WIN_GL_GetProcAddress(_this, "wglGetSwapIntervalEXT");
-        if (HasExtension("WGL_EXT_swap_control_tear", extensions)) {
-            _this->gl_data->HAS_WGL_EXT_swap_control_tear = true;
+    _this->gl_దత్తాంశం->HAS_WGL_EXT_మార్పిడి_control_tear = false;
+    ఒకవేళ (HasExtension("WGL_EXT_swap_control", extensions)) {
+        _this->gl_దత్తాంశం->wgl_మార్పిడి_Interval_EXT =
+            (BOOL (WINAPI *)(పూర్ణాంకం))
+            WIN_GL_Get_Proc_చిరునామా(_this, "wglSwapIntervalEXT");
+        _this->gl_దత్తాంశం->wgl_Get_మార్పిడి_Interval_EXT =
+            (పూర్ణాంకం (WINAPI *)(శూన్య))
+            WIN_GL_Get_Proc_చిరునామా(_this, "wglGetSwapIntervalEXT");
+        ఒకవేళ (HasExtension("WGL_EXT_swap_control_tear", extensions)) {
+            _this->gl_దత్తాంశం->HAS_WGL_EXT_మార్పిడి_control_tear = true;
         }
-    } else {
-        _this->gl_data->wglSwapIntervalEXT = NULL;
-        _this->gl_data->wglGetSwapIntervalEXT = NULL;
+    } లేకపోతే {
+        _this->gl_దత్తాంశం->wgl_మార్పిడి_Interval_EXT = ఖాళీ;
+        _this->gl_దత్తాంశం->wgl_Get_మార్పిడి_Interval_EXT = ఖాళీ;
     }
 
     // Check for WGL_EXT_create_context_es2_profile
     // see if we can get at OpenGL ES profiles even if EGL isn't available.
-    _this->gl_data->HAS_WGL_EXT_create_context_es2_profile = HasExtension("WGL_EXT_create_context_es2_profile", extensions);
-    if (_this->gl_data->HAS_WGL_EXT_create_context_es2_profile) {
+    _this->gl_దత్తాంశం->HAS_WGL_EXT_create_context_es2_profile = HasExtension("WGL_EXT_create_context_es2_profile", extensions);
+    ఒకవేళ (_this->gl_దత్తాంశం->HAS_WGL_EXT_create_context_es2_profile) {
         SDL_GL_DeduceMaxSupportedESProfile(
-            &_this->gl_data->es_profile_max_supported_version.major,
-            &_this->gl_data->es_profile_max_supported_version.minor);
+            &_this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.major,
+            &_this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.minor);
     }
 
     // Check for WGL_ARB_context_flush_control
-    if (HasExtension("WGL_ARB_context_flush_control", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_context_flush_control = true;
+    ఒకవేళ (HasExtension("WGL_ARB_context_flush_control", extensions)) {
+        _this->gl_దత్తాంశం->HAS_WGL_ARB_context_flush_control = true;
     }
 
     // Check for WGL_ARB_create_context_robustness
-    if (HasExtension("WGL_ARB_create_context_robustness", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_create_context_robustness = true;
+    ఒకవేళ (HasExtension("WGL_ARB_create_context_robustness", extensions)) {
+        _this->gl_దత్తాంశం->HAS_WGL_ARB_create_context_robustness = true;
     }
 
     // Check for WGL_ARB_create_context_no_error
-    if (HasExtension("WGL_ARB_create_context_no_error", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_create_context_no_error = true;
+    ఒకవేళ (HasExtension("WGL_ARB_create_context_no_error", extensions)) {
+        _this->gl_దత్తాంశం->HAS_WGL_ARB_create_context_no_error = true;
     }
 
     // Check for WGL_ARB_framebuffer_sRGB
-    if (HasExtension("WGL_ARB_framebuffer_sRGB", extensions)) {
-        _this->gl_data->HAS_WGL_ARB_framebuffer_sRGB = true;
-    } else if (HasExtension("WGL_EXT_framebuffer_sRGB", extensions)) {  // same thing.
-        _this->gl_data->HAS_WGL_ARB_framebuffer_sRGB = true;
+    ఒకవేళ (HasExtension("WGL_ARB_framebuffer_sRGB", extensions)) {
+        _this->gl_దత్తాంశం->HAS_WGL_ARB_framebuffer_sRGB = true;
+    } లేకపోతే ఒకవేళ (HasExtension("WGL_EXT_framebuffer_sRGB", extensions)) {  // same thing.
+        _this->gl_దత్తాంశం->HAS_WGL_ARB_framebuffer_sRGB = true;
     }
 
     /* Check for WGL_ARB_pixel_format_float */
-    _this->gl_data->HAS_WGL_ARB_pixel_format_float =
+    _this->gl_దత్తాంశం->HAS_WGL_ARB_pixel_format_float =
         HasExtension("WGL_ARB_pixel_format_float", extensions);
 
-    _this->gl_data->wglMakeCurrent(hdc, NULL);
-    _this->gl_data->wglDeleteContext(hglrc);
+    _this->gl_దత్తాంశం->wglMakeCurrent(hdc, ఖాళీ);
+    _this->gl_దత్తాంశం->wglDeleteContext(hglrc);
     ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
+    Destroy_కిటికీ(hwnd);
     WIN_PumpEventsForHWND(_this, hwnd);
 }
 
-static int WIN_GL_ChoosePixelFormatARB(SDL_VideoDevice *_this, int *iAttribs, float *fAttribs)
+స్థిర పూర్ణాంకం WIN_GL_ఎంచుకో_Pixel_Format_ARB(SDL_VideoDevice *_this, పూర్ణాంకం *iAttribs, దశాంశం *fAttribs)
 {
     HWND hwnd;
     HDC hdc;
     PIXELFORMATDESCRIPTOR pfd;
     HGLRC hglrc;
-    int pixel_format = 0;
-    unsigned int matching;
+    పూర్ణాంకం pixel_format = 0;
+    గుర్తులేని పూర్ణాంకం matching;
 
     hwnd =
-        CreateWindow(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
-                     10, 10, NULL, NULL, SDL_Instance, NULL);
+        Create_కిటికీ(SDL_Appname, SDL_Appname, (WS_POPUP | WS_DISABLED), 0, 0,
+                     10, 10, ఖాళీ, ఖాళీ, SDL_Instance, ఖాళీ);
     WIN_PumpEventsForHWND(_this, hwnd);
 
     hdc = GetDC(hwnd);
 
-    WIN_GL_SetupPixelFormat(_this, &pfd);
+    WIN_GL_అమరిక_Pixel_Format(_this, &pfd);
 
-    SetPixelFormat(hdc, ChoosePixelFormat(hdc, &pfd), &pfd);
+    సమితి_Pixel_Format(hdc, ఎంచుకో_Pixel_Format(hdc, &pfd), &pfd);
 
-    hglrc = _this->gl_data->wglCreateContext(hdc);
-    if (hglrc) {
-        _this->gl_data->wglMakeCurrent(hdc, hglrc);
+    hglrc = _this->gl_దత్తాంశం->wglCreateContext(hdc);
+    ఒకవేళ (hglrc) {
+        _this->gl_దత్తాంశం->wglMakeCurrent(hdc, hglrc);
 
-        if (_this->gl_data->HAS_WGL_ARB_pixel_format) {
-            _this->gl_data->wglChoosePixelFormatARB(hdc, iAttribs, fAttribs,
+        ఒకవేళ (_this->gl_దత్తాంశం->HAS_WGL_ARB_pixel_format) {
+            _this->gl_దత్తాంశం->wgl_ఎంచుకో_Pixel_Format_ARB(hdc, iAttribs, fAttribs,
                                                     1, &pixel_format,
                                                     &matching);
 
             // Check whether we actually got an SRGB capable buffer
-            int srgb = 0;
-            if (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
-                int qAttrib = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
-                _this->gl_data->wglGetPixelFormatAttribivARB(hdc, pixel_format, 0, 1, &qAttrib, &srgb);
+            పూర్ణాంకం srgb = 0;
+            ఒకవేళ (_this->gl_దత్తాంశం->HAS_WGL_ARB_framebuffer_sRGB) {
+                పూర్ణాంకం qAttrib = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
+                _this->gl_దత్తాంశం->wglGetPixelFormatAttribivARB(hdc, pixel_format, 0, 1, &qAttrib, &srgb);
             }
             _this->gl_config.framebuffer_srgb_capable = srgb;
         }
 
-        _this->gl_data->wglMakeCurrent(hdc, NULL);
-        _this->gl_data->wglDeleteContext(hglrc);
+        _this->gl_దత్తాంశం->wglMakeCurrent(hdc, ఖాళీ);
+        _this->gl_దత్తాంశం->wglDeleteContext(hglrc);
     }
     ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
+    Destroy_కిటికీ(hwnd);
     WIN_PumpEventsForHWND(_this, hwnd);
 
-    return pixel_format;
+    తిరిగి pixel_format;
 }
 
 // actual work of WIN_GL_SetupWindow() happens here.
-static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *window)
+స్థిర bool WIN_GL_అమరిక_కిటికీ_అంతర్గత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    HDC hdc = window->internal->hdc;
+    HDC hdc = కిటికీ->అంతర్గత->hdc;
     PIXELFORMATDESCRIPTOR pfd;
-    int pixel_format = 0;
-    int iAttribs[64];
-    int *iAttr;
-    int *iAccelAttr;
-    float fAttribs[1] = { 0 };
+    పూర్ణాంకం pixel_format = 0;
+    పూర్ణాంకం iAttribs[64];
+    పూర్ణాంకం *iAttr;
+    పూర్ణాంకం *iAccelAttr;
+    దశాంశం fAttribs[1] = { 0 };
 
-    WIN_GL_SetupPixelFormat(_this, &pfd);
+    WIN_GL_అమరిక_Pixel_Format(_this, &pfd);
 
     // setup WGL_ARB_pixel_format attribs
     iAttr = &iAttribs[0];
 
-    *iAttr++ = WGL_DRAW_TO_WINDOW_ARB;
+    *iAttr++ = WGL_DRAW_గమ్యం_కిటికీ_ARB;
     *iAttr++ = GL_TRUE;
-    *iAttr++ = WGL_RED_BITS_ARB;
-    *iAttr++ = _this->gl_config.red_size;
-    *iAttr++ = WGL_GREEN_BITS_ARB;
-    *iAttr++ = _this->gl_config.green_size;
-    *iAttr++ = WGL_BLUE_BITS_ARB;
-    *iAttr++ = _this->gl_config.blue_size;
+    *iAttr++ = WGL_RED_బిట్లు_ARB;
+    *iAttr++ = _this->gl_config.red_కొలత;
+    *iAttr++ = WGL_GREEN_బిట్లు_ARB;
+    *iAttr++ = _this->gl_config.green_కొలత;
+    *iAttr++ = WGL_BLUE_బిట్లు_ARB;
+    *iAttr++ = _this->gl_config.blue_కొలత;
 
-    if (_this->gl_config.alpha_size) {
-        *iAttr++ = WGL_ALPHA_BITS_ARB;
-        *iAttr++ = _this->gl_config.alpha_size;
+    ఒకవేళ (_this->gl_config.alpha_కొలత) {
+        *iAttr++ = WGL_ALPHA_బిట్లు_ARB;
+        *iAttr++ = _this->gl_config.alpha_కొలత;
     }
 
-    *iAttr++ = WGL_DOUBLE_BUFFER_ARB;
-    *iAttr++ = _this->gl_config.double_buffer;
+    *iAttr++ = WGL_DOUBLE_బఫరు_ARB;
+    *iAttr++ = _this->gl_config.double_బఫరు;
 
-    *iAttr++ = WGL_DEPTH_BITS_ARB;
-    *iAttr++ = _this->gl_config.depth_size;
+    *iAttr++ = WGL_లోతు_బిట్లు_ARB;
+    *iAttr++ = _this->gl_config.లోతు_కొలత;
 
-    if (_this->gl_config.stencil_size) {
-        *iAttr++ = WGL_STENCIL_BITS_ARB;
-        *iAttr++ = _this->gl_config.stencil_size;
+    ఒకవేళ (_this->gl_config.stencil_కొలత) {
+        *iAttr++ = WGL_STENCIL_బిట్లు_ARB;
+        *iAttr++ = _this->gl_config.stencil_కొలత;
     }
 
-    if (_this->gl_config.accum_red_size) {
-        *iAttr++ = WGL_ACCUM_RED_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_red_size;
+    ఒకవేళ (_this->gl_config.accum_red_కొలత) {
+        *iAttr++ = WGL_ACCUM_RED_బిట్లు_ARB;
+        *iAttr++ = _this->gl_config.accum_red_కొలత;
     }
 
-    if (_this->gl_config.accum_green_size) {
-        *iAttr++ = WGL_ACCUM_GREEN_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_green_size;
+    ఒకవేళ (_this->gl_config.accum_green_కొలత) {
+        *iAttr++ = WGL_ACCUM_GREEN_బిట్లు_ARB;
+        *iAttr++ = _this->gl_config.accum_green_కొలత;
     }
 
-    if (_this->gl_config.accum_blue_size) {
-        *iAttr++ = WGL_ACCUM_BLUE_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_blue_size;
+    ఒకవేళ (_this->gl_config.accum_blue_కొలత) {
+        *iAttr++ = WGL_ACCUM_BLUE_బిట్లు_ARB;
+        *iAttr++ = _this->gl_config.accum_blue_కొలత;
     }
 
-    if (_this->gl_config.accum_alpha_size) {
-        *iAttr++ = WGL_ACCUM_ALPHA_BITS_ARB;
-        *iAttr++ = _this->gl_config.accum_alpha_size;
+    ఒకవేళ (_this->gl_config.accum_alpha_కొలత) {
+        *iAttr++ = WGL_ACCUM_ALPHA_బిట్లు_ARB;
+        *iAttr++ = _this->gl_config.accum_alpha_కొలత;
     }
 
-    if (_this->gl_config.stereo) {
+    ఒకవేళ (_this->gl_config.stereo) {
         *iAttr++ = WGL_STEREO_ARB;
         *iAttr++ = GL_TRUE;
     }
 
-    if (_this->gl_config.multisamplebuffers) {
+    ఒకవేళ (_this->gl_config.multisamplebuffers) {
         *iAttr++ = WGL_SAMPLE_BUFFERS_ARB;
         *iAttr++ = _this->gl_config.multisamplebuffers;
     }
 
-    if (_this->gl_config.multisamplesamples) {
+    ఒకవేళ (_this->gl_config.multisamplesamples) {
         *iAttr++ = WGL_SAMPLES_ARB;
         *iAttr++ = _this->gl_config.multisamplesamples;
     }
 
-    if (_this->gl_data->HAS_WGL_ARB_pixel_format_float && _this->gl_config.floatbuffers) {
+    ఒకవేళ (_this->gl_దత్తాంశం->HAS_WGL_ARB_pixel_format_float && _this->gl_config.floatbuffers) {
         *iAttr++ = WGL_PIXEL_TYPE_ARB;
         *iAttr++ = WGL_TYPE_RGBA_FLOAT_ARB;
     }
 
-    if (_this->gl_data->HAS_WGL_ARB_framebuffer_sRGB) {
-        const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-        if (srgbhint && *srgbhint) {
-            if (SDL_strcmp(srgbhint, "skip") == 0) {
+    ఒకవేళ (_this->gl_దత్తాంశం->HAS_WGL_ARB_framebuffer_sRGB) {
+        స్థిరరాశి అక్షరం *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+        ఒకవేళ (srgbhint && *srgbhint) {
+            ఒకవేళ (SDL_strcmp(srgbhint, "skip") == 0) {
                 // don't set an attribute at all.
-            } else {
+            } లేకపోతే {
                 *iAttr++ = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
                 *iAttr++ = SDL_GetStringBoolean(srgbhint, false) ? GL_TRUE : GL_FALSE;
             }
-        } else if (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
+        } లేకపోతే ఒకవేళ (_this->gl_config.framebuffer_srgb_capable) {  // default behavior without the hint.
             *iAttr++ = WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB;
             *iAttr++ = GL_TRUE;
         }
@@ -706,145 +706,145 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
        a perfectly valid result in any case). */
     *iAttr++ = WGL_ACCELERATION_ARB;
     iAccelAttr = iAttr;
-    if (_this->gl_config.accelerated) {
-        *iAttr++ = WGL_FULL_ACCELERATION_ARB;
-    } else {
+    ఒకవేళ (_this->gl_config.accelerated) {
+        *iAttr++ = WGL_నిండిన_ACCELERATION_ARB;
+    } లేకపోతే {
         *iAttr++ = WGL_NO_ACCELERATION_ARB;
     }
 
     *iAttr = 0;
 
     // Choose and set the closest available pixel format
-    pixel_format = WIN_GL_ChoosePixelFormatARB(_this, iAttribs, fAttribs);
+    pixel_format = WIN_GL_ఎంచుకో_Pixel_Format_ARB(_this, iAttribs, fAttribs);
 
     // App said "don't care about accel" and FULL accel failed. Try NO.
-    if ((!pixel_format) && (_this->gl_config.accelerated < 0)) {
+    ఒకవేళ ((!pixel_format) && (_this->gl_config.accelerated < 0)) {
         *iAccelAttr = WGL_NO_ACCELERATION_ARB;
-        pixel_format = WIN_GL_ChoosePixelFormatARB(_this, iAttribs, fAttribs);
-        *iAccelAttr = WGL_FULL_ACCELERATION_ARB; // if we try again.
+        pixel_format = WIN_GL_ఎంచుకో_Pixel_Format_ARB(_this, iAttribs, fAttribs);
+        *iAccelAttr = WGL_నిండిన_ACCELERATION_ARB; // if we try again.
     }
-    if (!pixel_format) {
-        pixel_format = WIN_GL_ChoosePixelFormat(_this, hdc, &pfd);
+    ఒకవేళ (!pixel_format) {
+        pixel_format = WIN_GL_ఎంచుకో_Pixel_Format(_this, hdc, &pfd);
     }
-    if (!pixel_format) {
-        return SDL_SetError("No matching GL pixel format available");
+    ఒకవేళ (!pixel_format) {
+        తిరిగి SDL_సమితి_Error("No matching GL pixel format available");
     }
-    if (!SetPixelFormat(hdc, pixel_format, &pfd)) {
-        return WIN_SetError("SetPixelFormat()");
+    ఒకవేళ (!సమితి_Pixel_Format(hdc, pixel_format, &pfd)) {
+        తిరిగి WIN_సమితి_Error("SetPixelFormat()");
     }
-    return true;
+    తిరిగి true;
 }
 
-bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_GL_అమరిక_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     // The current context is lost in here; save it and reset it.
-    SDL_Window *current_win = SDL_GL_GetCurrentWindow();
+    SDL_కిటికీ *current_win = SDL_GL_Get_Current_కిటికీ();
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
-    const int result = WIN_GL_SetupWindowInternal(_this, window);
+    స్థిరరాశి పూర్ణాంకం ఫలితం = WIN_GL_అమరిక_కిటికీ_అంతర్గత(_this, కిటికీ);
     WIN_GL_MakeCurrent(_this, current_win, current_ctx);
-    return result;
+    తిరిగి ఫలితం;
 }
 
 bool WIN_GL_UseEGL(SDL_VideoDevice *_this)
 {
-    SDL_assert(_this->gl_data != NULL);
-    SDL_assert(_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_assert(_this->gl_దత్తాంశం != ఖాళీ);
+    SDL_assert(_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES);
 
     // (we don't need EGL to do OpenGL ES if HAS_WGL_EXT_create_context_es2_profile exists.)
-    return !_this->gl_data->HAS_WGL_EXT_create_context_es2_profile ||
+    తిరిగి !_this->gl_దత్తాంశం->HAS_WGL_EXT_create_context_es2_profile ||
            SDL_GetHintBoolean(SDL_HINT_OPENGL_ES_DRIVER, false) ||
-           _this->gl_config.major_version > _this->gl_data->es_profile_max_supported_version.major ||
-           (_this->gl_config.major_version == _this->gl_data->es_profile_max_supported_version.major && _this->gl_config.minor_version > _this->gl_data->es_profile_max_supported_version.minor);
+           _this->gl_config.major_సంస్కరణ > _this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.major ||
+           (_this->gl_config.major_సంస్కరణ == _this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.major && _this->gl_config.minor_సంస్కరణ > _this->gl_దత్తాంశం->es_profile_max_supported_సంస్కరణ.minor);
 }
 
-SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    HDC hdc = window->internal->hdc;
+    HDC hdc = కిటికీ->అంతర్గత->hdc;
     HGLRC context, share_context;
 
-    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES && WIN_GL_UseEGL(_this)) {
-#ifdef SDL_VIDEO_OPENGL_EGL
+    ఒకవేళ (_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES && WIN_GL_UseEGL(_this)) {
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
         // Switch to EGL based functions
 
-        if (!WIN_GL_LoadLibrary_EGLFallback(_this, NULL)) {
-            return NULL;
+        ఒకవేళ (!WIN_GL_ఎక్కించు_Library_EGLFallback(_this, ఖాళీ)) {
+            తిరిగి ఖాళీ;
         }
 
-        return WIN_GLES_CreateContext(_this, window);
-#else
-        SDL_SetError("SDL not configured with EGL support");
-        return NULL;
-#endif
+        తిరిగి WIN_GLES_CreateContext(_this, కిటికీ);
+#లేకపోతే
+        SDL_సమితి_Error("SDL not configured with EGL support");
+        తిరిగి ఖాళీ;
+#అయితే_ముగింపు
     }
 
-    if (_this->gl_config.share_with_current_context) {
+    ఒకవేళ (_this->gl_config.share_with_current_context) {
         share_context = (HGLRC)SDL_GL_GetCurrentContext();
-    } else {
+    } లేకపోతే {
         share_context = 0;
     }
 
-    if (_this->gl_config.major_version < 3 &&
-        _this->gl_config.profile_mask == 0 &&
+    ఒకవేళ (_this->gl_config.major_సంస్కరణ < 3 &&
+        _this->gl_config.profile_ముసుగు == 0 &&
         _this->gl_config.flags == 0) {
         // Create legacy context
-        context = _this->gl_data->wglCreateContext(hdc);
-        if (share_context != 0) {
-            _this->gl_data->wglShareLists(share_context, context);
+        context = _this->gl_దత్తాంశం->wglCreateContext(hdc);
+        ఒకవేళ (share_context != 0) {
+            _this->gl_దత్తాంశం->wglShareLists(share_context, context);
         }
-    } else {
+    } లేకపోతే {
         PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
-        HGLRC temp_context = _this->gl_data->wglCreateContext(hdc);
-        if (!temp_context) {
-            SDL_SetError("Could not create GL context");
-            return NULL;
+        HGLRC తాత్కాలిక_context = _this->gl_దత్తాంశం->wglCreateContext(hdc);
+        ఒకవేళ (!తాత్కాలిక_context) {
+            SDL_సమితి_Error("Could not create GL context");
+            తిరిగి ఖాళీ;
         }
 
         // Make the context current
-        if (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)temp_context)) {
-            WIN_GL_DestroyContext(_this, (SDL_GLContext)temp_context);
-            return NULL;
+        ఒకవేళ (!WIN_GL_MakeCurrent(_this, కిటికీ, (SDL_GLContext)తాత్కాలిక_context)) {
+            WIN_GL_DestroyContext(_this, (SDL_GLContext)తాత్కాలిక_context);
+            తిరిగి ఖాళీ;
         }
 
         wglCreateContextAttribsARB =
-            (PFNWGLCREATECONTEXTATTRIBSARBPROC)_this->gl_data->wglGetProcAddress("wglCreateContextAttribsARB");
-        if (!wglCreateContextAttribsARB) {
-            SDL_SetError("GL 3.x is not supported");
-            context = temp_context;
-        } else {
-            int attribs[15]; // max 14 attributes plus terminator
-            int iattr = 0;
+            (PFNWGLCREATECONTEXTATTRIBSARBPROC)_this->gl_దత్తాంశం->wgl_Get_Proc_చిరునామా("wglCreateContextAttribsARB");
+        ఒకవేళ (!wglCreateContextAttribsARB) {
+            SDL_సమితి_Error("GL 3.x is not supported");
+            context = తాత్కాలిక_context;
+        } లేకపోతే {
+            పూర్ణాంకం attribs[15]; // max 14 attributes plus terminator
+            పూర్ణాంకం iattr = 0;
 
-            attribs[iattr++] = WGL_CONTEXT_MAJOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.major_version;
-            attribs[iattr++] = WGL_CONTEXT_MINOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.minor_version;
+            attribs[iattr++] = WGL_CONTEXT_MAJOR_సంస్కరణ_ARB;
+            attribs[iattr++] = _this->gl_config.major_సంస్కరణ;
+            attribs[iattr++] = WGL_CONTEXT_MINOR_సంస్కరణ_ARB;
+            attribs[iattr++] = _this->gl_config.minor_సంస్కరణ;
 
             // SDL profile bits match WGL profile bits
-            if (_this->gl_config.profile_mask != 0) {
-                attribs[iattr++] = WGL_CONTEXT_PROFILE_MASK_ARB;
-                attribs[iattr++] = _this->gl_config.profile_mask;
+            ఒకవేళ (_this->gl_config.profile_ముసుగు != 0) {
+                attribs[iattr++] = WGL_CONTEXT_PROFILE_ముసుగు_ARB;
+                attribs[iattr++] = _this->gl_config.profile_ముసుగు;
             }
 
             // SDL flags match WGL flags
-            if (_this->gl_config.flags != 0) {
+            ఒకవేళ (_this->gl_config.flags != 0) {
                 attribs[iattr++] = WGL_CONTEXT_FLAGS_ARB;
                 attribs[iattr++] = _this->gl_config.flags;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
+            ఒకవేళ ((_this->gl_దత్తాంశం->HAS_WGL_ARB_context_flush_control) && (_this->gl_config.release_behavior == 0)) {
                 attribs[iattr++] = WGL_CONTEXT_RELEASE_BEHAVIOR_ARB;
                 attribs[iattr++] = _this->gl_config.release_behavior ? WGL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_ARB : WGL_CONTEXT_RELEASE_BEHAVIOR_NONE_ARB;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
+            ఒకవేళ ((_this->gl_దత్తాంశం->HAS_WGL_ARB_create_context_robustness) && (_this->gl_config.reset_notification != 0)) {
                 attribs[iattr++] = WGL_CONTEXT_RESET_NOTIFICATION_STRATEGY_ARB;
                 attribs[iattr++] = _this->gl_config.reset_notification ? WGL_LOSE_CONTEXT_ON_RESET_ARB : WGL_NO_RESET_NOTIFICATION_ARB;
             }
 
             // only set if wgl extension is available and not the default setting
-            if ((_this->gl_data->HAS_WGL_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
+            ఒకవేళ ((_this->gl_దత్తాంశం->HAS_WGL_ARB_create_context_no_error) && (_this->gl_config.no_error != 0)) {
                 attribs[iattr++] = WGL_CONTEXT_OPENGL_NO_ERROR_ARB;
                 attribs[iattr++] = _this->gl_config.no_error;
             }
@@ -854,99 +854,99 @@ SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
             // Create the GL 3.x context
             context = wglCreateContextAttribsARB(hdc, share_context, attribs);
             // Delete the GL 2.x context
-            _this->gl_data->wglDeleteContext(temp_context);
+            _this->gl_దత్తాంశం->wglDeleteContext(తాత్కాలిక_context);
         }
     }
 
-    if (!context) {
-        WIN_SetError("Could not create GL context");
-        return NULL;
+    ఒకవేళ (!context) {
+        WIN_సమితి_Error("Could not create GL context");
+        తిరిగి ఖాళీ;
     }
 
-    if (!WIN_GL_MakeCurrent(_this, window, (SDL_GLContext)context)) {
+    ఒకవేళ (!WIN_GL_MakeCurrent(_this, కిటికీ, (SDL_GLContext)context)) {
         WIN_GL_DestroyContext(_this, (SDL_GLContext)context);
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    _this->gl_config.HAS_GL_ARB_color_buffer_float =
+    _this->gl_config.HAS_GL_ARB_color_బఫరు_float =
         SDL_GL_ExtensionSupported("GL_ARB_color_buffer_float");
 
-    return (SDL_GLContext)context;
+    తిరిగి (SDL_GLContext)context;
 }
 
-bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context)
 {
     HDC hdc;
 
-    if (!_this->gl_data) {
-        return SDL_SetError("OpenGL not initialized");
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("OpenGL not initialized");
     }
 
     // sanity check that higher level handled this.
-    SDL_assert(window || (window == NULL && !context));
+    SDL_assert(కిటికీ || (కిటికీ == ఖాళీ && !context));
 
     /* Some Windows drivers freak out if hdc is NULL, even when context is
        NULL, against spec. Since hdc is _supposed_ to be ignored if context
        is NULL, we either use the current GL window, or do nothing if we
        already have no current context. */
-    if (!window) {
-        window = SDL_GL_GetCurrentWindow();
-        if (!window) {
-            SDL_assert(SDL_GL_GetCurrentContext() == NULL);
-            return true; // already done.
+    ఒకవేళ (!కిటికీ) {
+        కిటికీ = SDL_GL_Get_Current_కిటికీ();
+        ఒకవేళ (!కిటికీ) {
+            SDL_assert(SDL_GL_GetCurrentContext() == ఖాళీ);
+            తిరిగి true; // already done.
         }
     }
 
-    hdc = window->internal->hdc;
-    if (!_this->gl_data->wglMakeCurrent(hdc, (HGLRC)context)) {
-        return WIN_SetError("wglMakeCurrent()");
+    hdc = కిటికీ->అంతర్గత->hdc;
+    ఒకవేళ (!_this->gl_దత్తాంశం->wglMakeCurrent(hdc, (HGLRC)context)) {
+        తిరిగి WIN_సమితి_Error("wglMakeCurrent()");
     }
-    return true;
+    తిరిగి true;
 }
 
-bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool WIN_GL_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval)
 {
-    if ((interval < 0) && (!_this->gl_data->HAS_WGL_EXT_swap_control_tear)) {
-        return SDL_SetError("Negative swap interval unsupported in this GL");
-    } else if (_this->gl_data->wglSwapIntervalEXT) {
-        if (!_this->gl_data->wglSwapIntervalEXT(interval)) {
-            return WIN_SetError("wglSwapIntervalEXT()");
+    ఒకవేళ ((interval < 0) && (!_this->gl_దత్తాంశం->HAS_WGL_EXT_మార్పిడి_control_tear)) {
+        తిరిగి SDL_సమితి_Error("Negative swap interval unsupported in this GL");
+    } లేకపోతే ఒకవేళ (_this->gl_దత్తాంశం->wgl_మార్పిడి_Interval_EXT) {
+        ఒకవేళ (!_this->gl_దత్తాంశం->wgl_మార్పిడి_Interval_EXT(interval)) {
+            తిరిగి WIN_సమితి_Error("wglSwapIntervalEXT()");
         }
-    } else {
-        return SDL_Unsupported();
+    } లేకపోతే {
+        తిరిగి SDL_Unsupported();
     }
-    return true;
+    తిరిగి true;
 }
 
-bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool WIN_GL_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval)
 {
-    if (_this->gl_data->wglGetSwapIntervalEXT) {
-        *interval = _this->gl_data->wglGetSwapIntervalEXT();
-        return true;
-    } else {
-        return SDL_Unsupported();
+    ఒకవేళ (_this->gl_దత్తాంశం->wgl_Get_మార్పిడి_Interval_EXT) {
+        *interval = _this->gl_దత్తాంశం->wgl_Get_మార్పిడి_Interval_EXT();
+        తిరిగి true;
+    } లేకపోతే {
+        తిరిగి SDL_Unsupported();
     }
 }
 
-bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_GL_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    HDC hdc = window->internal->hdc;
+    HDC hdc = కిటికీ->అంతర్గత->hdc;
 
-    if (!SwapBuffers(hdc)) {
-        return WIN_SetError("SwapBuffers()");
+    ఒకవేళ (!మార్పిడి_Buffers(hdc)) {
+        తిరిగి WIN_సమితి_Error("SwapBuffers()");
     }
-    return true;
+    తిరిగి true;
 }
 
 bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    if (!_this->gl_data) {
-        return true;
+    ఒకవేళ (!_this->gl_దత్తాంశం) {
+        తిరిగి true;
     }
-    _this->gl_data->wglDeleteContext((HGLRC)context);
-    return true;
+    _this->gl_దత్తాంశం->wglDeleteContext((HGLRC)context);
+    తిరిగి true;
 }
 
-#endif // SDL_VIDEO_OPENGL_WGL
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_WGL
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WINDOWS

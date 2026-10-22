@@ -18,103 +18,103 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#include "SDL_rect_c.h"
+#అన్తర్భావ "SDL_rect_c.h"
 
 /* There's no float version of this at the moment, because it's not a public API
    and internally we only need the int version. */
-bool SDL_GetSpanEnclosingRect(int width, int height,
-                         int numrects, const SDL_Rect *rects, SDL_Rect *span)
+bool SDL_Get_పరిధి_Enclosing_Rect(పూర్ణాంకం వెడల్పు, పూర్ణాంకం ఎత్తు,
+                         పూర్ణాంకం numrects, స్థిరరాశి SDL_Rect *rects, SDL_Rect *పరిధి)
 {
-    int i;
-    int span_y1, span_y2;
-    int rect_y1, rect_y2;
+    పూర్ణాంకం i;
+    పూర్ణాంకం పరిధి_y1, పరిధి_y2;
+    పూర్ణాంకం rect_y1, rect_y2;
 
-    CHECK_PARAM(width < 1) {
+    CHECK_PARAM(వెడల్పు < 1) {
         SDL_InvalidParamError("width");
-        return false;
+        తిరిగి false;
     }
-    CHECK_PARAM(height < 1) {
+    CHECK_PARAM(ఎత్తు < 1) {
         SDL_InvalidParamError("height");
-        return false;
+        తిరిగి false;
     }
     CHECK_PARAM(!rects) {
         SDL_InvalidParamError("rects");
-        return false;
+        తిరిగి false;
     }
-    CHECK_PARAM(!span) {
+    CHECK_PARAM(!పరిధి) {
         SDL_InvalidParamError("span");
-        return false;
+        తిరిగి false;
     }
     CHECK_PARAM(numrects < 1) {
         SDL_InvalidParamError("numrects");
-        return false;
+        తిరిగి false;
     }
 
     // Initialize to empty rect
-    span_y1 = height;
-    span_y2 = 0;
+    పరిధి_y1 = ఎత్తు;
+    పరిధి_y2 = 0;
 
-    for (i = 0; i < numrects; ++i) {
+    కొరకు (i = 0; i < numrects; ++i) {
         rect_y1 = rects[i].y;
         rect_y2 = rect_y1 + rects[i].h;
 
         // Clip out of bounds rectangles, and expand span rect
-        if (rect_y1 < 0) {
-            span_y1 = 0;
-        } else if (rect_y1 < span_y1) {
-            span_y1 = rect_y1;
+        ఒకవేళ (rect_y1 < 0) {
+            పరిధి_y1 = 0;
+        } లేకపోతే ఒకవేళ (rect_y1 < పరిధి_y1) {
+            పరిధి_y1 = rect_y1;
         }
-        if (rect_y2 > height) {
-            span_y2 = height;
-        } else if (rect_y2 > span_y2) {
-            span_y2 = rect_y2;
+        ఒకవేళ (rect_y2 > ఎత్తు) {
+            పరిధి_y2 = ఎత్తు;
+        } లేకపోతే ఒకవేళ (rect_y2 > పరిధి_y2) {
+            పరిధి_y2 = rect_y2;
         }
     }
-    if (span_y2 > span_y1) {
-        span->x = 0;
-        span->y = span_y1;
-        span->w = width;
-        span->h = (span_y2 - span_y1);
-        return true;
+    ఒకవేళ (పరిధి_y2 > పరిధి_y1) {
+        పరిధి->x = 0;
+        పరిధి->y = పరిధి_y1;
+        పరిధి->w = వెడల్పు;
+        పరిధి->h = (పరిధి_y2 - పరిధి_y1);
+        తిరిగి true;
     }
-    return false;
+    తిరిగి false;
 }
 
 // For use with the Cohen-Sutherland algorithm for line clipping, in SDL_rect_impl.h
-#define CODE_BOTTOM 1
-#define CODE_TOP    2
-#define CODE_LEFT   4
-#define CODE_RIGHT  8
+#నిర్వచించు సంకేతం_BOTTOM 1
+#నిర్వచించు సంకేతం_శిఖరం    2
+#నిర్వచించు సంకేతం_ఎడమ   4
+#నిర్వచించు సంకేతం_కుడి  8
 
 // Same code twice, for float and int versions...
-#define RECTTYPE                 SDL_Rect
-#define POINTTYPE                SDL_Point
-#define SCALARTYPE               int
-#define BIGSCALARTYPE            Sint64
-#define COMPUTEOUTCODE           ComputeOutCode
-#define ENCLOSEPOINTS_EPSILON    1
-#define SDL_RECT_CAN_OVERFLOW    SDL_RectCanOverflow
-#define SDL_HASINTERSECTION      SDL_HasRectIntersection
-#define SDL_INTERSECTRECT        SDL_GetRectIntersection
-#define SDL_RECTEMPTY            SDL_RectEmpty
-#define SDL_UNIONRECT            SDL_GetRectUnion
-#define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersection
-#include "SDL_rect_impl.h"
+#నిర్వచించు RECTTYPE                 SDL_Rect
+#నిర్వచించు POINTTYPE                SDL_బిందువు
+#నిర్వచించు SCALARTYPE               పూర్ణాంకం
+#నిర్వచించు BIGSCALARTYPE            Sint64
+#నిర్వచించు COMPUTEOUTCODE           Compute_బహిర్గతం_సంకేతం
+#నిర్వచించు ENCLOSEPOINTS_EPSILON    1
+#నిర్వచించు SDL_RECT_CAN_అధికప్రవాహం    SDL_Rect_Can_అధికప్రవాహం
+#నిర్వచించు SDL_HASINTERSECTION      SDL_HasRectIntersection
+#నిర్వచించు SDL_INTERSECTRECT        SDL_GetRectIntersection
+#నిర్వచించు SDL_RECTEMPTY            SDL_Rect_ఖాళీలు
+#నిర్వచించు SDL_UNIONRECT            SDL_GetRectUnion
+#నిర్వచించు SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPoints
+#నిర్వచించు SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_పంక్తి_Intersection
+#అన్తర్భావ "SDL_rect_impl.h"
 
-#define RECTTYPE                 SDL_FRect
-#define POINTTYPE                SDL_FPoint
-#define SCALARTYPE               float
-#define BIGSCALARTYPE            double
-#define COMPUTEOUTCODE           ComputeOutCodeFloat
-#define ENCLOSEPOINTS_EPSILON    0.0f
-#define SDL_RECT_CAN_OVERFLOW    SDL_RectCanOverflowFloat
-#define SDL_HASINTERSECTION      SDL_HasRectIntersectionFloat
-#define SDL_INTERSECTRECT        SDL_GetRectIntersectionFloat
-#define SDL_RECTEMPTY            SDL_RectEmptyFloat
-#define SDL_UNIONRECT            SDL_GetRectUnionFloat
-#define SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
-#define SDL_INTERSECTRECTANDLINE SDL_GetRectAndLineIntersectionFloat
-#include "SDL_rect_impl.h"
+#నిర్వచించు RECTTYPE                 SDL_FRect
+#నిర్వచించు POINTTYPE                SDL_FPoint
+#నిర్వచించు SCALARTYPE               దశాంశం
+#నిర్వచించు BIGSCALARTYPE            ద్విగుణ
+#నిర్వచించు COMPUTEOUTCODE           Compute_బహిర్గతం_సంకేతం_Float
+#నిర్వచించు ENCLOSEPOINTS_EPSILON    0.0f
+#నిర్వచించు SDL_RECT_CAN_అధికప్రవాహం    SDL_Rect_Can_అధికప్రవాహం_Float
+#నిర్వచించు SDL_HASINTERSECTION      SDL_HasRectIntersectionFloat
+#నిర్వచించు SDL_INTERSECTRECT        SDL_GetRectIntersectionFloat
+#నిర్వచించు SDL_RECTEMPTY            SDL_Rect_ఖాళీలు_Float
+#నిర్వచించు SDL_UNIONRECT            SDL_GetRectUnionFloat
+#నిర్వచించు SDL_ENCLOSEPOINTS        SDL_GetRectEnclosingPointsFloat
+#నిర్వచించు SDL_INTERSECTRECTANDLINE SDL_Get_Rect_And_పంక్తి_Intersection_Float
+#అన్తర్భావ "SDL_rect_impl.h"

@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_emscriptenmouse_h_
-#define SDL_emscriptenmouse_h_
+#నిర్వచితం_కాకపోతే SDL_emscriptenmouse_h_
+#నిర్వచించు SDL_emscriptenmouse_h_
 
-struct SDL_CursorData
+నిర్మాణం SDL_Cursor_దత్తాంశం
 {
-    const char *system_cursor;
+    స్థిరరాశి అక్షరం *system_cursor;
     bool is_custom;
 };
 
-extern void Emscripten_InitMouse(void);
-extern void Emscripten_QuitMouse(void);
+బాహ్య శూన్య Emscripten_InitMouse(శూన్య);
+బాహ్య శూన్య Emscripten_QuitMouse(శూన్య);
 
-#endif // SDL_emscriptenmouse_h_
+#అయితే_ముగింపు // SDL_emscriptenmouse_h_

@@ -18,124 +18,124 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
+#అన్తర్భావ "SDL_windowsvideo.h"
 
-bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool WIN_Create_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PixelFormat *format, శూన్య **pixels, పూర్ణాంకం *pitch)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
     bool isstack;
-    size_t size;
+    size_t కొలత;
     LPBITMAPINFO info;
     HBITMAP hbm;
-    int w, h;
+    పూర్ణాంకం w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &w, &h);
 
     // Free the old framebuffer surface
-    if (data->mdc) {
-        DeleteDC(data->mdc);
+    ఒకవేళ (దత్తాంశం->mdc) {
+        DeleteDC(దత్తాంశం->mdc);
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
+    ఒకవేళ (దత్తాంశం->hbm) {
+        DeleteObject(దత్తాంశం->hbm);
     }
 
     // Find out the format of the screen
-    size = sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD);
-    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, size, &isstack);
-    if (!info) {
-        return false;
+    కొలత = పరిమాణం(BITMAPINFOHEADER) + 256 * పరిమాణం(RGBQUAD);
+    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, కొలత, &isstack);
+    ఒకవేళ (!info) {
+        తిరిగి false;
     }
 
-    SDL_memset(info, 0, size);
-    info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    SDL_memset(info, 0, కొలత);
+    info->bmi_శీర్షిక.bi_కొలత = పరిమాణం(BITMAPINFOHEADER);
 
     // The second call to GetDIBits() fills in the bitfields
-    hbm = CreateCompatibleBitmap(data->hdc, 1, 1);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
+    hbm = CreateCompatibleBitmap(దత్తాంశం->hdc, 1, 1);
+    GetDIBits(దత్తాంశం->hdc, hbm, 0, 0, ఖాళీ, info, DIB_RGB_COLORS);
+    GetDIBits(దత్తాంశం->hdc, hbm, 0, 0, ఖాళీ, info, DIB_RGB_COLORS);
     DeleteObject(hbm);
 
     // Check if a transparent channel is required
-    bool need_alpha = (window->flags & SDL_WINDOW_TRANSPARENT) != 0;
+    bool need_alpha = (కిటికీ->flags & SDL_కిటికీ_TRANSPARENT) != 0;
 
     *format = SDL_PIXELFORMAT_UNKNOWN;
-    if (info->bmiHeader.biCompression == BI_BITFIELDS) {
-        int bpp;
+    ఒకవేళ (info->bmi_శీర్షిక.biCompression == BI_BITFIELDS) {
+        పూర్ణాంకం bpp;
         Uint32 *masks;
 
-        bpp = info->bmiHeader.biPlanes * info->bmiHeader.biBitCount;
-        masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        bpp = info->bmi_శీర్షిక.biPlanes * info->bmi_శీర్షిక.bi_బిట్టు_లెక్క;
+        masks = (Uint32 *)((Uint8 *)info + info->bmi_శీర్షిక.bi_కొలత);
         *format = SDL_GetPixelFormatForMasks(bpp, masks[0], masks[1], masks[2], 0);
     }
-    if (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
+    ఒకవేళ (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
         // We'll use RGB or BGRA32 format for now
         *format = need_alpha ? SDL_PIXELFORMAT_BGRA32 : SDL_PIXELFORMAT_XRGB8888;
 
         // Create a new one
-        SDL_memset(info, 0, size);
-        info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        info->bmiHeader.biPlanes = 1;
-        info->bmiHeader.biBitCount = 32;
-        info->bmiHeader.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
+        SDL_memset(info, 0, కొలత);
+        info->bmi_శీర్షిక.bi_కొలత = పరిమాణం(BITMAPINFOHEADER);
+        info->bmi_శీర్షిక.biPlanes = 1;
+        info->bmi_శీర్షిక.bi_బిట్టు_లెక్క = 32;
+        info->bmi_శీర్షిక.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
 
-        if (need_alpha) {
-            int tmpbpp;
-            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        ఒకవేళ (need_alpha) {
+            పూర్ణాంకం tmpbpp;
+            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmi_శీర్షిక.bi_కొలత);
             SDL_GetMasksForPixelFormat(SDL_PIXELFORMAT_BGRA32, &tmpbpp, &bgr32masks[0], &bgr32masks[1], &bgr32masks[2], &bgr32masks[3]);
         }
     }
 
     // Fill in the size information
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
-    info->bmiHeader.biWidth = w;
-    info->bmiHeader.biHeight = -h; // negative for topdown bitmap
-    info->bmiHeader.biSizeImage = (DWORD)h * (*pitch);
+    info->bmi_శీర్షిక.bi_వెడల్పు = w;
+    info->bmi_శీర్షిక.bi_ఎత్తు = -h; // negative for topdown bitmap
+    info->bmi_శీర్షిక.bi_కొలత_Image = (DWORD)h * (*pitch);
 
-    data->mdc = CreateCompatibleDC(data->hdc);
-    data->hbm = CreateDIBSection(data->hdc, info, DIB_RGB_COLORS, pixels, NULL, 0);
+    దత్తాంశం->mdc = CreateCompatibleDC(దత్తాంశం->hdc);
+    దత్తాంశం->hbm = CreateDIBSection(దత్తాంశం->hdc, info, DIB_RGB_COLORS, pixels, ఖాళీ, 0);
     SDL_small_free(info, isstack);
 
-    if (!data->hbm) {
-        return WIN_SetError("Unable to create DIB");
+    ఒకవేళ (!దత్తాంశం->hbm) {
+        తిరిగి WIN_సమితి_Error("Unable to create DIB");
     }
-    SelectObject(data->mdc, data->hbm);
+    SelectObject(దత్తాంశం->mdc, దత్తాంశం->hbm);
 
-    return true;
+    తిరిగి true;
 }
 
-bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool WIN_Update_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rects, పూర్ణాంకం numrects)
 {
-    SDL_WindowData *data = window->internal;
-    int i;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    పూర్ణాంకం i;
 
-    for (i = 0; i < numrects; ++i) {
-        BitBlt(data->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
-               data->mdc, rects[i].x, rects[i].y, SRCCOPY);
+    కొరకు (i = 0; i < numrects; ++i) {
+        బిట్టు_Blt(దత్తాంశం->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
+               దత్తాంశం->mdc, rects[i].x, rects[i].y, SRCCOPY);
     }
-    return true;
+    తిరిగి true;
 }
 
-void WIN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య WIN_Destroy_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-    if (!data) {
+    ఒకవేళ (!దత్తాంశం) {
         // The window wasn't fully initialized
-        return;
+        తిరిగి;
     }
 
-    if (data->mdc) {
-        DeleteDC(data->mdc);
-        data->mdc = NULL;
+    ఒకవేళ (దత్తాంశం->mdc) {
+        DeleteDC(దత్తాంశం->mdc);
+        దత్తాంశం->mdc = ఖాళీ;
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
-        data->hbm = NULL;
+    ఒకవేళ (దత్తాంశం->hbm) {
+        DeleteObject(దత్తాంశం->hbm);
+        దత్తాంశం->hbm = ఖాళీ;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WINDOWS

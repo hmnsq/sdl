@@ -19,607 +19,607 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
 // The high-level video driver subsystem
 
-#include "SDL_sysvideo.h"
-#include "SDL_clipboard_c.h"
-#include "SDL_egl_c.h"
-#include "SDL_surface_c.h"
-#include "SDL_pixels_c.h"
-#include "SDL_rect_c.h"
-#include "SDL_video_c.h"
-#include "../events/SDL_events_c.h"
-#include "../SDL_hints_c.h"
-#include "../SDL_properties_c.h"
-#include "../timer/SDL_timer_c.h"
-#include "../camera/SDL_camera_c.h"
-#include "../render/SDL_sysrender.h"
-#include "../main/SDL_main_callbacks.h"
+#అన్తర్భావ "SDL_sysvideo.h"
+#అన్తర్భావ "SDL_clipboard_c.h"
+#అన్తర్భావ "SDL_egl_c.h"
+#అన్తర్భావ "SDL_surface_c.h"
+#అన్తర్భావ "SDL_pixels_c.h"
+#అన్తర్భావ "SDL_rect_c.h"
+#అన్తర్భావ "SDL_video_c.h"
+#అన్తర్భావ "../events/SDL_events_c.h"
+#అన్తర్భావ "../SDL_hints_c.h"
+#అన్తర్భావ "../SDL_properties_c.h"
+#అన్తర్భావ "../timer/SDL_timer_c.h"
+#అన్తర్భావ "../camera/SDL_camera_c.h"
+#అన్తర్భావ "../render/SDL_sysrender.h"
+#అన్తర్భావ "../main/SDL_main_callbacks.h"
 
-#ifdef SDL_VIDEO_OPENGL
-#include <SDL3/SDL_opengl.h>
-#endif // SDL_VIDEO_OPENGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+#అన్తర్భావ <SDL3/SDL_opengl.h>
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL
 
-#if defined(SDL_VIDEO_OPENGL_ES) && !defined(SDL_VIDEO_OPENGL)
-#include <SDL3/SDL_opengles.h>
-#endif // SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
+#ఒకవేళ defined(SDL_VIDEO_OPENGL_ES) && !defined(SDL_VIDEO_OPENGL)
+#అన్తర్భావ <SDL3/SDL_opengles.h>
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
 
 // GL and GLES2 headers conflict on Linux 32 bits
-#if defined(SDL_VIDEO_OPENGL_ES2) && !defined(SDL_VIDEO_OPENGL)
-#include <SDL3/SDL_opengles2.h>
-#endif // SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
+#ఒకవేళ defined(SDL_VIDEO_OPENGL_ES2) && !defined(SDL_VIDEO_OPENGL)
+#అన్తర్భావ <SDL3/SDL_opengles2.h>
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
 
 // GL_CONTEXT_RELEASE_BEHAVIOR and GL_CONTEXT_RELEASE_BEHAVIOR_KHR have the same number.
-#ifndef GL_CONTEXT_RELEASE_BEHAVIOR
-#define GL_CONTEXT_RELEASE_BEHAVIOR 0x82FB
-#endif
+#నిర్వచితం_కాకపోతే GL_CONTEXT_RELEASE_BEHAVIOR
+#నిర్వచించు GL_CONTEXT_RELEASE_BEHAVIOR 0x82FB
+#అయితే_ముగింపు
 
 // GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH and GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_KHR have the same number.
-#ifndef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
-#define GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH 0x82FC
-#endif
+#నిర్వచితం_కాకపోతే GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+#నిర్వచించు GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH 0x82FC
+#అయితే_ముగింపు
 
 // This is always the same number between the various EXT/ARB/GLES extensions.
-#ifndef GL_FRAMEBUFFER_SRGB
-#define GL_FRAMEBUFFER_SRGB 0x8DB9
-#endif
+#నిర్వచితం_కాకపోతే GL_FRAMEBUFFER_SRGB
+#నిర్వచించు GL_FRAMEBUFFER_SRGB 0x8DB9
+#అయితే_ముగింపు
 
-#ifdef SDL_PLATFORM_EMSCRIPTEN
-#include <emscripten.h>
-#endif
+#నిర్వచితమైతే SDL_PLATFORM_EMSCRIPTEN
+#అన్తర్భావ <emscripten.h>
+#అయితే_ముగింపు
 
-#ifdef SDL_PLATFORM_3DS
-#include <3ds.h>
-#endif
+#నిర్వచితమైతే SDL_PLATFORM_3DS
+#అన్తర్భావ <3ds.h>
+#అయితే_ముగింపు
 
-#ifndef GL_RGBA_FLOAT_MODE_ARB
-#define GL_RGBA_FLOAT_MODE_ARB 0x8820
-#endif /* GL_RGBA_FLOAT_MODE_ARB */
+#నిర్వచితం_కాకపోతే GL_RGBA_FLOAT_బహుళకం_ARB
+#నిర్వచించు GL_RGBA_FLOAT_బహుళకం_ARB 0x8820
+#అయితే_ముగింపు /* GL_RGBA_FLOAT_MODE_ARB */
 
 // Available video drivers
-static VideoBootStrap *bootstrap[] = {
-#ifdef SDL_VIDEO_DRIVER_PRIVATE
-    &PRIVATE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_COCOA
+స్థిర VideoBootStrap *bootstrap[] = {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_వ్యక్తిగత
+    &వ్యక్తిగత_bootstrap,
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_COCOA
     &COCOA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND
     &Wayland_preferred_bootstrap,
-#endif
+#అయితే_ముగింపు
     &X11_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND
     &Wayland_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_VIVANTE
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_VIVANTE
     &VIVANTE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WINDOWS
     &WINDOWS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_HAIKU
     &HAIKU_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_UIKIT
     &UIKIT_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
     &Android_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_OPENHARMONY
     &OPENHARMONY_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_PS2
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_PS2
     &PS2_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_PSP
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_PSP
     &PSP_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_VITA
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_VITA
     &VITA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_N3DS
     &N3DS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_NGAGE
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_NGAGE
     &NGAGE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_KMSDRM
     &KMSDRM_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RISCOS
     &RISCOS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_RPI
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RPI
     &RPI_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_EMSCRIPTEN
     &Emscripten_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_QNX
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_QNX
     &QNX_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_OFFSCREEN
     &OFFSCREEN_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_DUMMY
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_DUMMY
     &DUMMY_bootstrap,
-#ifdef SDL_INPUT_LINUXEV
+#నిర్వచితమైతే SDL_ఆదానం_LINUXEV
     &DUMMY_evdev_bootstrap,
-#endif
-#endif
-#ifdef SDL_VIDEO_DRIVER_DOSVESA
+#అయితే_ముగింపు
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_DOSVESA
     &DOSVESA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENVR
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_OPENVR
     &OPENVR_bootstrap,
-#endif
-    NULL
+#అయితే_ముగింపు
+    ఖాళీ
 };
 
-#define CHECK_WINDOW_MAGIC(window, result)                              \
+#నిర్వచించు CHECK_కిటికీ_MAGIC(కిటికీ, ఫలితం)                              \
     CHECK_PARAM(!_this) {                                               \
         SDL_UninitializedVideo();                                       \
-        return result;                                                  \
+        తిరిగి ఫలితం;                                                  \
     }                                                                   \
-    CHECK_PARAM(!SDL_ObjectValid(window, SDL_OBJECT_TYPE_WINDOW)) {     \
-        SDL_SetError("Invalid window");                                 \
-        return result;                                                  \
+    CHECK_PARAM(!SDL_ObjectValid(కిటికీ, SDL_OBJECT_TYPE_కిటికీ)) {     \
+        SDL_సమితి_Error("Invalid window");                                 \
+        తిరిగి ఫలితం;                                                  \
     }
 
-#define CHECK_DISPLAY_MAGIC(display, result)                            \
+#నిర్వచించు CHECK_DISPLAY_MAGIC(display, ఫలితం)                            \
     CHECK_PARAM(!display) {                                             \
-        return result;                                                  \
+        తిరిగి ఫలితం;                                                  \
     }                                                                   \
 
-#define CHECK_WINDOW_NOT_POPUP(window, result)                          \
-    CHECK_PARAM(SDL_WINDOW_IS_POPUP(window)) {                          \
-        SDL_SetError("Operation invalid on popup windows");             \
-        return result;                                                  \
+#నిర్వచించు CHECK_కిటికీ_NOT_POPUP(కిటికీ, ఫలితం)                          \
+    CHECK_PARAM(SDL_కిటికీ_IS_POPUP(కిటికీ)) {                          \
+        SDL_సమితి_Error("Operation invalid on popup windows");             \
+        తిరిగి ఫలితం;                                                  \
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#ఒకవేళ defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
 // Support for macOS fullscreen spaces, etc.
-extern bool Cocoa_IsWindowInFullscreenSpace(SDL_Window *window);
-extern bool Cocoa_IsWindowInFullscreenSpaceTransition(SDL_Window *window);
-extern bool Cocoa_SetWindowFullscreenSpace(SDL_Window *window, bool state, bool blocking);
-extern bool Cocoa_IsShowingModalDialog(SDL_Window *window);
-#endif
+బాహ్య bool Cocoa_Is_కిటికీ_లోపల_Fullscreen_Space(SDL_కిటికీ *కిటికీ);
+బాహ్య bool Cocoa_Is_కిటికీ_లోపల_Fullscreen_Space_Transition(SDL_కిటికీ *కిటికీ);
+బాహ్య bool Cocoa_సమితి_కిటికీ_Fullscreen_Space(SDL_కిటికీ *కిటికీ, bool state, bool blocking);
+బాహ్య bool Cocoa_IsShowingModalDialog(SDL_కిటికీ *కిటికీ);
+#అయితే_ముగింపు
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
-extern void SDL_UpdateLifecycleObserver(void);
-#endif
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_UIKIT
+బాహ్య శూన్య SDL_UpdateLifecycleObserver(శూన్య);
+#అయితే_ముగింపు
 
-static void SDL_CheckWindowDisplayChanged(SDL_Window *window);
-static void SDL_CheckWindowDisplayScaleChanged(SDL_Window *window);
-static void SDL_CheckWindowSafeAreaChanged(SDL_Window *window);
+స్థిర శూన్య SDL_Check_కిటికీ_Display_మారింది(SDL_కిటికీ *కిటికీ);
+స్థిర శూన్య SDL_Check_కిటికీ_Display_Scale_మారింది(SDL_కిటికీ *కిటికీ);
+స్థిర శూన్య SDL_Check_కిటికీ_సురక్షిత_Area_మారింది(SDL_కిటికీ *కిటికీ);
 
 // Convenience functions for reading driver flags
-static bool SDL_ModeSwitchingEmulated(SDL_VideoDevice *_this)
+స్థిర bool SDL_బహుళకం_Switching_Emulated(SDL_VideoDevice *_this)
 {
-    if (_this->device_caps & VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED) {
-        return true;
+    ఒకవేళ (_this->device_caps & VIDEO_DEVICE_CAPS_బహుళకం_SWITCHING_EMULATED) {
+        తిరిగి true;
     }
-    return false;
+    తిరిగి false;
 }
 
-static bool SDL_SendsFullscreenDimensions(SDL_VideoDevice *_this)
+స్థిర bool SDL_SendsFullscreenDimensions(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS);
+    తిరిగి !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS);
 }
 
-static bool IsFullscreenOnly(SDL_VideoDevice *_this)
+స్థిర bool IsFullscreenOnly(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY);
+    తిరిగి !!(_this->device_caps & VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY);
 }
 
-static bool SDL_SendsDisplayChanges(SDL_VideoDevice *_this)
+స్థిర bool SDL_SendsDisplayChanges(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES);
+    తిరిగి !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES);
 }
 
-static bool SDL_DriverSendsHDRChanges(SDL_VideoDevice *_this)
+స్థిర bool SDL_DriverSendsHDRChanges(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES);
+    తిరిగి !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES);
 }
 
-static bool SDL_DriverHasSlowFramebuffer(SDL_VideoDevice *_this)
+స్థిర bool SDL_DriverHasSlowFramebuffer(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER);
+    తిరిగి !!(_this->device_caps & VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER);
 }
 
 // Hint to treat all window ops as synchronous
-static bool syncHint;
+స్థిర bool syncHint;
 
-static void SDL_SyncHintWatcher(void *userdata, const char *name, const char *oldValue, const char *newValue)
+స్థిర శూన్య SDL_SyncHintWatcher(శూన్య *userdata, స్థిరరాశి అక్షరం *name, స్థిరరాశి అక్షరం *old_విలువ, స్థిరరాశి అక్షరం *new_విలువ)
 {
-    syncHint = SDL_GetStringBoolean(newValue, false);
+    syncHint = SDL_GetStringBoolean(new_విలువ, false);
 }
 
-static void SDL_SyncIfRequired(SDL_Window *window)
+స్థిర శూన్య SDL_SyncIfRequired(SDL_కిటికీ *కిటికీ)
 {
-    if (syncHint) {
-        SDL_SyncWindow(window);
+    ఒకవేళ (syncHint) {
+        SDL_Sync_కిటికీ(కిటికీ);
     }
 }
 
-static void SDL_UpdateWindowHierarchy(SDL_Window *window, SDL_Window *parent)
+స్థిర శూన్య SDL_Update_కిటికీ_Hierarchy(SDL_కిటికీ *కిటికీ, SDL_కిటికీ *మాతృ)
 {
     // Unlink the window from the existing parent.
-    if (window->parent) {
-        if (window->next_sibling) {
-            window->next_sibling->prev_sibling = window->prev_sibling;
+    ఒకవేళ (కిటికీ->మాతృ) {
+        ఒకవేళ (కిటికీ->తదుపరి_sibling) {
+            కిటికీ->తదుపరి_sibling->prev_sibling = కిటికీ->prev_sibling;
         }
-        if (window->prev_sibling) {
-            window->prev_sibling->next_sibling = window->next_sibling;
-        } else {
-            window->parent->first_child = window->next_sibling;
+        ఒకవేళ (కిటికీ->prev_sibling) {
+            కిటికీ->prev_sibling->తదుపరి_sibling = కిటికీ->తదుపరి_sibling;
+        } లేకపోతే {
+            కిటికీ->మాతృ->మొదటి_బిడ్డ = కిటికీ->తదుపరి_sibling;
         }
 
-        window->parent = NULL;
+        కిటికీ->మాతృ = ఖాళీ;
     }
 
-    if (parent) {
-        window->parent = parent;
+    ఒకవేళ (మాతృ) {
+        కిటికీ->మాతృ = మాతృ;
 
-        window->next_sibling = parent->first_child;
-        if (parent->first_child) {
-            parent->first_child->prev_sibling = window;
+        కిటికీ->తదుపరి_sibling = మాతృ->మొదటి_బిడ్డ;
+        ఒకవేళ (మాతృ->మొదటి_బిడ్డ) {
+            మాతృ->మొదటి_బిడ్డ->prev_sibling = కిటికీ;
         }
-        parent->first_child = window;
+        మాతృ->మొదటి_బిడ్డ = కిటికీ;
     }
 }
 
 // Support for framebuffer emulation using an accelerated renderer
 
-#define SDL_PROP_WINDOW_TEXTUREDATA_POINTER "SDL.internal.window.texturedata"
+#నిర్వచించు SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక "SDL.internal.window.texturedata"
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
     SDL_Renderer *renderer;
     SDL_Texture *texture;
-    void *pixels;
-    int pitch;
-    int bytes_per_pixel;
-} SDL_WindowTextureData;
+    శూన్య *pixels;
+    పూర్ణాంకం pitch;
+    పూర్ణాంకం బైట్లు_చొప్పున_pixel;
+} SDL_కిటికీ_Texture_దత్తాంశం;
 
-static Uint32 SDL_DefaultGraphicsBackends(SDL_VideoDevice *_this)
+స్థిర Uint32 SDL_DefaultGraphicsBackends(SDL_VideoDevice *_this)
 {
-#if (defined(SDL_VIDEO_OPENGL) && defined(SDL_PLATFORM_MACOS)) || (defined(SDL_PLATFORM_IOS) && !TARGET_OS_MACCATALYST) || defined(SDL_PLATFORM_QNXNTO)
-    if (_this->GL_CreateContext) {
-        return SDL_WINDOW_OPENGL;
+#ఒకవేళ (defined(SDL_VIDEO_OPENGL) && defined(SDL_PLATFORM_MACOS)) || (defined(SDL_PLATFORM_IOS) && !లక్ష్యం_OS_MACCATALYST) || defined(SDL_PLATFORM_QNXNTO)
+    ఒకవేళ (_this->GL_CreateContext) {
+        తిరిగి SDL_కిటికీ_OPENGL;
     }
-#endif
-#if defined(SDL_VIDEO_METAL) && (TARGET_OS_MACCATALYST || defined(SDL_PLATFORM_MACOS) || defined(SDL_PLATFORM_IOS))
-    if (_this->Metal_CreateView) {
-        return SDL_WINDOW_METAL;
+#అయితే_ముగింపు
+#ఒకవేళ defined(SDL_VIDEO_METAL) && (లక్ష్యం_OS_MACCATALYST || defined(SDL_PLATFORM_MACOS) || defined(SDL_PLATFORM_IOS))
+    ఒకవేళ (_this->Metal_CreateView) {
+        తిరిగి SDL_కిటికీ_METAL;
     }
-#endif
-#if defined(SDL_VIDEO_OPENGL) && defined(SDL_VIDEO_DRIVER_OPENVR)
-    if (SDL_strcmp(_this->name, "openvr") == 0) {
-        return SDL_WINDOW_OPENGL;
+#అయితే_ముగింపు
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) && defined(SDL_VIDEO_DRIVER_OPENVR)
+    ఒకవేళ (SDL_strcmp(_this->name, "openvr") == 0) {
+        తిరిగి SDL_కిటికీ_OPENGL;
     }
-#endif
-    return 0;
+#అయితే_ముగింపు
+    తిరిగి 0;
 }
 
-static bool SDL_CreateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+స్థిర bool SDL_Create_కిటికీ_Texture(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PixelFormat *format, శూన్య **pixels, పూర్ణాంకం *pitch)
 {
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_WindowTextureData *data = (SDL_WindowTextureData *)SDL_GetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    const bool transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
-    int i;
-    int w, h;
-    const SDL_PixelFormat *texture_formats;
+    SDL_PropertiesID props = SDL_Get_కిటికీ_Properties(కిటికీ);
+    SDL_కిటికీ_Texture_దత్తాంశం *దత్తాంశం = (SDL_కిటికీ_Texture_దత్తాంశం *)SDL_Get_సూచిక_Property(props, SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక, ఖాళీ);
+    స్థిరరాశి bool transparent = (కిటికీ->flags & SDL_కిటికీ_TRANSPARENT) ? true : false;
+    పూర్ణాంకం i;
+    పూర్ణాంకం w, h;
+    స్థిరరాశి SDL_PixelFormat *texture_formats;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &w, &h);
 
-    if (!data) {
-        SDL_Renderer *renderer = NULL;
-        const char *render_driver = NULL;
+    ఒకవేళ (!దత్తాంశం) {
+        SDL_Renderer *renderer = ఖాళీ;
+        స్థిరరాశి అక్షరం *render_driver = ఖాళీ;
 
         // See if there's a render driver being requested
-        const char *hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
-        if (hint && *hint != '0' && *hint != '1' &&
+        స్థిరరాశి అక్షరం *hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
+        ఒకవేళ (hint && *hint != '0' && *hint != '1' &&
             SDL_strcasecmp(hint, "true") != 0 &&
             SDL_strcasecmp(hint, "false") != 0 &&
             SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) != 0) {
             render_driver = hint;
         }
 
-        if (!render_driver) {
+        ఒకవేళ (!render_driver) {
             render_driver = SDL_GetHint(SDL_HINT_RENDER_DRIVER);
         }
-        if (render_driver && SDL_strcasecmp(render_driver, SDL_SOFTWARE_RENDERER) == 0) {
-            render_driver = NULL;
+        ఒకవేళ (render_driver && SDL_strcasecmp(render_driver, SDL_SOFTWARE_RENDERER) == 0) {
+            render_driver = ఖాళీ;
         }
 
-        char *render_driver_copy = NULL;
-        if (render_driver && *render_driver) {
+        అక్షరం *render_driver_copy = ఖాళీ;
+        ఒకవేళ (render_driver && *render_driver) {
             render_driver_copy = SDL_strdup(render_driver);
             render_driver = render_driver_copy;
-            if (render_driver_copy) {  // turn any "software" requests into "xxxxxxxx" so we don't end up in infinite recursion.
-                char *prev = render_driver_copy;
-                char *ptr = prev;
-                while ((ptr = SDL_strchr(ptr, ',')) != NULL) {
+            ఒకవేళ (render_driver_copy) {  // turn any "software" requests into "xxxxxxxx" so we don't end up in infinite recursion.
+                అక్షరం *prev = render_driver_copy;
+                అక్షరం *ptr = prev;
+                అయితే ((ptr = SDL_strchr(ptr, ',')) != ఖాళీ) {
                     *ptr = '\0';
-                    const bool is_sw = (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0);
+                    స్థిరరాశి bool is_sw = (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0);
                     *ptr = ',';
-                    if (is_sw) {
+                    ఒకవేళ (is_sw) {
                         SDL_memset(prev, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
                         ptr = prev;
-                    } else {
+                    } లేకపోతే {
                         ptr++;
                         prev = ptr;
                     }
                 }
 
-                if (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0) {
+                ఒకవేళ (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0) {
                     SDL_memset(prev, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
                 }
             }
         }
 
         // Check to see if there's a specific driver requested
-        if (render_driver) {
-            renderer = SDL_CreateRenderer(window, render_driver);
+        ఒకవేళ (render_driver) {
+            renderer = SDL_CreateRenderer(కిటికీ, render_driver);
             SDL_free(render_driver_copy);
-            if (!renderer) {
+            ఒకవేళ (!renderer) {
                 // The error for this specific renderer has already been set
-                return false;
+                తిరిగి false;
             }
-        } else {
-            SDL_assert(render_driver_copy == NULL);
-            const int total = SDL_GetNumRenderDrivers();
-            for (i = 0; i < total; ++i) {
-                const char *name = SDL_GetRenderDriver(i);
-                if (name && SDL_strcmp(name, SDL_SOFTWARE_RENDERER) != 0) {
-                    renderer = SDL_CreateRenderer(window, name);
-                    if (renderer) {
-                        break; // this will work.
+        } లేకపోతే {
+            SDL_assert(render_driver_copy == ఖాళీ);
+            స్థిరరాశి పూర్ణాంకం మొత్తం = SDL_Get_అంకె_Render_Drivers();
+            కొరకు (i = 0; i < మొత్తం; ++i) {
+                స్థిరరాశి అక్షరం *name = SDL_GetRenderDriver(i);
+                ఒకవేళ (name && SDL_strcmp(name, SDL_SOFTWARE_RENDERER) != 0) {
+                    renderer = SDL_CreateRenderer(కిటికీ, name);
+                    ఒకవేళ (renderer) {
+                        ఆపు; // this will work.
                     }
                 }
             }
-            if (!renderer) {
-                return SDL_SetError("No hardware accelerated renderers available");
+            ఒకవేళ (!renderer) {
+                తిరిగి SDL_సమితి_Error("No hardware accelerated renderers available");
             }
         }
 
-        SDL_assert(renderer != NULL); // should have explicitly checked this above.
+        SDL_assert(renderer != ఖాళీ); // should have explicitly checked this above.
 
         // Create the data after we successfully create the renderer (bug #1116)
-        data = (SDL_WindowTextureData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+        దత్తాంశం = (SDL_కిటికీ_Texture_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*దత్తాంశం));
+        ఒకవేళ (!దత్తాంశం) {
             SDL_DestroyRenderer(renderer);
-            return false;
+            తిరిగి false;
         }
-        if (!SDL_SetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, data)) {
+        ఒకవేళ (!SDL_సమితి_సూచిక_Property(props, SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక, దత్తాంశం)) {
             SDL_DestroyRenderer(renderer);
-            return false;
+            తిరిగి false;
         }
 
-        data->renderer = renderer;
+        దత్తాంశం->renderer = renderer;
     }
 
-    texture_formats = (const SDL_PixelFormat *)SDL_GetPointerProperty(SDL_GetRendererProperties(data->renderer), SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER, NULL);
-    if (!texture_formats) {
-        return false;
+    texture_formats = (స్థిరరాశి SDL_PixelFormat *)SDL_Get_సూచిక_Property(SDL_GetRendererProperties(దత్తాంశం->renderer), SDL_PROP_RENDERER_TEXTURE_FORMATS_సూచిక, ఖాళీ);
+    ఒకవేళ (!texture_formats) {
+        తిరిగి false;
     }
 
     // Free any old texture and pixel data
-    if (data->texture) {
-        SDL_DestroyTexture(data->texture);
-        data->texture = NULL;
+    ఒకవేళ (దత్తాంశం->texture) {
+        SDL_DestroyTexture(దత్తాంశం->texture);
+        దత్తాంశం->texture = ఖాళీ;
     }
-    SDL_free(data->pixels);
-    data->pixels = NULL;
+    SDL_free(దత్తాంశం->pixels);
+    దత్తాంశం->pixels = ఖాళీ;
 
     // Find the first format with or without an alpha channel
     *format = texture_formats[0];
 
-    for (i = 0; texture_formats[i] != SDL_PIXELFORMAT_UNKNOWN; ++i) {
+    కొరకు (i = 0; texture_formats[i] != SDL_PIXELFORMAT_UNKNOWN; ++i) {
         SDL_PixelFormat texture_format = texture_formats[i];
-        if (!SDL_ISPIXELFORMAT_FOURCC(texture_format) &&
-            !SDL_ISPIXELFORMAT_10BIT(texture_format) &&
+        ఒకవేళ (!SDL_ISPIXELFORMAT_FOURCC(texture_format) &&
+            !SDL_ISPIXELFORMAT_10_బిట్టు(texture_format) &&
             !SDL_ISPIXELFORMAT_FLOAT(texture_format) &&
-            !SDL_ISPIXELFORMAT_INDEXED(texture_format) &&
+            !SDL_ISPIXELFORMAT_సూచీకృత(texture_format) &&
             (!transparent || SDL_ISPIXELFORMAT_ALPHA(texture_format))) {
             *format = texture_format;
-            break;
+            ఆపు;
         }
     }
 
-    data->texture = SDL_CreateTexture(data->renderer, *format,
+    దత్తాంశం->texture = SDL_CreateTexture(దత్తాంశం->renderer, *format,
                                       SDL_TEXTUREACCESS_STREAMING,
                                       w, h);
-    if (!data->texture) {
+    ఒకవేళ (!దత్తాంశం->texture) {
         // codechecker_false_positive [Malloc] Static analyzer doesn't realize allocated `data` is saved to SDL_PROP_WINDOW_TEXTUREDATA_POINTER and not leaked here.
-        return false; // NOLINT(clang-analyzer-unix.Malloc)
+        తిరిగి false; // NOLINT(clang-analyzer-unix.Malloc)
     }
-    SDL_SetTextureBlendMode(data->texture, SDL_BLENDMODE_NONE);
+    SDL_సమితి_Texture_Blend_బహుళకం(దత్తాంశం->texture, SDL_BLENDMODE_NONE);
 
     // Create framebuffer data
-    data->bytes_per_pixel = SDL_BYTESPERPIXEL(*format);
-    data->pitch = (((w * data->bytes_per_pixel) + 3) & ~3);
+    దత్తాంశం->బైట్లు_చొప్పున_pixel = SDL_BYTESPERPIXEL(*format);
+    దత్తాంశం->pitch = (((w * దత్తాంశం->బైట్లు_చొప్పున_pixel) + 3) & ~3);
 
     {
         // Make static analysis happy about potential SDL_malloc(0) calls.
-        const size_t allocsize = (size_t)h * data->pitch;
-        data->pixels = SDL_malloc((allocsize > 0) ? allocsize : 1);
-        if (!data->pixels) {
-            return false;
+        స్థిరరాశి size_t allocsize = (size_t)h * దత్తాంశం->pitch;
+        దత్తాంశం->pixels = SDL_malloc((allocsize > 0) ? allocsize : 1);
+        ఒకవేళ (!దత్తాంశం->pixels) {
+            తిరిగి false;
         }
     }
 
-    *pixels = data->pixels;
-    *pitch = data->pitch;
+    *pixels = దత్తాంశం->pixels;
+    *pitch = దత్తాంశం->pitch;
 
     // Make sure we're not double-scaling the viewport
-    SDL_SetRenderViewport(data->renderer, NULL);
+    SDL_సమితి_Render_Viewport(దత్తాంశం->renderer, ఖాళీ);
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowTextureVSync(SDL_VideoDevice *_this, SDL_Window *window, int vsync)
+bool SDL_సమితి_కిటికీ_Texture_VSync(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, పూర్ణాంకం vsync)
 {
-    SDL_WindowTextureData *data;
+    SDL_కిటికీ_Texture_దత్తాంశం *దత్తాంశం;
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data) {
-        return false;
+    దత్తాంశం = (SDL_కిటికీ_Texture_దత్తాంశం *)SDL_Get_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక, ఖాళీ);
+    ఒకవేళ (!దత్తాంశం) {
+        తిరిగి false;
     }
-    if (!data->renderer) {
-        return false;
+    ఒకవేళ (!దత్తాంశం->renderer) {
+        తిరిగి false;
     }
-    return SDL_SetRenderVSync(data->renderer, vsync);
+    తిరిగి SDL_సమితి_Render_VSync(దత్తాంశం->renderer, vsync);
 }
 
-static bool SDL_GetWindowTextureVSync(SDL_VideoDevice *_this, SDL_Window *window, int *vsync)
+స్థిర bool SDL_Get_కిటికీ_Texture_VSync(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, పూర్ణాంకం *vsync)
 {
-    SDL_WindowTextureData *data;
+    SDL_కిటికీ_Texture_దత్తాంశం *దత్తాంశం;
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data) {
-        return false;
+    దత్తాంశం = (SDL_కిటికీ_Texture_దత్తాంశం *)SDL_Get_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక, ఖాళీ);
+    ఒకవేళ (!దత్తాంశం) {
+        తిరిగి false;
     }
-    if (!data->renderer) {
-        return false;
+    ఒకవేళ (!దత్తాంశం->renderer) {
+        తిరిగి false;
     }
-    return SDL_GetRenderVSync(data->renderer, vsync);
+    తిరిగి SDL_GetRenderVSync(దత్తాంశం->renderer, vsync);
 }
 
-static bool SDL_UpdateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+స్థిర bool SDL_Update_కిటికీ_Texture(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rects, పూర్ణాంకం numrects)
 {
-    SDL_WindowTextureData *data;
+    SDL_కిటికీ_Texture_దత్తాంశం *దత్తాంశం;
     SDL_Rect rect;
-    void *src;
-    int w, h;
+    శూన్య *src;
+    పూర్ణాంకం w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &w, &h);
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data || !data->texture) {
-        return SDL_SetError("No window texture data");
+    దత్తాంశం = (SDL_కిటికీ_Texture_దత్తాంశం *)SDL_Get_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక, ఖాళీ);
+    ఒకవేళ (!దత్తాంశం || !దత్తాంశం->texture) {
+        తిరిగి SDL_సమితి_Error("No window texture data");
     }
 
     // Update a single rect that contains subrects for best DMA performance
-    if (SDL_GetSpanEnclosingRect(w, h, numrects, rects, &rect)) {
-        src = (void *)((Uint8 *)data->pixels +
-                       rect.y * data->pitch +
-                       rect.x * data->bytes_per_pixel);
-        if (!SDL_UpdateTexture(data->texture, &rect, src, data->pitch)) {
-            return false;
+    ఒకవేళ (SDL_Get_పరిధి_Enclosing_Rect(w, h, numrects, rects, &rect)) {
+        src = (శూన్య *)((Uint8 *)దత్తాంశం->pixels +
+                       rect.y * దత్తాంశం->pitch +
+                       rect.x * దత్తాంశం->బైట్లు_చొప్పున_pixel);
+        ఒకవేళ (!SDL_UpdateTexture(దత్తాంశం->texture, &rect, src, దత్తాంశం->pitch)) {
+            తిరిగి false;
         }
 
-        if (!SDL_RenderTexture(data->renderer, data->texture, NULL, NULL)) {
-            return false;
+        ఒకవేళ (!SDL_RenderTexture(దత్తాంశం->renderer, దత్తాంశం->texture, ఖాళీ, ఖాళీ)) {
+            తిరిగి false;
         }
 
-        SDL_RenderPresent(data->renderer);
+        SDL_RenderPresent(దత్తాంశం->renderer);
     }
-    return true;
+    తిరిగి true;
 }
 
-static void SDL_DestroyWindowTexture(SDL_VideoDevice *_this, SDL_Window *window)
+స్థిర శూన్య SDL_Destroy_కిటికీ_Texture(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    if (SDL_HasProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER)) {
-        SDL_WindowTextureData *data = SDL_GetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
+    SDL_PropertiesID props = SDL_Get_కిటికీ_Properties(కిటికీ);
+    ఒకవేళ (SDL_HasProperty(props, SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక)) {
+        SDL_కిటికీ_Texture_దత్తాంశం *దత్తాంశం = SDL_Get_సూచిక_Property(props, SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక, ఖాళీ);
 
-        if (data->texture) {
-            SDL_DestroyTexture(data->texture);
+        ఒకవేళ (దత్తాంశం->texture) {
+            SDL_DestroyTexture(దత్తాంశం->texture);
         }
-        if (data->renderer) {
-            SDL_DestroyRenderer(data->renderer);
+        ఒకవేళ (దత్తాంశం->renderer) {
+            SDL_DestroyRenderer(దత్తాంశం->renderer);
         }
-        SDL_free(data->pixels);
-        SDL_free(data);
+        SDL_free(దత్తాంశం->pixels);
+        SDL_free(దత్తాంశం);
 
-        SDL_ClearProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER);
+        SDL_ClearProperty(props, SDL_PROP_కిటికీ_TEXTUREDATA_సూచిక);
     }
 }
 
-static SDL_VideoDevice *_this = NULL;
-static SDL_AtomicInt SDL_messagebox_count;
+స్థిర SDL_VideoDevice *_this = ఖాళీ;
+స్థిర SDL_AtomicInt SDL_messagebox_లెక్క;
 
-static int SDLCALL cmpmodes(const void *A, const void *B)
+స్థిర పూర్ణాంకం SDLCALL cmpmodes(స్థిరరాశి శూన్య *A, స్థిరరాశి శూన్య *B)
 {
-    const SDL_DisplayMode *a = (const SDL_DisplayMode *)A;
-    const SDL_DisplayMode *b = (const SDL_DisplayMode *)B;
-    int a_refresh_rate = (int)(a->refresh_rate * 100);
-    int b_refresh_rate = (int)(b->refresh_rate * 100);
-    int a_pixel_density = (int)(a->pixel_density * 100);
-    int b_pixel_density = (int)(b->pixel_density * 100);
+    స్థిరరాశి SDL_Display_బహుళకం *a = (స్థిరరాశి SDL_Display_బహుళకం *)A;
+    స్థిరరాశి SDL_Display_బహుళకం *b = (స్థిరరాశి SDL_Display_బహుళకం *)B;
+    పూర్ణాంకం a_refresh_రేటు = (పూర్ణాంకం)(a->refresh_రేటు * 100);
+    పూర్ణాంకం b_refresh_రేటు = (పూర్ణాంకం)(b->refresh_రేటు * 100);
+    పూర్ణాంకం a_pixel_density = (పూర్ణాంకం)(a->pixel_density * 100);
+    పూర్ణాంకం b_pixel_density = (పూర్ణాంకం)(b->pixel_density * 100);
 
-    if (a->w != b->w) {
-        return b->w - a->w;
-    } else if (a->h != b->h) {
-        return b->h - a->h;
-    } else if (SDL_BITSPERPIXEL(a->format) != SDL_BITSPERPIXEL(b->format)) {
-        return SDL_BITSPERPIXEL(b->format) - SDL_BITSPERPIXEL(a->format);
-    } else if (SDL_PIXELLAYOUT(a->format) != SDL_PIXELLAYOUT(b->format)) {
-        return SDL_PIXELLAYOUT(b->format) - SDL_PIXELLAYOUT(a->format);
-    } else if (a_refresh_rate != b_refresh_rate) {
-        return b_refresh_rate - a_refresh_rate;
-    } else if (a_pixel_density != b_pixel_density) {
-        return a_pixel_density - b_pixel_density;
+    ఒకవేళ (a->w != b->w) {
+        తిరిగి b->w - a->w;
+    } లేకపోతే ఒకవేళ (a->h != b->h) {
+        తిరిగి b->h - a->h;
+    } లేకపోతే ఒకవేళ (SDL_BITSPERPIXEL(a->format) != SDL_BITSPERPIXEL(b->format)) {
+        తిరిగి SDL_BITSPERPIXEL(b->format) - SDL_BITSPERPIXEL(a->format);
+    } లేకపోతే ఒకవేళ (SDL_PIXELLAYOUT(a->format) != SDL_PIXELLAYOUT(b->format)) {
+        తిరిగి SDL_PIXELLAYOUT(b->format) - SDL_PIXELLAYOUT(a->format);
+    } లేకపోతే ఒకవేళ (a_refresh_రేటు != b_refresh_రేటు) {
+        తిరిగి b_refresh_రేటు - a_refresh_రేటు;
+    } లేకపోతే ఒకవేళ (a_pixel_density != b_pixel_density) {
+        తిరిగి a_pixel_density - b_pixel_density;
     }
-    return 0;
+    తిరిగి 0;
 }
 
-bool SDL_UninitializedVideo(void)
+bool SDL_UninitializedVideo(శూన్య)
 {
-    return SDL_SetError("Video subsystem has not been initialized");
+    తిరిగి SDL_సమితి_Error("Video subsystem has not been initialized");
 }
 
 // Deduplicated list of video bootstrap drivers.
-static const VideoBootStrap *deduped_bootstrap[SDL_arraysize(bootstrap) - 1];
+స్థిర స్థిరరాశి VideoBootStrap *deduped_bootstrap[SDL_arraysize(bootstrap) - 1];
 
-int SDL_GetNumVideoDrivers(void)
+పూర్ణాంకం SDL_Get_అంకె_Video_Drivers(శూన్య)
 {
-    static int num_drivers = -1;
+    స్థిర పూర్ణాంకం అంకె_drivers = -1;
 
-    if (num_drivers >= 0) {
-        return num_drivers;
+    ఒకవేళ (అంకె_drivers >= 0) {
+        తిరిగి అంకె_drivers;
     }
 
-    num_drivers = 0;
+    అంకె_drivers = 0;
 
     // Build a list of unique video drivers.
-    for (int i = 0; bootstrap[i] != NULL; ++i) {
+    కొరకు (పూర్ణాంకం i = 0; bootstrap[i] != ఖాళీ; ++i) {
         bool duplicate = false;
-        for (int j = 0; j < i; ++j) {
-            if (SDL_strcmp(bootstrap[i]->name, bootstrap[j]->name) == 0) {
+        కొరకు (పూర్ణాంకం j = 0; j < i; ++j) {
+            ఒకవేళ (SDL_strcmp(bootstrap[i]->name, bootstrap[j]->name) == 0) {
                 duplicate = true;
-                break;
+                ఆపు;
             }
         }
 
-        if (!duplicate) {
-            deduped_bootstrap[num_drivers++] = bootstrap[i];
+        ఒకవేళ (!duplicate) {
+            deduped_bootstrap[అంకె_drivers++] = bootstrap[i];
         }
     }
 
-    return num_drivers;
+    తిరిగి అంకె_drivers;
 }
 
-const char *SDL_GetVideoDriver(int index)
+స్థిరరాశి అక్షరం *SDL_GetVideoDriver(పూర్ణాంకం సూచీ)
 {
-    CHECK_PARAM(index < 0 || index >= SDL_GetNumVideoDrivers()) {
+    CHECK_PARAM(సూచీ < 0 || సూచీ >= SDL_Get_అంకె_Video_Drivers()) {
         SDL_InvalidParamError("index");
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    return deduped_bootstrap[index]->name;
+    తిరిగి deduped_bootstrap[సూచీ]->name;
 }
 
 /*
  * Initialize the video and event subsystems -- determine native pixel format
  */
-bool SDL_InitVideo(const char *driver_name)
+bool SDL_InitVideo(స్థిరరాశి అక్షరం *driver_name)
 {
     SDL_VideoDevice *video;
     bool init_events = false;
@@ -627,85 +627,85 @@ bool SDL_InitVideo(const char *driver_name)
     bool init_mouse = false;
     bool init_touch = false;
     bool init_pen = false;
-    int i = 0;
+    పూర్ణాంకం i = 0;
 
     // Check to make sure we don't overwrite '_this'
-    if (_this) {
+    ఒకవేళ (_this) {
         SDL_QuitVideo();
     }
 
     SDL_InitTicks();
 
     // Start the event loop
-    if (!SDL_InitSubSystem(SDL_INIT_EVENTS)) {
-        goto pre_driver_error;
+    ఒకవేళ (!SDL_InitSubSystem(SDL_INIT_EVENTS)) {
+        వెళ్ళు pre_driver_error;
     }
     init_events = true;
-    if (!SDL_InitKeyboard()) {
-        goto pre_driver_error;
+    ఒకవేళ (!SDL_InitKeyboard()) {
+        వెళ్ళు pre_driver_error;
     }
     init_keyboard = true;
-    if (!SDL_PreInitMouse()) {
-        goto pre_driver_error;
+    ఒకవేళ (!SDL_PreInitMouse()) {
+        వెళ్ళు pre_driver_error;
     }
     init_mouse = true;
-    if (!SDL_InitTouch()) {
-        goto pre_driver_error;
+    ఒకవేళ (!SDL_InitTouch()) {
+        వెళ్ళు pre_driver_error;
     }
     init_touch = true;
-    if (!SDL_InitPen()) {
-        goto pre_driver_error;
+    ఒకవేళ (!SDL_InitPen()) {
+        వెళ్ళు pre_driver_error;
     }
     init_pen = true;
 
     // Select the proper video driver
-    video = NULL;
-#ifdef SDL_PLATFORM_LINUX
+    video = ఖాళీ;
+#నిర్వచితమైతే SDL_PLATFORM_LINUX
     // https://github.com/libsdl-org/SDL/issues/12247
-    if (SDL_IsUbuntuTouch()) {
+    ఒకవేళ (SDL_IsUbuntuTouch()) {
         driver_name = "wayland";
     }
-#endif
-    if (!driver_name) {
+#అయితే_ముగింపు
+    ఒకవేళ (!driver_name) {
         driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
     }
-    if (driver_name && *driver_name != 0) {
-        const char *driver_attempt = driver_name;
-        while (driver_attempt && *driver_attempt != 0 && !video) {
-            const char *driver_attempt_end = SDL_strchr(driver_attempt, ',');
-            size_t driver_attempt_len = (driver_attempt_end) ? (driver_attempt_end - driver_attempt)
+    ఒకవేళ (driver_name && *driver_name != 0) {
+        స్థిరరాశి అక్షరం *driver_attempt = driver_name;
+        అయితే (driver_attempt && *driver_attempt != 0 && !video) {
+            స్థిరరాశి అక్షరం *driver_attempt_చివర = SDL_strchr(driver_attempt, ',');
+            size_t driver_attempt_len = (driver_attempt_చివర) ? (driver_attempt_చివర - driver_attempt)
                                                                      : SDL_strlen(driver_attempt);
 
-            for (i = 0; bootstrap[i]; ++i) {
-                if (!bootstrap[i]->is_preferred &&
+            కొరకు (i = 0; bootstrap[i]; ++i) {
+                ఒకవేళ (!bootstrap[i]->is_preferred &&
                     (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
                     (SDL_strncasecmp(bootstrap[i]->name, driver_attempt, driver_attempt_len) == 0)) {
                     video = bootstrap[i]->create();
-                    if (video) {
-                        break;
+                    ఒకవేళ (video) {
+                        ఆపు;
                     }
                 }
             }
 
-            driver_attempt = (driver_attempt_end) ? (driver_attempt_end + 1) : NULL;
+            driver_attempt = (driver_attempt_చివర) ? (driver_attempt_చివర + 1) : ఖాళీ;
         }
-    } else {
-        for (i = 0; bootstrap[i]; ++i) {
+    } లేకపోతే {
+        కొరకు (i = 0; bootstrap[i]; ++i) {
             video = bootstrap[i]->create();
-            if (video) {
-                break;
+            ఒకవేళ (video) {
+                ఆపు;
             }
         }
     }
-    if (video) {
+    ఒకవేళ (video) {
         SDL_DebugLogBackend("video", bootstrap[i]->name);
-    } else {
-        if (driver_name) {
-            SDL_SetError("%s not available", driver_name);
-            goto pre_driver_error;
+    } లేకపోతే {
+        ఒకవేళ (driver_name) {
+            SDL_సమితి_Error("%s not available", driver_name);
+            వెళ్ళు pre_driver_error;
         }
-        SDL_SetError("No available video device");
-        goto pre_driver_error;
+        SDL_సమితి_Error("No available video device");
+        వెళ్ళు pre_driver_error;
     }
 
     /* From this point on, use SDL_QuitVideo to cleanup on error, rather than
@@ -716,22 +716,22 @@ bool SDL_InitVideo(const char *driver_name)
 
     // Set some very sane GL defaults
     _this->gl_config.driver_loaded = 0;
-    _this->gl_config.dll_handle = NULL;
-    SDL_GL_ResetAttributes();
+    _this->gl_config.dll_handle = ఖాళీ;
+    SDL_GL_Reset_లక్షణాలు();
 
     // Initialize the video subsystem
-    if (!_this->VideoInit(_this)) {
+    ఒకవేళ (!_this->VideoInit(_this)) {
         SDL_QuitVideo();
-        return false;
+        తిరిగి false;
     }
 
     // Make sure some displays were added
-    if (_this->num_displays == 0) {
+    ఒకవేళ (_this->అంకె_displays == 0) {
         SDL_QuitVideo();
-        return SDL_SetError("The video driver did not add any displays");
+        తిరిగి SDL_సమితి_Error("The video driver did not add any displays");
     }
 
-    SDL_AddHintCallback(SDL_HINT_VIDEO_SYNC_WINDOW_OPERATIONS, SDL_SyncHintWatcher, NULL);
+    SDL_కూడు_Hint_Callback(SDL_HINT_VIDEO_SYNC_కిటికీ_OPERATIONS, SDL_SyncHintWatcher, ఖాళీ);
 
     /* Disable the screen saver by default. This is a change from <= 2.0.1,
        but most things using SDL are games or media players; you wouldn't
@@ -739,84 +739,84 @@ bool SDL_InitVideo(const char *driver_name)
        joystick, or passively watching a movie. Things that use SDL but
        function more like a normal desktop app should explicitly re-enable the
        screensaver. */
-    if (!SDL_GetHintBoolean(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, false)) {
+    ఒకవేళ (!SDL_GetHintBoolean(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, false)) {
         SDL_DisableScreenSaver();
     }
 
     SDL_PostInitMouse();
 
     // We're ready to go!
-    return true;
+    తిరిగి true;
 
 pre_driver_error:
-    SDL_assert(_this == NULL);
-    if (init_pen) {
+    SDL_assert(_this == ఖాళీ);
+    ఒకవేళ (init_pen) {
         SDL_QuitPen();
     }
-    if (init_touch) {
+    ఒకవేళ (init_touch) {
         SDL_QuitTouch();
     }
-    if (init_mouse) {
+    ఒకవేళ (init_mouse) {
         SDL_QuitMouse();
     }
-    if (init_keyboard) {
+    ఒకవేళ (init_keyboard) {
         SDL_QuitKeyboard();
     }
-    if (init_events) {
+    ఒకవేళ (init_events) {
         SDL_QuitSubSystem(SDL_INIT_EVENTS);
     }
-    return false;
+    తిరిగి false;
 }
 
-const char *SDL_GetCurrentVideoDriver(void)
+స్థిరరాశి అక్షరం *SDL_GetCurrentVideoDriver(శూన్య)
 {
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    return _this->name;
+    తిరిగి _this->name;
 }
 
-SDL_VideoDevice *SDL_GetVideoDevice(void)
+SDL_VideoDevice *SDL_GetVideoDevice(శూన్య)
 {
-    return _this;
+    తిరిగి _this;
 }
 
-bool SDL_OnVideoThread(void)
+bool SDL_OnVideoThread(శూన్య)
 {
-    return (_this && SDL_GetCurrentThreadID() == _this->thread);
+    తిరిగి (_this && SDL_GetCurrentThreadID() == _this->thread);
 }
 
-void SDL_SetSystemTheme(SDL_SystemTheme theme)
+శూన్య SDL_సమితి_System_Theme(SDL_SystemTheme theme)
 {
-    if (_this && theme != _this->system_theme) {
+    ఒకవేళ (_this && theme != _this->system_theme) {
         _this->system_theme = theme;
-        SDL_SendSystemThemeChangedEvent();
+        SDL_Send_System_Theme_మారింది_Event();
     }
 }
 
-SDL_SystemTheme SDL_GetSystemTheme(void)
+SDL_SystemTheme SDL_GetSystemTheme(శూన్య)
 {
-    if (_this) {
-        return _this->system_theme;
-    } else {
-        return SDL_SYSTEM_THEME_UNKNOWN;
+    ఒకవేళ (_this) {
+        తిరిగి _this->system_theme;
+    } లేకపోతే {
+        తిరిగి SDL_SYSTEM_THEME_UNKNOWN;
     }
 }
 
-void SDL_UpdateDesktopBounds(void)
+శూన్య SDL_UpdateDesktopBounds(శూన్య)
 {
     SDL_Rect rect;
     SDL_zero(rect);
 
-    SDL_DisplayID *displays = SDL_GetDisplays(NULL);
-    if (displays) {
-        for (int i = 0; displays[i]; ++i) {
+    SDL_DisplayID *displays = SDL_GetDisplays(ఖాళీ);
+    ఒకవేళ (displays) {
+        కొరకు (పూర్ణాంకం i = 0; displays[i]; ++i) {
             SDL_Rect bounds;
-            if (SDL_GetDisplayBounds(displays[i], &bounds)) {
-                if (i == 0) {
+            ఒకవేళ (SDL_GetDisplayBounds(displays[i], &bounds)) {
+                ఒకవేళ (i == 0) {
                     SDL_copyp(&rect, &bounds);
-                } else {
+                } లేకపోతే {
                     SDL_GetRectUnion(&rect, &bounds, &rect);
                 }
             }
@@ -826,76 +826,76 @@ void SDL_UpdateDesktopBounds(void)
     SDL_copyp(&_this->desktop_bounds, &rect);
 }
 
-static void SDL_FinalizeDisplayMode(SDL_DisplayMode *mode)
+స్థిర శూన్య SDL_Finalize_Display_బహుళకం(SDL_Display_బహుళకం *బహుళకం)
 {
     // Make sure all the fields are set up correctly
-    if (mode->pixel_density <= 0.0f) {
-        mode->pixel_density = 1.0f;
+    ఒకవేళ (బహుళకం->pixel_density <= 0.0f) {
+        బహుళకం->pixel_density = 1.0f;
     }
 
-    if (mode->refresh_rate_numerator > 0) {
-        if (mode->refresh_rate_denominator <= 0) {
-            mode->refresh_rate_denominator = 1;
+    ఒకవేళ (బహుళకం->refresh_రేటు_numerator > 0) {
+        ఒకవేళ (బహుళకం->refresh_రేటు_denominator <= 0) {
+            బహుళకం->refresh_రేటు_denominator = 1;
         }
-        mode->refresh_rate = (float)mode->refresh_rate_numerator / mode->refresh_rate_denominator;
-    } else {
-        SDL_CalculateFraction(mode->refresh_rate, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
+        బహుళకం->refresh_రేటు = (దశాంశం)బహుళకం->refresh_రేటు_numerator / బహుళకం->refresh_రేటు_denominator;
+    } లేకపోతే {
+        SDL_CalculateFraction(బహుళకం->refresh_రేటు, &బహుళకం->refresh_రేటు_numerator, &బహుళకం->refresh_రేటు_denominator);
     }
-    mode->refresh_rate = SDL_roundf(mode->refresh_rate * 100) / 100.0f;
+    బహుళకం->refresh_రేటు = SDL_roundf(బహుళకం->refresh_రేటు * 100) / 100.0f;
 }
 
-SDL_DisplayID SDL_AddBasicVideoDisplay(const SDL_DisplayMode *desktop_mode)
+SDL_DisplayID SDL_కూడు_Basic_Video_Display(స్థిరరాశి SDL_Display_బహుళకం *desktop_బహుళకం)
 {
     SDL_VideoDisplay display;
 
     SDL_zero(display);
-    if (desktop_mode) {
-        SDL_memcpy(&display.desktop_mode, desktop_mode, sizeof(display.desktop_mode));
+    ఒకవేళ (desktop_బహుళకం) {
+        SDL_memcpy(&display.desktop_బహుళకం, desktop_బహుళకం, పరిమాణం(display.desktop_బహుళకం));
     }
-    return SDL_AddVideoDisplay(&display, false);
+    తిరిగి SDL_కూడు_Video_Display(&display, false);
 }
 
-SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_event)
+SDL_DisplayID SDL_కూడు_Video_Display(స్థిరరాశి SDL_VideoDisplay *display, bool send_event)
 {
     SDL_VideoDisplay **displays, *new_display;
     SDL_DisplayID id;
     SDL_PropertiesID props;
-    int i;
+    పూర్ణాంకం i;
 
-    new_display = (SDL_VideoDisplay *)SDL_malloc(sizeof(*new_display));
-    if (!new_display) {
-        return 0;
+    new_display = (SDL_VideoDisplay *)SDL_malloc(పరిమాణం(*new_display));
+    ఒకవేళ (!new_display) {
+        తిరిగి 0;
     }
 
-    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->num_displays + 1) * sizeof(*displays));
-    if (!displays) {
+    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->అంకె_displays + 1) * పరిమాణం(*displays));
+    ఒకవేళ (!displays) {
         SDL_free(new_display);
-        return 0;
+        తిరిగి 0;
     }
     _this->displays = displays;
-    _this->displays[_this->num_displays++] = new_display;
+    _this->displays[_this->అంకె_displays++] = new_display;
 
-    id = SDL_GetNextObjectID();
+    id = SDL_Get_తదుపరి_Object_ID();
     SDL_copyp(new_display, display);
     new_display->id = id;
     new_display->device = _this;
-    if (display->name) {
+    ఒకవేళ (display->name) {
         new_display->name = SDL_strdup(display->name);
-    } else {
-        char name[32];
+    } లేకపోతే {
+        అక్షరం name[32];
 
         SDL_itoa(id, name, 10);
         new_display->name = SDL_strdup(name);
     }
-    if (new_display->content_scale == 0.0f) {
+    ఒకవేళ (new_display->content_scale == 0.0f) {
         new_display->content_scale = 1.0f;
     }
 
-    new_display->desktop_mode.displayID = id;
-    new_display->current_mode = &new_display->desktop_mode;
-    SDL_FinalizeDisplayMode(&new_display->desktop_mode);
+    new_display->desktop_బహుళకం.displayID = id;
+    new_display->current_బహుళకం = &new_display->desktop_బహుళకం;
+    SDL_Finalize_Display_బహుళకం(&new_display->desktop_బహుళకం);
 
-    for (i = 0; i < new_display->num_fullscreen_modes; ++i) {
+    కొరకు (i = 0; i < new_display->అంకె_fullscreen_modes; ++i) {
         new_display->fullscreen_modes[i].displayID = id;
     }
 
@@ -903,169 +903,169 @@ SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_eve
     new_display->HDR.SDR_white_level = SDL_max(display->HDR.SDR_white_level, 1.0f);
 
     props = SDL_GetDisplayProperties(id);
-    SDL_SetBooleanProperty(props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, new_display->HDR.HDR_headroom > 1.0f);
+    SDL_సమితి_Boolean_Property(props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, new_display->HDR.HDR_headroom > 1.0f);
 
     SDL_UpdateDesktopBounds();
 
-    if (send_event) {
+    ఒకవేళ (send_event) {
         SDL_SendDisplayEvent(new_display, SDL_EVENT_DISPLAY_ADDED, 0, 0);
     }
 
-    return id;
+    తిరిగి id;
 }
 
-void SDL_OnDisplayAdded(SDL_VideoDisplay *display)
+శూన్య SDL_OnDisplayAdded(SDL_VideoDisplay *display)
 {
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
 
     // See if any windows have changed to the new display
-    for (window = _this->windows; window; window = window->next) {
-        SDL_CheckWindowDisplayChanged(window);
+    కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+        SDL_Check_కిటికీ_Display_మారింది(కిటికీ);
     }
 }
 
-void SDL_OnDisplayMoved(SDL_VideoDisplay *display)
+శూన్య SDL_OnDisplayMoved(SDL_VideoDisplay *display)
 {
     SDL_UpdateDesktopBounds();
 }
 
-void SDL_DelVideoDisplay(SDL_DisplayID displayID, bool send_event)
+శూన్య SDL_DelVideoDisplay(SDL_DisplayID displayID, bool send_event)
 {
     SDL_VideoDisplay *display;
-    int display_index = SDL_GetDisplayIndex(displayID);
-    if (display_index < 0) {
-        return;
+    పూర్ణాంకం display_సూచీ = SDL_Get_Display_సూచీ(displayID);
+    ఒకవేళ (display_సూచీ < 0) {
+        తిరిగి;
     }
 
-    display = _this->displays[display_index];
+    display = _this->displays[display_సూచీ];
 
-    if (send_event) {
+    ఒకవేళ (send_event) {
         SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_REMOVED, 0, 0);
     }
 
     SDL_DestroyProperties(display->props);
     SDL_free(display->name);
     SDL_ResetFullscreenDisplayModes(display);
-    SDL_free(display->desktop_mode.internal);
-    display->desktop_mode.internal = NULL;
-    SDL_free(display->internal);
-    display->internal = NULL;
+    SDL_free(display->desktop_బహుళకం.అంతర్గత);
+    display->desktop_బహుళకం.అంతర్గత = ఖాళీ;
+    SDL_free(display->అంతర్గత);
+    display->అంతర్గత = ఖాళీ;
     SDL_free(display);
 
-    if (display_index < (_this->num_displays - 1)) {
-        SDL_memmove(&_this->displays[display_index], &_this->displays[display_index + 1], (_this->num_displays - display_index - 1) * sizeof(_this->displays[display_index]));
+    ఒకవేళ (display_సూచీ < (_this->అంకె_displays - 1)) {
+        SDL_memmove(&_this->displays[display_సూచీ], &_this->displays[display_సూచీ + 1], (_this->అంకె_displays - display_సూచీ - 1) * పరిమాణం(_this->displays[display_సూచీ]));
     }
-    --_this->num_displays;
+    --_this->అంకె_displays;
 
     SDL_UpdateDesktopBounds();
 }
 
-SDL_DisplayID *SDL_GetDisplays(int *count)
+SDL_DisplayID *SDL_GetDisplays(పూర్ణాంకం *లెక్క)
 {
-    int i;
+    పూర్ణాంకం i;
     SDL_DisplayID *displays;
 
-    if (!_this) {
-        if (count) {
-            *count = 0;
+    ఒకవేళ (!_this) {
+        ఒకవేళ (లెక్క) {
+            *లెక్క = 0;
         }
 
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    displays = (SDL_DisplayID *)SDL_malloc((_this->num_displays + 1) * sizeof(*displays));
-    if (displays) {
-        if (count) {
-            *count = _this->num_displays;
+    displays = (SDL_DisplayID *)SDL_malloc((_this->అంకె_displays + 1) * పరిమాణం(*displays));
+    ఒకవేళ (displays) {
+        ఒకవేళ (లెక్క) {
+            *లెక్క = _this->అంకె_displays;
         }
 
-        for (i = 0; i < _this->num_displays; ++i) {
+        కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
             displays[i] = _this->displays[i]->id;
         }
         displays[i] = 0;
-    } else {
-        if (count) {
-            *count = 0;
+    } లేకపోతే {
+        ఒకవేళ (లెక్క) {
+            *లెక్క = 0;
         }
     }
-    return displays;
+    తిరిగి displays;
 }
 
 SDL_VideoDisplay *SDL_GetVideoDisplay(SDL_DisplayID displayID)
 {
-    int display_index;
+    పూర్ణాంకం display_సూచీ;
 
-    display_index = SDL_GetDisplayIndex(displayID);
-    if (display_index < 0) {
-        return NULL;
+    display_సూచీ = SDL_Get_Display_సూచీ(displayID);
+    ఒకవేళ (display_సూచీ < 0) {
+        తిరిగి ఖాళీ;
     }
-    return _this->displays[display_index];
+    తిరిగి _this->displays[display_సూచీ];
 }
 
-static SDL_DisplayID GetDisplayForWindow(SDL_Window *window)
+స్థిర SDL_DisplayID Get_Display_For_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
     SDL_DisplayID displayID = 0;
 
     // An explicit fullscreen display overrides all
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        displayID = window->current_fullscreen_mode.displayID;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
+        displayID = కిటికీ->current_fullscreen_బహుళకం.displayID;
     }
 
-    if (!displayID) {
-        displayID = SDL_GetDisplayForWindowPosition(window);
+    ఒకవేళ (!displayID) {
+        displayID = SDL_Get_Display_For_కిటికీ_Position(కిటికీ);
     }
-    return displayID;
+    తిరిగి displayID;
 }
 
-SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window)
+SDL_VideoDisplay *SDL_Get_Video_Display_For_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0);
 
-    return SDL_GetVideoDisplay(GetDisplayForWindow(window));
+    తిరిగి SDL_GetVideoDisplay(Get_Display_For_కిటికీ(కిటికీ));
 }
 
-SDL_DisplayID SDL_GetPrimaryDisplay(void)
+SDL_DisplayID SDL_GetPrimaryDisplay(శూన్య)
 {
-    if (!_this || _this->num_displays == 0) {
+    ఒకవేళ (!_this || _this->అంకె_displays == 0) {
         SDL_UninitializedVideo();
-        return 0;
+        తిరిగి 0;
     }
-    return _this->displays[0]->id;
+    తిరిగి _this->displays[0]->id;
 }
 
-int SDL_GetDisplayIndex(SDL_DisplayID displayID)
+పూర్ణాంకం SDL_Get_Display_సూచీ(SDL_DisplayID displayID)
 {
-    int display_index;
+    పూర్ణాంకం display_సూచీ;
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return -1;
+        తిరిగి -1;
     }
 
-    for (display_index = 0; display_index < _this->num_displays; ++display_index) {
-        if (displayID == _this->displays[display_index]->id) {
-            return display_index;
+    కొరకు (display_సూచీ = 0; display_సూచీ < _this->అంకె_displays; ++display_సూచీ) {
+        ఒకవేళ (displayID == _this->displays[display_సూచీ]->id) {
+            తిరిగి display_సూచీ;
         }
     }
-    SDL_SetError("Invalid display");
-    return -1;
+    SDL_సమితి_Error("Invalid display");
+    తిరిగి -1;
 }
 
-SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID displayID)
+SDL_Display_దత్తాంశం *SDL_Get_Display_Driver_దత్తాంశం(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, ఖాళీ);
 
-    return display->internal;
+    తిరిగి display->అంతర్గత;
 }
 
-SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window)
+SDL_Display_దత్తాంశం *SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0);
 
-    return SDL_GetDisplayDriverData(GetDisplayForWindow(window));
+    తిరిగి SDL_Get_Display_Driver_దత్తాంశం(Get_Display_For_కిటికీ(కిటికీ));
 }
 
 SDL_PropertiesID SDL_GetDisplayProperties(SDL_DisplayID displayID)
@@ -1074,19 +1074,19 @@ SDL_PropertiesID SDL_GetDisplayProperties(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, 0);
 
-    if (display->props == 0) {
+    ఒకవేళ (display->props == 0) {
         display->props = SDL_CreateProperties();
     }
-    return display->props;
+    తిరిగి display->props;
 }
 
-const char *SDL_GetDisplayName(SDL_DisplayID displayID)
+స్థిరరాశి అక్షరం *SDL_GetDisplayName(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, ఖాళీ);
 
-    return display->name;
+    తిరిగి display->name;
 }
 
 bool SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect *rect)
@@ -1096,33 +1096,33 @@ bool SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect *rect)
     CHECK_DISPLAY_MAGIC(display, false);
 
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        తిరిగి SDL_InvalidParamError("rect");
     }
 
-    if (_this->GetDisplayBounds) {
+    ఒకవేళ (_this->GetDisplayBounds) {
         SDL_zerop(rect);
-        if (_this->GetDisplayBounds(_this, display, rect)) {
-            return true;
+        ఒకవేళ (_this->GetDisplayBounds(_this, display, rect)) {
+            తిరిగి true;
         }
     }
 
     // Assume that the displays are left to right
-    if (displayID == SDL_GetPrimaryDisplay()) {
+    ఒకవేళ (displayID == SDL_GetPrimaryDisplay()) {
         rect->x = 0;
         rect->y = 0;
-    } else {
-        SDL_GetDisplayBounds(_this->displays[SDL_GetDisplayIndex(displayID) - 1]->id, rect);
+    } లేకపోతే {
+        SDL_GetDisplayBounds(_this->displays[SDL_Get_Display_సూచీ(displayID) - 1]->id, rect);
         rect->x += rect->w;
     }
-    rect->w = display->current_mode->w;
-    rect->h = display->current_mode->h;
-    return true;
+    rect->w = display->current_బహుళకం->w;
+    rect->h = display->current_బహుళకం->h;
+    తిరిగి true;
 }
 
-static int ParseDisplayUsableBoundsHint(SDL_Rect *rect)
+స్థిర పూర్ణాంకం ParseDisplayUsableBoundsHint(SDL_Rect *rect)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_DISPLAY_USABLE_BOUNDS);
-    return hint && (SDL_sscanf(hint, "%d,%d,%d,%d", &rect->x, &rect->y, &rect->w, &rect->h) == 4);
+    స్థిరరాశి అక్షరం *hint = SDL_GetHint(SDL_HINT_DISPLAY_USABLE_BOUNDS);
+    తిరిగి hint && (SDL_sscanf(hint, "%d,%d,%d,%d", &rect->x, &rect->y, &rect->w, &rect->h) == 4);
 }
 
 bool SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect *rect)
@@ -1132,22 +1132,22 @@ bool SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect *rect)
     CHECK_DISPLAY_MAGIC(display, false);
 
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        తిరిగి SDL_InvalidParamError("rect");
     }
 
-    if (displayID == SDL_GetPrimaryDisplay() && ParseDisplayUsableBoundsHint(rect)) {
-        return true;
+    ఒకవేళ (displayID == SDL_GetPrimaryDisplay() && ParseDisplayUsableBoundsHint(rect)) {
+        తిరిగి true;
     }
 
-    if (_this->GetDisplayUsableBounds) {
+    ఒకవేళ (_this->GetDisplayUsableBounds) {
         SDL_zerop(rect);
-        if (_this->GetDisplayUsableBounds(_this, display, rect)) {
-            return true;
+        ఒకవేళ (_this->GetDisplayUsableBounds(_this, display, rect)) {
+            తిరిగి true;
         }
     }
 
     // Oh well, just give the entire display bounds.
-    return SDL_GetDisplayBounds(displayID, rect);
+    తిరిగి SDL_GetDisplayBounds(displayID, rect);
 }
 
 SDL_DisplayOrientation SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID)
@@ -1156,11 +1156,11 @@ SDL_DisplayOrientation SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, SDL_ORIENTATION_UNKNOWN);
 
-    if (display->natural_orientation != SDL_ORIENTATION_UNKNOWN) {
-        return display->natural_orientation;
-    } else {
+    ఒకవేళ (display->natural_orientation != SDL_ORIENTATION_UNKNOWN) {
+        తిరిగి display->natural_orientation;
+    } లేకపోతే {
         // Default to landscape if the driver hasn't set it
-        return SDL_ORIENTATION_LANDSCAPE;
+        తిరిగి SDL_ORIENTATION_LANDSCAPE;
     }
 }
 
@@ -1170,171 +1170,171 @@ SDL_DisplayOrientation SDL_GetCurrentDisplayOrientation(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, SDL_ORIENTATION_UNKNOWN);
 
-    if (display->current_orientation != SDL_ORIENTATION_UNKNOWN) {
-        return display->current_orientation;
-    } else {
+    ఒకవేళ (display->current_orientation != SDL_ORIENTATION_UNKNOWN) {
+        తిరిగి display->current_orientation;
+    } లేకపోతే {
         // Default to landscape if the driver hasn't set it
-        return SDL_ORIENTATION_LANDSCAPE;
+        తిరిగి SDL_ORIENTATION_LANDSCAPE;
     }
 }
 
-void SDL_SetDisplayContentScale(SDL_VideoDisplay *display, float scale)
+శూన్య SDL_సమితి_Display_Content_Scale(SDL_VideoDisplay *display, దశాంశం scale)
 {
-    if (scale != display->content_scale) {
-        SDL_Window *window;
+    ఒకవేళ (scale != display->content_scale) {
+        SDL_కిటికీ *కిటికీ;
 
         display->content_scale = scale;
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED, 0, 0);
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CONTENT_SCALE_మారింది, 0, 0);
 
         // Check the windows on this display
-        for (window = _this->windows; window; window = window->next) {
-            if (display->id == window->displayID) {
-                SDL_CheckWindowDisplayScaleChanged(window);
+        కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            ఒకవేళ (display->id == కిటికీ->displayID) {
+                SDL_Check_కిటికీ_Display_Scale_మారింది(కిటికీ);
             }
         }
     }
 }
 
-float SDL_GetDisplayContentScale(SDL_DisplayID displayID)
+దశాంశం SDL_GetDisplayContentScale(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
     CHECK_DISPLAY_MAGIC(display, 0.0f);
 
-    return display->content_scale;
+    తిరిగి display->content_scale;
 }
 
-void SDL_SetWindowHDRProperties(SDL_Window *window, const SDL_HDROutputProperties *HDR, bool send_event)
+శూన్య SDL_సమితి_కిటికీ_HDRProperties(SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_HDROutputProperties *HDR, bool send_event)
 {
-    const SDL_HDROutputProperties HDR_clamped = {
+    స్థిరరాశి SDL_HDROutputProperties HDR_clamped = {
         SDL_max(HDR->SDR_white_level, 1.0f),
         SDL_max(HDR->HDR_headroom, 1.0f)
     };
 
-    if (window->HDR.HDR_headroom != HDR_clamped.HDR_headroom || window->HDR.SDR_white_level != HDR_clamped.SDR_white_level) {
-        SDL_PropertiesID window_props = SDL_GetWindowProperties(window);
+    ఒకవేళ (కిటికీ->HDR.HDR_headroom != HDR_clamped.HDR_headroom || కిటికీ->HDR.SDR_white_level != HDR_clamped.SDR_white_level) {
+        SDL_PropertiesID కిటికీ_props = SDL_Get_కిటికీ_Properties(కిటికీ);
 
-        SDL_SetFloatProperty(window_props, SDL_PROP_WINDOW_HDR_HEADROOM_FLOAT, HDR_clamped.HDR_headroom);
-        SDL_SetFloatProperty(window_props, SDL_PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT, HDR_clamped.SDR_white_level);
-        SDL_SetBooleanProperty(window_props, SDL_PROP_WINDOW_HDR_ENABLED_BOOLEAN, HDR_clamped.HDR_headroom > 1.0f);
-        SDL_copyp(&window->HDR, &HDR_clamped);
+        SDL_సమితి_Float_Property(కిటికీ_props, SDL_PROP_కిటికీ_HDR_HEADROOM_FLOAT, HDR_clamped.HDR_headroom);
+        SDL_సమితి_Float_Property(కిటికీ_props, SDL_PROP_కిటికీ_SDR_WHITE_LEVEL_FLOAT, HDR_clamped.SDR_white_level);
+        SDL_సమితి_Boolean_Property(కిటికీ_props, SDL_PROP_కిటికీ_HDR_ENABLED_BOOLEAN, HDR_clamped.HDR_headroom > 1.0f);
+        SDL_copyp(&కిటికీ->HDR, &HDR_clamped);
 
-        if (send_event) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HDR_STATE_CHANGED, HDR_clamped.HDR_headroom > 1.0f, 0);
+        ఒకవేళ (send_event) {
+            SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_HDR_STATE_మారింది, HDR_clamped.HDR_headroom > 1.0f, 0);
         }
     }
 }
 
-void SDL_SetDisplayHDRProperties(SDL_VideoDisplay *display, const SDL_HDROutputProperties *HDR)
+శూన్య SDL_సమితి_Display_HDRProperties(SDL_VideoDisplay *display, స్థిరరాశి SDL_HDROutputProperties *HDR)
 {
-    const SDL_HDROutputProperties HDR_clamped = {
+    స్థిరరాశి SDL_HDROutputProperties HDR_clamped = {
         SDL_max(HDR->SDR_white_level, 1.0f),
         SDL_max(HDR->HDR_headroom, 1.0f)
     };
-    const bool changed = HDR_clamped.SDR_white_level != display->HDR.SDR_white_level ||
+    స్థిరరాశి bool మారింది = HDR_clamped.SDR_white_level != display->HDR.SDR_white_level ||
                          HDR_clamped.HDR_headroom != display->HDR.HDR_headroom;
 
     SDL_copyp(&display->HDR, &HDR_clamped);
 
-	if (changed) {
-		SDL_SetBooleanProperty(display->props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, display->HDR.HDR_headroom > 1.0f);
+	ఒకవేళ (మారింది) {
+		SDL_సమితి_Boolean_Property(display->props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, display->HDR.HDR_headroom > 1.0f);
 	}
 
-    if (changed && !SDL_DriverSendsHDRChanges(_this)) {
-        for (SDL_Window *w = display->device->windows; w; w = w->next) {
-            if (GetDisplayForWindow(w) == display->id) {
-                SDL_SetWindowHDRProperties(w, &display->HDR, true);
+    ఒకవేళ (మారింది && !SDL_DriverSendsHDRChanges(_this)) {
+        కొరకు (SDL_కిటికీ *w = display->device->windows; w; w = w->తదుపరి) {
+            ఒకవేళ (Get_Display_For_కిటికీ(w) == display->id) {
+                SDL_సమితి_కిటికీ_HDRProperties(w, &display->HDR, true);
             }
         }
     }
 }
 
-static void SDL_UpdateFullscreenDisplayModes(SDL_VideoDisplay *display)
+స్థిర శూన్య SDL_UpdateFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
-    if (display->num_fullscreen_modes == 0 && _this->GetDisplayModes) {
+    ఒకవేళ (display->అంకె_fullscreen_modes == 0 && _this->GetDisplayModes) {
         _this->GetDisplayModes(_this, display);
     }
 }
 
 // Return the matching mode as a pointer into our current mode list
-static const SDL_DisplayMode *SDL_GetFullscreenModeMatch(const SDL_DisplayMode *mode)
+స్థిర స్థిరరాశి SDL_Display_బహుళకం *SDL_Get_Fullscreen_బహుళకం_సరిపోలిక(స్థిరరాశి SDL_Display_బహుళకం *బహుళకం)
 {
     SDL_VideoDisplay *display;
-    SDL_DisplayMode fullscreen_mode;
+    SDL_Display_బహుళకం fullscreen_బహుళకం;
 
-    if (mode->w <= 0 || mode->h <= 0) {
+    ఒకవేళ (బహుళకం->w <= 0 || బహుళకం->h <= 0) {
         // Use the desktop mode
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    SDL_memcpy(&fullscreen_mode, mode, sizeof(fullscreen_mode));
-    if (fullscreen_mode.displayID == 0) {
-        fullscreen_mode.displayID = SDL_GetPrimaryDisplay();
+    SDL_memcpy(&fullscreen_బహుళకం, బహుళకం, పరిమాణం(fullscreen_బహుళకం));
+    ఒకవేళ (fullscreen_బహుళకం.displayID == 0) {
+        fullscreen_బహుళకం.displayID = SDL_GetPrimaryDisplay();
     }
-    SDL_FinalizeDisplayMode(&fullscreen_mode);
+    SDL_Finalize_Display_బహుళకం(&fullscreen_బహుళకం);
 
-    mode = NULL;
+    బహుళకం = ఖాళీ;
 
-    display = SDL_GetVideoDisplay(fullscreen_mode.displayID);
-    if (display) {
+    display = SDL_GetVideoDisplay(fullscreen_బహుళకం.displayID);
+    ఒకవేళ (display) {
         SDL_UpdateFullscreenDisplayModes(display);
 
         // Search for an exact match
-        if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
-                if (SDL_memcmp(&fullscreen_mode, &display->fullscreen_modes[i], sizeof(fullscreen_mode)) == 0) {
-                    mode = &display->fullscreen_modes[i];
-                    break;
+        ఒకవేళ (!బహుళకం) {
+            కొరకు (పూర్ణాంకం i = 0; i < display->అంకె_fullscreen_modes; ++i) {
+                ఒకవేళ (SDL_memcmp(&fullscreen_బహుళకం, &display->fullscreen_modes[i], పరిమాణం(fullscreen_బహుళకం)) == 0) {
+                    బహుళకం = &display->fullscreen_modes[i];
+                    ఆపు;
                 }
             }
         }
 
         // Search for a mode with the same characteristics
-        if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
-                if (cmpmodes(&fullscreen_mode, &display->fullscreen_modes[i]) == 0) {
-                    mode = &display->fullscreen_modes[i];
-                    break;
+        ఒకవేళ (!బహుళకం) {
+            కొరకు (పూర్ణాంకం i = 0; i < display->అంకె_fullscreen_modes; ++i) {
+                ఒకవేళ (cmpmodes(&fullscreen_బహుళకం, &display->fullscreen_modes[i]) == 0) {
+                    బహుళకం = &display->fullscreen_modes[i];
+                    ఆపు;
                 }
             }
         }
     }
-    return mode;
+    తిరిగి బహుళకం;
 }
 
-bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+bool SDL_కూడు_Fullscreen_Display_బహుళకం(SDL_VideoDisplay *display, స్థిరరాశి SDL_Display_బహుళకం *బహుళకం)
 {
-    SDL_DisplayMode *modes;
-    SDL_DisplayMode new_mode;
-    int i, nmodes;
+    SDL_Display_బహుళకం *modes;
+    SDL_Display_బహుళకం new_బహుళకం;
+    పూర్ణాంకం i, nmodes;
 
     // Finalize the mode for the display
-    SDL_memcpy(&new_mode, mode, sizeof(new_mode));
-    new_mode.displayID = display->id;
-    SDL_FinalizeDisplayMode(&new_mode);
+    SDL_memcpy(&new_బహుళకం, బహుళకం, పరిమాణం(new_బహుళకం));
+    new_బహుళకం.displayID = display->id;
+    SDL_Finalize_Display_బహుళకం(&new_బహుళకం);
 
     // Make sure we don't already have the mode in the list
     modes = display->fullscreen_modes;
-    nmodes = display->num_fullscreen_modes;
-    for (i = 0; i < nmodes; ++i) {
-        if (cmpmodes(&new_mode, &modes[i]) == 0) {
-            return false;
+    nmodes = display->అంకె_fullscreen_modes;
+    కొరకు (i = 0; i < nmodes; ++i) {
+        ఒకవేళ (cmpmodes(&new_బహుళకం, &modes[i]) == 0) {
+            తిరిగి false;
         }
     }
 
     // Go ahead and add the new mode
-    if (nmodes == display->max_fullscreen_modes) {
-        modes = (SDL_DisplayMode *)SDL_malloc((display->max_fullscreen_modes + 32) * sizeof(*modes));
-        if (!modes) {
-            return false;
+    ఒకవేళ (nmodes == display->max_fullscreen_modes) {
+        modes = (SDL_Display_బహుళకం *)SDL_malloc((display->max_fullscreen_modes + 32) * పరిమాణం(*modes));
+        ఒకవేళ (!modes) {
+            తిరిగి false;
         }
 
-        if (display->fullscreen_modes) {
+        ఒకవేళ (display->fullscreen_modes) {
             // Copy the list and update the current mode pointer, if necessary.
-            SDL_memcpy(modes, display->fullscreen_modes, nmodes * sizeof(*modes));
-            for (i = 0; i < nmodes; ++i) {
-                if (display->current_mode == &display->fullscreen_modes[i]) {
-                    display->current_mode = &modes[i];
+            SDL_memcpy(modes, display->fullscreen_modes, nmodes * పరిమాణం(*modes));
+            కొరకు (i = 0; i < nmodes; ++i) {
+                ఒకవేళ (display->current_బహుళకం == &display->fullscreen_modes[i]) {
+                    display->current_బహుళకం = &modes[i];
                 }
             }
 
@@ -1344,441 +1344,441 @@ bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMo
         display->fullscreen_modes = modes;
         display->max_fullscreen_modes += 32;
     }
-    SDL_memcpy(&modes[display->num_fullscreen_modes++], &new_mode, sizeof(new_mode));
+    SDL_memcpy(&modes[display->అంకె_fullscreen_modes++], &new_బహుళకం, పరిమాణం(new_బహుళకం));
 
     // Re-sort video modes
-    SDL_qsort(display->fullscreen_modes, display->num_fullscreen_modes,
-              sizeof(SDL_DisplayMode), cmpmodes);
+    SDL_qsort(display->fullscreen_modes, display->అంకె_fullscreen_modes,
+              పరిమాణం(SDL_Display_బహుళకం), cmpmodes);
 
-    return true;
+    తిరిగి true;
 }
 
-void SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display)
+శూన్య SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
-    int i;
+    పూర్ణాంకం i;
 
-    for (i = display->num_fullscreen_modes; i--;) {
-        SDL_free(display->fullscreen_modes[i].internal);
-        display->fullscreen_modes[i].internal = NULL;
+    కొరకు (i = display->అంకె_fullscreen_modes; i--;) {
+        SDL_free(display->fullscreen_modes[i].అంతర్గత);
+        display->fullscreen_modes[i].అంతర్గత = ఖాళీ;
     }
     SDL_free(display->fullscreen_modes);
-    display->fullscreen_modes = NULL;
-    display->num_fullscreen_modes = 0;
+    display->fullscreen_modes = ఖాళీ;
+    display->అంకె_fullscreen_modes = 0;
     display->max_fullscreen_modes = 0;
-    display->current_mode = &display->desktop_mode;
+    display->current_బహుళకం = &display->desktop_బహుళకం;
 }
 
-SDL_DisplayMode **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, int *count)
+SDL_Display_బహుళకం **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, పూర్ణాంకం *లెక్క)
 {
-    int i;
-    int num_modes;
-    SDL_DisplayMode **result;
+    పూర్ణాంకం i;
+    పూర్ణాంకం అంకె_modes;
+    SDL_Display_బహుళకం **ఫలితం;
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    if (count) {
-        *count = 0;
+    ఒకవేళ (లెక్క) {
+        *లెక్క = 0;
     }
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, ఖాళీ);
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    num_modes = display->num_fullscreen_modes;
-    result = (SDL_DisplayMode **)SDL_malloc((num_modes + 1) * sizeof(*result) + num_modes * sizeof(**result));
-    if (result) {
-        SDL_DisplayMode *modes = (SDL_DisplayMode *)((Uint8 *)result + ((num_modes + 1) * sizeof(*result)));
-        if (num_modes) {
-            SDL_memcpy(modes, display->fullscreen_modes, num_modes * sizeof(*modes));
+    అంకె_modes = display->అంకె_fullscreen_modes;
+    ఫలితం = (SDL_Display_బహుళకం **)SDL_malloc((అంకె_modes + 1) * పరిమాణం(*ఫలితం) + అంకె_modes * పరిమాణం(**ఫలితం));
+    ఒకవేళ (ఫలితం) {
+        SDL_Display_బహుళకం *modes = (SDL_Display_బహుళకం *)((Uint8 *)ఫలితం + ((అంకె_modes + 1) * పరిమాణం(*ఫలితం)));
+        ఒకవేళ (అంకె_modes) {
+            SDL_memcpy(modes, display->fullscreen_modes, అంకె_modes * పరిమాణం(*modes));
         }
-        for (i = 0; i < num_modes; ++i) {
-            result[i] = modes++;
+        కొరకు (i = 0; i < అంకె_modes; ++i) {
+            ఫలితం[i] = modes++;
         }
-        result[i] = NULL;
+        ఫలితం[i] = ఖాళీ;
 
-        if (count) {
-            *count = num_modes;
+        ఒకవేళ (లెక్క) {
+            *లెక్క = అంకె_modes;
         }
-    } else {
-        if (count) {
-            *count = 0;
+    } లేకపోతే {
+        ఒకవేళ (లెక్క) {
+            *లెక్క = 0;
         }
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, bool include_high_density_modes, SDL_DisplayMode *result)
+bool SDL_Get_Closest_Fullscreen_Display_బహుళకం(SDL_DisplayID displayID, పూర్ణాంకం w, పూర్ణాంకం h, దశాంశం refresh_రేటు, bool include_ఎగువ_density_modes, SDL_Display_బహుళకం *ఫలితం)
 {
-    CHECK_PARAM(!result) {
-        return SDL_InvalidParamError("closest"); // Parameter `result` is called `closest` in the header.
+    CHECK_PARAM(!ఫలితం) {
+        తిరిగి SDL_InvalidParamError("closest"); // Parameter `result` is called `closest` in the header.
     }
 
-    const SDL_DisplayMode *mode, *closest = NULL;
-    float aspect_ratio;
-    int i;
+    స్థిరరాశి SDL_Display_బహుళకం *బహుళకం, *closest = ఖాళీ;
+    దశాంశం aspect_నిష్పత్తి;
+    పూర్ణాంకం i;
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    SDL_zerop(result);
+    SDL_zerop(ఫలితం);
 
     CHECK_DISPLAY_MAGIC(display, false);
 
-    if (h > 0) {
-        aspect_ratio = (float)w / h;
-    } else {
-        aspect_ratio = 1.0f;
+    ఒకవేళ (h > 0) {
+        aspect_నిష్పత్తి = (దశాంశం)w / h;
+    } లేకపోతే {
+        aspect_నిష్పత్తి = 1.0f;
     }
 
-    if (refresh_rate == 0.0f) {
-        refresh_rate = display->desktop_mode.refresh_rate;
+    ఒకవేళ (refresh_రేటు == 0.0f) {
+        refresh_రేటు = display->desktop_బహుళకం.refresh_రేటు;
     }
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    for (i = 0; i < display->num_fullscreen_modes; ++i) {
-        mode = &display->fullscreen_modes[i];
+    కొరకు (i = 0; i < display->అంకె_fullscreen_modes; ++i) {
+        బహుళకం = &display->fullscreen_modes[i];
 
-        if (w > mode->w) {
+        ఒకవేళ (w > బహుళకం->w) {
             // Out of sorted modes large enough here
-            break;
+            ఆపు;
         }
-        if (h > mode->h) {
+        ఒకవేళ (h > బహుళకం->h) {
             /* Wider, but not tall enough, due to a different aspect ratio.
              * This mode must be skipped, but closer modes may still follow */
-            continue;
+            కొనసాగు;
         }
-        if (mode->pixel_density > 1.0f && !include_high_density_modes) {
-            continue;
+        ఒకవేళ (బహుళకం->pixel_density > 1.0f && !include_ఎగువ_density_modes) {
+            కొనసాగు;
         }
-        if (closest) {
-            float current_aspect_ratio = (float)mode->w / mode->h;
-            float closest_aspect_ratio = (float)closest->w / closest->h;
-            if (SDL_fabsf(aspect_ratio - closest_aspect_ratio) < SDL_fabsf(aspect_ratio - current_aspect_ratio)) {
+        ఒకవేళ (closest) {
+            దశాంశం current_aspect_నిష్పత్తి = (దశాంశం)బహుళకం->w / బహుళకం->h;
+            దశాంశం closest_aspect_నిష్పత్తి = (దశాంశం)closest->w / closest->h;
+            ఒకవేళ (SDL_fabsf(aspect_నిష్పత్తి - closest_aspect_నిష్పత్తి) < SDL_fabsf(aspect_నిష్పత్తి - current_aspect_నిష్పత్తి)) {
                 // The mode we already found has a better aspect ratio match
-                continue;
+                కొనసాగు;
             }
 
-            if (mode->w == closest->w && mode->h == closest->h) {
-                if (SDL_fabsf(closest->refresh_rate - refresh_rate) < SDL_fabsf(mode->refresh_rate - refresh_rate)) {
+            ఒకవేళ (బహుళకం->w == closest->w && బహుళకం->h == closest->h) {
+                ఒకవేళ (SDL_fabsf(closest->refresh_రేటు - refresh_రేటు) < SDL_fabsf(బహుళకం->refresh_రేటు - refresh_రేటు)) {
                     /* We already found a mode and the new mode is further from our
                      * refresh rate target */
-                    continue;
+                    కొనసాగు;
                 }
-                if (SDL_BYTESPERPIXEL(closest->format) > SDL_BYTESPERPIXEL(mode->format)) {
+                ఒకవేళ (SDL_BYTESPERPIXEL(closest->format) > SDL_BYTESPERPIXEL(బహుళకం->format)) {
                     // Prefer the highest color depth
-                    continue;
+                    కొనసాగు;
                 }
             }
         }
 
-        closest = mode;
+        closest = బహుళకం;
     }
-    if (!closest) {
-        return SDL_SetError("Couldn't find any matching video modes");
+    ఒకవేళ (!closest) {
+        తిరిగి SDL_సమితి_Error("Couldn't find any matching video modes");
     }
 
-    SDL_copyp(result, closest);
+    SDL_copyp(ఫలితం, closest);
 
-    return true;
+    తిరిగి true;
 }
 
-static bool DisplayModeChanged(const SDL_DisplayMode *old_mode, const SDL_DisplayMode *new_mode)
+స్థిర bool Display_బహుళకం_మారింది(స్థిరరాశి SDL_Display_బహుళకం *old_బహుళకం, స్థిరరాశి SDL_Display_బహుళకం *new_బహుళకం)
 {
-    return ((old_mode->displayID && old_mode->displayID != new_mode->displayID) ||
-            (old_mode->format && old_mode->format != new_mode->format) ||
-            (old_mode->w && old_mode->h && (old_mode->w != new_mode->w ||old_mode->h != new_mode->h)) ||
-            (old_mode->pixel_density != 0.0f && old_mode->pixel_density != new_mode->pixel_density) ||
-            (old_mode->refresh_rate != 0.0f && old_mode->refresh_rate != new_mode->refresh_rate));
+    తిరిగి ((old_బహుళకం->displayID && old_బహుళకం->displayID != new_బహుళకం->displayID) ||
+            (old_బహుళకం->format && old_బహుళకం->format != new_బహుళకం->format) ||
+            (old_బహుళకం->w && old_బహుళకం->h && (old_బహుళకం->w != new_బహుళకం->w ||old_బహుళకం->h != new_బహుళకం->h)) ||
+            (old_బహుళకం->pixel_density != 0.0f && old_బహుళకం->pixel_density != new_బహుళకం->pixel_density) ||
+            (old_బహుళకం->refresh_రేటు != 0.0f && old_బహుళకం->refresh_రేటు != new_బహుళకం->refresh_రేటు));
 }
 
-void SDL_SetDesktopDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+శూన్య SDL_సమితి_Desktop_Display_బహుళకం(SDL_VideoDisplay *display, స్థిరరాశి SDL_Display_బహుళకం *బహుళకం)
 {
-    SDL_DisplayMode last_mode;
+    SDL_Display_బహుళకం చివరి_బహుళకం;
 
-    if (display->fullscreen_active) {
+    ఒకవేళ (display->fullscreen_చురుకైన) {
         // This is a temporary mode change, don't save the desktop mode
-        return;
+        తిరిగి;
     }
 
-    SDL_copyp(&last_mode, &display->desktop_mode);
+    SDL_copyp(&చివరి_బహుళకం, &display->desktop_బహుళకం);
 
-    SDL_free(display->desktop_mode.internal);
-    SDL_copyp(&display->desktop_mode, mode);
-    display->desktop_mode.displayID = display->id;
-    SDL_FinalizeDisplayMode(&display->desktop_mode);
+    SDL_free(display->desktop_బహుళకం.అంతర్గత);
+    SDL_copyp(&display->desktop_బహుళకం, బహుళకం);
+    display->desktop_బహుళకం.displayID = display->id;
+    SDL_Finalize_Display_బహుళకం(&display->desktop_బహుళకం);
 
-    if (DisplayModeChanged(&last_mode, &display->desktop_mode)) {
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED, mode->w, mode->h);
-        if (display->current_mode == &display->desktop_mode) {
-            SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED, mode->w, mode->h);
+    ఒకవేళ (Display_బహుళకం_మారింది(&చివరి_బహుళకం, &display->desktop_బహుళకం)) {
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_DESKTOP_బహుళకం_మారింది, బహుళకం->w, బహుళకం->h);
+        ఒకవేళ (display->current_బహుళకం == &display->desktop_బహుళకం) {
+            SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_బహుళకం_మారింది, బహుళకం->w, బహుళకం->h);
         }
     }
 }
 
-const SDL_DisplayMode *SDL_GetDesktopDisplayMode(SDL_DisplayID displayID)
+స్థిరరాశి SDL_Display_బహుళకం *SDL_Get_Desktop_Display_బహుళకం(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, ఖాళీ);
 
-    return &display->desktop_mode;
+    తిరిగి &display->desktop_బహుళకం;
 }
 
-void SDL_SetCurrentDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+శూన్య SDL_సమితి_Current_Display_బహుళకం(SDL_VideoDisplay *display, స్థిరరాశి SDL_Display_బహుళకం *బహుళకం)
 {
-    SDL_DisplayMode last_mode;
+    SDL_Display_బహుళకం చివరి_బహుళకం;
 
-    if (display->current_mode) {
-        SDL_copyp(&last_mode, display->current_mode);
-    } else {
-        SDL_zero(last_mode);
+    ఒకవేళ (display->current_బహుళకం) {
+        SDL_copyp(&చివరి_బహుళకం, display->current_బహుళకం);
+    } లేకపోతే {
+        SDL_zero(చివరి_బహుళకం);
     }
 
-    display->current_mode = mode;
+    display->current_బహుళకం = బహుళకం;
 
-    if (DisplayModeChanged(&last_mode, mode)) {
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED, mode->w, mode->h);
+    ఒకవేళ (Display_బహుళకం_మారింది(&చివరి_బహుళకం, బహుళకం)) {
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_బహుళకం_మారింది, బహుళకం->w, బహుళకం->h);
     }
 }
 
-const SDL_DisplayMode *SDL_GetCurrentDisplayMode(SDL_DisplayID displayID)
+స్థిరరాశి SDL_Display_బహుళకం *SDL_Get_Current_Display_బహుళకం(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, ఖాళీ);
 
-    return display->current_mode;
+    తిరిగి display->current_బహుళకం;
 }
 
-bool SDL_SetDisplayModeForDisplay(SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool SDL_సమితి_Display_బహుళకం_For_Display(SDL_VideoDisplay *display, SDL_Display_బహుళకం *బహుళకం)
 {
     /* Mode switching is being emulated per-window; nothing to do and cannot fail,
      * except for XWayland, which still needs the actual mode setting call since
      * it's emulated via the XRandR interface.
      */
-    if (SDL_ModeSwitchingEmulated(_this) && SDL_strcmp(_this->name, "x11") != 0) {
-        return true;
+    ఒకవేళ (SDL_బహుళకం_Switching_Emulated(_this) && SDL_strcmp(_this->name, "x11") != 0) {
+        తిరిగి true;
     }
 
-    if (!mode) {
-        mode = &display->desktop_mode;
+    ఒకవేళ (!బహుళకం) {
+        బహుళకం = &display->desktop_బహుళకం;
     }
 
     // On RISC OS, it's necessary to switch from the desktop to single-tasking
     // fullscreen so that it can handle switching back to the desktop correctly.
-#ifndef SDL_PLATFORM_RISCOS
-    if (mode == display->current_mode) {
-        return true;
+#నిర్వచితం_కాకపోతే SDL_PLATFORM_RISCOS
+    ఒకవేళ (బహుళకం == display->current_బహుళకం) {
+        తిరిగి true;
     }
-#endif
+#అయితే_ముగింపు
 
     // Actually change the display mode
-    if (_this->SetDisplayMode) {
-        bool result;
+    ఒకవేళ (_this->సమితి_Display_బహుళకం) {
+        bool ఫలితం;
 
-        _this->setting_display_mode = true;
-        result = _this->SetDisplayMode(_this, display, mode);
-        _this->setting_display_mode = false;
-        if (!result) {
-            return false;
+        _this->setting_display_బహుళకం = true;
+        ఫలితం = _this->సమితి_Display_బహుళకం(_this, display, బహుళకం);
+        _this->setting_display_బహుళకం = false;
+        ఒకవేళ (!ఫలితం) {
+            తిరిగి false;
         }
     }
 
-    SDL_SetCurrentDisplayMode(display, mode);
+    SDL_సమితి_Current_Display_బహుళకం(display, బహుళకం);
 
-    return true;
+    తిరిగి true;
 }
 
 /**
  * If x, y are outside of rect, snaps them to the closest point inside rect
  * (between rect->x, rect->y, inclusive, and rect->x + w, rect->y + h, exclusive)
  */
-static void SDL_GetClosestPointOnRect(const SDL_Rect *rect, SDL_Point *point)
+స్థిర శూన్య SDL_Get_Closest_బిందువు_On_Rect(స్థిరరాశి SDL_Rect *rect, SDL_బిందువు *బిందువు)
 {
-    const int right = rect->x + rect->w - 1;
-    const int bottom = rect->y + rect->h - 1;
+    స్థిరరాశి పూర్ణాంకం కుడి = rect->x + rect->w - 1;
+    స్థిరరాశి పూర్ణాంకం bottom = rect->y + rect->h - 1;
 
-    if (point->x < rect->x) {
-        point->x = rect->x;
-    } else if (point->x > right) {
-        point->x = right;
+    ఒకవేళ (బిందువు->x < rect->x) {
+        బిందువు->x = rect->x;
+    } లేకపోతే ఒకవేళ (బిందువు->x > కుడి) {
+        బిందువు->x = కుడి;
     }
 
-    if (point->y < rect->y) {
-        point->y = rect->y;
-    } else if (point->y > bottom) {
-        point->y = bottom;
+    ఒకవేళ (బిందువు->y < rect->y) {
+        బిందువు->y = rect->y;
+    } లేకపోతే ఒకవేళ (బిందువు->y > bottom) {
+        బిందువు->y = bottom;
     }
 }
 
-static SDL_DisplayID GetDisplayForRect(int x, int y, int w, int h)
+స్థిర SDL_DisplayID GetDisplayForRect(పూర్ణాంకం x, పూర్ణాంకం y, పూర్ణాంకం w, పూర్ణాంకం h)
 {
-    int i, dist;
+    పూర్ణాంకం i, dist;
     SDL_DisplayID closest = 0;
-    int closest_dist = 0x7FFFFFFF;
-    SDL_Point closest_point_on_display;
-    SDL_Point delta;
-    SDL_Point center;
+    పూర్ణాంకం closest_dist = 0x7FFFFFFF;
+    SDL_బిందువు closest_బిందువు_on_display;
+    SDL_బిందువు delta;
+    SDL_బిందువు center;
     center.x = x + w / 2;
     center.y = y + h / 2;
 
-    if (_this) {
-        for (i = 0; i < _this->num_displays; ++i) {
+    ఒకవేళ (_this) {
+        కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
             SDL_Rect display_rect;
             SDL_GetDisplayBounds(display->id, &display_rect);
 
             // Check if the window is fully enclosed
-            if (SDL_GetRectEnclosingPoints(&center, 1, &display_rect, NULL)) {
-                return display->id;
+            ఒకవేళ (SDL_GetRectEnclosingPoints(&center, 1, &display_rect, ఖాళీ)) {
+                తిరిగి display->id;
             }
 
             // Snap window center to the display rect
-            closest_point_on_display = center;
-            SDL_GetClosestPointOnRect(&display_rect, &closest_point_on_display);
+            closest_బిందువు_on_display = center;
+            SDL_Get_Closest_బిందువు_On_Rect(&display_rect, &closest_బిందువు_on_display);
 
-            delta.x = center.x - closest_point_on_display.x;
-            delta.y = center.y - closest_point_on_display.y;
+            delta.x = center.x - closest_బిందువు_on_display.x;
+            delta.y = center.y - closest_బిందువు_on_display.y;
             dist = (delta.x * delta.x + delta.y * delta.y);
-            if (dist < closest_dist) {
+            ఒకవేళ (dist < closest_dist) {
                 closest = display->id;
                 closest_dist = dist;
             }
         }
     }
 
-    if (closest == 0) {
-        SDL_SetError("Couldn't find any displays");
+    ఒకవేళ (closest == 0) {
+        SDL_సమితి_Error("Couldn't find any displays");
     }
 
-    return closest;
+    తిరిగి closest;
 }
 
-void SDL_RelativeToGlobalForWindow(SDL_Window *window, int rel_x, int rel_y, int *abs_x, int *abs_y)
+శూన్య SDL_Relative_గమ్యం_Global_For_కిటికీ(SDL_కిటికీ *కిటికీ, పూర్ణాంకం rel_x, పూర్ణాంకం rel_y, పూర్ణాంకం *abs_x, పూర్ణాంకం *abs_y)
 {
-    SDL_Window *w;
+    SDL_కిటికీ *w;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    ఒకవేళ (SDL_కిటికీ_IS_POPUP(కిటికీ)) {
         // Calculate the total offset of the popup from the parents
-        for (w = window->parent; w; w = w->parent) {
+        కొరకు (w = కిటికీ->మాతృ; w; w = w->మాతృ) {
             rel_x += w->x;
             rel_y += w->y;
 
-            if (!SDL_WINDOW_IS_POPUP(w)) {
-                break;
+            ఒకవేళ (!SDL_కిటికీ_IS_POPUP(w)) {
+                ఆపు;
             }
         }
     }
 
-    if (abs_x) {
+    ఒకవేళ (abs_x) {
         *abs_x = rel_x;
     }
-    if (abs_y) {
+    ఒకవేళ (abs_y) {
         *abs_y = rel_y;
     }
 }
 
-void SDL_GlobalToRelativeForWindow(SDL_Window *window, int abs_x, int abs_y, int *rel_x, int *rel_y)
+శూన్య SDL_Global_గమ్యం_Relative_For_కిటికీ(SDL_కిటికీ *కిటికీ, పూర్ణాంకం abs_x, పూర్ణాంకం abs_y, పూర్ణాంకం *rel_x, పూర్ణాంకం *rel_y)
 {
-    SDL_Window *w;
+    SDL_కిటికీ *w;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    ఒకవేళ (SDL_కిటికీ_IS_POPUP(కిటికీ)) {
         // Convert absolute window coordinates to relative for a popup
-        for (w = window->parent; w; w = w->parent) {
+        కొరకు (w = కిటికీ->మాతృ; w; w = w->మాతృ) {
             abs_x -= w->x;
             abs_y -= w->y;
 
-            if (!SDL_WINDOW_IS_POPUP(w)) {
-                break;
+            ఒకవేళ (!SDL_కిటికీ_IS_POPUP(w)) {
+                ఆపు;
             }
         }
     }
 
-    if (rel_x) {
+    ఒకవేళ (rel_x) {
         *rel_x = abs_x;
     }
-    if (rel_y) {
+    ఒకవేళ (rel_y) {
         *rel_y = abs_y;
     }
 }
 
-SDL_DisplayID SDL_GetDisplayForPoint(const SDL_Point *point)
+SDL_DisplayID SDL_Get_Display_For_బిందువు(స్థిరరాశి SDL_బిందువు *బిందువు)
 {
-    CHECK_PARAM(!point) {
+    CHECK_PARAM(!బిందువు) {
         SDL_InvalidParamError("point");
-        return 0;
+        తిరిగి 0;
     }
 
-    return GetDisplayForRect(point->x, point->y, 1, 1);
+    తిరిగి GetDisplayForRect(బిందువు->x, బిందువు->y, 1, 1);
 }
 
-SDL_DisplayID SDL_GetDisplayForRect(const SDL_Rect *rect)
+SDL_DisplayID SDL_GetDisplayForRect(స్థిరరాశి SDL_Rect *rect)
 {
     CHECK_PARAM(!rect) {
         SDL_InvalidParamError("rect");
-        return 0;
+        తిరిగి 0;
     }
 
-    return GetDisplayForRect(rect->x, rect->y, rect->w, rect->h);
+    తిరిగి GetDisplayForRect(rect->x, rect->y, rect->w, rect->h);
 }
 
-static SDL_DisplayID GetDisplayAtOrigin(int x, int y)
+స్థిర SDL_DisplayID GetDisplayAtOrigin(పూర్ణాంకం x, పూర్ణాంకం y)
 {
-    for (int i = 0; i < _this->num_displays; ++i) {
+    కొరకు (పూర్ణాంకం i = 0; i < _this->అంకె_displays; ++i) {
         SDL_Rect rect;
-        const SDL_DisplayID cur_id = _this->displays[i]->id;
-        if (SDL_GetDisplayBounds(cur_id, &rect)) {
-            if (x == rect.x && y == rect.y) {
-                return cur_id;
+        స్థిరరాశి SDL_DisplayID cur_id = _this->displays[i]->id;
+        ఒకవేళ (SDL_GetDisplayBounds(cur_id, &rect)) {
+            ఒకవేళ (x == rect.x && y == rect.y) {
+                తిరిగి cur_id;
             }
         }
     }
 
-    return 0;
+    తిరిగి 0;
 }
 
-SDL_DisplayID SDL_GetDisplayForWindowPosition(SDL_Window *window)
+SDL_DisplayID SDL_Get_Display_For_కిటికీ_Position(SDL_కిటికీ *కిటికీ)
 {
-    int x, y;
+    పూర్ణాంకం x, y;
     SDL_DisplayID displayID = 0;
 
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0);
 
-    if (_this->GetDisplayForWindow) {
-        displayID = _this->GetDisplayForWindow(_this, window);
+    ఒకవేళ (_this->Get_Display_For_కిటికీ) {
+        displayID = _this->Get_Display_For_కిటికీ(_this, కిటికీ);
     }
 
     /* A backend implementation may fail to get a display for the window
      * (for example if the window is off-screen), but other code may expect it
      * to succeed in that situation, so we fall back to a generic position-
      * based implementation in that case. */
-    SDL_RelativeToGlobalForWindow(window, window->x, window->y, &x, &y);
+    SDL_Relative_గమ్యం_Global_For_కిటికీ(కిటికీ, కిటికీ->x, కిటికీ->y, &x, &y);
 
-    if (!displayID) {
+    ఒకవేళ (!displayID) {
         /* Fullscreen windows may be larger than the display if they were moved between differently sized
          * displays and the new position was received before the new size or vice versa. Using the center
          * of the window rect in this case can report the wrong display, so use the origin.
          */
-        if (window->flags & SDL_WINDOW_FULLSCREEN) {
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
             displayID = GetDisplayForRect(x, y, 1, 1);
-        } else {
-            displayID = GetDisplayForRect(x, y, window->w, window->h);
+        } లేకపోతే {
+            displayID = GetDisplayForRect(x, y, కిటికీ->w, కిటికీ->h);
         }
     }
-    if (!displayID) {
+    ఒకవేళ (!displayID) {
         // Use the primary display for a window if we can't find it anywhere else
         displayID = SDL_GetPrimaryDisplay();
     }
-    return displayID;
+    తిరిగి displayID;
 }
 
-SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window)
+SDL_VideoDisplay *SDL_Get_Video_Display_For_Fullscreen_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
     SDL_DisplayID displayID = 0;
 
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_కిటికీ_MAGIC(కిటికీ, ఖాళీ);
 
     // An explicit fullscreen display overrides all
-    if (window->current_fullscreen_mode.displayID) {
-        displayID = window->current_fullscreen_mode.displayID;
+    ఒకవేళ (కిటికీ->current_fullscreen_బహుళకం.displayID) {
+        displayID = కిటికీ->current_fullscreen_బహుళకం.displayID;
     }
 
     /* This is used to handle the very common pattern of SDL_SetWindowPosition()
@@ -1787,287 +1787,287 @@ SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window)
      * window position, or an async window manager hasn't yet actually moved the window,
      * the current position won't be updated at the time of the fullscreen call.
      */
-    if (!displayID) {
-        displayID = window->pending_displayID;
+    ఒకవేళ (!displayID) {
+        displayID = కిటికీ->pending_displayID;
     }
-    if (!displayID) {
+    ఒకవేళ (!displayID) {
         // Use the pending position and dimensions, if available, otherwise, use the current.
-        const int x = window->last_position_pending ? window->pending.x : window->x;
-        const int y = window->last_position_pending ? window->pending.y : window->y;
-        const int w = window->last_size_pending ? window->pending.w : window->w;
-        const int h = window->last_size_pending ? window->pending.h : window->h;
+        స్థిరరాశి పూర్ణాంకం x = కిటికీ->చివరి_position_pending ? కిటికీ->pending.x : కిటికీ->x;
+        స్థిరరాశి పూర్ణాంకం y = కిటికీ->చివరి_position_pending ? కిటికీ->pending.y : కిటికీ->y;
+        స్థిరరాశి పూర్ణాంకం w = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.w : కిటికీ->w;
+        స్థిరరాశి పూర్ణాంకం h = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.h : కిటికీ->h;
 
         // Check if the window is exactly at the origin of a display. Otherwise, fall back to the generic check.
         displayID = GetDisplayAtOrigin(x, y);
-        if (!displayID) {
+        ఒకవేళ (!displayID) {
             displayID = GetDisplayForRect(x, y, w, h);
         }
     }
-    if (!displayID) {
+    ఒకవేళ (!displayID) {
         // Use the primary display for a window if we can't find it anywhere else
         displayID = SDL_GetPrimaryDisplay();
     }
-    return SDL_GetVideoDisplay(displayID);
+    తిరిగి SDL_GetVideoDisplay(displayID);
 }
 
-#define SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY "sdl2-compat.window.preferred_fullscreen_display"
+#నిర్వచించు SDL_PROP_SDL2_COMPAT_కిటికీ_PREFERRED_FULLSCREEN_DISPLAY "sdl2-compat.window.preferred_fullscreen_display"
 
-SDL_DisplayID SDL_GetDisplayForWindow(SDL_Window *window)
+SDL_DisplayID SDL_Get_Display_For_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0);
 
     /* sdl2-compat calls this function to get a display on which to make the window fullscreen,
      * so pass it the preferred fullscreen display ID in a property.
      */
-    SDL_PropertiesID window_props = SDL_GetWindowProperties(window);
-    SDL_VideoDisplay *fs_display = SDL_GetVideoDisplayForFullscreenWindow(window);
-    if (fs_display) {
-        SDL_SetNumberProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
-    } else {
-        SDL_ClearProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY);
+    SDL_PropertiesID కిటికీ_props = SDL_Get_కిటికీ_Properties(కిటికీ);
+    SDL_VideoDisplay *fs_display = SDL_Get_Video_Display_For_Fullscreen_కిటికీ(కిటికీ);
+    ఒకవేళ (fs_display) {
+        SDL_సమితి_సంఖ్య_Property(కిటికీ_props, SDL_PROP_SDL2_COMPAT_కిటికీ_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
+    } లేకపోతే {
+        SDL_ClearProperty(కిటికీ_props, SDL_PROP_SDL2_COMPAT_కిటికీ_PREFERRED_FULLSCREEN_DISPLAY);
     }
 
-    return GetDisplayForWindow(window);
+    తిరిగి Get_Display_For_కిటికీ(కిటికీ);
 }
 
-static void SDL_CheckWindowDisplayChanged(SDL_Window *window)
+స్థిర శూన్య SDL_Check_కిటికీ_Display_మారింది(SDL_కిటికీ *కిటికీ)
 {
-    if (SDL_SendsDisplayChanges(_this)) {
-        return;
+    ఒకవేళ (SDL_SendsDisplayChanges(_this)) {
+        తిరిగి;
     }
 
-    SDL_DisplayID displayID = SDL_GetDisplayForWindowPosition(window);
+    SDL_DisplayID displayID = SDL_Get_Display_For_కిటికీ_Position(కిటికీ);
 
-    if (displayID != window->displayID) {
+    ఒకవేళ (displayID != కిటికీ->displayID) {
         // See if we are fully committed to the new display
         // 80% is about the right value, tested with 350% scale on the left monitor and 100% scale on the right
         SDL_Rect old_bounds, new_bounds;
-        SDL_Rect window_rect;
+        SDL_Rect కిటికీ_rect;
         SDL_Rect old_overlap, new_overlap;
 
-        if (SDL_GetDisplayBounds(window->displayID, &old_bounds) &&
+        ఒకవేళ (SDL_GetDisplayBounds(కిటికీ->displayID, &old_bounds) &&
             SDL_GetDisplayBounds(displayID, &new_bounds)) {
-            window_rect.x = window->x;
-            window_rect.y = window->y;
-            window_rect.w = window->w;
-            window_rect.h = window->h;
+            కిటికీ_rect.x = కిటికీ->x;
+            కిటికీ_rect.y = కిటికీ->y;
+            కిటికీ_rect.w = కిటికీ->w;
+            కిటికీ_rect.h = కిటికీ->h;
 
-            if (SDL_GetRectIntersection(&old_bounds, &window_rect, &old_overlap) &&
-                SDL_GetRectIntersection(&new_bounds, &window_rect, &new_overlap)) {
-                int old_area = old_overlap.w * old_overlap.h;
-                int new_area = new_overlap.w * new_overlap.h;
-                float new_overlap_ratio = (new_area / ((float)old_area + new_area));
-                if (new_overlap_ratio < 0.80) {
-                    return;
+            ఒకవేళ (SDL_GetRectIntersection(&old_bounds, &కిటికీ_rect, &old_overlap) &&
+                SDL_GetRectIntersection(&new_bounds, &కిటికీ_rect, &new_overlap)) {
+                పూర్ణాంకం old_area = old_overlap.w * old_overlap.h;
+                పూర్ణాంకం new_area = new_overlap.w * new_overlap.h;
+                దశాంశం new_overlap_నిష్పత్తి = (new_area / ((దశాంశం)old_area + new_area));
+                ఒకవేళ (new_overlap_నిష్పత్తి < 0.80) {
+                    తిరిగి;
                 }
             }
         }
     }
 
-    if (displayID != window->displayID) {
-        int i, display_index;
+    ఒకవేళ (displayID != కిటికీ->displayID) {
+        పూర్ణాంకం i, display_సూచీ;
 
         // Sanity check our fullscreen windows
-        display_index = SDL_GetDisplayIndex(displayID);
-        for (i = 0; i < _this->num_displays; ++i) {
+        display_సూచీ = SDL_Get_Display_సూచీ(displayID);
+        కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
 
-            if (display->fullscreen_window == window) {
-                if (display_index != i) {
-                    if (display_index < 0) {
-                        display_index = i;
-                    } else {
-                        SDL_VideoDisplay *new_display = _this->displays[display_index];
+            ఒకవేళ (display->fullscreen_కిటికీ == కిటికీ) {
+                ఒకవేళ (display_సూచీ != i) {
+                    ఒకవేళ (display_సూచీ < 0) {
+                        display_సూచీ = i;
+                    } లేకపోతే {
+                        SDL_VideoDisplay *new_display = _this->displays[display_సూచీ];
 
                         // The window was moved to a different display
-                        if (new_display->fullscreen_window &&
-                            new_display->fullscreen_window != window) {
+                        ఒకవేళ (new_display->fullscreen_కిటికీ &&
+                            new_display->fullscreen_కిటికీ != కిటికీ) {
                             // Uh oh, there's already a fullscreen window here; minimize it
-                            SDL_MinimizeWindow(new_display->fullscreen_window);
+                            SDL_Minimize_కిటికీ(new_display->fullscreen_కిటికీ);
                         }
-                        new_display->fullscreen_window = window;
-                        display->fullscreen_window = NULL;
+                        new_display->fullscreen_కిటికీ = కిటికీ;
+                        display->fullscreen_కిటికీ = ఖాళీ;
                     }
                 }
-                break;
+                ఆపు;
             }
         }
 
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_CHANGED, (int)displayID, 0);
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_DISPLAY_మారింది, (పూర్ణాంకం)displayID, 0);
     }
 }
 
-float SDL_GetWindowPixelDensity(SDL_Window *window)
+దశాంశం SDL_Get_కిటికీ_Pixel_Density(SDL_కిటికీ *కిటికీ)
 {
-    int window_w, window_h, pixel_w, pixel_h;
-    float pixel_density = 1.0f;
+    పూర్ణాంకం కిటికీ_w, కిటికీ_h, pixel_w, pixel_h;
+    దశాంశం pixel_density = 1.0f;
 
-    CHECK_WINDOW_MAGIC(window, 0.0f);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0.0f);
 
-    if (SDL_GetWindowSize(window, &window_w, &window_h) &&
-        SDL_GetWindowSizeInPixels(window, &pixel_w, &pixel_h)) {
-        pixel_density = (float)pixel_w / window_w;
+    ఒకవేళ (SDL_Get_కిటికీ_కొలత(కిటికీ, &కిటికీ_w, &కిటికీ_h) &&
+        SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &pixel_w, &pixel_h)) {
+        pixel_density = (దశాంశం)pixel_w / కిటికీ_w;
     }
-    return pixel_density;
+    తిరిగి pixel_density;
 }
 
-float SDL_GetWindowDisplayScale(SDL_Window *window)
+దశాంశం SDL_Get_కిటికీ_Display_Scale(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, 0.0f);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0.0f);
 
-    return window->display_scale;
+    తిరిగి కిటికీ->display_scale;
 }
 
-static void SDL_CheckWindowDisplayScaleChanged(SDL_Window *window)
+స్థిర శూన్య SDL_Check_కిటికీ_Display_Scale_మారింది(SDL_కిటికీ *కిటికీ)
 {
-    float display_scale;
+    దశాంశం display_scale;
 
-    if (_this->GetWindowContentScale) {
-        display_scale = _this->GetWindowContentScale(_this, window);
-    } else {
-        const float pixel_density = SDL_GetWindowPixelDensity(window);
-        const float content_scale = SDL_GetDisplayContentScale(window->displayID);
+    ఒకవేళ (_this->Get_కిటికీ_Content_Scale) {
+        display_scale = _this->Get_కిటికీ_Content_Scale(_this, కిటికీ);
+    } లేకపోతే {
+        స్థిరరాశి దశాంశం pixel_density = SDL_Get_కిటికీ_Pixel_Density(కిటికీ);
+        స్థిరరాశి దశాంశం content_scale = SDL_GetDisplayContentScale(కిటికీ->displayID);
 
         display_scale = pixel_density * content_scale;
     }
 
-    if (display_scale != window->display_scale) {
-        window->display_scale = display_scale;
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED, 0, 0);
+    ఒకవేళ (display_scale != కిటికీ->display_scale) {
+        కిటికీ->display_scale = display_scale;
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_DISPLAY_SCALE_మారింది, 0, 0);
     }
 }
 
-bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, bool commit)
+bool SDL_Update_Fullscreen_బహుళకం(SDL_కిటికీ *కిటికీ, SDL_FullscreenOp fullscreen, bool commit)
 {
-    SDL_VideoDisplay *display = NULL;
-    SDL_DisplayMode *mode = NULL;
-    int i;
+    SDL_VideoDisplay *display = ఖాళీ;
+    SDL_Display_బహుళకం *బహుళకం = ఖాళీ;
+    పూర్ణాంకం i;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    window->fullscreen_exclusive = false;
-    window->update_fullscreen_on_display_changed = false;
+    కిటికీ->fullscreen_exclusive = false;
+    కిటికీ->update_fullscreen_on_display_మారింది = false;
 
     // If we are in the process of hiding don't go back to fullscreen
-    if (window->is_destroying || window->is_hiding) {
+    ఒకవేళ (కిటికీ->is_destroying || కిటికీ->is_hiding) {
         fullscreen = SDL_FULLSCREEN_OP_LEAVE;
     }
 
     // Get the correct display for this operation
-    if (fullscreen) {
-        display = SDL_GetVideoDisplayForFullscreenWindow(window);
-        if (!display) {
+    ఒకవేళ (fullscreen) {
+        display = SDL_Get_Video_Display_For_Fullscreen_కిటికీ(కిటికీ);
+        ఒకవేళ (!display) {
             // This should never happen, but it did...
-            goto done;
+            వెళ్ళు పూర్తి;
         }
-    } else {
-        for (i = 0; i < _this->num_displays; ++i) {
+    } లేకపోతే {
+        కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
             display = _this->displays[i];
-            if (display->fullscreen_window == window) {
-                break;
+            ఒకవేళ (display->fullscreen_కిటికీ == కిటికీ) {
+                ఆపు;
             }
         }
-        if (!display || i == _this->num_displays) {
+        ఒకవేళ (!display || i == _this->అంకె_displays) {
             // Already not fullscreen on any display
-            display = NULL;
+            display = ఖాళీ;
         }
     }
 
-    if (fullscreen) {
-        mode = (SDL_DisplayMode *)SDL_GetWindowFullscreenMode(window);
-        if (mode) {
-            window->fullscreen_exclusive = true;
-        } else {
+    ఒకవేళ (fullscreen) {
+        బహుళకం = (SDL_Display_బహుళకం *)SDL_Get_కిటికీ_Fullscreen_బహుళకం(కిటికీ);
+        ఒకవేళ (బహుళకం) {
+            కిటికీ->fullscreen_exclusive = true;
+        } లేకపోతే {
             // Make sure the current mode is zeroed for fullscreen desktop.
-            SDL_zero(window->current_fullscreen_mode);
+            SDL_zero(కిటికీ->current_fullscreen_బహుళకం);
         }
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#ఒకవేళ defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
     /* if the window is going away and no resolution change is necessary,
        do nothing, or else we may trigger an ugly double-transition
      */
-    if (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
-        if (window->is_destroying && !window->last_fullscreen_exclusive_display) {
-            window->fullscreen_exclusive = false;
-            if (display) {
-                display->fullscreen_window = NULL;
+    ఒకవేళ (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
+        ఒకవేళ (కిటికీ->is_destroying && !కిటికీ->చివరి_fullscreen_exclusive_display) {
+            కిటికీ->fullscreen_exclusive = false;
+            ఒకవేళ (display) {
+                display->fullscreen_కిటికీ = ఖాళీ;
             }
-            goto done;
+            వెళ్ళు పూర్తి;
         }
-        if (commit) {
+        ఒకవేళ (commit) {
             // If we're switching between a fullscreen Space and exclusive fullscreen, we need to get back to normal first.
-            if (fullscreen && Cocoa_IsWindowInFullscreenSpace(window) && !window->last_fullscreen_exclusive_display && window->fullscreen_exclusive) {
-                if (!Cocoa_SetWindowFullscreenSpace(window, false, true)) {
-                    goto error;
+            ఒకవేళ (fullscreen && Cocoa_Is_కిటికీ_లోపల_Fullscreen_Space(కిటికీ) && !కిటికీ->చివరి_fullscreen_exclusive_display && కిటికీ->fullscreen_exclusive) {
+                ఒకవేళ (!Cocoa_సమితి_కిటికీ_Fullscreen_Space(కిటికీ, false, true)) {
+                    వెళ్ళు error;
                 }
-            } else if (fullscreen && window->last_fullscreen_exclusive_display && !window->fullscreen_exclusive) {
-                for (i = 0; i < _this->num_displays; ++i) {
-                    SDL_VideoDisplay *last_display = _this->displays[i];
-                    if (last_display->fullscreen_window == window) {
-                        SDL_SetDisplayModeForDisplay(last_display, NULL);
-                        if (_this->SetWindowFullscreen) {
-                            _this->SetWindowFullscreen(_this, window, last_display, false);
+            } లేకపోతే ఒకవేళ (fullscreen && కిటికీ->చివరి_fullscreen_exclusive_display && !కిటికీ->fullscreen_exclusive) {
+                కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
+                    SDL_VideoDisplay *చివరి_display = _this->displays[i];
+                    ఒకవేళ (చివరి_display->fullscreen_కిటికీ == కిటికీ) {
+                        SDL_సమితి_Display_బహుళకం_For_Display(చివరి_display, ఖాళీ);
+                        ఒకవేళ (_this->సమితి_కిటికీ_Fullscreen) {
+                            _this->సమితి_కిటికీ_Fullscreen(_this, కిటికీ, చివరి_display, false);
                         }
-                        last_display->fullscreen_window = NULL;
+                        చివరి_display->fullscreen_కిటికీ = ఖాళీ;
                     }
                 }
             }
 
-            if (Cocoa_SetWindowFullscreenSpace(window, !!fullscreen, syncHint)) {
-                goto done;
+            ఒకవేళ (Cocoa_సమితి_కిటికీ_Fullscreen_Space(కిటికీ, !!fullscreen, syncHint)) {
+                వెళ్ళు పూర్తి;
             }
         }
     }
-#endif
+#అయితే_ముగింపు
 
-    if (display) {
+    ఒకవేళ (display) {
         // Restore the video mode on other displays if needed
-        for (i = 0; i < _this->num_displays; ++i) {
+        కొరకు (i = 0; i < _this->అంకె_displays; ++i) {
             SDL_VideoDisplay *other = _this->displays[i];
-            if (other != display && other->fullscreen_window == window) {
-                SDL_SetDisplayModeForDisplay(other, NULL);
-                other->fullscreen_window = NULL;
+            ఒకవేళ (other != display && other->fullscreen_కిటికీ == కిటికీ) {
+                SDL_సమితి_Display_బహుళకం_For_Display(other, ఖాళీ);
+                other->fullscreen_కిటికీ = ఖాళీ;
             }
         }
     }
 
-    if (fullscreen) {
-        int mode_w = 0, mode_h = 0;
+    ఒకవేళ (fullscreen) {
+        పూర్ణాంకం బహుళకం_w = 0, బహుళకం_h = 0;
         bool resized = false;
 
         // Hide any other fullscreen window on this display
-        if (display->fullscreen_window &&
-            display->fullscreen_window != window) {
-            SDL_MinimizeWindow(display->fullscreen_window);
+        ఒకవేళ (display->fullscreen_కిటికీ &&
+            display->fullscreen_కిటికీ != కిటికీ) {
+            SDL_Minimize_కిటికీ(display->fullscreen_కిటికీ);
         }
 
-        display->fullscreen_active = window->fullscreen_exclusive;
+        display->fullscreen_చురుకైన = కిటికీ->fullscreen_exclusive;
 
-        if (!SDL_SetDisplayModeForDisplay(display, mode)) {
-            goto error;
+        ఒకవేళ (!SDL_సమితి_Display_బహుళకం_For_Display(display, బహుళకం)) {
+            వెళ్ళు error;
         }
-        if (commit) {
-            SDL_FullscreenResult ret = SDL_FULLSCREEN_SUCCEEDED;
-            if (_this->SetWindowFullscreen) {
-                ret = _this->SetWindowFullscreen(_this, window, display, fullscreen);
-            } else {
+        ఒకవేళ (commit) {
+            SDL_Fullscreen_ఫలితం ret = SDL_FULLSCREEN_SUCCEEDED;
+            ఒకవేళ (_this->సమితి_కిటికీ_Fullscreen) {
+                ret = _this->సమితి_కిటికీ_Fullscreen(_this, కిటికీ, display, fullscreen);
+            } లేకపోతే {
                 resized = true;
             }
 
-            if (ret == SDL_FULLSCREEN_SUCCEEDED) {
+            ఒకవేళ (ret == SDL_FULLSCREEN_SUCCEEDED) {
                 // Window is fullscreen immediately upon return. If the driver hasn't already sent the event, do so now.
-                if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
+                ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+                    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_ENTER_FULLSCREEN, 0, 0);
                 }
-            } else if (ret == SDL_FULLSCREEN_FAILED) {
-                display->fullscreen_active = false;
-                goto error;
+            } లేకపోతే ఒకవేళ (ret == SDL_FULLSCREEN_FAILED) {
+                display->fullscreen_చురుకైన = false;
+                వెళ్ళు error;
             }
         }
 
-        if (window->flags & SDL_WINDOW_FULLSCREEN) {
-            display->fullscreen_window = window;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
+            display->fullscreen_కిటికీ = కిటికీ;
 
             /* Android may not resize the window to exactly what our fullscreen mode is,
              * especially on windowed Android environments like the Chromebook or Samsung DeX.
@@ -2076,439 +2076,439 @@ bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, b
              *
              * This is also unnecessary on Cocoa, Wayland, Win32, and X11 (will send SDL_EVENT_WINDOW_RESIZED).
              */
-            if (!SDL_SendsFullscreenDimensions(_this)) {
+            ఒకవేళ (!SDL_SendsFullscreenDimensions(_this)) {
                 SDL_Rect displayRect;
 
-                if (mode) {
-                    mode_w = mode->w;
-                    mode_h = mode->h;
-                    SDL_GetDisplayBounds(mode->displayID, &displayRect);
-                } else {
-                    mode_w = display->desktop_mode.w;
-                    mode_h = display->desktop_mode.h;
+                ఒకవేళ (బహుళకం) {
+                    బహుళకం_w = బహుళకం->w;
+                    బహుళకం_h = బహుళకం->h;
+                    SDL_GetDisplayBounds(బహుళకం->displayID, &displayRect);
+                } లేకపోతే {
+                    బహుళకం_w = display->desktop_బహుళకం.w;
+                    బహుళకం_h = display->desktop_బహుళకం.h;
                     SDL_GetDisplayBounds(display->id, &displayRect);
                 }
 
-                if (window->w != mode_w || window->h != mode_h) {
+                ఒకవేళ (కిటికీ->w != బహుళకం_w || కిటికీ->h != బహుళకం_h) {
                     resized = true;
                 }
 
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, displayRect.x, displayRect.y);
+                SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_MOVED, displayRect.x, displayRect.y);
 
-                if (resized) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, mode_w, mode_h);
-                } else {
-                    SDL_OnWindowResized(window);
+                ఒకవేళ (resized) {
+                    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESIZED, బహుళకం_w, బహుళకం_h);
+                } లేకపోతే {
+                    SDL_On_కిటికీ_Resized(కిటికీ);
                 }
             }
         }
-    } else {
+    } లేకపోతే {
         bool resized = false;
 
         // Restore the desktop mode
-        if (display) {
-            display->fullscreen_active = false;
+        ఒకవేళ (display) {
+            display->fullscreen_చురుకైన = false;
 
-            SDL_SetDisplayModeForDisplay(display, NULL);
+            SDL_సమితి_Display_బహుళకం_For_Display(display, ఖాళీ);
         }
-        if (commit) {
-            SDL_FullscreenResult ret = SDL_FULLSCREEN_SUCCEEDED;
-            if (_this->SetWindowFullscreen) {
-                SDL_VideoDisplay *full_screen_display = display ? display : SDL_GetVideoDisplayForFullscreenWindow(window);
-                if (full_screen_display) {
-                    ret = _this->SetWindowFullscreen(_this, window, full_screen_display, SDL_FULLSCREEN_OP_LEAVE);
+        ఒకవేళ (commit) {
+            SDL_Fullscreen_ఫలితం ret = SDL_FULLSCREEN_SUCCEEDED;
+            ఒకవేళ (_this->సమితి_కిటికీ_Fullscreen) {
+                SDL_VideoDisplay *నిండిన_screen_display = display ? display : SDL_Get_Video_Display_For_Fullscreen_కిటికీ(కిటికీ);
+                ఒకవేళ (నిండిన_screen_display) {
+                    ret = _this->సమితి_కిటికీ_Fullscreen(_this, కిటికీ, నిండిన_screen_display, SDL_FULLSCREEN_OP_LEAVE);
                 }
-            } else {
+            } లేకపోతే {
                 resized = true;
             }
 
-            if (ret == SDL_FULLSCREEN_SUCCEEDED) {
+            ఒకవేళ (ret == SDL_FULLSCREEN_SUCCEEDED) {
                 // Window left fullscreen immediately upon return. If the driver hasn't already sent the event, do so now.
-                if (window->flags & SDL_WINDOW_FULLSCREEN) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
+                ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
+                    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_LEAVE_FULLSCREEN, 0, 0);
                 }
-            } else if (ret == SDL_FULLSCREEN_FAILED) {
-                goto error;
+            } లేకపోతే ఒకవేళ (ret == SDL_FULLSCREEN_FAILED) {
+                వెళ్ళు error;
             }
         }
 
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-            if (display) {
-                display->fullscreen_window = NULL;
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+            ఒకవేళ (display) {
+                display->fullscreen_కిటికీ = ఖాళీ;
             }
 
-            if (!SDL_SendsFullscreenDimensions(_this)) {
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, window->windowed.x, window->windowed.y);
-                if (resized) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->windowed.w, window->windowed.h);
-                } else {
-                    SDL_OnWindowResized(window);
+            ఒకవేళ (!SDL_SendsFullscreenDimensions(_this)) {
+                SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_MOVED, కిటికీ->windowed.x, కిటికీ->windowed.y);
+                ఒకవేళ (resized) {
+                    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESIZED, కిటికీ->windowed.w, కిటికీ->windowed.h);
+                } లేకపోతే {
+                    SDL_On_కిటికీ_Resized(కిటికీ);
                 }
             }
         }
     }
 
-done:
-    window->last_fullscreen_exclusive_display = display && (window->flags & SDL_WINDOW_FULLSCREEN) && window->fullscreen_exclusive ? display->id : 0;
-    return true;
+పూర్తి:
+    కిటికీ->చివరి_fullscreen_exclusive_display = display && (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) && కిటికీ->fullscreen_exclusive ? display->id : 0;
+    తిరిగి true;
 
 error:
-    if (fullscreen) {
+    ఒకవేళ (fullscreen) {
         // Something went wrong and the window is no longer fullscreen.
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, commit);
+        SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_LEAVE, commit);
     }
-    return false;
+    తిరిగి false;
 }
 
-bool SDL_SetWindowFullscreenMode(SDL_Window *window, const SDL_DisplayMode *mode)
+bool SDL_సమితి_కిటికీ_Fullscreen_బహుళకం(SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Display_బహుళకం *బహుళకం)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (mode) {
-        if (!SDL_GetFullscreenModeMatch(mode)) {
-            return SDL_SetError("Invalid fullscreen display mode");
+    ఒకవేళ (బహుళకం) {
+        ఒకవేళ (!SDL_Get_Fullscreen_బహుళకం_సరిపోలిక(బహుళకం)) {
+            తిరిగి SDL_సమితి_Error("Invalid fullscreen display mode");
         }
 
         // Save the mode so we can look up the closest match later
-        SDL_copyp(&window->requested_fullscreen_mode, mode);
-    } else {
-        SDL_zero(window->requested_fullscreen_mode);
+        SDL_copyp(&కిటికీ->requested_fullscreen_బహుళకం, బహుళకం);
+    } లేకపోతే {
+        SDL_zero(కిటికీ->requested_fullscreen_బహుళకం);
     }
 
     /* Copy to the current mode now, in case an asynchronous fullscreen window request
      * is in progress. It will be overwritten if a new request is made.
      */
-    SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
+    SDL_copyp(&కిటికీ->current_fullscreen_బహుళకం, &కిటికీ->requested_fullscreen_బహుళకం);
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#ఒకవేళ defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
     /* If this is called while in the middle of a Cocoa fullscreen spaces transition,
      * wait until the transition has completed, or the window can wind up in a weird,
      * broken state if a mode switch occurs while in a fullscreen space.
      */
-    if (SDL_strcmp(_this->name, "cocoa") == 0 && Cocoa_IsWindowInFullscreenSpaceTransition(window)) {
-        SDL_SyncWindow(window);
+    ఒకవేళ (SDL_strcmp(_this->name, "cocoa") == 0 && Cocoa_Is_కిటికీ_లోపల_Fullscreen_Space_Transition(కిటికీ)) {
+        SDL_Sync_కిటికీ(కిటికీ);
     }
-#endif
-    if (SDL_WINDOW_FULLSCREEN_VISIBLE(window)) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
-        SDL_SyncIfRequired(window);
+#అయితే_ముగింపు
+    ఒకవేళ (SDL_కిటికీ_FULLSCREEN_VISIBLE(కిటికీ)) {
+        SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_UPDATE, true);
+        SDL_SyncIfRequired(కిటికీ);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-const SDL_DisplayMode *SDL_GetWindowFullscreenMode(SDL_Window *window)
+స్థిరరాశి SDL_Display_బహుళకం *SDL_Get_కిటికీ_Fullscreen_బహుళకం(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
-    CHECK_WINDOW_NOT_POPUP(window, NULL);
+    CHECK_కిటికీ_MAGIC(కిటికీ, ఖాళీ);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, ఖాళీ);
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        return SDL_GetFullscreenModeMatch(&window->current_fullscreen_mode);
-    } else {
-        return SDL_GetFullscreenModeMatch(&window->requested_fullscreen_mode);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
+        తిరిగి SDL_Get_Fullscreen_బహుళకం_సరిపోలిక(&కిటికీ->current_fullscreen_బహుళకం);
+    } లేకపోతే {
+        తిరిగి SDL_Get_Fullscreen_బహుళకం_సరిపోలిక(&కిటికీ->requested_fullscreen_బహుళకం);
     }
 }
 
-void *SDL_GetWindowICCProfile(SDL_Window *window, size_t *size)
+శూన్య *SDL_Get_కిటికీ_ICCProfile(SDL_కిటికీ *కిటికీ, size_t *కొలత)
 {
-    if (!_this->GetWindowICCProfile) {
+    ఒకవేళ (!_this->Get_కిటికీ_ICCProfile) {
         SDL_Unsupported();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    return _this->GetWindowICCProfile(_this, window, size);
+    తిరిగి _this->Get_కిటికీ_ICCProfile(_this, కిటికీ, కొలత);
 }
 
-SDL_PixelFormat SDL_GetWindowPixelFormat(SDL_Window *window)
+SDL_PixelFormat SDL_Get_కిటికీ_Pixel_Format(SDL_కిటికీ *కిటికీ)
 {
     SDL_DisplayID displayID;
-    const SDL_DisplayMode *mode;
+    స్థిరరాశి SDL_Display_బహుళకం *బహుళకం;
 
-    CHECK_WINDOW_MAGIC(window, SDL_PIXELFORMAT_UNKNOWN);
+    CHECK_కిటికీ_MAGIC(కిటికీ, SDL_PIXELFORMAT_UNKNOWN);
 
-    displayID = GetDisplayForWindow(window);
-    mode = SDL_GetCurrentDisplayMode(displayID);
-    if (mode) {
-        return mode->format;
-    } else {
-        return SDL_PIXELFORMAT_UNKNOWN;
+    displayID = Get_Display_For_కిటికీ(కిటికీ);
+    బహుళకం = SDL_Get_Current_Display_బహుళకం(displayID);
+    ఒకవేళ (బహుళకం) {
+        తిరిగి బహుళకం->format;
+    } లేకపోతే {
+        తిరిగి SDL_PIXELFORMAT_UNKNOWN;
     }
 }
 
-#define CREATE_FLAGS \
-    (SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_ALWAYS_ON_TOP | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_VULKAN | SDL_WINDOW_MINIMIZED | SDL_WINDOW_METAL | SDL_WINDOW_TRANSPARENT | SDL_WINDOW_NOT_FOCUSABLE | SDL_WINDOW_FILL_DOCUMENT)
+#నిర్వచించు CREATE_FLAGS \
+    (SDL_కిటికీ_OPENGL | SDL_కిటికీ_BORDERLESS | SDL_కిటికీ_RESIZABLE | SDL_కిటికీ_ఎగువ_PIXEL_DENSITY | SDL_కిటికీ_ALWAYS_ON_శిఖరం | SDL_కిటికీ_POPUP_MENU | SDL_కిటికీ_UTILITY | SDL_కిటికీ_TOOLTIP | SDL_కిటికీ_VULKAN | SDL_కిటికీ_MINIMIZED | SDL_కిటికీ_METAL | SDL_కిటికీ_TRANSPARENT | SDL_కిటికీ_NOT_FOCUSABLE | SDL_కిటికీ_FILL_DOCUMENT)
 
-static SDL_INLINE bool IsAcceptingDragAndDrop(void)
+స్థిర SDL_INLINE bool IsAcceptingDragAndDrop(శూన్య)
 {
-    if (SDL_EventEnabled(SDL_EVENT_DROP_FILE) || SDL_EventEnabled(SDL_EVENT_DROP_TEXT)) {
-        return true;
+    ఒకవేళ (SDL_EventEnabled(SDL_EVENT_DROP_FILE) || SDL_EventEnabled(SDL_EVENT_DROP_పాఠ్యం)) {
+        తిరిగి true;
     }
-    return false;
+    తిరిగి false;
 }
 
 // prepare a newly-created window
-static SDL_INLINE void PrepareDragAndDropSupport(SDL_Window *window)
+స్థిర SDL_INLINE శూన్య PrepareDragAndDropSupport(SDL_కిటికీ *కిటికీ)
 {
-    if (_this->AcceptDragAndDrop) {
-        _this->AcceptDragAndDrop(window, IsAcceptingDragAndDrop());
+    ఒకవేళ (_this->AcceptDragAndDrop) {
+        _this->AcceptDragAndDrop(కిటికీ, IsAcceptingDragAndDrop());
     }
 }
 
 // toggle d'n'd for all existing windows.
-void SDL_ToggleDragAndDropSupport(void)
+శూన్య SDL_ToggleDragAndDropSupport(శూన్య)
 {
-    if (_this && _this->AcceptDragAndDrop) {
-        const bool enable = IsAcceptingDragAndDrop();
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            _this->AcceptDragAndDrop(window, enable);
+    ఒకవేళ (_this && _this->AcceptDragAndDrop) {
+        స్థిరరాశి bool enable = IsAcceptingDragAndDrop();
+        SDL_కిటికీ *కిటికీ;
+        కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            _this->AcceptDragAndDrop(కిటికీ, enable);
         }
     }
 }
 
-SDL_Window ** SDLCALL SDL_GetWindows(int *count)
+SDL_కిటికీ ** SDLCALL SDL_GetWindows(పూర్ణాంకం *లెక్క)
 {
-    if (count) {
-        *count = 0;
+    ఒకవేళ (లెక్క) {
+        *లెక్క = 0;
     }
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    SDL_Window *window;
-    int num_added = 0;
-    int num_windows = 0;
-    for (window = _this->windows; window; window = window->next) {
-        ++num_windows;
+    SDL_కిటికీ *కిటికీ;
+    పూర్ణాంకం అంకె_added = 0;
+    పూర్ణాంకం అంకె_windows = 0;
+    కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+        ++అంకె_windows;
     }
 
-    SDL_Window **windows = (SDL_Window **)SDL_malloc((num_windows + 1) * sizeof(*windows));
-    if (!windows) {
-        return NULL;
+    SDL_కిటికీ **windows = (SDL_కిటికీ **)SDL_malloc((అంకె_windows + 1) * పరిమాణం(*windows));
+    ఒకవేళ (!windows) {
+        తిరిగి ఖాళీ;
     }
 
-    for (window = _this->windows; window; window = window->next) {
-        windows[num_added++] = window;
-        if (num_added == num_windows) {
+    కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+        windows[అంకె_added++] = కిటికీ;
+        ఒకవేళ (అంకె_added == అంకె_windows) {
             // Race condition? Multi-threading not supported, ignore it
-            break;
+            ఆపు;
         }
     }
-    windows[num_added] = NULL;
+    windows[అంకె_added] = ఖాళీ;
 
-    if (count) {
-        *count = num_added;
+    ఒకవేళ (లెక్క) {
+        *లెక్క = అంకె_added;
     }
-    return windows;
+    తిరిగి windows;
 }
 
-static void ApplyWindowFlags(SDL_Window *window, SDL_WindowFlags flags)
+స్థిర శూన్య Apply_కిటికీ_Flags(SDL_కిటికీ *కిటికీ, SDL_కిటికీ_Flags flags)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
-        if (!(flags & (SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED))) {
-            SDL_RestoreWindow(window);
+    ఒకవేళ (!SDL_కిటికీ_IS_POPUP(కిటికీ)) {
+        ఒకవేళ (!(flags & (SDL_కిటికీ_MINIMIZED | SDL_కిటికీ_MAXIMIZED))) {
+            SDL_Restore_కిటికీ(కిటికీ);
         }
-        if (flags & SDL_WINDOW_MAXIMIZED) {
-            SDL_MaximizeWindow(window);
-        }
-
-        SDL_SetWindowFullscreen(window, (flags & SDL_WINDOW_FULLSCREEN) != 0);
-
-        if (flags & SDL_WINDOW_MINIMIZED) {
-            SDL_MinimizeWindow(window);
+        ఒకవేళ (flags & SDL_కిటికీ_MAXIMIZED) {
+            SDL_Maximize_కిటికీ(కిటికీ);
         }
 
-        if (flags & SDL_WINDOW_MODAL) {
-            SDL_SetWindowModal(window, true);
+        SDL_సమితి_కిటికీ_Fullscreen(కిటికీ, (flags & SDL_కిటికీ_FULLSCREEN) != 0);
+
+        ఒకవేళ (flags & SDL_కిటికీ_MINIMIZED) {
+            SDL_Minimize_కిటికీ(కిటికీ);
         }
 
-        if (flags & SDL_WINDOW_MOUSE_GRABBED) {
-            SDL_SetWindowMouseGrab(window, true);
+        ఒకవేళ (flags & SDL_కిటికీ_MODAL) {
+            SDL_సమితి_కిటికీ_Modal(కిటికీ, true);
         }
-        if (flags & SDL_WINDOW_KEYBOARD_GRABBED) {
-            SDL_SetWindowKeyboardGrab(window, true);
+
+        ఒకవేళ (flags & SDL_కిటికీ_MOUSE_GRABBED) {
+            SDL_సమితి_కిటికీ_Mouse_Grab(కిటికీ, true);
+        }
+        ఒకవేళ (flags & SDL_కిటికీ_KEYBOARD_GRABBED) {
+            SDL_సమితి_కిటికీ_Keyboard_Grab(కిటికీ, true);
         }
     }
 }
 
-static void SDL_FinishWindowCreation(SDL_Window *window, SDL_WindowFlags flags)
+స్థిర శూన్య SDL_ముగింపు_కిటికీ_Creation(SDL_కిటికీ *కిటికీ, SDL_కిటికీ_Flags flags)
 {
-    PrepareDragAndDropSupport(window);
+    PrepareDragAndDropSupport(కిటికీ);
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_EXTERNAL) {
         // Whoever has created the window has already applied whatever flags are needed
-    } else {
-        ApplyWindowFlags(window, flags);
-        if (!(flags & SDL_WINDOW_HIDDEN)) {
-            SDL_ShowWindow(window);
+    } లేకపోతే {
+        Apply_కిటికీ_Flags(కిటికీ, flags);
+        ఒకవేళ (!(flags & SDL_కిటికీ_HIDDEN)) {
+            SDL_Show_కిటికీ(కిటికీ);
         }
     }
 
-#if defined(SDL_PLATFORM_LINUX)
-    if (!SDL_WINDOW_IS_POPUP(window)) {
+#ఒకవేళ defined(SDL_PLATFORM_LINUX)
+    ఒకవేళ (!SDL_కిటికీ_IS_POPUP(కిటికీ)) {
         // On Linux the progress state is persisted throughout multiple program runs, so reset state on window creation
-        SDL_SetWindowProgressState(window, SDL_PROGRESS_STATE_NONE);
-        SDL_SetWindowProgressValue(window, 0.0f);
+        SDL_సమితి_కిటికీ_పురోగతి_State(కిటికీ, SDL_పురోగతి_STATE_NONE);
+        SDL_సమితి_కిటికీ_పురోగతి_విలువ(కిటికీ, 0.0f);
     }
-#endif
+#అయితే_ముగింపు
 }
 
-static bool SDL_ContextNotSupported(const char *name)
+స్థిర bool SDL_ContextNotSupported(స్థిరరాశి అక్షరం *name)
 {
-    return SDL_SetError("%s support is either not configured in SDL "
+    తిరిగి SDL_సమితి_Error("%s support is either not configured in SDL "
                         "or not available in current SDL video driver "
                         "(%s) or platform",
                         name,
                         _this->name);
 }
 
-static bool SDL_DllNotSupported(const char *name)
+స్థిర bool SDL_DllNotSupported(స్థిరరాశి అక్షరం *name)
 {
-    return SDL_SetError("No dynamic %s support in current SDL video driver (%s)", name, _this->name);
+    తిరిగి SDL_సమితి_Error("No dynamic %s support in current SDL video driver (%s)", name, _this->name);
 }
 
-static struct {
-    const char *property_name;
-    SDL_WindowFlags flag;
-    bool invert_value;
-} SDL_WindowFlagProperties[] = {
-    { SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN,      SDL_WINDOW_ALWAYS_ON_TOP,       false },
-    { SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN,         SDL_WINDOW_BORDERLESS,          false },
-    { SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN,          SDL_WINDOW_NOT_FOCUSABLE,       true },
-    { SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN,         SDL_WINDOW_FULLSCREEN,          false },
-    { SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN,             SDL_WINDOW_HIDDEN,              false },
-    { SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN, SDL_WINDOW_HIGH_PIXEL_DENSITY,  false },
-    { SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN,          SDL_WINDOW_MAXIMIZED,           false },
-    { SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN,               SDL_WINDOW_POPUP_MENU,          false },
-    { SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN,              SDL_WINDOW_METAL,               false },
-    { SDL_PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN,          SDL_WINDOW_MINIMIZED,           false },
-    { SDL_PROP_WINDOW_CREATE_MODAL_BOOLEAN,              SDL_WINDOW_MODAL,               false },
-    { SDL_PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN,      SDL_WINDOW_MOUSE_GRABBED,       false },
-    { SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN,             SDL_WINDOW_OPENGL,              false },
-    { SDL_PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN,          SDL_WINDOW_RESIZABLE,           false },
-    { SDL_PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN,        SDL_WINDOW_TRANSPARENT,         false },
-    { SDL_PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN,            SDL_WINDOW_TOOLTIP,             false },
-    { SDL_PROP_WINDOW_CREATE_UTILITY_BOOLEAN,            SDL_WINDOW_UTILITY,             false },
-    { SDL_PROP_WINDOW_CREATE_VULKAN_BOOLEAN,             SDL_WINDOW_VULKAN,              false }
+స్థిర నిర్మాణం {
+    స్థిరరాశి అక్షరం *property_name;
+    SDL_కిటికీ_Flags flag;
+    bool invert_విలువ;
+} SDL_కిటికీ_Flag_Properties[] = {
+    { SDL_PROP_కిటికీ_CREATE_ALWAYS_ON_శిఖరం_BOOLEAN,      SDL_కిటికీ_ALWAYS_ON_శిఖరం,       false },
+    { SDL_PROP_కిటికీ_CREATE_BORDERLESS_BOOLEAN,         SDL_కిటికీ_BORDERLESS,          false },
+    { SDL_PROP_కిటికీ_CREATE_FOCUSABLE_BOOLEAN,          SDL_కిటికీ_NOT_FOCUSABLE,       true },
+    { SDL_PROP_కిటికీ_CREATE_FULLSCREEN_BOOLEAN,         SDL_కిటికీ_FULLSCREEN,          false },
+    { SDL_PROP_కిటికీ_CREATE_HIDDEN_BOOLEAN,             SDL_కిటికీ_HIDDEN,              false },
+    { SDL_PROP_కిటికీ_CREATE_ఎగువ_PIXEL_DENSITY_BOOLEAN, SDL_కిటికీ_ఎగువ_PIXEL_DENSITY,  false },
+    { SDL_PROP_కిటికీ_CREATE_MAXIMIZED_BOOLEAN,          SDL_కిటికీ_MAXIMIZED,           false },
+    { SDL_PROP_కిటికీ_CREATE_MENU_BOOLEAN,               SDL_కిటికీ_POPUP_MENU,          false },
+    { SDL_PROP_కిటికీ_CREATE_METAL_BOOLEAN,              SDL_కిటికీ_METAL,               false },
+    { SDL_PROP_కిటికీ_CREATE_MINIMIZED_BOOLEAN,          SDL_కిటికీ_MINIMIZED,           false },
+    { SDL_PROP_కిటికీ_CREATE_MODAL_BOOLEAN,              SDL_కిటికీ_MODAL,               false },
+    { SDL_PROP_కిటికీ_CREATE_MOUSE_GRABBED_BOOLEAN,      SDL_కిటికీ_MOUSE_GRABBED,       false },
+    { SDL_PROP_కిటికీ_CREATE_OPENGL_BOOLEAN,             SDL_కిటికీ_OPENGL,              false },
+    { SDL_PROP_కిటికీ_CREATE_RESIZABLE_BOOLEAN,          SDL_కిటికీ_RESIZABLE,           false },
+    { SDL_PROP_కిటికీ_CREATE_TRANSPARENT_BOOLEAN,        SDL_కిటికీ_TRANSPARENT,         false },
+    { SDL_PROP_కిటికీ_CREATE_TOOLTIP_BOOLEAN,            SDL_కిటికీ_TOOLTIP,             false },
+    { SDL_PROP_కిటికీ_CREATE_UTILITY_BOOLEAN,            SDL_కిటికీ_UTILITY,             false },
+    { SDL_PROP_కిటికీ_CREATE_VULKAN_BOOLEAN,             SDL_కిటికీ_VULKAN,              false }
 };
 
-static SDL_WindowFlags SDL_GetWindowFlagProperties(SDL_PropertiesID props)
+స్థిర SDL_కిటికీ_Flags SDL_Get_కిటికీ_Flag_Properties(SDL_PropertiesID props)
 {
-    unsigned i;
-    SDL_WindowFlags flags = (SDL_WindowFlags)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, 0);
+    గుర్తులేని i;
+    SDL_కిటికీ_Flags flags = (SDL_కిటికీ_Flags)SDL_Get_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_FLAGS_సంఖ్య, 0);
 
-    for (i = 0; i < SDL_arraysize(SDL_WindowFlagProperties); ++i) {
-        if (SDL_WindowFlagProperties[i].invert_value) {
-            if (!SDL_GetBooleanProperty(props, SDL_WindowFlagProperties[i].property_name, true)) {
-                flags |= SDL_WindowFlagProperties[i].flag;
+    కొరకు (i = 0; i < SDL_arraysize(SDL_కిటికీ_Flag_Properties); ++i) {
+        ఒకవేళ (SDL_కిటికీ_Flag_Properties[i].invert_విలువ) {
+            ఒకవేళ (!SDL_GetBooleanProperty(props, SDL_కిటికీ_Flag_Properties[i].property_name, true)) {
+                flags |= SDL_కిటికీ_Flag_Properties[i].flag;
             }
-        } else {
-            if (SDL_GetBooleanProperty(props, SDL_WindowFlagProperties[i].property_name, false)) {
-                flags |= SDL_WindowFlagProperties[i].flag;
+        } లేకపోతే {
+            ఒకవేళ (SDL_GetBooleanProperty(props, SDL_కిటికీ_Flag_Properties[i].property_name, false)) {
+                flags |= SDL_కిటికీ_Flag_Properties[i].flag;
             }
         }
     }
-    return flags;
+    తిరిగి flags;
 }
 
-SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
+SDL_కిటికీ *SDL_Create_కిటికీ_With_Properties(SDL_PropertiesID props)
 {
-    SDL_Window *window;
-    const char *title = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, NULL);
-    int x = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int y = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int w = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, 0);
-    int h = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, 0);
-    SDL_Window *parent = (SDL_Window *)SDL_GetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, NULL);
-    SDL_WindowFlags flags = SDL_GetWindowFlagProperties(props);
-    SDL_WindowFlags type_flags, graphics_flags;
+    SDL_కిటికీ *కిటికీ;
+    స్థిరరాశి అక్షరం *title = SDL_GetStringProperty(props, SDL_PROP_కిటికీ_CREATE_TITLE_STRING, ఖాళీ);
+    పూర్ణాంకం x = (పూర్ణాంకం)SDL_Get_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_X_సంఖ్య, SDL_WINDOWPOS_UNDEFINED);
+    పూర్ణాంకం y = (పూర్ణాంకం)SDL_Get_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_Y_సంఖ్య, SDL_WINDOWPOS_UNDEFINED);
+    పూర్ణాంకం w = (పూర్ణాంకం)SDL_Get_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_వెడల్పు_సంఖ్య, 0);
+    పూర్ణాంకం h = (పూర్ణాంకం)SDL_Get_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_ఎత్తు_సంఖ్య, 0);
+    SDL_కిటికీ *మాతృ = (SDL_కిటికీ *)SDL_Get_సూచిక_Property(props, SDL_PROP_కిటికీ_CREATE_మాతృ_సూచిక, ఖాళీ);
+    SDL_కిటికీ_Flags flags = SDL_Get_కిటికీ_Flag_Properties(props);
+    SDL_కిటికీ_Flags type_flags, graphics_flags;
     SDL_DisplayID displayID = 0;
     bool undefined_x = false;
     bool undefined_y = false;
-    bool external_graphics_context = SDL_GetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN, false);
+    bool external_graphics_context = SDL_GetBooleanProperty(props, SDL_PROP_కిటికీ_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN, false);
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         // Initialize the video system if needed
-        if (!SDL_Init(SDL_INIT_VIDEO)) {
-            return NULL;
+        ఒకవేళ (!SDL_Init(SDL_INIT_VIDEO)) {
+            తిరిగి ఖాళీ;
         }
 
         // Make clang-tidy happy
-        if (!_this) {
-            return NULL;
+        ఒకవేళ (!_this) {
+            తిరిగి ఖాళీ;
         }
     }
 
-    if ((flags & SDL_WINDOW_MODAL) && !SDL_ObjectValid(parent, SDL_OBJECT_TYPE_WINDOW)) {
-        SDL_SetError("Modal windows must specify a parent window");
-        return NULL;
+    ఒకవేళ ((flags & SDL_కిటికీ_MODAL) && !SDL_ObjectValid(మాతృ, SDL_OBJECT_TYPE_కిటికీ)) {
+        SDL_సమితి_Error("Modal windows must specify a parent window");
+        తిరిగి ఖాళీ;
     }
 
-    if ((flags & (SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU)) != 0) {
-        if (!(_this->device_caps & VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT)) {
+    ఒకవేళ ((flags & (SDL_కిటికీ_TOOLTIP | SDL_కిటికీ_POPUP_MENU)) != 0) {
+        ఒకవేళ (!(_this->device_caps & VIDEO_DEVICE_CAPS_HAS_POPUP_కిటికీ_SUPPORT)) {
             SDL_Unsupported();
-            return NULL;
+            తిరిగి ఖాళీ;
         }
 
         // Tooltip and popup menu window must specify a parent window
-        if (!SDL_ObjectValid(parent, SDL_OBJECT_TYPE_WINDOW)) {
-            SDL_SetError("Tooltip and popup menu windows must specify a parent window");
-            return NULL;
+        ఒకవేళ (!SDL_ObjectValid(మాతృ, SDL_OBJECT_TYPE_కిటికీ)) {
+            SDL_సమితి_Error("Tooltip and popup menu windows must specify a parent window");
+            తిరిగి ఖాళీ;
         }
 
         // Remove invalid flags
-        flags &= ~(SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS);
+        flags &= ~(SDL_కిటికీ_MINIMIZED | SDL_కిటికీ_MAXIMIZED | SDL_కిటికీ_FULLSCREEN | SDL_కిటికీ_BORDERLESS);
     }
 
     // Ensure no more than one of these flags is set
-    type_flags = flags & (SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_MODAL);
-    if (type_flags & (type_flags - 1)) {
-        SDL_SetError("Conflicting window type flags specified: 0x%.8x", (unsigned int)type_flags);
-        return NULL;
+    type_flags = flags & (SDL_కిటికీ_UTILITY | SDL_కిటికీ_TOOLTIP | SDL_కిటికీ_POPUP_MENU | SDL_కిటికీ_MODAL);
+    ఒకవేళ (type_flags & (type_flags - 1)) {
+        SDL_సమితి_Error("Conflicting window type flags specified: 0x%.8x", (గుర్తులేని పూర్ణాంకం)type_flags);
+        తిరిగి ఖాళీ;
     }
 
     // Make sure the display list is up to date for window placement
-    if (_this->RefreshDisplays) {
+    ఒకవేళ (_this->RefreshDisplays) {
         _this->RefreshDisplays(_this);
     }
 
     // Some platforms can't create zero-sized windows
-    if (w < 1) {
+    ఒకవేళ (w < 1) {
         w = 1;
     }
-    if (h < 1) {
+    ఒకవేళ (h < 1) {
         h = 1;
     }
 
-    if (SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISUNDEFINED(y) ||
+    ఒకవేళ (SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISUNDEFINED(y) ||
         SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
         SDL_Rect bounds;
 
-        if ((SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISCENTERED(x)) && (x & 0xFFFF)) {
+        ఒకవేళ ((SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISCENTERED(x)) && (x & 0xFFFF)) {
             displayID = (x & 0xFFFF);
-        } else if ((SDL_WINDOWPOS_ISUNDEFINED(y) || SDL_WINDOWPOS_ISCENTERED(y)) && (y & 0xFFFF)) {
+        } లేకపోతే ఒకవేళ ((SDL_WINDOWPOS_ISUNDEFINED(y) || SDL_WINDOWPOS_ISCENTERED(y)) && (y & 0xFFFF)) {
             displayID = (y & 0xFFFF);
         }
-        if (displayID == 0 || SDL_GetDisplayIndex(displayID) < 0) {
+        ఒకవేళ (displayID == 0 || SDL_Get_Display_సూచీ(displayID) < 0) {
             displayID = SDL_GetPrimaryDisplay();
         }
 
         SDL_zero(bounds);
         SDL_GetDisplayUsableBounds(displayID, &bounds);
-        if (w > bounds.w || h > bounds.h) {
+        ఒకవేళ (w > bounds.w || h > bounds.h) {
             // This window is larger than the usable bounds, just center on the display
             SDL_GetDisplayBounds(displayID, &bounds);
         }
-        if (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISUNDEFINED(x)) {
-            if (SDL_WINDOWPOS_ISUNDEFINED(x)) {
+        ఒకవేళ (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISUNDEFINED(x)) {
+            ఒకవేళ (SDL_WINDOWPOS_ISUNDEFINED(x)) {
                 undefined_x = true;
             }
             x = bounds.x + (bounds.w - w) / 2;
         }
-        if (SDL_WINDOWPOS_ISCENTERED(y) || SDL_WINDOWPOS_ISUNDEFINED(y)) {
-            if (SDL_WINDOWPOS_ISUNDEFINED(y)) {
+        ఒకవేళ (SDL_WINDOWPOS_ISCENTERED(y) || SDL_WINDOWPOS_ISUNDEFINED(y)) {
+            ఒకవేళ (SDL_WINDOWPOS_ISUNDEFINED(y)) {
                 undefined_y = true;
             }
             y = bounds.y + (bounds.h - h) / 2;
@@ -2516,1194 +2516,1194 @@ SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
     }
 
     // ensure no more than one of these flags is set
-    graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        SDL_SetError("Conflicting window graphics flags specified: 0x%.8x", (unsigned int)graphics_flags);
-        return NULL;
+    graphics_flags = flags & (SDL_కిటికీ_OPENGL | SDL_కిటికీ_METAL | SDL_కిటికీ_VULKAN);
+    ఒకవేళ (graphics_flags & (graphics_flags - 1)) {
+        SDL_సమితి_Error("Conflicting window graphics flags specified: 0x%.8x", (గుర్తులేని పూర్ణాంకం)graphics_flags);
+        తిరిగి ఖాళీ;
     }
 
     // Some platforms have certain graphics backends enabled by default
-    if (!graphics_flags && !external_graphics_context) {
+    ఒకవేళ (!graphics_flags && !external_graphics_context) {
         flags |= SDL_DefaultGraphicsBackends(_this);
     }
 
-    if (flags & SDL_WINDOW_OPENGL) {
-        if (!_this->GL_CreateContext) {
+    ఒకవేళ (flags & SDL_కిటికీ_OPENGL) {
+        ఒకవేళ (!_this->GL_CreateContext) {
             SDL_ContextNotSupported("OpenGL");
-            return NULL;
+            తిరిగి ఖాళీ;
         }
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return NULL;
+        ఒకవేళ (!SDL_GL_ఎక్కించు_Library(ఖాళీ)) {
+            తిరిగి ఖాళీ;
         }
     }
 
-    if (flags & SDL_WINDOW_VULKAN) {
-        if (!_this->Vulkan_CreateSurface) {
+    ఒకవేళ (flags & SDL_కిటికీ_VULKAN) {
+        ఒకవేళ (!_this->Vulkan_CreateSurface) {
             SDL_ContextNotSupported("Vulkan");
-            return NULL;
+            తిరిగి ఖాళీ;
         }
-        if (!SDL_Vulkan_LoadLibrary(NULL)) {
-            return NULL;
+        ఒకవేళ (!SDL_Vulkan_ఎక్కించు_Library(ఖాళీ)) {
+            తిరిగి ఖాళీ;
         }
     }
 
-    if (flags & SDL_WINDOW_METAL) {
-        if (!_this->Metal_CreateView) {
+    ఒకవేళ (flags & SDL_కిటికీ_METAL) {
+        ఒకవేళ (!_this->Metal_CreateView) {
             SDL_ContextNotSupported("Metal");
-            return NULL;
+            తిరిగి ఖాళీ;
         }
     }
 
-    window = (SDL_Window *)SDL_calloc(1, sizeof(*window));
-    if (!window) {
-        return NULL;
+    కిటికీ = (SDL_కిటికీ *)SDL_calloc(1, పరిమాణం(*కిటికీ));
+    ఒకవేళ (!కిటికీ) {
+        తిరిగి ఖాళీ;
     }
-    SDL_SetObjectValid(window, SDL_OBJECT_TYPE_WINDOW, true);
-    window->id = SDL_GetNextObjectID();
-    window->floating.x = window->windowed.x = window->x = x;
-    window->floating.y = window->windowed.y = window->y = y;
-    window->floating.w = window->windowed.w = window->w = w;
-    window->floating.h = window->windowed.h = window->h = h;
-    window->undefined_x = undefined_x;
-    window->undefined_y = undefined_y;
-    window->pending_displayID = displayID;
+    SDL_సమితి_Object_Valid(కిటికీ, SDL_OBJECT_TYPE_కిటికీ, true);
+    కిటికీ->id = SDL_Get_తదుపరి_Object_ID();
+    కిటికీ->floating.x = కిటికీ->windowed.x = కిటికీ->x = x;
+    కిటికీ->floating.y = కిటికీ->windowed.y = కిటికీ->y = y;
+    కిటికీ->floating.w = కిటికీ->windowed.w = కిటికీ->w = w;
+    కిటికీ->floating.h = కిటికీ->windowed.h = కిటికీ->h = h;
+    కిటికీ->undefined_x = undefined_x;
+    కిటికీ->undefined_y = undefined_y;
+    కిటికీ->pending_displayID = displayID;
 
-    SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    if (display) {
-        SDL_SetWindowHDRProperties(window, &display->HDR, false);
+    SDL_VideoDisplay *display = SDL_Get_Video_Display_For_కిటికీ(కిటికీ);
+    ఒకవేళ (display) {
+        SDL_సమితి_కిటికీ_HDRProperties(కిటికీ, &display->HDR, false);
     }
 
-    if (flags & SDL_WINDOW_FULLSCREEN || IsFullscreenOnly(_this)) {
+    ఒకవేళ (flags & SDL_కిటికీ_FULLSCREEN || IsFullscreenOnly(_this)) {
         SDL_Rect bounds;
 
         SDL_GetDisplayBounds(display ? display->id : SDL_GetPrimaryDisplay(), &bounds);
-        window->x = bounds.x;
-        window->y = bounds.y;
-        window->w = bounds.w;
-        window->h = bounds.h;
-        window->pending_flags |= SDL_WINDOW_FULLSCREEN;
-        flags |= SDL_WINDOW_FULLSCREEN;
+        కిటికీ->x = bounds.x;
+        కిటికీ->y = bounds.y;
+        కిటికీ->w = bounds.w;
+        కిటికీ->h = bounds.h;
+        కిటికీ->pending_flags |= SDL_కిటికీ_FULLSCREEN;
+        flags |= SDL_కిటికీ_FULLSCREEN;
     }
 
-    window->flags = ((flags & CREATE_FLAGS) | SDL_WINDOW_HIDDEN);
-    window->display_scale = 1.0f;
-    window->opacity = 1.0f;
-    window->next = _this->windows;
-    window->is_destroying = false;
-    window->displayID = GetDisplayForWindow(window);
-    window->external_graphics_context = external_graphics_context;
-    window->constrain_popup = SDL_GetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN, true);
+    కిటికీ->flags = ((flags & CREATE_FLAGS) | SDL_కిటికీ_HIDDEN);
+    కిటికీ->display_scale = 1.0f;
+    కిటికీ->opacity = 1.0f;
+    కిటికీ->తదుపరి = _this->windows;
+    కిటికీ->is_destroying = false;
+    కిటికీ->displayID = Get_Display_For_కిటికీ(కిటికీ);
+    కిటికీ->external_graphics_context = external_graphics_context;
+    కిటికీ->constrain_popup = SDL_GetBooleanProperty(props, SDL_PROP_కిటికీ_CREATE_CONSTRAIN_POPUP_BOOLEAN, true);
 
-    if (!_this->SetWindowFillDocument) {
-        window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;  // not an error, just unsupported here, so remove the flag.
+    ఒకవేళ (!_this->సమితి_కిటికీ_Fill_Document) {
+        కిటికీ->flags &= ~SDL_కిటికీ_FILL_DOCUMENT;  // not an error, just unsupported here, so remove the flag.
     }
 
-    if (_this->windows) {
-        _this->windows->prev = window;
+    ఒకవేళ (_this->windows) {
+        _this->windows->prev = కిటికీ;
     }
-    _this->windows = window;
+    _this->windows = కిటికీ;
 
     // Set the parent before creation.
-    SDL_UpdateWindowHierarchy(window, parent);
+    SDL_Update_కిటికీ_Hierarchy(కిటికీ, మాతృ);
 
-    if (_this->CreateSDLWindow && !_this->CreateSDLWindow(_this, window, props)) {
-        SDL_PushError();
-        SDL_DestroyWindow(window);
-        SDL_PopError();
-        return NULL;
+    ఒకవేళ (_this->CreateSDLWindow && !_this->CreateSDLWindow(_this, కిటికీ, props)) {
+        SDL_నెట్టు_Error();
+        SDL_Destroy_కిటికీ(కిటికీ);
+        SDL_తీయి_Error();
+        తిరిగి ఖాళీ;
     }
 
     /* Clear minimized if not on windows, only windows handles it at create rather than FinishWindowCreation,
      * but it's important or window focus will get broken on windows!
      */
-#if !defined(SDL_PLATFORM_WINDOWS)
-    if (window->flags & SDL_WINDOW_MINIMIZED) {
-        window->flags &= ~SDL_WINDOW_MINIMIZED;
+#ఒకవేళ !defined(SDL_PLATFORM_WINDOWS)
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MINIMIZED) {
+        కిటికీ->flags &= ~SDL_కిటికీ_MINIMIZED;
     }
-#endif
+#అయితే_ముగింపు
 
-    if (title) {
-        SDL_SetWindowTitle(window, title);
+    ఒకవేళ (title) {
+        SDL_సమితి_కిటికీ_Title(కిటికీ, title);
     }
-    SDL_FinishWindowCreation(window, flags);
+    SDL_ముగింపు_కిటికీ_Creation(కిటికీ, flags);
 
     // Make sure window pixel size is up to date
-    SDL_CheckWindowPixelSizeChanged(window);
+    SDL_Check_కిటికీ_Pixel_కొలత_మారింది(కిటికీ);
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_UIKIT
     SDL_UpdateLifecycleObserver();
-#endif
+#అయితే_ముగింపు
 
     SDL_ClearError();
 
-    return window;
+    తిరిగి కిటికీ;
 }
 
-SDL_Window *SDL_CreateWindow(const char *title, int w, int h, SDL_WindowFlags flags)
+SDL_కిటికీ *SDL_Create_కిటికీ(స్థిరరాశి అక్షరం *title, పూర్ణాంకం w, పూర్ణాంకం h, SDL_కిటికీ_Flags flags)
 {
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
     SDL_PropertiesID props = SDL_CreateProperties();
-    if (title && *title) {
-        SDL_SetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, title);
+    ఒకవేళ (title && *title) {
+        SDL_సమితి_String_Property(props, SDL_PROP_కిటికీ_CREATE_TITLE_STRING, title);
     }
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
-    window = SDL_CreateWindowWithProperties(props);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_వెడల్పు_సంఖ్య, w);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_ఎత్తు_సంఖ్య, h);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_FLAGS_సంఖ్య, flags);
+    కిటికీ = SDL_Create_కిటికీ_With_Properties(props);
     SDL_DestroyProperties(props);
-    return window;
+    తిరిగి కిటికీ;
 }
 
-SDL_Window *SDL_CreatePopupWindow(SDL_Window *parent, int offset_x, int offset_y, int w, int h, SDL_WindowFlags flags)
+SDL_కిటికీ *SDL_Create_Popup_కిటికీ(SDL_కిటికీ *మాతృ, పూర్ణాంకం స్థానభ్రంశం_x, పూర్ణాంకం స్థానభ్రంశం_y, పూర్ణాంకం w, పూర్ణాంకం h, SDL_కిటికీ_Flags flags)
 {
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
     SDL_PropertiesID props = SDL_CreateProperties();
 
     // Popups must specify either the tooltip or popup menu window flags
-    if (!(flags & (SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU))) {
-        SDL_SetError("Popup windows must specify either the 'SDL_WINDOW_TOOLTIP' or the 'SDL_WINDOW_POPUP_MENU' flag");
-        return NULL;
+    ఒకవేళ (!(flags & (SDL_కిటికీ_TOOLTIP | SDL_కిటికీ_POPUP_MENU))) {
+        SDL_సమితి_Error("Popup windows must specify either the 'SDL_WINDOW_TOOLTIP' or the 'SDL_WINDOW_POPUP_MENU' flag");
+        తిరిగి ఖాళీ;
     }
 
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, parent);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, offset_x);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, offset_y);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
-    window = SDL_CreateWindowWithProperties(props);
+    SDL_సమితి_సూచిక_Property(props, SDL_PROP_కిటికీ_CREATE_మాతృ_సూచిక, మాతృ);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_X_సంఖ్య, స్థానభ్రంశం_x);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_Y_సంఖ్య, స్థానభ్రంశం_y);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_వెడల్పు_సంఖ్య, w);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_ఎత్తు_సంఖ్య, h);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_CREATE_FLAGS_సంఖ్య, flags);
+    కిటికీ = SDL_Create_కిటికీ_With_Properties(props);
     SDL_DestroyProperties(props);
-    return window;
+    తిరిగి కిటికీ;
 }
 
-static bool SDL_ReconfigureWindowInternal(SDL_Window *window, SDL_WindowFlags flags)
+స్థిర bool SDL_Reconfigure_కిటికీ_అంతర్గత(SDL_కిటికీ *కిటికీ, SDL_కిటికీ_Flags flags)
 {
     bool loaded_opengl = false;
     bool loaded_vulkan = false;
 
-    if (!_this->ReconfigureWindow) {
-        return false;
+    ఒకవేళ (!_this->Reconfigure_కిటికీ) {
+        తిరిగి false;
     }
 
-    const SDL_WindowFlags graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        return SDL_SetError("Conflicting window flags specified");
+    స్థిరరాశి SDL_కిటికీ_Flags graphics_flags = flags & (SDL_కిటికీ_OPENGL | SDL_కిటికీ_METAL | SDL_కిటికీ_VULKAN);
+    ఒకవేళ (graphics_flags & (graphics_flags - 1)) {
+        తిరిగి SDL_సమితి_Error("Conflicting window flags specified");
     }
 
-    if ((flags & SDL_WINDOW_OPENGL) && !_this->GL_CreateContext) {
-        return SDL_ContextNotSupported("OpenGL");
+    ఒకవేళ ((flags & SDL_కిటికీ_OPENGL) && !_this->GL_CreateContext) {
+        తిరిగి SDL_ContextNotSupported("OpenGL");
     }
-    if ((flags & SDL_WINDOW_VULKAN) && !_this->Vulkan_CreateSurface) {
-        return SDL_ContextNotSupported("Vulkan");
+    ఒకవేళ ((flags & SDL_కిటికీ_VULKAN) && !_this->Vulkan_CreateSurface) {
+        తిరిగి SDL_ContextNotSupported("Vulkan");
     }
-    if ((flags & SDL_WINDOW_METAL) && !_this->Metal_CreateView) {
-        return SDL_ContextNotSupported("Metal");
+    ఒకవేళ ((flags & SDL_కిటికీ_METAL) && !_this->Metal_CreateView) {
+        తిరిగి SDL_ContextNotSupported("Metal");
     }
 
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_EXTERNAL)) {
         // Only attempt to reconfigure if the window has no existing graphics flags.
-        if (window->flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN)) {
-            return false;
+        ఒకవేళ (కిటికీ->flags & (SDL_కిటికీ_OPENGL | SDL_కిటికీ_METAL | SDL_కిటికీ_VULKAN)) {
+            తిరిగి false;
         }
-    } else {
+    } లేకపోతే {
         // Can't destroy and recreate an external window, so try our best to reconfigure it.
-        if (!_this->ReconfigureWindow(_this, window, 0)) {
-            return false;
+        ఒకవేళ (!_this->Reconfigure_కిటికీ(_this, కిటికీ, 0)) {
+            తిరిగి false;
         }
 
         // Reload the GL/Vulkan libraries in case the profile changed.
-        if (window->flags & SDL_WINDOW_OPENGL) {
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_VULKAN) {
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_VULKAN) {
             SDL_Vulkan_UnloadLibrary();
         }
 
-        window->flags &= ~(SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
+        కిటికీ->flags &= ~(SDL_కిటికీ_OPENGL | SDL_కిటికీ_METAL | SDL_కిటికీ_VULKAN);
     }
 
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_కిటికీ_Surface(కిటికీ);
 
-    if (graphics_flags & SDL_WINDOW_OPENGL) {
-        loaded_opengl = SDL_GL_LoadLibrary(NULL);
-        if (!loaded_opengl) {
-            return false;
+    ఒకవేళ (graphics_flags & SDL_కిటికీ_OPENGL) {
+        loaded_opengl = SDL_GL_ఎక్కించు_Library(ఖాళీ);
+        ఒకవేళ (!loaded_opengl) {
+            తిరిగి false;
         }
-    } else if (graphics_flags & SDL_WINDOW_VULKAN) {
-        loaded_vulkan = SDL_Vulkan_LoadLibrary(NULL);
-        if (!loaded_vulkan) {
-            return false;
+    } లేకపోతే ఒకవేళ (graphics_flags & SDL_కిటికీ_VULKAN) {
+        loaded_vulkan = SDL_Vulkan_ఎక్కించు_Library(ఖాళీ);
+        ఒకవేళ (!loaded_vulkan) {
+            తిరిగి false;
         }
     }
 
     // Try to reconfigure the window for the requested graphics flags.
-    if (!_this->ReconfigureWindow(_this, window, graphics_flags)) {
-        if (loaded_opengl) {
+    ఒకవేళ (!_this->Reconfigure_కిటికీ(_this, కిటికీ, graphics_flags)) {
+        ఒకవేళ (loaded_opengl) {
             SDL_GL_UnloadLibrary();
         }
-        if (loaded_vulkan) {
+        ఒకవేళ (loaded_vulkan) {
             SDL_Vulkan_UnloadLibrary();
         }
 
-        return false;
+        తిరిగి false;
     }
 
-    window->flags |= graphics_flags;
+    కిటికీ->flags |= graphics_flags;
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_RecreateWindow(SDL_Window *window, SDL_WindowFlags flags)
+bool SDL_Recreate_కిటికీ(SDL_కిటికీ *కిటికీ, SDL_కిటికీ_Flags flags)
 {
     bool loaded_opengl = false;
     bool need_gl_unload = false;
-    bool need_gl_load = false;
+    bool need_gl_ఎక్కించు = false;
     bool loaded_vulkan = false;
     bool need_vulkan_unload = false;
-    bool need_vulkan_load = false;
-    SDL_WindowFlags graphics_flags;
+    bool need_vulkan_ఎక్కించు = false;
+    SDL_కిటికీ_Flags graphics_flags;
 
     // ensure no more than one of these flags is set
-    graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        return SDL_SetError("Conflicting window flags specified");
+    graphics_flags = flags & (SDL_కిటికీ_OPENGL | SDL_కిటికీ_METAL | SDL_కిటికీ_VULKAN);
+    ఒకవేళ (graphics_flags & (graphics_flags - 1)) {
+        తిరిగి SDL_సమితి_Error("Conflicting window flags specified");
     }
 
-    if ((flags & SDL_WINDOW_OPENGL) && !_this->GL_CreateContext) {
-        return SDL_ContextNotSupported("OpenGL");
+    ఒకవేళ ((flags & SDL_కిటికీ_OPENGL) && !_this->GL_CreateContext) {
+        తిరిగి SDL_ContextNotSupported("OpenGL");
     }
-    if ((flags & SDL_WINDOW_VULKAN) && !_this->Vulkan_CreateSurface) {
-        return SDL_ContextNotSupported("Vulkan");
+    ఒకవేళ ((flags & SDL_కిటికీ_VULKAN) && !_this->Vulkan_CreateSurface) {
+        తిరిగి SDL_ContextNotSupported("Vulkan");
     }
-    if ((flags & SDL_WINDOW_METAL) && !_this->Metal_CreateView) {
-        return SDL_ContextNotSupported("Metal");
+    ఒకవేళ ((flags & SDL_కిటికీ_METAL) && !_this->Metal_CreateView) {
+        తిరిగి SDL_ContextNotSupported("Metal");
     }
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_EXTERNAL) {
         // Can't destroy and re-create external windows, hrm
-        flags |= SDL_WINDOW_EXTERNAL;
-    } else {
-        flags &= ~SDL_WINDOW_EXTERNAL;
+        flags |= SDL_కిటికీ_EXTERNAL;
+    } లేకపోతే {
+        flags &= ~SDL_కిటికీ_EXTERNAL;
     }
 
     // If this is a modal dialog, clear the modal status.
-    if (window->flags & SDL_WINDOW_MODAL) {
-        SDL_SetWindowModal(window, false);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MODAL) {
+        SDL_సమితి_కిటికీ_Modal(కిటికీ, false);
     }
 
     // Restore video mode, etc.
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-        const bool restore_on_show = window->restore_on_show;
-        SDL_HideWindow(window);
-        window->restore_on_show = restore_on_show;
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_EXTERNAL)) {
+        స్థిరరాశి bool restore_on_show = కిటికీ->restore_on_show;
+        SDL_Hide_కిటికీ(కిటికీ);
+        కిటికీ->restore_on_show = restore_on_show;
     }
 
     // Tear down the old native window
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_కిటికీ_Surface(కిటికీ);
 
-    if ((window->flags & SDL_WINDOW_OPENGL) != (flags & SDL_WINDOW_OPENGL)) {
-        if (flags & SDL_WINDOW_OPENGL) {
-            need_gl_load = true;
-        } else {
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_OPENGL) != (flags & SDL_కిటికీ_OPENGL)) {
+        ఒకవేళ (flags & SDL_కిటికీ_OPENGL) {
+            need_gl_ఎక్కించు = true;
+        } లేకపోతే {
             need_gl_unload = true;
         }
-    } else if (window->flags & SDL_WINDOW_OPENGL) {
+    } లేకపోతే ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
         need_gl_unload = true;
-        need_gl_load = true;
+        need_gl_ఎక్కించు = true;
     }
 
-    if ((window->flags & SDL_WINDOW_VULKAN) != (flags & SDL_WINDOW_VULKAN)) {
-        if (flags & SDL_WINDOW_VULKAN) {
-            need_vulkan_load = true;
-        } else {
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_VULKAN) != (flags & SDL_కిటికీ_VULKAN)) {
+        ఒకవేళ (flags & SDL_కిటికీ_VULKAN) {
+            need_vulkan_ఎక్కించు = true;
+        } లేకపోతే {
             need_vulkan_unload = true;
         }
-    } else if (window->flags & SDL_WINDOW_VULKAN) {
+    } లేకపోతే ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_VULKAN) {
         need_vulkan_unload = true;
-        need_vulkan_load = true;
+        need_vulkan_ఎక్కించు = true;
     }
 
-    if (need_gl_unload) {
+    ఒకవేళ (need_gl_unload) {
         SDL_GL_UnloadLibrary();
     }
 
-    if (need_vulkan_unload) {
+    ఒకవేళ (need_vulkan_unload) {
         SDL_Vulkan_UnloadLibrary();
     }
 
-    if (_this->DestroyWindow && !(flags & SDL_WINDOW_EXTERNAL)) {
-        _this->DestroyWindow(_this, window);
+    ఒకవేళ (_this->Destroy_కిటికీ && !(flags & SDL_కిటికీ_EXTERNAL)) {
+        _this->Destroy_కిటికీ(_this, కిటికీ);
     }
 
-    if (need_gl_load) {
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return false;
+    ఒకవేళ (need_gl_ఎక్కించు) {
+        ఒకవేళ (!SDL_GL_ఎక్కించు_Library(ఖాళీ)) {
+            తిరిగి false;
         }
         loaded_opengl = true;
     }
 
-    if (need_vulkan_load) {
-        if (!SDL_Vulkan_LoadLibrary(NULL)) {
-            return false;
+    ఒకవేళ (need_vulkan_ఎక్కించు) {
+        ఒకవేళ (!SDL_Vulkan_ఎక్కించు_Library(ఖాళీ)) {
+            తిరిగి false;
         }
         loaded_vulkan = true;
     }
 
-    window->flags = ((flags & CREATE_FLAGS) | SDL_WINDOW_HIDDEN);
-    window->is_destroying = false;
+    కిటికీ->flags = ((flags & CREATE_FLAGS) | SDL_కిటికీ_HIDDEN);
+    కిటికీ->is_destroying = false;
 
-    if (_this->CreateSDLWindow && !(flags & SDL_WINDOW_EXTERNAL)) {
+    ఒకవేళ (_this->CreateSDLWindow && !(flags & SDL_కిటికీ_EXTERNAL)) {
         /* Reset the window size to the original floating value, so the
          * recreated window has the proper base size.
          */
-        window->x = window->windowed.x = window->floating.x;
-        window->y = window->windowed.y = window->floating.y;
-        window->w = window->windowed.w = window->floating.w;
-        window->h = window->windowed.h = window->floating.h;
+        కిటికీ->x = కిటికీ->windowed.x = కిటికీ->floating.x;
+        కిటికీ->y = కిటికీ->windowed.y = కిటికీ->floating.y;
+        కిటికీ->w = కిటికీ->windowed.w = కిటికీ->floating.w;
+        కిటికీ->h = కిటికీ->windowed.h = కిటికీ->floating.h;
 
-        if (!_this->CreateSDLWindow(_this, window, 0)) {
-            if (loaded_opengl) {
+        ఒకవేళ (!_this->CreateSDLWindow(_this, కిటికీ, 0)) {
+            ఒకవేళ (loaded_opengl) {
                 SDL_GL_UnloadLibrary();
-                window->flags &= ~SDL_WINDOW_OPENGL;
+                కిటికీ->flags &= ~SDL_కిటికీ_OPENGL;
             }
-            if (loaded_vulkan) {
+            ఒకవేళ (loaded_vulkan) {
                 SDL_Vulkan_UnloadLibrary();
-                window->flags &= ~SDL_WINDOW_VULKAN;
+                కిటికీ->flags &= ~SDL_కిటికీ_VULKAN;
             }
-            return false;
+            తిరిగి false;
         }
     }
 
-    if (flags & SDL_WINDOW_EXTERNAL) {
-        window->flags |= SDL_WINDOW_EXTERNAL;
+    ఒకవేళ (flags & SDL_కిటికీ_EXTERNAL) {
+        కిటికీ->flags |= SDL_కిటికీ_EXTERNAL;
     }
 
-    if (_this->SetWindowTitle && window->title) {
-        _this->SetWindowTitle(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_Title && కిటికీ->title) {
+        _this->సమితి_కిటికీ_Title(_this, కిటికీ);
     }
 
-    if (_this->SetWindowIcon && window->icon) {
-        _this->SetWindowIcon(_this, window, window->icon);
+    ఒకవేళ (_this->సమితి_కిటికీ_Icon && కిటికీ->icon) {
+        _this->సమితి_కిటికీ_Icon(_this, కిటికీ, కిటికీ->icon);
     }
 
-    if (_this->SetWindowMinimumSize && (window->min_w || window->min_h)) {
-        _this->SetWindowMinimumSize(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_Minimum_కొలత && (కిటికీ->min_w || కిటికీ->min_h)) {
+        _this->సమితి_కిటికీ_Minimum_కొలత(_this, కిటికీ);
     }
 
-    if (_this->SetWindowMaximumSize && (window->max_w || window->max_h)) {
-        _this->SetWindowMaximumSize(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_గరిష్ఠ_కొలత && (కిటికీ->max_w || కిటికీ->max_h)) {
+        _this->సమితి_కిటికీ_గరిష్ఠ_కొలత(_this, కిటికీ);
     }
 
-    if (_this->SetWindowAspectRatio && (window->min_aspect > 0.0f || window->max_aspect > 0.0f)) {
-        _this->SetWindowAspectRatio(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_Aspect_నిష్పత్తి && (కిటికీ->min_aspect > 0.0f || కిటికీ->max_aspect > 0.0f)) {
+        _this->సమితి_కిటికీ_Aspect_నిష్పత్తి(_this, కిటికీ);
     }
 
-    if (window->hit_test) {
-        _this->SetWindowHitTest(window, true);
+    ఒకవేళ (కిటికీ->తగిలింది_test) {
+        _this->సమితి_కిటికీ_తగిలింది_Test(కిటికీ, true);
     }
 
-    SDL_FinishWindowCreation(window, flags);
+    SDL_ముగింపు_కిటికీ_Creation(కిటికీ, flags);
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_ReconfigureWindow(SDL_Window *window, SDL_WindowFlags flags)
+bool SDL_Reconfigure_కిటికీ(SDL_కిటికీ *కిటికీ, SDL_కిటికీ_Flags flags)
 {
     // Try to reconfigure the window for the desired flags first, before completely destroying and recreating it.
-    if (!SDL_ReconfigureWindowInternal(window, flags)) {
-        return SDL_RecreateWindow(window, flags);
+    ఒకవేళ (!SDL_Reconfigure_కిటికీ_అంతర్గత(కిటికీ, flags)) {
+        తిరిగి SDL_Recreate_కిటికీ(కిటికీ, flags);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_HasWindows(void)
+bool SDL_HasWindows(శూన్య)
 {
-    return _this && _this->windows;
+    తిరిగి _this && _this->windows;
 }
 
-SDL_WindowID SDL_GetWindowID(SDL_Window *window)
+SDL_కిటికీ_ID SDL_Get_కిటికీ_ID(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0);
 
-    return window->id;
+    తిరిగి కిటికీ->id;
 }
 
-SDL_Window *SDL_GetWindowFromID(SDL_WindowID id)
+SDL_కిటికీ *SDL_Get_కిటికీ_From_ID(SDL_కిటికీ_ID id)
 {
-    SDL_Window *window;
+    SDL_కిటికీ *కిటికీ;
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    if (id) {
-        for (window = _this->windows; window; window = window->next) {
-            if (window->id == id) {
-                return window;
+    ఒకవేళ (id) {
+        కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            ఒకవేళ (కిటికీ->id == id) {
+                తిరిగి కిటికీ;
             }
         }
     }
-    SDL_SetError("Invalid window ID");
-    return NULL;
+    SDL_సమితి_Error("Invalid window ID");
+    తిరిగి ఖాళీ;
 }
 
-SDL_Window *SDL_GetWindowParent(SDL_Window *window)
+SDL_కిటికీ *SDL_Get_కిటికీ_మాతృ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_కిటికీ_MAGIC(కిటికీ, ఖాళీ);
 
-    return window->parent;
+    తిరిగి కిటికీ->మాతృ;
 }
 
-SDL_PropertiesID SDL_GetWindowProperties(SDL_Window *window)
+SDL_PropertiesID SDL_Get_కిటికీ_Properties(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0);
 
-    if (window->props == 0) {
-        window->props = SDL_CreateProperties();
+    ఒకవేళ (కిటికీ->props == 0) {
+        కిటికీ->props = SDL_CreateProperties();
     }
-    return window->props;
+    తిరిగి కిటికీ->props;
 }
 
-SDL_WindowFlags SDL_GetWindowFlags(SDL_Window *window)
+SDL_కిటికీ_Flags SDL_Get_కిటికీ_Flags(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_కిటికీ_MAGIC(కిటికీ, 0);
 
-    return window->flags | window->pending_flags;
+    తిరిగి కిటికీ->flags | కిటికీ->pending_flags;
 }
 
-bool SDL_SetWindowTitle(SDL_Window *window, const char *title)
+bool SDL_సమితి_కిటికీ_Title(SDL_కిటికీ *కిటికీ, స్థిరరాశి అక్షరం *title)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (title == window->title) {
-        return true;
+    ఒకవేళ (title == కిటికీ->title) {
+        తిరిగి true;
     }
-    if (!title) {
+    ఒకవేళ (!title) {
         title = "";
     }
-    if (window->title && SDL_strcmp(title, window->title) == 0) {
-        return true;
+    ఒకవేళ (కిటికీ->title && SDL_strcmp(title, కిటికీ->title) == 0) {
+        తిరిగి true;
     }
 
-    SDL_free(window->title);
+    SDL_free(కిటికీ->title);
 
-    window->title = SDL_strdup(title);
+    కిటికీ->title = SDL_strdup(title);
 
-    if (_this->SetWindowTitle) {
-        _this->SetWindowTitle(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_Title) {
+        _this->సమితి_కిటికీ_Title(_this, కిటికీ);
     }
-    return true;
+    తిరిగి true;
 }
 
-const char *SDL_GetWindowTitle(SDL_Window *window)
+స్థిరరాశి అక్షరం *SDL_Get_కిటికీ_Title(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, "");
+    CHECK_కిటికీ_MAGIC(కిటికీ, "");
 
-    return window->title ? window->title : "";
+    తిరిగి కిటికీ->title ? కిటికీ->title : "";
 }
 
-bool SDL_SetWindowIcon(SDL_Window *window, SDL_Surface *icon)
+bool SDL_సమితి_కిటికీ_Icon(SDL_కిటికీ *కిటికీ, SDL_Surface *icon)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
     CHECK_PARAM(!icon) {
-        return SDL_InvalidParamError("icon");
+        తిరిగి SDL_InvalidParamError("icon");
     }
 
-    SDL_DestroySurface(window->icon);
+    SDL_DestroySurface(కిటికీ->icon);
 
     // Convert the icon into ARGB8888
-    window->icon = SDL_ConvertSurface(icon, SDL_PIXELFORMAT_ARGB8888);
-    if (!window->icon) {
-        return false;
+    కిటికీ->icon = SDL_ConvertSurface(icon, SDL_PIXELFORMAT_ARGB8888);
+    ఒకవేళ (!కిటికీ->icon) {
+        తిరిగి false;
     }
 
-    if (!_this->SetWindowIcon) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Icon) {
+        తిరిగి SDL_Unsupported();
     }
 
-    return _this->SetWindowIcon(_this, window, window->icon);
+    తిరిగి _this->సమితి_కిటికీ_Icon(_this, కిటికీ, కిటికీ->icon);
 }
 
-bool SDL_SetWindowPosition(SDL_Window *window, int x, int y)
+bool SDL_సమితి_కిటికీ_Position(SDL_కిటికీ *కిటికీ, పూర్ణాంకం x, పూర్ణాంకం y)
 {
     SDL_DisplayID original_displayID;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    const int w = window->last_size_pending ? window->pending.w : window->windowed.w;
-    const int h = window->last_size_pending ? window->pending.h : window->windowed.h;
+    స్థిరరాశి పూర్ణాంకం w = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.w : కిటికీ->windowed.w;
+    స్థిరరాశి పూర్ణాంకం h = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.h : కిటికీ->windowed.h;
 
-    original_displayID = GetDisplayForWindow(window);
-    window->pending_displayID = 0;
+    original_displayID = Get_Display_For_కిటికీ(కిటికీ);
+    కిటికీ->pending_displayID = 0;
 
-    if (SDL_WINDOWPOS_ISUNDEFINED(x)) {
-        x = window->windowed.x;
+    ఒకవేళ (SDL_WINDOWPOS_ISUNDEFINED(x)) {
+        x = కిటికీ->windowed.x;
     }
-    if (SDL_WINDOWPOS_ISUNDEFINED(y)) {
-        y = window->windowed.y;
+    ఒకవేళ (SDL_WINDOWPOS_ISUNDEFINED(y)) {
+        y = కిటికీ->windowed.y;
     }
-    if (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
+    ఒకవేళ (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
         SDL_DisplayID displayID = original_displayID;
         SDL_Rect bounds;
 
-        if (SDL_WINDOWPOS_ISCENTERED(x) && (x & 0xFFFF)) {
+        ఒకవేళ (SDL_WINDOWPOS_ISCENTERED(x) && (x & 0xFFFF)) {
             displayID = (x & 0xFFFF);
-        } else if (SDL_WINDOWPOS_ISCENTERED(y) && (y & 0xFFFF)) {
+        } లేకపోతే ఒకవేళ (SDL_WINDOWPOS_ISCENTERED(y) && (y & 0xFFFF)) {
             displayID = (y & 0xFFFF);
         }
-        if (displayID == 0 || SDL_GetDisplayIndex(displayID) < 0) {
+        ఒకవేళ (displayID == 0 || SDL_Get_Display_సూచీ(displayID) < 0) {
             displayID = SDL_GetPrimaryDisplay();
         }
 
-        window->pending_displayID = displayID;
+        కిటికీ->pending_displayID = displayID;
 
         SDL_zero(bounds);
-        if (!SDL_GetDisplayUsableBounds(displayID, &bounds) || w > bounds.w || h > bounds.h) {
-            if (!SDL_GetDisplayBounds(displayID, &bounds)) {
-                return false;
+        ఒకవేళ (!SDL_GetDisplayUsableBounds(displayID, &bounds) || w > bounds.w || h > bounds.h) {
+            ఒకవేళ (!SDL_GetDisplayBounds(displayID, &bounds)) {
+                తిరిగి false;
             }
         }
-        if (SDL_WINDOWPOS_ISCENTERED(x)) {
+        ఒకవేళ (SDL_WINDOWPOS_ISCENTERED(x)) {
             x = bounds.x + (bounds.w - w) / 2;
         }
-        if (SDL_WINDOWPOS_ISCENTERED(y)) {
+        ఒకవేళ (SDL_WINDOWPOS_ISCENTERED(y)) {
             y = bounds.y + (bounds.h - h) / 2;
         }
-    } else {
+    } లేకపోతే {
         /* See if the requested window position matches the origin of any displays and set
          * the pending fullscreen display ID if it does. This needs to be set early in case
          * the window is prevented from moving to the exact origin due to struts.
          */
-        window->pending_displayID = GetDisplayAtOrigin(x, y);
+        కిటికీ->pending_displayID = GetDisplayAtOrigin(x, y);
     }
 
-    window->pending.x = x;
-    window->pending.y = y;
+    కిటికీ->pending.x = x;
+    కిటికీ->pending.y = y;
 
     /* Windows are placed at the coordinates received while in fullscreen after leaving fullscreen.
      * Asynchronous backends need special handling in this case.
      */
-    if (!_this->SyncWindow && (window->flags & SDL_WINDOW_FULLSCREEN)) {
-        window->floating.x = window->windowed.x = x;
-        window->floating.y = window->windowed.y = y;
+    ఒకవేళ (!_this->Sync_కిటికీ && (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        కిటికీ->floating.x = కిటికీ->windowed.x = x;
+        కిటికీ->floating.y = కిటికీ->windowed.y = y;
     }
-    window->undefined_x = false;
-    window->undefined_y = false;
-    window->last_position_pending = true;
+    కిటికీ->undefined_x = false;
+    కిటికీ->undefined_y = false;
+    కిటికీ->చివరి_position_pending = true;
 
-    if (_this->SetWindowPosition) {
-        const bool result = _this->SetWindowPosition(_this, window);
-        if (result) {
-            SDL_SyncIfRequired(window);
+    ఒకవేళ (_this->సమితి_కిటికీ_Position) {
+        స్థిరరాశి bool ఫలితం = _this->సమితి_కిటికీ_Position(_this, కిటికీ);
+        ఒకవేళ (ఫలితం) {
+            SDL_SyncIfRequired(కిటికీ);
         }
-        return result;
+        తిరిగి ఫలితం;
     }
 
-    return SDL_Unsupported();
+    తిరిగి SDL_Unsupported();
 }
 
-bool SDL_GetWindowPosition(SDL_Window *window, int *x, int *y)
+bool SDL_Get_కిటికీ_Position(SDL_కిటికీ *కిటికీ, పూర్ణాంకం *x, పూర్ణాంకం *y)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-#ifdef SDL_PLATFORM_MACOS
+#నిర్వచితమైతే SDL_PLATFORM_MACOS
     // On newer MacBooks, the fullscreen window might be placed below the camera notch, so use the actual window position
     bool use_display_origin = false;
-#else
+#లేకపోతే
     // Fullscreen windows are always at their display's origin
-    bool use_display_origin = ((window->flags & SDL_WINDOW_FULLSCREEN) != 0);
-#endif
-    if (use_display_origin) {
+    bool use_display_origin = ((కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) != 0);
+#అయితే_ముగింపు
+    ఒకవేళ (use_display_origin) {
         SDL_DisplayID displayID;
 
-        if (x) {
+        ఒకవేళ (x) {
             *x = 0;
         }
-        if (y) {
+        ఒకవేళ (y) {
             *y = 0;
         }
 
         /* Find the window's monitor and update to the
            monitor offset. */
-        displayID = GetDisplayForWindow(window);
-        if (displayID != 0) {
+        displayID = Get_Display_For_కిటికీ(కిటికీ);
+        ఒకవేళ (displayID != 0) {
             SDL_Rect bounds;
 
             SDL_zero(bounds);
 
             SDL_GetDisplayBounds(displayID, &bounds);
-            if (x) {
+            ఒకవేళ (x) {
                 *x = bounds.x;
             }
-            if (y) {
+            ఒకవేళ (y) {
                 *y = bounds.y;
             }
         }
-    } else {
-        const bool use_pending = (window->flags & SDL_WINDOW_HIDDEN) && window->last_position_pending;
-        if (x) {
-            *x = use_pending ? window->pending.x : window->x;
+    } లేకపోతే {
+        స్థిరరాశి bool use_pending = (కిటికీ->flags & SDL_కిటికీ_HIDDEN) && కిటికీ->చివరి_position_pending;
+        ఒకవేళ (x) {
+            *x = use_pending ? కిటికీ->pending.x : కిటికీ->x;
         }
-        if (y) {
-            *y = use_pending ? window->pending.y : window->y;
+        ఒకవేళ (y) {
+            *y = use_pending ? కిటికీ->pending.y : కిటికీ->y;
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowBordered(SDL_Window *window, bool bordered)
+bool SDL_సమితి_కిటికీ_Bordered(SDL_కిటికీ *కిటికీ, bool bordered)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (!_this->SetWindowBordered) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Bordered) {
+        తిరిగి SDL_Unsupported();
     }
 
-    const bool want = bordered;
-    const bool have = !(window->flags & SDL_WINDOW_BORDERLESS);
-    if (want != have) {
-        if (want) {
-            window->flags &= ~SDL_WINDOW_BORDERLESS;
-        } else {
-            window->flags |= SDL_WINDOW_BORDERLESS;
+    స్థిరరాశి bool want = bordered;
+    స్థిరరాశి bool have = !(కిటికీ->flags & SDL_కిటికీ_BORDERLESS);
+    ఒకవేళ (want != have) {
+        ఒకవేళ (want) {
+            కిటికీ->flags &= ~SDL_కిటికీ_BORDERLESS;
+        } లేకపోతే {
+            కిటికీ->flags |= SDL_కిటికీ_BORDERLESS;
         }
-        _this->SetWindowBordered(_this, window, want);
+        _this->సమితి_కిటికీ_Bordered(_this, కిటికీ, want);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowResizable(SDL_Window *window, bool resizable)
+bool SDL_సమితి_కిటికీ_Resizable(SDL_కిటికీ *కిటికీ, bool resizable)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (!_this->SetWindowResizable) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Resizable) {
+        తిరిగి SDL_Unsupported();
     }
 
-    const bool want = resizable;
-    const bool have = ((window->flags & SDL_WINDOW_RESIZABLE) != 0);
-    if (want != have) {
-        if (want) {
-            window->flags |= SDL_WINDOW_RESIZABLE;
-        } else {
-            window->flags &= ~SDL_WINDOW_RESIZABLE;
-            SDL_copyp(&window->windowed, &window->floating);
+    స్థిరరాశి bool want = resizable;
+    స్థిరరాశి bool have = ((కిటికీ->flags & SDL_కిటికీ_RESIZABLE) != 0);
+    ఒకవేళ (want != have) {
+        ఒకవేళ (want) {
+            కిటికీ->flags |= SDL_కిటికీ_RESIZABLE;
+        } లేకపోతే {
+            కిటికీ->flags &= ~SDL_కిటికీ_RESIZABLE;
+            SDL_copyp(&కిటికీ->windowed, &కిటికీ->floating);
         }
-        _this->SetWindowResizable(_this, window, want);
+        _this->సమితి_కిటికీ_Resizable(_this, కిటికీ, want);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowAlwaysOnTop(SDL_Window *window, bool on_top)
+bool SDL_సమితి_కిటికీ_Always_On_శిఖరం(SDL_కిటికీ *కిటికీ, bool on_శిఖరం)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (!_this->SetWindowAlwaysOnTop) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Always_On_శిఖరం) {
+        తిరిగి SDL_Unsupported();
     }
 
-    const bool want = on_top;
-    const bool have = ((window->flags & SDL_WINDOW_ALWAYS_ON_TOP) != 0);
-    if (want != have) {
-        if (want) {
-            window->flags |= SDL_WINDOW_ALWAYS_ON_TOP;
-        } else {
-            window->flags &= ~SDL_WINDOW_ALWAYS_ON_TOP;
+    స్థిరరాశి bool want = on_శిఖరం;
+    స్థిరరాశి bool have = ((కిటికీ->flags & SDL_కిటికీ_ALWAYS_ON_శిఖరం) != 0);
+    ఒకవేళ (want != have) {
+        ఒకవేళ (want) {
+            కిటికీ->flags |= SDL_కిటికీ_ALWAYS_ON_శిఖరం;
+        } లేకపోతే {
+            కిటికీ->flags &= ~SDL_కిటికీ_ALWAYS_ON_శిఖరం;
         }
-        _this->SetWindowAlwaysOnTop(_this, window, want);
+        _this->సమితి_కిటికీ_Always_On_శిఖరం(_this, కిటికీ, want);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowSize(SDL_Window *window, int w, int h)
+bool SDL_సమితి_కిటికీ_కొలత(SDL_కిటికీ *కిటికీ, పూర్ణాంకం w, పూర్ణాంకం h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
     CHECK_PARAM(w <= 0) {
-        return SDL_InvalidParamError("w");
+        తిరిగి SDL_InvalidParamError("w");
     }
     CHECK_PARAM(h <= 0) {
-        return SDL_InvalidParamError("h");
+        తిరిగి SDL_InvalidParamError("h");
     }
 
     // It is possible for the aspect ratio constraints to not satisfy the size constraints.
     // The size constraints will override the aspect ratio constraints so we will apply the
     // the aspect ratio constraints first
-    float new_aspect = w / (float)h;
-    if (window->max_aspect > 0.0f && new_aspect > window->max_aspect) {
-        w = (int)SDL_roundf(h * window->max_aspect);
-    } else if (window->min_aspect > 0.0f && new_aspect < window->min_aspect) {
-        h = (int)SDL_roundf(w / window->min_aspect);
+    దశాంశం new_aspect = w / (దశాంశం)h;
+    ఒకవేళ (కిటికీ->max_aspect > 0.0f && new_aspect > కిటికీ->max_aspect) {
+        w = (పూర్ణాంకం)SDL_roundf(h * కిటికీ->max_aspect);
+    } లేకపోతే ఒకవేళ (కిటికీ->min_aspect > 0.0f && new_aspect < కిటికీ->min_aspect) {
+        h = (పూర్ణాంకం)SDL_roundf(w / కిటికీ->min_aspect);
     }
 
     // Make sure we don't exceed any window size limits
-    if (window->min_w && w < window->min_w) {
-        w = window->min_w;
+    ఒకవేళ (కిటికీ->min_w && w < కిటికీ->min_w) {
+        w = కిటికీ->min_w;
     }
-    if (window->max_w && w > window->max_w) {
-        w = window->max_w;
+    ఒకవేళ (కిటికీ->max_w && w > కిటికీ->max_w) {
+        w = కిటికీ->max_w;
     }
-    if (window->min_h && h < window->min_h) {
-        h = window->min_h;
+    ఒకవేళ (కిటికీ->min_h && h < కిటికీ->min_h) {
+        h = కిటికీ->min_h;
     }
-    if (window->max_h && h > window->max_h) {
-        h = window->max_h;
+    ఒకవేళ (కిటికీ->max_h && h > కిటికీ->max_h) {
+        h = కిటికీ->max_h;
     }
 
-    window->last_size_pending = true;
-    window->pending.w = w;
-    window->pending.h = h;
+    కిటికీ->చివరి_కొలత_pending = true;
+    కిటికీ->pending.w = w;
+    కిటికీ->pending.h = h;
 
-    if (_this->SetWindowSize) {
-        _this->SetWindowSize(_this, window);
-        SDL_SyncIfRequired(window);
-    } else {
-        return SDL_Unsupported();
+    ఒకవేళ (_this->సమితి_కిటికీ_కొలత) {
+        _this->సమితి_కిటికీ_కొలత(_this, కిటికీ);
+        SDL_SyncIfRequired(కిటికీ);
+    } లేకపోతే {
+        తిరిగి SDL_Unsupported();
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_GetWindowSize(SDL_Window *window, int *w, int *h)
+bool SDL_Get_కిటికీ_కొలత(SDL_కిటికీ *కిటికీ, పూర్ణాంకం *w, పూర్ణాంకం *h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (w) {
-        *w = window->w;
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    ఒకవేళ (w) {
+        *w = కిటికీ->w;
     }
-    if (h) {
-        *h = window->h;
+    ఒకవేళ (h) {
+        *h = కిటికీ->h;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowAspectRatio(SDL_Window *window, float min_aspect, float max_aspect)
+bool SDL_సమితి_కిటికీ_Aspect_నిష్పత్తి(SDL_కిటికీ *కిటికీ, దశాంశం min_aspect, దశాంశం max_aspect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    window->min_aspect = min_aspect;
-    window->max_aspect = max_aspect;
+    కిటికీ->min_aspect = min_aspect;
+    కిటికీ->max_aspect = max_aspect;
 
-    if (_this->SetWindowAspectRatio) {
-        _this->SetWindowAspectRatio(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_Aspect_నిష్పత్తి) {
+        _this->సమితి_కిటికీ_Aspect_నిష్పత్తి(_this, కిటికీ);
     }
 
     // Ensure that window has the correct aspect ratio
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    పూర్ణాంకం w = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.w : కిటికీ->floating.w;
+    పూర్ణాంకం h = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.h : కిటికీ->floating.h;
+    తిరిగి SDL_సమితి_కిటికీ_కొలత(కిటికీ, w, h);
 }
 
-bool SDL_GetWindowAspectRatio(SDL_Window *window, float *min_aspect, float *max_aspect)
+bool SDL_Get_కిటికీ_Aspect_నిష్పత్తి(SDL_కిటికీ *కిటికీ, దశాంశం *min_aspect, దశాంశం *max_aspect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (min_aspect) {
-        *min_aspect = window->min_aspect;
+    ఒకవేళ (min_aspect) {
+        *min_aspect = కిటికీ->min_aspect;
     }
-    if (max_aspect) {
-        *max_aspect = window->max_aspect;
+    ఒకవేళ (max_aspect) {
+        *max_aspect = కిటికీ->max_aspect;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_GetWindowBordersSize(SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool SDL_Get_కిటికీ_Borders_కొలత(SDL_కిటికీ *కిటికీ, పూర్ణాంకం *శిఖరం, పూర్ణాంకం *ఎడమ, పూర్ణాంకం *bottom, పూర్ణాంకం *కుడి)
 {
-    int dummy = 0;
+    పూర్ణాంకం dummy = 0;
 
-    if (!top) {
-        top = &dummy;
+    ఒకవేళ (!శిఖరం) {
+        శిఖరం = &dummy;
     }
-    if (!left) {
-        left = &dummy;
+    ఒకవేళ (!ఎడమ) {
+        ఎడమ = &dummy;
     }
-    if (!right) {
-        right = &dummy;
+    ఒకవేళ (!కుడి) {
+        కుడి = &dummy;
     }
-    if (!bottom) {
+    ఒకవేళ (!bottom) {
         bottom = &dummy;
     }
 
     // Always initialize, so applications don't have to care
-    *top = *left = *bottom = *right = 0;
+    *శిఖరం = *ఎడమ = *bottom = *కుడి = 0;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!_this->GetWindowBordersSize) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->Get_కిటికీ_Borders_కొలత) {
+        తిరిగి SDL_Unsupported();
     }
 
-    return _this->GetWindowBordersSize(_this, window, top, left, bottom, right);
+    తిరిగి _this->Get_కిటికీ_Borders_కొలత(_this, కిటికీ, శిఖరం, ఎడమ, bottom, కుడి);
 }
 
-bool SDL_GetWindowSizeInPixels(SDL_Window *window, int *w, int *h)
+bool SDL_Get_కిటికీ_కొలత_లోపల_Pixels(SDL_కిటికీ *కిటికీ, పూర్ణాంకం *w, పూర్ణాంకం *h)
 {
-    int filter;
+    పూర్ణాంకం filter;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!w) {
+    ఒకవేళ (!w) {
         w = &filter;
     }
 
-    if (!h) {
+    ఒకవేళ (!h) {
         h = &filter;
     }
 
-    if (_this->GetWindowSizeInPixels) {
-        _this->GetWindowSizeInPixels(_this, window, w, h);
-    } else {
-        SDL_DisplayID displayID = GetDisplayForWindow(window);
-        const SDL_DisplayMode *mode;
+    ఒకవేళ (_this->Get_కిటికీ_కొలత_లోపల_Pixels) {
+        _this->Get_కిటికీ_కొలత_లోపల_Pixels(_this, కిటికీ, w, h);
+    } లేకపోతే {
+        SDL_DisplayID displayID = Get_Display_For_కిటికీ(కిటికీ);
+        స్థిరరాశి SDL_Display_బహుళకం *బహుళకం;
 
-        SDL_GetWindowSize(window, w, h);
+        SDL_Get_కిటికీ_కొలత(కిటికీ, w, h);
 
-        if ((window->flags & SDL_WINDOW_FULLSCREEN) && SDL_GetWindowFullscreenMode(window)) {
-            mode = SDL_GetCurrentDisplayMode(displayID);
-        } else {
-            mode = SDL_GetDesktopDisplayMode(displayID);
+        ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) && SDL_Get_కిటికీ_Fullscreen_బహుళకం(కిటికీ)) {
+            బహుళకం = SDL_Get_Current_Display_బహుళకం(displayID);
+        } లేకపోతే {
+            బహుళకం = SDL_Get_Desktop_Display_బహుళకం(displayID);
         }
-        if (mode) {
-            *w = (int)SDL_ceilf(*w * mode->pixel_density);
-            *h = (int)SDL_ceilf(*h * mode->pixel_density);
+        ఒకవేళ (బహుళకం) {
+            *w = (పూర్ణాంకం)SDL_ceilf(*w * బహుళకం->pixel_density);
+            *h = (పూర్ణాంకం)SDL_ceilf(*h * బహుళకం->pixel_density);
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowMinimumSize(SDL_Window *window, int min_w, int min_h)
+bool SDL_సమితి_కిటికీ_Minimum_కొలత(SDL_కిటికీ *కిటికీ, పూర్ణాంకం min_w, పూర్ణాంకం min_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
     CHECK_PARAM(min_w < 0) {
-        return SDL_InvalidParamError("min_w");
+        తిరిగి SDL_InvalidParamError("min_w");
     }
     CHECK_PARAM(min_h < 0) {
-        return SDL_InvalidParamError("min_h");
+        తిరిగి SDL_InvalidParamError("min_h");
     }
 
-    CHECK_PARAM((window->max_w && min_w > window->max_w) || (window->max_h && min_h > window->max_h)) {
-        return SDL_SetError("SDL_SetWindowMinimumSize(): Tried to set minimum size larger than maximum size");
+    CHECK_PARAM((కిటికీ->max_w && min_w > కిటికీ->max_w) || (కిటికీ->max_h && min_h > కిటికీ->max_h)) {
+        తిరిగి SDL_సమితి_Error("SDL_SetWindowMinimumSize(): Tried to set minimum size larger than maximum size");
     }
 
-    window->min_w = min_w;
-    window->min_h = min_h;
+    కిటికీ->min_w = min_w;
+    కిటికీ->min_h = min_h;
 
-    if (_this->SetWindowMinimumSize) {
-        _this->SetWindowMinimumSize(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_Minimum_కొలత) {
+        _this->సమితి_కిటికీ_Minimum_కొలత(_this, కిటికీ);
     }
 
     // Ensure that window is not smaller than minimal size
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    పూర్ణాంకం w = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.w : కిటికీ->floating.w;
+    పూర్ణాంకం h = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.h : కిటికీ->floating.h;
+    తిరిగి SDL_సమితి_కిటికీ_కొలత(కిటికీ, w, h);
 }
 
-bool SDL_GetWindowMinimumSize(SDL_Window *window, int *min_w, int *min_h)
+bool SDL_Get_కిటికీ_Minimum_కొలత(SDL_కిటికీ *కిటికీ, పూర్ణాంకం *min_w, పూర్ణాంకం *min_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (min_w) {
-        *min_w = window->min_w;
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    ఒకవేళ (min_w) {
+        *min_w = కిటికీ->min_w;
     }
-    if (min_h) {
-        *min_h = window->min_h;
+    ఒకవేళ (min_h) {
+        *min_h = కిటికీ->min_h;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowMaximumSize(SDL_Window *window, int max_w, int max_h)
+bool SDL_సమితి_కిటికీ_గరిష్ఠ_కొలత(SDL_కిటికీ *కిటికీ, పూర్ణాంకం max_w, పూర్ణాంకం max_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
     CHECK_PARAM(max_w < 0) {
-        return SDL_InvalidParamError("max_w");
+        తిరిగి SDL_InvalidParamError("max_w");
     }
     CHECK_PARAM(max_h < 0) {
-        return SDL_InvalidParamError("max_h");
+        తిరిగి SDL_InvalidParamError("max_h");
     }
 
-    if ((max_w && max_w < window->min_w) ||
-        (max_h && max_h < window->min_h)) {
-        return SDL_SetError("SDL_SetWindowMaximumSize(): Tried to set maximum size smaller than minimum size");
+    ఒకవేళ ((max_w && max_w < కిటికీ->min_w) ||
+        (max_h && max_h < కిటికీ->min_h)) {
+        తిరిగి SDL_సమితి_Error("SDL_SetWindowMaximumSize(): Tried to set maximum size smaller than minimum size");
     }
 
-    window->max_w = max_w;
-    window->max_h = max_h;
+    కిటికీ->max_w = max_w;
+    కిటికీ->max_h = max_h;
 
-    if (_this->SetWindowMaximumSize) {
-        _this->SetWindowMaximumSize(_this, window);
+    ఒకవేళ (_this->సమితి_కిటికీ_గరిష్ఠ_కొలత) {
+        _this->సమితి_కిటికీ_గరిష్ఠ_కొలత(_this, కిటికీ);
     }
 
     // Ensure that window is not larger than maximal size
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    పూర్ణాంకం w = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.w : కిటికీ->floating.w;
+    పూర్ణాంకం h = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.h : కిటికీ->floating.h;
+    తిరిగి SDL_సమితి_కిటికీ_కొలత(కిటికీ, w, h);
 }
 
-bool SDL_GetWindowMaximumSize(SDL_Window *window, int *max_w, int *max_h)
+bool SDL_Get_కిటికీ_గరిష్ఠ_కొలత(SDL_కిటికీ *కిటికీ, పూర్ణాంకం *max_w, పూర్ణాంకం *max_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (max_w) {
-        *max_w = window->max_w;
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    ఒకవేళ (max_w) {
+        *max_w = కిటికీ->max_w;
     }
-    if (max_h) {
-        *max_h = window->max_h;
+    ఒకవేళ (max_h) {
+        *max_h = కిటికీ->max_h;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_ShowWindow(SDL_Window *window)
+bool SDL_Show_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    SDL_Window *child;
-    CHECK_WINDOW_MAGIC(window, false);
+    SDL_కిటికీ *బిడ్డ;
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-        return true;
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_HIDDEN)) {
+        తిరిగి true;
     }
 
     // If the parent is hidden, set the flag to restore this when the parent is shown
-    if (window->parent && (window->parent->flags & SDL_WINDOW_HIDDEN)) {
-        window->restore_on_show = true;
-        return true;
+    ఒకవేళ (కిటికీ->మాతృ && (కిటికీ->మాతృ->flags & SDL_కిటికీ_HIDDEN)) {
+        కిటికీ->restore_on_show = true;
+        తిరిగి true;
     }
 
-    if (_this->ShowWindow) {
-        _this->ShowWindow(_this, window);
-    } else {
-        SDL_SetMouseFocus(window);
-        SDL_SetKeyboardFocus(window);
+    ఒకవేళ (_this->Show_కిటికీ) {
+        _this->Show_కిటికీ(_this, కిటికీ);
+    } లేకపోతే {
+        SDL_సమితి_Mouse_Focus(కిటికీ);
+        SDL_సమితి_Keyboard_Focus(కిటికీ);
     }
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
+    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_SHOWN, 0, 0);
 
     // Restore child windows
-    for (child = window->first_child; child; child = child->next_sibling) {
-        if (!child->restore_on_show && (child->flags & SDL_WINDOW_HIDDEN)) {
-            break;
+    కొరకు (బిడ్డ = కిటికీ->మొదటి_బిడ్డ; బిడ్డ; బిడ్డ = బిడ్డ->తదుపరి_sibling) {
+        ఒకవేళ (!బిడ్డ->restore_on_show && (బిడ్డ->flags & SDL_కిటికీ_HIDDEN)) {
+            ఆపు;
         }
-        SDL_ShowWindow(child);
-        child->restore_on_show = false;
+        SDL_Show_కిటికీ(బిడ్డ);
+        బిడ్డ->restore_on_show = false;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_HideWindow(SDL_Window *window)
+bool SDL_Hide_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    SDL_Window *child;
-    CHECK_WINDOW_MAGIC(window, false);
+    SDL_కిటికీ *బిడ్డ;
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->restore_on_show = false;
-        return true;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        కిటికీ->restore_on_show = false;
+        తిరిగి true;
     }
 
     // Hide all child windows
-    for (child = window->first_child; child; child = child->next_sibling) {
-        if (child->flags & SDL_WINDOW_HIDDEN) {
-            break;
+    కొరకు (బిడ్డ = కిటికీ->మొదటి_బిడ్డ; బిడ్డ; బిడ్డ = బిడ్డ->తదుపరి_sibling) {
+        ఒకవేళ (బిడ్డ->flags & SDL_కిటికీ_HIDDEN) {
+            ఆపు;
         }
-        SDL_HideWindow(child);
-        child->restore_on_show = true;
+        SDL_Hide_కిటికీ(బిడ్డ);
+        బిడ్డ->restore_on_show = true;
     }
 
     // Store the flags for restoration later.
-    const SDL_WindowFlags pending_mask = (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_KEYBOARD_GRABBED | SDL_WINDOW_MOUSE_GRABBED);
-    window->pending_flags = (window->flags & pending_mask);
+    స్థిరరాశి SDL_కిటికీ_Flags pending_ముసుగు = (SDL_కిటికీ_MAXIMIZED | SDL_కిటికీ_MINIMIZED | SDL_కిటికీ_FULLSCREEN | SDL_కిటికీ_KEYBOARD_GRABBED | SDL_కిటికీ_MOUSE_GRABBED);
+    కిటికీ->pending_flags = (కిటికీ->flags & pending_ముసుగు);
 
-    window->is_hiding = true;
-    if (_this->HideWindow) {
-        _this->HideWindow(_this, window);
-    } else {
-        SDL_SetMouseFocus(NULL);
-        SDL_SetKeyboardFocus(NULL);
+    కిటికీ->is_hiding = true;
+    ఒకవేళ (_this->Hide_కిటికీ) {
+        _this->Hide_కిటికీ(_this, కిటికీ);
+    } లేకపోతే {
+        SDL_సమితి_Mouse_Focus(ఖాళీ);
+        SDL_సమితి_Keyboard_Focus(ఖాళీ);
     }
-    window->is_hiding = false;
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
-    return true;
+    కిటికీ->is_hiding = false;
+    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_HIDDEN, 0, 0);
+    తిరిగి true;
 }
 
-bool SDL_RaiseWindow(SDL_Window *window)
+bool SDL_Raise_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        return true;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        తిరిగి true;
     }
-    if (_this->RaiseWindow) {
-        _this->RaiseWindow(_this, window);
+    ఒకవేళ (_this->Raise_కిటికీ) {
+        _this->Raise_కిటికీ(_this, కిటికీ);
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_MaximizeWindow(SDL_Window *window)
+bool SDL_Maximize_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (!_this->MaximizeWindow) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->Maximize_కిటికీ) {
+        తిరిగి SDL_Unsupported();
     }
 
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
-        return SDL_SetError("A window without the 'SDL_WINDOW_RESIZABLE' flag can't be maximized");
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_RESIZABLE)) {
+        తిరిగి SDL_సమితి_Error("A window without the 'SDL_WINDOW_RESIZABLE' flag can't be maximized");
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags |= SDL_WINDOW_MAXIMIZED;
-        return true;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        కిటికీ->pending_flags |= SDL_కిటికీ_MAXIMIZED;
+        తిరిగి true;
     }
 
-    _this->MaximizeWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Maximize_కిటికీ(_this, కిటికీ);
+    SDL_SyncIfRequired(కిటికీ);
+    తిరిగి true;
 }
 
-bool SDL_MinimizeWindow(SDL_Window *window)
+bool SDL_Minimize_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (!_this->MinimizeWindow) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->Minimize_కిటికీ) {
+        తిరిగి SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags |= SDL_WINDOW_MINIMIZED;
-        return true;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        కిటికీ->pending_flags |= SDL_కిటికీ_MINIMIZED;
+        తిరిగి true;
     }
 
-    _this->MinimizeWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Minimize_కిటికీ(_this, కిటికీ);
+    SDL_SyncIfRequired(కిటికీ);
+    తిరిగి true;
 }
 
-bool SDL_RestoreWindow(SDL_Window *window)
+bool SDL_Restore_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (!_this->RestoreWindow) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->Restore_కిటికీ) {
+        తిరిగి SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags &= ~(SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED);
-        return true;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        కిటికీ->pending_flags &= ~(SDL_కిటికీ_MAXIMIZED | SDL_కిటికీ_MINIMIZED);
+        తిరిగి true;
     }
 
-    _this->RestoreWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Restore_కిటికీ(_this, కిటికీ);
+    SDL_SyncIfRequired(కిటికీ);
+    తిరిగి true;
 }
 
-bool SDL_SetWindowFullscreen(SDL_Window *window, bool fullscreen)
+bool SDL_సమితి_కిటికీ_Fullscreen(SDL_కిటికీ *కిటికీ, bool fullscreen)
 {
-    bool result;
+    bool ఫలితం;
 
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (fullscreen) {
-            window->pending_flags |= SDL_WINDOW_FULLSCREEN;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_FULLSCREEN;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        ఒకవేళ (fullscreen) {
+            కిటికీ->pending_flags |= SDL_కిటికీ_FULLSCREEN;
+        } లేకపోతే {
+            కిటికీ->pending_flags &= ~SDL_కిటికీ_FULLSCREEN;
         }
-        return true;
+        తిరిగి true;
     }
 
-    if (fullscreen) {
+    ఒకవేళ (fullscreen) {
         // Set the current fullscreen mode to the desired mode
-        SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
+        SDL_copyp(&కిటికీ->current_fullscreen_బహుళకం, &కిటికీ->requested_fullscreen_బహుళకం);
     }
 
-    result = SDL_UpdateFullscreenMode(window, fullscreen ? SDL_FULLSCREEN_OP_ENTER : SDL_FULLSCREEN_OP_LEAVE, true);
+    ఫలితం = SDL_Update_Fullscreen_బహుళకం(కిటికీ, fullscreen ? SDL_FULLSCREEN_OP_ENTER : SDL_FULLSCREEN_OP_LEAVE, true);
 
-    if (!fullscreen || !result) {
+    ఒకవేళ (!fullscreen || !ఫలితం) {
         // Clear the current fullscreen mode.
-        SDL_zero(window->current_fullscreen_mode);
+        SDL_zero(కిటికీ->current_fullscreen_బహుళకం);
     }
 
-    if (result) {
-        SDL_SyncIfRequired(window);
+    ఒకవేళ (ఫలితం) {
+        SDL_SyncIfRequired(కిటికీ);
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-bool SDL_SyncWindow(SDL_Window *window)
+bool SDL_Sync_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (_this->SyncWindow) {
-        return _this->SyncWindow(_this, window);
-    } else {
-        return true;
+    ఒకవేళ (_this->Sync_కిటికీ) {
+        తిరిగి _this->Sync_కిటికీ(_this, కిటికీ);
+    } లేకపోతే {
+        తిరిగి true;
     }
 }
 
-static bool ShouldAttemptTextureFramebuffer(void)
+స్థిర bool ShouldAttemptTextureFramebuffer(శూన్య)
 {
-    const char *hint;
+    స్థిరరాశి అక్షరం *hint;
     bool attempt_texture_framebuffer;
 
     // If the driver doesn't support window framebuffers, always use the render API.
-    if (!_this->CreateWindowFramebuffer) {
-        return true;
+    ఒకవేళ (!_this->Create_కిటికీ_Framebuffer) {
+        తిరిగి true;
     }
 
     // See if there's a hint override
     hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
-    if (hint && *hint) {
-        if (*hint == '0' || SDL_strcasecmp(hint, "false") == 0 || SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) == 0) {
+    ఒకవేళ (hint && *hint) {
+        ఒకవేళ (*hint == '0' || SDL_strcasecmp(hint, "false") == 0 || SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) == 0) {
             attempt_texture_framebuffer = false;
-        } else {
+        } లేకపోతే {
             attempt_texture_framebuffer = true;
         }
-    } else {
-        if (SDL_DriverHasSlowFramebuffer(_this)) {
+    } లేకపోతే {
+        ఒకవేళ (SDL_DriverHasSlowFramebuffer(_this)) {
             attempt_texture_framebuffer = true;
-        } else {
+        } లేకపోతే {
             attempt_texture_framebuffer = false;
         }
     }
-    return attempt_texture_framebuffer;
+    తిరిగి attempt_texture_framebuffer;
 }
 
-static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
+స్థిర SDL_Surface *SDL_Create_కిటికీ_Framebuffer(SDL_కిటికీ *కిటికీ)
 {
     SDL_PixelFormat format = SDL_PIXELFORMAT_UNKNOWN;
-    void *pixels = NULL;
-    int pitch = 0;
+    శూన్య *pixels = ఖాళీ;
+    పూర్ణాంకం pitch = 0;
     bool created_framebuffer = false;
-    int w, h;
+    పూర్ణాంకం w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &w, &h);
 
     /* This will switch the video backend from using a software surface to
        using a GPU texture through the 2D render API, if we think this would
        be more efficient. This only checks once, on demand. */
-    if (!_this->checked_texture_framebuffer) {
-        if (ShouldAttemptTextureFramebuffer()) {
-            if (!SDL_CreateWindowTexture(_this, window, &format, &pixels, &pitch)) {
+    ఒకవేళ (!_this->checked_texture_framebuffer) {
+        ఒకవేళ (ShouldAttemptTextureFramebuffer()) {
+            ఒకవేళ (!SDL_Create_కిటికీ_Texture(_this, కిటికీ, &format, &pixels, &pitch)) {
                 /* !!! FIXME: if this failed halfway (made renderer, failed to make texture, etc),
                    !!! FIXME:  we probably need to clean this up so it doesn't interfere with
                    !!! FIXME:  a software fallback at the system level (can we blit to an
                    !!! FIXME:  OpenGL window? etc). */
-            } else {
+            } లేకపోతే {
                 // future attempts will just try to use a texture framebuffer.
                 /* !!! FIXME:  maybe we shouldn't override these but check if we used a texture
                    !!! FIXME:  framebuffer at the right places; is it feasible we could have an
                    !!! FIXME:  accelerated OpenGL window and a second ends up in software? */
-                _this->CreateWindowFramebuffer = SDL_CreateWindowTexture;
-                _this->SetWindowFramebufferVSync = SDL_SetWindowTextureVSync;
-                _this->GetWindowFramebufferVSync = SDL_GetWindowTextureVSync;
-                _this->UpdateWindowFramebuffer = SDL_UpdateWindowTexture;
-                _this->DestroyWindowFramebuffer = SDL_DestroyWindowTexture;
+                _this->Create_కిటికీ_Framebuffer = SDL_Create_కిటికీ_Texture;
+                _this->సమితి_కిటికీ_Framebuffer_VSync = SDL_సమితి_కిటికీ_Texture_VSync;
+                _this->Get_కిటికీ_Framebuffer_VSync = SDL_Get_కిటికీ_Texture_VSync;
+                _this->Update_కిటికీ_Framebuffer = SDL_Update_కిటికీ_Texture;
+                _this->Destroy_కిటికీ_Framebuffer = SDL_Destroy_కిటికీ_Texture;
                 created_framebuffer = true;
             }
         }
@@ -3711,459 +3711,459 @@ static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
         _this->checked_texture_framebuffer = true; // don't check this again.
     }
 
-    if (!created_framebuffer) {
-        if (!_this->CreateWindowFramebuffer || !_this->UpdateWindowFramebuffer) {
-            SDL_SetError("Window framebuffer support not available");
-            return NULL;
+    ఒకవేళ (!created_framebuffer) {
+        ఒకవేళ (!_this->Create_కిటికీ_Framebuffer || !_this->Update_కిటికీ_Framebuffer) {
+            SDL_సమితి_Error("Window framebuffer support not available");
+            తిరిగి ఖాళీ;
         }
 
-        if (!_this->CreateWindowFramebuffer(_this, window, &format, &pixels, &pitch)) {
-            return NULL;
+        ఒకవేళ (!_this->Create_కిటికీ_Framebuffer(_this, కిటికీ, &format, &pixels, &pitch)) {
+            తిరిగి ఖాళీ;
         }
     }
 
-    if (window->surface) {
+    ఒకవేళ (కిటికీ->surface) {
         // We may have gone recursive and already created the surface
-        return window->surface;
+        తిరిగి కిటికీ->surface;
     }
 
-    return SDL_CreateSurfaceFrom(w, h, format, pixels, pitch);
+    తిరిగి SDL_CreateSurfaceFrom(w, h, format, pixels, pitch);
 }
 
-bool SDL_WindowHasSurface(SDL_Window *window)
+bool SDL_కిటికీ_Has_Surface(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    return window->surface ? true : false;
+    తిరిగి కిటికీ->surface ? true : false;
 }
 
-SDL_Surface *SDL_GetWindowSurface(SDL_Window *window)
+SDL_Surface *SDL_Get_కిటికీ_Surface(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_కిటికీ_MAGIC(కిటికీ, ఖాళీ);
 
-    if (!window->surface_valid) {
-        if (window->surface) {
-            window->surface->internal_flags &= ~SDL_INTERNAL_SURFACE_DONTFREE;
-            SDL_DestroySurface(window->surface);
-            window->surface = NULL;
+    ఒకవేళ (!కిటికీ->surface_valid) {
+        ఒకవేళ (కిటికీ->surface) {
+            కిటికీ->surface->అంతర్గత_flags &= ~SDL_అంతర్గత_SURFACE_DONTFREE;
+            SDL_DestroySurface(కిటికీ->surface);
+            కిటికీ->surface = ఖాళీ;
         }
 
-        window->surface = SDL_CreateWindowFramebuffer(window);
-        if (window->surface) {
-            window->surface_valid = true;
-            window->surface->internal_flags |= SDL_INTERNAL_SURFACE_DONTFREE;
+        కిటికీ->surface = SDL_Create_కిటికీ_Framebuffer(కిటికీ);
+        ఒకవేళ (కిటికీ->surface) {
+            కిటికీ->surface_valid = true;
+            కిటికీ->surface->అంతర్గత_flags |= SDL_అంతర్గత_SURFACE_DONTFREE;
         }
     }
-    return window->surface;
+    తిరిగి కిటికీ->surface;
 }
 
-bool SDL_SetWindowSurfaceVSync(SDL_Window *window, int vsync)
+bool SDL_సమితి_కిటికీ_Surface_VSync(SDL_కిటికీ *కిటికీ, పూర్ణాంకం vsync)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!_this->SetWindowFramebufferVSync) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Framebuffer_VSync) {
+        తిరిగి SDL_Unsupported();
     }
-    return _this->SetWindowFramebufferVSync(_this, window, vsync);
+    తిరిగి _this->సమితి_కిటికీ_Framebuffer_VSync(_this, కిటికీ, vsync);
 }
 
-bool SDL_GetWindowSurfaceVSync(SDL_Window *window, int *vsync)
+bool SDL_Get_కిటికీ_Surface_VSync(SDL_కిటికీ *కిటికీ, పూర్ణాంకం *vsync)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!_this->GetWindowFramebufferVSync) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->Get_కిటికీ_Framebuffer_VSync) {
+        తిరిగి SDL_Unsupported();
     }
-    return _this->GetWindowFramebufferVSync(_this, window, vsync);
+    తిరిగి _this->Get_కిటికీ_Framebuffer_VSync(_this, కిటికీ, vsync);
 }
 
-bool SDL_UpdateWindowSurface(SDL_Window *window)
+bool SDL_Update_కిటికీ_Surface(SDL_కిటికీ *కిటికీ)
 {
-    SDL_Rect full_rect;
+    SDL_Rect నిండిన_rect;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    full_rect.x = 0;
-    full_rect.y = 0;
-    SDL_GetWindowSizeInPixels(window, &full_rect.w, &full_rect.h);
+    నిండిన_rect.x = 0;
+    నిండిన_rect.y = 0;
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &నిండిన_rect.w, &నిండిన_rect.h);
 
-    return SDL_UpdateWindowSurfaceRects(window, &full_rect, 1);
+    తిరిగి SDL_Update_కిటికీ_Surface_Rects(కిటికీ, &నిండిన_rect, 1);
 }
 
-bool SDL_UpdateWindowSurfaceRects(SDL_Window *window, const SDL_Rect *rects,
-                                 int numrects)
+bool SDL_Update_కిటికీ_Surface_Rects(SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rects,
+                                 పూర్ణాంకం numrects)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!window->surface_valid) {
-        return SDL_SetError("Window surface is invalid, please call SDL_GetWindowSurface() to get a new surface");
+    ఒకవేళ (!కిటికీ->surface_valid) {
+        తిరిగి SDL_సమితి_Error("Window surface is invalid, please call SDL_GetWindowSurface() to get a new surface");
     }
 
     SDL_assert(_this->checked_texture_framebuffer); // we should have done this before we had a valid surface.
 
-    return _this->UpdateWindowFramebuffer(_this, window, rects, numrects);
+    తిరిగి _this->Update_కిటికీ_Framebuffer(_this, కిటికీ, rects, numrects);
 }
 
-bool SDL_DestroyWindowSurface(SDL_Window *window)
+bool SDL_Destroy_కిటికీ_Surface(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (window->surface) {
-        window->surface->internal_flags &= ~SDL_INTERNAL_SURFACE_DONTFREE;
-        SDL_DestroySurface(window->surface);
-        window->surface = NULL;
-        window->surface_valid = false;
+    ఒకవేళ (కిటికీ->surface) {
+        కిటికీ->surface->అంతర్గత_flags &= ~SDL_అంతర్గత_SURFACE_DONTFREE;
+        SDL_DestroySurface(కిటికీ->surface);
+        కిటికీ->surface = ఖాళీ;
+        కిటికీ->surface_valid = false;
     }
 
-    if (_this->checked_texture_framebuffer) { // never checked? No framebuffer to destroy. Don't risk calling the wrong implementation.
-        if (_this->DestroyWindowFramebuffer) {
-            _this->DestroyWindowFramebuffer(_this, window);
+    ఒకవేళ (_this->checked_texture_framebuffer) { // never checked? No framebuffer to destroy. Don't risk calling the wrong implementation.
+        ఒకవేళ (_this->Destroy_కిటికీ_Framebuffer) {
+            _this->Destroy_కిటికీ_Framebuffer(_this, కిటికీ);
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowOpacity(SDL_Window *window, float opacity)
+bool SDL_సమితి_కిటికీ_Opacity(SDL_కిటికీ *కిటికీ, దశాంశం opacity)
 {
-    bool result;
+    bool ఫలితం;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!_this->SetWindowOpacity) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Opacity) {
+        తిరిగి SDL_Unsupported();
     }
 
-    if (opacity < 0.0f) {
+    ఒకవేళ (opacity < 0.0f) {
         opacity = 0.0f;
-    } else if (opacity > 1.0f) {
+    } లేకపోతే ఒకవేళ (opacity > 1.0f) {
         opacity = 1.0f;
     }
 
-    result = _this->SetWindowOpacity(_this, window, opacity);
-    if (result) {
-        window->opacity = opacity;
+    ఫలితం = _this->సమితి_కిటికీ_Opacity(_this, కిటికీ, opacity);
+    ఒకవేళ (ఫలితం) {
+        కిటికీ->opacity = opacity;
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-float SDL_GetWindowOpacity(SDL_Window *window)
+దశాంశం SDL_Get_కిటికీ_Opacity(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, -1.0f);
+    CHECK_కిటికీ_MAGIC(కిటికీ, -1.0f);
 
-    return window->opacity;
+    తిరిగి కిటికీ->opacity;
 }
 
-bool SDL_SetWindowParent(SDL_Window *window, SDL_Window *parent)
+bool SDL_సమితి_కిటికీ_మాతృ(SDL_కిటికీ *కిటికీ, SDL_కిటికీ *మాతృ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (parent) {
-        CHECK_WINDOW_MAGIC(parent, false);
-        CHECK_WINDOW_NOT_POPUP(parent, false);
+    ఒకవేళ (మాతృ) {
+        CHECK_కిటికీ_MAGIC(మాతృ, false);
+        CHECK_కిటికీ_NOT_POPUP(మాతృ, false);
     }
 
-    if (window == parent) {
-        return SDL_SetError("Cannot set the parent of a window to itself.");
+    ఒకవేళ (కిటికీ == మాతృ) {
+        తిరిగి SDL_సమితి_Error("Cannot set the parent of a window to itself.");
     }
 
-    if (!_this->SetWindowParent) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_మాతృ) {
+        తిరిగి SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_MODAL) {
-        return SDL_SetError("Modal windows cannot change parents; call SDL_SetWindowModal() to clear modal status first.");
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MODAL) {
+        తిరిగి SDL_సమితి_Error("Modal windows cannot change parents; call SDL_SetWindowModal() to clear modal status first.");
     }
 
-    if (window->parent == parent) {
-        return true;
+    ఒకవేళ (కిటికీ->మాతృ == మాతృ) {
+        తిరిగి true;
     }
 
-    const bool ret = _this->SetWindowParent(_this, window, parent);
-    SDL_UpdateWindowHierarchy(window, ret ? parent : NULL);
+    స్థిరరాశి bool ret = _this->సమితి_కిటికీ_మాతృ(_this, కిటికీ, మాతృ);
+    SDL_Update_కిటికీ_Hierarchy(కిటికీ, ret ? మాతృ : ఖాళీ);
 
-    return ret;
+    తిరిగి ret;
 }
 
-bool SDL_SetWindowModal(SDL_Window *window, bool modal)
+bool SDL_సమితి_కిటికీ_Modal(SDL_కిటికీ *కిటికీ, bool modal)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (!_this->SetWindowModal) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Modal) {
+        తిరిగి SDL_Unsupported();
     }
 
-    if (modal) {
-        if (!window->parent) {
-            return SDL_SetError("Window must have a parent to enable the modal state; use SDL_SetWindowParent() to set the parent first.");
+    ఒకవేళ (modal) {
+        ఒకవేళ (!కిటికీ->మాతృ) {
+            తిరిగి SDL_సమితి_Error("Window must have a parent to enable the modal state; use SDL_SetWindowParent() to set the parent first.");
         }
-        window->flags |= SDL_WINDOW_MODAL;
-    } else if (window->flags & SDL_WINDOW_MODAL) {
-        window->flags &= ~SDL_WINDOW_MODAL;
-    } else {
-        return true; // Already not modal, so nothing to do.
+        కిటికీ->flags |= SDL_కిటికీ_MODAL;
+    } లేకపోతే ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MODAL) {
+        కిటికీ->flags &= ~SDL_కిటికీ_MODAL;
+    } లేకపోతే {
+        తిరిగి true; // Already not modal, so nothing to do.
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        return true;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        తిరిగి true;
     }
 
-    return _this->SetWindowModal(_this, window, modal);
+    తిరిగి _this->సమితి_కిటికీ_Modal(_this, కిటికీ, modal);
 }
 
-bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus)
+bool SDL_ShouldRelinquishPopupFocus(SDL_కిటికీ *కిటికీ, SDL_కిటికీ **new_focus)
 {
-    SDL_Window *focus = window->parent;
-    bool set_focus = !!(window->flags & SDL_WINDOW_INPUT_FOCUS);
+    SDL_కిటికీ *focus = కిటికీ->మాతృ;
+    bool సమితి_focus = !!(కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS);
 
     // Find the highest level window, up to the toplevel parent, that isn't being hidden or destroyed, and can grab the keyboard focus.
-    while (SDL_WINDOW_IS_POPUP(focus) && ((focus->flags & SDL_WINDOW_NOT_FOCUSABLE) || focus->is_hiding || focus->is_destroying)) {
-        focus = focus->parent;
+    అయితే (SDL_కిటికీ_IS_POPUP(focus) && ((focus->flags & SDL_కిటికీ_NOT_FOCUSABLE) || focus->is_hiding || focus->is_destroying)) {
+        focus = focus->మాతృ;
 
         // If some window in the chain currently had focus, set it to the new lowest-level window.
-        if (!set_focus) {
-            set_focus = !!(focus->flags & SDL_WINDOW_INPUT_FOCUS);
+        ఒకవేళ (!సమితి_focus) {
+            సమితి_focus = !!(focus->flags & SDL_కిటికీ_ఆదానం_FOCUS);
         }
     }
 
     *new_focus = focus;
-    return set_focus;
+    తిరిగి సమితి_focus;
 }
 
-bool SDL_ShouldFocusPopup(SDL_Window *window)
+bool SDL_ShouldFocusPopup(SDL_కిటికీ *కిటికీ)
 {
-    SDL_Window *toplevel_parent;
-    for (toplevel_parent = window->parent; SDL_WINDOW_IS_POPUP(toplevel_parent); toplevel_parent = toplevel_parent->parent) {
+    SDL_కిటికీ *toplevel_మాతృ;
+    కొరకు (toplevel_మాతృ = కిటికీ->మాతృ; SDL_కిటికీ_IS_POPUP(toplevel_మాతృ); toplevel_మాతృ = toplevel_మాతృ->మాతృ) {
     }
 
-    SDL_Window *current_focus = toplevel_parent->keyboard_focus;
-    bool found_higher_focus = false;
+    SDL_కిటికీ *current_focus = toplevel_మాతృ->keyboard_focus;
+    bool దొరికింది_higher_focus = false;
 
     /* Traverse the window tree from the currently focused window to the toplevel parent and see if we encounter
      * the new focus request. If the new window is found, a higher-level window already has focus.
      */
-    SDL_Window *w;
-    for (w = current_focus; w != toplevel_parent; w = w->parent) {
-        if (w == window) {
-            found_higher_focus = true;
-            break;
+    SDL_కిటికీ *w;
+    కొరకు (w = current_focus; w != toplevel_మాతృ; w = w->మాతృ) {
+        ఒకవేళ (w == కిటికీ) {
+            దొరికింది_higher_focus = true;
+            ఆపు;
         }
     }
 
-    return !found_higher_focus || w == toplevel_parent;
+    తిరిగి !దొరికింది_higher_focus || w == toplevel_మాతృ;
 }
 
-bool SDL_SetWindowFocusable(SDL_Window *window, bool focusable)
+bool SDL_సమితి_కిటికీ_Focusable(SDL_కిటికీ *కిటికీ, bool focusable)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    const bool want = (focusable != false); // normalize the flag.
-    const bool have = !(window->flags & SDL_WINDOW_NOT_FOCUSABLE);
-    if ((want != have) && (_this->SetWindowFocusable)) {
-        if (want) {
-            window->flags &= ~SDL_WINDOW_NOT_FOCUSABLE;
-        } else {
-            window->flags |= SDL_WINDOW_NOT_FOCUSABLE;
+    స్థిరరాశి bool want = (focusable != false); // normalize the flag.
+    స్థిరరాశి bool have = !(కిటికీ->flags & SDL_కిటికీ_NOT_FOCUSABLE);
+    ఒకవేళ ((want != have) && (_this->సమితి_కిటికీ_Focusable)) {
+        ఒకవేళ (want) {
+            కిటికీ->flags &= ~SDL_కిటికీ_NOT_FOCUSABLE;
+        } లేకపోతే {
+            కిటికీ->flags |= SDL_కిటికీ_NOT_FOCUSABLE;
         }
-        if (!_this->SetWindowFocusable(_this, window, want)) {
-            return false;
+        ఒకవేళ (!_this->సమితి_కిటికీ_Focusable(_this, కిటికీ, want)) {
+            తిరిగి false;
         }
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowFillDocument(SDL_Window *window, bool fill)
+bool SDL_సమితి_కిటికీ_Fill_Document(SDL_కిటికీ *కిటికీ, bool fill)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    const bool want = (fill != false); // normalize the flag.
-    const bool have = ((window->flags & SDL_WINDOW_FILL_DOCUMENT) != 0);
-    if ((want != have) && (_this->SetWindowFillDocument)) {
-        if (!_this->SetWindowFillDocument(_this, window, want)) {
-            return false;
-        } else if (want) {
-            window->flags |= SDL_WINDOW_FILL_DOCUMENT;
-        } else {
-            window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;
+    స్థిరరాశి bool want = (fill != false); // normalize the flag.
+    స్థిరరాశి bool have = ((కిటికీ->flags & SDL_కిటికీ_FILL_DOCUMENT) != 0);
+    ఒకవేళ ((want != have) && (_this->సమితి_కిటికీ_Fill_Document)) {
+        ఒకవేళ (!_this->సమితి_కిటికీ_Fill_Document(_this, కిటికీ, want)) {
+            తిరిగి false;
+        } లేకపోతే ఒకవేళ (want) {
+            కిటికీ->flags |= SDL_కిటికీ_FILL_DOCUMENT;
+        } లేకపోతే {
+            కిటికీ->flags &= ~SDL_కిటికీ_FILL_DOCUMENT;
         }
     }
 
-    return true;
+    తిరిగి true;
 }
 
-void SDL_UpdateWindowGrab(SDL_Window *window)
+శూన్య SDL_Update_కిటికీ_Grab(SDL_కిటికీ *కిటికీ)
 {
     bool keyboard_grabbed, mouse_grabbed;
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-        if (SDL_GetMouse()->relative_mode || (window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS) {
+        ఒకవేళ (SDL_GetMouse()->relative_బహుళకం || (కిటికీ->flags & SDL_కిటికీ_MOUSE_GRABBED)) {
             mouse_grabbed = true;
-        } else {
+        } లేకపోతే {
             mouse_grabbed = false;
         }
 
-        if (window->flags & SDL_WINDOW_KEYBOARD_GRABBED) {
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_KEYBOARD_GRABBED) {
             keyboard_grabbed = true;
-        } else {
+        } లేకపోతే {
             keyboard_grabbed = false;
         }
-    } else {
+    } లేకపోతే {
         mouse_grabbed = false;
         keyboard_grabbed = false;
     }
 
-    if (mouse_grabbed || keyboard_grabbed) {
-        if (_this->grabbed_window && (_this->grabbed_window != window)) {
+    ఒకవేళ (mouse_grabbed || keyboard_grabbed) {
+        ఒకవేళ (_this->grabbed_కిటికీ && (_this->grabbed_కిటికీ != కిటికీ)) {
             // stealing a grab from another window!
-            _this->grabbed_window->flags &= ~(SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED);
-            if (_this->SetWindowMouseGrab) {
-                _this->SetWindowMouseGrab(_this, _this->grabbed_window, false);
+            _this->grabbed_కిటికీ->flags &= ~(SDL_కిటికీ_MOUSE_GRABBED | SDL_కిటికీ_KEYBOARD_GRABBED);
+            ఒకవేళ (_this->సమితి_కిటికీ_Mouse_Grab) {
+                _this->సమితి_కిటికీ_Mouse_Grab(_this, _this->grabbed_కిటికీ, false);
             }
-            if (_this->SetWindowKeyboardGrab) {
-                _this->SetWindowKeyboardGrab(_this, _this->grabbed_window, false);
+            ఒకవేళ (_this->సమితి_కిటికీ_Keyboard_Grab) {
+                _this->సమితి_కిటికీ_Keyboard_Grab(_this, _this->grabbed_కిటికీ, false);
             }
         }
-        _this->grabbed_window = window;
-    } else if (_this->grabbed_window == window) {
-        _this->grabbed_window = NULL; // ungrabbing input.
+        _this->grabbed_కిటికీ = కిటికీ;
+    } లేకపోతే ఒకవేళ (_this->grabbed_కిటికీ == కిటికీ) {
+        _this->grabbed_కిటికీ = ఖాళీ; // ungrabbing input.
     }
 
-    if (_this->SetWindowMouseGrab) {
-        if (!_this->SetWindowMouseGrab(_this, window, mouse_grabbed)) {
-            window->flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    ఒకవేళ (_this->సమితి_కిటికీ_Mouse_Grab) {
+        ఒకవేళ (!_this->సమితి_కిటికీ_Mouse_Grab(_this, కిటికీ, mouse_grabbed)) {
+            కిటికీ->flags &= ~SDL_కిటికీ_MOUSE_GRABBED;
         }
     }
-    if (_this->SetWindowKeyboardGrab) {
-        if (!_this->SetWindowKeyboardGrab(_this, window, keyboard_grabbed)) {
-            window->flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    ఒకవేళ (_this->సమితి_కిటికీ_Keyboard_Grab) {
+        ఒకవేళ (!_this->సమితి_కిటికీ_Keyboard_Grab(_this, కిటికీ, keyboard_grabbed)) {
+            కిటికీ->flags &= ~SDL_కిటికీ_KEYBOARD_GRABBED;
         }
     }
 
-    if (_this->grabbed_window && !(_this->grabbed_window->flags & (SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED))) {
-        _this->grabbed_window = NULL;
+    ఒకవేళ (_this->grabbed_కిటికీ && !(_this->grabbed_కిటికీ->flags & (SDL_కిటికీ_MOUSE_GRABBED | SDL_కిటికీ_KEYBOARD_GRABBED))) {
+        _this->grabbed_కిటికీ = ఖాళీ;
     }
 }
 
-bool SDL_SetWindowKeyboardGrab(SDL_Window *window, bool grabbed)
+bool SDL_సమితి_కిటికీ_Keyboard_Grab(SDL_కిటికీ *కిటికీ, bool grabbed)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (grabbed) {
-            window->pending_flags |= SDL_WINDOW_KEYBOARD_GRABBED;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        ఒకవేళ (grabbed) {
+            కిటికీ->pending_flags |= SDL_కిటికీ_KEYBOARD_GRABBED;
+        } లేకపోతే {
+            కిటికీ->pending_flags &= ~SDL_కిటికీ_KEYBOARD_GRABBED;
         }
-        return true;
+        తిరిగి true;
     }
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        return true;
+    ఒకవేళ (!!grabbed == !!(కిటికీ->flags & SDL_కిటికీ_KEYBOARD_GRABBED)) {
+        తిరిగి true;
     }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_KEYBOARD_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    ఒకవేళ (grabbed) {
+        కిటికీ->flags |= SDL_కిటికీ_KEYBOARD_GRABBED;
+    } లేకపోతే {
+        కిటికీ->flags &= ~SDL_కిటికీ_KEYBOARD_GRABBED;
     }
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_కిటికీ_Grab(కిటికీ);
 
-    if (grabbed && !(window->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        return false;
+    ఒకవేళ (grabbed && !(కిటికీ->flags & SDL_కిటికీ_KEYBOARD_GRABBED)) {
+        తిరిగి false;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetWindowMouseGrab(SDL_Window *window, bool grabbed)
+bool SDL_సమితి_కిటికీ_Mouse_Grab(SDL_కిటికీ *కిటికీ, bool grabbed)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (grabbed) {
-            window->pending_flags |= SDL_WINDOW_MOUSE_GRABBED;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        ఒకవేళ (grabbed) {
+            కిటికీ->pending_flags |= SDL_కిటికీ_MOUSE_GRABBED;
+        } లేకపోతే {
+            కిటికీ->pending_flags &= ~SDL_కిటికీ_MOUSE_GRABBED;
         }
-        return true;
+        తిరిగి true;
     }
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-        return true;
+    ఒకవేళ (!!grabbed == !!(కిటికీ->flags & SDL_కిటికీ_MOUSE_GRABBED)) {
+        తిరిగి true;
     }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_MOUSE_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    ఒకవేళ (grabbed) {
+        కిటికీ->flags |= SDL_కిటికీ_MOUSE_GRABBED;
+    } లేకపోతే {
+        కిటికీ->flags &= ~SDL_కిటికీ_MOUSE_GRABBED;
     }
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_కిటికీ_Grab(కిటికీ);
 
-    if (grabbed && !(window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-        return false;
+    ఒకవేళ (grabbed && !(కిటికీ->flags & SDL_కిటికీ_MOUSE_GRABBED)) {
+        తిరిగి false;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_GetWindowKeyboardGrab(SDL_Window *window)
+bool SDL_Get_కిటికీ_Keyboard_Grab(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_KEYBOARD_GRABBED);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    తిరిగి కిటికీ == _this->grabbed_కిటికీ && (_this->grabbed_కిటికీ->flags & SDL_కిటికీ_KEYBOARD_GRABBED);
 }
 
-bool SDL_GetWindowMouseGrab(SDL_Window *window)
+bool SDL_Get_కిటికీ_Mouse_Grab(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_MOUSE_GRABBED);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    తిరిగి కిటికీ == _this->grabbed_కిటికీ && (_this->grabbed_కిటికీ->flags & SDL_కిటికీ_MOUSE_GRABBED);
 }
 
-SDL_Window *SDL_GetGrabbedWindow(void)
+SDL_కిటికీ *SDL_Get_Grabbed_కిటికీ(శూన్య)
 {
-    if (_this && _this->grabbed_window &&
-        (_this->grabbed_window->flags & (SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED)) != 0) {
-        return _this->grabbed_window;
-    } else {
-        return NULL;
+    ఒకవేళ (_this && _this->grabbed_కిటికీ &&
+        (_this->grabbed_కిటికీ->flags & (SDL_కిటికీ_MOUSE_GRABBED | SDL_కిటికీ_KEYBOARD_GRABBED)) != 0) {
+        తిరిగి _this->grabbed_కిటికీ;
+    } లేకపోతే {
+        తిరిగి ఖాళీ;
     }
 }
 
-bool SDL_SetWindowMouseRect(SDL_Window *window, const SDL_Rect *rect)
+bool SDL_సమితి_కిటికీ_Mouse_Rect(SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!_this->SetWindowMouseRect) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_Mouse_Rect) {
+        తిరిగి SDL_Unsupported();
     }
 
     SDL_Rect zero = { 0, 0, 0, 0 };
-    if (!rect) {
+    ఒకవేళ (!rect) {
         rect = &zero;
     }
 
-    if (SDL_memcmp(&window->mouse_rect, rect, sizeof(*rect)) == 0) {
-        return true;
+    ఒకవేళ (SDL_memcmp(&కిటికీ->mouse_rect, rect, పరిమాణం(*rect)) == 0) {
+        తిరిగి true;
     }
-    SDL_memcpy(&window->mouse_rect, rect, sizeof(*rect));
+    SDL_memcpy(&కిటికీ->mouse_rect, rect, పరిమాణం(*rect));
 
-    return _this->SetWindowMouseRect(_this, window);
+    తిరిగి _this->సమితి_కిటికీ_Mouse_Rect(_this, కిటికీ);
 }
 
-const SDL_Rect *SDL_GetWindowMouseRect(SDL_Window *window)
+స్థిరరాశి SDL_Rect *SDL_Get_కిటికీ_Mouse_Rect(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_కిటికీ_MAGIC(కిటికీ, ఖాళీ);
 
-    if (SDL_RectEmpty(&window->mouse_rect)) {
-        return NULL;
-    } else {
-        return &window->mouse_rect;
+    ఒకవేళ (SDL_Rect_ఖాళీలు(&కిటికీ->mouse_rect)) {
+        తిరిగి ఖాళీ;
+    } లేకపోతే {
+        తిరిగి &కిటికీ->mouse_rect;
     }
 }
 
-bool SDL_SetWindowRelativeMouseMode(SDL_Window *window, bool enabled)
+bool SDL_సమితి_కిటికీ_Relative_Mouse_బహుళకం(SDL_కిటికీ *కిటికీ, bool enabled)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
     /* If the app toggles relative mode directly, it probably shouldn't
      * also be emulating it using repeated mouse warps, so disable
@@ -4171,257 +4171,257 @@ bool SDL_SetWindowRelativeMouseMode(SDL_Window *window, bool enabled)
      */
     SDL_DisableMouseWarpEmulation();
 
-    if (enabled == SDL_GetWindowRelativeMouseMode(window)) {
-        return true;
+    ఒకవేళ (enabled == SDL_Get_కిటికీ_Relative_Mouse_బహుళకం(కిటికీ)) {
+        తిరిగి true;
     }
 
-    if (enabled) {
-        window->flags |= SDL_WINDOW_MOUSE_RELATIVE_MODE;
-    } else {
-        window->flags &= ~SDL_WINDOW_MOUSE_RELATIVE_MODE;
+    ఒకవేళ (enabled) {
+        కిటికీ->flags |= SDL_కిటికీ_MOUSE_RELATIVE_బహుళకం;
+    } లేకపోతే {
+        కిటికీ->flags &= ~SDL_కిటికీ_MOUSE_RELATIVE_బహుళకం;
     }
 
-    if (!SDL_UpdateRelativeMouseMode()) {
-        if (enabled) {
-            window->flags &= ~SDL_WINDOW_MOUSE_RELATIVE_MODE;
-        } else {
-            window->flags |= SDL_WINDOW_MOUSE_RELATIVE_MODE;
+    ఒకవేళ (!SDL_Update_Relative_Mouse_బహుళకం()) {
+        ఒకవేళ (enabled) {
+            కిటికీ->flags &= ~SDL_కిటికీ_MOUSE_RELATIVE_బహుళకం;
+        } లేకపోతే {
+            కిటికీ->flags |= SDL_కిటికీ_MOUSE_RELATIVE_బహుళకం;
         }
-        return false;
+        తిరిగి false;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_GetWindowRelativeMouseMode(SDL_Window *window)
+bool SDL_Get_కిటికీ_Relative_Mouse_బహుళకం(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (window->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE) {
-        return true;
-    } else {
-        return false;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MOUSE_RELATIVE_బహుళకం) {
+        తిరిగి true;
+    } లేకపోతే {
+        తిరిగి false;
     }
 }
 
-bool SDL_FlashWindow(SDL_Window *window, SDL_FlashOperation operation)
+bool SDL_Flash_కిటికీ(SDL_కిటికీ *కిటికీ, SDL_FlashOperation operation)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (_this->FlashWindow) {
-        return _this->FlashWindow(_this, window, operation);
+    ఒకవేళ (_this->Flash_కిటికీ) {
+        తిరిగి _this->Flash_కిటికీ(_this, కిటికీ, operation);
     }
 
-    return SDL_Unsupported();
+    తిరిగి SDL_Unsupported();
 }
 
-bool SDL_SetWindowProgressState(SDL_Window *window, SDL_ProgressState state)
+bool SDL_సమితి_కిటికీ_పురోగతి_State(SDL_కిటికీ *కిటికీ, SDL_పురోగతి_State state)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    CHECK_PARAM(state < SDL_PROGRESS_STATE_NONE || state > SDL_PROGRESS_STATE_ERROR) {
-        return SDL_InvalidParamError("state");
+    CHECK_PARAM(state < SDL_పురోగతి_STATE_NONE || state > SDL_పురోగతి_STATE_ERROR) {
+        తిరిగి SDL_InvalidParamError("state");
     }
 
-    window->progress_state = state;
+    కిటికీ->పురోగతి_state = state;
 
-    if (_this->ApplyWindowProgress) {
-        if (!_this->ApplyWindowProgress(_this, window)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-SDL_ProgressState SDL_GetWindowProgressState(SDL_Window *window)
-{
-    CHECK_WINDOW_MAGIC(window, SDL_PROGRESS_STATE_INVALID);
-    CHECK_WINDOW_NOT_POPUP(window, SDL_PROGRESS_STATE_INVALID);
-
-    return window->progress_state;
-}
-
-bool SDL_SetWindowProgressValue(SDL_Window *window, float value)
-{
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
-
-    value = SDL_clamp(value, 0.0f, 1.f);
-
-    window->progress_value = value;
-
-    if (_this->ApplyWindowProgress) {
-        if (!_this->ApplyWindowProgress(_this, window)) {
-            return false;
+    ఒకవేళ (_this->Apply_కిటికీ_పురోగతి) {
+        ఒకవేళ (!_this->Apply_కిటికీ_పురోగతి(_this, కిటికీ)) {
+            తిరిగి false;
         }
     }
 
-    return true;
+    తిరిగి true;
 }
 
-float SDL_GetWindowProgressValue(SDL_Window *window)
+SDL_పురోగతి_State SDL_Get_కిటికీ_పురోగతి_State(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, -1.0f);
-    CHECK_WINDOW_NOT_POPUP(window, -1.0f);
+    CHECK_కిటికీ_MAGIC(కిటికీ, SDL_పురోగతి_STATE_INVALID);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, SDL_పురోగతి_STATE_INVALID);
 
-    return window->progress_value;
+    తిరిగి కిటికీ->పురోగతి_state;
 }
 
-void SDL_OnWindowShown(SDL_Window *window)
+bool SDL_సమితి_కిటికీ_పురోగతి_విలువ(SDL_కిటికీ *కిటికీ, దశాంశం విలువ)
+{
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
+
+    విలువ = SDL_clamp(విలువ, 0.0f, 1.f);
+
+    కిటికీ->పురోగతి_విలువ = విలువ;
+
+    ఒకవేళ (_this->Apply_కిటికీ_పురోగతి) {
+        ఒకవేళ (!_this->Apply_కిటికీ_పురోగతి(_this, కిటికీ)) {
+            తిరిగి false;
+        }
+    }
+
+    తిరిగి true;
+}
+
+దశాంశం SDL_Get_కిటికీ_పురోగతి_విలువ(SDL_కిటికీ *కిటికీ)
+{
+    CHECK_కిటికీ_MAGIC(కిటికీ, -1.0f);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, -1.0f);
+
+    తిరిగి కిటికీ->పురోగతి_విలువ;
+}
+
+శూన్య SDL_On_కిటికీ_Shown(SDL_కిటికీ *కిటికీ)
 {
     // Set window state if we have pending window flags cached
-    ApplyWindowFlags(window, window->pending_flags);
-    window->pending_flags = 0;
+    Apply_కిటికీ_Flags(కిటికీ, కిటికీ->pending_flags);
+    కిటికీ->pending_flags = 0;
 }
 
-void SDL_OnWindowHidden(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Hidden(SDL_కిటికీ *కిటికీ)
 {
     /* Store the maximized and fullscreen flags for restoration later, in case
      * this was initiated by the window manager due to the window being unmapped
      * when minimized.
      */
-    window->pending_flags |= (window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED));
+    కిటికీ->pending_flags |= (కిటికీ->flags & (SDL_కిటికీ_FULLSCREEN | SDL_కిటికీ_MAXIMIZED));
 
     // The window is already hidden at this point, so just change the mode back if necessary.
-    SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+    SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_LEAVE, false);
 }
 
-void SDL_OnWindowDisplayChanged(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Display_మారింది(SDL_కిటికీ *కిటికీ)
 {
     // Don't run this if a fullscreen change was made in an event watcher callback in response to a display changed event.
-    if (window->update_fullscreen_on_display_changed && (window->flags & SDL_WINDOW_FULLSCREEN)) {
-        const bool auto_mode_switch = SDL_GetHintBoolean(SDL_HINT_VIDEO_MATCH_EXCLUSIVE_MODE_ON_MOVE, true);
+    ఒకవేళ (కిటికీ->update_fullscreen_on_display_మారింది && (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        స్థిరరాశి bool auto_బహుళకం_switch = SDL_GetHintBoolean(SDL_HINT_VIDEO_సరిపోలిక_EXCLUSIVE_బహుళకం_ON_MOVE, true);
 
-        if (auto_mode_switch && (window->requested_fullscreen_mode.w != 0 || window->requested_fullscreen_mode.h != 0)) {
-            SDL_DisplayID displayID = SDL_GetDisplayForWindowPosition(window);
-            bool include_high_density_modes = false;
+        ఒకవేళ (auto_బహుళకం_switch && (కిటికీ->requested_fullscreen_బహుళకం.w != 0 || కిటికీ->requested_fullscreen_బహుళకం.h != 0)) {
+            SDL_DisplayID displayID = SDL_Get_Display_For_కిటికీ_Position(కిటికీ);
+            bool include_ఎగువ_density_modes = false;
 
-            if (window->requested_fullscreen_mode.pixel_density > 1.0f) {
-                include_high_density_modes = true;
+            ఒకవేళ (కిటికీ->requested_fullscreen_బహుళకం.pixel_density > 1.0f) {
+                include_ఎగువ_density_modes = true;
             }
-            const bool found_match = SDL_GetClosestFullscreenDisplayMode(displayID, window->requested_fullscreen_mode.w, window->requested_fullscreen_mode.h,
-                                                                         window->requested_fullscreen_mode.refresh_rate, include_high_density_modes, &window->current_fullscreen_mode);
+            స్థిరరాశి bool దొరికింది_సరిపోలిక = SDL_Get_Closest_Fullscreen_Display_బహుళకం(displayID, కిటికీ->requested_fullscreen_బహుళకం.w, కిటికీ->requested_fullscreen_బహుళకం.h,
+                                                                         కిటికీ->requested_fullscreen_బహుళకం.refresh_రేటు, include_ఎగువ_density_modes, &కిటికీ->current_fullscreen_బహుళకం);
 
             // If a mode without matching dimensions was not found, just go to fullscreen desktop.
-            if (!found_match ||
-                window->requested_fullscreen_mode.w != window->current_fullscreen_mode.w ||
-                window->requested_fullscreen_mode.h != window->current_fullscreen_mode.h) {
-                SDL_zero(window->current_fullscreen_mode);
+            ఒకవేళ (!దొరికింది_సరిపోలిక ||
+                కిటికీ->requested_fullscreen_బహుళకం.w != కిటికీ->current_fullscreen_బహుళకం.w ||
+                కిటికీ->requested_fullscreen_బహుళకం.h != కిటికీ->current_fullscreen_బహుళకం.h) {
+                SDL_zero(కిటికీ->current_fullscreen_బహుళకం);
             }
-        } else {
-            SDL_zero(window->current_fullscreen_mode);
+        } లేకపోతే {
+            SDL_zero(కిటికీ->current_fullscreen_బహుళకం);
         }
 
-        if (SDL_WINDOW_FULLSCREEN_VISIBLE(window)) {
-            SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
-        }
-    }
-
-    SDL_CheckWindowPixelSizeChanged(window);
-}
-
-void SDL_OnWindowMoved(SDL_Window *window)
-{
-    SDL_CheckWindowDisplayChanged(window);
-}
-
-void SDL_OnWindowResized(SDL_Window *window)
-{
-    SDL_CheckWindowDisplayChanged(window);
-    SDL_CheckWindowPixelSizeChanged(window);
-    SDL_CheckWindowSafeAreaChanged(window);
-
-    if ((window->flags & SDL_WINDOW_TRANSPARENT) && _this->UpdateWindowShape) {
-        SDL_Surface *surface = (SDL_Surface *)SDL_GetPointerProperty(window->props, SDL_PROP_WINDOW_SHAPE_POINTER, NULL);
-        if (surface) {
-            _this->UpdateWindowShape(_this, window, surface);
+        ఒకవేళ (SDL_కిటికీ_FULLSCREEN_VISIBLE(కిటికీ)) {
+            SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_UPDATE, true);
         }
     }
+
+    SDL_Check_కిటికీ_Pixel_కొలత_మారింది(కిటికీ);
 }
 
-void SDL_CheckWindowPixelSizeChanged(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Moved(SDL_కిటికీ *కిటికీ)
 {
-    int pixel_w = 0, pixel_h = 0;
-
-    SDL_GetWindowSizeInPixels(window, &pixel_w, &pixel_h);
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED, pixel_w, pixel_h);
-
-    SDL_CheckWindowDisplayScaleChanged(window);
+    SDL_Check_కిటికీ_Display_మారింది(కిటికీ);
 }
 
-void SDL_OnWindowPixelSizeChanged(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Resized(SDL_కిటికీ *కిటికీ)
 {
-    window->surface_valid = false;
+    SDL_Check_కిటికీ_Display_మారింది(కిటికీ);
+    SDL_Check_కిటికీ_Pixel_కొలత_మారింది(కిటికీ);
+    SDL_Check_కిటికీ_సురక్షిత_Area_మారింది(కిటికీ);
+
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_TRANSPARENT) && _this->Update_కిటికీ_Shape) {
+        SDL_Surface *surface = (SDL_Surface *)SDL_Get_సూచిక_Property(కిటికీ->props, SDL_PROP_కిటికీ_SHAPE_సూచిక, ఖాళీ);
+        ఒకవేళ (surface) {
+            _this->Update_కిటికీ_Shape(_this, కిటికీ, surface);
+        }
+    }
 }
 
-void SDL_OnWindowLiveResizeUpdate(SDL_Window *window)
+శూన్య SDL_Check_కిటికీ_Pixel_కొలత_మారింది(SDL_కిటికీ *కిటికీ)
 {
-    if (SDL_HasMainCallbacks()) {
+    పూర్ణాంకం pixel_w = 0, pixel_h = 0;
+
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &pixel_w, &pixel_h);
+    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_PIXEL_కొలత_మారింది, pixel_w, pixel_h);
+
+    SDL_Check_కిటికీ_Display_Scale_మారింది(కిటికీ);
+}
+
+శూన్య SDL_On_కిటికీ_Pixel_కొలత_మారింది(SDL_కిటికీ *కిటికీ)
+{
+    కిటికీ->surface_valid = false;
+}
+
+శూన్య SDL_On_కిటికీ_సజీవ_Resize_Update(SDL_కిటికీ *కిటికీ)
+{
+    ఒకవేళ (SDL_HasMainCallbacks()) {
         SDL_IterateMainCallbacks(false);
-    } else {
+    } లేకపోతే {
         // Send an expose event so the application can redraw
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 1, 0);
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_EXPOSED, 1, 0);
     }
 
     SDL_PumpEventMaintenance();
 }
 
-static void SDL_CheckWindowSafeAreaChanged(SDL_Window *window)
+స్థిర శూన్య SDL_Check_కిటికీ_సురక్షిత_Area_మారింది(SDL_కిటికీ *కిటికీ)
 {
     SDL_Rect rect;
 
-    rect.x = window->safe_inset_left;
-    rect.y = window->safe_inset_top;
-    rect.w = window->w - (window->safe_inset_right + window->safe_inset_left);
-    rect.h = window->h - (window->safe_inset_top + window->safe_inset_bottom);
-    if (SDL_memcmp(&rect, &window->safe_rect, sizeof(rect)) != 0) {
-        SDL_copyp(&window->safe_rect, &rect);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SAFE_AREA_CHANGED, 0, 0);
+    rect.x = కిటికీ->సురక్షిత_inset_ఎడమ;
+    rect.y = కిటికీ->సురక్షిత_inset_శిఖరం;
+    rect.w = కిటికీ->w - (కిటికీ->సురక్షిత_inset_కుడి + కిటికీ->సురక్షిత_inset_ఎడమ);
+    rect.h = కిటికీ->h - (కిటికీ->సురక్షిత_inset_శిఖరం + కిటికీ->సురక్షిత_inset_bottom);
+    ఒకవేళ (SDL_memcmp(&rect, &కిటికీ->సురక్షిత_rect, పరిమాణం(rect)) != 0) {
+        SDL_copyp(&కిటికీ->సురక్షిత_rect, &rect);
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_సురక్షిత_AREA_మారింది, 0, 0);
     }
 }
 
-void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom)
+శూన్య SDL_సమితి_కిటికీ_సురక్షిత_Area_Insets(SDL_కిటికీ *కిటికీ, పూర్ణాంకం ఎడమ, పూర్ణాంకం కుడి, పూర్ణాంకం శిఖరం, పూర్ణాంకం bottom)
 {
-    window->safe_inset_left = left;
-    window->safe_inset_right = right;
-    window->safe_inset_top = top;
-    window->safe_inset_bottom = bottom;
-    SDL_CheckWindowSafeAreaChanged(window);
+    కిటికీ->సురక్షిత_inset_ఎడమ = ఎడమ;
+    కిటికీ->సురక్షిత_inset_కుడి = కుడి;
+    కిటికీ->సురక్షిత_inset_శిఖరం = శిఖరం;
+    కిటికీ->సురక్షిత_inset_bottom = bottom;
+    SDL_Check_కిటికీ_సురక్షిత_Area_మారింది(కిటికీ);
 }
 
-bool SDL_GetWindowSafeArea(SDL_Window *window, SDL_Rect *rect)
+bool SDL_Get_కిటికీ_సురక్షిత_Area(SDL_కిటికీ *కిటికీ, SDL_Rect *rect)
 {
-    if (rect) {
+    ఒకవేళ (rect) {
         SDL_zerop(rect);
     }
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (rect) {
-        if (SDL_RectEmpty(&window->safe_rect)) {
-            rect->w = window->w;
-            rect->h = window->h;
-        } else {
-            SDL_copyp(rect, &window->safe_rect);
+    ఒకవేళ (rect) {
+        ఒకవేళ (SDL_Rect_ఖాళీలు(&కిటికీ->సురక్షిత_rect)) {
+            rect->w = కిటికీ->w;
+            rect->h = కిటికీ->h;
+        } లేకపోతే {
+            SDL_copyp(rect, &కిటికీ->సురక్షిత_rect);
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-void SDL_OnWindowMinimized(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Minimized(SDL_కిటికీ *కిటికీ)
 {
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
+        SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_LEAVE, false);
     }
 }
 
-void SDL_OnWindowMaximized(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Maximized(SDL_కిటికీ *కిటికీ)
 {
 }
 
-void SDL_OnWindowRestored(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Restored(SDL_కిటికీ *కిటికీ)
 {
     /*
      * FIXME: Is this fine to just remove this, or should it be preserved just
@@ -4431,297 +4431,297 @@ void SDL_OnWindowRestored(SDL_Window *window)
      */
     // SDL_RaiseWindow(window);
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, false);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
+        SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_ENTER, false);
     }
 }
 
-void SDL_OnWindowEnter(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Enter(SDL_కిటికీ *కిటికీ)
 {
-    if (_this->OnWindowEnter) {
-        _this->OnWindowEnter(_this, window);
+    ఒకవేళ (_this->On_కిటికీ_Enter) {
+        _this->On_కిటికీ_Enter(_this, కిటికీ);
     }
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_బహుళకం();
 }
 
-void SDL_OnWindowLeave(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Leave(SDL_కిటికీ *కిటికీ)
 {
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_బహుళకం();
 }
 
-void SDL_OnWindowFocusGained(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Focus_Gained(SDL_కిటికీ *కిటికీ)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (mouse && mouse->relative_mode) {
-        SDL_SetMouseFocus(window);
+    ఒకవేళ (mouse && mouse->relative_బహుళకం) {
+        SDL_సమితి_Mouse_Focus(కిటికీ);
     }
 
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_కిటికీ_Grab(కిటికీ);
 }
 
-static bool SDL_ShouldMinimizeOnFocusLoss(SDL_Window *window)
+స్థిర bool SDL_ShouldMinimizeOnFocusLoss(SDL_కిటికీ *కిటికీ)
 {
-    const char *hint;
+    స్థిరరాశి అక్షరం *hint;
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) || window->is_destroying) {
-        return false;
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) || కిటికీ->is_destroying) {
+        తిరిగి false;
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
-    if (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
-        if (Cocoa_IsShowingModalDialog(window)) {
-            return false;  // modal system dialogs can live over fullscreen windows, don't minimize.
-        } else if (Cocoa_IsWindowInFullscreenSpace(window)) {
-            return false;
+#ఒకవేళ defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+    ఒకవేళ (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
+        ఒకవేళ (Cocoa_IsShowingModalDialog(కిటికీ)) {
+            తిరిగి false;  // modal system dialogs can live over fullscreen windows, don't minimize.
+        } లేకపోతే ఒకవేళ (Cocoa_Is_కిటికీ_లోపల_Fullscreen_Space(కిటికీ)) {
+            తిరిగి false;
         }
     }
-#endif
+#అయితే_ముగింపు
 
-#ifdef SDL_PLATFORM_ANDROID
+#నిర్వచితమైతే SDL_PLATFORM_ANDROID
     {
-        extern bool Android_JNI_ShouldMinimizeOnFocusLoss(void);
-        if (!Android_JNI_ShouldMinimizeOnFocusLoss()) {
-            return false;
+        బాహ్య bool Android_JNI_ShouldMinimizeOnFocusLoss(శూన్య);
+        ఒకవేళ (!Android_JNI_ShouldMinimizeOnFocusLoss()) {
+            తిరిగి false;
         }
     }
-#endif
+#అయితే_ముగింపు
 
     // Real fullscreen windows should minimize on focus loss so the desktop video mode is restored
     hint = SDL_GetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS);
-    if (!hint || !*hint || SDL_strcasecmp(hint, "auto") == 0) {
-        if (window->fullscreen_exclusive && !SDL_ModeSwitchingEmulated(_this)) {
-            return true;
-        } else {
-            return false;
+    ఒకవేళ (!hint || !*hint || SDL_strcasecmp(hint, "auto") == 0) {
+        ఒకవేళ (కిటికీ->fullscreen_exclusive && !SDL_బహుళకం_Switching_Emulated(_this)) {
+            తిరిగి true;
+        } లేకపోతే {
+            తిరిగి false;
         }
     }
-    return SDL_GetHintBoolean(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, false);
+    తిరిగి SDL_GetHintBoolean(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, false);
 }
 
-void SDL_OnWindowFocusLost(SDL_Window *window)
+శూన్య SDL_On_కిటికీ_Focus_కోల్పోయిన(SDL_కిటికీ *కిటికీ)
 {
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_కిటికీ_Grab(కిటికీ);
 
-    if (SDL_ShouldMinimizeOnFocusLoss(window)) {
-        SDL_MinimizeWindow(window);
+    ఒకవేళ (SDL_ShouldMinimizeOnFocusLoss(కిటికీ)) {
+        SDL_Minimize_కిటికీ(కిటికీ);
     }
 }
 
-SDL_Window *SDL_GetToplevelForKeyboardFocus(void)
+SDL_కిటికీ *SDL_GetToplevelForKeyboardFocus(శూన్య)
 {
-    SDL_Window *focus = SDL_GetKeyboardFocus();
+    SDL_కిటికీ *focus = SDL_GetKeyboardFocus();
 
-    if (focus) {
+    ఒకవేళ (focus) {
         // Get the toplevel parent window.
-        while (focus->parent) {
-            focus = focus->parent;
+        అయితే (focus->మాతృ) {
+            focus = focus->మాతృ;
         }
     }
 
-    return focus;
+    తిరిగి focus;
 }
 
-bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
+bool SDL_కూడు_కిటికీ_Renderer(SDL_కిటికీ *కిటికీ, SDL_Renderer *renderer)
 {
-    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(window->renderers, (window->num_renderers + 1) * sizeof(*renderers));
-    if (!renderers) {
-        return false;
+    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(కిటికీ->renderers, (కిటికీ->అంకె_renderers + 1) * పరిమాణం(*renderers));
+    ఒకవేళ (!renderers) {
+        తిరిగి false;
     }
 
-    window->renderers = renderers;
-    window->renderers[window->num_renderers++] = renderer;
+    కిటికీ->renderers = renderers;
+    కిటికీ->renderers[కిటికీ->అంకె_renderers++] = renderer;
 
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_RENDERER_POINTER, renderer);
-    return true;
+    SDL_సమితి_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), SDL_PROP_కిటికీ_RENDERER_సూచిక, renderer);
+    తిరిగి true;
 }
 
-void SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
+శూన్య SDL_Remove_కిటికీ_Renderer(SDL_కిటికీ *కిటికీ, SDL_Renderer *renderer)
 {
-    for (int i = 0; i < window->num_renderers; ++i) {
-        if (window->renderers[i] == renderer) {
-            if (i < (window->num_renderers - 1)) {
-                SDL_memmove(&window->renderers[i], &window->renderers[i + 1], (window->num_renderers - i - 1) * sizeof(window->renderers[i]));
+    కొరకు (పూర్ణాంకం i = 0; i < కిటికీ->అంకె_renderers; ++i) {
+        ఒకవేళ (కిటికీ->renderers[i] == renderer) {
+            ఒకవేళ (i < (కిటికీ->అంకె_renderers - 1)) {
+                SDL_memmove(&కిటికీ->renderers[i], &కిటికీ->renderers[i + 1], (కిటికీ->అంకె_renderers - i - 1) * పరిమాణం(కిటికీ->renderers[i]));
             }
-            --window->num_renderers;
-            break;
+            --కిటికీ->అంకె_renderers;
+            ఆపు;
         }
     }
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    if (SDL_GetPointerProperty(props, SDL_PROP_WINDOW_RENDERER_POINTER, NULL) == renderer) {
-        SDL_ClearProperty(props, SDL_PROP_WINDOW_RENDERER_POINTER);
+    SDL_PropertiesID props = SDL_Get_కిటికీ_Properties(కిటికీ);
+    ఒకవేళ (SDL_Get_సూచిక_Property(props, SDL_PROP_కిటికీ_RENDERER_సూచిక, ఖాళీ) == renderer) {
+        SDL_ClearProperty(props, SDL_PROP_కిటికీ_RENDERER_సూచిక);
     }
 }
 
-void SDL_DestroyWindow(SDL_Window *window)
+శూన్య SDL_Destroy_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window,);
+    CHECK_కిటికీ_MAGIC(కిటికీ,);
 
-    window->is_destroying = true;
+    కిటికీ->is_destroying = true;
 
     // Destroy any child windows of this window
-    while (window->first_child) {
-        SDL_DestroyWindow(window->first_child);
+    అయితే (కిటికీ->మొదటి_బిడ్డ) {
+        SDL_Destroy_కిటికీ(కిటికీ->మొదటి_బిడ్డ);
     }
 
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DESTROYED, 0, 0);
+    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_DESTROYED, 0, 0);
 
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_కిటికీ_Surface(కిటికీ);
 
-    SDL_Renderer *renderer = SDL_GetRenderer(window);
-    if (renderer) {
+    SDL_Renderer *renderer = SDL_GetRenderer(కిటికీ);
+    ఒకవేళ (renderer) {
         SDL_DestroyRendererWithoutFreeing(renderer);
     }
 
     // Restore video mode, etc.
-    SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, true);
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-        SDL_HideWindow(window);
+    SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_LEAVE, true);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_EXTERNAL)) {
+        SDL_Hide_కిటికీ(కిటికీ);
     }
 
-    SDL_DestroyProperties(window->text_input_props);
+    SDL_DestroyProperties(కిటికీ->పాఠ్యం_ఆదానం_props);
 
-    SDL_DestroyWindowTexture(_this, window);
-    SDL_DestroyProperties(window->props);
+    SDL_Destroy_కిటికీ_Texture(_this, కిటికీ);
+    SDL_DestroyProperties(కిటికీ->props);
 
     /* Clear the modal status, but don't unset the parent just yet, as it
      * may be needed later in the destruction process if a backend needs
      * to update the input focus.
      */
-    if (_this->SetWindowModal && (window->flags & SDL_WINDOW_MODAL)) {
-        _this->SetWindowModal(_this, window, false);
+    ఒకవేళ (_this->సమితి_కిటికీ_Modal && (కిటికీ->flags & SDL_కిటికీ_MODAL)) {
+        _this->సమితి_కిటికీ_Modal(_this, కిటికీ, false);
     }
 
     // Make sure the destroyed window isn't referenced by any display as a fullscreen window.
-    for (int i = 0; i < _this->num_displays; ++i) {
-        if (_this->displays[i]->fullscreen_window == window) {
-            _this->displays[i]->fullscreen_window = NULL;
+    కొరకు (పూర్ణాంకం i = 0; i < _this->అంకె_displays; ++i) {
+        ఒకవేళ (_this->displays[i]->fullscreen_కిటికీ == కిటికీ) {
+            _this->displays[i]->fullscreen_కిటికీ = ఖాళీ;
         }
     }
 
     // Make sure this window no longer has focus
-    if (SDL_GetKeyboardFocus() == window) {
-        SDL_SetKeyboardFocus(NULL);
+    ఒకవేళ (SDL_GetKeyboardFocus() == కిటికీ) {
+        SDL_సమితి_Keyboard_Focus(ఖాళీ);
     }
-    if ((window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_MOUSE_CAPTURE)) {
         SDL_UpdateMouseCapture(true);
     }
-    if (SDL_GetMouseFocus() == window) {
-        SDL_SetMouseFocus(NULL);
+    ఒకవేళ (SDL_GetMouseFocus() == కిటికీ) {
+        SDL_సమితి_Mouse_Focus(ఖాళీ);
     }
 
     // Make no context current if this is the current context window
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        if (_this->current_glwin == window) {
-            SDL_GL_MakeCurrent(window, NULL);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
+        ఒకవేళ (_this->current_glwin == కిటికీ) {
+            SDL_GL_MakeCurrent(కిటికీ, ఖాళీ);
         }
     }
 
-    if (_this->DestroyWindow) {
-        _this->DestroyWindow(_this, window);
+    ఒకవేళ (_this->Destroy_కిటికీ) {
+        _this->Destroy_కిటికీ(_this, కిటికీ);
     }
 
     // Unload the graphics libraries after the window is destroyed, which may clean up EGL surfaces
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
         SDL_GL_UnloadLibrary();
     }
-    if (window->flags & SDL_WINDOW_VULKAN) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_VULKAN) {
         SDL_Vulkan_UnloadLibrary();
     }
 
-    if (_this->grabbed_window == window) {
-        _this->grabbed_window = NULL; // ungrabbing input.
+    ఒకవేళ (_this->grabbed_కిటికీ == కిటికీ) {
+        _this->grabbed_కిటికీ = ఖాళీ; // ungrabbing input.
     }
 
-    if (_this->current_glwin == window) {
-        _this->current_glwin = NULL;
+    ఒకవేళ (_this->current_glwin == కిటికీ) {
+        _this->current_glwin = ఖాళీ;
     }
 
-    SDL_CompareAndSwapAtomicPointer(&_this->wakeup_window, window, NULL);
+    SDL_Compare_And_మార్పిడి_Atomic_సూచిక(&_this->wakeup_కిటికీ, కిటికీ, ఖాళీ);
 
     // Now invalidate magic
-    SDL_SetObjectValid(window, SDL_OBJECT_TYPE_WINDOW, false);
+    SDL_సమితి_Object_Valid(కిటికీ, SDL_OBJECT_TYPE_కిటికీ, false);
 
     // Free memory associated with the window
-    SDL_free(window->title);
-    SDL_DestroySurface(window->icon);
+    SDL_free(కిటికీ->title);
+    SDL_DestroySurface(కిటికీ->icon);
 
     // Unlink the window from its siblings.
-    SDL_UpdateWindowHierarchy(window, NULL);
+    SDL_Update_కిటికీ_Hierarchy(కిటికీ, ఖాళీ);
 
     // Unlink the window from the global window list
-    if (window->next) {
-        window->next->prev = window->prev;
+    ఒకవేళ (కిటికీ->తదుపరి) {
+        కిటికీ->తదుపరి->prev = కిటికీ->prev;
     }
-    if (window->prev) {
-        window->prev->next = window->next;
-    } else {
-        _this->windows = window->next;
+    ఒకవేళ (కిటికీ->prev) {
+        కిటికీ->prev->తదుపరి = కిటికీ->తదుపరి;
+    } లేకపోతే {
+        _this->windows = కిటికీ->తదుపరి;
     }
 
-    SDL_free(window->renderers);
-    SDL_free(window);
+    SDL_free(కిటికీ->renderers);
+    SDL_free(కిటికీ);
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_UIKIT
     SDL_UpdateLifecycleObserver();
-#endif
+#అయితే_ముగింపు
 }
 
-bool SDL_ScreenSaverEnabled(void)
+bool SDL_ScreenSaverEnabled(శూన్య)
 {
-    if (!_this) {
-        return true;
+    ఒకవేళ (!_this) {
+        తిరిగి true;
     }
-    return !_this->suspend_screensaver;
+    తిరిగి !_this->suspend_screensaver;
 }
 
-bool SDL_EnableScreenSaver(void)
+bool SDL_EnableScreenSaver(శూన్య)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
-    if (!_this->suspend_screensaver) {
-        return true;
+    ఒకవేళ (!_this->suspend_screensaver) {
+        తిరిగి true;
     }
     _this->suspend_screensaver = false;
-    if (_this->SuspendScreenSaver) {
-        return _this->SuspendScreenSaver(_this);
+    ఒకవేళ (_this->SuspendScreenSaver) {
+        తిరిగి _this->SuspendScreenSaver(_this);
     }
 
-    return SDL_Unsupported();
+    తిరిగి SDL_Unsupported();
 }
 
-bool SDL_DisableScreenSaver(void)
+bool SDL_DisableScreenSaver(శూన్య)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
-    if (_this->suspend_screensaver) {
-        return true;
+    ఒకవేళ (_this->suspend_screensaver) {
+        తిరిగి true;
     }
     _this->suspend_screensaver = true;
-    if (_this->SuspendScreenSaver) {
-        return _this->SuspendScreenSaver(_this);
+    ఒకవేళ (_this->SuspendScreenSaver) {
+        తిరిగి _this->SuspendScreenSaver(_this);
     }
 
-    return SDL_Unsupported();
+    తిరిగి SDL_Unsupported();
 }
 
-void SDL_QuitVideo(void)
+శూన్య SDL_QuitVideo(శూన్య)
 {
-    int i;
+    పూర్ణాంకం i;
 
-    if (!_this) {
-        return;
+    ఒకవేళ (!_this) {
+        తిరిగి;
     }
 
     _this->is_quitting = true;
 
     // Halt event processing before doing anything else
-#if 0 // This was moved to the end to fix a memory leak
+#ఒకవేళ 0 // This was moved to the end to fix a memory leak
     SDL_QuitPen();
-#endif
+#అయితే_ముగింపు
     SDL_QuitTouch();
     SDL_QuitMouse();
     SDL_QuitKeyboard();
@@ -4730,231 +4730,231 @@ void SDL_QuitVideo(void)
     SDL_EnableScreenSaver();
 
     // Clean up the system video
-    while (_this->windows) {
-        SDL_DestroyWindow(_this->windows);
+    అయితే (_this->windows) {
+        SDL_Destroy_కిటికీ(_this->windows);
     }
 
-    if (_this->gl_config.driver_loaded && _this->GL_UnloadLibrary) {
+    ఒకవేళ (_this->gl_config.driver_loaded && _this->GL_UnloadLibrary) {
         _this->GL_UnloadLibrary(_this);
         _this->gl_config.driver_loaded = 0;
     }
-    if (_this->vulkan_config.loader_loaded && _this->Vulkan_UnloadLibrary) {
+    ఒకవేళ (_this->vulkan_config.loader_loaded && _this->Vulkan_UnloadLibrary) {
         _this->Vulkan_UnloadLibrary(_this);
         _this->vulkan_config.loader_loaded = 0;
     }
 
     _this->VideoQuit(_this);
 
-    for (i = _this->num_displays; i--; ) {
+    కొరకు (i = _this->అంకె_displays; i--; ) {
         SDL_VideoDisplay *display = _this->displays[i];
         SDL_DelVideoDisplay(display->id, false);
     }
 
-    SDL_assert(_this->num_displays == 0);
+    SDL_assert(_this->అంకె_displays == 0);
     SDL_free(_this->displays);
-    _this->displays = NULL;
+    _this->displays = ఖాళీ;
 
-    SDL_CancelClipboardData(0);
+    SDL_Cancel_Clipboard_దత్తాంశం(0);
 
-    if (_this->primary_selection_text) {
-        SDL_free(_this->primary_selection_text);
-        _this->primary_selection_text = NULL;
+    ఒకవేళ (_this->primary_selection_పాఠ్యం) {
+        SDL_free(_this->primary_selection_పాఠ్యం);
+        _this->primary_selection_పాఠ్యం = ఖాళీ;
     }
-    _this->free(_this);
-    _this = NULL;
+    _this->విడుదల(_this);
+    _this = ఖాళీ;
 
     // This needs to happen after the video subsystem has removed pen data
     SDL_QuitPen();
 }
 
-bool SDL_GL_LoadLibrary(const char *path)
+bool SDL_GL_ఎక్కించు_Library(స్థిరరాశి అక్షరం *మార్గం)
 {
-    bool result;
+    bool ఫలితం;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
-    if (_this->gl_config.driver_loaded) {
-        if (path && SDL_strcmp(path, _this->gl_config.driver_path) != 0) {
-            return SDL_SetError("OpenGL library already loaded");
+    ఒకవేళ (_this->gl_config.driver_loaded) {
+        ఒకవేళ (మార్గం && SDL_strcmp(మార్గం, _this->gl_config.driver_మార్గం) != 0) {
+            తిరిగి SDL_సమితి_Error("OpenGL library already loaded");
         }
-        result = true;
-    } else {
-        if (!_this->GL_LoadLibrary) {
-            return SDL_DllNotSupported("OpenGL");
+        ఫలితం = true;
+    } లేకపోతే {
+        ఒకవేళ (!_this->GL_ఎక్కించు_Library) {
+            తిరిగి SDL_DllNotSupported("OpenGL");
         }
-        result = _this->GL_LoadLibrary(_this, path);
+        ఫలితం = _this->GL_ఎక్కించు_Library(_this, మార్గం);
     }
-    if (result) {
+    ఒకవేళ (ఫలితం) {
         ++_this->gl_config.driver_loaded;
-    } else {
-        if (_this->GL_UnloadLibrary) {
+    } లేకపోతే {
+        ఒకవేళ (_this->GL_UnloadLibrary) {
             _this->GL_UnloadLibrary(_this);
         }
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-SDL_FunctionPointer SDL_GL_GetProcAddress(const char *proc)
+SDL_Function_సూచిక SDL_GL_Get_Proc_చిరునామా(స్థిరరాశి అక్షరం *proc)
 {
-    SDL_FunctionPointer func;
+    SDL_Function_సూచిక func;
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    func = NULL;
-    if (_this->GL_GetProcAddress) {
-        if (_this->gl_config.driver_loaded) {
-            func = _this->GL_GetProcAddress(_this, proc);
-        } else {
-            SDL_SetError("No GL driver has been loaded");
+    func = ఖాళీ;
+    ఒకవేళ (_this->GL_Get_Proc_చిరునామా) {
+        ఒకవేళ (_this->gl_config.driver_loaded) {
+            func = _this->GL_Get_Proc_చిరునామా(_this, proc);
+        } లేకపోతే {
+            SDL_సమితి_Error("No GL driver has been loaded");
         }
-    } else {
-        SDL_SetError("No dynamic GL support in current SDL video driver (%s)", _this->name);
+    } లేకపోతే {
+        SDL_సమితి_Error("No dynamic GL support in current SDL video driver (%s)", _this->name);
     }
-    return func;
+    తిరిగి func;
 }
 
-SDL_FunctionPointer SDL_EGL_GetProcAddress(const char *proc)
+SDL_Function_సూచిక SDL_EGL_Get_Proc_చిరునామా(స్థిరరాశి అక్షరం *proc)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    SDL_FunctionPointer func;
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+    SDL_Function_సూచిక func;
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    func = NULL;
+    func = ఖాళీ;
 
-    if (_this->egl_data) {
-        func = SDL_EGL_GetProcAddressInternal(_this, proc);
-    } else {
-        SDL_SetError("No EGL library has been loaded");
+    ఒకవేళ (_this->egl_దత్తాంశం) {
+        func = SDL_EGL_Get_Proc_చిరునామా_అంతర్గత(_this, proc);
+    } లేకపోతే {
+        SDL_సమితి_Error("No EGL library has been loaded");
     }
 
-    return func;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    తిరిగి func;
+#లేకపోతే
+    SDL_సమితి_Error("SDL was not built with EGL support");
+    తిరిగి ఖాళీ;
+#అయితే_ముగింపు
 }
 
-void SDL_GL_UnloadLibrary(void)
+శూన్య SDL_GL_UnloadLibrary(శూన్య)
 {
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return;
+        తిరిగి;
     }
-    if (_this->gl_config.driver_loaded > 0) {
-        if (--_this->gl_config.driver_loaded > 0) {
-            return;
+    ఒకవేళ (_this->gl_config.driver_loaded > 0) {
+        ఒకవేళ (--_this->gl_config.driver_loaded > 0) {
+            తిరిగి;
         }
-        if (_this->GL_UnloadLibrary) {
+        ఒకవేళ (_this->GL_UnloadLibrary) {
             _this->GL_UnloadLibrary(_this);
         }
     }
 }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-typedef GLenum (APIENTRY* PFNGLGETERRORPROC) (void);
-typedef void (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint *params);
-typedef const GLubyte *(APIENTRY* PFNGLGETSTRINGPROC) (GLenum name);
-typedef void (APIENTRY* PFNGLENABLEPROC) (GLenum cap);
-#ifndef SDL_VIDEO_OPENGL
-typedef const GLubyte *(APIENTRY* PFNGLGETSTRINGIPROC) (GLenum name, GLuint index);
-#endif
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+రకనిర్వచనం GLenum (APIENTRY* PFNGLGETERRORPROC) (శూన్య);
+రకనిర్వచనం శూన్య (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint *params);
+రకనిర్వచనం స్థిరరాశి GLubyte *(APIENTRY* PFNGLGETSTRINGPROC) (GLenum name);
+రకనిర్వచనం శూన్య (APIENTRY* PFNGLENABLEPROC) (GLenum cap);
+#నిర్వచితం_కాకపోతే SDL_VIDEO_OPENGL
+రకనిర్వచనం స్థిరరాశి GLubyte *(APIENTRY* PFNGLGETSTRINGIPROC) (GLenum name, GLuint సూచీ);
+#అయితే_ముగింపు
 
-static SDL_INLINE bool isAtLeastGL3(const char *verstr)
+స్థిర SDL_INLINE bool is_At_కనిష్ఠ_GL3(స్థిరరాశి అక్షరం *verstr)
 {
-    return verstr && (SDL_atoi(verstr) >= 3);
+    తిరిగి verstr && (SDL_atoi(verstr) >= 3);
 }
-#endif // SDL_VIDEO_OPENGL || SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL || SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 
-bool SDL_GL_ExtensionSupported(const char *extension)
+bool SDL_GL_ExtensionSupported(స్థిరరాశి అక్షరం *extension)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     PFNGLGETSTRINGPROC glGetStringFunc;
-    const char *extensions;
-    const char *start;
-    const char *where, *terminator;
+    స్థిరరాశి అక్షరం *extensions;
+    స్థిరరాశి అక్షరం *ప్రారంభం;
+    స్థిరరాశి అక్షరం *where, *terminator;
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    ఒకవేళ (where || *extension == '\0') {
+        తిరిగి false;
     }
     // See if there's a hint or environment variable override
-    start = SDL_GetHint(extension);
-    if (start && *start == '0') {
-        return false;
+    ప్రారంభం = SDL_GetHint(extension);
+    ఒకవేళ (ప్రారంభం && *ప్రారంభం == '0') {
+        తిరిగి false;
     }
 
     // Lookup the available extensions
 
-    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-    if (!glGetStringFunc) {
-        return false;
+    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_చిరునామా("glGetString");
+    ఒకవేళ (!glGetStringFunc) {
+        తిరిగి false;
     }
 
-    if (isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION))) {
+    ఒకవేళ (is_At_కనిష్ఠ_GL3((స్థిరరాశి అక్షరం *)glGetStringFunc(GL_సంస్కరణ))) {
         PFNGLGETSTRINGIPROC glGetStringiFunc;
         PFNGLGETINTEGERVPROC glGetIntegervFunc;
-        GLint num_exts = 0;
+        GLint అంకె_exts = 0;
         GLint i;
 
-        glGetStringiFunc = (PFNGLGETSTRINGIPROC)SDL_GL_GetProcAddress("glGetStringi");
-        glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
-        if ((!glGetStringiFunc) || (!glGetIntegervFunc)) {
-            return false;
+        glGetStringiFunc = (PFNGLGETSTRINGIPROC)SDL_GL_Get_Proc_చిరునామా("glGetStringi");
+        glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_Get_Proc_చిరునామా("glGetIntegerv");
+        ఒకవేళ ((!glGetStringiFunc) || (!glGetIntegervFunc)) {
+            తిరిగి false;
         }
 
-#ifndef GL_NUM_EXTENSIONS
-#define GL_NUM_EXTENSIONS 0x821D
-#endif
-        glGetIntegervFunc(GL_NUM_EXTENSIONS, &num_exts);
-        for (i = 0; i < num_exts; i++) {
-            const char *thisext = (const char *)glGetStringiFunc(GL_EXTENSIONS, i);
-            if (SDL_strcmp(thisext, extension) == 0) {
-                return true;
+#నిర్వచితం_కాకపోతే GL_అంకె_EXTENSIONS
+#నిర్వచించు GL_అంకె_EXTENSIONS 0x821D
+#అయితే_ముగింపు
+        glGetIntegervFunc(GL_అంకె_EXTENSIONS, &అంకె_exts);
+        కొరకు (i = 0; i < అంకె_exts; i++) {
+            స్థిరరాశి అక్షరం *thisext = (స్థిరరాశి అక్షరం *)glGetStringiFunc(GL_EXTENSIONS, i);
+            ఒకవేళ (SDL_strcmp(thisext, extension) == 0) {
+                తిరిగి true;
             }
         }
 
-        return false;
+        తిరిగి false;
     }
 
     // Try the old way with glGetString(GL_EXTENSIONS) ...
 
-    extensions = (const char *)glGetStringFunc(GL_EXTENSIONS);
-    if (!extensions) {
-        return false;
+    extensions = (స్థిరరాశి అక్షరం *)glGetStringFunc(GL_EXTENSIONS);
+    ఒకవేళ (!extensions) {
+        తిరిగి false;
     }
     /*
      * It takes a bit of care to be fool-proof about parsing the OpenGL
      * extensions string. Don't be fooled by sub-strings, etc.
      */
 
-    start = extensions;
+    ప్రారంభం = extensions;
 
-    for (;;) {
-        where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+    కొరకు (;;) {
+        where = SDL_strstr(ప్రారంభం, extension);
+        ఒకవేళ (!where) {
+            ఆపు;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == extensions || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        ఒకవేళ (where == extensions || *(where - 1) == ' ') {
+            ఒకవేళ (*terminator == ' ' || *terminator == '\0') {
+                తిరిగి true;
             }
         }
 
-        start = terminator;
+        ప్రారంభం = terminator;
     }
-    return false;
-#else
-    return false;
-#endif
+    తిరిగి false;
+#లేకపోతే
+    తిరిగి false;
+#అయితే_ముగింపు
 }
 
 /* Deduce supported ES profile versions from the supported
@@ -4963,37 +4963,37 @@ bool SDL_GL_ExtensionSupported(const char *extension)
    This is normally only called when the OpenGL driver supports
    {GLX,WGL}_EXT_create_context_es2_profile.
  */
-void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor)
+శూన్య SDL_GL_DeduceMaxSupportedESProfile(పూర్ణాంకం *major, పూర్ణాంకం *minor)
 {
 // THIS REQUIRES AN EXISTING GL CONTEXT THAT HAS BEEN MADE CURRENT.
 // Please refer to https://bugzilla.libsdl.org/show_bug.cgi?id=3725 for discussion.
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     /* XXX This is fragile; it will break in the event of release of
      * new versions of OpenGL ES.
      */
-    if (SDL_GL_ExtensionSupported("GL_ARB_ES3_2_compatibility")) {
+    ఒకవేళ (SDL_GL_ExtensionSupported("GL_ARB_ES3_2_compatibility")) {
         *major = 3;
         *minor = 2;
-    } else if (SDL_GL_ExtensionSupported("GL_ARB_ES3_1_compatibility")) {
+    } లేకపోతే ఒకవేళ (SDL_GL_ExtensionSupported("GL_ARB_ES3_1_compatibility")) {
         *major = 3;
         *minor = 1;
-    } else if (SDL_GL_ExtensionSupported("GL_ARB_ES3_compatibility")) {
+    } లేకపోతే ఒకవేళ (SDL_GL_ExtensionSupported("GL_ARB_ES3_compatibility")) {
         *major = 3;
         *minor = 0;
-    } else {
+    } లేకపోతే {
         *major = 2;
         *minor = 0;
     }
-#endif
+#అయితే_ముగింపు
 }
 
-void SDL_EGL_SetAttributeCallbacks(SDL_EGLAttribArrayCallback platformAttribCallback,
+శూన్య SDL_EGL_సమితి_Attribute_Callbacks(SDL_EGLAttribArrayCallback platformAttribCallback,
                                    SDL_EGLIntArrayCallback surfaceAttribCallback,
                                    SDL_EGLIntArrayCallback contextAttribCallback,
-                                   void *userdata)
+                                   శూన్య *userdata)
 {
-    if (!_this) {
-        return;
+    ఒకవేళ (!_this) {
+        తిరిగి;
     }
     _this->egl_platformattrib_callback = platformAttribCallback;
     _this->egl_surfaceattrib_callback = surfaceAttribCallback;
@@ -5001,29 +5001,29 @@ void SDL_EGL_SetAttributeCallbacks(SDL_EGLAttribArrayCallback platformAttribCall
     _this->egl_attrib_callback_userdata = userdata;
 }
 
-void SDL_GL_ResetAttributes(void)
+శూన్య SDL_GL_Reset_లక్షణాలు(శూన్య)
 {
-    if (!_this) {
-        return;
+    ఒకవేళ (!_this) {
+        తిరిగి;
     }
 
-    _this->egl_platformattrib_callback = NULL;
-    _this->egl_surfaceattrib_callback = NULL;
-    _this->egl_contextattrib_callback = NULL;
-    _this->egl_attrib_callback_userdata = NULL;
+    _this->egl_platformattrib_callback = ఖాళీ;
+    _this->egl_surfaceattrib_callback = ఖాళీ;
+    _this->egl_contextattrib_callback = ఖాళీ;
+    _this->egl_attrib_callback_userdata = ఖాళీ;
 
-    _this->gl_config.red_size = 8;
-    _this->gl_config.green_size = 8;
-    _this->gl_config.blue_size = 8;
-    _this->gl_config.alpha_size = 8;
-    _this->gl_config.buffer_size = 0;
-    _this->gl_config.depth_size = 16;
-    _this->gl_config.stencil_size = 0;
-    _this->gl_config.double_buffer = 1;
-    _this->gl_config.accum_red_size = 0;
-    _this->gl_config.accum_green_size = 0;
-    _this->gl_config.accum_blue_size = 0;
-    _this->gl_config.accum_alpha_size = 0;
+    _this->gl_config.red_కొలత = 8;
+    _this->gl_config.green_కొలత = 8;
+    _this->gl_config.blue_కొలత = 8;
+    _this->gl_config.alpha_కొలత = 8;
+    _this->gl_config.బఫరు_కొలత = 0;
+    _this->gl_config.లోతు_కొలత = 16;
+    _this->gl_config.stencil_కొలత = 0;
+    _this->gl_config.double_బఫరు = 1;
+    _this->gl_config.accum_red_కొలత = 0;
+    _this->gl_config.accum_green_కొలత = 0;
+    _this->gl_config.accum_blue_కొలత = 0;
+    _this->gl_config.accum_alpha_కొలత = 0;
     _this->gl_config.stereo = 0;
     _this->gl_config.multisamplebuffers = 0;
     _this->gl_config.multisamplesamples = 0;
@@ -5031,19 +5031,19 @@ void SDL_GL_ResetAttributes(void)
     _this->gl_config.retained_backing = 1;
     _this->gl_config.accelerated = -1; // accelerated or not, both are fine
 
-#ifdef SDL_VIDEO_OPENGL
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 1;
-    _this->gl_config.profile_mask = 0;
-#elif defined(SDL_VIDEO_OPENGL_ES2)
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-#elif defined(SDL_VIDEO_OPENGL_ES)
-    _this->gl_config.major_version = 1;
-    _this->gl_config.minor_version = 1;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-#endif
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+    _this->gl_config.major_సంస్కరణ = 2;
+    _this->gl_config.minor_సంస్కరణ = 1;
+    _this->gl_config.profile_ముసుగు = 0;
+#లేదావేళ defined(SDL_VIDEO_OPENGL_ES2)
+    _this->gl_config.major_సంస్కరణ = 2;
+    _this->gl_config.minor_సంస్కరణ = 0;
+    _this->gl_config.profile_ముసుగు = SDL_GL_CONTEXT_PROFILE_ES;
+#లేదావేళ defined(SDL_VIDEO_OPENGL_ES)
+    _this->gl_config.major_సంస్కరణ = 1;
+    _this->gl_config.minor_సంస్కరణ = 1;
+    _this->gl_config.profile_ముసుగు = SDL_GL_CONTEXT_PROFILE_ES;
+#అయితే_ముగింపు
 
     _this->gl_config.flags = 0;
     _this->gl_config.framebuffer_srgb_capable = 0;
@@ -5055,132 +5055,132 @@ void SDL_GL_ResetAttributes(void)
 
     _this->gl_config.egl_platform = 0;
 
-    if (_this->GL_SetDefaultProfileConfig) {
-        _this->GL_SetDefaultProfileConfig(_this);
+    ఒకవేళ (_this->GL_సమితి_Default_Profile_Config) {
+        _this->GL_సమితి_Default_Profile_Config(_this);
     }
 }
 
-bool SDL_GL_SetAttribute(SDL_GLAttr attr, int value)
+bool SDL_GL_సమితి_Attribute(SDL_GLAttr attr, పూర్ణాంకం విలువ)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    bool result;
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    bool ఫలితం;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
-    result = true;
-    switch (attr) {
-    case SDL_GL_RED_SIZE:
-        _this->gl_config.red_size = value;
-        break;
-    case SDL_GL_GREEN_SIZE:
-        _this->gl_config.green_size = value;
-        break;
-    case SDL_GL_BLUE_SIZE:
-        _this->gl_config.blue_size = value;
-        break;
-    case SDL_GL_ALPHA_SIZE:
-        _this->gl_config.alpha_size = value;
-        break;
-    case SDL_GL_DOUBLEBUFFER:
-        _this->gl_config.double_buffer = value;
-        break;
-    case SDL_GL_BUFFER_SIZE:
-        _this->gl_config.buffer_size = value;
-        break;
-    case SDL_GL_DEPTH_SIZE:
-        _this->gl_config.depth_size = value;
-        break;
-    case SDL_GL_STENCIL_SIZE:
-        _this->gl_config.stencil_size = value;
-        break;
-    case SDL_GL_ACCUM_RED_SIZE:
-        _this->gl_config.accum_red_size = value;
-        break;
-    case SDL_GL_ACCUM_GREEN_SIZE:
-        _this->gl_config.accum_green_size = value;
-        break;
-    case SDL_GL_ACCUM_BLUE_SIZE:
-        _this->gl_config.accum_blue_size = value;
-        break;
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-        _this->gl_config.accum_alpha_size = value;
-        break;
-    case SDL_GL_STEREO:
-        _this->gl_config.stereo = value;
-        break;
-    case SDL_GL_MULTISAMPLEBUFFERS:
-        _this->gl_config.multisamplebuffers = value;
-        break;
-    case SDL_GL_MULTISAMPLESAMPLES:
-        _this->gl_config.multisamplesamples = value;
-        break;
-    case SDL_GL_FLOATBUFFERS:
-        _this->gl_config.floatbuffers = value;
-        break;
-    case SDL_GL_ACCELERATED_VISUAL:
-        _this->gl_config.accelerated = value;
-        break;
-    case SDL_GL_RETAINED_BACKING:
-        _this->gl_config.retained_backing = value;
-        break;
-    case SDL_GL_CONTEXT_MAJOR_VERSION:
-        _this->gl_config.major_version = value;
-        break;
-    case SDL_GL_CONTEXT_MINOR_VERSION:
-        _this->gl_config.minor_version = value;
-        break;
-    case SDL_GL_CONTEXT_FLAGS:
-        if (value & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
+    ఫలితం = true;
+    ఎంపిక (attr) {
+    స్థితి SDL_GL_RED_కొలత:
+        _this->gl_config.red_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_GREEN_కొలత:
+        _this->gl_config.green_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_BLUE_కొలత:
+        _this->gl_config.blue_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_ALPHA_కొలత:
+        _this->gl_config.alpha_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_DOUBLEBUFFER:
+        _this->gl_config.double_బఫరు = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_బఫరు_కొలత:
+        _this->gl_config.బఫరు_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_లోతు_కొలత:
+        _this->gl_config.లోతు_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_STENCIL_కొలత:
+        _this->gl_config.stencil_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_ACCUM_RED_కొలత:
+        _this->gl_config.accum_red_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_ACCUM_GREEN_కొలత:
+        _this->gl_config.accum_green_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_ACCUM_BLUE_కొలత:
+        _this->gl_config.accum_blue_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_ACCUM_ALPHA_కొలత:
+        _this->gl_config.accum_alpha_కొలత = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_STEREO:
+        _this->gl_config.stereo = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_MULTISAMPLEBUFFERS:
+        _this->gl_config.multisamplebuffers = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_MULTISAMPLESAMPLES:
+        _this->gl_config.multisamplesamples = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_FLOATBUFFERS:
+        _this->gl_config.floatbuffers = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_ACCELERATED_VISUAL:
+        _this->gl_config.accelerated = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_RETAINED_BACKING:
+        _this->gl_config.retained_backing = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_MAJOR_సంస్కరణ:
+        _this->gl_config.major_సంస్కరణ = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_MINOR_సంస్కరణ:
+        _this->gl_config.minor_సంస్కరణ = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_FLAGS:
+        ఒకవేళ (విలువ & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
                       SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG |
                       SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG |
                       SDL_GL_CONTEXT_RESET_ISOLATION_FLAG)) {
-            result = SDL_SetError("Unknown OpenGL context flag %d", value);
-            break;
+            ఫలితం = SDL_సమితి_Error("Unknown OpenGL context flag %d", విలువ);
+            ఆపు;
         }
-        _this->gl_config.flags = value;
-        break;
-    case SDL_GL_CONTEXT_PROFILE_MASK:
-        if (value != 0 &&
-            value != SDL_GL_CONTEXT_PROFILE_CORE &&
-            value != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
-            value != SDL_GL_CONTEXT_PROFILE_ES) {
-            result = SDL_SetError("Unknown OpenGL context profile %d", value);
-            break;
+        _this->gl_config.flags = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_PROFILE_ముసుగు:
+        ఒకవేళ (విలువ != 0 &&
+            విలువ != SDL_GL_CONTEXT_PROFILE_CORE &&
+            విలువ != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
+            విలువ != SDL_GL_CONTEXT_PROFILE_ES) {
+            ఫలితం = SDL_సమితి_Error("Unknown OpenGL context profile %d", విలువ);
+            ఆపు;
         }
-        _this->gl_config.profile_mask = value;
-        break;
-    case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
-        _this->gl_config.share_with_current_context = value;
-        break;
-    case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
-        _this->gl_config.framebuffer_srgb_capable = value;
-        break;
-    case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
-        _this->gl_config.release_behavior = value;
-        break;
-    case SDL_GL_CONTEXT_RESET_NOTIFICATION:
-        _this->gl_config.reset_notification = value;
-        break;
-    case SDL_GL_CONTEXT_NO_ERROR:
-        _this->gl_config.no_error = value;
-        break;
-    case SDL_GL_EGL_PLATFORM:
-        _this->gl_config.egl_platform = value;
-        break;
-    default:
-        result = SDL_SetError("Unknown OpenGL attribute");
-        break;
+        _this->gl_config.profile_ముసుగు = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
+        _this->gl_config.share_with_current_context = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
+        _this->gl_config.framebuffer_srgb_capable = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
+        _this->gl_config.release_behavior = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_RESET_NOTIFICATION:
+        _this->gl_config.reset_notification = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_NO_ERROR:
+        _this->gl_config.no_error = విలువ;
+        ఆపు;
+    స్థితి SDL_GL_EGL_PLATFORM:
+        _this->gl_config.egl_platform = విలువ;
+        ఆపు;
+    అప్రమేయ:
+        ఫలితం = SDL_సమితి_Error("Unknown OpenGL attribute");
+        ఆపు;
     }
-    return result;
-#else
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_OPENGL
+    తిరిగి ఫలితం;
+#లేకపోతే
+    తిరిగి SDL_Unsupported();
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL
 }
 
-bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
+bool SDL_GL_GetAttribute(SDL_GLAttr attr, పూర్ణాంకం *విలువ)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     PFNGLGETERRORPROC glGetErrorFunc;
     GLenum attrib = 0;
     GLenum error = 0;
@@ -5191,212 +5191,212 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
      * the enums we use for the former function don't exist in OpenGL ES 2, and
      * the function itself doesn't exist prior to OpenGL 3 and OpenGL ES 2.
      */
-#ifdef SDL_VIDEO_OPENGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
     PFNGLGETSTRINGPROC glGetStringFunc;
     PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameterivFunc;
-    GLenum attachment = GL_BACK_LEFT;
+    GLenum attachment = GL_వెనుక_ఎడమ;
     GLenum attachmentattrib = 0;
-#endif
+#అయితే_ముగింపు
 
-    CHECK_PARAM(!value) {
-        return SDL_InvalidParamError("value");
+    CHECK_PARAM(!విలువ) {
+        తిరిగి SDL_InvalidParamError("value");
     }
 
     // Clear value in any case
-    *value = 0;
+    *విలువ = 0;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
-    switch (attr) {
-    case SDL_GL_RED_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE;
-#endif
-        attrib = GL_RED_BITS;
-        break;
-    case SDL_GL_BLUE_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE;
-#endif
-        attrib = GL_BLUE_BITS;
-        break;
-    case SDL_GL_GREEN_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE;
-#endif
-        attrib = GL_GREEN_BITS;
-        break;
-    case SDL_GL_ALPHA_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE;
-#endif
-        attrib = GL_ALPHA_BITS;
-        break;
-    case SDL_GL_DOUBLEBUFFER:
-#ifdef SDL_VIDEO_OPENGL
+    ఎంపిక (attr) {
+    స్థితి SDL_GL_RED_కొలత:
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_RED_కొలత;
+#అయితే_ముగింపు
+        attrib = GL_RED_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_BLUE_కొలత:
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_BLUE_కొలత;
+#అయితే_ముగింపు
+        attrib = GL_BLUE_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_GREEN_కొలత:
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_GREEN_కొలత;
+#అయితే_ముగింపు
+        attrib = GL_GREEN_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_ALPHA_కొలత:
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_ALPHA_కొలత;
+#అయితే_ముగింపు
+        attrib = GL_ALPHA_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_DOUBLEBUFFER:
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
         attrib = GL_DOUBLEBUFFER;
-        break;
-#else
+        ఆపు;
+#లేకపోతే
         // OpenGL ES 1.0 and above specifications have EGL_SINGLE_BUFFER
         // parameter which switches double buffer to single buffer. OpenGL ES
         // SDL driver must set proper value after initialization
-        *value = _this->gl_config.double_buffer;
-        return true;
-#endif
-    case SDL_GL_DEPTH_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachment = GL_DEPTH;
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE;
-#endif
-        attrib = GL_DEPTH_BITS;
-        break;
-    case SDL_GL_STENCIL_SIZE:
-#ifdef SDL_VIDEO_OPENGL
+        *విలువ = _this->gl_config.double_బఫరు;
+        తిరిగి true;
+#అయితే_ముగింపు
+    స్థితి SDL_GL_లోతు_కొలత:
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        attachment = GL_లోతు;
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_లోతు_కొలత;
+#అయితే_ముగింపు
+        attrib = GL_లోతు_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_STENCIL_కొలత:
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
         attachment = GL_STENCIL;
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE;
-#endif
-        attrib = GL_STENCIL_BITS;
-        break;
-#ifdef SDL_VIDEO_OPENGL
-    case SDL_GL_ACCUM_RED_SIZE:
-        attrib = GL_ACCUM_RED_BITS;
-        break;
-    case SDL_GL_ACCUM_GREEN_SIZE:
-        attrib = GL_ACCUM_GREEN_BITS;
-        break;
-    case SDL_GL_ACCUM_BLUE_SIZE:
-        attrib = GL_ACCUM_BLUE_BITS;
-        break;
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-        attrib = GL_ACCUM_ALPHA_BITS;
-        break;
-    case SDL_GL_STEREO:
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_STENCIL_కొలత;
+#అయితే_ముగింపు
+        attrib = GL_STENCIL_బిట్లు;
+        ఆపు;
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+    స్థితి SDL_GL_ACCUM_RED_కొలత:
+        attrib = GL_ACCUM_RED_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_ACCUM_GREEN_కొలత:
+        attrib = GL_ACCUM_GREEN_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_ACCUM_BLUE_కొలత:
+        attrib = GL_ACCUM_BLUE_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_ACCUM_ALPHA_కొలత:
+        attrib = GL_ACCUM_ALPHA_బిట్లు;
+        ఆపు;
+    స్థితి SDL_GL_STEREO:
         attrib = GL_STEREO;
-        break;
-#else
-    case SDL_GL_ACCUM_RED_SIZE:
-    case SDL_GL_ACCUM_GREEN_SIZE:
-    case SDL_GL_ACCUM_BLUE_SIZE:
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-    case SDL_GL_STEREO:
+        ఆపు;
+#లేకపోతే
+    స్థితి SDL_GL_ACCUM_RED_కొలత:
+    స్థితి SDL_GL_ACCUM_GREEN_కొలత:
+    స్థితి SDL_GL_ACCUM_BLUE_కొలత:
+    స్థితి SDL_GL_ACCUM_ALPHA_కొలత:
+    స్థితి SDL_GL_STEREO:
         // none of these are supported in OpenGL ES
-        *value = 0;
-        return true;
-#endif
-    case SDL_GL_MULTISAMPLEBUFFERS:
+        *విలువ = 0;
+        తిరిగి true;
+#అయితే_ముగింపు
+    స్థితి SDL_GL_MULTISAMPLEBUFFERS:
         attrib = GL_SAMPLE_BUFFERS;
-        break;
-    case SDL_GL_MULTISAMPLESAMPLES:
+        ఆపు;
+    స్థితి SDL_GL_MULTISAMPLESAMPLES:
         attrib = GL_SAMPLES;
-        break;
-    case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
+        ఆపు;
+    స్థితి SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
         attrib = GL_CONTEXT_RELEASE_BEHAVIOR;
-        break;
-    case SDL_GL_BUFFER_SIZE:
+        ఆపు;
+    స్థితి SDL_GL_బఫరు_కొలత:
     {
-        int rsize = 0, gsize = 0, bsize = 0, asize = 0;
+        పూర్ణాంకం rsize = 0, gsize = 0, bsize = 0, asize = 0;
 
         // There doesn't seem to be a single flag in OpenGL for this!
-        if (!SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &rsize)) {
-            return false;
+        ఒకవేళ (!SDL_GL_GetAttribute(SDL_GL_RED_కొలత, &rsize)) {
+            తిరిగి false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &gsize)) {
-            return false;
+        ఒకవేళ (!SDL_GL_GetAttribute(SDL_GL_GREEN_కొలత, &gsize)) {
+            తిరిగి false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &bsize)) {
-            return false;
+        ఒకవేళ (!SDL_GL_GetAttribute(SDL_GL_BLUE_కొలత, &bsize)) {
+            తిరిగి false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_ALPHA_SIZE, &asize)) {
-            return false;
+        ఒకవేళ (!SDL_GL_GetAttribute(SDL_GL_ALPHA_కొలత, &asize)) {
+            తిరిగి false;
         }
 
-        *value = rsize + gsize + bsize + asize;
-        return true;
+        *విలువ = rsize + gsize + bsize + asize;
+        తిరిగి true;
     }
-    case SDL_GL_ACCELERATED_VISUAL:
+    స్థితి SDL_GL_ACCELERATED_VISUAL:
     {
         // Note that we can _not_ reasonably detect this once we have a context.
-        *value = (_this->gl_config.accelerated != 0);
-        return true;
+        *విలువ = (_this->gl_config.accelerated != 0);
+        తిరిగి true;
     }
-    case SDL_GL_RETAINED_BACKING:
+    స్థితి SDL_GL_RETAINED_BACKING:
     {
-        *value = _this->gl_config.retained_backing;
-        return true;
+        *విలువ = _this->gl_config.retained_backing;
+        తిరిగి true;
     }
-    case SDL_GL_CONTEXT_MAJOR_VERSION:
+    స్థితి SDL_GL_CONTEXT_MAJOR_సంస్కరణ:
     {
-        *value = _this->gl_config.major_version;
-        return true;
+        *విలువ = _this->gl_config.major_సంస్కరణ;
+        తిరిగి true;
     }
-    case SDL_GL_CONTEXT_MINOR_VERSION:
+    స్థితి SDL_GL_CONTEXT_MINOR_సంస్కరణ:
     {
-        *value = _this->gl_config.minor_version;
-        return true;
+        *విలువ = _this->gl_config.minor_సంస్కరణ;
+        తిరిగి true;
     }
-    case SDL_GL_CONTEXT_FLAGS:
+    స్థితి SDL_GL_CONTEXT_FLAGS:
     {
-        *value = _this->gl_config.flags;
-        return true;
+        *విలువ = _this->gl_config.flags;
+        తిరిగి true;
     }
-    case SDL_GL_CONTEXT_PROFILE_MASK:
+    స్థితి SDL_GL_CONTEXT_PROFILE_ముసుగు:
     {
-        *value = _this->gl_config.profile_mask;
-        return true;
+        *విలువ = _this->gl_config.profile_ముసుగు;
+        తిరిగి true;
     }
-    case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
+    స్థితి SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
     {
-        *value = _this->gl_config.share_with_current_context;
-        return true;
+        *విలువ = _this->gl_config.share_with_current_context;
+        తిరిగి true;
     }
-    case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
+    స్థితి SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
     {
-        *value = _this->gl_config.framebuffer_srgb_capable;
-        return true;
+        *విలువ = _this->gl_config.framebuffer_srgb_capable;
+        తిరిగి true;
     }
-    case SDL_GL_CONTEXT_NO_ERROR:
+    స్థితి SDL_GL_CONTEXT_NO_ERROR:
     {
-        *value = _this->gl_config.no_error;
-        return true;
+        *విలువ = _this->gl_config.no_error;
+        తిరిగి true;
     }
-    case SDL_GL_EGL_PLATFORM:
+    స్థితి SDL_GL_EGL_PLATFORM:
     {
-        *value = _this->gl_config.egl_platform;
-        return true;
+        *విలువ = _this->gl_config.egl_platform;
+        తిరిగి true;
     }
-    case SDL_GL_FLOATBUFFERS:
+    స్థితి SDL_GL_FLOATBUFFERS:
     {
-        if (_this->gl_config.HAS_GL_ARB_color_buffer_float) {
-            attrib = GL_RGBA_FLOAT_MODE_ARB;
-            break;
-        } else {
-            return 0;
+        ఒకవేళ (_this->gl_config.HAS_GL_ARB_color_బఫరు_float) {
+            attrib = GL_RGBA_FLOAT_బహుళకం_ARB;
+            ఆపు;
+        } లేకపోతే {
+            తిరిగి 0;
         }
     }
-    default:
-        return SDL_SetError("Unknown OpenGL attribute");
+    అప్రమేయ:
+        తిరిగి SDL_సమితి_Error("Unknown OpenGL attribute");
     }
 
-#ifdef SDL_VIDEO_OPENGL
-    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-    if (!glGetStringFunc) {
-        return false;
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_చిరునామా("glGetString");
+    ఒకవేళ (!glGetStringFunc) {
+        తిరిగి false;
     }
 
-    if (attachmentattrib && isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION))) {
+    ఒకవేళ (attachmentattrib && is_At_కనిష్ఠ_GL3((స్థిరరాశి అక్షరం *)glGetStringFunc(GL_సంస్కరణ))) {
         // glGetFramebufferAttachmentParameteriv needs to operate on the window framebuffer for this, so bind FBO 0 if necessary.
         GLint current_fbo = 0;
-        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC) SDL_GL_GetProcAddress("glGetIntegerv");
-        PFNGLBINDFRAMEBUFFERPROC glBindFramebufferFunc = (PFNGLBINDFRAMEBUFFERPROC)SDL_GL_GetProcAddress("glBindFramebuffer");
-        if (glGetIntegervFunc && glBindFramebufferFunc) {
+        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC) SDL_GL_Get_Proc_చిరునామా("glGetIntegerv");
+        PFNGLBINDFRAMEBUFFERPROC glBindFramebufferFunc = (PFNGLBINDFRAMEBUFFERPROC)SDL_GL_Get_Proc_చిరునామా("glBindFramebuffer");
+        ఒకవేళ (glGetIntegervFunc && glBindFramebufferFunc) {
             glGetIntegervFunc(GL_DRAW_FRAMEBUFFER_BINDING, &current_fbo);
         }
 
-        glGetFramebufferAttachmentParameterivFunc = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)SDL_GL_GetProcAddress("glGetFramebufferAttachmentParameteriv");
-        if (glGetFramebufferAttachmentParameterivFunc) {
-            if (glBindFramebufferFunc && (current_fbo != 0)) {
+        glGetFramebufferAttachmentParameterivFunc = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)SDL_GL_Get_Proc_చిరునామా("glGetFramebufferAttachmentParameteriv");
+        ఒకవేళ (glGetFramebufferAttachmentParameterivFunc) {
+            ఒకవేళ (glBindFramebufferFunc && (current_fbo != 0)) {
                 glBindFramebufferFunc(GL_DRAW_FRAMEBUFFER, 0);
             }
             // glGetFramebufferAttachmentParameterivFunc may cause GL_INVALID_OPERATION when querying depth/stencil size if the
@@ -5406,1219 +5406,1219 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
             //      respectively, is zero. In this case querying pname GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME will return zero, and all
             //      other queries will generate an error.
             GLint fbo_type = GL_FRAMEBUFFER_DEFAULT;
-            if (attachment == GL_DEPTH || attachment == GL_STENCIL) {
+            ఒకవేళ (attachment == GL_లోతు || attachment == GL_STENCIL) {
                 glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &fbo_type);
             }
-            if (fbo_type != GL_NONE) {
-                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)value);
-            } else {
-                *value = 0;
+            ఒకవేళ (fbo_type != GL_NONE) {
+                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)విలువ);
+            } లేకపోతే {
+                *విలువ = 0;
             }
-            if (glBindFramebufferFunc && (current_fbo != 0)) {
+            ఒకవేళ (glBindFramebufferFunc && (current_fbo != 0)) {
                 glBindFramebufferFunc(GL_DRAW_FRAMEBUFFER, current_fbo);
             }
-        } else {
-            return false;
+        } లేకపోతే {
+            తిరిగి false;
         }
-    } else
-#endif
+    } లేకపోతే
+#అయితే_ముగింపు
     {
-        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
-        if (glGetIntegervFunc) {
-            glGetIntegervFunc(attrib, (GLint *)value);
-        } else {
-            return false;
+        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_Get_Proc_చిరునామా("glGetIntegerv");
+        ఒకవేళ (glGetIntegervFunc) {
+            glGetIntegervFunc(attrib, (GLint *)విలువ);
+        } లేకపోతే {
+            తిరిగి false;
         }
     }
 
-    glGetErrorFunc = (PFNGLGETERRORPROC)SDL_GL_GetProcAddress("glGetError");
-    if (!glGetErrorFunc) {
-        return false;
+    glGetErrorFunc = (PFNGLGETERRORPROC)SDL_GL_Get_Proc_చిరునామా("glGetError");
+    ఒకవేళ (!glGetErrorFunc) {
+        తిరిగి false;
     }
 
     error = glGetErrorFunc();
-    if (error != GL_NO_ERROR) {
-        if (error == GL_INVALID_ENUM) {
-            return SDL_SetError("OpenGL error: GL_INVALID_ENUM");
-        } else if (error == GL_INVALID_VALUE) {
-            return SDL_SetError("OpenGL error: GL_INVALID_VALUE");
+    ఒకవేళ (error != GL_NO_ERROR) {
+        ఒకవేళ (error == GL_INVALID_ENUM) {
+            తిరిగి SDL_సమితి_Error("OpenGL error: GL_INVALID_ENUM");
+        } లేకపోతే ఒకవేళ (error == GL_INVALID_విలువ) {
+            తిరిగి SDL_సమితి_Error("OpenGL error: GL_INVALID_VALUE");
         }
-        return SDL_SetError("OpenGL error: %08X", error);
+        తిరిగి SDL_సమితి_Error("OpenGL error: %08X", error);
     }
 
     // convert GL_CONTEXT_RELEASE_BEHAVIOR values back to SDL_GL_CONTEXT_RELEASE_BEHAVIOR values
-    if (attr == SDL_GL_CONTEXT_RELEASE_BEHAVIOR) {
-        *value = (*value == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
+    ఒకవేళ (attr == SDL_GL_CONTEXT_RELEASE_BEHAVIOR) {
+        *విలువ = (*విలువ == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
     }
 
-    return true;
-#else
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_OPENGL
+    తిరిగి true;
+#లేకపోతే
+    తిరిగి SDL_Unsupported();
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL
 }
 
-#define NOT_AN_OPENGL_WINDOW "The specified window isn't an OpenGL window"
+#నిర్వచించు NOT_AN_OPENGL_కిటికీ "The specified window isn't an OpenGL window"
 
-SDL_GLContext SDL_GL_CreateContext(SDL_Window *window)
+SDL_GLContext SDL_GL_CreateContext(SDL_కిటికీ *కిటికీ)
 {
-    SDL_GLContext ctx = NULL;
-    CHECK_WINDOW_MAGIC(window, NULL);
+    SDL_GLContext ctx = ఖాళీ;
+    CHECK_కిటికీ_MAGIC(కిటికీ, ఖాళీ);
 
-    if (!(window->flags & SDL_WINDOW_OPENGL)) {
-        SDL_SetError(NOT_AN_OPENGL_WINDOW);
-        return NULL;
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_OPENGL)) {
+        SDL_సమితి_Error(NOT_AN_OPENGL_కిటికీ);
+        తిరిగి ఖాళీ;
     }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    int srgb_requested = -1;
-    const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-    if (srgbhint && *srgbhint) {
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    పూర్ణాంకం srgb_requested = -1;
+    స్థిరరాశి అక్షరం *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+    ఒకవేళ (srgbhint && *srgbhint) {
         srgb_requested = SDL_GetStringBoolean(srgbhint, false) ? 1 : 0;
     }
 
-#endif
+#అయితే_ముగింపు
 
-    ctx = _this->GL_CreateContext(_this, window);
+    ctx = _this->GL_CreateContext(_this, కిటికీ);
 
     // Creating a context is assumed to make it current in the SDL driver.
-    if (ctx) {
-        _this->current_glwin = window;
+    ఒకవేళ (ctx) {
+        _this->current_glwin = కిటికీ;
         _this->current_glctx = ctx;
-        SDL_SetTLS(&_this->current_glwin_tls, window, NULL);
-        SDL_SetTLS(&_this->current_glctx_tls, ctx, NULL);
+        SDL_సమితి_TLS(&_this->current_glwin_tls, కిటికీ, ఖాళీ);
+        SDL_సమితి_TLS(&_this->current_glctx_tls, ctx, ఖాళీ);
     }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ఒకవేళ defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     // try to force the window framebuffer to the requested sRGB state.
-    if (srgb_requested != -1) {
-        PFNGLENABLEPROC glToggleFunc = (PFNGLENABLEPROC) SDL_GL_GetProcAddress(srgb_requested ? "glEnable" : "glDisable");
-        PFNGLGETSTRINGPROC glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-        if (glToggleFunc && glGetStringFunc) {
+    ఒకవేళ (srgb_requested != -1) {
+        PFNGLENABLEPROC glToggleFunc = (PFNGLENABLEPROC) SDL_GL_Get_Proc_చిరునామా(srgb_requested ? "glEnable" : "glDisable");
+        PFNGLGETSTRINGPROC glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_చిరునామా("glGetString");
+        ఒకవేళ (glToggleFunc && glGetStringFunc) {
             bool supported = false;
-            if (_this->gl_config.profile_mask & SDL_GL_CONTEXT_PROFILE_ES) {
+            ఒకవేళ (_this->gl_config.profile_ముసుగు & SDL_GL_CONTEXT_PROFILE_ES) {
                 supported = SDL_GL_ExtensionSupported("GL_EXT_sRGB_write_control");  // GL_FRAMEBUFFER_SRGB is not core in any GLES version at the moment.
-            } else {
-                supported = isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION)) ||  // no extensions needed in OpenGL 3+.
+            } లేకపోతే {
+                supported = is_At_కనిష్ఠ_GL3((స్థిరరాశి అక్షరం *)glGetStringFunc(GL_సంస్కరణ)) ||  // no extensions needed in OpenGL 3+.
                             SDL_GL_ExtensionSupported("GL_EXT_framebuffer_sRGB") ||
                             SDL_GL_ExtensionSupported("GL_ARB_framebuffer_sRGB");
             }
 
-            if (supported) {
+            ఒకవేళ (supported) {
                 glToggleFunc(GL_FRAMEBUFFER_SRGB);
             }
         }
     }
-#endif
+#అయితే_ముగింపు
 
-    return ctx;
+    తిరిగి ctx;
 }
 
-bool SDL_GL_MakeCurrent(SDL_Window *window, SDL_GLContext context)
+bool SDL_GL_MakeCurrent(SDL_కిటికీ *కిటికీ, SDL_GLContext context)
 {
-    bool result;
+    bool ఫలితం;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
-    if (window == SDL_GL_GetCurrentWindow() &&
+    ఒకవేళ (కిటికీ == SDL_GL_Get_Current_కిటికీ() &&
         context == SDL_GL_GetCurrentContext()) {
         // We're already current.
-        return true;
+        తిరిగి true;
     }
 
-    if (!context) {
-        window = NULL;
-    } else if (window) {
-        CHECK_WINDOW_MAGIC(window, false);
+    ఒకవేళ (!context) {
+        కిటికీ = ఖాళీ;
+    } లేకపోతే ఒకవేళ (కిటికీ) {
+        CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-        if (!(window->flags & SDL_WINDOW_OPENGL)) {
-            return SDL_SetError(NOT_AN_OPENGL_WINDOW);
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_OPENGL)) {
+            తిరిగి SDL_సమితి_Error(NOT_AN_OPENGL_కిటికీ);
         }
-    } else if (!_this->gl_allow_no_surface) {
-        return SDL_SetError("Use of OpenGL without a window is not supported on this platform");
+    } లేకపోతే ఒకవేళ (!_this->gl_allow_no_surface) {
+        తిరిగి SDL_సమితి_Error("Use of OpenGL without a window is not supported on this platform");
     }
 
-    result = _this->GL_MakeCurrent(_this, window, context);
-    if (result) {
-        _this->current_glwin = window;
+    ఫలితం = _this->GL_MakeCurrent(_this, కిటికీ, context);
+    ఒకవేళ (ఫలితం) {
+        _this->current_glwin = కిటికీ;
         _this->current_glctx = context;
-        SDL_SetTLS(&_this->current_glwin_tls, window, NULL);
-        SDL_SetTLS(&_this->current_glctx_tls, context, NULL);
+        SDL_సమితి_TLS(&_this->current_glwin_tls, కిటికీ, ఖాళీ);
+        SDL_సమితి_TLS(&_this->current_glctx_tls, context, ఖాళీ);
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-SDL_Window *SDL_GL_GetCurrentWindow(void)
+SDL_కిటికీ *SDL_GL_Get_Current_కిటికీ(శూన్య)
 {
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    return (SDL_Window *)SDL_GetTLS(&_this->current_glwin_tls);
+    తిరిగి (SDL_కిటికీ *)SDL_GetTLS(&_this->current_glwin_tls);
 }
 
-SDL_GLContext SDL_GL_GetCurrentContext(void)
+SDL_GLContext SDL_GL_GetCurrentContext(శూన్య)
 {
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    return (SDL_GLContext)SDL_GetTLS(&_this->current_glctx_tls);
+    తిరిగి (SDL_GLContext)SDL_GetTLS(&_this->current_glctx_tls);
 }
 
-SDL_EGLDisplay SDL_EGL_GetCurrentDisplay(void)
+SDL_EGLDisplay SDL_EGL_GetCurrentDisplay(శూన్య)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return EGL_NO_DISPLAY;
+        తిరిగి EGL_NO_DISPLAY;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return EGL_NO_DISPLAY;
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        SDL_సమితి_Error("There is no current EGL display");
+        తిరిగి EGL_NO_DISPLAY;
     }
-    return _this->egl_data->egl_display;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    తిరిగి _this->egl_దత్తాంశం->egl_display;
+#లేకపోతే
+    SDL_సమితి_Error("SDL was not built with EGL support");
+    తిరిగి ఖాళీ;
+#అయితే_ముగింపు
 }
 
-SDL_EGLConfig SDL_EGL_GetCurrentConfig(void)
+SDL_EGLConfig SDL_EGL_GetCurrentConfig(శూన్య)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return NULL;
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        SDL_సమితి_Error("There is no current EGL display");
+        తిరిగి ఖాళీ;
     }
-    return _this->egl_data->egl_config;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    తిరిగి _this->egl_దత్తాంశం->egl_config;
+#లేకపోతే
+    SDL_సమితి_Error("SDL was not built with EGL support");
+    తిరిగి ఖాళీ;
+#అయితే_ముగింపు
 }
 
-SDL_EGLConfig SDL_EGL_GetWindowSurface(SDL_Window *window)
+SDL_EGLConfig SDL_EGL_Get_కిటికీ_Surface(SDL_కిటికీ *కిటికీ)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return NULL;
+    ఒకవేళ (!_this->egl_దత్తాంశం) {
+        SDL_సమితి_Error("There is no current EGL display");
+        తిరిగి ఖాళీ;
     }
-    if (_this->GL_GetEGLSurface) {
-        return _this->GL_GetEGLSurface(_this, window);
+    ఒకవేళ (_this->GL_GetEGLSurface) {
+        తిరిగి _this->GL_GetEGLSurface(_this, కిటికీ);
     }
-    return NULL;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    తిరిగి ఖాళీ;
+#లేకపోతే
+    SDL_సమితి_Error("SDL was not built with EGL support");
+    తిరిగి ఖాళీ;
+#అయితే_ముగింపు
 }
 
-bool SDL_GL_SetSwapInterval(int interval)
+bool SDL_GL_సమితి_మార్పిడి_Interval(పూర్ణాంకం interval)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
-    } else if (SDL_GL_GetCurrentContext() == NULL) {
-        return SDL_SetError("No OpenGL context has been made current");
-    } else if (_this->GL_SetSwapInterval) {
-        return _this->GL_SetSwapInterval(_this, interval);
-    } else {
-        return SDL_SetError("Setting the swap interval is not supported");
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
+    } లేకపోతే ఒకవేళ (SDL_GL_GetCurrentContext() == ఖాళీ) {
+        తిరిగి SDL_సమితి_Error("No OpenGL context has been made current");
+    } లేకపోతే ఒకవేళ (_this->GL_సమితి_మార్పిడి_Interval) {
+        తిరిగి _this->GL_సమితి_మార్పిడి_Interval(_this, interval);
+    } లేకపోతే {
+        తిరిగి SDL_సమితి_Error("Setting the swap interval is not supported");
     }
 }
 
-bool SDL_GL_GetSwapInterval(int *interval)
+bool SDL_GL_Get_మార్పిడి_Interval(పూర్ణాంకం *interval)
 {
     CHECK_PARAM(!interval) {
-       return SDL_InvalidParamError("interval");
+       తిరిగి SDL_InvalidParamError("interval");
     }
 
     *interval = 0;
 
-    if (!_this) {
-        return SDL_SetError("no video driver");
-    } else if (SDL_GL_GetCurrentContext() == NULL) {
-        return SDL_SetError("no current context");
-    } else if (_this->GL_GetSwapInterval) {
-        return _this->GL_GetSwapInterval(_this, interval);
-    } else {
-        return SDL_SetError("not implemented");
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_సమితి_Error("no video driver");
+    } లేకపోతే ఒకవేళ (SDL_GL_GetCurrentContext() == ఖాళీ) {
+        తిరిగి SDL_సమితి_Error("no current context");
+    } లేకపోతే ఒకవేళ (_this->GL_Get_మార్పిడి_Interval) {
+        తిరిగి _this->GL_Get_మార్పిడి_Interval(_this, interval);
+    } లేకపోతే {
+        తిరిగి SDL_సమితి_Error("not implemented");
     }
 }
 
-bool SDL_GL_SwapWindow(SDL_Window *window)
+bool SDL_GL_మార్పిడి_కిటికీ(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!(window->flags & SDL_WINDOW_OPENGL)) {
-        return SDL_SetError(NOT_AN_OPENGL_WINDOW);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_OPENGL)) {
+        తిరిగి SDL_సమితి_Error(NOT_AN_OPENGL_కిటికీ);
     }
 
-    if (SDL_GL_GetCurrentWindow() != window) {
-        return SDL_SetError("The specified window has not been made current");
+    ఒకవేళ (SDL_GL_Get_Current_కిటికీ() != కిటికీ) {
+        తిరిగి SDL_సమితి_Error("The specified window has not been made current");
     }
 
-    return _this->GL_SwapWindow(_this, window);
+    తిరిగి _this->GL_మార్పిడి_కిటికీ(_this, కిటికీ);
 }
 
 bool SDL_GL_DestroyContext(SDL_GLContext context)
 {
     CHECK_PARAM(!_this) {
-        return SDL_UninitializedVideo();
+        తిరిగి SDL_UninitializedVideo();
     }
     CHECK_PARAM(!context) {
-        return SDL_InvalidParamError("context");
+        తిరిగి SDL_InvalidParamError("context");
     }
 
-    if (SDL_GL_GetCurrentContext() == context) {
-        SDL_GL_MakeCurrent(NULL, NULL);
+    ఒకవేళ (SDL_GL_GetCurrentContext() == context) {
+        SDL_GL_MakeCurrent(ఖాళీ, ఖాళీ);
     }
 
-    return _this->GL_DestroyContext(_this, context);
+    తిరిగి _this->GL_DestroyContext(_this, context);
 }
 
-#if 0 // FIXME
+#ఒకవేళ 0 // FIXME
 /*
  * Utility function used by SDL_WM_SetIcon(); flags & 1 for color key, flags
  * & 2 for alpha channel.
  */
-static void CreateMaskFromColorKeyOrAlpha(SDL_Surface *icon, Uint8 *mask, int flags)
+స్థిర శూన్య Create_ముసుగు_From_Color_కీలకం_Or_Alpha(SDL_Surface *icon, Uint8 *ముసుగు, పూర్ణాంకం flags)
 {
-    int x, y;
+    పూర్ణాంకం x, y;
     Uint32 colorkey;
-#define SET_MASKBIT(icon, x, y, mask) \
-    mask[(y * ((icon->w + 7) / 8)) + (x / 8)] &= ~(0x01 << (7 - (x % 8)))
+#నిర్వచించు సమితి_MASKBIT(icon, x, y, ముసుగు) \
+    ముసుగు[(y * ((icon->w + 7) / 8)) + (x / 8)] &= ~(0x01 << (7 - (x % 8)))
 
     colorkey = icon->format->colorkey;
-    switch (SDL_BYTESPERPIXEL(icon->format)) {
-    case 1:
+    ఎంపిక (SDL_BYTESPERPIXEL(icon->format)) {
+    స్థితి 1:
         {
             Uint8 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            కొరకు (y = 0; y < icon->h; ++y) {
                 pixels = (Uint8 *) icon->pixels + y * icon->pitch;
-                for (x = 0; x < icon->w; ++x) {
-                    if (*pixels++ == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
+                కొరకు (x = 0; x < icon->w; ++x) {
+                    ఒకవేళ (*pixels++ == colorkey) {
+                        సమితి_MASKBIT(icon, x, y, ముసుగు);
                     }
                 }
             }
         }
-        break;
+        ఆపు;
 
-    case 2:
+    స్థితి 2:
         {
             Uint16 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            కొరకు (y = 0; y < icon->h; ++y) {
                 pixels = (Uint16 *) icon->pixels + y * icon->pitch / 2;
-                for (x = 0; x < icon->w; ++x) {
-                    if ((flags & 1) && *pixels == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
-                    } else if ((flags & 2)
+                కొరకు (x = 0; x < icon->w; ++x) {
+                    ఒకవేళ ((flags & 1) && *pixels == colorkey) {
+                        సమితి_MASKBIT(icon, x, y, ముసుగు);
+                    } లేకపోతే ఒకవేళ ((flags & 2)
                                && (*pixels & icon->format->Amask) == 0) {
-                        SET_MASKBIT(icon, x, y, mask);
+                        సమితి_MASKBIT(icon, x, y, ముసుగు);
                     }
                     pixels++;
                 }
             }
         }
-        break;
+        ఆపు;
 
-    case 4:
+    స్థితి 4:
         {
             Uint32 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            కొరకు (y = 0; y < icon->h; ++y) {
                 pixels = (Uint32 *) icon->pixels + y * icon->pitch / 4;
-                for (x = 0; x < icon->w; ++x) {
-                    if ((flags & 1) && *pixels == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
-                    } else if ((flags & 2)
+                కొరకు (x = 0; x < icon->w; ++x) {
+                    ఒకవేళ ((flags & 1) && *pixels == colorkey) {
+                        సమితి_MASKBIT(icon, x, y, ముసుగు);
+                    } లేకపోతే ఒకవేళ ((flags & 2)
                                && (*pixels & icon->format->Amask) == 0) {
-                        SET_MASKBIT(icon, x, y, mask);
+                        సమితి_MASKBIT(icon, x, y, ముసుగు);
                     }
                     pixels++;
                 }
             }
         }
-        break;
+        ఆపు;
     }
 }
 
 /*
  * Sets the window manager icon for the display window.
  */
-void SDL_WM_SetIcon(SDL_Surface *icon, Uint8 *mask)
+శూన్య SDL_WM_సమితి_Icon(SDL_Surface *icon, Uint8 *ముసుగు)
 {
-    if (icon && _this->SetIcon) {
+    ఒకవేళ (icon && _this->సమితి_Icon) {
         // Generate a mask if necessary, and create the icon!
-        if (mask == NULL) {
-            int mask_len = icon->h * (icon->w + 7) / 8;
-            int flags = 0;
-            mask = (Uint8 *) SDL_malloc(mask_len);
-            if (mask == NULL) {
-                return;
+        ఒకవేళ (ముసుగు == ఖాళీ) {
+            పూర్ణాంకం ముసుగు_len = icon->h * (icon->w + 7) / 8;
+            పూర్ణాంకం flags = 0;
+            ముసుగు = (Uint8 *) SDL_malloc(ముసుగు_len);
+            ఒకవేళ (ముసుగు == ఖాళీ) {
+                తిరిగి;
             }
-            SDL_memset(mask, ~0, mask_len);
-            if (icon->flags & SDL_SRCCOLORKEY)
+            SDL_memset(ముసుగు, ~0, ముసుగు_len);
+            ఒకవేళ (icon->flags & SDL_SRCCOLORKEY)
                 flags |= 1;
-            if (icon->flags & SDL_SRCALPHA)
+            ఒకవేళ (icon->flags & SDL_SRCALPHA)
                 flags |= 2;
-            if (flags) {
-                CreateMaskFromColorKeyOrAlpha(icon, mask, flags);
+            ఒకవేళ (flags) {
+                Create_ముసుగు_From_Color_కీలకం_Or_Alpha(icon, ముసుగు, flags);
             }
-            _this->SetIcon(_this, icon, mask);
-            SDL_free(mask);
-        } else {
-            _this->SetIcon(_this, icon, mask);
+            _this->సమితి_Icon(_this, icon, ముసుగు);
+            SDL_free(ముసుగు);
+        } లేకపోతే {
+            _this->సమితి_Icon(_this, icon, ముసుగు);
         }
     }
 }
-#endif
+#అయితే_ముగింపు
 
-SDL_TextInputType SDL_GetTextInputType(SDL_PropertiesID props)
+SDL_పాఠ్యం_ఆదానం_Type SDL_Get_పాఠ్యం_ఆదానం_Type(SDL_PropertiesID props)
 {
-    return (SDL_TextInputType)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_TYPE_NUMBER, SDL_TEXTINPUT_TYPE_TEXT);
+    తిరిగి (SDL_పాఠ్యం_ఆదానం_Type)SDL_Get_సంఖ్య_Property(props, SDL_PROP_TEXTINPUT_TYPE_సంఖ్య, SDL_TEXTINPUT_TYPE_పాఠ్యం);
 }
 
-SDL_Capitalization SDL_GetTextInputCapitalization(SDL_PropertiesID props)
+SDL_Capitalization SDL_Get_పాఠ్యం_ఆదానం_Capitalization(SDL_PropertiesID props)
 {
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER)) {
-        return (SDL_Capitalization)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER, SDL_CAPITALIZE_NONE);
+    ఒకవేళ (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_సంఖ్య)) {
+        తిరిగి (SDL_Capitalization)SDL_Get_సంఖ్య_Property(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_సంఖ్య, SDL_CAPITALIZE_NONE);
     }
 
-    switch (SDL_GetTextInputType(props)) {
-    case SDL_TEXTINPUT_TYPE_TEXT:
-        return SDL_CAPITALIZE_SENTENCES;
-    case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-        return SDL_CAPITALIZE_WORDS;
-    default:
-        return SDL_CAPITALIZE_NONE;
-    }
-}
-
-bool SDL_GetTextInputAutocorrect(SDL_PropertiesID props)
-{
-    return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, true);
-}
-
-bool SDL_GetTextInputMultiline(SDL_PropertiesID props)
-{
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN)) {
-        return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
-    }
-
-    if (SDL_GetHintBoolean(SDL_HINT_RETURN_KEY_HIDES_IME, false)) {
-        return false;
-    } else {
-        return true;
+    ఎంపిక (SDL_Get_పాఠ్యం_ఆదానం_Type(props)) {
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం:
+        తిరిగి SDL_CAPITALIZE_SENTENCES;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_NAME:
+        తిరిగి SDL_CAPITALIZE_పదాలు;
+    అప్రమేయ:
+        తిరిగి SDL_CAPITALIZE_NONE;
     }
 }
 
-static bool AutoShowingScreenKeyboard(void)
+bool SDL_Get_పాఠ్యం_ఆదానం_Autocorrect(SDL_PropertiesID props)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD);
-    if (!hint) {
+    తిరిగి SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, true);
+}
+
+bool SDL_Get_పాఠ్యం_ఆదానం_Multiline(SDL_PropertiesID props)
+{
+    ఒకవేళ (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN)) {
+        తిరిగి SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
+    }
+
+    ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_RETURN_కీలకం_HIDES_IME, false)) {
+        తిరిగి false;
+    } లేకపోతే {
+        తిరిగి true;
+    }
+}
+
+స్థిర bool AutoShowingScreenKeyboard(శూన్య)
+{
+    స్థిరరాశి అక్షరం *hint = SDL_GetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD);
+    ఒకవేళ (!hint) {
         // This hint is currently only used by the X11 video driver
-        if (SDL_strcmp(_this->name, "x11") == 0) {
+        ఒకవేళ (SDL_strcmp(_this->name, "x11") == 0) {
             hint = SDL_GetHint(SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD);
         }
     }
-    if (((!hint || SDL_strcasecmp(hint, "auto") == 0) && !SDL_HasKeyboard()) ||
+    ఒకవేళ (((!hint || SDL_strcasecmp(hint, "auto") == 0) && !SDL_HasKeyboard()) ||
         SDL_GetStringBoolean(hint, false)) {
-        return true;
-    } else {
-        return false;
+        తిరిగి true;
+    } లేకపోతే {
+        తిరిగి false;
     }
 }
 
-bool SDL_StartTextInput(SDL_Window *window)
+bool SDL_ప్రారంభం_పాఠ్యం_ఆదానం(SDL_కిటికీ *కిటికీ)
 {
-    return SDL_StartTextInputWithProperties(window, 0);
+    తిరిగి SDL_ప్రారంభం_పాఠ్యం_ఆదానం_With_Properties(కిటికీ, 0);
 }
 
-bool SDL_StartTextInputWithProperties(SDL_Window *window, SDL_PropertiesID props)
+bool SDL_ప్రారంభం_పాఠ్యం_ఆదానం_With_Properties(SDL_కిటికీ *కిటికీ, SDL_PropertiesID props)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (window->text_input_props) {
-        SDL_DestroyProperties(window->text_input_props);
-        window->text_input_props = 0;
+    ఒకవేళ (కిటికీ->పాఠ్యం_ఆదానం_props) {
+        SDL_DestroyProperties(కిటికీ->పాఠ్యం_ఆదానం_props);
+        కిటికీ->పాఠ్యం_ఆదానం_props = 0;
     }
 
-    if (props) {
-        window->text_input_props = SDL_CreateProperties();
-        if (!window->text_input_props) {
-            return false;
+    ఒకవేళ (props) {
+        కిటికీ->పాఠ్యం_ఆదానం_props = SDL_CreateProperties();
+        ఒకవేళ (!కిటికీ->పాఠ్యం_ఆదానం_props) {
+            తిరిగి false;
         }
-        if (!SDL_CopyProperties(props, window->text_input_props)) {
-            return false;
+        ఒకవేళ (!SDL_CopyProperties(props, కిటికీ->పాఠ్యం_ఆదానం_props)) {
+            తిరిగి false;
         }
     }
 
-    if (_this->SetTextInputProperties) {
-        _this->SetTextInputProperties(_this, window, props);
+    ఒకవేళ (_this->సమితి_పాఠ్యం_ఆదానం_Properties) {
+        _this->సమితి_పాఠ్యం_ఆదానం_Properties(_this, కిటికీ, props);
     }
 
-    if (!window->text_input_active) {
+    ఒకవేళ (!కిటికీ->పాఠ్యం_ఆదానం_చురుకైన) {
         // Start the text input system
-        if (_this->StartTextInput) {
-            if (!_this->StartTextInput(_this, window, props)) {
-                return false;
+        ఒకవేళ (_this->ప్రారంభం_పాఠ్యం_ఆదానం) {
+            ఒకవేళ (!_this->ప్రారంభం_పాఠ్యం_ఆదానం(_this, కిటికీ, props)) {
+                తిరిగి false;
             }
         }
-        window->text_input_active = true;
+        కిటికీ->పాఠ్యం_ఆదానం_చురుకైన = true;
     }
 
     // Show the on-screen keyboard, if desired
-    if (AutoShowingScreenKeyboard() && !SDL_ScreenKeyboardShown(window)) {
-        if (_this->ShowScreenKeyboard) {
-            _this->ShowScreenKeyboard(_this, window, props);
+    ఒకవేళ (AutoShowingScreenKeyboard() && !SDL_ScreenKeyboardShown(కిటికీ)) {
+        ఒకవేళ (_this->ShowScreenKeyboard) {
+            _this->ShowScreenKeyboard(_this, కిటికీ, props);
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_TextInputActive(SDL_Window *window)
+bool SDL_పాఠ్యం_ఆదానం_చురుకైన(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    return window->text_input_active;
+    తిరిగి కిటికీ->పాఠ్యం_ఆదానం_చురుకైన;
 }
 
-bool SDL_StopTextInput(SDL_Window *window)
+bool SDL_Stop_పాఠ్యం_ఆదానం(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (window->text_input_active) {
+    ఒకవేళ (కిటికీ->పాఠ్యం_ఆదానం_చురుకైన) {
         // Stop the text input system
-        if (_this->StopTextInput) {
-            _this->StopTextInput(_this, window);
+        ఒకవేళ (_this->Stop_పాఠ్యం_ఆదానం) {
+            _this->Stop_పాఠ్యం_ఆదానం(_this, కిటికీ);
         }
-        window->text_input_active = false;
+        కిటికీ->పాఠ్యం_ఆదానం_చురుకైన = false;
     }
 
     // Hide the on-screen keyboard, if desired
-    if (AutoShowingScreenKeyboard() && SDL_ScreenKeyboardShown(window)) {
-        if (_this->HideScreenKeyboard) {
-            _this->HideScreenKeyboard(_this, window);
+    ఒకవేళ (AutoShowingScreenKeyboard() && SDL_ScreenKeyboardShown(కిటికీ)) {
+        ఒకవేళ (_this->HideScreenKeyboard) {
+            _this->HideScreenKeyboard(_this, కిటికీ);
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetTextInputArea(SDL_Window *window, const SDL_Rect *rect, int cursor)
+bool SDL_సమితి_పాఠ్యం_ఆదానం_Area(SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rect, పూర్ణాంకం cursor)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (rect) {
-        SDL_copyp(&window->text_input_rect, rect);
-        window->text_input_cursor = cursor;
-    } else {
-        SDL_zero(window->text_input_rect);
-        window->text_input_cursor = 0;
+    ఒకవేళ (rect) {
+        SDL_copyp(&కిటికీ->పాఠ్యం_ఆదానం_rect, rect);
+        కిటికీ->పాఠ్యం_ఆదానం_cursor = cursor;
+    } లేకపోతే {
+        SDL_zero(కిటికీ->పాఠ్యం_ఆదానం_rect);
+        కిటికీ->పాఠ్యం_ఆదానం_cursor = 0;
     }
 
-    if (_this && _this->UpdateTextInputArea) {
-        if (!_this->UpdateTextInputArea(_this, window)) {
-            return false;
+    ఒకవేళ (_this && _this->Update_పాఠ్యం_ఆదానం_Area) {
+        ఒకవేళ (!_this->Update_పాఠ్యం_ఆదానం_Area(_this, కిటికీ)) {
+            తిరిగి false;
         }
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_GetTextInputArea(SDL_Window *window, SDL_Rect *rect, int *cursor)
+bool SDL_Get_పాఠ్యం_ఆదానం_Area(SDL_కిటికీ *కిటికీ, SDL_Rect *rect, పూర్ణాంకం *cursor)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (rect) {
-        SDL_copyp(rect, &window->text_input_rect);
+    ఒకవేళ (rect) {
+        SDL_copyp(rect, &కిటికీ->పాఠ్యం_ఆదానం_rect);
     }
-    if (cursor) {
-        *cursor = window->text_input_cursor;
+    ఒకవేళ (cursor) {
+        *cursor = కిటికీ->పాఠ్యం_ఆదానం_cursor;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_ClearComposition(SDL_Window *window)
+bool SDL_ClearComposition(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (_this->ClearComposition) {
-        return _this->ClearComposition(_this, window);
+    ఒకవేళ (_this->ClearComposition) {
+        తిరిగి _this->ClearComposition(_this, కిటికీ);
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_HasScreenKeyboardSupport(void)
+bool SDL_HasScreenKeyboardSupport(శూన్య)
 {
-    if (_this && _this->HasScreenKeyboardSupport) {
-        return _this->HasScreenKeyboardSupport(_this);
+    ఒకవేళ (_this && _this->HasScreenKeyboardSupport) {
+        తిరిగి _this->HasScreenKeyboardSupport(_this);
     }
-    return false;
+    తిరిగి false;
 }
 
-bool SDL_ScreenKeyboardShown(SDL_Window *window)
+bool SDL_ScreenKeyboardShown(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    return _this->screen_keyboard_shown;
+    తిరిగి _this->screen_keyboard_shown;
 }
 
-void SDL_SendScreenKeyboardShown(void)
+శూన్య SDL_SendScreenKeyboardShown(శూన్య)
 {
-    if (!_this || _this->screen_keyboard_shown) {
-        return;
+    ఒకవేళ (!_this || _this->screen_keyboard_shown) {
+        తిరిగి;
     }
 
     _this->screen_keyboard_shown = true;
 
-    if (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_SHOWN)) {
+    ఒకవేళ (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_SHOWN)) {
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_SHOWN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_నెట్టు_Event(&event);
     }
 }
 
-void SDL_SendScreenKeyboardHidden(void)
+శూన్య SDL_SendScreenKeyboardHidden(శూన్య)
 {
-    if (!_this || !_this->screen_keyboard_shown) {
-        return;
+    ఒకవేళ (!_this || !_this->screen_keyboard_shown) {
+        తిరిగి;
     }
 
     _this->screen_keyboard_shown = false;
 
-    if (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_HIDDEN)) {
+    ఒకవేళ (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_HIDDEN)) {
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_HIDDEN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_నెట్టు_Event(&event);
     }
 }
 
-int SDL_GetMessageBoxCount(void)
+పూర్ణాంకం SDL_Get_సందేశం_Box_లెక్క(శూన్య)
 {
-    return SDL_GetAtomicInt(&SDL_messagebox_count);
+    తిరిగి SDL_GetAtomicInt(&SDL_messagebox_లెక్క);
 }
 
-bool SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool SDL_Show_సందేశం_Box(స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *messageboxdata, పూర్ణాంకం *buttonID)
 {
-    int dummybutton;
-    bool result = false;
+    పూర్ణాంకం dummybutton;
+    bool ఫలితం = false;
     bool show_cursor_prev;
-    SDL_Window *current_window;
-    SDL_MessageBoxData mbdata;
+    SDL_కిటికీ *current_కిటికీ;
+    SDL_సందేశం_Box_దత్తాంశం mbdata;
 
     CHECK_PARAM(!messageboxdata) {
-        return SDL_InvalidParamError("messageboxdata");
+        తిరిగి SDL_InvalidParamError("messageboxdata");
     }
     CHECK_PARAM(messageboxdata->numbuttons < 0) {
-        return SDL_SetError("Invalid number of buttons");
+        తిరిగి SDL_సమితి_Error("Invalid number of buttons");
     }
 
     // in case either the title or message was a pointer from SDL_GetError(), make a copy
     // now, as we'll likely overwrite error state in here.
     bool titleisstack = false, msgisstack = false;
-    char *titlecpy = NULL;
-    char *msgcpy = NULL;
-    if (messageboxdata->title) {
-        const size_t slen = SDL_strlen(messageboxdata->title) + 1;
-        titlecpy = SDL_small_alloc(char, slen, &titleisstack);
-        if (!titlecpy) {
-            return false;
+    అక్షరం *titlecpy = ఖాళీ;
+    అక్షరం *msgcpy = ఖాళీ;
+    ఒకవేళ (messageboxdata->title) {
+        స్థిరరాశి size_t slen = SDL_strlen(messageboxdata->title) + 1;
+        titlecpy = SDL_small_alloc(అక్షరం, slen, &titleisstack);
+        ఒకవేళ (!titlecpy) {
+            తిరిగి false;
         }
         SDL_memcpy(titlecpy, messageboxdata->title, slen);
     }
 
-    if (messageboxdata->message) {
-        const size_t slen = SDL_strlen(messageboxdata->message) + 1;
-        msgcpy = SDL_small_alloc(char, slen, &msgisstack);
-        if (!msgcpy) {
+    ఒకవేళ (messageboxdata->సందేశం) {
+        స్థిరరాశి size_t slen = SDL_strlen(messageboxdata->సందేశం) + 1;
+        msgcpy = SDL_small_alloc(అక్షరం, slen, &msgisstack);
+        ఒకవేళ (!msgcpy) {
             SDL_small_free(titlecpy, titleisstack);
-            return false;
+            తిరిగి false;
         }
-        SDL_memcpy(msgcpy, messageboxdata->message, slen);
+        SDL_memcpy(msgcpy, messageboxdata->సందేశం, slen);
     }
 
-    (void)SDL_AtomicIncRef(&SDL_messagebox_count);
+    (శూన్య)SDL_AtomicIncRef(&SDL_messagebox_లెక్క);
 
-    current_window = SDL_GetKeyboardFocus();
+    current_కిటికీ = SDL_GetKeyboardFocus();
     SDL_UpdateMouseCapture(false);
-    SDL_SetRelativeMouseMode(false);
+    SDL_సమితి_Relative_Mouse_బహుళకం(false);
     show_cursor_prev = SDL_CursorVisible();
     SDL_ShowCursor();
     SDL_ResetKeyboard();
 
-    if (!buttonID) {
+    ఒకవేళ (!buttonID) {
         buttonID = &dummybutton;
     }
 
-    SDL_memcpy(&mbdata, messageboxdata, sizeof(*messageboxdata));
+    SDL_memcpy(&mbdata, messageboxdata, పరిమాణం(*messageboxdata));
     mbdata.title = titlecpy;
-    if (!mbdata.title) {
+    ఒకవేళ (!mbdata.title) {
         mbdata.title = "";
     }
-    mbdata.message = msgcpy;
-    if (!mbdata.message) {
-        mbdata.message = "";
+    mbdata.సందేశం = msgcpy;
+    ఒకవేళ (!mbdata.సందేశం) {
+        mbdata.సందేశం = "";
     }
     messageboxdata = &mbdata;
 
     SDL_ClearError();
 
-    if (_this && _this->ShowMessageBox) {
-        result = _this->ShowMessageBox(_this, messageboxdata, buttonID);
-    } else {
+    ఒకవేళ (_this && _this->Show_సందేశం_Box) {
+        ఫలితం = _this->Show_సందేశం_Box(_this, messageboxdata, buttonID);
+    } లేకపోతే {
         // It's completely fine to call this function before video is initialized
-        const char *driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-        if (driver_name && *driver_name != 0) {
-            const char *driver_attempt = driver_name;
-            while (driver_attempt && (*driver_attempt != 0) && !result) {
-                const char *driver_attempt_end = SDL_strchr(driver_attempt, ',');
-                size_t driver_attempt_len = (driver_attempt_end) ? (driver_attempt_end - driver_attempt)
+        స్థిరరాశి అక్షరం *driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+        ఒకవేళ (driver_name && *driver_name != 0) {
+            స్థిరరాశి అక్షరం *driver_attempt = driver_name;
+            అయితే (driver_attempt && (*driver_attempt != 0) && !ఫలితం) {
+                స్థిరరాశి అక్షరం *driver_attempt_చివర = SDL_strchr(driver_attempt, ',');
+                size_t driver_attempt_len = (driver_attempt_చివర) ? (driver_attempt_చివర - driver_attempt)
                                                                      : SDL_strlen(driver_attempt);
-                for (int i = 0; bootstrap[i]; ++i) {
-                    if (bootstrap[i]->ShowMessageBox && (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
+                కొరకు (పూర్ణాంకం i = 0; bootstrap[i]; ++i) {
+                    ఒకవేళ (bootstrap[i]->Show_సందేశం_Box && (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
                         (SDL_strncasecmp(bootstrap[i]->name, driver_attempt, driver_attempt_len) == 0)) {
-                        if (bootstrap[i]->ShowMessageBox(messageboxdata, buttonID)) {
-                            result = true;
+                        ఒకవేళ (bootstrap[i]->Show_సందేశం_Box(messageboxdata, buttonID)) {
+                            ఫలితం = true;
                         }
-                        break;
+                        ఆపు;
                     }
                 }
 
-                driver_attempt = (driver_attempt_end) ? (driver_attempt_end + 1) : NULL;
+                driver_attempt = (driver_attempt_చివర) ? (driver_attempt_చివర + 1) : ఖాళీ;
             }
-        } else {
-            for (int i = 0; bootstrap[i]; ++i) {
-                if (bootstrap[i]->ShowMessageBox && bootstrap[i]->ShowMessageBox(messageboxdata, buttonID)) {
-                    result = true;
-                    break;
+        } లేకపోతే {
+            కొరకు (పూర్ణాంకం i = 0; bootstrap[i]; ++i) {
+                ఒకవేళ (bootstrap[i]->Show_సందేశం_Box && bootstrap[i]->Show_సందేశం_Box(messageboxdata, buttonID)) {
+                    ఫలితం = true;
+                    ఆపు;
                 }
             }
         }
     }
 
-    if (!result) {
-        const char *error = SDL_GetError();
+    ఒకవేళ (!ఫలితం) {
+        స్థిరరాశి అక్షరం *error = SDL_GetError();
 
-        if (!*error) {
-            SDL_SetError("No message system available");
+        ఒకవేళ (!*error) {
+            SDL_సమితి_Error("No message system available");
         }
-    } else {
+    } లేకపోతే {
         SDL_ClearError();
     }
 
-    (void)SDL_AtomicDecRef(&SDL_messagebox_count);
+    (శూన్య)SDL_AtomicDecRef(&SDL_messagebox_లెక్క);
 
-    if (current_window) {
-        SDL_RaiseWindow(current_window);
+    ఒకవేళ (current_కిటికీ) {
+        SDL_Raise_కిటికీ(current_కిటికీ);
     }
 
-    if (!show_cursor_prev) {
+    ఒకవేళ (!show_cursor_prev) {
         SDL_HideCursor();
     }
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_బహుళకం();
     SDL_UpdateMouseCapture(false);
 
     SDL_small_free(msgcpy, msgisstack);
     SDL_small_free(titlecpy, titleisstack);
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-bool SDL_ShowSimpleMessageBox(SDL_MessageBoxFlags flags, const char *title, const char *message, SDL_Window *window)
+bool SDL_Show_Simple_సందేశం_Box(SDL_సందేశం_Box_Flags flags, స్థిరరాశి అక్షరం *title, స్థిరరాశి అక్షరం *సందేశం, SDL_కిటికీ *కిటికీ)
 {
-#if defined(SDL_PLATFORM_3DS)
+#ఒకవేళ defined(SDL_PLATFORM_3DS)
     errorConf errCnf;
-    bool hasGpuRight;
+    bool has_Gpu_కుడి;
 
     // If the video subsystem has not been initialised, set up graphics temporarily
-    hasGpuRight = gspHasGpuRight();
-    if (!hasGpuRight)
+    has_Gpu_కుడి = gsp_Has_Gpu_కుడి();
+    ఒకవేళ (!has_Gpu_కుడి)
         gfxInitDefault();
 
-    errorInit(&errCnf, ERROR_TEXT_WORD_WRAP, CFG_LANGUAGE_EN);
-    errorText(&errCnf, message);
+    errorInit(&errCnf, ERROR_పాఠ్యం_మాట_WRAP, CFG_LANGUAGE_EN);
+    error_పాఠ్యం(&errCnf, సందేశం);
     errorDisp(&errCnf);
 
-    if (!hasGpuRight)
+    ఒకవేళ (!has_Gpu_కుడి)
         gfxExit();
 
-    return true;
-#else
-    SDL_MessageBoxData data;
-    SDL_MessageBoxButtonData button;
+    తిరిగి true;
+#లేకపోతే
+    SDL_సందేశం_Box_దత్తాంశం దత్తాంశం;
+    SDL_సందేశం_Box_Button_దత్తాంశం button;
 
-    SDL_zero(data);
-    data.flags = flags;
-    data.title = title;
-    data.message = message;
-    data.numbuttons = 1;
-    data.buttons = &button;
-    data.window = window;
+    SDL_zero(దత్తాంశం);
+    దత్తాంశం.flags = flags;
+    దత్తాంశం.title = title;
+    దత్తాంశం.సందేశం = సందేశం;
+    దత్తాంశం.numbuttons = 1;
+    దత్తాంశం.buttons = &button;
+    దత్తాంశం.కిటికీ = కిటికీ;
 
     SDL_zero(button);
     button.flags |= SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT;
     button.flags |= SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT;
-    button.text = "OK";
+    button.పాఠ్యం = "OK";
 
-    return SDL_ShowMessageBox(&data, NULL);
-#endif
+    తిరిగి SDL_Show_సందేశం_Box(&దత్తాంశం, ఖాళీ);
+#అయితే_ముగింపు
 }
 
-bool SDL_ShouldAllowTopmost(void)
+bool SDL_ShouldAllowTopmost(శూన్య)
 {
-    return SDL_GetHintBoolean(SDL_HINT_WINDOW_ALLOW_TOPMOST, true);
+    తిరిగి SDL_GetHintBoolean(SDL_HINT_కిటికీ_ALLOW_TOPMOST, true);
 }
 
-bool SDL_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+bool SDL_Show_కిటికీ_System_Menu(SDL_కిటికీ *కిటికీ, పూర్ణాంకం x, పూర్ణాంకం y)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
+    CHECK_కిటికీ_NOT_POPUP(కిటికీ, false);
 
-    if (_this->ShowWindowSystemMenu) {
-        _this->ShowWindowSystemMenu(window, x, y);
-        return true;
+    ఒకవేళ (_this->Show_కిటికీ_System_Menu) {
+        _this->Show_కిటికీ_System_Menu(కిటికీ, x, y);
+        తిరిగి true;
     }
 
-    return SDL_Unsupported();
+    తిరిగి SDL_Unsupported();
 }
 
-bool SDL_SetWindowHitTest(SDL_Window *window, SDL_HitTest callback, void *callback_data)
+bool SDL_సమితి_కిటికీ_తగిలింది_Test(SDL_కిటికీ *కిటికీ, SDL_తగిలింది_Test callback, శూన్య *callback_దత్తాంశం)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!_this->SetWindowHitTest) {
-        return SDL_Unsupported();
+    ఒకవేళ (!_this->సమితి_కిటికీ_తగిలింది_Test) {
+        తిరిగి SDL_Unsupported();
     }
 
-    window->hit_test = callback;
-    window->hit_test_data = callback_data;
+    కిటికీ->తగిలింది_test = callback;
+    కిటికీ->తగిలింది_test_దత్తాంశం = callback_దత్తాంశం;
 
-    return _this->SetWindowHitTest(window, callback != NULL);
+    తిరిగి _this->సమితి_కిటికీ_తగిలింది_Test(కిటికీ, callback != ఖాళీ);
 }
 
-bool SDL_SetWindowShape(SDL_Window *window, SDL_Surface *shape)
+bool SDL_సమితి_కిటికీ_Shape(SDL_కిటికీ *కిటికీ, SDL_Surface *shape)
 {
     SDL_PropertiesID props;
     SDL_Surface *surface;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!(window->flags & SDL_WINDOW_TRANSPARENT)) {
-        return SDL_SetError("Window must be created with SDL_WINDOW_TRANSPARENT");
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_TRANSPARENT)) {
+        తిరిగి SDL_సమితి_Error("Window must be created with SDL_WINDOW_TRANSPARENT");
     }
 
-    props = SDL_GetWindowProperties(window);
-    if (!props) {
-        return false;
+    props = SDL_Get_కిటికీ_Properties(కిటికీ);
+    ఒకవేళ (!props) {
+        తిరిగి false;
     }
 
-    if (shape) {
+    ఒకవేళ (shape) {
         surface = SDL_ConvertSurface(shape, SDL_PIXELFORMAT_ARGB32);
-        if (!surface) {
-            return false;
+        ఒకవేళ (!surface) {
+            తిరిగి false;
         }
-    } else {
-        surface = NULL;
+    } లేకపోతే {
+        surface = ఖాళీ;
     }
 
-    if (!SDL_SetSurfaceProperty(props, SDL_PROP_WINDOW_SHAPE_POINTER, surface)) {
-        return false;
+    ఒకవేళ (!SDL_సమితి_Surface_Property(props, SDL_PROP_కిటికీ_SHAPE_సూచిక, surface)) {
+        తిరిగి false;
     }
 
-    if (_this->UpdateWindowShape) {
-        if (!_this->UpdateWindowShape(_this, window, surface)) {
-            return false;
+    ఒకవేళ (_this->Update_కిటికీ_Shape) {
+        ఒకవేళ (!_this->Update_కిటికీ_Shape(_this, కిటికీ, surface)) {
+            తిరిగి false;
         }
     }
-    return true;
+    తిరిగి true;
 }
 
 /*
  * Functions used by iOS application delegates
  */
-void SDL_OnApplicationWillTerminate(void)
+శూన్య SDL_OnApplicationWillTerminate(శూన్య)
 {
     SDL_SendAppEvent(SDL_EVENT_TERMINATING);
 }
 
-void SDL_OnApplicationDidReceiveMemoryWarning(void)
+శూన్య SDL_On_Application_Did_Receive_జ్ఞాపకం_Warning(శూన్య)
 {
-    SDL_SendAppEvent(SDL_EVENT_LOW_MEMORY);
+    SDL_SendAppEvent(SDL_EVENT_దిగువ_జ్ఞాపకం);
 }
 
-void SDL_OnApplicationWillEnterBackground(void)
+శూన్య SDL_OnApplicationWillEnterBackground(శూన్య)
 {
-    if (_this) {
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
+    ఒకవేళ (_this) {
+        SDL_కిటికీ *కిటికీ;
+        కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_MINIMIZED, 0, 0);
         }
-        SDL_SetKeyboardFocus(NULL);
+        SDL_సమితి_Keyboard_Focus(ఖాళీ);
     }
     SDL_SendAppEvent(SDL_EVENT_WILL_ENTER_BACKGROUND);
 }
 
-void SDL_OnApplicationDidEnterBackground(void)
+శూన్య SDL_OnApplicationDidEnterBackground(శూన్య)
 {
     SDL_SendAppEvent(SDL_EVENT_DID_ENTER_BACKGROUND);
 }
 
-void SDL_OnApplicationWillEnterForeground(void)
+శూన్య SDL_OnApplicationWillEnterForeground(శూన్య)
 {
     SDL_SendAppEvent(SDL_EVENT_WILL_ENTER_FOREGROUND);
 }
 
-void SDL_OnApplicationDidEnterForeground(void)
+శూన్య SDL_OnApplicationDidEnterForeground(శూన్య)
 {
     SDL_SendAppEvent(SDL_EVENT_DID_ENTER_FOREGROUND);
 
-    if (_this) {
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            SDL_SetKeyboardFocus(window);
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+    ఒకవేళ (_this) {
+        SDL_కిటికీ *కిటికీ;
+        కొరకు (కిటికీ = _this->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            SDL_సమితి_Keyboard_Focus(కిటికీ);
+            SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESTORED, 0, 0);
         }
     }
 }
 
-#define NOT_A_VULKAN_WINDOW "The specified window isn't a Vulkan window"
+#నిర్వచించు NOT_A_VULKAN_కిటికీ "The specified window isn't a Vulkan window"
 
-bool SDL_Vulkan_LoadLibrary(const char *path)
+bool SDL_Vulkan_ఎక్కించు_Library(స్థిరరాశి అక్షరం *మార్గం)
 {
-    bool result;
+    bool ఫలితం;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
-    if (_this->vulkan_config.loader_loaded) {
-        if (path && SDL_strcmp(path, _this->vulkan_config.loader_path) != 0) {
-            return SDL_SetError("Vulkan loader library already loaded");
+    ఒకవేళ (_this->vulkan_config.loader_loaded) {
+        ఒకవేళ (మార్గం && SDL_strcmp(మార్గం, _this->vulkan_config.loader_మార్గం) != 0) {
+            తిరిగి SDL_సమితి_Error("Vulkan loader library already loaded");
         }
-        result = true;
-    } else {
-        if (!_this->Vulkan_LoadLibrary) {
-            return SDL_DllNotSupported("Vulkan");
+        ఫలితం = true;
+    } లేకపోతే {
+        ఒకవేళ (!_this->Vulkan_ఎక్కించు_Library) {
+            తిరిగి SDL_DllNotSupported("Vulkan");
         }
-        result = _this->Vulkan_LoadLibrary(_this, path);
+        ఫలితం = _this->Vulkan_ఎక్కించు_Library(_this, మార్గం);
     }
-    if (result) {
+    ఒకవేళ (ఫలితం) {
         _this->vulkan_config.loader_loaded++;
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-SDL_FunctionPointer SDL_Vulkan_GetVkGetInstanceProcAddr(void)
+SDL_Function_సూచిక SDL_Vulkan_GetVkGetInstanceProcAddr(శూన్య)
 {
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    if (!_this->vulkan_config.loader_loaded) {
-        SDL_SetError("No Vulkan loader has been loaded");
-        return NULL;
+    ఒకవేళ (!_this->vulkan_config.loader_loaded) {
+        SDL_సమితి_Error("No Vulkan loader has been loaded");
+        తిరిగి ఖాళీ;
     }
-    return (SDL_FunctionPointer)_this->vulkan_config.vkGetInstanceProcAddr;
+    తిరిగి (SDL_Function_సూచిక)_this->vulkan_config.vkGetInstanceProcAddr;
 }
 
-void SDL_Vulkan_UnloadLibrary(void)
+శూన్య SDL_Vulkan_UnloadLibrary(శూన్య)
 {
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return;
+        తిరిగి;
     }
-    if (_this->vulkan_config.loader_loaded > 0) {
-        if (--_this->vulkan_config.loader_loaded > 0) {
-            return;
+    ఒకవేళ (_this->vulkan_config.loader_loaded > 0) {
+        ఒకవేళ (--_this->vulkan_config.loader_loaded > 0) {
+            తిరిగి;
         }
-        if (_this->Vulkan_UnloadLibrary) {
+        ఒకవేళ (_this->Vulkan_UnloadLibrary) {
             _this->Vulkan_UnloadLibrary(_this);
         }
     }
 }
 
-char const * const *SDL_Vulkan_GetInstanceExtensions(Uint32 *count)
+అక్షరం స్థిరరాశి * స్థిరరాశి *SDL_Vulkan_GetInstanceExtensions(Uint32 *లెక్క)
 {
     Uint32 tmpcount = 0;
-    if (!count) {
-        count = &tmpcount;
+    ఒకవేళ (!లెక్క) {
+        లెక్క = &tmpcount;
     }
 
-    if (!_this->Vulkan_GetInstanceExtensions) {
-        *count = 0;
+    ఒకవేళ (!_this->Vulkan_GetInstanceExtensions) {
+        *లెక్క = 0;
         SDL_Unsupported();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    return _this->Vulkan_GetInstanceExtensions(_this, count);
+    తిరిగి _this->Vulkan_GetInstanceExtensions(_this, లెక్క);
 }
 
-bool SDL_Vulkan_CreateSurface(SDL_Window *window,
+bool SDL_Vulkan_CreateSurface(SDL_కిటికీ *కిటికీ,
                                   VkInstance instance,
-                                  const struct VkAllocationCallbacks *allocator,
+                                  స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator,
                                   VkSurfaceKHR *surface)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_కిటికీ_MAGIC(కిటికీ, false);
 
-    if (!_this->Vulkan_CreateSurface) {
+    ఒకవేళ (!_this->Vulkan_CreateSurface) {
         SDL_Unsupported();
-        return false;
+        తిరిగి false;
     }
 
     CHECK_PARAM(!instance) {
-        return SDL_InvalidParamError("instance");
+        తిరిగి SDL_InvalidParamError("instance");
     }
 
     CHECK_PARAM(!surface) {
-        return SDL_InvalidParamError("surface");
+        తిరిగి SDL_InvalidParamError("surface");
     }
 
-    if (!(window->flags & SDL_WINDOW_VULKAN)) {
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_VULKAN)) {
         // No problem, we can convert to Vulkan
-        if (window->flags & SDL_WINDOW_OPENGL) {
-            window->flags &= ~SDL_WINDOW_OPENGL;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
+            కిటికీ->flags &= ~SDL_కిటికీ_OPENGL;
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_METAL) {
-            window->flags &= ~SDL_WINDOW_METAL;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_METAL) {
+            కిటికీ->flags &= ~SDL_కిటికీ_METAL;
             // Nothing more to do for Metal.
         }
-        if (SDL_Vulkan_LoadLibrary(NULL)) {
-            window->flags |= SDL_WINDOW_VULKAN;
-        } else {
-            return SDL_SetError("failed to load Vulkan library");
+        ఒకవేళ (SDL_Vulkan_ఎక్కించు_Library(ఖాళీ)) {
+            కిటికీ->flags |= SDL_కిటికీ_VULKAN;
+        } లేకపోతే {
+            తిరిగి SDL_సమితి_Error("failed to load Vulkan library");
         }
     }
 
-    return _this->Vulkan_CreateSurface(_this, window, instance, allocator, surface);
+    తిరిగి _this->Vulkan_CreateSurface(_this, కిటికీ, instance, allocator, surface);
 }
 
-void SDL_Vulkan_DestroySurface(VkInstance instance,
+శూన్య SDL_Vulkan_DestroySurface(VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator)
+                               స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator)
 {
-    if (_this && instance && surface && _this->Vulkan_DestroySurface) {
+    ఒకవేళ (_this && instance && surface && _this->Vulkan_DestroySurface) {
         _this->Vulkan_DestroySurface(_this, instance, surface, allocator);
     }
 }
 
 bool SDL_Vulkan_GetPresentationSupport(VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex)
+                                           Uint32 వరుస_Family_సూచీ)
 {
     CHECK_PARAM(!_this) {
         SDL_UninitializedVideo();
-        return false;
+        తిరిగి false;
     }
 
     CHECK_PARAM(!instance) {
         SDL_InvalidParamError("instance");
-        return false;
+        తిరిగి false;
     }
 
     CHECK_PARAM(!physicalDevice) {
         SDL_InvalidParamError("physicalDevice");
-        return false;
+        తిరిగి false;
     }
 
-    if (_this->Vulkan_GetPresentationSupport) {
-        return _this->Vulkan_GetPresentationSupport(_this, instance, physicalDevice, queueFamilyIndex);
+    ఒకవేళ (_this->Vulkan_GetPresentationSupport) {
+        తిరిగి _this->Vulkan_GetPresentationSupport(_this, instance, physicalDevice, వరుస_Family_సూచీ);
     }
 
     /* If the backend does not have this function then it does not have a
      * WSI function to query it; in other words it's not necessary to check
      * as it is always supported.
      */
-    return true;
+    తిరిగి true;
 }
 
-SDL_MetalView SDL_Metal_CreateView(SDL_Window *window)
+SDL_MetalView SDL_Metal_CreateView(SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_కిటికీ_MAGIC(కిటికీ, ఖాళీ);
 
-    if (!_this->Metal_CreateView) {
+    ఒకవేళ (!_this->Metal_CreateView) {
         SDL_Unsupported();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    if (!(window->flags & SDL_WINDOW_METAL)) {
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_METAL)) {
         // No problem, we can convert to Metal
-        if (window->flags & SDL_WINDOW_OPENGL) {
-            window->flags &= ~SDL_WINDOW_OPENGL;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
+            కిటికీ->flags &= ~SDL_కిటికీ_OPENGL;
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_VULKAN) {
-            window->flags &= ~SDL_WINDOW_VULKAN;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_VULKAN) {
+            కిటికీ->flags &= ~SDL_కిటికీ_VULKAN;
             SDL_Vulkan_UnloadLibrary();
         }
-        window->flags |= SDL_WINDOW_METAL;
+        కిటికీ->flags |= SDL_కిటికీ_METAL;
     }
 
-    return _this->Metal_CreateView(_this, window);
+    తిరిగి _this->Metal_CreateView(_this, కిటికీ);
 }
 
-void SDL_Metal_DestroyView(SDL_MetalView view)
+శూన్య SDL_Metal_DestroyView(SDL_MetalView view)
 {
-    if (_this && view && _this->Metal_DestroyView) {
+    ఒకవేళ (_this && view && _this->Metal_DestroyView) {
         _this->Metal_DestroyView(_this, view);
     }
 }
 
-void *SDL_Metal_GetLayer(SDL_MetalView view)
+శూన్య *SDL_Metal_GetLayer(SDL_MetalView view)
 {
-    if (_this && _this->Metal_GetLayer) {
+    ఒకవేళ (_this && _this->Metal_GetLayer) {
         CHECK_PARAM(!view) {
             SDL_InvalidParamError("view");
-            return NULL;
+            తిరిగి ఖాళీ;
         }
-        return _this->Metal_GetLayer(_this, view);
-    } else {
-        SDL_SetError("Metal is not supported.");
-        return NULL;
+        తిరిగి _this->Metal_GetLayer(_this, view);
+    } లేకపోతే {
+        SDL_సమితి_Error("Metal is not supported.");
+        తిరిగి ఖాళీ;
     }
 }
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
-const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+స్థిరరాశి అక్షరం *SDL_GetCSSCursorName(SDL_SystemCursor id, స్థిరరాశి అక్షరం **fallback_name)
 {
     // Reference: https://www.w3.org/TR/css-ui-4/#cursor
     // Also in: https://www.freedesktop.org/wiki/Specifications/cursor-spec/
-    switch (id) {
-    case SDL_SYSTEM_CURSOR_DEFAULT:
-        return "default";
+    ఎంపిక (id) {
+    స్థితి SDL_SYSTEM_CURSOR_DEFAULT:
+        తిరిగి "default";
 
-    case SDL_SYSTEM_CURSOR_TEXT:
-        return "text";
+    స్థితి SDL_SYSTEM_CURSOR_పాఠ్యం:
+        తిరిగి "text";
 
-    case SDL_SYSTEM_CURSOR_WAIT:
-        return "wait";
+    స్థితి SDL_SYSTEM_CURSOR_WAIT:
+        తిరిగి "wait";
 
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-        return "crosshair";
+    స్థితి SDL_SYSTEM_CURSOR_CROSSHAIR:
+        తిరిగి "crosshair";
 
-    case SDL_SYSTEM_CURSOR_PROGRESS:
-        return "progress";
+    స్థితి SDL_SYSTEM_CURSOR_పురోగతి:
+        తిరిగి "progress";
 
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
-        if (fallback_name) {
+    స్థితి SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+        ఒకవేళ (fallback_name) {
             // only a single arrow
             *fallback_name = "nw-resize";
         }
-        return "nwse-resize";
+        తిరిగి "nwse-resize";
 
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
-        if (fallback_name) {
+    స్థితి SDL_SYSTEM_CURSOR_NESW_RESIZE:
+        ఒకవేళ (fallback_name) {
             // only a single arrow
             *fallback_name = "ne-resize";
         }
-        return "nesw-resize";
+        తిరిగి "nesw-resize";
 
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
-        if (fallback_name) {
+    స్థితి SDL_SYSTEM_CURSOR_EW_RESIZE:
+        ఒకవేళ (fallback_name) {
             *fallback_name = "col-resize";
         }
-        return "ew-resize";
+        తిరిగి "ew-resize";
 
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
-        if (fallback_name) {
+    స్థితి SDL_SYSTEM_CURSOR_NS_RESIZE:
+        ఒకవేళ (fallback_name) {
             *fallback_name = "row-resize";
         }
-        return "ns-resize";
+        తిరిగి "ns-resize";
 
-    case SDL_SYSTEM_CURSOR_MOVE:
-        if (fallback_name) {
+    స్థితి SDL_SYSTEM_CURSOR_MOVE:
+        ఒకవేళ (fallback_name) {
             *fallback_name = "all-scroll";
         }
-        return "move";
+        తిరిగి "move";
 
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
-        return "not-allowed";
+    స్థితి SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+        తిరిగి "not-allowed";
 
-    case SDL_SYSTEM_CURSOR_POINTER:
-        return "pointer";
+    స్థితి SDL_SYSTEM_CURSOR_సూచిక:
+        తిరిగి "pointer";
 
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
-        return "nw-resize";
+    స్థితి SDL_SYSTEM_CURSOR_NW_RESIZE:
+        తిరిగి "nw-resize";
 
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
-        return "n-resize";
+    స్థితి SDL_SYSTEM_CURSOR_N_RESIZE:
+        తిరిగి "n-resize";
 
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
-        return "ne-resize";
+    స్థితి SDL_SYSTEM_CURSOR_NE_RESIZE:
+        తిరిగి "ne-resize";
 
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
-        return "e-resize";
+    స్థితి SDL_SYSTEM_CURSOR_E_RESIZE:
+        తిరిగి "e-resize";
 
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
-        return "se-resize";
+    స్థితి SDL_SYSTEM_CURSOR_SE_RESIZE:
+        తిరిగి "se-resize";
 
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
-        return "s-resize";
+    స్థితి SDL_SYSTEM_CURSOR_S_RESIZE:
+        తిరిగి "s-resize";
 
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
-        return "sw-resize";
+    స్థితి SDL_SYSTEM_CURSOR_SW_RESIZE:
+        తిరిగి "sw-resize";
 
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
-        return "w-resize";
+    స్థితి SDL_SYSTEM_CURSOR_W_RESIZE:
+        తిరిగి "w-resize";
 
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
-        return "context-menu";
+    స్థితి SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+        తిరిగి "context-menu";
 
-    case SDL_SYSTEM_CURSOR_HELP:
-        return "help";
+    స్థితి SDL_SYSTEM_CURSOR_HELP:
+        తిరిగి "help";
 
-    case SDL_SYSTEM_CURSOR_CELL:
-        return "cell";
+    స్థితి SDL_SYSTEM_CURSOR_CELL:
+        తిరిగి "cell";
 
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
-        return "vertical-text";
+    స్థితి SDL_SYSTEM_CURSOR_VERTICAL_పాఠ్యం:
+        తిరిగి "vertical-text";
 
-    case SDL_SYSTEM_CURSOR_ALIAS:
-        return "alias";
+    స్థితి SDL_SYSTEM_CURSOR_ALIAS:
+        తిరిగి "alias";
 
-    case SDL_SYSTEM_CURSOR_COPY:
-        return "copy";
+    స్థితి SDL_SYSTEM_CURSOR_COPY:
+        తిరిగి "copy";
 
-    case SDL_SYSTEM_CURSOR_NO_DROP:
-        return "no-drop";
+    స్థితి SDL_SYSTEM_CURSOR_NO_DROP:
+        తిరిగి "no-drop";
 
-    case SDL_SYSTEM_CURSOR_GRAB:
-        return "grab";
+    స్థితి SDL_SYSTEM_CURSOR_GRAB:
+        తిరిగి "grab";
 
-    case SDL_SYSTEM_CURSOR_GRABBING:
-        return "grabbing";
+    స్థితి SDL_SYSTEM_CURSOR_GRABBING:
+        తిరిగి "grabbing";
 
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
-        return "col-resize";
+    స్థితి SDL_SYSTEM_CURSOR_నిలువు_RESIZE:
+        తిరిగి "col-resize";
 
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
-        return "row-resize";
+    స్థితి SDL_SYSTEM_CURSOR_అడ్డువరుస_RESIZE:
+        తిరిగి "row-resize";
 
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
-        if (fallback_name) {
+    స్థితి SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        ఒకవేళ (fallback_name) {
             *fallback_name = "move";
         }
-        return "all-scroll";
+        తిరిగి "all-scroll";
 
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
-        return "zoom-in";
+    స్థితి SDL_SYSTEM_CURSOR_ZOOM_లోపల:
+        తిరిగి "zoom-in";
 
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
-        return "zoom-out";
+    స్థితి SDL_SYSTEM_CURSOR_ZOOM_బహిర్గతం:
+        తిరిగి "zoom-out";
 
-    default:
-        return "default";
+    అప్రమేయ:
+        తిరిగి "default";
     }
 }
-#endif
+#అయితే_ముగింపు

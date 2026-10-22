@@ -18,90 +18,90 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if SDL_VIDEO_DRIVER_WAYLAND
+#ఒకవేళ SDL_VIDEO_DRIVER_WAYLAND
 
-#include "../SDL_sysvideo.h"
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandevents_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "text-input-unstable-v3-client-protocol.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "SDL_waylandvideo.h"
+#అన్తర్భావ "SDL_waylandevents_c.h"
+#అన్తర్భావ "../../events/SDL_keyboard_c.h"
+#అన్తర్భావ "text-input-unstable-v3-client-protocol.h"
 
 bool Wayland_InitKeyboard(SDL_VideoDevice *_this)
 {
-#ifdef SDL_USE_IME
-    SDL_VideoData *internal = _this->internal;
-    if (!internal->text_input_manager) {
+#నిర్వచితమైతే SDL_USE_IME
+    SDL_Video_దత్తాంశం *అంతర్గత = _this->అంతర్గత;
+    ఒకవేళ (!అంతర్గత->పాఠ్యం_ఆదానం_manager) {
         SDL_IME_Init();
     }
-#endif
-    SDL_SetScancodeName(SDL_SCANCODE_APPLICATION, "Menu");
+#అయితే_ముగింపు
+    SDL_సమితి_Scancode_Name(SDL_SCANCODE_APPLICATION, "Menu");
 
-    return true;
+    తిరిగి true;
 }
 
-void Wayland_QuitKeyboard(SDL_VideoDevice *_this)
+శూన్య Wayland_QuitKeyboard(SDL_VideoDevice *_this)
 {
-#ifdef SDL_USE_IME
-    SDL_VideoData *internal = _this->internal;
-    if (!internal->text_input_manager) {
+#నిర్వచితమైతే SDL_USE_IME
+    SDL_Video_దత్తాంశం *అంతర్గత = _this->అంతర్గత;
+    ఒకవేళ (!అంతర్గత->పాఠ్యం_ఆదానం_manager) {
         SDL_IME_Quit();
     }
-#endif
+#అయితే_ముగింపు
 }
 
-void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
+శూన్య Wayland_Seat_Update_పాఠ్యం_ఆదానం(SDL_WaylandSeat *seat)
 {
-    if (seat->text_input.zwp_text_input) {
-        SDL_WindowData *focus = seat->keyboard.focus;
+    ఒకవేళ (seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం) {
+        SDL_కిటికీ_దత్తాంశం *focus = seat->keyboard.focus;
 
-        if (focus && focus->text_input_props.active) {
-            SDL_Window *window = focus->sdlwindow;
+        ఒకవేళ (focus && focus->పాఠ్యం_ఆదానం_props.చురుకైన) {
+            SDL_కిటికీ *కిటికీ = focus->sdlwindow;
 
             // Enabling will reset all state, so don't do it redundantly.
-            if (!seat->text_input.enabled) {
-                seat->text_input.enabled = true;
-                zwp_text_input_v3_enable(seat->text_input.zwp_text_input);
+            ఒకవేళ (!seat->పాఠ్యం_ఆదానం.enabled) {
+                seat->పాఠ్యం_ఆదానం.enabled = true;
+                zwp_పాఠ్యం_ఆదానం_v3_enable(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం);
 
                 // Now that it's enabled, set the input properties
-                zwp_text_input_v3_set_content_type(seat->text_input.zwp_text_input, focus->text_input_props.hint, focus->text_input_props.purpose);
-                if (!SDL_RectEmpty(&window->text_input_rect)) {
-                    const SDL_Rect scaled_rect = {
-                        (int)SDL_floor(window->text_input_rect.x / focus->pointer_scale.x),
-                        (int)SDL_floor(window->text_input_rect.y / focus->pointer_scale.y),
-                        (int)SDL_ceil(window->text_input_rect.w / focus->pointer_scale.x),
-                        (int)SDL_ceil(window->text_input_rect.h / focus->pointer_scale.y)
+                zwp_పాఠ్యం_ఆదానం_v3_సమితి_content_type(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం, focus->పాఠ్యం_ఆదానం_props.hint, focus->పాఠ్యం_ఆదానం_props.purpose);
+                ఒకవేళ (!SDL_Rect_ఖాళీలు(&కిటికీ->పాఠ్యం_ఆదానం_rect)) {
+                    స్థిరరాశి SDL_Rect scaled_rect = {
+                        (పూర్ణాంకం)SDL_floor(కిటికీ->పాఠ్యం_ఆదానం_rect.x / focus->సూచిక_scale.x),
+                        (పూర్ణాంకం)SDL_floor(కిటికీ->పాఠ్యం_ఆదానం_rect.y / focus->సూచిక_scale.y),
+                        (పూర్ణాంకం)SDL_ceil(కిటికీ->పాఠ్యం_ఆదానం_rect.w / focus->సూచిక_scale.x),
+                        (పూర్ణాంకం)SDL_ceil(కిటికీ->పాఠ్యం_ఆదానం_rect.h / focus->సూచిక_scale.y)
                     };
-                    const int scaled_cursor = (int)SDL_floor(window->text_input_cursor / focus->pointer_scale.x);
+                    స్థిరరాశి పూర్ణాంకం scaled_cursor = (పూర్ణాంకం)SDL_floor(కిటికీ->పాఠ్యం_ఆదానం_cursor / focus->సూచిక_scale.x);
 
-                    SDL_copyp(&seat->text_input.text_input_rect, &scaled_rect);
-                    seat->text_input.text_input_cursor = scaled_cursor;
+                    SDL_copyp(&seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_rect, &scaled_rect);
+                    seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_cursor = scaled_cursor;
 
                     // Clamp the x value so it doesn't run too far past the end of the text input area.
-                    zwp_text_input_v3_set_cursor_rectangle(seat->text_input.zwp_text_input,
+                    zwp_పాఠ్యం_ఆదానం_v3_సమితి_cursor_rectangle(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం,
                                                            SDL_min(scaled_rect.x + scaled_cursor, scaled_rect.x + scaled_rect.w),
                                                            scaled_rect.y,
                                                            1,
                                                            scaled_rect.h);
                 }
-                zwp_text_input_v3_commit(seat->text_input.zwp_text_input);
+                zwp_పాఠ్యం_ఆదానం_v3_commit(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం);
 
-                if (seat->keyboard.xkb.compose_state) {
+                ఒకవేళ (seat->keyboard.xkb.compose_state) {
                     // Reset compose state so composite and dead keys don't carry over
                     WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
                 }
             }
-        } else {
-            if (seat->text_input.enabled) {
-                seat->text_input.enabled = false;
-                SDL_zero(seat->text_input.text_input_rect);
-                seat->text_input.text_input_cursor = 0;
-                zwp_text_input_v3_disable(seat->text_input.zwp_text_input);
-                zwp_text_input_v3_commit(seat->text_input.zwp_text_input);
+        } లేకపోతే {
+            ఒకవేళ (seat->పాఠ్యం_ఆదానం.enabled) {
+                seat->పాఠ్యం_ఆదానం.enabled = false;
+                SDL_zero(seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_rect);
+                seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_cursor = 0;
+                zwp_పాఠ్యం_ఆదానం_v3_disable(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం);
+                zwp_పాఠ్యం_ఆదానం_v3_commit(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం);
             }
 
-            if (seat->keyboard.xkb.compose_state) {
+            ఒకవేళ (seat->keyboard.xkb.compose_state) {
                 // Reset compose state so composite and dead keys don't carry over
                 WAYLAND_xkb_compose_state_reset(seat->keyboard.xkb.compose_state);
             }
@@ -109,78 +109,78 @@ void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat)
     }
 }
 
-bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+bool Wayland_ప్రారంభం_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props)
 {
-    SDL_VideoData *display = _this->internal;
+    SDL_Video_దత్తాంశం *display = _this->అంతర్గత;
 
-    if (display->text_input_manager) {
-        SDL_WindowData *wind = window->internal;
-        wind->text_input_props.hint = ZWP_TEXT_INPUT_V3_CONTENT_HINT_NONE;
+    ఒకవేళ (display->పాఠ్యం_ఆదానం_manager) {
+        SDL_కిటికీ_దత్తాంశం *wind = కిటికీ->అంతర్గత;
+        wind->పాఠ్యం_ఆదానం_props.hint = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_NONE;
 
-        switch (SDL_GetTextInputType(props)) {
-        default:
-        case SDL_TEXTINPUT_TYPE_TEXT:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NORMAL;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NAME;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_EMAIL;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NORMAL;
-            wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA;
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PASSWORD;
-            wind->text_input_props.hint |= (ZWP_TEXT_INPUT_V3_CONTENT_HINT_HIDDEN_TEXT | ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PASSWORD;
-            wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA;
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_NUMBER;
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PIN;
-            wind->text_input_props.hint |= (ZWP_TEXT_INPUT_V3_CONTENT_HINT_HIDDEN_TEXT | ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-            wind->text_input_props.purpose = ZWP_TEXT_INPUT_V3_CONTENT_PURPOSE_PIN;
-            wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_SENSITIVE_DATA;
-            break;
+        ఎంపిక (SDL_Get_పాఠ్యం_ఆదానం_Type(props)) {
+        అప్రమేయ:
+        స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_సాధారణ;
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_NAME:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_NAME;
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_EMAIL:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_EMAIL;
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_USERNAME:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_సాధారణ;
+            wind->పాఠ్యం_ఆదానం_props.hint |= ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_SENSITIVE_దత్తాంశం;
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_PASSWORD_HIDDEN:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_PASSWORD;
+            wind->పాఠ్యం_ఆదానం_props.hint |= (ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_HIDDEN_పాఠ్యం | ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_SENSITIVE_దత్తాంశం);
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_PASSWORD_VISIBLE:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_PASSWORD;
+            wind->పాఠ్యం_ఆదానం_props.hint |= ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_SENSITIVE_దత్తాంశం;
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_సంఖ్య;
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య_PASSWORD_HIDDEN:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_PIN;
+            wind->పాఠ్యం_ఆదానం_props.hint |= (ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_HIDDEN_పాఠ్యం | ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_SENSITIVE_దత్తాంశం);
+            ఆపు;
+        స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య_PASSWORD_VISIBLE:
+            wind->పాఠ్యం_ఆదానం_props.purpose = ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_PURPOSE_PIN;
+            wind->పాఠ్యం_ఆదానం_props.hint |= ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_SENSITIVE_దత్తాంశం;
+            ఆపు;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
-        default:
-        case SDL_CAPITALIZE_NONE:
-            break;
-        case SDL_CAPITALIZE_LETTERS:
-            wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_UPPERCASE;
-            break;
-        case SDL_CAPITALIZE_WORDS:
-            wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_TITLECASE;
-            break;
-        case SDL_CAPITALIZE_SENTENCES:
-            wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_AUTO_CAPITALIZATION;
-            break;
+        ఎంపిక (SDL_Get_పాఠ్యం_ఆదానం_Capitalization(props)) {
+        అప్రమేయ:
+        స్థితి SDL_CAPITALIZE_NONE:
+            ఆపు;
+        స్థితి SDL_CAPITALIZE_LETTERS:
+            wind->పాఠ్యం_ఆదానం_props.hint |= ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_UPPERCASE;
+            ఆపు;
+        స్థితి SDL_CAPITALIZE_పదాలు:
+            wind->పాఠ్యం_ఆదానం_props.hint |= ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_TITLECASE;
+            ఆపు;
+        స్థితి SDL_CAPITALIZE_SENTENCES:
+            wind->పాఠ్యం_ఆదానం_props.hint |= ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_AUTO_CAPITALIZATION;
+            ఆపు;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
-            wind->text_input_props.hint |= (ZWP_TEXT_INPUT_V3_CONTENT_HINT_COMPLETION | ZWP_TEXT_INPUT_V3_CONTENT_HINT_SPELLCHECK);
+        ఒకవేళ (SDL_Get_పాఠ్యం_ఆదానం_Autocorrect(props)) {
+            wind->పాఠ్యం_ఆదానం_props.hint |= (ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_COMPLETION | ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_SPELLCHECK);
         }
-        if (SDL_GetTextInputMultiline(props)) {
-            wind->text_input_props.hint |= ZWP_TEXT_INPUT_V3_CONTENT_HINT_MULTILINE;
+        ఒకవేళ (SDL_Get_పాఠ్యం_ఆదానం_Multiline(props)) {
+            wind->పాఠ్యం_ఆదానం_props.hint |= ZWP_పాఠ్యం_ఆదానం_V3_CONTENT_HINT_MULTILINE;
         }
 
-        wind->text_input_props.active = true;
+        wind->పాఠ్యం_ఆదానం_props.చురుకైన = true;
 
         SDL_WaylandSeat *seat;
         wl_list_for_each (seat, &display->seat_list, link) {
-            if (seat->keyboard.focus == wind) {
-                Wayland_SeatUpdateTextInput(seat);
+            ఒకవేళ (seat->keyboard.focus == wind) {
+                Wayland_Seat_Update_పాఠ్యం_ఆదానం(seat);
             }
         }
     }
@@ -188,71 +188,71 @@ bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
     /* Always return true, even if the text input protocol isn't supported, as basic
      * text can still be obtained from keysyms and the composition system.
      */
-    return true;
+    తిరిగి true;
 }
 
-bool Wayland_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_Stop_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_VideoData *display = _this->internal;
+    SDL_Video_దత్తాంశం *display = _this->అంతర్గత;
 
-    if (display->text_input_manager) {
+    ఒకవేళ (display->పాఠ్యం_ఆదానం_manager) {
         SDL_WaylandSeat *seat;
-        SDL_WindowData *wind = window->internal;
-        wind->text_input_props.active = false;
+        SDL_కిటికీ_దత్తాంశం *wind = కిటికీ->అంతర్గత;
+        wind->పాఠ్యం_ఆదానం_props.చురుకైన = false;
 
         wl_list_for_each (seat, &display->seat_list, link) {
-            if (seat->keyboard.focus == wind) {
-                Wayland_SeatUpdateTextInput(seat);
+            ఒకవేళ (seat->keyboard.focus == wind) {
+                Wayland_Seat_Update_పాఠ్యం_ఆదానం(seat);
             }
         }
     }
-#ifdef SDL_USE_IME
-    else {
+#నిర్వచితమైతే SDL_USE_IME
+    లేకపోతే {
         SDL_IME_Reset();
     }
-#endif
+#అయితే_ముగింపు
 
-    return true;
+    తిరిగి true;
 }
 
-bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_Update_పాఠ్యం_ఆదానం_Area(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_VideoData *internal = _this->internal;
-    if (internal->text_input_manager) {
+    SDL_Video_దత్తాంశం *అంతర్గత = _this->అంతర్గత;
+    ఒకవేళ (అంతర్గత->పాఠ్యం_ఆదానం_manager) {
         SDL_WaylandSeat *seat;
-        SDL_WindowData *wind = window->internal;
+        SDL_కిటికీ_దత్తాంశం *wind = కిటికీ->అంతర్గత;
 
-        wl_list_for_each (seat, &internal->seat_list, link) {
-            if (seat->text_input.zwp_text_input && seat->keyboard.focus == wind) {
-                const SDL_Rect scaled_rect = {
-                    (int)SDL_floor(window->text_input_rect.x / wind->pointer_scale.x),
-                    (int)SDL_floor(window->text_input_rect.y / wind->pointer_scale.y),
-                    (int)SDL_ceil(window->text_input_rect.w / wind->pointer_scale.x),
-                    (int)SDL_ceil(window->text_input_rect.h / wind->pointer_scale.y)
+        wl_list_for_each (seat, &అంతర్గత->seat_list, link) {
+            ఒకవేళ (seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం && seat->keyboard.focus == wind) {
+                స్థిరరాశి SDL_Rect scaled_rect = {
+                    (పూర్ణాంకం)SDL_floor(కిటికీ->పాఠ్యం_ఆదానం_rect.x / wind->సూచిక_scale.x),
+                    (పూర్ణాంకం)SDL_floor(కిటికీ->పాఠ్యం_ఆదానం_rect.y / wind->సూచిక_scale.y),
+                    (పూర్ణాంకం)SDL_ceil(కిటికీ->పాఠ్యం_ఆదానం_rect.w / wind->సూచిక_scale.x),
+                    (పూర్ణాంకం)SDL_ceil(కిటికీ->పాఠ్యం_ఆదానం_rect.h / wind->సూచిక_scale.y)
                 };
-                const int scaled_cursor = (int)SDL_floor(window->text_input_cursor / wind->pointer_scale.x);
+                స్థిరరాశి పూర్ణాంకం scaled_cursor = (పూర్ణాంకం)SDL_floor(కిటికీ->పాఠ్యం_ఆదానం_cursor / wind->సూచిక_scale.x);
 
-                if (!SDL_RectsEqual(&scaled_rect, &seat->text_input.text_input_rect) || scaled_cursor != seat->text_input.text_input_cursor) {
-                    SDL_copyp(&seat->text_input.text_input_rect, &scaled_rect);
-                    seat->text_input.text_input_cursor = scaled_cursor;
+                ఒకవేళ (!SDL_RectsEqual(&scaled_rect, &seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_rect) || scaled_cursor != seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_cursor) {
+                    SDL_copyp(&seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_rect, &scaled_rect);
+                    seat->పాఠ్యం_ఆదానం.పాఠ్యం_ఆదానం_cursor = scaled_cursor;
 
                     // Clamp the x value so it doesn't run too far past the end of the text input area.
-                    zwp_text_input_v3_set_cursor_rectangle(seat->text_input.zwp_text_input,
+                    zwp_పాఠ్యం_ఆదానం_v3_సమితి_cursor_rectangle(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం,
                                                            SDL_min(scaled_rect.x + scaled_cursor, scaled_rect.x + scaled_rect.w),
                                                            scaled_rect.y,
                                                            1,
                                                            scaled_rect.h);
-                    zwp_text_input_v3_commit(seat->text_input.zwp_text_input);
+                    zwp_పాఠ్యం_ఆదానం_v3_commit(seat->పాఠ్యం_ఆదానం.zwp_పాఠ్యం_ఆదానం);
                 }
             }
         }
     }
-#ifdef SDL_USE_IME
-    else {
-        SDL_IME_UpdateTextInputArea(window);
+#నిర్వచితమైతే SDL_USE_IME
+    లేకపోతే {
+        SDL_IME_Update_పాఠ్యం_ఆదానం_Area(కిటికీ);
     }
-#endif
-    return true;
+#అయితే_ముగింపు
+    తిరిగి true;
 }
 
 bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
@@ -261,20 +261,20 @@ bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
      * _only_ way to get text input. So, in addition to checking for the text
      * input protocol, make sure we don't have any physical keyboards either.
      */
-    SDL_VideoData *internal = _this->internal;
+    SDL_Video_దత్తాంశం *అంతర్గత = _this->అంతర్గత;
     SDL_WaylandSeat *seat;
-    bool hastextmanager = (internal->text_input_manager != NULL);
+    bool hastextmanager = (అంతర్గత->పాఠ్యం_ఆదానం_manager != ఖాళీ);
     bool haskeyboard = false;
 
     // Check for at least one keyboard object on one seat.
-    wl_list_for_each (seat, &internal->seat_list, link) {
-        if (seat->keyboard.wl_keyboard) {
+    wl_list_for_each (seat, &అంతర్గత->seat_list, link) {
+        ఒకవేళ (seat->keyboard.wl_keyboard) {
             haskeyboard = true;
-            break;
+            ఆపు;
         }
     }
 
-    return !haskeyboard && hastextmanager;
+    తిరిగి !haskeyboard && hastextmanager;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WAYLAND

@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_riscosdefs_h_
-#define SDL_riscosdefs_h_
+#నిర్వచితం_కాకపోతే SDL_riscosdefs_h_
+#నిర్వచించు SDL_riscosdefs_h_
 
-typedef struct sprite_area
+రకనిర్వచనం నిర్మాణం sprite_area
 {
-    int size;  // +0
-    int count; // +4
-    int start; // +8
-    int end;   // +12
+    పూర్ణాంకం కొలత;  // +0
+    పూర్ణాంకం లెక్క; // +4
+    పూర్ణాంకం ప్రారంభం; // +8
+    పూర్ణాంకం చివర;   // +12
 } sprite_area;
 
-SDL_COMPILE_TIME_ASSERT(sprite_area, sizeof(sprite_area) == 16);
+SDL_COMPILE_సమయం_ASSERT(sprite_area, పరిమాణం(sprite_area) == 16);
 
-typedef struct sprite_header
+రకనిర్వచనం నిర్మాణం sprite_శీర్షిక
 {
-    int next;         // +0
-    char name[12];    // +4
-    int width;        // +16
-    int height;       // +20
-    int first_bit;    // +24
-    int last_bit;     // +28
-    int image_offset; // +32
-    int mask_offset;  // +36
-    int mode;         // +40
-} sprite_header;
+    పూర్ణాంకం తదుపరి;         // +0
+    అక్షరం name[12];    // +4
+    పూర్ణాంకం వెడల్పు;        // +16
+    పూర్ణాంకం ఎత్తు;       // +20
+    పూర్ణాంకం మొదటి_బిట్టు;    // +24
+    పూర్ణాంకం చివరి_బిట్టు;     // +28
+    పూర్ణాంకం image_స్థానభ్రంశం_2; // +32
+    పూర్ణాంకం ముసుగు_స్థానభ్రంశం;  // +36
+    పూర్ణాంకం బహుళకం;         // +40
+} sprite_శీర్షిక;
 
-SDL_COMPILE_TIME_ASSERT(sprite_header, sizeof(sprite_header) == 44);
+SDL_COMPILE_సమయం_ASSERT(sprite_శీర్షిక, పరిమాణం(sprite_శీర్షిక) == 44);
 
-#endif // SDL_riscosdefs_h_
+#అయితే_ముగింపు // SDL_riscosdefs_h_

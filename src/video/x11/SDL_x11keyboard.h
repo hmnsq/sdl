@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_x11keyboard_h_
-#define SDL_x11keyboard_h_
+#నిర్వచితం_కాకపోతే SDL_x11keyboard_h_
+#నిర్వచించు SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+బాహ్య bool X11_InitKeyboard(SDL_VideoDevice *_this);
+బాహ్య శూన్య X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+బాహ్య శూన్య X11_QuitKeyboard(SDL_VideoDevice *_this);
+బాహ్య శూన్య X11_Create_ఆదానం_Context(SDL_కిటికీ_దత్తాంశం *దత్తాంశం);
+బాహ్య శూన్య X11_Destroy_ఆదానం_Context(SDL_కిటికీ_దత్తాంశం *దత్తాంశం);
+బాహ్య శూన్య X11_ClearComposition(SDL_కిటికీ_దత్తాంశం *దత్తాంశం);
+బాహ్య bool X11_ప్రారంభం_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props);
+బాహ్య bool X11_Stop_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool X11_Update_పాఠ్యం_ఆదానం_Area(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+బాహ్య శూన్య X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props);
+బాహ్య శూన్య X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 
-#endif // SDL_x11keyboard_h_
+#అయితే_ముగింపు // SDL_x11keyboard_h_

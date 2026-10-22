@@ -18,469 +18,469 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#include "SDL_clipboard_c.h"
-#include "SDL_sysvideo.h"
-#include "../events/SDL_events_c.h"
-#include "../events/SDL_clipboardevents_c.h"
+#అన్తర్భావ "SDL_clipboard_c.h"
+#అన్తర్భావ "SDL_sysvideo.h"
+#అన్తర్భావ "../events/SDL_events_c.h"
+#అన్తర్భావ "../events/SDL_clipboardevents_c.h"
 
-void SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this)
+శూన్య SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this)
 {
-    if (_this->clipboard_mime_types) {
-        for (size_t i = 0; i < _this->num_clipboard_mime_types; ++i) {
+    ఒకవేళ (_this->clipboard_mime_types) {
+        కొరకు (size_t i = 0; i < _this->అంకె_clipboard_mime_types; ++i) {
             SDL_free(_this->clipboard_mime_types[i]);
         }
         SDL_free(_this->clipboard_mime_types);
-        _this->clipboard_mime_types = NULL;
-        _this->num_clipboard_mime_types = 0;
+        _this->clipboard_mime_types = ఖాళీ;
+        _this->అంకె_clipboard_mime_types = 0;
     }
 }
 
 
-void SDL_CancelClipboardData(Uint32 sequence)
+శూన్య SDL_Cancel_Clipboard_దత్తాంశం(Uint32 sequence)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return;
+    ఒకవేళ (!_this) {
+        తిరిగి;
     }
 
-    if (sequence && sequence != _this->clipboard_sequence) {
+    ఒకవేళ (sequence && sequence != _this->clipboard_sequence) {
         // This clipboard data was already canceled
-        return;
+        తిరిగి;
     }
 
-    if (_this->clipboard_cleanup) {
+    ఒకవేళ (_this->clipboard_cleanup) {
         _this->clipboard_cleanup(_this->clipboard_userdata);
     }
 
     SDL_FreeClipboardMimeTypes(_this);
 
-    _this->clipboard_callback = NULL;
-    _this->clipboard_cleanup = NULL;
-    _this->clipboard_userdata = NULL;
+    _this->clipboard_callback = ఖాళీ;
+    _this->clipboard_cleanup = ఖాళీ;
+    _this->clipboard_userdata = ఖాళీ;
 }
 
-bool SDL_SaveClipboardMimeTypes(const char *const *mime_types, size_t num_mime_types)
+bool SDL_SaveClipboardMimeTypes(స్థిరరాశి అక్షరం *స్థిరరాశి *mime_types, size_t అంకె_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
     SDL_FreeClipboardMimeTypes(_this);
 
-    if (mime_types && num_mime_types > 0) {
-        size_t num_allocated = 0;
+    ఒకవేళ (mime_types && అంకె_mime_types > 0) {
+        size_t అంకె_allocated = 0;
 
-        _this->clipboard_mime_types = (char **)SDL_malloc(num_mime_types * sizeof(char *));
-        if (_this->clipboard_mime_types) {
-            for (size_t i = 0; i < num_mime_types; ++i) {
+        _this->clipboard_mime_types = (అక్షరం **)SDL_malloc(అంకె_mime_types * పరిమాణం(అక్షరం *));
+        ఒకవేళ (_this->clipboard_mime_types) {
+            కొరకు (size_t i = 0; i < అంకె_mime_types; ++i) {
                 _this->clipboard_mime_types[i] = SDL_strdup(mime_types[i]);
-                if (_this->clipboard_mime_types[i]) {
-                    ++num_allocated;
+                ఒకవేళ (_this->clipboard_mime_types[i]) {
+                    ++అంకె_allocated;
                 }
             }
         }
-        if (num_allocated < num_mime_types) {
+        ఒకవేళ (అంకె_allocated < అంకె_mime_types) {
             SDL_FreeClipboardMimeTypes(_this);
-            return false;
+            తిరిగి false;
         }
-        _this->num_clipboard_mime_types = num_mime_types;
+        _this->అంకె_clipboard_mime_types = అంకె_mime_types;
     }
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup, void *userdata, const char *const *mime_types, size_t num_mime_types)
+bool SDL_సమితి_Clipboard_దత్తాంశం(SDL_Clipboard_దత్తాంశం_Callback callback, SDL_ClipboardCleanupCallback cleanup, శూన్య *userdata, స్థిరరాశి అక్షరం *స్థిరరాశి *mime_types, size_t అంకె_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
     // Parameter validation
-    if (!((callback && mime_types && num_mime_types > 0) ||
-          (!callback && !mime_types && num_mime_types == 0))) {
-        return SDL_SetError("Invalid parameters");
+    ఒకవేళ (!((callback && mime_types && అంకె_mime_types > 0) ||
+          (!callback && !mime_types && అంకె_mime_types == 0))) {
+        తిరిగి SDL_సమితి_Error("Invalid parameters");
     }
 
-    SDL_CancelClipboardData(0);
+    SDL_Cancel_Clipboard_దత్తాంశం(0);
 
     ++_this->clipboard_sequence;
-    if (!_this->clipboard_sequence) {
+    ఒకవేళ (!_this->clipboard_sequence) {
         _this->clipboard_sequence = 1;
     }
     _this->clipboard_callback = callback;
     _this->clipboard_cleanup = cleanup;
     _this->clipboard_userdata = userdata;
 
-    if (!SDL_SaveClipboardMimeTypes(mime_types, num_mime_types)) {
-        SDL_ClearClipboardData();
-        return false;
+    ఒకవేళ (!SDL_SaveClipboardMimeTypes(mime_types, అంకె_mime_types)) {
+        SDL_Clear_Clipboard_దత్తాంశం();
+        తిరిగి false;
     }
 
-    if (_this->SetClipboardData) {
-        if (!_this->SetClipboardData(_this)) {
-            return false;
+    ఒకవేళ (_this->సమితి_Clipboard_దత్తాంశం) {
+        ఒకవేళ (!_this->సమితి_Clipboard_దత్తాంశం(_this)) {
+            తిరిగి false;
         }
-    } else if (_this->SetClipboardText) {
-        char *text = NULL;
-        size_t size;
+    } లేకపోతే ఒకవేళ (_this->సమితి_Clipboard_పాఠ్యం) {
+        అక్షరం *పాఠ్యం = ఖాళీ;
+        size_t కొలత;
 
-        for (size_t i = 0; i < num_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
-            if (SDL_IsTextMimeType(mime_type)) {
-                const void *data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &size);
-                if (data) {
-                    text = (char *)SDL_malloc(size + 1);
-                    SDL_memcpy(text, data, size);
-                    text[size] = '\0';
-                    if (!_this->SetClipboardText(_this, text)) {
-                        SDL_free(text);
-                        return false;
+        కొరకు (size_t i = 0; i < అంకె_mime_types; ++i) {
+            స్థిరరాశి అక్షరం *mime_type = _this->clipboard_mime_types[i];
+            ఒకవేళ (SDL_Is_పాఠ్యం_Mime_Type(mime_type)) {
+                స్థిరరాశి శూన్య *దత్తాంశం = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &కొలత);
+                ఒకవేళ (దత్తాంశం) {
+                    పాఠ్యం = (అక్షరం *)SDL_malloc(కొలత + 1);
+                    SDL_memcpy(పాఠ్యం, దత్తాంశం, కొలత);
+                    పాఠ్యం[కొలత] = '\0';
+                    ఒకవేళ (!_this->సమితి_Clipboard_పాఠ్యం(_this, పాఠ్యం)) {
+                        SDL_free(పాఠ్యం);
+                        తిరిగి false;
                     }
-                    break;
+                    ఆపు;
                 }
             }
         }
-        if (text) {
-            SDL_free(text);
-        } else {
-            if (!_this->SetClipboardText(_this, "")) {
-                return false;
+        ఒకవేళ (పాఠ్యం) {
+            SDL_free(పాఠ్యం);
+        } లేకపోతే {
+            ఒకవేళ (!_this->సమితి_Clipboard_పాఠ్యం(_this, "")) {
+                తిరిగి false;
             }
         }
     }
 
-    char **mime_types_copy = SDL_CopyClipboardMimeTypes(mime_types, num_mime_types, true);
-    if (!mime_types_copy) {
-        return SDL_SetError("unable to copy current mime types");
+    అక్షరం **mime_types_copy = SDL_CopyClipboardMimeTypes(mime_types, అంకె_mime_types, true);
+    ఒకవేళ (!mime_types_copy) {
+        తిరిగి SDL_సమితి_Error("unable to copy current mime types");
 	}
-    SDL_SendClipboardUpdate(true, mime_types_copy, num_mime_types);
-    return true;
+    SDL_SendClipboardUpdate(true, mime_types_copy, అంకె_mime_types);
+    తిరిగి true;
 }
 
-bool SDL_ClearClipboardData(void)
+bool SDL_Clear_Clipboard_దత్తాంశం(శూన్య)
 {
-    return SDL_SetClipboardData(NULL, NULL, NULL, NULL, 0);
+    తిరిగి SDL_సమితి_Clipboard_దత్తాంశం(ఖాళీ, ఖాళీ, ఖాళీ, ఖాళీ, 0);
 }
 
-void *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
+శూన్య *SDL_Get_అంతర్గత_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type, size_t *కొలత)
 {
-    void *data = NULL;
+    శూన్య *దత్తాంశం = ఖాళీ;
 
-    if (_this->clipboard_callback) {
-        if (!SDL_HasInternalClipboardData(_this, mime_type)) {
+    ఒకవేళ (_this->clipboard_callback) {
+        ఒకవేళ (!SDL_Has_అంతర్గత_Clipboard_దత్తాంశం(_this, mime_type)) {
             // The callback hasn't advertised that it can handle this mime type
-            return NULL;
+            తిరిగి ఖాళీ;
         }
 
-        const void *provided_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, size);
-        if (provided_data) {
+        స్థిరరాశి శూన్య *provided_దత్తాంశం = _this->clipboard_callback(_this->clipboard_userdata, mime_type, కొలత);
+        ఒకవేళ (provided_దత్తాంశం) {
             // Make a copy of it for the caller and guarantee null termination
-            data = SDL_malloc(*size + sizeof(Uint32));
-            if (data) {
-                SDL_memcpy(data, provided_data, *size);
-                SDL_memset((Uint8 *)data + *size, 0, sizeof(Uint32));
-            } else {
-                *size = 0;
+            దత్తాంశం = SDL_malloc(*కొలత + పరిమాణం(Uint32));
+            ఒకవేళ (దత్తాంశం) {
+                SDL_memcpy(దత్తాంశం, provided_దత్తాంశం, *కొలత);
+                SDL_memset((Uint8 *)దత్తాంశం + *కొలత, 0, పరిమాణం(Uint32));
+            } లేకపోతే {
+                *కొలత = 0;
             }
         }
     }
-    return data;
+    తిరిగి దత్తాంశం;
 }
 
-void *SDL_GetClipboardData(const char *mime_type, size_t *size)
+శూన్య *SDL_Get_Clipboard_దత్తాంశం(స్థిరరాశి అక్షరం *mime_type, size_t *కొలత)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t unused;
+    size_t వాడని;
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
     CHECK_PARAM(!mime_type) {
         SDL_InvalidParamError("mime_type");
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    if (!size) {
-        size = &unused;
+    ఒకవేళ (!కొలత) {
+        కొలత = &వాడని;
     }
 
     // Initialize size to empty, so implementations don't have to worry about it
-    *size = 0;
+    *కొలత = 0;
 
-    if (_this->GetClipboardData) {
-        return _this->GetClipboardData(_this, mime_type, size);
-    } else if (_this->GetClipboardText && SDL_IsTextMimeType(mime_type)) {
-        char *text = _this->GetClipboardText(_this);
-        if (text) {
-            if (*text == '\0') {
-                SDL_free(text);
-                text = NULL;
-            } else {
-                *size = SDL_strlen(text);
+    ఒకవేళ (_this->Get_Clipboard_దత్తాంశం) {
+        తిరిగి _this->Get_Clipboard_దత్తాంశం(_this, mime_type, కొలత);
+    } లేకపోతే ఒకవేళ (_this->Get_Clipboard_పాఠ్యం && SDL_Is_పాఠ్యం_Mime_Type(mime_type)) {
+        అక్షరం *పాఠ్యం = _this->Get_Clipboard_పాఠ్యం(_this);
+        ఒకవేళ (పాఠ్యం) {
+            ఒకవేళ (*పాఠ్యం == '\0') {
+                SDL_free(పాఠ్యం);
+                పాఠ్యం = ఖాళీ;
+            } లేకపోతే {
+                *కొలత = SDL_strlen(పాఠ్యం);
             }
         }
-        return text;
-    } else {
-        return SDL_GetInternalClipboardData(_this, mime_type, size);
+        తిరిగి పాఠ్యం;
+    } లేకపోతే {
+        తిరిగి SDL_Get_అంతర్గత_Clipboard_దత్తాంశం(_this, mime_type, కొలత);
     }
 }
 
-bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool SDL_Has_అంతర్గత_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type)
 {
     size_t i;
 
-    for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-        if (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
-            return true;
+    కొరకు (i = 0; i < _this->అంకె_clipboard_mime_types; ++i) {
+        ఒకవేళ (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
+            తిరిగి true;
         }
     }
-    return false;
+    తిరిగి false;
 }
 
-bool SDL_HasClipboardData(const char *mime_type)
+bool SDL_Has_Clipboard_దత్తాంశం(స్థిరరాశి అక్షరం *mime_type)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
     CHECK_PARAM(!mime_type) {
-        return SDL_InvalidParamError("mime_type");
+        తిరిగి SDL_InvalidParamError("mime_type");
     }
 
-    if (_this->HasClipboardData) {
-        return _this->HasClipboardData(_this, mime_type);
-    } else if (_this->HasClipboardText && SDL_IsTextMimeType(mime_type)) {
-        return _this->HasClipboardText(_this);
-    } else {
-        return SDL_HasInternalClipboardData(_this, mime_type);
+    ఒకవేళ (_this->Has_Clipboard_దత్తాంశం) {
+        తిరిగి _this->Has_Clipboard_దత్తాంశం(_this, mime_type);
+    } లేకపోతే ఒకవేళ (_this->Has_Clipboard_పాఠ్యం && SDL_Is_పాఠ్యం_Mime_Type(mime_type)) {
+        తిరిగి _this->Has_Clipboard_పాఠ్యం(_this);
+    } లేకపోతే {
+        తిరిగి SDL_Has_అంతర్గత_Clipboard_దత్తాంశం(_this, mime_type);
     }
 }
 
-char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_t num_mime_types, bool temporary)
+అక్షరం **SDL_CopyClipboardMimeTypes(స్థిరరాశి అక్షరం *స్థిరరాశి *clipboard_mime_types, size_t అంకె_mime_types, bool temporary)
 {
-    size_t allocSize = sizeof(char *);
-    for (size_t i = 0; i < num_mime_types; i++) {
-        allocSize += sizeof(char *) + SDL_strlen(clipboard_mime_types[i]) + 1;
+    size_t alloc_కొలత = పరిమాణం(అక్షరం *);
+    కొరకు (size_t i = 0; i < అంకె_mime_types; i++) {
+        alloc_కొలత += పరిమాణం(అక్షరం *) + SDL_strlen(clipboard_mime_types[i]) + 1;
     }
 
-    char *ret;
-    if (temporary)
-        ret = (char *)SDL_AllocateTemporaryMemory(allocSize);
-    else
-        ret = (char *)SDL_malloc(allocSize);
-    if (!ret) {
-        return NULL;
+    అక్షరం *ret;
+    ఒకవేళ (temporary)
+        ret = (అక్షరం *)SDL_Allocate_Temporary_జ్ఞాపకం(alloc_కొలత);
+    లేకపోతే
+        ret = (అక్షరం *)SDL_malloc(alloc_కొలత);
+    ఒకవేళ (!ret) {
+        తిరిగి ఖాళీ;
     }
 
-    char **result = (char **)ret;
-    ret += sizeof(char *) * (num_mime_types + 1);
+    అక్షరం **ఫలితం = (అక్షరం **)ret;
+    ret += పరిమాణం(అక్షరం *) * (అంకె_mime_types + 1);
 
-    for (size_t i = 0; i < num_mime_types; i++) {
-        result[i] = ret;
+    కొరకు (size_t i = 0; i < అంకె_mime_types; i++) {
+        ఫలితం[i] = ret;
 
-        const char *mime_type = clipboard_mime_types[i];
+        స్థిరరాశి అక్షరం *mime_type = clipboard_mime_types[i];
         // Copy the whole string including the terminating null char
-        char c;
-        do {
+        అక్షరం c;
+        చేయి {
             c = *ret++ = *mime_type++;
-        } while (c != '\0');
+        } అయితే (c != '\0');
     }
-    result[num_mime_types] = NULL;
+    ఫలితం[అంకె_mime_types] = ఖాళీ;
 
-    return result;
+    తిరిగి ఫలితం;
 
 }
 
-char **SDL_GetClipboardMimeTypes(size_t *num_mime_types)
+అక్షరం **SDL_GetClipboardMimeTypes(size_t *అంకె_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (num_mime_types) {
-        *num_mime_types = 0;
+    ఒకవేళ (అంకె_mime_types) {
+        *అంకె_mime_types = 0;
     }
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    if (num_mime_types) {
-        *num_mime_types = _this->num_clipboard_mime_types;
+    ఒకవేళ (అంకె_mime_types) {
+        *అంకె_mime_types = _this->అంకె_clipboard_mime_types;
     }
-    return SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, false);
+    తిరిగి SDL_CopyClipboardMimeTypes((స్థిరరాశి అక్షరం **)_this->clipboard_mime_types, _this->అంకె_clipboard_mime_types, false);
 }
 
 // Clipboard text
 
-bool SDL_IsTextMimeType(const char *mime_type)
+bool SDL_Is_పాఠ్యం_Mime_Type(స్థిరరాశి అక్షరం *mime_type)
 {
-    return (SDL_strncmp(mime_type, "text", 4) == 0);
+    తిరిగి (SDL_strncmp(mime_type, "text", 4) == 0);
 }
 
-static const char *const *SDL_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+స్థిర స్థిరరాశి అక్షరం *స్థిరరాశి *SDL_Get_పాఠ్యం_Mime_Types(SDL_VideoDevice *_this, size_t *అంకె_mime_types)
 {
-    if (_this->GetTextMimeTypes) {
-        return _this->GetTextMimeTypes(_this, num_mime_types);
-    } else {
-        static const char *const text_mime_types[] = {
+    ఒకవేళ (_this->Get_పాఠ్యం_Mime_Types) {
+        తిరిగి _this->Get_పాఠ్యం_Mime_Types(_this, అంకె_mime_types);
+    } లేకపోతే {
+        స్థిర స్థిరరాశి అక్షరం *స్థిరరాశి పాఠ్యం_mime_types[] = {
             "text/plain;charset=utf-8"
         };
 
-        *num_mime_types = SDL_arraysize(text_mime_types);
-        return text_mime_types;
+        *అంకె_mime_types = SDL_arraysize(పాఠ్యం_mime_types);
+        తిరిగి పాఠ్యం_mime_types;
     }
 }
 
-const void * SDLCALL SDL_ClipboardTextCallback(void *userdata, const char *mime_type, size_t *size)
+స్థిరరాశి శూన్య * SDLCALL SDL_Clipboard_పాఠ్యం_Callback(శూన్య *userdata, స్థిరరాశి అక్షరం *mime_type, size_t *కొలత)
 {
-    char *text = (char *)userdata;
-    if (text) {
-        *size = SDL_strlen(text);
-    } else {
-        *size = 0;
+    అక్షరం *పాఠ్యం = (అక్షరం *)userdata;
+    ఒకవేళ (పాఠ్యం) {
+        *కొలత = SDL_strlen(పాఠ్యం);
+    } లేకపోతే {
+        *కొలత = 0;
     }
-    return text;
+    తిరిగి పాఠ్యం;
 }
 
-bool SDL_SetClipboardText(const char *text)
-{
-    SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t num_mime_types;
-    const char *const *text_mime_types;
-
-    if (!_this) {
-        return SDL_UninitializedVideo();
-    }
-
-    if (text && *text) {
-        text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-
-        return SDL_SetClipboardData(SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text), text_mime_types, num_mime_types);
-    }
-    return SDL_ClearClipboardData();
-}
-
-char *SDL_GetClipboardText(void)
+bool SDL_సమితి_Clipboard_పాఠ్యం(స్థిరరాశి అక్షరం *పాఠ్యం)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t i, num_mime_types;
-    const char *const *text_mime_types;
-    size_t length;
-    char *text = NULL;
+    size_t అంకె_mime_types;
+    స్థిరరాశి అక్షరం *స్థిరరాశి *పాఠ్యం_mime_types;
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
+    }
+
+    ఒకవేళ (పాఠ్యం && *పాఠ్యం) {
+        పాఠ్యం_mime_types = SDL_Get_పాఠ్యం_Mime_Types(_this, &అంకె_mime_types);
+
+        తిరిగి SDL_సమితి_Clipboard_దత్తాంశం(SDL_Clipboard_పాఠ్యం_Callback, SDL_free, SDL_strdup(పాఠ్యం), పాఠ్యం_mime_types, అంకె_mime_types);
+    }
+    తిరిగి SDL_Clear_Clipboard_దత్తాంశం();
+}
+
+అక్షరం *SDL_Get_Clipboard_పాఠ్యం(శూన్య)
+{
+    SDL_VideoDevice *_this = SDL_GetVideoDevice();
+    size_t i, అంకె_mime_types;
+    స్థిరరాశి అక్షరం *స్థిరరాశి *పాఠ్యం_mime_types;
+    size_t నిడివి;
+    అక్షరం *పాఠ్యం = ఖాళీ;
+
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        తిరిగి SDL_strdup("");
     }
 
-    text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
-        void *clipdata = SDL_GetClipboardData(text_mime_types[i], &length);
-        if (clipdata) {
-            text = (char *)clipdata;
-            break;
+    పాఠ్యం_mime_types = SDL_Get_పాఠ్యం_Mime_Types(_this, &అంకె_mime_types);
+    కొరకు (i = 0; i < అంకె_mime_types; ++i) {
+        శూన్య *clipdata = SDL_Get_Clipboard_దత్తాంశం(పాఠ్యం_mime_types[i], &నిడివి);
+        ఒకవేళ (clipdata) {
+            పాఠ్యం = (అక్షరం *)clipdata;
+            ఆపు;
         }
     }
 
-    if (!text) {
-        text = SDL_strdup("");
+    ఒకవేళ (!పాఠ్యం) {
+        పాఠ్యం = SDL_strdup("");
     }
-    return text;
+    తిరిగి పాఠ్యం;
 }
 
-bool SDL_HasClipboardText(void)
+bool SDL_Has_Clipboard_పాఠ్యం(శూన్య)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    size_t i, num_mime_types;
-    const char *const *text_mime_types;
+    size_t i, అంకె_mime_types;
+    స్థిరరాశి అక్షరం *స్థిరరాశి *పాఠ్యం_mime_types;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
-    text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
-        if (SDL_HasClipboardData(text_mime_types[i])) {
-            return true;
+    పాఠ్యం_mime_types = SDL_Get_పాఠ్యం_Mime_Types(_this, &అంకె_mime_types);
+    కొరకు (i = 0; i < అంకె_mime_types; ++i) {
+        ఒకవేళ (SDL_Has_Clipboard_దత్తాంశం(పాఠ్యం_mime_types[i])) {
+            తిరిగి true;
         }
     }
-    return false;
+    తిరిగి false;
 }
 
 // Primary selection text
 
-bool SDL_SetPrimarySelectionText(const char *text)
+bool SDL_సమితి_Primary_Selection_పాఠ్యం(స్థిరరాశి అక్షరం *పాఠ్యం)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
-    if (!text) {
-        text = "";
+    ఒకవేళ (!పాఠ్యం) {
+        పాఠ్యం = "";
     }
-    if (_this->SetPrimarySelectionText) {
-        if (!_this->SetPrimarySelectionText(_this, text)) {
-            return false;
+    ఒకవేళ (_this->సమితి_Primary_Selection_పాఠ్యం) {
+        ఒకవేళ (!_this->సమితి_Primary_Selection_పాఠ్యం(_this, పాఠ్యం)) {
+            తిరిగి false;
         }
-    } else {
-        SDL_free(_this->primary_selection_text);
-        _this->primary_selection_text = SDL_strdup(text);
+    } లేకపోతే {
+        SDL_free(_this->primary_selection_పాఠ్యం);
+        _this->primary_selection_పాఠ్యం = SDL_strdup(పాఠ్యం);
     }
 
-    char **mime_types = SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, true);
-    if (!mime_types) {
-        return SDL_SetError("unable to copy current mime types");
+    అక్షరం **mime_types = SDL_CopyClipboardMimeTypes((స్థిరరాశి అక్షరం **)_this->clipboard_mime_types, _this->అంకె_clipboard_mime_types, true);
+    ఒకవేళ (!mime_types) {
+        తిరిగి SDL_సమితి_Error("unable to copy current mime types");
 	}
-    SDL_SendClipboardUpdate(true, mime_types, _this->num_clipboard_mime_types);
-    return true;
+    SDL_SendClipboardUpdate(true, mime_types, _this->అంకె_clipboard_mime_types);
+    తిరిగి true;
 }
 
-char *SDL_GetPrimarySelectionText(void)
+అక్షరం *SDL_Get_Primary_Selection_పాఠ్యం(శూన్య)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
+    ఒకవేళ (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        తిరిగి SDL_strdup("");
     }
 
-    if (_this->GetPrimarySelectionText) {
-        return _this->GetPrimarySelectionText(_this);
-    } else {
-        const char *text = _this->primary_selection_text;
-        if (!text) {
-            text = "";
+    ఒకవేళ (_this->Get_Primary_Selection_పాఠ్యం) {
+        తిరిగి _this->Get_Primary_Selection_పాఠ్యం(_this);
+    } లేకపోతే {
+        స్థిరరాశి అక్షరం *పాఠ్యం = _this->primary_selection_పాఠ్యం;
+        ఒకవేళ (!పాఠ్యం) {
+            పాఠ్యం = "";
         }
-        return SDL_strdup(text);
+        తిరిగి SDL_strdup(పాఠ్యం);
     }
 }
 
-bool SDL_HasPrimarySelectionText(void)
+bool SDL_Has_Primary_Selection_పాఠ్యం(శూన్య)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    ఒకవేళ (!_this) {
+        తిరిగి SDL_UninitializedVideo();
     }
 
-    if (_this->HasPrimarySelectionText) {
-        return _this->HasPrimarySelectionText(_this);
-    } else {
-        if (_this->primary_selection_text && _this->primary_selection_text[0] != '\0') {
-            return true;
-        } else {
-            return false;
+    ఒకవేళ (_this->Has_Primary_Selection_పాఠ్యం) {
+        తిరిగి _this->Has_Primary_Selection_పాఠ్యం(_this);
+    } లేకపోతే {
+        ఒకవేళ (_this->primary_selection_పాఠ్యం && _this->primary_selection_పాఠ్యం[0] != '\0') {
+            తిరిగి true;
+        } లేకపోతే {
+            తిరిగి false;
         }
     }
 }

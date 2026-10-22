@@ -18,54 +18,54 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../core/unix/SDL_appid.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_pixels_c.h"
+#అన్తర్భావ "../../events/SDL_keyboard_c.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
+#అన్తర్భావ "../../core/unix/SDL_appid.h"
 
-#include "SDL_x11video.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11xfixes.h"
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11mouse.h"
+#అన్తర్భావ "SDL_x11xinput2.h"
+#అన్తర్భావ "SDL_x11xfixes.h"
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "SDL_x11opengles.h"
-#endif
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+#అన్తర్భావ "SDL_x11opengles.h"
+#అయితే_ముగింపు
 
-#include "SDL_x11xsync.h"
+#అన్తర్భావ "SDL_x11xsync.h"
 
-#define _NET_WM_STATE_REMOVE 0l
-#define _NET_WM_STATE_ADD    1l
+#నిర్వచించు _NET_WM_STATE_REMOVE 0l
+#నిర్వచించు NET_WM_STATE_కూడు    1l
 
-#define CHECK_WINDOW_DATA(window)                                       \
-    if (!window) {                                                      \
-        return SDL_SetError("Invalid window");                          \
+#నిర్వచించు CHECK_కిటికీ_దత్తాంశం(కిటికీ)                                       \
+    ఒకవేళ (!కిటికీ) {                                                      \
+        తిరిగి SDL_సమితి_Error("Invalid window");                          \
     }                                                                   \
-    if (!window->internal) {                                          \
-        return SDL_SetError("Invalid window driver data");              \
+    ఒకవేళ (!కిటికీ->అంతర్గత) {                                          \
+        తిరిగి SDL_సమితి_Error("Invalid window driver data");              \
     }
 
-#define CHECK_DISPLAY_DATA(display)                                     \
-    if (!_display) {                                                    \
-        return SDL_SetError("Invalid display");                         \
+#నిర్వచించు CHECK_DISPLAY_దత్తాంశం(display)                                     \
+    ఒకవేళ (!_display) {                                                    \
+        తిరిగి SDL_సమితి_Error("Invalid display");                         \
     }                                                                   \
-    if (!_display->internal) {                                        \
-        return SDL_SetError("Invalid display driver data");             \
+    ఒకవేళ (!_display->అంతర్గత) {                                        \
+        తిరిగి SDL_సమితి_Error("Invalid display driver data");             \
     }
 
-static Bool isMapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
+స్థిర Bool isMapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
 {
-    return ev->type == MapNotify && ev->xmap.window == *((Window *)win);
+    తిరిగి ev->type == MapNotify && ev->xmap.కిటికీ == *((కిటికీ_2 *)win);
 }
-static Bool isUnmapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
+స్థిర Bool isUnmapNotify(Display *dpy, XEvent *ev, XPointer win) // NOLINT(readability-non-const-parameter): cannot make XPointer a const pointer due to typedef
 {
-    return ev->type == UnmapNotify && ev->xunmap.window == *((Window *)win);
+    తిరిగి ev->type == UnmapNotify && ev->xunmap.కిటికీ == *((కిటికీ_2 *)win);
 }
 
 /*
@@ -86,86 +86,86 @@ static Bool X11_XIfEventTimeout(Display *display, XEvent *event_return, Bool (*p
 }
 */
 
-static bool X11_CheckCurrentDesktop(const char *name)
+స్థిర bool X11_CheckCurrentDesktop(స్థిరరాశి అక్షరం *name)
 {
     SDL_Environment *env = SDL_GetEnvironment();
-    const char *desktopVar = SDL_GetEnvironmentVariable(env, "DESKTOP_SESSION");
-    if (desktopVar && SDL_strcasecmp(desktopVar, name) == 0) {
-        return true;
+    స్థిరరాశి అక్షరం *desktopVar = SDL_GetEnvironmentVariable(env, "DESKTOP_SESSION");
+    ఒకవేళ (desktopVar && SDL_strcasecmp(desktopVar, name) == 0) {
+        తిరిగి true;
     }
 
     desktopVar = SDL_GetEnvironmentVariable(env, "XDG_CURRENT_DESKTOP");
 
-    if (desktopVar && SDL_strcasestr(desktopVar, name)) {
-        return true;
+    ఒకవేళ (desktopVar && SDL_strcasestr(desktopVar, name)) {
+        తిరిగి true;
     }
 
-    return false;
+    తిరిగి false;
 }
 
-static bool X11_IsWindowMapped(SDL_VideoDevice *_this, SDL_Window *window)
+స్థిర bool X11_Is_కిటికీ_Mapped(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_VideoData *videodata = _this->internal;
-    XWindowAttributes attr;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
+    XWindow_లక్షణాలు attr;
 
-    X11_XGetWindowAttributes(videodata->display, data->xwindow, &attr);
-    if (attr.map_state != IsUnmapped) {
-        return true;
-    } else {
-        return false;
+    X11_XGet_కిటికీ_లక్షణాలు(videodata->display, దత్తాంశం->xwindow, &attr);
+    ఒకవేళ (attr.map_state != IsUnmapped) {
+        తిరిగి true;
+    } లేకపోతే {
+        తిరిగి false;
     }
 }
 
-static bool X11_IsDisplayOk(Display *display)
+స్థిర bool X11_IsDisplayOk(Display *display)
 {
-    if (display->flags & XlibDisplayIOError) {
-        return false;
+    ఒకవేళ (display->flags & XlibDisplayIOError) {
+        తిరిగి false;
     }
-    return true;
+    తిరిగి true;
 }
 
-#if 0
-static bool X11_IsActionAllowed(SDL_Window *window, Atom action)
+#ఒకవేళ 0
+స్థిర bool X11_IsActionAllowed(SDL_కిటికీ *కిటికీ, Atom action)
 {
-    SDL_WindowData *data = window->internal;
-    Atom _NET_WM_ALLOWED_ACTIONS = data->videodata->_NET_WM_ALLOWED_ACTIONS;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Atom _NET_WM_ALLOWED_ACTIONS = దత్తాంశం->videodata->_NET_WM_ALLOWED_ACTIONS;
     Atom type;
-    Display *display = data->videodata->display;
-    int form;
-    unsigned long remain;
-    unsigned long len, i;
+    Display *display = దత్తాంశం->videodata->display;
+    పూర్ణాంకం form;
+    గుర్తులేని దీర్ఘ remain;
+    గుర్తులేని దీర్ఘ len, i;
     Atom *list;
     bool ret = false;
 
-    if (X11_XGetWindowProperty(display, data->xwindow, _NET_WM_ALLOWED_ACTIONS, 0, 1024, False, XA_ATOM, &type, &form, &len, &remain, (unsigned char **)&list) == Success) {
-        for (i=0; i<len; ++i) {
-            if (list[i] == action) {
+    ఒకవేళ (X11_XGet_కిటికీ_Property(display, దత్తాంశం->xwindow, _NET_WM_ALLOWED_ACTIONS, 0, 1024, False, XA_ATOM, &type, &form, &len, &remain, (గుర్తులేని అక్షరం **)&list) == Success) {
+        కొరకు (i=0; i<len; ++i) {
+            ఒకవేళ (list[i] == action) {
                 ret = true;
-                break;
+                ఆపు;
             }
         }
         X11_XFree(list);
     }
-    return ret;
+    తిరిగి ret;
 }
-#endif // 0
+#అయితే_ముగింపు // 0
 
-static void X11_FlushPendingEvents(SDL_VideoDevice *_this, SDL_Window *window)
+స్థిర శూన్య X11_FlushPendingEvents(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     // Serialize and restore the pending flags, as they may be overwritten while flushing.
-    const bool last_position_pending = window->last_position_pending;
-    const bool last_size_pending = window->last_size_pending;
+    స్థిరరాశి bool చివరి_position_pending = కిటికీ->చివరి_position_pending;
+    స్థిరరాశి bool చివరి_కొలత_pending = కిటికీ->చివరి_కొలత_pending;
 
-    X11_SyncWindow(_this, window);
+    X11_Sync_కిటికీ(_this, కిటికీ);
 
-    window->last_position_pending = last_position_pending;
-    window->last_size_pending = last_size_pending;
+    కిటికీ->చివరి_position_pending = చివరి_position_pending;
+    కిటికీ->చివరి_కొలత_pending = చివరి_కొలత_pending;
 }
 
-void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags flags)
+శూన్య X11_సమితి_Net_WMState(SDL_VideoDevice *_this, కిటికీ_2 xwindow, SDL_కిటికీ_Flags flags)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     Display *display = videodata->display;
     // !!! FIXME: just dereference videodata below instead of copying to locals.
     Atom _NET_WM_STATE = videodata->atoms._NET_WM_STATE;
@@ -179,7 +179,7 @@ void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags f
     Atom _NET_WM_STATE_SKIP_PAGER = videodata->atoms._NET_WM_STATE_SKIP_PAGER;
     Atom _NET_WM_STATE_MODAL = videodata->atoms._NET_WM_STATE_MODAL;
     Atom atoms[16];
-    int count = 0;
+    పూర్ణాంకం లెక్క = 0;
 
     /* The window manager sets this property, we shouldn't set it.
        If we did, this would indicate to the window manager that we don't
@@ -190,102 +190,102 @@ void X11_SetNetWMState(SDL_VideoDevice *_this, Window xwindow, SDL_WindowFlags f
     }
     */
 
-    if (flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        atoms[count++] = _NET_WM_STATE_ABOVE;
+    ఒకవేళ (flags & SDL_కిటికీ_ALWAYS_ON_శిఖరం) {
+        atoms[లెక్క++] = _NET_WM_STATE_ABOVE;
     }
-    if (flags & SDL_WINDOW_UTILITY) {
-        atoms[count++] = _NET_WM_STATE_SKIP_TASKBAR;
-        atoms[count++] = _NET_WM_STATE_SKIP_PAGER;
+    ఒకవేళ (flags & SDL_కిటికీ_UTILITY) {
+        atoms[లెక్క++] = _NET_WM_STATE_SKIP_TASKBAR;
+        atoms[లెక్క++] = _NET_WM_STATE_SKIP_PAGER;
     }
-    if (flags & SDL_WINDOW_INPUT_FOCUS) {
-        atoms[count++] = _NET_WM_STATE_FOCUSED;
+    ఒకవేళ (flags & SDL_కిటికీ_ఆదానం_FOCUS) {
+        atoms[లెక్క++] = _NET_WM_STATE_FOCUSED;
     }
-    if (flags & SDL_WINDOW_MAXIMIZED) {
-        atoms[count++] = _NET_WM_STATE_MAXIMIZED_VERT;
-        atoms[count++] = _NET_WM_STATE_MAXIMIZED_HORZ;
+    ఒకవేళ (flags & SDL_కిటికీ_MAXIMIZED) {
+        atoms[లెక్క++] = _NET_WM_STATE_MAXIMIZED_VERT;
+        atoms[లెక్క++] = _NET_WM_STATE_MAXIMIZED_HORZ;
     }
-    if (flags & SDL_WINDOW_FULLSCREEN) {
-        atoms[count++] = _NET_WM_STATE_FULLSCREEN;
+    ఒకవేళ (flags & SDL_కిటికీ_FULLSCREEN) {
+        atoms[లెక్క++] = _NET_WM_STATE_FULLSCREEN;
     }
-    if (flags & SDL_WINDOW_MODAL) {
-        atoms[count++] = _NET_WM_STATE_MODAL;
+    ఒకవేళ (flags & SDL_కిటికీ_MODAL) {
+        atoms[లెక్క++] = _NET_WM_STATE_MODAL;
     }
 
-    SDL_assert(count <= SDL_arraysize(atoms));
+    SDL_assert(లెక్క <= SDL_arraysize(atoms));
 
-    if (count > 0) {
+    ఒకవేళ (లెక్క > 0) {
         X11_XChangeProperty(display, xwindow, _NET_WM_STATE, XA_ATOM, 32,
-                            PropModeReplace, (unsigned char *)atoms, count);
-    } else {
+                            Prop_బహుళకం_Replace, (గుర్తులేని అక్షరం *)atoms, లెక్క);
+    } లేకపోతే {
         X11_XDeleteProperty(display, xwindow, _NET_WM_STATE);
     }
 }
 
-static void X11_ConstrainPopup(SDL_Window *window, bool output_to_pending)
+స్థిర శూన్య X11_ConstrainPopup(SDL_కిటికీ *కిటికీ, bool output_గమ్యం_pending)
 {
     // Clamp popup windows to the output borders
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        SDL_Window *w;
+    ఒకవేళ (SDL_కిటికీ_IS_POPUP(కిటికీ)) {
+        SDL_కిటికీ *w;
         SDL_DisplayID displayID;
         SDL_Rect rect;
-        int abs_x = window->last_position_pending ? window->pending.x : window->floating.x;
-        int abs_y = window->last_position_pending ? window->pending.y : window->floating.y;
-        int offset_x = 0, offset_y = 0;
+        పూర్ణాంకం abs_x = కిటికీ->చివరి_position_pending ? కిటికీ->pending.x : కిటికీ->floating.x;
+        పూర్ణాంకం abs_y = కిటికీ->చివరి_position_pending ? కిటికీ->pending.y : కిటికీ->floating.y;
+        పూర్ణాంకం స్థానభ్రంశం_x = 0, స్థానభ్రంశం_y = 0;
 
-        if (window->constrain_popup) {
+        ఒకవేళ (కిటికీ->constrain_popup) {
             // Calculate the total offset from the parents
-            for (w = window->parent; SDL_WINDOW_IS_POPUP(w); w = w->parent) {
-                offset_x += w->x;
-                offset_y += w->y;
+            కొరకు (w = కిటికీ->మాతృ; SDL_కిటికీ_IS_POPUP(w); w = w->మాతృ) {
+                స్థానభ్రంశం_x += w->x;
+                స్థానభ్రంశం_y += w->y;
             }
 
-            offset_x += w->x;
-            offset_y += w->y;
-            abs_x += offset_x;
-            abs_y += offset_y;
+            స్థానభ్రంశం_x += w->x;
+            స్థానభ్రంశం_y += w->y;
+            abs_x += స్థానభ్రంశం_x;
+            abs_y += స్థానభ్రంశం_y;
 
-            displayID = SDL_GetDisplayForWindow(w);
+            displayID = SDL_Get_Display_For_కిటికీ(w);
 
             SDL_GetDisplayBounds(displayID, &rect);
-            if (abs_x + window->w > rect.x + rect.w) {
-                abs_x -= (abs_x + window->w) - (rect.x + rect.w);
+            ఒకవేళ (abs_x + కిటికీ->w > rect.x + rect.w) {
+                abs_x -= (abs_x + కిటికీ->w) - (rect.x + rect.w);
             }
-            if (abs_y + window->h > rect.y + rect.h) {
-                abs_y -= (abs_y + window->h) - (rect.y + rect.h);
+            ఒకవేళ (abs_y + కిటికీ->h > rect.y + rect.h) {
+                abs_y -= (abs_y + కిటికీ->h) - (rect.y + rect.h);
             }
             abs_x = SDL_max(abs_x, rect.x);
             abs_y = SDL_max(abs_y, rect.y);
         }
 
-        if (output_to_pending) {
-            window->pending.x = abs_x - offset_x;
-            window->pending.y = abs_y - offset_y;
-        } else {
-            window->floating.x = window->windowed.x = abs_x - offset_x;
-            window->floating.y = window->windowed.y = abs_y - offset_y;
+        ఒకవేళ (output_గమ్యం_pending) {
+            కిటికీ->pending.x = abs_x - స్థానభ్రంశం_x;
+            కిటికీ->pending.y = abs_y - స్థానభ్రంశం_y;
+        } లేకపోతే {
+            కిటికీ->floating.x = కిటికీ->windowed.x = abs_x - స్థానభ్రంశం_x;
+            కిటికీ->floating.y = కిటికీ->windowed.y = abs_y - స్థానభ్రంశం_y;
         }
     }
 }
 
-static void X11_SetKeyboardFocus(SDL_Window *window, bool set_active_focus)
+స్థిర శూన్య X11_సమితి_Keyboard_Focus(SDL_కిటికీ *కిటికీ, bool సమితి_చురుకైన_focus)
 {
-    SDL_Window *toplevel = window;
+    SDL_కిటికీ *toplevel = కిటికీ;
 
     // Find the toplevel parent
-    while (SDL_WINDOW_IS_POPUP(toplevel)) {
-        toplevel = toplevel->parent;
+    అయితే (SDL_కిటికీ_IS_POPUP(toplevel)) {
+        toplevel = toplevel->మాతృ;
     }
 
-    toplevel->keyboard_focus = window;
+    toplevel->keyboard_focus = కిటికీ;
 
-    if (set_active_focus && !window->is_hiding && !window->is_destroying) {
-        SDL_SetKeyboardFocus(window);
+    ఒకవేళ (సమితి_చురుకైన_focus && !కిటికీ->is_hiding && !కిటికీ->is_destroying) {
+        SDL_సమితి_Keyboard_Focus(కిటికీ);
     }
 }
 
-SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Window xwindow)
+SDL_కిటికీ_Flags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, కిటికీ_2 xwindow)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     Display *display = videodata->display;
     Atom _NET_WM_STATE = videodata->atoms._NET_WM_STATE;
     Atom _NET_WM_STATE_HIDDEN = videodata->atoms._NET_WM_STATE_HIDDEN;
@@ -294,42 +294,42 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
     Atom _NET_WM_STATE_MAXIMIZED_HORZ = videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
     Atom _NET_WM_STATE_FULLSCREEN = videodata->atoms._NET_WM_STATE_FULLSCREEN;
     Atom actualType;
-    int actualFormat;
-    unsigned long i, numItems, bytesAfter;
-    unsigned char *propertyValue = NULL;
-    long maxLength = 1024;
-    SDL_WindowFlags flags = 0;
+    పూర్ణాంకం actualFormat;
+    గుర్తులేని దీర్ఘ i, అంకె_వస్తువులు, బైట్లు_After;
+    గుర్తులేని అక్షరం *property_విలువ = ఖాళీ;
+    దీర్ఘ max_నిడివి = 1024;
+    SDL_కిటికీ_Flags flags = 0;
 
-    if (X11_XGetWindowProperty(display, xwindow, _NET_WM_STATE,
-                               0l, maxLength, False, XA_ATOM, &actualType,
-                               &actualFormat, &numItems, &bytesAfter,
-                               &propertyValue) == Success) {
-        Atom *atoms = (Atom *)propertyValue;
-        int maximized = 0;
-        int fullscreen = 0;
+    ఒకవేళ (X11_XGet_కిటికీ_Property(display, xwindow, _NET_WM_STATE,
+                               0l, max_నిడివి, False, XA_ATOM, &actualType,
+                               &actualFormat, &అంకె_వస్తువులు, &బైట్లు_After,
+                               &property_విలువ) == Success) {
+        Atom *atoms = (Atom *)property_విలువ;
+        పూర్ణాంకం maximized = 0;
+        పూర్ణాంకం fullscreen = 0;
 
-        for (i = 0; i < numItems; ++i) {
-            if (atoms[i] == _NET_WM_STATE_HIDDEN) {
-                flags |= SDL_WINDOW_MINIMIZED | SDL_WINDOW_OCCLUDED;
-            } else if (atoms[i] == _NET_WM_STATE_FOCUSED) {
-                flags |= SDL_WINDOW_INPUT_FOCUS;
-            } else if (atoms[i] == _NET_WM_STATE_MAXIMIZED_VERT) {
+        కొరకు (i = 0; i < అంకె_వస్తువులు; ++i) {
+            ఒకవేళ (atoms[i] == _NET_WM_STATE_HIDDEN) {
+                flags |= SDL_కిటికీ_MINIMIZED | SDL_కిటికీ_OCCLUDED;
+            } లేకపోతే ఒకవేళ (atoms[i] == _NET_WM_STATE_FOCUSED) {
+                flags |= SDL_కిటికీ_ఆదానం_FOCUS;
+            } లేకపోతే ఒకవేళ (atoms[i] == _NET_WM_STATE_MAXIMIZED_VERT) {
                 maximized |= 1;
-            } else if (atoms[i] == _NET_WM_STATE_MAXIMIZED_HORZ) {
+            } లేకపోతే ఒకవేళ (atoms[i] == _NET_WM_STATE_MAXIMIZED_HORZ) {
                 maximized |= 2;
-            } else if (atoms[i] == _NET_WM_STATE_FULLSCREEN) {
+            } లేకపోతే ఒకవేళ (atoms[i] == _NET_WM_STATE_FULLSCREEN) {
                 fullscreen = 1;
             }
         }
 
-        if (fullscreen == 1) {
-            flags |= SDL_WINDOW_FULLSCREEN;
-        } else if (!videodata->net_wm) {
+        ఒకవేళ (fullscreen == 1) {
+            flags |= SDL_కిటికీ_FULLSCREEN;
+        } లేకపోతే ఒకవేళ (!videodata->net_wm) {
             // If there's no window manager, use whatever the window reports.
-            flags |= (window->flags & SDL_WINDOW_FULLSCREEN);
+            flags |= (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN);
         }
 
-        if (maximized == 3) {
+        ఒకవేళ (maximized == 3) {
             /* Fullscreen windows are maximized on some window managers,
                and this is functional behavior - if maximized is removed,
                the windows remain floating centered and not covering the
@@ -338,10 +338,10 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
                we're always maximized when fullscreen and not restore the
                correct state when leaving fullscreen.
             */
-            if (fullscreen) {
-                flags |= (window->flags & SDL_WINDOW_MAXIMIZED);
-            } else {
-                flags |= SDL_WINDOW_MAXIMIZED;
+            ఒకవేళ (fullscreen) {
+                flags |= (కిటికీ->flags & SDL_కిటికీ_MAXIMIZED);
+            } లేకపోతే {
+                flags |= SDL_కిటికీ_MAXIMIZED;
             }
         }
 
@@ -350,46 +350,46 @@ SDL_WindowFlags X11_GetNetWMState(SDL_VideoDevice *_this, SDL_Window *window, Wi
          * and mark it as SDL_WINDOW_HIDDEN if it is.
          */
         {
-            XWindowAttributes attr;
+            XWindow_లక్షణాలు attr;
             SDL_zero(attr);
-            X11_XGetWindowAttributes(videodata->display, xwindow, &attr);
-            if (attr.map_state == IsUnmapped) {
-                flags |= SDL_WINDOW_HIDDEN;
+            X11_XGet_కిటికీ_లక్షణాలు(videodata->display, xwindow, &attr);
+            ఒకవేళ (attr.map_state == IsUnmapped) {
+                flags |= SDL_కిటికీ_HIDDEN;
             }
         }
-        X11_XFree(propertyValue);
+        X11_XFree(property_విలువ);
     }
 
     // FIXME, check the size hints for resizable
     // flags |= SDL_WINDOW_RESIZABLE;
 
-    return flags;
+    తిరిగి flags;
 }
 
-static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w)
+స్థిర bool అమరిక_కిటికీ_దత్తాంశం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, కిటికీ_2 w)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    SDL_WindowData *data;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం;
 
     // Allocate the window data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    దత్తాంశం = (SDL_కిటికీ_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*దత్తాంశం));
+    ఒకవేళ (!దత్తాంశం) {
+        తిరిగి false;
     }
-    data->videodata = videodata;
-    data->window = window;
-    data->xwindow = w;
-    data->hit_test_result = SDL_HITTEST_NORMAL;
+    దత్తాంశం->videodata = videodata;
+    దత్తాంశం->కిటికీ = కిటికీ;
+    దత్తాంశం->xwindow = w;
+    దత్తాంశం->తగిలింది_test_ఫలితం = SDL_HITTEST_సాధారణ;
 
-    X11_CreateInputContext(data);
+    X11_Create_ఆదానం_Context(దత్తాంశం);
 
     // Associate the data with the window
 
-    if (videodata->numwindows >= videodata->windowlistlength) {
-        SDL_WindowData ** new_windowlist = (SDL_WindowData **)SDL_realloc(videodata->windowlist, (videodata->numwindows + 1) * sizeof(*videodata->windowlist));
-        if (!new_windowlist) {
-            goto error_cleanup;
+    ఒకవేళ (videodata->numwindows >= videodata->windowlistlength) {
+        SDL_కిటికీ_దత్తాంశం ** new_windowlist = (SDL_కిటికీ_దత్తాంశం **)SDL_realloc(videodata->windowlist, (videodata->numwindows + 1) * పరిమాణం(*videodata->windowlist));
+        ఒకవేళ (!new_windowlist) {
+            వెళ్ళు error_cleanup;
         }
         videodata->windowlistlength++;
         videodata->windowlist = new_windowlist;
@@ -397,130 +397,130 @@ static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, Window w
 
     // Fill in the SDL window with the window data
     {
-        XWindowAttributes attrib;
+        XWindow_లక్షణాలు attrib;
 
-        X11_XGetWindowAttributes(data->videodata->display, w, &attrib);
-        if (!SDL_WINDOW_IS_POPUP(window)) {
-            window->x = window->windowed.x = window->floating.x = attrib.x;
-            window->y = window->windowed.y = window->floating.y = attrib.y - data->border_top;
+        X11_XGet_కిటికీ_లక్షణాలు(దత్తాంశం->videodata->display, w, &attrib);
+        ఒకవేళ (!SDL_కిటికీ_IS_POPUP(కిటికీ)) {
+            కిటికీ->x = కిటికీ->windowed.x = కిటికీ->floating.x = attrib.x;
+            కిటికీ->y = కిటికీ->windowed.y = కిటికీ->floating.y = attrib.y - దత్తాంశం->border_శిఖరం;
         }
-        window->w = window->windowed.w = window->floating.w = attrib.width;
-        window->h = window->windowed.h = window->floating.h = attrib.height;
-        if (attrib.map_state != IsUnmapped) {
-            window->flags &= ~SDL_WINDOW_HIDDEN;
-        } else {
-            window->flags |= SDL_WINDOW_HIDDEN;
+        కిటికీ->w = కిటికీ->windowed.w = కిటికీ->floating.w = attrib.వెడల్పు;
+        కిటికీ->h = కిటికీ->windowed.h = కిటికీ->floating.h = attrib.ఎత్తు;
+        ఒకవేళ (attrib.map_state != IsUnmapped) {
+            కిటికీ->flags &= ~SDL_కిటికీ_HIDDEN;
+        } లేకపోతే {
+            కిటికీ->flags |= SDL_కిటికీ_HIDDEN;
         }
-        data->visual = attrib.visual;
-        data->colormap = attrib.colormap;
+        దత్తాంశం->visual = attrib.visual;
+        దత్తాంశం->colormap = attrib.colormap;
     }
 
-    window->flags |= X11_GetNetWMState(_this, window, w);
+    కిటికీ->flags |= X11_GetNetWMState(_this, కిటికీ, w);
 
     {
-        Window FocalWindow;
-        int RevertTo = 0;
-        X11_XGetInputFocus(data->videodata->display, &FocalWindow, &RevertTo);
-        if (FocalWindow == w) {
-            window->flags |= SDL_WINDOW_INPUT_FOCUS;
+        కిటికీ_2 Focal_కిటికీ;
+        పూర్ణాంకం Revert_గమ్యం = 0;
+        X11_XGet_ఆదానం_Focus(దత్తాంశం->videodata->display, &Focal_కిటికీ, &Revert_గమ్యం);
+        ఒకవేళ (Focal_కిటికీ == w) {
+            కిటికీ->flags |= SDL_కిటికీ_ఆదానం_FOCUS;
         }
 
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-            SDL_SetKeyboardFocus(data->window);
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS) {
+            SDL_సమితి_Keyboard_Focus(దత్తాంశం->కిటికీ);
         }
 
-        if (window->flags & SDL_WINDOW_MOUSE_GRABBED) {
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MOUSE_GRABBED) {
             // Tell x11 to clip mouse
         }
     }
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_EXTERNAL) {
         // Query the title from the existing window
-        window->title = X11_GetWindowTitle(_this, w);
+        కిటికీ->title = X11_Get_కిటికీ_Title(_this, w);
     }
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    int screen = (displaydata ? displaydata->screen : 0);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_X11_DISPLAY_POINTER, data->videodata->display);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_X11_SCREEN_NUMBER, screen);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_X11_WINDOW_NUMBER, data->xwindow);
+    SDL_PropertiesID props = SDL_Get_కిటికీ_Properties(కిటికీ);
+    పూర్ణాంకం screen = (displaydata ? displaydata->screen : 0);
+    SDL_సమితి_సూచిక_Property(props, SDL_PROP_కిటికీ_X11_DISPLAY_సూచిక, దత్తాంశం->videodata->display);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_X11_SCREEN_సంఖ్య, screen);
+    SDL_సమితి_సంఖ్య_Property(props, SDL_PROP_కిటికీ_X11_కిటికీ_సంఖ్య, దత్తాంశం->xwindow);
 
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2) || defined(SDL_VIDEO_OPENGL_EGL)
-    if ((window->flags & SDL_WINDOW_OPENGL) &&
-        ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
+#ఒకవేళ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2) || defined(SDL_VIDEO_OPENGL_EGL)
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_OPENGL) &&
+        ((_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES) ||
          SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false))
-#ifdef SDL_VIDEO_OPENGL_GLX
-        && (!_this->gl_data || X11_GL_UseEGL(_this))
-#endif
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_GLX
+        && (!_this->gl_దత్తాంశం || X11_GL_UseEGL(_this))
+#అయితే_ముగింపు
     ) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (!_this->egl_data) {
-            goto error_cleanup;
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+        ఒకవేళ (!_this->egl_దత్తాంశం) {
+            వెళ్ళు error_cleanup;
         }
 
         // Create the GLES window surface
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)w);
+        దత్తాంశం->egl_surface = SDL_EGL_CreateSurface(_this, కిటికీ, (Native_కిటికీ_Type)w);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            SDL_SetError("Could not create GLES window surface");
-            goto error_cleanup;
+        ఒకవేళ (దత్తాంశం->egl_surface == EGL_NO_SURFACE) {
+            SDL_సమితి_Error("Could not create GLES window surface");
+            వెళ్ళు error_cleanup;
         }
-#else
-        SDL_SetError("Could not create GLES window surface (EGL support not configured)");
-        goto error_cleanup;
-#endif // SDL_VIDEO_OPENGL_EGL
+#లేకపోతే
+        SDL_సమితి_Error("Could not create GLES window surface (EGL support not configured)");
+        వెళ్ళు error_cleanup;
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_EGL
     }
-#endif
+#అయితే_ముగింపు
 
     // All done!
-    window->internal = data;
-    videodata->windowlist[videodata->numwindows++] = data;
-    return true;
+    కిటికీ->అంతర్గత = దత్తాంశం;
+    videodata->windowlist[videodata->numwindows++] = దత్తాంశం;
+    తిరిగి true;
 
 error_cleanup:
-    X11_DestroyInputContext(data);
-    SDL_free(data);
-    return false;
+    X11_Destroy_ఆదానం_Context(దత్తాంశం);
+    SDL_free(దత్తాంశం);
+    తిరిగి false;
 }
 
-static void SetupWindowInput(SDL_VideoDevice *_this, SDL_Window *window)
+స్థిర శూన్య అమరిక_కిటికీ_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    long fevent = 0;
-    SDL_WindowData *data = window->internal;
-    Window xwindow = data->xwindow;
+    దీర్ఘ fevent = 0;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    కిటికీ_2 xwindow = దత్తాంశం->xwindow;
 
-#ifdef X_HAVE_UTF8_STRING
-    if (SDL_X11_HAVE_UTF8 && data->ic) {
-        X11_XGetICValues(data->ic, XNFilterEvents, &fevent, NULL);
+#నిర్వచితమైతే X_HAVE_UTF8_STRING
+    ఒకవేళ (SDL_X11_HAVE_UTF8 && దత్తాంశం->ic) {
+        X11_XGetICValues(దత్తాంశం->ic, XNFilterEvents, &fevent, ఖాళీ);
     }
-#endif
+#అయితే_ముగింపు
 
-    X11_Xinput2Select(_this, window);
+    X11_Xinput2Select(_this, కిటికీ);
 
     {
-        unsigned int x11_keyboard_events = KeyPressMask | KeyReleaseMask;
-        unsigned int x11_pointer_events = ButtonPressMask | ButtonReleaseMask | PointerMotionMask;
+        గుర్తులేని పూర్ణాంకం x11_keyboard_events = కీలకం_Press_ముసుగు | కీలకం_Release_ముసుగు;
+        గుర్తులేని పూర్ణాంకం x11_సూచిక_events = Button_Press_ముసుగు | Button_Release_ముసుగు | సూచిక_Motion_ముసుగు;
 
-        X11_Xinput2SelectMouseAndKeyboard(_this, window);
+        X11_Xinput2SelectMouseAndKeyboard(_this, కిటికీ);
 
         // If XInput2 can handle pointer and keyboard events, we don't track them here
-        if (data->xinput2_keyboard_enabled) {
+        ఒకవేళ (దత్తాంశం->xinput2_keyboard_enabled) {
             x11_keyboard_events = 0;
         }
-        if (data->xinput2_mouse_enabled) {
-            x11_pointer_events = 0;
+        ఒకవేళ (దత్తాంశం->xinput2_mouse_enabled) {
+            x11_సూచిక_events = 0;
         }
 
-        X11_XSelectInput(data->videodata->display, xwindow,
-                         (FocusChangeMask | EnterWindowMask | LeaveWindowMask | ExposureMask |
-                          x11_keyboard_events | x11_pointer_events |
-                          PropertyChangeMask | StructureNotifyMask |
-                          KeymapStateMask | fevent));
+        X11_XSelect_ఆదానం(దత్తాంశం->videodata->display, xwindow,
+                         (Focus_Change_ముసుగు | Enter_కిటికీ_ముసుగు | Leave_కిటికీ_ముసుగు | Exposure_ముసుగు |
+                          x11_keyboard_events | x11_సూచిక_events |
+                          Property_Change_ముసుగు | Structure_Notify_ముసుగు |
+                          Keymap_State_ముసుగు | fevent));
     }
 }
 
-static void SetWindowBordered(Display *display, int screen, Window window, bool border)
+స్థిర శూన్య సమితి_కిటికీ_Bordered(Display *display, పూర్ణాంకం screen, కిటికీ_2 కిటికీ, bool border)
 {
     /*
      * this code used to check for KWM_WIN_DECORATION, but KDE hasn't
@@ -529,150 +529,150 @@ static void SetWindowBordered(Display *display, int screen, Window window, bool 
      */
 
     Atom WM_HINTS = X11_XInternAtom(display, "_MOTIF_WM_HINTS", True);
-    if (WM_HINTS != None) {
+    ఒకవేళ (WM_HINTS != None) {
         // Hints used by Motif compliant window managers
-        struct
+        నిర్మాణం
         {
-            unsigned long flags;
-            unsigned long functions;
-            unsigned long decorations;
-            long input_mode;
-            unsigned long status;
+            గుర్తులేని దీర్ఘ flags;
+            గుర్తులేని దీర్ఘ functions;
+            గుర్తులేని దీర్ఘ decorations;
+            దీర్ఘ ఆదానం_బహుళకం;
+            గుర్తులేని దీర్ఘ స్థితి_2;
         } MWMHints = {
             (1L << 1), 0, border ? 1 : 0, 0, 0
         };
 
-        X11_XChangeProperty(display, window, WM_HINTS, WM_HINTS, 32,
-                            PropModeReplace, (unsigned char *)&MWMHints,
-                            sizeof(MWMHints) / sizeof(long));
-    } else { // set the transient hints instead, if necessary
-        X11_XSetTransientForHint(display, window, RootWindow(display, screen));
+        X11_XChangeProperty(display, కిటికీ, WM_HINTS, WM_HINTS, 32,
+                            Prop_బహుళకం_Replace, (గుర్తులేని అక్షరం *)&MWMHints,
+                            పరిమాణం(MWMHints) / పరిమాణం(దీర్ఘ));
+    } లేకపోతే { // set the transient hints instead, if necessary
+        X11_XSetTransientForHint(display, కిటికీ, మూలం_కిటికీ(display, screen));
     }
 }
 
-bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool X11_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props)
 {
-    Window w = (Window)SDL_GetNumberProperty(create_props, SDL_PROP_WINDOW_CREATE_X11_WINDOW_NUMBER,
-                (Window)SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
-    if (w) {
-        window->flags |= SDL_WINDOW_EXTERNAL;
+    కిటికీ_2 w = (కిటికీ_2)SDL_Get_సంఖ్య_Property(create_props, SDL_PROP_కిటికీ_CREATE_X11_కిటికీ_సంఖ్య,
+                (కిటికీ_2)SDL_Get_సూచిక_Property(create_props, "sdl2-compat.external_window", ఖాళీ));
+    ఒకవేళ (w) {
+        కిటికీ->flags |= SDL_కిటికీ_EXTERNAL;
 
-        if (!SetupWindowData(_this, window, w)) {
-            return false;
+        ఒకవేళ (!అమరిక_కిటికీ_దత్తాంశం(_this, కిటికీ, w)) {
+            తిరిగి false;
         }
 
-        if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_EXTERNAL_WINDOW_INPUT, true)) {
-            SetupWindowInput(_this, window);
+        ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_EXTERNAL_కిటికీ_ఆదానం, true)) {
+            అమరిక_కిటికీ_ఆదానం(_this, కిటికీ);
         }
-        return true;
+        తిరిగి true;
     }
 
-    SDL_VideoData *data = _this->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    if (!displaydata) {
-        return SDL_SetError("Could not find display info");
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    ఒకవేళ (!displaydata) {
+        తిరిగి SDL_సమితి_Error("Could not find display info");
     }
 
-    const bool force_override_redirect = SDL_GetHintBoolean(SDL_HINT_X11_FORCE_OVERRIDE_REDIRECT, false);
-    const bool use_resize_sync = SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT, false) &&
-                                 (window->flags & SDL_WINDOW_OPENGL) != 0; // Doesn't work well with Vulkan
-    SDL_WindowData *windowdata;
-    Display *display = data->display;
-    int screen = displaydata->screen;
+    స్థిరరాశి bool force_override_redirect = SDL_GetHintBoolean(SDL_HINT_X11_FORCE_OVERRIDE_REDIRECT, false);
+    స్థిరరాశి bool use_resize_sync = SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT, false) &&
+                                 (కిటికీ->flags & SDL_కిటికీ_OPENGL) != 0; // Doesn't work well with Vulkan
+    SDL_కిటికీ_దత్తాంశం *windowdata;
+    Display *display = దత్తాంశం->display;
+    పూర్ణాంకం screen = displaydata->screen;
     Visual *visual;
-    int depth;
-    XSetWindowAttributes xattr;
+    పూర్ణాంకం లోతు_2;
+    XSet_కిటికీ_లక్షణాలు xattr;
     XSizeHints *sizehints;
     XWMHints *wmhints;
     XClassHint *classhints;
     Atom _NET_WM_BYPASS_COMPOSITOR;
-    Atom _NET_WM_WINDOW_TYPE;
+    Atom NET_WM_కిటికీ_TYPE;
     Atom wintype;
-    const char *wintype_name = NULL;
-    long compositor = 1;
+    స్థిరరాశి అక్షరం *wintype_name = ఖాళీ;
+    దీర్ఘ compositor = 1;
     Atom _NET_WM_PID;
-    const char *hint = NULL;
-    int win_x, win_y;
+    స్థిరరాశి అక్షరం *hint = ఖాళీ;
+    పూర్ణాంకం win_x, win_y;
     bool undefined_position = false;
 
-#if defined(SDL_VIDEO_OPENGL_GLX) || defined(SDL_VIDEO_OPENGL_EGL)
-    const int transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
-    const char *forced_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_WINDOW_VISUALID);
-    const char *display_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_VISUALID);
+#ఒకవేళ defined(SDL_VIDEO_OPENGL_GLX) || defined(SDL_VIDEO_OPENGL_EGL)
+    స్థిరరాశి పూర్ణాంకం transparent = (కిటికీ->flags & SDL_కిటికీ_TRANSPARENT) ? true : false;
+    స్థిరరాశి అక్షరం *forced_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_కిటికీ_VISUALID);
+    స్థిరరాశి అక్షరం *display_visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_VISUALID);
 
-    if (forced_visual_id && *forced_visual_id) {
-        XVisualInfo *vi, template;
-        int nvis;
+    ఒకవేళ (forced_visual_id && *forced_visual_id) {
+        XVisualInfo *vi, మూస;
+        పూర్ణాంకం nvis;
 
-        SDL_zero(template);
-        template.visualid = SDL_strtol(forced_visual_id, NULL, 0);
-        vi = X11_XGetVisualInfo(display, VisualIDMask, &template, &nvis);
-        if (vi) {
+        SDL_zero(మూస);
+        మూస.visualid = SDL_strtol(forced_visual_id, ఖాళీ, 0);
+        vi = X11_XGetVisualInfo(display, VisualIDMask, &మూస, &nvis);
+        ఒకవేళ (vi) {
             visual = vi->visual;
-            depth = vi->depth;
+            లోతు_2 = vi->లోతు_2;
             X11_XFree(vi);
-        } else {
-            return false;
+        } లేకపోతే {
+            తిరిగి false;
         }
-    } else if ((window->flags & SDL_WINDOW_OPENGL) &&
+    } లేకపోతే ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_OPENGL) &&
                (!display_visual_id || !*display_visual_id)) {
-        XVisualInfo *vinfo = NULL;
+        XVisualInfo *vinfo = ఖాళీ;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) ||
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_EGL
+        ఒకవేళ (((_this->gl_config.profile_ముసుగు == SDL_GL_CONTEXT_PROFILE_ES) ||
              SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false))
-#ifdef SDL_VIDEO_OPENGL_GLX
-            && (!_this->gl_data || X11_GL_UseEGL(_this))
-#endif
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_GLX
+            && (!_this->gl_దత్తాంశం || X11_GL_UseEGL(_this))
+#అయితే_ముగింపు
         ) {
             vinfo = X11_GLES_GetVisual(_this, display, screen, transparent);
-        } else
-#endif
+        } లేకపోతే
+#అయితే_ముగింపు
         {
-#ifdef SDL_VIDEO_OPENGL_GLX
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_GLX
             vinfo = X11_GL_GetVisual(_this, display, screen, transparent);
-#endif
+#అయితే_ముగింపు
         }
 
-        if (!vinfo) {
-            return false;
+        ఒకవేళ (!vinfo) {
+            తిరిగి false;
         }
         visual = vinfo->visual;
-        depth = vinfo->depth;
+        లోతు_2 = vinfo->లోతు_2;
         X11_XFree(vinfo);
-    } else
-#endif
+    } లేకపోతే
+#అయితే_ముగింపు
     {
         visual = displaydata->visual;
-        depth = displaydata->depth;
+        లోతు_2 = displaydata->లోతు_2;
     }
 
-    xattr.override_redirect = ((window->flags & SDL_WINDOW_TOOLTIP) || (window->flags & SDL_WINDOW_POPUP_MENU) || force_override_redirect) ? True : False;
+    xattr.override_redirect = ((కిటికీ->flags & SDL_కిటికీ_TOOLTIP) || (కిటికీ->flags & SDL_కిటికీ_POPUP_MENU) || force_override_redirect) ? True : False;
     xattr.backing_store = NotUseful;
     xattr.background_pixmap = None;
     xattr.border_pixel = 0;
 
-    if (visual->class == DirectColor) {
+    ఒకవేళ (visual->class == ప్రత్యక్ష_Color) {
         XColor *colorcells;
-        int i;
-        int ncolors;
-        int rmax, gmax, bmax;
-        int rmask, gmask, bmask;
-        int rshift, gshift, bshift;
+        పూర్ణాంకం i;
+        పూర్ణాంకం ncolors;
+        పూర్ణాంకం rmax, gmax, bmax;
+        పూర్ణాంకం rmask, gmask, bmask;
+        పూర్ణాంకం rshift, gshift, bshift;
 
         xattr.colormap =
-            X11_XCreateColormap(display, RootWindow(display, screen),
+            X11_XCreateColormap(display, మూలం_కిటికీ(display, screen),
                                 visual, AllocAll);
 
         // If we can't create a colormap, then we must die
-        if (!xattr.colormap) {
-            return SDL_SetError("Could not create writable colormap");
+        ఒకవేళ (!xattr.colormap) {
+            తిరిగి SDL_సమితి_Error("Could not create writable colormap");
         }
 
         // OK, we got a colormap, now fill it in as best as we can
-        colorcells = SDL_malloc(visual->map_entries * sizeof(XColor));
-        if (!colorcells) {
-            return false;
+        colorcells = SDL_malloc(visual->map_entries * పరిమాణం(XColor));
+        ఒకవేళ (!colorcells) {
+            తిరిగి false;
         }
         ncolors = visual->map_entries;
         rmax = 0xffff;
@@ -680,28 +680,28 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         bmax = 0xffff;
 
         rshift = 0;
-        rmask = visual->red_mask;
-        while (0 == (rmask & 1)) {
+        rmask = visual->red_ముసుగు;
+        అయితే (0 == (rmask & 1)) {
             rshift++;
             rmask >>= 1;
         }
 
         gshift = 0;
-        gmask = visual->green_mask;
-        while (0 == (gmask & 1)) {
+        gmask = visual->green_ముసుగు;
+        అయితే (0 == (gmask & 1)) {
             gshift++;
             gmask >>= 1;
         }
 
         bshift = 0;
-        bmask = visual->blue_mask;
-        while (0 == (bmask & 1)) {
+        bmask = visual->blue_ముసుగు;
+        అయితే (0 == (bmask & 1)) {
             bshift++;
             bmask >>= 1;
         }
 
         // build the color table pixel values
-        for (i = 0; i < ncolors; i++) {
+        కొరకు (i = 0; i < ncolors; i++) {
             Uint32 red = (rmax * i) / (ncolors - 1);
             Uint32 green = (gmax * i) / (ncolors - 1);
             Uint32 blue = (bmax * i) / (ncolors - 1);
@@ -725,22 +725,22 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         X11_XStoreColors(display, xattr.colormap, colorcells, ncolors);
 
         SDL_free(colorcells);
-    } else {
+    } లేకపోతే {
         xattr.colormap =
-            X11_XCreateColormap(display, RootWindow(display, screen),
+            X11_XCreateColormap(display, మూలం_కిటికీ(display, screen),
                                 visual, AllocNone);
     }
 
-    if (window->undefined_x && window->undefined_y &&
-        window->displayID == SDL_GetPrimaryDisplay()) {
+    ఒకవేళ (కిటికీ->undefined_x && కిటికీ->undefined_y &&
+        కిటికీ->displayID == SDL_GetPrimaryDisplay()) {
         undefined_position = true;
     }
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        X11_ConstrainPopup(window, false);
+    ఒకవేళ (SDL_కిటికీ_IS_POPUP(కిటికీ)) {
+        X11_ConstrainPopup(కిటికీ, false);
     }
-    SDL_RelativeToGlobalForWindow(window,
-                                  window->floating.x, window->floating.y,
+    SDL_Relative_గమ్యం_Global_For_కిటికీ(కిటికీ,
+                                  కిటికీ->floating.x, కిటికీ->floating.y,
                                   &win_x, &win_y);
 
     /* Always create this with the window->floating.* fields; if we're creating a windowed mode window,
@@ -749,33 +749,33 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
      * migration to fullscreen after CreateSDLWindow returns, which will put all the SDL_Window fields and
      * system state as expected.
      */
-    w = X11_XCreateWindow(display, RootWindow(display, screen),
-                          win_x, win_y, window->floating.w, window->floating.h,
-                          0, depth, InputOutput, visual,
+    w = X11_XCreate_కిటికీ(display, మూలం_కిటికీ(display, screen),
+                          win_x, win_y, కిటికీ->floating.w, కిటికీ->floating.h,
+                          0, లోతు_2, ఆదానం_Output, visual,
                           (CWOverrideRedirect | CWBackPixmap | CWBorderPixel |
                            CWBackingStore | CWColormap),
                           &xattr);
-    if (!w) {
-        return SDL_SetError("Couldn't create window");
+    ఒకవేళ (!w) {
+        తిరిగి SDL_సమితి_Error("Couldn't create window");
     }
 
     /* Don't set the borderless flag if we're about to go fullscreen.
      * This prevents the window manager from moving a full-screen borderless
      * window to a different display before we actually go fullscreen.
      */
-    if (!(window->pending_flags & SDL_WINDOW_FULLSCREEN)) {
-        SetWindowBordered(display, screen, w, !(window->flags & SDL_WINDOW_BORDERLESS));
+    ఒకవేళ (!(కిటికీ->pending_flags & SDL_కిటికీ_FULLSCREEN)) {
+        సమితి_కిటికీ_Bordered(display, screen, w, !(కిటికీ->flags & SDL_కిటికీ_BORDERLESS));
     }
 
-    sizehints = X11_XAllocSizeHints();
+    sizehints = X11_XAlloc_కొలత_Hints();
     // Setup the normal size hints
     sizehints->flags = 0;
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
-        sizehints->min_width = sizehints->max_width = window->floating.w;
-        sizehints->min_height = sizehints->max_height = window->floating.h;
-        sizehints->flags |= (PMaxSize | PMinSize);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_RESIZABLE)) {
+        sizehints->min_వెడల్పు_2 = sizehints->max_వెడల్పు_2 = కిటికీ->floating.w;
+        sizehints->min_ఎత్తు_2 = sizehints->max_ఎత్తు_2 = కిటికీ->floating.h;
+        sizehints->flags |= (PMax_కొలత | PMin_కొలత);
     }
-    if (!undefined_position) {
+    ఒకవేళ (!undefined_position) {
         sizehints->x = win_x;
         sizehints->y = win_y;
         sizehints->flags |= USPosition;
@@ -783,234 +783,234 @@ bool X11_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
 
     // Setup the input hints so we get keyboard input
     wmhints = X11_XAllocWMHints();
-    wmhints->input = !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) ? True : False;
-    wmhints->window_group = data->window_group;
-    wmhints->flags = InputHint | WindowGroupHint;
+    wmhints->ఆదానం = !(కిటికీ->flags & SDL_కిటికీ_NOT_FOCUSABLE) ? True : False;
+    wmhints->కిటికీ_సమూహం = దత్తాంశం->కిటికీ_సమూహం;
+    wmhints->flags = ఆదానం_Hint | కిటికీ_సమూహం_Hint;
 
     // Setup the class hints so we can get an icon (AfterStep)
     classhints = X11_XAllocClassHint();
-    classhints->res_name = (char *)SDL_GetExeName();
-    classhints->res_class = (char *)SDL_GetAppID();
+    classhints->res_name = (అక్షరం *)SDL_GetExeName();
+    classhints->res_class = (అక్షరం *)SDL_GetAppID();
 
     // Set the size, input and class hints, and define WM_CLIENT_MACHINE and WM_LOCALE_NAME
-    X11_XSetWMProperties(display, w, NULL, NULL, NULL, 0, sizehints, wmhints, classhints);
+    X11_XSetWMProperties(display, w, ఖాళీ, ఖాళీ, ఖాళీ, 0, sizehints, wmhints, classhints);
 
     X11_XFree(sizehints);
     X11_XFree(wmhints);
     X11_XFree(classhints);
     // Set the PID related to the window for the given hostname, if possible
-    if (data->pid > 0) {
-        long pid = (long)data->pid;
+    ఒకవేళ (దత్తాంశం->pid > 0) {
+        దీర్ఘ pid = (దీర్ఘ)దత్తాంశం->pid;
         _NET_WM_PID = X11_XInternAtom(display, "_NET_WM_PID", False);
-        X11_XChangeProperty(display, w, _NET_WM_PID, XA_CARDINAL, 32, PropModeReplace,
-                            (unsigned char *)&pid, 1);
+        X11_XChangeProperty(display, w, _NET_WM_PID, XA_CARDINAL, 32, Prop_బహుళకం_Replace,
+                            (గుర్తులేని అక్షరం *)&pid, 1);
     }
 
     // Set the window manager state
-    X11_SetNetWMState(_this, w, window->flags);
+    X11_సమితి_Net_WMState(_this, w, కిటికీ->flags);
 
     compositor = 2; // don't disable compositing except for "normal" windows
-    hint = SDL_GetHint(SDL_HINT_X11_WINDOW_TYPE);
-    if (window->flags & SDL_WINDOW_UTILITY) {
+    hint = SDL_GetHint(SDL_HINT_X11_కిటికీ_TYPE);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_UTILITY) {
         wintype_name = "_NET_WM_WINDOW_TYPE_UTILITY";
-    } else if (window->flags & SDL_WINDOW_TOOLTIP) {
+    } లేకపోతే ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_TOOLTIP) {
         wintype_name = "_NET_WM_WINDOW_TYPE_TOOLTIP";
-    } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
+    } లేకపోతే ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_POPUP_MENU) {
         wintype_name = "_NET_WM_WINDOW_TYPE_POPUP_MENU";
-    } else if (hint && *hint) {
+    } లేకపోతే ఒకవేళ (hint && *hint) {
         wintype_name = hint;
-    } else {
+    } లేకపోతే {
         wintype_name = "_NET_WM_WINDOW_TYPE_NORMAL";
         compositor = 1; // disable compositing for "normal" windows
     }
 
     // Let the window manager know what type of window we are.
-    _NET_WM_WINDOW_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
+    NET_WM_కిటికీ_TYPE = X11_XInternAtom(display, "_NET_WM_WINDOW_TYPE", False);
     wintype = X11_XInternAtom(display, wintype_name, False);
-    X11_XChangeProperty(display, w, _NET_WM_WINDOW_TYPE, XA_ATOM, 32,
-                        PropModeReplace, (unsigned char *)&wintype, 1);
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, true)) {
+    X11_XChangeProperty(display, w, NET_WM_కిటికీ_TYPE, XA_ATOM, 32,
+                        Prop_బహుళకం_Replace, (గుర్తులేని అక్షరం *)&wintype, 1);
+    ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, true)) {
         _NET_WM_BYPASS_COMPOSITOR = X11_XInternAtom(display, "_NET_WM_BYPASS_COMPOSITOR", False);
         X11_XChangeProperty(display, w, _NET_WM_BYPASS_COMPOSITOR, XA_CARDINAL, 32,
-                            PropModeReplace,
-                            (unsigned char *)&compositor, 1);
+                            Prop_బహుళకం_Replace,
+                            (గుర్తులేని అక్షరం *)&compositor, 1);
     }
 
     {
         Atom protocols[4];
-        int proto_count = 0;
+        పూర్ణాంకం proto_లెక్క = 0;
 
-        protocols[proto_count++] = data->atoms.WM_DELETE_WINDOW; // Allow window to be deleted by the WM
+        protocols[proto_లెక్క++] = దత్తాంశం->atoms.WM_DELETE_కిటికీ; // Allow window to be deleted by the WM
 
         // Default to using ping if there is no hint
-        if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_PING, true)) {
-            protocols[proto_count++] = data->atoms._NET_WM_PING; // Respond so WM knows we're alive
+        ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NET_WM_PING, true)) {
+            protocols[proto_లెక్క++] = దత్తాంశం->atoms._NET_WM_PING; // Respond so WM knows we're alive
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-        if (use_resize_sync) {
-            protocols[proto_count++] = data->atoms._NET_WM_SYNC_REQUEST; /* Respond after completing resize */
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
+        ఒకవేళ (use_resize_sync) {
+            protocols[proto_లెక్క++] = దత్తాంశం->atoms._NET_WM_SYNC_REQUEST; /* Respond after completing resize */
         }
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-        SDL_assert(proto_count <= SDL_arraysize(protocols));
+        SDL_assert(proto_లెక్క <= SDL_arraysize(protocols));
 
-        X11_XSetWMProtocols(display, w, protocols, proto_count);
+        X11_XSetWMProtocols(display, w, protocols, proto_లెక్క);
     }
 
-    if (!SetupWindowData(_this, window, w)) {
-        X11_XDestroyWindow(display, w);
-        return false;
+    ఒకవేళ (!అమరిక_కిటికీ_దత్తాంశం(_this, కిటికీ, w)) {
+        X11_XDestroy_కిటికీ(display, w);
+        తిరిగి false;
     }
-    windowdata = window->internal;
+    windowdata = కిటికీ->అంతర్గత;
 
     // Set the parent if this is a non-popup window.
-    if (!SDL_WINDOW_IS_POPUP(window) && window->parent) {
-        X11_XSetTransientForHint(display, w, window->parent->internal->xwindow);
+    ఒకవేళ (!SDL_కిటికీ_IS_POPUP(కిటికీ) && కిటికీ->మాతృ) {
+        X11_XSetTransientForHint(display, w, కిటికీ->మాతృ->అంతర్గత->xwindow);
     }
 
     // Set the flag if the borders were forced on when creating a fullscreen window for later removal.
-    windowdata->fullscreen_borders_forced_on = !!(window->pending_flags & SDL_WINDOW_FULLSCREEN) &&
-                                               !!(window->flags & SDL_WINDOW_BORDERLESS);
+    windowdata->fullscreen_borders_forced_on = !!(కిటికీ->pending_flags & SDL_కిటికీ_FULLSCREEN) &&
+                                               !!(కిటికీ->flags & SDL_కిటికీ_BORDERLESS);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    if (use_resize_sync) {
-        X11_InitResizeSync(window);
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
+    ఒకవేళ (use_resize_sync) {
+        X11_InitResizeSync(కిటికీ);
     }
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSHAPE
     // Tooltips do not receive input
-    if (window->flags & SDL_WINDOW_TOOLTIP) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_TOOLTIP) {
         Region region = X11_XCreateRegion();
-        X11_XShapeCombineRegion(display, w, ShapeInput, 0, 0, region, ShapeSet);
+        X11_XShapeCombineRegion(display, w, Shape_ఆదానం, 0, 0, region, Shape_సమితి);
         X11_XDestroyRegion(region);
     }
-#endif
+#అయితే_ముగింపు
 
-    SetupWindowInput(_this, window);
+    అమరిక_కిటికీ_ఆదానం(_this, కిటికీ);
 
     // For _ICC_PROFILE.
-    X11_XSelectInput(display, RootWindow(display, screen), PropertyChangeMask);
+    X11_XSelect_ఆదానం(display, మూలం_కిటికీ(display, screen), Property_Change_ముసుగు);
 
     X11_XFlush(display);
 
-    return true;
+    తిరిగి true;
 }
 
-char *X11_GetWindowTitle(SDL_VideoDevice *_this, Window xwindow)
+అక్షరం *X11_Get_కిటికీ_Title(SDL_VideoDevice *_this, కిటికీ_2 xwindow)
 {
-    SDL_VideoData *data = _this->internal;
-    Display *display = data->display;
-    int status, real_format;
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
+    Display *display = దత్తాంశం->display;
+    పూర్ణాంకం స్థితి_2, real_format;
     Atom real_type;
-    unsigned long items_read, items_left;
-    unsigned char *propdata;
-    char *title = NULL;
+    గుర్తులేని దీర్ఘ వస్తువులు_read, వస్తువులు_ఎడమ;
+    గుర్తులేని అక్షరం *propdata;
+    అక్షరం *title = ఖాళీ;
 
-    status = X11_XGetWindowProperty(display, xwindow, data->atoms._NET_WM_NAME,
-                                    0L, 8192L, False, data->atoms.UTF8_STRING, &real_type, &real_format,
-                                    &items_read, &items_left, &propdata);
-    if (status == Success && propdata) {
-        title = SDL_strdup(SDL_static_cast(char *, propdata));
+    స్థితి_2 = X11_XGet_కిటికీ_Property(display, xwindow, దత్తాంశం->atoms._NET_WM_NAME,
+                                    0L, 8192L, False, దత్తాంశం->atoms.UTF8_STRING, &real_type, &real_format,
+                                    &వస్తువులు_read, &వస్తువులు_ఎడమ, &propdata);
+    ఒకవేళ (స్థితి_2 == Success && propdata) {
+        title = SDL_strdup(SDL_static_cast(అక్షరం *, propdata));
         X11_XFree(propdata);
-    } else {
-        status = X11_XGetWindowProperty(display, xwindow, XA_WM_NAME,
+    } లేకపోతే {
+        స్థితి_2 = X11_XGet_కిటికీ_Property(display, xwindow, XA_WM_NAME,
                                         0L, 8192L, False, XA_STRING, &real_type, &real_format,
-                                        &items_read, &items_left, &propdata);
-        if (status == Success && propdata) {
-            title = SDL_iconv_string("UTF-8", "", SDL_static_cast(char *, propdata), items_read + 1);
+                                        &వస్తువులు_read, &వస్తువులు_ఎడమ, &propdata);
+        ఒకవేళ (స్థితి_2 == Success && propdata) {
+            title = SDL_iconv_string("UTF-8", "", SDL_static_cast(అక్షరం *, propdata), వస్తువులు_read + 1);
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to convert WM_NAME title expecting UTF8! Title: %s", title);
             X11_XFree(propdata);
-        } else {
+        } లేకపోతే {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Could not get any window title response from Xorg, returning empty string!");
             title = SDL_strdup("");
         }
     }
-    return title;
+    తిరిగి title;
 }
 
-void X11_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_సమితి_కిటికీ_Title(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Window xwindow = data->xwindow;
-    Display *display = data->videodata->display;
-    char *title = window->title ? window->title : "";
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    కిటికీ_2 xwindow = దత్తాంశం->xwindow;
+    Display *display = దత్తాంశం->videodata->display;
+    అక్షరం *title = కిటికీ->title ? కిటికీ->title : "";
 
-    SDL_X11_SetWindowTitle(display, xwindow, title);
+    SDL_X11_సమితి_కిటికీ_Title(display, xwindow, title);
 }
 
-static bool caught_x11_error = false;
-static int X11_CatchAnyError(Display *d, XErrorEvent *e)
+స్థిర bool caught_x11_error = false;
+స్థిర పూర్ణాంకం X11_CatchAnyError(Display *d, XErrorEvent *e)
 {
     /* this may happen during tumultuous times when we are polling anyhow,
         so just note we had an error and return control. */
     caught_x11_error = true;
-    return 0;
+    తిరిగి 0;
 }
 
-static void X11_ExternalResizeMoveSync(SDL_Window *window)
+స్థిర శూన్య X11_ExternalResizeMoveSync(SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int (*prev_handler)(Display *, XErrorEvent *);
-    unsigned int childCount;
-    Window childReturn, root, parent;
-    Window *children;
-    XWindowAttributes attrs;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    పూర్ణాంకం (*prev_handler)(Display *, XErrorEvent *);
+    గుర్తులేని పూర్ణాంకం బిడ్డ_లెక్క;
+    కిటికీ_2 బిడ్డ_Return_2, మూలం, మాతృ;
+    కిటికీ_2 *children;
+    XWindow_లక్షణాలు attrs;
     Uint64 timeout = 0;
-    int x, y;
-    const bool send_move = !!(data->pending_operation & X11_PENDING_OP_MOVE);
-    const bool send_resize = !!(data->pending_operation & X11_PENDING_OP_RESIZE);
+    పూర్ణాంకం x, y;
+    స్థిరరాశి bool send_move = !!(దత్తాంశం->pending_operation & X11_PENDING_OP_MOVE);
+    స్థిరరాశి bool send_resize = !!(దత్తాంశం->pending_operation & X11_PENDING_OP_RESIZE);
 
     X11_XSync(display, False);
-    X11_XQueryTree(display, data->xwindow, &root, &parent, &children, &childCount);
+    X11_XQuery_వృక్షం(display, దత్తాంశం->xwindow, &మూలం, &మాతృ, &children, &బిడ్డ_లెక్క);
     prev_handler = X11_XSetErrorHandler(X11_CatchAnyError);
 
     /* Wait a brief time to see if the window manager decided to let the move or resize happen.
      * If the window changes at all, even to an unexpected value, we break out.
      */
-    timeout = SDL_GetTicksNS() + SDL_MS_TO_NS(100);
-    while (true) {
+    timeout = SDL_GetTicksNS() + SDL_MS_గమ్యం_NS(100);
+    అయితే (true) {
         caught_x11_error = false;
         X11_XSync(display, False);
-        X11_XGetWindowAttributes(display, data->xwindow, &attrs);
-        X11_XTranslateCoordinates(display, parent, DefaultRootWindow(display),
-                                  attrs.x, attrs.y, &x, &y, &childReturn);
-        SDL_GlobalToRelativeForWindow(window, x, y, &x, &y);
+        X11_XGet_కిటికీ_లక్షణాలు(display, దత్తాంశం->xwindow, &attrs);
+        X11_XTranslateCoordinates(display, మాతృ, Default_మూలం_కిటికీ(display),
+                                  attrs.x, attrs.y, &x, &y, &బిడ్డ_Return_2);
+        SDL_Global_గమ్యం_Relative_For_కిటికీ(కిటికీ, x, y, &x, &y);
 
-        if (!caught_x11_error) {
-            if ((data->pending_operation & X11_PENDING_OP_MOVE) && (x == data->expected.x + data->border_left && y == data->expected.y + data->border_top)) {
-                data->pending_operation &= ~X11_PENDING_OP_MOVE;
+        ఒకవేళ (!caught_x11_error) {
+            ఒకవేళ ((దత్తాంశం->pending_operation & X11_PENDING_OP_MOVE) && (x == దత్తాంశం->expected.x + దత్తాంశం->border_ఎడమ && y == దత్తాంశం->expected.y + దత్తాంశం->border_శిఖరం)) {
+                దత్తాంశం->pending_operation &= ~X11_PENDING_OP_MOVE;
             }
-            if ((data->pending_operation & X11_PENDING_OP_RESIZE) && (attrs.width == data->expected.w && attrs.height == data->expected.h)) {
-                data->pending_operation &= ~X11_PENDING_OP_RESIZE;
+            ఒకవేళ ((దత్తాంశం->pending_operation & X11_PENDING_OP_RESIZE) && (attrs.వెడల్పు == దత్తాంశం->expected.w && attrs.ఎత్తు == దత్తాంశం->expected.h)) {
+                దత్తాంశం->pending_operation &= ~X11_PENDING_OP_RESIZE;
             }
 
-            if (data->pending_operation == X11_PENDING_OP_NONE) {
-                break;
+            ఒకవేళ (దత్తాంశం->pending_operation == X11_PENDING_OP_NONE) {
+                ఆపు;
             }
         }
 
-        if (SDL_GetTicksNS() >= timeout) {
+        ఒకవేళ (SDL_GetTicksNS() >= timeout) {
             // Timed out without the expected values. Update the requested data so future sync calls won't block.
-            data->pending_operation &= ~(X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE);
-            data->expected.x = x;
-            data->expected.y = y;
-            data->expected.w = attrs.width;
-            data->expected.h = attrs.height;
-            break;
+            దత్తాంశం->pending_operation &= ~(X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE);
+            దత్తాంశం->expected.x = x;
+            దత్తాంశం->expected.y = y;
+            దత్తాంశం->expected.w = attrs.వెడల్పు;
+            దత్తాంశం->expected.h = attrs.ఎత్తు;
+            ఆపు;
         }
 
         SDL_Delay(10);
     }
 
-    if (!caught_x11_error) {
-        if (send_move) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, x, y);
+    ఒకవేళ (!caught_x11_error) {
+        ఒకవేళ (send_move) {
+            SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_MOVED, x, y);
         }
-        if (send_resize) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, attrs.width, attrs.height);
+        ఒకవేళ (send_resize) {
+            SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESIZED, attrs.వెడల్పు, attrs.ఎత్తు);
         }
     }
 
@@ -1020,39 +1020,39 @@ static void X11_ExternalResizeMoveSync(SDL_Window *window)
 
 /* Wait a brief time, or not, to see if the window manager decided to move/resize the window.
  * Send MOVED and RESIZED window events */
-static bool X11_SyncWindowTimeout(SDL_VideoDevice *_this, SDL_Window *window, Uint64 param_timeout)
+స్థిర bool X11_Sync_కిటికీ_Timeout(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, Uint64 param_timeout)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    int (*prev_handler)(Display *, XErrorEvent *);
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    పూర్ణాంకం (*prev_handler)(Display *, XErrorEvent *);
     Uint64 timeout = 0;
     bool force_exit = false;
-    bool result = true;
+    bool ఫలితం = true;
 
     X11_XSync(display, False);
     prev_handler = X11_XSetErrorHandler(X11_CatchAnyError);
 
-    if (param_timeout) {
+    ఒకవేళ (param_timeout) {
         timeout = SDL_GetTicksNS() + param_timeout;
     }
 
-    while (true) {
+    అయితే (true) {
         X11_XSync(display, False);
         X11_PumpEvents(_this);
 
-        if ((data->pending_operation & X11_PENDING_OP_MOVE) && (window->x == data->expected.x + data->border_left && window->y == data->expected.y + data->border_top)) {
-            data->pending_operation &= ~X11_PENDING_OP_MOVE;
+        ఒకవేళ ((దత్తాంశం->pending_operation & X11_PENDING_OP_MOVE) && (కిటికీ->x == దత్తాంశం->expected.x + దత్తాంశం->border_ఎడమ && కిటికీ->y == దత్తాంశం->expected.y + దత్తాంశం->border_శిఖరం)) {
+            దత్తాంశం->pending_operation &= ~X11_PENDING_OP_MOVE;
         }
-        if ((data->pending_operation & X11_PENDING_OP_RESIZE) && (window->w == data->expected.w && window->h == data->expected.h)) {
-            data->pending_operation &= ~X11_PENDING_OP_RESIZE;
+        ఒకవేళ ((దత్తాంశం->pending_operation & X11_PENDING_OP_RESIZE) && (కిటికీ->w == దత్తాంశం->expected.w && కిటికీ->h == దత్తాంశం->expected.h)) {
+            దత్తాంశం->pending_operation &= ~X11_PENDING_OP_RESIZE;
         }
 
-        if (data->pending_operation == X11_PENDING_OP_NONE) {
-            if (force_exit ||
-                (window->x == data->expected.x + data->border_left && window->y == data->expected.y + data->border_top &&
-                 window->w == data->expected.w && window->h == data->expected.h)) {
+        ఒకవేళ (దత్తాంశం->pending_operation == X11_PENDING_OP_NONE) {
+            ఒకవేళ (force_exit ||
+                (కిటికీ->x == దత్తాంశం->expected.x + దత్తాంశం->border_ఎడమ && కిటికీ->y == దత్తాంశం->expected.y + దత్తాంశం->border_శిఖరం &&
+                 కిటికీ->w == దత్తాంశం->expected.w && కిటికీ->h == దత్తాంశం->expected.h)) {
                 // The window is in the expected state and nothing is pending. Done.
-                break;
+                ఆపు;
             }
 
             /* No operations are pending, but the window still isn't in the expected state.
@@ -1061,56 +1061,56 @@ static bool X11_SyncWindowTimeout(SDL_VideoDevice *_this, SDL_Window *window, Ui
             force_exit = true;
         }
 
-        if (SDL_GetTicksNS() >= timeout) {
+        ఒకవేళ (SDL_GetTicksNS() >= timeout) {
             // Timed out without the expected values. Update the requested data so future sync calls won't block.
-            data->expected.x = window->x;
-            data->expected.y = window->y;
-            data->expected.w = window->w;
-            data->expected.h = window->h;
+            దత్తాంశం->expected.x = కిటికీ->x;
+            దత్తాంశం->expected.y = కిటికీ->y;
+            దత్తాంశం->expected.w = కిటికీ->w;
+            దత్తాంశం->expected.h = కిటికీ->h;
 
-            result = false;
-            break;
+            ఫలితం = false;
+            ఆపు;
         }
 
         SDL_Delay(10);
     }
 
-    data->pending_operation = X11_PENDING_OP_NONE;
+    దత్తాంశం->pending_operation = X11_PENDING_OP_NONE;
 
-    if (!caught_x11_error) {
+    ఒకవేళ (!caught_x11_error) {
         X11_PumpEvents(_this);
-    } else {
-        result = false;
+    } లేకపోతే {
+        ఫలితం = false;
     }
 
     X11_XSetErrorHandler(prev_handler);
     caught_x11_error = false;
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-bool X11_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+bool X11_సమితి_కిటికీ_Icon(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_Surface *icon)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom _NET_WM_ICON = data->videodata->atoms._NET_WM_ICON;
-    int (*prevHandler)(Display *, XErrorEvent *) = NULL;
-    bool result = true;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    Atom _NET_WM_ICON = దత్తాంశం->videodata->atoms._NET_WM_ICON;
+    పూర్ణాంకం (*prevHandler)(Display *, XErrorEvent *) = ఖాళీ;
+    bool ఫలితం = true;
 
-    if (icon) {
-        int x, y;
-        int propsize;
-        long *propdata;
+    ఒకవేళ (icon) {
+        పూర్ణాంకం x, y;
+        పూర్ణాంకం propsize;
+        దీర్ఘ *propdata;
         Uint32 *src;
-        long *dst;
+        దీర్ఘ *dst;
 
         // Set the _NET_WM_ICON property
         SDL_assert(icon->format == SDL_PIXELFORMAT_ARGB8888);
         propsize = 2 + (icon->w * icon->h);
-        propdata = SDL_malloc(propsize * sizeof(long));
+        propdata = SDL_malloc(propsize * పరిమాణం(దీర్ఘ));
 
-        if (!propdata) {
-            return false;
+        ఒకవేళ (!propdata) {
+            తిరిగి false;
         }
 
         X11_XSync(display, False);
@@ -1120,196 +1120,196 @@ bool X11_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *
         propdata[1] = icon->h;
         dst = &propdata[2];
 
-        for (y = 0; y < icon->h; ++y) {
+        కొరకు (y = 0; y < icon->h; ++y) {
             src = (Uint32 *)((Uint8 *)icon->pixels + y * icon->pitch);
-            for (x = 0; x < icon->w; ++x) {
+            కొరకు (x = 0; x < icon->w; ++x) {
                 *dst++ = *src++;
             }
         }
 
-        X11_XChangeProperty(display, data->xwindow, _NET_WM_ICON, XA_CARDINAL,
-                            32, PropModeReplace, (unsigned char *)propdata,
+        X11_XChangeProperty(display, దత్తాంశం->xwindow, _NET_WM_ICON, XA_CARDINAL,
+                            32, Prop_బహుళకం_Replace, (గుర్తులేని అక్షరం *)propdata,
                             propsize);
         SDL_free(propdata);
 
-        if (caught_x11_error) {
-            result = SDL_SetError("An error occurred while trying to set the window's icon");
+        ఒకవేళ (caught_x11_error) {
+            ఫలితం = SDL_సమితి_Error("An error occurred while trying to set the window's icon");
         }
     }
 
     X11_XFlush(display);
 
-    if (prevHandler) {
+    ఒకవేళ (prevHandler) {
         X11_XSetErrorHandler(prevHandler);
         caught_x11_error = false;
     }
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-void X11_UpdateWindowPosition(SDL_Window *window, bool use_current_position)
+శూన్య X11_Update_కిటికీ_Position(SDL_కిటికీ *కిటికీ, bool use_current_position)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    const int rel_x = use_current_position ? window->x : window->pending.x;
-    const int rel_y = use_current_position ? window->y : window->pending.y;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    స్థిరరాశి పూర్ణాంకం rel_x = use_current_position ? కిటికీ->x : కిటికీ->pending.x;
+    స్థిరరాశి పూర్ణాంకం rel_y = use_current_position ? కిటికీ->y : కిటికీ->pending.y;
 
-    SDL_RelativeToGlobalForWindow(window,
-                                  rel_x - data->border_left, rel_y - data->border_top,
-                                  &data->expected.x, &data->expected.y);
+    SDL_Relative_గమ్యం_Global_For_కిటికీ(కిటికీ,
+                                  rel_x - దత్తాంశం->border_ఎడమ, rel_y - దత్తాంశం->border_శిఖరం,
+                                  &దత్తాంశం->expected.x, &దత్తాంశం->expected.y);
 
     // Attempt to move the window
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->internal->pending_position = true;
-    } else {
-        data->pending_operation |= X11_PENDING_OP_MOVE;
-        X11_XMoveWindow(display, data->xwindow, data->expected.x, data->expected.y);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+        కిటికీ->అంతర్గత->pending_position = true;
+    } లేకపోతే {
+        దత్తాంశం->pending_operation |= X11_PENDING_OP_MOVE;
+        X11_XMove_కిటికీ(display, దత్తాంశం->xwindow, దత్తాంశం->expected.x, దత్తాంశం->expected.y);
     }
 }
 
-bool X11_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_సమితి_కిటికీ_Position(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     // Sync any pending fullscreen or maximize events.
-    if (window->internal->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE)) {
-        X11_FlushPendingEvents(_this, window);
+    ఒకవేళ (కిటికీ->అంతర్గత->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE)) {
+        X11_FlushPendingEvents(_this, కిటికీ);
     }
 
     // Set the position as pending if the window is maximized with a restore pending.
-    if (window->flags & SDL_WINDOW_MAXIMIZED) {
-        if (window->internal->pending_operation & X11_PENDING_OP_RESTORE) {
-            window->internal->pending_position = true;
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_MAXIMIZED) {
+        ఒకవేళ (కిటికీ->అంతర్గత->pending_operation & X11_PENDING_OP_RESTORE) {
+            కిటికీ->అంతర్గత->pending_position = true;
         }
-        return true;
+        తిరిగి true;
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (SDL_WINDOW_IS_POPUP(window)) {
-            X11_ConstrainPopup(window, true);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        ఒకవేళ (SDL_కిటికీ_IS_POPUP(కిటికీ)) {
+            X11_ConstrainPopup(కిటికీ, true);
         }
-        X11_UpdateWindowPosition(window, false);
-    } else {
-        window->internal->fs_repositioned = true;
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
+        X11_Update_కిటికీ_Position(కిటికీ, false);
+    } లేకపోతే {
+        కిటికీ->అంతర్గత->fs_repositioned = true;
+        SDL_Update_Fullscreen_బహుళకం(కిటికీ, SDL_FULLSCREEN_OP_UPDATE, true);
     }
-    return true;
+    తిరిగి true;
 }
 
-void X11_SetWindowMinMax(SDL_Window *window, bool use_current)
+శూన్య X11_సమితి_కిటికీ_Min_Max(SDL_కిటికీ *కిటికీ, bool use_current)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    XSizeHints *sizehints = X11_XAllocSizeHints();
-    long hint_flags = 0;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    XSizeHints *sizehints = X11_XAlloc_కొలత_Hints();
+    దీర్ఘ hint_flags = 0;
 
-    X11_XGetWMNormalHints(display, data->xwindow, sizehints, &hint_flags);
-    sizehints->flags &= ~(PMinSize | PMaxSize | PAspect);
+    X11_XGetWMNormalHints(display, దత్తాంశం->xwindow, sizehints, &hint_flags);
+    sizehints->flags &= ~(PMin_కొలత | PMax_కొలత | PAspect);
 
-    if (data->window->flags & SDL_WINDOW_RESIZABLE) {
-        if (data->window->min_w || data->window->min_h) {
-            sizehints->flags |= PMinSize;
-            sizehints->min_width = data->window->min_w;
-            sizehints->min_height = data->window->min_h;
+    ఒకవేళ (దత్తాంశం->కిటికీ->flags & SDL_కిటికీ_RESIZABLE) {
+        ఒకవేళ (దత్తాంశం->కిటికీ->min_w || దత్తాంశం->కిటికీ->min_h) {
+            sizehints->flags |= PMin_కొలత;
+            sizehints->min_వెడల్పు_2 = దత్తాంశం->కిటికీ->min_w;
+            sizehints->min_ఎత్తు_2 = దత్తాంశం->కిటికీ->min_h;
         }
-        if (data->window->max_w || data->window->max_h) {
-            sizehints->flags |= PMaxSize;
-            sizehints->max_width = data->window->max_w;
-            sizehints->max_height = data->window->max_h;
+        ఒకవేళ (దత్తాంశం->కిటికీ->max_w || దత్తాంశం->కిటికీ->max_h) {
+            sizehints->flags |= PMax_కొలత;
+            sizehints->max_వెడల్పు_2 = దత్తాంశం->కిటికీ->max_w;
+            sizehints->max_ఎత్తు_2 = దత్తాంశం->కిటికీ->max_h;
         }
-        if (data->window->min_aspect > 0.0f || data->window->max_aspect > 0.0f) {
+        ఒకవేళ (దత్తాంశం->కిటికీ->min_aspect > 0.0f || దత్తాంశం->కిటికీ->max_aspect > 0.0f) {
             sizehints->flags |= PAspect;
-            SDL_CalculateFraction(data->window->min_aspect, &sizehints->min_aspect.x, &sizehints->min_aspect.y);
-            SDL_CalculateFraction(data->window->max_aspect, &sizehints->max_aspect.x, &sizehints->max_aspect.y);
+            SDL_CalculateFraction(దత్తాంశం->కిటికీ->min_aspect, &sizehints->min_aspect.x, &sizehints->min_aspect.y);
+            SDL_CalculateFraction(దత్తాంశం->కిటికీ->max_aspect, &sizehints->max_aspect.x, &sizehints->max_aspect.y);
         }
-    } else {
+    } లేకపోతే {
         // Set the min/max to the same values to make the window non-resizable
-        sizehints->flags |= PMinSize | PMaxSize;
-        if (use_current) {
-            sizehints->min_width = sizehints->max_width = window->last_size_pending ? window->pending.w : data->window->floating.w;
-            sizehints->min_height = sizehints->max_height = window->last_size_pending ? window->pending.h : data->window->floating.h;
-        } else {
-            sizehints->min_width = sizehints->max_width = window->last_size_pending ? window->pending.w : data->window->windowed.w;
-            sizehints->min_height = sizehints->max_height = window->last_size_pending ? window->pending.h : data->window->windowed.h;
+        sizehints->flags |= PMin_కొలత | PMax_కొలత;
+        ఒకవేళ (use_current) {
+            sizehints->min_వెడల్పు_2 = sizehints->max_వెడల్పు_2 = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.w : దత్తాంశం->కిటికీ->floating.w;
+            sizehints->min_ఎత్తు_2 = sizehints->max_ఎత్తు_2 = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.h : దత్తాంశం->కిటికీ->floating.h;
+        } లేకపోతే {
+            sizehints->min_వెడల్పు_2 = sizehints->max_వెడల్పు_2 = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.w : దత్తాంశం->కిటికీ->windowed.w;
+            sizehints->min_ఎత్తు_2 = sizehints->max_ఎత్తు_2 = కిటికీ->చివరి_కొలత_pending ? కిటికీ->pending.h : దత్తాంశం->కిటికీ->windowed.h;
         }
     }
 
-    X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+    X11_XSetWMNormalHints(display, దత్తాంశం->xwindow, sizehints);
     X11_XFree(sizehints);
 }
 
-void X11_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_సమితి_కిటికీ_Minimum_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (window->internal->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    ఒకవేళ (కిటికీ->అంతర్గత->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_కిటికీ(_this, కిటికీ);
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        X11_సమితి_కిటికీ_Min_Max(కిటికీ, true);
     }
 }
 
-void X11_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_సమితి_కిటికీ_గరిష్ఠ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (window->internal->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    ఒకవేళ (కిటికీ->అంతర్గత->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_కిటికీ(_this, కిటికీ);
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        X11_సమితి_కిటికీ_Min_Max(కిటికీ, true);
     }
 }
 
-void X11_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_సమితి_కిటికీ_Aspect_నిష్పత్తి(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (window->internal->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    ఒకవేళ (కిటికీ->అంతర్గత->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_కిటికీ(_this, కిటికీ);
     }
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        X11_సమితి_కిటికీ_Min_Max(కిటికీ, true);
     }
 }
 
-void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_సమితి_కిటికీ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
 
     /* Wait for pending maximize and fullscreen operations to complete, as these windows
      * don't get size changes.
      */
-    if (data->pending_operation & (X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_FULLSCREEN)) {
-        X11_FlushPendingEvents(_this, window);
+    ఒకవేళ (దత్తాంశం->pending_operation & (X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_FULLSCREEN)) {
+        X11_FlushPendingEvents(_this, కిటికీ);
     }
 
     // Set the size as pending if the window is being restored.
-    if (window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN)) {
+    ఒకవేళ (కిటికీ->flags & (SDL_కిటికీ_MAXIMIZED | SDL_కిటికీ_FULLSCREEN)) {
         // New size will be set when the window is restored.
-        if (data->pending_operation & X11_PENDING_OP_RESTORE) {
-            data->pending_size = true;
-        } else {
+        ఒకవేళ (దత్తాంశం->pending_operation & X11_PENDING_OP_RESTORE) {
+            దత్తాంశం->pending_కొలత = true;
+        } లేకపోతే {
             // Can't resize the window.
-            window->last_size_pending = false;
+            కిటికీ->చివరి_కొలత_pending = false;
         }
-        return;
+        తిరిగి;
     }
 
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_RESIZABLE)) {
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
             /* Apparently, if the X11 Window is set to a 'non-resizable' window, you cannot resize it using the X11_XResizeWindow, thus
              * we must set the size hints to adjust the window size.
              */
-            XSizeHints *sizehints = X11_XAllocSizeHints();
-            long userhints;
-            int dest_x, dest_y;
+            XSizeHints *sizehints = X11_XAlloc_కొలత_Hints();
+            దీర్ఘ userhints;
+            పూర్ణాంకం dest_x, dest_y;
 
-            X11_XGetWMNormalHints(display, data->xwindow, sizehints, &userhints);
+            X11_XGetWMNormalHints(display, దత్తాంశం->xwindow, sizehints, &userhints);
 
-            data->expected.w = sizehints->min_width = sizehints->max_width = window->pending.w;
-            data->expected.h = sizehints->min_height = sizehints->max_height = window->pending.h;
-            sizehints->flags |= PMinSize | PMaxSize;
-            data->pending_operation |= X11_PENDING_OP_RESIZE;
+            దత్తాంశం->expected.w = sizehints->min_వెడల్పు_2 = sizehints->max_వెడల్పు_2 = కిటికీ->pending.w;
+            దత్తాంశం->expected.h = sizehints->min_ఎత్తు_2 = sizehints->max_ఎత్తు_2 = కిటికీ->pending.h;
+            sizehints->flags |= PMin_కొలత | PMax_కొలత;
+            దత్తాంశం->pending_operation |= X11_PENDING_OP_RESIZE;
 
-            X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+            X11_XSetWMNormalHints(display, దత్తాంశం->xwindow, sizehints);
 
             /* From Pierre-Loup:
                WMs each have their little quirks with that.  When you change the
@@ -1327,275 +1327,275 @@ void X11_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
                hide/show, because there are supposedly subtle problems with doing so
                and transitioning from windowed to fullscreen in Unity.
              */
-            X11_XResizeWindow(display, data->xwindow, window->pending.w, window->pending.h);
-            const int x = window->last_position_pending ? window->pending.x : window->x;
-            const int y = window->last_position_pending ? window->pending.y : window->y;
-            SDL_RelativeToGlobalForWindow(window,
-                                          x - data->border_left,
-                                          y - data->border_top,
+            X11_XResize_కిటికీ(display, దత్తాంశం->xwindow, కిటికీ->pending.w, కిటికీ->pending.h);
+            స్థిరరాశి పూర్ణాంకం x = కిటికీ->చివరి_position_pending ? కిటికీ->pending.x : కిటికీ->x;
+            స్థిరరాశి పూర్ణాంకం y = కిటికీ->చివరి_position_pending ? కిటికీ->pending.y : కిటికీ->y;
+            SDL_Relative_గమ్యం_Global_For_కిటికీ(కిటికీ,
+                                          x - దత్తాంశం->border_ఎడమ,
+                                          y - దత్తాంశం->border_శిఖరం,
                                           &dest_x, &dest_y);
-            X11_XMoveWindow(display, data->xwindow, dest_x, dest_y);
-            X11_XRaiseWindow(display, data->xwindow);
+            X11_XMove_కిటికీ(display, దత్తాంశం->xwindow, dest_x, dest_y);
+            X11_XRaise_కిటికీ(display, దత్తాంశం->xwindow);
 
             X11_XFree(sizehints);
         }
-    } else {
-        data->expected.w = window->pending.w;
-        data->expected.h = window->pending.h;
-        data->pending_operation |= X11_PENDING_OP_RESIZE;
-        X11_XResizeWindow(display, data->xwindow, data->expected.w, data->expected.h);
+    } లేకపోతే {
+        దత్తాంశం->expected.w = కిటికీ->pending.w;
+        దత్తాంశం->expected.h = కిటికీ->pending.h;
+        దత్తాంశం->pending_operation |= X11_PENDING_OP_RESIZE;
+        X11_XResize_కిటికీ(display, దత్తాంశం->xwindow, దత్తాంశం->expected.w, దత్తాంశం->expected.h);
     }
 
     /* External windows may call this to update the renderer size, but not pump SDL events,
      * so the size event needs to be synthesized for external windows. If it is wrong, the
      * true size will be sent if/when events are processed.
      */
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_EXTERNAL) {
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESIZED, కిటికీ->pending.w, కిటికీ->pending.h);
     }
 }
 
-bool X11_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool X11_Get_కిటికీ_Borders_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, పూర్ణాంకం *శిఖరం, పూర్ణాంకం *ఎడమ, పూర్ణాంకం *bottom, పూర్ణాంకం *కుడి)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-    *left = data->border_left;
-    *right = data->border_right;
-    *top = data->border_top;
-    *bottom = data->border_bottom;
+    *ఎడమ = దత్తాంశం->border_ఎడమ;
+    *కుడి = దత్తాంశం->border_కుడి;
+    *శిఖరం = దత్తాంశం->border_శిఖరం;
+    *bottom = దత్తాంశం->border_bottom;
 
-    return true;
+    తిరిగి true;
 }
 
-bool X11_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity)
+bool X11_సమితి_కిటికీ_Opacity(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, దశాంశం opacity)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom _NET_WM_WINDOW_OPACITY = data->videodata->atoms._NET_WM_WINDOW_OPACITY;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    Atom NET_WM_కిటికీ_OPACITY = దత్తాంశం->videodata->atoms.NET_WM_కిటికీ_OPACITY;
 
-    if (opacity == 1.0f) {
-        X11_XDeleteProperty(display, data->xwindow, _NET_WM_WINDOW_OPACITY);
-    } else {
-        const Uint32 FullyOpaque = 0xFFFFFFFF;
-        const long alpha = (long)((double)opacity * (double)FullyOpaque);
-        X11_XChangeProperty(display, data->xwindow, _NET_WM_WINDOW_OPACITY, XA_CARDINAL, 32,
-                            PropModeReplace, (unsigned char *)&alpha, 1);
+    ఒకవేళ (opacity == 1.0f) {
+        X11_XDeleteProperty(display, దత్తాంశం->xwindow, NET_WM_కిటికీ_OPACITY);
+    } లేకపోతే {
+        స్థిరరాశి Uint32 FullyOpaque = 0xFFFFFFFF;
+        స్థిరరాశి దీర్ఘ alpha = (దీర్ఘ)((ద్విగుణ)opacity * (ద్విగుణ)FullyOpaque);
+        X11_XChangeProperty(display, దత్తాంశం->xwindow, NET_WM_కిటికీ_OPACITY, XA_CARDINAL, 32,
+                            Prop_బహుళకం_Replace, (గుర్తులేని అక్షరం *)&alpha, 1);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool X11_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent)
+bool X11_సమితి_కిటికీ_మాతృ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_కిటికీ *మాతృ)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_WindowData *parent_data = parent ? parent->internal : NULL;
-    SDL_VideoData *video_data = _this->internal;
-    Display *display = video_data->display;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_కిటికీ_దత్తాంశం *మాతృ_దత్తాంశం = మాతృ ? మాతృ->అంతర్గత : ఖాళీ;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    Display *display = video_దత్తాంశం->display;
 
-    if (parent_data) {
-        X11_XSetTransientForHint(display, data->xwindow, parent_data->xwindow);
-    } else {
-        X11_XDeleteProperty(display, data->xwindow, video_data->atoms.WM_TRANSIENT_FOR);
+    ఒకవేళ (మాతృ_దత్తాంశం) {
+        X11_XSetTransientForHint(display, దత్తాంశం->xwindow, మాతృ_దత్తాంశం->xwindow);
+    } లేకపోతే {
+        X11_XDeleteProperty(display, దత్తాంశం->xwindow, video_దత్తాంశం->atoms.WM_TRANSIENT_FOR);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool X11_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+bool X11_సమితి_కిటికీ_Modal(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool modal)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_VideoData *video_data = _this->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = video_data->display;
-    Uint32 flags = window->flags;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_MODAL = data->videodata->atoms._NET_WM_STATE_MODAL;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = _this->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    Display *display = video_దత్తాంశం->display;
+    Uint32 flags = కిటికీ->flags;
+    Atom _NET_WM_STATE = దత్తాంశం->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_MODAL = దత్తాంశం->videodata->atoms._NET_WM_STATE_MODAL;
 
-    if (modal) {
-        flags |= SDL_WINDOW_MODAL;
-    } else {
-        flags &= ~SDL_WINDOW_MODAL;
-        X11_XDeleteProperty(display, data->xwindow, video_data->atoms.WM_TRANSIENT_FOR);
+    ఒకవేళ (modal) {
+        flags |= SDL_కిటికీ_MODAL;
+    } లేకపోతే {
+        flags &= ~SDL_కిటికీ_MODAL;
+        X11_XDeleteProperty(display, దత్తాంశం->xwindow, video_దత్తాంశం->atoms.WM_TRANSIENT_FOR);
     }
 
-    if (X11_IsWindowMapped(_this, window)) {
+    ఒకవేళ (X11_Is_కిటికీ_Mapped(_this, కిటికీ)) {
         XEvent e;
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_సందేశం;
+        e.xclient.సందేశం_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] = modal ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_MODAL;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.కిటికీ = దత్తాంశం->xwindow;
+        e.xclient.దత్తాంశం.l[0] = modal ? NET_WM_STATE_కూడు : _NET_WM_STATE_REMOVE;
+        e.xclient.దత్తాంశం.l[1] = _NET_WM_STATE_MODAL;
+        e.xclient.దత్తాంశం.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
-    } else {
-        X11_SetNetWMState(_this, data->xwindow, flags);
+        X11_XSendEvent(display, మూలం_కిటికీ(display, displaydata->screen), 0,
+                       Substructure_Notify_ముసుగు | Substructure_Redirect_ముసుగు, &e);
+    } లేకపోతే {
+        X11_సమితి_Net_WMState(_this, దత్తాంశం->xwindow, flags);
     }
 
     X11_XFlush(display);
 
-    return true;
+    తిరిగి true;
 }
 
-void X11_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
+శూన్య X11_సమితి_కిటికీ_Bordered(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool bordered)
 {
-    const bool focused = (window->flags & SDL_WINDOW_INPUT_FOCUS) != 0;
-    const bool visible = !(window->flags & SDL_WINDOW_HIDDEN) && !window->is_hiding;
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
+    స్థిరరాశి bool focused = (కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS) != 0;
+    స్థిరరాశి bool visible = !(కిటికీ->flags & SDL_కిటికీ_HIDDEN) && !కిటికీ->is_hiding;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    Display *display = దత్తాంశం->videodata->display;
     XEvent event;
 
-    if (data->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    ఒకవేళ (దత్తాంశం->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_కిటికీ(_this, కిటికీ);
     }
 
     // If the window is fullscreen, the resize capability will be set/cleared when it is returned to windowed mode.
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        SetWindowBordered(display, displaydata->screen, data->xwindow, bordered);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        సమితి_కిటికీ_Bordered(display, displaydata->screen, దత్తాంశం->xwindow, bordered);
         X11_XFlush(display);
 
-        if (visible) {
-            XWindowAttributes attr;
-            do {
+        ఒకవేళ (visible) {
+            XWindow_లక్షణాలు attr;
+            చేయి {
                 X11_XSync(display, False);
-                X11_XGetWindowAttributes(display, data->xwindow, &attr);
-            } while (attr.map_state != IsViewable);
+                X11_XGet_కిటికీ_లక్షణాలు(display, దత్తాంశం->xwindow, &attr);
+            } అయితే (attr.map_state != IsViewable);
 
-            if (focused) {
-                X11_XSetInputFocus(display, data->xwindow, RevertToParent, CurrentTime);
+            ఒకవేళ (focused) {
+                X11_XSet_ఆదానం_Focus(display, దత్తాంశం->xwindow, Revert_గమ్యం_మాతృ, Current_సమయం);
             }
         }
 
         // make sure these don't make it to the real event queue if they fired here.
         X11_XSync(display, False);
-        X11_XCheckIfEvent(display, &event, &isUnmapNotify, (XPointer)&data->xwindow);
-        X11_XCheckIfEvent(display, &event, &isMapNotify, (XPointer)&data->xwindow);
+        X11_XCheckIfEvent(display, &event, &isUnmapNotify, (XPointer)&దత్తాంశం->xwindow);
+        X11_XCheckIfEvent(display, &event, &isMapNotify, (XPointer)&దత్తాంశం->xwindow);
 
         // Turning the borders off doesn't send an extent event, so they must be cleared here.
-        X11_GetBorderValues(data);
+        X11_Get_Border_విలువలు(దత్తాంశం);
 
         // Make sure the window manager didn't resize our window for the difference.
-        X11_XResizeWindow(display, data->xwindow, window->floating.w, window->floating.h);
+        X11_XResize_కిటికీ(display, దత్తాంశం->xwindow, కిటికీ->floating.w, కిటికీ->floating.h);
         X11_XSync(display, False);
-    } else {
+    } లేకపోతే {
         // If fullscreen, set a flag to toggle the borders when returning to windowed mode.
-        data->toggle_borders = true;
-        data->fullscreen_borders_forced_on = false;
+        దత్తాంశం->toggle_borders = true;
+        దత్తాంశం->fullscreen_borders_forced_on = false;
     }
 }
 
-void X11_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+శూన్య X11_సమితి_కిటికీ_Resizable(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool resizable)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-    if (data->pending_operation & X11_PENDING_OP_FULLSCREEN) {
-        X11_SyncWindow(_this, window);
+    ఒకవేళ (దత్తాంశం->pending_operation & X11_PENDING_OP_FULLSCREEN) {
+        X11_Sync_కిటికీ(_this, కిటికీ);
     }
 
     // If the window is fullscreen, the resize capability will be set/cleared when it is returned to windowed mode.
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        X11_SetWindowMinMax(window, true);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        X11_సమితి_కిటికీ_Min_Max(కిటికీ, true);
     }
 }
 
-void X11_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top)
+శూన్య X11_సమితి_కిటికీ_Always_On_శిఖరం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool on_శిఖరం)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_ABOVE = data->videodata->atoms._NET_WM_STATE_ABOVE;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    Display *display = దత్తాంశం->videodata->display;
+    Atom _NET_WM_STATE = దత్తాంశం->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_ABOVE = దత్తాంశం->videodata->atoms._NET_WM_STATE_ABOVE;
 
-    if (X11_IsWindowMapped(_this, window)) {
+    ఒకవేళ (X11_Is_కిటికీ_Mapped(_this, కిటికీ)) {
         XEvent e;
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_సందేశం;
+        e.xclient.సందేశం_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] =
-            on_top ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_ABOVE;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.కిటికీ = దత్తాంశం->xwindow;
+        e.xclient.దత్తాంశం.l[0] =
+            on_శిఖరం ? NET_WM_STATE_కూడు : _NET_WM_STATE_REMOVE;
+        e.xclient.దత్తాంశం.l[1] = _NET_WM_STATE_ABOVE;
+        e.xclient.దత్తాంశం.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
-    } else {
-        X11_SetNetWMState(_this, data->xwindow, window->flags);
+        X11_XSendEvent(display, మూలం_కిటికీ(display, displaydata->screen), 0,
+                       Substructure_Notify_ముసుగు | Substructure_Redirect_ముసుగు, &e);
+    } లేకపోతే {
+        X11_సమితి_Net_WMState(_this, దత్తాంశం->xwindow, కిటికీ->flags);
     }
     X11_XFlush(display);
 }
 
-void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Show_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN, true);
-    bool set_position = false;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_కిటికీ_ACTIVATE_WHEN_SHOWN, true);
+    bool సమితి_position = false;
     XEvent event;
 
     // If the window was previously shown, pump events to avoid possible positioning issues.
-    if (data->was_shown) {
+    ఒకవేళ (దత్తాంశం->was_shown) {
         X11_PumpEvents(_this);
     }
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    ఒకవేళ (SDL_కిటికీ_IS_POPUP(కిటికీ)) {
         // Update the position in case the parent moved while we were hidden
-        X11_ConstrainPopup(window, true);
-        data->pending_position = true;
-        set_position = true;
+        X11_ConstrainPopup(కిటికీ, true);
+        దత్తాంశం->pending_position = true;
+        సమితి_position = true;
     }
 
     /* Whether XMapRaised focuses the window is based on the window type and it is
      * wm specific. There isn't much we can do here */
-    (void)bActivate;
+    (శూన్య)bActivate;
 
-    if (!X11_IsWindowMapped(_this, window)) {
-        X11_XMapRaised(display, data->xwindow);
+    ఒకవేళ (!X11_Is_కిటికీ_Mapped(_this, కిటికీ)) {
+        X11_XMapRaised(display, దత్తాంశం->xwindow);
         /* Blocking wait for "MapNotify" event.
          * We use X11_XIfEvent because pXWindowEvent takes a mask rather than a type,
          * and XCheckTypedWindowEvent doesn't block */
-        if (!(window->flags & SDL_WINDOW_EXTERNAL) && X11_IsDisplayOk(display)) {
-            X11_XIfEvent(display, &event, &isMapNotify, (XPointer)&data->xwindow);
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_EXTERNAL) && X11_IsDisplayOk(display)) {
+            X11_XIfEvent(display, &event, &isMapNotify, (XPointer)&దత్తాంశం->xwindow);
         }
         X11_XFlush(display);
-        set_position = data->pending_position ||
-                       (!(window->flags & SDL_WINDOW_BORDERLESS) && !window->undefined_x && !window->undefined_y);
+        సమితి_position = దత్తాంశం->pending_position ||
+                       (!(కిటికీ->flags & SDL_కిటికీ_BORDERLESS) && !కిటికీ->undefined_x && !కిటికీ->undefined_y);
     }
 
-    if (!data->videodata->net_wm) {
+    ఒకవేళ (!దత్తాంశం->videodata->net_wm) {
         // no WM means no FocusIn event, which confuses us. Force it.
         X11_XSync(display, False);
-        X11_XSetInputFocus(display, data->xwindow, RevertToNone, CurrentTime);
+        X11_XSet_ఆదానం_Focus(display, దత్తాంశం->xwindow, Revert_గమ్యం_None, Current_సమయం);
         X11_XFlush(display);
     }
 
     // Grabbing popup menus get keyboard focus.
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        X11_SetKeyboardFocus(window, true);
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_POPUP_MENU) && !(కిటికీ->flags & SDL_కిటికీ_NOT_FOCUSABLE)) {
+        X11_సమితి_Keyboard_Focus(కిటికీ, true);
     }
 
     // Get some valid border values, if we haven't received them yet
-    if (data->border_left == 0 && data->border_right == 0 && data->border_top == 0 && data->border_bottom == 0) {
-        X11_GetBorderValues(data);
+    ఒకవేళ (దత్తాంశం->border_ఎడమ == 0 && దత్తాంశం->border_కుడి == 0 && దత్తాంశం->border_శిఖరం == 0 && దత్తాంశం->border_bottom == 0) {
+        X11_Get_Border_విలువలు(దత్తాంశం);
     }
 
-    if (set_position) {
+    ఒకవేళ (సమితి_position) {
         // Apply the window position, accounting for offsets due to the borders appearing, but only when initially mapping.
-        const int tx = (data->pending_position ? window->pending.x : window->x) - (data->was_shown ? 0 : data->border_left);
-        const int ty = (data->pending_position ? window->pending.y : window->y) - (data->was_shown ? 0 : data->border_top);
-        int x, y;
+        స్థిరరాశి పూర్ణాంకం tx = (దత్తాంశం->pending_position ? కిటికీ->pending.x : కిటికీ->x) - (దత్తాంశం->was_shown ? 0 : దత్తాంశం->border_ఎడమ);
+        స్థిరరాశి పూర్ణాంకం ty = (దత్తాంశం->pending_position ? కిటికీ->pending.y : కిటికీ->y) - (దత్తాంశం->was_shown ? 0 : దత్తాంశం->border_శిఖరం);
+        పూర్ణాంకం x, y;
 
-        SDL_RelativeToGlobalForWindow(window, tx, ty, &x, &y);
+        SDL_Relative_గమ్యం_Global_For_కిటికీ(కిటికీ, tx, ty, &x, &y);
 
-        data->pending_position = false;
-        X11_XMoveWindow(display, data->xwindow, x, y);
+        దత్తాంశం->pending_position = false;
+        X11_XMove_కిటికీ(display, దత్తాంశం->xwindow, x, y);
     }
 
     /* XMonad ignores size hints and shrinks the client area to overlay borders on fixed-size windows,
@@ -1603,534 +1603,534 @@ void X11_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
      * requested. Calling XResizeWindow after mapping seems to fix it, even though resizing fixed-size
      * windows in this manner doesn't work on any other window manager.
      */
-    if (!(window->flags & SDL_WINDOW_RESIZABLE) && X11_CheckCurrentDesktop("xmonad")) {
-        X11_XResizeWindow(display, data->xwindow, window->w, window->h);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_RESIZABLE) && X11_CheckCurrentDesktop("xmonad")) {
+        X11_XResize_కిటికీ(display, దత్తాంశం->xwindow, కిటికీ->w, కిటికీ->h);
     }
 
     /* Some window managers can send garbage coordinates while mapping the window, so don't emit size and position
      * events during the initial configure events.
      */
-    data->size_move_event_flags = X11_SIZE_MOVE_EVENTS_DISABLE;
+    దత్తాంశం->కొలత_move_event_flags = X11_కొలత_MOVE_EVENTS_DISABLE;
     X11_XSync(display, False);
     X11_PumpEvents(_this);
-    data->size_move_event_flags = 0;
+    దత్తాంశం->కొలత_move_event_flags = 0;
 
     /* A MapNotify or PropertyNotify may not have arrived, so ensure that the shown event is dispatched
      * to apply pending state before clearing the flag.
      */
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    data->was_shown = true;
+    SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_SHOWN, 0, 0);
+    దత్తాంశం->was_shown = true;
 
     // If a configure event was received (type is non-zero), send the final window size and coordinates.
-    if (data->last_xconfigure.type) {
-        int x, y;
-        SDL_GlobalToRelativeForWindow(data->window, data->last_xconfigure.x, data->last_xconfigure.y, &x, &y);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, data->last_xconfigure.width, data->last_xconfigure.height);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, x, y);
+    ఒకవేళ (దత్తాంశం->చివరి_xconfigure.type) {
+        పూర్ణాంకం x, y;
+        SDL_Global_గమ్యం_Relative_For_కిటికీ(దత్తాంశం->కిటికీ, దత్తాంశం->చివరి_xconfigure.x, దత్తాంశం->చివరి_xconfigure.y, &x, &y);
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_RESIZED, దత్తాంశం->చివరి_xconfigure.వెడల్పు, దత్తాంశం->చివరి_xconfigure.ఎత్తు);
+        SDL_Send_కిటికీ_Event(కిటికీ, SDL_EVENT_కిటికీ_MOVED, x, y);
     }
 }
 
-void X11_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Hide_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    int screen = (displaydata ? displaydata->screen : 0);
-    Display *display = data->videodata->display;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    పూర్ణాంకం screen = (displaydata ? displaydata->screen : 0);
+    Display *display = దత్తాంశం->videodata->display;
     XEvent event;
 
     /* Some window managers will mark minimized or offscreen windows as unmapped, so we
      * must not block while waiting for an UnmapNotify event that will never arrive.
      */
-    const bool is_mapped = X11_IsWindowMapped(_this, window);
-    X11_XWithdrawWindow(display, data->xwindow, screen);
-    if (is_mapped && !(window->flags & SDL_WINDOW_EXTERNAL) && X11_IsDisplayOk(display)) {
+    స్థిరరాశి bool is_mapped = X11_Is_కిటికీ_Mapped(_this, కిటికీ);
+    X11_XWithdraw_కిటికీ(display, దత్తాంశం->xwindow, screen);
+    ఒకవేళ (is_mapped && !(కిటికీ->flags & SDL_కిటికీ_EXTERNAL) && X11_IsDisplayOk(display)) {
         // Blocking wait for "UnmapNotify" event.
-        X11_XIfEvent(display, &event, &isUnmapNotify, (XPointer)&data->xwindow);
+        X11_XIfEvent(display, &event, &isUnmapNotify, (XPointer)&దత్తాంశం->xwindow);
     }
     X11_XFlush(display);
 
     // Transfer keyboard focus back to the parent
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        SDL_Window *new_focus;
-        const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-        X11_SetKeyboardFocus(new_focus, set_focus);
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_POPUP_MENU) && !(కిటికీ->flags & SDL_కిటికీ_NOT_FOCUSABLE)) {
+        SDL_కిటికీ *new_focus;
+        స్థిరరాశి bool సమితి_focus = SDL_ShouldRelinquishPopupFocus(కిటికీ, &new_focus);
+        X11_సమితి_Keyboard_Focus(new_focus, సమితి_focus);
     }
 
     X11_XSync(display, False);
     X11_PumpEvents(_this);
 }
 
-static bool X11_SetWindowActive(SDL_VideoDevice *_this, SDL_Window *window)
+స్థిర bool X11_సమితి_కిటికీ_చురుకైన(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    CHECK_WINDOW_DATA(window);
+    CHECK_కిటికీ_దత్తాంశం(కిటికీ);
 
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Atom _NET_ACTIVE_WINDOW = data->videodata->atoms._NET_ACTIVE_WINDOW;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    Display *display = దత్తాంశం->videodata->display;
+    Atom NET_చురుకైన_కిటికీ = దత్తాంశం->videodata->atoms.NET_చురుకైన_కిటికీ;
 
-    if (X11_IsWindowMapped(_this, window)) {
+    ఒకవేళ (X11_Is_కిటికీ_Mapped(_this, కిటికీ)) {
         XEvent e;
 
         // printf("SDL Window %p: sending _NET_ACTIVE_WINDOW with timestamp %lu\n", window, data->user_time);
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_ACTIVE_WINDOW;
+        e.xany.type = Client_సందేశం;
+        e.xclient.సందేశం_type = NET_చురుకైన_కిటికీ;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] = 1; // source indication. 1 = application
-        e.xclient.data.l[1] = data->user_time;
-        e.xclient.data.l[2] = 0;
+        e.xclient.కిటికీ = దత్తాంశం->xwindow;
+        e.xclient.దత్తాంశం.l[0] = 1; // source indication. 1 = application
+        e.xclient.దత్తాంశం.l[1] = దత్తాంశం->user_సమయం;
+        e.xclient.దత్తాంశం.l[2] = 0;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
+        X11_XSendEvent(display, మూలం_కిటికీ(display, displaydata->screen), 0,
+                       Substructure_Notify_ముసుగు | Substructure_Redirect_ముసుగు, &e);
 
         X11_XFlush(display);
     }
-    return true;
+    తిరిగి true;
 }
 
-void X11_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Raise_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_RAISED, true);
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_కిటికీ_ACTIVATE_WHEN_RAISED, true);
 
-    X11_XRaiseWindow(display, data->xwindow);
-    if (bActivate) {
-        X11_SetWindowActive(_this, window);
+    X11_XRaise_కిటికీ(display, దత్తాంశం->xwindow);
+    ఒకవేళ (bActivate) {
+        X11_సమితి_కిటికీ_చురుకైన(_this, కిటికీ);
     }
     X11_XFlush(display);
 }
 
-static bool X11_SetWindowMaximized(SDL_VideoDevice *_this, SDL_Window *window, bool maximized)
+స్థిర bool X11_సమితి_కిటికీ_Maximized(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool maximized)
 {
-    CHECK_WINDOW_DATA(window);
+    CHECK_కిటికీ_దత్తాంశం(కిటికీ);
 
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_MAXIMIZED_VERT = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
-    Atom _NET_WM_STATE_MAXIMIZED_HORZ = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    Display *display = దత్తాంశం->videodata->display;
+    Atom _NET_WM_STATE = దత్తాంశం->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_MAXIMIZED_VERT = దత్తాంశం->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
+    Atom _NET_WM_STATE_MAXIMIZED_HORZ = దత్తాంశం->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
         /* Fullscreen windows are maximized on some window managers,
            and this is functional behavior, so don't remove that state
            now, we'll take care of it when we leave fullscreen mode.
          */
-        return true;
+        తిరిగి true;
     }
 
-    if (X11_IsWindowMapped(_this, window)) {
+    ఒకవేళ (X11_Is_కిటికీ_Mapped(_this, కిటికీ)) {
         XEvent e;
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_సందేశం;
+        e.xclient.సందేశం_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] =
-            maximized ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
-        e.xclient.data.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.కిటికీ = దత్తాంశం->xwindow;
+        e.xclient.దత్తాంశం.l[0] =
+            maximized ? NET_WM_STATE_కూడు : _NET_WM_STATE_REMOVE;
+        e.xclient.దత్తాంశం.l[1] = _NET_WM_STATE_MAXIMIZED_VERT;
+        e.xclient.దత్తాంశం.l[2] = _NET_WM_STATE_MAXIMIZED_HORZ;
+        e.xclient.దత్తాంశం.l[3] = 0l;
 
-        if (maximized) {
-            SDL_DisplayID displayID = SDL_GetDisplayForWindow(window);
+        ఒకవేళ (maximized) {
+            SDL_DisplayID displayID = SDL_Get_Display_For_కిటికీ(కిటికీ);
             SDL_Rect bounds;
 
             SDL_zero(bounds);
             SDL_GetDisplayUsableBounds(displayID, &bounds);
 
-            data->expected.x = bounds.x + data->border_left;
-            data->expected.y = bounds.y + data->border_top;
-            data->expected.w = bounds.w - (data->border_left + data->border_right);
-            data->expected.h = bounds.h - (data->border_top + data->border_bottom);
-        } else {
-            data->expected.x = window->floating.x;
-            data->expected.y = window->floating.y;
-            data->expected.w = window->floating.w;
-            data->expected.h = window->floating.h;
+            దత్తాంశం->expected.x = bounds.x + దత్తాంశం->border_ఎడమ;
+            దత్తాంశం->expected.y = bounds.y + దత్తాంశం->border_శిఖరం;
+            దత్తాంశం->expected.w = bounds.w - (దత్తాంశం->border_ఎడమ + దత్తాంశం->border_కుడి);
+            దత్తాంశం->expected.h = bounds.h - (దత్తాంశం->border_శిఖరం + దత్తాంశం->border_bottom);
+        } లేకపోతే {
+            దత్తాంశం->expected.x = కిటికీ->floating.x;
+            దత్తాంశం->expected.y = కిటికీ->floating.y;
+            దత్తాంశం->expected.w = కిటికీ->floating.w;
+            దత్తాంశం->expected.h = కిటికీ->floating.h;
         }
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
-    } else {
-        X11_SetNetWMState(_this, data->xwindow, window->flags);
+        X11_XSendEvent(display, మూలం_కిటికీ(display, displaydata->screen), 0,
+                       Substructure_Notify_ముసుగు | Substructure_Redirect_ముసుగు, &e);
+    } లేకపోతే {
+        X11_సమితి_Net_WMState(_this, దత్తాంశం->xwindow, కిటికీ->flags);
     }
     X11_XFlush(display);
 
-    return true;
+    తిరిగి true;
 }
 
-void X11_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Maximize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    if (window->internal->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MINIMIZE)) {
-        SDL_SyncWindow(window);
+    ఒకవేళ (కిటికీ->అంతర్గత->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MINIMIZE)) {
+        SDL_Sync_కిటికీ(కిటికీ);
     }
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) {
         // If fullscreen, just toggle the restored state.
-        window->internal->window_was_maximized = true;
-        return;
+        కిటికీ->అంతర్గత->కిటికీ_was_maximized = true;
+        తిరిగి;
     }
 
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
-        window->internal->pending_operation |= X11_PENDING_OP_MAXIMIZE;
-        X11_SetWindowMaximized(_this, window, true);
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_MINIMIZED)) {
+        కిటికీ->అంతర్గత->pending_operation |= X11_PENDING_OP_MAXIMIZE;
+        X11_సమితి_కిటికీ_Maximized(_this, కిటికీ, true);
     }
 }
 
-void X11_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Minimize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    Display *display = దత్తాంశం->videodata->display;
 
-    if (data->pending_operation & SDL_WINDOW_FULLSCREEN) {
-        SDL_SyncWindow(window);
+    ఒకవేళ (దత్తాంశం->pending_operation & SDL_కిటికీ_FULLSCREEN) {
+        SDL_Sync_కిటికీ(కిటికీ);
     }
 
-    data->pending_operation |= X11_PENDING_OP_MINIMIZE;
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        data->window_was_maximized = !!(window->flags & SDL_WINDOW_MAXIMIZED);
+    దత్తాంశం->pending_operation |= X11_PENDING_OP_MINIMIZE;
+    ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+        దత్తాంశం->కిటికీ_was_maximized = !!(కిటికీ->flags & SDL_కిటికీ_MAXIMIZED);
     }
-    X11_XIconifyWindow(display, data->xwindow, displaydata->screen);
+    X11_XIconify_కిటికీ(display, దత్తాంశం->xwindow, displaydata->screen);
     X11_XFlush(display);
 }
 
-void X11_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Restore_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
     // Don't restore the window the first time it is being shown.
-    if (!window->internal->was_shown) {
-        return;
+    ఒకవేళ (!కిటికీ->అంతర్గత->was_shown) {
+        తిరిగి;
     }
 
-    if (window->internal->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MINIMIZE)) {
-        SDL_SyncWindow(window);
+    ఒకవేళ (కిటికీ->అంతర్గత->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MINIMIZE)) {
+        SDL_Sync_కిటికీ(కిటికీ);
     }
 
-    if ((window->flags & SDL_WINDOW_FULLSCREEN) && !(window->flags & SDL_WINDOW_MINIMIZED)) {
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) && !(కిటికీ->flags & SDL_కిటికీ_MINIMIZED)) {
         // If fullscreen and not minimized, just toggle the restored state.
-        window->internal->window_was_maximized = false;
-        return;
+        కిటికీ->అంతర్గత->కిటికీ_was_maximized = false;
+        తిరిగి;
     }
 
-    if (window->flags & (SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED) ||
-        (window->internal->pending_operation & X11_PENDING_OP_MINIMIZE)) {
-        window->internal->pending_operation |= X11_PENDING_OP_RESTORE;
+    ఒకవేళ (కిటికీ->flags & (SDL_కిటికీ_MINIMIZED | SDL_కిటికీ_MAXIMIZED) ||
+        (కిటికీ->అంతర్గత->pending_operation & X11_PENDING_OP_MINIMIZE)) {
+        కిటికీ->అంతర్గత->pending_operation |= X11_PENDING_OP_RESTORE;
     }
 
     // If the window was minimized while maximized, restore as maximized.
-    const bool maximize = !!(window->flags & SDL_WINDOW_MINIMIZED) && window->internal->window_was_maximized;
-    X11_SetWindowMaximized(_this, window, maximize);
-    X11_ShowWindow(_this, window);
-    X11_SetWindowActive(_this, window);
+    స్థిరరాశి bool maximize = !!(కిటికీ->flags & SDL_కిటికీ_MINIMIZED) && కిటికీ->అంతర్గత->కిటికీ_was_maximized;
+    X11_సమితి_కిటికీ_Maximized(_this, కిటికీ, maximize);
+    X11_Show_కిటికీ(_this, కిటికీ);
+    X11_సమితి_కిటికీ_చురుకైన(_this, కిటికీ);
 }
 
 // This asks the Window Manager to handle fullscreen for us. This is the modern way.
-static SDL_FullscreenResult X11_SetWindowFullscreenViaWM(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
+స్థిర SDL_Fullscreen_ఫలితం X11_సమితి_కిటికీ_Fullscreen_ద్వారా_WM(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = _display->internal;
-    Display *display = data->videodata->display;
-    Atom _NET_WM_STATE = data->videodata->atoms._NET_WM_STATE;
-    Atom _NET_WM_STATE_FULLSCREEN = data->videodata->atoms._NET_WM_STATE_FULLSCREEN;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = _display->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    Atom _NET_WM_STATE = దత్తాంశం->videodata->atoms._NET_WM_STATE;
+    Atom _NET_WM_STATE_FULLSCREEN = దత్తాంశం->videodata->atoms._NET_WM_STATE_FULLSCREEN;
 
-    if (!data->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    ఒకవేళ (!దత్తాంశం->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+        తిరిగి SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (X11_IsWindowMapped(_this, window)) {
+    ఒకవేళ (X11_Is_కిటికీ_Mapped(_this, కిటికీ)) {
         XEvent e;
 
         // Flush any pending fullscreen events.
-        if (data->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MOVE)) {
-            X11_SyncWindow(_this, window);
+        ఒకవేళ (దత్తాంశం->pending_operation & (X11_PENDING_OP_FULLSCREEN | X11_PENDING_OP_MAXIMIZE | X11_PENDING_OP_MOVE)) {
+            X11_Sync_కిటికీ(_this, కిటికీ);
         }
 
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-            if (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+            ఒకవేళ (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
                 // Request was out of date; set -1 to signal the video core to undo a mode switch.
-                return SDL_FULLSCREEN_FAILED;
-            } else if (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+                తిరిగి SDL_FULLSCREEN_FAILED;
+            } లేకపోతే ఒకవేళ (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
                 // Nothing to do.
-                return SDL_FULLSCREEN_SUCCEEDED;
+                తిరిగి SDL_FULLSCREEN_SUCCEEDED;
             }
         }
 
-        if (fullscreen && !(window->flags & SDL_WINDOW_RESIZABLE)) {
+        ఒకవేళ (fullscreen && !(కిటికీ->flags & SDL_కిటికీ_RESIZABLE)) {
             /* Compiz refuses fullscreen toggle if we're not resizable, so update the hints so we
                can be resized to the fullscreen resolution (or reset so we're not resizable again) */
-            XSizeHints *sizehints = X11_XAllocSizeHints();
-            long flags = 0;
-            X11_XGetWMNormalHints(display, data->xwindow, sizehints, &flags);
+            XSizeHints *sizehints = X11_XAlloc_కొలత_Hints();
+            దీర్ఘ flags = 0;
+            X11_XGetWMNormalHints(display, దత్తాంశం->xwindow, sizehints, &flags);
             // we are going fullscreen so turn the flags off
-            sizehints->flags &= ~(PMinSize | PMaxSize | PAspect);
-            X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+            sizehints->flags &= ~(PMin_కొలత | PMax_కొలత | PAspect);
+            X11_XSetWMNormalHints(display, దత్తాంశం->xwindow, sizehints);
             X11_XFree(sizehints);
         }
 
         SDL_zero(e);
-        e.xany.type = ClientMessage;
-        e.xclient.message_type = _NET_WM_STATE;
+        e.xany.type = Client_సందేశం;
+        e.xclient.సందేశం_type = _NET_WM_STATE;
         e.xclient.format = 32;
-        e.xclient.window = data->xwindow;
-        e.xclient.data.l[0] =
-            fullscreen ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-        e.xclient.data.l[1] = _NET_WM_STATE_FULLSCREEN;
-        e.xclient.data.l[3] = 0l;
+        e.xclient.కిటికీ = దత్తాంశం->xwindow;
+        e.xclient.దత్తాంశం.l[0] =
+            fullscreen ? NET_WM_STATE_కూడు : _NET_WM_STATE_REMOVE;
+        e.xclient.దత్తాంశం.l[1] = _NET_WM_STATE_FULLSCREEN;
+        e.xclient.దత్తాంశం.l[3] = 0l;
 
-        X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                       SubstructureNotifyMask | SubstructureRedirectMask, &e);
+        X11_XSendEvent(display, మూలం_కిటికీ(display, displaydata->screen), 0,
+                       Substructure_Notify_ముసుగు | Substructure_Redirect_ముసుగు, &e);
 
         // Only set the pending flag if the fullscreen state actually changed.
-        if (((window->flags & SDL_WINDOW_FULLSCREEN) != 0) != (fullscreen != 0)) {
-            data->pending_operation |= X11_PENDING_OP_FULLSCREEN;
+        ఒకవేళ (((కిటికీ->flags & SDL_కిటికీ_FULLSCREEN) != 0) != (fullscreen != 0)) {
+            దత్తాంశం->pending_operation |= X11_PENDING_OP_FULLSCREEN;
         }
 
         // Set the position so the window will be on the target display
-        if (fullscreen) {
-            SDL_DisplayID current = SDL_GetDisplayForWindowPosition(window);
-            SDL_copyp(&data->requested_fullscreen_mode, &window->current_fullscreen_mode);
-            if (fullscreen != !!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-                data->window_was_maximized = !!(window->flags & SDL_WINDOW_MAXIMIZED);
+        ఒకవేళ (fullscreen) {
+            SDL_DisplayID current = SDL_Get_Display_For_కిటికీ_Position(కిటికీ);
+            SDL_copyp(&దత్తాంశం->requested_fullscreen_బహుళకం, &కిటికీ->current_fullscreen_బహుళకం);
+            ఒకవేళ (fullscreen != !!(కిటికీ->flags & SDL_కిటికీ_FULLSCREEN)) {
+                దత్తాంశం->కిటికీ_was_maximized = !!(కిటికీ->flags & SDL_కిటికీ_MAXIMIZED);
             }
-            data->expected.x = displaydata->x;
-            data->expected.y = displaydata->y;
-            data->expected.w = _display->current_mode->w;
-            data->expected.h = _display->current_mode->h;
+            దత్తాంశం->expected.x = displaydata->x;
+            దత్తాంశం->expected.y = displaydata->y;
+            దత్తాంశం->expected.w = _display->current_బహుళకం->w;
+            దత్తాంశం->expected.h = _display->current_బహుళకం->h;
 
             // Only move the window if it isn't already on the target display.
-            if (!current || current != _display->id) {
-                X11_XMoveWindow(display, data->xwindow, displaydata->x, displaydata->y);
-                data->pending_operation |= X11_PENDING_OP_MOVE;
+            ఒకవేళ (!current || current != _display->id) {
+                X11_XMove_కిటికీ(display, దత్తాంశం->xwindow, displaydata->x, displaydata->y);
+                దత్తాంశం->pending_operation |= X11_PENDING_OP_MOVE;
             }
-        } else {
-            SDL_zero(data->requested_fullscreen_mode);
-            data->pending_position = data->fs_repositioned;
-            data->fs_repositioned = false;
+        } లేకపోతే {
+            SDL_zero(దత్తాంశం->requested_fullscreen_బహుళకం);
+            దత్తాంశం->pending_position = దత్తాంశం->fs_repositioned;
+            దత్తాంశం->fs_repositioned = false;
 
             /* Fullscreen windows sometimes end up being marked maximized by
              * window managers. Force it back to how we expect it to be.
              */
             SDL_zero(e);
-            e.xany.type = ClientMessage;
-            e.xclient.message_type = _NET_WM_STATE;
+            e.xany.type = Client_సందేశం;
+            e.xclient.సందేశం_type = _NET_WM_STATE;
             e.xclient.format = 32;
-            e.xclient.window = data->xwindow;
-            if (data->window_was_maximized) {
-                e.xclient.data.l[0] = _NET_WM_STATE_ADD;
-            } else {
-                e.xclient.data.l[0] = _NET_WM_STATE_REMOVE;
+            e.xclient.కిటికీ = దత్తాంశం->xwindow;
+            ఒకవేళ (దత్తాంశం->కిటికీ_was_maximized) {
+                e.xclient.దత్తాంశం.l[0] = NET_WM_STATE_కూడు;
+            } లేకపోతే {
+                e.xclient.దత్తాంశం.l[0] = _NET_WM_STATE_REMOVE;
             }
-            e.xclient.data.l[1] = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
-            e.xclient.data.l[2] = data->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
-            e.xclient.data.l[3] = 0l;
-            X11_XSendEvent(display, RootWindow(display, displaydata->screen), 0,
-                           SubstructureNotifyMask | SubstructureRedirectMask, &e);
+            e.xclient.దత్తాంశం.l[1] = దత్తాంశం->videodata->atoms._NET_WM_STATE_MAXIMIZED_VERT;
+            e.xclient.దత్తాంశం.l[2] = దత్తాంశం->videodata->atoms._NET_WM_STATE_MAXIMIZED_HORZ;
+            e.xclient.దత్తాంశం.l[3] = 0l;
+            X11_XSendEvent(display, మూలం_కిటికీ(display, displaydata->screen), 0,
+                           Substructure_Notify_ముసుగు | Substructure_Redirect_ముసుగు, &e);
         }
-    } else {
-        SDL_WindowFlags flags;
+    } లేకపోతే {
+        SDL_కిటికీ_Flags flags;
 
-        flags = window->flags;
-        if (fullscreen) {
-            flags |= SDL_WINDOW_FULLSCREEN;
-        } else {
-            flags &= ~SDL_WINDOW_FULLSCREEN;
+        flags = కిటికీ->flags;
+        ఒకవేళ (fullscreen) {
+            flags |= SDL_కిటికీ_FULLSCREEN;
+        } లేకపోతే {
+            flags &= ~SDL_కిటికీ_FULLSCREEN;
         }
-        X11_SetNetWMState(_this, data->xwindow, flags);
+        X11_సమితి_Net_WMState(_this, దత్తాంశం->xwindow, flags);
     }
 
-    if (data->visual->class == DirectColor) {
-        if (fullscreen) {
-            X11_XInstallColormap(display, data->colormap);
-        } else {
-            X11_XUninstallColormap(display, data->colormap);
+    ఒకవేళ (దత్తాంశం->visual->class == ప్రత్యక్ష_Color) {
+        ఒకవేళ (fullscreen) {
+            X11_XInstallColormap(display, దత్తాంశం->colormap);
+        } లేకపోతే {
+            X11_XUninstallColormap(display, దత్తాంశం->colormap);
         }
     }
 
-    return SDL_FULLSCREEN_PENDING;
+    తిరిగి SDL_FULLSCREEN_PENDING;
 }
 
-static SDL_FullscreenResult X11_SetWindowFullscreenLegacy(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, bool fullscreen)
+స్థిర SDL_Fullscreen_ఫలితం X11_సమితి_కిటికీ_Fullscreen_Legacy(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_VideoDisplay *_display, bool fullscreen)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = _display->internal;
-    Display *display = data->videodata->display;
-    const int screen = displaydata->screen;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = _display->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    స్థిరరాశి పూర్ణాంకం screen = displaydata->screen;
 
-    if (!data->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    ఒకవేళ (!దత్తాంశం->was_shown && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+        తిరిగి SDL_FULLSCREEN_SUCCEEDED;
     }
 
     // Flush any pending fullscreen events.
-    if (data->pending_operation & (X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) {
-        X11_SyncWindow(_this, window);
+    ఒకవేళ (దత్తాంశం->pending_operation & (X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) {
+        X11_Sync_కిటికీ(_this, కిటికీ);
     }
 
     // No window manager? Just make the window the size of the display.
-    SDL_SendWindowEvent(window, fullscreen ? SDL_EVENT_WINDOW_ENTER_FULLSCREEN : SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-    if (fullscreen) {
-        if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
+    SDL_Send_కిటికీ_Event(కిటికీ, fullscreen ? SDL_EVENT_కిటికీ_ENTER_FULLSCREEN : SDL_EVENT_కిటికీ_LEAVE_FULLSCREEN, 0, 0);
+    ఒకవేళ (fullscreen) {
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_RESIZABLE)) {
             /* Compiz refuses fullscreen toggle if we're not resizable, so update the hints so we
              * can be resized to the fullscreen resolution (or reset so we're not resizable again).
              */
-            XSizeHints *sizehints = X11_XAllocSizeHints();
-            long flags = 0;
-            X11_XGetWMNormalHints(display, data->xwindow, sizehints, &flags);
+            XSizeHints *sizehints = X11_XAlloc_కొలత_Hints();
+            దీర్ఘ flags = 0;
+            X11_XGetWMNormalHints(display, దత్తాంశం->xwindow, sizehints, &flags);
             // we are going fullscreen so turn the flags off
-            sizehints->flags &= ~(PMinSize | PMaxSize | PAspect);
-            X11_XSetWMNormalHints(display, data->xwindow, sizehints);
+            sizehints->flags &= ~(PMin_కొలత | PMax_కొలత | PAspect);
+            X11_XSetWMNormalHints(display, దత్తాంశం->xwindow, sizehints);
             X11_XFree(sizehints);
         }
 
-        SetWindowBordered(display, screen, data->xwindow, false);
+        సమితి_కిటికీ_Bordered(display, screen, దత్తాంశం->xwindow, false);
 
         SDL_Rect rect;
         X11_GetDisplayBounds(_this, _display, &rect);
 
-        data->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
-        data->expected.x = rect.x;
-        data->expected.y = rect.y;
-        data->expected.w = rect.w;
-        data->expected.h = rect.h;
-        X11_XMoveWindow(display, data->xwindow, rect.x, rect.y);
-        X11_XResizeWindow(display, data->xwindow, rect.w, rect.h);
-        X11_XRaiseWindow(display, data->xwindow);
-    } else {
-        data->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
-        data->expected.x = window->windowed.x;
-        data->expected.y = window->windowed.y;
-        data->expected.w = window->windowed.w;
-        data->expected.h = window->windowed.h;
-        X11_XResizeWindow(display, data->xwindow, window->windowed.w, window->windowed.h);
-        X11_XMoveWindow(display, data->xwindow, window->windowed.x, window->windowed.y);
+        దత్తాంశం->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
+        దత్తాంశం->expected.x = rect.x;
+        దత్తాంశం->expected.y = rect.y;
+        దత్తాంశం->expected.w = rect.w;
+        దత్తాంశం->expected.h = rect.h;
+        X11_XMove_కిటికీ(display, దత్తాంశం->xwindow, rect.x, rect.y);
+        X11_XResize_కిటికీ(display, దత్తాంశం->xwindow, rect.w, rect.h);
+        X11_XRaise_కిటికీ(display, దత్తాంశం->xwindow);
+    } లేకపోతే {
+        దత్తాంశం->pending_operation |= X11_PENDING_OP_MOVE | X11_PENDING_OP_RESIZE;
+        దత్తాంశం->expected.x = కిటికీ->windowed.x;
+        దత్తాంశం->expected.y = కిటికీ->windowed.y;
+        దత్తాంశం->expected.w = కిటికీ->windowed.w;
+        దత్తాంశం->expected.h = కిటికీ->windowed.h;
+        X11_XResize_కిటికీ(display, దత్తాంశం->xwindow, కిటికీ->windowed.w, కిటికీ->windowed.h);
+        X11_XMove_కిటికీ(display, దత్తాంశం->xwindow, కిటికీ->windowed.x, కిటికీ->windowed.y);
 
-        SetWindowBordered(display, screen, data->xwindow, (window->flags & SDL_WINDOW_BORDERLESS) == 0);
-        X11_SetWindowMinMax(data->window, false);
+        సమితి_కిటికీ_Bordered(display, screen, దత్తాంశం->xwindow, (కిటికీ->flags & SDL_కిటికీ_BORDERLESS) == 0);
+        X11_సమితి_కిటికీ_Min_Max(దత్తాంశం->కిటికీ, false);
     }
 
     X11_XFlush(display);
 
-    return SDL_FULLSCREEN_PENDING;
+    తిరిగి SDL_FULLSCREEN_PENDING;
 }
 
-SDL_FullscreenResult X11_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_ఫలితం X11_సమితి_కిటికీ_Fullscreen(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen)
 {
-    CHECK_WINDOW_DATA(window);
-    CHECK_DISPLAY_DATA(_display);
+    CHECK_కిటికీ_దత్తాంశం(కిటికీ);
+    CHECK_DISPLAY_దత్తాంశం(_display);
 
-    SDL_VideoData *data = _this->internal;
-    if (data->net_wm) {
-        return X11_SetWindowFullscreenViaWM(_this, window, _display, fullscreen);
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
+    ఒకవేళ (దత్తాంశం->net_wm) {
+        తిరిగి X11_సమితి_కిటికీ_Fullscreen_ద్వారా_WM(_this, కిటికీ, _display, fullscreen);
     }
 
-    return X11_SetWindowFullscreenLegacy(_this, window, _display, fullscreen != SDL_FULLSCREEN_OP_LEAVE);
+    తిరిగి X11_సమితి_కిటికీ_Fullscreen_Legacy(_this, కిటికీ, _display, fullscreen != SDL_FULLSCREEN_OP_LEAVE);
 }
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    unsigned char *data;
-    int format, count;
+    గుర్తులేని అక్షరం *దత్తాంశం;
+    పూర్ణాంకం format, లెక్క;
     Atom type;
 } SDL_x11Prop;
 
 /* Reads property
    Must call X11_XFree on results
  */
-static void X11_ReadProperty(SDL_x11Prop *p, Display *disp, Window w, Atom prop)
+స్థిర శూన్య X11_ReadProperty(SDL_x11Prop *p, Display *disp, కిటికీ_2 w, Atom prop)
 {
-    unsigned char *ret = NULL;
+    గుర్తులేని అక్షరం *ret = ఖాళీ;
     Atom type;
-    int fmt;
-    unsigned long count;
-    unsigned long bytes_left;
-    int bytes_fetch = 0;
+    పూర్ణాంకం fmt;
+    గుర్తులేని దీర్ఘ లెక్క;
+    గుర్తులేని దీర్ఘ బైట్లు_ఎడమ;
+    పూర్ణాంకం బైట్లు_fetch = 0;
 
-    do {
-        if (ret) {
+    చేయి {
+        ఒకవేళ (ret) {
             X11_XFree(ret);
         }
-        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &count, &bytes_left, &ret);
-        bytes_fetch += bytes_left;
-    } while (bytes_left != 0);
+        X11_XGet_కిటికీ_Property(disp, w, prop, 0, బైట్లు_fetch, False, AnyPropertyType, &type, &fmt, &లెక్క, &బైట్లు_ఎడమ, &ret);
+        బైట్లు_fetch += బైట్లు_ఎడమ;
+    } అయితే (బైట్లు_ఎడమ != 0);
 
-    p->data = ret;
+    p->దత్తాంశం = ret;
     p->format = fmt;
-    p->count = count;
+    p->లెక్క = లెక్క;
     p->type = type;
 }
 
-void *X11_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size)
+శూన్య *X11_Get_కిటికీ_ICCProfile(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, size_t *కొలత)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    XWindowAttributes attributes;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    XWindow_లక్షణాలు లక్షణాలు;
     Atom icc_profile_atom;
-    char icc_atom_string[sizeof("_ICC_PROFILE_") + 12];
-    void *ret_icc_profile_data = NULL;
-    CARD8 *icc_profile_data;
-    int real_format;
-    unsigned long real_nitems;
+    అక్షరం icc_atom_string[పరిమాణం("_ICC_PROFILE_") + 12];
+    శూన్య *ret_icc_profile_దత్తాంశం = ఖాళీ;
+    CARD8 *icc_profile_దత్తాంశం;
+    పూర్ణాంకం real_format;
+    గుర్తులేని దీర్ఘ real_nitems;
     SDL_x11Prop atomProp;
 
-    X11_XGetWindowAttributes(display, data->xwindow, &attributes);
-    if (X11_XScreenNumberOfScreen(attributes.screen) > 0) {
-        (void)SDL_snprintf(icc_atom_string, sizeof("_ICC_PROFILE_") + 12, "%s%d", "_ICC_PROFILE_", X11_XScreenNumberOfScreen(attributes.screen));
-    } else {
-        SDL_strlcpy(icc_atom_string, "_ICC_PROFILE", sizeof("_ICC_PROFILE"));
+    X11_XGet_కిటికీ_లక్షణాలు(display, దత్తాంశం->xwindow, &లక్షణాలు);
+    ఒకవేళ (X11_XScreen_సంఖ్య_యొక్క_Screen(లక్షణాలు.screen) > 0) {
+        (శూన్య)SDL_snprintf(icc_atom_string, పరిమాణం("_ICC_PROFILE_") + 12, "%s%d", "_ICC_PROFILE_", X11_XScreen_సంఖ్య_యొక్క_Screen(లక్షణాలు.screen));
+    } లేకపోతే {
+        SDL_strlcpy(icc_atom_string, "_ICC_PROFILE", పరిమాణం("_ICC_PROFILE"));
     }
-    X11_XGetWindowAttributes(display, RootWindowOfScreen(attributes.screen), &attributes);
+    X11_XGet_కిటికీ_లక్షణాలు(display, మూలం_కిటికీ_యొక్క_Screen(లక్షణాలు.screen), &లక్షణాలు);
 
     icc_profile_atom = X11_XInternAtom(display, icc_atom_string, True);
-    if (icc_profile_atom == None) {
-        SDL_SetError("Screen is not calibrated.");
-        return NULL;
+    ఒకవేళ (icc_profile_atom == None) {
+        SDL_సమితి_Error("Screen is not calibrated.");
+        తిరిగి ఖాళీ;
     }
 
-    X11_ReadProperty(&atomProp, display, RootWindowOfScreen(attributes.screen), icc_profile_atom);
+    X11_ReadProperty(&atomProp, display, మూలం_కిటికీ_యొక్క_Screen(లక్షణాలు.screen), icc_profile_atom);
     real_format = atomProp.format;
-    real_nitems = atomProp.count;
-    icc_profile_data = atomProp.data;
-    if (real_format == None) {
-        SDL_SetError("Screen is not calibrated.");
-        return NULL;
+    real_nitems = atomProp.లెక్క;
+    icc_profile_దత్తాంశం = atomProp.దత్తాంశం;
+    ఒకవేళ (real_format == None) {
+        SDL_సమితి_Error("Screen is not calibrated.");
+        తిరిగి ఖాళీ;
     }
 
-    ret_icc_profile_data = SDL_malloc(real_nitems);
-    if (!ret_icc_profile_data) {
-        return NULL;
+    ret_icc_profile_దత్తాంశం = SDL_malloc(real_nitems);
+    ఒకవేళ (!ret_icc_profile_దత్తాంశం) {
+        తిరిగి ఖాళీ;
     }
 
-    SDL_memcpy(ret_icc_profile_data, icc_profile_data, real_nitems);
-    *size = real_nitems;
-    X11_XFree(icc_profile_data);
+    SDL_memcpy(ret_icc_profile_దత్తాంశం, icc_profile_దత్తాంశం, real_nitems);
+    *కొలత = real_nitems;
+    X11_XFree(icc_profile_దత్తాంశం);
 
-    return ret_icc_profile_data;
+    తిరిగి ret_icc_profile_దత్తాంశం;
 }
 
-bool X11_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool X11_సమితి_కిటికీ_Mouse_Grab(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool grabbed)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
     Display *display;
 
-    if (!data) {
-        return SDL_SetError("Invalid window data");
+    ఒకవేళ (!దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("Invalid window data");
     }
-    data->mouse_grabbed = false;
-    data->pending_grab = false;
+    దత్తాంశం->mouse_grabbed = false;
+    దత్తాంశం->pending_grab = false;
 
-    display = data->videodata->display;
+    display = దత్తాంశం->videodata->display;
 
-    if (grabbed) {
+    ఒకవేళ (grabbed) {
         /* If the window is unmapped, XGrab calls return GrabNotViewable,
            so when we get a MapNotify later, we'll try to update the grab as
            appropriate. */
-        if (window->flags & SDL_WINDOW_HIDDEN) {
-            return true;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+            తిరిగి true;
         }
 
         /* If XInput2 is enabled, it will grab the pointer on button presses,
@@ -2138,68 +2138,68 @@ bool X11_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool gra
          * are currently pressed, clear any existing grabs before attempting
          * the confinement grab.
          */
-        if (data->xinput2_mouse_enabled && SDL_GetMouseState(NULL, NULL)) {
-            data->pending_grab = true;
-            return true;
+        ఒకవేళ (దత్తాంశం->xinput2_mouse_enabled && SDL_GetMouseState(ఖాళీ, ఖాళీ)) {
+            దత్తాంశం->pending_grab = true;
+            తిరిగి true;
         }
 
         // Try to grab the mouse
-        if (!data->videodata->broken_pointer_grab) {
-            const unsigned int mask = ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask;
-            int attempts;
-            int result = 0;
+        ఒకవేళ (!దత్తాంశం->videodata->broken_సూచిక_grab) {
+            స్థిరరాశి గుర్తులేని పూర్ణాంకం ముసుగు = Button_Press_ముసుగు | Button_Release_ముసుగు | సూచిక_Motion_ముసుగు | Focus_Change_ముసుగు;
+            పూర్ణాంకం attempts;
+            పూర్ణాంకం ఫలితం = 0;
 
             // Try for up to 5000ms (5s) to grab. If it still fails, stop trying.
-            for (attempts = 0; attempts < 100; attempts++) {
-                result = X11_XGrabPointer(display, data->xwindow, False, mask, GrabModeAsync,
-                                          GrabModeAsync, data->xwindow, None, CurrentTime);
-                if (result == GrabSuccess) {
-                    data->mouse_grabbed = true;
-                    break;
+            కొరకు (attempts = 0; attempts < 100; attempts++) {
+                ఫలితం = X11_XGrab_సూచిక(display, దత్తాంశం->xwindow, False, ముసుగు, Grab_బహుళకం_Async,
+                                          Grab_బహుళకం_Async, దత్తాంశం->xwindow, None, Current_సమయం);
+                ఒకవేళ (ఫలితం == GrabSuccess) {
+                    దత్తాంశం->mouse_grabbed = true;
+                    ఆపు;
                 }
                 SDL_Delay(50);
             }
 
-            if (result != GrabSuccess) {
-                data->videodata->broken_pointer_grab = true; // don't try again.
+            ఒకవేళ (ఫలితం != GrabSuccess) {
+                దత్తాంశం->videodata->broken_సూచిక_grab = true; // don't try again.
             }
         }
 
-        X11_Xinput2GrabTouch(_this, window);
+        X11_Xinput2GrabTouch(_this, కిటికీ);
 
         // Raise the window if we grab the mouse
-        X11_XRaiseWindow(display, data->xwindow);
-    } else {
-        X11_XUngrabPointer(display, CurrentTime);
+        X11_XRaise_కిటికీ(display, దత్తాంశం->xwindow);
+    } లేకపోతే {
+        X11_XUngrab_సూచిక(display, Current_సమయం);
 
-        X11_Xinput2UngrabTouch(_this, window);
+        X11_Xinput2UngrabTouch(_this, కిటికీ);
     }
     X11_XSync(display, False);
 
-    if (!data->videodata->broken_pointer_grab) {
-        return true;
-    } else {
-        return SDL_SetError("The X server refused to let us grab the mouse. You might experience input bugs.");
+    ఒకవేళ (!దత్తాంశం->videodata->broken_సూచిక_grab) {
+        తిరిగి true;
+    } లేకపోతే {
+        తిరిగి SDL_సమితి_Error("The X server refused to let us grab the mouse. You might experience input bugs.");
     }
 }
 
-bool X11_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool X11_సమితి_కిటికీ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool grabbed)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
     Display *display;
 
-    if (!data) {
-        return SDL_SetError("Invalid window data");
+    ఒకవేళ (!దత్తాంశం) {
+        తిరిగి SDL_సమితి_Error("Invalid window data");
     }
 
-    display = data->videodata->display;
+    display = దత్తాంశం->videodata->display;
 
-    if (grabbed) {
+    ఒకవేళ (grabbed) {
         /* If the window is unmapped, XGrab calls return GrabNotViewable,
            so when we get a MapNotify later, we'll try to update the grab as
            appropriate. */
-        if (window->flags & SDL_WINDOW_HIDDEN) {
-            return true;
+        ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_HIDDEN) {
+            తిరిగి true;
         }
 
         /* GNOME needs the _XWAYLAND_MAY_GRAB_KEYBOARD message on XWayland:
@@ -2212,264 +2212,264 @@ bool X11_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool 
          *
          * https://gitlab.gnome.org/GNOME/mutter/-/commit/5f132f39750f684c3732b4346dec810cd218d609
          */
-        if (_this->internal->is_xwayland) {
+        ఒకవేళ (_this->అంతర్గత->is_xwayland) {
             Atom _XWAYLAND_MAY_GRAB_ATOM = X11_XInternAtom(display, "_XWAYLAND_MAY_GRAB_KEYBOARD", False);
 
-            if (_XWAYLAND_MAY_GRAB_ATOM != None) {
-                XClientMessageEvent client_message;
-                client_message.type = ClientMessage;
-                client_message.window = data->xwindow;
-                client_message.format = 32;
-                client_message.message_type = _XWAYLAND_MAY_GRAB_ATOM;
-                client_message.data.l[0] = 1;
-                client_message.data.l[1] = CurrentTime;
+            ఒకవేళ (_XWAYLAND_MAY_GRAB_ATOM != None) {
+                XClient_సందేశం_Event client_సందేశం;
+                client_సందేశం.type = Client_సందేశం;
+                client_సందేశం.కిటికీ = దత్తాంశం->xwindow;
+                client_సందేశం.format = 32;
+                client_సందేశం.సందేశం_type = _XWAYLAND_MAY_GRAB_ATOM;
+                client_సందేశం.దత్తాంశం.l[0] = 1;
+                client_సందేశం.దత్తాంశం.l[1] = Current_సమయం;
 
-                X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureNotifyMask | SubstructureRedirectMask, (XEvent *)&client_message);
+                X11_XSendEvent(display, Default_మూలం_కిటికీ(display), False, Substructure_Notify_ముసుగు | Substructure_Redirect_ముసుగు, (XEvent *)&client_సందేశం);
                 X11_XFlush(display);
             }
         }
 
-        X11_XGrabKeyboard(display, data->xwindow, True, GrabModeAsync,
-                          GrabModeAsync, CurrentTime);
-    } else {
-        X11_XUngrabKeyboard(display, CurrentTime);
+        X11_XGrabKeyboard(display, దత్తాంశం->xwindow, True, Grab_బహుళకం_Async,
+                          Grab_బహుళకం_Async, Current_సమయం);
+    } లేకపోతే {
+        X11_XUngrabKeyboard(display, Current_సమయం);
     }
     X11_XSync(display, False);
 
-    return true;
+    తిరిగి true;
 }
 
-void X11_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-    if (data) {
-        SDL_VideoData *videodata = data->videodata;
+    ఒకవేళ (దత్తాంశం) {
+        SDL_Video_దత్తాంశం *videodata = దత్తాంశం->videodata;
         Display *display = videodata->display;
-        int numwindows = videodata->numwindows;
-        SDL_WindowData **windowlist = videodata->windowlist;
-        int i;
+        పూర్ణాంకం numwindows = videodata->numwindows;
+        SDL_కిటికీ_దత్తాంశం **windowlist = videodata->windowlist;
+        పూర్ణాంకం i;
 
-        if (windowlist) {
-            for (i = 0; i < numwindows; ++i) {
-                if (windowlist[i] && (windowlist[i]->window == window)) {
+        ఒకవేళ (windowlist) {
+            కొరకు (i = 0; i < numwindows; ++i) {
+                ఒకవేళ (windowlist[i] && (windowlist[i]->కిటికీ == కిటికీ)) {
                     windowlist[i] = windowlist[numwindows - 1];
-                    windowlist[numwindows - 1] = NULL;
+                    windowlist[numwindows - 1] = ఖాళీ;
                     videodata->numwindows--;
-                    break;
+                    ఆపు;
                 }
             }
         }
 
-        X11_DestroyInputContext(data);
+        X11_Destroy_ఆదానం_Context(దత్తాంశం);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-        X11_TermResizeSync(window);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
+        X11_పదం_Resize_Sync(కిటికీ);
+#అయితే_ముగింపు /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-        if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-            X11_XDestroyWindow(display, data->xwindow);
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_EXTERNAL)) {
+            X11_XDestroy_కిటికీ(display, దత్తాంశం->xwindow);
             X11_XFlush(display);
         }
-        SDL_free(data);
+        SDL_free(దత్తాంశం);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
         // If the pointer barriers are active for this, deactivate it.
-        if (videodata->active_cursor_confined_window == window) {
-            X11_DestroyPointerBarrier(_this, window);
+        ఒకవేళ (videodata->చురుకైన_cursor_confined_కిటికీ == కిటికీ) {
+            X11_Destroy_సూచిక_Barrier(_this, కిటికీ);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XFIXES
     }
-    window->internal = NULL;
+    కిటికీ->అంతర్గత = ఖాళీ;
 }
 
-bool X11_SetWindowHitTest(SDL_Window *window, bool enabled)
+bool X11_సమితి_కిటికీ_తగిలింది_Test(SDL_కిటికీ *కిటికీ, bool enabled)
 {
-    return true; // just succeed, the real work is done elsewhere.
+    తిరిగి true; // just succeed, the real work is done elsewhere.
 }
 
-void X11_AcceptDragAndDrop(SDL_Window *window, bool accept)
+శూన్య X11_AcceptDragAndDrop(SDL_కిటికీ *కిటికీ, bool accept)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom XdndAware = data->videodata->atoms.XdndAware;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    Atom XdndAware = దత్తాంశం->videodata->atoms.XdndAware;
 
-    if (accept) {
-        Atom xdnd_version = 5;
-        X11_XChangeProperty(display, data->xwindow, XdndAware, XA_ATOM, 32,
-                            PropModeReplace, (unsigned char *)&xdnd_version, 1);
-    } else {
-        X11_XDeleteProperty(display, data->xwindow, XdndAware);
+    ఒకవేళ (accept) {
+        Atom xdnd_సంస్కరణ = 5;
+        X11_XChangeProperty(display, దత్తాంశం->xwindow, XdndAware, XA_ATOM, 32,
+                            Prop_బహుళకం_Replace, (గుర్తులేని అక్షరం *)&xdnd_సంస్కరణ, 1);
+    } లేకపోతే {
+        X11_XDeleteProperty(display, దత్తాంశం->xwindow, XdndAware);
     }
 }
 
-bool X11_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation)
+bool X11_Flash_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_FlashOperation operation)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
     XWMHints *wmhints;
 
-    wmhints = X11_XGetWMHints(display, data->xwindow);
-    if (!wmhints) {
-        return SDL_SetError("Couldn't get WM hints");
+    wmhints = X11_XGetWMHints(display, దత్తాంశం->xwindow);
+    ఒకవేళ (!wmhints) {
+        తిరిగి SDL_సమితి_Error("Couldn't get WM hints");
     }
 
     wmhints->flags &= ~XUrgencyHint;
-    data->flashing_window = false;
-    data->flash_cancel_time = 0;
+    దత్తాంశం->flashing_కిటికీ = false;
+    దత్తాంశం->flash_cancel_సమయం = 0;
 
-    switch (operation) {
-    case SDL_FLASH_CANCEL:
+    ఎంపిక (operation) {
+    స్థితి SDL_FLASH_CANCEL:
         // Taken care of above
-        break;
-    case SDL_FLASH_BRIEFLY:
-        if (!(window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+        ఆపు;
+    స్థితి SDL_FLASH_BRIEFLY:
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS)) {
             wmhints->flags |= XUrgencyHint;
-            data->flashing_window = true;
+            దత్తాంశం->flashing_కిటికీ = true;
             // On Ubuntu 21.04 this causes a dialog to pop up, so leave it up for a full second so users can see it
-            data->flash_cancel_time = SDL_GetTicks() + 1000;
+            దత్తాంశం->flash_cancel_సమయం = SDL_GetTicks() + 1000;
         }
-        break;
-    case SDL_FLASH_UNTIL_FOCUSED:
-        if (!(window->flags & SDL_WINDOW_INPUT_FOCUS)) {
+        ఆపు;
+    స్థితి SDL_FLASH_UNTIL_FOCUSED:
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS)) {
             wmhints->flags |= XUrgencyHint;
-            data->flashing_window = true;
+            దత్తాంశం->flashing_కిటికీ = true;
         }
-        break;
-    default:
-        break;
+        ఆపు;
+    అప్రమేయ:
+        ఆపు;
     }
 
-    X11_XSetWMHints(display, data->xwindow, wmhints);
+    X11_XSetWMHints(display, దత్తాంశం->xwindow, wmhints);
     X11_XFree(wmhints);
-    return true;
+    తిరిగి true;
 }
 
-bool SDL_X11_SetWindowTitle(Display *display, Window xwindow, char *title)
+bool SDL_X11_సమితి_కిటికీ_Title(Display *display, కిటికీ_2 xwindow, అక్షరం *title)
 {
     Atom _NET_WM_NAME = X11_XInternAtom(display, "_NET_WM_NAME", False);
     XTextProperty titleprop;
-    int conv = X11_XmbTextListToTextProperty(display, &title, 1, XTextStyle, &titleprop);
-    Status status;
+    పూర్ణాంకం conv = X11_Xmb_పాఠ్యం_List_గమ్యం_పాఠ్యం_Property(display, &title, 1, XTextStyle, &titleprop);
+    స్థితి_3 స్థితి_2;
 
-    if (X11_XSupportsLocale() != True) {
-        return SDL_SetError("Current locale not supported by X server, cannot continue.");
+    ఒకవేళ (X11_XSupportsLocale() != True) {
+        తిరిగి SDL_సమితి_Error("Current locale not supported by X server, cannot continue.");
     }
 
-    if (conv == 0) {
-        X11_XSetTextProperty(display, xwindow, &titleprop, XA_WM_NAME);
-        X11_XFree(titleprop.value);
+    ఒకవేళ (conv == 0) {
+        X11_XSet_పాఠ్యం_Property(display, xwindow, &titleprop, XA_WM_NAME);
+        X11_XFree(titleprop.విలువ);
         // we know this can't be a locale error as we checked X locale validity
-    } else if (conv < 0) {
-        return SDL_OutOfMemory();
-    } else { // conv > 0
+    } లేకపోతే ఒకవేళ (conv < 0) {
+        తిరిగి SDL_బహిర్గతం_యొక్క_జ్ఞాపకం();
+    } లేకపోతే { // conv > 0
         SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "%d characters were not convertible to the current locale!", conv);
-        return true;
+        తిరిగి true;
     }
 
-#ifdef X_HAVE_UTF8_STRING
-    status = X11_Xutf8TextListToTextProperty(display, &title, 1, XUTF8StringStyle, &titleprop);
-    if (status == Success) {
-        X11_XSetTextProperty(display, xwindow, &titleprop, _NET_WM_NAME);
-        X11_XFree(titleprop.value);
-    } else {
-        return SDL_SetError("Failed to convert title to UTF8! Bad encoding, or bad Xorg encoding? Window title: «%s»", title);
+#నిర్వచితమైతే X_HAVE_UTF8_STRING
+    స్థితి_2 = X11_Xutf8_పాఠ్యం_List_గమ్యం_పాఠ్యం_Property(display, &title, 1, XUTF8StringStyle, &titleprop);
+    ఒకవేళ (స్థితి_2 == Success) {
+        X11_XSet_పాఠ్యం_Property(display, xwindow, &titleprop, _NET_WM_NAME);
+        X11_XFree(titleprop.విలువ);
+    } లేకపోతే {
+        తిరిగి SDL_సమితి_Error("Failed to convert title to UTF8! Bad encoding, or bad Xorg encoding? Window title: «%s»", title);
     }
-#endif
+#అయితే_ముగింపు
 
     X11_XFlush(display);
-    return true;
+    తిరిగి true;
 }
 
-void X11_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+శూన్య X11_Show_కిటికీ_System_Menu(SDL_కిటికీ *కిటికీ, పూర్ణాంకం x, పూర్ణాంకం y)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
-    Display *display = data->videodata->display;
-    Window root = RootWindow(display, displaydata->screen);
-    XClientMessageEvent e;
-    Window childReturn;
-    int wx, wy;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం_For_కిటికీ(కిటికీ);
+    Display *display = దత్తాంశం->videodata->display;
+    కిటికీ_2 మూలం = మూలం_కిటికీ(display, displaydata->screen);
+    XClient_సందేశం_Event e;
+    కిటికీ_2 బిడ్డ_Return_2;
+    పూర్ణాంకం wx, wy;
 
     SDL_zero(e);
-    X11_XTranslateCoordinates(display, data->xwindow, root, x, y, &wx, &wy, &childReturn);
+    X11_XTranslateCoordinates(display, దత్తాంశం->xwindow, మూలం, x, y, &wx, &wy, &బిడ్డ_Return_2);
 
-    e.type = ClientMessage;
-    e.window = data->xwindow;
-    e.message_type = X11_XInternAtom(display, "_GTK_SHOW_WINDOW_MENU", 0);
-    e.data.l[0] = 0;  // GTK device ID (unused)
-    e.data.l[1] = wx; // X coordinate relative to root
-    e.data.l[2] = wy; // Y coordinate relative to root
+    e.type = Client_సందేశం;
+    e.కిటికీ = దత్తాంశం->xwindow;
+    e.సందేశం_type = X11_XInternAtom(display, "_GTK_SHOW_WINDOW_MENU", 0);
+    e.దత్తాంశం.l[0] = 0;  // GTK device ID (unused)
+    e.దత్తాంశం.l[1] = wx; // X coordinate relative to root
+    e.దత్తాంశం.l[2] = wy; // Y coordinate relative to root
     e.format = 32;
 
-    X11_XSendEvent(display, root, False, SubstructureRedirectMask | SubstructureNotifyMask, (XEvent *)&e);
+    X11_XSendEvent(display, మూలం, False, Substructure_Redirect_ముసుగు | Substructure_Notify_ముసుగు, (XEvent *)&e);
     X11_XFlush(display);
 }
 
-bool X11_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_Sync_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
     // If the window is external and has only a pending resize or move event, use the special external sync path to avoid processing events.
-    if ((window->flags & SDL_WINDOW_EXTERNAL) &&
-        (data->pending_operation & ~(X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) == X11_PENDING_OP_NONE) {
-            X11_ExternalResizeMoveSync(window);
-            return true;
+    ఒకవేళ ((కిటికీ->flags & SDL_కిటికీ_EXTERNAL) &&
+        (దత్తాంశం->pending_operation & ~(X11_PENDING_OP_RESIZE | X11_PENDING_OP_MOVE)) == X11_PENDING_OP_NONE) {
+            X11_ExternalResizeMoveSync(కిటికీ);
+            తిరిగి true;
     }
 
-    const Uint64 current_time = SDL_GetTicksNS();
+    స్థిరరాశి Uint64 current_సమయం = SDL_GetTicksNS();
     Uint64 timeout = 0;
 
     // Allow time for any pending mode switches to complete.
-    for (int i = 0; i < _this->num_displays; ++i) {
-        if (_this->displays[i]->internal->mode_switch_deadline_ns &&
-            current_time < _this->displays[i]->internal->mode_switch_deadline_ns) {
-            timeout = SDL_max(_this->displays[i]->internal->mode_switch_deadline_ns - current_time, timeout);
+    కొరకు (పూర్ణాంకం i = 0; i < _this->అంకె_displays; ++i) {
+        ఒకవేళ (_this->displays[i]->అంతర్గత->బహుళకం_switch_deadline_ns &&
+            current_సమయం < _this->displays[i]->అంతర్గత->బహుళకం_switch_deadline_ns) {
+            timeout = SDL_max(_this->displays[i]->అంతర్గత->బహుళకం_switch_deadline_ns - current_సమయం, timeout);
         }
     }
 
     /* 100ms is fine for most cases, but, for some reason, maximizing
      * a window can take a very long time.
      */
-    timeout += window->internal->pending_operation & X11_PENDING_OP_MAXIMIZE ? SDL_MS_TO_NS(1000) : SDL_MS_TO_NS(100);
+    timeout += కిటికీ->అంతర్గత->pending_operation & X11_PENDING_OP_MAXIMIZE ? SDL_MS_గమ్యం_NS(1000) : SDL_MS_గమ్యం_NS(100);
 
-    return X11_SyncWindowTimeout(_this, window, timeout);
+    తిరిగి X11_Sync_కిటికీ_Timeout(_this, కిటికీ, timeout);
 }
 
-bool X11_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
+bool X11_సమితి_కిటికీ_Focusable(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool focusable)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
-        SDL_WindowData *data = window->internal;
-        Display *display = data->videodata->display;
+    ఒకవేళ (!SDL_కిటికీ_IS_POPUP(కిటికీ)) {
+        SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+        Display *display = దత్తాంశం->videodata->display;
         XWMHints *wmhints;
 
-        wmhints = X11_XGetWMHints(display, data->xwindow);
-        if (!wmhints) {
-            return SDL_SetError("Couldn't get WM hints");
+        wmhints = X11_XGetWMHints(display, దత్తాంశం->xwindow);
+        ఒకవేళ (!wmhints) {
+            తిరిగి SDL_సమితి_Error("Couldn't get WM hints");
         }
 
-        wmhints->input = focusable ? True : False;
-        wmhints->flags |= InputHint;
+        wmhints->ఆదానం = focusable ? True : False;
+        wmhints->flags |= ఆదానం_Hint;
 
-        X11_XSetWMHints(display, data->xwindow, wmhints);
+        X11_XSetWMHints(display, దత్తాంశం->xwindow, wmhints);
         X11_XFree(wmhints);
-    } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
-        if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
-                SDL_Window *new_focus;
-                const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-                X11_SetKeyboardFocus(new_focus, set_focus);
-            } else if (focusable) {
-                if (SDL_ShouldFocusPopup(window)) {
-                    X11_SetKeyboardFocus(window, true);
+    } లేకపోతే ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_POPUP_MENU) {
+        ఒకవేళ (!(కిటికీ->flags & SDL_కిటికీ_HIDDEN)) {
+            ఒకవేళ (!focusable && (కిటికీ->flags & SDL_కిటికీ_ఆదానం_FOCUS)) {
+                SDL_కిటికీ *new_focus;
+                స్థిరరాశి bool సమితి_focus = SDL_ShouldRelinquishPopupFocus(కిటికీ, &new_focus);
+                X11_సమితి_Keyboard_Focus(new_focus, సమితి_focus);
+            } లేకపోతే ఒకవేళ (focusable) {
+                ఒకవేళ (SDL_ShouldFocusPopup(కిటికీ)) {
+                    X11_సమితి_Keyboard_Focus(కిటికీ, true);
                 }
             }
         }
 
-        return true;
+        తిరిగి true;
     }
 
-    return true;
+    తిరిగి true;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11

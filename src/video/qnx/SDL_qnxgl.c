@@ -19,112 +19,112 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "SDL_qnx.h"
+#అన్తర్భావ "SDL_internal.h"
+#అన్తర్భావ "SDL_qnx.h"
 
-#include "../SDL_egl_c.h"
+#అన్తర్భావ "../SDL_egl_c.h"
 
 /**
  * Detertmines the pixel format to use based on the current display and EGL
  * configuration.
  */
-int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf)
+పూర్ణాంకం QNX_ఎంచుకో_Format(SDL_VideoDevice *_this, EGLConfig egl_conf)
 {
-    EGLint buffer_bit_depth;
-    EGLint alpha_bit_depth;
+    EGLint బఫరు_బిట్టు_లోతు;
+    EGLint alpha_బిట్టు_లోతు;
 
-    _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, egl_conf, EGL_BUFFER_SIZE, &buffer_bit_depth);
-    _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, egl_conf, EGL_ALPHA_SIZE, &alpha_bit_depth);
+    _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display, egl_conf, EGL_బఫరు_కొలత, &బఫరు_బిట్టు_లోతు);
+    _this->egl_దత్తాంశం->eglGetConfigAttrib(_this->egl_దత్తాంశం->egl_display, egl_conf, EGL_ALPHA_కొలత, &alpha_బిట్టు_లోతు);
 
-    switch (buffer_bit_depth) {
-        case 32:
-            return SCREEN_FORMAT_RGBX8888;
-        case 24:
-            return SCREEN_FORMAT_RGB888;
-        case 16:
-            switch (alpha_bit_depth) {
-                case 4:
-                    return SCREEN_FORMAT_RGBX4444;
-                case 1:
-                    return SCREEN_FORMAT_RGBA5551;
-                default:
-                    return SCREEN_FORMAT_RGB565;
+    ఎంపిక (బఫరు_బిట్టు_లోతు) {
+        స్థితి 32:
+            తిరిగి SCREEN_FORMAT_RGBX8888;
+        స్థితి 24:
+            తిరిగి SCREEN_FORMAT_RGB888;
+        స్థితి 16:
+            ఎంపిక (alpha_బిట్టు_లోతు) {
+                స్థితి 4:
+                    తిరిగి SCREEN_FORMAT_RGBX4444;
+                స్థితి 1:
+                    తిరిగి SCREEN_FORMAT_RGBA5551;
+                అప్రమేయ:
+                    తిరిగి SCREEN_FORMAT_RGB565;
             }
-        default:
-            return 0;
+        అప్రమేయ:
+            తిరిగి 0;
     }
 }
 
 /**
  * Initializes the EGL library.
  */
-bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path)
+bool QNX_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *egl_మార్గం)
 {
-    return SDL_EGL_LoadLibrary(_this, egl_path, EGL_DEFAULT_DISPLAY);
+    తిరిగి SDL_EGL_ఎక్కించు_Library(_this, egl_మార్గం, EGL_DEFAULT_DISPLAY);
 }
 
 /**
  * Finds the address of an EGL extension function.
  */
-SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_సూచిక QNX_GLES_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc)
 {
-    return SDL_EGL_GetProcAddressInternal(_this, proc);
+    తిరిగి SDL_EGL_Get_Proc_చిరునామా_అంతర్గత(_this, proc);
 }
 
 /**
  * Associates the given window with the necessary EGL structures for drawing and
  * displaying content.
  */
-SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
+    SDL_కిటికీ_దత్తాంశం   *impl = (SDL_కిటికీ_దత్తాంశం *)కిటికీ->అంతర్గత;
     EGLContext      context;
 
     context = SDL_EGL_CreateContext(_this, impl->egl_surface);
     impl->context = context;
 
-    return context;
+    తిరిగి context;
 }
 
 /**
  * Sets a new value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool QNX_GLES_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval)
 {
-    return SDL_EGL_SetSwapInterval(_this, interval);
+    తిరిగి SDL_EGL_సమితి_మార్పిడి_Interval(_this, interval);
 }
 
 /**
  * Gets the value for the number of frames to display before swapping buffers.
  */
-bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+bool QNX_GLES_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval)
 {
-    return SDL_EGL_GetSwapInterval(_this, interval);
+    తిరిగి SDL_EGL_Get_మార్పిడి_Interval(_this, interval);
 }
 
 /**
  * Swaps the EGL buffers associated with the given window
  */
-bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool QNX_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
+    SDL_కిటికీ_దత్తాంశం   *impl = (SDL_కిటికీ_దత్తాంశం *)కిటికీ->అంతర్గత;
     {
-        if (impl->resize) {
+        ఒకవేళ (impl->resize) {
             EGLSurface surface;
 
-            if (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
-                return false;
+            ఒకవేళ (!SDL_EGL_MakeCurrent(_this, EGL_NO_SURFACE, impl->context)) {
+                తిరిగి false;
             }
             SDL_EGL_DestroySurface(_this, impl->egl_surface);
 
-            surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)impl->window);
-            if (surface == EGL_NO_SURFACE) {
-                return false;
+            surface = SDL_EGL_CreateSurface(_this, కిటికీ, (Native_కిటికీ_Type)impl->కిటికీ);
+            ఒకవేళ (surface == EGL_NO_SURFACE) {
+                తిరిగి false;
             }
-            SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_SURFACE_POINTER, surface);
+            SDL_సమితి_సూచిక_Property(SDL_Get_కిటికీ_Properties(కిటికీ), SDL_PROP_కిటికీ_QNX_SURFACE_సూచిక, surface);
 
-            if (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
-                return false;
+            ఒకవేళ (!SDL_EGL_MakeCurrent(_this, surface, impl->context)) {
+                తిరిగి false;
             }
 
             impl->egl_surface = surface;
@@ -132,7 +132,7 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
         }
     }
 
-    return SDL_EGL_SwapBuffers(_this, impl->egl_surface);
+    తిరిగి SDL_EGL_మార్పిడి_Buffers(_this, impl->egl_surface);
 }
 
 /**
@@ -140,13 +140,13 @@ bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
  */
 bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    return SDL_EGL_DestroyContext(_this, context);
+    తిరిగి SDL_EGL_DestroyContext(_this, context);
 }
 
 /**
  * Terminates access to the EGL library.
  */
-void QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+శూన్య QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_EGL_UnloadLibrary(_this);
 }

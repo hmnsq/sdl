@@ -18,49 +18,49 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_windowsopengl_h_
-#define SDL_windowsopengl_h_
+#నిర్వచితం_కాకపోతే SDL_windowsopengl_h_
+#నిర్వచించు SDL_windowsopengl_h_
 
-#ifdef SDL_VIDEO_OPENGL_WGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL_WGL
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-typedef struct tagPIXELFORMATDESCRIPTOR
+#ఒకవేళ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+రకనిర్వచనం నిర్మాణం ట్యాగ్_PIXELFORMATDESCRIPTOR
 {
-    WORD nSize;
-    WORD nVersion;
+    మాట n_కొలత;
+    మాట n_సంస్కరణ;
     DWORD dwFlags;
     BYTE iPixelType;
-    BYTE cColorBits;
-    BYTE cRedBits;
-    BYTE cRedShift;
-    BYTE cGreenBits;
-    BYTE cGreenShift;
-    BYTE cBlueBits;
-    BYTE cBlueShift;
-    BYTE cAlphaBits;
-    BYTE cAlphaShift;
-    BYTE cAccumBits;
-    BYTE cAccumRedBits;
-    BYTE cAccumGreenBits;
-    BYTE cAccumBlueBits;
-    BYTE cAccumAlphaBits;
-    BYTE cDepthBits;
-    BYTE cStencilBits;
+    BYTE c_Color_బిట్లు;
+    BYTE c_Red_బిట్లు;
+    BYTE c_Red_జరుపు;
+    BYTE c_Green_బిట్లు;
+    BYTE c_Green_జరుపు;
+    BYTE c_Blue_బిట్లు;
+    BYTE c_Blue_జరుపు;
+    BYTE c_Alpha_బిట్లు;
+    BYTE c_Alpha_జరుపు;
+    BYTE c_Accum_బిట్లు;
+    BYTE c_Accum_Red_బిట్లు;
+    BYTE c_Accum_Green_బిట్లు;
+    BYTE c_Accum_Blue_బిట్లు;
+    BYTE c_Accum_Alpha_బిట్లు;
+    BYTE c_లోతు_బిట్లు;
+    BYTE c_Stencil_బిట్లు;
     BYTE cAuxBuffers;
     BYTE iLayerType;
     BYTE bReserved;
-    DWORD dwLayerMask;
-    DWORD dwVisibleMask;
-    DWORD dwDamageMask;
+    DWORD dw_Layer_ముసుగు;
+    DWORD dw_Visible_ముసుగు;
+    DWORD dw_Damage_ముసుగు;
 } PIXELFORMATDESCRIPTOR, *PPIXELFORMATDESCRIPTOR, *LPPIXELFORMATDESCRIPTOR;
-#endif
+#అయితే_ముగింపు
 
-struct SDL_GLDriverData
+నిర్మాణం SDL_GLDriver_దత్తాంశం
 {
     bool HAS_WGL_ARB_pixel_format;
-    bool HAS_WGL_EXT_swap_control_tear;
+    bool HAS_WGL_EXT_మార్పిడి_control_tear;
     bool HAS_WGL_ARB_context_flush_control;
     bool HAS_WGL_ARB_create_context_robustness;
     bool HAS_WGL_ARB_create_context_no_error;
@@ -72,110 +72,110 @@ struct SDL_GLDriverData
        implementation supports WGL_EXT_create_context_es2_profile.
        major = minor = 0 when unsupported.
      */
-    struct
+    నిర్మాణం
     {
-        int major;
-        int minor;
-    } es_profile_max_supported_version;
+        పూర్ణాంకం major;
+        పూర్ణాంకం minor;
+    } es_profile_max_supported_సంస్కరణ;
 
     /* *INDENT-OFF* */ // clang-format off
-    PROC (WINAPI *wglGetProcAddress)(const char *proc);
+    PROC (WINAPI *wgl_Get_Proc_చిరునామా)(స్థిరరాశి అక్షరం *proc);
     HGLRC (WINAPI *wglCreateContext)(HDC hdc);
     BOOL (WINAPI *wglDeleteContext)(HGLRC hglrc);
     BOOL (WINAPI *wglMakeCurrent)(HDC hdc, HGLRC hglrc);
     BOOL (WINAPI *wglShareLists)(HGLRC hglrc1, HGLRC hglrc2);
-    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int *piFormats, UINT * nNumFormats);
-    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
-    BOOL (WINAPI *wglSwapIntervalEXT)(int interval);
-    int (WINAPI *wglGetSwapIntervalEXT)(void);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    BOOL (WINAPI *wglSwapBuffers)(HDC hdc);
-    int (WINAPI *wglDescribePixelFormat)(HDC hdc,
-                                         int iPixelFormat,
-                                         UINT nBytes,
+    BOOL (WINAPI *wgl_ఎంచుకో_Pixel_Format_ARB)(HDC hdc, స్థిరరాశి పూర్ణాంకం *piAttribIList, స్థిరరాశి FLOAT * pfAttribFList, UINT nMaxFormats, పూర్ణాంకం *piFormats, UINT * n_అంకె_Formats);
+    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, పూర్ణాంకం iPixelFormat, పూర్ణాంకం iLayerPlane, UINT n_లక్షణాలు, స్థిరరాశి పూర్ణాంకం *pi_లక్షణాలు, పూర్ణాంకం *pi_విలువలు);
+    BOOL (WINAPI *wgl_మార్పిడి_Interval_EXT)(పూర్ణాంకం interval);
+    పూర్ణాంకం (WINAPI *wgl_Get_మార్పిడి_Interval_EXT)(శూన్య);
+#ఒకవేళ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    BOOL (WINAPI *wgl_మార్పిడి_Buffers)(HDC hdc);
+    పూర్ణాంకం (WINAPI *wglDescribePixelFormat)(HDC hdc,
+                                         పూర్ణాంకం iPixelFormat,
+                                         UINT n_బైట్లు,
                                          LPPIXELFORMATDESCRIPTOR ppfd);
-    int (WINAPI *wglChoosePixelFormat)(HDC hdc,
-                                       const PIXELFORMATDESCRIPTOR *ppfd);
-    BOOL (WINAPI *wglSetPixelFormat)(HDC hdc,
-                                     int format,
-                                     const PIXELFORMATDESCRIPTOR *ppfd);
-    int (WINAPI *wglGetPixelFormat)(HDC hdc);
-#endif
+    పూర్ణాంకం (WINAPI *wgl_ఎంచుకో_Pixel_Format)(HDC hdc,
+                                       స్థిరరాశి PIXELFORMATDESCRIPTOR *ppfd);
+    BOOL (WINAPI *wgl_సమితి_Pixel_Format)(HDC hdc,
+                                     పూర్ణాంకం format,
+                                     స్థిరరాశి PIXELFORMATDESCRIPTOR *ppfd);
+    పూర్ణాంకం (WINAPI *wglGetPixelFormat)(HDC hdc);
+#అయితే_ముగింపు
     /* *INDENT-ON* */ // clang-format on
 };
 
 // OpenGL functions
-extern bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void WIN_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool WIN_GL_UseEGL(SDL_VideoDevice *_this);
-extern bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+బాహ్య bool WIN_GL_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య SDL_Function_సూచిక WIN_GL_Get_Proc_చిరునామా(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *proc);
+బాహ్య శూన్య WIN_GL_UnloadLibrary(SDL_VideoDevice *_this);
+బాహ్య bool WIN_GL_UseEGL(SDL_VideoDevice *_this);
+బాహ్య bool WIN_GL_అమరిక_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ,
                               SDL_GLContext context);
-extern bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);
+బాహ్య bool WIN_GL_సమితి_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం interval);
+బాహ్య bool WIN_GL_Get_మార్పిడి_Interval(SDL_VideoDevice *_this, పూర్ణాంకం *interval);
+బాహ్య bool WIN_GL_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+బాహ్య శూన్య WIN_GL_InitExtensions(SDL_VideoDevice *_this);
 
-#ifndef WGL_ARB_pixel_format
-#define WGL_NUMBER_PIXEL_FORMATS_ARB    0x2000
-#define WGL_DRAW_TO_WINDOW_ARB          0x2001
-#define WGL_DRAW_TO_BITMAP_ARB          0x2002
-#define WGL_ACCELERATION_ARB            0x2003
-#define WGL_NEED_PALETTE_ARB            0x2004
-#define WGL_NEED_SYSTEM_PALETTE_ARB     0x2005
-#define WGL_SWAP_LAYER_BUFFERS_ARB      0x2006
-#define WGL_SWAP_METHOD_ARB             0x2007
-#define WGL_NUMBER_OVERLAYS_ARB         0x2008
-#define WGL_NUMBER_UNDERLAYS_ARB        0x2009
-#define WGL_TRANSPARENT_ARB             0x200A
-#define WGL_TRANSPARENT_RED_VALUE_ARB   0x2037
-#define WGL_TRANSPARENT_GREEN_VALUE_ARB 0x2038
-#define WGL_TRANSPARENT_BLUE_VALUE_ARB  0x2039
-#define WGL_TRANSPARENT_ALPHA_VALUE_ARB 0x203A
-#define WGL_TRANSPARENT_INDEX_VALUE_ARB 0x203B
-#define WGL_SHARE_DEPTH_ARB             0x200C
-#define WGL_SHARE_STENCIL_ARB           0x200D
-#define WGL_SHARE_ACCUM_ARB             0x200E
-#define WGL_SUPPORT_GDI_ARB             0x200F
-#define WGL_SUPPORT_OPENGL_ARB          0x2010
-#define WGL_DOUBLE_BUFFER_ARB           0x2011
-#define WGL_STEREO_ARB                  0x2012
-#define WGL_PIXEL_TYPE_ARB              0x2013
-#define WGL_COLOR_BITS_ARB              0x2014
-#define WGL_RED_BITS_ARB                0x2015
-#define WGL_RED_SHIFT_ARB               0x2016
-#define WGL_GREEN_BITS_ARB              0x2017
-#define WGL_GREEN_SHIFT_ARB             0x2018
-#define WGL_BLUE_BITS_ARB               0x2019
-#define WGL_BLUE_SHIFT_ARB              0x201A
-#define WGL_ALPHA_BITS_ARB              0x201B
-#define WGL_ALPHA_SHIFT_ARB             0x201C
-#define WGL_ACCUM_BITS_ARB              0x201D
-#define WGL_ACCUM_RED_BITS_ARB          0x201E
-#define WGL_ACCUM_GREEN_BITS_ARB        0x201F
-#define WGL_ACCUM_BLUE_BITS_ARB         0x2020
-#define WGL_ACCUM_ALPHA_BITS_ARB        0x2021
-#define WGL_DEPTH_BITS_ARB              0x2022
-#define WGL_STENCIL_BITS_ARB            0x2023
-#define WGL_AUX_BUFFERS_ARB             0x2024
-#define WGL_NO_ACCELERATION_ARB         0x2025
-#define WGL_GENERIC_ACCELERATION_ARB    0x2026
-#define WGL_FULL_ACCELERATION_ARB       0x2027
-#define WGL_SWAP_EXCHANGE_ARB           0x2028
-#define WGL_SWAP_COPY_ARB               0x2029
-#define WGL_SWAP_UNDEFINED_ARB          0x202A
-#define WGL_TYPE_RGBA_ARB               0x202B
-#define WGL_TYPE_COLORINDEX_ARB         0x202C
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_pixel_format
+#నిర్వచించు WGL_సంఖ్య_PIXEL_FORMATS_ARB    0x2000
+#నిర్వచించు WGL_DRAW_గమ్యం_కిటికీ_ARB          0x2001
+#నిర్వచించు WGL_DRAW_గమ్యం_BITMAP_ARB          0x2002
+#నిర్వచించు WGL_ACCELERATION_ARB            0x2003
+#నిర్వచించు WGL_NEED_PALETTE_ARB            0x2004
+#నిర్వచించు WGL_NEED_SYSTEM_PALETTE_ARB     0x2005
+#నిర్వచించు WGL_మార్పిడి_LAYER_BUFFERS_ARB      0x2006
+#నిర్వచించు WGL_మార్పిడి_పద్ధతి_ARB             0x2007
+#నిర్వచించు WGL_సంఖ్య_OVERLAYS_ARB         0x2008
+#నిర్వచించు WGL_సంఖ్య_UNDERLAYS_ARB        0x2009
+#నిర్వచించు WGL_TRANSPARENT_ARB             0x200A
+#నిర్వచించు WGL_TRANSPARENT_RED_విలువ_ARB   0x2037
+#నిర్వచించు WGL_TRANSPARENT_GREEN_విలువ_ARB 0x2038
+#నిర్వచించు WGL_TRANSPARENT_BLUE_విలువ_ARB  0x2039
+#నిర్వచించు WGL_TRANSPARENT_ALPHA_విలువ_ARB 0x203A
+#నిర్వచించు WGL_TRANSPARENT_సూచీ_విలువ_ARB 0x203B
+#నిర్వచించు WGL_SHARE_లోతు_ARB             0x200C
+#నిర్వచించు WGL_SHARE_STENCIL_ARB           0x200D
+#నిర్వచించు WGL_SHARE_ACCUM_ARB             0x200E
+#నిర్వచించు WGL_SUPPORT_GDI_ARB             0x200F
+#నిర్వచించు WGL_SUPPORT_OPENGL_ARB          0x2010
+#నిర్వచించు WGL_DOUBLE_బఫరు_ARB           0x2011
+#నిర్వచించు WGL_STEREO_ARB                  0x2012
+#నిర్వచించు WGL_PIXEL_TYPE_ARB              0x2013
+#నిర్వచించు WGL_COLOR_బిట్లు_ARB              0x2014
+#నిర్వచించు WGL_RED_బిట్లు_ARB                0x2015
+#నిర్వచించు WGL_RED_జరుపు_ARB               0x2016
+#నిర్వచించు WGL_GREEN_బిట్లు_ARB              0x2017
+#నిర్వచించు WGL_GREEN_జరుపు_ARB             0x2018
+#నిర్వచించు WGL_BLUE_బిట్లు_ARB               0x2019
+#నిర్వచించు WGL_BLUE_జరుపు_ARB              0x201A
+#నిర్వచించు WGL_ALPHA_బిట్లు_ARB              0x201B
+#నిర్వచించు WGL_ALPHA_జరుపు_ARB             0x201C
+#నిర్వచించు WGL_ACCUM_బిట్లు_ARB              0x201D
+#నిర్వచించు WGL_ACCUM_RED_బిట్లు_ARB          0x201E
+#నిర్వచించు WGL_ACCUM_GREEN_బిట్లు_ARB        0x201F
+#నిర్వచించు WGL_ACCUM_BLUE_బిట్లు_ARB         0x2020
+#నిర్వచించు WGL_ACCUM_ALPHA_బిట్లు_ARB        0x2021
+#నిర్వచించు WGL_లోతు_బిట్లు_ARB              0x2022
+#నిర్వచించు WGL_STENCIL_బిట్లు_ARB            0x2023
+#నిర్వచించు WGL_AUX_BUFFERS_ARB             0x2024
+#నిర్వచించు WGL_NO_ACCELERATION_ARB         0x2025
+#నిర్వచించు WGL_GENERIC_ACCELERATION_ARB    0x2026
+#నిర్వచించు WGL_నిండిన_ACCELERATION_ARB       0x2027
+#నిర్వచించు WGL_మార్పిడి_EXCHANGE_ARB           0x2028
+#నిర్వచించు WGL_మార్పిడి_COPY_ARB               0x2029
+#నిర్వచించు WGL_మార్పిడి_UNDEFINED_ARB          0x202A
+#నిర్వచించు WGL_TYPE_RGBA_ARB               0x202B
+#నిర్వచించు WGL_TYPE_COLORINDEX_ARB         0x202C
+#అయితే_ముగింపు
 
-#ifndef WGL_ARB_multisample
-#define WGL_SAMPLE_BUFFERS_ARB 0x2041
-#define WGL_SAMPLES_ARB        0x2042
-#endif
+#నిర్వచితం_కాకపోతే WGL_ARB_multisample
+#నిర్వచించు WGL_SAMPLE_BUFFERS_ARB 0x2041
+#నిర్వచించు WGL_SAMPLES_ARB        0x2042
+#అయితే_ముగింపు
 
-#endif // SDL_VIDEO_OPENGL_WGL
+#అయితే_ముగింపు // SDL_VIDEO_OPENGL_WGL
 
-#endif // SDL_windowsopengl_h_
+#అయితే_ముగింపు // SDL_windowsopengl_h_

@@ -18,294 +18,294 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_HAIKU
 
-#include <AppKit.h>
-#include <InterfaceKit.h>
-#include "SDL_bmodes.h"
-#include "SDL_BWin.h"
+#అన్తర్భావ <AppKit.h>
+#అన్తర్భావ <InterfaceKit.h>
+#అన్తర్భావ "SDL_bmodes.h"
+#అన్తర్భావ "SDL_BWin.h"
 
-#ifdef SDL_VIDEO_OPENGL
-#include "SDL_bopengl.h"
-#endif
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+#అన్తర్భావ "SDL_bopengl.h"
+#అయితే_ముగింపు
 
-#include "../../core/haiku/SDL_BApp.h"
+#అన్తర్భావ "../../core/haiku/SDL_BApp.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
 
-#define WRAP_BMODE 1 // FIXME: Some debate as to whether this is necessary
+#నిర్వచించు WRAP_BMODE 1 // FIXME: Some debate as to whether this is necessary
 
-#if WRAP_BMODE
+#ఒకవేళ WRAP_BMODE
 /* This wrapper is here so that the internal can be freed without freeing
    the display_mode structure */
-struct SDL_DisplayModeData {
-    display_mode *bmode;
+నిర్మాణం SDL_Display_బహుళకం_దత్తాంశం {
+    display_బహుళకం_2 *bmode;
 };
-#endif
+#అయితే_ముగింపు
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+స్థిర SDL_INLINE SDL_BWin *గమ్యం_Be_Win(SDL_కిటికీ *కిటికీ)
 {
-    return (SDL_BWin *)(window->internal);
+    తిరిగి (SDL_BWin *)(కిటికీ->అంతర్గత);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+స్థిర SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    తిరిగి SDL_Looper;
 }
 
-static SDL_INLINE display_mode * _ExtractBMode(SDL_DisplayMode *mode)
+స్థిర SDL_INLINE display_బహుళకం_2 * వెలికితీయి_BMode(SDL_Display_బహుళకం *బహుళకం)
 {
-#if WRAP_BMODE
-    return mode->internal->bmode;
-#else
-    return (display_mode *)mode->internal;
-#endif
+#ఒకవేళ WRAP_BMODE
+    తిరిగి బహుళకం->అంతర్గత->bmode;
+#లేకపోతే
+    తిరిగి (display_బహుళకం_2 *)బహుళకం->అంతర్గత;
+#అయితే_ముగింపు
 }
 
 // Copied from haiku/trunk/src/preferences/screen/ScreenMode.cpp
-static void get_refresh_rate(display_mode &mode, int *numerator, int *denominator)
+స్థిర శూన్య get_refresh_రేటు(display_బహుళకం_2 &బహుళకం, పూర్ణాంకం *numerator, పూర్ణాంకం *denominator)
 {
-    *numerator = (mode.timing.pixel_clock * 1000);
-    *denominator = (mode.timing.h_total * mode.timing.v_total);
+    *numerator = (బహుళకం.timing.pixel_clock * 1000);
+    *denominator = (బహుళకం.timing.h_మొత్తం * బహుళకం.timing.v_మొత్తం);
 }
 
 
-#if 0
+#ఒకవేళ 0
 /* TODO:
  * This is a useful debugging tool.  Uncomment and insert into code as needed.
  */
-void _SpoutModeData(display_mode *bmode)
+శూన్య Spout_బహుళకం_దత్తాంశం(display_బహుళకం_2 *bmode)
 {
     SDL_Log("BMode:");
-    SDL_Log("\tw,h = (%i,%i)", bmode->virtual_width, bmode->virtual_height);
-    SDL_Log("\th,v = (%i,%i)", bmode->h_display_start,
-            bmode->v_display_start);
-    if (bmode->flags) {
+    SDL_Log("\tw,h = (%i,%i)", bmode->virtual_వెడల్పు, bmode->virtual_ఎత్తు);
+    SDL_Log("\th,v = (%i,%i)", bmode->h_display_ప్రారంభం,
+            bmode->v_display_ప్రారంభం);
+    ఒకవేళ (bmode->flags) {
         SDL_Log("\tFlags:");
-        if (bmode->flags & B_SCROLL) {
+        ఒకవేళ (bmode->flags & B_SCROLL) {
             SDL_Log("\t\tB_SCROLL");
         }
-        if (bmode->flags & B_8_BIT_DAC) {
+        ఒకవేళ (bmode->flags & B_8_బిట్టు_DAC) {
             SDL_Log("\t\tB_8_BIT_DAC");
         }
-        if (bmode->flags & B_HARDWARE_CURSOR) {
+        ఒకవేళ (bmode->flags & B_HARDWARE_CURSOR) {
             SDL_Log("\t\tB_HARDWARE_CURSOR");
         }
-        if (bmode->flags & B_PARALLEL_ACCESS) {
+        ఒకవేళ (bmode->flags & B_PARALLEL_ACCESS) {
             SDL_Log("\t\tB_PARALLEL_ACCESS");
         }
-        if (bmode->flags & B_DPMS) {
+        ఒకవేళ (bmode->flags & B_DPMS) {
             SDL_Log("\t\tB_DPMS");
         }
-        if (bmode->flags & B_IO_FB_NA) {
+        ఒకవేళ (bmode->flags & B_IO_FB_NA) {
             SDL_Log("\t\tB_IO_FB_NA");
         }
     }
     SDL_Log("\tTiming:");
     SDL_Log("\t\tpx clock: %i", bmode->timing.pixel_clock);
     SDL_Log("\t\th - display: %i sync start: %i sync end: %i total: %i",
-        bmode->timing.h_display, bmode->timing.h_sync_start,
-        bmode->timing.h_sync_end, bmode->timing.h_total);
+        bmode->timing.h_display, bmode->timing.h_sync_ప్రారంభం,
+        bmode->timing.h_sync_చివర, bmode->timing.h_మొత్తం);
     SDL_Log("\t\tv - display: %i sync start: %i sync end: %i total: %i",
-        bmode->timing.v_display, bmode->timing.v_sync_start,
-        bmode->timing.v_sync_end, bmode->timing.v_total);
-    if (bmode->timing.flags) {
+        bmode->timing.v_display, bmode->timing.v_sync_ప్రారంభం,
+        bmode->timing.v_sync_చివర, bmode->timing.v_మొత్తం);
+    ఒకవేళ (bmode->timing.flags) {
         SDL_Log("\t\tFlags:");
-        if (bmode->timing.flags & B_BLANK_PEDESTAL) {
+        ఒకవేళ (bmode->timing.flags & B_BLANK_PEDESTAL) {
             SDL_Log("\t\t\tB_BLANK_PEDESTAL");
         }
-        if (bmode->timing.flags & B_TIMING_INTERLACED) {
+        ఒకవేళ (bmode->timing.flags & B_TIMING_INTERLACED) {
             SDL_Log("\t\t\tB_TIMING_INTERLACED");
         }
-        if (bmode->timing.flags & B_POSITIVE_HSYNC) {
+        ఒకవేళ (bmode->timing.flags & B_ధనాత్మక_HSYNC) {
             SDL_Log("\t\t\tB_POSITIVE_HSYNC");
         }
-        if (bmode->timing.flags & B_POSITIVE_VSYNC) {
+        ఒకవేళ (bmode->timing.flags & B_ధనాత్మక_VSYNC) {
             SDL_Log("\t\t\tB_POSITIVE_VSYNC");
         }
-        if (bmode->timing.flags & B_SYNC_ON_GREEN) {
+        ఒకవేళ (bmode->timing.flags & B_SYNC_ON_GREEN) {
             SDL_Log("\t\t\tB_SYNC_ON_GREEN");
         }
     }
 }
-#endif
+#అయితే_ముగింపు
 
 
 
-SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace)
+SDL_PixelFormat HAIKU_Color_Space_గమ్యం_SDLPx_Format(uint32 colorspace)
 {
-    switch (colorspace) {
-    case B_CMAP8:
-        return SDL_PIXELFORMAT_INDEX8;
-        break;
-    case B_RGB15:
-    case B_RGBA15:
-    case B_RGB15_BIG:
-    case B_RGBA15_BIG:
-        return SDL_PIXELFORMAT_XRGB1555;
-        break;
-    case B_RGB16:
-    case B_RGB16_BIG:
-        return SDL_PIXELFORMAT_RGB565;
-        break;
-    case B_RGB24:
-    case B_RGB24_BIG:
-        return SDL_PIXELFORMAT_BGR24;
-        break;
-    case B_RGB32:
-    case B_RGBA32:
-    case B_RGB32_BIG:
-    case B_RGBA32_BIG:
-        return SDL_PIXELFORMAT_XRGB8888;
-        break;
+    ఎంపిక (colorspace) {
+    స్థితి B_CMAP8:
+        తిరిగి SDL_PIXELFORMAT_INDEX8;
+        ఆపు;
+    స్థితి B_RGB15:
+    స్థితి B_RGBA15:
+    స్థితి B_RGB15_BIG:
+    స్థితి B_RGBA15_BIG:
+        తిరిగి SDL_PIXELFORMAT_XRGB1555;
+        ఆపు;
+    స్థితి B_RGB16:
+    స్థితి B_RGB16_BIG:
+        తిరిగి SDL_PIXELFORMAT_RGB565;
+        ఆపు;
+    స్థితి B_RGB24:
+    స్థితి B_RGB24_BIG:
+        తిరిగి SDL_PIXELFORMAT_BGR24;
+        ఆపు;
+    స్థితి B_RGB32:
+    స్థితి B_RGBA32:
+    స్థితి B_RGB32_BIG:
+    స్థితి B_RGBA32_BIG:
+        తిరిగి SDL_PIXELFORMAT_XRGB8888;
+        ఆపు;
     }
 
     // May never get here, but safer and needed to shut up compiler
-    SDL_SetError("Invalid color space");
-    return SDL_PIXELFORMAT_UNKNOWN;
+    SDL_సమితి_Error("Invalid color space");
+    తిరిగి SDL_PIXELFORMAT_UNKNOWN;
 }
 
-static void _BDisplayModeToSdlDisplayMode(display_mode *bmode, SDL_DisplayMode *mode)
+స్థిర శూన్య BDisplay_బహుళకం_గమ్యం_Sdl_Display_బహుళకం(display_బహుళకం_2 *bmode, SDL_Display_బహుళకం *బహుళకం)
 {
-    SDL_zerop(mode);
-    mode->w = bmode->virtual_width;
-    mode->h = bmode->virtual_height;
-    get_refresh_rate(*bmode, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
+    SDL_zerop(బహుళకం);
+    బహుళకం->w = bmode->virtual_వెడల్పు;
+    బహుళకం->h = bmode->virtual_ఎత్తు;
+    get_refresh_రేటు(*bmode, &బహుళకం->refresh_రేటు_numerator, &బహుళకం->refresh_రేటు_denominator);
 
-#if WRAP_BMODE
-    SDL_DisplayModeData *data = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
-    data->bmode = bmode;
+#ఒకవేళ WRAP_BMODE
+    SDL_Display_బహుళకం_దత్తాంశం *దత్తాంశం = (SDL_Display_బహుళకం_దత్తాంశం *)SDL_calloc(1, పరిమాణం(SDL_Display_బహుళకం_దత్తాంశం));
+    దత్తాంశం->bmode = bmode;
 
-    mode->internal = data;
-#else
-    mode->internal = bmode;
-#endif
+    బహుళకం->అంతర్గత = దత్తాంశం;
+#లేకపోతే
+    బహుళకం->అంతర్గత = bmode;
+#అయితే_ముగింపు
 
     // Set the format
-    mode->format = HAIKU_ColorSpaceToSDLPxFormat(bmode->space);
+    బహుళకం->format = HAIKU_Color_Space_గమ్యం_SDLPx_Format(bmode->space);
 }
 
 // Later, there may be more than one monitor available
-static void _AddDisplay(BScreen *screen)
+స్థిర శూన్య కూడు_Display(BScreen *screen)
 {
-    SDL_DisplayMode mode;
-    display_mode bmode;
-    screen->GetMode(&bmode);
+    SDL_Display_బహుళకం బహుళకం;
+    display_బహుళకం_2 bmode;
+    screen->Get_బహుళకం(&bmode);
 
-    _BDisplayModeToSdlDisplayMode(&bmode, &mode);
+    BDisplay_బహుళకం_గమ్యం_Sdl_Display_బహుళకం(&bmode, &బహుళకం);
 
-    SDL_AddBasicVideoDisplay(&mode);
+    SDL_కూడు_Basic_Video_Display(&బహుళకం);
 }
 
 /*
  * Functions called by SDL
  */
 
-bool HAIKU_InitModes(SDL_VideoDevice *_this)
+తార్కిక HAIKU_InitModes(SDL_VideoDevice *_this)
 {
     BScreen screen;
 
     /* TODO: When Haiku supports multiple display screens, call
        _AddDisplayScreen() for each of them. */
-    _AddDisplay(&screen);
-    return true;
+    కూడు_Display(&screen);
+    తిరిగి నిజం;
 }
 
-void HAIKU_QuitModes(SDL_VideoDevice *_this)
+శూన్య HAIKU_QuitModes(SDL_VideoDevice *_this)
 {
-    return;
+    తిరిగి;
 }
 
 
-bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+తార్కిక HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
     BScreen bscreen;
-    BRect rc = bscreen.Frame();
-    rect->x = (int)rc.left;
-    rect->y = (int)rc.top;
-    rect->w = (int)rc.Width() + 1;
-    rect->h = (int)rc.Height() + 1;
-    return true;
+    BRect rc = bscreen.చట్రం_2();
+    rect->x = (పూర్ణాంకం)rc.ఎడమ;
+    rect->y = (పూర్ణాంకం)rc.శిఖరం;
+    rect->w = (పూర్ణాంకం)rc.వెడల్పు_2() + 1;
+    rect->h = (పూర్ణాంకం)rc.ఎత్తు_2() + 1;
+    తిరిగి నిజం;
 }
 
-bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
+తార్కిక HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
     // Get the current screen
     BScreen bscreen;
 
     // Iterate through all of the modes
-    SDL_DisplayMode mode;
-    display_mode this_bmode;
-    display_mode *bmodes;
-    uint32 count, i;
-    bool retval = false;
+    SDL_Display_బహుళకం బహుళకం;
+    display_బహుళకం_2 this_bmode;
+    display_బహుళకం_2 *bmodes;
+    uint32 లెక్క, i;
+    తార్కిక retval = అబద్ధం;
 
     // Get graphics-hardware supported modes
-    if (bscreen.GetModeList(&bmodes, &count) == B_OK) {
-        if (bscreen.GetMode(&this_bmode) == B_OK) {
-            for (i = 0; i < count; ++i) {
+    ఒకవేళ (bscreen.Get_బహుళకం_List(&bmodes, &లెక్క) == B_OK) {
+        ఒకవేళ (bscreen.Get_బహుళకం(&this_bmode) == B_OK) {
+            కొరకు (i = 0; i < లెక్క; ++i) {
                 // FIXME: Apparently there are errors with colorspace changes
-                if (bmodes[i].space == this_bmode.space) {
-                    _BDisplayModeToSdlDisplayMode(&bmodes[i], &mode);
-                    SDL_AddFullscreenDisplayMode(display, &mode);
+                ఒకవేళ (bmodes[i].space == this_bmode.space) {
+                    BDisplay_బహుళకం_గమ్యం_Sdl_Display_బహుళకం(&bmodes[i], &బహుళకం);
+                    SDL_కూడు_Fullscreen_Display_బహుళకం(display, &బహుళకం);
                 }
             }
-            retval = true;
+            retval = నిజం;
         }
-        free(bmodes); // This should NOT be SDL_free()
+        విడుదల(bmodes); // This should NOT be SDL_free()
     }
 
-    return retval;
+    తిరిగి retval;
 }
 
 
-bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+తార్కిక HAIKU_సమితి_Display_బహుళకం(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_బహుళకం *బహుళకం)
 {
     // Get the current screen
     BScreen bscreen;
-    if (!bscreen.IsValid()) {
-        return SDL_SetError("Invalid screen");
+    ఒకవేళ (!bscreen.IsValid()) {
+        తిరిగి SDL_సమితి_Error("Invalid screen");
     }
 
     // Set the mode using the driver data
-    display_mode *bmode = _ExtractBMode(mode);
+    display_బహుళకం_2 *bmode = వెలికితీయి_BMode(బహుళకం);
 
 
     // FIXME: Is the first option always going to be the right one?
     uint32 c = 0, i;
-    display_mode *bmode_list;
-    bscreen.GetModeList(&bmode_list, &c);
-    for (i = 0; i < c; ++i) {
-        if (    bmode_list[i].space == bmode->space &&
-            bmode_list[i].virtual_width == bmode->virtual_width &&
-            bmode_list[i].virtual_height == bmode->virtual_height ) {
+    display_బహుళకం_2 *bmode_list;
+    bscreen.Get_బహుళకం_List(&bmode_list, &c);
+    కొరకు (i = 0; i < c; ++i) {
+        ఒకవేళ (    bmode_list[i].space == bmode->space &&
+            bmode_list[i].virtual_వెడల్పు == bmode->virtual_వెడల్పు &&
+            bmode_list[i].virtual_ఎత్తు == bmode->virtual_ఎత్తు ) {
                 bmode = &bmode_list[i];
-                break;
+                ఆపు;
         }
     }
 
-    if (bscreen.SetMode(bmode) != B_OK) {
-        return SDL_SetError("Bad video mode");
+    ఒకవేళ (bscreen.సమితి_బహుళకం(bmode) != B_OK) {
+        తిరిగి SDL_సమితి_Error("Bad video mode");
     }
 
-    free(bmode_list); // This should NOT be SDL_free()
+    విడుదల(bmode_list); // This should NOT be SDL_free()
 
-#ifdef SDL_VIDEO_OPENGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
     /* FIXME: Is there some way to reboot the OpenGL context?  This doesn't
        help */
 //    HAIKU_GL_RebootContexts(_this);
-#endif
+#అయితే_ముగింపు
 
-    return true;
+    తిరిగి నిజం;
 }
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_HAIKU

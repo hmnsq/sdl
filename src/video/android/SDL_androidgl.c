@@ -18,53 +18,53 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
 
 // Android SDL video driver implementation
 
-#include "../SDL_egl_c.h"
-#include "SDL_androidwindow.h"
+#అన్తర్భావ "../SDL_egl_c.h"
+#అన్తర్భావ "SDL_androidwindow.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidgl.h"
-#include "../../core/android/SDL_android.h"
+#అన్తర్భావ "SDL_androidvideo.h"
+#అన్తర్భావ "SDL_androidevents.h"
+#అన్తర్భావ "SDL_androidgl.h"
+#అన్తర్భావ "../../core/android/SDL_android.h"
 
-#include <android/log.h>
+#అన్తర్భావ <android/log.h>
 
-#include <dlfcn.h>
+#అన్తర్భావ <dlfcn.h>
 
-bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    ఒకవేళ (కిటికీ && context) {
+        తిరిగి SDL_EGL_MakeCurrent(_this, కిటికీ->అంతర్గత->egl_surface, context);
+    } లేకపోతే {
+        తిరిగి SDL_EGL_MakeCurrent(_this, ఖాళీ, ఖాళీ);
     }
 }
 
-SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_GLContext result;
+    SDL_GLContext ఫలితం;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return NULL;
+    ఒకవేళ (!Android_Wait_చురుకైన_And_తాళం_Activity()) {
+        తిరిగి ఖాళీ;
     }
 
-    result = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    ఫలితం = SDL_EGL_CreateContext(_this, కిటికీ->అంతర్గత->egl_surface);
 
     Android_UnlockActivityMutex();
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool Android_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    bool result;
+    bool ఫలితం;
 
-    Android_LockActivityMutex();
+    Android_తాళం_Activity_Mutex();
 
     /* The following two calls existed in the original Java code
      * If you happen to have a device that's affected by their removal,
@@ -73,16 +73,16 @@ bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     /*_this->egl_data->eglWaitNative(EGL_CORE_NATIVE_ENGINE);
     _this->egl_data->eglWaitGL();*/
-    result = SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
+    ఫలితం = SDL_EGL_మార్పిడి_Buffers(_this, కిటికీ->అంతర్గత->egl_surface);
 
     Android_UnlockActivityMutex();
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-bool Android_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Android_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    తిరిగి SDL_EGL_ఎక్కించు_Library(_this, మార్గం, EGL_DEFAULT_DISPLAY);
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_ANDROID

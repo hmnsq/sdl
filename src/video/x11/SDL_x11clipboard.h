@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_x11clipboard_h_
-#define SDL_x11clipboard_h_
+#నిర్వచితం_కాకపోతే SDL_x11clipboard_h_
+#నిర్వచించు SDL_x11clipboard_h_
 
-#include <X11/Xlib.h>
+#అన్తర్భావ <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
-    SDL_ClipboardDataCallback callback;
-    void *userdata;
-    const char *const *mime_types;
-    size_t mime_count;
+రకనిర్వచనం నిర్మాణం X11_Clipboard_దత్తాంశం {
+    SDL_Clipboard_దత్తాంశం_Callback callback;
+    శూన్య *userdata;
+    స్థిరరాశి అక్షరం *స్థిరరాశి *mime_types;
+    size_t mime_లెక్క;
     Uint32 sequence;
-} SDLX11_ClipboardData;
+} SDLX11_Clipboard_దత్తాంశం;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
-extern void X11_QuitClipboard(SDL_VideoDevice *_this);
-Window GetWindow(SDL_VideoDevice *_this);
+బాహ్య స్థిరరాశి అక్షరం *స్థిరరాశి *X11_Get_పాఠ్యం_Mime_Types(SDL_VideoDevice *_this, size_t *అంకె_mime_types);
+బాహ్య bool X11_సమితి_Clipboard_దత్తాంశం(SDL_VideoDevice *_this);
+బాహ్య శూన్య *X11_Get_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి);
+బాహ్య bool X11_Has_Clipboard_దత్తాంశం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *mime_type);
+బాహ్య bool X11_సమితి_Primary_Selection_పాఠ్యం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *పాఠ్యం);
+బాహ్య అక్షరం *X11_Get_Primary_Selection_పాఠ్యం(SDL_VideoDevice *_this);
+బాహ్య bool X11_Has_Primary_Selection_పాఠ్యం(SDL_VideoDevice *_this);
+బాహ్య శూన్య X11_QuitClipboard(SDL_VideoDevice *_this);
+కిటికీ_2 Get_కిటికీ(SDL_VideoDevice *_this);
 
-#endif // SDL_x11clipboard_h_
+#అయితే_ముగింపు // SDL_x11clipboard_h_

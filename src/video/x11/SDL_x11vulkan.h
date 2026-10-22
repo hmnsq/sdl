@@ -18,35 +18,35 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_x11vulkan_h_
-#define SDL_x11vulkan_h_
+#నిర్వచితం_కాకపోతే SDL_x11vulkan_h_
+#నిర్వచించు SDL_x11vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#అన్తర్భావ <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#ఒకవేళ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
-typedef struct xcb_connection_t xcb_connection_t;
-typedef xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
+రకనిర్వచనం నిర్మాణం xcb_connection_t xcb_connection_t;
+రకనిర్వచనం xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
 
-extern bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                             SDL_Window *window,
+బాహ్య bool X11_Vulkan_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య శూన్య X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+బాహ్య అక్షరం స్థిరరాశి * స్థిరరాశి *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *లెక్క);
+బాహ్య bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                             SDL_కిటికీ *కిటికీ,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+బాహ్య శూన్య X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
-extern bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
+                               స్థిరరాశి నిర్మాణం Vk_కేటాయింపు_Callbacks *allocator);
+బాహ్య bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex);
+                                           Uint32 వరుస_Family_సూచీ);
 
-#endif
+#అయితే_ముగింపు
 
-#endif // SDL_x11vulkan_h_
+#అయితే_ముగింపు // SDL_x11vulkan_h_

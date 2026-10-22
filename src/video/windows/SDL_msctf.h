@@ -19,51 +19,51 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_msctf_h_
-#define SDL_msctf_h_
+#నిర్వచితం_కాకపోతే SDL_msctf_h_
+#నిర్వచించు SDL_msctf_h_
 
-#include <unknwn.h>
+#అన్తర్భావ <unknwn.h>
 
-#define TF_INVALID_COOKIE            (0xffffffff)
-#define TF_IPSINK_FLAG_ACTIVE        0x0001
-#define TF_TMAE_UIELEMENTENABLEDONLY 0x00000004
+#నిర్వచించు TF_INVALID_COOKIE            (0xffffffff)
+#నిర్వచించు TF_IPSINK_FLAG_చురుకైన        0x0001
+#నిర్వచించు TF_TMAE_UIELEMENTENABLEDONLY 0x00000004
 
 /* *INDENT-OFF* */ // clang-format off
 
-typedef struct ITfThreadMgr ITfThreadMgr;
-typedef struct ITfDocumentMgr ITfDocumentMgr;
-typedef struct ITfClientId ITfClientId;
+రకనిర్వచనం నిర్మాణం ITfThreadMgr ITfThreadMgr;
+రకనిర్వచనం నిర్మాణం ITfDocumentMgr ITfDocumentMgr;
+రకనిర్వచనం నిర్మాణం ITfClientId ITfClientId;
 
-typedef struct IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
-typedef struct IEnumTfFunctionProviders IEnumTfFunctionProviders;
-typedef struct ITfFunctionProvider ITfFunctionProvider;
-typedef struct ITfCompartmentMgr ITfCompartmentMgr;
-typedef struct ITfContext ITfContext;
-typedef struct IEnumTfContexts IEnumTfContexts;
-typedef struct ITfUIElementSink ITfUIElementSink;
-typedef struct ITfUIElement ITfUIElement;
-typedef struct ITfUIElementMgr ITfUIElementMgr;
-typedef struct IEnumTfUIElements IEnumTfUIElements;
-typedef struct ITfThreadMgrEx ITfThreadMgrEx;
-typedef struct ITfCandidateListUIElement ITfCandidateListUIElement;
-typedef struct ITfReadingInformationUIElement ITfReadingInformationUIElement;
-typedef struct ITfInputProcessorProfileActivationSink ITfInputProcessorProfileActivationSink;
-typedef struct ITfSource ITfSource;
+రకనిర్వచనం నిర్మాణం IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
+రకనిర్వచనం నిర్మాణం IEnumTfFunctionProviders IEnumTfFunctionProviders;
+రకనిర్వచనం నిర్మాణం ITfFunctionProvider ITfFunctionProvider;
+రకనిర్వచనం నిర్మాణం ITfCompartmentMgr ITfCompartmentMgr;
+రకనిర్వచనం నిర్మాణం ITfContext ITfContext;
+రకనిర్వచనం నిర్మాణం IEnumTfContexts IEnumTfContexts;
+రకనిర్వచనం నిర్మాణం ITfUIElementSink ITfUIElementSink;
+రకనిర్వచనం నిర్మాణం ITfUIElement ITfUIElement;
+రకనిర్వచనం నిర్మాణం ITfUIElementMgr ITfUIElementMgr;
+రకనిర్వచనం నిర్మాణం IEnumTfUIElements IEnumTfUIElements;
+రకనిర్వచనం నిర్మాణం ITfThreadMgrEx ITfThreadMgrEx;
+రకనిర్వచనం నిర్మాణం ITfCandidateListUIElement ITfCandidateListUIElement;
+రకనిర్వచనం నిర్మాణం ITfReadingInformationUIElement ITfReadingInformationUIElement;
+రకనిర్వచనం నిర్మాణం ITf_ఆదానం_Processor_Profile_Activation_Sink ITf_ఆదానం_Processor_Profile_Activation_Sink;
+రకనిర్వచనం నిర్మాణం ITf_ఆధారం ITf_ఆధారం;
 
-typedef DWORD TfClientId;
-typedef DWORD TfEditCookie;
+రకనిర్వచనం DWORD TfClientId;
+రకనిర్వచనం DWORD TfEditCookie;
 
-typedef struct ITfThreadMgrVtbl
+రకనిర్వచనం నిర్మాణం ITfThreadMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgr *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfThreadMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgr *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgr *, TfClientId *);
     HRESULT (STDMETHODCALLTYPE *Deactivate)(ITfThreadMgr *);
     HRESULT (STDMETHODCALLTYPE *CreateDocumentMgr)(ITfThreadMgr *);
     HRESULT (STDMETHODCALLTYPE *EnumDocumentMgrs)(ITfThreadMgr *, IEnumTfDocumentMgrs **);
     HRESULT (STDMETHODCALLTYPE *GetFocus)(ITfThreadMgr *, ITfDocumentMgr **);
-    HRESULT (STDMETHODCALLTYPE *SetFocus)(ITfThreadMgr *, ITfDocumentMgr *);
+    HRESULT (STDMETHODCALLTYPE *సమితి_Focus)(ITfThreadMgr *, ITfDocumentMgr *);
     HRESULT (STDMETHODCALLTYPE *AssociateFocus)(ITfThreadMgr *, HWND, ITfDocumentMgr *, ITfDocumentMgr **);
     HRESULT (STDMETHODCALLTYPE *IsThreadFocus)(ITfThreadMgr *, BOOL *);
     HRESULT (STDMETHODCALLTYPE *GetFunctionProvider)(ITfThreadMgr *, REFCLSID, ITfFunctionProvider **);
@@ -71,90 +71,90 @@ typedef struct ITfThreadMgrVtbl
     HRESULT (STDMETHODCALLTYPE *GetGlobalCompartment)(ITfThreadMgr *, ITfCompartmentMgr **);
 } ITfThreadMgrVtbl;
 
-struct ITfThreadMgr
+నిర్మాణం ITfThreadMgr
 {
-    const struct ITfThreadMgrVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfThreadMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfThreadMgrExVtbl
+రకనిర్వచనం నిర్మాణం ITfThreadMgrExVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgrEx *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfThreadMgrEx *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgrEx *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgrEx *, TfClientId *);
     HRESULT (STDMETHODCALLTYPE *Deactivate)(ITfThreadMgrEx *);
     HRESULT (STDMETHODCALLTYPE *CreateDocumentMgr)(ITfThreadMgrEx *, ITfDocumentMgr **);
     HRESULT (STDMETHODCALLTYPE *EnumDocumentMgrs)(ITfThreadMgrEx *, IEnumTfDocumentMgrs **);
     HRESULT (STDMETHODCALLTYPE *GetFocus)(ITfThreadMgrEx *, ITfDocumentMgr **);
-    HRESULT (STDMETHODCALLTYPE *SetFocus)(ITfThreadMgrEx *, ITfDocumentMgr *);
+    HRESULT (STDMETHODCALLTYPE *సమితి_Focus)(ITfThreadMgrEx *, ITfDocumentMgr *);
     HRESULT (STDMETHODCALLTYPE *AssociateFocus)(ITfThreadMgrEx *, ITfDocumentMgr *, ITfDocumentMgr **);
     HRESULT (STDMETHODCALLTYPE *IsThreadFocus)(ITfThreadMgrEx *, BOOL *);
     HRESULT (STDMETHODCALLTYPE *GetFunctionProvider)(ITfThreadMgrEx *, REFCLSID, ITfFunctionProvider **);
     HRESULT (STDMETHODCALLTYPE *EnumFunctionProviders)(ITfThreadMgrEx *, IEnumTfFunctionProviders **);
     HRESULT (STDMETHODCALLTYPE *GetGlobalCompartment)(ITfThreadMgrEx *, ITfCompartmentMgr **);
     HRESULT (STDMETHODCALLTYPE *ActivateEx)(ITfThreadMgrEx *, TfClientId *, DWORD);
-    HRESULT (STDMETHODCALLTYPE *GetActiveFlags)(ITfThreadMgrEx *, DWORD *);
+    HRESULT (STDMETHODCALLTYPE *Get_చురుకైన_Flags)(ITfThreadMgrEx *, DWORD *);
 } ITfThreadMgrExVtbl;
 
-struct ITfThreadMgrEx
+నిర్మాణం ITfThreadMgrEx
 {
-    const struct ITfThreadMgrExVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfThreadMgrExVtbl *lpVtbl;
 };
 
-typedef struct ITfDocumentMgrVtbl
+రకనిర్వచనం నిర్మాణం ITfDocumentMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfDocumentMgr *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfDocumentMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfDocumentMgr *);
     HRESULT (STDMETHODCALLTYPE *CreateContext)(ITfDocumentMgr *, TfClientId, DWORD, IUnknown *, ITfContext **, TfEditCookie *);
-    HRESULT (STDMETHODCALLTYPE *Push)(ITfDocumentMgr *, ITfContext *);
-    HRESULT (STDMETHODCALLTYPE *Pop)(ITfDocumentMgr *);
-    HRESULT (STDMETHODCALLTYPE *GetTop)(ITfDocumentMgr *, ITfContext **);
-    HRESULT (STDMETHODCALLTYPE *GetBase)(ITfDocumentMgr *, ITfContext **);
+    HRESULT (STDMETHODCALLTYPE *నెట్టు_2)(ITfDocumentMgr *, ITfContext *);
+    HRESULT (STDMETHODCALLTYPE *తీయి_2)(ITfDocumentMgr *);
+    HRESULT (STDMETHODCALLTYPE *Get_శిఖరం)(ITfDocumentMgr *, ITfContext **);
+    HRESULT (STDMETHODCALLTYPE *Get_పునాది)(ITfDocumentMgr *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *EnumContexts)(ITfDocumentMgr *, IEnumTfContexts **);
 } ITfDocumentMgrVtbl;
 
-struct ITfDocumentMgr
+నిర్మాణం ITfDocumentMgr
 {
-    const struct ITfDocumentMgrVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfDocumentMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementSinkVtbl
+రకనిర్వచనం నిర్మాణం ITfUIElementSinkVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementSink *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfUIElementSink *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementSink *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementSink *, DWORD, BOOL *);
     HRESULT (STDMETHODCALLTYPE *UpdateUIElement)(ITfUIElementSink *, DWORD);
-    HRESULT (STDMETHODCALLTYPE *EndUIElement)(ITfUIElementSink *, DWORD);
+    HRESULT (STDMETHODCALLTYPE *చివర_UIElement)(ITfUIElementSink *, DWORD);
 } ITfUIElementSinkVtbl;
 
-struct ITfUIElementSink
+నిర్మాణం ITfUIElementSink
 {
-    const struct ITfUIElementSinkVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfUIElementSinkVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementMgrVtbl
+రకనిర్వచనం నిర్మాణం ITfUIElementMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementMgr *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfUIElementMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementMgr *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementMgr *, ITfUIElement *, BOOL *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *UpdateUIElement)(ITfUIElementMgr *, DWORD);
-    HRESULT (STDMETHODCALLTYPE *EndUIElement)(ITfUIElementMgr *, DWORD);
+    HRESULT (STDMETHODCALLTYPE *చివర_UIElement)(ITfUIElementMgr *, DWORD);
     HRESULT (STDMETHODCALLTYPE *GetUIElement)(ITfUIElementMgr *, DWORD, ITfUIElement **);
     HRESULT (STDMETHODCALLTYPE *EnumUIElements)(ITfUIElementMgr *, IEnumTfUIElements **);
 } ITfUIElementMgrVtbl;
 
-struct ITfUIElementMgr
+నిర్మాణం ITfUIElementMgr
 {
-    const struct ITfUIElementMgrVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfUIElementMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfCandidateListUIElementVtbl
+రకనిర్వచనం నిర్మాణం ITfCandidateListUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfCandidateListUIElement *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfCandidateListUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfCandidateListUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfCandidateListUIElement *, BSTR *);
     HRESULT (STDMETHODCALLTYPE *GetGUID)(ITfCandidateListUIElement *, GUID *);
@@ -162,23 +162,23 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfCandidateListUIElement *, BOOL *);
     HRESULT (STDMETHODCALLTYPE *GetUpdatedFlags)(ITfCandidateListUIElement *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *GetDocumentMgr)(ITfCandidateListUIElement *, ITfDocumentMgr **);
-    HRESULT (STDMETHODCALLTYPE *GetCount)(ITfCandidateListUIElement *, UINT *);
+    HRESULT (STDMETHODCALLTYPE *Get_లెక్క)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetSelection)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetString)(ITfCandidateListUIElement *, UINT, BSTR *);
-    HRESULT (STDMETHODCALLTYPE *GetPageIndex)(ITfCandidateListUIElement *, UINT *, UINT, UINT *);
-    HRESULT (STDMETHODCALLTYPE *SetPageIndex)(ITfCandidateListUIElement *, UINT *, UINT);
-    HRESULT (STDMETHODCALLTYPE *GetCurrentPage)(ITfCandidateListUIElement *, UINT *);
+    HRESULT (STDMETHODCALLTYPE *Get_పుట_సూచీ)(ITfCandidateListUIElement *, UINT *, UINT, UINT *);
+    HRESULT (STDMETHODCALLTYPE *సమితి_పుట_సూచీ)(ITfCandidateListUIElement *, UINT *, UINT);
+    HRESULT (STDMETHODCALLTYPE *Get_Current_పుట)(ITfCandidateListUIElement *, UINT *);
 } ITfCandidateListUIElementVtbl;
 
-struct ITfCandidateListUIElement
+నిర్మాణం ITfCandidateListUIElement
 {
-    const struct ITfCandidateListUIElementVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfCandidateListUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfReadingInformationUIElementVtbl
+రకనిర్వచనం నిర్మాణం ITfReadingInformationUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfReadingInformationUIElement *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfReadingInformationUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfReadingInformationUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfReadingInformationUIElement *, BSTR *);
     HRESULT (STDMETHODCALLTYPE *GetGUID)(ITfReadingInformationUIElement *, GUID *);
@@ -187,20 +187,20 @@ typedef struct ITfReadingInformationUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *GetUpdatedFlags)(ITfReadingInformationUIElement *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *GetContext)(ITfReadingInformationUIElement *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *GetString)(ITfReadingInformationUIElement *, BSTR *);
-    HRESULT (STDMETHODCALLTYPE *GetMaxReadingStringLength)(ITfReadingInformationUIElement *, UINT *);
-    HRESULT (STDMETHODCALLTYPE *GetErrorIndex)(ITfReadingInformationUIElement *, UINT *);
-    HRESULT (STDMETHODCALLTYPE *IsVerticalOrderPreferred)(ITfReadingInformationUIElement *, BOOL *);
+    HRESULT (STDMETHODCALLTYPE *Get_Max_Reading_String_నిడివి)(ITfReadingInformationUIElement *, UINT *);
+    HRESULT (STDMETHODCALLTYPE *Get_Error_సూచీ)(ITfReadingInformationUIElement *, UINT *);
+    HRESULT (STDMETHODCALLTYPE *Is_Vertical_క్రమం_Preferred)(ITfReadingInformationUIElement *, BOOL *);
 } ITfReadingInformationUIElementVtbl;
 
-struct ITfReadingInformationUIElement
+నిర్మాణం ITfReadingInformationUIElement
 {
-    const struct ITfReadingInformationUIElementVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfReadingInformationUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementVtbl
+రకనిర్వచనం నిర్మాణం ITfUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElement *);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITfUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfUIElement *, BSTR *);
     HRESULT (STDMETHODCALLTYPE *GetGUID)(ITfUIElement *, GUID *);
@@ -208,39 +208,39 @@ typedef struct ITfUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfUIElement *, BOOL *);
 } ITfUIElementVtbl;
 
-struct ITfUIElement
+నిర్మాణం ITfUIElement
 {
-    const struct ITfUIElementVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITfUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfInputProcessorProfileActivationSinkVtbl
+రకనిర్వచనం నిర్మాణం ITf_ఆదానం_Processor_Profile_Activation_Sink_Vtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfInputProcessorProfileActivationSink *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfInputProcessorProfileActivationSink *);
-    ULONG (STDMETHODCALLTYPE *Release)(ITfInputProcessorProfileActivationSink *);
-    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITfInputProcessorProfileActivationSink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITf_ఆదానం_Processor_Profile_Activation_Sink *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITf_ఆదానం_Processor_Profile_Activation_Sink *);
+    ULONG (STDMETHODCALLTYPE *Release)(ITf_ఆదానం_Processor_Profile_Activation_Sink *);
+    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITf_ఆదానం_Processor_Profile_Activation_Sink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
 
-} ITfInputProcessorProfileActivationSinkVtbl;
+} ITf_ఆదానం_Processor_Profile_Activation_Sink_Vtbl;
 
-struct ITfInputProcessorProfileActivationSink
+నిర్మాణం ITf_ఆదానం_Processor_Profile_Activation_Sink
 {
-    const struct ITfInputProcessorProfileActivationSinkVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITf_ఆదానం_Processor_Profile_Activation_Sink_Vtbl *lpVtbl;
 };
 
-typedef struct ITfSourceVtbl
+రకనిర్వచనం నిర్మాణం ITf_ఆధారం_Vtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfSource *);
-    ULONG (STDMETHODCALLTYPE *Release)(ITfSource *);
-    HRESULT (STDMETHODCALLTYPE *AdviseSink)(ITfSource *, REFIID, IUnknown *, DWORD *);
-    HRESULT (STDMETHODCALLTYPE *UnadviseSink)(ITfSource *, DWORD);
-} ITfSourceVtbl;
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITf_ఆధారం *, REFIID, శూన్య **);
+    ULONG (STDMETHODCALLTYPE *కూడు_Ref)(ITf_ఆధారం *);
+    ULONG (STDMETHODCALLTYPE *Release)(ITf_ఆధారం *);
+    HRESULT (STDMETHODCALLTYPE *AdviseSink)(ITf_ఆధారం *, REFIID, IUnknown *, DWORD *);
+    HRESULT (STDMETHODCALLTYPE *UnadviseSink)(ITf_ఆధారం *, DWORD);
+} ITf_ఆధారం_Vtbl;
 
-struct ITfSource
+నిర్మాణం ITf_ఆధారం
 {
-    const struct ITfSourceVtbl *lpVtbl;
+    స్థిరరాశి నిర్మాణం ITf_ఆధారం_Vtbl *lpVtbl;
 };
 
 /* *INDENT-ON* */ // clang-format on
 
-#endif // SDL_msctf_h_
+#అయితే_ముగింపు // SDL_msctf_h_

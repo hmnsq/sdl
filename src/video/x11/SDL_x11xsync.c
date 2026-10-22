@@ -19,130 +19,130 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XSYNC)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xsync.h"
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11xsync.h"
 
-static bool xsync_initialized = false;
+స్థిర bool xsync_initialized = false;
 
-static int query_xsync_version(Display *display, int major, int minor)
+స్థిర పూర్ణాంకం query_xsync_సంస్కరణ(Display *display, పూర్ణాంకం major, పూర్ణాంకం minor)
 {
     /* We don't care if this fails, so long as it sets major/minor on it's way out the door. */
     X11_XSyncInitialize(display, &major, &minor);
-    return (major * 1000) + minor;
+    తిరిగి (major * 1000) + minor;
 }
 
-static bool xsync_version_atleast(const int version, const int wantmajor, const int wantminor)
+స్థిర bool xsync_సంస్కరణ_atleast(స్థిరరాశి పూర్ణాంకం సంస్కరణ, స్థిరరాశి పూర్ణాంకం wantmajor, స్థిరరాశి పూర్ణాంకం wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    తిరిగి సంస్కరణ >= ((wantmajor * 1000) + wantminor);
 }
 
-void X11_InitXsync(SDL_VideoDevice *_this)
+శూన్య X11_InitXsync(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data =  _this->internal;
+    SDL_Video_దత్తాంశం *దత్తాంశం =  _this->అంతర్గత;
 
-    int version = 0;
-    int event, error;
-    int sync_opcode;
+    పూర్ణాంకం సంస్కరణ = 0;
+    పూర్ణాంకం event, error;
+    పూర్ణాంకం sync_opcode;
 
-    if (!SDL_X11_HAVE_XSYNC ||
-        !X11_XQueryExtension(data->display, "SYNC", &sync_opcode, &event, &error)) {
-        return;
+    ఒకవేళ (!SDL_X11_HAVE_XSYNC ||
+        !X11_XQueryExtension(దత్తాంశం->display, "SYNC", &sync_opcode, &event, &error)) {
+        తిరిగి;
     }
 
     /* We need at least 5.0 for barriers. */
-    version = query_xsync_version(data->display, 5, 0);
-    if (!xsync_version_atleast(version, 3, 0)) {
-        return; /* X server does not support the version we want at all. */
+    సంస్కరణ = query_xsync_సంస్కరణ(దత్తాంశం->display, 5, 0);
+    ఒకవేళ (!xsync_సంస్కరణ_atleast(సంస్కరణ, 3, 0)) {
+        తిరిగి; /* X server does not support the version we want at all. */
     }
 
     xsync_initialized = true;
 }
 
-bool X11_XsyncIsInitialized(void)
+bool X11_XsyncIsInitialized(శూన్య)
 {
-    return xsync_initialized;
+    తిరిగి xsync_initialized;
 }
 
-bool X11_InitResizeSync(SDL_Window *window)
+bool X11_InitResizeSync(SDL_కిటికీ *కిటికీ)
 {
-    SDL_assert(window != NULL);
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom counter_prop = data->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
+    SDL_assert(కిటికీ != ఖాళీ);
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    Atom counter_prop = దత్తాంశం->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
     XSyncCounter counter;
     CARD32 counter_id;
 
-    if (!X11_XsyncIsInitialized()){
-        return SDL_Unsupported();
+    ఒకవేళ (!X11_XsyncIsInitialized()){
+        తిరిగి SDL_Unsupported();
     }
 
-    counter = X11_XSyncCreateCounter(display, (XSyncValue){0, 0});
-    data->resize_counter = counter;
-    data->resize_id.lo = 0;
-    data->resize_id.hi = 0;
-    data->resize_in_progress = false;
+    counter = X11_XSyncCreateCounter(display, (XSync_విలువ){0, 0});
+    దత్తాంశం->resize_counter = counter;
+    దత్తాంశం->resize_id.lo = 0;
+    దత్తాంశం->resize_id.hi = 0;
+    దత్తాంశం->resize_లోపల_పురోగతి = false;
 
-    if (counter == None){
-        return SDL_Unsupported();
+    ఒకవేళ (counter == None){
+        తిరిగి SDL_Unsupported();
     }
 
     counter_id = counter;
-    X11_XChangeProperty(display, data->xwindow, counter_prop, XA_CARDINAL, 32,
-                        PropModeReplace, (unsigned char *)&counter_id, 1);
+    X11_XChangeProperty(display, దత్తాంశం->xwindow, counter_prop, XA_CARDINAL, 32,
+                        Prop_బహుళకం_Replace, (గుర్తులేని అక్షరం *)&counter_id, 1);
 
-    return true;
+    తిరిగి true;
 }
 
-void X11_TermResizeSync(SDL_Window *window)
+శూన్య X11_పదం_Resize_Sync(SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    Atom counter_prop = data->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
-    XSyncCounter counter = data->resize_counter;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    Atom counter_prop = దత్తాంశం->videodata->atoms._NET_WM_SYNC_REQUEST_COUNTER;
+    XSyncCounter counter = దత్తాంశం->resize_counter;
 
-    X11_XDeleteProperty(display, data->xwindow, counter_prop);
-    if (counter != None) {
+    X11_XDeleteProperty(display, దత్తాంశం->xwindow, counter_prop);
+    ఒకవేళ (counter != None) {
         X11_XSyncDestroyCounter(display, counter);
     }
 }
 
-void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event)
+శూన్య X11_HandleSyncRequest(SDL_కిటికీ *కిటికీ, XClient_సందేశం_Event *event)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-    data->resize_id.lo = event->data.l[2];
-    data->resize_id.hi = event->data.l[3];
-    data->resize_in_progress = false;
+    దత్తాంశం->resize_id.lo = event->దత్తాంశం.l[2];
+    దత్తాంశం->resize_id.hi = event->దత్తాంశం.l[3];
+    దత్తాంశం->resize_లోపల_పురోగతి = false;
 }
 
-void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event)
+శూన్య X11_HandleConfigure(SDL_కిటికీ *కిటికీ, XConfigureEvent *event)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-    if (data->resize_id.lo || data->resize_id.hi) {
-        data->resize_in_progress = true;
+    ఒకవేళ (దత్తాంశం->resize_id.lo || దత్తాంశం->resize_id.hi) {
+        దత్తాంశం->resize_లోపల_పురోగతి = true;
     }
 }
 
-void X11_HandlePresent(SDL_Window *window)
+శూన్య X11_HandlePresent(SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
-    XSyncCounter counter = data->resize_counter;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
+    XSyncCounter counter = దత్తాంశం->resize_counter;
 
-    if ((counter == None) || (!data->resize_in_progress)) {
-        return;
+    ఒకవేళ ((counter == None) || (!దత్తాంశం->resize_లోపల_పురోగతి)) {
+        తిరిగి;
     }
 
-    X11_XSyncSetCounter(display, counter, data->resize_id);
+    X11_XSync_సమితి_Counter(display, counter, దత్తాంశం->resize_id);
 
-    data->resize_id.lo = 0;
-    data->resize_id.hi = 0;
-    data->resize_in_progress = false;
+    దత్తాంశం->resize_id.lo = 0;
+    దత్తాంశం->resize_id.hi = 0;
+    దత్తాంశం->resize_లోపల_పురోగతి = false;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XSYNC
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XSYNC

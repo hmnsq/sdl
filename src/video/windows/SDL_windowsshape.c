@@ -18,108 +18,108 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsshape.h"
+#అన్తర్భావ "SDL_windowsvideo.h"
+#అన్తర్భావ "SDL_windowsshape.h"
 
 
-static void AddRegion(HRGN *mask, int x1, int y1, int x2, int y2)
+స్థిర శూన్య కూడు_Region(HRGN *ముసుగు, పూర్ణాంకం x1, పూర్ణాంకం y1, పూర్ణాంకం x2, పూర్ణాంకం y2)
 {
     HRGN region = CreateRectRgn(x1, y1, x2, y2);
-    if (*mask) {
-        CombineRgn(*mask, *mask, region, RGN_OR);
+    ఒకవేళ (*ముసుగు) {
+        CombineRgn(*ముసుగు, *ముసుగు, region, RGN_OR);
         DeleteObject(region);
-    } else {
-        *mask = region;
+    } లేకపోతే {
+        *ముసుగు = region;
     }
 }
 
-static HRGN GenerateSpanListRegion(SDL_Surface *shape, int offset_x, int offset_y)
+స్థిర HRGN Generate_పరిధి_List_Region(SDL_Surface *shape, పూర్ణాంకం స్థానభ్రంశం_x, పూర్ణాంకం స్థానభ్రంశం_y)
 {
-    HRGN mask = NULL;
-    int x, y;
-    int span_start = -1;
+    HRGN ముసుగు = ఖాళీ;
+    పూర్ణాంకం x, y;
+    పూర్ణాంకం పరిధి_ప్రారంభం = -1;
 
-    for (y = 0; y < shape->h; ++y) {
-        const Uint8 *a = (const Uint8 *)shape->pixels + y * shape->pitch;
-        for (x = 0; x < shape->w; ++x) {
-            if (*a == SDL_ALPHA_TRANSPARENT) {
-                if (span_start != -1) {
-                    AddRegion(&mask, offset_x + span_start, offset_y + y, offset_x + x, offset_y + y + 1);
-                    span_start = -1;
+    కొరకు (y = 0; y < shape->h; ++y) {
+        స్థిరరాశి Uint8 *a = (స్థిరరాశి Uint8 *)shape->pixels + y * shape->pitch;
+        కొరకు (x = 0; x < shape->w; ++x) {
+            ఒకవేళ (*a == SDL_ALPHA_TRANSPARENT) {
+                ఒకవేళ (పరిధి_ప్రారంభం != -1) {
+                    కూడు_Region(&ముసుగు, స్థానభ్రంశం_x + పరిధి_ప్రారంభం, స్థానభ్రంశం_y + y, స్థానభ్రంశం_x + x, స్థానభ్రంశం_y + y + 1);
+                    పరిధి_ప్రారంభం = -1;
                 }
-            } else {
-                if (span_start == -1) {
-                    span_start = x;
+            } లేకపోతే {
+                ఒకవేళ (పరిధి_ప్రారంభం == -1) {
+                    పరిధి_ప్రారంభం = x;
                 }
             }
             a += 4;
         }
-        if (span_start != -1) {
+        ఒకవేళ (పరిధి_ప్రారంభం != -1) {
             // Add the final span
-            AddRegion(&mask, offset_x + span_start, offset_y + y, offset_x + x, offset_y + y + 1);
-            span_start = -1;
+            కూడు_Region(&ముసుగు, స్థానభ్రంశం_x + పరిధి_ప్రారంభం, స్థానభ్రంశం_y + y, స్థానభ్రంశం_x + x, స్థానభ్రంశం_y + y + 1);
+            పరిధి_ప్రారంభం = -1;
         }
     }
-    return mask;
+    తిరిగి ముసుగు;
 }
 
-bool WIN_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape)
+bool WIN_Update_కిటికీ_Shape(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_Surface *shape)
 {
-    SDL_WindowData *data = window->internal;
-    HRGN mask = NULL;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    HRGN ముసుగు = ఖాళీ;
 
     // Generate a set of spans for the region
-    if (shape) {
-        SDL_Surface *stretched = NULL;
+    ఒకవేళ (shape) {
+        SDL_Surface *stretched = ఖాళీ;
         RECT rect;
 
-        if (shape->w != window->w || shape->h != window->h) {
-            stretched = SDL_CreateSurfaceUninitialized(window->w, window->h, SDL_PIXELFORMAT_ARGB32);
-            if (!stretched) {
-                return false;
+        ఒకవేళ (shape->w != కిటికీ->w || shape->h != కిటికీ->h) {
+            stretched = SDL_CreateSurfaceUninitialized(కిటికీ->w, కిటికీ->h, SDL_PIXELFORMAT_ARGB32);
+            ఒకవేళ (!stretched) {
+                తిరిగి false;
             }
-            if (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
+            ఒకవేళ (!SDL_StretchSurface(shape, ఖాళీ, stretched, ఖాళీ, SDL_SCALEMODE_రేఖీయ)) {
                 SDL_DestroySurface(stretched);
-                return false;
+                తిరిగి false;
             }
             shape = stretched;
         }
 
-        rect.top = 0;
-        rect.left = 0;
+        rect.శిఖరం = 0;
+        rect.ఎడమ = 0;
         rect.bottom = 0;
-        rect.right = 0;
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
-            WIN_AdjustWindowRectForHWND(data->hwnd, &rect, 0);
+        rect.కుడి = 0;
+        ఒకవేళ (!(SDL_Get_కిటికీ_Flags(దత్తాంశం->కిటికీ) & SDL_కిటికీ_BORDERLESS)) {
+            WIN_Adjust_కిటికీ_Rect_For_HWND(దత్తాంశం->hwnd, &rect, 0);
         }
 
-        mask = GenerateSpanListRegion(shape, -rect.left, -rect.top);
+        ముసుగు = Generate_పరిధి_List_Region(shape, -rect.ఎడమ, -rect.శిఖరం);
 
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
+        ఒకవేళ (!(SDL_Get_కిటికీ_Flags(దత్తాంశం->కిటికీ) & SDL_కిటికీ_BORDERLESS)) {
             // Add the window borders
             // top
-            AddRegion(&mask, 0, 0, -rect.left + shape->w + rect.right + 1, -rect.top + 1);
+            కూడు_Region(&ముసుగు, 0, 0, -rect.ఎడమ + shape->w + rect.కుడి + 1, -rect.శిఖరం + 1);
             // left
-            AddRegion(&mask, 0, -rect.top, -rect.left + 1, -rect.top + shape->h + 1);
+            కూడు_Region(&ముసుగు, 0, -rect.శిఖరం, -rect.ఎడమ + 1, -rect.శిఖరం + shape->h + 1);
             // right
-            AddRegion(&mask, -rect.left + shape->w, -rect.top, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + 1);
+            కూడు_Region(&ముసుగు, -rect.ఎడమ + shape->w, -rect.శిఖరం, -rect.ఎడమ + shape->w + rect.కుడి + 1, -rect.శిఖరం + shape->h + 1);
             // bottom
-            AddRegion(&mask, 0, -rect.top + shape->h, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + rect.bottom + 1);
+            కూడు_Region(&ముసుగు, 0, -rect.శిఖరం + shape->h, -rect.ఎడమ + shape->w + rect.కుడి + 1, -rect.శిఖరం + shape->h + rect.bottom + 1);
         }
 
-        if (stretched) {
+        ఒకవేళ (stretched) {
             SDL_DestroySurface(stretched);
         }
     }
-    if (!SetWindowRgn(data->hwnd, mask, TRUE)) {
-        DeleteObject(mask);
-        return WIN_SetError("SetWindowRgn failed");
+    ఒకవేళ (!సమితి_కిటికీ_Rgn(దత్తాంశం->hwnd, ముసుగు, TRUE)) {
+        DeleteObject(ముసుగు);
+        తిరిగి WIN_సమితి_Error("SetWindowRgn failed");
     }
-    return true;
+    తిరిగి true;
 }
 
-#endif // defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#అయితే_ముగింపు // defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)

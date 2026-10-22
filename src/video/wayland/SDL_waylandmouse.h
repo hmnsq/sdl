@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_waylandmouse_h_
-#define SDL_waylandmouse_h_
+#నిర్వచితం_కాకపోతే SDL_waylandmouse_h_
+#నిర్వచించు SDL_waylandmouse_h_
 
-extern void Wayland_InitMouse(SDL_VideoData *data);
-extern void Wayland_FiniMouse(SDL_VideoData *data);
-extern void Wayland_SeatUpdatePointerCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatSetDefaultCursor(SDL_WaylandSeat *seat);
-extern void Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
-extern void Wayland_DisplayUpdatePointerFocusedScale(SDL_WindowData *updated_window);
-extern void Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
-extern void Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_WindowData *window, float x, float y);
-extern void Wayland_CursorStateSetFrameCallback(SDL_WaylandCursorState *state, void *userdata);
-extern void Wayland_CursorStateDestroyFrameCallback(SDL_WaylandCursorState *state);
-extern void Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
-#if 0  // TODO RECONNECT: See waylandvideo.c for more information!
-extern void Wayland_RecreateCursors(void);
-#endif // 0
+బాహ్య శూన్య Wayland_InitMouse(SDL_Video_దత్తాంశం *దత్తాంశం);
+బాహ్య శూన్య Wayland_FiniMouse(SDL_Video_దత్తాంశం *దత్తాంశం);
+బాహ్య శూన్య Wayland_Seat_Update_సూచిక_Cursor(SDL_WaylandSeat *seat);
+బాహ్య శూన్య Wayland_Seat_సమితి_Default_Cursor(SDL_WaylandSeat *seat);
+బాహ్య శూన్య Wayland_SeatResetCursor(SDL_WaylandSeat *seat);
+బాహ్య శూన్య Wayland_Display_Update_సూచిక_Focused_Scale(SDL_కిటికీ_దత్తాంశం *updated_కిటికీ);
+బాహ్య శూన్య Wayland_TabletToolUpdateCursor(SDL_WaylandPenTool *tool);
+బాహ్య శూన్య Wayland_SeatWarpMouse(SDL_WaylandSeat *seat, SDL_కిటికీ_దత్తాంశం *కిటికీ, దశాంశం x, దశాంశం y);
+బాహ్య శూన్య Wayland_Cursor_State_సమితి_చట్రం_Callback(SDL_WaylandCursorState *state, శూన్య *userdata);
+బాహ్య శూన్య Wayland_Cursor_State_Destroy_చట్రం_Callback(SDL_WaylandCursorState *state);
+బాహ్య శూన్య Wayland_CursorStateRelease(SDL_WaylandCursorState *state);
+#ఒకవేళ 0  // TODO RECONNECT: See waylandvideo.c for more information!
+బాహ్య శూన్య Wayland_RecreateCursors(శూన్య);
+#అయితే_ముగింపు // 0
 
-#endif
+#అయితే_ముగింపు

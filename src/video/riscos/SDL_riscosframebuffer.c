@@ -18,110 +18,110 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "SDL_riscosframebuffer_c.h"
+#అన్తర్భావ "SDL_riscosvideo.h"
+#అన్తర్భావ "SDL_riscoswindow.h"
 
-#include <kernel.h>
-#include <swis.h>
+#అన్తర్భావ <kernel.h>
+#అన్తర్భావ <swis.h>
 
-bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool RISCOS_Create_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PixelFormat *format, శూన్య **pixels, పూర్ణాంకం *pitch)
 {
-    SDL_WindowData *internal = window->internal;
-    const char *sprite_name = "display";
-    unsigned int sprite_mode;
+    SDL_కిటికీ_దత్తాంశం *అంతర్గత = కిటికీ->అంతర్గత;
+    స్థిరరాశి అక్షరం *sprite_name = "display";
+    గుర్తులేని పూర్ణాంకం sprite_బహుళకం;
     _kernel_oserror *error;
     _kernel_swi_regs regs;
-    const SDL_DisplayMode *mode;
-    int size;
-    int w, h;
+    స్థిరరాశి SDL_Display_బహుళకం *బహుళకం;
+    పూర్ణాంకం కొలత;
+    పూర్ణాంకం w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_కిటికీ_కొలత_లోపల_Pixels(కిటికీ, &w, &h);
 
     // Free the old framebuffer surface
-    RISCOS_DestroyWindowFramebuffer(_this, window);
+    RISCOS_Destroy_కిటికీ_Framebuffer(_this, కిటికీ);
 
     // Create a new one
-    mode = SDL_GetCurrentDisplayMode(SDL_GetDisplayForWindow(window));
-    if ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
-        *format = mode->format;
-        sprite_mode = (unsigned int)mode->internal;
-    } else {
+    బహుళకం = SDL_Get_Current_Display_బహుళకం(SDL_Get_Display_For_కిటికీ(కిటికీ));
+    ఒకవేళ ((SDL_ISPIXELFORMAT_PACKED(బహుళకం->format) || SDL_ISPIXELFORMAT_ARRAY(బహుళకం->format))) {
+        *format = బహుళకం->format;
+        sprite_బహుళకం = (గుర్తులేని పూర్ణాంకం)బహుళకం->అంతర్గత;
+    } లేకపోతే {
         *format = SDL_PIXELFORMAT_XBGR8888;
-        sprite_mode = (1 | (90 << 1) | (90 << 14) | (6 << 27));
+        sprite_బహుళకం = (1 | (90 << 1) | (90 << 14) | (6 << 27));
     }
 
     // Calculate pitch
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
 
     // Allocate the sprite area
-    size = sizeof(sprite_area) + sizeof(sprite_header) + ((*pitch) * h);
-    internal->fb_area = SDL_malloc(size);
-    if (!internal->fb_area) {
-        return false;
+    కొలత = పరిమాణం(sprite_area) + పరిమాణం(sprite_శీర్షిక) + ((*pitch) * h);
+    అంతర్గత->fb_area = SDL_malloc(కొలత);
+    ఒకవేళ (!అంతర్గత->fb_area) {
+        తిరిగి false;
     }
 
-    internal->fb_area->size = size;
-    internal->fb_area->count = 0;
-    internal->fb_area->start = 16;
-    internal->fb_area->end = 16;
+    అంతర్గత->fb_area->కొలత = కొలత;
+    అంతర్గత->fb_area->లెక్క = 0;
+    అంతర్గత->fb_area->ప్రారంభం = 16;
+    అంతర్గత->fb_area->చివర = 16;
 
     // Create the actual image
     regs.r[0] = 256 + 15;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)sprite_name;
+    regs.r[1] = (పూర్ణాంకం)అంతర్గత->fb_area;
+    regs.r[2] = (పూర్ణాంకం)sprite_name;
     regs.r[3] = 0;
     regs.r[4] = w;
     regs.r[5] = h;
-    regs.r[6] = sprite_mode;
+    regs.r[6] = sprite_బహుళకం;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        SDL_free(internal->fb_area);
-        return SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
+    ఒకవేళ (error) {
+        SDL_free(అంతర్గత->fb_area);
+        తిరిగి SDL_సమితి_Error("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
     }
 
-    internal->fb_sprite = (sprite_header *)(((Uint8 *)internal->fb_area) + internal->fb_area->start);
-    *pixels = ((Uint8 *)internal->fb_sprite) + internal->fb_sprite->image_offset;
+    అంతర్గత->fb_sprite = (sprite_శీర్షిక *)(((Uint8 *)అంతర్గత->fb_area) + అంతర్గత->fb_area->ప్రారంభం);
+    *pixels = ((Uint8 *)అంతర్గత->fb_sprite) + అంతర్గత->fb_sprite->image_స్థానభ్రంశం_2;
 
-    return true;
+    తిరిగి true;
 }
 
-bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool RISCOS_Update_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, స్థిరరాశి SDL_Rect *rects, పూర్ణాంకం numrects)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_కిటికీ_దత్తాంశం *అంతర్గత = కిటికీ->అంతర్గత;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
 
     regs.r[0] = 512 + 52;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)internal->fb_sprite;
+    regs.r[1] = (పూర్ణాంకం)అంతర్గత->fb_area;
+    regs.r[2] = (పూర్ణాంకం)అంతర్గత->fb_sprite;
     regs.r[3] = 0; // window->x << 1;
     regs.r[4] = 0; // window->y << 1;
     regs.r[5] = 0x50;
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        return SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
+    ఒకవేళ (error) {
+        తిరిగి SDL_సమితి_Error("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
     }
 
-    return true;
+    తిరిగి true;
 }
 
-void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య RISCOS_Destroy_కిటికీ_Framebuffer(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_కిటికీ_దత్తాంశం *అంతర్గత = కిటికీ->అంతర్గత;
 
-    if (internal->fb_area) {
-        SDL_free(internal->fb_area);
-        internal->fb_area = NULL;
+    ఒకవేళ (అంతర్గత->fb_area) {
+        SDL_free(అంతర్గత->fb_area);
+        అంతర్గత->fb_area = ఖాళీ;
     }
-    internal->fb_sprite = NULL;
+    అంతర్గత->fb_sprite = ఖాళీ;
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_RISCOS

@@ -19,775 +19,775 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <limits.h>
-#include <signal.h>
+#అన్తర్భావ <fcntl.h>
+#అన్తర్భావ <unistd.h>
+#అన్తర్భావ <limits.h>
+#అన్తర్భావ <signal.h>
 
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_events_c.h"
-#include "../SDL_clipboard_c.h"
+#అన్తర్భావ "../../core/unix/SDL_poll.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
+#అన్తర్భావ "../SDL_clipboard_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylanddatamanager.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
+#అన్తర్భావ "SDL_waylandvideo.h"
+#అన్తర్భావ "SDL_waylandevents_c.h"
+#అన్తర్భావ "SDL_waylanddatamanager.h"
+#అన్తర్భావ "primary-selection-unstable-v1-client-protocol.h"
 
 /* This value is arbitrary, but needs to be long enough to allow the remote end to
  * wake up and do any necessary processing of the data before sending it. In some
  * cases, this can be multiple seconds.
  */
-#define DEFAULT_PIPE_TIMEOUT_NS SDL_MS_TO_NS(5000)
+#నిర్వచించు DEFAULT_PIPE_TIMEOUT_NS SDL_MS_గమ్యం_NS(5000)
 
 /* sigtimedwait() is an optional part of POSIX.1-2001, and OpenBSD doesn't implement it.
  * Based on https://comp.unix.programmer.narkive.com/rEDH0sPT/sigtimedwait-implementation
  */
-#ifndef HAVE_SIGTIMEDWAIT
-#include <errno.h>
-#include <time.h>
-static int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout)
+#నిర్వచితం_కాకపోతే HAVE_SIGTIMEDWAIT
+#అన్తర్భావ <errno.h>
+#అన్తర్భావ <time.h>
+స్థిర పూర్ణాంకం sigtimedwait(స్థిరరాశి sigset_t *సమితి, siginfo_t *info, స్థిరరాశి నిర్మాణం timespec *timeout)
 {
-    struct timespec elapsed = { 0 }, rem = { 0 };
+    నిర్మాణం timespec elapsed = { 0 }, rem = { 0 };
     sigset_t pending;
 
-    do {
+    చేయి {
         // Check the pending signals, and call sigwait if there is at least one of interest in the set.
         sigpending(&pending);
-        for (int signo = 1; signo < NSIG; ++signo) {
-            if (sigismember(set, signo) && sigismember(&pending, signo)) {
-                if (!sigwait(set, &signo)) {
-                    if (info) {
+        కొరకు (పూర్ణాంకం signo = 1; signo < NSIG; ++signo) {
+            ఒకవేళ (sigismember(సమితి, signo) && sigismember(&pending, signo)) {
+                ఒకవేళ (!sigwait(సమితి, &signo)) {
+                    ఒకవేళ (info) {
                         SDL_zerop(info);
                         info->si_signo = signo;
                     }
-                    return signo;
-                } else {
-                    return -1;
+                    తిరిగి signo;
+                } లేకపోతే {
+                    తిరిగి -1;
                 }
             }
         }
 
-        if (timeout->tv_sec || timeout->tv_nsec) {
-            long ns = 20000000L; // 2/100ths of a second
-            nanosleep(&(struct timespec){ 0, ns }, &rem);
+        ఒకవేళ (timeout->tv_sec || timeout->tv_nsec) {
+            దీర్ఘ ns = 20000000L; // 2/100ths of a second
+            nanosleep(&(నిర్మాణం timespec){ 0, ns }, &rem);
             ns -= rem.tv_nsec;
             elapsed.tv_sec += (elapsed.tv_nsec + ns) / 1000000000L;
             elapsed.tv_nsec = (elapsed.tv_nsec + ns) % 1000000000L;
         }
-    } while (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
+    } అయితే (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
 
     errno = EAGAIN;
-    return -1;
+    తిరిగి -1;
 }
-#endif
+#అయితే_ముగింపు
 
-static ssize_t WritePipe(int fd, const void *buffer, size_t total_length, size_t *pos)
+స్థిర ssize_t WritePipe(పూర్ణాంకం fd, స్థిరరాశి శూన్య *బఫరు_2, size_t మొత్తం_నిడివి, size_t *pos)
 {
-    ssize_t bytes_written = 0;
-    const ssize_t length = total_length - *pos;
+    ssize_t బైట్లు_written = 0;
+    స్థిరరాశి ssize_t నిడివి = మొత్తం_నిడివి - *pos;
 
-    sigset_t sig_set;
-    sigset_t old_sig_set;
-    struct timespec zerotime = { 0 };
+    sigset_t sig_సమితి;
+    sigset_t old_sig_సమితి;
+    నిర్మాణం timespec zerotime = { 0 };
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
+    స్థిరరాశి పూర్ణాంకం ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
 
-    sigemptyset(&sig_set);
-    sigaddset(&sig_set, SIGPIPE);
+    sigemptyset(&sig_సమితి);
+    sigaddset(&sig_సమితి, SIGPIPE);
 
-#ifdef SDL_THREADS_DISABLED
-    sigprocmask(SIG_BLOCK, &sig_set, &old_sig_set);
-#else
-    pthread_sigmask(SIG_BLOCK, &sig_set, &old_sig_set);
-#endif
+#నిర్వచితమైతే SDL_దారాలు_DISABLED
+    sigprocmask(SIG_BLOCK, &sig_సమితి, &old_sig_సమితి);
+#లేకపోతే
+    pthread_sigmask(SIG_BLOCK, &sig_సమితి, &old_sig_సమితి);
+#అయితే_ముగింపు
 
-    if (ready > 0) {
-        if (length > 0) {
-            bytes_written = write(fd, (Uint8 *)buffer + *pos, SDL_min(length, PIPE_BUF));
+    ఒకవేళ (ready > 0) {
+        ఒకవేళ (నిడివి > 0) {
+            బైట్లు_written = లిఖ(fd, (Uint8 *)బఫరు_2 + *pos, SDL_min(నిడివి, PIPE_BUF));
         }
 
-        if (bytes_written > 0) {
-            *pos += bytes_written;
+        ఒకవేళ (బైట్లు_written > 0) {
+            *pos += బైట్లు_written;
         }
-    } else if (ready == 0) {
-        SDL_SetError("Pipe timeout");
-    } else  {
-        SDL_SetError("Pipe poll error");
+    } లేకపోతే ఒకవేళ (ready == 0) {
+        SDL_సమితి_Error("Pipe timeout");
+    } లేకపోతే  {
+        SDL_సమితి_Error("Pipe poll error");
     }
 
-    sigtimedwait(&sig_set, NULL, &zerotime);
+    sigtimedwait(&sig_సమితి, ఖాళీ, &zerotime);
 
-#ifdef SDL_THREADS_DISABLED
-    sigprocmask(SIG_SETMASK, &old_sig_set, NULL);
-#else
-    pthread_sigmask(SIG_SETMASK, &old_sig_set, NULL);
-#endif
+#నిర్వచితమైతే SDL_దారాలు_DISABLED
+    sigprocmask(SIG_SETMASK, &old_sig_సమితి, ఖాళీ);
+#లేకపోతే
+    pthread_sigmask(SIG_SETMASK, &old_sig_సమితి, ఖాళీ);
+#అయితే_ముగింపు
 
-    return bytes_written;
+    తిరిగి బైట్లు_written;
 }
 
-static ssize_t ReadPipe(int fd, void **buffer, size_t *total_length, Sint64 timeout_ns)
+స్థిర ssize_t ReadPipe(పూర్ణాంకం fd, శూన్య **బఫరు_2, size_t *మొత్తం_నిడివి, Sint64 timeout_ns)
 {
-    void *output_buffer = NULL;
-    char temp[PIPE_BUF];
-    ssize_t bytes_read = 0;
+    శూన్య *output_బఫరు = ఖాళీ;
+    అక్షరం తాత్కాలిక[PIPE_BUF];
+    ssize_t బైట్లు_read = 0;
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
+    స్థిరరాశి పూర్ణాంకం ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
 
-    if (ready > 0) {
-        bytes_read = read(fd, temp, sizeof(temp));
-    } else if (ready == 0) {
-        SDL_SetError("Pipe timeout");
-    } else {
-        SDL_SetError("Pipe poll error");
+    ఒకవేళ (ready > 0) {
+        బైట్లు_read = పఠ(fd, తాత్కాలిక, పరిమాణం(తాత్కాలిక));
+    } లేకపోతే ఒకవేళ (ready == 0) {
+        SDL_సమితి_Error("Pipe timeout");
+    } లేకపోతే {
+        SDL_సమితి_Error("Pipe poll error");
     }
 
-    if (bytes_read > 0) {
-        const size_t pos = *total_length;
-        *total_length += bytes_read;
+    ఒకవేళ (బైట్లు_read > 0) {
+        స్థిరరాశి size_t pos = *మొత్తం_నిడివి;
+        *మొత్తం_నిడివి += బైట్లు_read;
 
-        const size_t new_buffer_length = *total_length + sizeof(Uint32);
+        స్థిరరాశి size_t new_బఫరు_నిడివి = *మొత్తం_నిడివి + పరిమాణం(Uint32);
 
-        if (!*buffer) {
-            output_buffer = SDL_malloc(new_buffer_length);
-        } else {
-            output_buffer = SDL_realloc(*buffer, new_buffer_length);
+        ఒకవేళ (!*బఫరు_2) {
+            output_బఫరు = SDL_malloc(new_బఫరు_నిడివి);
+        } లేకపోతే {
+            output_బఫరు = SDL_realloc(*బఫరు_2, new_బఫరు_నిడివి);
         }
 
-        if (!output_buffer) {
-            bytes_read = -1;
-        } else {
-            SDL_memcpy((Uint8 *)output_buffer + pos, temp, bytes_read);
-            SDL_memset((Uint8 *)output_buffer + (new_buffer_length - sizeof(Uint32)), 0, sizeof(Uint32));
+        ఒకవేళ (!output_బఫరు) {
+            బైట్లు_read = -1;
+        } లేకపోతే {
+            SDL_memcpy((Uint8 *)output_బఫరు + pos, తాత్కాలిక, బైట్లు_read);
+            SDL_memset((Uint8 *)output_బఫరు + (new_బఫరు_నిడివి - పరిమాణం(Uint32)), 0, పరిమాణం(Uint32));
 
-            *buffer = output_buffer;
-        }
-    }
-
-    return bytes_read;
-}
-
-static bool MIMEDataListHasType(struct wl_array *list, const char *mime_type)
-{
-    const char **item;
-    wl_array_for_each(item, list) {
-        if (SDL_strcmp(*item, mime_type) == 0) {
-            return true;
+            *బఫరు_2 = output_బఫరు;
         }
     }
 
-    return false;
+    తిరిగి బైట్లు_read;
 }
 
-static bool MIMEDataListAdd(struct wl_array *list, const char *mime_type)
+స్థిర bool MIMEDataListHasType(నిర్మాణం wl_array *list, స్థిరరాశి అక్షరం *mime_type)
 {
-    if (!MIMEDataListHasType(list, mime_type)) {
-        char **item = WAYLAND_wl_array_add(list, sizeof(char *));
-        *item = SDL_strdup(mime_type);
+    స్థిరరాశి అక్షరం **అంశం;
+    wl_array_for_each(అంశం, list) {
+        ఒకవేళ (SDL_strcmp(*అంశం, mime_type) == 0) {
+            తిరిగి true;
+        }
     }
 
-    return true;
+    తిరిగి false;
 }
 
-static void MIMEDataListFree(struct wl_array *list)
+స్థిర bool MIMEData_List_కూడు(నిర్మాణం wl_array *list, స్థిరరాశి అక్షరం *mime_type)
 {
-    char **item;
-    wl_array_for_each(item, list) {
-        SDL_free(*item);
+    ఒకవేళ (!MIMEDataListHasType(list, mime_type)) {
+        అక్షరం **అంశం = WAYLAND_wl_array_కూడు(list, పరిమాణం(అక్షరం *));
+        *అంశం = SDL_strdup(mime_type);
+    }
+
+    తిరిగి true;
+}
+
+స్థిర శూన్య MIMEDataListFree(నిర్మాణం wl_array *list)
+{
+    అక్షరం **అంశం;
+    wl_array_for_each(అంశం, list) {
+        SDL_free(*అంశం);
     }
 
     WAYLAND_wl_array_release(list);
 }
 
-static void data_source_handle_target(void *data, struct wl_data_source *wl_data_source, const char *mime_type)
+స్థిర శూన్య దత్తాంశం_ఆధారం_handle_లక్ష్యం(శూన్య *దత్తాంశం, నిర్మాణం wl_దత్తాంశం_ఆధారం *wl_దత్తాంశం_ఆధారం, స్థిరరాశి అక్షరం *mime_type)
 {
 }
 
-static void data_source_handle_send(void *data, struct wl_data_source *wl_data_source, const char *mime_type, int32_t fd)
+స్థిర శూన్య దత్తాంశం_ఆధారం_handle_send(శూన్య *దత్తాంశం, నిర్మాణం wl_దత్తాంశం_ఆధారం *wl_దత్తాంశం_ఆధారం, స్థిరరాశి అక్షరం *mime_type, int32_t fd)
 {
-    Wayland_DataSourceSend((SDL_WaylandDataSource *)data, mime_type, fd);
+    Wayland_దత్తాంశం_ఆధారం_Send((SDL_Wayland_దత్తాంశం_ఆధారం *)దత్తాంశం, mime_type, fd);
 }
 
-static void data_source_handle_cancelled(void *data, struct wl_data_source *wl_data_source)
+స్థిర శూన్య దత్తాంశం_ఆధారం_handle_cancelled(శూన్య *దత్తాంశం, నిర్మాణం wl_దత్తాంశం_ఆధారం *wl_దత్తాంశం_ఆధారం)
 {
-    SDL_WaylandDataSource *source = data;
-    if (source) {
-        Wayland_DataSourceDestroy(source);
+    SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం = దత్తాంశం;
+    ఒకవేళ (ఆధారం) {
+        Wayland_దత్తాంశం_ఆధారం_Destroy(ఆధారం);
     }
 }
 
-static void data_source_handle_dnd_drop_performed(void *data, struct wl_data_source *wl_data_source)
+స్థిర శూన్య దత్తాంశం_ఆధారం_handle_dnd_drop_performed(శూన్య *దత్తాంశం, నిర్మాణం wl_దత్తాంశం_ఆధారం *wl_దత్తాంశం_ఆధారం)
 {
 }
 
-static void data_source_handle_dnd_finished(void *data, struct wl_data_source *wl_data_source)
+స్థిర శూన్య దత్తాంశం_ఆధారం_handle_dnd_ముగిసిన(శూన్య *దత్తాంశం, నిర్మాణం wl_దత్తాంశం_ఆధారం *wl_దత్తాంశం_ఆధారం)
 {
-    SDL_WaylandDataSource *source = data;
-    if (source) {
-        Wayland_DataSourceDestroy(source);
+    SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం = దత్తాంశం;
+    ఒకవేళ (ఆధారం) {
+        Wayland_దత్తాంశం_ఆధారం_Destroy(ఆధారం);
     }
 }
 
-static void data_source_handle_action(void *data, struct wl_data_source *wl_data_source, uint32_t dnd_action)
+స్థిర శూన్య దత్తాంశం_ఆధారం_handle_action(శూన్య *దత్తాంశం, నిర్మాణం wl_దత్తాంశం_ఆధారం *wl_దత్తాంశం_ఆధారం, uint32_t dnd_action)
 {
 }
 
-static const struct wl_data_source_listener data_source_listener = {
-    data_source_handle_target,
-    data_source_handle_send,
-    data_source_handle_cancelled,
-    data_source_handle_dnd_drop_performed, // Version 3
-    data_source_handle_dnd_finished,       // Version 3
-    data_source_handle_action,             // Version 3
+స్థిర స్థిరరాశి నిర్మాణం wl_దత్తాంశం_ఆధారం_listener దత్తాంశం_ఆధారం_listener = {
+    దత్తాంశం_ఆధారం_handle_లక్ష్యం,
+    దత్తాంశం_ఆధారం_handle_send,
+    దత్తాంశం_ఆధారం_handle_cancelled,
+    దత్తాంశం_ఆధారం_handle_dnd_drop_performed, // Version 3
+    దత్తాంశం_ఆధారం_handle_dnd_ముగిసిన,       // Version 3
+    దత్తాంశం_ఆధారం_handle_action,             // Version 3
 };
 
-SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data)
+SDL_Wayland_దత్తాంశం_ఆధారం *Wayland_దత్తాంశం_ఆధారం_Create(SDL_Video_దత్తాంశం *video_దత్తాంశం)
 {
-    SDL_WaylandDataSource *data_source = SDL_calloc(1, sizeof(*data_source));
-    if (!data_source) {
-        return NULL;
+    SDL_Wayland_దత్తాంశం_ఆధారం *దత్తాంశం_ఆధారం_2 = SDL_calloc(1, పరిమాణం(*దత్తాంశం_ఆధారం_2));
+    ఒకవేళ (!దత్తాంశం_ఆధారం_2) {
+        తిరిగి ఖాళీ;
     }
 
-    struct wl_data_source *id = wl_data_device_manager_create_data_source(video_data->data_device_manager);
-    data_source->source = id;
-    wl_data_source_set_user_data(id, data_source);
-    wl_data_source_add_listener(id, &data_source_listener, data_source);
+    నిర్మాణం wl_దత్తాంశం_ఆధారం *id = wl_దత్తాంశం_device_manager_create_దత్తాంశం_ఆధారం(video_దత్తాంశం->దత్తాంశం_device_manager);
+    దత్తాంశం_ఆధారం_2->ఆధారం = id;
+    wl_దత్తాంశం_ఆధారం_సమితి_user_దత్తాంశం(id, దత్తాంశం_ఆధారం_2);
+    wl_దత్తాంశం_ఆధారం_కూడు_listener(id, &దత్తాంశం_ఆధారం_listener, దత్తాంశం_ఆధారం_2);
 
-    return data_source;
+    తిరిగి దత్తాంశం_ఆధారం_2;
 }
 
-static void primary_selection_source_send(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1, const char *mime_type, int32_t fd)
+స్థిర శూన్య primary_selection_ఆధారం_send(శూన్య *దత్తాంశం, నిర్మాణం zwp_primary_selection_ఆధారం_v1 *zwp_primary_selection_ఆధారం_v1, స్థిరరాశి అక్షరం *mime_type, int32_t fd)
 {
-    Wayland_PrimarySelectionSourceSend((SDL_WaylandPrimarySelectionSource *)data, mime_type, fd);
+    Wayland_Primary_Selection_ఆధారం_Send((SDL_Wayland_Primary_Selection_ఆధారం *)దత్తాంశం, mime_type, fd);
 }
 
-static void primary_selection_source_cancelled(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1)
+స్థిర శూన్య primary_selection_ఆధారం_cancelled(శూన్య *దత్తాంశం, నిర్మాణం zwp_primary_selection_ఆధారం_v1 *zwp_primary_selection_ఆధారం_v1)
 {
-    Wayland_PrimarySelectionSourceDestroy(data);
+    Wayland_Primary_Selection_ఆధారం_Destroy(దత్తాంశం);
 }
 
-static const struct zwp_primary_selection_source_v1_listener primary_selection_source_listener = {
-    primary_selection_source_send,
-    primary_selection_source_cancelled,
+స్థిర స్థిరరాశి నిర్మాణం zwp_primary_selection_ఆధారం_v1_listener primary_selection_ఆధారం_listener = {
+    primary_selection_ఆధారం_send,
+    primary_selection_ఆధారం_cancelled,
 };
 
-SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data)
+SDL_Wayland_Primary_Selection_ఆధారం *Wayland_Primary_Selection_ఆధారం_Create(SDL_Video_దత్తాంశం *video_దత్తాంశం)
 {
-    SDL_WaylandPrimarySelectionSource *primary_selection_source = SDL_calloc(1, sizeof(*primary_selection_source));
-    if (!primary_selection_source) {
-        return NULL;
+    SDL_Wayland_Primary_Selection_ఆధారం *primary_selection_ఆధారం = SDL_calloc(1, పరిమాణం(*primary_selection_ఆధారం));
+    ఒకవేళ (!primary_selection_ఆధారం) {
+        తిరిగి ఖాళీ;
     }
 
-    struct zwp_primary_selection_source_v1 *id = zwp_primary_selection_device_manager_v1_create_source(video_data->primary_selection_device_manager);
-    primary_selection_source->source = id;
-    zwp_primary_selection_source_v1_add_listener(id, &primary_selection_source_listener, primary_selection_source);
+    నిర్మాణం zwp_primary_selection_ఆధారం_v1 *id = zwp_primary_selection_device_manager_v1_create_ఆధారం(video_దత్తాంశం->primary_selection_device_manager);
+    primary_selection_ఆధారం->ఆధారం = id;
+    zwp_primary_selection_ఆధారం_v1_కూడు_listener(id, &primary_selection_ఆధారం_listener, primary_selection_ఆధారం);
 
-    return primary_selection_source;
+    తిరిగి primary_selection_ఆధారం;
 }
 
-static size_t SendData(const void *data, size_t length, int fd)
+స్థిర size_t Send_దత్తాంశం(స్థిరరాశి శూన్య *దత్తాంశం, size_t నిడివి, పూర్ణాంకం fd)
 {
-    size_t result = 0;
+    size_t ఫలితం = 0;
 
-    if (length > 0 && data) {
-        while (WritePipe(fd, data, length, &result) > 0) {
+    ఒకవేళ (నిడివి > 0 && దత్తాంశం) {
+        అయితే (WritePipe(fd, దత్తాంశం, నిడివి, &ఫలితం) > 0) {
             // Just keep spinning
         }
     }
     close(fd);
 
-    return result;
+    తిరిగి ఫలితం;
 }
 
-ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd)
+ssize_t Wayland_దత్తాంశం_ఆధారం_Send(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, పూర్ణాంకం fd)
 {
-    const void *data = NULL;
-    size_t length = 0;
+    స్థిరరాశి శూన్య *దత్తాంశం = ఖాళీ;
+    size_t నిడివి = 0;
 
-    if (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
-        data = source->data_device->id_str;
-        length = SDL_strlen(source->data_device->id_str);
-    } else if (source->data_callback) {
-        data = source->data_callback(source->userdata.data, mime_type, &length);
+    ఒకవేళ (SDL_strcmp(mime_type, SDL_దత్తాంశం_ORIGIN_MIME) == 0) {
+        దత్తాంశం = ఆధారం->దత్తాంశం_device->id_str;
+        నిడివి = SDL_strlen(ఆధారం->దత్తాంశం_device->id_str);
+    } లేకపోతే ఒకవేళ (ఆధారం->దత్తాంశం_callback) {
+        దత్తాంశం = ఆధారం->దత్తాంశం_callback(ఆధారం->userdata.దత్తాంశం, mime_type, &నిడివి);
     }
 
-    return SendData(data, length, fd);
+    తిరిగి Send_దత్తాంశం(దత్తాంశం, నిడివి, fd);
 }
 
-ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd)
+ssize_t Wayland_Primary_Selection_ఆధారం_Send(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, పూర్ణాంకం fd)
 {
-    const void *data = NULL;
-    size_t length = 0;
+    స్థిరరాశి శూన్య *దత్తాంశం = ఖాళీ;
+    size_t నిడివి = 0;
 
-    if (source->data_callback) {
-        data = source->data_callback(source->userdata.data, mime_type, &length);
+    ఒకవేళ (ఆధారం->దత్తాంశం_callback) {
+        దత్తాంశం = ఆధారం->దత్తాంశం_callback(ఆధారం->userdata.దత్తాంశం, mime_type, &నిడివి);
     }
 
-    return SendData(data, length, fd);
+    తిరిగి Send_దత్తాంశం(దత్తాంశం, నిడివి, fd);
 }
 
-void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence)
+శూన్య Wayland_దత్తాంశం_ఆధారం_సమితి_Callback(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, SDL_Clipboard_దత్తాంశం_Callback దత్తాంశం_callback, SDL_ClipboardCleanupCallback cleanup_callback, శూన్య *userdata, Uint32 sequence)
 {
-    if (source) {
-        source->data_callback = data_callback;
-        source->cleanup_callback = cleanup_callback;
-        source->userdata.sequence = sequence;
-        source->userdata.data = userdata;
-    }
-}
-
-void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata)
-{
-    if (source) {
-        source->data_callback = data_callback;
-        source->cleanup_callback = cleanup_callback;
-        source->userdata.sequence = 0;
-        source->userdata.data = userdata;
+    ఒకవేళ (ఆధారం) {
+        ఆధారం->దత్తాంశం_callback = దత్తాంశం_callback;
+        ఆధారం->cleanup_callback = cleanup_callback;
+        ఆధారం->userdata.sequence = sequence;
+        ఆధారం->userdata.దత్తాంశం = userdata;
     }
 }
 
-static void *CloneDataBuffer(const void *buffer, const size_t *len)
+శూన్య Wayland_Primary_Selection_ఆధారం_సమితి_Callback(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం, SDL_Clipboard_దత్తాంశం_Callback దత్తాంశం_callback, SDL_ClipboardCleanupCallback cleanup_callback, శూన్య *userdata)
 {
-    void *clone = NULL;
-    if (*len > 0 && buffer) {
-        clone = SDL_malloc((*len)+sizeof(Uint32));
-        if (clone) {
-            SDL_memcpy(clone, buffer, *len);
-            SDL_memset((Uint8 *)clone + *len, 0, sizeof(Uint32));
+    ఒకవేళ (ఆధారం) {
+        ఆధారం->దత్తాంశం_callback = దత్తాంశం_callback;
+        ఆధారం->cleanup_callback = cleanup_callback;
+        ఆధారం->userdata.sequence = 0;
+        ఆధారం->userdata.దత్తాంశం = userdata;
+    }
+}
+
+స్థిర శూన్య *Clone_దత్తాంశం_బఫరు(స్థిరరాశి శూన్య *బఫరు_2, స్థిరరాశి size_t *len)
+{
+    శూన్య *clone = ఖాళీ;
+    ఒకవేళ (*len > 0 && బఫరు_2) {
+        clone = SDL_malloc((*len)+పరిమాణం(Uint32));
+        ఒకవేళ (clone) {
+            SDL_memcpy(clone, బఫరు_2, *len);
+            SDL_memset((Uint8 *)clone + *len, 0, పరిమాణం(Uint32));
         }
     }
-    return clone;
+    తిరిగి clone;
 }
 
-void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length)
+శూన్య *Wayland_దత్తాంశం_ఆధారం_Get_దత్తాంశం(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి)
 {
-    void *buffer = NULL;
-    *length = 0;
+    శూన్య *బఫరు_2 = ఖాళీ;
+    *నిడివి = 0;
 
-    if (!source) {
-        SDL_SetError("Invalid data source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
-        buffer = CloneDataBuffer(internal_buffer, length);
+    ఒకవేళ (!ఆధారం) {
+        SDL_సమితి_Error("Invalid data source");
+    } లేకపోతే ఒకవేళ (ఆధారం->దత్తాంశం_callback) {
+        స్థిరరాశి శూన్య *అంతర్గత_బఫరు = ఆధారం->దత్తాంశం_callback(ఆధారం->userdata.దత్తాంశం, mime_type, నిడివి);
+        బఫరు_2 = Clone_దత్తాంశం_బఫరు(అంతర్గత_బఫరు, నిడివి);
     }
 
-    return buffer;
+    తిరిగి బఫరు_2;
 }
 
-void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length)
+శూన్య *Wayland_Primary_Selection_ఆధారం_Get_దత్తాంశం(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి)
 {
-    void *buffer = NULL;
-    *length = 0;
+    శూన్య *బఫరు_2 = ఖాళీ;
+    *నిడివి = 0;
 
-    if (!source) {
-        SDL_SetError("Invalid primary selection source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
-        buffer = CloneDataBuffer(internal_buffer, length);
+    ఒకవేళ (!ఆధారం) {
+        SDL_సమితి_Error("Invalid primary selection source");
+    } లేకపోతే ఒకవేళ (ఆధారం->దత్తాంశం_callback) {
+        స్థిరరాశి శూన్య *అంతర్గత_బఫరు = ఆధారం->దత్తాంశం_callback(ఆధారం->userdata.దత్తాంశం, mime_type, నిడివి);
+        బఫరు_2 = Clone_దత్తాంశం_బఫరు(అంతర్గత_బఫరు, నిడివి);
     }
 
-    return buffer;
+    తిరిగి బఫరు_2;
 }
 
-void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
+శూన్య Wayland_దత్తాంశం_ఆధారం_Destroy(SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం)
 {
-    if (source) {
-        SDL_WaylandDataDevice *data_device = source->data_device;
-        if (data_device && (data_device->selection_source == source)) {
-            data_device->selection_source = NULL;
+    ఒకవేళ (ఆధారం) {
+        SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device = ఆధారం->దత్తాంశం_device;
+        ఒకవేళ (దత్తాంశం_device && (దత్తాంశం_device->selection_ఆధారం == ఆధారం)) {
+            దత్తాంశం_device->selection_ఆధారం = ఖాళీ;
         }
-        wl_data_source_destroy(source->source);
-        if (source->userdata.sequence) {
-            SDL_CancelClipboardData(source->userdata.sequence);
-        } else if (source->cleanup_callback) {
-            source->cleanup_callback(source->userdata.data);
+        wl_దత్తాంశం_ఆధారం_destroy(ఆధారం->ఆధారం);
+        ఒకవేళ (ఆధారం->userdata.sequence) {
+            SDL_Cancel_Clipboard_దత్తాంశం(ఆధారం->userdata.sequence);
+        } లేకపోతే ఒకవేళ (ఆధారం->cleanup_callback) {
+            ఆధారం->cleanup_callback(ఆధారం->userdata.దత్తాంశం);
         }
-        SDL_free(source);
+        SDL_free(ఆధారం);
     }
 }
 
-void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source)
+శూన్య Wayland_Primary_Selection_ఆధారం_Destroy(SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం)
 {
-    if (source) {
-        SDL_WaylandPrimarySelectionDevice *primary_selection_device = source->primary_selection_device;
-        if (primary_selection_device && (primary_selection_device->selection_source == source)) {
-            primary_selection_device->selection_source = NULL;
+    ఒకవేళ (ఆధారం) {
+        SDL_WaylandPrimarySelectionDevice *primary_selection_device = ఆధారం->primary_selection_device;
+        ఒకవేళ (primary_selection_device && (primary_selection_device->selection_ఆధారం == ఆధారం)) {
+            primary_selection_device->selection_ఆధారం = ఖాళీ;
         }
-        zwp_primary_selection_source_v1_destroy(source->source);
-        if (source->cleanup_callback) {
-            source->cleanup_callback(source->userdata.data);
+        zwp_primary_selection_ఆధారం_v1_destroy(ఆధారం->ఆధారం);
+        ఒకవేళ (ఆధారం->cleanup_callback) {
+            ఆధారం->cleanup_callback(ఆధారం->userdata.దత్తాంశం);
         }
-        SDL_free(source);
+        SDL_free(ఆధారం);
     }
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin);
+స్థిర శూన్య SelectionOfferNotifyFromMIMEs(SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device, bool check_origin);
 
-static void offer_source_done_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+స్థిర శూన్య offer_ఆధారం_పూర్తి_handler(శూన్య *దత్తాంశం, నిర్మాణం wl_callback *callback, uint32_t callback_దత్తాంశం)
 {
-    if (!callback) {
-        return;
+    ఒకవేళ (!callback) {
+        తిరిగి;
     }
 
-    SDL_WaylandDataOffer *offer = (SDL_WaylandDataOffer *)data;
-    char *id = NULL;
-    size_t length = 0;
+    SDL_Wayland_దత్తాంశం_Offer *offer = (SDL_Wayland_దత్తాంశం_Offer *)దత్తాంశం;
+    అక్షరం *id = ఖాళీ;
+    size_t నిడివి = 0;
 
     wl_callback_destroy(offer->callback);
-    offer->callback = NULL;
+    offer->callback = ఖాళీ;
 
-    while (ReadPipe(offer->read_fd, (void **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+    అయితే (ReadPipe(offer->read_fd, (శూన్య **)&id, &నిడివి, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
     }
     close(offer->read_fd);
     offer->read_fd = -1;
 
-    if (id) {
-        const bool source_is_external = SDL_strncmp(offer->data_device->id_str, id, length) != 0;
+    ఒకవేళ (id) {
+        స్థిరరాశి bool ఆధారం_is_external = SDL_strncmp(offer->దత్తాంశం_device->id_str, id, నిడివి) != 0;
         SDL_free(id);
-        if (source_is_external) {
-            SelectionOfferNotifyFromMIMEs(offer->data_device, false);
-        } else {
+        ఒకవేళ (ఆధారం_is_external) {
+            SelectionOfferNotifyFromMIMEs(offer->దత్తాంశం_device, false);
+        } లేకపోతే {
             // Recursive data offer; just destroy it.
-            SDL_WaylandDataDevice *data_device = offer->data_device;
-            Wayland_DataOfferDestroy(offer);
-            data_device->selection_offer = NULL;
+            SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device = offer->దత్తాంశం_device;
+            Wayland_దత్తాంశం_Offer_Destroy(offer);
+            దత్తాంశం_device->selection_offer = ఖాళీ;
         }
     }
 }
 
-static const struct wl_callback_listener offer_source_listener = {
-    offer_source_done_handler
+స్థిర స్థిరరాశి నిర్మాణం wl_callback_listener offer_ఆధారం_listener = {
+    offer_ఆధారం_పూర్తి_handler
 };
 
-static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
+స్థిర శూన్య UpdateSeatOffers(SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device)
 {
-    SDL_WaylandSeat *offer_seat = data_device->seat;
-    SDL_VideoData *video_data = offer_seat->display;
+    SDL_WaylandSeat *offer_seat = దత్తాంశం_device->seat;
+    SDL_Video_దత్తాంశం *video_దత్తాంశం = offer_seat->display;
 
     // Clear any existing references to the existing clipboard data before replacing the current offer.
     SDL_WaylandSeat *s;
-    wl_list_for_each (s, &video_data->seat_list, link) {
-        if (s->data_device) {
-            Wayland_DataSourceDestroy(s->data_device->selection_source);
-            s->data_device->selection_source = NULL;
+    wl_list_for_each (s, &video_దత్తాంశం->seat_list, link) {
+        ఒకవేళ (s->దత్తాంశం_device) {
+            Wayland_దత్తాంశం_ఆధారం_Destroy(s->దత్తాంశం_device->selection_ఆధారం);
+            s->దత్తాంశం_device->selection_ఆధారం = ఖాళీ;
 
             // Don't clear the offer that is about to be set.
-            if (s != offer_seat) {
-                Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+            ఒకవేళ (s != offer_seat) {
+                Wayland_దత్తాంశం_Offer_Destroy(s->దత్తాంశం_device->selection_offer);
+                s->దత్తాంశం_device->selection_offer = ఖాళీ;
             }
         }
     }
 
-    video_data->current_data_offer_seat = offer_seat;
+    video_దత్తాంశం->current_దత్తాంశం_offer_seat = offer_seat;
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin)
+స్థిర శూన్య SelectionOfferNotifyFromMIMEs(SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device, bool check_origin)
 {
-    SDL_WaylandDataOffer *offer = data_device->selection_offer;
-    char **new_mime_types = NULL;
-    size_t num_formats = 0;
+    SDL_Wayland_దత్తాంశం_Offer *offer = దత్తాంశం_device->selection_offer;
+    అక్షరం **new_mime_types = ఖాళీ;
+    size_t అంకె_formats = 0;
 
-    if (offer) {
-        size_t alloc_size = 0;
+    ఒకవేళ (offer) {
+        size_t alloc_కొలత_2 = 0;
 
         // Do a first pass to compute allocation size.
-        const char **item;
-        wl_array_for_each(item, &offer->mimes) {
+        స్థిరరాశి అక్షరం **అంశం;
+        wl_array_for_each(అంశం, &offer->mimes) {
             // If origin metadata is found, queue a check and wait for confirmation that this offer isn't recursive.
-            if (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
-                Wayland_DataOfferRequestDataFromSelf(offer, *item, &offer_source_listener, offer);
-                return;
+            ఒకవేళ (check_origin && SDL_strcmp(*అంశం, SDL_దత్తాంశం_ORIGIN_MIME) == 0) {
+                Wayland_దత్తాంశం_Offer_Request_దత్తాంశం_From_Self(offer, *అంశం, &offer_ఆధారం_listener, offer);
+                తిరిగి;
             }
 
-            ++num_formats;
-            alloc_size += SDL_strlen(*item) + 1;
+            ++అంకె_formats;
+            alloc_కొలత_2 += SDL_strlen(*అంశం) + 1;
         }
 
-        alloc_size += (num_formats + 1) * sizeof(char *);
+        alloc_కొలత_2 += (అంకె_formats + 1) * పరిమాణం(అక్షరం *);
 
-        new_mime_types = SDL_AllocateTemporaryMemory(alloc_size);
-        if (!new_mime_types) {
-            SDL_LogError(SDL_LOG_CATEGORY_INPUT, "unable to allocate new_mime_types");
-            return;
+        new_mime_types = SDL_Allocate_Temporary_జ్ఞాపకం(alloc_కొలత_2);
+        ఒకవేళ (!new_mime_types) {
+            SDL_LogError(SDL_LOG_CATEGORY_ఆదానం, "unable to allocate new_mime_types");
+            తిరిగి;
         }
 
         // Second pass to fill.
-        char *strPtr = (char *)(new_mime_types + num_formats + 1);
-        alloc_size -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
+        అక్షరం *strPtr = (అక్షరం *)(new_mime_types + అంకె_formats + 1);
+        alloc_కొలత_2 -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
-        item = NULL;
-        int i = 0;
-        wl_array_for_each(item, &offer->mimes) {
-            if (!item) {
-                continue;
+        అంశం = ఖాళీ;
+        పూర్ణాంకం i = 0;
+        wl_array_for_each(అంశం, &offer->mimes) {
+            ఒకవేళ (!అంశం) {
+                కొనసాగు;
             }
 
             new_mime_types[i++] = strPtr;
-            const size_t len = SDL_strlcpy(strPtr, *item, alloc_size) + 1;
+            స్థిరరాశి size_t len = SDL_strlcpy(strPtr, *అంశం, alloc_కొలత_2) + 1;
             strPtr += len;
-            alloc_size -= len;
+            alloc_కొలత_2 -= len;
         }
-        new_mime_types[num_formats] = NULL;
+        new_mime_types[అంకె_formats] = ఖాళీ;
     }
 
-    UpdateSeatOffers(data_device);
-    SDL_SendClipboardUpdate(false, new_mime_types, num_formats);
+    UpdateSeatOffers(దత్తాంశం_device);
+    SDL_SendClipboardUpdate(false, new_mime_types, అంకె_formats);
 }
 
-void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer)
+శూన్య Wayland_దత్తాంశం_Device_సమితి_Selection_Offer(SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device, SDL_Wayland_దత్తాంశం_Offer *offer)
 {
     // Don't notify when clearing the old selection offer if doing so will inadvertently clear the selection source.
-    const bool notify = offer || (!offer && data_device->selection_offer && (!data_device->selection_offer->callback || !data_device->selection_source));
-    Wayland_DataOfferDestroy(data_device->selection_offer);
-    data_device->selection_offer = offer;
-    if (notify) {
-        SelectionOfferNotifyFromMIMEs(data_device, true);
+    స్థిరరాశి bool notify = offer || (!offer && దత్తాంశం_device->selection_offer && (!దత్తాంశం_device->selection_offer->callback || !దత్తాంశం_device->selection_ఆధారం));
+    Wayland_దత్తాంశం_Offer_Destroy(దత్తాంశం_device->selection_offer);
+    దత్తాంశం_device->selection_offer = offer;
+    ఒకవేళ (notify) {
+        SelectionOfferNotifyFromMIMEs(దత్తాంశం_device, true);
     }
 }
 
-void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length)
+శూన్య *Wayland_దత్తాంశం_Offer_Get_దత్తాంశం_From_Self(SDL_Wayland_దత్తాంశం_Offer *offer, size_t *నిడివి)
 {
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return NULL;
+    ఒకవేళ (!offer) {
+        SDL_సమితి_Error("Invalid data offer");
+        తిరిగి ఖాళీ;
     }
 
-    if (offer->read_fd < 0) {
-        SDL_SetError("Pipe closed");
-        return NULL;
+    ఒకవేళ (offer->read_fd < 0) {
+        SDL_సమితి_Error("Pipe closed");
+        తిరిగి ఖాళీ;
     }
 
     // The timeout is 0, as the data will already be in the pipe if it is from this process.
-    void *buffer = NULL;
-    while (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
+    శూన్య *బఫరు_2 = ఖాళీ;
+    అయితే (ReadPipe(offer->read_fd, &బఫరు_2, నిడివి, 0) > 0) {
     }
 
-    return buffer;
+    తిరిగి బఫరు_2;
 }
 
-bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata)
+bool Wayland_దత్తాంశం_Offer_Request_దత్తాంశం_From_Self(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type, స్థిరరాశి నిర్మాణం wl_callback_listener *completion_listener, శూన్య *userdata)
 {
-    int pipefd[2];
+    పూర్ణాంకం pipefd[2];
 
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return false;
+    ఒకవేళ (!offer) {
+        SDL_సమితి_Error("Invalid data offer");
+        తిరిగి false;
     }
 
-    SDL_WaylandDataDevice *data_device = offer->data_device;
-    if (offer->read_fd >= 0) {
+    SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device = offer->దత్తాంశం_device;
+    ఒకవేళ (offer->read_fd >= 0) {
         close(offer->read_fd);
         offer->read_fd = -1;
     }
-    if (offer->callback) {
+    ఒకవేళ (offer->callback) {
         wl_callback_destroy(offer->callback);
-        offer->callback = NULL;
+        offer->callback = ఖాళీ;
     }
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    ఒకవేళ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         offer->read_fd = pipefd[0];
-        wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
+        wl_దత్తాంశం_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
-        offer->callback = wl_display_sync(data_device->seat->display->display);
-        wl_callback_add_listener(offer->callback, completion_listener, userdata);
+        offer->callback = wl_display_sync(దత్తాంశం_device->seat->display->display);
+        wl_callback_కూడు_listener(offer->callback, completion_listener, userdata);
 
-        WAYLAND_wl_display_flush(data_device->seat->display->display);
-    } else {
-        return SDL_SetError("Could not create pipe");
+        WAYLAND_wl_display_flush(దత్తాంశం_device->seat->display->display);
+    } లేకపోతే {
+        తిరిగి SDL_సమితి_Error("Could not create pipe");
     }
 
-    return true;
+    తిరిగి true;
 }
 
-void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length)
+శూన్య *Wayland_దత్తాంశం_Offer_Receive(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి)
 {
-    int pipefd[2];
-    void *buffer = NULL;
-    *length = 0;
+    పూర్ణాంకం pipefd[2];
+    శూన్య *బఫరు_2 = ఖాళీ;
+    *నిడివి = 0;
 
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return NULL;
+    ఒకవేళ (!offer) {
+        SDL_సమితి_Error("Invalid data offer");
+        తిరిగి ఖాళీ;
     }
 
-    SDL_WaylandDataDevice *data_device = offer->data_device;
+    SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device = offer->దత్తాంశం_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
-        wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
+    ఒకవేళ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+        wl_దత్తాంశం_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
-        WAYLAND_wl_display_flush(data_device->seat->display->display);
+        WAYLAND_wl_display_flush(దత్తాంశం_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        అయితే (ReadPipe(pipefd[0], &బఫరు_2, నిడివి, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
-    } else {
-        SDL_SetError("Could not create pipe");
+    } లేకపోతే {
+        SDL_సమితి_Error("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ఆదానం,
                  ". In Wayland_data_offer_receive for '%s', buffer (%zu) at %p",
-                 mime_type, *length, buffer);
+                 mime_type, *నిడివి, బఫరు_2);
 
-    return buffer;
+    తిరిగి బఫరు_2;
 }
 
-void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length)
+శూన్య *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, స్థిరరాశి అక్షరం *mime_type, size_t *నిడివి)
 {
-    int pipefd[2];
-    void *buffer = NULL;
-    *length = 0;
+    పూర్ణాంకం pipefd[2];
+    శూన్య *బఫరు_2 = ఖాళీ;
+    *నిడివి = 0;
 
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return NULL;
+    ఒకవేళ (!offer) {
+        SDL_సమితి_Error("Invalid data offer");
+        తిరిగి ఖాళీ;
     }
 
     SDL_WaylandPrimarySelectionDevice *primary_selection_device = offer->primary_selection_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    ఒకవేళ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         zwp_primary_selection_offer_v1_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(primary_selection_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        అయితే (ReadPipe(pipefd[0], &బఫరు_2, నిడివి, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
 
-    } else {
-        SDL_SetError("Could not create pipe");
+    } లేకపోతే {
+        SDL_సమితి_Error("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ఆదానం,
                  ". In Wayland_primary_selection_offer_receive for '%s', buffer (%zu) at %p",
-                 mime_type, *length, buffer);
+                 mime_type, *నిడివి, బఫరు_2);
 
-    return buffer;
+    తిరిగి బఫరు_2;
 }
 
-bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_దత్తాంశం_Offer_కూడు_MIME(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    తిరిగి MIMEData_List_కూడు(&offer->mimes, mime_type);
 }
 
-bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_Primary_Selection_Offer_కూడు_MIME(SDL_WaylandPrimarySelectionOffer *offer, స్థిరరాశి అక్షరం *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    తిరిగి MIMEData_List_కూడు(&offer->mimes, mime_type);
 }
 
-bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_దత్తాంశం_Offer_Has_MIME(SDL_Wayland_దత్తాంశం_Offer *offer, స్థిరరాశి అక్షరం *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    ఒకవేళ (offer && mime_type) {
+        తిరిగి MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    తిరిగి false;
 }
 
-bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, స్థిరరాశి అక్షరం *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    ఒకవేళ (offer && mime_type) {
+        తిరిగి MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    తిరిగి false;
 }
 
-void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
+శూన్య Wayland_దత్తాంశం_Offer_Destroy(SDL_Wayland_దత్తాంశం_Offer *offer)
 {
-    if (offer) {
-        if (offer->callback) {
+    ఒకవేళ (offer) {
+        ఒకవేళ (offer->callback) {
             wl_callback_destroy(offer->callback);
         }
-        if (offer->read_fd >= 0) {
+        ఒకవేళ (offer->read_fd >= 0) {
             close(offer->read_fd);
         }
-        wl_data_offer_destroy(offer->offer);
+        wl_దత్తాంశం_offer_destroy(offer->offer);
         MIMEDataListFree(&offer->mimes);
         SDL_free(offer);
     }
 }
 
-void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
+శూన్య Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
 {
-    if (offer) {
+    ఒకవేళ (offer) {
         zwp_primary_selection_offer_v1_destroy(offer->offer);
         MIMEDataListFree(&offer->mimes);
         SDL_free(offer);
     }
 }
 
-bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count)
+bool Wayland_దత్తాంశం_Device_సమితి_Selection_ఆధారం(SDL_Wayland_దత్తాంశం_Device *దత్తాంశం_device, SDL_Wayland_దత్తాంశం_ఆధారం *ఆధారం, స్థిరరాశి అక్షరం **mime_types, size_t mime_లెక్క)
 {
-    if (!data_device) {
-        return SDL_SetError("Invalid Data Device");
+    ఒకవేళ (!దత్తాంశం_device) {
+        తిరిగి SDL_సమితి_Error("Invalid Data Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    ఒకవేళ (!ఆధారం) {
+        తిరిగి SDL_సమితి_Error("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
-            wl_data_source_offer(source->source, mime_type);
+    ఒకవేళ (mime_లెక్క) {
+        కొరకు (size_t సూచీ = 0; సూచీ < mime_లెక్క; ++సూచీ) {
+            స్థిరరాశి అక్షరం *mime_type = mime_types[సూచీ];
+            wl_దత్తాంశం_ఆధారం_offer(ఆధారం->ఆధారం, mime_type);
         }
 
         // Advertise the data origin MIME
-        wl_data_source_offer(source->source, SDL_DATA_ORIGIN_MIME);
+        wl_దత్తాంశం_ఆధారం_offer(ఆధారం->ఆధారం, SDL_దత్తాంశం_ORIGIN_MIME);
 
-        wl_data_device_set_selection(data_device->data_device, source->source, data_device->seat->last_implicit_grab_serial);
-        if (data_device->selection_source) {
-            Wayland_DataSourceDestroy(data_device->selection_source);
+        wl_దత్తాంశం_device_సమితి_selection(దత్తాంశం_device->దత్తాంశం_device, ఆధారం->ఆధారం, దత్తాంశం_device->seat->చివరి_implicit_grab_serial);
+        ఒకవేళ (దత్తాంశం_device->selection_ఆధారం) {
+            Wayland_దత్తాంశం_ఆధారం_Destroy(దత్తాంశం_device->selection_ఆధారం);
         }
-        data_device->selection_source = source;
-        source->data_device = data_device;
+        దత్తాంశం_device->selection_ఆధారం = ఆధారం;
+        ఆధారం->దత్తాంశం_device = దత్తాంశం_device;
 
-    } else {
-        Wayland_DataSourceDestroy(data_device->selection_source);
-        data_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+    } లేకపోతే {
+        Wayland_దత్తాంశం_ఆధారం_Destroy(దత్తాంశం_device->selection_ఆధారం);
+        దత్తాంశం_device->selection_ఆధారం = ఖాళీ;
+        తిరిగి SDL_సమితి_Error("No mime data");
     }
 
-    return true;
+    తిరిగి true;
 }
 
-bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
-                                                SDL_WaylandPrimarySelectionSource *source,
-                                                const char *const *mime_types, size_t mime_count)
+bool Wayland_Primary_Selection_Device_సమితి_Selection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
+                                                SDL_Wayland_Primary_Selection_ఆధారం *ఆధారం,
+                                                స్థిరరాశి అక్షరం *స్థిరరాశి *mime_types, size_t mime_లెక్క)
 {
-    if (!primary_selection_device) {
-        return SDL_SetError("Invalid Primary Selection Device");
+    ఒకవేళ (!primary_selection_device) {
+        తిరిగి SDL_సమితి_Error("Invalid Primary Selection Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    ఒకవేళ (!ఆధారం) {
+        తిరిగి SDL_సమితి_Error("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
-            zwp_primary_selection_source_v1_offer(source->source, mime_type);
+    ఒకవేళ (mime_లెక్క) {
+        కొరకు (size_t సూచీ = 0; సూచీ < mime_లెక్క; ++సూచీ) {
+            స్థిరరాశి అక్షరం *mime_type = mime_types[సూచీ];
+            zwp_primary_selection_ఆధారం_v1_offer(ఆధారం->ఆధారం, mime_type);
         }
 
-        zwp_primary_selection_device_v1_set_selection(primary_selection_device->primary_selection_device,
-                                                      source->source,
-                                                      primary_selection_device->seat->last_implicit_grab_serial);
-        if (primary_selection_device->selection_source) {
-            Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
+        zwp_primary_selection_device_v1_సమితి_selection(primary_selection_device->primary_selection_device,
+                                                      ఆధారం->ఆధారం,
+                                                      primary_selection_device->seat->చివరి_implicit_grab_serial);
+        ఒకవేళ (primary_selection_device->selection_ఆధారం) {
+            Wayland_Primary_Selection_ఆధారం_Destroy(primary_selection_device->selection_ఆధారం);
         }
-        primary_selection_device->selection_source = source;
-        source->primary_selection_device = primary_selection_device;
-    } else {
-        Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
-        primary_selection_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        primary_selection_device->selection_ఆధారం = ఆధారం;
+        ఆధారం->primary_selection_device = primary_selection_device;
+    } లేకపోతే {
+        Wayland_Primary_Selection_ఆధారం_Destroy(primary_selection_device->selection_ఆధారం);
+        primary_selection_device->selection_ఆధారం = ఖాళీ;
+        తిరిగి SDL_సమితి_Error("No mime data");
     }
 
-    return true;
+    తిరిగి true;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WAYLAND

@@ -18,85 +18,85 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
 
-#include <X11/cursorfont.h>
-#include "SDL_x11video.h"
-#include "SDL_x11mouse.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11xtest.h"
-#include "../SDL_video_c.h"
-#include "../../events/SDL_mouse_c.h"
+#అన్తర్భావ <X11/cursorfont.h>
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11mouse.h"
+#అన్తర్భావ "SDL_x11xinput2.h"
+#అన్తర్భావ "SDL_x11xtest.h"
+#అన్తర్భావ "../SDL_video_c.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
 
-struct SDL_CursorData
+నిర్మాణం SDL_Cursor_దత్తాంశం
 {
     Cursor cursor;
 };
 
 // FIXME: Find a better place to put this...
-static Cursor x11_empty_cursor = None;
-static bool x11_cursor_visible = true;
+స్థిర Cursor x11_ఖాళీలు_cursor = None;
+స్థిర bool x11_cursor_visible = true;
 
-static SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_LEFT + 1];
+స్థిర SDL_Cursor *sys_cursors[SDL_HITTEST_RESIZE_ఎడమ + 1];
 
-static Display *GetDisplay(void)
+స్థిర Display *GetDisplay(శూన్య)
 {
-    return SDL_GetVideoDevice()->internal->display;
+    తిరిగి SDL_GetVideoDevice()->అంతర్గత->display;
 }
 
-static Cursor X11_CreateEmptyCursor(void)
+స్థిర Cursor X11_Create_ఖాళీలు_Cursor(శూన్య)
 {
-    if (x11_empty_cursor == None) {
+    ఒకవేళ (x11_ఖాళీలు_cursor == None) {
         Display *display = GetDisplay();
-        char data[1];
+        అక్షరం దత్తాంశం[1];
         XColor color;
         Pixmap pixmap;
 
-        SDL_zeroa(data);
+        SDL_zeroa(దత్తాంశం);
         color.red = color.green = color.blue = 0;
-        pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
-                                           data, 1, 1);
-        if (pixmap) {
-            x11_empty_cursor = X11_XCreatePixmapCursor(display, pixmap, pixmap,
+        pixmap = X11_XCreate_Bitmap_From_దత్తాంశం(display, Default_మూలం_కిటికీ(display),
+                                           దత్తాంశం, 1, 1);
+        ఒకవేళ (pixmap) {
+            x11_ఖాళీలు_cursor = X11_XCreatePixmapCursor(display, pixmap, pixmap,
                                                        &color, &color, 0, 0);
             X11_XFreePixmap(display, pixmap);
         }
     }
-    return x11_empty_cursor;
+    తిరిగి x11_ఖాళీలు_cursor;
 }
 
-static void X11_DestroyEmptyCursor(void)
+స్థిర శూన్య X11_Destroy_ఖాళీలు_Cursor(శూన్య)
 {
-    if (x11_empty_cursor != None) {
-        X11_XFreeCursor(GetDisplay(), x11_empty_cursor);
-        x11_empty_cursor = None;
+    ఒకవేళ (x11_ఖాళీలు_cursor != None) {
+        X11_XFreeCursor(GetDisplay(), x11_ఖాళీలు_cursor);
+        x11_ఖాళీలు_cursor = None;
     }
 }
 
-static SDL_Cursor *X11_CreateCursorAndData(Cursor x11_cursor)
+స్థిర SDL_Cursor *X11_Create_Cursor_And_దత్తాంశం(Cursor x11_cursor)
 {
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
-        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, పరిమాణం(*cursor));
+    ఒకవేళ (cursor) {
+        SDL_Cursor_దత్తాంశం *దత్తాంశం = (SDL_Cursor_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*దత్తాంశం));
+        ఒకవేళ (!దత్తాంశం) {
             SDL_free(cursor);
-            return NULL;
+            తిరిగి ఖాళీ;
         }
-        data->cursor = x11_cursor;
-        cursor->internal = data;
+        దత్తాంశం->cursor = x11_cursor;
+        cursor->అంతర్గత = దత్తాంశం;
     }
-    return cursor;
+    తిరిగి cursor;
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-static XcursorImage *X11_CreateXCursorImage(SDL_Surface *surface, int hot_x, int hot_y, Uint32 delay)
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XCURSOR
+స్థిర XcursorImage *X11_CreateXCursorImage(SDL_Surface *surface, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y, Uint32 delay)
 {
     XcursorImage *image = X11_XcursorImageCreate(surface->w, surface->h);
-    if (!image) {
-        SDL_OutOfMemory();
-        return NULL;
+    ఒకవేళ (!image) {
+        SDL_బహిర్గతం_యొక్క_జ్ఞాపకం();
+        తిరిగి ఖాళీ;
     }
     image->xhot = hot_x;
     image->yhot = hot_y;
@@ -109,96 +109,96 @@ static XcursorImage *X11_CreateXCursorImage(SDL_Surface *surface, int hot_x, int
                          SDL_PIXELFORMAT_ARGB8888, image->pixels,
                          surface->w * 4, false);
 
-    return image;
+    తిరిగి image;
 }
 
-static Cursor X11_CreateXCursorCursor(SDL_Surface *surface, int hot_x, int hot_y)
+స్థిర Cursor X11_CreateXCursorCursor(SDL_Surface *surface, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y)
 {
     Cursor cursor = None;
     XcursorImage *image = X11_CreateXCursorImage(surface, hot_x, hot_y, 0);
 
-    if (image) {
-        cursor = X11_XcursorImageLoadCursor(GetDisplay(), image);
+    ఒకవేళ (image) {
+        cursor = X11_Xcursor_Image_ఎక్కించు_Cursor(GetDisplay(), image);
         X11_XcursorImageDestroy(image);
     }
 
-    return cursor;
+    తిరిగి cursor;
 }
 
-static Cursor X11_CreateAnimatedXCursorCursor(SDL_CursorFrameInfo *frames, int num_frames, int hot_x, int hot_y)
+స్థిర Cursor X11_CreateAnimatedXCursorCursor(SDL_Cursor_చట్రం_Info *చట్రాలు, పూర్ణాంకం అంకె_చట్రాలు, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y)
 {
     Cursor cursor = None;
     XcursorImages *images;
 
-    images = X11_XcursorImagesCreate(num_frames);
-    if (!images) {
-        SDL_OutOfMemory();
-        return None;
+    images = X11_XcursorImagesCreate(అంకె_చట్రాలు);
+    ఒకవేళ (!images) {
+        SDL_బహిర్గతం_యొక్క_జ్ఞాపకం();
+        తిరిగి None;
     }
 
-    for (int i = 0; i < num_frames; ++i) {
-        XcursorImage *image = X11_CreateXCursorImage(frames[i].surface, hot_x, hot_y, frames[i].duration);
-        if (!image) {
-            goto cleanup;
+    కొరకు (పూర్ణాంకం i = 0; i < అంకె_చట్రాలు; ++i) {
+        XcursorImage *image = X11_CreateXCursorImage(చట్రాలు[i].surface, hot_x, hot_y, చట్రాలు[i].duration);
+        ఒకవేళ (!image) {
+            వెళ్ళు cleanup;
         }
 
         images->images[i] = image;
         images->nimage++;
     }
 
-    cursor = X11_XcursorImagesLoadCursor(GetDisplay(), images);
+    cursor = X11_Xcursor_Images_ఎక్కించు_Cursor(GetDisplay(), images);
 
 cleanup:
     X11_XcursorImagesDestroy(images);
-    return cursor;
+    తిరిగి cursor;
 }
-#endif // SDL_VIDEO_DRIVER_X11_XCURSOR
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XCURSOR
 
-static Cursor X11_CreatePixmapCursor(SDL_Surface *surface, int hot_x, int hot_y)
+స్థిర Cursor X11_CreatePixmapCursor(SDL_Surface *surface, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y)
 {
     Display *display = GetDisplay();
     XColor fg, bg;
     Cursor cursor = None;
     Uint32 *ptr;
-    Uint8 *data_bits, *mask_bits;
-    Pixmap data_pixmap, mask_pixmap;
-    int x, y;
-    unsigned int rfg, gfg, bfg, rbg, gbg, bbg, fgBits, bgBits;
-    size_t width_bytes = ((surface->w + 7) & ~((size_t)7)) / 8;
+    Uint8 *దత్తాంశం_బిట్లు, *ముసుగు_బిట్లు;
+    Pixmap దత్తాంశం_pixmap, ముసుగు_pixmap;
+    పూర్ణాంకం x, y;
+    గుర్తులేని పూర్ణాంకం rfg, gfg, bfg, rbg, gbg, bbg, fg_బిట్లు, bg_బిట్లు;
+    size_t వెడల్పు_బైట్లు = ((surface->w + 7) & ~((size_t)7)) / 8;
 
-    data_bits = SDL_calloc(1, surface->h * width_bytes);
-    if (!data_bits) {
-        return None;
+    దత్తాంశం_బిట్లు = SDL_calloc(1, surface->h * వెడల్పు_బైట్లు);
+    ఒకవేళ (!దత్తాంశం_బిట్లు) {
+        తిరిగి None;
     }
 
-    mask_bits = SDL_calloc(1, surface->h * width_bytes);
-    if (!mask_bits) {
-        SDL_free(data_bits);
-        return None;
+    ముసుగు_బిట్లు = SDL_calloc(1, surface->h * వెడల్పు_బైట్లు);
+    ఒకవేళ (!ముసుగు_బిట్లు) {
+        SDL_free(దత్తాంశం_బిట్లు);
+        తిరిగి None;
     }
 
     // Code below assumes ARGB pixel format
     SDL_assert(surface->format == SDL_PIXELFORMAT_ARGB8888);
 
-    rfg = gfg = bfg = rbg = gbg = bbg = fgBits = bgBits = 0;
-    for (y = 0; y < surface->h; ++y) {
+    rfg = gfg = bfg = rbg = gbg = bbg = fg_బిట్లు = bg_బిట్లు = 0;
+    కొరకు (y = 0; y < surface->h; ++y) {
         ptr = (Uint32 *)((Uint8 *)surface->pixels + y * surface->pitch);
-        for (x = 0; x < surface->w; ++x) {
-            int alpha = (*ptr >> 24) & 0xff;
-            int red = (*ptr >> 16) & 0xff;
-            int green = (*ptr >> 8) & 0xff;
-            int blue = (*ptr >> 0) & 0xff;
-            if (alpha > 25) {
-                mask_bits[y * width_bytes + x / 8] |= (0x01 << (x % 8));
+        కొరకు (x = 0; x < surface->w; ++x) {
+            పూర్ణాంకం alpha = (*ptr >> 24) & 0xff;
+            పూర్ణాంకం red = (*ptr >> 16) & 0xff;
+            పూర్ణాంకం green = (*ptr >> 8) & 0xff;
+            పూర్ణాంకం blue = (*ptr >> 0) & 0xff;
+            ఒకవేళ (alpha > 25) {
+                ముసుగు_బిట్లు[y * వెడల్పు_బైట్లు + x / 8] |= (0x01 << (x % 8));
 
-                if ((red + green + blue) > 0x40) {
-                    fgBits++;
+                ఒకవేళ ((red + green + blue) > 0x40) {
+                    fg_బిట్లు++;
                     rfg += red;
                     gfg += green;
                     bfg += blue;
-                    data_bits[y * width_bytes + x / 8] |= (0x01 << (x % 8));
-                } else {
-                    bgBits++;
+                    దత్తాంశం_బిట్లు[y * వెడల్పు_బైట్లు + x / 8] |= (0x01 << (x % 8));
+                } లేకపోతే {
+                    bg_బిట్లు++;
                     rbg += red;
                     gbg += green;
                     bbg += blue;
@@ -208,344 +208,344 @@ static Cursor X11_CreatePixmapCursor(SDL_Surface *surface, int hot_x, int hot_y)
         }
     }
 
-    if (fgBits) {
-        fg.red = rfg * 257 / fgBits;
-        fg.green = gfg * 257 / fgBits;
-        fg.blue = bfg * 257 / fgBits;
-    } else {
+    ఒకవేళ (fg_బిట్లు) {
+        fg.red = rfg * 257 / fg_బిట్లు;
+        fg.green = gfg * 257 / fg_బిట్లు;
+        fg.blue = bfg * 257 / fg_బిట్లు;
+    } లేకపోతే {
         fg.red = fg.green = fg.blue = 0;
     }
 
-    if (bgBits) {
-        bg.red = rbg * 257 / bgBits;
-        bg.green = gbg * 257 / bgBits;
-        bg.blue = bbg * 257 / bgBits;
-    } else {
+    ఒకవేళ (bg_బిట్లు) {
+        bg.red = rbg * 257 / bg_బిట్లు;
+        bg.green = gbg * 257 / bg_బిట్లు;
+        bg.blue = bbg * 257 / bg_బిట్లు;
+    } లేకపోతే {
         bg.red = bg.green = bg.blue = 0;
     }
 
-    data_pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
-                                            (char *)data_bits,
+    దత్తాంశం_pixmap = X11_XCreate_Bitmap_From_దత్తాంశం(display, Default_మూలం_కిటికీ(display),
+                                            (అక్షరం *)దత్తాంశం_బిట్లు,
                                             surface->w, surface->h);
-    mask_pixmap = X11_XCreateBitmapFromData(display, DefaultRootWindow(display),
-                                            (char *)mask_bits,
+    ముసుగు_pixmap = X11_XCreate_Bitmap_From_దత్తాంశం(display, Default_మూలం_కిటికీ(display),
+                                            (అక్షరం *)ముసుగు_బిట్లు,
                                             surface->w, surface->h);
-    cursor = X11_XCreatePixmapCursor(display, data_pixmap, mask_pixmap,
+    cursor = X11_XCreatePixmapCursor(display, దత్తాంశం_pixmap, ముసుగు_pixmap,
                                      &fg, &bg, hot_x, hot_y);
-    X11_XFreePixmap(display, data_pixmap);
-    X11_XFreePixmap(display, mask_pixmap);
-    SDL_free(data_bits);
-    SDL_free(mask_bits);
+    X11_XFreePixmap(display, దత్తాంశం_pixmap);
+    X11_XFreePixmap(display, ముసుగు_pixmap);
+    SDL_free(దత్తాంశం_బిట్లు);
+    SDL_free(ముసుగు_బిట్లు);
 
-    return cursor;
+    తిరిగి cursor;
 }
 
-static SDL_Cursor *X11_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+స్థిర SDL_Cursor *X11_CreateCursor(SDL_Surface *surface, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y)
 {
     Cursor x11_cursor = None;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-    if (SDL_X11_HAVE_XCURSOR) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XCURSOR
+    ఒకవేళ (SDL_X11_HAVE_XCURSOR) {
         x11_cursor = X11_CreateXCursorCursor(surface, hot_x, hot_y);
     }
-#endif
-    if (x11_cursor == None) {
+#అయితే_ముగింపు
+    ఒకవేళ (x11_cursor == None) {
         x11_cursor = X11_CreatePixmapCursor(surface, hot_x, hot_y);
     }
-    return X11_CreateCursorAndData(x11_cursor);
+    తిరిగి X11_Create_Cursor_And_దత్తాంశం(x11_cursor);
 }
 
-static SDL_Cursor *X11_CreateAnimatedCursor(SDL_CursorFrameInfo *frames, int num_frames, int hot_x, int hot_y)
+స్థిర SDL_Cursor *X11_CreateAnimatedCursor(SDL_Cursor_చట్రం_Info *చట్రాలు, పూర్ణాంకం అంకె_చట్రాలు, పూర్ణాంకం hot_x, పూర్ణాంకం hot_y)
 {
     Cursor x11_cursor = None;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-    if (SDL_X11_HAVE_XCURSOR) {
-        x11_cursor = X11_CreateAnimatedXCursorCursor(frames, num_frames, hot_x, hot_y);
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XCURSOR
+    ఒకవేళ (SDL_X11_HAVE_XCURSOR) {
+        x11_cursor = X11_CreateAnimatedXCursorCursor(చట్రాలు, అంకె_చట్రాలు, hot_x, hot_y);
     }
-#endif
-    if (x11_cursor == None) {
-        x11_cursor = X11_CreatePixmapCursor(frames[0].surface, hot_x, hot_y);
+#అయితే_ముగింపు
+    ఒకవేళ (x11_cursor == None) {
+        x11_cursor = X11_CreatePixmapCursor(చట్రాలు[0].surface, hot_x, hot_y);
     }
 
-    return X11_CreateCursorAndData(x11_cursor);
+    తిరిగి X11_Create_Cursor_And_దత్తాంశం(x11_cursor);
 }
 
-static unsigned int GetLegacySystemCursorShape(SDL_SystemCursor id)
+స్థిర గుర్తులేని పూర్ణాంకం GetLegacySystemCursorShape(SDL_SystemCursor id)
 {
-    switch (id) {
+    ఎంపిక (id) {
         // X Font Cursors reference:
         // http://tronche.com/gui/x/xlib/appendix/b/
-        case SDL_SYSTEM_CURSOR_DEFAULT: return XC_left_ptr;
-        case SDL_SYSTEM_CURSOR_TEXT: return XC_xterm;
-        case SDL_SYSTEM_CURSOR_WAIT: return XC_watch;
-        case SDL_SYSTEM_CURSOR_CROSSHAIR: return XC_tcross;
-        case SDL_SYSTEM_CURSOR_PROGRESS: return XC_watch;
-        case SDL_SYSTEM_CURSOR_NWSE_RESIZE: return XC_top_left_corner;
-        case SDL_SYSTEM_CURSOR_NESW_RESIZE: return XC_top_right_corner;
-        case SDL_SYSTEM_CURSOR_EW_RESIZE: return XC_sb_h_double_arrow;
-        case SDL_SYSTEM_CURSOR_NS_RESIZE: return XC_sb_v_double_arrow;
-        case SDL_SYSTEM_CURSOR_MOVE: return XC_fleur;
-        case SDL_SYSTEM_CURSOR_NOT_ALLOWED: return XC_pirate;
-        case SDL_SYSTEM_CURSOR_POINTER: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_NW_RESIZE: return XC_top_left_corner;
-        case SDL_SYSTEM_CURSOR_N_RESIZE: return XC_top_side;
-        case SDL_SYSTEM_CURSOR_NE_RESIZE: return XC_top_right_corner;
-        case SDL_SYSTEM_CURSOR_E_RESIZE: return XC_right_side;
-        case SDL_SYSTEM_CURSOR_SE_RESIZE: return XC_bottom_right_corner;
-        case SDL_SYSTEM_CURSOR_S_RESIZE: return XC_bottom_side;
-        case SDL_SYSTEM_CURSOR_SW_RESIZE: return XC_bottom_left_corner;
-        case SDL_SYSTEM_CURSOR_W_RESIZE: return XC_left_side;
-        case SDL_SYSTEM_CURSOR_CONTEXT_MENU: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_HELP: return XC_question_arrow;
-        case SDL_SYSTEM_CURSOR_CELL: return XC_cross;
-        case SDL_SYSTEM_CURSOR_VERTICAL_TEXT: return XC_xterm;
-        case SDL_SYSTEM_CURSOR_ALIAS: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_COPY: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_NO_DROP: return XC_pirate;
-        case SDL_SYSTEM_CURSOR_GRAB: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_GRABBING: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_COL_RESIZE: return XC_sb_h_double_arrow;
-        case SDL_SYSTEM_CURSOR_ROW_RESIZE: return XC_sb_v_double_arrow;
-        case SDL_SYSTEM_CURSOR_ALL_SCROLL: return XC_fleur;
-        case SDL_SYSTEM_CURSOR_ZOOM_IN: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_ZOOM_OUT: return XC_hand2;
-        case SDL_SYSTEM_CURSOR_COUNT: break;  // so the compiler might notice if an enum value is missing here.
+        స్థితి SDL_SYSTEM_CURSOR_DEFAULT: తిరిగి XC_ఎడమ_ptr;
+        స్థితి SDL_SYSTEM_CURSOR_పాఠ్యం: తిరిగి XC_xterm;
+        స్థితి SDL_SYSTEM_CURSOR_WAIT: తిరిగి XC_watch;
+        స్థితి SDL_SYSTEM_CURSOR_CROSSHAIR: తిరిగి XC_tcross;
+        స్థితి SDL_SYSTEM_CURSOR_పురోగతి: తిరిగి XC_watch;
+        స్థితి SDL_SYSTEM_CURSOR_NWSE_RESIZE: తిరిగి XC_శిఖరం_ఎడమ_మూల;
+        స్థితి SDL_SYSTEM_CURSOR_NESW_RESIZE: తిరిగి XC_శిఖరం_కుడి_మూల;
+        స్థితి SDL_SYSTEM_CURSOR_EW_RESIZE: తిరిగి XC_sb_h_double_arrow;
+        స్థితి SDL_SYSTEM_CURSOR_NS_RESIZE: తిరిగి XC_sb_v_double_arrow;
+        స్థితి SDL_SYSTEM_CURSOR_MOVE: తిరిగి XC_fleur;
+        స్థితి SDL_SYSTEM_CURSOR_NOT_ALLOWED: తిరిగి XC_pirate;
+        స్థితి SDL_SYSTEM_CURSOR_సూచిక: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_NW_RESIZE: తిరిగి XC_శిఖరం_ఎడమ_మూల;
+        స్థితి SDL_SYSTEM_CURSOR_N_RESIZE: తిరిగి XC_శిఖరం_side;
+        స్థితి SDL_SYSTEM_CURSOR_NE_RESIZE: తిరిగి XC_శిఖరం_కుడి_మూల;
+        స్థితి SDL_SYSTEM_CURSOR_E_RESIZE: తిరిగి XC_కుడి_side;
+        స్థితి SDL_SYSTEM_CURSOR_SE_RESIZE: తిరిగి XC_bottom_కుడి_మూల;
+        స్థితి SDL_SYSTEM_CURSOR_S_RESIZE: తిరిగి XC_bottom_side;
+        స్థితి SDL_SYSTEM_CURSOR_SW_RESIZE: తిరిగి XC_bottom_ఎడమ_మూల;
+        స్థితి SDL_SYSTEM_CURSOR_W_RESIZE: తిరిగి XC_ఎడమ_side;
+        స్థితి SDL_SYSTEM_CURSOR_CONTEXT_MENU: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_HELP: తిరిగి XC_question_arrow;
+        స్థితి SDL_SYSTEM_CURSOR_CELL: తిరిగి XC_cross;
+        స్థితి SDL_SYSTEM_CURSOR_VERTICAL_పాఠ్యం: తిరిగి XC_xterm;
+        స్థితి SDL_SYSTEM_CURSOR_ALIAS: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_COPY: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_NO_DROP: తిరిగి XC_pirate;
+        స్థితి SDL_SYSTEM_CURSOR_GRAB: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_GRABBING: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_నిలువు_RESIZE: తిరిగి XC_sb_h_double_arrow;
+        స్థితి SDL_SYSTEM_CURSOR_అడ్డువరుస_RESIZE: తిరిగి XC_sb_v_double_arrow;
+        స్థితి SDL_SYSTEM_CURSOR_ALL_SCROLL: తిరిగి XC_fleur;
+        స్థితి SDL_SYSTEM_CURSOR_ZOOM_లోపల: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_ZOOM_బహిర్గతం: తిరిగి XC_hand2;
+        స్థితి SDL_SYSTEM_CURSOR_లెక్క: ఆపు;  // so the compiler might notice if an enum value is missing here.
     }
 
     SDL_assert(0);
-    return 0;
+    తిరిగి 0;
 }
 
-static SDL_Cursor *X11_CreateSystemCursor(SDL_SystemCursor id)
+స్థిర SDL_Cursor *X11_CreateSystemCursor(SDL_SystemCursor id)
 {
-    SDL_Cursor *cursor = NULL;
+    SDL_Cursor *cursor = ఖాళీ;
     Display *dpy = GetDisplay();
     Cursor x11_cursor = None;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-    if (SDL_X11_HAVE_XCURSOR) {
-        x11_cursor = X11_XcursorLibraryLoadCursor(dpy, SDL_GetCSSCursorName(id, NULL));
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XCURSOR
+    ఒకవేళ (SDL_X11_HAVE_XCURSOR) {
+        x11_cursor = X11_Xcursor_Library_ఎక్కించు_Cursor(dpy, SDL_GetCSSCursorName(id, ఖాళీ));
     }
-#endif
+#అయితే_ముగింపు
 
-    if (x11_cursor == None) {
+    ఒకవేళ (x11_cursor == None) {
         x11_cursor = X11_XCreateFontCursor(dpy, GetLegacySystemCursorShape(id));
     }
 
-    if (x11_cursor != None) {
-        cursor = X11_CreateCursorAndData(x11_cursor);
+    ఒకవేళ (x11_cursor != None) {
+        cursor = X11_Create_Cursor_And_దత్తాంశం(x11_cursor);
     }
 
-    return cursor;
+    తిరిగి cursor;
 }
 
-static SDL_Cursor *X11_CreateDefaultCursor(void)
+స్థిర SDL_Cursor *X11_CreateDefaultCursor(శూన్య)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return X11_CreateSystemCursor(id);
+    తిరిగి X11_CreateSystemCursor(id);
 }
 
-static void X11_FreeCursor(SDL_Cursor *cursor)
+స్థిర శూన్య X11_FreeCursor(SDL_Cursor *cursor)
 {
-    Cursor x11_cursor = cursor->internal->cursor;
+    Cursor x11_cursor = cursor->అంతర్గత->cursor;
 
-    if (x11_cursor != None) {
+    ఒకవేళ (x11_cursor != None) {
         X11_XFreeCursor(GetDisplay(), x11_cursor);
     }
-    SDL_free(cursor->internal);
+    SDL_free(cursor->అంతర్గత);
     SDL_free(cursor);
 }
 
-static bool X11_ShowCursor(SDL_Cursor *cursor)
+స్థిర bool X11_ShowCursor(SDL_Cursor *cursor)
 {
     Cursor x11_cursor = 0;
 
-    if (cursor) {
-        x11_cursor = cursor->internal->cursor;
-    } else {
-        x11_cursor = X11_CreateEmptyCursor();
+    ఒకవేళ (cursor) {
+        x11_cursor = cursor->అంతర్గత->cursor;
+    } లేకపోతే {
+        x11_cursor = X11_Create_ఖాళీలు_Cursor();
     }
 
     // FIXME: Is there a better way than this?
     {
         SDL_VideoDevice *video = SDL_GetVideoDevice();
         Display *display = GetDisplay();
-        SDL_Window *window;
+        SDL_కిటికీ *కిటికీ;
 
         x11_cursor_visible = !!cursor;
 
-        for (window = video->windows; window; window = window->next) {
-            SDL_WindowData *data = window->internal;
-            if (data) {
-                if (x11_cursor != None) {
-                    X11_XDefineCursor(display, data->xwindow, x11_cursor);
-                } else {
-                    X11_XUndefineCursor(display, data->xwindow);
+        కొరకు (కిటికీ = video->windows; కిటికీ; కిటికీ = కిటికీ->తదుపరి) {
+            SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+            ఒకవేళ (దత్తాంశం) {
+                ఒకవేళ (x11_cursor != None) {
+                    X11_XDefineCursor(display, దత్తాంశం->xwindow, x11_cursor);
+                } లేకపోతే {
+                    X11_XUndefineCursor(display, దత్తాంశం->xwindow);
                 }
             }
         }
         X11_XFlush(display);
     }
-    return true;
+    తిరిగి true;
 }
 
-static void X11_WarpMouseInternal(Window xwindow, float x, float y)
+స్థిర శూన్య X11_Warp_Mouse_అంతర్గత(కిటికీ_2 xwindow, దశాంశం x, దశాంశం y)
 {
-    SDL_VideoData *videodata = SDL_GetVideoDevice()->internal;
+    SDL_Video_దత్తాంశం *videodata = SDL_GetVideoDevice()->అంతర్గత;
     Display *display = videodata->display;
     bool warp_hack = false;
 
     // XWayland will only warp the cursor if it is hidden, so this workaround is required.
-    if (videodata->is_xwayland && x11_cursor_visible) {
+    ఒకవేళ (videodata->is_xwayland && x11_cursor_visible) {
         warp_hack = true;
     }
 
-    if (warp_hack) {
-        X11_ShowCursor(NULL);
+    ఒకవేళ (warp_hack) {
+        X11_ShowCursor(ఖాళీ);
     }
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    int deviceid = 0;
-    if (X11_Xinput2IsInitialized()) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    పూర్ణాంకం deviceid = 0;
+    ఒకవేళ (X11_Xinput2IsInitialized()) {
         /* It seems XIWarpPointer() doesn't work correctly on multi-head setups:
          * https://developer.blender.org/rB165caafb99c6846e53d11c4e966990aaffc06cea
          */
-        if (ScreenCount(display) == 1) {
-            X11_XIGetClientPointer(display, None, &deviceid);
+        ఒకవేళ (Screen_లెక్క(display) == 1) {
+            X11_XIGet_Client_సూచిక(display, None, &deviceid);
         }
     }
-    if (deviceid != 0) {
+    ఒకవేళ (deviceid != 0) {
         SDL_assert(SDL_X11_HAVE_XINPUT2);
-        X11_XIWarpPointer(display, deviceid, None, xwindow, 0.0, 0.0, 0, 0, x, y);
-    } else
-#endif
+        X11_XIWarp_సూచిక(display, deviceid, None, xwindow, 0.0, 0.0, 0, 0, x, y);
+    } లేకపోతే
+#అయితే_ముగింపు
     {
-        X11_XWarpPointer(display, None, xwindow, 0, 0, 0, 0, (int)x, (int)y);
+        X11_XWarp_సూచిక(display, None, xwindow, 0, 0, 0, 0, (పూర్ణాంకం)x, (పూర్ణాంకం)y);
     }
 
-    if (warp_hack) {
+    ఒకవేళ (warp_hack) {
         X11_ShowCursor(SDL_GetCursor());
     }
     X11_XSync(display, False);
-    videodata->global_mouse_changed = true;
+    videodata->global_mouse_మారింది = true;
 }
 
-static bool X11_WarpMouse(SDL_Window *window, float x, float y)
+స్థిర bool X11_WarpMouse(SDL_కిటికీ *కిటికీ, దశాంశం x, దశాంశం y)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
-    if (X11_WarpMouseXTest(SDL_GetVideoDevice(), window, x, y)) {
-        return true;
+    ఒకవేళ (X11_WarpMouseXTest(SDL_GetVideoDevice(), కిటికీ, x, y)) {
+        తిరిగి true;
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XFIXES
     // If we have no barrier, we need to warp
-    if (data->pointer_barrier_active == false) {
-        X11_WarpMouseInternal(data->xwindow, x, y);
+    ఒకవేళ (దత్తాంశం->సూచిక_barrier_చురుకైన == false) {
+        X11_Warp_Mouse_అంతర్గత(దత్తాంశం->xwindow, x, y);
     }
-#else
-    X11_WarpMouseInternal(data->xwindow, x, y);
-#endif
-    return true;
+#లేకపోతే
+    X11_Warp_Mouse_అంతర్గత(దత్తాంశం->xwindow, x, y);
+#అయితే_ముగింపు
+    తిరిగి true;
 }
 
-static bool X11_WarpMouseGlobal(float x, float y)
+స్థిర bool X11_WarpMouseGlobal(దశాంశం x, దశాంశం y)
 {
-    if (X11_WarpMouseXTest(SDL_GetVideoDevice(), NULL, x, y)) {
-        return true;
+    ఒకవేళ (X11_WarpMouseXTest(SDL_GetVideoDevice(), ఖాళీ, x, y)) {
+        తిరిగి true;
     }
 
-    X11_WarpMouseInternal(DefaultRootWindow(GetDisplay()), x, y);
-    return true;
+    X11_Warp_Mouse_అంతర్గత(Default_మూలం_కిటికీ(GetDisplay()), x, y);
+    తిరిగి true;
 }
 
-static bool X11_SetRelativeMouseMode(bool enabled)
+స్థిర bool X11_సమితి_Relative_Mouse_బహుళకం(bool enabled)
 {
-    if (!X11_Xinput2IsInitialized()) {
-        return SDL_Unsupported();
+    ఒకవేళ (!X11_Xinput2IsInitialized()) {
+        తిరిగి SDL_Unsupported();
     }
-    return true;
+    తిరిగి true;
 }
 
-static bool X11_CaptureMouse(SDL_Window *window)
+స్థిర bool X11_CaptureMouse(SDL_కిటికీ *కిటికీ)
 {
     Display *display = GetDisplay();
-    SDL_Window *mouse_focus = SDL_GetMouseFocus();
+    SDL_కిటికీ *mouse_focus = SDL_GetMouseFocus();
 
-    if (window) {
-        SDL_WindowData *data = window->internal;
+    ఒకవేళ (కిటికీ) {
+        SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
 
         /* If XInput2 is handling the pointer input, non-confinement grabs will always fail with 'AlreadyGrabbed',
          * since the pointer is being grabbed by XInput2.
          */
-        if (!data->xinput2_mouse_enabled || data->mouse_grabbed) {
-            const unsigned int mask = ButtonPressMask | ButtonReleaseMask | PointerMotionMask | FocusChangeMask;
-            Window confined = (data->mouse_grabbed ? data->xwindow : None);
-            const int rc = X11_XGrabPointer(display, data->xwindow, False,
-                                            mask, GrabModeAsync, GrabModeAsync,
-                                            confined, None, CurrentTime);
-            if (rc != GrabSuccess) {
-                return SDL_SetError("X server refused mouse capture");
+        ఒకవేళ (!దత్తాంశం->xinput2_mouse_enabled || దత్తాంశం->mouse_grabbed) {
+            స్థిరరాశి గుర్తులేని పూర్ణాంకం ముసుగు = Button_Press_ముసుగు | Button_Release_ముసుగు | సూచిక_Motion_ముసుగు | Focus_Change_ముసుగు;
+            కిటికీ_2 confined = (దత్తాంశం->mouse_grabbed ? దత్తాంశం->xwindow : None);
+            స్థిరరాశి పూర్ణాంకం rc = X11_XGrab_సూచిక(display, దత్తాంశం->xwindow, False,
+                                            ముసుగు, Grab_బహుళకం_Async, Grab_బహుళకం_Async,
+                                            confined, None, Current_సమయం);
+            ఒకవేళ (rc != GrabSuccess) {
+                తిరిగి SDL_సమితి_Error("X server refused mouse capture");
             }
 
-            if (data->mouse_grabbed) {
+            ఒకవేళ (దత్తాంశం->mouse_grabbed) {
                 // XGrabPointer can warp the cursor when confining, so update the coordinates.
-                data->videodata->global_mouse_changed = true;
+                దత్తాంశం->videodata->global_mouse_మారింది = true;
             }
         }
-    } else if (mouse_focus) {
-        SDL_UpdateWindowGrab(mouse_focus);
-    } else {
-        X11_XUngrabPointer(display, CurrentTime);
+    } లేకపోతే ఒకవేళ (mouse_focus) {
+        SDL_Update_కిటికీ_Grab(mouse_focus);
+    } లేకపోతే {
+        X11_XUngrab_సూచిక(display, Current_సమయం);
     }
 
     X11_XSync(display, False);
 
-    return true;
+    తిరిగి true;
 }
 
-static SDL_MouseButtonFlags X11_GetGlobalMouseState(float *x, float *y)
+స్థిర SDL_MouseButtonFlags X11_GetGlobalMouseState(దశాంశం *x, దశాంశం *y)
 {
-    SDL_VideoData *videodata = SDL_GetVideoDevice()->internal;
+    SDL_Video_దత్తాంశం *videodata = SDL_GetVideoDevice()->అంతర్గత;
     SDL_DisplayID *displays;
     Display *display = GetDisplay();
-    int i;
+    పూర్ణాంకం i;
 
     // !!! FIXME: should we XSync() here first?
 
-    if (!X11_Xinput2IsInitialized()) {
-        videodata->global_mouse_changed = true;
+    ఒకవేళ (!X11_Xinput2IsInitialized()) {
+        videodata->global_mouse_మారింది = true;
     }
 
     // check if we have this cached since XInput last saw the mouse move.
     // !!! FIXME: can we just calculate this from XInput's events?
-    if (videodata->global_mouse_changed) {
-        displays = SDL_GetDisplays(NULL);
-        if (displays) {
-            for (i = 0; displays[i]; ++i) {
-                SDL_DisplayData *data = SDL_GetDisplayDriverData(displays[i]);
-                if (data) {
-                    Window root, child;
-                    int rootx, rooty, winx, winy;
-                    unsigned int mask;
-                    if (X11_XQueryPointer(display, RootWindow(display, data->screen), &root, &child, &rootx, &rooty, &winx, &winy, &mask)) {
-                        XWindowAttributes root_attrs;
+    ఒకవేళ (videodata->global_mouse_మారింది) {
+        displays = SDL_GetDisplays(ఖాళీ);
+        ఒకవేళ (displays) {
+            కొరకు (i = 0; displays[i]; ++i) {
+                SDL_Display_దత్తాంశం *దత్తాంశం = SDL_Get_Display_Driver_దత్తాంశం(displays[i]);
+                ఒకవేళ (దత్తాంశం) {
+                    కిటికీ_2 మూలం, బిడ్డ;
+                    పూర్ణాంకం rootx, rooty, winx, winy;
+                    గుర్తులేని పూర్ణాంకం ముసుగు;
+                    ఒకవేళ (X11_XQuery_సూచిక(display, మూలం_కిటికీ(display, దత్తాంశం->screen), &మూలం, &బిడ్డ, &rootx, &rooty, &winx, &winy, &ముసుగు)) {
+                        XWindow_లక్షణాలు మూలం_attrs;
                         SDL_MouseButtonFlags buttons = 0;
-                        buttons |= (mask & Button1Mask) ? SDL_BUTTON_LMASK : 0;
-                        buttons |= (mask & Button2Mask) ? SDL_BUTTON_MMASK : 0;
-                        buttons |= (mask & Button3Mask) ? SDL_BUTTON_RMASK : 0;
+                        buttons |= (ముసుగు & Button1_ముసుగు) ? SDL_BUTTON_LMASK : 0;
+                        buttons |= (ముసుగు & Button2_ముసుగు) ? SDL_BUTTON_MMASK : 0;
+                        buttons |= (ముసుగు & Button3_ముసుగు) ? SDL_BUTTON_RMASK : 0;
                         // Use the SDL state for the extended buttons - it's better than nothing
-                        buttons |= (SDL_GetMouseState(NULL, NULL) & (SDL_BUTTON_X1MASK | SDL_BUTTON_X2MASK));
+                        buttons |= (SDL_GetMouseState(ఖాళీ, ఖాళీ) & (SDL_BUTTON_X1_ముసుగు | SDL_BUTTON_X2_ముసుగు));
                         /* SDL_DisplayData->x,y point to screen origin, and adding them to mouse coordinates relative to root window doesn't do the right thing
                          * (observed on dual monitor setup with primary display being the rightmost one - mouse was offset to the right).
                          *
                          * Adding root position to root-relative coordinates seems to be a better way to get absolute position. */
-                        X11_XGetWindowAttributes(display, root, &root_attrs);
-                        videodata->global_mouse_position.x = root_attrs.x + rootx;
-                        videodata->global_mouse_position.y = root_attrs.y + rooty;
+                        X11_XGet_కిటికీ_లక్షణాలు(display, మూలం, &మూలం_attrs);
+                        videodata->global_mouse_position.x = మూలం_attrs.x + rootx;
+                        videodata->global_mouse_position.y = మూలం_attrs.y + rooty;
                         videodata->global_mouse_buttons = buttons;
-                        videodata->global_mouse_changed = false;
-                        break;
+                        videodata->global_mouse_మారింది = false;
+                        ఆపు;
                     }
                 }
             }
@@ -553,14 +553,14 @@ static SDL_MouseButtonFlags X11_GetGlobalMouseState(float *x, float *y)
         }
     }
 
-    SDL_assert(!videodata->global_mouse_changed); // The pointer wasn't on any X11 screen?!
+    SDL_assert(!videodata->global_mouse_మారింది); // The pointer wasn't on any X11 screen?!
 
-    *x = (float)videodata->global_mouse_position.x;
-    *y = (float)videodata->global_mouse_position.y;
-    return videodata->global_mouse_buttons;
+    *x = (దశాంశం)videodata->global_mouse_position.x;
+    *y = (దశాంశం)videodata->global_mouse_position.y;
+    తిరిగి videodata->global_mouse_buttons;
 }
 
-void X11_InitMouse(SDL_VideoDevice *_this)
+శూన్య X11_InitMouse(SDL_VideoDevice *_this)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -571,49 +571,49 @@ void X11_InitMouse(SDL_VideoDevice *_this)
     mouse->FreeCursor = X11_FreeCursor;
     mouse->WarpMouse = X11_WarpMouse;
     mouse->WarpMouseGlobal = X11_WarpMouseGlobal;
-    mouse->SetRelativeMouseMode = X11_SetRelativeMouseMode;
+    mouse->సమితి_Relative_Mouse_బహుళకం = X11_సమితి_Relative_Mouse_బహుళకం;
     mouse->CaptureMouse = X11_CaptureMouse;
     mouse->GetGlobalMouseState = X11_GetGlobalMouseState;
 
-    SDL_HitTestResult r = SDL_HITTEST_NORMAL;
-    while (r <= SDL_HITTEST_RESIZE_LEFT) {
-        switch (r) {
-        case SDL_HITTEST_NORMAL: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); break;
-        case SDL_HITTEST_DRAGGABLE: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); break;
-        case SDL_HITTEST_RESIZE_TOPLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NW_RESIZE); break;
-        case SDL_HITTEST_RESIZE_TOP: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE); break;
-        case SDL_HITTEST_RESIZE_TOPRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NE_RESIZE); break;
-        case SDL_HITTEST_RESIZE_RIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE); break;
-        case SDL_HITTEST_RESIZE_BOTTOMRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SE_RESIZE); break;
-        case SDL_HITTEST_RESIZE_BOTTOM: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_S_RESIZE); break;
-        case SDL_HITTEST_RESIZE_BOTTOMLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SW_RESIZE); break;
-        case SDL_HITTEST_RESIZE_LEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE); break;
+    SDL_తగిలింది_Test_ఫలితం r = SDL_HITTEST_సాధారణ;
+    అయితే (r <= SDL_HITTEST_RESIZE_ఎడమ) {
+        ఎంపిక (r) {
+        స్థితి SDL_HITTEST_సాధారణ: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); ఆపు;
+        స్థితి SDL_HITTEST_DRAGGABLE: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_TOPLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NW_RESIZE); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_శిఖరం: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_N_RESIZE); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_TOPRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_NE_RESIZE); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_కుడి: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_E_RESIZE); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_BOTTOMRIGHT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SE_RESIZE); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_BOTTOM: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_S_RESIZE); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_BOTTOMLEFT: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_SW_RESIZE); ఆపు;
+        స్థితి SDL_HITTEST_RESIZE_ఎడమ: sys_cursors[r] = X11_CreateSystemCursor(SDL_SYSTEM_CURSOR_W_RESIZE); ఆపు;
         }
         r++;
     }
 
-    SDL_SetDefaultCursor(X11_CreateDefaultCursor());
+    SDL_సమితి_Default_Cursor(X11_CreateDefaultCursor());
 }
 
-void X11_QuitMouse(SDL_VideoDevice *_this)
+శూన్య X11_QuitMouse(SDL_VideoDevice *_this)
 {
-    for (int i = 0; i < SDL_arraysize(sys_cursors); i++) {
-        if (sys_cursors[i]) {
+    కొరకు (పూర్ణాంకం i = 0; i < SDL_arraysize(sys_cursors); i++) {
+        ఒకవేళ (sys_cursors[i]) {
             X11_FreeCursor(sys_cursors[i]);
-            sys_cursors[i] = NULL;
+            sys_cursors[i] = ఖాళీ;
         }
     }
 
-    X11_DestroyEmptyCursor();
+    X11_Destroy_ఖాళీలు_Cursor();
 }
 
-void X11_SetHitTestCursor(SDL_HitTestResult rc)
+శూన్య X11_సమితి_తగిలింది_Test_Cursor(SDL_తగిలింది_Test_ఫలితం rc)
 {
-    if (rc == SDL_HITTEST_NORMAL || rc == SDL_HITTEST_DRAGGABLE) {
+    ఒకవేళ (rc == SDL_HITTEST_సాధారణ || rc == SDL_HITTEST_DRAGGABLE) {
         SDL_RedrawCursor();
-    } else {
+    } లేకపోతే {
         X11_ShowCursor(sys_cursors[rc]);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11

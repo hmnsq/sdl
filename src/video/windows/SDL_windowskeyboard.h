@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_windowskeyboard_h_
-#define SDL_windowskeyboard_h_
+#నిర్వచితం_కాకపోతే SDL_windowskeyboard_h_
+#నిర్వచించు SDL_windowskeyboard_h_
 
-extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
-extern void WIN_UpdateKeymap(bool send_event);
-extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
+బాహ్య శూన్య WIN_InitKeyboard(SDL_VideoDevice *_this);
+బాహ్య శూన్య WIN_UpdateKeymap(bool send_event);
+బాహ్య శూన్య WIN_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern void WIN_ResetDeadKeys(void);
+బాహ్య శూన్య WIN_Reset_Dead_కీలకాలు(శూన్య);
 
-extern bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
+బాహ్య bool WIN_ప్రారంభం_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props);
+బాహ్య bool WIN_Stop_పాఠ్యం_ఆదానం(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool WIN_Update_పాఠ్యం_ఆదానం_Area(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 
-extern bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
-extern void WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
+బాహ్య bool WIN_HandleIMEMessage(HWND hwnd, UINT సందేశం_2, WPARAM wParam, LPARAM *lParam, నిర్మాణం SDL_Video_దత్తాంశం *videodata);
+బాహ్య శూన్య WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
 
-#endif // SDL_windowskeyboard_h_
+#అయితే_ముగింపు // SDL_windowskeyboard_h_

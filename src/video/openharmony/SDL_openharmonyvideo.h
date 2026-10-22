@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_openharmonyvideo_h_
-#define SDL_openharmonyvideo_h_
+#నిర్వచితం_కాకపోతే SDL_openharmonyvideo_h_
+#నిర్వచించు SDL_openharmonyvideo_h_
 
-#include "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
 
 // these are fired from XComponent callbacks registered in src/core/openharmony/SDL_openharmony.c
-extern void SDL_OpenHarmonyVideoSurfaceDestroyed(void *component, void *window);
-extern void SDL_OpenHarmonyVideoSurfaceChanged(void *component, void *window);
-extern void SDL_OpenHarmonyVideoSurfaceCreated(void *component, void *window);
+బాహ్య శూన్య SDL_OpenHarmonyVideoSurfaceDestroyed(శూన్య *component, శూన్య *కిటికీ);
+బాహ్య శూన్య SDL_Open_Harmony_Video_Surface_మారింది(శూన్య *component, శూన్య *కిటికీ);
+బాహ్య శూన్య SDL_OpenHarmonyVideoSurfaceCreated(శూన్య *component, శూన్య *కిటికీ);
 
 // Get the app's current native window.
-extern void SDL_OpenHarmonyGetNativeWindowPointers(void **xcomponent, void **window);
+బాహ్య శూన్య SDL_Open_Harmony_Get_Native_కిటికీ_సూచికలు(శూన్య **xcomponent, శూన్య **కిటికీ);
 
-struct SDL_VideoData
+నిర్మాణం SDL_Video_దత్తాంశం
 {
-    void *oh_pasteboard;
-    void *oh_pasteboard_observer;
-    bool clipboard_set;
+    శూన్య *oh_pasteboard;
+    శూన్య *oh_pasteboard_observer;
+    bool clipboard_సమితి;
 
 // !!! FIXME: Android stuff.
-    int isPaused;
-    int isPausing;
+    పూర్ణాంకం isPaused;
+    పూర్ణాంకం isPausing;
 };
 
-#endif // SDL_openharmonyvideo_h_
+#అయితే_ముగింపు // SDL_openharmonyvideo_h_

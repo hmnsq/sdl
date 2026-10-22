@@ -19,169 +19,169 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BWin_h_
-#define SDL_BWin_h_
+#నిర్వచితం_కాకపోతే SDL_BWin_h_
+#నిర్వచించు SDL_BWin_h_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
-#include "SDL_internal.h"
-#include "SDL_bframebuffer.h"
+#అన్తర్భావ "SDL_internal.h"
+#అన్తర్భావ "SDL_bframebuffer.h"
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#include <stdio.h>
-#include <AppKit.h>
-#include <Cursor.h>
-#include <InterfaceKit.h>
-#ifdef SDL_VIDEO_OPENGL
-#include <opengl/GLView.h>
-#endif
-#include "../../core/haiku/SDL_BApp.h"
+#అన్తర్భావ <stdio.h>
+#అన్తర్భావ <AppKit.h>
+#అన్తర్భావ <Cursor.h>
+#అన్తర్భావ <InterfaceKit.h>
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+#అన్తర్భావ <opengl/GLView.h>
+#అయితే_ముగింపు
+#అన్తర్భావ "../../core/haiku/SDL_BApp.h"
 
-enum WinCommands
+గణన WinCommands
 {
-    BWIN_MOVE_WINDOW,
-    BWIN_RESIZE_WINDOW,
-    BWIN_SHOW_WINDOW,
-    BWIN_HIDE_WINDOW,
-    BWIN_MAXIMIZE_WINDOW,
-    BWIN_MINIMIZE_WINDOW,
-    BWIN_RESTORE_WINDOW,
-    BWIN_SET_TITLE,
-    BWIN_SET_BORDERED,
-    BWIN_SET_RESIZABLE,
+    BWIN_MOVE_కిటికీ,
+    BWIN_RESIZE_కిటికీ,
+    BWIN_SHOW_కిటికీ,
+    BWIN_HIDE_కిటికీ,
+    BWIN_MAXIMIZE_కిటికీ,
+    BWIN_MINIMIZE_కిటికీ,
+    BWIN_RESTORE_కిటికీ,
+    BWIN_సమితి_TITLE,
+    BWIN_సమితి_BORDERED,
+    BWIN_సమితి_RESIZABLE,
     BWIN_FULLSCREEN,
     BWIN_UPDATE_FRAMEBUFFER,
-    BWIN_MINIMUM_SIZE_WINDOW
+    BWIN_MINIMUM_కొలత_కిటికీ
 };
 
 // non-OpenGL framebuffer view
-class SDL_BView : public BView
+class SDL_BView : బహిరంగ BView
 {
-  public:
-    SDL_BView(BRect frame, const char *name, uint32 resizingMode)
-        : BView(frame, name, resizingMode, B_WILL_DRAW),
-          fBitmap(NULL)
+  బహిరంగ:
+    SDL_BView(BRect చట్రం, స్థిరరాశి అక్షరం *name, uint32 resizing_బహుళకం)
+        : BView(చట్రం, name, resizing_బహుళకం, B_WILL_DRAW),
+          fBitmap(ఖాళీ)
     {
     }
 
-    void Draw(BRect dirty)
+    శూన్య Draw(BRect dirty)
     {
-        if (fBitmap != NULL)
+        ఒకవేళ (fBitmap != ఖాళీ)
             DrawBitmap(fBitmap, B_ORIGIN);
     }
 
-    void SetBitmap(BBitmap *bitmap)
+    శూన్య సమితి_Bitmap(BBitmap *bitmap)
     {
         fBitmap = bitmap;
     }
 
-  private:
+  అంతరంగ:
     BBitmap *fBitmap;
 };
 
-class SDL_BWin : public BWindow
+class SDL_BWin : బహిరంగ BWindow
 {
-  public:
+  బహిరంగ:
     // Constructor/Destructor
-    SDL_BWin(BRect bounds, window_look look, uint32 flags)
-        : BWindow(bounds, "Untitled", look, B_NORMAL_WINDOW_FEEL, flags)
+    SDL_BWin(BRect bounds, కిటికీ_look look, uint32 flags)
+        : BWindow(bounds, "Untitled", look, B_సాధారణ_కిటికీ_FEEL, flags)
     {
-        _last_buttons = 0;
+        చివరి_buttons = 0;
 
-        _cur_view = NULL;
-        _SDL_View = NULL;
+        _cur_view = ఖాళీ;
+        _SDL_View = ఖాళీ;
 
-#ifdef SDL_VIDEO_OPENGL
-        _SDL_GLView = NULL;
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        _SDL_GLView = ఖాళీ;
         _gl_type = 0;
-#endif
+#అయితే_ముగింపు
         _shown = false;
         _inhibit_resize = false;
         _mouse_focused = false;
-        _prev_frame = NULL;
-        _fullscreen = NULL;
+        prev_చట్రం = ఖాళీ;
+        _fullscreen = ఖాళీ;
 
         // Handle framebuffer stuff
-        _buffer_locker = new BLocker();
-        _bitmap = NULL;
+        బఫరు_locker = new BLocker();
+        _bitmap = ఖాళీ;
     }
 
-    virtual ~SDL_BWin()
+    మాయా ~SDL_BWin()
     {
-        Lock();
+        తాళం();
 
-        if (_SDL_View != NULL && _SDL_View != _cur_view) {
+        ఒకవేళ (_SDL_View != ఖాళీ && _SDL_View != _cur_view) {
             delete _SDL_View;
-            _SDL_View = NULL;
+            _SDL_View = ఖాళీ;
         }
 
-#ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
-                SDL_Looper->SetCurrentContext(NULL);
-            if (_SDL_GLView == _cur_view)
-                RemoveChild(_SDL_GLView);
-            _SDL_GLView = NULL;
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        ఒకవేళ (_SDL_GLView) {
+            ఒకవేళ (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+                SDL_Looper->సమితి_Current_Context(ఖాళీ);
+            ఒకవేళ (_SDL_GLView == _cur_view)
+                Remove_బిడ్డ(_SDL_GLView);
+            _SDL_GLView = ఖాళీ;
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
         }
 
-#endif
+#అయితే_ముగింపు
         Unlock();
 
-        delete _prev_frame;
+        delete prev_చట్రం;
 
         // Clean up framebuffer stuff
-        _buffer_locker->Lock();
-        delete _buffer_locker;
+        బఫరు_locker->తాళం();
+        delete బఫరు_locker;
     }
 
-    void SetCurrentView(BView *view)
+    శూన్య సమితి_Current_View(BView *view)
     {
-        if (_cur_view != view) {
-            if (_cur_view != NULL)
-                RemoveChild(_cur_view);
+        ఒకవేళ (_cur_view != view) {
+            ఒకవేళ (_cur_view != ఖాళీ)
+                Remove_బిడ్డ(_cur_view);
             _cur_view = view;
-            if (_cur_view != NULL)
-                AddChild(_cur_view);
+            ఒకవేళ (_cur_view != ఖాళీ)
+                కూడు_బిడ్డ(_cur_view);
         }
     }
 
-    void UpdateCurrentView()
+    శూన్య UpdateCurrentView()
     {
-#ifdef SDL_VIDEO_OPENGL
-        if (_SDL_GLView != NULL) {
-            SetCurrentView(_SDL_GLView);
-        } else
-#endif
-        if (_SDL_View != NULL) {
-            SetCurrentView(_SDL_View);
-        } else {
-            SetCurrentView(NULL);
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+        ఒకవేళ (_SDL_GLView != ఖాళీ) {
+            సమితి_Current_View(_SDL_GLView);
+        } లేకపోతే
+#అయితే_ముగింపు
+        ఒకవేళ (_SDL_View != ఖాళీ) {
+            సమితి_Current_View(_SDL_View);
+        } లేకపోతే {
+            సమితి_Current_View(ఖాళీ);
         }
     }
 
     SDL_BView *CreateView()
     {
-        Lock();
-        if (_SDL_View == NULL) {
+        తాళం();
+        ఒకవేళ (_SDL_View == ఖాళీ) {
             _SDL_View = new SDL_BView(Bounds(), "SDL View", B_FOLLOW_ALL_SIDES);
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_View;
+        తిరిగి _SDL_View;
     }
 
-    void RemoveView()
+    శూన్య RemoveView()
     {
-        Lock();
-        if (_SDL_View != NULL) {
+        తాళం();
+        ఒకవేళ (_SDL_View != ఖాళీ) {
             SDL_BView *oldView = _SDL_View;
-            _SDL_View = NULL;
+            _SDL_View = ఖాళీ;
             UpdateCurrentView();
             delete oldView;
         }
@@ -189,521 +189,521 @@ class SDL_BWin : public BWindow
     }
 
     /* * * * * OpenGL functionality * * * * */
-#ifdef SDL_VIDEO_OPENGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
     BGLView *CreateGLView(Uint32 gl_flags)
     {
-        Lock();
-        if (_SDL_GLView == NULL) {
+        తాళం();
+        ఒకవేళ (_SDL_GLView == ఖాళీ) {
             _SDL_GLView = new BGLView(Bounds(), "SDL GLView",
                                       B_FOLLOW_ALL_SIDES,
-                                      (B_WILL_DRAW | B_FRAME_EVENTS),
+                                      (B_WILL_DRAW | B_చట్రం_EVENTS),
                                       gl_flags);
             _gl_type = gl_flags;
             UpdateCurrentView();
         }
         Unlock();
-        return _SDL_GLView;
+        తిరిగి _SDL_GLView;
     }
 
-    void RemoveGLView()
+    శూన్య RemoveGLView()
     {
-        Lock();
-        if (_SDL_GLView != NULL) {
-            if (SDL_Looper->GetCurrentContext() == _SDL_GLView)
-                SDL_Looper->SetCurrentContext(NULL);
-            _SDL_GLView = NULL;
+        తాళం();
+        ఒకవేళ (_SDL_GLView != ఖాళీ) {
+            ఒకవేళ (SDL_Looper->GetCurrentContext() == _SDL_GLView)
+                SDL_Looper->సమితి_Current_Context(ఖాళీ);
+            _SDL_GLView = ఖాళీ;
             UpdateCurrentView();
             // _SDL_GLView deleted by HAIKU_GL_DestroyContext
         }
         Unlock();
     }
 
-    void SwapBuffers(void)
+    శూన్య మార్పిడి_Buffers(శూన్య)
     {
-        _SDL_GLView->SwapBuffers();
+        _SDL_GLView->మార్పిడి_Buffers();
     }
-#endif
+#అయితే_ముగింపు
 
     /* * * * * Event sending * * * * */
     // Hook functions
-    virtual void FrameMoved(BPoint origin)
+    మాయా శూన్య చట్రం_Moved(BPoint origin)
     {
         // Post a message to the BApp so that it can handle the window event
-        BMessage msg(BAPP_WINDOW_MOVED);
-        msg.AddInt32("window-x", (int)origin.x);
-        msg.AddInt32("window-y", (int)origin.y);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_కిటికీ_MOVED);
+        సందేశం_2.కూడు_Int32("window-x", (పూర్ణాంకం)origin.x);
+        సందేశం_2.కూడు_Int32("window-y", (పూర్ణాంకం)origin.y);
+        Post_కిటికీ_Event(సందేశం_2);
 
         // Perform normal hook operations
-        BWindow::FrameMoved(origin);
+        BWindow::చట్రం_Moved(origin);
     }
 
-    void FrameResized(float width, float height)
+    శూన్య చట్రం_Resized(దశాంశం వెడల్పు, దశాంశం ఎత్తు)
     {
         // Post a message to the BApp so that it can handle the window event
-        BMessage msg(BAPP_WINDOW_RESIZED);
+        BMessage సందేశం_2(BAPP_కిటికీ_RESIZED);
 
-        msg.AddInt32("window-w", (int)width + 1);
-        msg.AddInt32("window-h", (int)height + 1);
-        _PostWindowEvent(msg);
+        సందేశం_2.కూడు_Int32("window-w", (పూర్ణాంకం)వెడల్పు + 1);
+        సందేశం_2.కూడు_Int32("window-h", (పూర్ణాంకం)ఎత్తు + 1);
+        Post_కిటికీ_Event(సందేశం_2);
 
         // Perform normal hook operations
-        BWindow::FrameResized(width, height);
+        BWindow::చట్రం_Resized(వెడల్పు, ఎత్తు);
     }
 
     bool QuitRequested()
     {
-        BMessage msg(BAPP_WINDOW_CLOSE_REQUESTED);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_కిటికీ_CLOSE_REQUESTED);
+        Post_కిటికీ_Event(సందేశం_2);
 
         // We won't allow a quit unless asked by DestroyWindow()
-        return false;
+        తిరిగి false;
     }
 
-    void WindowActivated(bool active)
+    శూన్య కిటికీ_Activated(bool చురుకైన)
     {
-        BMessage msg(BAPP_KEYBOARD_FOCUS); // Mouse focus sold separately
-        msg.AddBool("focusGained", active);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_KEYBOARD_FOCUS); // Mouse focus sold separately
+        సందేశం_2.కూడు_Bool("focusGained", చురుకైన);
+        Post_కిటికీ_Event(సందేశం_2);
     }
 
-    void Zoom(BPoint origin,
-              float width,
-              float height)
+    శూన్య Zoom(BPoint origin,
+              దశాంశం వెడల్పు,
+              దశాంశం ఎత్తు)
     {
-        BMessage msg(BAPP_MAXIMIZE); // Closest thing to maximization Haiku has
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_MAXIMIZE); // Closest thing to maximization Haiku has
+        Post_కిటికీ_Event(సందేశం_2);
 
         // Before the window zooms, record its size
-        if (!_prev_frame)
-            _prev_frame = new BRect(Frame());
+        ఒకవేళ (!prev_చట్రం)
+            prev_చట్రం = new BRect(చట్రం_2());
 
         // Perform normal hook operations
-        BWindow::Zoom(origin, width, height);
+        BWindow::Zoom(origin, వెడల్పు, ఎత్తు);
     }
 
     // Member functions
-    void Show()
+    శూన్య Show()
     {
-        while (IsHidden()) {
+        అయితే (IsHidden()) {
             BWindow::Show();
         }
         _shown = true;
 
-        BMessage msg(BAPP_SHOW);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_SHOW);
+        Post_కిటికీ_Event(సందేశం_2);
     }
 
-    void Hide()
+    శూన్య Hide()
     {
         BWindow::Hide();
         _shown = false;
 
-        BMessage msg(BAPP_HIDE);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_HIDE);
+        Post_కిటికీ_Event(సందేశం_2);
     }
 
-    void Minimize(bool minimize)
+    శూన్య Minimize(bool minimize)
     {
         BWindow::Minimize(minimize);
         int32 minState = (minimize ? BAPP_MINIMIZE : BAPP_RESTORE);
 
-        BMessage msg(minState);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(minState);
+        Post_కిటికీ_Event(సందేశం_2);
     }
 
-    void ScreenChanged(BRect screenFrame, color_space depth)
+    శూన్య Screen_మారింది(BRect screen_చట్రం, color_space లోతు_2)
     {
-        if (_fullscreen) {
-            MoveTo(screenFrame.left, screenFrame.top);
-            ResizeTo(screenFrame.Width(), screenFrame.Height());
+        ఒకవేళ (_fullscreen) {
+            Move_గమ్యం(screen_చట్రం.ఎడమ, screen_చట్రం.శిఖరం);
+            Resize_గమ్యం(screen_చట్రం.వెడల్పు_2(), screen_చట్రం.ఎత్తు_2());
         }
     }
 
     // BView message interruption
-    void DispatchMessage(BMessage *msg, BHandler *target)
+    శూన్య Dispatch_సందేశం(BMessage *సందేశం_2, BHandler *లక్ష్యం)
     {
         BPoint where;  // Used by mouse moved
         int32 buttons; // Used for mouse button events
-        int32 key;     // Used for key events
+        int32 కీలకం;     // Used for key events
 
-        switch (msg->what) {
-        case B_MOUSE_MOVED:
+        ఎంపిక (సందేశం_2->what) {
+        స్థితి B_MOUSE_MOVED:
             int32 transit;
-            if (msg->FindPoint("where", &where) == B_OK && msg->FindInt32("be:transit", &transit) == B_OK) {
+            ఒకవేళ (సందేశం_2->కనుగొను_బిందువు("where", &where) == B_OK && సందేశం_2->కనుగొను_Int32("be:transit", &transit) == B_OK) {
                 _MouseMotionEvent(where, transit);
             }
-            break;
+            ఆపు;
 
-        case B_MOUSE_DOWN:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        స్థితి B_MOUSE_కిందికి:
+            ఒకవేళ (సందేశం_2->కనుగొను_Int32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, true);
             }
-            break;
+            ఆపు;
 
-        case B_MOUSE_UP:
-            if (msg->FindInt32("buttons", &buttons) == B_OK) {
+        స్థితి B_MOUSE_పైకి:
+            ఒకవేళ (సందేశం_2->కనుగొను_Int32("buttons", &buttons) == B_OK) {
                 _MouseButtonEvent(buttons, false);
             }
-            break;
+            ఆపు;
 
-        case B_MOUSE_WHEEL_CHANGED:
-            float x, y;
-            if (msg->FindFloat("be:wheel_delta_x", &x) == B_OK && msg->FindFloat("be:wheel_delta_y", &y) == B_OK) {
-                _MouseWheelEvent((int)x, (int)y);
+        స్థితి B_MOUSE_WHEEL_మారింది:
+            దశాంశం x, y;
+            ఒకవేళ (సందేశం_2->కనుగొను_Float("be:wheel_delta_x", &x) == B_OK && సందేశం_2->కనుగొను_Float("be:wheel_delta_y", &y) == B_OK) {
+                _MouseWheelEvent((పూర్ణాంకం)x, (పూర్ణాంకం)y);
             }
-            break;
+            ఆపు;
 
-        case B_KEY_DOWN:
+        స్థితి B_కీలకం_కిందికి:
         {
             int32 i = 0;
             int8 byte;
-            int8 bytes[4] = { 0, 0, 0, 0 };
-            while (i < 4 && msg->FindInt8("byte", i, &byte) == B_OK) {
-                bytes[i] = byte;
+            int8 బైట్లు[4] = { 0, 0, 0, 0 };
+            అయితే (i < 4 && సందేశం_2->కనుగొను_Int8("byte", i, &byte) == B_OK) {
+                బైట్లు[i] = byte;
                 i++;
             }
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent((SDL_Scancode)key, &bytes[0], i, true);
+            ఒకవేళ (సందేశం_2->కనుగొను_Int32("key", &కీలకం) == B_OK) {
+                కీలకం_Event_2((SDL_Scancode)కీలకం, &బైట్లు[0], i, true);
             }
-        } break;
+        } ఆపు;
 
-        case B_UNMAPPED_KEY_DOWN: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent((SDL_Scancode)key, NULL, 0, true);
+        స్థితి B_UNMAPPED_కీలకం_కిందికి: // modifier keys are unmapped
+            ఒకవేళ (సందేశం_2->కనుగొను_Int32("key", &కీలకం) == B_OK) {
+                కీలకం_Event_2((SDL_Scancode)కీలకం, ఖాళీ, 0, true);
             }
-            break;
+            ఆపు;
 
-        case B_KEY_UP:
-        case B_UNMAPPED_KEY_UP: // modifier keys are unmapped
-            if (msg->FindInt32("key", &key) == B_OK) {
-                _KeyEvent(key, NULL, 0, false);
+        స్థితి B_కీలకం_పైకి:
+        స్థితి B_UNMAPPED_కీలకం_పైకి: // modifier keys are unmapped
+            ఒకవేళ (సందేశం_2->కనుగొను_Int32("key", &కీలకం) == B_OK) {
+                కీలకం_Event_2(కీలకం, ఖాళీ, 0, false);
             }
-            break;
+            ఆపు;
 
-        default:
+        అప్రమేయ:
             /* move it after switch{} so it's always handled
                that way we keep Haiku features like:
                - CTRL+Q to close window (and other shortcuts)
                - PrintScreen to make screenshot into /boot/home
                - etc.. */
             // BWindow::DispatchMessage(msg, target);
-            break;
+            ఆపు;
         }
 
-        BWindow::DispatchMessage(msg, target);
+        BWindow::Dispatch_సందేశం(సందేశం_2, లక్ష్యం);
     }
 
     // Handle command messages
-    void MessageReceived(BMessage *message)
+    శూన్య సందేశం_Received(BMessage *సందేశం)
     {
-        switch (message->what) {
+        ఎంపిక (సందేశం->what) {
         // Handle commands from SDL
-        case BWIN_SET_TITLE:
-            _SetTitle(message);
-            break;
-        case BWIN_MOVE_WINDOW:
-            _MoveTo(message);
-            break;
-        case BWIN_RESIZE_WINDOW:
-            _ResizeTo(message);
-            break;
-        case BWIN_SET_BORDERED:
+        స్థితి BWIN_సమితి_TITLE:
+            సమితి_Title(సందేశం);
+            ఆపు;
+        స్థితి BWIN_MOVE_కిటికీ:
+            Move_గమ్యం_2(సందేశం);
+            ఆపు;
+        స్థితి BWIN_RESIZE_కిటికీ:
+            Resize_గమ్యం_2(సందేశం);
+            ఆపు;
+        స్థితి BWIN_సమితి_BORDERED:
         {
             bool bEnabled;
-            if (message->FindBool("window-border", &bEnabled) == B_OK)
-                _SetBordered(bEnabled);
-            break;
+            ఒకవేళ (సందేశం->కనుగొను_Bool("window-border", &bEnabled) == B_OK)
+                సమితి_Bordered(bEnabled);
+            ఆపు;
         }
-        case BWIN_SET_RESIZABLE:
+        స్థితి BWIN_సమితి_RESIZABLE:
         {
             bool bEnabled;
-            if (message->FindBool("window-resizable", &bEnabled) == B_OK)
-                _SetResizable(bEnabled);
-            break;
+            ఒకవేళ (సందేశం->కనుగొను_Bool("window-resizable", &bEnabled) == B_OK)
+                సమితి_Resizable(bEnabled);
+            ఆపు;
         }
-        case BWIN_SHOW_WINDOW:
+        స్థితి BWIN_SHOW_కిటికీ:
             Show();
-            break;
-        case BWIN_HIDE_WINDOW:
+            ఆపు;
+        స్థితి BWIN_HIDE_కిటికీ:
             Hide();
-            break;
-        case BWIN_MAXIMIZE_WINDOW:
+            ఆపు;
+        స్థితి BWIN_MAXIMIZE_కిటికీ:
             BWindow::Zoom();
-            break;
-        case BWIN_MINIMIZE_WINDOW:
+            ఆపు;
+        స్థితి BWIN_MINIMIZE_కిటికీ:
             Minimize(true);
-            break;
-        case BWIN_RESTORE_WINDOW:
+            ఆపు;
+        స్థితి BWIN_RESTORE_కిటికీ:
             _Restore();
-            break;
-        case BWIN_FULLSCREEN:
+            ఆపు;
+        స్థితి BWIN_FULLSCREEN:
         {
             bool fullscreen;
-            if (message->FindBool("fullscreen", &fullscreen) == B_OK)
-                _SetFullScreen(fullscreen);
-            break;
+            ఒకవేళ (సందేశం->కనుగొను_Bool("fullscreen", &fullscreen) == B_OK)
+                సమితి_నిండిన_Screen(fullscreen);
+            ఆపు;
         }
-        case BWIN_MINIMUM_SIZE_WINDOW:
-            _SetMinimumSize(message);
-            break;
-        case BWIN_UPDATE_FRAMEBUFFER:
+        స్థితి BWIN_MINIMUM_కొలత_కిటికీ:
+            సమితి_Minimum_కొలత(సందేశం);
+            ఆపు;
+        స్థితి BWIN_UPDATE_FRAMEBUFFER:
         {
-            BMessage *pendingMessage;
-            while ((pendingMessage = MessageQueue()->FindMessage(BWIN_UPDATE_FRAMEBUFFER, 0))) {
-                MessageQueue()->RemoveMessage(pendingMessage);
-                delete pendingMessage;
+            BMessage *pending_సందేశం;
+            అయితే ((pending_సందేశం = సందేశం_వరుస()->కనుగొను_సందేశం(BWIN_UPDATE_FRAMEBUFFER, 0))) {
+                సందేశం_వరుస()->Remove_సందేశం(pending_సందేశం);
+                delete pending_సందేశం;
             }
-            if (_bitmap != NULL) {
-#ifdef SDL_VIDEO_OPENGL
-                if (_SDL_GLView != NULL && _cur_view == _SDL_GLView) {
-                    _SDL_GLView->CopyPixelsIn(_bitmap, B_ORIGIN);
-                } else
-#endif
-                if (_SDL_View != NULL && _cur_view == _SDL_View) {
+            ఒకవేళ (_bitmap != ఖాళీ) {
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
+                ఒకవేళ (_SDL_GLView != ఖాళీ && _cur_view == _SDL_GLView) {
+                    _SDL_GLView->Copy_Pixels_లోపల(_bitmap, B_ORIGIN);
+                } లేకపోతే
+#అయితే_ముగింపు
+                ఒకవేళ (_SDL_View != ఖాళీ && _cur_view == _SDL_View) {
                     _SDL_View->Draw(Bounds());
                 }
             }
-            break;
+            ఆపు;
         }
-        default:
+        అప్రమేయ:
             // Perform normal message handling
-            BWindow::MessageReceived(message);
-            break;
+            BWindow::సందేశం_Received(సందేశం);
+            ఆపు;
         }
     }
 
     // Accessor methods
-    bool IsShown() { return _shown; }
-    int32 GetID() { return _id; }
-    BBitmap *GetBitmap() { return _bitmap; }
-    BView *GetCurView() { return _cur_view; }
-    SDL_BView *GetView() { return _SDL_View; }
-#ifdef SDL_VIDEO_OPENGL
+    bool IsShown() { తిరిగి _shown; }
+    int32 GetID() { తిరిగి _id; }
+    BBitmap *GetBitmap() { తిరిగి _bitmap; }
+    BView *GetCurView() { తిరిగి _cur_view; }
+    SDL_BView *GetView() { తిరిగి _SDL_View; }
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
     BGLView *GetGLView()
     {
-        return _SDL_GLView;
+        తిరిగి _SDL_GLView;
     }
-    Uint32 GetGLType() { return _gl_type; }
-#endif
+    Uint32 GetGLType() { తిరిగి _gl_type; }
+#అయితే_ముగింపు
 
     // Setter methods
-    void SetID(int32 id) { _id = id; }
-    void LockBuffer() { _buffer_locker->Lock(); }
-    void UnlockBuffer() { _buffer_locker->Unlock(); }
-    void SetBitmap(BBitmap *bitmap)
+    శూన్య సమితి_ID(int32 id) { _id = id; }
+    శూన్య తాళం_బఫరు() { బఫరు_locker->తాళం(); }
+    శూన్య Unlock_బఫరు() { బఫరు_locker->Unlock(); }
+    శూన్య సమితి_Bitmap(BBitmap *bitmap)
     {
         _bitmap = bitmap;
-        if (_SDL_View != NULL)
-            _SDL_View->SetBitmap(bitmap);
+        ఒకవేళ (_SDL_View != ఖాళీ)
+            _SDL_View->సమితి_Bitmap(bitmap);
     }
 
-  private:
+  అంతరంగ:
     // Event redirection
-    void _MouseMotionEvent(BPoint &where, int32 transit)
+    శూన్య _MouseMotionEvent(BPoint &where, int32 transit)
     {
-        if (transit == B_EXITED_VIEW) {
+        ఒకవేళ (transit == B_EXITED_VIEW) {
             // Change mouse focus
-            if (_mouse_focused) {
+            ఒకవేళ (_mouse_focused) {
                 _MouseFocusEvent(false);
             }
-        } else {
+        } లేకపోతే {
             // Change mouse focus
-            if (!_mouse_focused) {
+            ఒకవేళ (!_mouse_focused) {
                 _MouseFocusEvent(true);
             }
-            BMessage msg(BAPP_MOUSE_MOVED);
-            msg.AddInt32("x", (int)where.x);
-            msg.AddInt32("y", (int)where.y);
+            BMessage సందేశం_2(BAPP_MOUSE_MOVED);
+            సందేశం_2.కూడు_Int32("x", (పూర్ణాంకం)where.x);
+            సందేశం_2.కూడు_Int32("y", (పూర్ణాంకం)where.y);
 
-            _PostWindowEvent(msg);
+            Post_కిటికీ_Event(సందేశం_2);
         }
     }
 
-    void _MouseFocusEvent(bool focusGained)
+    శూన్య _MouseFocusEvent(bool focusGained)
     {
         _mouse_focused = focusGained;
-        BMessage msg(BAPP_MOUSE_FOCUS);
-        msg.AddBool("focusGained", focusGained);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_MOUSE_FOCUS);
+        సందేశం_2.కూడు_Bool("focusGained", focusGained);
+        Post_కిటికీ_Event(సందేశం_2);
 
         /* FIXME: Why were these here?
          if false: be_app->SetCursor(B_HAND_CURSOR);
          if true:  SDL_SetCursor(NULL); */
     }
 
-    void _MouseButtonEvent(int32 buttons, bool down)
+    శూన్య _MouseButtonEvent(int32 buttons, bool కిందికి)
     {
-        int32 buttonStateChange = buttons ^ _last_buttons;
+        int32 buttonStateChange = buttons ^ చివరి_buttons;
 
-        if (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_LEFT, down);
+        ఒకవేళ (buttonStateChange & B_PRIMARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_ఎడమ, కిందికి);
         }
-        if (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_RIGHT, down);
+        ఒకవేళ (buttonStateChange & B_SECONDARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_కుడి, కిందికి);
         }
-        if (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
-            _SendMouseButton(SDL_BUTTON_MIDDLE, down);
+        ఒకవేళ (buttonStateChange & B_TERTIARY_MOUSE_BUTTON) {
+            _SendMouseButton(SDL_BUTTON_మధ్య, కిందికి);
         }
 
-        _last_buttons = buttons;
+        చివరి_buttons = buttons;
     }
 
-    void _SendMouseButton(int32 button, bool down)
+    శూన్య _SendMouseButton(int32 button, bool కిందికి)
     {
-        BMessage msg(BAPP_MOUSE_BUTTON);
-        msg.AddInt32("button-id", button);
-        msg.AddBool("button-down", down);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_MOUSE_BUTTON);
+        సందేశం_2.కూడు_Int32("button-id", button);
+        సందేశం_2.కూడు_Bool("button-down", కిందికి);
+        Post_కిటికీ_Event(సందేశం_2);
     }
 
-    void _MouseWheelEvent(int32 x, int32 y)
-    {
-        // Create a message to pass along to the BeApp thread
-        BMessage msg(BAPP_MOUSE_WHEEL);
-        msg.AddInt32("xticks", x);
-        msg.AddInt32("yticks", y);
-        _PostWindowEvent(msg);
-    }
-
-    void _KeyEvent(int32 keyCode, const int8 *keyUtf8, const ssize_t &len, bool down)
+    శూన్య _MouseWheelEvent(int32 x, int32 y)
     {
         // Create a message to pass along to the BeApp thread
-        BMessage msg(BAPP_KEY);
-        msg.AddInt32("key-scancode", keyCode);
-        if (keyUtf8 != NULL) {
-            msg.AddData("key-utf8", B_INT8_TYPE, (const void *)keyUtf8, len);
-        }
-        msg.AddBool("key-down", down);
-        SDL_Looper->PostMessage(&msg);
+        BMessage సందేశం_2(BAPP_MOUSE_WHEEL);
+        సందేశం_2.కూడు_Int32("xticks", x);
+        సందేశం_2.కూడు_Int32("yticks", y);
+        Post_కిటికీ_Event(సందేశం_2);
     }
 
-    void _RepaintEvent()
+    శూన్య కీలకం_Event_2(int32 కీలకం_సంకేతం, స్థిరరాశి int8 *కీలకం_Utf8, స్థిరరాశి ssize_t &len, bool కిందికి)
+    {
+        // Create a message to pass along to the BeApp thread
+        BMessage సందేశం_2(BAPP_కీలకం);
+        సందేశం_2.కూడు_Int32("key-scancode", కీలకం_సంకేతం);
+        ఒకవేళ (కీలకం_Utf8 != ఖాళీ) {
+            సందేశం_2.కూడు_దత్తాంశం("key-utf8", B_INT8_TYPE, (స్థిరరాశి శూన్య *)కీలకం_Utf8, len);
+        }
+        సందేశం_2.కూడు_Bool("key-down", కిందికి);
+        SDL_Looper->Post_సందేశం(&సందేశం_2);
+    }
+
+    శూన్య _RepaintEvent()
     {
         // Force a repaint: Call the SDL exposed event
-        BMessage msg(BAPP_REPAINT);
-        _PostWindowEvent(msg);
+        BMessage సందేశం_2(BAPP_REPAINT);
+        Post_కిటికీ_Event(సందేశం_2);
     }
-    void _PostWindowEvent(BMessage &msg)
+    శూన్య Post_కిటికీ_Event(BMessage &సందేశం_2)
     {
-        msg.AddInt32("window-id", _id);
-        SDL_Looper->PostMessage(&msg);
+        సందేశం_2.కూడు_Int32("window-id", _id);
+        SDL_Looper->Post_సందేశం(&సందేశం_2);
     }
 
     // Command methods (functions called upon by SDL)
-    void _SetTitle(BMessage *msg)
+    శూన్య సమితి_Title(BMessage *సందేశం_2)
     {
-        const char *title;
-        if (
-            msg->FindString("window-title", &title) != B_OK) {
-            return;
+        స్థిరరాశి అక్షరం *title;
+        ఒకవేళ (
+            సందేశం_2->కనుగొను_String("window-title", &title) != B_OK) {
+            తిరిగి;
         }
-        SetTitle(title);
+        సమితి_Title_2(title);
     }
 
-    void _MoveTo(BMessage *msg)
+    శూన్య Move_గమ్యం_2(BMessage *సందేశం_2)
     {
         int32 x, y;
-        if (
-            msg->FindInt32("window-x", &x) != B_OK ||
-            msg->FindInt32("window-y", &y) != B_OK) {
-            return;
+        ఒకవేళ (
+            సందేశం_2->కనుగొను_Int32("window-x", &x) != B_OK ||
+            సందేశం_2->కనుగొను_Int32("window-y", &y) != B_OK) {
+            తిరిగి;
         }
-        if (_fullscreen)
-            _non_fullscreen_frame.OffsetTo(x, y);
-        else
-            MoveTo(x, y);
+        ఒకవేళ (_fullscreen)
+            non_fullscreen_చట్రం.స్థానభ్రంశం_గమ్యం(x, y);
+        లేకపోతే
+            Move_గమ్యం(x, y);
     }
 
-    void _ResizeTo(BMessage *msg)
+    శూన్య Resize_గమ్యం_2(BMessage *సందేశం_2)
     {
         int32 w, h;
-        if (
-            msg->FindInt32("window-w", &w) != B_OK ||
-            msg->FindInt32("window-h", &h) != B_OK) {
-            return;
+        ఒకవేళ (
+            సందేశం_2->కనుగొను_Int32("window-w", &w) != B_OK ||
+            సందేశం_2->కనుగొను_Int32("window-h", &h) != B_OK) {
+            తిరిగి;
         }
-        if (_fullscreen) {
-            _non_fullscreen_frame.right = _non_fullscreen_frame.left + w;
-            _non_fullscreen_frame.bottom = _non_fullscreen_frame.top + h;
-        } else
-            ResizeTo(w, h);
+        ఒకవేళ (_fullscreen) {
+            non_fullscreen_చట్రం.కుడి = non_fullscreen_చట్రం.ఎడమ + w;
+            non_fullscreen_చట్రం.bottom = non_fullscreen_చట్రం.శిఖరం + h;
+        } లేకపోతే
+            Resize_గమ్యం(w, h);
     }
 
-    void _SetBordered(bool bEnabled)
+    శూన్య సమితి_Bordered(bool bEnabled)
     {
-        if (_fullscreen)
+        ఒకవేళ (_fullscreen)
             _bordered = bEnabled;
-        else
-            SetLook(bEnabled ? B_TITLED_WINDOW_LOOK : B_NO_BORDER_WINDOW_LOOK);
+        లేకపోతే
+            సమితి_Look(bEnabled ? B_TITLED_కిటికీ_LOOK : B_NO_BORDER_కిటికీ_LOOK);
     }
 
-    void _SetResizable(bool bEnabled)
+    శూన్య సమితి_Resizable(bool bEnabled)
     {
-        if (_fullscreen)
+        ఒకవేళ (_fullscreen)
             _resizable = bEnabled;
-        else {
-            if (bEnabled) {
-                SetFlags(Flags() & ~(B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
-            } else {
-                SetFlags(Flags() | (B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
+        లేకపోతే {
+            ఒకవేళ (bEnabled) {
+                సమితి_Flags(Flags() & ~(B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
+            } లేకపోతే {
+                సమితి_Flags(Flags() | (B_NOT_RESIZABLE | B_NOT_ZOOMABLE));
             }
         }
     }
 
-    void _SetMinimumSize(BMessage *msg)
+    శూన్య సమితి_Minimum_కొలత(BMessage *సందేశం_2)
     {
-        float maxHeight;
-        float maxWidth;
-        float _;
-        int32 minHeight;
-        int32 minWidth;
+        దశాంశం max_ఎత్తు;
+        దశాంశం max_వెడల్పు;
+        దశాంశం _;
+        int32 min_ఎత్తు;
+        int32 min_వెడల్పు;
 
         // This is a bit convoluted, we only want to set the minimum not the maximum
         // But there is no direct call to do that, so store the maximum size beforehand
-        GetSizeLimits(&_, &maxWidth, &_, &maxHeight);
-        if (msg->FindInt32("window-w", &minWidth) != B_OK)
-            return;
-        if (msg->FindInt32("window-h", &minHeight) != B_OK)
-            return;
-        SetSizeLimits((float)minWidth, maxWidth, (float)minHeight, maxHeight);
-        UpdateSizeLimits();
+        Get_కొలత_Limits(&_, &max_వెడల్పు, &_, &max_ఎత్తు);
+        ఒకవేళ (సందేశం_2->కనుగొను_Int32("window-w", &min_వెడల్పు) != B_OK)
+            తిరిగి;
+        ఒకవేళ (సందేశం_2->కనుగొను_Int32("window-h", &min_ఎత్తు) != B_OK)
+            తిరిగి;
+        సమితి_కొలత_Limits((దశాంశం)min_వెడల్పు, max_వెడల్పు, (దశాంశం)min_ఎత్తు, max_ఎత్తు);
+        Update_కొలత_Limits();
     }
 
-    void _Restore()
+    శూన్య _Restore()
     {
-        if (IsMinimized()) {
+        ఒకవేళ (IsMinimized()) {
             Minimize(false);
-        } else if (IsHidden()) {
+        } లేకపోతే ఒకవేళ (IsHidden()) {
             Show();
-        } else if (_fullscreen) {
+        } లేకపోతే ఒకవేళ (_fullscreen) {
 
-        } else if (_prev_frame != NULL) { // Zoomed
-            MoveTo(_prev_frame->left, _prev_frame->top);
-            ResizeTo(_prev_frame->Width(), _prev_frame->Height());
+        } లేకపోతే ఒకవేళ (prev_చట్రం != ఖాళీ) { // Zoomed
+            Move_గమ్యం(prev_చట్రం->ఎడమ, prev_చట్రం->శిఖరం);
+            Resize_గమ్యం(prev_చట్రం->వెడల్పు_2(), prev_చట్రం->ఎత్తు_2());
         }
     }
 
-    void _SetFullScreen(bool fullscreen)
+    శూన్య సమితి_నిండిన_Screen(bool fullscreen)
     {
-        if (fullscreen != _fullscreen) {
-            if (fullscreen) {
+        ఒకవేళ (fullscreen != _fullscreen) {
+            ఒకవేళ (fullscreen) {
                 BScreen screen(this);
-                BRect screenFrame = screen.Frame();
-                _bordered = Look() != B_NO_BORDER_WINDOW_LOOK;
+                BRect screen_చట్రం = screen.చట్రం_2();
+                _bordered = Look() != B_NO_BORDER_కిటికీ_LOOK;
                 _resizable = !(Flags() & B_NOT_RESIZABLE);
-                _non_fullscreen_frame = Frame();
-                _SetBordered(false);
-                _SetResizable(false);
-                MoveTo(screenFrame.left, screenFrame.top);
-                ResizeTo(screenFrame.Width(), screenFrame.Height());
+                non_fullscreen_చట్రం = చట్రం_2();
+                సమితి_Bordered(false);
+                సమితి_Resizable(false);
+                Move_గమ్యం(screen_చట్రం.ఎడమ, screen_చట్రం.శిఖరం);
+                Resize_గమ్యం(screen_చట్రం.వెడల్పు_2(), screen_చట్రం.ఎత్తు_2());
                 _fullscreen = fullscreen;
-            } else {
+            } లేకపోతే {
                 _fullscreen = fullscreen;
-                MoveTo(_non_fullscreen_frame.left, _non_fullscreen_frame.top);
-                ResizeTo(_non_fullscreen_frame.Width(), _non_fullscreen_frame.Height());
-                _SetBordered(_bordered);
-                _SetResizable(_resizable);
+                Move_గమ్యం(non_fullscreen_చట్రం.ఎడమ, non_fullscreen_చట్రం.శిఖరం);
+                Resize_గమ్యం(non_fullscreen_చట్రం.వెడల్పు_2(), non_fullscreen_చట్రం.ఎత్తు_2());
+                సమితి_Bordered(_bordered);
+                సమితి_Resizable(_resizable);
             }
         }
     }
@@ -712,26 +712,26 @@ class SDL_BWin : public BWindow
 
     BView *_cur_view;
     SDL_BView *_SDL_View;
-#ifdef SDL_VIDEO_OPENGL
+#నిర్వచితమైతే SDL_VIDEO_OPENGL
     BGLView *_SDL_GLView;
     Uint32 _gl_type;
-#endif
+#అయితే_ముగింపు
 
-    int32 _last_buttons;
+    int32 చివరి_buttons;
     int32 _id;           // Window id used by SDL_BApp
     bool _mouse_focused; // Does this window have mouse focus?
     bool _shown;
     bool _inhibit_resize;
 
-    BRect *_prev_frame; // Previous position and size of the window
+    BRect *prev_చట్రం; // Previous position and size of the window
     bool _fullscreen;
     // valid only if fullscreen
-    BRect _non_fullscreen_frame;
+    BRect non_fullscreen_చట్రం;
     bool _bordered;
     bool _resizable;
 
     // Framebuffer members
-    BLocker *_buffer_locker;
+    BLocker *బఫరు_locker;
     BBitmap *_bitmap;
 };
 
@@ -749,4 +749,4 @@ class SDL_BWin : public BWindow
  *                         through a draw cycle.  Occurs when the previous
  *                         buffer provided by DirectConnected() is invalidated.
  */
-#endif // SDL_BWin_h_
+#అయితే_ముగింపు // SDL_BWin_h_

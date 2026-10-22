@@ -22,22 +22,22 @@
 
 /* Author: Soren Sandmann <sandmann@redhat.com> */
 
-typedef unsigned char uchar;
-typedef struct MonitorInfo MonitorInfo;
-typedef struct Timing Timing;
-typedef struct DetailedTiming DetailedTiming;
+రకనిర్వచనం గుర్తులేని అక్షరం uchar;
+రకనిర్వచనం నిర్మాణం MonitorInfo MonitorInfo;
+రకనిర్వచనం నిర్మాణం Timing Timing;
+రకనిర్వచనం నిర్మాణం DetailedTiming DetailedTiming;
 
-typedef enum
+రకనిర్వచనం గణన
 {
     UNDEFINED,
     DVI,
     HDMI_A,
     HDMI_B,
     MDDI,
-    DISPLAY_PORT
+    DISPLAY_పోర్టు
 } Interface;
 
-typedef enum
+రకనిర్వచనం గణన
 {
     UNDEFINED_COLOR,
     MONOCHROME,
@@ -45,136 +45,136 @@ typedef enum
     OTHER_COLOR
 } ColorType;
 
-typedef enum
+రకనిర్వచనం గణన
 {
     NO_STEREO,
-    FIELD_RIGHT,
-    FIELD_LEFT,
-    TWO_WAY_RIGHT_ON_EVEN,
-    TWO_WAY_LEFT_ON_EVEN,
+    క్షేత్రం_కుడి,
+    క్షేత్రం_ఎడమ,
+    TWO_WAY_కుడి_ON_EVEN,
+    TWO_WAY_ఎడమ_ON_EVEN,
     FOUR_WAY_INTERLEAVED,
     SIDE_BY_SIDE
 } StereoType;
 
-struct Timing
+నిర్మాణం Timing
 {
-    int width;
-    int height;
-    int frequency;
+    పూర్ణాంకం వెడల్పు;
+    పూర్ణాంకం ఎత్తు;
+    పూర్ణాంకం frequency;
 };
 
-struct DetailedTiming
+నిర్మాణం DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    పూర్ణాంకం pixel_clock;
+    పూర్ణాంకం h_addr;
+    పూర్ణాంకం h_blank;
+    పూర్ణాంకం h_sync;
+    పూర్ణాంకం h_front_porch;
+    పూర్ణాంకం v_addr;
+    పూర్ణాంకం v_blank;
+    పూర్ణాంకం v_sync;
+    పూర్ణాంకం v_front_porch;
+    పూర్ణాంకం వెడల్పు_mm;
+    పూర్ణాంకం ఎత్తు_mm;
+    పూర్ణాంకం కుడి_border;
+    పూర్ణాంకం శిఖరం_border;
+    పూర్ణాంకం interlaced;
     StereoType stereo;
 
-    int digital_sync;
-    union
+    పూర్ణాంకం digital_sync;
+    సంఘం
     {
-        struct
+        నిర్మాణం
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            పూర్ణాంకం bipolar;
+            పూర్ణాంకం serrations;
+            పూర్ణాంకం sync_on_green;
         } analog;
 
-        struct
+        నిర్మాణం
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            పూర్ణాంకం సంయుక్త;
+            పూర్ణాంకం serrations;
+            పూర్ణాంకం negative_vsync;
+            పూర్ణాంకం negative_hsync;
         } digital;
     } ad;
 };
 
-struct MonitorInfo
+నిర్మాణం MonitorInfo
 {
-    int checksum;
-    char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    పూర్ణాంకం checksum;
+    అక్షరం manufacturer_సంకేతం[4];
+    పూర్ణాంకం లబ్ధం_సంకేతం;
+    గుర్తులేని పూర్ణాంకం serial_సంఖ్య;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    పూర్ణాంకం production_week; // -1 if not specified
+    పూర్ణాంకం production_year; // -1 if not specified
+    పూర్ణాంకం model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    పూర్ణాంకం major_సంస్కరణ;
+    పూర్ణాంకం minor_సంస్కరణ;
 
-    int is_digital;
+    పూర్ణాంకం is_digital;
 
-    union
+    సంఘం
     {
-        struct
+        నిర్మాణం
         {
-            int bits_per_primary;
+            పూర్ణాంకం బిట్లు_చొప్పున_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            పూర్ణాంకం rgb444;
+            పూర్ణాంకం ycrcb444;
+            పూర్ణాంకం ycrcb422;
         } digital;
 
-        struct
+        నిర్మాణం
         {
-            double video_signal_level;
-            double sync_signal_level;
-            double total_signal_level;
+            ద్విగుణ video_signal_level;
+            ద్విగుణ sync_signal_level;
+            ద్విగుణ మొత్తం_signal_level;
 
-            int blank_to_black;
+            పూర్ణాంకం blank_గమ్యం_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            పూర్ణాంకం separate_hv_sync;
+            పూర్ణాంకం సంయుక్త_sync_on_h;
+            పూర్ణాంకం సంయుక్త_sync_on_green;
+            పూర్ణాంకం serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
-    double aspect_ratio; // -1.0 if not specififed
+    పూర్ణాంకం వెడల్పు_mm;        // -1 if not specified
+    పూర్ణాంకం ఎత్తు_mm;       // -1 if not specified
+    ద్విగుణ aspect_నిష్పత్తి; // -1.0 if not specififed
 
-    double gamma; // -1.0 if not specified
+    ద్విగుణ gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    పూర్ణాంకం standby;
+    పూర్ణాంకం suspend;
+    పూర్ణాంకం చురుకైన_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    పూర్ణాంకం srgb_is_standard;
+    పూర్ణాంకం preferred_timing_includes_native;
+    పూర్ణాంకం continuous_frequency;
 
-    double red_x;
-    double red_y;
-    double green_x;
-    double green_y;
-    double blue_x;
-    double blue_y;
-    double white_x;
-    double white_y;
+    ద్విగుణ red_x;
+    ద్విగుణ red_y;
+    ద్విగుణ green_x;
+    ద్విగుణ green_y;
+    ద్విగుణ blue_x;
+    ద్విగుణ blue_y;
+    ద్విగుణ white_x;
+    ద్విగుణ white_y;
 
-    double min_luminance;
-    double max_luminance;
-    double max_frame_average_luminance;
+    ద్విగుణ min_luminance;
+    ద్విగుణ max_luminance;
+    ద్విగుణ max_చట్రం_సరాసరి_luminance;
 
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    పూర్ణాంకం n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is
@@ -184,12 +184,12 @@ struct MonitorInfo
                                          */
 
     // Optional product description
-    char dsc_serial_number[14];
-    char dsc_product_name[14];
-    char dsc_string[14]; // Unspecified ASCII data
+    అక్షరం dsc_serial_సంఖ్య[14];
+    అక్షరం dsc_లబ్ధం_name[14];
+    అక్షరం dsc_string[14]; // Unspecified ASCII data
 };
 
-MonitorInfo *decode_edid(const uchar *data, size_t size);
-void dump_monitor_info(MonitorInfo *info);
-char *make_display_name(const char *output_name,
-                        const MonitorInfo *info);
+MonitorInfo *decode_edid(స్థిరరాశి uchar *దత్తాంశం, size_t కొలత);
+శూన్య dump_monitor_info(MonitorInfo *info);
+అక్షరం *make_display_name(స్థిరరాశి అక్షరం *output_name,
+                        స్థిరరాశి MonitorInfo *info);

@@ -18,162 +18,162 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11pen.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xinput2.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_pen_c.h"
-#include "../../events/SDL_touch_c.h"
+#అన్తర్భావ "SDL_x11pen.h"
+#అన్తర్భావ "SDL_x11video.h"
+#అన్తర్భావ "SDL_x11xinput2.h"
+#అన్తర్భావ "../../events/SDL_events_c.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/SDL_pen_c.h"
+#అన్తర్భావ "../../events/SDL_touch_c.h"
 
-#define MAX_AXIS 16
+#నిర్వచించు MAX_AXIS 16
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-static bool xinput2_initialized;
-static bool xinput2_grabbed_touch_raised;
-static int xinput2_active_touch_count;
-#if defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
-static bool xinput2_scrolling_supported;
-static bool xinput2_multitouch_supported;
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
-static bool xinput2_gesture_supported;
-#endif
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+స్థిర bool xinput2_initialized;
+స్థిర bool xinput2_grabbed_touch_raised;
+స్థిర పూర్ణాంకం xinput2_చురుకైన_touch_లెక్క;
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
+స్థిర bool xinput2_scrolling_supported;
+స్థిర bool xinput2_multitouch_supported;
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
+స్థిర bool xinput2_gesture_supported;
+#అయితే_ముగింపు
 
 /* Opcode returned X11_XQueryExtension
  * It will be used in event processing
  * to know that the event came from
  * this extension */
-static int xinput2_opcode;
+స్థిర పూర్ణాంకం xinput2_opcode;
 
-static Atom xinput2_rel_x_atom;
-static Atom xinput2_rel_y_atom;
-static Atom xinput2_abs_x_atom;
-static Atom xinput2_abs_y_atom;
+స్థిర Atom xinput2_rel_x_atom;
+స్థిర Atom xinput2_rel_y_atom;
+స్థిర Atom xinput2_abs_x_atom;
+స్థిర Atom xinput2_abs_y_atom;
 
 // Pointer button remapping table
-static unsigned char *xinput2_pointer_button_map;
-static int xinput2_pointer_button_map_size;
+స్థిర గుర్తులేని అక్షరం *xinput2_సూచిక_button_map;
+స్థిర పూర్ణాంకం xinput2_సూచిక_button_map_కొలత;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
-typedef struct
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+రకనిర్వచనం నిర్మాణం
 {
-    int number;
-    int scroll_type;
-    double prev_value;
-    double increment;
-    bool prev_value_valid;
+    పూర్ణాంకం సంఖ్య_2;
+    పూర్ణాంకం scroll_type;
+    ద్విగుణ prev_విలువ;
+    ద్విగుణ increment;
+    bool prev_విలువ_valid;
 } SDL_XInput2ScrollInfo;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    int scroll_info_count;
+    పూర్ణాంకం scroll_info_లెక్క;
     SDL_XInput2ScrollInfo *scroll_info;
 } SDL_XInput2ScrollableDevice;
-#endif
+#అయితే_ముగింపు
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    int number[2];
+    పూర్ణాంకం సంఖ్య_2[2];
     bool relative[2];
     bool prev_coord_valid[2];
-    double minval[2];
-    double maxval[2];
-    double prev_coords[2];
+    ద్విగుణ minval[2];
+    ద్విగుణ maxval[2];
+    ద్విగుణ prev_coords[2];
 } SDL_XInput2RelativeDevice;
 
-typedef struct SDL_XInput2DeviceInfo
+రకనిర్వచనం నిర్మాణం SDL_XInput2DeviceInfo
 {
-    int device_id;
+    పూర్ణాంకం device_id;
     SDL_XInput2RelativeDevice relative;
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
     SDL_XInput2ScrollableDevice scroll;
-#endif
-    struct SDL_XInput2DeviceInfo *next;
+#అయితే_ముగింపు
+    నిర్మాణం SDL_XInput2DeviceInfo *తదుపరి;
 } SDL_XInput2DeviceInfo;
 
-static SDL_XInput2DeviceInfo *xinput2_device_info;
+స్థిర SDL_XInput2DeviceInfo *xinput2_device_info;
 
-static void parse_relative_valuators(SDL_XInput2RelativeDevice *rel_dev, const XIRawEvent *rawev)
+స్థిర శూన్య parse_relative_valuators(SDL_XInput2RelativeDevice *rel_dev, స్థిరరాశి XIRawEvent *rawev)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
-    double processed_coords[2] = { 0.0, 0.0 };
-    int values_i = 0, found = 0;
+    ద్విగుణ processed_coords[2] = { 0.0, 0.0 };
+    పూర్ణాంకం విలువలు_i = 0, దొరికింది = 0;
 
     // Use the raw values if a custom transform function is set, or the relative system scale hint is unset.
-    const bool use_raw_vals = mouse->InputTransform || !mouse->enable_relative_system_scale;
+    స్థిరరాశి bool use_raw_vals = mouse->ఆదానం_Transform || !mouse->enable_relative_system_scale;
 
-    for (int i = 0; i < rawev->valuators.mask_len * 8 && found < 2; ++i) {
-        if (!XIMaskIsSet(rawev->valuators.mask, i)) {
-            continue;
+    కొరకు (పూర్ణాంకం i = 0; i < rawev->valuators.ముసుగు_len * 8 && దొరికింది < 2; ++i) {
+        ఒకవేళ (!XIMask_Is_సమితి(rawev->valuators.ముసుగు, i)) {
+            కొనసాగు;
         }
 
-        for (int j = 0; j < 2; ++j) {
-            if (rel_dev->number[j] == i) {
-                const double current_val = use_raw_vals ? rawev->raw_values[values_i] : rawev->valuators.values[values_i];
+        కొరకు (పూర్ణాంకం j = 0; j < 2; ++j) {
+            ఒకవేళ (rel_dev->సంఖ్య_2[j] == i) {
+                స్థిరరాశి ద్విగుణ current_val = use_raw_vals ? rawev->raw_విలువలు[విలువలు_i] : rawev->valuators.విలువలు[విలువలు_i];
 
-                if (rel_dev->relative[j]) {
+                ఒకవేళ (rel_dev->relative[j]) {
                     processed_coords[j] = current_val;
-                } else {
+                } లేకపోతే {
                     // The first absolute value is meaningless by itself and must be ignored, as it only establishes a baseline for future deltas.
-                    if (rel_dev->prev_coord_valid[j]) {
+                    ఒకవేళ (rel_dev->prev_coord_valid[j]) {
                         processed_coords[j] = current_val - rel_dev->prev_coords[j]; // convert absolute to relative
                     }
                     rel_dev->prev_coords[j] = current_val;
                     rel_dev->prev_coord_valid[j] = true;
                 }
-                ++found;
+                ++దొరికింది;
 
-                break;
+                ఆపు;
             }
         }
 
-        ++values_i;
+        ++విలువలు_i;
     }
 
     // Relative mouse motion is delivered to the window with keyboard focus
-    if (mouse->relative_mode && SDL_GetKeyboardFocus()) {
-        SDL_SendMouseMotion(rawev->time, mouse->focus, (SDL_MouseID)rawev->sourceid, true, (float)processed_coords[0], (float)processed_coords[1]);
+    ఒకవేళ (mouse->relative_బహుళకం && SDL_GetKeyboardFocus()) {
+        SDL_SendMouseMotion(rawev->సమయం, mouse->focus, (SDL_MouseID)rawev->sourceid, true, (దశాంశం)processed_coords[0], (దశాంశం)processed_coords[1]);
     }
 }
 
-static int query_xinput2_version(Display *display, int major, int minor)
+స్థిర పూర్ణాంకం query_xinput2_సంస్కరణ(Display *display, పూర్ణాంకం major, పూర్ణాంకం minor)
 {
     // We don't care if this fails, so long as it sets major/minor on it's way out the door.
-    X11_XIQueryVersion(display, &major, &minor);
-    return (major * 1000) + minor;
+    X11_XIQuery_సంస్కరణ(display, &major, &minor);
+    తిరిగి (major * 1000) + minor;
 }
 
-static bool xinput2_version_atleast(const int version, const int wantmajor, const int wantminor)
+స్థిర bool xinput2_సంస్కరణ_atleast(స్థిరరాశి పూర్ణాంకం సంస్కరణ, స్థిరరాశి పూర్ణాంకం wantmajor, స్థిరరాశి పూర్ణాంకం wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    తిరిగి సంస్కరణ >= ((wantmajor * 1000) + wantminor);
 }
 
-static SDL_Window *xinput2_get_sdlwindow(SDL_VideoData *videodata, Window window)
+స్థిర SDL_కిటికీ *xinput2_get_sdlwindow(SDL_Video_దత్తాంశం *videodata, కిటికీ_2 కిటికీ)
 {
-    const SDL_WindowData *windowdata = X11_FindWindow(videodata, window);
-    return windowdata ? windowdata->window : NULL;
+    స్థిరరాశి SDL_కిటికీ_దత్తాంశం *windowdata = X11_కనుగొను_కిటికీ(videodata, కిటికీ);
+    తిరిగి windowdata ? windowdata->కిటికీ : ఖాళీ;
 }
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
-static void xinput2_parse_scrollable_valuators(SDL_XInput2ScrollableDevice *scroll_dev, const XIDeviceEvent *xev)
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+స్థిర శూన్య xinput2_parse_scrollable_valuators(SDL_XInput2ScrollableDevice *scroll_dev, స్థిరరాశి XIDeviceEvent *xev)
 {
-    int values_i = 0;
-    for (int j = 0; j < xev->valuators.mask_len * 8; ++j) {
-        if (!XIMaskIsSet(xev->valuators.mask, j)) {
-            continue;
+    పూర్ణాంకం విలువలు_i = 0;
+    కొరకు (పూర్ణాంకం j = 0; j < xev->valuators.ముసుగు_len * 8; ++j) {
+        ఒకవేళ (!XIMask_Is_సమితి(xev->valuators.ముసుగు, j)) {
+            కొనసాగు;
         }
 
-        for (int k = 0; k < scroll_dev->scroll_info_count; ++k) {
+        కొరకు (పూర్ణాంకం k = 0; k < scroll_dev->scroll_info_లెక్క; ++k) {
             SDL_XInput2ScrollInfo *info = &scroll_dev->scroll_info[k];
-            if (info->number == j) {
-                const double current_val = xev->valuators.values[values_i];
-                const double delta = (info->prev_value - current_val) / info->increment;
+            ఒకవేళ (info->సంఖ్య_2 == j) {
+                స్థిరరాశి ద్విగుణ current_val = xev->valuators.విలువలు[విలువలు_i];
+                స్థిరరాశి ద్విగుణ delta = (info->prev_విలువ - current_val) / info->increment;
                 /* Ignore very large jumps that can happen as a result of overflowing
                  * the maximum range, as the driver will reset the position to zero
                  * at "something that's close to 2^32".
@@ -185,58 +185,58 @@ static void xinput2_parse_scrollable_valuators(SDL_XInput2ScrollableDevice *scro
                  *
                  * http://who-t.blogspot.com/2012/06/xi-21-protocol-design-issues.html
                  */
-                if (info->prev_value_valid && SDL_fabs(delta) < (double)SDL_MAX_SINT32 * 0.95) {
-                    const double x = info->scroll_type == XIScrollTypeHorizontal ? delta : 0;
-                    const double y = info->scroll_type == XIScrollTypeVertical ? delta : 0;
+                ఒకవేళ (info->prev_విలువ_valid && SDL_fabs(delta) < (ద్విగుణ)SDL_MAX_SINT32 * 0.95) {
+                    స్థిరరాశి ద్విగుణ x = info->scroll_type == XIScrollTypeHorizontal ? delta : 0;
+                    స్థిరరాశి ద్విగుణ y = info->scroll_type == XIScrollTypeVertical ? delta : 0;
 
                     SDL_Mouse *mouse = SDL_GetMouse();
-                    SDL_SendMouseWheel(xev->time, mouse->focus, (SDL_MouseID)xev->sourceid, (float)-x, (float)y, SDL_MOUSEWHEEL_NORMAL);
+                    SDL_SendMouseWheel(xev->సమయం, mouse->focus, (SDL_MouseID)xev->sourceid, (దశాంశం)-x, (దశాంశం)y, SDL_MOUSEWHEEL_సాధారణ);
                 }
-                info->prev_value = current_val;
-                info->prev_value_valid = true;
+                info->prev_విలువ = current_val;
+                info->prev_విలువ_valid = true;
             }
         }
 
-        ++values_i;
+        ++విలువలు_i;
     }
 }
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-static void xinput2_normalize_touch_coordinates(SDL_Window *window, double in_x, double in_y, float *out_x, float *out_y)
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+స్థిర శూన్య xinput2_normalize_touch_coordinates(SDL_కిటికీ *కిటికీ, ద్విగుణ లోపల_x, ద్విగుణ లోపల_y, దశాంశం *బహిర్గతం_x, దశాంశం *బహిర్గతం_y)
 {
-    if (window) {
-        if (window->w == 1) {
-            *out_x = 0.5f;
-        } else {
-            *out_x = (float)in_x / (window->w - 1);
+    ఒకవేళ (కిటికీ) {
+        ఒకవేళ (కిటికీ->w == 1) {
+            *బహిర్గతం_x = 0.5f;
+        } లేకపోతే {
+            *బహిర్గతం_x = (దశాంశం)లోపల_x / (కిటికీ->w - 1);
         }
-        if (window->h == 1) {
-            *out_y = 0.5f;
-        } else {
-            *out_y = (float)in_y / (window->h - 1);
+        ఒకవేళ (కిటికీ->h == 1) {
+            *బహిర్గతం_y = 0.5f;
+        } లేకపోతే {
+            *బహిర్గతం_y = (దశాంశం)లోపల_y / (కిటికీ->h - 1);
         }
-    } else {
+    } లేకపోతే {
         // couldn't find the window...
-        *out_x = (float)in_x;
-        *out_y = (float)in_y;
+        *బహిర్గతం_x = (దశాంశం)లోపల_x;
+        *బహిర్గతం_y = (దశాంశం)లోపల_y;
     }
 }
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
 
 bool X11_InitXinput2(SDL_VideoDevice *_this)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    SDL_VideoData *data = _this->internal;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
 
-    int version = 0;
-    XIEventMask eventmask;
-    unsigned char mask[5] = { 0, 0, 0, 0, 0 };
-    int event, err;
+    పూర్ణాంకం సంస్కరణ = 0;
+    XIEvent_ముసుగు eventmask;
+    గుర్తులేని అక్షరం ముసుగు[5] = { 0, 0, 0, 0, 0 };
+    పూర్ణాంకం event, err;
 
     /* XInput2 is required for relative mouse mode, so you probably want to leave this enabled */
-    if (!SDL_GetHintBoolean("SDL_VIDEO_X11_XINPUT2", true)) {
-        return false;
+    ఒకవేళ (!SDL_GetHintBoolean("SDL_VIDEO_X11_XINPUT2", true)) {
+        తిరిగి false;
     }
 
     /*
@@ -248,937 +248,937 @@ bool X11_InitXinput2(SDL_VideoDevice *_this)
      *
      * FIXME:event and err are not needed but if not passed X11_XQueryExtension returns SegmentationFault
      */
-    if (!SDL_X11_HAVE_XINPUT2 ||
-        !X11_XQueryExtension(data->display, "XInputExtension", &xinput2_opcode, &event, &err)) {
-        return false; // X server does not have XInput at all
+    ఒకవేళ (!SDL_X11_HAVE_XINPUT2 ||
+        !X11_XQueryExtension(దత్తాంశం->display, "XInputExtension", &xinput2_opcode, &event, &err)) {
+        తిరిగి false; // X server does not have XInput at all
     }
 
     // We need at least 2.4 for Gesture, 2.2 for Multitouch, 2.0 otherwise.
-    version = query_xinput2_version(data->display, 2, 4);
-    if (!xinput2_version_atleast(version, 2, 0)) {
-        return false; // X server does not support the version we want at all.
+    సంస్కరణ = query_xinput2_సంస్కరణ(దత్తాంశం->display, 2, 4);
+    ఒకవేళ (!xinput2_సంస్కరణ_atleast(సంస్కరణ, 2, 0)) {
+        తిరిగి false; // X server does not support the version we want at all.
     }
 
     xinput2_initialized = true;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO // Smooth scrolling needs XInput 2.1
-    xinput2_scrolling_supported = xinput2_version_atleast(version, 2, 1);
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH // Multitouch needs XInput 2.2
-    xinput2_multitouch_supported = xinput2_version_atleast(version, 2, 2);
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE // Gesture needs XInput 2.4
-    xinput2_gesture_supported = xinput2_version_atleast(version, 2, 4);
-#endif
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO // Smooth scrolling needs XInput 2.1
+    xinput2_scrolling_supported = xinput2_సంస్కరణ_atleast(సంస్కరణ, 2, 1);
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH // Multitouch needs XInput 2.2
+    xinput2_multitouch_supported = xinput2_సంస్కరణ_atleast(సంస్కరణ, 2, 2);
+#అయితే_ముగింపు
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE // Gesture needs XInput 2.4
+    xinput2_gesture_supported = xinput2_సంస్కరణ_atleast(సంస్కరణ, 2, 4);
+#అయితే_ముగింపు
 
     // Populate the atoms for finding relative axes
-    xinput2_rel_x_atom = X11_XInternAtom(data->display, "Rel X", False);
-    xinput2_rel_y_atom = X11_XInternAtom(data->display, "Rel Y", False);
-    xinput2_abs_x_atom = X11_XInternAtom(data->display, "Abs X", False);
-    xinput2_abs_y_atom = X11_XInternAtom(data->display, "Abs Y", False);
+    xinput2_rel_x_atom = X11_XInternAtom(దత్తాంశం->display, "Rel X", False);
+    xinput2_rel_y_atom = X11_XInternAtom(దత్తాంశం->display, "Rel Y", False);
+    xinput2_abs_x_atom = X11_XInternAtom(దత్తాంశం->display, "Abs X", False);
+    xinput2_abs_y_atom = X11_XInternAtom(దత్తాంశం->display, "Abs Y", False);
 
     // Enable raw motion events for this display
     SDL_zero(eventmask);
-    SDL_zeroa(mask);
+    SDL_zeroa(ముసుగు);
     eventmask.deviceid = XIAllMasterDevices;
-    eventmask.mask_len = sizeof(mask);
-    eventmask.mask = mask;
+    eventmask.ముసుగు_len = పరిమాణం(ముసుగు);
+    eventmask.ముసుగు = ముసుగు;
 
-    XISetMask(mask, XI_RawMotion);
-    XISetMask(mask, XI_RawButtonPress);
-    XISetMask(mask, XI_RawButtonRelease);
+    XISet_ముసుగు(ముసుగు, XI_RawMotion);
+    XISet_ముసుగు(ముసుగు, XI_RawButtonPress);
+    XISet_ముసుగు(ముసుగు, XI_RawButtonRelease);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
-    if (xinput2_scrolling_supported) {
-        XISetMask(mask, XI_Motion);
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+    ఒకవేళ (xinput2_scrolling_supported) {
+        XISet_ముసుగు(ముసుగు, XI_Motion);
     }
-#endif
+#అయితే_ముగింపు
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
     // Enable raw touch events if supported
-    if (xinput2_multitouch_supported) {
-        XISetMask(mask, XI_RawTouchBegin);
-        XISetMask(mask, XI_RawTouchUpdate);
-        XISetMask(mask, XI_RawTouchEnd);
+    ఒకవేళ (xinput2_multitouch_supported) {
+        XISet_ముసుగు(ముసుగు, XI_RawTouchBegin);
+        XISet_ముసుగు(ముసుగు, XI_RawTouchUpdate);
+        XISet_ముసుగు(ముసుగు, XI_Raw_Touch_చివర);
     }
-#endif
+#అయితే_ముగింపు
 
-    X11_XISelectEvents(data->display, DefaultRootWindow(data->display), &eventmask, 1);
+    X11_XISelectEvents(దత్తాంశం->display, Default_మూలం_కిటికీ(దత్తాంశం->display), &eventmask, 1);
 
     SDL_zero(eventmask);
-    SDL_zeroa(mask);
+    SDL_zeroa(ముసుగు);
     eventmask.deviceid = XIAllDevices;
-    eventmask.mask_len = sizeof(mask);
-    eventmask.mask = mask;
+    eventmask.ముసుగు_len = పరిమాణం(ముసుగు);
+    eventmask.ముసుగు = ముసుగు;
 
-#ifndef USE_XINPUT2_KEYBOARD
+#నిర్వచితం_కాకపోతే USE_XINPUT2_KEYBOARD
     // If not using the full keyboard handling, register for keypresses to get the event source devices.
-    XISetMask(mask, XI_KeyPress);
-    XISetMask(mask, XI_KeyRelease);
-#endif
+    XISet_ముసుగు(ముసుగు, XI_కీలకం_Press);
+    XISet_ముసుగు(ముసుగు, XI_కీలకం_Release);
+#అయితే_ముగింపు
 
-    XISetMask(mask, XI_HierarchyChanged);
-    X11_XISelectEvents(data->display, DefaultRootWindow(data->display), &eventmask, 1);
+    XISet_ముసుగు(ముసుగు, XI_Hierarchy_మారింది);
+    X11_XISelectEvents(దత్తాంశం->display, Default_మూలం_కిటికీ(దత్తాంశం->display), &eventmask, 1);
 
     X11_Xinput2UpdateDevices(_this);
-    X11_Xinput2UpdatePointerMapping(_this);
+    X11_Xinput2_Update_సూచిక_Mapping(_this);
 
-    return true;
-#else
-    return false;
-#endif
+    తిరిగి true;
+#లేకపోతే
+    తిరిగి false;
+#అయితే_ముగింపు
 }
 
-void X11_QuitXinput2(SDL_VideoDevice *_this)
+శూన్య X11_QuitXinput2(SDL_VideoDevice *_this)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    for (SDL_XInput2DeviceInfo *i = xinput2_device_info, *next = NULL; i; i = next) {
-        next = i->next;
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    కొరకు (SDL_XInput2DeviceInfo *i = xinput2_device_info, *తదుపరి = ఖాళీ; i; i = తదుపరి) {
+        తదుపరి = i->తదుపరి;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
         SDL_free(i->scroll.scroll_info);
-#endif
+#అయితే_ముగింపు
         SDL_free(i);
     }
-    xinput2_device_info = NULL;
+    xinput2_device_info = ఖాళీ;
 
-    SDL_free(xinput2_pointer_button_map);
-    xinput2_pointer_button_map = NULL;
-    xinput2_pointer_button_map_size = 0;
-#endif
+    SDL_free(xinput2_సూచిక_button_map);
+    xinput2_సూచిక_button_map = ఖాళీ;
+    xinput2_సూచిక_button_map_కొలత = 0;
+#అయితే_ముగింపు
 }
 
-void X11_Xinput2UpdatePointerMapping(SDL_VideoDevice *_this)
+శూన్య X11_Xinput2_Update_సూచిక_Mapping(SDL_VideoDevice *_this)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    if (X11_Xinput2IsInitialized()) {
-        SDL_VideoData *vid = _this->internal;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    ఒకవేళ (X11_Xinput2IsInitialized()) {
+        SDL_Video_దత్తాంశం *vid = _this->అంతర్గత;
 
-        SDL_free(xinput2_pointer_button_map);
-        xinput2_pointer_button_map = NULL;
-        xinput2_pointer_button_map_size = 0;
+        SDL_free(xinput2_సూచిక_button_map);
+        xinput2_సూచిక_button_map = ఖాళీ;
+        xinput2_సూచిక_button_map_కొలత = 0;
 
-        xinput2_pointer_button_map_size = X11_XGetPointerMapping(vid->display, NULL, 0);
-        if (xinput2_pointer_button_map_size) {
-            xinput2_pointer_button_map = SDL_calloc(xinput2_pointer_button_map_size, sizeof(unsigned char));
-            if (xinput2_pointer_button_map) {
-                xinput2_pointer_button_map_size = X11_XGetPointerMapping(vid->display, xinput2_pointer_button_map, xinput2_pointer_button_map_size);
-            } else {
-                xinput2_pointer_button_map_size = 0;
+        xinput2_సూచిక_button_map_కొలత = X11_XGet_సూచిక_Mapping(vid->display, ఖాళీ, 0);
+        ఒకవేళ (xinput2_సూచిక_button_map_కొలత) {
+            xinput2_సూచిక_button_map = SDL_calloc(xinput2_సూచిక_button_map_కొలత, పరిమాణం(గుర్తులేని అక్షరం));
+            ఒకవేళ (xinput2_సూచిక_button_map) {
+                xinput2_సూచిక_button_map_కొలత = X11_XGet_సూచిక_Mapping(vid->display, xinput2_సూచిక_button_map, xinput2_సూచిక_button_map_కొలత);
+            } లేకపోతే {
+                xinput2_సూచిక_button_map_కొలత = 0;
             }
         }
     }
-#endif
+#అయితే_ముగింపు
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
 // xi2 device went away? take it out of the list.
-static void xinput2_remove_device_info(const int device_id)
+స్థిర శూన్య xinput2_remove_device_info(స్థిరరాశి పూర్ణాంకం device_id)
 {
-    for (SDL_XInput2DeviceInfo *devinfo = xinput2_device_info, *prev = NULL; devinfo; devinfo = devinfo->next) {
-        if (devinfo->device_id == device_id) {
-            SDL_assert((devinfo == xinput2_device_info) == (prev == NULL));
-            if (!prev) {
-                xinput2_device_info = devinfo->next;
-            } else {
-                prev->next = devinfo->next;
+    కొరకు (SDL_XInput2DeviceInfo *devinfo = xinput2_device_info, *prev = ఖాళీ; devinfo; devinfo = devinfo->తదుపరి) {
+        ఒకవేళ (devinfo->device_id == device_id) {
+            SDL_assert((devinfo == xinput2_device_info) == (prev == ఖాళీ));
+            ఒకవేళ (!prev) {
+                xinput2_device_info = devinfo->తదుపరి;
+            } లేకపోతే {
+                prev->తదుపరి = devinfo->తదుపరి;
             }
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
             SDL_free(devinfo->scroll.scroll_info);
-#endif
+#అయితే_ముగింపు
             SDL_free(devinfo);
-            return;
+            తిరిగి;
         }
         prev = devinfo;
     }
 }
 
-static void xinput2_reset_device_valuators(void)
+స్థిర శూన్య xinput2_reset_device_valuators(శూన్య)
 {
-    for (SDL_XInput2DeviceInfo *devinfo = xinput2_device_info; devinfo; devinfo = devinfo->next) {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
-        for (int i = 0; i < devinfo->scroll.scroll_info_count; ++i) {
-            devinfo->scroll.scroll_info[i].prev_value_valid = false;
+    కొరకు (SDL_XInput2DeviceInfo *devinfo = xinput2_device_info; devinfo; devinfo = devinfo->తదుపరి) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+        కొరకు (పూర్ణాంకం i = 0; i < devinfo->scroll.scroll_info_లెక్క; ++i) {
+            devinfo->scroll.scroll_info[i].prev_విలువ_valid = false;
         }
-#endif
+#అయితే_ముగింపు
         devinfo->relative.prev_coord_valid[0] = false;
         devinfo->relative.prev_coord_valid[1] = false;
     }
 }
 
-static void xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClassInfo **classes, int num_classes)
+స్థిర శూన్య xinput2_update_device_info(SDL_XInput2DeviceInfo *devinfo, XIAnyClassInfo **classes, పూర్ణాంకం అంకె_classes)
 {
-    if (!devinfo) {
-        return;
+    ఒకవేళ (!devinfo) {
+        తిరిగి;
     }
 
     bool have_rel_x = false, have_rel_y = false;
     bool have_abs_x = false, have_abs_y = false;
-    int rel_axis_index = 0;
+    పూర్ణాంకం rel_axis_సూచీ = 0;
 
     SDL_zero(devinfo->relative);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
     // Don't unnecessarily reallocate the array.
-    int allocated_scroll_info_count = devinfo->scroll.scroll_info_count;
-    devinfo->scroll.scroll_info_count = 0;
-#endif
+    పూర్ణాంకం allocated_scroll_info_లెక్క = devinfo->scroll.scroll_info_లెక్క;
+    devinfo->scroll.scroll_info_లెక్క = 0;
+#అయితే_ముగింపు
 
-    for (int i = 0; i < num_classes; ++i) {
-        if (classes[i]->type == XIValuatorClass) {
+    కొరకు (పూర్ణాంకం i = 0; i < అంకె_classes; ++i) {
+        ఒకవేళ (classes[i]->type == XIValuatorClass) {
             /* Search for relative axes with the following priority:
              *  - Labelled 'Rel X'/'Rel Y'
              *   - Labelled 'Abs X'/'Abs Y'
              *    - The first two axes found
              */
-            const XIValuatorClassInfo *v = (const XIValuatorClassInfo *)classes[i];
-            if (v->label == xinput2_rel_x_atom || (v->label == xinput2_abs_x_atom && !have_rel_x) ||
-                (rel_axis_index == 0 && !have_rel_x && !have_abs_x)) {
-                devinfo->relative.number[0] = v->number;
-                devinfo->relative.relative[0] = (v->mode == XIModeRelative);
+            స్థిరరాశి XIValuatorClassInfo *v = (స్థిరరాశి XIValuatorClassInfo *)classes[i];
+            ఒకవేళ (v->label == xinput2_rel_x_atom || (v->label == xinput2_abs_x_atom && !have_rel_x) ||
+                (rel_axis_సూచీ == 0 && !have_rel_x && !have_abs_x)) {
+                devinfo->relative.సంఖ్య_2[0] = v->సంఖ్య_2;
+                devinfo->relative.relative[0] = (v->బహుళకం == XIModeRelative);
                 devinfo->relative.minval[0] = v->min;
                 devinfo->relative.maxval[0] = v->max;
 
-                if (v->label == xinput2_rel_x_atom) {
+                ఒకవేళ (v->label == xinput2_rel_x_atom) {
                     have_rel_x = true;
-                } else if (v->label == xinput2_abs_x_atom) {
+                } లేకపోతే ఒకవేళ (v->label == xinput2_abs_x_atom) {
                     have_abs_x = true;
                 }
-            } else if (v->label == xinput2_rel_y_atom || (v->label == xinput2_abs_y_atom && !have_rel_y) ||
-                       (rel_axis_index == 1 && !have_rel_y && !have_abs_y)) {
-                devinfo->relative.number[1] = v->number;
-                devinfo->relative.relative[1] = (v->mode == XIModeRelative);
+            } లేకపోతే ఒకవేళ (v->label == xinput2_rel_y_atom || (v->label == xinput2_abs_y_atom && !have_rel_y) ||
+                       (rel_axis_సూచీ == 1 && !have_rel_y && !have_abs_y)) {
+                devinfo->relative.సంఖ్య_2[1] = v->సంఖ్య_2;
+                devinfo->relative.relative[1] = (v->బహుళకం == XIModeRelative);
                 devinfo->relative.minval[1] = v->min;
                 devinfo->relative.maxval[1] = v->max;
 
-                if (v->label == xinput2_rel_y_atom) {
+                ఒకవేళ (v->label == xinput2_rel_y_atom) {
                     have_rel_y = true;
-                } else if (v->label == xinput2_abs_y_atom) {
+                } లేకపోతే ఒకవేళ (v->label == xinput2_abs_y_atom) {
                     have_abs_y = true;
                 }
             }
 
-            ++rel_axis_index;
+            ++rel_axis_సూచీ;
         }
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
-        else if (classes[i]->type == XIScrollClass) {
-            const XIScrollClassInfo *s = (XIScrollClassInfo *)classes[i];
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+        లేకపోతే ఒకవేళ (classes[i]->type == XIScrollClass) {
+            స్థిరరాశి XIScrollClassInfo *s = (XIScrollClassInfo *)classes[i];
 
             // Allocate new scroll info entries two at a time, as they typically come in a horizontal/vertical pair.
-            if (devinfo->scroll.scroll_info_count == allocated_scroll_info_count) {
-                devinfo->scroll.scroll_info = SDL_realloc(devinfo->scroll.scroll_info, (allocated_scroll_info_count + 2) * sizeof(SDL_XInput2ScrollInfo));
-                if (!devinfo->scroll.scroll_info) {
+            ఒకవేళ (devinfo->scroll.scroll_info_లెక్క == allocated_scroll_info_లెక్క) {
+                devinfo->scroll.scroll_info = SDL_realloc(devinfo->scroll.scroll_info, (allocated_scroll_info_లెక్క + 2) * పరిమాణం(SDL_XInput2ScrollInfo));
+                ఒకవేళ (!devinfo->scroll.scroll_info) {
                     // No memory, oh well...
-                    allocated_scroll_info_count = 0;
-                    devinfo->scroll.scroll_info_count = 0;
-                    continue;
+                    allocated_scroll_info_లెక్క = 0;
+                    devinfo->scroll.scroll_info_లెక్క = 0;
+                    కొనసాగు;
                 }
 
-                allocated_scroll_info_count += 2;
+                allocated_scroll_info_లెక్క += 2;
             }
 
-            SDL_XInput2ScrollInfo *scroll_info = &devinfo->scroll.scroll_info[devinfo->scroll.scroll_info_count];
-            ++devinfo->scroll.scroll_info_count;
+            SDL_XInput2ScrollInfo *scroll_info = &devinfo->scroll.scroll_info[devinfo->scroll.scroll_info_లెక్క];
+            ++devinfo->scroll.scroll_info_లెక్క;
 
             SDL_zerop(scroll_info);
-            scroll_info->number = s->number;
+            scroll_info->సంఖ్య_2 = s->సంఖ్య_2;
             scroll_info->scroll_type = s->scroll_type;
             scroll_info->increment = s->increment;
         }
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
     }
 }
 
-static SDL_XInput2DeviceInfo *xinput2_get_cached_device_info(const int device_id)
+స్థిర SDL_XInput2DeviceInfo *xinput2_get_cached_device_info(స్థిరరాశి పూర్ణాంకం device_id)
 {
-    for (SDL_XInput2DeviceInfo *devinfo = xinput2_device_info, *prev = NULL; devinfo; devinfo = devinfo->next) {
-        if (devinfo->device_id == device_id) {
-            SDL_assert((devinfo == xinput2_device_info) == (prev == NULL));
-            if (prev) { // move this to the front of the list, assuming we'll get more from this one.
-                prev->next = devinfo->next;
-                devinfo->next = xinput2_device_info;
+    కొరకు (SDL_XInput2DeviceInfo *devinfo = xinput2_device_info, *prev = ఖాళీ; devinfo; devinfo = devinfo->తదుపరి) {
+        ఒకవేళ (devinfo->device_id == device_id) {
+            SDL_assert((devinfo == xinput2_device_info) == (prev == ఖాళీ));
+            ఒకవేళ (prev) { // move this to the front of the list, assuming we'll get more from this one.
+                prev->తదుపరి = devinfo->తదుపరి;
+                devinfo->తదుపరి = xinput2_device_info;
                 xinput2_device_info = devinfo;
             }
-            return devinfo;
+            తిరిగి devinfo;
         }
         prev = devinfo;
     }
 
-    return NULL;
+    తిరిగి ఖాళీ;
 }
 
-static SDL_XInput2DeviceInfo *xinput2_get_device_info(SDL_VideoData *videodata, const int device_id)
+స్థిర SDL_XInput2DeviceInfo *xinput2_get_device_info(SDL_Video_దత్తాంశం *videodata, స్థిరరాశి పూర్ణాంకం device_id)
 {
     // Cache device info as we see new devices.
     SDL_XInput2DeviceInfo *devinfo = xinput2_get_cached_device_info(device_id);
-    if (devinfo) {
-        return devinfo;
+    ఒకవేళ (devinfo) {
+        తిరిగి devinfo;
     }
 
     // Don't know about this device yet, query and cache it.
-    devinfo = (SDL_XInput2DeviceInfo *)SDL_calloc(1, sizeof(SDL_XInput2DeviceInfo));
-    if (!devinfo) {
-        return NULL;
+    devinfo = (SDL_XInput2DeviceInfo *)SDL_calloc(1, పరిమాణం(SDL_XInput2DeviceInfo));
+    ఒకవేళ (!devinfo) {
+        తిరిగి ఖాళీ;
     }
 
-    int i;
+    పూర్ణాంకం i;
     XIDeviceInfo *xidevinfo = X11_XIQueryDevice(videodata->display, device_id, &i);
-    if (!xidevinfo) {
+    ఒకవేళ (!xidevinfo) {
         SDL_free(devinfo);
-        return NULL;
+        తిరిగి ఖాళీ;
     }
 
-    xinput2_update_device_info(devinfo, xidevinfo->classes, xidevinfo->num_classes);
+    xinput2_update_device_info(devinfo, xidevinfo->classes, xidevinfo->అంకె_classes);
     X11_XIFreeDeviceInfo(xidevinfo);
 
     devinfo->device_id = device_id;
-    devinfo->next = xinput2_device_info;
+    devinfo->తదుపరి = xinput2_device_info;
     xinput2_device_info = devinfo;
 
-    return devinfo;
+    తిరిగి devinfo;
 }
-#endif
+#అయితే_ముగింపు
 
-void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
+శూన్య X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    SDL_VideoData *videodata = _this->internal;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
 
-    if (cookie->extension != xinput2_opcode) {
-        return;
+    ఒకవేళ (cookie->extension != xinput2_opcode) {
+        తిరిగి;
     }
 
-    switch (cookie->evtype) {
-    case XI_HierarchyChanged:
+    ఎంపిక (cookie->evtype) {
+    స్థితి XI_Hierarchy_మారింది:
     {
-        const XIHierarchyEvent *hierev = (const XIHierarchyEvent *)cookie->data;
-        for (int i = 0; i < hierev->num_info; ++i) {
+        స్థిరరాశి XIHierarchyEvent *hierev = (స్థిరరాశి XIHierarchyEvent *)cookie->దత్తాంశం;
+        కొరకు (పూర్ణాంకం i = 0; i < hierev->అంకె_info; ++i) {
             // pen stuff...
-            if ((hierev->info[i].flags & (XISlaveRemoved | XIDeviceDisabled)) != 0) {
+            ఒకవేళ ((hierev->info[i].flags & (XISlaveRemoved | XIDeviceDisabled)) != 0) {
                 X11_RemovePenByDeviceID(hierev->info[i].deviceid);  // it's okay if this thing isn't actually a pen, it'll handle it.
-            } else if ((hierev->info[i].flags & (XISlaveAdded | XIDeviceEnabled)) != 0) {
-                X11_MaybeAddPenByDeviceID(_this, hierev->info[i].deviceid);  // this will do more checks to make sure this is valid.
+            } లేకపోతే ఒకవేళ ((hierev->info[i].flags & (XISlaveAdded | XIDeviceEnabled)) != 0) {
+                X11_Maybe_కూడు_Pen_By_Device_ID(_this, hierev->info[i].deviceid);  // this will do more checks to make sure this is valid.
             }
 
             // not pen stuff...
-            if (hierev->info[i].flags & (XIMasterRemoved | XISlaveRemoved)) {
+            ఒకవేళ (hierev->info[i].flags & (XIMasterRemoved | XISlaveRemoved)) {
                 xinput2_remove_device_info(hierev->info[i].deviceid);
             }
         }
-        videodata->xinput_hierarchy_changed = true;
-    } break;
+        videodata->xinput_hierarchy_మారింది = true;
+    } ఆపు;
 
     // !!! FIXME: XI_DeviceChanged fires when device valuator mappings need to be updated. Is XI_PropertyEvent needed for anything?
     // case XI_PropertyEvent:
-    case XI_DeviceChanged:
+    స్థితి XI_Device_మారింది:
     {
-        const XIDeviceChangedEvent *dcev = (const XIDeviceChangedEvent *)cookie->data;
+        స్థిరరాశి XIDevice_మారింది_Event *dcev = (స్థిరరాశి XIDevice_మారింది_Event *)cookie->దత్తాంశం;
         SDL_XInput2DeviceInfo *devinfo = xinput2_get_cached_device_info(dcev->deviceid);
-        if (devinfo) {
-            xinput2_update_device_info(devinfo, dcev->classes, dcev->num_classes);
+        ఒకవేళ (devinfo) {
+            xinput2_update_device_info(devinfo, dcev->classes, dcev->అంకె_classes);
         }
-    } break;
+    } ఆపు;
 
-    case XI_PropertyEvent:
+    స్థితి XI_PropertyEvent:
     {
-        const XIPropertyEvent *proev = (const XIPropertyEvent *)cookie->data;
+        స్థిరరాశి XIPropertyEvent *proev = (స్థిరరాశి XIPropertyEvent *)cookie->దత్తాంశం;
         // Handle pen proximity enter/leave
-        if (proev->what == XIPropertyModified && proev->property == videodata->atoms.pen_atom_wacom_serial_ids) {
-            const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
-            SDL_WindowData *windowdata = X11_FindWindow(videodata, xev->event);
-            X11_NotifyPenProximityChange(_this, windowdata ? windowdata->window : NULL, proev->deviceid);
+        ఒకవేళ (proev->what == XIPropertyModified && proev->property == videodata->atoms.pen_atom_wacom_serial_ids) {
+            స్థిరరాశి XIDeviceEvent *xev = (స్థిరరాశి XIDeviceEvent *)cookie->దత్తాంశం;
+            SDL_కిటికీ_దత్తాంశం *windowdata = X11_కనుగొను_కిటికీ(videodata, xev->event);
+            X11_NotifyPenProximityChange(_this, windowdata ? windowdata->కిటికీ : ఖాళీ, proev->deviceid);
         }
-    } break;
+    } ఆపు;
 
-    case XI_RawMotion:
+    స్థితి XI_RawMotion:
     {
-        const XIRawEvent *rawev = (const XIRawEvent *)cookie->data;
-        const bool is_pen = X11_FindPenByDeviceID(rawev->sourceid) != NULL;
+        స్థిరరాశి XIRawEvent *rawev = (స్థిరరాశి XIRawEvent *)cookie->దత్తాంశం;
+        స్థిరరాశి bool is_pen = X11_కనుగొను_Pen_By_Device_ID(rawev->sourceid) != ఖాళీ;
 
-        videodata->global_mouse_changed = true;
-        if (is_pen) {
-            break; // Pens check for XI_Motion instead
+        videodata->global_mouse_మారింది = true;
+        ఒకవేళ (is_pen) {
+            ఆపు; // Pens check for XI_Motion instead
         }
 
         SDL_XInput2DeviceInfo *devinfo = xinput2_get_device_info(videodata, rawev->deviceid);
-        if (!devinfo) {
-            break; // oh well.
+        ఒకవేళ (!devinfo) {
+            ఆపు; // oh well.
         }
 
         parse_relative_valuators(&devinfo->relative, rawev);
-    } break;
+    } ఆపు;
 
-    case XI_KeyPress:
-    case XI_KeyRelease:
+    స్థితి XI_కీలకం_Press:
+    స్థితి XI_కీలకం_Release:
     {
-        const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
+        స్థిరరాశి XIDeviceEvent *xev = (స్థిరరాశి XIDeviceEvent *)cookie->దత్తాంశం;
 
-#ifdef USE_XINPUT2_KEYBOARD
-        SDL_WindowData *windowdata = X11_FindWindow(videodata, xev->event);
+#నిర్వచితమైతే USE_XINPUT2_KEYBOARD
+        SDL_కిటికీ_దత్తాంశం *windowdata = X11_కనుగొను_కిటికీ(videodata, xev->event);
         XEvent xevent;
 
-        if (xev->deviceid != xev->sourceid) {
+        ఒకవేళ (xev->deviceid != xev->sourceid) {
             // Discard events from "Master" devices to avoid duplicates.
-            break;
+            ఆపు;
         }
 
-        if (cookie->evtype == XI_KeyPress) {
-            xevent.type = KeyPress;
-        } else {
-            xevent.type = KeyRelease;
+        ఒకవేళ (cookie->evtype == XI_కీలకం_Press) {
+            xevent.type = కీలకం_Press;
+        } లేకపోతే {
+            xevent.type = కీలకం_Release;
         }
         xevent.xkey.serial = xev->serial;
         xevent.xkey.send_event = xev->send_event;
         xevent.xkey.display = xev->display;
-        xevent.xkey.window = xev->event;
-        xevent.xkey.root = xev->root;
-        xevent.xkey.subwindow = xev->child;
-        xevent.xkey.time = xev->time;
-        xevent.xkey.x = (int)xev->event_x;
-        xevent.xkey.y = (int)xev->event_y;
-        xevent.xkey.x_root = (int)xev->root_x;
-        xevent.xkey.y_root = (int)xev->root_y;
+        xevent.xkey.కిటికీ = xev->event;
+        xevent.xkey.మూలం = xev->మూలం;
+        xevent.xkey.subwindow = xev->బిడ్డ;
+        xevent.xkey.సమయం = xev->సమయం;
+        xevent.xkey.x = (పూర్ణాంకం)xev->event_x;
+        xevent.xkey.y = (పూర్ణాంకం)xev->event_y;
+        xevent.xkey.x_మూలం = (పూర్ణాంకం)xev->మూలం_x;
+        xevent.xkey.y_మూలం = (పూర్ణాంకం)xev->మూలం_y;
         xevent.xkey.state = xev->mods.effective;
         xevent.xkey.keycode = xev->detail;
         xevent.xkey.same_screen = 1;
 
-        X11_HandleKeyEvent(_this, windowdata, (SDL_KeyboardID)xev->sourceid, &xevent);
-#else
+        X11_Handle_కీలకం_Event(_this, windowdata, (SDL_KeyboardID)xev->sourceid, &xevent);
+#లేకపోతే
         /* Keys are handled through core X events, however, note the device ID and
          * associated serial, so that the source device ID can be passed through.
          */
-        videodata->xinput_last_key_serial = xev->serial;
-        videodata->xinput_last_keyboard_device = xev->sourceid;
-#endif
-    } break;
+        videodata->xinput_చివరి_కీలకం_serial = xev->serial;
+        videodata->xinput_చివరి_keyboard_device = xev->sourceid;
+#అయితే_ముగింపు
+    } ఆపు;
 
-    case XI_RawButtonPress:
-    case XI_RawButtonRelease:
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-    case XI_RawTouchBegin:
-    case XI_RawTouchUpdate:
-    case XI_RawTouchEnd:
-#endif
+    స్థితి XI_RawButtonPress:
+    స్థితి XI_RawButtonRelease:
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+    స్థితి XI_RawTouchBegin:
+    స్థితి XI_RawTouchUpdate:
+    స్థితి XI_Raw_Touch_చివర:
+#అయితే_ముగింపు
     {
-        videodata->global_mouse_changed = true;
-    } break;
+        videodata->global_mouse_మారింది = true;
+    } ఆపు;
 
-    case XI_ButtonPress:
-    case XI_ButtonRelease:
+    స్థితి XI_ButtonPress:
+    స్థితి XI_ButtonRelease:
     {
-        const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
-        X11_PenHandle *pen = X11_FindPenByDeviceID(xev->sourceid);
-        int button = xev->detail;
-        const bool down = (cookie->evtype == XI_ButtonPress);
-#if defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
-        bool pointer_emulated = (xev->flags & XIPointerEmulated) != 0;
-#else
-        bool pointer_emulated = false;
-#endif
+        స్థిరరాశి XIDeviceEvent *xev = (స్థిరరాశి XIDeviceEvent *)cookie->దత్తాంశం;
+        X11_PenHandle *pen = X11_కనుగొను_Pen_By_Device_ID(xev->sourceid);
+        పూర్ణాంకం button = xev->detail;
+        స్థిరరాశి bool కిందికి = (cookie->evtype == XI_ButtonPress);
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
+        bool సూచిక_emulated = (xev->flags & XIPointerEmulated) != 0;
+#లేకపోతే
+        bool సూచిక_emulated = false;
+#అయితే_ముగింపు
 
         // Store the button serial to filter out redundant core button events.
-        videodata->xinput_last_button_serial = xev->serial;
+        videodata->xinput_చివరి_button_serial = xev->serial;
 
-        if (pen) {
-            if (xev->deviceid != xev->sourceid) {
+        ఒకవేళ (pen) {
+            ఒకవేళ (xev->deviceid != xev->sourceid) {
                 // Discard events from "Master" devices to avoid duplicates.
-                break;
+                ఆపు;
             }
             // Only report button event; if there was also pen movement / pressure changes, we expect an XI_Motion event first anyway.
-            SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-            if (button == 1) { // button 1 is the pen tip
-                SDL_SendPenTouch(0, pen->pen, window, pen->is_eraser, down);
-            } else {
-                SDL_SendPenButton(0, pen->pen, window, button - 1, down);
+            SDL_కిటికీ *కిటికీ = xinput2_get_sdlwindow(videodata, xev->event);
+            ఒకవేళ (button == 1) { // button 1 is the pen tip
+                SDL_SendPenTouch(0, pen->pen, కిటికీ, pen->is_eraser, కిందికి);
+            } లేకపోతే {
+                SDL_SendPenButton(0, pen->pen, కిటికీ, button - 1, కిందికి);
             }
-        } else if (!pointer_emulated) {
+        } లేకపోతే ఒకవేళ (!సూచిక_emulated) {
             // Otherwise assume a regular mouse
-            SDL_WindowData *windowdata = X11_FindWindow(videodata, xev->event);
-            int x_ticks = 0, y_ticks = 0;
+            SDL_కిటికీ_దత్తాంశం *windowdata = X11_కనుగొను_కిటికీ(videodata, xev->event);
+            పూర్ణాంకం x_ticks = 0, y_ticks = 0;
 
-            if (xev->deviceid != videodata->xinput_master_pointer_device) {
+            ఒకవేళ (xev->deviceid != videodata->xinput_master_సూచిక_device) {
                 /* Ignore slave button events on non-focused windows, as they can arrive before FocusIn events,
                  * or result in focus being incorrectly set while a grab is active.
                  */
-                if (SDL_GetMouseFocus() != windowdata->window) {
-                    break;
+                ఒకవేళ (SDL_GetMouseFocus() != windowdata->కిటికీ) {
+                    ఆపు;
                 }
 
                 // Slave pointer devices don't have button remapping applied automatically, so do it manually.
-                if (button <= xinput2_pointer_button_map_size) {
-                    button = xinput2_pointer_button_map[button - 1];
+                ఒకవేళ (button <= xinput2_సూచిక_button_map_కొలత) {
+                    button = xinput2_సూచిక_button_map[button - 1];
                 }
             }
 
             /* Discard wheel events from "Master" devices to avoid duplicates,
              * as coarse wheel events are stateless and can't be deduplicated.
              */
-            if (xev->deviceid != xev->sourceid && X11_IsWheelEvent(button, &x_ticks, &y_ticks)) {
-                break;
+            ఒకవేళ (xev->deviceid != xev->sourceid && X11_IsWheelEvent(button, &x_ticks, &y_ticks)) {
+                ఆపు;
             }
 
-            if (down) {
+            ఒకవేళ (కిందికి) {
                 X11_HandleButtonPress(_this, windowdata, (SDL_MouseID)xev->sourceid, button,
-                                      (float)xev->event_x, (float)xev->event_y, xev->time, xev->serial);
-            } else {
-                X11_HandleButtonRelease(_this, windowdata, (SDL_MouseID)xev->sourceid, button, xev->time);
+                                      (దశాంశం)xev->event_x, (దశాంశం)xev->event_y, xev->సమయం, xev->serial);
+            } లేకపోతే {
+                X11_HandleButtonRelease(_this, windowdata, (SDL_MouseID)xev->sourceid, button, xev->సమయం);
             }
         }
-    } break;
+    } ఆపు;
 
-    case XI_Enter:
+    స్థితి XI_Enter:
     {
         xinput2_reset_device_valuators();
-    } break;
+    } ఆపు;
 
     /* Register to receive XI_Motion (which deactivates MotionNotify), so that we can distinguish
        real mouse motions from synthetic ones, for multitouch and pen support. */
-    case XI_Motion:
+    స్థితి XI_Motion:
     {
-        const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
-#if defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
-        bool pointer_emulated = (xev->flags & XIPointerEmulated) != 0;
-#else
-        bool pointer_emulated = false;
-#endif
+        స్థిరరాశి XIDeviceEvent *xev = (స్థిరరాశి XIDeviceEvent *)cookie->దత్తాంశం;
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
+        bool సూచిక_emulated = (xev->flags & XIPointerEmulated) != 0;
+#లేకపోతే
+        bool సూచిక_emulated = false;
+#అయితే_ముగింపు
 
-        videodata->global_mouse_changed = true;
+        videodata->global_mouse_మారింది = true;
 
-        X11_PenHandle *pen = X11_FindPenByDeviceID(xev->sourceid);
+        X11_PenHandle *pen = X11_కనుగొను_Pen_By_Device_ID(xev->sourceid);
 
-        if (pen) {
-            if (xev->deviceid != xev->sourceid) {
+        ఒకవేళ (pen) {
+            ఒకవేళ (xev->deviceid != xev->sourceid) {
                 // Discard events from "Master" devices to avoid duplicates.
-                break;
+                ఆపు;
             }
 
-            SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-            SDL_SendPenMotion(0, pen->pen, window, (float) xev->event_x, (float) xev->event_y);
+            SDL_కిటికీ *కిటికీ = xinput2_get_sdlwindow(videodata, xev->event);
+            SDL_SendPenMotion(0, pen->pen, కిటికీ, (దశాంశం) xev->event_x, (దశాంశం) xev->event_y);
 
-            float axes[SDL_PEN_AXIS_COUNT];
-            X11_PenAxesFromValuators(pen, xev->valuators.values, xev->valuators.mask, xev->valuators.mask_len, axes);
+            దశాంశం axes[SDL_PEN_AXIS_లెక్క];
+            X11_PenAxesFromValuators(pen, xev->valuators.విలువలు, xev->valuators.ముసుగు, xev->valuators.ముసుగు_len, axes);
 
-            for (int i = 0; i < SDL_arraysize(axes); i++) {
-                if (pen->valuator_for_axis[i] != SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
-                    SDL_SendPenAxis(0, pen->pen, window, (SDL_PenAxis) i, axes[i]);
+            కొరకు (పూర్ణాంకం i = 0; i < SDL_arraysize(axes); i++) {
+                ఒకవేళ (pen->valuator_for_axis[i] != SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
+                    SDL_SendPenAxis(0, pen->pen, కిటికీ, (SDL_PenAxis) i, axes[i]);
                 }
             }
-        } else if (!pointer_emulated) {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
-            if (xev->deviceid == xev->sourceid) {
+        } లేకపోతే ఒకవేళ (!సూచిక_emulated) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO
+            ఒకవేళ (xev->deviceid == xev->sourceid) {
                 SDL_XInput2DeviceInfo *devinfo = xinput2_get_device_info(videodata, xev->deviceid);
-                if (devinfo) {
+                ఒకవేళ (devinfo) {
                     xinput2_parse_scrollable_valuators(&devinfo->scroll, xev);
                 }
             }
-#endif
+#అయితే_ముగింపు
 
             /* Use the master device for non-relative motion, as the slave devices can seemingly lag behind,
              * except when the mouse is grabbed and touches are active, as core input events are used for
              * absolute motion while the mouse is grabbed, and core events don't have the XIPointerEmulated
              * flag to filter out pointer events emulated from touch events.
              */
-            SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-            if (window && (xev->deviceid == videodata->xinput_master_pointer_device || (xinput2_active_touch_count && window->internal->mouse_grabbed))) {
+            SDL_కిటికీ *కిటికీ = xinput2_get_sdlwindow(videodata, xev->event);
+            ఒకవేళ (కిటికీ && (xev->deviceid == videodata->xinput_master_సూచిక_device || (xinput2_చురుకైన_touch_లెక్క && కిటికీ->అంతర్గత->mouse_grabbed))) {
                 SDL_Mouse *mouse = SDL_GetMouse();
-                if (!mouse->relative_mode) {
-                        X11_ProcessHitTest(_this, window->internal, (float)xev->event_x, (float)xev->event_y, false);
-                        SDL_SendMouseMotion(0, window, SDL_GLOBAL_MOUSE_ID, false, (float)xev->event_x, (float)xev->event_y);
+                ఒకవేళ (!mouse->relative_బహుళకం) {
+                        X11_Process_తగిలింది_Test(_this, కిటికీ->అంతర్గత, (దశాంశం)xev->event_x, (దశాంశం)xev->event_y, false);
+                        SDL_SendMouseMotion(0, కిటికీ, SDL_GLOBAL_MOUSE_ID, false, (దశాంశం)xev->event_x, (దశాంశం)xev->event_y);
                 }
             }
         }
-    } break;
+    } ఆపు;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-    case XI_TouchBegin:
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+    స్థితి XI_TouchBegin:
     {
-        const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
-        float x, y;
-        ++xinput2_active_touch_count;
-        SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-        xinput2_normalize_touch_coordinates(window, xev->event_x, xev->event_y, &x, &y);
-        SDL_SendTouch(0, xev->sourceid, xev->detail, window, SDL_EVENT_FINGER_DOWN, x, y, 1.0);
-    } break;
+        స్థిరరాశి XIDeviceEvent *xev = (స్థిరరాశి XIDeviceEvent *)cookie->దత్తాంశం;
+        దశాంశం x, y;
+        ++xinput2_చురుకైన_touch_లెక్క;
+        SDL_కిటికీ *కిటికీ = xinput2_get_sdlwindow(videodata, xev->event);
+        xinput2_normalize_touch_coordinates(కిటికీ, xev->event_x, xev->event_y, &x, &y);
+        SDL_SendTouch(0, xev->sourceid, xev->detail, కిటికీ, SDL_EVENT_FINGER_కిందికి, x, y, 1.0);
+    } ఆపు;
 
-    case XI_TouchEnd:
+    స్థితి XI_Touch_చివర:
     {
-        const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
-        float x, y;
-        SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-        if (!--xinput2_active_touch_count && window && window->internal->mouse_grabbed) {
+        స్థిరరాశి XIDeviceEvent *xev = (స్థిరరాశి XIDeviceEvent *)cookie->దత్తాంశం;
+        దశాంశం x, y;
+        SDL_కిటికీ *కిటికీ = xinput2_get_sdlwindow(videodata, xev->event);
+        ఒకవేళ (!--xinput2_చురుకైన_touch_లెక్క && కిటికీ && కిటికీ->అంతర్గత->mouse_grabbed) {
             xinput2_grabbed_touch_raised = true;
         }
-        xinput2_normalize_touch_coordinates(window, xev->event_x, xev->event_y, &x, &y);
-        SDL_SendTouch(0, xev->sourceid, xev->detail, window, SDL_EVENT_FINGER_UP, x, y, 1.0);
-    } break;
+        xinput2_normalize_touch_coordinates(కిటికీ, xev->event_x, xev->event_y, &x, &y);
+        SDL_SendTouch(0, xev->sourceid, xev->detail, కిటికీ, SDL_EVENT_FINGER_పైకి, x, y, 1.0);
+    } ఆపు;
 
-    case XI_TouchUpdate:
+    స్థితి XI_TouchUpdate:
     {
-        const XIDeviceEvent *xev = (const XIDeviceEvent *)cookie->data;
-        float x, y;
-        SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-        xinput2_normalize_touch_coordinates(window, xev->event_x, xev->event_y, &x, &y);
-        SDL_SendTouchMotion(0, xev->sourceid, xev->detail, window, x, y, 1.0);
-    } break;
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+        స్థిరరాశి XIDeviceEvent *xev = (స్థిరరాశి XIDeviceEvent *)cookie->దత్తాంశం;
+        దశాంశం x, y;
+        SDL_కిటికీ *కిటికీ = xinput2_get_sdlwindow(videodata, xev->event);
+        xinput2_normalize_touch_coordinates(కిటికీ, xev->event_x, xev->event_y, &x, &y);
+        SDL_SendTouchMotion(0, xev->sourceid, xev->detail, కిటికీ, x, y, 1.0);
+    } ఆపు;
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
-    case XI_GesturePinchBegin:
-    case XI_GesturePinchUpdate:
-    case XI_GesturePinchEnd:
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
+    స్థితి XI_GesturePinchBegin:
+    స్థితి XI_GesturePinchUpdate:
+    స్థితి XI_Gesture_Pinch_చివర:
     {
-        const XIGesturePinchEvent *xev = (const XIGesturePinchEvent *)cookie->data;
-        float x, y;
-        SDL_Window *window = xinput2_get_sdlwindow(videodata, xev->event);
-        xinput2_normalize_touch_coordinates(window, xev->event_x, xev->event_y, &x, &y);
+        స్థిరరాశి XIGesturePinchEvent *xev = (స్థిరరాశి XIGesturePinchEvent *)cookie->దత్తాంశం;
+        దశాంశం x, y;
+        SDL_కిటికీ *కిటికీ = xinput2_get_sdlwindow(videodata, xev->event);
+        xinput2_normalize_touch_coordinates(కిటికీ, xev->event_x, xev->event_y, &x, &y);
 
-        if (cookie->evtype == XI_GesturePinchBegin) {
-            SDL_SendPinch(SDL_EVENT_PINCH_BEGIN, 0, window, 0, -1.0f, -1.0f, -1.0f, -1.0f);
-        } else if (cookie->evtype == XI_GesturePinchUpdate) {
-            SDL_SendPinch(SDL_EVENT_PINCH_UPDATE, 0, window, (float)xev->scale, -1.0f, -1.0f, -1.0f, -1.0f);
-        } else {
-            SDL_SendPinch(SDL_EVENT_PINCH_END, 0, window, 0, -1.0f, -1.0f, -1.0f, -1.0f);
+        ఒకవేళ (cookie->evtype == XI_GesturePinchBegin) {
+            SDL_SendPinch(SDL_EVENT_PINCH_BEGIN, 0, కిటికీ, 0, -1.0f, -1.0f, -1.0f, -1.0f);
+        } లేకపోతే ఒకవేళ (cookie->evtype == XI_GesturePinchUpdate) {
+            SDL_SendPinch(SDL_EVENT_PINCH_UPDATE, 0, కిటికీ, (దశాంశం)xev->scale, -1.0f, -1.0f, -1.0f, -1.0f);
+        } లేకపోతే {
+            SDL_SendPinch(SDL_EVENT_PINCH_చివర, 0, కిటికీ, 0, -1.0f, -1.0f, -1.0f, -1.0f);
         }
-    } break;
+    } ఆపు;
 
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
 
     }
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2
 }
 
-void X11_InitXinput2Multitouch(SDL_VideoDevice *_this)
+శూన్య X11_InitXinput2Multitouch(SDL_VideoDevice *_this)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
     xinput2_grabbed_touch_raised = false;
-    xinput2_active_touch_count = 0;
-#endif
+    xinput2_చురుకైన_touch_లెక్క = 0;
+#అయితే_ముగింపు
 }
 
-bool X11_Xinput2HandlesMotionForWindow(SDL_WindowData *window_data)
+bool X11_Xinput2_Handles_Motion_For_కిటికీ(SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
     /* Send the active flag once more after the touch count is zero, to suppress the
      * emulated motion event when the last touch is raised.
      */
-    const bool ret = window_data->xinput2_mouse_enabled &&
-                     (!window_data->mouse_grabbed || xinput2_active_touch_count || xinput2_grabbed_touch_raised);
+    స్థిరరాశి bool ret = కిటికీ_దత్తాంశం_2->xinput2_mouse_enabled &&
+                     (!కిటికీ_దత్తాంశం_2->mouse_grabbed || xinput2_చురుకైన_touch_లెక్క || xinput2_grabbed_touch_raised);
     xinput2_grabbed_touch_raised = false;
 
-    return ret;
-#else
-    return false;
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2
+    తిరిగి ret;
+#లేకపోతే
+    తిరిగి false;
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2
 }
 
-void X11_Xinput2Select(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Xinput2Select(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-#if defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
-    SDL_VideoData *data = _this->internal;
-    SDL_WindowData *window_data = window->internal;
-    XIEventMask eventmask;
-    unsigned char mask[5] = { 0, 0, 0, 0, 0 };
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_SCROLLINFO) || defined(SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH)
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
+    SDL_కిటికీ_దత్తాంశం *కిటికీ_దత్తాంశం_2 = కిటికీ->అంతర్గత;
+    XIEvent_ముసుగు eventmask;
+    గుర్తులేని అక్షరం ముసుగు[5] = { 0, 0, 0, 0, 0 };
 
-    if (!xinput2_scrolling_supported && !xinput2_multitouch_supported) {
-        return;
+    ఒకవేళ (!xinput2_scrolling_supported && !xinput2_multitouch_supported) {
+        తిరిగి;
     }
 
     eventmask.deviceid = XIAllMasterDevices;
-    eventmask.mask_len = sizeof(mask);
-    eventmask.mask = mask;
+    eventmask.ముసుగు_len = పరిమాణం(ముసుగు);
+    eventmask.ముసుగు = ముసుగు;
 
-    if (xinput2_scrolling_supported) {
+    ఒకవేళ (xinput2_scrolling_supported) {
         /* Track enter events that inform us that we need to update
          * the previous scroll coordinates since we cannot track
          * them outside our window.
          */
-        XISetMask(mask, XI_Enter);
+        XISet_ముసుగు(ముసుగు, XI_Enter);
     }
 
-    if (xinput2_multitouch_supported) {
-        XISetMask(mask, XI_TouchBegin);
-        XISetMask(mask, XI_TouchUpdate);
-        XISetMask(mask, XI_TouchEnd);
-        XISetMask(mask, XI_Motion);
+    ఒకవేళ (xinput2_multitouch_supported) {
+        XISet_ముసుగు(ముసుగు, XI_TouchBegin);
+        XISet_ముసుగు(ముసుగు, XI_TouchUpdate);
+        XISet_ముసుగు(ముసుగు, XI_Touch_చివర);
+        XISet_ముసుగు(ముసుగు, XI_Motion);
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
-    if (xinput2_gesture_supported) {
-        XISetMask(mask, XI_GesturePinchBegin);
-        XISetMask(mask, XI_GesturePinchUpdate);
-        XISetMask(mask, XI_GesturePinchEnd);
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_GESTURE
+    ఒకవేళ (xinput2_gesture_supported) {
+        XISet_ముసుగు(ముసుగు, XI_GesturePinchBegin);
+        XISet_ముసుగు(ముసుగు, XI_GesturePinchUpdate);
+        XISet_ముసుగు(ముసుగు, XI_Gesture_Pinch_చివర);
     }
-#endif
+#అయితే_ముగింపు
 
-    X11_XISelectEvents(data->display, window_data->xwindow, &eventmask, 1);
-#endif
+    X11_XISelectEvents(దత్తాంశం->display, కిటికీ_దత్తాంశం_2->xwindow, &eventmask, 1);
+#అయితే_ముగింపు
 }
 
-bool X11_Xinput2IsInitialized(void)
+bool X11_Xinput2IsInitialized(శూన్య)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    return xinput2_initialized;
-#else
-    return false;
-#endif
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    తిరిగి xinput2_initialized;
+#లేకపోతే
+    తిరిగి false;
+#అయితే_ముగింపు
 }
 
-bool X11_Xinput2SelectMouseAndKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_Xinput2SelectMouseAndKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *windowdata = window->internal;
+    SDL_కిటికీ_దత్తాంశం *windowdata = కిటికీ->అంతర్గత;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    const SDL_VideoData *data = _this->internal;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    స్థిరరాశి SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
 
-    if (X11_Xinput2IsInitialized()) {
-        XIEventMask eventmask;
-        unsigned char mask[4] = { 0, 0, 0, 0 };
+    ఒకవేళ (X11_Xinput2IsInitialized()) {
+        XIEvent_ముసుగు eventmask;
+        గుర్తులేని అక్షరం ముసుగు[4] = { 0, 0, 0, 0 };
 
-        eventmask.mask_len = sizeof(mask);
-        eventmask.mask = mask;
+        eventmask.ముసుగు_len = పరిమాణం(ముసుగు);
+        eventmask.ముసుగు = ముసుగు;
         eventmask.deviceid = XIAllDevices;
 
 // This is not enabled by default because these events are only delivered to the window with mouse focus, not keyboard focus
-#ifdef USE_XINPUT2_KEYBOARD
-        XISetMask(mask, XI_KeyPress);
-        XISetMask(mask, XI_KeyRelease);
+#నిర్వచితమైతే USE_XINPUT2_KEYBOARD
+        XISet_ముసుగు(ముసుగు, XI_కీలకం_Press);
+        XISet_ముసుగు(ముసుగు, XI_కీలకం_Release);
         windowdata->xinput2_keyboard_enabled = true;
-#endif
+#అయితే_ముగింపు
 
-        XISetMask(mask, XI_ButtonPress);
-        XISetMask(mask, XI_ButtonRelease);
-        XISetMask(mask, XI_Motion);
+        XISet_ముసుగు(ముసుగు, XI_ButtonPress);
+        XISet_ముసుగు(ముసుగు, XI_ButtonRelease);
+        XISet_ముసుగు(ముసుగు, XI_Motion);
         windowdata->xinput2_mouse_enabled = true;
 
-        XISetMask(mask, XI_Enter);
-        XISetMask(mask, XI_Leave);
+        XISet_ముసుగు(ముసుగు, XI_Enter);
+        XISet_ముసుగు(ముసుగు, XI_Leave);
 
         // Hotplugging:
-        XISetMask(mask, XI_DeviceChanged);
-        XISetMask(mask, XI_HierarchyChanged);
-        XISetMask(mask, XI_PropertyEvent); // E.g., when swapping tablet pens
+        XISet_ముసుగు(ముసుగు, XI_Device_మారింది);
+        XISet_ముసుగు(ముసుగు, XI_Hierarchy_మారింది);
+        XISet_ముసుగు(ముసుగు, XI_PropertyEvent); // E.g., when swapping tablet pens
 
-        if (X11_XISelectEvents(data->display, windowdata->xwindow, &eventmask, 1) != Success) {
-            SDL_LogWarn(SDL_LOG_CATEGORY_INPUT, "Could not enable XInput2 event handling");
+        ఒకవేళ (X11_XISelectEvents(దత్తాంశం->display, windowdata->xwindow, &eventmask, 1) != Success) {
+            SDL_LogWarn(SDL_LOG_CATEGORY_ఆదానం, "Could not enable XInput2 event handling");
             windowdata->xinput2_keyboard_enabled = false;
             windowdata->xinput2_mouse_enabled = false;
         }
     }
-#endif
+#అయితే_ముగింపు
 
-    if (windowdata->xinput2_keyboard_enabled || windowdata->xinput2_mouse_enabled) {
-        return true;
+    ఒకవేళ (windowdata->xinput2_keyboard_enabled || windowdata->xinput2_mouse_enabled) {
+        తిరిగి true;
     }
-    return false;
+    తిరిగి false;
 }
 
-void X11_Xinput2GrabTouch(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Xinput2GrabTouch(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
 
-    unsigned char mask[4] = { 0, 0, 0, 0 };
+    గుర్తులేని అక్షరం ముసుగు[4] = { 0, 0, 0, 0 };
     XIGrabModifiers mods;
-    XIEventMask eventmask;
+    XIEvent_ముసుగు eventmask;
 
-    if (!xinput2_multitouch_supported) {
-        return;
+    ఒకవేళ (!xinput2_multitouch_supported) {
+        తిరిగి;
     }
 
     mods.modifiers = XIAnyModifier;
-    mods.status = 0;
+    mods.స్థితి_2 = 0;
 
     eventmask.deviceid = XIAllDevices;
-    eventmask.mask_len = sizeof(mask);
-    eventmask.mask = mask;
+    eventmask.ముసుగు_len = పరిమాణం(ముసుగు);
+    eventmask.ముసుగు = ముసుగు;
 
-    XISetMask(eventmask.mask, XI_TouchBegin);
-    XISetMask(eventmask.mask, XI_TouchUpdate);
-    XISetMask(eventmask.mask, XI_TouchEnd);
-    XISetMask(eventmask.mask, XI_Motion);
+    XISet_ముసుగు(eventmask.ముసుగు, XI_TouchBegin);
+    XISet_ముసుగు(eventmask.ముసుగు, XI_TouchUpdate);
+    XISet_ముసుగు(eventmask.ముసుగు, XI_Touch_చివర);
+    XISet_ముసుగు(eventmask.ముసుగు, XI_Motion);
 
-    X11_XIGrabTouchBegin(display, XIAllDevices, data->xwindow, True, &eventmask, 1, &mods);
-#endif
+    X11_XIGrabTouchBegin(display, XIAllDevices, దత్తాంశం->xwindow, True, &eventmask, 1, &mods);
+#అయితే_ముగింపు
 }
 
-void X11_Xinput2UngrabTouch(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య X11_Xinput2UngrabTouch(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం = కిటికీ->అంతర్గత;
+    Display *display = దత్తాంశం->videodata->display;
 
     XIGrabModifiers mods;
 
-    if (!xinput2_multitouch_supported) {
-        return;
+    ఒకవేళ (!xinput2_multitouch_supported) {
+        తిరిగి;
     }
 
     xinput2_grabbed_touch_raised = false;
 
     mods.modifiers = XIAnyModifier;
-    mods.status = 0;
+    mods.స్థితి_2 = 0;
 
-    X11_XIUngrabTouchBegin(display, XIAllDevices, data->xwindow, 1, &mods);
-#endif
+    X11_XIUngrabTouchBegin(display, XIAllDevices, దత్తాంశం->xwindow, 1, &mods);
+#అయితే_ముగింపు
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
 
-static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *count)
+స్థిర శూన్య కూడు_Device_ID(Uint32 deviceID, Uint32 **list, పూర్ణాంకం *లెక్క)
 {
-    int new_count = (*count + 1);
-    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_count * sizeof(*new_list));
-    if (!new_list) {
+    పూర్ణాంకం new_లెక్క = (*లెక్క + 1);
+    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_లెక్క * పరిమాణం(*new_list));
+    ఒకవేళ (!new_list) {
         // Oh well, we'll drop this one
-        return;
+        తిరిగి;
     }
-    new_list[new_count - 1] = deviceID;
+    new_list[new_లెక్క - 1] = deviceID;
 
-    *count = new_count;
+    *లెక్క = new_లెక్క;
     *list = new_list;
 }
 
-static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int count)
+స్థిర bool HasDeviceID(Uint32 deviceID, స్థిరరాశి Uint32 *list, పూర్ణాంకం లెక్క)
 {
-    for (int i = 0; i < count; ++i) {
-        if (deviceID == list[i]) {
-            return true;
+    కొరకు (పూర్ణాంకం i = 0; i < లెక్క; ++i) {
+        ఒకవేళ (deviceID == list[i]) {
+            తిరిగి true;
         }
     }
-    return false;
+    తిరిగి false;
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-static void AddDeviceID64(Uint64 deviceID, Uint64 **list, int *count)
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+స్థిర శూన్య కూడు_Device_ID64(Uint64 deviceID, Uint64 **list, పూర్ణాంకం *లెక్క)
 {
-    int new_count = (*count + 1);
-    Uint64 *new_list = (Uint64 *)SDL_realloc(*list, new_count * sizeof(*new_list));
-    if (!new_list) {
+    పూర్ణాంకం new_లెక్క = (*లెక్క + 1);
+    Uint64 *new_list = (Uint64 *)SDL_realloc(*list, new_లెక్క * పరిమాణం(*new_list));
+    ఒకవేళ (!new_list) {
         // Oh well, we'll drop this one
-        return;
+        తిరిగి;
     }
-    new_list[new_count - 1] = deviceID;
+    new_list[new_లెక్క - 1] = deviceID;
 
-    *count = new_count;
+    *లెక్క = new_లెక్క;
     *list = new_list;
 }
-#endif
+#అయితే_ముగింపు
 
-static bool HasDeviceID64(Uint64 deviceID, const Uint64 *list, int count)
+స్థిర bool HasDeviceID64(Uint64 deviceID, స్థిరరాశి Uint64 *list, పూర్ణాంకం లెక్క)
 {
-    for (int i = 0; i < count; ++i) {
-        if (deviceID == list[i]) {
-            return true;
+    కొరకు (పూర్ణాంకం i = 0; i < లెక్క; ++i) {
+        ఒకవేళ (deviceID == list[i]) {
+            తిరిగి true;
         }
     }
-    return false;
+    తిరిగి false;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2
 
-void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
+శూన్య X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
-    SDL_VideoData *data = _this->internal;
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2
+    SDL_Video_దత్తాంశం *దత్తాంశం = _this->అంతర్గత;
     XIDeviceInfo *info;
-    int ndevices;
-    int old_keyboard_count = 0;
-    SDL_KeyboardID *old_keyboards = NULL;
-    int new_keyboard_count = 0;
-    SDL_KeyboardID *new_keyboards = NULL;
-    int old_mouse_count = 0;
-    SDL_MouseID *old_mice = NULL;
-    int new_mouse_count = 0;
-    SDL_MouseID *new_mice = NULL;
-    int old_touch_count = 0;
-    Uint64 *old_touch_devices = NULL;
-    int new_touch_count = 0;
-    Uint64 *new_touch_devices = NULL;
+    పూర్ణాంకం ndevices;
+    పూర్ణాంకం old_keyboard_లెక్క = 0;
+    SDL_KeyboardID *old_keyboards = ఖాళీ;
+    పూర్ణాంకం new_keyboard_లెక్క = 0;
+    SDL_KeyboardID *new_keyboards = ఖాళీ;
+    పూర్ణాంకం old_mouse_లెక్క = 0;
+    SDL_MouseID *old_mice = ఖాళీ;
+    పూర్ణాంకం new_mouse_లెక్క = 0;
+    SDL_MouseID *new_mice = ఖాళీ;
+    పూర్ణాంకం old_touch_లెక్క = 0;
+    Uint64 *old_touch_devices = ఖాళీ;
+    పూర్ణాంకం new_touch_లెక్క = 0;
+    Uint64 *new_touch_devices = ఖాళీ;
 
     SDL_assert(X11_Xinput2IsInitialized());
 
-    info = X11_XIQueryDevice(data->display, XIAllDevices, &ndevices);
+    info = X11_XIQueryDevice(దత్తాంశం->display, XIAllDevices, &ndevices);
 
-    old_keyboards = SDL_GetKeyboards(&old_keyboard_count);
-    old_mice = SDL_GetMice(&old_mouse_count);
-    old_touch_devices = SDL_GetTouchDevices(&old_touch_count);
+    old_keyboards = SDL_GetKeyboards(&old_keyboard_లెక్క);
+    old_mice = SDL_GetMice(&old_mouse_లెక్క);
+    old_touch_devices = SDL_GetTouchDevices(&old_touch_లెక్క);
 
-    for (int i = 0; i < ndevices; i++) {
+    కొరకు (పూర్ణాంకం i = 0; i < ndevices; i++) {
         XIDeviceInfo *dev = &info[i];
 
-        switch (dev->use) {
-        case XIMasterKeyboard:
-        case XISlaveKeyboard:
+        ఎంపిక (dev->use) {
+        స్థితి XIMasterKeyboard:
+        స్థితి XISlaveKeyboard:
             {
                 SDL_KeyboardID keyboardID = (SDL_KeyboardID)dev->deviceid;
-                AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_count);
-                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_count)) {
-                    SDL_AddKeyboard(keyboardID, dev->name);
+                కూడు_Device_ID(keyboardID, &new_keyboards, &new_keyboard_లెక్క);
+                ఒకవేళ (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_లెక్క)) {
+                    SDL_కూడు_Keyboard(keyboardID, dev->name);
                 }
             }
-            break;
-        case XIMasterPointer:
-            data->xinput_master_pointer_device = dev->deviceid;
+            ఆపు;
+        స్థితి XIMaster_సూచిక:
+            దత్తాంశం->xinput_master_సూచిక_device = dev->deviceid;
             SDL_FALLTHROUGH;
-        case XISlavePointer:
+        స్థితి XISlave_సూచిక:
             {
                 SDL_MouseID mouseID = (SDL_MouseID)dev->deviceid;
-                AddDeviceID(mouseID, &new_mice, &new_mouse_count);
-                if (!HasDeviceID(mouseID, old_mice, old_mouse_count)) {
-                    SDL_AddMouse(mouseID, dev->name);
+                కూడు_Device_ID(mouseID, &new_mice, &new_mouse_లెక్క);
+                ఒకవేళ (!HasDeviceID(mouseID, old_mice, old_mouse_లెక్క)) {
+                    SDL_కూడు_Mouse(mouseID, dev->name);
                 }
             }
-            break;
-        default:
-            break;
+            ఆపు;
+        అప్రమేయ:
+            ఆపు;
         }
 
         // If a device info entry already exists for this device, update it.
         SDL_XInput2DeviceInfo *devinfo = xinput2_get_cached_device_info(dev->deviceid);
-        if (devinfo) {
-            xinput2_update_device_info(devinfo, dev->classes, dev->num_classes);
+        ఒకవేళ (devinfo) {
+            xinput2_update_device_info(devinfo, dev->classes, dev->అంకె_classes);
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
-        for (int j = 0; j < dev->num_classes; j++) {
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+        కొరకు (పూర్ణాంకం j = 0; j < dev->అంకె_classes; j++) {
             Uint64 touchID;
             SDL_TouchDeviceType touchType;
             XIAnyClassInfo *class = dev->classes[j];
             XITouchClassInfo *t = (XITouchClassInfo *)class;
 
             // Only touch devices
-            if (class->type != XITouchClass) {
-                continue;
+            ఒకవేళ (class->type != XITouchClass) {
+                కొనసాగు;
             }
 
             touchID = (Uint64)t->sourceid;
-            AddDeviceID64(touchID, &new_touch_devices, &new_touch_count);
-            if (!HasDeviceID64(touchID, old_touch_devices, old_touch_count)) {
-                if (t->mode == XIDependentTouch) {
-                    touchType = SDL_TOUCH_DEVICE_INDIRECT_RELATIVE;
-                } else { // XIDirectTouch
-                    touchType = SDL_TOUCH_DEVICE_DIRECT;
+            కూడు_Device_ID64(touchID, &new_touch_devices, &new_touch_లెక్క);
+            ఒకవేళ (!HasDeviceID64(touchID, old_touch_devices, old_touch_లెక్క)) {
+                ఒకవేళ (t->బహుళకం == XIDependentTouch) {
+                    touchType = SDL_TOUCH_DEVICE_పరోక్ష_RELATIVE;
+                } లేకపోతే { // XIDirectTouch
+                    touchType = SDL_TOUCH_DEVICE_ప్రత్యక్ష;
                 }
-                SDL_AddTouch(touchID, touchType, dev->name);
+                SDL_కూడు_Touch(touchID, touchType, dev->name);
             }
         }
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH
     }
 
-    for (int i = old_keyboard_count; i--;) {
-        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_count)) {
+    కొరకు (పూర్ణాంకం i = old_keyboard_లెక్క; i--;) {
+        ఒకవేళ (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_లెక్క)) {
             SDL_RemoveKeyboard(old_keyboards[i]);
         }
     }
 
-    for (int i = old_mouse_count; i--;) {
-        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_count)) {
+    కొరకు (పూర్ణాంకం i = old_mouse_లెక్క; i--;) {
+        ఒకవేళ (!HasDeviceID(old_mice[i], new_mice, new_mouse_లెక్క)) {
             SDL_RemoveMouse(old_mice[i]);
         }
     }
 
-    for (int i = old_touch_count; i--;) {
-        if (!HasDeviceID64(old_touch_devices[i], new_touch_devices, new_touch_count)) {
+    కొరకు (పూర్ణాంకం i = old_touch_లెక్క; i--;) {
+        ఒకవేళ (!HasDeviceID64(old_touch_devices[i], new_touch_devices, new_touch_లెక్క)) {
             SDL_DelTouch(old_touch_devices[i]);
         }
     }
@@ -1192,7 +1192,7 @@ void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this)
 
     X11_XIFreeDeviceInfo(info);
 
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XINPUT2
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11

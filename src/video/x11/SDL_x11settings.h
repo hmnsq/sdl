@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_x11settings_h_
-#define SDL_x11settings_h_
+#నిర్వచితం_కాకపోతే SDL_x11settings_h_
+#నిర్వచించు SDL_x11settings_h_
 
-#include <X11/Xlib.h>
-#include "xsettings-client.h"
+#అన్తర్భావ <X11/Xlib.h>
+#అన్తర్భావ "xsettings-client.h"
 
-#define SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR "Gdk/WindowScalingFactor"
-#define SDL_XSETTINGS_GDK_UNSCALED_DPI "Gdk/UnscaledDPI"
-#define SDL_XSETTINGS_XFT_DPI "Xft/DPI"
+#నిర్వచించు SDL_XSETTINGS_GDK_కిటికీ_SCALING_గుణకం "Gdk/WindowScalingFactor"
+#నిర్వచించు SDL_XSETTINGS_GDK_UNSCALED_DPI "Gdk/UnscaledDPI"
+#నిర్వచించు SDL_XSETTINGS_XFT_DPI "Xft/DPI"
 
-typedef struct X11_SettingsData {
+రకనిర్వచనం నిర్మాణం X11_Settings_దత్తాంశం {
     XSettingsClient *xsettings;
-} SDLX11_SettingsData;
+} SDLX11_Settings_దత్తాంశం;
 
-extern void X11_InitXsettings(SDL_VideoDevice *_this);
-extern void X11_QuitXsettings(SDL_VideoDevice *_this);
-extern void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent);
-extern int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value);
+బాహ్య శూన్య X11_InitXsettings(SDL_VideoDevice *_this);
+బాహ్య శూన్య X11_QuitXsettings(SDL_VideoDevice *_this);
+బాహ్య శూన్య X11_HandleXsettingsEvent(SDL_VideoDevice *_this, స్థిరరాశి XEvent *xevent);
+బాహ్య పూర్ణాంకం X11_Get_Xsettings_Int_కీలకం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *కీలకం, పూర్ణాంకం fallback_విలువ);
 
-extern int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value);
+బాహ్య పూర్ణాంకం X11_Get_Xsettings_Client_Int_కీలకం(XSettingsClient *client, స్థిరరాశి అక్షరం *కీలకం, పూర్ణాంకం fallback_విలువ);
 
-#endif // SDL_x11settings_h_
+#అయితే_ముగింపు // SDL_x11settings_h_

@@ -18,108 +18,108 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitamessagebox.h"
-#include <psp2/message_dialog.h>
+#అన్తర్భావ "SDL_vitavideo.h"
+#అన్తర్భావ "SDL_vitamessagebox.h"
+#అన్తర్భావ <psp2/message_dialog.h>
 
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-#include "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+#నిర్వచితమైతే SDL_VIDEO_RENDER_VITA_GXM
+#అన్తర్భావ "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
+#అయితే_ముగింపు // SDL_VIDEO_RENDER_VITA_GXM
 
-bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool VITA_Show_సందేశం_Box(స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *messageboxdata, పూర్ణాంకం *buttonID)
 {
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-    SceMsgDialogParam param;
-    SceMsgDialogUserMessageParam msgParam;
-    SceMsgDialogButtonsParam buttonParam;
-    SceDisplayFrameBuf dispparam;
-    char message[512];
+#నిర్వచితమైతే SDL_VIDEO_RENDER_VITA_GXM
+    Sce_సందేశం_Dialog_Param param;
+    Sce_సందేశం_Dialog_User_సందేశం_Param సందేశం_Param;
+    Sce_సందేశం_Dialog_Buttons_Param buttonParam;
+    Sce_Display_చట్రం_Buf dispparam;
+    అక్షరం సందేశం[512];
 
-    SceMsgDialogResult dialog_result;
-    SceCommonDialogErrorCode init_result;
-    bool setup_minimal_gxm = false;
+    Sce_సందేశం_Dialog_ఫలితం dialog_ఫలితం;
+    Sce_Common_Dialog_Error_సంకేతం init_ఫలితం;
+    bool అమరిక_కనీస_gxm = false;
 
-    if (messageboxdata->numbuttons > 3) {
-        return false;
+    ఒకవేళ (messageboxdata->numbuttons > 3) {
+        తిరిగి false;
     }
 
     SDL_zero(param);
-    sceMsgDialogParamInit(&param);
-    param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
+    sce_సందేశం_Dialog_Param_Init(&param);
+    param.బహుళకం = SCE_సందేశం_DIALOG_బహుళకం_USER_సందేశం;
 
-    SDL_zero(msgParam);
-    SDL_snprintf(message, sizeof(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
+    SDL_zero(సందేశం_Param);
+    SDL_snprintf(సందేశం, పరిమాణం(సందేశం), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->సందేశం);
 
-    msgParam.msg = (const SceChar8 *)message;
+    సందేశం_Param.సందేశం_2 = (స్థిరరాశి SceChar8 *)సందేశం;
     SDL_zero(buttonParam);
 
-    if (messageboxdata->numbuttons == 3) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
-        msgParam.buttonParam = &buttonParam;
-        buttonParam.msg1 = messageboxdata->buttons[0].text;
-        buttonParam.msg2 = messageboxdata->buttons[1].text;
-        buttonParam.msg3 = messageboxdata->buttons[2].text;
-    } else if (messageboxdata->numbuttons == 2) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
-    } else if (messageboxdata->numbuttons == 1) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
+    ఒకవేళ (messageboxdata->numbuttons == 3) {
+        సందేశం_Param.buttonType = SCE_సందేశం_DIALOG_BUTTON_TYPE_3_BUTTONS;
+        సందేశం_Param.buttonParam = &buttonParam;
+        buttonParam.msg1 = messageboxdata->buttons[0].పాఠ్యం;
+        buttonParam.msg2 = messageboxdata->buttons[1].పాఠ్యం;
+        buttonParam.msg3 = messageboxdata->buttons[2].పాఠ్యం;
+    } లేకపోతే ఒకవేళ (messageboxdata->numbuttons == 2) {
+        సందేశం_Param.buttonType = SCE_సందేశం_DIALOG_BUTTON_TYPE_YESNO;
+    } లేకపోతే ఒకవేళ (messageboxdata->numbuttons == 1) {
+        సందేశం_Param.buttonType = SCE_సందేశం_DIALOG_BUTTON_TYPE_OK;
     }
-    param.userMsgParam = &msgParam;
+    param.user_సందేశం_Param = &సందేశం_Param;
 
-    dispparam.size = sizeof(dispparam);
+    dispparam.కొలత = పరిమాణం(dispparam);
 
-    init_result = sceMsgDialogInit(&param);
+    init_ఫలితం = sce_సందేశం_Dialog_Init(&param);
 
     // Setup display if it hasn't been initialized before
-    if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
-        gxm_minimal_init_for_common_dialog();
-        init_result = sceMsgDialogInit(&param);
-        setup_minimal_gxm = true;
+    ఒకవేళ (init_ఫలితం == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
+        gxm_కనీస_init_for_common_dialog();
+        init_ఫలితం = sce_సందేశం_Dialog_Init(&param);
+        అమరిక_కనీస_gxm = true;
     }
 
     gxm_init_for_common_dialog();
 
-    if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
-            gxm_swap_for_common_dialog();
+    ఒకవేళ (init_ఫలితం >= 0) {
+        అయితే (sce_సందేశం_Dialog_Get_స్థితి() == SCE_COMMON_DIALOG_స్థితి_RUNNING) {
+            gxm_మార్పిడి_for_common_dialog();
         }
-        SDL_zero(dialog_result);
-        sceMsgDialogGetResult(&dialog_result);
+        SDL_zero(dialog_ఫలితం);
+        sce_సందేశం_Dialog_Get_ఫలితం(&dialog_ఫలితం);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        ఒకవేళ (dialog_ఫలితం.buttonId == SCE_సందేశం_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } లేకపోతే ఒకవేళ (dialog_ఫలితం.buttonId == SCE_సందేశం_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } లేకపోతే ఒకవేళ (dialog_ఫలితం.buttonId == SCE_సందేశం_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } లేకపోతే ఒకవేళ (dialog_ఫలితం.buttonId == SCE_సందేశం_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } లేకపోతే ఒకవేళ (dialog_ఫలితం.buttonId == SCE_సందేశం_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } లేకపోతే ఒకవేళ (dialog_ఫలితం.buttonId == SCE_సందేశం_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
-        sceMsgDialogTerm();
-    } else {
-        return false;
+        sce_సందేశం_Dialog_పదం();
+    } లేకపోతే {
+        తిరిగి false;
     }
 
-    gxm_term_for_common_dialog();
+    gxm_పదం_for_common_dialog();
 
-    if (setup_minimal_gxm) {
-        gxm_minimal_term_for_common_dialog();
+    ఒకవేళ (అమరిక_కనీస_gxm) {
+        gxm_కనీస_పదం_for_common_dialog();
     }
 
-    return true;
-#else
-    (void)messageboxdata;
-    (void)buttonID;
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+    తిరిగి true;
+#లేకపోతే
+    (శూన్య)messageboxdata;
+    (శూన్య)buttonID;
+    తిరిగి SDL_Unsupported();
+#అయితే_ముగింపు // SDL_VIDEO_RENDER_VITA_GXM
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_VITA

@@ -1,5 +1,5 @@
-#ifndef VULKAN_FUCHSIA_H_
-#define VULKAN_FUCHSIA_H_ 1
+#నిర్వచితం_కాకపోతే VULKAN_FUCHSIA_H_
+#నిర్వచించు VULKAN_FUCHSIA_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,283 +13,283 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
 
 
 // VK_FUCHSIA_imagepipe_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_imagepipe_surface 1
+#నిర్వచించు VK_FUCHSIA_imagepipe_surface 1
 
-#define VK_FUCHSIA_IMAGEPIPE_SURFACE_SPEC_VERSION 1
-#define VK_FUCHSIA_IMAGEPIPE_SURFACE_EXTENSION_NAME "VK_FUCHSIA_imagepipe_surface"
+#నిర్వచించు VK_FUCHSIA_IMAGEPIPE_SURFACE_SPEC_సంస్కరణ 1
+#నిర్వచించు VK_FUCHSIA_IMAGEPIPE_SURFACE_EXTENSION_NAME "VK_FUCHSIA_imagepipe_surface"
 
-typedef VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
+రకనిర్వచనం VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
 
-typedef struct VkImagePipeSurfaceCreateInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం VkImagePipeSurfaceCreateInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    స్థిరరాశి శూన్య*                             p_తదుపరి;
     VkImagePipeSurfaceCreateFlagsFUCHSIA    flags;
     zx_handle_t                             imagePipeHandle;
 } VkImagePipeSurfaceCreateInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, స్థిరరాశి VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, స్థిరరాశి Vk_కేటాయింపు_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
     VkInstance                                  instance,
-    const VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    స్థిరరాశి VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
+    స్థిరరాశి Vk_కేటాయింపు_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
 
 // VK_FUCHSIA_external_memory is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_external_memory 1
+#నిర్వచించు VK_FUCHSIA_external_జ్ఞాపకం 1
 
-#define VK_FUCHSIA_EXTERNAL_MEMORY_SPEC_VERSION 1
-#define VK_FUCHSIA_EXTERNAL_MEMORY_EXTENSION_NAME "VK_FUCHSIA_external_memory"
+#నిర్వచించు VK_FUCHSIA_EXTERNAL_జ్ఞాపకం_SPEC_సంస్కరణ 1
+#నిర్వచించు VK_FUCHSIA_EXTERNAL_జ్ఞాపకం_EXTENSION_NAME "VK_FUCHSIA_external_memory"
 
-typedef struct VkImportMemoryZirconHandleInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_Import_జ్ఞాపకం_Zircon_Handle_Info_FUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
+    స్థిరరాశి శూన్య*                           p_తదుపరి;
+    Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు    handleType;
     zx_handle_t                           handle;
-} VkImportMemoryZirconHandleInfoFUCHSIA;
+} Vk_Import_జ్ఞాపకం_Zircon_Handle_Info_FUCHSIA;
 
-typedef struct VkMemoryZirconHandlePropertiesFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_జ్ఞాపకం_Zircon_Handle_Properties_FUCHSIA {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           memoryTypeBits;
-} VkMemoryZirconHandlePropertiesFUCHSIA;
+    శూన్య*              p_తదుపరి;
+    uint32_t           జ్ఞాపకం_Type_బిట్లు;
+} Vk_జ్ఞాపకం_Zircon_Handle_Properties_FUCHSIA;
 
-typedef struct VkMemoryGetZirconHandleInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_జ్ఞాపకం_Get_Zircon_Handle_Info_FUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkDeviceMemory                        memory;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-} VkMemoryGetZirconHandleInfoFUCHSIA;
+    స్థిరరాశి శూన్య*                           p_తదుపరి;
+    Vk_Device_జ్ఞాపకం                        జ్ఞాపకం;
+    Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు    handleType;
+} Vk_జ్ఞాపకం_Get_Zircon_Handle_Info_FUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandleFUCHSIA)(VkDevice device, const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandlePropertiesFUCHSIA)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, zx_handle_t zirconHandle, VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Get_జ్ఞాపకం_Zircon_Handle_FUCHSIA)(VkDevice device, స్థిరరాశి Vk_జ్ఞాపకం_Get_Zircon_Handle_Info_FUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Get_జ్ఞాపకం_Zircon_Handle_Properties_FUCHSIA)(VkDevice device, Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు handleType, zx_handle_t zirconHandle, Vk_జ్ఞాపకం_Zircon_Handle_Properties_FUCHSIA* p_జ్ఞాపకం_Zircon_Handle_Properties);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandleFUCHSIA(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Get_జ్ఞాపకం_Zircon_Handle_FUCHSIA(
     VkDevice                                    device,
-    const VkMemoryGetZirconHandleInfoFUCHSIA*   pGetZirconHandleInfo,
+    స్థిరరాశి Vk_జ్ఞాపకం_Get_Zircon_Handle_Info_FUCHSIA*   pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandlePropertiesFUCHSIA(
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Get_జ్ఞాపకం_Zircon_Handle_Properties_FUCHSIA(
     VkDevice                                    device,
-    VkExternalMemoryHandleTypeFlagBits          handleType,
+    Vk_External_జ్ఞాపకం_Handle_Type_Flag_బిట్లు          handleType,
     zx_handle_t                                 zirconHandle,
-    VkMemoryZirconHandlePropertiesFUCHSIA*      pMemoryZirconHandleProperties);
-#endif
-#endif
+    Vk_జ్ఞాపకం_Zircon_Handle_Properties_FUCHSIA*      p_జ్ఞాపకం_Zircon_Handle_Properties);
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
 
 // VK_FUCHSIA_external_semaphore is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_external_semaphore 1
+#నిర్వచించు VK_FUCHSIA_external_semaphore 1
 
-#define VK_FUCHSIA_EXTERNAL_SEMAPHORE_SPEC_VERSION 1
-#define VK_FUCHSIA_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_FUCHSIA_external_semaphore"
+#నిర్వచించు VK_FUCHSIA_EXTERNAL_SEMAPHORE_SPEC_సంస్కరణ 1
+#నిర్వచించు VK_FUCHSIA_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_FUCHSIA_external_semaphore"
 
-typedef struct VkImportSemaphoreZirconHandleInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం VkImportSemaphoreZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    స్థిరరాశి శూన్య*                              p_తదుపరి;
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_బిట్లు    handleType;
     zx_handle_t                              zirconHandle;
 } VkImportSemaphoreZirconHandleInfoFUCHSIA;
 
-typedef struct VkSemaphoreGetZirconHandleInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం VkSemaphoreGetZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    స్థిరరాశి శూన్య*                              p_తదుపరి;
     VkSemaphore                              semaphore;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_బిట్లు    handleType;
 } VkSemaphoreGetZirconHandleInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, స్థిరరాశి VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, స్థిరరాశి VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
+    స్థిరరాశి VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
+    స్థిరరాశి VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
-#endif
-#endif
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
 
 // VK_FUCHSIA_buffer_collection is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_buffer_collection 1
+#నిర్వచించు VK_FUCHSIA_బఫరు_collection 1
 
-VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkBufferCollectionFUCHSIA)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(Vk_బఫరు_Collection_FUCHSIA)
 
-#define VK_FUCHSIA_BUFFER_COLLECTION_SPEC_VERSION 2
-#define VK_FUCHSIA_BUFFER_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
+#నిర్వచించు VK_FUCHSIA_బఫరు_COLLECTION_SPEC_సంస్కరణ 2
+#నిర్వచించు VK_FUCHSIA_బఫరు_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
 
-typedef VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
+రకనిర్వచనం VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
 
-typedef enum VkImageConstraintsInfoFlagBitsFUCHSIA {
+రకనిర్వచనం గణన Vk_Image_Constraints_Info_Flag_బిట్లు_FUCHSIA {
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_RARELY_FUCHSIA = 0x00000001,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_OFTEN_FUCHSIA = 0x00000002,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_WRITE_RARELY_FUCHSIA = 0x00000004,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_WRITE_OFTEN_FUCHSIA = 0x00000008,
     VK_IMAGE_CONSTRAINTS_INFO_PROTECTED_OPTIONAL_FUCHSIA = 0x00000010,
-    VK_IMAGE_CONSTRAINTS_INFO_FLAG_BITS_MAX_ENUM_FUCHSIA = 0x7FFFFFFF
-} VkImageConstraintsInfoFlagBitsFUCHSIA;
-typedef VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
+    VK_IMAGE_CONSTRAINTS_INFO_FLAG_బిట్లు_MAX_ENUM_FUCHSIA = 0x7FFFFFFF
+} Vk_Image_Constraints_Info_Flag_బిట్లు_FUCHSIA;
+రకనిర్వచనం VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
 
-typedef struct VkBufferCollectionCreateInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_బఫరు_Collection_Create_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
     zx_handle_t        collectionToken;
-} VkBufferCollectionCreateInfoFUCHSIA;
+} Vk_బఫరు_Collection_Create_Info_FUCHSIA;
 
-typedef struct VkImportMemoryBufferCollectionFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_Import_జ్ఞాపకం_బఫరు_Collection_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkImportMemoryBufferCollectionFUCHSIA;
+    స్థిరరాశి శూన్య*                  p_తదుపరి;
+    Vk_బఫరు_Collection_FUCHSIA    collection;
+    uint32_t                     సూచీ;
+} Vk_Import_జ్ఞాపకం_బఫరు_Collection_FUCHSIA;
 
-typedef struct VkBufferCollectionImageCreateInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_బఫరు_Collection_Image_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionImageCreateInfoFUCHSIA;
+    స్థిరరాశి శూన్య*                  p_తదుపరి;
+    Vk_బఫరు_Collection_FUCHSIA    collection;
+    uint32_t                     సూచీ;
+} Vk_బఫరు_Collection_Image_Create_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionConstraintsInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_బఫరు_Collection_Constraints_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
-    uint32_t           minBufferCount;
-    uint32_t           maxBufferCount;
-    uint32_t           minBufferCountForCamping;
-    uint32_t           minBufferCountForDedicatedSlack;
-    uint32_t           minBufferCountForSharedSlack;
-} VkBufferCollectionConstraintsInfoFUCHSIA;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
+    uint32_t           min_బఫరు_లెక్క;
+    uint32_t           max_బఫరు_లెక్క;
+    uint32_t           min_బఫరు_లెక్క_For_Camping;
+    uint32_t           min_బఫరు_లెక్క_For_Dedicated_Slack;
+    uint32_t           min_బఫరు_లెక్క_For_Shared_Slack;
+} Vk_బఫరు_Collection_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferConstraintsInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_బఫరు_Constraints_Info_FUCHSIA {
     VkStructureType                             sType;
-    const void*                                 pNext;
-    VkBufferCreateInfo                          createInfo;
+    స్థిరరాశి శూన్య*                                 p_తదుపరి;
+    Vk_బఫరు_Create_Info                          createInfo;
     VkFormatFeatureFlags                        requiredFormatFeatures;
-    VkBufferCollectionConstraintsInfoFUCHSIA    bufferCollectionConstraints;
-} VkBufferConstraintsInfoFUCHSIA;
+    Vk_బఫరు_Collection_Constraints_Info_FUCHSIA    బఫరు_Collection_Constraints;
+} Vk_బఫరు_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionBufferCreateInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_బఫరు_Collection_బఫరు_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionBufferCreateInfoFUCHSIA;
+    స్థిరరాశి శూన్య*                  p_తదుపరి;
+    Vk_బఫరు_Collection_FUCHSIA    collection;
+    uint32_t                     సూచీ;
+} Vk_బఫరు_Collection_బఫరు_Create_Info_FUCHSIA;
 
-typedef struct VkSysmemColorSpaceFUCHSIA {
+రకనిర్వచనం నిర్మాణం VkSysmemColorSpaceFUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    స్థిరరాశి శూన్య*        p_తదుపరి;
     uint32_t           colorSpace;
 } VkSysmemColorSpaceFUCHSIA;
 
-typedef struct VkBufferCollectionPropertiesFUCHSIA {
+రకనిర్వచనం నిర్మాణం Vk_బఫరు_Collection_Properties_FUCHSIA {
     VkStructureType                  sType;
-    void*                            pNext;
-    uint32_t                         memoryTypeBits;
-    uint32_t                         bufferCount;
-    uint32_t                         createInfoIndex;
+    శూన్య*                            p_తదుపరి;
+    uint32_t                         జ్ఞాపకం_Type_బిట్లు;
+    uint32_t                         బఫరు_లెక్క;
+    uint32_t                         create_Info_సూచీ;
     uint64_t                         sysmemPixelFormat;
     VkFormatFeatureFlags             formatFeatures;
-    VkSysmemColorSpaceFUCHSIA        sysmemColorSpaceIndex;
+    VkSysmemColorSpaceFUCHSIA        sysmem_Color_Space_సూచీ;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkBufferCollectionPropertiesFUCHSIA;
+    VkChromaLocation                 suggested_XChroma_స్థానభ్రంశం;
+    VkChromaLocation                 suggested_YChroma_స్థానభ్రంశం;
+} Vk_బఫరు_Collection_Properties_FUCHSIA;
 
-typedef struct VkImageFormatConstraintsInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం VkImageFormatConstraintsInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    స్థిరరాశి శూన్య*                             p_తదుపరి;
     VkImageCreateInfo                       imageCreateInfo;
     VkFormatFeatureFlags                    requiredFormatFeatures;
     VkImageFormatConstraintsFlagsFUCHSIA    flags;
     uint64_t                                sysmemPixelFormat;
-    uint32_t                                colorSpaceCount;
-    const VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
+    uint32_t                                color_Space_లెక్క;
+    స్థిరరాశి VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
 } VkImageFormatConstraintsInfoFUCHSIA;
 
-typedef struct VkImageConstraintsInfoFUCHSIA {
+రకనిర్వచనం నిర్మాణం VkImageConstraintsInfoFUCHSIA {
     VkStructureType                               sType;
-    const void*                                   pNext;
-    uint32_t                                      formatConstraintsCount;
-    const VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
-    VkBufferCollectionConstraintsInfoFUCHSIA      bufferCollectionConstraints;
+    స్థిరరాశి శూన్య*                                   p_తదుపరి;
+    uint32_t                                      format_Constraints_లెక్క;
+    స్థిరరాశి VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
+    Vk_బఫరు_Collection_Constraints_Info_FUCHSIA      బఫరు_Collection_Constraints;
     VkImageConstraintsInfoFlagsFUCHSIA            flags;
 } VkImageConstraintsInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateBufferCollectionFUCHSIA)(VkDevice device, const VkBufferCollectionCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkBufferCollectionFUCHSIA* pCollection);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionImageConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionBufferConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkBufferConstraintsInfoFUCHSIA* pBufferConstraintsInfo);
-typedef void (VKAPI_PTR *PFN_vkDestroyBufferCollectionFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkAllocationCallbacks* pAllocator);
-typedef VkResult (VKAPI_PTR *PFN_vkGetBufferCollectionPropertiesFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, VkBufferCollectionPropertiesFUCHSIA* pProperties);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Create_బఫరు_Collection_FUCHSIA)(VkDevice device, స్థిరరాశి Vk_బఫరు_Collection_Create_Info_FUCHSIA* pCreateInfo, స్థిరరాశి Vk_కేటాయింపు_Callbacks* pAllocator, Vk_బఫరు_Collection_FUCHSIA* pCollection);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_సమితి_బఫరు_Collection_Image_Constraints_FUCHSIA)(VkDevice device, Vk_బఫరు_Collection_FUCHSIA collection, స్థిరరాశి VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_సమితి_బఫరు_Collection_బఫరు_Constraints_FUCHSIA)(VkDevice device, Vk_బఫరు_Collection_FUCHSIA collection, స్థిరరాశి Vk_బఫరు_Constraints_Info_FUCHSIA* p_బఫరు_Constraints_Info);
+రకనిర్వచనం శూన్య (VKAPI_PTR *PFN_vk_Destroy_బఫరు_Collection_FUCHSIA)(VkDevice device, Vk_బఫరు_Collection_FUCHSIA collection, స్థిరరాశి Vk_కేటాయింపు_Callbacks* pAllocator);
+రకనిర్వచనం Vk_ఫలితం (VKAPI_PTR *PFN_vk_Get_బఫరు_Collection_Properties_FUCHSIA)(VkDevice device, Vk_బఫరు_Collection_FUCHSIA collection, Vk_బఫరు_Collection_Properties_FUCHSIA* pProperties);
 
-#ifndef VK_NO_PROTOTYPES
+#నిర్వచితం_కాకపోతే VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateBufferCollectionFUCHSIA(
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Create_బఫరు_Collection_FUCHSIA(
     VkDevice                                    device,
-    const VkBufferCollectionCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
-    VkBufferCollectionFUCHSIA*                  pCollection);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionImageConstraintsFUCHSIA(
+    స్థిరరాశి Vk_బఫరు_Collection_Create_Info_FUCHSIA*  pCreateInfo,
+    స్థిరరాశి Vk_కేటాయింపు_Callbacks*                pAllocator,
+    Vk_బఫరు_Collection_FUCHSIA*                  pCollection);
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_సమితి_బఫరు_Collection_Image_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionBufferConstraintsFUCHSIA(
+    Vk_బఫరు_Collection_FUCHSIA                   collection,
+    స్థిరరాశి VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_సమితి_బఫరు_Collection_బఫరు_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkBufferConstraintsInfoFUCHSIA*       pBufferConstraintsInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyBufferCollectionFUCHSIA(
+    Vk_బఫరు_Collection_FUCHSIA                   collection,
+    స్థిరరాశి Vk_బఫరు_Constraints_Info_FUCHSIA*       p_బఫరు_Constraints_Info);
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR శూన్య VKAPI_CALL vk_Destroy_బఫరు_Collection_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkAllocationCallbacks*                pAllocator);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetBufferCollectionPropertiesFUCHSIA(
+    Vk_బఫరు_Collection_FUCHSIA                   collection,
+    స్థిరరాశి Vk_కేటాయింపు_Callbacks*                pAllocator);
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ఫలితం VKAPI_CALL vk_Get_బఫరు_Collection_Properties_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    VkBufferCollectionPropertiesFUCHSIA*        pProperties);
-#endif
-#endif
+    Vk_బఫరు_Collection_FUCHSIA                   collection,
+    Vk_బఫరు_Collection_Properties_FUCHSIA*        pProperties);
+#అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 }
-#endif
+#అయితే_ముగింపు
 
-#endif
+#అయితే_ముగింపు

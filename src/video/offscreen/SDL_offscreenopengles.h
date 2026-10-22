@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_offscreenopengles_h
-#define SDL_offscreenopengles_h
+#నిర్వచితం_కాకపోతే SDL_offscreenopengles_h
+#నిర్వచించు SDL_offscreenopengles_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../SDL_egl_c.h"
 
-#define OFFSCREEN_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define OFFSCREEN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define OFFSCREEN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define OFFSCREEN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
+#నిర్వచించు OFFSCREEN_GLES_Get_Proc_చిరునామా  SDL_EGL_Get_Proc_చిరునామా_అంతర్గత
+#నిర్వచించు OFFSCREEN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#నిర్వచించు OFFSCREEN_GLES_Get_మార్పిడి_Interval SDL_EGL_Get_మార్పిడి_Interval
+#నిర్వచించు OFFSCREEN_GLES_సమితి_మార్పిడి_Interval SDL_EGL_సమితి_మార్పిడి_Interval
+#నిర్వచించు OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+బాహ్య bool OFFSCREEN_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం);
+బాహ్య SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_GLContext context);
+బాహ్య bool OFFSCREEN_GLES_మార్పిడి_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_offscreenopengles_h
+#అయితే_ముగింపు // SDL_offscreenopengles_h

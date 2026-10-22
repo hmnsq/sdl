@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_openharmonyclipboard_h_
-#define SDL_openharmonyclipboard_h_
+#నిర్వచితం_కాకపోతే SDL_openharmonyclipboard_h_
+#నిర్వచించు SDL_openharmonyclipboard_h_
 
-extern void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
+బాహ్య శూన్య OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
+బాహ్య శూన్య OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
 
-extern const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
-extern bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this);
+బాహ్య స్థిరరాశి అక్షరం *స్థిరరాశి *OPENHARMONY_Get_పాఠ్యం_Mime_Types(SDL_VideoDevice *_this, size_t *అంకె_mime_types);
+బాహ్య bool OPENHARMONY_సమితి_Clipboard_పాఠ్యం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *పాఠ్యం);
+బాహ్య అక్షరం *OPENHARMONY_Get_Clipboard_పాఠ్యం(SDL_VideoDevice *_this);
+బాహ్య bool OPENHARMONY_Has_Clipboard_పాఠ్యం(SDL_VideoDevice *_this);
 
-#endif // SDL_openharmonyclipboard_h_
+#అయితే_ముగింపు // SDL_openharmonyclipboard_h_

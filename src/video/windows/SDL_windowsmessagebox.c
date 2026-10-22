@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#endif
+#నిర్వచితమైతే HAVE_LIMITS_H
+#అన్తర్భావ <limits.h>
+#అయితే_ముగింపు
+#నిర్వచితం_కాకపోతే SIZE_MAX
+#నిర్వచించు SIZE_MAX ((size_t)-1)
+#అయితే_ముగింపు
 
-#include "../../core/windows/SDL_windows.h"
+#అన్తర్భావ "../../core/windows/SDL_windows.h"
 
-#include "SDL_windowsvideo.h"
+#అన్తర్భావ "SDL_windowsvideo.h"
 
-#ifndef SS_EDITCONTROL
-#define SS_EDITCONTROL 0x2000
-#endif
+#నిర్వచితం_కాకపోతే SS_EDITCONTROL
+#నిర్వచించు SS_EDITCONTROL 0x2000
+#అయితే_ముగింపు
 
-#ifndef IDOK
-#define IDOK 1
-#endif
+#నిర్వచితం_కాకపోతే IDOK
+#నిర్వచించు IDOK 1
+#అయితే_ముగింపు
 
-#ifndef IDCANCEL
-#define IDCANCEL 2
-#endif
+#నిర్వచితం_కాకపోతే IDCANCEL
+#నిర్వచించు IDCANCEL 2
+#అయితే_ముగింపు
 
 // Custom dialog return codes
-#define IDCLOSED           20
-#define IDINVALPTRINIT     50
-#define IDINVALPTRCOMMAND  51
-#define IDINVALPTRSETFOCUS 52
-#define IDINVALPTRDLGITEM  53
+#నిర్వచించు IDCLOSED           20
+#నిర్వచించు IDINVALPTRINIT     50
+#నిర్వచించు IDINVALPTRCOMMAND  51
+#నిర్వచించు IDINVALPTRSETFOCUS 52
+#నిర్వచించు IDINVALPTRDLGITEM  53
 // First button ID
-#define IDBUTTONINDEX0 100
+#నిర్వచించు IDBUTTONINDEX0 100
 
-#define DLGITEMTYPEBUTTON 0x0080
-#define DLGITEMTYPESTATIC 0x0082
+#నిర్వచించు DLGITEMTYPEBUTTON 0x0080
+#నిర్వచించు DLGITEMTYPESTATIC 0x0082
 
 /* Windows only sends the lower 16 bits of the control ID when a button
  * gets clicked. There are also some predefined and custom IDs that lower
  * the available number further. 2^16 - 101 buttons should be enough for
  * everyone, no need to make the code more complex.
  */
-#define MAX_BUTTONS (0xffff - 100)
+#నిర్వచించు MAX_BUTTONS (0xffff - 100)
 
 // Display a Windows message box
 
-typedef HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData);
+రకనిర్వచనం HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT సందేశం_2, WPARAM wParam, LPARAM lParam, LONG_PTR lp_Ref_దత్తాంశం);
 
-enum _TASKDIALOG_FLAGS
+గణన _TASKDIALOG_FLAGS
 {
     TDF_ENABLE_HYPERLINKS = 0x0001,
     TDF_USE_HICON_MAIN = 0x0002,
@@ -79,40 +79,40 @@ enum _TASKDIALOG_FLAGS
     TDF_EXPAND_FOOTER_AREA = 0x0040,
     TDF_EXPANDED_BY_DEFAULT = 0x0080,
     TDF_VERIFICATION_FLAG_CHECKED = 0x0100,
-    TDF_SHOW_PROGRESS_BAR = 0x0200,
-    TDF_SHOW_MARQUEE_PROGRESS_BAR = 0x0400,
+    TDF_SHOW_పురోగతి_BAR = 0x0200,
+    TDF_SHOW_MARQUEE_పురోగతి_BAR = 0x0400,
     TDF_CALLBACK_TIMER = 0x0800,
-    TDF_POSITION_RELATIVE_TO_WINDOW = 0x1000,
+    TDF_POSITION_RELATIVE_గమ్యం_కిటికీ = 0x1000,
     TDF_RTL_LAYOUT = 0x2000,
     TDF_NO_DEFAULT_RADIO_BUTTON = 0x4000,
     TDF_CAN_BE_MINIMIZED = 0x8000,
     // #if (NTDDI_VERSION >= NTDDI_WIN8)
-    TDF_NO_SET_FOREGROUND = 0x00010000, // Don't call SetForegroundWindow() when activating the dialog
+    TDF_NO_సమితి_FOREGROUND = 0x00010000, // Don't call SetForegroundWindow() when activating the dialog
                                         // #endif // (NTDDI_VERSION >= NTDDI_WIN8)
-    TDF_SIZE_TO_CONTENT = 0x01000000    // used by ShellMessageBox to emulate MessageBox sizing behavior
+    TDF_కొలత_గమ్యం_CONTENT = 0x01000000    // used by ShellMessageBox to emulate MessageBox sizing behavior
 };
-typedef int TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
+రకనిర్వచనం పూర్ణాంకం TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
 
-typedef enum _TASKDIALOG_MESSAGES
+రకనిర్వచనం గణన _TASKDIALOG_MESSAGES
 {
-    TDM_NAVIGATE_PAGE = WM_USER + 101,
+    TDM_NAVIGATE_పుట = WM_USER + 101,
     TDM_CLICK_BUTTON = WM_USER + 102,                        // wParam = Button ID
-    TDM_SET_MARQUEE_PROGRESS_BAR = WM_USER + 103,            // wParam = 0 (nonMarque) wParam != 0 (Marquee)
-    TDM_SET_PROGRESS_BAR_STATE = WM_USER + 104,              // wParam = new progress state
-    TDM_SET_PROGRESS_BAR_RANGE = WM_USER + 105,              // lParam = MAKELPARAM(nMinRange, nMaxRange)
-    TDM_SET_PROGRESS_BAR_POS = WM_USER + 106,                // wParam = new position
-    TDM_SET_PROGRESS_BAR_MARQUEE = WM_USER + 107,            // wParam = 0 (stop marquee), wParam != 0 (start marquee), lparam = speed (milliseconds between repaints)
-    TDM_SET_ELEMENT_TEXT = WM_USER + 108,                    // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
+    TDM_సమితి_MARQUEE_పురోగతి_BAR = WM_USER + 103,            // wParam = 0 (nonMarque) wParam != 0 (Marquee)
+    TDM_సమితి_పురోగతి_BAR_STATE = WM_USER + 104,              // wParam = new progress state
+    TDM_సమితి_పురోగతి_BAR_RANGE = WM_USER + 105,              // lParam = MAKELPARAM(nMinRange, nMaxRange)
+    TDM_సమితి_పురోగతి_BAR_POS = WM_USER + 106,                // wParam = new position
+    TDM_సమితి_పురోగతి_BAR_MARQUEE = WM_USER + 107,            // wParam = 0 (stop marquee), wParam != 0 (start marquee), lparam = speed (milliseconds between repaints)
+    TDM_సమితి_ELEMENT_పాఠ్యం = WM_USER + 108,                    // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
     TDM_CLICK_RADIO_BUTTON = WM_USER + 110,                  // wParam = Radio Button ID
     TDM_ENABLE_BUTTON = WM_USER + 111,                       // lParam = 0 (disable), lParam != 0 (enable), wParam = Button ID
     TDM_ENABLE_RADIO_BUTTON = WM_USER + 112,                 // lParam = 0 (disable), lParam != 0 (enable), wParam = Radio Button ID
     TDM_CLICK_VERIFICATION = WM_USER + 113,                  // wParam = 0 (unchecked), 1 (checked), lParam = 1 (set key focus)
-    TDM_UPDATE_ELEMENT_TEXT = WM_USER + 114,                 // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
-    TDM_SET_BUTTON_ELEVATION_REQUIRED_STATE = WM_USER + 115, // wParam = Button ID, lParam = 0 (elevation not required), lParam != 0 (elevation required)
+    TDM_UPDATE_ELEMENT_పాఠ్యం = WM_USER + 114,                 // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
+    TDM_సమితి_BUTTON_ELEVATION_REQUIRED_STATE = WM_USER + 115, // wParam = Button ID, lParam = 0 (elevation not required), lParam != 0 (elevation required)
     TDM_UPDATE_ICON = WM_USER + 116                          // wParam = icon element (TASKDIALOG_ICON_ELEMENTS), lParam = new icon (hIcon if TDF_USE_HICON_* was set, PCWSTR otherwise)
 } TASKDIALOG_MESSAGES;
 
-typedef enum _TASKDIALOG_NOTIFICATIONS
+రకనిర్వచనం గణన _TASKDIALOG_NOTIFICATIONS
 {
     TDN_CREATED = 0,
     TDN_NAVIGATED = 1,
@@ -127,7 +127,7 @@ typedef enum _TASKDIALOG_NOTIFICATIONS
     TDN_EXPANDO_BUTTON_CLICKED = 10 // wParam = 0 (dialog is now collapsed), wParam != 0 (dialog is now expanded)
 } TASKDIALOG_NOTIFICATIONS;
 
-typedef enum _TASKDIALOG_ELEMENTS
+రకనిర్వచనం గణన _TASKDIALOG_ELEMENTS
 {
     TDE_CONTENT,
     TDE_EXPANDED_INFORMATION,
@@ -135,18 +135,18 @@ typedef enum _TASKDIALOG_ELEMENTS
     TDE_MAIN_INSTRUCTION
 } TASKDIALOG_ELEMENTS;
 
-typedef enum _TASKDIALOG_ICON_ELEMENTS
+రకనిర్వచనం గణన _TASKDIALOG_ICON_ELEMENTS
 {
     TDIE_ICON_MAIN,
     TDIE_ICON_FOOTER
 } TASKDIALOG_ICON_ELEMENTS;
 
-#define TD_WARNING_ICON     MAKEINTRESOURCEW(-1)
-#define TD_ERROR_ICON       MAKEINTRESOURCEW(-2)
-#define TD_INFORMATION_ICON MAKEINTRESOURCEW(-3)
-#define TD_SHIELD_ICON      MAKEINTRESOURCEW(-4)
+#నిర్వచించు TD_WARNING_ICON     MAKEINTRESOURCEW(-1)
+#నిర్వచించు TD_ERROR_ICON       MAKEINTRESOURCEW(-2)
+#నిర్వచించు TD_INFORMATION_ICON MAKEINTRESOURCEW(-3)
+#నిర్వచించు TD_SHIELD_ICON      MAKEINTRESOURCEW(-4)
 
-enum _TASKDIALOG_COMMON_BUTTON_FLAGS
+గణన _TASKDIALOG_COMMON_BUTTON_FLAGS
 {
     TDCBF_OK_BUTTON = 0x0001,     // selected control return value IDOK
     TDCBF_YES_BUTTON = 0x0002,    // selected control return value IDYES
@@ -155,25 +155,25 @@ enum _TASKDIALOG_COMMON_BUTTON_FLAGS
     TDCBF_RETRY_BUTTON = 0x0010,  // selected control return value IDRETRY
     TDCBF_CLOSE_BUTTON = 0x0020   // selected control return value IDCLOSE
 };
-typedef int TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
+రకనిర్వచనం పూర్ణాంకం TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
 
-#pragma pack(push, 1)
+#సూచన pack(నెట్టు, 1)
 
-typedef struct _TASKDIALOG_BUTTON
+రకనిర్వచనం నిర్మాణం _TASKDIALOG_BUTTON
 {
-    int nButtonID;
-    PCWSTR pszButtonText;
+    పూర్ణాంకం nButtonID;
+    PCWSTR psz_Button_పాఠ్యం;
 } TASKDIALOG_BUTTON;
 
-typedef struct _TASKDIALOGCONFIG
+రకనిర్వచనం నిర్మాణం _TASKDIALOGCONFIG
 {
-    UINT cbSize;
-    HWND hwndParent;                                // incorrectly named, this is the owner window, not a parent.
+    UINT cb_కొలత;
+    HWND hwnd_మాతృ;                                // incorrectly named, this is the owner window, not a parent.
     HINSTANCE hInstance;                            // used for MAKEINTRESOURCE() strings
     TASKDIALOG_FLAGS dwFlags;                       // TASKDIALOG_FLAGS (TDF_XXX) flags
     TASKDIALOG_COMMON_BUTTON_FLAGS dwCommonButtons; // TASKDIALOG_COMMON_BUTTON (TDCBF_XXX) flags
-    PCWSTR pszWindowTitle;                          // string or MAKEINTRESOURCE()
-    union
+    PCWSTR psz_కిటికీ_Title;                          // string or MAKEINTRESOURCE()
+    సంఘం
     {
         HICON hMainIcon;
         PCWSTR pszMainIcon;
@@ -181,333 +181,333 @@ typedef struct _TASKDIALOGCONFIG
     PCWSTR pszMainInstruction;
     PCWSTR pszContent;
     UINT cButtons;
-    const TASKDIALOG_BUTTON *pButtons;
-    int nDefaultButton;
+    స్థిరరాశి TASKDIALOG_BUTTON *pButtons;
+    పూర్ణాంకం nDefaultButton;
     UINT cRadioButtons;
-    const TASKDIALOG_BUTTON *pRadioButtons;
-    int nDefaultRadioButton;
-    PCWSTR pszVerificationText;
+    స్థిరరాశి TASKDIALOG_BUTTON *pRadioButtons;
+    పూర్ణాంకం nDefaultRadioButton;
+    PCWSTR psz_Verification_పాఠ్యం;
     PCWSTR pszExpandedInformation;
-    PCWSTR pszExpandedControlText;
-    PCWSTR pszCollapsedControlText;
-    union
+    PCWSTR psz_Expanded_Control_పాఠ్యం;
+    PCWSTR psz_Collapsed_Control_పాఠ్యం;
+    సంఘం
     {
         HICON hFooterIcon;
         PCWSTR pszFooterIcon;
     } /*DUMMYUNIONNAME2*/;
     PCWSTR pszFooter;
     PFTASKDIALOGCALLBACK pfCallback;
-    LONG_PTR lpCallbackData;
-    UINT cxWidth; // width of the Task Dialog's client area in DLU's. If 0, Task Dialog will calculate the ideal width.
+    LONG_PTR lp_Callback_దత్తాంశం;
+    UINT cx_వెడల్పు; // width of the Task Dialog's client area in DLU's. If 0, Task Dialog will calculate the ideal width.
 } TASKDIALOGCONFIG;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
-    WORD dlgVer;
-    WORD signature;
+    మాట dlgVer;
+    మాట signature;
     DWORD helpID;
     DWORD exStyle;
     DWORD style;
-    WORD cDlgItems;
-    short x;
-    short y;
-    short cx;
-    short cy;
+    మాట c_Dlg_వస్తువులు;
+    పొట్టి x;
+    పొట్టి y;
+    పొట్టి cx;
+    పొట్టి cy;
 } DLGTEMPLATEEX;
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
     DWORD helpID;
     DWORD exStyle;
     DWORD style;
-    short x;
-    short y;
-    short cx;
-    short cy;
+    పొట్టి x;
+    పొట్టి y;
+    పొట్టి cx;
+    పొట్టి cy;
     DWORD id;
 } DLGITEMTEMPLATEEX;
 
-#pragma pack(pop)
+#సూచన pack(తీయి)
 
-typedef struct
+రకనిర్వచనం నిర్మాణం
 {
     DLGTEMPLATEEX *lpDialog;
-    void *data;
-    size_t size;
-    size_t used;
-    WORD numbuttons;
-} WIN_DialogData;
+    శూన్య *దత్తాంశం;
+    size_t కొలత;
+    size_t వాడిన;
+    మాట numbuttons;
+} WIN_Dialog_దత్తాంశం;
 
-static bool GetButtonIndex(const SDL_MessageBoxData *messageboxdata, SDL_MessageBoxButtonFlags flags, size_t *i)
+స్థిర bool Get_Button_సూచీ(స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *messageboxdata, SDL_సందేశం_Box_Button_Flags flags, size_t *i)
 {
-    for (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
-        if (messageboxdata->buttons[*i].flags & flags) {
-            return true;
+    కొరకు (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
+        ఒకవేళ (messageboxdata->buttons[*i].flags & flags) {
+            తిరిగి true;
         }
     }
-    return false;
+    తిరిగి false;
 }
 
-static INT_PTR CALLBACK MessageBoxDialogProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
+స్థిర INT_PTR CALLBACK సందేశం_Box_Dialog_Proc(HWND hDlg, UINT i_సందేశం, WPARAM wParam, LPARAM lParam)
 {
-    const SDL_MessageBoxData *messageboxdata;
+    స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *messageboxdata;
     size_t buttonindex;
 
-    switch (iMessage) {
-    case WM_INITDIALOG:
-        if (lParam == 0) {
-            EndDialog(hDlg, IDINVALPTRINIT);
-            return TRUE;
+    ఎంపిక (i_సందేశం) {
+    స్థితి WM_INITDIALOG:
+        ఒకవేళ (lParam == 0) {
+            చివర_Dialog(hDlg, IDINVALPTRINIT);
+            తిరిగి TRUE;
         }
-        messageboxdata = (const SDL_MessageBoxData *)lParam;
-        SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
+        messageboxdata = (స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *)lParam;
+        సమితి_కిటికీ_Long_Ptr(hDlg, GWLP_USERDATA, lParam);
 
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+        ఒకవేళ (Get_Button_సూచీ(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
             // Focus on the first default return-key button
-            HWND buttonctl = GetDlgItem(hDlg, (int)(IDBUTTONINDEX0 + buttonindex));
-            if (!buttonctl) {
-                EndDialog(hDlg, IDINVALPTRDLGITEM);
+            HWND buttonctl = Get_Dlg_అంశం(hDlg, (పూర్ణాంకం)(IDBUTTONINDEX0 + buttonindex));
+            ఒకవేళ (!buttonctl) {
+                చివర_Dialog(hDlg, IDINVALPTRDLGITEM);
             }
-            PostMessage(hDlg, WM_NEXTDLGCTL, (WPARAM)buttonctl, TRUE);
-        } else {
+            Post_సందేశం(hDlg, WM_NEXTDLGCTL, (WPARAM)buttonctl, TRUE);
+        } లేకపోతే {
             // Give the focus to the dialog window instead
-            SetFocus(hDlg);
+            సమితి_Focus(hDlg);
         }
-        return FALSE;
-    case WM_SETFOCUS:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
-            EndDialog(hDlg, IDINVALPTRSETFOCUS);
-            return TRUE;
+        తిరిగి FALSE;
+    స్థితి WM_SETFOCUS:
+        messageboxdata = (స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *)Get_కిటికీ_Long_Ptr(hDlg, GWLP_USERDATA);
+        ఒకవేళ (!messageboxdata) {
+            చివర_Dialog(hDlg, IDINVALPTRSETFOCUS);
+            తిరిగి TRUE;
         }
 
         // Let the default button be focused if there is one. Otherwise, prevent any initial focus.
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
-            return FALSE;
+        ఒకవేళ (Get_Button_సూచీ(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+            తిరిగి FALSE;
         }
-        return TRUE;
-    case WM_COMMAND:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
-            EndDialog(hDlg, IDINVALPTRCOMMAND);
-            return TRUE;
+        తిరిగి TRUE;
+    స్థితి WM_COMMAND:
+        messageboxdata = (స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *)Get_కిటికీ_Long_Ptr(hDlg, GWLP_USERDATA);
+        ఒకవేళ (!messageboxdata) {
+            చివర_Dialog(hDlg, IDINVALPTRCOMMAND);
+            తిరిగి TRUE;
         }
 
         // Return the ID of the button that was pushed
-        if (wParam == IDOK) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
-                EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
+        ఒకవేళ (wParam == IDOK) {
+            ఒకవేళ (Get_Button_సూచీ(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+                చివర_Dialog(hDlg, IDBUTTONINDEX0 + buttonindex);
             }
-        } else if (wParam == IDCANCEL) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
-                EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
-            } else {
+        } లేకపోతే ఒకవేళ (wParam == IDCANCEL) {
+            ఒకవేళ (Get_Button_సూచీ(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
+                చివర_Dialog(hDlg, IDBUTTONINDEX0 + buttonindex);
+            } లేకపోతే {
                 // Closing of window was requested by user or system. It would be rude not to comply.
-                EndDialog(hDlg, IDCLOSED);
+                చివర_Dialog(hDlg, IDCLOSED);
             }
-        } else if (wParam >= IDBUTTONINDEX0 && (int)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
-            EndDialog(hDlg, wParam);
+        } లేకపోతే ఒకవేళ (wParam >= IDBUTTONINDEX0 && (పూర్ణాంకం)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+            చివర_Dialog(hDlg, wParam);
         }
-        return TRUE;
+        తిరిగి TRUE;
 
-    default:
-        break;
+    అప్రమేయ:
+        ఆపు;
     }
-    return FALSE;
+    తిరిగి FALSE;
 }
 
-static bool ExpandDialogSpace(WIN_DialogData *dialog, size_t space)
+స్థిర bool ExpandDialogSpace(WIN_Dialog_దత్తాంశం *dialog, size_t space)
 {
     // Growing memory in 64 KiB steps.
-    const size_t sizestep = 0x10000;
-    size_t size = dialog->size;
+    స్థిరరాశి size_t sizestep = 0x10000;
+    size_t కొలత = dialog->కొలత;
 
-    if (size == 0) {
+    ఒకవేళ (కొలత == 0) {
         // Start with 4 KiB or a multiple of 64 KiB to fit the data.
-        size = 0x1000;
-        if (SIZE_MAX - sizestep < space) {
-            size = space;
-        } else if (space > size) {
-            size = (space + sizestep) & ~(sizestep - 1);
+        కొలత = 0x1000;
+        ఒకవేళ (SIZE_MAX - sizestep < space) {
+            కొలత = space;
+        } లేకపోతే ఒకవేళ (space > కొలత) {
+            కొలత = (space + sizestep) & ~(sizestep - 1);
         }
-    } else if (SIZE_MAX - dialog->used < space) {
-        SDL_OutOfMemory();
-        return false;
-    } else if (SIZE_MAX - (dialog->used + space) < sizestep) {
+    } లేకపోతే ఒకవేళ (SIZE_MAX - dialog->వాడిన < space) {
+        SDL_బహిర్గతం_యొక్క_జ్ఞాపకం();
+        తిరిగి false;
+    } లేకపోతే ఒకవేళ (SIZE_MAX - (dialog->వాడిన + space) < sizestep) {
         // Close to the maximum.
-        size = dialog->used + space;
-    } else if (size < dialog->used + space) {
+        కొలత = dialog->వాడిన + space;
+    } లేకపోతే ఒకవేళ (కొలత < dialog->వాడిన + space) {
         // Round up to the next 64 KiB block.
-        size = dialog->used + space;
-        size += sizestep - size % sizestep;
+        కొలత = dialog->వాడిన + space;
+        కొలత += sizestep - కొలత % sizestep;
     }
 
-    if (size > dialog->size) {
-        void *data = SDL_realloc(dialog->data, size);
-        if (!data) {
-            return false;
+    ఒకవేళ (కొలత > dialog->కొలత) {
+        శూన్య *దత్తాంశం = SDL_realloc(dialog->దత్తాంశం, కొలత);
+        ఒకవేళ (!దత్తాంశం) {
+            తిరిగి false;
         }
-        dialog->data = data;
-        dialog->size = size;
-        dialog->lpDialog = (DLGTEMPLATEEX *)dialog->data;
+        dialog->దత్తాంశం = దత్తాంశం;
+        dialog->కొలత = కొలత;
+        dialog->lpDialog = (DLGTEMPLATEEX *)dialog->దత్తాంశం;
     }
-    return true;
+    తిరిగి true;
 }
 
-static bool AlignDialogData(WIN_DialogData *dialog, size_t size)
+స్థిర bool Align_Dialog_దత్తాంశం(WIN_Dialog_దత్తాంశం *dialog, size_t కొలత)
 {
-    size_t padding = (dialog->used % size);
+    size_t padding = (dialog->వాడిన % కొలత);
 
-    if (!ExpandDialogSpace(dialog, padding)) {
-        return false;
+    ఒకవేళ (!ExpandDialogSpace(dialog, padding)) {
+        తిరిగి false;
     }
 
-    dialog->used += padding;
+    dialog->వాడిన += padding;
 
-    return true;
+    తిరిగి true;
 }
 
-static bool AddDialogData(WIN_DialogData *dialog, const void *data, size_t size)
+స్థిర bool కూడు_Dialog_దత్తాంశం(WIN_Dialog_దత్తాంశం *dialog, స్థిరరాశి శూన్య *దత్తాంశం, size_t కొలత)
 {
-    if (!ExpandDialogSpace(dialog, size)) {
-        return false;
+    ఒకవేళ (!ExpandDialogSpace(dialog, కొలత)) {
+        తిరిగి false;
     }
 
-    SDL_memcpy((Uint8 *)dialog->data + dialog->used, data, size);
-    dialog->used += size;
+    SDL_memcpy((Uint8 *)dialog->దత్తాంశం + dialog->వాడిన, దత్తాంశం, కొలత);
+    dialog->వాడిన += కొలత;
 
-    return true;
+    తిరిగి true;
 }
 
-static bool AddDialogString(WIN_DialogData *dialog, const char *string)
+స్థిర bool కూడు_Dialog_String(WIN_Dialog_దత్తాంశం *dialog, స్థిరరాశి అక్షరం *string)
 {
     WCHAR *wstring;
     WCHAR *p;
-    size_t count;
-    bool status;
+    size_t లెక్క;
+    bool స్థితి_2;
 
-    if (!string) {
+    ఒకవేళ (!string) {
         string = "";
     }
 
-    wstring = WIN_UTF8ToStringW(string);
-    if (!wstring) {
-        return false;
+    wstring = WIN_UTF8_గమ్యం_String_W(string);
+    ఒకవేళ (!wstring) {
+        తిరిగి false;
     }
 
     // Find out how many characters we have, including null terminator
-    count = 0;
-    for (p = wstring; *p; ++p) {
-        ++count;
+    లెక్క = 0;
+    కొరకు (p = wstring; *p; ++p) {
+        ++లెక్క;
     }
-    ++count;
+    ++లెక్క;
 
-    status = AddDialogData(dialog, wstring, count * sizeof(WCHAR));
+    స్థితి_2 = కూడు_Dialog_దత్తాంశం(dialog, wstring, లెక్క * పరిమాణం(WCHAR));
     SDL_free(wstring);
-    return status;
+    తిరిగి స్థితి_2;
 }
 
-static int s_BaseUnitsX;
-static int s_BaseUnitsY;
-static void Vec2ToDLU(short *x, short *y)
+స్థిర పూర్ణాంకం s_పునాది_Units_X;
+స్థిర పూర్ణాంకం s_పునాది_Units_Y;
+స్థిర శూన్య Vec2_గమ్యం_DLU(పొట్టి *x, పొట్టి *y)
 {
-    SDL_assert(s_BaseUnitsX != 0); // we init in WIN_ShowMessageBox(), which is the only public function...
+    SDL_assert(s_పునాది_Units_X != 0); // we init in WIN_ShowMessageBox(), which is the only public function...
 
-    *x = (short)MulDiv(*x, 4, s_BaseUnitsX);
-    *y = (short)MulDiv(*y, 8, s_BaseUnitsY);
+    *x = (పొట్టి)MulDiv(*x, 4, s_పునాది_Units_X);
+    *y = (పొట్టి)MulDiv(*y, 8, s_పునాది_Units_Y);
 }
 
-static bool AddDialogControl(WIN_DialogData *dialog, WORD type, DWORD style, DWORD exStyle, int x, int y, int w, int h, int id, const char *caption, WORD ordinal)
+స్థిర bool కూడు_Dialog_Control(WIN_Dialog_దత్తాంశం *dialog, మాట type, DWORD style, DWORD exStyle, పూర్ణాంకం x, పూర్ణాంకం y, పూర్ణాంకం w, పూర్ణాంకం h, పూర్ణాంకం id, స్థిరరాశి అక్షరం *caption, మాట ordinal)
 {
-    DLGITEMTEMPLATEEX item;
-    WORD marker = 0xFFFF;
-    WORD extraData = 0;
+    DLGITEMTEMPLATEEX అంశం;
+    మాట marker = 0xFFFF;
+    మాట extra_దత్తాంశం = 0;
 
-    SDL_zero(item);
-    item.style = style;
-    item.exStyle = exStyle;
-    item.x = (short)x;
-    item.y = (short)y;
-    item.cx = (short)w;
-    item.cy = (short)h;
-    item.id = id;
+    SDL_zero(అంశం);
+    అంశం.style = style;
+    అంశం.exStyle = exStyle;
+    అంశం.x = (పొట్టి)x;
+    అంశం.y = (పొట్టి)y;
+    అంశం.cx = (పొట్టి)w;
+    అంశం.cy = (పొట్టి)h;
+    అంశం.id = id;
 
-    Vec2ToDLU(&item.x, &item.y);
-    Vec2ToDLU(&item.cx, &item.cy);
+    Vec2_గమ్యం_DLU(&అంశం.x, &అంశం.y);
+    Vec2_గమ్యం_DLU(&అంశం.cx, &అంశం.cy);
 
-    if (!AlignDialogData(dialog, sizeof(DWORD))) {
-        return false;
+    ఒకవేళ (!Align_Dialog_దత్తాంశం(dialog, పరిమాణం(DWORD))) {
+        తిరిగి false;
     }
-    if (!AddDialogData(dialog, &item, sizeof(item))) {
-        return false;
+    ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &అంశం, పరిమాణం(అంశం))) {
+        తిరిగి false;
     }
-    if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-        return false;
+    ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &marker, పరిమాణం(marker))) {
+        తిరిగి false;
     }
-    if (!AddDialogData(dialog, &type, sizeof(type))) {
-        return false;
+    ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &type, పరిమాణం(type))) {
+        తిరిగి false;
     }
-    if (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
-        if (!AddDialogString(dialog, caption)) {
-            return false;
+    ఒకవేళ (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
+        ఒకవేళ (!కూడు_Dialog_String(dialog, caption)) {
+            తిరిగి false;
         }
-    } else {
-        if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-            return false;
+    } లేకపోతే {
+        ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &marker, పరిమాణం(marker))) {
+            తిరిగి false;
         }
-        if (!AddDialogData(dialog, &ordinal, sizeof(ordinal))) {
-            return false;
+        ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &ordinal, పరిమాణం(ordinal))) {
+            తిరిగి false;
         }
     }
-    if (!AddDialogData(dialog, &extraData, sizeof(extraData))) {
-        return false;
+    ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &extra_దత్తాంశం, పరిమాణం(extra_దత్తాంశం))) {
+        తిరిగి false;
     }
-    if (type == DLGITEMTYPEBUTTON) {
+    ఒకవేళ (type == DLGITEMTYPEBUTTON) {
         dialog->numbuttons++;
     }
-    ++dialog->lpDialog->cDlgItems;
+    ++dialog->lpDialog->c_Dlg_వస్తువులు;
 
-    return true;
+    తిరిగి true;
 }
 
-static bool AddDialogStaticText(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text)
+స్థిర bool కూడు_Dialog_Static_పాఠ్యం(WIN_Dialog_దత్తాంశం *dialog, పూర్ణాంకం x, పూర్ణాంకం y, పూర్ణాంకం w, పూర్ణాంకం h, స్థిరరాశి అక్షరం *పాఠ్యం)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | SS_LEFT | SS_NOPREFIX | SS_EDITCONTROL | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, text, 0);
+    DWORD style = WS_VISIBLE | WS_బిడ్డ | SS_ఎడమ | SS_NOPREFIX | SS_EDITCONTROL | WS_సమూహం;
+    తిరిగి కూడు_Dialog_Control(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, పాఠ్యం, 0);
 }
 
-static bool AddDialogStaticIcon(WIN_DialogData *dialog, int x, int y, int w, int h, Uint16 ordinal)
+స్థిర bool కూడు_Dialog_Static_Icon(WIN_Dialog_దత్తాంశం *dialog, పూర్ణాంకం x, పూర్ణాంకం y, పూర్ణాంకం w, పూర్ణాంకం h, Uint16 ordinal)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | SS_ICON | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, NULL, ordinal);
+    DWORD style = WS_VISIBLE | WS_బిడ్డ | SS_ICON | WS_సమూహం;
+    తిరిగి కూడు_Dialog_Control(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, ఖాళీ, ordinal);
 }
 
-static bool AddDialogButton(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text, int id, bool isDefault)
+స్థిర bool కూడు_Dialog_Button(WIN_Dialog_దత్తాంశం *dialog, పూర్ణాంకం x, పూర్ణాంకం y, పూర్ణాంకం w, పూర్ణాంకం h, స్థిరరాశి అక్షరం *పాఠ్యం, పూర్ణాంకం id, bool isDefault)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
-    if (isDefault) {
+    DWORD style = WS_VISIBLE | WS_బిడ్డ | WS_TABSTOP;
+    ఒకవేళ (isDefault) {
         style |= BS_DEFPUSHBUTTON;
-    } else {
+    } లేకపోతే {
         style |= BS_PUSHBUTTON;
     }
     // The first button marks the start of the group.
-    if (dialog->numbuttons == 0) {
-        style |= WS_GROUP;
+    ఒకవేళ (dialog->numbuttons == 0) {
+        style |= WS_సమూహం;
     }
-    return AddDialogControl(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, text, 0);
+    తిరిగి కూడు_Dialog_Control(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, పాఠ్యం, 0);
 }
 
-static void FreeDialogData(WIN_DialogData *dialog)
+స్థిర శూన్య Free_Dialog_దత్తాంశం(WIN_Dialog_దత్తాంశం *dialog)
 {
-    SDL_free(dialog->data);
+    SDL_free(dialog->దత్తాంశం);
     SDL_free(dialog);
 }
 
-static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
+స్థిర WIN_Dialog_దత్తాంశం *Create_Dialog_దత్తాంశం(పూర్ణాంకం w, పూర్ణాంకం h, స్థిరరాశి అక్షరం *caption)
 {
-    WIN_DialogData *dialog;
+    WIN_Dialog_దత్తాంశం *dialog;
     DLGTEMPLATEEX dialogTemplate;
-    WORD WordToPass;
+    మాట మాట_గమ్యం_Pass;
 
     SDL_zero(dialogTemplate);
     dialogTemplate.dlgVer = 1;
@@ -515,37 +515,37 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
     dialogTemplate.style = (WS_CAPTION | DS_CENTER | DS_SHELLFONT);
     dialogTemplate.x = 0;
     dialogTemplate.y = 0;
-    dialogTemplate.cx = (short)w;
-    dialogTemplate.cy = (short)h;
-    Vec2ToDLU(&dialogTemplate.cx, &dialogTemplate.cy);
+    dialogTemplate.cx = (పొట్టి)w;
+    dialogTemplate.cy = (పొట్టి)h;
+    Vec2_గమ్యం_DLU(&dialogTemplate.cx, &dialogTemplate.cy);
 
-    dialog = (WIN_DialogData *)SDL_calloc(1, sizeof(*dialog));
-    if (!dialog) {
-        return NULL;
+    dialog = (WIN_Dialog_దత్తాంశం *)SDL_calloc(1, పరిమాణం(*dialog));
+    ఒకవేళ (!dialog) {
+        తిరిగి ఖాళీ;
     }
 
-    if (!AddDialogData(dialog, &dialogTemplate, sizeof(dialogTemplate))) {
-        FreeDialogData(dialog);
-        return NULL;
+    ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &dialogTemplate, పరిమాణం(dialogTemplate))) {
+        Free_Dialog_దత్తాంశం(dialog);
+        తిరిగి ఖాళీ;
     }
 
     // No menu
-    WordToPass = 0;
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
-        FreeDialogData(dialog);
-        return NULL;
+    మాట_గమ్యం_Pass = 0;
+    ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &మాట_గమ్యం_Pass, 2)) {
+        Free_Dialog_దత్తాంశం(dialog);
+        తిరిగి ఖాళీ;
     }
 
     // No custom class
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
-        FreeDialogData(dialog);
-        return NULL;
+    ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &మాట_గమ్యం_Pass, 2)) {
+        Free_Dialog_దత్తాంశం(dialog);
+        తిరిగి ఖాళీ;
     }
 
     // title
-    if (!AddDialogString(dialog, caption)) {
-        FreeDialogData(dialog);
-        return NULL;
+    ఒకవేళ (!కూడు_Dialog_String(dialog, caption)) {
+        Free_Dialog_దత్తాంశం(dialog);
+        తిరిగి ఖాళీ;
     }
 
     // Font stuff
@@ -553,58 +553,58 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
         /*
          * We want to use the system messagebox font.
          */
-        BYTE ToPass;
+        BYTE గమ్యం_Pass;
 
         NONCLIENTMETRICSA NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cb_కొలత = పరిమాణం(NCM);
         SystemParametersInfoA(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
 
         // Font size - convert to logical font size for dialog parameter.
         {
-            HDC ScreenDC = GetDC(NULL);
-            int LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
-            if (!LogicalPixelsY) {
+            HDC ScreenDC = GetDC(ఖాళీ);
+            పూర్ణాంకం LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
+            ఒకవేళ (!LogicalPixelsY) {
                 LogicalPixelsY = 72; // This can happen if the application runs out of GDI handles
             }
 
-            WordToPass = (WORD)(-72 * NCM.lfMessageFont.lfHeight / LogicalPixelsY);
-            ReleaseDC(NULL, ScreenDC);
+            మాట_గమ్యం_Pass = (మాట)(-72 * NCM.lf_సందేశం_Font.lf_ఎత్తు / LogicalPixelsY);
+            ReleaseDC(ఖాళీ, ScreenDC);
         }
 
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
-            FreeDialogData(dialog);
-            return NULL;
+        ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &మాట_గమ్యం_Pass, 2)) {
+            Free_Dialog_దత్తాంశం(dialog);
+            తిరిగి ఖాళీ;
         }
 
         // Font weight
-        WordToPass = (WORD)NCM.lfMessageFont.lfWeight;
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
-            FreeDialogData(dialog);
-            return NULL;
+        మాట_గమ్యం_Pass = (మాట)NCM.lf_సందేశం_Font.lf_బరువు;
+        ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &మాట_గమ్యం_Pass, 2)) {
+            Free_Dialog_దత్తాంశం(dialog);
+            తిరిగి ఖాళీ;
         }
 
         // italic?
-        ToPass = NCM.lfMessageFont.lfItalic;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
-            FreeDialogData(dialog);
-            return NULL;
+        గమ్యం_Pass = NCM.lf_సందేశం_Font.lfItalic;
+        ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &గమ్యం_Pass, 1)) {
+            Free_Dialog_దత్తాంశం(dialog);
+            తిరిగి ఖాళీ;
         }
 
         // charset?
-        ToPass = NCM.lfMessageFont.lfCharSet;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
-            FreeDialogData(dialog);
-            return NULL;
+        గమ్యం_Pass = NCM.lf_సందేశం_Font.lf_Char_సమితి;
+        ఒకవేళ (!కూడు_Dialog_దత్తాంశం(dialog, &గమ్యం_Pass, 1)) {
+            Free_Dialog_దత్తాంశం(dialog);
+            తిరిగి ఖాళీ;
         }
 
         // font typeface.
-        if (!AddDialogString(dialog, NCM.lfMessageFont.lfFaceName)) {
-            FreeDialogData(dialog);
-            return NULL;
+        ఒకవేళ (!కూడు_Dialog_String(dialog, NCM.lf_సందేశం_Font.lfFaceName)) {
+            Free_Dialog_దత్తాంశం(dialog);
+            తిరిగి ఖాళీ;
         }
     }
 
-    return dialog;
+    తిరిగి dialog;
 }
 
 /* Escaping ampersands is necessary to disable mnemonics in dialog controls.
@@ -616,128 +616,128 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
  * work buffer is freed. Once all strings have been processed, it's the caller's
  * responsibility to free the work buffer with SDL_free, even on errors.
  */
-static const char *EscapeAmpersands(char **dst, size_t *dstlen, const char *src)
+స్థిర స్థిరరాశి అక్షరం *EscapeAmpersands(అక్షరం **dst, size_t *dstlen, స్థిరరాశి అక్షరం *src)
 {
-    char *newdst;
+    అక్షరం *newdst;
     size_t ampcount = 0;
     size_t srclen = 0;
 
-    if (!src) {
-        return NULL;
+    ఒకవేళ (!src) {
+        తిరిగి ఖాళీ;
     }
 
-    while (src[srclen]) {
-        if (src[srclen] == '&') {
+    అయితే (src[srclen]) {
+        ఒకవేళ (src[srclen] == '&') {
             ampcount++;
         }
         srclen++;
     }
     srclen++;
 
-    if (ampcount == 0) {
+    ఒకవేళ (ampcount == 0) {
         // Nothing to do.
-        return src;
+        తిరిగి src;
     }
-    if (SIZE_MAX - srclen < ampcount) {
-        return NULL;
+    ఒకవేళ (SIZE_MAX - srclen < ampcount) {
+        తిరిగి ఖాళీ;
     }
-    if (!*dst || *dstlen < srclen + ampcount) {
+    ఒకవేళ (!*dst || *dstlen < srclen + ampcount) {
         // Allocating extra space in case the next strings are a bit longer.
         size_t extraspace = SIZE_MAX - (srclen + ampcount);
-        if (extraspace > 512) {
+        ఒకవేళ (extraspace > 512) {
             extraspace = 512;
         }
         *dstlen = srclen + ampcount + extraspace;
         SDL_free(*dst);
-        *dst = NULL;
-        newdst = (char *)SDL_malloc(*dstlen);
-        if (!newdst) {
-            return NULL;
+        *dst = ఖాళీ;
+        newdst = (అక్షరం *)SDL_malloc(*dstlen);
+        ఒకవేళ (!newdst) {
+            తిరిగి ఖాళీ;
         }
         *dst = newdst;
-    } else {
+    } లేకపోతే {
         newdst = *dst;
     }
 
     // The escape character is the ampersand itself.
-    while (srclen--) {
-        if (*src == '&') {
+    అయితే (srclen--) {
+        ఒకవేళ (*src == '&') {
             *newdst++ = '&';
         }
         *newdst++ = *src++;
     }
 
-    return *dst;
+    తిరిగి *dst;
 }
 
-static float WIN_GetContentScale(void)
+స్థిర దశాంశం WIN_GetContentScale(శూన్య)
 {
-    int dpi = 0;
+    పూర్ణాంకం dpi = 0;
 
-#if 0 // We don't know what monitor the dialog will be shown on
+#ఒకవేళ 0 // We don't know what monitor the dialog will be shown on
     UINT hdpi_uint, vdpi_uint;
-    if (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-        dpi = (int)hdpi_uint;
+    ఒకవేళ (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+        dpi = (పూర్ణాంకం)hdpi_uint;
     }
-#endif
-    if (dpi == 0) {
+#అయితే_ముగింపు
+    ఒకవేళ (dpi == 0) {
         // Window 8.0 and below: same DPI for all monitors
-        HDC hdc = GetDC(NULL);
-        if (hdc) {
+        HDC hdc = GetDC(ఖాళీ);
+        ఒకవేళ (hdc) {
             dpi = GetDeviceCaps(hdc, LOGPIXELSX);
-            ReleaseDC(NULL, hdc);
+            ReleaseDC(ఖాళీ, hdc);
         }
     }
-    if (dpi == 0) {
+    ఒకవేళ (dpi == 0) {
         // Safe default
         dpi = USER_DEFAULT_SCREEN_DPI;
     }
-    return dpi / (float)USER_DEFAULT_SCREEN_DPI;
+    తిరిగి dpi / (దశాంశం)USER_DEFAULT_SCREEN_DPI;
 }
 
 // This function is called if a Task Dialog is unsupported.
-static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+స్థిర bool WIN_Show_Old_సందేశం_Box(స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *messageboxdata, పూర్ణాంకం *buttonID)
 {
-    WIN_DialogData *dialog;
-    int i, x, y;
+    WIN_Dialog_దత్తాంశం *dialog;
+    పూర్ణాంకం i, x, y;
     HFONT DialogFont;
-    SIZE Size;
-    RECT TextSize;
+    కొలత_3 కొలత_2;
+    RECT పాఠ్యం_కొలత;
     wchar_t *wmessage;
     TEXTMETRIC TM;
     HDC FontDC;
     INT_PTR rc;
-    char *ampescape = NULL;
+    అక్షరం *ampescape = ఖాళీ;
     size_t ampescapesize = 0;
     Uint16 defbuttoncount = 0;
     Uint16 icon = 0;
-    bool result;
+    bool ఫలితం;
 
-    HWND ParentWindow = NULL;
+    HWND మాతృ_కిటికీ_2 = ఖాళీ;
 
-    const float scale = WIN_GetContentScale();
-    const int ButtonWidth = (int)SDL_roundf(88 * scale);
-    const int ButtonHeight = (int)SDL_roundf(26 * scale);
-    const int TextMargin = (int)SDL_roundf(16 * scale);
-    const int ButtonMargin = (int)SDL_roundf(12 * scale);
-    const int IconWidth = GetSystemMetrics(SM_CXICON);
-    const int IconHeight = GetSystemMetrics(SM_CYICON);
-    const int IconMargin = (int)SDL_roundf(20 * scale);
+    స్థిరరాశి దశాంశం scale = WIN_GetContentScale();
+    స్థిరరాశి పూర్ణాంకం Button_వెడల్పు = (పూర్ణాంకం)SDL_roundf(88 * scale);
+    స్థిరరాశి పూర్ణాంకం Button_ఎత్తు = (పూర్ణాంకం)SDL_roundf(26 * scale);
+    స్థిరరాశి పూర్ణాంకం పాఠ్యం_Margin = (పూర్ణాంకం)SDL_roundf(16 * scale);
+    స్థిరరాశి పూర్ణాంకం ButtonMargin = (పూర్ణాంకం)SDL_roundf(12 * scale);
+    స్థిరరాశి పూర్ణాంకం Icon_వెడల్పు = GetSystemMetrics(SM_CXICON);
+    స్థిరరాశి పూర్ణాంకం Icon_ఎత్తు = GetSystemMetrics(SM_CYICON);
+    స్థిరరాశి పూర్ణాంకం IconMargin = (పూర్ణాంకం)SDL_roundf(20 * scale);
 
-    if (messageboxdata->numbuttons > MAX_BUTTONS) {
-        return SDL_SetError("Number of buttons exceeds limit of %d", MAX_BUTTONS);
+    ఒకవేళ (messageboxdata->numbuttons > MAX_BUTTONS) {
+        తిరిగి SDL_సమితి_Error("Number of buttons exceeds limit of %d", MAX_BUTTONS);
     }
 
-    switch (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
-    case SDL_MESSAGEBOX_ERROR:
+    ఎంపిక (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
+    స్థితి SDL_MESSAGEBOX_ERROR:
         icon = (Uint16)(size_t)IDI_ERROR;
-        break;
-    case SDL_MESSAGEBOX_WARNING:
+        ఆపు;
+    స్థితి SDL_MESSAGEBOX_WARNING:
         icon = (Uint16)(size_t)IDI_WARNING;
-        break;
-    case SDL_MESSAGEBOX_INFORMATION:
+        ఆపు;
+    స్థితి SDL_MESSAGEBOX_INFORMATION:
         icon = (Uint16)(size_t)IDI_INFORMATION;
-        break;
+        ఆపు;
     }
 
     /* Jan 25th, 2013 - dant@fleetsa.com
@@ -775,10 +775,10 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         // Create a duplicate of the font used in system message boxes.
         LOGFONT lf;
         NONCLIENTMETRICS NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cb_కొలత = పరిమాణం(NCM);
         SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
-        lf = NCM.lfMessageFont;
-        DialogFont = CreateFontIndirect(&lf);
+        lf = NCM.lf_సందేశం_Font;
+        DialogFont = Create_Font_పరోక్ష(&lf);
     }
 
     // Select the font in to our DC
@@ -786,190 +786,190 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
 
     {
         // Get the metrics to try and figure our DLU conversion.
-        GetTextMetrics(FontDC, &TM);
+        Get_పాఠ్యం_Metrics(FontDC, &TM);
 
         /* Calculation from the following documentation:
          * https://support.microsoft.com/en-gb/help/125681/how-to-calculate-dialog-base-units-with-non-system-based-font
          * This fixes bug 2137, dialog box calculation with a fixed-width system font
          */
         {
-            SIZE extent;
-            GetTextExtentPoint32A(FontDC, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 52, &extent);
-            s_BaseUnitsX = (extent.cx / 26 + 1) / 2;
+            కొలత_3 extent;
+            Get_పాఠ్యం_Extent_Point32_A(FontDC, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 52, &extent);
+            s_పునాది_Units_X = (extent.cx / 26 + 1) / 2;
         }
         // s_BaseUnitsX = TM.tmAveCharWidth + 1;
-        s_BaseUnitsY = TM.tmHeight;
+        s_పునాది_Units_Y = TM.tm_ఎత్తు;
     }
 
     /* Measure the *pixel* size of the string. */
-    wmessage = WIN_UTF8ToStringW(messageboxdata->message);
-    SDL_zero(TextSize);
-    DrawTextW(FontDC, wmessage, -1, &TextSize, DT_CALCRECT | DT_LEFT | DT_NOPREFIX | DT_EDITCONTROL);
+    wmessage = WIN_UTF8_గమ్యం_String_W(messageboxdata->సందేశం);
+    SDL_zero(పాఠ్యం_కొలత);
+    Draw_పాఠ్యం_W(FontDC, wmessage, -1, &పాఠ్యం_కొలత, DT_CALCRECT | DT_ఎడమ | DT_NOPREFIX | DT_EDITCONTROL);
 
     // Add margins and some padding for hangs, etc.
-    TextSize.left += TextMargin;
-    TextSize.right += TextMargin + 2;
-    TextSize.top += TextMargin;
-    TextSize.bottom += TextMargin + 2;
+    పాఠ్యం_కొలత.ఎడమ += పాఠ్యం_Margin;
+    పాఠ్యం_కొలత.కుడి += పాఠ్యం_Margin + 2;
+    పాఠ్యం_కొలత.శిఖరం += పాఠ్యం_Margin;
+    పాఠ్యం_కొలత.bottom += పాఠ్యం_Margin + 2;
 
     // Done with the DC, and the string
     DeleteDC(FontDC);
     SDL_free(wmessage);
 
     // Increase the size of the dialog by some border spacing around the text.
-    Size.cx = TextSize.right - TextSize.left;
-    Size.cy = TextSize.bottom - TextSize.top;
-    Size.cx += TextMargin * 2;
-    Size.cy += TextMargin * 2;
+    కొలత_2.cx = పాఠ్యం_కొలత.కుడి - పాఠ్యం_కొలత.ఎడమ;
+    కొలత_2.cy = పాఠ్యం_కొలత.bottom - పాఠ్యం_కొలత.శిఖరం;
+    కొలత_2.cx += పాఠ్యం_Margin * 2;
+    కొలత_2.cy += పాఠ్యం_Margin * 2;
 
     // Make dialog wider and shift text over for the icon.
-    if (icon) {
-        Size.cx += IconMargin + IconWidth;
-        TextSize.left += IconMargin + IconWidth;
-        TextSize.right += IconMargin + IconWidth;
+    ఒకవేళ (icon) {
+        కొలత_2.cx += IconMargin + Icon_వెడల్పు;
+        పాఠ్యం_కొలత.ఎడమ += IconMargin + Icon_వెడల్పు;
+        పాఠ్యం_కొలత.కుడి += IconMargin + Icon_వెడల్పు;
     }
 
     // Ensure the size is wide enough for all of the buttons.
-    if (Size.cx < (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin) {
-        Size.cx = (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin;
+    ఒకవేళ (కొలత_2.cx < (LONG)messageboxdata->numbuttons * (Button_వెడల్పు + ButtonMargin) + ButtonMargin) {
+        కొలత_2.cx = (LONG)messageboxdata->numbuttons * (Button_వెడల్పు + ButtonMargin) + ButtonMargin;
     }
 
     // Reset the height to the icon size if it is actually bigger than the text.
-    if (icon && Size.cy < (LONG)IconMargin * 2 + IconHeight) {
-        Size.cy = (LONG)IconMargin * 2 + IconHeight;
+    ఒకవేళ (icon && కొలత_2.cy < (LONG)IconMargin * 2 + Icon_ఎత్తు) {
+        కొలత_2.cy = (LONG)IconMargin * 2 + Icon_ఎత్తు;
     }
 
     // Add vertical space for the buttons and border.
-    Size.cy += ButtonHeight + TextMargin;
+    కొలత_2.cy += Button_ఎత్తు + పాఠ్యం_Margin;
 
-    dialog = CreateDialogData(Size.cx, Size.cy, messageboxdata->title);
-    if (!dialog) {
-        return false;
+    dialog = Create_Dialog_దత్తాంశం(కొలత_2.cx, కొలత_2.cy, messageboxdata->title);
+    ఒకవేళ (!dialog) {
+        తిరిగి false;
     }
 
-    if (icon && !AddDialogStaticIcon(dialog, IconMargin, IconMargin, IconWidth, IconHeight, icon)) {
-        FreeDialogData(dialog);
-        return false;
+    ఒకవేళ (icon && !కూడు_Dialog_Static_Icon(dialog, IconMargin, IconMargin, Icon_వెడల్పు, Icon_ఎత్తు, icon)) {
+        Free_Dialog_దత్తాంశం(dialog);
+        తిరిగి false;
     }
 
-    if (!AddDialogStaticText(dialog, TextSize.left, TextSize.top, TextSize.right - TextSize.left, TextSize.bottom - TextSize.top, messageboxdata->message)) {
-        FreeDialogData(dialog);
-        return false;
+    ఒకవేళ (!కూడు_Dialog_Static_పాఠ్యం(dialog, పాఠ్యం_కొలత.ఎడమ, పాఠ్యం_కొలత.శిఖరం, పాఠ్యం_కొలత.కుడి - పాఠ్యం_కొలత.ఎడమ, పాఠ్యం_కొలత.bottom - పాఠ్యం_కొలత.శిఖరం, messageboxdata->సందేశం)) {
+        Free_Dialog_దత్తాంశం(dialog);
+        తిరిగి false;
     }
 
     // Align the buttons to the right/bottom.
-    x = Size.cx - (ButtonWidth + ButtonMargin) * messageboxdata->numbuttons;
-    y = Size.cy - ButtonHeight - ButtonMargin;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    x = కొలత_2.cx - (Button_వెడల్పు + ButtonMargin) * messageboxdata->numbuttons;
+    y = కొలత_2.cy - Button_ఎత్తు - ButtonMargin;
+    కొరకు (i = 0; i < messageboxdata->numbuttons; i++) {
         bool isdefault = false;
-        const char *buttontext;
-        const SDL_MessageBoxButtonData *sdlButton;
+        స్థిరరాశి అక్షరం *buttontext;
+        స్థిరరాశి SDL_సందేశం_Box_Button_దత్తాంశం *sdlButton;
 
         /* We always have to create the dialog buttons from left to right
          * so that the tab order is correct.  Select the info to use
          * depending on which order was requested. */
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+        ఒకవేళ (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_ఎడమ_గమ్యం_కుడి) {
             sdlButton = &messageboxdata->buttons[i];
-        } else {
+        } లేకపోతే {
             sdlButton = &messageboxdata->buttons[messageboxdata->numbuttons - 1 - i];
         }
 
-        if (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        ఒకవేళ (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             defbuttoncount++;
-            if (defbuttoncount == 1) {
+            ఒకవేళ (defbuttoncount == 1) {
                 isdefault = true;
             }
         }
 
-        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, sdlButton->text);
+        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, sdlButton->పాఠ్యం);
         /* Make sure to provide the correct ID to keep buttons indexed in the
          * same order as how they are in messageboxdata. */
-        if (!buttontext || !AddDialogButton(dialog, x, y, ButtonWidth, ButtonHeight, buttontext, IDBUTTONINDEX0 + (int)(sdlButton - messageboxdata->buttons), isdefault)) {
-            FreeDialogData(dialog);
+        ఒకవేళ (!buttontext || !కూడు_Dialog_Button(dialog, x, y, Button_వెడల్పు, Button_ఎత్తు, buttontext, IDBUTTONINDEX0 + (పూర్ణాంకం)(sdlButton - messageboxdata->buttons), isdefault)) {
+            Free_Dialog_దత్తాంశం(dialog);
             SDL_free(ampescape);
-            return false;
+            తిరిగి false;
         }
 
-        x += ButtonWidth + ButtonMargin;
+        x += Button_వెడల్పు + ButtonMargin;
     }
     SDL_free(ampescape);
 
     /* If we have a parent window, get the Instance and HWND for them
      * so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
-        ParentWindow = messageboxdata->window->internal->hwnd;
+    ఒకవేళ (messageboxdata->కిటికీ) {
+        మాతృ_కిటికీ_2 = messageboxdata->కిటికీ->అంతర్గత->hwnd;
     }
 
-    rc = DialogBoxIndirectParam(NULL, (DLGTEMPLATE *)dialog->lpDialog, ParentWindow, MessageBoxDialogProc, (LPARAM)messageboxdata);
-    if (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+    rc = Dialog_Box_పరోక్ష_Param(ఖాళీ, (DLGTEMPLATE *)dialog->lpDialog, మాతృ_కిటికీ_2, సందేశం_Box_Dialog_Proc, (LPARAM)messageboxdata);
+    ఒకవేళ (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
         *buttonID = messageboxdata->buttons[rc - IDBUTTONINDEX0].buttonID;
-        result = true;
-    } else if (rc == IDCLOSED) {
+        ఫలితం = true;
+    } లేకపోతే ఒకవేళ (rc == IDCLOSED) {
         // Dialog window closed by user or system.
         // This could use a special return code.
-        result = true;
+        ఫలితం = true;
         *buttonID = -1;
-    } else {
-        if (rc == 0) {
-            SDL_SetError("Invalid parent window handle");
-        } else if (rc == -1) {
-            SDL_SetError("The message box encountered an error.");
-        } else if (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
-            SDL_SetError("Invalid message box pointer in dialog procedure");
-        } else if (rc == IDINVALPTRDLGITEM) {
-            SDL_SetError("Couldn't find dialog control of the default enter-key button");
-        } else {
-            SDL_SetError("An unknown error occurred");
+    } లేకపోతే {
+        ఒకవేళ (rc == 0) {
+            SDL_సమితి_Error("Invalid parent window handle");
+        } లేకపోతే ఒకవేళ (rc == -1) {
+            SDL_సమితి_Error("The message box encountered an error.");
+        } లేకపోతే ఒకవేళ (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
+            SDL_సమితి_Error("Invalid message box pointer in dialog procedure");
+        } లేకపోతే ఒకవేళ (rc == IDINVALPTRDLGITEM) {
+            SDL_సమితి_Error("Couldn't find dialog control of the default enter-key button");
+        } లేకపోతే {
+            SDL_సమితి_Error("An unknown error occurred");
         }
-        result = false;
+        ఫలితం = false;
     }
 
-    FreeDialogData(dialog);
-    return result;
+    Free_Dialog_దత్తాంశం(dialog);
+    తిరిగి ఫలితం;
 }
 
 /* TaskDialogIndirect procedure
  * This is because SDL targets Windows XP (0x501), so this is not defined in the platform SDK.
  */
 /* *INDENT-OFF* */ // clang-format off
-typedef HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(const TASKDIALOGCONFIG *pTaskConfig, int *pnButton, int *pnRadioButton, BOOL *pfVerificationFlagChecked);
+రకనిర్వచనం HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(స్థిరరాశి TASKDIALOGCONFIG *pTaskConfig, పూర్ణాంకం *pnButton, పూర్ణాంకం *pnRadioButton, BOOL *pfVerificationFlagChecked);
 /* *INDENT-ON* */ // clang-format on
 
-bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool WIN_Show_సందేశం_Box(స్థిరరాశి SDL_సందేశం_Box_దత్తాంశం *messageboxdata, పూర్ణాంకం *buttonID)
 {
-    HWND ParentWindow = NULL;
+    HWND మాతృ_కిటికీ_2 = ఖాళీ;
     wchar_t *wmessage;
     wchar_t *wtitle;
     TASKDIALOGCONFIG TaskConfig;
     TASKDIALOG_BUTTON *pButtons;
     TASKDIALOG_BUTTON *pButton;
     HMODULE hComctl32;
-    TASKDIALOGINDIRECTPROC pTaskDialogIndirect;
+    TASKDIALOGINDIRECTPROC p_Task_Dialog_పరోక్ష;
     HRESULT hr;
-    char *ampescape = NULL;
+    అక్షరం *ampescape = ఖాళీ;
     size_t ampescapesize = 0;
-    int nButton;
-    int nCancelButton;
-    int i;
-    bool result = false;
+    పూర్ణాంకం nButton;
+    పూర్ణాంకం nCancelButton;
+    పూర్ణాంకం i;
+    bool ఫలితం = false;
 
-    if (SIZE_MAX / sizeof(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
-        return SDL_OutOfMemory();
+    ఒకవేళ (SIZE_MAX / పరిమాణం(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
+        తిరిగి SDL_బహిర్గతం_యొక్క_జ్ఞాపకం();
     }
 
-    HMODULE hUser32 = GetModuleHandle(TEXT("user32.dll"));
-    typedef DPI_AWARENESS_CONTEXT (WINAPI *pfnSetThreadDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
-    pfnSetThreadDpiAwarenessContext pSetThreadDpiAwarenessContext = (pfnSetThreadDpiAwarenessContext)GetProcAddress(hUser32, "SetThreadDpiAwarenessContext");
-    DPI_AWARENESS_CONTEXT previous_context = DPI_AWARENESS_CONTEXT_UNAWARE;
-    if (pSetThreadDpiAwarenessContext) {
-        previous_context = pSetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+    HMODULE hUser32 = GetModuleHandle(పాఠ్యం_2("user32.dll"));
+    రకనిర్వచనం DPI_AWARENESS_CONTEXT (WINAPI *pfn_సమితి_Thread_Dpi_Awareness_Context)(DPI_AWARENESS_CONTEXT);
+    pfn_సమితి_Thread_Dpi_Awareness_Context p_సమితి_Thread_Dpi_Awareness_Context = (pfn_సమితి_Thread_Dpi_Awareness_Context)Get_Proc_చిరునామా(hUser32, "SetThreadDpiAwarenessContext");
+    DPI_AWARENESS_CONTEXT మునుపటి_context = DPI_AWARENESS_CONTEXT_UNAWARE;
+    ఒకవేళ (p_సమితి_Thread_Dpi_Awareness_Context) {
+        మునుపటి_context = p_సమితి_Thread_Dpi_Awareness_Context(DPI_AWARENESS_CONTEXT_చొప్పున_MONITOR_AWARE_V2);
     }
 
     // If we cannot load comctl32.dll use the old messagebox!
-    hComctl32 = LoadLibrary(TEXT("comctl32.dll"));
-    if (!hComctl32) {
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+    hComctl32 = ఎక్కించు_Library(పాఠ్యం_2("comctl32.dll"));
+    ఒకవేళ (!hComctl32) {
+        ఫలితం = WIN_Show_Old_సందేశం_Box(messageboxdata, buttonID);
+        వెళ్ళు పూర్తి;
     }
 
     /* If TaskDialogIndirect doesn't exist use the old messagebox!
@@ -979,108 +979,108 @@ bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
        If you don't want to bother with manifests, put this #pragma in your app's source code somewhere:
        #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0'  processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
      */
-    pTaskDialogIndirect = (TASKDIALOGINDIRECTPROC)GetProcAddress(hComctl32, "TaskDialogIndirect");
-    if (!pTaskDialogIndirect) {
+    p_Task_Dialog_పరోక్ష = (TASKDIALOGINDIRECTPROC)Get_Proc_చిరునామా(hComctl32, "TaskDialogIndirect");
+    ఒకవేళ (!p_Task_Dialog_పరోక్ష) {
         FreeLibrary(hComctl32);
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+        ఫలితం = WIN_Show_Old_సందేశం_Box(messageboxdata, buttonID);
+        వెళ్ళు పూర్తి;
     }
 
     /* If we have a parent window, get the Instance and HWND for them
        so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
-        ParentWindow = messageboxdata->window->internal->hwnd;
+    ఒకవేళ (messageboxdata->కిటికీ) {
+        మాతృ_కిటికీ_2 = messageboxdata->కిటికీ->అంతర్గత->hwnd;
     }
 
-    wmessage = WIN_UTF8ToStringW(messageboxdata->message);
-    wtitle = WIN_UTF8ToStringW(messageboxdata->title);
+    wmessage = WIN_UTF8_గమ్యం_String_W(messageboxdata->సందేశం);
+    wtitle = WIN_UTF8_గమ్యం_String_W(messageboxdata->title);
 
     SDL_zero(TaskConfig);
-    TaskConfig.cbSize = sizeof(TASKDIALOGCONFIG);
-    TaskConfig.hwndParent = ParentWindow;
-    TaskConfig.dwFlags = TDF_SIZE_TO_CONTENT;
-    TaskConfig.pszWindowTitle = wtitle;
-    if (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
+    TaskConfig.cb_కొలత = పరిమాణం(TASKDIALOGCONFIG);
+    TaskConfig.hwnd_మాతృ = మాతృ_కిటికీ_2;
+    TaskConfig.dwFlags = TDF_కొలత_గమ్యం_CONTENT;
+    TaskConfig.psz_కిటికీ_Title = wtitle;
+    ఒకవేళ (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
         TaskConfig.pszMainIcon = TD_ERROR_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
+    } లేకపోతే ఒకవేళ (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
         TaskConfig.pszMainIcon = TD_WARNING_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
+    } లేకపోతే ఒకవేళ (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
         TaskConfig.pszMainIcon = TD_INFORMATION_ICON;
-    } else {
-        TaskConfig.pszMainIcon = NULL;
+    } లేకపోతే {
+        TaskConfig.pszMainIcon = ఖాళీ;
     }
 
     TaskConfig.pszContent = wmessage;
     TaskConfig.cButtons = messageboxdata->numbuttons;
-    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(sizeof(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
+    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(పరిమాణం(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
     TaskConfig.nDefaultButton = 0;
     nCancelButton = 0;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
-        const char *buttontext;
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+    కొరకు (i = 0; i < messageboxdata->numbuttons; i++) {
+        స్థిరరాశి అక్షరం *buttontext;
+        ఒకవేళ (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_ఎడమ_గమ్యం_కుడి) {
             pButton = &pButtons[i];
-        } else {
+        } లేకపోతే {
             pButton = &pButtons[messageboxdata->numbuttons - 1 - i];
         }
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+        ఒకవేళ (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
             nCancelButton = messageboxdata->buttons[i].buttonID;
             pButton->nButtonID = IDCANCEL;
-        } else {
+        } లేకపోతే {
             pButton->nButtonID = IDBUTTONINDEX0 + i;
         }
-        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, messageboxdata->buttons[i].text);
-        if (!buttontext) {
-            int j;
+        buttontext = EscapeAmpersands(&ampescape, &ampescapesize, messageboxdata->buttons[i].పాఠ్యం);
+        ఒకవేళ (!buttontext) {
+            పూర్ణాంకం j;
             FreeLibrary(hComctl32);
             SDL_free(ampescape);
             SDL_free(wmessage);
             SDL_free(wtitle);
-            for (j = 0; j < i; j++) {
-                SDL_free((wchar_t *)pButtons[j].pszButtonText);
+            కొరకు (j = 0; j < i; j++) {
+                SDL_free((wchar_t *)pButtons[j].psz_Button_పాఠ్యం);
             }
             SDL_free(pButtons);
-            return false;
+            తిరిగి false;
         }
-        pButton->pszButtonText = WIN_UTF8ToStringW(buttontext);
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        pButton->psz_Button_పాఠ్యం = WIN_UTF8_గమ్యం_String_W(buttontext);
+        ఒకవేళ (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             TaskConfig.nDefaultButton = pButton->nButtonID;
         }
     }
     TaskConfig.pButtons = pButtons;
 
     // Show the Task Dialog
-    hr = pTaskDialogIndirect(&TaskConfig, &nButton, NULL, NULL);
+    hr = p_Task_Dialog_పరోక్ష(&TaskConfig, &nButton, ఖాళీ, ఖాళీ);
 
     // Free everything
     FreeLibrary(hComctl32);
     SDL_free(ampescape);
     SDL_free(wmessage);
     SDL_free(wtitle);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
-        SDL_free((wchar_t *)pButtons[i].pszButtonText);
+    కొరకు (i = 0; i < messageboxdata->numbuttons; i++) {
+        SDL_free((wchar_t *)pButtons[i].psz_Button_పాఠ్యం);
     }
     SDL_free(pButtons);
 
     // Check the Task Dialog was successful and give the result
-    if (SUCCEEDED(hr)) {
-        if (nButton == IDCANCEL) {
+    ఒకవేళ (SUCCEEDED(hr)) {
+        ఒకవేళ (nButton == IDCANCEL) {
             *buttonID = nCancelButton;
-        } else if (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
+        } లేకపోతే ఒకవేళ (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
             *buttonID = messageboxdata->buttons[nButton - IDBUTTONINDEX0].buttonID;
-        } else {
+        } లేకపోతే {
             *buttonID = -1;
         }
-        result = true;
-    } else {
+        ఫలితం = true;
+    } లేకపోతే {
         // We failed showing the Task Dialog, use the old message box!
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
+        ఫలితం = WIN_Show_Old_సందేశం_Box(messageboxdata, buttonID);
     }
 
-done:
-    if (pSetThreadDpiAwarenessContext) {
-        pSetThreadDpiAwarenessContext(previous_context);
+పూర్తి:
+    ఒకవేళ (p_సమితి_Thread_Dpi_Awareness_Context) {
+        p_సమితి_Thread_Dpi_Awareness_Context(మునుపటి_context);
     }
-    return result;
+    తిరిగి ఫలితం;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_WINDOWS

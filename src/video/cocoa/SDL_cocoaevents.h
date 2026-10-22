@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_cocoaevents_h_
-#define SDL_cocoaevents_h_
+#నిర్వచితం_కాకపోతే SDL_cocoaevents_h_
+#నిర్వచించు SDL_cocoaevents_h_
 
-extern void Cocoa_RegisterApp(void);
-extern Uint64 Cocoa_GetEventTimestamp(NSTimeInterval nsTimestamp);
-extern void Cocoa_PumpEvents(SDL_VideoDevice *_this);
-extern int Cocoa_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
-extern void Cocoa_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_SuspendScreenSaver(SDL_VideoDevice *_this);
+బాహ్య శూన్య Cocoa_రిజిస్టరు_App(శూన్య);
+బాహ్య Uint64 Cocoa_GetEventTimestamp(NSTimeInterval nsTimestamp);
+బాహ్య శూన్య Cocoa_PumpEvents(SDL_VideoDevice *_this);
+బాహ్య పూర్ణాంకం Cocoa_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+బాహ్య శూన్య Cocoa_SendWakeupEvent(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ);
+బాహ్య bool Cocoa_SuspendScreenSaver(SDL_VideoDevice *_this);
 
-#endif // SDL_cocoaevents_h_
+#అయితే_ముగింపు // SDL_cocoaevents_h_

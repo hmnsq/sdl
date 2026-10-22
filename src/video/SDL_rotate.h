@@ -19,12 +19,12 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_rotate_h_
-#define SDL_rotate_h_
+#నిర్వచితం_కాకపోతే SDL_rotate_h_
+#నిర్వచించు SDL_rotate_h_
 
-extern SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, int flipx, int flipy,
-                                         const SDL_Rect *rect_dest, double cangle, double sangle, const SDL_FPoint *center);
-extern void SDLgfx_rotozoomSurfaceSizeTrig(int width, int height, double angle, const SDL_FPoint *center,
-                                           SDL_Rect *rect_dest, double *cangle, double *sangle);
+బాహ్య SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, ద్విగుణ angle, పూర్ణాంకం smooth, పూర్ణాంకం flipx, పూర్ణాంకం flipy,
+                                         స్థిరరాశి SDL_Rect *rect_dest, ద్విగుణ cangle, ద్విగుణ sangle, స్థిరరాశి SDL_FPoint *center);
+బాహ్య శూన్య SDLgfx_rotozoom_Surface_కొలత_Trig(పూర్ణాంకం వెడల్పు, పూర్ణాంకం ఎత్తు, ద్విగుణ angle, స్థిరరాశి SDL_FPoint *center,
+                                           SDL_Rect *rect_dest, ద్విగుణ *cangle, ద్విగుణ *sangle);
 
-#endif // SDL_rotate_h_
+#అయితే_ముగింపు // SDL_rotate_h_

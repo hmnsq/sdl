@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_riscosmouse_h_
-#define SDL_riscosmouse_h_
+#నిర్వచితం_కాకపోతే SDL_riscosmouse_h_
+#నిర్వచించు SDL_riscosmouse_h_
 
-extern bool RISCOS_InitMouse(SDL_VideoDevice *_this);
+బాహ్య bool RISCOS_InitMouse(SDL_VideoDevice *_this);
 
-#endif // SDL_riscosmouse_h_
+#అయితే_ముగింపు // SDL_riscosmouse_h_

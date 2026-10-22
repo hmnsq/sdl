@@ -18,24 +18,24 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VIVANTE) && defined(SDL_VIDEO_OPENGL_EGL)
+#ఒకవేళ defined(SDL_VIDEO_DRIVER_VIVANTE) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_vivanteopengles.h"
-#include "SDL_vivantevideo.h"
+#అన్తర్భావ "SDL_vivanteopengles.h"
+#అన్తర్భావ "SDL_vivantevideo.h"
 
 // EGL implementation of SDL OpenGL support
 
-bool VIVANTE_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VIVANTE_GLES_ఎక్కించు_Library(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *మార్గం)
 {
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
+    SDL_Display_దత్తాంశం *displaydata = SDL_Get_Display_Driver_దత్తాంశం(SDL_GetPrimaryDisplay());
 
-    return SDL_EGL_LoadLibrary(_this, path, displaydata->native_display);
+    తిరిగి SDL_EGL_ఎక్కించు_Library(_this, మార్గం, displaydata->native_display);
 }
 
 SDL_EGL_CreateContext_impl(VIVANTE)
-SDL_EGL_SwapWindow_impl(VIVANTE)
+SDL_EGL_మార్పిడి_కిటికీ_impl(VIVANTE)
 SDL_EGL_MakeCurrent_impl(VIVANTE)
 
-#endif // SDL_VIDEO_DRIVER_VIVANTE && SDL_VIDEO_OPENGL_EGL
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_VIVANTE && SDL_VIDEO_OPENGL_EGL

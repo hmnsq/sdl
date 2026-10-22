@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifndef SDL_x11xsync_h_
-#define SDL_x11xsync_h_
+#నిర్వచితం_కాకపోతే SDL_x11xsync_h_
+#నిర్వచించు SDL_x11xsync_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_X11_XSYNC
 
-extern void X11_InitXsync(SDL_VideoDevice *_this);
-extern bool X11_XsyncIsInitialized(void);
-extern bool X11_InitResizeSync(SDL_Window *window);
-extern void X11_TermResizeSync(SDL_Window *window);
-extern void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
-extern void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
-extern void X11_HandlePresent(SDL_Window *window);
+బాహ్య శూన్య X11_InitXsync(SDL_VideoDevice *_this);
+బాహ్య bool X11_XsyncIsInitialized(శూన్య);
+బాహ్య bool X11_InitResizeSync(SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య X11_పదం_Resize_Sync(SDL_కిటికీ *కిటికీ);
+బాహ్య శూన్య X11_HandleSyncRequest(SDL_కిటికీ *కిటికీ, XClient_సందేశం_Event *event);
+బాహ్య శూన్య X11_HandleConfigure(SDL_కిటికీ *కిటికీ, XConfigureEvent *event);
+బాహ్య శూన్య X11_HandlePresent(SDL_కిటికీ *కిటికీ);
 
-#endif // SDL_VIDEO_DRIVER_X11_XSYNC
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_X11_XSYNC
 
-#endif // SDL_x11xsync_h_
+#అయితే_ముగింపు // SDL_x11xsync_h_

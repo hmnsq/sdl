@@ -19,96 +19,96 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_VITA
 
 // SDL internals
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_keyboard_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../../events/SDL_keyboard_c.h"
 
 // VITA declarations
-#include <psp2/kernel/processmgr.h>
-#include "SDL_vitavideo.h"
-#include "SDL_vitatouch.h"
-#include "SDL_vitakeyboard.h"
-#include "SDL_vitamouse_c.h"
-#include "SDL_vitaframebuffer.h"
-#include "SDL_vitamessagebox.h"
+#అన్తర్భావ <psp2/kernel/processmgr.h>
+#అన్తర్భావ "SDL_vitavideo.h"
+#అన్తర్భావ "SDL_vitatouch.h"
+#అన్తర్భావ "SDL_vitakeyboard.h"
+#అన్తర్భావ "SDL_vitamouse_c.h"
+#అన్తర్భావ "SDL_vitaframebuffer.h"
+#అన్తర్భావ "SDL_vitamessagebox.h"
 
-#if defined(SDL_VIDEO_VITA_PVR)
-#define VITA_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define VITA_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define VITA_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define VITA_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define VITA_GLES_DestroyContext   SDL_EGL_DestroyContext
-#endif
+#ఒకవేళ defined(SDL_VIDEO_VITA_PVR)
+#నిర్వచించు VITA_GLES_Get_Proc_చిరునామా  SDL_EGL_Get_Proc_చిరునామా_అంతర్గత
+#నిర్వచించు VITA_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#నిర్వచించు VITA_GLES_సమితి_మార్పిడి_Interval SDL_EGL_సమితి_మార్పిడి_Interval
+#నిర్వచించు VITA_GLES_Get_మార్పిడి_Interval SDL_EGL_Get_మార్పిడి_Interval
+#నిర్వచించు VITA_GLES_DestroyContext   SDL_EGL_DestroyContext
+#అయితే_ముగింపు
 
-SDL_Window *Vita_Window;
+SDL_కిటికీ *Vita_కిటికీ;
 
-static void VITA_Destroy(SDL_VideoDevice *device)
+స్థిర శూన్య VITA_Destroy(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->అంతర్గత);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *VITA_Create(void)
+స్థిర SDL_VideoDevice *VITA_Create(శూన్య)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *phdata;
-#ifdef SDL_VIDEO_VITA_PIB
-    SDL_GLDriverData *gldata;
-#endif
+    SDL_Video_దత్తాంశం *phdata;
+#నిర్వచితమైతే SDL_VIDEO_VITA_PIB
+    SDL_GLDriver_దత్తాంశం *gldata;
+#అయితే_ముగింపు
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, పరిమాణం(SDL_VideoDevice));
+    ఒకవేళ (!device) {
+        తిరిగి ఖాళీ;
     }
 
     // Initialize internal VITA specific data
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_Video_దత్తాంశం *)SDL_calloc(1, పరిమాణం(SDL_Video_దత్తాంశం));
+    ఒకవేళ (!phdata) {
         SDL_free(device);
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-#ifdef SDL_VIDEO_VITA_PIB
+#నిర్వచితమైతే SDL_VIDEO_VITA_PIB
 
-    gldata = (SDL_GLDriverData *)SDL_calloc(1, sizeof(SDL_GLDriverData));
-    if (!gldata) {
+    gldata = (SDL_GLDriver_దత్తాంశం *)SDL_calloc(1, పరిమాణం(SDL_GLDriver_దత్తాంశం));
+    ఒకవేళ (!gldata) {
         SDL_free(device);
         SDL_free(phdata);
-        return NULL;
+        తిరిగి ఖాళీ;
     }
-    device->gl_data = gldata;
+    device->gl_దత్తాంశం = gldata;
     phdata->egl_initialized = true;
-#endif
-    phdata->ime_active = false;
+#అయితే_ముగింపు
+    phdata->ime_చురుకైన = false;
 
-    device->internal = phdata;
+    device->అంతర్గత = phdata;
 
     // Setup amount of available displays and current display
-    device->num_displays = 0;
+    device->అంకె_displays = 0;
 
     // Set device free function
-    device->free = VITA_Destroy;
+    device->విడుదల = VITA_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = VITA_VideoInit;
     device->VideoQuit = VITA_VideoQuit;
-    device->CreateSDLWindow = VITA_CreateWindow;
-    device->SetWindowTitle = VITA_SetWindowTitle;
-    device->SetWindowPosition = VITA_SetWindowPosition;
-    device->SetWindowSize = VITA_SetWindowSize;
-    device->ShowWindow = VITA_ShowWindow;
-    device->HideWindow = VITA_HideWindow;
-    device->RaiseWindow = VITA_RaiseWindow;
-    device->MaximizeWindow = VITA_MaximizeWindow;
-    device->MinimizeWindow = VITA_MinimizeWindow;
-    device->RestoreWindow = VITA_RestoreWindow;
-    device->SetWindowMouseGrab = VITA_SetWindowGrab;
-    device->SetWindowKeyboardGrab = VITA_SetWindowGrab;
-    device->DestroyWindow = VITA_DestroyWindow;
+    device->CreateSDLWindow = VITA_Create_కిటికీ;
+    device->సమితి_కిటికీ_Title = VITA_సమితి_కిటికీ_Title;
+    device->సమితి_కిటికీ_Position = VITA_సమితి_కిటికీ_Position;
+    device->సమితి_కిటికీ_కొలత = VITA_సమితి_కిటికీ_కొలత;
+    device->Show_కిటికీ = VITA_Show_కిటికీ;
+    device->Hide_కిటికీ = VITA_Hide_కిటికీ;
+    device->Raise_కిటికీ = VITA_Raise_కిటికీ;
+    device->Maximize_కిటికీ = VITA_Maximize_కిటికీ;
+    device->Minimize_కిటికీ = VITA_Minimize_కిటికీ;
+    device->Restore_కిటికీ = VITA_Restore_కిటికీ;
+    device->సమితి_కిటికీ_Mouse_Grab = VITA_సమితి_కిటికీ_Grab;
+    device->సమితి_కిటికీ_Keyboard_Grab = VITA_సమితి_కిటికీ_Grab;
+    device->Destroy_కిటికీ = VITA_Destroy_కిటికీ;
 
     /*
         // Disabled, causes issues on high-framerate updates. SDL still emulates this.
@@ -118,28 +118,28 @@ static SDL_VideoDevice *VITA_Create(void)
         device->DestroyWindowFramebuffer = VITA_DestroyWindowFramebuffer;
     */
 
-#if defined(SDL_VIDEO_VITA_PIB) || defined(SDL_VIDEO_VITA_PVR)
-#ifdef SDL_VIDEO_VITA_PVR_OGL
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false)) {
-        device->GL_LoadLibrary = VITA_GL_LoadLibrary;
+#ఒకవేళ defined(SDL_VIDEO_VITA_PIB) || defined(SDL_VIDEO_VITA_PVR)
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR_OGL
+    ఒకవేళ (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false)) {
+        device->GL_ఎక్కించు_Library = VITA_GL_ఎక్కించు_Library;
         device->GL_CreateContext = VITA_GL_CreateContext;
-        device->GL_GetProcAddress = VITA_GL_GetProcAddress;
-    } else {
-#endif
-        device->GL_LoadLibrary = VITA_GLES_LoadLibrary;
+        device->GL_Get_Proc_చిరునామా = VITA_GL_Get_Proc_చిరునామా;
+    } లేకపోతే {
+#అయితే_ముగింపు
+        device->GL_ఎక్కించు_Library = VITA_GLES_ఎక్కించు_Library;
         device->GL_CreateContext = VITA_GLES_CreateContext;
-        device->GL_GetProcAddress = VITA_GLES_GetProcAddress;
-#ifdef SDL_VIDEO_VITA_PVR_OGL
+        device->GL_Get_Proc_చిరునామా = VITA_GLES_Get_Proc_చిరునామా;
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR_OGL
     }
-#endif
+#అయితే_ముగింపు
 
     device->GL_UnloadLibrary = VITA_GLES_UnloadLibrary;
     device->GL_MakeCurrent = VITA_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = VITA_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = VITA_GLES_GetSwapInterval;
-    device->GL_SwapWindow = VITA_GLES_SwapWindow;
+    device->GL_సమితి_మార్పిడి_Interval = VITA_GLES_సమితి_మార్పిడి_Interval;
+    device->GL_Get_మార్పిడి_Interval = VITA_GLES_Get_మార్పిడి_Interval;
+    device->GL_మార్పిడి_కిటికీ = VITA_GLES_మార్పిడి_కిటికీ;
     device->GL_DestroyContext = VITA_GLES_DestroyContext;
-#endif
+#అయితే_ముగింపు
 
     device->HasScreenKeyboardSupport = VITA_HasScreenKeyboardSupport;
     device->ShowScreenKeyboard = VITA_ShowScreenKeyboard;
@@ -149,14 +149,14 @@ static SDL_VideoDevice *VITA_Create(void)
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    తిరిగి device;
 }
 
 VideoBootStrap VITA_bootstrap = {
     "vita",
     "VITA Video Driver",
     VITA_Create,
-    VITA_ShowMessageBox,
+    VITA_Show_సందేశం_Box,
     false
 };
 
@@ -165,199 +165,199 @@ VideoBootStrap VITA_bootstrap = {
 /*****************************************************************************/
 bool VITA_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
-#ifdef SDL_VIDEO_VITA_PVR
-    const char *res = SDL_GetHint(SDL_HINT_VITA_RESOLUTION);
-#endif
-    SDL_zero(mode);
+    SDL_Display_బహుళకం బహుళకం;
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
+    స్థిరరాశి అక్షరం *res = SDL_GetHint(SDL_HINT_VITA_RESOLUTION);
+#అయితే_ముగింపు
+    SDL_zero(బహుళకం);
 
-#ifdef SDL_VIDEO_VITA_PVR
-    if (res) {
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
+    ఒకవేళ (res) {
         // 1088i for PSTV (Or Sharpscale)
-        if (SDL_strncmp(res, "1080", 4) == 0) {
-            mode.w = 1920;
-            mode.h = 1088;
+        ఒకవేళ (SDL_strncmp(res, "1080", 4) == 0) {
+            బహుళకం.w = 1920;
+            బహుళకం.h = 1088;
         }
         // 725p for PSTV (Or Sharpscale)
-        else if (SDL_strncmp(res, "720", 3) == 0) {
-            mode.w = 1280;
-            mode.h = 725;
+        లేకపోతే ఒకవేళ (SDL_strncmp(res, "720", 3) == 0) {
+            బహుళకం.w = 1280;
+            బహుళకం.h = 725;
         }
     }
     // 544p
-    else {
-#endif
-        mode.w = 960;
-        mode.h = 544;
-#ifdef SDL_VIDEO_VITA_PVR
+    లేకపోతే {
+#అయితే_ముగింపు
+        బహుళకం.w = 960;
+        బహుళకం.h = 544;
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
     }
-#endif
+#అయితే_ముగింపు
 
-    mode.refresh_rate = 60.0f;
+    బహుళకం.refresh_రేటు = 60.0f;
 
     // 32 bpp for default
-    mode.format = SDL_PIXELFORMAT_ABGR8888;
+    బహుళకం.format = SDL_PIXELFORMAT_ABGR8888;
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    ఒకవేళ (SDL_కూడు_Basic_Video_Display(&బహుళకం) == 0) {
+        తిరిగి false;
     }
 
     VITA_InitTouch();
     VITA_InitKeyboard();
     VITA_InitMouse();
 
-    return true;
+    తిరిగి true;
 }
 
-void VITA_VideoQuit(SDL_VideoDevice *_this)
+శూన్య VITA_VideoQuit(SDL_VideoDevice *_this)
 {
     VITA_QuitTouch();
 }
 
-bool VITA_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool VITA_Create_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *wdata;
-#ifdef SDL_VIDEO_VITA_PVR
-    Psp2NativeWindow win;
-    int temp_major = 2;
-    int temp_minor = 1;
-    int temp_profile = 0;
-#endif
+    SDL_కిటికీ_దత్తాంశం *wdata;
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
+    Psp2_Native_కిటికీ win;
+    పూర్ణాంకం తాత్కాలిక_major = 2;
+    పూర్ణాంకం తాత్కాలిక_minor = 1;
+    పూర్ణాంకం తాత్కాలిక_profile = 0;
+#అయితే_ముగింపు
 
     // Allocate window internal data
-    wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    wdata = (SDL_కిటికీ_దత్తాంశం *)SDL_calloc(1, పరిమాణం(SDL_కిటికీ_దత్తాంశం));
+    ఒకవేళ (!wdata) {
+        తిరిగి false;
     }
 
     // Setup driver data for this window
-    window->internal = wdata;
+    కిటికీ->అంతర్గత = wdata;
 
     // Vita can only have one window
-    if (Vita_Window) {
-        return SDL_SetError("Only one window supported");
+    ఒకవేళ (Vita_కిటికీ) {
+        తిరిగి SDL_సమితి_Error("Only one window supported");
     }
 
-    Vita_Window = window;
+    Vita_కిటికీ = కిటికీ;
 
-#ifdef SDL_VIDEO_VITA_PVR
-    win.type = PSP2_DRAWABLE_TYPE_WINDOW;
-    win.numFlipBuffers = 2;
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
+    win.type = PSP2_DRAWABLE_TYPE_కిటికీ;
+    win.అంకె_Flip_Buffers = 2;
     win.flipChainThrdAffinity = 0x20000;
 
     // 1088i for PSTV (Or Sharpscale)
-    if (window->w == 1920) {
-        win.windowSize = PSP2_WINDOW_1920X1088;
+    ఒకవేళ (కిటికీ->w == 1920) {
+        win.కిటికీ_కొలత = PSP2_కిటికీ_1920_X1088;
     }
     // 725p for PSTV (Or Sharpscale)
-    else if (window->w == 1280) {
-        win.windowSize = PSP2_WINDOW_1280X725;
+    లేకపోతే ఒకవేళ (కిటికీ->w == 1280) {
+        win.కిటికీ_కొలత = PSP2_కిటికీ_1280_X725;
     }
     // 544p
-    else {
-        win.windowSize = PSP2_WINDOW_960X544;
+    లేకపోతే {
+        win.కిటికీ_కొలత = PSP2_కిటికీ_960_X544;
     }
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    ఒకవేళ (కిటికీ->flags & SDL_కిటికీ_OPENGL) {
         bool use_opengl = SDL_GetHintBoolean(SDL_HINT_VITA_PVR_OPENGL, false);
-        if (use_opengl) {
+        ఒకవేళ (use_opengl) {
             // Set version to 2.1 and PROFILE to ES
-            temp_major = _this->gl_config.major_version;
-            temp_minor = _this->gl_config.minor_version;
-            temp_profile = _this->gl_config.profile_mask;
+            తాత్కాలిక_major = _this->gl_config.major_సంస్కరణ;
+            తాత్కాలిక_minor = _this->gl_config.minor_సంస్కరణ;
+            తాత్కాలిక_profile = _this->gl_config.profile_ముసుగు;
 
-            _this->gl_config.major_version = 2;
-            _this->gl_config.minor_version = 1;
-            _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
+            _this->gl_config.major_సంస్కరణ = 2;
+            _this->gl_config.minor_సంస్కరణ = 1;
+            _this->gl_config.profile_ముసుగు = SDL_GL_CONTEXT_PROFILE_ES;
         }
-        wdata->egl_surface = SDL_EGL_CreateSurface(_this, window, &win);
-        if (wdata->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Could not create GLES window surface");
+        wdata->egl_surface = SDL_EGL_CreateSurface(_this, కిటికీ, &win);
+        ఒకవేళ (wdata->egl_surface == EGL_NO_SURFACE) {
+            తిరిగి SDL_సమితి_Error("Could not create GLES window surface");
         }
-        if (use_opengl) {
+        ఒకవేళ (use_opengl) {
             // Revert
-            _this->gl_config.major_version = temp_major;
-            _this->gl_config.minor_version = temp_minor;
-            _this->gl_config.profile_mask = temp_profile;
+            _this->gl_config.major_సంస్కరణ = తాత్కాలిక_major;
+            _this->gl_config.minor_సంస్కరణ = తాత్కాలిక_minor;
+            _this->gl_config.profile_ముసుగు = తాత్కాలిక_profile;
         }
     }
-#endif
+#అయితే_ముగింపు
 
     // fix input, we need to find a better way
-    SDL_SetKeyboardFocus(window);
+    SDL_సమితి_Keyboard_Focus(కిటికీ);
 
     // Window has been successfully created
-    return true;
+    తిరిగి true;
 }
 
-void VITA_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_సమితి_కిటికీ_Title(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 }
-bool VITA_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool VITA_సమితి_కిటికీ_Position(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    return SDL_Unsupported();
+    తిరిగి SDL_Unsupported();
 }
-void VITA_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
-{
-}
-void VITA_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_సమితి_కిటికీ_కొలత(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 }
-void VITA_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_Show_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 }
-void VITA_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_Hide_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 }
-void VITA_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_Raise_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 }
-void VITA_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_Maximize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 }
-void VITA_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_Minimize_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
 }
-bool VITA_SetWindowGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+శూన్య VITA_Restore_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    return true;
+}
+bool VITA_సమితి_కిటికీ_Grab(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, bool grabbed)
+{
+    తిరిగి true;
 }
 
-void VITA_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_Destroy_కిటికీ(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-    SDL_WindowData *data;
+    SDL_కిటికీ_దత్తాంశం *దత్తాంశం;
 
-    data = window->internal;
-    SDL_free(data);
+    దత్తాంశం = కిటికీ->అంతర్గత;
+    SDL_free(దత్తాంశం);
 
-    window->internal = NULL;
-    Vita_Window = NULL;
+    కిటికీ->అంతర్గత = ఖాళీ;
+    Vita_కిటికీ = ఖాళీ;
 }
 
 bool VITA_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    తిరిగి true;
 }
 
-#ifndef SCE_IME_LANGUAGE_ENGLISH_US
-#define SCE_IME_LANGUAGE_ENGLISH_US SCE_IME_LANGUAGE_ENGLISH
-#endif
+#నిర్వచితం_కాకపోతే SCE_IME_LANGUAGE_ENGLISH_US
+#నిర్వచించు SCE_IME_LANGUAGE_ENGLISH_US SCE_IME_LANGUAGE_ENGLISH
+#అయితే_ముగింపు
 
-static void utf16_to_utf8(const uint16_t *src, uint8_t *dst)
+స్థిర శూన్య utf16_గమ్యం_utf8(స్థిరరాశి uint16_t *src, uint8_t *dst)
 {
-    int i;
-    for (i = 0; src[i]; i++) {
-        if (!(src[i] & 0xFF80)) {
+    పూర్ణాంకం i;
+    కొరకు (i = 0; src[i]; i++) {
+        ఒకవేళ (!(src[i] & 0xFF80)) {
             *(dst++) = src[i] & 0xFF;
-        } else if (!(src[i] & 0xF800)) {
+        } లేకపోతే ఒకవేళ (!(src[i] & 0xF800)) {
             *(dst++) = ((src[i] >> 6) & 0xFF) | 0xC0;
             *(dst++) = (src[i] & 0x3F) | 0x80;
-        } else if ((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
+        } లేకపోతే ఒకవేళ ((src[i] & 0xFC00) == 0xD800 && (src[i + 1] & 0xFC00) == 0xDC00) {
             *(dst++) = (((src[i] + 64) >> 8) & 0x3) | 0xF0;
             *(dst++) = (((src[i] >> 2) + 16) & 0x3F) | 0x80;
             *(dst++) = ((src[i] >> 4) & 0x30) | 0x80 | ((src[i + 1] << 2) & 0xF);
             *(dst++) = (src[i + 1] & 0x3F) | 0x80;
             i += 1;
-        } else {
+        } లేకపోతే {
             *(dst++) = ((src[i] >> 12) & 0xF) | 0xE0;
             *(dst++) = ((src[i] >> 6) & 0x3F) | 0x80;
             *(dst++) = (src[i] & 0x3F) | 0x80;
@@ -367,119 +367,119 @@ static void utf16_to_utf8(const uint16_t *src, uint8_t *dst)
     *dst = '\0';
 }
 
-#ifdef SDL_VIDEO_VITA_PVR
-SceWChar16 libime_out[SCE_IME_MAX_PREEDIT_LENGTH + SCE_IME_MAX_TEXT_LENGTH + 1];
-char libime_initval[8] = { 1 };
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
+SceWChar16 libime_బహిర్గతం[SCE_IME_MAX_PREEDIT_నిడివి + SCE_IME_MAX_పాఠ్యం_నిడివి + 1];
+అక్షరం libime_initval[8] = { 1 };
 SceImeCaret caret_rev;
 
-void VITA_ImeEventHandler(void *arg, const SceImeEventData *e)
+శూన్య VITA_ImeEventHandler(శూన్య *arg, స్థిరరాశి Sce_Ime_Event_దత్తాంశం *e)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)arg;
-    uint8_t utf8_buffer[SCE_IME_MAX_TEXT_LENGTH];
-    switch (e->id) {
-    case SCE_IME_EVENT_UPDATE_TEXT:
-        if (e->param.text.caretIndex == 0) {
-            SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_BACKSPACE);
-            sceImeSetText((SceWChar16 *)libime_initval, 4);
-        } else {
-            utf16_to_utf8((SceWChar16 *)&libime_out[1], utf8_buffer);
-            if (utf8_buffer[0] == ' ') {
-                SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_SPACE);
-            } else {
-                SDL_SendKeyboardText((const char *)utf8_buffer);
+    SDL_Video_దత్తాంశం *videodata = (SDL_Video_దత్తాంశం *)arg;
+    uint8_t utf8_బఫరు[SCE_IME_MAX_పాఠ్యం_నిడివి];
+    ఎంపిక (e->id) {
+    స్థితి SCE_IME_EVENT_UPDATE_పాఠ్యం:
+        ఒకవేళ (e->param.పాఠ్యం.caret_సూచీ == 0) {
+            SDL_Send_Keyboard_కీలకం_Auto_Release(0, SDL_SCANCODE_BACKSPACE);
+            sce_Ime_సమితి_పాఠ్యం((SceWChar16 *)libime_initval, 4);
+        } లేకపోతే {
+            utf16_గమ్యం_utf8((SceWChar16 *)&libime_బహిర్గతం[1], utf8_బఫరు);
+            ఒకవేళ (utf8_బఫరు[0] == ' ') {
+                SDL_Send_Keyboard_కీలకం_Auto_Release(0, SDL_SCANCODE_SPACE);
+            } లేకపోతే {
+                SDL_Send_Keyboard_పాఠ్యం((స్థిరరాశి అక్షరం *)utf8_బఫరు);
             }
             SDL_zero(caret_rev);
-            SDL_memset(libime_out, 0, ((SCE_IME_MAX_PREEDIT_LENGTH + SCE_IME_MAX_TEXT_LENGTH + 1) * sizeof(SceWChar16)));
-            caret_rev.index = 1;
-            sceImeSetCaret(&caret_rev);
-            sceImeSetText((SceWChar16 *)libime_initval, 4);
+            SDL_memset(libime_బహిర్గతం, 0, ((SCE_IME_MAX_PREEDIT_నిడివి + SCE_IME_MAX_పాఠ్యం_నిడివి + 1) * పరిమాణం(SceWChar16)));
+            caret_rev.సూచీ = 1;
+            sce_Ime_సమితి_Caret(&caret_rev);
+            sce_Ime_సమితి_పాఠ్యం((SceWChar16 *)libime_initval, 4);
         }
-        break;
-    case SCE_IME_EVENT_PRESS_ENTER:
-        SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_RETURN);
-        break;
-    case SCE_IME_EVENT_PRESS_CLOSE:
+        ఆపు;
+    స్థితి SCE_IME_EVENT_PRESS_ENTER:
+        SDL_Send_Keyboard_కీలకం_Auto_Release(0, SDL_SCANCODE_RETURN);
+        ఆపు;
+    స్థితి SCE_IME_EVENT_PRESS_CLOSE:
         sceImeClose();
-        videodata->ime_active = false;
+        videodata->ime_చురుకైన = false;
         SDL_SendScreenKeyboardHidden();
-        break;
+        ఆపు;
     }
 }
-#endif // SDL_VIDEO_VITA_PVR
+#అయితే_ముగింపు // SDL_VIDEO_VITA_PVR
 
-void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+శూన్య VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ, SDL_PropertiesID props)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
     SceInt32 res;
 
-#ifdef SDL_VIDEO_VITA_PVR
+#నిర్వచితమైతే SDL_VIDEO_VITA_PVR
 
-    SceUInt32 libime_work[SCE_IME_WORK_BUFFER_SIZE / sizeof(SceInt32)];
+    SceUInt32 libime_work[SCE_IME_WORK_బఫరు_కొలత / పరిమాణం(SceInt32)];
     SceImeParam param;
 
     sceImeParamInit(&param);
 
-    SDL_memset(libime_out, 0, ((SCE_IME_MAX_PREEDIT_LENGTH + SCE_IME_MAX_TEXT_LENGTH + 1) * sizeof(SceWChar16)));
+    SDL_memset(libime_బహిర్గతం, 0, ((SCE_IME_MAX_PREEDIT_నిడివి + SCE_IME_MAX_పాఠ్యం_నిడివి + 1) * పరిమాణం(SceWChar16)));
 
     param.supportedLanguages = SCE_IME_LANGUAGE_ENGLISH_US;
     param.languagesForced = SCE_FALSE;
-    switch (SDL_GetTextInputType(props)) {
-    default:
-    case SDL_TEXTINPUT_TYPE_TEXT:
+    ఎంపిక (SDL_Get_పాఠ్యం_ఆదానం_Type(props)) {
+    అప్రమేయ:
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం:
         param.type = SCE_IME_TYPE_DEFAULT;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_NAME:
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_NAME:
         param.type = SCE_IME_TYPE_DEFAULT;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_EMAIL:
         param.type = SCE_IME_TYPE_MAIL;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_USERNAME:
         param.type = SCE_IME_TYPE_DEFAULT;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_PASSWORD_HIDDEN:
         param.type = SCE_IME_TYPE_DEFAULT;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_పాఠ్యం_PASSWORD_VISIBLE:
         param.type = SCE_IME_TYPE_DEFAULT;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER:
-        param.type = SCE_IME_TYPE_NUMBER;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-        param.type = SCE_IME_TYPE_NUMBER;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-        param.type = SCE_IME_TYPE_NUMBER;
-        break;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య:
+        param.type = SCE_IME_TYPE_సంఖ్య;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య_PASSWORD_HIDDEN:
+        param.type = SCE_IME_TYPE_సంఖ్య;
+        ఆపు;
+    స్థితి SDL_TEXTINPUT_TYPE_సంఖ్య_PASSWORD_VISIBLE:
+        param.type = SCE_IME_TYPE_సంఖ్య;
+        ఆపు;
     }
     param.option = 0;
-    if (SDL_GetTextInputCapitalization(props) != SDL_CAPITALIZE_SENTENCES) {
+    ఒకవేళ (SDL_Get_పాఠ్యం_ఆదానం_Capitalization(props) != SDL_CAPITALIZE_SENTENCES) {
         param.option |= SCE_IME_OPTION_NO_AUTO_CAPITALIZATION;
     }
-    if (!SDL_GetTextInputAutocorrect(props)) {
+    ఒకవేళ (!SDL_Get_పాఠ్యం_ఆదానం_Autocorrect(props)) {
         param.option |= SCE_IME_OPTION_NO_ASSISTANCE;
     }
-    if (SDL_GetTextInputMultiline(props)) {
+    ఒకవేళ (SDL_Get_పాఠ్యం_ఆదానం_Multiline(props)) {
         param.option |= SCE_IME_OPTION_MULTILINE;
     }
-    param.inputTextBuffer = libime_out;
-    param.maxTextLength = SCE_IME_MAX_TEXT_LENGTH;
+    param.ఆదానం_పాఠ్యం_బఫరు = libime_బహిర్గతం;
+    param.max_పాఠ్యం_నిడివి = SCE_IME_MAX_పాఠ్యం_నిడివి;
     param.handler = VITA_ImeEventHandler;
-    param.filter = NULL;
-    param.initialText = (SceWChar16 *)libime_initval;
+    param.filter = ఖాళీ;
+    param.initial_పాఠ్యం = (SceWChar16 *)libime_initval;
     param.arg = videodata;
     param.work = libime_work;
 
     res = sceImeOpen(&param);
-    if (res < 0) {
-        SDL_SetError("Failed to init IME");
-        return;
+    ఒకవేళ (res < 0) {
+        SDL_సమితి_Error("Failed to init IME");
+        తిరిగి;
     }
 
-#else
+#లేకపోతే
     SceWChar16 *title = u"";
-    SceWChar16 *text = u"";
+    SceWChar16 *పాఠ్యం = u"";
 
     SceImeDialogParam param;
     sceImeDialogParamInit(&param);
@@ -488,56 +488,56 @@ void VITA_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Pro
     param.languagesForced = SCE_FALSE;
     param.type = SCE_IME_TYPE_DEFAULT;
     param.option = 0;
-    param.textBoxMode = SCE_IME_DIALOG_TEXTBOX_MODE_WITH_CLEAR;
-    param.maxTextLength = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
+    param.పాఠ్యం_Box_బహుళకం = SCE_IME_DIALOG_TEXTBOX_బహుళకం_WITH_CLEAR;
+    param.max_పాఠ్యం_నిడివి = SCE_IME_DIALOG_MAX_పాఠ్యం_నిడివి;
 
     param.title = title;
-    param.initialText = text;
-    param.inputTextBuffer = videodata->ime_buffer;
+    param.initial_పాఠ్యం = పాఠ్యం;
+    param.ఆదానం_పాఠ్యం_బఫరు = videodata->ime_బఫరు;
 
     res = sceImeDialogInit(&param);
-    if (res < 0) {
-        SDL_SetError("Failed to init IME dialog");
-        return;
+    ఒకవేళ (res < 0) {
+        SDL_సమితి_Error("Failed to init IME dialog");
+        తిరిగి;
     }
 
-#endif
+#అయితే_ముగింపు
 
-    videodata->ime_active = true;
+    videodata->ime_చురుకైన = true;
 
     SDL_SendScreenKeyboardShown();
 }
 
-void VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+శూన్య VITA_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_కిటికీ *కిటికీ)
 {
-#ifndef SDL_VIDEO_VITA_PVR
-    SDL_VideoData *videodata = _this->internal;
+#నిర్వచితం_కాకపోతే SDL_VIDEO_VITA_PVR
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
 
-    SceCommonDialogStatus dialogStatus = sceImeDialogGetStatus();
+    Sce_Common_Dialog_స్థితి dialog_స్థితి = sce_Ime_Dialog_Get_స్థితి();
 
-    switch (dialogStatus) {
-    default:
-    case SCE_COMMON_DIALOG_STATUS_NONE:
-    case SCE_COMMON_DIALOG_STATUS_RUNNING:
-        break;
-    case SCE_COMMON_DIALOG_STATUS_FINISHED:
-        sceImeDialogTerm();
-        break;
+    ఎంపిక (dialog_స్థితి) {
+    అప్రమేయ:
+    స్థితి SCE_COMMON_DIALOG_స్థితి_NONE:
+    స్థితి SCE_COMMON_DIALOG_స్థితి_RUNNING:
+        ఆపు;
+    స్థితి SCE_COMMON_DIALOG_స్థితి_ముగిసిన:
+        sce_Ime_Dialog_పదం();
+        ఆపు;
     }
 
-    videodata->ime_active = false;
+    videodata->ime_చురుకైన = false;
 
     SDL_SendScreenKeyboardHidden();
-#endif
+#అయితే_ముగింపు
 }
 
-void VITA_PumpEvents(SDL_VideoDevice *_this)
+శూన్య VITA_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifndef SDL_VIDEO_VITA_PVR
-    SDL_VideoData *videodata = _this->internal;
-#endif
+#నిర్వచితం_కాకపోతే SDL_VIDEO_VITA_PVR
+    SDL_Video_దత్తాంశం *videodata = _this->అంతర్గత;
+#అయితే_ముగింపు
 
-    if (_this->suspend_screensaver) {
+    ఒకవేళ (_this->suspend_screensaver) {
         // cancel all idle timers to prevent vita going to sleep
         sceKernelPowerTick(SCE_KERNEL_POWER_TICK_DEFAULT);
     }
@@ -546,36 +546,36 @@ void VITA_PumpEvents(SDL_VideoDevice *_this)
     VITA_PollKeyboard();
     VITA_PollMouse();
 
-#ifndef SDL_VIDEO_VITA_PVR
-    if (videodata->ime_active == true) {
+#నిర్వచితం_కాకపోతే SDL_VIDEO_VITA_PVR
+    ఒకవేళ (videodata->ime_చురుకైన == true) {
         // update IME status. Terminate, if finished
-        SceCommonDialogStatus dialogStatus = sceImeDialogGetStatus();
-        if (dialogStatus == SCE_COMMON_DIALOG_STATUS_FINISHED) {
-            uint8_t utf8_buffer[SCE_IME_DIALOG_MAX_TEXT_LENGTH];
+        Sce_Common_Dialog_స్థితి dialog_స్థితి = sce_Ime_Dialog_Get_స్థితి();
+        ఒకవేళ (dialog_స్థితి == SCE_COMMON_DIALOG_స్థితి_ముగిసిన) {
+            uint8_t utf8_బఫరు[SCE_IME_DIALOG_MAX_పాఠ్యం_నిడివి];
 
-            SceImeDialogResult result;
-            SDL_zero(result);
-            sceImeDialogGetResult(&result);
+            Sce_Ime_Dialog_ఫలితం ఫలితం;
+            SDL_zero(ఫలితం);
+            sce_Ime_Dialog_Get_ఫలితం(&ఫలితం);
 
             // Convert UTF16 to UTF8
-            utf16_to_utf8(videodata->ime_buffer, utf8_buffer);
+            utf16_గమ్యం_utf8(videodata->ime_బఫరు, utf8_బఫరు);
 
             // Send SDL event
-            SDL_SendKeyboardText((const char *)utf8_buffer);
+            SDL_Send_Keyboard_పాఠ్యం((స్థిరరాశి అక్షరం *)utf8_బఫరు);
 
             // Send enter key only on enter
-            if (result.button == SCE_IME_DIALOG_BUTTON_ENTER) {
-                SDL_SendKeyboardKeyAutoRelease(0, SDL_SCANCODE_RETURN);
+            ఒకవేళ (ఫలితం.button == SCE_IME_DIALOG_BUTTON_ENTER) {
+                SDL_Send_Keyboard_కీలకం_Auto_Release(0, SDL_SCANCODE_RETURN);
             }
 
-            sceImeDialogTerm();
+            sce_Ime_Dialog_పదం();
 
-            videodata->ime_active = false;
+            videodata->ime_చురుకైన = false;
 
             SDL_SendScreenKeyboardHidden();
         }
     }
-#endif
+#అయితే_ముగింపు
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_VITA

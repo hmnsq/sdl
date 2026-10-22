@@ -18,293 +18,293 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#అన్తర్భావ "../SDL_sysvideo.h"
+#అన్తర్భావ "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosmodes.h"
+#అన్తర్భావ "SDL_riscosvideo.h"
+#అన్తర్భావ "SDL_riscosmodes.h"
 
-#include <kernel.h>
-#include <swis.h>
+#అన్తర్భావ <kernel.h>
+#అన్తర్భావ <swis.h>
 
-enum
+గణన
 {
-    MODE_FLAG_565 = 1 << 7,
+    బహుళకం_FLAG_565 = 1 << 7,
 
-    MODE_FLAG_COLOUR_SPACE = 0xF << 12,
+    బహుళకం_FLAG_రంగు_SPACE = 0xF << 12,
 
-    MODE_FLAG_TBGR = 0,
-    MODE_FLAG_TRGB = 1 << 14,
-    MODE_FLAG_ABGR = 1 << 15,
-    MODE_FLAG_ARGB = MODE_FLAG_TRGB | MODE_FLAG_ABGR
+    బహుళకం_FLAG_TBGR = 0,
+    బహుళకం_FLAG_TRGB = 1 << 14,
+    బహుళకం_FLAG_ABGR = 1 << 15,
+    బహుళకం_FLAG_ARGB = బహుళకం_FLAG_TRGB | బహుళకం_FLAG_ABGR
 };
 
-static const struct
+స్థిర స్థిరరాశి నిర్మాణం
 {
     SDL_PixelFormat pixel_format;
-    int modeflags, ncolour, log2bpp;
-} mode_to_pixelformat[] = {
+    పూర్ణాంకం modeflags, ncolour, log2bpp;
+} బహుళకం_గమ్యం_pixelformat[] = {
     // { SDL_PIXELFORMAT_INDEX1LSB, 0, 1, 0 },
     // { SDL_PIXELFORMAT_INDEX2LSB, 0, 3, 1 },
     // { SDL_PIXELFORMAT_INDEX4LSB, 0, 15, 2 },
     // { SDL_PIXELFORMAT_INDEX8,    MODE_FLAG_565, 255, 3 },
-    { SDL_PIXELFORMAT_XBGR1555, MODE_FLAG_TBGR, 65535, 4 },
-    { SDL_PIXELFORMAT_XRGB1555, MODE_FLAG_TRGB, 65535, 4 },
-    { SDL_PIXELFORMAT_ABGR1555, MODE_FLAG_ABGR, 65535, 4 },
-    { SDL_PIXELFORMAT_ARGB1555, MODE_FLAG_ARGB, 65535, 4 },
-    { SDL_PIXELFORMAT_XBGR4444, MODE_FLAG_TBGR, 4095, 4 },
-    { SDL_PIXELFORMAT_XRGB4444, MODE_FLAG_TRGB, 4095, 4 },
-    { SDL_PIXELFORMAT_ABGR4444, MODE_FLAG_ABGR, 4095, 4 },
-    { SDL_PIXELFORMAT_ARGB4444, MODE_FLAG_ARGB, 4095, 4 },
-    { SDL_PIXELFORMAT_BGR565, MODE_FLAG_TBGR | MODE_FLAG_565, 65535, 4 },
-    { SDL_PIXELFORMAT_RGB565, MODE_FLAG_TRGB | MODE_FLAG_565, 65535, 4 },
-    { SDL_PIXELFORMAT_BGR24, MODE_FLAG_TBGR, 16777215, 6 },
-    { SDL_PIXELFORMAT_RGB24, MODE_FLAG_TRGB, 16777215, 6 },
-    { SDL_PIXELFORMAT_XBGR8888, MODE_FLAG_TBGR, -1, 5 },
-    { SDL_PIXELFORMAT_XRGB8888, MODE_FLAG_TRGB, -1, 5 },
-    { SDL_PIXELFORMAT_ABGR8888, MODE_FLAG_ABGR, -1, 5 },
-    { SDL_PIXELFORMAT_ARGB8888, MODE_FLAG_ARGB, -1, 5 }
+    { SDL_PIXELFORMAT_XBGR1555, బహుళకం_FLAG_TBGR, 65535, 4 },
+    { SDL_PIXELFORMAT_XRGB1555, బహుళకం_FLAG_TRGB, 65535, 4 },
+    { SDL_PIXELFORMAT_ABGR1555, బహుళకం_FLAG_ABGR, 65535, 4 },
+    { SDL_PIXELFORMAT_ARGB1555, బహుళకం_FLAG_ARGB, 65535, 4 },
+    { SDL_PIXELFORMAT_XBGR4444, బహుళకం_FLAG_TBGR, 4095, 4 },
+    { SDL_PIXELFORMAT_XRGB4444, బహుళకం_FLAG_TRGB, 4095, 4 },
+    { SDL_PIXELFORMAT_ABGR4444, బహుళకం_FLAG_ABGR, 4095, 4 },
+    { SDL_PIXELFORMAT_ARGB4444, బహుళకం_FLAG_ARGB, 4095, 4 },
+    { SDL_PIXELFORMAT_BGR565, బహుళకం_FLAG_TBGR | బహుళకం_FLAG_565, 65535, 4 },
+    { SDL_PIXELFORMAT_RGB565, బహుళకం_FLAG_TRGB | బహుళకం_FLAG_565, 65535, 4 },
+    { SDL_PIXELFORMAT_BGR24, బహుళకం_FLAG_TBGR, 16777215, 6 },
+    { SDL_PIXELFORMAT_RGB24, బహుళకం_FLAG_TRGB, 16777215, 6 },
+    { SDL_PIXELFORMAT_XBGR8888, బహుళకం_FLAG_TBGR, -1, 5 },
+    { SDL_PIXELFORMAT_XRGB8888, బహుళకం_FLAG_TRGB, -1, 5 },
+    { SDL_PIXELFORMAT_ABGR8888, బహుళకం_FLAG_ABGR, -1, 5 },
+    { SDL_PIXELFORMAT_ARGB8888, బహుళకం_FLAG_ARGB, -1, 5 }
 };
 
-static SDL_PixelFormat RISCOS_ModeToPixelFormat(int ncolour, int modeflags, int log2bpp)
+స్థిర SDL_PixelFormat RISCOS_బహుళకం_గమ్యం_Pixel_Format(పూర్ణాంకం ncolour, పూర్ణాంకం modeflags, పూర్ణాంకం log2bpp)
 {
-    int i;
+    పూర్ణాంకం i;
 
-    for (i = 0; i < SDL_arraysize(mode_to_pixelformat); i++) {
-        if (log2bpp == mode_to_pixelformat[i].log2bpp &&
-            (ncolour == mode_to_pixelformat[i].ncolour || ncolour == 0) &&
-            (modeflags & (MODE_FLAG_565 | MODE_FLAG_COLOUR_SPACE)) == mode_to_pixelformat[i].modeflags) {
-            return mode_to_pixelformat[i].pixel_format;
+    కొరకు (i = 0; i < SDL_arraysize(బహుళకం_గమ్యం_pixelformat); i++) {
+        ఒకవేళ (log2bpp == బహుళకం_గమ్యం_pixelformat[i].log2bpp &&
+            (ncolour == బహుళకం_గమ్యం_pixelformat[i].ncolour || ncolour == 0) &&
+            (modeflags & (బహుళకం_FLAG_565 | బహుళకం_FLAG_రంగు_SPACE)) == బహుళకం_గమ్యం_pixelformat[i].modeflags) {
+            తిరిగి బహుళకం_గమ్యం_pixelformat[i].pixel_format;
         }
     }
 
-    return SDL_PIXELFORMAT_UNKNOWN;
+    తిరిగి SDL_PIXELFORMAT_UNKNOWN;
 }
 
-static size_t measure_mode_block(const int *block)
+స్థిర size_t measure_బహుళకం_ఖండం(స్థిరరాశి పూర్ణాంకం *ఖండం)
 {
-    size_t blockSize = ((block[0] & 0xFF) == 3) ? 7 : 5;
-    while (block[blockSize] != -1) {
-        blockSize += 2;
+    size_t ఖండం_కొలత = ((ఖండం[0] & 0xFF) == 3) ? 7 : 5;
+    అయితే (ఖండం[ఖండం_కొలత] != -1) {
+        ఖండం_కొలత += 2;
     }
-    blockSize++;
+    ఖండం_కొలత++;
 
-    return blockSize * 4;
+    తిరిగి ఖండం_కొలత * 4;
 }
 
-static int read_mode_variable(int *block, int var)
+స్థిర పూర్ణాంకం read_బహుళకం_variable(పూర్ణాంకం *ఖండం, పూర్ణాంకం var)
 {
     _kernel_swi_regs regs;
-    regs.r[0] = (int)block;
+    regs.r[0] = (పూర్ణాంకం)ఖండం;
     regs.r[1] = var;
-    _kernel_swi(OS_ReadModeVariable, &regs, &regs);
-    return regs.r[2];
+    _kernel_swi(OS_Read_బహుళకం_Variable, &regs, &regs);
+    తిరిగి regs.r[2];
 }
 
-static bool read_mode_block(int *block, SDL_DisplayMode *mode, bool extended)
+స్థిర bool read_బహుళకం_ఖండం(పూర్ణాంకం *ఖండం, SDL_Display_బహుళకం *బహుళకం, bool extended)
 {
-    int xres, yres, ncolour, modeflags, log2bpp, rate;
+    పూర్ణాంకం xres, yres, ncolour, modeflags, log2bpp, రేటు;
 
-    if ((block[0] & 0xFF) == 1) {
-        xres = block[1];
-        yres = block[2];
-        log2bpp = block[3];
-        rate = block[4];
+    ఒకవేళ ((ఖండం[0] & 0xFF) == 1) {
+        xres = ఖండం[1];
+        yres = ఖండం[2];
+        log2bpp = ఖండం[3];
+        రేటు = ఖండం[4];
         ncolour = (1 << (1 << log2bpp)) - 1;
-        modeflags = MODE_FLAG_TBGR;
-    } else if ((block[0] & 0xFF) == 3) {
-        xres = block[1];
-        yres = block[2];
-        ncolour = block[3];
-        modeflags = block[4];
-        log2bpp = block[5];
-        rate = block[6];
-    } else {
-        return false;
+        modeflags = బహుళకం_FLAG_TBGR;
+    } లేకపోతే ఒకవేళ ((ఖండం[0] & 0xFF) == 3) {
+        xres = ఖండం[1];
+        yres = ఖండం[2];
+        ncolour = ఖండం[3];
+        modeflags = ఖండం[4];
+        log2bpp = ఖండం[5];
+        రేటు = ఖండం[6];
+    } లేకపోతే {
+        తిరిగి false;
     }
 
-    if (extended) {
-        xres = read_mode_variable(block, 11) + 1;
-        yres = read_mode_variable(block, 12) + 1;
-        log2bpp = read_mode_variable(block, 9);
-        ncolour = read_mode_variable(block, 3);
-        modeflags = read_mode_variable(block, 0);
+    ఒకవేళ (extended) {
+        xres = read_బహుళకం_variable(ఖండం, 11) + 1;
+        yres = read_బహుళకం_variable(ఖండం, 12) + 1;
+        log2bpp = read_బహుళకం_variable(ఖండం, 9);
+        ncolour = read_బహుళకం_variable(ఖండం, 3);
+        modeflags = read_బహుళకం_variable(ఖండం, 0);
     }
 
-    SDL_zerop(mode);
-    mode->w = xres;
-    mode->h = yres;
-    mode->format = RISCOS_ModeToPixelFormat(ncolour, modeflags, log2bpp);
-    mode->refresh_rate = (float)rate;
+    SDL_zerop(బహుళకం);
+    బహుళకం->w = xres;
+    బహుళకం->h = yres;
+    బహుళకం->format = RISCOS_బహుళకం_గమ్యం_Pixel_Format(ncolour, modeflags, log2bpp);
+    బహుళకం->refresh_రేటు = (దశాంశం)రేటు;
 
-    return true;
+    తిరిగి true;
 }
 
-static void *convert_mode_block(const int *block)
+స్థిర శూన్య *convert_బహుళకం_ఖండం(స్థిరరాశి పూర్ణాంకం *ఖండం)
 {
-    int xres, yres, log2bpp, rate, ncolour = 0, modeflags = 0;
+    పూర్ణాంకం xres, yres, log2bpp, రేటు, ncolour = 0, modeflags = 0;
     size_t pos = 0;
-    int *dst;
+    పూర్ణాంకం *dst;
 
-    if ((block[0] & 0xFF) == 1) {
-        xres = block[1];
-        yres = block[2];
-        log2bpp = block[3];
-        rate = block[4];
-    } else if ((block[0] & 0xFF) == 3) {
-        xres = block[1];
-        yres = block[2];
-        ncolour = block[3];
-        modeflags = block[4];
-        log2bpp = block[5];
-        rate = block[6];
-    } else {
-        return NULL;
+    ఒకవేళ ((ఖండం[0] & 0xFF) == 1) {
+        xres = ఖండం[1];
+        yres = ఖండం[2];
+        log2bpp = ఖండం[3];
+        రేటు = ఖండం[4];
+    } లేకపోతే ఒకవేళ ((ఖండం[0] & 0xFF) == 3) {
+        xres = ఖండం[1];
+        yres = ఖండం[2];
+        ncolour = ఖండం[3];
+        modeflags = ఖండం[4];
+        log2bpp = ఖండం[5];
+        రేటు = ఖండం[6];
+    } లేకపోతే {
+        తిరిగి ఖాళీ;
     }
 
     dst = SDL_malloc(40);
-    if (!dst) {
-        return NULL;
+    ఒకవేళ (!dst) {
+        తిరిగి ఖాళీ;
     }
 
     dst[pos++] = 1;
     dst[pos++] = xres;
     dst[pos++] = yres;
     dst[pos++] = log2bpp;
-    dst[pos++] = rate;
-    if (ncolour != 0) {
+    dst[pos++] = రేటు;
+    ఒకవేళ (ncolour != 0) {
         dst[pos++] = 3;
         dst[pos++] = ncolour;
     }
-    if (modeflags != 0) {
+    ఒకవేళ (modeflags != 0) {
         dst[pos++] = 0;
         dst[pos++] = modeflags;
     }
     dst[pos++] = -1;
 
-    return dst;
+    తిరిగి dst;
 }
 
-static void *copy_memory(const void *src, size_t size, size_t alloc)
+స్థిర శూన్య *copy_జ్ఞాపకం(స్థిరరాశి శూన్య *src, size_t కొలత, size_t alloc)
 {
-    void *dst = SDL_malloc(alloc);
-    if (dst) {
-        SDL_memcpy(dst, src, size);
+    శూన్య *dst = SDL_malloc(alloc);
+    ఒకవేళ (dst) {
+        SDL_memcpy(dst, src, కొలత);
     }
-    return dst;
+    తిరిగి dst;
 }
 
 bool RISCOS_InitModes(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
-    int *current_mode;
+    SDL_Display_బహుళకం బహుళకం;
+    పూర్ణాంకం *current_బహుళకం;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    size_t size;
+    size_t కొలత;
 
     regs.r[0] = 1;
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
+    error = _kernel_swi(OS_Screen_బహుళకం, &regs, &regs);
+    ఒకవేళ (error) {
+        తిరిగి SDL_సమితి_Error("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
-    current_mode = (int *)regs.r[1];
-    if (!read_mode_block(current_mode, &mode, true)) {
-        return SDL_SetError("Unsupported mode block format %d", current_mode[0]);
+    current_బహుళకం = (పూర్ణాంకం *)regs.r[1];
+    ఒకవేళ (!read_బహుళకం_ఖండం(current_బహుళకం, &బహుళకం, true)) {
+        తిరిగి SDL_సమితి_Error("Unsupported mode block format %d", current_బహుళకం[0]);
     }
 
-    size = measure_mode_block(current_mode);
-    mode.internal = copy_memory(current_mode, size, size);
-    if (!mode.internal) {
-        return false;
+    కొలత = measure_బహుళకం_ఖండం(current_బహుళకం);
+    బహుళకం.అంతర్గత = copy_జ్ఞాపకం(current_బహుళకం, కొలత, కొలత);
+    ఒకవేళ (!బహుళకం.అంతర్గత) {
+        తిరిగి false;
     }
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    ఒకవేళ (SDL_కూడు_Basic_Video_Display(&బహుళకం) == 0) {
+        తిరిగి false;
     }
-    return true;
+    తిరిగి true;
 }
 
 bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_బహుళకం బహుళకం;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    void *block, *pos;
+    శూన్య *ఖండం, *pos;
 
     regs.r[0] = 2;
     regs.r[2] = 0;
     regs.r[6] = 0;
     regs.r[7] = 0;
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+    error = _kernel_swi(OS_Screen_బహుళకం, &regs, &regs);
+    ఒకవేళ (error) {
+        తిరిగి SDL_సమితి_Error("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
-    block = SDL_malloc(-regs.r[7]);
-    if (!block) {
-        return false;
+    ఖండం = SDL_malloc(-regs.r[7]);
+    ఒకవేళ (!ఖండం) {
+        తిరిగి false;
     }
 
-    regs.r[6] = (int)block;
+    regs.r[6] = (పూర్ణాంకం)ఖండం;
     regs.r[7] = -regs.r[7];
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        SDL_free(block);
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+    error = _kernel_swi(OS_Screen_బహుళకం, &regs, &regs);
+    ఒకవేళ (error) {
+        SDL_free(ఖండం);
+        తిరిగి SDL_సమితి_Error("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
-    for (pos = block; pos < (void *)regs.r[6]; pos += *((int *)pos)) {
-        if (!read_mode_block(pos + 4, &mode, false)) {
-            continue;
+    కొరకు (pos = ఖండం; pos < (శూన్య *)regs.r[6]; pos += *((పూర్ణాంకం *)pos)) {
+        ఒకవేళ (!read_బహుళకం_ఖండం(pos + 4, &బహుళకం, false)) {
+            కొనసాగు;
         }
 
-        if (mode.format == SDL_PIXELFORMAT_UNKNOWN) {
-            continue;
+        ఒకవేళ (బహుళకం.format == SDL_PIXELFORMAT_UNKNOWN) {
+            కొనసాగు;
         }
 
-        mode.internal = convert_mode_block(pos + 4);
-        if (!mode.internal) {
-            SDL_free(block);
-            return false;
+        బహుళకం.అంతర్గత = convert_బహుళకం_ఖండం(pos + 4);
+        ఒకవేళ (!బహుళకం.అంతర్గత) {
+            SDL_free(ఖండం);
+            తిరిగి false;
         }
 
-        if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
-            SDL_free(mode.internal);
+        ఒకవేళ (!SDL_కూడు_Fullscreen_Display_బహుళకం(display, &బహుళకం)) {
+            SDL_free(బహుళకం.అంతర్గత);
         }
     }
 
-    SDL_free(block);
-    return true;
+    SDL_free(ఖండం);
+    తిరిగి true;
 }
 
-bool RISCOS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool RISCOS_సమితి_Display_బహుళకం(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_బహుళకం *బహుళకం)
 {
-    const char disable_cursor[] = { 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    స్థిరరాశి అక్షరం disable_cursor[] = { 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    int i;
+    పూర్ణాంకం i;
 
     regs.r[0] = 0;
-    regs.r[1] = (int)mode->internal;
-    error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
+    regs.r[1] = (పూర్ణాంకం)బహుళకం->అంతర్గత;
+    error = _kernel_swi(OS_Screen_బహుళకం, &regs, &regs);
+    ఒకవేళ (error) {
+        తిరిగి SDL_సమితి_Error("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
     // Turn the text cursor off
-    for (i = 0; i < SDL_arraysize(disable_cursor); i++) {
+    కొరకు (i = 0; i < SDL_arraysize(disable_cursor); i++) {
         _kernel_oswrch(disable_cursor[i]);
     }
 
     // Update cursor visibility, since it may have been disabled by the mode change.
     SDL_RedrawCursor();
 
-    return true;
+    తిరిగి true;
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_RISCOS

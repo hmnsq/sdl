@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidclipboard.h"
-#include "../../core/android/SDL_android.h"
+#అన్తర్భావ "SDL_androidvideo.h"
+#అన్తర్భావ "SDL_androidclipboard.h"
+#అన్తర్భావ "../../core/android/SDL_android.h"
 
-bool Android_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+bool Android_సమితి_Clipboard_పాఠ్యం(SDL_VideoDevice *_this, స్థిరరాశి అక్షరం *పాఠ్యం)
 {
-    return Android_JNI_SetClipboardText(text);
+    తిరిగి Android_JNI_సమితి_Clipboard_పాఠ్యం(పాఠ్యం);
 }
 
-char *Android_GetClipboardText(SDL_VideoDevice *_this)
+అక్షరం *Android_Get_Clipboard_పాఠ్యం(SDL_VideoDevice *_this)
 {
-    return Android_JNI_GetClipboardText();
+    తిరిగి Android_JNI_Get_Clipboard_పాఠ్యం();
 }
 
-bool Android_HasClipboardText(SDL_VideoDevice *_this)
+bool Android_Has_Clipboard_పాఠ్యం(SDL_VideoDevice *_this)
 {
-    return Android_JNI_HasClipboardText();
+    తిరిగి Android_JNI_Has_Clipboard_పాఠ్యం();
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#అయితే_ముగింపు // SDL_VIDEO_DRIVER_ANDROID

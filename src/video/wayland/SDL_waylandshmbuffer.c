@@ -19,196 +19,196 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#అన్తర్భావ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#నిర్వచితమైతే SDL_VIDEO_DRIVER_WAYLAND
 
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <signal.h>
-#include <sys/mman.h>
-#include <unistd.h>
+#అన్తర్భావ <errno.h>
+#అన్తర్భావ <fcntl.h>
+#అన్తర్భావ <limits.h>
+#అన్తర్భావ <signal.h>
+#అన్తర్భావ <sys/mman.h>
+#అన్తర్భావ <unistd.h>
 
-#include "SDL_waylandshmbuffer.h"
-#include "SDL_waylandvideo.h"
-#include "single-pixel-buffer-v1-client-protocol.h"
+#అన్తర్భావ "SDL_waylandshmbuffer.h"
+#అన్తర్భావ "SDL_waylandvideo.h"
+#అన్తర్భావ "single-pixel-buffer-v1-client-protocol.h"
 
-static bool SetTempFileSize(int fd, off_t size)
+స్థిర bool సమితి_తాత్కాలిక_File_కొలత(పూర్ణాంకం fd, off_t కొలత)
 {
-#ifdef HAVE_POSIX_FALLOCATE
-    sigset_t set, old_set;
-    int ret;
+#నిర్వచితమైతే HAVE_POSIX_FALLOCATE
+    sigset_t సమితి, old_సమితి;
+    పూర్ణాంకం ret;
 
     /* SIGALRM can potentially block a large posix_fallocate() operation
      * from succeeding, so block it.
      */
-    sigemptyset(&set);
-    sigaddset(&set, SIGALRM);
-    sigprocmask(SIG_BLOCK, &set, &old_set);
+    sigemptyset(&సమితి);
+    sigaddset(&సమితి, SIGALRM);
+    sigprocmask(SIG_BLOCK, &సమితి, &old_సమితి);
 
-    do {
-        ret = posix_fallocate(fd, 0, size);
-    } while (ret == EINTR);
+    చేయి {
+        ret = posix_fallocate(fd, 0, కొలత);
+    } అయితే (ret == EINTR);
 
-    sigprocmask(SIG_SETMASK, &old_set, NULL);
+    sigprocmask(SIG_SETMASK, &old_సమితి, ఖాళీ);
 
-    if (ret == 0) {
-        return true;
-    } else if (ret != EINVAL && errno != EOPNOTSUPP) {
-        return false;
+    ఒకవేళ (ret == 0) {
+        తిరిగి true;
+    } లేకపోతే ఒకవేళ (ret != EINVAL && errno != EOPNOTSUPP) {
+        తిరిగి false;
     }
-#endif
+#అయితే_ముగింపు
 
-    if (ftruncate(fd, size) < 0) {
-        return false;
+    ఒకవేళ (ftruncate(fd, కొలత) < 0) {
+        తిరిగి false;
     }
-    return true;
+    తిరిగి true;
 }
 
-static int CreateTempFD(off_t size)
+స్థిర పూర్ణాంకం Create_తాత్కాలిక_FD(off_t కొలత)
 {
-    int fd;
+    పూర్ణాంకం fd;
 
-#ifdef HAVE_MEMFD_CREATE
+#నిర్వచితమైతే HAVE_MEMFD_CREATE
     fd = memfd_create("SDL", MFD_CLOEXEC | MFD_ALLOW_SEALING);
-    if (fd >= 0) {
-        fcntl(fd, F_ADD_SEALS, F_SEAL_SHRINK | F_SEAL_SEAL);
-    } else
-#endif
+    ఒకవేళ (fd >= 0) {
+        fcntl(fd, F_కూడు_SEALS, F_SEAL_SHRINK | F_SEAL_SEAL);
+    } లేకపోతే
+#అయితే_ముగింపు
     {
-        static const char template[] = "/sdl-shared-XXXXXX";
-        const char *xdg_path;
-        char tmp_path[PATH_MAX];
+        స్థిర స్థిరరాశి అక్షరం మూస[] = "/sdl-shared-XXXXXX";
+        స్థిరరాశి అక్షరం *xdg_మార్గం;
+        అక్షరం tmp_మార్గం[PATH_MAX];
 
-        xdg_path = SDL_getenv("XDG_RUNTIME_DIR");
-        if (!xdg_path) {
-            return -1;
+        xdg_మార్గం = SDL_getenv("XDG_RUNTIME_DIR");
+        ఒకవేళ (!xdg_మార్గం) {
+            తిరిగి -1;
         }
 
-        SDL_strlcpy(tmp_path, xdg_path, PATH_MAX);
-        SDL_strlcat(tmp_path, template, PATH_MAX);
+        SDL_strlcpy(tmp_మార్గం, xdg_మార్గం, PATH_MAX);
+        SDL_strlcat(tmp_మార్గం, మూస, PATH_MAX);
 
-        fd = mkostemp(tmp_path, O_CLOEXEC);
-        if (fd < 0) {
-            return -1;
+        fd = mkostemp(tmp_మార్గం, O_CLOEXEC);
+        ఒకవేళ (fd < 0) {
+            తిరిగి -1;
         }
 
         // Need to manually unlink the temp files, or they can persist after close and fill up the temp storage.
-        unlink(tmp_path);
+        unlink(tmp_మార్గం);
     }
 
-    if (!SetTempFileSize(fd, size)) {
+    ఒకవేళ (!సమితి_తాత్కాలిక_File_కొలత(fd, కొలత)) {
         close(fd);
-        return -1;
+        తిరిగి -1;
     }
 
-    return fd;
+    తిరిగి fd;
 }
 
-static void buffer_handle_release(void *data, struct wl_buffer *wl_buffer)
+స్థిర శూన్య బఫరు_handle_release(శూన్య *దత్తాంశం, నిర్మాణం wl_బఫరు *wl_బఫరు)
 {
     // NOP
 }
 
-static struct wl_buffer_listener buffer_listener = {
-    buffer_handle_release
+స్థిర నిర్మాణం wl_బఫరు_listener బఫరు_listener = {
+    బఫరు_handle_release
 };
 
-struct Wayland_SHMPool
+నిర్మాణం Wayland_SHMPool
 {
-    struct wl_shm_pool *shm_pool;
-    void *shm_pool_memory;
-    int shm_pool_size;
-    int offset;
+    నిర్మాణం wl_shm_pool *shm_pool;
+    శూన్య *shm_pool_జ్ఞాపకం;
+    పూర్ణాంకం shm_pool_కొలత;
+    పూర్ణాంకం స్థానభ్రంశం_2;
 };
 
-Wayland_SHMPool *Wayland_AllocSHMPool(int size)
+Wayland_SHMPool *Wayland_AllocSHMPool(పూర్ణాంకం కొలత)
 {
     SDL_VideoDevice *vd = SDL_GetVideoDevice();
-    SDL_VideoData *data = vd->internal;
+    SDL_Video_దత్తాంశం *దత్తాంశం = vd->అంతర్గత;
 
-    if (size <= 0) {
-        return NULL;
+    ఒకవేళ (కొలత <= 0) {
+        తిరిగి ఖాళీ;
     }
 
-    Wayland_SHMPool *shmPool = SDL_calloc(1, sizeof(Wayland_SHMPool));
-    if (!shmPool) {
-        return NULL;
+    Wayland_SHMPool *shmPool = SDL_calloc(1, పరిమాణం(Wayland_SHMPool));
+    ఒకవేళ (!shmPool) {
+        తిరిగి ఖాళీ;
     }
 
-    shmPool->shm_pool_size = (size + 15) & (~15);
+    shmPool->shm_pool_కొలత = (కొలత + 15) & (~15);
 
-    const int shm_fd = CreateTempFD(shmPool->shm_pool_size);
-    if (shm_fd < 0) {
+    స్థిరరాశి పూర్ణాంకం shm_fd = Create_తాత్కాలిక_FD(shmPool->shm_pool_కొలత);
+    ఒకవేళ (shm_fd < 0) {
         SDL_free(shmPool);
-        SDL_SetError("Creating SHM buffer failed.");
-        return NULL;
+        SDL_సమితి_Error("Creating SHM buffer failed.");
+        తిరిగి ఖాళీ;
     }
 
-    shmPool->shm_pool_memory = mmap(NULL, shmPool->shm_pool_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shmPool->shm_pool_memory == MAP_FAILED) {
-        shmPool->shm_pool_memory = NULL;
+    shmPool->shm_pool_జ్ఞాపకం = mmap(ఖాళీ, shmPool->shm_pool_కొలత, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    ఒకవేళ (shmPool->shm_pool_జ్ఞాపకం == MAP_FAILED) {
+        shmPool->shm_pool_జ్ఞాపకం = ఖాళీ;
         close(shm_fd);
         SDL_free(shmPool);
-        SDL_SetError("mmap() failed.");
-        return NULL;
+        SDL_సమితి_Error("mmap() failed.");
+        తిరిగి ఖాళీ;
     }
 
-    shmPool->shm_pool = wl_shm_create_pool(data->shm, shm_fd, shmPool->shm_pool_size);
+    shmPool->shm_pool = wl_shm_create_pool(దత్తాంశం->shm, shm_fd, shmPool->shm_pool_కొలత);
     close(shm_fd);
 
-    return shmPool;
+    తిరిగి shmPool;
 }
 
-struct wl_buffer *Wayland_AllocBufferFromPool(Wayland_SHMPool *shmPool, int width, int height, void **data)
+నిర్మాణం wl_బఫరు *Wayland_Alloc_బఫరు_From_Pool(Wayland_SHMPool *shmPool, పూర్ణాంకం వెడల్పు, పూర్ణాంకం ఎత్తు, శూన్య **దత్తాంశం)
 {
-    const Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
+    స్థిరరాశి Uint32 SHM_FMT = WL_SHM_FORMAT_ARGB8888;
 
-    if (!shmPool || !width || !height || !data) {
-        return NULL;
+    ఒకవేళ (!shmPool || !వెడల్పు || !ఎత్తు || !దత్తాంశం) {
+        తిరిగి ఖాళీ;
     }
 
-    *data = (Uint8 *)shmPool->shm_pool_memory + shmPool->offset;
-    struct wl_buffer *buffer = wl_shm_pool_create_buffer(shmPool->shm_pool, shmPool->offset, width, height, width * 4, SHM_FMT);
-    wl_buffer_add_listener(buffer, &buffer_listener, shmPool);
+    *దత్తాంశం = (Uint8 *)shmPool->shm_pool_జ్ఞాపకం + shmPool->స్థానభ్రంశం_2;
+    నిర్మాణం wl_బఫరు *బఫరు_2 = wl_shm_pool_create_బఫరు(shmPool->shm_pool, shmPool->స్థానభ్రంశం_2, వెడల్పు, ఎత్తు, వెడల్పు * 4, SHM_FMT);
+    wl_బఫరు_కూడు_listener(బఫరు_2, &బఫరు_listener, shmPool);
 
-    shmPool->offset += width * height * 4;
+    shmPool->స్థానభ్రంశం_2 += వెడల్పు * ఎత్తు * 4;
 
-    return buffer;
+    తిరిగి బఫరు_2;
 }
 
-void Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
+శూన్య Wayland_ReleaseSHMPool(Wayland_SHMPool *shmPool)
 {
-    if (shmPool) {
+    ఒకవేళ (shmPool) {
         wl_shm_pool_destroy(shmPool->shm_pool);
-        munmap(shmPool->shm_pool_memory, shmPool->shm_pool_size);
+        munmap(shmPool->shm_pool_జ్ఞాపకం, shmPool->shm_pool_కొలత);
         SDL_free(shmPool);
     }
 }
 
-struct wl_buffer *Wayland_CreateSinglePixelBuffer(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
+నిర్మాణం wl_బఫరు *Wayland_Create_Single_Pixel_బఫరు(Uint32 r, Uint32 g, Uint32 b, Uint32 a)
 {
-    SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
+    SDL_Video_దత్తాంశం *viddata = SDL_GetVideoDevice()->అంతర్గత;
 
     // The single-pixel buffer protocol is preferred, as the compositor can choose an optimal format.
-    if (viddata->single_pixel_buffer_manager) {
-        return wp_single_pixel_buffer_manager_v1_create_u32_rgba_buffer(viddata->single_pixel_buffer_manager, r, g, b, a);
-    } else {
+    ఒకవేళ (viddata->single_pixel_బఫరు_manager) {
+        తిరిగి wp_single_pixel_బఫరు_manager_v1_create_u32_rgba_బఫరు(viddata->single_pixel_బఫరు_manager, r, g, b, a);
+    } లేకపోతే {
         Wayland_SHMPool *pool = Wayland_AllocSHMPool(4);
-        if (!pool) {
-            return NULL;
+        ఒకవేళ (!pool) {
+            తిరిగి ఖాళీ;
         }
 
-        void *mem;
-        struct wl_buffer *wl_buffer = Wayland_AllocBufferFromPool(pool, 1, 1, &mem);
+        శూన్య *mem;
+        నిర్మాణం wl_బఫరు *wl_బఫరు = Wayland_Alloc_బఫరు_From_Pool(pool, 1, 1, &mem);
 
-        const Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
-        SDL_memcpy(mem, pixel, sizeof(pixel));
+        స్థిరరాశి Uint8 pixel[4] = { r >> 24, g >> 24, b >> 24, a >> 24 };
+        SDL_memcpy(mem, pixel, పరిమాణం(pixel));
 
         Wayland_ReleaseSHMPool(pool);
-        return wl_buffer;
+        తిరిగి wl_బఫరు;
     }
 }
 
-#endif
+#అయితే_ముగింపు

@@ -21,83 +21,83 @@
 
 /* *INDENT-OFF* */ // clang-format off
 
-#ifndef SDL_KMSDRM_MODULE
-#define SDL_KMSDRM_MODULE(modname)
-#endif
+#నిర్వచితం_కాకపోతే SDL_KMSDRM_MODULE
+#నిర్వచించు SDL_KMSDRM_MODULE(modname)
+#అయితే_ముగింపు
 
-#ifndef SDL_KMSDRM_SYM
-#define SDL_KMSDRM_SYM(rc,fn,params)
-#endif
+#నిర్వచితం_కాకపోతే SDL_KMSDRM_SYM
+#నిర్వచించు SDL_KMSDRM_SYM(rc,fn,params)
+#అయితే_ముగింపు
 
-#ifndef SDL_KMSDRM_SYM_CONST
-#define SDL_KMSDRM_SYM_CONST(type, name)
-#endif
+#నిర్వచితం_కాకపోతే SDL_KMSDRM_SYM_CONST
+#నిర్వచించు SDL_KMSDRM_SYM_CONST(type, name)
+#అయితే_ముగింపు
 
-#ifndef SDL_KMSDRM_SYM_OPT
-#define SDL_KMSDRM_SYM_OPT(rc,fn,params)
-#endif
+#నిర్వచితం_కాకపోతే SDL_KMSDRM_SYM_OPT
+#నిర్వచించు SDL_KMSDRM_SYM_OPT(rc,fn,params)
+#అయితే_ముగింపు
 
 
 SDL_KMSDRM_MODULE(LIBDRM)
-SDL_KMSDRM_SYM(void,drmModeFreeResources,(drmModeResPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeFB,(drmModeFBPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeCrtc,(drmModeCrtcPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeConnector,(drmModeConnectorPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeEncoder,(drmModeEncoderPtr ptr))
-SDL_KMSDRM_SYM(int,drmGetCap,(int fd, uint64_t capability, uint64_t *value))
-SDL_KMSDRM_SYM(int,drmSetMaster,(int fd))
-SDL_KMSDRM_SYM(int,drmDropMaster,(int fd))
-SDL_KMSDRM_SYM(int,drmAuthMagic,(int fd, drm_magic_t magic))
-SDL_KMSDRM_SYM(drmModeResPtr,drmModeGetResources,(int fd))
-SDL_KMSDRM_SYM(int,drmModeAddFB,(int fd, uint32_t width, uint32_t height, uint8_t depth,
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Resources,(drm_బహుళకం_Res_Ptr ptr))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_FB,(drm_బహుళకం_FBPtr ptr))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Crtc,(drm_బహుళకం_Crtc_Ptr ptr))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Connector,(drm_బహుళకం_Connector_Ptr ptr))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Encoder,(drm_బహుళకం_Encoder_Ptr ptr))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drmGetCap,(పూర్ణాంకం fd, uint64_t capability, uint64_t *విలువ))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_సమితి_Master,(పూర్ణాంకం fd))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drmDropMaster,(పూర్ణాంకం fd))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drmAuthMagic,(పూర్ణాంకం fd, drm_magic_t magic))
+SDL_KMSDRM_SYM(drm_బహుళకం_Res_Ptr,drm_బహుళకం_Get_Resources,(పూర్ణాంకం fd))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_కూడు_FB,(పూర్ణాంకం fd, uint32_t వెడల్పు, uint32_t ఎత్తు, uint8_t లోతు_2,
                          uint8_t bpp, uint32_t pitch, uint32_t bo_handle,
                          uint32_t *buf_id))
 
-SDL_KMSDRM_SYM_OPT(int,drmModeAddFB2,(int fd, uint32_t width, uint32_t height,
-                         uint32_t pixel_format, const uint32_t bo_handles[4],
-                         const uint32_t pitches[4], const uint32_t offsets[4],
+SDL_KMSDRM_SYM_OPT(పూర్ణాంకం,drm_బహుళకం_కూడు_FB2,(పూర్ణాంకం fd, uint32_t వెడల్పు, uint32_t ఎత్తు,
+                         uint32_t pixel_format, స్థిరరాశి uint32_t bo_handles[4],
+                         స్థిరరాశి uint32_t pitches[4], స్థిరరాశి uint32_t offsets[4],
                          uint32_t *buf_id, uint32_t flags))
 
-SDL_KMSDRM_SYM_OPT(int,drmModeAddFB2WithModifiers,(int fd, uint32_t width,
-                         uint32_t height, uint32_t pixel_format, const uint32_t bo_handles[4],
-                         const uint32_t pitches[4], const uint32_t offsets[4],
-                         const uint64_t modifier[4], uint32_t *buf_id, uint32_t flags))
+SDL_KMSDRM_SYM_OPT(పూర్ణాంకం,drm_బహుళకం_కూడు_FB2_With_Modifiers,(పూర్ణాంకం fd, uint32_t వెడల్పు,
+                         uint32_t ఎత్తు, uint32_t pixel_format, స్థిరరాశి uint32_t bo_handles[4],
+                         స్థిరరాశి uint32_t pitches[4], స్థిరరాశి uint32_t offsets[4],
+                         స్థిరరాశి uint64_t modifier[4], uint32_t *buf_id, uint32_t flags))
 
-SDL_KMSDRM_SYM_OPT(const char *,drmModeGetConnectorTypeName,(uint32_t connector_type))
+SDL_KMSDRM_SYM_OPT(స్థిరరాశి అక్షరం *,drm_బహుళకం_Get_Connector_Type_Name,(uint32_t connector_type))
 
-SDL_KMSDRM_SYM(int,drmModeRmFB,(int fd, uint32_t bufferId))
-SDL_KMSDRM_SYM(drmModeFBPtr,drmModeGetFB,(int fd, uint32_t buf))
-SDL_KMSDRM_SYM(drmModeCrtcPtr,drmModeGetCrtc,(int fd, uint32_t crtcId))
-SDL_KMSDRM_SYM(int,drmModeSetCrtc,(int fd, uint32_t crtcId, uint32_t bufferId,
-                                   uint32_t x, uint32_t y, uint32_t *connectors, int count,
-                                   drmModeModeInfoPtr mode))
-SDL_KMSDRM_SYM(int,drmModeSetCursor,(int fd, uint32_t crtcId, uint32_t bo_handle,
-                                     uint32_t width, uint32_t height))
-SDL_KMSDRM_SYM(int,drmModeSetCursor2,(int fd, uint32_t crtcId, uint32_t bo_handle,
-                                      uint32_t width, uint32_t height,
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_Rm_FB,(పూర్ణాంకం fd, uint32_t బఫరు_Id))
+SDL_KMSDRM_SYM(drm_బహుళకం_FBPtr,drm_బహుళకం_Get_FB,(పూర్ణాంకం fd, uint32_t buf))
+SDL_KMSDRM_SYM(drm_బహుళకం_Crtc_Ptr,drm_బహుళకం_Get_Crtc,(పూర్ణాంకం fd, uint32_t crtcId))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_సమితి_Crtc,(పూర్ణాంకం fd, uint32_t crtcId, uint32_t బఫరు_Id,
+                                   uint32_t x, uint32_t y, uint32_t *connectors, పూర్ణాంకం లెక్క,
+                                   drm_బహుళకం_బహుళకం_Info_Ptr బహుళకం))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_సమితి_Cursor,(పూర్ణాంకం fd, uint32_t crtcId, uint32_t bo_handle,
+                                     uint32_t వెడల్పు, uint32_t ఎత్తు))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_సమితి_Cursor2,(పూర్ణాంకం fd, uint32_t crtcId, uint32_t bo_handle,
+                                      uint32_t వెడల్పు, uint32_t ఎత్తు,
                                       int32_t hot_x, int32_t hot_y))
-SDL_KMSDRM_SYM(int,drmModeMoveCursor,(int fd, uint32_t crtcId, int x, int y))
-SDL_KMSDRM_SYM(drmModeEncoderPtr,drmModeGetEncoder,(int fd, uint32_t encoder_id))
-SDL_KMSDRM_SYM(drmModeConnectorPtr,drmModeGetConnector,(int fd, uint32_t connector_id))
-SDL_KMSDRM_SYM(int,drmHandleEvent,(int fd,drmEventContextPtr evctx))
-SDL_KMSDRM_SYM(int,drmModePageFlip,(int fd, uint32_t crtc_id, uint32_t fb_id,
-                                    uint32_t flags, void *user_data))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_Move_Cursor,(పూర్ణాంకం fd, uint32_t crtcId, పూర్ణాంకం x, పూర్ణాంకం y))
+SDL_KMSDRM_SYM(drm_బహుళకం_Encoder_Ptr,drm_బహుళకం_Get_Encoder,(పూర్ణాంకం fd, uint32_t encoder_id))
+SDL_KMSDRM_SYM(drm_బహుళకం_Connector_Ptr,drm_బహుళకం_Get_Connector,(పూర్ణాంకం fd, uint32_t connector_id))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drmHandleEvent,(పూర్ణాంకం fd,drmEventContextPtr evctx))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_పుట_Flip,(పూర్ణాంకం fd, uint32_t crtc_id, uint32_t fb_id,
+                                    uint32_t flags, శూన్య *user_దత్తాంశం_2))
 
 // Planes stuff.
-SDL_KMSDRM_SYM(int,drmSetClientCap,(int fd, uint64_t capability, uint64_t value))
-SDL_KMSDRM_SYM(drmModePlaneResPtr,drmModeGetPlaneResources,(int fd))
-SDL_KMSDRM_SYM(drmModePlanePtr,drmModeGetPlane,(int fd, uint32_t plane_id))
-SDL_KMSDRM_SYM(drmModeObjectPropertiesPtr,drmModeObjectGetProperties,(int fd,uint32_t object_id,uint32_t object_type))
-SDL_KMSDRM_SYM(int,drmModeObjectSetProperty,(int fd, uint32_t object_id,
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_సమితి_Client_Cap,(పూర్ణాంకం fd, uint64_t capability, uint64_t విలువ))
+SDL_KMSDRM_SYM(drm_బహుళకం_Plane_Res_Ptr,drm_బహుళకం_Get_Plane_Resources,(పూర్ణాంకం fd))
+SDL_KMSDRM_SYM(drm_బహుళకం_Plane_Ptr,drm_బహుళకం_Get_Plane,(పూర్ణాంకం fd, uint32_t plane_id))
+SDL_KMSDRM_SYM(drm_బహుళకం_Object_Properties_Ptr,drm_బహుళకం_Object_Get_Properties,(పూర్ణాంకం fd,uint32_t object_id,uint32_t object_type))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_Object_సమితి_Property,(పూర్ణాంకం fd, uint32_t object_id,
                                              uint32_t object_type, uint32_t property_id,
-                                             uint64_t value))
-SDL_KMSDRM_SYM(drmModePropertyPtr,drmModeGetProperty,(int fd, uint32_t propertyId))
+                                             uint64_t విలువ))
+SDL_KMSDRM_SYM(drm_బహుళకం_Property_Ptr,drm_బహుళకం_Get_Property,(పూర్ణాంకం fd, uint32_t propertyId))
 
-SDL_KMSDRM_SYM(void,drmModeFreeProperty,(drmModePropertyPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreeObjectProperties,(drmModeObjectPropertiesPtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreePlane,(drmModePlanePtr ptr))
-SDL_KMSDRM_SYM(void,drmModeFreePlaneResources,(drmModePlaneResPtr ptr))
-SDL_KMSDRM_SYM(int,drmModeSetPlane,(int fd, uint32_t plane_id, uint32_t crtc_id,
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Property,(drm_బహుళకం_Property_Ptr ptr))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Object_Properties,(drm_బహుళకం_Object_Properties_Ptr ptr))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Plane,(drm_బహుళకం_Plane_Ptr ptr))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Free_Plane_Resources,(drm_బహుళకం_Plane_Res_Ptr ptr))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_సమితి_Plane,(పూర్ణాంకం fd, uint32_t plane_id, uint32_t crtc_id,
                                     uint32_t fb_id, uint32_t flags,
                                     int32_t crtc_x, int32_t crtc_y,
                                     uint32_t crtc_w, uint32_t crtc_h,
@@ -106,50 +106,50 @@ SDL_KMSDRM_SYM(int,drmModeSetPlane,(int fd, uint32_t plane_id, uint32_t crtc_id,
 // Planes stuff ends.
 
 SDL_KMSDRM_MODULE(GBM)
-SDL_KMSDRM_SYM(int,gbm_device_is_format_supported,(struct gbm_device *gbm,
+SDL_KMSDRM_SYM(పూర్ణాంకం,gbm_device_is_format_supported,(నిర్మాణం gbm_device *gbm,
                                                    uint32_t format, uint32_t usage))
-SDL_KMSDRM_SYM(void,gbm_device_destroy,(struct gbm_device *gbm))
-SDL_KMSDRM_SYM(struct gbm_device *,gbm_create_device,(int fd))
-SDL_KMSDRM_SYM(unsigned int,gbm_bo_get_width,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(unsigned int,gbm_bo_get_height,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_stride,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_format,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(union gbm_bo_handle,gbm_bo_get_handle,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(int,gbm_bo_write,(struct gbm_bo *bo, const void *buf, size_t count))
-SDL_KMSDRM_SYM(struct gbm_device *,gbm_bo_get_device,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(void,gbm_bo_set_user_data,(struct gbm_bo *bo, void *data,
-                                          void (*destroy_user_data)(struct gbm_bo *, void *)))
-SDL_KMSDRM_SYM(void *,gbm_bo_get_user_data,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(void,gbm_bo_destroy,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM(struct gbm_bo *,gbm_bo_create,(struct gbm_device *gbm,
-                                              uint32_t width, uint32_t height,
+SDL_KMSDRM_SYM(శూన్య,gbm_device_destroy,(నిర్మాణం gbm_device *gbm))
+SDL_KMSDRM_SYM(నిర్మాణం gbm_device *,gbm_create_device,(పూర్ణాంకం fd))
+SDL_KMSDRM_SYM(గుర్తులేని పూర్ణాంకం,gbm_bo_get_వెడల్పు,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(గుర్తులేని పూర్ణాంకం,gbm_bo_get_ఎత్తు,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_stride,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(uint32_t,gbm_bo_get_format,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(సంఘం gbm_bo_handle,gbm_bo_get_handle,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(పూర్ణాంకం,gbm_bo_write,(నిర్మాణం gbm_bo *bo, స్థిరరాశి శూన్య *buf, size_t లెక్క))
+SDL_KMSDRM_SYM(నిర్మాణం gbm_device *,gbm_bo_get_device,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(శూన్య,gbm_bo_సమితి_user_దత్తాంశం,(నిర్మాణం gbm_bo *bo, శూన్య *దత్తాంశం,
+                                          శూన్య (*destroy_user_దత్తాంశం)(నిర్మాణం gbm_bo *, శూన్య *)))
+SDL_KMSDRM_SYM(శూన్య *,gbm_bo_get_user_దత్తాంశం,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(శూన్య,gbm_bo_destroy,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM(నిర్మాణం gbm_bo *,gbm_bo_create,(నిర్మాణం gbm_device *gbm,
+                                              uint32_t వెడల్పు, uint32_t ఎత్తు,
                                               uint32_t format, uint32_t usage))
-SDL_KMSDRM_SYM(struct gbm_surface *,gbm_surface_create,(struct gbm_device *gbm,
-                                                        uint32_t width, uint32_t height,
+SDL_KMSDRM_SYM(నిర్మాణం gbm_surface *,gbm_surface_create,(నిర్మాణం gbm_device *gbm,
+                                                        uint32_t వెడల్పు, uint32_t ఎత్తు,
                                                         uint32_t format, uint32_t flags))
-SDL_KMSDRM_SYM(void,gbm_surface_destroy,(struct gbm_surface *surf))
-SDL_KMSDRM_SYM(struct gbm_bo *,gbm_surface_lock_front_buffer,(struct gbm_surface *surf))
-SDL_KMSDRM_SYM(void,gbm_surface_release_buffer,(struct gbm_surface *surf, struct gbm_bo *bo))
+SDL_KMSDRM_SYM(శూన్య,gbm_surface_destroy,(నిర్మాణం gbm_surface *surf))
+SDL_KMSDRM_SYM(నిర్మాణం gbm_bo *,gbm_surface_తాళం_front_బఫరు,(నిర్మాణం gbm_surface *surf))
+SDL_KMSDRM_SYM(శూన్య,gbm_surface_release_బఫరు,(నిర్మాణం gbm_surface *surf, నిర్మాణం gbm_bo *bo))
 
-SDL_KMSDRM_SYM_OPT(uint64_t,gbm_bo_get_modifier,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM_OPT(int,gbm_bo_get_plane_count,(struct gbm_bo *bo))
-SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_offset,(struct gbm_bo *bo, int plane))
-SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_stride_for_plane,(struct gbm_bo *bo, int plane))
-SDL_KMSDRM_SYM_OPT(union gbm_bo_handle,gbm_bo_get_handle_for_plane,(struct gbm_bo *bo, int plane))
+SDL_KMSDRM_SYM_OPT(uint64_t,gbm_bo_get_modifier,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM_OPT(పూర్ణాంకం,gbm_bo_get_plane_లెక్క,(నిర్మాణం gbm_bo *bo))
+SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_స్థానభ్రంశం,(నిర్మాణం gbm_bo *bo, పూర్ణాంకం plane))
+SDL_KMSDRM_SYM_OPT(uint32_t,gbm_bo_get_stride_for_plane,(నిర్మాణం gbm_bo *bo, పూర్ణాంకం plane))
+SDL_KMSDRM_SYM_OPT(సంఘం gbm_bo_handle,gbm_bo_get_handle_for_plane,(నిర్మాణం gbm_bo *bo, పూర్ణాంకం plane))
 
 
 SDL_KMSDRM_MODULE(ATOMIC)
-SDL_KMSDRM_SYM(int,drmIoctl,(int fd, unsigned long request, void *arg))
-SDL_KMSDRM_SYM(drmModeAtomicReqPtr,drmModeAtomicAlloc,(void))
-SDL_KMSDRM_SYM(void,drmModeAtomicFree,(drmModeAtomicReqPtr req))
-SDL_KMSDRM_SYM(int,drmModeAtomicCommit,(int fd,drmModeAtomicReqPtr req,uint32_t flags,void *user_data))
-SDL_KMSDRM_SYM(int,drmModeAtomicAddProperty,(drmModeAtomicReqPtr req,uint32_t object_id,uint32_t property_id,uint64_t value))
-SDL_KMSDRM_SYM(int,drmModeCreatePropertyBlob,(int fd,const void *data,size_t size,uint32_t *id))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drmIoctl,(పూర్ణాంకం fd, గుర్తులేని దీర్ఘ request, శూన్య *arg))
+SDL_KMSDRM_SYM(drm_బహుళకం_Atomic_Req_Ptr,drm_బహుళకం_Atomic_Alloc,(శూన్య))
+SDL_KMSDRM_SYM(శూన్య,drm_బహుళకం_Atomic_Free,(drm_బహుళకం_Atomic_Req_Ptr req))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_Atomic_Commit,(పూర్ణాంకం fd,drm_బహుళకం_Atomic_Req_Ptr req,uint32_t flags,శూన్య *user_దత్తాంశం_2))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_Atomic_కూడు_Property,(drm_బహుళకం_Atomic_Req_Ptr req,uint32_t object_id,uint32_t property_id,uint64_t విలువ))
+SDL_KMSDRM_SYM(పూర్ణాంకం,drm_బహుళకం_Create_Property_Blob,(పూర్ణాంకం fd,స్థిరరాశి శూన్య *దత్తాంశం,size_t కొలత,uint32_t *id))
 
 
-#undef SDL_KMSDRM_MODULE
-#undef SDL_KMSDRM_SYM
-#undef SDL_KMSDRM_SYM_CONST
-#undef SDL_KMSDRM_SYM_OPT
+#నిర్వచనం_రద్దు SDL_KMSDRM_MODULE
+#నిర్వచనం_రద్దు SDL_KMSDRM_SYM
+#నిర్వచనం_రద్దు SDL_KMSDRM_SYM_CONST
+#నిర్వచనం_రద్దు SDL_KMSDRM_SYM_OPT
 
 /* *INDENT-ON* */ // clang-format on
