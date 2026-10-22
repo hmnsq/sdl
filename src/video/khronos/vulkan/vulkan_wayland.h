@@ -1,5 +1,5 @@
-#ifndef VULKAN_WAYLAND_H_
-#define VULKAN_WAYLAND_H_ 1
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VULKAN_WAYLAND_H_
+#ವ್ಯಾಖ್ಯಾನಿಸು VULKAN_WAYLAND_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,51 +13,51 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 // VK_KHR_wayland_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_wayland_surface 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_wayland_surface 1
 
-#define VK_KHR_WAYLAND_SURFACE_SPEC_VERSION 6
-#define VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_WAYLAND_SURFACE_SPEC_ಆವೃತ್ತಿ 6
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME "VK_KHR_wayland_surface"
 
-typedef VkFlags VkWaylandSurfaceCreateFlagsKHR;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkFlags VkWaylandSurfaceCreateFlagsKHR;
 
-typedef struct VkWaylandSurfaceCreateInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkWaylandSurfaceCreateInfoKHR {
     VkStructureType                   sType;
-    const void*                       pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                       p_ಮುಂದಿನ;
     VkWaylandSurfaceCreateFlagsKHR    flags;
-    struct wl_display*                display;
-    struct wl_surface*                surface;
+    ರಚನೆ wl_display*                display;
+    ರಚನೆ wl_surface*                surface;
 } VkWaylandSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateWaylandSurfaceKHR)(VkInstance instance, const VkWaylandSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct wl_display* display);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkCreateWaylandSurfaceKHR)(VkInstance instance, ಸ್ಥಿರಾಂಕ VkWaylandSurfaceCreateInfoKHR* pCreateInfo, ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t ಸರತಿ_Family_ಸೂಚ್ಯಂಕ, ರಚನೆ wl_display* display);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateWaylandSurfaceKHR(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkCreateWaylandSurfaceKHR(
     VkInstance                                  instance,
-    const VkWaylandSurfaceCreateInfoKHR*        pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಸ್ಥಿರಾಂಕ VkWaylandSurfaceCreateInfoKHR*        pCreateInfo,
+    ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWaylandPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
-    struct wl_display*                          display);
-#endif
-#endif
+    uint32_t                                    ಸರತಿ_Family_ಸೂಚ್ಯಂಕ,
+    ರಚನೆ wl_display*                          display);
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

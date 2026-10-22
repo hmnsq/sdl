@@ -18,44 +18,44 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#include "SDL_sysvideo.h"
-#include "SDL_video_c.h"
-#include "SDL_RLEaccel_c.h"
-#include "SDL_pixels_c.h"
-#include "SDL_rotate.h"
-#include "SDL_stb_c.h"
-#include "SDL_yuv_c.h"
-#include "../render/SDL_sysrender.h"
+#ಅನ್ತರ್ಭಾವ "SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_video_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_RLEaccel_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_rotate.h"
+#ಅನ್ತರ್ಭಾವ "SDL_stb_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_yuv_c.h"
+#ಅನ್ತರ್ಭಾವ "../render/SDL_sysrender.h"
 
-#include "SDL_surface_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_surface_c.h"
 
 
 // Check to make sure we can safely check multiplication of surface w and pitch and it won't overflow size_t
-SDL_COMPILE_TIME_ASSERT(surface_size_assumptions,
-                        sizeof(int) == sizeof(Sint32) && sizeof(size_t) >= sizeof(Sint32));
+SDL_COMPILE_ಸಮಯ_ASSERT(surface_ಗಾತ್ರ_assumptions,
+                        ಗಾತ್ರ(ಪೂರ್ಣಾಂಕ) == ಗಾತ್ರ(Sint32) && ಗಾತ್ರ(size_t) >= ಗಾತ್ರ(Sint32));
 
-SDL_COMPILE_TIME_ASSERT(can_indicate_overflow, SDL_SIZE_MAX > SDL_MAX_SINT32);
+SDL_COMPILE_ಸಮಯ_ASSERT(can_indicate_ಅತಿಪ್ರವಾಹ, SDL_ಗಾತ್ರ_MAX > SDL_MAX_SINT32);
 
 // Magic!
-static char SDL_surface_magic;
+ಸ್ಥಿರ ಅಕ್ಷರ SDL_surface_magic;
 
 // Public routines
 
 bool SDL_SurfaceValid(SDL_Surface *surface)
 {
-    return (surface && surface->reserved == &SDL_surface_magic);
+    ಹಿಂತಿರುಗಿ (surface && surface->reserved == &SDL_surface_magic);
 }
 
-void SDL_UpdateSurfaceLockFlag(SDL_Surface *surface)
+ಶೂನ್ಯ SDL_Update_Surface_ಬೀಗ_Flag(SDL_Surface *surface)
 {
     // We need to mark the surface as needing unlock while locked
-    if ((surface->flags & SDL_SURFACE_LOCKED) ||
-        (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL)) {
-        surface->flags |= SDL_SURFACE_LOCK_NEEDED;
-    } else {
-        surface->flags &= ~SDL_SURFACE_LOCK_NEEDED;
+    ಆದರೆ ((surface->flags & SDL_SURFACE_LOCKED) ||
+        (surface->ಆಂತರಿಕ_flags & SDL_ಆಂತರಿಕ_SURFACE_RLEACCEL)) {
+        surface->flags |= SDL_SURFACE_ಬೀಗ_NEEDED;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        surface->flags &= ~SDL_SURFACE_ಬೀಗ_NEEDED;
     }
 }
 
@@ -64,101 +64,101 @@ void SDL_UpdateSurfaceLockFlag(SDL_Surface *surface)
  *
  * for FOURCC, use SDL_CalculateYUVSize()
  */
-static bool SDL_CalculateRGBSize(Uint32 format, size_t width, size_t height, size_t *size, size_t *pitch, bool minimal)
+ಸ್ಥಿರ bool SDL_CalculateRGBSize(Uint32 format, size_t ಅಗಲ, size_t ಎತ್ತರ, size_t *ಗಾತ್ರ_2, size_t *pitch, bool ಕನಿಷ್ಠತಮ)
 {
-    if (SDL_BITSPERPIXEL(format) >= 8) {
-        if (!SDL_size_mul_check_overflow(width, SDL_BYTESPERPIXEL(format), pitch)) {
-            return SDL_SetError("width * bpp would overflow");
+    ಆದರೆ (SDL_BITSPERPIXEL(format) >= 8) {
+        ಆದರೆ (!SDL_ಗಾತ್ರ_mul_check_ಅತಿಪ್ರವಾಹ(ಅಗಲ, SDL_BYTESPERPIXEL(format), pitch)) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("width * bpp would overflow");
         }
-    } else {
-        if (!SDL_size_mul_check_overflow(width, SDL_BITSPERPIXEL(format), pitch)) {
-            return SDL_SetError("width * bpp would overflow");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!SDL_ಗಾತ್ರ_mul_check_ಅತಿಪ್ರವಾಹ(ಅಗಲ, SDL_BITSPERPIXEL(format), pitch)) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("width * bpp would overflow");
         }
-        if (!SDL_size_add_check_overflow(*pitch, 7, pitch)) {
-            return SDL_SetError("aligning pitch would overflow");
+        ಆದರೆ (!SDL_ಗಾತ್ರ_ಕೂಡಿಸು_check_ಅತಿಪ್ರವಾಹ(*pitch, 7, pitch)) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("aligning pitch would overflow");
         }
         *pitch /= 8;
     }
-    if (!minimal) {
+    ಆದರೆ (!ಕನಿಷ್ಠತಮ) {
         // 4-byte aligning for speed
-        if (!SDL_size_add_check_overflow(*pitch, 3, pitch)) {
-            return SDL_SetError("aligning pitch would overflow");
+        ಆದರೆ (!SDL_ಗಾತ್ರ_ಕೂಡಿಸು_check_ಅತಿಪ್ರವಾಹ(*pitch, 3, pitch)) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("aligning pitch would overflow");
         }
         *pitch &= ~3;
     }
 
-    if (!SDL_size_mul_check_overflow(height, *pitch, size)) {
-        return SDL_SetError("height * pitch would overflow");
+    ಆದರೆ (!SDL_ಗಾತ್ರ_mul_check_ಅತಿಪ್ರವಾಹ(ಎತ್ತರ, *pitch, ಗಾತ್ರ_2)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("height * pitch would overflow");
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_CalculateSurfaceSize(SDL_PixelFormat format, int width, int height, size_t *size, size_t *pitch, bool minimalPitch)
+bool SDL_Calculate_Surface_ಗಾತ್ರ(SDL_PixelFormat format, ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, size_t *ಗಾತ್ರ_2, size_t *pitch, bool ಕನಿಷ್ಠತಮ_Pitch)
 {
     size_t p = 0, sz = 0;
 
-    if (size) {
-        *size = 0;
+    ಆದರೆ (ಗಾತ್ರ_2) {
+        *ಗಾತ್ರ_2 = 0;
     }
 
-    if (pitch) {
+    ಆದರೆ (pitch) {
         *pitch = 0;
     }
 
-    if (SDL_ISPIXELFORMAT_FOURCC(format)) {
-        if (format == SDL_PIXELFORMAT_MJPG) {
+    ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(format)) {
+        ಆದರೆ (format == SDL_PIXELFORMAT_MJPG) {
             // We don't know in advance what it will be, we'll figure it out later.
-            return true;
+            ಹಿಂತಿರುಗಿ true;
         }
 
-        if (!SDL_CalculateYUVSize(format, width, height, &sz, &p)) {
+        ಆದರೆ (!SDL_CalculateYUVSize(format, ಅಗಲ, ಎತ್ತರ, &sz, &p)) {
             // Overflow...
-            return false;
+            ಹಿಂತಿರುಗಿ false;
         }
-    } else {
-        if (!SDL_CalculateRGBSize(format, width, height, &sz, &p, minimalPitch)) {
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!SDL_CalculateRGBSize(format, ಅಗಲ, ಎತ್ತರ, &sz, &p, ಕನಿಷ್ಠತಮ_Pitch)) {
             // Overflow...
-            return false;
+            ಹಿಂತಿರುಗಿ false;
         }
     }
 
-    if (size) {
-        *size = sz;
+    ಆದರೆ (ಗಾತ್ರ_2) {
+        *ಗಾತ್ರ_2 = sz;
     }
 
-    if (pitch) {
+    ಆದರೆ (pitch) {
         *pitch = p;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool SDL_InitializeSurface(SDL_Surface *surface, int width, int height, SDL_PixelFormat format, SDL_Colorspace colorspace, SDL_PropertiesID props, void *pixels, int pitch, bool onstack)
+ಸ್ಥಿರ bool SDL_InitializeSurface(SDL_Surface *surface, ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat format, SDL_Colorspace colorspace, SDL_PropertiesID props, ಶೂನ್ಯ *pixels, ಪೂರ್ಣಾಂಕ pitch, bool onstack)
 {
     SDL_zerop(surface);
 
     surface->flags = SDL_SURFACE_PREALLOCATED;
     surface->format = format;
-    surface->w = width;
-    surface->h = height;
+    surface->w = ಅಗಲ;
+    surface->h = ಎತ್ತರ;
     surface->pixels = pixels;
     surface->pitch = pitch;
     surface->reserved = &SDL_surface_magic;
 
-    if (onstack) {
-        surface->internal_flags |= SDL_INTERNAL_SURFACE_STACK;
+    ಆದರೆ (onstack) {
+        surface->ಆಂತರಿಕ_flags |= SDL_ಆಂತರಿಕ_SURFACE_ರಾಶಿ;
     }
 
     surface->fmt = SDL_GetPixelFormatDetails(format);
-    if (!surface->fmt) {
+    ಆದರೆ (!surface->fmt) {
         SDL_DestroySurface(surface);
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Initialize the clip rect
-    surface->clip_rect.w = width;
-    surface->clip_rect.h = height;
+    surface->clip_rect.w = ಅಗಲ;
+    surface->clip_rect.h = ಎತ್ತರ;
 
     // Allocate an empty mapping
     surface->map.info.r = 0xFF;
@@ -166,104 +166,104 @@ static bool SDL_InitializeSurface(SDL_Surface *surface, int width, int height, S
     surface->map.info.b = 0xFF;
     surface->map.info.a = 0xFF;
 
-    if (colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ಆದರೆ (colorspace == SDL_COLORSPACE_UNKNOWN) {
         surface->colorspace = SDL_GetDefaultColorspaceForFormat(format);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         surface->colorspace = colorspace;
     }
 
-    if (props) {
-        if (!SDL_CopyProperties(props, SDL_GetSurfaceProperties(surface))) {
+    ಆದರೆ (props) {
+        ಆದರೆ (!SDL_CopyProperties(props, SDL_GetSurfaceProperties(surface))) {
             SDL_DestroySurface(surface);
-            return false;
+            ಹಿಂತಿರುಗಿ false;
         }
     }
 
     // By default surfaces with an alpha mask are set up for blending
-    if (SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
-        SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
+    ಆದರೆ (SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
+        SDL_ಗಣ_Surface_Blend_ಬಹುಲಕ(surface, SDL_BLENDMODE_BLEND);
     }
 
     // The surface is ready to go
     surface->refcount = 1;
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 /*
  * Create an empty surface of the appropriate depth using the given format
  */
-static SDL_Surface *SDL_CreateSurfaceInternal(int width, int height, SDL_PixelFormat format, bool clear_surface)
+ಸ್ಥಿರ SDL_Surface *SDL_Create_Surface_ಆಂತರಿಕ(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat format, bool clear_surface)
 {
-    size_t pitch, size;
+    size_t pitch, ಗಾತ್ರ_2;
     SDL_Surface *surface;
 
-    CHECK_PARAM(width < 0) {
+    CHECK_PARAM(ಅಗಲ < 0) {
         SDL_InvalidParamError("width");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    CHECK_PARAM(height < 0) {
+    CHECK_PARAM(ಎತ್ತರ < 0) {
         SDL_InvalidParamError("height");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     CHECK_PARAM(format == SDL_PIXELFORMAT_UNKNOWN) {
         SDL_InvalidParamError("format");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (!SDL_CalculateSurfaceSize(format, width, height, &size, &pitch, false /* not minimal pitch */)) {
+    ಆದರೆ (!SDL_Calculate_Surface_ಗಾತ್ರ(format, ಅಗಲ, ಎತ್ತರ, &ಗಾತ್ರ_2, &pitch, false /* not minimal pitch */)) {
         // Overflow...
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     // Allocate and initialize the surface
-    surface = (SDL_Surface *)SDL_malloc(sizeof(*surface));
-    if (!surface) {
-        return NULL;
+    surface = (SDL_Surface *)SDL_malloc(ಗಾತ್ರ(*surface));
+    ಆದರೆ (!surface) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (!SDL_InitializeSurface(surface, width, height, format, SDL_COLORSPACE_UNKNOWN, 0, NULL, (int)pitch, false)) {
-        return NULL;
+    ಆದರೆ (!SDL_InitializeSurface(surface, ಅಗಲ, ಎತ್ತರ, format, SDL_COLORSPACE_UNKNOWN, 0, ಖಾಲಿ, (ಪೂರ್ಣಾಂಕ)pitch, false)) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (surface->w && surface->h && format != SDL_PIXELFORMAT_MJPG) {
+    ಆದರೆ (surface->w && surface->h && format != SDL_PIXELFORMAT_MJPG) {
         surface->flags &= ~SDL_SURFACE_PREALLOCATED;
-        if (SDL_GetHintBoolean("SDL_SURFACE_MALLOC", false)) {
-            if (clear_surface) {
-                surface->pixels = SDL_calloc(1, size);
-            } else {
-                surface->pixels = SDL_malloc(size);
+        ಆದರೆ (SDL_GetHintBoolean("SDL_SURFACE_MALLOC", false)) {
+            ಆದರೆ (clear_surface) {
+                surface->pixels = SDL_calloc(1, ಗಾತ್ರ_2);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                surface->pixels = SDL_malloc(ಗಾತ್ರ_2);
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             surface->flags |= SDL_SURFACE_SIMD_ALIGNED;
-            if (clear_surface) {
-                surface->pixels = SDL_aligned_alloc_zero(SDL_GetSIMDAlignment(), size);
-            } else {
-                surface->pixels = SDL_aligned_alloc(SDL_GetSIMDAlignment(), size);
+            ಆದರೆ (clear_surface) {
+                surface->pixels = SDL_aligned_alloc_zero(SDL_GetSIMDAlignment(), ಗಾತ್ರ_2);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                surface->pixels = SDL_aligned_alloc(SDL_GetSIMDAlignment(), ಗಾತ್ರ_2);
             }
         }
-        if (!surface->pixels) {
+        ಆದರೆ (!surface->pixels) {
             SDL_DestroySurface(surface);
-            return NULL;
+            ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
     }
-    return surface;
+    ಹಿಂತಿರುಗಿ surface;
 }
 
-SDL_Surface *SDL_CreateSurfaceZeroed(int width, int height, SDL_PixelFormat format)
+SDL_Surface *SDL_CreateSurfaceZeroed(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat format)
 {
-    return SDL_CreateSurfaceInternal(width, height, format, true);
+    ಹಿಂತಿರುಗಿ SDL_Create_Surface_ಆಂತರಿಕ(ಅಗಲ, ಎತ್ತರ, format, true);
 }
 
-SDL_Surface *SDL_CreateSurfaceUninitialized(int width, int height, SDL_PixelFormat format)
+SDL_Surface *SDL_CreateSurfaceUninitialized(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat format)
 {
-    return SDL_CreateSurfaceInternal(width, height, format, false);
+    ಹಿಂತಿರುಗಿ SDL_Create_Surface_ಆಂತರಿಕ(ಅಗಲ, ಎತ್ತರ, format, false);
 }
 
-SDL_Surface *SDL_CreateSurface(int width, int height, SDL_PixelFormat format)
+SDL_Surface *SDL_CreateSurface(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat format)
 {
-    return SDL_CreateSurfaceZeroed(width, height, format);
+    ಹಿಂತಿರುಗಿ SDL_CreateSurfaceZeroed(ಅಗಲ, ಎತ್ತರ, format);
 }
 
 
@@ -271,135 +271,135 @@ SDL_Surface *SDL_CreateSurface(int width, int height, SDL_PixelFormat format)
  * Create an RGB surface from an existing memory buffer using the given
  * enum SDL_PIXELFORMAT_* format
  */
-SDL_Surface *SDL_CreateSurfaceFrom(int width, int height, SDL_PixelFormat format, void *pixels, int pitch)
+SDL_Surface *SDL_CreateSurfaceFrom(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat format, ಶೂನ್ಯ *pixels, ಪೂರ್ಣಾಂಕ pitch)
 {
-    CHECK_PARAM(width < 0) {
+    CHECK_PARAM(ಅಗಲ < 0) {
         SDL_InvalidParamError("width");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    CHECK_PARAM(height < 0) {
+    CHECK_PARAM(ಎತ್ತರ < 0) {
         SDL_InvalidParamError("height");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     CHECK_PARAM(format == SDL_PIXELFORMAT_UNKNOWN) {
         SDL_InvalidParamError("format");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (pitch == 0 && !pixels) {
+    ಆದರೆ (pitch == 0 && !pixels) {
         // The application will fill these in later with valid values
-    } else {
-        size_t minimalPitch;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        size_t ಕನಿಷ್ಠತಮ_Pitch;
 
-        if (!SDL_CalculateSurfaceSize(format, width, height, NULL, &minimalPitch, true /* minimal pitch */)) {
+        ಆದರೆ (!SDL_Calculate_Surface_ಗಾತ್ರ(format, ಅಗಲ, ಎತ್ತರ, ಖಾಲಿ, &ಕನಿಷ್ಠತಮ_Pitch, true /* minimal pitch */)) {
             // Overflow...
-            return NULL;
+            ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
 
-        CHECK_PARAM(pitch < 0 || (size_t)pitch < minimalPitch) {
+        CHECK_PARAM(pitch < 0 || (size_t)pitch < ಕನಿಷ್ಠತಮ_Pitch) {
             SDL_InvalidParamError("pitch");
-            return NULL;
+            ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
     }
 
     // Allocate and initialize the surface
-    SDL_Surface *surface = (SDL_Surface *)SDL_malloc(sizeof(*surface));
-    if (!surface ||
-        !SDL_InitializeSurface(surface, width, height, format, SDL_COLORSPACE_UNKNOWN, 0, pixels, pitch, false)) {
-        return NULL;
+    SDL_Surface *surface = (SDL_Surface *)SDL_malloc(ಗಾತ್ರ(*surface));
+    ಆದರೆ (!surface ||
+        !SDL_InitializeSurface(surface, ಅಗಲ, ಎತ್ತರ, format, SDL_COLORSPACE_UNKNOWN, 0, pixels, pitch, false)) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
-    return surface;
+    ಹಿಂತಿರುಗಿ surface;
 }
 
 SDL_PropertiesID SDL_GetSurfaceProperties(SDL_Surface *surface)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return 0;
+        ಹಿಂತಿರುಗಿ 0;
     }
 
-    if (!surface->props) {
+    ಆದರೆ (!surface->props) {
         surface->props = SDL_CreateProperties();
     }
-    return surface->props;
+    ಹಿಂತಿರುಗಿ surface->props;
 }
 
-bool SDL_SetSurfaceColorspace(SDL_Surface *surface, SDL_Colorspace colorspace)
+bool SDL_ಗಣ_Surface_Colorspace(SDL_Surface *surface, SDL_Colorspace colorspace)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     surface->colorspace = colorspace;
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 SDL_Colorspace SDL_GetSurfaceColorspace(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return SDL_COLORSPACE_UNKNOWN;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ SDL_COLORSPACE_UNKNOWN;
     }
 
-    return surface->colorspace;
+    ಹಿಂತಿರುಗಿ surface->colorspace;
 }
 
-float SDL_GetDefaultSDRWhitePoint(SDL_Colorspace colorspace)
+ದಶಮಾಂಶ SDL_Get_Default_SDRWhite_ಬಿಂದು(SDL_Colorspace colorspace)
 {
-    return SDL_GetSurfaceSDRWhitePoint(NULL, colorspace);
+    ಹಿಂತಿರುಗಿ SDL_Get_Surface_SDRWhite_ಬಿಂದು(ಖಾಲಿ, colorspace);
 }
 
-float SDL_GetSurfaceSDRWhitePoint(SDL_Surface *surface, SDL_Colorspace colorspace)
+ದಶಮಾಂಶ SDL_Get_Surface_SDRWhite_ಬಿಂದು(SDL_Surface *surface, SDL_Colorspace colorspace)
 {
     SDL_TransferCharacteristics transfer = SDL_COLORSPACETRANSFER(colorspace);
 
-    if (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
+    ಆದರೆ (transfer == SDL_TRANSFER_CHARACTERISTICS_ರೇಖೀಯ ||
         transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
         SDL_PropertiesID props;
-        float default_value = 1.0f;
+        ದಶಮಾಂಶ default_ಮೌಲ್ಯ = 1.0f;
 
-        if (SDL_SurfaceValid(surface)) {
+        ಆದರೆ (SDL_SurfaceValid(surface)) {
             props = surface->props;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             props = 0;
         }
-        if (transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
+        ಆದರೆ (transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
             /* The older standards use an SDR white point of 100 nits.
              * ITU-R BT.2408-6 recommends using an SDR white point of 203 nits.
              * This is the default Chrome uses, and what a lot of game content
              * assumes, so we'll go with that.
              */
-            const float DEFAULT_PQ_SDR_WHITE_POINT = 203.0f;
-            default_value = DEFAULT_PQ_SDR_WHITE_POINT;
+            ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ DEFAULT_PQ_SDR_WHITE_ಬಿಂದು = 203.0f;
+            default_ಮೌಲ್ಯ = DEFAULT_PQ_SDR_WHITE_ಬಿಂದು;
         }
-        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_SDR_WHITE_POINT_FLOAT, default_value);
+        ಹಿಂತಿರುಗಿ SDL_GetFloatProperty(props, SDL_PROP_SURFACE_SDR_WHITE_ಬಿಂದು_FLOAT, default_ಮೌಲ್ಯ);
     }
-    return 1.0f;
+    ಹಿಂತಿರುಗಿ 1.0f;
 }
 
-float SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace)
+ದಶಮಾಂಶ SDL_GetDefaultHDRHeadroom(SDL_Colorspace colorspace)
 {
-    return SDL_GetSurfaceHDRHeadroom(NULL, colorspace);
+    ಹಿಂತಿರುಗಿ SDL_GetSurfaceHDRHeadroom(ಖಾಲಿ, colorspace);
 }
 
-float SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace)
+ದಶಮಾಂಶ SDL_GetSurfaceHDRHeadroom(SDL_Surface *surface, SDL_Colorspace colorspace)
 {
     SDL_TransferCharacteristics transfer = SDL_COLORSPACETRANSFER(colorspace);
 
-    if (transfer == SDL_TRANSFER_CHARACTERISTICS_LINEAR ||
+    ಆದರೆ (transfer == SDL_TRANSFER_CHARACTERISTICS_ರೇಖೀಯ ||
         transfer == SDL_TRANSFER_CHARACTERISTICS_PQ) {
         SDL_PropertiesID props;
-        float default_value = 0.0f;
+        ದಶಮಾಂಶ default_ಮೌಲ್ಯ = 0.0f;
 
-        if (SDL_SurfaceValid(surface)) {
+        ಆದರೆ (SDL_SurfaceValid(surface)) {
             props = surface->props;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             props = 0;
         }
-        return SDL_GetFloatProperty(props, SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, default_value);
+        ಹಿಂತಿರುಗಿ SDL_GetFloatProperty(props, SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, default_ಮೌಲ್ಯ);
     }
-    return 1.0f;
+    ಹಿಂತಿರುಗಿ 1.0f;
 }
 
 SDL_Palette *SDL_CreateSurfacePalette(SDL_Surface *surface)
@@ -408,20 +408,20 @@ SDL_Palette *SDL_CreateSurfacePalette(SDL_Surface *surface)
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    CHECK_PARAM(!SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
-        SDL_SetError("The surface is not indexed format");
-        return NULL;
+    CHECK_PARAM(!SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(surface->format)) {
+        SDL_ಗಣ_Error("The surface is not indexed format");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     palette = SDL_CreatePalette((1 << SDL_BITSPERPIXEL(surface->format)));
-    if (!palette) {
-        return NULL;
+    ಆದರೆ (!palette) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (palette->ncolors == 2) {
+    ಆದರೆ (palette->ncolors == 2) {
         // Create a black and white bitmap palette
         palette->colors[0].r = 0xFF;
         palette->colors[0].g = 0xFF;
@@ -431,390 +431,390 @@ SDL_Palette *SDL_CreateSurfacePalette(SDL_Surface *surface)
         palette->colors[1].b = 0x00;
     }
 
-    if (!SDL_SetSurfacePalette(surface, palette)) {
+    ಆದರೆ (!SDL_ಗಣ_Surface_Palette(surface, palette)) {
         SDL_DestroyPalette(palette);
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     // The surface has retained the palette, we can remove the reference here
     SDL_assert(palette->refcount == 2);
     SDL_DestroyPalette(palette);
-    return palette;
+    ಹಿಂತಿರುಗಿ palette;
 }
 
-bool SDL_SetSurfacePalette(SDL_Surface *surface, SDL_Palette *palette)
+bool SDL_ಗಣ_Surface_Palette(SDL_Surface *surface, SDL_Palette *palette)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-    CHECK_PARAM(palette && !SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
-        return SDL_SetError("Surface doesn't use a palette");
+    CHECK_PARAM(palette && !SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(surface->format)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Surface doesn't use a palette");
     }
 
     CHECK_PARAM(palette && palette->ncolors > (1 << SDL_BITSPERPIXEL(surface->format))) {
-        return SDL_SetError("Palette doesn't match surface format");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Palette doesn't match surface format");
     }
 
-    if (palette != surface->palette) {
-        if (surface->palette) {
+    ಆದರೆ (palette != surface->palette) {
+        ಆದರೆ (surface->palette) {
             SDL_DestroyPalette(surface->palette);
         }
 
         surface->palette = palette;
 
-        if (surface->palette) {
+        ಆದರೆ (surface->palette) {
             ++surface->palette->refcount;
         }
     }
 
     SDL_InvalidateMap(&surface->map);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 SDL_Palette *SDL_GetSurfacePalette(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return NULL;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    return surface->palette;
+    ಹಿಂತಿರುಗಿ surface->palette;
 }
 
-bool SDL_AddSurfaceAlternateImage(SDL_Surface *surface, SDL_Surface *image)
+bool SDL_ಕೂಡಿಸು_Surface_Alternate_Image(SDL_Surface *surface, SDL_Surface *image)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(image)) {
-        return SDL_InvalidParamError("image");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("image");
     }
 
-    SDL_Surface **images = (SDL_Surface **)SDL_realloc(surface->images, (surface->num_images + 1) * sizeof(*images));
-    if (!images) {
-        return false;
+    SDL_Surface **images = (SDL_Surface **)SDL_realloc(surface->images, (surface->ಅಂಕೆ_images + 1) * ಗಾತ್ರ(*images));
+    ಆದರೆ (!images) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    images[surface->num_images] = image;
+    images[surface->ಅಂಕೆ_images] = image;
     surface->images = images;
-    ++surface->num_images;
+    ++surface->ಅಂಕೆ_images;
     ++image->refcount;
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool SDL_SurfaceHasAlternateImages(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    return (surface->num_images > 0);
+    ಹಿಂತಿರುಗಿ (surface->ಅಂಕೆ_images > 0);
 }
 
-SDL_Surface **SDL_GetSurfaceImages(SDL_Surface *surface, int *count)
+SDL_Surface **SDL_GetSurfaceImages(SDL_Surface *surface, ಪೂರ್ಣಾಂಕ *ಎಣಿಕೆ_2)
 {
-    if (count) {
-        *count = 0;
+    ಆದರೆ (ಎಣಿಕೆ_2) {
+        *ಎಣಿಕೆ_2 = 0;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    int num_images = 1 + surface->num_images;
-    SDL_Surface **images = (SDL_Surface **)SDL_malloc((num_images + 1) * sizeof(*images));
-    if (!images) {
-        return NULL;
+    ಪೂರ್ಣಾಂಕ ಅಂಕೆ_images = 1 + surface->ಅಂಕೆ_images;
+    SDL_Surface **images = (SDL_Surface **)SDL_malloc((ಅಂಕೆ_images + 1) * ಗಾತ್ರ(*images));
+    ಆದರೆ (!images) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
     images[0] = surface;
-    if (surface->num_images > 0) {
-        SDL_memcpy(&images[1], surface->images, (surface->num_images * sizeof(images[1])));
+    ಆದರೆ (surface->ಅಂಕೆ_images > 0) {
+        SDL_memcpy(&images[1], surface->images, (surface->ಅಂಕೆ_images * ಗಾತ್ರ(images[1])));
     }
-    images[num_images] = NULL;
+    images[ಅಂಕೆ_images] = ಖಾಲಿ;
 
-    if (count) {
-        *count = num_images;
+    ಆದರೆ (ಎಣಿಕೆ_2) {
+        *ಎಣಿಕೆ_2 = ಅಂಕೆ_images;
     }
-    return images;
+    ಹಿಂತಿರುಗಿ images;
 }
 
-SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, float display_scale)
+SDL_Surface *SDL_GetSurfaceImage(SDL_Surface *surface, ದಶಮಾಂಶ display_scale)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (!SDL_SurfaceHasAlternateImages(surface)) {
+    ಆದರೆ (!SDL_SurfaceHasAlternateImages(surface)) {
         ++surface->refcount;
-        return surface;
+        ಹಿಂತಿರುಗಿ surface;
     }
 
     // This surface has high DPI images, pick the best one available, or scale one to the correct size
-    SDL_Surface **images = SDL_GetSurfaceImages(surface, NULL);
-    if (!images) {
+    SDL_Surface **images = SDL_GetSurfaceImages(surface, ಖಾಲಿ);
+    ಆದರೆ (!images) {
         // Failure, fall back to the existing surface
         ++surface->refcount;
-        return surface;
+        ಹಿಂತಿರುಗಿ surface;
     }
 
     // Find closest image. Images that are larger than the
     // desired size are preferred over images that are smaller.
-    SDL_Surface *closest = NULL;
-    int desired_w = (int)SDL_round(surface->w * display_scale);
-    int desired_h = (int)SDL_round(surface->h * display_scale);
-    int desired_size = desired_w * desired_h;
-    int closest_distance = -1;
-    int closest_size = -1;
-    for (int i = 0; images[i]; ++i) {
+    SDL_Surface *closest = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ desired_w = (ಪೂರ್ಣಾಂಕ)SDL_ಸುತ್ತು(surface->w * display_scale);
+    ಪೂರ್ಣಾಂಕ desired_h = (ಪೂರ್ಣಾಂಕ)SDL_ಸುತ್ತು(surface->h * display_scale);
+    ಪೂರ್ಣಾಂಕ desired_ಗಾತ್ರ = desired_w * desired_h;
+    ಪೂರ್ಣಾಂಕ closest_ದೂರ = -1;
+    ಪೂರ್ಣಾಂಕ closest_ಗಾತ್ರ = -1;
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; images[i]; ++i) {
         SDL_Surface *candidate = images[i];
-        int size = candidate->w * candidate->h;
-        int delta_w = (candidate->w - desired_w);
-        int delta_h = (candidate->h - desired_h);
-        int distance = (delta_w * delta_w) + (delta_h * delta_h);
-        if (closest_distance < 0 || distance < closest_distance ||
-            (size > desired_size && closest_size < desired_size)) {
+        ಪೂರ್ಣಾಂಕ ಗಾತ್ರ_2 = candidate->w * candidate->h;
+        ಪೂರ್ಣಾಂಕ delta_w = (candidate->w - desired_w);
+        ಪೂರ್ಣಾಂಕ delta_h = (candidate->h - desired_h);
+        ಪೂರ್ಣಾಂಕ ದೂರ = (delta_w * delta_w) + (delta_h * delta_h);
+        ಆದರೆ (closest_ದೂರ < 0 || ದೂರ < closest_ದೂರ ||
+            (ಗಾತ್ರ_2 > desired_ಗಾತ್ರ && closest_ಗಾತ್ರ < desired_ಗಾತ್ರ)) {
             closest = candidate;
-            closest_distance = distance;
-            closest_size = size;
+            closest_ದೂರ = ದೂರ;
+            closest_ಗಾತ್ರ = ಗಾತ್ರ_2;
         }
     }
     SDL_free(images);
-    SDL_assert(closest != NULL);    // We should always have at least one surface
+    SDL_assert(closest != ಖಾಲಿ);    // We should always have at least one surface
 
-    if (closest->w == desired_w && closest->h == desired_h) {
+    ಆದರೆ (closest->w == desired_w && closest->h == desired_h) {
         ++closest->refcount;
-        return closest;
+        ಹಿಂತಿರುಗಿ closest;
     }
 
     // We need to scale the image to the correct size. To maintain good image quality, downscaling
     // is done in steps, never reducing the width and height by more than half each time.
     SDL_Surface *scaled = closest;
-    do {
-        int next_scaled_w = SDL_max(desired_w, (scaled->w + 1) / 2);
-        int next_scaled_h = SDL_max(desired_h, (scaled->h + 1) / 2);
-        SDL_Surface *next_scaled = SDL_ScaleSurface(scaled, next_scaled_w, next_scaled_h, SDL_SCALEMODE_LINEAR);
-        if (scaled != closest) {
+    ಮಾಡು {
+        ಪೂರ್ಣಾಂಕ ಮುಂದಿನ_scaled_w = SDL_max(desired_w, (scaled->w + 1) / 2);
+        ಪೂರ್ಣಾಂಕ ಮುಂದಿನ_scaled_h = SDL_max(desired_h, (scaled->h + 1) / 2);
+        SDL_Surface *ಮುಂದಿನ_scaled = SDL_ScaleSurface(scaled, ಮುಂದಿನ_scaled_w, ಮುಂದಿನ_scaled_h, SDL_SCALEMODE_ರೇಖೀಯ);
+        ಆದರೆ (scaled != closest) {
             SDL_DestroySurface(scaled);
         }
-        scaled = next_scaled;
-        if (!scaled) {
+        scaled = ಮುಂದಿನ_scaled;
+        ಆದರೆ (!scaled) {
             // Failure, fall back to the closest surface
             ++closest->refcount;
-            return closest;
+            ಹಿಂತಿರುಗಿ closest;
         }
-    } while (scaled->w != desired_w || scaled->h != desired_h);
+    } ಆಗ (scaled->w != desired_w || scaled->h != desired_h);
 
-    return scaled;
+    ಹಿಂತಿರುಗಿ scaled;
 }
 
-void SDL_RemoveSurfaceAlternateImages(SDL_Surface *surface)
+ಶೂನ್ಯ SDL_RemoveSurfaceAlternateImages(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    if (surface->num_images > 0) {
-        for (int i = 0; i < surface->num_images; ++i) {
+    ಆದರೆ (surface->ಅಂಕೆ_images > 0) {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < surface->ಅಂಕೆ_images; ++i) {
             SDL_DestroySurface(surface->images[i]);
         }
         SDL_free(surface->images);
-        surface->images = NULL;
-        surface->num_images = 0;
+        surface->images = ಖಾಲಿ;
+        surface->ಅಂಕೆ_images = 0;
     }
 }
 
-bool SDL_SetSurfaceRLE(SDL_Surface *surface, bool enabled)
+bool SDL_ಗಣ_Surface_RLE(SDL_Surface *surface, bool enabled)
 {
-    int flags;
+    ಪೂರ್ಣಾಂಕ flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     flags = surface->map.info.flags;
-    if (enabled) {
+    ಆದರೆ (enabled) {
         surface->map.info.flags |= SDL_COPY_RLE_DESIRED;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         surface->map.info.flags &= ~SDL_COPY_RLE_DESIRED;
     }
-    if (surface->map.info.flags != flags) {
+    ಆದರೆ (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool SDL_SurfaceHasRLE(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (!(surface->map.info.flags & SDL_COPY_RLE_DESIRED)) {
-        return false;
+    ಆದರೆ (!(surface->map.info.flags & SDL_COPY_RLE_DESIRED)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_SetSurfaceColorKey(SDL_Surface *surface, bool enabled, Uint32 key)
+bool SDL_ಗಣ_Surface_Color_ಕೀಲಿ(SDL_Surface *surface, bool enabled, Uint32 ಕೀಲಿ)
 {
-    int flags;
+    ಪೂರ್ಣಾಂಕ flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-    CHECK_PARAM(surface->palette && key >= ((Uint32)surface->palette->ncolors)) {
-        return SDL_InvalidParamError("key");
+    CHECK_PARAM(surface->palette && ಕೀಲಿ >= ((Uint32)surface->palette->ncolors)) {
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("key");
     }
 
     flags = surface->map.info.flags;
-    if (enabled) {
+    ಆದರೆ (enabled) {
         surface->map.info.flags |= SDL_COPY_COLORKEY;
-        surface->map.info.colorkey = key;
-    } else {
+        surface->map.info.colorkey = ಕೀಲಿ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
         surface->map.info.flags &= ~SDL_COPY_COLORKEY;
     }
-    if (surface->map.info.flags != flags) {
+    ಆದರೆ (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_SurfaceHasColorKey(SDL_Surface *surface)
+bool SDL_Surface_Has_Color_ಕೀಲಿ(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (!(surface->map.info.flags & SDL_COPY_COLORKEY)) {
-        return false;
+    ಆದರೆ (!(surface->map.info.flags & SDL_COPY_COLORKEY)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_GetSurfaceColorKey(SDL_Surface *surface, Uint32 *key)
+bool SDL_Get_Surface_Color_ಕೀಲಿ(SDL_Surface *surface, Uint32 *ಕೀಲಿ)
 {
-    if (key) {
-        *key = 0;
+    ಆದರೆ (ಕೀಲಿ) {
+        *ಕೀಲಿ = 0;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(!(surface->map.info.flags & SDL_COPY_COLORKEY)) {
-        return SDL_SetError("Surface doesn't have a colorkey");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Surface doesn't have a colorkey");
     }
 
-    if (key) {
-        *key = surface->map.info.colorkey;
+    ಆದರೆ (ಕೀಲಿ) {
+        *ಕೀಲಿ = surface->map.info.colorkey;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 /* This is a fairly slow function to switch from colorkey to alpha
    NB: it doesn't handle bpp 1 or 3, because they have no alpha channel */
-static void SDL_ConvertColorkeyToAlpha(SDL_Surface *surface, bool ignore_alpha)
+ಸ್ಥಿರ ಶೂನ್ಯ SDL_Convert_Colorkey_ಗಮ್ಯ_Alpha(SDL_Surface *surface, bool ignore_alpha)
 {
-    int x, y, bpp;
+    ಪೂರ್ಣಾಂಕ x, y, bpp;
 
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    if (!(surface->map.info.flags & SDL_COPY_COLORKEY) ||
+    ಆದರೆ (!(surface->map.info.flags & SDL_COPY_COLORKEY) ||
         !SDL_ISPIXELFORMAT_ALPHA(surface->format)) {
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
     bpp = SDL_BYTESPERPIXEL(surface->format);
 
-    SDL_LockSurface(surface);
+    SDL_ಬೀಗ_Surface(surface);
 
-    if (bpp == 2) {
-        Uint16 *row, *spot;
+    ಆದರೆ (bpp == 2) {
+        Uint16 *ಅಡ್ಡಸಾಲು, *spot;
         Uint16 ckey = (Uint16)surface->map.info.colorkey;
-        Uint16 mask = (Uint16)(~surface->fmt->Amask);
+        Uint16 ಮುಖವಾಡ = (Uint16)(~surface->fmt->Amask);
 
         // Ignore, or not, alpha in colorkey comparison
-        if (ignore_alpha) {
-            ckey &= mask;
-            row = (Uint16 *)surface->pixels;
-            for (y = surface->h; y--;) {
-                spot = row;
-                for (x = surface->w; x--;) {
-                    if ((*spot & mask) == ckey) {
-                        *spot &= mask;
+        ಆದರೆ (ignore_alpha) {
+            ckey &= ಮುಖವಾಡ;
+            ಅಡ್ಡಸಾಲು = (Uint16 *)surface->pixels;
+            ಗಾಗಿ (y = surface->h; y--;) {
+                spot = ಅಡ್ಡಸಾಲು;
+                ಗಾಗಿ (x = surface->w; x--;) {
+                    ಆದರೆ ((*spot & ಮುಖವಾಡ) == ckey) {
+                        *spot &= ಮುಖವಾಡ;
                     }
                     ++spot;
                 }
-                row += surface->pitch / 2;
+                ಅಡ್ಡಸಾಲು += surface->pitch / 2;
             }
-        } else {
-            row = (Uint16 *)surface->pixels;
-            for (y = surface->h; y--;) {
-                spot = row;
-                for (x = surface->w; x--;) {
-                    if (*spot == ckey) {
-                        *spot &= mask;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಅಡ್ಡಸಾಲು = (Uint16 *)surface->pixels;
+            ಗಾಗಿ (y = surface->h; y--;) {
+                spot = ಅಡ್ಡಸಾಲು;
+                ಗಾಗಿ (x = surface->w; x--;) {
+                    ಆದರೆ (*spot == ckey) {
+                        *spot &= ಮುಖವಾಡ;
                     }
                     ++spot;
                 }
-                row += surface->pitch / 2;
+                ಅಡ್ಡಸಾಲು += surface->pitch / 2;
             }
         }
-    } else if (bpp == 4) {
-        Uint32 *row, *spot;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (bpp == 4) {
+        Uint32 *ಅಡ್ಡಸಾಲು, *spot;
         Uint32 ckey = surface->map.info.colorkey;
-        Uint32 mask = ~surface->fmt->Amask;
+        Uint32 ಮುಖವಾಡ = ~surface->fmt->Amask;
 
         // Ignore, or not, alpha in colorkey comparison
-        if (ignore_alpha) {
-            ckey &= mask;
-            row = (Uint32 *)surface->pixels;
-            for (y = surface->h; y--;) {
-                spot = row;
-                for (x = surface->w; x--;) {
-                    if ((*spot & mask) == ckey) {
-                        *spot &= mask;
+        ಆದರೆ (ignore_alpha) {
+            ckey &= ಮುಖವಾಡ;
+            ಅಡ್ಡಸಾಲು = (Uint32 *)surface->pixels;
+            ಗಾಗಿ (y = surface->h; y--;) {
+                spot = ಅಡ್ಡಸಾಲು;
+                ಗಾಗಿ (x = surface->w; x--;) {
+                    ಆದರೆ ((*spot & ಮುಖವಾಡ) == ckey) {
+                        *spot &= ಮುಖವಾಡ;
                     }
                     ++spot;
                 }
-                row += surface->pitch / 4;
+                ಅಡ್ಡಸಾಲು += surface->pitch / 4;
             }
-        } else {
-            row = (Uint32 *)surface->pixels;
-            for (y = surface->h; y--;) {
-                spot = row;
-                for (x = surface->w; x--;) {
-                    if (*spot == ckey) {
-                        *spot &= mask;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಅಡ್ಡಸಾಲು = (Uint32 *)surface->pixels;
+            ಗಾಗಿ (y = surface->h; y--;) {
+                spot = ಅಡ್ಡಸಾಲು;
+                ಗಾಗಿ (x = surface->w; x--;) {
+                    ಆದರೆ (*spot == ckey) {
+                        *spot &= ಮುಖವಾಡ;
                     }
                     ++spot;
                 }
-                row += surface->pitch / 4;
+                ಅಡ್ಡಸಾಲು += surface->pitch / 4;
             }
         }
     }
 
     SDL_UnlockSurface(surface);
 
-    SDL_SetSurfaceColorKey(surface, false, 0);
-    SDL_SetSurfaceBlendMode(surface, SDL_BLENDMODE_BLEND);
+    SDL_ಗಣ_Surface_Color_ಕೀಲಿ(surface, false, 0);
+    SDL_ಗಣ_Surface_Blend_ಬಹುಲಕ(surface, SDL_BLENDMODE_BLEND);
 }
 
-bool SDL_SetSurfaceColorMod(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
+bool SDL_ಗಣ_Surface_Color_Mod(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
 {
-    int flags;
+    ಪೂರ್ಣಾಂಕ flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     surface->map.info.r = r;
@@ -822,205 +822,205 @@ bool SDL_SetSurfaceColorMod(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
     surface->map.info.b = b;
 
     flags = surface->map.info.flags;
-    if (r != 0xFF || g != 0xFF || b != 0xFF) {
+    ಆದರೆ (r != 0xFF || g != 0xFF || b != 0xFF) {
         surface->map.info.flags |= SDL_COPY_MODULATE_COLOR;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         surface->map.info.flags &= ~SDL_COPY_MODULATE_COLOR;
     }
-    if (surface->map.info.flags != flags) {
+    ಆದರೆ (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool SDL_GetSurfaceColorMod(SDL_Surface *surface, Uint8 *r, Uint8 *g, Uint8 *b)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        if (r) {
+        ಆದರೆ (r) {
             *r = 255;
         }
-        if (g) {
+        ಆದರೆ (g) {
             *g = 255;
         }
-        if (b) {
+        ಆದರೆ (b) {
             *b = 255;
         }
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-    if (r) {
+    ಆದರೆ (r) {
         *r = surface->map.info.r;
     }
-    if (g) {
+    ಆದರೆ (g) {
         *g = surface->map.info.g;
     }
-    if (b) {
+    ಆದರೆ (b) {
         *b = surface->map.info.b;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_SetSurfaceAlphaMod(SDL_Surface *surface, Uint8 alpha)
+bool SDL_ಗಣ_Surface_Alpha_Mod(SDL_Surface *surface, Uint8 alpha)
 {
-    int flags;
+    ಪೂರ್ಣಾಂಕ flags;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     surface->map.info.a = alpha;
 
     flags = surface->map.info.flags;
-    if (alpha != 0xFF) {
+    ಆದರೆ (alpha != 0xFF) {
         surface->map.info.flags |= SDL_COPY_MODULATE_ALPHA;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         surface->map.info.flags &= ~SDL_COPY_MODULATE_ALPHA;
     }
-    if (surface->map.info.flags != flags) {
+    ಆದರೆ (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool SDL_GetSurfaceAlphaMod(SDL_Surface *surface, Uint8 *alpha)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        if (alpha) {
+        ಆದರೆ (alpha) {
             *alpha = 255;
         }
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-    if (alpha) {
+    ಆದರೆ (alpha) {
         *alpha = surface->map.info.a;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_SetSurfaceBlendMode(SDL_Surface *surface, SDL_BlendMode blendMode)
+bool SDL_ಗಣ_Surface_Blend_ಬಹುಲಕ(SDL_Surface *surface, SDL_Blend_ಬಹುಲಕ blend_ಬಹುಲಕ)
 {
-    int flags;
-    bool result = true;
+    ಪೂರ್ಣಾಂಕ flags;
+    bool ಫಲಿತಾಂಶ = true;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-    CHECK_PARAM(blendMode == SDL_BLENDMODE_INVALID) {
-        return SDL_InvalidParamError("blendMode");
+    CHECK_PARAM(blend_ಬಹುಲಕ == SDL_BLENDMODE_INVALID) {
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("blendMode");
     }
 
     flags = surface->map.info.flags;
-    surface->map.info.flags &= ~SDL_COPY_BLEND_MASK;
-    switch (blendMode) {
-    case SDL_BLENDMODE_NONE:
-        break;
-    case SDL_BLENDMODE_BLEND:
+    surface->map.info.flags &= ~SDL_COPY_BLEND_ಮುಖವಾಡ;
+    ಆಯ್ಕೆ (blend_ಬಹುಲಕ) {
+    ಸ್ಥಿತಿ SDL_BLENDMODE_NONE:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_BLENDMODE_BLEND:
         surface->map.info.flags |= SDL_COPY_BLEND;
-        break;
-    case SDL_BLENDMODE_BLEND_PREMULTIPLIED:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_BLENDMODE_BLEND_PREMULTIPLIED:
         surface->map.info.flags |= SDL_COPY_BLEND_PREMULTIPLIED;
-        break;
-    case SDL_BLENDMODE_ADD:
-        surface->map.info.flags |= SDL_COPY_ADD;
-        break;
-    case SDL_BLENDMODE_ADD_PREMULTIPLIED:
-        surface->map.info.flags |= SDL_COPY_ADD_PREMULTIPLIED;
-        break;
-    case SDL_BLENDMODE_MOD:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_BLENDMODE_ಕೂಡಿಸು:
+        surface->map.info.flags |= SDL_COPY_ಕೂಡಿಸು;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_BLENDMODE_ಕೂಡಿಸು_PREMULTIPLIED:
+        surface->map.info.flags |= SDL_COPY_ಕೂಡಿಸು_PREMULTIPLIED;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_BLENDMODE_MOD:
         surface->map.info.flags |= SDL_COPY_MOD;
-        break;
-    case SDL_BLENDMODE_MUL:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_BLENDMODE_MUL:
         surface->map.info.flags |= SDL_COPY_MUL;
-        break;
-    default:
-        result = SDL_Unsupported();
-        break;
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ಫಲಿತಾಂಶ = SDL_Unsupported();
+        ನಿಲ್ಲಿಸು;
     }
 
-    if (surface->map.info.flags != flags) {
+    ಆದರೆ (surface->map.info.flags != flags) {
         SDL_InvalidateMap(&surface->map);
     }
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_GetSurfaceBlendMode(SDL_Surface *surface, SDL_BlendMode *blendMode)
+bool SDL_Get_Surface_Blend_ಬಹುಲಕ(SDL_Surface *surface, SDL_Blend_ಬಹುಲಕ *blend_ಬಹುಲಕ)
 {
-    if (blendMode) {
-        *blendMode = SDL_BLENDMODE_INVALID;
+    ಆದರೆ (blend_ಬಹುಲಕ) {
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_INVALID;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-    if (!blendMode) {
-        return true;
+    ಆದರೆ (!blend_ಬಹುಲಕ) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    switch (surface->map.info.flags & SDL_COPY_BLEND_MASK) {
-    case SDL_COPY_BLEND:
-        *blendMode = SDL_BLENDMODE_BLEND;
-        break;
-    case SDL_COPY_BLEND_PREMULTIPLIED:
-        *blendMode = SDL_BLENDMODE_BLEND_PREMULTIPLIED;
-        break;
-    case SDL_COPY_ADD:
-        *blendMode = SDL_BLENDMODE_ADD;
-        break;
-    case SDL_COPY_ADD_PREMULTIPLIED:
-        *blendMode = SDL_BLENDMODE_ADD_PREMULTIPLIED;
-        break;
-    case SDL_COPY_MOD:
-        *blendMode = SDL_BLENDMODE_MOD;
-        break;
-    case SDL_COPY_MUL:
-        *blendMode = SDL_BLENDMODE_MUL;
-        break;
-    default:
-        *blendMode = SDL_BLENDMODE_NONE;
-        break;
+    ಆಯ್ಕೆ (surface->map.info.flags & SDL_COPY_BLEND_ಮುಖವಾಡ) {
+    ಸ್ಥಿತಿ SDL_COPY_BLEND:
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_BLEND;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_COPY_BLEND_PREMULTIPLIED:
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_BLEND_PREMULTIPLIED;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_COPY_ಕೂಡಿಸು:
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_ಕೂಡಿಸು;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_COPY_ಕೂಡಿಸು_PREMULTIPLIED:
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_ಕೂಡಿಸು_PREMULTIPLIED;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_COPY_MOD:
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_MOD;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_COPY_MUL:
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_MUL;
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        *blend_ಬಹುಲಕ = SDL_BLENDMODE_NONE;
+        ನಿಲ್ಲಿಸು;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_SetSurfaceClipRect(SDL_Surface *surface, const SDL_Rect *rect)
+bool SDL_ಗಣ_Surface_Clip_Rect(SDL_Surface *surface, ಸ್ಥಿರಾಂಕ SDL_Rect *rect)
 {
-    SDL_Rect full_rect;
+    SDL_Rect ತುಂಬಿದ_rect;
 
     // Don't do anything if there's no surface to act on
-    if (!SDL_SurfaceValid(surface)) {
-        return false;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Set up the full surface rectangle
-    full_rect.x = 0;
-    full_rect.y = 0;
-    full_rect.w = surface->w;
-    full_rect.h = surface->h;
+    ತುಂಬಿದ_rect.x = 0;
+    ತುಂಬಿದ_rect.y = 0;
+    ತುಂಬಿದ_rect.w = surface->w;
+    ತುಂಬಿದ_rect.h = surface->h;
 
     // Set the clipping rectangle
-    if (!rect) {
-        surface->clip_rect = full_rect;
-        return true;
+    ಆದರೆ (!rect) {
+        surface->clip_rect = ತುಂಬಿದ_rect;
+        ಹಿಂತಿರುಗಿ true;
     }
-    return SDL_GetRectIntersection(rect, &full_rect, &surface->clip_rect);
+    ಹಿಂತಿರುಗಿ SDL_GetRectIntersection(rect, &ತುಂಬಿದ_rect, &surface->clip_rect);
 }
 
 bool SDL_GetSurfaceClipRect(SDL_Surface *surface, SDL_Rect *rect)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        if (rect) {
+        ಆದರೆ (rect) {
             SDL_zerop(rect);
         }
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("rect");
     }
     *rect = surface->clip_rect;
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 /*
@@ -1034,29 +1034,29 @@ bool SDL_GetSurfaceClipRect(SDL_Surface *surface, SDL_Rect *rect)
  * you know exactly what you are doing, you can optimize your code
  * by calling the one(s) you need.
  */
-bool SDL_BlitSurfaceUnchecked(SDL_Surface *src, const SDL_Rect *srcrect,
-                             SDL_Surface *dst, const SDL_Rect *dstrect)
+bool SDL_BlitSurfaceUnchecked(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect,
+                             SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect)
 {
     // Check to make sure the blit mapping is valid
-    if (!SDL_ValidateMap(src, dst)) {
-        return false;
+    ಆದರೆ (!SDL_ValidateMap(src, dst)) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    return src->map.blit(src, srcrect, dst, dstrect);
+    ಹಿಂತಿರುಗಿ src->map.blit(src, srcrect, dst, dstrect);
 }
 
-bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect)
+bool SDL_BlitSurface(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect, SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect)
 {
     SDL_Rect r_src, r_dst;
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src) || (!src->pixels && !SDL_MUSTLOCK(src))) {
-        return SDL_InvalidParamError("src");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst) || (!dst->pixels && !SDL_MUSTLOCK(dst))) {
-        return SDL_InvalidParamError("dst");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Surfaces must not be locked during blit");
     }
 
     // Full src surface
@@ -1065,19 +1065,19 @@ bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ಆದರೆ (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         r_dst.x = 0;
         r_dst.y = 0;
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
+    ಆದರೆ (srcrect) {
         SDL_Rect tmp;
-        if (SDL_GetRectIntersection(srcrect, &r_src, &tmp) == false) {
-            return true;
+        ಆದರೆ (SDL_GetRectIntersection(srcrect, &r_src, &tmp) == false) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // Shift dstrect, if srcrect origin has changed
@@ -1095,8 +1095,8 @@ bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst
     // clip the destination rectangle against the clip rectangle
     {
         SDL_Rect tmp;
-        if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
-            return true;
+        ಆದರೆ (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // Shift srcrect, if dstrect has changed
@@ -1109,83 +1109,83 @@ bool SDL_BlitSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst
         r_dst = tmp;
     }
 
-    if (r_dst.w <= 0 || r_dst.h <= 0) {
+    ಆದರೆ (r_dst.w <= 0 || r_dst.h <= 0) {
         // No-op.
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
     // Switch back to a fast blit if we were previously stretching
-    if (src->map.info.flags & SDL_COPY_NEAREST) {
-        src->map.info.flags &= ~SDL_COPY_NEAREST;
+    ಆದರೆ (src->map.info.flags & SDL_COPY_ಹತ್ತಿರದ) {
+        src->map.info.flags &= ~SDL_COPY_ಹತ್ತಿರದ;
         SDL_InvalidateMap(&src->map);
     }
 
-    return SDL_BlitSurfaceUnchecked(src, &r_src, dst, &r_dst);
+    ಹಿಂತಿರುಗಿ SDL_BlitSurfaceUnchecked(src, &r_src, dst, &r_dst);
 }
 
-static bool SDL_BlitSurfaceClippedScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect, SDL_ScaleMode scaleMode)
+ಸ್ಥಿರ bool SDL_BlitSurfaceClippedScaled(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect, SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect, SDL_Scale_ಬಹುಲಕ scale_ಬಹುಲಕ)
 {
     // We need to scale first, then blit into dst because we're clipping in the destination surface pixel coordinates
-    bool result;
-    int saved_w = src->w;
-    int saved_h = src->h;
-    void *saved_pixels = src->pixels;
+    bool ಫಲಿತಾಂಶ;
+    ಪೂರ್ಣಾಂಕ saved_w = src->w;
+    ಪೂರ್ಣಾಂಕ saved_h = src->h;
+    ಶೂನ್ಯ *saved_pixels = src->pixels;
     src->w = srcrect->w;
     src->h = srcrect->h;
     src->pixels = (Uint8 *)src->pixels + srcrect->y * src->pitch + srcrect->x * SDL_BYTESPERPIXEL(src->format);
-    SDL_Surface *scaled = SDL_ScaleSurface(src, dstrect->w, dstrect->h, scaleMode);
-    if (scaled) {
-        result = SDL_BlitSurface(scaled, NULL, dst, dstrect);
+    SDL_Surface *scaled = SDL_ScaleSurface(src, dstrect->w, dstrect->h, scale_ಬಹುಲಕ);
+    ಆದರೆ (scaled) {
+        ಫಲಿತಾಂಶ = SDL_BlitSurface(scaled, ಖಾಲಿ, dst, dstrect);
         SDL_DestroySurface(scaled);
-    } else {
-        result = false;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಫಲಿತಾಂಶ = false;
     }
     src->w = saved_w;
     src->h = saved_h;
     src->pixels = saved_pixels;
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect, SDL_ScaleMode scaleMode)
+bool SDL_BlitSurfaceScaled(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect, SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect, SDL_Scale_ಬಹುಲಕ scale_ಬಹುಲಕ)
 {
     SDL_Rect r_src, r_dst;
-    bool result;
+    bool ಫಲಿತಾಂಶ;
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src) || (!src->pixels && !SDL_MUSTLOCK(src))) {
-        return SDL_InvalidParamError("src");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst) || (!dst->pixels && !SDL_MUSTLOCK(dst))) {
-        return SDL_InvalidParamError("dst");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Surfaces must not be locked during blit");
     }
 
-    switch (scaleMode) {
-    case SDL_SCALEMODE_NEAREST:
-        break;
-    case SDL_SCALEMODE_LINEAR:
-        break;
-    case SDL_SCALEMODE_PIXELART:
-        scaleMode = SDL_SCALEMODE_NEAREST;
-        break;
-    default:
-        return SDL_InvalidParamError("scaleMode");
+    ಆಯ್ಕೆ (scale_ಬಹುಲಕ) {
+    ಸ್ಥಿತಿ SDL_SCALEMODE_ಹತ್ತಿರದ:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_SCALEMODE_ರೇಖೀಯ:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_SCALEMODE_PIXELART:
+        scale_ಬಹುಲಕ = SDL_SCALEMODE_ಹತ್ತಿರದ;
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("scaleMode");
     }
 
-    int src_w = srcrect ? srcrect->w : src->w;
-    int src_h = srcrect ? srcrect->h : src->h;
-    int dst_w = dstrect ? dstrect->w : dst->w;
-    int dst_h = dstrect ? dstrect->h : dst->h;
-    if (src_w == dst_w && src_h == dst_h) {
+    ಪೂರ್ಣಾಂಕ src_w = srcrect ? srcrect->w : src->w;
+    ಪೂರ್ಣಾಂಕ src_h = srcrect ? srcrect->h : src->h;
+    ಪೂರ್ಣಾಂಕ dst_w = dstrect ? dstrect->w : dst->w;
+    ಪೂರ್ಣಾಂಕ dst_h = dstrect ? dstrect->h : dst->h;
+    ಆದರೆ (src_w == dst_w && src_h == dst_h) {
         // No scaling, defer to regular blit
-        return SDL_BlitSurface(src, srcrect, dst, dstrect);
+        ಹಿಂತಿರುಗಿ SDL_BlitSurface(src, srcrect, dst, dstrect);
     }
 
-    if (src->w == 0 || src->h == 0) {
+    ಆದರೆ (src->w == 0 || src->h == 0) {
         // Nothing to do
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
     // Full src surface
@@ -1194,12 +1194,12 @@ bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surfac
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ಆದರೆ (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
         r_dst.w = dstrect->w;
         r_dst.h = dstrect->h;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         r_dst.x = 0;
         r_dst.y = 0;
         r_dst.w = dst->w;
@@ -1207,14 +1207,14 @@ bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surfac
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
+    ಆದರೆ (srcrect) {
         SDL_Rect desired, tmp;
         desired.x = srcrect->x;
         desired.y = srcrect->y;
         desired.w = SDL_max(srcrect->w, 1);
         desired.h = SDL_max(srcrect->h, 1);
-        if (SDL_GetRectIntersection(&desired, &r_src, &tmp) == false) {
-            return true;
+        ಆದರೆ (SDL_GetRectIntersection(&desired, &r_src, &tmp) == false) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // Shift dstrect, if srcrect origin has changed
@@ -1228,126 +1228,126 @@ bool SDL_BlitSurfaceScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surfac
     }
 
     SDL_Rect tmp;
-    if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
-        return true;
+    ಆದರೆ (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &tmp) == false) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    if (tmp.x != r_dst.x || tmp.y != r_dst.y || tmp.w != r_dst.w || tmp.h != r_dst.h) {
+    ಆದರೆ (tmp.x != r_dst.x || tmp.y != r_dst.y || tmp.w != r_dst.w || tmp.h != r_dst.h) {
         // Need to do a clipped and scaled blit
-        return SDL_BlitSurfaceClippedScaled(src, &r_src, dst, &r_dst, scaleMode);
+        ಹಿಂತಿರುಗಿ SDL_BlitSurfaceClippedScaled(src, &r_src, dst, &r_dst, scale_ಬಹುಲಕ);
     }
 
-    if (SDL_MUSTLOCK(src)) {
-        if (!SDL_LockSurface(src)) {
-            return false;
+    ಆದರೆ (SDL_MUSTLOCK(src)) {
+        ಆದರೆ (!SDL_ಬೀಗ_Surface(src)) {
+            ಹಿಂತಿರುಗಿ false;
         }
     }
-    if (SDL_MUSTLOCK(dst)) {
-        if (!SDL_LockSurface(dst)) {
-            if (SDL_MUSTLOCK(src)) {
+    ಆದರೆ (SDL_MUSTLOCK(dst)) {
+        ಆದರೆ (!SDL_ಬೀಗ_Surface(dst)) {
+            ಆದರೆ (SDL_MUSTLOCK(src)) {
                 SDL_UnlockSurface(src);
             }
-            return false;
+            ಹಿಂತಿರುಗಿ false;
         }
     }
 
-    result = SDL_BlitSurfaceUncheckedScaled(src, &r_src, dst, &r_dst, scaleMode);
+    ಫಲಿತಾಂಶ = SDL_BlitSurfaceUncheckedScaled(src, &r_src, dst, &r_dst, scale_ಬಹುಲಕ);
 
-    if (SDL_MUSTLOCK(src)) {
+    ಆದರೆ (SDL_MUSTLOCK(src)) {
         SDL_UnlockSurface(src);
     }
-    if (SDL_MUSTLOCK(dst)) {
+    ಆದರೆ (SDL_MUSTLOCK(dst)) {
         SDL_UnlockSurface(dst);
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
 /**
  *  This is a semi-private blit function and it performs low-level surface
  *  scaled blitting only.
  */
-bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect, SDL_ScaleMode scaleMode)
+bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect, SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect, SDL_Scale_ಬಹುಲಕ scale_ಬಹುಲಕ)
 {
-    static const Uint32 complex_copy_flags = (SDL_COPY_MODULATE_MASK | SDL_COPY_BLEND_MASK | SDL_COPY_COLORKEY);
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ Uint32 complex_copy_flags = (SDL_COPY_MODULATE_ಮುಖವಾಡ | SDL_COPY_BLEND_ಮುಖವಾಡ | SDL_COPY_COLORKEY);
 
-    if (srcrect->w > SDL_MAX_UINT16 || srcrect->h > SDL_MAX_UINT16 ||
+    ಆದರೆ (srcrect->w > SDL_MAX_UINT16 || srcrect->h > SDL_MAX_UINT16 ||
         dstrect->w > SDL_MAX_UINT16 || dstrect->h > SDL_MAX_UINT16) {
-        return SDL_SetError("Size too large for scaling");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Size too large for scaling");
     }
 
-    if (!(src->map.info.flags & SDL_COPY_NEAREST)) {
-        src->map.info.flags |= SDL_COPY_NEAREST;
+    ಆದರೆ (!(src->map.info.flags & SDL_COPY_ಹತ್ತಿರದ)) {
+        src->map.info.flags |= SDL_COPY_ಹತ್ತಿರದ;
         SDL_InvalidateMap(&src->map);
     }
 
-    if (scaleMode == SDL_SCALEMODE_NEAREST || scaleMode == SDL_SCALEMODE_PIXELART) {
-        if (!(src->map.info.flags & complex_copy_flags) &&
+    ಆದರೆ (scale_ಬಹುಲಕ == SDL_SCALEMODE_ಹತ್ತಿರದ || scale_ಬಹುಲಕ == SDL_SCALEMODE_PIXELART) {
+        ಆದರೆ (!(src->map.info.flags & complex_copy_flags) &&
             src->format == dst->format &&
-            (!SDL_ISPIXELFORMAT_INDEXED(src->format) ||
+            (!SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(src->format) ||
              (SDL_BITSPERPIXEL(src->format) == 8 && SDL_IsSamePalette(src->palette, dst->palette))) &&
             SDL_BYTESPERPIXEL(src->format) <= 4) {
-            return SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_NEAREST);
-        } else if (SDL_BITSPERPIXEL(src->format) < 8) {
+            ಹಿಂತಿರುಗಿ SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_ಹತ್ತಿರದ);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_BITSPERPIXEL(src->format) < 8) {
             // Scaling bitmap not yet supported, convert to RGBA for blit
-            bool result = false;
+            bool ಫಲಿತಾಂಶ = false;
             SDL_Surface *tmp = SDL_ConvertSurface(src, SDL_PIXELFORMAT_ARGB8888);
-            if (tmp) {
-                result = SDL_BlitSurfaceUncheckedScaled(tmp, srcrect, dst, dstrect, SDL_SCALEMODE_NEAREST);
+            ಆದರೆ (tmp) {
+                ಫಲಿತಾಂಶ = SDL_BlitSurfaceUncheckedScaled(tmp, srcrect, dst, dstrect, SDL_SCALEMODE_ಹತ್ತಿರದ);
                 SDL_DestroySurface(tmp);
             }
-            return result;
-        } else {
-            return SDL_BlitSurfaceUnchecked(src, srcrect, dst, dstrect);
+            ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಹಿಂತಿರುಗಿ SDL_BlitSurfaceUnchecked(src, srcrect, dst, dstrect);
         }
-    } else {
-        if (!(src->map.info.flags & complex_copy_flags) &&
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!(src->map.info.flags & complex_copy_flags) &&
             src->format == dst->format &&
-            !SDL_ISPIXELFORMAT_INDEXED(src->format) &&
+            !SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(src->format) &&
             SDL_BYTESPERPIXEL(src->format) == 4 &&
             src->format != SDL_PIXELFORMAT_ARGB2101010) {
             // fast path
-            return SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_LINEAR);
-        } else if (SDL_BITSPERPIXEL(src->format) < 8) {
+            ಹಿಂತಿರುಗಿ SDL_StretchSurface(src, srcrect, dst, dstrect, SDL_SCALEMODE_ರೇಖೀಯ);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_BITSPERPIXEL(src->format) < 8) {
             // Scaling bitmap not yet supported, convert to RGBA for blit
-            bool result = false;
+            bool ಫಲಿತಾಂಶ = false;
             SDL_Surface *tmp = SDL_ConvertSurface(src, SDL_PIXELFORMAT_ARGB8888);
-            if (tmp) {
-                result = SDL_BlitSurfaceUncheckedScaled(tmp, srcrect, dst, dstrect, scaleMode);
+            ಆದರೆ (tmp) {
+                ಫಲಿತಾಂಶ = SDL_BlitSurfaceUncheckedScaled(tmp, srcrect, dst, dstrect, scale_ಬಹುಲಕ);
                 SDL_DestroySurface(tmp);
             }
-            return result;
-        } else {
+            ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Use intermediate surface(s)
-            SDL_Surface *tmp1 = NULL;
-            bool result;
+            SDL_Surface *tmp1 = ಖಾಲಿ;
+            bool ಫಲಿತಾಂಶ;
             SDL_Rect srcrect2;
-            int is_complex_copy_flags = (src->map.info.flags & complex_copy_flags);
+            ಪೂರ್ಣಾಂಕ is_complex_copy_flags = (src->map.info.flags & complex_copy_flags);
 
             Uint8 r, g, b;
             Uint8 alpha;
-            SDL_BlendMode blendMode;
+            SDL_Blend_ಬಹುಲಕ blend_ಬಹುಲಕ;
 
             // Save source infos
             SDL_GetSurfaceColorMod(src, &r, &g, &b);
             SDL_GetSurfaceAlphaMod(src, &alpha);
-            SDL_GetSurfaceBlendMode(src, &blendMode);
+            SDL_Get_Surface_Blend_ಬಹುಲಕ(src, &blend_ಬಹುಲಕ);
             srcrect2.x = srcrect->x;
             srcrect2.y = srcrect->y;
             srcrect2.w = srcrect->w;
             srcrect2.h = srcrect->h;
 
             // Change source format if not appropriate for scaling
-            if (SDL_BYTESPERPIXEL(src->format) != 4 || src->format == SDL_PIXELFORMAT_ARGB2101010) {
+            ಆದರೆ (SDL_BYTESPERPIXEL(src->format) != 4 || src->format == SDL_PIXELFORMAT_ARGB2101010) {
                 SDL_PixelFormat fmt;
-                if (SDL_BYTESPERPIXEL(dst->format) == 4 && dst->format != SDL_PIXELFORMAT_ARGB2101010 &&
+                ಆದರೆ (SDL_BYTESPERPIXEL(dst->format) == 4 && dst->format != SDL_PIXELFORMAT_ARGB2101010 &&
                     (SDL_ISPIXELFORMAT_ALPHA(dst->format) || !is_complex_copy_flags)) {
                     fmt = dst->format;
-                } else {
+                } ಇಲ್ಲದಿದ್ದರೆ {
                     fmt = SDL_PIXELFORMAT_ARGB8888;
                 }
                 tmp1 = SDL_ConvertSurfaceRect(src, srcrect, fmt);
-                if (!tmp1) {
-                    return false;
+                ಆದರೆ (!tmp1) {
+                    ಹಿಂತಿರುಗಿ false;
                 }
                 src = tmp1;
                 srcrect2.x = 0;
@@ -1355,44 +1355,44 @@ bool SDL_BlitSurfaceUncheckedScaled(SDL_Surface *src, const SDL_Rect *srcrect, S
             }
 
             // Intermediate scaling
-            if (is_complex_copy_flags || src->format != dst->format) {
+            ಆದರೆ (is_complex_copy_flags || src->format != dst->format) {
                 SDL_Rect tmprect;
                 SDL_Surface *tmp2 = SDL_CreateSurfaceUninitialized(dstrect->w, dstrect->h, src->format);
-                SDL_StretchSurface(src, &srcrect2, tmp2, NULL, SDL_SCALEMODE_LINEAR);
+                SDL_StretchSurface(src, &srcrect2, tmp2, ಖಾಲಿ, SDL_SCALEMODE_ರೇಖೀಯ);
 
-                SDL_SetSurfaceColorMod(tmp2, r, g, b);
-                SDL_SetSurfaceAlphaMod(tmp2, alpha);
-                SDL_SetSurfaceBlendMode(tmp2, blendMode);
+                SDL_ಗಣ_Surface_Color_Mod(tmp2, r, g, b);
+                SDL_ಗಣ_Surface_Alpha_Mod(tmp2, alpha);
+                SDL_ಗಣ_Surface_Blend_ಬಹುಲಕ(tmp2, blend_ಬಹುಲಕ);
 
                 tmprect.x = 0;
                 tmprect.y = 0;
                 tmprect.w = dstrect->w;
                 tmprect.h = dstrect->h;
-                result = SDL_BlitSurfaceUnchecked(tmp2, &tmprect, dst, dstrect);
+                ಫಲಿತಾಂಶ = SDL_BlitSurfaceUnchecked(tmp2, &tmprect, dst, dstrect);
                 SDL_DestroySurface(tmp2);
-            } else {
-                result = SDL_StretchSurface(src, &srcrect2, dst, dstrect, SDL_SCALEMODE_LINEAR);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಫಲಿತಾಂಶ = SDL_StretchSurface(src, &srcrect2, dst, dstrect, SDL_SCALEMODE_ರೇಖೀಯ);
             }
 
             SDL_DestroySurface(tmp1);
-            return result;
+            ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
         }
     }
 }
 
-bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect)
+bool SDL_BlitSurfaceTiled(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect, SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect)
 {
     SDL_Rect r_src, r_dst;
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src)) {
-        return SDL_InvalidParamError("src");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("dst");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Surfaces must not be locked during blit");
     }
 
     // Full src surface
@@ -1401,12 +1401,12 @@ bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ಆದರೆ (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
         r_dst.w = dstrect->w;
         r_dst.h = dstrect->h;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         r_dst.x = 0;
         r_dst.y = 0;
         r_dst.w = dst->w;
@@ -1414,9 +1414,9 @@ bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
-        if (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
-            return true;
+    ಆದರೆ (srcrect) {
+        ಆದರೆ (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // For tiling we don't adjust the destination rectangle
@@ -1424,85 +1424,85 @@ bool SDL_BlitSurfaceTiled(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface
 
     // clip the destination rectangle against the clip rectangle
     {
-        if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
-            return true;
+        ಆದರೆ (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // For tiling we don't adjust the source rectangle
     }
 
     // Switch back to a fast blit if we were previously stretching
-    if (src->map.info.flags & SDL_COPY_NEAREST) {
-        src->map.info.flags &= ~SDL_COPY_NEAREST;
+    ಆದರೆ (src->map.info.flags & SDL_COPY_ಹತ್ತಿರದ) {
+        src->map.info.flags &= ~SDL_COPY_ಹತ್ತಿರದ;
         SDL_InvalidateMap(&src->map);
     }
 
-    int rows = r_dst.h / r_src.h;
-    int cols = r_dst.w / r_src.w;
-    int remaining_w = r_dst.w % r_src.w;
-    int remaining_h = r_dst.h % r_src.h;
+    ಪೂರ್ಣಾಂಕ ಅಡ್ಡಸಾಲುಗಳು = r_dst.h / r_src.h;
+    ಪೂರ್ಣಾಂಕ ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ = r_dst.w / r_src.w;
+    ಪೂರ್ಣಾಂಕ ಉಳಿದ_w = r_dst.w % r_src.w;
+    ಪೂರ್ಣಾಂಕ ಉಳಿದ_h = r_dst.h % r_src.h;
     SDL_Rect curr_src, curr_dst;
 
     SDL_copyp(&curr_src, &r_src);
     curr_dst.y = r_dst.y;
     curr_dst.w = r_src.w;
     curr_dst.h = r_src.h;
-    for (int y = 0; y < rows; ++y) {
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ y = 0; y < ಅಡ್ಡಸಾಲುಗಳು; ++y) {
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ x = 0; x < ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ; ++x) {
+            ಆದರೆ (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                ಹಿಂತಿರುಗಿ false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_w) {
-            curr_src.w = remaining_w;
-            curr_dst.w = remaining_w;
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+        ಆದರೆ (ಉಳಿದ_w) {
+            curr_src.w = ಉಳಿದ_w;
+            curr_dst.w = ಉಳಿದ_w;
+            ಆದರೆ (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                ಹಿಂತಿರುಗಿ false;
             }
             curr_src.w = r_src.w;
             curr_dst.w = r_src.w;
         }
         curr_dst.y += curr_dst.h;
     }
-    if (remaining_h) {
-        curr_src.h = remaining_h;
-        curr_dst.h = remaining_h;
+    ಆದರೆ (ಉಳಿದ_h) {
+        curr_src.h = ಉಳಿದ_h;
+        curr_dst.h = ಉಳಿದ_h;
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ x = 0; x < ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ; ++x) {
+            ಆದರೆ (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                ಹಿಂತಿರುಗಿ false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_w) {
-            curr_src.w = remaining_w;
-            curr_dst.w = remaining_w;
-            if (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
-                return false;
+        ಆದರೆ (ಉಳಿದ_w) {
+            curr_src.w = ಉಳಿದ_w;
+            curr_dst.w = ಉಳಿದ_w;
+            ಆದರೆ (!SDL_BlitSurfaceUnchecked(src, &curr_src, dst, &curr_dst)) {
+                ಹಿಂತಿರುಗಿ false;
             }
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, float scale, SDL_ScaleMode scaleMode, SDL_Surface *dst, const SDL_Rect *dstrect)
+bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect, ದಶಮಾಂಶ scale, SDL_Scale_ಬಹುಲಕ scale_ಬಹುಲಕ, SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect)
 {
     SDL_Rect r_src, r_dst;
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src)) {
-        return SDL_InvalidParamError("src");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("dst");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst");
     }
     CHECK_PARAM((src->flags & SDL_SURFACE_LOCKED) || (dst->flags & SDL_SURFACE_LOCKED)) {
-        return SDL_SetError("Surfaces must not be locked during blit");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Surfaces must not be locked during blit");
     }
     CHECK_PARAM(scale < 0.0f) {
-        return SDL_InvalidParamError("scale");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("scale");
     }
 
     // Full src surface
@@ -1511,12 +1511,12 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
     r_src.w = src->w;
     r_src.h = src->h;
 
-    if (dstrect) {
+    ಆದರೆ (dstrect) {
         r_dst.x = dstrect->x;
         r_dst.y = dstrect->y;
         r_dst.w = dstrect->w;
         r_dst.h = dstrect->h;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         r_dst.x = 0;
         r_dst.y = 0;
         r_dst.w = dst->w;
@@ -1524,9 +1524,9 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
     }
 
     // clip the source rectangle to the source surface
-    if (srcrect) {
-        if (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
-            return true;
+    ಆದರೆ (srcrect) {
+        ಆದರೆ (SDL_GetRectIntersection(srcrect, &r_src, &r_src) == false) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // For tiling we don't adjust the destination rectangle
@@ -1534,319 +1534,319 @@ bool SDL_BlitSurfaceTiledWithScale(SDL_Surface *src, const SDL_Rect *srcrect, fl
 
     // clip the destination rectangle against the clip rectangle
     {
-        if (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
-            return true;
+        ಆದರೆ (SDL_GetRectIntersection(&r_dst, &dst->clip_rect, &r_dst) == false) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // For tiling we don't adjust the source rectangle
     }
 
     // Switch back to a fast blit if we were previously stretching
-    if (src->map.info.flags & SDL_COPY_NEAREST) {
-        src->map.info.flags &= ~SDL_COPY_NEAREST;
+    ಆದರೆ (src->map.info.flags & SDL_COPY_ಹತ್ತಿರದ) {
+        src->map.info.flags &= ~SDL_COPY_ಹತ್ತಿರದ;
         SDL_InvalidateMap(&src->map);
     }
 
-    int tile_width = (int)SDL_roundf(r_src.w * scale);
-    int tile_height = (int)SDL_roundf(r_src.h * scale);
-    if (tile_width <= 0 || tile_height <= 0) {
+    ಪೂರ್ಣಾಂಕ tile_ಅಗಲ = (ಪೂರ್ಣಾಂಕ)SDL_roundf(r_src.w * scale);
+    ಪೂರ್ಣಾಂಕ tile_ಎತ್ತರ = (ಪೂರ್ಣಾಂಕ)SDL_roundf(r_src.h * scale);
+    ಆದರೆ (tile_ಅಗಲ <= 0 || tile_ಎತ್ತರ <= 0) {
         // Nothing to do
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
-    int rows = r_dst.h / tile_height;
-    int cols = r_dst.w / tile_width;
-    int remaining_dst_w = (r_dst.w - cols * tile_width);
-    int remaining_dst_h = (r_dst.h - rows * tile_height);
-    int remaining_src_w = (int)(remaining_dst_w / scale);
-    int remaining_src_h = (int)(remaining_dst_h / scale);
+    ಪೂರ್ಣಾಂಕ ಅಡ್ಡಸಾಲುಗಳು = r_dst.h / tile_ಎತ್ತರ;
+    ಪೂರ್ಣಾಂಕ ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ = r_dst.w / tile_ಅಗಲ;
+    ಪೂರ್ಣಾಂಕ ಉಳಿದ_dst_w = (r_dst.w - ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ * tile_ಅಗಲ);
+    ಪೂರ್ಣಾಂಕ ಉಳಿದ_dst_h = (r_dst.h - ಅಡ್ಡಸಾಲುಗಳು * tile_ಎತ್ತರ);
+    ಪೂರ್ಣಾಂಕ ಉಳಿದ_src_w = (ಪೂರ್ಣಾಂಕ)(ಉಳಿದ_dst_w / scale);
+    ಪೂರ್ಣಾಂಕ ಉಳಿದ_src_h = (ಪೂರ್ಣಾಂಕ)(ಉಳಿದ_dst_h / scale);
     SDL_Rect curr_src, curr_dst;
 
     SDL_copyp(&curr_src, &r_src);
     curr_dst.y = r_dst.y;
-    curr_dst.w = tile_width;
-    curr_dst.h = tile_height;
-    for (int y = 0; y < rows; ++y) {
+    curr_dst.w = tile_ಅಗಲ;
+    curr_dst.h = tile_ಎತ್ತರ;
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ y = 0; y < ಅಡ್ಡಸಾಲುಗಳು; ++y) {
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ x = 0; x < ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ; ++x) {
+            ಆದರೆ (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+                ಹಿಂತಿರುಗಿ false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_dst_w > 0) {
-            curr_src.w = remaining_src_w;
-            curr_dst.w = remaining_dst_w;
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+        ಆದರೆ (ಉಳಿದ_dst_w > 0) {
+            curr_src.w = ಉಳಿದ_src_w;
+            curr_dst.w = ಉಳಿದ_dst_w;
+            ಆದರೆ (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+                ಹಿಂತಿರುಗಿ false;
             }
             curr_src.w = r_src.w;
-            curr_dst.w = tile_width;
+            curr_dst.w = tile_ಅಗಲ;
         }
         curr_dst.y += curr_dst.h;
     }
-    if (remaining_dst_h > 0) {
-        curr_src.h = remaining_src_h;
-        curr_dst.h = remaining_dst_h;
+    ಆದರೆ (ಉಳಿದ_dst_h > 0) {
+        curr_src.h = ಉಳಿದ_src_h;
+        curr_dst.h = ಉಳಿದ_dst_h;
         curr_dst.x = r_dst.x;
-        for (int x = 0; x < cols; ++x) {
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ x = 0; x < ಲಂಬಸಾಲು_ಸಂಖ್ಯೆ; ++x) {
+            ಆದರೆ (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+                ಹಿಂತಿರುಗಿ false;
             }
             curr_dst.x += curr_dst.w;
         }
-        if (remaining_dst_w > 0) {
-            curr_src.w = remaining_src_w;
-            curr_dst.w = remaining_dst_w;
-            if (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-                return false;
+        ಆದರೆ (ಉಳಿದ_dst_w > 0) {
+            curr_src.w = ಉಳಿದ_src_w;
+            curr_dst.w = ಉಳಿದ_dst_w;
+            ಆದರೆ (!SDL_BlitSurfaceUncheckedScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+                ಹಿಂತಿರುಗಿ false;
             }
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_BlitSurface9Grid(SDL_Surface *src, const SDL_Rect *srcrect, int left_width, int right_width, int top_height, int bottom_height, float scale, SDL_ScaleMode scaleMode, SDL_Surface *dst, const SDL_Rect *dstrect)
+bool SDL_BlitSurface9Grid(SDL_Surface *src, ಸ್ಥಿರಾಂಕ SDL_Rect *srcrect, ಪೂರ್ಣಾಂಕ ಎಡ_ಅಗಲ, ಪೂರ್ಣಾಂಕ ಬಲ_ಅಗಲ, ಪೂರ್ಣಾಂಕ ತುದಿ_ಎತ್ತರ, ಪೂರ್ಣಾಂಕ bottom_ಎತ್ತರ, ದಶಮಾಂಶ scale, SDL_Scale_ಬಹುಲಕ scale_ಬಹುಲಕ, SDL_Surface *dst, ಸ್ಥಿರಾಂಕ SDL_Rect *dstrect)
 {
-    SDL_Rect full_src, full_dst;
+    SDL_Rect ತುಂಬಿದ_src, ತುಂಬಿದ_dst;
     SDL_Rect curr_src, curr_dst;
-    int dst_left_width;
-    int dst_right_width;
-    int dst_top_height;
-    int dst_bottom_height;
+    ಪೂರ್ಣಾಂಕ dst_ಎಡ_ಅಗಲ;
+    ಪೂರ್ಣಾಂಕ dst_ಬಲ_ಅಗಲ;
+    ಪೂರ್ಣಾಂಕ dst_ತುದಿ_ಎತ್ತರ;
+    ಪೂರ್ಣಾಂಕ dst_bottom_ಎತ್ತರ;
 
     // Make sure the surfaces aren't locked
     CHECK_PARAM(!SDL_SurfaceValid(src)) {
-        return SDL_InvalidParamError("src");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!SDL_SurfaceValid(dst)) {
-        return SDL_InvalidParamError("dst");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst");
     }
 
-    if (!srcrect) {
-        full_src.x = 0;
-        full_src.y = 0;
-        full_src.w = src->w;
-        full_src.h = src->h;
-        srcrect = &full_src;
+    ಆದರೆ (!srcrect) {
+        ತುಂಬಿದ_src.x = 0;
+        ತುಂಬಿದ_src.y = 0;
+        ತುಂಬಿದ_src.w = src->w;
+        ತುಂಬಿದ_src.h = src->h;
+        srcrect = &ತುಂಬಿದ_src;
     }
 
-    if (!dstrect) {
-        full_dst.x = 0;
-        full_dst.y = 0;
-        full_dst.w = dst->w;
-        full_dst.h = dst->h;
-        dstrect = &full_dst;
+    ಆದರೆ (!dstrect) {
+        ತುಂಬಿದ_dst.x = 0;
+        ತುಂಬಿದ_dst.y = 0;
+        ತುಂಬಿದ_dst.w = dst->w;
+        ತುಂಬಿದ_dst.h = dst->h;
+        dstrect = &ತುಂಬಿದ_dst;
     }
 
-    if (scale <= 0.0f || scale == 1.0f) {
-        dst_left_width = left_width;
-        dst_right_width = right_width;
-        dst_top_height = top_height;
-        dst_bottom_height = bottom_height;
-    } else {
-        dst_left_width = (int)SDL_roundf(left_width * scale);
-        dst_right_width = (int)SDL_roundf(right_width * scale);
-        dst_top_height = (int)SDL_roundf(top_height * scale);
-        dst_bottom_height = (int)SDL_roundf(bottom_height * scale);
+    ಆದರೆ (scale <= 0.0f || scale == 1.0f) {
+        dst_ಎಡ_ಅಗಲ = ಎಡ_ಅಗಲ;
+        dst_ಬಲ_ಅಗಲ = ಬಲ_ಅಗಲ;
+        dst_ತುದಿ_ಎತ್ತರ = ತುದಿ_ಎತ್ತರ;
+        dst_bottom_ಎತ್ತರ = bottom_ಎತ್ತರ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        dst_ಎಡ_ಅಗಲ = (ಪೂರ್ಣಾಂಕ)SDL_roundf(ಎಡ_ಅಗಲ * scale);
+        dst_ಬಲ_ಅಗಲ = (ಪೂರ್ಣಾಂಕ)SDL_roundf(ಬಲ_ಅಗಲ * scale);
+        dst_ತುದಿ_ಎತ್ತರ = (ಪೂರ್ಣಾಂಕ)SDL_roundf(ತುದಿ_ಎತ್ತರ * scale);
+        dst_bottom_ಎತ್ತರ = (ಪೂರ್ಣಾಂಕ)SDL_roundf(bottom_ಎತ್ತರ * scale);
     }
 
     // Upper-left corner
     curr_src.x = srcrect->x;
     curr_src.y = srcrect->y;
-    curr_src.w = left_width;
-    curr_src.h = top_height;
+    curr_src.w = ಎಡ_ಅಗಲ;
+    curr_src.h = ತುದಿ_ಎತ್ತರ;
     curr_dst.x = dstrect->x;
     curr_dst.y = dstrect->y;
-    curr_dst.w = dst_left_width;
-    curr_dst.h = dst_top_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    curr_dst.w = dst_ಎಡ_ಅಗಲ;
+    curr_dst.h = dst_ತುದಿ_ಎತ್ತರ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Upper-right corner
-    curr_src.x = srcrect->x + srcrect->w - right_width;
-    curr_src.w = right_width;
-    curr_dst.x = dstrect->x + dstrect->w - dst_right_width;
-    curr_dst.w = dst_right_width;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    curr_src.x = srcrect->x + srcrect->w - ಬಲ_ಅಗಲ;
+    curr_src.w = ಬಲ_ಅಗಲ;
+    curr_dst.x = dstrect->x + dstrect->w - dst_ಬಲ_ಅಗಲ;
+    curr_dst.w = dst_ಬಲ_ಅಗಲ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Lower-right corner
-    curr_src.y = srcrect->y + srcrect->h - bottom_height;
-    curr_dst.y = dstrect->y + dstrect->h - dst_bottom_height;
-    curr_dst.h = dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    curr_src.y = srcrect->y + srcrect->h - bottom_ಎತ್ತರ;
+    curr_dst.y = dstrect->y + dstrect->h - dst_bottom_ಎತ್ತರ;
+    curr_dst.h = dst_bottom_ಎತ್ತರ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Lower-left corner
     curr_src.x = srcrect->x;
-    curr_src.w = left_width;
+    curr_src.w = ಎಡ_ಅಗಲ;
     curr_dst.x = dstrect->x;
-    curr_dst.w = dst_left_width;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    curr_dst.w = dst_ಎಡ_ಅಗಲ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    // Left
-    curr_src.y = srcrect->y + top_height;
-    curr_src.h = srcrect->h - top_height - bottom_height;
-    curr_dst.y = dstrect->y + dst_top_height;
-    curr_dst.h = dstrect->h - dst_top_height - dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    //ಎಡ
+    curr_src.y = srcrect->y + ತುದಿ_ಎತ್ತರ;
+    curr_src.h = srcrect->h - ತುದಿ_ಎತ್ತರ - bottom_ಎತ್ತರ;
+    curr_dst.y = dstrect->y + dst_ತುದಿ_ಎತ್ತರ;
+    curr_dst.h = dstrect->h - dst_ತುದಿ_ಎತ್ತರ - dst_bottom_ಎತ್ತರ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    // Right
-    curr_src.x = srcrect->x + srcrect->w - right_width;
-    curr_src.w = right_width;
-    curr_dst.x = dstrect->x + dstrect->w - dst_right_width;
-    curr_dst.w = dst_right_width;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    //ಬಲ
+    curr_src.x = srcrect->x + srcrect->w - ಬಲ_ಅಗಲ;
+    curr_src.w = ಬಲ_ಅಗಲ;
+    curr_dst.x = dstrect->x + dstrect->w - dst_ಬಲ_ಅಗಲ;
+    curr_dst.w = dst_ಬಲ_ಅಗಲ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    // Top
-    curr_src.x = srcrect->x + left_width;
+    //ತುದಿ
+    curr_src.x = srcrect->x + ಎಡ_ಅಗಲ;
     curr_src.y = srcrect->y;
-    curr_src.w = srcrect->w - left_width - right_width;
-    curr_src.h = top_height;
-    curr_dst.x = dstrect->x + dst_left_width;
+    curr_src.w = srcrect->w - ಎಡ_ಅಗಲ - ಬಲ_ಅಗಲ;
+    curr_src.h = ತುದಿ_ಎತ್ತರ;
+    curr_dst.x = dstrect->x + dst_ಎಡ_ಅಗಲ;
     curr_dst.y = dstrect->y;
-    curr_dst.w = dstrect->w - dst_left_width - dst_right_width;
-    curr_dst.h = dst_top_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    curr_dst.w = dstrect->w - dst_ಎಡ_ಅಗಲ - dst_ಬಲ_ಅಗಲ;
+    curr_dst.h = dst_ತುದಿ_ಎತ್ತರ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Bottom
-    curr_src.y = srcrect->y + srcrect->h - bottom_height;
-    curr_dst.y = dstrect->y + dstrect->h - dst_bottom_height;
-    curr_dst.h = dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    curr_src.y = srcrect->y + srcrect->h - bottom_ಎತ್ತರ;
+    curr_dst.y = dstrect->y + dstrect->h - dst_bottom_ಎತ್ತರ;
+    curr_dst.h = dst_bottom_ಎತ್ತರ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Center
-    curr_src.x = srcrect->x + left_width;
-    curr_src.y = srcrect->y + top_height;
-    curr_src.w = srcrect->w - left_width - right_width;
-    curr_src.h = srcrect->h - top_height - bottom_height;
-    curr_dst.x = dstrect->x + dst_left_width;
-    curr_dst.y = dstrect->y + dst_top_height;
-    curr_dst.w = dstrect->w - dst_left_width - dst_right_width;
-    curr_dst.h = dstrect->h - dst_top_height - dst_bottom_height;
-    if (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scaleMode)) {
-        return false;
+    curr_src.x = srcrect->x + ಎಡ_ಅಗಲ;
+    curr_src.y = srcrect->y + ತುದಿ_ಎತ್ತರ;
+    curr_src.w = srcrect->w - ಎಡ_ಅಗಲ - ಬಲ_ಅಗಲ;
+    curr_src.h = srcrect->h - ತುದಿ_ಎತ್ತರ - bottom_ಎತ್ತರ;
+    curr_dst.x = dstrect->x + dst_ಎಡ_ಅಗಲ;
+    curr_dst.y = dstrect->y + dst_ತುದಿ_ಎತ್ತರ;
+    curr_dst.w = dstrect->w - dst_ಎಡ_ಅಗಲ - dst_ಬಲ_ಅಗಲ;
+    curr_dst.h = dstrect->h - dst_ತುದಿ_ಎತ್ತರ - dst_bottom_ಎತ್ತರ;
+    ಆದರೆ (!SDL_BlitSurfaceScaled(src, &curr_src, dst, &curr_dst, scale_ಬಹುಲಕ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 /*
  * Lock a surface to directly access the pixels
  */
-bool SDL_LockSurface(SDL_Surface *surface)
+bool SDL_ಬೀಗ_Surface(SDL_Surface *surface)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-    if (!surface->locked) {
-#ifdef SDL_HAVE_RLE
+    ಆದರೆ (!surface->locked) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_HAVE_RLE
         // Perform the lock
-        if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+        ಆದರೆ (surface->ಆಂತರಿಕ_flags & SDL_ಆಂತರಿಕ_SURFACE_RLEACCEL) {
             SDL_UnRLESurface(surface);
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
     }
 
     // Increment the surface lock count, for recursive locks
     ++surface->locked;
     surface->flags |= SDL_SURFACE_LOCKED;
-    SDL_UpdateSurfaceLockFlag(surface);
+    SDL_Update_Surface_ಬೀಗ_Flag(surface);
 
     // Ready to go..
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 /*
  * Unlock a previously locked surface
  */
-void SDL_UnlockSurface(SDL_Surface *surface)
+ಶೂನ್ಯ SDL_UnlockSurface(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     // Only perform an unlock if we are locked
-    if (!surface->locked || (--surface->locked > 0)) {
-        return;
+    ಆದರೆ (!surface->locked || (--surface->locked > 0)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     surface->flags &= ~SDL_SURFACE_LOCKED;
-    SDL_UpdateSurfaceLockFlag(surface);
+    SDL_Update_Surface_ಬೀಗ_Flag(surface);
 }
 
-static bool SDL_FlipSurfaceHorizontal(SDL_Surface *surface)
+ಸ್ಥಿರ bool SDL_FlipSurfaceHorizontal(SDL_Surface *surface)
 {
     bool isstack;
-    Uint8 *row, *a, *b, *tmp;
-    int i, j, bpp;
+    Uint8 *ಅಡ್ಡಸಾಲು, *a, *b, *tmp;
+    ಪೂರ್ಣಾಂಕ i, j, bpp;
 
-    if (SDL_BITSPERPIXEL(surface->format) < 8) {
+    ಆದರೆ (SDL_BITSPERPIXEL(surface->format) < 8) {
         // We could implement this if needed, but we'd have to flip sets of bits within a byte
-        return SDL_Unsupported();
+        ಹಿಂತಿರುಗಿ SDL_Unsupported();
     }
 
-    if (surface->h <= 0) {
-        return true;
+    ಆದರೆ (surface->h <= 0) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    if (surface->w <= 1) {
-        return true;
+    ಆದರೆ (surface->w <= 1) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
     bpp = SDL_BYTESPERPIXEL(surface->format);
-    row = (Uint8 *)surface->pixels;
+    ಅಡ್ಡಸಾಲು = (Uint8 *)surface->pixels;
     tmp = SDL_small_alloc(Uint8, surface->pitch, &isstack);
-    if (!tmp) {
-        return false;
+    ಆದರೆ (!tmp) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    for (i = surface->h; i--; ) {
-        a = row;
+    ಗಾಗಿ (i = surface->h; i--; ) {
+        a = ಅಡ್ಡಸಾಲು;
         b = a + (surface->w - 1) * bpp;
-        for (j = surface->w / 2; j--; ) {
+        ಗಾಗಿ (j = surface->w / 2; j--; ) {
             SDL_memcpy(tmp, a, bpp);
             SDL_memcpy(a, b, bpp);
             SDL_memcpy(b, tmp, bpp);
             a += bpp;
             b -= bpp;
         }
-        row += surface->pitch;
+        ಅಡ್ಡಸಾಲು += surface->pitch;
     }
     SDL_small_free(tmp, isstack);
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool SDL_FlipSurfaceVertical(SDL_Surface *surface)
+ಸ್ಥಿರ bool SDL_FlipSurfaceVertical(SDL_Surface *surface)
 {
     bool isstack;
     Uint8 *a, *b, *tmp;
-    int i;
+    ಪೂರ್ಣಾಂಕ i;
 
-    if (surface->h <= 1) {
-        return true;
+    ಆದರೆ (surface->h <= 1) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
     a = (Uint8 *)surface->pixels;
     b = a + (surface->h - 1) * surface->pitch;
     tmp = SDL_small_alloc(Uint8, surface->pitch, &isstack);
-    if (!tmp) {
-        return false;
+    ಆದರೆ (!tmp) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    for (i = surface->h / 2; i--; ) {
+    ಗಾಗಿ (i = surface->h / 2; i--; ) {
         SDL_memcpy(tmp, a, surface->pitch);
         SDL_memcpy(a, b, surface->pitch);
         SDL_memcpy(b, tmp, surface->pitch);
@@ -1854,60 +1854,60 @@ static bool SDL_FlipSurfaceVertical(SDL_Surface *surface)
         b -= surface->pitch;
     }
     SDL_small_free(tmp, isstack);
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_FlipSurface(SDL_Surface *surface, SDL_FlipMode flip)
+bool SDL_FlipSurface(SDL_Surface *surface, SDL_Flip_ಬಹುಲಕ flip)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
-    if (!surface->pixels) {
-        return true;
+    ಆದರೆ (!surface->pixels) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    bool result = true;
-    switch (flip) {
-    case SDL_FLIP_HORIZONTAL:
-        result = SDL_FlipSurfaceHorizontal(surface);
-        break;
-    case SDL_FLIP_VERTICAL:
-        result = SDL_FlipSurfaceVertical(surface);
-        break;
-    case SDL_FLIP_HORIZONTAL_AND_VERTICAL:
-        result &= SDL_FlipSurfaceHorizontal(surface);
-        result &= SDL_FlipSurfaceVertical(surface);
-        break;
-    default:
-        result = SDL_InvalidParamError("flip");
-        break;
+    bool ಫಲಿತಾಂಶ = true;
+    ಆಯ್ಕೆ (flip) {
+    ಸ್ಥಿತಿ SDL_FLIP_HORIZONTAL:
+        ಫಲಿತಾಂಶ = SDL_FlipSurfaceHorizontal(surface);
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_FLIP_VERTICAL:
+        ಫಲಿತಾಂಶ = SDL_FlipSurfaceVertical(surface);
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_FLIP_HORIZONTAL_AND_VERTICAL:
+        ಫಲಿತಾಂಶ &= SDL_FlipSurfaceHorizontal(surface);
+        ಫಲಿತಾಂಶ &= SDL_FlipSurfaceVertical(surface);
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ಫಲಿತಾಂಶ = SDL_InvalidParamError("flip");
+        ನಿಲ್ಲಿಸು;
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, const SDL_Rect *rect, SDL_PixelFormat format, SDL_Palette *palette, SDL_Colorspace colorspace, SDL_PropertiesID props)
+ಸ್ಥಿರ SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, ಸ್ಥಿರಾಂಕ SDL_Rect *rect, SDL_PixelFormat format, SDL_Palette *palette, SDL_Colorspace colorspace, SDL_PropertiesID props)
 {
-    SDL_Palette *temp_palette = NULL;
-    SDL_Surface *convert = NULL;
+    SDL_Palette *ತಾತ್ಕಾಲಿಕ_palette = ಖಾಲಿ;
+    SDL_Surface *convert = ಖಾಲಿ;
     SDL_Colorspace src_colorspace;
     SDL_PropertiesID src_properties;
     Uint32 copy_flags;
     SDL_Color copy_color;
     SDL_Rect bounds;
-    bool result;
+    bool ಫಲಿತಾಂಶ;
     bool palette_ck_transform = false;
-    Uint8 palette_ck_value = 0;
-    Uint8 *palette_saved_alpha = NULL;
-    int palette_saved_alpha_ncolors = 0;
+    Uint8 palette_ck_ಮೌಲ್ಯ = 0;
+    Uint8 *palette_saved_alpha = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ palette_saved_alpha_ncolors = 0;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        goto error;
+        ಹೋಗು error;
     }
 
     CHECK_PARAM(format == SDL_PIXELFORMAT_UNKNOWN) {
         SDL_InvalidParamError("format");
-        goto error;
+        ಹೋಗು error;
     }
 
     // Set the bounds of the new surface
@@ -1915,31 +1915,31 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     bounds.y = 0;
     bounds.w = surface->w;
     bounds.h = surface->h;
-    if (rect) {
+    ಆದರೆ (rect) {
         bounds.w = rect->w;
         bounds.h = rect->h;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         rect = &bounds;
     }
 
     // Check for empty destination palette! (results in empty image)
-    if (palette) {
-        int i;
-        for (i = 0; i < palette->ncolors; ++i) {
-            if ((palette->colors[i].r != 0xFF) || (palette->colors[i].g != 0xFF) || (palette->colors[i].b != 0xFF)) {
-                break;
+    ಆದರೆ (palette) {
+        ಪೂರ್ಣಾಂಕ i;
+        ಗಾಗಿ (i = 0; i < palette->ncolors; ++i) {
+            ಆದರೆ ((palette->colors[i].r != 0xFF) || (palette->colors[i].g != 0xFF) || (palette->colors[i].b != 0xFF)) {
+                ನಿಲ್ಲಿಸು;
             }
         }
-        if (i == palette->ncolors) {
-            SDL_SetError("Empty destination palette");
-            goto error;
+        ಆದರೆ (i == palette->ncolors) {
+            SDL_ಗಣ_Error("Empty destination palette");
+            ಹೋಗು error;
         }
-    } else if (SDL_ISPIXELFORMAT_INDEXED(format)) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(format)) {
         // Create a dither palette for conversion
-        temp_palette = SDL_CreatePalette(1 << SDL_BITSPERPIXEL(format));
-        if (temp_palette) {
-            SDL_DitherPalette(temp_palette);
-            palette = temp_palette;
+        ತಾತ್ಕಾಲಿಕ_palette = SDL_CreatePalette(1 << SDL_BITSPERPIXEL(format));
+        ಆದರೆ (ತಾತ್ಕಾಲಿಕ_palette) {
+            SDL_DitherPalette(ತಾತ್ಕಾಲಿಕ_palette);
+            palette = ತಾತ್ಕಾಲಿಕ_palette;
         }
     }
 
@@ -1947,43 +1947,43 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     src_properties = surface->props;
 
     // Create a new surface with the desired format
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
+    ಆದರೆ (surface->pixels || SDL_MUSTLOCK(surface)) {
         convert = SDL_CreateSurfaceUninitialized(rect->w, rect->h, format);
-    } else {
-        convert = SDL_CreateSurfaceFrom(rect->w, rect->h, format, NULL, 0);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        convert = SDL_CreateSurfaceFrom(rect->w, rect->h, format, ಖಾಲಿ, 0);
     }
-    if (!convert) {
-        goto error;
+    ಆದರೆ (!convert) {
+        ಹೋಗು error;
     }
-    if (SDL_ISPIXELFORMAT_INDEXED(format)) {
-        SDL_SetSurfacePalette(convert, palette);
+    ಆದರೆ (SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(format)) {
+        SDL_ಗಣ_Surface_Palette(convert, palette);
     }
 
-    if (colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ಆದರೆ (colorspace == SDL_COLORSPACE_UNKNOWN) {
         colorspace = src_colorspace;
     }
-    SDL_SetSurfaceColorspace(convert, colorspace);
+    SDL_ಗಣ_Surface_Colorspace(convert, colorspace);
 
-    if (SDL_ISPIXELFORMAT_FOURCC(format) || SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
-        if (surface->format == SDL_PIXELFORMAT_MJPG && format == SDL_PIXELFORMAT_MJPG) {
+    ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(format) || SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+        ಆದರೆ (surface->format == SDL_PIXELFORMAT_MJPG && format == SDL_PIXELFORMAT_MJPG) {
             // Just do a straight pixel copy of the JPEG image
-            size_t size = (size_t)surface->pitch;
-            convert->pixels = SDL_malloc(size);
-            if (!convert->pixels) {
-                goto error;
+            size_t ಗಾತ್ರ_2 = (size_t)surface->pitch;
+            convert->pixels = SDL_malloc(ಗಾತ್ರ_2);
+            ಆದರೆ (!convert->pixels) {
+                ಹೋಗು error;
             }
             convert->flags &= ~SDL_SURFACE_PREALLOCATED;
             convert->pitch = surface->pitch;
-            SDL_memcpy(convert->pixels, surface->pixels, size);
+            SDL_memcpy(convert->pixels, surface->pixels, ಗಾತ್ರ_2);
 
-        } else if (!SDL_ConvertPixelsAndColorspace(surface->w, surface->h, surface->format, src_colorspace, src_properties, surface->pixels, surface->pitch, convert->format, colorspace, props, convert->pixels, convert->pitch)) {
-            goto error;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!SDL_ConvertPixelsAndColorspace(surface->w, surface->h, surface->format, src_colorspace, src_properties, surface->pixels, surface->pitch, convert->format, colorspace, props, convert->pixels, convert->pitch)) {
+            ಹೋಗು error;
         }
 
         // Save the original copy flags
         copy_flags = surface->map.info.flags;
 
-        goto end;
+        ಹೋಗು ಕೊನೆ;
     }
 
     // Save the original copy flags
@@ -2002,25 +2002,25 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     /* Source surface has a palette with no real alpha (0 or OPAQUE).
      * Destination format has alpha.
      * -> set alpha channel to be opaque */
-    if (surface->palette && SDL_ISPIXELFORMAT_ALPHA(format)) {
-        bool set_opaque = false;
+    ಆದರೆ (surface->palette && SDL_ISPIXELFORMAT_ALPHA(format)) {
+        bool ಗಣ_opaque = false;
 
         bool is_opaque, has_alpha_channel;
         SDL_DetectPalette(surface->palette, &is_opaque, &has_alpha_channel);
 
-        if (is_opaque) {
-            if (!has_alpha_channel) {
-                set_opaque = true;
+        ಆದರೆ (is_opaque) {
+            ಆದರೆ (!has_alpha_channel) {
+                ಗಣ_opaque = true;
             }
         }
 
         // Set opaque and backup palette alpha values
-        if (set_opaque) {
-            int i;
+        ಆದರೆ (ಗಣ_opaque) {
+            ಪೂರ್ಣಾಂಕ i;
             palette_saved_alpha_ncolors = surface->palette->ncolors;
-            if (palette_saved_alpha_ncolors > 0) {
-                palette_saved_alpha = SDL_stack_alloc(Uint8, palette_saved_alpha_ncolors);
-                for (i = 0; i < palette_saved_alpha_ncolors; i++) {
+            ಆದರೆ (palette_saved_alpha_ncolors > 0) {
+                palette_saved_alpha = SDL_ರಾಶಿ_alloc(Uint8, palette_saved_alpha_ncolors);
+                ಗಾಗಿ (i = 0; i < palette_saved_alpha_ncolors; i++) {
                     palette_saved_alpha[i] = surface->palette->colors[i].a;
                     surface->palette->colors[i].a = SDL_ALPHA_OPAQUE;
                 }
@@ -2029,32 +2029,32 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     }
 
     // Transform colorkey to alpha. for cases where source palette has duplicate values, and colorkey is one of them
-    if (copy_flags & SDL_COPY_COLORKEY) {
-        if (surface->palette && !palette) {
+    ಆದರೆ (copy_flags & SDL_COPY_COLORKEY) {
+        ಆದರೆ (surface->palette && !palette) {
             palette_ck_transform = true;
-            palette_ck_value = surface->palette->colors[surface->map.info.colorkey].a;
+            palette_ck_ಮೌಲ್ಯ = surface->palette->colors[surface->map.info.colorkey].a;
             surface->palette->colors[surface->map.info.colorkey].a = SDL_ALPHA_TRANSPARENT;
         }
     }
 
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
-        result = SDL_BlitSurfaceUnchecked(surface, rect, convert, &bounds);
-    } else {
-        result = true;
+    ಆದರೆ (surface->pixels || SDL_MUSTLOCK(surface)) {
+        ಫಲಿತಾಂಶ = SDL_BlitSurfaceUnchecked(surface, rect, convert, &bounds);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಫಲಿತಾಂಶ = true;
     }
 
     // Restore colorkey alpha value
-    if (palette_ck_transform) {
-        surface->palette->colors[surface->map.info.colorkey].a = palette_ck_value;
+    ಆದರೆ (palette_ck_transform) {
+        surface->palette->colors[surface->map.info.colorkey].a = palette_ck_ಮೌಲ್ಯ;
     }
 
     // Restore palette alpha values
-    if (palette_saved_alpha) {
-        int i;
-        for (i = 0; i < palette_saved_alpha_ncolors; i++) {
+    ಆದರೆ (palette_saved_alpha) {
+        ಪೂರ್ಣಾಂಕ i;
+        ಗಾಗಿ (i = 0; i < palette_saved_alpha_ncolors; i++) {
             surface->palette->colors[i].a = palette_saved_alpha[i];
         }
-        SDL_stack_free(palette_saved_alpha);
+        SDL_ರಾಶಿ_free(palette_saved_alpha);
     }
 
     // Clean up the original surface, and update converted surface
@@ -2074,107 +2074,107 @@ static SDL_Surface *SDL_ConvertSurfaceRectAndColorspace(SDL_Surface *surface, co
     SDL_InvalidateMap(&surface->map);
 
     // SDL_BlitSurfaceUnchecked failed, and so the conversion
-    if (!result) {
-        goto error;
+    ಆದರೆ (!ಫಲಿತಾಂಶ) {
+        ಹೋಗು error;
     }
 
-    if (copy_flags & SDL_COPY_COLORKEY) {
-        bool set_colorkey_by_color = false;
+    ಆದರೆ (copy_flags & SDL_COPY_COLORKEY) {
+        bool ಗಣ_colorkey_by_color = false;
         bool convert_colorkey = true;
 
-        if (surface->palette) {
-            if (palette &&
+        ಆದರೆ (surface->palette) {
+            ಆದರೆ (palette &&
                 surface->palette->ncolors <= palette->ncolors &&
                 (SDL_memcmp(surface->palette->colors, palette->colors,
-                            surface->palette->ncolors * sizeof(SDL_Color)) == 0)) {
+                            surface->palette->ncolors * ಗಾತ್ರ(SDL_Color)) == 0)) {
                 // The palette is identical, just set the same colorkey
-                SDL_SetSurfaceColorKey(convert, true, surface->map.info.colorkey);
-            } else if (!palette) {
-                if (SDL_ISPIXELFORMAT_ALPHA(format)) {
+                SDL_ಗಣ_Surface_Color_ಕೀಲಿ(convert, true, surface->map.info.colorkey);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!palette) {
+                ಆದರೆ (SDL_ISPIXELFORMAT_ALPHA(format)) {
                     // No need to add the colorkey, transparency is in the alpha channel
-                } else {
+                } ಇಲ್ಲದಿದ್ದರೆ {
                     // Only set the colorkey information
-                    set_colorkey_by_color = true;
+                    ಗಣ_colorkey_by_color = true;
                     convert_colorkey = false;
                 }
-            } else {
-                set_colorkey_by_color = true;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಗಣ_colorkey_by_color = true;
             }
-        } else {
-            set_colorkey_by_color = true;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಗಣ_colorkey_by_color = true;
         }
 
-        if (set_colorkey_by_color) {
+        ಆದರೆ (ಗಣ_colorkey_by_color) {
             SDL_Surface *tmp;
             SDL_Surface *tmp2;
-            int converted_colorkey = 0;
+            ಪೂರ್ಣಾಂಕ converted_colorkey = 0;
 
             // Create a dummy surface to get the colorkey converted
             tmp = SDL_CreateSurfaceUninitialized(1, 1, surface->format);
-            if (!tmp) {
-                goto error;
+            ಆದರೆ (!tmp) {
+                ಹೋಗು error;
             }
 
             // Share the palette, if any
-            if (surface->palette) {
-                SDL_SetSurfacePalette(tmp, surface->palette);
+            ಆದರೆ (surface->palette) {
+                SDL_ಗಣ_Surface_Palette(tmp, surface->palette);
             }
 
-            SDL_FillSurfaceRect(tmp, NULL, surface->map.info.colorkey);
+            SDL_FillSurfaceRect(tmp, ಖಾಲಿ, surface->map.info.colorkey);
 
             tmp->map.info.flags &= ~SDL_COPY_COLORKEY;
 
             // Conversion of the colorkey
             tmp2 = SDL_ConvertSurfaceAndColorspace(tmp, format, palette, colorspace, props);
-            if (!tmp2) {
+            ಆದರೆ (!tmp2) {
                 SDL_DestroySurface(tmp);
-                goto error;
+                ಹೋಗು error;
             }
 
             // Get the converted colorkey
-            SDL_memcpy(&converted_colorkey, tmp2->pixels, tmp2->fmt->bytes_per_pixel);
+            SDL_memcpy(&converted_colorkey, tmp2->pixels, tmp2->fmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel);
 
             SDL_DestroySurface(tmp);
             SDL_DestroySurface(tmp2);
 
             // Set the converted colorkey on the new surface
-            SDL_SetSurfaceColorKey(convert, true, converted_colorkey);
+            SDL_ಗಣ_Surface_Color_ಕೀಲಿ(convert, true, converted_colorkey);
 
             // This is needed when converting for 3D texture upload
-            if (convert_colorkey) {
-                SDL_ConvertColorkeyToAlpha(convert, true);
+            ಆದರೆ (convert_colorkey) {
+                SDL_Convert_Colorkey_ಗಮ್ಯ_Alpha(convert, true);
             }
         }
     }
 
-end:
-    if (temp_palette) {
-        SDL_DestroyPalette(temp_palette);
+ಕೊನೆ:
+    ಆದರೆ (ತಾತ್ಕಾಲಿಕ_palette) {
+        SDL_DestroyPalette(ತಾತ್ಕಾಲಿಕ_palette);
     }
 
-    SDL_SetSurfaceClipRect(convert, &surface->clip_rect);
+    SDL_ಗಣ_Surface_Clip_Rect(convert, &surface->clip_rect);
 
     /* Enable alpha blending by default if the new surface has an
      * alpha channel or alpha modulation */
-    if (SDL_ISPIXELFORMAT_ALPHA(format) ||
+    ಆದರೆ (SDL_ISPIXELFORMAT_ALPHA(format) ||
         (copy_flags & SDL_COPY_MODULATE_ALPHA)) {
-        SDL_SetSurfaceBlendMode(convert, SDL_BLENDMODE_BLEND);
+        SDL_ಗಣ_Surface_Blend_ಬಹುಲಕ(convert, SDL_BLENDMODE_BLEND);
     }
-    if (copy_flags & SDL_COPY_RLE_DESIRED) {
-        SDL_SetSurfaceRLE(convert, true);
+    ಆದರೆ (copy_flags & SDL_COPY_RLE_DESIRED) {
+        SDL_ಗಣ_Surface_RLE(convert, true);
     }
 
     // Copy alternate images
-    for (int i = 0; i < surface->num_images; ++i) {
-        if (!SDL_AddSurfaceAlternateImage(convert, surface->images[i])) {
-            goto error;
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < surface->ಅಂಕೆ_images; ++i) {
+        ಆದರೆ (!SDL_ಕೂಡಿಸು_Surface_Alternate_Image(convert, surface->images[i])) {
+            ಹೋಗು error;
         }
     }
 
     // Copy properties
-    if (surface->props) {
-        if (!SDL_CopyProperties(surface->props, SDL_GetSurfaceProperties(convert))) {
-            goto error;
+    ಆದರೆ (surface->props) {
+        ಆದರೆ (!SDL_CopyProperties(surface->props, SDL_GetSurfaceProperties(convert))) {
+            ಹೋಗು error;
         }
 
         // Make sure the new surface doesn't reference an old SDL2 surface.
@@ -2182,46 +2182,46 @@ end:
     }
 
     // We're ready to go!
-    return convert;
+    ಹಿಂತಿರುಗಿ convert;
 
 error:
-    if (temp_palette) {
-        SDL_DestroyPalette(temp_palette);
+    ಆದರೆ (ತಾತ್ಕಾಲಿಕ_palette) {
+        SDL_DestroyPalette(ತಾತ್ಕಾಲಿಕ_palette);
     }
-    if (convert) {
+    ಆದರೆ (convert) {
         SDL_DestroySurface(convert);
     }
-    return NULL;
+    ಹಿಂತಿರುಗಿ ಖಾಲಿ;
 }
 
 SDL_Surface *SDL_ConvertSurfaceAndColorspace(SDL_Surface *surface, SDL_PixelFormat format, SDL_Palette *palette, SDL_Colorspace colorspace, SDL_PropertiesID props)
 {
-    return SDL_ConvertSurfaceRectAndColorspace(surface, NULL, format, palette, colorspace, props);
+    ಹಿಂತಿರುಗಿ SDL_ConvertSurfaceRectAndColorspace(surface, ಖಾಲಿ, format, palette, colorspace, props);
 }
 
-SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, float angle)
+SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, ದಶಮಾಂಶ angle)
 {
-    SDL_Surface *rotated = NULL;
+    SDL_Surface *rotated = ಖಾಲಿ;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     SDL_Rect rect_dest;
-    double cangle, sangle;
+    ದ್ವಿಗುಣ cangle, sangle;
     SDL_FPoint center = { surface->w * 0.5f, surface->h * 0.5f };
-    SDLgfx_rotozoomSurfaceSizeTrig(surface->w, surface->h, angle, &center, &rect_dest, &cangle, &sangle);
+    SDLgfx_rotozoom_Surface_ಗಾತ್ರ_Trig(surface->w, surface->h, angle, &center, &rect_dest, &cangle, &sangle);
 
     // This function requires a 32-bit surface or 8-bit surface with a colorkey
-    if ((SDL_BITSPERPIXEL(surface->format) == 32 && SDL_PIXELLAYOUT(surface->format) == SDL_PACKEDLAYOUT_8888) ||
-        (surface->format == SDL_PIXELFORMAT_INDEX8 && SDL_SurfaceHasColorKey(surface))) {
+    ಆದರೆ ((SDL_BITSPERPIXEL(surface->format) == 32 && SDL_PIXELLAYOUT(surface->format) == SDL_PACKEDLAYOUT_8888) ||
+        (surface->format == SDL_PIXELFORMAT_INDEX8 && SDL_Surface_Has_Color_ಕೀಲಿ(surface))) {
         rotated = SDLgfx_rotateSurface(surface, angle, 1, 0, 0, &rect_dest, cangle, sangle, &center);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         SDL_Surface *convert = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
-        if (convert) {
+        ಆದರೆ (convert) {
             SDL_Surface *tmp = SDLgfx_rotateSurface(convert, angle, 1, 0, 0, &rect_dest, cangle, sangle, &center);
-            if (tmp) {
+            ಆದರೆ (tmp) {
                 rotated = SDL_ConvertSurfaceAndColorspace(tmp, surface->format, surface->palette, surface->colorspace, surface->props);
                 SDL_DestroySurface(tmp);
             }
@@ -2229,75 +2229,75 @@ SDL_Surface *SDL_RotateSurface(SDL_Surface *surface, float angle)
         }
     }
 
-    if (rotated) {
-        if (SDL_HasProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT)) {
-            const float rotation = (SDL_GetNumberProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT, 0) - angle);
-            SDL_SetFloatProperty(SDL_GetSurfaceProperties(rotated), SDL_PROP_SURFACE_ROTATION_FLOAT, rotation);
+    ಆದರೆ (rotated) {
+        ಆದರೆ (SDL_HasProperty(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT)) {
+            ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ rotation = (SDL_Get_ಸಂಖ್ಯೆ_Property(surface->props, SDL_PROP_SURFACE_ROTATION_FLOAT, 0) - angle);
+            SDL_ಗಣ_Float_Property(SDL_GetSurfaceProperties(rotated), SDL_PROP_SURFACE_ROTATION_FLOAT, rotation);
         }
     }
 
-    return rotated;
+    ಹಿಂತಿರುಗಿ rotated;
 }
 
 SDL_Surface *SDL_DuplicateSurface(SDL_Surface *surface)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    return SDL_ConvertSurfaceAndColorspace(surface, surface->format, surface->palette, surface->colorspace, surface->props);
+    ಹಿಂತಿರುಗಿ SDL_ConvertSurfaceAndColorspace(surface, surface->format, surface->palette, surface->colorspace, surface->props);
 }
 
-SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, int width, int height, SDL_ScaleMode scaleMode)
+SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_Scale_ಬಹುಲಕ scale_ಬಹುಲಕ)
 {
-    SDL_Surface *convert = NULL;
+    SDL_Surface *convert = ಖಾಲಿ;
     Uint32 copy_flags;
     SDL_Color copy_color;
     bool rc;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        goto error;
+        ಹೋಗು error;
     }
 
-    if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // We can't directly scale a YUV surface (yet!)
         SDL_Surface *tmp = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (!tmp) {
-            return NULL;
+        ಆದರೆ (!tmp) {
+            ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
 
-        SDL_Surface *scaled = SDL_ScaleSurface(tmp, width, height, scaleMode);
+        SDL_Surface *scaled = SDL_ScaleSurface(tmp, ಅಗಲ, ಎತ್ತರ, scale_ಬಹುಲಕ);
         SDL_DestroySurface(tmp);
-        if (!scaled) {
-            return NULL;
+        ಆದರೆ (!scaled) {
+            ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
 
-        SDL_Surface *result = SDL_ConvertSurfaceAndColorspace(scaled, surface->format, NULL, surface->colorspace, surface->props);
+        SDL_Surface *ಫಲಿತಾಂಶ = SDL_ConvertSurfaceAndColorspace(scaled, surface->format, ಖಾಲಿ, surface->colorspace, surface->props);
         SDL_DestroySurface(scaled);
-        return result;
+        ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
     }
 
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+    ಆದರೆ (SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(surface->format)) {
         // Linear scaling requires conversion to RGBA and then slow pixel color lookup
-        scaleMode = SDL_SCALEMODE_NEAREST;
+        scale_ಬಹುಲಕ = SDL_SCALEMODE_ಹತ್ತಿರದ;
     }
 
     // Create a new surface with the desired size
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
-        convert = SDL_CreateSurfaceUninitialized(width, height, surface->format);
-    } else {
-        convert = SDL_CreateSurfaceFrom(width, height, surface->format, NULL, 0);
+    ಆದರೆ (surface->pixels || SDL_MUSTLOCK(surface)) {
+        convert = SDL_CreateSurfaceUninitialized(ಅಗಲ, ಎತ್ತರ, surface->format);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        convert = SDL_CreateSurfaceFrom(ಅಗಲ, ಎತ್ತರ, surface->format, ಖಾಲಿ, 0);
     }
-    if (!convert) {
-        goto error;
+    ಆದರೆ (!convert) {
+        ಹೋಗು error;
     }
-    SDL_SetSurfacePalette(convert, surface->palette);
-    SDL_SetSurfaceColorspace(convert, surface->colorspace);
-    SDL_SetSurfaceRLE(convert, SDL_SurfaceHasRLE(surface));
+    SDL_ಗಣ_Surface_Palette(convert, surface->palette);
+    SDL_ಗಣ_Surface_Colorspace(convert, surface->colorspace);
+    SDL_ಗಣ_Surface_RLE(convert, SDL_SurfaceHasRLE(surface));
 
-    if (surface->pixels || SDL_MUSTLOCK(surface)) {
+    ಆದರೆ (surface->pixels || SDL_MUSTLOCK(surface)) {
         // Save the original copy flags
         copy_flags = surface->map.info.flags;
         copy_color.r = surface->map.info.r;
@@ -2311,7 +2311,7 @@ SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, int width, int height, SDL_S
         surface->map.info.flags = (copy_flags & (SDL_COPY_RLE_COLORKEY | SDL_COPY_RLE_ALPHAKEY));
         SDL_InvalidateMap(&surface->map);
 
-        rc = SDL_BlitSurfaceScaled(surface, NULL, convert, NULL, scaleMode);
+        rc = SDL_BlitSurfaceScaled(surface, ಖಾಲಿ, convert, ಖಾಲಿ, scale_ಬಹುಲಕ);
 
         // Clean up the original surface, and update converted surface
         convert->map.info.r = copy_color.r;
@@ -2325,157 +2325,157 @@ SDL_Surface *SDL_ScaleSurface(SDL_Surface *surface, int width, int height, SDL_S
         surface->map.info.a = copy_color.a;
         surface->map.info.flags = copy_flags;
         SDL_InvalidateMap(&surface->map);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         rc = true;
     }
 
     // SDL_BlitSurfaceScaled failed, and so the conversion
-    if (!rc) {
-        goto error;
+    ಆದರೆ (!rc) {
+        ಹೋಗು error;
     }
 
     // We're ready to go!
-    return convert;
+    ಹಿಂತಿರುಗಿ convert;
 
 error:
-    if (convert) {
+    ಆದರೆ (convert) {
         SDL_DestroySurface(convert);
     }
-    return NULL;
+    ಹಿಂತಿರುಗಿ ಖಾಲಿ;
 }
 
-SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, const SDL_Rect *rect, SDL_PixelFormat format)
+SDL_Surface *SDL_ConvertSurfaceRect(SDL_Surface *surface, ಸ್ಥಿರಾಂಕ SDL_Rect *rect, SDL_PixelFormat format)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    return SDL_ConvertSurfaceRectAndColorspace(surface, rect, format, NULL, SDL_GetDefaultColorspaceForFormat(format), surface->props);
+    ಹಿಂತಿರುಗಿ SDL_ConvertSurfaceRectAndColorspace(surface, rect, format, ಖಾಲಿ, SDL_GetDefaultColorspaceForFormat(format), surface->props);
 }
 
 SDL_Surface *SDL_ConvertSurface(SDL_Surface *surface, SDL_PixelFormat format)
 {
-    return SDL_ConvertSurfaceRect(surface, NULL, format);
+    ಹಿಂತಿರುಗಿ SDL_ConvertSurfaceRect(surface, ಖಾಲಿ, format);
 }
 
-SDL_Surface *SDL_DuplicatePixels(int width, int height, SDL_PixelFormat format, SDL_Colorspace colorspace, void *pixels, int pitch)
+SDL_Surface *SDL_DuplicatePixels(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat format, SDL_Colorspace colorspace, ಶೂನ್ಯ *pixels, ಪೂರ್ಣಾಂಕ pitch)
 {
     SDL_Surface *surface;
-    if (pixels) {
-        surface = SDL_CreateSurfaceUninitialized(width, height, format);
-    } else {
-        surface = SDL_CreateSurfaceFrom(width, height, format, NULL, 0);
+    ಆದರೆ (pixels) {
+        surface = SDL_CreateSurfaceUninitialized(ಅಗಲ, ಎತ್ತರ, format);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        surface = SDL_CreateSurfaceFrom(ಅಗಲ, ಎತ್ತರ, format, ಖಾಲಿ, 0);
     }
-    if (!surface) {
-        return NULL;
+    ಆದರೆ (!surface) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
-    SDL_SetSurfaceColorspace(surface, colorspace);
+    SDL_ಗಣ_Surface_Colorspace(surface, colorspace);
 
-    if (surface->pixels) {
-        int length = width * SDL_BYTESPERPIXEL(format);
+    ಆದರೆ (surface->pixels) {
+        ಪೂರ್ಣಾಂಕ ಉದ್ದಳತೆ = ಅಗಲ * SDL_BYTESPERPIXEL(format);
         Uint8 *src = (Uint8 *)pixels;
         Uint8 *dst = (Uint8 *)surface->pixels;
-        int rows = height;
-        while (rows--) {
-            SDL_memcpy(dst, src, length);
+        ಪೂರ್ಣಾಂಕ ಅಡ್ಡಸಾಲುಗಳು = ಎತ್ತರ;
+        ಆಗ (ಅಡ್ಡಸಾಲುಗಳು--) {
+            SDL_memcpy(dst, src, ಉದ್ದಳತೆ);
             dst += surface->pitch;
             src += pitch;
         }
     }
-    return surface;
+    ಹಿಂತಿರುಗಿ surface;
 }
 
-bool SDL_ConvertPixelsAndColorspace(int width, int height,
-                      SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch,
-                      SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch)
+bool SDL_ConvertPixelsAndColorspace(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ,
+                      SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *src, ಪೂರ್ಣಾಂಕ src_pitch,
+                      SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, ಶೂನ್ಯ *dst, ಪೂರ್ಣಾಂಕ dst_pitch)
 {
     SDL_Surface src_surface;
     SDL_Surface dst_surface;
     SDL_Rect rect;
-    void *nonconst_src = (void *)src;
-    bool result;
+    ಶೂನ್ಯ *nonconst_src = (ಶೂನ್ಯ *)src;
+    bool ಫಲಿತಾಂಶ;
 
     CHECK_PARAM(!src) {
-        return SDL_InvalidParamError("src");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!src_pitch) {
-        return SDL_InvalidParamError("src_pitch");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src_pitch");
     }
     CHECK_PARAM(!dst) {
-        return SDL_InvalidParamError("dst");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst");
     }
     CHECK_PARAM(!dst_pitch) {
-        return SDL_InvalidParamError("dst_pitch");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst_pitch");
     }
 
-    if (src_colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ಆದರೆ (src_colorspace == SDL_COLORSPACE_UNKNOWN) {
         src_colorspace = SDL_GetDefaultColorspaceForFormat(src_format);
     }
-    if (dst_colorspace == SDL_COLORSPACE_UNKNOWN) {
+    ಆದರೆ (dst_colorspace == SDL_COLORSPACE_UNKNOWN) {
         dst_colorspace = SDL_GetDefaultColorspaceForFormat(dst_format);
     }
 
-    if (src_format == SDL_PIXELFORMAT_MJPG) {
-        return SDL_ConvertPixels_STB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    ಆದರೆ (src_format == SDL_PIXELFORMAT_MJPG) {
+        ಹಿಂತಿರುಗಿ SDL_ConvertPixels_STB(ಅಗಲ, ಎತ್ತರ, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
     }
 
-#ifdef SDL_HAVE_YUV
-    if (SDL_ISPIXELFORMAT_FOURCC(src_format) && SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
-        return SDL_ConvertPixels_YUV_to_YUV(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else if (SDL_ISPIXELFORMAT_FOURCC(src_format)) {
-        return SDL_ConvertPixels_YUV_to_RGB(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
-    } else if (SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
-        return SDL_ConvertPixels_RGB_to_YUV(width, height, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_HAVE_YUV
+    ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(src_format) && SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
+        ಹಿಂತಿರುಗಿ SDL_Convert_Pixels_YUV_ಗಮ್ಯ_YUV(ಅಗಲ, ಎತ್ತರ, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(src_format)) {
+        ಹಿಂತಿರುಗಿ SDL_Convert_Pixels_YUV_ಗಮ್ಯ_RGB(ಅಗಲ, ಎತ್ತರ, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
+        ಹಿಂತಿರುಗಿ SDL_Convert_Pixels_RGB_ಗಮ್ಯ_YUV(ಅಗಲ, ಎತ್ತರ, src_format, src_colorspace, src_properties, src, src_pitch, dst_format, dst_colorspace, dst_properties, dst, dst_pitch);
     }
-#else
-    if (SDL_ISPIXELFORMAT_FOURCC(src_format) || SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
-        return SDL_SetError("SDL not built with YUV support");
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(src_format) || SDL_ISPIXELFORMAT_FOURCC(dst_format)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("SDL not built with YUV support");
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     // Fast path for same format copy
-    if (src_format == dst_format && src_colorspace == dst_colorspace) {
-        if (src_pitch == dst_pitch) {
-            SDL_memcpy(dst, src, height * src_pitch);
-        } else {
-            int i;
-            const int bpp = SDL_BYTESPERPIXEL(src_format);
-            width *= bpp;
-            for (i = height; i--;) {
-                SDL_memcpy(dst, src, width);
-                src = (const Uint8 *)src + src_pitch;
+    ಆದರೆ (src_format == dst_format && src_colorspace == dst_colorspace) {
+        ಆದರೆ (src_pitch == dst_pitch) {
+            SDL_memcpy(dst, src, ಎತ್ತರ * src_pitch);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಪೂರ್ಣಾಂಕ i;
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ bpp = SDL_BYTESPERPIXEL(src_format);
+            ಅಗಲ *= bpp;
+            ಗಾಗಿ (i = ಎತ್ತರ; i--;) {
+                SDL_memcpy(dst, src, ಅಗಲ);
+                src = (ಸ್ಥಿರಾಂಕ Uint8 *)src + src_pitch;
                 dst = (Uint8 *)dst + dst_pitch;
             }
         }
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    if (!SDL_InitializeSurface(&src_surface, width, height, src_format, src_colorspace, src_properties, nonconst_src, src_pitch, true)) {
-        return false;
+    ಆದರೆ (!SDL_InitializeSurface(&src_surface, ಅಗಲ, ಎತ್ತರ, src_format, src_colorspace, src_properties, nonconst_src, src_pitch, true)) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    SDL_SetSurfaceBlendMode(&src_surface, SDL_BLENDMODE_NONE);
+    SDL_ಗಣ_Surface_Blend_ಬಹುಲಕ(&src_surface, SDL_BLENDMODE_NONE);
 
-    if (!SDL_InitializeSurface(&dst_surface, width, height, dst_format, dst_colorspace, dst_properties, dst, dst_pitch, true)) {
-        return false;
+    ಆದರೆ (!SDL_InitializeSurface(&dst_surface, ಅಗಲ, ಎತ್ತರ, dst_format, dst_colorspace, dst_properties, dst, dst_pitch, true)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Set up the rect and go!
     rect.x = 0;
     rect.y = 0;
-    rect.w = width;
-    rect.h = height;
-    result = SDL_BlitSurfaceUnchecked(&src_surface, &rect, &dst_surface, &rect);
+    rect.w = ಅಗಲ;
+    rect.h = ಎತ್ತರ;
+    ಫಲಿತಾಂಶ = SDL_BlitSurfaceUnchecked(&src_surface, &rect, &dst_surface, &rect);
 
     SDL_DestroySurface(&src_surface);
     SDL_DestroySurface(&dst_surface);
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_ConvertPixels(int width, int height, SDL_PixelFormat src_format, const void *src, int src_pitch, SDL_PixelFormat dst_format, void *dst, int dst_pitch)
+bool SDL_ConvertPixels(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat src_format, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *src, ಪೂರ್ಣಾಂಕ src_pitch, SDL_PixelFormat dst_format, ಶೂನ್ಯ *dst, ಪೂರ್ಣಾಂಕ dst_pitch)
 {
-    return SDL_ConvertPixelsAndColorspace(width, height,
+    ಹಿಂತಿರುಗಿ SDL_ConvertPixelsAndColorspace(ಅಗಲ, ಎತ್ತರ,
                       src_format, SDL_COLORSPACE_UNKNOWN, 0, src, src_pitch,
                       dst_format, SDL_COLORSPACE_UNKNOWN, 0, dst, dst_pitch);
 }
@@ -2488,18 +2488,18 @@ bool SDL_ConvertPixels(int width, int height, SDL_PixelFormat src_format, const 
  * https://developer.arm.com/documentation/101964/0201/Pre-multiplied-alpha-channel-data
  */
 
-static void SDL_PremultiplyAlpha_AXYZ8888(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+ಸ್ಥಿರ ಶೂನ್ಯ SDL_PremultiplyAlpha_AXYZ8888(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *src, ಪೂರ್ಣಾಂಕ src_pitch, ಶೂನ್ಯ *dst, ಪೂರ್ಣಾಂಕ dst_pitch)
 {
-    int c;
+    ಪೂರ್ಣಾಂಕ c;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (height--) {
-        const Uint32 *src_px = (const Uint32 *)src;
+    ಆಗ (ಎತ್ತರ--) {
+        ಸ್ಥಿರಾಂಕ Uint32 *src_px = (ಸ್ಥಿರಾಂಕ Uint32 *)src;
         Uint32 *dst_px = (Uint32 *)dst;
-        for (c = width; c; --c) {
+        ಗಾಗಿ (c = ಅಗಲ; c; --c) {
             // Component bytes extraction.
             srcpixel = *src_px++;
             RGBA_FROM_ARGB8888(srcpixel, srcR, srcG, srcB, srcA);
@@ -2514,23 +2514,23 @@ static void SDL_PremultiplyAlpha_AXYZ8888(int width, int height, const void *src
             ARGB8888_FROM_RGBA(dstpixel, dstR, dstG, dstB, dstA);
             *dst_px++ = dstpixel;
         }
-        src = (const Uint8 *)src + src_pitch;
+        src = (ಸ್ಥಿರಾಂಕ Uint8 *)src + src_pitch;
         dst = (Uint8 *)dst + dst_pitch;
     }
 }
 
-static void SDL_PremultiplyAlpha_XYZA8888(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+ಸ್ಥಿರ ಶೂನ್ಯ SDL_PremultiplyAlpha_XYZA8888(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *src, ಪೂರ್ಣಾಂಕ src_pitch, ಶೂನ್ಯ *dst, ಪೂರ್ಣಾಂಕ dst_pitch)
 {
-    int c;
+    ಪೂರ್ಣಾಂಕ c;
     Uint32 srcpixel;
     Uint32 srcR, srcG, srcB, srcA;
     Uint32 dstpixel;
     Uint32 dstR, dstG, dstB, dstA;
 
-    while (height--) {
-        const Uint32 *src_px = (const Uint32 *)src;
+    ಆಗ (ಎತ್ತರ--) {
+        ಸ್ಥಿರಾಂಕ Uint32 *src_px = (ಸ್ಥಿರಾಂಕ Uint32 *)src;
         Uint32 *dst_px = (Uint32 *)dst;
-        for (c = width; c; --c) {
+        ಗಾಗಿ (c = ಅಗಲ; c; --c) {
             // Component bytes extraction.
             srcpixel = *src_px++;
             RGBA_FROM_RGBA8888(srcpixel, srcR, srcG, srcB, srcA);
@@ -2545,20 +2545,20 @@ static void SDL_PremultiplyAlpha_XYZA8888(int width, int height, const void *src
             RGBA8888_FROM_RGBA(dstpixel, dstR, dstG, dstB, dstA);
             *dst_px++ = dstpixel;
         }
-        src = (const Uint8 *)src + src_pitch;
+        src = (ಸ್ಥಿರಾಂಕ Uint8 *)src + src_pitch;
         dst = (Uint8 *)dst + dst_pitch;
     }
 }
 
-static void SDL_PremultiplyAlpha_AXYZ128(int width, int height, const void *src, int src_pitch, void *dst, int dst_pitch)
+ಸ್ಥಿರ ಶೂನ್ಯ SDL_PremultiplyAlpha_AXYZ128(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *src, ಪೂರ್ಣಾಂಕ src_pitch, ಶೂನ್ಯ *dst, ಪೂರ್ಣಾಂಕ dst_pitch)
 {
-    int c;
-    float flR, flG, flB, flA;
+    ಪೂರ್ಣಾಂಕ c;
+    ದಶಮಾಂಶ flR, flG, flB, flA;
 
-    while (height--) {
-        const float *src_px = (const float *)src;
-        float *dst_px = (float *)dst;
-        for (c = width; c; --c) {
+    ಆಗ (ಎತ್ತರ--) {
+        ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ *src_px = (ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ *)src;
+        ದಶಮಾಂಶ *dst_px = (ದಶಮಾಂಶ *)dst;
+        ಗಾಗಿ (c = ಅಗಲ; c; --c) {
             flA = *src_px++;
             flR = *src_px++;
             flG = *src_px++;
@@ -2574,66 +2574,66 @@ static void SDL_PremultiplyAlpha_AXYZ128(int width, int height, const void *src,
             *dst_px++ = flG;
             *dst_px++ = flB;
         }
-        src = (const Uint8 *)src + src_pitch;
+        src = (ಸ್ಥಿರಾಂಕ Uint8 *)src + src_pitch;
         dst = (Uint8 *)dst + dst_pitch;
     }
 }
 
-static bool SDL_PremultiplyAlphaPixelsAndColorspace(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch, bool linear)
+ಸ್ಥಿರ bool SDL_PremultiplyAlphaPixelsAndColorspace(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *src, ಪೂರ್ಣಾಂಕ src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, ಶೂನ್ಯ *dst, ಪೂರ್ಣಾಂಕ dst_pitch, bool ರೇಖೀಯ)
 {
-    SDL_Surface *convert = NULL;
-    void *final_dst = dst;
-    int final_dst_pitch = dst_pitch;
+    SDL_Surface *convert = ಖಾಲಿ;
+    ಶೂನ್ಯ *final_dst = dst;
+    ಪೂರ್ಣಾಂಕ final_dst_pitch = dst_pitch;
     SDL_PixelFormat format;
     SDL_Colorspace colorspace;
-    bool result = false;
+    bool ಫಲಿತಾಂಶ = false;
 
     CHECK_PARAM(!src) {
-        return SDL_InvalidParamError("src");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!src_pitch) {
-        return SDL_InvalidParamError("src_pitch");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("src_pitch");
     }
     CHECK_PARAM(!dst) {
-        return SDL_InvalidParamError("dst");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst");
     }
     CHECK_PARAM(!dst_pitch) {
-        return SDL_InvalidParamError("dst_pitch");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("dst_pitch");
     }
 
     // Use a high precision format if we're converting to linear colorspace or using high precision pixel formats
-    if (linear ||
-        SDL_ISPIXELFORMAT_10BIT(src_format) || SDL_BITSPERPIXEL(src_format) > 32 ||
-        SDL_ISPIXELFORMAT_10BIT(dst_format) || SDL_BITSPERPIXEL(dst_format) > 32) {
-        if (src_format == SDL_PIXELFORMAT_ARGB128_FLOAT ||
+    ಆದರೆ (ರೇಖೀಯ ||
+        SDL_ISPIXELFORMAT_10_ಬಿಟ್(src_format) || SDL_BITSPERPIXEL(src_format) > 32 ||
+        SDL_ISPIXELFORMAT_10_ಬಿಟ್(dst_format) || SDL_BITSPERPIXEL(dst_format) > 32) {
+        ಆದರೆ (src_format == SDL_PIXELFORMAT_ARGB128_FLOAT ||
             src_format == SDL_PIXELFORMAT_ABGR128_FLOAT) {
             format = src_format;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             format = SDL_PIXELFORMAT_ARGB128_FLOAT;
         }
-    } else {
-        if (src_format == SDL_PIXELFORMAT_ARGB8888 ||
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (src_format == SDL_PIXELFORMAT_ARGB8888 ||
             src_format == SDL_PIXELFORMAT_ABGR8888 ||
             src_format == SDL_PIXELFORMAT_RGBA8888 ||
             src_format == SDL_PIXELFORMAT_BGRA8888) {
             format = src_format;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             format = SDL_PIXELFORMAT_ARGB8888;
         }
     }
-    if (linear) {
-        colorspace = SDL_COLORSPACE_SRGB_LINEAR;
-    } else {
+    ಆದರೆ (ರೇಖೀಯ) {
+        colorspace = SDL_COLORSPACE_SRGB_ರೇಖೀಯ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
         colorspace = SDL_COLORSPACE_SRGB;
     }
 
-    if (src_format != format || src_colorspace != colorspace) {
-        convert = SDL_CreateSurfaceUninitialized(width, height, format);
-        if (!convert) {
-            goto done;
+    ಆದರೆ (src_format != format || src_colorspace != colorspace) {
+        convert = SDL_CreateSurfaceUninitialized(ಅಗಲ, ಎತ್ತರ, format);
+        ಆದರೆ (!convert) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        if (!SDL_ConvertPixelsAndColorspace(width, height, src_format, src_colorspace, src_properties, src, src_pitch, format, colorspace, 0, convert->pixels, convert->pitch)) {
-            goto done;
+        ಆದರೆ (!SDL_ConvertPixelsAndColorspace(ಅಗಲ, ಎತ್ತರ, src_format, src_colorspace, src_properties, src, src_pitch, format, colorspace, 0, convert->pixels, convert->pitch)) {
+            ಹೋಗು ಮುಗಿದ;
         }
 
         src = convert->pixels;
@@ -2641,84 +2641,84 @@ static bool SDL_PremultiplyAlphaPixelsAndColorspace(int width, int height, SDL_P
         dst = convert->pixels;
         dst_pitch = convert->pitch;
 
-    } else if (dst_format != format || dst_colorspace != colorspace) {
-        convert = SDL_CreateSurfaceUninitialized(width, height, format);
-        if (!convert) {
-            goto done;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (dst_format != format || dst_colorspace != colorspace) {
+        convert = SDL_CreateSurfaceUninitialized(ಅಗಲ, ಎತ್ತರ, format);
+        ಆದರೆ (!convert) {
+            ಹೋಗು ಮುಗಿದ;
         }
         dst = convert->pixels;
         dst_pitch = convert->pitch;
     }
 
-    switch (format) {
-    case SDL_PIXELFORMAT_ARGB8888:
-    case SDL_PIXELFORMAT_ABGR8888:
-        SDL_PremultiplyAlpha_AXYZ8888(width, height, src, src_pitch, dst, dst_pitch);
-        break;
-    case SDL_PIXELFORMAT_RGBA8888:
-    case SDL_PIXELFORMAT_BGRA8888:
-        SDL_PremultiplyAlpha_XYZA8888(width, height, src, src_pitch, dst, dst_pitch);
-        break;
-    case SDL_PIXELFORMAT_ARGB128_FLOAT:
-    case SDL_PIXELFORMAT_ABGR128_FLOAT:
-        SDL_PremultiplyAlpha_AXYZ128(width, height, src, src_pitch, dst, dst_pitch);
-        break;
-    default:
-        SDL_SetError("Unexpected internal pixel format");
-        goto done;
+    ಆಯ್ಕೆ (format) {
+    ಸ್ಥಿತಿ SDL_PIXELFORMAT_ARGB8888:
+    ಸ್ಥಿತಿ SDL_PIXELFORMAT_ABGR8888:
+        SDL_PremultiplyAlpha_AXYZ8888(ಅಗಲ, ಎತ್ತರ, src, src_pitch, dst, dst_pitch);
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_PIXELFORMAT_RGBA8888:
+    ಸ್ಥಿತಿ SDL_PIXELFORMAT_BGRA8888:
+        SDL_PremultiplyAlpha_XYZA8888(ಅಗಲ, ಎತ್ತರ, src, src_pitch, dst, dst_pitch);
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDL_PIXELFORMAT_ARGB128_FLOAT:
+    ಸ್ಥಿತಿ SDL_PIXELFORMAT_ABGR128_FLOAT:
+        SDL_PremultiplyAlpha_AXYZ128(ಅಗಲ, ಎತ್ತರ, src, src_pitch, dst, dst_pitch);
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        SDL_ಗಣ_Error("Unexpected internal pixel format");
+        ಹೋಗು ಮುಗಿದ;
     }
 
-    if (dst != final_dst) {
-        if (!SDL_ConvertPixelsAndColorspace(width, height, format, colorspace, 0, convert->pixels, convert->pitch, dst_format, dst_colorspace, dst_properties, final_dst, final_dst_pitch)) {
-            goto done;
+    ಆದರೆ (dst != final_dst) {
+        ಆದರೆ (!SDL_ConvertPixelsAndColorspace(ಅಗಲ, ಎತ್ತರ, format, colorspace, 0, convert->pixels, convert->pitch, dst_format, dst_colorspace, dst_properties, final_dst, final_dst_pitch)) {
+            ಹೋಗು ಮುಗಿದ;
         }
     }
-    result = true;
+    ಫಲಿತಾಂಶ = true;
 
-done:
-    if (convert) {
+ಮುಗಿದ:
+    ಆದರೆ (convert) {
         SDL_DestroySurface(convert);
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_PremultiplyAlpha(int width, int height,
-                         SDL_PixelFormat src_format, const void *src, int src_pitch,
-                         SDL_PixelFormat dst_format, void *dst, int dst_pitch, bool linear)
+bool SDL_PremultiplyAlpha(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ,
+                         SDL_PixelFormat src_format, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *src, ಪೂರ್ಣಾಂಕ src_pitch,
+                         SDL_PixelFormat dst_format, ಶೂನ್ಯ *dst, ಪೂರ್ಣಾಂಕ dst_pitch, bool ರೇಖೀಯ)
 {
     SDL_Colorspace src_colorspace = SDL_GetDefaultColorspaceForFormat(src_format);
     SDL_Colorspace dst_colorspace = SDL_GetDefaultColorspaceForFormat(dst_format);
 
-    return SDL_PremultiplyAlphaPixelsAndColorspace(width, height, src_format, src_colorspace, 0, src, src_pitch, dst_format, dst_colorspace, 0, dst, dst_pitch, linear);
+    ಹಿಂತಿರುಗಿ SDL_PremultiplyAlphaPixelsAndColorspace(ಅಗಲ, ಎತ್ತರ, src_format, src_colorspace, 0, src, src_pitch, dst_format, dst_colorspace, 0, dst, dst_pitch, ರೇಖೀಯ);
 }
 
-bool SDL_PremultiplySurfaceAlpha(SDL_Surface *surface, bool linear)
+bool SDL_PremultiplySurfaceAlpha(SDL_Surface *surface, bool ರೇಖೀಯ)
 {
     SDL_Colorspace colorspace;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     colorspace = surface->colorspace;
 
-    return SDL_PremultiplyAlphaPixelsAndColorspace(surface->w, surface->h, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, linear);
+    ಹಿಂತಿರುಗಿ SDL_PremultiplyAlphaPixelsAndColorspace(surface->w, surface->h, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, surface->format, colorspace, surface->props, surface->pixels, surface->pitch, ರೇಖೀಯ);
 }
 
-bool SDL_ClearSurface(SDL_Surface *surface, float r, float g, float b, float a)
+bool SDL_ClearSurface(SDL_Surface *surface, ದಶಮಾಂಶ r, ದಶಮಾಂಶ g, ದಶಮಾಂಶ b, ದಶಮಾಂಶ a)
 {
     SDL_Rect clip_rect;
-    bool result = false;
+    bool ಫಲಿತಾಂಶ = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     SDL_GetSurfaceClipRect(surface, &clip_rect);
-    SDL_SetSurfaceClipRect(surface, NULL);
+    SDL_ಗಣ_Surface_Clip_Rect(surface, ಖಾಲಿ);
 
-    if (!SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
-        SDL_BYTESPERPIXEL(surface->format) <= sizeof(Uint32)) {
+    ಆದರೆ (!SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
+        SDL_BYTESPERPIXEL(surface->format) <= ಗಾತ್ರ(Uint32)) {
         Uint32 color;
 
         color = SDL_MapSurfaceRGBA(surface,
@@ -2726,289 +2726,289 @@ bool SDL_ClearSurface(SDL_Surface *surface, float r, float g, float b, float a)
                     (Uint8)SDL_roundf(SDL_clamp(g, 0.0f, 1.0f) * 255.0f),
                     (Uint8)SDL_roundf(SDL_clamp(b, 0.0f, 1.0f) * 255.0f),
                     (Uint8)SDL_roundf(SDL_clamp(a, 0.0f, 1.0f) * 255.0f));
-        result = SDL_FillSurfaceRect(surface, NULL, color);
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+        ಫಲಿತಾಂಶ = SDL_FillSurfaceRect(surface, ಖಾಲಿ, color);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // We can't directly set an RGB value on a YUV surface
         SDL_Surface *tmp = SDL_CreateSurfaceUninitialized(surface->w, surface->h, SDL_PIXELFORMAT_ARGB8888);
-        if (!tmp) {
-            goto done;
+        ಆದರೆ (!tmp) {
+            ಹೋಗು ಮುಗಿದ;
         }
 
-        if (SDL_ClearSurface(tmp, r, g, b, a)) {
-            result = SDL_ConvertPixelsAndColorspace(surface->w, surface->h, tmp->format, tmp->colorspace, tmp->props, tmp->pixels, tmp->pitch, surface->format, surface->colorspace, surface->props, surface->pixels, surface->pitch);
+        ಆದರೆ (SDL_ClearSurface(tmp, r, g, b, a)) {
+            ಫಲಿತಾಂಶ = SDL_ConvertPixelsAndColorspace(surface->w, surface->h, tmp->format, tmp->colorspace, tmp->props, tmp->pixels, tmp->pitch, surface->format, surface->colorspace, surface->props, surface->pixels, surface->pitch);
         }
         SDL_DestroySurface(tmp);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Take advantage of blit color conversion
         SDL_Surface *tmp = SDL_CreateSurfaceUninitialized(1, 1, SDL_PIXELFORMAT_RGBA128_FLOAT);
-        if (!tmp) {
-            goto done;
+        ಆದರೆ (!tmp) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        SDL_SetSurfaceColorspace(tmp, surface->colorspace);
-        SDL_SetSurfaceBlendMode(tmp, SDL_BLENDMODE_NONE);
+        SDL_ಗಣ_Surface_Colorspace(tmp, surface->colorspace);
+        SDL_ಗಣ_Surface_Blend_ಬಹುಲಕ(tmp, SDL_BLENDMODE_NONE);
 
-        float *pixels = (float *)tmp->pixels;
+        ದಶಮಾಂಶ *pixels = (ದಶಮಾಂಶ *)tmp->pixels;
         pixels[0] = r;
         pixels[1] = g;
         pixels[2] = b;
         pixels[3] = a;
 
-        result = SDL_BlitSurfaceScaled(tmp, NULL, surface, NULL, SDL_SCALEMODE_NEAREST);
+        ಫಲಿತಾಂಶ = SDL_BlitSurfaceScaled(tmp, ಖಾಲಿ, surface, ಖಾಲಿ, SDL_SCALEMODE_ಹತ್ತಿರದ);
         SDL_DestroySurface(tmp);
     }
 
-done:
-    SDL_SetSurfaceClipRect(surface, &clip_rect);
+ಮುಗಿದ:
+    SDL_ಗಣ_Surface_Clip_Rect(surface, &clip_rect);
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
 Uint32 SDL_MapSurfaceRGB(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b)
 {
-    return SDL_MapSurfaceRGBA(surface, r, g, b, SDL_ALPHA_OPAQUE);
+    ಹಿಂತಿರುಗಿ SDL_MapSurfaceRGBA(surface, r, g, b, SDL_ALPHA_OPAQUE);
 }
 
 Uint32 SDL_MapSurfaceRGBA(SDL_Surface *surface, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
         SDL_InvalidParamError("surface");
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
-    return SDL_MapRGBA(surface->fmt, surface->palette, r, g, b, a);
+    ಹಿಂತಿರುಗಿ SDL_MapRGBA(surface->fmt, surface->palette, r, g, b, a);
 }
 
 // This function Copyright 2023 Collabora Ltd., contributed to SDL under the ZLib license
-bool SDL_ReadSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a)
+bool SDL_ReadSurfacePixel(SDL_Surface *surface, ಪೂರ್ಣಾಂಕ x, ಪೂರ್ಣಾಂಕ y, Uint8 *r, Uint8 *g, Uint8 *b, Uint8 *a)
 {
     Uint32 pixel = 0;
-    size_t bytes_per_pixel;
-    Uint8 unused;
+    size_t ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    Uint8 ಬಳಸದ;
     Uint8 *p;
-    bool result = false;
+    bool ಫಲಿತಾಂಶ = false;
 
-    if (r) {
+    ಆದರೆ (r) {
         *r = 0;
-    } else {
-        r = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        r = &ಬಳಸದ;
     }
 
-    if (g) {
+    ಆದರೆ (g) {
         *g = 0;
-    } else {
-        g = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        g = &ಬಳಸದ;
     }
 
-    if (b) {
+    ಆದರೆ (b) {
         *b = 0;
-    } else {
-        b = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        b = &ಬಳಸದ;
     }
 
-    if (a) {
+    ಆದರೆ (a) {
         *a = 0;
-    } else {
-        a = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        a = &ಬಳಸದ;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("y");
     }
 
-    bytes_per_pixel = SDL_BYTESPERPIXEL(surface->format);
+    ಬೈಟುಗಳು_ಪ್ರತಿ_pixel = SDL_BYTESPERPIXEL(surface->format);
 
-    if (SDL_MUSTLOCK(surface)) {
-        if (!SDL_LockSurface(surface)) {
-            return false;
+    ಆದರೆ (SDL_MUSTLOCK(surface)) {
+        ಆದರೆ (!SDL_ಬೀಗ_Surface(surface)) {
+            ಹಿಂತಿರುಗಿ false;
         }
     }
 
-    p = (Uint8 *)surface->pixels + y * surface->pitch + x * bytes_per_pixel;
+    p = (Uint8 *)surface->pixels + y * surface->pitch + x * ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
 
-    if (bytes_per_pixel <= sizeof(pixel) &&
+    ಆದರೆ (ಬೈಟುಗಳು_ಪ್ರತಿ_pixel <= ಗಾತ್ರ(pixel) &&
         !SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
         SDL_COLORSPACEPRIMARIES(surface->colorspace) == SDL_COLOR_PRIMARIES_BT709) {
         /* Fill the appropriate number of least-significant bytes of pixel,
          * leaving the most-significant bytes set to zero */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        SDL_memcpy(((Uint8 *)&pixel) + (sizeof(pixel) - bytes_per_pixel), p, bytes_per_pixel);
-#else
-        SDL_memcpy(&pixel, p, bytes_per_pixel);
-#endif
+#ಆದರೆ SDL_BYTEORDER == SDL_BIG_ENDIAN
+        SDL_memcpy(((Uint8 *)&pixel) + (ಗಾತ್ರ(pixel) - ಬೈಟುಗಳು_ಪ್ರತಿ_pixel), p, ಬೈಟುಗಳು_ಪ್ರತಿ_pixel);
+#ಇಲ್ಲದಿದ್ದರೆ
+        SDL_memcpy(&pixel, p, ಬೈಟುಗಳು_ಪ್ರತಿ_pixel);
+#ಆದರೆ_ಅಂತ್ಯ
         SDL_GetRGBA(pixel, surface->fmt, surface->palette, r, g, b, a);
-        result = true;
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+        ಫಲಿತಾಂಶ = true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // FIXME: We need code to extract a single macroblock from a YUV surface
         SDL_Surface *converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (converted) {
-            result = SDL_ReadSurfacePixel(converted, x, y, r, g, b, a);
+        ಆದರೆ (converted) {
+            ಫಲಿತಾಂಶ = SDL_ReadSurfacePixel(converted, x, y, r, g, b, a);
             SDL_DestroySurface(converted);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // This is really slow, but it gets the job done
         Uint8 rgba[4];
 
-        if (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, surface->colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, sizeof(rgba))) {
+        ಆದರೆ (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, surface->colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, ಗಾತ್ರ(rgba))) {
             *r = rgba[0];
             *g = rgba[1];
             *b = rgba[2];
             *a = rgba[3];
-            result = true;
+            ಫಲಿತಾಂಶ = true;
         }
     }
 
-    if (SDL_MUSTLOCK(surface)) {
+    ಆದರೆ (SDL_MUSTLOCK(surface)) {
         SDL_UnlockSurface(surface);
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_ReadSurfacePixelFloat(SDL_Surface *surface, int x, int y, float *r, float *g, float *b, float *a)
+bool SDL_ReadSurfacePixelFloat(SDL_Surface *surface, ಪೂರ್ಣಾಂಕ x, ಪೂರ್ಣಾಂಕ y, ದಶಮಾಂಶ *r, ದಶಮಾಂಶ *g, ದಶಮಾಂಶ *b, ದಶಮಾಂಶ *a)
 {
-    float unused;
-    bool result = false;
+    ದಶಮಾಂಶ ಬಳಸದ;
+    bool ಫಲಿತಾಂಶ = false;
 
-    if (r) {
+    ಆದರೆ (r) {
         *r = 0.0f;
-    } else {
-        r = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        r = &ಬಳಸದ;
     }
 
-    if (g) {
+    ಆದರೆ (g) {
         *g = 0.0f;
-    } else {
-        g = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        g = &ಬಳಸದ;
     }
 
-    if (b) {
+    ಆದರೆ (b) {
         *b = 0.0f;
-    } else {
-        b = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        b = &ಬಳಸದ;
     }
 
-    if (a) {
+    ಆದರೆ (a) {
         *a = 0.0f;
-    } else {
-        a = &unused;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        a = &ಬಳಸದ;
     }
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("y");
     }
 
-    if (SDL_BYTESPERPIXEL(surface->format) <= sizeof(Uint32) &&
+    ಆದರೆ (SDL_BYTESPERPIXEL(surface->format) <= ಗಾತ್ರ(Uint32) &&
         !SDL_ISPIXELFORMAT_FOURCC(surface->format) &&
         SDL_COLORSPACEPRIMARIES(surface->colorspace) == SDL_COLOR_PRIMARIES_BT709) {
         Uint8 r8, g8, b8, a8;
 
-        if (SDL_ReadSurfacePixel(surface, x, y, &r8, &g8, &b8, &a8)) {
-            *r = (float)r8 / 255.0f;
-            *g = (float)g8 / 255.0f;
-            *b = (float)b8 / 255.0f;
-            *a = (float)a8 / 255.0f;
-            result = true;
+        ಆದರೆ (SDL_ReadSurfacePixel(surface, x, y, &r8, &g8, &b8, &a8)) {
+            *r = (ದಶಮಾಂಶ)r8 / 255.0f;
+            *g = (ದಶಮಾಂಶ)g8 / 255.0f;
+            *b = (ದಶಮಾಂಶ)b8 / 255.0f;
+            *a = (ದಶಮಾಂಶ)a8 / 255.0f;
+            ಫಲಿತಾಂಶ = true;
         }
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         // FIXME: We need code to extract a single macroblock from a YUV surface
         SDL_Surface *converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-        if (converted) {
-            result = SDL_ReadSurfacePixelFloat(converted, x, y, r, g, b, a);
+        ಆದರೆ (converted) {
+            ಫಲಿತಾಂಶ = SDL_ReadSurfacePixelFloat(converted, x, y, r, g, b, a);
             SDL_DestroySurface(converted);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // This is really slow, but it gets the job done
-        float rgba[4];
+        ದಶಮಾಂಶ rgba[4];
         Uint8 *p;
 
-        if (SDL_MUSTLOCK(surface)) {
-            if (!SDL_LockSurface(surface)) {
-                return false;
+        ಆದರೆ (SDL_MUSTLOCK(surface)) {
+            ಆದರೆ (!SDL_ಬೀಗ_Surface(surface)) {
+                ಹಿಂತಿರುಗಿ false;
             }
         }
 
         p = (Uint8 *)surface->pixels + y * surface->pitch + x * SDL_BYTESPERPIXEL(surface->format);
 
-        if (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
-            SDL_memcpy(rgba, p, sizeof(rgba));
-            result = true;
-        } else {
+        ಆದರೆ (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
+            SDL_memcpy(rgba, p, ಗಾತ್ರ(rgba));
+            ಫಲಿತಾಂಶ = true;
+        } ಇಲ್ಲದಿದ್ದರೆ {
             SDL_Colorspace src_colorspace = surface->colorspace;
-            SDL_Colorspace dst_colorspace = (src_colorspace == SDL_COLORSPACE_SRGB_LINEAR ? SDL_COLORSPACE_SRGB_LINEAR : SDL_COLORSPACE_SRGB);
+            SDL_Colorspace dst_colorspace = (src_colorspace == SDL_COLORSPACE_SRGB_ರೇಖೀಯ ? SDL_COLORSPACE_SRGB_ರೇಖೀಯ : SDL_COLORSPACE_SRGB);
 
-            if (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, src_colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA128_FLOAT, dst_colorspace, 0, rgba, sizeof(rgba))) {
-                result = true;
+            ಆದರೆ (SDL_ConvertPixelsAndColorspace(1, 1, surface->format, src_colorspace, surface->props, p, surface->pitch, SDL_PIXELFORMAT_RGBA128_FLOAT, dst_colorspace, 0, rgba, ಗಾತ್ರ(rgba))) {
+                ಫಲಿತಾಂಶ = true;
             }
         }
 
-        if (result) {
+        ಆದರೆ (ಫಲಿತಾಂಶ) {
             *r = rgba[0];
             *g = rgba[1];
             *b = rgba[2];
             *a = rgba[3];
         }
 
-        if (SDL_MUSTLOCK(surface)) {
+        ಆದರೆ (SDL_MUSTLOCK(surface)) {
             SDL_UnlockSurface(surface);
         }
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_WriteSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+bool SDL_WriteSurfacePixel(SDL_Surface *surface, ಪೂರ್ಣಾಂಕ x, ಪೂರ್ಣಾಂಕ y, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
     Uint32 pixel = 0;
-    size_t bytes_per_pixel;
+    size_t ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
     Uint8 *p;
-    bool result = false;
+    bool ಫಲಿತಾಂಶ = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("y");
     }
 
-    bytes_per_pixel = SDL_BYTESPERPIXEL(surface->format);
+    ಬೈಟುಗಳು_ಪ್ರತಿ_pixel = SDL_BYTESPERPIXEL(surface->format);
 
-    if (SDL_MUSTLOCK(surface)) {
-        if (!SDL_LockSurface(surface)) {
-            return false;
+    ಆದರೆ (SDL_MUSTLOCK(surface)) {
+        ಆದರೆ (!SDL_ಬೀಗ_Surface(surface)) {
+            ಹಿಂತಿರುಗಿ false;
         }
     }
 
-    p = (Uint8 *)surface->pixels + y * surface->pitch + x * bytes_per_pixel;
+    p = (Uint8 *)surface->pixels + y * surface->pitch + x * ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
 
-    if (bytes_per_pixel <= sizeof(pixel) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    ಆದರೆ (ಬೈಟುಗಳು_ಪ್ರತಿ_pixel <= ಗಾತ್ರ(pixel) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         pixel = SDL_MapRGBA(surface->fmt, surface->palette, r, g, b, a);
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        SDL_memcpy(p, ((Uint8 *)&pixel) + (sizeof(pixel) - bytes_per_pixel), bytes_per_pixel);
-#else
-        SDL_memcpy(p, &pixel, bytes_per_pixel);
-#endif
-        result = true;
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
-        result = SDL_Unsupported();
-    } else {
+#ಆದರೆ SDL_BYTEORDER == SDL_BIG_ENDIAN
+        SDL_memcpy(p, ((Uint8 *)&pixel) + (ಗಾತ್ರ(pixel) - ಬೈಟುಗಳು_ಪ್ರತಿ_pixel), ಬೈಟುಗಳು_ಪ್ರತಿ_pixel);
+#ಇಲ್ಲದಿದ್ದರೆ
+        SDL_memcpy(p, &pixel, ಬೈಟುಗಳು_ಪ್ರತಿ_pixel);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಫಲಿತಾಂಶ = true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+        ಫಲಿತಾಂಶ = SDL_Unsupported();
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // This is really slow, but it gets the job done
         Uint8 rgba[4];
 
@@ -3016,51 +3016,51 @@ bool SDL_WriteSurfacePixel(SDL_Surface *surface, int x, int y, Uint8 r, Uint8 g,
         rgba[1] = g;
         rgba[2] = b;
         rgba[3] = a;
-        result = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, sizeof(rgba), surface->format, surface->colorspace, surface->props, p, surface->pitch);
+        ಫಲಿತಾಂಶ = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA32, SDL_COLORSPACE_SRGB, 0, rgba, ಗಾತ್ರ(rgba), surface->format, surface->colorspace, surface->props, p, surface->pitch);
     }
 
-    if (SDL_MUSTLOCK(surface)) {
+    ಆದರೆ (SDL_MUSTLOCK(surface)) {
         SDL_UnlockSurface(surface);
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_WriteSurfacePixelFloat(SDL_Surface *surface, int x, int y, float r, float g, float b, float a)
+bool SDL_WriteSurfacePixelFloat(SDL_Surface *surface, ಪೂರ್ಣಾಂಕ x, ಪೂರ್ಣಾಂಕ y, ದಶಮಾಂಶ r, ದಶಮಾಂಶ g, ದಶಮಾಂಶ b, ದಶಮಾಂಶ a)
 {
-    bool result = false;
+    bool ಫಲಿತಾಂಶ = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface) || !surface->format || !surface->pixels) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
     CHECK_PARAM(x < 0 || x >= surface->w) {
-        return SDL_InvalidParamError("x");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("x");
     }
 
     CHECK_PARAM(y < 0 || y >= surface->h) {
-        return SDL_InvalidParamError("y");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("y");
     }
 
-    if (SDL_BYTESPERPIXEL(surface->format) <= sizeof(Uint32) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+    ಆದರೆ (SDL_BYTESPERPIXEL(surface->format) <= ಗಾತ್ರ(Uint32) && !SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
         Uint8 r8, g8, b8, a8;
 
-        r8 = (Uint8)SDL_round(SDL_clamp(r, 0.0f, 1.0f) * 255.0f);
-        g8 = (Uint8)SDL_round(SDL_clamp(g, 0.0f, 1.0f) * 255.0f);
-        b8 = (Uint8)SDL_round(SDL_clamp(b, 0.0f, 1.0f) * 255.0f);
-        a8 = (Uint8)SDL_round(SDL_clamp(a, 0.0f, 1.0f) * 255.0f);
-        if (SDL_WriteSurfacePixel(surface, x, y, r8, g8, b8, a8)) {
-            result = true;
+        r8 = (Uint8)SDL_ಸುತ್ತು(SDL_clamp(r, 0.0f, 1.0f) * 255.0f);
+        g8 = (Uint8)SDL_ಸುತ್ತು(SDL_clamp(g, 0.0f, 1.0f) * 255.0f);
+        b8 = (Uint8)SDL_ಸುತ್ತು(SDL_clamp(b, 0.0f, 1.0f) * 255.0f);
+        a8 = (Uint8)SDL_ಸುತ್ತು(SDL_clamp(a, 0.0f, 1.0f) * 255.0f);
+        ಆದರೆ (SDL_WriteSurfacePixel(surface, x, y, r8, g8, b8, a8)) {
+            ಫಲಿತಾಂಶ = true;
         }
-    } else if (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
-        result = SDL_Unsupported();
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_ISPIXELFORMAT_FOURCC(surface->format)) {
+        ಫಲಿತಾಂಶ = SDL_Unsupported();
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // This is really slow, but it gets the job done
-        float rgba[4];
+        ದಶಮಾಂಶ rgba[4];
         Uint8 *p;
 
-        if (SDL_MUSTLOCK(surface)) {
-            if (!SDL_LockSurface(surface)) {
-                return false;
+        ಆದರೆ (SDL_MUSTLOCK(surface)) {
+            ಆದರೆ (!SDL_ಬೀಗ_Surface(surface)) {
+                ಹಿಂತಿರುಗಿ false;
             }
         }
 
@@ -3071,36 +3071,36 @@ bool SDL_WriteSurfacePixelFloat(SDL_Surface *surface, int x, int y, float r, flo
         rgba[2] = b;
         rgba[3] = a;
 
-        if (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
-            SDL_memcpy(p, rgba, sizeof(rgba));
-            result = true;
-        } else {
+        ಆದರೆ (surface->format == SDL_PIXELFORMAT_RGBA128_FLOAT) {
+            SDL_memcpy(p, rgba, ಗಾತ್ರ(rgba));
+            ಫಲಿತಾಂಶ = true;
+        } ಇಲ್ಲದಿದ್ದರೆ {
             SDL_Colorspace dst_colorspace = surface->colorspace;
-            SDL_Colorspace src_colorspace = (dst_colorspace == SDL_COLORSPACE_SRGB_LINEAR ? SDL_COLORSPACE_SRGB_LINEAR : SDL_COLORSPACE_SRGB);
+            SDL_Colorspace src_colorspace = (dst_colorspace == SDL_COLORSPACE_SRGB_ರೇಖೀಯ ? SDL_COLORSPACE_SRGB_ರೇಖೀಯ : SDL_COLORSPACE_SRGB);
 
-            result = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA128_FLOAT, src_colorspace, 0, rgba, sizeof(rgba), surface->format, dst_colorspace, surface->props, p, surface->pitch);
+            ಫಲಿತಾಂಶ = SDL_ConvertPixelsAndColorspace(1, 1, SDL_PIXELFORMAT_RGBA128_FLOAT, src_colorspace, 0, rgba, ಗಾತ್ರ(rgba), surface->format, dst_colorspace, surface->props, p, surface->pitch);
         }
 
-        if (SDL_MUSTLOCK(surface)) {
+        ಆದರೆ (SDL_MUSTLOCK(surface)) {
             SDL_UnlockSurface(surface);
         }
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
 /*
  * Free a surface created by the above function.
  */
-void SDL_DestroySurface(SDL_Surface *surface)
+ಶೂನ್ಯ SDL_DestroySurface(SDL_Surface *surface)
 {
-    if (!SDL_SurfaceValid(surface)) {
-        return;
+    ಆದರೆ (!SDL_SurfaceValid(surface)) {
+        ಹಿಂತಿರುಗಿ;
     }
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_DONTFREE) {
-        return;
+    ಆದರೆ (surface->ಆಂತರಿಕ_flags & SDL_ಆಂತರಿಕ_SURFACE_DONTFREE) {
+        ಹಿಂತಿರುಗಿ;
     }
-    if (--surface->refcount > 0) {
-        return;
+    ಆದರೆ (--surface->refcount > 0) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     SDL_RemoveSurfaceAlternateImages(surface);
@@ -3109,61 +3109,61 @@ void SDL_DestroySurface(SDL_Surface *surface)
 
     SDL_InvalidateMap(&surface->map);
 
-    while (surface->locked > 0) {
+    ಆಗ (surface->locked > 0) {
         SDL_UnlockSurface(surface);
     }
-#ifdef SDL_HAVE_RLE
-    if (surface->internal_flags & SDL_INTERNAL_SURFACE_RLEACCEL) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_HAVE_RLE
+    ಆದರೆ (surface->ಆಂತರಿಕ_flags & SDL_ಆಂತರಿಕ_SURFACE_RLEACCEL) {
         SDL_UnRLESurface(surface);
     }
-#endif
-    SDL_SetSurfacePalette(surface, NULL);
+#ಆದರೆ_ಅಂತ್ಯ
+    SDL_ಗಣ_Surface_Palette(surface, ಖಾಲಿ);
 
-    if (surface->flags & SDL_SURFACE_PREALLOCATED) {
+    ಆದರೆ (surface->flags & SDL_SURFACE_PREALLOCATED) {
         // Don't free
-    } else if (surface->flags & SDL_SURFACE_SIMD_ALIGNED) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (surface->flags & SDL_SURFACE_SIMD_ALIGNED) {
         // Free aligned
         SDL_aligned_free(surface->pixels);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Normal
         SDL_free(surface->pixels);
     }
 
-    surface->reserved = NULL;
+    surface->reserved = ಖಾಲಿ;
 
-    if (!(surface->internal_flags & SDL_INTERNAL_SURFACE_STACK)) {
+    ಆದರೆ (!(surface->ಆಂತರಿಕ_flags & SDL_ಆಂತರಿಕ_SURFACE_ರಾಶಿ)) {
         SDL_free(surface);
     }
 }
 
-SDL_Surface *SDL_LoadSurface_IO(SDL_IOStream *src, bool closeio)
+SDL_Surface *SDL_ತುಂಬು_Surface_IO(SDL_IOStream *src, bool closeio)
 {
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (SDL_IsBMP(src)) {
-        return SDL_LoadBMP_IO(src, closeio);
-    } else if (SDL_IsPNG(src)) {
-        return SDL_LoadPNG_IO(src, closeio);
-    } else if (SDL_IsJPG(src)) {
-        return SDL_LoadJPG_IO(src, closeio);
-    } else {
-        if (closeio) {
+    ಆದರೆ (SDL_IsBMP(src)) {
+        ಹಿಂತಿರುಗಿ SDL_ತುಂಬು_BMP_IO(src, closeio);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_IsPNG(src)) {
+        ಹಿಂತಿರುಗಿ SDL_ತುಂಬು_PNG_IO(src, closeio);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_IsJPG(src)) {
+        ಹಿಂತಿರುಗಿ SDL_ತುಂಬು_JPG_IO(src, closeio);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (closeio) {
             SDL_CloseIO(src);
         }
-        SDL_SetError("Unsupported image format");
-        return NULL;
+        SDL_ಗಣ_Error("Unsupported image format");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 }
 
-SDL_Surface *SDL_LoadSurface(const char *file)
+SDL_Surface *SDL_ತುಂಬು_Surface(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *file)
 {
-    SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    SDL_IOStream *ಹರಿವು = SDL_IOFromFile(file, "rb");
+    ಆದರೆ (!ಹರಿವು) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    return SDL_LoadSurface_IO(stream, true);
+    ಹಿಂತಿರುಗಿ SDL_ತುಂಬು_Surface_IO(ಹರಿವು, true);
 }

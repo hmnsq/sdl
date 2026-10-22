@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitwindow_h_
-#define SDL_uikitwindow_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_uikitwindow_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_uikitwindow_h_
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 #import "SDL_uikitvideo.h"
 #import "SDL_uikitview.h"
 #import "SDL_uikitviewcontroller.h"
 
-extern bool UIKit_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void UIKit_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern SDL_FullscreenResult UIKit_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void UIKit_UpdatePointerLock(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+ಬಾಹ್ಯ bool UIKit_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_Show_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_Hide_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_Raise_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_ಗಣ_ಕಿಟಕಿ_Bordered(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool bordered);
+ಬಾಹ್ಯ SDL_Fullscreen_ಫಲಿತಾಂಶ UIKit_ಗಣ_ಕಿಟಕಿ_Fullscreen(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_Update_ಸೂಚಕ_ಬೀಗ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *w, ಪೂರ್ಣಾಂಕ *h);
 
-extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
+ಬಾಹ್ಯ NSUInteger UIKit_GetSupportedOrientations(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
-#define SDL_METALVIEW_TAG 255
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_METALVIEW_ಟ್ಯಾಗ್ 255
 
 @class UIWindow;
 
-@interface SDL_UIKitWindowData : NSObject
+@interface SDL_UIKit_ಕಿಟಕಿ_ದತ್ತಾಂಶ : NSObject
 
 @property(nonatomic, strong) UIWindow *uiwindow;
 @property(nonatomic, strong) SDL_uikitviewcontroller *viewcontroller;
@@ -52,12 +52,12 @@ extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
 // Array of SDL_uikitviews owned by this window.
 @property(nonatomic, copy) NSMutableArray *views;
 
-#ifdef SDL_PLATFORM_VISIONOS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_PLATFORM_VISIONOS
 // Hosting controller for curved content mode (UIHostingController-based)
 @property(nonatomic, strong) id curvedContentHosting;
 @property(nonatomic, strong) NSString *settings;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-@end
+@ಕೊನೆ
 
-#endif // SDL_uikitwindow_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_uikitwindow_h_

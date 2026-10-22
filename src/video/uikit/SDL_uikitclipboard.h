@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitclipboard_h_
-#define SDL_uikitclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_uikitclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_uikitclipboard_h_
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-extern bool UIKit_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *UIKit_GetClipboardText(SDL_VideoDevice *_this);
-extern bool UIKit_HasClipboardText(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool UIKit_ಗಣ_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಪಠ್ಯ);
+ಬಾಹ್ಯ ಅಕ್ಷರ *UIKit_Get_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool UIKit_Has_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this);
 
-extern void UIKit_InitClipboard(SDL_VideoDevice *_this);
-extern void UIKit_QuitClipboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_InitClipboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_QuitClipboard(SDL_VideoDevice *_this);
 
-#endif // SDL_uikitclipboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_uikitclipboard_h_

@@ -1,5 +1,5 @@
-#ifndef OPENXR_REFLECTION_PARENT_STRUCTS_H_
-#define OPENXR_REFLECTION_PARENT_STRUCTS_H_ 1
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ OPENXR_REFLECTION_ಪೋಷಕ_STRUCTS_H
+#ವ್ಯಾಖ್ಯಾನಿಸು OPENXR_REFLECTION_ಪೋಷಕ_STRUCTS_H 1
 
 /*
 ** Copyright (c) 2017-2026 The Khronos Group Inc.
@@ -12,7 +12,7 @@
 **
 */
 
-#include "openxr.h"
+#ಅನ್ತರ್ಭಾವ "openxr.h"
 
 /*
 This file contains expansion macros (X Macros) for OpenXR structures that have a parent type.
@@ -20,12 +20,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCompositionLayerBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Composition_Layer_ತಳ_ಶೀರ್ಷಿಕೆ(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Composition_Layer_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCompositionLayerBaseHeader_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Composition_Layer_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
     _avail(XrCompositionLayerProjection, XR_TYPE_COMPOSITION_LAYER_PROJECTION) \
     _avail(XrCompositionLayerQuad, XR_TYPE_COMPOSITION_LAYER_QUAD) \
     _avail(XrCompositionLayerCubeKHR, XR_TYPE_COMPOSITION_LAYER_CUBE_KHR) \
@@ -41,82 +41,82 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrEventDataBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Event_ದತ್ತಾಂಶ_ತಳ_ಶೀರ್ಷಿಕೆ(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Event_ದತ್ತಾಂಶ_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEventDataBaseHeader_CORE(_avail, _unavail) \
-    _avail(XrEventDataEventsLost, XR_TYPE_EVENT_DATA_EVENTS_LOST) \
-    _avail(XrEventDataInstanceLossPending, XR_TYPE_EVENT_DATA_INSTANCE_LOSS_PENDING) \
-    _avail(XrEventDataSessionStateChanged, XR_TYPE_EVENT_DATA_SESSION_STATE_CHANGED) \
-    _avail(XrEventDataReferenceSpaceChangePending, XR_TYPE_EVENT_DATA_REFERENCE_SPACE_CHANGE_PENDING) \
-    _avail(XrEventDataInteractionProfileChanged, XR_TYPE_EVENT_DATA_INTERACTION_PROFILE_CHANGED) \
-    _avail(XrEventDataVisibilityMaskChangedKHR, XR_TYPE_EVENT_DATA_VISIBILITY_MASK_CHANGED_KHR) \
-    _avail(XrEventDataPerfSettingsEXT, XR_TYPE_EVENT_DATA_PERF_SETTINGS_EXT) \
-    _avail(XrEventDataMainSessionVisibilityChangedEXTX, XR_TYPE_EVENT_DATA_MAIN_SESSION_VISIBILITY_CHANGED_EXTX) \
-    _avail(XrEventDataDisplayRefreshRateChangedFB, XR_TYPE_EVENT_DATA_DISPLAY_REFRESH_RATE_CHANGED_FB) \
-    _avail(XrEventDataViveTrackerConnectedHTCX, XR_TYPE_EVENT_DATA_VIVE_TRACKER_CONNECTED_HTCX) \
-    _avail(XrEventDataSpatialAnchorCreateCompleteFB, XR_TYPE_EVENT_DATA_SPATIAL_ANCHOR_CREATE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceSetStatusCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SET_STATUS_COMPLETE_FB) \
-    _avail(XrEventDataPassthroughStateChangedFB, XR_TYPE_EVENT_DATA_PASSTHROUGH_STATE_CHANGED_FB) \
-    _avail(XrEventDataMarkerTrackingUpdateVARJO, XR_TYPE_EVENT_DATA_MARKER_TRACKING_UPDATE_VARJO) \
-    _avail(XrEventDataLocalizationChangedML, XR_TYPE_EVENT_DATA_LOCALIZATION_CHANGED_ML) \
-    _avail(XrEventDataSpaceQueryResultsAvailableFB, XR_TYPE_EVENT_DATA_SPACE_QUERY_RESULTS_AVAILABLE_FB) \
-    _avail(XrEventDataSpaceQueryCompleteFB, XR_TYPE_EVENT_DATA_SPACE_QUERY_COMPLETE_FB) \
-    _avail(XrEventDataSpaceSaveCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SAVE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceEraseCompleteFB, XR_TYPE_EVENT_DATA_SPACE_ERASE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceShareCompleteFB, XR_TYPE_EVENT_DATA_SPACE_SHARE_COMPLETE_FB) \
-    _avail(XrEventDataSceneCaptureCompleteFB, XR_TYPE_EVENT_DATA_SCENE_CAPTURE_COMPLETE_FB) \
-    _avail(XrEventDataVirtualKeyboardCommitTextMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_COMMIT_TEXT_META) \
-    _avail(XrEventDataVirtualKeyboardBackspaceMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_BACKSPACE_META) \
-    _avail(XrEventDataVirtualKeyboardEnterMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_ENTER_META) \
-    _avail(XrEventDataVirtualKeyboardShownMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_SHOWN_META) \
-    _avail(XrEventDataVirtualKeyboardHiddenMETA, XR_TYPE_EVENT_DATA_VIRTUAL_KEYBOARD_HIDDEN_META) \
-    _avail(XrEventDataSpaceListSaveCompleteFB, XR_TYPE_EVENT_DATA_SPACE_LIST_SAVE_COMPLETE_FB) \
-    _avail(XrEventDataSpaceDiscoveryResultsAvailableMETA, XR_TYPE_EVENT_DATA_SPACE_DISCOVERY_RESULTS_AVAILABLE_META) \
-    _avail(XrEventDataSpaceDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_SPACE_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataSpacesSaveResultMETA, XR_TYPE_EVENT_DATA_SPACES_SAVE_RESULT_META) \
-    _avail(XrEventDataSpacesEraseResultMETA, XR_TYPE_EVENT_DATA_SPACES_ERASE_RESULT_META) \
-    _avail(XrEventDataPassthroughLayerResumedMETA, XR_TYPE_EVENT_DATA_PASSTHROUGH_LAYER_RESUMED_META) \
-    _avail(XrEventDataShareSpacesCompleteMETA, XR_TYPE_EVENT_DATA_SHARE_SPACES_COMPLETE_META) \
-    _avail(XrEventDataInteractionRenderModelsChangedEXT, XR_TYPE_EVENT_DATA_INTERACTION_RENDER_MODELS_CHANGED_EXT) \
-    _avail(XrEventDataSenseDataProviderStateChangedBD, XR_TYPE_EVENT_DATA_SENSE_DATA_PROVIDER_STATE_CHANGED_BD) \
-    _avail(XrEventDataSenseDataUpdatedBD, XR_TYPE_EVENT_DATA_SENSE_DATA_UPDATED_BD) \
-    _avail(XrEventDataRecommendedResolutionChangedANDROID, XR_TYPE_EVENT_DATA_RECOMMENDED_RESOLUTION_CHANGED_ANDROID) \
-    _avail(XrEventDataUserPresenceChangedEXT, XR_TYPE_EVENT_DATA_USER_PRESENCE_CHANGED_EXT) \
-    _avail(XrEventDataHeadsetFitChangedML, XR_TYPE_EVENT_DATA_HEADSET_FIT_CHANGED_ML) \
-    _avail(XrEventDataEyeCalibrationChangedML, XR_TYPE_EVENT_DATA_EYE_CALIBRATION_CHANGED_ML) \
-    _avail(XrEventDataBoundaryVisibilityChangedMETA, XR_TYPE_EVENT_DATA_BOUNDARY_VISIBILITY_CHANGED_META) \
-    _avail(XrEventDataStartColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_START_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataStopColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_STOP_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataColocationAdvertisementCompleteMETA, XR_TYPE_EVENT_DATA_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
-    _avail(XrEventDataStartColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_START_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataColocationDiscoveryResultMETA, XR_TYPE_EVENT_DATA_COLOCATION_DISCOVERY_RESULT_META) \
-    _avail(XrEventDataColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataStopColocationDiscoveryCompleteMETA, XR_TYPE_EVENT_DATA_STOP_COLOCATION_DISCOVERY_COMPLETE_META) \
-    _avail(XrEventDataImageTrackingLostANDROID, XR_TYPE_EVENT_DATA_IMAGE_TRACKING_LOST_ANDROID) \
-    _avail(XrEventDataSpatialDiscoveryRecommendedEXT, XR_TYPE_EVENT_DATA_SPATIAL_DISCOVERY_RECOMMENDED_EXT) \
-    _avail(XrEventDataGeospatialTrackerStateChangedANDROID, XR_TYPE_EVENT_DATA_GEOSPATIAL_TRACKER_STATE_CHANGED_ANDROID) \
-    _avail(XrEventDataSpatialContainerClosedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_CLOSED_EXT) \
-    _avail(XrEventDataSpatialContainerBoundsChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_BOUNDS_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerVisibleChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_VISIBLE_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerVisibleRequestDeniedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_VISIBLE_REQUEST_DENIED_EXT) \
-    _avail(XrEventDataSpatialContainerInteractableChangedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_INTERACTABLE_CHANGED_EXT) \
-    _avail(XrEventDataSpatialContainerBoundsModeRequestDeniedEXT, XR_TYPE_EVENT_DATA_SPATIAL_CONTAINER_BOUNDS_MODE_REQUEST_DENIED_EXT) \
-    _avail(XrEventDataViewConfigurationViewsChangedEXT, XR_TYPE_EVENT_DATA_VIEW_CONFIGURATION_VIEWS_CHANGED_EXT) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Event_ದತ್ತಾಂಶ_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Events_ಕಳೆದುಹೋದ, XR_TYPE_EVENT_ದತ್ತಾಂಶ_EVENTS_ಕಳೆದುಹೋದ) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Instance_Loss_Pending, XR_TYPE_EVENT_ದತ್ತಾಂಶ_INSTANCE_LOSS_PENDING) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Session_State_ಬದಲಾಯಿತು, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SESSION_STATE_ಬದಲಾಯಿತು) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Reference_Space_Change_Pending, XR_TYPE_EVENT_ದತ್ತಾಂಶ_REFERENCE_SPACE_CHANGE_PENDING) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Interaction_Profile_ಬದಲಾಯಿತು, XR_TYPE_EVENT_ದತ್ತಾಂಶ_INTERACTION_PROFILE_ಬದಲಾಯಿತು) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Visibility_ಮುಖವಾಡ_ಬದಲಾಯಿತು_KHR, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VISIBILITY_ಮುಖವಾಡ_ಬದಲಾಯಿತು_KHR) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Perf_Settings_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_PERF_SETTINGS_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Main_Session_Visibility_ಬದಲಾಯಿತು_EXTX, XR_TYPE_EVENT_ದತ್ತಾಂಶ_MAIN_SESSION_VISIBILITY_ಬದಲಾಯಿತು_EXTX) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Display_Refresh_ದರ_ಬದಲಾಯಿತು_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_DISPLAY_REFRESH_ದರ_ಬದಲಾಯಿತು_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Vive_Tracker_Connected_HTCX, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VIVE_TRACKER_CONNECTED_HTCX) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Anchor_Create_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_ANCHOR_CREATE_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_ಗಣ_ಸ್ಥಿತಿ_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_ಗಣ_ಸ್ಥಿತಿ_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Passthrough_State_ಬದಲಾಯಿತು_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_PASSTHROUGH_STATE_ಬದಲಾಯಿತು_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Marker_Tracking_Update_VARJO, XR_TYPE_EVENT_ದತ್ತಾಂಶ_MARKER_TRACKING_UPDATE_VARJO) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Localization_ಬದಲಾಯಿತು_ML, XR_TYPE_EVENT_ದತ್ತಾಂಶ_LOCALIZATION_ಬದಲಾಯಿತು_ML) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_Query_Results_ಲಭ್ಯ_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_QUERY_RESULTS_ಲಭ್ಯ_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_Query_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_QUERY_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_Save_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_SAVE_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_Erase_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_ERASE_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_Share_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_SHARE_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Scene_Capture_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SCENE_CAPTURE_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Virtual_Keyboard_Commit_ಪಠ್ಯ_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VIRTUAL_KEYBOARD_COMMIT_ಪಠ್ಯ_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Virtual_Keyboard_Backspace_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VIRTUAL_KEYBOARD_BACKSPACE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Virtual_Keyboard_Enter_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VIRTUAL_KEYBOARD_ENTER_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Virtual_Keyboard_Shown_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VIRTUAL_KEYBOARD_SHOWN_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Virtual_Keyboard_Hidden_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VIRTUAL_KEYBOARD_HIDDEN_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_List_Save_Complete_FB, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_LIST_SAVE_COMPLETE_FB) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_Discovery_Results_ಲಭ್ಯ_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_DISCOVERY_RESULTS_ಲಭ್ಯ_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Space_Discovery_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACE_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spaces_Save_ಫಲಿತಾಂಶ_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACES_SAVE_ಫಲಿತಾಂಶ_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spaces_Erase_ಫಲಿತಾಂಶ_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPACES_ERASE_ಫಲಿತಾಂಶ_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Passthrough_Layer_Resumed_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_PASSTHROUGH_LAYER_RESUMED_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Share_Spaces_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SHARE_SPACES_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Interaction_Render_Models_ಬದಲಾಯಿತು_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_INTERACTION_RENDER_MODELS_ಬದಲಾಯಿತು_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Sense_ದತ್ತಾಂಶ_Provider_State_ಬದಲಾಯಿತು_BD, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SENSE_ದತ್ತಾಂಶ_PROVIDER_STATE_ಬದಲಾಯಿತು_BD) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Sense_ದತ್ತಾಂಶ_Updated_BD, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SENSE_ದತ್ತಾಂಶ_UPDATED_BD) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Recommended_Resolution_ಬದಲಾಯಿತು_ANDROID, XR_TYPE_EVENT_ದತ್ತಾಂಶ_RECOMMENDED_RESOLUTION_ಬದಲಾಯಿತು_ANDROID) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_User_Presence_ಬದಲಾಯಿತು_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_USER_PRESENCE_ಬದಲಾಯಿತು_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Headset_Fit_ಬದಲಾಯಿತು_ML, XR_TYPE_EVENT_ದತ್ತಾಂಶ_HEADSET_FIT_ಬದಲಾಯಿತು_ML) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Eye_Calibration_ಬದಲಾಯಿತು_ML, XR_TYPE_EVENT_ದತ್ತಾಂಶ_EYE_CALIBRATION_ಬದಲಾಯಿತು_ML) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Boundary_Visibility_ಬದಲಾಯಿತು_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_BOUNDARY_VISIBILITY_ಬದಲಾಯಿತು_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_ಆರಂಭ_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_ಆರಂಭ_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Stop_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_STOP_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Colocation_Advertisement_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_COLOCATION_ADVERTISEMENT_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_ಆರಂಭ_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_ಆರಂಭ_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Colocation_Discovery_ಫಲಿತಾಂಶ_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_COLOCATION_DISCOVERY_ಫಲಿತಾಂಶ_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Stop_Colocation_Discovery_Complete_META, XR_TYPE_EVENT_ದತ್ತಾಂಶ_STOP_COLOCATION_DISCOVERY_COMPLETE_META) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Image_Tracking_ಕಳೆದುಹೋದ_ANDROID, XR_TYPE_EVENT_ದತ್ತಾಂಶ_IMAGE_TRACKING_ಕಳೆದುಹೋದ_ANDROID) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Discovery_Recommended_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_DISCOVERY_RECOMMENDED_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Geospatial_Tracker_State_ಬದಲಾಯಿತು_ANDROID, XR_TYPE_EVENT_ದತ್ತಾಂಶ_GEOSPATIAL_TRACKER_STATE_ಬದಲಾಯಿತು_ANDROID) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Container_Closed_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_CONTAINER_CLOSED_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Container_Bounds_ಬದಲಾಯಿತು_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_CONTAINER_BOUNDS_ಬದಲಾಯಿತು_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Container_Visible_ಬದಲಾಯಿತು_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_CONTAINER_VISIBLE_ಬದಲಾಯಿತು_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Container_Visible_Request_Denied_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_CONTAINER_VISIBLE_REQUEST_DENIED_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Container_Interactable_ಬದಲಾಯಿತು_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_CONTAINER_INTERACTABLE_ಬದಲಾಯಿತು_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_Spatial_Container_Bounds_ಬಹುಲಕ_Request_Denied_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_SPATIAL_CONTAINER_BOUNDS_ಬಹುಲಕ_REQUEST_DENIED_EXT) \
+    _avail(Xr_Event_ದತ್ತಾಂಶ_View_Configuration_Views_ಬದಲಾಯಿತು_EXT, XR_TYPE_EVENT_ದತ್ತಾಂಶ_VIEW_CONFIGURATION_VIEWS_ಬದಲಾಯಿತು_EXT) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrHapticBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Haptic_ತಳ_ಶೀರ್ಷಿಕೆ(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Haptic_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrHapticBaseHeader_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Haptic_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
     _avail(XrHapticVibration, XR_TYPE_HAPTIC_VIBRATION) \
     _avail(XrHapticAmplitudeEnvelopeVibrationFB, XR_TYPE_HAPTIC_AMPLITUDE_ENVELOPE_VIBRATION_FB) \
     _avail(XrHapticPcmVibrationFB, XR_TYPE_HAPTIC_PCM_VIBRATION_FB) \
@@ -127,174 +127,174 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSwapchainImageBaseHeader
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_CORE(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_D3_D11(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_D3_D12(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_CORE(_avail, _unavail) \
 
 
-#if defined(XR_USE_GRAPHICS_API_D3D11)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_D3D11)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_D3_D11(_avail, _unavail) \
     _avail(XrSwapchainImageD3D11KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D11_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D11(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_D3_D11(_avail, _unavail) \
     _unavail(XrSwapchainImageD3D11KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D11_KHR) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(XR_USE_GRAPHICS_API_D3D12)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_D3D12)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_D3_D12(_avail, _unavail) \
     _avail(XrSwapchainImageD3D12KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D12_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_D3D12(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_D3_D12(_avail, _unavail) \
     _unavail(XrSwapchainImageD3D12KHR, XR_TYPE_SWAPCHAIN_IMAGE_D3D12_KHR) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(XR_USE_GRAPHICS_API_METAL)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_METAL)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
     _avail(XrSwapchainImageMetalKHR, XR_TYPE_SWAPCHAIN_IMAGE_METAL_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_METAL(_avail, _unavail) \
     _unavail(XrSwapchainImageMetalKHR, XR_TYPE_SWAPCHAIN_IMAGE_METAL_KHR) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_OPENGL)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
     _avail(XrSwapchainImageOpenGLKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_OPENGL(_avail, _unavail) \
     _unavail(XrSwapchainImageOpenGLKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_KHR) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_OPENGL_ES)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _avail(XrSwapchainImageOpenGLESKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_ES_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _unavail(XrSwapchainImageOpenGLESKHR, XR_TYPE_SWAPCHAIN_IMAGE_OPENGL_ES_KHR) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(XR_USE_GRAPHICS_API_VULKAN)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_VULKAN)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _avail(XrSwapchainImageVulkanKHR, XR_TYPE_SWAPCHAIN_IMAGE_VULKAN_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainImageBaseHeader_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_Image_ತಳ_ಶೀರ್ಷಿಕೆ_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _unavail(XrSwapchainImageVulkanKHR, XR_TYPE_SWAPCHAIN_IMAGE_VULKAN_KHR) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrLoaderInitInfoBaseHeaderKHR
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_CORE(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Loader_Init_Info_ತಳ_ಶೀರ್ಷಿಕೆ_KHR(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Loader_Init_Info_ತಳ_ಶೀರ್ಷಿಕೆ_KHR_CORE(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Loader_Init_Info_ತಳ_ಶೀರ್ಷಿಕೆ_KHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Loader_Init_Info_ತಳ_ಶೀರ್ಷಿಕೆ_KHR_CORE(_avail, _unavail) \
     _avail(XrLoaderInitInfoPropertiesEXT, XR_TYPE_LOADER_INIT_INFO_PROPERTIES_EXT) \
 
 
-#if defined(XR_USE_PLATFORM_ANDROID)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_PLATFORM_ANDROID)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Loader_Init_Info_ತಳ_ಶೀರ್ಷಿಕೆ_KHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _avail(XrLoaderInitInfoAndroidKHR, XR_TYPE_LOADER_INIT_INFO_ANDROID_KHR) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrLoaderInitInfoBaseHeaderKHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Loader_Init_Info_ತಳ_ಶೀರ್ಷಿಕೆ_KHR_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _unavail(XrLoaderInitInfoAndroidKHR, XR_TYPE_LOADER_INIT_INFO_ANDROID_KHR) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrBindingModificationBaseHeaderKHR
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Binding_Modification_ತಳ_ಶೀರ್ಷಿಕೆ_KHR(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Binding_Modification_ತಳ_ಶೀರ್ಷಿಕೆ_KHR_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrBindingModificationBaseHeaderKHR_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Binding_Modification_ತಳ_ಶೀರ್ಷಿಕೆ_KHR_CORE(_avail, _unavail) \
     _avail(XrInteractionProfileDpadBindingEXT, XR_TYPE_INTERACTION_PROFILE_DPAD_BINDING_EXT) \
-    _avail(XrInteractionProfileAnalogThresholdVALVE, XR_TYPE_INTERACTION_PROFILE_ANALOG_THRESHOLD_VALVE) \
+    _avail(Xr_Interaction_Profile_Analog_ಮಿತಿ_VALVE, XR_TYPE_INTERACTION_PROFILE_ANALOG_ಮಿತಿ_VALVE) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSwapchainStateBaseHeaderFB
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_CORE(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_CORE(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_CORE(_avail, _unavail) \
     _avail(XrSwapchainStateFoveationFB, XR_TYPE_SWAPCHAIN_STATE_FOVEATION_FB) \
 
 
-#if defined(XR_USE_GRAPHICS_API_OPENGL_ES)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_OPENGL_ES)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _avail(XrSwapchainStateSamplerOpenGLESFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_OPENGL_ES_FB) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_GRAPHICS_API_OPENGL_ES(_avail, _unavail) \
     _unavail(XrSwapchainStateSamplerOpenGLESFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_OPENGL_ES_FB) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(XR_USE_GRAPHICS_API_VULKAN)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_GRAPHICS_API_VULKAN)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _avail(XrSwapchainStateSamplerVulkanFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_VULKAN_FB) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_GRAPHICS_API_VULKAN(_avail, _unavail) \
     _unavail(XrSwapchainStateSamplerVulkanFB, XR_TYPE_SWAPCHAIN_STATE_SAMPLER_VULKAN_FB) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(XR_USE_PLATFORM_ANDROID)
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#ಆದರೆ defined(XR_USE_PLATFORM_ANDROID)
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _avail(XrSwapchainStateAndroidSurfaceDimensionsFB, XR_TYPE_SWAPCHAIN_STATE_ANDROID_SURFACE_DIMENSIONS_FB) \
 
-#else
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSwapchainStateBaseHeaderFB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Swapchain_State_ತಳ_ಶೀರ್ಷಿಕೆ_FB_XR_USE_PLATFORM_ANDROID(_avail, _unavail) \
     _unavail(XrSwapchainStateAndroidSurfaceDimensionsFB, XR_TYPE_SWAPCHAIN_STATE_ANDROID_SURFACE_DIMENSIONS_FB) \
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpatialAnchorsCreateInfoBaseHeaderML
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Anchors_Create_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ML(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Anchors_Create_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ML_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsCreateInfoBaseHeaderML_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Anchors_Create_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ML_CORE(_avail, _unavail) \
     _avail(XrSpatialAnchorsCreateInfoFromPoseML, XR_TYPE_SPATIAL_ANCHORS_CREATE_INFO_FROM_POSE_ML) \
     _avail(XrSpatialAnchorsCreateInfoFromUuidsML, XR_TYPE_SPATIAL_ANCHORS_CREATE_INFO_FROM_UUIDS_ML) \
 
@@ -303,18 +303,18 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrFutureCompletionBaseHeaderEXT
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Future_Completion_ತಳ_ಶೀರ್ಷಿಕೆ_EXT(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Future_Completion_ತಳ_ಶೀರ್ಷಿಕೆ_EXT_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrFutureCompletionBaseHeaderEXT_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Future_Completion_ತಳ_ಶೀರ್ಷಿಕೆ_EXT_CORE(_avail, _unavail) \
     _avail(XrCreateSpatialAnchorsCompletionML, XR_TYPE_CREATE_SPATIAL_ANCHORS_COMPLETION_ML) \
     _avail(XrSpatialAnchorsQueryCompletionML, XR_TYPE_SPATIAL_ANCHORS_QUERY_COMPLETION_ML) \
     _avail(XrSpatialAnchorsPublishCompletionML, XR_TYPE_SPATIAL_ANCHORS_PUBLISH_COMPLETION_ML) \
     _avail(XrSpatialAnchorsDeleteCompletionML, XR_TYPE_SPATIAL_ANCHORS_DELETE_COMPLETION_ML) \
     _avail(XrSpatialAnchorsUpdateExpirationCompletionML, XR_TYPE_SPATIAL_ANCHORS_UPDATE_EXPIRATION_COMPLETION_ML) \
-    _avail(XrSenseDataQueryCompletionBD, XR_TYPE_SENSE_DATA_QUERY_COMPLETION_BD) \
+    _avail(Xr_Sense_ದತ್ತಾಂಶ_Query_Completion_BD, XR_TYPE_SENSE_ದತ್ತಾಂಶ_QUERY_COMPLETION_BD) \
     _avail(XrFutureCompletionEXT, XR_TYPE_FUTURE_COMPLETION_EXT) \
     _avail(XrSpatialAnchorCreateCompletionBD, XR_TYPE_SPATIAL_ANCHOR_CREATE_COMPLETION_BD) \
     _avail(XrWorldMeshStateRequestCompletionML, XR_TYPE_WORLD_MESH_STATE_REQUEST_COMPLETION_ML) \
@@ -337,12 +337,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpatialAnchorsQueryInfoBaseHeaderML
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Anchors_Query_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ML(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Anchors_Query_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ML_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialAnchorsQueryInfoBaseHeaderML_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Anchors_Query_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ML_CORE(_avail, _unavail) \
     _avail(XrSpatialAnchorsQueryInfoRadiusML, XR_TYPE_SPATIAL_ANCHORS_QUERY_INFO_RADIUS_ML) \
 
 
@@ -350,12 +350,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpaceQueryInfoBaseHeaderFB
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Query_Info_ತಳ_ಶೀರ್ಷಿಕೆ_FB(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Query_Info_ತಳ_ಶೀರ್ಷಿಕೆ_FB_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceQueryInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Query_Info_ತಳ_ಶೀರ್ಷಿಕೆ_FB_CORE(_avail, _unavail) \
     _avail(XrSpaceQueryInfoFB, XR_TYPE_SPACE_QUERY_INFO_FB) \
 
 
@@ -363,12 +363,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpaceFilterInfoBaseHeaderFB
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Filter_Info_ತಳ_ಶೀರ್ಷಿಕೆ_FB(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Filter_Info_ತಳ_ಶೀರ್ಷಿಕೆ_FB_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterInfoBaseHeaderFB_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Filter_Info_ತಳ_ಶೀರ್ಷಿಕೆ_FB_CORE(_avail, _unavail) \
     _avail(XrSpaceUuidFilterInfoFB, XR_TYPE_SPACE_UUID_FILTER_INFO_FB) \
     _avail(XrSpaceComponentFilterInfoFB, XR_TYPE_SPACE_COMPONENT_FILTER_INFO_FB) \
 
@@ -377,12 +377,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpaceFilterBaseHeaderMETA
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Filter_ತಳ_ಶೀರ್ಷಿಕೆ_META(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Filter_ತಳ_ಶೀರ್ಷಿಕೆ_META_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpaceFilterBaseHeaderMETA_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Space_Filter_ತಳ_ಶೀರ್ಷಿಕೆ_META_CORE(_avail, _unavail) \
     _avail(XrSpaceFilterUuidMETA, XR_TYPE_SPACE_FILTER_UUID_META) \
     _avail(XrSpaceFilterComponentMETA, XR_TYPE_SPACE_FILTER_COMPONENT_META) \
 
@@ -391,12 +391,12 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrShareSpacesRecipientBaseHeaderMETA
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Share_Spaces_Recipient_ತಳ_ಶೀರ್ಷಿಕೆ_META(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Share_Spaces_Recipient_ತಳ_ಶೀರ್ಷಿಕೆ_META_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrShareSpacesRecipientBaseHeaderMETA_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Share_Spaces_Recipient_ತಳ_ಶೀರ್ಷಿಕೆ_META_CORE(_avail, _unavail) \
     _avail(XrShareSpacesRecipientGroupsMETA, XR_TYPE_SHARE_SPACES_RECIPIENT_GROUPS_META) \
 
 
@@ -404,48 +404,48 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrEnvironmentRaycastFilterBaseHeaderMETA
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Environment_Raycast_Filter_ತಳ_ಶೀರ್ಷಿಕೆ_META(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Environment_Raycast_Filter_ತಳ_ಶೀರ್ಷಿಕೆ_META_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrEnvironmentRaycastFilterBaseHeaderMETA_CORE(_avail, _unavail) \
-    _avail(XrEnvironmentRaycastFilterDistanceMETA, XR_TYPE_ENVIRONMENT_RAYCAST_FILTER_DISTANCE_META) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Environment_Raycast_Filter_ತಳ_ಶೀರ್ಷಿಕೆ_META_CORE(_avail, _unavail) \
+    _avail(Xr_Environment_Raycast_Filter_ದೂರ_META, XR_TYPE_ENVIRONMENT_RAYCAST_FILTER_ದೂರ_META) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrSpatialCapabilityConfigurationBaseHeaderEXT
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Capability_Configuration_ತಳ_ಶೀರ್ಷಿಕೆ_EXT(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Capability_Configuration_ತಳ_ಶೀರ್ಷಿಕೆ_EXT_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrSpatialCapabilityConfigurationBaseHeaderEXT_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Spatial_Capability_Configuration_ತಳ_ಶೀರ್ಷಿಕೆ_EXT_CORE(_avail, _unavail) \
     _avail(XrSpatialCapabilityConfigurationPlaneTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_PLANE_TRACKING_EXT) \
-    _avail(XrSpatialCapabilityConfigurationQrCodeEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_QR_CODE_EXT) \
-    _avail(XrSpatialCapabilityConfigurationMicroQrCodeEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_MICRO_QR_CODE_EXT) \
+    _avail(Xr_Spatial_Capability_Configuration_Qr_ಸಂಕೇತ_EXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_QR_ಸಂಕೇತ_EXT) \
+    _avail(Xr_Spatial_Capability_Configuration_Micro_Qr_ಸಂಕೇತ_EXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_MICRO_QR_ಸಂಕೇತ_EXT) \
     _avail(XrSpatialCapabilityConfigurationArucoMarkerEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_ARUCO_MARKER_EXT) \
-    _avail(XrSpatialCapabilityConfigurationAprilTagEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_APRIL_TAG_EXT) \
+    _avail(Xr_Spatial_Capability_Configuration_April_ಟ್ಯಾಗ್_EXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_APRIL_ಟ್ಯಾಗ್_EXT) \
     _avail(XrSpatialCapabilityConfigurationObjectTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_OBJECT_TRACKING_EXT) \
     _avail(XrSpatialCapabilityConfigurationAnchorEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_ANCHOR_EXT) \
     _avail(XrSpatialCapabilityConfigurationImageTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_IMAGE_TRACKING_EXT) \
     _avail(XrSpatialCapabilityConfigurationMeshTrackingEXT, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_MESH_TRACKING_EXT) \
     _avail(XrSpatialCapabilityConfigurationObjectTrackingANDROID, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_OBJECT_TRACKING_ANDROID) \
-    _avail(XrSpatialCapabilityConfigurationDepthRaycastANDROID, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_DEPTH_RAYCAST_ANDROID) \
+    _avail(Xr_Spatial_Capability_Configuration_ಆಳ_Raycast_ANDROID, XR_TYPE_SPATIAL_CAPABILITY_CONFIGURATION_ಆಳ_RAYCAST_ANDROID) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraPropertyBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Property_ತಳ_ಶೀರ್ಷಿಕೆ_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Property_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraPropertyBaseHeaderBD_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Property_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
     _avail(XrCameraPropertyFacingBD, XR_TYPE_CAMERA_PROPERTY_FACING_BD) \
     _avail(XrCameraPropertyPositionBD, XR_TYPE_CAMERA_PROPERTY_POSITION_BD) \
     _avail(XrCameraPropertyCameraTypeBD, XR_TYPE_CAMERA_PROPERTY_CAMERA_TYPE_BD) \
@@ -455,14 +455,14 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraSupportedCapabilityBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Supported_Capability_ತಳ_ಶೀರ್ಷಿಕೆ_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Supported_Capability_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraSupportedCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
-    _avail(XrCameraSupportedCapabilityImageResolutionAndFrameRateBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_RESOLUTION_AND_FRAME_RATE_BD) \
-    _avail(XrCameraSupportedCapabilityDataTransferTypeBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_DATA_TRANSFER_TYPE_BD) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Supported_Capability_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
+    _avail(Xr_Camera_Supported_Capability_Image_Resolution_And_ಚೌಕಟ್ಟು_ದರ_BD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_RESOLUTION_AND_ಚೌಕಟ್ಟು_ದರ_BD) \
+    _avail(Xr_Camera_Supported_Capability_ದತ್ತಾಂಶ_Transfer_Type_BD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_ದತ್ತಾಂಶ_TRANSFER_TYPE_BD) \
     _avail(XrCameraSupportedCapabilityImageFormatBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_IMAGE_FORMAT_BD) \
     _avail(XrCameraSupportedCapabilityCameraModelBD, XR_TYPE_CAMERA_SUPPORTED_CAPABILITY_CAMERA_MODEL_BD) \
 
@@ -471,14 +471,14 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraCapabilityBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Capability_ತಳ_ಶೀರ್ಷಿಕೆ_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Capability_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraCapabilityBaseHeaderBD_CORE(_avail, _unavail) \
-    _avail(XrCameraCapabilityImageResolutionAndFrameRateBD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_RESOLUTION_AND_FRAME_RATE_BD) \
-    _avail(XrCameraCapabilityDataTransferTypeBD, XR_TYPE_CAMERA_CAPABILITY_DATA_TRANSFER_TYPE_BD) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Capability_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
+    _avail(Xr_Camera_Capability_Image_Resolution_And_ಚೌಕಟ್ಟು_ದರ_BD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_RESOLUTION_AND_ಚೌಕಟ್ಟು_ದರ_BD) \
+    _avail(Xr_Camera_Capability_ದತ್ತಾಂಶ_Transfer_Type_BD, XR_TYPE_CAMERA_CAPABILITY_ದತ್ತಾಂಶ_TRANSFER_TYPE_BD) \
     _avail(XrCameraCapabilityImageFormatBD, XR_TYPE_CAMERA_CAPABILITY_IMAGE_FORMAT_BD) \
     _avail(XrCameraCapabilityCameraModelBD, XR_TYPE_CAMERA_CAPABILITY_CAMERA_MODEL_BD) \
 
@@ -487,26 +487,26 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrCameraImageDataBaseHeaderBD
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Image_ದತ್ತಾಂಶ_ತಳ_ಶೀರ್ಷಿಕೆ_BD(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Image_ದತ್ತಾಂಶ_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrCameraImageDataBaseHeaderBD_CORE(_avail, _unavail) \
-    _avail(XrCameraImageDataRawBufferBD, XR_TYPE_CAMERA_IMAGE_DATA_RAW_BUFFER_BD) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Camera_Image_ದತ್ತಾಂಶ_ತಳ_ಶೀರ್ಷಿಕೆ_BD_CORE(_avail, _unavail) \
+    _avail(Xr_Camera_Image_ದತ್ತಾಂಶ_Raw_ಬಫರ್_BD, XR_TYPE_CAMERA_IMAGE_ದತ್ತಾಂಶ_RAW_ಬಫರ್_BD) \
 
 
 
 
 
 /// Like XR_LIST_ALL_STRUCTURE_TYPES, but only includes types whose parent struct type is XrGoogleCloudAuthInfoBaseHeaderANDROID
-#define XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID(_avail, _unavail) \
-    _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID_CORE(_avail, _unavail) \
+#ವ್ಯಾಖ್ಯಾನಿಸು XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Google_Cloud_Auth_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ANDROID(_avail, _unavail) \
+    impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Google_Cloud_Auth_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ANDROID_CORE(_avail, _unavail) \
 
 
 // Implementation detail of XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID()
-#define _impl_XR_LIST_ALL_CHILD_STRUCTURE_TYPES_XrGoogleCloudAuthInfoBaseHeaderANDROID_CORE(_avail, _unavail) \
-    _avail(XrGoogleCloudAuthInfoApiKeyANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_KEY_ANDROID) \
+#ವ್ಯಾಖ್ಯಾನಿಸು impl_XR_LIST_ALL_ಮಗು_STRUCTURE_TYPES_Xr_Google_Cloud_Auth_Info_ತಳ_ಶೀರ್ಷಿಕೆ_ANDROID_CORE(_avail, _unavail) \
+    _avail(Xr_Google_Cloud_Auth_Info_Api_ಕೀಲಿ_ANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_API_ಕೀಲಿ_ANDROID) \
     _avail(XrGoogleCloudAuthInfoTokenANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_TOKEN_ANDROID) \
     _avail(XrGoogleCloudAuthInfoKeylessANDROID, XR_TYPE_GOOGLE_CLOUD_AUTH_INFO_KEYLESS_ANDROID) \
 
@@ -514,5 +514,5 @@ This file contains expansion macros (X Macros) for OpenXR structures that have a
 
 
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 

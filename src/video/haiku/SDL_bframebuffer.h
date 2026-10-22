@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BFRAMEBUFFER_H
-#define SDL_BFRAMEBUFFER_H
-#include <SupportDefs.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_BFRAMEBUFFER_H
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_BFRAMEBUFFER_H
+#ಅನ್ತರ್ಭಾವ <SupportDefs.h>
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
-#define DRAWTHREAD
+#ವ್ಯಾಖ್ಯಾನಿಸು DRAWTHREAD
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-extern bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+ಬಾಹ್ಯ bool HAIKU_Create_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
                                           SDL_PixelFormat *format,
-                                          void **pixels, int *pitch);
-extern bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                          const SDL_Rect *rects, int numrects);
-extern void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
-extern int32 HAIKU_DrawThread(void *data);
+                                          ಶೂನ್ಯ **pixels, ಪೂರ್ಣಾಂಕ *pitch);
+ಬಾಹ್ಯ bool HAIKU_Update_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
+                                          ಸ್ಥಿರಾಂಕ SDL_Rect *rects, ಪೂರ್ಣಾಂಕ numrects);
+ಬಾಹ್ಯ ಶೂನ್ಯ HAIKU_Destroy_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ int32 HAIKU_DrawThread(ಶೂನ್ಯ *ದತ್ತಾಂಶ);
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

@@ -18,206 +18,206 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
-#include "../SDL_sysvideo.h"
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_HAIKU
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#include "SDL_BWin.h"
-#include <new>
+#ಅನ್ತರ್ಭಾವ "SDL_BWin.h"
+#ಅನ್ತರ್ಭಾವ <new>
 
 // Define a path to window's BWIN data
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+ಸ್ಥಿರ SDL_INLINE SDL_BWin *ಗಮ್ಯ_Be_Win(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    return (SDL_BWin *)(window->internal);
+    ಹಿಂತಿರುಗಿ (SDL_BWin *)(ಕಿಟಕಿ->ಆಂತರಿಕ);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+ಸ್ಥಿರ SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    ಹಿಂತಿರುಗಿ SDL_Looper;
 }
 
-static bool _InitWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+ಸ್ಥಿರ ತಾರ್ಕಿಕ Init_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props)
 {
     uint32 flags = 0;
-    window_look look = B_TITLED_WINDOW_LOOK;
+    ಕಿಟಕಿ_look look = B_TITLED_ಕಿಟಕಿ_LOOK;
 
     BRect bounds(
-        window->x,
-        window->y,
-        window->x + window->w - 1,    //BeWindows have an off-by-one px w/h thing
-        window->y + window->h - 1
+        ಕಿಟಕಿ->x,
+        ಕಿಟಕಿ->y,
+        ಕಿಟಕಿ->x + ಕಿಟಕಿ->w - 1,    //BeWindows have an off-by-one px w/h thing
+        ಕಿಟಕಿ->y + ಕಿಟಕಿ->h - 1
     );
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN) {
         // TODO: Add support for this flag
     }
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_OPENGL) {
         // TODO: Add support for this flag
     }
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
+    ಆದರೆ (!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE)) {
         flags |= B_NOT_RESIZABLE | B_NOT_ZOOMABLE;
     }
-    if (window->flags & SDL_WINDOW_BORDERLESS) {
-        look = B_NO_BORDER_WINDOW_LOOK;
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS) {
+        look = B_NO_BORDER_ಕಿಟಕಿ_LOOK;
     }
 
-    SDL_BWin *bwin = new(std::nothrow) SDL_BWin(bounds, look, flags);
-    if (!bwin) {
-        return false;
+    SDL_BWin *bwin = ಹೊಸ(std::nothrow) SDL_BWin(bounds, look, flags);
+    ಆದರೆ (!bwin) {
+        ಹಿಂತಿರುಗಿ ಸುಳ್ಳು;
     }
 
-    window->internal = (SDL_WindowData *)bwin;
-    int32 winID = _GetBeLooper()->GetID(window);
-    bwin->SetID(winID);
+    ಕಿಟಕಿ->ಆಂತರಿಕ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)bwin;
+    int32 winID = _GetBeLooper()->GetID(ಕಿಟಕಿ);
+    bwin->ಗಣ_ID(winID);
 
-    return true;
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
-bool HAIKU_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+ತಾರ್ಕಿಕ HAIKU_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props)
 {
-    if (!_InitWindow(_this, window, create_props)) {
-        return false;
+    ಆದರೆ (!Init_ಕಿಟಕಿ(_this, ಕಿಟಕಿ, create_props)) {
+        ಹಿಂತಿರುಗಿ ಸುಳ್ಳು;
     }
 
     // Start window loop
-    _ToBeWin(window)->Show();
-    return true;
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Show();
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
-void HAIKU_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_SET_TITLE);
-    msg.AddString("window-title", window->title);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_ಗಣ_TITLE);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_String("window-title", ಕಿಟಕಿ->title);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-bool HAIKU_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window * window)
+ತಾರ್ಕಿಕ HAIKU_ಗಣ_ಕಿಟಕಿ_Position(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_MOVE_WINDOW);
-    msg.AddInt32("window-x", window->pending.x);
-    msg.AddInt32("window-y", window->pending.y);
-    _ToBeWin(window)->PostMessage(&msg);
-    return true;
+    BMessage ಸಂದೇಶ_2(BWIN_MOVE_ಕಿಟಕಿ);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Int32("window-x", ಕಿಟಕಿ->pending.x);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Int32("window-y", ಕಿಟಕಿ->pending.y);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
-void HAIKU_SetWindowSize(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_RESIZE_WINDOW);
-    msg.AddInt32("window-w", window->pending.w - 1);
-    msg.AddInt32("window-h", window->pending.h - 1);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_RESIZE_ಕಿಟಕಿ);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Int32("window-w", ಕಿಟಕಿ->pending.w - 1);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Int32("window-h", ಕಿಟಕಿ->pending.h - 1);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window * window, bool bordered)
+ಶೂನ್ಯ HAIKU_ಗಣ_ಕಿಟಕಿ_Bordered(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ, ತಾರ್ಕಿಕ bordered)
 {
-    BMessage msg(BWIN_SET_BORDERED);
-    msg.AddBool("window-border", bordered != false);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_ಗಣ_BORDERED);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Bool("window-border", bordered != ಸುಳ್ಳು);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable)
+ಶೂನ್ಯ HAIKU_ಗಣ_ಕಿಟಕಿ_Resizable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ, ತಾರ್ಕಿಕ resizable)
 {
-    BMessage msg(BWIN_SET_RESIZABLE);
-    msg.AddBool("window-resizable", resizable != false);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_ಗಣ_RESIZABLE);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Bool("window-resizable", resizable != ಸುಳ್ಳು);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_ShowWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_Show_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_SHOW_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_SHOW_ಕಿಟಕಿ);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_HideWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_Hide_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_HIDE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_HIDE_ಕಿಟಕಿ);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_RaiseWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_Raise_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_SHOW_WINDOW);    // Activate this window and move to front
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_SHOW_ಕಿಟಕಿ);    // Activate this window and move to front
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_Maximize_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_MAXIMIZE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_MAXIMIZE_ಕಿಟಕಿ);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_Minimize_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_MINIMIZE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_MINIMIZE_ಕಿಟಕಿ);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-void HAIKU_RestoreWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_Restore_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_RESTORE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_RESTORE_ಕಿಟಕಿ);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-SDL_FullscreenResult HAIKU_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay * display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_ಫಲಿತಾಂಶ HAIKU_ಗಣ_ಕಿಟಕಿ_Fullscreen(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_VideoDisplay * display, SDL_FullscreenOp fullscreen)
 {
     // Haiku tracks all video display information
-    BMessage msg(BWIN_FULLSCREEN);
-    msg.AddBool("fullscreen", !!fullscreen);
-    _ToBeWin(window)->PostMessage(&msg);
-    return SDL_FULLSCREEN_SUCCEEDED;
+    BMessage ಸಂದೇಶ_2(BWIN_FULLSCREEN);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Bool("fullscreen", !!fullscreen);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
+    ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_SUCCEEDED;
 }
 
 
-void HAIKU_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_ಗಣ_ಕಿಟಕಿ_Minimum_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    BMessage msg(BWIN_MINIMUM_SIZE_WINDOW);
-    msg.AddInt32("window-w", window->w -1);
-    msg.AddInt32("window-h", window->h -1);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage ಸಂದೇಶ_2(BWIN_MINIMUM_ಗಾತ್ರ_ಕಿಟಕಿ);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Int32("window-w", ಕಿಟಕಿ->w -1);
+    ಸಂದೇಶ_2.ಕೂಡಿಸು_Int32("window-h", ಕಿಟಕಿ->h -1);
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Post_ಸಂದೇಶ(&ಸಂದೇಶ_2);
 }
 
-bool HAIKU_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window * window, bool grabbed)
+ತಾರ್ಕಿಕ HAIKU_ಗಣ_ಕಿಟಕಿ_Mouse_Grab(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ, ತಾರ್ಕಿಕ grabbed)
 {
     // TODO: Implement this!
-    return SDL_Unsupported();
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
-bool HAIKU_SetWindowParent(SDL_VideoDevice *_this, SDL_Window * window, SDL_Window *parent)
+ತಾರ್ಕಿಕ HAIKU_ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ, SDL_ಕಿಟಕಿ *ಪೋಷಕ)
 {
-    return true;
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
-bool HAIKU_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+ತಾರ್ಕಿಕ HAIKU_ಗಣ_ಕಿಟಕಿ_Modal(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ತಾರ್ಕಿಕ modal)
 {
-    if (modal) {
-        _ToBeWin(window)->SetLook(B_MODAL_WINDOW_LOOK);
-        _ToBeWin(window)->SetFeel(B_MODAL_SUBSET_WINDOW_FEEL);
-        _ToBeWin(window)->AddToSubset(_ToBeWin(window->parent));
-    } else {
-        window_look look = (window->flags & SDL_WINDOW_BORDERLESS) ? B_NO_BORDER_WINDOW_LOOK : B_TITLED_WINDOW_LOOK;
-        _ToBeWin(window)->RemoveFromSubset(_ToBeWin(window->parent));
-        _ToBeWin(window)->SetLook(look);
-        _ToBeWin(window)->SetFeel(B_NORMAL_WINDOW_FEEL);
+    ಆದರೆ (modal) {
+        ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->ಗಣ_Look(B_MODAL_ಕಿಟಕಿ_LOOK);
+        ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->ಗಣ_Feel(B_MODAL_SUBSET_ಕಿಟಕಿ_FEEL);
+        ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->ಕೂಡಿಸು_ಗಮ್ಯ_Subset(ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ->ಪೋಷಕ));
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಕಿಟಕಿ_look look = (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS) ? B_NO_BORDER_ಕಿಟಕಿ_LOOK : B_TITLED_ಕಿಟಕಿ_LOOK;
+        ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->RemoveFromSubset(ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ->ಪೋಷಕ));
+        ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->ಗಣ_Look(look);
+        ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->ಗಣ_Feel(B_ಸಾಮಾನ್ಯ_ಕಿಟಕಿ_FEEL);
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
-void HAIKU_DestroyWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ಶೂನ್ಯ HAIKU_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    _ToBeWin(window)->LockLooper();    // This MUST be locked
-    _GetBeLooper()->ClearID(_ToBeWin(window));
-    _ToBeWin(window)->Quit();
-    window->internal = NULL;
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->ಬೀಗ_Looper();    // This MUST be locked
+    _GetBeLooper()->ClearID(ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ));
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->Quit();
+    ಕಿಟಕಿ->ಆಂತರಿಕ = ಖಾಲಿ;
 }
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_HAIKU

@@ -18,94 +18,94 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11shape.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11shape.h"
 
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
-static Uint8 *GenerateShapeMask(SDL_Surface *shape)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSHAPE
+ಸ್ಥಿರ Uint8 *Generate_Shape_ಮುಖವಾಡ(SDL_Surface *shape)
 {
-    int x, y;
-    const size_t ppb = 8;
-    const size_t bytes_per_scanline = (shape->w + (ppb - 1)) / ppb;
-    const Uint8 *a;
-    Uint8 *mask;
-    Uint8 *mask_scanline;
-    Uint8 mask_value;
+    ಪೂರ್ಣಾಂಕ x, y;
+    ಸ್ಥಿರಾಂಕ size_t ppb = 8;
+    ಸ್ಥಿರಾಂಕ size_t ಬೈಟುಗಳು_ಪ್ರತಿ_scanline = (shape->w + (ppb - 1)) / ppb;
+    ಸ್ಥಿರಾಂಕ Uint8 *a;
+    Uint8 *ಮುಖವಾಡ;
+    Uint8 *ಮುಖವಾಡ_scanline;
+    Uint8 ಮುಖವಾಡ_ಮೌಲ್ಯ;
 
-    mask = (Uint8 *)SDL_calloc(1, shape->h * bytes_per_scanline);
-    if (mask) {
-        for (y = 0; y < shape->h; y++) {
-            a = (const Uint8 *)shape->pixels + y * shape->pitch;
-            mask_scanline = mask + y * bytes_per_scanline;
-            for (x = 0; x < shape->w; x++) {
-                mask_value = (*a == SDL_ALPHA_TRANSPARENT) ? 0 : 1;
-                mask_scanline[x / ppb] |= mask_value << (x % ppb);
+    ಮುಖವಾಡ = (Uint8 *)SDL_calloc(1, shape->h * ಬೈಟುಗಳು_ಪ್ರತಿ_scanline);
+    ಆದರೆ (ಮುಖವಾಡ) {
+        ಗಾಗಿ (y = 0; y < shape->h; y++) {
+            a = (ಸ್ಥಿರಾಂಕ Uint8 *)shape->pixels + y * shape->pitch;
+            ಮುಖವಾಡ_scanline = ಮುಖವಾಡ + y * ಬೈಟುಗಳು_ಪ್ರತಿ_scanline;
+            ಗಾಗಿ (x = 0; x < shape->w; x++) {
+                ಮುಖವಾಡ_ಮೌಲ್ಯ = (*a == SDL_ALPHA_TRANSPARENT) ? 0 : 1;
+                ಮುಖವಾಡ_scanline[x / ppb] |= ಮುಖವಾಡ_ಮೌಲ್ಯ << (x % ppb);
                 a += 4;
             }
         }
     }
-    return mask;
+    ಹಿಂತಿರುಗಿ ಮುಖವಾಡ;
 }
-#endif // SDL_VIDEO_DRIVER_X11_XSHAPE
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XSHAPE
 
-bool X11_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape)
+bool X11_Update_ಕಿಟಕಿ_Shape(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_Surface *shape)
 {
-    bool result = false;
+    bool ಫಲಿತಾಂಶ = false;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
-    SDL_WindowData *windowdata = window->internal;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSHAPE
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windowdata = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     // Generate a set of spans for the region
-    if (shape) {
-        SDL_Surface *stretched = NULL;
-        Uint8 *mask;
+    ಆದರೆ (shape) {
+        SDL_Surface *stretched = ಖಾಲಿ;
+        Uint8 *ಮುಖವಾಡ;
         Pixmap pixmap;
 
-        if (shape->w != window->w || shape->h != window->h) {
-            stretched = SDL_CreateSurfaceUninitialized(window->w, window->h, SDL_PIXELFORMAT_ARGB32);
-            if (!stretched) {
-                return false;
+        ಆದರೆ (shape->w != ಕಿಟಕಿ->w || shape->h != ಕಿಟಕಿ->h) {
+            stretched = SDL_CreateSurfaceUninitialized(ಕಿಟಕಿ->w, ಕಿಟಕಿ->h, SDL_PIXELFORMAT_ARGB32);
+            ಆದರೆ (!stretched) {
+                ಹಿಂತಿರುಗಿ false;
             }
-            if (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
+            ಆದರೆ (!SDL_StretchSurface(shape, ಖಾಲಿ, stretched, ಖಾಲಿ, SDL_SCALEMODE_ರೇಖೀಯ)) {
                 SDL_DestroySurface(stretched);
-                return false;
+                ಹಿಂತಿರುಗಿ false;
             }
             shape = stretched;
         }
 
-        mask = GenerateShapeMask(shape);
-        if (mask) {
-            pixmap = X11_XCreateBitmapFromData(windowdata->videodata->display, windowdata->xwindow, (const char *)mask, shape->w, shape->h);
-            X11_XShapeCombineMask(windowdata->videodata->display, windowdata->xwindow, ShapeInput, 0, 0, pixmap, ShapeSet);
-            SDL_free(mask);
+        ಮುಖವಾಡ = Generate_Shape_ಮುಖವಾಡ(shape);
+        ಆದರೆ (ಮುಖವಾಡ) {
+            pixmap = X11_XCreate_Bitmap_From_ದತ್ತಾಂಶ(windowdata->videodata->display, windowdata->xwindow, (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *)ಮುಖವಾಡ, shape->w, shape->h);
+            X11_XShape_Combine_ಮುಖವಾಡ(windowdata->videodata->display, windowdata->xwindow, Shape_ಒಳಹರಿವು, 0, 0, pixmap, Shape_ಗಣ);
+            SDL_free(ಮುಖವಾಡ);
 
-            result = true;
+            ಫಲಿತಾಂಶ = true;
         }
 
-        if (stretched) {
+        ಆದರೆ (stretched) {
             SDL_DestroySurface(stretched);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         Region region = X11_XCreateRegion();
         XRectangle rect;
 
         rect.x = 0;
         rect.y = 0;
-        rect.width = window->w;
-        rect.height = window->h;
+        rect.ಅಗಲ = ಕಿಟಕಿ->w;
+        rect.ಎತ್ತರ = ಕಿಟಕಿ->h;
         X11_XUnionRectWithRegion(&rect, region, region);
-        X11_XShapeCombineRegion(windowdata->videodata->display, windowdata->xwindow, ShapeInput, 0, 0, region, ShapeSet);
+        X11_XShapeCombineRegion(windowdata->videodata->display, windowdata->xwindow, Shape_ಒಳಹರಿವು, 0, 0, region, Shape_ಗಣ);
         X11_XDestroyRegion(region);
-        result = true;
+        ಫಲಿತಾಂಶ = true;
     }
-#endif // SDL_VIDEO_DRIVER_X11_XSHAPE
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XSHAPE
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11

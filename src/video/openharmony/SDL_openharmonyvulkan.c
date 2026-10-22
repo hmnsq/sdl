@@ -24,151 +24,151 @@
  * www.edgewise-consulting.com, and originally based on Jacob Lifshay's SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
+#ಆದರೆ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
 
-#include "../SDL_vulkan_internal.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_vulkan_internal.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonywindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonywindow.h"
 
-#include "SDL_openharmonyvulkan.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyvulkan.h"
 
 
-bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OPENHARMONY_Vulkan_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ)
 {
-    VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    VkExtensionProperties *extensions = ಖಾಲಿ;
+    Uint32 extension_ಎಣಿಕೆ = 0;
     bool hasSurfaceExtension = false;
     bool hasOHOSSurfaceExtension = false;
-    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
+    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = ಖಾಲಿ;
 
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    ಆದರೆ (_this->vulkan_config.loader_handle) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
-        path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
-        if (!path) {
-            path = "libvulkan.so";
+    ಆದರೆ (!ಮಾರ್ಗ) {
+        ಮಾರ್ಗ = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
+        ಆದರೆ (!ಮಾರ್ಗ) {
+            ಮಾರ್ಗ = "libvulkan.so";
         }
     }
 
-    SDL_SharedObject *lib = SDL_LoadObject(path);
+    SDL_SharedObject *lib = SDL_ತುಂಬು_Object(ಮಾರ್ಗ);
     _this->vulkan_config.loader_handle = lib;
-    if (!lib) {
-        return false;
+    ಆದರೆ (!lib) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    SDL_strlcpy(_this->vulkan_config.loader_path, path, sizeof (_this->vulkan_config.loader_path));
-    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr) SDL_LoadFunction(lib, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
-        goto fail;
+    SDL_strlcpy(_this->vulkan_config.loader_ಮಾರ್ಗ, ಮಾರ್ಗ, ಗಾತ್ರ (_this->vulkan_config.loader_ಮಾರ್ಗ));
+    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr) SDL_ತುಂಬು_Function(lib, "vkGetInstanceProcAddr");
+    ಆದರೆ (!vkGetInstanceProcAddr) {
+        ಹೋಗು fail;
     }
 
-    _this->vulkan_config.vkGetInstanceProcAddr = (void *)vkGetInstanceProcAddr;
-    _this->vulkan_config.vkEnumerateInstanceExtensionProperties = (void *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
-        goto fail;
+    _this->vulkan_config.vkGetInstanceProcAddr = (ಶೂನ್ಯ *)vkGetInstanceProcAddr;
+    _this->vulkan_config.vkEnumerateInstanceExtensionProperties = (ಶೂನ್ಯ *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
+    ಆದರೆ (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+        ಹೋಗು fail;
     }
 
-    extensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &extensionCount);
-    if (!extensions) {
-        goto fail;
+    extensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &extension_ಎಣಿಕೆ);
+    ಆದರೆ (!extensions) {
+        ಹೋಗು fail;
     }
 
-    for (Uint32 i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    ಗಾಗಿ (Uint32 i = 0; i < extension_ಎಣಿಕೆ; i++) {
+        ಆದರೆ (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_OHOS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(VK_OHOS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasOHOSSurfaceExtension = true;
         }
     }
 
     SDL_free(extensions);
 
-    if (!hasSurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
-    } else if (!hasOHOSSurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_OHOS_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
+    ಆದರೆ (!hasSurfaceExtension) {
+        SDL_ಗಣ_Error("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
+        ಹೋಗು fail;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!hasOHOSSurfaceExtension) {
+        SDL_ಗಣ_Error("Installed Vulkan doesn't implement the " VK_OHOS_SURFACE_EXTENSION_NAME " extension");
+        ಹೋಗು fail;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
-    _this->vulkan_config.loader_handle = NULL;
-    return false;
+    _this->vulkan_config.loader_handle = ಖಾಲಿ;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
+ಶೂನ್ಯ OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    ಆದರೆ (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
-        _this->vulkan_config.loader_handle = NULL;
+        _this->vulkan_config.loader_handle = ಖಾಲಿ;
     }
 }
 
-char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+ಅಕ್ಷರ ಸ್ಥಿರಾಂಕ * ಸ್ಥಿರಾಂಕ *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ಎಣಿಕೆ_2)
 {
-    static const char *const extensionsForOpenHarmony[] = {
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸ್ಥಿರಾಂಕ extensionsForOpenHarmony[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_OHOS_SURFACE_EXTENSION_NAME
     };
-    if (count) {
-        *count = SDL_arraysize(extensionsForOpenHarmony);
+    ಆದರೆ (ಎಣಿಕೆ_2) {
+        *ಎಣಿಕೆ_2 = SDL_arraysize(extensionsForOpenHarmony);
     }
-    return extensionsForOpenHarmony;
+    ಹಿಂತಿರುಗಿ extensionsForOpenHarmony;
 }
 
 bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+                                 SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator,
                                  VkSurfaceKHR *surface)
 {
-    SDL_WindowData *windowData = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ_ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
     PFN_vkCreateSurfaceOHOS vkCreateSurfaceOHOS = (PFN_vkCreateSurfaceOHOS ) vkGetInstanceProcAddr(instance, "vkCreateSurfaceOHOS");
     VkSurfaceCreateInfoOHOS createInfo;
-    VkResult result;
+    Vk_ಫಲಿತಾಂಶ ಫಲಿತಾಂಶ;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ಆದರೆ (!_this->vulkan_config.loader_handle) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Vulkan is not loaded");
     }
 
-    if (!vkCreateSurfaceOHOS) {
-        return SDL_SetError(VK_OHOS_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+    ಆದರೆ (!vkCreateSurfaceOHOS) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error(VK_OHOS_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
     }
 
     SDL_zero(createInfo);
     createInfo.sType = VK_STRUCTURE_TYPE_SURFACE_CREATE_INFO_OHOS;
-    createInfo.pNext = NULL;
+    createInfo.p_ಮುಂದಿನ = ಖಾಲಿ;
     createInfo.flags = 0;
-    createInfo.window = (OHNativeWindow *) windowData->native_window;
-    result = vkCreateSurfaceOHOS(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        if (result == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR) {
-            return SDL_SetError("vkCreateSurfaceOHOS failed: %s, was the window created with SDL_WINDOW_VULKAN?", SDL_Vulkan_GetResultString(result));
-        } else {
-            return SDL_SetError("vkCreateSurfaceOHOS failed: %s", SDL_Vulkan_GetResultString(result));
+    createInfo.ಕಿಟಕಿ = (OHNative_ಕಿಟಕಿ *) ಕಿಟಕಿ_ದತ್ತಾಂಶ->native_ಕಿಟಕಿ;
+    ಫಲಿತಾಂಶ = vkCreateSurfaceOHOS(instance, &createInfo, allocator, surface);
+    ಆದರೆ (ಫಲಿತಾಂಶ != VK_SUCCESS) {
+        ಆದರೆ (ಫಲಿತಾಂಶ == VK_ERROR_NATIVE_ಕಿಟಕಿ_ಒಳ_USE_KHR) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("vkCreateSurfaceOHOS failed: %s, was the window created with SDL_WINDOW_VULKAN?", SDL_Vulkan_Get_ಫಲಿತಾಂಶ_String(ಫಲಿತಾಂಶ));
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("vkCreateSurfaceOHOS failed: %s", SDL_Vulkan_Get_ಫಲಿತಾಂಶ_String(ಫಲಿತಾಂಶ));
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ಶೂನ್ಯ OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator)
+                                   ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
-        SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
+    ಆದರೆ (_this->vulkan_config.loader_handle) {
+        SDL_Vulkan_Destroy_Surface_ಆಂತರಿಕ(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 

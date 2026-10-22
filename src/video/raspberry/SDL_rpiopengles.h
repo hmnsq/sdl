@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_rpiopengles_h_
-#define SDL_rpiopengles_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_rpiopengles_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_rpiopengles_h_
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define RPI_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define RPI_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define RPI_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define RPI_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define RPI_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
+#ವ್ಯಾಖ್ಯಾನಿಸು RPI_GLES_GetAttribute    SDL_EGL_GetAttribute
+#ವ್ಯಾಖ್ಯಾನಿಸು RPI_GLES_Get_Proc_ವಿಳಾಸ  SDL_EGL_Get_Proc_ವಿಳಾಸ_ಆಂತರಿಕ
+#ವ್ಯಾಖ್ಯಾನಿಸು RPI_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#ವ್ಯಾಖ್ಯಾನಿಸು RPI_GLES_ಗಣ_ಅದಲುಬದಲು_Interval SDL_EGL_ಗಣ_ಅದಲುಬದಲು_Interval
+#ವ್ಯಾಖ್ಯಾನಿಸು RPI_GLES_Get_ಅದಲುಬದಲು_Interval SDL_EGL_Get_ಅದಲುಬದಲು_Interval
+#ವ್ಯಾಖ್ಯಾನಿಸು RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool RPI_GLES_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool RPI_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_GLContext context);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_GLES_ಗಣ_Default_Profile_Config(SDL_VideoDevice *_this);
 
-#endif // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_rpiopengles_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_rpiopengles_h_

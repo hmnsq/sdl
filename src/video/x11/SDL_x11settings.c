@@ -19,90 +19,90 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11settings.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11settings.h"
 
-static void UpdateContentScale(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ UpdateContentScale(SDL_VideoDevice *_this)
 {
-    if (_this) {
-        float scale_factor = X11_GetGlobalContentScaleForDevice(_this);
-        for (int i = 0; i < _this->num_displays; ++i) {
-            SDL_SetDisplayContentScale(_this->displays[i], scale_factor);
+    ಆದರೆ (_this) {
+        ದಶಮಾಂಶ scale_ಗುಣಕ_2 = X11_GetGlobalContentScaleForDevice(_this);
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
+            SDL_ಗಣ_Display_Content_Scale(_this->displays[i], scale_ಗುಣಕ_2);
         }
     }
 }
 
-static void X11_XsettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_XsettingsNotify(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name, XSettingsAction action, XSettingsSetting *setting, ಶೂನ್ಯ *ದತ್ತಾಂಶ)
 {
-    SDL_VideoDevice *_this = data;
+    SDL_VideoDevice *_this = ದತ್ತಾಂಶ;
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    ಆದರೆ (SDL_strcmp(name, SDL_XSETTINGS_GDK_ಕಿಟಕಿ_SCALING_ಗುಣಕ) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         UpdateContentScale(_this);
     }
 }
 
-void X11_InitXsettings(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_InitXsettings(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    SDLX11_Settings_ದತ್ತಾಂಶ *xsettings_ದತ್ತಾಂಶ = &ದತ್ತಾಂಶ->xsettings_ದತ್ತಾಂಶ;
 
-    xsettings_data->xsettings = xsettings_client_new(data->display,
-        DefaultScreen(data->display), X11_XsettingsNotify, NULL, _this);
+    xsettings_ದತ್ತಾಂಶ->xsettings = xsettings_client_new(ದತ್ತಾಂಶ->display,
+        DefaultScreen(ದತ್ತಾಂಶ->display), X11_XsettingsNotify, ಖಾಲಿ, _this);
 }
 
-void X11_QuitXsettings(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_QuitXsettings(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    SDLX11_Settings_ದತ್ತಾಂಶ *xsettings_ದತ್ತಾಂಶ = &ದತ್ತಾಂಶ->xsettings_ದತ್ತಾಂಶ;
 
-    if (xsettings_data->xsettings) {
-        xsettings_client_destroy(xsettings_data->xsettings);
-        xsettings_data->xsettings = NULL;
+    ಆದರೆ (xsettings_ದತ್ತಾಂಶ->xsettings) {
+        xsettings_client_destroy(xsettings_ದತ್ತಾಂಶ->xsettings);
+        xsettings_ದತ್ತಾಂಶ->xsettings = ಖಾಲಿ;
     }
 }
 
-void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent)
+ಶೂನ್ಯ X11_HandleXsettingsEvent(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ XEvent *xevent)
 {
-    SDL_VideoData *data = _this->internal;
-    SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    SDLX11_Settings_ದತ್ತಾಂಶ *xsettings_ದತ್ತಾಂಶ = &ದತ್ತಾಂಶ->xsettings_ದತ್ತಾಂಶ;
 
-    if (xsettings_data->xsettings) {
-        xsettings_client_process_event(xsettings_data->xsettings, xevent);
+    ಆದರೆ (xsettings_ದತ್ತಾಂಶ->xsettings) {
+        xsettings_client_process_event(xsettings_ದತ್ತಾಂಶ->xsettings, xevent);
     }
 }
 
-int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value) {
-    XSettingsSetting *setting = NULL;
-    int res = fallback_value;
+ಪೂರ್ಣಾಂಕ X11_Get_Xsettings_Client_Int_ಕೀಲಿ(XSettingsClient *client, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಕೀಲಿ, ಪೂರ್ಣಾಂಕ fallback_ಮೌಲ್ಯ) {
+    XSettingsSetting *setting = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ res = fallback_ಮೌಲ್ಯ;
 
-    if (client) {
-        if (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
-            goto no_key;
+    ಆದರೆ (client) {
+        ಆದರೆ (xsettings_client_get_setting(client, ಕೀಲಿ, &setting) != XSETTINGS_SUCCESS) {
+            ಹೋಗು no_ಕೀಲಿ;
         }
 
-        if (setting->type != XSETTINGS_TYPE_INT) {
-            goto no_key;
+        ಆದರೆ (setting->type != XSETTINGS_TYPE_INT) {
+            ಹೋಗು no_ಕೀಲಿ;
         }
 
-        res = setting->data.v_int;
+        res = setting->ದತ್ತಾಂಶ.v_int;
     }
 
-no_key:
-    if (setting) {
+no_ಕೀಲಿ:
+    ಆದರೆ (setting) {
         xsettings_setting_free(setting);
     }
 
-    return res;
+    ಹಿಂತಿರುಗಿ res;
 }
 
-int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value) {
-    return X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
+ಪೂರ್ಣಾಂಕ X11_Get_Xsettings_Int_ಕೀಲಿ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಕೀಲಿ, ಪೂರ್ಣಾಂಕ fallback_ಮೌಲ್ಯ) {
+    ಹಿಂತಿರುಗಿ X11_Get_Xsettings_Client_Int_ಕೀಲಿ(_this->ಆಂತರಿಕ->xsettings_ದತ್ತಾಂಶ.xsettings, ಕೀಲಿ, fallback_ಮೌಲ್ಯ);
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11

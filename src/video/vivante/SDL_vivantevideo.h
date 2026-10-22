@@ -18,48 +18,48 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_vivantevideo_h_
-#define SDL_vivantevideo_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_vivantevideo_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_vivantevideo_h_
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
 // Set up definitions for Vivante EGL
-#include <SDL3/SDL_egl.h>
+#ಅನ್ತರ್ಭಾವ <SDL3/SDL_egl.h>
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-#include <gc_vdk.h>
-#else
-#include <EGL/egl.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_VIVANTE_VDK
+#ಅನ್ತರ್ಭಾವ <gc_vdk.h>
+#ಇಲ್ಲದಿದ್ದರೆ
+#ಅನ್ತರ್ಭಾವ <EGL/egl.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
-struct SDL_VideoData
+ರಚನೆ SDL_Video_ದತ್ತಾಂಶ
 {
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    vdkPrivate vdk_private;
-#else
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    vdk_ಖಾಸಗಿ_2 vdk_ಖಾಸಗಿ;
+#ಇಲ್ಲದಿದ್ದರೆ
     SDL_SharedObject *egl_handle; // EGL shared library handle
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(void *context);
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(int DisplayIndex);
-    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, int *Width, int *Height, unsigned long *Physical, int *Stride, int *bits_per_pixel);
-    void(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
-    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, int X, int Y, int Width, int Height);
-    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height, int *bits_per_pixel, unsigned int *Offset);
-    void(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
-#endif
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(ಶೂನ್ಯ *context);
+    EGLNativeDisplayType(EGLAPIENTRY *fb_Get_Display_By_ಸೂಚ್ಯಂಕ)(ಪೂರ್ಣಾಂಕ Display_ಸೂಚ್ಯಂಕ);
+    ಶೂನ್ಯ(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, ಪೂರ್ಣಾಂಕ *ಅಗಲ_2, ಪೂರ್ಣಾಂಕ *ಎತ್ತರ_2);
+    ಶೂನ್ಯ(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, ಪೂರ್ಣಾಂಕ *ಅಗಲ_2, ಪೂರ್ಣಾಂಕ *ಎತ್ತರ_2, ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ *Physical, ಪೂರ್ಣಾಂಕ *Stride, ಪೂರ್ಣಾಂಕ *ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_pixel);
+    ಶೂನ್ಯ(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
+    EGLNative_ಕಿಟಕಿ_Type(EGLAPIENTRY *fb_Create_ಕಿಟಕಿ)(EGLNativeDisplayType Display, ಪೂರ್ಣಾಂಕ X, ಪೂರ್ಣಾಂಕ Y, ಪೂರ್ಣಾಂಕ ಅಗಲ_2, ಪೂರ್ಣಾಂಕ ಎತ್ತರ_2);
+    ಶೂನ್ಯ(EGLAPIENTRY *fb_Get_ಕಿಟಕಿ_Geometry)(EGLNative_ಕಿಟಕಿ_Type ಕಿಟಕಿ_2, ಪೂರ್ಣಾಂಕ *X, ಪೂರ್ಣಾಂಕ *Y, ಪೂರ್ಣಾಂಕ *ಅಗಲ_2, ಪೂರ್ಣಾಂಕ *ಎತ್ತರ_2);
+    ಶೂನ್ಯ(EGLAPIENTRY *fb_Get_ಕಿಟಕಿ_Info)(EGLNative_ಕಿಟಕಿ_Type ಕಿಟಕಿ_2, ಪೂರ್ಣಾಂಕ *X, ಪೂರ್ಣಾಂಕ *Y, ಪೂರ್ಣಾಂಕ *ಅಗಲ_2, ಪೂರ್ಣಾಂಕ *ಎತ್ತರ_2, ಪೂರ್ಣಾಂಕ *ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_pixel, ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ *ಸ್ಥಾನಾಂತರ);
+    ಶೂನ್ಯ(EGLAPIENTRY *fb_Destroy_ಕಿಟಕಿ)(EGLNative_ಕಿಟಕಿ_Type ಕಿಟಕಿ_2);
+#ಆದರೆ_ಅಂತ್ಯ
 };
 
-struct SDL_DisplayData
+ರಚನೆ SDL_Display_ದತ್ತಾಂಶ
 {
     EGLNativeDisplayType native_display;
 };
 
-struct SDL_WindowData
+ರಚನೆ SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ
 {
-    EGLNativeWindowType native_window;
+    EGLNative_ಕಿಟಕಿ_Type native_ಕಿಟಕಿ;
     EGLSurface egl_surface;
 };
 
@@ -69,18 +69,18 @@ struct SDL_WindowData
 
 // Display and window functions
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this);
-void VIVANTE_VideoQuit(SDL_VideoDevice *_this);
+ಶೂನ್ಯ VIVANTE_VideoQuit(SDL_VideoDevice *_this);
 bool VIVANTE_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-bool VIVANTE_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+bool VIVANTE_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ);
+bool VIVANTE_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props);
+ಶೂನ್ಯ VIVANTE_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+bool VIVANTE_ಗಣ_ಕಿಟಕಿ_Position(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಶೂನ್ಯ VIVANTE_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಶೂನ್ಯ VIVANTE_Show_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಶೂನ್ಯ VIVANTE_Hide_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಶೂನ್ಯ VIVANTE_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
 // Event functions
-void VIVANTE_PumpEvents(SDL_VideoDevice *_this);
+ಶೂನ್ಯ VIVANTE_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_vivantevideo_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_vivantevideo_h_

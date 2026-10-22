@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_offscreenwindow_h
-#define SDL_offscreenwindow_h
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_offscreenwindow_h
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_offscreenwindow_h
 
-#include "SDL_offscreenvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_offscreenvideo.h"
 
-struct SDL_WindowData
+ರಚನೆ SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ
 {
-    SDL_Window *sdl_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    SDL_ಕಿಟಕಿ *sdl_ಕಿಟಕಿ;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 };
 
-extern bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool OFFSCREEN_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props);
+ಬಾಹ್ಯ ಶೂನ್ಯ OFFSCREEN_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ OFFSCREEN_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
-#endif // SDL_offscreenwindow_h
+#ಆದರೆ_ಅಂತ್ಯ // SDL_offscreenwindow_h

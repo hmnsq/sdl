@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_ANDROID
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidclipboard.h"
-#include "../../core/android/SDL_android.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidclipboard.h"
+#ಅನ್ತರ್ಭಾವ "../../core/android/SDL_android.h"
 
-bool Android_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+bool Android_ಗಣ_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಪಠ್ಯ)
 {
-    return Android_JNI_SetClipboardText(text);
+    ಹಿಂತಿರುಗಿ Android_JNI_ಗಣ_Clipboard_ಪಠ್ಯ(ಪಠ್ಯ);
 }
 
-char *Android_GetClipboardText(SDL_VideoDevice *_this)
+ಅಕ್ಷರ *Android_Get_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this)
 {
-    return Android_JNI_GetClipboardText();
+    ಹಿಂತಿರುಗಿ Android_JNI_Get_Clipboard_ಪಠ್ಯ();
 }
 
-bool Android_HasClipboardText(SDL_VideoDevice *_this)
+bool Android_Has_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this)
 {
-    return Android_JNI_HasClipboardText();
+    ಹಿಂತಿರುಗಿ Android_JNI_Has_Clipboard_ಪಠ್ಯ();
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_ANDROID

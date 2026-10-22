@@ -18,76 +18,76 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
 
-#include "SDL_openharmonykeyboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonykeyboard.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#ಅನ್ತರ್ಭಾವ "../../core/openharmony/SDL_openharmony.h"
 
 bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+ಶೂನ್ಯ OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    int cap_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_NUMBER, 0);
-    } else {
-        switch (SDL_GetTextInputType(props)) {
-            #define INPUTTYPE(sdl,oh) case SDL_TEXTINPUT_TYPE_##sdl: input_type = oh; break
-            INPUTTYPE(TEXT, 0);
-            INPUTTYPE(TEXT_NAME, 0);
-            INPUTTYPE(TEXT_EMAIL, 5);
-            INPUTTYPE(TEXT_USERNAME, 10);
-            INPUTTYPE(TEXT_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(TEXT_PASSWORD_VISIBLE, 7);
-            INPUTTYPE(NUMBER_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
-            INPUTTYPE(NUMBER_PASSWORD_VISIBLE, 8);
-            #undef INPUTTYPE
-            default: break;
+    ಪೂರ್ಣಾಂಕ ಒಳಹರಿವು_type = 0;
+    ಪೂರ್ಣಾಂಕ cap_type = 0;
+    ಆದರೆ (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_ಸಂಖ್ಯೆ)) {
+        ಒಳಹರಿವು_type = (ಪೂರ್ಣಾಂಕ)SDL_Get_ಸಂಖ್ಯೆ_Property(props, SDL_PROP_TEXTINPUT_OPENHARMONY_INPUTTYPE_ಸಂಖ್ಯೆ, 0);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆಯ್ಕೆ (SDL_Get_ಪಠ್ಯ_ಒಳಹರಿವು_Type(props)) {
+            #ವ್ಯಾಖ್ಯಾನಿಸು INPUTTYPE(sdl,oh) ಸ್ಥಿತಿ SDL_TEXTINPUT_TYPE_##sdl: ಒಳಹರಿವು_type = oh; ನಿಲ್ಲಿಸು
+            INPUTTYPE(ಪಠ್ಯ_2, 0);
+            INPUTTYPE(ಪಠ್ಯ_NAME, 0);
+            INPUTTYPE(ಪಠ್ಯ_EMAIL, 5);
+            INPUTTYPE(ಪಠ್ಯ_USERNAME, 10);
+            INPUTTYPE(ಪಠ್ಯ_PASSWORD_HIDDEN, 7);  // !!! FIXME: this is _also_ PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(ಪಠ್ಯ_PASSWORD_VISIBLE, 7);
+            INPUTTYPE(ಸಂಖ್ಯೆ_PASSWORD_HIDDEN, 8); // !!! FIXME: this is _also_ NUMBER_PASSWORD_VISIBLE, but I think this doesn't dictate rendering...?
+            INPUTTYPE(ಸಂಖ್ಯೆ_PASSWORD_VISIBLE, 8);
+            #ವ್ಯಾಖ್ಯಾನ_ರದ್ದು INPUTTYPE
+            ಪೂರ್ವನಿಯೋಜಿತ: ನಿಲ್ಲಿಸು;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
-            #define CAPTYPE(sdl,oh) case SDL_CAPITALIZE_##sdl: cap_type = oh; break
+        ಆಯ್ಕೆ (SDL_Get_ಪಠ್ಯ_ಒಳಹರಿವು_Capitalization(props)) {
+            #ವ್ಯಾಖ್ಯಾನಿಸು CAPTYPE(sdl,oh) ಸ್ಥಿತಿ SDL_CAPITALIZE_##sdl: cap_type = oh; ನಿಲ್ಲಿಸು
             CAPTYPE(NONE, 0);
             CAPTYPE(LETTERS, 3);
-            CAPTYPE(WORDS, 2);
+            CAPTYPE(ಪದಗಳು, 2);
             CAPTYPE(SENTENCES, 1);
-            #undef CAPTYPE
-            default: break;
+            #ವ್ಯಾಖ್ಯಾನ_ರದ್ದು CAPTYPE
+            ಪೂರ್ವನಿಯೋಜಿತ: ನಿಲ್ಲಿಸು;
         }
 
-        #if 0  // !!! FIXME
-        if (SDL_GetTextInputAutocorrect(props)) {
-            input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        #ಆದರೆ 0  // !!! FIXME
+        ಆದರೆ (SDL_Get_ಪಠ್ಯ_ಒಳಹರಿವು_Autocorrect(props)) {
+            ಒಳಹರಿವು_type |= (TYPE_ಪಠ್ಯ_FLAG_AUTO_CORRECT | TYPE_ಪಠ್ಯ_FLAG_AUTO_COMPLETE);
         }
-        #endif
+        #ಆದರೆ_ಅಂತ್ಯ
 
-        if (SDL_GetTextInputMultiline(props)) {
-            input_type = 1;  // sorry, this only works with basic TEXT type.
+        ಆದರೆ (SDL_Get_ಪಠ್ಯ_ಒಳಹರಿವು_Multiline(props)) {
+            ಒಳಹರಿವು_type = 1;  // sorry, this only works with basic TEXT type.
         }
     }
-    SDL_OpenHarmonyShowScreenKeyboard(input_type, cap_type, &window->text_input_rect);
+    SDL_OpenHarmonyShowScreenKeyboard(ಒಳಹರಿವು_type, cap_type, &ಕಿಟಕಿ->ಪಠ್ಯ_ಒಳಹರಿವು_rect);
 }
 
-void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     SDL_OpenHarmonyHideScreenKeyboard();
 }
 
-void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    if (_this->screen_keyboard_shown) {
-        OPENHARMONY_ShowScreenKeyboard(_this, window, window->text_input_props);
+    ಆದರೆ (_this->screen_keyboard_shown) {
+        OPENHARMONY_ShowScreenKeyboard(_this, ಕಿಟಕಿ, ಕಿಟಕಿ->ಪಠ್ಯ_ಒಳಹರಿವು_props);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_OPENHARMONY
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_OPENHARMONY
 

@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_openharmonyclipboard_h_
-#define SDL_openharmonyclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_openharmonyclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_openharmonyclipboard_h_
 
-extern void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
 
-extern const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
-extern bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸ್ಥಿರಾಂಕ *OPENHARMONY_Get_ಪಠ್ಯ_Mime_Types(SDL_VideoDevice *_this, size_t *ಅಂಕೆ_mime_types);
+ಬಾಹ್ಯ bool OPENHARMONY_ಗಣ_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಪಠ್ಯ);
+ಬಾಹ್ಯ ಅಕ್ಷರ *OPENHARMONY_Get_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool OPENHARMONY_Has_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this);
 
-#endif // SDL_openharmonyclipboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_openharmonyclipboard_h_

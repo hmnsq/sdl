@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODEC_VP9STD_H_
-#define VULKAN_VIDEO_CODEC_VP9STD_H_ 1
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VULKAN_VIDEO_CODEC_VP9STD_H_
+#ವ್ಯಾಖ್ಯಾನಿಸು VULKAN_VIDEO_CODEC_VP9STD_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,27 +13,27 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 // vulkan_video_codec_vp9std is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codec_vp9std 1
+#ವ್ಯಾಖ್ಯಾನಿಸು vulkan_video_codec_vp9std 1
 
-#include "vulkan_video_codecs_common.h"
+#ಅನ್ತರ್ಭಾವ "vulkan_video_codecs_common.h"
 
-#define STD_VIDEO_VP9_NUM_REF_FRAMES      8U
-#define STD_VIDEO_VP9_REFS_PER_FRAME      3U
-#define STD_VIDEO_VP9_MAX_REF_FRAMES      4U
-#define STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS 2U
-#define STD_VIDEO_VP9_MAX_SEGMENTS        8U
-#define STD_VIDEO_VP9_SEG_LVL_MAX         4U
-#define STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS 7U
-#define STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB 3U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_ಅಂಕೆ_REF_ಚೌಕಟ್ಟುಗಳು      8U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_REFS_ಪ್ರತಿ_ಚೌಕಟ್ಟು      3U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_MAX_REF_ಚೌಕಟ್ಟುಗಳು      4U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS 2U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_MAX_SEGMENTS        8U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_SEG_LVL_MAX         4U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_MAX_SEGMENTATION_ವೃಕ್ಷ_PROBS 7U
+#ವ್ಯಾಖ್ಯಾನಿಸು STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB 3U
 
-typedef enum StdVideoVP9Profile {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ StdVideoVP9Profile {
     STD_VIDEO_VP9_PROFILE_0 = 0,
     STD_VIDEO_VP9_PROFILE_1 = 1,
     STD_VIDEO_VP9_PROFILE_2 = 2,
@@ -42,7 +42,7 @@ typedef enum StdVideoVP9Profile {
     STD_VIDEO_VP9_PROFILE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9Profile;
 
-typedef enum StdVideoVP9Level {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ StdVideoVP9Level {
     STD_VIDEO_VP9_LEVEL_1_0 = 0,
     STD_VIDEO_VP9_LEVEL_1_1 = 1,
     STD_VIDEO_VP9_LEVEL_2_0 = 2,
@@ -61,23 +61,23 @@ typedef enum StdVideoVP9Level {
     STD_VIDEO_VP9_LEVEL_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9Level;
 
-typedef enum StdVideoVP9FrameType {
-    STD_VIDEO_VP9_FRAME_TYPE_KEY = 0,
-    STD_VIDEO_VP9_FRAME_TYPE_NON_KEY = 1,
-    STD_VIDEO_VP9_FRAME_TYPE_INVALID = 0x7FFFFFFF,
-    STD_VIDEO_VP9_FRAME_TYPE_MAX_ENUM = 0x7FFFFFFF
-} StdVideoVP9FrameType;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ Std_Video_VP9_ಚೌಕಟ್ಟು_Type {
+    STD_VIDEO_VP9_ಚೌಕಟ್ಟು_TYPE_ಕೀಲಿ = 0,
+    STD_VIDEO_VP9_ಚೌಕಟ್ಟು_TYPE_NON_ಕೀಲಿ = 1,
+    STD_VIDEO_VP9_ಚೌಕಟ್ಟು_TYPE_INVALID = 0x7FFFFFFF,
+    STD_VIDEO_VP9_ಚೌಕಟ್ಟು_TYPE_MAX_ENUM = 0x7FFFFFFF
+} Std_Video_VP9_ಚೌಕಟ್ಟು_Type;
 
-typedef enum StdVideoVP9ReferenceName {
-    STD_VIDEO_VP9_REFERENCE_NAME_INTRA_FRAME = 0,
-    STD_VIDEO_VP9_REFERENCE_NAME_LAST_FRAME = 1,
-    STD_VIDEO_VP9_REFERENCE_NAME_GOLDEN_FRAME = 2,
-    STD_VIDEO_VP9_REFERENCE_NAME_ALTREF_FRAME = 3,
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ StdVideoVP9ReferenceName {
+    STD_VIDEO_VP9_REFERENCE_NAME_INTRA_ಚೌಕಟ್ಟು = 0,
+    STD_VIDEO_VP9_REFERENCE_NAME_ಕೊನೆಯ_ಚೌಕಟ್ಟು = 1,
+    STD_VIDEO_VP9_REFERENCE_NAME_GOLDEN_ಚೌಕಟ್ಟು = 2,
+    STD_VIDEO_VP9_REFERENCE_NAME_ALTREF_ಚೌಕಟ್ಟು = 3,
     STD_VIDEO_VP9_REFERENCE_NAME_INVALID = 0x7FFFFFFF,
     STD_VIDEO_VP9_REFERENCE_NAME_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9ReferenceName;
 
-typedef enum StdVideoVP9InterpolationFilter {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ StdVideoVP9InterpolationFilter {
     STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP = 0,
     STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SMOOTH = 1,
     STD_VIDEO_VP9_INTERPOLATION_FILTER_EIGHTTAP_SHARP = 2,
@@ -87,7 +87,7 @@ typedef enum StdVideoVP9InterpolationFilter {
     STD_VIDEO_VP9_INTERPOLATION_FILTER_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9InterpolationFilter;
 
-typedef enum StdVideoVP9ColorSpace {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ StdVideoVP9ColorSpace {
     STD_VIDEO_VP9_COLOR_SPACE_UNKNOWN = 0,
     STD_VIDEO_VP9_COLOR_SPACE_BT_601 = 1,
     STD_VIDEO_VP9_COLOR_SPACE_BT_709 = 2,
@@ -100,55 +100,55 @@ typedef enum StdVideoVP9ColorSpace {
     STD_VIDEO_VP9_COLOR_SPACE_MAX_ENUM = 0x7FFFFFFF
 } StdVideoVP9ColorSpace;
 
-typedef struct StdVideoVP9ColorConfigFlags {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ StdVideoVP9ColorConfigFlags {
     uint32_t    color_range : 1;
     uint32_t    reserved : 31;
 } StdVideoVP9ColorConfigFlags;
 
-typedef struct StdVideoVP9ColorConfig {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ StdVideoVP9ColorConfig {
     StdVideoVP9ColorConfigFlags    flags;
-    uint8_t                        BitDepth;
+    uint8_t                        ಬಿಟ್_ಆಳ;
     uint8_t                        subsampling_x;
     uint8_t                        subsampling_y;
     uint8_t                        reserved1;
     StdVideoVP9ColorSpace          color_space;
 } StdVideoVP9ColorConfig;
 
-typedef struct StdVideoVP9LoopFilterFlags {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ StdVideoVP9LoopFilterFlags {
     uint32_t    loop_filter_delta_enabled : 1;
     uint32_t    loop_filter_delta_update : 1;
     uint32_t    reserved : 30;
 } StdVideoVP9LoopFilterFlags;
 
-typedef struct StdVideoVP9LoopFilter {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ StdVideoVP9LoopFilter {
     StdVideoVP9LoopFilterFlags    flags;
     uint8_t                       loop_filter_level;
     uint8_t                       loop_filter_sharpness;
     uint8_t                       update_ref_delta;
-    int8_t                        loop_filter_ref_deltas[STD_VIDEO_VP9_MAX_REF_FRAMES];
-    uint8_t                       update_mode_delta;
-    int8_t                        loop_filter_mode_deltas[STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS];
+    int8_t                        loop_filter_ref_deltas[STD_VIDEO_VP9_MAX_REF_ಚೌಕಟ್ಟುಗಳು];
+    uint8_t                       update_ಬಹುಲಕ_delta;
+    int8_t                        loop_filter_ಬಹುಲಕ_deltas[STD_VIDEO_VP9_LOOP_FILTER_ADJUSTMENTS];
 } StdVideoVP9LoopFilter;
 
-typedef struct StdVideoVP9SegmentationFlags {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ StdVideoVP9SegmentationFlags {
     uint32_t    segmentation_update_map : 1;
     uint32_t    segmentation_temporal_update : 1;
-    uint32_t    segmentation_update_data : 1;
+    uint32_t    segmentation_update_ದತ್ತಾಂಶ : 1;
     uint32_t    segmentation_abs_or_delta_update : 1;
     uint32_t    reserved : 28;
 } StdVideoVP9SegmentationFlags;
 
-typedef struct StdVideoVP9Segmentation {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ StdVideoVP9Segmentation {
     StdVideoVP9SegmentationFlags    flags;
-    uint8_t                         segmentation_tree_probs[STD_VIDEO_VP9_MAX_SEGMENTATION_TREE_PROBS];
+    uint8_t                         segmentation_ವೃಕ್ಷ_probs[STD_VIDEO_VP9_MAX_SEGMENTATION_ವೃಕ್ಷ_PROBS];
     uint8_t                         segmentation_pred_prob[STD_VIDEO_VP9_MAX_SEGMENTATION_PRED_PROB];
     uint8_t                         FeatureEnabled[STD_VIDEO_VP9_MAX_SEGMENTS];
-    int16_t                         FeatureData[STD_VIDEO_VP9_MAX_SEGMENTS][STD_VIDEO_VP9_SEG_LVL_MAX];
+    int16_t                         Feature_ದತ್ತಾಂಶ[STD_VIDEO_VP9_MAX_SEGMENTS][STD_VIDEO_VP9_SEG_LVL_MAX];
 } StdVideoVP9Segmentation;
 
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

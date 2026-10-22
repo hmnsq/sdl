@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_rect_c_h_
-#define SDL_rect_c_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_rect_c_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_rect_c_h_
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-extern bool SDL_GetSpanEnclosingRect(int width, int height, int numrects, const SDL_Rect *rects, SDL_Rect *span);
+ಬಾಹ್ಯ bool SDL_Get_ಹರವು_Enclosing_Rect(ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, ಪೂರ್ಣಾಂಕ numrects, ಸ್ಥಿರಾಂಕ SDL_Rect *rects, SDL_Rect *ಹರವು);
 
-#endif // SDL_rect_c_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_rect_c_h_

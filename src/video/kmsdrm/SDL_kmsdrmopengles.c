@@ -19,65 +19,65 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_KMSDRM
 
-#include "SDL_kmsdrmvideo.h"
-#include "SDL_kmsdrmopengles.h"
-#include "SDL_kmsdrmdyn.h"
-#include <errno.h>
+#ಅನ್ತರ್ಭಾವ "SDL_kmsdrmvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_kmsdrmopengles.h"
+#ಅನ್ತರ್ಭಾವ "SDL_kmsdrmdyn.h"
+#ಅನ್ತರ್ಭಾವ <errno.h>
 
-#define VOID2U64(x) ((uint64_t)(size_t)(x))
+#ವ್ಯಾಖ್ಯಾನಿಸು VOID2U64(x) ((uint64_t)(size_t)(x))
 
-#ifndef EGL_PLATFORM_GBM_KHR
-#define EGL_PLATFORM_GBM_KHR 0x31D7
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ EGL_PLATFORM_GBM_KHR
+#ವ್ಯಾಖ್ಯಾನಿಸು EGL_PLATFORM_GBM_KHR 0x31D7
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef EGL_SYNC_NATIVE_FENCE_ANDROID
-#define EGL_SYNC_NATIVE_FENCE_ANDROID     0x3144
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ EGL_SYNC_NATIVE_FENCE_ANDROID
+#ವ್ಯಾಖ್ಯಾನಿಸು EGL_SYNC_NATIVE_FENCE_ANDROID     0x3144
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef EGL_SYNC_NATIVE_FENCE_FD_ANDROID
-#define EGL_SYNC_NATIVE_FENCE_FD_ANDROID  0x3145
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ EGL_SYNC_NATIVE_FENCE_FD_ANDROID
+#ವ್ಯಾಖ್ಯಾನಿಸು EGL_SYNC_NATIVE_FENCE_FD_ANDROID  0x3145
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef EGL_NO_NATIVE_FENCE_FD_ANDROID
-#define EGL_NO_NATIVE_FENCE_FD_ANDROID    -1
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ EGL_NO_NATIVE_FENCE_FD_ANDROID
+#ವ್ಯಾಖ್ಯಾನಿಸು EGL_NO_NATIVE_FENCE_FD_ANDROID    -1
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 // EGL implementation of SDL OpenGL support
 
-void KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
+ಶೂನ್ಯ KMSDRM_GLES_ಗಣ_Default_Profile_Config(SDL_VideoDevice *_this)
 {
     /* if SDL was _also_ built with the Raspberry Pi driver (so we're
        definitely a Pi device) or with the ROCKCHIP video driver
        (it's a ROCKCHIP device),  default to GLES2. */
-#if defined(SDL_VIDEO_DRIVER_RPI) || defined(SDL_VIDEO_DRIVER_ROCKCHIP)
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
-#endif
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_RPI) || defined(SDL_VIDEO_DRIVER_ROCKCHIP)
+    _this->gl_config.profile_ಮುಖವಾಡ = SDL_GL_CONTEXT_PROFILE_ES;
+    _this->gl_config.major_ಆವೃತ್ತಿ = 2;
+    _this->gl_config.minor_ಆವೃತ್ತಿ = 0;
+#ಆದರೆ_ಅಂತ್ಯ
 
     _this->gl_config.egl_platform = EGL_PLATFORM_GBM_KHR;
 }
 
-bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool KMSDRM_GLES_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ)
 {
     /* Just pretend you do this here, but don't do it until KMSDRM_CreateWindow(),
        where we do the same library load we would normally do here.
        because this gets called by SDL_CreateWindow() before KMSDR_CreateWindow(),
        so gbm dev isn't yet created when this is called, AND we can't alter the
        call order in SDL_CreateWindow(). */
-#if 0
-    NativeDisplayType display = (NativeDisplayType)_this->internal->gbm_dev;
-    return SDL_EGL_LoadLibrary(_this, path, display);
-#endif
-    return true;
+#ಆದರೆ 0
+    NativeDisplayType display = (NativeDisplayType)_this->ಆಂತರಿಕ->gbm_dev;
+    ಹಿಂತಿರುಗಿ SDL_EGL_ತುಂಬು_Library(_this, ಮಾರ್ಗ, display);
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this)
+ಶೂನ್ಯ KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 {
     /* As with KMSDRM_GLES_LoadLibrary(), we define our own "dummy" unloading function
        so we manually unload the library whenever we want. */
@@ -85,32 +85,32 @@ void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this)
 
 SDL_EGL_CreateContext_impl(KMSDRM)
 
-bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+bool KMSDRM_GLES_ಗಣ_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ interval)
 {
-    if (!_this->egl_data) {
-        return SDL_SetError("EGL not initialized");
+    ಆದರೆ (!_this->egl_ದತ್ತಾಂಶ) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("EGL not initialized");
     }
 
-    if (interval == 0 || interval == 1) {
-        _this->egl_data->egl_swapinterval = interval;
-    } else {
-        return SDL_SetError("Only swap intervals of 0 or 1 are supported");
+    ಆದರೆ (interval == 0 || interval == 1) {
+        _this->egl_ದತ್ತಾಂಶ->egl_swapinterval = interval;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Only swap intervals of 0 or 1 are supported");
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static EGLSyncKHR create_fence(SDL_VideoDevice *_this, int fd)
+ಸ್ಥಿರ EGLSyncKHR create_fence(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ fd)
 {
     EGLint attrib_list[] = {
         EGL_SYNC_NATIVE_FENCE_FD_ANDROID, fd,
         EGL_NONE,
     };
 
-    EGLSyncKHR fence = _this->egl_data->eglCreateSyncKHR(_this->egl_data->egl_display, EGL_SYNC_NATIVE_FENCE_ANDROID, attrib_list);
+    EGLSyncKHR fence = _this->egl_ದತ್ತಾಂಶ->eglCreateSyncKHR(_this->egl_ದತ್ತಾಂಶ->egl_display, EGL_SYNC_NATIVE_FENCE_ANDROID, attrib_list);
 
     SDL_assert(fence);
-    return fence;
+    ಹಿಂತಿರುಗಿ fence;
 }
 
 /***********************************************************************************/
@@ -119,16 +119,16 @@ static EGLSyncKHR create_fence(SDL_VideoDevice *_this, int fd)
 /* program exits immediately, or we could leave KMS waiting for a failed/missing   */
 /* fence forever.                                                                  */
 /***********************************************************************************/
-static bool KMSDRM_GLES_SwapWindowFenced(SDL_VideoDevice *_this, SDL_Window * window)
+ಸ್ಥಿರ bool KMSDRM_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ_Fenced(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    SDL_WindowData *windata = ((SDL_WindowData *) window->internal);
-    SDL_DisplayData *dispdata = SDL_GetDisplayDriverDataForWindow(window);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windata = ((SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *) ಕಿಟಕಿ->ಆಂತರಿಕ);
+    SDL_Display_ದತ್ತಾಂಶ *dispdata = SDL_Get_Display_Driver_ದತ್ತಾಂಶ_For_ಕಿಟಕಿ(ಕಿಟಕಿ);
     KMSDRM_FBInfo *fb;
     KMSDRM_PlaneInfo info;
-    const bool modesetting = windata->egl_surface_dirty;
+    ಸ್ಥಿರಾಂಕ bool modesetting = windata->egl_surface_dirty;
 
-    if (modesetting) {
-        KMSDRM_CreateSurfaces(_this, window);
+    ಆದರೆ (modesetting) {
+        KMSDRM_CreateSurfaces(_this, ಕಿಟಕಿ);
     }
 
     SDL_zero(info);
@@ -148,8 +148,8 @@ static bool KMSDRM_GLES_SwapWindowFenced(SDL_VideoDevice *_this, SDL_Window * wi
     /* the new front buffer. (Remember that won't really happen until */
     /* we request a pageflip at the KMS level and it completes.       */
     /******************************************************************/
-    if (! _this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, windata->egl_surface)) {
-        return SDL_EGL_SetError("Failed to swap EGL buffers", "eglSwapBuffers");
+    ಆದರೆ (! _this->egl_ದತ್ತಾಂಶ->egl_ಅದಲುಬದಲು_Buffers(_this->egl_ದತ್ತಾಂಶ->egl_display, windata->egl_surface)) {
+        ಹಿಂತಿರುಗಿ SDL_EGL_ಗಣ_Error("Failed to swap EGL buffers", "eglSwapBuffers");
     }
 
     /******************************************************************/
@@ -164,36 +164,36 @@ static bool KMSDRM_GLES_SwapWindowFenced(SDL_VideoDevice *_this, SDL_Window * wi
     /* in the CMDSTREAM to be lifted when the CMDSTREAM to this point */
     /* is completed).                                                 */
     /******************************************************************/
-    dispdata->kms_in_fence_fd = _this->egl_data->eglDupNativeFenceFDANDROID (_this->egl_data->egl_display, dispdata->gpu_fence);
+    dispdata->kms_ಒಳ_fence_fd = _this->egl_ದತ್ತಾಂಶ->eglDupNativeFenceFDANDROID (_this->egl_ದತ್ತಾಂಶ->egl_display, dispdata->gpu_fence);
 
-    _this->egl_data->eglDestroySyncKHR(_this->egl_data->egl_display, dispdata->gpu_fence);
-    SDL_assert(dispdata->kms_in_fence_fd != -1);
+    _this->egl_ದತ್ತಾಂಶ->eglDestroySyncKHR(_this->egl_ದತ್ತಾಂಶ->egl_display, dispdata->gpu_fence);
+    SDL_assert(dispdata->kms_ಒಳ_fence_fd != -1);
 
     /* Lock the buffer that is marked by eglSwapBuffers() to become the
        next front buffer (so it can not be chosen by EGL as back buffer
        to draw on), and get a handle to it to request the pageflip on it.
        REMEMBER that gbm_surface_lock_front_buffer() ALWAYS has to be
        called after eglSwapBuffers(). */
-    windata->next_bo = KMSDRM_gbm_surface_lock_front_buffer(windata->gs);
-    if (!windata->next_bo) {
-        return SDL_SetError("Failed to lock frontbuffer");
+    windata->ಮುಂದಿನ_bo = KMSDRM_gbm_surface_ಬೀಗ_front_ಬಫರ್(windata->gs);
+    ಆದರೆ (!windata->ಮುಂದಿನ_bo) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to lock frontbuffer");
     }
-    fb = KMSDRM_FBFromBO(_this, windata->next_bo);
-    if (!fb) {
-        return SDL_SetError("Failed to get a new framebuffer from BO");
+    fb = KMSDRM_FBFromBO(_this, windata->ಮುಂದಿನ_bo);
+    ಆದರೆ (!fb) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to get a new framebuffer from BO");
     }
 
-    if (!windata->bo) {
+    ಆದರೆ (!windata->bo) {
         /* On the first swap, immediately present the new front buffer. Before
            drmModePageFlip can be used the CRTC has to be configured to use
            the current connector and mode with drmModeSetCrtc */
-        SDL_VideoData *viddata = _this->internal;
-        const int ret = KMSDRM_drmModeSetCrtc(viddata->drm_fd,
+        SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
+        ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ ret = KMSDRM_drm_ಬಹುಲಕ_ಗಣ_Crtc(viddata->drm_fd,
                                     dispdata->crtc.crtc->crtc_id, fb->fb_id, 0, 0,
-                                    &dispdata->connector.connector->connector_id, 1, &dispdata->mode);
+                                    &dispdata->connector.connector->connector_id, 1, &dispdata->ಬಹುಲಕ);
 
-        if (ret) {
-            return SDL_SetError("Could not set videomode on CRTC.");
+        ಆದರೆ (ret) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Could not set videomode on CRTC.");
         }
     }
 
@@ -201,13 +201,13 @@ static bool KMSDRM_GLES_SwapWindowFenced(SDL_VideoDevice *_this, SDL_Window * wi
     info.plane = dispdata->display_plane;
     info.crtc_id = dispdata->crtc.crtc->crtc_id;
     info.fb_id = fb->fb_id;
-    info.src_w = window->w;  // !!! FIXME: was windata->src_w in the original atomic patch
-    info.src_h = window->h;  // !!! FIXME: was windata->src_h in the original atomic patch
-    info.crtc_w = dispdata->mode.hdisplay;  // !!! FIXME: was windata->output_w in the original atomic patch
-    info.crtc_h = dispdata->mode.vdisplay;  // !!! FIXME: was windata->output_h in the original atomic patch
+    info.src_w = ಕಿಟಕಿ->w;  // !!! FIXME: was windata->src_w in the original atomic patch
+    info.src_h = ಕಿಟಕಿ->h;  // !!! FIXME: was windata->src_h in the original atomic patch
+    info.crtc_w = dispdata->ಬಹುಲಕ.hdisplay;  // !!! FIXME: was windata->output_w in the original atomic patch
+    info.crtc_h = dispdata->ಬಹುಲಕ.vdisplay;  // !!! FIXME: was windata->output_h in the original atomic patch
     info.crtc_x = 0;  // !!! FIXME: was windata->output_x in the original atomic patch
 
-    drm_atomic_set_plane_props(dispdata, &info);
+    drm_atomic_ಗಣ_plane_props(dispdata, &info);
 
     /*****************************************************************/
     /* Tell the display (KMS) that it will have to wait on the fence */
@@ -226,24 +226,24 @@ static bool KMSDRM_GLES_SwapWindowFenced(SDL_VideoDevice *_this, SDL_Window * wi
     /* used to tell the GPU to wait for KMS to complete the changes  */
     /* requested in atomic_commit (the pageflip in this case).       */
     /*****************************************************************/
-    if (dispdata->kms_in_fence_fd != -1)
+    ಆದರೆ (dispdata->kms_ಒಳ_fence_fd != -1)
     {
-        add_plane_property(dispdata->atomic_req, dispdata->display_plane,
-            "IN_FENCE_FD", dispdata->kms_in_fence_fd);
-        add_crtc_property(dispdata->atomic_req, &dispdata->crtc,
-            "OUT_FENCE_PTR", VOID2U64(&dispdata->kms_out_fence_fd));
+        ಕೂಡಿಸು_plane_property(dispdata->atomic_req, dispdata->display_plane,
+            "IN_FENCE_FD", dispdata->kms_ಒಳ_fence_fd);
+        ಕೂಡಿಸು_crtc_property(dispdata->atomic_req, &dispdata->crtc,
+            "OUT_FENCE_PTR", VOID2U64(&dispdata->kms_ಹೊರಹೋಗು_fence_fd));
     }
  
     /* Do we have a pending modesetting? If so, set the necessary
        props so it's included in the incoming atomic commit. */
-    if (modesetting) {
+    ಆದರೆ (modesetting) {
         uint32_t blob_id;
-        SDL_VideoData *viddata = (SDL_VideoData *)_this->internal;
+        SDL_Video_ದತ್ತಾಂಶ *viddata = (SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
 
-        add_connector_property(dispdata->atomic_req, &dispdata->connector, "CRTC_ID", dispdata->crtc.crtc->crtc_id);
-        KMSDRM_drmModeCreatePropertyBlob(viddata->drm_fd, &dispdata->mode, sizeof(dispdata->mode), &blob_id);
-        add_crtc_property(dispdata->atomic_req, &dispdata->crtc, "MODE_ID", blob_id);
-        add_crtc_property(dispdata->atomic_req, &dispdata->crtc, "active", 1);
+        ಕೂಡಿಸು_connector_property(dispdata->atomic_req, &dispdata->connector, "CRTC_ID", dispdata->crtc.crtc->crtc_id);
+        KMSDRM_drm_ಬಹುಲಕ_Create_Property_Blob(viddata->drm_fd, &dispdata->ಬಹುಲಕ, ಗಾತ್ರ(dispdata->ಬಹುಲಕ), &blob_id);
+        ಕೂಡಿಸು_crtc_property(dispdata->atomic_req, &dispdata->crtc, "MODE_ID", blob_id);
+        ಕೂಡಿಸು_crtc_property(dispdata->atomic_req, &dispdata->crtc, "active", 1);
     }
 
     /*****************************************************************/
@@ -251,25 +251,25 @@ static bool KMSDRM_GLES_SwapWindowFenced(SDL_VideoDevice *_this, SDL_Window * wi
     /* this must not block so the game can start building another    */
     /* frame, even if the just-requested pageflip hasnt't completed. */
     /*****************************************************************/
-    if (drm_atomic_commit(_this, dispdata, false, modesetting)) {
-        return SDL_SetError("Failed to issue atomic commit on pageflip");
+    ಆದರೆ (drm_atomic_commit(_this, dispdata, false, modesetting)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to issue atomic commit on pageflip");
     }
 
     /* Release the previous front buffer so EGL can chose it as back buffer
        and render on it again. */
-    if (windata->bo) {
-        KMSDRM_gbm_surface_release_buffer(windata->gs, windata->bo);
+    ಆದರೆ (windata->bo) {
+        KMSDRM_gbm_surface_release_ಬಫರ್(windata->gs, windata->bo);
     }
     /* Take note of the buffer about to become front buffer, so next
        time we come here we can free it like we just did with the previous
        front buffer. */
-    windata->bo = windata->next_bo;
+    windata->bo = windata->ಮುಂದಿನ_bo;
 
     /****************************************************************/
     /* Import the KMS-side FENCE OUTPUT FD from the kernel to the   */
     /* KMS-side FENCE OBJECT so we can use use it to fence the GPU. */
     /****************************************************************/
-    dispdata->kms_fence = create_fence(_this, dispdata->kms_out_fence_fd);
+    dispdata->kms_fence = create_fence(_this, dispdata->kms_ಹೊರಹೋಗು_fence_fd);
     SDL_assert(dispdata->kms_fence);
 
     /****************************************************************/
@@ -277,27 +277,27 @@ static bool KMSDRM_GLES_SwapWindowFenced(SDL_VideoDevice *_this, SDL_Window * wi
     /* KMS FENCE OBJECT, the fence itself is away from us, on the   */
     /* kernel side.                                                 */
     /****************************************************************/
-    dispdata->kms_out_fence_fd = -1;
+    dispdata->kms_ಹೊರಹೋಗು_fence_fd = -1;
 
     /*****************************************************************/
     /* Tell the GPU to wait on the fence for the KMS-side FENCE,     */
     /* which means waiting until the requested pageflip is completed.*/
     /*****************************************************************/
-    _this->egl_data->eglWaitSyncKHR(_this->egl_data->egl_display, dispdata->kms_fence, 0);
+    _this->egl_ದತ್ತಾಂಶ->eglWaitSyncKHR(_this->egl_ದತ್ತಾಂಶ->egl_display, dispdata->kms_fence, 0);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool KMSDRM_GLES_SwapWindowDoubleBuffered(SDL_VideoDevice *_this, SDL_Window * window)
+ಸ್ಥಿರ bool KMSDRM_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ_Double_Buffered(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    SDL_WindowData *windata = ((SDL_WindowData *) window->internal);
-    SDL_DisplayData *dispdata = SDL_GetDisplayDriverDataForWindow(window);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windata = ((SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *) ಕಿಟಕಿ->ಆಂತರಿಕ);
+    SDL_Display_ದತ್ತಾಂಶ *dispdata = SDL_Get_Display_Driver_ದತ್ತಾಂಶ_For_ಕಿಟಕಿ(ಕಿಟಕಿ);
     KMSDRM_FBInfo *fb;
     KMSDRM_PlaneInfo info;
-    const bool modesetting = windata->egl_surface_dirty;
+    ಸ್ಥಿರಾಂಕ bool modesetting = windata->egl_surface_dirty;
 
-    if (modesetting) {
-        KMSDRM_CreateSurfaces(_this, window);
+    ಆದರೆ (modesetting) {
+        KMSDRM_CreateSurfaces(_this, ಕಿಟಕಿ);
     }
 
     SDL_zero(info);
@@ -313,32 +313,32 @@ static bool KMSDRM_GLES_SwapWindowDoubleBuffered(SDL_VideoDevice *_this, SDL_Win
     /* Mark, at EGL level, the buffer that we want to become the new front buffer.
        It won't really happen until we request a pageflip at the KMS level and it
        completes. */
-    if (! _this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, windata->egl_surface)) {
-        return SDL_EGL_SetError("Failed to swap EGL buffers", "eglSwapBuffers");
+    ಆದರೆ (! _this->egl_ದತ್ತಾಂಶ->egl_ಅದಲುಬದಲು_Buffers(_this->egl_ದತ್ತಾಂಶ->egl_display, windata->egl_surface)) {
+        ಹಿಂತಿರುಗಿ SDL_EGL_ಗಣ_Error("Failed to swap EGL buffers", "eglSwapBuffers");
     }
     /* Lock the buffer that is marked by eglSwapBuffers() to become the next front buffer
        (so it can not be chosen by EGL as back buffer to draw on), and get a handle to it,
        to request the pageflip on it. */
-    windata->next_bo = KMSDRM_gbm_surface_lock_front_buffer(windata->gs);
-    if (!windata->next_bo) {
-        return SDL_SetError("Failed to lock frontbuffer");
+    windata->ಮುಂದಿನ_bo = KMSDRM_gbm_surface_ಬೀಗ_front_ಬಫರ್(windata->gs);
+    ಆದರೆ (!windata->ಮುಂದಿನ_bo) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to lock frontbuffer");
      }
-    fb = KMSDRM_FBFromBO(_this, windata->next_bo);
-    if (!fb) {
-        return SDL_SetError("Failed to get a new framebuffer BO");
+    fb = KMSDRM_FBFromBO(_this, windata->ಮುಂದಿನ_bo);
+    ಆದರೆ (!fb) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to get a new framebuffer BO");
     }
 
-    if (!windata->bo) {
+    ಆದರೆ (!windata->bo) {
         /* On the first swap, immediately present the new front buffer. Before
            drmModePageFlip can be used the CRTC has to be configured to use
            the current connector and mode with drmModeSetCrtc */
-        SDL_VideoData *viddata = _this->internal;
-        const int ret = KMSDRM_drmModeSetCrtc(viddata->drm_fd,
+        SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
+        ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ ret = KMSDRM_drm_ಬಹುಲಕ_ಗಣ_Crtc(viddata->drm_fd,
                                     dispdata->crtc.crtc->crtc_id, fb->fb_id, 0, 0,
-                                    &dispdata->connector.connector->connector_id, 1, &dispdata->mode);
+                                    &dispdata->connector.connector->connector_id, 1, &dispdata->ಬಹುಲಕ);
 
-        if (ret) {
-            return SDL_SetError("Could not set videomode on CRTC.");
+        ಆದರೆ (ret) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Could not set videomode on CRTC.");
         }
     }
 
@@ -346,114 +346,114 @@ static bool KMSDRM_GLES_SwapWindowDoubleBuffered(SDL_VideoDevice *_this, SDL_Win
     info.plane = dispdata->display_plane;
     info.crtc_id = dispdata->crtc.crtc->crtc_id;
     info.fb_id = fb->fb_id;
-    info.src_w = window->w;  // !!! FIXME: was windata->src_w in the original atomic patch
-    info.src_h = window->h;  // !!! FIXME: was windata->src_h in the original atomic patch
-    info.crtc_w = dispdata->mode.hdisplay;  // !!! FIXME: was windata->output_w in the original atomic patch
-    info.crtc_h = dispdata->mode.vdisplay;  // !!! FIXME: was windata->output_h in the original atomic patch
+    info.src_w = ಕಿಟಕಿ->w;  // !!! FIXME: was windata->src_w in the original atomic patch
+    info.src_h = ಕಿಟಕಿ->h;  // !!! FIXME: was windata->src_h in the original atomic patch
+    info.crtc_w = dispdata->ಬಹುಲಕ.hdisplay;  // !!! FIXME: was windata->output_w in the original atomic patch
+    info.crtc_h = dispdata->ಬಹುಲಕ.vdisplay;  // !!! FIXME: was windata->output_h in the original atomic patch
     info.crtc_x = 0;  // !!! FIXME: was windata->output_x in the original atomic patch
 
-    drm_atomic_set_plane_props(dispdata, &info);
+    drm_atomic_ಗಣ_plane_props(dispdata, &info);
 
     /* Do we have a pending modesetting? If so, set the necessary
        props so it's included in the incoming atomic commit. */
-    if (modesetting) {
+    ಆದರೆ (modesetting) {
         uint32_t blob_id;
 
-        SDL_VideoData *viddata = (SDL_VideoData *)_this->internal;
+        SDL_Video_ದತ್ತಾಂಶ *viddata = (SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
 
-        add_connector_property(dispdata->atomic_req, &dispdata->connector, "CRTC_ID", dispdata->crtc.crtc->crtc_id);
-        KMSDRM_drmModeCreatePropertyBlob(viddata->drm_fd, &dispdata->mode, sizeof(dispdata->mode), &blob_id);
-        add_crtc_property(dispdata->atomic_req, &dispdata->crtc, "MODE_ID", blob_id);
-        add_crtc_property(dispdata->atomic_req, &dispdata->crtc, "active", 1);
+        ಕೂಡಿಸು_connector_property(dispdata->atomic_req, &dispdata->connector, "CRTC_ID", dispdata->crtc.crtc->crtc_id);
+        KMSDRM_drm_ಬಹುಲಕ_Create_Property_Blob(viddata->drm_fd, &dispdata->ಬಹುಲಕ, ಗಾತ್ರ(dispdata->ಬಹುಲಕ), &blob_id);
+        ಕೂಡಿಸು_crtc_property(dispdata->atomic_req, &dispdata->crtc, "MODE_ID", blob_id);
+        ಕೂಡಿಸು_crtc_property(dispdata->atomic_req, &dispdata->crtc, "active", 1);
     }
  
     /* Issue the one and only atomic commit where all changes will be requested!
        Blocking for double buffering: won't return until completed. */
-    if (drm_atomic_commit(_this, dispdata, true, modesetting)) {
-        return SDL_SetError("Failed to issue atomic commit on pageflip");
+    ಆದರೆ (drm_atomic_commit(_this, dispdata, true, modesetting)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to issue atomic commit on pageflip");
     }
 
     /* Release last front buffer so EGL can chose it as back buffer and render on it again. */
-    if (windata->bo) {
-        KMSDRM_gbm_surface_release_buffer(windata->gs, windata->bo);
+    ಆದರೆ (windata->bo) {
+        KMSDRM_gbm_surface_release_ಬಫರ್(windata->gs, windata->bo);
     }
 
     /* Take note of current front buffer, so we can free it next time we come here. */
-    windata->bo = windata->next_bo;
+    windata->bo = windata->ಮುಂದಿನ_bo;
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool KMSDRM_GLES_SwapWindowLegacy(SDL_VideoDevice *_this, SDL_Window *window)
+ಸ್ಥಿರ bool KMSDRM_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ_Legacy(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *windata = window->internal;
-    SDL_DisplayData *dispdata = SDL_GetDisplayDriverDataForWindow(window);
-    SDL_VideoData *viddata = _this->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windata = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    SDL_Display_ದತ್ತಾಂಶ *dispdata = SDL_Get_Display_Driver_ದತ್ತಾಂಶ_For_ಕಿಟಕಿ(ಕಿಟಕಿ);
+    SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
     KMSDRM_FBInfo *fb_info;
-    int ret = 0;
+    ಪೂರ್ಣಾಂಕ ret = 0;
 
     /* Always wait for the previous issued flip before issuing a new one,
        even if you do async flips. */
-    uint32_t flip_flags = DRM_MODE_PAGE_FLIP_EVENT;
+    uint32_t flip_flags = DRM_ಬಹುಲಕ_ಪುಟ_FLIP_EVENT;
 
     // Skip the swap if we've switched away to another VT
-    if (windata->egl_surface == EGL_NO_SURFACE) {
+    ಆದರೆ (windata->egl_surface == EGL_NO_SURFACE) {
         // Wait a bit, throttling to ~100 FPS
         SDL_Delay(10);
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
     // Recreate the GBM / EGL surfaces if the display mode has changed
-    if (windata->egl_surface_dirty) {
-        KMSDRM_CreateSurfaces(_this, window);
+    ಆದರೆ (windata->egl_surface_dirty) {
+        KMSDRM_CreateSurfaces(_this, ಕಿಟಕಿ);
     }
 
     /* Wait for confirmation that the next front buffer has been flipped, at which
        point the previous front buffer can be released */
-    if (!KMSDRM_WaitPageflip(_this, windata)) {
-        return SDL_SetError("Wait for previous pageflip failed");
+    ಆದರೆ (!KMSDRM_WaitPageflip(_this, windata)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Wait for previous pageflip failed");
     }
 
     // Release the previous front buffer
-    if (windata->bo) {
-        KMSDRM_gbm_surface_release_buffer(windata->gs, windata->bo);
+    ಆದರೆ (windata->bo) {
+        KMSDRM_gbm_surface_release_ಬಫರ್(windata->gs, windata->bo);
     }
 
-    windata->bo = windata->next_bo;
+    windata->bo = windata->ಮುಂದಿನ_bo;
 
     /* Mark a buffer to become the next front buffer.
        This won't happen until pageflip completes. */
-    if (!(_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display,
+    ಆದರೆ (!(_this->egl_ದತ್ತಾಂಶ->egl_ಅದಲುಬದಲು_Buffers(_this->egl_ದತ್ತಾಂಶ->egl_display,
                                           windata->egl_surface))) {
-        return SDL_SetError("eglSwapBuffers failed");
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("eglSwapBuffers failed");
     }
 
     /* From the GBM surface, get the next BO to become the next front buffer,
        and lock it so it can't be allocated as a back buffer (to prevent EGL
        from drawing into it!) */
-    windata->next_bo = KMSDRM_gbm_surface_lock_front_buffer(windata->gs);
-    if (!windata->next_bo) {
-        return SDL_SetError("Could not lock front buffer on GBM surface");
+    windata->ಮುಂದಿನ_bo = KMSDRM_gbm_surface_ಬೀಗ_front_ಬಫರ್(windata->gs);
+    ಆದರೆ (!windata->ಮುಂದಿನ_bo) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Could not lock front buffer on GBM surface");
     }
 
     // Get an actual usable fb for the next front buffer.
-    fb_info = KMSDRM_FBFromBO(_this, windata->next_bo);
-    if (!fb_info) {
-        return SDL_SetError("Could not get a framebuffer");
+    fb_info = KMSDRM_FBFromBO(_this, windata->ಮುಂದಿನ_bo);
+    ಆದರೆ (!fb_info) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Could not get a framebuffer");
     }
 
-    if (!windata->bo) {
+    ಆದರೆ (!windata->bo) {
         /* On the first swap, immediately present the new front buffer. Before
            drmModePageFlip can be used the CRTC has to be configured to use
            the current connector and mode with drmModeSetCrtc */
-        ret = KMSDRM_drmModeSetCrtc(viddata->drm_fd,
+        ret = KMSDRM_drm_ಬಹುಲಕ_ಗಣ_Crtc(viddata->drm_fd,
                                     dispdata->crtc.crtc->crtc_id, fb_info->fb_id, 0, 0,
-                                    &dispdata->connector.connector->connector_id, 1, &dispdata->mode);
+                                    &dispdata->connector.connector->connector_id, 1, &dispdata->ಬಹುಲಕ);
 
-        if (ret) {
-            return SDL_SetError("Could not set videomode on CRTC.");
+        ಆದರೆ (ret) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Could not set videomode on CRTC.");
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         /* On subsequent swaps, queue the new front buffer to be flipped during
            the next vertical blank
 
@@ -466,23 +466,23 @@ static bool KMSDRM_GLES_SwapWindowLegacy(SDL_VideoDevice *_this, SDL_Window *win
            That makes it flip immediately, without waiting for the next vblank
            to do so, so even if we don't block on EGL, the flip will have completed
            when we get here again. */
-        if (_this->egl_data->egl_swapinterval == 0 && viddata->async_pageflip_support) {
-            flip_flags |= DRM_MODE_PAGE_FLIP_ASYNC;
+        ಆದರೆ (_this->egl_ದತ್ತಾಂಶ->egl_swapinterval == 0 && viddata->async_pageflip_support) {
+            flip_flags |= DRM_ಬಹುಲಕ_ಪುಟ_FLIP_ASYNC;
         }
 
-        ret = KMSDRM_drmModePageFlip(viddata->drm_fd, dispdata->crtc.crtc->crtc_id,
-                                     fb_info->fb_id, flip_flags, &windata->waiting_for_flip);
+        ret = KMSDRM_drm_ಬಹುಲಕ_ಪುಟ_Flip(viddata->drm_fd, dispdata->crtc.crtc->crtc_id,
+                                     fb_info->fb_id, flip_flags, &windata->ಕಾಯುವಿಕೆ_for_flip);
 
         // some drivers apparently claim they can do async page flip but can't (or have intermittent problems),
         // so in this specific case just retry without the async flag. If it still fails after that, oh well.
-        if ((ret == -EINVAL) && (flip_flags & DRM_MODE_PAGE_FLIP_ASYNC)) {
-            flip_flags &= ~DRM_MODE_PAGE_FLIP_ASYNC;
-            ret = KMSDRM_drmModePageFlip(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, fb_info->fb_id, flip_flags, &windata->waiting_for_flip);
+        ಆದರೆ ((ret == -EINVAL) && (flip_flags & DRM_ಬಹುಲಕ_ಪುಟ_FLIP_ASYNC)) {
+            flip_flags &= ~DRM_ಬಹುಲಕ_ಪುಟ_FLIP_ASYNC;
+            ret = KMSDRM_drm_ಬಹುಲಕ_ಪುಟ_Flip(viddata->drm_fd, dispdata->crtc.crtc->crtc_id, fb_info->fb_id, flip_flags, &windata->ಕಾಯುವಿಕೆ_for_flip);
         }
 
-        if (ret == 0) {
-            windata->waiting_for_flip = true;
-        } else {
+        ಆದರೆ (ret == 0) {
+            windata->ಕಾಯುವಿಕೆ_for_flip = true;
+        } ಇಲ್ಲದಿದ್ದರೆ {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not queue pageflip: %d", ret);
         }
 
@@ -495,36 +495,36 @@ static bool KMSDRM_GLES_SwapWindowLegacy(SDL_VideoDevice *_this, SDL_Window *win
            Just leave it here and don't worry.
            Run your SDL program with "SDL_VIDEO_DOUBLE_BUFFER=1 <program_name>"
            to enable this. */
-        if (windata->double_buffer) {
-            if (!KMSDRM_WaitPageflip(_this, windata)) {
-                return SDL_SetError("Immediate wait for previous pageflip failed");
+        ಆದರೆ (windata->double_ಬಫರ್) {
+            ಆದರೆ (!KMSDRM_WaitPageflip(_this, windata)) {
+                ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Immediate wait for previous pageflip failed");
             }
         }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window * window)
+bool KMSDRM_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    SDL_WindowData *windata = (SDL_WindowData *) window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windata = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *) ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (windata->swap_window == NULL) {
-        SDL_VideoData *viddata = _this->internal;
-        if (viddata->is_atomic) {
+    ಆದರೆ (windata->ಅದಲುಬದಲು_ಕಿಟಕಿ == ಖಾಲಿ) {
+        SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
+        ಆದರೆ (viddata->is_atomic) {
             // We want the fenced version by default, but it needs extensions.
-            if ( (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) || (!SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANDROID_native_fence_sync")) ) {
-                windata->swap_window = KMSDRM_GLES_SwapWindowDoubleBuffered;
-            } else {
-                windata->swap_window = KMSDRM_GLES_SwapWindowFenced;
+            ಆದರೆ ( (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_ಬಫರ್, false)) || (!SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANDROID_native_fence_sync")) ) {
+                windata->ಅದಲುಬದಲು_ಕಿಟಕಿ = KMSDRM_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ_Double_Buffered;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                windata->ಅದಲುಬದಲು_ಕಿಟಕಿ = KMSDRM_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ_Fenced;
             }
-        } else {
-            windata->swap_window = KMSDRM_GLES_SwapWindowLegacy;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            windata->ಅದಲುಬದಲು_ಕಿಟಕಿ = KMSDRM_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ_Legacy;
         }
     }
-    return windata->swap_window(_this, window);
+    ಹಿಂತಿರುಗಿ windata->ಅದಲುಬದಲು_ಕಿಟಕಿ(_this, ಕಿಟಕಿ);
 }
 
 SDL_EGL_MakeCurrent_impl(KMSDRM)
 
-#endif // SDL_VIDEO_DRIVER_KMSDRM
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_KMSDRM

@@ -21,34 +21,34 @@
 
 // This file is #included twice to support int and float versions with the same code.
 
-static bool SDL_RECT_CAN_OVERFLOW(const RECTTYPE *rect)
+ಸ್ಥಿರ bool SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(ಸ್ಥಿರಾಂಕ RECTTYPE *rect)
 {
-    if (rect->x <= (SCALARTYPE)(SDL_MIN_SINT32 / 2) ||
+    ಆದರೆ (rect->x <= (SCALARTYPE)(SDL_MIN_SINT32 / 2) ||
         rect->x >= (SCALARTYPE)(SDL_MAX_SINT32 / 2) ||
         rect->y <= (SCALARTYPE)(SDL_MIN_SINT32 / 2) ||
         rect->y >= (SCALARTYPE)(SDL_MAX_SINT32 / 2) ||
         rect->w >= (SCALARTYPE)(SDL_MAX_SINT32 / 2) ||
         rect->h >= (SCALARTYPE)(SDL_MAX_SINT32 / 2)) {
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-bool SDL_HASINTERSECTION(const RECTTYPE *A, const RECTTYPE *B)
+bool SDL_HASINTERSECTION(ಸ್ಥಿರಾಂಕ RECTTYPE *A, ಸ್ಥಿರಾಂಕ RECTTYPE *B)
 {
     SCALARTYPE Amin, Amax, Bmin, Bmax;
 
     CHECK_PARAM(!A) {
         SDL_InvalidParamError("A");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
     CHECK_PARAM(!B) {
         SDL_InvalidParamError("B");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
-    CHECK_PARAM(SDL_RECT_CAN_OVERFLOW(A) || SDL_RECT_CAN_OVERFLOW(B)) {
-        SDL_SetError("Potential rect math overflow");
-        return false;
+    CHECK_PARAM(SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(A) || SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(B)) {
+        SDL_ಗಣ_Error("Potential rect math overflow");
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Horizontal intersection
@@ -56,51 +56,51 @@ bool SDL_HASINTERSECTION(const RECTTYPE *A, const RECTTYPE *B)
     Amax = Amin + A->w;
     Bmin = B->x;
     Bmax = Bmin + B->w;
-    if (Bmin > Amin) {
+    ಆದರೆ (Bmin > Amin) {
         Amin = Bmin;
     }
-    if (Bmax < Amax) {
+    ಆದರೆ (Bmax < Amax) {
         Amax = Bmax;
     }
-    if ((Amax - ENCLOSEPOINTS_EPSILON) < Amin) {
-        return false;
+    ಆದರೆ ((Amax - ENCLOSEPOINTS_EPSILON) < Amin) {
+        ಹಿಂತಿರುಗಿ false;
     }
     // Vertical intersection
     Amin = A->y;
     Amax = Amin + A->h;
     Bmin = B->y;
     Bmax = Bmin + B->h;
-    if (Bmin > Amin) {
+    ಆದರೆ (Bmin > Amin) {
         Amin = Bmin;
     }
-    if (Bmax < Amax) {
+    ಆದರೆ (Bmax < Amax) {
         Amax = Bmax;
     }
-    if ((Amax - ENCLOSEPOINTS_EPSILON) < Amin) {
-        return false;
+    ಆದರೆ ((Amax - ENCLOSEPOINTS_EPSILON) < Amin) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_INTERSECTRECT(const RECTTYPE *A, const RECTTYPE *B, RECTTYPE *result)
+bool SDL_INTERSECTRECT(ಸ್ಥಿರಾಂಕ RECTTYPE *A, ಸ್ಥಿರಾಂಕ RECTTYPE *B, RECTTYPE *ಫಲಿತಾಂಶ)
 {
     SCALARTYPE Amin, Amax, Bmin, Bmax;
 
     CHECK_PARAM(!A) {
         SDL_InvalidParamError("A");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
     CHECK_PARAM(!B) {
         SDL_InvalidParamError("B");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
-    CHECK_PARAM(SDL_RECT_CAN_OVERFLOW(A) || SDL_RECT_CAN_OVERFLOW(B)) {
-        SDL_SetError("Potential rect math overflow");
-        return false;
+    CHECK_PARAM(SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(A) || SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(B)) {
+        SDL_ಗಣ_Error("Potential rect math overflow");
+        ಹಿಂತಿರುಗಿ false;
     }
-    CHECK_PARAM(!result) {
+    CHECK_PARAM(!ಫಲಿತಾಂಶ) {
         SDL_InvalidParamError("result");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Horizontal intersection
@@ -108,59 +108,59 @@ bool SDL_INTERSECTRECT(const RECTTYPE *A, const RECTTYPE *B, RECTTYPE *result)
     Amax = Amin + A->w;
     Bmin = B->x;
     Bmax = Bmin + B->w;
-    if (Bmin > Amin) {
+    ಆದರೆ (Bmin > Amin) {
         Amin = Bmin;
     }
-    result->x = Amin;
-    if (Bmax < Amax) {
+    ಫಲಿತಾಂಶ->x = Amin;
+    ಆದರೆ (Bmax < Amax) {
         Amax = Bmax;
     }
-    result->w = Amax - Amin;
+    ಫಲಿತಾಂಶ->w = Amax - Amin;
 
     // Vertical intersection
     Amin = A->y;
     Amax = Amin + A->h;
     Bmin = B->y;
     Bmax = Bmin + B->h;
-    if (Bmin > Amin) {
+    ಆದರೆ (Bmin > Amin) {
         Amin = Bmin;
     }
-    result->y = Amin;
-    if (Bmax < Amax) {
+    ಫಲಿತಾಂಶ->y = Amin;
+    ಆದರೆ (Bmax < Amax) {
         Amax = Bmax;
     }
-    result->h = Amax - Amin;
+    ಫಲಿತಾಂಶ->h = Amax - Amin;
 
-    return !SDL_RECTEMPTY(result);
+    ಹಿಂತಿರುಗಿ !SDL_RECTEMPTY(ಫಲಿತಾಂಶ);
 }
 
-bool SDL_UNIONRECT(const RECTTYPE *A, const RECTTYPE *B, RECTTYPE *result)
+bool SDL_UNIONRECT(ಸ್ಥಿರಾಂಕ RECTTYPE *A, ಸ್ಥಿರಾಂಕ RECTTYPE *B, RECTTYPE *ಫಲಿತಾಂಶ)
 {
     SCALARTYPE Amin, Amax, Bmin, Bmax;
 
     CHECK_PARAM(!A) {
-        return SDL_InvalidParamError("A");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("A");
     }
     CHECK_PARAM(!B) {
-        return SDL_InvalidParamError("B");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("B");
     }
-    CHECK_PARAM(SDL_RECT_CAN_OVERFLOW(A) || SDL_RECT_CAN_OVERFLOW(B)) {
-        return SDL_SetError("Potential rect math overflow");
+    CHECK_PARAM(SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(A) || SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(B)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Potential rect math overflow");
     }
-    CHECK_PARAM(!result) {
-        return SDL_InvalidParamError("result");
+    CHECK_PARAM(!ಫಲಿತಾಂಶ) {
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("result");
     }
 
-    if (SDL_RECTEMPTY(A)) { // Special cases for empty Rects
-        if (SDL_RECTEMPTY(B)) {    // A and B empty
-            SDL_zerop(result);
-        } else { // A empty, B not empty
-            *result = *B;
+    ಆದರೆ (SDL_RECTEMPTY(A)) { // Special cases for empty Rects
+        ಆದರೆ (SDL_RECTEMPTY(B)) {    // A and B empty
+            SDL_zerop(ಫಲಿತಾಂಶ);
+        } ಇಲ್ಲದಿದ್ದರೆ { // A empty, B not empty
+            *ಫಲಿತಾಂಶ = *B;
         }
-        return true;
-    } else if (SDL_RECTEMPTY(B)) { // A not empty, B empty
-        *result = *A;
-        return true;
+        ಹಿಂತಿರುಗಿ true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_RECTEMPTY(B)) { // A not empty, B empty
+        *ಫಲಿತಾಂಶ = *A;
+        ಹಿಂತಿರುಗಿ true;
     }
 
     // Horizontal union
@@ -168,149 +168,149 @@ bool SDL_UNIONRECT(const RECTTYPE *A, const RECTTYPE *B, RECTTYPE *result)
     Amax = Amin + A->w;
     Bmin = B->x;
     Bmax = Bmin + B->w;
-    if (Bmin < Amin) {
+    ಆದರೆ (Bmin < Amin) {
         Amin = Bmin;
     }
-    result->x = Amin;
-    if (Bmax > Amax) {
+    ಫಲಿತಾಂಶ->x = Amin;
+    ಆದರೆ (Bmax > Amax) {
         Amax = Bmax;
     }
-    result->w = Amax - Amin;
+    ಫಲಿತಾಂಶ->w = Amax - Amin;
 
     // Vertical union
     Amin = A->y;
     Amax = Amin + A->h;
     Bmin = B->y;
     Bmax = Bmin + B->h;
-    if (Bmin < Amin) {
+    ಆದರೆ (Bmin < Amin) {
         Amin = Bmin;
     }
-    result->y = Amin;
-    if (Bmax > Amax) {
+    ಫಲಿತಾಂಶ->y = Amin;
+    ಆದರೆ (Bmax > Amax) {
         Amax = Bmax;
     }
-    result->h = Amax - Amin;
-    return true;
+    ಫಲಿತಾಂಶ->h = Amax - Amin;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool SDL_ENCLOSEPOINTS(const POINTTYPE *points, int count, const RECTTYPE *clip, RECTTYPE *result)
+bool SDL_ENCLOSEPOINTS(ಸ್ಥಿರಾಂಕ POINTTYPE *points, ಪೂರ್ಣಾಂಕ ಎಣಿಕೆ_2, ಸ್ಥಿರಾಂಕ RECTTYPE *clip, RECTTYPE *ಫಲಿತಾಂಶ)
 {
     SCALARTYPE minx = 0;
     SCALARTYPE miny = 0;
     SCALARTYPE maxx = 0;
     SCALARTYPE maxy = 0;
     SCALARTYPE x, y;
-    int i;
+    ಪೂರ್ಣಾಂಕ i;
 
     CHECK_PARAM(!points) {
         SDL_InvalidParamError("points");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
-    CHECK_PARAM(count < 1) {
+    CHECK_PARAM(ಎಣಿಕೆ_2 < 1) {
         SDL_InvalidParamError("count");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (clip) {
+    ಆದರೆ (clip) {
         bool added = false;
-        const SCALARTYPE clip_minx = clip->x;
-        const SCALARTYPE clip_miny = clip->y;
-        const SCALARTYPE clip_maxx = clip->x + clip->w - ENCLOSEPOINTS_EPSILON;
-        const SCALARTYPE clip_maxy = clip->y + clip->h - ENCLOSEPOINTS_EPSILON;
+        ಸ್ಥಿರಾಂಕ SCALARTYPE clip_minx = clip->x;
+        ಸ್ಥಿರಾಂಕ SCALARTYPE clip_miny = clip->y;
+        ಸ್ಥಿರಾಂಕ SCALARTYPE clip_maxx = clip->x + clip->w - ENCLOSEPOINTS_EPSILON;
+        ಸ್ಥಿರಾಂಕ SCALARTYPE clip_maxy = clip->y + clip->h - ENCLOSEPOINTS_EPSILON;
 
         // Special case for empty rectangle
-        if (SDL_RECTEMPTY(clip)) {
-            return false;
+        ಆದರೆ (SDL_RECTEMPTY(clip)) {
+            ಹಿಂತಿರುಗಿ false;
         }
 
-        for (i = 0; i < count; ++i) {
+        ಗಾಗಿ (i = 0; i < ಎಣಿಕೆ_2; ++i) {
             x = points[i].x;
             y = points[i].y;
 
-            if (x < clip_minx || x > clip_maxx ||
+            ಆದರೆ (x < clip_minx || x > clip_maxx ||
                 y < clip_miny || y > clip_maxy) {
-                continue;
+                ಮುಂದುವರಿ;
             }
-            if (!added) {
+            ಆದರೆ (!added) {
                 // Special case: if no result was requested, we are done
-                if (!result) {
-                    return true;
+                ಆದರೆ (!ಫಲಿತಾಂಶ) {
+                    ಹಿಂತಿರುಗಿ true;
                 }
 
                 // First point added
                 minx = maxx = x;
                 miny = maxy = y;
                 added = true;
-                continue;
+                ಮುಂದುವರಿ;
             }
-            if (x < minx) {
+            ಆದರೆ (x < minx) {
                 minx = x;
-            } else if (x > maxx) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (x > maxx) {
                 maxx = x;
             }
-            if (y < miny) {
+            ಆದರೆ (y < miny) {
                 miny = y;
-            } else if (y > maxy) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (y > maxy) {
                 maxy = y;
             }
         }
-        if (!added) {
-            return false;
+        ಆದರೆ (!added) {
+            ಹಿಂತಿರುಗಿ false;
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Special case: if no result was requested, we are done
-        if (!result) {
-            return true;
+        ಆದರೆ (!ಫಲಿತಾಂಶ) {
+            ಹಿಂತಿರುಗಿ true;
         }
 
         // No clipping, always add the first point
         minx = maxx = points[0].x;
         miny = maxy = points[0].y;
 
-        for (i = 1; i < count; ++i) {
+        ಗಾಗಿ (i = 1; i < ಎಣಿಕೆ_2; ++i) {
             x = points[i].x;
             y = points[i].y;
 
-            if (x < minx) {
+            ಆದರೆ (x < minx) {
                 minx = x;
-            } else if (x > maxx) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (x > maxx) {
                 maxx = x;
             }
-            if (y < miny) {
+            ಆದರೆ (y < miny) {
                 miny = y;
-            } else if (y > maxy) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (y > maxy) {
                 maxy = y;
             }
         }
     }
 
-    if (result) {
-        result->x = minx;
-        result->y = miny;
-        result->w = (maxx - minx) + ENCLOSEPOINTS_EPSILON;
-        result->h = (maxy - miny) + ENCLOSEPOINTS_EPSILON;
+    ಆದರೆ (ಫಲಿತಾಂಶ) {
+        ಫಲಿತಾಂಶ->x = minx;
+        ಫಲಿತಾಂಶ->y = miny;
+        ಫಲಿತಾಂಶ->w = (maxx - minx) + ENCLOSEPOINTS_EPSILON;
+        ಫಲಿತಾಂಶ->h = (maxy - miny) + ENCLOSEPOINTS_EPSILON;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 // Use the Cohen-Sutherland algorithm for line clipping
-static int COMPUTEOUTCODE(const RECTTYPE *rect, SCALARTYPE x, SCALARTYPE y)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ COMPUTEOUTCODE(ಸ್ಥಿರಾಂಕ RECTTYPE *rect, SCALARTYPE x, SCALARTYPE y)
 {
-    int code = 0;
-    if (y < rect->y) {
-        code |= CODE_TOP;
-    } else if (y > (rect->y + rect->h - ENCLOSEPOINTS_EPSILON)) {
-        code |= CODE_BOTTOM;
+    ಪೂರ್ಣಾಂಕ ಸಂಕೇತ_2 = 0;
+    ಆದರೆ (y < rect->y) {
+        ಸಂಕೇತ_2 |= ಸಂಕೇತ_ತುದಿ;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (y > (rect->y + rect->h - ENCLOSEPOINTS_EPSILON)) {
+        ಸಂಕೇತ_2 |= ಸಂಕೇತ_BOTTOM;
     }
-    if (x < rect->x) {
-        code |= CODE_LEFT;
-    } else if (x > (rect->x + rect->w - ENCLOSEPOINTS_EPSILON)) {
-        code |= CODE_RIGHT;
+    ಆದರೆ (x < rect->x) {
+        ಸಂಕೇತ_2 |= ಸಂಕೇತ_ಎಡ;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (x > (rect->x + rect->w - ENCLOSEPOINTS_EPSILON)) {
+        ಸಂಕೇತ_2 |= ಸಂಕೇತ_ಬಲ;
     }
-    return code;
+    ಹಿಂತಿರುಗಿ ಸಂಕೇತ_2;
 }
 
-bool SDL_INTERSECTRECTANDLINE(const RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *Y1, SCALARTYPE *X2, SCALARTYPE *Y2)
+bool SDL_INTERSECTRECTANDLINE(ಸ್ಥಿರಾಂಕ RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *Y1, SCALARTYPE *X2, SCALARTYPE *Y2)
 {
     SCALARTYPE x = 0;
     SCALARTYPE y = 0;
@@ -320,35 +320,35 @@ bool SDL_INTERSECTRECTANDLINE(const RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *
     SCALARTYPE recty1;
     SCALARTYPE rectx2;
     SCALARTYPE recty2;
-    int outcode1, outcode2;
+    ಪೂರ್ಣಾಂಕ outcode1, outcode2;
 
     CHECK_PARAM(!rect) {
         SDL_InvalidParamError("rect");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
-    CHECK_PARAM(SDL_RECT_CAN_OVERFLOW(rect)) {
-        SDL_SetError("Potential rect math overflow");
-        return false;
+    CHECK_PARAM(SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ(rect)) {
+        SDL_ಗಣ_Error("Potential rect math overflow");
+        ಹಿಂತಿರುಗಿ false;
     }
     CHECK_PARAM(!X1) {
         SDL_InvalidParamError("X1");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
     CHECK_PARAM(!Y1) {
         SDL_InvalidParamError("Y1");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
     CHECK_PARAM(!X2) {
         SDL_InvalidParamError("X2");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
     CHECK_PARAM(!Y2) {
         SDL_InvalidParamError("Y2");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (SDL_RECTEMPTY(rect)) {
-        return false; // Special case for empty rect
+    ಆದರೆ (SDL_RECTEMPTY(rect)) {
+        ಹಿಂತಿರುಗಿ false; // Special case for empty rect
     }
 
     x1 = *X1;
@@ -361,86 +361,86 @@ bool SDL_INTERSECTRECTANDLINE(const RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *
     recty2 = rect->y + rect->h - ENCLOSEPOINTS_EPSILON;
 
     // Check to see if entire line is inside rect
-    if (x1 >= rectx1 && x1 <= rectx2 && x2 >= rectx1 && x2 <= rectx2 &&
+    ಆದರೆ (x1 >= rectx1 && x1 <= rectx2 && x2 >= rectx1 && x2 <= rectx2 &&
         y1 >= recty1 && y1 <= recty2 && y2 >= recty1 && y2 <= recty2) {
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
     // Check to see if entire line is to one side of rect
-    if ((x1 < rectx1 && x2 < rectx1) || (x1 > rectx2 && x2 > rectx2) ||
+    ಆದರೆ ((x1 < rectx1 && x2 < rectx1) || (x1 > rectx2 && x2 > rectx2) ||
         (y1 < recty1 && y2 < recty1) || (y1 > recty2 && y2 > recty2)) {
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (y1 == y2) { // Horizontal line, easy to clip
-        if (x1 < rectx1) {
+    ಆದರೆ (y1 == y2) { // Horizontal line, easy to clip
+        ಆದರೆ (x1 < rectx1) {
             *X1 = rectx1;
-        } else if (x1 > rectx2) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (x1 > rectx2) {
             *X1 = rectx2;
         }
-        if (x2 < rectx1) {
+        ಆದರೆ (x2 < rectx1) {
             *X2 = rectx1;
-        } else if (x2 > rectx2) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (x2 > rectx2) {
             *X2 = rectx2;
         }
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    if (x1 == x2) { // Vertical line, easy to clip
-        if (y1 < recty1) {
+    ಆದರೆ (x1 == x2) { // Vertical line, easy to clip
+        ಆದರೆ (y1 < recty1) {
             *Y1 = recty1;
-        } else if (y1 > recty2) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (y1 > recty2) {
             *Y1 = recty2;
         }
-        if (y2 < recty1) {
+        ಆದರೆ (y2 < recty1) {
             *Y2 = recty1;
-        } else if (y2 > recty2) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (y2 > recty2) {
             *Y2 = recty2;
         }
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
     // More complicated Cohen-Sutherland algorithm
     outcode1 = COMPUTEOUTCODE(rect, x1, y1);
     outcode2 = COMPUTEOUTCODE(rect, x2, y2);
-    while (outcode1 || outcode2) {
-        if (outcode1 & outcode2) {
-            return false;
+    ಆಗ (outcode1 || outcode2) {
+        ಆದರೆ (outcode1 & outcode2) {
+            ಹಿಂತಿರುಗಿ false;
         }
 
-        if (outcode1) {
-            if (outcode1 & CODE_TOP) {
+        ಆದರೆ (outcode1) {
+            ಆದರೆ (outcode1 & ಸಂಕೇತ_ತುದಿ) {
                 y = recty1;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
-            } else if (outcode1 & CODE_BOTTOM) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (outcode1 & ಸಂಕೇತ_BOTTOM) {
                 y = recty2;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
-            } else if (outcode1 & CODE_LEFT) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (outcode1 & ಸಂಕೇತ_ಎಡ) {
                 x = rectx1;
                 y = (SCALARTYPE) (y1 + ((BIGSCALARTYPE)(y2 - y1) * (x - x1)) / (x2 - x1));
-            } else if (outcode1 & CODE_RIGHT) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (outcode1 & ಸಂಕೇತ_ಬಲ) {
                 x = rectx2;
                 y = (SCALARTYPE) (y1 + ((BIGSCALARTYPE)(y2 - y1) * (x - x1)) / (x2 - x1));
             }
             x1 = x;
             y1 = y;
             outcode1 = COMPUTEOUTCODE(rect, x, y);
-        } else {
-            if (outcode2 & CODE_TOP) {
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಆದರೆ (outcode2 & ಸಂಕೇತ_ತುದಿ) {
                 SDL_assert(y2 != y1); // if equal: division by zero.
                 y = recty1;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
-            } else if (outcode2 & CODE_BOTTOM) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (outcode2 & ಸಂಕೇತ_BOTTOM) {
                 SDL_assert(y2 != y1); // if equal: division by zero.
                 y = recty2;
                 x = (SCALARTYPE) (x1 + ((BIGSCALARTYPE)(x2 - x1) * (y - y1)) / (y2 - y1));
-            } else if (outcode2 & CODE_LEFT) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (outcode2 & ಸಂಕೇತ_ಎಡ) {
                 /* If this assertion ever fires, here's the static analysis that warned about it:
                    http://buildbot.libsdl.org/sdl-static-analysis/sdl-macosx-static-analysis/sdl-macosx-static-analysis-1101/report-b0d01a.html#EndPath */
                 SDL_assert(x2 != x1); // if equal: division by zero.
                 x = rectx1;
                 y = (SCALARTYPE) (y1 + ((BIGSCALARTYPE)(y2 - y1) * (x - x1)) / (x2 - x1));
-            } else if (outcode2 & CODE_RIGHT) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (outcode2 & ಸಂಕೇತ_ಬಲ) {
                 /* If this assertion ever fires, here's the static analysis that warned about it:
                    http://buildbot.libsdl.org/sdl-static-analysis/sdl-macosx-static-analysis/sdl-macosx-static-analysis-1101/report-39b114.html#EndPath */
                 SDL_assert(x2 != x1); // if equal: division by zero.
@@ -456,19 +456,19 @@ bool SDL_INTERSECTRECTANDLINE(const RECTTYPE *rect, SCALARTYPE *X1, SCALARTYPE *
     *Y1 = y1;
     *X2 = x2;
     *Y2 = y2;
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-#undef RECTTYPE
-#undef POINTTYPE
-#undef SCALARTYPE
-#undef BIGSCALARTYPE
-#undef COMPUTEOUTCODE
-#undef ENCLOSEPOINTS_EPSILON
-#undef SDL_RECT_CAN_OVERFLOW
-#undef SDL_HASINTERSECTION
-#undef SDL_INTERSECTRECT
-#undef SDL_RECTEMPTY
-#undef SDL_UNIONRECT
-#undef SDL_ENCLOSEPOINTS
-#undef SDL_INTERSECTRECTANDLINE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು RECTTYPE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು POINTTYPE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SCALARTYPE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು BIGSCALARTYPE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು COMPUTEOUTCODE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು ENCLOSEPOINTS_EPSILON
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SDL_RECT_CAN_ಅತಿಪ್ರವಾಹ
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SDL_HASINTERSECTION
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SDL_INTERSECTRECT
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SDL_RECTEMPTY
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SDL_UNIONRECT
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SDL_ENCLOSEPOINTS
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು SDL_INTERSECTRECTANDLINE

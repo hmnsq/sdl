@@ -18,52 +18,52 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_windowswindow_h_
-#define SDL_windowswindow_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_windowswindow_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_windowswindow_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "../SDL_egl_c.h"
-#else
-#include "../SDL_sysvideo.h"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
+#ಇಲ್ಲದಿದ್ದರೆ
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Set up for C function definitions, even when using C++
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
-typedef enum SDL_WindowRect
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ SDL_ಕಿಟಕಿ_Rect
 {
     SDL_WINDOWRECT_CURRENT,
     SDL_WINDOWRECT_WINDOWED,
     SDL_WINDOWRECT_FLOATING,
     SDL_WINDOWRECT_PENDING
-} SDL_WindowRect;
+} SDL_ಕಿಟಕಿ_Rect;
 
-typedef enum SDL_WindowEraseBackgroundMode
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ SDL_ಕಿಟಕಿ_Erase_Background_ಬಹುಲಕ
 {
     SDL_ERASEBACKGROUNDMODE_NEVER,
     SDL_ERASEBACKGROUNDMODE_INITIAL,
     SDL_ERASEBACKGROUNDMODE_ALWAYS,
-} SDL_WindowEraseBackgroundMode;
+} SDL_ಕಿಟಕಿ_Erase_Background_ಬಹುಲಕ;
 
-typedef struct
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ
 {
-    void **lpVtbl;
-    int refcount;
-    SDL_Window *window;
+    ಶೂನ್ಯ **lpVtbl;
+    ಪೂರ್ಣಾಂಕ refcount;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ;
     HWND hwnd;
-    UINT format_text;
+    UINT format_ಪಠ್ಯ;
     UINT format_file;
-} SDLDropTarget;
+} SDLDrop_ಗುರಿ;
 
-struct SDL_WindowData
+ರಚನೆ SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ
 {
-    SDL_Window *window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ;
     HWND hwnd;
-    HWND parent;
+    HWND ಪೋಷಕ;
     HDC hdc;
     HDC mdc;
     HINSTANCE hinstance;
@@ -72,83 +72,83 @@ struct SDL_WindowData
     WNDPROC wndproc;
     HHOOK keyboard_hook;
     WPARAM mouse_button_flags;
-    LPARAM last_pointer_update;
-    WCHAR high_surrogate;
+    LPARAM ಕೊನೆಯ_ಸೂಚಕ_update;
+    WCHAR ಮೇಲಿನ_surrogate;
     bool initializing;
     bool expected_resize;
-    bool in_border_change;
-    bool in_title_click;
+    bool ಒಳ_border_change;
+    bool ಒಳ_title_click;
     Uint8 focus_click_pending;
     bool postpone_clipcursor;
     bool clipcursor_queued;
-    bool windowed_mode_was_maximized;
-    bool in_window_deactivation;
+    bool windowed_ಬಹುಲಕ_was_maximized;
+    bool ಒಳ_ಕಿಟಕಿ_deactivation;
     bool force_ws_maximizebox;
-    bool disable_move_size_events;
-    bool showing_window;
-    int in_modal_loop;
-    int last_modal_width;
-    int last_modal_height;
-    RECT initial_size_rect;
+    bool disable_move_ಗಾತ್ರ_events;
+    bool showing_ಕಿಟಕಿ;
+    ಪೂರ್ಣಾಂಕ ಒಳ_modal_loop;
+    ಪೂರ್ಣಾಂಕ ಕೊನೆಯ_modal_ಅಗಲ;
+    ಪೂರ್ಣಾಂಕ ಕೊನೆಯ_modal_ಎತ್ತರ;
+    RECT initial_ಗಾತ್ರ_rect;
     RECT cursor_clipped_rect; // last successfully committed clipping rect for this window
     RECT cursor_ctrlock_rect; // this is Windows-specific, but probably does not need to be per-window
     bool mouse_tracked;
-    bool destroy_parent_with_window;
+    bool destroy_ಪೋಷಕ_with_ಕಿಟಕಿ;
     WCHAR *ICMFileName;
-    SDL_WindowEraseBackgroundMode hint_erase_background_mode;
+    SDL_ಕಿಟಕಿ_Erase_Background_ಬಹುಲಕ hint_erase_background_ಬಹುಲಕ;
     bool taskbar_button_created;
-    struct SDL_VideoData *videodata;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    ರಚನೆ SDL_Video_ದತ್ತಾಂಶ *videodata;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     // Whether we retain the content of the window when changing state
     UINT copybits_flag;
-    SDLDropTarget *drop_target;
+    SDLDrop_ಗುರಿ *drop_ಗುರಿ;
 };
 
-extern bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-extern bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right);
-extern void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *width, int *height);
-extern bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity);
-extern void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
-extern void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top);
-extern SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event);
-extern void *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size);
-extern bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
-extern void WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window);
-extern void WIN_UpdateClipCursor(SDL_Window *window);
-extern void WIN_UnclipCursorForWindow(SDL_Window *window);
-extern bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled);
-extern void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept);
-extern bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation);
-extern bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type);
-extern void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y);
-extern bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
-extern bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type);
-extern bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi);
-extern bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent);
-extern bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal);
+ಬಾಹ್ಯ bool WIN_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Icon(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_Surface *icon);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Position(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool WIN_Get_ಕಿಟಕಿ_Borders_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *ತುದಿ, ಪೂರ್ಣಾಂಕ *ಎಡ, ಪೂರ್ಣಾಂಕ *bottom, ಪೂರ್ಣಾಂಕ *ಬಲ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *ಅಗಲ, ಪೂರ್ಣಾಂಕ *ಎತ್ತರ);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Opacity(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ದಶಮಾಂಶ opacity);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Show_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Hide_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Raise_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Maximize_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Minimize_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Restore_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_ಗಣ_ಕಿಟಕಿ_Bordered(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool bordered);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_ಗಣ_ಕಿಟಕಿ_Resizable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool resizable);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_ಗಣ_ಕಿಟಕಿ_Always_On_ತುದಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool on_ತುದಿ);
+ಬಾಹ್ಯ SDL_Fullscreen_ಫಲಿತಾಂಶ WIN_ಗಣ_ಕಿಟಕಿ_Fullscreen(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Update_ಕಿಟಕಿ_ICCProfile(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool send_event);
+ಬಾಹ್ಯ ಶೂನ್ಯ *WIN_Get_ಕಿಟಕಿ_ICCProfile(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, size_t *ಗಾತ್ರ_2);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Mouse_Rect(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Mouse_Grab(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool grabbed);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool grabbed);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_On_ಕಿಟಕಿ_Enter(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_UpdateClipCursor(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Unclip_Cursor_For_ಕಿಟಕಿ(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_ದೊರಕಿತು_Test(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool enabled);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_AcceptDragAndDrop(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool accept);
+ಬಾಹ್ಯ bool WIN_Flash_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_FlashOperation operation);
+ಬಾಹ್ಯ bool WIN_Apply_ಕಿಟಕಿ_ಪ್ರಗತಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Position_ಆಂತರಿಕ(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, UINT flags, SDL_ಕಿಟಕಿ_Rect rect_type);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Show_ಕಿಟಕಿ_System_Menu(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ x, ಪೂರ್ಣಾಂಕ y);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Focusable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool focusable);
+ಬಾಹ್ಯ bool WIN_Adjust_ಕಿಟಕಿ_Rect(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *x, ಪೂರ್ಣಾಂಕ *y, ಪೂರ್ಣಾಂಕ *ಅಗಲ, ಪೂರ್ಣಾಂಕ *ಎತ್ತರ, SDL_ಕಿಟಕಿ_Rect rect_type);
+ಬಾಹ್ಯ bool WIN_Adjust_ಕಿಟಕಿ_Rect_For_HWND(HWND hwnd, LPRECT lpRect, UINT ಚೌಕಟ್ಟು_dpi);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_ಕಿಟಕಿ *ಪೋಷಕ);
+ಬಾಹ್ಯ bool WIN_ಗಣ_ಕಿಟಕಿ_Modal(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool modal);
 
 // Ends C function definitions when using C++
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // SDL_windowswindow_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_windowswindow_h_

@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_emscriptenopengles_h_
-#define SDL_emscriptenopengles_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_emscriptenopengles_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_emscriptenopengles_h_
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
 // OpenGLES functions
-extern bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+ಬಾಹ್ಯ bool Emscripten_GLES_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ ಶೂನ್ಯ Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ SDL_Function_ಸೂಚಕ Emscripten_GLES_Get_Proc_ವಿಳಾಸ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *proc);
+ಬಾಹ್ಯ bool Emscripten_GLES_ಗಣ_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ interval);
+ಬಾಹ್ಯ bool Emscripten_GLES_Get_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ *interval);
+ಬಾಹ್ಯ SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ಬಾಹ್ಯ bool Emscripten_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_GLContext context);
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#endif // SDL_emscriptenopengles_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_emscriptenopengles_h_

@@ -18,110 +18,110 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenframebuffer.h"
+#ಅನ್ತರ್ಭಾವ "SDL_emscriptenvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_emscriptenframebuffer.h"
 
-#include <emscripten/threading.h>
+#ಅನ್ತರ್ಭಾವ <emscripten/threading.h>
 
-bool Emscripten_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool Emscripten_Create_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PixelFormat *format, ಶೂನ್ಯ **pixels, ಪೂರ್ಣಾಂಕ *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_RGBA32;
-    int w, h;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormat surface_format = SDL_PIXELFORMAT_RGBA32;
+    ಪೂರ್ಣಾಂಕ w, h;
 
     // Free the old framebuffer surface
-    SDL_WindowData *data = window->internal;
-    surface = data->surface;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    surface = ದತ್ತಾಂಶ->surface;
     SDL_DestroySurface(surface);
 
     // Create a new one
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels(ಕಿಟಕಿ, &w, &h);
 
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    ಆದರೆ (!surface) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Save the info and return!
-    data->surface = surface;
+    ದತ್ತಾಂಶ->surface = surface;
     *format = surface_format;
     *pixels = surface->pixels;
     *pitch = surface->pitch;
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Emscripten_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool Emscripten_Update_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಸ್ಥಿರಾಂಕ SDL_Rect *rects, ಪೂರ್ಣಾಂಕ numrects)
 {
     SDL_Surface *surface;
 
-    SDL_WindowData *data = window->internal;
-    surface = data->surface;
-    if (!surface) {
-        return SDL_SetError("Couldn't find framebuffer surface for window");
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    surface = ದತ್ತಾಂಶ->surface;
+    ಆದರೆ (!surface) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't find framebuffer surface for window");
     }
 
     // Send the data to the display
 
     /* *INDENT-OFF* */ // clang-format off
-    int updated = MAIN_THREAD_EM_ASM_INT({
+    ಪೂರ್ಣಾಂಕ updated = MAIN_THREAD_EM_ASM_INT({
         var w = $0;
         var h = $1;
         var pixels = $2;
-        var canvasId = UTF8ToString($3);
+        var canvasId = UTF8_ಗಮ್ಯ_String($3);
         var canvas = document.querySelector(canvasId);
 
         //TODO: this should store a context per canvas
         var SDL3 = Module['SDL3'];
-        if (SDL3.ctxCanvas !== canvas) {
+        ಆದರೆ (SDL3.ctxCanvas !== canvas) {
             SDL3.ctx = Browser.createContext(canvas, false, true);
-            if (!SDL3.ctx) {
-                return false;
+            ಆದರೆ (!SDL3.ctx) {
+                ಹಿಂತಿರುಗಿ false;
             }
             SDL3.ctxCanvas = canvas;
         }
-        if (SDL3.w !== w || SDL3.h !== h || SDL3.imageCtx !== SDL3.ctx) {
-            SDL3.image = SDL3.ctx.createImageData(w, h);
+        ಆದರೆ (SDL3.w !== w || SDL3.h !== h || SDL3.imageCtx !== SDL3.ctx) {
+            SDL3.image = SDL3.ctx.create_Image_ದತ್ತಾಂಶ(w, h);
             SDL3.w = w;
             SDL3.h = h;
             SDL3.imageCtx = SDL3.ctx;
         }
-        var data = SDL3.image.data;
+        var ದತ್ತಾಂಶ = SDL3.image.ದತ್ತಾಂಶ;
         var src = pixels / 4;
 
-        if (SDL3.data32Data !== data) {
-            SDL3.data32 = new Int32Array(data.buffer);
-            SDL3.data32Data = data;
+        ಆದರೆ (SDL3.data32_ದತ್ತಾಂಶ !== ದತ್ತಾಂಶ) {
+            SDL3.data32 = new Int32Array(ದತ್ತಾಂಶ.ಬಫರ್_2);
+            SDL3.data32_ದತ್ತಾಂಶ = ದತ್ತಾಂಶ;
         }
         var data32 = SDL3.data32;
-        data32.set(HEAP32.subarray(src, src + data32.length));
+        data32.ಗಣ(HEAP32.subarray(src, src + data32.ಉದ್ದಳತೆ));
 
-        SDL3.ctx.putImageData(SDL3.image, 0, 0);
-        return true;
-    }, surface->w, surface->h, surface->pixels, data->canvas_id);
+        SDL3.ctx.put_Image_ದತ್ತಾಂಶ(SDL3.image, 0, 0);
+        ಹಿಂತಿರುಗಿ true;
+    }, surface->w, surface->h, surface->pixels, ದತ್ತಾಂಶ->canvas_id);
     /* *INDENT-ON* */ // clang-format on
 
-    if (!updated) {
-        return SDL_SetError("Couldn't create context for canvas update");
+    ಆದರೆ (!updated) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't create context for canvas update");
     }
 
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+    ಆದರೆ (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
         // give back control to browser for screen refresh
         emscripten_sleep(0);
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void Emscripten_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Emscripten_Destroy_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    SDL_DestroySurface(data->surface);
-    data->surface = NULL;
+    SDL_DestroySurface(ದತ್ತಾಂಶ->surface);
+    ದತ್ತಾಂಶ->surface = ಖಾಲಿ;
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_EMSCRIPTEN

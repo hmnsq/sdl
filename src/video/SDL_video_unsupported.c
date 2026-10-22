@@ -18,92 +18,92 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#include "SDL_video_unsupported.h"
+#ಅನ್ತರ್ಭಾವ "SDL_video_unsupported.h"
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_VIDEO_DRIVER_WINDOWS
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#ಆದರೆ defined(SDL_PLATFORM_WINDOWS)
 
-bool SDL_RegisterApp(const char *name, Uint32 style, void *hInst)
+bool SDL_ರಿಜಿಸ್ಟರ್_App(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name, Uint32 style, ಶೂನ್ಯ *hInst)
 {
-    (void)name;
-    (void)style;
-    (void)hInst;
-    return true;
+    (ಶೂನ್ಯ)name;
+    (ಶೂನ್ಯ)style;
+    (ಶೂನ್ಯ)hInst;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void SDL_UnregisterApp(void)
-{
-}
-
-void SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata)
+ಶೂನ್ಯ SDL_UnregisterApp(ಶೂನ್ಯ)
 {
 }
 
-#endif // defined(SDL_PLATFORM_WINDOWS)
-
-bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex)
+ಶೂನ್ಯ SDL_ಗಣ_Windows_ಸಂದೇಶ_Hook(SDL_Windows_ಸಂದೇಶ_Hook callback, ಶೂನ್ಯ *userdata)
 {
-    (void)displayID;
-    (void)adapterIndex;
-    (void)outputIndex;
-    return SDL_Unsupported();
 }
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+#ಆದರೆ_ಅಂತ್ಯ // defined(SDL_PLATFORM_WINDOWS)
+
+bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, ಪೂರ್ಣಾಂಕ *adapter_ಸೂಚ್ಯಂಕ, ಪೂರ್ಣಾಂಕ *output_ಸೂಚ್ಯಂಕ)
 {
-    (void)displayID;
+    (ಶೂನ್ಯ)displayID;
+    (ಶೂನ್ಯ)adapter_ಸೂಚ್ಯಂಕ;
+    (ಶೂನ್ಯ)output_ಸೂಚ್ಯಂಕ;
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
+}
+
+ಪೂರ್ಣಾಂಕ SDL_Get_Direct3_D9_Adapter_ಸೂಚ್ಯಂಕ(SDL_DisplayID displayID)
+{
+    (ಶೂನ್ಯ)displayID;
     SDL_Unsupported();
-    return -1;
+    ಹಿಂತಿರುಗಿ -1;
 }
 
-#elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#ಅಥವಾಆದರೆ defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+ಪೂರ್ಣಾಂಕ SDL_Get_Direct3_D9_Adapter_ಸೂಚ್ಯಂಕ(SDL_DisplayID displayID)
 {
-    (void)displayID;
+    (ಶೂನ್ಯ)displayID;
     SDL_Unsupported();
-    return -1;
+    ಹಿಂತಿರುಗಿ -1;
 }
 
-#endif // !SDL_VIDEO_DRIVER_WINDOWS
+#ಆದರೆ_ಅಂತ್ಯ // !SDL_VIDEO_DRIVER_WINDOWS
 
-#ifndef SDL_PLATFORM_GDK
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_PLATFORM_GDK
 
-bool SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue)
+bool SDL_Get_GDKTask_ಸರತಿ(XTask_ಸರತಿ_Handle *ಹೊರಹೋಗು_Task_ಸರತಿ)
 {
-    (void)outTaskQueue;
-    return SDL_Unsupported();
+    (ಶೂನ್ಯ)ಹೊರಹೋಗು_Task_ಸರತಿ;
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#ಆದರೆ !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
-void SDL_OnApplicationDidChangeStatusBarOrientation(void)
+ಶೂನ್ಯ SDL_On_Application_Did_Change_ಸ್ಥಿತಿ_Bar_Orientation(ಶೂನ್ಯ)
 {
-    SDL_Unsupported();
-}
-
-#endif
-
-#ifndef SDL_VIDEO_DRIVER_UIKIT
-
-bool SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam)
-{
-    (void)window;
-    (void)interval;
-    (void)callback;
-    (void)callbackParam;
-    return SDL_Unsupported();
-}
-
-void SDL_SetiOSEventPump(bool enabled)
-{
-    (void)enabled;
     SDL_Unsupported();
 }
-#endif
+
+#ಆದರೆ_ಅಂತ್ಯ
+
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_VIDEO_DRIVER_UIKIT
+
+bool SDL_SetiOSAnimationCallback(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ interval, SDL_iOSAnimationCallback callback, ಶೂನ್ಯ *callbackParam)
+{
+    (ಶೂನ್ಯ)ಕಿಟಕಿ;
+    (ಶೂನ್ಯ)interval;
+    (ಶೂನ್ಯ)callback;
+    (ಶೂನ್ಯ)callbackParam;
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
+}
+
+ಶೂನ್ಯ SDL_SetiOSEventPump(bool enabled)
+{
+    (ಶೂನ್ಯ)enabled;
+    SDL_Unsupported();
+}
+#ಆದರೆ_ಅಂತ್ಯ
 

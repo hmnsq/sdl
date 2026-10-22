@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_cocoaclipboard_h_
-#define SDL_cocoaclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_cocoaclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_cocoaclipboard_h_
 
 // Forward declaration
-@class SDL_CocoaVideoData;
+@class SDL_Cocoa_Video_ದತ್ತಾಂಶ;
 
-extern void Cocoa_CheckClipboardUpdate(SDL_CocoaVideoData *data);
-extern bool Cocoa_SetClipboardData(SDL_VideoDevice *_this);
-extern void *Cocoa_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size);
-extern bool Cocoa_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_CheckClipboardUpdate(SDL_Cocoa_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ);
+ಬಾಹ್ಯ bool Cocoa_ಗಣ_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ *Cocoa_Get_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಗಾತ್ರ_2);
+ಬಾಹ್ಯ bool Cocoa_Has_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type);
 
-#endif // SDL_cocoaclipboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_cocoaclipboard_h_

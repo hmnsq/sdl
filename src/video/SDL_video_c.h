@@ -19,12 +19,12 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_video_c_h_
-#define SDL_video_c_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_video_c_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_video_c_h_
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-struct SDL_VideoDevice;
+ರಚನೆ SDL_VideoDevice;
 
 /**
  * Initialize the video subsystem, optionally specifying a video driver.
@@ -48,22 +48,22 @@ struct SDL_VideoDevice;
  * \returns true on success or false on failure; call
  *          SDL_GetError() for more information.
  */
-extern bool SDL_InitVideo(const char *driver_name);
+ಬಾಹ್ಯ bool SDL_InitVideo(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *driver_name);
 
 /**
  * Shut down the video subsystem, if initialized with SDL_InitVideo().
  *
  * This function closes all windows, and restores the original video mode.
  */
-extern void SDL_QuitVideo(void);
+ಬಾಹ್ಯ ಶೂನ್ಯ SDL_QuitVideo(ಶೂನ್ಯ);
 
-extern bool SDL_SetWindowTextureVSync(struct SDL_VideoDevice *_this, SDL_Window *window, int vsync);
+ಬಾಹ್ಯ bool SDL_ಗಣ_ಕಿಟಕಿ_Texture_VSync(ರಚನೆ SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ vsync);
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
-const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name);
-#endif
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *SDL_GetCSSCursorName(SDL_SystemCursor id, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ **fallback_name);
+#ಆದರೆ_ಅಂತ್ಯ
 
-extern bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
-extern void SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
+ಬಾಹ್ಯ bool SDL_ಕೂಡಿಸು_ಕಿಟಕಿ_Renderer(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_Renderer *renderer);
+ಬಾಹ್ಯ ಶೂನ್ಯ SDL_Remove_ಕಿಟಕಿ_Renderer(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_Renderer *renderer);
 
-#endif // SDL_video_c_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_video_c_h_

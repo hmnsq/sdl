@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_waylandclipboard_h_
-#define SDL_waylandclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_waylandclipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_waylandclipboard_h_
 
-extern const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool Wayland_SetClipboardData(SDL_VideoDevice *_this);
-extern void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸ್ಥಿರಾಂಕ *Wayland_Get_ಪಠ್ಯ_Mime_Types(SDL_VideoDevice *_this, size_t *ಅಂಕೆ_mime_types);
+ಬಾಹ್ಯ bool Wayland_ಗಣ_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ *Wayland_Get_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಉದ್ದಳತೆ);
+ಬಾಹ್ಯ bool Wayland_Has_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type);
+ಬಾಹ್ಯ bool Wayland_ಗಣ_Primary_Selection_ಪಠ್ಯ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಪಠ್ಯ);
+ಬಾಹ್ಯ ಅಕ್ಷರ *Wayland_Get_Primary_Selection_ಪಠ್ಯ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool Wayland_Has_Primary_Selection_ಪಠ್ಯ(SDL_VideoDevice *_this);
 
-#endif // SDL_waylandclipboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_waylandclipboard_h_

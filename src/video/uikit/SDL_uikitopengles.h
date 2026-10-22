@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitopengles_
-#define SDL_uikitopengles_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_uikitopengles_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_uikitopengles_
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ಆದರೆ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-extern bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+ಬಾಹ್ಯ bool UIKit_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
                                 SDL_GLContext context);
-extern bool UIKit_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern SDL_FunctionPointer UIKit_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool UIKit_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+ಬಾಹ್ಯ bool UIKit_GL_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ SDL_GLContext UIKit_GL_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool UIKit_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ಬಾಹ್ಯ SDL_Function_ಸೂಚಕ UIKit_GL_Get_Proc_ವಿಳಾಸ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *proc);
+ಬಾಹ್ಯ bool UIKit_GL_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
 
-extern void UIKit_GL_RestoreCurrentContext(void);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_GL_RestoreCurrentContext(ಶೂನ್ಯ);
 
-#endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 
-#endif // SDL_uikitopengles_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_uikitopengles_

@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_x11xinput2_h_
-#define SDL_x11xinput2_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_x11xinput2_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_x11xinput2_h_
 
-#ifndef SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
 /* Define XGenericEventCookie as forward declaration when
  *xinput2 is not available in order to compile */
-struct XGenericEventCookie;
-typedef struct XGenericEventCookie XGenericEventCookie;
-#endif
+ರಚನೆ XGenericEventCookie;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ XGenericEventCookie XGenericEventCookie;
+#ಆದರೆ_ಅಂತ್ಯ
 
-extern bool X11_InitXinput2(SDL_VideoDevice *_this);
-extern void X11_QuitXinput2(SDL_VideoDevice *_this);
-extern void X11_InitXinput2Multitouch(SDL_VideoDevice *_this);
-extern void X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie);
-extern bool X11_Xinput2IsInitialized(void);
-extern void X11_Xinput2Select(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_Xinput2GrabTouch(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_Xinput2UngrabTouch(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_Xinput2SelectMouseAndKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_Xinput2UpdateDevices(SDL_VideoDevice *_this);
-extern void X11_Xinput2UpdatePointerMapping(SDL_VideoDevice *_this);
-extern bool X11_Xinput2HandlesMotionForWindow(SDL_WindowData *window_data);
+ಬಾಹ್ಯ bool X11_InitXinput2(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_QuitXinput2(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_InitXinput2Multitouch(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_HandleXinput2Event(SDL_VideoDevice *_this, XGenericEventCookie *cookie);
+ಬಾಹ್ಯ bool X11_Xinput2IsInitialized(ಶೂನ್ಯ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Xinput2Select(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Xinput2GrabTouch(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Xinput2UngrabTouch(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool X11_Xinput2SelectMouseAndKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Xinput2UpdateDevices(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Xinput2_Update_ಸೂಚಕ_Mapping(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool X11_Xinput2_Handles_Motion_For_ಕಿಟಕಿ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ_ದತ್ತಾಂಶ_2);
 
-#endif // SDL_x11xinput2_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_x11xinput2_h_

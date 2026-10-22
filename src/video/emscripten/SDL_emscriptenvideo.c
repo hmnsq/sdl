@@ -18,149 +18,149 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../SDL_hints_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../SDL_hints_c.h"
 
-#include "SDL_emscriptenvideo.h"
-#include "SDL_emscriptenopengles.h"
-#include "SDL_emscriptenframebuffer.h"
-#include "SDL_emscriptenevents.h"
-#include "SDL_emscriptenmouse.h"
+#ಅನ್ತರ್ಭಾವ "SDL_emscriptenvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_emscriptenopengles.h"
+#ಅನ್ತರ್ಭಾವ "SDL_emscriptenframebuffer.h"
+#ಅನ್ತರ್ಭಾವ "SDL_emscriptenevents.h"
+#ಅನ್ತರ್ಭಾವ "SDL_emscriptenmouse.h"
 
-#define EMSCRIPTENVID_DRIVER_NAME "emscripten"
+#ವ್ಯಾಖ್ಯಾನಿಸು EMSCRIPTENVID_DRIVER_NAME "emscripten"
 
 // Initialization/Query functions
-static bool Emscripten_VideoInit(SDL_VideoDevice *_this);
-static bool Emscripten_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static void Emscripten_VideoQuit(SDL_VideoDevice *_this);
-static bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಸ್ಥಿರ bool Emscripten_VideoInit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool Emscripten_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ);
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_VideoQuit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
 
-static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-static void Emscripten_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable);
-static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
-static void Emscripten_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-static void Emscripten_PumpEvents(SDL_VideoDevice *_this);
-static void Emscripten_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon);
-static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window *window, bool fill);
+ಸ್ಥಿರ bool Emscripten_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props);
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_ಗಣ_ಕಿಟಕಿ_Resizable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ, bool resizable);
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *w, ಪೂರ್ಣಾಂಕ *h);
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಸ್ಥಿರ SDL_Fullscreen_ಫಲಿತಾಂಶ Emscripten_ಗಣ_ಕಿಟಕಿ_Fullscreen(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_PumpEvents(SDL_VideoDevice *_this);
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಸ್ಥಿರ bool Emscripten_ಗಣ_ಕಿಟಕಿ_Icon(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_Surface *icon);
+ಸ್ಥಿರ bool Emscripten_ಗಣ_ಕಿಟಕಿ_Fill_Document(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool fill);
 
-SDL_Window *Emscripten_fill_document_window = NULL;
+SDL_ಕಿಟಕಿ *Emscripten_fill_document_ಕಿಟಕಿ = ಖಾಲಿ;
 
-static bool pumpevents_has_run = false;
-static int pending_swap_interval = -1;
+ಸ್ಥಿರ bool pumpevents_has_ಸತತ = false;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ pending_ಅದಲುಬದಲು_interval = -1;
 
 // Emscripten driver bootstrap functions
 
-static void Emscripten_DeleteDevice(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static SDL_SystemTheme Emscripten_GetSystemTheme(void)
+ಸ್ಥಿರ SDL_SystemTheme Emscripten_GetSystemTheme(ಶೂನ್ಯ)
 {
     /* Technically, light theme can mean explicit light theme or no preference.
        https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme#syntax */
 
-    int theme_code = MAIN_THREAD_EM_ASM_INT({
-        if (!window.matchMedia) {
-            return -1;
+    ಪೂರ್ಣಾಂಕ theme_ಸಂಕೇತ = MAIN_THREAD_EM_ASM_INT({
+        ಆದರೆ (!ಕಿಟಕಿ.ಹೊಂದಿಕೆ_Media) {
+            ಹಿಂತಿರುಗಿ -1;
         }
 
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-            return 0;
+        ಆದರೆ (ಕಿಟಕಿ.ಹೊಂದಿಕೆ_Media('(prefers-color-scheme: light)').matches) {
+            ಹಿಂತಿರುಗಿ 0;
         }
 
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 1;
+        ಆದರೆ (ಕಿಟಕಿ.ಹೊಂದಿಕೆ_Media('(prefers-color-scheme: dark)').matches) {
+            ಹಿಂತಿರುಗಿ 1;
         }
 
-        return -1;
+        ಹಿಂತಿರುಗಿ -1;
     });
 
-    switch (theme_code) {
-    case 0:
-        return SDL_SYSTEM_THEME_LIGHT;
+    ಆಯ್ಕೆ (theme_ಸಂಕೇತ) {
+    ಸ್ಥಿತಿ 0:
+        ಹಿಂತಿರುಗಿ SDL_SYSTEM_THEME_LIGHT;
 
-    case 1:
-        return SDL_SYSTEM_THEME_DARK;
+    ಸ್ಥಿತಿ 1:
+        ಹಿಂತಿರುಗಿ SDL_SYSTEM_THEME_DARK;
 
-    default:
-        return SDL_SYSTEM_THEME_UNKNOWN;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ಹಿಂತಿರುಗಿ SDL_SYSTEM_THEME_UNKNOWN;
     }
 }
 
-static void Emscripten_ListenSystemTheme(void)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_ListenSystemTheme(ಶೂನ್ಯ)
 {
     MAIN_THREAD_EM_ASM({
-        if (window.matchMedia) {
+        ಆದರೆ (ಕಿಟಕಿ.ಹೊಂದಿಕೆ_Media) {
             var SDL3 = Module['SDL3'];
 
-            SDL3.eventHandlerThemeChanged = function(event) {
-                _Emscripten_SendSystemThemeChangedEvent();
+            SDL3.event_Handler_Theme_ಬದಲಾಯಿತು = function(event) {
+                Emscripten_Send_System_Theme_ಬದಲಾಯಿತು_Event();
             };
 
-            SDL3.themeChangedMatchMedia = window.matchMedia('(prefers-color-scheme: dark)');
-            SDL3.themeChangedMatchMedia.addEventListener('change', SDL3.eventHandlerThemeChanged);
+            SDL3.theme_ಬದಲಾಯಿತು_ಹೊಂದಿಕೆ_Media = ಕಿಟಕಿ.ಹೊಂದಿಕೆ_Media('(prefers-color-scheme: dark)');
+            SDL3.theme_ಬದಲಾಯಿತು_ಹೊಂದಿಕೆ_Media.ಕೂಡಿಸು_Event_Listener('change', SDL3.event_Handler_Theme_ಬದಲಾಯಿತು);
         }
     });
 }
 
-static void Emscripten_UnlistenSystemTheme(void)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_UnlistenSystemTheme(ಶೂನ್ಯ)
 {
     MAIN_THREAD_EM_ASM({
-        if (typeof(Module['SDL3']) !== 'undefined') {
+        ಆದರೆ (typeof(Module['SDL3']) !== 'undefined') {
             var SDL3 = Module['SDL3'];
 
-            SDL3.themeChangedMatchMedia.removeEventListener('change', SDL3.eventHandlerThemeChanged);
-            SDL3.themeChangedMatchMedia = undefined;
-            SDL3.eventHandlerThemeChanged = undefined;
+            SDL3.theme_ಬದಲಾಯಿತು_ಹೊಂದಿಕೆ_Media.removeEventListener('change', SDL3.event_Handler_Theme_ಬದಲಾಯಿತು);
+            SDL3.theme_ಬದಲಾಯಿತು_ಹೊಂದಿಕೆ_Media = undefined;
+            SDL3.event_Handler_Theme_ಬದಲಾಯಿತು = undefined;
         }
     });
 }
 
-EMSCRIPTEN_KEEPALIVE void Emscripten_SendSystemThemeChangedEvent(void)
+EMSCRIPTEN_KEEPALIVE ಶೂನ್ಯ Emscripten_Send_System_Theme_ಬದಲಾಯಿತು_Event_2(ಶೂನ್ಯ)
 {
-    SDL_SetSystemTheme(Emscripten_GetSystemTheme());
+    SDL_ಗಣ_System_Theme(Emscripten_GetSystemTheme());
 }
 
-static SDL_VideoDevice *Emscripten_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *Emscripten_CreateDevice(ಶೂನ್ಯ)
 {
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ಗಾತ್ರ(SDL_VideoDevice));
+    ಆದರೆ (!device) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     /* Firefox sends blur event which would otherwise prevent full screen
      * when the user clicks to allow full screen.
      * See https://bugzilla.mozilla.org/show_bug.cgi?id=1144964
      */
-    SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
+    SDL_ಗಣ_Hint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
     // Set the function pointers
     device->VideoInit = Emscripten_VideoInit;
     device->VideoQuit = Emscripten_VideoQuit;
     device->GetDisplayUsableBounds = Emscripten_GetDisplayUsableBounds;
-    device->SetDisplayMode = Emscripten_SetDisplayMode;
+    device->ಗಣ_Display_ಬಹುಲಕ = Emscripten_ಗಣ_Display_ಬಹುಲಕ;
 
     device->PumpEvents = Emscripten_PumpEvents;
 
-    device->CreateSDLWindow = Emscripten_CreateWindow;
-    device->SetWindowTitle = Emscripten_SetWindowTitle;
-    device->SetWindowIcon = Emscripten_SetWindowIcon;
+    device->CreateSDLWindow = Emscripten_Create_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Title = Emscripten_ಗಣ_ಕಿಟಕಿ_Title;
+    device->ಗಣ_ಕಿಟಕಿ_Icon = Emscripten_ಗಣ_ಕಿಟಕಿ_Icon;
     /*device->SetWindowPosition = Emscripten_SetWindowPosition;*/
-    device->SetWindowSize = Emscripten_SetWindowSize;
-    device->SetWindowResizable = Emscripten_SetWindowResizable;
+    device->ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ = Emscripten_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_Resizable = Emscripten_ಗಣ_ಕಿಟಕಿ_Resizable;
     /*device->ShowWindow = Emscripten_ShowWindow;
     device->HideWindow = Emscripten_HideWindow;
     device->RaiseWindow = Emscripten_RaiseWindow;
@@ -168,57 +168,57 @@ static SDL_VideoDevice *Emscripten_CreateDevice(void)
     device->MinimizeWindow = Emscripten_MinimizeWindow;
     device->RestoreWindow = Emscripten_RestoreWindow;
     device->SetWindowMouseGrab = Emscripten_SetWindowMouseGrab;*/
-    device->GetWindowSizeInPixels = Emscripten_GetWindowSizeInPixels;
-    device->DestroyWindow = Emscripten_DestroyWindow;
-    device->SetWindowFullscreen = Emscripten_SetWindowFullscreen;
-    device->SetWindowFillDocument = Emscripten_SetWindowFillDocument;
+    device->Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels = Emscripten_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels;
+    device->Destroy_ಕಿಟಕಿ = Emscripten_Destroy_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Fullscreen = Emscripten_ಗಣ_ಕಿಟಕಿ_Fullscreen;
+    device->ಗಣ_ಕಿಟಕಿ_Fill_Document = Emscripten_ಗಣ_ಕಿಟಕಿ_Fill_Document;
 
-    device->CreateWindowFramebuffer = Emscripten_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = Emscripten_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = Emscripten_DestroyWindowFramebuffer;
+    device->Create_ಕಿಟಕಿ_Framebuffer = Emscripten_Create_ಕಿಟಕಿ_Framebuffer;
+    device->Update_ಕಿಟಕಿ_Framebuffer = Emscripten_Update_ಕಿಟಕಿ_Framebuffer;
+    device->Destroy_ಕಿಟಕಿ_Framebuffer = Emscripten_Destroy_ಕಿಟಕಿ_Framebuffer;
 
-    device->GL_LoadLibrary = Emscripten_GLES_LoadLibrary;
-    device->GL_GetProcAddress = Emscripten_GLES_GetProcAddress;
+    device->GL_ತುಂಬು_Library = Emscripten_GLES_ತುಂಬು_Library;
+    device->GL_Get_Proc_ವಿಳಾಸ = Emscripten_GLES_Get_Proc_ವಿಳಾಸ;
     device->GL_UnloadLibrary = Emscripten_GLES_UnloadLibrary;
     device->GL_CreateContext = Emscripten_GLES_CreateContext;
     device->GL_MakeCurrent = Emscripten_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = Emscripten_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = Emscripten_GLES_GetSwapInterval;
-    device->GL_SwapWindow = Emscripten_GLES_SwapWindow;
+    device->GL_ಗಣ_ಅದಲುಬದಲು_Interval = Emscripten_GLES_ಗಣ_ಅದಲುಬದಲು_Interval;
+    device->GL_Get_ಅದಲುಬದಲು_Interval = Emscripten_GLES_Get_ಅದಲುಬದಲು_Interval;
+    device->GL_ಅದಲುಬದಲು_ಕಿಟಕಿ = Emscripten_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ;
     device->GL_DestroyContext = Emscripten_GLES_DestroyContext;
 
-    device->free = Emscripten_DeleteDevice;
+    device->ಬಿಡುಗಡೆ = Emscripten_DeleteDevice;
 
     Emscripten_ListenSystemTheme();
     device->system_theme = Emscripten_GetSystemTheme();
 
-    return device;
+    ಹಿಂತಿರುಗಿ device;
 }
 
-static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, int *buttonID) {
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
-        char dialog_background[32];
-        char dialog_color[32];
-        char button_border[32];
-        char button_background[32];
-        char button_hovered[32];
+ಸ್ಥಿರ bool Emscripten_ShowMessagebox(ಸ್ಥಿರಾಂಕ SDL_ಸಂದೇಶ_Box_ದತ್ತಾಂಶ *messageboxdata, ಪೂರ್ಣಾಂಕ *buttonID) {
+    ಆದರೆ (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+        ಅಕ್ಷರ dialog_background[32];
+        ಅಕ್ಷರ dialog_color[32];
+        ಅಕ್ಷರ button_border[32];
+        ಅಕ್ಷರ button_background[32];
+        ಅಕ್ಷರ button_hovered[32];
 
-        if (messageboxdata->colorScheme) {
-            SDL_MessageBoxColor color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND];
-            SDL_snprintf(dialog_background, sizeof(dialog_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+        ಆದರೆ (messageboxdata->colorScheme) {
+            SDL_ಸಂದೇಶ_Box_Color color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND];
+            SDL_snprintf(dialog_background, ಗಾತ್ರ(dialog_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
-            color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_TEXT];
-            SDL_snprintf(dialog_color, sizeof(dialog_color), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+            color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_ಪಠ್ಯ];
+            SDL_snprintf(dialog_color, ಗಾತ್ರ(dialog_color), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
             color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_BORDER];
-            SDL_snprintf(button_border, sizeof(button_border), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+            SDL_snprintf(button_border, ಗಾತ್ರ(button_border), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
             color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_BACKGROUND];
-            SDL_snprintf(button_background, sizeof(button_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+            SDL_snprintf(button_background, ಗಾತ್ರ(button_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
             color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED];
-            SDL_snprintf(button_hovered, sizeof(button_hovered), "rgb(%u, %u, %u)", color.r, color.g, color.b);
-        } else {
+            SDL_snprintf(button_hovered, ಗಾತ್ರ(button_hovered), "rgb(%u, %u, %u)", color.r, color.g, color.b);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             SDL_zero(dialog_background);
             SDL_zero(dialog_color);
             SDL_zero(button_border);
@@ -227,69 +227,69 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
         }
 
         // TODO: Handle parent window when multiple windows can be added in Emscripten builds
-        char dialog_id[64];
-        SDL_snprintf(dialog_id, sizeof(dialog_id), "SDL3_messagebox_%u", SDL_rand_bits());
+        ಅಕ್ಷರ dialog_id[64];
+        SDL_snprintf(dialog_id, ಗಾತ್ರ(dialog_id), "SDL3_messagebox_%u", SDL_rand_ಬಿಟ್ಟುಗಳು());
         EM_ASM({
-            var title = UTF8ToString($0);
-            var message = UTF8ToString($1);
-            var background = UTF8ToString($2);
-            var color = UTF8ToString($3);
-            var id = UTF8ToString($4);
+            var title = UTF8_ಗಮ್ಯ_String($0);
+            var ಸಂದೇಶ = UTF8_ಗಮ್ಯ_String($1);
+            var background = UTF8_ಗಮ್ಯ_String($2);
+            var color = UTF8_ಗಮ್ಯ_String($3);
+            var id = UTF8_ಗಮ್ಯ_String($4);
 
             // Dialogs are always put in the front of the DOM
             var dialog = document.createElement("dialog");
             // Set class to allow for CSS selectors
-            dialog.classList.add("SDL3_messagebox");
+            dialog.classList.ಕೂಡಿಸು("SDL3_messagebox");
             dialog.id = id;
             dialog.style.color = color;
             dialog.style.backgroundColor = background;
             document.body.append(dialog);
 
             var h1 = document.createElement("h1");
-            h1.innerText = title;
+            h1.inner_ಪಠ್ಯ = title;
             dialog.append(h1);
 
             var p = document.createElement("p");
-            p.innerText = message;
+            p.inner_ಪಠ್ಯ = ಸಂದೇಶ;
             dialog.append(p);
 
             dialog.showModal();
-        }, messageboxdata->title, messageboxdata->message, dialog_background, dialog_color, dialog_id);
+        }, messageboxdata->title, messageboxdata->ಸಂದೇಶ, dialog_background, dialog_color, dialog_id);
 
-        int i;
-        for (i = 0; i < messageboxdata->numbuttons; ++i) {
-            SDL_MessageBoxButtonData button = messageboxdata->buttons[i];
+        ಪೂರ್ಣಾಂಕ i;
+        ಗಾಗಿ (i = 0; i < messageboxdata->numbuttons; ++i) {
+            SDL_ಸಂದೇಶ_Box_Button_ದತ್ತಾಂಶ button = messageboxdata->buttons[i];
 
-            const int created = EM_ASM_INT({
-                    var dialog_id = UTF8ToString($0);
-                    var text = UTF8ToString($1);
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ created = EM_ASM_INT({
+                    var dialog_id = UTF8_ಗಮ್ಯ_String($0);
+                    var ಪಠ್ಯ = UTF8_ಗಮ್ಯ_String($1);
                     var responseId = $2;
                     var clickOnReturn = $3;
                     var clickOnEscape = $4;
-                    var border = UTF8ToString($5);
-                    var background = UTF8ToString($6);
-                    var hovered = UTF8ToString($7);
+                    var border = UTF8_ಗಮ್ಯ_String($5);
+                    var background = UTF8_ಗಮ್ಯ_String($6);
+                    var hovered = UTF8_ಗಮ್ಯ_String($7);
 
                     var dialog = document.getElementById(dialog_id);
-                    if (!dialog) {
-                        return false;
+                    ಆದರೆ (!dialog) {
+                        ಹಿಂತಿರುಗಿ false;
                     }
 
                     var button = document.createElement("button");
-                    button.innerText = text;
+                    button.inner_ಪಠ್ಯ = ಪಠ್ಯ;
                     button.style.borderColor = border;
                     button.style.backgroundColor = background;
 
-                    dialog.addEventListener('keydown', function(e) {
-                        if (clickOnReturn && e.key === "Enter") {
+                    dialog.ಕೂಡಿಸು_Event_Listener('keydown', function(e) {
+                        ಆದರೆ (clickOnReturn && e.ಕೀಲಿ === "Enter") {
                             e.preventDefault();
                             button.click();
-                        } else if (clickOnEscape && e.key === "Escape") {
+                        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (clickOnEscape && e.ಕೀಲಿ === "Escape") {
                             e.preventDefault();
                             button.click();
                         }
                     });
-                    dialog.addEventListener('cancel', function(e){
+                    dialog.ಕೂಡಿಸು_Event_Listener('cancel', function(e){
                         e.preventDefault();
                     });
 
@@ -304,10 +304,10 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                     };
 
                     dialog.append(button);
-                    return true;
+                    ಹಿಂತಿರುಗಿ true;
                 },
                 dialog_id,
-                button.text,
+                button.ಪಠ್ಯ,
                 button.buttonID,
                 button.flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT,
                 button.flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT,
@@ -316,54 +316,54 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                 button_hovered
             );
 
-            if (!created) {
-                return false;
+            ಆದರೆ (!created) {
+                ಹಿಂತಿರುಗಿ false;
             }
         }
 
-        while (true) {
+        ಆಗ (true) {
             // give back control to browser for screen refresh
             emscripten_sleep(0);
 
-            const int dialog_open = EM_ASM_INT({
-                var dialog_id = UTF8ToString($0);
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ dialog_open = EM_ASM_INT({
+                var dialog_id = UTF8_ಗಮ್ಯ_String($0);
 
                 var dialog = document.getElementById(dialog_id);
-                if (!dialog) {
-                    return false;
+                ಆದರೆ (!dialog) {
+                    ಹಿಂತಿರುಗಿ false;
                 }
-                return dialog.open;
+                ಹಿಂತಿರುಗಿ dialog.open;
             }, dialog_id);
 
-            if (dialog_open) {
-                continue;
+            ಆದರೆ (dialog_open) {
+                ಮುಂದುವರಿ;
             }
 
             *buttonID = EM_ASM_INT({
-                var dialog_id = UTF8ToString($0);
+                var dialog_id = UTF8_ಗಮ್ಯ_String($0);
                 var dialog = document.getElementById(dialog_id);
-                if (!dialog) {
-                    return 0;
+                ಆದರೆ (!dialog) {
+                    ಹಿಂತಿರುಗಿ 0;
                 }
                 try
                 {
-                    return parseInt(dialog.returnValue);
+                    ಹಿಂತಿರುಗಿ parseInt(dialog.return_ಮೌಲ್ಯ);
                 }
                 catch(e)
                 {
-                    return 0;
+                    ಹಿಂತಿರುಗಿ 0;
                 }
             }, dialog_id);
-            break;
+            ನಿಲ್ಲಿಸು;
         }
 
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Cannot add elements to DOM and block without Asyncify. So, fall back to the alert function.
         EM_ASM({
-            alert(UTF8ToString($0) + "\n\n" + UTF8ToString($1));
-        }, messageboxdata->title, messageboxdata->message);
+            alert(UTF8_ಗಮ್ಯ_String($0) + "\n\n" + UTF8_ಗಮ್ಯ_String($1));
+        }, messageboxdata->title, messageboxdata->ಸಂದೇಶ);
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 VideoBootStrap Emscripten_bootstrap = {
@@ -375,452 +375,452 @@ VideoBootStrap Emscripten_bootstrap = {
 
 bool Emscripten_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
 
     // Use a fake 32-bpp desktop mode
-    SDL_zero(mode);
-    mode.format = SDL_PIXELFORMAT_RGBA32;
-    emscripten_get_screen_size(&mode.w, &mode.h);
-    mode.pixel_density = emscripten_get_device_pixel_ratio();
+    SDL_zero(ಬಹುಲಕ);
+    ಬಹುಲಕ.format = SDL_PIXELFORMAT_RGBA32;
+    emscripten_get_screen_ಗಾತ್ರ(&ಬಹುಲಕ.w, &ಬಹುಲಕ.h);
+    ಬಹುಲಕ.pixel_density = emscripten_get_device_pixel_ಅನುಪಾತ();
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    ಆದರೆ (SDL_ಕೂಡಿಸು_Basic_Video_Display(&ಬಹುಲಕ) == 0) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     Emscripten_InitMouse();
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_ಕೂಡಿಸು_Keyboard(SDL_DEFAULT_KEYBOARD_ID, ಖಾಲಿ);
+    SDL_ಕೂಡಿಸು_Mouse(SDL_DEFAULT_MOUSE_ID, ಖಾಲಿ);
 
-    Emscripten_RegisterGlobalEventHandlers(_this);
+    Emscripten_ರಿಜಿಸ್ಟರ್_Global_Event_Handlers(_this);
 
     // We're done!
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool Emscripten_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+ಸ್ಥಿರ bool Emscripten_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ)
 {
     // can't do this
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void Emscripten_VideoQuit(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_VideoQuit(SDL_VideoDevice *_this)
 {
     Emscripten_UnregisterGlobalEventHandlers(_this);
     Emscripten_QuitMouse();
     Emscripten_UnlistenSystemTheme();
-    pumpevents_has_run = false;
-    pending_swap_interval = -1;
+    pumpevents_has_ಸತತ = false;
+    pending_ಅದಲುಬದಲು_interval = -1;
 }
 
-static bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+ಸ್ಥಿರ bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    if (rect) {
+    ಆದರೆ (rect) {
         rect->x = 0;
         rect->y = 0;
         rect->w = MAIN_THREAD_EM_ASM_INT({
-            return window.innerWidth;
+            ಹಿಂತಿರುಗಿ ಕಿಟಕಿ.inner_ಅಗಲ;
         });
         rect->h = MAIN_THREAD_EM_ASM_INT({
-            return window.innerHeight;
+            ಹಿಂತಿರುಗಿ ಕಿಟಕಿ.inner_ಎತ್ತರ;
         });
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Emscripten_ShouldSetSwapInterval(int interval)
+bool Emscripten_Should_ಗಣ_ಅದಲುಬದಲು_Interval(ಪೂರ್ಣಾಂಕ interval)
 {
-    if (!pumpevents_has_run) {
-        pending_swap_interval = interval;
-        return false;
+    ಆದರೆ (!pumpevents_has_ಸತತ) {
+        pending_ಅದಲುಬದಲು_interval = interval;
+        ಹಿಂತಿರುಗಿ false;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-int Emscripten_GetPendingSwapInterval(void)
+ಪೂರ್ಣಾಂಕ Emscripten_Get_Pending_ಅದಲುಬದಲು_Interval(ಶೂನ್ಯ)
 {
-    return pending_swap_interval;
+    ಹಿಂತಿರುಗಿ pending_ಅದಲುಬದಲು_interval;
 }
 
-static void Emscripten_PumpEvents(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_PumpEvents(SDL_VideoDevice *_this)
 {
-    if (!pumpevents_has_run) {
+    ಆದರೆ (!pumpevents_has_ಸತತ) {
         // we assume you've set a mainloop by the time you've called pumpevents, so we delay initial SetInterval changes until then.
         // otherwise you'll get a warning on the javascript console.
-        pumpevents_has_run = true;
-        if (pending_swap_interval >= 0) {
-            Emscripten_GLES_SetSwapInterval(_this, pending_swap_interval);
-            pending_swap_interval = -1;
+        pumpevents_has_ಸತತ = true;
+        ಆದರೆ (pending_ಅದಲುಬದಲು_interval >= 0) {
+            Emscripten_GLES_ಗಣ_ಅದಲುಬದಲು_Interval(_this, pending_ಅದಲುಬದಲು_interval);
+            pending_ಅದಲುಬದಲು_interval = -1;
         }
     }
 }
 
-EMSCRIPTEN_KEEPALIVE void requestFullscreenThroughSDL(SDL_Window *window)
+EMSCRIPTEN_KEEPALIVE ಶೂನ್ಯ requestFullscreenThroughSDL(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_SetWindowFullscreen(window, true);
+    SDL_ಗಣ_ಕಿಟಕಿ_Fullscreen(ಕಿಟಕಿ, true);
 }
 
-static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window *window, bool fill)
+ಸ್ಥಿರ bool Emscripten_ಗಣ_ಕಿಟಕಿ_Fill_Document(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool fill)
 {
-    SDL_WindowData *wdata = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wdata = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (fill && Emscripten_fill_document_window && (Emscripten_fill_document_window != window)) {
-        return SDL_SetError("Only one fill-document window allowed at a time.");
+    ಆದರೆ (fill && Emscripten_fill_document_ಕಿಟಕಿ && (Emscripten_fill_document_ಕಿಟಕಿ != ಕಿಟಕಿ)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Only one fill-document window allowed at a time.");
     }
 
     // fill_document takes up the entire page and resizes as the browser window resizes.
-    if (fill) {
-        Emscripten_fill_document_window = window;
+    ಆದರೆ (fill) {
+        Emscripten_fill_document_ಕಿಟಕಿ = ಕಿಟಕಿ;
 
-        const int w = MAIN_THREAD_EM_ASM_INT({ return window.innerWidth; });
-        const int h = MAIN_THREAD_EM_ASM_INT({ return window.innerHeight; });
-        const double scaled_w = w * wdata->pixel_ratio;
-        const double scaled_h = h * wdata->pixel_ratio;
+        ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ w = MAIN_THREAD_EM_ASM_INT({ ಹಿಂತಿರುಗಿ ಕಿಟಕಿ.inner_ಅಗಲ; });
+        ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ h = MAIN_THREAD_EM_ASM_INT({ ಹಿಂತಿರುಗಿ ಕಿಟಕಿ.inner_ಎತ್ತರ; });
+        ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ scaled_w = w * wdata->pixel_ಅನುಪಾತ;
+        ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ scaled_h = h * wdata->pixel_ಅನುಪಾತ;
 
-        wdata->non_fill_document_width = window->w;
-        wdata->non_fill_document_height = window->h;
+        wdata->non_fill_document_ಅಗಲ = ಕಿಟಕಿ->w;
+        wdata->non_fill_document_ಎತ್ತರ = ಕಿಟಕಿ->h;
 
         MAIN_THREAD_EM_ASM({
-            var canvas = document.querySelector(UTF8ToString($0));
+            var canvas = document.querySelector(UTF8_ಗಮ್ಯ_String($0));
             canvas.SDL3_original_position = canvas.style.position;
-            canvas.SDL3_original_top = canvas.style.top;
-            canvas.SDL3_original_left = canvas.style.left;
+            canvas.SDL3_original_ತುದಿ = canvas.style.ತುದಿ;
+            canvas.SDL3_original_ಎಡ = canvas.style.ಎಡ;
 
             // hide everything on the page that isn't the canvas.
             var div = document.createElement('div');
             div.id = 'SDL3_fill_document_background_elements';
 
             div.SDL3_canvas = canvas;
-            div.SDL3_canvas_parent = canvas.parentNode;
-            div.SDL3_canvas_nextsib = canvas.nextSibling;
+            div.SDL3_canvas_ಪೋಷಕ = canvas.ಪೋಷಕ_ಗಂಟು;
+            div.SDL3_canvas_nextsib = canvas.ಮುಂದಿನ_Sibling;
 
             var children = Array.from(document.body.children);
-            for (var child of children) {
-                div.appendChild(child);
+            ಗಾಗಿ (var ಮಗು ದ children) {
+                div.append_ಮಗು(ಮಗು);
             }
-            document.body.appendChild(div);
+            document.body.append_ಮಗು(div);
             div.style.display = 'none';
-            document.body.appendChild(canvas);
+            document.body.append_ಮಗು(canvas);
             canvas.style.position = 'fixed';
-            canvas.style.top = '0';
-            canvas.style.left = '0';
+            canvas.style.ತುದಿ = '0';
+            canvas.style.ಎಡ = '0';
         }, wdata->canvas_id);
 
-        emscripten_set_canvas_element_size(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
+        emscripten_ಗಣ_canvas_element_ಗಾತ್ರ(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
 
         // set_canvas_size unsets this
-        if (wdata->pixel_ratio != 1.0f) {
-            emscripten_set_element_css_size(wdata->canvas_id, w, h);
+        ಆದರೆ (wdata->pixel_ಅನುಪಾತ != 1.0f) {
+            emscripten_ಗಣ_element_css_ಗಾತ್ರ(wdata->canvas_id, w, h);
         }
 
         // force the event to trigger, so pixel ratio changes can be handled
-        window->w = window->h = 0;
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
-    } else {
-        const bool transitioning = (Emscripten_fill_document_window == window);
-        if (transitioning) {
+        ಕಿಟಕಿ->w = ಕಿಟಕಿ->h = 0;
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಸ್ಥಿರಾಂಕ bool transitioning = (Emscripten_fill_document_ಕಿಟಕಿ == ಕಿಟಕಿ);
+        ಆದರೆ (transitioning) {
             MAIN_THREAD_EM_ASM({
                 // if we had previously hidden everything behind a fill_document window, put it back.
                 var div = document.getElementById('SDL3_fill_document_background_elements');
-                if (div) {
-                    if (div.SDL3_canvas_nextsib) {
-                        div.SDL3_canvas_parent.insertBefore(div.SDL3_canvas, div.SDL3_canvas_nextsib);
-                    } else {
-                        div.SDL3_canvas_parent.appendChild(div.SDL3_canvas);
+                ಆದರೆ (div) {
+                    ಆದರೆ (div.SDL3_canvas_nextsib) {
+                        div.SDL3_canvas_ಪೋಷಕ.ಸೇರಿಸು_Before(div.SDL3_canvas, div.SDL3_canvas_nextsib);
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        div.SDL3_canvas_ಪೋಷಕ.append_ಮಗು(div.SDL3_canvas);
                     }
-                    while (div.firstChild) {
-                        document.body.insertBefore(div.firstChild, div);
+                    ಆಗ (div.ಮೊದಲ_ಮಗು_2) {
+                        document.body.ಸೇರಿಸು_Before(div.ಮೊದಲ_ಮಗು_2, div);
                     }
                     div.SDL3_canvas.style.position = div.SDL3_canvas.SDL3_original_position;
-                    div.SDL3_canvas.style.top = div.SDL3_canvas.SDL3_original_top;
-                    div.SDL3_canvas.style.left = div.SDL3_canvas.SDL3_original_left;
+                    div.SDL3_canvas.style.ತುದಿ = div.SDL3_canvas.SDL3_original_ತುದಿ;
+                    div.SDL3_canvas.style.ಎಡ = div.SDL3_canvas.SDL3_original_ಎಡ;
                     div.remove();
                 }
             });
-            Emscripten_fill_document_window = NULL;
+            Emscripten_fill_document_ಕಿಟಕಿ = ಖಾಲಿ;
         }
 
-        window->w = wdata->non_fill_document_width;
-        window->h = wdata->non_fill_document_height;
-        const double scaled_w = SDL_floor(window->w * wdata->pixel_ratio);
-        const double scaled_h = SDL_floor(window->h * wdata->pixel_ratio);
-        emscripten_set_canvas_element_size(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
+        ಕಿಟಕಿ->w = wdata->non_fill_document_ಅಗಲ;
+        ಕಿಟಕಿ->h = wdata->non_fill_document_ಎತ್ತರ;
+        ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ scaled_w = SDL_floor(ಕಿಟಕಿ->w * wdata->pixel_ಅನುಪಾತ);
+        ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ scaled_h = SDL_floor(ಕಿಟಕಿ->h * wdata->pixel_ಅನುಪಾತ);
+        emscripten_ಗಣ_canvas_element_ಗಾತ್ರ(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
 
         // if the size is not being controlled by css, we need to scale down for hidpi
-        if (!wdata->external_size && (wdata->pixel_ratio != 1.0f)) {
+        ಆದರೆ (!wdata->external_ಗಾತ್ರ && (wdata->pixel_ಅನುಪಾತ != 1.0f)) {
             // scale canvas down
-            emscripten_set_element_css_size(wdata->canvas_id, window->w, window->h);
+            emscripten_ಗಣ_element_css_ಗಾತ್ರ(wdata->canvas_id, ಕಿಟಕಿ->w, ಕಿಟಕಿ->h);
         }
 
-        if (transitioning) {
-            window->w = window->h = 0;
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, wdata->non_fill_document_width, wdata->non_fill_document_height);
+        ಆದರೆ (transitioning) {
+            ಕಿಟಕಿ->w = ಕಿಟಕಿ->h = 0;
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, wdata->non_fill_document_ಅಗಲ, wdata->non_fill_document_ಎತ್ತರ);
         }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+ಸ್ಥಿರ bool Emscripten_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID props)
 {
-    SDL_WindowData *wdata;
-    double css_w, css_h;
-    const char *selector;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wdata;
+    ದ್ವಿಗುಣ css_w, css_h;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *selector;
 
-    bool fill_document = ((window->flags & SDL_WINDOW_FILL_DOCUMENT) != 0);
-    if (fill_document && Emscripten_fill_document_window) {
+    bool fill_document = ((ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FILL_DOCUMENT) != 0);
+    ಆದರೆ (fill_document && Emscripten_fill_document_ಕಿಟಕಿ) {
         fill_document = false;  // only one allowed at a time.
-        window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;   // !!! FIXME: should this fail instead?
+        ಕಿಟಕಿ->flags &= ~SDL_ಕಿಟಕಿ_FILL_DOCUMENT;   // !!! FIXME: should this fail instead?
     }
 
     // Allocate window internal data
-    wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    wdata = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ));
+    ಆದರೆ (!wdata) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     selector = SDL_GetHint(SDL_HINT_EMSCRIPTEN_CANVAS_SELECTOR);
-    if (!selector || !*selector) {
-        selector = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING, "#canvas");
+    ಆದರೆ (!selector || !*selector) {
+        selector = SDL_GetStringProperty(props, SDL_PROP_ಕಿಟಕಿ_CREATE_EMSCRIPTEN_CANVAS_ID_STRING, "#canvas");
     }
     wdata->canvas_id = SDL_strdup(selector);
 
     selector = SDL_GetHint(SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT);
-    if (!selector || !*selector) {
-        selector = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, "#window");
+    ಆದರೆ (!selector || !*selector) {
+        selector = SDL_GetStringProperty(props, SDL_PROP_ಕಿಟಕಿ_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, "#window");
     }
     wdata->keyboard_element = SDL_strdup(selector);
 
-    if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-        wdata->pixel_ratio = emscripten_get_device_pixel_ratio();
-    } else {
-        wdata->pixel_ratio = 1.0f;
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY) {
+        wdata->pixel_ಅನುಪಾತ = emscripten_get_device_pixel_ಅನುಪಾತ();
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        wdata->pixel_ಅನುಪಾತ = 1.0f;
     }
 
     // set a fake size to check if there is any CSS sizing the canvas
-    emscripten_set_canvas_element_size(wdata->canvas_id, 1, 1);
-    emscripten_get_element_css_size(wdata->canvas_id, &css_w, &css_h);
+    emscripten_ಗಣ_canvas_element_ಗಾತ್ರ(wdata->canvas_id, 1, 1);
+    emscripten_get_element_css_ಗಾತ್ರ(wdata->canvas_id, &css_w, &css_h);
 
-    wdata->external_size = SDL_floor(css_w) != 1 || SDL_floor(css_h) != 1;
-    if (wdata->external_size) {
+    wdata->external_ಗಾತ್ರ = SDL_floor(css_w) != 1 || SDL_floor(css_h) != 1;
+    ಆದರೆ (wdata->external_ಗಾತ್ರ) {
         fill_document = false;  // can't be resizable if something else is controlling it.
-        window->w = (int) css_w;
-        window->h = (int) css_h;
+        ಕಿಟಕಿ->w = (ಪೂರ್ಣಾಂಕ) css_w;
+        ಕಿಟಕಿ->h = (ಪೂರ್ಣಾಂಕ) css_h;
     }
 
-    wdata->window = window;
+    wdata->ಕಿಟಕಿ = ಕಿಟಕಿ;
 
     // Setup driver data for this window
-    window->internal = wdata;
+    ಕಿಟಕಿ->ಆಂತರಿಕ = wdata;
 
-    wdata->non_fill_document_width = window->w;
-    wdata->non_fill_document_height = window->h;
-    Emscripten_SetWindowFillDocument(_this, window, fill_document);
+    wdata->non_fill_document_ಅಗಲ = ಕಿಟಕಿ->w;
+    wdata->non_fill_document_ಎತ್ತರ = ಕಿಟಕಿ->h;
+    Emscripten_ಗಣ_ಕಿಟಕಿ_Fill_Document(_this, ಕಿಟಕಿ, fill_document);
 
     // One window, it always has focus
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    SDL_ಗಣ_Mouse_Focus(ಕಿಟಕಿ);
+    SDL_ಗಣ_Keyboard_Focus(ಕಿಟಕಿ);
 
-    Emscripten_RegisterEventHandlers(wdata);
+    Emscripten_ರಿಜಿಸ್ಟರ್_Event_Handlers(wdata);
 
     // Make the emscripten "fullscreen" button go through SDL.
     MAIN_THREAD_EM_ASM({
-        Module['requestFullscreen'] = function(lockPointer, resizeCanvas) {
+        Module['requestFullscreen'] = function(ಬೀಗ_ಸೂಚಕ, resizeCanvas) {
             _requestFullscreenThroughSDL($0);
         };
-    }, window);
+    }, ಕಿಟಕಿ);
 
     // Ensure various things are added to the window's properties
-    SDL_SetStringProperty(window->props, SDL_PROP_WINDOW_EMSCRIPTEN_CANVAS_ID_STRING, wdata->canvas_id);
-    SDL_SetStringProperty(window->props, SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, wdata->keyboard_element);
+    SDL_ಗಣ_String_Property(ಕಿಟಕಿ->props, SDL_PROP_ಕಿಟಕಿ_EMSCRIPTEN_CANVAS_ID_STRING, wdata->canvas_id);
+    SDL_ಗಣ_String_Property(ಕಿಟಕಿ->props, SDL_PROP_ಕಿಟಕಿ_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, wdata->keyboard_element);
 
     // Window has been successfully created
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void Emscripten_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_ಗಣ_ಕಿಟಕಿ_Resizable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ, bool resizable)
 {
     // this function just has to exist or the higher level won't let the window change its SDL_WINDOW_RESIZABLE flag.
 }
 
-static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    if (window->internal) {
-        SDL_WindowData *data = window->internal;
-        if (window == Emscripten_fill_document_window) {
-            return;  // canvas size is being dictated by the browser window size, refuse request.
+    ಆದರೆ (ಕಿಟಕಿ->ಆಂತರಿಕ) {
+        SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+        ಆದರೆ (ಕಿಟಕಿ == Emscripten_fill_document_ಕಿಟಕಿ) {
+            ಹಿಂತಿರುಗಿ;  // canvas size is being dictated by the browser window size, refuse request.
         }
 
         // update pixel ratio
-        if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-            data->pixel_ratio = emscripten_get_device_pixel_ratio();
+        ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY) {
+            ದತ್ತಾಂಶ->pixel_ಅನುಪಾತ = emscripten_get_device_pixel_ಅನುಪಾತ();
         }
-        emscripten_set_canvas_element_size(data->canvas_id, SDL_lroundf(window->pending.w * data->pixel_ratio), SDL_lroundf(window->pending.h * data->pixel_ratio));
+        emscripten_ಗಣ_canvas_element_ಗಾತ್ರ(ದತ್ತಾಂಶ->canvas_id, SDL_lroundf(ಕಿಟಕಿ->pending.w * ದತ್ತಾಂಶ->pixel_ಅನುಪಾತ), SDL_lroundf(ಕಿಟಕಿ->pending.h * ದತ್ತಾಂಶ->pixel_ಅನುಪಾತ));
 
         // scale canvas down
-        if (!data->external_size && data->pixel_ratio != 1.0f) {
-            emscripten_set_element_css_size(data->canvas_id, window->pending.w, window->pending.h);
+        ಆದರೆ (!ದತ್ತಾಂಶ->external_ಗಾತ್ರ && ದತ್ತಾಂಶ->pixel_ಅನುಪಾತ != 1.0f) {
+            emscripten_ಗಣ_element_css_ಗಾತ್ರ(ದತ್ತಾಂಶ->canvas_id, ಕಿಟಕಿ->pending.w, ಕಿಟಕಿ->pending.h);
         }
 
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, ಕಿಟಕಿ->pending.w, ಕಿಟಕಿ->pending.h);
     }
 }
 
-static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *w, ಪೂರ್ಣಾಂಕ *h)
 {
-    SDL_WindowData *data;
-    if (window->internal) {
-        data = window->internal;
-        *w = SDL_lroundf(window->w * data->pixel_ratio);
-        *h = SDL_lroundf(window->h * data->pixel_ratio);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
+    ಆದರೆ (ಕಿಟಕಿ->ಆಂತರಿಕ) {
+        ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+        *w = SDL_lroundf(ಕಿಟಕಿ->w * ದತ್ತಾಂಶ->pixel_ಅನುಪಾತ);
+        *h = SDL_lroundf(ಕಿಟಕಿ->h * ದತ್ತಾಂಶ->pixel_ಅನುಪಾತ);
     }
 }
 
-static void Emscripten_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *data;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
 
-    Emscripten_SetWindowFillDocument(_this, window, false);
+    Emscripten_ಗಣ_ಕಿಟಕಿ_Fill_Document(_this, ಕಿಟಕಿ, false);
 
-    if (window->internal) {
-        data = window->internal;
+    ಆದರೆ (ಕಿಟಕಿ->ಆಂತರಿಕ) {
+        ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-        Emscripten_UnregisterEventHandlers(data);
+        Emscripten_UnregisterEventHandlers(ದತ್ತಾಂಶ);
 
         // We can't destroy the canvas, so resize it to zero instead
-        emscripten_set_canvas_element_size(data->canvas_id, 0, 0);
-        if (data->pixel_ratio != 1.0f) {
-            emscripten_set_element_css_size(data->canvas_id, 1, 1);
+        emscripten_ಗಣ_canvas_element_ಗಾತ್ರ(ದತ್ತಾಂಶ->canvas_id, 0, 0);
+        ಆದರೆ (ದತ್ತಾಂಶ->pixel_ಅನುಪಾತ != 1.0f) {
+            emscripten_ಗಣ_element_css_ಗಾತ್ರ(ದತ್ತಾಂಶ->canvas_id, 1, 1);
         }
-        SDL_free(data->canvas_id);
+        SDL_free(ದತ್ತಾಂಶ->canvas_id);
 
-        SDL_free(data->keyboard_element);
+        SDL_free(ದತ್ತಾಂಶ->keyboard_element);
 
-        SDL_free(window->internal);
-        window->internal = NULL;
+        SDL_free(ಕಿಟಕಿ->ಆಂತರಿಕ);
+        ಕಿಟಕಿ->ಆಂತರಿಕ = ಖಾಲಿ;
     }
 
     MAIN_THREAD_EM_ASM({
         // just ignore clicks on the fullscreen button while there's no SDL window.
-        Module['requestFullscreen'] = function(lockPointer, resizeCanvas) {};
+        Module['requestFullscreen'] = function(ಬೀಗ_ಸೂಚಕ, resizeCanvas) {};
     });
 }
 
-static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+ಸ್ಥಿರ SDL_Fullscreen_ಫಲಿತಾಂಶ Emscripten_ಗಣ_ಕಿಟಕಿ_Fullscreen(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *data;
-    int res = -1;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
+    ಪೂರ್ಣಾಂಕ res = -1;
 
-    if (window->internal) {
-        data = window->internal;
+    ಆದರೆ (ಕಿಟಕಿ->ಆಂತರಿಕ) {
+        ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-        if (data->fullscreen_change_in_progress) {
-            return SDL_FULLSCREEN_FAILED;;
+        ಆದರೆ (ದತ್ತಾಂಶ->fullscreen_change_ಒಳ_ಪ್ರಗತಿ) {
+            ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_FAILED;;
         }
 
         EmscriptenFullscreenChangeEvent fsevent;
-        if (emscripten_get_fullscreen_status(&fsevent) == EMSCRIPTEN_RESULT_SUCCESS) {
-            if ((fullscreen == SDL_FULLSCREEN_OP_ENTER) == fsevent.isFullscreen) {
-                return SDL_FULLSCREEN_SUCCEEDED;  // already there.
+        ಆದರೆ (emscripten_get_fullscreen_ಸ್ಥಿತಿ(&fsevent) == EMSCRIPTEN_ಫಲಿತಾಂಶ_SUCCESS) {
+            ಆದರೆ ((fullscreen == SDL_FULLSCREEN_OP_ENTER) == fsevent.isFullscreen) {
+                ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_SUCCEEDED;  // already there.
             }
         }
 
-        if (fullscreen) {
+        ಆದರೆ (fullscreen) {
             EmscriptenFullscreenStrategy strategy;
-            bool is_fullscreen_desktop = !window->fullscreen_exclusive;
+            bool is_fullscreen_desktop = !ಕಿಟಕಿ->fullscreen_exclusive;
 
             SDL_zero(strategy);
-            strategy.scaleMode = is_fullscreen_desktop ? EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH : EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
+            strategy.scale_ಬಹುಲಕ = is_fullscreen_desktop ? EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH : EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
 
-            if (!is_fullscreen_desktop) {
-                strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
-            } else if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
-                strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF;
-            } else {
-                strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
+            ಆದರೆ (!is_fullscreen_desktop) {
+                strategy.canvas_Resolution_Scale_ಬಹುಲಕ = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY) {
+                strategy.canvas_Resolution_Scale_ಬಹುಲಕ = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                strategy.canvas_Resolution_Scale_ಬಹುಲಕ = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
             }
 
-            strategy.filteringMode = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
+            strategy.filtering_ಬಹುಲಕ = EMSCRIPTEN_FULLSCREEN_FILTERING_DEFAULT;
 
             strategy.canvasResizedCallback = Emscripten_HandleCanvasResize;
-            strategy.canvasResizedCallbackUserData = data;
+            strategy.canvas_Resized_Callback_User_ದತ್ತಾಂಶ = ದತ್ತಾಂಶ;
 
-            data->fullscreen_mode_flags = (window->flags & SDL_WINDOW_FULLSCREEN);
-            data->fullscreen_resize = is_fullscreen_desktop;
+            ದತ್ತಾಂಶ->fullscreen_ಬಹುಲಕ_flags = (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN);
+            ದತ್ತಾಂಶ->fullscreen_resize = is_fullscreen_desktop;
 
-            res = emscripten_request_fullscreen_strategy(data->canvas_id, 1, &strategy);
-        } else {
+            res = emscripten_request_fullscreen_strategy(ದತ್ತಾಂಶ->canvas_id, 1, &strategy);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             res = emscripten_exit_fullscreen();
         }
     }
 
-    if (res == EMSCRIPTEN_RESULT_SUCCESS) {
-        data->fullscreen_change_in_progress = true;   // even on success, this might animate to the new state.
-        return SDL_FULLSCREEN_SUCCEEDED;
-    } else if (res == EMSCRIPTEN_RESULT_DEFERRED) {
-        data->fullscreen_change_in_progress = true;
-        return SDL_FULLSCREEN_PENDING;
-    } else {
-        return SDL_FULLSCREEN_FAILED;
+    ಆದರೆ (res == EMSCRIPTEN_ಫಲಿತಾಂಶ_SUCCESS) {
+        ದತ್ತಾಂಶ->fullscreen_change_ಒಳ_ಪ್ರಗತಿ = true;   // even on success, this might animate to the new state.
+        ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_SUCCEEDED;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (res == EMSCRIPTEN_ಫಲಿತಾಂಶ_DEFERRED) {
+        ದತ್ತಾಂಶ->fullscreen_change_ಒಳ_ಪ್ರಗತಿ = true;
+        ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_PENDING;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_FAILED;
     }
 }
 
-static void Emscripten_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ Emscripten_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    emscripten_set_window_title(window->title);
+    emscripten_ಗಣ_ಕಿಟಕಿ_title(ಕಿಟಕಿ->title);
 }
 
-static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+ಸ್ಥಿರ bool Emscripten_ಗಣ_ಕಿಟಕಿ_Icon(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_Surface *icon)
 {
     // Create dynamic memory stream for PNG encoding
-    SDL_IOStream *stream = SDL_IOFromDynamicMem();
-    if (!stream) {
-        return false;
+    SDL_IOStream *ಹರಿವು = SDL_IOFromDynamicMem();
+    ಆದರೆ (!ಹರಿವು) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Encode icon to PNG using SDL's native PNG encoder
-    if (!SDL_SavePNG_IO(icon, stream, false)) {
-        SDL_CloseIO(stream);
-        return false;
+    ಆದರೆ (!SDL_SavePNG_IO(icon, ಹರಿವು, false)) {
+        SDL_CloseIO(ಹರಿವು);
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Get the PNG data from the stream
-    void *png_data = SDL_GetPointerProperty(
-        SDL_GetIOProperties(stream),
-        SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER,
-        NULL
+    ಶೂನ್ಯ *png_ದತ್ತಾಂಶ = SDL_Get_ಸೂಚಕ_Property(
+        SDL_GetIOProperties(ಹರಿವು),
+        SDL_PROP_IOSTREAM_DYNAMIC_ಸ್ಮರಣೆ_ಸೂಚಕ,
+        ಖಾಲಿ
     );
-    size_t png_size = (size_t)SDL_GetIOSize(stream);
+    size_t png_ಗಾತ್ರ = (size_t)SDL_GetIOSize(ಹರಿವು);
 
     // Pass PNG data to JavaScript
     MAIN_THREAD_EM_ASM({
         // Use `.slice` to make a copy of the data if we are dealing with a SharedArrayBuffer, or `.subarray` to create a
         // view into the existing buffer if its non-shared.
-        var pngData = HEAPU8.buffer instanceof ArrayBuffer ? HEAPU8.subarray($0, $0 + $1) : HEAPU8.slice($0, $0 + $1);
+        var png_ದತ್ತಾಂಶ_2 = HEAPU8.ಬಫರ್_2 instanceof Array_ಬಫರ್ ? HEAPU8.subarray($0, $0 + $1) : HEAPU8.ತುಂಡು($0, $0 + $1);
 
-        var blob = new Blob([pngData], {type: 'image/png'});
+        var blob = new Blob([png_ದತ್ತಾಂಶ_2], {type: 'image/png'});
         var url = URL.createObjectURL(blob);
 
         // Set as favicon (create link element if it doesn't exist)
         var link = document.querySelector("link[rel~='icon']");
-        if (!link) {
+        ಆದರೆ (!link) {
             link = document.createElement('link');
             link.rel = 'icon';
             link.type = 'image/png';
-            document.head.appendChild(link);
+            document.ತಲೆ.append_ಮಗು(link);
         }
 
         // Revoke old URL if it exists to prevent memory leaks
-        if (link.href && link.href.startsWith('blob:')) {
+        ಆದರೆ (link.href && link.href.startsWith('blob:')) {
             URL.revokeObjectURL(link.href);
         }
 
         link.href = url;
-    }, png_data, png_size);
+    }, png_ದತ್ತಾಂಶ, png_ಗಾತ್ರ);
 
-    SDL_CloseIO(stream);
-    return true;
+    SDL_CloseIO(ಹರಿವು);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_EMSCRIPTEN

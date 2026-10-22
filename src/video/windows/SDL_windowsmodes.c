@@ -18,128 +18,128 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "../../events/SDL_displayevents_c.h"
-#include "../SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_windowsvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_displayevents_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_pixels_c.h"
 
-#ifdef HAVE_DXGI1_6_H
-#define COBJMACROS
-#include <dxgi1_6.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_DXGI1_6_H
+#ವ್ಯಾಖ್ಯಾನಿಸು COBJMACROS
+#ಅನ್ತರ್ಭಾವ <dxgi1_6.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Windows CE compatibility
-#ifndef CDS_FULLSCREEN
-#define CDS_FULLSCREEN 0
-#endif
-#ifndef USER_DEFAULT_SCREEN_DPI
-#define USER_DEFAULT_SCREEN_DPI 96
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ CDS_FULLSCREEN
+#ವ್ಯಾಖ್ಯಾನಿಸು CDS_FULLSCREEN 0
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ USER_DEFAULT_SCREEN_DPI
+#ವ್ಯಾಖ್ಯಾನಿಸು USER_DEFAULT_SCREEN_DPI 96
+#ಆದರೆ_ಅಂತ್ಯ
 
 // #define DEBUG_MODES
 // #define HIGHDPI_DEBUG_VERBOSE
 
-static void WIN_UpdateDisplayMode(SDL_VideoDevice *_this, LPCWSTR deviceName, DWORD index, SDL_DisplayMode *mode)
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_Update_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, LPCWSTR deviceName, DWORD ಸೂಚ್ಯಂಕ, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ)
 {
-    SDL_DisplayModeData *data = (SDL_DisplayModeData *)mode->internal;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = (SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *)ಬಹುಲಕ->ಆಂತರಿಕ;
     HDC hdc;
 
-    data->DeviceMode.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY | DM_DISPLAYFLAGS);
+    ದತ್ತಾಂಶ->Device_ಬಹುಲಕ.dmFields = (DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT | DM_DISPLAYFREQUENCY | DM_DISPLAYFLAGS);
 
     // NOLINTNEXTLINE(bugprone-assignment-in-if-condition): No simple way to extract the assignment
-    if (index == ENUM_CURRENT_SETTINGS && (hdc = CreateDCW(deviceName, NULL, NULL, NULL)) != NULL) {
-        char bmi_data[sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD)];
+    ಆದರೆ (ಸೂಚ್ಯಂಕ == ENUM_CURRENT_SETTINGS && (hdc = CreateDCW(deviceName, ಖಾಲಿ, ಖಾಲಿ, ಖಾಲಿ)) != ಖಾಲಿ) {
+        ಅಕ್ಷರ bmi_ದತ್ತಾಂಶ[ಗಾತ್ರ(BITMAPINFOHEADER) + 256 * ಗಾತ್ರ(RGBQUAD)];
         LPBITMAPINFO bmi;
         HBITMAP hbm;
 
-        SDL_zeroa(bmi_data);
-        bmi = (LPBITMAPINFO)bmi_data;
-        bmi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        SDL_zeroa(bmi_ದತ್ತಾಂಶ);
+        bmi = (LPBITMAPINFO)bmi_ದತ್ತಾಂಶ;
+        bmi->bmi_ಶೀರ್ಷಿಕೆ.bi_ಗಾತ್ರ = ಗಾತ್ರ(BITMAPINFOHEADER);
 
         hbm = CreateCompatibleBitmap(hdc, 1, 1);
-        GetDIBits(hdc, hbm, 0, 1, NULL, bmi, DIB_RGB_COLORS);
-        GetDIBits(hdc, hbm, 0, 1, NULL, bmi, DIB_RGB_COLORS);
+        GetDIBits(hdc, hbm, 0, 1, ಖಾಲಿ, bmi, DIB_RGB_COLORS);
+        GetDIBits(hdc, hbm, 0, 1, ಖಾಲಿ, bmi, DIB_RGB_COLORS);
         DeleteObject(hbm);
         DeleteDC(hdc);
-        if (bmi->bmiHeader.biCompression == BI_BITFIELDS) {
-            switch (*(Uint32 *)bmi->bmiColors) {
-            case 0x00FF0000:
-                mode->format = SDL_PIXELFORMAT_XRGB8888;
-                break;
-            case 0x000000FF:
-                mode->format = SDL_PIXELFORMAT_XBGR8888;
-                break;
-            case 0xF800:
-                mode->format = SDL_PIXELFORMAT_RGB565;
-                break;
-            case 0x7C00:
-                mode->format = SDL_PIXELFORMAT_XRGB1555;
-                break;
+        ಆದರೆ (bmi->bmi_ಶೀರ್ಷಿಕೆ.biCompression == BI_BITFIELDS) {
+            ಆಯ್ಕೆ (*(Uint32 *)bmi->bmiColors) {
+            ಸ್ಥಿತಿ 0x00FF0000:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_XRGB8888;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 0x000000FF:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_XBGR8888;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 0xF800:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_RGB565;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 0x7C00:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_XRGB1555;
+                ನಿಲ್ಲಿಸು;
             }
-        } else if (bmi->bmiHeader.biCompression == BI_RGB) {
-            if (bmi->bmiHeader.biBitCount == 24) {
-                mode->format = SDL_PIXELFORMAT_RGB24;
-            } else if (bmi->bmiHeader.biBitCount == 8) {
-                mode->format = SDL_PIXELFORMAT_INDEX8;
-            } else if (bmi->bmiHeader.biBitCount == 4) {
-                mode->format = SDL_PIXELFORMAT_INDEX4LSB;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (bmi->bmi_ಶೀರ್ಷಿಕೆ.biCompression == BI_RGB) {
+            ಆದರೆ (bmi->bmi_ಶೀರ್ಷಿಕೆ.bi_ಬಿಟ್_ಎಣಿಕೆ == 24) {
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_RGB24;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (bmi->bmi_ಶೀರ್ಷಿಕೆ.bi_ಬಿಟ್_ಎಣಿಕೆ == 8) {
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_INDEX8;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (bmi->bmi_ಶೀರ್ಷಿಕೆ.bi_ಬಿಟ್_ಎಣಿಕೆ == 4) {
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_INDEX4LSB;
             }
         }
-    } else if (mode->format == SDL_PIXELFORMAT_UNKNOWN) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಬಹುಲಕ->format == SDL_PIXELFORMAT_UNKNOWN) {
         // FIXME: Can we tell what this will be?
-        if ((data->DeviceMode.dmFields & DM_BITSPERPEL) == DM_BITSPERPEL) {
-            switch (data->DeviceMode.dmBitsPerPel) {
-            case 32:
-                mode->format = SDL_PIXELFORMAT_XRGB8888;
-                break;
-            case 24:
-                mode->format = SDL_PIXELFORMAT_RGB24;
-                break;
-            case 16:
-                mode->format = SDL_PIXELFORMAT_RGB565;
-                break;
-            case 15:
-                mode->format = SDL_PIXELFORMAT_XRGB1555;
-                break;
-            case 8:
-                mode->format = SDL_PIXELFORMAT_INDEX8;
-                break;
-            case 4:
-                mode->format = SDL_PIXELFORMAT_INDEX4LSB;
-                break;
+        ಆದರೆ ((ದತ್ತಾಂಶ->Device_ಬಹುಲಕ.dmFields & DM_BITSPERPEL) == DM_BITSPERPEL) {
+            ಆಯ್ಕೆ (ದತ್ತಾಂಶ->Device_ಬಹುಲಕ.dm_ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_Pel) {
+            ಸ್ಥಿತಿ 32:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_XRGB8888;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 24:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_RGB24;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 16:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_RGB565;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 15:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_XRGB1555;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 8:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_INDEX8;
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 4:
+                ಬಹುಲಕ->format = SDL_PIXELFORMAT_INDEX4LSB;
+                ನಿಲ್ಲಿಸು;
             }
         }
     }
 }
 
-static void *WIN_GetDXGIOutput(SDL_VideoDevice *_this, const WCHAR *DeviceName)
+ಸ್ಥಿರ ಶೂನ್ಯ *WIN_GetDXGIOutput(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ WCHAR *DeviceName)
 {
-    void *result = NULL;
+    ಶೂನ್ಯ *ಫಲಿತಾಂಶ = ಖಾಲಿ;
 
-#ifdef HAVE_DXGI_H
-    const SDL_VideoData *videodata = (const SDL_VideoData *)_this->internal;
-    int nAdapter, nOutput;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_DXGI_H
+    ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *videodata = (ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
+    ಪೂರ್ಣಾಂಕ nAdapter, nOutput;
     IDXGIAdapter *pDXGIAdapter;
     IDXGIOutput *pDXGIOutput;
 
-    if (!videodata->pDXGIFactory) {
-        return NULL;
+    ಆದರೆ (!videodata->pDXGIFactory) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     nAdapter = 0;
-    while (!result && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
+    ಆಗ (!ಫಲಿತಾಂಶ && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
         nOutput = 0;
-        while (!result && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
+        ಆಗ (!ಫಲಿತಾಂಶ && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
             DXGI_OUTPUT_DESC outputDesc;
-            if (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
-                if (SDL_wcscmp(outputDesc.DeviceName, DeviceName) == 0) {
-                    result = pDXGIOutput;
+            ಆದರೆ (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
+                ಆದರೆ (SDL_wcscmp(outputDesc.DeviceName, DeviceName) == 0) {
+                    ಫಲಿತಾಂಶ = pDXGIOutput;
                 }
             }
-            if (pDXGIOutput != result) {
+            ಆದರೆ (pDXGIOutput != ಫಲಿತಾಂಶ) {
                 IDXGIOutput_Release(pDXGIOutput);
             }
             nOutput++;
@@ -147,280 +147,280 @@ static void *WIN_GetDXGIOutput(SDL_VideoDevice *_this, const WCHAR *DeviceName)
         IDXGIAdapter_Release(pDXGIAdapter);
         nAdapter++;
     }
-#endif
-    return result;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-static void WIN_ReleaseDXGIOutput(void *dxgi_output)
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_ReleaseDXGIOutput(ಶೂನ್ಯ *dxgi_output)
 {
-#ifdef HAVE_DXGI_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_DXGI_H
     IDXGIOutput *pDXGIOutput = (IDXGIOutput *)dxgi_output;
 
-    if (pDXGIOutput) {
+    ಆದರೆ (pDXGIOutput) {
         IDXGIOutput_Release(pDXGIOutput);
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static SDL_DisplayOrientation WIN_GetNaturalOrientation(DEVMODEW *mode)
+ಸ್ಥಿರ SDL_DisplayOrientation WIN_GetNaturalOrientation(DEVMODEW *ಬಹುಲಕ)
 {
-    int width = mode->dmPelsWidth;
-    int height = mode->dmPelsHeight;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = ಬಹುಲಕ->dm_Pels_ಅಗಲ;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = ಬಹುಲಕ->dm_Pels_ಎತ್ತರ;
 
     // Use unrotated width/height to guess orientation
-    if (mode->dmDisplayOrientation == DMDO_90 || mode->dmDisplayOrientation == DMDO_270) {
-        int temp = width;
-        width = height;
-        height = temp;
+    ಆದರೆ (ಬಹುಲಕ->dmDisplayOrientation == DMDO_90 || ಬಹುಲಕ->dmDisplayOrientation == DMDO_270) {
+        ಪೂರ್ಣಾಂಕ ತಾತ್ಕಾಲಿಕ = ಅಗಲ;
+        ಅಗಲ = ಎತ್ತರ;
+        ಎತ್ತರ = ತಾತ್ಕಾಲಿಕ;
     }
 
-    if (width >= height) {
-        return SDL_ORIENTATION_LANDSCAPE;
-    } else {
-        return SDL_ORIENTATION_PORTRAIT;
+    ಆದರೆ (ಅಗಲ >= ಎತ್ತರ) {
+        ಹಿಂತಿರುಗಿ SDL_ORIENTATION_LANDSCAPE;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಹಿಂತಿರುಗಿ SDL_ORIENTATION_PORTRAIT;
     }
 }
 
-static SDL_DisplayOrientation WIN_GetDisplayOrientation(DEVMODEW *mode)
+ಸ್ಥಿರ SDL_DisplayOrientation WIN_GetDisplayOrientation(DEVMODEW *ಬಹುಲಕ)
 {
-    if (WIN_GetNaturalOrientation(mode) == SDL_ORIENTATION_LANDSCAPE) {
-        switch (mode->dmDisplayOrientation) {
-        case DMDO_DEFAULT:
-            return SDL_ORIENTATION_LANDSCAPE;
-        case DMDO_90:
-            return SDL_ORIENTATION_PORTRAIT;
-        case DMDO_180:
-            return SDL_ORIENTATION_LANDSCAPE_FLIPPED;
-        case DMDO_270:
-            return SDL_ORIENTATION_PORTRAIT_FLIPPED;
-        default:
-            return SDL_ORIENTATION_UNKNOWN;
+    ಆದರೆ (WIN_GetNaturalOrientation(ಬಹುಲಕ) == SDL_ORIENTATION_LANDSCAPE) {
+        ಆಯ್ಕೆ (ಬಹುಲಕ->dmDisplayOrientation) {
+        ಸ್ಥಿತಿ DMDO_DEFAULT:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_LANDSCAPE;
+        ಸ್ಥಿತಿ DMDO_90:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_PORTRAIT;
+        ಸ್ಥಿತಿ DMDO_180:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_LANDSCAPE_FLIPPED;
+        ಸ್ಥಿತಿ DMDO_270:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_PORTRAIT_FLIPPED;
+        ಪೂರ್ವನಿಯೋಜಿತ:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_UNKNOWN;
         }
-    } else {
-        switch (mode->dmDisplayOrientation) {
-        case DMDO_DEFAULT:
-            return SDL_ORIENTATION_PORTRAIT;
-        case DMDO_90:
-            return SDL_ORIENTATION_LANDSCAPE_FLIPPED;
-        case DMDO_180:
-            return SDL_ORIENTATION_PORTRAIT_FLIPPED;
-        case DMDO_270:
-            return SDL_ORIENTATION_LANDSCAPE;
-        default:
-            return SDL_ORIENTATION_UNKNOWN;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆಯ್ಕೆ (ಬಹುಲಕ->dmDisplayOrientation) {
+        ಸ್ಥಿತಿ DMDO_DEFAULT:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_PORTRAIT;
+        ಸ್ಥಿತಿ DMDO_90:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_LANDSCAPE_FLIPPED;
+        ಸ್ಥಿತಿ DMDO_180:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_PORTRAIT_FLIPPED;
+        ಸ್ಥಿತಿ DMDO_270:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_LANDSCAPE;
+        ಪೂರ್ವನಿಯೋಜಿತ:
+            ಹಿಂತಿರುಗಿ SDL_ORIENTATION_UNKNOWN;
         }
     }
 }
 
-static void WIN_GetRefreshRate(void *dxgi_output, DEVMODEW *mode, int *numerator, int *denominator)
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_Get_Refresh_ದರ(ಶೂನ್ಯ *dxgi_output, DEVMODEW *ಬಹುಲಕ, ಪೂರ್ಣಾಂಕ *numerator, ಪೂರ್ಣಾಂಕ *denominator)
 {
     // We're not currently using DXGI to query display modes, so fake NTSC timings
-    switch (mode->dmDisplayFrequency) {
-    case 119:
-    case 59:
-    case 29:
-        *numerator = (mode->dmDisplayFrequency + 1) * 1000;
+    ಆಯ್ಕೆ (ಬಹುಲಕ->dmDisplayFrequency) {
+    ಸ್ಥಿತಿ 119:
+    ಸ್ಥಿತಿ 59:
+    ಸ್ಥಿತಿ 29:
+        *numerator = (ಬಹುಲಕ->dmDisplayFrequency + 1) * 1000;
         *denominator = 1001;
-        break;
-    default:
-        *numerator = mode->dmDisplayFrequency;
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        *numerator = ಬಹುಲಕ->dmDisplayFrequency;
         *denominator = 1;
-        break;
+        ನಿಲ್ಲಿಸು;
     }
 
-#ifdef HAVE_DXGI_H
-    if (dxgi_output) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_DXGI_H
+    ಆದರೆ (dxgi_output) {
         IDXGIOutput *pDXGIOutput = (IDXGIOutput *)dxgi_output;
-        DXGI_MODE_DESC modeToMatch;
-        DXGI_MODE_DESC closestMatch;
+        DXGI_ಬಹುಲಕ_DESC ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ;
+        DXGI_ಬಹುಲಕ_DESC closest_ಹೊಂದಿಕೆ;
 
-        SDL_zero(modeToMatch);
-        modeToMatch.Width = mode->dmPelsWidth;
-        modeToMatch.Height = mode->dmPelsHeight;
-        modeToMatch.RefreshRate.Numerator = *numerator;
-        modeToMatch.RefreshRate.Denominator = *denominator;
-        modeToMatch.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        SDL_zero(ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ);
+        ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ.ಅಗಲ_2 = ಬಹುಲಕ->dm_Pels_ಅಗಲ;
+        ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ.ಎತ್ತರ_2 = ಬಹುಲಕ->dm_Pels_ಎತ್ತರ;
+        ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ.Refresh_ದರ.Numerator = *numerator;
+        ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ.Refresh_ದರ.Denominator = *denominator;
+        ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-        if (SUCCEEDED(IDXGIOutput_FindClosestMatchingMode(pDXGIOutput, &modeToMatch, &closestMatch, NULL))) {
-            *numerator = closestMatch.RefreshRate.Numerator;
-            *denominator = closestMatch.RefreshRate.Denominator;
+        ಆದರೆ (SUCCEEDED(IDXGIOutput_ಕಂಡುಹಿಡಿ_Closest_Matching_ಬಹುಲಕ(pDXGIOutput, &ಬಹುಲಕ_ಗಮ್ಯ_ಹೊಂದಿಕೆ, &closest_ಹೊಂದಿಕೆ, ಖಾಲಿ))) {
+            *numerator = closest_ಹೊಂದಿಕೆ.Refresh_ದರ.Numerator;
+            *denominator = closest_ಹೊಂದಿಕೆ.Refresh_ದರ.Denominator;
         }
     }
-#endif // HAVE_DXGI_H
+#ಆದರೆ_ಅಂತ್ಯ // HAVE_DXGI_H
 }
 
-static float WIN_GetContentScale(SDL_VideoDevice *_this, HMONITOR hMonitor)
+ಸ್ಥಿರ ದಶಮಾಂಶ WIN_GetContentScale(SDL_VideoDevice *_this, HMONITOR hMonitor)
 {
-    int dpi = 0;
+    ಪೂರ್ಣಾಂಕ dpi = 0;
 
-    const SDL_VideoData *videodata = (const SDL_VideoData *)_this->internal;
-    if (videodata->GetDpiForMonitor) {
+    ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *videodata = (ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
+    ಆದರೆ (videodata->GetDpiForMonitor) {
         UINT hdpi_uint, vdpi_uint;
-        if (videodata->GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-            dpi = (int)hdpi_uint;
+        ಆದರೆ (videodata->GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+            dpi = (ಪೂರ್ಣಾಂಕ)hdpi_uint;
         }
     }
-    if (dpi == 0) {
+    ಆದರೆ (dpi == 0) {
         // Window 8.0 and below: same DPI for all monitors
-        HDC hdc = GetDC(NULL);
-        if (hdc) {
+        HDC hdc = GetDC(ಖಾಲಿ);
+        ಆದರೆ (hdc) {
             dpi = GetDeviceCaps(hdc, LOGPIXELSX);
-            ReleaseDC(NULL, hdc);
+            ReleaseDC(ಖಾಲಿ, hdc);
         }
     }
-    if (dpi == 0) {
+    ಆದರೆ (dpi == 0) {
         // Safe default
         dpi = USER_DEFAULT_SCREEN_DPI;
     }
-    return dpi / (float)USER_DEFAULT_SCREEN_DPI;
+    ಹಿಂತಿರುಗಿ dpi / (ದಶಮಾಂಶ)USER_DEFAULT_SCREEN_DPI;
 }
 
-static bool WIN_GetDisplayMode(SDL_VideoDevice *_this, void *dxgi_output, HMONITOR hMonitor, LPCWSTR deviceName, DWORD index, SDL_DisplayMode *mode, SDL_DisplayOrientation *natural_orientation, SDL_DisplayOrientation *current_orientation)
+ಸ್ಥಿರ bool WIN_Get_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, ಶೂನ್ಯ *dxgi_output, HMONITOR hMonitor, LPCWSTR deviceName, DWORD ಸೂಚ್ಯಂಕ, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ, SDL_DisplayOrientation *natural_orientation, SDL_DisplayOrientation *current_orientation)
 {
-    SDL_DisplayModeData *data;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
     DEVMODEW devmode;
 
-    devmode.dmSize = sizeof(devmode);
+    devmode.dm_ಗಾತ್ರ = ಗಾತ್ರ(devmode);
     devmode.dmDriverExtra = 0;
-    if (!EnumDisplaySettingsW(deviceName, index, &devmode)) {
-        return false;
+    ಆದರೆ (!EnumDisplaySettingsW(deviceName, ಸೂಚ್ಯಂಕ, &devmode)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    data = (SDL_DisplayModeData *)SDL_malloc(sizeof(*data));
-    if (!data) {
-        return false;
+    ದತ್ತಾಂಶ = (SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *)SDL_malloc(ಗಾತ್ರ(*ದತ್ತಾಂಶ));
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    SDL_zerop(mode);
-    mode->internal = data;
-    data->DeviceMode = devmode;
+    SDL_zerop(ಬಹುಲಕ);
+    ಬಹುಲಕ->ಆಂತರಿಕ = ದತ್ತಾಂಶ;
+    ದತ್ತಾಂಶ->Device_ಬಹುಲಕ = devmode;
 
-    mode->format = SDL_PIXELFORMAT_UNKNOWN;
-    mode->w = data->DeviceMode.dmPelsWidth;
-    mode->h = data->DeviceMode.dmPelsHeight;
-    WIN_GetRefreshRate(dxgi_output, &data->DeviceMode, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
+    ಬಹುಲಕ->format = SDL_PIXELFORMAT_UNKNOWN;
+    ಬಹುಲಕ->w = ದತ್ತಾಂಶ->Device_ಬಹುಲಕ.dm_Pels_ಅಗಲ;
+    ಬಹುಲಕ->h = ದತ್ತಾಂಶ->Device_ಬಹುಲಕ.dm_Pels_ಎತ್ತರ;
+    WIN_Get_Refresh_ದರ(dxgi_output, &ದತ್ತಾಂಶ->Device_ಬಹುಲಕ, &ಬಹುಲಕ->refresh_ದರ_numerator, &ಬಹುಲಕ->refresh_ದರ_denominator);
 
     // Fill in the mode information
-    WIN_UpdateDisplayMode(_this, deviceName, index, mode);
+    WIN_Update_Display_ಬಹುಲಕ(_this, deviceName, ಸೂಚ್ಯಂಕ, ಬಹುಲಕ);
 
-    if (natural_orientation) {
+    ಆದರೆ (natural_orientation) {
         *natural_orientation = WIN_GetNaturalOrientation(&devmode);
     }
-    if (current_orientation) {
+    ಆದರೆ (current_orientation) {
         *current_orientation = WIN_GetDisplayOrientation(&devmode);
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static char *WIN_GetDisplayNameVista(SDL_VideoData *videodata, const WCHAR *deviceName)
+ಸ್ಥಿರ ಅಕ್ಷರ *WIN_GetDisplayNameVista(SDL_Video_ದತ್ತಾಂಶ *videodata, ಸ್ಥಿರಾಂಕ WCHAR *deviceName)
 {
-    DISPLAYCONFIG_PATH_INFO *paths = NULL;
-    DISPLAYCONFIG_MODE_INFO *modes = NULL;
-    char *result = NULL;
-    UINT32 pathCount = 0;
-    UINT32 modeCount = 0;
+    DISPLAYCONFIG_ಮಾರ್ಗ_INFO *paths = ಖಾಲಿ;
+    DISPLAYCONFIG_ಬಹುಲಕ_INFO *modes = ಖಾಲಿ;
+    ಅಕ್ಷರ *ಫಲಿತಾಂಶ = ಖಾಲಿ;
+    UINT32 ಮಾರ್ಗ_ಎಣಿಕೆ_2 = 0;
+    UINT32 ಬಹುಲಕ_ಎಣಿಕೆ_2 = 0;
     UINT32 i;
     LONG rc;
 
-    if (!videodata->GetDisplayConfigBufferSizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
-        return NULL;
+    ಆದರೆ (!videodata->Get_Display_Config_ಬಫರ್_Sizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    do {
-        rc = videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &pathCount, &modeCount);
-        if (rc != ERROR_SUCCESS) {
-            goto WIN_GetDisplayNameVista_failed;
+    ಮಾಡು {
+        rc = videodata->Get_Display_Config_ಬಫರ್_Sizes(QDC_ONLY_ಸಕ್ರಿಯ_PATHS, &ಮಾರ್ಗ_ಎಣಿಕೆ_2, &ಬಹುಲಕ_ಎಣಿಕೆ_2);
+        ಆದರೆ (rc != ERROR_SUCCESS) {
+            ಹೋಗು WIN_GetDisplayNameVista_failed;
         }
 
         SDL_free(paths);
         SDL_free(modes);
 
-        paths = (DISPLAYCONFIG_PATH_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_PATH_INFO) * pathCount);
-        modes = (DISPLAYCONFIG_MODE_INFO *)SDL_malloc(sizeof(DISPLAYCONFIG_MODE_INFO) * modeCount);
-        if ((!paths) || (!modes)) {
-            goto WIN_GetDisplayNameVista_failed;
+        paths = (DISPLAYCONFIG_ಮಾರ್ಗ_INFO *)SDL_malloc(ಗಾತ್ರ(DISPLAYCONFIG_ಮಾರ್ಗ_INFO) * ಮಾರ್ಗ_ಎಣಿಕೆ_2);
+        modes = (DISPLAYCONFIG_ಬಹುಲಕ_INFO *)SDL_malloc(ಗಾತ್ರ(DISPLAYCONFIG_ಬಹುಲಕ_INFO) * ಬಹುಲಕ_ಎಣಿಕೆ_2);
+        ಆದರೆ ((!paths) || (!modes)) {
+            ಹೋಗು WIN_GetDisplayNameVista_failed;
         }
 
-        rc = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &pathCount, paths, &modeCount, modes, 0);
-    } while (rc == ERROR_INSUFFICIENT_BUFFER);
+        rc = videodata->QueryDisplayConfig(QDC_ONLY_ಸಕ್ರಿಯ_PATHS, &ಮಾರ್ಗ_ಎಣಿಕೆ_2, paths, &ಬಹುಲಕ_ಎಣಿಕೆ_2, modes, 0);
+    } ಆಗ (rc == ERROR_INSUFFICIENT_ಬಫರ್);
 
-    if (rc == ERROR_SUCCESS) {
-        for (i = 0; i < pathCount; i++) {
-            DISPLAYCONFIG_SOURCE_DEVICE_NAME sourceName;
-            DISPLAYCONFIG_TARGET_DEVICE_NAME targetName;
+    ಆದರೆ (rc == ERROR_SUCCESS) {
+        ಗಾಗಿ (i = 0; i < ಮಾರ್ಗ_ಎಣಿಕೆ_2; i++) {
+            DISPLAYCONFIG_ಮೂಲ_DEVICE_NAME ಮೂಲ_Name;
+            DISPLAYCONFIG_ಗುರಿ_DEVICE_NAME ಗುರಿ_Name;
 
-            SDL_zero(sourceName);
-            sourceName.header.adapterId = paths[i].targetInfo.adapterId;
-            sourceName.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME;
-            sourceName.header.size = sizeof(sourceName);
-            sourceName.header.id = paths[i].sourceInfo.id;
-            rc = videodata->DisplayConfigGetDeviceInfo(&sourceName.header);
-            if (rc != ERROR_SUCCESS) {
-                break;
-            } else if (SDL_wcscmp(deviceName, sourceName.viewGdiDeviceName) != 0) {
-                continue;
+            SDL_zero(ಮೂಲ_Name);
+            ಮೂಲ_Name.ಶೀರ್ಷಿಕೆ.adapterId = paths[i].ಗುರಿ_Info.adapterId;
+            ಮೂಲ_Name.ಶೀರ್ಷಿಕೆ.type = DISPLAYCONFIG_DEVICE_INFO_GET_ಮೂಲ_NAME;
+            ಮೂಲ_Name.ಶೀರ್ಷಿಕೆ.ಗಾತ್ರ_2 = ಗಾತ್ರ(ಮೂಲ_Name);
+            ಮೂಲ_Name.ಶೀರ್ಷಿಕೆ.id = paths[i].ಮೂಲ_Info.id;
+            rc = videodata->DisplayConfigGetDeviceInfo(&ಮೂಲ_Name.ಶೀರ್ಷಿಕೆ);
+            ಆದರೆ (rc != ERROR_SUCCESS) {
+                ನಿಲ್ಲಿಸು;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_wcscmp(deviceName, ಮೂಲ_Name.viewGdiDeviceName) != 0) {
+                ಮುಂದುವರಿ;
             }
 
-            SDL_zero(targetName);
-            targetName.header.adapterId = paths[i].targetInfo.adapterId;
-            targetName.header.id = paths[i].targetInfo.id;
-            targetName.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME;
-            targetName.header.size = sizeof(targetName);
-            rc = videodata->DisplayConfigGetDeviceInfo(&targetName.header);
-            if (rc == ERROR_SUCCESS) {
-                result = WIN_StringToUTF8W(targetName.monitorFriendlyDeviceName);
+            SDL_zero(ಗುರಿ_Name);
+            ಗುರಿ_Name.ಶೀರ್ಷಿಕೆ.adapterId = paths[i].ಗುರಿ_Info.adapterId;
+            ಗುರಿ_Name.ಶೀರ್ಷಿಕೆ.id = paths[i].ಗುರಿ_Info.id;
+            ಗುರಿ_Name.ಶೀರ್ಷಿಕೆ.type = DISPLAYCONFIG_DEVICE_INFO_GET_ಗುರಿ_NAME;
+            ಗುರಿ_Name.ಶೀರ್ಷಿಕೆ.ಗಾತ್ರ_2 = ಗಾತ್ರ(ಗುರಿ_Name);
+            rc = videodata->DisplayConfigGetDeviceInfo(&ಗುರಿ_Name.ಶೀರ್ಷಿಕೆ);
+            ಆದರೆ (rc == ERROR_SUCCESS) {
+                ಫಲಿತಾಂಶ = WIN_String_ಗಮ್ಯ_UTF8_W(ಗುರಿ_Name.monitorFriendlyDeviceName);
                 /* if we got an empty string, treat it as failure so we'll fallback
                    to getting the generic name. */
-                if (result && (*result == '\0')) {
-                    SDL_free(result);
-                    result = NULL;
+                ಆದರೆ (ಫಲಿತಾಂಶ && (*ಫಲಿತಾಂಶ == '\0')) {
+                    SDL_free(ಫಲಿತಾಂಶ);
+                    ಫಲಿತಾಂಶ = ಖಾಲಿ;
                 }
             }
-            break;
+            ನಿಲ್ಲಿಸು;
         }
     }
 
     SDL_free(paths);
     SDL_free(modes);
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 
 WIN_GetDisplayNameVista_failed:
-    SDL_free(result);
+    SDL_free(ಫಲಿತಾಂಶ);
     SDL_free(paths);
     SDL_free(modes);
-    return NULL;
+    ಹಿಂತಿರುಗಿ ಖಾಲಿ;
 }
 
-#ifdef HAVE_DXGI1_6_H
-static bool WIN_GetMonitorDESC1(HMONITOR hMonitor, DXGI_OUTPUT_DESC1 *desc)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_DXGI1_6_H
+ಸ್ಥಿರ bool WIN_GetMonitorDESC1(HMONITOR hMonitor, DXGI_OUTPUT_DESC1 *desc)
 {
-    typedef HRESULT (WINAPI *pfnCreateDXGIFactory1)(REFIID riid, void **ppFactory);
-    pfnCreateDXGIFactory1 pCreateDXGIFactory1 = NULL;
-    SDL_SharedObject *hDXGIMod = NULL;
-    bool found = false;
+    ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ HRESULT (WINAPI *pfnCreateDXGIFactory1)(REFIID riid, ಶೂನ್ಯ **ppFactory);
+    pfnCreateDXGIFactory1 pCreateDXGIFactory1 = ಖಾಲಿ;
+    SDL_SharedObject *hDXGIMod = ಖಾಲಿ;
+    bool ಸಿಕ್ಕಿತು = false;
 
-    hDXGIMod = SDL_LoadObject("dxgi.dll");
-    if (hDXGIMod) {
-        pCreateDXGIFactory1 = (pfnCreateDXGIFactory1)SDL_LoadFunction(hDXGIMod, "CreateDXGIFactory1");
+    hDXGIMod = SDL_ತುಂಬು_Object("dxgi.dll");
+    ಆದರೆ (hDXGIMod) {
+        pCreateDXGIFactory1 = (pfnCreateDXGIFactory1)SDL_ತುಂಬು_Function(hDXGIMod, "CreateDXGIFactory1");
     }
-    if (pCreateDXGIFactory1) {
-        static const GUID SDL_IID_IDXGIFactory1 = { 0x770aae78, 0xf26f, 0x4dba, { 0xa8, 0x29, 0x25, 0x3c, 0x83, 0xd1, 0xb3, 0x87 } };
-        static const GUID SDL_IID_IDXGIOutput6 = { 0x068346e8, 0xaaec, 0x4b84, { 0xad, 0xd7, 0x13, 0x7f, 0x51, 0x3f, 0x77, 0xa1 } };
+    ಆದರೆ (pCreateDXGIFactory1) {
+        ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ GUID SDL_IID_IDXGIFactory1 = { 0x770aae78, 0xf26f, 0x4dba, { 0xa8, 0x29, 0x25, 0x3c, 0x83, 0xd1, 0xb3, 0x87 } };
+        ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ GUID SDL_IID_IDXGIOutput6 = { 0x068346e8, 0xaaec, 0x4b84, { 0xad, 0xd7, 0x13, 0x7f, 0x51, 0x3f, 0x77, 0xa1 } };
         IDXGIFactory1 *dxgiFactory;
 
-        if (SUCCEEDED(pCreateDXGIFactory1(&SDL_IID_IDXGIFactory1, (void **)&dxgiFactory))) {
+        ಆದರೆ (SUCCEEDED(pCreateDXGIFactory1(&SDL_IID_IDXGIFactory1, (ಶೂನ್ಯ **)&dxgiFactory))) {
             IDXGIAdapter1 *dxgiAdapter;
             UINT adapter = 0;
-            while (!found && SUCCEEDED(IDXGIFactory1_EnumAdapters1(dxgiFactory, adapter, &dxgiAdapter))) {
+            ಆಗ (!ಸಿಕ್ಕಿತು && SUCCEEDED(IDXGIFactory1_EnumAdapters1(dxgiFactory, adapter, &dxgiAdapter))) {
                 IDXGIOutput *dxgiOutput;
                 UINT output = 0;
-                while (!found && SUCCEEDED(IDXGIAdapter1_EnumOutputs(dxgiAdapter, output, &dxgiOutput))) {
+                ಆಗ (!ಸಿಕ್ಕಿತು && SUCCEEDED(IDXGIAdapter1_EnumOutputs(dxgiAdapter, output, &dxgiOutput))) {
                     IDXGIOutput6 *dxgiOutput6;
-                    if (SUCCEEDED(IDXGIOutput_QueryInterface(dxgiOutput, &SDL_IID_IDXGIOutput6, (void **)&dxgiOutput6))) {
-                        if (SUCCEEDED(IDXGIOutput6_GetDesc1(dxgiOutput6, desc))) {
-                            if (desc->Monitor == hMonitor) {
-                                found = true;
+                    ಆದರೆ (SUCCEEDED(IDXGIOutput_QueryInterface(dxgiOutput, &SDL_IID_IDXGIOutput6, (ಶೂನ್ಯ **)&dxgiOutput6))) {
+                        ಆದರೆ (SUCCEEDED(IDXGIOutput6_GetDesc1(dxgiOutput6, desc))) {
+                            ಆದರೆ (desc->Monitor == hMonitor) {
+                                ಸಿಕ್ಕಿತು = true;
                             }
                         }
                         IDXGIOutput6_Release(dxgiOutput6);
@@ -434,427 +434,427 @@ static bool WIN_GetMonitorDESC1(HMONITOR hMonitor, DXGI_OUTPUT_DESC1 *desc)
             IDXGIFactory2_Release(dxgiFactory);
         }
     }
-    if (hDXGIMod) {
+    ಆದರೆ (hDXGIMod) {
         SDL_UnloadObject(hDXGIMod);
     }
-    return found;
+    ಹಿಂತಿರುಗಿ ಸಿಕ್ಕಿತು;
 }
 
-static bool WIN_GetMonitorPathInfo(SDL_VideoData *videodata, HMONITOR hMonitor, DISPLAYCONFIG_PATH_INFO *path_info)
+ಸ್ಥಿರ bool WIN_Get_Monitor_ಮಾರ್ಗ_Info(SDL_Video_ದತ್ತಾಂಶ *videodata, HMONITOR hMonitor, DISPLAYCONFIG_ಮಾರ್ಗ_INFO *ಮಾರ್ಗ_info)
 {
-    LONG result;
+    LONG ಫಲಿತಾಂಶ;
     MONITORINFOEXW view_info;
     UINT32 i;
-    UINT32 num_path_array_elements = 0;
-    UINT32 num_mode_info_array_elements = 0;
-    DISPLAYCONFIG_PATH_INFO *path_infos = NULL, *new_path_infos;
-    DISPLAYCONFIG_MODE_INFO *mode_infos = NULL, *new_mode_infos;
-    bool found = false;
+    UINT32 ಅಂಕೆ_ಮಾರ್ಗ_array_elements = 0;
+    UINT32 ಅಂಕೆ_ಬಹುಲಕ_info_array_elements = 0;
+    DISPLAYCONFIG_ಮಾರ್ಗ_INFO *ಮಾರ್ಗ_infos = ಖಾಲಿ, *new_ಮಾರ್ಗ_infos;
+    DISPLAYCONFIG_ಬಹುಲಕ_INFO *ಬಹುಲಕ_infos = ಖಾಲಿ, *new_ಬಹುಲಕ_infos;
+    bool ಸಿಕ್ಕಿತು = false;
 
-    if (!videodata->GetDisplayConfigBufferSizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
-        return false;
+    ಆದರೆ (!videodata->Get_Display_Config_ಬಫರ್_Sizes || !videodata->QueryDisplayConfig || !videodata->DisplayConfigGetDeviceInfo) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     SDL_zero(view_info);
-    view_info.cbSize = sizeof(view_info);
-    if (!GetMonitorInfoW(hMonitor, (MONITORINFO *)&view_info)) {
-        goto done;
+    view_info.cb_ಗಾತ್ರ = ಗಾತ್ರ(view_info);
+    ಆದರೆ (!GetMonitorInfoW(hMonitor, (MONITORINFO *)&view_info)) {
+        ಹೋಗು ಮುಗಿದ;
     }
 
-    do {
-        if (videodata->GetDisplayConfigBufferSizes(QDC_ONLY_ACTIVE_PATHS, &num_path_array_elements, &num_mode_info_array_elements) != ERROR_SUCCESS) {
-            SDL_free(path_infos);
-            SDL_free(mode_infos);
-            return false;
+    ಮಾಡು {
+        ಆದರೆ (videodata->Get_Display_Config_ಬಫರ್_Sizes(QDC_ONLY_ಸಕ್ರಿಯ_PATHS, &ಅಂಕೆ_ಮಾರ್ಗ_array_elements, &ಅಂಕೆ_ಬಹುಲಕ_info_array_elements) != ERROR_SUCCESS) {
+            SDL_free(ಮಾರ್ಗ_infos);
+            SDL_free(ಬಹುಲಕ_infos);
+            ಹಿಂತಿರುಗಿ false;
         }
 
-        new_path_infos = (DISPLAYCONFIG_PATH_INFO *)SDL_realloc(path_infos, num_path_array_elements * sizeof(*path_infos));
-        if (!new_path_infos) {
-            goto done;
+        new_ಮಾರ್ಗ_infos = (DISPLAYCONFIG_ಮಾರ್ಗ_INFO *)SDL_realloc(ಮಾರ್ಗ_infos, ಅಂಕೆ_ಮಾರ್ಗ_array_elements * ಗಾತ್ರ(*ಮಾರ್ಗ_infos));
+        ಆದರೆ (!new_ಮಾರ್ಗ_infos) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        path_infos = new_path_infos;
+        ಮಾರ್ಗ_infos = new_ಮಾರ್ಗ_infos;
 
-        new_mode_infos = (DISPLAYCONFIG_MODE_INFO *)SDL_realloc(mode_infos, num_mode_info_array_elements * sizeof(*mode_infos));
-        if (!new_mode_infos) {
-            goto done;
+        new_ಬಹುಲಕ_infos = (DISPLAYCONFIG_ಬಹುಲಕ_INFO *)SDL_realloc(ಬಹುಲಕ_infos, ಅಂಕೆ_ಬಹುಲಕ_info_array_elements * ಗಾತ್ರ(*ಬಹುಲಕ_infos));
+        ಆದರೆ (!new_ಬಹುಲಕ_infos) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        mode_infos = new_mode_infos;
+        ಬಹುಲಕ_infos = new_ಬಹುಲಕ_infos;
 
-        result = videodata->QueryDisplayConfig(QDC_ONLY_ACTIVE_PATHS, &num_path_array_elements, path_infos, &num_mode_info_array_elements, mode_infos, NULL);
+        ಫಲಿತಾಂಶ = videodata->QueryDisplayConfig(QDC_ONLY_ಸಕ್ರಿಯ_PATHS, &ಅಂಕೆ_ಮಾರ್ಗ_array_elements, ಮಾರ್ಗ_infos, &ಅಂಕೆ_ಬಹುಲಕ_info_array_elements, ಬಹುಲಕ_infos, ಖಾಲಿ);
 
-    } while (result == ERROR_INSUFFICIENT_BUFFER);
+    } ಆಗ (ಫಲಿತಾಂಶ == ERROR_INSUFFICIENT_ಬಫರ್);
 
-    if (result == ERROR_SUCCESS) {
-        for (i = 0; i < num_path_array_elements; ++i) {
-            DISPLAYCONFIG_SOURCE_DEVICE_NAME device_name;
+    ಆದರೆ (ಫಲಿತಾಂಶ == ERROR_SUCCESS) {
+        ಗಾಗಿ (i = 0; i < ಅಂಕೆ_ಮಾರ್ಗ_array_elements; ++i) {
+            DISPLAYCONFIG_ಮೂಲ_DEVICE_NAME device_name;
 
             SDL_zero(device_name);
-            device_name.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME;
-            device_name.header.size = sizeof(device_name);
-            device_name.header.adapterId = path_infos[i].sourceInfo.adapterId;
-            device_name.header.id = path_infos[i].sourceInfo.id;
-            if (videodata->DisplayConfigGetDeviceInfo(&device_name.header) == ERROR_SUCCESS) {
-                if (SDL_wcscmp(view_info.szDevice, device_name.viewGdiDeviceName) == 0) {
-                    SDL_copyp(path_info, &path_infos[i]);
-                    found = true;
-                    break;
+            device_name.ಶೀರ್ಷಿಕೆ.type = DISPLAYCONFIG_DEVICE_INFO_GET_ಮೂಲ_NAME;
+            device_name.ಶೀರ್ಷಿಕೆ.ಗಾತ್ರ_2 = ಗಾತ್ರ(device_name);
+            device_name.ಶೀರ್ಷಿಕೆ.adapterId = ಮಾರ್ಗ_infos[i].ಮೂಲ_Info.adapterId;
+            device_name.ಶೀರ್ಷಿಕೆ.id = ಮಾರ್ಗ_infos[i].ಮೂಲ_Info.id;
+            ಆದರೆ (videodata->DisplayConfigGetDeviceInfo(&device_name.ಶೀರ್ಷಿಕೆ) == ERROR_SUCCESS) {
+                ಆದರೆ (SDL_wcscmp(view_info.szDevice, device_name.viewGdiDeviceName) == 0) {
+                    SDL_copyp(ಮಾರ್ಗ_info, &ಮಾರ್ಗ_infos[i]);
+                    ಸಿಕ್ಕಿತು = true;
+                    ನಿಲ್ಲಿಸು;
                 }
             }
         }
     }
 
-done:
-    SDL_free(path_infos);
-    SDL_free(mode_infos);
+ಮುಗಿದ:
+    SDL_free(ಮಾರ್ಗ_infos);
+    SDL_free(ಬಹುಲಕ_infos);
 
-    return found;
+    ಹಿಂತಿರುಗಿ ಸಿಕ್ಕಿತು;
 }
 
-static float WIN_GetSDRWhitePoint(SDL_VideoDevice *_this, HMONITOR hMonitor)
+ಸ್ಥಿರ ದಶಮಾಂಶ WIN_Get_SDRWhite_ಬಿಂದು(SDL_VideoDevice *_this, HMONITOR hMonitor)
 {
-    DISPLAYCONFIG_PATH_INFO path_info;
-    SDL_VideoData *videodata = _this->internal;
-    float SDR_white_level = 1.0f;
+    DISPLAYCONFIG_ಮಾರ್ಗ_INFO ಮಾರ್ಗ_info;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
+    ದಶಮಾಂಶ SDR_white_level = 1.0f;
 
-    if (WIN_GetMonitorPathInfo(videodata, hMonitor, &path_info)) {
+    ಆದರೆ (WIN_Get_Monitor_ಮಾರ್ಗ_Info(videodata, hMonitor, &ಮಾರ್ಗ_info)) {
         /* workarounds for https://github.com/libsdl-org/SDL/issues/11193 */
-        struct SDL_DISPLAYCONFIG_SDR_WHITE_LEVEL {
-          DISPLAYCONFIG_DEVICE_INFO_HEADER header;
+        ರಚನೆ SDL_DISPLAYCONFIG_SDR_WHITE_LEVEL {
+          DISPLAYCONFIG_DEVICE_INFO_ಶೀರ್ಷಿಕೆ ಶೀರ್ಷಿಕೆ;
           ULONG SDRWhiteLevel;
         } white_level;
-        #define DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL 11
+        #ವ್ಯಾಖ್ಯಾನಿಸು DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL 11
 
         SDL_zero(white_level);
-        white_level.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL;
-        white_level.header.size = sizeof(white_level);
-        white_level.header.adapterId = path_info.targetInfo.adapterId;
-        white_level.header.id = path_info.targetInfo.id;
+        white_level.ಶೀರ್ಷಿಕೆ.type = DISPLAYCONFIG_DEVICE_INFO_GET_SDR_WHITE_LEVEL;
+        white_level.ಶೀರ್ಷಿಕೆ.ಗಾತ್ರ_2 = ಗಾತ್ರ(white_level);
+        white_level.ಶೀರ್ಷಿಕೆ.adapterId = ಮಾರ್ಗ_info.ಗುರಿ_Info.adapterId;
+        white_level.ಶೀರ್ಷಿಕೆ.id = ಮಾರ್ಗ_info.ಗುರಿ_Info.id;
         // WIN_GetMonitorPathInfo() succeeded: DisplayConfigGetDeviceInfo is not NULL
-        if (videodata->DisplayConfigGetDeviceInfo(&white_level.header) == ERROR_SUCCESS &&
+        ಆದರೆ (videodata->DisplayConfigGetDeviceInfo(&white_level.ಶೀರ್ಷಿಕೆ) == ERROR_SUCCESS &&
             white_level.SDRWhiteLevel > 0) {
             SDR_white_level = (white_level.SDRWhiteLevel / 1000.0f);
         }
     }
-    return SDR_white_level;
+    ಹಿಂತಿರುಗಿ SDR_white_level;
 }
 
-static void WIN_GetHDRProperties(SDL_VideoDevice *_this, HMONITOR hMonitor, SDL_HDROutputProperties *HDR)
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_GetHDRProperties(SDL_VideoDevice *_this, HMONITOR hMonitor, SDL_HDROutputProperties *HDR)
 {
     DXGI_OUTPUT_DESC1 desc;
 
     SDL_zerop(HDR);
 
-    if (WIN_GetMonitorDESC1(hMonitor, &desc)) {
-        if (desc.ColorSpace == DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020) {
-            HDR->SDR_white_level = WIN_GetSDRWhitePoint(_this, hMonitor);
+    ಆದರೆ (WIN_GetMonitorDESC1(hMonitor, &desc)) {
+        ಆದರೆ (desc.ColorSpace == DXGI_COLOR_SPACE_RGB_ತುಂಬಿದ_G2084_NONE_P2020) {
+            HDR->SDR_white_level = WIN_Get_SDRWhite_ಬಿಂದು(_this, hMonitor);
             HDR->HDR_headroom = (desc.MaxLuminance / SCRGB_NITS) / HDR->SDR_white_level;
         }
     }
 }
-#endif // HAVE_DXGI1_6_H
+#ಆದರೆ_ಅಂತ್ಯ // HAVE_DXGI1_6_H
 
-static void WIN_AddDisplay(SDL_VideoDevice *_this, HMONITOR hMonitor, const MONITORINFOEXW *info, int *display_index)
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_ಕೂಡಿಸು_Display(SDL_VideoDevice *_this, HMONITOR hMonitor, ಸ್ಥಿರಾಂಕ MONITORINFOEXW *info, ಪೂರ್ಣಾಂಕ *display_ಸೂಚ್ಯಂಕ)
 {
-    int i, index = *display_index;
+    ಪೂರ್ಣಾಂಕ i, ಸೂಚ್ಯಂಕ = *display_ಸೂಚ್ಯಂಕ;
     SDL_VideoDisplay display;
-    SDL_DisplayData *displaydata;
-    void *dxgi_output = NULL;
-    SDL_DisplayMode mode;
+    SDL_Display_ದತ್ತಾಂಶ *displaydata;
+    ಶೂನ್ಯ *dxgi_output = ಖಾಲಿ;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
     SDL_DisplayOrientation natural_orientation;
     SDL_DisplayOrientation current_orientation;
-    float content_scale = WIN_GetContentScale(_this, hMonitor);
+    ದಶಮಾಂಶ content_scale = WIN_GetContentScale(_this, hMonitor);
 
-#ifdef DEBUG_MODES
-    SDL_Log("Display: %s", WIN_StringToUTF8W(info->szDevice));
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_MODES
+    SDL_Log("Display: %s", WIN_String_ಗಮ್ಯ_UTF8_W(info->szDevice));
+#ಆದರೆ_ಅಂತ್ಯ
 
     dxgi_output = WIN_GetDXGIOutput(_this, info->szDevice);
-    bool found = WIN_GetDisplayMode(_this, dxgi_output, hMonitor, info->szDevice, ENUM_CURRENT_SETTINGS, &mode, &natural_orientation, &current_orientation);
+    bool ಸಿಕ್ಕಿತು = WIN_Get_Display_ಬಹುಲಕ(_this, dxgi_output, hMonitor, info->szDevice, ENUM_CURRENT_SETTINGS, &ಬಹುಲಕ, &natural_orientation, &current_orientation);
     WIN_ReleaseDXGIOutput(dxgi_output);
-    if (!found) {
-        return;
+    ಆದರೆ (!ಸಿಕ್ಕಿತು) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     // Prevent adding duplicate displays. Do this after we know the display is
     // ready to be added to allow any displays that we can't fully query to be
     // removed
-    for (i = 0; i < _this->num_displays; ++i) {
-        SDL_DisplayData *internal = _this->displays[i]->internal;
-        if (SDL_wcscmp(internal->DeviceName, info->szDevice) == 0) {
-            bool moved = (index != i);
-            bool changed_bounds = false;
+    ಗಾಗಿ (i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = _this->displays[i]->ಆಂತರಿಕ;
+        ಆದರೆ (SDL_wcscmp(ಆಂತರಿಕ->DeviceName, info->szDevice) == 0) {
+            bool moved = (ಸೂಚ್ಯಂಕ != i);
+            bool ಬದಲಾಯಿತು_bounds = false;
 
-            if (internal->state != DisplayRemoved) {
+            ಆದರೆ (ಆಂತರಿಕ->state != DisplayRemoved) {
                 // We've already enumerated this display, don't move it
-                goto cleanup;
+                ಹೋಗು cleanup;
             }
 
-            if (index >= _this->num_displays) {
+            ಆದರೆ (ಸೂಚ್ಯಂಕ >= _this->ಅಂಕೆ_displays) {
                 // This should never happen due to the check above, but just in case...
-                goto cleanup;
+                ಹೋಗು cleanup;
             }
 
-            if (moved) {
+            ಆದರೆ (moved) {
                 SDL_VideoDisplay *tmp;
 
-                tmp = _this->displays[index];
-                _this->displays[index] = _this->displays[i];
+                tmp = _this->displays[ಸೂಚ್ಯಂಕ];
+                _this->displays[ಸೂಚ್ಯಂಕ] = _this->displays[i];
                 _this->displays[i] = tmp;
-                i = index;
+                i = ಸೂಚ್ಯಂಕ;
             }
 
-            internal->MonitorHandle = hMonitor;
-            internal->state = DisplayUnchanged;
+            ಆಂತರಿಕ->MonitorHandle = hMonitor;
+            ಆಂತರಿಕ->state = DisplayUnchanged;
 
             SDL_PropertiesID props = SDL_GetDisplayProperties(_this->displays[i]->id);
-            SDL_SetPointerProperty(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_POINTER, hMonitor);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_ಸೂಚಕ, hMonitor);
 
-            if (!_this->setting_display_mode) {
+            ಆದರೆ (!_this->setting_display_ಬಹುಲಕ) {
                 SDL_VideoDisplay *existing_display = _this->displays[i];
                 SDL_Rect bounds;
 
                 SDL_ResetFullscreenDisplayModes(existing_display);
-                SDL_SetDesktopDisplayMode(existing_display, &mode);
+                SDL_ಗಣ_Desktop_Display_ಬಹುಲಕ(existing_display, &ಬಹುಲಕ);
                 // The mode is owned by the video subsystem
-                mode.internal = NULL;
-                if (WIN_GetDisplayBounds(_this, existing_display, &bounds) &&
-                    SDL_memcmp(&internal->bounds, &bounds, sizeof(bounds)) != 0) {
-                    changed_bounds = true;
-                    SDL_copyp(&internal->bounds, &bounds);
+                ಬಹುಲಕ.ಆಂತರಿಕ = ಖಾಲಿ;
+                ಆದರೆ (WIN_GetDisplayBounds(_this, existing_display, &bounds) &&
+                    SDL_memcmp(&ಆಂತರಿಕ->bounds, &bounds, ಗಾತ್ರ(bounds)) != 0) {
+                    ಬದಲಾಯಿತು_bounds = true;
+                    SDL_copyp(&ಆಂತರಿಕ->bounds, &bounds);
                 }
-                if (moved || changed_bounds) {
+                ಆದರೆ (moved || ಬದಲಾಯಿತು_bounds) {
                     SDL_SendDisplayEvent(existing_display, SDL_EVENT_DISPLAY_MOVED, 0, 0);
                 }
                 SDL_SendDisplayEvent(existing_display, SDL_EVENT_DISPLAY_ORIENTATION, current_orientation, 0);
-                SDL_SetDisplayContentScale(existing_display, content_scale);
-#ifdef HAVE_DXGI1_6_H
+                SDL_ಗಣ_Display_Content_Scale(existing_display, content_scale);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_DXGI1_6_H
                 SDL_HDROutputProperties HDR;
                 WIN_GetHDRProperties(_this, hMonitor, &HDR);
-                SDL_SetDisplayHDRProperties(existing_display, &HDR);
-#endif
+                SDL_ಗಣ_Display_HDRProperties(existing_display, &HDR);
+#ಆದರೆ_ಅಂತ್ಯ
             }
-            goto done;
+            ಹೋಗು ಮುಗಿದ;
         }
     }
 
-    displaydata = (SDL_DisplayData *)SDL_calloc(1, sizeof(*displaydata));
-    if (!displaydata) {
-        goto cleanup;
+    displaydata = (SDL_Display_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(*displaydata));
+    ಆದರೆ (!displaydata) {
+        ಹೋಗು cleanup;
     }
-    SDL_memcpy(displaydata->DeviceName, info->szDevice, sizeof(displaydata->DeviceName));
+    SDL_memcpy(displaydata->DeviceName, info->szDevice, ಗಾತ್ರ(displaydata->DeviceName));
     displaydata->MonitorHandle = hMonitor;
     displaydata->state = DisplayAdded;
 
     SDL_zero(display);
-    display.name = WIN_GetDisplayNameVista(_this->internal, info->szDevice);
-    if (!display.name) {
+    display.name = WIN_GetDisplayNameVista(_this->ಆಂತರಿಕ, info->szDevice);
+    ಆದರೆ (!display.name) {
         DISPLAY_DEVICEW device;
         SDL_zero(device);
-        device.cb = sizeof(device);
-        if (EnumDisplayDevicesW(info->szDevice, 0, &device, 0)) {
-            display.name = WIN_StringToUTF8W(device.DeviceString);
+        device.cb = ಗಾತ್ರ(device);
+        ಆದರೆ (EnumDisplayDevicesW(info->szDevice, 0, &device, 0)) {
+            display.name = WIN_String_ಗಮ್ಯ_UTF8_W(device.DeviceString);
         }
     }
 
-    display.desktop_mode = mode;
+    display.desktop_ಬಹುಲಕ = ಬಹುಲಕ;
     display.natural_orientation = natural_orientation;
     display.current_orientation = current_orientation;
     display.content_scale = content_scale;
     display.device = _this;
-    display.internal = displaydata;
+    display.ಆಂತರಿಕ = displaydata;
     WIN_GetDisplayBounds(_this, &display, &displaydata->bounds);
-#ifdef HAVE_DXGI1_6_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_DXGI1_6_H
     WIN_GetHDRProperties(_this, hMonitor, &display.HDR);
-#endif
-    SDL_DisplayID displayID = SDL_AddVideoDisplay(&display, false);
-    if (displayID) {
+#ಆದರೆ_ಅಂತ್ಯ
+    SDL_DisplayID displayID = SDL_ಕೂಡಿಸು_Video_Display(&display, false);
+    ಆದರೆ (displayID) {
         // The mode is owned by the video subsystem
-        mode.internal = NULL;
+        ಬಹುಲಕ.ಆಂತರಿಕ = ಖಾಲಿ;
 
         SDL_PropertiesID props = SDL_GetDisplayProperties(displayID);
-        SDL_SetPointerProperty(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_POINTER, hMonitor);
-    } else {
+        SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_DISPLAY_WINDOWS_HMONITOR_ಸೂಚಕ, hMonitor);
+    } ಇಲ್ಲದಿದ್ದರೆ {
         SDL_free(displaydata);
     }
     SDL_free(display.name);
 
-done:
-    *display_index += 1;
+ಮುಗಿದ:
+    *display_ಸೂಚ್ಯಂಕ += 1;
 
 cleanup:
-    SDL_free(mode.internal);
+    SDL_free(ಬಹುಲಕ.ಆಂತರಿಕ);
 }
 
-typedef struct _WIN_AddDisplaysData
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ WIN_ಕೂಡಿಸು_Displays_ದತ್ತಾಂಶ
 {
     SDL_VideoDevice *video_device;
-    int display_index;
+    ಪೂರ್ಣಾಂಕ display_ಸೂಚ್ಯಂಕ;
     bool want_primary;
-} WIN_AddDisplaysData;
+} WIN_ಕೂಡಿಸು_Displays_ದತ್ತಾಂಶ_2;
 
-static BOOL CALLBACK WIN_AddDisplaysCallback(HMONITOR hMonitor,
+ಸ್ಥಿರ BOOL CALLBACK WIN_ಕೂಡಿಸು_Displays_Callback(HMONITOR hMonitor,
                                              HDC hdcMonitor,
                                              LPRECT lprcMonitor,
-                                             LPARAM dwData)
+                                             LPARAM dw_ದತ್ತಾಂಶ)
 {
-    WIN_AddDisplaysData *data = (WIN_AddDisplaysData *)dwData;
+    WIN_ಕೂಡಿಸು_Displays_ದತ್ತಾಂಶ_2 *ದತ್ತಾಂಶ = (WIN_ಕೂಡಿಸು_Displays_ದತ್ತಾಂಶ_2 *)dw_ದತ್ತಾಂಶ;
     MONITORINFOEXW info;
 
     SDL_zero(info);
-    info.cbSize = sizeof(info);
+    info.cb_ಗಾತ್ರ = ಗಾತ್ರ(info);
 
-    if (GetMonitorInfoW(hMonitor, (LPMONITORINFO)&info) != 0) {
-        const bool is_primary = ((info.dwFlags & MONITORINFOF_PRIMARY) == MONITORINFOF_PRIMARY);
+    ಆದರೆ (GetMonitorInfoW(hMonitor, (LPMONITORINFO)&info) != 0) {
+        ಸ್ಥಿರಾಂಕ bool is_primary = ((info.dwFlags & MONITORINFOF_PRIMARY) == MONITORINFOF_PRIMARY);
 
-        if (is_primary == data->want_primary) {
-            WIN_AddDisplay(data->video_device, hMonitor, &info, &data->display_index);
+        ಆದರೆ (is_primary == ದತ್ತಾಂಶ->want_primary) {
+            WIN_ಕೂಡಿಸು_Display(ದತ್ತಾಂಶ->video_device, hMonitor, &info, &ದತ್ತಾಂಶ->display_ಸೂಚ್ಯಂಕ);
         }
     }
 
     // continue enumeration
-    return TRUE;
+    ಹಿಂತಿರುಗಿ TRUE;
 }
 
-static void WIN_AddDisplays(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_ಕೂಡಿಸು_Displays(SDL_VideoDevice *_this)
 {
-    WIN_AddDisplaysData callback_data;
-    callback_data.video_device = _this;
-    callback_data.display_index = 0;
+    WIN_ಕೂಡಿಸು_Displays_ದತ್ತಾಂಶ_2 callback_ದತ್ತಾಂಶ;
+    callback_ದತ್ತಾಂಶ.video_device = _this;
+    callback_ದತ್ತಾಂಶ.display_ಸೂಚ್ಯಂಕ = 0;
 
-    callback_data.want_primary = true;
-    EnumDisplayMonitors(NULL, NULL, WIN_AddDisplaysCallback, (LPARAM)&callback_data);
+    callback_ದತ್ತಾಂಶ.want_primary = true;
+    EnumDisplayMonitors(ಖಾಲಿ, ಖಾಲಿ, WIN_ಕೂಡಿಸು_Displays_Callback, (LPARAM)&callback_ದತ್ತಾಂಶ);
 
-    callback_data.want_primary = false;
-    EnumDisplayMonitors(NULL, NULL, WIN_AddDisplaysCallback, (LPARAM)&callback_data);
+    callback_ದತ್ತಾಂಶ.want_primary = false;
+    EnumDisplayMonitors(ಖಾಲಿ, ಖಾಲಿ, WIN_ಕೂಡಿಸು_Displays_Callback, (LPARAM)&callback_ದತ್ತಾಂಶ);
 }
 
 bool WIN_InitModes(SDL_VideoDevice *_this)
 {
-    WIN_AddDisplays(_this);
+    WIN_ಕೂಡಿಸು_Displays(_this);
 
-    if (_this->num_displays == 0) {
-        return SDL_SetError("No displays available");
+    ಆದರೆ (_this->ಅಂಕೆ_displays == 0) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("No displays available");
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    const SDL_DisplayData *data = display->internal;
+    ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = display->ಆಂತರಿಕ;
     MONITORINFO minfo;
     BOOL rc;
 
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(MONITORINFO);
-    rc = GetMonitorInfo(data->MonitorHandle, &minfo);
+    minfo.cb_ಗಾತ್ರ = ಗಾತ್ರ(MONITORINFO);
+    rc = GetMonitorInfo(ದತ್ತಾಂಶ->MonitorHandle, &minfo);
 
-    if (!rc) {
-        return SDL_SetError("Couldn't find monitor data");
+    ಆದರೆ (!rc) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't find monitor data");
     }
 
-    rect->x = minfo.rcMonitor.left;
-    rect->y = minfo.rcMonitor.top;
-    rect->w = minfo.rcMonitor.right - minfo.rcMonitor.left;
-    rect->h = minfo.rcMonitor.bottom - minfo.rcMonitor.top;
+    rect->x = minfo.rcMonitor.ಎಡ;
+    rect->y = minfo.rcMonitor.ತುದಿ;
+    rect->w = minfo.rcMonitor.ಬಲ - minfo.rcMonitor.ಎಡ;
+    rect->h = minfo.rcMonitor.bottom - minfo.rcMonitor.ತುದಿ;
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    const SDL_DisplayData *data = display->internal;
+    ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = display->ಆಂತರಿಕ;
     MONITORINFO minfo;
     BOOL rc;
 
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(MONITORINFO);
-    rc = GetMonitorInfo(data->MonitorHandle, &minfo);
+    minfo.cb_ಗಾತ್ರ = ಗಾತ್ರ(MONITORINFO);
+    rc = GetMonitorInfo(ದತ್ತಾಂಶ->MonitorHandle, &minfo);
 
-    if (!rc) {
-        return SDL_SetError("Couldn't find monitor data");
+    ಆದರೆ (!rc) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't find monitor data");
     }
 
-    rect->x = minfo.rcWork.left;
-    rect->y = minfo.rcWork.top;
-    rect->w = minfo.rcWork.right - minfo.rcWork.left;
-    rect->h = minfo.rcWork.bottom - minfo.rcWork.top;
+    rect->x = minfo.rcWork.ಎಡ;
+    rect->y = minfo.rcWork.ತುದಿ;
+    rect->w = minfo.rcWork.ಬಲ - minfo.rcWork.ಎಡ;
+    rect->h = minfo.rcWork.bottom - minfo.rcWork.ತುದಿ;
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayData *data = display->internal;
-    void *dxgi_output;
+    SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = display->ಆಂತರಿಕ;
+    ಶೂನ್ಯ *dxgi_output;
     DWORD i;
-    SDL_DisplayMode mode;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
 
-    dxgi_output = WIN_GetDXGIOutput(_this, data->DeviceName);
+    dxgi_output = WIN_GetDXGIOutput(_this, ದತ್ತಾಂಶ->DeviceName);
 
     // Make sure we add the current mode to the list in case it's a custom mode that doesn't enumerate
-    for (i = ENUM_CURRENT_SETTINGS; ; ++i) {
-        if (!WIN_GetDisplayMode(_this, dxgi_output, data->MonitorHandle, data->DeviceName, i, &mode, NULL, NULL)) {
-            break;
+    ಗಾಗಿ (i = ENUM_CURRENT_SETTINGS; ; ++i) {
+        ಆದರೆ (!WIN_Get_Display_ಬಹುಲಕ(_this, dxgi_output, ದತ್ತಾಂಶ->MonitorHandle, ದತ್ತಾಂಶ->DeviceName, i, &ಬಹುಲಕ, ಖಾಲಿ, ಖಾಲಿ)) {
+            ನಿಲ್ಲಿಸು;
         }
-        if (SDL_ISPIXELFORMAT_INDEXED(mode.format)) {
+        ಆದರೆ (SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(ಬಹುಲಕ.format)) {
             // We don't support palettized modes now
-            SDL_free(mode.internal);
-            continue;
+            SDL_free(ಬಹುಲಕ.ಆಂತರಿಕ);
+            ಮುಂದುವರಿ;
         }
-        if (mode.format != SDL_PIXELFORMAT_UNKNOWN) {
-            if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
-                SDL_free(mode.internal);
+        ಆದರೆ (ಬಹುಲಕ.format != SDL_PIXELFORMAT_UNKNOWN) {
+            ಆದರೆ (!SDL_ಕೂಡಿಸು_Fullscreen_Display_ಬಹುಲಕ(display, &ಬಹುಲಕ)) {
+                SDL_free(ಬಹುಲಕ.ಆಂತರಿಕ);
             }
-        } else {
-            SDL_free(mode.internal);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            SDL_free(ಬಹುಲಕ.ಆಂತರಿಕ);
         }
     }
 
     WIN_ReleaseDXGIOutput(dxgi_output);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-#ifdef DEBUG_MODES
-static void WIN_LogMonitor(SDL_VideoDevice *_this, HMONITOR mon)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_MODES
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_LogMonitor(SDL_VideoDevice *_this, HMONITOR mon)
 {
-    const SDL_VideoData *vid_data = (const SDL_VideoData *)_this->internal;
+    ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *vid_ದತ್ತಾಂಶ = (ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
     MONITORINFOEX minfo;
     UINT xdpi = 0, ydpi = 0;
-    char *name_utf8;
+    ಅಕ್ಷರ *name_utf8;
 
-    if (vid_data->GetDpiForMonitor) {
-        vid_data->GetDpiForMonitor(mon, MDT_EFFECTIVE_DPI, &xdpi, &ydpi);
+    ಆದರೆ (vid_ದತ್ತಾಂಶ->GetDpiForMonitor) {
+        vid_ದತ್ತಾಂಶ->GetDpiForMonitor(mon, MDT_EFFECTIVE_DPI, &xdpi, &ydpi);
     }
 
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(minfo);
+    minfo.cb_ಗಾತ್ರ = ಗಾತ್ರ(minfo);
     GetMonitorInfo(mon, (LPMONITORINFO)&minfo);
 
-    name_utf8 = WIN_StringToUTF8(minfo.szDevice);
+    name_utf8 = WIN_String_ಗಮ್ಯ_UTF8(minfo.szDevice);
 
     SDL_Log("WIN_LogMonitor: monitor \"%s\": dpi: %d windows screen coordinates: %d, %d, %dx%d",
             name_utf8,
             xdpi,
-            minfo.rcMonitor.left,
-            minfo.rcMonitor.top,
-            minfo.rcMonitor.right - minfo.rcMonitor.left,
-            minfo.rcMonitor.bottom - minfo.rcMonitor.top);
+            minfo.rcMonitor.ಎಡ,
+            minfo.rcMonitor.ತುದಿ,
+            minfo.rcMonitor.ಬಲ - minfo.rcMonitor.ಎಡ,
+            minfo.rcMonitor.bottom - minfo.rcMonitor.ತುದಿ);
 
     SDL_free(name_utf8);
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool WIN_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ)
 {
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_DisplayModeData *data = (SDL_DisplayModeData *)mode->internal;
-    LONG status;
+    SDL_Display_ದತ್ತಾಂಶ *displaydata = display->ಆಂತರಿಕ;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = (SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *)ಬಹುಲಕ->ಆಂತರಿಕ;
+    LONG ಸ್ಥಿತಿ_2;
 
-#ifdef DEBUG_MODES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_MODES
     SDL_Log("WIN_SetDisplayMode: monitor state before mode change:");
     WIN_LogMonitor(_this, displaydata->MonitorHandle);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     /* High-DPI notes:
 
@@ -866,92 +866,92 @@ bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_D
            reset the monitor DPI to 192. (200% scaling)
 
        NOTE: these are temporary changes in DPI, not modifications to the Control Panel setting. */
-    if (mode->internal == display->desktop_mode.internal) {
-#ifdef DEBUG_MODES
+    ಆದರೆ (ಬಹುಲಕ->ಆಂತರಿಕ == display->desktop_ಬಹುಲಕ.ಆಂತರಿಕ) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_MODES
         SDL_Log("WIN_SetDisplayMode: resetting to original resolution");
-#endif
-        status = ChangeDisplaySettingsExW(displaydata->DeviceName, NULL, NULL, CDS_FULLSCREEN, NULL);
-    } else {
-#ifdef DEBUG_MODES
-        SDL_Log("WIN_SetDisplayMode: changing to %dx%d pixels", data->DeviceMode.dmPelsWidth, data->DeviceMode.dmPelsHeight);
-#endif
-        status = ChangeDisplaySettingsExW(displaydata->DeviceName, &data->DeviceMode, NULL, CDS_FULLSCREEN, NULL);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಸ್ಥಿತಿ_2 = ChangeDisplaySettingsExW(displaydata->DeviceName, ಖಾಲಿ, ಖಾಲಿ, CDS_FULLSCREEN, ಖಾಲಿ);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_MODES
+        SDL_Log("WIN_SetDisplayMode: changing to %dx%d pixels", ದತ್ತಾಂಶ->Device_ಬಹುಲಕ.dm_Pels_ಅಗಲ, ದತ್ತಾಂಶ->Device_ಬಹುಲಕ.dm_Pels_ಎತ್ತರ);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಸ್ಥಿತಿ_2 = ChangeDisplaySettingsExW(displaydata->DeviceName, &ದತ್ತಾಂಶ->Device_ಬಹುಲಕ, ಖಾಲಿ, CDS_FULLSCREEN, ಖಾಲಿ);
     }
-    if (status != DISP_CHANGE_SUCCESSFUL) {
-        const char *reason = "Unknown reason";
-        switch (status) {
-        case DISP_CHANGE_BADFLAGS:
+    ಆದರೆ (ಸ್ಥಿತಿ_2 != DISP_CHANGE_SUCCESSFUL) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *reason = "Unknown reason";
+        ಆಯ್ಕೆ (ಸ್ಥಿತಿ_2) {
+        ಸ್ಥಿತಿ DISP_CHANGE_BADFLAGS:
             reason = "DISP_CHANGE_BADFLAGS";
-            break;
-        case DISP_CHANGE_BADMODE:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ DISP_CHANGE_BADMODE:
             reason = "DISP_CHANGE_BADMODE";
-            break;
-        case DISP_CHANGE_BADPARAM:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ DISP_CHANGE_BADPARAM:
             reason = "DISP_CHANGE_BADPARAM";
-            break;
-        case DISP_CHANGE_FAILED:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ DISP_CHANGE_FAILED:
             reason = "DISP_CHANGE_FAILED";
-            break;
+            ನಿಲ್ಲಿಸು;
         }
-        return SDL_SetError("ChangeDisplaySettingsEx() failed: %s", reason);
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("ChangeDisplaySettingsEx() failed: %s", reason);
     }
 
-#ifdef DEBUG_MODES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_MODES
     SDL_Log("WIN_SetDisplayMode: monitor state after mode change:");
     WIN_LogMonitor(_this, displaydata->MonitorHandle);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    EnumDisplaySettingsW(displaydata->DeviceName, ENUM_CURRENT_SETTINGS, &data->DeviceMode);
-    WIN_UpdateDisplayMode(_this, displaydata->DeviceName, ENUM_CURRENT_SETTINGS, mode);
-    return true;
+    EnumDisplaySettingsW(displaydata->DeviceName, ENUM_CURRENT_SETTINGS, &ದತ್ತಾಂಶ->Device_ಬಹುಲಕ);
+    WIN_Update_Display_ಬಹುಲಕ(_this, displaydata->DeviceName, ENUM_CURRENT_SETTINGS, ಬಹುಲಕ);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void WIN_RefreshDisplays(SDL_VideoDevice *_this)
+ಶೂನ್ಯ WIN_RefreshDisplays(SDL_VideoDevice *_this)
 {
-    int i;
+    ಪೂರ್ಣಾಂಕ i;
 
     // Mark all displays as potentially invalid to detect
     // entries that have actually been removed
-    for (i = 0; i < _this->num_displays; ++i) {
-        SDL_DisplayData *internal = _this->displays[i]->internal;
-        internal->state = DisplayRemoved;
+    ಗಾಗಿ (i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = _this->displays[i]->ಆಂತರಿಕ;
+        ಆಂತರಿಕ->state = DisplayRemoved;
     }
 
     // Enumerate displays to add any new ones and mark still
     // connected entries as valid
-    WIN_AddDisplays(_this);
+    WIN_ಕೂಡಿಸು_Displays(_this);
 
     // Delete any entries still marked as invalid, iterate
     // in reverse as each delete takes effect immediately
-    for (i = _this->num_displays - 1; i >= 0; --i) {
+    ಗಾಗಿ (i = _this->ಅಂಕೆ_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
-        SDL_DisplayData *internal = display->internal;
-        if (internal->state == DisplayRemoved) {
+        SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = display->ಆಂತರಿಕ;
+        ಆದರೆ (ಆಂತರಿಕ->state == DisplayRemoved) {
             SDL_DelVideoDisplay(display->id, true);
         }
     }
 
     // Send events for any newly added displays
-    for (i = 0; i < _this->num_displays; ++i) {
+    ಗಾಗಿ (i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
         SDL_VideoDisplay *display = _this->displays[i];
-        SDL_DisplayData *internal = display->internal;
-        if (internal->state == DisplayAdded) {
+        SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = display->ಆಂತರಿಕ;
+        ಆದರೆ (ಆಂತರಿಕ->state == DisplayAdded) {
             SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_ADDED, 0, 0);
         }
     }
 }
 
-void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this)
+ಶೂನ್ಯ WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this)
 {
     // This almost never happens, so just go ahead and send update events for all displays
-    for (int i = 0; i < _this->num_displays; ++i) {
-        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED, 0, 0);
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
+        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_ಬದಲಾಯಿತು, 0, 0);
     }
 }
 
-void WIN_QuitModes(SDL_VideoDevice *_this)
+ಶೂನ್ಯ WIN_QuitModes(SDL_VideoDevice *_this)
 {
     // All fullscreen windows should have restored modes by now
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_WINDOWS

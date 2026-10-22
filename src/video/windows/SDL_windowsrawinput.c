@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#include "SDL_windowsvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_windowsvideo.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ಆದರೆ !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsevents.h"
+#ಅನ್ತರ್ಭಾವ "SDL_windowsevents.h"
 
-#include "../../joystick/usb_ids.h"
-#include "../../events/SDL_events_c.h"
-#include "../../thread/SDL_systhread.h"
+#ಅನ್ತರ್ಭಾವ "../../joystick/usb_ids.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../thread/SDL_systhread.h"
 
-#define ENABLE_RAW_MOUSE_INPUT      0x01
-#define RAW_MOUSE_FLAG_NOLEGACY     0x02
-#define ENABLE_RAW_KEYBOARD_INPUT   0x10
-#define RAW_KEYBOARD_FLAG_NOHOTKEYS 0x20
-#define RAW_KEYBOARD_FLAG_INPUTSINK 0x40
+#ವ್ಯಾಖ್ಯಾನಿಸು ENABLE_RAW_MOUSE_ಒಳಹರಿವು      0x01
+#ವ್ಯಾಖ್ಯಾನಿಸು RAW_MOUSE_FLAG_NOLEGACY     0x02
+#ವ್ಯಾಖ್ಯಾನಿಸು ENABLE_RAW_KEYBOARD_ಒಳಹರಿವು   0x10
+#ವ್ಯಾಖ್ಯಾನಿಸು RAW_KEYBOARD_FLAG_NOHOTKEYS 0x20
+#ವ್ಯಾಖ್ಯಾನಿಸು RAW_KEYBOARD_FLAG_INPUTSINK 0x40
 
-typedef struct
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ
 {
-    bool done;
+    bool ಮುಗಿದ;
     SDL_AtomicU32 flags; // Thread sets this to the actually-set flags if updating state failed
     HANDLE ready_event;
     HANDLE signal_event;
     HANDLE thread;
-} RawInputThreadData;
+} Raw_ಒಳಹರಿವು_Thread_ದತ್ತಾಂಶ;
 
-static RawInputThreadData thread_data = { 0 };
+ಸ್ಥಿರ Raw_ಒಳಹರಿವು_Thread_ದತ್ತಾಂಶ thread_ದತ್ತಾಂಶ = { 0 };
 
-typedef enum
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ
 {
     RINP_QUIT,
     RINP_UPDATE,
     RINP_CONTINUE
-} RawInputIterateResult;
+} Raw_ಒಳಹರಿವು_Iterate_ಫಲಿತಾಂಶ;
 
-static RawInputIterateResult IterateRawInputThread(void)
+ಸ್ಥಿರ Raw_ಒಳಹರಿವು_Iterate_ಫಲಿತಾಂಶ Iterate_Raw_ಒಳಹರಿವು_Thread(ಶೂನ್ಯ)
 {
     // The high-order word of GetQueueStatus() will let us know if there's immediate raw input to be processed.
     // A (necessary!) side effect is that it also marks the message queue bits as stale,
@@ -64,370 +64,370 @@ static RawInputIterateResult IterateRawInputThread(void)
 
     // Any pending flag update won't be processed until the queue drains, but this is
     // at most one poll cycle since GetQueueStatus clears the wake bits.
-    if (HIWORD(GetQueueStatus(QS_RAWINPUT)) & QS_RAWINPUT) {
-        return thread_data.done ? RINP_QUIT : RINP_CONTINUE;
+    ಆದರೆ (HIWORD(Get_ಸರತಿ_ಸ್ಥಿತಿ(QS_RAWINPUT)) & QS_RAWINPUT) {
+        ಹಿಂತಿರುಗಿ thread_ದತ್ತಾಂಶ.ಮುಗಿದ ? RINP_QUIT : RINP_CONTINUE;
     }
 
-    static const DWORD WAIT_SIGNAL = WAIT_OBJECT_0;
-    static const DWORD WAIT_INPUT = WAIT_OBJECT_0 + 1;
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ DWORD WAIT_SIGNAL = WAIT_OBJECT_0;
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ DWORD WAIT_ಒಳಹರಿವು = WAIT_OBJECT_0 + 1;
 
     // There wasn't anything, so we'll wait until new data (or signal_event) wakes us up.
-    DWORD wait_status = MsgWaitForMultipleObjects(1, &thread_data.signal_event, FALSE, INFINITE, QS_RAWINPUT);
-    if (wait_status == WAIT_SIGNAL) {
+    DWORD wait_ಸ್ಥಿತಿ = ಸಂದೇಶ_Wait_For_ಅಪವರ್ತ್ಯ_Objects(1, &thread_ದತ್ತಾಂಶ.signal_event, FALSE, INFINITE, QS_RAWINPUT);
+    ಆದರೆ (wait_ಸ್ಥಿತಿ == WAIT_SIGNAL) {
         // signal_event can only be set if we need to update or quit.
-        return thread_data.done ? RINP_QUIT : RINP_UPDATE;
-    } else if (wait_status == WAIT_INPUT) {
-        return RINP_CONTINUE;
-    } else {
-        SDL_LogWarn(SDL_LOG_CATEGORY_INPUT, "Raw input thread exiting, unexpected wait result: %" SDL_PRIuULONG, wait_status);
-        return RINP_QUIT;
+        ಹಿಂತಿರುಗಿ thread_ದತ್ತಾಂಶ.ಮುಗಿದ ? RINP_QUIT : RINP_UPDATE;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (wait_ಸ್ಥಿತಿ == WAIT_ಒಳಹರಿವು) {
+        ಹಿಂತಿರುಗಿ RINP_CONTINUE;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_LogWarn(SDL_LOG_CATEGORY_ಒಳಹರಿವು, "Raw input thread exiting, unexpected wait result: %" SDL_PRIuULONG, wait_ಸ್ಥಿತಿ);
+        ಹಿಂತಿರುಗಿ RINP_QUIT;
     }
 }
 
-static bool UpdateRawInputDeviceFlags(HWND window, Uint32 last_flags, Uint32 new_flags)
+ಸ್ಥಿರ bool Update_Raw_ಒಳಹರಿವು_Device_Flags(HWND ಕಿಟಕಿ, Uint32 ಕೊನೆಯ_flags, Uint32 new_flags)
 {
     // We had nothing enabled, and we're trying to stop everything. Nothing to do.
-    if (last_flags == new_flags) {
-        return true;
+    ಆದರೆ (ಕೊನೆಯ_flags == new_flags) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
     RAWINPUTDEVICE devices[2] = { 0 };
-    UINT count = 0;
+    UINT ಎಣಿಕೆ_2 = 0;
 
-    const Uint32 old_mouse_flags = last_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
-    const Uint32 new_mouse_flags = new_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
+    ಸ್ಥಿರಾಂಕ Uint32 old_mouse_flags = ಕೊನೆಯ_flags & (ENABLE_RAW_MOUSE_ಒಳಹರಿವು | RAW_MOUSE_FLAG_NOLEGACY);
+    ಸ್ಥಿರಾಂಕ Uint32 new_mouse_flags = new_flags & (ENABLE_RAW_MOUSE_ಒಳಹರಿವು | RAW_MOUSE_FLAG_NOLEGACY);
 
-    if (old_mouse_flags != new_mouse_flags) {
-        devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
-        devices[count].usUsage = USB_USAGE_GENERIC_MOUSE;
+    ಆದರೆ (old_mouse_flags != new_mouse_flags) {
+        devices[ಎಣಿಕೆ_2].us_Usage_ಪುಟ = USB_USAGEPAGE_GENERIC_DESKTOP;
+        devices[ಎಣಿಕೆ_2].usUsage = USB_USAGE_GENERIC_MOUSE;
 
-        if (new_flags & ENABLE_RAW_MOUSE_INPUT) {
-            devices[count].dwFlags = 0;
-            devices[count].hwndTarget = window;
-            if (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
-                devices[count].dwFlags |= RIDEV_NOLEGACY;
+        ಆದರೆ (new_flags & ENABLE_RAW_MOUSE_ಒಳಹರಿವು) {
+            devices[ಎಣಿಕೆ_2].dwFlags = 0;
+            devices[ಎಣಿಕೆ_2].hwnd_ಗುರಿ = ಕಿಟಕಿ;
+            ಆದರೆ (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
+                devices[ಎಣಿಕೆ_2].dwFlags |= RIDEV_NOLEGACY;
             }
-        } else {
-            devices[count].dwFlags = RIDEV_REMOVE;
-            devices[count].hwndTarget = NULL;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            devices[ಎಣಿಕೆ_2].dwFlags = RIDEV_REMOVE;
+            devices[ಎಣಿಕೆ_2].hwnd_ಗುರಿ = ಖಾಲಿ;
         }
 
-        ++count;
+        ++ಎಣಿಕೆ_2;
     }
 
-    const Uint32 old_kb_flags = last_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
-    const Uint32 new_kb_flags = new_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
+    ಸ್ಥಿರಾಂಕ Uint32 old_kb_flags = ಕೊನೆಯ_flags & (ENABLE_RAW_KEYBOARD_ಒಳಹರಿವು | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
+    ಸ್ಥಿರಾಂಕ Uint32 new_kb_flags = new_flags & (ENABLE_RAW_KEYBOARD_ಒಳಹರಿವು | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
 
-    if (old_kb_flags != new_kb_flags) {
-        devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
-        devices[count].usUsage = USB_USAGE_GENERIC_KEYBOARD;
+    ಆದರೆ (old_kb_flags != new_kb_flags) {
+        devices[ಎಣಿಕೆ_2].us_Usage_ಪುಟ = USB_USAGEPAGE_GENERIC_DESKTOP;
+        devices[ಎಣಿಕೆ_2].usUsage = USB_USAGE_GENERIC_KEYBOARD;
 
-        if (new_kb_flags & ENABLE_RAW_KEYBOARD_INPUT) {
-            devices[count].dwFlags = 0;
-            devices[count].hwndTarget = window;
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
-                devices[count].dwFlags |= RIDEV_NOHOTKEYS;
+        ಆದರೆ (new_kb_flags & ENABLE_RAW_KEYBOARD_ಒಳಹರಿವು) {
+            devices[ಎಣಿಕೆ_2].dwFlags = 0;
+            devices[ಎಣಿಕೆ_2].hwnd_ಗುರಿ = ಕಿಟಕಿ;
+            ಆದರೆ (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
+                devices[ಎಣಿಕೆ_2].dwFlags |= RIDEV_NOHOTKEYS;
             }
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
-                devices[count].dwFlags |= RIDEV_INPUTSINK;
+            ಆದರೆ (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
+                devices[ಎಣಿಕೆ_2].dwFlags |= RIDEV_INPUTSINK;
             }
-        } else {
-            devices[count].dwFlags = RIDEV_REMOVE;
-            devices[count].hwndTarget = NULL;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            devices[ಎಣಿಕೆ_2].dwFlags = RIDEV_REMOVE;
+            devices[ಎಣಿಕೆ_2].hwnd_ಗುರಿ = ಖಾಲಿ;
         }
 
-        ++count;
+        ++ಎಣಿಕೆ_2;
     }
 
-    if (RegisterRawInputDevices(devices, count, sizeof(devices[0]))) {
-        return true;
+    ಆದರೆ (ರಿಜಿಸ್ಟರ್_Raw_ಒಳಹರಿವು_Devices(devices, ಎಣಿಕೆ_2, ಗಾತ್ರ(devices[0]))) {
+        ಹಿಂತಿರುಗಿ true;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static DWORD WINAPI WIN_RawInputThread(LPVOID param)
+ಸ್ಥಿರ DWORD WINAPI WIN_Raw_ಒಳಹರಿವು_Thread(LPVOID param)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    Uint32 last_flags = 0;
-    HWND window;
+    Uint32 ಕೊನೆಯ_flags = 0;
+    HWND ಕಿಟಕಿ;
 
-    SDL_SYS_SetupThread("SDLRawInput");
+    SDL_SYS_ಸಿದ್ಧತೆ_Thread("SDLRawInput");
 
-    window = CreateWindowEx(0, TEXT("Message"), NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
-    if (!window) {
-        return 0;
+    ಕಿಟಕಿ = Create_ಕಿಟಕಿ_Ex(0, ಪಠ್ಯ_2("Message"), ಖಾಲಿ, 0, 0, 0, 0, 0, HWND_ಸಂದೇಶ, ಖಾಲಿ, ಖಾಲಿ, ಖಾಲಿ);
+    ಆದರೆ (!ಕಿಟಕಿ) {
+        ಹಿಂತಿರುಗಿ 0;
     }
 
     // This doesn't *really* need to be atomic, because the parent is waiting for us
-    last_flags = SDL_GetAtomicU32(&thread_data.flags);
-    if (!UpdateRawInputDeviceFlags(window, 0, last_flags)) {
-        DestroyWindow(window);
-        return 0;
+    ಕೊನೆಯ_flags = SDL_GetAtomicU32(&thread_ದತ್ತಾಂಶ.flags);
+    ಆದರೆ (!Update_Raw_ಒಳಹರಿವು_Device_Flags(ಕಿಟಕಿ, 0, ಕೊನೆಯ_flags)) {
+        Destroy_ಕಿಟಕಿ(ಕಿಟಕಿ);
+        ಹಿಂತಿರುಗಿ 0;
     }
 
     // Make sure we get events as soon as possible
-    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+    ಗಣ_Thread_ಆದ್ಯತೆ(GetCurrentThread(), THREAD_ಆದ್ಯತೆ_ಸಮಯ_CRITICAL);
 
     // Tell the parent we're ready to go!
-    SetEvent(thread_data.ready_event);
+    ಗಣ_Event(thread_ದತ್ತಾಂಶ.ready_event);
 
-    RawInputIterateResult iter_result;
+    Raw_ಒಳಹರಿವು_Iterate_ಫಲಿತಾಂಶ iter_ಫಲಿತಾಂಶ;
 
     Uint64 idle_begin = SDL_GetTicksNS();
-    while ((iter_result = IterateRawInputThread()) != RINP_QUIT) {
-        switch (iter_result) {
-        case RINP_QUIT: // Unreachable
-            break;
-        case RINP_UPDATE:
+    ಆಗ ((iter_ಫಲಿತಾಂಶ = Iterate_Raw_ಒಳಹರಿವು_Thread()) != RINP_QUIT) {
+        ಆಯ್ಕೆ (iter_ಫಲಿತಾಂಶ) {
+        ಸ್ಥಿತಿ RINP_QUIT: // Unreachable
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ RINP_UPDATE:
         {
-            const Uint32 new_flags = SDL_GetAtomicU32(&thread_data.flags);
-            if (!UpdateRawInputDeviceFlags(window, last_flags, new_flags)) {
+            ಸ್ಥಿರಾಂಕ Uint32 new_flags = SDL_GetAtomicU32(&thread_ದತ್ತಾಂಶ.flags);
+            ಆದರೆ (!Update_Raw_ಒಳಹರಿವು_Device_Flags(ಕಿಟಕಿ, ಕೊನೆಯ_flags, new_flags)) {
                 // Revert the shared flags so the main thread can detect the failure
-                SDL_SetAtomicU32(&thread_data.flags, last_flags);
-            } else {
-                last_flags = new_flags;
+                SDL_ಗಣ_Atomic_U32(&thread_ದತ್ತಾಂಶ.flags, ಕೊನೆಯ_flags);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಕೊನೆಯ_flags = new_flags;
             }
-        } break;
-        case RINP_CONTINUE:
+        } ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ RINP_CONTINUE:
         {
-            Uint64 idle_end = SDL_GetTicksNS();
-            Uint64 idle_time = idle_end - idle_begin;
-            Uint64 usb_8khz_interval = SDL_US_TO_NS(125);
-            Uint64 poll_start = idle_time < usb_8khz_interval ? _this->internal->last_rawinput_poll : idle_end;
+            Uint64 idle_ಕೊನೆ = SDL_GetTicksNS();
+            Uint64 idle_ಸಮಯ = idle_ಕೊನೆ - idle_begin;
+            Uint64 usb_8khz_interval = SDL_US_ಗಮ್ಯ_NS(125);
+            Uint64 poll_ಆರಂಭ = idle_ಸಮಯ < usb_8khz_interval ? _this->ಆಂತರಿಕ->ಕೊನೆಯ_rawinput_poll : idle_ಕೊನೆ;
 
-            WIN_PollRawInput(_this, poll_start);
+            WIN_Poll_Raw_ಒಳಹರಿವು(_this, poll_ಆರಂಭ);
 
             // Reset idle_begin for the next go-around
             idle_begin = SDL_GetTicksNS();
-        } break;
+        } ನಿಲ್ಲಿಸು;
         }
     }
 
-    if (_this->internal->raw_input_fake_pen_id) {
-        SDL_RemovePenDevice(0, SDL_GetKeyboardFocus(), _this->internal->raw_input_fake_pen_id);
-        _this->internal->raw_input_fake_pen_id = 0;
+    ಆದರೆ (_this->ಆಂತರಿಕ->raw_ಒಳಹರಿವು_fake_pen_id) {
+        SDL_RemovePenDevice(0, SDL_GetKeyboardFocus(), _this->ಆಂತರಿಕ->raw_ಒಳಹರಿವು_fake_pen_id);
+        _this->ಆಂತರಿಕ->raw_ಒಳಹರಿವು_fake_pen_id = 0;
     }
 
     // Reset this here, since if we're exiting due to failure, WIN_UpdateRawInputEnabled would see a stale value.
-    SDL_SetAtomicU32(&thread_data.flags, 0);
+    SDL_ಗಣ_Atomic_U32(&thread_ದತ್ತಾಂಶ.flags, 0);
 
-    UpdateRawInputDeviceFlags(NULL, last_flags, 0);
+    Update_Raw_ಒಳಹರಿವು_Device_Flags(ಖಾಲಿ, ಕೊನೆಯ_flags, 0);
 
-    DestroyWindow(window);
+    Destroy_ಕಿಟಕಿ(ಕಿಟಕಿ);
 
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 
-static void CleanupRawInputThreadData(void)
+ಸ್ಥಿರ ಶೂನ್ಯ Cleanup_Raw_ಒಳಹರಿವು_Thread_ದತ್ತಾಂಶ(ಶೂನ್ಯ)
 {
-    if (thread_data.thread) {
-        thread_data.done = true;
-        SetEvent(thread_data.signal_event);
-        WaitForSingleObject(thread_data.thread, 3000);
-        CloseHandle(thread_data.thread);
+    ಆದರೆ (thread_ದತ್ತಾಂಶ.thread) {
+        thread_ದತ್ತಾಂಶ.ಮುಗಿದ = true;
+        ಗಣ_Event(thread_ದತ್ತಾಂಶ.signal_event);
+        WaitForSingleObject(thread_ದತ್ತಾಂಶ.thread, 3000);
+        CloseHandle(thread_ದತ್ತಾಂಶ.thread);
     }
 
-    if (thread_data.ready_event) {
-        CloseHandle(thread_data.ready_event);
+    ಆದರೆ (thread_ದತ್ತಾಂಶ.ready_event) {
+        CloseHandle(thread_ದತ್ತಾಂಶ.ready_event);
     }
 
-    if (thread_data.signal_event) {
-        CloseHandle(thread_data.signal_event);
+    ಆದರೆ (thread_ದತ್ತಾಂಶ.signal_event) {
+        CloseHandle(thread_ದತ್ತಾಂಶ.signal_event);
     }
 
-    thread_data = (RawInputThreadData){ 0 };
+    thread_ದತ್ತಾಂಶ = (Raw_ಒಳಹರಿವು_Thread_ದತ್ತಾಂಶ){ 0 };
 }
 
 // Computes the desired raw input flags from SDL_VideoData and ensures the
 // raw input thread's device registrations match.
 // Creates the thread on first use, only WIN_QuitRawInput actually shuts it down.
-static bool WIN_UpdateRawInputEnabled(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool WIN_Update_Raw_ಒಳಹರಿವು_Enabled(SDL_VideoDevice *_this)
 {
-    bool result = false;
-    SDL_VideoData *data = _this->internal;
+    bool ಫಲಿತಾಂಶ = false;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
     Uint32 desired_flags = 0;
 
-    if (!data->gameinput_context) {
-        if (data->raw_mouse_enabled) {
-            desired_flags |= ENABLE_RAW_MOUSE_INPUT;
-            if (data->raw_mouse_flag_nolegacy) {
+    ಆದರೆ (!ದತ್ತಾಂಶ->gameinput_context) {
+        ಆದರೆ (ದತ್ತಾಂಶ->raw_mouse_enabled) {
+            desired_flags |= ENABLE_RAW_MOUSE_ಒಳಹರಿವು;
+            ಆದರೆ (ದತ್ತಾಂಶ->raw_mouse_flag_nolegacy) {
                 desired_flags |= RAW_MOUSE_FLAG_NOLEGACY;
             }
         }
-        if (data->raw_keyboard_enabled) {
-            desired_flags |= ENABLE_RAW_KEYBOARD_INPUT;
-            if (data->raw_keyboard_flag_nohotkeys) {
+        ಆದರೆ (ದತ್ತಾಂಶ->raw_keyboard_enabled) {
+            desired_flags |= ENABLE_RAW_KEYBOARD_ಒಳಹರಿವು;
+            ಆದರೆ (ದತ್ತಾಂಶ->raw_keyboard_flag_nohotkeys) {
                 desired_flags |= RAW_KEYBOARD_FLAG_NOHOTKEYS;
             }
-            if (data->raw_keyboard_flag_inputsink) {
+            ಆದರೆ (ದತ್ತಾಂಶ->raw_keyboard_flag_inputsink) {
                 desired_flags |= RAW_KEYBOARD_FLAG_INPUTSINK;
             }
         }
     }
 
-    if (desired_flags == SDL_GetAtomicU32(&thread_data.flags)) {
-        result = true;
-        goto done;
+    ಆದರೆ (desired_flags == SDL_GetAtomicU32(&thread_ದತ್ತಾಂಶ.flags)) {
+        ಫಲಿತಾಂಶ = true;
+        ಹೋಗು ಮುಗಿದ;
     }
 
     // If the thread exited unexpectedly (e.g. MsgWaitForMultipleObjects failed),
     // the handle is stale. Clean it up so the creation path below can recover.
-    if (thread_data.thread && WaitForSingleObject(thread_data.thread, 0) != WAIT_TIMEOUT) {
-        CleanupRawInputThreadData();
+    ಆದರೆ (thread_ದತ್ತಾಂಶ.thread && WaitForSingleObject(thread_ದತ್ತಾಂಶ.thread, 0) != WAIT_TIMEOUT) {
+        Cleanup_Raw_ಒಳಹರಿವು_Thread_ದತ್ತಾಂಶ();
     }
 
     // The thread will read from this to update its flags
-    SDL_SetAtomicU32(&thread_data.flags, desired_flags);
+    SDL_ಗಣ_Atomic_U32(&thread_ದತ್ತಾಂಶ.flags, desired_flags);
 
-    if (thread_data.thread) {
+    ಆದರೆ (thread_ದತ್ತಾಂಶ.thread) {
         // Thread is already running. Fire (the event) and forget, it'll read the atomic flags on wakeup.
 
         // If RegisterRawInputDevices fails, the thread reverts the atomic and the next call
         // to this function will see the mismatch and retry.
-        SDL_assert(thread_data.signal_event);
-        SetEvent(thread_data.signal_event);
-        result = true;
-    } else if (desired_flags) {
+        SDL_assert(thread_ದತ್ತಾಂಶ.signal_event);
+        ಗಣ_Event(thread_ದತ್ತಾಂಶ.signal_event);
+        ಫಲಿತಾಂಶ = true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (desired_flags) {
         HANDLE wait_handles[2];
 
         // Thread isn't running, spin it up
-        thread_data.ready_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.ready_event) {
-            WIN_SetError("CreateEvent");
-            goto done;
+        thread_ದತ್ತಾಂಶ.ready_event = CreateEvent(ಖಾಲಿ, FALSE, FALSE, ಖಾಲಿ);
+        ಆದರೆ (!thread_ದತ್ತಾಂಶ.ready_event) {
+            WIN_ಗಣ_Error("CreateEvent");
+            ಹೋಗು ಮುಗಿದ;
         }
 
-        thread_data.done = false;
-        thread_data.signal_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.signal_event) {
-            WIN_SetError("CreateEvent");
-            goto done;
+        thread_ದತ್ತಾಂಶ.ಮುಗಿದ = false;
+        thread_ದತ್ತಾಂಶ.signal_event = CreateEvent(ಖಾಲಿ, FALSE, FALSE, ಖಾಲಿ);
+        ಆದರೆ (!thread_ದತ್ತಾಂಶ.signal_event) {
+            WIN_ಗಣ_Error("CreateEvent");
+            ಹೋಗು ಮುಗಿದ;
         }
 
-        thread_data.thread = CreateThread(NULL, 0, WIN_RawInputThread, NULL, 0, NULL);
-        if (!thread_data.thread) {
-            WIN_SetError("CreateThread");
-            goto done;
+        thread_ದತ್ತಾಂಶ.thread = CreateThread(ಖಾಲಿ, 0, WIN_Raw_ಒಳಹರಿವು_Thread, ಖಾಲಿ, 0, ಖಾಲಿ);
+        ಆದರೆ (!thread_ದತ್ತಾಂಶ.thread) {
+            WIN_ಗಣ_Error("CreateThread");
+            ಹೋಗು ಮುಗಿದ;
         }
 
         // Wait for the thread to complete initial setup or exit
-        wait_handles[0] = thread_data.ready_event;
-        wait_handles[1] = thread_data.thread;
-        if (WaitForMultipleObjects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
-            SDL_SetError("Couldn't set up raw input handling");
-            goto done;
+        wait_handles[0] = thread_ದತ್ತಾಂಶ.ready_event;
+        wait_handles[1] = thread_ದತ್ತಾಂಶ.thread;
+        ಆದರೆ (Wait_For_ಅಪವರ್ತ್ಯ_Objects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
+            SDL_ಗಣ_Error("Couldn't set up raw input handling");
+            ಹೋಗು ಮುಗಿದ;
         }
-        result = true;
-    } else {
+        ಫಲಿತಾಂಶ = true;
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Thread isn't running and we tried to disable raw input, nothing to do
-        result = true;
+        ಫಲಿತಾಂಶ = true;
     }
-done:
-    if (!result) {
-        CleanupRawInputThreadData();
+ಮುಗಿದ:
+    ಆದರೆ (!ಫಲಿತಾಂಶ) {
+        Cleanup_Raw_ಒಳಹರಿವು_Thread_ದತ್ತಾಂಶ();
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
+bool WIN_ಗಣ_Raw_Mouse_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    SDL_VideoData *data = _this->internal;
-    data->raw_mouse_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
-            data->raw_mouse_enabled = !enabled;
-            return false;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    ದತ್ತಾಂಶ->raw_mouse_enabled = enabled;
+    ಆದರೆ (ದತ್ತಾಂಶ->gameinput_context) {
+        ಆದರೆ (!WIN_Update_Game_ಒಳಹರಿವು_Enabled(_this)) {
+            ದತ್ತಾಂಶ->raw_mouse_enabled = !enabled;
+            ಹಿಂತಿರುಗಿ false;
         }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
-            data->raw_mouse_enabled = !enabled;
-            return false;
-        }
-    }
-    return true;
-}
-
-bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
-{
-    SDL_VideoData *data = _this->internal;
-
-    data->raw_mouse_flag_nolegacy = enabled;
-
-    return WIN_UpdateRawInputEnabled(_this);
-}
-
-bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
-{
-    SDL_VideoData *data = _this->internal;
-    data->raw_keyboard_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
-            data->raw_keyboard_enabled = !enabled;
-            return false;
-        }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
-            data->raw_keyboard_enabled = !enabled;
-            return false;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!WIN_Update_Raw_ಒಳಹರಿವು_Enabled(_this)) {
+            ದತ್ತಾಂಶ->raw_mouse_enabled = !enabled;
+            ಹಿಂತಿರುಗಿ false;
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
+bool WIN_ಗಣ_Raw_Mouse_Flag_No_Legacy(SDL_VideoDevice *_this, bool enabled)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
-    data->raw_keyboard_flag_nohotkeys = enabled;
+    ದತ್ತಾಂಶ->raw_mouse_flag_nolegacy = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    ಹಿಂತಿರುಗಿ WIN_Update_Raw_ಒಳಹರಿವು_Enabled(_this);
 }
 
-bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
+bool WIN_ಗಣ_Raw_Keyboard_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    SDL_VideoData *data = _this->internal;
-
-    data->raw_keyboard_flag_inputsink = enabled;
-
-    return WIN_UpdateRawInputEnabled(_this);
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    ದತ್ತಾಂಶ->raw_keyboard_enabled = enabled;
+    ಆದರೆ (ದತ್ತಾಂಶ->gameinput_context) {
+        ಆದರೆ (!WIN_Update_Game_ಒಳಹರಿವು_Enabled(_this)) {
+            ದತ್ತಾಂಶ->raw_keyboard_enabled = !enabled;
+            ಹಿಂತಿರುಗಿ false;
+        }
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!WIN_Update_Raw_ಒಳಹರಿವು_Enabled(_this)) {
+            ದತ್ತಾಂಶ->raw_keyboard_enabled = !enabled;
+            ಹಿಂತಿರುಗಿ false;
+        }
+    }
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void WIN_QuitRawInput(SDL_VideoDevice *_this)
+bool WIN_ಗಣ_Raw_Keyboard_Flag_No_Hotkeys(SDL_VideoDevice *_this, bool enabled)
 {
-    CleanupRawInputThreadData();
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+
+    ದತ್ತಾಂಶ->raw_keyboard_flag_nohotkeys = enabled;
+
+    ಹಿಂತಿರುಗಿ WIN_Update_Raw_ಒಳಹರಿವು_Enabled(_this);
 }
 
-#else
-
-bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
+bool WIN_ಗಣ_Raw_Keyboard_Flag_Inputsink(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+
+    ದತ್ತಾಂಶ->raw_keyboard_flag_inputsink = enabled;
+
+    ಹಿಂತಿರುಗಿ WIN_Update_Raw_ಒಳಹರಿವು_Enabled(_this);
 }
 
-bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
+ಶೂನ್ಯ WIN_Quit_Raw_ಒಳಹರಿವು(SDL_VideoDevice *_this)
 {
-    return SDL_Unsupported();
+    Cleanup_Raw_ಒಳಹರಿವು_Thread_ದತ್ತಾಂಶ();
 }
 
-bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
+#ಇಲ್ಲದಿದ್ದರೆ
+
+bool WIN_ಗಣ_Raw_Mouse_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
-bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
+bool WIN_ಗಣ_Raw_Mouse_Flag_No_Legacy(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
-bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
+bool WIN_ಗಣ_Raw_Keyboard_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
-void WIN_QuitRawInput(SDL_VideoDevice *_this)
+bool WIN_ಗಣ_Raw_Keyboard_Flag_No_Hotkeys(SDL_VideoDevice *_this, bool enabled)
+{
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
+}
+
+bool WIN_ಗಣ_Raw_Keyboard_Flag_Inputsink(SDL_VideoDevice *_this, bool enabled)
+{
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
+}
+
+ಶೂನ್ಯ WIN_Quit_Raw_ಒಳಹರಿವು(SDL_VideoDevice *_this)
 {
 }
 
-#endif // !SDL_PLATFORM_XBOXONE && !SDL_PLATFORM_XBOXSERIES
+#ಆದರೆ_ಅಂತ್ಯ // !SDL_PLATFORM_XBOXONE && !SDL_PLATFORM_XBOXSERIES
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_WINDOWS

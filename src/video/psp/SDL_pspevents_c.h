@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_pspvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_pspvideo.h"
 
-extern void PSP_InitOSKeymap(SDL_VideoDevice *_this);
-extern void PSP_PumpEvents(SDL_VideoDevice *_this);
-extern bool PSP_EventInit(SDL_VideoDevice *_this);
-extern void PSP_EventQuit(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ PSP_InitOSKeymap(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ PSP_PumpEvents(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool PSP_EventInit(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ PSP_EventQuit(SDL_VideoDevice *_this);
 
 // end of SDL_pspevents_c.h ...

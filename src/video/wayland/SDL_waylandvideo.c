@@ -19,253 +19,253 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WAYLAND
 
-#include "../../core/linux/SDL_system_theme.h"
-#include "../../core/linux/SDL_progressbar.h"
-#include "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_system_theme.h"
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_progressbar.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
 
-#include "SDL_waylandclipboard.h"
-#include "SDL_waylandcolor.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandkeyboard.h"
-#include "SDL_waylandmessagebox.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandopengles.h"
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandvulkan.h"
-#include "SDL_waylandwindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandclipboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandcolor.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandevents_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandkeyboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandmessagebox.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandmouse.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandopengles.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandvulkan.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandwindow.h"
 
-#include <fcntl.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <errno.h>
-#include <xkbcommon/xkbcommon.h>
+#ಅನ್ತರ್ಭಾವ <fcntl.h>
+#ಅನ್ತರ್ಭಾವ <sys/types.h>
+#ಅನ್ತರ್ಭಾವ <unistd.h>
+#ಅನ್ತರ್ಭಾವ <errno.h>
+#ಅನ್ತರ್ಭಾವ <xkbcommon/xkbcommon.h>
 
-#include <wayland-util.h>
+#ಅನ್ತರ್ಭಾವ <wayland-util.h>
 
-#include "alpha-modifier-v1-client-protocol.h"
-#include "cursor-shape-v1-client-protocol.h"
-#include "fractional-scale-v1-client-protocol.h"
-#include "frog-color-management-v1-client-protocol.h"
-#include "idle-inhibit-unstable-v1-client-protocol.h"
-#include "input-timestamps-unstable-v1-client-protocol.h"
-#include "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
-#include "pointer-constraints-unstable-v1-client-protocol.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
-#include "relative-pointer-unstable-v1-client-protocol.h"
-#include "tablet-v2-client-protocol.h"
-#include "text-input-unstable-v3-client-protocol.h"
-#include "viewporter-client-protocol.h"
-#include "xdg-activation-v1-client-protocol.h"
-#include "xdg-decoration-unstable-v1-client-protocol.h"
-#include "xdg-dialog-v1-client-protocol.h"
-#include "xdg-foreign-unstable-v2-client-protocol.h"
-#include "xdg-output-unstable-v1-client-protocol.h"
-#include "xdg-shell-client-protocol.h"
-#include "xdg-toplevel-icon-v1-client-protocol.h"
-#include "color-management-v1-client-protocol.h"
-#include "pointer-warp-v1-client-protocol.h"
-#include "pointer-gestures-unstable-v1-client-protocol.h"
-#include "single-pixel-buffer-v1-client-protocol.h"
-#include "xdg-session-management-v1-client-protocol.h"
-#include "xdg-toplevel-tag-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "alpha-modifier-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "cursor-shape-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "fractional-scale-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "frog-color-management-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "idle-inhibit-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "input-timestamps-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "pointer-constraints-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "primary-selection-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "relative-pointer-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "tablet-v2-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "text-input-unstable-v3-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "viewporter-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-activation-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-decoration-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-dialog-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-foreign-unstable-v2-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-output-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-shell-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-toplevel-icon-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "color-management-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "pointer-warp-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "pointer-gestures-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "single-pixel-buffer-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-session-management-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-toplevel-tag-v1-client-protocol.h"
 
-#ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+#ಅನ್ತರ್ಭಾವ <libdecor.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
-#define WAYLANDVID_DRIVER_NAME "wayland"
+#ವ್ಯಾಖ್ಯಾನಿಸು WAYLANDVID_DRIVER_NAME "wayland"
 
 // Clamp core protocol versions on older versions of libwayland.
-#if SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
-#define SDL_WL_COMPOSITOR_VERSION 6
-#else
-#define SDL_WL_COMPOSITOR_VERSION 4
-#endif
+#ಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 22, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_COMPOSITOR_ಆವೃತ್ತಿ 6
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_COMPOSITOR_ಆವೃತ್ತಿ 4
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
-#define SDL_WL_SEAT_VERSION 11
-#elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
-#define SDL_WL_SEAT_VERSION 10
-#elif SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
-#define SDL_WL_SEAT_VERSION 9
-#elif SDL_WAYLAND_CHECK_VERSION(1, 21, 0)
-#define SDL_WL_SEAT_VERSION 8
-#else
-#define SDL_WL_SEAT_VERSION 5
-#endif
+#ಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 26, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_SEAT_ಆವೃತ್ತಿ 11
+#ಅಥವಾಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 24, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_SEAT_ಆವೃತ್ತಿ 10
+#ಅಥವಾಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 22, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_SEAT_ಆವೃತ್ತಿ 9
+#ಅಥವಾಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 21, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_SEAT_ಆವೃತ್ತಿ 8
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_SEAT_ಆವೃತ್ತಿ 5
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 20, 0)
-#define SDL_WL_OUTPUT_VERSION 4
-#else
-#define SDL_WL_OUTPUT_VERSION 3
-#endif
+#ಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 20, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_OUTPUT_ಆವೃತ್ತಿ 4
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_OUTPUT_ಆವೃತ್ತಿ 3
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
-#define SDL_WL_SHM_VERSION 2
-#else
-#define SDL_WL_SHM_VERSION 1
-#endif
+#ಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 24, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_SHM_ಆವೃತ್ತಿ 2
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_SHM_ಆವೃತ್ತಿ 1
+#ಆದರೆ_ಅಂತ್ಯ
 
 // The SDL libwayland-client minimum is 1.18, which supports version 3.
-#define SDL_WL_DATA_DEVICE_VERSION 3
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_ದತ್ತಾಂಶ_DEVICE_ಆವೃತ್ತಿ 3
 
 // wl_fixes was introduced in 1.24.0
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
-#define SDL_WL_FIXES_VERSION 2
-#elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
-#define SDL_WL_FIXES_VERSION 1
-#endif
+#ಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 26, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_FIXES_ಆವೃತ್ತಿ 2
+#ಅಥವಾಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 24, 0)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_WL_FIXES_ಆವೃತ್ತಿ 1
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_USE_LIBDBUS
-#include "../../core/linux/SDL_dbus.h"
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_dbus.h"
 
-#define DISPLAY_INFO_NODE   "org.gnome.Mutter.DisplayConfig"
-#define DISPLAY_INFO_PATH   "/org/gnome/Mutter/DisplayConfig"
-#define DISPLAY_INFO_METHOD "GetCurrentState"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿಸು DISPLAY_INFO_ಗಂಟು   "org.gnome.Mutter.DisplayConfig"
+#ವ್ಯಾಖ್ಯಾನಿಸು DISPLAY_INFO_ಮಾರ್ಗ   "/org/gnome/Mutter/DisplayConfig"
+#ವ್ಯಾಖ್ಯಾನಿಸು DISPLAY_INFO_ವಿಧಾನ "GetCurrentState"
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* GNOME doesn't expose displays in any particular order, but we can find the
  * primary display and its logical coordinates via a DBus method.
  */
-static bool Wayland_GetGNOMEPrimaryDisplayCoordinates(int *x, int *y)
+ಸ್ಥಿರ bool Wayland_GetGNOMEPrimaryDisplayCoordinates(ಪೂರ್ಣಾಂಕ *x, ಪೂರ್ಣಾಂಕ *y)
 {
-#ifdef SDL_USE_LIBDBUS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
     SDL_DBusContext *dbus = SDL_DBus_GetContext();
-    if (dbus == NULL) {
-        return false;
+    ಆದರೆ (dbus == ಖಾಲಿ) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    DBusMessage *reply = NULL;
-    DBusMessageIter iter[3];
-    DBusMessage *msg = dbus->message_new_method_call(DISPLAY_INFO_NODE,
-                                                     DISPLAY_INFO_PATH,
-                                                     DISPLAY_INFO_NODE,
-                                                     DISPLAY_INFO_METHOD);
+    DBus_ಸಂದೇಶ *ಉತ್ತರ = ಖಾಲಿ;
+    DBus_ಸಂದೇಶ_Iter iter[3];
+    DBus_ಸಂದೇಶ *ಸಂದೇಶ_2 = dbus->ಸಂದೇಶ_new_ವಿಧಾನ_call(DISPLAY_INFO_ಗಂಟು,
+                                                     DISPLAY_INFO_ಮಾರ್ಗ,
+                                                     DISPLAY_INFO_ಗಂಟು,
+                                                     DISPLAY_INFO_ವಿಧಾನ);
 
-    if (msg) {
-        reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, msg, DBUS_TIMEOUT_USE_DEFAULT, NULL);
-        dbus->message_unref(msg);
+    ಆದರೆ (ಸಂದೇಶ_2) {
+        ಉತ್ತರ = dbus->connection_send_with_ಉತ್ತರ_and_ಖಂಡ(dbus->session_conn, ಸಂದೇಶ_2, DBUS_TIMEOUT_USE_DEFAULT, ಖಾಲಿ);
+        dbus->ಸಂದೇಶ_unref(ಸಂದೇಶ_2);
     }
 
-    if (reply) {
+    ಆದರೆ (ಉತ್ತರ) {
         // Serial (don't care)
-        dbus->message_iter_init(reply, &iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
-            goto error;
+        dbus->ಸಂದೇಶ_iter_init(ಉತ್ತರ, &iter[0]);
+        ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
+            ಹೋಗು error;
         }
 
         // Physical monitor array (don't care)
-        dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
-            goto error;
+        dbus->ಸಂದೇಶ_iter_ಮುಂದಿನ(&iter[0]);
+        ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+            ಹೋಗು error;
         }
 
         // Logical monitor array of structs
-        dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
-            goto error;
+        dbus->ಸಂದೇಶ_iter_ಮುಂದಿನ(&iter[0]);
+        ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+            ಹೋಗು error;
         }
 
         // First logical monitor struct
-        dbus->message_iter_recurse(&iter[0], &iter[1]);
-        if (dbus->message_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
-            goto error;
+        dbus->ಸಂದೇಶ_iter_recurse(&iter[0], &iter[1]);
+        ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
+            ಹೋಗು error;
         }
 
-        do {
-            int logical_x, logical_y;
+        ಮಾಡು {
+            ಪೂರ್ಣಾಂಕ logical_x, logical_y;
             dbus_bool_t primary;
 
             // Logical X
-            dbus->message_iter_recurse(&iter[1], &iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
-                goto error;
+            dbus->ಸಂದೇಶ_iter_recurse(&iter[1], &iter[2]);
+            ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+                ಹೋಗು error;
             }
-            dbus->message_iter_get_basic(&iter[2], &logical_x);
+            dbus->ಸಂದೇಶ_iter_get_basic(&iter[2], &logical_x);
 
             // Logical Y
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
-                goto error;
+            dbus->ಸಂದೇಶ_iter_ಮುಂದಿನ(&iter[2]);
+            ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+                ಹೋಗು error;
             }
-            dbus->message_iter_get_basic(&iter[2], &logical_y);
+            dbus->ಸಂದೇಶ_iter_get_basic(&iter[2], &logical_y);
 
             // Scale (don't care)
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
-                goto error;
+            dbus->ಸಂದೇಶ_iter_ಮುಂದಿನ(&iter[2]);
+            ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
+                ಹೋಗು error;
             }
 
             // Transform (don't care)
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
-                goto error;
+            dbus->ಸಂದೇಶ_iter_ಮುಂದಿನ(&iter[2]);
+            ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
+                ಹೋಗು error;
             }
 
             // Primary display boolean
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
-                goto error;
+            dbus->ಸಂದೇಶ_iter_ಮುಂದಿನ(&iter[2]);
+            ಆದರೆ (dbus->ಸಂದೇಶ_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
+                ಹೋಗು error;
             }
-            dbus->message_iter_get_basic(&iter[2], &primary);
+            dbus->ಸಂದೇಶ_iter_get_basic(&iter[2], &primary);
 
-            if (primary) {
+            ಆದರೆ (primary) {
                 *x = logical_x;
                 *y = logical_y;
 
                 // We found the primary display: success.
-                dbus->message_unref(reply);
-                return true;
+                dbus->ಸಂದೇಶ_unref(ಉತ್ತರ);
+                ಹಿಂತಿರುಗಿ true;
             }
-        } while (dbus->message_iter_next(&iter[1]));
+        } ಆಗ (dbus->ಸಂದೇಶ_iter_ಮುಂದಿನ(&iter[1]));
     }
 
 error:
-    if (reply) {
-        dbus->message_unref(reply);
+    ಆದರೆ (ಉತ್ತರ) {
+        dbus->ಸಂದೇಶ_unref(ಉತ್ತರ);
     }
-#endif
-    return false;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ false;
 }
 
 // Sort the list of displays into a deterministic order
-static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ SDLCALL Wayland_DisplayPositionCompare(ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *a, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *b)
 {
-    const SDL_DisplayData *da = *(SDL_DisplayData **)a;
-    const SDL_DisplayData *db = *(SDL_DisplayData **)b;
-    const bool a_at_origin = da->logical.x == 0 && da->logical.y == 0;
-    const bool b_at_origin = db->logical.x == 0 && db->logical.y == 0;
+    ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *da = *(SDL_Display_ದತ್ತಾಂಶ **)a;
+    ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *db = *(SDL_Display_ದತ್ತಾಂಶ **)b;
+    ಸ್ಥಿರಾಂಕ bool a_at_origin = da->logical.x == 0 && da->logical.y == 0;
+    ಸ್ಥಿರಾಂಕ bool b_at_origin = db->logical.x == 0 && db->logical.y == 0;
 
     // Sort the display at 0,0 to be beginning of the list, as that will be the fallback primary.
-    if (a_at_origin && !b_at_origin) {
-        return -1;
+    ಆದರೆ (a_at_origin && !b_at_origin) {
+        ಹಿಂತಿರುಗಿ -1;
     }
-    if (b_at_origin && !a_at_origin) {
-        return 1;
+    ಆದರೆ (b_at_origin && !a_at_origin) {
+        ಹಿಂತಿರುಗಿ 1;
     }
 
-    if (da->logical.x < db->logical.x) {
-        return -1;
+    ಆದರೆ (da->logical.x < db->logical.x) {
+        ಹಿಂತಿರುಗಿ -1;
     }
-    if (da->logical.x > db->logical.x) {
-        return 1;
+    ಆದರೆ (da->logical.x > db->logical.x) {
+        ಹಿಂತಿರುಗಿ 1;
     }
-    if (da->logical.y < db->logical.y) {
-        return -1;
+    ಆದರೆ (da->logical.y < db->logical.y) {
+        ಹಿಂತಿರುಗಿ -1;
     }
-    if (da->logical.y > db->logical.y) {
-        return 1;
+    ಆದರೆ (da->logical.y > db->logical.y) {
+        ಹಿಂತಿರುಗಿ 1;
     }
 
     // If no position information is available, use the connector name.
-    if (da->wl_output_name && db->wl_output_name) {
-        return SDL_strcmp(da->wl_output_name, db->wl_output_name);
+    ಆದರೆ (da->wl_output_name && db->wl_output_name) {
+        ಹಿಂತಿರುಗಿ SDL_strcmp(da->wl_output_name, db->wl_output_name);
     }
 
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 
 /* Wayland doesn't have the native concept of a primary display, but there are clients that
@@ -282,103 +282,103 @@ static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
  * - Higher refresh is preferred (ignoring small differences)
  * - Lower scale values are preferred (larger display)
  */
-static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ Wayland_GetPrimaryDisplay(SDL_Video_ದತ್ತಾಂಶ *vid)
 {
-    static const int REFRESH_DELTA = 4000;
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ REFRESH_DELTA = 4000;
 
     // Query the DBus interface to see if the coordinates of the primary display are exposed.
-    int x, y;
-    if (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
-        for (int i = 0; i < vid->output_count; ++i) {
-            if (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
-                return i;
+    ಪೂರ್ಣಾಂಕ x, y;
+    ಆದರೆ (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < vid->output_ಎಣಿಕೆ; ++i) {
+            ಆದರೆ (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
+                ಹಿಂತಿರುಗಿ i;
             }
         }
     }
 
     // Otherwise, choose the 'best' display.
-    int best_width = 0;
-    int best_height = 0;
-    double best_scale = 0.0;
-    float best_headroom = 0.0f;
-    int best_refresh = 0;
-    bool best_is_landscape = false;
-    int best_index = 0;
+    ಪೂರ್ಣಾಂಕ ಉತ್ತಮ_ಅಗಲ = 0;
+    ಪೂರ್ಣಾಂಕ ಉತ್ತಮ_ಎತ್ತರ = 0;
+    ದ್ವಿಗುಣ ಉತ್ತಮ_scale = 0.0;
+    ದಶಮಾಂಶ ಉತ್ತಮ_headroom = 0.0f;
+    ಪೂರ್ಣಾಂಕ ಉತ್ತಮ_refresh = 0;
+    bool ಉತ್ತಮ_is_landscape = false;
+    ಪೂರ್ಣಾಂಕ ಉತ್ತಮ_ಸೂಚ್ಯಂಕ = 0;
 
-    for (int i = 0; i < vid->output_count; ++i) {
-        const SDL_DisplayData *d = vid->output_list[i];
-        const bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
-        bool have_new_best = false;
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < vid->output_ಎಣಿಕೆ; ++i) {
+        ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *d = vid->output_list[i];
+        ಸ್ಥಿರಾಂಕ bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
+        bool have_new_ಉತ್ತಮ = false;
 
-        if (!best_is_landscape && is_landscape) { // Favor landscape over portrait displays.
-            have_new_best = true;
-        } else if (!best_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
-            if (d->pixel.width > best_width || d->pixel.height > best_height) {
-                have_new_best = true;
-            } else if (d->pixel.width == best_width && d->pixel.height == best_height) {
-                if (d->HDR.HDR_headroom > best_headroom) { // Favor a higher HDR luminance range
-                    have_new_best = true;
-                } else if (d->HDR.HDR_headroom == best_headroom) {
-                    if (d->refresh - best_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
-                        have_new_best = true;
-                    } else if (d->scale_factor < best_scale && SDL_abs(d->refresh - best_refresh) <= REFRESH_DELTA) {
+        ಆದರೆ (!ಉತ್ತಮ_is_landscape && is_landscape) { // Favor landscape over portrait displays.
+            have_new_ಉತ್ತಮ = true;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!ಉತ್ತಮ_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
+            ಆದರೆ (d->pixel.ಅಗಲ > ಉತ್ತಮ_ಅಗಲ || d->pixel.ಎತ್ತರ > ಉತ್ತಮ_ಎತ್ತರ) {
+                have_new_ಉತ್ತಮ = true;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (d->pixel.ಅಗಲ == ಉತ್ತಮ_ಅಗಲ && d->pixel.ಎತ್ತರ == ಉತ್ತಮ_ಎತ್ತರ) {
+                ಆದರೆ (d->HDR.HDR_headroom > ಉತ್ತಮ_headroom) { // Favor a higher HDR luminance range
+                    have_new_ಉತ್ತಮ = true;
+                } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (d->HDR.HDR_headroom == ಉತ್ತಮ_headroom) {
+                    ಆದರೆ (d->refresh - ಉತ್ತಮ_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
+                        have_new_ಉತ್ತಮ = true;
+                    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (d->scale_ಗುಣಕ_2 < ಉತ್ತಮ_scale && SDL_abs(d->refresh - ಉತ್ತಮ_refresh) <= REFRESH_DELTA) {
                         // Prefer a lower scale display if the difference in refresh rate is small.
-                        have_new_best = true;
+                        have_new_ಉತ್ತಮ = true;
                     }
                 }
             }
         }
 
-        if (have_new_best) {
-            best_width = d->pixel.width;
-            best_height = d->pixel.height;
-            best_scale = d->scale_factor;
-            best_headroom = d->HDR.HDR_headroom;
-            best_refresh = d->refresh;
-            best_is_landscape = is_landscape;
-            best_index = i;
+        ಆದರೆ (have_new_ಉತ್ತಮ) {
+            ಉತ್ತಮ_ಅಗಲ = d->pixel.ಅಗಲ;
+            ಉತ್ತಮ_ಎತ್ತರ = d->pixel.ಎತ್ತರ;
+            ಉತ್ತಮ_scale = d->scale_ಗುಣಕ_2;
+            ಉತ್ತಮ_headroom = d->HDR.HDR_headroom;
+            ಉತ್ತಮ_refresh = d->refresh;
+            ಉತ್ತಮ_is_landscape = is_landscape;
+            ಉತ್ತಮ_ಸೂಚ್ಯಂಕ = i;
         }
     }
 
-    return best_index;
+    ಹಿಂತಿರುಗಿ ಉತ್ತಮ_ಸೂಚ್ಯಂಕ;
 }
 
-static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_ವಿಂಗಡಿಸು_Outputs_By_ಆದ್ಯತೆ_Hint(SDL_Video_ದತ್ತಾಂಶ *vid)
 {
-    const char *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_ಆದ್ಯತೆ);
 
-    if (name_hint) {
-        char *saveptr;
-        char *str = SDL_strdup(name_hint);
-        SDL_DisplayData **sorted_list = SDL_malloc(sizeof(SDL_DisplayData *) * vid->output_count);
+    ಆದರೆ (name_hint) {
+        ಅಕ್ಷರ *saveptr;
+        ಅಕ್ಷರ *str = SDL_strdup(name_hint);
+        SDL_Display_ದತ್ತಾಂಶ **sorted_list = SDL_malloc(ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *) * vid->output_ಎಣಿಕೆ);
 
-        if (str && sorted_list) {
-            int sorted_index = 0;
+        ಆದರೆ (str && sorted_list) {
+            ಪೂರ್ಣಾಂಕ sorted_ಸೂಚ್ಯಂಕ = 0;
 
             // Sort the requested displays to the front of the list.
-            const char *token = SDL_strtok_r(str, ",", &saveptr);
-            while (token) {
-                for (int i = 0; i < vid->output_count; ++i) {
-                    SDL_DisplayData *d = vid->output_list[i];
-                    if (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
-                        sorted_list[sorted_index++] = d;
-                        vid->output_list[i] = NULL;
-                        break;
+            ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *token = SDL_strtok_r(str, ",", &saveptr);
+            ಆಗ (token) {
+                ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < vid->output_ಎಣಿಕೆ; ++i) {
+                    SDL_Display_ದತ್ತಾಂಶ *d = vid->output_list[i];
+                    ಆದರೆ (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
+                        sorted_list[sorted_ಸೂಚ್ಯಂಕ++] = d;
+                        vid->output_list[i] = ಖಾಲಿ;
+                        ನಿಲ್ಲಿಸು;
                     }
                 }
 
-                token = SDL_strtok_r(NULL, ",", &saveptr);
+                token = SDL_strtok_r(ಖಾಲಿ, ",", &saveptr);
             }
 
             // Append the remaining outputs to the end of the list.
-            for (int i = 0; i < vid->output_count; ++i) {
-                if (vid->output_list[i]) {
-                    sorted_list[sorted_index++] = vid->output_list[i];
+            ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < vid->output_ಎಣಿಕೆ; ++i) {
+                ಆದರೆ (vid->output_list[i]) {
+                    sorted_list[sorted_ಸೂಚ್ಯಂಕ++] = vid->output_list[i];
                 }
             }
 
             // Copy the sorted list to the output list.
-            SDL_memcpy(vid->output_list, sorted_list, sizeof(SDL_DisplayData *) * vid->output_count);
+            SDL_memcpy(vid->output_list, sorted_list, ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *) * vid->output_ಎಣಿಕೆ);
         }
 
         SDL_free(str);
@@ -386,7 +386,7 @@ static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
     }
 }
 
-static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_DeriveOutputPixelCoordinates(SDL_Video_ದತ್ತಾಂಶ *vid)
 {
     /* Ensure outputs are not overlapping in the pixel coordinate space.
      *
@@ -397,26 +397,26 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
      *
      * Patches for a more sophisticated algorithm are welcome.
      */
-    for ( int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d = vid->output_list[i];
+    ಗಾಗಿ ( ಪೂರ್ಣಾಂಕ i = 0; i < vid->output_ಎಣಿಕೆ; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *d = vid->output_list[i];
         d->pixel.x = d->logical.x;
         d->pixel.y = d->logical.y;
     }
 
-    for (int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d1 = vid->output_list[i];
-        if (d1->logical.width != d1->pixel.width || d1->logical.height != d1->pixel.height) {
-            const int x_adj = d1->pixel.width - d1->logical.width;
-            const int y_adj = d1->pixel.height - d1->logical.height;
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < vid->output_ಎಣಿಕೆ; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *d1 = vid->output_list[i];
+        ಆದರೆ (d1->logical.ಅಗಲ != d1->pixel.ಅಗಲ || d1->logical.ಎತ್ತರ != d1->pixel.ಎತ್ತರ) {
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ x_adj = d1->pixel.ಅಗಲ - d1->logical.ಅಗಲ;
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ y_adj = d1->pixel.ಎತ್ತರ - d1->logical.ಎತ್ತರ;
 
             // Don't adjust for scale values less than 1.0.
-            if (x_adj > 0 && y_adj > 0) {
-                for (int j = 0; j < vid->output_count; ++j) {
-                    SDL_DisplayData *d2 = vid->output_list[j];
-                    if (d2->logical.x > d1->logical.x) {
+            ಆದರೆ (x_adj > 0 && y_adj > 0) {
+                ಗಾಗಿ (ಪೂರ್ಣಾಂಕ j = 0; j < vid->output_ಎಣಿಕೆ; ++j) {
+                    SDL_Display_ದತ್ತಾಂಶ *d2 = vid->output_list[j];
+                    ಆದರೆ (d2->logical.x > d1->logical.x) {
                         d2->pixel.x += x_adj;
                     }
-                    if (d2->logical.y > d1->logical.y) {
+                    ಆದರೆ (d2->logical.y > d1->logical.y) {
                         d2->pixel.y += y_adj;
                     }
                 }
@@ -425,211 +425,211 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
     }
 }
 
-static void Wayland_SortOutputs(SDL_VideoData *vid)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_ವಿಂಗಡಿಸು_Outputs(SDL_Video_ದತ್ತಾಂಶ *vid)
 {
     // Sort by position or connector name, so the order of outputs is deterministic.
-    SDL_qsort(vid->output_list, vid->output_count, sizeof(SDL_DisplayData *), Wayland_DisplayPositionCompare);
+    SDL_qsort(vid->output_list, vid->output_ಎಣಿಕೆ, ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *), Wayland_DisplayPositionCompare);
 
     // Derive the output pixel coordinates if scale to display is enabled.
-    if (vid->scale_to_display_enabled) {
+    ಆದರೆ (vid->scale_ಗಮ್ಯ_display_enabled) {
         Wayland_DeriveOutputPixelCoordinates(vid);
     }
 
     // Find a suitable primary display and move it to the front of the list.
-    const int primary_index = Wayland_GetPrimaryDisplay(vid);
-    if (primary_index) {
-        SDL_DisplayData *primary = vid->output_list[primary_index];
-        SDL_memmove(&vid->output_list[1], &vid->output_list[0], sizeof(SDL_DisplayData *) * primary_index);
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ primary_ಸೂಚ್ಯಂಕ = Wayland_GetPrimaryDisplay(vid);
+    ಆದರೆ (primary_ಸೂಚ್ಯಂಕ) {
+        SDL_Display_ದತ್ತಾಂಶ *primary = vid->output_list[primary_ಸೂಚ್ಯಂಕ];
+        SDL_memmove(&vid->output_list[1], &vid->output_list[0], ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *) * primary_ಸೂಚ್ಯಂಕ);
         vid->output_list[0] = primary;
     }
 
     // Apply the ordering hint, if specified.
-    Wayland_SortOutputsByPriorityHint(vid);
+    Wayland_ವಿಂಗಡಿಸು_Outputs_By_ಆದ್ಯತೆ_Hint(vid);
 }
 
-static void Wayland_RefreshWindowPositions()
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_Refresh_ಕಿಟಕಿ_Positions()
 {
     SDL_VideoDevice *vid = SDL_GetVideoDevice();
 
-    for (SDL_Window *w = vid->windows; w; w = w->next) {
-        Wayland_UpdateWindowPosition(w);
+    ಗಾಗಿ (SDL_ಕಿಟಕಿ *w = vid->windows; w; w = w->ಮುಂದಿನ) {
+        Wayland_Update_ಕಿಟಕಿ_Position(w);
     }
 }
 
-static void handle_wl_output_done(void *data, struct wl_output *output);
+ಸ್ಥಿರ ಶೂನ್ಯ handle_wl_output_ಮುಗಿದ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_output *output);
 
 // Initialization/Query functions
-static bool Wayland_VideoInit(SDL_VideoDevice *_this);
-static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-static void Wayland_VideoQuit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool Wayland_VideoInit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_VideoQuit(SDL_VideoDevice *_this);
 
-static const char *SDL_WAYLAND_surface_tag = "sdl-window";
-static const char *SDL_WAYLAND_output_tag = "sdl-output";
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *SDL_WAYLAND_surface_ಟ್ಯಾಗ್ = "sdl-window";
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *SDL_WAYLAND_output_ಟ್ಯಾಗ್ = "sdl-output";
 
-void SDL_WAYLAND_register_surface(struct wl_surface *surface)
+ಶೂನ್ಯ SDL_WAYLAND_ರಿಜಿಸ್ಟರ್_surface(ರಚನೆ wl_surface *surface)
 {
-    wl_proxy_set_tag((struct wl_proxy *)surface, &SDL_WAYLAND_surface_tag);
+    wl_proxy_ಗಣ_ಟ್ಯಾಗ್((ರಚನೆ wl_proxy *)surface, &SDL_WAYLAND_surface_ಟ್ಯಾಗ್);
 }
 
-void SDL_WAYLAND_register_output(struct wl_output *output)
+ಶೂನ್ಯ SDL_WAYLAND_ರಿಜಿಸ್ಟರ್_output(ರಚನೆ wl_output *output)
 {
-    wl_proxy_set_tag((struct wl_proxy *)output, &SDL_WAYLAND_output_tag);
+    wl_proxy_ಗಣ_ಟ್ಯಾಗ್((ರಚನೆ wl_proxy *)output, &SDL_WAYLAND_output_ಟ್ಯಾಗ್);
 }
 
-bool SDL_WAYLAND_own_surface(struct wl_surface *surface)
+bool SDL_WAYLAND_own_surface(ರಚನೆ wl_surface *surface)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)surface) == &SDL_WAYLAND_surface_tag;
+    ಹಿಂತಿರುಗಿ wl_proxy_get_ಟ್ಯಾಗ್((ರಚನೆ wl_proxy *)surface) == &SDL_WAYLAND_surface_ಟ್ಯಾಗ್;
 }
 
-bool SDL_WAYLAND_own_output(struct wl_output *output)
+bool SDL_WAYLAND_own_output(ರಚನೆ wl_output *output)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)output) == &SDL_WAYLAND_output_tag;
+    ಹಿಂತಿರುಗಿ wl_proxy_get_ಟ್ಯಾಗ್((ರಚನೆ wl_proxy *)output) == &SDL_WAYLAND_output_ಟ್ಯಾಗ್;
 }
 
 /* External surfaces may have their own user data attached, the modification of which
  * can cause problems with external toolkits. Instead, external windows are kept in
  * their own list, and a search is conducted to find a matching surface.
  */
-static struct wl_list external_window_list;
+ಸ್ಥಿರ ರಚನೆ wl_list external_ಕಿಟಕಿ_list;
 
-void Wayland_AddWindowDataToExternalList(SDL_WindowData *data)
+ಶೂನ್ಯ Wayland_ಕೂಡಿಸು_ಕಿಟಕಿ_ದತ್ತಾಂಶ_ಗಮ್ಯ_External_List(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    WAYLAND_wl_list_insert(&external_window_list, &data->external_window_list_link);
+    WAYLAND_wl_list_ಸೇರಿಸು(&external_ಕಿಟಕಿ_list, &ದತ್ತಾಂಶ->external_ಕಿಟಕಿ_list_link);
 }
 
-void Wayland_RemoveWindowDataFromExternalList(SDL_WindowData *data)
+ಶೂನ್ಯ Wayland_Remove_ಕಿಟಕಿ_ದತ್ತಾಂಶ_From_External_List(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    WAYLAND_wl_list_remove(&data->external_window_list_link);
+    WAYLAND_wl_list_remove(&ದತ್ತಾಂಶ->external_ಕಿಟಕಿ_list_link);
 }
 
-SDL_WindowData *Wayland_GetWindowDataForOwnedSurface(struct wl_surface *surface)
+SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *Wayland_Get_ಕಿಟಕಿ_ದತ್ತಾಂಶ_For_Owned_Surface(ರಚನೆ wl_surface *surface)
 {
-    if (SDL_WAYLAND_own_surface(surface)) {
-        return (SDL_WindowData *)wl_surface_get_user_data(surface);
-    } else if (!WAYLAND_wl_list_empty(&external_window_list)) {
-        SDL_WindowData *p;
-        wl_list_for_each (p, &external_window_list, external_window_list_link) {
-            if (p->surface == surface) {
-                return p;
+    ಆದರೆ (SDL_WAYLAND_own_surface(surface)) {
+        ಹಿಂತಿರುಗಿ (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)wl_surface_get_user_ದತ್ತಾಂಶ(surface);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!WAYLAND_wl_list_ಖಾಲಿಗಳು(&external_ಕಿಟಕಿ_list)) {
+        SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *p;
+        wl_list_for_each (p, &external_ಕಿಟಕಿ_list, external_ಕಿಟಕಿ_list_link) {
+            ಆದರೆ (p->surface == surface) {
+                ಹಿಂತಿರುಗಿ p;
             }
         }
     }
 
-    return NULL;
+    ಹಿಂತಿರುಗಿ ಖಾಲಿ;
 }
 
-struct wl_event_queue *Wayland_DisplayCreateQueue(struct wl_display *display, const char *name)
+ರಚನೆ wl_event_ಸರತಿ *Wayland_Display_Create_ಸರತಿ(ರಚನೆ wl_display *display, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name)
 {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-    if (WAYLAND_wl_display_create_queue_with_name) {
-        return WAYLAND_wl_display_create_queue_with_name(display, name);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+    ಆದರೆ (WAYLAND_wl_display_create_ಸರತಿ_with_name) {
+        ಹಿಂತಿರುಗಿ WAYLAND_wl_display_create_ಸರತಿ_with_name(display, name);
     }
-#elif SDL_WAYLAND_CHECK_VERSION(1, 23, 0)
-    return WAYLAND_wl_display_create_queue_with_name(display, name);
-#endif
-    return WAYLAND_wl_display_create_queue(display);
+#ಅಥವಾಆದರೆ SDL_WAYLAND_CHECK_ಆವೃತ್ತಿ(1, 23, 0)
+    ಹಿಂತಿರುಗಿ WAYLAND_wl_display_create_ಸರತಿ_with_name(display, name);
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ WAYLAND_wl_display_create_ಸರತಿ(display);
 }
 
-static void Wayland_DeleteDevice(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
-    if (data->display && !data->display_externally_owned) {
-        WAYLAND_wl_display_disconnect(data->display);
-        SDL_ClearProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER);
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = device->ಆಂತರಿಕ;
+    ಆದರೆ (ದತ್ತಾಂಶ->display && !ದತ್ತಾಂಶ->display_externally_owned) {
+        WAYLAND_wl_display_disconnect(ದತ್ತಾಂಶ->display);
+        SDL_ClearProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_ಸೂಚಕ);
     }
-    SDL_free(data);
+    SDL_free(ದತ್ತಾಂಶ);
     SDL_free(device);
     SDL_WAYLAND_UnloadSymbols();
 }
 
-typedef struct
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ
 {
     bool has_fifo_v1;
-    struct wl_fixes *wl_fixes;
-} SDL_WaylandPreferredData;
+    ರಚನೆ wl_fixes *wl_fixes;
+} SDL_Wayland_Preferred_ದತ್ತಾಂಶ;
 
-static void wayland_preferred_check_handle_global(void *data, struct wl_registry *registry, uint32_t id,
-                                                  const char *interface, uint32_t version)
+ಸ್ಥಿರ ಶೂನ್ಯ wayland_preferred_check_handle_global(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_registry *registry, uint32_t id,
+                                                  ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *interface, uint32_t ಆವೃತ್ತಿ)
 {
-    SDL_WaylandPreferredData *d = data;
+    SDL_Wayland_Preferred_ದತ್ತಾಂಶ *d = ದತ್ತಾಂಶ;
 
-    if (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
+    ಆದರೆ (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
         d->has_fifo_v1 = true;
     }
-#ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
-        d->wl_fixes = wl_registry_bind(registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_WL_FIXES_ಆವೃತ್ತಿ
+    ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+        d->wl_fixes = wl_registry_bind(registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_ಆವೃತ್ತಿ, ಆವೃತ್ತಿ));
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static void wayland_preferred_check_remove_global(void *data, struct wl_registry *registry, uint32_t id)
+ಸ್ಥಿರ ಶೂನ್ಯ wayland_preferred_check_remove_global(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_registry *registry, uint32_t id)
 {
-    SDL_WaylandPreferredData *d = (SDL_WaylandPreferredData *)data;
+    SDL_Wayland_Preferred_ದತ್ತಾಂಶ *d = (SDL_Wayland_Preferred_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    ಆದರೆ (d->wl_fixes && wl_fixes_get_ಆವೃತ್ತಿ(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_ಆವೃತ್ತಿ) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
 
-static const struct wl_registry_listener preferred_registry_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_registry_listener preferred_registry_listener = {
     wayland_preferred_check_handle_global,
     wayland_preferred_check_remove_global
 };
 
-static bool Wayland_IsPreferred(struct wl_display *display)
+ಸ್ಥಿರ bool Wayland_IsPreferred(ರಚನೆ wl_display *display)
 {
-    struct wl_registry *registry = wl_display_get_registry(display);
-    SDL_WaylandPreferredData preferred_data = { 0 };
+    ರಚನೆ wl_registry *registry = wl_display_get_registry(display);
+    SDL_Wayland_Preferred_ದತ್ತಾಂಶ preferred_ದತ್ತಾಂಶ = { 0 };
 
-    if (!registry) {
-        SDL_SetError("Failed to get the Wayland registry");
-        return false;
+    ಆದರೆ (!registry) {
+        SDL_ಗಣ_Error("Failed to get the Wayland registry");
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    wl_registry_add_listener(registry, &preferred_registry_listener, &preferred_data);
+    wl_registry_ಕೂಡಿಸು_listener(registry, &preferred_registry_listener, &preferred_ದತ್ತಾಂಶ);
 
     WAYLAND_wl_display_roundtrip(display);
 
-    if (preferred_data.wl_fixes) {
-        wl_fixes_destroy_registry(preferred_data.wl_fixes, registry);
-        wl_fixes_destroy(preferred_data.wl_fixes);
+    ಆದರೆ (preferred_ದತ್ತಾಂಶ.wl_fixes) {
+        wl_fixes_destroy_registry(preferred_ದತ್ತಾಂಶ.wl_fixes, registry);
+        wl_fixes_destroy(preferred_ದತ್ತಾಂಶ.wl_fixes);
     }
     wl_registry_destroy(registry);
 
-    if (!preferred_data.has_fifo_v1) {
+    ಆದರೆ (!preferred_ದತ್ತಾಂಶ.has_fifo_v1) {
         SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "This compositor lacks support for the fifo-v1 protocol; falling back to XWayland for GPU performance reasons (set SDL_VIDEO_DRIVER=wayland to override)");
     }
-    return preferred_data.has_fifo_v1;
+    ಹಿಂತಿರುಗಿ preferred_ದತ್ತಾಂಶ.has_fifo_v1;
 }
 
-static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
+ಸ್ಥಿರ SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
-    struct wl_display *display = SDL_GetPointerProperty(SDL_GetGlobalProperties(),
-                                                 SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, NULL);
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
+    ರಚನೆ wl_display *display = SDL_Get_ಸೂಚಕ_Property(SDL_GetGlobalProperties(),
+                                                 SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_ಸೂಚಕ, ಖಾಲಿ);
     bool display_is_external = !!display;
 
     // Are we trying to connect to, or are currently in, a Wayland session?
-    if (!SDL_getenv("WAYLAND_DISPLAY")) {
-        const char *session = SDL_getenv("XDG_SESSION_TYPE");
-        if (session && SDL_strcasecmp(session, "wayland") != 0) {
+    ಆದರೆ (!SDL_getenv("WAYLAND_DISPLAY")) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *session = SDL_getenv("XDG_SESSION_TYPE");
+        ಆದರೆ (session && SDL_strcasecmp(session, "wayland") != 0) {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Wayland initialization failed: no Wayland session available");
-            return NULL;
+            ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
     }
 
-    if (!SDL_WAYLAND_LoadSymbols()) {
-        return NULL;
+    ಆದರೆ (!SDL_WAYLAND_ತುಂಬು_Symbols()) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (!display) {
-        display = WAYLAND_wl_display_connect(NULL);
-        if (!display) {
+    ಆದರೆ (!display) {
+        display = WAYLAND_wl_display_connect(ಖಾಲಿ);
+        ಆದರೆ (!display) {
             SDL_WAYLAND_UnloadSymbols();
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the Wayland display server: %s", strerror(errno));
-            return NULL;
+            ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
     }
 
@@ -638,47 +638,47 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
      * fifo-v1's existence, so we don't regress GPU-bound performance
      * and frame-pacing by default due to swapchain starvation.
      */
-    if (require_preferred_protocols && !Wayland_IsPreferred(display)) {
-        if (!display_is_external) {
+    ಆದರೆ (require_preferred_protocols && !Wayland_IsPreferred(display)) {
+        ಆದರೆ (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    data = SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        if (!display_is_external) {
+    ದತ್ತಾಂಶ = SDL_calloc(1, ಗಾತ್ರ(*ದತ್ತಾಂಶ));
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
+        ಆದರೆ (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    data->initializing = true;
-    data->display = display;
-    data->display_externally_owned = display_is_external;
-    data->scale_to_display_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, false);
-    WAYLAND_wl_list_init(&data->seat_list);
-    WAYLAND_wl_list_init(&external_window_list);
+    ದತ್ತಾಂಶ->initializing = true;
+    ದತ್ತಾಂಶ->display = display;
+    ದತ್ತಾಂಶ->display_externally_owned = display_is_external;
+    ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_SCALE_ಗಮ್ಯ_DISPLAY, false);
+    WAYLAND_wl_list_init(&ದತ್ತಾಂಶ->seat_list);
+    WAYLAND_wl_list_init(&external_ಕಿಟಕಿ_list);
 
     // Initialize all variables that we clean on shutdown
-    device = SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        SDL_free(data);
-        if (!display_is_external) {
+    device = SDL_calloc(1, ಗಾತ್ರ(SDL_VideoDevice));
+    ಆದರೆ (!device) {
+        SDL_free(ದತ್ತಾಂಶ);
+        ಆದರೆ (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (!display_is_external) {
-        SDL_SetPointerProperty(SDL_GetGlobalProperties(),
-                               SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, display);
+    ಆದರೆ (!display_is_external) {
+        SDL_ಗಣ_ಸೂಚಕ_Property(SDL_GetGlobalProperties(),
+                               SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_ಸೂಚಕ, display);
     }
 
-    device->internal = data;
+    device->ಆಂತರಿಕ = ದತ್ತಾಂಶ;
 
     // Set the function pointers
     device->VideoInit = Wayland_VideoInit;
@@ -690,193 +690,193 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     device->WaitEventTimeout = Wayland_WaitEventTimeout;
     device->SendWakeupEvent = Wayland_SendWakeupEvent;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    device->GL_SwapWindow = Wayland_GLES_SwapWindow;
-    device->GL_GetSwapInterval = Wayland_GLES_GetSwapInterval;
-    device->GL_SetSwapInterval = Wayland_GLES_SetSwapInterval;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+    device->GL_ಅದಲುಬದಲು_ಕಿಟಕಿ = Wayland_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ;
+    device->GL_Get_ಅದಲುಬದಲು_Interval = Wayland_GLES_Get_ಅದಲುಬದಲು_Interval;
+    device->GL_ಗಣ_ಅದಲುಬದಲು_Interval = Wayland_GLES_ಗಣ_ಅದಲುಬದಲು_Interval;
     device->GL_MakeCurrent = Wayland_GLES_MakeCurrent;
     device->GL_CreateContext = Wayland_GLES_CreateContext;
-    device->GL_LoadLibrary = Wayland_GLES_LoadLibrary;
+    device->GL_ತುಂಬು_Library = Wayland_GLES_ತುಂಬು_Library;
     device->GL_UnloadLibrary = Wayland_GLES_UnloadLibrary;
-    device->GL_GetProcAddress = Wayland_GLES_GetProcAddress;
+    device->GL_Get_Proc_ವಿಳಾಸ = Wayland_GLES_Get_Proc_ವಿಳಾಸ;
     device->GL_DestroyContext = Wayland_GLES_DestroyContext;
-    device->GL_SetDefaultProfileConfig = Wayland_GLES_SetDefaultProfileConfig;
+    device->GL_ಗಣ_Default_Profile_Config = Wayland_GLES_ಗಣ_Default_Profile_Config;
     device->GL_GetEGLSurface = Wayland_GLES_GetEGLSurface;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    device->CreateSDLWindow = Wayland_CreateWindow;
-    device->ShowWindow = Wayland_ShowWindow;
-    device->HideWindow = Wayland_HideWindow;
-    device->RaiseWindow = Wayland_RaiseWindow;
-    device->SetWindowFullscreen = Wayland_SetWindowFullscreen;
-    device->MaximizeWindow = Wayland_MaximizeWindow;
-    device->MinimizeWindow = Wayland_MinimizeWindow;
-    device->SetWindowMouseRect = Wayland_SetWindowMouseRect;
-    device->SetWindowMouseGrab = Wayland_SetWindowMouseGrab;
-    device->SetWindowKeyboardGrab = Wayland_SetWindowKeyboardGrab;
-    device->RestoreWindow = Wayland_RestoreWindow;
-    device->SetWindowBordered = Wayland_SetWindowBordered;
-    device->SetWindowResizable = Wayland_SetWindowResizable;
-    device->SetWindowPosition = Wayland_SetWindowPosition;
-    device->SetWindowSize = Wayland_SetWindowSize;
-    device->SetWindowAspectRatio = Wayland_SetWindowAspectRatio;
-    device->SetWindowMinimumSize = Wayland_SetWindowMinimumSize;
-    device->SetWindowMaximumSize = Wayland_SetWindowMaximumSize;
-    device->SetWindowParent = Wayland_SetWindowParent;
-    device->SetWindowModal = Wayland_SetWindowModal;
-    device->SetWindowOpacity = Wayland_SetWindowOpacity;
-    device->SetWindowTitle = Wayland_SetWindowTitle;
-    device->SetWindowIcon = Wayland_SetWindowIcon;
-    device->GetWindowSizeInPixels = Wayland_GetWindowSizeInPixels;
-    device->GetWindowContentScale = Wayland_GetWindowContentScale;
-    device->GetWindowICCProfile = Wayland_GetWindowICCProfile;
-    device->GetDisplayForWindow = Wayland_GetDisplayForWindow;
-    device->DestroyWindow = Wayland_DestroyWindow;
-    device->SetWindowHitTest = Wayland_SetWindowHitTest;
-    device->FlashWindow = Wayland_FlashWindow;
-#ifdef SDL_USE_LIBDBUS
-    device->ApplyWindowProgress = DBUS_ApplyWindowProgress;
-#endif // SDL_USE_LIBDBUS
+    device->CreateSDLWindow = Wayland_Create_ಕಿಟಕಿ;
+    device->Show_ಕಿಟಕಿ = Wayland_Show_ಕಿಟಕಿ;
+    device->Hide_ಕಿಟಕಿ = Wayland_Hide_ಕಿಟಕಿ;
+    device->Raise_ಕಿಟಕಿ = Wayland_Raise_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Fullscreen = Wayland_ಗಣ_ಕಿಟಕಿ_Fullscreen;
+    device->Maximize_ಕಿಟಕಿ = Wayland_Maximize_ಕಿಟಕಿ;
+    device->Minimize_ಕಿಟಕಿ = Wayland_Minimize_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Mouse_Rect = Wayland_ಗಣ_ಕಿಟಕಿ_Mouse_Rect;
+    device->ಗಣ_ಕಿಟಕಿ_Mouse_Grab = Wayland_ಗಣ_ಕಿಟಕಿ_Mouse_Grab;
+    device->ಗಣ_ಕಿಟಕಿ_Keyboard_Grab = Wayland_ಗಣ_ಕಿಟಕಿ_Keyboard_Grab;
+    device->Restore_ಕಿಟಕಿ = Wayland_Restore_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Bordered = Wayland_ಗಣ_ಕಿಟಕಿ_Bordered;
+    device->ಗಣ_ಕಿಟಕಿ_Resizable = Wayland_ಗಣ_ಕಿಟಕಿ_Resizable;
+    device->ಗಣ_ಕಿಟಕಿ_Position = Wayland_ಗಣ_ಕಿಟಕಿ_Position;
+    device->ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ = Wayland_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_Aspect_ಅನುಪಾತ = Wayland_ಗಣ_ಕಿಟಕಿ_Aspect_ಅನುಪಾತ;
+    device->ಗಣ_ಕಿಟಕಿ_Minimum_ಗಾತ್ರ = Wayland_ಗಣ_ಕಿಟಕಿ_Minimum_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_ಗರಿಷ್ಠ_ಗಾತ್ರ = Wayland_ಗಣ_ಕಿಟಕಿ_ಗರಿಷ್ಠ_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ = Wayland_ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ;
+    device->ಗಣ_ಕಿಟಕಿ_Modal = Wayland_ಗಣ_ಕಿಟಕಿ_Modal;
+    device->ಗಣ_ಕಿಟಕಿ_Opacity = Wayland_ಗಣ_ಕಿಟಕಿ_Opacity;
+    device->ಗಣ_ಕಿಟಕಿ_Title = Wayland_ಗಣ_ಕಿಟಕಿ_Title;
+    device->ಗಣ_ಕಿಟಕಿ_Icon = Wayland_ಗಣ_ಕಿಟಕಿ_Icon;
+    device->Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels = Wayland_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels;
+    device->Get_ಕಿಟಕಿ_Content_Scale = Wayland_Get_ಕಿಟಕಿ_Content_Scale;
+    device->Get_ಕಿಟಕಿ_ICCProfile = Wayland_Get_ಕಿಟಕಿ_ICCProfile;
+    device->Get_Display_For_ಕಿಟಕಿ = Wayland_Get_Display_For_ಕಿಟಕಿ;
+    device->Destroy_ಕಿಟಕಿ = Wayland_Destroy_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_ದೊರಕಿತು_Test = Wayland_ಗಣ_ಕಿಟಕಿ_ದೊರಕಿತು_Test;
+    device->Flash_ಕಿಟಕಿ = Wayland_Flash_ಕಿಟಕಿ;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
+    device->Apply_ಕಿಟಕಿ_ಪ್ರಗತಿ = DBUS_Apply_ಕಿಟಕಿ_ಪ್ರಗತಿ;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_USE_LIBDBUS
     device->HasScreenKeyboardSupport = Wayland_HasScreenKeyboardSupport;
-    device->ShowWindowSystemMenu = Wayland_ShowWindowSystemMenu;
-    device->SyncWindow = Wayland_SyncWindow;
-    device->SetWindowFocusable = Wayland_SetWindowFocusable;
-    device->ReconfigureWindow = Wayland_ReconfigureWindow;
+    device->Show_ಕಿಟಕಿ_System_Menu = Wayland_Show_ಕಿಟಕಿ_System_Menu;
+    device->Sync_ಕಿಟಕಿ = Wayland_Sync_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Focusable = Wayland_ಗಣ_ಕಿಟಕಿ_Focusable;
+    device->Reconfigure_ಕಿಟಕಿ = Wayland_Reconfigure_ಕಿಟಕಿ;
     device->AcceptDragAndDrop = Wayland_AcceptDragAndDrop;
 
-#ifdef SDL_USE_LIBDBUS
-    if (SDL_SystemTheme_Init())
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
+    ಆದರೆ (SDL_SystemTheme_Init())
         device->system_theme = SDL_SystemTheme_Get();
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    device->GetTextMimeTypes = Wayland_GetTextMimeTypes;
-    device->SetClipboardData = Wayland_SetClipboardData;
-    device->GetClipboardData = Wayland_GetClipboardData;
-    device->HasClipboardData = Wayland_HasClipboardData;
-    device->StartTextInput = Wayland_StartTextInput;
-    device->StopTextInput = Wayland_StopTextInput;
-    device->UpdateTextInputArea = Wayland_UpdateTextInputArea;
+    device->Get_ಪಠ್ಯ_Mime_Types = Wayland_Get_ಪಠ್ಯ_Mime_Types;
+    device->ಗಣ_Clipboard_ದತ್ತಾಂಶ = Wayland_ಗಣ_Clipboard_ದತ್ತಾಂಶ;
+    device->Get_Clipboard_ದತ್ತಾಂಶ = Wayland_Get_Clipboard_ದತ್ತಾಂಶ;
+    device->Has_Clipboard_ದತ್ತಾಂಶ = Wayland_Has_Clipboard_ದತ್ತಾಂಶ;
+    device->ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು = Wayland_ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು;
+    device->Stop_ಪಠ್ಯ_ಒಳಹರಿವು = Wayland_Stop_ಪಠ್ಯ_ಒಳಹರಿವು;
+    device->Update_ಪಠ್ಯ_ಒಳಹರಿವು_Area = Wayland_Update_ಪಠ್ಯ_ಒಳಹರಿವು_Area;
 
-#ifdef SDL_VIDEO_VULKAN
-    device->Vulkan_LoadLibrary = Wayland_Vulkan_LoadLibrary;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_VULKAN
+    device->Vulkan_ತುಂಬು_Library = Wayland_Vulkan_ತುಂಬು_Library;
     device->Vulkan_UnloadLibrary = Wayland_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = Wayland_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = Wayland_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = Wayland_Vulkan_DestroySurface;
     device->Vulkan_GetPresentationSupport = Wayland_Vulkan_GetPresentationSupport;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    device->free = Wayland_DeleteDevice;
+    device->ಬಿಡುಗಡೆ = Wayland_DeleteDevice;
 
-    device->device_caps = VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED |
-                          VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT |
+    device->device_caps = VIDEO_DEVICE_CAPS_ಬಹುಲಕ_SWITCHING_EMULATED |
+                          VIDEO_DEVICE_CAPS_HAS_POPUP_ಕಿಟಕಿ_SUPPORT |
                           VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS |
                           VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES |
                           VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES;
 
-    return device;
+    ಹಿಂತಿರುಗಿ device;
 }
 
-static SDL_VideoDevice *Wayland_Preferred_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *Wayland_Preferred_CreateDevice(ಶೂನ್ಯ)
 {
-    return Wayland_CreateDevice(true);
+    ಹಿಂತಿರುಗಿ Wayland_CreateDevice(true);
 }
 
-static SDL_VideoDevice *Wayland_Fallback_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *Wayland_Fallback_CreateDevice(ಶೂನ್ಯ)
 {
-    return Wayland_CreateDevice(false);
+    ಹಿಂತಿರುಗಿ Wayland_CreateDevice(false);
 }
 
 VideoBootStrap Wayland_preferred_bootstrap = {
     WAYLANDVID_DRIVER_NAME, "SDL Wayland video driver",
     Wayland_Preferred_CreateDevice,
-    Wayland_ShowMessageBox,
+    Wayland_Show_ಸಂದೇಶ_Box,
     true
 };
 
 VideoBootStrap Wayland_bootstrap = {
     WAYLANDVID_DRIVER_NAME, "SDL Wayland video driver",
     Wayland_Fallback_CreateDevice,
-    Wayland_ShowMessageBox,
+    Wayland_Show_ಸಂದೇಶ_Box,
     false
 };
 
-static void handle_xdg_output_logical_position(void *data, struct zxdg_output_v1 *xdg_output, int32_t x, int32_t y)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_output_logical_position(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zxdg_output_v1 *xdg_output, int32_t x, int32_t y)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
-    internal->geometry_changed |= internal->logical.x != x || internal->logical.y != y;
-    internal->logical.x = x;
-    internal->logical.y = y;
-    internal->has_logical_position = true;
+    ಆಂತರಿಕ->geometry_ಬದಲಾಯಿತು |= ಆಂತರಿಕ->logical.x != x || ಆಂತರಿಕ->logical.y != y;
+    ಆಂತರಿಕ->logical.x = x;
+    ಆಂತರಿಕ->logical.y = y;
+    ಆಂತರಿಕ->has_logical_position = true;
 }
 
-static void handle_xdg_output_logical_size(void *data, struct zxdg_output_v1 *xdg_output, int32_t width, int32_t height)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_output_logical_ಗಾತ್ರ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zxdg_output_v1 *xdg_output, int32_t ಅಗಲ, int32_t ಎತ್ತರ)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
-    internal->geometry_changed |= internal->logical.width != width || internal->logical.height != height;
-    internal->logical.width = width;
-    internal->logical.height = height;
-    internal->has_logical_size = true;
+    ಆಂತರಿಕ->geometry_ಬದಲಾಯಿತು |= ಆಂತರಿಕ->logical.ಅಗಲ != ಅಗಲ || ಆಂತರಿಕ->logical.ಎತ್ತರ != ಎತ್ತರ;
+    ಆಂತರಿಕ->logical.ಅಗಲ = ಅಗಲ;
+    ಆಂತರಿಕ->logical.ಎತ್ತರ = ಎತ್ತರ;
+    ಆಂತರಿಕ->has_logical_ಗಾತ್ರ = true;
 }
 
-static void handle_xdg_output_done(void *data, struct zxdg_output_v1 *xdg_output)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_output_ಮುಗಿದ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zxdg_output_v1 *xdg_output)
 {
-    SDL_DisplayData *internal = data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = ದತ್ತಾಂಶ;
 
     /*
      * xdg-output.done events are deprecated and only apply below version 3 of the protocol.
      * A wl-output.done event will be emitted in version 3 or higher.
      */
-    if (zxdg_output_v1_get_version(internal->xdg_output) < 3) {
-        handle_wl_output_done(data, internal->output);
+    ಆದರೆ (zxdg_output_v1_get_ಆವೃತ್ತಿ(ಆಂತರಿಕ->xdg_output) < 3) {
+        handle_wl_output_ಮುಗಿದ(ದತ್ತಾಂಶ, ಆಂತರಿಕ->output);
     }
 }
 
-static void handle_xdg_output_name(void *data, struct zxdg_output_v1 *xdg_output, const char *name)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_output_name(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zxdg_output_v1 *xdg_output, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_NAME_SINCE_VERSION &&
-        internal->display == 0) {
-        SDL_free(internal->wl_output_name);
-        internal->wl_output_name = SDL_strdup(name);
+    ಆದರೆ (wl_output_get_ಆವೃತ್ತಿ(ಆಂತರಿಕ->output) < WL_OUTPUT_NAME_SINCE_ಆವೃತ್ತಿ &&
+        ಆಂತರಿಕ->display == 0) {
+        SDL_free(ಆಂತರಿಕ->wl_output_name);
+        ಆಂತರಿಕ->wl_output_name = SDL_strdup(name);
     }
 }
 
-static void handle_xdg_output_description(void *data, struct zxdg_output_v1 *xdg_output, const char *description)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_output_description(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zxdg_output_v1 *xdg_output, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *description)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_DESCRIPTION_SINCE_VERSION &&
-        internal->display == 0) {
+    ಆದರೆ (wl_output_get_ಆವೃತ್ತಿ(ಆಂತರಿಕ->output) < WL_OUTPUT_DESCRIPTION_SINCE_ಆವೃತ್ತಿ &&
+        ಆಂತರಿಕ->display == 0) {
         // xdg-output descriptions, if available, supersede wl-output model names.
-        SDL_free(internal->placeholder.name);
-        internal->placeholder.name = SDL_strdup(description);
+        SDL_free(ಆಂತರಿಕ->placeholder.name);
+        ಆಂತರಿಕ->placeholder.name = SDL_strdup(description);
     }
 }
 
-static const struct zxdg_output_v1_listener xdg_output_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ zxdg_output_v1_listener xdg_output_listener = {
     handle_xdg_output_logical_position,
-    handle_xdg_output_logical_size,
-    handle_xdg_output_done,
+    handle_xdg_output_logical_ಗಾತ್ರ,
+    handle_xdg_output_ಮುಗಿದ,
     handle_xdg_output_name,
     handle_xdg_output_description,
 };
 
-static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int native_height)
+ಸ್ಥಿರ ಶೂನ್ಯ ಕೂಡಿಸು_Emulated_Modes(SDL_Display_ದತ್ತಾಂಶ *dispdata, ಪೂರ್ಣಾಂಕ native_ಅಗಲ, ಪೂರ್ಣಾಂಕ native_ಎತ್ತರ)
 {
-    struct EmulatedMode
+    ರಚನೆ Emulated_ಬಹುಲಕ
     {
-        int w;
-        int h;
+        ಪೂರ್ಣಾಂಕ w;
+        ಪೂರ್ಣಾಂಕ h;
     };
 
     // Resolution lists courtesy of XWayland
-    const struct EmulatedMode mode_list[] = {
+    ಸ್ಥಿರಾಂಕ ರಚನೆ Emulated_ಬಹುಲಕ ಬಹುಲಕ_list[] = {
         // 16:9 (1.77)
         { 7680, 4320 },
         { 6144, 3160 },
@@ -917,62 +917,62 @@ static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int na
         { 640, 480 }
     };
 
-    int i;
-    SDL_DisplayMode mode;
+    ಪೂರ್ಣಾಂಕ i;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
     SDL_VideoDisplay *dpy = dispdata->display ? SDL_GetVideoDisplay(dispdata->display) : &dispdata->placeholder;
-    const bool rot_90 = native_width < native_height; // Reverse width/height for portrait displays.
+    ಸ್ಥಿರಾಂಕ bool rot_90 = native_ಅಗಲ < native_ಎತ್ತರ; // Reverse width/height for portrait displays.
 
-    for (i = 0; i < SDL_arraysize(mode_list); ++i) {
-        SDL_zero(mode);
-        mode.format = dpy->desktop_mode.format;
-        mode.refresh_rate_numerator = dpy->desktop_mode.refresh_rate_numerator;
-        mode.refresh_rate_denominator = dpy->desktop_mode.refresh_rate_denominator;
+    ಗಾಗಿ (i = 0; i < SDL_arraysize(ಬಹುಲಕ_list); ++i) {
+        SDL_zero(ಬಹುಲಕ);
+        ಬಹುಲಕ.format = dpy->desktop_ಬಹುಲಕ.format;
+        ಬಹುಲಕ.refresh_ದರ_numerator = dpy->desktop_ಬಹುಲಕ.refresh_ದರ_numerator;
+        ಬಹುಲಕ.refresh_ದರ_denominator = dpy->desktop_ಬಹುಲಕ.refresh_ದರ_denominator;
 
-        if (rot_90) {
-            mode.w = mode_list[i].h;
-            mode.h = mode_list[i].w;
-        } else {
-            mode.w = mode_list[i].w;
-            mode.h = mode_list[i].h;
+        ಆದರೆ (rot_90) {
+            ಬಹುಲಕ.w = ಬಹುಲಕ_list[i].h;
+            ಬಹುಲಕ.h = ಬಹುಲಕ_list[i].w;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಬಹುಲಕ.w = ಬಹುಲಕ_list[i].w;
+            ಬಹುಲಕ.h = ಬಹುಲಕ_list[i].h;
         }
 
         // Only add modes that are smaller than the native mode.
-        if ((mode.w < native_width && mode.h < native_height) ||
-            (mode.w < native_width && mode.h == native_height) ||
-            (mode.w == native_width && mode.h < native_height)) {
-            SDL_AddFullscreenDisplayMode(dpy, &mode);
+        ಆದರೆ ((ಬಹುಲಕ.w < native_ಅಗಲ && ಬಹುಲಕ.h < native_ಎತ್ತರ) ||
+            (ಬಹುಲಕ.w < native_ಅಗಲ && ಬಹುಲಕ.h == native_ಎತ್ತರ) ||
+            (ಬಹುಲಕ.w == native_ಅಗಲ && ಬಹುಲಕ.h < native_ಎತ್ತರ)) {
+            SDL_ಕೂಡಿಸು_Fullscreen_Display_ಬಹುಲಕ(dpy, &ಬಹುಲಕ);
         }
     }
 }
 
-static void handle_wl_output_geometry(void *data, struct wl_output *output, int x, int y,
-                                      int physical_width, int physical_height, int subpixel,
-                                      const char *make, const char *model, int transform)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_wl_output_geometry(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_output *output, ಪೂರ್ಣಾಂಕ x, ಪೂರ್ಣಾಂಕ y,
+                                      ಪೂರ್ಣಾಂಕ physical_ಅಗಲ_2, ಪೂರ್ಣಾಂಕ physical_ಎತ್ತರ_2, ಪೂರ್ಣಾಂಕ subpixel,
+                                      ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *make, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *model, ಪೂರ್ಣಾಂಕ transform)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
     // Apply the change from wl-output only if xdg-output is not supported
-    if (!internal->has_logical_position) {
-        internal->geometry_changed |= internal->logical.x != x || internal->logical.y != y;
-        internal->logical.x = x;
-        internal->logical.y = y;
+    ಆದರೆ (!ಆಂತರಿಕ->has_logical_position) {
+        ಆಂತರಿಕ->geometry_ಬದಲಾಯಿತು |= ಆಂತರಿಕ->logical.x != x || ಆಂತರಿಕ->logical.y != y;
+        ಆಂತರಿಕ->logical.x = x;
+        ಆಂತರಿಕ->logical.y = y;
     }
-    internal->physical.width_mm = physical_width;
-    internal->physical.height_mm = physical_height;
+    ಆಂತರಿಕ->physical.ಅಗಲ_mm = physical_ಅಗಲ_2;
+    ಆಂತರಿಕ->physical.ಎತ್ತರ_mm = physical_ಎತ್ತರ_2;
 
     // The model is only used for the output name if wl_output or xdg-output haven't provided a description.
-    if (internal->display == 0 && !internal->placeholder.name) {
-        internal->placeholder.name = SDL_strdup(model);
+    ಆದರೆ (ಆಂತರಿಕ->display == 0 && !ಆಂತರಿಕ->placeholder.name) {
+        ಆಂತರಿಕ->placeholder.name = SDL_strdup(model);
     }
 
-    internal->transform = transform;
-#define TF_CASE(in, out)                                 \
-    case WL_OUTPUT_TRANSFORM_##in:                       \
-        internal->orientation = SDL_ORIENTATION_##out; \
-        break;
-    if (internal->physical.width_mm >= internal->physical.height_mm) {
-        switch (transform) {
-            TF_CASE(NORMAL, LANDSCAPE)
+    ಆಂತರಿಕ->transform = transform;
+#ವ್ಯಾಖ್ಯಾನಿಸು TF_CASE(ಒಳ_2, ಹೊರಹೋಗು)                                 \
+    ಸ್ಥಿತಿ WL_OUTPUT_TRANSFORM_##in:                       \
+        ಆಂತರಿಕ->orientation = SDL_ORIENTATION_##out; \
+        ನಿಲ್ಲಿಸು;
+    ಆದರೆ (ಆಂತರಿಕ->physical.ಅಗಲ_mm >= ಆಂತರಿಕ->physical.ಎತ್ತರ_mm) {
+        ಆಯ್ಕೆ (transform) {
+            TF_CASE(ಸಾಮಾನ್ಯ_2, LANDSCAPE)
             TF_CASE(90, PORTRAIT)
             TF_CASE(180, LANDSCAPE_FLIPPED)
             TF_CASE(270, PORTRAIT_FLIPPED)
@@ -981,9 +981,9 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
             TF_CASE(FLIPPED_180, LANDSCAPE)
             TF_CASE(FLIPPED_270, PORTRAIT)
         }
-    } else {
-        switch (transform) {
-            TF_CASE(NORMAL, PORTRAIT)
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆಯ್ಕೆ (transform) {
+            TF_CASE(ಸಾಮಾನ್ಯ_2, PORTRAIT)
             TF_CASE(90, LANDSCAPE)
             TF_CASE(180, PORTRAIT_FLIPPED)
             TF_CASE(270, LANDSCAPE_FLIPPED)
@@ -993,39 +993,39 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
             TF_CASE(FLIPPED_270, LANDSCAPE)
         }
     }
-#undef TF_CASE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು TF_CASE
 }
 
-static void handle_wl_output_mode(void *data, struct wl_output *output, uint32_t flags,
-                                  int width, int height, int refresh)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_wl_output_ಬಹುಲಕ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_output *output, uint32_t flags,
+                                  ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, ಪೂರ್ಣಾಂಕ refresh)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
-    if (flags & WL_OUTPUT_MODE_CURRENT) {
-        internal->geometry_changed |= internal->pixel.width != width || internal->pixel.height != height;
-        internal->pixel.width = width;
-        internal->pixel.height = height;
+    ಆದರೆ (flags & WL_OUTPUT_ಬಹುಲಕ_CURRENT) {
+        ಆಂತರಿಕ->geometry_ಬದಲಾಯಿತು |= ಆಂತರಿಕ->pixel.ಅಗಲ != ಅಗಲ || ಆಂತರಿಕ->pixel.ಎತ್ತರ != ಎತ್ತರ;
+        ಆಂತರಿಕ->pixel.ಅಗಲ = ಅಗಲ;
+        ಆಂತರಿಕ->pixel.ಎತ್ತರ = ಎತ್ತರ;
 
         /*
          * Don't rotate this yet, wl-output coordinates are transformed in
          * handle_done and xdg-output coordinates are pre-transformed.
          */
-        if (!internal->has_logical_size) {
-            internal->geometry_changed |= internal->logical.width != width || internal->logical.height != height;
-            internal->logical.width = width;
-            internal->logical.height = height;
+        ಆದರೆ (!ಆಂತರಿಕ->has_logical_ಗಾತ್ರ) {
+            ಆಂತರಿಕ->geometry_ಬದಲಾಯಿತು |= ಆಂತರಿಕ->logical.ಅಗಲ != ಅಗಲ || ಆಂತರಿಕ->logical.ಎತ್ತರ != ಎತ್ತರ;
+            ಆಂತರಿಕ->logical.ಅಗಲ = ಅಗಲ;
+            ಆಂತರಿಕ->logical.ಎತ್ತರ = ಎತ್ತರ;
         }
 
-        internal->refresh = refresh;
+        ಆಂತರಿಕ->refresh = refresh;
     }
 }
 
-static void handle_wl_output_done(void *data, struct wl_output *output)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_wl_output_ಮುಗಿದ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_output *output)
 {
-    const bool mode_emulation_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION, true);
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
-    SDL_VideoData *video = internal->videodata;
-    SDL_DisplayMode native_mode, desktop_mode;
+    ಸ್ಥಿರಾಂಕ bool ಬಹುಲಕ_emulation_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_ಬಹುಲಕ_EMULATION, true);
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    SDL_Video_ದತ್ತಾಂಶ *video = ಆಂತರಿಕ->videodata;
+    SDL_Display_ಬಹುಲಕ native_ಬಹುಲಕ, desktop_ಬಹುಲಕ;
 
     /*
      * When using xdg-output, two wl-output.done events will be emitted:
@@ -1033,614 +1033,614 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
      *
      * All required events must be received before proceeding.
      */
-    const int event_await_count = 1 + (internal->xdg_output != NULL);
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ event_await_ಎಣಿಕೆ = 1 + (ಆಂತರಿಕ->xdg_output != ಖಾಲಿ);
 
-    internal->wl_output_done_count = SDL_min(internal->wl_output_done_count + 1, event_await_count + 1);
+    ಆಂತರಿಕ->wl_output_ಮುಗಿದ_ಎಣಿಕೆ = SDL_min(ಆಂತರಿಕ->wl_output_ಮುಗಿದ_ಎಣಿಕೆ + 1, event_await_ಎಣಿಕೆ + 1);
 
-    if (internal->wl_output_done_count < event_await_count) {
-        return;
+    ಆದರೆ (ಆಂತರಿಕ->wl_output_ಮುಗಿದ_ಎಣಿಕೆ < event_await_ಎಣಿಕೆ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     // If the display was already created, reset and rebuild the mode list.
-    SDL_VideoDisplay *dpy = SDL_GetVideoDisplay(internal->display);
-    if (dpy) {
+    SDL_VideoDisplay *dpy = SDL_GetVideoDisplay(ಆಂತರಿಕ->display);
+    ಆದರೆ (dpy) {
         SDL_ResetFullscreenDisplayModes(dpy);
     }
 
     // The native display resolution
-    SDL_zero(native_mode);
-    native_mode.format = SDL_PIXELFORMAT_XRGB8888;
+    SDL_zero(native_ಬಹುಲಕ);
+    native_ಬಹುಲಕ.format = SDL_PIXELFORMAT_XRGB8888;
 
     // Transform the pixel values, if necessary.
-    if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
-        native_mode.w = internal->pixel.height;
-        native_mode.h = internal->pixel.width;
-    } else {
-        native_mode.w = internal->pixel.width;
-        native_mode.h = internal->pixel.height;
+    ಆದರೆ (ಆಂತರಿಕ->transform & WL_OUTPUT_TRANSFORM_90) {
+        native_ಬಹುಲಕ.w = ಆಂತರಿಕ->pixel.ಎತ್ತರ;
+        native_ಬಹುಲಕ.h = ಆಂತರಿಕ->pixel.ಅಗಲ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        native_ಬಹುಲಕ.w = ಆಂತರಿಕ->pixel.ಅಗಲ;
+        native_ಬಹುಲಕ.h = ಆಂತರಿಕ->pixel.ಎತ್ತರ;
     }
-    native_mode.refresh_rate_numerator = internal->refresh;
-    native_mode.refresh_rate_denominator = 1000;
+    native_ಬಹುಲಕ.refresh_ದರ_numerator = ಆಂತರಿಕ->refresh;
+    native_ಬಹುಲಕ.refresh_ದರ_denominator = 1000;
 
-    if (internal->has_logical_size) { // If xdg-output is present...
-        if (native_mode.w != internal->logical.width || native_mode.h != internal->logical.height) {
+    ಆದರೆ (ಆಂತರಿಕ->has_logical_ಗಾತ್ರ) { // If xdg-output is present...
+        ಆದರೆ (native_ಬಹುಲಕ.w != ಆಂತರಿಕ->logical.ಅಗಲ || native_ಬಹುಲಕ.h != ಆಂತರಿಕ->logical.ಎತ್ತರ) {
             // ...and the compositor scales the logical viewport...
-            if (video->viewporter) {
+            ಆದರೆ (video->viewporter) {
                 // ...and viewports are supported, calculate the true scale of the output.
-                internal->scale_factor = (double)native_mode.w / (double)internal->logical.width;
-            } else {
+                ಆಂತರಿಕ->scale_ಗುಣಕ_2 = (ದ್ವಿಗುಣ)native_ಬಹುಲಕ.w / (ದ್ವಿಗುಣ)ಆಂತರಿಕ->logical.ಅಗಲ;
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 // ...otherwise, the 'native' pixel values are a multiple of the logical screen size.
-                internal->scale_factor = internal->integer_scale_factor;
-                internal->pixel.width = internal->logical.width * internal->integer_scale_factor;
-                internal->pixel.height = internal->logical.height * internal->integer_scale_factor;
+                ಆಂತರಿಕ->scale_ಗುಣಕ_2 = ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
+                ಆಂತರಿಕ->pixel.ಅಗಲ = ಆಂತರಿಕ->logical.ಅಗಲ * ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
+                ಆಂತರಿಕ->pixel.ಎತ್ತರ = ಆಂತರಿಕ->logical.ಎತ್ತರ * ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             /* ...and the output viewport is not scaled in the global compositing
              * space, the output dimensions need to be divided by the scale factor.
              *
              * NOTE: This path is needed for old versions of GNOME that predate fractional scaling.
              */
-            internal->scale_factor = internal->integer_scale_factor;
-            internal->logical.width /= internal->integer_scale_factor;
-            internal->logical.height /= internal->integer_scale_factor;
+            ಆಂತರಿಕ->scale_ಗುಣಕ_2 = ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
+            ಆಂತರಿಕ->logical.ಅಗಲ /= ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
+            ಆಂತರಿಕ->logical.ಎತ್ತರ /= ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         /* Calculate the points from the pixel values, if xdg-output isn't present.
          * Use the native mode pixel values since they are pre-transformed.
          */
-        internal->scale_factor = internal->integer_scale_factor;
-        internal->logical.width = native_mode.w / internal->integer_scale_factor;
-        internal->logical.height = native_mode.h / internal->integer_scale_factor;
+        ಆಂತರಿಕ->scale_ಗುಣಕ_2 = ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
+        ಆಂತರಿಕ->logical.ಅಗಲ = native_ಬಹುಲಕ.w / ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
+        ಆಂತರಿಕ->logical.ಎತ್ತರ = native_ಬಹುಲಕ.h / ಆಂತರಿಕ->integer_scale_ಗುಣಕ;
     }
 
     // The scaled desktop mode
-    SDL_zero(desktop_mode);
-    desktop_mode.format = SDL_PIXELFORMAT_XRGB8888;
+    SDL_zero(desktop_ಬಹುಲಕ);
+    desktop_ಬಹುಲಕ.format = SDL_PIXELFORMAT_XRGB8888;
 
-    if (!video->scale_to_display_enabled) {
-        desktop_mode.w = internal->logical.width;
-        desktop_mode.h = internal->logical.height;
-        desktop_mode.pixel_density = (float)internal->scale_factor;
-    } else {
-        desktop_mode.w = native_mode.w;
-        desktop_mode.h = native_mode.h;
-        desktop_mode.pixel_density = 1.0f;
+    ಆದರೆ (!video->scale_ಗಮ್ಯ_display_enabled) {
+        desktop_ಬಹುಲಕ.w = ಆಂತರಿಕ->logical.ಅಗಲ;
+        desktop_ಬಹುಲಕ.h = ಆಂತರಿಕ->logical.ಎತ್ತರ;
+        desktop_ಬಹುಲಕ.pixel_density = (ದಶಮಾಂಶ)ಆಂತರಿಕ->scale_ಗುಣಕ_2;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        desktop_ಬಹುಲಕ.w = native_ಬಹುಲಕ.w;
+        desktop_ಬಹುಲಕ.h = native_ಬಹುಲಕ.h;
+        desktop_ಬಹುಲಕ.pixel_density = 1.0f;
     }
 
-    desktop_mode.refresh_rate_numerator = internal->refresh;
-    desktop_mode.refresh_rate_denominator = 1000;
+    desktop_ಬಹುಲಕ.refresh_ದರ_numerator = ಆಂತರಿಕ->refresh;
+    desktop_ಬಹುಲಕ.refresh_ದರ_denominator = 1000;
 
-    if (internal->display > 0) {
-        dpy = SDL_GetVideoDisplay(internal->display);
-    } else {
-        dpy = &internal->placeholder;
+    ಆದರೆ (ಆಂತರಿಕ->display > 0) {
+        dpy = SDL_GetVideoDisplay(ಆಂತರಿಕ->display);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        dpy = &ಆಂತರಿಕ->placeholder;
     }
 
-    if (video->scale_to_display_enabled) {
-        SDL_SetDisplayContentScale(dpy, (float)internal->scale_factor);
+    ಆದರೆ (video->scale_ಗಮ್ಯ_display_enabled) {
+        SDL_ಗಣ_Display_Content_Scale(dpy, (ದಶಮಾಂಶ)ಆಂತರಿಕ->scale_ಗುಣಕ_2);
     }
 
     // Set the desktop display mode.
-    SDL_SetDesktopDisplayMode(dpy, &desktop_mode);
+    SDL_ಗಣ_Desktop_Display_ಬಹುಲಕ(dpy, &desktop_ಬಹುಲಕ);
 
     // Expose the unscaled, native resolution if the scale is 1.0 or viewports are available...
-    if (internal->scale_factor == 1.0 || video->viewporter) {
-        SDL_AddFullscreenDisplayMode(dpy, &native_mode);
-        if (native_mode.w != desktop_mode.w ||
-            native_mode.h != desktop_mode.h) {
-            SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
+    ಆದರೆ (ಆಂತರಿಕ->scale_ಗುಣಕ_2 == 1.0 || video->viewporter) {
+        SDL_ಕೂಡಿಸು_Fullscreen_Display_ಬಹುಲಕ(dpy, &native_ಬಹುಲಕ);
+        ಆದರೆ (native_ಬಹುಲಕ.w != desktop_ಬಹುಲಕ.w ||
+            native_ಬಹುಲಕ.h != desktop_ಬಹುಲಕ.h) {
+            SDL_ಕೂಡಿಸು_Fullscreen_Display_ಬಹುಲಕ(dpy, &desktop_ಬಹುಲಕ);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // ...otherwise expose the integer scaled variants of the desktop resolution down to 1.
-        desktop_mode.pixel_density = 1.0f;
+        desktop_ಬಹುಲಕ.pixel_density = 1.0f;
 
-        for (int i = (int)internal->scale_factor; i > 0; --i) {
-            desktop_mode.w = internal->logical.width * i;
-            desktop_mode.h = internal->logical.height * i;
-            SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = (ಪೂರ್ಣಾಂಕ)ಆಂತರಿಕ->scale_ಗುಣಕ_2; i > 0; --i) {
+            desktop_ಬಹುಲಕ.w = ಆಂತರಿಕ->logical.ಅಗಲ * i;
+            desktop_ಬಹುಲಕ.h = ಆಂತರಿಕ->logical.ಎತ್ತರ * i;
+            SDL_ಕೂಡಿಸು_Fullscreen_Display_ಬಹುಲಕ(dpy, &desktop_ಬಹುಲಕ);
         }
     }
 
     // Add emulated modes if wp_viewporter is supported and mode emulation is enabled.
-    if (video->viewporter && mode_emulation_enabled) {
+    ಆದರೆ (video->viewporter && ಬಹುಲಕ_emulation_enabled) {
         // The transformed display pixel width/height must be used here.
-        AddEmulatedModes(internal, native_mode.w, native_mode.h);
+        ಕೂಡಿಸು_Emulated_Modes(ಆಂತರಿಕ, native_ಬಹುಲಕ.w, native_ಬಹುಲಕ.h);
     }
 
-    if (internal->display == 0) {
+    ಆದರೆ (ಆಂತರಿಕ->display == 0) {
         // First time getting display info, initialize the VideoDisplay
-        if (internal->physical.width_mm >= internal->physical.height_mm) {
-            internal->placeholder.natural_orientation = SDL_ORIENTATION_LANDSCAPE;
-        } else {
-            internal->placeholder.natural_orientation = SDL_ORIENTATION_PORTRAIT;
+        ಆದರೆ (ಆಂತರಿಕ->physical.ಅಗಲ_mm >= ಆಂತರಿಕ->physical.ಎತ್ತರ_mm) {
+            ಆಂತರಿಕ->placeholder.natural_orientation = SDL_ORIENTATION_LANDSCAPE;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಆಂತರಿಕ->placeholder.natural_orientation = SDL_ORIENTATION_PORTRAIT;
         }
-        internal->placeholder.current_orientation = internal->orientation;
-        internal->placeholder.internal = internal;
+        ಆಂತರಿಕ->placeholder.current_orientation = ಆಂತರಿಕ->orientation;
+        ಆಂತರಿಕ->placeholder.ಆಂತರಿಕ = ಆಂತರಿಕ;
 
-        internal->placeholder.props = SDL_CreateProperties();
-        SDL_SetPointerProperty(internal->placeholder.props, SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER, internal->output);
+        ಆಂತರಿಕ->placeholder.props = SDL_CreateProperties();
+        SDL_ಗಣ_ಸೂಚಕ_Property(ಆಂತರಿಕ->placeholder.props, SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_ಸೂಚಕ, ಆಂತರಿಕ->output);
 
         // During initialization, the displays will be added after enumeration is complete.
-        if (!video->initializing) {
-            if (video->wp_color_manager_v1) {
-                Wayland_GetColorInfoForOutput(internal, false);
+        ಆದರೆ (!video->initializing) {
+            ಆದರೆ (video->wp_color_manager_v1) {
+                Wayland_GetColorInfoForOutput(ಆಂತರಿಕ, false);
             }
-            if (video->scale_to_display_enabled) {
+            ಆದರೆ (video->scale_ಗಮ್ಯ_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
-            internal->display = SDL_AddVideoDisplay(&internal->placeholder, true);
-            Wayland_RefreshWindowPositions();
+            ಆಂತರಿಕ->display = SDL_ಕೂಡಿಸು_Video_Display(&ಆಂತರಿಕ->placeholder, true);
+            Wayland_Refresh_ಕಿಟಕಿ_Positions();
 
-            SDL_free(internal->placeholder.name);
-            SDL_zero(internal->placeholder);
+            SDL_free(ಆಂತರಿಕ->placeholder.name);
+            SDL_zero(ಆಂತರಿಕ->placeholder);
         }
-    } else {
-        SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_ORIENTATION, internal->orientation, 0);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_ORIENTATION, ಆಂತರಿಕ->orientation, 0);
 
-        if (internal->geometry_changed) {
-            if (video->scale_to_display_enabled) {
+        ಆದರೆ (ಆಂತರಿಕ->geometry_ಬದಲಾಯಿತು) {
+            ಆದರೆ (video->scale_ಗಮ್ಯ_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
             SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_MOVED, 0, 0);
-            Wayland_RefreshWindowPositions();
+            Wayland_Refresh_ಕಿಟಕಿ_Positions();
         }
     }
 
-    internal->geometry_changed = false;
+    ಆಂತರಿಕ->geometry_ಬದಲಾಯಿತು = false;
 }
 
-static void handle_wl_output_scale(void *data, struct wl_output *output, int32_t factor)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_wl_output_scale(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_output *output, int32_t ಗುಣಕ)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
-    internal->integer_scale_factor = factor;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    ಆಂತರಿಕ->integer_scale_ಗುಣಕ = ಗುಣಕ;
 }
 
-static void handle_wl_output_name(void *data, struct wl_output *wl_output, const char *name)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_wl_output_name(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_output *wl_output, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
-    SDL_free(internal->wl_output_name);
-    internal->wl_output_name = SDL_strdup(name);
+    SDL_free(ಆಂತರಿಕ->wl_output_name);
+    ಆಂತರಿಕ->wl_output_name = SDL_strdup(name);
 }
 
-static void handle_wl_output_description(void *data, struct wl_output *wl_output, const char *description)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_wl_output_description(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_output *wl_output, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *description)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
-    if (internal->display == 0) {
+    ಆದರೆ (ಆಂತರಿಕ->display == 0) {
         // The description, if available, supersedes the model name.
-        SDL_free(internal->placeholder.name);
-        internal->placeholder.name = SDL_strdup(description);
+        SDL_free(ಆಂತರಿಕ->placeholder.name);
+        ಆಂತರಿಕ->placeholder.name = SDL_strdup(description);
     }
 }
 
-static const struct wl_output_listener output_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_output_listener output_listener = {
     handle_wl_output_geometry,   // Version 1
-    handle_wl_output_mode,       // Version 1
-    handle_wl_output_done,       // Version 2
+    handle_wl_output_ಬಹುಲಕ,       // Version 1
+    handle_wl_output_ಮುಗಿದ,       // Version 2
     handle_wl_output_scale,      // Version 2
     handle_wl_output_name,       // Version 4
     handle_wl_output_description // Version 4
 };
 
-static void handle_output_image_description_changed(void *data,
-                                                    struct wp_color_management_output_v1 *wp_color_management_output_v1)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_output_image_description_ಬದಲಾಯಿತು(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                                    ರಚನೆ wp_color_management_output_v1 *wp_color_management_output_v1)
 {
-    SDL_DisplayData *display = (SDL_DisplayData *)data;
+    SDL_Display_ದತ್ತಾಂಶ *display = (SDL_Display_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
     Wayland_GetColorInfoForOutput(display, false);
 }
 
-static const struct wp_color_management_output_v1_listener wp_color_management_output_listener = {
-    handle_output_image_description_changed
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wp_color_management_output_v1_listener wp_color_management_output_listener = {
+    handle_output_image_description_ಬದಲಾಯಿತು
 };
 
-static bool Wayland_add_display(SDL_VideoData *d, uint32_t id, uint32_t version)
+ಸ್ಥಿರ bool Wayland_ಕೂಡಿಸು_display(SDL_Video_ದತ್ತಾಂಶ *d, uint32_t id, uint32_t ಆವೃತ್ತಿ)
 {
-    struct wl_output *output;
-    SDL_DisplayData *data;
+    ರಚನೆ wl_output *output;
+    SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
 
-    output = wl_registry_bind(d->registry, id, &wl_output_interface, version);
-    if (!output) {
-        return SDL_SetError("Failed to retrieve output.");
+    output = wl_registry_bind(d->registry, id, &wl_output_interface, ಆವೃತ್ತಿ);
+    ಆದರೆ (!output) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to retrieve output.");
     }
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(*data));
-    data->videodata = d;
-    data->output = output;
-    data->registry_id = id;
-    data->scale_factor = 1.0f;
-    data->integer_scale_factor = 1;
+    ದತ್ತಾಂಶ = (SDL_Display_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(*ದತ್ತಾಂಶ));
+    ದತ್ತಾಂಶ->videodata = d;
+    ದತ್ತಾಂಶ->output = output;
+    ದತ್ತಾಂಶ->registry_id = id;
+    ದತ್ತಾಂಶ->scale_ಗುಣಕ_2 = 1.0f;
+    ದತ್ತಾಂಶ->integer_scale_ಗುಣಕ = 1;
 
-    wl_output_add_listener(output, &output_listener, data);
-    SDL_WAYLAND_register_output(output);
+    wl_output_ಕೂಡಿಸು_listener(output, &output_listener, ದತ್ತಾಂಶ);
+    SDL_WAYLAND_ರಿಜಿಸ್ಟರ್_output(output);
 
     // Keep a list of outputs for sorting and deferred protocol initialization.
-    if (d->output_count == d->output_max) {
+    ಆದರೆ (d->output_ಎಣಿಕೆ == d->output_max) {
         d->output_max += 4;
-        d->output_list = SDL_realloc(d->output_list, sizeof(SDL_DisplayData *) * d->output_max);
+        d->output_list = SDL_realloc(d->output_list, ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *) * d->output_max);
     }
-    d->output_list[d->output_count++] = data;
+    d->output_list[d->output_ಎಣಿಕೆ++] = ದತ್ತಾಂಶ;
 
-    if (data->videodata->xdg_output_manager) {
-        data->xdg_output = zxdg_output_manager_v1_get_xdg_output(data->videodata->xdg_output_manager, output);
-        zxdg_output_v1_add_listener(data->xdg_output, &xdg_output_listener, data);
+    ಆದರೆ (ದತ್ತಾಂಶ->videodata->xdg_output_manager) {
+        ದತ್ತಾಂಶ->xdg_output = zxdg_output_manager_v1_get_xdg_output(ದತ್ತಾಂಶ->videodata->xdg_output_manager, output);
+        zxdg_output_v1_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->xdg_output, &xdg_output_listener, ದತ್ತಾಂಶ);
     }
-    if (data->videodata->wp_color_manager_v1) {
-        data->wp_color_management_output = wp_color_manager_v1_get_output(data->videodata->wp_color_manager_v1, output);
-        wp_color_management_output_v1_add_listener(data->wp_color_management_output, &wp_color_management_output_listener, data);
+    ಆದರೆ (ದತ್ತಾಂಶ->videodata->wp_color_manager_v1) {
+        ದತ್ತಾಂಶ->wp_color_management_output = wp_color_manager_v1_get_output(ದತ್ತಾಂಶ->videodata->wp_color_manager_v1, output);
+        wp_color_management_output_v1_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->wp_color_management_output, &wp_color_management_output_listener, ದತ್ತಾಂಶ);
 
         // If not initializing, this will be queried synchronously in wl_output.done.
-        if (d->initializing) {
-            Wayland_GetColorInfoForOutput(data, true);
+        ಆದರೆ (d->initializing) {
+            Wayland_GetColorInfoForOutput(ದತ್ತಾಂಶ, true);
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void Wayland_free_display(SDL_VideoDisplay *display, bool send_event)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_free_display(SDL_VideoDisplay *display, bool send_event)
 {
-    if (display) {
-        SDL_DisplayData *display_data = display->internal;
+    ಆದರೆ (display) {
+        SDL_Display_ದತ್ತಾಂಶ *display_ದತ್ತಾಂಶ = display->ಆಂತರಿಕ;
 
         /* A preceding surface leave event is not guaranteed when an output is removed,
          * so ensure that no window continues to hold a reference to a removed output.
          */
-        for (SDL_Window *window = SDL_GetVideoDevice()->windows; window; window = window->next) {
-            Wayland_RemoveOutputFromWindow(window->internal, display_data);
+        ಗಾಗಿ (SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = SDL_GetVideoDevice()->windows; ಕಿಟಕಿ; ಕಿಟಕಿ = ಕಿಟಕಿ->ಮುಂದಿನ) {
+            Wayland_Remove_Output_From_ಕಿಟಕಿ(ಕಿಟಕಿ->ಆಂತರಿಕ, display_ದತ್ತಾಂಶ);
         }
 
-        SDL_free(display_data->wl_output_name);
+        SDL_free(display_ದತ್ತಾಂಶ->wl_output_name);
 
-        if (display_data->wp_color_management_output) {
-            Wayland_FreeColorInfoState(display_data->color_info_state);
-            wp_color_management_output_v1_destroy(display_data->wp_color_management_output);
+        ಆದರೆ (display_ದತ್ತಾಂಶ->wp_color_management_output) {
+            Wayland_FreeColorInfoState(display_ದತ್ತಾಂಶ->color_info_state);
+            wp_color_management_output_v1_destroy(display_ದತ್ತಾಂಶ->wp_color_management_output);
         }
 
-        if (display_data->xdg_output) {
-            zxdg_output_v1_destroy(display_data->xdg_output);
+        ಆದರೆ (display_ದತ್ತಾಂಶ->xdg_output) {
+            zxdg_output_v1_destroy(display_ದತ್ತಾಂಶ->xdg_output);
         }
 
-        if (wl_output_get_version(display_data->output) >= WL_OUTPUT_RELEASE_SINCE_VERSION) {
-            wl_output_release(display_data->output);
-        } else {
-            wl_output_destroy(display_data->output);
+        ಆದರೆ (wl_output_get_ಆವೃತ್ತಿ(display_ದತ್ತಾಂಶ->output) >= WL_OUTPUT_RELEASE_SINCE_ಆವೃತ್ತಿ) {
+            wl_output_release(display_ದತ್ತಾಂಶ->output);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            wl_output_destroy(display_ದತ್ತಾಂಶ->output);
         }
 
         SDL_DelVideoDisplay(display->id, send_event);
     }
 }
 
-static void Wayland_FinalizeDisplays(SDL_VideoData *vid)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_FinalizeDisplays(SDL_Video_ದತ್ತಾಂಶ *vid)
 {
-    Wayland_SortOutputs(vid);
+    Wayland_ವಿಂಗಡಿಸು_Outputs(vid);
 
-    for(int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d = vid->output_list[i];
-        d->display = SDL_AddVideoDisplay(&d->placeholder, false);
+    ಗಾಗಿ(ಪೂರ್ಣಾಂಕ i = 0; i < vid->output_ಎಣಿಕೆ; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *d = vid->output_list[i];
+        d->display = SDL_ಕೂಡಿಸು_Video_Display(&d->placeholder, false);
         SDL_free(d->placeholder.name);
         SDL_zero(d->placeholder);
     }
 }
 
-static void Wayland_init_xdg_output(SDL_VideoData *d)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_init_xdg_output(SDL_Video_ದತ್ತಾಂಶ *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < d->output_ಎಣಿಕೆ; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *disp = d->output_list[i];
         disp->xdg_output = zxdg_output_manager_v1_get_xdg_output(disp->videodata->xdg_output_manager, disp->output);
-        zxdg_output_v1_add_listener(disp->xdg_output, &xdg_output_listener, disp);
+        zxdg_output_v1_ಕೂಡಿಸು_listener(disp->xdg_output, &xdg_output_listener, disp);
     }
 }
 
-static void Wayland_InitColorManager(SDL_VideoData *d)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_InitColorManager(SDL_Video_ದತ್ತಾಂಶ *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < d->output_ಎಣಿಕೆ; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *disp = d->output_list[i];
         disp->wp_color_management_output = wp_color_manager_v1_get_output(disp->videodata->wp_color_manager_v1, disp->output);
-        wp_color_management_output_v1_add_listener(disp->wp_color_management_output, &wp_color_management_output_listener, disp);
+        wp_color_management_output_v1_ಕೂಡಿಸು_listener(disp->wp_color_management_output, &wp_color_management_output_listener, disp);
         Wayland_GetColorInfoForOutput(disp, true);
     }
 }
 
-static void handle_xdg_session_created(void *data, struct xdg_session_v1 *xdg_session_v1, const char *id)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_session_created(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ xdg_session_v1 *xdg_session_v1, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *id)
 {
-    SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, id);
+    SDL_ಗಣ_String_Property(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, id);
 }
 
-static void handle_xdg_session_restored(void *data, struct xdg_session_v1 *xdg_session_v1)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_session_restored(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ xdg_session_v1 *xdg_session_v1)
 {
     // NOP
 }
 
-static void handle_xdg_session_replaced(void *data, struct xdg_session_v1 *xdg_session_v1)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_session_replaced(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ xdg_session_v1 *xdg_session_v1)
 {
     SDL_VideoDevice *viddev = SDL_GetVideoDevice();
-    SDL_VideoData *viddata = data;
+    SDL_Video_ದತ್ತಾಂಶ *viddata = ದತ್ತಾಂಶ;
 
     // Clean up all session objects, as they have become inert, and should be destroyed.
-    SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
+    SDL_ಗಣ_String_Property(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ಖಾಲಿ);
 
-    for (SDL_Window *w = viddev->windows; w; w = w->next) {
-        SDL_WindowData *d = w->internal;
+    ಗಾಗಿ (SDL_ಕಿಟಕಿ *w = viddev->windows; w; w = w->ಮುಂದಿನ) {
+        SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *d = w->ಆಂತರಿಕ;
 
-        if (d->xdg_toplevel_session) {
+        ಆದರೆ (d->xdg_toplevel_session) {
             xdg_toplevel_session_v1_destroy(d->xdg_toplevel_session);
-            d->xdg_toplevel_session = NULL;
+            d->xdg_toplevel_session = ಖಾಲಿ;
 
             SDL_free(d->session_id);
-            d->session_id = NULL;
+            d->session_id = ಖಾಲಿ;
         }
     }
 
-    if (viddata->xdg_session) {
+    ಆದರೆ (viddata->xdg_session) {
         xdg_session_v1_destroy(viddata->xdg_session);
-        viddata->xdg_session = NULL;
+        viddata->xdg_session = ಖಾಲಿ;
     }
 }
 
-static const struct xdg_session_v1_listener xdg_session_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ xdg_session_v1_listener xdg_session_listener = {
     .created  = handle_xdg_session_created,
     .restored = handle_xdg_session_restored,
     .replaced = handle_xdg_session_replaced
 };
 
-void Wayland_CreateSession(SDL_VideoData *viddata)
+ಶೂನ್ಯ Wayland_CreateSession(SDL_Video_ದತ್ತಾಂಶ *viddata)
 {
-    if (!viddata->xdg_session_manager) {
+    ಆದರೆ (!viddata->xdg_session_manager) {
         // Set the ID string to null if session management is not available.
-        SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        return;
+        SDL_ಗಣ_String_Property(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ಖಾಲಿ);
+        ಹಿಂತಿರುಗಿ;
     }
 
     // Register a new session, if one does not yet exist.
-    if (!viddata->xdg_session) {
-        const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (session_id) {
-            if (*session_id == '\0') {
+    ಆದರೆ (!viddata->xdg_session) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ಖಾಲಿ);
+        ಆದರೆ (session_id) {
+            ಆದರೆ (*session_id == '\0') {
                 // Create a new session if the ID string is empty.
-                session_id = NULL;
+                session_id = ಖಾಲಿ;
             }
 
-            const enum xdg_session_manager_v1_reason reason = session_id ? XDG_SESSION_MANAGER_V1_REASON_SESSION_RESTORE : XDG_SESSION_MANAGER_V1_REASON_LAUNCH;
+            ಸ್ಥಿರಾಂಕ ಎಣಿಕೆ xdg_session_manager_v1_reason reason = session_id ? XDG_SESSION_MANAGER_V1_REASON_SESSION_RESTORE : XDG_SESSION_MANAGER_V1_REASON_LAUNCH;
             viddata->xdg_session = xdg_session_manager_v1_get_session(viddata->xdg_session_manager, reason, session_id);
-            xdg_session_v1_add_listener(viddata->xdg_session, &xdg_session_listener, viddata);
+            xdg_session_v1_ಕೂಡಿಸು_listener(viddata->xdg_session, &xdg_session_listener, viddata);
         }
     }
 }
 
-static void Wayland_SessionDestroy(SDL_VideoData *viddata)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_SessionDestroy(SDL_Video_ದತ್ತಾಂಶ *viddata)
 {
     // If the session string was cleared, remove the session.
-    if (viddata->xdg_session) {
-        const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (!session_id || *session_id == '\0') {
+    ಆದರೆ (viddata->xdg_session) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, ಖಾಲಿ);
+        ಆದರೆ (!session_id || *session_id == '\0') {
             xdg_session_v1_remove(viddata->xdg_session);
 
             WAYLAND_wl_display_roundtrip(viddata->display);
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             xdg_session_v1_destroy(viddata->xdg_session);
         }
 
-        viddata->xdg_session = NULL;
+        viddata->xdg_session = ಖಾಲಿ;
     }
 }
 
-static void handle_xdg_wm_base_ping(void *data, struct xdg_wm_base *xdg, uint32_t serial)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_wm_ತಳ_ping(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ xdg_wm_ತಳ *xdg, uint32_t serial)
 {
-    xdg_wm_base_pong(xdg, serial);
+    xdg_wm_ತಳ_pong(xdg, serial);
 }
 
-static const struct xdg_wm_base_listener _xdg_wm_base_listener = {
-    handle_xdg_wm_base_ping
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ xdg_wm_ತಳ_listener xdg_wm_ತಳ_listener_2 = {
+    handle_xdg_wm_ತಳ_ping
 };
 
-#ifdef HAVE_LIBDECOR_H
-static void libdecor_error(struct libdecor *context,
-                           enum libdecor_error error,
-                           const char *message)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+ಸ್ಥಿರ ಶೂನ್ಯ libdecor_error(ರಚನೆ libdecor *context,
+                           ಎಣಿಕೆ libdecor_error error,
+                           ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸಂದೇಶ)
 {
-    SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "libdecor error (%d): %s", error, message);
+    SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "libdecor error (%d): %s", error, ಸಂದೇಶ);
 }
 
-static struct libdecor_interface libdecor_interface = {
+ಸ್ಥಿರ ರಚನೆ libdecor_interface libdecor_interface = {
     libdecor_error
 };
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-static void handle_registry_global(void *data, struct wl_registry *registry, uint32_t id,
-                                   const char *interface, uint32_t version)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_registry_global(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_registry *registry, uint32_t id,
+                                   ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *interface, uint32_t ಆವೃತ್ತಿ)
 {
-    SDL_VideoData *d = data;
+    SDL_Video_ದತ್ತಾಂಶ *d = ದತ್ತಾಂಶ;
 
-    if (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
-        d->compositor = wl_registry_bind(d->registry, id, &wl_compositor_interface, SDL_min(SDL_WL_COMPOSITOR_VERSION, version));
-    } else if (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
+    ಆದರೆ (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
+        d->compositor = wl_registry_bind(d->registry, id, &wl_compositor_interface, SDL_min(SDL_WL_COMPOSITOR_ಆವೃತ್ತಿ, ಆವೃತ್ತಿ));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
         d->subcompositor = wl_registry_bind(d->registry, id, &wl_subcompositor_interface, 1);
-    } else if (SDL_strcmp(interface, wl_output_interface.name) == 0) {
-        Wayland_add_display(d, id, SDL_min(version, SDL_WL_OUTPUT_VERSION));
-    } else if (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
-        struct wl_seat *seat = wl_registry_bind(d->registry, id, &wl_seat_interface, SDL_min(SDL_WL_SEAT_VERSION, version));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wl_output_interface.name) == 0) {
+        Wayland_ಕೂಡಿಸು_display(d, id, SDL_min(ಆವೃತ್ತಿ, SDL_WL_OUTPUT_ಆವೃತ್ತಿ));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
+        ರಚನೆ wl_seat *seat = wl_registry_bind(d->registry, id, &wl_seat_interface, SDL_min(SDL_WL_SEAT_ಆವೃತ್ತಿ, ಆವೃತ್ತಿ));
         Wayland_DisplayCreateSeat(d, seat, id);
-    } else if (SDL_strcmp(interface, xdg_wm_base_interface.name) == 0) {
-        d->shell.xdg = wl_registry_bind(d->registry, id, &xdg_wm_base_interface, SDL_min(version, 7));
-        xdg_wm_base_add_listener(d->shell.xdg, &_xdg_wm_base_listener, NULL);
-    } else if (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
-        d->shm = wl_registry_bind(registry, id, &wl_shm_interface, SDL_min(SDL_WL_SHM_VERSION, version));
-    } else if (SDL_strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
-        d->relative_pointer_manager = wl_registry_bind(d->registry, id, &zwp_relative_pointer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
-        d->pointer_constraints = wl_registry_bind(d->registry, id, &zwp_pointer_constraints_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
-        d->key_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, xdg_wm_ತಳ_interface.name) == 0) {
+        d->shell.xdg = wl_registry_bind(d->registry, id, &xdg_wm_ತಳ_interface, SDL_min(ಆವೃತ್ತಿ, 7));
+        xdg_wm_ತಳ_ಕೂಡಿಸು_listener(d->shell.xdg, &xdg_wm_ತಳ_listener_2, ಖಾಲಿ);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
+        d->shm = wl_registry_bind(registry, id, &wl_shm_interface, SDL_min(SDL_WL_SHM_ಆವೃತ್ತಿ, ಆವೃತ್ತಿ));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_relative_ಸೂಚಕ_manager_v1_interface.name) == 0) {
+        d->relative_ಸೂಚಕ_manager = wl_registry_bind(d->registry, id, &zwp_relative_ಸೂಚಕ_manager_v1_interface, 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_ಸೂಚಕ_constraints_v1_interface.name) == 0) {
+        d->ಸೂಚಕ_constraints = wl_registry_bind(d->registry, id, &zwp_ಸೂಚಕ_constraints_v1_interface, 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
+        d->ಕೀಲಿ_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
         d->idle_inhibit_manager = wl_registry_bind(d->registry, id, &zwp_idle_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
         d->activation_manager = wl_registry_bind(d->registry, id, &xdg_activation_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_text_input_manager_v3_interface.name) == 0) {
-        d->text_input_manager = wl_registry_bind(d->registry, id, &zwp_text_input_manager_v3_interface, 1);
-        Wayland_DisplayInitTextInputManager(d, id);
-    } else if (SDL_strcmp(interface, wl_data_device_manager_interface.name) == 0) {
-        d->data_device_manager = wl_registry_bind(d->registry, id, &wl_data_device_manager_interface, SDL_min(3, version));
-        Wayland_DisplayInitDataDeviceManager(d);
-    } else if (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_ಪಠ್ಯ_ಒಳಹರಿವು_manager_v3_interface.name) == 0) {
+        d->ಪಠ್ಯ_ಒಳಹರಿವು_manager = wl_registry_bind(d->registry, id, &zwp_ಪಠ್ಯ_ಒಳಹರಿವು_manager_v3_interface, 1);
+        Wayland_Display_Init_ಪಠ್ಯ_ಒಳಹರಿವು_Manager(d, id);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wl_ದತ್ತಾಂಶ_device_manager_interface.name) == 0) {
+        d->ದತ್ತಾಂಶ_device_manager = wl_registry_bind(d->registry, id, &wl_ದತ್ತಾಂಶ_device_manager_interface, SDL_min(3, ಆವೃತ್ತಿ));
+        Wayland_Display_Init_ದತ್ತಾಂಶ_Device_Manager(d);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
         d->primary_selection_device_manager = wl_registry_bind(d->registry, id, &zwp_primary_selection_device_manager_v1_interface, 1);
         Wayland_DisplayInitPrimarySelectionDeviceManager(d);
-    } else if (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
-        d->decoration_manager = wl_registry_bind(d->registry, id, &zxdg_decoration_manager_v1_interface, SDL_min(2, version));
-    } else if (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
+        d->decoration_manager = wl_registry_bind(d->registry, id, &zxdg_decoration_manager_v1_interface, SDL_min(2, ಆವೃತ್ತಿ));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
         d->tablet_manager = wl_registry_bind(d->registry, id, &zwp_tablet_manager_v2_interface, 1);
         Wayland_DisplayInitTabletManager(d);
-    } else if (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
-        version = SDL_min(version, 3); // Versions 1 through 3 are supported.
-        d->xdg_output_manager = wl_registry_bind(d->registry, id, &zxdg_output_manager_v1_interface, version);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
+        ಆವೃತ್ತಿ = SDL_min(ಆವೃತ್ತಿ, 3); // Versions 1 through 3 are supported.
+        d->xdg_output_manager = wl_registry_bind(d->registry, id, &zxdg_output_manager_v1_interface, ಆವೃತ್ತಿ);
         Wayland_init_xdg_output(d);
-    } else if (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
         d->viewporter = wl_registry_bind(d->registry, id, &wp_viewporter_interface, 1);
-    } else if (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
         d->fractional_scale_manager = wl_registry_bind(d->registry, id, &wp_fractional_scale_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_input_timestamps_manager_v1_interface.name) == 0) {
-        d->input_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_input_timestamps_manager_v1_interface, 1);
-        Wayland_DisplayInitInputTimestampManager(d);
-    } else if (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
-        d->cursor_shape_manager = wl_registry_bind(d->registry, id, &wp_cursor_shape_manager_v1_interface, SDL_min(version, 2));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_ಒಳಹರಿವು_timestamps_manager_v1_interface.name) == 0) {
+        d->ಒಳಹರಿವು_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_ಒಳಹರಿವು_timestamps_manager_v1_interface, 1);
+        Wayland_Display_Init_ಒಳಹರಿವು_Timestamp_Manager(d);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
+        d->cursor_shape_manager = wl_registry_bind(d->registry, id, &wp_cursor_shape_manager_v1_interface, SDL_min(ಆವೃತ್ತಿ, 2));
         Wayland_DisplayInitCursorShapeManager(d);
-    } else if (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
         d->zxdg_exporter_v2 = wl_registry_bind(d->registry, id, &zxdg_exporter_v2_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
         d->xdg_wm_dialog_v1 = wl_registry_bind(d->registry, id, &xdg_wm_dialog_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
         d->wp_alpha_modifier_v1 = wl_registry_bind(d->registry, id, &wp_alpha_modifier_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
         d->xdg_toplevel_icon_manager_v1 = wl_registry_bind(d->registry, id, &xdg_toplevel_icon_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
         d->frog_color_management_factory_v1 = wl_registry_bind(d->registry, id, &frog_color_management_factory_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
-        d->wp_color_manager_v1 = wl_registry_bind(d->registry, id, &wp_color_manager_v1_interface, SDL_min(version, 2));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
+        d->wp_color_manager_v1 = wl_registry_bind(d->registry, id, &wp_color_manager_v1_interface, SDL_min(ಆವೃತ್ತಿ, 2));
         Wayland_InitColorManager(d);
-    } else if (SDL_strcmp(interface, wp_pointer_warp_v1_interface.name) == 0) {
-        d->wp_pointer_warp_v1 = wl_registry_bind(d->registry, id, &wp_pointer_warp_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_gestures_v1_interface.name) == 0) {
-        d->zwp_pointer_gestures = wl_registry_bind(d->registry, id, &zwp_pointer_gestures_v1_interface, SDL_min(version, 3));
-        Wayland_DisplayInitPointerGestureManager(d);
-    } else if (SDL_strcmp(interface, wp_single_pixel_buffer_manager_v1_interface.name) == 0) {
-        d->single_pixel_buffer_manager = wl_registry_bind(d->registry, id, &wp_single_pixel_buffer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wp_ಸೂಚಕ_warp_v1_interface.name) == 0) {
+        d->wp_ಸೂಚಕ_warp_v1 = wl_registry_bind(d->registry, id, &wp_ಸೂಚಕ_warp_v1_interface, 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, zwp_ಸೂಚಕ_gestures_v1_interface.name) == 0) {
+        d->zwp_ಸೂಚಕ_gestures = wl_registry_bind(d->registry, id, &zwp_ಸೂಚಕ_gestures_v1_interface, SDL_min(ಆವೃತ್ತಿ, 3));
+        Wayland_Display_Init_ಸೂಚಕ_Gesture_Manager(d);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wp_single_pixel_ಬಫರ್_manager_v1_interface.name) == 0) {
+        d->single_pixel_ಬಫರ್_manager = wl_registry_bind(d->registry, id, &wp_single_pixel_ಬಫರ್_manager_v1_interface, 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
         d->xdg_session_manager = wl_registry_bind(d->registry, id, &xdg_session_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_tag_manager_v1_interface.name) == 0) {
-        d->xdg_toplevel_tag_manager = wl_registry_bind(d->registry, id, &xdg_toplevel_tag_manager_v1_interface, 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, xdg_toplevel_ಟ್ಯಾಗ್_manager_v1_interface.name) == 0) {
+        d->xdg_toplevel_ಟ್ಯಾಗ್_manager = wl_registry_bind(d->registry, id, &xdg_toplevel_ಟ್ಯಾಗ್_manager_v1_interface, 1);
     }
-#ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
-        d->wl_fixes = wl_registry_bind(d->registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_WL_FIXES_ಆವೃತ್ತಿ
+    ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+        d->wl_fixes = wl_registry_bind(d->registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_ಆವೃತ್ತಿ, ಆವೃತ್ತಿ));
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static void handle_registry_remove_global(void *data, struct wl_registry *registry, uint32_t id)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_registry_remove_global(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_registry *registry, uint32_t id)
 {
-    SDL_VideoData *d = data;
+    SDL_Video_ದತ್ತಾಂಶ *d = ದತ್ತಾಂಶ;
 
     // We don't get an interface, just an ID, so check outputs and seats.
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
-        if (disp->registry_id == id) {
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < d->output_ಎಣಿಕೆ; ++i) {
+        SDL_Display_ದತ್ತಾಂಶ *disp = d->output_list[i];
+        ಆದರೆ (disp->registry_id == id) {
             Wayland_free_display(SDL_GetVideoDisplay(disp->display), true);
 
-            if (i < d->output_count) {
-                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], sizeof(SDL_DisplayData *) * (d->output_count - i - 1));
+            ಆದರೆ (i < d->output_ಎಣಿಕೆ) {
+                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *) * (d->output_ಎಣಿಕೆ - i - 1));
             }
 
-            d->output_count--;
-            goto ack_remove;
+            d->output_ಎಣಿಕೆ--;
+            ಹೋಗು ack_remove;
         }
     }
 
-    SDL_WaylandSeat *seat, *temp;
-    wl_list_for_each_safe (seat, temp, &d->seat_list, link) {
-        if (seat->registry_id == id) {
+    SDL_WaylandSeat *seat, *ತಾತ್ಕಾಲಿಕ;
+    wl_list_for_each_ಸುರಕ್ಷಿತ (seat, ತಾತ್ಕಾಲಿಕ, &d->seat_list, link) {
+        ಆದರೆ (seat->registry_id == id) {
             Wayland_SeatDestroy(seat, false);
-            goto ack_remove;
+            ಹೋಗು ack_remove;
         }
     }
 
 ack_remove:
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    ಆದರೆ (d->wl_fixes && wl_fixes_get_ಆವೃತ್ತಿ(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_ಆವೃತ್ತಿ) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
 
-static const struct wl_registry_listener registry_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_registry_listener registry_listener = {
     handle_registry_global,
     handle_registry_remove_global
 };
 
-#ifdef HAVE_LIBDECOR_H
-static bool should_use_libdecor(SDL_VideoData *data, bool ignore_xdg)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+ಸ್ಥಿರ bool should_use_libdecor(SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, bool ignore_xdg)
 {
-    if (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
-        return false;
+    ಆದರೆ (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
-        return true;
+    ಆದರೆ (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    if (ignore_xdg) {
-        return true;
+    ಆದರೆ (ignore_xdg) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    if (data->decoration_manager) {
-        return false;
+    ಆದರೆ (ದತ್ತಾಂಶ->decoration_manager) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void LibdecorNew(SDL_VideoData *data)
+ಸ್ಥಿರ ಶೂನ್ಯ LibdecorNew(SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    data->shell.libdecor = libdecor_new(data->display, &libdecor_interface);
+    ದತ್ತಾಂಶ->shell.libdecor = libdecor_new(ದತ್ತಾಂಶ->display, &libdecor_interface);
 }
 
 // Called in another thread, but the UI thread is blocked in SDL_WaitThread
 // during that time, so it should be OK to dereference data without locks
-static int SDLCALL LibdecorNewInThread(void *data)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ SDLCALL Libdecor_New_ಒಳ_Thread(ಶೂನ್ಯ *ದತ್ತಾಂಶ)
 {
-    LibdecorNew((SDL_VideoData *)data);
-    return 0;
+    LibdecorNew((SDL_Video_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ);
+    ಹಿಂತಿರುಗಿ 0;
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef HAVE_GETRESUID
-#define SDL_getresuid getresuid
-#else
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_GETRESUID
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_getresuid getresuid
+#ಇಲ್ಲದಿದ್ದರೆ
 // Non-POSIX, but Linux and some BSDs have it.
 // To reduce the number of code paths, if getresuid() isn't available at
 // compile-time, we behave as though it existed but failed at runtime.
-static inline int SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
+ಸ್ಥಿರ ಸಾಲೊಳಗೆ ಪೂರ್ಣಾಂಕ SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
     errno = ENOSYS;
-    return -1;
+    ಹಿಂತಿರುಗಿ -1;
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef HAVE_GETRESGID
-#define SDL_getresgid getresgid
-#else
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_GETRESGID
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_getresgid getresgid
+#ಇಲ್ಲದಿದ್ದರೆ
 // Same as getresuid() but for the primary group
-static inline int SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
+ಸ್ಥಿರ ಸಾಲೊಳಗೆ ಪೂರ್ಣಾಂಕ SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
     errno = ENOSYS;
-    return -1;
+    ಹಿಂತಿರುಗಿ -1;
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-bool CanUseGtk(void)
+bool CanUseGtk(ಶೂನ್ಯ)
 {
     // "Real", "effective" and "saved" IDs: see e.g. Linux credentials(7)
     uid_t ruid = -1, euid = -1, suid = -1;
     gid_t rgid = -1, egid = -1, sgid = -1;
 
-    if (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
+    ಆದರೆ (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to hint");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // This is intended to match the check in gtkmain.c, rather than being
@@ -1648,382 +1648,382 @@ bool CanUseGtk(void)
     // we don't use Linux getauxval() or prctl PR_GET_DUMPABLE,
     // BSD issetugid(), or similar OS-specific detection
 
-    if (SDL_getresuid(&ruid, &euid, &suid) != 0) {
+    ಆದರೆ (SDL_getresuid(&ruid, &euid, &suid) != 0) {
         ruid = suid = getuid();
         euid = geteuid();
     }
 
-    if (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
+    ಆದರೆ (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
         rgid = sgid = getgid();
         egid = getegid();
     }
 
     // Real ID != effective ID means we are setuid or setgid:
     // GTK will refuse to initialize, and instead will call exit().
-    if (ruid != euid || rgid != egid) {
+    ಆದರೆ (ruid != euid || rgid != egid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to setuid/setgid");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Real ID != saved ID means we are setuid or setgid, we previously
     // dropped privileges, but we can regain them; this protects against
     // accidents but does not protect against arbitrary code execution.
     // Again, GTK will refuse to initialize if this is the case.
-    if (ruid != suid || rgid != sgid) {
+    ಆದರೆ (ruid != suid || rgid != sgid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to saved uid/gid");
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Wayland_LoadLibdecor(SDL_VideoData *data, bool ignore_xdg)
+bool Wayland_ತುಂಬು_Libdecor(SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, bool ignore_xdg)
 {
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell.libdecor != NULL) {
-        return true; // Already loaded!
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (ದತ್ತಾಂಶ->shell.libdecor != ಖಾಲಿ) {
+        ಹಿಂತಿರುಗಿ true; // Already loaded!
     }
-    if (should_use_libdecor(data, ignore_xdg)) {
-        if (CanUseGtk()) {
-            LibdecorNew(data);
-        } else {
+    ಆದರೆ (should_use_libdecor(ದತ್ತಾಂಶ, ignore_xdg)) {
+        ಆದರೆ (CanUseGtk()) {
+            LibdecorNew(ದತ್ತಾಂಶ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Intentionally initialize libdecor in a non-main thread
             // so that it will not use its GTK plugin, but instead will
             // fall back to the Cairo or dummy plugin
-            SDL_Thread *thread = SDL_CreateThread(LibdecorNewInThread, "SDL_LibdecorNew", (void *)data);
+            SDL_Thread *thread = SDL_CreateThread(Libdecor_New_ಒಳ_Thread, "SDL_LibdecorNew", (ಶೂನ್ಯ *)ದತ್ತಾಂಶ);
             // Note that the other thread now "owns" data until we have
             // waited for it, so don't touch data here
-            SDL_WaitThread(thread, NULL);
+            SDL_WaitThread(thread, ಖಾಲಿ);
         }
 
-        return data->shell.libdecor != NULL;
+        ಹಿಂತಿರುಗಿ ದತ್ತಾಂಶ->shell.libdecor != ಖಾಲಿ;
     }
-#endif
-    return false;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ false;
 }
 
 bool Wayland_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
-    data->event_thread_context = Wayland_CreateEventThread(data, "SDL Event Thread Queue");
-    if (!data->event_thread_context) {
+    ದತ್ತಾಂಶ->event_thread_context = Wayland_CreateEventThread(ದತ್ತಾಂಶ, "SDL Event Thread Queue");
+    ಆದರೆ (!ದತ್ತಾಂಶ->event_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create event thread context");
     }
 
-    data->job_thread_context = Wayland_CreateJobThread();
-    if (!data->job_thread_context) {
+    ದತ್ತಾಂಶ->ಕೆಲಸ_thread_context = Wayland_Create_ಕೆಲಸ_Thread();
+    ಆದರೆ (!ದತ್ತಾಂಶ->ಕೆಲಸ_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create job thread context");
     }
 
-    data->xkb_context = WAYLAND_xkb_context_new(0);
-    if (!data->xkb_context) {
-        return SDL_SetError("Failed to create XKB context");
+    ದತ್ತಾಂಶ->xkb_context = WAYLAND_xkb_context_new(0);
+    ಆದರೆ (!ದತ್ತಾಂಶ->xkb_context) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to create XKB context");
     }
 
-    data->registry = wl_display_get_registry(data->display);
-    if (!data->registry) {
-        return SDL_SetError("Failed to get the Wayland registry");
+    ದತ್ತಾಂಶ->registry = wl_display_get_registry(ದತ್ತಾಂಶ->display);
+    ಆದರೆ (!ದತ್ತಾಂಶ->registry) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to get the Wayland registry");
     }
 
-    wl_registry_add_listener(data->registry, &registry_listener, data);
+    wl_registry_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->registry, &registry_listener, ದತ್ತಾಂಶ);
 
     // First roundtrip to receive all registry objects.
-    WAYLAND_wl_display_roundtrip(data->display);
+    WAYLAND_wl_display_roundtrip(ದತ್ತಾಂಶ->display);
 
     // Require viewports and xdg-output for display scaling.
-    if (data->scale_to_display_enabled) {
-        if (!data->viewporter) {
+    ಆದರೆ (ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display_enabled) {
+        ಆದರೆ (!ದತ್ತಾಂಶ->viewporter) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'wp_viewporter' protocol: disabling");
-            data->scale_to_display_enabled = false;
+            ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display_enabled = false;
         }
-        if (!data->xdg_output_manager) {
+        ಆದರೆ (!ದತ್ತಾಂಶ->xdg_output_manager) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'zxdg_output_manager_v1' protocol: disabling");
-            data->scale_to_display_enabled = false;
+            ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display_enabled = false;
         }
     }
 
     // Now that we have all the protocols, load libdecor if applicable
-    Wayland_LoadLibdecor(data, false);
+    Wayland_ತುಂಬು_Libdecor(ದತ್ತಾಂಶ, false);
 
     // Second roundtrip to receive all output events.
-    WAYLAND_wl_display_roundtrip(data->display);
+    WAYLAND_wl_display_roundtrip(ದತ್ತಾಂಶ->display);
 
-    Wayland_FinalizeDisplays(data);
+    Wayland_FinalizeDisplays(ದತ್ತಾಂಶ);
 
-    Wayland_InitMouse(data);
+    Wayland_InitMouse(ದತ್ತಾಂಶ);
     Wayland_InitKeyboard(_this);
 
-    if (data->primary_selection_device_manager) {
-        _this->SetPrimarySelectionText = Wayland_SetPrimarySelectionText;
-        _this->GetPrimarySelectionText = Wayland_GetPrimarySelectionText;
-        _this->HasPrimarySelectionText = Wayland_HasPrimarySelectionText;
+    ಆದರೆ (ದತ್ತಾಂಶ->primary_selection_device_manager) {
+        _this->ಗಣ_Primary_Selection_ಪಠ್ಯ = Wayland_ಗಣ_Primary_Selection_ಪಠ್ಯ;
+        _this->Get_Primary_Selection_ಪಠ್ಯ = Wayland_Get_Primary_Selection_ಪಠ್ಯ;
+        _this->Has_Primary_Selection_ಪಠ್ಯ = Wayland_Has_Primary_Selection_ಪಠ್ಯ;
     }
 
-    data->initializing = false;
+    ದತ್ತಾಂಶ->initializing = false;
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+ಸ್ಥಿರ bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_DisplayData *internal = display->internal;
+    SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = display->ಆಂತರಿಕ;
 
-    if (!viddata->scale_to_display_enabled) {
-        rect->x = internal->logical.x;
-        rect->y = internal->logical.y;
-    } else {
-        rect->x = internal->pixel.x;
-        rect->y = internal->pixel.y;
+    ಆದರೆ (!viddata->scale_ಗಮ್ಯ_display_enabled) {
+        rect->x = ಆಂತರಿಕ->logical.x;
+        rect->y = ಆಂತರಿಕ->logical.y;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        rect->x = ಆಂತರಿಕ->pixel.x;
+        rect->y = ಆಂತರಿಕ->pixel.y;
     }
 
     // When an emulated, exclusive fullscreen window has focus, treat the mode dimensions as the display bounds.
-    if (display->fullscreen_window &&
-        display->fullscreen_window->fullscreen_exclusive &&
-        display->fullscreen_window->internal->active &&
-        display->fullscreen_window->current_fullscreen_mode.w != 0 &&
-        display->fullscreen_window->current_fullscreen_mode.h != 0) {
-        rect->w = display->fullscreen_window->current_fullscreen_mode.w;
-        rect->h = display->fullscreen_window->current_fullscreen_mode.h;
-    } else {
-        if (!viddata->scale_to_display_enabled) {
-            rect->w = display->current_mode->w;
-            rect->h = display->current_mode->h;
-        } else if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
-            rect->w = internal->pixel.height;
-            rect->h = internal->pixel.width;
-        } else {
-            rect->w = internal->pixel.width;
-            rect->h = internal->pixel.height;
+    ಆದರೆ (display->fullscreen_ಕಿಟಕಿ &&
+        display->fullscreen_ಕಿಟಕಿ->fullscreen_exclusive &&
+        display->fullscreen_ಕಿಟಕಿ->ಆಂತರಿಕ->ಸಕ್ರಿಯ &&
+        display->fullscreen_ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.w != 0 &&
+        display->fullscreen_ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.h != 0) {
+        rect->w = display->fullscreen_ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.w;
+        rect->h = display->fullscreen_ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.h;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!viddata->scale_ಗಮ್ಯ_display_enabled) {
+            rect->w = display->current_ಬಹುಲಕ->w;
+            rect->h = display->current_ಬಹುಲಕ->h;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಆಂತರಿಕ->transform & WL_OUTPUT_TRANSFORM_90) {
+            rect->w = ಆಂತರಿಕ->pixel.ಎತ್ತರ;
+            rect->h = ಆಂತರಿಕ->pixel.ಅಗಲ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            rect->w = ಆಂತರಿಕ->pixel.ಅಗಲ;
+            rect->h = ಆಂತರಿಕ->pixel.ಎತ್ತರ;
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_VideoCleanup(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
     SDL_WaylandSeat *seat, *tmp;
 
-    Wayland_SessionDestroy(data);
+    Wayland_SessionDestroy(ದತ್ತಾಂಶ);
 
-    for (int i = _this->num_displays - 1; i >= 0; --i) {
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = _this->ಅಂಕೆ_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
         Wayland_free_display(display, false);
     }
-    SDL_free(data->output_list);
+    SDL_free(ದತ್ತಾಂಶ->output_list);
 
-    wl_list_for_each_safe (seat, tmp, &data->seat_list, link) {
+    wl_list_for_each_ಸುರಕ್ಷಿತ (seat, tmp, &ದತ್ತಾಂಶ->seat_list, link) {
         Wayland_SeatDestroy(seat, true);
     }
 
-    Wayland_FiniMouse(data);
+    Wayland_FiniMouse(ದತ್ತಾಂಶ);
     Wayland_QuitKeyboard(_this);
 
-    Wayland_DestroyEventThread(data->event_thread_context);
-    data->event_thread_context = NULL;
+    Wayland_DestroyEventThread(ದತ್ತಾಂಶ->event_thread_context);
+    ದತ್ತಾಂಶ->event_thread_context = ಖಾಲಿ;
 
-    Wayland_DestroyJobThread(data->job_thread_context);
-    data->job_thread_context = NULL;
+    Wayland_Destroy_ಕೆಲಸ_Thread(ದತ್ತಾಂಶ->ಕೆಲಸ_thread_context);
+    ದತ್ತಾಂಶ->ಕೆಲಸ_thread_context = ಖಾಲಿ;
 
-    if (data->pointer_constraints) {
-        zwp_pointer_constraints_v1_destroy(data->pointer_constraints);
-        data->pointer_constraints = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->ಸೂಚಕ_constraints) {
+        zwp_ಸೂಚಕ_constraints_v1_destroy(ದತ್ತಾಂಶ->ಸೂಚಕ_constraints);
+        ದತ್ತಾಂಶ->ಸೂಚಕ_constraints = ಖಾಲಿ;
     }
 
-    if (data->relative_pointer_manager) {
-        zwp_relative_pointer_manager_v1_destroy(data->relative_pointer_manager);
-        data->relative_pointer_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->relative_ಸೂಚಕ_manager) {
+        zwp_relative_ಸೂಚಕ_manager_v1_destroy(ದತ್ತಾಂಶ->relative_ಸೂಚಕ_manager);
+        ದತ್ತಾಂಶ->relative_ಸೂಚಕ_manager = ಖಾಲಿ;
     }
 
-    if (data->activation_manager) {
-        xdg_activation_v1_destroy(data->activation_manager);
-        data->activation_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->activation_manager) {
+        xdg_activation_v1_destroy(ದತ್ತಾಂಶ->activation_manager);
+        ದತ್ತಾಂಶ->activation_manager = ಖಾಲಿ;
     }
 
-    if (data->idle_inhibit_manager) {
-        zwp_idle_inhibit_manager_v1_destroy(data->idle_inhibit_manager);
-        data->idle_inhibit_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->idle_inhibit_manager) {
+        zwp_idle_inhibit_manager_v1_destroy(ದತ್ತಾಂಶ->idle_inhibit_manager);
+        ದತ್ತಾಂಶ->idle_inhibit_manager = ಖಾಲಿ;
     }
 
-    if (data->key_inhibitor_manager) {
-        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(data->key_inhibitor_manager);
-        data->key_inhibitor_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->ಕೀಲಿ_inhibitor_manager) {
+        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(ದತ್ತಾಂಶ->ಕೀಲಿ_inhibitor_manager);
+        ದತ್ತಾಂಶ->ಕೀಲಿ_inhibitor_manager = ಖಾಲಿ;
     }
 
-    if (data->text_input_manager) {
-        zwp_text_input_manager_v3_destroy(data->text_input_manager);
-        data->text_input_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->ಪಠ್ಯ_ಒಳಹರಿವು_manager) {
+        zwp_ಪಠ್ಯ_ಒಳಹರಿವು_manager_v3_destroy(ದತ್ತಾಂಶ->ಪಠ್ಯ_ಒಳಹರಿವು_manager);
+        ದತ್ತಾಂಶ->ಪಠ್ಯ_ಒಳಹರಿವು_manager = ಖಾಲಿ;
     }
 
-    if (data->xkb_context) {
-        WAYLAND_xkb_context_unref(data->xkb_context);
-        data->xkb_context = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->xkb_context) {
+        WAYLAND_xkb_context_unref(ದತ್ತಾಂಶ->xkb_context);
+        ದತ್ತಾಂಶ->xkb_context = ಖಾಲಿ;
     }
 
-    if (data->tablet_manager) {
-        zwp_tablet_manager_v2_destroy((struct zwp_tablet_manager_v2 *)data->tablet_manager);
-        data->tablet_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->tablet_manager) {
+        zwp_tablet_manager_v2_destroy((ರಚನೆ zwp_tablet_manager_v2 *)ದತ್ತಾಂಶ->tablet_manager);
+        ದತ್ತಾಂಶ->tablet_manager = ಖಾಲಿ;
     }
 
-    if (data->data_device_manager) {
-        wl_data_device_manager_destroy(data->data_device_manager);
-        data->data_device_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->ದತ್ತಾಂಶ_device_manager) {
+        wl_ದತ್ತಾಂಶ_device_manager_destroy(ದತ್ತಾಂಶ->ದತ್ತಾಂಶ_device_manager);
+        ದತ್ತಾಂಶ->ದತ್ತಾಂಶ_device_manager = ಖಾಲಿ;
     }
 
-    if (data->shm) {
-        if (wl_shm_get_version(data->shm) >= WL_SHM_RELEASE_SINCE_VERSION) {
-            wl_shm_release(data->shm);
-        } else {
-            wl_shm_destroy(data->shm);
+    ಆದರೆ (ದತ್ತಾಂಶ->shm) {
+        ಆದರೆ (wl_shm_get_ಆವೃತ್ತಿ(ದತ್ತಾಂಶ->shm) >= WL_SHM_RELEASE_SINCE_ಆವೃತ್ತಿ) {
+            wl_shm_release(ದತ್ತಾಂಶ->shm);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            wl_shm_destroy(ದತ್ತಾಂಶ->shm);
         }
-        data->shm = NULL;
+        ದತ್ತಾಂಶ->shm = ಖಾಲಿ;
     }
 
-    if (data->shell.xdg) {
-        xdg_wm_base_destroy(data->shell.xdg);
-        data->shell.xdg = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->shell.xdg) {
+        xdg_wm_ತಳ_destroy(ದತ್ತಾಂಶ->shell.xdg);
+        ದತ್ತಾಂಶ->shell.xdg = ಖಾಲಿ;
     }
 
-    if (data->decoration_manager) {
-        zxdg_decoration_manager_v1_destroy(data->decoration_manager);
-        data->decoration_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->decoration_manager) {
+        zxdg_decoration_manager_v1_destroy(ದತ್ತಾಂಶ->decoration_manager);
+        ದತ್ತಾಂಶ->decoration_manager = ಖಾಲಿ;
     }
 
-    if (data->xdg_output_manager) {
-        zxdg_output_manager_v1_destroy(data->xdg_output_manager);
-        data->xdg_output_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->xdg_output_manager) {
+        zxdg_output_manager_v1_destroy(ದತ್ತಾಂಶ->xdg_output_manager);
+        ದತ್ತಾಂಶ->xdg_output_manager = ಖಾಲಿ;
     }
 
-    if (data->viewporter) {
-        wp_viewporter_destroy(data->viewporter);
-        data->viewporter = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->viewporter) {
+        wp_viewporter_destroy(ದತ್ತಾಂಶ->viewporter);
+        ದತ್ತಾಂಶ->viewporter = ಖಾಲಿ;
     }
 
-    if (data->primary_selection_device_manager) {
-        zwp_primary_selection_device_manager_v1_destroy(data->primary_selection_device_manager);
-        data->primary_selection_device_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->primary_selection_device_manager) {
+        zwp_primary_selection_device_manager_v1_destroy(ದತ್ತಾಂಶ->primary_selection_device_manager);
+        ದತ್ತಾಂಶ->primary_selection_device_manager = ಖಾಲಿ;
     }
 
-    if (data->fractional_scale_manager) {
-        wp_fractional_scale_manager_v1_destroy(data->fractional_scale_manager);
-        data->fractional_scale_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->fractional_scale_manager) {
+        wp_fractional_scale_manager_v1_destroy(ದತ್ತಾಂಶ->fractional_scale_manager);
+        ದತ್ತಾಂಶ->fractional_scale_manager = ಖಾಲಿ;
     }
 
-    if (data->input_timestamps_manager) {
-        zwp_input_timestamps_manager_v1_destroy(data->input_timestamps_manager);
-        data->input_timestamps_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->ಒಳಹರಿವು_timestamps_manager) {
+        zwp_ಒಳಹರಿವು_timestamps_manager_v1_destroy(ದತ್ತಾಂಶ->ಒಳಹರಿವು_timestamps_manager);
+        ದತ್ತಾಂಶ->ಒಳಹರಿವು_timestamps_manager = ಖಾಲಿ;
     }
 
-    if (data->cursor_shape_manager) {
-        wp_cursor_shape_manager_v1_destroy(data->cursor_shape_manager);
-        data->cursor_shape_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->cursor_shape_manager) {
+        wp_cursor_shape_manager_v1_destroy(ದತ್ತಾಂಶ->cursor_shape_manager);
+        ದತ್ತಾಂಶ->cursor_shape_manager = ಖಾಲಿ;
     }
 
-    if (data->zxdg_exporter_v2) {
-        zxdg_exporter_v2_destroy(data->zxdg_exporter_v2);
-        data->zxdg_exporter_v2 = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->zxdg_exporter_v2) {
+        zxdg_exporter_v2_destroy(ದತ್ತಾಂಶ->zxdg_exporter_v2);
+        ದತ್ತಾಂಶ->zxdg_exporter_v2 = ಖಾಲಿ;
     }
 
-    if (data->xdg_wm_dialog_v1) {
-        xdg_wm_dialog_v1_destroy(data->xdg_wm_dialog_v1);
-        data->xdg_wm_dialog_v1 = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->xdg_wm_dialog_v1) {
+        xdg_wm_dialog_v1_destroy(ದತ್ತಾಂಶ->xdg_wm_dialog_v1);
+        ದತ್ತಾಂಶ->xdg_wm_dialog_v1 = ಖಾಲಿ;
     }
 
-    if (data->wp_alpha_modifier_v1) {
-        wp_alpha_modifier_v1_destroy(data->wp_alpha_modifier_v1);
-        data->wp_alpha_modifier_v1 = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->wp_alpha_modifier_v1) {
+        wp_alpha_modifier_v1_destroy(ದತ್ತಾಂಶ->wp_alpha_modifier_v1);
+        ದತ್ತಾಂಶ->wp_alpha_modifier_v1 = ಖಾಲಿ;
     }
 
-    if (data->xdg_toplevel_icon_manager_v1) {
-        xdg_toplevel_icon_manager_v1_destroy(data->xdg_toplevel_icon_manager_v1);
-        data->xdg_toplevel_icon_manager_v1 = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->xdg_toplevel_icon_manager_v1) {
+        xdg_toplevel_icon_manager_v1_destroy(ದತ್ತಾಂಶ->xdg_toplevel_icon_manager_v1);
+        ದತ್ತಾಂಶ->xdg_toplevel_icon_manager_v1 = ಖಾಲಿ;
     }
 
-    if (data->frog_color_management_factory_v1) {
-        frog_color_management_factory_v1_destroy(data->frog_color_management_factory_v1);
-        data->frog_color_management_factory_v1 = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->frog_color_management_factory_v1) {
+        frog_color_management_factory_v1_destroy(ದತ್ತಾಂಶ->frog_color_management_factory_v1);
+        ದತ್ತಾಂಶ->frog_color_management_factory_v1 = ಖಾಲಿ;
     }
 
-    if (data->wp_color_manager_v1) {
-        wp_color_manager_v1_destroy(data->wp_color_manager_v1);
-        data->wp_color_manager_v1 = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->wp_color_manager_v1) {
+        wp_color_manager_v1_destroy(ದತ್ತಾಂಶ->wp_color_manager_v1);
+        ದತ್ತಾಂಶ->wp_color_manager_v1 = ಖಾಲಿ;
     }
 
-    if (data->wp_pointer_warp_v1) {
-        wp_pointer_warp_v1_destroy(data->wp_pointer_warp_v1);
-        data->wp_pointer_warp_v1 = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->wp_ಸೂಚಕ_warp_v1) {
+        wp_ಸೂಚಕ_warp_v1_destroy(ದತ್ತಾಂಶ->wp_ಸೂಚಕ_warp_v1);
+        ದತ್ತಾಂಶ->wp_ಸೂಚಕ_warp_v1 = ಖಾಲಿ;
     }
 
-    if (data->zwp_pointer_gestures) {
-        if (zwp_pointer_gestures_v1_get_version(data->zwp_pointer_gestures) >= ZWP_POINTER_GESTURES_V1_RELEASE_SINCE_VERSION) {
-            zwp_pointer_gestures_v1_release(data->zwp_pointer_gestures);
-        } else {
-            zwp_pointer_gestures_v1_destroy(data->zwp_pointer_gestures);
+    ಆದರೆ (ದತ್ತಾಂಶ->zwp_ಸೂಚಕ_gestures) {
+        ಆದರೆ (zwp_ಸೂಚಕ_gestures_v1_get_ಆವೃತ್ತಿ(ದತ್ತಾಂಶ->zwp_ಸೂಚಕ_gestures) >= ZWP_ಸೂಚಕ_GESTURES_V1_RELEASE_SINCE_ಆವೃತ್ತಿ) {
+            zwp_ಸೂಚಕ_gestures_v1_release(ದತ್ತಾಂಶ->zwp_ಸೂಚಕ_gestures);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            zwp_ಸೂಚಕ_gestures_v1_destroy(ದತ್ತಾಂಶ->zwp_ಸೂಚಕ_gestures);
         }
-        data->zwp_pointer_gestures = NULL;
+        ದತ್ತಾಂಶ->zwp_ಸೂಚಕ_gestures = ಖಾಲಿ;
     }
 
-    if (data->single_pixel_buffer_manager) {
-        wp_single_pixel_buffer_manager_v1_destroy(data->single_pixel_buffer_manager);
-        data->single_pixel_buffer_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->single_pixel_ಬಫರ್_manager) {
+        wp_single_pixel_ಬಫರ್_manager_v1_destroy(ದತ್ತಾಂಶ->single_pixel_ಬಫರ್_manager);
+        ದತ್ತಾಂಶ->single_pixel_ಬಫರ್_manager = ಖಾಲಿ;
     }
 
-    if (data->xdg_session_manager) {
-        xdg_session_manager_v1_destroy(data->xdg_session_manager);
-        data->xdg_session_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->xdg_session_manager) {
+        xdg_session_manager_v1_destroy(ದತ್ತಾಂಶ->xdg_session_manager);
+        ದತ್ತಾಂಶ->xdg_session_manager = ಖಾಲಿ;
     }
 
-    if (data->xdg_toplevel_tag_manager) {
-        xdg_toplevel_tag_manager_v1_destroy(data->xdg_toplevel_tag_manager);
-        data->xdg_toplevel_tag_manager = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->xdg_toplevel_ಟ್ಯಾಗ್_manager) {
+        xdg_toplevel_ಟ್ಯಾಗ್_manager_v1_destroy(ದತ್ತಾಂಶ->xdg_toplevel_ಟ್ಯಾಗ್_manager);
+        ದತ್ತಾಂಶ->xdg_toplevel_ಟ್ಯಾಗ್_manager = ಖಾಲಿ;
     }
 
-    if (data->subcompositor) {
-        wl_subcompositor_destroy(data->subcompositor);
-        data->subcompositor = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->subcompositor) {
+        wl_subcompositor_destroy(ದತ್ತಾಂಶ->subcompositor);
+        ದತ್ತಾಂಶ->subcompositor = ಖಾಲಿ;
     }
 
-    if (data->compositor) {
-        wl_compositor_destroy(data->compositor);
-        data->compositor = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->compositor) {
+        wl_compositor_destroy(ದತ್ತಾಂಶ->compositor);
+        ದತ್ತಾಂಶ->compositor = ಖಾಲಿ;
     }
 
-    if (data->registry) {
-        if (data->wl_fixes) {
-            wl_fixes_destroy_registry(data->wl_fixes, data->registry);
-            wl_fixes_destroy(data->wl_fixes);
-            data->wl_fixes = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->registry) {
+        ಆದರೆ (ದತ್ತಾಂಶ->wl_fixes) {
+            wl_fixes_destroy_registry(ದತ್ತಾಂಶ->wl_fixes, ದತ್ತಾಂಶ->registry);
+            wl_fixes_destroy(ದತ್ತಾಂಶ->wl_fixes);
+            ದತ್ತಾಂಶ->wl_fixes = ಖಾಲಿ;
         }
-        wl_registry_destroy(data->registry);
-        data->registry = NULL;
+        wl_registry_destroy(ದತ್ತಾಂಶ->registry);
+        ದತ್ತಾಂಶ->registry = ಖಾಲಿ;
     }
 }
 
-static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
 {
-#if 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
-    SDL_VideoData *data = _this->internal;
+#ಆದರೆ 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
-    SDL_Window *window = NULL;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = ಖಾಲಿ;
 
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
-    SDL_Window *current_window = SDL_GL_GetCurrentWindow();
+    SDL_ಕಿಟಕಿ *current_ಕಿಟಕಿ = SDL_GL_Get_Current_ಕಿಟಕಿ();
 
-    SDL_GL_MakeCurrent(NULL, NULL);
+    SDL_GL_MakeCurrent(ಖಾಲಿ, ಖಾಲಿ);
     Wayland_VideoCleanup(_this);
 
     SDL_ResetKeyboard();
     SDL_ResetMouse();
-    if (WAYLAND_wl_display_reconnect(data->display) < 0) {
-        return false;
+    ಆದರೆ (WAYLAND_wl_display_reconnect(ದತ್ತಾಂಶ->display) < 0) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     Wayland_VideoInit(_this);
 
-    window = _this->windows;
-    while (window) {
+    ಕಿಟಕಿ = _this->windows;
+    ಆಗ (ಕಿಟಕಿ) {
         /* We're going to cheat _just_ for a second and strip the OpenGL flag.
          * The Wayland driver actually forces it in CreateWindow, and
          * RecreateWindow does a bunch of unloading/loading of libGL, so just
@@ -2031,26 +2031,26 @@ static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
          * and CreateWindow will add it right back!
          * -flibit
          */
-        window->flags &= ~SDL_WINDOW_OPENGL;
+        ಕಿಟಕಿ->flags &= ~SDL_ಕಿಟಕಿ_OPENGL;
 
-        SDL_RecreateWindow(window, window->flags);
-        window = window->next;
+        SDL_Recreate_ಕಿಟಕಿ(ಕಿಟಕಿ, ಕಿಟಕಿ->flags);
+        ಕಿಟಕಿ = ಕಿಟಕಿ->ಮುಂದಿನ;
     }
 
     Wayland_RecreateCursors();
 
-    if (current_window && current_ctx) {
-        SDL_GL_MakeCurrent (current_window, current_ctx);
+    ಆದರೆ (current_ಕಿಟಕಿ && current_ctx) {
+        SDL_GL_MakeCurrent (current_ಕಿಟಕಿ, current_ctx);
     }
-    return true;
-#else
-    return false;
-#endif // 0
+    ಹಿಂತಿರುಗಿ true;
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಹಿಂತಿರುಗಿ false;
+#ಆದರೆ_ಅಂತ್ಯ // 0
 }
 
 bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *video_ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
     /* Something has failed with the Wayland connection -- for example,
      * the compositor may have shut down and closed its end of the socket,
@@ -2058,34 +2058,34 @@ bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
      *
      * Try to recover once, then quit.
      */
-    if (video_data->display_disconnected) {
-        return false;
+    ಆದರೆ (video_ದತ್ತಾಂಶ->display_disconnected) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (Wayland_VideoReconnect(_this)) {
-        return true;
+    ಆದರೆ (Wayland_VideoReconnect(_this)) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    video_data->display_disconnected = true;
+    video_ದತ್ತಾಂಶ->display_disconnected = true;
     SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Wayland display connection closed by server (fatal)");
 
     // Only send a single quit message, as application shutdown might call SDL_PumpEvents().
     SDL_SendQuit();
 
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-void Wayland_VideoQuit(SDL_VideoDevice *_this)
+ಶೂನ್ಯ Wayland_VideoQuit(SDL_VideoDevice *_this)
 {
     Wayland_VideoCleanup(_this);
 
-#ifdef HAVE_LIBDECOR_H
-    SDL_VideoData *data = _this->internal;
-    if (data->shell.libdecor) {
-        libdecor_unref(data->shell.libdecor);
-        data->shell.libdecor = NULL;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    ಆದರೆ (ದತ್ತಾಂಶ->shell.libdecor) {
+        libdecor_unref(ದತ್ತಾಂಶ->shell.libdecor);
+        ದತ್ತಾಂಶ->shell.libdecor = ಖಾಲಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_WAYLAND

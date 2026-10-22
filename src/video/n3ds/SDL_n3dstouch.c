@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#ಅನ್ತರ್ಭಾವ <3ds.h>
 
-#include "../../events/SDL_touch_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_n3dstouch.h"
-#include "SDL_n3dsvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_touch_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_n3dstouch.h"
+#ಅನ್ತರ್ಭಾವ "SDL_n3dsvideo.h"
 
-#define N3DS_TOUCH_ID 1
-#define N3DS_TOUCH_FINGER 1
+#ವ್ಯಾಖ್ಯಾನಿಸು N3DS_TOUCH_ID 1
+#ವ್ಯಾಖ್ಯಾನಿಸು N3DS_TOUCH_FINGER 1
 
 /*
   Factors used to convert touchscreen coordinates to
@@ -39,48 +39,48 @@
   internally in a portrait disposition so the
   GSP_SCREEN constants are flipped.
 */
-#define TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_HEIGHT_BOTTOM - 1)
-#define TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_WIDTH - 1)
+#ವ್ಯಾಖ್ಯಾನಿಸು TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_ಎತ್ತರ_BOTTOM - 1)
+#ವ್ಯಾಖ್ಯಾನಿಸು TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_ಅಗಲ - 1)
 
-void N3DS_InitTouch(void)
+ಶೂನ್ಯ N3DS_InitTouch(ಶೂನ್ಯ)
 {
-    SDL_AddTouch(N3DS_TOUCH_ID, SDL_TOUCH_DEVICE_DIRECT, "Touchscreen");
+    SDL_ಕೂಡಿಸು_Touch(N3DS_TOUCH_ID, SDL_TOUCH_DEVICE_ನೇರ, "Touchscreen");
 }
 
-void N3DS_QuitTouch(void)
+ಶೂನ್ಯ N3DS_QuitTouch(ಶೂನ್ಯ)
 {
     SDL_DelTouch(N3DS_TOUCH_ID);
 }
 
-void N3DS_PollTouch(SDL_VideoDevice *_this)
+ಶೂನ್ಯ N3DS_PollTouch(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = (SDL_VideoData *)_this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
     touchPosition touch;
-    SDL_Window *window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ;
     SDL_VideoDisplay *display;
-    static bool was_pressed = false;
+    ಸ್ಥಿರ bool was_pressed = false;
     bool pressed;
     hidTouchRead(&touch);
     pressed = (touch.px != 0 || touch.py != 0);
 
-    display = SDL_GetVideoDisplay(internal->touch_display);
-    window = display ? display->fullscreen_window : NULL;
+    display = SDL_GetVideoDisplay(ಆಂತರಿಕ->touch_display);
+    ಕಿಟಕಿ = display ? display->fullscreen_ಕಿಟಕಿ : ಖಾಲಿ;
 
-    if (pressed != was_pressed) {
+    ಆದರೆ (pressed != was_pressed) {
         was_pressed = pressed;
         SDL_SendTouch(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
-                      window,
-                      pressed ? SDL_EVENT_FINGER_DOWN : SDL_EVENT_FINGER_UP,
+                      ಕಿಟಕಿ,
+                      pressed ? SDL_EVENT_FINGER_ಕೆಳಕ್ಕೆ : SDL_EVENT_FINGER_ಮೇಲೆ,
                       touch.px * TOUCHSCREEN_SCALE_X,
                       touch.py * TOUCHSCREEN_SCALE_Y,
                       pressed ? 1.0f : 0.0f);
-    } else if (pressed) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (pressed) {
         SDL_SendTouchMotion(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
-                            window,
+                            ಕಿಟಕಿ,
                             touch.px * TOUCHSCREEN_SCALE_X,
                             touch.py * TOUCHSCREEN_SCALE_Y,
                             1.0f);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_N3DS

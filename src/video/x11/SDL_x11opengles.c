@@ -18,144 +18,144 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_OPENGL_EGL)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_x11video.h"
-#include "SDL_x11opengles.h"
-#include "SDL_x11opengl.h"
-#include "SDL_x11xsync.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11opengles.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11opengl.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xsync.h"
 
-#ifndef EGL_PLATFORM_X11_KHR
-#define EGL_PLATFORM_X11_KHR 0x31D5
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ EGL_PLATFORM_X11_KHR
+#ವ್ಯಾಖ್ಯಾನಿಸು EGL_PLATFORM_X11_KHR 0x31D5
+#ಆದರೆ_ಅಂತ್ಯ
 
 // EGL implementation of SDL OpenGL support
 
-void X11_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_GLES_ಗಣ_Default_Profile_Config(SDL_VideoDevice *_this)
 {
     _this->gl_config.egl_platform = EGL_PLATFORM_X11_KHR;
 }
 
-bool X11_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool X11_GLES_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
     // If the profile requested is not GL ES, switch over to X11_GL functions
-    if ((_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES) &&
+    ಆದರೆ ((_this->gl_config.profile_ಮುಖವಾಡ != SDL_GL_CONTEXT_PROFILE_ES) &&
         !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
-#ifdef SDL_VIDEO_OPENGL_GLX
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_GLX
         X11_GLES_UnloadLibrary(_this);
-        _this->GL_LoadLibrary = X11_GL_LoadLibrary;
-        _this->GL_GetProcAddress = X11_GL_GetProcAddress;
+        _this->GL_ತುಂಬು_Library = X11_GL_ತುಂಬು_Library;
+        _this->GL_Get_Proc_ವಿಳಾಸ = X11_GL_Get_Proc_ವಿಳಾಸ;
         _this->GL_UnloadLibrary = X11_GL_UnloadLibrary;
         _this->GL_CreateContext = X11_GL_CreateContext;
         _this->GL_MakeCurrent = X11_GL_MakeCurrent;
-        _this->GL_SetSwapInterval = X11_GL_SetSwapInterval;
-        _this->GL_GetSwapInterval = X11_GL_GetSwapInterval;
-        _this->GL_SwapWindow = X11_GL_SwapWindow;
+        _this->GL_ಗಣ_ಅದಲುಬದಲು_Interval = X11_GL_ಗಣ_ಅದಲುಬದಲು_Interval;
+        _this->GL_Get_ಅದಲುಬದಲು_Interval = X11_GL_Get_ಅದಲುಬದಲು_Interval;
+        _this->GL_ಅದಲುಬದಲು_ಕಿಟಕಿ = X11_GL_ಅದಲುಬದಲು_ಕಿಟಕಿ;
         _this->GL_DestroyContext = X11_GL_DestroyContext;
-        return X11_GL_LoadLibrary(_this, path);
-#else
-        return SDL_SetError("SDL not configured with OpenGL/GLX support");
-#endif
+        ಹಿಂತಿರುಗಿ X11_GL_ತುಂಬು_Library(_this, ಮಾರ್ಗ);
+#ಇಲ್ಲದಿದ್ದರೆ
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("SDL not configured with OpenGL/GLX support");
+#ಆದರೆ_ಅಂತ್ಯ
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, (NativeDisplayType)data->display);
+    ಹಿಂತಿರುಗಿ SDL_EGL_ತುಂಬು_Library(_this, ಮಾರ್ಗ, (NativeDisplayType)ದತ್ತಾಂಶ->display);
 }
 
-XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent)
+XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, ಪೂರ್ಣಾಂಕ screen, bool transparent)
 {
 
-    XVisualInfo *egl_visualinfo = NULL;
+    XVisualInfo *egl_visualinfo = ಖಾಲಿ;
     EGLint visual_id = 0;
-    XVisualInfo vi_in;
-    int out_count = 0;
+    XVisualInfo vi_ಒಳ;
+    ಪೂರ್ಣಾಂಕ ಹೊರಹೋಗು_ಎಣಿಕೆ = 0;
 
-    if (!_this->egl_data) {
+    ಆದರೆ (!_this->egl_ದತ್ತಾಂಶ) {
         // The EGL library wasn't loaded, SDL_GetError() should have info
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (_this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
-                                            _this->egl_data->egl_config,
+    ಆದರೆ (_this->egl_ದತ್ತಾಂಶ->eglGetConfigAttrib(_this->egl_ದತ್ತಾಂಶ->egl_display,
+                                            _this->egl_ದತ್ತಾಂಶ->egl_config,
                                             EGL_NATIVE_VISUAL_ID,
                                             &visual_id) == EGL_FALSE) {
         visual_id = 0;
     }
-    if (visual_id != 0) {
-        vi_in.screen = screen;
-        vi_in.visualid = visual_id;
-        egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
-        if (transparent && egl_visualinfo) {
+    ಆದರೆ (visual_id != 0) {
+        vi_ಒಳ.screen = screen;
+        vi_ಒಳ.visualid = visual_id;
+        egl_visualinfo = X11_XGetVisualInfo(display, Visual_Screen_ಮುಖವಾಡ | VisualIDMask, &vi_ಒಳ, &ಹೊರಹೋಗು_ಎಣಿಕೆ);
+        ಆದರೆ (transparent && egl_visualinfo) {
             Uint32 format = X11_GetPixelFormatFromVisualInfo(display, egl_visualinfo);
-            if (!SDL_ISPIXELFORMAT_ALPHA(format)) {
+            ಆದರೆ (!SDL_ISPIXELFORMAT_ALPHA(format)) {
                 // not transparent!
                 X11_XFree(egl_visualinfo);
-                egl_visualinfo = NULL;
+                egl_visualinfo = ಖಾಲಿ;
             }
         }
     }
     
-    if(!egl_visualinfo) {
+    ಆದರೆ(!egl_visualinfo) {
         // Use the default visual when all else fails
-        vi_in.screen = screen;
+        vi_ಒಳ.screen = screen;
         egl_visualinfo = X11_XGetVisualInfo(display,
-                                            VisualScreenMask,
-                                            &vi_in, &out_count);
+                                            Visual_Screen_ಮುಖವಾಡ,
+                                            &vi_ಒಳ, &ಹೊರಹೋಗು_ಎಣಿಕೆ);
 
         // Return the first transparent Visual
-        if (transparent) {
-            int i;
-            for (i = 0; i < out_count; i++) {
+        ಆದರೆ (transparent) {
+            ಪೂರ್ಣಾಂಕ i;
+            ಗಾಗಿ (i = 0; i < ಹೊರಹೋಗು_ಎಣಿಕೆ; i++) {
                 XVisualInfo *v = &egl_visualinfo[i];
                 Uint32 format = X11_GetPixelFormatFromVisualInfo(display, v);
-                if (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
+                ಆದರೆ (SDL_ISPIXELFORMAT_ALPHA(format)) { // found!
                     // re-request it to have a copy that can be X11_XFree'ed later
-                    vi_in.screen = screen;
-                    vi_in.visualid = v->visualid;
+                    vi_ಒಳ.screen = screen;
+                    vi_ಒಳ.visualid = v->visualid;
                     X11_XFree(egl_visualinfo);
-                    egl_visualinfo = X11_XGetVisualInfo(display, VisualScreenMask | VisualIDMask, &vi_in, &out_count);
-                    return egl_visualinfo;
+                    egl_visualinfo = X11_XGetVisualInfo(display, Visual_Screen_ಮುಖವಾಡ | VisualIDMask, &vi_ಒಳ, &ಹೊರಹೋಗು_ಎಣಿಕೆ);
+                    ಹಿಂತಿರುಗಿ egl_visualinfo;
                 }
             }
         }
     }
-    return egl_visualinfo;
+    ಹಿಂತಿರುಗಿ egl_visualinfo;
 }
 
-SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     SDL_GLContext context;
-    SDL_WindowData *data = window->internal;
-    Display *display = data->videodata->display;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    Display *display = ದತ್ತಾಂಶ->videodata->display;
 
     X11_XSync(display, False);
-    context = SDL_EGL_CreateContext(_this, data->egl_surface);
+    context = SDL_EGL_CreateContext(_this, ದತ್ತಾಂಶ->egl_surface);
     X11_XSync(display, False);
 
-    return context;
+    ಹಿಂತಿರುಗಿ context;
 }
 
-SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *data = window->internal;
-    return data->egl_surface;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ಹಿಂತಿರುಗಿ ದತ್ತಾಂಶ->egl_surface;
 }
 
-bool X11_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    const bool ret = SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);                       \
+    ಸ್ಥಿರಾಂಕ bool ret = SDL_EGL_ಅದಲುಬದಲು_Buffers(_this, ಕಿಟಕಿ->ಆಂತರಿಕ->egl_surface);                       \
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-    X11_HandlePresent(window);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSYNC
+    X11_HandlePresent(ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ /* SDL_VIDEO_DRIVER_X11_XSYNC */
 
-    return ret;
+    ಹಿಂತಿರುಗಿ ret;
 }
 
 SDL_EGL_MakeCurrent_impl(X11)
 
-#endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_OPENGL_EGL
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_OPENGL_EGL
 

@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_x11clipboard_h_
-#define SDL_x11clipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_x11clipboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_x11clipboard_h_
 
-#include <X11/Xlib.h>
+#ಅನ್ತರ್ಭಾವ <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
-    SDL_ClipboardDataCallback callback;
-    void *userdata;
-    const char *const *mime_types;
-    size_t mime_count;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ X11_Clipboard_ದತ್ತಾಂಶ {
+    SDL_Clipboard_ದತ್ತಾಂಶ_Callback callback;
+    ಶೂನ್ಯ *userdata;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸ್ಥಿರಾಂಕ *mime_types;
+    size_t mime_ಎಣಿಕೆ;
     Uint32 sequence;
-} SDLX11_ClipboardData;
+} SDLX11_Clipboard_ದತ್ತಾಂಶ;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
-extern void X11_QuitClipboard(SDL_VideoDevice *_this);
-Window GetWindow(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸ್ಥಿರಾಂಕ *X11_Get_ಪಠ್ಯ_Mime_Types(SDL_VideoDevice *_this, size_t *ಅಂಕೆ_mime_types);
+ಬಾಹ್ಯ bool X11_ಗಣ_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ *X11_Get_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಉದ್ದಳತೆ);
+ಬಾಹ್ಯ bool X11_Has_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type);
+ಬಾಹ್ಯ bool X11_ಗಣ_Primary_Selection_ಪಠ್ಯ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಪಠ್ಯ);
+ಬಾಹ್ಯ ಅಕ್ಷರ *X11_Get_Primary_Selection_ಪಠ್ಯ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool X11_Has_Primary_Selection_ಪಠ್ಯ(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_QuitClipboard(SDL_VideoDevice *_this);
+ಕಿಟಕಿ_2 Get_ಕಿಟಕಿ(SDL_VideoDevice *_this);
 
-#endif // SDL_x11clipboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_x11clipboard_h_

@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_cocoamodes_h_
-#define SDL_cocoamodes_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_cocoamodes_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_cocoamodes_h_
 
-struct SDL_DisplayData
+ರಚನೆ SDL_Display_ದತ್ತಾಂಶ
 {
     CGDirectDisplayID display;
     SDL_Rect usable_bounds;
 };
 
-struct SDL_DisplayModeData
+ರಚನೆ SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ
 {
     CFMutableArrayRef modes;
 };
 
-extern void Cocoa_InitModes(SDL_VideoDevice *_this);
-extern void Cocoa_UpdateDisplays(SDL_VideoDevice *_this);
-extern bool Cocoa_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool Cocoa_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool Cocoa_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool Cocoa_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void Cocoa_QuitModes(SDL_VideoDevice *_this);
-extern SDL_VideoDisplay *Cocoa_FindSDLDisplayByCGDirectDisplayID(SDL_VideoDevice *_this, CGDirectDisplayID displayid);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_InitModes(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_UpdateDisplays(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool Cocoa_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಬಾಹ್ಯ bool Cocoa_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಬಾಹ್ಯ bool Cocoa_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ಬಾಹ್ಯ bool Cocoa_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_QuitModes(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ SDL_VideoDisplay *Cocoa_ಕಂಡುಹಿಡಿ_SDLDisplay_By_CGDirect_Display_ID(SDL_VideoDevice *_this, CGDirectDisplayID displayid);
 
-#endif // SDL_cocoamodes_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_cocoamodes_h_

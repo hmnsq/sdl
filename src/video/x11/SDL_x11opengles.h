@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_x11opengles_h_
-#define SDL_x11opengles_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_x11opengles_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_x11opengles_h_
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ SDL_ಖಾಸಗಿ_GLESData
 {
     // 1401 If the struct-declaration-list contains no named members, the behavior is undefined.
     // warning: empty struct has size 0 in C, size 1 in C++ [-Wc++-compat]
-    int dummy;
-} SDL_PrivateGLESData;
+    ಪೂರ್ಣಾಂಕ dummy;
+} SDL_ಖಾಸಗಿ_GLESData;
 
 // OpenGLES functions
-#define X11_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define X11_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define X11_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define X11_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define X11_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define X11_GLES_DestroyContext   SDL_EGL_DestroyContext
+#ವ್ಯಾಖ್ಯಾನಿಸು X11_GLES_GetAttribute    SDL_EGL_GetAttribute
+#ವ್ಯಾಖ್ಯಾನಿಸು X11_GLES_Get_Proc_ವಿಳಾಸ  SDL_EGL_Get_Proc_ವಿಳಾಸ_ಆಂತರಿಕ
+#ವ್ಯಾಖ್ಯಾನಿಸು X11_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#ವ್ಯಾಖ್ಯಾನಿಸು X11_GLES_ಗಣ_ಅದಲುಬದಲು_Interval SDL_EGL_ಗಣ_ಅದಲುಬದಲು_Interval
+#ವ್ಯಾಖ್ಯಾನಿಸು X11_GLES_Get_ಅದಲುಬದಲು_Interval SDL_EGL_Get_ಅದಲುಬದಲು_Interval
+#ವ್ಯಾಖ್ಯಾನಿಸು X11_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool X11_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent);
-extern SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
-extern void X11_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool X11_GLES_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, ಪೂರ್ಣಾಂಕ screen, bool transparent);
+ಬಾಹ್ಯ SDL_GLContext X11_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool X11_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool X11_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_GLContext context);
+ಬಾಹ್ಯ SDL_EGLSurface X11_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_GLES_ಗಣ_Default_Profile_Config(SDL_VideoDevice *_this);
 
-#endif // SDL_VIDEO_OPENGL_EGL
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_x11opengles_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_x11opengles_h_

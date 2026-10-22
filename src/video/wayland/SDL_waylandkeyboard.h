@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_waylandkeyboard_h_
-#define SDL_waylandkeyboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_waylandkeyboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_waylandkeyboard_h_
 
-extern bool Wayland_InitKeyboard(SDL_VideoDevice *_this);
-extern void Wayland_QuitKeyboard(SDL_VideoDevice *_this);
-extern bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool Wayland_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat);
-extern bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool Wayland_InitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_QuitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool Wayland_ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID props);
+ಬಾಹ್ಯ bool Wayland_Stop_ಪಠ್ಯ_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Wayland_Update_ಪಠ್ಯ_ಒಳಹರಿವು_Area(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_Seat_Update_ಪಠ್ಯ_ಒಳಹರಿವು(SDL_WaylandSeat *seat);
+ಬಾಹ್ಯ bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 
-#endif // SDL_waylandkeyboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_waylandkeyboard_h_

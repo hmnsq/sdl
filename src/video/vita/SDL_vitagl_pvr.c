@@ -18,104 +18,104 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
-#include <stdlib.h>
-#include <string.h>
-#include <psp2/kernel/modulemgr.h>
-#include <gpu_es4/psp2_pvr_hint.h>
-#include <gl4esinit.h>
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
+#ಅನ್ತರ್ಭಾವ <psp2/kernel/modulemgr.h>
+#ಅನ್ತರ್ಭಾವ <gpu_es4/psp2_pvr_hint.h>
+#ಅನ್ತರ್ಭಾವ <gl4esinit.h>
 
-#include "SDL_vitavideo.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vitavideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
-#define MAX_PATH 256 // vita limits are somehow wrong
+#ವ್ಯಾಖ್ಯಾನಿಸು MAX_ಮಾರ್ಗ 256 // vita limits are somehow wrong
 
 // Defaults
-static int FB_WIDTH = 960;
-static int FB_HEIGHT = 544;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ FB_ಅಗಲ = 960;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ FB_ಎತ್ತರ = 544;
 
-static void getFBSize(int *width, int *height)
+ಸ್ಥಿರ ಶೂನ್ಯ getFBSize(ಪೂರ್ಣಾಂಕ *ಅಗಲ, ಪೂರ್ಣಾಂಕ *ಎತ್ತರ)
 {
-    *width = FB_WIDTH;
-    *height = FB_HEIGHT;
+    *ಅಗಲ = FB_ಅಗಲ;
+    *ಎತ್ತರ = FB_ಎತ್ತರ;
 }
 
-bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GL_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ)
 {
     PVRSRV_PSP2_APPHINT hint;
-    char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    ಅಕ್ಷರ *default_ಮಾರ್ಗ = "app0:module";
+    ಅಕ್ಷರ ಗುರಿ_ಮಾರ್ಗ[MAX_ಮಾರ್ಗ];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    ಆದರೆ (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *override = SDL_GetHint(SDL_HINT_VITA_MODULE_ಮಾರ್ಗ);
 
-        if (override && *override) {
-            default_path = override;
+        ಆದರೆ (override && *override) {
+            default_ಮಾರ್ಗ = override;
         }
 
-        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, NULL, 0, NULL, NULL);
-        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, NULL, 0, NULL, NULL);
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module("vs0:sys/external/libfios2.suprx", 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module("vs0:sys/external/libc.suprx", 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ಗುರಿ_ಮಾರ್ಗ, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libGL.suprx");
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module(ಗುರಿ_ಮಾರ್ಗ, 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libgpu_es4_ext.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ಗುರಿ_ಮಾರ್ಗ, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libgpu_es4_ext.suprx");
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module(ಗುರಿ_ಮಾರ್ಗ, 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libIMGEGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ಗುರಿ_ಮಾರ್ಗ, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libIMGEGL.suprx");
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module(ಗುರಿ_ಮಾರ್ಗ, 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
 
         PVRSRVInitializeAppHint(&hint);
 
-        SDL_snprintf(hint.szGLES1, MAX_PATH, "%s/%s", default_path, "libGLESv1_CM.suprx");
-        SDL_snprintf(hint.szGLES2, MAX_PATH, "%s/%s", default_path, "libGLESv2.suprx");
-        SDL_snprintf(hint.szWindowSystem, MAX_PATH, "%s/%s", default_path, "libpvrPSP2_WSEGL.suprx");
+        SDL_snprintf(hint.szGLES1, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libGLESv1_CM.suprx");
+        SDL_snprintf(hint.szGLES2, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libGLESv2.suprx");
+        SDL_snprintf(hint.sz_ಕಿಟಕಿ_System, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libpvrPSP2_WSEGL.suprx");
 
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    ಹಿಂತಿರುಗಿ SDL_EGL_ತುಂಬು_Library(_this, ಮಾರ್ಗ, EGL_DEFAULT_DISPLAY);
 }
 
-SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    char gl_version[3];
-    SDL_GLContext context = NULL;
-    int temp_major = _this->gl_config.major_version;
-    int temp_minor = _this->gl_config.minor_version;
-    int temp_profile = _this->gl_config.profile_mask;
+    ಅಕ್ಷರ gl_ಆವೃತ್ತಿ[3];
+    SDL_GLContext context = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ ತಾತ್ಕಾಲಿಕ_major = _this->gl_config.major_ಆವೃತ್ತಿ;
+    ಪೂರ್ಣಾಂಕ ತಾತ್ಕಾಲಿಕ_minor = _this->gl_config.minor_ಆವೃತ್ತಿ;
+    ಪೂರ್ಣಾಂಕ ತಾತ್ಕಾಲಿಕ_profile = _this->gl_config.profile_ಮುಖವಾಡ;
 
     // Set version to 2.0 and PROFILE to ES
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
+    _this->gl_config.major_ಆವೃತ್ತಿ = 2;
+    _this->gl_config.minor_ಆವೃತ್ತಿ = 0;
+    _this->gl_config.profile_ಮುಖವಾಡ = SDL_GL_CONTEXT_PROFILE_ES;
 
-    context = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    context = SDL_EGL_CreateContext(_this, ಕಿಟಕಿ->ಆಂತರಿಕ->egl_surface);
 
-    if (context != NULL) {
-        FB_WIDTH = window->w;
-        FB_HEIGHT = window->h;
-        set_getprocaddress((void *(*)(const char *))eglGetProcAddress);
-        set_getmainfbsize(getFBSize);
-        SDL_snprintf(gl_version, 3, "%d%d", temp_major, temp_minor);
+    ಆದರೆ (context != ಖಾಲಿ) {
+        FB_ಅಗಲ = ಕಿಟಕಿ->w;
+        FB_ಎತ್ತರ = ಕಿಟಕಿ->h;
+        ಗಣ_getprocaddress((ಶೂನ್ಯ *(*)(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *))egl_Get_Proc_ವಿಳಾಸ);
+        ಗಣ_getmainfbsize(getFBSize);
+        SDL_snprintf(gl_ಆವೃತ್ತಿ, 3, "%d%d", ತಾತ್ಕಾಲಿಕ_major, ತಾತ್ಕಾಲಿಕ_minor);
         gl4es_setenv("LIBGL_NOTEXRECT", "1", 1); // Currently broken in driver
-        gl4es_setenv("LIBGL_GL", gl_version, 1);
+        gl4es_setenv("LIBGL_GL", gl_ಆವೃತ್ತಿ, 1);
         initialize_gl4es();
     }
 
     // Restore gl_config
-    _this->gl_config.major_version = temp_major;
-    _this->gl_config.minor_version = temp_minor;
-    _this->gl_config.profile_mask = temp_profile;
+    _this->gl_config.major_ಆವೃತ್ತಿ = ತಾತ್ಕಾಲಿಕ_major;
+    _this->gl_config.minor_ಆವೃತ್ತಿ = ತಾತ್ಕಾಲಿಕ_minor;
+    _this->gl_config.profile_ಮುಖವಾಡ = ತಾತ್ಕಾಲಿಕ_profile;
 
-    return context;
+    ಹಿಂತಿರುಗಿ context;
 }
 
-SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_ಸೂಚಕ VITA_GL_Get_Proc_ವಿಳಾಸ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *proc)
 {
-    return gl4es_GetProcAddress(proc);
+    ಹಿಂತಿರುಗಿ gl4es_Get_Proc_ವಿಳಾಸ(proc);
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

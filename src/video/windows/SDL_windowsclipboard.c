@@ -18,232 +18,232 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_clipboardevents_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_windowsvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_windowswindow.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_clipboard_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_clipboardevents_c.h"
 
-#define BFT_BITMAP 0x4d42 // 'BM'
+#ವ್ಯಾಖ್ಯಾನಿಸು BFT_BITMAP 0x4d42 // 'BM'
 
 // Assume we can directly read and write BMP fields without byte swapping
-SDL_COMPILE_TIME_ASSERT(verify_byte_order, SDL_BYTEORDER == SDL_LIL_ENDIAN);
+SDL_COMPILE_ಸಮಯ_ASSERT(verify_byte_ಕ್ರಮ, SDL_BYTEORDER == SDL_LIL_ENDIAN);
 
-static UINT GetClipboardFormatPNG(void)
+ಸ್ಥಿರ UINT GetClipboardFormatPNG(ಶೂನ್ಯ)
 {
-    static UINT format;
+    ಸ್ಥಿರ UINT format;
 
-    if (!format) {
-        format = RegisterClipboardFormat(TEXT("PNG"));
+    ಆದರೆ (!format) {
+        format = ರಿಜಿಸ್ಟರ್_Clipboard_Format(ಪಠ್ಯ_2("PNG"));
     }
-    return format;
+    ಹಿಂತಿರುಗಿ format;
 }
 
-static BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
+ಸ್ಥಿರ BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
 {
     // Retry to open the clipboard in case another application has it open
-    const int MAX_ATTEMPTS = 3;
-    int attempt;
-    HWND hwnd = NULL;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ MAX_ATTEMPTS = 3;
+    ಪೂರ್ಣಾಂಕ attempt;
+    HWND hwnd = ಖಾಲಿ;
 
-    if (_this->windows) {
-        hwnd = _this->windows->internal->hwnd;
+    ಆದರೆ (_this->windows) {
+        hwnd = _this->windows->ಆಂತರಿಕ->hwnd;
     }
-    for (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
-        if (OpenClipboard(hwnd)) {
-            return TRUE;
+    ಗಾಗಿ (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
+        ಆದರೆ (OpenClipboard(hwnd)) {
+            ಹಿಂತಿರುಗಿ TRUE;
         }
         SDL_Delay(10);
     }
-    return FALSE;
+    ಹಿಂತಿರುಗಿ FALSE;
 }
 
-static void WIN_CloseClipboard(void)
+ಸ್ಥಿರ ಶೂನ್ಯ WIN_CloseClipboard(ಶೂನ್ಯ)
 {
     CloseClipboard();
 }
 
-static HANDLE WIN_ConvertBMPtoDIB(const void *bmp, size_t bmp_size, UINT *format)
+ಸ್ಥಿರ HANDLE WIN_ConvertBMPtoDIB(ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *bmp, size_t bmp_ಗಾತ್ರ, UINT *format)
 {
-    HANDLE hMem = NULL;
+    HANDLE hMem = ಖಾಲಿ;
 
-    if (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
+    ಆದರೆ (bmp && bmp_ಗಾತ್ರ > ಗಾತ್ರ(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
         BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
-        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + sizeof(BITMAPFILEHEADER));
-        size_t bih_size = pbih->biSize + pbih->biClrUsed * sizeof(RGBQUAD);
-        size_t pixels_size = pbih->biSizeImage;
+        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + ಗಾತ್ರ(BITMAPFILEHEADER));
+        size_t bih_ಗಾತ್ರ = pbih->bi_ಗಾತ್ರ + pbih->bi_Clr_ಬಳಸಿದ * ಗಾತ್ರ(RGBQUAD);
+        size_t pixels_ಗಾತ್ರ = pbih->bi_ಗಾತ್ರ_Image;
 
-        if (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
+        ಆದರೆ (pbih->bi_ಗಾತ್ರ >= ಗಾತ್ರ(BITMAPV5_ಶೀರ್ಷಿಕೆ)) {
             *format = CF_DIBV5;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             *format = CF_DIB;
         }
 
-        if (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
-            (pbfh->bfOffBits + pixels_size) <= bmp_size) {
-            const Uint8 *pixels = (const Uint8 *)bmp + pbfh->bfOffBits;
-            size_t dib_size = bih_size + pixels_size;
-            hMem = GlobalAlloc(GMEM_MOVEABLE, dib_size);
-            if (hMem) {
-                LPVOID dst = GlobalLock(hMem);
-                if (dst) {
-                    SDL_memcpy(dst, pbih, bih_size);
-                    SDL_memcpy((Uint8 *)dst + bih_size, pixels, pixels_size);
+        ಆದರೆ (pbfh->bf_Off_ಬಿಟ್ಟುಗಳು >= (ಗಾತ್ರ(BITMAPFILEHEADER) + bih_ಗಾತ್ರ) &&
+            (pbfh->bf_Off_ಬಿಟ್ಟುಗಳು + pixels_ಗಾತ್ರ) <= bmp_ಗಾತ್ರ) {
+            ಸ್ಥಿರಾಂಕ Uint8 *pixels = (ಸ್ಥಿರಾಂಕ Uint8 *)bmp + pbfh->bf_Off_ಬಿಟ್ಟುಗಳು;
+            size_t dib_ಗಾತ್ರ = bih_ಗಾತ್ರ + pixels_ಗಾತ್ರ;
+            hMem = GlobalAlloc(GMEM_MOVEABLE, dib_ಗಾತ್ರ);
+            ಆದರೆ (hMem) {
+                LPVOID dst = Global_ಬೀಗ(hMem);
+                ಆದರೆ (dst) {
+                    SDL_memcpy(dst, pbih, bih_ಗಾತ್ರ);
+                    SDL_memcpy((Uint8 *)dst + bih_ಗಾತ್ರ, pixels, pixels_ಗಾತ್ರ);
                     GlobalUnlock(hMem);
-                } else {
-                    WIN_SetError("GlobalLock()");
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    WIN_ಗಣ_Error("GlobalLock()");
                     GlobalFree(hMem);
-                    hMem = NULL;
+                    hMem = ಖಾಲಿ;
                 }
-            } else {
-                SDL_OutOfMemory();
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                SDL_ಹೊರಹೋಗು_ದ_ಸ್ಮರಣೆ();
             }
-        } else {
-            SDL_SetError("Invalid BMP data");
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            SDL_ಗಣ_Error("Invalid BMP data");
         }
-    } else {
-        SDL_SetError("Invalid BMP data");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_ಗಣ_Error("Invalid BMP data");
     }
-    return hMem;
+    ಹಿಂತಿರುಗಿ hMem;
 }
 
-static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
+ಸ್ಥಿರ ಶೂನ್ಯ *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *ಗಾತ್ರ_2)
 {
-    void *bmp = NULL;
-    size_t mem_size = GlobalSize(hMem);
+    ಶೂನ್ಯ *bmp = ಖಾಲಿ;
+    size_t mem_ಗಾತ್ರ = Global_ಗಾತ್ರ(hMem);
 
-    if (mem_size > sizeof(BITMAPINFOHEADER)) {
-        LPVOID dib = GlobalLock(hMem);
-        if (dib) {
+    ಆದರೆ (mem_ಗಾತ್ರ > ಗಾತ್ರ(BITMAPINFOHEADER)) {
+        LPVOID dib = Global_ಬೀಗ(hMem);
+        ಆದರೆ (dib) {
             BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)dib;
 
             // https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader#color-tables
-            size_t color_table_size;
-            switch (pbih->biCompression) {
-            case BI_RGB:
-                if (pbih->biBitCount <= 8) {
-                    color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->biBitCount : pbih->biClrUsed);
-                } else {
-                    color_table_size = 0;
+            size_t color_ಕೋಷ್ಟಕ_ಗಾತ್ರ;
+            ಆಯ್ಕೆ (pbih->biCompression) {
+            ಸ್ಥಿತಿ BI_RGB:
+                ಆದರೆ (pbih->bi_ಬಿಟ್_ಎಣಿಕೆ <= 8) {
+                    color_ಕೋಷ್ಟಕ_ಗಾತ್ರ = ಗಾತ್ರ(RGBQUAD) * (pbih->bi_Clr_ಬಳಸಿದ == 0 ? 1 << pbih->bi_ಬಿಟ್_ಎಣಿಕೆ : pbih->bi_Clr_ಬಳಸಿದ);
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    color_ಕೋಷ್ಟಕ_ಗಾತ್ರ = 0;
                 }
-                break;
-            case BI_BITFIELDS:
-                color_table_size = 3 * sizeof(DWORD);
-                break;
-            case 6 /* BI_ALPHABITFIELDS */:
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ BI_BITFIELDS:
+                color_ಕೋಷ್ಟಕ_ಗಾತ್ರ = 3 * ಗಾತ್ರ(DWORD);
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 6 /* BI_ALPHABITFIELDS */:
                 // https://learn.microsoft.com/en-us/previous-versions/windows/embedded/aa452885(v=msdn.10)
-                color_table_size = 4 * sizeof(DWORD);
-                break;
-            default: // FOURCC
-                color_table_size = sizeof(RGBQUAD) * pbih->biClrUsed;
+                color_ಕೋಷ್ಟಕ_ಗಾತ್ರ = 4 * ಗಾತ್ರ(DWORD);
+                ನಿಲ್ಲಿಸು;
+            ಪೂರ್ವನಿಯೋಜಿತ: // FOURCC
+                color_ಕೋಷ್ಟಕ_ಗಾತ್ರ = ಗಾತ್ರ(RGBQUAD) * pbih->bi_Clr_ಬಳಸಿದ;
             }
 
-            size_t bih_size = pbih->biSize + color_table_size;
-            size_t dib_size = bih_size + pbih->biSizeImage;
-            if (dib_size <= mem_size) {
-                size_t bmp_size = sizeof(BITMAPFILEHEADER) + mem_size;
-                bmp = SDL_malloc(bmp_size);
-                if (bmp) {
+            size_t bih_ಗಾತ್ರ = pbih->bi_ಗಾತ್ರ + color_ಕೋಷ್ಟಕ_ಗಾತ್ರ;
+            size_t dib_ಗಾತ್ರ = bih_ಗಾತ್ರ + pbih->bi_ಗಾತ್ರ_Image;
+            ಆದರೆ (dib_ಗಾತ್ರ <= mem_ಗಾತ್ರ) {
+                size_t bmp_ಗಾತ್ರ = ಗಾತ್ರ(BITMAPFILEHEADER) + mem_ಗಾತ್ರ;
+                bmp = SDL_malloc(bmp_ಗಾತ್ರ);
+                ಆದರೆ (bmp) {
                     BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
                     pbfh->bfType = BFT_BITMAP;
-                    pbfh->bfSize = (DWORD)bmp_size;
+                    pbfh->bf_ಗಾತ್ರ = (DWORD)bmp_ಗಾತ್ರ;
                     pbfh->bfReserved1 = 0;
                     pbfh->bfReserved2 = 0;
-                    pbfh->bfOffBits = (DWORD)(sizeof(BITMAPFILEHEADER) + pbih->biSize + color_table_size);
-                    SDL_memcpy((Uint8 *)bmp + sizeof(BITMAPFILEHEADER), dib, mem_size);
-                    *size = bmp_size;
+                    pbfh->bf_Off_ಬಿಟ್ಟುಗಳು = (DWORD)(ಗಾತ್ರ(BITMAPFILEHEADER) + pbih->bi_ಗಾತ್ರ + color_ಕೋಷ್ಟಕ_ಗಾತ್ರ);
+                    SDL_memcpy((Uint8 *)bmp + ಗಾತ್ರ(BITMAPFILEHEADER), dib, mem_ಗಾತ್ರ);
+                    *ಗಾತ್ರ_2 = bmp_ಗಾತ್ರ;
                 }
-            } else {
-                SDL_SetError("Invalid BMP data");
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                SDL_ಗಣ_Error("Invalid BMP data");
             }
             GlobalUnlock(hMem);
-        } else {
-            WIN_SetError("GlobalLock()");
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            WIN_ಗಣ_Error("GlobalLock()");
         }
-    } else {
-        SDL_SetError("Invalid BMP data");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_ಗಣ_Error("Invalid BMP data");
     }
-    return bmp;
+    ಹಿಂತಿರುಗಿ bmp;
 }
 
-static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
+ಸ್ಥಿರ bool WIN_ಗಣ_Clipboard_Image(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
     UINT format = 0;
-    HANDLE hMem = NULL;
-    size_t clipboard_data_size;
-    const void *clipboard_data;
-    bool result = true;
+    HANDLE hMem = ಖಾಲಿ;
+    size_t clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *clipboard_ದತ್ತಾಂಶ;
+    bool ಫಲಿತಾಂಶ = true;
 
-    clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        hMem = WIN_ConvertBMPtoDIB(clipboard_data, clipboard_data_size, &format);
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
+    clipboard_ದತ್ತಾಂಶ = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ);
+    ಆದರೆ (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        hMem = WIN_ConvertBMPtoDIB(clipboard_ದತ್ತಾಂಶ, clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ, &format);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(mime_type, "image/png") == 0) {
         format = GetClipboardFormatPNG();
-        hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_data_size);
-        if (hMem) {
-            LPVOID dst = GlobalLock(hMem);
-            if (dst) {
-                SDL_memcpy(dst, clipboard_data, clipboard_data_size);
+        hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ);
+        ಆದರೆ (hMem) {
+            LPVOID dst = Global_ಬೀಗ(hMem);
+            ಆದರೆ (dst) {
+                SDL_memcpy(dst, clipboard_ದತ್ತಾಂಶ, clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ);
                 GlobalUnlock(hMem);
-            } else {
-                result = WIN_SetError("GlobalLock()");
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಫಲಿತಾಂಶ = WIN_ಗಣ_Error("GlobalLock()");
                 GlobalFree(hMem);
-                hMem = NULL;
+                hMem = ಖಾಲಿ;
             }
-        } else {
-            result = SDL_OutOfMemory();
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಫಲಿತಾಂಶ = SDL_ಹೊರಹೋಗು_ದ_ಸ್ಮರಣೆ();
         }
-    } else {
-        result = SDL_SetError("Unknown image format");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಫಲಿತಾಂಶ = SDL_ಗಣ_Error("Unknown image format");
     }
-    if (hMem) {
+    ಆದರೆ (hMem) {
         // Save the image to the clipboard
-        if (!SetClipboardData(format, hMem)) {
-            result = WIN_SetError("Couldn't set clipboard data");
+        ಆದರೆ (!ಗಣ_Clipboard_ದತ್ತಾಂಶ(format, hMem)) {
+            ಫಲಿತಾಂಶ = WIN_ಗಣ_Error("Couldn't set clipboard data");
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // WIN_ConvertBMPtoDIB() set the error
-        result = false;
+        ಫಲಿತಾಂಶ = false;
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
+ಸ್ಥಿರ bool WIN_ಗಣ_Clipboard_ಪಠ್ಯ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
     HANDLE hMem;
-    size_t clipboard_data_size;
-    const void *clipboard_data;
-    bool result = true;
+    size_t clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *clipboard_ದತ್ತಾಂಶ;
+    bool ಫಲಿತಾಂಶ = true;
 
-    clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (clipboard_data && clipboard_data_size > 0) {
-        SIZE_T i, size;
-        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (const char *)clipboard_data, clipboard_data_size);
-        if (!tstr) {
-            return SDL_SetError("Couldn't convert text from UTF-8");
+    clipboard_ದತ್ತಾಂಶ = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ);
+    ಆದರೆ (clipboard_ದತ್ತಾಂಶ && clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ > 0) {
+        ಗಾತ್ರ_T i, ಗಾತ್ರ_2;
+        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *)clipboard_ದತ್ತಾಂಶ, clipboard_ದತ್ತಾಂಶ_ಗಾತ್ರ);
+        ಆದರೆ (!tstr) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't convert text from UTF-8");
         }
 
         // Find out the size of the data
-        for (size = 0, i = 0; tstr[i]; ++i, ++size) {
-            if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+        ಗಾಗಿ (ಗಾತ್ರ_2 = 0, i = 0; tstr[i]; ++i, ++ಗಾತ್ರ_2) {
+            ಆದರೆ (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                 // We're going to insert a carriage return
-                ++size;
+                ++ಗಾತ್ರ_2;
             }
         }
-        size = (size + 1) * sizeof(*tstr);
+        ಗಾತ್ರ_2 = (ಗಾತ್ರ_2 + 1) * ಗಾತ್ರ(*tstr);
 
         // Save the data to the clipboard
-        hMem = GlobalAlloc(GMEM_MOVEABLE, size);
-        if (hMem) {
-            LPWSTR dst = (LPWSTR)GlobalLock(hMem);
-            if (dst) {
+        hMem = GlobalAlloc(GMEM_MOVEABLE, ಗಾತ್ರ_2);
+        ಆದರೆ (hMem) {
+            LPWSTR dst = (LPWSTR)Global_ಬೀಗ(hMem);
+            ಆದರೆ (dst) {
                 // Copy the text over, adding carriage returns as necessary
-                for (i = 0; tstr[i]; ++i) {
-                    if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+                ಗಾಗಿ (i = 0; tstr[i]; ++i) {
+                    ಆದರೆ (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                         *dst++ = '\r';
                     }
                     *dst++ = tstr[i];
@@ -252,305 +252,305 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
                 GlobalUnlock(hMem);
             }
 
-            if (!SetClipboardData(CF_UNICODETEXT, hMem)) {
-                result = WIN_SetError("Couldn't set clipboard data");
+            ಆದರೆ (!ಗಣ_Clipboard_ದತ್ತಾಂಶ(CF_UNICODETEXT, hMem)) {
+                ಫಲಿತಾಂಶ = WIN_ಗಣ_Error("Couldn't set clipboard data");
             }
-        } else {
-            result = SDL_OutOfMemory();
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಫಲಿತಾಂಶ = SDL_ಹೊರಹೋಗು_ದ_ಸ್ಮರಣೆ();
         }
         SDL_free(tstr);
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool WIN_SetClipboardData(SDL_VideoDevice *_this)
+bool WIN_ಗಣ_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
     size_t i;
-    bool result = true;
+    bool ಫಲಿತಾಂಶ = true;
 
     /* I investigated delayed clipboard rendering, and at least with text and image
      * formats you have to use an output window, not SDL_HelperWindow, and the system
      * requests them being rendered immediately, so there isn't any benefit.
      */
 
-    if (WIN_OpenClipboard(_this)) {
-        EmptyClipboard();
+    ಆದರೆ (WIN_OpenClipboard(_this)) {
+        ಖಾಲಿಗಳು_Clipboard();
 
         // Set the clipboard text
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        ಗಾಗಿ (i = 0; i < _this->ಅಂಕೆ_clipboard_mime_types; ++i) {
+            ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_IsTextMimeType(mime_type)) {
-                if (!WIN_SetClipboardText(_this, mime_type)) {
-                    result = false;
+            ಆದರೆ (SDL_Is_ಪಠ್ಯ_Mime_Type(mime_type)) {
+                ಆದರೆ (!WIN_ಗಣ_Clipboard_ಪಠ್ಯ(_this, mime_type)) {
+                    ಫಲಿತಾಂಶ = false;
                 }
                 // Only set the first clipboard text
-                break;
+                ನಿಲ್ಲಿಸು;
             }
         }
 
         // Set the clipboard image
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        ಗಾಗಿ (i = 0; i < _this->ಅಂಕೆ_clipboard_mime_types; ++i) {
+            ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_strcmp(mime_type, "image/bmp") == 0 ||
+            ಆದರೆ (SDL_strcmp(mime_type, "image/bmp") == 0 ||
                 SDL_strcmp(mime_type, "image/png") == 0) {
-                if (!WIN_SetClipboardImage(_this, mime_type)) {
-                    result = false;
+                ಆದರೆ (!WIN_ಗಣ_Clipboard_Image(_this, mime_type)) {
+                    ಫಲಿತಾಂಶ = false;
                 }
-                break;
+                ನಿಲ್ಲಿಸು;
             }
         }
 
-        data->clipboard_count = GetClipboardSequenceNumber();
+        ದತ್ತಾಂಶ->clipboard_ಎಣಿಕೆ = Get_Clipboard_Sequence_ಸಂಖ್ಯೆ();
         WIN_CloseClipboard();
-    } else {
-        result = WIN_SetError("Couldn't open clipboard");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಫಲಿತಾಂಶ = WIN_ಗಣ_Error("Couldn't open clipboard");
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
+ಶೂನ್ಯ *WIN_Get_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಗಾತ್ರ_2)
 {
-    void *data = NULL;
+    ಶೂನ್ಯ *ದತ್ತಾಂಶ = ಖಾಲಿ;
 
-    if (SDL_IsTextMimeType(mime_type)) {
-        char *text = NULL;
+    ಆದರೆ (SDL_Is_ಪಠ್ಯ_Mime_Type(mime_type)) {
+        ಅಕ್ಷರ *ಪಠ್ಯ = ಖಾಲಿ;
 
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(CF_UNICODETEXT)) {
+            ಆದರೆ (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPTSTR str;
 
-                hMem = GetClipboardData(CF_UNICODETEXT);
-                if (hMem) {
-                    str = (LPTSTR)GlobalLock(hMem);
-                    if (str) {
-                        text = WIN_StringToUTF8W(str);
+                hMem = Get_Clipboard_ದತ್ತಾಂಶ(CF_UNICODETEXT);
+                ಆದರೆ (hMem) {
+                    str = (LPTSTR)Global_ಬೀಗ(hMem);
+                    ಆದರೆ (str) {
+                        ಪಠ್ಯ = WIN_String_ಗಮ್ಯ_UTF8_W(str);
                         GlobalUnlock(hMem);
-                    } else {
-                        WIN_SetError("Couldn't lock clipboard data");
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        WIN_ಗಣ_Error("Couldn't lock clipboard data");
                     }
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    WIN_ಗಣ_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_TEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(CF_ಪಠ್ಯ)) {
+            ಆದರೆ (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPCSTR str;
 
-                hMem = GetClipboardData(CF_TEXT);
-                if (hMem) {
-                    str = (LPCSTR)GlobalLock(hMem);
-                    if (str) {
-                        text = SDL_strdup(str);
+                hMem = Get_Clipboard_ದತ್ತಾಂಶ(CF_ಪಠ್ಯ);
+                ಆದರೆ (hMem) {
+                    str = (LPCSTR)Global_ಬೀಗ(hMem);
+                    ಆದರೆ (str) {
+                        ಪಠ್ಯ = SDL_strdup(str);
                         GlobalUnlock(hMem);
-                    } else {
-                        WIN_SetError("Couldn't lock clipboard data");
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        WIN_ಗಣ_Error("Couldn't lock clipboard data");
                     }
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    WIN_ಗಣ_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
-        if (!text) {
-            text = SDL_strdup("");
+        ಆದರೆ (!ಪಠ್ಯ) {
+            ಪಠ್ಯ = SDL_strdup("");
         }
-        data = text;
-        *size = SDL_strlen(text);
+        ದತ್ತಾಂಶ = ಪಠ್ಯ;
+        *ಗಾತ್ರ_2 = SDL_strlen(ಪಠ್ಯ);
 
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5)) {
-            if (WIN_OpenClipboard(_this)) {
-                HANDLE hMem = GetClipboardData(CF_DIBV5);
-                if (hMem) {
-                    data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(CF_DIBV5)) {
+            ಆದರೆ (WIN_OpenClipboard(_this)) {
+                HANDLE hMem = Get_Clipboard_ದತ್ತಾಂಶ(CF_DIBV5);
+                ಆದರೆ (hMem) {
+                    ದತ್ತಾಂಶ = WIN_ConvertDIBtoBMP(hMem, ಗಾತ್ರ_2);
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    WIN_ಗಣ_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_DIB)) {
-            if (WIN_OpenClipboard(_this)) {
-                HANDLE hMem = GetClipboardData(CF_DIB);
-                if (hMem) {
-                    data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(CF_DIB)) {
+            ಆದರೆ (WIN_OpenClipboard(_this)) {
+                HANDLE hMem = Get_Clipboard_ದತ್ತಾಂಶ(CF_DIB);
+                ಆದರೆ (hMem) {
+                    ದತ್ತಾಂಶ = WIN_ConvertDIBtoBMP(hMem, ಗಾತ್ರ_2);
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    WIN_ಗಣ_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            if (WIN_OpenClipboard(_this)) {
-                HANDLE hMem = GetClipboardData(GetClipboardFormatPNG());
-                if (hMem) {
-                    size_t mem_size = GlobalSize(hMem);
-                    void *mem = GlobalLock(hMem);
-                    if (mem) {
-                        data = SDL_malloc(mem_size);
-                        if (data) {
-                            SDL_memcpy(data, mem, mem_size);
-                            *size = mem_size;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(mime_type, "image/png") == 0) {
+        ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(GetClipboardFormatPNG())) {
+            ಆದರೆ (WIN_OpenClipboard(_this)) {
+                HANDLE hMem = Get_Clipboard_ದತ್ತಾಂಶ(GetClipboardFormatPNG());
+                ಆದರೆ (hMem) {
+                    size_t mem_ಗಾತ್ರ = Global_ಗಾತ್ರ(hMem);
+                    ಶೂನ್ಯ *mem = Global_ಬೀಗ(hMem);
+                    ಆದರೆ (mem) {
+                        ದತ್ತಾಂಶ = SDL_malloc(mem_ಗಾತ್ರ);
+                        ಆದರೆ (ದತ್ತಾಂಶ) {
+                            SDL_memcpy(ದತ್ತಾಂಶ, mem, mem_ಗಾತ್ರ);
+                            *ಗಾತ್ರ_2 = mem_ಗಾತ್ರ;
                         }
                         GlobalUnlock(hMem);
-                    } else {
-                        WIN_SetError("Couldn't lock clipboard data");
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        WIN_ಗಣ_Error("Couldn't lock clipboard data");
                     }
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    WIN_ಗಣ_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else {
-        data = SDL_GetInternalClipboardData(_this, mime_type, size);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ದತ್ತಾಂಶ = SDL_Get_ಆಂತರಿಕ_Clipboard_ದತ್ತಾಂಶ(_this, mime_type, ಗಾತ್ರ_2);
     }
-    return data;
+    ಹಿಂತಿರುಗಿ ದತ್ತಾಂಶ;
 }
 
-bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool WIN_Has_Clipboard_ದತ್ತಾಂಶ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
-    if (SDL_IsTextMimeType(mime_type)) {
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
-            return true;
+    ಆದರೆ (SDL_Is_ಪಠ್ಯ_Mime_Type(mime_type)) {
+        ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(CF_UNICODETEXT) || Is_Clipboard_Format_ಲಭ್ಯ(CF_ಪಠ್ಯ)) {
+            ಹಿಂತಿರುಗಿ true;
         }
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
-            return true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(CF_DIBV5) || Is_Clipboard_Format_ಲಭ್ಯ(CF_DIB)) {
+            ಹಿಂತಿರುಗಿ true;
         }
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            return true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(mime_type, "image/png") == 0) {
+        ಆದರೆ (Is_Clipboard_Format_ಲಭ್ಯ(GetClipboardFormatPNG())) {
+            ಹಿಂತಿರುಗಿ true;
         }
     }
-    return SDL_HasInternalClipboardData(_this, mime_type);
+    ಹಿಂತಿರುಗಿ SDL_Has_ಆಂತರಿಕ_Clipboard_ದತ್ತಾಂಶ(_this, mime_type);
 }
 
-static int GetClipboardFormatMimeType(UINT format, char *name)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ GetClipboardFormatMimeType(UINT format, ಅಕ್ಷರ *name)
 {
-    const char *mime_type = NULL;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type = ಖಾಲಿ;
 
-    switch (format) {
-    case CF_TEXT:
+    ಆಯ್ಕೆ (format) {
+    ಸ್ಥಿತಿ CF_ಪಠ್ಯ:
         mime_type = "text/plain";
-        break;
-    case CF_UNICODETEXT:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ CF_UNICODETEXT:
         mime_type = "text/plain;charset=utf-8";
-        break;
-    case CF_DIB:
-    case CF_DIBV5:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ CF_DIB:
+    ಸ್ಥಿತಿ CF_DIBV5:
         mime_type = "image/bmp";
-        break;
-    default:
-        if (format == GetClipboardFormatPNG()) {
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ಆದರೆ (format == GetClipboardFormatPNG()) {
             mime_type = "image/png";
         }
-        break;
+        ನಿಲ್ಲಿಸು;
     }
-    if (mime_type) {
+    ಆದರೆ (mime_type) {
         size_t len = SDL_strlen(mime_type) + 1;
-        if (name) {
+        ಆದರೆ (name) {
             SDL_memcpy(name, mime_type, len);
         }
-        return (int)len;
+        ಹಿಂತಿರುಗಿ (ಪೂರ್ಣಾಂಕ)len;
     }
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 
-static char **GetMimeTypes(int *pnformats)
+ಸ್ಥಿರ ಅಕ್ಷರ **GetMimeTypes(ಪೂರ್ಣಾಂಕ *pnformats)
 {
-    char **new_mime_types = NULL;
+    ಅಕ್ಷರ **new_mime_types = ಖಾಲಿ;
 
     *pnformats = 0;
 
-    if (WIN_OpenClipboard(SDL_GetVideoDevice())) {
-        int nformats = 0;
+    ಆದರೆ (WIN_OpenClipboard(SDL_GetVideoDevice())) {
+        ಪೂರ್ಣಾಂಕ nformats = 0;
         UINT format = 0;
-        int formatsSz = 0;
+        ಪೂರ್ಣಾಂಕ formatsSz = 0;
         bool have_image_bmp = false;
-        for ( ; ; ) {
+        ಗಾಗಿ ( ; ; ) {
             format = EnumClipboardFormats(format);
-            if (!format) {
-                break;
+            ಆದರೆ (!format) {
+                ನಿಲ್ಲಿಸು;
             }
 
-#ifdef DEBUG_CLIPBOARD
-            char name[128] = { 0 };
-            GetClipboardFormatNameA(format, name, sizeof(name));
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_CLIPBOARD
+            ಅಕ್ಷರ name[128] = { 0 };
+            GetClipboardFormatNameA(format, name, ಗಾತ್ರ(name));
             SDL_Log("Clipboard format: %d (0x%x), '%s'", format, format, name);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-            if (format == CF_DIB || format == CF_DIBV5) {
-                if (have_image_bmp) {
+            ಆದರೆ (format == CF_DIB || format == CF_DIBV5) {
+                ಆದರೆ (have_image_bmp) {
                     // We have already registered this format
-                    continue;
+                    ಮುಂದುವರಿ;
                 }
                 have_image_bmp = true;
             }
 
-            int len = GetClipboardFormatMimeType(format, NULL);
-            if (len > 0) {
+            ಪೂರ್ಣಾಂಕ len = GetClipboardFormatMimeType(format, ಖಾಲಿ);
+            ಆದರೆ (len > 0) {
                 ++nformats;
                 formatsSz += len;
             }
         }
 
         have_image_bmp = false;
-        new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * sizeof(char *) + formatsSz);
-        if (new_mime_types) {
+        new_mime_types = SDL_Allocate_Temporary_ಸ್ಮರಣೆ((nformats + 1) * ಗಾತ್ರ(ಅಕ್ಷರ *) + formatsSz);
+        ಆದರೆ (new_mime_types) {
             format = 0;
-            char *strPtr = (char *)(new_mime_types + nformats + 1);
-            int i = 0;
-            for ( ; ; ) {
+            ಅಕ್ಷರ *strPtr = (ಅಕ್ಷರ *)(new_mime_types + nformats + 1);
+            ಪೂರ್ಣಾಂಕ i = 0;
+            ಗಾಗಿ ( ; ; ) {
                 format = EnumClipboardFormats(format);
-                if (!format) {
-                    break;
+                ಆದರೆ (!format) {
+                    ನಿಲ್ಲಿಸು;
                 }
 
-                if (format == CF_DIB || format == CF_DIBV5) {
-                    if (have_image_bmp) {
+                ಆದರೆ (format == CF_DIB || format == CF_DIBV5) {
+                    ಆದರೆ (have_image_bmp) {
                         // We have already registered this format
-                        continue;
+                        ಮುಂದುವರಿ;
                     }
                     have_image_bmp = true;
                 }
 
-                int len = GetClipboardFormatMimeType(format, strPtr);
-                if (len > 0) {
+                ಪೂರ್ಣಾಂಕ len = GetClipboardFormatMimeType(format, strPtr);
+                ಆದರೆ (len > 0) {
                     new_mime_types[i++] = strPtr;
                     strPtr += len;
                 }
             }
 
-            new_mime_types[nformats] = NULL;
+            new_mime_types[nformats] = ಖಾಲಿ;
             *pnformats = nformats;
         }
         WIN_CloseClipboard();
     }
-    return new_mime_types;
+    ಹಿಂತಿರುಗಿ new_mime_types;
 }
 
-void WIN_CheckClipboardUpdate(struct SDL_VideoData *data)
+ಶೂನ್ಯ WIN_CheckClipboardUpdate(ರಚನೆ SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    DWORD count = GetClipboardSequenceNumber();
-    if (count != data->clipboard_count) {
-        if (count) {
-            int nformats = 0;
-            char **new_mime_types = GetMimeTypes(&nformats);
-            if (new_mime_types) {
+    DWORD ಎಣಿಕೆ_2 = Get_Clipboard_Sequence_ಸಂಖ್ಯೆ();
+    ಆದರೆ (ಎಣಿಕೆ_2 != ದತ್ತಾಂಶ->clipboard_ಎಣಿಕೆ) {
+        ಆದರೆ (ಎಣಿಕೆ_2) {
+            ಪೂರ್ಣಾಂಕ nformats = 0;
+            ಅಕ್ಷರ **new_mime_types = GetMimeTypes(&nformats);
+            ಆದರೆ (new_mime_types) {
                 SDL_SendClipboardUpdate(false, new_mime_types, nformats);
             }
         }
-        data->clipboard_count = count;
+        ದತ್ತಾಂಶ->clipboard_ಎಣಿಕೆ = ಎಣಿಕೆ_2;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_WINDOWS

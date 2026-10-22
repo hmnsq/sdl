@@ -19,26 +19,26 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_KMSDRM
 
-#include "SDL_kmsdrmvideo.h"
-#include "SDL_kmsdrmevents.h"
+#ಅನ್ತರ್ಭಾವ "SDL_kmsdrmvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_kmsdrmevents.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#elif defined SDL_INPUT_WSCONS
-#include "../../core/openbsd/SDL_wscons.h"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ಒಳಹರಿವು_LINUXEV
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_evdev.h"
+#ಅಥವಾಆದರೆ defined SDL_ಒಳಹರಿವು_WSCONS
+#ಅನ್ತರ್ಭಾವ "../../core/openbsd/SDL_wscons.h"
+#ಆದರೆ_ಅಂತ್ಯ
 
-void KMSDRM_PumpEvents(SDL_VideoDevice *_this)
+ಶೂನ್ಯ KMSDRM_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ಒಳಹರಿವು_LINUXEV
     SDL_EVDEV_Poll();
-#elif defined SDL_INPUT_WSCONS
+#ಅಥವಾಆದರೆ defined SDL_ಒಳಹರಿವು_WSCONS
     SDL_WSCONS_PumpEvents();
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-#endif // SDL_VIDEO_DRIVER_KMSDRM
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_KMSDRM

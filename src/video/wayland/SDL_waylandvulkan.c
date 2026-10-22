@@ -24,121 +24,121 @@
  * SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WAYLAND)
+#ಆದರೆ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WAYLAND)
 
-#include "../SDL_vulkan_internal.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_vulkan_internal.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandwindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandwindow.h"
 
-#include "SDL_waylandvulkan.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandvulkan.h"
 
-#ifdef SDL_PLATFORM_OPENBSD
-#define DEFAULT_VULKAN "libvulkan.so"
-#else
-#define DEFAULT_VULKAN "libvulkan.so.1"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_PLATFORM_OPENBSD
+#ವ್ಯಾಖ್ಯಾನಿಸು DEFAULT_VULKAN "libvulkan.so"
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು DEFAULT_VULKAN "libvulkan.so.1"
+#ಆದರೆ_ಅಂತ್ಯ
 
 SDL_ELF_NOTE_DLOPEN(
     "wayland-vulkan",
     "Support for Vulkan on wayland backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_ಆದ್ಯತೆ_SUGGESTED,
     DEFAULT_VULKAN
 )
 
-bool Wayland_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Wayland_Vulkan_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ)
 {
-    VkExtensionProperties *extensions = NULL;
-    Uint32 i, extensionCount = 0;
+    VkExtensionProperties *extensions = ಖಾಲಿ;
+    Uint32 i, extension_ಎಣಿಕೆ = 0;
     bool hasSurfaceExtension = false;
     bool hasWaylandSurfaceExtension = false;
-    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = ಖಾಲಿ;
+    ಆದರೆ (_this->vulkan_config.loader_handle) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
-        path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
+    ಆದರೆ (!ಮಾರ್ಗ) {
+        ಮಾರ್ಗ = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
-    if (!path) {
-        path = DEFAULT_VULKAN;
+    ಆದರೆ (!ಮಾರ್ಗ) {
+        ಮಾರ್ಗ = DEFAULT_VULKAN;
     }
-    _this->vulkan_config.loader_handle = SDL_LoadObject(path);
-    if (!_this->vulkan_config.loader_handle) {
-        return false;
+    _this->vulkan_config.loader_handle = SDL_ತುಂಬು_Object(ಮಾರ್ಗ);
+    ಆದರೆ (!_this->vulkan_config.loader_handle) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    SDL_strlcpy(_this->vulkan_config.loader_path, path,
-                SDL_arraysize(_this->vulkan_config.loader_path));
-    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
+    SDL_strlcpy(_this->vulkan_config.loader_ಮಾರ್ಗ, ಮಾರ್ಗ,
+                SDL_arraysize(_this->vulkan_config.loader_ಮಾರ್ಗ));
+    vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_ತುಂಬು_Function(
         _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
-        goto fail;
+    ಆದರೆ (!vkGetInstanceProcAddr) {
+        ಹೋಗು fail;
     }
-    _this->vulkan_config.vkGetInstanceProcAddr = (void *)vkGetInstanceProcAddr;
+    _this->vulkan_config.vkGetInstanceProcAddr = (ಶೂನ್ಯ *)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
-        (void *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
+        (ಶೂನ್ಯ *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
-        goto fail;
+    ಆದರೆ (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+        ಹೋಗು fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
-    if (!extensions) {
-        goto fail;
+        &extension_ಎಣಿಕೆ);
+    ಆದರೆ (!extensions) {
+        ಹೋಗು fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    ಗಾಗಿ (i = 0; i < extension_ಎಣಿಕೆ; i++) {
+        ಆದರೆ (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasWaylandSurfaceExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
-    } else if (!hasWaylandSurfaceExtension) {
-        SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
+    ಆದರೆ (!hasSurfaceExtension) {
+        SDL_ಗಣ_Error("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
+        ಹೋಗು fail;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!hasWaylandSurfaceExtension) {
+        SDL_ಗಣ_Error("Installed Vulkan doesn't implement the " VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME " extension");
+        ಹೋಗು fail;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
-    _this->vulkan_config.loader_handle = NULL;
-    return false;
+    _this->vulkan_config.loader_handle = ಖಾಲಿ;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-void Wayland_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
+ಶೂನ್ಯ Wayland_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    ಆದರೆ (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
-        _this->vulkan_config.loader_handle = NULL;
+        _this->vulkan_config.loader_handle = ಖಾಲಿ;
     }
 }
 
-char const * const *Wayland_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+ಅಕ್ಷರ ಸ್ಥಿರಾಂಕ * ಸ್ಥಿರಾಂಕ *Wayland_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ಎಣಿಕೆ_2)
 {
-    static const char *const extensionsForWayland[] = {
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸ್ಥಿರಾಂಕ extensionsForWayland[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME
     };
 
-    *count = SDL_arraysize(extensionsForWayland);
-    return extensionsForWayland;
+    *ಎಣಿಕೆ_2 = SDL_arraysize(extensionsForWayland);
+    ಹಿಂತಿರುಗಿ extensionsForWayland;
 }
 
 bool Wayland_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+                                 SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator,
                                  VkSurfaceKHR *surface)
 {
-    SDL_WindowData *windowData = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ_ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
     PFN_vkCreateWaylandSurfaceKHR vkCreateWaylandSurfaceKHR =
@@ -146,43 +146,43 @@ bool Wayland_Vulkan_CreateSurface(SDL_VideoDevice *_this,
             instance,
             "vkCreateWaylandSurfaceKHR");
     VkWaylandSurfaceCreateInfoKHR createInfo;
-    VkResult result;
+    Vk_ಫಲಿತಾಂಶ ಫಲಿತಾಂಶ;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ಆದರೆ (!_this->vulkan_config.loader_handle) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Vulkan is not loaded");
     }
 
-    if (!vkCreateWaylandSurfaceKHR) {
-        return SDL_SetError(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME
+    ಆದರೆ (!vkCreateWaylandSurfaceKHR) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME
                             " extension is not enabled in the Vulkan instance.");
     }
     SDL_zero(createInfo);
     createInfo.sType = VK_STRUCTURE_TYPE_WAYLAND_SURFACE_CREATE_INFO_KHR;
-    createInfo.pNext = NULL;
+    createInfo.p_ಮುಂದಿನ = ಖಾಲಿ;
     createInfo.flags = 0;
-    createInfo.display = windowData->waylandData->display;
-    createInfo.surface = windowData->surface;
-    result = vkCreateWaylandSurfaceKHR(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        return SDL_SetError("vkCreateWaylandSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
+    createInfo.display = ಕಿಟಕಿ_ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->display;
+    createInfo.surface = ಕಿಟಕಿ_ದತ್ತಾಂಶ->surface;
+    ಫಲಿತಾಂಶ = vkCreateWaylandSurfaceKHR(instance, &createInfo, allocator, surface);
+    ಆದರೆ (ಫಲಿತಾಂಶ != VK_SUCCESS) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("vkCreateWaylandSurfaceKHR failed: %s", SDL_Vulkan_Get_ಫಲಿತಾಂಶ_String(ಫಲಿತಾಂಶ));
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void Wayland_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ಶೂನ್ಯ Wayland_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator)
+                                   ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
-        SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
+    ಆದರೆ (_this->vulkan_config.loader_handle) {
+        SDL_Vulkan_Destroy_Surface_ಆಂತರಿಕ(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }
 
 bool Wayland_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                                VkInstance instance,
                                                VkPhysicalDevice physicalDevice,
-                                               Uint32 queueFamilyIndex)
+                                               Uint32 ಸರತಿ_Family_ಸೂಚ್ಯಂಕ)
 {
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr =
         (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
@@ -191,17 +191,17 @@ bool Wayland_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
             instance,
             "vkGetPhysicalDeviceWaylandPresentationSupportKHR");
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    ಆದರೆ (!_this->vulkan_config.loader_handle) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Vulkan is not loaded");
     }
 
-    if (!vkGetPhysicalDeviceWaylandPresentationSupportKHR) {
-        return SDL_SetError(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
+    ಆದರೆ (!vkGetPhysicalDeviceWaylandPresentationSupportKHR) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error(VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME " extension is not enabled in the Vulkan instance.");
     }
 
-    return vkGetPhysicalDeviceWaylandPresentationSupportKHR(physicalDevice,
-                                                            queueFamilyIndex,
-                                                            _this->internal->display);
+    ಹಿಂತಿರುಗಿ vkGetPhysicalDeviceWaylandPresentationSupportKHR(physicalDevice,
+                                                            ಸರತಿ_Family_ಸೂಚ್ಯಂಕ,
+                                                            _this->ಆಂತರಿಕ->display);
 }
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

@@ -19,42 +19,42 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WAYLAND
 
-#include <sys/mman.h>
+#ಅನ್ತರ್ಭಾವ <sys/mman.h>
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
-#include "../../core/unix/SDL_appid.h"
-#include "../../notification/SDL_notification_c.h"
-#include "../SDL_egl_c.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandwindow.h"
-#include "SDL_waylandvideo.h"
-#include "../../SDL_hints_c.h"
-#include "SDL_waylandcolor.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../core/unix/SDL_appid.h"
+#ಅನ್ತರ್ಭಾವ "../../notification/SDL_notification_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandevents_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandmouse.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandwindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../SDL_hints_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandcolor.h"
 
-#include "alpha-modifier-v1-client-protocol.h"
-#include "xdg-shell-client-protocol.h"
-#include "xdg-decoration-unstable-v1-client-protocol.h"
-#include "idle-inhibit-unstable-v1-client-protocol.h"
-#include "xdg-activation-v1-client-protocol.h"
-#include "viewporter-client-protocol.h"
-#include "fractional-scale-v1-client-protocol.h"
-#include "xdg-foreign-unstable-v2-client-protocol.h"
-#include "xdg-dialog-v1-client-protocol.h"
-#include "frog-color-management-v1-client-protocol.h"
-#include "xdg-toplevel-icon-v1-client-protocol.h"
-#include "color-management-v1-client-protocol.h"
-#include "xdg-session-management-v1-client-protocol.h"
-#include "xdg-toplevel-tag-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "alpha-modifier-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-shell-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-decoration-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "idle-inhibit-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-activation-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "viewporter-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "fractional-scale-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-foreign-unstable-v2-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-dialog-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "frog-color-management-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-toplevel-icon-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "color-management-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-session-management-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "xdg-toplevel-tag-v1-client-protocol.h"
 
-#ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+#ಅನ್ತರ್ಭಾವ <libdecor.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* According to the Wayland spec:
  *
@@ -73,191 +73,191 @@
  *
  * TODO: Remove this once KDE is spec-compliant.
  */
-static bool ShouldMaskFullscreen()
+ಸ್ಥಿರ bool Should_ಮುಖವಾಡ_Fullscreen()
 {
-    static int mask_required = -1;
+    ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ ಮುಖವಾಡ_required = -1;
 
-    if (mask_required >= 0) {
-        return mask_required != 0;
+    ಆದರೆ (ಮುಖವಾಡ_required >= 0) {
+        ಹಿಂತಿರುಗಿ ಮುಖವಾಡ_required != 0;
     }
 
-    const char *desktop = SDL_getenv("XDG_CURRENT_DESKTOP");
-    if (desktop && SDL_strstr(desktop, "KDE") != NULL) {
-        mask_required = 1;
-    } else {
-        mask_required = 0;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *desktop = SDL_getenv("XDG_CURRENT_DESKTOP");
+    ಆದರೆ (desktop && SDL_strstr(desktop, "KDE") != ಖಾಲಿ) {
+        ಮುಖವಾಡ_required = 1;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಮುಖವಾಡ_required = 0;
     }
 
-    return mask_required != 0;
+    ಹಿಂತಿರುಗಿ ಮುಖವಾಡ_required != 0;
 }
 
-static double GetWindowScale(SDL_Window *window)
+ಸ್ಥಿರ ದ್ವಿಗುಣ Get_ಕಿಟಕಿ_Scale(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    return (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) || window->internal->scale_to_display ? window->internal->scale_factor : 1.0;
+    ಹಿಂತಿರುಗಿ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY) || ಕಿಟಕಿ->ಆಂತರಿಕ->scale_ಗಮ್ಯ_display ? ಕಿಟಕಿ->ಆಂತರಿಕ->scale_ಗುಣಕ_2 : 1.0;
 }
 
 // These are point->pixel->point round trip safe; the inverse is not round trip safe due to rounding.
-static int PointToPixel(SDL_Window *window, int point)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ ಬಿಂದು_ಗಮ್ಯ_Pixel(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ ಬಿಂದು)
 {
     /* Rounds halfway away from zero as per the Wayland fractional scaling protocol spec.
      * Wayland scale units are in units of 1/120, so the offset is required to correct for
      * rounding errors when using certain scale values.
      */
-    return point ? SDL_max((int)SDL_lround((double)point * GetWindowScale(window) + 1e-6), 1) : 0;
+    ಹಿಂತಿರುಗಿ ಬಿಂದು ? SDL_max((ಪೂರ್ಣಾಂಕ)SDL_lround((ದ್ವಿಗುಣ)ಬಿಂದು * Get_ಕಿಟಕಿ_Scale(ಕಿಟಕಿ) + 1e-6), 1) : 0;
 }
 
-static int PixelToPoint(SDL_Window *window, int pixel)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ Pixel_ಗಮ್ಯ_ಬಿಂದು(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ pixel)
 {
-    return pixel ? SDL_max((int)SDL_lround((double)pixel / GetWindowScale(window)), 1) : 0;
+    ಹಿಂತಿರುಗಿ pixel ? SDL_max((ಪೂರ್ಣಾಂಕ)SDL_lround((ದ್ವಿಗುಣ)pixel / Get_ಕಿಟಕಿ_Scale(ಕಿಟಕಿ)), 1) : 0;
 }
 
-enum WaylandModeScale
+ಎಣಿಕೆ Wayland_ಬಹುಲಕ_Scale
 {
-    WAYLAND_MODE_SCALE_UNDEFINED,
-    WAYLAND_MODE_SCALE_ASPECT,
-    WAYLAND_MODE_SCALE_STRETCH,
-    WAYLAND_MODE_SCALE_NONE
+    WAYLAND_ಬಹುಲಕ_SCALE_UNDEFINED,
+    WAYLAND_ಬಹುಲಕ_SCALE_ASPECT,
+    WAYLAND_ಬಹುಲಕ_SCALE_STRETCH,
+    WAYLAND_ಬಹುಲಕ_SCALE_NONE
 };
 
-static enum WaylandModeScale GetModeScaleMethod(void)
+ಸ್ಥಿರ ಎಣಿಕೆ Wayland_ಬಹುಲಕ_Scale Get_ಬಹುಲಕ_Scale_ವಿಧಾನ(ಶೂನ್ಯ)
 {
-    static enum WaylandModeScale scale_mode = WAYLAND_MODE_SCALE_UNDEFINED;
+    ಸ್ಥಿರ ಎಣಿಕೆ Wayland_ಬಹುಲಕ_Scale scale_ಬಹುಲಕ_2 = WAYLAND_ಬಹುಲಕ_SCALE_UNDEFINED;
 
-    if (scale_mode == WAYLAND_MODE_SCALE_UNDEFINED) {
-        const char *scale_hint = SDL_GetHint(SDL_HINT_VIDEO_WAYLAND_MODE_SCALING);
+    ಆದರೆ (scale_ಬಹುಲಕ_2 == WAYLAND_ಬಹುಲಕ_SCALE_UNDEFINED) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *scale_hint = SDL_GetHint(SDL_HINT_VIDEO_WAYLAND_ಬಹುಲಕ_SCALING);
 
-        if (scale_hint) {
-            if (!SDL_strcasecmp(scale_hint, "stretch")) {
-                scale_mode = WAYLAND_MODE_SCALE_STRETCH;
-            } else if (!SDL_strcasecmp(scale_hint, "none")) {
-                scale_mode = WAYLAND_MODE_SCALE_NONE;
-            } else {
-                scale_mode = WAYLAND_MODE_SCALE_ASPECT;
+        ಆದರೆ (scale_hint) {
+            ಆದರೆ (!SDL_strcasecmp(scale_hint, "stretch")) {
+                scale_ಬಹುಲಕ_2 = WAYLAND_ಬಹುಲಕ_SCALE_STRETCH;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!SDL_strcasecmp(scale_hint, "none")) {
+                scale_ಬಹುಲಕ_2 = WAYLAND_ಬಹುಲಕ_SCALE_NONE;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                scale_ಬಹುಲಕ_2 = WAYLAND_ಬಹುಲಕ_SCALE_ASPECT;
             }
-        } else {
-            scale_mode = WAYLAND_MODE_SCALE_ASPECT;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            scale_ಬಹುಲಕ_2 = WAYLAND_ಬಹುಲಕ_SCALE_ASPECT;
         }
     }
 
-    return scale_mode;
+    ಹಿಂತಿರುಗಿ scale_ಬಹುಲಕ_2;
 }
 
-typedef struct BorderInsets
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ BorderInsets
 {
-    int left;
-    int top;
-    int right;
-    int bottom;
+    ಪೂರ್ಣಾಂಕ ಎಡ;
+    ಪೂರ್ಣಾಂಕ ತುದಿ;
+    ಪೂರ್ಣಾಂಕ ಬಲ;
+    ಪೂರ್ಣಾಂಕ bottom;
 } BorderInsets;
 
 // The border insets from the window properties; they only apply to xdg-toplevel windows.
-static void GetBorderInsets(SDL_Window *window, BorderInsets *insets)
+ಸ್ಥಿರ ಶೂನ್ಯ GetBorderInsets(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, BorderInsets *insets)
 {
     SDL_zerop(insets);
-    if (!window->internal->enable_insets) {
-        return;
+    ಆದರೆ (!ಕಿಟಕಿ->ಆಂತರಿಕ->enable_insets) {
+        ಹಿಂತಿರುಗಿ;
     }
-    if (window->internal->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        const SDL_PropertiesID props = SDL_GetWindowProperties(window);
-        insets->left = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_LEFT_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->top = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_TOP_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->right = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_RIGHT_NUMBER, 0), 0, SDL_MAX_SINT16);
-        insets->bottom = (int)SDL_clamp(SDL_GetNumberProperty(props, SDL_PROP_WINDOW_WAYLAND_BORDER_INSET_BOTTOM_NUMBER, 0), 0, SDL_MAX_SINT16);
+    ಆದರೆ (ಕಿಟಕಿ->ಆಂತರಿಕ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಸ್ಥಿರಾಂಕ SDL_PropertiesID props = SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ);
+        insets->ಎಡ = (ಪೂರ್ಣಾಂಕ)SDL_clamp(SDL_Get_ಸಂಖ್ಯೆ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_BORDER_INSET_ಎಡ_ಸಂಖ್ಯೆ, 0), 0, SDL_MAX_SINT16);
+        insets->ತುದಿ = (ಪೂರ್ಣಾಂಕ)SDL_clamp(SDL_Get_ಸಂಖ್ಯೆ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_BORDER_INSET_ತುದಿ_ಸಂಖ್ಯೆ, 0), 0, SDL_MAX_SINT16);
+        insets->ಬಲ = (ಪೂರ್ಣಾಂಕ)SDL_clamp(SDL_Get_ಸಂಖ್ಯೆ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_BORDER_INSET_ಬಲ_ಸಂಖ್ಯೆ, 0), 0, SDL_MAX_SINT16);
+        insets->bottom = (ಪೂರ್ಣಾಂಕ)SDL_clamp(SDL_Get_ಸಂಖ್ಯೆ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_BORDER_INSET_BOTTOM_ಸಂಖ್ಯೆ, 0), 0, SDL_MAX_SINT16);
     }
 }
 
-static void SetMinMaxDimensions(SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ ಗಣ_Min_Max_Dimensions(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
-    int min_width, min_height, max_width, max_height;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ಪೂರ್ಣಾಂಕ min_ಅಗಲ_2, min_ಎತ್ತರ_2, max_ಅಗಲ_2, max_ಎತ್ತರ_2;
 
     /* Keep the limits off while the window is in a fixed-size state, or the controls
      * to exit that state may be disabled.
      */
-    if (window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED)) {
-        min_width = 0;
-        min_height = 0;
-        max_width = 0;
-        max_height = 0;
-    } else if (window->flags & SDL_WINDOW_RESIZABLE) {
-        int adj_w = SDL_max(window->min_w, wind->system_limits.min_width);
-        int adj_h = SDL_max(window->min_h, wind->system_limits.min_height);
-        if (wind->scale_to_display) {
-            adj_w = PixelToPoint(window, adj_w);
-            adj_h = PixelToPoint(window, adj_h);
+    ಆದರೆ (ಕಿಟಕಿ->flags & (SDL_ಕಿಟಕಿ_FULLSCREEN | SDL_ಕಿಟಕಿ_MAXIMIZED)) {
+        min_ಅಗಲ_2 = 0;
+        min_ಎತ್ತರ_2 = 0;
+        max_ಅಗಲ_2 = 0;
+        max_ಎತ್ತರ_2 = 0;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE) {
+        ಪೂರ್ಣಾಂಕ adj_w = SDL_max(ಕಿಟಕಿ->min_w, wind->system_limits.min_ಅಗಲ_2);
+        ಪೂರ್ಣಾಂಕ adj_h = SDL_max(ಕಿಟಕಿ->min_h, wind->system_limits.min_ಎತ್ತರ_2);
+        ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+            adj_w = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, adj_w);
+            adj_h = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, adj_h);
         }
-        min_width = adj_w;
-        min_height = adj_h;
+        min_ಅಗಲ_2 = adj_w;
+        min_ಎತ್ತರ_2 = adj_h;
 
-        adj_w = window->max_w ? SDL_max(window->max_w, wind->system_limits.min_width) : 0;
-        adj_h = window->max_h ? SDL_max(window->max_h, wind->system_limits.min_height) : 0;
-        if (wind->scale_to_display) {
-            adj_w = PixelToPoint(window, adj_w);
-            adj_h = PixelToPoint(window, adj_h);
+        adj_w = ಕಿಟಕಿ->max_w ? SDL_max(ಕಿಟಕಿ->max_w, wind->system_limits.min_ಅಗಲ_2) : 0;
+        adj_h = ಕಿಟಕಿ->max_h ? SDL_max(ಕಿಟಕಿ->max_h, wind->system_limits.min_ಎತ್ತರ_2) : 0;
+        ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+            adj_w = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, adj_w);
+            adj_h = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, adj_h);
         }
-        max_width = adj_w;
-        max_height = adj_h;
-    } else {
-        min_width = wind->current.logical_width;
-        min_height = wind->current.logical_height;
-        max_width = wind->current.logical_width;
-        max_height = wind->current.logical_height;
+        max_ಅಗಲ_2 = adj_w;
+        max_ಎತ್ತರ_2 = adj_h;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        min_ಅಗಲ_2 = wind->current.logical_ಅಗಲ;
+        min_ಎತ್ತರ_2 = wind->current.logical_ಎತ್ತರ;
+        max_ಅಗಲ_2 = wind->current.logical_ಅಗಲ;
+        max_ಎತ್ತರ_2 = wind->current.logical_ಎತ್ತರ;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (!wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
 
-        if (min_width && min_height && min_width == max_width && min_height == max_height) {
-            libdecor_frame_unset_capabilities(wind->shell_surface.libdecor.frame, LIBDECOR_ACTION_RESIZE);
-        } else {
-            libdecor_frame_set_capabilities(wind->shell_surface.libdecor.frame, LIBDECOR_ACTION_RESIZE);
+        ಆದರೆ (min_ಅಗಲ_2 && min_ಎತ್ತರ_2 && min_ಅಗಲ_2 == max_ಅಗಲ_2 && min_ಎತ್ತರ_2 == max_ಎತ್ತರ_2) {
+            libdecor_ಚೌಕಟ್ಟು_unset_capabilities(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, LIBDECOR_ACTION_RESIZE);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            libdecor_ಚೌಕಟ್ಟು_ಗಣ_capabilities(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, LIBDECOR_ACTION_RESIZE);
         }
 
         /* No need to change these values if the window is non-resizable,
          * as libdecor will just overwrite them internally.
          */
-        if (libdecor_frame_has_capability(wind->shell_surface.libdecor.frame, LIBDECOR_ACTION_RESIZE)) {
-            libdecor_frame_set_min_content_size(wind->shell_surface.libdecor.frame,
-                                                min_width,
-                                                min_height);
-            libdecor_frame_set_max_content_size(wind->shell_surface.libdecor.frame,
-                                                max_width,
-                                                max_height);
+        ಆದರೆ (libdecor_ಚೌಕಟ್ಟು_has_capability(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, LIBDECOR_ACTION_RESIZE)) {
+            libdecor_ಚೌಕಟ್ಟು_ಗಣ_min_content_ಗಾತ್ರ(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು,
+                                                min_ಅಗಲ_2,
+                                                min_ಎತ್ತರ_2);
+            libdecor_ಚೌಕಟ್ಟು_ಗಣ_max_content_ಗಾತ್ರ(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು,
+                                                max_ಅಗಲ_2,
+                                                max_ಎತ್ತರ_2);
         }
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (!wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-            return; // Can't do anything yet, wait for ShowWindow
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಆದರೆ (!wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
         /* The limits are in window geometry space; keep an existing minimum at 1 or more,
          * or the window can be spuriously closed.
          */
         BorderInsets insets;
-        GetBorderInsets(window, &insets);
-        min_width = SDL_max(min_width - (insets.left + insets.right), min_width ? 1 : 0);
-        min_height = SDL_max(min_height - (insets.top + insets.bottom), min_height ? 1 : 0);
-        if (max_width) {
-            max_width = SDL_max(max_width - (insets.left + insets.right), 1);
+        GetBorderInsets(ಕಿಟಕಿ, &insets);
+        min_ಅಗಲ_2 = SDL_max(min_ಅಗಲ_2 - (insets.ಎಡ + insets.ಬಲ), min_ಅಗಲ_2 ? 1 : 0);
+        min_ಎತ್ತರ_2 = SDL_max(min_ಎತ್ತರ_2 - (insets.ತುದಿ + insets.bottom), min_ಎತ್ತರ_2 ? 1 : 0);
+        ಆದರೆ (max_ಅಗಲ_2) {
+            max_ಅಗಲ_2 = SDL_max(max_ಅಗಲ_2 - (insets.ಎಡ + insets.ಬಲ), 1);
         }
-        if (max_height) {
-            max_height = SDL_max(max_height - (insets.top + insets.bottom), 1);
+        ಆದರೆ (max_ಎತ್ತರ_2) {
+            max_ಎತ್ತರ_2 = SDL_max(max_ಎತ್ತರ_2 - (insets.ತುದಿ + insets.bottom), 1);
         }
-        xdg_toplevel_set_min_size(wind->shell_surface.xdg.toplevel.xdg_toplevel,
-                                  min_width,
-                                  min_height);
-        xdg_toplevel_set_max_size(wind->shell_surface.xdg.toplevel.xdg_toplevel,
-                                  max_width,
-                                  max_height);
+        xdg_toplevel_ಗಣ_min_ಗಾತ್ರ(wind->shell_surface.xdg.toplevel.xdg_toplevel,
+                                  min_ಅಗಲ_2,
+                                  min_ಎತ್ತರ_2);
+        xdg_toplevel_ಗಣ_max_ಗಾತ್ರ(wind->shell_surface.xdg.toplevel.xdg_toplevel,
+                                  max_ಅಗಲ_2,
+                                  max_ಎತ್ತರ_2);
     }
 }
 
-static void EnsurePopupPositionIsValid(SDL_Window *window, int *x, int *y)
+ಸ್ಥಿರ ಶೂನ್ಯ EnsurePopupPositionIsValid(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *x, ಪೂರ್ಣಾಂಕ *y)
 {
-    int adj_count = 0;
+    ಪೂರ್ಣಾಂಕ adj_ಎಣಿಕೆ = 0;
 
     /* Per the xdg-positioner spec, child popup windows must intersect or at
      * least be partially adjoining the parent window.
@@ -266,445 +266,445 @@ static void EnsurePopupPositionIsValid(SDL_Window *window, int *x, int *y)
      * can result in behavior ranging from the window being spuriously closed
      * to a protocol violation.
      */
-    if (*x + window->w <= 0) {
-        *x = -window->w;
-        ++adj_count;
+    ಆದರೆ (*x + ಕಿಟಕಿ->w <= 0) {
+        *x = -ಕಿಟಕಿ->w;
+        ++adj_ಎಣಿಕೆ;
     }
-    if (*y + window->h <= 0) {
-        *y = -window->h;
-        ++adj_count;
+    ಆದರೆ (*y + ಕಿಟಕಿ->h <= 0) {
+        *y = -ಕಿಟಕಿ->h;
+        ++adj_ಎಣಿಕೆ;
     }
-    if (*x >= window->parent->w) {
-        *x = window->parent->w;
-        ++adj_count;
+    ಆದರೆ (*x >= ಕಿಟಕಿ->ಪೋಷಕ->w) {
+        *x = ಕಿಟಕಿ->ಪೋಷಕ->w;
+        ++adj_ಎಣಿಕೆ;
     }
-    if (*y >= window->parent->h) {
-        *y = window->parent->h;
-        ++adj_count;
+    ಆದರೆ (*y >= ಕಿಟಕಿ->ಪೋಷಕ->h) {
+        *y = ಕಿಟಕಿ->ಪೋಷಕ->h;
+        ++adj_ಎಣಿಕೆ;
     }
 
     /* If adjustment was required on the x and y axes, the popup is aligned with
      * the parent corner-to-corner and is neither overlapping nor adjoining, so it
      * must be nudged by 1 to be considered adjoining.
      */
-    if (adj_count > 1) {
+    ಆದರೆ (adj_ಎಣಿಕೆ > 1) {
         *x += *x < 0 ? 1 : -1;
     }
 }
 
 // The window geometry: the explicitly set one, or the full surface if SDL has never set it.
-static void GetWindowGeometry(SDL_WindowData *wind, SDL_Rect *geometry)
+ಸ್ಥಿರ ಶೂನ್ಯ Get_ಕಿಟಕಿ_Geometry(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind, SDL_Rect *geometry)
 {
     *geometry = wind->explicit_geometry;
-    if (SDL_RectEmpty(geometry)) {
+    ಆದರೆ (SDL_Rect_ಖಾಲಿಗಳು(geometry)) {
         geometry->x = 0;
         geometry->y = 0;
-        geometry->w = wind->current.logical_width;
-        geometry->h = wind->current.logical_height;
+        geometry->w = wind->current.logical_ಅಗಲ;
+        geometry->h = wind->current.logical_ಎತ್ತರ;
     }
 }
 
-static void AdjustPopupOffset(SDL_Window *popup, int *x, int *y)
+ಸ್ಥಿರ ಶೂನ್ಯ Adjust_Popup_ಸ್ಥಾನಾಂತರ(SDL_ಕಿಟಕಿ *popup, ಪೂರ್ಣಾಂಕ *x, ಪೂರ್ಣಾಂಕ *y)
 {
     // Positioner offsets are relative to the origin of the parent's window geometry.
-#ifdef HAVE_LIBDECOR_H
-    if (popup->parent->internal->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        int adj_x, adj_y;
-        libdecor_frame_translate_coordinate(popup->parent->internal->shell_surface.libdecor.frame,
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (popup->ಪೋಷಕ->ಆಂತರಿಕ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಪೂರ್ಣಾಂಕ adj_x, adj_y;
+        libdecor_ಚೌಕಟ್ಟು_translate_coordinate(popup->ಪೋಷಕ->ಆಂತರಿಕ->shell_surface.libdecor.ಚೌಕಟ್ಟು,
                                             *x, *y, &adj_x, &adj_y);
         *x = adj_x;
         *y = adj_y;
-    } else
-#endif
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
     {
-        *x -= popup->parent->internal->explicit_geometry.x;
-        *y -= popup->parent->internal->explicit_geometry.y;
+        *x -= popup->ಪೋಷಕ->ಆಂತರಿಕ->explicit_geometry.x;
+        *y -= popup->ಪೋಷಕ->ಆಂತರಿಕ->explicit_geometry.y;
     }
 }
 
-static void RepositionPopup(SDL_Window *window, bool use_current_position)
+ಸ್ಥಿರ ಶೂನ್ಯ RepositionPopup(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool use_current_position)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP &&
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP &&
         wind->shell_surface.xdg.popup.xdg_positioner &&
-        xdg_popup_get_version(wind->shell_surface.xdg.popup.xdg_popup) >= XDG_POPUP_REPOSITION_SINCE_VERSION) {
-        int x = use_current_position ? window->x : window->pending.x;
-        int y = use_current_position ? window->y : window->pending.y;
+        xdg_popup_get_ಆವೃತ್ತಿ(wind->shell_surface.xdg.popup.xdg_popup) >= XDG_POPUP_REPOSITION_SINCE_ಆವೃತ್ತಿ) {
+        ಪೂರ್ಣಾಂಕ x = use_current_position ? ಕಿಟಕಿ->x : ಕಿಟಕಿ->pending.x;
+        ಪೂರ್ಣಾಂಕ y = use_current_position ? ಕಿಟಕಿ->y : ಕಿಟಕಿ->pending.y;
 
-        EnsurePopupPositionIsValid(window, &x, &y);
-        if (wind->scale_to_display) {
-            x = PixelToPoint(window->parent, x);
-            y = PixelToPoint(window->parent, y);
+        EnsurePopupPositionIsValid(ಕಿಟಕಿ, &x, &y);
+        ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+            x = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ->ಪೋಷಕ, x);
+            y = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ->ಪೋಷಕ, y);
         }
-        AdjustPopupOffset(window, &x, &y);
-        SDL_Rect parent_geometry;
-        GetWindowGeometry(window->parent->internal, &parent_geometry);
-        xdg_positioner_set_anchor_rect(wind->shell_surface.xdg.popup.xdg_positioner, 0, 0, parent_geometry.w, parent_geometry.h);
-        xdg_positioner_set_size(wind->shell_surface.xdg.popup.xdg_positioner, wind->current.logical_width, wind->current.logical_height);
-        xdg_positioner_set_offset(wind->shell_surface.xdg.popup.xdg_positioner, x, y);
+        Adjust_Popup_ಸ್ಥಾನಾಂತರ(ಕಿಟಕಿ, &x, &y);
+        SDL_Rect ಪೋಷಕ_geometry;
+        Get_ಕಿಟಕಿ_Geometry(ಕಿಟಕಿ->ಪೋಷಕ->ಆಂತರಿಕ, &ಪೋಷಕ_geometry);
+        xdg_positioner_ಗಣ_anchor_rect(wind->shell_surface.xdg.popup.xdg_positioner, 0, 0, ಪೋಷಕ_geometry.w, ಪೋಷಕ_geometry.h);
+        xdg_positioner_ಗಣ_ಗಾತ್ರ(wind->shell_surface.xdg.popup.xdg_positioner, wind->current.logical_ಅಗಲ, wind->current.logical_ಎತ್ತರ);
+        xdg_positioner_ಗಣ_ಸ್ಥಾನಾಂತರ(wind->shell_surface.xdg.popup.xdg_positioner, x, y);
         xdg_popup_reposition(wind->shell_surface.xdg.popup.xdg_popup,
                              wind->shell_surface.xdg.popup.xdg_positioner,
                              0);
     }
 }
 
-static void SetSurfaceOpaqueRegion(struct wl_surface *surface, int width, int height)
+ಸ್ಥಿರ ಶೂನ್ಯ ಗಣ_Surface_Opaque_Region(ರಚನೆ wl_surface *surface, ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ)
 {
-    SDL_VideoData *viddata = SDL_GetVideoDevice()->internal;
+    SDL_Video_ದತ್ತಾಂಶ *viddata = SDL_GetVideoDevice()->ಆಂತರಿಕ;
 
-    if (width && height) {
-        struct wl_region *region = wl_compositor_create_region(viddata->compositor);
-        wl_region_add(region, 0, 0, width, height);
-        wl_surface_set_opaque_region(surface, region);
+    ಆದರೆ (ಅಗಲ && ಎತ್ತರ) {
+        ರಚನೆ wl_region *region = wl_compositor_create_region(viddata->compositor);
+        wl_region_ಕೂಡಿಸು(region, 0, 0, ಅಗಲ, ಎತ್ತರ);
+        wl_surface_ಗಣ_opaque_region(surface, region);
         wl_region_destroy(region);
-    } else {
-        wl_surface_set_opaque_region(surface, NULL);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        wl_surface_ಗಣ_opaque_region(surface, ಖಾಲಿ);
     }
 }
 
-static void ConfigureWindowGeometry(SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ Configure_ಕಿಟಕಿ_Geometry(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *data = window->internal;
-    const double scale_factor = GetWindowScale(window);
-    const double prev_pointer_scale_x = data->pointer_scale.x;
-    const double prev_pointer_scale_y = data->pointer_scale.y;
-    const int old_pixel_width = data->current.pixel_width;
-    const int old_pixel_height = data->current.pixel_height;
-    int window_width = 0;
-    int window_height = 0;
-    int viewport_width, viewport_height;
-    bool window_size_changed;
-    bool buffer_size_changed;
-    const bool is_opaque = !(window->flags & SDL_WINDOW_TRANSPARENT) && window->opacity == 1.0f;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ scale_ಗುಣಕ_2 = Get_ಕಿಟಕಿ_Scale(ಕಿಟಕಿ);
+    ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ prev_ಸೂಚಕ_scale_x = ದತ್ತಾಂಶ->ಸೂಚಕ_scale.x;
+    ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ prev_ಸೂಚಕ_scale_y = ದತ್ತಾಂಶ->ಸೂಚಕ_scale.y;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ old_pixel_ಅಗಲ = ದತ್ತಾಂಶ->current.pixel_ಅಗಲ;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ old_pixel_ಎತ್ತರ = ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ;
+    ಪೂರ್ಣಾಂಕ ಕಿಟಕಿ_ಅಗಲ = 0;
+    ಪೂರ್ಣಾಂಕ ಕಿಟಕಿ_ಎತ್ತರ = 0;
+    ಪೂರ್ಣಾಂಕ viewport_ಅಗಲ, viewport_ಎತ್ತರ;
+    bool ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು;
+    bool ಬಫರ್_ಗಾತ್ರ_ಬದಲಾಯಿತು;
+    ಸ್ಥಿರಾಂಕ bool is_opaque = !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_TRANSPARENT) && ಕಿಟಕಿ->opacity == 1.0f;
 
-    if (data->is_fullscreen && window->fullscreen_exclusive) {
-        window_width = window->current_fullscreen_mode.w;
-        window_height = window->current_fullscreen_mode.h;
+    ಆದರೆ (ದತ್ತಾಂಶ->is_fullscreen && ಕಿಟಕಿ->fullscreen_exclusive) {
+        ಕಿಟಕಿ_ಅಗಲ = ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.w;
+        ಕಿಟಕಿ_ಎತ್ತರ = ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.h;
 
-        viewport_width = data->requested.logical_width;
-        viewport_height = data->requested.logical_height;
+        viewport_ಅಗಲ = ದತ್ತಾಂಶ->requested.logical_ಅಗಲ;
+        viewport_ಎತ್ತರ = ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ;
 
-        switch (GetModeScaleMethod()) {
-        case WAYLAND_MODE_SCALE_NONE:
+        ಆಯ್ಕೆ (Get_ಬಹುಲಕ_Scale_ವಿಧಾನ()) {
+        ಸ್ಥಿತಿ WAYLAND_ಬಹುಲಕ_SCALE_NONE:
             /* The Wayland spec states that the advertised fullscreen dimensions are a maximum.
              * Windows can request a smaller size, but exceeding these dimensions is a protocol violation,
              * thus, modes that exceed the output size still need to be scaled with a viewport.
              */
-            if (window_width <= viewport_width && window_height <= viewport_height) {
-                viewport_width = window_width;
-                viewport_height = window_height;
+            ಆದರೆ (ಕಿಟಕಿ_ಅಗಲ <= viewport_ಅಗಲ && ಕಿಟಕಿ_ಎತ್ತರ <= viewport_ಎತ್ತರ) {
+                viewport_ಅಗಲ = ಕಿಟಕಿ_ಅಗಲ;
+                viewport_ಎತ್ತರ = ಕಿಟಕಿ_ಎತ್ತರ;
 
-                break;
+                ನಿಲ್ಲಿಸು;
             }
             SDL_FALLTHROUGH;
-        case WAYLAND_MODE_SCALE_ASPECT:
+        ಸ್ಥಿತಿ WAYLAND_ಬಹುಲಕ_SCALE_ASPECT:
         {
-            const float output_ratio = (float)viewport_width / (float)viewport_height;
-            const float mode_ratio = (float)window_width / (float)window_height;
+            ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ output_ಅನುಪಾತ = (ದಶಮಾಂಶ)viewport_ಅಗಲ / (ದಶಮಾಂಶ)viewport_ಎತ್ತರ;
+            ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ ಬಹುಲಕ_ಅನುಪಾತ = (ದಶಮಾಂಶ)ಕಿಟಕಿ_ಅಗಲ / (ದಶಮಾಂಶ)ಕಿಟಕಿ_ಎತ್ತರ;
 
-            if (output_ratio > mode_ratio) {
-                viewport_width = SDL_lroundf((float)window_width * ((float)viewport_height / (float)window_height));
-            } else if (output_ratio < mode_ratio) {
-                viewport_height = SDL_lroundf((float)window_height * ((float)viewport_width / (float)window_width));
+            ಆದರೆ (output_ಅನುಪಾತ > ಬಹುಲಕ_ಅನುಪಾತ) {
+                viewport_ಅಗಲ = SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ_ಅಗಲ * ((ದಶಮಾಂಶ)viewport_ಎತ್ತರ / (ದಶಮಾಂಶ)ಕಿಟಕಿ_ಎತ್ತರ));
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (output_ಅನುಪಾತ < ಬಹುಲಕ_ಅನುಪಾತ) {
+                viewport_ಎತ್ತರ = SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ_ಎತ್ತರ * ((ದಶಮಾಂಶ)viewport_ಅಗಲ / (ದಶಮಾಂಶ)ಕಿಟಕಿ_ಅಗಲ));
             }
-        } break;
-        default:
-            break;
+        } ನಿಲ್ಲಿಸು;
+        ಪೂರ್ವನಿಯೋಜಿತ:
+            ನಿಲ್ಲಿಸು;
         }
 
-        window_size_changed = window_width != window->w ||
-                              window_height != window->h ||
-                              data->current.viewport_width != viewport_width ||
-                              data->current.viewport_height != viewport_height;
+        ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು = ಕಿಟಕಿ_ಅಗಲ != ಕಿಟಕಿ->w ||
+                              ಕಿಟಕಿ_ಎತ್ತರ != ಕಿಟಕಿ->h ||
+                              ದತ್ತಾಂಶ->current.viewport_ಅಗಲ != viewport_ಅಗಲ ||
+                              ದತ್ತಾಂಶ->current.viewport_ಎತ್ತರ != viewport_ಎತ್ತರ;
 
         // Exclusive fullscreen window sizes are always in pixel units.
-        data->current.pixel_width = window_width;
-        data->current.pixel_height = window_height;
-        buffer_size_changed = data->current.pixel_width != old_pixel_width ||
-                              data->current.pixel_height != old_pixel_height;
+        ದತ್ತಾಂಶ->current.pixel_ಅಗಲ = ಕಿಟಕಿ_ಅಗಲ;
+        ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ = ಕಿಟಕಿ_ಎತ್ತರ;
+        ಬಫರ್_ಗಾತ್ರ_ಬದಲಾಯಿತು = ದತ್ತಾಂಶ->current.pixel_ಅಗಲ != old_pixel_ಅಗಲ ||
+                              ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ != old_pixel_ಎತ್ತರ;
 
-        if (window_size_changed || buffer_size_changed) {
-            if (data->viewport) {
-                wp_viewport_set_destination(data->viewport, viewport_width, viewport_height);
+        ಆದರೆ (ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು || ಬಫರ್_ಗಾತ್ರ_ಬದಲಾಯಿತು) {
+            ಆದರೆ (ದತ್ತಾಂಶ->viewport) {
+                wp_viewport_ಗಣ_destination(ದತ್ತಾಂಶ->viewport, viewport_ಅಗಲ, viewport_ಎತ್ತರ);
 
-                data->current.logical_width = data->requested.logical_width;
-                data->current.logical_height = data->requested.logical_height;
-                data->current.viewport_width = viewport_width;
-                data->current.viewport_height = viewport_height;
-            } else {
+                ದತ್ತಾಂಶ->current.logical_ಅಗಲ = ದತ್ತಾಂಶ->requested.logical_ಅಗಲ;
+                ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ = ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ;
+                ದತ್ತಾಂಶ->current.viewport_ಅಗಲ = viewport_ಅಗಲ;
+                ದತ್ತಾಂಶ->current.viewport_ಎತ್ತರ = viewport_ಎತ್ತರ;
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 // Calculate the integer scale from the mode and output.
-                const int32_t int_scale = SDL_max(window->current_fullscreen_mode.w / viewport_width, 1);
+                ಸ್ಥಿರಾಂಕ int32_t int_scale = SDL_max(ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.w / viewport_ಅಗಲ, 1);
 
-                wl_surface_set_buffer_scale(data->surface, int_scale);
-                data->current.logical_width = window->current_fullscreen_mode.w;
-                data->current.logical_height = window->current_fullscreen_mode.h;
+                wl_surface_ಗಣ_ಬಫರ್_scale(ದತ್ತಾಂಶ->surface, int_scale);
+                ದತ್ತಾಂಶ->current.logical_ಅಗಲ = ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.w;
+                ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ = ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.h;
             }
 
-            data->pointer_scale.x = (double)window_width / (double)viewport_width;
-            data->pointer_scale.y = (double)window_height / (double)viewport_height;
+            ದತ್ತಾಂಶ->ಸೂಚಕ_scale.x = (ದ್ವಿಗುಣ)ಕಿಟಕಿ_ಅಗಲ / (ದ್ವಿಗುಣ)viewport_ಅಗಲ;
+            ದತ್ತಾಂಶ->ಸೂಚಕ_scale.y = (ದ್ವಿಗುಣ)ಕಿಟಕಿ_ಎತ್ತರ / (ದ್ವಿಗುಣ)viewport_ಎತ್ತರ;
         }
-    } else {
-        if (!data->scale_to_display) {
-            viewport_width = data->requested.logical_width;
-            viewport_height = data->requested.logical_height;
-        } else {
-            viewport_width = data->requested.pixel_width;
-            viewport_height = data->requested.pixel_height;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display) {
+            viewport_ಅಗಲ = ದತ್ತಾಂಶ->requested.logical_ಅಗಲ;
+            viewport_ಎತ್ತರ = ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            viewport_ಅಗಲ = ದತ್ತಾಂಶ->requested.pixel_ಅಗಲ;
+            viewport_ಎತ್ತರ = ದತ್ತಾಂಶ->requested.pixel_ಎತ್ತರ;
         }
 
-        if (!data->enable_insets &&
-            data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_HIDDEN &&
-            data->viewport && data->waylandData->subcompositor && !data->floating && !data->is_fullscreen) {
-            int min_width, min_height, max_width, max_height;
-            if (window->flags & SDL_WINDOW_RESIZABLE) {
-                min_width = window->min_w;
-                min_height = window->min_h;
-                max_width = window->max_w;
-                max_height = window->max_h;
-            } else {
+        ಆದರೆ (!ದತ್ತಾಂಶ->enable_insets &&
+            ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ != WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_HIDDEN &&
+            ದತ್ತಾಂಶ->viewport && ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->subcompositor && !ದತ್ತಾಂಶ->floating && !ದತ್ತಾಂಶ->is_fullscreen) {
+            ಪೂರ್ಣಾಂಕ min_ಅಗಲ_2, min_ಎತ್ತರ_2, max_ಅಗಲ_2, max_ಎತ್ತರ_2;
+            ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE) {
+                min_ಅಗಲ_2 = ಕಿಟಕಿ->min_w;
+                min_ಎತ್ತರ_2 = ಕಿಟಕಿ->min_h;
+                max_ಅಗಲ_2 = ಕಿಟಕಿ->max_w;
+                max_ಎತ್ತರ_2 = ಕಿಟಕಿ->max_h;
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 // Use the fixed size in the odd case where a non-resizable window somehow wound up tiled or maximized.
-                min_width = window->floating.w;
-                min_height = window->floating.h;
-                max_width = window->floating.w;
-                max_height = window->floating.h;
+                min_ಅಗಲ_2 = ಕಿಟಕಿ->floating.w;
+                min_ಎತ್ತರ_2 = ಕಿಟಕಿ->floating.h;
+                max_ಅಗಲ_2 = ಕಿಟಕಿ->floating.w;
+                max_ಎತ್ತರ_2 = ಕಿಟಕಿ->floating.h;
             }
 
-            if (min_width) {
-                viewport_width = SDL_max(viewport_width, min_width);
+            ಆದರೆ (min_ಅಗಲ_2) {
+                viewport_ಅಗಲ = SDL_max(viewport_ಅಗಲ, min_ಅಗಲ_2);
             }
-            if (min_height) {
-                viewport_height = SDL_max(viewport_height, min_height);
+            ಆದರೆ (min_ಎತ್ತರ_2) {
+                viewport_ಎತ್ತರ = SDL_max(viewport_ಎತ್ತರ, min_ಎತ್ತರ_2);
             }
-            if (max_width) {
-                viewport_width = SDL_min(viewport_width, max_width);
+            ಆದರೆ (max_ಅಗಲ_2) {
+                viewport_ಅಗಲ = SDL_min(viewport_ಅಗಲ, max_ಅಗಲ_2);
             }
-            if (max_height) {
-                viewport_height = SDL_min(viewport_height, max_height);
+            ಆದರೆ (max_ಎತ್ತರ_2) {
+                viewport_ಎತ್ತರ = SDL_min(viewport_ಎತ್ತರ, max_ಎತ್ತರ_2);
             }
 
-            float aspect = (float)viewport_width / (float)viewport_height;
-            if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-                viewport_height = SDL_max(SDL_lroundf((float)viewport_width / window->min_aspect), 1);
-            } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-                viewport_width = SDL_max(SDL_lroundf((float)viewport_height * window->max_aspect), 1);
+            ದಶಮಾಂಶ aspect = (ದಶಮಾಂಶ)viewport_ಅಗಲ / (ದಶಮಾಂಶ)viewport_ಎತ್ತರ;
+            ಆದರೆ (ಕಿಟಕಿ->min_aspect != 0.f && aspect < ಕಿಟಕಿ->min_aspect) {
+                viewport_ಎತ್ತರ = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)viewport_ಅಗಲ / ಕಿಟಕಿ->min_aspect), 1);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಕಿಟಕಿ->max_aspect != 0.f && aspect > ಕಿಟಕಿ->max_aspect) {
+                viewport_ಅಗಲ = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)viewport_ಎತ್ತರ * ಕಿಟಕಿ->max_aspect), 1);
             }
 
             // At this point, the viewport matches the virtual window dimensions, but the viewport might be clamped to the output window dimensions beyond here.
-            window_width = viewport_width;
-            window_height = viewport_height;
+            ಕಿಟಕಿ_ಅಗಲ = viewport_ಅಗಲ;
+            ಕಿಟಕಿ_ಎತ್ತರ = viewport_ಎತ್ತರ;
 
             // If the viewport bounds exceed the window size, scale them while maintaining the aspect ratio.
-            if (!data->scale_to_display) {
-                if (viewport_width > data->requested.logical_width || viewport_height > data->requested.logical_height) {
-                    aspect = (float)viewport_width / (float)viewport_height;
-                    const float window_ratio = (float)data->requested.logical_width / (float)data->requested.logical_height;
-                    if (aspect >= window_ratio) {
-                        viewport_width = data->requested.logical_width;
-                        viewport_height = SDL_lroundf((float)viewport_width / aspect);
-                    } else if (aspect < window_ratio) {
-                        viewport_height = data->requested.logical_height;
-                        viewport_width = SDL_lroundf((float)viewport_height * aspect);
+            ಆದರೆ (!ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display) {
+                ಆದರೆ (viewport_ಅಗಲ > ದತ್ತಾಂಶ->requested.logical_ಅಗಲ || viewport_ಎತ್ತರ > ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ) {
+                    aspect = (ದಶಮಾಂಶ)viewport_ಅಗಲ / (ದಶಮಾಂಶ)viewport_ಎತ್ತರ;
+                    ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ ಕಿಟಕಿ_ಅನುಪಾತ = (ದಶಮಾಂಶ)ದತ್ತಾಂಶ->requested.logical_ಅಗಲ / (ದಶಮಾಂಶ)ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ;
+                    ಆದರೆ (aspect >= ಕಿಟಕಿ_ಅನುಪಾತ) {
+                        viewport_ಅಗಲ = ದತ್ತಾಂಶ->requested.logical_ಅಗಲ;
+                        viewport_ಎತ್ತರ = SDL_lroundf((ದಶಮಾಂಶ)viewport_ಅಗಲ / aspect);
+                    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (aspect < ಕಿಟಕಿ_ಅನುಪಾತ) {
+                        viewport_ಎತ್ತರ = ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ;
+                        viewport_ಅಗಲ = SDL_lroundf((ದಶಮಾಂಶ)viewport_ಎತ್ತರ * aspect);
                     }
                 }
-            } else {
-                if (viewport_width > data->requested.pixel_width || viewport_height > data->requested.pixel_height) {
-                    aspect = (float)viewport_width / (float)viewport_height;
-                    const float window_ratio = (float)data->requested.pixel_width / (float)data->requested.pixel_height;
-                    if (aspect >= window_ratio) {
-                        viewport_width = data->requested.pixel_width;
-                        viewport_height = SDL_lroundf((float)viewport_width / aspect);
-                    } else if (aspect < window_ratio) {
-                        viewport_height = data->requested.pixel_height;
-                        viewport_width = SDL_lroundf((float)viewport_height * aspect);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಆದರೆ (viewport_ಅಗಲ > ದತ್ತಾಂಶ->requested.pixel_ಅಗಲ || viewport_ಎತ್ತರ > ದತ್ತಾಂಶ->requested.pixel_ಎತ್ತರ) {
+                    aspect = (ದಶಮಾಂಶ)viewport_ಅಗಲ / (ದಶಮಾಂಶ)viewport_ಎತ್ತರ;
+                    ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ ಕಿಟಕಿ_ಅನುಪಾತ = (ದಶಮಾಂಶ)ದತ್ತಾಂಶ->requested.pixel_ಅಗಲ / (ದಶಮಾಂಶ)ದತ್ತಾಂಶ->requested.pixel_ಎತ್ತರ;
+                    ಆದರೆ (aspect >= ಕಿಟಕಿ_ಅನುಪಾತ) {
+                        viewport_ಅಗಲ = ದತ್ತಾಂಶ->requested.pixel_ಅಗಲ;
+                        viewport_ಎತ್ತರ = SDL_lroundf((ದಶಮಾಂಶ)viewport_ಅಗಲ / aspect);
+                    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (aspect < ಕಿಟಕಿ_ಅನುಪಾತ) {
+                        viewport_ಎತ್ತರ = ದತ್ತಾಂಶ->requested.pixel_ಎತ್ತರ;
+                        viewport_ಅಗಲ = SDL_lroundf((ದಶಮಾಂಶ)viewport_ಎತ್ತರ * aspect);
                     }
                 }
             }
 
-            viewport_width = SDL_max(viewport_width, 1);
-            viewport_height = SDL_max(viewport_height, 1);
-        } else {
-            window_width = viewport_width;
-            window_height = viewport_height;
+            viewport_ಅಗಲ = SDL_max(viewport_ಅಗಲ, 1);
+            viewport_ಎತ್ತರ = SDL_max(viewport_ಎತ್ತರ, 1);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಕಿಟಕಿ_ಅಗಲ = viewport_ಅಗಲ;
+            ಕಿಟಕಿ_ಎತ್ತರ = viewport_ಎತ್ತರ;
         }
 
-        if (!data->scale_to_display) {
-            data->current.pixel_width = PointToPixel(window, window_width);
-            data->current.pixel_height = PointToPixel(window, window_height);
-        } else {
+        ಆದರೆ (!ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display) {
+            ದತ್ತಾಂಶ->current.pixel_ಅಗಲ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಕಿಟಕಿ_ಅಗಲ);
+            ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಕಿಟಕಿ_ಎತ್ತರ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // The viewport size is in pixels at this point; convert it to logical units.
-            data->current.pixel_width = window_width;
-            data->current.pixel_height = window_height;
-            viewport_width = PixelToPoint(window, viewport_width);
-            viewport_height = PixelToPoint(window, viewport_height);
+            ದತ್ತಾಂಶ->current.pixel_ಅಗಲ = ಕಿಟಕಿ_ಅಗಲ;
+            ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ = ಕಿಟಕಿ_ಎತ್ತರ;
+            viewport_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, viewport_ಅಗಲ);
+            viewport_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, viewport_ಎತ್ತರ);
         }
 
         // Clamp the physical window size to the system minimum required size.
-        data->requested.logical_width = SDL_max(data->requested.logical_width, data->system_limits.min_width);
-        data->requested.logical_height = SDL_max(data->requested.logical_height, data->system_limits.min_height);
+        ದತ್ತಾಂಶ->requested.logical_ಅಗಲ = SDL_max(ದತ್ತಾಂಶ->requested.logical_ಅಗಲ, ದತ್ತಾಂಶ->system_limits.min_ಅಗಲ_2);
+        ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ = SDL_max(ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ, ದತ್ತಾಂಶ->system_limits.min_ಎತ್ತರ_2);
 
-        window_size_changed = data->requested.logical_width != data->current.logical_width ||
-                              data->requested.logical_height != data->current.logical_height ||
-                              viewport_width != data->current.viewport_width ||
-                              viewport_height != data->current.viewport_height;
+        ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು = ದತ್ತಾಂಶ->requested.logical_ಅಗಲ != ದತ್ತಾಂಶ->current.logical_ಅಗಲ ||
+                              ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ != ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ ||
+                              viewport_ಅಗಲ != ದತ್ತಾಂಶ->current.viewport_ಅಗಲ ||
+                              viewport_ಎತ್ತರ != ದತ್ತಾಂಶ->current.viewport_ಎತ್ತರ;
 
-        buffer_size_changed = data->current.pixel_width != old_pixel_width ||
-                              data->current.pixel_height != old_pixel_height;
+        ಬಫರ್_ಗಾತ್ರ_ಬದಲಾಯಿತು = ದತ್ತಾಂಶ->current.pixel_ಅಗಲ != old_pixel_ಅಗಲ ||
+                              ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ != old_pixel_ಎತ್ತರ;
 
-        if (window_size_changed || buffer_size_changed) {
-            if (data->viewport) {
-                wp_viewport_set_destination(data->viewport, viewport_width, viewport_height);
-            } else if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+        ಆದರೆ (ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು || ಬಫರ್_ಗಾತ್ರ_ಬದಲಾಯಿತು) {
+            ಆದರೆ (ದತ್ತಾಂಶ->viewport) {
+                wp_viewport_ಗಣ_destination(ದತ್ತಾಂಶ->viewport, viewport_ಅಗಲ, viewport_ಎತ್ತರ);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY) {
                 // Don't change this if the DPI awareness flag is unset, as an application may have set this manually on a custom or external surface.
-                wl_surface_set_buffer_scale(data->surface, (int32_t)scale_factor);
+                wl_surface_ಗಣ_ಬಫರ್_scale(ದತ್ತಾಂಶ->surface, (int32_t)scale_ಗುಣಕ_2);
             }
 
-            data->current.logical_width = data->requested.logical_width;
-            data->current.logical_height = data->requested.logical_height;
-            data->current.viewport_width = viewport_width;
-            data->current.viewport_height = viewport_height;
+            ದತ್ತಾಂಶ->current.logical_ಅಗಲ = ದತ್ತಾಂಶ->requested.logical_ಅಗಲ;
+            ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ = ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ;
+            ದತ್ತಾಂಶ->current.viewport_ಅಗಲ = viewport_ಅಗಲ;
+            ದತ್ತಾಂಶ->current.viewport_ಎತ್ತರ = viewport_ಎತ್ತರ;
 
-            data->pointer_scale.x = (double)window_width / (double)viewport_width;
-            data->pointer_scale.y = (double)window_height / (double)viewport_height;
+            ದತ್ತಾಂಶ->ಸೂಚಕ_scale.x = (ದ್ವಿಗುಣ)ಕಿಟಕಿ_ಅಗಲ / (ದ್ವಿಗುಣ)viewport_ಅಗಲ;
+            ದತ್ತಾಂಶ->ಸೂಚಕ_scale.y = (ದ್ವಿಗುಣ)ಕಿಟಕಿ_ಎತ್ತರ / (ದ್ವಿಗುಣ)viewport_ಎತ್ತರ;
         }
     }
 
-    if (data->egl_window && buffer_size_changed) {
-        WAYLAND_wl_egl_window_resize(data->egl_window,
-                                     data->current.pixel_width,
-                                     data->current.pixel_height,
+    ಆದರೆ (ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ && ಬಫರ್_ಗಾತ್ರ_ಬದಲಾಯಿತು) {
+        WAYLAND_wl_egl_ಕಿಟಕಿ_resize(ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ,
+                                     ದತ್ತಾಂಶ->current.pixel_ಅಗಲ,
+                                     ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ,
                                      0, 0);
     }
 
     /* Calculate the mask size and offset.
      * Fullscreen windows are centered and masked automatically by the compositor, unless it lacks the capability.
      */
-    if (!data->enable_insets && data->viewport && data->waylandData->subcompositor && (!data->is_fullscreen || ShouldMaskFullscreen()) &&
-        (viewport_width != data->current.logical_width || viewport_height != data->current.logical_height)) {
-        struct wl_buffer *old_buffer = NULL;
+    ಆದರೆ (!ದತ್ತಾಂಶ->enable_insets && ದತ್ತಾಂಶ->viewport && ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->subcompositor && (!ದತ್ತಾಂಶ->is_fullscreen || Should_ಮುಖವಾಡ_Fullscreen()) &&
+        (viewport_ಅಗಲ != ದತ್ತಾಂಶ->current.logical_ಅಗಲ || viewport_ಎತ್ತರ != ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ)) {
+        ರಚನೆ wl_ಬಫರ್ *old_ಬಫರ್ = ಖಾಲಿ;
 
-        if (!data->mask.surface) {
-            data->mask.surface = wl_compositor_create_surface(data->waylandData->compositor);
-            SDL_WAYLAND_register_surface(data->mask.surface);
-            wl_surface_set_user_data(data->mask.surface, data);
+        ಆದರೆ (!ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface) {
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface = wl_compositor_create_surface(ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->compositor);
+            SDL_WAYLAND_ರಿಜಿಸ್ಟರ್_surface(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface);
+            wl_surface_ಗಣ_user_ದತ್ತಾಂಶ(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, ದತ್ತಾಂಶ);
         }
-        if (!data->mask.subsurface) {
-            data->mask.subsurface = wl_subcompositor_get_subsurface(data->waylandData->subcompositor, data->mask.surface, data->surface);
+        ಆದರೆ (!ದತ್ತಾಂಶ->ಮುಖವಾಡ.subsurface) {
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.subsurface = wl_subcompositor_get_subsurface(ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->subcompositor, ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, ದತ್ತಾಂಶ->surface);
         }
-        if (!data->mask.viewport) {
-            data->mask.viewport = wp_viewporter_get_viewport(data->waylandData->viewporter, data->mask.surface);
+        ಆದರೆ (!ದತ್ತಾಂಶ->ಮುಖವಾಡ.viewport) {
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.viewport = wp_viewporter_get_viewport(ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->viewporter, ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface);
         }
-        if (!data->mask.buffer || data->mask.opaque != is_opaque) {
-            old_buffer = data->mask.buffer;
-            data->mask.opaque = is_opaque;
-            data->mask.buffer = Wayland_CreateSinglePixelBuffer(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
-        }
-
-        wl_surface_attach(data->mask.surface, data->mask.buffer, 0, 0);
-
-        wl_subsurface_place_below(data->mask.subsurface, data->surface);
-        wp_viewport_set_destination(data->mask.viewport, data->current.logical_width, data->current.logical_height);
-
-        if (wl_surface_get_version(data->mask.surface) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-            wl_surface_damage_buffer(data->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-        } else {
-            wl_surface_damage(data->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+        ಆದರೆ (!ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಬಫರ್_2 || ದತ್ತಾಂಶ->ಮುಖವಾಡ.opaque != is_opaque) {
+            old_ಬಫರ್ = ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಬಫರ್_2;
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.opaque = is_opaque;
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಬಫರ್_2 = Wayland_Create_Single_Pixel_ಬಫರ್(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
         }
 
-        if (is_opaque) {
-            SetSurfaceOpaqueRegion(data->mask.surface, data->current.logical_width, data->current.logical_height);
-        } else {
-            SetSurfaceOpaqueRegion(data->mask.surface, 0, 0);
+        wl_surface_attach(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಬಫರ್_2, 0, 0);
+
+        wl_subsurface_ಇರಿಸು_ಕೆಳಗೆ(ದತ್ತಾಂಶ->ಮುಖವಾಡ.subsurface, ದತ್ತಾಂಶ->surface);
+        wp_viewport_ಗಣ_destination(ದತ್ತಾಂಶ->ಮುಖವಾಡ.viewport, ದತ್ತಾಂಶ->current.logical_ಅಗಲ, ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ);
+
+        ಆದರೆ (wl_surface_get_ಆವೃತ್ತಿ(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface) >= WL_SURFACE_DAMAGE_ಬಫರ್_SINCE_ಆವೃತ್ತಿ) {
+            wl_surface_damage_ಬಫರ್(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            wl_surface_damage(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+        }
+
+        ಆದರೆ (is_opaque) {
+            ಗಣ_Surface_Opaque_Region(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, ದತ್ತಾಂಶ->current.logical_ಅಗಲ, ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಗಣ_Surface_Opaque_Region(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, 0, 0);
         }
 
         // Can't use an offset subsurface with libdecor (yet), or the decorations won't line up properly.
-        if (data->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-            data->mask.offset_x = -(data->current.logical_width - viewport_width) / 2;
-            data->mask.offset_y = -(data->current.logical_height - viewport_height) / 2;
-        } else {
-            data->mask.offset_x = 0;
-            data->mask.offset_y = 0;
+        ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_x = -(ದತ್ತಾಂಶ->current.logical_ಅಗಲ - viewport_ಅಗಲ) / 2;
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_y = -(ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ - viewport_ಎತ್ತರ) / 2;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_x = 0;
+            ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_y = 0;
         }
 
-        wl_subsurface_set_position(data->mask.subsurface, data->mask.offset_x, data->mask.offset_y);
-        wl_surface_commit(data->mask.surface);
+        wl_subsurface_ಗಣ_position(ದತ್ತಾಂಶ->ಮುಖವಾಡ.subsurface, ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_x, ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_y);
+        wl_surface_commit(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface);
 
-        if (old_buffer) {
-            wl_buffer_destroy(old_buffer);
+        ಆದರೆ (old_ಬಫರ್) {
+            wl_ಬಫರ್_destroy(old_ಬಫರ್);
         }
 
-        data->mask.mapped = true;
-    } else if (data->mask.mapped) {
-        wl_subsurface_set_position(data->mask.subsurface, 0, 0);
-        wl_surface_attach(data->mask.surface, NULL, 0, 0);
-        wl_surface_commit(data->mask.surface);
+        ದತ್ತಾಂಶ->ಮುಖವಾಡ.mapped = true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ದತ್ತಾಂಶ->ಮುಖವಾಡ.mapped) {
+        wl_subsurface_ಗಣ_position(ದತ್ತಾಂಶ->ಮುಖವಾಡ.subsurface, 0, 0);
+        wl_surface_attach(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface, ಖಾಲಿ, 0, 0);
+        wl_surface_commit(ದತ್ತಾಂಶ->ಮುಖವಾಡ.surface);
 
-        data->mask.offset_x = 0;
-        data->mask.offset_y = 0;
-        data->mask.mapped = false;
+        ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_x = 0;
+        ದತ್ತಾಂಶ->ಮುಖವಾಡ.ಸ್ಥಾನಾಂತರ_y = 0;
+        ದತ್ತಾಂಶ->ಮುಖವಾಡ.mapped = false;
     }
 
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && data->shell_surface.xdg.surface &&
-        (data->enable_insets || !data->viewport)) {
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && ದತ್ತಾಂಶ->shell_surface.xdg.surface &&
+        (ದತ್ತಾಂಶ->enable_insets || !ದತ್ತಾಂಶ->viewport)) {
         /* The window geometry is the surface minus the declared border insets. They don't apply
          * when an exact size is required (maximized/fullscreen).
          */
         BorderInsets insets;
-        GetBorderInsets(window, &insets);
-        const bool use_insets = (insets.left || insets.top || insets.right || insets.bottom) &&
-                                !(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN));
-        SDL_Rect geometry = { 0, 0, data->current.logical_width, data->current.logical_height };
-        if (use_insets) {
-            geometry.x = insets.left;
-            geometry.y = insets.top;
-            geometry.w = SDL_max(geometry.w - (insets.left + insets.right), 1);
-            geometry.h = SDL_max(geometry.h - (insets.top + insets.bottom), 1);
+        GetBorderInsets(ಕಿಟಕಿ, &insets);
+        ಸ್ಥಿರಾಂಕ bool use_insets = (insets.ಎಡ || insets.ತುದಿ || insets.ಬಲ || insets.bottom) &&
+                                !(ಕಿಟಕಿ->flags & (SDL_ಕಿಟಕಿ_MAXIMIZED | SDL_ಕಿಟಕಿ_FULLSCREEN));
+        SDL_Rect geometry = { 0, 0, ದತ್ತಾಂಶ->current.logical_ಅಗಲ, ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ };
+        ಆದರೆ (use_insets) {
+            geometry.x = insets.ಎಡ;
+            geometry.y = insets.ತುದಿ;
+            geometry.w = SDL_max(geometry.w - (insets.ಎಡ + insets.ಬಲ), 1);
+            geometry.h = SDL_max(geometry.h - (insets.ತುದಿ + insets.bottom), 1);
         }
         /* An explicitly set geometry does not track the surface, so it must be kept in sync
          * once set. Otherwise this is only done when viewports aren't supported and the size
          * has changed (XXX: a hack) to avoid a potential protocol violation if a buffer with
          * an old size is committed.
          */
-        if ((use_insets || !SDL_RectEmpty(&data->explicit_geometry) || (!data->viewport && window_size_changed)) &&
-            !SDL_RectsEqual(&geometry, &data->explicit_geometry)) {
-            xdg_surface_set_window_geometry(data->shell_surface.xdg.surface, geometry.x, geometry.y, geometry.w, geometry.h);
-            data->explicit_geometry = geometry;
+        ಆದರೆ ((use_insets || !SDL_Rect_ಖಾಲಿಗಳು(&ದತ್ತಾಂಶ->explicit_geometry) || (!ದತ್ತಾಂಶ->viewport && ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು)) &&
+            !SDL_RectsEqual(&geometry, &ದತ್ತಾಂಶ->explicit_geometry)) {
+            xdg_surface_ಗಣ_ಕಿಟಕಿ_geometry(ದತ್ತಾಂಶ->shell_surface.xdg.surface, geometry.x, geometry.y, geometry.w, geometry.h);
+            ದತ್ತಾಂಶ->explicit_geometry = geometry;
         }
     }
 
     /* The opaque region and pointer confinement region only need to be
      * recalculated if the output size has changed.
      */
-    if (window_size_changed) {
-        if (is_opaque) {
-            SetSurfaceOpaqueRegion(data->surface, viewport_width, viewport_height);
-        } else {
-            SetSurfaceOpaqueRegion(data->surface, 0, 0);
+    ಆದರೆ (ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು) {
+        ಆದರೆ (is_opaque) {
+            ಗಣ_Surface_Opaque_Region(ದತ್ತಾಂಶ->surface, viewport_ಅಗಲ, viewport_ಎತ್ತರ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಗಣ_Surface_Opaque_Region(ದತ್ತಾಂಶ->surface, 0, 0);
         }
 
         // Ensure that child popup windows are still in bounds.
-        for (SDL_Window *child = window->first_child; child; child = child->next_sibling) {
-            RepositionPopup(child, true);
+        ಗಾಗಿ (SDL_ಕಿಟಕಿ *ಮಗು = ಕಿಟಕಿ->ಮೊದಲ_ಮಗು; ಮಗು; ಮಗು = ಮಗು->ಮುಂದಿನ_sibling) {
+            RepositionPopup(ಮಗು, true);
         }
     }
 
     // Update the scale for any focused cursors.
-    if (prev_pointer_scale_x != data->pointer_scale.x || prev_pointer_scale_y != data->pointer_scale.y) {
-        Wayland_DisplayUpdatePointerFocusedScale(data);
+    ಆದರೆ (prev_ಸೂಚಕ_scale_x != ದತ್ತಾಂಶ->ಸೂಚಕ_scale.x || prev_ಸೂಚಕ_scale_y != ದತ್ತಾಂಶ->ಸೂಚಕ_scale.y) {
+        Wayland_Display_Update_ಸೂಚಕ_Focused_Scale(ದತ್ತಾಂಶ);
     }
 
     /* Update the min/max dimensions, primarily if the state was changed, and for non-resizable
      * xdg-toplevel windows where the limits should match the window size.
      */
-    SetMinMaxDimensions(window);
+    ಗಣ_Min_Max_Dimensions(ಕಿಟಕಿ);
 
     // Unconditionally send the window and drawable size, the video core will deduplicate when required.
-    if (!data->scale_to_display) {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window_width, window_height);
-    } else {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, data->current.pixel_width, data->current.pixel_height);
+    ಆದರೆ (!ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display) {
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, ಕಿಟಕಿ_ಅಗಲ, ಕಿಟಕಿ_ಎತ್ತರ);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, ದತ್ತಾಂಶ->current.pixel_ಅಗಲ, ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ);
     }
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED, data->current.pixel_width, data->current.pixel_height);
+    SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_PIXEL_ಗಾತ್ರ_ಬದಲಾಯಿತು, ದತ್ತಾಂಶ->current.pixel_ಅಗಲ, ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ);
 
     /* Send an exposure event if the window is in the shown state and the size has changed,
      * even if the window is occluded, as the client needs to commit a new frame for the
@@ -712,86 +712,86 @@ static void ConfigureWindowGeometry(SDL_Window *window)
      *
      * The occlusion state is immediately set again afterward, if necessary.
      */
-    if (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
-        if ((buffer_size_changed || window_size_changed) ||
-            (!data->suspended && (window->flags & SDL_WINDOW_OCCLUDED))) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN) {
+        ಆದರೆ ((ಬಫರ್_ಗಾತ್ರ_ಬದಲಾಯಿತು || ಕಿಟಕಿ_ಗಾತ್ರ_ಬದಲಾಯಿತು) ||
+            (!ದತ್ತಾಂಶ->suspended && (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_OCCLUDED))) {
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
         }
 
-        if (data->suspended) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
+        ಆದರೆ (ದತ್ತಾಂಶ->suspended) {
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_OCCLUDED, 0, 0);
         }
     }
 }
 
-static void CommitLibdecorFrame(SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ Commit_Libdecor_ಚೌಕಟ್ಟು(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-#ifdef HAVE_LIBDECOR_H
-    SDL_WindowData *wind = window->internal;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-        struct libdecor_state *state = libdecor_state_new(wind->current.logical_width, wind->current.logical_height);
-        libdecor_frame_commit(wind->shell_surface.libdecor.frame, state, NULL);
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+        ರಚನೆ libdecor_state *state = libdecor_state_new(wind->current.logical_ಅಗಲ, wind->current.logical_ಎತ್ತರ);
+        libdecor_ಚೌಕಟ್ಟು_commit(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, state, ಖಾಲಿ);
         libdecor_state_free(state);
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static void pending_state_deadline_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ಸ್ಥಿರ ಶೂನ್ಯ pending_state_deadline_handler(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_callback *callback, uint32_t callback_ದತ್ತಾಂಶ)
 {
     // Get the window from the ID, as it may have been destroyed.
-    SDL_WindowID windowID = (SDL_WindowID)(uintptr_t)data;
-    SDL_Window *window = SDL_GetWindowFromID(windowID);
+    SDL_ಕಿಟಕಿ_ID ಕಿಟಕಿ_ID = (SDL_ಕಿಟಕಿ_ID)(uintptr_t)ದತ್ತಾಂಶ;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = SDL_Get_ಕಿಟಕಿ_From_ID(ಕಿಟಕಿ_ID);
 
-    if (window && window->internal) {
-        --window->internal->pending_state_deadline_count;
+    ಆದರೆ (ಕಿಟಕಿ && ಕಿಟಕಿ->ಆಂತರಿಕ) {
+        --ಕಿಟಕಿ->ಆಂತರಿಕ->pending_state_deadline_ಎಣಿಕೆ;
     }
 
     wl_callback_destroy(callback);
 }
 
-static struct wl_callback_listener pending_state_deadline_listener = {
+ಸ್ಥಿರ ರಚನೆ wl_callback_listener pending_state_deadline_listener = {
     pending_state_deadline_handler
 };
 
-static void AddPendingStateSync(SDL_WindowData *window_data)
+ಸ್ಥಿರ ಶೂನ್ಯ ಕೂಡಿಸು_Pending_State_Sync(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ_ದತ್ತಾಂಶ_2)
 {
-    SDL_VideoData *video_data = window_data->waylandData;
-    void *cb_data = (void *)(uintptr_t)window_data->sdlwindow->id;
+    SDL_Video_ದತ್ತಾಂಶ *video_ದತ್ತಾಂಶ = ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->wayland_ದತ್ತಾಂಶ;
+    ಶೂನ್ಯ *cb_ದತ್ತಾಂಶ = (ಶೂನ್ಯ *)(uintptr_t)ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow->id;
 
-    ++window_data->pending_state_deadline_count;
-    struct wl_callback *cb = wl_display_sync(video_data->display);
-    wl_callback_add_listener(cb, &pending_state_deadline_listener, cb_data);
+    ++ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->pending_state_deadline_ಎಣಿಕೆ;
+    ರಚನೆ wl_callback *cb = wl_display_sync(video_ದತ್ತಾಂಶ->display);
+    wl_callback_ಕೂಡಿಸು_listener(cb, &pending_state_deadline_listener, cb_ದತ್ತಾಂಶ);
 }
 
-static void FlushPendingEvents(SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ FlushPendingEvents(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     // Serialize and restore the pending flags, as they may be overwritten while flushing.
-    const bool last_position_pending = window->last_position_pending;
-    const bool last_size_pending = window->last_size_pending;
+    ಸ್ಥಿರಾಂಕ bool ಕೊನೆಯ_position_pending = ಕಿಟಕಿ->ಕೊನೆಯ_position_pending;
+    ಸ್ಥಿರಾಂಕ bool ಕೊನೆಯ_ಗಾತ್ರ_pending = ಕಿಟಕಿ->ಕೊನೆಯ_ಗಾತ್ರ_pending;
 
-    while (window->internal->pending_state_deadline_count) {
-        WAYLAND_wl_display_roundtrip(window->internal->waylandData->display);
+    ಆಗ (ಕಿಟಕಿ->ಆಂತರಿಕ->pending_state_deadline_ಎಣಿಕೆ) {
+        WAYLAND_wl_display_roundtrip(ಕಿಟಕಿ->ಆಂತರಿಕ->wayland_ದತ್ತಾಂಶ->display);
     }
 
-    window->last_position_pending = last_position_pending;
-    window->last_size_pending = last_size_pending;
+    ಕಿಟಕಿ->ಕೊನೆಯ_position_pending = ಕೊನೆಯ_position_pending;
+    ಕಿಟಕಿ->ಕೊನೆಯ_ಗಾತ್ರ_pending = ಕೊನೆಯ_ಗಾತ್ರ_pending;
 }
 
 /* While we can't get window position from the compositor, we do at least know
  * what monitor we're on, so let's send move events that put the window at the
  * center of the whatever display the wl_surface_listener events give us.
  */
-void Wayland_UpdateWindowPosition(SDL_Window *window)
+ಶೂನ್ಯ Wayland_Update_ಕಿಟಕಿ_Position(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
-    SDL_DisplayData *display;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    SDL_Display_ದತ್ತಾಂಶ *display;
 
-    if (wind->outputs && wind->num_outputs) {
-        display = wind->outputs[wind->num_outputs - 1];
-    } else {
+    ಆದರೆ (wind->outputs && wind->ಅಂಕೆ_outputs) {
+        display = wind->outputs[wind->ಅಂಕೆ_outputs - 1];
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // A window may not be on any displays if minimized.
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
     /* We want to send a very very specific combination here:
@@ -813,130 +813,130 @@ void Wayland_UpdateWindowPosition(SDL_Window *window)
      *
      * -flibit
      */
-    wind->last_displayID = display->display;
-    if (wind->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-        if (!wind->waylandData->scale_to_display_enabled) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, display->logical.x, display->logical.y);
-        } else {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, display->pixel.x, display->pixel.y);
+    wind->ಕೊನೆಯ_display_ID = display->display;
+    ಆದರೆ (wind->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+        ಆದರೆ (!wind->wayland_ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display_enabled) {
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MOVED, display->logical.x, display->logical.y);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MOVED, display->pixel.x, display->pixel.y);
         }
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_CHANGED, wind->last_displayID, 0);
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_DISPLAY_ಬದಲಾಯಿತು, wind->ಕೊನೆಯ_display_ID, 0);
     }
 }
 
-static void SetFullscreen(SDL_Window *window, struct wl_output *output, bool fullscreen)
+ಸ್ಥಿರ ಶೂನ್ಯ ಗಣ_Fullscreen(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ರಚನೆ wl_output *output, bool fullscreen)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (!wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
 
-        wind->fullscreen_exclusive = output ? window->fullscreen_exclusive : false;
-        if (fullscreen) {
-            libdecor_frame_set_fullscreen(wind->shell_surface.libdecor.frame, output);
-        } else {
-            libdecor_frame_unset_fullscreen(wind->shell_surface.libdecor.frame);
+        wind->fullscreen_exclusive = output ? ಕಿಟಕಿ->fullscreen_exclusive : false;
+        ಆದರೆ (fullscreen) {
+            libdecor_ಚೌಕಟ್ಟು_ಗಣ_fullscreen(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, output);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            libdecor_ಚೌಕಟ್ಟು_unset_fullscreen(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
         }
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-            return; // Can't do anything yet, wait for ShowWindow
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಆದರೆ (wind->shell_surface.xdg.toplevel.xdg_toplevel == ಖಾಲಿ) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
 
-        wind->fullscreen_exclusive = output ? window->fullscreen_exclusive : false;
-        if (fullscreen) {
-            xdg_toplevel_set_fullscreen(wind->shell_surface.xdg.toplevel.xdg_toplevel, output);
-        } else {
+        wind->fullscreen_exclusive = output ? ಕಿಟಕಿ->fullscreen_exclusive : false;
+        ಆದರೆ (fullscreen) {
+            xdg_toplevel_ಗಣ_fullscreen(wind->shell_surface.xdg.toplevel.xdg_toplevel, output);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             xdg_toplevel_unset_fullscreen(wind->shell_surface.xdg.toplevel.xdg_toplevel);
         }
     }
 
-    AddPendingStateSync(wind);
+    ಕೂಡಿಸು_Pending_State_Sync(wind);
 }
 
-static void UpdateWindowFullscreen(SDL_Window *window, bool fullscreen)
+ಸ್ಥಿರ ಶೂನ್ಯ Update_ಕಿಟಕಿ_Fullscreen(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool fullscreen)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     wind->is_fullscreen = fullscreen;
 
-    if (fullscreen) {
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-            SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
-            SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, false);
+    ಆದರೆ (fullscreen) {
+        ಆದರೆ (!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN)) {
+            SDL_copyp(&ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ, &ಕಿಟಕಿ->requested_fullscreen_ಬಹುಲಕ);
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_ENTER_FULLSCREEN, 0, 0);
+            SDL_Update_Fullscreen_ಬಹುಲಕ(ಕಿಟಕಿ, SDL_FULLSCREEN_OP_ENTER, false);
 
             /* Set the output for exclusive fullscreen windows when entering fullscreen from a
              * compositor event, or if the fullscreen parameters were changed between the initial
              * fullscreen request and now, to ensure that the window is on the correct output,
              * as requested by the client.
              */
-            if (window->fullscreen_exclusive && (!wind->fullscreen_exclusive || !wind->fullscreen_was_positioned)) {
-                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(window->current_fullscreen_mode.displayID);
-                if (disp) {
+            ಆದರೆ (ಕಿಟಕಿ->fullscreen_exclusive && (!wind->fullscreen_exclusive || !wind->fullscreen_was_positioned)) {
+                SDL_VideoDisplay *disp = SDL_GetVideoDisplay(ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ.displayID);
+                ಆದರೆ (disp) {
                     wind->fullscreen_was_positioned = true;
-                    SetFullscreen(window, disp->internal->output, true);
+                    ಗಣ_Fullscreen(ಕಿಟಕಿ, disp->ಆಂತರಿಕ->output, true);
                 }
             }
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Don't change the fullscreen flags if the window is hidden or being hidden.
-        if ((window->flags & SDL_WINDOW_FULLSCREEN) && !window->is_hiding && !(window->flags & SDL_WINDOW_HIDDEN)) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-            SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+        ಆದರೆ ((ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN) && !ಕಿಟಕಿ->is_hiding && !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_HIDDEN)) {
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_LEAVE_FULLSCREEN, 0, 0);
+            SDL_Update_Fullscreen_ಬಹುಲಕ(ಕಿಟಕಿ, SDL_FULLSCREEN_OP_LEAVE, false);
             wind->fullscreen_was_positioned = false;
 
             /* Send a move event, in case it was deferred while the fullscreen window was moving and
              * on multiple outputs.
              */
-            Wayland_UpdateWindowPosition(window);
+            Wayland_Update_ಕಿಟಕಿ_Position(ಕಿಟಕಿ);
         }
     }
 }
 
-static const struct wl_callback_listener surface_frame_listener;
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_callback_listener surface_ಚೌಕಟ್ಟು_listener;
 
-static void surface_frame_done(void *data, struct wl_callback *cb, uint32_t time)
+ಸ್ಥಿರ ಶೂನ್ಯ surface_ಚೌಕಟ್ಟು_ಮುಗಿದ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_callback *cb, uint32_t ಸಮಯ)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
     /* XXX: This is needed to work around an Nvidia egl-wayland bug due to buffer coordinates
      *      being used with wl_surface_damage, which causes part of the output to not be
      *      updated when using a viewport with an output region larger than the source region.
      */
-    if (wl_compositor_get_version(wind->waylandData->compositor) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-        wl_surface_damage_buffer(wind->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-    } else {
+    ಆದರೆ (wl_compositor_get_ಆವೃತ್ತಿ(wind->wayland_ದತ್ತಾಂಶ->compositor) >= WL_SURFACE_DAMAGE_ಬಫರ್_SINCE_ಆವೃತ್ತಿ) {
+        wl_surface_damage_ಬಫರ್(wind->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+    } ಇಲ್ಲದಿದ್ದರೆ {
         wl_surface_damage(wind->surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
     }
 
     wind->pending_state_commit = false;
 
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->pending_config_ack) {
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಆದರೆ (wind->pending_config_ack) {
             wind->pending_config_ack = false;
-            ConfigureWindowGeometry(wind->sdlwindow);
+            Configure_ಕಿಟಕಿ_Geometry(wind->sdlwindow);
             xdg_surface_ack_configure(wind->shell_surface.xdg.surface, wind->shell_surface.xdg.serial);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         wind->resizing = false;
     }
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_SHOWN;
+    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_ಚೌಕಟ್ಟು) {
+        wind->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN;
 
         // If any child windows are waiting on this window to be shown, show them now
-        for (SDL_Window *w = wind->sdlwindow->first_child; w; w = w->next_sibling) {
-            if (w->internal->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING) {
-                Wayland_ShowWindow(SDL_GetVideoDevice(), w);
-            } else if (w->internal->reparenting_required) {
-                Wayland_SetWindowParent(SDL_GetVideoDevice(), w, w->parent);
-                if (w->flags & SDL_WINDOW_MODAL) {
-                    Wayland_SetWindowModal(SDL_GetVideoDevice(), w, true);
+        ಗಾಗಿ (SDL_ಕಿಟಕಿ *w = wind->sdlwindow->ಮೊದಲ_ಮಗು; w; w = w->ಮುಂದಿನ_sibling) {
+            ಆದರೆ (w->ಆಂತರಿಕ->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOW_PENDING) {
+                Wayland_Show_ಕಿಟಕಿ(SDL_GetVideoDevice(), w);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (w->ಆಂತರಿಕ->reparenting_required) {
+                Wayland_ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ(SDL_GetVideoDevice(), w, w->ಪೋಷಕ);
+                ಆದರೆ (w->flags & SDL_ಕಿಟಕಿ_MODAL) {
+                    Wayland_ಗಣ_ಕಿಟಕಿ_Modal(SDL_GetVideoDevice(), w, true);
                 }
             }
         }
@@ -944,153 +944,153 @@ static void surface_frame_done(void *data, struct wl_callback *cb, uint32_t time
         /* If the window was initially set to the suspended state, send the occluded event now,
          * as we don't want to mark the window as occluded until at least one frame has been submitted.
          */
-        if (wind->suspended) {
-            SDL_SendWindowEvent(wind->sdlwindow, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
+        ಆದರೆ (wind->suspended) {
+            SDL_Send_ಕಿಟಕಿ_Event(wind->sdlwindow, SDL_EVENT_ಕಿಟಕಿ_OCCLUDED, 0, 0);
         }
     }
 
     wl_callback_destroy(cb);
-    wind->surface_frame_callback = wl_surface_frame(wind->surface);
-    wl_callback_add_listener(wind->surface_frame_callback, &surface_frame_listener, data);
+    wind->surface_ಚೌಕಟ್ಟು_callback = wl_surface_ಚೌಕಟ್ಟು(wind->surface);
+    wl_callback_ಕೂಡಿಸು_listener(wind->surface_ಚೌಕಟ್ಟು_callback, &surface_ಚೌಕಟ್ಟು_listener, ದತ್ತಾಂಶ);
 }
 
-static const struct wl_callback_listener surface_frame_listener = {
-    surface_frame_done
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_callback_listener surface_ಚೌಕಟ್ಟು_listener = {
+    surface_ಚೌಕಟ್ಟು_ಮುಗಿದ
 };
 
-static const struct wl_callback_listener gles_swap_frame_listener;
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_callback_listener gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_listener;
 
-static void gles_swap_frame_done(void *data, struct wl_callback *cb, uint32_t time)
+ಸ್ಥಿರ ಶೂನ್ಯ gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_ಮುಗಿದ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_callback *cb, uint32_t ಸಮಯ)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_SetAtomicInt(&wind->swap_interval_ready, 1); // mark window as ready to present again.
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    SDL_ಗಣ_Atomic_Int(&wind->ಅದಲುಬದಲು_interval_ready, 1); // mark window as ready to present again.
 
     // reset this callback to fire again once a new frame was presented and compositor wants the next one.
-    wind->gles_swap_frame_callback = wl_surface_frame(wind->gles_swap_frame_surface_wrapper);
+    wind->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback = wl_surface_ಚೌಕಟ್ಟು(wind->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper);
     wl_callback_destroy(cb);
-    wl_callback_add_listener(wind->gles_swap_frame_callback, &gles_swap_frame_listener, data);
+    wl_callback_ಕೂಡಿಸು_listener(wind->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback, &gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_listener, ದತ್ತಾಂಶ);
 }
 
-static const struct wl_callback_listener gles_swap_frame_listener = {
-    gles_swap_frame_done
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_callback_listener gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_listener = {
+    gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_ಮುಗಿದ
 };
 
-static void handle_xdg_surface_configure(void *data, struct xdg_surface *xdg, uint32_t serial)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_surface_configure(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ xdg_surface *xdg, uint32_t serial)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_Window *window = wind->sdlwindow;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = wind->sdlwindow;
 
     /* Interactive resizes are throttled by acking and committing only the most recent configuration at
      * the next frame callback, or certain combinations of clients and compositors can exhibit severe lag
      * when resizing.
      */
     wind->shell_surface.xdg.serial = serial;
-    if (!wind->resizing) {
+    ಆದರೆ (!wind->resizing) {
         wind->pending_config_ack = false;
-        ConfigureWindowGeometry(window);
+        Configure_ಕಿಟಕಿ_Geometry(ಕಿಟಕಿ);
         xdg_surface_ack_configure(xdg, serial);
-    } else if (!wind->pending_config_ack) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!wind->pending_config_ack) {
         wind->pending_config_ack = true;
 
         // Always send an exposure event during a new frame to ensure forward progress if the frame callback already occurred.
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
     }
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME;
+    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE) {
+        wind->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_ಚೌಕಟ್ಟು;
     }
 }
 
-static const struct xdg_surface_listener _xdg_surface_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ xdg_surface_listener _xdg_surface_listener = {
     handle_xdg_surface_configure
 };
 
-static void ApplyGeometryLimits(SDL_Window *window, int req_w, int req_h, int *out_w, int *out_h)
+ಸ್ಥಿರ ಶೂನ್ಯ ApplyGeometryLimits(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ req_w, ಪೂರ್ಣಾಂಕ req_h, ಪೂರ್ಣಾಂಕ *ಹೊರಹೋಗು_w, ಪೂರ್ಣಾಂಕ *ಹೊರಹೋಗು_h)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    int w = req_w;
-    int h = req_h;
-    const float aspect = (float)req_w / (float)req_h;
+    ಪೂರ್ಣಾಂಕ w = req_w;
+    ಪೂರ್ಣಾಂಕ h = req_h;
+    ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ aspect = (ದಶಮಾಂಶ)req_w / (ದಶಮಾಂಶ)req_h;
 
     /* If adjusting for aspect causes the adjusted dimension to exceed the min/max limit, clamp to the limit
      * and attempt to adjust the opposite dimension to compensate.
      */
-    if (!wind->resizing || (wind->resize_edge & WAYLAND_RESIZE_EDGE_CORNER) == WAYLAND_RESIZE_EDGE_CORNER) {
-        if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-            h = SDL_max(SDL_lroundf((float)req_w / window->min_aspect), 1);
+    ಆದರೆ (!wind->resizing || (wind->resize_ಅಂಚು & WAYLAND_RESIZE_ಅಂಚು_ಮೂಲೆ) == WAYLAND_RESIZE_ಅಂಚು_ಮೂಲೆ) {
+        ಆದರೆ (ಕಿಟಕಿ->min_aspect != 0.f && aspect < ಕಿಟಕಿ->min_aspect) {
+            h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)req_w / ಕಿಟಕಿ->min_aspect), 1);
 
-            if (h < window->min_h) {
-                w = SDL_max(SDL_lroundf((float)window->min_h * window->min_aspect), 1);
+            ಆದರೆ (h < ಕಿಟಕಿ->min_h) {
+                w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->min_h * ಕಿಟಕಿ->min_aspect), 1);
             }
-            if (window->max_h && h > window->max_h) {
-                w = SDL_max(SDL_lroundf((float)window->max_h * window->min_aspect), 1);
+            ಆದರೆ (ಕಿಟಕಿ->max_h && h > ಕಿಟಕಿ->max_h) {
+                w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->max_h * ಕಿಟಕಿ->min_aspect), 1);
             }
-        } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-            w = SDL_max(SDL_lroundf((float)req_h * window->max_aspect), 1);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಕಿಟಕಿ->max_aspect != 0.f && aspect > ಕಿಟಕಿ->max_aspect) {
+            w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)req_h * ಕಿಟಕಿ->max_aspect), 1);
 
-            if (w < window->min_w) {
-                h = SDL_max(SDL_lroundf((float)window->min_w / window->max_aspect), 1);
+            ಆದರೆ (w < ಕಿಟಕಿ->min_w) {
+                h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->min_w / ಕಿಟಕಿ->max_aspect), 1);
             }
-            if (window->max_w && w > window->max_w) {
-                h = SDL_max(SDL_lroundf((float)window->max_w / window->max_aspect), 1);
+            ಆದರೆ (ಕಿಟಕಿ->max_w && w > ಕಿಟಕಿ->max_w) {
+                h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->max_w / ಕಿಟಕಿ->max_aspect), 1);
             }
         }
-    } else if (wind->resize_edge & WAYLAND_RESIZE_EDGE_LR) {
-        if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-            h = SDL_max(SDL_lroundf((float)req_w / window->min_aspect), 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (wind->resize_ಅಂಚು & WAYLAND_RESIZE_ಅಂಚು_LR) {
+        ಆದರೆ (ಕಿಟಕಿ->min_aspect != 0.f && aspect < ಕಿಟಕಿ->min_aspect) {
+            h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)req_w / ಕಿಟಕಿ->min_aspect), 1);
 
-            if (h < window->min_h) {
-                w = SDL_max(SDL_lroundf((float)window->min_h * window->min_aspect), 1);
+            ಆದರೆ (h < ಕಿಟಕಿ->min_h) {
+                w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->min_h * ಕಿಟಕಿ->min_aspect), 1);
             }
-            if (window->max_h && h > window->max_h) {
-                w = SDL_max(SDL_lroundf((float)window->max_h * window->min_aspect), 1);
+            ಆದರೆ (ಕಿಟಕಿ->max_h && h > ಕಿಟಕಿ->max_h) {
+                w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->max_h * ಕಿಟಕಿ->min_aspect), 1);
             }
-        } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-            h = SDL_max(SDL_lroundf((float)req_w / window->max_aspect), 1);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಕಿಟಕಿ->max_aspect != 0.f && aspect > ಕಿಟಕಿ->max_aspect) {
+            h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)req_w / ಕಿಟಕಿ->max_aspect), 1);
 
-            if (h < window->min_h) {
-                w = SDL_max(SDL_lroundf((float)window->min_h * window->max_aspect), 1);
+            ಆದರೆ (h < ಕಿಟಕಿ->min_h) {
+                w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->min_h * ಕಿಟಕಿ->max_aspect), 1);
             }
-            if (window->max_h && h > window->max_h) {
-                w = SDL_max(SDL_lroundf((float)window->max_h * window->max_aspect), 1);
+            ಆದರೆ (ಕಿಟಕಿ->max_h && h > ಕಿಟಕಿ->max_h) {
+                w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->max_h * ಕಿಟಕಿ->max_aspect), 1);
             }
         }
-    } else if (wind->resize_edge & WAYLAND_RESIZE_EDGE_TB) {
-        if (window->min_aspect != 0.f && aspect < window->min_aspect) {
-            w = SDL_max(SDL_lroundf((float)req_h * window->min_aspect), 1);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (wind->resize_ಅಂಚು & WAYLAND_RESIZE_ಅಂಚು_TB) {
+        ಆದರೆ (ಕಿಟಕಿ->min_aspect != 0.f && aspect < ಕಿಟಕಿ->min_aspect) {
+            w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)req_h * ಕಿಟಕಿ->min_aspect), 1);
 
-            if (w < window->min_w) {
-                h = SDL_max(SDL_lroundf((float)window->min_w / window->min_aspect), 1);
+            ಆದರೆ (w < ಕಿಟಕಿ->min_w) {
+                h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->min_w / ಕಿಟಕಿ->min_aspect), 1);
             }
-            if (window->max_w && w > window->max_w) {
-                h = SDL_max(SDL_lroundf((float)window->max_w / window->min_aspect), 1);
+            ಆದರೆ (ಕಿಟಕಿ->max_w && w > ಕಿಟಕಿ->max_w) {
+                h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->max_w / ಕಿಟಕಿ->min_aspect), 1);
             }
-        } else if (window->max_aspect != 0.f && aspect > window->max_aspect) {
-            w = SDL_max(SDL_lroundf((float)req_h * window->max_aspect), 1);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಕಿಟಕಿ->max_aspect != 0.f && aspect > ಕಿಟಕಿ->max_aspect) {
+            w = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)req_h * ಕಿಟಕಿ->max_aspect), 1);
 
-            if (w < window->min_w) {
-                h = SDL_max(SDL_lroundf((float)window->min_w / window->max_aspect), 1);
+            ಆದರೆ (w < ಕಿಟಕಿ->min_w) {
+                h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->min_w / ಕಿಟಕಿ->max_aspect), 1);
             }
-            if (window->max_w && w > window->max_w) {
-                h = SDL_max(SDL_lroundf((float)window->max_w / window->max_aspect), 1);
+            ಆದರೆ (ಕಿಟಕಿ->max_w && w > ಕಿಟಕಿ->max_w) {
+                h = SDL_max(SDL_lroundf((ದಶಮಾಂಶ)ಕಿಟಕಿ->max_w / ಕಿಟಕಿ->max_aspect), 1);
             }
         }
     }
 
-    if (window->max_w) {
-        w = SDL_min(w, window->max_w);
+    ಆದರೆ (ಕಿಟಕಿ->max_w) {
+        w = SDL_min(w, ಕಿಟಕಿ->max_w);
     }
-    *out_w = SDL_max(w, window->min_w);
+    *ಹೊರಹೋಗು_w = SDL_max(w, ಕಿಟಕಿ->min_w);
 
-    if (window->max_h) {
-        h = SDL_min(h, window->max_h);
+    ಆದರೆ (ಕಿಟಕಿ->max_h) {
+        h = SDL_min(h, ಕಿಟಕಿ->max_h);
     }
-    *out_h = SDL_max(h, window->min_h);
+    *ಹೊರಹೋಗು_h = SDL_max(h, ಕಿಟಕಿ->min_h);
 
 }
 
-static void DetermineResizeAxis(SDL_WindowData *wind, int width, int height, bool resizing)
+ಸ್ಥಿರ ಶೂನ್ಯ DetermineResizeAxis(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind, ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, bool resizing)
 {
     /* Try to determine the axis along which the window is being resized.
      *
@@ -1100,87 +1100,87 @@ static void DetermineResizeAxis(SDL_WindowData *wind, int width, int height, boo
      * Some compositors don't send a configure event with the resize flag cleared when the resize ends,
      * so a reset timer is required.
      */
-    if (resizing) {
-        const Uint64 now = SDL_GetTicksNS();
-        if (now >= wind->last_resize_event_time_ns + SDL_MS_TO_NS(500)) {
-            wind->resize_edge = 0;
+    ಆದರೆ (resizing) {
+        ಸ್ಥಿರಾಂಕ Uint64 now = SDL_GetTicksNS();
+        ಆದರೆ (now >= wind->ಕೊನೆಯ_resize_event_ಸಮಯ_ns + SDL_MS_ಗಮ್ಯ_NS(500)) {
+            wind->resize_ಅಂಚು = 0;
         }
 
-        wind->last_resize_event_time_ns = now;
+        wind->ಕೊನೆಯ_resize_event_ಸಮಯ_ns = now;
 
-        if (!wind->resize_edge) {
-            if (width != wind->last_configure.width || !height) {
-                wind->resize_edge |= WAYLAND_RESIZE_EDGE_LR;
+        ಆದರೆ (!wind->resize_ಅಂಚು) {
+            ಆದರೆ (ಅಗಲ != wind->ಕೊನೆಯ_configure.ಅಗಲ || !ಎತ್ತರ) {
+                wind->resize_ಅಂಚು |= WAYLAND_RESIZE_ಅಂಚು_LR;
             }
-            if (height != wind->last_configure.height || !width) {
-                wind->resize_edge |= WAYLAND_RESIZE_EDGE_TB;
+            ಆದರೆ (ಎತ್ತರ != wind->ಕೊನೆಯ_configure.ಎತ್ತರ || !ಅಗಲ) {
+                wind->resize_ಅಂಚು |= WAYLAND_RESIZE_ಅಂಚು_TB;
             }
         }
-    } else {
-        wind->resize_edge = 0;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        wind->resize_ಅಂಚು = 0;
     }
 
     wind->resizing = resizing;
 }
 
-static void handle_xdg_toplevel_configure(void *data,
-                                          struct xdg_toplevel *xdg_toplevel,
-                                          int32_t width,
-                                          int32_t height,
-                                          struct wl_array *states)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_toplevel_configure(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                          ರಚನೆ xdg_toplevel *xdg_toplevel,
+                                          int32_t ಅಗಲ,
+                                          int32_t ಎತ್ತರ,
+                                          ರಚನೆ wl_array *ಸ್ಥಿತಿಗಳು)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_Window *window = wind->sdlwindow;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = wind->sdlwindow;
 
-    enum xdg_toplevel_state *state;
+    ಎಣಿಕೆ xdg_toplevel_state *state;
     bool fullscreen = false;
     bool maximized = false;
     bool floating = true;
     bool tiled = false;
-    bool active = false;
+    bool ಸಕ್ರಿಯ = false;
     bool resizing = false;
     bool suspended = false;
     wind->toplevel_constraints = 0;
-    wl_array_for_each (state, states) {
-        switch (*state) {
-        case XDG_TOPLEVEL_STATE_FULLSCREEN:
+    wl_array_for_each (state, ಸ್ಥಿತಿಗಳು) {
+        ಆಯ್ಕೆ (*state) {
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_FULLSCREEN:
             fullscreen = true;
             floating = false;
-            break;
-        case XDG_TOPLEVEL_STATE_MAXIMIZED:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_MAXIMIZED:
             maximized = true;
             floating = false;
-            break;
-        case XDG_TOPLEVEL_STATE_RESIZING:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_RESIZING:
             resizing = true;
-            break;
-        case XDG_TOPLEVEL_STATE_ACTIVATED:
-            active = true;
-            break;
-        case XDG_TOPLEVEL_STATE_TILED_LEFT:
-        case XDG_TOPLEVEL_STATE_TILED_RIGHT:
-        case XDG_TOPLEVEL_STATE_TILED_TOP:
-        case XDG_TOPLEVEL_STATE_TILED_BOTTOM:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_ACTIVATED:
+            ಸಕ್ರಿಯ = true;
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_TILED_ಎಡ:
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_TILED_ಬಲ:
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_TILED_ತುದಿ:
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_TILED_BOTTOM:
             tiled = true;
             floating = false;
-            break;
-        case XDG_TOPLEVEL_STATE_SUSPENDED:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_SUSPENDED:
             suspended = true;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_LEFT:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_LEFT;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_RIGHT:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_TOP:
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_TOP;
-            break;
-        case XDG_TOPLEVEL_STATE_CONSTRAINED_BOTTOM:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_CONSTRAINED_ಎಡ:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_ಎಡ;
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_CONSTRAINED_ಬಲ:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_ಬಲ;
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_CONSTRAINED_ತುದಿ:
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_ತುದಿ;
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_STATE_CONSTRAINED_BOTTOM:
             wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM;
-            break;
-        default:
-            break;
+            ನಿಲ್ಲಿಸು;
+        ಪೂರ್ವನಿಯೋಜಿತ:
+            ನಿಲ್ಲಿಸು;
         }
     }
 
@@ -1190,19 +1190,19 @@ static void handle_xdg_toplevel_configure(void *data,
      * sizes adopted from the cached window size are converted back to geometry space for
      * the last_configure store.
      */
-    const bool insets_apply = wind->enable_insets && !fullscreen && !maximized;
+    ಸ್ಥಿರಾಂಕ bool insets_apply = wind->enable_insets && !fullscreen && !maximized;
 
     // When resizing, dimensions other than 0 are a maximum.
-    const bool new_configure_size = width != wind->last_configure.width || height != wind->last_configure.height ||
-                                    insets_apply != wind->last_configure.insets_apply;
+    ಸ್ಥಿರಾಂಕ bool new_configure_ಗಾತ್ರ = ಅಗಲ != wind->ಕೊನೆಯ_configure.ಅಗಲ || ಎತ್ತರ != wind->ಕೊನೆಯ_configure.ಎತ್ತರ ||
+                                    insets_apply != wind->ಕೊನೆಯ_configure.insets_apply;
 
     BorderInsets insets = { 0, 0, 0, 0 };
-    if (insets_apply) {
-        GetBorderInsets(window, &insets);
+    ಆದರೆ (insets_apply) {
+        GetBorderInsets(ಕಿಟಕಿ, &insets);
     }
 
-    DetermineResizeAxis(wind, width, height, resizing);
-    UpdateWindowFullscreen(window, fullscreen);
+    DetermineResizeAxis(wind, ಅಗಲ, ಎತ್ತರ, resizing);
+    Update_ಕಿಟಕಿ_Fullscreen(ಕಿಟಕಿ, fullscreen);
 
     /* Always send a maximized/restore event; if the event is redundant it will
      * automatically be discarded (see src/events/SDL_windowevents.c)
@@ -1212,101 +1212,101 @@ static void handle_xdg_toplevel_configure(void *data,
      * dependent, but in general, we can assume that the flag should remain set until
      * the next focused configure event occurs.
      */
-    if (active || !(window->flags & SDL_WINDOW_MINIMIZED)) {
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+    ಆದರೆ (ಸಕ್ರಿಯ || !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MINIMIZED)) {
+        ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MINIMIZED) {
             // If we were minimized, send a restored event before possibly sending maximized.
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESTORED, 0, 0);
         }
-        SDL_SendWindowEvent(window,
-                            (maximized && !fullscreen) ? SDL_EVENT_WINDOW_MAXIMIZED : SDL_EVENT_WINDOW_RESTORED,
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ,
+                            (maximized && !fullscreen) ? SDL_EVENT_ಕಿಟಕಿ_MAXIMIZED : SDL_EVENT_ಕಿಟಕಿ_RESTORED,
                             0, 0);
     }
 
-    if (!fullscreen) {
+    ಆದರೆ (!fullscreen) {
         /* xdg_toplevel spec states that this is a suggestion.
          * Ignore if less than or greater than max/min size.
          */
-        if ((window->flags & SDL_WINDOW_RESIZABLE) || maximized) {
-            if (!width) {
+        ಆದರೆ ((ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE) || maximized) {
+            ಆದರೆ (!ಅಗಲ) {
                 /* This happens when the compositor indicates that the size is
                  * up to the client, so use the cached window size here.
                  */
-                if (floating) {
-                    width = window->floating.w;
+                ಆದರೆ (floating) {
+                    ಅಗಲ = ಕಿಟಕಿ->floating.w;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.width) {
-                        width = SDL_min(wind->toplevel_bounds.width, width);
+                    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE && wind->toplevel_bounds.ಅಗಲ) {
+                        ಅಗಲ = SDL_min(wind->toplevel_bounds.ಅಗಲ, ಅಗಲ);
                     }
-                } else {
-                    width = window->windowed.w;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    ಅಗಲ = ಕಿಟಕಿ->windowed.w;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_width = width;
-                } else {
-                    wind->requested.pixel_width = width;
-                    width = wind->requested.logical_width = PixelToPoint(window, width);
+                ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                    wind->requested.logical_ಅಗಲ = ಅಗಲ;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    wind->requested.pixel_ಅಗಲ = ಅಗಲ;
+                    ಅಗಲ = wind->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಅಗಲ);
                 }
-                width = SDL_max(width - (insets.left + insets.right), 1);
-            } else if (new_configure_size) {
+                ಅಗಲ = SDL_max(ಅಗಲ - (insets.ಎಡ + insets.ಬಲ), 1);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (new_configure_ಗಾತ್ರ) {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  */
 
-                wind->requested.logical_width = width + (insets.left + insets.right);
+                wind->requested.logical_ಅಗಲ = ಅಗಲ + (insets.ಎಡ + insets.ಬಲ);
 
-                if (wind->scale_to_display) {
-                    wind->requested.pixel_width = PointToPixel(window, wind->requested.logical_width);
+                ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+                    wind->requested.pixel_ಅಗಲ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, wind->requested.logical_ಅಗಲ);
                 }
             }
-            if (!height) {
+            ಆದರೆ (!ಎತ್ತರ) {
                 /* This happens when the compositor indicates that the size is
                  * up to the client, so use the cached window size here.
                  */
-                if (floating) {
-                    height = window->floating.h;
+                ಆದರೆ (floating) {
+                    ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.height) {
-                        height = SDL_min(wind->toplevel_bounds.height, height);
+                    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE && wind->toplevel_bounds.ಎತ್ತರ) {
+                        ಎತ್ತರ = SDL_min(wind->toplevel_bounds.ಎತ್ತರ, ಎತ್ತರ);
                     }
-                } else {
-                    height = window->windowed.h;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    ಎತ್ತರ = ಕಿಟಕಿ->windowed.h;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_height = height;
-                } else {
-                    wind->requested.pixel_height = height;
-                    height = wind->requested.logical_height = PixelToPoint(window, height);
+                ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                    wind->requested.logical_ಎತ್ತರ = ಎತ್ತರ;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    wind->requested.pixel_ಎತ್ತರ = ಎತ್ತರ;
+                    ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಎತ್ತರ);
                 }
-                height = SDL_max(height - (insets.top + insets.bottom), 1);
-            } else if (new_configure_size) {
+                ಎತ್ತರ = SDL_max(ಎತ್ತರ - (insets.ತುದಿ + insets.bottom), 1);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (new_configure_ಗಾತ್ರ) {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  */
-                wind->requested.logical_height = height + (insets.top + insets.bottom);
+                wind->requested.logical_ಎತ್ತರ = ಎತ್ತರ + (insets.ತುದಿ + insets.bottom);
 
-                if (wind->scale_to_display) {
-                    wind->requested.pixel_height = PointToPixel(window, wind->requested.logical_height);
+                ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+                    wind->requested.pixel_ಎತ್ತರ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, wind->requested.logical_ಎತ್ತರ);
                 }
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             /* If we're a fixed-size, non-maximized window, we know our size for sure.
              * Always assume the configure is wrong.
              */
-            if (!wind->scale_to_display) {
-                width = wind->requested.logical_width = window->floating.w;
-                height = wind->requested.logical_height = window->floating.h;
-            } else {
-                wind->requested.pixel_width = window->floating.w;
-                wind->requested.pixel_height = window->floating.h;
-                width = wind->requested.logical_width = PixelToPoint(window, window->floating.w);
-                height = wind->requested.logical_height = PixelToPoint(window, window->floating.h);
+            ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                ಅಗಲ = wind->requested.logical_ಅಗಲ = ಕಿಟಕಿ->floating.w;
+                ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                wind->requested.pixel_ಅಗಲ = ಕಿಟಕಿ->floating.w;
+                wind->requested.pixel_ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
+                ಅಗಲ = wind->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->floating.w);
+                ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->floating.h);
             }
-            width = SDL_max(width - (insets.left + insets.right), 1);
-            height = SDL_max(height - (insets.top + insets.bottom), 1);
+            ಅಗಲ = SDL_max(ಅಗಲ - (insets.ಎಡ + insets.ಬಲ), 1);
+            ಎತ್ತರ = SDL_max(ಎತ್ತರ - (insets.ತುದಿ + insets.bottom), 1);
         }
 
         /* Notes on the spec and implementations:
@@ -1321,168 +1321,168 @@ static void handle_xdg_toplevel_configure(void *data,
          *   it's best to use the supplied dimensions and use a viewport + mask to enforce the
          *   size limits and/or aspect ratio.
          */
-        if (floating) {
-            if (!wind->scale_to_display) {
-                ApplyGeometryLimits(window, wind->requested.logical_width, wind->requested.logical_height, &wind->requested.logical_width, &wind->requested.logical_height);
-            } else {
-                ApplyGeometryLimits(window, wind->requested.pixel_width, wind->requested.pixel_height, &wind->requested.pixel_width, &wind->requested.pixel_height);
+        ಆದರೆ (floating) {
+            ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                ApplyGeometryLimits(ಕಿಟಕಿ, wind->requested.logical_ಅಗಲ, wind->requested.logical_ಎತ್ತರ, &wind->requested.logical_ಅಗಲ, &wind->requested.logical_ಎತ್ತರ);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ApplyGeometryLimits(ಕಿಟಕಿ, wind->requested.pixel_ಅಗಲ, wind->requested.pixel_ಎತ್ತರ, &wind->requested.pixel_ಅಗಲ, &wind->requested.pixel_ಎತ್ತರ);
 
-                wind->requested.logical_width = PixelToPoint(window, wind->requested.pixel_width);
-                wind->requested.logical_height = PixelToPoint(window, wind->requested.pixel_height);
+                wind->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, wind->requested.pixel_ಅಗಲ);
+                wind->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, wind->requested.pixel_ಎತ್ತರ);
             }
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Fullscreen windows know their exact size.
-        if (width == 0 || height == 0) {
-            width = wind->requested.logical_width;
-            height = wind->requested.logical_height;
-        } else {
-            wind->requested.logical_width = width;
-            wind->requested.logical_height = height;
+        ಆದರೆ (ಅಗಲ == 0 || ಎತ್ತರ == 0) {
+            ಅಗಲ = wind->requested.logical_ಅಗಲ;
+            ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            wind->requested.logical_ಅಗಲ = ಅಗಲ;
+            wind->requested.logical_ಎತ್ತರ = ಎತ್ತರ;
         }
 
-        if (wind->scale_to_display) {
-            wind->requested.pixel_width = PointToPixel(window, width);
-            wind->requested.pixel_height = PointToPixel(window, height);
+        ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+            wind->requested.pixel_ಅಗಲ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಅಗಲ);
+            wind->requested.pixel_ಎತ್ತರ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಎತ್ತರ);
         }
     }
 
-    wind->last_configure.width = width;
-    wind->last_configure.height = height;
-    wind->last_configure.insets_apply = insets_apply;
+    wind->ಕೊನೆಯ_configure.ಅಗಲ = ಅಗಲ;
+    wind->ಕೊನೆಯ_configure.ಎತ್ತರ = ಎತ್ತರ;
+    wind->ಕೊನೆಯ_configure.insets_apply = insets_apply;
     wind->floating = floating;
     wind->suspended = suspended;
-    wind->active = active;
-    window->tiled = tiled;
+    wind->ಸಕ್ರಿಯ = ಸಕ್ರಿಯ;
+    ಕಿಟಕಿ->tiled = tiled;
 }
 
-static void handle_xdg_toplevel_close(void *data, struct xdg_toplevel *xdg_toplevel)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_toplevel_close(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ xdg_toplevel *xdg_toplevel)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
-    SDL_SendWindowEvent(window->sdlwindow, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ->sdlwindow, SDL_EVENT_ಕಿಟಕಿ_CLOSE_REQUESTED, 0, 0);
 }
 
-static void handle_xdg_toplevel_configure_bounds(void *data,
-                                                 struct xdg_toplevel *xdg_toplevel,
-                                                 int32_t width, int32_t height)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_toplevel_configure_bounds(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                                 ರಚನೆ xdg_toplevel *xdg_toplevel,
+                                                 int32_t ಅಗಲ, int32_t ಎತ್ತರ)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
-    window->toplevel_bounds.width = width;
-    window->toplevel_bounds.height = height;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    ಕಿಟಕಿ->toplevel_bounds.ಅಗಲ = ಅಗಲ;
+    ಕಿಟಕಿ->toplevel_bounds.ಎತ್ತರ = ಎತ್ತರ;
 }
 
-static void handle_xdg_toplevel_wm_capabilities(void *data,
-                                                struct xdg_toplevel *xdg_toplevel,
-                                                struct wl_array *capabilities)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_toplevel_wm_capabilities(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                                ರಚನೆ xdg_toplevel *xdg_toplevel,
+                                                ರಚನೆ wl_array *capabilities)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    enum xdg_toplevel_wm_capabilities *wm_cap;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    ಎಣಿಕೆ xdg_toplevel_wm_capabilities *wm_cap;
 
     wind->wm_caps = 0;
 
     wl_array_for_each (wm_cap, capabilities) {
-        switch (*wm_cap) {
-        case XDG_TOPLEVEL_WM_CAPABILITIES_WINDOW_MENU:
-            wind->wm_caps |= WAYLAND_WM_CAPS_WINDOW_MENU;
-            break;
-        case XDG_TOPLEVEL_WM_CAPABILITIES_MAXIMIZE:
+        ಆಯ್ಕೆ (*wm_cap) {
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_WM_CAPABILITIES_ಕಿಟಕಿ_MENU:
+            wind->wm_caps |= WAYLAND_WM_CAPS_ಕಿಟಕಿ_MENU;
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_WM_CAPABILITIES_MAXIMIZE:
             wind->wm_caps |= WAYLAND_WM_CAPS_MAXIMIZE;
-            break;
-        case XDG_TOPLEVEL_WM_CAPABILITIES_FULLSCREEN:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_WM_CAPABILITIES_FULLSCREEN:
             wind->wm_caps |= WAYLAND_WM_CAPS_FULLSCREEN;
-            break;
-        case XDG_TOPLEVEL_WM_CAPABILITIES_MINIMIZE:
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ XDG_TOPLEVEL_WM_CAPABILITIES_MINIMIZE:
             wind->wm_caps |= WAYLAND_WM_CAPS_MINIMIZE;
-            break;
-        default:
-            break;
+            ನಿಲ್ಲಿಸು;
+        ಪೂರ್ವನಿಯೋಜಿತ:
+            ನಿಲ್ಲಿಸು;
         }
     }
 }
 
-static const struct xdg_toplevel_listener toplevel_listener_xdg = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ xdg_toplevel_listener toplevel_listener_xdg = {
     handle_xdg_toplevel_configure,
     handle_xdg_toplevel_close,
     handle_xdg_toplevel_configure_bounds, // Version 4
     handle_xdg_toplevel_wm_capabilities   // Version 5
 };
 
-static void handle_xdg_popup_configure(void *data,
-                                       struct xdg_popup *xdg_popup,
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_popup_configure(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                       ರಚನೆ xdg_popup *xdg_popup,
                                        int32_t x,
                                        int32_t y,
-                                       int32_t width,
-                                       int32_t height)
+                                       int32_t ಅಗಲ,
+                                       int32_t ಎತ್ತರ)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    int offset_x = 0, offset_y = 0;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    ಪೂರ್ಣಾಂಕ ಸ್ಥಾನಾಂತರ_x = 0, ಸ್ಥಾನಾಂತರ_y = 0;
 
     // Adjust the position if it was offset for libdecor
-    AdjustPopupOffset(wind->sdlwindow, &offset_x, &offset_y);
-    x -= offset_x;
-    y -= offset_y;
+    Adjust_Popup_ಸ್ಥಾನಾಂತರ(wind->sdlwindow, &ಸ್ಥಾನಾಂತರ_x, &ಸ್ಥಾನಾಂತರ_y);
+    x -= ಸ್ಥಾನಾಂತರ_x;
+    y -= ಸ್ಥಾನಾಂತರ_y;
 
     /* This happens when the compositor indicates that the size is
      * up to the client, so use the cached window size here.
      */
-    if (width == 0 || height == 0) {
-        width = wind->sdlwindow->floating.w;
-        height = wind->sdlwindow->floating.h;
+    ಆದರೆ (ಅಗಲ == 0 || ಎತ್ತರ == 0) {
+        ಅಗಲ = wind->sdlwindow->floating.w;
+        ಎತ್ತರ = wind->sdlwindow->floating.h;
     }
 
     /* Don't apply the supplied dimensions if they haven't changed from the last configuration
      * event, or a newer size set programmatically can be overwritten by old data.
      */
-    if (width != wind->last_configure.width || height != wind->last_configure.height) {
-        wind->requested.logical_width = width;
-        wind->requested.logical_height = height;
+    ಆದರೆ (ಅಗಲ != wind->ಕೊನೆಯ_configure.ಅಗಲ || ಎತ್ತರ != wind->ಕೊನೆಯ_configure.ಎತ್ತರ) {
+        wind->requested.logical_ಅಗಲ = ಅಗಲ;
+        wind->requested.logical_ಎತ್ತರ = ಎತ್ತರ;
 
-        if (wind->scale_to_display) {
-            wind->requested.pixel_width = PointToPixel(wind->sdlwindow, width);
-            wind->requested.pixel_height = PointToPixel(wind->sdlwindow, height);
+        ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+            wind->requested.pixel_ಅಗಲ = ಬಿಂದು_ಗಮ್ಯ_Pixel(wind->sdlwindow, ಅಗಲ);
+            wind->requested.pixel_ಎತ್ತರ = ಬಿಂದು_ಗಮ್ಯ_Pixel(wind->sdlwindow, ಎತ್ತರ);
         }
     }
 
-    if (wind->scale_to_display) {
-        x = PointToPixel(wind->sdlwindow->parent, x);
-        y = PointToPixel(wind->sdlwindow->parent, y);
+    ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+        x = ಬಿಂದು_ಗಮ್ಯ_Pixel(wind->sdlwindow->ಪೋಷಕ, x);
+        y = ಬಿಂದು_ಗಮ್ಯ_Pixel(wind->sdlwindow->ಪೋಷಕ, y);
     }
 
-    SDL_SendWindowEvent(wind->sdlwindow, SDL_EVENT_WINDOW_MOVED, x, y);
+    SDL_Send_ಕಿಟಕಿ_Event(wind->sdlwindow, SDL_EVENT_ಕಿಟಕಿ_MOVED, x, y);
 
-    wind->last_configure.width = width;
-    wind->last_configure.height = height;
+    wind->ಕೊನೆಯ_configure.ಅಗಲ = ಅಗಲ;
+    wind->ಕೊನೆಯ_configure.ಎತ್ತರ = ಎತ್ತರ;
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME;
+    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE) {
+        wind->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_ಚೌಕಟ್ಟು;
     }
 }
 
-static void handle_xdg_popup_done(void *data, struct xdg_popup *xdg_popup)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_popup_ಮುಗಿದ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ xdg_popup *xdg_popup)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
-    SDL_SendWindowEvent(window->sdlwindow, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ->sdlwindow, SDL_EVENT_ಕಿಟಕಿ_CLOSE_REQUESTED, 0, 0);
 }
 
-static void handle_xdg_popup_repositioned(void *data,
-                                          struct xdg_popup *xdg_popup,
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_popup_repositioned(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                          ರಚನೆ xdg_popup *xdg_popup,
                                           uint32_t token)
 {
     // No-op, configure does all the work we care about
 }
 
-static const struct xdg_popup_listener _xdg_popup_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ xdg_popup_listener _xdg_popup_listener = {
     handle_xdg_popup_configure,
-    handle_xdg_popup_done,
+    handle_xdg_popup_ಮುಗಿದ,
     handle_xdg_popup_repositioned
 };
 
-static void handle_xdg_toplevel_decoration_configure(void *data,
-                                                     struct zxdg_toplevel_decoration_v1 *zxdg_toplevel_decoration_v1,
-                                                     uint32_t mode)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_toplevel_decoration_configure(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                                     ರಚನೆ zxdg_toplevel_decoration_v1 *zxdg_toplevel_decoration_v1,
+                                                     uint32_t ಬಹುಲಕ)
 {
-    SDL_Window *window = (SDL_Window *)data;
-    SDL_WindowData *internal = window->internal;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = (SDL_ಕಿಟಕಿ *)ದತ್ತಾಂಶ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಆಂತರಿಕ = ಕಿಟಕಿ->ಆಂತರಿಕ;
     SDL_VideoDevice *device = SDL_GetVideoDevice();
 
     /* If the compositor tries to force CSD anyway, bail on direct XDG support
@@ -1490,28 +1490,28 @@ static void handle_xdg_toplevel_decoration_configure(void *data,
      *
      * To do this we have to fully unmap, then map with libdecor loaded.
      */
-    if (mode == ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE) {
-        if (window->flags & SDL_WINDOW_BORDERLESS) {
+    ಆದರೆ (ಬಹುಲಕ == ZXDG_TOPLEVEL_DECORATION_V1_ಬಹುಲಕ_CLIENT_SIDE) {
+        ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS) {
             // borderless windows do request CSD, so we got what we wanted
-            return;
+            ಹಿಂತಿರುಗಿ;
         }
-        if (!Wayland_LoadLibdecor(internal->waylandData, true)) {
+        ಆದರೆ (!Wayland_ತುಂಬು_Libdecor(ಆಂತರಿಕ->wayland_ದತ್ತಾಂಶ, true)) {
             // libdecor isn't available, so no borders for you... oh well
-            return;
+            ಹಿಂತಿರುಗಿ;
         }
-        WAYLAND_wl_display_roundtrip(internal->waylandData->display);
+        WAYLAND_wl_display_roundtrip(ಆಂತರಿಕ->wayland_ದತ್ತಾಂಶ->display);
 
-        Wayland_HideWindow(device, window);
-        internal->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
-        Wayland_ShowWindow(device, window);
+        Wayland_Hide_ಕಿಟಕಿ(device, ಕಿಟಕಿ);
+        ಆಂತರಿಕ->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
+        Wayland_Show_ಕಿಟಕಿ(device, ಕಿಟಕಿ);
     }
 }
 
-static const struct zxdg_toplevel_decoration_v1_listener xdg_toplevel_decoration_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ zxdg_toplevel_decoration_v1_listener xdg_toplevel_decoration_listener = {
     handle_xdg_toplevel_decoration_configure
 };
 
-#ifdef HAVE_LIBDECOR_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
 /*
  * XXX: Hack for older versions of libdecor that lack the function to query the
  *      minimum content size limit. The internal limits must always be overridden
@@ -1523,15 +1523,15 @@ static const struct zxdg_toplevel_decoration_v1_listener xdg_toplevel_decoration
  *      Can be removed if the minimum required version of libdecor is raised to
  *      0.1.2 or higher.
  */
-static void OverrideLibdecorLimits(SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ OverrideLibdecorLimits(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    if (!libdecor_frame_get_min_content_size) {
-        libdecor_frame_set_min_content_size(window->internal->shell_surface.libdecor.frame, window->min_w, window->min_h);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    ಆದರೆ (!libdecor_ಚೌಕಟ್ಟು_get_min_content_ಗಾತ್ರ) {
+        libdecor_ಚೌಕಟ್ಟು_ಗಣ_min_content_ಗಾತ್ರ(ಕಿಟಕಿ->ಆಂತರಿಕ->shell_surface.libdecor.ಚೌಕಟ್ಟು, ಕಿಟಕಿ->min_w, ಕಿಟಕಿ->min_h);
     }
-#elif !SDL_LIBDECOR_CHECK_VERSION(0, 2, 0)
-    libdecor_frame_set_min_content_size(window->internal->shell_surface.libdecor.frame, window->min_w, window->min_h);
-#endif
+#ಅಥವಾಆದರೆ !SDL_LIBDECOR_CHECK_ಆವೃತ್ತಿ(0, 2, 0)
+    libdecor_ಚೌಕಟ್ಟು_ಗಣ_min_content_ಗಾತ್ರ(ಕಿಟಕಿ->ಆಂತರಿಕ->shell_surface.libdecor.ಚೌಕಟ್ಟು, ಕಿಟಕಿ->min_w, ಕಿಟಕಿ->min_h);
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
 /*
@@ -1542,28 +1542,28 @@ static void OverrideLibdecorLimits(SDL_Window *window)
  *       Can be replaced with a direct call if the minimum required version of libdecor is raised
  *       to 0.1.2 or higher.
  */
-static void LibdecorGetMinContentSize(struct libdecor_frame *frame, int *min_w, int *min_h)
+ಸ್ಥಿರ ಶೂನ್ಯ Libdecor_Get_Min_Content_ಗಾತ್ರ(ರಚನೆ libdecor_ಚೌಕಟ್ಟು *ಚೌಕಟ್ಟು, ಪೂರ್ಣಾಂಕ *min_w, ಪೂರ್ಣಾಂಕ *min_h)
 {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    if (libdecor_frame_get_min_content_size != NULL) {
-        libdecor_frame_get_min_content_size(frame, min_w, min_h);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    ಆದರೆ (libdecor_ಚೌಕಟ್ಟು_get_min_content_ಗಾತ್ರ != ಖಾಲಿ) {
+        libdecor_ಚೌಕಟ್ಟು_get_min_content_ಗಾತ್ರ(ಚೌಕಟ್ಟು, min_w, min_h);
     }
-#elif SDL_LIBDECOR_CHECK_VERSION(0, 2, 0)
-    libdecor_frame_get_min_content_size(frame, min_w, min_h);
-#endif
+#ಅಥವಾಆದರೆ SDL_LIBDECOR_CHECK_ಆವೃತ್ತಿ(0, 2, 0)
+    libdecor_ಚೌಕಟ್ಟು_get_min_content_ಗಾತ್ರ(ಚೌಕಟ್ಟು, min_w, min_h);
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static void decoration_frame_configure(struct libdecor_frame *frame,
-                                       struct libdecor_configuration *configuration,
-                                       void *user_data)
+ಸ್ಥಿರ ಶೂನ್ಯ decoration_ಚೌಕಟ್ಟು_configure(ರಚನೆ libdecor_ಚೌಕಟ್ಟು *ಚೌಕಟ್ಟು,
+                                       ರಚನೆ libdecor_configuration *configuration,
+                                       ಶೂನ್ಯ *user_ದತ್ತಾಂಶ_2)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)user_data;
-    SDL_Window *window = wind->sdlwindow;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)user_ದತ್ತಾಂಶ_2;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = wind->sdlwindow;
 
-    enum libdecor_window_state window_state;
-    int width, height;
+    ಎಣಿಕೆ libdecor_ಕಿಟಕಿ_state ಕಿಟಕಿ_state;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ, ಎತ್ತರ;
 
-    bool active = false;
+    bool ಸಕ್ರಿಯ = false;
     bool fullscreen = false;
     bool maximized = false;
     bool tiled = false;
@@ -1571,42 +1571,42 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
     bool resizing = false;
     wind->toplevel_constraints = 0;
 
-    static const enum libdecor_window_state tiled_states = (LIBDECOR_WINDOW_STATE_TILED_LEFT | LIBDECOR_WINDOW_STATE_TILED_RIGHT |
-                                                            LIBDECOR_WINDOW_STATE_TILED_TOP | LIBDECOR_WINDOW_STATE_TILED_BOTTOM);
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಎಣಿಕೆ libdecor_ಕಿಟಕಿ_state tiled_ಸ್ಥಿತಿಗಳು = (LIBDECOR_ಕಿಟಕಿ_STATE_TILED_ಎಡ | LIBDECOR_ಕಿಟಕಿ_STATE_TILED_ಬಲ |
+                                                            LIBDECOR_ಕಿಟಕಿ_STATE_TILED_ತುದಿ | LIBDECOR_ಕಿಟಕಿ_STATE_TILED_BOTTOM);
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        LibdecorGetMinContentSize(frame, &wind->system_limits.min_width, &wind->system_limits.min_height);
+    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE) {
+        Libdecor_Get_Min_Content_ಗಾತ್ರ(ಚೌಕಟ್ಟು, &wind->system_limits.min_ಅಗಲ_2, &wind->system_limits.min_ಎತ್ತರ_2);
     }
 
     // Window State
-    if (libdecor_configuration_get_window_state(configuration, &window_state)) {
-        fullscreen = (window_state & LIBDECOR_WINDOW_STATE_FULLSCREEN) != 0;
-        maximized = (window_state & LIBDECOR_WINDOW_STATE_MAXIMIZED) != 0;
-        active = (window_state & LIBDECOR_WINDOW_STATE_ACTIVE) != 0;
-        tiled = (window_state & tiled_states) != 0;
-#if SDL_LIBDECOR_CHECK_VERSION(0, 2, 0)
-        suspended = (window_state & LIBDECOR_WINDOW_STATE_SUSPENDED) != 0;
-#endif
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-        resizing = (window_state & LIBDECOR_WINDOW_STATE_RESIZING) != 0;
+    ಆದರೆ (libdecor_configuration_get_ಕಿಟಕಿ_state(configuration, &ಕಿಟಕಿ_state)) {
+        fullscreen = (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_FULLSCREEN) != 0;
+        maximized = (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_MAXIMIZED) != 0;
+        ಸಕ್ರಿಯ = (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_ಸಕ್ರಿಯ) != 0;
+        tiled = (ಕಿಟಕಿ_state & tiled_ಸ್ಥಿತಿಗಳು) != 0;
+#ಆದರೆ SDL_LIBDECOR_CHECK_ಆವೃತ್ತಿ(0, 2, 0)
+        suspended = (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_SUSPENDED) != 0;
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ SDL_LIBDECOR_CHECK_ಆವೃತ್ತಿ(0, 3, 0)
+        resizing = (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_RESIZING) != 0;
 
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_LEFT) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_LEFT;
+        ಆದರೆ (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_CONSTRAINED_ಎಡ) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_ಎಡ;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_RIGHT) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_RIGHT;
+        ಆದರೆ (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_CONSTRAINED_ಬಲ) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_ಬಲ;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_TOP) {
-            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_TOP;
+        ಆದರೆ (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_CONSTRAINED_ತುದಿ) {
+            wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_ತುದಿ;
         }
-        if (window_state & LIBDECOR_WINDOW_STATE_CONSTRAINED_BOTTOM) {
+        ಆದರೆ (ಕಿಟಕಿ_state & LIBDECOR_ಕಿಟಕಿ_STATE_CONSTRAINED_BOTTOM) {
             wind->toplevel_constraints |= WAYLAND_TOPLEVEL_CONSTRAINED_BOTTOM;
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
     }
-    const bool floating = !(fullscreen || maximized || tiled);
+    ಸ್ಥಿರಾಂಕ bool floating = !(fullscreen || maximized || tiled);
 
-    UpdateWindowFullscreen(window, fullscreen);
+    Update_ಕಿಟಕಿ_Fullscreen(ಕಿಟಕಿ, fullscreen);
 
     /* Always send a maximized/restore event; if the event is redundant it will
      * automatically be discarded (see src/events/SDL_windowevents.c)
@@ -1616,50 +1616,50 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
      * dependent, but in general, we can assume that the flag should remain set until
      * the next focused configure event occurs.
      */
-    if (active || !(window->flags & SDL_WINDOW_MINIMIZED)) {
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+    ಆದರೆ (ಸಕ್ರಿಯ || !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MINIMIZED)) {
+        ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MINIMIZED) {
             // If we were minimized, send a restored event before possibly sending maximized.
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESTORED, 0, 0);
         }
-        SDL_SendWindowEvent(window,
-                            (maximized && !fullscreen) ? SDL_EVENT_WINDOW_MAXIMIZED : SDL_EVENT_WINDOW_RESTORED,
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ,
+                            (maximized && !fullscreen) ? SDL_EVENT_ಕಿಟಕಿ_MAXIMIZED : SDL_EVENT_ಕಿಟಕಿ_RESTORED,
                             0, 0);
     }
 
     /* For fullscreen or fixed-size windows we know our size.
      * Always assume the configure is wrong.
      */
-    if (fullscreen) {
-        if (!libdecor_configuration_get_content_size(configuration, frame, &width, &height)) {
-            width = wind->requested.logical_width;
-            height = wind->requested.logical_height;
-        } else {
+    ಆದರೆ (fullscreen) {
+        ಆದರೆ (!libdecor_configuration_get_content_ಗಾತ್ರ(configuration, ಚೌಕಟ್ಟು, &ಅಗಲ, &ಎತ್ತರ)) {
+            ಅಗಲ = wind->requested.logical_ಅಗಲ;
+            ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Fullscreen windows know their exact size.
-            wind->requested.logical_width = width;
-            wind->requested.logical_height = height;
+            wind->requested.logical_ಅಗಲ = ಅಗಲ;
+            wind->requested.logical_ಎತ್ತರ = ಎತ್ತರ;
 
-            if (wind->scale_to_display) {
-                wind->requested.pixel_width = PointToPixel(window, width);
-                wind->requested.pixel_height = PointToPixel(window, height);
+            ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+                wind->requested.pixel_ಅಗಲ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಅಗಲ);
+                wind->requested.pixel_ಎತ್ತರ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಎತ್ತರ);
             }
         }
-    } else {
-        if (!(window->flags & SDL_WINDOW_RESIZABLE) && !maximized) {
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE) && !maximized) {
             /* If we're a fixed-size, non-maximized window, we know our size for sure.
              * Always assume the configure is wrong.
              */
-            if (!wind->scale_to_display) {
-                width = wind->requested.logical_width = window->floating.w;
-                height = wind->requested.logical_height = window->floating.h;
-            } else {
-                wind->requested.pixel_width = window->floating.w;
-                wind->requested.pixel_height = window->floating.h;
-                width = wind->requested.logical_width = PixelToPoint(window, window->floating.w);
-                height = wind->requested.logical_height = PixelToPoint(window, window->floating.h);
+            ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                ಅಗಲ = wind->requested.logical_ಅಗಲ = ಕಿಟಕಿ->floating.w;
+                ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                wind->requested.pixel_ಅಗಲ = ಕಿಟಕಿ->floating.w;
+                wind->requested.pixel_ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
+                ಅಗಲ = wind->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->floating.w);
+                ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->floating.h);
             }
 
-            OverrideLibdecorLimits(window);
-        } else {
+            OverrideLibdecorLimits(ಕಿಟಕಿ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             /* XXX: The libdecor cairo plugin sends bogus content sizes that add the
              *      height of the title bar when transitioning from a fixed-size to
              *      floating state. Ignore the sent window dimensions in this case,
@@ -1668,38 +1668,38 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
              *
              *      https://gitlab.freedesktop.org/libdecor/libdecor/-/issues/34
              */
-            if ((floating && (!wind->floating && !(window->flags & SDL_WINDOW_BORDERLESS))) ||
-                !libdecor_configuration_get_content_size(configuration, frame, &width, &height)) {
-                width = 0;
-                height = 0;
+            ಆದರೆ ((floating && (!wind->floating && !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS))) ||
+                !libdecor_configuration_get_content_ಗಾತ್ರ(configuration, ಚೌಕಟ್ಟು, &ಅಗಲ, &ಎತ್ತರ)) {
+                ಅಗಲ = 0;
+                ಎತ್ತರ = 0;
             }
 
-            const bool new_configure_size = width != wind->last_configure.width || height != wind->last_configure.height;
-            DetermineResizeAxis(wind, width, height, resizing);
+            ಸ್ಥಿರಾಂಕ bool new_configure_ಗಾತ್ರ = ಅಗಲ != wind->ಕೊನೆಯ_configure.ಅಗಲ || ಎತ್ತರ != wind->ಕೊನೆಯ_configure.ಎತ್ತರ;
+            DetermineResizeAxis(wind, ಅಗಲ, ಎತ್ತರ, resizing);
 
-            if (!width) {
+            ಆದರೆ (!ಅಗಲ) {
                 /* This happens when we're being restored from a non-floating state,
                  * or the compositor indicates that the size is up to the client, so
                  * used the cached window size here.
                  */
-                if (floating) {
-                    width = window->floating.w;
+                ಆದರೆ (floating) {
+                    ಅಗಲ = ಕಿಟಕಿ->floating.w;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.width) {
-                        width = SDL_min(wind->toplevel_bounds.width, width);
+                    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE && wind->toplevel_bounds.ಅಗಲ) {
+                        ಅಗಲ = SDL_min(wind->toplevel_bounds.ಅಗಲ, ಅಗಲ);
                     }
-                } else {
-                    width = window->windowed.w;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    ಅಗಲ = ಕಿಟಕಿ->windowed.w;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_width = width;
-                } else {
-                    wind->requested.pixel_width = width;
-                    width = wind->requested.logical_width = PixelToPoint(window, width);
+                ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                    wind->requested.logical_ಅಗಲ = ಅಗಲ;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    wind->requested.pixel_ಅಗಲ = ಅಗಲ;
+                    ಅಗಲ = wind->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಅಗಲ);
                 }
-            } else {
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  *
@@ -1707,39 +1707,39 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
                  * configure event to set the suspended state may arrive with the content size increased
                  * by the decoration dimensions, which should also be ignored.
                  */
-                if (new_configure_size &&
-                    !(wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME && wind->suspended != suspended)) {
-                    wind->requested.logical_width = width;
+                ಆದರೆ (new_configure_ಗಾತ್ರ &&
+                    !(wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_ಚೌಕಟ್ಟು && wind->suspended != suspended)) {
+                    wind->requested.logical_ಅಗಲ = ಅಗಲ;
 
-                    if (wind->scale_to_display) {
-                        wind->requested.pixel_width = PointToPixel(window, width);
+                    ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+                        wind->requested.pixel_ಅಗಲ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಅಗಲ);
                     }
                 }
             }
 
-            if (!height) {
+            ಆದರೆ (!ಎತ್ತರ) {
                 /* This happens when we're being restored from a non-floating state,
                  * or the compositor indicates that the size is up to the client, so
                  * used the cached window size here.
                  */
-                if (floating) {
-                    height = window->floating.h;
+                ಆದರೆ (floating) {
+                    ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
 
                     // Clamp the window to the toplevel bounds, if any are set.
-                    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE && wind->toplevel_bounds.height) {
-                        height = SDL_min(wind->toplevel_bounds.height, height);
+                    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE && wind->toplevel_bounds.ಎತ್ತರ) {
+                        ಎತ್ತರ = SDL_min(wind->toplevel_bounds.ಎತ್ತರ, ಎತ್ತರ);
                     }
-                } else {
-                    height = window->windowed.h;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    ಎತ್ತರ = ಕಿಟಕಿ->windowed.h;
                 }
 
-                if (!wind->scale_to_display) {
-                    wind->requested.logical_height = height;
-                } else {
-                    wind->requested.pixel_height = height;
-                    height = wind->requested.logical_height = PixelToPoint(window, height);
+                ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                    wind->requested.logical_ಎತ್ತರ = ಎತ್ತರ;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    wind->requested.pixel_ಎತ್ತರ = ಎತ್ತರ;
+                    ಎತ್ತರ = wind->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಎತ್ತರ);
                 }
-            } else {
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 /* Don't apply the supplied dimensions if they haven't changed from the last configuration
                  * event, or a newer size set programmatically can be overwritten by old data.
                  *
@@ -1747,12 +1747,12 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
                  * configure event to set the suspended state may arrive with the content size increased
                  * by the decoration dimensions, which should also be ignored.
                  */
-                if (new_configure_size &&
-                    !(wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME && wind->suspended != suspended)) {
-                    wind->requested.logical_height = height;
+                ಆದರೆ (new_configure_ಗಾತ್ರ &&
+                    !(wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_ಚೌಕಟ್ಟು && wind->suspended != suspended)) {
+                    wind->requested.logical_ಎತ್ತರ = ಎತ್ತರ;
 
-                    if (wind->scale_to_display) {
-                        wind->requested.pixel_height = PointToPixel(window, height);
+                    ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+                        wind->requested.pixel_ಎತ್ತರ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ, ಎತ್ತರ);
                     }
                 }
             }
@@ -1770,47 +1770,47 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
          *   the supplied dimensions and use a viewport + mask to enforce the size limits and/or
          *   aspect ratio.
          */
-        if (floating) {
-            if (!wind->scale_to_display) {
-                ApplyGeometryLimits(window, wind->requested.logical_width, wind->requested.logical_height, &wind->requested.logical_width, &wind->requested.logical_height);
-            } else {
-                ApplyGeometryLimits(window, wind->requested.pixel_width, wind->requested.pixel_height, &wind->requested.pixel_width, &wind->requested.pixel_height);
+        ಆದರೆ (floating) {
+            ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                ApplyGeometryLimits(ಕಿಟಕಿ, wind->requested.logical_ಅಗಲ, wind->requested.logical_ಎತ್ತರ, &wind->requested.logical_ಅಗಲ, &wind->requested.logical_ಎತ್ತರ);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ApplyGeometryLimits(ಕಿಟಕಿ, wind->requested.pixel_ಅಗಲ, wind->requested.pixel_ಎತ್ತರ, &wind->requested.pixel_ಅಗಲ, &wind->requested.pixel_ಎತ್ತರ);
 
-                wind->requested.logical_width = PixelToPoint(window, wind->requested.pixel_width);
-                wind->requested.logical_height = PixelToPoint(window, wind->requested.pixel_height);
+                wind->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, wind->requested.pixel_ಅಗಲ);
+                wind->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, wind->requested.pixel_ಎತ್ತರ);
             }
         }
     }
 
     // Store the new state.
-    const bool started_resize = !wind->resizing && resizing;
-    wind->last_configure.width = width;
-    wind->last_configure.height = height;
+    ಸ್ಥಿರಾಂಕ bool started_resize = !wind->resizing && resizing;
+    wind->ಕೊನೆಯ_configure.ಅಗಲ = ಅಗಲ;
+    wind->ಕೊನೆಯ_configure.ಎತ್ತರ = ಎತ್ತರ;
     wind->floating = floating;
     wind->suspended = suspended;
-    wind->active = active;
-    window->tiled = tiled;
+    wind->ಸಕ್ರಿಯ = ಸಕ್ರಿಯ;
+    ಕಿಟಕಿ->tiled = tiled;
     wind->resizing = resizing;
 
     // Update the window manager capabilities.
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-    enum libdecor_wm_capabilities caps;
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
-    if (libdecor_frame_get_wm_capabilities) {
-        caps = libdecor_frame_get_wm_capabilities(wind->shell_surface.libdecor.frame);
-#else
-    caps = libdecor_frame_get_wm_capabilities(wind->shell_surface.libdecor.frame);
+#ಆದರೆ SDL_LIBDECOR_CHECK_ಆವೃತ್ತಿ(0, 3, 0)
+    ಎಣಿಕೆ libdecor_wm_capabilities caps;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR
+    ಆದರೆ (libdecor_ಚೌಕಟ್ಟು_get_wm_capabilities) {
+        caps = libdecor_ಚೌಕಟ್ಟು_get_wm_capabilities(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+#ಇಲ್ಲದಿದ್ದರೆ
+    caps = libdecor_ಚೌಕಟ್ಟು_get_wm_capabilities(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
     {
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
         wind->wm_caps = 0;
-        wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_WINDOW_MENU ? WAYLAND_WM_CAPS_WINDOW_MENU : 0;
+        wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_ಕಿಟಕಿ_MENU ? WAYLAND_WM_CAPS_ಕಿಟಕಿ_MENU : 0;
         wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_MAXIMIZE ? WAYLAND_WM_CAPS_MAXIMIZE : 0;
         wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_FULLSCREEN ? WAYLAND_WM_CAPS_FULLSCREEN : 0;
         wind->wm_caps |= caps & LIBDECOR_WM_CAPABILITIES_MINIMIZE ? WAYLAND_WM_CAPS_MINIMIZE : 0;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    if (!wind->resizing || started_resize) {
+    ಆದರೆ (!wind->resizing || started_resize) {
         /* Calculate the new window geometry and commit the changes on the libdecor side.
          *
          * XXX: This will potentially leave un-acked configurations, but libdecor invalidates the
@@ -1818,81 +1818,81 @@ static void decoration_frame_configure(struct libdecor_frame *frame,
          *      done, unless libdecor adds the ability to copy or refcount the configuration state
          *      to apply later.
          */
-        ConfigureWindowGeometry(window);
-        struct libdecor_state *state = libdecor_state_new(wind->current.logical_width, wind->current.logical_height);
-        libdecor_frame_commit(frame, state, configuration);
+        Configure_ಕಿಟಕಿ_Geometry(ಕಿಟಕಿ);
+        ರಚನೆ libdecor_state *state = libdecor_state_new(wind->current.logical_ಅಗಲ, wind->current.logical_ಎತ್ತರ);
+        libdecor_ಚೌಕಟ್ಟು_commit(ಚೌಕಟ್ಟು, state, configuration);
         libdecor_state_free(state);
 
         // Always send an exposure event during a new frame to ensure forward progress if the frame callback already occurred.
-        if (started_resize) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+        ಆದರೆ (started_resize) {
+            SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
         }
     }
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-        wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_FRAME;
+    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE) {
+        wind->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_ಚೌಕಟ್ಟು;
     }
 }
 
-static void decoration_frame_close(struct libdecor_frame *frame, void *user_data)
+ಸ್ಥಿರ ಶೂನ್ಯ decoration_ಚೌಕಟ್ಟು_close(ರಚನೆ libdecor_ಚೌಕಟ್ಟು *ಚೌಕಟ್ಟು, ಶೂನ್ಯ *user_ದತ್ತಾಂಶ_2)
 {
-    SDL_SendWindowEvent(((SDL_WindowData *)user_data)->sdlwindow, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+    SDL_Send_ಕಿಟಕಿ_Event(((SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)user_ದತ್ತಾಂಶ_2)->sdlwindow, SDL_EVENT_ಕಿಟಕಿ_CLOSE_REQUESTED, 0, 0);
 }
 
-static void decoration_frame_commit(struct libdecor_frame *frame, void *user_data)
+ಸ್ಥಿರ ಶೂನ್ಯ decoration_ಚೌಕಟ್ಟು_commit(ರಚನೆ libdecor_ಚೌಕಟ್ಟು *ಚೌಕಟ್ಟು, ಶೂನ್ಯ *user_ದತ್ತಾಂಶ_2)
 {
     /* libdecor decoration subsurfaces are synchronous, so the client needs to
      * commit a frame to trigger an update of the decoration surfaces.
      */
-    SDL_WindowData *wind = (SDL_WindowData *)user_data;
-    if (!wind->suspended && wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
-        SDL_SendWindowEvent(wind->sdlwindow, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)user_ದತ್ತಾಂಶ_2;
+    ಆದರೆ (!wind->suspended && wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN) {
+        SDL_Send_ಕಿಟಕಿ_Event(wind->sdlwindow, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
     }
 }
 
-static void decoration_dismiss_popup(struct libdecor_frame *frame, const char *seat_name, void *user_data)
+ಸ್ಥಿರ ಶೂನ್ಯ decoration_dismiss_popup(ರಚನೆ libdecor_ಚೌಕಟ್ಟು *ಚೌಕಟ್ಟು, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *seat_name, ಶೂನ್ಯ *user_ದತ್ತಾಂಶ_2)
 {
     // NOP
 }
 
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-static void decoration_frame_bounds(struct libdecor_frame *frame, int width, int height, void *user_data)
+#ಆದರೆ SDL_LIBDECOR_CHECK_ಆವೃತ್ತಿ(0, 3, 0)
+ಸ್ಥಿರ ಶೂನ್ಯ decoration_ಚೌಕಟ್ಟು_bounds(ರಚನೆ libdecor_ಚೌಕಟ್ಟು *ಚೌಕಟ್ಟು, ಪೂರ್ಣಾಂಕ ಅಗಲ, ಪೂರ್ಣಾಂಕ ಎತ್ತರ, ಶೂನ್ಯ *user_ದತ್ತಾಂಶ_2)
 {
-    SDL_WindowData *window = (SDL_WindowData *)user_data;
-    window->toplevel_bounds.width = width;
-    window->toplevel_bounds.height = height;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)user_ದತ್ತಾಂಶ_2;
+    ಕಿಟಕಿ->toplevel_bounds.ಅಗಲ = ಅಗಲ;
+    ಕಿಟಕಿ->toplevel_bounds.ಎತ್ತರ = ಎತ್ತರ;
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-static struct libdecor_frame_interface libdecor_frame_interface = {
-    decoration_frame_configure,
-    decoration_frame_close,
-    decoration_frame_commit,
+ಸ್ಥಿರ ರಚನೆ libdecor_ಚೌಕಟ್ಟು_interface libdecor_ಚೌಕಟ್ಟು_interface = {
+    decoration_ಚೌಕಟ್ಟು_configure,
+    decoration_ಚೌಕಟ್ಟು_close,
+    decoration_ಚೌಕಟ್ಟು_commit,
     decoration_dismiss_popup,
-#if SDL_LIBDECOR_CHECK_VERSION(0, 3, 0)
-    decoration_frame_bounds
-#endif
+#ಆದರೆ SDL_LIBDECOR_CHECK_ಆವೃತ್ತಿ(0, 3, 0)
+    decoration_ಚೌಕಟ್ಟು_bounds
+#ಆದರೆ_ಅಂತ್ಯ
 };
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-static void Wayland_HandlePreferredScaleChanged(SDL_WindowData *window_data, double factor)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_Handle_Preferred_Scale_ಬದಲಾಯಿತು(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ_ದತ್ತಾಂಶ_2, ದ್ವಿಗುಣ ಗುಣಕ)
 {
-    const double old_factor = window_data->scale_factor;
+    ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ old_ಗುಣಕ = ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->scale_ಗುಣಕ_2;
 
     // Round the scale factor if viewports aren't available.
-    if (!window_data->viewport) {
-        factor = SDL_ceil(factor);
+    ಆದರೆ (!ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->viewport) {
+        ಗುಣಕ = SDL_ceil(ಗುಣಕ);
     }
 
-    if (factor != old_factor) {
-        window_data->scale_factor = factor;
+    ಆದರೆ (ಗುಣಕ != old_ಗುಣಕ) {
+        ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->scale_ಗುಣಕ_2 = ಗುಣಕ;
 
-        if (window_data->scale_to_display) {
+        ಆದರೆ (ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->scale_ಗಮ್ಯ_display) {
             /* If the window is in the floating state with a user/application specified size, calculate the new
              * logical size from the backbuffer size. Otherwise, use the fixed underlying logical size to calculate
              * the new backbuffer dimensions.
              */
-            if (window_data->floating) {
+            ಆದರೆ (ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->floating) {
                 /* Some compositors will send a configure event immediately after a scale event, however,
                  * this event can contain the old logical size, and should be ignored, or the window can
                  * incorrectly change size when moved between displays with differing scale factors.
@@ -1902,406 +1902,406 @@ static void Wayland_HandlePreferredScaleChanged(SDL_WindowData *window_data, dou
                  * so subtract any border insets.
                  */
                 BorderInsets insets;
-                GetBorderInsets(window_data->sdlwindow, &insets);
-                window_data->last_configure.width = SDL_max(window_data->requested.logical_width - (insets.left + insets.right), 1);
-                window_data->last_configure.height = SDL_max(window_data->requested.logical_height - (insets.top + insets.bottom), 1);
+                GetBorderInsets(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow, &insets);
+                ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->ಕೊನೆಯ_configure.ಅಗಲ = SDL_max(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.logical_ಅಗಲ - (insets.ಎಡ + insets.ಬಲ), 1);
+                ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->ಕೊನೆಯ_configure.ಎತ್ತರ = SDL_max(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.logical_ಎತ್ತರ - (insets.ತುದಿ + insets.bottom), 1);
 
-                window_data->requested.logical_width = PixelToPoint(window_data->sdlwindow, window_data->requested.pixel_width);
-                window_data->requested.logical_height = PixelToPoint(window_data->sdlwindow, window_data->requested.pixel_height);
-            } else {
-                window_data->requested.pixel_width = PointToPixel(window_data->sdlwindow, window_data->requested.logical_width);
-                window_data->requested.pixel_height = PointToPixel(window_data->sdlwindow, window_data->requested.logical_height);
+                ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow, ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.pixel_ಅಗಲ);
+                ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow, ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.pixel_ಎತ್ತರ);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.pixel_ಅಗಲ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow, ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.logical_ಅಗಲ);
+                ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.pixel_ಎತ್ತರ = ಬಿಂದು_ಗಮ್ಯ_Pixel(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow, ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->requested.logical_ಎತ್ತರ);
             }
         }
 
-        if (window_data->sdlwindow->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY || window_data->scale_to_display) {
-            ConfigureWindowGeometry(window_data->sdlwindow);
-            CommitLibdecorFrame(window_data->sdlwindow);
+        ಆದರೆ (ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY || ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->scale_ಗಮ್ಯ_display) {
+            Configure_ಕಿಟಕಿ_Geometry(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow);
+            Commit_Libdecor_ಚೌಕಟ್ಟು(ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->sdlwindow);
         }
     }
 }
 
-static void Wayland_MaybeUpdateScaleFactor(SDL_WindowData *window)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_Maybe_Update_Scale_ಗುಣಕ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ)
 {
-    double factor;
-    int i;
+    ದ್ವಿಗುಣ ಗುಣಕ;
+    ಪೂರ್ಣಾಂಕ i;
 
     /* If the fractional scale protocol is present or the core protocol supports the
      * preferred buffer scale event, the compositor will explicitly tell the application
      * what scale it wants via these events, so don't try to determine the scale factor
      * from which displays the surface has entered.
      */
-    if (window->fractional_scale || wl_surface_get_version(window->surface) >= WL_SURFACE_PREFERRED_BUFFER_SCALE_SINCE_VERSION) {
-        return;
+    ಆದರೆ (ಕಿಟಕಿ->fractional_scale || wl_surface_get_ಆವೃತ್ತಿ(ಕಿಟಕಿ->surface) >= WL_SURFACE_PREFERRED_ಬಫರ್_SCALE_SINCE_ಆವೃತ್ತಿ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    if (window->num_outputs != 0) {
+    ಆದರೆ (ಕಿಟಕಿ->ಅಂಕೆ_outputs != 0) {
         // Check every display's factor, use the highest
-        factor = 0.0;
-        for (i = 0; i < window->num_outputs; i++) {
-            SDL_DisplayData *internal = window->outputs[i];
-            factor = SDL_max(factor, internal->scale_factor);
+        ಗುಣಕ = 0.0;
+        ಗಾಗಿ (i = 0; i < ಕಿಟಕಿ->ಅಂಕೆ_outputs; i++) {
+            SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = ಕಿಟಕಿ->outputs[i];
+            ಗುಣಕ = SDL_max(ಗುಣಕ, ಆಂತರಿಕ->scale_ಗುಣಕ_2);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // All outputs removed, just fall back.
-        factor = window->scale_factor;
+        ಗುಣಕ = ಕಿಟಕಿ->scale_ಗುಣಕ_2;
     }
 
-    Wayland_HandlePreferredScaleChanged(window, factor);
+    Wayland_Handle_Preferred_Scale_ಬದಲಾಯಿತು(ಕಿಟಕಿ, ಗುಣಕ);
 }
 
-void Wayland_RemoveOutputFromWindow(SDL_WindowData *window, SDL_DisplayData *display_data)
+ಶೂನ್ಯ Wayland_Remove_Output_From_ಕಿಟಕಿ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ, SDL_Display_ದತ್ತಾಂಶ *display_ದತ್ತಾಂಶ)
 {
-    for (int i = 0; i < window->num_outputs; i++) {
-        if (window->outputs[i] == display_data) { // remove this one
-            if (i == (window->num_outputs - 1)) {
-                window->outputs[i] = NULL;
-            } else {
-                SDL_memmove(&window->outputs[i],
-                            &window->outputs[i + 1],
-                            sizeof(SDL_DisplayData *) * ((window->num_outputs - i) - 1));
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < ಕಿಟಕಿ->ಅಂಕೆ_outputs; i++) {
+        ಆದರೆ (ಕಿಟಕಿ->outputs[i] == display_ದತ್ತಾಂಶ) { // remove this one
+            ಆದರೆ (i == (ಕಿಟಕಿ->ಅಂಕೆ_outputs - 1)) {
+                ಕಿಟಕಿ->outputs[i] = ಖಾಲಿ;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                SDL_memmove(&ಕಿಟಕಿ->outputs[i],
+                            &ಕಿಟಕಿ->outputs[i + 1],
+                            ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *) * ((ಕಿಟಕಿ->ಅಂಕೆ_outputs - i) - 1));
             }
-            window->num_outputs--;
+            ಕಿಟಕಿ->ಅಂಕೆ_outputs--;
             i--;
         }
     }
 
-    if (window->num_outputs == 0) {
-        SDL_free(window->outputs);
-        window->outputs = NULL;
-    } else if (!window->is_fullscreen || window->num_outputs == 1) {
-        Wayland_UpdateWindowPosition(window->sdlwindow);
-        Wayland_MaybeUpdateScaleFactor(window);
+    ಆದರೆ (ಕಿಟಕಿ->ಅಂಕೆ_outputs == 0) {
+        SDL_free(ಕಿಟಕಿ->outputs);
+        ಕಿಟಕಿ->outputs = ಖಾಲಿ;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!ಕಿಟಕಿ->is_fullscreen || ಕಿಟಕಿ->ಅಂಕೆ_outputs == 1) {
+        Wayland_Update_ಕಿಟಕಿ_Position(ಕಿಟಕಿ->sdlwindow);
+        Wayland_Maybe_Update_Scale_ಗುಣಕ(ಕಿಟಕಿ);
     }
 }
 
-static void handle_surface_enter(void *data, struct wl_surface *surface, struct wl_output *output)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_surface_enter(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_surface *surface, ರಚನೆ wl_output *output)
 {
-    SDL_WindowData *window = data;
-    SDL_DisplayData *internal = wl_output_get_user_data(output);
-    SDL_DisplayData **new_outputs;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ = ದತ್ತಾಂಶ;
+    SDL_Display_ದತ್ತಾಂಶ *ಆಂತರಿಕ = wl_output_get_user_ದತ್ತಾಂಶ(output);
+    SDL_Display_ದತ್ತಾಂಶ **new_outputs;
 
-    if (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
-        return;
+    ಆದರೆ (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    new_outputs = SDL_realloc(window->outputs,
-                              sizeof(SDL_DisplayData *) * (window->num_outputs + 1));
-    if (!new_outputs) {
-        return;
+    new_outputs = SDL_realloc(ಕಿಟಕಿ->outputs,
+                              ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ *) * (ಕಿಟಕಿ->ಅಂಕೆ_outputs + 1));
+    ಆದರೆ (!new_outputs) {
+        ಹಿಂತಿರುಗಿ;
     }
-    window->outputs = new_outputs;
-    window->outputs[window->num_outputs++] = internal;
+    ಕಿಟಕಿ->outputs = new_outputs;
+    ಕಿಟಕಿ->outputs[ಕಿಟಕಿ->ಅಂಕೆ_outputs++] = ಆಂತರಿಕ;
 
     // Update the scale factor after the move so that fullscreen outputs are updated.
-    if (!window->is_fullscreen || window->num_outputs == 1) {
-        Wayland_UpdateWindowPosition(window->sdlwindow);
-        Wayland_MaybeUpdateScaleFactor(window);
+    ಆದರೆ (!ಕಿಟಕಿ->is_fullscreen || ಕಿಟಕಿ->ಅಂಕೆ_outputs == 1) {
+        Wayland_Update_ಕಿಟಕಿ_Position(ಕಿಟಕಿ->sdlwindow);
+        Wayland_Maybe_Update_Scale_ಗುಣಕ(ಕಿಟಕಿ);
     }
 }
 
-static void handle_surface_leave(void *data, struct wl_surface *surface, struct wl_output *output)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_surface_leave(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_surface *surface, ರಚನೆ wl_output *output)
 {
-    SDL_WindowData *window = (SDL_WindowData *)data;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
 
-    if (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
-        return;
+    ಆದರೆ (!SDL_WAYLAND_own_output(output) || !SDL_WAYLAND_own_surface(surface)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    Wayland_RemoveOutputFromWindow(window, (SDL_DisplayData *)wl_output_get_user_data(output));
+    Wayland_Remove_Output_From_ಕಿಟಕಿ(ಕಿಟಕಿ, (SDL_Display_ದತ್ತಾಂಶ *)wl_output_get_user_ದತ್ತಾಂಶ(output));
 }
 
-static void handle_surface_preferred_buffer_scale(void *data, struct wl_surface *wl_surface, int32_t factor)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_surface_preferred_ಬಫರ್_scale(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_surface *wl_surface, int32_t ಗುಣಕ)
 {
-    SDL_WindowData *wind = data;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ದತ್ತಾಂಶ;
 
     /* The spec is unclear on how this interacts with the fractional scaling protocol,
      * so, for now, assume that the fractional scaling protocol takes priority and
      * only listen to this event if the fractional scaling protocol is not present.
      */
-    if (!wind->fractional_scale) {
-        Wayland_HandlePreferredScaleChanged(data, (double)factor);
+    ಆದರೆ (!wind->fractional_scale) {
+        Wayland_Handle_Preferred_Scale_ಬದಲಾಯಿತು(ದತ್ತಾಂಶ, (ದ್ವಿಗುಣ)ಗುಣಕ);
     }
 }
 
-static void handle_surface_preferred_buffer_transform(void *data, struct wl_surface *wl_surface, uint32_t transform)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_surface_preferred_ಬಫರ್_transform(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_surface *wl_surface, uint32_t transform)
 {
     // Nothing to do here.
 }
 
-static const struct wl_surface_listener surface_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_surface_listener surface_listener = {
     handle_surface_enter,
     handle_surface_leave,
-    handle_surface_preferred_buffer_scale,
-    handle_surface_preferred_buffer_transform
+    handle_surface_preferred_ಬಫರ್_scale,
+    handle_surface_preferred_ಬಫರ್_transform
 };
 
-static void handle_fractional_scale_preferred(void *data, struct wp_fractional_scale_v1 *wp_fractional_scale_v1, uint32_t scale)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_fractional_scale_preferred(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wp_fractional_scale_v1 *wp_fractional_scale_v1, uint32_t scale)
 {
-    const double factor = (double)scale / 120.; // 120 is a magic number defined in the spec as a common denominator
-    Wayland_HandlePreferredScaleChanged(data, factor);
+    ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ ಗುಣಕ = (ದ್ವಿಗುಣ)scale / 120.; // 120 is a magic number defined in the spec as a common denominator
+    Wayland_Handle_Preferred_Scale_ಬದಲಾಯಿತು(ದತ್ತಾಂಶ, ಗುಣಕ);
 }
 
-static const struct wp_fractional_scale_v1_listener fractional_scale_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wp_fractional_scale_v1_listener fractional_scale_listener = {
     handle_fractional_scale_preferred
 };
 
-static void frog_preferred_metadata_handler(void *data, struct frog_color_managed_surface *frog_color_managed_surface, uint32_t transfer_function,
+ಸ್ಥಿರ ಶೂನ್ಯ frog_preferred_metadata_handler(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ frog_color_managed_surface *frog_color_managed_surface, uint32_t transfer_function,
                                             uint32_t output_display_primary_red_x, uint32_t output_display_primary_red_y,
                                             uint32_t output_display_primary_green_x, uint32_t output_display_primary_green_y,
                                             uint32_t output_display_primary_blue_x, uint32_t output_display_primary_blue_y,
-                                            uint32_t output_white_point_x, uint32_t output_white_point_y,
+                                            uint32_t output_white_ಬಿಂದು_x, uint32_t output_white_ಬಿಂದು_y,
                                             uint32_t max_luminance, uint32_t min_luminance,
-                                            uint32_t max_full_frame_luminance)
+                                            uint32_t max_ತುಂಬಿದ_ಚೌಕಟ್ಟು_luminance)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
     SDL_HDROutputProperties HDR;
 
     SDL_zero(HDR);
 
-    switch (transfer_function) {
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_ST2084_PQ:
+    ಆಯ್ಕೆ (transfer_function) {
+    ಸ್ಥಿತಿ FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_ST2084_PQ:
         /* ITU-R BT.2408-7 (Sept 2023) has the reference PQ white level at 203 nits,
          * while older Dolby documentation claims a reference level of 100 nits.
          *
          * Use 203 nits for now.
          */
         HDR.HDR_headroom = max_luminance / 203.0f;
-        break;
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SCRGB_LINEAR:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SCRGB_ರೇಖೀಯ:
         HDR.HDR_headroom = max_luminance / 80.0f;
-        break;
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_UNDEFINED:
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SRGB:
-    case FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_GAMMA_22:
-    default:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_UNDEFINED:
+    ಸ್ಥಿತಿ FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_SRGB:
+    ಸ್ಥಿತಿ FROG_COLOR_MANAGED_SURFACE_TRANSFER_FUNCTION_GAMMA_22:
+    ಪೂರ್ವನಿಯೋಜಿತ:
         HDR.HDR_headroom = 1.0f;
-        break;
+        ನಿಲ್ಲಿಸು;
     }
 
     HDR.SDR_white_level = 1.0f;
-    SDL_SetWindowHDRProperties(wind->sdlwindow, &HDR, true);
+    SDL_ಗಣ_ಕಿಟಕಿ_HDRProperties(wind->sdlwindow, &HDR, true);
 }
 
-static const struct frog_color_managed_surface_listener frog_surface_listener = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ frog_color_managed_surface_listener frog_surface_listener = {
     frog_preferred_metadata_handler
 };
 
 
-static void handle_surface_feedback_preferred_changed2(void *data,
-                                                       struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
-                                                       uint32_t identity_hi, uint32_t identity_lo)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_surface_feedback_preferred_changed2(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                                       ರಚನೆ wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
+                                                       uint32_t ತಟಸ್ಥ_hi, uint32_t ತಟಸ್ಥ_lo)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    Wayland_GetColorInfoForWindow(wind, false);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    Wayland_Get_Color_Info_For_ಕಿಟಕಿ(wind, false);
 }
 
-static void handle_surface_feedback_preferred_changed(void *data,
-                                                      struct wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
-                                                      uint32_t identity)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_surface_feedback_preferred_ಬದಲಾಯಿತು(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                                      ರಚನೆ wp_color_management_surface_feedback_v1 *wp_color_management_surface_feedback_v1,
+                                                      uint32_t ತಟಸ್ಥ)
 {
-    handle_surface_feedback_preferred_changed2(data, wp_color_management_surface_feedback_v1, 0, identity);
+    handle_surface_feedback_preferred_changed2(ದತ್ತಾಂಶ, wp_color_management_surface_feedback_v1, 0, ತಟಸ್ಥ);
 }
 
-static const struct wp_color_management_surface_feedback_v1_listener color_management_surface_feedback_listener = {
-    handle_surface_feedback_preferred_changed,
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wp_color_management_surface_feedback_v1_listener color_management_surface_feedback_listener = {
+    handle_surface_feedback_preferred_ಬದಲಾಯಿತು,
     handle_surface_feedback_preferred_changed2
 };
 
-static void Wayland_SetKeyboardFocus(SDL_Window *window, bool set_focus)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_ಗಣ_Keyboard_Focus(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool ಗಣ_focus)
 {
-    SDL_Window *toplevel = window;
+    SDL_ಕಿಟಕಿ *toplevel = ಕಿಟಕಿ;
 
     // Find the toplevel parent
-    while (SDL_WINDOW_IS_POPUP(toplevel)) {
-        toplevel = toplevel->parent;
+    ಆಗ (SDL_ಕಿಟಕಿ_IS_POPUP(toplevel)) {
+        toplevel = toplevel->ಪೋಷಕ;
     }
 
-    toplevel->keyboard_focus = window;
+    toplevel->keyboard_focus = ಕಿಟಕಿ;
 
-    if (set_focus && !window->is_hiding && !window->is_destroying) {
-        SDL_SetKeyboardFocus(window);
+    ಆದರೆ (ಗಣ_focus && !ಕಿಟಕಿ->is_hiding && !ಕಿಟಕಿ->is_destroying) {
+        SDL_ಗಣ_Keyboard_Focus(ಕಿಟಕಿ);
     }
 }
 
-bool Wayland_SetWindowHitTest(SDL_Window *window, bool enabled)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_ದೊರಕಿತು_Test(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool enabled)
 {
-    return true; // just succeed, the real work is done elsewhere.
+    ಹಿಂತಿರುಗಿ true; // just succeed, the real work is done elsewhere.
 }
 
-static struct xdg_toplevel *GetToplevelForWindow(SDL_WindowData *wind)
+ಸ್ಥಿರ ರಚನೆ xdg_toplevel *Get_Toplevel_For_ಕಿಟಕಿ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind)
 {
-    if (wind) {
+    ಆದರೆ (wind) {
         /* Libdecor crashes on attempts to unset the parent by passing null, which is allowed by the
          * toplevel spec, so just use the raw xdg-toplevel instead (that's what libdecor does
          * internally anyways).
          */
-#ifdef HAVE_LIBDECOR_H
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-            return libdecor_frame_get_xdg_toplevel(wind->shell_surface.libdecor.frame);
-        } else
-#endif
-            if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-                return wind->shell_surface.xdg.toplevel.xdg_toplevel;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            ಹಿಂತಿರುಗಿ libdecor_ಚೌಕಟ್ಟು_get_xdg_toplevel(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+        } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+            ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+                ಹಿಂತಿರುಗಿ wind->shell_surface.xdg.toplevel.xdg_toplevel;
             }
     }
 
-    return NULL;
+    ಹಿಂತಿರುಗಿ ಖಾಲಿ;
 }
 
-bool Wayland_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent_window)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_ಕಿಟಕಿ *ಪೋಷಕ_ಕಿಟಕಿ)
 {
-    SDL_WindowData *child_data = window->internal;
-    SDL_WindowData *parent_data = parent_window ? parent_window->internal : NULL;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಮಗು_ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಪೋಷಕ_ದತ್ತಾಂಶ = ಪೋಷಕ_ಕಿಟಕಿ ? ಪೋಷಕ_ಕಿಟಕಿ->ಆಂತರಿಕ : ಖಾಲಿ;
 
-    child_data->reparenting_required = false;
+    ಮಗು_ದತ್ತಾಂಶ->reparenting_required = false;
 
-    if (parent_data && parent_data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    ಆದರೆ (ಪೋಷಕ_ದತ್ತಾಂಶ && ಪೋಷಕ_ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ != WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN) {
         // Need to wait for the parent to become mapped, or it's the same as setting a null parent.
-        child_data->reparenting_required = true;
-        return true;
+        ಮಗು_ದತ್ತಾಂಶ->reparenting_required = true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    struct xdg_toplevel *child_toplevel = GetToplevelForWindow(child_data);
-    struct xdg_toplevel *parent_toplevel = GetToplevelForWindow(parent_data);
+    ರಚನೆ xdg_toplevel *ಮಗು_toplevel = Get_Toplevel_For_ಕಿಟಕಿ(ಮಗು_ದತ್ತಾಂಶ);
+    ರಚನೆ xdg_toplevel *ಪೋಷಕ_toplevel = Get_Toplevel_For_ಕಿಟಕಿ(ಪೋಷಕ_ದತ್ತಾಂಶ);
 
-    if (child_toplevel) {
-        xdg_toplevel_set_parent(child_toplevel, parent_toplevel);
+    ಆದರೆ (ಮಗು_toplevel) {
+        xdg_toplevel_ಗಣ_ಪೋಷಕ(ಮಗು_toplevel, ಪೋಷಕ_toplevel);
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Wayland_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Modal(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool modal)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_WindowData *data = window->internal;
-    SDL_WindowData *parent_data = window->parent->internal;
+    SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಪೋಷಕ_ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಪೋಷಕ->ಆಂತರಿಕ;
 
-    if (parent_data->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    ಆದರೆ (ಪೋಷಕ_ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ != WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN) {
         // Need to wait for the parent to become mapped before changing modal status.
-        data->reparenting_required = true;
-        return true;
-    } else {
-        data->reparenting_required = false;
+        ದತ್ತಾಂಶ->reparenting_required = true;
+        ಹಿಂತಿರುಗಿ true;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ದತ್ತಾಂಶ->reparenting_required = false;
     }
 
-    struct xdg_toplevel *toplevel = GetToplevelForWindow(data);
+    ರಚನೆ xdg_toplevel *toplevel = Get_Toplevel_For_ಕಿಟಕಿ(ದತ್ತಾಂಶ);
 
-    if (toplevel) {
-        if (viddata->xdg_wm_dialog_v1) {
-            if (modal) {
-                if (!data->xdg_dialog_v1) {
-                    data->xdg_dialog_v1 = xdg_wm_dialog_v1_get_xdg_dialog(viddata->xdg_wm_dialog_v1, toplevel);
+    ಆದರೆ (toplevel) {
+        ಆದರೆ (viddata->xdg_wm_dialog_v1) {
+            ಆದರೆ (modal) {
+                ಆದರೆ (!ದತ್ತಾಂಶ->xdg_dialog_v1) {
+                    ದತ್ತಾಂಶ->xdg_dialog_v1 = xdg_wm_dialog_v1_get_xdg_dialog(viddata->xdg_wm_dialog_v1, toplevel);
                 }
 
-                xdg_dialog_v1_set_modal(data->xdg_dialog_v1);
-            } else if (data->xdg_dialog_v1) {
-                xdg_dialog_v1_unset_modal(data->xdg_dialog_v1);
+                xdg_dialog_v1_ಗಣ_modal(ದತ್ತಾಂಶ->xdg_dialog_v1);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ದತ್ತಾಂಶ->xdg_dialog_v1) {
+                xdg_dialog_v1_unset_modal(ದತ್ತಾಂಶ->xdg_dialog_v1);
             }
         }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void Wayland_RegisterToplevelForSession(SDL_WindowData *data)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_ರಿಜಿಸ್ಟರ್_Toplevel_For_Session(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    struct xdg_toplevel *toplevel = GetToplevelForWindow(data);
-    if (!toplevel) {
-        return;
+    ರಚನೆ xdg_toplevel *toplevel = Get_Toplevel_For_ಕಿಟಕಿ(ದತ್ತಾಂಶ);
+    ಆದರೆ (!toplevel) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    const char *id = SDL_GetStringProperty(data->sdlwindow->props, SDL_PROP_WINDOW_WAYLAND_WINDOW_ID_STRING, NULL);
-    if (id && *id != '\0') {
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *id = SDL_GetStringProperty(ದತ್ತಾಂಶ->sdlwindow->props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_ಕಿಟಕಿ_ID_STRING, ಖಾಲಿ);
+    ಆದರೆ (id && *id != '\0') {
         SDL_VideoDevice *viddev = SDL_GetVideoDevice();
-        SDL_VideoData *viddata = viddev->internal;
+        SDL_Video_ದತ್ತಾಂಶ *viddata = viddev->ಆಂತರಿಕ;
 
-        if (viddata->xdg_toplevel_tag_manager) {
-            xdg_toplevel_tag_manager_v1_set_toplevel_tag(viddata->xdg_toplevel_tag_manager, toplevel, id);
+        ಆದರೆ (viddata->xdg_toplevel_ಟ್ಯಾಗ್_manager) {
+            xdg_toplevel_ಟ್ಯಾಗ್_manager_v1_ಗಣ_toplevel_ಟ್ಯಾಗ್(viddata->xdg_toplevel_ಟ್ಯಾಗ್_manager, toplevel, id);
         }
 
-        if (viddata->xdg_session_manager) {
+        ಆದರೆ (viddata->xdg_session_manager) {
             Wayland_CreateSession(viddata);
 
-            if (viddata->xdg_session) {
+            ಆದರೆ (viddata->xdg_session) {
                 CHECK_PARAM (true) {
                     // Windows added to a session must not have a duplicate ID string, or a protocol error will result.
-                    for (SDL_Window *w = viddev->windows; w; w = w->next) {
-                        SDL_WindowData *d = w->internal;
-                        if (d->session_id && SDL_strcmp(d->session_id, id) == 0) {
+                    ಗಾಗಿ (SDL_ಕಿಟಕಿ *w = viddev->windows; w; w = w->ಮುಂದಿನ) {
+                        SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *d = w->ಆಂತರಿಕ;
+                        ಆದರೆ (d->session_id && SDL_strcmp(d->session_id, id) == 0) {
                             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Duplicate window ID string %s found; window will not be added to session", id);
-                            return;
+                            ಹಿಂತಿರುಗಿ;
                         }
                     }
                 }
 
-                data->xdg_toplevel_session = xdg_session_v1_restore_toplevel(viddata->xdg_session, toplevel, id);
-                data->session_id = SDL_strdup(id);
+                ದತ್ತಾಂಶ->xdg_toplevel_session = xdg_session_v1_restore_toplevel(viddata->xdg_session, toplevel, id);
+                ದತ್ತಾಂಶ->session_id = SDL_strdup(id);
             }
         }
     }
 }
 
-static void Wayland_DestroyToplevelSession(SDL_WindowData *data)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_DestroyToplevelSession(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    SDL_VideoData *viddata = data->waylandData;
+    SDL_Video_ದತ್ತಾಂಶ *viddata = ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ;
 
-    if (data->xdg_toplevel_session) {
-        const char *id = SDL_GetStringProperty(data->sdlwindow->props, SDL_PROP_WINDOW_WAYLAND_WINDOW_ID_STRING, NULL);
+    ಆದರೆ (ದತ್ತಾಂಶ->xdg_toplevel_session) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *id = SDL_GetStringProperty(ದತ್ತಾಂಶ->sdlwindow->props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_ಕಿಟಕಿ_ID_STRING, ಖಾಲಿ);
 
         // If the ID string was cleared, remove the window from the session.
-        if (!id || *id == '\0') {
-            xdg_session_v1_remove_toplevel(viddata->xdg_session, data->session_id);
+        ಆದರೆ (!id || *id == '\0') {
+            xdg_session_v1_remove_toplevel(viddata->xdg_session, ದತ್ತಾಂಶ->session_id);
         }
 
-        xdg_toplevel_session_v1_destroy(data->xdg_toplevel_session);
-        data->xdg_toplevel_session = NULL;
+        xdg_toplevel_session_v1_destroy(ದತ್ತಾಂಶ->xdg_toplevel_session);
+        ದತ್ತಾಂಶ->xdg_toplevel_session = ಖಾಲಿ;
 
-        SDL_free(data->session_id);
-        data->session_id = NULL;
+        SDL_free(ದತ್ತಾಂಶ->session_id);
+        ದತ್ತಾಂಶ->session_id = ಖಾಲಿ;
     }
 }
 
-static void show_hide_sync_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ಸ್ಥಿರ ಶೂನ್ಯ show_hide_sync_handler(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_callback *callback, uint32_t callback_ದತ್ತಾಂಶ)
 {
     // Get the window from the ID as it may have been destroyed
-    SDL_WindowID windowID = (SDL_WindowID)((uintptr_t)data);
-    SDL_Window *window = SDL_GetWindowFromID(windowID);
+    SDL_ಕಿಟಕಿ_ID ಕಿಟಕಿ_ID = (SDL_ಕಿಟಕಿ_ID)((uintptr_t)ದತ್ತಾಂಶ);
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = SDL_Get_ಕಿಟಕಿ_From_ID(ಕಿಟಕಿ_ID);
 
-    if (window && window->internal) {
-        SDL_WindowData *wind = window->internal;
+    ಆದರೆ (ಕಿಟಕಿ && ಕಿಟಕಿ->ಆಂತರಿಕ) {
+        SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
         wind->show_hide_sync_required = false;
     }
 
     wl_callback_destroy(callback);
 }
 
-static struct wl_callback_listener show_hide_sync_listener = {
+ಸ್ಥಿರ ರಚನೆ wl_callback_listener show_hide_sync_listener = {
     show_hide_sync_handler
 };
 
-static void exported_handle_handler(void *data, struct zxdg_exported_v2 *zxdg_exported_v2, const char *handle)
+ಸ್ಥಿರ ಶೂನ್ಯ exported_handle_handler(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zxdg_exported_v2 *zxdg_exported_v2, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *handle)
 {
-    SDL_WindowData *wind = (SDL_WindowData *)data;
-    SDL_PropertiesID props = SDL_GetWindowProperties(wind->sdlwindow);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)ದತ್ತಾಂಶ;
+    SDL_PropertiesID props = SDL_Get_ಕಿಟಕಿ_Properties(wind->sdlwindow);
 
-    SDL_SetStringProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, handle);
+    SDL_ಗಣ_String_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, handle);
 }
 
-static struct zxdg_exported_v2_listener exported_v2_listener = {
+ಸ್ಥಿರ ರಚನೆ zxdg_exported_v2_listener exported_v2_listener = {
     exported_handle_handler
 };
 
-void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_Show_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_VideoData *c = _this->internal;
-    SDL_WindowData *data = window->internal;
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
+    SDL_Video_ದತ್ತಾಂಶ *c = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    SDL_PropertiesID props = SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ);
 
     // Custom surfaces don't get toplevels and are always considered 'shown'; nothing to do here.
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
-        return;
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     /* If this is a child window, the parent *must* be in the final shown state,
@@ -2312,19 +2312,19 @@ void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
      * If waiting on the parent window, set the pending status and the window will
      * be shown when the parent is in the shown state.
      */
-    if (window->parent) {
-        if (window->parent->internal->shell_surface_status != WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
-            data->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_SHOW_PENDING;
-            return;
+    ಆದರೆ (ಕಿಟಕಿ->ಪೋಷಕ) {
+        ಆದರೆ (ಕಿಟಕಿ->ಪೋಷಕ->ಆಂತರಿಕ->shell_surface_ಸ್ಥಿತಿ != WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN) {
+            ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOW_PENDING;
+            ಹಿಂತಿರುಗಿ;
         }
     }
 
     // Always roundtrip to ensure there are no pending buffer attachments.
-    do {
+    ಮಾಡು {
         WAYLAND_wl_display_roundtrip(c->display);
-    } while (data->show_hide_sync_required);
+    } ಆಗ (ದತ್ತಾಂಶ->show_hide_sync_required);
 
-    data->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE;
+    ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE;
 
     /* Detach any previous buffers before resetting everything, otherwise when
      * calling this a second time you'll get an annoying protocol error!
@@ -2340,365 +2340,365 @@ void Wayland_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
      *
      * -flibit
      */
-    wl_surface_attach(data->surface, NULL, 0, 0);
-    wl_surface_commit(data->surface);
+    wl_surface_attach(ದತ್ತಾಂಶ->surface, ಖಾಲಿ, 0, 0);
+    wl_surface_commit(ದತ್ತಾಂಶ->surface);
 
     // Create the shell surface and map the toplevel/popup
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        data->shell_surface.libdecor.frame = libdecor_decorate(c->shell.libdecor,
-                                                               data->surface,
-                                                               &libdecor_frame_interface,
-                                                               data);
-        if (!data->shell_surface.libdecor.frame) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು = libdecor_decorate(c->shell.libdecor,
+                                                               ದತ್ತಾಂಶ->surface,
+                                                               &libdecor_ಚೌಕಟ್ಟು_interface,
+                                                               ದತ್ತಾಂಶ);
+        ಆದರೆ (!ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Failed to create libdecor frame!");
-        } else {
-            libdecor_frame_set_app_id(data->shell_surface.libdecor.frame, data->app_id);
-            libdecor_frame_map(data->shell_surface.libdecor.frame);
-            if (window->flags & SDL_WINDOW_BORDERLESS) {
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            libdecor_ಚೌಕಟ್ಟು_ಗಣ_app_id(ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು, ದತ್ತಾಂಶ->app_id);
+            libdecor_ಚೌಕಟ್ಟು_map(ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+            ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS) {
                 // Note: Calling this with 'true' immediately after mapping will cause the libdecor Cairo plugin to crash.
-                libdecor_frame_set_visibility(data->shell_surface.libdecor.frame, false);
+                libdecor_ಚೌಕಟ್ಟು_ಗಣ_visibility(ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು, false);
             }
 
-            if (c->zxdg_exporter_v2) {
-                data->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, data->surface);
-                zxdg_exported_v2_add_listener(data->exported, &exported_v2_listener, data);
+            ಆದರೆ (c->zxdg_exporter_v2) {
+                ದತ್ತಾಂಶ->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, ದತ್ತಾಂಶ->surface);
+                zxdg_exported_v2_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->exported, &exported_v2_listener, ದತ್ತಾಂಶ);
             }
 
-            if (c->xdg_toplevel_icon_manager_v1 && data->xdg_toplevel_icon_v1) {
-                xdg_toplevel_icon_manager_v1_set_icon(_this->internal->xdg_toplevel_icon_manager_v1,
-                                                      libdecor_frame_get_xdg_toplevel(data->shell_surface.libdecor.frame),
-                                                      data->xdg_toplevel_icon_v1);
+            ಆದರೆ (c->xdg_toplevel_icon_manager_v1 && ದತ್ತಾಂಶ->xdg_toplevel_icon_v1) {
+                xdg_toplevel_icon_manager_v1_ಗಣ_icon(_this->ಆಂತರಿಕ->xdg_toplevel_icon_manager_v1,
+                                                      libdecor_ಚೌಕಟ್ಟು_get_xdg_toplevel(ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು),
+                                                      ದತ್ತಾಂಶ->xdg_toplevel_icon_v1);
             }
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, libdecor_frame_get_xdg_surface(data->shell_surface.libdecor.frame));
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, libdecor_frame_get_xdg_toplevel(data->shell_surface.libdecor.frame));
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_SURFACE_ಸೂಚಕ, libdecor_ಚೌಕಟ್ಟು_get_xdg_surface(ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು));
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_TOPLEVEL_ಸೂಚಕ, libdecor_ಚೌಕಟ್ಟು_get_xdg_toplevel(ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು));
         }
-    } else
-#endif
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-        data->shell_surface.xdg.surface = xdg_wm_base_get_xdg_surface(c->shell.xdg, data->surface);
-        xdg_surface_set_user_data(data->shell_surface.xdg.surface, data);
-        xdg_surface_add_listener(data->shell_surface.xdg.surface, &_xdg_surface_listener, data);
-        SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, data->shell_surface.xdg.surface);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+        ದತ್ತಾಂಶ->shell_surface.xdg.surface = xdg_wm_ತಳ_get_xdg_surface(c->shell.xdg, ದತ್ತಾಂಶ->surface);
+        xdg_surface_ಗಣ_user_ದತ್ತಾಂಶ(ದತ್ತಾಂಶ->shell_surface.xdg.surface, ದತ್ತಾಂಶ);
+        xdg_surface_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->shell_surface.xdg.surface, &_xdg_surface_listener, ದತ್ತಾಂಶ);
+        SDL_ಗಣ_ಸೂಚಕ_Property(SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ), SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_SURFACE_ಸೂಚಕ, ದತ್ತಾಂಶ->shell_surface.xdg.surface);
 
-        if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-            SDL_Window *parent = window->parent;
-            SDL_WindowData *parent_data = parent->internal;
-            struct xdg_surface *parent_xdg_surface = NULL;
-            int position_x = 0, position_y = 0;
+        ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+            SDL_ಕಿಟಕಿ *ಪೋಷಕ = ಕಿಟಕಿ->ಪೋಷಕ;
+            SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಪೋಷಕ_ದತ್ತಾಂಶ = ಪೋಷಕ->ಆಂತರಿಕ;
+            ರಚನೆ xdg_surface *ಪೋಷಕ_xdg_surface = ಖಾಲಿ;
+            ಪೂರ್ಣಾಂಕ position_x = 0, position_y = 0;
 
             // Configure the popup parameters
-#ifdef HAVE_LIBDECOR_H
-            if (parent_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-                parent_xdg_surface = libdecor_frame_get_xdg_surface(parent_data->shell_surface.libdecor.frame);
-            } else
-#endif
-            if (parent_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL ||
-                    parent_data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-                parent_xdg_surface = parent_data->shell_surface.xdg.surface;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+            ಆದರೆ (ಪೋಷಕ_ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+                ಪೋಷಕ_xdg_surface = libdecor_ಚೌಕಟ್ಟು_get_xdg_surface(ಪೋಷಕ_ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+            } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+            ಆದರೆ (ಪೋಷಕ_ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL ||
+                    ಪೋಷಕ_ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+                ಪೋಷಕ_xdg_surface = ಪೋಷಕ_ದತ್ತಾಂಶ->shell_surface.xdg.surface;
             }
 
             // Set up the positioner for the popup and configure the constraints
-            data->shell_surface.xdg.popup.xdg_positioner = xdg_wm_base_create_positioner(c->shell.xdg);
-            xdg_positioner_set_anchor(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_ANCHOR_TOP_LEFT);
-            SDL_Rect parent_geometry;
-            GetWindowGeometry(parent->internal, &parent_geometry);
-            xdg_positioner_set_anchor_rect(data->shell_surface.xdg.popup.xdg_positioner, 0, 0, parent_geometry.w, parent_geometry.h);
+            ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner = xdg_wm_ತಳ_create_positioner(c->shell.xdg);
+            xdg_positioner_ಗಣ_anchor(ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_ANCHOR_ತುದಿ_ಎಡ);
+            SDL_Rect ಪೋಷಕ_geometry;
+            Get_ಕಿಟಕಿ_Geometry(ಪೋಷಕ->ಆಂತರಿಕ, &ಪೋಷಕ_geometry);
+            xdg_positioner_ಗಣ_anchor_rect(ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner, 0, 0, ಪೋಷಕ_geometry.w, ಪೋಷಕ_geometry.h);
 
-            const Uint32 constraint = window->constrain_popup ? (XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_X | XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_Y) : XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_NONE;
-            xdg_positioner_set_constraint_adjustment(data->shell_surface.xdg.popup.xdg_positioner, constraint);
-            xdg_positioner_set_gravity(data->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_RIGHT);
-            xdg_positioner_set_size(data->shell_surface.xdg.popup.xdg_positioner, data->current.logical_width, data->current.logical_height);
+            ಸ್ಥಿರಾಂಕ Uint32 constraint = ಕಿಟಕಿ->constrain_popup ? (XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_X | XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_SLIDE_Y) : XDG_POSITIONER_CONSTRAINT_ADJUSTMENT_NONE;
+            xdg_positioner_ಗಣ_constraint_adjustment(ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner, constraint);
+            xdg_positioner_ಗಣ_gravity(ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner, XDG_POSITIONER_GRAVITY_BOTTOM_ಬಲ);
+            xdg_positioner_ಗಣ_ಗಾತ್ರ(ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner, ದತ್ತಾಂಶ->current.logical_ಅಗಲ, ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ);
 
             // Set the popup initial position
-            position_x = window->last_position_pending ? window->pending.x : window->x;
-            position_y = window->last_position_pending ? window->pending.y : window->y;
-            EnsurePopupPositionIsValid(window, &position_x, &position_y);
-            if (data->scale_to_display) {
-                position_x = PixelToPoint(window->parent, position_x);
-                position_y = PixelToPoint(window->parent, position_y);
+            position_x = ಕಿಟಕಿ->ಕೊನೆಯ_position_pending ? ಕಿಟಕಿ->pending.x : ಕಿಟಕಿ->x;
+            position_y = ಕಿಟಕಿ->ಕೊನೆಯ_position_pending ? ಕಿಟಕಿ->pending.y : ಕಿಟಕಿ->y;
+            EnsurePopupPositionIsValid(ಕಿಟಕಿ, &position_x, &position_y);
+            ಆದರೆ (ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display) {
+                position_x = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ->ಪೋಷಕ, position_x);
+                position_y = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ->ಪೋಷಕ, position_y);
             }
-            AdjustPopupOffset(window, &position_x, &position_y);
-            xdg_positioner_set_offset(data->shell_surface.xdg.popup.xdg_positioner, position_x, position_y);
+            Adjust_Popup_ಸ್ಥಾನಾಂತರ(ಕಿಟಕಿ, &position_x, &position_y);
+            xdg_positioner_ಗಣ_ಸ್ಥಾನಾಂತರ(ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner, position_x, position_y);
 
             // Assign the popup role
-            data->shell_surface.xdg.popup.xdg_popup = xdg_surface_get_popup(data->shell_surface.xdg.surface,
-                                                                                parent_xdg_surface,
-                                                                                data->shell_surface.xdg.popup.xdg_positioner);
-            xdg_popup_add_listener(data->shell_surface.xdg.popup.xdg_popup, &_xdg_popup_listener, data);
+            ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_popup = xdg_surface_get_popup(ದತ್ತಾಂಶ->shell_surface.xdg.surface,
+                                                                                ಪೋಷಕ_xdg_surface,
+                                                                                ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner);
+            xdg_popup_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_popup, &_xdg_popup_listener, ದತ್ತಾಂಶ);
 
-            if (window->flags & SDL_WINDOW_TOOLTIP) {
-                struct wl_region *region;
+            ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_TOOLTIP) {
+                ರಚನೆ wl_region *region;
 
                 // Tooltips can't be interacted with, so turn off the input region to avoid blocking anything behind them
                 region = wl_compositor_create_region(c->compositor);
-                wl_region_add(region, 0, 0, 0, 0);
-                wl_surface_set_input_region(data->surface, region);
+                wl_region_ಕೂಡಿಸು(region, 0, 0, 0, 0);
+                wl_surface_ಗಣ_ಒಳಹರಿವು_region(ದತ್ತಾಂಶ->surface, region);
                 wl_region_destroy(region);
-            } else if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-                Wayland_SetKeyboardFocus(window, true);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ ((ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_POPUP_MENU) && !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_NOT_FOCUSABLE)) {
+                Wayland_ಗಣ_Keyboard_Focus(ಕಿಟಕಿ, true);
             }
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POPUP_POINTER, data->shell_surface.xdg.popup.xdg_popup);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POSITIONER_POINTER, data->shell_surface.xdg.popup.xdg_positioner);
-        } else {
-            data->shell_surface.xdg.toplevel.xdg_toplevel = xdg_surface_get_toplevel(data->shell_surface.xdg.surface);
-            xdg_toplevel_set_app_id(data->shell_surface.xdg.toplevel.xdg_toplevel, data->app_id);
-            xdg_toplevel_add_listener(data->shell_surface.xdg.toplevel.xdg_toplevel, &toplevel_listener_xdg, data);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_POPUP_ಸೂಚಕ, ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_popup);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_POSITIONER_ಸೂಚಕ, ದತ್ತಾಂಶ->shell_surface.xdg.popup.xdg_positioner);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ದತ್ತಾಂಶ->shell_surface.xdg.toplevel.xdg_toplevel = xdg_surface_get_toplevel(ದತ್ತಾಂಶ->shell_surface.xdg.surface);
+            xdg_toplevel_ಗಣ_app_id(ದತ್ತಾಂಶ->shell_surface.xdg.toplevel.xdg_toplevel, ದತ್ತಾಂಶ->app_id);
+            xdg_toplevel_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->shell_surface.xdg.toplevel.xdg_toplevel, &toplevel_listener_xdg, ದತ್ತಾಂಶ);
 
             // Create the window decorations
-            if (c->decoration_manager) {
-                data->server_decoration = zxdg_decoration_manager_v1_get_toplevel_decoration(c->decoration_manager, data->shell_surface.xdg.toplevel.xdg_toplevel);
-                zxdg_toplevel_decoration_v1_add_listener(data->server_decoration, &xdg_toplevel_decoration_listener, window);
-                const enum zxdg_toplevel_decoration_v1_mode mode = !(window->flags & SDL_WINDOW_BORDERLESS) ? ZXDG_TOPLEVEL_DECORATION_V1_MODE_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE;
-                zxdg_toplevel_decoration_v1_set_mode(data->server_decoration, mode);
+            ಆದರೆ (c->decoration_manager) {
+                ದತ್ತಾಂಶ->server_decoration = zxdg_decoration_manager_v1_get_toplevel_decoration(c->decoration_manager, ದತ್ತಾಂಶ->shell_surface.xdg.toplevel.xdg_toplevel);
+                zxdg_toplevel_decoration_v1_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->server_decoration, &xdg_toplevel_decoration_listener, ಕಿಟಕಿ);
+                ಸ್ಥಿರಾಂಕ ಎಣಿಕೆ zxdg_toplevel_decoration_v1_ಬಹುಲಕ ಬಹುಲಕ = !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS) ? ZXDG_TOPLEVEL_DECORATION_V1_ಬಹುಲಕ_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_ಬಹುಲಕ_CLIENT_SIDE;
+                zxdg_toplevel_decoration_v1_ಗಣ_ಬಹುಲಕ(ದತ್ತಾಂಶ->server_decoration, ಬಹುಲಕ);
             }
 
-            if (c->zxdg_exporter_v2) {
-                data->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, data->surface);
-                zxdg_exported_v2_add_listener(data->exported, &exported_v2_listener, data);
+            ಆದರೆ (c->zxdg_exporter_v2) {
+                ದತ್ತಾಂಶ->exported = zxdg_exporter_v2_export_toplevel(c->zxdg_exporter_v2, ದತ್ತಾಂಶ->surface);
+                zxdg_exported_v2_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->exported, &exported_v2_listener, ದತ್ತಾಂಶ);
             }
 
-            if (c->xdg_toplevel_icon_manager_v1 && data->xdg_toplevel_icon_v1) {
-                xdg_toplevel_icon_manager_v1_set_icon(_this->internal->xdg_toplevel_icon_manager_v1,
-                                                      data->shell_surface.xdg.toplevel.xdg_toplevel,
-                                                      data->xdg_toplevel_icon_v1);
+            ಆದರೆ (c->xdg_toplevel_icon_manager_v1 && ದತ್ತಾಂಶ->xdg_toplevel_icon_v1) {
+                xdg_toplevel_icon_manager_v1_ಗಣ_icon(_this->ಆಂತರಿಕ->xdg_toplevel_icon_manager_v1,
+                                                      ದತ್ತಾಂಶ->shell_surface.xdg.toplevel.xdg_toplevel,
+                                                      ದತ್ತಾಂಶ->xdg_toplevel_icon_v1);
             }
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, data->shell_surface.xdg.toplevel.xdg_toplevel);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_TOPLEVEL_ಸೂಚಕ, ದತ್ತಾಂಶ->shell_surface.xdg.toplevel.xdg_toplevel);
         }
     }
 
     // Restore state that was set prior to this call
-    Wayland_RegisterToplevelForSession(data);
-    Wayland_SetWindowParent(_this, window, window->parent);
+    Wayland_ರಿಜಿಸ್ಟರ್_Toplevel_For_Session(ದತ್ತಾಂಶ);
+    Wayland_ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ(_this, ಕಿಟಕಿ, ಕಿಟಕಿ->ಪೋಷಕ);
 
-    if (window->flags & SDL_WINDOW_MODAL) {
-        Wayland_SetWindowModal(_this, window, true);
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MODAL) {
+        Wayland_ಗಣ_ಕಿಟಕಿ_Modal(_this, ಕಿಟಕಿ, true);
     }
 
-    Wayland_SetWindowTitle(_this, window);
+    Wayland_ಗಣ_ಕಿಟಕಿ_Title(_this, ಕಿಟಕಿ);
 
     /* We have to wait until the surface gets a "configure" event, or use of
      * this surface will fail. This is a new rule for xdg_shell.
      */
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (data->shell_surface.libdecor.frame) {
-            while (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-                if (libdecor_dispatch(c->shell.libdecor, -1) < 0) {
-                    if (!Wayland_HandleDisplayDisconnected(_this)) {
-                        return;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (ದತ್ತಾಂಶ->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            ಆಗ (ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE) {
+                ಆದರೆ (libdecor_dispatch(c->shell.libdecor, -1) < 0) {
+                    ಆದರೆ (!Wayland_HandleDisplayDisconnected(_this)) {
+                        ಹಿಂತಿರುಗಿ;
                     }
                 }
-                if (WAYLAND_wl_display_dispatch_pending(c->display) < 0) {
-                    if (!Wayland_HandleDisplayDisconnected(_this)) {
-                        return;
+                ಆದರೆ (WAYLAND_wl_display_dispatch_pending(c->display) < 0) {
+                    ಆದರೆ (!Wayland_HandleDisplayDisconnected(_this)) {
+                        ಹಿಂತಿರುಗಿ;
                     }
                 }
             }
         }
-    } else
-#endif
-        if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP || data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP || ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
         /* Unlike libdecor we need to call this explicitly to prevent a deadlock.
          * libdecor will call this as part of their configure event!
          * -flibit
          */
-        wl_surface_commit(data->surface);
-        if (data->shell_surface.xdg.surface) {
-            while (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_WAITING_FOR_CONFIGURE) {
-                if (WAYLAND_wl_display_dispatch(c->display) < 0) {
-                    if (!Wayland_HandleDisplayDisconnected(_this)) {
-                        return;
+        wl_surface_commit(ದತ್ತಾಂಶ->surface);
+        ಆದರೆ (ದತ್ತಾಂಶ->shell_surface.xdg.surface) {
+            ಆಗ (ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_ಕಾಯುವಿಕೆ_FOR_CONFIGURE) {
+                ಆದರೆ (WAYLAND_wl_display_dispatch(c->display) < 0) {
+                    ಆದರೆ (!Wayland_HandleDisplayDisconnected(_this)) {
+                        ಹಿಂತಿರುಗಿ;
                     }
                 }
             }
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Nothing to see here, just commit.
-        wl_surface_commit(data->surface);
+        wl_surface_commit(ದತ್ತಾಂಶ->surface);
     }
 
     // Make sure the window can't be resized to 0, or it can be spuriously closed by the window manager.
-    data->system_limits.min_width = SDL_max(data->system_limits.min_width, 1);
-    data->system_limits.min_height = SDL_max(data->system_limits.min_height, 1);
+    ದತ್ತಾಂಶ->system_limits.min_ಅಗಲ_2 = SDL_max(ದತ್ತಾಂಶ->system_limits.min_ಅಗಲ_2, 1);
+    ದತ್ತಾಂಶ->system_limits.min_ಎತ್ತರ_2 = SDL_max(ದತ್ತಾಂಶ->system_limits.min_ಎತ್ತರ_2, 1);
 
     /* Unlike the rest of window state we have to set this _after_ flushing the
      * display, because we need to create the decorations before possibly hiding
      * them immediately afterward.
      */
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
         // Libdecor plugins can enforce minimum window sizes, so adjust if the initial window size is too small.
-        if (window->windowed.w < data->system_limits.min_width ||
-            window->windowed.h < data->system_limits.min_height) {
+        ಆದರೆ (ಕಿಟಕಿ->windowed.w < ದತ್ತಾಂಶ->system_limits.min_ಅಗಲ_2 ||
+            ಕಿಟಕಿ->windowed.h < ದತ್ತಾಂಶ->system_limits.min_ಎತ್ತರ_2) {
 
             // Warn if the window frame will be larger than the content surface.
             SDL_LogWarn(SDL_LOG_CATEGORY_VIDEO,
                         "Window dimensions (%i, %i) are smaller than the system enforced minimum (%i, %i); window borders will be larger than the content surface.",
-                        window->windowed.w, window->windowed.h, data->system_limits.min_width, data->system_limits.min_height);
+                        ಕಿಟಕಿ->windowed.w, ಕಿಟಕಿ->windowed.h, ದತ್ತಾಂಶ->system_limits.min_ಅಗಲ_2, ದತ್ತಾಂಶ->system_limits.min_ಎತ್ತರ_2);
 
-            data->current.logical_width = SDL_max(window->windowed.w, data->system_limits.min_width);
-            data->current.logical_height = SDL_max(window->windowed.h, data->system_limits.min_height);
-            CommitLibdecorFrame(window);
+            ದತ್ತಾಂಶ->current.logical_ಅಗಲ = SDL_max(ಕಿಟಕಿ->windowed.w, ದತ್ತಾಂಶ->system_limits.min_ಅಗಲ_2);
+            ದತ್ತಾಂಶ->current.logical_ಎತ್ತರ = SDL_max(ಕಿಟಕಿ->windowed.h, ದತ್ತಾಂಶ->system_limits.min_ಎತ್ತರ_2);
+            Commit_Libdecor_ಚೌಕಟ್ಟು(ಕಿಟಕಿ);
         }
     }
-#endif
-    Wayland_SetWindowResizable(_this, window, !!(window->flags & SDL_WINDOW_RESIZABLE));
+#ಆದರೆ_ಅಂತ್ಯ
+    Wayland_ಗಣ_ಕಿಟಕಿ_Resizable(_this, ಕಿಟಕಿ, !!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE));
 
     // We're finally done putting the window together, raise if possible
-    if (c->activation_manager && SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN, true)) {
+    ಆದರೆ (c->activation_manager && SDL_GetHintBoolean(SDL_HINT_ಕಿಟಕಿ_ACTIVATE_WHEN_SHOWN, true)) {
         /* if the process was passed an activation token, use it when showing
          * the initial window.
          *
          * Note that we don't check for empty strings, as that is still
          * considered a valid activation token!
          */
-        const char *activation_token = SDL_getenv("XDG_ACTIVATION_TOKEN");
-        if (activation_token) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *activation_token = SDL_getenv("XDG_ACTIVATION_TOKEN");
+        ಆದರೆ (activation_token) {
             xdg_activation_v1_activate(c->activation_manager,
                                        activation_token,
-                                       data->surface);
+                                       ದತ್ತಾಂಶ->surface);
 
             // Clear this variable, per the protocol's request
             SDL_unsetenv_unsafe("XDG_ACTIVATION_TOKEN");
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Try to generate an activation token for this window.
-            Wayland_RaiseWindow(_this, window);
+            Wayland_Raise_ಕಿಟಕಿ(_this, ಕಿಟಕಿ);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Clear the ignored activation token, as it won't be used.
         SDL_unsetenv_unsafe("XDG_ACTIVATION_TOKEN");
     }
 
     // No frame callback on an external surface, as it may already have one attached.
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+    ಆದರೆ (!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_EXTERNAL)) {
         // Fire a callback when the compositor wants a new frame.
-        data->surface_frame_callback = wl_surface_frame(data->surface);
-        wl_callback_add_listener(data->surface_frame_callback, &surface_frame_listener, data);
+        ದತ್ತಾಂಶ->surface_ಚೌಕಟ್ಟು_callback = wl_surface_ಚೌಕಟ್ಟು(ದತ್ತಾಂಶ->surface);
+        wl_callback_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->surface_ಚೌಕಟ್ಟು_callback, &surface_ಚೌಕಟ್ಟು_listener, ದತ್ತಾಂಶ);
     }
 
-    data->show_hide_sync_required = true;
-    struct wl_callback *cb = wl_display_sync(_this->internal->display);
-    wl_callback_add_listener(cb, &show_hide_sync_listener, (void *)((uintptr_t)window->id));
+    ದತ್ತಾಂಶ->show_hide_sync_required = true;
+    ರಚನೆ wl_callback *cb = wl_display_sync(_this->ಆಂತರಿಕ->display);
+    wl_callback_ಕೂಡಿಸು_listener(cb, &show_hide_sync_listener, (ಶೂನ್ಯ *)((uintptr_t)ಕಿಟಕಿ->id));
 
-    data->showing_window = true;
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    data->showing_window = false;
+    ದತ್ತಾಂಶ->showing_ಕಿಟಕಿ = true;
+    SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_SHOWN, 0, 0);
+    ದತ್ತಾಂಶ->showing_ಕಿಟಕಿ = false;
 
     // Send an exposure event to signal that the client should draw.
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
 }
 
-static void Wayland_ReleasePopup(SDL_VideoDevice *_this, SDL_Window *popup)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_ReleasePopup(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *popup)
 {
-    SDL_WindowData *popupdata;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *popupdata;
 
     // Basic sanity checks to weed out the weird popup closures
-    if (!SDL_ObjectValid(popup, SDL_OBJECT_TYPE_WINDOW)) {
-        return;
+    ಆದರೆ (!SDL_ObjectValid(popup, SDL_OBJECT_TYPE_ಕಿಟಕಿ)) {
+        ಹಿಂತಿರುಗಿ;
     }
-    popupdata = popup->internal;
-    if (!popupdata) {
-        return;
+    popupdata = popup->ಆಂತರಿಕ;
+    ಆದರೆ (!popupdata) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     // This may already be freed by a parent popup!
-    if (popupdata->shell_surface.xdg.popup.xdg_popup == NULL) {
-        return;
+    ಆದರೆ (popupdata->shell_surface.xdg.popup.xdg_popup == ಖಾಲಿ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    if ((popup->flags & SDL_WINDOW_POPUP_MENU) && !(popup->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        SDL_Window *new_focus;
-        const bool set_focus = SDL_ShouldRelinquishPopupFocus(popup, &new_focus);
-        Wayland_SetKeyboardFocus(new_focus, set_focus);
+    ಆದರೆ ((popup->flags & SDL_ಕಿಟಕಿ_POPUP_MENU) && !(popup->flags & SDL_ಕಿಟಕಿ_NOT_FOCUSABLE)) {
+        SDL_ಕಿಟಕಿ *new_focus;
+        ಸ್ಥಿರಾಂಕ bool ಗಣ_focus = SDL_ShouldRelinquishPopupFocus(popup, &new_focus);
+        Wayland_ಗಣ_Keyboard_Focus(new_focus, ಗಣ_focus);
     }
 
     xdg_popup_destroy(popupdata->shell_surface.xdg.popup.xdg_popup);
     xdg_positioner_destroy(popupdata->shell_surface.xdg.popup.xdg_positioner);
-    popupdata->shell_surface.xdg.popup.xdg_popup = NULL;
-    popupdata->shell_surface.xdg.popup.xdg_positioner = NULL;
+    popupdata->shell_surface.xdg.popup.xdg_popup = ಖಾಲಿ;
+    popupdata->shell_surface.xdg.popup.xdg_positioner = ಖಾಲಿ;
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(popup);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POPUP_POINTER, NULL);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_POSITIONER_POINTER, NULL);
+    SDL_PropertiesID props = SDL_Get_ಕಿಟಕಿ_Properties(popup);
+    SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_POPUP_ಸೂಚಕ, ಖಾಲಿ);
+    SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_POSITIONER_ಸೂಚಕ, ಖಾಲಿ);
 }
 
-void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_Hide_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_VideoData *data = _this->internal;
-    SDL_WindowData *wind = window->internal;
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    SDL_PropertiesID props = SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ);
 
     // Custom surfaces have nothing to destroy and are always considered to be 'shown'; nothing to do here.
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
-        return;
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     /* The window was shown, but the sync point hasn't yet been reached.
      * Pump events to avoid a possible protocol violation.
      */
-    if (wind->show_hide_sync_required) {
-        WAYLAND_wl_display_roundtrip(data->display);
+    ಆದರೆ (wind->show_hide_sync_required) {
+        WAYLAND_wl_display_roundtrip(ದತ್ತಾಂಶ->display);
     }
 
-    wind->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_HIDDEN;
+    wind->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_HIDDEN;
 
-    if (wind->surface_frame_callback) {
-        wl_callback_destroy(wind->surface_frame_callback);
-        wind->surface_frame_callback = NULL;
+    ಆದರೆ (wind->surface_ಚೌಕಟ್ಟು_callback) {
+        wl_callback_destroy(wind->surface_ಚೌಕಟ್ಟು_callback);
+        wind->surface_ಚೌಕಟ್ಟು_callback = ಖಾಲಿ;
     }
 
-    if (wind->server_decoration) {
+    ಆದರೆ (wind->server_decoration) {
         zxdg_toplevel_decoration_v1_destroy(wind->server_decoration);
-        wind->server_decoration = NULL;
+        wind->server_decoration = ಖಾಲಿ;
     }
 
     // Clean up the export handle.
-    if (wind->exported) {
+    ಆದರೆ (wind->exported) {
         zxdg_exported_v2_destroy(wind->exported);
-        wind->exported = NULL;
+        wind->exported = ಖಾಲಿ;
 
-        SDL_SetStringProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, NULL);
+        SDL_ಗಣ_String_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_TOPLEVEL_EXPORT_HANDLE_STRING, ಖಾಲಿ);
     }
 
-    if (wind->xdg_dialog_v1) {
+    ಆದರೆ (wind->xdg_dialog_v1) {
         xdg_dialog_v1_destroy(wind->xdg_dialog_v1);
-        wind->xdg_dialog_v1 = NULL;
+        wind->xdg_dialog_v1 = ಖಾಲಿ;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (wind->shell_surface.libdecor.frame) {
-            libdecor_frame_unref(wind->shell_surface.libdecor.frame);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            libdecor_ಚೌಕಟ್ಟು_unref(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
 
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, NULL);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, NULL);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_SURFACE_ಸೂಚಕ, ಖಾಲಿ);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_TOPLEVEL_ಸೂಚಕ, ಖಾಲಿ);
         }
-    } else
-#endif
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
     {
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-            Wayland_ReleasePopup(_this, window);
-        } else if (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+            Wayland_ReleasePopup(_this, ಕಿಟಕಿ);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
             xdg_toplevel_destroy(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_TOPLEVEL_POINTER, NULL);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_TOPLEVEL_ಸೂಚಕ, ಖಾಲಿ);
         }
 
-        if (wind->shell_surface.xdg.surface) {
+        ಆದರೆ (wind->shell_surface.xdg.surface) {
             xdg_surface_destroy(wind->shell_surface.xdg.surface);
-            SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_XDG_SURFACE_POINTER, NULL);
+            SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_XDG_SURFACE_ಸೂಚಕ, ಖಾಲಿ);
         }
     }
 
     // Attach a null buffer to unmap the surface.
-    if (wind->mask.surface) {
-        wl_surface_attach(wind->mask.surface, NULL, 0, 0);
-        wl_surface_commit(wind->mask.surface);
+    ಆದರೆ (wind->ಮುಖವಾಡ.surface) {
+        wl_surface_attach(wind->ಮುಖವಾಡ.surface, ಖಾಲಿ, 0, 0);
+        wl_surface_commit(wind->ಮುಖವಾಡ.surface);
     }
-    wl_surface_attach(wind->surface, NULL, 0, 0);
+    wl_surface_attach(wind->surface, ಖಾಲಿ, 0, 0);
     wl_surface_commit(wind->surface);
 
     // Need to destroy the session object after unmapping the window, or the state may not be saved.
@@ -2707,26 +2707,26 @@ void Wayland_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
     SDL_zero(wind->shell_surface);
     SDL_zero(wind->explicit_geometry);
     wind->show_hide_sync_required = true;
-    struct wl_callback *cb = wl_display_sync(_this->internal->display);
-    wl_callback_add_listener(cb, &show_hide_sync_listener, (void *)((uintptr_t)window->id));
+    ರಚನೆ wl_callback *cb = wl_display_sync(_this->ಆಂತರಿಕ->display);
+    wl_callback_ಕೂಡಿಸು_listener(cb, &show_hide_sync_listener, (ಶೂನ್ಯ *)((uintptr_t)ಕಿಟಕಿ->id));
 }
 
-static void handle_xdg_activation_done(void *data,
-                                       struct xdg_activation_token_v1 *xdg_activation_token_v1,
-                                       const char *token)
+ಸ್ಥಿರ ಶೂನ್ಯ handle_xdg_activation_ಮುಗಿದ(ಶೂನ್ಯ *ದತ್ತಾಂಶ,
+                                       ರಚನೆ xdg_activation_token_v1 *xdg_activation_token_v1,
+                                       ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *token)
 {
-    SDL_WindowData *window = data;
-    if (xdg_activation_token_v1 == window->activation_token) {
-        xdg_activation_v1_activate(window->waylandData->activation_manager,
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ = ದತ್ತಾಂಶ;
+    ಆದರೆ (xdg_activation_token_v1 == ಕಿಟಕಿ->activation_token) {
+        xdg_activation_v1_activate(ಕಿಟಕಿ->wayland_ದತ್ತಾಂಶ->activation_manager,
                                    token,
-                                   window->surface);
-        xdg_activation_token_v1_destroy(window->activation_token);
-        window->activation_token = NULL;
+                                   ಕಿಟಕಿ->surface);
+        xdg_activation_token_v1_destroy(ಕಿಟಕಿ->activation_token);
+        ಕಿಟಕಿ->activation_token = ಖಾಲಿ;
     }
 }
 
-static const struct xdg_activation_token_v1_listener xdg_activation_listener = {
-    handle_xdg_activation_done
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ xdg_activation_token_v1_listener xdg_activation_listener = {
+    handle_xdg_activation_ಮುಗಿದ
 };
 
 /* The xdg-activation protocol considers "activation" to be one of two things:
@@ -2749,30 +2749,30 @@ static const struct xdg_activation_token_v1_listener xdg_activation_listener = {
  *
  * -flibit
  */
-static void Wayland_activate_window(SDL_VideoData *data, SDL_WindowData *target_wind, bool set_serial)
+ಸ್ಥಿರ ಶೂನ್ಯ Wayland_activate_ಕಿಟಕಿ(SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಗುರಿ_wind, bool ಗಣ_serial)
 {
-    SDL_WaylandSeat *seat = data->last_implicit_grab_seat;
-    SDL_WindowData *focus = NULL;
+    SDL_WaylandSeat *seat = ದತ್ತಾಂಶ->ಕೊನೆಯ_implicit_grab_seat;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *focus = ಖಾಲಿ;
 
-    if (seat) {
+    ಆದರೆ (seat) {
         focus = seat->keyboard.focus;
-        if (!focus) {
-            focus = seat->pointer.focus;
+        ಆದರೆ (!focus) {
+            focus = seat->ಸೂಚಕ_2.focus;
         }
     }
 
-    struct wl_surface *requesting_surface = focus ? focus->surface : NULL;
+    ರಚನೆ wl_surface *requesting_surface = focus ? focus->surface : ಖಾಲಿ;
 
-    if (data->activation_manager) {
-        if (target_wind->activation_token) {
+    ಆದರೆ (ದತ್ತಾಂಶ->activation_manager) {
+        ಆದರೆ (ಗುರಿ_wind->activation_token) {
             // We're about to overwrite this with a new request
-            xdg_activation_token_v1_destroy(target_wind->activation_token);
+            xdg_activation_token_v1_destroy(ಗುರಿ_wind->activation_token);
         }
 
-        target_wind->activation_token = xdg_activation_v1_get_activation_token(data->activation_manager);
-        xdg_activation_token_v1_add_listener(target_wind->activation_token,
+        ಗುರಿ_wind->activation_token = xdg_activation_v1_get_activation_token(ದತ್ತಾಂಶ->activation_manager);
+        xdg_activation_token_v1_ಕೂಡಿಸು_listener(ಗುರಿ_wind->activation_token,
                                              &xdg_activation_listener,
-                                             target_wind);
+                                             ಗುರಿ_wind);
 
         /* Note that we are not setting the app_id here.
          *
@@ -2781,93 +2781,93 @@ static void Wayland_activate_window(SDL_VideoData *data, SDL_WindowData *target_
          *
          * -flibit
          */
-        if (requesting_surface) {
+        ಆದರೆ (requesting_surface) {
             // This specifies the surface from which the activation request is originating, not the activation target surface.
-            xdg_activation_token_v1_set_surface(target_wind->activation_token, requesting_surface);
+            xdg_activation_token_v1_ಗಣ_surface(ಗುರಿ_wind->activation_token, requesting_surface);
         }
-        if (set_serial && seat && seat->wl_seat) {
-            xdg_activation_token_v1_set_serial(target_wind->activation_token, seat->last_implicit_grab_serial, seat->wl_seat);
+        ಆದರೆ (ಗಣ_serial && seat && seat->wl_seat) {
+            xdg_activation_token_v1_ಗಣ_serial(ಗುರಿ_wind->activation_token, seat->ಕೊನೆಯ_implicit_grab_serial, seat->wl_seat);
         }
-        xdg_activation_token_v1_commit(target_wind->activation_token);
+        xdg_activation_token_v1_commit(ಗುರಿ_wind->activation_token);
     }
 }
 
-void Wayland_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_Raise_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_WindowData *wind = window->internal;
+    SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (viddata->activation_manager) {
+    ಆದರೆ (viddata->activation_manager) {
         /* Check for an activation token, in case the window is being
          * raised in response to a system notification.
          *
          * Note that we don't check for empty strings, as that is still
          * considered a valid activation token!
          */
-        const char *activation_token = SDL_GetNotificationActivationToken();
-        if (activation_token) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *activation_token = SDL_GetNotificationActivationToken();
+        ಆದರೆ (activation_token) {
             xdg_activation_v1_activate(viddata->activation_manager,
                                        activation_token,
                                        wind->surface);
-            return;
+            ಹಿಂತಿರುಗಿ;
         }
     }
 
     // No token? Try to activate the window via an event serial.
-    Wayland_activate_window(_this->internal, window->internal, true);
+    Wayland_activate_ಕಿಟಕಿ(_this->ಆಂತರಿಕ, ಕಿಟಕಿ->ಆಂತರಿಕ, true);
 }
 
-bool Wayland_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation)
+bool Wayland_Flash_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_FlashOperation operation)
 {
     /* Not setting the serial will specify 'urgency' without switching focus as per
      * https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/9#note_854977
      */
-    Wayland_activate_window(_this->internal, window->internal, false);
-    return true;
+    Wayland_activate_ಕಿಟಕಿ(_this->ಆಂತರಿಕ, ಕಿಟಕಿ->ಆಂತರಿಕ, false);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window,
+SDL_Fullscreen_ಫಲಿತಾಂಶ Wayland_ಗಣ_ಕಿಟಕಿ_Fullscreen(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
                                  SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *wind = window->internal;
-    struct wl_output *output = display->internal->output;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ರಚನೆ wl_output *output = display->ಆಂತರಿಕ->output;
 
     // Custom surfaces have no toplevel to make fullscreen.
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
-        return SDL_FULLSCREEN_FAILED;
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+        ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_FAILED;
     }
 
     // Drop fullscreen leave requests when showing the window.
-    if (wind->showing_window && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    ಆದರೆ (wind->showing_ಕಿಟಕಿ && fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+        ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (wind->show_hide_sync_required) {
-        WAYLAND_wl_display_roundtrip(_this->internal->display);
+    ಆದರೆ (wind->show_hide_sync_required) {
+        WAYLAND_wl_display_roundtrip(_this->ಆಂತರಿಕ->display);
     }
 
     // Flushing old events pending a new one, ignore this request.
-    if (wind->drop_fullscreen_requests) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    ಆದರೆ (wind->drop_fullscreen_ವಿನಂತಿಗಳು) {
+        ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    wind->drop_fullscreen_requests = true;
-    FlushPendingEvents(window);
-    wind->drop_fullscreen_requests = false;
+    wind->drop_fullscreen_ವಿನಂತಿಗಳು = true;
+    FlushPendingEvents(ಕಿಟಕಿ);
+    wind->drop_fullscreen_ವಿನಂತಿಗಳು = false;
 
     // Nothing to do if the window is not fullscreen, and this isn't an explicit enter request.
-    if (!wind->is_fullscreen) {
-        if (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
+    ಆದರೆ (!wind->is_fullscreen) {
+        ಆದರೆ (fullscreen == SDL_FULLSCREEN_OP_UPDATE) {
             // Request was out of date; signal the video core not to update any state.
-            return SDL_FULLSCREEN_PENDING;
-        } else if (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
+            ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_PENDING;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (fullscreen == SDL_FULLSCREEN_OP_LEAVE) {
             // Already not fullscreen; nothing to do.
-            return SDL_FULLSCREEN_SUCCEEDED;
+            ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_SUCCEEDED;
         }
     }
 
     // Don't send redundant fullscreen set/unset events.
-    if (!!fullscreen != wind->is_fullscreen) {
+    ಆದರೆ (!!fullscreen != wind->is_fullscreen) {
         wind->fullscreen_was_positioned = !!fullscreen;
 
         /* Only use the specified output if an exclusive mode is being used, or a position was explicitly requested
@@ -2875,19 +2875,19 @@ SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * information about where the window is and where it should go, particularly if fullscreen is being requested
          * before the window is mapped, or the window spans multiple outputs.
          */
-        if (!window->fullscreen_exclusive) {
-            if (window->undefined_x || window->undefined_y ||
-                (wind->num_outputs && !window->last_position_pending)) {
-                output = NULL;
+        ಆದರೆ (!ಕಿಟಕಿ->fullscreen_exclusive) {
+            ಆದರೆ (ಕಿಟಕಿ->undefined_x || ಕಿಟಕಿ->undefined_y ||
+                (wind->ಅಂಕೆ_outputs && !ಕಿಟಕಿ->ಕೊನೆಯ_position_pending)) {
+                output = ಖಾಲಿ;
             }
         }
 
         // Commit to set any pending size or limit data.
-        if (fullscreen && wind->pending_state_commit) {
+        ಆದರೆ (fullscreen && wind->pending_state_commit) {
             wl_surface_commit(wind->surface);
         }
-        SetFullscreen(window, output, !!fullscreen);
-    } else if (wind->is_fullscreen) {
+        ಗಣ_Fullscreen(ಕಿಟಕಿ, output, !!fullscreen);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (wind->is_fullscreen) {
         /*
          * If the window is already fullscreen, this is likely a request to switch between
          * fullscreen and fullscreen desktop, change outputs, or change the video mode.
@@ -2895,160 +2895,160 @@ SDL_FullscreenResult Wayland_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Win
          * If the window is already positioned on the target output, just update the
          * window geometry.
          */
-        if (wind->last_displayID != display->id) {
+        ಆದರೆ (wind->ಕೊನೆಯ_display_ID != display->id) {
             wind->fullscreen_was_positioned = true;
-            SetFullscreen(window, output, true);
-        } else {
-            ConfigureWindowGeometry(window);
-            CommitLibdecorFrame(window);
+            ಗಣ_Fullscreen(ಕಿಟಕಿ, output, true);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            Configure_ಕಿಟಕಿ_Geometry(ಕಿಟಕಿ);
+            Commit_Libdecor_ಚೌಕಟ್ಟು(ಕಿಟಕಿ);
 
-            return SDL_FULLSCREEN_SUCCEEDED;
+            ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_SUCCEEDED;
         }
     }
 
-    return SDL_FULLSCREEN_PENDING;
+    ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_PENDING;
 }
 
-void Wayland_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_Restore_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     // Drop restore requests when showing the window.
-    if (wind->showing_window) {
-        return;
+    ಆದರೆ (wind->showing_ಕಿಟಕಿ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     // Not currently fullscreen or maximized, and no state pending; nothing to do.
-    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED)) &&
-        !wind->pending_state_deadline_count) {
-        return;
+    ಆದರೆ (!(ಕಿಟಕಿ->flags & (SDL_ಕಿಟಕಿ_FULLSCREEN | SDL_ಕಿಟಕಿ_MAXIMIZED)) &&
+        !wind->pending_state_deadline_ಎಣಿಕೆ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (!wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
-        libdecor_frame_unset_maximized(wind->shell_surface.libdecor.frame);
-        AddPendingStateSync(wind);
-    } else
-#endif
+        libdecor_ಚೌಕಟ್ಟು_unset_maximized(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+        ಕೂಡಿಸು_Pending_State_Sync(wind);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
         // Note that xdg-shell does NOT provide a way to unset minimize!
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-            if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-                return; // Can't do anything yet, wait for ShowWindow
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+            ಆದರೆ (wind->shell_surface.xdg.toplevel.xdg_toplevel == ಖಾಲಿ) {
+                ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
             }
             xdg_toplevel_unset_maximized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-            AddPendingStateSync(wind);
+            ಕೂಡಿಸು_Pending_State_Sync(wind);
         }
 }
 
-void Wayland_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
+ಶೂನ್ಯ Wayland_ಗಣ_ಕಿಟಕಿ_Bordered(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool bordered)
 {
-    SDL_WindowData *wind = window->internal;
-    const SDL_VideoData *viddata = (const SDL_VideoData *)_this->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *viddata = (ಸ್ಥಿರಾಂಕ SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (wind->shell_surface.libdecor.frame) {
-            libdecor_frame_set_visibility(wind->shell_surface.libdecor.frame, bordered);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            libdecor_ಚೌಕಟ್ಟು_ಗಣ_visibility(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, bordered);
         }
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if ((viddata->decoration_manager) && (wind->server_decoration)) {
-            const enum zxdg_toplevel_decoration_v1_mode mode = bordered ? ZXDG_TOPLEVEL_DECORATION_V1_MODE_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_MODE_CLIENT_SIDE;
-            zxdg_toplevel_decoration_v1_set_mode(wind->server_decoration, mode);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಆದರೆ ((viddata->decoration_manager) && (wind->server_decoration)) {
+            ಸ್ಥಿರಾಂಕ ಎಣಿಕೆ zxdg_toplevel_decoration_v1_ಬಹುಲಕ ಬಹುಲಕ = bordered ? ZXDG_TOPLEVEL_DECORATION_V1_ಬಹುಲಕ_SERVER_SIDE : ZXDG_TOPLEVEL_DECORATION_V1_ಬಹುಲಕ_CLIENT_SIDE;
+            zxdg_toplevel_decoration_v1_ಗಣ_ಬಹುಲಕ(wind->server_decoration, ಬಹುಲಕ);
         }
     }
 }
 
-void Wayland_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+ಶೂನ್ಯ Wayland_ಗಣ_ಕಿಟಕಿ_Resizable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool resizable)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     /* When changing the resize capability on libdecor windows, the limits must always
      * be reapplied, as when libdecor changes states, it overwrites the values internally.
      */
-    SetMinMaxDimensions(window);
-    CommitLibdecorFrame(window);
+    ಗಣ_Min_Max_Dimensions(ಕಿಟಕಿ);
+    Commit_Libdecor_ಚೌಕಟ್ಟು(ಕಿಟಕಿ);
 
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN) {
         wind->pending_state_commit = true;
     }
 }
 
-void Wayland_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_Maximize_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (wind->show_hide_sync_required) {
-        WAYLAND_wl_display_roundtrip(_this->internal->display);
+    ಆದರೆ (wind->show_hide_sync_required) {
+        WAYLAND_wl_display_roundtrip(_this->ಆಂತರಿಕ->display);
     }
 
     // Not fullscreen, already maximized, and no state pending; nothing to do.
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) && (window->flags & SDL_WINDOW_MAXIMIZED) &&
-        !wind->pending_state_deadline_count) {
-        return;
+    ಆದರೆ (!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN) && (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MAXIMIZED) &&
+        !wind->pending_state_deadline_ಎಣಿಕೆ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (!wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
 
         // Commit to set any pending size or limit data.
-        if (wind->pending_state_commit) {
+        ಆದರೆ (wind->pending_state_commit) {
             wl_surface_commit(wind->surface);
         }
-        libdecor_frame_set_maximized(wind->shell_surface.libdecor.frame);
-        AddPendingStateSync(wind);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-            return; // Can't do anything yet, wait for ShowWindow
+        libdecor_ಚೌಕಟ್ಟು_ಗಣ_maximized(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+        ಕೂಡಿಸು_Pending_State_Sync(wind);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಆದರೆ (wind->shell_surface.xdg.toplevel.xdg_toplevel == ಖಾಲಿ) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
 
         // Commit to set any pending size or limit data.
-        if (wind->pending_state_commit) {
+        ಆದರೆ (wind->pending_state_commit) {
             wl_surface_commit(wind->surface);
         }
-        xdg_toplevel_set_maximized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-        AddPendingStateSync(wind);
+        xdg_toplevel_ಗಣ_maximized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
+        ಕೂಡಿಸು_Pending_State_Sync(wind);
     }
 }
 
-void Wayland_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_Minimize_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (!(wind->wm_caps & WAYLAND_WM_CAPS_MINIMIZE)) {
-        return;
+    ಆದರೆ (!(wind->wm_caps & WAYLAND_WM_CAPS_MINIMIZE)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (!wind->shell_surface.libdecor.frame) {
-            return; // Can't do anything yet, wait for ShowWindow
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (!wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
-        libdecor_frame_set_minimized(wind->shell_surface.libdecor.frame);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel == NULL) {
-            return; // Can't do anything yet, wait for ShowWindow
+        libdecor_ಚೌಕಟ್ಟು_ಗಣ_minimized(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MINIMIZED, 0, 0);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಆದರೆ (wind->shell_surface.xdg.toplevel.xdg_toplevel == ಖಾಲಿ) {
+            ಹಿಂತಿರುಗಿ; // Can't do anything yet, wait for ShowWindow
         }
-        xdg_toplevel_set_minimized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
+        xdg_toplevel_ಗಣ_minimized(wind->shell_surface.xdg.toplevel.xdg_toplevel);
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MINIMIZED, 0, 0);
     }
 }
 
-bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Mouse_Rect(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
     /* This may look suspiciously like SetWindowGrab, despite SetMouseRect not
      * implicitly doing a grab. And you're right! Wayland doesn't let us mess
@@ -3058,349 +3058,349 @@ bool Wayland_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
      * Just know that this call lets you confine with a rect, SetWindowGrab
      * lets you confine without a rect.
      */
-    if (!data->pointer_constraints) {
-        return SDL_SetError("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
+    ಆದರೆ (!ದತ್ತಾಂಶ->ಸೂಚಕ_constraints) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
     }
-    Wayland_DisplayUpdatePointerGrabs(data, window->internal);
-    return true;
+    Wayland_Display_Update_ಸೂಚಕ_Grabs(ದತ್ತಾಂಶ, ಕಿಟಕಿ->ಆಂತರಿಕ);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Wayland_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Mouse_Grab(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool grabbed)
 {
-    SDL_VideoData *data = _this->internal;
-    if (!data->pointer_constraints) {
-        return SDL_SetError("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    ಆದರೆ (!ದತ್ತಾಂಶ->ಸೂಚಕ_constraints) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to grab mouse: compositor lacks support for the required zwp_pointer_constraints_v1 protocol");
     }
-    Wayland_DisplayUpdatePointerGrabs(data, window->internal);
-    return true;
+    Wayland_Display_Update_ಸೂಚಕ_Grabs(ದತ್ತಾಂಶ, ಕಿಟಕಿ->ಆಂತರಿಕ);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Wayland_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool grabbed)
 {
-    SDL_VideoData *data = _this->internal;
-    if (!data->key_inhibitor_manager) {
-        return SDL_SetError("Failed to grab keyboard: compositor lacks support for the required zwp_keyboard_shortcuts_inhibit_manager_v1 protocol");
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    ಆದರೆ (!ದತ್ತಾಂಶ->ಕೀಲಿ_inhibitor_manager) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to grab keyboard: compositor lacks support for the required zwp_keyboard_shortcuts_inhibit_manager_v1 protocol");
     }
-    Wayland_DisplayUpdateKeyboardGrabs(data, window->internal);
-    return true;
+    Wayland_DisplayUpdateKeyboardGrabs(ದತ್ತಾಂಶ, ಕಿಟಕಿ->ಆಂತರಿಕ);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Wayland_ReconfigureWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_WindowFlags flags)
+bool Wayland_Reconfigure_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_ಕಿಟಕಿ_Flags flags)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     // Don't try to reconfigure mapped windows, unless they are custom or external.
-    if (data->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN &&
-        data->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN &&
+        ದತ್ತಾಂಶ->shell_surface_type != WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
         // Window is already mapped; abort.
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
     /* The caller guarantees that only one of the GL or Vulkan flags will be set.
      * Note that Vulkan doesn't require any specific configuration, so only EGL
      * objects are added and removed as required.
      */
-    if (flags & SDL_WINDOW_OPENGL) {
-        if (!data->egl_window) {
-            data->egl_window = WAYLAND_wl_egl_window_create(data->surface, data->current.pixel_width, data->current.pixel_height);
+    ಆದರೆ (flags & SDL_ಕಿಟಕಿ_OPENGL) {
+        ಆದರೆ (!ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ) {
+            ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ = WAYLAND_wl_egl_ಕಿಟಕಿ_create(ದತ್ತಾಂಶ->surface, ದತ್ತಾಂಶ->current.pixel_ಅಗಲ, ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ);
         }
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->egl_window);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+        ದತ್ತಾಂಶ->egl_surface = SDL_EGL_CreateSurface(_this, ಕಿಟಕಿ, (Native_ಕಿಟಕಿ_Type)ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return false; // SDL_EGL_CreateSurface should have set the error.
+        ಆದರೆ (ದತ್ತಾಂಶ->egl_surface == EGL_NO_SURFACE) {
+            ಹಿಂತಿರುಗಿ false; // SDL_EGL_CreateSurface should have set the error.
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-        if (!data->gles_swap_frame_event_queue) {
-            data->gles_swap_frame_event_queue = WAYLAND_wl_display_create_queue(data->waylandData->display);
-            data->gles_swap_frame_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(data->surface);
-            WAYLAND_wl_proxy_set_queue((struct wl_proxy *)data->gles_swap_frame_surface_wrapper, data->gles_swap_frame_event_queue);
-            data->gles_swap_frame_callback = wl_surface_frame(data->gles_swap_frame_surface_wrapper);
-            wl_callback_add_listener(data->gles_swap_frame_callback, &gles_swap_frame_listener, data);
+        ಆದರೆ (!ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ) {
+            ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ = WAYLAND_wl_display_create_ಸರತಿ(ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->display);
+            ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(ದತ್ತಾಂಶ->surface);
+            WAYLAND_wl_proxy_ಗಣ_ಸರತಿ((ರಚನೆ wl_proxy *)ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper, ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ);
+            ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback = wl_surface_ಚೌಕಟ್ಟು(ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper);
+            wl_callback_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback, &gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_listener, ದತ್ತಾಂಶ);
         }
-    } else {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface) {
-            SDL_EGL_DestroySurface(_this, data->egl_surface);
-            data->egl_surface = EGL_NO_SURFACE;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+        ಆದರೆ (ದತ್ತಾಂಶ->egl_surface) {
+            SDL_EGL_DestroySurface(_this, ದತ್ತಾಂಶ->egl_surface);
+            ದತ್ತಾಂಶ->egl_surface = EGL_NO_SURFACE;
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-        if (data->egl_window) {
-            WAYLAND_wl_egl_window_destroy(data->egl_window);
-            data->egl_window = NULL;
-        }
-
-        if (data->gles_swap_frame_callback) {
-            wl_callback_destroy(data->gles_swap_frame_callback);
-            data->gles_swap_frame_callback = NULL;
+        ಆದರೆ (ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ) {
+            WAYLAND_wl_egl_ಕಿಟಕಿ_destroy(ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ);
+            ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ = ಖಾಲಿ;
         }
 
-        if (data->gles_swap_frame_surface_wrapper) {
-            WAYLAND_wl_proxy_wrapper_destroy(data->gles_swap_frame_surface_wrapper);
-            data->gles_swap_frame_surface_wrapper = NULL;
+        ಆದರೆ (ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback) {
+            wl_callback_destroy(ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback);
+            ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback = ಖಾಲಿ;
         }
 
-        if (data->gles_swap_frame_event_queue) {
-            WAYLAND_wl_event_queue_destroy(data->gles_swap_frame_event_queue);
-            data->gles_swap_frame_event_queue = NULL;
+        ಆದರೆ (ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper) {
+            WAYLAND_wl_proxy_wrapper_destroy(ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper);
+            ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper = ಖಾಲಿ;
+        }
+
+        ಆದರೆ (ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ) {
+            WAYLAND_wl_event_ಸರತಿ_destroy(ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ);
+            ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ = ಖಾಲಿ;
         }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Wayland_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool Wayland_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
-    SDL_VideoData *c = _this->internal;
-    struct wl_surface *external_surface = (struct wl_surface *)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_WL_SURFACE_POINTER,
-                                                                               (struct wl_surface *)SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
-    const bool custom_surface_role = (external_surface != NULL) || SDL_GetBooleanProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN, false);
-    const bool create_egl_window = !!(window->flags & SDL_WINDOW_OPENGL) ||
-                                       SDL_GetBooleanProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_CREATE_EGL_WINDOW_BOOLEAN, false);
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
+    SDL_Video_ದತ್ತಾಂಶ *c = _this->ಆಂತರಿಕ;
+    ರಚನೆ wl_surface *external_surface = (ರಚನೆ wl_surface *)SDL_Get_ಸೂಚಕ_Property(create_props, SDL_PROP_ಕಿಟಕಿ_CREATE_WAYLAND_WL_SURFACE_ಸೂಚಕ,
+                                                                               (ರಚನೆ wl_surface *)SDL_Get_ಸೂಚಕ_Property(create_props, "sdl2-compat.external_window", ಖಾಲಿ));
+    ಸ್ಥಿರಾಂಕ bool custom_surface_role = (external_surface != ಖಾಲಿ) || SDL_GetBooleanProperty(create_props, SDL_PROP_ಕಿಟಕಿ_CREATE_WAYLAND_SURFACE_ROLE_CUSTOM_BOOLEAN, false);
+    ಸ್ಥಿರಾಂಕ bool create_egl_ಕಿಟಕಿ = !!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_OPENGL) ||
+                                       SDL_GetBooleanProperty(create_props, SDL_PROP_ಕಿಟಕಿ_CREATE_WAYLAND_CREATE_EGL_ಕಿಟಕಿ_BOOLEAN, false);
 
-    data = SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    ದತ್ತಾಂಶ = SDL_calloc(1, ಗಾತ್ರ(*ದತ್ತಾಂಶ));
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    window->internal = data;
-    data->enable_insets = SDL_GetBooleanProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_ENABLE_INSETS_BOOLEAN, false);
+    ಕಿಟಕಿ->ಆಂತರಿಕ = ದತ್ತಾಂಶ;
+    ದತ್ತಾಂಶ->enable_insets = SDL_GetBooleanProperty(create_props, SDL_PROP_ಕಿಟಕಿ_CREATE_WAYLAND_ENABLE_INSETS_BOOLEAN, false);
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
-        window->x = 0;
+    ಆದರೆ (ಕಿಟಕಿ->x == SDL_WINDOWPOS_UNDEFINED) {
+        ಕಿಟಕಿ->x = 0;
     }
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
-        window->y = 0;
+    ಆದರೆ (ಕಿಟಕಿ->y == SDL_WINDOWPOS_UNDEFINED) {
+        ಕಿಟಕಿ->y = 0;
     }
 
-    data->waylandData = c;
-    data->sdlwindow = window;
+    ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ = c;
+    ದತ್ತಾಂಶ->sdlwindow = ಕಿಟಕಿ;
 
     // Default to all capabilities
-    data->wm_caps = WAYLAND_WM_CAPS_ALL;
+    ದತ್ತಾಂಶ->wm_caps = WAYLAND_WM_CAPS_ALL;
 
-    data->scale_factor = 1.0;
+    ದತ್ತಾಂಶ->scale_ಗುಣಕ_2 = 1.0;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        data->scale_to_display = window->parent->internal->scale_to_display;
-        data->scale_factor = window->parent->internal->scale_factor;
-        EnsurePopupPositionIsValid(window, &window->x, &window->y);
-    } else {
-        for (int i = 0; i < _this->num_displays; i++) {
-            data->scale_factor = SDL_max(data->scale_factor, _this->displays[i]->internal->scale_factor);
+    ಆದರೆ (SDL_ಕಿಟಕಿ_IS_POPUP(ಕಿಟಕಿ)) {
+        ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display = ಕಿಟಕಿ->ಪೋಷಕ->ಆಂತರಿಕ->scale_ಗಮ್ಯ_display;
+        ದತ್ತಾಂಶ->scale_ಗುಣಕ_2 = ಕಿಟಕಿ->ಪೋಷಕ->ಆಂತರಿಕ->scale_ಗುಣಕ_2;
+        EnsurePopupPositionIsValid(ಕಿಟಕಿ, &ಕಿಟಕಿ->x, &ಕಿಟಕಿ->y);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < _this->ಅಂಕೆ_displays; i++) {
+            ದತ್ತಾಂಶ->scale_ಗುಣಕ_2 = SDL_max(ದತ್ತಾಂಶ->scale_ಗುಣಕ_2, _this->displays[i]->ಆಂತರಿಕ->scale_ಗುಣಕ_2);
         }
     }
 
-    data->outputs = NULL;
-    data->num_outputs = 0;
-    data->scale_to_display = c->scale_to_display_enabled;
+    ದತ್ತಾಂಶ->outputs = ಖಾಲಿ;
+    ದತ್ತಾಂಶ->ಅಂಕೆ_outputs = 0;
+    ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display = c->scale_ಗಮ್ಯ_display_enabled;
 
     // Cache the app_id at creation time, as it may change before the window is mapped.
-    data->app_id = SDL_strdup(SDL_GetAppID());
+    ದತ್ತಾಂಶ->app_id = SDL_strdup(SDL_GetAppID());
 
-    if (!data->scale_to_display) {
-        data->requested.logical_width = window->floating.w;
-        data->requested.logical_height = window->floating.h;
-    } else {
-        data->requested.logical_width = PixelToPoint(window, window->floating.w);
-        data->requested.logical_height = PixelToPoint(window, window->floating.h);
-        data->requested.pixel_width = window->floating.w;
-        data->requested.pixel_height = window->floating.h;
+    ಆದರೆ (!ದತ್ತಾಂಶ->scale_ಗಮ್ಯ_display) {
+        ದತ್ತಾಂಶ->requested.logical_ಅಗಲ = ಕಿಟಕಿ->floating.w;
+        ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ದತ್ತಾಂಶ->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->floating.w);
+        ದತ್ತಾಂಶ->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->floating.h);
+        ದತ್ತಾಂಶ->requested.pixel_ಅಗಲ = ಕಿಟಕಿ->floating.w;
+        ದತ್ತಾಂಶ->requested.pixel_ಎತ್ತರ = ಕಿಟಕಿ->floating.h;
     }
 
-    if (!external_surface) {
-        data->surface = wl_compositor_create_surface(c->compositor);
-        wl_surface_add_listener(data->surface, &surface_listener, data);
-        wl_surface_set_user_data(data->surface, data);
-        SDL_WAYLAND_register_surface(data->surface);
-    } else {
-        window->flags |= SDL_WINDOW_EXTERNAL;
-        data->surface = external_surface;
+    ಆದರೆ (!external_surface) {
+        ದತ್ತಾಂಶ->surface = wl_compositor_create_surface(c->compositor);
+        wl_surface_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->surface, &surface_listener, ದತ್ತಾಂಶ);
+        wl_surface_ಗಣ_user_ದತ್ತಾಂಶ(ದತ್ತಾಂಶ->surface, ದತ್ತಾಂಶ);
+        SDL_WAYLAND_ರಿಜಿಸ್ಟರ್_surface(ದತ್ತಾಂಶ->surface);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಕಿಟಕಿ->flags |= SDL_ಕಿಟಕಿ_EXTERNAL;
+        ದತ್ತಾಂಶ->surface = external_surface;
 
         /* External surfaces are registered by being put in a list, as changing tags or userdata
          * can cause problems with external toolkits.
          */
-        Wayland_AddWindowDataToExternalList(data);
+        Wayland_ಕೂಡಿಸು_ಕಿಟಕಿ_ದತ್ತಾಂಶ_ಗಮ್ಯ_External_List(ದತ್ತಾಂಶ);
     }
 
     /* Always attach a viewport and fractional scale manager if available and the surface is not custom/external,
      * or the custom/external surface was explicitly flagged as high pixel density aware, which signals that the
      * application wants SDL to handle scaling.
      */
-    if (!custom_surface_role || (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY)) {
-        if (c->viewporter) {
-            data->viewport = wp_viewporter_get_viewport(c->viewporter, data->surface);
+    ಆದರೆ (!custom_surface_role || (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY)) {
+        ಆದರೆ (c->viewporter) {
+            ದತ್ತಾಂಶ->viewport = wp_viewporter_get_viewport(c->viewporter, ದತ್ತಾಂಶ->surface);
 
             // The viewport always uses the entire buffer.
-            wp_viewport_set_source(data->viewport,
+            wp_viewport_ಗಣ_ಮೂಲ(ದತ್ತಾಂಶ->viewport,
                                    wl_fixed_from_int(-1), wl_fixed_from_int(-1),
                                    wl_fixed_from_int(-1), wl_fixed_from_int(-1));
         }
-        if (c->fractional_scale_manager) {
-            data->fractional_scale = wp_fractional_scale_manager_v1_get_fractional_scale(c->fractional_scale_manager, data->surface);
-            wp_fractional_scale_v1_add_listener(data->fractional_scale, &fractional_scale_listener, data);
+        ಆದರೆ (c->fractional_scale_manager) {
+            ದತ್ತಾಂಶ->fractional_scale = wp_fractional_scale_manager_v1_get_fractional_scale(c->fractional_scale_manager, ದತ್ತಾಂಶ->surface);
+            wp_fractional_scale_v1_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->fractional_scale, &fractional_scale_listener, ದತ್ತಾಂಶ);
         }
     }
 
-    if (!custom_surface_role) {
-        if (c->wp_color_manager_v1) {
-            data->wp_color_management_surface_feedback = wp_color_manager_v1_get_surface_feedback(c->wp_color_manager_v1, data->surface);
-            wp_color_management_surface_feedback_v1_add_listener(data->wp_color_management_surface_feedback, &color_management_surface_feedback_listener, data);
-            Wayland_GetColorInfoForWindow(data, true);
-        } else if (c->frog_color_management_factory_v1) {
-            data->frog_color_managed_surface = frog_color_management_factory_v1_get_color_managed_surface(c->frog_color_management_factory_v1, data->surface);
-            frog_color_managed_surface_add_listener(data->frog_color_managed_surface, &frog_surface_listener, data);
+    ಆದರೆ (!custom_surface_role) {
+        ಆದರೆ (c->wp_color_manager_v1) {
+            ದತ್ತಾಂಶ->wp_color_management_surface_feedback = wp_color_manager_v1_get_surface_feedback(c->wp_color_manager_v1, ದತ್ತಾಂಶ->surface);
+            wp_color_management_surface_feedback_v1_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->wp_color_management_surface_feedback, &color_management_surface_feedback_listener, ದತ್ತಾಂಶ);
+            Wayland_Get_Color_Info_For_ಕಿಟಕಿ(ದತ್ತಾಂಶ, true);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (c->frog_color_management_factory_v1) {
+            ದತ್ತಾಂಶ->frog_color_managed_surface = frog_color_management_factory_v1_get_color_managed_surface(c->frog_color_management_factory_v1, ದತ್ತಾಂಶ->surface);
+            frog_color_managed_surface_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->frog_color_managed_surface, &frog_surface_listener, ದತ್ತಾಂಶ);
         }
 
-        if (c->wp_alpha_modifier_v1) {
-            data->wp_alpha_modifier_surface_v1 = wp_alpha_modifier_v1_get_surface(c->wp_alpha_modifier_v1, data->surface);
-            wp_alpha_modifier_surface_v1_set_multiplier(data->wp_alpha_modifier_surface_v1, SDL_MAX_UINT32);
+        ಆದರೆ (c->wp_alpha_modifier_v1) {
+            ದತ್ತಾಂಶ->wp_alpha_modifier_surface_v1 = wp_alpha_modifier_v1_get_surface(c->wp_alpha_modifier_v1, ದತ್ತಾಂಶ->surface);
+            wp_alpha_modifier_surface_v1_ಗಣ_multiplier(ದತ್ತಾಂಶ->wp_alpha_modifier_surface_v1, SDL_MAX_UINT32);
         }
     }
 
     // Must be called before EGL configuration to set the drawable backbuffer size.
-    ConfigureWindowGeometry(window);
+    Configure_ಕಿಟಕಿ_Geometry(ಕಿಟಕಿ);
 
     /* Fire a callback when the compositor wants a new frame rendered.
      * Right now this only matters for OpenGL; we use this callback to add a
      * wait timeout that avoids getting deadlocked by the compositor when the
      * window isn't visible.
      */
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        data->gles_swap_frame_event_queue = WAYLAND_wl_display_create_queue(data->waylandData->display);
-        data->gles_swap_frame_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(data->surface);
-        WAYLAND_wl_proxy_set_queue((struct wl_proxy *)data->gles_swap_frame_surface_wrapper, data->gles_swap_frame_event_queue);
-        data->gles_swap_frame_callback = wl_surface_frame(data->gles_swap_frame_surface_wrapper);
-        wl_callback_add_listener(data->gles_swap_frame_callback, &gles_swap_frame_listener, data);
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_OPENGL) {
+        ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ = WAYLAND_wl_display_create_ಸರತಿ(ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->display);
+        ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper = WAYLAND_wl_proxy_create_wrapper(ದತ್ತಾಂಶ->surface);
+        WAYLAND_wl_proxy_ಗಣ_ಸರತಿ((ರಚನೆ wl_proxy *)ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper, ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ);
+        ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback = wl_surface_ಚೌಕಟ್ಟು(ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper);
+        wl_callback_ಕೂಡಿಸು_listener(ದತ್ತಾಂಶ->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback, &gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_listener, ದತ್ತಾಂಶ);
     }
 
-    if (window->flags & SDL_WINDOW_TRANSPARENT) {
-        if (_this->gl_config.alpha_size == 0) {
-            _this->gl_config.alpha_size = 8;
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_TRANSPARENT) {
+        ಆದರೆ (_this->gl_config.alpha_ಗಾತ್ರ == 0) {
+            _this->gl_config.alpha_ಗಾತ್ರ = 8;
         }
     }
 
-    if (create_egl_window) {
-        data->egl_window = WAYLAND_wl_egl_window_create(data->surface, data->current.pixel_width, data->current.pixel_height);
+    ಆದರೆ (create_egl_ಕಿಟಕಿ) {
+        ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ = WAYLAND_wl_egl_ಕಿಟಕಿ_create(ದತ್ತಾಂಶ->surface, ದತ್ತಾಂಶ->current.pixel_ಅಗಲ, ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ);
     }
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_OPENGL) {
         // Create the GLES window surface
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->egl_window);
+        ದತ್ತಾಂಶ->egl_surface = SDL_EGL_CreateSurface(_this, ಕಿಟಕಿ, (Native_ಕಿಟಕಿ_Type)ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ);
 
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return false; // SDL_EGL_CreateSurface should have set error
+        ಆದರೆ (ದತ್ತಾಂಶ->egl_surface == EGL_NO_SURFACE) {
+            ಹಿಂತಿರುಗಿ false; // SDL_EGL_CreateSurface should have set error
         }
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     // We may need to create an idle inhibitor for this new window
     Wayland_SuspendScreenSaver(_this);
 
-    if (!custom_surface_role) {
-#ifdef HAVE_LIBDECOR_H
-        if (c->shell.libdecor && !SDL_WINDOW_IS_POPUP(window)) {
-            data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
-        } else
-#endif
-            if (c->shell.xdg) {
-            if (SDL_WINDOW_IS_POPUP(window)) {
-                data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP;
-            } else {
-                data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL;
+    ಆದರೆ (!custom_surface_role) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+        ಆದರೆ (c->shell.libdecor && !SDL_ಕಿಟಕಿ_IS_POPUP(ಕಿಟಕಿ)) {
+            ದತ್ತಾಂಶ->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR;
+        } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+            ಆದರೆ (c->shell.xdg) {
+            ಆದರೆ (SDL_ಕಿಟಕಿ_IS_POPUP(ಕಿಟಕಿ)) {
+                ದತ್ತಾಂಶ->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ದತ್ತಾಂಶ->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL;
             }
         } // All other cases will be WAYLAND_SURFACE_UNKNOWN
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Roleless and external surfaces are always considered to be in the shown state by the backend.
-        data->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_CUSTOM;
-        data->shell_surface_status = WAYLAND_SHELL_SURFACE_STATUS_SHOWN;
+        ದತ್ತಾಂಶ->shell_surface_type = WAYLAND_SHELL_SURFACE_TYPE_CUSTOM;
+        ದತ್ತಾಂಶ->shell_surface_ಸ್ಥಿತಿ = WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN;
 
         // External windows are presumed to be shown.
-        if (window->flags & SDL_WINDOW_EXTERNAL) {
-            window->flags &= ~SDL_WINDOW_HIDDEN;
+        ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_EXTERNAL) {
+            ಕಿಟಕಿ->flags &= ~SDL_ಕಿಟಕಿ_HIDDEN;
         }
     }
 
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_BUFFER, false)) {
-        data->double_buffer = true;
+    ಆದರೆ (SDL_GetHintBoolean(SDL_HINT_VIDEO_DOUBLE_ಬಫರ್, false)) {
+        ದತ್ತಾಂಶ->double_ಬಫರ್ = true;
     }
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_DISPLAY_POINTER, data->waylandData->display);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_SURFACE_POINTER, data->surface);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_VIEWPORT_POINTER, data->viewport);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WAYLAND_EGL_WINDOW_POINTER, data->egl_window);
-    if (data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || data->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        const char *window_id = SDL_GetStringProperty(create_props, SDL_PROP_WINDOW_CREATE_WAYLAND_WINDOW_ID_STRING, NULL);
-        if (window_id && *window_id != '\0') {
-            SDL_SetStringProperty(props, SDL_PROP_WINDOW_WAYLAND_WINDOW_ID_STRING, window_id);
+    SDL_PropertiesID props = SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ);
+    SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_DISPLAY_ಸೂಚಕ, ದತ್ತಾಂಶ->wayland_ದತ್ತಾಂಶ->display);
+    SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_SURFACE_ಸೂಚಕ, ದತ್ತಾಂಶ->surface);
+    SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_VIEWPORT_ಸೂಚಕ, ದತ್ತಾಂಶ->viewport);
+    SDL_ಗಣ_ಸೂಚಕ_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_EGL_ಕಿಟಕಿ_ಸೂಚಕ, ದತ್ತಾಂಶ->egl_ಕಿಟಕಿ);
+    ಆದರೆ (ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL || ದತ್ತಾಂಶ->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಕಿಟಕಿ_id = SDL_GetStringProperty(create_props, SDL_PROP_ಕಿಟಕಿ_CREATE_WAYLAND_ಕಿಟಕಿ_ID_STRING, ಖಾಲಿ);
+        ಆದರೆ (ಕಿಟಕಿ_id && *ಕಿಟಕಿ_id != '\0') {
+            SDL_ಗಣ_String_Property(props, SDL_PROP_ಕಿಟಕಿ_WAYLAND_ಕಿಟಕಿ_ID_STRING, ಕಿಟಕಿ_id);
         }
     }
 
-    data->hit_test_result = SDL_HITTEST_NORMAL;
+    ದತ್ತಾಂಶ->ದೊರಕಿತು_test_ಫಲಿತಾಂಶ = SDL_HITTEST_ಸಾಮಾನ್ಯ;
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void Wayland_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_ಗಣ_ಕಿಟಕಿ_Minimum_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     // Will be committed when Wayland_SetWindowSize() is called by the video core.
-    window->internal->limits_changed = true;
+    ಕಿಟಕಿ->ಆಂತರಿಕ->limits_ಬದಲಾಯಿತು = true;
 }
 
-void Wayland_SetWindowMaximumSize(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_ಗಣ_ಕಿಟಕಿ_ಗರಿಷ್ಠ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     // Will be committed when Wayland_SetWindowSize() is called by the video core.
-    window->internal->limits_changed = true;
+    ಕಿಟಕಿ->ಆಂತರಿಕ->limits_ಬದಲಾಯಿತು = true;
 }
 
-void Wayland_SetWindowAspectRatio(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_ಗಣ_ಕಿಟಕಿ_Aspect_ಅನುಪಾತ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     // Will be committed when Wayland_SetWindowSize() is called by the video core.
-    window->internal->limits_changed = true;
+    ಕಿಟಕಿ->ಆಂತರಿಕ->limits_ಬದಲಾಯಿತು = true;
 }
 
-bool Wayland_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Position(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     // Only popup windows can be positioned relative to the parent.
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
-        if (wind->shell_surface.xdg.popup.xdg_popup &&
-            xdg_popup_get_version(wind->shell_surface.xdg.popup.xdg_popup) < XDG_POPUP_REPOSITION_SINCE_VERSION) {
-            return SDL_Unsupported();
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_POPUP) {
+        ಆದರೆ (wind->shell_surface.xdg.popup.xdg_popup &&
+            xdg_popup_get_ಆವೃತ್ತಿ(wind->shell_surface.xdg.popup.xdg_popup) < XDG_POPUP_REPOSITION_SINCE_ಆವೃತ್ತಿ) {
+            ಹಿಂತಿರುಗಿ SDL_Unsupported();
         }
 
-        RepositionPopup(window, false);
-        return true;
-    } else if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR || wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        RepositionPopup(ಕಿಟಕಿ, false);
+        ಹಿಂತಿರುಗಿ true;
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR || wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
         /* Catch up on any pending state before attempting to change the fullscreen window
          * display via a set fullscreen call to make sure the window doesn't have a pending
          * leave fullscreen event that it might override.
          */
-        FlushPendingEvents(window);
+        FlushPendingEvents(ಕಿಟಕಿ);
 
-        if (wind->is_fullscreen) {
-            SDL_VideoDisplay *display = SDL_GetVideoDisplayForFullscreenWindow(window);
-            if (display && wind->last_displayID != display->id) {
-                struct wl_output *output = display->internal->output;
-                SetFullscreen(window, output, true);
+        ಆದರೆ (wind->is_fullscreen) {
+            SDL_VideoDisplay *display = SDL_Get_Video_Display_For_Fullscreen_ಕಿಟಕಿ(ಕಿಟಕಿ);
+            ಆದರೆ (display && wind->ಕೊನೆಯ_display_ID != display->id) {
+                ರಚನೆ wl_output *output = display->ಆಂತರಿಕ->output;
+                ಗಣ_Fullscreen(ಕಿಟಕಿ, output, true);
 
-                return true;
+                ಹಿಂತಿರುಗಿ true;
             }
         }
     }
-    return SDL_SetError("wayland cannot position non-popup windows");
+    ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("wayland cannot position non-popup windows");
 }
 
-void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     /* Flush any pending state operations, as fullscreen windows do not get
      * explicitly resized, not strictly obeying the size of a maximized window
@@ -3410,10 +3410,10 @@ void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
      * Calling this on a custom surface is informative, so the size must
      * always be passed through.
      */
-    FlushPendingEvents(window);
+    FlushPendingEvents(ಕಿಟಕಿ);
 
-    const bool maximized = (window->flags & SDL_WINDOW_MAXIMIZED) != 0;
-    const bool resizable_state = !(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN));
+    ಸ್ಥಿರಾಂಕ bool maximized = (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MAXIMIZED) != 0;
+    ಸ್ಥಿರಾಂಕ bool resizable_state = !(ಕಿಟಕಿ->flags & (SDL_ಕಿಟಕಿ_MAXIMIZED | SDL_ಕಿಟಕಿ_FULLSCREEN));
 
     /* Maximized and fullscreen windows don't get resized, and the new size is ignored
      * if this is just to recalculate the min/max or aspect limits on a tiled window.
@@ -3422,19 +3422,19 @@ void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
      * size is recalculated, but window size itself is left alone, as the spec states that
      * the configure size of a maximized window must be obeyed.
      */
-    if (resizable_state || (window->tiled && !wind->limits_changed) ||
+    ಆದರೆ (resizable_state || (ಕಿಟಕಿ->tiled && !wind->limits_ಬದಲಾಯಿತು) ||
         wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_CUSTOM) {
 
         // Don't change the window size if maximized and tiled.
-        if (!maximized) {
-            if (!wind->scale_to_display) {
-                wind->requested.logical_width = window->pending.w;
-                wind->requested.logical_height = window->pending.h;
-            } else {
-                wind->requested.logical_width = PixelToPoint(window, window->pending.w);
-                wind->requested.logical_height = PixelToPoint(window, window->pending.h);
-                wind->requested.pixel_width = window->pending.w;
-                wind->requested.pixel_height = window->pending.h;
+        ಆದರೆ (!maximized) {
+            ಆದರೆ (!wind->scale_ಗಮ್ಯ_display) {
+                wind->requested.logical_ಅಗಲ = ಕಿಟಕಿ->pending.w;
+                wind->requested.logical_ಎತ್ತರ = ಕಿಟಕಿ->pending.h;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                wind->requested.logical_ಅಗಲ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->pending.w);
+                wind->requested.logical_ಎತ್ತರ = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, ಕಿಟಕಿ->pending.h);
+                wind->requested.pixel_ಅಗಲ = ಕಿಟಕಿ->pending.w;
+                wind->requested.pixel_ಎತ್ತರ = ಕಿಟಕಿ->pending.h;
             }
         }
 
@@ -3444,359 +3444,359 @@ void Wayland_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
          *
          * This shouldn't happen, but apparently it can on at least one compositor...
          */
-        if (window->tiled && !(window->flags & SDL_WINDOW_RESIZABLE)) {
-            window->floating.w = window->pending.w;
-            window->floating.h = window->pending.h;
+        ಆದರೆ (ಕಿಟಕಿ->tiled && !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE)) {
+            ಕಿಟಕಿ->floating.w = ಕಿಟಕಿ->pending.w;
+            ಕಿಟಕಿ->floating.h = ಕಿಟಕಿ->pending.h;
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Can't resize the window.
-        window->last_size_pending = false;
+        ಕಿಟಕಿ->ಕೊನೆಯ_ಗಾತ್ರ_pending = false;
     }
 
-    wind->limits_changed = false;
-    if (wind->shell_surface_status == WAYLAND_SHELL_SURFACE_STATUS_SHOWN) {
+    wind->limits_ಬದಲಾಯಿತು = false;
+    ಆದರೆ (wind->shell_surface_ಸ್ಥಿತಿ == WAYLAND_SHELL_SURFACE_ಸ್ಥಿತಿ_SHOWN) {
         wind->pending_state_commit = true;
     }
 
     // Always recalculate the geometry, as this may be in response to a min/max limit change.
-    ConfigureWindowGeometry(window);
-    CommitLibdecorFrame(window);
+    Configure_ಕಿಟಕಿ_Geometry(ಕಿಟಕಿ);
+    Commit_Libdecor_ಚೌಕಟ್ಟು(ಕಿಟಕಿ);
 }
 
-void Wayland_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+ಶೂನ್ಯ Wayland_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ *w, ಪೂರ್ಣಾಂಕ *h)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    *w = data->current.pixel_width;
-    *h = data->current.pixel_height;
+    *w = ದತ್ತಾಂಶ->current.pixel_ಅಗಲ;
+    *h = ದತ್ತಾಂಶ->current.pixel_ಎತ್ತರ;
 }
 
-float Wayland_GetWindowContentScale(SDL_VideoDevice *_this, SDL_Window *window)
+ದಶಮಾಂಶ Wayland_Get_ಕಿಟಕಿ_Content_Scale(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY || wind->scale_to_display || wind->fullscreen_exclusive) {
-        return (float)wind->scale_factor;
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಮೇಲಿನ_PIXEL_DENSITY || wind->scale_ಗಮ್ಯ_display || wind->fullscreen_exclusive) {
+        ಹಿಂತಿರುಗಿ (ದಶಮಾಂಶ)wind->scale_ಗುಣಕ_2;
     }
 
-    return 1.0f;
+    ಹಿಂತಿರುಗಿ 1.0f;
 }
 
-SDL_DisplayID Wayland_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_DisplayID Wayland_Get_Display_For_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (wind) {
-        return wind->last_displayID;
+    ಆದರೆ (wind) {
+        ಹಿಂತಿರುಗಿ wind->ಕೊನೆಯ_display_ID;
     }
 
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 
-bool Wayland_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Opacity(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ದಶಮಾಂಶ opacity)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (wind->wp_alpha_modifier_surface_v1) {
-        const bool is_opaque = !(window->flags & SDL_WINDOW_TRANSPARENT) && opacity == 1.0f;
+    ಆದರೆ (wind->wp_alpha_modifier_surface_v1) {
+        ಸ್ಥಿರಾಂಕ bool is_opaque = !(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_TRANSPARENT) && opacity == 1.0f;
 
-        if (wind->mask.mapped && wind->mask.opaque != is_opaque) {
-            struct wl_buffer *old_buffer = wind->mask.buffer;
-            wind->mask.opaque = is_opaque;
-            wind->mask.buffer = Wayland_CreateSinglePixelBuffer(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
+        ಆದರೆ (wind->ಮುಖವಾಡ.mapped && wind->ಮುಖವಾಡ.opaque != is_opaque) {
+            ರಚನೆ wl_ಬಫರ್ *old_ಬಫರ್ = wind->ಮುಖವಾಡ.ಬಫರ್_2;
+            wind->ಮುಖವಾಡ.opaque = is_opaque;
+            wind->ಮುಖವಾಡ.ಬಫರ್_2 = Wayland_Create_Single_Pixel_ಬಫರ್(0, 0, 0, is_opaque ? SDL_MAX_UINT32 : 0);
 
-            wl_surface_attach(wind->mask.surface, wind->mask.buffer, 0, 0);
-            if (wl_surface_get_version(wind->mask.surface) >= WL_SURFACE_DAMAGE_BUFFER_SINCE_VERSION) {
-                wl_surface_damage_buffer(wind->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
-            } else {
-                wl_surface_damage(wind->mask.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+            wl_surface_attach(wind->ಮುಖವಾಡ.surface, wind->ಮುಖವಾಡ.ಬಫರ್_2, 0, 0);
+            ಆದರೆ (wl_surface_get_ಆವೃತ್ತಿ(wind->ಮುಖವಾಡ.surface) >= WL_SURFACE_DAMAGE_ಬಫರ್_SINCE_ಆವೃತ್ತಿ) {
+                wl_surface_damage_ಬಫರ್(wind->ಮುಖವಾಡ.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                wl_surface_damage(wind->ಮುಖವಾಡ.surface, 0, 0, SDL_MAX_SINT32, SDL_MAX_SINT32);
             }
 
-            if (is_opaque) {
-                SetSurfaceOpaqueRegion(wind->mask.surface, wind->current.logical_width, wind->current.logical_height);
-            } else {
-                SetSurfaceOpaqueRegion(wind->mask.surface, 0, 0);
+            ಆದರೆ (is_opaque) {
+                ಗಣ_Surface_Opaque_Region(wind->ಮುಖವಾಡ.surface, wind->current.logical_ಅಗಲ, wind->current.logical_ಎತ್ತರ);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಗಣ_Surface_Opaque_Region(wind->ಮುಖವಾಡ.surface, 0, 0);
             }
 
-            wl_surface_commit(wind->mask.surface);
+            wl_surface_commit(wind->ಮುಖವಾಡ.surface);
 
-            if (old_buffer) {
-                wl_buffer_destroy(old_buffer);
+            ಆದರೆ (old_ಬಫರ್) {
+                wl_ಬಫರ್_destroy(old_ಬಫರ್);
             }
         }
 
-        if (is_opaque) {
-            SetSurfaceOpaqueRegion(wind->surface, wind->current.viewport_width, wind->current.viewport_height);
-        } else {
-            SetSurfaceOpaqueRegion(wind->surface, 0, 0);
+        ಆದರೆ (is_opaque) {
+            ಗಣ_Surface_Opaque_Region(wind->surface, wind->current.viewport_ಅಗಲ, wind->current.viewport_ಎತ್ತರ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಗಣ_Surface_Opaque_Region(wind->surface, 0, 0);
         }
 
-        wp_alpha_modifier_surface_v1_set_multiplier(wind->wp_alpha_modifier_surface_v1, (Uint32)((double)SDL_MAX_UINT32 * (double)opacity));
+        wp_alpha_modifier_surface_v1_ಗಣ_multiplier(wind->wp_alpha_modifier_surface_v1, (Uint32)((ದ್ವಿಗುಣ)SDL_MAX_UINT32 * (ದ್ವಿಗುಣ)opacity));
 
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    return SDL_SetError("wayland: set window opacity failed; compositor lacks support for the required wp_alpha_modifier_v1 protocol");
+    ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("wayland: set window opacity failed; compositor lacks support for the required wp_alpha_modifier_v1 protocol");
 }
 
-void Wayland_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
-    const char *title = window->title ? window->title : "";
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *title = ಕಿಟಕಿ->title ? ಕಿಟಕಿ->title : "";
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-        libdecor_frame_set_title(wind->shell_surface.libdecor.frame, title);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-        xdg_toplevel_set_title(wind->shell_surface.xdg.toplevel.xdg_toplevel, title);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+        libdecor_ಚೌಕಟ್ಟು_ಗಣ_title(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, title);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+        xdg_toplevel_ಗಣ_title(wind->shell_surface.xdg.toplevel.xdg_toplevel, title);
     }
 }
 
-static int icon_sort_callback(const void *a, const void *b)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ icon_ವಿಂಗಡಿಸು_callback(ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *a, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *b)
 {
-    const SDL_Surface *s1 = *(const SDL_Surface **)a;
-    const SDL_Surface *s2 = *(const SDL_Surface **)b;
+    ಸ್ಥಿರಾಂಕ SDL_Surface *s1 = *(ಸ್ಥಿರಾಂಕ SDL_Surface **)a;
+    ಸ್ಥಿರಾಂಕ SDL_Surface *s2 = *(ಸ್ಥಿರಾಂಕ SDL_Surface **)b;
 
-    return (s1->w * s1->h) <= (s2->w * s2->h) ? -1 : 1;
+    ಹಿಂತಿರುಗಿ (s1->w * s1->h) <= (s2->w * s2->h) ? -1 : 1;
 }
 
-bool Wayland_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Icon(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_Surface *icon)
 {
-    SDL_WindowData *wind = window->internal;
-    Wayland_SHMPool *shm_pool = NULL;
-    struct xdg_toplevel *toplevel = NULL;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    Wayland_SHMPool *shm_pool = ಖಾಲಿ;
+    ರಚನೆ xdg_toplevel *toplevel = ಖಾಲಿ;
 
-    if (!_this->internal->xdg_toplevel_icon_manager_v1) {
-        return SDL_SetError("wayland: cannot set icon; required xdg_toplevel_icon_v1 protocol not supported");
+    ಆದರೆ (!_this->ಆಂತರಿಕ->xdg_toplevel_icon_manager_v1) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("wayland: cannot set icon; required xdg_toplevel_icon_v1 protocol not supported");
     }
 
-    int image_count = 0;
-    SDL_Surface **images = SDL_GetSurfaceImages(icon, &image_count);
-    if (!images || !image_count) {
-        return false;
+    ಪೂರ್ಣಾಂಕ image_ಎಣಿಕೆ_2 = 0;
+    SDL_Surface **images = SDL_GetSurfaceImages(icon, &image_ಎಣಿಕೆ_2);
+    ಆದರೆ (!images || !image_ಎಣಿಕೆ_2) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Release the old icon resources.
-    if (wind->xdg_toplevel_icon_v1) {
+    ಆದರೆ (wind->xdg_toplevel_icon_v1) {
         xdg_toplevel_icon_v1_destroy(wind->xdg_toplevel_icon_v1);
-        wind->xdg_toplevel_icon_v1 = NULL;
+        wind->xdg_toplevel_icon_v1 = ಖಾಲಿ;
     }
 
-    for (int i = 0; i < wind->icon_buffer_count; ++i) {
-        wl_buffer_destroy(wind->icon_buffers[i]);
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < wind->icon_ಬಫರ್_ಎಣಿಕೆ; ++i) {
+        wl_ಬಫರ್_destroy(wind->icon_buffers[i]);
     }
-    wind->icon_buffer_count = 0;
+    wind->icon_ಬಫರ್_ಎಣಿಕೆ = 0;
 
-    wind->xdg_toplevel_icon_v1 = xdg_toplevel_icon_manager_v1_create_icon(_this->internal->xdg_toplevel_icon_manager_v1);
-    wind->icon_buffers = SDL_realloc(wind->icon_buffers, image_count * sizeof(struct wl_buffer *));
-    if (!wind->icon_buffers) {
-        goto failure_cleanup;
+    wind->xdg_toplevel_icon_v1 = xdg_toplevel_icon_manager_v1_create_icon(_this->ಆಂತರಿಕ->xdg_toplevel_icon_manager_v1);
+    wind->icon_buffers = SDL_realloc(wind->icon_buffers, image_ಎಣಿಕೆ_2 * ಗಾತ್ರ(ರಚನೆ wl_ಬಫರ್ *));
+    ಆದರೆ (!wind->icon_buffers) {
+        ಹೋಗು failure_cleanup;
     }
 
     // Calculate the size of the buffer pool.
-    size_t pool_size = 0;
-    for (int i = 0; i < image_count; ++i) {
+    size_t pool_ಗಾತ್ರ = 0;
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < image_ಎಣಿಕೆ_2; ++i) {
         // Images must be square. Non-square images will be centered.
-        const int size = SDL_max(images[i]->w, images[i]->h);
-        pool_size += size * size * 4;
+        ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ ಗಾತ್ರ_2 = SDL_max(images[i]->w, images[i]->h);
+        pool_ಗಾತ್ರ += ಗಾತ್ರ_2 * ಗಾತ್ರ_2 * 4;
     }
 
     // Sort the images in ascending order by size.
-    SDL_qsort(images, image_count, sizeof(SDL_Surface *), icon_sort_callback);
+    SDL_qsort(images, image_ಎಣಿಕೆ_2, ಗಾತ್ರ(SDL_Surface *), icon_ವಿಂಗಡಿಸು_callback);
 
-    shm_pool = Wayland_AllocSHMPool(pool_size);
-    if (!shm_pool) {
-        SDL_SetError("wayland: failed to allocate an SHM pool for the icon");
-        goto failure_cleanup;
+    shm_pool = Wayland_AllocSHMPool(pool_ಗಾತ್ರ);
+    ಆದರೆ (!shm_pool) {
+        SDL_ಗಣ_Error("wayland: failed to allocate an SHM pool for the icon");
+        ಹೋಗು failure_cleanup;
     }
 
-    const double base_size = (double)SDL_max(icon->w, icon->h);
-    for (int i = 0; i < image_count; ++i) {
+    ಸ್ಥಿರಾಂಕ ದ್ವಿಗುಣ ತಳ_ಗಾತ್ರ = (ದ್ವಿಗುಣ)SDL_max(icon->w, icon->h);
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < image_ಎಣಿಕೆ_2; ++i) {
         SDL_Surface *surface = images[i];
 
         // Choose the largest image for each integer scale, ignoring any below the base size.
-        const int level_size = SDL_max(surface->w, surface->h);
-        const int scale = (int)SDL_floor((double)level_size / base_size);
-        if (!scale) {
-            continue;
+        ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ level_ಗಾತ್ರ = SDL_max(surface->w, surface->h);
+        ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ scale = (ಪೂರ್ಣಾಂಕ)SDL_floor((ದ್ವಿಗುಣ)level_ಗಾತ್ರ / ತಳ_ಗಾತ್ರ);
+        ಆದರೆ (!scale) {
+            ಮುಂದುವರಿ;
         }
 
-        if (surface->format != SDL_PIXELFORMAT_ARGB8888) {
+        ಆದರೆ (surface->format != SDL_PIXELFORMAT_ARGB8888) {
             surface = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-            if (!surface) {
-                SDL_SetError("wayland: failed to convert the icon image to ARGB8888 format");
-                goto failure_cleanup;
+            ಆದರೆ (!surface) {
+                SDL_ಗಣ_Error("wayland: failed to convert the icon image to ARGB8888 format");
+                ಹೋಗು failure_cleanup;
             }
         }
 
-        void *buffer_mem;
-        struct wl_buffer *buffer = Wayland_AllocBufferFromPool(shm_pool, level_size, level_size, &buffer_mem);
-        if (!buffer) {
+        ಶೂನ್ಯ *ಬಫರ್_mem;
+        ರಚನೆ wl_ಬಫರ್ *ಬಫರ್_2 = Wayland_Alloc_ಬಫರ್_From_Pool(shm_pool, level_ಗಾತ್ರ, level_ಗಾತ್ರ, &ಬಫರ್_mem);
+        ಆದರೆ (!ಬಫರ್_2) {
             // Clean up the temporary conversion surface.
-            if (surface != images[i]) {
+            ಆದರೆ (surface != images[i]) {
                 SDL_DestroySurface(surface);
             }
-            SDL_SetError("wayland: failed to allocate a wl_buffer for the icon");
-            goto failure_cleanup;
+            SDL_ಗಣ_Error("wayland: failed to allocate a wl_buffer for the icon");
+            ಹೋಗು failure_cleanup;
         }
 
-        wind->icon_buffers[wind->icon_buffer_count++] = buffer;
+        wind->icon_buffers[wind->icon_ಬಫರ್_ಎಣಿಕೆ++] = ಬಫರ್_2;
 
         // Center non-square images.
-        if (surface->w < level_size) {
-            SDL_memset(buffer_mem, 0, level_size * level_size * 4);
-            buffer_mem = (Uint8 *)buffer_mem + (((level_size - surface->w) / 2) * 4);
-        } else if (surface->h < level_size) {
-            SDL_memset(buffer_mem, 0, level_size * level_size * 4);
-            buffer_mem = (Uint8 *)buffer_mem + (((level_size - surface->h) / 2) * (level_size * 4));
+        ಆದರೆ (surface->w < level_ಗಾತ್ರ) {
+            SDL_memset(ಬಫರ್_mem, 0, level_ಗಾತ್ರ * level_ಗಾತ್ರ * 4);
+            ಬಫರ್_mem = (Uint8 *)ಬಫರ್_mem + (((level_ಗಾತ್ರ - surface->w) / 2) * 4);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (surface->h < level_ಗಾತ್ರ) {
+            SDL_memset(ಬಫರ್_mem, 0, level_ಗಾತ್ರ * level_ಗಾತ್ರ * 4);
+            ಬಫರ್_mem = (Uint8 *)ಬಫರ್_mem + (((level_ಗಾತ್ರ - surface->h) / 2) * (level_ಗಾತ್ರ * 4));
         }
 
         SDL_PremultiplyAlpha(surface->w, surface->h, surface->format, surface->pixels, surface->pitch,
-                             SDL_PIXELFORMAT_ARGB8888, buffer_mem, level_size * 4, true);
+                             SDL_PIXELFORMAT_ARGB8888, ಬಫರ್_mem, level_ಗಾತ್ರ * 4, true);
 
-        xdg_toplevel_icon_v1_add_buffer(wind->xdg_toplevel_icon_v1, buffer, scale);
+        xdg_toplevel_icon_v1_ಕೂಡಿಸು_ಬಫರ್(wind->xdg_toplevel_icon_v1, ಬಫರ್_2, scale);
 
         // Clean up the temporary scaled or conversion surface.
-        if (surface != images[i]) {
+        ಆದರೆ (surface != images[i]) {
             SDL_DestroySurface(surface);
         }
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.frame) {
-        toplevel = libdecor_frame_get_xdg_toplevel(wind->shell_surface.libdecor.frame);
-    } else
-#endif
-        if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR && wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+        toplevel = libdecor_ಚೌಕಟ್ಟು_get_xdg_toplevel(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL && wind->shell_surface.xdg.toplevel.xdg_toplevel) {
         toplevel = wind->shell_surface.xdg.toplevel.xdg_toplevel;
     }
 
-    if (toplevel) {
-        xdg_toplevel_icon_manager_v1_set_icon(_this->internal->xdg_toplevel_icon_manager_v1, toplevel, wind->xdg_toplevel_icon_v1);
+    ಆದರೆ (toplevel) {
+        xdg_toplevel_icon_manager_v1_ಗಣ_icon(_this->ಆಂತರಿಕ->xdg_toplevel_icon_manager_v1, toplevel, wind->xdg_toplevel_icon_v1);
     }
 
     Wayland_ReleaseSHMPool(shm_pool);
     SDL_free(images);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 
 failure_cleanup:
 
     SDL_free(images);
 
-    if (wind->xdg_toplevel_icon_v1) {
+    ಆದರೆ (wind->xdg_toplevel_icon_v1) {
         xdg_toplevel_icon_v1_destroy(wind->xdg_toplevel_icon_v1);
-        wind->xdg_toplevel_icon_v1 = NULL;
+        wind->xdg_toplevel_icon_v1 = ಖಾಲಿ;
     }
 
     Wayland_ReleaseSHMPool(shm_pool);
 
-    for (int i = 0; i < wind->icon_buffer_count; ++i) {
-        wl_buffer_destroy(wind->icon_buffers[i]);
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < wind->icon_ಬಫರ್_ಎಣಿಕೆ; ++i) {
+        wl_ಬಫರ್_destroy(wind->icon_buffers[i]);
     }
     SDL_free(wind->icon_buffers);
-    wind->icon_buffers = NULL;
-    wind->icon_buffer_count = 0;
+    wind->icon_buffers = ಖಾಲಿ;
+    wind->icon_ಬಫರ್_ಎಣಿಕೆ = 0;
 
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-void *Wayland_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size)
+ಶೂನ್ಯ *Wayland_Get_ಕಿಟಕಿ_ICCProfile(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, size_t *ಗಾತ್ರ_2)
 {
-    SDL_WindowData *wind = window->internal;
-    void *ret = NULL;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ಶೂನ್ಯ *ret = ಖಾಲಿ;
 
-    if (wind->icc_size > 0) {
-        void *icc_map = mmap(NULL, wind->icc_size, PROT_READ, MAP_PRIVATE, wind->icc_fd, 0);
-        if (icc_map != MAP_FAILED) {
-            ret = SDL_malloc(wind->icc_size);
-            if (ret) {
-                *size = wind->icc_size;
-                SDL_memcpy(ret, icc_map, *size);
+    ಆದರೆ (wind->icc_ಗಾತ್ರ > 0) {
+        ಶೂನ್ಯ *icc_map = mmap(ಖಾಲಿ, wind->icc_ಗಾತ್ರ, PROT_READ, MAP_PRIVATE, wind->icc_fd, 0);
+        ಆದರೆ (icc_map != MAP_FAILED) {
+            ret = SDL_malloc(wind->icc_ಗಾತ್ರ);
+            ಆದರೆ (ret) {
+                *ಗಾತ್ರ_2 = wind->icc_ಗಾತ್ರ;
+                SDL_memcpy(ret, icc_map, *ಗಾತ್ರ_2);
             }
-            munmap(icc_map, wind->icc_size);
+            munmap(icc_map, wind->icc_ಗಾತ್ರ);
         }
     }
 
-    return ret;
+    ಹಿಂತಿರುಗಿ ret;
 }
 
-bool Wayland_SyncWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool Wayland_Sync_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *wind = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    do {
-        WAYLAND_wl_display_roundtrip(_this->internal->display);
-    } while (wind->pending_state_deadline_count);
+    ಮಾಡು {
+        WAYLAND_wl_display_roundtrip(_this->ಆಂತರಿಕ->display);
+    } ಆಗ (wind->pending_state_deadline_ಎಣಿಕೆ);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void Wayland_AcceptDragAndDrop(SDL_Window *window, bool accept)
+ಶೂನ್ಯ Wayland_AcceptDragAndDrop(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool accept)
 {
-    window->internal->accepts_drag_and_drop = accept;
+    ಕಿಟಕಿ->ಆಂತರಿಕ->ಸ್ವೀಕರಿಸು_drag_and_drop = accept;
 }
 
-bool Wayland_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
+bool Wayland_ಗಣ_ಕಿಟಕಿ_Focusable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool focusable)
 {
-    if (window->flags & SDL_WINDOW_POPUP_MENU) {
-        if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
-                SDL_Window *new_focus;
-                const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-                Wayland_SetKeyboardFocus(new_focus, set_focus);
-            } else if (focusable) {
-                if (SDL_ShouldFocusPopup(window)) {
-                    Wayland_SetKeyboardFocus(window, true);
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_POPUP_MENU) {
+        ಆದರೆ (!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_HIDDEN)) {
+            ಆದರೆ (!focusable && (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಒಳಹರಿವು_FOCUS)) {
+                SDL_ಕಿಟಕಿ *new_focus;
+                ಸ್ಥಿರಾಂಕ bool ಗಣ_focus = SDL_ShouldRelinquishPopupFocus(ಕಿಟಕಿ, &new_focus);
+                Wayland_ಗಣ_Keyboard_Focus(new_focus, ಗಣ_focus);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (focusable) {
+                ಆದರೆ (SDL_ShouldFocusPopup(ಕಿಟಕಿ)) {
+                    Wayland_ಗಣ_Keyboard_Focus(ಕಿಟಕಿ, true);
                 }
             }
         }
 
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    return SDL_SetError("wayland: focus can only be toggled on popup menu windows");
+    ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("wayland: focus can only be toggled on popup menu windows");
 }
 
-void Wayland_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+ಶೂನ್ಯ Wayland_Show_ಕಿಟಕಿ_System_Menu(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ x, ಪೂರ್ಣಾಂಕ y)
 {
-    SDL_WindowData *wind = window->internal;
-    SDL_WaylandSeat *seat = wind->waylandData->last_implicit_grab_seat;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    SDL_WaylandSeat *seat = wind->wayland_ದತ್ತಾಂಶ->ಕೊನೆಯ_implicit_grab_seat;
 
-    if (!seat) {
-        return;
+    ಆದರೆ (!seat) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    if (wind->scale_to_display) {
-        x = PixelToPoint(window, x);
-        y = PixelToPoint(window, y);
+    ಆದರೆ (wind->scale_ಗಮ್ಯ_display) {
+        x = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, x);
+        y = Pixel_ಗಮ್ಯ_ಬಿಂದು(ಕಿಟಕಿ, y);
     }
 
-#ifdef HAVE_LIBDECOR_H
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
-        if (wind->shell_surface.libdecor.frame) {
-            libdecor_frame_show_window_menu(wind->shell_surface.libdecor.frame, seat->wl_seat, seat->last_implicit_grab_serial, x, y);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ HAVE_LIBDECOR_H
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_LIBDECOR) {
+        ಆದರೆ (wind->shell_surface.libdecor.ಚೌಕಟ್ಟು) {
+            libdecor_ಚೌಕಟ್ಟು_show_ಕಿಟಕಿ_menu(wind->shell_surface.libdecor.ಚೌಕಟ್ಟು, seat->wl_seat, seat->ಕೊನೆಯ_implicit_grab_serial, x, y);
         }
-    } else
-#endif
-    if (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
-        if (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
-            xdg_toplevel_show_window_menu(wind->shell_surface.xdg.toplevel.xdg_toplevel, seat->wl_seat, seat->last_implicit_grab_serial, x, y);
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+    ಆದರೆ (wind->shell_surface_type == WAYLAND_SHELL_SURFACE_TYPE_XDG_TOPLEVEL) {
+        ಆದರೆ (wind->shell_surface.xdg.toplevel.xdg_toplevel) {
+            xdg_toplevel_show_ಕಿಟಕಿ_menu(wind->shell_surface.xdg.toplevel.xdg_toplevel, seat->wl_seat, seat->ಕೊನೆಯ_implicit_grab_serial, x, y);
         }
     }
 }
 
 bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
-#ifdef SDL_USE_LIBDBUS
-    if (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
-        return true;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
+    ಆದರೆ (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
+        ಹಿಂತಿರುಗಿ true;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     /* The idle_inhibit_unstable_v1 protocol suspends the screensaver
        on a per wl_surface basis, but SDL assumes that suspending
@@ -3806,94 +3806,94 @@ bool Wayland_SuspendScreenSaver(SDL_VideoDevice *_this)
        state to each window. If there is no window active, we will
        be able to inhibit idle once the first window is created.
     */
-    if (data->idle_inhibit_manager) {
-        SDL_Window *window = _this->windows;
-        while (window) {
-            SDL_WindowData *win_data = window->internal;
+    ಆದರೆ (ದತ್ತಾಂಶ->idle_inhibit_manager) {
+        SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = _this->windows;
+        ಆಗ (ಕಿಟಕಿ) {
+            SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *win_ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-            if (_this->suspend_screensaver && !win_data->idle_inhibitor) {
-                win_data->idle_inhibitor =
-                    zwp_idle_inhibit_manager_v1_create_inhibitor(data->idle_inhibit_manager,
-                                                                 win_data->surface);
-            } else if (!_this->suspend_screensaver && win_data->idle_inhibitor) {
-                zwp_idle_inhibitor_v1_destroy(win_data->idle_inhibitor);
-                win_data->idle_inhibitor = NULL;
+            ಆದರೆ (_this->suspend_screensaver && !win_ದತ್ತಾಂಶ->idle_inhibitor) {
+                win_ದತ್ತಾಂಶ->idle_inhibitor =
+                    zwp_idle_inhibit_manager_v1_create_inhibitor(ದತ್ತಾಂಶ->idle_inhibit_manager,
+                                                                 win_ದತ್ತಾಂಶ->surface);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!_this->suspend_screensaver && win_ದತ್ತಾಂಶ->idle_inhibitor) {
+                zwp_idle_inhibitor_v1_destroy(win_ದತ್ತಾಂಶ->idle_inhibitor);
+                win_ದತ್ತಾಂಶ->idle_inhibitor = ಖಾಲಿ;
             }
 
-            window = window->next;
+            ಕಿಟಕಿ = ಕಿಟಕಿ->ಮುಂದಿನ;
         }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ Wayland_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_VideoData *data = _this->internal;
-    SDL_WindowData *wind = window->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wind = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (data && wind) {
+    ಆದರೆ (ದತ್ತಾಂಶ && wind) {
         /* Roundtrip before destroying the window to make sure that it has received input leave events, so that
          * no internal structures are left pointing to the destroyed window.
          */
-        if (wind->show_hide_sync_required) {
+        ಆದರೆ (wind->show_hide_sync_required) {
             /* Make sure hit test isn't executed during roundtrip */
-            window->hit_test = NULL;
-            WAYLAND_wl_display_roundtrip(data->display);
+            ಕಿಟಕಿ->ದೊರಕಿತು_test = ಖಾಲಿ;
+            WAYLAND_wl_display_roundtrip(ದತ್ತಾಂಶ->display);
         }
 
         /* The compositor should have relinquished keyboard, pointer, touch, and tablet tool focus when the toplevel
          * window was destroyed upon being hidden, but there is no guarantee of this, so ensure that all references
          * to the window held by seats are released before destroying the underlying surface and struct.
          */
-        Wayland_DisplayRemoveWindowReferencesFromSeats(data, wind);
+        Wayland_Display_Remove_ಕಿಟಕಿ_References_From_Seats(ದತ್ತಾಂಶ, wind);
 
-        if (wind->mask.viewport) {
-            wp_viewport_destroy(wind->mask.viewport);
+        ಆದರೆ (wind->ಮುಖವಾಡ.viewport) {
+            wp_viewport_destroy(wind->ಮುಖವಾಡ.viewport);
         }
-        if (wind->mask.buffer) {
-            wl_buffer_destroy(wind->mask.buffer);
+        ಆದರೆ (wind->ಮುಖವಾಡ.ಬಫರ್_2) {
+            wl_ಬಫರ್_destroy(wind->ಮುಖವಾಡ.ಬಫರ್_2);
         }
-        if (wind->mask.subsurface) {
-            wl_subsurface_destroy(wind->mask.subsurface);
+        ಆದರೆ (wind->ಮುಖವಾಡ.subsurface) {
+            wl_subsurface_destroy(wind->ಮುಖವಾಡ.subsurface);
         }
-        if (wind->mask.surface) {
-            wl_surface_destroy(wind->mask.surface);
+        ಆದರೆ (wind->ಮುಖವಾಡ.surface) {
+            wl_surface_destroy(wind->ಮುಖವಾಡ.surface);
         }
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (wind->egl_surface) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+        ಆದರೆ (wind->egl_surface) {
             SDL_EGL_DestroySurface(_this, wind->egl_surface);
         }
-#endif
-        if (wind->egl_window) {
-            WAYLAND_wl_egl_window_destroy(wind->egl_window);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (wind->egl_ಕಿಟಕಿ) {
+            WAYLAND_wl_egl_ಕಿಟಕಿ_destroy(wind->egl_ಕಿಟಕಿ);
         }
 
-        if (wind->idle_inhibitor) {
+        ಆದರೆ (wind->idle_inhibitor) {
             zwp_idle_inhibitor_v1_destroy(wind->idle_inhibitor);
         }
 
-        if (wind->activation_token) {
+        ಆದರೆ (wind->activation_token) {
             xdg_activation_token_v1_destroy(wind->activation_token);
         }
 
-        if (wind->viewport) {
+        ಆದರೆ (wind->viewport) {
             wp_viewport_destroy(wind->viewport);
         }
 
-        if (wind->fractional_scale) {
+        ಆದರೆ (wind->fractional_scale) {
             wp_fractional_scale_v1_destroy(wind->fractional_scale);
         }
 
-        if (wind->wp_alpha_modifier_surface_v1) {
+        ಆದರೆ (wind->wp_alpha_modifier_surface_v1) {
             wp_alpha_modifier_surface_v1_destroy(wind->wp_alpha_modifier_surface_v1);
         }
 
-        if (wind->frog_color_managed_surface) {
+        ಆದರೆ (wind->frog_color_managed_surface) {
             frog_color_managed_surface_destroy(wind->frog_color_managed_surface);
         }
 
-        if (wind->wp_color_management_surface_feedback) {
+        ಆದರೆ (wind->wp_color_management_surface_feedback) {
             Wayland_FreeColorInfoState(wind->color_info_state);
             wp_color_management_surface_feedback_v1_destroy(wind->wp_color_management_surface_feedback);
         }
@@ -3901,31 +3901,31 @@ void Wayland_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
         SDL_free(wind->outputs);
         SDL_free(wind->app_id);
 
-        if (wind->gles_swap_frame_callback) {
-            wl_callback_destroy(wind->gles_swap_frame_callback);
-            WAYLAND_wl_proxy_wrapper_destroy(wind->gles_swap_frame_surface_wrapper);
-            WAYLAND_wl_event_queue_destroy(wind->gles_swap_frame_event_queue);
+        ಆದರೆ (wind->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback) {
+            wl_callback_destroy(wind->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_callback);
+            WAYLAND_wl_proxy_wrapper_destroy(wind->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_surface_wrapper);
+            WAYLAND_wl_event_ಸರತಿ_destroy(wind->gles_ಅದಲುಬದಲು_ಚೌಕಟ್ಟು_event_ಸರತಿ);
         }
 
-        if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+        ಆದರೆ (!(ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_EXTERNAL)) {
             wl_surface_destroy(wind->surface);
-        } else {
-            Wayland_RemoveWindowDataFromExternalList(wind);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            Wayland_Remove_ಕಿಟಕಿ_ದತ್ತಾಂಶ_From_External_List(wind);
         }
 
-        if (wind->xdg_toplevel_icon_v1) {
+        ಆದರೆ (wind->xdg_toplevel_icon_v1) {
             xdg_toplevel_icon_v1_destroy(wind->xdg_toplevel_icon_v1);
         }
 
-        for (int i = 0; i < wind->icon_buffer_count; ++i) {
-            wl_buffer_destroy(wind->icon_buffers[i]);
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < wind->icon_ಬಫರ್_ಎಣಿಕೆ; ++i) {
+            wl_ಬಫರ್_destroy(wind->icon_buffers[i]);
         }
         SDL_free(wind->icon_buffers);
-        wind->icon_buffer_count = 0;
+        wind->icon_ಬಫರ್_ಎಣಿಕೆ = 0;
 
         SDL_free(wind);
     }
-    window->internal = NULL;
+    ಕಿಟಕಿ->ಆಂತರಿಕ = ಖಾಲಿ;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_WAYLAND

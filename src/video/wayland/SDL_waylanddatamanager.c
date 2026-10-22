@@ -19,775 +19,775 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WAYLAND
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <limits.h>
-#include <signal.h>
+#ಅನ್ತರ್ಭಾವ <fcntl.h>
+#ಅನ್ತರ್ಭಾವ <unistd.h>
+#ಅನ್ತರ್ಭಾವ <limits.h>
+#ಅನ್ತರ್ಭಾವ <signal.h>
 
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_events_c.h"
-#include "../SDL_clipboard_c.h"
+#ಅನ್ತರ್ಭಾವ "../../core/unix/SDL_poll.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_clipboard_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylanddatamanager.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylandevents_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_waylanddatamanager.h"
+#ಅನ್ತರ್ಭಾವ "primary-selection-unstable-v1-client-protocol.h"
 
 /* This value is arbitrary, but needs to be long enough to allow the remote end to
  * wake up and do any necessary processing of the data before sending it. In some
  * cases, this can be multiple seconds.
  */
-#define DEFAULT_PIPE_TIMEOUT_NS SDL_MS_TO_NS(5000)
+#ವ್ಯಾಖ್ಯಾನಿಸು DEFAULT_PIPE_TIMEOUT_NS SDL_MS_ಗಮ್ಯ_NS(5000)
 
 /* sigtimedwait() is an optional part of POSIX.1-2001, and OpenBSD doesn't implement it.
  * Based on https://comp.unix.programmer.narkive.com/rEDH0sPT/sigtimedwait-implementation
  */
-#ifndef HAVE_SIGTIMEDWAIT
-#include <errno.h>
-#include <time.h>
-static int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout)
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ HAVE_SIGTIMEDWAIT
+#ಅನ್ತರ್ಭಾವ <errno.h>
+#ಅನ್ತರ್ಭಾವ <time.h>
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ sigtimedwait(ಸ್ಥಿರಾಂಕ sigset_t *ಗಣ, siginfo_t *info, ಸ್ಥಿರಾಂಕ ರಚನೆ timespec *timeout)
 {
-    struct timespec elapsed = { 0 }, rem = { 0 };
+    ರಚನೆ timespec elapsed = { 0 }, rem = { 0 };
     sigset_t pending;
 
-    do {
+    ಮಾಡು {
         // Check the pending signals, and call sigwait if there is at least one of interest in the set.
         sigpending(&pending);
-        for (int signo = 1; signo < NSIG; ++signo) {
-            if (sigismember(set, signo) && sigismember(&pending, signo)) {
-                if (!sigwait(set, &signo)) {
-                    if (info) {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ signo = 1; signo < NSIG; ++signo) {
+            ಆದರೆ (sigismember(ಗಣ, signo) && sigismember(&pending, signo)) {
+                ಆದರೆ (!sigwait(ಗಣ, &signo)) {
+                    ಆದರೆ (info) {
                         SDL_zerop(info);
                         info->si_signo = signo;
                     }
-                    return signo;
-                } else {
-                    return -1;
+                    ಹಿಂತಿರುಗಿ signo;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    ಹಿಂತಿರುಗಿ -1;
                 }
             }
         }
 
-        if (timeout->tv_sec || timeout->tv_nsec) {
-            long ns = 20000000L; // 2/100ths of a second
-            nanosleep(&(struct timespec){ 0, ns }, &rem);
+        ಆದರೆ (timeout->tv_sec || timeout->tv_nsec) {
+            ದೀರ್ಘ ns = 20000000L; // 2/100ths of a second
+            nanosleep(&(ರಚನೆ timespec){ 0, ns }, &rem);
             ns -= rem.tv_nsec;
             elapsed.tv_sec += (elapsed.tv_nsec + ns) / 1000000000L;
             elapsed.tv_nsec = (elapsed.tv_nsec + ns) % 1000000000L;
         }
-    } while (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
+    } ಆಗ (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
 
     errno = EAGAIN;
-    return -1;
+    ಹಿಂತಿರುಗಿ -1;
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-static ssize_t WritePipe(int fd, const void *buffer, size_t total_length, size_t *pos)
+ಸ್ಥಿರ ssize_t WritePipe(ಪೂರ್ಣಾಂಕ fd, ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *ಬಫರ್_2, size_t ಒಟ್ಟು_ಉದ್ದಳತೆ, size_t *pos)
 {
-    ssize_t bytes_written = 0;
-    const ssize_t length = total_length - *pos;
+    ssize_t ಬೈಟುಗಳು_written = 0;
+    ಸ್ಥಿರಾಂಕ ssize_t ಉದ್ದಳತೆ = ಒಟ್ಟು_ಉದ್ದಳತೆ - *pos;
 
-    sigset_t sig_set;
-    sigset_t old_sig_set;
-    struct timespec zerotime = { 0 };
+    sigset_t sig_ಗಣ;
+    sigset_t old_sig_ಗಣ;
+    ರಚನೆ timespec zerotime = { 0 };
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
 
-    sigemptyset(&sig_set);
-    sigaddset(&sig_set, SIGPIPE);
+    sigemptyset(&sig_ಗಣ);
+    sigaddset(&sig_ಗಣ, SIGPIPE);
 
-#ifdef SDL_THREADS_DISABLED
-    sigprocmask(SIG_BLOCK, &sig_set, &old_sig_set);
-#else
-    pthread_sigmask(SIG_BLOCK, &sig_set, &old_sig_set);
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ಎಳೆಗಳು_DISABLED
+    sigprocmask(SIG_BLOCK, &sig_ಗಣ, &old_sig_ಗಣ);
+#ಇಲ್ಲದಿದ್ದರೆ
+    pthread_sigmask(SIG_BLOCK, &sig_ಗಣ, &old_sig_ಗಣ);
+#ಆದರೆ_ಅಂತ್ಯ
 
-    if (ready > 0) {
-        if (length > 0) {
-            bytes_written = write(fd, (Uint8 *)buffer + *pos, SDL_min(length, PIPE_BUF));
+    ಆದರೆ (ready > 0) {
+        ಆದರೆ (ಉದ್ದಳತೆ > 0) {
+            ಬೈಟುಗಳು_written = ಲಿಖ(fd, (Uint8 *)ಬಫರ್_2 + *pos, SDL_min(ಉದ್ದಳತೆ, PIPE_BUF));
         }
 
-        if (bytes_written > 0) {
-            *pos += bytes_written;
+        ಆದರೆ (ಬೈಟುಗಳು_written > 0) {
+            *pos += ಬೈಟುಗಳು_written;
         }
-    } else if (ready == 0) {
-        SDL_SetError("Pipe timeout");
-    } else  {
-        SDL_SetError("Pipe poll error");
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ready == 0) {
+        SDL_ಗಣ_Error("Pipe timeout");
+    } ಇಲ್ಲದಿದ್ದರೆ  {
+        SDL_ಗಣ_Error("Pipe poll error");
     }
 
-    sigtimedwait(&sig_set, NULL, &zerotime);
+    sigtimedwait(&sig_ಗಣ, ಖಾಲಿ, &zerotime);
 
-#ifdef SDL_THREADS_DISABLED
-    sigprocmask(SIG_SETMASK, &old_sig_set, NULL);
-#else
-    pthread_sigmask(SIG_SETMASK, &old_sig_set, NULL);
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ಎಳೆಗಳು_DISABLED
+    sigprocmask(SIG_SETMASK, &old_sig_ಗಣ, ಖಾಲಿ);
+#ಇಲ್ಲದಿದ್ದರೆ
+    pthread_sigmask(SIG_SETMASK, &old_sig_ಗಣ, ಖಾಲಿ);
+#ಆದರೆ_ಅಂತ್ಯ
 
-    return bytes_written;
+    ಹಿಂತಿರುಗಿ ಬೈಟುಗಳು_written;
 }
 
-static ssize_t ReadPipe(int fd, void **buffer, size_t *total_length, Sint64 timeout_ns)
+ಸ್ಥಿರ ssize_t ReadPipe(ಪೂರ್ಣಾಂಕ fd, ಶೂನ್ಯ **ಬಫರ್_2, size_t *ಒಟ್ಟು_ಉದ್ದಳತೆ, Sint64 timeout_ns)
 {
-    void *output_buffer = NULL;
-    char temp[PIPE_BUF];
-    ssize_t bytes_read = 0;
+    ಶೂನ್ಯ *output_ಬಫರ್ = ಖಾಲಿ;
+    ಅಕ್ಷರ ತಾತ್ಕಾಲಿಕ[PIPE_BUF];
+    ssize_t ಬೈಟುಗಳು_read = 0;
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
 
-    if (ready > 0) {
-        bytes_read = read(fd, temp, sizeof(temp));
-    } else if (ready == 0) {
-        SDL_SetError("Pipe timeout");
-    } else {
-        SDL_SetError("Pipe poll error");
+    ಆದರೆ (ready > 0) {
+        ಬೈಟುಗಳು_read = ಪಠ(fd, ತಾತ್ಕಾಲಿಕ, ಗಾತ್ರ(ತಾತ್ಕಾಲಿಕ));
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ready == 0) {
+        SDL_ಗಣ_Error("Pipe timeout");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_ಗಣ_Error("Pipe poll error");
     }
 
-    if (bytes_read > 0) {
-        const size_t pos = *total_length;
-        *total_length += bytes_read;
+    ಆದರೆ (ಬೈಟುಗಳು_read > 0) {
+        ಸ್ಥಿರಾಂಕ size_t pos = *ಒಟ್ಟು_ಉದ್ದಳತೆ;
+        *ಒಟ್ಟು_ಉದ್ದಳತೆ += ಬೈಟುಗಳು_read;
 
-        const size_t new_buffer_length = *total_length + sizeof(Uint32);
+        ಸ್ಥಿರಾಂಕ size_t new_ಬಫರ್_ಉದ್ದಳತೆ = *ಒಟ್ಟು_ಉದ್ದಳತೆ + ಗಾತ್ರ(Uint32);
 
-        if (!*buffer) {
-            output_buffer = SDL_malloc(new_buffer_length);
-        } else {
-            output_buffer = SDL_realloc(*buffer, new_buffer_length);
+        ಆದರೆ (!*ಬಫರ್_2) {
+            output_ಬಫರ್ = SDL_malloc(new_ಬಫರ್_ಉದ್ದಳತೆ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            output_ಬಫರ್ = SDL_realloc(*ಬಫರ್_2, new_ಬಫರ್_ಉದ್ದಳತೆ);
         }
 
-        if (!output_buffer) {
-            bytes_read = -1;
-        } else {
-            SDL_memcpy((Uint8 *)output_buffer + pos, temp, bytes_read);
-            SDL_memset((Uint8 *)output_buffer + (new_buffer_length - sizeof(Uint32)), 0, sizeof(Uint32));
+        ಆದರೆ (!output_ಬಫರ್) {
+            ಬೈಟುಗಳು_read = -1;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            SDL_memcpy((Uint8 *)output_ಬಫರ್ + pos, ತಾತ್ಕಾಲಿಕ, ಬೈಟುಗಳು_read);
+            SDL_memset((Uint8 *)output_ಬಫರ್ + (new_ಬಫರ್_ಉದ್ದಳತೆ - ಗಾತ್ರ(Uint32)), 0, ಗಾತ್ರ(Uint32));
 
-            *buffer = output_buffer;
-        }
-    }
-
-    return bytes_read;
-}
-
-static bool MIMEDataListHasType(struct wl_array *list, const char *mime_type)
-{
-    const char **item;
-    wl_array_for_each(item, list) {
-        if (SDL_strcmp(*item, mime_type) == 0) {
-            return true;
+            *ಬಫರ್_2 = output_ಬಫರ್;
         }
     }
 
-    return false;
+    ಹಿಂತಿರುಗಿ ಬೈಟುಗಳು_read;
 }
 
-static bool MIMEDataListAdd(struct wl_array *list, const char *mime_type)
+ಸ್ಥಿರ bool MIMEDataListHasType(ರಚನೆ wl_array *list, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
-    if (!MIMEDataListHasType(list, mime_type)) {
-        char **item = WAYLAND_wl_array_add(list, sizeof(char *));
-        *item = SDL_strdup(mime_type);
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ **ಅಂಶ;
+    wl_array_for_each(ಅಂಶ, list) {
+        ಆದರೆ (SDL_strcmp(*ಅಂಶ, mime_type) == 0) {
+            ಹಿಂತಿರುಗಿ true;
+        }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static void MIMEDataListFree(struct wl_array *list)
+ಸ್ಥಿರ bool MIMEData_List_ಕೂಡಿಸು(ರಚನೆ wl_array *list, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
-    char **item;
-    wl_array_for_each(item, list) {
-        SDL_free(*item);
+    ಆದರೆ (!MIMEDataListHasType(list, mime_type)) {
+        ಅಕ್ಷರ **ಅಂಶ = WAYLAND_wl_array_ಕೂಡಿಸು(list, ಗಾತ್ರ(ಅಕ್ಷರ *));
+        *ಅಂಶ = SDL_strdup(mime_type);
+    }
+
+    ಹಿಂತಿರುಗಿ true;
+}
+
+ಸ್ಥಿರ ಶೂನ್ಯ MIMEDataListFree(ರಚನೆ wl_array *list)
+{
+    ಅಕ್ಷರ **ಅಂಶ;
+    wl_array_for_each(ಅಂಶ, list) {
+        SDL_free(*ಅಂಶ);
     }
 
     WAYLAND_wl_array_release(list);
 }
 
-static void data_source_handle_target(void *data, struct wl_data_source *wl_data_source, const char *mime_type)
+ಸ್ಥಿರ ಶೂನ್ಯ ದತ್ತಾಂಶ_ಮೂಲ_handle_ಗುರಿ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ *wl_ದತ್ತಾಂಶ_ಮೂಲ, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
 }
 
-static void data_source_handle_send(void *data, struct wl_data_source *wl_data_source, const char *mime_type, int32_t fd)
+ಸ್ಥಿರ ಶೂನ್ಯ ದತ್ತಾಂಶ_ಮೂಲ_handle_send(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ *wl_ದತ್ತಾಂಶ_ಮೂಲ, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, int32_t fd)
 {
-    Wayland_DataSourceSend((SDL_WaylandDataSource *)data, mime_type, fd);
+    Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Send((SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *)ದತ್ತಾಂಶ, mime_type, fd);
 }
 
-static void data_source_handle_cancelled(void *data, struct wl_data_source *wl_data_source)
+ಸ್ಥಿರ ಶೂನ್ಯ ದತ್ತಾಂಶ_ಮೂಲ_handle_cancelled(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ *wl_ದತ್ತಾಂಶ_ಮೂಲ)
 {
-    SDL_WaylandDataSource *source = data;
-    if (source) {
-        Wayland_DataSourceDestroy(source);
+    SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ಮೂಲ = ದತ್ತಾಂಶ;
+    ಆದರೆ (ಮೂಲ) {
+        Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Destroy(ಮೂಲ);
     }
 }
 
-static void data_source_handle_dnd_drop_performed(void *data, struct wl_data_source *wl_data_source)
+ಸ್ಥಿರ ಶೂನ್ಯ ದತ್ತಾಂಶ_ಮೂಲ_handle_dnd_drop_performed(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ *wl_ದತ್ತಾಂಶ_ಮೂಲ)
 {
 }
 
-static void data_source_handle_dnd_finished(void *data, struct wl_data_source *wl_data_source)
+ಸ್ಥಿರ ಶೂನ್ಯ ದತ್ತಾಂಶ_ಮೂಲ_handle_dnd_ಪೂರ್ಣಗೊಂಡ(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ *wl_ದತ್ತಾಂಶ_ಮೂಲ)
 {
-    SDL_WaylandDataSource *source = data;
-    if (source) {
-        Wayland_DataSourceDestroy(source);
+    SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ಮೂಲ = ದತ್ತಾಂಶ;
+    ಆದರೆ (ಮೂಲ) {
+        Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Destroy(ಮೂಲ);
     }
 }
 
-static void data_source_handle_action(void *data, struct wl_data_source *wl_data_source, uint32_t dnd_action)
+ಸ್ಥಿರ ಶೂನ್ಯ ದತ್ತಾಂಶ_ಮೂಲ_handle_action(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ *wl_ದತ್ತಾಂಶ_ಮೂಲ, uint32_t dnd_action)
 {
 }
 
-static const struct wl_data_source_listener data_source_listener = {
-    data_source_handle_target,
-    data_source_handle_send,
-    data_source_handle_cancelled,
-    data_source_handle_dnd_drop_performed, // Version 3
-    data_source_handle_dnd_finished,       // Version 3
-    data_source_handle_action,             // Version 3
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ_listener ದತ್ತಾಂಶ_ಮೂಲ_listener = {
+    ದತ್ತಾಂಶ_ಮೂಲ_handle_ಗುರಿ,
+    ದತ್ತಾಂಶ_ಮೂಲ_handle_send,
+    ದತ್ತಾಂಶ_ಮೂಲ_handle_cancelled,
+    ದತ್ತಾಂಶ_ಮೂಲ_handle_dnd_drop_performed, // Version 3
+    ದತ್ತಾಂಶ_ಮೂಲ_handle_dnd_ಪೂರ್ಣಗೊಂಡ,       // Version 3
+    ದತ್ತಾಂಶ_ಮೂಲ_handle_action,             // Version 3
 };
 
-SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data)
+SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Create(SDL_Video_ದತ್ತಾಂಶ *video_ದತ್ತಾಂಶ)
 {
-    SDL_WaylandDataSource *data_source = SDL_calloc(1, sizeof(*data_source));
-    if (!data_source) {
-        return NULL;
+    SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ದತ್ತಾಂಶ_ಮೂಲ_2 = SDL_calloc(1, ಗಾತ್ರ(*ದತ್ತಾಂಶ_ಮೂಲ_2));
+    ಆದರೆ (!ದತ್ತಾಂಶ_ಮೂಲ_2) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    struct wl_data_source *id = wl_data_device_manager_create_data_source(video_data->data_device_manager);
-    data_source->source = id;
-    wl_data_source_set_user_data(id, data_source);
-    wl_data_source_add_listener(id, &data_source_listener, data_source);
+    ರಚನೆ wl_ದತ್ತಾಂಶ_ಮೂಲ *id = wl_ದತ್ತಾಂಶ_device_manager_create_ದತ್ತಾಂಶ_ಮೂಲ(video_ದತ್ತಾಂಶ->ದತ್ತಾಂಶ_device_manager);
+    ದತ್ತಾಂಶ_ಮೂಲ_2->ಮೂಲ = id;
+    wl_ದತ್ತಾಂಶ_ಮೂಲ_ಗಣ_user_ದತ್ತಾಂಶ(id, ದತ್ತಾಂಶ_ಮೂಲ_2);
+    wl_ದತ್ತಾಂಶ_ಮೂಲ_ಕೂಡಿಸು_listener(id, &ದತ್ತಾಂಶ_ಮೂಲ_listener, ದತ್ತಾಂಶ_ಮೂಲ_2);
 
-    return data_source;
+    ಹಿಂತಿರುಗಿ ದತ್ತಾಂಶ_ಮೂಲ_2;
 }
 
-static void primary_selection_source_send(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1, const char *mime_type, int32_t fd)
+ಸ್ಥಿರ ಶೂನ್ಯ primary_selection_ಮೂಲ_send(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zwp_primary_selection_ಮೂಲ_v1 *zwp_primary_selection_ಮೂಲ_v1, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, int32_t fd)
 {
-    Wayland_PrimarySelectionSourceSend((SDL_WaylandPrimarySelectionSource *)data, mime_type, fd);
+    Wayland_Primary_Selection_ಮೂಲ_Send((SDL_Wayland_Primary_Selection_ಮೂಲ *)ದತ್ತಾಂಶ, mime_type, fd);
 }
 
-static void primary_selection_source_cancelled(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1)
+ಸ್ಥಿರ ಶೂನ್ಯ primary_selection_ಮೂಲ_cancelled(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ zwp_primary_selection_ಮೂಲ_v1 *zwp_primary_selection_ಮೂಲ_v1)
 {
-    Wayland_PrimarySelectionSourceDestroy(data);
+    Wayland_Primary_Selection_ಮೂಲ_Destroy(ದತ್ತಾಂಶ);
 }
 
-static const struct zwp_primary_selection_source_v1_listener primary_selection_source_listener = {
-    primary_selection_source_send,
-    primary_selection_source_cancelled,
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ zwp_primary_selection_ಮೂಲ_v1_listener primary_selection_ಮೂಲ_listener = {
+    primary_selection_ಮೂಲ_send,
+    primary_selection_ಮೂಲ_cancelled,
 };
 
-SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data)
+SDL_Wayland_Primary_Selection_ಮೂಲ *Wayland_Primary_Selection_ಮೂಲ_Create(SDL_Video_ದತ್ತಾಂಶ *video_ದತ್ತಾಂಶ)
 {
-    SDL_WaylandPrimarySelectionSource *primary_selection_source = SDL_calloc(1, sizeof(*primary_selection_source));
-    if (!primary_selection_source) {
-        return NULL;
+    SDL_Wayland_Primary_Selection_ಮೂಲ *primary_selection_ಮೂಲ = SDL_calloc(1, ಗಾತ್ರ(*primary_selection_ಮೂಲ));
+    ಆದರೆ (!primary_selection_ಮೂಲ) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    struct zwp_primary_selection_source_v1 *id = zwp_primary_selection_device_manager_v1_create_source(video_data->primary_selection_device_manager);
-    primary_selection_source->source = id;
-    zwp_primary_selection_source_v1_add_listener(id, &primary_selection_source_listener, primary_selection_source);
+    ರಚನೆ zwp_primary_selection_ಮೂಲ_v1 *id = zwp_primary_selection_device_manager_v1_create_ಮೂಲ(video_ದತ್ತಾಂಶ->primary_selection_device_manager);
+    primary_selection_ಮೂಲ->ಮೂಲ = id;
+    zwp_primary_selection_ಮೂಲ_v1_ಕೂಡಿಸು_listener(id, &primary_selection_ಮೂಲ_listener, primary_selection_ಮೂಲ);
 
-    return primary_selection_source;
+    ಹಿಂತಿರುಗಿ primary_selection_ಮೂಲ;
 }
 
-static size_t SendData(const void *data, size_t length, int fd)
+ಸ್ಥಿರ size_t Send_ದತ್ತಾಂಶ(ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *ದತ್ತಾಂಶ, size_t ಉದ್ದಳತೆ, ಪೂರ್ಣಾಂಕ fd)
 {
-    size_t result = 0;
+    size_t ಫಲಿತಾಂಶ = 0;
 
-    if (length > 0 && data) {
-        while (WritePipe(fd, data, length, &result) > 0) {
+    ಆದರೆ (ಉದ್ದಳತೆ > 0 && ದತ್ತಾಂಶ) {
+        ಆಗ (WritePipe(fd, ದತ್ತಾಂಶ, ಉದ್ದಳತೆ, &ಫಲಿತಾಂಶ) > 0) {
             // Just keep spinning
         }
     }
     close(fd);
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd)
+ssize_t Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Send(SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ಮೂಲ, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, ಪೂರ್ಣಾಂಕ fd)
 {
-    const void *data = NULL;
-    size_t length = 0;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *ದತ್ತಾಂಶ = ಖಾಲಿ;
+    size_t ಉದ್ದಳತೆ = 0;
 
-    if (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
-        data = source->data_device->id_str;
-        length = SDL_strlen(source->data_device->id_str);
-    } else if (source->data_callback) {
-        data = source->data_callback(source->userdata.data, mime_type, &length);
+    ಆದರೆ (SDL_strcmp(mime_type, SDL_ದತ್ತಾಂಶ_ORIGIN_MIME) == 0) {
+        ದತ್ತಾಂಶ = ಮೂಲ->ದತ್ತಾಂಶ_device->id_str;
+        ಉದ್ದಳತೆ = SDL_strlen(ಮೂಲ->ದತ್ತಾಂಶ_device->id_str);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಮೂಲ->ದತ್ತಾಂಶ_callback) {
+        ದತ್ತಾಂಶ = ಮೂಲ->ದತ್ತಾಂಶ_callback(ಮೂಲ->userdata.ದತ್ತಾಂಶ, mime_type, &ಉದ್ದಳತೆ);
     }
 
-    return SendData(data, length, fd);
+    ಹಿಂತಿರುಗಿ Send_ದತ್ತಾಂಶ(ದತ್ತಾಂಶ, ಉದ್ದಳತೆ, fd);
 }
 
-ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd)
+ssize_t Wayland_Primary_Selection_ಮೂಲ_Send(SDL_Wayland_Primary_Selection_ಮೂಲ *ಮೂಲ, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, ಪೂರ್ಣಾಂಕ fd)
 {
-    const void *data = NULL;
-    size_t length = 0;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *ದತ್ತಾಂಶ = ಖಾಲಿ;
+    size_t ಉದ್ದಳತೆ = 0;
 
-    if (source->data_callback) {
-        data = source->data_callback(source->userdata.data, mime_type, &length);
+    ಆದರೆ (ಮೂಲ->ದತ್ತಾಂಶ_callback) {
+        ದತ್ತಾಂಶ = ಮೂಲ->ದತ್ತಾಂಶ_callback(ಮೂಲ->userdata.ದತ್ತಾಂಶ, mime_type, &ಉದ್ದಳತೆ);
     }
 
-    return SendData(data, length, fd);
+    ಹಿಂತಿರುಗಿ Send_ದತ್ತಾಂಶ(ದತ್ತಾಂಶ, ಉದ್ದಳತೆ, fd);
 }
 
-void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence)
+ಶೂನ್ಯ Wayland_ದತ್ತಾಂಶ_ಮೂಲ_ಗಣ_Callback(SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ಮೂಲ, SDL_Clipboard_ದತ್ತಾಂಶ_Callback ದತ್ತಾಂಶ_callback, SDL_ClipboardCleanupCallback cleanup_callback, ಶೂನ್ಯ *userdata, Uint32 sequence)
 {
-    if (source) {
-        source->data_callback = data_callback;
-        source->cleanup_callback = cleanup_callback;
-        source->userdata.sequence = sequence;
-        source->userdata.data = userdata;
-    }
-}
-
-void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata)
-{
-    if (source) {
-        source->data_callback = data_callback;
-        source->cleanup_callback = cleanup_callback;
-        source->userdata.sequence = 0;
-        source->userdata.data = userdata;
+    ಆದರೆ (ಮೂಲ) {
+        ಮೂಲ->ದತ್ತಾಂಶ_callback = ದತ್ತಾಂಶ_callback;
+        ಮೂಲ->cleanup_callback = cleanup_callback;
+        ಮೂಲ->userdata.sequence = sequence;
+        ಮೂಲ->userdata.ದತ್ತಾಂಶ = userdata;
     }
 }
 
-static void *CloneDataBuffer(const void *buffer, const size_t *len)
+ಶೂನ್ಯ Wayland_Primary_Selection_ಮೂಲ_ಗಣ_Callback(SDL_Wayland_Primary_Selection_ಮೂಲ *ಮೂಲ, SDL_Clipboard_ದತ್ತಾಂಶ_Callback ದತ್ತಾಂಶ_callback, SDL_ClipboardCleanupCallback cleanup_callback, ಶೂನ್ಯ *userdata)
 {
-    void *clone = NULL;
-    if (*len > 0 && buffer) {
-        clone = SDL_malloc((*len)+sizeof(Uint32));
-        if (clone) {
-            SDL_memcpy(clone, buffer, *len);
-            SDL_memset((Uint8 *)clone + *len, 0, sizeof(Uint32));
+    ಆದರೆ (ಮೂಲ) {
+        ಮೂಲ->ದತ್ತಾಂಶ_callback = ದತ್ತಾಂಶ_callback;
+        ಮೂಲ->cleanup_callback = cleanup_callback;
+        ಮೂಲ->userdata.sequence = 0;
+        ಮೂಲ->userdata.ದತ್ತಾಂಶ = userdata;
+    }
+}
+
+ಸ್ಥಿರ ಶೂನ್ಯ *Clone_ದತ್ತಾಂಶ_ಬಫರ್(ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *ಬಫರ್_2, ಸ್ಥಿರಾಂಕ size_t *len)
+{
+    ಶೂನ್ಯ *clone = ಖಾಲಿ;
+    ಆದರೆ (*len > 0 && ಬಫರ್_2) {
+        clone = SDL_malloc((*len)+ಗಾತ್ರ(Uint32));
+        ಆದರೆ (clone) {
+            SDL_memcpy(clone, ಬಫರ್_2, *len);
+            SDL_memset((Uint8 *)clone + *len, 0, ಗಾತ್ರ(Uint32));
         }
     }
-    return clone;
+    ಹಿಂತಿರುಗಿ clone;
 }
 
-void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length)
+ಶೂನ್ಯ *Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Get_ದತ್ತಾಂಶ(SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ಮೂಲ, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಉದ್ದಳತೆ)
 {
-    void *buffer = NULL;
-    *length = 0;
+    ಶೂನ್ಯ *ಬಫರ್_2 = ಖಾಲಿ;
+    *ಉದ್ದಳತೆ = 0;
 
-    if (!source) {
-        SDL_SetError("Invalid data source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
-        buffer = CloneDataBuffer(internal_buffer, length);
+    ಆದರೆ (!ಮೂಲ) {
+        SDL_ಗಣ_Error("Invalid data source");
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಮೂಲ->ದತ್ತಾಂಶ_callback) {
+        ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *ಆಂತರಿಕ_ಬಫರ್ = ಮೂಲ->ದತ್ತಾಂಶ_callback(ಮೂಲ->userdata.ದತ್ತಾಂಶ, mime_type, ಉದ್ದಳತೆ);
+        ಬಫರ್_2 = Clone_ದತ್ತಾಂಶ_ಬಫರ್(ಆಂತರಿಕ_ಬಫರ್, ಉದ್ದಳತೆ);
     }
 
-    return buffer;
+    ಹಿಂತಿರುಗಿ ಬಫರ್_2;
 }
 
-void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length)
+ಶೂನ್ಯ *Wayland_Primary_Selection_ಮೂಲ_Get_ದತ್ತಾಂಶ(SDL_Wayland_Primary_Selection_ಮೂಲ *ಮೂಲ, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಉದ್ದಳತೆ)
 {
-    void *buffer = NULL;
-    *length = 0;
+    ಶೂನ್ಯ *ಬಫರ್_2 = ಖಾಲಿ;
+    *ಉದ್ದಳತೆ = 0;
 
-    if (!source) {
-        SDL_SetError("Invalid primary selection source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
-        buffer = CloneDataBuffer(internal_buffer, length);
+    ಆದರೆ (!ಮೂಲ) {
+        SDL_ಗಣ_Error("Invalid primary selection source");
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಮೂಲ->ದತ್ತಾಂಶ_callback) {
+        ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *ಆಂತರಿಕ_ಬಫರ್ = ಮೂಲ->ದತ್ತಾಂಶ_callback(ಮೂಲ->userdata.ದತ್ತಾಂಶ, mime_type, ಉದ್ದಳತೆ);
+        ಬಫರ್_2 = Clone_ದತ್ತಾಂಶ_ಬಫರ್(ಆಂತರಿಕ_ಬಫರ್, ಉದ್ದಳತೆ);
     }
 
-    return buffer;
+    ಹಿಂತಿರುಗಿ ಬಫರ್_2;
 }
 
-void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
+ಶೂನ್ಯ Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Destroy(SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ಮೂಲ)
 {
-    if (source) {
-        SDL_WaylandDataDevice *data_device = source->data_device;
-        if (data_device && (data_device->selection_source == source)) {
-            data_device->selection_source = NULL;
+    ಆದರೆ (ಮೂಲ) {
+        SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device = ಮೂಲ->ದತ್ತಾಂಶ_device;
+        ಆದರೆ (ದತ್ತಾಂಶ_device && (ದತ್ತಾಂಶ_device->selection_ಮೂಲ == ಮೂಲ)) {
+            ದತ್ತಾಂಶ_device->selection_ಮೂಲ = ಖಾಲಿ;
         }
-        wl_data_source_destroy(source->source);
-        if (source->userdata.sequence) {
-            SDL_CancelClipboardData(source->userdata.sequence);
-        } else if (source->cleanup_callback) {
-            source->cleanup_callback(source->userdata.data);
+        wl_ದತ್ತಾಂಶ_ಮೂಲ_destroy(ಮೂಲ->ಮೂಲ);
+        ಆದರೆ (ಮೂಲ->userdata.sequence) {
+            SDL_Cancel_Clipboard_ದತ್ತಾಂಶ(ಮೂಲ->userdata.sequence);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ಮೂಲ->cleanup_callback) {
+            ಮೂಲ->cleanup_callback(ಮೂಲ->userdata.ದತ್ತಾಂಶ);
         }
-        SDL_free(source);
+        SDL_free(ಮೂಲ);
     }
 }
 
-void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source)
+ಶೂನ್ಯ Wayland_Primary_Selection_ಮೂಲ_Destroy(SDL_Wayland_Primary_Selection_ಮೂಲ *ಮೂಲ)
 {
-    if (source) {
-        SDL_WaylandPrimarySelectionDevice *primary_selection_device = source->primary_selection_device;
-        if (primary_selection_device && (primary_selection_device->selection_source == source)) {
-            primary_selection_device->selection_source = NULL;
+    ಆದರೆ (ಮೂಲ) {
+        SDL_WaylandPrimarySelectionDevice *primary_selection_device = ಮೂಲ->primary_selection_device;
+        ಆದರೆ (primary_selection_device && (primary_selection_device->selection_ಮೂಲ == ಮೂಲ)) {
+            primary_selection_device->selection_ಮೂಲ = ಖಾಲಿ;
         }
-        zwp_primary_selection_source_v1_destroy(source->source);
-        if (source->cleanup_callback) {
-            source->cleanup_callback(source->userdata.data);
+        zwp_primary_selection_ಮೂಲ_v1_destroy(ಮೂಲ->ಮೂಲ);
+        ಆದರೆ (ಮೂಲ->cleanup_callback) {
+            ಮೂಲ->cleanup_callback(ಮೂಲ->userdata.ದತ್ತಾಂಶ);
         }
-        SDL_free(source);
+        SDL_free(ಮೂಲ);
     }
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin);
+ಸ್ಥಿರ ಶೂನ್ಯ SelectionOfferNotifyFromMIMEs(SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device, bool check_origin);
 
-static void offer_source_done_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ಸ್ಥಿರ ಶೂನ್ಯ offer_ಮೂಲ_ಮುಗಿದ_handler(ಶೂನ್ಯ *ದತ್ತಾಂಶ, ರಚನೆ wl_callback *callback, uint32_t callback_ದತ್ತಾಂಶ)
 {
-    if (!callback) {
-        return;
+    ಆದರೆ (!callback) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    SDL_WaylandDataOffer *offer = (SDL_WaylandDataOffer *)data;
-    char *id = NULL;
-    size_t length = 0;
+    SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer = (SDL_Wayland_ದತ್ತಾಂಶ_Offer *)ದತ್ತಾಂಶ;
+    ಅಕ್ಷರ *id = ಖಾಲಿ;
+    size_t ಉದ್ದಳತೆ = 0;
 
     wl_callback_destroy(offer->callback);
-    offer->callback = NULL;
+    offer->callback = ಖಾಲಿ;
 
-    while (ReadPipe(offer->read_fd, (void **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+    ಆಗ (ReadPipe(offer->read_fd, (ಶೂನ್ಯ **)&id, &ಉದ್ದಳತೆ, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
     }
     close(offer->read_fd);
     offer->read_fd = -1;
 
-    if (id) {
-        const bool source_is_external = SDL_strncmp(offer->data_device->id_str, id, length) != 0;
+    ಆದರೆ (id) {
+        ಸ್ಥಿರಾಂಕ bool ಮೂಲ_is_external = SDL_strncmp(offer->ದತ್ತಾಂಶ_device->id_str, id, ಉದ್ದಳತೆ) != 0;
         SDL_free(id);
-        if (source_is_external) {
-            SelectionOfferNotifyFromMIMEs(offer->data_device, false);
-        } else {
+        ಆದರೆ (ಮೂಲ_is_external) {
+            SelectionOfferNotifyFromMIMEs(offer->ದತ್ತಾಂಶ_device, false);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Recursive data offer; just destroy it.
-            SDL_WaylandDataDevice *data_device = offer->data_device;
-            Wayland_DataOfferDestroy(offer);
-            data_device->selection_offer = NULL;
+            SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device = offer->ದತ್ತಾಂಶ_device;
+            Wayland_ದತ್ತಾಂಶ_Offer_Destroy(offer);
+            ದತ್ತಾಂಶ_device->selection_offer = ಖಾಲಿ;
         }
     }
 }
 
-static const struct wl_callback_listener offer_source_listener = {
-    offer_source_done_handler
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ wl_callback_listener offer_ಮೂಲ_listener = {
+    offer_ಮೂಲ_ಮುಗಿದ_handler
 };
 
-static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
+ಸ್ಥಿರ ಶೂನ್ಯ UpdateSeatOffers(SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device)
 {
-    SDL_WaylandSeat *offer_seat = data_device->seat;
-    SDL_VideoData *video_data = offer_seat->display;
+    SDL_WaylandSeat *offer_seat = ದತ್ತಾಂಶ_device->seat;
+    SDL_Video_ದತ್ತಾಂಶ *video_ದತ್ತಾಂಶ = offer_seat->display;
 
     // Clear any existing references to the existing clipboard data before replacing the current offer.
     SDL_WaylandSeat *s;
-    wl_list_for_each (s, &video_data->seat_list, link) {
-        if (s->data_device) {
-            Wayland_DataSourceDestroy(s->data_device->selection_source);
-            s->data_device->selection_source = NULL;
+    wl_list_for_each (s, &video_ದತ್ತಾಂಶ->seat_list, link) {
+        ಆದರೆ (s->ದತ್ತಾಂಶ_device) {
+            Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Destroy(s->ದತ್ತಾಂಶ_device->selection_ಮೂಲ);
+            s->ದತ್ತಾಂಶ_device->selection_ಮೂಲ = ಖಾಲಿ;
 
             // Don't clear the offer that is about to be set.
-            if (s != offer_seat) {
-                Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+            ಆದರೆ (s != offer_seat) {
+                Wayland_ದತ್ತಾಂಶ_Offer_Destroy(s->ದತ್ತಾಂಶ_device->selection_offer);
+                s->ದತ್ತಾಂಶ_device->selection_offer = ಖಾಲಿ;
             }
         }
     }
 
-    video_data->current_data_offer_seat = offer_seat;
+    video_ದತ್ತಾಂಶ->current_ದತ್ತಾಂಶ_offer_seat = offer_seat;
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin)
+ಸ್ಥಿರ ಶೂನ್ಯ SelectionOfferNotifyFromMIMEs(SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device, bool check_origin)
 {
-    SDL_WaylandDataOffer *offer = data_device->selection_offer;
-    char **new_mime_types = NULL;
-    size_t num_formats = 0;
+    SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer = ದತ್ತಾಂಶ_device->selection_offer;
+    ಅಕ್ಷರ **new_mime_types = ಖಾಲಿ;
+    size_t ಅಂಕೆ_formats = 0;
 
-    if (offer) {
-        size_t alloc_size = 0;
+    ಆದರೆ (offer) {
+        size_t alloc_ಗಾತ್ರ_2 = 0;
 
         // Do a first pass to compute allocation size.
-        const char **item;
-        wl_array_for_each(item, &offer->mimes) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ **ಅಂಶ;
+        wl_array_for_each(ಅಂಶ, &offer->mimes) {
             // If origin metadata is found, queue a check and wait for confirmation that this offer isn't recursive.
-            if (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
-                Wayland_DataOfferRequestDataFromSelf(offer, *item, &offer_source_listener, offer);
-                return;
+            ಆದರೆ (check_origin && SDL_strcmp(*ಅಂಶ, SDL_ದತ್ತಾಂಶ_ORIGIN_MIME) == 0) {
+                Wayland_ದತ್ತಾಂಶ_Offer_Request_ದತ್ತಾಂಶ_From_Self(offer, *ಅಂಶ, &offer_ಮೂಲ_listener, offer);
+                ಹಿಂತಿರುಗಿ;
             }
 
-            ++num_formats;
-            alloc_size += SDL_strlen(*item) + 1;
+            ++ಅಂಕೆ_formats;
+            alloc_ಗಾತ್ರ_2 += SDL_strlen(*ಅಂಶ) + 1;
         }
 
-        alloc_size += (num_formats + 1) * sizeof(char *);
+        alloc_ಗಾತ್ರ_2 += (ಅಂಕೆ_formats + 1) * ಗಾತ್ರ(ಅಕ್ಷರ *);
 
-        new_mime_types = SDL_AllocateTemporaryMemory(alloc_size);
-        if (!new_mime_types) {
-            SDL_LogError(SDL_LOG_CATEGORY_INPUT, "unable to allocate new_mime_types");
-            return;
+        new_mime_types = SDL_Allocate_Temporary_ಸ್ಮರಣೆ(alloc_ಗಾತ್ರ_2);
+        ಆದರೆ (!new_mime_types) {
+            SDL_LogError(SDL_LOG_CATEGORY_ಒಳಹರಿವು, "unable to allocate new_mime_types");
+            ಹಿಂತಿರುಗಿ;
         }
 
         // Second pass to fill.
-        char *strPtr = (char *)(new_mime_types + num_formats + 1);
-        alloc_size -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
+        ಅಕ್ಷರ *strPtr = (ಅಕ್ಷರ *)(new_mime_types + ಅಂಕೆ_formats + 1);
+        alloc_ಗಾತ್ರ_2 -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
-        item = NULL;
-        int i = 0;
-        wl_array_for_each(item, &offer->mimes) {
-            if (!item) {
-                continue;
+        ಅಂಶ = ಖಾಲಿ;
+        ಪೂರ್ಣಾಂಕ i = 0;
+        wl_array_for_each(ಅಂಶ, &offer->mimes) {
+            ಆದರೆ (!ಅಂಶ) {
+                ಮುಂದುವರಿ;
             }
 
             new_mime_types[i++] = strPtr;
-            const size_t len = SDL_strlcpy(strPtr, *item, alloc_size) + 1;
+            ಸ್ಥಿರಾಂಕ size_t len = SDL_strlcpy(strPtr, *ಅಂಶ, alloc_ಗಾತ್ರ_2) + 1;
             strPtr += len;
-            alloc_size -= len;
+            alloc_ಗಾತ್ರ_2 -= len;
         }
-        new_mime_types[num_formats] = NULL;
+        new_mime_types[ಅಂಕೆ_formats] = ಖಾಲಿ;
     }
 
-    UpdateSeatOffers(data_device);
-    SDL_SendClipboardUpdate(false, new_mime_types, num_formats);
+    UpdateSeatOffers(ದತ್ತಾಂಶ_device);
+    SDL_SendClipboardUpdate(false, new_mime_types, ಅಂಕೆ_formats);
 }
 
-void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer)
+ಶೂನ್ಯ Wayland_ದತ್ತಾಂಶ_Device_ಗಣ_Selection_Offer(SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device, SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer)
 {
     // Don't notify when clearing the old selection offer if doing so will inadvertently clear the selection source.
-    const bool notify = offer || (!offer && data_device->selection_offer && (!data_device->selection_offer->callback || !data_device->selection_source));
-    Wayland_DataOfferDestroy(data_device->selection_offer);
-    data_device->selection_offer = offer;
-    if (notify) {
-        SelectionOfferNotifyFromMIMEs(data_device, true);
+    ಸ್ಥಿರಾಂಕ bool notify = offer || (!offer && ದತ್ತಾಂಶ_device->selection_offer && (!ದತ್ತಾಂಶ_device->selection_offer->callback || !ದತ್ತಾಂಶ_device->selection_ಮೂಲ));
+    Wayland_ದತ್ತಾಂಶ_Offer_Destroy(ದತ್ತಾಂಶ_device->selection_offer);
+    ದತ್ತಾಂಶ_device->selection_offer = offer;
+    ಆದರೆ (notify) {
+        SelectionOfferNotifyFromMIMEs(ದತ್ತಾಂಶ_device, true);
     }
 }
 
-void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length)
+ಶೂನ್ಯ *Wayland_ದತ್ತಾಂಶ_Offer_Get_ದತ್ತಾಂಶ_From_Self(SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer, size_t *ಉದ್ದಳತೆ)
 {
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return NULL;
+    ಆದರೆ (!offer) {
+        SDL_ಗಣ_Error("Invalid data offer");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    if (offer->read_fd < 0) {
-        SDL_SetError("Pipe closed");
-        return NULL;
+    ಆದರೆ (offer->read_fd < 0) {
+        SDL_ಗಣ_Error("Pipe closed");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     // The timeout is 0, as the data will already be in the pipe if it is from this process.
-    void *buffer = NULL;
-    while (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
+    ಶೂನ್ಯ *ಬಫರ್_2 = ಖಾಲಿ;
+    ಆಗ (ReadPipe(offer->read_fd, &ಬಫರ್_2, ಉದ್ದಳತೆ, 0) > 0) {
     }
 
-    return buffer;
+    ಹಿಂತಿರುಗಿ ಬಫರ್_2;
 }
 
-bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata)
+bool Wayland_ದತ್ತಾಂಶ_Offer_Request_ದತ್ತಾಂಶ_From_Self(SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, ಸ್ಥಿರಾಂಕ ರಚನೆ wl_callback_listener *completion_listener, ಶೂನ್ಯ *userdata)
 {
-    int pipefd[2];
+    ಪೂರ್ಣಾಂಕ pipefd[2];
 
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return false;
+    ಆದರೆ (!offer) {
+        SDL_ಗಣ_Error("Invalid data offer");
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    SDL_WaylandDataDevice *data_device = offer->data_device;
-    if (offer->read_fd >= 0) {
+    SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device = offer->ದತ್ತಾಂಶ_device;
+    ಆದರೆ (offer->read_fd >= 0) {
         close(offer->read_fd);
         offer->read_fd = -1;
     }
-    if (offer->callback) {
+    ಆದರೆ (offer->callback) {
         wl_callback_destroy(offer->callback);
-        offer->callback = NULL;
+        offer->callback = ಖಾಲಿ;
     }
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    ಆದರೆ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         offer->read_fd = pipefd[0];
-        wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
+        wl_ದತ್ತಾಂಶ_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
-        offer->callback = wl_display_sync(data_device->seat->display->display);
-        wl_callback_add_listener(offer->callback, completion_listener, userdata);
+        offer->callback = wl_display_sync(ದತ್ತಾಂಶ_device->seat->display->display);
+        wl_callback_ಕೂಡಿಸು_listener(offer->callback, completion_listener, userdata);
 
-        WAYLAND_wl_display_flush(data_device->seat->display->display);
-    } else {
-        return SDL_SetError("Could not create pipe");
+        WAYLAND_wl_display_flush(ದತ್ತಾಂಶ_device->seat->display->display);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Could not create pipe");
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length)
+ಶೂನ್ಯ *Wayland_ದತ್ತಾಂಶ_Offer_Receive(SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಉದ್ದಳತೆ)
 {
-    int pipefd[2];
-    void *buffer = NULL;
-    *length = 0;
+    ಪೂರ್ಣಾಂಕ pipefd[2];
+    ಶೂನ್ಯ *ಬಫರ್_2 = ಖಾಲಿ;
+    *ಉದ್ದಳತೆ = 0;
 
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return NULL;
+    ಆದರೆ (!offer) {
+        SDL_ಗಣ_Error("Invalid data offer");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    SDL_WaylandDataDevice *data_device = offer->data_device;
+    SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device = offer->ದತ್ತಾಂಶ_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
-        wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
+    ಆದರೆ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+        wl_ದತ್ತಾಂಶ_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
-        WAYLAND_wl_display_flush(data_device->seat->display->display);
+        WAYLAND_wl_display_flush(ದತ್ತಾಂಶ_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        ಆಗ (ReadPipe(pipefd[0], &ಬಫರ್_2, ಉದ್ದಳತೆ, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
-    } else {
-        SDL_SetError("Could not create pipe");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_ಗಣ_Error("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ಒಳಹರಿವು,
                  ". In Wayland_data_offer_receive for '%s', buffer (%zu) at %p",
-                 mime_type, *length, buffer);
+                 mime_type, *ಉದ್ದಳತೆ, ಬಫರ್_2);
 
-    return buffer;
+    ಹಿಂತಿರುಗಿ ಬಫರ್_2;
 }
 
-void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length)
+ಶೂನ್ಯ *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type, size_t *ಉದ್ದಳತೆ)
 {
-    int pipefd[2];
-    void *buffer = NULL;
-    *length = 0;
+    ಪೂರ್ಣಾಂಕ pipefd[2];
+    ಶೂನ್ಯ *ಬಫರ್_2 = ಖಾಲಿ;
+    *ಉದ್ದಳತೆ = 0;
 
-    if (!offer) {
-        SDL_SetError("Invalid data offer");
-        return NULL;
+    ಆದರೆ (!offer) {
+        SDL_ಗಣ_Error("Invalid data offer");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     SDL_WaylandPrimarySelectionDevice *primary_selection_device = offer->primary_selection_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    ಆದರೆ (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         zwp_primary_selection_offer_v1_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(primary_selection_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        ಆಗ (ReadPipe(pipefd[0], &ಬಫರ್_2, ಉದ್ದಳತೆ, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
 
-    } else {
-        SDL_SetError("Could not create pipe");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_ಗಣ_Error("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_ಒಳಹರಿವು,
                  ". In Wayland_primary_selection_offer_receive for '%s', buffer (%zu) at %p",
-                 mime_type, *length, buffer);
+                 mime_type, *ಉದ್ದಳತೆ, ಬಫರ್_2);
 
-    return buffer;
+    ಹಿಂತಿರುಗಿ ಬಫರ್_2;
 }
 
-bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_ದತ್ತಾಂಶ_Offer_ಕೂಡಿಸು_MIME(SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    ಹಿಂತಿರುಗಿ MIMEData_List_ಕೂಡಿಸು(&offer->mimes, mime_type);
 }
 
-bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_Primary_Selection_Offer_ಕೂಡಿಸು_MIME(SDL_WaylandPrimarySelectionOffer *offer, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    ಹಿಂತಿರುಗಿ MIMEData_List_ಕೂಡಿಸು(&offer->mimes, mime_type);
 }
 
-bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_ದತ್ತಾಂಶ_Offer_Has_MIME(SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    ಆದರೆ (offer && mime_type) {
+        ಹಿಂತಿರುಗಿ MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    ಆದರೆ (offer && mime_type) {
+        ಹಿಂತಿರುಗಿ MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
+ಶೂನ್ಯ Wayland_ದತ್ತಾಂಶ_Offer_Destroy(SDL_Wayland_ದತ್ತಾಂಶ_Offer *offer)
 {
-    if (offer) {
-        if (offer->callback) {
+    ಆದರೆ (offer) {
+        ಆದರೆ (offer->callback) {
             wl_callback_destroy(offer->callback);
         }
-        if (offer->read_fd >= 0) {
+        ಆದರೆ (offer->read_fd >= 0) {
             close(offer->read_fd);
         }
-        wl_data_offer_destroy(offer->offer);
+        wl_ದತ್ತಾಂಶ_offer_destroy(offer->offer);
         MIMEDataListFree(&offer->mimes);
         SDL_free(offer);
     }
 }
 
-void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
+ಶೂನ್ಯ Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
 {
-    if (offer) {
+    ಆದರೆ (offer) {
         zwp_primary_selection_offer_v1_destroy(offer->offer);
         MIMEDataListFree(&offer->mimes);
         SDL_free(offer);
     }
 }
 
-bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count)
+bool Wayland_ದತ್ತಾಂಶ_Device_ಗಣ_Selection_ಮೂಲ(SDL_Wayland_ದತ್ತಾಂಶ_Device *ದತ್ತಾಂಶ_device, SDL_Wayland_ದತ್ತಾಂಶ_ಮೂಲ *ಮೂಲ, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ **mime_types, size_t mime_ಎಣಿಕೆ)
 {
-    if (!data_device) {
-        return SDL_SetError("Invalid Data Device");
+    ಆದರೆ (!ದತ್ತಾಂಶ_device) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Invalid Data Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    ಆದರೆ (!ಮೂಲ) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
-            wl_data_source_offer(source->source, mime_type);
+    ಆದರೆ (mime_ಎಣಿಕೆ) {
+        ಗಾಗಿ (size_t ಸೂಚ್ಯಂಕ = 0; ಸೂಚ್ಯಂಕ < mime_ಎಣಿಕೆ; ++ಸೂಚ್ಯಂಕ) {
+            ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type = mime_types[ಸೂಚ್ಯಂಕ];
+            wl_ದತ್ತಾಂಶ_ಮೂಲ_offer(ಮೂಲ->ಮೂಲ, mime_type);
         }
 
         // Advertise the data origin MIME
-        wl_data_source_offer(source->source, SDL_DATA_ORIGIN_MIME);
+        wl_ದತ್ತಾಂಶ_ಮೂಲ_offer(ಮೂಲ->ಮೂಲ, SDL_ದತ್ತಾಂಶ_ORIGIN_MIME);
 
-        wl_data_device_set_selection(data_device->data_device, source->source, data_device->seat->last_implicit_grab_serial);
-        if (data_device->selection_source) {
-            Wayland_DataSourceDestroy(data_device->selection_source);
+        wl_ದತ್ತಾಂಶ_device_ಗಣ_selection(ದತ್ತಾಂಶ_device->ದತ್ತಾಂಶ_device, ಮೂಲ->ಮೂಲ, ದತ್ತಾಂಶ_device->seat->ಕೊನೆಯ_implicit_grab_serial);
+        ಆದರೆ (ದತ್ತಾಂಶ_device->selection_ಮೂಲ) {
+            Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Destroy(ದತ್ತಾಂಶ_device->selection_ಮೂಲ);
         }
-        data_device->selection_source = source;
-        source->data_device = data_device;
+        ದತ್ತಾಂಶ_device->selection_ಮೂಲ = ಮೂಲ;
+        ಮೂಲ->ದತ್ತಾಂಶ_device = ದತ್ತಾಂಶ_device;
 
-    } else {
-        Wayland_DataSourceDestroy(data_device->selection_source);
-        data_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        Wayland_ದತ್ತಾಂಶ_ಮೂಲ_Destroy(ದತ್ತಾಂಶ_device->selection_ಮೂಲ);
+        ದತ್ತಾಂಶ_device->selection_ಮೂಲ = ಖಾಲಿ;
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("No mime data");
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
-                                                SDL_WaylandPrimarySelectionSource *source,
-                                                const char *const *mime_types, size_t mime_count)
+bool Wayland_Primary_Selection_Device_ಗಣ_Selection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
+                                                SDL_Wayland_Primary_Selection_ಮೂಲ *ಮೂಲ,
+                                                ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಸ್ಥಿರಾಂಕ *mime_types, size_t mime_ಎಣಿಕೆ)
 {
-    if (!primary_selection_device) {
-        return SDL_SetError("Invalid Primary Selection Device");
+    ಆದರೆ (!primary_selection_device) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Invalid Primary Selection Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    ಆದರೆ (!ಮೂಲ) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
-            zwp_primary_selection_source_v1_offer(source->source, mime_type);
+    ಆದರೆ (mime_ಎಣಿಕೆ) {
+        ಗಾಗಿ (size_t ಸೂಚ್ಯಂಕ = 0; ಸೂಚ್ಯಂಕ < mime_ಎಣಿಕೆ; ++ಸೂಚ್ಯಂಕ) {
+            ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type = mime_types[ಸೂಚ್ಯಂಕ];
+            zwp_primary_selection_ಮೂಲ_v1_offer(ಮೂಲ->ಮೂಲ, mime_type);
         }
 
-        zwp_primary_selection_device_v1_set_selection(primary_selection_device->primary_selection_device,
-                                                      source->source,
-                                                      primary_selection_device->seat->last_implicit_grab_serial);
-        if (primary_selection_device->selection_source) {
-            Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
+        zwp_primary_selection_device_v1_ಗಣ_selection(primary_selection_device->primary_selection_device,
+                                                      ಮೂಲ->ಮೂಲ,
+                                                      primary_selection_device->seat->ಕೊನೆಯ_implicit_grab_serial);
+        ಆದರೆ (primary_selection_device->selection_ಮೂಲ) {
+            Wayland_Primary_Selection_ಮೂಲ_Destroy(primary_selection_device->selection_ಮೂಲ);
         }
-        primary_selection_device->selection_source = source;
-        source->primary_selection_device = primary_selection_device;
-    } else {
-        Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
-        primary_selection_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        primary_selection_device->selection_ಮೂಲ = ಮೂಲ;
+        ಮೂಲ->primary_selection_device = primary_selection_device;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        Wayland_Primary_Selection_ಮೂಲ_Destroy(primary_selection_device->selection_ಮೂಲ);
+        primary_selection_device->selection_ಮೂಲ = ಖಾಲಿ;
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("No mime data");
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_WAYLAND

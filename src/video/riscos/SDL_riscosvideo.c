@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_keyboard_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosevents_c.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosmouse.h"
-#include "SDL_riscosmodes.h"
-#include "SDL_riscoswindow.h"
-#include "SDL_riscosmessagebox.h"
+#ಅನ್ತರ್ಭಾವ "SDL_riscosvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_riscosevents_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_riscosframebuffer_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_riscosmouse.h"
+#ಅನ್ತರ್ಭಾವ "SDL_riscosmodes.h"
+#ಅನ್ತರ್ಭಾವ "SDL_riscoswindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_riscosmessagebox.h"
 
-#define RISCOSVID_DRIVER_NAME "riscos"
+#ವ್ಯಾಖ್ಯಾನಿಸು RISCOSVID_DRIVER_NAME "riscos"
 
 // Initialization/Query functions
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this);
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool RISCOS_VideoInit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ ಶೂನ್ಯ RISCOS_VideoQuit(SDL_VideoDevice *_this);
 
 // RISC OS driver bootstrap functions
 
-static void RISCOS_DeleteDevice(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ RISCOS_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->ಆಂತರಿಕ);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *RISCOS_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *RISCOS_CreateDevice(ಶೂನ್ಯ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ಗಾತ್ರ(SDL_VideoDevice));
+    ಆದರೆ (!device) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    ದತ್ತಾಂಶ = (SDL_Video_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_Video_ದತ್ತಾಂಶ));
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
         SDL_free(device);
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    device->internal = data;
+    device->ಆಂತರಿಕ = ದತ್ತಾಂಶ;
 
     // Set the function pointers
     device->VideoInit = RISCOS_VideoInit;
@@ -76,55 +76,55 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
     device->PumpEvents = RISCOS_PumpEvents;
 
     device->GetDisplayModes = RISCOS_GetDisplayModes;
-    device->SetDisplayMode = RISCOS_SetDisplayMode;
+    device->ಗಣ_Display_ಬಹುಲಕ = RISCOS_ಗಣ_Display_ಬಹುಲಕ;
 
-    device->CreateSDLWindow = RISCOS_CreateWindow;
-    device->DestroyWindow = RISCOS_DestroyWindow;
+    device->CreateSDLWindow = RISCOS_Create_ಕಿಟಕಿ;
+    device->Destroy_ಕಿಟಕಿ = RISCOS_Destroy_ಕಿಟಕಿ;
 
-    device->CreateWindowFramebuffer = RISCOS_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = RISCOS_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = RISCOS_DestroyWindowFramebuffer;
+    device->Create_ಕಿಟಕಿ_Framebuffer = RISCOS_Create_ಕಿಟಕಿ_Framebuffer;
+    device->Update_ಕಿಟಕಿ_Framebuffer = RISCOS_Update_ಕಿಟಕಿ_Framebuffer;
+    device->Destroy_ಕಿಟಕಿ_Framebuffer = RISCOS_Destroy_ಕಿಟಕಿ_Framebuffer;
 
-    device->free = RISCOS_DeleteDevice;
+    device->ಬಿಡುಗಡೆ = RISCOS_DeleteDevice;
 
     // TODO: Support windowed mode
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    ಹಿಂತಿರುಗಿ device;
 }
 
 VideoBootStrap RISCOS_bootstrap = {
     RISCOSVID_DRIVER_NAME, "SDL RISC OS video driver",
     RISCOS_CreateDevice,
-    RISCOS_ShowMessageBox,
+    RISCOS_Show_ಸಂದೇಶ_Box,
     false
 };
 
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool RISCOS_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!RISCOS_InitEvents(_this)) {
-        return false;
+    ಆದರೆ (!RISCOS_InitEvents(_this)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (!RISCOS_InitMouse(_this)) {
-        return false;
+    ಆದರೆ (!RISCOS_InitMouse(_this)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_ಕೂಡಿಸು_Keyboard(SDL_DEFAULT_KEYBOARD_ID, ಖಾಲಿ);
+    SDL_ಕೂಡಿಸು_Mouse(SDL_DEFAULT_MOUSE_ID, ಖಾಲಿ);
 
-    if (!RISCOS_InitModes(_this)) {
-        return false;
+    ಆದರೆ (!RISCOS_InitModes(_this)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // We're done!
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ RISCOS_VideoQuit(SDL_VideoDevice *_this)
 {
     RISCOS_QuitEvents(_this);
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_RISCOS

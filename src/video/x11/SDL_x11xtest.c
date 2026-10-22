@@ -19,66 +19,66 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xtest.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xtest.h"
 
-static bool xtest_initialized = false;
+ಸ್ಥಿರ bool xtest_initialized = false;
 
-void X11_InitXTest(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_InitXTest(SDL_VideoDevice *_this)
 {
 // This is currently disabled since it doesn't appear to work on XWayland
-#if 0//def SDL_VIDEO_DRIVER_X11_XTEST
-    Display *display = _this->internal->display;
-    int event, error;
-    int opcode;
+#ಆದರೆ 0//def SDL_VIDEO_DRIVER_X11_XTEST
+    Display *display = _this->ಆಂತರಿಕ->display;
+    ಪೂರ್ಣಾಂಕ event, error;
+    ಪೂರ್ಣಾಂಕ opcode;
 
-    if (!SDL_X11_HAVE_XTEST ||
+    ಆದರೆ (!SDL_X11_HAVE_XTEST ||
         !X11_XQueryExtension(display, "XTEST", &opcode, &event, &error)) {
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
     xtest_initialized = true;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-bool X11_XTestIsInitialized(void)
+bool X11_XTestIsInitialized(ಶೂನ್ಯ)
 {
-    return xtest_initialized;
+    ಹಿಂತಿರುಗಿ xtest_initialized;
 }
 
-bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_Window *window, float x, float y)
+bool X11_WarpMouseXTest(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ದಶಮಾಂಶ x, ದಶಮಾಂಶ y)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XTEST
-    if (!X11_XTestIsInitialized()) {
-        return false;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XTEST
+    ಆದರೆ (!X11_XTestIsInitialized()) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    Display *display = _this->internal->display;
-    SDL_DisplayData *displaydata = window ? SDL_GetDisplayDriverDataForWindow(window) : SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
-    if (!displaydata) {
-        return false;
+    Display *display = _this->ಆಂತರಿಕ->display;
+    SDL_Display_ದತ್ತಾಂಶ *displaydata = ಕಿಟಕಿ ? SDL_Get_Display_Driver_ದತ್ತಾಂಶ_For_ಕಿಟಕಿ(ಕಿಟಕಿ) : SDL_Get_Display_Driver_ದತ್ತಾಂಶ(SDL_GetPrimaryDisplay());
+    ಆದರೆ (!displaydata) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    int motion_x = (int)SDL_roundf(x);
-    int motion_y = (int)SDL_roundf(y);
-    if (window) {
-        motion_x += window->x;
-        motion_y += window->y;
+    ಪೂರ್ಣಾಂಕ motion_x = (ಪೂರ್ಣಾಂಕ)SDL_roundf(x);
+    ಪೂರ್ಣಾಂಕ motion_y = (ಪೂರ್ಣಾಂಕ)SDL_roundf(y);
+    ಆದರೆ (ಕಿಟಕಿ) {
+        motion_x += ಕಿಟಕಿ->x;
+        motion_y += ಕಿಟಕಿ->y;
     }
 
-    if (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, CurrentTime)) {
-        return false;
+    ಆದರೆ (!X11_XTestFakeMotionEvent(display, displaydata->screen, motion_x, motion_y, Current_ಸಮಯ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
     X11_XSync(display, False);
 
-    return true;
-#else
-    return false;
-#endif
+    ಹಿಂತಿರುಗಿ true;
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಹಿಂತಿರುಗಿ false;
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11

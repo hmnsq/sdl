@@ -19,119 +19,119 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XFIXES)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XFIXES)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xfixes.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xfixes.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_mouse_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_touch_c.h"
 
-static bool xfixes_initialized = true;
-static int xfixes_selection_notify_event = 0;
+ಸ್ಥಿರ bool xfixes_initialized = true;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ xfixes_selection_notify_event = 0;
 
-static int query_xfixes_version(Display *display, int major, int minor)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ query_xfixes_ಆವೃತ್ತಿ(Display *display, ಪೂರ್ಣಾಂಕ major, ಪೂರ್ಣಾಂಕ minor)
 {
     // We don't care if this fails, so long as it sets major/minor on it's way out the door.
-    X11_XFixesQueryVersion(display, &major, &minor);
-    return (major * 1000) + minor;
+    X11_XFixes_Query_ಆವೃತ್ತಿ(display, &major, &minor);
+    ಹಿಂತಿರುಗಿ (major * 1000) + minor;
 }
 
-static bool xfixes_version_atleast(const int version, const int wantmajor, const int wantminor)
+ಸ್ಥಿರ bool xfixes_ಆವೃತ್ತಿ_atleast(ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ ಆವೃತ್ತಿ, ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ wantmajor, ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    ಹಿಂತಿರುಗಿ ಆವೃತ್ತಿ >= ((wantmajor * 1000) + wantminor);
 }
 
-void X11_InitXfixes(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_InitXfixes(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
-    int version = 0;
-    int event, error;
-    int fixes_opcode;
+    ಪೂರ್ಣಾಂಕ ಆವೃತ್ತಿ = 0;
+    ಪೂರ್ಣಾಂಕ event, error;
+    ಪೂರ್ಣಾಂಕ fixes_opcode;
 
-    Atom XA_CLIPBOARD = data->atoms.CLIPBOARD;
+    Atom XA_CLIPBOARD = ದತ್ತಾಂಶ->atoms.CLIPBOARD;
 
-    if (!SDL_X11_HAVE_XFIXES ||
-        !X11_XQueryExtension(data->display, "XFIXES", &fixes_opcode, &event, &error)) {
-        return;
+    ಆದರೆ (!SDL_X11_HAVE_XFIXES ||
+        !X11_XQueryExtension(ದತ್ತಾಂಶ->display, "XFIXES", &fixes_opcode, &event, &error)) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     // Selection tracking is available in all versions of XFixes
     xfixes_selection_notify_event = event + XFixesSelectionNotify;
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
-            XA_CLIPBOARD, XFixesSetSelectionOwnerNotifyMask);
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
-            XA_PRIMARY, XFixesSetSelectionOwnerNotifyMask);
+    X11_XFixes_Select_Selection_ಒಳಹರಿವು(ದತ್ತಾಂಶ->display, Default_ಬೇರು_ಕಿಟಕಿ(ದತ್ತಾಂಶ->display),
+            XA_CLIPBOARD, XFixes_ಗಣ_Selection_Owner_Notify_ಮುಖವಾಡ);
+    X11_XFixes_Select_Selection_ಒಳಹರಿವು(ದತ್ತಾಂಶ->display, Default_ಬೇರು_ಕಿಟಕಿ(ದತ್ತಾಂಶ->display),
+            XA_PRIMARY, XFixes_ಗಣ_Selection_Owner_Notify_ಮುಖವಾಡ);
 
     // We need at least 5.0 for barriers.
-    version = query_xfixes_version(data->display, 5, 0);
-    if (!xfixes_version_atleast(version, 5, 0)) {
-        return; // X server does not support the version we want at all.
+    ಆವೃತ್ತಿ = query_xfixes_ಆವೃತ್ತಿ(ದತ್ತಾಂಶ->display, 5, 0);
+    ಆದರೆ (!xfixes_ಆವೃತ್ತಿ_atleast(ಆವೃತ್ತಿ, 5, 0)) {
+        ಹಿಂತಿರುಗಿ; // X server does not support the version we want at all.
     }
 
     xfixes_initialized = 1;
 }
 
-bool X11_XfixesIsInitialized(void)
+bool X11_XfixesIsInitialized(ಶೂನ್ಯ)
 {
-    return xfixes_initialized;
+    ಹಿಂತಿರುಗಿ xfixes_initialized;
 }
 
-int X11_GetXFixesSelectionNotifyEvent(void)
+ಪೂರ್ಣಾಂಕ X11_GetXFixesSelectionNotifyEvent(ಶೂನ್ಯ)
 {
-    return xfixes_selection_notify_event;
+    ಹಿಂತಿರುಗಿ xfixes_selection_notify_event;
 }
 
-bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
+bool X11_ಗಣ_ಕಿಟಕಿ_Mouse_Rect(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    if (SDL_RectEmpty(&window->mouse_rect)) {
-        X11_ConfineCursorWithFlags(_this, window, NULL, 0);
-    } else {
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-            X11_ConfineCursorWithFlags(_this, window, &window->mouse_rect, 0);
-        } else {
+    ಆದರೆ (SDL_Rect_ಖಾಲಿಗಳು(&ಕಿಟಕಿ->mouse_rect)) {
+        X11_ConfineCursorWithFlags(_this, ಕಿಟಕಿ, ಖಾಲಿ, 0);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಒಳಹರಿವು_FOCUS) {
+            X11_ConfineCursorWithFlags(_this, ಕಿಟಕಿ, &ಕಿಟಕಿ->mouse_rect, 0);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Save the state for when we get focus again
-            SDL_WindowData *wdata = window->internal;
+            SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wdata = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-            SDL_memcpy(&wdata->barrier_rect, &window->mouse_rect, sizeof(wdata->barrier_rect));
+            SDL_memcpy(&wdata->barrier_rect, &ಕಿಟಕಿ->mouse_rect, ಗಾತ್ರ(wdata->barrier_rect));
 
-            wdata->pointer_barrier_active = true;
+            wdata->ಸೂಚಕ_barrier_ಸಕ್ರಿಯ = true;
         }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags)
+bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಸ್ಥಿರಾಂಕ SDL_Rect *rect, ಪೂರ್ಣಾಂಕ flags)
 {
     /* Yaakuro: For some reason Xfixes when confining inside a rect where the
      * edges exactly match, a rectangle the cursor 'slips' out of the barrier.
      * To prevent that the lines for the barriers will span the whole screen.
      */
-    SDL_VideoData *data = _this->internal;
-    SDL_WindowData *wdata;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wdata;
 
-    if (!X11_XfixesIsInitialized()) {
-        return SDL_Unsupported();
+    ಆದರೆ (!X11_XfixesIsInitialized()) {
+        ಹಿಂತಿರುಗಿ SDL_Unsupported();
     }
 
     // If there is already a set of barriers active, disable them.
-    if (data->active_cursor_confined_window) {
-        X11_DestroyPointerBarrier(_this, data->active_cursor_confined_window);
+    ಆದರೆ (ದತ್ತಾಂಶ->ಸಕ್ರಿಯ_cursor_confined_ಕಿಟಕಿ) {
+        X11_Destroy_ಸೂಚಕ_Barrier(_this, ದತ್ತಾಂಶ->ಸಕ್ರಿಯ_cursor_confined_ಕಿಟಕಿ);
     }
 
-    SDL_assert(window != NULL);
-    wdata = window->internal;
+    SDL_assert(ಕಿಟಕಿ != ಖಾಲಿ);
+    wdata = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
     /* If user did not specify an area to confine, destroy the barrier that was/is assigned to
      * this window it was assigned */
-    if (rect) {
-        int x1, y1, x2, y2;
+    ಆದರೆ (rect) {
+        ಪೂರ್ಣಾಂಕ x1, y1, x2, y2;
         SDL_Rect bounds;
-        SDL_GetWindowPosition(window, &bounds.x, &bounds.y);
-        SDL_GetWindowSize(window, &bounds.w, &bounds.h);
+        SDL_Get_ಕಿಟಕಿ_Position(ಕಿಟಕಿ, &bounds.x, &bounds.y);
+        SDL_Get_ಕಿಟಕಿ_ಗಾತ್ರ(ಕಿಟಕಿ, &bounds.w, &bounds.h);
 
         /** Negative values are not allowed. Clip values relative to the specified window. */
         x1 = bounds.x + SDL_max(rect->x, 0);
@@ -139,7 +139,7 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
         x2 = SDL_min(bounds.x + rect->x + rect->w, bounds.x + bounds.w);
         y2 = SDL_min(bounds.y + rect->y + rect->h, bounds.y + bounds.h);
 
-        if ((wdata->barrier_rect.x != rect->x) ||
+        ಆದರೆ ((wdata->barrier_rect.x != rect->x) ||
             (wdata->barrier_rect.y != rect->y) ||
             (wdata->barrier_rect.w != rect->w) ||
             (wdata->barrier_rect.h != rect->h)) {
@@ -147,68 +147,68 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
         }
 
         // Use the display bounds to ensure the barriers don't have corner gaps
-        SDL_GetDisplayBounds(SDL_GetDisplayForWindow(window), &bounds);
+        SDL_GetDisplayBounds(SDL_Get_Display_For_ಕಿಟಕಿ(ಕಿಟಕಿ), &bounds);
 
         /** Create the left barrier */
-        wdata->barrier[0] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[0] = X11_XFixes_Create_ಸೂಚಕ_Barrier(ದತ್ತಾಂಶ->display, wdata->xwindow,
                                                            x1, bounds.y,
                                                            x1, bounds.y + bounds.h,
-                                                           BarrierPositiveX,
-                                                           0, NULL);
+                                                           Barrier_ಧನಾತ್ಮಕ_X,
+                                                           0, ಖಾಲಿ);
         /** Create the right barrier */
-        wdata->barrier[1] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[1] = X11_XFixes_Create_ಸೂಚಕ_Barrier(ದತ್ತಾಂಶ->display, wdata->xwindow,
                                                            x2, bounds.y,
                                                            x2, bounds.y + bounds.h,
                                                            BarrierNegativeX,
-                                                           0, NULL);
+                                                           0, ಖಾಲಿ);
         /** Create the top barrier */
-        wdata->barrier[2] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[2] = X11_XFixes_Create_ಸೂಚಕ_Barrier(ದತ್ತಾಂಶ->display, wdata->xwindow,
                                                            bounds.x, y1,
                                                            bounds.x + bounds.w, y1,
-                                                           BarrierPositiveY,
-                                                           0, NULL);
+                                                           Barrier_ಧನಾತ್ಮಕ_Y,
+                                                           0, ಖಾಲಿ);
         /** Create the bottom barrier */
-        wdata->barrier[3] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
+        wdata->barrier[3] = X11_XFixes_Create_ಸೂಚಕ_Barrier(ದತ್ತಾಂಶ->display, wdata->xwindow,
                                                            bounds.x, y2,
                                                            bounds.x + bounds.w, y2,
                                                            BarrierNegativeY,
-                                                           0, NULL);
+                                                           0, ಖಾಲಿ);
 
-        X11_XFlush(data->display);
+        X11_XFlush(ದತ್ತಾಂಶ->display);
 
         // Lets remember current active confined window.
-        data->active_cursor_confined_window = window;
+        ದತ್ತಾಂಶ->ಸಕ್ರಿಯ_cursor_confined_ಕಿಟಕಿ = ಕಿಟಕಿ;
 
         /* User activated the confinement for this window. We use this later to reactivate
          * the confinement if it got deactivated by FocusOut or UnmapNotify */
-        wdata->pointer_barrier_active = true;
-    } else {
-        X11_DestroyPointerBarrier(_this, window);
+        wdata->ಸೂಚಕ_barrier_ಸಕ್ರಿಯ = true;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        X11_Destroy_ಸೂಚಕ_Barrier(_this, ಕಿಟಕಿ);
 
         // Only set barrier inactive when user specified NULL and not handled by focus out.
-        if (flags != X11_BARRIER_HANDLED_BY_EVENT) {
-            wdata->pointer_barrier_active = false;
+        ಆದರೆ (flags != X11_BARRIER_HANDLED_BY_EVENT) {
+            wdata->ಸೂಚಕ_barrier_ಸಕ್ರಿಯ = false;
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ X11_Destroy_ಸೂಚಕ_Barrier(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    int i;
-    SDL_VideoData *data = _this->internal;
-    if (window) {
-        SDL_WindowData *wdata = window->internal;
+    ಪೂರ್ಣಾಂಕ i;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    ಆದರೆ (ಕಿಟಕಿ) {
+        SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *wdata = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-        for (i = 0; i < 4; i++) {
-            if (wdata->barrier[i] > 0) {
-                X11_XFixesDestroyPointerBarrier(data->display, wdata->barrier[i]);
+        ಗಾಗಿ (i = 0; i < 4; i++) {
+            ಆದರೆ (wdata->barrier[i] > 0) {
+                X11_XFixes_Destroy_ಸೂಚಕ_Barrier(ದತ್ತಾಂಶ->display, wdata->barrier[i]);
                 wdata->barrier[i] = 0;
             }
         }
-        X11_XFlush(data->display);
+        X11_XFlush(ದತ್ತಾಂಶ->display);
     }
-    data->active_cursor_confined_window = NULL;
+    ದತ್ತಾಂಶ->ಸಕ್ರಿಯ_cursor_confined_ಕಿಟಕಿ = ಖಾಲಿ;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XFIXES
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XFIXES

@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 /*
    Code to load and save surfaces in Windows BMP format.
@@ -32,155 +32,155 @@
    This code currently supports Win32 DIBs in uncompressed 8 and 24 bpp.
 */
 
-#include "SDL_pixels_c.h"
-#include "SDL_surface_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_surface_c.h"
 
-#define SAVE_32BIT_BMP
+#ವ್ಯಾಖ್ಯಾನಿಸು SAVE_32_ಬಿಟ್_BMP
 
 // Compression encodings for BMP files
-#ifndef BI_RGB
-#define BI_RGB       0
-#define BI_RLE8      1
-#define BI_RLE4      2
-#define BI_BITFIELDS 3
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ BI_RGB
+#ವ್ಯಾಖ್ಯಾನಿಸು BI_RGB       0
+#ವ್ಯಾಖ್ಯಾನಿಸು BI_RLE8      1
+#ವ್ಯಾಖ್ಯಾನಿಸು BI_RLE4      2
+#ವ್ಯಾಖ್ಯಾನಿಸು BI_BITFIELDS 3
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Logical color space values for BMP files
 // https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wmf/eb4bbd50-b3ce-4917-895c-be31f214797f
-#ifndef LCS_WINDOWS_COLOR_SPACE
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ LCS_WINDOWS_COLOR_SPACE
 // 0x57696E20 == "Win "
-#define LCS_WINDOWS_COLOR_SPACE 0x57696E20
-#endif
+#ವ್ಯಾಖ್ಯಾನಿಸು LCS_WINDOWS_COLOR_SPACE 0x57696E20
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef LCS_sRGB
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ LCS_sRGB
 // 0x73524742 == "sRGB"
-#define LCS_sRGB 0x73524742
-#endif
+#ವ್ಯಾಖ್ಯಾನಿಸು LCS_sRGB 0x73524742
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Logical/physical color relationship
 // https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wmf/9fec0834-607d-427d-abd5-ab240fb0db38
-#ifndef LCS_GM_GRAPHICS
-#define LCS_GM_GRAPHICS 0x00000002
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ LCS_GM_GRAPHICS
+#ವ್ಯಾಖ್ಯಾನಿಸು LCS_GM_GRAPHICS 0x00000002
+#ಆದರೆ_ಅಂತ್ಯ
 
-static bool readRlePixels(SDL_Surface *surface, SDL_IOStream *src, int isRle8)
+ಸ್ಥಿರ bool readRlePixels(SDL_Surface *surface, SDL_IOStream *src, ಪೂರ್ಣಾಂಕ isRle8)
 {
     /*
     | Sets the surface pixels from src.  A bmp image is upside down.
     */
-    int pitch = surface->pitch;
-    int height = surface->h;
-    Uint8 *start = (Uint8 *)surface->pixels;
-    Uint8 *end = start + (height * pitch);
-    Uint8 *bits = end - pitch, *spot;
-    int ofs = 0;
+    ಪೂರ್ಣಾಂಕ pitch = surface->pitch;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = surface->h;
+    Uint8 *ಆರಂಭ = (Uint8 *)surface->pixels;
+    Uint8 *ಕೊನೆ = ಆರಂಭ + (ಎತ್ತರ * pitch);
+    Uint8 *ಬಿಟ್ಟುಗಳು = ಕೊನೆ - pitch, *spot;
+    ಪೂರ್ಣಾಂಕ ofs = 0;
     Uint8 ch;
     Uint8 needsPad;
-    const int pixels_per_byte = (isRle8 ? 1 : 2);
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ pixels_ಪ್ರತಿ_byte = (isRle8 ? 1 : 2);
 
-#define COPY_PIXEL(x)                \
-    spot = &bits[ofs++];             \
-    if (spot >= start && spot < end) \
+#ವ್ಯಾಖ್ಯಾನಿಸು COPY_PIXEL(x)                \
+    spot = &ಬಿಟ್ಟುಗಳು[ofs++];             \
+    ಆದರೆ (spot >= ಆರಂಭ && spot < ಕೊನೆ) \
         *spot = (x)
 
-    for (;;) {
-        if (!SDL_ReadU8(src, &ch)) {
-            return false;
+    ಗಾಗಿ (;;) {
+        ಆದರೆ (!SDL_ReadU8(src, &ch)) {
+            ಹಿಂತಿರುಗಿ false;
         }
         /*
         | encoded mode starts with a run length, and then a byte
         | with two colour indexes to alternate between for the run
         */
-        if (ch) {
+        ಆದರೆ (ch) {
             Uint8 pixelvalue;
-            if (!SDL_ReadU8(src, &pixelvalue)) {
-                return false;
+            ಆದರೆ (!SDL_ReadU8(src, &pixelvalue)) {
+                ಹಿಂತಿರುಗಿ false;
             }
-            int ich = (int) ch;
-            do {
+            ಪೂರ್ಣಾಂಕ ich = (ಪೂರ್ಣಾಂಕ) ch;
+            ಮಾಡು {
                 COPY_PIXEL(pixelvalue);
-                ich -= pixels_per_byte;
-            } while (ich > 0);
-        } else {
+                ich -= pixels_ಪ್ರತಿ_byte;
+            } ಆಗ (ich > 0);
+        } ಇಲ್ಲದಿದ್ದರೆ {
             /*
             | A leading zero is an escape; it may signal the end of the bitmap,
             | a cursor move, or some absolute data.
             | zero tag may be absolute mode or an escape
             */
-            if (!SDL_ReadU8(src, &ch)) {
-                return false;
+            ಆದರೆ (!SDL_ReadU8(src, &ch)) {
+                ಹಿಂತಿರುಗಿ false;
             }
-            switch (ch) {
-            case 0: // end of line
+            ಆಯ್ಕೆ (ch) {
+            ಸ್ಥಿತಿ 0: // end of line
                 ofs = 0;
-                bits -= pitch; // go to previous
-                break;
-            case 1:               // end of bitmap
-                return true; // success!
-            case 2:               // delta
-                if (!SDL_ReadU8(src, &ch)) {
-                    return false;
+                ಬಿಟ್ಟುಗಳು -= pitch; // go to previous
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 1:               // end of bitmap
+                ಹಿಂತಿರುಗಿ true; // success!
+            ಸ್ಥಿತಿ 2:               // delta
+                ಆದರೆ (!SDL_ReadU8(src, &ch)) {
+                    ಹಿಂತಿರುಗಿ false;
                 }
-                ofs += ch / pixels_per_byte;
-                if (ch & pixels_per_byte) {
+                ofs += ch / pixels_ಪ್ರತಿ_byte;
+                ಆದರೆ (ch & pixels_ಪ್ರತಿ_byte) {
                     ofs++;
                 }
-                if (!SDL_ReadU8(src, &ch)) {
-                    return false;
+                ಆದರೆ (!SDL_ReadU8(src, &ch)) {
+                    ಹಿಂತಿರುಗಿ false;
                 }
-                bits -= (ch * pitch);
-                break;
-            default: // no compression
+                ಬಿಟ್ಟುಗಳು -= (ch * pitch);
+                ನಿಲ್ಲಿಸು;
+            ಪೂರ್ವನಿಯೋಜಿತ: // no compression
                 // !!! FIXME: this needsPad calculation can probably be simpler than this.
-                if (pixels_per_byte == 1) {
+                ಆದರೆ (pixels_ಪ್ರತಿ_byte == 1) {
                     needsPad = (ch & 1) != 0;
-                } else {
-                    needsPad = (((ch + (pixels_per_byte-1)) / pixels_per_byte) & (pixels_per_byte-1)) != 0;
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    needsPad = (((ch + (pixels_ಪ್ರತಿ_byte-1)) / pixels_ಪ್ರತಿ_byte) & (pixels_ಪ್ರತಿ_byte-1)) != 0;
                 }
 
-                int ich = (int) ch;
-                do {
+                ಪೂರ್ಣಾಂಕ ich = (ಪೂರ್ಣಾಂಕ) ch;
+                ಮಾಡು {
                     Uint8 pixelvalue;
-                    if (!SDL_ReadU8(src, &pixelvalue)) {
-                        return false;
+                    ಆದರೆ (!SDL_ReadU8(src, &pixelvalue)) {
+                        ಹಿಂತಿರುಗಿ false;
                     }
                     COPY_PIXEL(pixelvalue);
-                    ich -= pixels_per_byte;
-                } while (ich > 0);
+                    ich -= pixels_ಪ್ರತಿ_byte;
+                } ಆಗ (ich > 0);
 
                 // pad at even boundary
-                if (needsPad && !SDL_ReadU8(src, &ch)) {
-                    return false;
+                ಆದರೆ (needsPad && !SDL_ReadU8(src, &ch)) {
+                    ಹಿಂತಿರುಗಿ false;
                 }
-                break;
+                ನಿಲ್ಲಿಸು;
             }
         }
     }
 }
 
-static void CorrectAlphaChannel(SDL_Surface *surface)
+ಸ್ಥಿರ ಶೂನ್ಯ CorrectAlphaChannel(SDL_Surface *surface)
 {
     // Check to see if there is any alpha channel data
     bool hasAlpha = false;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    int alphaChannelOffset = 0;
-#else
-    int alphaChannelOffset = 3;
-#endif
-    Uint8 *alpha = ((Uint8 *)surface->pixels) + alphaChannelOffset;
-    Uint8 *end = alpha + surface->h * surface->pitch;
+#ಆದರೆ SDL_BYTEORDER == SDL_BIG_ENDIAN
+    ಪೂರ್ಣಾಂಕ alpha_Channel_ಸ್ಥಾನಾಂತರ = 0;
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಪೂರ್ಣಾಂಕ alpha_Channel_ಸ್ಥಾನಾಂತರ = 3;
+#ಆದರೆ_ಅಂತ್ಯ
+    Uint8 *alpha = ((Uint8 *)surface->pixels) + alpha_Channel_ಸ್ಥಾನಾಂತರ;
+    Uint8 *ಕೊನೆ = alpha + surface->h * surface->pitch;
 
-    while (alpha < end) {
-        if (*alpha != 0) {
+    ಆಗ (alpha < ಕೊನೆ) {
+        ಆದರೆ (*alpha != 0) {
             hasAlpha = true;
-            break;
+            ನಿಲ್ಲಿಸು;
         }
         alpha += 4;
     }
 
-    if (!hasAlpha) {
-        alpha = ((Uint8 *)surface->pixels) + alphaChannelOffset;
-        while (alpha < end) {
+    ಆದರೆ (!hasAlpha) {
+        alpha = ((Uint8 *)surface->pixels) + alpha_Channel_ಸ್ಥಾನಾಂತರ;
+        ಆಗ (alpha < ಕೊನೆ) {
             *alpha = SDL_ALPHA_OPAQUE;
             alpha += 4;
         }
@@ -189,39 +189,39 @@ static void CorrectAlphaChannel(SDL_Surface *surface)
 
 bool SDL_IsBMP(SDL_IOStream *src)
 {
-    Sint64 start;
+    Sint64 ಆರಂಭ;
     Uint8 magic[2];
     bool is_BMP;
 
     is_BMP = false;
-    start = SDL_TellIO(src);
-    if (start >= 0) {
-        if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-            if (magic[0] == 'B' && magic[1] == 'M') {
+    ಆರಂಭ = SDL_TellIO(src);
+    ಆದರೆ (ಆರಂಭ >= 0) {
+        ಆದರೆ (SDL_ReadIO(src, magic, ಗಾತ್ರ(magic)) == ಗಾತ್ರ(magic)) {
+            ಆದರೆ (magic[0] == 'B' && magic[1] == 'M') {
                 is_BMP = true;
             }
         }
-        SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
+        SDL_SeekIO(src, ಆರಂಭ, SDL_IO_SEEK_ಗಣ);
     }
 
-    return is_BMP;
+    ಹಿಂತಿರುಗಿ is_BMP;
 }
 
-SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
+SDL_Surface *SDL_ತುಂಬು_BMP_IO(SDL_IOStream *src, bool closeio)
 {
     bool was_error = true;
-    Sint64 fp_offset = 0;
-    int i, pad;
+    Sint64 fp_ಸ್ಥಾನಾಂತರ = 0;
+    ಪೂರ್ಣಾಂಕ i, pad;
     SDL_Surface *surface;
     Uint32 Rmask = 0;
     Uint32 Gmask = 0;
     Uint32 Bmask = 0;
     Uint32 Amask = 0;
-    Uint8 *bits;
-    Uint8 *top, *end;
-    bool topDown;
+    Uint8 *ಬಿಟ್ಟುಗಳು;
+    Uint8 *ತುದಿ, *ಕೊನೆ;
+    bool ತುದಿ_ಕೆಳಕ್ಕೆ;
     bool haveRGBMasks = false;
-    bool haveAlphaMask = false;
+    bool have_Alpha_ಮುಖವಾಡ = false;
     bool correctAlpha = false;
 
     // The Win32 BMP file header (14 bytes)
@@ -229,83 +229,83 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     // Uint32 bfSize;
     // Uint16 bfReserved1;
     // Uint16 bfReserved2;
-    Uint32 bfOffBits;
+    Uint32 bf_Off_ಬಿಟ್ಟುಗಳು;
 
     // The Win32 BITMAPINFOHEADER struct (40 bytes)
-    Uint32 biSize;
-    Sint32 biWidth = 0;
-    Sint32 biHeight = 0;
+    Uint32 bi_ಗಾತ್ರ;
+    Sint32 bi_ಅಗಲ = 0;
+    Sint32 bi_ಎತ್ತರ = 0;
     // Uint16 biPlanes;
-    Uint16 biBitCount = 0;
+    Uint16 bi_ಬಿಟ್_ಎಣಿಕೆ = 0;
     Uint32 biCompression = 0;
     // Uint32 biSizeImage;
     // Sint32 biXPelsPerMeter;
     // Sint32 biYPelsPerMeter;
-    Uint32 biClrUsed = 0;
+    Uint32 bi_Clr_ಬಳಸಿದ = 0;
     // Uint32 biClrImportant;
 
     // Make sure we are passed a valid data source
-    surface = NULL;
+    surface = ಖಾಲಿ;
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        ಹೋಗು ಮುಗಿದ;
     }
 
     // Read in the BMP file header
-    fp_offset = SDL_TellIO(src);
-    if (fp_offset < 0) {
-        goto done;
+    fp_ಸ್ಥಾನಾಂತರ = SDL_TellIO(src);
+    ಆದರೆ (fp_ಸ್ಥಾನಾಂತರ < 0) {
+        ಹೋಗು ಮುಗಿದ;
     }
     SDL_ClearError();
-    if (!SDL_IsBMP(src)) {
-        SDL_SetError("File is not a Windows BMP file");
-        goto done;
+    ಆದರೆ (!SDL_IsBMP(src)) {
+        SDL_ಗಣ_Error("File is not a Windows BMP file");
+        ಹೋಗು ಮುಗಿದ;
     }
-    if (!SDL_ReadU16LE(src, NULL /* magic (already checked) */) ||
-        !SDL_ReadU32LE(src, NULL /* bfSize */) ||
-        !SDL_ReadU16LE(src, NULL /* bfReserved1 */) ||
-        !SDL_ReadU16LE(src, NULL /* bfReserved2 */) ||
-        !SDL_ReadU32LE(src, &bfOffBits)) {
-        goto done;
+    ಆದರೆ (!SDL_ReadU16LE(src, ಖಾಲಿ /* magic (already checked) */) ||
+        !SDL_ReadU32LE(src, ಖಾಲಿ /* bfSize */) ||
+        !SDL_ReadU16LE(src, ಖಾಲಿ /* bfReserved1 */) ||
+        !SDL_ReadU16LE(src, ಖಾಲಿ /* bfReserved2 */) ||
+        !SDL_ReadU32LE(src, &bf_Off_ಬಿಟ್ಟುಗಳು)) {
+        ಹೋಗು ಮುಗಿದ;
     }
 
     // Read the Win32 BITMAPINFOHEADER
-    if (!SDL_ReadU32LE(src, &biSize)) {
-        goto done;
+    ಆದರೆ (!SDL_ReadU32LE(src, &bi_ಗಾತ್ರ)) {
+        ಹೋಗು ಮುಗಿದ;
     }
-    if (biSize == 12) { // really old BITMAPCOREHEADER
+    ಆದರೆ (bi_ಗಾತ್ರ == 12) { // really old BITMAPCOREHEADER
         Uint16 biWidth16, biHeight16;
-        if (!SDL_ReadU16LE(src, &biWidth16) ||
+        ಆದರೆ (!SDL_ReadU16LE(src, &biWidth16) ||
             !SDL_ReadU16LE(src, &biHeight16) ||
-            !SDL_ReadU16LE(src, NULL /* biPlanes */) ||
-            !SDL_ReadU16LE(src, &biBitCount)) {
-            goto done;
+            !SDL_ReadU16LE(src, ಖಾಲಿ /* biPlanes */) ||
+            !SDL_ReadU16LE(src, &bi_ಬಿಟ್_ಎಣಿಕೆ)) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        biWidth = biWidth16;
-        biHeight = biHeight16;
+        bi_ಅಗಲ = biWidth16;
+        bi_ಎತ್ತರ = biHeight16;
         biCompression = BI_RGB;
         // biSizeImage = 0;
         // biXPelsPerMeter = 0;
         // biYPelsPerMeter = 0;
-        biClrUsed = 0;
+        bi_Clr_ಬಳಸಿದ = 0;
         // biClrImportant = 0;
-    } else if (biSize >= 40) { // some version of BITMAPINFOHEADER
-        Uint32 headerSize;
-        if (!SDL_ReadS32LE(src, &biWidth) ||
-            !SDL_ReadS32LE(src, &biHeight) ||
-            !SDL_ReadU16LE(src, NULL /* biPlanes */) ||
-            !SDL_ReadU16LE(src, &biBitCount) ||
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (bi_ಗಾತ್ರ >= 40) { // some version of BITMAPINFOHEADER
+        Uint32 ಶೀರ್ಷಿಕೆ_ಗಾತ್ರ;
+        ಆದರೆ (!SDL_ReadS32LE(src, &bi_ಅಗಲ) ||
+            !SDL_ReadS32LE(src, &bi_ಎತ್ತರ) ||
+            !SDL_ReadU16LE(src, ಖಾಲಿ /* biPlanes */) ||
+            !SDL_ReadU16LE(src, &bi_ಬಿಟ್_ಎಣಿಕೆ) ||
             !SDL_ReadU32LE(src, &biCompression) ||
-            !SDL_ReadU32LE(src, NULL /* biSizeImage */) ||
-            !SDL_ReadU32LE(src, NULL /* biXPelsPerMeter */) ||
-            !SDL_ReadU32LE(src, NULL /* biYPelsPerMeter */) ||
-            !SDL_ReadU32LE(src, &biClrUsed) ||
-            !SDL_ReadU32LE(src, NULL /* biClrImportant */)) {
-            goto done;
+            !SDL_ReadU32LE(src, ಖಾಲಿ /* biSizeImage */) ||
+            !SDL_ReadU32LE(src, ಖಾಲಿ /* biXPelsPerMeter */) ||
+            !SDL_ReadU32LE(src, ಖಾಲಿ /* biYPelsPerMeter */) ||
+            !SDL_ReadU32LE(src, &bi_Clr_ಬಳಸಿದ) ||
+            !SDL_ReadU32LE(src, ಖಾಲಿ /* biClrImportant */)) {
+            ಹೋಗು ಮುಗಿದ;
         }
 
         // 64 == BITMAPCOREHEADER2, an incompatible OS/2 2.x extension. Skip this stuff for now.
-        if (biSize != 64) {
+        ಆದರೆ (bi_ಗಾತ್ರ != 64) {
             /* This is complicated. If compression is BI_BITFIELDS, then
                we have 3 DWORDS that specify the RGB masks. This is either
                stored here in an BITMAPV2INFOHEADER (which only differs in
@@ -313,33 +313,33 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
                these masks stored in the exact same place, but strictly
                speaking, this is the bmiColors field in BITMAPINFO immediately
                following the legacy v1 info header, just past biSize. */
-            if (biCompression == BI_BITFIELDS) {
+            ಆದರೆ (biCompression == BI_BITFIELDS) {
                 haveRGBMasks = true;
-                if (!SDL_ReadU32LE(src, &Rmask) ||
+                ಆದರೆ (!SDL_ReadU32LE(src, &Rmask) ||
                     !SDL_ReadU32LE(src, &Gmask) ||
                     !SDL_ReadU32LE(src, &Bmask)) {
-                    goto done;
+                    ಹೋಗು ಮುಗಿದ;
                 }
 
                 // ...v3 adds an alpha mask.
-                if (biSize >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
-                    haveAlphaMask = true;
-                    if (!SDL_ReadU32LE(src, &Amask)) {
-                        goto done;
+                ಆದರೆ (bi_ಗಾತ್ರ >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
+                    have_Alpha_ಮುಖವಾಡ = true;
+                    ಆದರೆ (!SDL_ReadU32LE(src, &Amask)) {
+                        ಹೋಗು ಮುಗಿದ;
                     }
                 }
-            } else {
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 // the mask fields are ignored for v2+ headers if not BI_BITFIELD.
-                if (biSize >= 52) { // BITMAPV2INFOHEADER; adds RGB masks
-                    if (!SDL_ReadU32LE(src, NULL /* Rmask */) ||
-                        !SDL_ReadU32LE(src, NULL /* Gmask */) ||
-                        !SDL_ReadU32LE(src, NULL /* Bmask */)) {
-                        goto done;
+                ಆದರೆ (bi_ಗಾತ್ರ >= 52) { // BITMAPV2INFOHEADER; adds RGB masks
+                    ಆದರೆ (!SDL_ReadU32LE(src, ಖಾಲಿ /* Rmask */) ||
+                        !SDL_ReadU32LE(src, ಖಾಲಿ /* Gmask */) ||
+                        !SDL_ReadU32LE(src, ಖಾಲಿ /* Bmask */)) {
+                        ಹೋಗು ಮುಗಿದ;
                     }
                 }
-                if (biSize >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
-                    if (!SDL_ReadU32LE(src, NULL /* Amask */)) {
-                        goto done;
+                ಆದರೆ (bi_ಗಾತ್ರ >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
+                    ಆದರೆ (!SDL_ReadU32LE(src, ಖಾಲಿ /* Amask */)) {
+                        ಹೋಗು ಮುಗಿದ;
                     }
                 }
             }
@@ -351,71 +351,71 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         }
 
         // skip any header bytes we didn't handle...
-        headerSize = (Uint32)(SDL_TellIO(src) - (fp_offset + 14));
-        if (biSize > headerSize) {
-            if (SDL_SeekIO(src, (biSize - headerSize), SDL_IO_SEEK_CUR) < 0) {
-                goto done;
+        ಶೀರ್ಷಿಕೆ_ಗಾತ್ರ = (Uint32)(SDL_TellIO(src) - (fp_ಸ್ಥಾನಾಂತರ + 14));
+        ಆದರೆ (bi_ಗಾತ್ರ > ಶೀರ್ಷಿಕೆ_ಗಾತ್ರ) {
+            ಆದರೆ (SDL_SeekIO(src, (bi_ಗಾತ್ರ - ಶೀರ್ಷಿಕೆ_ಗಾತ್ರ), SDL_IO_SEEK_CUR) < 0) {
+                ಹೋಗು ಮುಗಿದ;
             }
         }
     }
-    if (biWidth <= 0 || biHeight == 0) {
-        SDL_SetError("BMP file with bad dimensions (%" SDL_PRIs32 "x%" SDL_PRIs32 ")", biWidth, biHeight);
-        goto done;
+    ಆದರೆ (bi_ಅಗಲ <= 0 || bi_ಎತ್ತರ == 0) {
+        SDL_ಗಣ_Error("BMP file with bad dimensions (%" SDL_PRIs32 "x%" SDL_PRIs32 ")", bi_ಅಗಲ, bi_ಎತ್ತರ);
+        ಹೋಗು ಮುಗಿದ;
     }
-    if (biHeight < 0) {
-        topDown = true;
-        biHeight = -biHeight;
-    } else {
-        topDown = false;
+    ಆದರೆ (bi_ಎತ್ತರ < 0) {
+        ತುದಿ_ಕೆಳಕ್ಕೆ = true;
+        bi_ಎತ್ತರ = -bi_ಎತ್ತರ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ತುದಿ_ಕೆಳಕ್ಕೆ = false;
     }
 
     // Check for read error
-    if (SDL_strcmp(SDL_GetError(), "") != 0) {
-        goto done;
+    ಆದರೆ (SDL_strcmp(SDL_GetError(), "") != 0) {
+        ಹೋಗು ಮುಗಿದ;
     }
 
     // Reject invalid bit depths
-    switch (biBitCount) {
-    case 0:
-    case 3:
-    case 5:
-    case 6:
-    case 7:
-        SDL_SetError("%u bpp BMP images are not supported", biBitCount);
-        goto done;
-    default:
-        break;
+    ಆಯ್ಕೆ (bi_ಬಿಟ್_ಎಣಿಕೆ) {
+    ಸ್ಥಿತಿ 0:
+    ಸ್ಥಿತಿ 3:
+    ಸ್ಥಿತಿ 5:
+    ಸ್ಥಿತಿ 6:
+    ಸ್ಥಿತಿ 7:
+        SDL_ಗಣ_Error("%u bpp BMP images are not supported", bi_ಬಿಟ್_ಎಣಿಕೆ);
+        ಹೋಗು ಮುಗಿದ;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ನಿಲ್ಲಿಸು;
     }
 
     // RLE4 and RLE8 BMP compression is supported
-    switch (biCompression) {
-    case BI_RGB:
+    ಆಯ್ಕೆ (biCompression) {
+    ಸ್ಥಿತಿ BI_RGB:
         // If there are no masks, use the defaults
         SDL_assert(!haveRGBMasks);
-        SDL_assert(!haveAlphaMask);
+        SDL_assert(!have_Alpha_ಮುಖವಾಡ);
         // Default values for the BMP format
-        switch (biBitCount) {
-        case 15:
-        case 16:
+        ಆಯ್ಕೆ (bi_ಬಿಟ್_ಎಣಿಕೆ) {
+        ಸ್ಥಿತಿ 15:
+        ಸ್ಥಿತಿ 16:
             // SDL_PIXELFORMAT_XRGB1555 or SDL_PIXELFORMAT_ARGB1555 if Amask
             Rmask = 0x7C00;
             Gmask = 0x03E0;
             Bmask = 0x001F;
-            break;
-        case 24:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ 24:
+#ಆದರೆ SDL_BYTEORDER == SDL_BIG_ENDIAN
             // SDL_PIXELFORMAT_RGB24
             Rmask = 0x000000FF;
             Gmask = 0x0000FF00;
             Bmask = 0x00FF0000;
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
             // SDL_PIXELFORMAT_BGR24
             Rmask = 0x00FF0000;
             Gmask = 0x0000FF00;
             Bmask = 0x000000FF;
-#endif
-            break;
-        case 32:
+#ಆದರೆ_ಅಂತ್ಯ
+            ನಿಲ್ಲಿಸು;
+        ಸ್ಥಿತಿ 32:
             // We don't know if this has alpha channel or not
             correctAlpha = true;
             // SDL_PIXELFORMAT_RGBA8888
@@ -423,17 +423,17 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
             Rmask = 0x00FF0000;
             Gmask = 0x0000FF00;
             Bmask = 0x000000FF;
-            break;
-        default:
-            break;
+            ನಿಲ್ಲಿಸು;
+        ಪೂರ್ವನಿಯೋಜಿತ:
+            ನಿಲ್ಲಿಸು;
         }
-        break;
+        ನಿಲ್ಲಿಸು;
 
-    case BI_BITFIELDS:
-        break; // we handled this in the info header.
+    ಸ್ಥಿತಿ BI_BITFIELDS:
+        ನಿಲ್ಲಿಸು; // we handled this in the info header.
 
-    default:
-        break;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ನಿಲ್ಲಿಸು;
     }
 
     // Create a compatible surface, note that the colors are RGB ordered
@@ -441,60 +441,60 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         SDL_PixelFormat format;
 
         // Get the pixel format
-        format = SDL_GetPixelFormatForMasks(biBitCount, Rmask, Gmask, Bmask, Amask);
-        surface = SDL_CreateSurfaceUninitialized(biWidth, biHeight, format);
+        format = SDL_GetPixelFormatForMasks(bi_ಬಿಟ್_ಎಣಿಕೆ, Rmask, Gmask, Bmask, Amask);
+        surface = SDL_CreateSurfaceUninitialized(bi_ಅಗಲ, bi_ಎತ್ತರ, format);
 
-        if (!surface) {
-            goto done;
+        ಆದರೆ (!surface) {
+            ಹೋಗು ಮುಗಿದ;
         }
     }
 
     // Load the palette, if any
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+    ಆದರೆ (SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(surface->format)) {
         SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-        if (!palette) {
-            goto done;
+        ಆದರೆ (!palette) {
+            ಹೋಗು ಮುಗಿದ;
         }
 
-        if (SDL_SeekIO(src, fp_offset + 14 + biSize, SDL_IO_SEEK_SET) < 0) {
-            SDL_SetError("Error seeking in datastream");
-            goto done;
+        ಆದರೆ (SDL_SeekIO(src, fp_ಸ್ಥಾನಾಂತರ + 14 + bi_ಗಾತ್ರ, SDL_IO_SEEK_ಗಣ) < 0) {
+            SDL_ಗಣ_Error("Error seeking in datastream");
+            ಹೋಗು ಮುಗಿದ;
         }
 
-        if (biBitCount >= 32) { // we shift biClrUsed by this value later.
-            SDL_SetError("Unsupported or incorrect biBitCount field");
-            goto done;
+        ಆದರೆ (bi_ಬಿಟ್_ಎಣಿಕೆ >= 32) { // we shift biClrUsed by this value later.
+            SDL_ಗಣ_Error("Unsupported or incorrect biBitCount field");
+            ಹೋಗು ಮುಗಿದ;
         }
 
-        if (biClrUsed == 0) {
-            biClrUsed = 1 << biBitCount;
+        ಆದರೆ (bi_Clr_ಬಳಸಿದ == 0) {
+            bi_Clr_ಬಳಸಿದ = 1 << bi_ಬಿಟ್_ಎಣಿಕೆ;
         }
 
-        if (biClrUsed > (Uint32)palette->ncolors) {
-            biClrUsed = 1 << biBitCount; // try forcing it?
-            if (biClrUsed > (Uint32)palette->ncolors) {
-                SDL_SetError("Unsupported or incorrect biClrUsed field");
-                goto done;
+        ಆದರೆ (bi_Clr_ಬಳಸಿದ > (Uint32)palette->ncolors) {
+            bi_Clr_ಬಳಸಿದ = 1 << bi_ಬಿಟ್_ಎಣಿಕೆ; // try forcing it?
+            ಆದರೆ (bi_Clr_ಬಳಸಿದ > (Uint32)palette->ncolors) {
+                SDL_ಗಣ_Error("Unsupported or incorrect biClrUsed field");
+                ಹೋಗು ಮುಗಿದ;
             }
         }
-        palette->ncolors = biClrUsed;
+        palette->ncolors = bi_Clr_ಬಳಸಿದ;
 
-        if (biSize == 12) {
-            for (i = 0; i < palette->ncolors; ++i) {
-                if (!SDL_ReadU8(src, &palette->colors[i].b) ||
+        ಆದರೆ (bi_ಗಾತ್ರ == 12) {
+            ಗಾಗಿ (i = 0; i < palette->ncolors; ++i) {
+                ಆದರೆ (!SDL_ReadU8(src, &palette->colors[i].b) ||
                     !SDL_ReadU8(src, &palette->colors[i].g) ||
                     !SDL_ReadU8(src, &palette->colors[i].r)) {
-                    goto done;
+                    ಹೋಗು ಮುಗಿದ;
                 }
                 palette->colors[i].a = SDL_ALPHA_OPAQUE;
             }
-        } else {
-            for (i = 0; i < palette->ncolors; ++i) {
-                if (!SDL_ReadU8(src, &palette->colors[i].b) ||
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಗಾಗಿ (i = 0; i < palette->ncolors; ++i) {
+                ಆದರೆ (!SDL_ReadU8(src, &palette->colors[i].b) ||
                     !SDL_ReadU8(src, &palette->colors[i].g) ||
                     !SDL_ReadU8(src, &palette->colors[i].r) ||
                     !SDL_ReadU8(src, &palette->colors[i].a)) {
-                    goto done;
+                    ಹೋಗು ಮುಗಿದ;
                 }
 
                 /* According to Microsoft documentation, the fourth element
@@ -507,212 +507,212 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     }
 
     // Read the surface pixels.  Note that the bmp image is upside down
-    if (SDL_SeekIO(src, fp_offset + bfOffBits, SDL_IO_SEEK_SET) < 0) {
-        SDL_SetError("Error seeking in datastream");
-        goto done;
+    ಆದರೆ (SDL_SeekIO(src, fp_ಸ್ಥಾನಾಂತರ + bf_Off_ಬಿಟ್ಟುಗಳು, SDL_IO_SEEK_ಗಣ) < 0) {
+        SDL_ಗಣ_Error("Error seeking in datastream");
+        ಹೋಗು ಮುಗಿದ;
     }
-    if ((biCompression == BI_RLE4) || (biCompression == BI_RLE8)) {
-        if (!readRlePixels(surface, src, biCompression == BI_RLE8)) {
-            SDL_SetError("Error reading from datastream");
-            goto done;
+    ಆದರೆ ((biCompression == BI_RLE4) || (biCompression == BI_RLE8)) {
+        ಆದರೆ (!readRlePixels(surface, src, biCompression == BI_RLE8)) {
+            SDL_ಗಣ_Error("Error reading from datastream");
+            ಹೋಗು ಮುಗಿದ;
         }
 
         // Success!
         was_error = false;
-        goto done;
+        ಹೋಗು ಮುಗಿದ;
     }
-    top = (Uint8 *)surface->pixels;
-    end = (Uint8 *)surface->pixels + (surface->h * surface->pitch);
+    ತುದಿ = (Uint8 *)surface->pixels;
+    ಕೊನೆ = (Uint8 *)surface->pixels + (surface->h * surface->pitch);
     pad = ((surface->pitch % 4) ? (4 - (surface->pitch % 4)) : 0);
-    if (topDown) {
-        bits = top;
-    } else {
-        bits = end - surface->pitch;
+    ಆದರೆ (ತುದಿ_ಕೆಳಕ್ಕೆ) {
+        ಬಿಟ್ಟುಗಳು = ತುದಿ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಬಿಟ್ಟುಗಳು = ಕೊನೆ - surface->pitch;
     }
-    while (bits >= top && bits < end) {
-        if (SDL_ReadIO(src, bits, surface->pitch) != (size_t)surface->pitch) {
-            goto done;
+    ಆಗ (ಬಿಟ್ಟುಗಳು >= ತುದಿ && ಬಿಟ್ಟುಗಳು < ಕೊನೆ) {
+        ಆದರೆ (SDL_ReadIO(src, ಬಿಟ್ಟುಗಳು, surface->pitch) != (size_t)surface->pitch) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        if (biBitCount == 8 && surface->palette && biClrUsed < (1u << biBitCount)) {
-            for (i = 0; i < surface->w; ++i) {
-                if (bits[i] >= biClrUsed) {
-                    SDL_SetError("A BMP image contains a pixel with a color out of the palette");
-                    goto done;
+        ಆದರೆ (bi_ಬಿಟ್_ಎಣಿಕೆ == 8 && surface->palette && bi_Clr_ಬಳಸಿದ < (1u << bi_ಬಿಟ್_ಎಣಿಕೆ)) {
+            ಗಾಗಿ (i = 0; i < surface->w; ++i) {
+                ಆದರೆ (ಬಿಟ್ಟುಗಳು[i] >= bi_Clr_ಬಳಸಿದ) {
+                    SDL_ಗಣ_Error("A BMP image contains a pixel with a color out of the palette");
+                    ಹೋಗು ಮುಗಿದ;
                 }
             }
         }
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_BIG_ENDIAN
         /* Byte-swap the pixels if needed. Note that the 24bpp
            case has already been taken care of above. */
-        switch (biBitCount) {
-        case 15:
-        case 16:
+        ಆಯ್ಕೆ (bi_ಬಿಟ್_ಎಣಿಕೆ) {
+        ಸ್ಥಿತಿ 15:
+        ಸ್ಥಿತಿ 16:
         {
-            Uint16 *pix = (Uint16 *)bits;
-            for (i = 0; i < surface->w; i++) {
+            Uint16 *pix = (Uint16 *)ಬಿಟ್ಟುಗಳು;
+            ಗಾಗಿ (i = 0; i < surface->w; i++) {
                 pix[i] = SDL_Swap16(pix[i]);
             }
-            break;
+            ನಿಲ್ಲಿಸು;
         }
 
-        case 32:
+        ಸ್ಥಿತಿ 32:
         {
-            Uint32 *pix = (Uint32 *)bits;
-            for (i = 0; i < surface->w; i++) {
+            Uint32 *pix = (Uint32 *)ಬಿಟ್ಟುಗಳು;
+            ಗಾಗಿ (i = 0; i < surface->w; i++) {
                 pix[i] = SDL_Swap32(pix[i]);
             }
-            break;
+            ನಿಲ್ಲಿಸು;
         }
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
         // Skip padding bytes, ugh
-        if (pad) {
+        ಆದರೆ (pad) {
             Uint8 padbyte;
-            for (i = 0; i < pad; ++i) {
-                if (!SDL_ReadU8(src, &padbyte)) {
-                    goto done;
+            ಗಾಗಿ (i = 0; i < pad; ++i) {
+                ಆದರೆ (!SDL_ReadU8(src, &padbyte)) {
+                    ಹೋಗು ಮುಗಿದ;
                 }
             }
         }
-        if (topDown) {
-            bits += surface->pitch;
-        } else {
-            bits -= surface->pitch;
+        ಆದರೆ (ತುದಿ_ಕೆಳಕ್ಕೆ) {
+            ಬಿಟ್ಟುಗಳು += surface->pitch;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಬಿಟ್ಟುಗಳು -= surface->pitch;
         }
     }
-    if (correctAlpha) {
+    ಆದರೆ (correctAlpha) {
         CorrectAlphaChannel(surface);
     }
 
     was_error = false;
 
-done:
-    if (was_error) {
-        if (src) {
-            SDL_SeekIO(src, fp_offset, SDL_IO_SEEK_SET);
+ಮುಗಿದ:
+    ಆದರೆ (was_error) {
+        ಆದರೆ (src) {
+            SDL_SeekIO(src, fp_ಸ್ಥಾನಾಂತರ, SDL_IO_SEEK_ಗಣ);
         }
         SDL_DestroySurface(surface);
-        surface = NULL;
+        surface = ಖಾಲಿ;
     }
-    if (closeio && src) {
+    ಆದರೆ (closeio && src) {
         SDL_CloseIO(src);
     }
-    return surface;
+    ಹಿಂತಿರುಗಿ surface;
 }
 
-typedef struct {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
     SDL_Surface *surface;
     SDL_Surface *intermediate_surface;
     bool save32bit;
     bool saveLegacyBMP;
 } BMPSaveState;
 
-static void FreeBMPSaveState(BMPSaveState *state)
+ಸ್ಥಿರ ಶೂನ್ಯ FreeBMPSaveState(BMPSaveState *state)
 {
-    if (state->intermediate_surface && state->intermediate_surface != state->surface) {
+    ಆದರೆ (state->intermediate_surface && state->intermediate_surface != state->surface) {
         SDL_DestroySurface(state->intermediate_surface);
     }
 }
 
-static bool InitBMPSaveState(BMPSaveState *state, SDL_Surface *surface)
+ಸ್ಥಿರ bool InitBMPSaveState(BMPSaveState *state, SDL_Surface *surface)
 {
     state->surface = surface;
-    state->intermediate_surface = NULL;
+    state->intermediate_surface = ಖಾಲಿ;
     state->save32bit = false;
     state->saveLegacyBMP = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        ಹಿಂತಿರುಗಿ SDL_InvalidParamError("surface");
     }
 
-#ifdef SAVE_32BIT_BMP
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SAVE_32_ಬಿಟ್_BMP
     // We can save alpha information in a 32-bit BMP
-    if (SDL_BITSPERPIXEL(surface->format) >= 8 &&
+    ಆದರೆ (SDL_BITSPERPIXEL(surface->format) >= 8 &&
         (SDL_ISPIXELFORMAT_ALPHA(surface->format) ||
          (surface->map.info.flags & SDL_COPY_COLORKEY))) {
         state->save32bit = true;
     }
-#endif // SAVE_32BIT_BMP
+#ಆದರೆ_ಅಂತ್ಯ // SAVE_32BIT_BMP
 
-    if (surface->palette && !state->save32bit) {
-        if (SDL_BITSPERPIXEL(surface->format) == 8) {
+    ಆದರೆ (surface->palette && !state->save32bit) {
+        ಆದರೆ (SDL_BITSPERPIXEL(surface->format) == 8) {
             state->intermediate_surface = surface;
-        } else {
-            SDL_SetError("%u bpp BMP files not supported",
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            SDL_ಗಣ_Error("%u bpp BMP files not supported",
                          SDL_BITSPERPIXEL(surface->format));
-            goto error;
+            ಹೋಗು error;
         }
-    } else if ((surface->format == SDL_PIXELFORMAT_BGR24 && !state->save32bit) ||
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ ((surface->format == SDL_PIXELFORMAT_BGR24 && !state->save32bit) ||
                (surface->format == SDL_PIXELFORMAT_BGRA32 && state->save32bit)) {
         state->intermediate_surface = surface;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         SDL_PixelFormat pixel_format;
 
         /* If the surface has a colorkey or alpha channel we'll save a
            32-bit BMP with alpha channel, otherwise save a 24-bit BMP. */
-        if (state->save32bit) {
+        ಆದರೆ (state->save32bit) {
             pixel_format = SDL_PIXELFORMAT_BGRA32;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             pixel_format = SDL_PIXELFORMAT_BGR24;
         }
         state->intermediate_surface = SDL_ConvertSurface(surface, pixel_format);
-        if (!state->intermediate_surface) {
-            SDL_SetError("Couldn't convert image to %d bpp",
-                         (int)SDL_BITSPERPIXEL(pixel_format));
-            goto error;
+        ಆದರೆ (!state->intermediate_surface) {
+            SDL_ಗಣ_Error("Couldn't convert image to %d bpp",
+                         (ಪೂರ್ಣಾಂಕ)SDL_BITSPERPIXEL(pixel_format));
+            ಹೋಗು error;
         }
     }
 
-    if (state->save32bit) {
+    ಆದರೆ (state->save32bit) {
         state->saveLegacyBMP = SDL_GetHintBoolean(SDL_HINT_BMP_SAVE_LEGACY_FORMAT, false);
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 error:
     FreeBMPSaveState(state);
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-SDL_Surface *SDL_LoadBMP(const char *file)
+SDL_Surface *SDL_ತುಂಬು_BMP(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *file)
 {
-    SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    SDL_IOStream *ಹರಿವು = SDL_IOFromFile(file, "rb");
+    ಆದರೆ (!ಹರಿವು) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
-    return SDL_LoadBMP_IO(stream, true);
+    ಹಿಂತಿರುಗಿ SDL_ತುಂಬು_BMP_IO(ಹರಿವು, true);
 }
-static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool closeio)
+ಸ್ಥಿರ bool SDL_Save_BMP_IO_ಆಂತರಿಕ(BMPSaveState *state, SDL_IOStream *dst, bool closeio)
 {
     bool was_error = true;
-    Sint64 fp_offset, new_offset;
-    int i, pad;
-    Uint8 *bits;
+    Sint64 fp_ಸ್ಥಾನಾಂತರ, new_ಸ್ಥಾನಾಂತರ;
+    ಪೂರ್ಣಾಂಕ i, pad;
+    Uint8 *ಬಿಟ್ಟುಗಳು;
 
     // The Win32 BMP file header (14 bytes)
-    char magic[2] = { 'B', 'M' };
-    Uint32 bfSize;
+    ಅಕ್ಷರ magic[2] = { 'B', 'M' };
+    Uint32 bf_ಗಾತ್ರ;
     Uint16 bfReserved1;
     Uint16 bfReserved2;
-    Uint32 bfOffBits;
+    Uint32 bf_Off_ಬಿಟ್ಟುಗಳು;
 
     // The Win32 BITMAPINFOHEADER struct (40 bytes)
-    Uint32 biSize;
-    Sint32 biWidth;
-    Sint32 biHeight;
+    Uint32 bi_ಗಾತ್ರ;
+    Sint32 bi_ಅಗಲ;
+    Sint32 bi_ಎತ್ತರ;
     Uint16 biPlanes;
-    Uint16 biBitCount;
+    Uint16 bi_ಬಿಟ್_ಎಣಿಕೆ;
     Uint32 biCompression;
-    Uint32 biSizeImage;
-    Sint32 biXPelsPerMeter;
-    Sint32 biYPelsPerMeter;
-    Uint32 biClrUsed;
+    Uint32 bi_ಗಾತ್ರ_Image;
+    Sint32 bi_XPels_ಪ್ರತಿ_Meter;
+    Sint32 bi_YPels_ಪ್ರತಿ_Meter;
+    Uint32 bi_Clr_ಬಳಸಿದ;
     Uint32 biClrImportant;
 
     // The additional header members from the Win32 BITMAPV4HEADER struct (108 bytes in total)
-    Uint32 bV4RedMask = 0;
-    Uint32 bV4GreenMask = 0;
-    Uint32 bV4BlueMask = 0;
-    Uint32 bV4AlphaMask = 0;
+    Uint32 b_V4_Red_ಮುಖವಾಡ = 0;
+    Uint32 b_V4_Green_ಮುಖವಾಡ = 0;
+    Uint32 b_V4_Blue_ಮುಖವಾಡ = 0;
+    Uint32 b_V4_Alpha_ಮುಖವಾಡ = 0;
     Uint32 bV4CSType = 0;
     Sint32 bV4Endpoints[3 * 3] = { 0 };
     Uint32 bV4GammaRed = 0;
@@ -721,175 +721,175 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
 
     // The additional header members from the Win32 BITMAPV5HEADER struct (124 bytes in total)
     Uint32 bV5Intent = 0;
-    Uint32 bV5ProfileData = 0;
-    Uint32 bV5ProfileSize = 0;
+    Uint32 b_V5_Profile_ದತ್ತಾಂಶ = 0;
+    Uint32 b_V5_Profile_ಗಾತ್ರ = 0;
     Uint32 bV5Reserved = 0;
 
-    if (SDL_LockSurface(state->intermediate_surface)) {
-        const size_t bw = state->intermediate_surface->w * state->intermediate_surface->fmt->bytes_per_pixel;
+    ಆದರೆ (SDL_ಬೀಗ_Surface(state->intermediate_surface)) {
+        ಸ್ಥಿರಾಂಕ size_t bw = state->intermediate_surface->w * state->intermediate_surface->fmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
 
         // Set the BMP file header values
-        bfSize = 0; // We'll write this when we're done
+        bf_ಗಾತ್ರ = 0; // We'll write this when we're done
         bfReserved1 = 0;
         bfReserved2 = 0;
-        bfOffBits = 0; // We'll write this when we're done
+        bf_Off_ಬಿಟ್ಟುಗಳು = 0; // We'll write this when we're done
 
         // Write the BMP file header values
-        fp_offset = SDL_TellIO(dst);
-        if (fp_offset < 0) {
-            goto done;
+        fp_ಸ್ಥಾನಾಂತರ = SDL_TellIO(dst);
+        ಆದರೆ (fp_ಸ್ಥಾನಾಂತರ < 0) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        if (SDL_WriteIO(dst, magic, 2) != 2 ||
-            !SDL_WriteU32LE(dst, bfSize) ||
+        ಆದರೆ (SDL_WriteIO(dst, magic, 2) != 2 ||
+            !SDL_WriteU32LE(dst, bf_ಗಾತ್ರ) ||
             !SDL_WriteU16LE(dst, bfReserved1) ||
             !SDL_WriteU16LE(dst, bfReserved2) ||
-            !SDL_WriteU32LE(dst, bfOffBits)) {
-            goto done;
+            !SDL_WriteU32LE(dst, bf_Off_ಬಿಟ್ಟುಗಳು)) {
+            ಹೋಗು ಮುಗಿದ;
         }
 
         // Set the BMP info values
-        biSize = 40;
-        biWidth = state->intermediate_surface->w;
-        biHeight = state->intermediate_surface->h;
+        bi_ಗಾತ್ರ = 40;
+        bi_ಅಗಲ = state->intermediate_surface->w;
+        bi_ಎತ್ತರ = state->intermediate_surface->h;
         biPlanes = 1;
-        biBitCount = state->intermediate_surface->fmt->bits_per_pixel;
+        bi_ಬಿಟ್_ಎಣಿಕೆ = state->intermediate_surface->fmt->ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_pixel;
         biCompression = BI_RGB;
-        biSizeImage = state->intermediate_surface->h * state->intermediate_surface->pitch;
-        biXPelsPerMeter = 0;
-        biYPelsPerMeter = 0;
-        if (state->intermediate_surface->palette) {
-            biClrUsed = state->intermediate_surface->palette->ncolors;
-        } else {
-            biClrUsed = 0;
+        bi_ಗಾತ್ರ_Image = state->intermediate_surface->h * state->intermediate_surface->pitch;
+        bi_XPels_ಪ್ರತಿ_Meter = 0;
+        bi_YPels_ಪ್ರತಿ_Meter = 0;
+        ಆದರೆ (state->intermediate_surface->palette) {
+            bi_Clr_ಬಳಸಿದ = state->intermediate_surface->palette->ncolors;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            bi_Clr_ಬಳಸಿದ = 0;
         }
         biClrImportant = 0;
 
         // Set the BMP info values
-        if (state->save32bit && !state->saveLegacyBMP) {
-            biSize = 124;
+        ಆದರೆ (state->save32bit && !state->saveLegacyBMP) {
+            bi_ಗಾತ್ರ = 124;
             // Version 4 values
             biCompression = BI_BITFIELDS;
             // The BMP format is always little endian, these masks stay the same
-            bV4RedMask = 0x00ff0000;
-            bV4GreenMask = 0x0000ff00;
-            bV4BlueMask = 0x000000ff;
-            bV4AlphaMask = 0xff000000;
+            b_V4_Red_ಮುಖವಾಡ = 0x00ff0000;
+            b_V4_Green_ಮುಖವಾಡ = 0x0000ff00;
+            b_V4_Blue_ಮುಖವಾಡ = 0x000000ff;
+            b_V4_Alpha_ಮುಖವಾಡ = 0xff000000;
             bV4CSType = LCS_sRGB;
             bV4GammaRed = 0;
             bV4GammaGreen = 0;
             bV4GammaBlue = 0;
             // Version 5 values
             bV5Intent = LCS_GM_GRAPHICS;
-            bV5ProfileData = 0;
-            bV5ProfileSize = 0;
+            b_V5_Profile_ದತ್ತಾಂಶ = 0;
+            b_V5_Profile_ಗಾತ್ರ = 0;
             bV5Reserved = 0;
         }
 
         // Write the BMP info values
-        if (!SDL_WriteU32LE(dst, biSize) ||
-            !SDL_WriteS32LE(dst, biWidth) ||
-            !SDL_WriteS32LE(dst, biHeight) ||
+        ಆದರೆ (!SDL_WriteU32LE(dst, bi_ಗಾತ್ರ) ||
+            !SDL_WriteS32LE(dst, bi_ಅಗಲ) ||
+            !SDL_WriteS32LE(dst, bi_ಎತ್ತರ) ||
             !SDL_WriteU16LE(dst, biPlanes) ||
-            !SDL_WriteU16LE(dst, biBitCount) ||
+            !SDL_WriteU16LE(dst, bi_ಬಿಟ್_ಎಣಿಕೆ) ||
             !SDL_WriteU32LE(dst, biCompression) ||
-            !SDL_WriteU32LE(dst, biSizeImage) ||
-            !SDL_WriteU32LE(dst, biXPelsPerMeter) ||
-            !SDL_WriteU32LE(dst, biYPelsPerMeter) ||
-            !SDL_WriteU32LE(dst, biClrUsed) ||
+            !SDL_WriteU32LE(dst, bi_ಗಾತ್ರ_Image) ||
+            !SDL_WriteU32LE(dst, bi_XPels_ಪ್ರತಿ_Meter) ||
+            !SDL_WriteU32LE(dst, bi_YPels_ಪ್ರತಿ_Meter) ||
+            !SDL_WriteU32LE(dst, bi_Clr_ಬಳಸಿದ) ||
             !SDL_WriteU32LE(dst, biClrImportant)) {
-            goto done;
+            ಹೋಗು ಮುಗಿದ;
         }
 
         // Write the BMP info values
-        if (state->save32bit && !state->saveLegacyBMP) {
+        ಆದರೆ (state->save32bit && !state->saveLegacyBMP) {
             // Version 4 values
-            if (!SDL_WriteU32LE(dst, bV4RedMask) ||
-                !SDL_WriteU32LE(dst, bV4GreenMask) ||
-                !SDL_WriteU32LE(dst, bV4BlueMask) ||
-                !SDL_WriteU32LE(dst, bV4AlphaMask) ||
+            ಆದರೆ (!SDL_WriteU32LE(dst, b_V4_Red_ಮುಖವಾಡ) ||
+                !SDL_WriteU32LE(dst, b_V4_Green_ಮುಖವಾಡ) ||
+                !SDL_WriteU32LE(dst, b_V4_Blue_ಮುಖವಾಡ) ||
+                !SDL_WriteU32LE(dst, b_V4_Alpha_ಮುಖವಾಡ) ||
                 !SDL_WriteU32LE(dst, bV4CSType)) {
-                goto done;
+                ಹೋಗು ಮುಗಿದ;
             }
-            for (i = 0; i < 3 * 3; i++) {
-                if (!SDL_WriteU32LE(dst, bV4Endpoints[i])) {
-                    goto done;
+            ಗಾಗಿ (i = 0; i < 3 * 3; i++) {
+                ಆದರೆ (!SDL_WriteU32LE(dst, bV4Endpoints[i])) {
+                    ಹೋಗು ಮುಗಿದ;
                 }
             }
-            if (!SDL_WriteU32LE(dst, bV4GammaRed) ||
+            ಆದರೆ (!SDL_WriteU32LE(dst, bV4GammaRed) ||
                 !SDL_WriteU32LE(dst, bV4GammaGreen) ||
                 !SDL_WriteU32LE(dst, bV4GammaBlue)) {
-                goto done;
+                ಹೋಗು ಮುಗಿದ;
             }
             // Version 5 values
-            if (!SDL_WriteU32LE(dst, bV5Intent) ||
-                !SDL_WriteU32LE(dst, bV5ProfileData) ||
-                !SDL_WriteU32LE(dst, bV5ProfileSize) ||
+            ಆದರೆ (!SDL_WriteU32LE(dst, bV5Intent) ||
+                !SDL_WriteU32LE(dst, b_V5_Profile_ದತ್ತಾಂಶ) ||
+                !SDL_WriteU32LE(dst, b_V5_Profile_ಗಾತ್ರ) ||
                 !SDL_WriteU32LE(dst, bV5Reserved)) {
-                goto done;
+                ಹೋಗು ಮುಗಿದ;
             }
         }
 
         // Write the palette (in BGR color order)
-        if (state->intermediate_surface->palette) {
+        ಆದರೆ (state->intermediate_surface->palette) {
             SDL_Color *colors;
-            int ncolors;
+            ಪೂರ್ಣಾಂಕ ncolors;
 
             colors = state->intermediate_surface->palette->colors;
             ncolors = state->intermediate_surface->palette->ncolors;
-            for (i = 0; i < ncolors; ++i) {
-                if (!SDL_WriteU8(dst, colors[i].b) ||
+            ಗಾಗಿ (i = 0; i < ncolors; ++i) {
+                ಆದರೆ (!SDL_WriteU8(dst, colors[i].b) ||
                     !SDL_WriteU8(dst, colors[i].g) ||
                     !SDL_WriteU8(dst, colors[i].r) ||
                     !SDL_WriteU8(dst, colors[i].a)) {
-                    goto done;
+                    ಹೋಗು ಮುಗಿದ;
                 }
             }
         }
 
         // Write the bitmap offset
-        bfOffBits = (Uint32)(SDL_TellIO(dst) - fp_offset);
-        if (SDL_SeekIO(dst, fp_offset + 10, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        bf_Off_ಬಿಟ್ಟುಗಳು = (Uint32)(SDL_TellIO(dst) - fp_ಸ್ಥಾನಾಂತರ);
+        ಆದರೆ (SDL_SeekIO(dst, fp_ಸ್ಥಾನಾಂತರ + 10, SDL_IO_SEEK_ಗಣ) < 0) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        if (!SDL_WriteU32LE(dst, bfOffBits)) {
-            goto done;
+        ಆದರೆ (!SDL_WriteU32LE(dst, bf_Off_ಬಿಟ್ಟುಗಳು)) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        if (SDL_SeekIO(dst, fp_offset + bfOffBits, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        ಆದರೆ (SDL_SeekIO(dst, fp_ಸ್ಥಾನಾಂತರ + bf_Off_ಬಿಟ್ಟುಗಳು, SDL_IO_SEEK_ಗಣ) < 0) {
+            ಹೋಗು ಮುಗಿದ;
         }
 
         // Write the bitmap image upside down
-        bits = (Uint8 *)state->intermediate_surface->pixels + (state->intermediate_surface->h * state->intermediate_surface->pitch);
+        ಬಿಟ್ಟುಗಳು = (Uint8 *)state->intermediate_surface->pixels + (state->intermediate_surface->h * state->intermediate_surface->pitch);
         pad = ((bw % 4) ? (4 - (bw % 4)) : 0);
-        while (bits > (Uint8 *)state->intermediate_surface->pixels) {
-            bits -= state->intermediate_surface->pitch;
-            if (SDL_WriteIO(dst, bits, bw) != bw) {
-                goto done;
+        ಆಗ (ಬಿಟ್ಟುಗಳು > (Uint8 *)state->intermediate_surface->pixels) {
+            ಬಿಟ್ಟುಗಳು -= state->intermediate_surface->pitch;
+            ಆದರೆ (SDL_WriteIO(dst, ಬಿಟ್ಟುಗಳು, bw) != bw) {
+                ಹೋಗು ಮುಗಿದ;
             }
-            if (pad) {
-                const Uint8 padbyte = 0;
-                for (i = 0; i < pad; ++i) {
-                    if (!SDL_WriteU8(dst, padbyte)) {
-                        goto done;
+            ಆದರೆ (pad) {
+                ಸ್ಥಿರಾಂಕ Uint8 padbyte = 0;
+                ಗಾಗಿ (i = 0; i < pad; ++i) {
+                    ಆದರೆ (!SDL_WriteU8(dst, padbyte)) {
+                        ಹೋಗು ಮುಗಿದ;
                     }
                 }
             }
         }
 
         // Write the BMP file size
-        new_offset = SDL_TellIO(dst);
-        if (new_offset < 0) {
-            goto done;
+        new_ಸ್ಥಾನಾಂತರ = SDL_TellIO(dst);
+        ಆದರೆ (new_ಸ್ಥಾನಾಂತರ < 0) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        bfSize = (Uint32)(new_offset - fp_offset);
-        if (SDL_SeekIO(dst, fp_offset + 2, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        bf_ಗಾತ್ರ = (Uint32)(new_ಸ್ಥಾನಾಂತರ - fp_ಸ್ಥಾನಾಂತರ);
+        ಆದರೆ (SDL_SeekIO(dst, fp_ಸ್ಥಾನಾಂತರ + 2, SDL_IO_SEEK_ಗಣ) < 0) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        if (!SDL_WriteU32LE(dst, bfSize)) {
-            goto done;
+        ಆದರೆ (!SDL_WriteU32LE(dst, bf_ಗಾತ್ರ)) {
+            ಹೋಗು ಮುಗಿದ;
         }
-        if (SDL_SeekIO(dst, fp_offset + bfSize, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        ಆದರೆ (SDL_SeekIO(dst, fp_ಸ್ಥಾನಾಂತರ + bf_ಗಾತ್ರ, SDL_IO_SEEK_ಗಣ) < 0) {
+            ಹೋಗು ಮುಗಿದ;
         }
 
         // Close it up..
@@ -898,48 +898,48 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
         was_error = false;
     }
 
-done:
-    if (closeio && dst) {
-        if (!SDL_CloseIO(dst)) {
+ಮುಗಿದ:
+    ಆದರೆ (closeio && dst) {
+        ಆದರೆ (!SDL_CloseIO(dst)) {
             was_error = true;
         }
     }
-    if (was_error) {
-        return false;
+    ಆದರೆ (was_error) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool SDL_SaveBMP_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
 {
-    bool result = true;
+    bool ಫಲಿತಾಂಶ = true;
     BMPSaveState state;
-    if (!InitBMPSaveState(&state, surface)) {
-        return false;
+    ಆದರೆ (!InitBMPSaveState(&state, surface)) {
+        ಹಿಂತಿರುಗಿ false;
     }
     CHECK_PARAM(!dst) {
-        result = SDL_InvalidParamError("dst");
-        goto done;
+        ಫಲಿತಾಂಶ = SDL_InvalidParamError("dst");
+        ಹೋಗು ಮುಗಿದ;
     }
-    result = SDL_SaveBMP_IO_Internal(&state, dst, closeio);
-done:
+    ಫಲಿತಾಂಶ = SDL_Save_BMP_IO_ಆಂತರಿಕ(&state, dst, closeio);
+ಮುಗಿದ:
     FreeBMPSaveState(&state);
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-bool SDL_SaveBMP(SDL_Surface *surface, const char *file)
+bool SDL_SaveBMP(SDL_Surface *surface, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *file)
 {
     BMPSaveState state;
-    if (!InitBMPSaveState(&state, surface)) {
-        return false;
+    ಆದರೆ (!InitBMPSaveState(&state, surface)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    SDL_IOStream *stream = SDL_IOFromFile(file, "wb");
-    if (!stream) {
-        return false;
+    SDL_IOStream *ಹರಿವು = SDL_IOFromFile(file, "wb");
+    ಆದರೆ (!ಹರಿವು) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    bool result = SDL_SaveBMP_IO_Internal(&state, stream, true);
+    bool ಫಲಿತಾಂಶ = SDL_Save_BMP_IO_ಆಂತರಿಕ(&state, ಹರಿವು, true);
     FreeBMPSaveState(&state);
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }

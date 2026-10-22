@@ -18,73 +18,73 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_windowevents_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
-#include "SDL_offscreenwindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_offscreenwindow.h"
 
-bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool OFFSCREEN_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *offscreen_ಕಿಟಕಿ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ));
 
-    if (!offscreen_window) {
-        return false;
+    ಆದರೆ (!offscreen_ಕಿಟಕಿ) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    window->internal = offscreen_window;
+    ಕಿಟಕಿ->ಆಂತರಿಕ = offscreen_ಕಿಟಕಿ;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
-        window->x = 0;
+    ಆದರೆ (ಕಿಟಕಿ->x == SDL_WINDOWPOS_UNDEFINED) {
+        ಕಿಟಕಿ->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
-        window->y = 0;
+    ಆದರೆ (ಕಿಟಕಿ->y == SDL_WINDOWPOS_UNDEFINED) {
+        ಕಿಟಕಿ->y = 0;
     }
 
-    offscreen_window->sdl_window = window;
+    offscreen_ಕಿಟಕಿ->sdl_ಕಿಟಕಿ = ಕಿಟಕಿ;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        ಆದರೆ (!_this->egl_ದತ್ತಾಂಶ) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Cannot create an OPENGL window invalid egl_data");
         }
 
-        offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
+        offscreen_ಕಿಟಕಿ->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, ಕಿಟಕಿ->w, ಕಿಟಕಿ->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
-                                _this->egl_data->egl_display);
+        ಆದರೆ (offscreen_ಕಿಟಕಿ->egl_surface == EGL_NO_SURFACE) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to created an offscreen surface (EGL display: %p)",
+                                _this->egl_ದತ್ತಾಂಶ->egl_display);
         }
-    } else {
-        offscreen_window->egl_surface = EGL_NO_SURFACE;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        offscreen_ಕಿಟಕಿ->egl_surface = EGL_NO_SURFACE;
     }
-#endif // SDL_VIDEO_OPENGL_EGL
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ OFFSCREEN_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *offscreen_window = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *offscreen_ಕಿಟಕಿ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (offscreen_window) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
-#endif
-        SDL_free(offscreen_window);
+    ಆದರೆ (offscreen_ಕಿಟಕಿ) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+        SDL_EGL_DestroySurface(_this, offscreen_ಕಿಟಕಿ->egl_surface);
+#ಆದರೆ_ಅಂತ್ಯ
+        SDL_free(offscreen_ಕಿಟಕಿ);
     }
 
-    window->internal = NULL;
+    ಕಿಟಕಿ->ಆಂತರಿಕ = ಖಾಲಿ;
 }
 
-void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ OFFSCREEN_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+    SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, ಕಿಟಕಿ->pending.w, ಕಿಟಕಿ->pending.h);
 }
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_OFFSCREEN

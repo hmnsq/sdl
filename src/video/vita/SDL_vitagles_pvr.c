@@ -18,74 +18,74 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
-#include <stdlib.h>
-#include <string.h>
-#include <psp2/kernel/modulemgr.h>
-#include <gpu_es4/psp2_pvr_hint.h>
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
+#ಅನ್ತರ್ಭಾವ <psp2/kernel/modulemgr.h>
+#ಅನ್ತರ್ಭಾವ <gpu_es4/psp2_pvr_hint.h>
 
-#include "SDL_vitavideo.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vitavideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
-#define MAX_PATH 256 // vita limits are somehow wrong
+#ವ್ಯಾಖ್ಯಾನಿಸು MAX_ಮಾರ್ಗ 256 // vita limits are somehow wrong
 
-bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GLES_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ)
 {
     PVRSRV_PSP2_APPHINT hint;
-    const char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *default_ಮಾರ್ಗ = "app0:module";
+    ಅಕ್ಷರ ಗುರಿ_ಮಾರ್ಗ[MAX_ಮಾರ್ಗ];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    ಆದರೆ (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *override = SDL_GetHint(SDL_HINT_VITA_MODULE_ಮಾರ್ಗ);
 
-        if (override && *override) {
-            default_path = override;
+        ಆದರೆ (override && *override) {
+            default_ಮಾರ್ಗ = override;
         }
 
-        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, NULL, 0, NULL, NULL);
-        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, NULL, 0, NULL, NULL);
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module("vs0:sys/external/libfios2.suprx", 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module("vs0:sys/external/libc.suprx", 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libgpu_es4_ext.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ಗುರಿ_ಮಾರ್ಗ, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libgpu_es4_ext.suprx");
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module(ಗುರಿ_ಮಾರ್ಗ, 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libIMGEGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(ಗುರಿ_ಮಾರ್ಗ, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libIMGEGL.suprx");
+        sce_Kernel_ತುಂಬು_ಆರಂಭ_Module(ಗುರಿ_ಮಾರ್ಗ, 0, ಖಾಲಿ, 0, ಖಾಲಿ, ಖಾಲಿ);
 
         PVRSRVInitializeAppHint(&hint);
 
-        SDL_snprintf(hint.szGLES1, MAX_PATH, "%s/%s", default_path, "libGLESv1_CM.suprx");
-        SDL_snprintf(hint.szGLES2, MAX_PATH, "%s/%s", default_path, "libGLESv2.suprx");
-        SDL_snprintf(hint.szWindowSystem, MAX_PATH, "%s/%s", default_path, "libpvrPSP2_WSEGL.suprx");
+        SDL_snprintf(hint.szGLES1, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libGLESv1_CM.suprx");
+        SDL_snprintf(hint.szGLES2, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libGLESv2.suprx");
+        SDL_snprintf(hint.sz_ಕಿಟಕಿ_System, MAX_ಮಾರ್ಗ, "%s/%s", default_ಮಾರ್ಗ, "libpvrPSP2_WSEGL.suprx");
 
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    ಹಿಂತಿರುಗಿ SDL_EGL_ತುಂಬು_Library(_this, ಮಾರ್ಗ, EGL_DEFAULT_DISPLAY);
 }
 
-SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    return SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    ಹಿಂತಿರುಗಿ SDL_EGL_CreateContext(_this, ಕಿಟಕಿ->ಆಂತರಿಕ->egl_surface);
 }
 
-bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    ಆದರೆ (ಕಿಟಕಿ && context) {
+        ಹಿಂತಿರುಗಿ SDL_EGL_MakeCurrent(_this, ಕಿಟಕಿ->ಆಂತರಿಕ->egl_surface, context);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಹಿಂತಿರುಗಿ SDL_EGL_MakeCurrent(_this, ಖಾಲಿ, ಖಾಲಿ);
     }
 }
 
-bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool VITA_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_VideoData *videodata = _this->internal;
-    if (videodata->ime_active) {
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
+    ಆದರೆ (videodata->ime_ಸಕ್ರಿಯ) {
         sceImeUpdate();
     }
-    return SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
+    ಹಿಂತಿರುಗಿ SDL_EGL_ಅದಲುಬದಲು_Buffers(_this, ಕಿಟಕಿ->ಆಂತರಿಕ->egl_surface);
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

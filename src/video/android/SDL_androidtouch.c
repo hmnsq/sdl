@@ -18,94 +18,94 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_ANDROID
 
-#include <android/log.h>
+#ಅನ್ತರ್ಭಾವ <android/log.h>
 
-#include "SDL_androidtouch.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../core/android/SDL_android.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidtouch.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_mouse_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_touch_c.h"
+#ಅನ್ತರ್ಭಾವ "../../core/android/SDL_android.h"
 
-#define ACTION_DOWN 0
-#define ACTION_UP   1
-#define ACTION_MOVE 2
-#define ACTION_CANCEL 3
+#ವ್ಯಾಖ್ಯಾನಿಸು ACTION_ಕೆಳಕ್ಕೆ 0
+#ವ್ಯಾಖ್ಯಾನಿಸು ACTION_ಮೇಲೆ   1
+#ವ್ಯಾಖ್ಯಾನಿಸು ACTION_MOVE 2
+#ವ್ಯಾಖ್ಯಾನಿಸು ACTION_CANCEL 3
 // #define ACTION_OUTSIDE 4
-#define ACTION_POINTER_DOWN 5
-#define ACTION_POINTER_UP   6
+#ವ್ಯಾಖ್ಯಾನಿಸು ACTION_ಸೂಚಕ_ಕೆಳಕ್ಕೆ 5
+#ವ್ಯಾಖ್ಯಾನಿಸು ACTION_ಸೂಚಕ_ಮೇಲೆ   6
 
-void Android_InitTouch(void)
+ಶೂನ್ಯ Android_InitTouch(ಶೂನ್ಯ)
 {
     // Add all touch devices
     Android_JNI_InitTouch();
 }
 
-void Android_QuitTouch(void)
+ಶೂನ್ಯ Android_QuitTouch(ಶೂನ್ಯ)
 {
 }
 
 
-SDL_TouchID Android_ConvertJavaTouchID(int touchID)
+SDL_TouchID Android_ConvertJavaTouchID(ಪೂರ್ಣಾಂಕ touchID)
 {
     SDL_TouchID retval = touchID;
 
-    if (touchID < 0) {
+    ಆದರೆ (touchID < 0) {
         // Touch ID -1 appears when using Android emulator, eg:
         //  adb shell input mouse tap 100 100
         //  adb shell input touchscreen tap 100 100
         //
         // Prevent the values -1 and -2, since they're used in SDL internal for synthetic events:
         retval -= 2;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Touch ID 0 is invalid
         retval += 1;
     }
-    return retval;
+    ಹಿಂತಿರುಗಿ retval;
 }
 
-void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p)
+ಶೂನ್ಯ Android_OnTouch(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಪೂರ್ಣಾಂಕ touch_device_id_ಒಳ, ಪೂರ್ಣಾಂಕ ಸೂಚಕ_finger_id_ಒಳ, ಪೂರ್ಣಾಂಕ action, ದಶಮಾಂಶ x, ದಶಮಾಂಶ y, ದಶಮಾಂಶ p)
 {
     SDL_TouchID touchDeviceId = 0;
     SDL_FingerID fingerId = 0;
 
-    if (!window) {
-        return;
+    ಆದರೆ (!ಕಿಟಕಿ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_in);
+    touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_ಒಳ);
 
     // Finger ID should be greater than 0
-    fingerId = (SDL_FingerID)(pointer_finger_id_in + 1);
+    fingerId = (SDL_FingerID)(ಸೂಚಕ_finger_id_ಒಳ + 1);
 
-    if (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    ಆದರೆ (SDL_ಕೂಡಿಸು_Touch(touchDeviceId, SDL_TOUCH_DEVICE_ನೇರ, "") < 0) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    switch (action) {
-    case ACTION_DOWN:
-    case ACTION_POINTER_DOWN:
-        SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_DOWN, x, y, p);
-        break;
+    ಆಯ್ಕೆ (action) {
+    ಸ್ಥಿತಿ ACTION_ಕೆಳಕ್ಕೆ:
+    ಸ್ಥಿತಿ ACTION_ಸೂಚಕ_ಕೆಳಕ್ಕೆ:
+        SDL_SendTouch(0, touchDeviceId, fingerId, ಕಿಟಕಿ, SDL_EVENT_FINGER_ಕೆಳಕ್ಕೆ, x, y, p);
+        ನಿಲ್ಲಿಸು;
 
-    case ACTION_MOVE:
-        SDL_SendTouchMotion(0, touchDeviceId, fingerId, window, x, y, p);
-        break;
+    ಸ್ಥಿತಿ ACTION_MOVE:
+        SDL_SendTouchMotion(0, touchDeviceId, fingerId, ಕಿಟಕಿ, x, y, p);
+        ನಿಲ್ಲಿಸು;
 
-    case ACTION_UP:
-    case ACTION_POINTER_UP:
-        SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_UP, x, y, p);
-        break;
+    ಸ್ಥಿತಿ ACTION_ಮೇಲೆ:
+    ಸ್ಥಿತಿ ACTION_ಸೂಚಕ_ಮೇಲೆ:
+        SDL_SendTouch(0, touchDeviceId, fingerId, ಕಿಟಕಿ, SDL_EVENT_FINGER_ಮೇಲೆ, x, y, p);
+        ನಿಲ್ಲಿಸು;
 
-    case ACTION_CANCEL:
-        SDL_SendTouch(0, touchDeviceId, fingerId, window, SDL_EVENT_FINGER_CANCELED, x, y, p);
-        break;
+    ಸ್ಥಿತಿ ACTION_CANCEL:
+        SDL_SendTouch(0, touchDeviceId, fingerId, ಕಿಟಕಿ, SDL_EVENT_FINGER_CANCELED, x, y, p);
+        ನಿಲ್ಲಿಸು;
 
-    default:
-        break;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ನಿಲ್ಲಿಸು;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_ANDROID

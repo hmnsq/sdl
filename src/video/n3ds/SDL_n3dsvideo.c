@@ -18,40 +18,40 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_N3DS
 
-#include "../SDL_sysvideo.h"
-#include "SDL_n3dsevents_c.h"
-#include "SDL_n3dsframebuffer_c.h"
-#include "SDL_n3dsswkb.h"
-#include "SDL_n3dstouch.h"
-#include "SDL_n3dsvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_n3dsevents_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_n3dsframebuffer_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_n3dsswkb.h"
+#ಅನ್ತರ್ಭಾವ "SDL_n3dstouch.h"
+#ಅನ್ತರ್ಭಾವ "SDL_n3dsvideo.h"
 
-#define N3DSVID_DRIVER_NAME "n3ds"
+#ವ್ಯಾಖ್ಯಾನಿಸು N3DSVID_DRIVER_NAME "n3ds"
 
-static SDL_DisplayID AddN3DSDisplay(gfxScreen_t screen);
+ಸ್ಥಿರ SDL_DisplayID ಕೂಡಿಸು_N3_DSDisplay(gfxScreen_t screen);
 
-static bool N3DS_VideoInit(SDL_VideoDevice *_this);
-static void N3DS_VideoQuit(SDL_VideoDevice *_this);
-static bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-static bool N3DS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-static bool N3DS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-static void N3DS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+ಸ್ಥಿರ bool N3DS_VideoInit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ ಶೂನ್ಯ N3DS_VideoQuit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ಸ್ಥಿರ bool N3_DS_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ);
+ಸ್ಥಿರ bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಸ್ಥಿರ bool N3_DS_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props);
+ಸ್ಥಿರ ಶೂನ್ಯ N3_DS_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
-struct SDL_DisplayData
+ರಚನೆ SDL_Display_ದತ್ತಾಂಶ
 {
     gfxScreen_t screen;
 };
 
-struct SDL_DisplayModeData
+ರಚನೆ SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ
 {
     GSPGPU_FramebufferFormat fmt;
 };
 
-static const struct
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ
 {
     SDL_PixelFormat pixfmt;
     GSPGPU_FramebufferFormat gspfmt;
@@ -65,112 +65,112 @@ static const struct
 
 // N3DS driver bootstrap functions
 
-static void N3DS_DeleteDevice(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ N3DS_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->ಆಂತರಿಕ);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *N3DS_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *N3DS_CreateDevice(ಶೂನ್ಯ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *phdata;
+    SDL_Video_ದತ್ತಾಂಶ *phdata;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ಗಾತ್ರ(SDL_VideoDevice));
+    ಆದರೆ (!device) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     // Initialize internal data
-    phdata = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!phdata) {
+    phdata = (SDL_Video_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_Video_ದತ್ತಾಂಶ));
+    ಆದರೆ (!phdata) {
         SDL_free(device);
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    device->internal = phdata;
+    device->ಆಂತರಿಕ = phdata;
 
     device->VideoInit = N3DS_VideoInit;
     device->VideoQuit = N3DS_VideoQuit;
 
     device->GetDisplayModes = N3DS_GetDisplayModes;
-    device->SetDisplayMode = N3DS_SetDisplayMode;
+    device->ಗಣ_Display_ಬಹುಲಕ = N3_DS_ಗಣ_Display_ಬಹುಲಕ;
     device->GetDisplayBounds = N3DS_GetDisplayBounds;
 
-    device->CreateSDLWindow = N3DS_CreateWindow;
-    device->DestroyWindow = N3DS_DestroyWindow;
+    device->CreateSDLWindow = N3_DS_Create_ಕಿಟಕಿ;
+    device->Destroy_ಕಿಟಕಿ = N3_DS_Destroy_ಕಿಟಕಿ;
 
     device->HasScreenKeyboardSupport = N3DS_HasScreenKeyboardSupport;
-    device->StartTextInput = N3DS_StartTextInput;
-    device->StopTextInput = N3DS_StopTextInput;
+    device->ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು = N3_DS_ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು;
+    device->Stop_ಪಠ್ಯ_ಒಳಹರಿವು = N3_DS_Stop_ಪಠ್ಯ_ಒಳಹರಿವು;
 
     device->PumpEvents = N3DS_PumpEvents;
 
-    device->CreateWindowFramebuffer = SDL_N3DS_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = SDL_N3DS_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = SDL_N3DS_DestroyWindowFramebuffer;
+    device->Create_ಕಿಟಕಿ_Framebuffer = SDL_N3_DS_Create_ಕಿಟಕಿ_Framebuffer;
+    device->Update_ಕಿಟಕಿ_Framebuffer = SDL_N3_DS_Update_ಕಿಟಕಿ_Framebuffer;
+    device->Destroy_ಕಿಟಕಿ_Framebuffer = SDL_N3_DS_Destroy_ಕಿಟಕಿ_Framebuffer;
 
-    device->free = N3DS_DeleteDevice;
+    device->ಬಿಡುಗಡೆ = N3DS_DeleteDevice;
 
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    ಹಿಂತಿರುಗಿ device;
 }
 
-VideoBootStrap N3DS_bootstrap = { N3DSVID_DRIVER_NAME, "N3DS Video Driver", N3DS_CreateDevice, NULL, /* no ShowMessageBox implementation */ false };
+VideoBootStrap N3DS_bootstrap = { N3DSVID_DRIVER_NAME, "N3DS Video Driver", N3DS_CreateDevice, ಖಾಲಿ, /* no ShowMessageBox implementation */ false };
 
-static bool N3DS_VideoInit(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool N3DS_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = (SDL_VideoData *)_this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ಆಂತರಿಕ = (SDL_Video_ದತ್ತಾಂಶ *)_this->ಆಂತರಿಕ;
 
     gfxInit(GSP_RGBA8_OES, GSP_RGBA8_OES, false);
     hidInit();
 
-    internal->top_display = AddN3DSDisplay(GFX_TOP);
-    internal->touch_display = AddN3DSDisplay(GFX_BOTTOM);
+    ಆಂತರಿಕ->ತುದಿ_display = ಕೂಡಿಸು_N3_DSDisplay(GFX_ತುದಿ);
+    ಆಂತರಿಕ->touch_display = ಕೂಡಿಸು_N3_DSDisplay(GFX_BOTTOM);
 
     N3DS_InitTouch();
     N3DS_SwkbInit();
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static SDL_DisplayID AddN3DSDisplay(gfxScreen_t screen)
+ಸ್ಥಿರ SDL_DisplayID ಕೂಡಿಸು_N3_DSDisplay(gfxScreen_t screen)
 {
-    SDL_DisplayMode mode;
-    SDL_DisplayModeData *modedata;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *modedata;
     SDL_VideoDisplay display;
-    SDL_DisplayData *display_driver_data = SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!display_driver_data) {
-        return 0;
+    SDL_Display_ದತ್ತಾಂಶ *display_driver_ದತ್ತಾಂಶ = SDL_calloc(1, ಗಾತ್ರ(SDL_Display_ದತ್ತಾಂಶ));
+    ಆದರೆ (!display_driver_ದತ್ತಾಂಶ) {
+        ಹಿಂತಿರುಗಿ 0;
     }
 
-    SDL_zero(mode);
+    SDL_zero(ಬಹುಲಕ);
     SDL_zero(display);
 
-    display_driver_data->screen = screen;
+    display_driver_ದತ್ತಾಂಶ->screen = screen;
 
-    modedata = SDL_malloc(sizeof(SDL_DisplayModeData));
-    if (!modedata) {
-        return 0;
+    modedata = SDL_malloc(ಗಾತ್ರ(SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ));
+    ಆದರೆ (!modedata) {
+        ಹಿಂತಿರುಗಿ 0;
     }
 
-    mode.w = (screen == GFX_TOP) ? GSP_SCREEN_HEIGHT_TOP : GSP_SCREEN_HEIGHT_BOTTOM;
-    mode.h = GSP_SCREEN_WIDTH;
-    mode.refresh_rate = 60.0f;
-    mode.format = SDL_PIXELFORMAT_RGBA8888;
-    mode.internal = modedata;
+    ಬಹುಲಕ.w = (screen == GFX_ತುದಿ) ? GSP_SCREEN_ಎತ್ತರ_ತುದಿ : GSP_SCREEN_ಎತ್ತರ_BOTTOM;
+    ಬಹುಲಕ.h = GSP_SCREEN_ಅಗಲ;
+    ಬಹುಲಕ.refresh_ದರ = 60.0f;
+    ಬಹುಲಕ.format = SDL_PIXELFORMAT_RGBA8888;
+    ಬಹುಲಕ.ಆಂತರಿಕ = modedata;
     modedata->fmt = GSP_RGBA8_OES;
 
-    display.name = (screen == GFX_TOP) ? "N3DS top screen" : "N3DS bottom screen";
-    display.desktop_mode = mode;
-    display.internal = display_driver_data;
+    display.name = (screen == GFX_ತುದಿ) ? "N3DS top screen" : "N3DS bottom screen";
+    display.desktop_ಬಹುಲಕ = ಬಹುಲಕ;
+    display.ಆಂತರಿಕ = display_driver_ದತ್ತಾಂಶ;
 
-    return SDL_AddVideoDisplay(&display, false);
+    ಹಿಂತಿರುಗಿ SDL_ಕೂಡಿಸು_Video_Display(&display, false);
 }
 
-static void N3DS_VideoQuit(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ N3DS_VideoQuit(SDL_VideoDevice *_this)
 {
     N3DS_SwkbQuit();
     N3DS_QuitTouch();
@@ -179,78 +179,78 @@ static void N3DS_VideoQuit(SDL_VideoDevice *_this)
     gfxExit();
 }
 
-static bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
+ಸ್ಥಿರ bool N3DS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_DisplayModeData *modedata;
-    SDL_DisplayMode mode;
-    int i;
+    SDL_Display_ದತ್ತಾಂಶ *displaydata = display->ಆಂತರಿಕ;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *modedata;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
+    ಪೂರ್ಣಾಂಕ i;
 
-    for (i = 0; i < SDL_arraysize(format_map); i++) {
-        modedata = SDL_malloc(sizeof(SDL_DisplayModeData));
-        if (!modedata)
-            continue;
+    ಗಾಗಿ (i = 0; i < SDL_arraysize(format_map); i++) {
+        modedata = SDL_malloc(ಗಾತ್ರ(SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ));
+        ಆದರೆ (!modedata)
+            ಮುಂದುವರಿ;
 
-        SDL_zero(mode);
-        mode.w = (displaydata->screen == GFX_TOP) ? GSP_SCREEN_HEIGHT_TOP : GSP_SCREEN_HEIGHT_BOTTOM;
-        mode.h = GSP_SCREEN_WIDTH;
-        mode.refresh_rate = 60.0f;
-        mode.format = format_map[i].pixfmt;
-        mode.internal = modedata;
+        SDL_zero(ಬಹುಲಕ);
+        ಬಹುಲಕ.w = (displaydata->screen == GFX_ತುದಿ) ? GSP_SCREEN_ಎತ್ತರ_ತುದಿ : GSP_SCREEN_ಎತ್ತರ_BOTTOM;
+        ಬಹುಲಕ.h = GSP_SCREEN_ಅಗಲ;
+        ಬಹುಲಕ.refresh_ದರ = 60.0f;
+        ಬಹುಲಕ.format = format_map[i].pixfmt;
+        ಬಹುಲಕ.ಆಂತರಿಕ = modedata;
         modedata->fmt = format_map[i].gspfmt;
 
-        if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
+        ಆದರೆ (!SDL_ಕೂಡಿಸು_Fullscreen_Display_ಬಹುಲಕ(display, &ಬಹುಲಕ)) {
             SDL_free(modedata);
         }
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool N3DS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+ಸ್ಥಿರ bool N3_DS_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ)
 {
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_DisplayModeData *modedata = mode->internal;
+    SDL_Display_ದತ್ತಾಂಶ *displaydata = display->ಆಂತರಿಕ;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *modedata = ಬಹುಲಕ->ಆಂತರಿಕ;
 
-    gfxSetScreenFormat(displaydata->screen, modedata->fmt);
-    return true;
+    gfx_ಗಣ_Screen_Format(displaydata->screen, modedata->fmt);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+ಸ್ಥಿರ bool N3DS_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    SDL_DisplayData *driver_data = display->internal;
+    SDL_Display_ದತ್ತಾಂಶ *driver_ದತ್ತಾಂಶ = display->ಆಂತರಿಕ;
 
-    if (!driver_data) {
-        return false;
+    ಆದರೆ (!driver_ದತ್ತಾಂಶ) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     rect->x = 0;
-    rect->y = (driver_data->screen == GFX_TOP) ? 0 : GSP_SCREEN_WIDTH;
-    rect->w = display->current_mode->w;
-    rect->h = display->current_mode->h;
-    return true;
+    rect->y = (driver_ದತ್ತಾಂಶ->screen == GFX_ತುದಿ) ? 0 : GSP_SCREEN_ಅಗಲ;
+    rect->w = display->current_ಬಹುಲಕ->w;
+    rect->h = display->current_ಬಹುಲಕ->h;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool N3DS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+ಸ್ಥಿರ bool N3_DS_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props)
 {
-    SDL_DisplayData *display_data;
-    SDL_WindowData *window_data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!window_data) {
-        return false;
+    SDL_Display_ದತ್ತಾಂಶ *display_ದತ್ತಾಂಶ;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ಕಿಟಕಿ_ದತ್ತಾಂಶ_2 = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ));
+    ಆದರೆ (!ಕಿಟಕಿ_ದತ್ತಾಂಶ_2) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    display_data = SDL_GetDisplayDriverDataForWindow(window);
-    window_data->screen = display_data->screen;
-    window->internal = window_data;
-    SDL_SetKeyboardFocus(window);
-    return true;
+    display_ದತ್ತಾಂಶ = SDL_Get_Display_Driver_ದತ್ತಾಂಶ_For_ಕಿಟಕಿ(ಕಿಟಕಿ);
+    ಕಿಟಕಿ_ದತ್ತಾಂಶ_2->screen = display_ದತ್ತಾಂಶ->screen;
+    ಕಿಟಕಿ->ಆಂತರಿಕ = ಕಿಟಕಿ_ದತ್ತಾಂಶ_2;
+    SDL_ಗಣ_Keyboard_Focus(ಕಿಟಕಿ);
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static void N3DS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಸ್ಥಿರ ಶೂನ್ಯ N3_DS_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    if (!window) {
-        return;
+    ಆದರೆ (!ಕಿಟಕಿ) {
+        ಹಿಂತಿರುಗಿ;
     }
-    SDL_free(window->internal);
+    SDL_free(ಕಿಟಕಿ->ಆಂತರಿಕ);
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_N3DS

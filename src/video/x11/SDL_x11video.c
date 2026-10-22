@@ -18,142 +18,142 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11
 
-#include <unistd.h> // For getpid() and readlink()
+#ಅನ್ತರ್ಭಾವ <unistd.h> // For getpid() and readlink()
 
-#include "../../core/linux/SDL_system_theme.h"
-#include "../../core/linux/SDL_progressbar.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_pixels_c.h"
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_system_theme.h"
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_progressbar.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_keyboard_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_mouse_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#include "SDL_x11framebuffer.h"
-#include "SDL_x11pen.h"
-#include "SDL_x11touch.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xfixes.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11messagebox.h"
-#include "SDL_x11shape.h"
-#include "SDL_x11xsync.h"
-#include "SDL_x11xtest.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11framebuffer.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11pen.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11touch.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xfixes.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xinput2.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11messagebox.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11shape.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xsync.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xtest.h"
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-#include "SDL_x11opengles.h"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+#ಅನ್ತರ್ಭಾವ "SDL_x11opengles.h"
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Initialization/Query functions
-static bool X11_VideoInit(SDL_VideoDevice *_this);
-static void X11_VideoQuit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool X11_VideoInit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ ಶೂನ್ಯ X11_VideoQuit(SDL_VideoDevice *_this);
 
 // X11 driver bootstrap functions
 
-static void X11_DeleteDevice(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
-    if (device->vulkan_config.loader_handle) {
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = device->ಆಂತರಿಕ;
+    ಆದರೆ (device->vulkan_config.loader_handle) {
         device->Vulkan_UnloadLibrary(device);
     }
-    if (data->display) {
-        X11_XCloseDisplay(data->display);
+    ಆದರೆ (ದತ್ತಾಂಶ->display) {
+        X11_XCloseDisplay(ದತ್ತಾಂಶ->display);
     }
-    if (data->request_display) {
-        X11_XCloseDisplay(data->request_display);
+    ಆದರೆ (ದತ್ತಾಂಶ->request_display) {
+        X11_XCloseDisplay(ದತ್ತಾಂಶ->request_display);
     }
-    SDL_free(data->windowlist);
-    SDL_free(device->internal);
+    SDL_free(ದತ್ತಾಂಶ->windowlist);
+    SDL_free(device->ಆಂತರಿಕ);
     SDL_free(device);
 
     SDL_X11_UnloadSymbols();
 }
 
-static bool X11_IsXWayland(Display *d)
+ಸ್ಥಿರ bool X11_IsXWayland(Display *d)
 {
-    int opcode, event, error;
-    return X11_XQueryExtension(d, "XWAYLAND", &opcode, &event, &error) == True;
+    ಪೂರ್ಣಾಂಕ opcode, event, error;
+    ಹಿಂತಿರುಗಿ X11_XQueryExtension(d, "XWAYLAND", &opcode, &event, &error) == True;
 }
 
-static bool X11_IsWSL(void)
+ಸ್ಥಿರ bool X11_IsWSL(ಶೂನ್ಯ)
 {
-#ifdef SDL_PLATFORM_LINUX
-    if (SDL_GetPathInfo("/proc/sys/fs/binfmt_misc/WSLInterop", NULL) || SDL_GetPathInfo("/run/WSL", NULL)) { // if either of these exist, we're on WSL.
-         return true;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_PLATFORM_LINUX
+    ಆದರೆ (SDL_Get_ಮಾರ್ಗ_Info("/proc/sys/fs/binfmt_misc/WSLInterop", ಖಾಲಿ) || SDL_Get_ಮಾರ್ಗ_Info("/run/WSL", ಖಾಲಿ)) { // if either of these exist, we're on WSL.
+         ಹಿಂತಿರುಗಿ true;
     }
-#endif
-    return false;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static SDL_VideoDevice *X11_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *X11_CreateDevice(ಶೂನ್ಯ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
-    const char *display = NULL; // Use the DISPLAY environment variable
-    Display *x11_display = NULL;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *display = ಖಾಲಿ; // Use the DISPLAY environment variable
+    Display *x11_display = ಖಾಲಿ;
 
-    if (!SDL_X11_LoadSymbols()) {
-        return NULL;
+    ಆದರೆ (!SDL_X11_ತುಂಬು_Symbols()) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     /* Need for threading gl calls. This is also required for the proprietary
         nVidia driver to be threaded. */
-    X11_XInitThreads();
+    X11_XInit_ಎಳೆಗಳು();
 
     // Open the display first to be sure that X11 is available
     x11_display = X11_XOpenDisplay(display);
 
-    if (!x11_display) {
+    ಆದರೆ (!x11_display) {
         SDL_X11_UnloadSymbols();
 
-        const char *session = SDL_getenv("XDG_SESSION_TYPE");
-        if (session && SDL_strcasecmp(session, "wayland") == 0) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *session = SDL_getenv("XDG_SESSION_TYPE");
+        ಆದರೆ (session && SDL_strcasecmp(session, "wayland") == 0) {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the X11 (XWayland) display server");
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the X11 display server");
         }
 
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ಗಾತ್ರ(SDL_VideoDevice));
+    ಆದರೆ (!device) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
-    data = (struct SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    ದತ್ತಾಂಶ = (ರಚನೆ SDL_Video_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_Video_ದತ್ತಾಂಶ));
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
         SDL_free(device);
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
-    device->internal = data;
+    device->ಆಂತರಿಕ = ದತ್ತಾಂಶ;
 
-    data->global_mouse_changed = true;
+    ದತ್ತಾಂಶ->global_mouse_ಬದಲಾಯಿತು = true;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    data->active_cursor_confined_window = NULL;
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
+    ದತ್ತಾಂಶ->ಸಕ್ರಿಯ_cursor_confined_ಕಿಟಕಿ = ಖಾಲಿ;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XFIXES
 
-    data->display = x11_display;
-    data->request_display = X11_XOpenDisplay(display);
-    if (!data->request_display) {
-        X11_XCloseDisplay(data->display);
-        SDL_free(device->internal);
+    ದತ್ತಾಂಶ->display = x11_display;
+    ದತ್ತಾಂಶ->request_display = X11_XOpenDisplay(display);
+    ಆದರೆ (!ದತ್ತಾಂಶ->request_display) {
+        X11_XCloseDisplay(ದತ್ತಾಂಶ->display);
+        SDL_free(device->ಆಂತರಿಕ);
         SDL_free(device);
         SDL_X11_UnloadSymbols();
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-#ifdef X11_DEBUG
-    X11_XSynchronize(data->display, True);
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11_DEBUG
+    X11_XSynchronize(ದತ್ತಾಂಶ->display, True);
+#ಆದರೆ_ಅಂತ್ಯ
 
     /* Steam Deck will have an on-screen keyboard, so check their environment
      * variable so we can make use of SDL_StartTextInput.
      */
-    data->use_steam_screen_keyboard = SDL_GetHintBoolean(SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD, false);
+    ದತ್ತಾಂಶ->use_steam_screen_keyboard = SDL_GetHintBoolean(SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD, false);
 
     // Set the function pointers
     device->VideoInit = X11_VideoInit;
@@ -162,191 +162,191 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     device->GetDisplayModes = X11_GetDisplayModes;
     device->GetDisplayBounds = X11_GetDisplayBounds;
     device->GetDisplayUsableBounds = X11_GetDisplayUsableBounds;
-    device->GetWindowICCProfile = X11_GetWindowICCProfile;
-    device->SetDisplayMode = X11_SetDisplayMode;
+    device->Get_ಕಿಟಕಿ_ICCProfile = X11_Get_ಕಿಟಕಿ_ICCProfile;
+    device->ಗಣ_Display_ಬಹುಲಕ = X11_ಗಣ_Display_ಬಹುಲಕ;
     device->SuspendScreenSaver = X11_SuspendScreenSaver;
     device->PumpEvents = X11_PumpEvents;
     device->WaitEventTimeout = X11_WaitEventTimeout;
     device->SendWakeupEvent = X11_SendWakeupEvent;
 
-    device->CreateSDLWindow = X11_CreateWindow;
-    device->SetWindowTitle = X11_SetWindowTitle;
-    device->SetWindowIcon = X11_SetWindowIcon;
-    device->SetWindowPosition = X11_SetWindowPosition;
-    device->SetWindowSize = X11_SetWindowSize;
-    device->SetWindowMinimumSize = X11_SetWindowMinimumSize;
-    device->SetWindowMaximumSize = X11_SetWindowMaximumSize;
-    device->SetWindowAspectRatio = X11_SetWindowAspectRatio;
-    device->GetWindowBordersSize = X11_GetWindowBordersSize;
-    device->SetWindowOpacity = X11_SetWindowOpacity;
-    device->SetWindowParent = X11_SetWindowParent;
-    device->SetWindowModal = X11_SetWindowModal;
-    device->ShowWindow = X11_ShowWindow;
-    device->HideWindow = X11_HideWindow;
-    device->RaiseWindow = X11_RaiseWindow;
-    device->MaximizeWindow = X11_MaximizeWindow;
-    device->MinimizeWindow = X11_MinimizeWindow;
-    device->RestoreWindow = X11_RestoreWindow;
-    device->SetWindowBordered = X11_SetWindowBordered;
-    device->SetWindowResizable = X11_SetWindowResizable;
-    device->SetWindowAlwaysOnTop = X11_SetWindowAlwaysOnTop;
-    device->SetWindowFullscreen = X11_SetWindowFullscreen;
-    device->SetWindowMouseGrab = X11_SetWindowMouseGrab;
-    device->SetWindowKeyboardGrab = X11_SetWindowKeyboardGrab;
-    device->DestroyWindow = X11_DestroyWindow;
-    device->CreateWindowFramebuffer = X11_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = X11_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = X11_DestroyWindowFramebuffer;
-    device->SetWindowHitTest = X11_SetWindowHitTest;
+    device->CreateSDLWindow = X11_Create_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Title = X11_ಗಣ_ಕಿಟಕಿ_Title;
+    device->ಗಣ_ಕಿಟಕಿ_Icon = X11_ಗಣ_ಕಿಟಕಿ_Icon;
+    device->ಗಣ_ಕಿಟಕಿ_Position = X11_ಗಣ_ಕಿಟಕಿ_Position;
+    device->ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ = X11_ಗಣ_ಕಿಟಕಿ_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_Minimum_ಗಾತ್ರ = X11_ಗಣ_ಕಿಟಕಿ_Minimum_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_ಗರಿಷ್ಠ_ಗಾತ್ರ = X11_ಗಣ_ಕಿಟಕಿ_ಗರಿಷ್ಠ_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_Aspect_ಅನುಪಾತ = X11_ಗಣ_ಕಿಟಕಿ_Aspect_ಅನುಪಾತ;
+    device->Get_ಕಿಟಕಿ_Borders_ಗಾತ್ರ = X11_Get_ಕಿಟಕಿ_Borders_ಗಾತ್ರ;
+    device->ಗಣ_ಕಿಟಕಿ_Opacity = X11_ಗಣ_ಕಿಟಕಿ_Opacity;
+    device->ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ = X11_ಗಣ_ಕಿಟಕಿ_ಪೋಷಕ;
+    device->ಗಣ_ಕಿಟಕಿ_Modal = X11_ಗಣ_ಕಿಟಕಿ_Modal;
+    device->Show_ಕಿಟಕಿ = X11_Show_ಕಿಟಕಿ;
+    device->Hide_ಕಿಟಕಿ = X11_Hide_ಕಿಟಕಿ;
+    device->Raise_ಕಿಟಕಿ = X11_Raise_ಕಿಟಕಿ;
+    device->Maximize_ಕಿಟಕಿ = X11_Maximize_ಕಿಟಕಿ;
+    device->Minimize_ಕಿಟಕಿ = X11_Minimize_ಕಿಟಕಿ;
+    device->Restore_ಕಿಟಕಿ = X11_Restore_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Bordered = X11_ಗಣ_ಕಿಟಕಿ_Bordered;
+    device->ಗಣ_ಕಿಟಕಿ_Resizable = X11_ಗಣ_ಕಿಟಕಿ_Resizable;
+    device->ಗಣ_ಕಿಟಕಿ_Always_On_ತುದಿ = X11_ಗಣ_ಕಿಟಕಿ_Always_On_ತುದಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Fullscreen = X11_ಗಣ_ಕಿಟಕಿ_Fullscreen;
+    device->ಗಣ_ಕಿಟಕಿ_Mouse_Grab = X11_ಗಣ_ಕಿಟಕಿ_Mouse_Grab;
+    device->ಗಣ_ಕಿಟಕಿ_Keyboard_Grab = X11_ಗಣ_ಕಿಟಕಿ_Keyboard_Grab;
+    device->Destroy_ಕಿಟಕಿ = X11_Destroy_ಕಿಟಕಿ;
+    device->Create_ಕಿಟಕಿ_Framebuffer = X11_Create_ಕಿಟಕಿ_Framebuffer;
+    device->Update_ಕಿಟಕಿ_Framebuffer = X11_Update_ಕಿಟಕಿ_Framebuffer;
+    device->Destroy_ಕಿಟಕಿ_Framebuffer = X11_Destroy_ಕಿಟಕಿ_Framebuffer;
+    device->ಗಣ_ಕಿಟಕಿ_ದೊರಕಿತು_Test = X11_ಗಣ_ಕಿಟಕಿ_ದೊರಕಿತು_Test;
     device->AcceptDragAndDrop = X11_AcceptDragAndDrop;
-    device->UpdateWindowShape = X11_UpdateWindowShape;
-    device->FlashWindow = X11_FlashWindow;
-#ifdef SDL_USE_LIBDBUS
-    device->ApplyWindowProgress = DBUS_ApplyWindowProgress;
-#endif // SDL_USE_LIBDBUS
-    device->ShowWindowSystemMenu = X11_ShowWindowSystemMenu;
-    device->SetWindowFocusable = X11_SetWindowFocusable;
-    device->SyncWindow = X11_SyncWindow;
+    device->Update_ಕಿಟಕಿ_Shape = X11_Update_ಕಿಟಕಿ_Shape;
+    device->Flash_ಕಿಟಕಿ = X11_Flash_ಕಿಟಕಿ;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
+    device->Apply_ಕಿಟಕಿ_ಪ್ರಗತಿ = DBUS_Apply_ಕಿಟಕಿ_ಪ್ರಗತಿ;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_USE_LIBDBUS
+    device->Show_ಕಿಟಕಿ_System_Menu = X11_Show_ಕಿಟಕಿ_System_Menu;
+    device->ಗಣ_ಕಿಟಕಿ_Focusable = X11_ಗಣ_ಕಿಟಕಿ_Focusable;
+    device->Sync_ಕಿಟಕಿ = X11_Sync_ಕಿಟಕಿ;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    device->SetWindowMouseRect = X11_SetWindowMouseRect;
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
+    device->ಗಣ_ಕಿಟಕಿ_Mouse_Rect = X11_ಗಣ_ಕಿಟಕಿ_Mouse_Rect;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XFIXES
 
-#ifdef SDL_VIDEO_OPENGL_GLX
-    device->GL_LoadLibrary = X11_GL_LoadLibrary;
-    device->GL_GetProcAddress = X11_GL_GetProcAddress;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_GLX
+    device->GL_ತುಂಬು_Library = X11_GL_ತುಂಬು_Library;
+    device->GL_Get_Proc_ವಿಳಾಸ = X11_GL_Get_Proc_ವಿಳಾಸ;
     device->GL_UnloadLibrary = X11_GL_UnloadLibrary;
     device->GL_CreateContext = X11_GL_CreateContext;
     device->GL_MakeCurrent = X11_GL_MakeCurrent;
-    device->GL_SetSwapInterval = X11_GL_SetSwapInterval;
-    device->GL_GetSwapInterval = X11_GL_GetSwapInterval;
-    device->GL_SwapWindow = X11_GL_SwapWindow;
+    device->GL_ಗಣ_ಅದಲುಬದಲು_Interval = X11_GL_ಗಣ_ಅದಲುಬದಲು_Interval;
+    device->GL_Get_ಅದಲುಬದಲು_Interval = X11_GL_Get_ಅದಲುಬದಲು_Interval;
+    device->GL_ಅದಲುಬದಲು_ಕಿಟಕಿ = X11_GL_ಅದಲುಬದಲು_ಕಿಟಕಿ;
     device->GL_DestroyContext = X11_GL_DestroyContext;
-    device->GL_GetEGLSurface = NULL;
-#endif
-#ifdef SDL_VIDEO_OPENGL_EGL
-#ifdef SDL_VIDEO_OPENGL_GLX
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
-#endif
-        device->GL_LoadLibrary = X11_GLES_LoadLibrary;
-        device->GL_GetProcAddress = X11_GLES_GetProcAddress;
+    device->GL_GetEGLSurface = ಖಾಲಿ;
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_GLX
+    ಆದರೆ (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
+#ಆದರೆ_ಅಂತ್ಯ
+        device->GL_ತುಂಬು_Library = X11_GLES_ತುಂಬು_Library;
+        device->GL_Get_Proc_ವಿಳಾಸ = X11_GLES_Get_Proc_ವಿಳಾಸ;
         device->GL_UnloadLibrary = X11_GLES_UnloadLibrary;
         device->GL_CreateContext = X11_GLES_CreateContext;
         device->GL_MakeCurrent = X11_GLES_MakeCurrent;
-        device->GL_SetSwapInterval = X11_GLES_SetSwapInterval;
-        device->GL_GetSwapInterval = X11_GLES_GetSwapInterval;
-        device->GL_SwapWindow = X11_GLES_SwapWindow;
+        device->GL_ಗಣ_ಅದಲುಬದಲು_Interval = X11_GLES_ಗಣ_ಅದಲುಬದಲು_Interval;
+        device->GL_Get_ಅದಲುಬದಲು_Interval = X11_GLES_Get_ಅದಲುಬದಲು_Interval;
+        device->GL_ಅದಲುಬದಲು_ಕಿಟಕಿ = X11_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ;
         device->GL_DestroyContext = X11_GLES_DestroyContext;
         device->GL_GetEGLSurface = X11_GLES_GetEGLSurface;
-        device->GL_SetDefaultProfileConfig = X11_GLES_SetDefaultProfileConfig;
-#ifdef SDL_VIDEO_OPENGL_GLX
+        device->GL_ಗಣ_Default_Profile_Config = X11_GLES_ಗಣ_Default_Profile_Config;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_GLX
     }
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
-    device->GetTextMimeTypes = X11_GetTextMimeTypes;
-    device->SetClipboardData = X11_SetClipboardData;
-    device->GetClipboardData = X11_GetClipboardData;
-    device->HasClipboardData = X11_HasClipboardData;
-    device->SetPrimarySelectionText = X11_SetPrimarySelectionText;
-    device->GetPrimarySelectionText = X11_GetPrimarySelectionText;
-    device->HasPrimarySelectionText = X11_HasPrimarySelectionText;
-    device->StartTextInput = X11_StartTextInput;
-    device->StopTextInput = X11_StopTextInput;
-    device->UpdateTextInputArea = X11_UpdateTextInputArea;
+    device->Get_ಪಠ್ಯ_Mime_Types = X11_Get_ಪಠ್ಯ_Mime_Types;
+    device->ಗಣ_Clipboard_ದತ್ತಾಂಶ = X11_ಗಣ_Clipboard_ದತ್ತಾಂಶ;
+    device->Get_Clipboard_ದತ್ತಾಂಶ = X11_Get_Clipboard_ದತ್ತಾಂಶ;
+    device->Has_Clipboard_ದತ್ತಾಂಶ = X11_Has_Clipboard_ದತ್ತಾಂಶ;
+    device->ಗಣ_Primary_Selection_ಪಠ್ಯ = X11_ಗಣ_Primary_Selection_ಪಠ್ಯ;
+    device->Get_Primary_Selection_ಪಠ್ಯ = X11_Get_Primary_Selection_ಪಠ್ಯ;
+    device->Has_Primary_Selection_ಪಠ್ಯ = X11_Has_Primary_Selection_ಪಠ್ಯ;
+    device->ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು = X11_ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು;
+    device->Stop_ಪಠ್ಯ_ಒಳಹರಿವು = X11_Stop_ಪಠ್ಯ_ಒಳಹರಿವು;
+    device->Update_ಪಠ್ಯ_ಒಳಹರಿವು_Area = X11_Update_ಪಠ್ಯ_ಒಳಹರಿವು_Area;
     device->HasScreenKeyboardSupport = X11_HasScreenKeyboardSupport;
     device->ShowScreenKeyboard = X11_ShowScreenKeyboard;
     device->HideScreenKeyboard = X11_HideScreenKeyboard;
 
-    device->free = X11_DeleteDevice;
+    device->ಬಿಡುಗಡೆ = X11_DeleteDevice;
 
-#ifdef SDL_VIDEO_VULKAN
-    device->Vulkan_LoadLibrary = X11_Vulkan_LoadLibrary;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_VULKAN
+    device->Vulkan_ತುಂಬು_Library = X11_Vulkan_ತುಂಬು_Library;
     device->Vulkan_UnloadLibrary = X11_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = X11_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = X11_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = X11_Vulkan_DestroySurface;
     device->Vulkan_GetPresentationSupport = X11_Vulkan_GetPresentationSupport;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_USE_LIBDBUS
-    if (SDL_SystemTheme_Init())
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
+    ಆದರೆ (SDL_SystemTheme_Init())
         device->system_theme = SDL_SystemTheme_Get();
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    device->device_caps = VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT |
+    device->device_caps = VIDEO_DEVICE_CAPS_HAS_POPUP_ಕಿಟಕಿ_SUPPORT |
                           VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    data->is_xwayland = X11_IsXWayland(x11_display);
-    if (data->is_xwayland) {
+    ದತ್ತಾಂಶ->is_xwayland = X11_IsXWayland(x11_display);
+    ಆದರೆ (ದತ್ತಾಂಶ->is_xwayland) {
         SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "Detected XWayland");
 
-        device->device_caps |= VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED |
+        device->device_caps |= VIDEO_DEVICE_CAPS_ಬಹುಲಕ_SWITCHING_EMULATED |
                                VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
     }
-    if (X11_IsWSL()) {
+    ಆದರೆ (X11_IsWSL()) {
         // On WSL, direct X11 is faster than using OpenGL for window framebuffers, so try to detect WSL and avoid texture framebuffer.
         device->device_caps &= ~VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
     }
 
-    return device;
+    ಹಿಂತಿರುಗಿ device;
 }
 
 VideoBootStrap X11_bootstrap = {
     "x11", "SDL X11 video driver",
     X11_CreateDevice,
-    X11_ShowMessageBox,
+    X11_Show_ಸಂದೇಶ_Box,
     false
 };
 
-static int (*handler)(Display *, XErrorEvent *) = NULL;
-static int X11_CheckWindowManagerErrorHandler(Display *d, XErrorEvent *e)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ (*handler)(Display *, XErrorEvent *) = ಖಾಲಿ;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ X11_Check_ಕಿಟಕಿ_Manager_Error_Handler(Display *d, XErrorEvent *e)
 {
-    if (e->error_code == BadWindow) {
-        return 0;
-    } else {
-        return handler(d, e);
+    ಆದರೆ (e->error_ಸಂಕೇತ == Bad_ಕಿಟಕಿ) {
+        ಹಿಂತಿರುಗಿ 0;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಹಿಂತಿರುಗಿ handler(d, e);
     }
 }
 
-static void X11_CheckWindowManager(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_Check_ಕಿಟಕಿ_Manager(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    Display *display = data->display;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    Display *display = ದತ್ತಾಂಶ->display;
     Atom _NET_SUPPORTING_WM_CHECK;
-    int status, real_format;
+    ಪೂರ್ಣಾಂಕ ಸ್ಥಿತಿ_2, real_format;
     Atom real_type;
-    unsigned long items_read = 0, items_left = 0;
-    unsigned char *propdata = NULL;
-    Window wm_window = 0;
-#ifdef DEBUG_WINDOW_MANAGER
-    char *wm_name;
-#endif
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ವಸ್ತುಗಳು_read = 0, ವಸ್ತುಗಳು_ಎಡ = 0;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *propdata = ಖಾಲಿ;
+    ಕಿಟಕಿ_2 wm_ಕಿಟಕಿ = 0;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_ಕಿಟಕಿ_MANAGER
+    ಅಕ್ಷರ *wm_name;
+#ಆದರೆ_ಅಂತ್ಯ
 
     // Set up a handler to gracefully catch errors
     X11_XSync(display, False);
-    handler = X11_XSetErrorHandler(X11_CheckWindowManagerErrorHandler);
+    handler = X11_XSetErrorHandler(X11_Check_ಕಿಟಕಿ_Manager_Error_Handler);
 
     _NET_SUPPORTING_WM_CHECK = X11_XInternAtom(display, "_NET_SUPPORTING_WM_CHECK", False);
-    status = X11_XGetWindowProperty(display, DefaultRootWindow(display), _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &items_read, &items_left, &propdata);
-    if (status == Success) {
-        if (items_read) {
-            wm_window = ((Window *)propdata)[0];
+    ಸ್ಥಿತಿ_2 = X11_XGet_ಕಿಟಕಿ_Property(display, Default_ಬೇರು_ಕಿಟಕಿ(display), _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_ಕಿಟಕಿ, &real_type, &real_format, &ವಸ್ತುಗಳು_read, &ವಸ್ತುಗಳು_ಎಡ, &propdata);
+    ಆದರೆ (ಸ್ಥಿತಿ_2 == Success) {
+        ಆದರೆ (ವಸ್ತುಗಳು_read) {
+            wm_ಕಿಟಕಿ = ((ಕಿಟಕಿ_2 *)propdata)[0];
         }
-        if (propdata) {
+        ಆದರೆ (propdata) {
             X11_XFree(propdata);
-            propdata = NULL;
+            propdata = ಖಾಲಿ;
         }
     }
 
-    if (wm_window) {
-        status = X11_XGetWindowProperty(display, wm_window, _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_WINDOW, &real_type, &real_format, &items_read, &items_left, &propdata);
-        if (status != Success || !items_read || wm_window != ((Window *)propdata)[0]) {
-            wm_window = None;
+    ಆದರೆ (wm_ಕಿಟಕಿ) {
+        ಸ್ಥಿತಿ_2 = X11_XGet_ಕಿಟಕಿ_Property(display, wm_ಕಿಟಕಿ, _NET_SUPPORTING_WM_CHECK, 0L, 1L, False, XA_ಕಿಟಕಿ, &real_type, &real_format, &ವಸ್ತುಗಳು_read, &ವಸ್ತುಗಳು_ಎಡ, &propdata);
+        ಆದರೆ (ಸ್ಥಿತಿ_2 != Success || !ವಸ್ತುಗಳು_read || wm_ಕಿಟಕಿ != ((ಕಿಟಕಿ_2 *)propdata)[0]) {
+            wm_ಕಿಟಕಿ = None;
         }
-        if (status == Success && propdata) {
+        ಆದರೆ (ಸ್ಥಿತಿ_2 == Success && propdata) {
             X11_XFree(propdata);
-            propdata = NULL;
+            propdata = ಖಾಲಿ;
         }
     }
 
@@ -354,35 +354,35 @@ static void X11_CheckWindowManager(SDL_VideoDevice *_this)
     X11_XSync(display, False);
     X11_XSetErrorHandler(handler);
 
-    if (!wm_window) {
-#ifdef DEBUG_WINDOW_MANAGER
+    ಆದರೆ (!wm_ಕಿಟಕಿ) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_ಕಿಟಕಿ_MANAGER
         SDL_Log("Couldn't get _NET_SUPPORTING_WM_CHECK property");
-#endif
-        return;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಹಿಂತಿರುಗಿ;
     }
-    data->net_wm = true;
+    ದತ್ತಾಂಶ->net_wm = true;
 
-#ifdef DEBUG_WINDOW_MANAGER
-    wm_name = X11_GetWindowTitle(_this, wm_window);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_ಕಿಟಕಿ_MANAGER
+    wm_name = X11_Get_ಕಿಟಕಿ_Title(_this, wm_ಕಿಟಕಿ);
     SDL_Log("Window manager: %s", wm_name);
     SDL_free(wm_name);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static bool X11_VideoInit(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool X11_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
     // Get the process PID to be associated to the window
-    data->pid = getpid();
+    ದತ್ತಾಂಶ->pid = getpid();
 
     // I have no idea how random this actually is, or has to be.
-    data->window_group = (XID)(((size_t)data->pid) ^ ((size_t)_this));
+    ದತ್ತಾಂಶ->ಕಿಟಕಿ_ಗುಂಪು = (XID)(((size_t)ದತ್ತಾಂಶ->pid) ^ ((size_t)_this));
 
     // Look up some useful Atoms
-#define GET_ATOM(X) data->atoms.X = X11_XInternAtom(data->display, #X, False)
+#ವ್ಯಾಖ್ಯಾನಿಸು GET_ATOM(X) ದತ್ತಾಂಶ->atoms.X = X11_XInternAtom(ದತ್ತಾಂಶ->display, #X, False)
     GET_ATOM(WM_PROTOCOLS);
-    GET_ATOM(WM_DELETE_WINDOW);
+    GET_ATOM(WM_DELETE_ಕಿಟಕಿ);
     GET_ATOM(WM_NAME);
     GET_ATOM(WM_TRANSIENT_FOR);
     GET_ATOM(WM_STATE);
@@ -405,10 +405,10 @@ static bool X11_VideoInit(SDL_VideoDevice *_this)
     GET_ATOM(_NET_WM_PING);
     GET_ATOM(_NET_WM_SYNC_REQUEST);
     GET_ATOM(_NET_WM_SYNC_REQUEST_COUNTER);
-    GET_ATOM(_NET_WM_WINDOW_OPACITY);
-    GET_ATOM(_NET_WM_USER_TIME);
-    GET_ATOM(_NET_ACTIVE_WINDOW);
-    GET_ATOM(_NET_FRAME_EXTENTS);
+    GET_ATOM(NET_WM_ಕಿಟಕಿ_OPACITY);
+    GET_ATOM(NET_WM_USER_ಸಮಯ);
+    GET_ATOM(NET_ಸಕ್ರಿಯ_ಕಿಟಕಿ);
+    GET_ATOM(NET_ಚೌಕಟ್ಟು_EXTENTS);
     GET_ATOM(_SDL_WAKEUP);
     GET_ATOM(UTF8_STRING);
     GET_ATOM(PRIMARY);
@@ -422,47 +422,47 @@ static bool X11_VideoInit(SDL_VideoDevice *_this)
     GET_ATOM(XdndEnter);
     GET_ATOM(XdndLeave);
     GET_ATOM(XdndPosition);
-    GET_ATOM(XdndStatus);
+    GET_ATOM(Xdnd_ಸ್ಥಿತಿ);
     GET_ATOM(XdndTypeList);
     GET_ATOM(XdndActionCopy);
     GET_ATOM(XdndDrop);
-    GET_ATOM(XdndFinished);
+    GET_ATOM(Xdnd_ಪೂರ್ಣಗೊಂಡ);
     GET_ATOM(XdndSelection);
     GET_ATOM(XKLAVIER_STATE);
 
     // Detect the window manager
-    X11_CheckWindowManager(_this);
+    X11_Check_ಕಿಟಕಿ_Manager(_this);
 
-    if (!X11_InitModes(_this)) {
-        return false;
+    ಆದರೆ (!X11_InitModes(_this)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    if (!X11_InitXinput2(_this)) {
+    ಆದರೆ (!X11_InitXinput2(_this)) {
         // Assume a mouse and keyboard are attached
-        SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-        SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+        SDL_ಕೂಡಿಸು_Keyboard(SDL_DEFAULT_KEYBOARD_ID, ಖಾಲಿ);
+        SDL_ಕೂಡಿಸು_Mouse(SDL_DEFAULT_MOUSE_ID, ಖಾಲಿ);
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
     X11_InitXfixes(_this);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     X11_InitXsettings(_this);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSYNC
     X11_InitXsync(_this);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_VIDEO_DRIVER_X11_XTEST
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XTEST
     X11_InitXTest(_this);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef X_HAVE_UTF8_STRING
-#warning X server does not support UTF8_STRING, a feature introduced in 2000! This is likely to become a hard error in a future libSDL3.
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ X_HAVE_UTF8_STRING
+#warning X server does not support UTF8_STRING, a feature introduced ಒಳ_2 2000! This is likely ಗಮ್ಯ become a hard error ಒಳ_2 a future libSDL3.
+#ಆದರೆ_ಅಂತ್ಯ
 
-    if (!X11_InitKeyboard(_this)) {
-        return false;
+    ಆದರೆ (!X11_InitKeyboard(_this)) {
+        ಹಿಂತಿರುಗಿ false;
     }
     X11_InitMouse(_this);
 
@@ -471,22 +471,22 @@ static bool X11_VideoInit(SDL_VideoDevice *_this)
     X11_InitPen(_this);
 
     // Request currently available mime-types in the clipboard.
-    X11_XConvertSelection(data->display, data->atoms.CLIPBOARD, data->atoms.TARGETS,
-            data->atoms.SDL_FORMATS, GetWindow(_this), CurrentTime);
+    X11_XConvertSelection(ದತ್ತಾಂಶ->display, ದತ್ತಾಂಶ->atoms.CLIPBOARD, ದತ್ತಾಂಶ->atoms.TARGETS,
+            ದತ್ತಾಂಶ->atoms.SDL_FORMATS, Get_ಕಿಟಕಿ(_this), Current_ಸಮಯ);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void X11_VideoQuit(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_VideoQuit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
 
-    if (data->clipboard_window) {
-        X11_XDestroyWindow(data->display, data->clipboard_window);
+    ಆದರೆ (ದತ್ತಾಂಶ->clipboard_ಕಿಟಕಿ) {
+        X11_XDestroy_ಕಿಟಕಿ(ದತ್ತಾಂಶ->display, ದತ್ತಾಂಶ->clipboard_ಕಿಟಕಿ);
     }
 
-    if (data->xsettings_window) {
-        X11_XDestroyWindow(data->display, data->xsettings_window);
+    ಆದರೆ (ದತ್ತಾಂಶ->xsettings_ಕಿಟಕಿ) {
+        X11_XDestroy_ಕಿಟಕಿ(ದತ್ತಾಂಶ->display, ದತ್ತಾಂಶ->xsettings_ಕಿಟಕಿ);
     }
 
     X11_QuitXinput2(_this);
@@ -499,12 +499,12 @@ void X11_VideoQuit(SDL_VideoDevice *_this)
     X11_QuitXsettings(_this);
 }
 
-bool X11_UseDirectColorVisuals(void)
+bool X11_Use_ನೇರ_Color_Visuals(ಶೂನ್ಯ)
 {
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NODIRECTCOLOR, false)) {
-        return false;
+    ಆದರೆ (SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_NODIRECTCOLOR, false)) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11

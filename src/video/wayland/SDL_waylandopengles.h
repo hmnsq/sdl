@@ -18,32 +18,32 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_waylandopengles_h_
-#define SDL_waylandopengles_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_waylandopengles_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_waylandopengles_h_
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
 
-typedef struct SDL_PrivateGLESData
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ SDL_ಖಾಸಗಿ_GLESData
 {
-    int dummy;
-} SDL_PrivateGLESData;
+    ಪೂರ್ಣಾಂಕ dummy;
+} SDL_ಖಾಸಗಿ_GLESData;
 
 // OpenGLES functions
-#define Wayland_GLES_GetAttribute   SDL_EGL_GetAttribute
-#define Wayland_GLES_GetProcAddress SDL_EGL_GetProcAddressInternal
-#define Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
+#ವ್ಯಾಖ್ಯಾನಿಸು Wayland_GLES_GetAttribute   SDL_EGL_GetAttribute
+#ವ್ಯಾಖ್ಯಾನಿಸು Wayland_GLES_Get_Proc_ವಿಳಾಸ SDL_EGL_Get_Proc_ವಿಳಾಸ_ಆಂತರಿಕ
+#ವ್ಯಾಖ್ಯಾನಿಸು Wayland_GLES_UnloadLibrary  SDL_EGL_UnloadLibrary
 
-extern bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void Wayland_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Wayland_GLES_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Wayland_GLES_ಗಣ_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ interval);
+ಬಾಹ್ಯ bool Wayland_GLES_Get_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ *interval);
+ಬಾಹ್ಯ bool Wayland_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_GLContext context);
+ಬಾಹ್ಯ bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ಬಾಹ್ಯ ಶೂನ್ಯ Wayland_GLES_ಗಣ_Default_Profile_Config(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ SDL_EGLSurface Wayland_GLES_GetEGLSurface(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
-#endif // SDL_waylandopengles_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_waylandopengles_h_

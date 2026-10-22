@@ -18,170 +18,170 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_OPENHARMONY
 
 // !!! FIXME: these are defined as "const uint32_t VARNAME = VALUE;" in native_interface_xcomponent.h, which becomes a global variable in _our_ C code! Maybe C++ handles this differently...?
-#define OH_XCOMPONENT_ID_LEN_MAX sdl_ohoswindow_OH_XCOMPONENT_ID_LEN_MAX
-#define OH_MAX_TOUCH_POINTS_NUMBER sdl_ohoswindow_OH_MAX_TOUCH_POINTS_NUMBER
-#include <ace/xcomponent/native_interface_xcomponent.h>
+#ವ್ಯಾಖ್ಯಾನಿಸು OH_XCOMPONENT_ID_LEN_MAX sdl_ohoswindow_OH_XCOMPONENT_ID_LEN_MAX
+#ವ್ಯಾಖ್ಯಾನಿಸು OH_MAX_TOUCH_POINTS_ಸಂಖ್ಯೆ sdl_ohoswindow_OH_MAX_TOUCH_POINTS_ಸಂಖ್ಯೆ
+#ಅನ್ತರ್ಭಾವ <ace/xcomponent/native_interface_xcomponent.h>
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../core/openharmony/SDL_openharmony.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_keyboard_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_mouse_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_windowevents_c.h"
+#ಅನ್ತರ್ಭಾವ "../../core/openharmony/SDL_openharmony.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonywindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonyevents.h"
+#ಅನ್ತರ್ಭಾವ "SDL_openharmonywindow.h"
 
 
 // Currently only one window
-SDL_Window *OPENHARMONY_Window = NULL;
+SDL_ಕಿಟಕಿ *OPENHARMONY_ಕಿಟಕಿ = ಖಾಲಿ;
 
-bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool OPENHARMONY_Create_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
-    bool result = true;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
+    bool ಫಲಿತಾಂಶ = true;
 
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //if (!OPENHARMONY_WaitActiveAndLockActivity()) {
     //    return false;
     //}
 
-    if (OPENHARMONY_Window) {
-        result = SDL_SetError("SDL on OpenHarmony (currently) only supports one window");
-        goto endfunction;
+    ಆದರೆ (OPENHARMONY_ಕಿಟಕಿ) {
+        ಫಲಿತಾಂಶ = SDL_ಗಣ_Error("SDL on OpenHarmony (currently) only supports one window");
+        ಹೋಗು endfunction;
     }
 
-    void *voidxcomp, *native_window;
-    SDL_OpenHarmonyGetNativeWindowPointers(&voidxcomp, &native_window);
+    ಶೂನ್ಯ *voidxcomp, *native_ಕಿಟಕಿ;
+    SDL_Open_Harmony_Get_Native_ಕಿಟಕಿ_ಸೂಚಕಗಳು(&voidxcomp, &native_ಕಿಟಕಿ);
     OH_NativeXComponent *native_xcomponent = (OH_NativeXComponent *) voidxcomp;
-    if (!native_xcomponent || !native_window) {
-        result = SDL_SetError("Don't have Native XComponent or Native Window");
-        goto endfunction;
+    ಆದರೆ (!native_xcomponent || !native_ಕಿಟಕಿ) {
+        ಫಲಿತಾಂಶ = SDL_ಗಣ_Error("Don't have Native XComponent or Native Window");
+        ಹೋಗು endfunction;
     }
 
-#if 0  // !!! FIXME
+#ಆದರೆ 0  // !!! FIXME
     // Set orientation
-    Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
-#endif
+    Android_JNI_ಗಣ_Orientation(ಕಿಟಕಿ->w, ಕಿಟಕಿ->h, ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
+#ಆದರೆ_ಅಂತ್ಯ
 
     uint64_t w, h;
-    OH_NativeXComponent_GetXComponentSize(native_xcomponent, native_window, &w, &h);
+    OH_Native_XComponent_Get_XComponent_ಗಾತ್ರ(native_xcomponent, native_ಕಿಟಕಿ, &w, &h);
 
     // Adjust the window data to match the screen
-    window->x = 0;
-    window->y = 0;
-    window->w = (int) w;
-    window->h = (int) h;
+    ಕಿಟಕಿ->x = 0;
+    ಕಿಟಕಿ->y = 0;
+    ಕಿಟಕಿ->w = (ಪೂರ್ಣಾಂಕ) w;
+    ಕಿಟಕಿ->h = (ಪೂರ್ಣಾಂಕ) h;
 
     // One window, it always has focus
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    SDL_ಗಣ_Mouse_Focus(ಕಿಟಕಿ);
+    SDL_ಗಣ_Keyboard_Focus(ಕಿಟಕಿ);
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        result = false;
-        goto endfunction;
+    ದತ್ತಾಂಶ = (SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(*ದತ್ತಾಂಶ));
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
+        ಫಲಿತಾಂಶ = false;
+        ಹೋಗು endfunction;
     }
 
-    data->native_xcomponent = native_xcomponent;
-    data->native_window = native_window;
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_OPENHARMONY_XCOMPONENT_POINTER, data->native_xcomponent);
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_OPENHARMONY_WINDOW_POINTER, data->native_window);
+    ದತ್ತಾಂಶ->native_xcomponent = native_xcomponent;
+    ದತ್ತಾಂಶ->native_ಕಿಟಕಿ = native_ಕಿಟಕಿ;
+    SDL_ಗಣ_ಸೂಚಕ_Property(SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ), SDL_PROP_ಕಿಟಕಿ_OPENHARMONY_XCOMPONENT_ಸೂಚಕ, ದತ್ತಾಂಶ->native_xcomponent);
+    SDL_ಗಣ_ಸೂಚಕ_Property(SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ), SDL_PROP_ಕಿಟಕಿ_OPENHARMONY_ಕಿಟಕಿ_ಸೂಚಕ, ದತ್ತಾಂಶ->native_ಕಿಟಕಿ);
 
     /* Do not create EGLSurface for Vulkan window since it will then make the window
        incompatible with vkCreateAndroidSurfaceKHR */
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            SDL_free(data);
-            result = false;
-            goto endfunction;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_OPENGL) {
+        ದತ್ತಾಂಶ->egl_surface = SDL_EGL_CreateSurface(_this, ಕಿಟಕಿ, (Native_ಕಿಟಕಿ_Type)ದತ್ತಾಂಶ->native_ಕಿಟಕಿ);
+        ಆದರೆ (ದತ್ತಾಂಶ->egl_surface == EGL_NO_SURFACE) {
+            SDL_free(ದತ್ತಾಂಶ);
+            ಫಲಿತಾಂಶ = false;
+            ಹೋಗು endfunction;
         }
     }
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_OPENHARMONY_SURFACE_POINTER, data->egl_surface);
-#endif
+    SDL_ಗಣ_ಸೂಚಕ_Property(SDL_Get_ಕಿಟಕಿ_Properties(ಕಿಟಕಿ), SDL_PROP_ಕಿಟಕಿ_OPENHARMONY_SURFACE_ಸೂಚಕ, ದತ್ತಾಂಶ->egl_surface);
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if 0  // !!! FIXME
-    SDL_SetWindowSafeAreaInsets(window, Android_SafeInsetLeft, Android_SafeInsetRight, Android_SafeInsetTop, Android_SafeInsetBottom);
-#endif
+#ಆದರೆ 0  // !!! FIXME
+    SDL_ಗಣ_ಕಿಟಕಿ_ಸುರಕ್ಷಿತ_Area_Insets(ಕಿಟಕಿ, Android_ಸುರಕ್ಷಿತ_Inset_ಎಡ, Android_ಸುರಕ್ಷಿತ_Inset_ಬಲ, Android_ಸುರಕ್ಷಿತ_Inset_ತುದಿ, Android_ಸುರಕ್ಷಿತ_Inset_Bottom);
+#ಆದರೆ_ಅಂತ್ಯ
 
-    window->internal = data;
-    OPENHARMONY_Window = window;
+    ಕಿಟಕಿ->ಆಂತರಿಕ = ದತ್ತಾಂಶ;
+    OPENHARMONY_ಕಿಟಕಿ = ಕಿಟಕಿ;
 
 endfunction:
 
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //Android_UnlockActivityMutex();
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-void OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ OPENHARMONY_ಗಣ_ಕಿಟಕಿ_Title(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-#if 0  // !!! FIXME
-    Android_JNI_SetActivityTitle(window->title);
-#endif
+#ಆದರೆ 0  // !!! FIXME
+    Android_JNI_ಗಣ_Activity_Title(ಕಿಟಕಿ->title);
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-SDL_FullscreenResult OPENHARMONY_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_ಫಲಿತಾಂಶ OPENHARMONY_ಗಣ_ಕಿಟಕಿ_Fullscreen(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    if (window == OPENHARMONY_Window) {
-        const bool show_bars = (fullscreen == SDL_FULLSCREEN_OP_LEAVE);
-        if (!SDL_OpenHarmonyToggleSystemBars(show_bars, show_bars)) {
-            return SDL_FULLSCREEN_FAILED;
+    ಆದರೆ (ಕಿಟಕಿ == OPENHARMONY_ಕಿಟಕಿ) {
+        ಸ್ಥಿರಾಂಕ bool show_bars = (fullscreen == SDL_FULLSCREEN_OP_LEAVE);
+        ಆದರೆ (!SDL_OpenHarmonyToggleSystemBars(show_bars, show_bars)) {
+            ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_FAILED;
         }
         // !!! FIXME: make sure this causes an XComponent resize event, that we can pick up later.
-        return SDL_FULLSCREEN_PENDING;
+        ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_PENDING;
     }
-    return SDL_FULLSCREEN_FAILED;
+    ಹಿಂತಿರುಗಿ SDL_FULLSCREEN_FAILED;
 }
 
-void OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ OPENHARMONY_Minimize_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-#if 0  // !!! FIXME
-    Android_JNI_MinimizeWindow();
-#endif
+#ಆದರೆ 0  // !!! FIXME
+    Android_JNI_Minimize_ಕಿಟಕಿ();
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-void OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+ಶೂನ್ಯ OPENHARMONY_ಗಣ_ಕಿಟಕಿ_Resizable(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool resizable)
 {
-#if 0  // !!! FIXME
+#ಆದರೆ 0  // !!! FIXME
     // Set orientation
-    Android_JNI_SetOrientation(window->w, window->h, window->flags & SDL_WINDOW_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
-#endif
+    Android_JNI_ಗಣ_Orientation(ಕಿಟಕಿ->w, ಕಿಟಕಿ->h, ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_RESIZABLE, SDL_GetHint(SDL_HINT_ORIENTATIONS));
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ OPENHARMONY_Destroy_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     // !!! FIXME: Android has locking here; maybe it isn't necessary for OpenHarmony? What happens if we're in a background thread?
     //Android_LockActivityMutex();
 
-    if (window == OPENHARMONY_Window) {
-        OPENHARMONY_Window = NULL;
+    ಆದರೆ (ಕಿಟಕಿ == OPENHARMONY_ಕಿಟಕಿ) {
+        OPENHARMONY_ಕಿಟಕಿ = ಖಾಲಿ;
 
-        if (window->internal) {
-            SDL_WindowData *data = window->internal;
+        ಆದರೆ (ಕಿಟಕಿ->ಆಂತರಿಕ) {
+            SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-            if (data->egl_surface != EGL_NO_SURFACE) {
-                SDL_EGL_DestroySurface(_this, data->egl_surface);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+            ಆದರೆ (ದತ್ತಾಂಶ->egl_surface != EGL_NO_SURFACE) {
+                SDL_EGL_DestroySurface(_this, ದತ್ತಾಂಶ->egl_surface);
             }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
             // the XComponent and native window live past the SDL_Window; it can be reused for future windows.
 
-            SDL_free(window->internal);
-            window->internal = NULL;
+            SDL_free(ಕಿಟಕಿ->ಆಂತರಿಕ);
+            ಕಿಟಕಿ->ಆಂತರಿಕ = ಖಾಲಿ;
         }
     }
 
     //Android_UnlockActivityMutex();
 }
 
-#endif // SDL_VIDEO_DRIVER_OPENHARMONY
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_OPENHARMONY

@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_emscriptenvideo_h_
-#define SDL_emscriptenvideo_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_emscriptenvideo_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_emscriptenvideo_h_
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_touch_c.h"
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_touch_c.h"
+#ಅನ್ತರ್ಭಾವ <emscripten/emscripten.h>
+#ಅನ್ತರ್ಭಾವ <emscripten/html5.h>
 
-struct SDL_WindowData
+ರಚನೆ SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ
 {
-    SDL_Window *window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ;
     SDL_Surface *surface;
 
     SDL_GLContext gl_context;
 
-    int non_fill_document_width;
-    int non_fill_document_height;
+    ಪೂರ್ಣಾಂಕ non_fill_document_ಅಗಲ;
+    ಪೂರ್ಣಾಂಕ non_fill_document_ಎತ್ತರ;
 
-    char *canvas_id;
-    char *keyboard_element;
+    ಅಕ್ಷರ *canvas_id;
+    ಅಕ್ಷರ *keyboard_element;
 
-    float pixel_ratio;
+    ದಶಮಾಂಶ pixel_ಅನುಪಾತ;
 
-    bool external_size;
+    bool external_ಗಾತ್ರ;
 
-    Uint32 fullscreen_mode_flags;
+    Uint32 fullscreen_ಬಹುಲಕ_flags;
     bool fullscreen_resize;
-    bool fullscreen_change_in_progress;
+    bool fullscreen_change_ಒಳ_ಪ್ರಗತಿ;
 
-    bool has_pointer_lock;
+    bool has_ಸೂಚಕ_ಬೀಗ;
 
     bool mouse_focus_loss_pending;
 };
 
-extern SDL_Window *Emscripten_fill_document_window;
+ಬಾಹ್ಯ SDL_ಕಿಟಕಿ *Emscripten_fill_document_ಕಿಟಕಿ;
 
-bool Emscripten_ShouldSetSwapInterval(int interval);
-int Emscripten_GetPendingSwapInterval(void);
+bool Emscripten_Should_ಗಣ_ಅದಲುಬದಲು_Interval(ಪೂರ್ಣಾಂಕ interval);
+ಪೂರ್ಣಾಂಕ Emscripten_Get_Pending_ಅದಲುಬದಲು_Interval(ಶೂನ್ಯ);
 
-#endif // SDL_emscriptenvideo_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_emscriptenvideo_h_

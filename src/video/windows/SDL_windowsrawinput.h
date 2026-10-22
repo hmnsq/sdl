@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_windowsrawinput_h_
-#define SDL_windowsrawinput_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_windowsrawinput_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_windowsrawinput_h_
 
-extern void WIN_QuitRawInput(SDL_VideoDevice *_this);
-extern bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_Quit_Raw_ಒಳಹರಿವು(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool WIN_ಗಣ_Raw_Mouse_Enabled(SDL_VideoDevice *_this, bool enabled);
+ಬಾಹ್ಯ bool WIN_ಗಣ_Raw_Mouse_Flag_No_Legacy(SDL_VideoDevice *_this, bool enabled);
+ಬಾಹ್ಯ bool WIN_ಗಣ_Raw_Keyboard_Enabled(SDL_VideoDevice *_this, bool enabled);
+ಬಾಹ್ಯ bool WIN_ಗಣ_Raw_Keyboard_Flag_No_Hotkeys(SDL_VideoDevice *_this, bool enabled);
+ಬಾಹ್ಯ bool WIN_ಗಣ_Raw_Keyboard_Flag_Inputsink(SDL_VideoDevice *_this, bool enabled);
 
-#endif // SDL_windowsrawinput_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_windowsrawinput_h_

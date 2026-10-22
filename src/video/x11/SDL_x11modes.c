@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11settings.h"
-#include "edid.h"
-#include "../../events/SDL_displayevents_c.h"
-#include "../SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11settings.h"
+#ಅನ್ತರ್ಭಾವ "edid.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_displayevents_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_pixels_c.h"
 
 // #define X11MODES_DEBUG
 
 /* Timeout and revert mode switches if the timespan has elapsed without the window becoming fullscreen.
  * 5 seconds seems good from testing.
  */
-#define MODE_SWITCH_TIMEOUT_NS SDL_NS_PER_SECOND * 5
+#ವ್ಯಾಖ್ಯಾನಿಸು ಬಹುಲಕ_SWITCH_TIMEOUT_NS SDL_NS_ಪ್ರತಿ_ಎರಡನೇ * 5
 
 /* I'm becoming more and more convinced that the application should never
  * use XRandR, and it's the window manager's responsibility to track and
@@ -47,260 +47,260 @@
  */
 // #define XRANDR_DISABLED_BY_DEFAULT
 
-float X11_GetGlobalContentScale(Display *display, XSettingsClient *client)
+ದಶಮಾಂಶ X11_GetGlobalContentScale(Display *display, XSettingsClient *client)
 {
-    double scale_factor = 0.0;
+    ದ್ವಿಗುಣ scale_ಗುಣಕ_2 = 0.0;
 
     // First use the forced scaling factor specified by the app/user
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_X11_SCALING_FACTOR);
-    if (hint && *hint) {
-        double value = SDL_atof(hint);
-        if (value >= 1.0f && value <= 10.0f) {
-            scale_factor = value;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *hint = SDL_GetHint(SDL_HINT_VIDEO_X11_SCALING_ಗುಣಕ);
+    ಆದರೆ (hint && *hint) {
+        ದ್ವಿಗುಣ ಮೌಲ್ಯ = SDL_atof(hint);
+        ಆದರೆ (ಮೌಲ್ಯ >= 1.0f && ಮೌಲ್ಯ <= 10.0f) {
+            scale_ಗುಣಕ_2 = ಮೌಲ್ಯ;
         }
     }
 
     // If that failed, try "Xft.dpi" from the XResourcesDatabase...
     // We attempt to read this directly to get the live value, XResourceManagerString
     // is cached per display connection.
-    if (scale_factor <= 0.0) {
-        int status, real_format;
+    ಆದರೆ (scale_ಗುಣಕ_2 <= 0.0) {
+        ಪೂರ್ಣಾಂಕ ಸ್ಥಿತಿ_2, real_format;
         Atom real_type;
         Atom res_mgr;
-        unsigned long items_read, items_left;
-        char *resource_manager;
+        ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ವಸ್ತುಗಳು_read, ವಸ್ತುಗಳು_ಎಡ;
+        ಅಕ್ಷರ *resource_manager;
         bool owns_resource_manager = false;
 
         X11_XrmInitialize();
         res_mgr = X11_XInternAtom(display, "RESOURCE_MANAGER", False);
-        status = X11_XGetWindowProperty(display, RootWindow(display, DefaultScreen(display)),
+        ಸ್ಥಿತಿ_2 = X11_XGet_ಕಿಟಕಿ_Property(display, ಬೇರು_ಕಿಟಕಿ(display, DefaultScreen(display)),
                                         res_mgr, 0L, 8192L, False, XA_STRING,
-                                        &real_type, &real_format, &items_read, &items_left,
-                                        (unsigned char **)&resource_manager);
+                                        &real_type, &real_format, &ವಸ್ತುಗಳು_read, &ವಸ್ತುಗಳು_ಎಡ,
+                                        (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ **)&resource_manager);
 
-        if (status == Success && resource_manager) {
+        ಆದರೆ (ಸ್ಥಿತಿ_2 == Success && resource_manager) {
             owns_resource_manager = true;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Fall back to XResourceManagerString. This will not be updated if the
             // dpi value is later changed but should allow getting the initial value.
             resource_manager = X11_XResourceManagerString(display);
         }
 
-        if (resource_manager) {
+        ಆದರೆ (resource_manager) {
             XrmDatabase db;
-            XrmValue value;
-            char *type;
+            Xrm_ಮೌಲ್ಯ ಮೌಲ್ಯ;
+            ಅಕ್ಷರ *type;
 
             db = X11_XrmGetStringDatabase(resource_manager);
 
             // Get the value of Xft.dpi from the Database
-            if (X11_XrmGetResource(db, "Xft.dpi", "String", &type, &value)) {
-                if (value.addr && type && SDL_strcmp(type, "String") == 0) {
-                    int dpi = SDL_atoi(value.addr);
-                    scale_factor  = dpi / 96.0;
+            ಆದರೆ (X11_XrmGetResource(db, "Xft.dpi", "String", &type, &ಮೌಲ್ಯ)) {
+                ಆದರೆ (ಮೌಲ್ಯ.addr && type && SDL_strcmp(type, "String") == 0) {
+                    ಪೂರ್ಣಾಂಕ dpi = SDL_atoi(ಮೌಲ್ಯ.addr);
+                    scale_ಗುಣಕ_2  = dpi / 96.0;
                 }
             }
             X11_XrmDestroyDatabase(db);
 
-            if (owns_resource_manager) {
+            ಆದರೆ (owns_resource_manager) {
                 X11_XFree(resource_manager);
             }
         }
     }
 
     // If that failed, try the XSETTINGS keys...
-    if (scale_factor <= 0.0) {
-        scale_factor = X11_GetXsettingsClientIntKey(client, "Gdk/WindowScalingFactor", -1);
+    ಆದರೆ (scale_ಗುಣಕ_2 <= 0.0) {
+        scale_ಗುಣಕ_2 = X11_Get_Xsettings_Client_Int_ಕೀಲಿ(client, "Gdk/WindowScalingFactor", -1);
 
         // The Xft/DPI key is stored in increments of 1024th
-        if (scale_factor <= 0.0) {
-            int dpi = X11_GetXsettingsClientIntKey(client, "Xft/DPI", -1);
-            if (dpi > 0) {
-                scale_factor = (double) dpi / 1024.0;
-                scale_factor /= 96.0;
+        ಆದರೆ (scale_ಗುಣಕ_2 <= 0.0) {
+            ಪೂರ್ಣಾಂಕ dpi = X11_Get_Xsettings_Client_Int_ಕೀಲಿ(client, "Xft/DPI", -1);
+            ಆದರೆ (dpi > 0) {
+                scale_ಗುಣಕ_2 = (ದ್ವಿಗುಣ) dpi / 1024.0;
+                scale_ಗುಣಕ_2 /= 96.0;
             }
         }
     }
 
     // If that failed, try the GDK_SCALE envvar...
-    if (scale_factor <= 0.0) {
-        const char *scale_str = SDL_getenv("GDK_SCALE");
-        if (scale_str) {
-            scale_factor = SDL_atoi(scale_str);
+    ಆದರೆ (scale_ಗುಣಕ_2 <= 0.0) {
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *scale_str = SDL_getenv("GDK_SCALE");
+        ಆದರೆ (scale_str) {
+            scale_ಗುಣಕ_2 = SDL_atoi(scale_str);
         }
     }
 
     // Nothing or a bad value, just fall back to 1.0
-    if (scale_factor <= 0.0) {
-        scale_factor = 1.0;
+    ಆದರೆ (scale_ಗುಣಕ_2 <= 0.0) {
+        scale_ಗುಣಕ_2 = 1.0;
     }
 
-    return (float)scale_factor;
+    ಹಿಂತಿರುಗಿ (ದಶಮಾಂಶ)scale_ಗುಣಕ_2;
 }
 
-float X11_GetGlobalContentScaleForDevice(SDL_VideoDevice *_this)
+ದಶಮಾಂಶ X11_GetGlobalContentScaleForDevice(SDL_VideoDevice *_this)
 {
-    return X11_GetGlobalContentScale(_this->internal->display, _this->internal->xsettings_data.xsettings);
+    ಹಿಂತಿರುಗಿ X11_GetGlobalContentScale(_this->ಆಂತರಿಕ->display, _this->ಆಂತರಿಕ->xsettings_ದತ್ತಾಂಶ.xsettings);
 }
 
-static bool get_visualinfo(Display *display, int screen, XVisualInfo *vinfo)
+ಸ್ಥಿರ bool get_visualinfo(Display *display, ಪೂರ್ಣಾಂಕ screen, XVisualInfo *vinfo)
 {
-    const char *visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_VISUALID);
-    int depth;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *visual_id = SDL_GetHint(SDL_HINT_VIDEO_X11_VISUALID);
+    ಪೂರ್ಣಾಂಕ ಆಳ_2;
 
     // Look for an exact visual, if requested
-    if (visual_id && *visual_id) {
-        XVisualInfo *vi, template;
-        int nvis;
+    ಆದರೆ (visual_id && *visual_id) {
+        XVisualInfo *vi, ಮಾದರಿ;
+        ಪೂರ್ಣಾಂಕ nvis;
 
-        SDL_zero(template);
-        template.visualid = SDL_strtol(visual_id, NULL, 0);
-        vi = X11_XGetVisualInfo(display, VisualIDMask, &template, &nvis);
-        if (vi) {
+        SDL_zero(ಮಾದರಿ);
+        ಮಾದರಿ.visualid = SDL_strtol(visual_id, ಖಾಲಿ, 0);
+        vi = X11_XGetVisualInfo(display, VisualIDMask, &ಮಾದರಿ, &nvis);
+        ಆದರೆ (vi) {
             *vinfo = *vi;
             X11_XFree(vi);
-            return true;
+            ಹಿಂತಿರುಗಿ true;
         }
     }
 
-    depth = DefaultDepth(display, screen);
-    if ((X11_UseDirectColorVisuals() &&
-         X11_XMatchVisualInfo(display, screen, depth, DirectColor, vinfo)) ||
-        X11_XMatchVisualInfo(display, screen, depth, TrueColor, vinfo) ||
-        X11_XMatchVisualInfo(display, screen, depth, PseudoColor, vinfo) ||
-        X11_XMatchVisualInfo(display, screen, depth, StaticColor, vinfo)) {
-        return true;
+    ಆಳ_2 = Default_ಆಳ(display, screen);
+    ಆದರೆ ((X11_Use_ನೇರ_Color_Visuals() &&
+         X11_XMatchVisualInfo(display, screen, ಆಳ_2, ನೇರ_Color, vinfo)) ||
+        X11_XMatchVisualInfo(display, screen, ಆಳ_2, TrueColor, vinfo) ||
+        X11_XMatchVisualInfo(display, screen, ಆಳ_2, PseudoColor, vinfo) ||
+        X11_XMatchVisualInfo(display, screen, ಆಳ_2, StaticColor, vinfo)) {
+        ಹಿಂತಿರುಗಿ true;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
 bool X11_GetVisualInfoFromVisual(Display *display, Visual *visual, XVisualInfo *vinfo)
 {
     XVisualInfo *vi;
-    int nvis;
+    ಪೂರ್ಣಾಂಕ nvis;
 
     vinfo->visualid = X11_XVisualIDFromVisual(visual);
     vi = X11_XGetVisualInfo(display, VisualIDMask, vinfo, &nvis);
-    if (vi) {
+    ಆದರೆ (vi) {
         *vinfo = *vi;
         X11_XFree(vi);
-        return true;
+        ಹಿಂತಿರುಗಿ true;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
 SDL_PixelFormat X11_GetPixelFormatFromVisualInfo(Display *display, XVisualInfo *vinfo)
 {
-    if (vinfo->class == DirectColor || vinfo->class == TrueColor) {
-        int bpp;
+    ಆದರೆ (vinfo->class == ನೇರ_Color || vinfo->class == TrueColor) {
+        ಪೂರ್ಣಾಂಕ bpp;
         Uint32 Rmask, Gmask, Bmask, Amask;
 
-        Rmask = vinfo->visual->red_mask;
-        Gmask = vinfo->visual->green_mask;
-        Bmask = vinfo->visual->blue_mask;
-        if (vinfo->depth == 32) {
+        Rmask = vinfo->visual->red_ಮುಖವಾಡ;
+        Gmask = vinfo->visual->green_ಮುಖವಾಡ;
+        Bmask = vinfo->visual->blue_ಮುಖವಾಡ;
+        ಆದರೆ (vinfo->ಆಳ_2 == 32) {
             Amask = (0xFFFFFFFF & ~(Rmask | Gmask | Bmask));
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             Amask = 0;
         }
 
-        bpp = vinfo->depth;
-        if (bpp == 24) {
-            int i, n;
-            XPixmapFormatValues *p = X11_XListPixmapFormats(display, &n);
-            if (p) {
-                for (i = 0; i < n; ++i) {
-                    if (p[i].depth == 24) {
-                        bpp = p[i].bits_per_pixel;
-                        break;
+        bpp = vinfo->ಆಳ_2;
+        ಆದರೆ (bpp == 24) {
+            ಪೂರ್ಣಾಂಕ i, n;
+            XPixmap_Format_ಮೌಲ್ಯಗಳು *p = X11_XListPixmapFormats(display, &n);
+            ಆದರೆ (p) {
+                ಗಾಗಿ (i = 0; i < n; ++i) {
+                    ಆದರೆ (p[i].ಆಳ_2 == 24) {
+                        bpp = p[i].ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_pixel;
+                        ನಿಲ್ಲಿಸು;
                     }
                 }
                 X11_XFree(p);
             }
         }
 
-        return SDL_GetPixelFormatForMasks(bpp, Rmask, Gmask, Bmask, Amask);
+        ಹಿಂತಿರುಗಿ SDL_GetPixelFormatForMasks(bpp, Rmask, Gmask, Bmask, Amask);
     }
 
-    if (vinfo->class == PseudoColor || vinfo->class == StaticColor) {
-        switch (vinfo->depth) {
-        case 8:
-            return SDL_PIXELFORMAT_INDEX8;
-        case 4:
-            if (BitmapBitOrder(display) == LSBFirst) {
-                return SDL_PIXELFORMAT_INDEX4LSB;
-            } else {
-                return SDL_PIXELFORMAT_INDEX4MSB;
+    ಆದರೆ (vinfo->class == PseudoColor || vinfo->class == StaticColor) {
+        ಆಯ್ಕೆ (vinfo->ಆಳ_2) {
+        ಸ್ಥಿತಿ 8:
+            ಹಿಂತಿರುಗಿ SDL_PIXELFORMAT_INDEX8;
+        ಸ್ಥಿತಿ 4:
+            ಆದರೆ (Bitmap_ಬಿಟ್_ಕ್ರಮ(display) == LSBFirst) {
+                ಹಿಂತಿರುಗಿ SDL_PIXELFORMAT_INDEX4LSB;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಹಿಂತಿರುಗಿ SDL_PIXELFORMAT_INDEX4MSB;
             }
             // break; -Wunreachable-code-break
-        case 1:
-            if (BitmapBitOrder(display) == LSBFirst) {
-                return SDL_PIXELFORMAT_INDEX1LSB;
-            } else {
-                return SDL_PIXELFORMAT_INDEX1MSB;
+        ಸ್ಥಿತಿ 1:
+            ಆದರೆ (Bitmap_ಬಿಟ್_ಕ್ರಮ(display) == LSBFirst) {
+                ಹಿಂತಿರುಗಿ SDL_PIXELFORMAT_INDEX1LSB;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಹಿಂತಿರುಗಿ SDL_PIXELFORMAT_INDEX1MSB;
             }
             // break; -Wunreachable-code-break
         }
     }
 
-    return SDL_PIXELFORMAT_UNKNOWN;
+    ಹಿಂತಿರುಗಿ SDL_PIXELFORMAT_UNKNOWN;
 }
 
-static SDL_DisplayID X11_AddGenericDisplay(SDL_VideoDevice *_this, bool send_event)
+ಸ್ಥಿರ SDL_DisplayID X11_ಕೂಡಿಸು_Generic_Display(SDL_VideoDevice *_this, bool send_event)
 {
     // !!! FIXME: a lot of copy/paste from X11_InitModes_XRandR in this function.
-    SDL_VideoData *data = _this->internal;
-    Display *dpy = data->display;
-    const int default_screen = DefaultScreen(dpy);
-    Screen *screen = ScreenOfDisplay(dpy, default_screen);
-    int scanline_pad, n, i;
-    SDL_DisplayModeData *modedata;
-    SDL_DisplayData *displaydata;
-    SDL_DisplayMode mode;
-    XPixmapFormatValues *pixmapformats;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    Display *dpy = ದತ್ತಾಂಶ->display;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ default_screen = DefaultScreen(dpy);
+    Screen *screen = Screen_ದ_Display(dpy, default_screen);
+    ಪೂರ್ಣಾಂಕ scanline_pad, n, i;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *modedata;
+    SDL_Display_ದತ್ತಾಂಶ *displaydata;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
+    XPixmap_Format_ಮೌಲ್ಯಗಳು *pixmapformats;
     Uint32 pixelformat;
     XVisualInfo vinfo;
     SDL_VideoDisplay display;
 
     // note that generally even if you have a multiple physical monitors, ScreenCount(dpy) still only reports ONE screen.
 
-    if (!get_visualinfo(dpy, default_screen, &vinfo)) {
-        return SDL_SetError("Failed to find an X11 visual for the primary display");
+    ಆದರೆ (!get_visualinfo(dpy, default_screen, &vinfo)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Failed to find an X11 visual for the primary display");
     }
 
     pixelformat = X11_GetPixelFormatFromVisualInfo(dpy, &vinfo);
-    if (SDL_ISPIXELFORMAT_INDEXED(pixelformat)) {
-        return SDL_SetError("Palettized video modes are no longer supported");
+    ಆದರೆ (SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(pixelformat)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Palettized video modes are no longer supported");
     }
 
-    SDL_zero(mode);
-    mode.w = WidthOfScreen(screen);
-    mode.h = HeightOfScreen(screen);
-    mode.format = pixelformat;
+    SDL_zero(ಬಹುಲಕ);
+    ಬಹುಲಕ.w = ಅಗಲ_ದ_Screen(screen);
+    ಬಹುಲಕ.h = ಎತ್ತರ_ದ_Screen(screen);
+    ಬಹುಲಕ.format = pixelformat;
 
-    displaydata = (SDL_DisplayData *)SDL_calloc(1, sizeof(*displaydata));
-    if (!displaydata) {
-        return false;
+    displaydata = (SDL_Display_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(*displaydata));
+    ಆದರೆ (!displaydata) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    modedata = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
-    if (!modedata) {
+    modedata = (SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ));
+    ಆದರೆ (!modedata) {
         SDL_free(displaydata);
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
-    mode.internal = modedata;
+    ಬಹುಲಕ.ಆಂತರಿಕ = modedata;
 
     displaydata->screen = default_screen;
     displaydata->visual = vinfo.visual;
-    displaydata->depth = vinfo.depth;
+    displaydata->ಆಳ_2 = vinfo.ಆಳ_2;
 
     scanline_pad = SDL_BYTESPERPIXEL(pixelformat) * 8;
     pixmapformats = X11_XListPixmapFormats(dpy, &n);
-    if (pixmapformats) {
-        for (i = 0; i < n; ++i) {
-            if (pixmapformats[i].depth == vinfo.depth) {
+    ಆದರೆ (pixmapformats) {
+        ಗಾಗಿ (i = 0; i < n; ++i) {
+            ಆದರೆ (pixmapformats[i].ಆಳ_2 == vinfo.ಆಳ_2) {
                 scanline_pad = pixmapformats[i].scanline_pad;
-                break;
+                ನಿಲ್ಲಿಸು;
             }
         }
         X11_XFree(pixmapformats);
@@ -312,23 +312,23 @@ static SDL_DisplayID X11_AddGenericDisplay(SDL_VideoDevice *_this, bool send_eve
     displaydata->use_xrandr = false;
 
     SDL_zero(display);
-    display.name = (char *)"Generic X11 Display"; /* this is just copied and thrown away, it's safe to cast to char* here. */
-    display.desktop_mode = mode;
-    display.internal = displaydata;
+    display.name = (ಅಕ್ಷರ *)"Generic X11 Display"; /* this is just copied and thrown away, it's safe to cast to char* here. */
+    display.desktop_ಬಹುಲಕ = ಬಹುಲಕ;
+    display.ಆಂತರಿಕ = displaydata;
     display.content_scale = X11_GetGlobalContentScaleForDevice(_this);
-    return SDL_AddVideoDisplay(&display, send_event);
+    ಹಿಂತಿರುಗಿ SDL_ಕೂಡಿಸು_Video_Display(&display, send_event);
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
 
-static void X11_RemoveGenericDisplay(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_RemoveGenericDisplay(SDL_VideoDevice *_this)
 {
-    SDL_DisplayID *displays = SDL_GetDisplays(NULL);
-    if (displays) {
-        for (int i = 0; displays[i]; ++i) {
+    SDL_DisplayID *displays = SDL_GetDisplays(ಖಾಲಿ);
+    ಆದರೆ (displays) {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; displays[i]; ++i) {
             SDL_VideoDisplay *display = SDL_GetVideoDisplay(displays[i]);
-            const SDL_DisplayData *displaydata = display->internal;
-            if (!displaydata->xrandr_output) {
+            ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *displaydata = display->ಆಂತರಿಕ;
+            ಆದರೆ (!displaydata->xrandr_output) {
                 SDL_DelVideoDisplay(displays[i], true);
             }
         }
@@ -336,205 +336,205 @@ static void X11_RemoveGenericDisplay(SDL_VideoDevice *_this)
     }
 }
 
-static bool CheckXRandR(Display *display, int *major, int *minor)
+ಸ್ಥಿರ bool CheckXRandR(Display *display, ಪೂರ್ಣಾಂಕ *major, ಪೂರ್ಣಾಂಕ *minor)
 {
     // Default the extension not available
     *major = *minor = 0;
 
     // Allow environment override
-#ifdef XRANDR_DISABLED_BY_DEFAULT
-    if (!SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, false)) {
-#ifdef X11MODES_DEBUG
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ XRANDR_DISABLED_BY_DEFAULT
+    ಆದರೆ (!SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, false)) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
         SDL_Log("XRandR disabled by default due to window manager issues\n");
-#endif
-        return false;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಹಿಂತಿರುಗಿ false;
     }
-#else
-    if (!SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, true)) {
-#ifdef X11MODES_DEBUG
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಆದರೆ (!SDL_GetHintBoolean(SDL_HINT_VIDEO_X11_XRANDR, true)) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
         SDL_Log("XRandR disabled due to hint\n");
-#endif
-        return false;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಹಿಂತಿರುಗಿ false;
     }
-#endif // XRANDR_DISABLED_BY_DEFAULT
+#ಆದರೆ_ಅಂತ್ಯ // XRANDR_DISABLED_BY_DEFAULT
 
-    if (!SDL_X11_HAVE_XRANDR) {
-#ifdef X11MODES_DEBUG
+    ಆದರೆ (!SDL_X11_HAVE_XRANDR) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
         SDL_Log("XRandR support not available\n");
-#endif
-        return false;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // Query the extension version
     *major = 1;
     *minor = 3; // we want 1.3
-    if (!X11_XRRQueryVersion(display, major, minor)) {
-#ifdef X11MODES_DEBUG
+    ಆದರೆ (!X11_XRRQuery_ಆವೃತ್ತಿ(display, major, minor)) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
         SDL_Log("XRandR not active on the display\n");
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
         *major = *minor = 0;
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
-#ifdef X11MODES_DEBUG
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
     SDL_Log("XRandR available at version %d.%d!\n", *major, *minor);
-#endif
-    return true;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ true;
 }
 
-#define XRANDR_ROTATION_LEFT  (1 << 1)
-#define XRANDR_ROTATION_RIGHT (1 << 3)
+#ವ್ಯಾಖ್ಯಾನಿಸು XRANDR_ROTATION_ಎಡ  (1 << 1)
+#ವ್ಯಾಖ್ಯಾನಿಸು XRANDR_ROTATION_ಬಲ (1 << 3)
 
-static void CalculateXRandRRefreshRate(const XRRModeInfo *info, int *numerator, int *denominator)
+ಸ್ಥಿರ ಶೂನ್ಯ Calculate_XRand_RRefresh_ದರ(ಸ್ಥಿರಾಂಕ XRRModeInfo *info, ಪೂರ್ಣಾಂಕ *numerator, ಪೂರ್ಣಾಂಕ *denominator)
 {
-    unsigned int vTotal = info->vTotal;
+    ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ v_ಒಟ್ಟು_2 = info->v_ಒಟ್ಟು_2;
 
-    if (info->modeFlags & RR_DoubleScan) {
+    ಆದರೆ (info->ಬಹುಲಕ_Flags & RR_Double_ಪರಿಶೀಲನೆ) {
         // doublescan doubles the number of lines
-        vTotal *= 2;
+        v_ಒಟ್ಟು_2 *= 2;
     }
 
-    if (info->modeFlags & RR_Interlace) {
+    ಆದರೆ (info->ಬಹುಲಕ_Flags & RR_Interlace) {
         // interlace splits the frame into two fields
         // the field rate is what is typically reported by monitors
-        vTotal /= 2;
+        v_ಒಟ್ಟು_2 /= 2;
     }
 
-    if (info->hTotal && vTotal) {
+    ಆದರೆ (info->h_ಒಟ್ಟು_2 && v_ಒಟ್ಟು_2) {
         *numerator = info->dotClock;
-        *denominator = (info->hTotal * vTotal);
-    } else {
+        *denominator = (info->h_ಒಟ್ಟು_2 * v_ಒಟ್ಟು_2);
+    } ಇಲ್ಲದಿದ್ದರೆ {
         *numerator = 0;
         *denominator = 0;
     }
 }
 
-static bool SetXRandRModeInfo(Display *display, XRRScreenResources *res, RRCrtc crtc,
-                                  RRMode modeID, SDL_DisplayMode *mode)
+ಸ್ಥಿರ bool ಗಣ_XRand_RMode_Info(Display *display, XRRScreenResources *res, RRCrtc crtc,
+                                  RRMode ಬಹುಲಕ_ID, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ)
 {
-    int i;
-    for (i = 0; i < res->nmode; ++i) {
-        const XRRModeInfo *info = &res->modes[i];
-        if (info->id == modeID) {
+    ಪೂರ್ಣಾಂಕ i;
+    ಗಾಗಿ (i = 0; i < res->nmode; ++i) {
+        ಸ್ಥಿರಾಂಕ XRRModeInfo *info = &res->modes[i];
+        ಆದರೆ (info->id == ಬಹುಲಕ_ID) {
             XRRCrtcInfo *crtcinfo;
             Rotation rotation = 0;
             XFixed scale_w = 0x10000, scale_h = 0x10000;
-            XRRCrtcTransformAttributes *attr;
+            XRRCrtc_Transform_ಗುಣಲಕ್ಷಣಗಳು *attr;
 
             crtcinfo = X11_XRRGetCrtcInfo(display, res, crtc);
-            if (crtcinfo) {
+            ಆದರೆ (crtcinfo) {
                 rotation = crtcinfo->rotation;
                 X11_XRRFreeCrtcInfo(crtcinfo);
             }
-            if (X11_XRRGetCrtcTransform(display, crtc, &attr) && attr) {
-                scale_w = attr->currentTransform.matrix[0][0];
-                scale_h = attr->currentTransform.matrix[1][1];
+            ಆದರೆ (X11_XRRGetCrtcTransform(display, crtc, &attr) && attr) {
+                scale_w = attr->currentTransform.ಮಾತೃಕೆ[0][0];
+                scale_h = attr->currentTransform.ಮಾತೃಕೆ[1][1];
                 X11_XFree(attr);
             }
 
-            if (rotation & (XRANDR_ROTATION_LEFT | XRANDR_ROTATION_RIGHT)) {
-                mode->w = (info->height * scale_w + 0xffff) >> 16;
-                mode->h = (info->width * scale_h + 0xffff) >> 16;
-            } else {
-                mode->w = (info->width * scale_w + 0xffff) >> 16;
-                mode->h = (info->height * scale_h + 0xffff) >> 16;
+            ಆದರೆ (rotation & (XRANDR_ROTATION_ಎಡ | XRANDR_ROTATION_ಬಲ)) {
+                ಬಹುಲಕ->w = (info->ಎತ್ತರ * scale_w + 0xffff) >> 16;
+                ಬಹುಲಕ->h = (info->ಅಗಲ * scale_h + 0xffff) >> 16;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಬಹುಲಕ->w = (info->ಅಗಲ * scale_w + 0xffff) >> 16;
+                ಬಹುಲಕ->h = (info->ಎತ್ತರ * scale_h + 0xffff) >> 16;
             }
-            CalculateXRandRRefreshRate(info, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
-            mode->internal->xrandr_mode = modeID;
-#ifdef X11MODES_DEBUG
-            SDL_Log("XRandR mode %d: %dx%d@%d/%dHz\n", (int)modeID,
-                    mode->screen_w, mode->screen_h, mode->refresh_rate_numerator, mode->refresh_rate_denominator);
-#endif
-            return true;
+            Calculate_XRand_RRefresh_ದರ(info, &ಬಹುಲಕ->refresh_ದರ_numerator, &ಬಹುಲಕ->refresh_ದರ_denominator);
+            ಬಹುಲಕ->ಆಂತರಿಕ->xrandr_ಬಹುಲಕ = ಬಹುಲಕ_ID;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
+            SDL_Log("XRandR mode %d: %dx%d@%d/%dHz\n", (ಪೂರ್ಣಾಂಕ)ಬಹುಲಕ_ID,
+                    ಬಹುಲಕ->screen_w, ಬಹುಲಕ->screen_h, ಬಹುಲಕ->refresh_ದರ_numerator, ಬಹುಲಕ->refresh_ದರ_denominator);
+#ಆದರೆ_ಅಂತ್ಯ
+            ಹಿಂತಿರುಗಿ true;
         }
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static bool GetRootWindowCardinalProperty(Display *dpy, int screen, const char *name, Uint32 *value)
+ಸ್ಥಿರ bool Get_ಬೇರು_ಕಿಟಕಿ_Cardinal_Property(Display *dpy, ಪೂರ್ಣಾಂಕ screen, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name, Uint32 *ಮೌಲ್ಯ)
 {
     Atom atom = X11_XInternAtom(dpy, name, False);
-    if (atom == None) {
-        return false;
+    ಆದರೆ (atom == None) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    int real_format;
+    ಪೂರ್ಣಾಂಕ real_format;
     Atom real_type;
-    unsigned long items_read = 0, items_left = 0;
-    unsigned char *propdata = NULL;
-    int status;
-    bool result = false;
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ವಸ್ತುಗಳು_read = 0, ವಸ್ತುಗಳು_ಎಡ = 0;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *propdata = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ ಸ್ಥಿತಿ_2;
+    bool ಫಲಿತಾಂಶ = false;
 
-    status = X11_XGetWindowProperty(dpy, RootWindow(dpy, screen),
+    ಸ್ಥಿತಿ_2 = X11_XGet_ಕಿಟಕಿ_Property(dpy, ಬೇರು_ಕಿಟಕಿ(dpy, screen),
                                     atom, 0L, 1024L, False, AnyPropertyType,
-                                    &real_type, &real_format, &items_read, &items_left, &propdata);
-    if (status == Success && propdata) {
-        if (real_type == XA_CARDINAL && items_read > 0) {
-            switch (real_format) {
-            case 8:
-                *value = propdata[0];
-                break;
-            case 16:
-                *value = propdata[0] | (propdata[1] << 8);
-                break;
-            default:
-                *value = propdata[0] | (propdata[1] << 8) | (propdata[2] << 16) | (propdata[3] << 24);
-                break;
+                                    &real_type, &real_format, &ವಸ್ತುಗಳು_read, &ವಸ್ತುಗಳು_ಎಡ, &propdata);
+    ಆದರೆ (ಸ್ಥಿತಿ_2 == Success && propdata) {
+        ಆದರೆ (real_type == XA_CARDINAL && ವಸ್ತುಗಳು_read > 0) {
+            ಆಯ್ಕೆ (real_format) {
+            ಸ್ಥಿತಿ 8:
+                *ಮೌಲ್ಯ = propdata[0];
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 16:
+                *ಮೌಲ್ಯ = propdata[0] | (propdata[1] << 8);
+                ನಿಲ್ಲಿಸು;
+            ಪೂರ್ವನಿಯೋಜಿತ:
+                *ಮೌಲ್ಯ = propdata[0] | (propdata[1] << 8) | (propdata[2] << 16) | (propdata[3] << 24);
+                ನಿಲ್ಲಿಸು;
             }
-            result = true;
+            ಫಲಿತಾಂಶ = true;
         }
         X11_XFree(propdata);
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-static bool GetRootWindowBoolProperty(Display *dpy, int screen, const char *name, bool *value)
+ಸ್ಥಿರ bool Get_ಬೇರು_ಕಿಟಕಿ_Bool_Property(Display *dpy, ಪೂರ್ಣಾಂಕ screen, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name, bool *ಮೌಲ್ಯ)
 {
     Uint32 v;
-    if (GetRootWindowCardinalProperty(dpy, screen, name, &v)) {
-        *value = (v != 0);
-        return true;
+    ಆದರೆ (Get_ಬೇರು_ಕಿಟಕಿ_Cardinal_Property(dpy, screen, name, &v)) {
+        *ಮೌಲ್ಯ = (v != 0);
+        ಹಿಂತಿರುಗಿ true;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static bool GetRootWindowFloatProperty(Display *dpy, int screen, const char *name, float *value)
+ಸ್ಥಿರ bool Get_ಬೇರು_ಕಿಟಕಿ_Float_Property(Display *dpy, ಪೂರ್ಣಾಂಕ screen, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name, ದಶಮಾಂಶ *ಮೌಲ್ಯ)
 {
     Uint32 v;
-    if (GetRootWindowCardinalProperty(dpy, screen, name, &v)) {
-        SDL_memcpy(value, &v, sizeof(v));
-        return true;
+    ಆದರೆ (Get_ಬೇರು_ಕಿಟಕಿ_Cardinal_Property(dpy, screen, name, &v)) {
+        SDL_memcpy(ಮೌಲ್ಯ, &v, ಗಾತ್ರ(v));
+        ಹಿಂತಿರುಗಿ true;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static bool IsSteamDeckOLEDDisplay(const MonitorInfo *info)
+ಸ್ಥಿರ bool IsSteamDeckOLEDDisplay(ಸ್ಥಿರಾಂಕ MonitorInfo *info)
 {
-    if (SDL_strcmp(info->manufacturer_code, "VLV") == 0) {
+    ಆದರೆ (SDL_strcmp(info->manufacturer_ಸಂಕೇತ, "VLV") == 0) {
         // These are the Samsung and BOE panels used in the Steam Deck OLED
-        if (info->product_code == 0x3003 || info->product_code == 0x3004) {
-            return true;
+        ಆದರೆ (info->ಗುಣಲಬ್ಧ_ಸಂಕೇತ == 0x3003 || info->ಗುಣಲಬ್ಧ_ಸಂಕೇತ == 0x3004) {
+            ಹಿಂತಿರುಗಿ true;
         }
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static float GetGamescopeSDRWhiteLevel(Display *dpy, int screen, const MonitorInfo *info)
+ಸ್ಥಿರ ದಶಮಾಂಶ GetGamescopeSDRWhiteLevel(Display *dpy, ಪೂರ್ಣಾಂಕ screen, ಸ್ಥಿರಾಂಕ MonitorInfo *info)
 {
     // These properties are currently only available on X display :0
     // If this changes, please remove the XCloseDisplay() call below.
     dpy = X11_XOpenDisplay(":0");
     screen = 0;
-    if (!dpy) {
-        return 0.0f;
+    ಆದರೆ (!dpy) {
+        ಹಿಂತಿರುಗಿ 0.0f;
     }
 
-    float SDR_white_level = 0.0f;
+    ದಶಮಾಂಶ SDR_white_level = 0.0f;
     bool external_display = false;
-    if (GetRootWindowBoolProperty(dpy, screen, "GAMESCOPE_DISPLAY_IS_EXTERNAL", &external_display) &&
+    ಆದರೆ (Get_ಬೇರು_ಕಿಟಕಿ_Bool_Property(dpy, screen, "GAMESCOPE_DISPLAY_IS_EXTERNAL", &external_display) &&
         external_display) {
         // Gamescope outputs PQ to external displays, with SDR content at this brightness
-        GetRootWindowFloatProperty(dpy, screen, "GAMESCOPE_SDR_ON_HDR_CONTENT_BRIGHTNESS", &SDR_white_level);
-    } else if (IsSteamDeckOLEDDisplay(info)) {
+        Get_ಬೇರು_ಕಿಟಕಿ_Float_Property(dpy, screen, "GAMESCOPE_SDR_ON_HDR_CONTENT_BRIGHTNESS", &SDR_white_level);
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (IsSteamDeckOLEDDisplay(info)) {
         /* Gamescope drives the Steam Deck OLED panel with gamma 2.2, mapping PQ content relative
            to the panel's maximum brightness (1000 nits). When HDR content is shown, Steam raises
            the backlight and applies input gains so that HDR content is 3x the brightness of SDR
@@ -551,8 +551,8 @@ static float GetGamescopeSDRWhiteLevel(Display *dpy, int screen, const MonitorIn
 
            These values depend on Steam's backlight policy, and should eventually come from gamescope.
         */
-        SDR_white_level = (float)info->max_luminance / 3.0f;
-    } else {
+        SDR_white_level = (ದಶಮಾಂಶ)info->max_luminance / 3.0f;
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // We don't know the SDR white level for other internal displays
         SDR_white_level = 0.0f;
     }
@@ -560,314 +560,314 @@ static float GetGamescopeSDRWhiteLevel(Display *dpy, int screen, const MonitorIn
     // Closing the display opened above
     X11_XCloseDisplay(dpy);
 
-    return SDR_white_level;
+    ಹಿಂತಿರುಗಿ SDR_white_level;
 }
 
-static MonitorInfo *GetMonitorInfo(Display *dpy, int screen, RROutput output, bool *gamescope)
+ಸ್ಥಿರ MonitorInfo *GetMonitorInfo(Display *dpy, ಪೂರ್ಣಾಂಕ screen, RROutput output, bool *gamescope)
 {
-    MonitorInfo *info = NULL;
-    int real_format;
+    MonitorInfo *info = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ real_format;
     Atom real_type;
-    unsigned long items_read = 0, items_left = 0;
-    unsigned char *propdata = NULL;
-    int status;
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ವಸ್ತುಗಳು_read = 0, ವಸ್ತುಗಳು_ಎಡ = 0;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *propdata = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ ಸ್ಥಿತಿ_2;
 
     *gamescope = false;
 
-    if (!info) {
-        Atom GAMESCOPE_DISPLAY_EDID_PATH = X11_XInternAtom(dpy, "GAMESCOPE_DISPLAY_EDID_PATH", False);
-        if (GAMESCOPE_DISPLAY_EDID_PATH != None) {
-            status = X11_XGetWindowProperty(dpy, RootWindow(dpy, screen),
-                                            GAMESCOPE_DISPLAY_EDID_PATH, 0L, 1024L, False, AnyPropertyType,
-                                            &real_type, &real_format, &items_read, &items_left, &propdata);
-            if (status == Success && propdata) {
-                size_t size = 0;
-                void *data = SDL_LoadFile((char *)propdata, &size);
-                if (data) {
-                    info = decode_edid((uchar *)data, size);
-                    if (info) {
+    ಆದರೆ (!info) {
+        Atom GAMESCOPE_DISPLAY_EDID_ಮಾರ್ಗ = X11_XInternAtom(dpy, "GAMESCOPE_DISPLAY_EDID_PATH", False);
+        ಆದರೆ (GAMESCOPE_DISPLAY_EDID_ಮಾರ್ಗ != None) {
+            ಸ್ಥಿತಿ_2 = X11_XGet_ಕಿಟಕಿ_Property(dpy, ಬೇರು_ಕಿಟಕಿ(dpy, screen),
+                                            GAMESCOPE_DISPLAY_EDID_ಮಾರ್ಗ, 0L, 1024L, False, AnyPropertyType,
+                                            &real_type, &real_format, &ವಸ್ತುಗಳು_read, &ವಸ್ತುಗಳು_ಎಡ, &propdata);
+            ಆದರೆ (ಸ್ಥಿತಿ_2 == Success && propdata) {
+                size_t ಗಾತ್ರ_2 = 0;
+                ಶೂನ್ಯ *ದತ್ತಾಂಶ = SDL_ತುಂಬು_File((ಅಕ್ಷರ *)propdata, &ಗಾತ್ರ_2);
+                ಆದರೆ (ದತ್ತಾಂಶ) {
+                    info = decode_edid((uchar *)ದತ್ತಾಂಶ, ಗಾತ್ರ_2);
+                    ಆದರೆ (info) {
                         *gamescope = true;
                     }
-                    SDL_free(data);
+                    SDL_free(ದತ್ತಾಂಶ);
                 }
             }
-            if (propdata) {
+            ಆದರೆ (propdata) {
                 X11_XFree(propdata);
             }
         }
     }
 
-    if (!info) {
+    ಆದರೆ (!info) {
         Atom EDID = X11_XInternAtom(dpy, "EDID", False);
-        if (EDID != None) {
-            int nprop = 0;
+        ಆದರೆ (EDID != None) {
+            ಪೂರ್ಣಾಂಕ nprop = 0;
             Atom *props = X11_XRRListOutputProperties(dpy, output, &nprop);
-            for (int i = 0; i < nprop; ++i) {
-                if (props[i] == EDID) {
-                    status = X11_XRRGetOutputProperty(dpy, output, props[i], 0L, 128L, False,
+            ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < nprop; ++i) {
+                ಆದರೆ (props[i] == EDID) {
+                    ಸ್ಥಿತಿ_2 = X11_XRRGetOutputProperty(dpy, output, props[i], 0L, 128L, False,
                                                        False, AnyPropertyType, &real_type,
-                                                       &real_format, &items_read, &items_left, &propdata);
-                    if (status == Success && propdata) {
-                        info = decode_edid(propdata, items_read);
+                                                       &real_format, &ವಸ್ತುಗಳು_read, &ವಸ್ತುಗಳು_ಎಡ, &propdata);
+                    ಆದರೆ (ಸ್ಥಿತಿ_2 == Success && propdata) {
+                        info = decode_edid(propdata, ವಸ್ತುಗಳು_read);
                     }
-                    if (propdata) {
+                    ಆದರೆ (propdata) {
                         X11_XFree(propdata);
                     }
-                    break;
+                    ನಿಲ್ಲಿಸು;
                 }
             }
 
-            if (props) {
+            ಆದರೆ (props) {
                 X11_XFree(props);
             }
         }
     }
 
-#ifdef X11MODES_DEBUG
-    if (info) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
+    ಆದರೆ (info) {
         dump_monitor_info(info);
     }
-#endif
-    return info;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ info;
 }
 
-static void SetXRandRDisplayName(MonitorInfo *info, char *name, size_t namelen, unsigned long widthmm, unsigned long heightmm)
+ಸ್ಥಿರ ಶೂನ್ಯ ಗಣ_XRand_RDisplay_Name(MonitorInfo *info, ಅಕ್ಷರ *name, size_t namelen, ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ widthmm, ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ heightmm)
 {
-    if (info) {
-        SDL_strlcpy(name, info->dsc_product_name, namelen);
+    ಆದರೆ (info) {
+        SDL_strlcpy(name, info->dsc_ಗುಣಲಬ್ಧ_name, namelen);
     }
 
-    int inches = (int)((SDL_sqrtf(widthmm * widthmm + heightmm * heightmm) / 25.4f) + 0.5f);
-    if (*name && inches) {
-        const size_t len = SDL_strlen(name);
-        (void)SDL_snprintf(&name[len], namelen - len, " %d\"", inches);
+    ಪೂರ್ಣಾಂಕ inches = (ಪೂರ್ಣಾಂಕ)((SDL_sqrtf(widthmm * widthmm + heightmm * heightmm) / 25.4f) + 0.5f);
+    ಆದರೆ (*name && inches) {
+        ಸ್ಥಿರಾಂಕ size_t len = SDL_strlen(name);
+        (ಶೂನ್ಯ)SDL_snprintf(&name[len], namelen - len, " %d\"", inches);
     }
 
-#ifdef X11MODES_DEBUG
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
     SDL_Log("Display name: %s\n", name);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static bool X11_FillXRandRDisplayInfo(SDL_VideoDevice *_this, Display *dpy, int screen, RROutput outputid, XRRScreenResources *res, SDL_VideoDisplay *display, char *display_name, size_t display_name_size)
+ಸ್ಥಿರ bool X11_FillXRandRDisplayInfo(SDL_VideoDevice *_this, Display *dpy, ಪೂರ್ಣಾಂಕ screen, RROutput outputid, XRRScreenResources *res, SDL_VideoDisplay *display, ಅಕ್ಷರ *display_name, size_t display_name_ಗಾತ್ರ)
 {
     XRROutputInfo *output_info;
-    int display_x, display_y;
-    unsigned long display_mm_width, display_mm_height;
-    SDL_DisplayData *displaydata;
-    SDL_DisplayMode mode;
-    SDL_DisplayModeData *modedata;
-    RRMode modeID;
+    ಪೂರ್ಣಾಂಕ display_x, display_y;
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ display_mm_ಅಗಲ, display_mm_ಎತ್ತರ;
+    SDL_Display_ದತ್ತಾಂಶ *displaydata;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
+    SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *modedata;
+    RRMode ಬಹುಲಕ_ID;
     RRCrtc output_crtc;
     XRRCrtcInfo *crtc;
     XVisualInfo vinfo;
     Uint32 pixelformat;
-    XPixmapFormatValues *pixmapformats;
-    int scanline_pad;
-    int i, n;
+    XPixmap_Format_ಮೌಲ್ಯಗಳು *pixmapformats;
+    ಪೂರ್ಣಾಂಕ scanline_pad;
+    ಪೂರ್ಣಾಂಕ i, n;
 
-    if (!display || !display_name) {
-        return false; // invalid parameters
+    ಆದರೆ (!display || !display_name) {
+        ಹಿಂತಿರುಗಿ false; // invalid parameters
     }
 
-    if (!get_visualinfo(dpy, screen, &vinfo)) {
-        return false; // uh, skip this screen?
+    ಆದರೆ (!get_visualinfo(dpy, screen, &vinfo)) {
+        ಹಿಂತಿರುಗಿ false; // uh, skip this screen?
     }
 
     pixelformat = X11_GetPixelFormatFromVisualInfo(dpy, &vinfo);
-    if (SDL_ISPIXELFORMAT_INDEXED(pixelformat)) {
-        return false; // Palettized video modes are no longer supported, ignore this one.
+    ಆದರೆ (SDL_ISPIXELFORMAT_ಸೂಚ್ಯಂಕಿತ(pixelformat)) {
+        ಹಿಂತಿರುಗಿ false; // Palettized video modes are no longer supported, ignore this one.
     }
 
     scanline_pad = SDL_BYTESPERPIXEL(pixelformat) * 8;
     pixmapformats = X11_XListPixmapFormats(dpy, &n);
-    if (pixmapformats) {
-        for (i = 0; i < n; i++) {
-            if (pixmapformats[i].depth == vinfo.depth) {
+    ಆದರೆ (pixmapformats) {
+        ಗಾಗಿ (i = 0; i < n; i++) {
+            ಆದರೆ (pixmapformats[i].ಆಳ_2 == vinfo.ಆಳ_2) {
                 scanline_pad = pixmapformats[i].scanline_pad;
-                break;
+                ನಿಲ್ಲಿಸು;
             }
         }
         X11_XFree(pixmapformats);
     }
 
     output_info = X11_XRRGetOutputInfo(dpy, res, outputid);
-    if (!output_info || !output_info->crtc || output_info->connection == RR_Disconnected) {
+    ಆದರೆ (!output_info || !output_info->crtc || output_info->connection == RR_Disconnected) {
         X11_XRRFreeOutputInfo(output_info);
-        return false; // ignore this one.
+        ಹಿಂತಿರುಗಿ false; // ignore this one.
     }
 
-    SDL_strlcpy(display_name, output_info->name, display_name_size);
-    display_mm_width = output_info->mm_width;
-    display_mm_height = output_info->mm_height;
+    SDL_strlcpy(display_name, output_info->name, display_name_ಗಾತ್ರ);
+    display_mm_ಅಗಲ = output_info->mm_ಅಗಲ;
+    display_mm_ಎತ್ತರ = output_info->mm_ಎತ್ತರ;
     output_crtc = output_info->crtc;
     X11_XRRFreeOutputInfo(output_info);
 
     crtc = X11_XRRGetCrtcInfo(dpy, res, output_crtc);
-    if (!crtc) {
-        return false; // oh well, ignore it.
+    ಆದರೆ (!crtc) {
+        ಹಿಂತಿರುಗಿ false; // oh well, ignore it.
     }
 
-    SDL_zero(mode);
-    modeID = crtc->mode;
-    mode.w = crtc->width;
-    mode.h = crtc->height;
-    mode.format = pixelformat;
+    SDL_zero(ಬಹುಲಕ);
+    ಬಹುಲಕ_ID = crtc->ಬಹುಲಕ;
+    ಬಹುಲಕ.w = crtc->ಅಗಲ;
+    ಬಹುಲಕ.h = crtc->ಎತ್ತರ;
+    ಬಹುಲಕ.format = pixelformat;
 
     display_x = crtc->x;
     display_y = crtc->y;
 
     X11_XRRFreeCrtcInfo(crtc);
 
-    displaydata = (SDL_DisplayData *)SDL_calloc(1, sizeof(*displaydata));
-    if (!displaydata) {
-        return false;
+    displaydata = (SDL_Display_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(*displaydata));
+    ಆದರೆ (!displaydata) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    modedata = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
-    if (!modedata) {
+    modedata = (SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ));
+    ಆದರೆ (!modedata) {
         SDL_free(displaydata);
-        return false;
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    modedata->xrandr_mode = modeID;
-    mode.internal = modedata;
+    modedata->xrandr_ಬಹುಲಕ = ಬಹುಲಕ_ID;
+    ಬಹುಲಕ.ಆಂತರಿಕ = modedata;
 
     displaydata->screen = screen;
     displaydata->visual = vinfo.visual;
-    displaydata->depth = vinfo.depth;
+    displaydata->ಆಳ_2 = vinfo.ಆಳ_2;
     displaydata->scanline_pad = scanline_pad;
     displaydata->x = display_x;
     displaydata->y = display_y;
     displaydata->use_xrandr = true;
     displaydata->xrandr_output = outputid;
-    SDL_strlcpy(displaydata->connector_name, display_name, sizeof(displaydata->connector_name));
+    SDL_strlcpy(displaydata->connector_name, display_name, ಗಾತ್ರ(displaydata->connector_name));
 
     bool gamescope = false;
     MonitorInfo *info = GetMonitorInfo(dpy, screen, outputid, &gamescope);
 
-    SetXRandRModeInfo(dpy, res, output_crtc, modeID, &mode);
-    SetXRandRDisplayName(info, display_name, display_name_size, display_mm_width, display_mm_height);
+    ಗಣ_XRand_RMode_Info(dpy, res, output_crtc, ಬಹುಲಕ_ID, &ಬಹುಲಕ);
+    ಗಣ_XRand_RDisplay_Name(info, display_name, display_name_ಗಾತ್ರ, display_mm_ಅಗಲ, display_mm_ಎತ್ತರ);
 
     SDL_zero(*display);
-    if (*display_name) {
+    ಆದರೆ (*display_name) {
         display->name = display_name;
     }
-    display->desktop_mode = mode;
+    display->desktop_ಬಹುಲಕ = ಬಹುಲಕ;
     display->content_scale = X11_GetGlobalContentScaleForDevice(_this);
-    display->internal = displaydata;
+    display->ಆಂತರಿಕ = displaydata;
 
-    if (info) {
-        float SDR_white_level;
+    ಆದರೆ (info) {
+        ದಶಮಾಂಶ SDR_white_level;
 
         // Note that the gamescope values aren't updated if the display settings change while we're running
-        if (gamescope) {
+        ಆದರೆ (gamescope) {
             SDR_white_level = GetGamescopeSDRWhiteLevel(dpy, screen, info);
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Support for HDR on X11 seems spotty, let's disable this for now
             SDR_white_level = 0.0f;
         }
 
-#ifdef X11MODES_DEBUG
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
         SDL_Log("HDR values: %f / %f", SDR_white_level, info->max_luminance);
-#endif
-        if (SDR_white_level > 0.0f && info->max_luminance > SDR_white_level) {
-            display->HDR.HDR_headroom = (float)info->max_luminance / SDR_white_level;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (SDR_white_level > 0.0f && info->max_luminance > SDR_white_level) {
+            display->HDR.HDR_headroom = (ದಶಮಾಂಶ)info->max_luminance / SDR_white_level;
             display->HDR.SDR_white_level = SDR_white_level / SCRGB_NITS;
         }
 
         SDL_free(info);
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static bool X11_AddXRandRDisplay(SDL_VideoDevice *_this, Display *dpy, int screen, RROutput outputid, XRRScreenResources *res, bool send_event)
+ಸ್ಥಿರ bool X11_ಕೂಡಿಸು_XRand_RDisplay(SDL_VideoDevice *_this, Display *dpy, ಪೂರ್ಣಾಂಕ screen, RROutput outputid, XRRScreenResources *res, bool send_event)
 {
     SDL_VideoDisplay display;
-    char display_name[128];
+    ಅಕ್ಷರ display_name[128];
 
-    if (!X11_FillXRandRDisplayInfo(_this, dpy, screen, outputid, res, &display, display_name, sizeof(display_name))) {
-        return true; // failed to query data, skip this display
+    ಆದರೆ (!X11_FillXRandRDisplayInfo(_this, dpy, screen, outputid, res, &display, display_name, ಗಾತ್ರ(display_name))) {
+        ಹಿಂತಿರುಗಿ true; // failed to query data, skip this display
     }
 
-    SDL_DisplayID displayID = SDL_AddVideoDisplay(&display, false);
-    if (displayID == 0) {
-        return false;
+    SDL_DisplayID displayID = SDL_ಕೂಡಿಸು_Video_Display(&display, false);
+    ಆದರೆ (displayID == 0) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     // We added an XRandR display, remove the generic display, if any
     X11_RemoveGenericDisplay(_this);
 
-    if (send_event) {
+    ಆದರೆ (send_event) {
         SDL_SendDisplayEvent(SDL_GetVideoDisplay(displayID), SDL_EVENT_DISPLAY_ADDED, 0, 0);
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 
-static bool X11_UpdateXRandRDisplay(SDL_VideoDevice *_this, Display *dpy, int screen, RROutput outputid, XRRScreenResources *res, SDL_VideoDisplay *existing_display)
+ಸ್ಥಿರ bool X11_UpdateXRandRDisplay(SDL_VideoDevice *_this, Display *dpy, ಪೂರ್ಣಾಂಕ screen, RROutput outputid, XRRScreenResources *res, SDL_VideoDisplay *existing_display)
 {
     SDL_VideoDisplay display;
-    char display_name[128];
+    ಅಕ್ಷರ display_name[128];
 
-    if (!X11_FillXRandRDisplayInfo(_this, dpy, screen, outputid, res, &display, display_name, sizeof(display_name))) {
-        return false; // failed to query current display state
+    ಆದರೆ (!X11_FillXRandRDisplayInfo(_this, dpy, screen, outputid, res, &display, display_name, ಗಾತ್ರ(display_name))) {
+        ಹಿಂತಿರುಗಿ false; // failed to query current display state
     }
 
     // update mode - this call takes ownership of display.desktop_mode.internal
-    SDL_SetDesktopDisplayMode(existing_display, &display.desktop_mode);
+    SDL_ಗಣ_Desktop_Display_ಬಹುಲಕ(existing_display, &display.desktop_ಬಹುಲಕ);
 
     // update bounds
-    if (existing_display->internal->x != display.internal->x ||
-        existing_display->internal->y != display.internal->y) {
-        existing_display->internal->x = display.internal->x;
-        existing_display->internal->y = display.internal->y;
+    ಆದರೆ (existing_display->ಆಂತರಿಕ->x != display.ಆಂತರಿಕ->x ||
+        existing_display->ಆಂತರಿಕ->y != display.ಆಂತರಿಕ->y) {
+        existing_display->ಆಂತರಿಕ->x = display.ಆಂತರಿಕ->x;
+        existing_display->ಆಂತರಿಕ->y = display.ಆಂತರಿಕ->y;
         SDL_SendDisplayEvent(existing_display, SDL_EVENT_DISPLAY_MOVED, 0, 0);
     }
 
     // update scale
-    SDL_SetDisplayContentScale(existing_display, display.content_scale);
+    SDL_ಗಣ_Display_Content_Scale(existing_display, display.content_scale);
 
     // update HDR properties
-    SDL_SetDisplayHDRProperties(existing_display, &display.HDR);
+    SDL_ಗಣ_Display_HDRProperties(existing_display, &display.HDR);
 
     // SDL_DisplayData is updated piece-meal above, free our local copy of this data
-    SDL_free(display.internal);
+    SDL_free(display.ಆಂತರಿಕ);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-static XRRScreenResources *X11_GetScreenResources(Display *dpy, int screen)
+ಸ್ಥಿರ XRRScreenResources *X11_GetScreenResources(Display *dpy, ಪೂರ್ಣಾಂಕ screen)
 {
-    XRRScreenResources *res = X11_XRRGetScreenResourcesCurrent(dpy, RootWindow(dpy, screen));
-    if (!res || res->noutput == 0) {
-        if (res) {
+    XRRScreenResources *res = X11_XRRGetScreenResourcesCurrent(dpy, ಬೇರು_ಕಿಟಕಿ(dpy, screen));
+    ಆದರೆ (!res || res->noutput == 0) {
+        ಆದರೆ (res) {
             X11_XRRFreeScreenResources(res);
         }
-        res = X11_XRRGetScreenResources(dpy, RootWindow(dpy, screen));
+        res = X11_XRRGetScreenResources(dpy, ಬೇರು_ಕಿಟಕಿ(dpy, screen));
     }
-    return res;
+    ಹಿಂತಿರುಗಿ res;
 }
 
-void X11_CheckDisplaysMoved(SDL_VideoDevice *_this, Display *dpy)
+ಶೂನ್ಯ X11_CheckDisplaysMoved(SDL_VideoDevice *_this, Display *dpy)
 {
-    const int screencount = ScreenCount(dpy);
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ screencount = Screen_ಎಣಿಕೆ(dpy);
 
-    SDL_DisplayID *displays = SDL_GetDisplays(NULL);
-    if (!displays) {
-        return;
+    SDL_DisplayID *displays = SDL_GetDisplays(ಖಾಲಿ);
+    ಆದರೆ (!displays) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    for (int screen = 0; screen < screencount; ++screen) {
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ screen = 0; screen < screencount; ++screen) {
         XRRScreenResources *res = X11_GetScreenResources(dpy, screen);
-        if (!res) {
-            continue;
+        ಆದರೆ (!res) {
+            ಮುಂದುವರಿ;
         }
 
-        for (int i = 0; displays[i]; ++i) {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; displays[i]; ++i) {
             SDL_VideoDisplay *display = SDL_GetVideoDisplay(displays[i]);
-            const SDL_DisplayData *displaydata = display->internal;
-            if (displaydata->xrandr_output && displaydata->screen == screen) {
+            ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *displaydata = display->ಆಂತರಿಕ;
+            ಆದರೆ (displaydata->xrandr_output && displaydata->screen == screen) {
                 X11_UpdateXRandRDisplay(_this, dpy, screen, displaydata->xrandr_output, res, display);
             }
         }
@@ -876,46 +876,46 @@ void X11_CheckDisplaysMoved(SDL_VideoDevice *_this, Display *dpy)
     SDL_free(displays);
 }
 
-static void X11_CheckDisplaysRemoved(SDL_VideoDevice *_this, Display *dpy)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_CheckDisplaysRemoved(SDL_VideoDevice *_this, Display *dpy)
 {
-    const int screencount = ScreenCount(dpy);
-    int num_displays = 0;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ screencount = Screen_ಎಣಿಕೆ(dpy);
+    ಪೂರ್ಣಾಂಕ ಅಂಕೆ_displays = 0;
 
-    SDL_DisplayID *displays = SDL_GetDisplays(&num_displays);
-    if (!displays) {
-        return;
+    SDL_DisplayID *displays = SDL_GetDisplays(&ಅಂಕೆ_displays);
+    ಆದರೆ (!displays) {
+        ಹಿಂತಿರುಗಿ;
     }
 
-    for (int screen = 0; screen < screencount; ++screen) {
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ screen = 0; screen < screencount; ++screen) {
         XRRScreenResources *res = X11_GetScreenResources(dpy, screen);
-        if (!res) {
-            continue;
+        ಆದರೆ (!res) {
+            ಮುಂದುವರಿ;
         }
 
-        for (int output = 0; output < res->noutput; output++) {
-            for (int i = 0; i < num_displays; ++i) {
-                if (!displays[i]) {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ output = 0; output < res->noutput; output++) {
+            ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < ಅಂಕೆ_displays; ++i) {
+                ಆದರೆ (!displays[i]) {
                     // We already removed this display from the list
-                    continue;
+                    ಮುಂದುವರಿ;
                 }
 
                 SDL_VideoDisplay *display = SDL_GetVideoDisplay(displays[i]);
-                const SDL_DisplayData *displaydata = display->internal;
-                if (displaydata->xrandr_output == res->outputs[output]) {
+                ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *displaydata = display->ಆಂತರಿಕ;
+                ಆದರೆ (displaydata->xrandr_output == res->outputs[output]) {
                     // This display is active, remove it from the list
                     displays[i] = 0;
-                    break;
+                    ನಿಲ್ಲಿಸು;
                 }
             }
         }
         X11_XRRFreeScreenResources(res);
     }
 
-    for (int i = 0; i < num_displays; ++i) {
-        if (displays[i]) {
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < ಅಂಕೆ_displays; ++i) {
+        ಆದರೆ (displays[i]) {
             SDL_VideoDisplay *display = SDL_GetVideoDisplay(displays[i]);
-            const SDL_DisplayData *displaydata = display->internal;
-            if (displaydata->xrandr_output) {
+            ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *displaydata = display->ಆಂತರಿಕ;
+            ಆದರೆ (displaydata->xrandr_output) {
                 // This display wasn't in the XRandR list
                 SDL_DelVideoDisplay(displays[i], true);
             }
@@ -924,55 +924,55 @@ static void X11_CheckDisplaysRemoved(SDL_VideoDevice *_this, Display *dpy)
     SDL_free(displays);
 }
 
-static void X11_HandleXRandROutputChange(SDL_VideoDevice *_this, const XRROutputChangeNotifyEvent *ev)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_HandleXRandROutputChange(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ XRROutputChangeNotifyEvent *ev)
 {
     SDL_DisplayID *displays;
-    SDL_VideoDisplay *display = NULL;
-    int i;
+    SDL_VideoDisplay *display = ಖಾಲಿ;
+    ಪೂರ್ಣಾಂಕ i;
 
-#if 0
-    SDL_Log("XRROutputChangeNotifyEvent! [output=%u, crtc=%u, mode=%u, rotation=%u, connection=%u]\n", (unsigned int) ev->output, (unsigned int) ev->crtc, (unsigned int) ev->mode, (unsigned int) ev->rotation, (unsigned int) ev->connection);
-#endif
+#ಆದರೆ 0
+    SDL_Log("XRROutputChangeNotifyEvent! [output=%u, crtc=%u, mode=%u, rotation=%u, connection=%u]\n", (ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ) ev->output, (ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ) ev->crtc, (ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ) ev->ಬಹುಲಕ, (ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ) ev->rotation, (ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ) ev->connection);
+#ಆದರೆ_ಅಂತ್ಯ
 
     // XWayland doesn't always send output disconnected events
     X11_CheckDisplaysRemoved(_this, ev->display);
 
-    displays = SDL_GetDisplays(NULL);
-    if (displays) {
-        for (i = 0; displays[i]; ++i) {
+    displays = SDL_GetDisplays(ಖಾಲಿ);
+    ಆದರೆ (displays) {
+        ಗಾಗಿ (i = 0; displays[i]; ++i) {
             SDL_VideoDisplay *thisdisplay = SDL_GetVideoDisplay(displays[i]);
-            const SDL_DisplayData *displaydata = thisdisplay->internal;
-            if (displaydata->xrandr_output == ev->output) {
+            ಸ್ಥಿರಾಂಕ SDL_Display_ದತ್ತಾಂಶ *displaydata = thisdisplay->ಆಂತರಿಕ;
+            ಆದರೆ (displaydata->xrandr_output == ev->output) {
                 display = thisdisplay;
-                break;
+                ನಿಲ್ಲಿಸು;
             }
         }
         SDL_free(displays);
     }
 
-    if (ev->connection == RR_Disconnected) { // output is going away
-        if (display) {
+    ಆದರೆ (ev->connection == RR_Disconnected) { // output is going away
+        ಆದರೆ (display) {
             // Add the generic display if we're about to remove the last XRandR display
             SDL_DisplayID generic_display = 0;
-            if (_this->num_displays == 1) {
-                generic_display = X11_AddGenericDisplay(_this, false);
+            ಆದರೆ (_this->ಅಂಕೆ_displays == 1) {
+                generic_display = X11_ಕೂಡಿಸು_Generic_Display(_this, false);
             }
 
             SDL_DelVideoDisplay(display->id, true);
 
-            if (generic_display) {
+            ಆದರೆ (generic_display) {
                 SDL_SendDisplayEvent(SDL_GetVideoDisplay(generic_display), SDL_EVENT_DISPLAY_ADDED, 0, 0);
             }
         }
         X11_CheckDisplaysMoved(_this, ev->display);
 
-    } else if (ev->connection == RR_Connected) { // output is coming online
-        if (!display) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (ev->connection == RR_Connected) { // output is coming online
+        ಆದರೆ (!display) {
             Display *dpy = ev->display;
-            const int screen = DefaultScreen(dpy);
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ screen = DefaultScreen(dpy);
             XRRScreenResources *res = X11_GetScreenResources(dpy, screen);
-            if (res) {
-                X11_AddXRandRDisplay(_this, dpy, screen, ev->output, res, true);
+            ಆದರೆ (res) {
+                X11_ಕೂಡಿಸು_XRand_RDisplay(_this, dpy, screen, ev->output, res, true);
                 X11_XRRFreeScreenResources(res);
             }
         }
@@ -980,59 +980,59 @@ static void X11_HandleXRandROutputChange(SDL_VideoDevice *_this, const XRROutput
     }
 }
 
-void X11_HandleXRandREvent(SDL_VideoDevice *_this, const XEvent *xevent)
+ಶೂನ್ಯ X11_HandleXRandREvent(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ XEvent *xevent)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_assert(xevent->type == (videodata->xrandr_event_base + RRNotify));
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
+    SDL_assert(xevent->type == (videodata->xrandr_event_ತಳ + RRNotify));
 
-    switch (((const XRRNotifyEvent *)xevent)->subtype) {
-    case RRNotify_OutputChange:
-        X11_HandleXRandROutputChange(_this, (const XRROutputChangeNotifyEvent *)xevent);
-        break;
-    default:
-        break;
+    ಆಯ್ಕೆ (((ಸ್ಥಿರಾಂಕ XRRNotifyEvent *)xevent)->subtype) {
+    ಸ್ಥಿತಿ RRNotify_OutputChange:
+        X11_HandleXRandROutputChange(_this, (ಸ್ಥಿರಾಂಕ XRROutputChangeNotifyEvent *)xevent);
+        ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ನಿಲ್ಲಿಸು;
     }
 }
 
-static void X11_SortOutputsByPriorityHint(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_ವಿಂಗಡಿಸು_Outputs_By_ಆದ್ಯತೆ_Hint(SDL_VideoDevice *_this)
 {
-    const char *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_ಆದ್ಯತೆ);
 
-    if (name_hint) {
-        char *saveptr;
-        char *str = SDL_strdup(name_hint);
-        SDL_VideoDisplay **sorted_list = SDL_malloc(sizeof(SDL_VideoDisplay *) * _this->num_displays);
+    ಆದರೆ (name_hint) {
+        ಅಕ್ಷರ *saveptr;
+        ಅಕ್ಷರ *str = SDL_strdup(name_hint);
+        SDL_VideoDisplay **sorted_list = SDL_malloc(ಗಾತ್ರ(SDL_VideoDisplay *) * _this->ಅಂಕೆ_displays);
 
-        if (str && sorted_list) {
-            int sorted_index = 0;
+        ಆದರೆ (str && sorted_list) {
+            ಪೂರ್ಣಾಂಕ sorted_ಸೂಚ್ಯಂಕ = 0;
 
             // Sort the requested displays to the front of the list.
-            const char *token = SDL_strtok_r(str, ",", &saveptr);
-            while (token) {
-                for (int i = 0; i < _this->num_displays; ++i) {
+            ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *token = SDL_strtok_r(str, ",", &saveptr);
+            ಆಗ (token) {
+                ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
                     SDL_VideoDisplay *d = _this->displays[i];
-                    if (d) {
-                        SDL_DisplayData *data = d->internal;
-                        if (SDL_strcmp(token, data->connector_name) == 0) {
-                            sorted_list[sorted_index++] = d;
-                            _this->displays[i] = NULL;
-                            break;
+                    ಆದರೆ (d) {
+                        SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = d->ಆಂತರಿಕ;
+                        ಆದರೆ (SDL_strcmp(token, ದತ್ತಾಂಶ->connector_name) == 0) {
+                            sorted_list[sorted_ಸೂಚ್ಯಂಕ++] = d;
+                            _this->displays[i] = ಖಾಲಿ;
+                            ನಿಲ್ಲಿಸು;
                         }
                     }
                 }
 
-                token = SDL_strtok_r(NULL, ",", &saveptr);
+                token = SDL_strtok_r(ಖಾಲಿ, ",", &saveptr);
             }
 
             // Append the remaining displays to the end of the list.
-            for (int i = 0; i < _this->num_displays; ++i) {
-                if (_this->displays[i]) {
-                    sorted_list[sorted_index++] = _this->displays[i];
+            ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
+                ಆದರೆ (_this->displays[i]) {
+                    sorted_list[sorted_ಸೂಚ್ಯಂಕ++] = _this->displays[i];
                 }
             }
 
             // Copy the sorted list back to the display list.
-            SDL_memcpy(_this->displays, sorted_list, sizeof(SDL_VideoDisplay *) * _this->num_displays);
+            SDL_memcpy(_this->displays, sorted_list, ಗಾತ್ರ(SDL_VideoDisplay *) * _this->ಅಂಕೆ_displays);
         }
 
         SDL_free(str);
@@ -1040,72 +1040,72 @@ static void X11_SortOutputsByPriorityHint(SDL_VideoDevice *_this)
     }
 }
 
-static bool X11_InitModes_XRandR(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool X11_InitModes_XRandR(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    Display *dpy = data->display;
-    const int screencount = ScreenCount(dpy);
-    const int default_screen = DefaultScreen(dpy);
-    RROutput primary = X11_XRRGetOutputPrimary(dpy, RootWindow(dpy, default_screen));
-    int xrandr_error_base = 0;
-    int looking_for_primary;
-    int output;
-    int screen;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    Display *dpy = ದತ್ತಾಂಶ->display;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ screencount = Screen_ಎಣಿಕೆ(dpy);
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ default_screen = DefaultScreen(dpy);
+    RROutput primary = X11_XRRGetOutputPrimary(dpy, ಬೇರು_ಕಿಟಕಿ(dpy, default_screen));
+    ಪೂರ್ಣಾಂಕ xrandr_error_ತಳ = 0;
+    ಪೂರ್ಣಾಂಕ looking_for_primary;
+    ಪೂರ್ಣಾಂಕ output;
+    ಪೂರ್ಣಾಂಕ screen;
 
-    if (!X11_XRRQueryExtension(dpy, &data->xrandr_event_base, &xrandr_error_base)) {
-        return SDL_SetError("XRRQueryExtension failed");
+    ಆದರೆ (!X11_XRRQueryExtension(dpy, &ದತ್ತಾಂಶ->xrandr_event_ತಳ, &xrandr_error_ತಳ)) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("XRRQueryExtension failed");
     }
 
-    for (looking_for_primary = 1; looking_for_primary >= 0; looking_for_primary--) {
-        for (screen = 0; screen < screencount; screen++) {
+    ಗಾಗಿ (looking_for_primary = 1; looking_for_primary >= 0; looking_for_primary--) {
+        ಗಾಗಿ (screen = 0; screen < screencount; screen++) {
 
             // we want the primary output first, and then skipped later.
-            if (looking_for_primary && (screen != default_screen)) {
-                continue;
+            ಆದರೆ (looking_for_primary && (screen != default_screen)) {
+                ಮುಂದುವರಿ;
             }
 
             XRRScreenResources *res = X11_GetScreenResources(dpy, screen);
-            if (!res) {
-                continue;
+            ಆದರೆ (!res) {
+                ಮುಂದುವರಿ;
             }
 
-            for (output = 0; output < res->noutput; output++) {
+            ಗಾಗಿ (output = 0; output < res->noutput; output++) {
                 // The primary output _should_ always be sorted first, but just in case...
-                if ((looking_for_primary && (res->outputs[output] != primary)) ||
+                ಆದರೆ ((looking_for_primary && (res->outputs[output] != primary)) ||
                     (!looking_for_primary && (screen == default_screen) && (res->outputs[output] == primary))) {
-                    continue;
+                    ಮುಂದುವರಿ;
                 }
-                if (!X11_AddXRandRDisplay(_this, dpy, screen, res->outputs[output], res, false)) {
-                    break;
+                ಆದರೆ (!X11_ಕೂಡಿಸು_XRand_RDisplay(_this, dpy, screen, res->outputs[output], res, false)) {
+                    ನಿಲ್ಲಿಸು;
                 }
             }
 
             X11_XRRFreeScreenResources(res);
 
             // This will generate events for displays that come and go at runtime.
-            X11_XRRSelectInput(dpy, RootWindow(dpy, screen), RROutputChangeNotifyMask);
+            X11_XRRSelect_ಒಳಹರಿವು(dpy, ಬೇರು_ಕಿಟಕಿ(dpy, screen), RROutput_Change_Notify_ಮುಖವಾಡ);
         }
     }
 
-    if (_this->num_displays == 0) {
-        return SDL_SetError("No available displays");
+    ಆದರೆ (_this->ಅಂಕೆ_displays == 0) {
+        ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("No available displays");
     }
 
-    X11_SortOutputsByPriorityHint(_this);
+    X11_ವಿಂಗಡಿಸು_Outputs_By_ಆದ್ಯತೆ_Hint(_this);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
-#endif // SDL_VIDEO_DRIVER_X11_XRANDR
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XRANDR
 
 /* This is used if there's no better functionality--like XRandR--to use.
    It won't attempt to supply different display modes at all, but it can
    enumerate the current displays and their current sizes. */
-static bool X11_InitModes_StdXlib(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool X11_InitModes_StdXlib(SDL_VideoDevice *_this)
 {
-    if (X11_AddGenericDisplay(_this, true) == 0) {
-        return false;
+    ಆದರೆ (X11_ಕೂಡಿಸು_Generic_Display(_this, true) == 0) {
+        ಹಿಂತಿರುಗಿ false;
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool X11_InitModes(SDL_VideoDevice *_this)
@@ -1113,28 +1113,28 @@ bool X11_InitModes(SDL_VideoDevice *_this)
     /* XRandR is the One True Modern Way to do this on X11. If this
        fails, we just won't report any display modes except the current
        desktop size. */
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
     {
-        SDL_VideoData *data = _this->internal;
-        int xrandr_major, xrandr_minor;
+        SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+        ಪೂರ್ಣಾಂಕ xrandr_major, xrandr_minor;
         // require at least XRandR v1.3
-        if (CheckXRandR(data->display, &xrandr_major, &xrandr_minor) &&
+        ಆದರೆ (CheckXRandR(ದತ್ತಾಂಶ->display, &xrandr_major, &xrandr_minor) &&
             (xrandr_major >= 2 || (xrandr_major == 1 && xrandr_minor >= 3)) &&
             X11_InitModes_XRandR(_this)) {
-            return true;
+            ಹಿಂತಿರುಗಿ true;
         }
     }
-#endif // SDL_VIDEO_DRIVER_X11_XRANDR
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XRANDR
 
     // still here? Just set up an extremely basic display.
-    return X11_InitModes_StdXlib(_this);
+    ಹಿಂತಿರುಗಿ X11_InitModes_StdXlib(_this);
 }
 
 bool X11_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-    SDL_DisplayData *data = sdl_display->internal;
-    SDL_DisplayMode mode;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
+    SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = sdl_display->ಆಂತರಿಕ;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
 
     /* Unfortunately X11 requires the window to be created with the correct
      * visual and depth ahead of time, but the SDL API allows you to create
@@ -1142,30 +1142,30 @@ bool X11_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display)
      * we have to use the same format for all windows and all display modes.
      * (or support recreating the window with a new visual behind the scenes)
      */
-    SDL_zero(mode);
-    mode.format = sdl_display->desktop_mode.format;
+    SDL_zero(ಬಹುಲಕ);
+    ಬಹುಲಕ.format = sdl_display->desktop_ಬಹುಲಕ.format;
 
-    if (data->use_xrandr) {
-        Display *display = _this->internal->display;
+    ಆದರೆ (ದತ್ತಾಂಶ->use_xrandr) {
+        Display *display = _this->ಆಂತರಿಕ->display;
         XRRScreenResources *res;
 
-        res = X11_XRRGetScreenResources(display, RootWindow(display, data->screen));
-        if (res) {
-            SDL_DisplayModeData *modedata;
+        res = X11_XRRGetScreenResources(display, ಬೇರು_ಕಿಟಕಿ(display, ದತ್ತಾಂಶ->screen));
+        ಆದರೆ (res) {
+            SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *modedata;
             XRROutputInfo *output_info;
-            int i;
+            ಪೂರ್ಣಾಂಕ i;
 
-            output_info = X11_XRRGetOutputInfo(display, res, data->xrandr_output);
-            if (output_info && output_info->connection != RR_Disconnected) {
-                for (i = 0; i < output_info->nmode; ++i) {
-                    modedata = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
-                    if (!modedata) {
-                        continue;
+            output_info = X11_XRRGetOutputInfo(display, res, ದತ್ತಾಂಶ->xrandr_output);
+            ಆದರೆ (output_info && output_info->connection != RR_Disconnected) {
+                ಗಾಗಿ (i = 0; i < output_info->nmode; ++i) {
+                    modedata = (SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ));
+                    ಆದರೆ (!modedata) {
+                        ಮುಂದುವರಿ;
                     }
-                    mode.internal = modedata;
+                    ಬಹುಲಕ.ಆಂತರಿಕ = modedata;
 
-                    if (!SetXRandRModeInfo(display, res, output_info->crtc, output_info->modes[i], &mode) ||
-                        !SDL_AddFullscreenDisplayMode(sdl_display, &mode)) {
+                    ಆದರೆ (!ಗಣ_XRand_RMode_Info(display, res, output_info->crtc, output_info->modes[i], &ಬಹುಲಕ) ||
+                        !SDL_ಕೂಡಿಸು_Fullscreen_Display_ಬಹುಲಕ(sdl_display, &ಬಹುಲಕ)) {
                         SDL_free(modedata);
                     }
                 }
@@ -1174,88 +1174,88 @@ bool X11_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display)
             X11_XRRFreeScreenResources(res);
         }
     }
-#endif // SDL_VIDEO_DRIVER_X11_XRANDR
-    return true;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XRANDR
+    ಹಿಂತಿರುಗಿ true;
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
 // This catches an error from XRRSetScreenSize, as a workaround for now.
 // !!! FIXME: remove this later when we have a better solution.
-static int (*PreXRRSetScreenSizeErrorHandler)(Display *, XErrorEvent *) = NULL;
-static int SDL_XRRSetScreenSizeErrHandler(Display *d, XErrorEvent *e)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ (*Pre_XRRSet_Screen_ಗಾತ್ರ_Error_Handler)(Display *, XErrorEvent *) = ಖಾಲಿ;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ SDL_XRRSet_Screen_ಗಾತ್ರ_Err_Handler(Display *d, XErrorEvent *e)
 {
     // BadMatch: https://github.com/libsdl-org/SDL/issues/4561
     // BadValue: https://github.com/libsdl-org/SDL/issues/4840
-    if ((e->error_code == BadMatch) || (e->error_code == BadValue)) {
-        return 0;
+    ಆದರೆ ((e->error_ಸಂಕೇತ == Bad_ಹೊಂದಿಕೆ) || (e->error_ಸಂಕೇತ == Bad_ಮೌಲ್ಯ)) {
+        ಹಿಂತಿರುಗಿ 0;
     }
 
-    return PreXRRSetScreenSizeErrorHandler(d, e);
+    ಹಿಂತಿರುಗಿ Pre_XRRSet_Screen_ಗಾತ್ರ_Error_Handler(d, e);
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-bool X11_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_DisplayMode *mode)
+bool X11_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_DisplayData *data = sdl_display->internal;
+    SDL_Video_ದತ್ತಾಂಶ *viddata = _this->ಆಂತರಿಕ;
+    SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = sdl_display->ಆಂತರಿಕ;
 
-    viddata->last_mode_change_deadline = SDL_GetTicks() + (PENDING_FOCUS_TIME * 2);
+    viddata->ಕೊನೆಯ_ಬಹುಲಕ_change_deadline = SDL_GetTicks() + (PENDING_FOCUS_ಸಮಯ * 2);
 
     // XWayland mode switches are emulated with viewports and thus instantaneous.
-    if (!viddata->is_xwayland) {
-        if (sdl_display->current_mode != mode) {
-            data->mode_switch_deadline_ns = SDL_GetTicksNS() + MODE_SWITCH_TIMEOUT_NS;
-        } else {
-            data->mode_switch_deadline_ns = 0;
+    ಆದರೆ (!viddata->is_xwayland) {
+        ಆದರೆ (sdl_display->current_ಬಹುಲಕ != ಬಹುಲಕ) {
+            ದತ್ತಾಂಶ->ಬಹುಲಕ_switch_deadline_ns = SDL_GetTicksNS() + ಬಹುಲಕ_SWITCH_TIMEOUT_NS;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ದತ್ತಾಂಶ->ಬಹುಲಕ_switch_deadline_ns = 0;
         }
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-    if (data->use_xrandr) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
+    ಆದರೆ (ದತ್ತಾಂಶ->use_xrandr) {
         Display *display = viddata->display;
-        SDL_DisplayModeData *modedata = mode->internal;
-        int mm_width, mm_height;
+        SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ *modedata = ಬಹುಲಕ->ಆಂತರಿಕ;
+        ಪೂರ್ಣಾಂಕ mm_ಅಗಲ, mm_ಎತ್ತರ;
         XRRScreenResources *res;
         XRROutputInfo *output_info;
         XRRCrtcInfo *crtc;
-        Status status;
+        ಸ್ಥಿತಿ_3 ಸ್ಥಿತಿ_2;
 
-        res = X11_XRRGetScreenResources(display, RootWindow(display, data->screen));
-        if (!res) {
-            return SDL_SetError("Couldn't get XRandR screen resources");
+        res = X11_XRRGetScreenResources(display, ಬೇರು_ಕಿಟಕಿ(display, ದತ್ತಾಂಶ->screen));
+        ಆದರೆ (!res) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't get XRandR screen resources");
         }
 
-        output_info = X11_XRRGetOutputInfo(display, res, data->xrandr_output);
-        if (!output_info || output_info->connection == RR_Disconnected) {
+        output_info = X11_XRRGetOutputInfo(display, res, ದತ್ತಾಂಶ->xrandr_output);
+        ಆದರೆ (!output_info || output_info->connection == RR_Disconnected) {
             X11_XRRFreeScreenResources(res);
-            return SDL_SetError("Couldn't get XRandR output info");
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't get XRandR output info");
         }
 
         crtc = X11_XRRGetCrtcInfo(display, res, output_info->crtc);
-        if (!crtc) {
+        ಆದರೆ (!crtc) {
             X11_XRRFreeOutputInfo(output_info);
             X11_XRRFreeScreenResources(res);
-            return SDL_SetError("Couldn't get XRandR crtc info");
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("Couldn't get XRandR crtc info");
         }
 
-        if (crtc->mode == modedata->xrandr_mode) {
-#ifdef X11MODES_DEBUG
+        ಆದರೆ (crtc->ಬಹುಲಕ == modedata->xrandr_ಬಹುಲಕ) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X11MODES_DEBUG
             SDL_Log("already in desired mode 0x%lx (%ux%u), nothing to do\n",
-                    crtc->mode, crtc->width, crtc->height);
-#endif
-            status = Success;
-            goto freeInfo;
+                    crtc->ಬಹುಲಕ, crtc->ಅಗಲ, crtc->ಎತ್ತರ);
+#ಆದರೆ_ಅಂತ್ಯ
+            ಸ್ಥಿತಿ_2 = Success;
+            ಹೋಗು freeInfo;
         }
 
         X11_XGrabServer(display);
-        status = X11_XRRSetCrtcConfig(display, res, output_info->crtc, CurrentTime,
-                                      0, 0, None, crtc->rotation, NULL, 0);
-        if (status != Success) {
-            goto ungrabServer;
+        ಸ್ಥಿತಿ_2 = X11_XRRSetCrtcConfig(display, res, output_info->crtc, Current_ಸಮಯ,
+                                      0, 0, None, crtc->rotation, ಖಾಲಿ, 0);
+        ಆದರೆ (ಸ್ಥಿತಿ_2 != Success) {
+            ಹೋಗು ungrabServer;
         }
 
-        mm_width = mode->w * DisplayWidthMM(display, data->screen) / DisplayWidth(display, data->screen);
-        mm_height = mode->h * DisplayHeightMM(display, data->screen) / DisplayHeight(display, data->screen);
+        mm_ಅಗಲ = ಬಹುಲಕ->w * Display_ಅಗಲ_MM(display, ದತ್ತಾಂಶ->screen) / Display_ಅಗಲ(display, ದತ್ತಾಂಶ->screen);
+        mm_ಎತ್ತರ = ಬಹುಲಕ->h * Display_ಎತ್ತರ_MM(display, ದತ್ತಾಂಶ->screen) / Display_ಎತ್ತರ(display, ದತ್ತಾಂಶ->screen);
 
         /* !!! FIXME: this can get into a problem scenario when a window is
            bigger than a physical monitor in a configuration where one screen
@@ -1265,15 +1265,15 @@ bool X11_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, S
            is likely to cause subtle issues but is better than outright
            crashing */
         X11_XSync(display, False);
-        PreXRRSetScreenSizeErrorHandler = X11_XSetErrorHandler(SDL_XRRSetScreenSizeErrHandler);
-        X11_XRRSetScreenSize(display, RootWindow(display, data->screen),
-                             mode->w, mode->h, mm_width, mm_height);
+        Pre_XRRSet_Screen_ಗಾತ್ರ_Error_Handler = X11_XSetErrorHandler(SDL_XRRSet_Screen_ಗಾತ್ರ_Err_Handler);
+        X11_XRRSet_Screen_ಗಾತ್ರ(display, ಬೇರು_ಕಿಟಕಿ(display, ದತ್ತಾಂಶ->screen),
+                             ಬಹುಲಕ->w, ಬಹುಲಕ->h, mm_ಅಗಲ, mm_ಎತ್ತರ);
         X11_XSync(display, False);
-        X11_XSetErrorHandler(PreXRRSetScreenSizeErrorHandler);
+        X11_XSetErrorHandler(Pre_XRRSet_Screen_ಗಾತ್ರ_Error_Handler);
 
-        status = X11_XRRSetCrtcConfig(display, res, output_info->crtc, CurrentTime,
-                                      crtc->x, crtc->y, modedata->xrandr_mode, crtc->rotation,
-                                      &data->xrandr_output, 1);
+        ಸ್ಥಿತಿ_2 = X11_XRRSetCrtcConfig(display, res, output_info->crtc, Current_ಸಮಯ,
+                                      crtc->x, crtc->y, modedata->xrandr_ಬಹುಲಕ, crtc->rotation,
+                                      &ದತ್ತಾಂಶ->xrandr_output, 1);
 
     ungrabServer:
         X11_XUngrabServer(display);
@@ -1282,66 +1282,66 @@ bool X11_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, S
         X11_XRRFreeOutputInfo(output_info);
         X11_XRRFreeScreenResources(res);
 
-        if (status != Success) {
-            return SDL_SetError("X11_XRRSetCrtcConfig failed");
+        ಆದರೆ (ಸ್ಥಿತಿ_2 != Success) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("X11_XRRSetCrtcConfig failed");
         }
     }
-#else
-    (void)data;
-#endif // SDL_VIDEO_DRIVER_X11_XRANDR
+#ಇಲ್ಲದಿದ್ದರೆ
+    (ಶೂನ್ಯ)ದತ್ತಾಂಶ;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XRANDR
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void X11_QuitModes(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_QuitModes(SDL_VideoDevice *_this)
 {
 }
 
 bool X11_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_Rect *rect)
 {
-    SDL_DisplayData *data = sdl_display->internal;
+    SDL_Display_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = sdl_display->ಆಂತರಿಕ;
 
-    rect->x = data->x;
-    rect->y = data->y;
-    rect->w = sdl_display->current_mode->w;
-    rect->h = sdl_display->current_mode->h;
-    return true;
+    rect->x = ದತ್ತಾಂಶ->x;
+    rect->y = ದತ್ತಾಂಶ->y;
+    rect->w = sdl_display->current_ಬಹುಲಕ->w;
+    rect->h = sdl_display->current_ಬಹುಲಕ->h;
+    ಹಿಂತಿರುಗಿ true;
 }
 
 bool X11_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *sdl_display, SDL_Rect *rect)
 {
-    SDL_VideoData *data = _this->internal;
-    Display *display = data->display;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    Display *display = ದತ್ತಾಂಶ->display;
     Atom _NET_WORKAREA;
-    int real_format;
+    ಪೂರ್ಣಾಂಕ real_format;
     Atom real_type;
-    unsigned long items_read = 0, items_left = 0;
-    unsigned char *propdata = NULL;
-    bool result = false;
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ವಸ್ತುಗಳು_read = 0, ವಸ್ತುಗಳು_ಎಡ = 0;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *propdata = ಖಾಲಿ;
+    bool ಫಲಿತಾಂಶ = false;
 
-    if (!X11_GetDisplayBounds(_this, sdl_display, rect)) {
-        return false;
+    ಆದರೆ (!X11_GetDisplayBounds(_this, sdl_display, rect)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
     _NET_WORKAREA = X11_XInternAtom(display, "_NET_WORKAREA", False);
-    int status = X11_XGetWindowProperty(display, DefaultRootWindow(display),
+    ಪೂರ್ಣಾಂಕ ಸ್ಥಿತಿ_2 = X11_XGet_ಕಿಟಕಿ_Property(display, Default_ಬೇರು_ಕಿಟಕಿ(display),
                                     _NET_WORKAREA, 0L, 4L, False, XA_CARDINAL,
-                                    &real_type, &real_format, &items_read,
-                                    &items_left, &propdata);
-    if ((status == Success) && (items_read >= 4)) {
-        const long *p = (long *)propdata;
-        const SDL_Rect usable = { (int)p[0], (int)p[1], (int)p[2], (int)p[3] };
-        result = true;
-        if (!SDL_GetRectIntersection(rect, &usable, rect)) {
+                                    &real_type, &real_format, &ವಸ್ತುಗಳು_read,
+                                    &ವಸ್ತುಗಳು_ಎಡ, &propdata);
+    ಆದರೆ ((ಸ್ಥಿತಿ_2 == Success) && (ವಸ್ತುಗಳು_read >= 4)) {
+        ಸ್ಥಿರಾಂಕ ದೀರ್ಘ *p = (ದೀರ್ಘ *)propdata;
+        ಸ್ಥಿರಾಂಕ SDL_Rect usable = { (ಪೂರ್ಣಾಂಕ)p[0], (ಪೂರ್ಣಾಂಕ)p[1], (ಪೂರ್ಣಾಂಕ)p[2], (ಪೂರ್ಣಾಂಕ)p[3] };
+        ಫಲಿತಾಂಶ = true;
+        ಆದರೆ (!SDL_GetRectIntersection(rect, &usable, rect)) {
             SDL_zerop(rect);
         }
     }
 
-    if (propdata) {
+    ಆದರೆ (propdata) {
         X11_XFree(propdata);
     }
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11

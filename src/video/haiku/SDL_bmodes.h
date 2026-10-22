@@ -19,25 +19,25 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_BMODES_H
-#define SDL_BMODES_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_BMODES_H
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_BMODES_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-extern SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace);
+ಬಾಹ್ಯ SDL_PixelFormat HAIKU_Color_Space_ಗಮ್ಯ_SDLPx_Format(uint32 colorspace);
 
-extern bool HAIKU_InitModes(SDL_VideoDevice *_this);
-extern void HAIKU_QuitModes(SDL_VideoDevice *_this);
-extern bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+ಬಾಹ್ಯ bool HAIKU_InitModes(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ HAIKU_QuitModes(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಬಾಹ್ಯ bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ಬಾಹ್ಯ bool HAIKU_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ);
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

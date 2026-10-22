@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_riscosvideo_h_
-#define SDL_riscosvideo_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_riscosvideo_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_riscosvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#define RISCOS_MAX_KEYS_PRESSED 6
+#ವ್ಯಾಖ್ಯಾನಿಸು RISCOS_MAX_ಕೀಲಿಗಳು_PRESSED 6
 
-struct SDL_VideoData
+ರಚನೆ SDL_Video_ದತ್ತಾಂಶ
 {
-    int last_mouse_buttons;
-    Uint8 key_pressed[RISCOS_MAX_KEYS_PRESSED];
+    ಪೂರ್ಣಾಂಕ ಕೊನೆಯ_mouse_buttons;
+    Uint8 ಕೀಲಿ_pressed[RISCOS_MAX_ಕೀಲಿಗಳು_PRESSED];
 };
 
-#endif // SDL_riscosvideo_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_riscosvideo_h_

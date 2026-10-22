@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_x11xsync_h_
-#define SDL_x11xsync_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_x11xsync_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_x11xsync_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSYNC
 
-extern void X11_InitXsync(SDL_VideoDevice *_this);
-extern bool X11_XsyncIsInitialized(void);
-extern bool X11_InitResizeSync(SDL_Window *window);
-extern void X11_TermResizeSync(SDL_Window *window);
-extern void X11_HandleSyncRequest(SDL_Window *window, XClientMessageEvent *event);
-extern void X11_HandleConfigure(SDL_Window *window, XConfigureEvent *event);
-extern void X11_HandlePresent(SDL_Window *window);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_InitXsync(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool X11_XsyncIsInitialized(ಶೂನ್ಯ);
+ಬಾಹ್ಯ bool X11_InitResizeSync(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_ಪದ_Resize_Sync(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_HandleSyncRequest(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, XClient_ಸಂದೇಶ_Event *event);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_HandleConfigure(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, XConfigureEvent *event);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_HandlePresent(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
-#endif // SDL_VIDEO_DRIVER_X11_XSYNC
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XSYNC
 
-#endif // SDL_x11xsync_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_x11xsync_h_

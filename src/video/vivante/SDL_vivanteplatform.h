@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_vivanteplatform_h_
-#define SDL_vivanteplatform_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_vivanteplatform_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_vivanteplatform_h_
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_VIVANTE
 
-#include "SDL_vivantevideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_vivantevideo.h"
 
-#ifdef CAVIUM
-#define VIVANTE_PLATFORM_CAVIUM
-#elif defined(MARVELL)
-#define VIVANTE_PLATFORM_MARVELL
-#else
-#define VIVANTE_PLATFORM_GENERIC
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ CAVIUM
+#ವ್ಯಾಖ್ಯಾನಿಸು VIVANTE_PLATFORM_CAVIUM
+#ಅಥವಾಆದರೆ defined(MARVELL)
+#ವ್ಯಾಖ್ಯಾನಿಸು VIVANTE_PLATFORM_MARVELL
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು VIVANTE_PLATFORM_GENERIC
+#ಆದರೆ_ಅಂತ್ಯ
 
-extern bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this);
-extern char *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
-extern void VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this);
-extern void VIVANTE_CleanupPlatform(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool VIVANTE_ಸಿದ್ಧತೆ_Platform(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಅಕ್ಷರ *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ VIVANTE_CleanupPlatform(SDL_VideoDevice *_this);
 
-#endif // SDL_VIDEO_DRIVER_VIVANTE
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_VIVANTE
 
-#endif // SDL_vivanteplatform_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_vivanteplatform_h_

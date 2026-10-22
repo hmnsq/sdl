@@ -25,30 +25,30 @@
 
 - (instancetype)init;
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
-- (void)loadView;
+- (ಶೂನ್ಯ)ತುಂಬು_View;
 
-@end
+@ಕೊನೆ
 
-API_AVAILABLE(ios(13.0))
+API_ಲಭ್ಯ(ios(13.0))
 @interface SDLUIKitSceneDelegate : NSObject <UIApplicationDelegate, UIWindowSceneDelegate>
 
 + (NSString *)getSceneDelegateClassName;
 
-- (void)hideLaunchScreen;
+- (ಶೂನ್ಯ)hideLaunchScreen;
 
-@end
+@ಕೊನೆ
 
 @interface SDLUIKitDelegate : NSObject <UIApplicationDelegate>
 
 + (id)sharedAppDelegate;
 + (NSString *)getAppDelegateClassName;
 
-- (void)hideLaunchScreen;
+- (ಶೂನ್ಯ)hideLaunchScreen;
 
 /* This property is marked as optional, and is only intended to be used when
  * the app's UI is storyboard-based. SDL is not storyboard-based, however
  * several major third-party ad APIs (e.g. Google admob) incorrectly assume this
  * property always exists, and will crash if it doesn't. */
-@property(nonatomic) UIWindow *window;
+@property(nonatomic) UIWindow *ಕಿಟಕಿ;
 
-@end
+@ಕೊನೆ

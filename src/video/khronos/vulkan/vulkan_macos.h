@@ -1,5 +1,5 @@
-#ifndef VULKAN_MACOS_H_
-#define VULKAN_MACOS_H_ 1
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VULKAN_MACOS_H_
+#ವ್ಯಾಖ್ಯಾನಿಸು VULKAN_MACOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 // VK_MVK_macos_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_MVK_macos_surface 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_MVK_macos_surface 1
 
-#define VK_MVK_MACOS_SURFACE_SPEC_VERSION 3
-#define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_MVK_MACOS_SURFACE_SPEC_ಆವೃತ್ತಿ 3
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
 
-typedef VkFlags VkMacOSSurfaceCreateFlagsMVK;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkFlags VkMacOSSurfaceCreateFlagsMVK;
 
-typedef struct VkMacOSSurfaceCreateInfoMVK {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkMacOSSurfaceCreateInfoMVK {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                     p_ಮುಂದಿನ;
     VkMacOSSurfaceCreateFlagsMVK    flags;
-    const void*                     pView;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                     pView;
 } VkMacOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, ಸ್ಥಿರಾಂಕ VkMacOSSurfaceCreateInfoMVK* pCreateInfo, ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateMacOSSurfaceMVK(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkCreateMacOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಸ್ಥಿರಾಂಕ VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
+    ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

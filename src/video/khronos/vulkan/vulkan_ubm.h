@@ -1,5 +1,5 @@
-#ifndef VULKAN_UBM_H_
-#define VULKAN_UBM_H_ 1
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VULKAN_UBM_H_
+#ವ್ಯಾಖ್ಯಾನಿಸು VULKAN_UBM_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,51 +13,51 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 // VK_SEC_ubm_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_SEC_ubm_surface 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_SEC_ubm_surface 1
 
-#define VK_SEC_UBM_SURFACE_SPEC_VERSION   1
-#define VK_SEC_UBM_SURFACE_EXTENSION_NAME "VK_SEC_ubm_surface"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_SEC_UBM_SURFACE_SPEC_ಆವೃತ್ತಿ   1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_SEC_UBM_SURFACE_EXTENSION_NAME "VK_SEC_ubm_surface"
 
-typedef VkFlags VkUbmSurfaceCreateFlagsSEC;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkFlags VkUbmSurfaceCreateFlagsSEC;
 
-typedef struct VkUbmSurfaceCreateInfoSEC {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkUbmSurfaceCreateInfoSEC {
     VkStructureType               sType;
-    const void*                   pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                   p_ಮುಂದಿನ;
     VkUbmSurfaceCreateFlagsSEC    flags;
-    struct ubm_device*            device;
-    struct ubm_surface*           surface;
+    ರಚನೆ ubm_device*            device;
+    ರಚನೆ ubm_surface*           surface;
 } VkUbmSurfaceCreateInfoSEC;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateUbmSurfaceSEC)(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct ubm_device* device);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkCreateUbmSurfaceSEC)(VkInstance instance, ಸ್ಥಿರಾಂಕ VkUbmSurfaceCreateInfoSEC* pCreateInfo, ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC)(VkPhysicalDevice physicalDevice, uint32_t ಸರತಿ_Family_ಸೂಚ್ಯಂಕ, ರಚನೆ ubm_device* device);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateUbmSurfaceSEC(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkCreateUbmSurfaceSEC(
     VkInstance                                  instance,
-    const VkUbmSurfaceCreateInfoSEC*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಸ್ಥಿರಾಂಕ VkUbmSurfaceCreateInfoSEC*            pCreateInfo,
+    ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceUbmPresentationSupportSEC(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
-    struct ubm_device*                          device);
-#endif
-#endif
+    uint32_t                                    ಸರತಿ_Family_ಸೂಚ್ಯಂಕ,
+    ರಚನೆ ubm_device*                          device);
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

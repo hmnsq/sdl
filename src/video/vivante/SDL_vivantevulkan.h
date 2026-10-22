@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
 /*
  * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
  * SDL_x11vulkan.h and Mark Callow's SDL_vivantevulkan.h
  */
 
-#ifndef SDL_vivantevulkan_h_
-#define SDL_vivantevulkan_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_vivantevulkan_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_vivantevulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_vulkan_internal.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#ಆದರೆ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
-extern bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+ಬಾಹ್ಯ bool VIVANTE_Vulkan_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ ಶೂನ್ಯ VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಅಕ್ಷರ ಸ್ಥಿರಾಂಕ * ಸ್ಥಿರಾಂಕ *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ಎಣಿಕೆ_2);
+ಬಾಹ್ಯ bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                 SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator,
                                  VkSurfaceKHR *surface);
-extern void VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ಬಾಹ್ಯ ಶೂನ್ಯ VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator);
+                                   ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator);
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // SDL_vivantevulkan_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_vivantevulkan_h_

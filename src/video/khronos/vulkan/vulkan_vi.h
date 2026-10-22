@@ -1,5 +1,5 @@
-#ifndef VULKAN_VI_H_
-#define VULKAN_VI_H_ 1
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VULKAN_VI_H_
+#ವ್ಯಾಖ್ಯಾನಿಸು VULKAN_VI_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 // VK_NN_vi_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_NN_vi_surface 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NN_vi_surface 1
 
-#define VK_NN_VI_SURFACE_SPEC_VERSION     1
-#define VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NN_VI_SURFACE_SPEC_ಆವೃತ್ತಿ     1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
 
-typedef VkFlags VkViSurfaceCreateFlagsNN;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkFlags VkViSurfaceCreateFlagsNN;
 
-typedef struct VkViSurfaceCreateInfoNN {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
-    const void*                 pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                 p_ಮುಂದಿನ;
     VkViSurfaceCreateFlagsNN    flags;
-    void*                       window;
+    ಶೂನ್ಯ*                       ಕಿಟಕಿ;
 } VkViSurfaceCreateInfoNN;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, ಸ್ಥಿರಾಂಕ VkViSurfaceCreateInfoNN* pCreateInfo, ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateViSurfaceNN(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkCreateViSurfaceNN(
     VkInstance                                  instance,
-    const VkViSurfaceCreateInfoNN*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಸ್ಥಿರಾಂಕ VkViSurfaceCreateInfoNN*              pCreateInfo,
+    ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

@@ -1,5 +1,5 @@
-#ifndef VULKAN_WIN32_H_
-#define VULKAN_WIN32_H_ 1
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VULKAN_WIN32_H_
+#ವ್ಯಾಖ್ಯಾನಿಸು VULKAN_WIN32_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,384 +13,384 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 
 // VK_KHR_win32_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_win32_surface 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_win32_surface 1
 
-#define VK_KHR_WIN32_SURFACE_SPEC_VERSION 6
-#define VK_KHR_WIN32_SURFACE_EXTENSION_NAME "VK_KHR_win32_surface"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_WIN32_SURFACE_SPEC_ಆವೃತ್ತಿ 6
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_WIN32_SURFACE_EXTENSION_NAME "VK_KHR_win32_surface"
 
-typedef VkFlags VkWin32SurfaceCreateFlagsKHR;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkFlags VkWin32SurfaceCreateFlagsKHR;
 
-typedef struct VkWin32SurfaceCreateInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkWin32SurfaceCreateInfoKHR {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                     p_ಮುಂದಿನ;
     VkWin32SurfaceCreateFlagsKHR    flags;
     HINSTANCE                       hinstance;
     HWND                            hwnd;
 } VkWin32SurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateWin32SurfaceKHR)(VkInstance instance, const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkCreateWin32SurfaceKHR)(VkInstance instance, ಸ್ಥಿರಾಂಕ VkWin32SurfaceCreateInfoKHR* pCreateInfo, ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t ಸರತಿ_Family_ಸೂಚ್ಯಂಕ);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateWin32SurfaceKHR(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkCreateWin32SurfaceKHR(
     VkInstance                                  instance,
-    const VkWin32SurfaceCreateInfoKHR*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ಸ್ಥಿರಾಂಕ VkWin32SurfaceCreateInfoKHR*          pCreateInfo,
+    ಸ್ಥಿರಾಂಕ Vk_ಹಂಚಿಕೆ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceWin32PresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex);
-#endif
-#endif
+    uint32_t                                    ಸರತಿ_Family_ಸೂಚ್ಯಂಕ);
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 // VK_KHR_external_memory_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_external_memory_win32 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_external_ಸ್ಮರಣೆ_win32 1
 
-#define VK_KHR_EXTERNAL_MEMORY_WIN32_SPEC_VERSION 1
-#define VK_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME "VK_KHR_external_memory_win32"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_EXTERNAL_ಸ್ಮರಣೆ_WIN32_SPEC_ಆವೃತ್ತಿ 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_EXTERNAL_ಸ್ಮರಣೆ_WIN32_EXTENSION_NAME "VK_KHR_external_memory_win32"
 
-typedef struct VkImportMemoryWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_Import_ಸ್ಮರಣೆ_Win32_Handle_Info_KHR {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                           p_ಮುಂದಿನ;
+    Vk_External_ಸ್ಮರಣೆ_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು    handleType;
     HANDLE                                handle;
     LPCWSTR                               name;
-} VkImportMemoryWin32HandleInfoKHR;
+} Vk_Import_ಸ್ಮರಣೆ_Win32_Handle_Info_KHR;
 
-typedef struct VkExportMemoryWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_Export_ಸ್ಮರಣೆ_Win32_Handle_Info_KHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                   p_ಮುಂದಿನ;
+    ಸ್ಥಿರಾಂಕ SECURITY_ಗುಣಲಕ್ಷಣಗಳು*    p_ಗುಣಲಕ್ಷಣಗಳು;
     DWORD                         dwAccess;
     LPCWSTR                       name;
-} VkExportMemoryWin32HandleInfoKHR;
+} Vk_Export_ಸ್ಮರಣೆ_Win32_Handle_Info_KHR;
 
-typedef struct VkMemoryWin32HandlePropertiesKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_ಸ್ಮರಣೆ_Win32_Handle_Properties_KHR {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           memoryTypeBits;
-} VkMemoryWin32HandlePropertiesKHR;
+    ಶೂನ್ಯ*              p_ಮುಂದಿನ;
+    uint32_t           ಸ್ಮರಣೆ_Type_ಬಿಟ್ಟುಗಳು;
+} Vk_ಸ್ಮರಣೆ_Win32_Handle_Properties_KHR;
 
-typedef struct VkMemoryGetWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_ಸ್ಮರಣೆ_Get_Win32_Handle_Info_KHR {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkDeviceMemory                        memory;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-} VkMemoryGetWin32HandleInfoKHR;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                           p_ಮುಂದಿನ;
+    Vk_Device_ಸ್ಮರಣೆ                        ಸ್ಮರಣೆ;
+    Vk_External_ಸ್ಮರಣೆ_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು    handleType;
+} Vk_ಸ್ಮರಣೆ_Get_Win32_Handle_Info_KHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandleKHR)(VkDevice device, const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandlePropertiesKHR)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, HANDLE handle, VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_Get_ಸ್ಮರಣೆ_Win32_Handle_KHR)(VkDevice device, ಸ್ಥಿರಾಂಕ Vk_ಸ್ಮರಣೆ_Get_Win32_Handle_Info_KHR* pGetWin32HandleInfo, HANDLE* pHandle);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_Get_ಸ್ಮರಣೆ_Win32_Handle_Properties_KHR)(VkDevice device, Vk_External_ಸ್ಮರಣೆ_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು handleType, HANDLE handle, Vk_ಸ್ಮರಣೆ_Win32_Handle_Properties_KHR* p_ಸ್ಮರಣೆ_Win32_Handle_Properties);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleKHR(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_Get_ಸ್ಮರಣೆ_Win32_Handle_KHR(
     VkDevice                                    device,
-    const VkMemoryGetWin32HandleInfoKHR*        pGetWin32HandleInfo,
+    ಸ್ಥಿರಾಂಕ Vk_ಸ್ಮರಣೆ_Get_Win32_Handle_Info_KHR*        pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandlePropertiesKHR(
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_Get_ಸ್ಮರಣೆ_Win32_Handle_Properties_KHR(
     VkDevice                                    device,
-    VkExternalMemoryHandleTypeFlagBits          handleType,
+    Vk_External_ಸ್ಮರಣೆ_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು          handleType,
     HANDLE                                      handle,
-    VkMemoryWin32HandlePropertiesKHR*           pMemoryWin32HandleProperties);
-#endif
-#endif
+    Vk_ಸ್ಮರಣೆ_Win32_Handle_Properties_KHR*           p_ಸ್ಮರಣೆ_Win32_Handle_Properties);
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 // VK_KHR_win32_keyed_mutex is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_win32_keyed_mutex 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_win32_keyed_mutex 1
 
-#define VK_KHR_WIN32_KEYED_MUTEX_SPEC_VERSION 1
-#define VK_KHR_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_KHR_win32_keyed_mutex"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_WIN32_KEYED_MUTEX_SPEC_ಆವೃತ್ತಿ 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_KHR_win32_keyed_mutex"
 
-typedef struct VkWin32KeyedMutexAcquireReleaseInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkWin32KeyedMutexAcquireReleaseInfoKHR {
     VkStructureType          sType;
-    const void*              pNext;
-    uint32_t                 acquireCount;
-    const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
-    const uint32_t*          pAcquireTimeouts;
-    uint32_t                 releaseCount;
-    const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*              p_ಮುಂದಿನ;
+    uint32_t                 acquire_ಎಣಿಕೆ;
+    ಸ್ಥಿರಾಂಕ Vk_Device_ಸ್ಮರಣೆ*    pAcquireSyncs;
+    ಸ್ಥಿರಾಂಕ uint64_t*          p_Acquire_ಕೀಲಿಗಳು;
+    ಸ್ಥಿರಾಂಕ uint32_t*          pAcquireTimeouts;
+    uint32_t                 release_ಎಣಿಕೆ;
+    ಸ್ಥಿರಾಂಕ Vk_Device_ಸ್ಮರಣೆ*    pReleaseSyncs;
+    ಸ್ಥಿರಾಂಕ uint64_t*          p_Release_ಕೀಲಿಗಳು;
 } VkWin32KeyedMutexAcquireReleaseInfoKHR;
 
 
 
 // VK_KHR_external_semaphore_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_external_semaphore_win32 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_external_semaphore_win32 1
 
-#define VK_KHR_EXTERNAL_SEMAPHORE_WIN32_SPEC_VERSION 1
-#define VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME "VK_KHR_external_semaphore_win32"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_EXTERNAL_SEMAPHORE_WIN32_SPEC_ಆವೃತ್ತಿ 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_NAME "VK_KHR_external_semaphore_win32"
 
-typedef struct VkImportSemaphoreWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkImportSemaphoreWin32HandleInfoKHR {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                              p_ಮುಂದಿನ;
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು    handleType;
     HANDLE                                   handle;
     LPCWSTR                                  name;
 } VkImportSemaphoreWin32HandleInfoKHR;
 
-typedef struct VkExportSemaphoreWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkExportSemaphoreWin32HandleInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                   p_ಮುಂದಿನ;
+    ಸ್ಥಿರಾಂಕ SECURITY_ಗುಣಲಕ್ಷಣಗಳು*    p_ಗುಣಲಕ್ಷಣಗಳು;
     DWORD                         dwAccess;
     LPCWSTR                       name;
 } VkExportSemaphoreWin32HandleInfoKHR;
 
-typedef struct VkD3D12FenceSubmitInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkD3D12FenceSubmitInfoKHR {
     VkStructureType    sType;
-    const void*        pNext;
-    uint32_t           waitSemaphoreValuesCount;
-    const uint64_t*    pWaitSemaphoreValues;
-    uint32_t           signalSemaphoreValuesCount;
-    const uint64_t*    pSignalSemaphoreValues;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*        p_ಮುಂದಿನ;
+    uint32_t           wait_Semaphore_ಮೌಲ್ಯಗಳು_ಎಣಿಕೆ;
+    ಸ್ಥಿರಾಂಕ uint64_t*    p_Wait_Semaphore_ಮೌಲ್ಯಗಳು;
+    uint32_t           signal_Semaphore_ಮೌಲ್ಯಗಳು_ಎಣಿಕೆ;
+    ಸ್ಥಿರಾಂಕ uint64_t*    p_Signal_Semaphore_ಮೌಲ್ಯಗಳು;
 } VkD3D12FenceSubmitInfoKHR;
 
-typedef struct VkSemaphoreGetWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkSemaphoreGetWin32HandleInfoKHR {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                              p_ಮುಂದಿನ;
     VkSemaphore                              semaphore;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು    handleType;
 } VkSemaphoreGetWin32HandleInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreWin32HandleKHR)(VkDevice device, const VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreWin32HandleKHR)(VkDevice device, const VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkImportSemaphoreWin32HandleKHR)(VkDevice device, ಸ್ಥಿರಾಂಕ VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkGetSemaphoreWin32HandleKHR)(VkDevice device, ಸ್ಥಿರಾಂಕ VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreWin32HandleKHR(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkImportSemaphoreWin32HandleKHR(
     VkDevice                                    device,
-    const VkImportSemaphoreWin32HandleInfoKHR*  pImportSemaphoreWin32HandleInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreWin32HandleKHR(
+    ಸ್ಥಿರಾಂಕ VkImportSemaphoreWin32HandleInfoKHR*  pImportSemaphoreWin32HandleInfo);
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkGetSemaphoreWin32HandleKHR(
     VkDevice                                    device,
-    const VkSemaphoreGetWin32HandleInfoKHR*     pGetWin32HandleInfo,
+    ಸ್ಥಿರಾಂಕ VkSemaphoreGetWin32HandleInfoKHR*     pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 // VK_KHR_external_fence_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_external_fence_win32 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_external_fence_win32 1
 
-#define VK_KHR_EXTERNAL_FENCE_WIN32_SPEC_VERSION 1
-#define VK_KHR_EXTERNAL_FENCE_WIN32_EXTENSION_NAME "VK_KHR_external_fence_win32"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_EXTERNAL_FENCE_WIN32_SPEC_ಆವೃತ್ತಿ 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_KHR_EXTERNAL_FENCE_WIN32_EXTENSION_NAME "VK_KHR_external_fence_win32"
 
-typedef struct VkImportFenceWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkImportFenceWin32HandleInfoKHR {
     VkStructureType                      sType;
-    const void*                          pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                          p_ಮುಂದಿನ;
     VkFence                              fence;
     VkFenceImportFlags                   flags;
-    VkExternalFenceHandleTypeFlagBits    handleType;
+    Vk_External_Fence_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು    handleType;
     HANDLE                               handle;
     LPCWSTR                              name;
 } VkImportFenceWin32HandleInfoKHR;
 
-typedef struct VkExportFenceWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkExportFenceWin32HandleInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                   p_ಮುಂದಿನ;
+    ಸ್ಥಿರಾಂಕ SECURITY_ಗುಣಲಕ್ಷಣಗಳು*    p_ಗುಣಲಕ್ಷಣಗಳು;
     DWORD                         dwAccess;
     LPCWSTR                       name;
 } VkExportFenceWin32HandleInfoKHR;
 
-typedef struct VkFenceGetWin32HandleInfoKHR {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkFenceGetWin32HandleInfoKHR {
     VkStructureType                      sType;
-    const void*                          pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                          p_ಮುಂದಿನ;
     VkFence                              fence;
-    VkExternalFenceHandleTypeFlagBits    handleType;
+    Vk_External_Fence_Handle_Type_Flag_ಬಿಟ್ಟುಗಳು    handleType;
 } VkFenceGetWin32HandleInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportFenceWin32HandleKHR)(VkDevice device, const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetFenceWin32HandleKHR)(VkDevice device, const VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkImportFenceWin32HandleKHR)(VkDevice device, ಸ್ಥಿರಾಂಕ VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkGetFenceWin32HandleKHR)(VkDevice device, ಸ್ಥಿರಾಂಕ VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportFenceWin32HandleKHR(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkImportFenceWin32HandleKHR(
     VkDevice                                    device,
-    const VkImportFenceWin32HandleInfoKHR*      pImportFenceWin32HandleInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetFenceWin32HandleKHR(
+    ಸ್ಥಿರಾಂಕ VkImportFenceWin32HandleInfoKHR*      pImportFenceWin32HandleInfo);
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkGetFenceWin32HandleKHR(
     VkDevice                                    device,
-    const VkFenceGetWin32HandleInfoKHR*         pGetWin32HandleInfo,
+    ಸ್ಥಿರಾಂಕ VkFenceGetWin32HandleInfoKHR*         pGetWin32HandleInfo,
     HANDLE*                                     pHandle);
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 // VK_NV_external_memory_win32 is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_external_memory_win32 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_external_ಸ್ಮರಣೆ_win32 1
 
-#define VK_NV_EXTERNAL_MEMORY_WIN32_SPEC_VERSION 1
-#define VK_NV_EXTERNAL_MEMORY_WIN32_EXTENSION_NAME "VK_NV_external_memory_win32"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_EXTERNAL_ಸ್ಮರಣೆ_WIN32_SPEC_ಆವೃತ್ತಿ 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_EXTERNAL_ಸ್ಮರಣೆ_WIN32_EXTENSION_NAME "VK_NV_external_memory_win32"
 
-typedef struct VkImportMemoryWin32HandleInfoNV {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_Import_ಸ್ಮರಣೆ_Win32_Handle_Info_NV {
     VkStructureType                      sType;
-    const void*                          pNext;
-    VkExternalMemoryHandleTypeFlagsNV    handleType;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                          p_ಮುಂದಿನ;
+    Vk_External_ಸ್ಮರಣೆ_Handle_Type_Flags_NV    handleType;
     HANDLE                               handle;
-} VkImportMemoryWin32HandleInfoNV;
+} Vk_Import_ಸ್ಮರಣೆ_Win32_Handle_Info_NV;
 
-typedef struct VkExportMemoryWin32HandleInfoNV {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_Export_ಸ್ಮರಣೆ_Win32_Handle_Info_NV {
     VkStructureType               sType;
-    const void*                   pNext;
-    const SECURITY_ATTRIBUTES*    pAttributes;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*                   p_ಮುಂದಿನ;
+    ಸ್ಥಿರಾಂಕ SECURITY_ಗುಣಲಕ್ಷಣಗಳು*    p_ಗುಣಲಕ್ಷಣಗಳು;
     DWORD                         dwAccess;
-} VkExportMemoryWin32HandleInfoNV;
+} Vk_Export_ಸ್ಮರಣೆ_Win32_Handle_Info_NV;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryWin32HandleNV)(VkDevice device, VkDeviceMemory memory, VkExternalMemoryHandleTypeFlagsNV handleType, HANDLE* pHandle);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_Get_ಸ್ಮರಣೆ_Win32_Handle_NV)(VkDevice device, Vk_Device_ಸ್ಮರಣೆ ಸ್ಮರಣೆ, Vk_External_ಸ್ಮರಣೆ_Handle_Type_Flags_NV handleType, HANDLE* pHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryWin32HandleNV(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_Get_ಸ್ಮರಣೆ_Win32_Handle_NV(
     VkDevice                                    device,
-    VkDeviceMemory                              memory,
-    VkExternalMemoryHandleTypeFlagsNV           handleType,
+    Vk_Device_ಸ್ಮರಣೆ                              ಸ್ಮರಣೆ,
+    Vk_External_ಸ್ಮರಣೆ_Handle_Type_Flags_NV           handleType,
     HANDLE*                                     pHandle);
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 // VK_NV_win32_keyed_mutex is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_win32_keyed_mutex 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_win32_keyed_mutex 1
 
-#define VK_NV_WIN32_KEYED_MUTEX_SPEC_VERSION 2
-#define VK_NV_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_NV_win32_keyed_mutex"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_WIN32_KEYED_MUTEX_SPEC_ಆವೃತ್ತಿ 2
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_WIN32_KEYED_MUTEX_EXTENSION_NAME "VK_NV_win32_keyed_mutex"
 
-typedef struct VkWin32KeyedMutexAcquireReleaseInfoNV {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ VkWin32KeyedMutexAcquireReleaseInfoNV {
     VkStructureType          sType;
-    const void*              pNext;
-    uint32_t                 acquireCount;
-    const VkDeviceMemory*    pAcquireSyncs;
-    const uint64_t*          pAcquireKeys;
-    const uint32_t*          pAcquireTimeoutMilliseconds;
-    uint32_t                 releaseCount;
-    const VkDeviceMemory*    pReleaseSyncs;
-    const uint64_t*          pReleaseKeys;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*              p_ಮುಂದಿನ;
+    uint32_t                 acquire_ಎಣಿಕೆ;
+    ಸ್ಥಿರಾಂಕ Vk_Device_ಸ್ಮರಣೆ*    pAcquireSyncs;
+    ಸ್ಥಿರಾಂಕ uint64_t*          p_Acquire_ಕೀಲಿಗಳು;
+    ಸ್ಥಿರಾಂಕ uint32_t*          pAcquireTimeoutMilliseconds;
+    uint32_t                 release_ಎಣಿಕೆ;
+    ಸ್ಥಿರಾಂಕ Vk_Device_ಸ್ಮರಣೆ*    pReleaseSyncs;
+    ಸ್ಥಿರಾಂಕ uint64_t*          p_Release_ಕೀಲಿಗಳು;
 } VkWin32KeyedMutexAcquireReleaseInfoNV;
 
 
 
 // VK_EXT_full_screen_exclusive is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_full_screen_exclusive 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_EXT_ತುಂಬಿದ_screen_exclusive 1
 
-#define VK_EXT_FULL_SCREEN_EXCLUSIVE_SPEC_VERSION 4
-#define VK_EXT_FULL_SCREEN_EXCLUSIVE_EXTENSION_NAME "VK_EXT_full_screen_exclusive"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_EXT_ತುಂಬಿದ_SCREEN_EXCLUSIVE_SPEC_ಆವೃತ್ತಿ 4
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_EXT_ತುಂಬಿದ_SCREEN_EXCLUSIVE_EXTENSION_NAME "VK_EXT_full_screen_exclusive"
 
-typedef enum VkFullScreenExclusiveEXT {
-    VK_FULL_SCREEN_EXCLUSIVE_DEFAULT_EXT = 0,
-    VK_FULL_SCREEN_EXCLUSIVE_ALLOWED_EXT = 1,
-    VK_FULL_SCREEN_EXCLUSIVE_DISALLOWED_EXT = 2,
-    VK_FULL_SCREEN_EXCLUSIVE_APPLICATION_CONTROLLED_EXT = 3,
-    VK_FULL_SCREEN_EXCLUSIVE_MAX_ENUM_EXT = 0x7FFFFFFF
-} VkFullScreenExclusiveEXT;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ Vk_ತುಂಬಿದ_Screen_Exclusive_EXT {
+    VK_ತುಂಬಿದ_SCREEN_EXCLUSIVE_DEFAULT_EXT = 0,
+    VK_ತುಂಬಿದ_SCREEN_EXCLUSIVE_ALLOWED_EXT = 1,
+    VK_ತುಂಬಿದ_SCREEN_EXCLUSIVE_DISALLOWED_EXT = 2,
+    VK_ತುಂಬಿದ_SCREEN_EXCLUSIVE_APPLICATION_CONTROLLED_EXT = 3,
+    VK_ತುಂಬಿದ_SCREEN_EXCLUSIVE_MAX_ENUM_EXT = 0x7FFFFFFF
+} Vk_ತುಂಬಿದ_Screen_Exclusive_EXT;
 
-typedef struct VkSurfaceFullScreenExclusiveInfoEXT {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_Surface_ತುಂಬಿದ_Screen_Exclusive_Info_EXT {
     VkStructureType             sType;
-    void*                       pNext;
-    VkFullScreenExclusiveEXT    fullScreenExclusive;
-} VkSurfaceFullScreenExclusiveInfoEXT;
+    ಶೂನ್ಯ*                       p_ಮುಂದಿನ;
+    Vk_ತುಂಬಿದ_Screen_Exclusive_EXT    ತುಂಬಿದ_Screen_Exclusive;
+} Vk_Surface_ತುಂಬಿದ_Screen_Exclusive_Info_EXT;
 
-typedef struct VkSurfaceCapabilitiesFullScreenExclusiveEXT {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_Surface_Capabilities_ತುಂಬಿದ_Screen_Exclusive_EXT {
     VkStructureType    sType;
-    void*              pNext;
-    VkBool32           fullScreenExclusiveSupported;
-} VkSurfaceCapabilitiesFullScreenExclusiveEXT;
+    ಶೂನ್ಯ*              p_ಮುಂದಿನ;
+    VkBool32           ತುಂಬಿದ_Screen_Exclusive_Supported;
+} Vk_Surface_Capabilities_ತುಂಬಿದ_Screen_Exclusive_EXT;
 
-typedef struct VkSurfaceFullScreenExclusiveWin32InfoEXT {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ Vk_Surface_ತುಂಬಿದ_Screen_Exclusive_Win32_Info_EXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ*        p_ಮುಂದಿನ;
     HMONITOR           hmonitor;
-} VkSurfaceFullScreenExclusiveWin32InfoEXT;
+} Vk_Surface_ತುಂಬಿದ_Screen_Exclusive_Win32_Info_EXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* pPresentModeCount, VkPresentModeKHR* pPresentModes);
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
-typedef VkResult (VKAPI_PTR *PFN_vkReleaseFullScreenExclusiveModeEXT)(VkDevice device, VkSwapchainKHR swapchain);
-typedef VkResult (VKAPI_PTR *PFN_vkGetDeviceGroupSurfacePresentModes2EXT)(VkDevice device, const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, VkDeviceGroupPresentModeFlagsKHR* pModes);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT)(VkPhysicalDevice physicalDevice, ಸ್ಥಿರಾಂಕ VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, uint32_t* p_Present_ಬಹುಲಕ_ಎಣಿಕೆ, Vk_Present_ಬಹುಲಕ_KHR* pPresentModes);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_Acquire_ತುಂಬಿದ_Screen_Exclusive_ಬಹುಲಕ_EXT)(VkDevice device, VkSwapchainKHR swapchain);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_Release_ತುಂಬಿದ_Screen_Exclusive_ಬಹುಲಕ_EXT)(VkDevice device, VkSwapchainKHR swapchain);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_Get_Device_ಗುಂಪು_Surface_Present_Modes2_EXT)(VkDevice device, ಸ್ಥಿರಾಂಕ VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo, Vk_Device_ಗುಂಪು_Present_ಬಹುಲಕ_Flags_KHR* pModes);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModes2EXT(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkGetPhysicalDeviceSurfacePresentModes2EXT(
     VkPhysicalDevice                            physicalDevice,
-    const VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
-    uint32_t*                                   pPresentModeCount,
-    VkPresentModeKHR*                           pPresentModes);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireFullScreenExclusiveModeEXT(
+    ಸ್ಥಿರಾಂಕ VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
+    uint32_t*                                   p_Present_ಬಹುಲಕ_ಎಣಿಕೆ,
+    Vk_Present_ಬಹುಲಕ_KHR*                           pPresentModes);
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_Acquire_ತುಂಬಿದ_Screen_Exclusive_ಬಹುಲಕ_EXT(
     VkDevice                                    device,
     VkSwapchainKHR                              swapchain);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkReleaseFullScreenExclusiveModeEXT(
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_Release_ತುಂಬಿದ_Screen_Exclusive_ಬಹುಲಕ_EXT(
     VkDevice                                    device,
     VkSwapchainKHR                              swapchain);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetDeviceGroupSurfacePresentModes2EXT(
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_Get_Device_ಗುಂಪು_Surface_Present_Modes2_EXT(
     VkDevice                                    device,
-    const VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
-    VkDeviceGroupPresentModeFlagsKHR*           pModes);
-#endif
-#endif
+    ಸ್ಥಿರಾಂಕ VkPhysicalDeviceSurfaceInfo2KHR*      pSurfaceInfo,
+    Vk_Device_ಗುಂಪು_Present_ಬಹುಲಕ_Flags_KHR*           pModes);
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 
 // VK_NV_acquire_winrt_display is a preprocessor guard. Do not pass it to API calls.
-#define VK_NV_acquire_winrt_display 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_acquire_winrt_display 1
 
-#define VK_NV_ACQUIRE_WINRT_DISPLAY_SPEC_VERSION 1
-#define VK_NV_ACQUIRE_WINRT_DISPLAY_EXTENSION_NAME "VK_NV_acquire_winrt_display"
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_ACQUIRE_WINRT_DISPLAY_SPEC_ಆವೃತ್ತಿ 1
+#ವ್ಯಾಖ್ಯಾನಿಸು VK_NV_ACQUIRE_WINRT_DISPLAY_EXTENSION_NAME "VK_NV_acquire_winrt_display"
 
-typedef VkResult (VKAPI_PTR *PFN_vkAcquireWinrtDisplayNV)(VkPhysicalDevice physicalDevice, VkDisplayKHR display);
-typedef VkResult (VKAPI_PTR *PFN_vkGetWinrtDisplayNV)(VkPhysicalDevice physicalDevice, uint32_t deviceRelativeId, VkDisplayKHR* pDisplay);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkAcquireWinrtDisplayNV)(VkPhysicalDevice physicalDevice, VkDisplayKHR display);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vkGetWinrtDisplayNV)(VkPhysicalDevice physicalDevice, uint32_t deviceRelativeId, VkDisplayKHR* pDisplay);
 
-#ifndef VK_NO_PROTOTYPES
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireWinrtDisplayNV(
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkAcquireWinrtDisplayNV(
     VkPhysicalDevice                            physicalDevice,
     VkDisplayKHR                                display);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetWinrtDisplayNV(
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vkGetWinrtDisplayNV(
     VkPhysicalDevice                            physicalDevice,
     uint32_t                                    deviceRelativeId,
     VkDisplayKHR*                               pDisplay);
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_cocoakeyboard_h_
-#define SDL_cocoakeyboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_cocoakeyboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_cocoakeyboard_h_
 
-extern void Cocoa_InitKeyboard(SDL_VideoDevice *_this);
-extern void Cocoa_HandleKeyEvent(SDL_VideoDevice *_this, NSEvent *event);
-extern void Cocoa_QuitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_InitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_Handle_ಕೀಲಿ_Event(SDL_VideoDevice *_this, NSEvent *event);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern bool Cocoa_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool Cocoa_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Cocoa_ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID props);
+ಬಾಹ್ಯ bool Cocoa_Stop_ಪಠ್ಯ_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Cocoa_Update_ಪಠ್ಯ_ಒಳಹರಿವು_Area(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
-extern bool Cocoa_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+ಬಾಹ್ಯ bool Cocoa_ಗಣ_ಕಿಟಕಿ_Keyboard_Grab(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, bool grabbed);
 
-#endif // SDL_cocoakeyboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_cocoakeyboard_h_

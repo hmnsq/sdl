@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_offscreenvulkan_h
-#define SDL_offscreenvulkan_h
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_offscreenvulkan_h
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_offscreenvulkan_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-extern bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, VkInstance instance, const struct VkAllocationCallbacks *allocator, VkSurfaceKHR *surface);
-extern void OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, const struct VkAllocationCallbacks *allocator);
+ಬಾಹ್ಯ bool OFFSCREEN_Vulkan_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ ಶೂನ್ಯ OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಅಕ್ಷರ ಸ್ಥಿರಾಂಕ *ಸ್ಥಿರಾಂಕ *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ಎಣಿಕೆ_2);
+ಬಾಹ್ಯ bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, VkInstance instance, ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator, VkSurfaceKHR *surface);
+ಬಾಹ್ಯ ಶೂನ್ಯ OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this, VkInstance instance, VkSurfaceKHR surface, ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator);
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_VULKAN
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_VULKAN
 
-#endif // SDL_offscreenvulkan_h
+#ಆದರೆ_ಅಂತ್ಯ // SDL_offscreenvulkan_h

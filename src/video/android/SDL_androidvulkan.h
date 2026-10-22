@@ -24,29 +24,29 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_androidvulkan_h_
-#define SDL_androidvulkan_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_androidvulkan_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_androidvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_vulkan_internal.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
+#ಆದರೆ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
 
-extern bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                         SDL_Window *window,
+ಬಾಹ್ಯ bool Android_Vulkan_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಅಕ್ಷರ ಸ್ಥಿರಾಂಕ * ಸ್ಥಿರಾಂಕ *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *ಎಣಿಕೆ_2);
+ಬಾಹ್ಯ bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                         SDL_ಕಿಟಕಿ *ಕಿಟಕಿ,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          ಸ್ಥಿರಾಂಕ ರಚನೆ Vk_ಹಂಚಿಕೆ_Callbacks *allocator);
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // SDL_androidvulkan_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_androidvulkan_h_

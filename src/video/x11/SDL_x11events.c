@@ -18,129 +18,129 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11
 
-#include <sys/types.h>
-#include <sys/time.h>
-#include <signal.h>
-#include <unistd.h>
-#include <limits.h> // For INT_MAX
+#ಅನ್ತರ್ಭಾವ <sys/types.h>
+#ಅನ್ತರ್ಭಾವ <sys/time.h>
+#ಅನ್ತರ್ಭಾವ <signal.h>
+#ಅನ್ತರ್ಭಾವ <unistd.h>
+#ಅನ್ತರ್ಭಾವ <limits.h> // For INT_MAX
 
-#include "SDL_x11video.h"
-#include "SDL_x11pen.h"
-#include "SDL_x11touch.h"
-#include "SDL_x11xinput2.h"
-#include "SDL_x11xfixes.h"
-#include "SDL_x11settings.h"
-#include "../SDL_clipboard_c.h"
-#include "SDL_x11xsync.h"
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../core/linux/SDL_system_theme.h"
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11video.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11pen.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11touch.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xinput2.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xfixes.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11settings.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_clipboard_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_x11xsync.h"
+#ಅನ್ತರ್ಭಾವ "../../core/unix/SDL_poll.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_mouse_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_touch_c.h"
+#ಅನ್ತರ್ಭಾವ "../../core/linux/SDL_system_theme.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#include <stdio.h>
+#ಅನ್ತರ್ಭಾವ <stdio.h>
 
-#if 0
-#define DEBUG_XEVENTS
-#endif
+#ಆದರೆ 0
+#ವ್ಯಾಖ್ಯಾನಿಸು DEBUG_XEVENTS
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_TOPLEFT
-#define _NET_WM_MOVERESIZE_SIZE_TOPLEFT 0
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_TOPLEFT
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_TOPLEFT 0
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_TOP
-#define _NET_WM_MOVERESIZE_SIZE_TOP 1
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_ತುದಿ
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_ತುದಿ 1
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_TOPRIGHT
-#define _NET_WM_MOVERESIZE_SIZE_TOPRIGHT 2
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_TOPRIGHT
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_TOPRIGHT 2
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_RIGHT
-#define _NET_WM_MOVERESIZE_SIZE_RIGHT 3
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_ಬಲ
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_ಬಲ 3
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT
-#define _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT 4
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOMRIGHT
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOMRIGHT 4
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_BOTTOM
-#define _NET_WM_MOVERESIZE_SIZE_BOTTOM 5
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOM
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOM 5
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT
-#define _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT 6
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOMLEFT
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOMLEFT 6
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_SIZE_LEFT
-#define _NET_WM_MOVERESIZE_SIZE_LEFT 7
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NET_WM_MOVERESIZE_ಗಾತ್ರ_ಎಡ
+#ವ್ಯಾಖ್ಯಾನಿಸು NET_WM_MOVERESIZE_ಗಾತ್ರ_ಎಡ 7
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef _NET_WM_MOVERESIZE_MOVE
-#define _NET_WM_MOVERESIZE_MOVE 8
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ _NET_WM_MOVERESIZE_MOVE
+#ವ್ಯಾಖ್ಯಾನಿಸು _NET_WM_MOVERESIZE_MOVE 8
+#ಆದರೆ_ಅಂತ್ಯ
 
-typedef struct
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ
 {
-    unsigned char *data;
-    int format, count;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ದತ್ತಾಂಶ;
+    ಪೂರ್ಣಾಂಕ format, ಎಣಿಕೆ_2;
     Atom type;
 } SDL_x11Prop;
 
 /* Reads property
    Must call X11_XFree on results
  */
-static void X11_ReadProperty(SDL_x11Prop *p, Display *disp, Window w, Atom prop)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_ReadProperty(SDL_x11Prop *p, Display *disp, ಕಿಟಕಿ_2 w, Atom prop)
 {
-    unsigned char *ret = NULL;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ret = ಖಾಲಿ;
     Atom type;
-    int fmt;
-    unsigned long count;
-    unsigned long bytes_left;
-    int bytes_fetch = 0;
+    ಪೂರ್ಣಾಂಕ fmt;
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ಎಣಿಕೆ_2;
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ಬೈಟುಗಳು_ಎಡ;
+    ಪೂರ್ಣಾಂಕ ಬೈಟುಗಳು_fetch = 0;
 
-    do {
-        if (ret) {
+    ಮಾಡು {
+        ಆದರೆ (ret) {
             X11_XFree(ret);
         }
-        X11_XGetWindowProperty(disp, w, prop, 0, bytes_fetch, False, AnyPropertyType, &type, &fmt, &count, &bytes_left, &ret);
-        bytes_fetch += bytes_left;
-    } while (bytes_left != 0);
+        X11_XGet_ಕಿಟಕಿ_Property(disp, w, prop, 0, ಬೈಟುಗಳು_fetch, False, AnyPropertyType, &type, &fmt, &ಎಣಿಕೆ_2, &ಬೈಟುಗಳು_ಎಡ, &ret);
+        ಬೈಟುಗಳು_fetch += ಬೈಟುಗಳು_ಎಡ;
+    } ಆಗ (ಬೈಟುಗಳು_ಎಡ != 0);
 
-    p->data = ret;
+    p->ದತ್ತಾಂಶ = ret;
     p->format = fmt;
-    p->count = count;
+    p->ಎಣಿಕೆ_2 = ಎಣಿಕೆ_2;
     p->type = type;
 }
 
 /* Find text-uri-list in a list of targets and return it's atom
    if available, else return None */
-static Atom X11_PickTarget(Display *disp, Atom list[], int list_count)
+ಸ್ಥಿರ Atom X11_Pick_ಗುರಿ(Display *disp, Atom list[], ಪೂರ್ಣಾಂಕ list_ಎಣಿಕೆ)
 {
-    const Atom text_uri_request = X11_XInternAtom(disp, "text/uri-list", False);
+    ಸ್ಥಿರಾಂಕ Atom ಪಠ್ಯ_uri_request = X11_XInternAtom(disp, "text/uri-list", False);
     Atom request = None;
     Atom preferred = None;
 
-    for (int i = 0; i < list_count && request != text_uri_request; i++) {
-        char *name = X11_XGetAtomName(disp, list[i]);
+    ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < list_ಎಣಿಕೆ && request != ಪಠ್ಯ_uri_request; i++) {
+        ಅಕ್ಷರ *name = X11_XGetAtomName(disp, list[i]);
         // Preferred MIME targets
-        if ((SDL_strcmp("text/uri-list", name) == 0) ||
+        ಆದರೆ ((SDL_strcmp("text/uri-list", name) == 0) ||
             (SDL_strcmp("text/plain;charset=utf-8", name) == 0) ||
             (SDL_strcmp("UTF8_STRING", name) == 0)) {
-            if (preferred == None) {
+            ಆದರೆ (preferred == None) {
                 preferred = list[i];
             }
             request = list[i];
         }
         // Fallback MIME targets
-        if ((SDL_strcmp("text/plain", name) == 0) ||
+        ಆದರೆ ((SDL_strcmp("text/plain", name) == 0) ||
             (SDL_strcmp("TEXT", name) == 0)) {
-            if (request == None) {
+            ಆದರೆ (request == None) {
                 request = list[i];
             }
         }
@@ -148,136 +148,136 @@ static Atom X11_PickTarget(Display *disp, Atom list[], int list_count)
     }
 
     // The type 'text/uri-list' is preferred over all others.
-    if (preferred != None && request != text_uri_request) {
+    ಆದರೆ (preferred != None && request != ಪಠ್ಯ_uri_request) {
         request = preferred;
     }
-    return request;
+    ಹಿಂತಿರುಗಿ request;
 }
 
 /* Wrapper for X11_PickTarget for a maximum of three targets, a special
    case in the Xdnd protocol */
-static Atom X11_PickTargetFromAtoms(Display *disp, Atom a0, Atom a1, Atom a2)
+ಸ್ಥಿರ Atom X11_Pick_ಗುರಿ_From_Atoms(Display *disp, Atom a0, Atom a1, Atom a2)
 {
-    int count = 0;
+    ಪೂರ್ಣಾಂಕ ಎಣಿಕೆ_2 = 0;
     Atom atom[3];
-    if (a0 != None) {
-        atom[count++] = a0;
+    ಆದರೆ (a0 != None) {
+        atom[ಎಣಿಕೆ_2++] = a0;
     }
-    if (a1 != None) {
-        atom[count++] = a1;
+    ಆದರೆ (a1 != None) {
+        atom[ಎಣಿಕೆ_2++] = a1;
     }
-    if (a2 != None) {
-        atom[count++] = a2;
+    ಆದರೆ (a2 != None) {
+        atom[ಎಣಿಕೆ_2++] = a2;
     }
-    return X11_PickTarget(disp, atom, count);
+    ಹಿಂತಿರುಗಿ X11_Pick_ಗುರಿ(disp, atom, ಎಣಿಕೆ_2);
 }
 
-struct KeyRepeatCheckData
+ರಚನೆ ಕೀಲಿ_Repeat_Check_ದತ್ತಾಂಶ
 {
     XEvent *event;
-    bool found;
+    bool ಸಿಕ್ಕಿತು;
 };
 
-static Bool X11_KeyRepeatCheckIfEvent(Display *display, XEvent *chkev,
+ಸ್ಥಿರ Bool X11_ಕೀಲಿ_Repeat_Check_If_Event(Display *display, XEvent *chkev,
                                       XPointer arg)
 {
-    struct KeyRepeatCheckData *d = (struct KeyRepeatCheckData *)arg;
-    if (chkev->type == KeyPress && chkev->xkey.keycode == d->event->xkey.keycode && chkev->xkey.time - d->event->xkey.time < 2) {
-        d->found = true;
+    ರಚನೆ ಕೀಲಿ_Repeat_Check_ದತ್ತಾಂಶ *d = (ರಚನೆ ಕೀಲಿ_Repeat_Check_ದತ್ತಾಂಶ *)arg;
+    ಆದರೆ (chkev->type == ಕೀಲಿ_Press && chkev->xkey.keycode == d->event->xkey.keycode && chkev->xkey.ಸಮಯ - d->event->xkey.ಸಮಯ < 2) {
+        d->ಸಿಕ್ಕಿತು = true;
     }
-    return False;
+    ಹಿಂತಿರುಗಿ False;
 }
 
 /* Check to see if this is a repeated key.
    (idea shamelessly lifted from GII -- thanks guys! :)
  */
-static bool X11_KeyRepeat(Display *display, XEvent *event)
+ಸ್ಥಿರ bool X11_ಕೀಲಿ_Repeat(Display *display, XEvent *event)
 {
     XEvent dummyev;
-    struct KeyRepeatCheckData d;
+    ರಚನೆ ಕೀಲಿ_Repeat_Check_ದತ್ತಾಂಶ d;
     d.event = event;
-    d.found = false;
-    if (X11_XPending(display)) {
-        X11_XCheckIfEvent(display, &dummyev, X11_KeyRepeatCheckIfEvent, (XPointer)&d);
+    d.ಸಿಕ್ಕಿತು = false;
+    ಆದರೆ (X11_XPending(display)) {
+        X11_XCheckIfEvent(display, &dummyev, X11_ಕೀಲಿ_Repeat_Check_If_Event, (XPointer)&d);
     }
-    return d.found;
+    ಹಿಂತಿರುಗಿ d.ಸಿಕ್ಕಿತು;
 }
 
-bool X11_IsWheelEvent(int button, int *xticks, int *yticks)
+bool X11_IsWheelEvent(ಪೂರ್ಣಾಂಕ button, ಪೂರ್ಣಾಂಕ *xticks, ಪೂರ್ಣಾಂಕ *yticks)
 {
     /* according to the xlib docs, no specific mouse wheel events exist.
        However, the defacto standard is that the vertical wheel is X buttons
        4 (up) and 5 (down) and a horizontal wheel is 6 (left) and 7 (right). */
 
     // Xlib defines "Button1" through 5, so we just use literals here.
-    switch (button) {
-    case 4:
+    ಆಯ್ಕೆ (button) {
+    ಸ್ಥಿತಿ 4:
         *yticks = 1;
-        return true;
-    case 5:
+        ಹಿಂತಿರುಗಿ true;
+    ಸ್ಥಿತಿ 5:
         *yticks = -1;
-        return true;
-    case 6:
+        ಹಿಂತಿರುಗಿ true;
+    ಸ್ಥಿತಿ 6:
         *xticks = 1;
-        return true;
-    case 7:
+        ಹಿಂತಿರುಗಿ true;
+    ಸ್ಥಿತಿ 7:
         *xticks = -1;
-        return true;
-    default:
-        break;
+        ಹಿಂತಿರುಗಿ true;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ನಿಲ್ಲಿಸು;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
 // An X11 event hook
-static SDL_X11EventHook g_X11EventHook = NULL;
-static void *g_X11EventHookData = NULL;
+ಸ್ಥಿರ SDL_X11EventHook g_X11EventHook = ಖಾಲಿ;
+ಸ್ಥಿರ ಶೂನ್ಯ *g_X11_Event_Hook_ದತ್ತಾಂಶ = ಖಾಲಿ;
 
-void SDL_SetX11EventHook(SDL_X11EventHook callback, void *userdata)
+ಶೂನ್ಯ SDL_ಗಣ_X11_Event_Hook(SDL_X11EventHook callback, ಶೂನ್ಯ *userdata)
 {
     g_X11EventHook = callback;
-    g_X11EventHookData = userdata;
+    g_X11_Event_Hook_ದತ್ತಾಂಶ = userdata;
 }
 
-#ifdef SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
-static void X11_HandleGenericEvent(SDL_VideoDevice *_this, XEvent *xev)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
+ಸ್ಥಿರ ಶೂನ್ಯ X11_HandleGenericEvent(SDL_VideoDevice *_this, XEvent *xev)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
 
     // event is a union, so cookie == &event, but this is type safe.
     XGenericEventCookie *cookie = &xev->xcookie;
-    if (X11_XGetEventData(videodata->display, cookie)) {
-        if (!g_X11EventHook || g_X11EventHook(g_X11EventHookData, xev)) {
+    ಆದರೆ (X11_XGet_Event_ದತ್ತಾಂಶ(videodata->display, cookie)) {
+        ಆದರೆ (!g_X11EventHook || g_X11EventHook(g_X11_Event_Hook_ದತ್ತಾಂಶ, xev)) {
             X11_HandleXinput2Event(_this, cookie);
         }
-        X11_XFreeEventData(videodata->display, cookie);
+        X11_XFree_Event_ದತ್ತಾಂಶ(videodata->display, cookie);
     }
 }
-#endif // SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
 
-static void X11_UpdateSystemKeyModifiers(SDL_VideoData *viddata)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_Update_System_ಕೀಲಿ_Modifiers(SDL_Video_ದತ್ತಾಂಶ *viddata)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-    if (viddata->keyboard.xkb_enabled) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+    ಆದರೆ (viddata->keyboard.xkb_enabled) {
         XkbStateRec xkb_state;
-        if (X11_XkbGetState(viddata->display, XkbUseCoreKbd, &xkb_state) == Success) {
-            viddata->keyboard.pressed_modifiers = xkb_state.base_mods;
+        ಆದರೆ (X11_XkbGetState(viddata->display, XkbUseCoreKbd, &xkb_state) == Success) {
+            viddata->keyboard.pressed_modifiers = xkb_state.ತಳ_mods;
             viddata->keyboard.locked_modifiers = xkb_state.latched_mods | xkb_state.locked_mods;
         }
-    } else
-#endif
+    } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
         {
-        Window junk_window;
-        int x, y;
-        unsigned int mod_mask;
+        ಕಿಟಕಿ_2 junk_ಕಿಟಕಿ;
+        ಪೂರ್ಣಾಂಕ x, y;
+        ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ mod_ಮುಖವಾಡ;
 
-        X11_XQueryPointer(viddata->display, DefaultRootWindow(viddata->display), &junk_window, &junk_window, &x, &y, &x, &y, &mod_mask);
-        viddata->keyboard.pressed_modifiers = mod_mask & (ShiftMask | ControlMask | Mod1Mask | Mod3Mask | Mod4Mask | Mod5Mask);
-        viddata->keyboard.locked_modifiers = mod_mask & (LockMask | viddata->keyboard.numlock_mask | viddata->keyboard.scrolllock_mask);
+        X11_XQuery_ಸೂಚಕ(viddata->display, Default_ಬೇರು_ಕಿಟಕಿ(viddata->display), &junk_ಕಿಟಕಿ, &junk_ಕಿಟಕಿ, &x, &y, &x, &y, &mod_ಮುಖವಾಡ);
+        viddata->keyboard.pressed_modifiers = mod_ಮುಖವಾಡ & (ಸರಿಸು_ಮುಖವಾಡ_2 | Control_ಮುಖವಾಡ | Mod1_ಮುಖವಾಡ | Mod3_ಮುಖವಾಡ | Mod4_ಮುಖವಾಡ | Mod5_ಮುಖವಾಡ);
+        viddata->keyboard.locked_modifiers = mod_ಮುಖವಾಡ & (ಬೀಗ_ಮುಖವಾಡ | viddata->keyboard.numlock_ಮುಖವಾಡ | viddata->keyboard.scrolllock_ಮುಖವಾಡ);
     }
 }
 
-static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_ReconcileModifiers(SDL_Video_ದತ್ತಾಂಶ *viddata, bool ಕೀಲಿ_pressed)
 {
     /* Handle explicit pressed modifier state. This will correct the modifier state
      * if common modifier keys were remapped and the modifiers presumed to be set
@@ -286,80 +286,80 @@ static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
      * modifier state was set by a keypress before the corresponding key event
      * was received.
      */
-    if (key_pressed) {
-        if (viddata->keyboard.pressed_modifiers & ShiftMask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_SHIFT) {
-                viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_SHIFT;
-                viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_SHIFT);
+    ಆದರೆ (ಕೀಲಿ_pressed) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & ಸರಿಸು_ಮುಖವಾಡ_2) {
+            ಆದರೆ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ಸರಿಸು) {
+                viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_ಸರಿಸು;
+                viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ಸರಿಸು);
             }
         }
 
-        if (viddata->keyboard.pressed_modifiers & ControlMask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_CTRL) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & Control_ಮುಖವಾಡ) {
+            ಆದರೆ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_CTRL) {
                 viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_CTRL;
                 viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_CTRL);
             }
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_mask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ALT) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_ಮುಖವಾಡ) {
+            ಆದರೆ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ALT) {
                 viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_ALT;
                 viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_ALT);
             }
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_mask) {
-            if (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_GUI) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_ಮುಖವಾಡ) {
+            ಆದರೆ (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_GUI) {
                 viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_GUI;
                 viddata->keyboard.sdl_pressed_modifiers |= (viddata->keyboard.sdl_physically_pressed_modifiers & SDL_KMOD_GUI);
             }
         }
-    } else {
-        if (viddata->keyboard.pressed_modifiers & ShiftMask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_SHIFT)) {
-                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_SHIFT;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & ಸರಿಸು_ಮುಖವಾಡ_2) {
+            ಆದರೆ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ಸರಿಸು)) {
+                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_ಸರಿಸು;
             }
-        } else {
-            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_SHIFT;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_ಸರಿಸು;
         }
 
-        if (viddata->keyboard.pressed_modifiers & ControlMask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL)) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & Control_ಮುಖವಾಡ) {
+            ಆದರೆ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_CTRL;
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_CTRL;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT)) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & viddata->keyboard.alt_ಮುಖವಾಡ) {
+            ಆದರೆ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_ALT;
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_ALT;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI)) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & viddata->keyboard.gui_ಮುಖವಾಡ) {
+            ಆದರೆ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_GUI;
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_GUI;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.level3_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_MODE)) {
-                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_MODE;
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & viddata->keyboard.level3_ಮುಖವಾಡ) {
+            ಆದರೆ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ಬಹುಲಕ)) {
+                viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_ಬಹುಲಕ;
             }
-        } else {
-            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_MODE;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_ಬಹುಲಕ;
         }
 
-        if (viddata->keyboard.pressed_modifiers & viddata->keyboard.level5_mask) {
-            if (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_LEVEL5)) {
+        ಆದರೆ (viddata->keyboard.pressed_modifiers & viddata->keyboard.level5_ಮುಖವಾಡ) {
+            ಆದರೆ (!(viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_LEVEL5)) {
                 viddata->keyboard.sdl_pressed_modifiers |= SDL_KMOD_LEVEL5;
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             viddata->keyboard.sdl_pressed_modifiers &= ~SDL_KMOD_LEVEL5;
         }
     }
@@ -371,87 +371,87 @@ static void X11_ReconcileModifiers(SDL_VideoData *viddata, bool key_pressed)
      * The modifier will remain active until the latch/lock is released by
      * the system.
      */
-    if (viddata->keyboard.locked_modifiers & ShiftMask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_SHIFT) {
-            viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_SHIFT;
-            viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_SHIFT);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_SHIFT)) {
-            viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_SHIFT;
+    ಆದರೆ (viddata->keyboard.locked_modifiers & ಸರಿಸು_ಮುಖವಾಡ_2) {
+        ಆದರೆ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ಸರಿಸು) {
+            viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ಸರಿಸು;
+            viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ಸರಿಸು);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_ಸರಿಸು)) {
+            viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_ಸರಿಸು;
         }
-    } else {
-        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_SHIFT;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ಸರಿಸು;
     }
 
-    if (viddata->keyboard.locked_modifiers & ControlMask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL) {
+    ಆದರೆ (viddata->keyboard.locked_modifiers & Control_ಮುಖವಾಡ) {
+        ಆದರೆ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL) {
             viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_CTRL;
             viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_CTRL);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_CTRL)) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_CTRL)) {
             viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_CTRL;
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_CTRL;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.alt_mask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT) {
+    ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.alt_ಮುಖವಾಡ) {
+        ಆದರೆ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT) {
             viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ALT;
             viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_ALT);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_ALT)) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_ALT)) {
             viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_ALT;
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ALT;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.gui_mask) {
-        if (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI) {
+    ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.gui_ಮುಖವಾಡ) {
+        ಆದರೆ (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI) {
             viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_GUI;
             viddata->keyboard.sdl_locked_modifiers |= (viddata->keyboard.sdl_pressed_modifiers & SDL_KMOD_GUI);
-        } else if (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_GUI)) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!(viddata->keyboard.sdl_locked_modifiers & SDL_KMOD_GUI)) {
             viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_GUI;
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_GUI;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.level3_mask) {
-        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_MODE;
-    } else {
-        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_MODE;
+    ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.level3_ಮುಖವಾಡ) {
+        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_ಬಹುಲಕ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ಬಹುಲಕ;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.level5_mask) {
+    ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.level5_ಮುಖವಾಡ) {
         viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_LEVEL5;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_LEVEL5;
     }
 
     // Capslock, Numlock, and Scrolllock can only be locked, not pressed.
-    if (viddata->keyboard.locked_modifiers & LockMask) {
+    ಆದರೆ (viddata->keyboard.locked_modifiers & ಬೀಗ_ಮುಖವಾಡ) {
         viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_CAPS;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_CAPS;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_mask) {
-        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_NUM;
-    } else {
-        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_NUM;
+    ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_ಮುಖವಾಡ) {
+        viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_ಅಂಕೆ;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_ಅಂಕೆ;
     }
 
-    if (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_mask) {
+    ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_ಮುಖವಾಡ) {
         viddata->keyboard.sdl_locked_modifiers |= SDL_KMOD_SCROLL;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         viddata->keyboard.sdl_locked_modifiers &= ~SDL_KMOD_SCROLL;
     }
 
-    SDL_SetModState(viddata->keyboard.sdl_pressed_modifiers | viddata->keyboard.sdl_locked_modifiers);
+    SDL_ಗಣ_Mod_State(viddata->keyboard.sdl_pressed_modifiers | viddata->keyboard.sdl_locked_modifiers);
 }
 
-static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode, bool pressed)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_Handle_Modifier_ಕೀಲಿಗಳು(SDL_Video_ದತ್ತಾಂಶ *viddata, SDL_Scancode scancode, bool pressed)
 {
-    const SDL_Keycode keycode = SDL_GetKeyFromScancode(scancode, SDL_KMOD_NONE, false);
+    ಸ್ಥಿರಾಂಕ SDL_Keycode keycode = SDL_Get_ಕೀಲಿ_From_Scancode(scancode, SDL_KMOD_NONE, false);
     SDL_Keymod mod = SDL_KMOD_NONE;
 
     /* SDL clients expect modifier state to be activated at the same time as the
@@ -460,76 +460,76 @@ static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode
      * keypress event. If this is wrong, it will be corrected when the explicit
      * modifier state is checked.
      */
-    switch (keycode) {
-    case SDLK_LSHIFT:
+    ಆಯ್ಕೆ (keycode) {
+    ಸ್ಥಿತಿ SDLK_LSHIFT:
         mod = SDL_KMOD_LSHIFT;
-        break;
-    case SDLK_RSHIFT:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_RSHIFT:
         mod = SDL_KMOD_RSHIFT;
-        break;
-    case SDLK_LCTRL:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_LCTRL:
         mod = SDL_KMOD_LCTRL;
-        break;
-    case SDLK_RCTRL:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_RCTRL:
         mod = SDL_KMOD_RCTRL;
-        break;
-    case SDLK_LALT:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_LALT:
         mod = SDL_KMOD_LALT;
-        break;
-    case SDLK_RALT:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_RALT:
         mod = SDL_KMOD_RALT;
-        break;
-    case SDLK_LGUI:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_LGUI:
         mod = SDL_KMOD_LGUI;
-        break;
-    case SDLK_RGUI:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_RGUI:
         mod = SDL_KMOD_RGUI;
-        break;
-    case SDLK_MODE:
-        mod = SDL_KMOD_MODE;
-        break;
-    case SDLK_LEVEL5_SHIFT:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_ಬಹುಲಕ:
+        mod = SDL_KMOD_ಬಹುಲಕ;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_LEVEL5_ಸರಿಸು:
         mod = SDL_KMOD_LEVEL5;
-        break;
-    case SDLK_CAPSLOCK:
-    case SDLK_NUMLOCKCLEAR:
-    case SDLK_SCROLLLOCK:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ SDLK_CAPSLOCK:
+    ಸ್ಥಿತಿ SDLK_NUMLOCKCLEAR:
+    ಸ್ಥಿತಿ SDLK_SCROLLLOCK:
     {
         // XKB provides the latched/locked state explicitly.
-        if (viddata->keyboard.xkb_enabled) {
+        ಆದರೆ (viddata->keyboard.xkb_enabled) {
             /* For locking modifier keys, query the lock state directly, or we may have to wait until the next
              * key press event to know if a lock was actually activated from the key event.
              */
-            unsigned int cur_mask = viddata->keyboard.locked_modifiers;
-            X11_UpdateSystemKeyModifiers(viddata);
+            ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ cur_ಮುಖವಾಡ = viddata->keyboard.locked_modifiers;
+            X11_Update_System_ಕೀಲಿ_Modifiers(viddata);
 
-            if (viddata->keyboard.locked_modifiers & LockMask) {
-                cur_mask |= LockMask;
-            } else {
-                cur_mask &= ~LockMask;
+            ಆದರೆ (viddata->keyboard.locked_modifiers & ಬೀಗ_ಮುಖವಾಡ) {
+                cur_ಮುಖವಾಡ |= ಬೀಗ_ಮುಖವಾಡ;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                cur_ಮುಖವಾಡ &= ~ಬೀಗ_ಮುಖವಾಡ;
             }
-            if (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_mask) {
-                cur_mask |= viddata->keyboard.numlock_mask;
-            } else {
-                cur_mask &= ~viddata->keyboard.numlock_mask;
+            ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.numlock_ಮುಖವಾಡ) {
+                cur_ಮುಖವಾಡ |= viddata->keyboard.numlock_ಮುಖವಾಡ;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                cur_ಮುಖವಾಡ &= ~viddata->keyboard.numlock_ಮುಖವಾಡ;
             }
-            if (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_mask) {
-                cur_mask |= viddata->keyboard.scrolllock_mask;
-            } else {
-                cur_mask &= ~viddata->keyboard.scrolllock_mask;
+            ಆದರೆ (viddata->keyboard.locked_modifiers & viddata->keyboard.scrolllock_ಮುಖವಾಡ) {
+                cur_ಮುಖವಾಡ |= viddata->keyboard.scrolllock_ಮುಖವಾಡ;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                cur_ಮುಖವಾಡ &= ~viddata->keyboard.scrolllock_ಮುಖವಾಡ;
             }
 
-            viddata->keyboard.locked_modifiers = cur_mask;
+            viddata->keyboard.locked_modifiers = cur_ಮುಖವಾಡ;
         }
-    } break;
-    default:
-        return;
+    } ನಿಲ್ಲಿಸು;
+    ಪೂರ್ವನಿಯೋಜಿತ:
+        ಹಿಂತಿರುಗಿ;
     }
 
-    if (pressed) {
+    ಆದರೆ (pressed) {
         viddata->keyboard.sdl_pressed_modifiers |= mod;
         viddata->keyboard.sdl_physically_pressed_modifiers |= mod;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         viddata->keyboard.sdl_pressed_modifiers &= ~mod;
         viddata->keyboard.sdl_physically_pressed_modifiers &= ~mod;
     }
@@ -537,364 +537,364 @@ static void X11_HandleModifierKeys(SDL_VideoData *viddata, SDL_Scancode scancode
     X11_ReconcileModifiers(viddata, true);
 }
 
-void X11_ReconcileKeyboardState(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_ReconcileKeyboardState(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
     Display *display = videodata->display;
-    char keys[32];
+    ಅಕ್ಷರ ಕೀಲಿಗಳು[32];
 
     // Rebuild the modifier state in case it changed while focus was lost.
-    X11_UpdateSystemKeyModifiers(videodata);
+    X11_Update_System_ಕೀಲಿ_Modifiers(videodata);
     X11_ReconcileModifiers(videodata, false);
 
     // Keep caps, num, and scroll, but clear the others until we have updated key state.
     videodata->keyboard.sdl_pressed_modifiers = 0;
     videodata->keyboard.sdl_physically_pressed_modifiers = 0;
-    videodata->keyboard.sdl_locked_modifiers &= SDL_KMOD_CAPS | SDL_KMOD_NUM | SDL_KMOD_SCROLL;
+    videodata->keyboard.sdl_locked_modifiers &= SDL_KMOD_CAPS | SDL_KMOD_ಅಂಕೆ | SDL_KMOD_SCROLL;
     videodata->keyboard.pressed_modifiers = 0;
-    videodata->keyboard.locked_modifiers &= LockMask | videodata->keyboard.numlock_mask| videodata->keyboard.scrolllock_mask;
+    videodata->keyboard.locked_modifiers &= ಬೀಗ_ಮುಖವಾಡ | videodata->keyboard.numlock_ಮುಖವಾಡ| videodata->keyboard.scrolllock_ಮುಖವಾಡ;
 
-    X11_XQueryKeymap(display, keys);
+    X11_XQueryKeymap(display, ಕೀಲಿಗಳು);
 
-    const bool *keystate = SDL_GetKeyboardState(NULL);
-    for (Uint32 keycode = 0; keycode < SDL_arraysize(videodata->keyboard.key_layout); ++keycode) {
-        const SDL_Scancode scancode = videodata->keyboard.key_layout[keycode];
-        const bool x11KeyPressed = (keys[keycode / 8] & (1 << (keycode % 8))) != 0;
-        const bool sdlKeyPressed = keystate[scancode];
+    ಸ್ಥಿರಾಂಕ bool *keystate = SDL_GetKeyboardState(ಖಾಲಿ);
+    ಗಾಗಿ (Uint32 keycode = 0; keycode < SDL_arraysize(videodata->keyboard.ಕೀಲಿ_layout); ++keycode) {
+        ಸ್ಥಿರಾಂಕ SDL_Scancode scancode = videodata->keyboard.ಕೀಲಿ_layout[keycode];
+        ಸ್ಥಿರಾಂಕ bool x11_ಕೀಲಿ_Pressed = (ಕೀಲಿಗಳು[keycode / 8] & (1 << (keycode % 8))) != 0;
+        ಸ್ಥಿರಾಂಕ bool sdl_ಕೀಲಿ_Pressed = keystate[scancode];
 
-        if (x11KeyPressed && !sdlKeyPressed) {
+        ಆದರೆ (x11_ಕೀಲಿ_Pressed && !sdl_ಕೀಲಿ_Pressed) {
             // Only update modifier state for keys that are pressed in another application
-            switch (SDL_GetKeyFromScancode(scancode, SDL_KMOD_NONE, false)) {
-            case SDLK_LCTRL:
-            case SDLK_RCTRL:
-            case SDLK_LSHIFT:
-            case SDLK_RSHIFT:
-            case SDLK_LALT:
-            case SDLK_RALT:
-            case SDLK_LGUI:
-            case SDLK_RGUI:
-            case SDLK_MODE:
-            case SDLK_LEVEL5_SHIFT:
-                X11_HandleModifierKeys(videodata, scancode, true);
-                SDL_SendKeyboardKeyIgnoreModifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, true);
-                break;
-            default:
-                break;
+            ಆಯ್ಕೆ (SDL_Get_ಕೀಲಿ_From_Scancode(scancode, SDL_KMOD_NONE, false)) {
+            ಸ್ಥಿತಿ SDLK_LCTRL:
+            ಸ್ಥಿತಿ SDLK_RCTRL:
+            ಸ್ಥಿತಿ SDLK_LSHIFT:
+            ಸ್ಥಿತಿ SDLK_RSHIFT:
+            ಸ್ಥಿತಿ SDLK_LALT:
+            ಸ್ಥಿತಿ SDLK_RALT:
+            ಸ್ಥಿತಿ SDLK_LGUI:
+            ಸ್ಥಿತಿ SDLK_RGUI:
+            ಸ್ಥಿತಿ SDLK_ಬಹುಲಕ:
+            ಸ್ಥಿತಿ SDLK_LEVEL5_ಸರಿಸು:
+                X11_Handle_Modifier_ಕೀಲಿಗಳು(videodata, scancode, true);
+                SDL_Send_Keyboard_ಕೀಲಿ_Ignore_Modifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, true);
+                ನಿಲ್ಲಿಸು;
+            ಪೂರ್ವನಿಯೋಜಿತ:
+                ನಿಲ್ಲಿಸು;
             }
-        } else if (!x11KeyPressed && sdlKeyPressed) {
-            X11_HandleModifierKeys(videodata, scancode, false);
-            SDL_SendKeyboardKeyIgnoreModifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, false);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!x11_ಕೀಲಿ_Pressed && sdl_ಕೀಲಿ_Pressed) {
+            X11_Handle_Modifier_ಕೀಲಿಗಳು(videodata, scancode, false);
+            SDL_Send_Keyboard_ಕೀಲಿ_Ignore_Modifiers(0, SDL_GLOBAL_KEYBOARD_ID, keycode, scancode, false);
         }
     }
 
     // Update the latched/locked state for modifiers other than Caps, Num, and Scroll lock.
-    X11_UpdateSystemKeyModifiers(videodata);
+    X11_Update_System_ಕೀಲಿ_Modifiers(videodata);
     X11_ReconcileModifiers(videodata, true);
 }
 
-static void X11_DispatchFocusIn(SDL_VideoDevice *_this, SDL_WindowData *data)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_Dispatch_Focus_ಒಳ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-#ifdef DEBUG_XEVENTS
-    SDL_Log("window 0x%lx: Dispatching FocusIn", data->xwindow);
-#endif
-    SDL_SetKeyboardFocus(data->window);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+    SDL_Log("window 0x%lx: Dispatching FocusIn", ದತ್ತಾಂಶ->xwindow);
+#ಆದರೆ_ಅಂತ್ಯ
+    SDL_ಗಣ_Keyboard_Focus(ದತ್ತಾಂಶ->ಕಿಟಕಿ);
     X11_ReconcileKeyboardState(_this);
-#ifdef X_HAVE_UTF8_STRING
-    if (data->ic) {
-        X11_XSetICFocus(data->ic);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X_HAVE_UTF8_STRING
+    ಆದರೆ (ದತ್ತಾಂಶ->ic) {
+        X11_XSetICFocus(ದತ್ತಾಂಶ->ic);
     }
-#endif
-    if (data->flashing_window) {
-        X11_FlashWindow(_this, data->window, SDL_FLASH_CANCEL);
+#ಆದರೆ_ಅಂತ್ಯ
+    ಆದರೆ (ದತ್ತಾಂಶ->flashing_ಕಿಟಕಿ) {
+        X11_Flash_ಕಿಟಕಿ(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_FLASH_CANCEL);
     }
 }
 
-static void X11_DispatchFocusOut(SDL_VideoDevice *_this, SDL_WindowData *data)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_Dispatch_Focus_ಹೊರಹೋಗು(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-#ifdef DEBUG_XEVENTS
-    SDL_Log("window 0x%lx: Dispatching FocusOut", data->xwindow);
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+    SDL_Log("window 0x%lx: Dispatching FocusOut", ದತ್ತಾಂಶ->xwindow);
+#ಆದರೆ_ಅಂತ್ಯ
     /* If another window has already processed a focus in, then don't try to
      * remove focus here.  Doing so will incorrectly remove focus from that
      * window, and the focus lost event for this window will have already
      * been dispatched anyway. */
-    if (data->window == SDL_GetKeyboardFocus()) {
-        SDL_SetKeyboardFocus(NULL);
+    ಆದರೆ (ದತ್ತಾಂಶ->ಕಿಟಕಿ == SDL_GetKeyboardFocus()) {
+        SDL_ಗಣ_Keyboard_Focus(ಖಾಲಿ);
     }
-#ifdef X_HAVE_UTF8_STRING
-    if (data->ic) {
-        X11_XUnsetICFocus(data->ic);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X_HAVE_UTF8_STRING
+    ಆದರೆ (ದತ್ತಾಂಶ->ic) {
+        X11_XUnsetICFocus(ದತ್ತಾಂಶ->ic);
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static void X11_DispatchMapNotify(SDL_WindowData *data)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_DispatchMapNotify(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    SDL_Window *window = data->window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = ದತ್ತಾಂಶ->ಕಿಟಕಿ;
 
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-    data->was_shown = true;
+    SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_SHOWN, 0, 0);
+    ದತ್ತಾಂಶ->was_shown = true;
 
     // This may be sent when restoring a minimized window.
-    if (window->flags & SDL_WINDOW_MINIMIZED) {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MINIMIZED) {
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESTORED, 0, 0);
+        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
     }
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-        SDL_UpdateWindowGrab(window);
+    ಆದರೆ (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಒಳಹರಿವು_FOCUS) {
+        SDL_Update_ಕಿಟಕಿ_Grab(ಕಿಟಕಿ);
     }
 }
 
-static void X11_DispatchUnmapNotify(SDL_WindowData *data)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_DispatchUnmapNotify(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    SDL_Window *window = data->window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = ದತ್ತಾಂಶ->ಕಿಟಕಿ;
 
     // This may be sent when minimizing a window.
-    if (!window->is_hiding) {
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
-    } else {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
+    ಆದರೆ (!ಕಿಟಕಿ->is_hiding) {
+        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MINIMIZED, 0, 0);
+        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_OCCLUDED, 0, 0);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_HIDDEN, 0, 0);
     }
 }
 
-static void DispatchWindowMove(SDL_VideoDevice *_this, const SDL_WindowData *data, const SDL_Point *point)
+ಸ್ಥಿರ ಶೂನ್ಯ Dispatch_ಕಿಟಕಿ_Move(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, ಸ್ಥಿರಾಂಕ SDL_ಬಿಂದು *ಬಿಂದು)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_Window *window = data->window;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = ದತ್ತಾಂಶ->ಕಿಟಕಿ;
     Display *display = videodata->display;
     XEvent evt;
 
     // !!! FIXME: we need to regrab this if necessary when the drag is done.
-    X11_XUngrabPointer(display, 0L);
+    X11_XUngrab_ಸೂಚಕ(display, 0L);
     X11_XFlush(display);
 
-    evt.xclient.type = ClientMessage;
-    evt.xclient.window = data->xwindow;
-    evt.xclient.message_type = videodata->atoms._NET_WM_MOVERESIZE;
+    evt.xclient.type = Client_ಸಂದೇಶ;
+    evt.xclient.ಕಿಟಕಿ = ದತ್ತಾಂಶ->xwindow;
+    evt.xclient.ಸಂದೇಶ_type = videodata->atoms._NET_WM_MOVERESIZE;
     evt.xclient.format = 32;
-    evt.xclient.data.l[0] = (size_t)window->x + point->x;
-    evt.xclient.data.l[1] = (size_t)window->y + point->y;
-    evt.xclient.data.l[2] = _NET_WM_MOVERESIZE_MOVE;
-    evt.xclient.data.l[3] = Button1;
-    evt.xclient.data.l[4] = 0;
-    X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
+    evt.xclient.ದತ್ತಾಂಶ.l[0] = (size_t)ಕಿಟಕಿ->x + ಬಿಂದು->x;
+    evt.xclient.ದತ್ತಾಂಶ.l[1] = (size_t)ಕಿಟಕಿ->y + ಬಿಂದು->y;
+    evt.xclient.ದತ್ತಾಂಶ.l[2] = _NET_WM_MOVERESIZE_MOVE;
+    evt.xclient.ದತ್ತಾಂಶ.l[3] = Button1;
+    evt.xclient.ದತ್ತಾಂಶ.l[4] = 0;
+    X11_XSendEvent(display, Default_ಬೇರು_ಕಿಟಕಿ(display), False, Substructure_Redirect_ಮುಖವಾಡ | Substructure_Notify_ಮುಖವಾಡ, &evt);
 
     X11_XSync(display, 0);
 }
 
-static void ScheduleWindowMove(SDL_VideoDevice *_this, SDL_WindowData *data, const SDL_Point *point)
+ಸ್ಥಿರ ಶೂನ್ಯ ವೇಳಾಪಟ್ಟಿ_ಕಿಟಕಿ_Move(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, ಸ್ಥಿರಾಂಕ SDL_ಬಿಂದು *ಬಿಂದು)
 {
-    data->pending_move = true;
-    data->pending_move_point = *point;
+    ದತ್ತಾಂಶ->pending_move = true;
+    ದತ್ತಾಂಶ->pending_move_ಬಿಂದು = *ಬಿಂದು;
 }
 
-static void InitiateWindowResize(SDL_VideoDevice *_this, const SDL_WindowData *data, const SDL_Point *point, int direction)
+ಸ್ಥಿರ ಶೂನ್ಯ Initiate_ಕಿಟಕಿ_Resize(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, ಸ್ಥಿರಾಂಕ SDL_ಬಿಂದು *ಬಿಂದು, ಪೂರ್ಣಾಂಕ direction)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_Window *window = data->window;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = ದತ್ತಾಂಶ->ಕಿಟಕಿ;
     Display *display = videodata->display;
     XEvent evt;
 
-    if (direction < _NET_WM_MOVERESIZE_SIZE_TOPLEFT || direction > _NET_WM_MOVERESIZE_SIZE_LEFT) {
-        return;
+    ಆದರೆ (direction < NET_WM_MOVERESIZE_ಗಾತ್ರ_TOPLEFT || direction > NET_WM_MOVERESIZE_ಗಾತ್ರ_ಎಡ) {
+        ಹಿಂತಿರುಗಿ;
     }
 
     // !!! FIXME: we need to regrab this if necessary when the drag is done.
-    X11_XUngrabPointer(display, 0L);
+    X11_XUngrab_ಸೂಚಕ(display, 0L);
     X11_XFlush(display);
 
-    evt.xclient.type = ClientMessage;
-    evt.xclient.window = data->xwindow;
-    evt.xclient.message_type = videodata->atoms._NET_WM_MOVERESIZE;
+    evt.xclient.type = Client_ಸಂದೇಶ;
+    evt.xclient.ಕಿಟಕಿ = ದತ್ತಾಂಶ->xwindow;
+    evt.xclient.ಸಂದೇಶ_type = videodata->atoms._NET_WM_MOVERESIZE;
     evt.xclient.format = 32;
-    evt.xclient.data.l[0] = (size_t)window->x + point->x;
-    evt.xclient.data.l[1] = (size_t)window->y + point->y;
-    evt.xclient.data.l[2] = direction;
-    evt.xclient.data.l[3] = Button1;
-    evt.xclient.data.l[4] = 0;
-    X11_XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &evt);
+    evt.xclient.ದತ್ತಾಂಶ.l[0] = (size_t)ಕಿಟಕಿ->x + ಬಿಂದು->x;
+    evt.xclient.ದತ್ತಾಂಶ.l[1] = (size_t)ಕಿಟಕಿ->y + ಬಿಂದು->y;
+    evt.xclient.ದತ್ತಾಂಶ.l[2] = direction;
+    evt.xclient.ದತ್ತಾಂಶ.l[3] = Button1;
+    evt.xclient.ದತ್ತಾಂಶ.l[4] = 0;
+    X11_XSendEvent(display, Default_ಬೇರು_ಕಿಟಕಿ(display), False, Substructure_Redirect_ಮುಖವಾಡ | Substructure_Notify_ಮುಖವಾಡ, &evt);
 
     X11_XSync(display, 0);
 }
 
-bool X11_ProcessHitTest(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y, bool force_new_result)
+bool X11_Process_ದೊರಕಿತು_Test(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ x, ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ y, bool force_new_ಫಲಿತಾಂಶ)
 {
-    SDL_Window *window = data->window;
-    if (!window->hit_test) return false;
-    const SDL_Point point = { (int)x, (int)y };
-    SDL_HitTestResult rc = window->hit_test(window, &point, window->hit_test_data);
-    if (!force_new_result && rc == data->hit_test_result) {
-        return true;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = ದತ್ತಾಂಶ->ಕಿಟಕಿ;
+    ಆದರೆ (!ಕಿಟಕಿ->ದೊರಕಿತು_test) ಹಿಂತಿರುಗಿ false;
+    ಸ್ಥಿರಾಂಕ SDL_ಬಿಂದು ಬಿಂದು = { (ಪೂರ್ಣಾಂಕ)x, (ಪೂರ್ಣಾಂಕ)y };
+    SDL_ದೊರಕಿತು_Test_ಫಲಿತಾಂಶ rc = ಕಿಟಕಿ->ದೊರಕಿತು_test(ಕಿಟಕಿ, &ಬಿಂದು, ಕಿಟಕಿ->ದೊರಕಿತು_test_ದತ್ತಾಂಶ);
+    ಆದರೆ (!force_new_ಫಲಿತಾಂಶ && rc == ದತ್ತಾಂಶ->ದೊರಕಿತು_test_ಫಲಿತಾಂಶ) {
+        ಹಿಂತಿರುಗಿ true;
     }
-    X11_SetHitTestCursor(rc);
-    data->hit_test_result = rc;
-    return true;
+    X11_ಗಣ_ದೊರಕಿತು_Test_Cursor(rc);
+    ದತ್ತಾಂಶ->ದೊರಕಿತು_test_ಫಲಿತಾಂಶ = rc;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool X11_TriggerHitTestAction(SDL_VideoDevice *_this, SDL_WindowData *data, const float x, const float y)
+bool X11_Trigger_ದೊರಕಿತು_Test_Action(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ x, ಸ್ಥಿರಾಂಕ ದಶಮಾಂಶ y)
 {
-    SDL_Window *window = data->window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = ದತ್ತಾಂಶ->ಕಿಟಕಿ;
 
-    if (window->hit_test) {
-        const SDL_Point point = { (int)x, (int)y };
-        static const int directions[] = {
-            _NET_WM_MOVERESIZE_SIZE_TOPLEFT, _NET_WM_MOVERESIZE_SIZE_TOP,
-            _NET_WM_MOVERESIZE_SIZE_TOPRIGHT, _NET_WM_MOVERESIZE_SIZE_RIGHT,
-            _NET_WM_MOVERESIZE_SIZE_BOTTOMRIGHT, _NET_WM_MOVERESIZE_SIZE_BOTTOM,
-            _NET_WM_MOVERESIZE_SIZE_BOTTOMLEFT, _NET_WM_MOVERESIZE_SIZE_LEFT
+    ಆದರೆ (ಕಿಟಕಿ->ದೊರಕಿತು_test) {
+        ಸ್ಥಿರಾಂಕ SDL_ಬಿಂದು ಬಿಂದು = { (ಪೂರ್ಣಾಂಕ)x, (ಪೂರ್ಣಾಂಕ)y };
+        ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ directions[] = {
+            NET_WM_MOVERESIZE_ಗಾತ್ರ_TOPLEFT, NET_WM_MOVERESIZE_ಗಾತ್ರ_ತುದಿ,
+            NET_WM_MOVERESIZE_ಗಾತ್ರ_TOPRIGHT, NET_WM_MOVERESIZE_ಗಾತ್ರ_ಬಲ,
+            NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOMRIGHT, NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOM,
+            NET_WM_MOVERESIZE_ಗಾತ್ರ_BOTTOMLEFT, NET_WM_MOVERESIZE_ಗಾತ್ರ_ಎಡ
         };
 
-        switch (data->hit_test_result) {
-        case SDL_HITTEST_DRAGGABLE:
+        ಆಯ್ಕೆ (ದತ್ತಾಂಶ->ದೊರಕಿತು_test_ಫಲಿತಾಂಶ) {
+        ಸ್ಥಿತಿ SDL_HITTEST_DRAGGABLE:
             /* Some window managers get in a bad state when a move event starts while input is transitioning
                to the SDL window. This can happen when clicking on a drag region of an unfocused window
                where the same mouse down event will trigger a drag event and a window activate. */
-            if (data->window->flags & SDL_WINDOW_INPUT_FOCUS) {
-                DispatchWindowMove(_this, data, &point);
-            } else {
-                ScheduleWindowMove(_this, data, &point);
+            ಆದರೆ (ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಒಳಹರಿವು_FOCUS) {
+                Dispatch_ಕಿಟಕಿ_Move(_this, ದತ್ತಾಂಶ, &ಬಿಂದು);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ವೇಳಾಪಟ್ಟಿ_ಕಿಟಕಿ_Move(_this, ದತ್ತಾಂಶ, &ಬಿಂದು);
             }
-            return true;
+            ಹಿಂತಿರುಗಿ true;
 
-        case SDL_HITTEST_RESIZE_TOPLEFT:
-        case SDL_HITTEST_RESIZE_TOP:
-        case SDL_HITTEST_RESIZE_TOPRIGHT:
-        case SDL_HITTEST_RESIZE_RIGHT:
-        case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
-        case SDL_HITTEST_RESIZE_BOTTOM:
-        case SDL_HITTEST_RESIZE_BOTTOMLEFT:
-        case SDL_HITTEST_RESIZE_LEFT:
-            InitiateWindowResize(_this, data, &point, directions[data->hit_test_result - SDL_HITTEST_RESIZE_TOPLEFT]);
-            return true;
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_TOPLEFT:
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_ತುದಿ:
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_TOPRIGHT:
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_ಬಲ:
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_BOTTOMRIGHT:
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_BOTTOM:
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_BOTTOMLEFT:
+        ಸ್ಥಿತಿ SDL_HITTEST_RESIZE_ಎಡ:
+            Initiate_ಕಿಟಕಿ_Resize(_this, ದತ್ತಾಂಶ, &ಬಿಂದು, directions[ದತ್ತಾಂಶ->ದೊರಕಿತು_test_ಫಲಿತಾಂಶ - SDL_HITTEST_RESIZE_TOPLEFT]);
+            ಹಿಂತಿರುಗಿ true;
 
-        default:
-            return false;
+        ಪೂರ್ವನಿಯೋಜಿತ:
+            ಹಿಂತಿರುಗಿ false;
         }
     }
 
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static void X11_UpdateUserTime(SDL_WindowData *data, const unsigned long latest)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_Update_User_ಸಮಯ(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ latest)
 {
-    if (latest && (latest != data->user_time)) {
-        SDL_VideoData *videodata = data->videodata;
+    ಆದರೆ (latest && (latest != ದತ್ತಾಂಶ->user_ಸಮಯ)) {
+        SDL_Video_ದತ್ತಾಂಶ *videodata = ದತ್ತಾಂಶ->videodata;
         Display *display = videodata->display;
-        X11_XChangeProperty(display, data->xwindow, videodata->atoms._NET_WM_USER_TIME,
-                            XA_CARDINAL, 32, PropModeReplace,
-                            (const unsigned char *)&latest, 1);
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: updating _NET_WM_USER_TIME to %lu", data->xwindow, latest);
-#endif
-        data->user_time = latest;
+        X11_XChangeProperty(display, ದತ್ತಾಂಶ->xwindow, videodata->atoms.NET_WM_USER_ಸಮಯ,
+                            XA_CARDINAL, 32, Prop_ಬಹುಲಕ_Replace,
+                            (ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)&latest, 1);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: updating _NET_WM_USER_TIME to %lu", ದತ್ತಾಂಶ->xwindow, latest);
+#ಆದರೆ_ಅಂತ್ಯ
+        ದತ್ತಾಂಶ->user_ಸಮಯ = latest;
     }
 }
 
-static unsigned char x11_last_error;
-static int BadWindowErrorHandler(Display *d, XErrorEvent *e)
+ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ x11_ಕೊನೆಯ_error;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ Bad_ಕಿಟಕಿ_Error_Handler(Display *d, XErrorEvent *e)
 {
-    x11_last_error = e->error_code;
+    x11_ಕೊನೆಯ_error = e->error_ಸಂಕೇತ;
 
     // Ignore BadWindow in cases where it's not fatal.
-    if (e->error_code != BadWindow) {
-        char err_msg[128];
-        X11_XGetErrorText(d, e->error_code, err_msg, sizeof(err_msg));
-        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "X failed request: %hhu (%s), major opcode: %hhu", e->error_code, err_msg, e->request_code);
+    ಆದರೆ (e->error_ಸಂಕೇತ != Bad_ಕಿಟಕಿ) {
+        ಅಕ್ಷರ err_ಸಂದೇಶ[128];
+        X11_XGet_Error_ಪಠ್ಯ(d, e->error_ಸಂಕೇತ, err_ಸಂದೇಶ, ಗಾತ್ರ(err_ಸಂದೇಶ));
+        SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "X failed request: %hhu (%s), major opcode: %hhu", e->error_ಸಂಕೇತ, err_ಸಂದೇಶ, e->request_ಸಂಕೇತ);
     }
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 
-static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xevent)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_HandleClipboardEvent(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ XEvent *xevent)
 {
-    int i;
-    SDL_VideoData *videodata = _this->internal;
+    ಪೂರ್ಣಾಂಕ i;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
     Display *display = videodata->display;
 
-    SDL_assert(videodata->clipboard_window != None);
-    SDL_assert(xevent->xany.window == videodata->clipboard_window);
+    SDL_assert(videodata->clipboard_ಕಿಟಕಿ != None);
+    SDL_assert(xevent->xany.ಕಿಟಕಿ == videodata->clipboard_ಕಿಟಕಿ);
 
-    switch (xevent->type) {
+    ಆಯ್ಕೆ (xevent->type) {
         // Copy the selection from our own CUTBUFFER to the requested property
-    case SelectionRequest:
+    ಸ್ಥಿತಿ SelectionRequest:
     {
-        const XSelectionRequestEvent *req = &xevent->xselectionrequest;
+        ಸ್ಥಿರಾಂಕ XSelectionRequestEvent *req = &xevent->xselectionrequest;
         XEvent sevent;
-        int mime_formats;
-        unsigned char *seln_data;
-        size_t seln_length = 0;
+        ಪೂರ್ಣಾಂಕ mime_formats;
+        ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *seln_ದತ್ತಾಂಶ;
+        size_t seln_ಉದ್ದಳತೆ = 0;
         Atom XA_TARGETS = videodata->atoms.TARGETS;
-        SDLX11_ClipboardData *clipboard;
+        SDLX11_Clipboard_ದತ್ತಾಂಶ *clipboard;
 
-#ifdef DEBUG_XEVENTS
-        char *atom_name;
-        atom_name = X11_XGetAtomName(display, req->target);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        ಅಕ್ಷರ *atom_name;
+        atom_name = X11_XGetAtomName(display, req->ಗುರಿ);
         SDL_Log("window CLIPBOARD: SelectionRequest (requestor = 0x%lx, target = 0x%lx, mime_type = %s)",
-               req->requestor, req->target, atom_name);
-        if (atom_name) {
+               req->requestor, req->ಗುರಿ, atom_name);
+        ಆದರೆ (atom_name) {
             X11_XFree(atom_name);
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
         /* If the requesting window was already destroyed, XChangeProperty can generate a BadWindow
          * error. Register an error handler to catch this, and prevent it from being fatal.
          */
-        x11_last_error = 0;
-        XErrorHandler prev_handler = X11_XSetErrorHandler(BadWindowErrorHandler);
+        x11_ಕೊನೆಯ_error = 0;
+        XErrorHandler prev_handler = X11_XSetErrorHandler(Bad_ಕಿಟಕಿ_Error_Handler);
 
-        if (req->selection == XA_PRIMARY) {
+        ಆದರೆ (req->selection == XA_PRIMARY) {
             clipboard = &videodata->primary_selection;
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             clipboard = &videodata->clipboard;
         }
 
         SDL_zero(sevent);
         sevent.xany.type = SelectionNotify;
         sevent.xselection.selection = req->selection;
-        sevent.xselection.target = None;
+        sevent.xselection.ಗುರಿ = None;
         sevent.xselection.property = None; // tell them no by default
         sevent.xselection.requestor = req->requestor;
-        sevent.xselection.time = req->time;
+        sevent.xselection.ಸಮಯ = req->ಸಮಯ;
 
         /* !!! FIXME: We were probably storing this on the root window
            because an SDL window might go away...? but we don't have to do
            this now (or ever, really). */
 
-        if (req->target == XA_TARGETS) {
+        ಆದರೆ (req->ಗುರಿ == XA_TARGETS) {
             Atom *supportedFormats;
-            supportedFormats = SDL_malloc((clipboard->mime_count + 1) * sizeof(Atom));
+            supportedFormats = SDL_malloc((clipboard->mime_ಎಣಿಕೆ + 1) * ಗಾತ್ರ(Atom));
             supportedFormats[0] = XA_TARGETS;
             mime_formats = 1;
-            for (i = 0; i < clipboard->mime_count; ++i) {
+            ಗಾಗಿ (i = 0; i < clipboard->mime_ಎಣಿಕೆ; ++i) {
                 supportedFormats[mime_formats++] = X11_XInternAtom(display, clipboard->mime_types[i], False);
             }
             X11_XChangeProperty(display, req->requestor, req->property,
-                                XA_ATOM, 32, PropModeReplace,
-                                (unsigned char *)supportedFormats,
+                                XA_ATOM, 32, Prop_ಬಹುಲಕ_Replace,
+                                (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)supportedFormats,
                                 mime_formats);
             sevent.xselection.property = req->property;
-            sevent.xselection.target = XA_TARGETS;
+            sevent.xselection.ಗುರಿ = XA_TARGETS;
             SDL_free(supportedFormats);
-        } else {
-            if (clipboard->callback) {
-                for (i = 0; i < clipboard->mime_count; ++i) {
-                    const char *mime_type = clipboard->mime_types[i];
-                    if (X11_XInternAtom(display, mime_type, False) != req->target) {
-                        continue;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಆದರೆ (clipboard->callback) {
+                ಗಾಗಿ (i = 0; i < clipboard->mime_ಎಣಿಕೆ; ++i) {
+                    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *mime_type = clipboard->mime_types[i];
+                    ಆದರೆ (X11_XInternAtom(display, mime_type, False) != req->ಗುರಿ) {
+                        ಮುಂದುವರಿ;
                     }
 
                     // FIXME: We don't support the X11 INCR protocol for large clipboards. Do we want that? - Yes, yes we do.
                     // This is a safe cast, XChangeProperty() doesn't take a const value, but it doesn't modify the data
-                    seln_data = (unsigned char *)clipboard->callback(clipboard->userdata, mime_type, &seln_length);
-                    if (seln_data) {
+                    seln_ದತ್ತಾಂಶ = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)clipboard->callback(clipboard->userdata, mime_type, &seln_ಉದ್ದಳತೆ);
+                    ಆದರೆ (seln_ದತ್ತಾಂಶ) {
                         X11_XChangeProperty(display, req->requestor, req->property,
-                                            req->target, 8, PropModeReplace,
-                                            seln_data, seln_length);
+                                            req->ಗುರಿ, 8, Prop_ಬಹುಲಕ_Replace,
+                                            seln_ದತ್ತಾಂಶ, seln_ಉದ್ದಳತೆ);
                         sevent.xselection.property = req->property;
-                        sevent.xselection.target = req->target;
+                        sevent.xselection.ಗುರಿ = req->ಗುರಿ;
                     }
-                    break;
+                    ನಿಲ್ಲಿಸು;
                 }
             }
         }
@@ -902,457 +902,457 @@ static void X11_HandleClipboardEvent(SDL_VideoDevice *_this, const XEvent *xeven
         X11_XSync(display, False);
 
         X11_XSetErrorHandler(prev_handler);
-    } break;
+    } ನಿಲ್ಲಿಸು;
 
-    case SelectionNotify:
+    ಸ್ಥಿತಿ SelectionNotify:
     {
-        const XSelectionEvent *xsel = &xevent->xselection;
-#ifdef DEBUG_XEVENTS
-        const char *propName = xsel->property ? X11_XGetAtomName(display, xsel->property) : "None";
-        const char *targetName = xsel->target ? X11_XGetAtomName(display, xsel->target) : "None";
+        ಸ್ಥಿರಾಂಕ XSelectionEvent *xsel = &xevent->xselection;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *propName = xsel->property ? X11_XGetAtomName(display, xsel->property) : "None";
+        ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಗುರಿ_Name = xsel->ಗುರಿ ? X11_XGetAtomName(display, xsel->ಗುರಿ) : "None";
 
         SDL_Log("window CLIPBOARD: SelectionNotify (requestor = 0x%lx, target = %s, property = %s)",
-               xsel->requestor, targetName, propName);
-#endif
-        if (xsel->target == videodata->atoms.TARGETS && xsel->property == videodata->atoms.SDL_FORMATS) {
+               xsel->requestor, ಗುರಿ_Name, propName);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (xsel->ಗುರಿ == videodata->atoms.TARGETS && xsel->property == videodata->atoms.SDL_FORMATS) {
             /* the new mime formats are the SDL_FORMATS property as an array of Atoms */
             Atom atom = None;
             Atom *patom;
-            unsigned char *data = NULL;
-            int format_property = 0;
-            unsigned long length = 0;
-            unsigned long bytes_left = 0;
-            int j;
+            ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ದತ್ತಾಂಶ = ಖಾಲಿ;
+            ಪೂರ್ಣಾಂಕ format_property = 0;
+            ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ಉದ್ದಳತೆ = 0;
+            ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ಬೈಟುಗಳು_ಎಡ = 0;
+            ಪೂರ್ಣಾಂಕ j;
 
-            X11_XGetWindowProperty(display, GetWindow(_this), videodata->atoms.SDL_FORMATS, 0, 200,
-                                            0, XA_ATOM, &atom, &format_property, &length, &bytes_left, &data);
+            X11_XGet_ಕಿಟಕಿ_Property(display, Get_ಕಿಟಕಿ(_this), videodata->atoms.SDL_FORMATS, 0, 200,
+                                            0, XA_ATOM, &atom, &format_property, &ಉದ್ದಳತೆ, &ಬೈಟುಗಳು_ಎಡ, &ದತ್ತಾಂಶ);
 
-            int allocationsize = (length + 1) * sizeof(char *);
-            for (j = 0, patom = (Atom *)data; j < length; j++, patom++) {
-                char *atomStr = X11_XGetAtomName(display, *patom);
+            ಪೂರ್ಣಾಂಕ allocationsize = (ಉದ್ದಳತೆ + 1) * ಗಾತ್ರ(ಅಕ್ಷರ *);
+            ಗಾಗಿ (j = 0, patom = (Atom *)ದತ್ತಾಂಶ; j < ಉದ್ದಳತೆ; j++, patom++) {
+                ಅಕ್ಷರ *atomStr = X11_XGetAtomName(display, *patom);
                 allocationsize += SDL_strlen(atomStr) + 1;
                 X11_XFree(atomStr);
             }
 
-            char **new_mime_types = SDL_AllocateTemporaryMemory(allocationsize);
-            if (new_mime_types) {
-                char *strPtr = (char *)(new_mime_types + length + 1);
+            ಅಕ್ಷರ **new_mime_types = SDL_Allocate_Temporary_ಸ್ಮರಣೆ(allocationsize);
+            ಆದರೆ (new_mime_types) {
+                ಅಕ್ಷರ *strPtr = (ಅಕ್ಷರ *)(new_mime_types + ಉದ್ದಳತೆ + 1);
                 allocationsize -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
-                for (j = 0, patom = (Atom *)data; j < length; j++, patom++) {
-                    char *atomStr = X11_XGetAtomName(display, *patom);
+                ಗಾಗಿ (j = 0, patom = (Atom *)ದತ್ತಾಂಶ; j < ಉದ್ದಳತೆ; j++, patom++) {
+                    ಅಕ್ಷರ *atomStr = X11_XGetAtomName(display, *patom);
                     new_mime_types[j] = strPtr;
-                    const size_t len = SDL_strlcpy(strPtr, atomStr, allocationsize) + 1;
+                    ಸ್ಥಿರಾಂಕ size_t len = SDL_strlcpy(strPtr, atomStr, allocationsize) + 1;
                     strPtr += len;
                     allocationsize -= len;
                     X11_XFree(atomStr);
                 }
-                new_mime_types[length] = NULL;
+                new_mime_types[ಉದ್ದಳತೆ] = ಖಾಲಿ;
 
-                SDL_SendClipboardUpdate(false, new_mime_types, length);
+                SDL_SendClipboardUpdate(false, new_mime_types, ಉದ್ದಳತೆ);
 
                 // Clear the internal selection source data, as it was invalided after updating the clipboard.
                 SDL_zero(videodata->clipboard);
             }
 
-            if (data) {
-                X11_XFree(data);
+            ಆದರೆ (ದತ್ತಾಂಶ) {
+                X11_XFree(ದತ್ತಾಂಶ);
             }
         }
 
-        videodata->selection_waiting = false;
-    } break;
+        videodata->selection_ಕಾಯುವಿಕೆ = false;
+    } ನಿಲ್ಲಿಸು;
 
-    case SelectionClear:
+    ಸ್ಥಿತಿ SelectionClear:
     {
         Atom XA_CLIPBOARD = videodata->atoms.CLIPBOARD;
-        SDLX11_ClipboardData *clipboard = NULL;
+        SDLX11_Clipboard_ದತ್ತಾಂಶ *clipboard = ಖಾಲಿ;
 
-#ifdef DEBUG_XEVENTS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
         SDL_Log("window CLIPBOARD: SelectionClear (requestor = 0x%lx, target = 0x%lx)",
-               xevent->xselection.requestor, xevent->xselection.target);
-#endif
+               xevent->xselection.requestor, xevent->xselection.ಗುರಿ);
+#ಆದರೆ_ಅಂತ್ಯ
 
-        if (xevent->xselectionclear.selection == XA_PRIMARY) {
+        ಆದರೆ (xevent->xselectionclear.selection == XA_PRIMARY) {
             clipboard = &videodata->primary_selection;
-        } else if (XA_CLIPBOARD != None && xevent->xselectionclear.selection == XA_CLIPBOARD) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (XA_CLIPBOARD != None && xevent->xselectionclear.selection == XA_CLIPBOARD) {
             clipboard = &videodata->clipboard;
         }
-        if (clipboard && clipboard->callback) {
-            if (clipboard->sequence) {
-                SDL_CancelClipboardData(clipboard->sequence);
-            } else {
+        ಆದರೆ (clipboard && clipboard->callback) {
+            ಆದರೆ (clipboard->sequence) {
+                SDL_Cancel_Clipboard_ದತ್ತಾಂಶ(clipboard->sequence);
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 SDL_free(clipboard->userdata);
             }
             SDL_zerop(clipboard);
         }
-    } break;
+    } ನಿಲ್ಲಿಸು;
 
-    case PropertyNotify:
+    ಸ್ಥಿತಿ PropertyNotify:
     {
-        char *name_of_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
+        ಅಕ್ಷರ *name_ದ_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
 
-        if (SDL_strncmp(name_of_atom, "SDL_SELECTION", sizeof("SDL_SELECTION") - 1) == 0 && xevent->xproperty.state == PropertyNewValue) {
-            videodata->selection_incr_waiting = false;
+        ಆದರೆ (SDL_strncmp(name_ದ_atom, "SDL_SELECTION", ಗಾತ್ರ("SDL_SELECTION") - 1) == 0 && xevent->xproperty.state == Property_New_ಮೌಲ್ಯ) {
+            videodata->selection_incr_ಕಾಯುವಿಕೆ = false;
         }
 
-        if (name_of_atom) {
-            X11_XFree(name_of_atom);
+        ಆದರೆ (name_ದ_atom) {
+            X11_XFree(name_ದ_atom);
         }
-    } break;
+    } ನಿಲ್ಲಿಸು;
     }
 }
 
-static Bool isMapNotify(Display *display, XEvent *ev, XPointer arg)
+ಸ್ಥಿರ Bool isMapNotify(Display *display, XEvent *ev, XPointer arg)
 {
     XUnmapEvent *unmap;
 
     unmap = (XUnmapEvent *)arg;
 
-    return ev->type == MapNotify &&
-           ev->xmap.window == unmap->window &&
+    ಹಿಂತಿರುಗಿ ev->type == MapNotify &&
+           ev->xmap.ಕಿಟಕಿ == unmap->ಕಿಟಕಿ &&
            ev->xmap.serial == unmap->serial;
 }
 
-static Bool isReparentNotify(Display *display, XEvent *ev, XPointer arg)
+ಸ್ಥಿರ Bool isReparentNotify(Display *display, XEvent *ev, XPointer arg)
 {
     XUnmapEvent *unmap;
 
     unmap = (XUnmapEvent *)arg;
 
-    return ev->type == ReparentNotify &&
-           ev->xreparent.window == unmap->window &&
+    ಹಿಂತಿರುಗಿ ev->type == ReparentNotify &&
+           ev->xreparent.ಕಿಟಕಿ == unmap->ಕಿಟಕಿ &&
            ev->xreparent.serial == unmap->serial;
 }
 
-static bool IsHighLatin1(const char *string, int length)
+ಸ್ಥಿರ bool Is_ಮೇಲಿನ_Latin1(ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *string, ಪೂರ್ಣಾಂಕ ಉದ್ದಳತೆ)
 {
-    while (length-- > 0) {
+    ಆಗ (ಉದ್ದಳತೆ-- > 0) {
         Uint8 ch = (Uint8)*string;
-        if (ch >= 0x80) {
-            return true;
+        ಆದರೆ (ch >= 0x80) {
+            ಹಿಂತಿರುಗಿ true;
         }
         ++string;
     }
-    return false;
+    ಹಿಂತಿರುಗಿ false;
 }
 
-static int XLookupStringAsUTF8(XKeyEvent *event_struct, char *buffer_return, int bytes_buffer, KeySym *keysym_return, XComposeStatus *status_in_out)
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ XLookupStringAsUTF8(XKeyEvent *event_struct, ಅಕ್ಷರ *ಬಫರ್_return, ಪೂರ್ಣಾಂಕ ಬೈಟುಗಳು_ಬಫರ್, ಕೀಲಿ_Sym *keysym_return, XCompose_ಸ್ಥಿತಿ *ಸ್ಥಿತಿ_ಒಳ_ಹೊರಹೋಗು)
 {
-    int result = X11_XLookupString(event_struct, buffer_return, bytes_buffer, keysym_return, status_in_out);
-    if (IsHighLatin1(buffer_return, result)) {
-        char *utf8_text = SDL_iconv_string("UTF-8", "ISO-8859-1", buffer_return, result + 1);
-        if (utf8_text) {
-            SDL_strlcpy(buffer_return, utf8_text, bytes_buffer);
-            SDL_free(utf8_text);
-            return SDL_strlen(buffer_return);
-        } else {
-            return 0;
+    ಪೂರ್ಣಾಂಕ ಫಲಿತಾಂಶ = X11_XLookupString(event_struct, ಬಫರ್_return, ಬೈಟುಗಳು_ಬಫರ್, keysym_return, ಸ್ಥಿತಿ_ಒಳ_ಹೊರಹೋಗು);
+    ಆದರೆ (Is_ಮೇಲಿನ_Latin1(ಬಫರ್_return, ಫಲಿತಾಂಶ)) {
+        ಅಕ್ಷರ *utf8_ಪಠ್ಯ = SDL_iconv_string("UTF-8", "ISO-8859-1", ಬಫರ್_return, ಫಲಿತಾಂಶ + 1);
+        ಆದರೆ (utf8_ಪಠ್ಯ) {
+            SDL_strlcpy(ಬಫರ್_return, utf8_ಪಠ್ಯ, ಬೈಟುಗಳು_ಬಫರ್);
+            SDL_free(utf8_ಪಠ್ಯ);
+            ಹಿಂತಿರುಗಿ SDL_strlen(ಬಫರ್_return);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಹಿಂತಿರುಗಿ 0;
         }
     }
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
 
-SDL_WindowData *X11_FindWindow(SDL_VideoData *videodata, Window window)
+SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *X11_ಕಂಡುಹಿಡಿ_ಕಿಟಕಿ(SDL_Video_ದತ್ತಾಂಶ *videodata, ಕಿಟಕಿ_2 ಕಿಟಕಿ)
 {
-    if (videodata && videodata->windowlist) {
-        for (int i = 0; i < videodata->numwindows; ++i) {
-            if ((videodata->windowlist[i] != NULL) &&
-                (videodata->windowlist[i]->xwindow == window)) {
-                return videodata->windowlist[i];
+    ಆದರೆ (videodata && videodata->windowlist) {
+        ಗಾಗಿ (ಪೂರ್ಣಾಂಕ i = 0; i < videodata->numwindows; ++i) {
+            ಆದರೆ ((videodata->windowlist[i] != ಖಾಲಿ) &&
+                (videodata->windowlist[i]->xwindow == ಕಿಟಕಿ)) {
+                ಹಿಂತಿರುಗಿ videodata->windowlist[i];
             }
         }
     }
-    return NULL;
+    ಹಿಂತಿರುಗಿ ಖಾಲಿ;
 }
 
-Uint64 X11_GetEventTimestamp(unsigned long time)
+Uint64 X11_GetEventTimestamp(ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ಸಮಯ)
 {
     // FIXME: Get the event time in the SDL tick time base
-    return SDL_GetTicksNS();
+    ಹಿಂತಿರುಗಿ SDL_GetTicksNS();
 }
 
-void X11_HandleKeyEvent(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent)
+ಶೂನ್ಯ X11_Handle_ಕೀಲಿ_Event(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windowdata, SDL_KeyboardID keyboardID, XEvent *xevent)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
     Display *display = videodata->display;
-    KeyCode keycode = xevent->xkey.keycode;
-    KeySym keysym = NoSymbol;
-    int text_length = 0;
-    char text[64];
-    Status status = 0;
+    ಕೀಲಿ_ಸಂಕೇತ_2 keycode = xevent->xkey.keycode;
+    ಕೀಲಿ_Sym keysym = No_ಚಿಹ್ನೆ;
+    ಪೂರ್ಣಾಂಕ ಪಠ್ಯ_ಉದ್ದಳತೆ = 0;
+    ಅಕ್ಷರ ಪಠ್ಯ[64];
+    ಸ್ಥಿತಿ_3 ಸ್ಥಿತಿ_2 = 0;
     bool handled_by_ime = false;
-    bool pressed = (xevent->type == KeyPress);
-    SDL_Scancode scancode = videodata->keyboard.key_layout[keycode];
-    Uint64 timestamp = X11_GetEventTimestamp(xevent->xkey.time);
+    bool pressed = (xevent->type == ಕೀಲಿ_Press);
+    SDL_Scancode scancode = videodata->keyboard.ಕೀಲಿ_layout[keycode];
+    Uint64 timestamp = X11_GetEventTimestamp(xevent->xkey.ಸಮಯ);
 
-#ifdef DEBUG_XEVENTS
-    SDL_Log("window 0x%lx %s (X11 keycode = 0x%X)", xevent->xany.window, (xevent->type == KeyPress ? "KeyPress" : "KeyRelease"), xevent->xkey.keycode);
-#endif
-#ifdef DEBUG_SCANCODES
-    if (scancode == SDL_SCANCODE_UNKNOWN && keycode) {
-        int min_keycode, max_keycode;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+    SDL_Log("window 0x%lx %s (X11 keycode = 0x%X)", xevent->xany.ಕಿಟಕಿ, (xevent->type == ಕೀಲಿ_Press ? "KeyPress" : "KeyRelease"), xevent->xkey.keycode);
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_SCANCODES
+    ಆದರೆ (scancode == SDL_SCANCODE_UNKNOWN && keycode) {
+        ಪೂರ್ಣಾಂಕ min_keycode, max_keycode;
         X11_XDisplayKeycodes(display, &min_keycode, &max_keycode);
-        keysym = X11_KeyCodeToSym(_this, keycode, xevent->xkey.state >> 13);
+        keysym = X11_ಕೀಲಿ_ಸಂಕೇತ_ಗಮ್ಯ_Sym(_this, keycode, xevent->xkey.state >> 13);
         SDL_Log("The key you just pressed is not recognized by SDL. To help get this fixed, please report this to the SDL forums/mailing list <https://discourse.libsdl.org/> X11 KeyCode %d (%d), X11 KeySym 0x%lX (%s).",
                 keycode, keycode - min_keycode, keysym,
-                X11_XKeysymToString(keysym));
+                X11_XKeysym_ಗಮ್ಯ_String(keysym));
     }
-#endif // DEBUG SCANCODES
+#ಆದರೆ_ಅಂತ್ಯ // DEBUG SCANCODES
 
-    text[0] = '\0';
+    ಪಠ್ಯ[0] = '\0';
 
     // XKB updates the modifiers explicitly via a state event.
-    if (!videodata->keyboard.xkb_enabled) {
-        videodata->keyboard.pressed_modifiers = xevent->xkey.state & (ShiftMask | ControlMask | Mod1Mask | Mod3Mask | Mod4Mask | Mod5Mask);
-        videodata->keyboard.locked_modifiers = xevent->xkey.state & (LockMask | videodata->keyboard.numlock_mask | videodata->keyboard.scrolllock_mask);
+    ಆದರೆ (!videodata->keyboard.xkb_enabled) {
+        videodata->keyboard.pressed_modifiers = xevent->xkey.state & (ಸರಿಸು_ಮುಖವಾಡ_2 | Control_ಮುಖವಾಡ | Mod1_ಮುಖವಾಡ | Mod3_ಮುಖವಾಡ | Mod4_ಮುಖವಾಡ | Mod5_ಮುಖವಾಡ);
+        videodata->keyboard.locked_modifiers = xevent->xkey.state & (ಬೀಗ_ಮುಖವಾಡ | videodata->keyboard.numlock_ಮುಖವಾಡ | videodata->keyboard.scrolllock_ಮುಖವಾಡ);
     }
 
-    if (SDL_TextInputActive(windowdata->window)) {
+    ಆದರೆ (SDL_ಪಠ್ಯ_ಒಳಹರಿವು_ಸಕ್ರಿಯ(windowdata->ಕಿಟಕಿ)) {
         // filter events catches XIM events and sends them to the correct handler
-        if (X11_XFilterEvent(xevent, None)) {
-#ifdef DEBUG_XEVENTS
+        ಆದರೆ (X11_XFilterEvent(xevent, None)) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
             SDL_Log("Filtered event type = %d display = %p window = 0x%lx",
-                   xevent->type, xevent->xany.display, xevent->xany.window);
-#endif
+                   xevent->type, xevent->xany.display, xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
             handled_by_ime = true;
         }
 
-        if (!handled_by_ime) {
-#ifdef X_HAVE_UTF8_STRING
-            if (windowdata->ic && xevent->type == KeyPress) {
-                text_length = X11_Xutf8LookupString(windowdata->ic, &xevent->xkey, text, sizeof(text) - 1,
-                                      &keysym, &status);
-            } else {
-                text_length = XLookupStringAsUTF8(&xevent->xkey, text, sizeof(text) - 1, &keysym, NULL);
+        ಆದರೆ (!handled_by_ime) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ X_HAVE_UTF8_STRING
+            ಆದರೆ (windowdata->ic && xevent->type == ಕೀಲಿ_Press) {
+                ಪಠ್ಯ_ಉದ್ದಳತೆ = X11_Xutf8LookupString(windowdata->ic, &xevent->xkey, ಪಠ್ಯ, ಗಾತ್ರ(ಪಠ್ಯ) - 1,
+                                      &keysym, &ಸ್ಥಿತಿ_2);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಪಠ್ಯ_ಉದ್ದಳತೆ = XLookupStringAsUTF8(&xevent->xkey, ಪಠ್ಯ, ಗಾತ್ರ(ಪಠ್ಯ) - 1, &keysym, ಖಾಲಿ);
             }
-#else
-            text_length = XLookupStringAsUTF8(&xevent->xkey, text, sizeof(text) - 1, &keysym, NULL);
-#endif
+#ಇಲ್ಲದಿದ್ದರೆ
+            ಪಠ್ಯ_ಉದ್ದಳತೆ = XLookupStringAsUTF8(&xevent->xkey, ಪಠ್ಯ, ಗಾತ್ರ(ಪಠ್ಯ) - 1, &keysym, ಖಾಲಿ);
+#ಆದರೆ_ಅಂತ್ಯ
         }
     }
 
-    if (!handled_by_ime) {
-        if (pressed) {
-            X11_HandleModifierKeys(videodata, scancode, true);
-            SDL_SendKeyboardKeyIgnoreModifiers(timestamp, keyboardID, keycode, scancode, true);
+    ಆದರೆ (!handled_by_ime) {
+        ಆದರೆ (pressed) {
+            X11_Handle_Modifier_ಕೀಲಿಗಳು(videodata, scancode, true);
+            SDL_Send_Keyboard_ಕೀಲಿ_Ignore_Modifiers(timestamp, keyboardID, keycode, scancode, true);
 
-            if (*text && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
-                text[text_length] = '\0';
+            ಆದರೆ (*ಪಠ್ಯ && !(SDL_GetModState() & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
+                ಪಠ್ಯ[ಪಠ್ಯ_ಉದ್ದಳತೆ] = '\0';
                 X11_ClearComposition(windowdata);
-                SDL_SendKeyboardText(text);
+                SDL_Send_Keyboard_ಪಠ್ಯ(ಪಠ್ಯ);
             }
-        } else {
-            if (X11_KeyRepeat(display, xevent)) {
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ಆದರೆ (X11_ಕೀಲಿ_Repeat(display, xevent)) {
                 // We're about to get a repeated key down, ignore the key up
-                return;
+                ಹಿಂತಿರುಗಿ;
             }
 
-            X11_HandleModifierKeys(videodata, scancode, false);
-            SDL_SendKeyboardKeyIgnoreModifiers(timestamp, keyboardID, keycode, scancode, false);
+            X11_Handle_Modifier_ಕೀಲಿಗಳು(videodata, scancode, false);
+            SDL_Send_Keyboard_ಕೀಲಿ_Ignore_Modifiers(timestamp, keyboardID, keycode, scancode, false);
         }
     }
 
-    if (pressed) {
-        X11_UpdateUserTime(windowdata, xevent->xkey.time);
+    ಆದರೆ (pressed) {
+        X11_Update_User_ಸಮಯ(windowdata, xevent->xkey.ಸಮಯ);
     }
 }
 
-void X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, float x, float y, unsigned long time, unsigned long serial)
+ಶೂನ್ಯ X11_HandleButtonPress(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windowdata, SDL_MouseID mouseID, ಪೂರ್ಣಾಂಕ button, ದಶಮಾಂಶ x, ದಶಮಾಂಶ y, ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ಸಮಯ, ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ serial)
 {
-    SDL_Window *window = windowdata->window;
-    int xticks = 0, yticks = 0;
-    Uint64 timestamp = X11_GetEventTimestamp(time);
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = windowdata->ಕಿಟಕಿ;
+    ಪೂರ್ಣಾಂಕ xticks = 0, yticks = 0;
+    Uint64 timestamp = X11_GetEventTimestamp(ಸಮಯ);
 
-#ifdef DEBUG_XEVENTS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
     SDL_Log("window 0x%lx: ButtonPress (X11 button = %d)", windowdata->xwindow, button);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (!mouse->relative_mode && (x != mouse->x || y != mouse->y)) {
-        X11_ProcessHitTest(_this, windowdata, x, y, false);
-        SDL_SendMouseMotion(timestamp, window, mouseID, false, x, y);
+    ಆದರೆ (!mouse->relative_ಬಹುಲಕ && (x != mouse->x || y != mouse->y)) {
+        X11_Process_ದೊರಕಿತು_Test(_this, windowdata, x, y, false);
+        SDL_SendMouseMotion(timestamp, ಕಿಟಕಿ, mouseID, false, x, y);
     }
 
-    if (X11_IsWheelEvent(button, &xticks, &yticks)) {
-        SDL_SendMouseWheel(timestamp, window, mouseID, (float)-xticks, (float)yticks, SDL_MOUSEWHEEL_NORMAL);
-    } else {
-        if (button > 7) {
+    ಆದರೆ (X11_IsWheelEvent(button, &xticks, &yticks)) {
+        SDL_SendMouseWheel(timestamp, ಕಿಟಕಿ, mouseID, (ದಶಮಾಂಶ)-xticks, (ದಶಮಾಂಶ)yticks, SDL_MOUSEWHEEL_ಸಾಮಾನ್ಯ);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆದರೆ (button > 7) {
             /* X button values 4-7 are used for scrolling, so X1 is 8, X2 is 9, ...
                => subtract (8-SDL_BUTTON_X1) to get value SDL expects */
             button -= (8 - SDL_BUTTON_X1);
         }
-        if (button == Button1) {
-            if (X11_TriggerHitTestAction(_this, windowdata, x, y)) {
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HIT_TEST, 0, 0);
-                return; // don't pass this event on to app.
+        ಆದರೆ (button == Button1) {
+            ಆದರೆ (X11_Trigger_ದೊರಕಿತು_Test_Action(_this, windowdata, x, y)) {
+                SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_ದೊರಕಿತು_TEST, 0, 0);
+                ಹಿಂತಿರುಗಿ; // don't pass this event on to app.
             }
         }
-        if (windowdata->last_focus_event_time) {
-            const int X11_FOCUS_CLICK_TIMEOUT = 10;
-            if (SDL_GetTicks() < (windowdata->last_focus_event_time + X11_FOCUS_CLICK_TIMEOUT)) {
-                if (!SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false)) {
+        ಆದರೆ (windowdata->ಕೊನೆಯ_focus_event_ಸಮಯ) {
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ X11_FOCUS_CLICK_TIMEOUT = 10;
+            ಆದರೆ (SDL_GetTicks() < (windowdata->ಕೊನೆಯ_focus_event_ಸಮಯ + X11_FOCUS_CLICK_TIMEOUT)) {
+                ಆದರೆ (!SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false)) {
                     // Ignore all press events with this serial.
                     windowdata->ignore_button_press_serial = serial;
                 }
             }
-            windowdata->last_focus_event_time = 0;
+            windowdata->ಕೊನೆಯ_focus_event_ಸಮಯ = 0;
         }
-        if (serial != windowdata->ignore_button_press_serial) {
-            SDL_SendMouseButton(timestamp, window, mouseID, button, true);
+        ಆದರೆ (serial != windowdata->ignore_button_press_serial) {
+            SDL_SendMouseButton(timestamp, ಕಿಟಕಿ, mouseID, button, true);
         }
     }
-    X11_UpdateUserTime(windowdata, time);
+    X11_Update_User_ಸಮಯ(windowdata, ಸಮಯ);
 }
 
-void X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_WindowData *windowdata, SDL_MouseID mouseID, int button, unsigned long time)
+ಶೂನ್ಯ X11_HandleButtonRelease(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windowdata, SDL_MouseID mouseID, ಪೂರ್ಣಾಂಕ button, ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ಸಮಯ)
 {
-    SDL_Window *window = windowdata->window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = windowdata->ಕಿಟಕಿ;
     // The X server sends a Release event for each Press for wheels. Ignore them.
-    int xticks = 0, yticks = 0;
-    Uint64 timestamp = X11_GetEventTimestamp(time);
+    ಪೂರ್ಣಾಂಕ xticks = 0, yticks = 0;
+    Uint64 timestamp = X11_GetEventTimestamp(ಸಮಯ);
 
-#ifdef DEBUG_XEVENTS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
     SDL_Log("window 0x%lx: ButtonRelease (X11 button = %d)", windowdata->xwindow, button);
-#endif
-    if (!X11_IsWheelEvent(button, &xticks, &yticks)) {
-        if (button > 7) {
+#ಆದರೆ_ಅಂತ್ಯ
+    ಆದರೆ (!X11_IsWheelEvent(button, &xticks, &yticks)) {
+        ಆದರೆ (button > 7) {
             // see explanation at case ButtonPress
             button -= (8 - SDL_BUTTON_X1);
         }
-        SDL_SendMouseButton(timestamp, window, mouseID, button, false);
+        SDL_SendMouseButton(timestamp, ಕಿಟಕಿ, mouseID, button, false);
 
-        if (window->internal->pending_grab) {
-            X11_SetWindowMouseGrab(_this, window, true);
+        ಆದರೆ (ಕಿಟಕಿ->ಆಂತರಿಕ->pending_grab) {
+            X11_ಗಣ_ಕಿಟಕಿ_Mouse_Grab(_this, ಕಿಟಕಿ, true);
         }
     }
 }
 
-void X11_GetBorderValues(SDL_WindowData *data)
+ಶೂನ್ಯ X11_Get_Border_ಮೌಲ್ಯಗಳು(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ)
 {
-    SDL_VideoData *videodata = data->videodata;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = ದತ್ತಾಂಶ->videodata;
     Display *display = videodata->display;
 
     Atom type;
-    int format;
-    unsigned long nitems, bytes_after;
-    unsigned char *property;
+    ಪೂರ್ಣಾಂಕ format;
+    ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ nitems, ಬೈಟುಗಳು_after;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *property;
 
     // Some compositors will send extents even when the border hint is turned off. Ignore them in this case.
-    if (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
-        if (X11_XGetWindowProperty(display, data->xwindow, videodata->atoms._NET_FRAME_EXTENTS, 0, 16, 0, XA_CARDINAL, &type, &format, &nitems, &bytes_after, &property) == Success) {
-            if (type != None && nitems == 4) {
-                data->border_left = (int)((long *)property)[0];
-                data->border_right = (int)((long *)property)[1];
-                data->border_top = (int)((long *)property)[2];
-                data->border_bottom = (int)((long *)property)[3];
+    ಆದರೆ (!(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS)) {
+        ಆದರೆ (X11_XGet_ಕಿಟಕಿ_Property(display, ದತ್ತಾಂಶ->xwindow, videodata->atoms.NET_ಚೌಕಟ್ಟು_EXTENTS, 0, 16, 0, XA_CARDINAL, &type, &format, &nitems, &ಬೈಟುಗಳು_after, &property) == Success) {
+            ಆದರೆ (type != None && nitems == 4) {
+                ದತ್ತಾಂಶ->border_ಎಡ = (ಪೂರ್ಣಾಂಕ)((ದೀರ್ಘ *)property)[0];
+                ದತ್ತಾಂಶ->border_ಬಲ = (ಪೂರ್ಣಾಂಕ)((ದೀರ್ಘ *)property)[1];
+                ದತ್ತಾಂಶ->border_ತುದಿ = (ಪೂರ್ಣಾಂಕ)((ದೀರ್ಘ *)property)[2];
+                ದತ್ತಾಂಶ->border_bottom = (ಪೂರ್ಣಾಂಕ)((ದೀರ್ಘ *)property)[3];
             }
             X11_XFree(property);
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("New _NET_FRAME_EXTENTS: left=%d right=%d, top=%d, bottom=%d", data->border_left, data->border_right, data->border_top, data->border_bottom);
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("New _NET_FRAME_EXTENTS: left=%d right=%d, top=%d, bottom=%d", ದತ್ತಾಂಶ->border_ಎಡ, ದತ್ತಾಂಶ->border_ಬಲ, ದತ್ತಾಂಶ->border_ತುದಿ, ದತ್ತಾಂಶ->border_bottom);
+#ಆದರೆ_ಅಂತ್ಯ
         }
-    } else {
-        data->border_left = data->border_top = data->border_right = data->border_bottom = 0;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ದತ್ತಾಂಶ->border_ಎಡ = ದತ್ತಾಂಶ->border_ತುದಿ = ದತ್ತಾಂಶ->border_ಬಲ = ದತ್ತಾಂಶ->border_bottom = 0;
     }
 }
 
-void X11_EmitConfigureNotifyEvents(SDL_WindowData *data, XConfigureEvent *xevent)
+ಶೂನ್ಯ X11_EmitConfigureNotifyEvents(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ, XConfigureEvent *xevent)
 {
-    if (!data->size_move_event_flags) {
-        int x = xevent->x;
-        int y = xevent->y;
+    ಆದರೆ (!ದತ್ತಾಂಶ->ಗಾತ್ರ_move_event_flags) {
+        ಪೂರ್ಣಾಂಕ x = xevent->x;
+        ಪೂರ್ಣಾಂಕ y = xevent->y;
 
-        if (xevent->x != data->last_xconfigure.x ||
-            xevent->y != data->last_xconfigure.y) {
-            data->pending_operation &= ~X11_PENDING_OP_MOVE;
+        ಆದರೆ (xevent->x != ದತ್ತಾಂಶ->ಕೊನೆಯ_xconfigure.x ||
+            xevent->y != ದತ್ತಾಂಶ->ಕೊನೆಯ_xconfigure.y) {
+            ದತ್ತಾಂಶ->pending_operation &= ~X11_PENDING_OP_MOVE;
         }
-        SDL_GlobalToRelativeForWindow(data->window, x, y, &x, &y);
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MOVED, x, y);
+        SDL_Global_ಗಮ್ಯ_Relative_For_ಕಿಟಕಿ(ದತ್ತಾಂಶ->ಕಿಟಕಿ, x, y, &x, &y);
+        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MOVED, x, y);
 
-        for (SDL_Window *w = data->window->first_child; w; w = w->next_sibling) {
+        ಗಾಗಿ (SDL_ಕಿಟಕಿ *w = ದತ್ತಾಂಶ->ಕಿಟಕಿ->ಮೊದಲ_ಮಗು; w; w = w->ಮುಂದಿನ_sibling) {
             // Don't update hidden child popup windows, their relative position doesn't change
-            if (SDL_WINDOW_IS_POPUP(w) && !(w->flags & SDL_WINDOW_HIDDEN)) {
-                X11_UpdateWindowPosition(w, true);
+            ಆದರೆ (SDL_ಕಿಟಕಿ_IS_POPUP(w) && !(w->flags & SDL_ಕಿಟಕಿ_HIDDEN)) {
+                X11_Update_ಕಿಟಕಿ_Position(w, true);
             }
         }
 
-        if (xevent->width != data->last_xconfigure.width ||
-            xevent->height != data->last_xconfigure.height) {
-            data->pending_operation &= ~X11_PENDING_OP_RESIZE;
+        ಆದರೆ (xevent->ಅಗಲ != ದತ್ತಾಂಶ->ಕೊನೆಯ_xconfigure.ಅಗಲ ||
+            xevent->ಎತ್ತರ != ದತ್ತಾಂಶ->ಕೊನೆಯ_xconfigure.ಎತ್ತರ) {
+            ದತ್ತಾಂಶ->pending_operation &= ~X11_PENDING_OP_RESIZE;
         }
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, xevent->width, xevent->height);
+        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, xevent->ಅಗಲ, xevent->ಎತ್ತರ);
     }
 
-    SDL_copyp(&data->last_xconfigure, xevent);
+    SDL_copyp(&ದತ್ತಾಂಶ->ಕೊನೆಯ_xconfigure, xevent);
 }
 
-static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
     Display *display;
-    SDL_WindowData *data;
-    XClientMessageEvent m;
-    int i;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
+    XClient_ಸಂದೇಶ_Event m;
+    ಪೂರ್ಣಾಂಕ i;
 
-    SDL_assert(videodata != NULL);
+    SDL_assert(videodata != ಖಾಲಿ);
     display = videodata->display;
 
     // filter events catches XIM events and sends them to the correct handler
     // Key press/release events are filtered in X11_HandleKeyEvent()
-    if (xevent->type != KeyPress && xevent->type != KeyRelease) {
-        if (X11_XFilterEvent(xevent, None)) {
-#ifdef DEBUG_XEVENTS
+    ಆದರೆ (xevent->type != ಕೀಲಿ_Press && xevent->type != ಕೀಲಿ_Release) {
+        ಆದರೆ (X11_XFilterEvent(xevent, None)) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
             SDL_Log("Filtered event type = %d display = %p window = 0x%lx",
-                   xevent->type, xevent->xany.display, xevent->xany.window);
-#endif
-            return;
+                   xevent->type, xevent->xany.display, xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            ಹಿಂತಿರುಗಿ;
         }
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
-    if (xevent->type == GenericEvent) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS
+    ಆದರೆ (xevent->type == GenericEvent) {
         X11_HandleGenericEvent(_this, xevent);
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     // Calling the event hook for generic events happens in X11_HandleGenericEvent(), where the event data is available
-    if (g_X11EventHook) {
-        if (!g_X11EventHook(g_X11EventHookData, xevent)) {
-            return;
+    ಆದರೆ (g_X11EventHook) {
+        ಆದರೆ (!g_X11EventHook(g_X11_Event_Hook_ದತ್ತಾಂಶ, xevent)) {
+            ಹಿಂತಿರುಗಿ;
         }
     }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-    if (videodata->xrandr_event_base && (xevent->type == (videodata->xrandr_event_base + RRNotify))) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
+    ಆದರೆ (videodata->xrandr_event_ತಳ && (xevent->type == (videodata->xrandr_event_ತಳ + RRNotify))) {
         X11_HandleXRandREvent(_this, xevent);
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef DEBUG_XEVENTS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
     SDL_Log("X11 event type = %d display = %p window = 0x%lx",
-           xevent->type, xevent->xany.display, xevent->xany.window);
-#endif
+           xevent->type, xevent->xany.display, xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-    if (SDL_X11_HAVE_XFIXES &&
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
+    ಆದರೆ (SDL_X11_HAVE_XFIXES &&
         xevent->type == X11_GetXFixesSelectionNotifyEvent()) {
         XFixesSelectionNotifyEvent *ev = (XFixesSelectionNotifyEvent *)xevent;
 
-#ifdef DEBUG_XEVENTS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
         SDL_Log("window CLIPBOARD: XFixesSelectionNotify (selection = %s)",
                X11_XGetAtomName(display, ev->selection));
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-        if (ev->subtype == XFixesSetSelectionOwnerNotify)
+        ಆದರೆ (ev->subtype == XFixes_ಗಣ_Selection_Owner_Notify)
         {
-            if (ev->selection != videodata->atoms.CLIPBOARD)
-                return;
+            ಆದರೆ (ev->selection != videodata->atoms.CLIPBOARD)
+                ಹಿಂತಿರುಗಿ;
 
-            if (X11_XGetSelectionOwner(display, ev->selection) == videodata->clipboard_window)
-                return;
+            ಆದರೆ (X11_XGetSelectionOwner(display, ev->selection) == videodata->clipboard_ಕಿಟಕಿ)
+                ಹಿಂತಿರುಗಿ;
 
             /* when here we're notified that the clipboard had an external change, we request the
              * available mime types by asking for a conversion to the TARGETS format. We should get a
@@ -1361,362 +1361,362 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
              */
 
             X11_XConvertSelection(display, videodata->atoms.CLIPBOARD, videodata->atoms.TARGETS,
-                    videodata->atoms.SDL_FORMATS, GetWindow(_this), CurrentTime);
+                    videodata->atoms.SDL_FORMATS, Get_ಕಿಟಕಿ(_this), Current_ಸಮಯ);
         }
 
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XFIXES
 
-    if ((videodata->clipboard_window != None) &&
-        (videodata->clipboard_window == xevent->xany.window)) {
+    ಆದರೆ ((videodata->clipboard_ಕಿಟಕಿ != None) &&
+        (videodata->clipboard_ಕಿಟಕಿ == xevent->xany.ಕಿಟಕಿ)) {
         X11_HandleClipboardEvent(_this, xevent);
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
     // xsettings internally filters events for the windows it watches
     X11_HandleXsettingsEvent(_this, xevent);
 
-    data = X11_FindWindow(videodata, xevent->xany.window);
+    ದತ್ತಾಂಶ = X11_ಕಂಡುಹಿಡಿ_ಕಿಟಕಿ(videodata, xevent->xany.ಕಿಟಕಿ);
 
-    if (!data) {
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
         // The window for KeymapNotify, etc events is 0
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-        if (videodata->keyboard.xkb_enabled && xevent->type == videodata->keyboard.xkb.event) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+        ಆದರೆ (videodata->keyboard.xkb_enabled && xevent->type == videodata->keyboard.xkb.event) {
             XkbEvent *xkbevent = (XkbEvent *)xevent;
-            switch (xkbevent->any.xkb_type) {
-            case XkbStateNotify:
+            ಆಯ್ಕೆ (xkbevent->any.xkb_type) {
+            ಸ್ಥಿತಿ XkbStateNotify:
             {
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: XkbStateNotify!", xevent->xany.window);
-#endif
-                if ((xkbevent->state.changed & XkbGroupStateMask) && xkbevent->state.group != videodata->keyboard.xkb.current_group) {
-                    videodata->keyboard.xkb.current_group = xkbevent->state.group;
-                    SDL_SetKeymap(videodata->keyboard.xkb.keymaps[videodata->keyboard.xkb.current_group], true);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: XkbStateNotify!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+                ಆದರೆ ((xkbevent->state.ಬದಲಾಯಿತು & Xkb_ಗುಂಪು_State_ಮುಖವಾಡ) && xkbevent->state.ಗುಂಪು != videodata->keyboard.xkb.current_ಗುಂಪು) {
+                    videodata->keyboard.xkb.current_ಗುಂಪು = xkbevent->state.ಗುಂಪು;
+                    SDL_ಗಣ_Keymap(videodata->keyboard.xkb.keymaps[videodata->keyboard.xkb.current_ಗುಂಪು], true);
                 }
 
-                if (xkbevent->state.changed & XkbModifierStateMask) {
-                    videodata->keyboard.pressed_modifiers = xkbevent->state.base_mods;
+                ಆದರೆ (xkbevent->state.ಬದಲಾಯಿತು & Xkb_Modifier_State_ಮುಖವಾಡ) {
+                    videodata->keyboard.pressed_modifiers = xkbevent->state.ತಳ_mods;
                     videodata->keyboard.locked_modifiers = xkbevent->state.latched_mods | xkbevent->state.locked_mods;
                     X11_ReconcileModifiers(videodata, false);
                 }
-            } break;
+            } ನಿಲ್ಲಿಸು;
 
-            case XkbMapNotify:
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: XkbMapNotify!", xevent->xany.window);
+            ಸ್ಥಿತಿ XkbMapNotify:
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: XkbMapNotify!", xevent->xany.ಕಿಟಕಿ);
                 SDL_FALLTHROUGH;
-#endif
-            case XkbNewKeyboardNotify:
+#ಆದರೆ_ಅಂತ್ಯ
+            ಸ್ಥಿತಿ XkbNewKeyboardNotify:
             {
-#ifdef DEBUG_XEVENTS
-                if (xkbevent->any.xkb_type == XkbNewKeyboardNotify) {
-                    SDL_Log("window 0x%lx: XkbNewKeyboardNotify!", xevent->xany.window);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+                ಆದರೆ (xkbevent->any.xkb_type == XkbNewKeyboardNotify) {
+                    SDL_Log("window 0x%lx: XkbNewKeyboardNotify!", xevent->xany.ಕಿಟಕಿ);
                 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
                 X11_XkbRefreshKeyboardMapping(&xkbevent->map);
 
                 // Don't redundantly rebuild the keymap if this is a duplicate event.
-                if (xkbevent->any.serial != videodata->keyboard.xkb.last_map_serial) {
-                    videodata->keyboard.xkb.last_map_serial = xkbevent->any.serial;
+                ಆದರೆ (xkbevent->any.serial != videodata->keyboard.xkb.ಕೊನೆಯ_map_serial) {
+                    videodata->keyboard.xkb.ಕೊನೆಯ_map_serial = xkbevent->any.serial;
                     X11_UpdateKeymap(_this, true);
                 }
-            } break;
+            } ನಿಲ್ಲಿಸು;
 
-            default:
-                break;
+            ಪೂರ್ವನಿಯೋಜಿತ:
+                ನಿಲ್ಲಿಸು;
             }
-        } else
-#endif
-        if (xevent->type == KeymapNotify) {
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: KeymapNotify!", xevent->xany.window);
-#endif
-            if (SDL_GetKeyboardFocus() != NULL) {
-                if (!videodata->keyboard.xkb_enabled) {
+        } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (xevent->type == KeymapNotify) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: KeymapNotify!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            ಆದರೆ (SDL_GetKeyboardFocus() != ಖಾಲಿ) {
+                ಆದರೆ (!videodata->keyboard.xkb_enabled) {
                     X11_UpdateKeymap(_this, true);
                 }
                 X11_ReconcileKeyboardState(_this);
             }
-        } else if (xevent->type == MappingNotify) {
-            const int request = xevent->xmapping.request;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->type == MappingNotify) {
+            ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ request = xevent->xmapping.request;
 
-            if (request == MappingPointer) {
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.window);
-#endif
-                X11_Xinput2UpdatePointerMapping(_this);
-            } else if (!videodata->keyboard.xkb_enabled) {
+            ಆದರೆ (request == Mapping_ಸೂಚಕ) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+                X11_Xinput2_Update_ಸೂಚಕ_Mapping(_this);
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!videodata->keyboard.xkb_enabled) {
                 // Has the keyboard layout changed?
-#ifdef DEBUG_XEVENTS
-                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.window);
-#endif
-                if (request == MappingKeyboard || request == MappingModifier) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+                SDL_Log("window 0x%lx: MappingNotify!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+                ಆದರೆ (request == MappingKeyboard || request == MappingModifier) {
                     X11_XRefreshKeyboardMapping(&xevent->xmapping);
                 }
 
                 X11_UpdateKeymap(_this, true);
             }
-        } else if (xevent->type == PropertyNotify && videodata) {
-            char *name_of_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
-            if (name_of_atom) {
-                if (SDL_startswith(name_of_atom, "_ICC_PROFILE")) {
-                    XWindowAttributes attrib;
-                    int screennum;
-                    for (i = 0; i < videodata->numwindows; ++i) {
-                        if (videodata->windowlist[i] != NULL) {
-                            data = videodata->windowlist[i];
-                            X11_XGetWindowAttributes(display, data->xwindow, &attrib);
-                            screennum = X11_XScreenNumberOfScreen(attrib.screen);
-                            if (screennum == 0 && SDL_strcmp(name_of_atom, "_ICC_PROFILE") == 0) {
-                                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
-                            } else if (SDL_strncmp(name_of_atom, "_ICC_PROFILE_", sizeof("_ICC_PROFILE_") - 1) == 0 && SDL_strlen(name_of_atom) > sizeof("_ICC_PROFILE_") - 1) {
-                                int iccscreennum = SDL_atoi(&name_of_atom[sizeof("_ICC_PROFILE_") - 1]);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->type == PropertyNotify && videodata) {
+            ಅಕ್ಷರ *name_ದ_atom = X11_XGetAtomName(display, xevent->xproperty.atom);
+            ಆದರೆ (name_ದ_atom) {
+                ಆದರೆ (SDL_startswith(name_ದ_atom, "_ICC_PROFILE")) {
+                    XWindow_ಗುಣಲಕ್ಷಣಗಳು attrib;
+                    ಪೂರ್ಣಾಂಕ screennum;
+                    ಗಾಗಿ (i = 0; i < videodata->numwindows; ++i) {
+                        ಆದರೆ (videodata->windowlist[i] != ಖಾಲಿ) {
+                            ದತ್ತಾಂಶ = videodata->windowlist[i];
+                            X11_XGet_ಕಿಟಕಿ_ಗುಣಲಕ್ಷಣಗಳು(display, ದತ್ತಾಂಶ->xwindow, &attrib);
+                            screennum = X11_XScreen_ಸಂಖ್ಯೆ_ದ_Screen(attrib.screen);
+                            ಆದರೆ (screennum == 0 && SDL_strcmp(name_ದ_atom, "_ICC_PROFILE") == 0) {
+                                SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_ICCPROF_ಬದಲಾಯಿತು, 0, 0);
+                            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strncmp(name_ದ_atom, "_ICC_PROFILE_", ಗಾತ್ರ("_ICC_PROFILE_") - 1) == 0 && SDL_strlen(name_ದ_atom) > ಗಾತ್ರ("_ICC_PROFILE_") - 1) {
+                                ಪೂರ್ಣಾಂಕ iccscreennum = SDL_atoi(&name_ದ_atom[ಗಾತ್ರ("_ICC_PROFILE_") - 1]);
 
-                                if (screennum == iccscreennum) {
-                                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
+                                ಆದರೆ (screennum == iccscreennum) {
+                                    SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_ICCPROF_ಬದಲಾಯಿತು, 0, 0);
                                 }
                             }
                         }
                     }
-                } else if (SDL_strcmp(name_of_atom, "_NET_WORKAREA") == 0) {
-                    for (i = 0; i < _this->num_displays; ++i) {
-                        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_CHANGED, 0, 0);
+                } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(name_ದ_atom, "_NET_WORKAREA") == 0) {
+                    ಗಾಗಿ (i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
+                        SDL_SendDisplayEvent(_this->displays[i], SDL_EVENT_DISPLAY_USABLE_BOUNDS_ಬದಲಾಯಿತು, 0, 0);
                     }
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-                } else if (SDL_strcmp(name_of_atom, "GAMESCOPE_DISPLAY_IS_EXTERNAL") == 0 ||
-                           SDL_strcmp(name_of_atom, "GAMESCOPE_SDR_ON_HDR_CONTENT_BRIGHTNESS") == 0) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
+                } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp(name_ದ_atom, "GAMESCOPE_DISPLAY_IS_EXTERNAL") == 0 ||
+                           SDL_strcmp(name_ದ_atom, "GAMESCOPE_SDR_ON_HDR_CONTENT_BRIGHTNESS") == 0) {
                     X11_CheckDisplaysMoved(_this, display);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
                 }
-                X11_XFree(name_of_atom);
+                X11_XFree(name_ದ_atom);
             }
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
-    switch (xevent->type) {
+    ಆಯ್ಕೆ (xevent->type) {
 
         // Gaining mouse coverage?
-    case EnterNotify:
+    ಸ್ಥಿತಿ EnterNotify:
     {
         SDL_Mouse *mouse = SDL_GetMouse();
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: EnterNotify! (%d,%d,%d)", xevent->xany.window,
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: EnterNotify! (%d,%d,%d)", xevent->xany.ಕಿಟಕಿ,
                xevent->xcrossing.x,
                xevent->xcrossing.y,
-               xevent->xcrossing.mode);
-        if (xevent->xcrossing.mode == NotifyGrab) {
+               xevent->xcrossing.ಬಹುಲಕ);
+        ಆದರೆ (xevent->xcrossing.ಬಹುಲಕ == NotifyGrab) {
             SDL_Log("Mode: NotifyGrab");
         }
-        if (xevent->xcrossing.mode == NotifyUngrab) {
+        ಆದರೆ (xevent->xcrossing.ಬಹುಲಕ == NotifyUngrab) {
             SDL_Log("Mode: NotifyUngrab");
         }
-#endif
-        SDL_SetMouseFocus(data->window);
+#ಆದರೆ_ಅಂತ್ಯ
+        SDL_ಗಣ_Mouse_Focus(ದತ್ತಾಂಶ->ಕಿಟಕಿ);
 
-        mouse->last_x = xevent->xcrossing.x;
-        mouse->last_y = xevent->xcrossing.y;
+        mouse->ಕೊನೆಯ_x = xevent->xcrossing.x;
+        mouse->ಕೊನೆಯ_y = xevent->xcrossing.y;
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
         {
             // Only create the barriers if we have input focus
-            SDL_WindowData *windowdata = data->window->internal;
-            if ((data->pointer_barrier_active == true) && windowdata->window->flags & SDL_WINDOW_INPUT_FOCUS) {
-                X11_ConfineCursorWithFlags(_this, windowdata->window, &windowdata->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
+            SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *windowdata = ದತ್ತಾಂಶ->ಕಿಟಕಿ->ಆಂತರಿಕ;
+            ಆದರೆ ((ದತ್ತಾಂಶ->ಸೂಚಕ_barrier_ಸಕ್ರಿಯ == true) && windowdata->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_ಒಳಹರಿವು_FOCUS) {
+                X11_ConfineCursorWithFlags(_this, windowdata->ಕಿಟಕಿ, &windowdata->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
             }
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-        if (!mouse->relative_mode) {
-            SDL_SendMouseMotion(0, data->window, SDL_GLOBAL_MOUSE_ID, false, (float)xevent->xcrossing.x, (float)xevent->xcrossing.y);
+        ಆದರೆ (!mouse->relative_ಬಹುಲಕ) {
+            SDL_SendMouseMotion(0, ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_GLOBAL_MOUSE_ID, false, (ದಶಮಾಂಶ)xevent->xcrossing.x, (ದಶಮಾಂಶ)xevent->xcrossing.y);
         }
 
         // We ungrab in LeaveNotify, so we may need to grab again here, but not if captured, as the capture can be lost.
-        if (!(data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-            SDL_UpdateWindowGrab(data->window);
+        ಆದರೆ (!(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MOUSE_CAPTURE)) {
+            SDL_Update_ಕಿಟಕಿ_Grab(ದತ್ತಾಂಶ->ಕಿಟಕಿ);
         }
 
-        X11_ProcessHitTest(_this, data, mouse->last_x, mouse->last_y, true);
-    } break;
+        X11_Process_ದೊರಕಿತು_Test(_this, ದತ್ತಾಂಶ, mouse->ಕೊನೆಯ_x, mouse->ಕೊನೆಯ_y, true);
+    } ನಿಲ್ಲಿಸು;
         // Losing mouse coverage?
-    case LeaveNotify:
+    ಸ್ಥಿತಿ LeaveNotify:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: LeaveNotify! (%d,%d,%d)", xevent->xany.window,
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: LeaveNotify! (%d,%d,%d)", xevent->xany.ಕಿಟಕಿ,
                xevent->xcrossing.x,
                xevent->xcrossing.y,
-               xevent->xcrossing.mode);
-        if (xevent->xcrossing.mode == NotifyGrab) {
+               xevent->xcrossing.ಬಹುಲಕ);
+        ಆದರೆ (xevent->xcrossing.ಬಹುಲಕ == NotifyGrab) {
             SDL_Log("Mode: NotifyGrab");
         }
-        if (xevent->xcrossing.mode == NotifyUngrab) {
+        ಆದರೆ (xevent->xcrossing.ಬಹುಲಕ == NotifyUngrab) {
             SDL_Log("Mode: NotifyUngrab");
         }
-#endif
-        if (!SDL_GetMouse()->relative_mode) {
-            SDL_SendMouseMotion(0, data->window, SDL_GLOBAL_MOUSE_ID, false, (float)xevent->xcrossing.x, (float)xevent->xcrossing.y);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (!SDL_GetMouse()->relative_ಬಹುಲಕ) {
+            SDL_SendMouseMotion(0, ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_GLOBAL_MOUSE_ID, false, (ದಶಮಾಂಶ)xevent->xcrossing.x, (ದಶಮಾಂಶ)xevent->xcrossing.y);
         }
 
-        if (xevent->xcrossing.mode != NotifyGrab &&
-            xevent->xcrossing.mode != NotifyUngrab &&
+        ಆದರೆ (xevent->xcrossing.ಬಹುಲಕ != NotifyGrab &&
+            xevent->xcrossing.ಬಹುಲಕ != NotifyUngrab &&
             xevent->xcrossing.detail != NotifyInferior) {
 
             /* In order for interaction with the window decorations and menu to work properly
                on Mutter, we need to ungrab the keyboard when the mouse leaves. */
-            if (!(data->window->flags & SDL_WINDOW_FULLSCREEN)) {
-                X11_SetWindowKeyboardGrab(_this, data->window, false);
+            ಆದರೆ (!(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN)) {
+                X11_ಗಣ_ಕಿಟಕಿ_Keyboard_Grab(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, false);
             }
 
-            SDL_SetMouseFocus(NULL);
+            SDL_ಗಣ_Mouse_Focus(ಖಾಲಿ);
         }
-    } break;
+    } ನಿಲ್ಲಿಸು;
 
         // Gaining input focus?
-    case FocusIn:
+    ಸ್ಥಿತಿ Focus_ಒಳ:
     {
-        if (xevent->xfocus.mode == NotifyGrab || xevent->xfocus.mode == NotifyUngrab) {
+        ಆದರೆ (xevent->xfocus.ಬಹುಲಕ == NotifyGrab || xevent->xfocus.ಬಹುಲಕ == NotifyUngrab) {
             // Someone is handling a global hotkey, ignore it
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusIn (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.window);
-#endif
-            break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusIn (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            ನಿಲ್ಲಿಸು;
         }
 
-        if (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == NotifyPointer) {
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusIn (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.window);
-#endif
-            break;
+        ಆದರೆ (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == Notify_ಸೂಚಕ) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusIn (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            ನಿಲ್ಲಿಸು;
         }
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: FocusIn!", xevent->xany.window);
-#endif
-        if (!videodata->last_mode_change_deadline) /* no recent mode changes */ {
-            data->pending_focus = PENDING_FOCUS_NONE;
-            data->pending_focus_time = 0;
-            X11_DispatchFocusIn(_this, data);
-        } else {
-            data->pending_focus = PENDING_FOCUS_IN;
-            data->pending_focus_time = SDL_GetTicks() + PENDING_FOCUS_TIME;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: FocusIn!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (!videodata->ಕೊನೆಯ_ಬಹುಲಕ_change_deadline) /* no recent mode changes */ {
+            ದತ್ತಾಂಶ->pending_focus = PENDING_FOCUS_NONE;
+            ದತ್ತಾಂಶ->pending_focus_ಸಮಯ = 0;
+            X11_Dispatch_Focus_ಒಳ(_this, ದತ್ತಾಂಶ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ದತ್ತಾಂಶ->pending_focus = PENDING_FOCUS_ಒಳ;
+            ದತ್ತಾಂಶ->pending_focus_ಸಮಯ = SDL_GetTicks() + PENDING_FOCUS_ಸಮಯ;
         }
-        data->last_focus_event_time = SDL_GetTicks();
-    } break;
+        ದತ್ತಾಂಶ->ಕೊನೆಯ_focus_event_ಸಮಯ = SDL_GetTicks();
+    } ನಿಲ್ಲಿಸು;
 
         // Losing input focus?
-    case FocusOut:
+    ಸ್ಥಿತಿ Focus_ಹೊರಹೋಗು:
     {
-        if (xevent->xfocus.mode == NotifyGrab || xevent->xfocus.mode == NotifyUngrab) {
+        ಆದರೆ (xevent->xfocus.ಬಹುಲಕ == NotifyGrab || xevent->xfocus.ಬಹುಲಕ == NotifyUngrab) {
             // Someone is handling a global hotkey, ignore it
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusOut (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.window);
-#endif
-            break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusOut (NotifyGrab/NotifyUngrab, ignoring)", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            ನಿಲ್ಲಿಸು;
         }
-        if (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == NotifyPointer) {
+        ಆದರೆ (xevent->xfocus.detail == NotifyInferior || xevent->xfocus.detail == Notify_ಸೂಚಕ) {
             /* We still have focus if a child gets focus. We also don't
                care about the position of the pointer when the keyboard
                focus changed. */
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: FocusOut (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.window);
-#endif
-            break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: FocusOut (NotifyInferior/NotifyPointer, ignoring)", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            ನಿಲ್ಲಿಸು;
         }
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: FocusOut!", xevent->xany.window);
-#endif
-        if (!videodata->last_mode_change_deadline) /* no recent mode changes */ {
-            data->pending_focus = PENDING_FOCUS_NONE;
-            data->pending_focus_time = 0;
-            X11_DispatchFocusOut(_this, data);
-        } else {
-            data->pending_focus = PENDING_FOCUS_OUT;
-            data->pending_focus_time = SDL_GetTicks() + PENDING_FOCUS_TIME;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: FocusOut!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (!videodata->ಕೊನೆಯ_ಬಹುಲಕ_change_deadline) /* no recent mode changes */ {
+            ದತ್ತಾಂಶ->pending_focus = PENDING_FOCUS_NONE;
+            ದತ್ತಾಂಶ->pending_focus_ಸಮಯ = 0;
+            X11_Dispatch_Focus_ಹೊರಹೋಗು(_this, ದತ್ತಾಂಶ);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            ದತ್ತಾಂಶ->pending_focus = PENDING_FOCUS_ಹೊರಹೋಗು;
+            ದತ್ತಾಂಶ->pending_focus_ಸಮಯ = SDL_GetTicks() + PENDING_FOCUS_ಸಮಯ;
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
         // Disable confinement if it is activated.
-        if (data->pointer_barrier_active == true) {
-            X11_ConfineCursorWithFlags(_this, data->window, NULL, X11_BARRIER_HANDLED_BY_EVENT);
+        ಆದರೆ (ದತ್ತಾಂಶ->ಸೂಚಕ_barrier_ಸಕ್ರಿಯ == true) {
+            X11_ConfineCursorWithFlags(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, ಖಾಲಿ, X11_BARRIER_HANDLED_BY_EVENT);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    } break;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XFIXES
+    } ನಿಲ್ಲಿಸು;
 
 
         // Have we been iconified?
-    case UnmapNotify:
+    ಸ್ಥಿತಿ UnmapNotify:
     {
         XEvent ev;
 
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: UnmapNotify!", xevent->xany.window);
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: UnmapNotify!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
 
-        if (X11_XCheckIfEvent(display, &ev, &isReparentNotify, (XPointer)&xevent->xunmap)) {
+        ಆದರೆ (X11_XCheckIfEvent(display, &ev, &isReparentNotify, (XPointer)&xevent->xunmap)) {
             X11_XCheckIfEvent(display, &ev, &isMapNotify, (XPointer)&xevent->xunmap);
-        } else {
-            X11_DispatchUnmapNotify(data);
+        } ಇಲ್ಲದಿದ್ದರೆ {
+            X11_DispatchUnmapNotify(ದತ್ತಾಂಶ);
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
         // Disable confinement if the window gets hidden.
-        if (data->pointer_barrier_active == true) {
-            X11_ConfineCursorWithFlags(_this, data->window, NULL, X11_BARRIER_HANDLED_BY_EVENT);
+        ಆದರೆ (ದತ್ತಾಂಶ->ಸೂಚಕ_barrier_ಸಕ್ರಿಯ == true) {
+            X11_ConfineCursorWithFlags(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, ಖಾಲಿ, X11_BARRIER_HANDLED_BY_EVENT);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    } break;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XFIXES
+    } ನಿಲ್ಲಿಸು;
 
         // Have we been restored?
-    case MapNotify:
+    ಸ್ಥಿತಿ MapNotify:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: MapNotify!", xevent->xany.window);
-#endif
-        X11_DispatchMapNotify(data);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: MapNotify!", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+        X11_DispatchMapNotify(ದತ್ತಾಂಶ);
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
         // Enable confinement if it was activated.
-        if (data->pointer_barrier_active == true) {
-            X11_ConfineCursorWithFlags(_this, data->window, &data->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
+        ಆದರೆ (ದತ್ತಾಂಶ->ಸೂಚಕ_barrier_ಸಕ್ರಿಯ == true) {
+            X11_ConfineCursorWithFlags(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, &ದತ್ತಾಂಶ->barrier_rect, X11_BARRIER_HANDLED_BY_EVENT);
         }
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
-    } break;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XFIXES
+    } ನಿಲ್ಲಿಸು;
 
         // Have we been resized or moved?
-    case ConfigureNotify:
+    ಸ್ಥಿತಿ ConfigureNotify:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: ConfigureNotify! (position: %d,%d, size: %dx%d)", xevent->xany.window,
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: ConfigureNotify! (position: %d,%d, size: %dx%d)", xevent->xany.ಕಿಟಕಿ,
                xevent->xconfigure.x, xevent->xconfigure.y,
-               xevent->xconfigure.width, xevent->xconfigure.height);
-#endif
+               xevent->xconfigure.ಅಗಲ, xevent->xconfigure.ಎತ್ತರ);
+#ಆದರೆ_ಅಂತ್ಯ
         // Real configure notify events are relative to the parent, synthetic events are absolute.
-        if (!xevent->xconfigure.send_event) {
-            unsigned int NumChildren;
-            Window ChildReturn, Root, Parent;
-            Window *Children;
+        ಆದರೆ (!xevent->xconfigure.send_event) {
+            ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ ಅಂಕೆ_Children;
+            ಕಿಟಕಿ_2 ಮಗು_Return, ಬೇರು_2, ಪೋಷಕ_2;
+            ಕಿಟಕಿ_2 *Children;
             /* Translate these coordinates back to relative to root.
              *
              * XTranslateCoordinates can generate a BadWindow error if called during a racy
              * reparenting operation, so a non-fatal error handler is required.
              */
-            x11_last_error = 0;
-            XErrorHandler prev_handler = X11_XSetErrorHandler(BadWindowErrorHandler);
+            x11_ಕೊನೆಯ_error = 0;
+            XErrorHandler prev_handler = X11_XSetErrorHandler(Bad_ಕಿಟಕಿ_Error_Handler);
 
-            X11_XQueryTree(data->videodata->display, xevent->xconfigure.window, &Root, &Parent, &Children, &NumChildren);
+            X11_XQuery_ವೃಕ್ಷ(ದತ್ತಾಂಶ->videodata->display, xevent->xconfigure.ಕಿಟಕಿ, &ಬೇರು_2, &ಪೋಷಕ_2, &Children, &ಅಂಕೆ_Children);
             X11_XTranslateCoordinates(xevent->xconfigure.display,
-                                      Parent, DefaultRootWindow(xevent->xconfigure.display),
+                                      ಪೋಷಕ_2, Default_ಬೇರು_ಕಿಟಕಿ(xevent->xconfigure.display),
                                       xevent->xconfigure.x, xevent->xconfigure.y,
                                       &xevent->xconfigure.x, &xevent->xconfigure.y,
-                                      &ChildReturn);
+                                      &ಮಗು_Return);
 
             // Make sure the error callback was called if XTranslateCoordinates() failed.
             X11_XSync(display, False);
             X11_XSetErrorHandler(prev_handler);
 
             // If XTranslateCoordinates failed due to a BadWindow error, nothing more to do here.
-            if (x11_last_error == BadWindow) {
-                break;
+            ಆದರೆ (x11_ಕೊನೆಯ_error == Bad_ಕಿಟಕಿ) {
+                ನಿಲ್ಲಿಸು;
             }
         }
 
@@ -1725,155 +1725,155 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
          * expected by SDL and its clients. Defer emitting the size/move events until the corresponding
          * PropertyNotify arrives for consistency.
          */
-        const SDL_WindowFlags changed = X11_GetNetWMState(_this, data->window, xevent->xproperty.window) ^ data->window->flags;
-        if (changed & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED)) {
-            SDL_copyp(&data->pending_xconfigure, &xevent->xconfigure);
-            data->emit_size_move_after_property_notify = true;
+        ಸ್ಥಿರಾಂಕ SDL_ಕಿಟಕಿ_Flags ಬದಲಾಯಿತು = X11_GetNetWMState(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, xevent->xproperty.ಕಿಟಕಿ) ^ ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags;
+        ಆದರೆ (ಬದಲಾಯಿತು & (SDL_ಕಿಟಕಿ_FULLSCREEN | SDL_ಕಿಟಕಿ_MAXIMIZED)) {
+            SDL_copyp(&ದತ್ತಾಂಶ->pending_xconfigure, &xevent->xconfigure);
+            ದತ್ತಾಂಶ->emit_ಗಾತ್ರ_move_after_property_notify = true;
         }
 
-        if (!data->emit_size_move_after_property_notify) {
-            X11_EmitConfigureNotifyEvents(data, &xevent->xconfigure);
+        ಆದರೆ (!ದತ್ತಾಂಶ->emit_ಗಾತ್ರ_move_after_property_notify) {
+            X11_EmitConfigureNotifyEvents(ದತ್ತಾಂಶ, &xevent->xconfigure);
         }
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-        X11_HandleConfigure(data->window, &xevent->xconfigure);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
-    } break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSYNC
+        X11_HandleConfigure(ದತ್ತಾಂಶ->ಕಿಟಕಿ, &xevent->xconfigure);
+#ಆದರೆ_ಅಂತ್ಯ /* SDL_VIDEO_DRIVER_X11_XSYNC */
+    } ನಿಲ್ಲಿಸು;
 
         // Have we been requested to quit (or another client message?)
-    case ClientMessage:
+    ಸ್ಥಿತಿ Client_ಸಂದೇಶ:
     {
-        static int xdnd_version = 0;
+        ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ xdnd_ಆವೃತ್ತಿ = 0;
 
-        if (xevent->xclient.message_type == videodata->atoms.XdndEnter) {
+        ಆದರೆ (xevent->xclient.ಸಂದೇಶ_type == videodata->atoms.XdndEnter) {
 
-            bool use_list = xevent->xclient.data.l[1] & 1;
-            data->xdnd_source = xevent->xclient.data.l[0];
-            xdnd_version = (xevent->xclient.data.l[1] >> 24);
-#ifdef DEBUG_XEVENTS
-            SDL_Log("XID of source window : 0x%lx", data->xdnd_source);
-            SDL_Log("Protocol version to use : %d", xdnd_version);
-            SDL_Log("More then 3 data types : %d", (int)use_list);
-#endif
+            bool use_list = xevent->xclient.ದತ್ತಾಂಶ.l[1] & 1;
+            ದತ್ತಾಂಶ->xdnd_ಮೂಲ = xevent->xclient.ದತ್ತಾಂಶ.l[0];
+            xdnd_ಆವೃತ್ತಿ = (xevent->xclient.ದತ್ತಾಂಶ.l[1] >> 24);
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("XID of source window : 0x%lx", ದತ್ತಾಂಶ->xdnd_ಮೂಲ);
+            SDL_Log("Protocol version to use : %d", xdnd_ಆವೃತ್ತಿ);
+            SDL_Log("More then 3 data types : %d", (ಪೂರ್ಣಾಂಕ)use_list);
+#ಆದರೆ_ಅಂತ್ಯ
 
-            if (use_list) {
+            ಆದರೆ (use_list) {
                 // fetch conversion targets
                 SDL_x11Prop p;
-                X11_ReadProperty(&p, display, data->xdnd_source, videodata->atoms.XdndTypeList);
+                X11_ReadProperty(&p, display, ದತ್ತಾಂಶ->xdnd_ಮೂಲ, videodata->atoms.XdndTypeList);
                 // pick one
-                data->xdnd_req = X11_PickTarget(display, (Atom *)p.data, p.count);
-                X11_XFree(p.data);
-            } else {
+                ದತ್ತಾಂಶ->xdnd_req = X11_Pick_ಗುರಿ(display, (Atom *)p.ದತ್ತಾಂಶ, p.ಎಣಿಕೆ_2);
+                X11_XFree(p.ದತ್ತಾಂಶ);
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 // pick from list of three
-                data->xdnd_req = X11_PickTargetFromAtoms(display, xevent->xclient.data.l[2], xevent->xclient.data.l[3], xevent->xclient.data.l[4]);
+                ದತ್ತಾಂಶ->xdnd_req = X11_Pick_ಗುರಿ_From_Atoms(display, xevent->xclient.ದತ್ತಾಂಶ.l[2], xevent->xclient.ದತ್ತಾಂಶ.l[3], xevent->xclient.ದತ್ತಾಂಶ.l[4]);
             }
-        } else if (xevent->xclient.message_type == videodata->atoms.XdndLeave) {
-#ifdef DEBUG_XEVENTS
-            SDL_Log("XID of source window : 0x%lx", xevent->xclient.data.l[0]);
-#endif
-            SDL_SendDropComplete(data->window);
-        } else if (xevent->xclient.message_type == videodata->atoms.XdndPosition) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->xclient.ಸಂದೇಶ_type == videodata->atoms.XdndLeave) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("XID of source window : 0x%lx", xevent->xclient.ದತ್ತಾಂಶ.l[0]);
+#ಆದರೆ_ಅಂತ್ಯ
+            SDL_SendDropComplete(ದತ್ತಾಂಶ->ಕಿಟಕಿ);
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->xclient.ಸಂದೇಶ_type == videodata->atoms.XdndPosition) {
 
-#ifdef DEBUG_XEVENTS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
             Atom act = videodata->atoms.XdndActionCopy;
-            if (xdnd_version >= 2) {
-                act = xevent->xclient.data.l[4];
+            ಆದರೆ (xdnd_ಆವೃತ್ತಿ >= 2) {
+                act = xevent->xclient.ದತ್ತಾಂಶ.l[4];
             }
             SDL_Log("Action requested by user is : %s", X11_XGetAtomName(display, act));
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
             {
                 // Drag and Drop position
-                int root_x, root_y, window_x, window_y;
-                Window ChildReturn;
-                root_x = xevent->xclient.data.l[2] >> 16;
-                root_y = xevent->xclient.data.l[2] & 0xffff;
+                ಪೂರ್ಣಾಂಕ ಬೇರು_x, ಬೇರು_y, ಕಿಟಕಿ_x, ಕಿಟಕಿ_y;
+                ಕಿಟಕಿ_2 ಮಗು_Return;
+                ಬೇರು_x = xevent->xclient.ದತ್ತಾಂಶ.l[2] >> 16;
+                ಬೇರು_y = xevent->xclient.ದತ್ತಾಂಶ.l[2] & 0xffff;
                 // Translate from root to current window position
-                X11_XTranslateCoordinates(display, DefaultRootWindow(display), data->xwindow,
-                                          root_x, root_y, &window_x, &window_y, &ChildReturn);
+                X11_XTranslateCoordinates(display, Default_ಬೇರು_ಕಿಟಕಿ(display), ದತ್ತಾಂಶ->xwindow,
+                                          ಬೇರು_x, ಬೇರು_y, &ಕಿಟಕಿ_x, &ಕಿಟಕಿ_y, &ಮಗು_Return);
 
-                SDL_SendDropPosition(data->window, (float)window_x, (float)window_y);
+                SDL_SendDropPosition(ದತ್ತಾಂಶ->ಕಿಟಕಿ, (ದಶಮಾಂಶ)ಕಿಟಕಿ_x, (ದಶಮಾಂಶ)ಕಿಟಕಿ_y);
             }
 
             // reply with status
             SDL_zero(m);
-            m.type = ClientMessage;
+            m.type = Client_ಸಂದೇಶ;
             m.display = xevent->xclient.display;
-            m.window = xevent->xclient.data.l[0];
-            m.message_type = videodata->atoms.XdndStatus;
+            m.ಕಿಟಕಿ = xevent->xclient.ದತ್ತಾಂಶ.l[0];
+            m.ಸಂದೇಶ_type = videodata->atoms.Xdnd_ಸ್ಥಿತಿ;
             m.format = 32;
-            m.data.l[0] = data->xwindow;
-            m.data.l[1] = (data->xdnd_req != None);
-            m.data.l[2] = 0; // specify an empty rectangle
-            m.data.l[3] = 0;
-            m.data.l[4] = videodata->atoms.XdndActionCopy; // we only accept copying anyway
+            m.ದತ್ತಾಂಶ.l[0] = ದತ್ತಾಂಶ->xwindow;
+            m.ದತ್ತಾಂಶ.l[1] = (ದತ್ತಾಂಶ->xdnd_req != None);
+            m.ದತ್ತಾಂಶ.l[2] = 0; // specify an empty rectangle
+            m.ದತ್ತಾಂಶ.l[3] = 0;
+            m.ದತ್ತಾಂಶ.l[4] = videodata->atoms.XdndActionCopy; // we only accept copying anyway
 
-            X11_XSendEvent(display, xevent->xclient.data.l[0], False, NoEventMask, (XEvent *)&m);
+            X11_XSendEvent(display, xevent->xclient.ದತ್ತಾಂಶ.l[0], False, No_Event_ಮುಖವಾಡ, (XEvent *)&m);
             X11_XFlush(display);
-        } else if (xevent->xclient.message_type == videodata->atoms.XdndDrop) {
-            if (data->xdnd_req == None) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->xclient.ಸಂದೇಶ_type == videodata->atoms.XdndDrop) {
+            ಆದರೆ (ದತ್ತಾಂಶ->xdnd_req == None) {
                 // say again - not interested!
                 SDL_zero(m);
-                m.type = ClientMessage;
+                m.type = Client_ಸಂದೇಶ;
                 m.display = xevent->xclient.display;
-                m.window = xevent->xclient.data.l[0];
-                m.message_type = videodata->atoms.XdndFinished;
+                m.ಕಿಟಕಿ = xevent->xclient.ದತ್ತಾಂಶ.l[0];
+                m.ಸಂದೇಶ_type = videodata->atoms.Xdnd_ಪೂರ್ಣಗೊಂಡ;
                 m.format = 32;
-                m.data.l[0] = data->xwindow;
-                m.data.l[1] = 0;
-                m.data.l[2] = None; // fail!
-                X11_XSendEvent(display, xevent->xclient.data.l[0], False, NoEventMask, (XEvent *)&m);
-            } else {
+                m.ದತ್ತಾಂಶ.l[0] = ದತ್ತಾಂಶ->xwindow;
+                m.ದತ್ತಾಂಶ.l[1] = 0;
+                m.ದತ್ತಾಂಶ.l[2] = None; // fail!
+                X11_XSendEvent(display, xevent->xclient.ದತ್ತಾಂಶ.l[0], False, No_Event_ಮುಖವಾಡ, (XEvent *)&m);
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 // convert
-                if (xdnd_version >= 1) {
-                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, data->xdnd_req, videodata->atoms.PRIMARY, data->xwindow, xevent->xclient.data.l[2]);
-                } else {
-                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, data->xdnd_req, videodata->atoms.PRIMARY, data->xwindow, CurrentTime);
+                ಆದರೆ (xdnd_ಆವೃತ್ತಿ >= 1) {
+                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, ದತ್ತಾಂಶ->xdnd_req, videodata->atoms.PRIMARY, ದತ್ತಾಂಶ->xwindow, xevent->xclient.ದತ್ತಾಂಶ.l[2]);
+                } ಇಲ್ಲದಿದ್ದರೆ {
+                    X11_XConvertSelection(display, videodata->atoms.XdndSelection, ದತ್ತಾಂಶ->xdnd_req, videodata->atoms.PRIMARY, ದತ್ತಾಂಶ->xwindow, Current_ಸಮಯ);
                 }
             }
-        } else if ((xevent->xclient.message_type == videodata->atoms.WM_PROTOCOLS) &&
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ ((xevent->xclient.ಸಂದೇಶ_type == videodata->atoms.WM_PROTOCOLS) &&
                    (xevent->xclient.format == 32) &&
-                   (xevent->xclient.data.l[0] == videodata->atoms._NET_WM_PING)) {
-            Window root = DefaultRootWindow(display);
+                   (xevent->xclient.ದತ್ತಾಂಶ.l[0] == videodata->atoms._NET_WM_PING)) {
+            ಕಿಟಕಿ_2 ಬೇರು = Default_ಬೇರು_ಕಿಟಕಿ(display);
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: _NET_WM_PING", xevent->xany.window);
-#endif
-            xevent->xclient.window = root;
-            X11_XSendEvent(display, root, False, SubstructureRedirectMask | SubstructureNotifyMask, xevent);
-            break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: _NET_WM_PING", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            xevent->xclient.ಕಿಟಕಿ = ಬೇರು;
+            X11_XSendEvent(display, ಬೇರು, False, Substructure_Redirect_ಮುಖವಾಡ | Substructure_Notify_ಮುಖವಾಡ, xevent);
+            ನಿಲ್ಲಿಸು;
         }
 
-        else if ((xevent->xclient.message_type == videodata->atoms.WM_PROTOCOLS) &&
+        ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ ((xevent->xclient.ಸಂದೇಶ_type == videodata->atoms.WM_PROTOCOLS) &&
                  (xevent->xclient.format == 32) &&
-                 (xevent->xclient.data.l[0] == videodata->atoms.WM_DELETE_WINDOW)) {
+                 (xevent->xclient.ದತ್ತಾಂಶ.l[0] == videodata->atoms.WM_DELETE_ಕಿಟಕಿ)) {
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window 0x%lx: WM_DELETE_WINDOW", xevent->xany.window);
-#endif
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
-            break;
-        } else if ((xevent->xclient.message_type == videodata->atoms.WM_PROTOCOLS) &&
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window 0x%lx: WM_DELETE_WINDOW", xevent->xany.ಕಿಟಕಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+            SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_CLOSE_REQUESTED, 0, 0);
+            ನಿಲ್ಲಿಸು;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ ((xevent->xclient.ಸಂದೇಶ_type == videodata->atoms.WM_PROTOCOLS) &&
                    (xevent->xclient.format == 32) &&
-                   (xevent->xclient.data.l[0] == videodata->atoms._NET_WM_SYNC_REQUEST)) {
+                   (xevent->xclient.ದತ್ತಾಂಶ.l[0] == videodata->atoms._NET_WM_SYNC_REQUEST)) {
 
-#ifdef DEBUG_XEVENTS
-            SDL_Log("window %p: _NET_WM_SYNC_REQUEST", data);
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-            X11_HandleSyncRequest(data->window, &xevent->xclient);
-#endif /* SDL_VIDEO_DRIVER_X11_XSYNC */
-            break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+            SDL_Log("window %p: _NET_WM_SYNC_REQUEST", ದತ್ತಾಂಶ);
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSYNC
+            X11_HandleSyncRequest(ದತ್ತಾಂಶ->ಕಿಟಕಿ, &xevent->xclient);
+#ಆದರೆ_ಅಂತ್ಯ /* SDL_VIDEO_DRIVER_X11_XSYNC */
+            ನಿಲ್ಲಿಸು;
         }
-    } break;
+    } ನಿಲ್ಲಿಸು;
 
         // Do we need to refresh ourselves?
-    case Expose:
+    ಸ್ಥಿತಿ Expose:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: Expose (count = %d)", xevent->xany.window, xevent->xexpose.count);
-#endif
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
-    } break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: Expose (count = %d)", xevent->xany.ಕಿಟಕಿ, xevent->xexpose.ಎಣಿಕೆ_2);
+#ಆದರೆ_ಅಂತ್ಯ
+        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
+    } ನಿಲ್ಲಿಸು;
 
     /* Use XInput2 instead of the xevents API if possible, for:
        - KeyPress
@@ -1882,137 +1882,137 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
        - ButtonPress
        - ButtonRelease
        XInput2 has more precise information, e.g., to distinguish different input devices. */
-    case KeyPress:
-    case KeyRelease:
+    ಸ್ಥಿತಿ ಕೀಲಿ_Press:
+    ಸ್ಥಿತಿ ಕೀಲಿ_Release:
     {
         SDL_KeyboardID keyboardID = SDL_GLOBAL_KEYBOARD_ID;
-        if (data->xinput2_keyboard_enabled) {
+        ಆದರೆ (ದತ್ತಾಂಶ->xinput2_keyboard_enabled) {
             // This input is being handled by XInput2.
-            break;
-        } else if (xevent->xkey.serial == videodata->xinput_last_key_serial) {
+            ನಿಲ್ಲಿಸು;
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->xkey.serial == videodata->xinput_ಕೊನೆಯ_ಕೀಲಿ_serial) {
             // Use the device ID from the XInput2 event if the serials match.
-            keyboardID = videodata->xinput_last_keyboard_device;
+            keyboardID = videodata->xinput_ಕೊನೆಯ_keyboard_device;
         }
 
-        X11_HandleKeyEvent(_this, data, keyboardID, xevent);
-    } break;
+        X11_Handle_ಕೀಲಿ_Event(_this, ದತ್ತಾಂಶ, keyboardID, xevent);
+    } ನಿಲ್ಲಿಸು;
 
-    case MotionNotify:
+    ಸ್ಥಿತಿ MotionNotify:
     {
-        if (X11_Xinput2HandlesMotionForWindow(data)) {
+        ಆದರೆ (X11_Xinput2_Handles_Motion_For_ಕಿಟಕಿ(ದತ್ತಾಂಶ)) {
             // This input is being handled by XInput2
-            break;
+            ನಿಲ್ಲಿಸು;
         }
 
         SDL_Mouse *mouse = SDL_GetMouse();
-        if (!mouse->relative_mode) {
-#ifdef DEBUG_MOTION
-            SDL_Log("window 0x%lx: X11 motion: %d,%d", xevent->xany.window, xevent->xmotion.x, xevent->xmotion.y);
-#endif
+        ಆದರೆ (!mouse->relative_ಬಹುಲಕ) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_MOTION
+            SDL_Log("window 0x%lx: X11 motion: %d,%d", xevent->xany.ಕಿಟಕಿ, xevent->xmotion.x, xevent->xmotion.y);
+#ಆದರೆ_ಅಂತ್ಯ
 
-            X11_ProcessHitTest(_this, data, (float)xevent->xmotion.x, (float)xevent->xmotion.y, false);
-            SDL_SendMouseMotion(0, data->window, SDL_GLOBAL_MOUSE_ID, false, (float)xevent->xmotion.x, (float)xevent->xmotion.y);
+            X11_Process_ದೊರಕಿತು_Test(_this, ದತ್ತಾಂಶ, (ದಶಮಾಂಶ)xevent->xmotion.x, (ದಶಮಾಂಶ)xevent->xmotion.y, false);
+            SDL_SendMouseMotion(0, ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_GLOBAL_MOUSE_ID, false, (ದಶಮಾಂಶ)xevent->xmotion.x, (ದಶಮಾಂಶ)xevent->xmotion.y);
         }
-    } break;
+    } ನಿಲ್ಲಿಸು;
 
-    case ButtonPress:
+    ಸ್ಥಿತಿ ButtonPress:
     {
-        if (data->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_last_button_serial) {
+        ಆದರೆ (ದತ್ತಾಂಶ->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_ಕೊನೆಯ_button_serial) {
             // This input event was handled by XInput2.
-            break;
+            ನಿಲ್ಲಿಸು;
         }
 
-        X11_HandleButtonPress(_this, data, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button,
-                              xevent->xbutton.x, xevent->xbutton.y, xevent->xbutton.time, xevent->xbutton.serial);
-    } break;
+        X11_HandleButtonPress(_this, ದತ್ತಾಂಶ, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button,
+                              xevent->xbutton.x, xevent->xbutton.y, xevent->xbutton.ಸಮಯ, xevent->xbutton.serial);
+    } ನಿಲ್ಲಿಸು;
 
-    case ButtonRelease:
+    ಸ್ಥಿತಿ ButtonRelease:
     {
-        if (data->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_last_button_serial) {
+        ಆದರೆ (ದತ್ತಾಂಶ->xinput2_mouse_enabled && xevent->xbutton.serial == videodata->xinput_ಕೊನೆಯ_button_serial) {
             // This input event was handled by XInput2.
-            break;
+            ನಿಲ್ಲಿಸು;
         }
 
-        X11_HandleButtonRelease(_this, data, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button, xevent->xbutton.time);
-    } break;
+        X11_HandleButtonRelease(_this, ದತ್ತಾಂಶ, SDL_GLOBAL_MOUSE_ID, xevent->xbutton.button, xevent->xbutton.ಸಮಯ);
+    } ನಿಲ್ಲಿಸು;
 
-    case PropertyNotify:
+    ಸ್ಥಿತಿ PropertyNotify:
     {
-#ifdef DEBUG_XEVENTS
-        unsigned char *propdata;
-        int status, real_format;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *propdata;
+        ಪೂರ್ಣಾಂಕ ಸ್ಥಿತಿ_2, real_format;
         Atom real_type;
-        unsigned long items_read, items_left;
+        ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ವಸ್ತುಗಳು_read, ವಸ್ತುಗಳು_ಎಡ;
 
-        char *name = X11_XGetAtomName(display, xevent->xproperty.atom);
-        if (name) {
-            SDL_Log("window 0x%lx: PropertyNotify: %s %s time=%lu", xevent->xany.window, name, (xevent->xproperty.state == PropertyDelete) ? "deleted" : "changed", xevent->xproperty.time);
+        ಅಕ್ಷರ *name = X11_XGetAtomName(display, xevent->xproperty.atom);
+        ಆದರೆ (name) {
+            SDL_Log("window 0x%lx: PropertyNotify: %s %s time=%lu", xevent->xany.ಕಿಟಕಿ, name, (xevent->xproperty.state == PropertyDelete) ? "deleted" : "changed", xevent->xproperty.ಸಮಯ);
             X11_XFree(name);
         }
 
-        status = X11_XGetWindowProperty(display, data->xwindow, xevent->xproperty.atom, 0L, 8192L, False, AnyPropertyType, &real_type, &real_format, &items_read, &items_left, &propdata);
-        if (status == Success && items_read > 0) {
-            if (real_type == XA_INTEGER) {
-                int *values = (int *)propdata;
+        ಸ್ಥಿತಿ_2 = X11_XGet_ಕಿಟಕಿ_Property(display, ದತ್ತಾಂಶ->xwindow, xevent->xproperty.atom, 0L, 8192L, False, AnyPropertyType, &real_type, &real_format, &ವಸ್ತುಗಳು_read, &ವಸ್ತುಗಳು_ಎಡ, &propdata);
+        ಆದರೆ (ಸ್ಥಿತಿ_2 == Success && ವಸ್ತುಗಳು_read > 0) {
+            ಆದರೆ (real_type == XA_INTEGER) {
+                ಪೂರ್ಣಾಂಕ *ಮೌಲ್ಯಗಳು = (ಪೂರ್ಣಾಂಕ *)propdata;
 
                 SDL_Log("{");
-                for (i = 0; i < items_read; i++) {
-                    SDL_Log(" %d", values[i]);
+                ಗಾಗಿ (i = 0; i < ವಸ್ತುಗಳು_read; i++) {
+                    SDL_Log(" %d", ಮೌಲ್ಯಗಳು[i]);
                 }
                 SDL_Log(" }");
-            } else if (real_type == XA_CARDINAL) {
-                if (real_format == 32) {
-                    Uint32 *values = (Uint32 *)propdata;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (real_type == XA_CARDINAL) {
+                ಆದರೆ (real_format == 32) {
+                    Uint32 *ಮೌಲ್ಯಗಳು = (Uint32 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    ಗಾಗಿ (i = 0; i < ವಸ್ತುಗಳು_read; i++) {
+                        SDL_Log(" %d", ಮೌಲ್ಯಗಳು[i]);
                     }
                     SDL_Log(" }");
-                } else if (real_format == 16) {
-                    Uint16 *values = (Uint16 *)propdata;
+                } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (real_format == 16) {
+                    Uint16 *ಮೌಲ್ಯಗಳು = (Uint16 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    ಗಾಗಿ (i = 0; i < ವಸ್ತುಗಳು_read; i++) {
+                        SDL_Log(" %d", ಮೌಲ್ಯಗಳು[i]);
                     }
                     SDL_Log(" }");
-                } else if (real_format == 8) {
-                    Uint8 *values = (Uint8 *)propdata;
+                } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (real_format == 8) {
+                    Uint8 *ಮೌಲ್ಯಗಳು = (Uint8 *)propdata;
 
                     SDL_Log("{");
-                    for (i = 0; i < items_read; i++) {
-                        SDL_Log(" %d", values[i]);
+                    ಗಾಗಿ (i = 0; i < ವಸ್ತುಗಳು_read; i++) {
+                        SDL_Log(" %d", ಮೌಲ್ಯಗಳು[i]);
                     }
                     SDL_Log(" }");
                 }
-            } else if (real_type == XA_STRING ||
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (real_type == XA_STRING ||
                        real_type == videodata->atoms.UTF8_STRING) {
                 SDL_Log("{ \"%s\" }", propdata);
-            } else if (real_type == XA_ATOM) {
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (real_type == XA_ATOM) {
                 Atom *atoms = (Atom *)propdata;
 
                 SDL_Log("{");
-                for (i = 0; i < items_read; i++) {
-                    char *atomname = X11_XGetAtomName(display, atoms[i]);
-                    if (atomname) {
+                ಗಾಗಿ (i = 0; i < ವಸ್ತುಗಳು_read; i++) {
+                    ಅಕ್ಷರ *atomname = X11_XGetAtomName(display, atoms[i]);
+                    ಆದರೆ (atomname) {
                         SDL_Log(" %s", atomname);
                         X11_XFree(atomname);
                     }
                 }
                 SDL_Log(" }");
-            } else {
-                char *atomname = X11_XGetAtomName(display, real_type);
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಅಕ್ಷರ *atomname = X11_XGetAtomName(display, real_type);
                 SDL_Log("Unknown type: 0x%lx (%s)", real_type, atomname ? atomname : "UNKNOWN");
-                if (atomname) {
+                ಆದರೆ (atomname) {
                     X11_XFree(atomname);
                 }
             }
         }
-        if (status == Success) {
+        ಆದರೆ (ಸ್ಥಿತಿ_2 == Success) {
             X11_XFree(propdata);
         }
-#endif // DEBUG_XEVENTS
+#ಆದರೆ_ಅಂತ್ಯ // DEBUG_XEVENTS
 
         /* Take advantage of this moment to make sure user_time has a
             valid timestamp from the X server, so if we later try to
@@ -2021,170 +2021,170 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
             key press to this window so far. Note that we don't try to
             set _NET_WM_USER_TIME here, though. That's only for legit
             user interaction with the window. */
-        if (!data->user_time) {
-            data->user_time = xevent->xproperty.time;
+        ಆದರೆ (!ದತ್ತಾಂಶ->user_ಸಮಯ) {
+            ದತ್ತಾಂಶ->user_ಸಮಯ = xevent->xproperty.ಸಮಯ;
         }
 
-        if (xevent->xproperty.atom == data->videodata->atoms._NET_WM_STATE) {
+        ಆದರೆ (xevent->xproperty.atom == ದತ್ತಾಂಶ->videodata->atoms._NET_WM_STATE) {
             /* Get the new state from the window manager.
              * Compositing window managers can alter visibility of windows
              * without ever mapping / unmapping them, so we handle that here,
              * because they use the NETWM protocol to notify us of changes.
              */
-            const SDL_WindowFlags flags = X11_GetNetWMState(_this, data->window, xevent->xproperty.window);
-            const SDL_WindowFlags changed = flags ^ data->window->flags;
+            ಸ್ಥಿರಾಂಕ SDL_ಕಿಟಕಿ_Flags flags = X11_GetNetWMState(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, xevent->xproperty.ಕಿಟಕಿ);
+            ಸ್ಥಿರಾಂಕ SDL_ಕಿಟಕಿ_Flags ಬದಲಾಯಿತು = flags ^ ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags;
 
-            if ((changed & SDL_WINDOW_HIDDEN) && !(flags & SDL_WINDOW_HIDDEN)) {
-                X11_DispatchMapNotify(data);
+            ಆದರೆ ((ಬದಲಾಯಿತು & SDL_ಕಿಟಕಿ_HIDDEN) && !(flags & SDL_ಕಿಟಕಿ_HIDDEN)) {
+                X11_DispatchMapNotify(ದತ್ತಾಂಶ);
             }
 
-            if (!SDL_WINDOW_IS_POPUP(data->window)) {
-                if (changed & SDL_WINDOW_FULLSCREEN) {
-                    data->pending_operation &= ~X11_PENDING_OP_FULLSCREEN;
+            ಆದರೆ (!SDL_ಕಿಟಕಿ_IS_POPUP(ದತ್ತಾಂಶ->ಕಿಟಕಿ)) {
+                ಆದರೆ (ಬದಲಾಯಿತು & SDL_ಕಿಟಕಿ_FULLSCREEN) {
+                    ದತ್ತಾಂಶ->pending_operation &= ~X11_PENDING_OP_FULLSCREEN;
 
-                    if (flags & SDL_WINDOW_FULLSCREEN) {
-                        if (!(flags & SDL_WINDOW_MINIMIZED)) {
-                            const bool commit = SDL_memcmp(&data->window->current_fullscreen_mode, &data->requested_fullscreen_mode, sizeof(SDL_DisplayMode)) != 0;
+                    ಆದರೆ (flags & SDL_ಕಿಟಕಿ_FULLSCREEN) {
+                        ಆದರೆ (!(flags & SDL_ಕಿಟಕಿ_MINIMIZED)) {
+                            ಸ್ಥಿರಾಂಕ bool commit = SDL_memcmp(&ದತ್ತಾಂಶ->ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ, &ದತ್ತಾಂಶ->requested_fullscreen_ಬಹುಲಕ, ಗಾತ್ರ(SDL_Display_ಬಹುಲಕ)) != 0;
 
                             // Ensure the maximized flag is cleared before entering fullscreen.
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
-                            if (commit) {
+                            SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESTORED, 0, 0);
+                            SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_ENTER_FULLSCREEN, 0, 0);
+                            ಆದರೆ (commit) {
                                 /* This was initiated by the compositor, or the mode was changed between the request and the window
                                  * becoming fullscreen. Switch to the application requested mode if necessary.
                                  */
-                                SDL_copyp(&data->window->current_fullscreen_mode, &data->window->requested_fullscreen_mode);
-                                SDL_UpdateFullscreenMode(data->window, SDL_FULLSCREEN_OP_UPDATE, true);
-                            } else {
-                                SDL_UpdateFullscreenMode(data->window, SDL_FULLSCREEN_OP_ENTER, false);
+                                SDL_copyp(&ದತ್ತಾಂಶ->ಕಿಟಕಿ->current_fullscreen_ಬಹುಲಕ, &ದತ್ತಾಂಶ->ಕಿಟಕಿ->requested_fullscreen_ಬಹುಲಕ);
+                                SDL_Update_Fullscreen_ಬಹುಲಕ(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_FULLSCREEN_OP_UPDATE, true);
+                            } ಇಲ್ಲದಿದ್ದರೆ {
+                                SDL_Update_Fullscreen_ಬಹುಲಕ(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_FULLSCREEN_OP_ENTER, false);
                             }
                         }
-                    } else {
-                        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-                        SDL_UpdateFullscreenMode(data->window, false, false);
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_LEAVE_FULLSCREEN, 0, 0);
+                        SDL_Update_Fullscreen_ಬಹುಲಕ(ದತ್ತಾಂಶ->ಕಿಟಕಿ, false, false);
 
-                        SDL_zero(data->requested_fullscreen_mode);
+                        SDL_zero(ದತ್ತಾಂಶ->requested_fullscreen_ಬಹುಲಕ);
 
                         // Need to restore or update any limits changed while the window was fullscreen.
-                        X11_SetWindowMinMax(data->window, !!(flags & SDL_WINDOW_MAXIMIZED));
+                        X11_ಗಣ_ಕಿಟಕಿ_Min_Max(ದತ್ತಾಂಶ->ಕಿಟಕಿ, !!(flags & SDL_ಕಿಟಕಿ_MAXIMIZED));
 
                         // Toggle the borders if they were forced on while creating a borderless fullscreen window.
-                        if (data->fullscreen_borders_forced_on) {
-                            data->toggle_borders = true;
-                            data->fullscreen_borders_forced_on = false;
+                        ಆದರೆ (ದತ್ತಾಂಶ->fullscreen_borders_forced_on) {
+                            ದತ್ತಾಂಶ->toggle_borders = true;
+                            ದತ್ತಾಂಶ->fullscreen_borders_forced_on = false;
                         }
                     }
 
-                    if ((flags & SDL_WINDOW_FULLSCREEN) &&
-                        (data->border_top || data->border_left || data->border_bottom || data->border_right)) {
+                    ಆದರೆ ((flags & SDL_ಕಿಟಕಿ_FULLSCREEN) &&
+                        (ದತ್ತಾಂಶ->border_ತುದಿ || ದತ್ತಾಂಶ->border_ಎಡ || ದತ್ತಾಂಶ->border_bottom || ದತ್ತಾಂಶ->border_ಬಲ)) {
                         /* If the window is entering fullscreen and the borders are
                          * non-zero sized, turn off size events until the borders are
                          * shut off to avoid bogus window sizes and positions, and
                          * note that the old borders were non-zero for restoration.
                          */
-                        data->size_move_event_flags |= X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS;
-                        data->previous_borders_nonzero = true;
-                    } else if (!(flags & SDL_WINDOW_FULLSCREEN) &&
-                               data->previous_borders_nonzero &&
-                               (!data->border_top && !data->border_left && !data->border_bottom && !data->border_right)) {
+                        ದತ್ತಾಂಶ->ಗಾತ್ರ_move_event_flags |= X11_ಗಾತ್ರ_MOVE_EVENTS_WAIT_FOR_BORDERS;
+                        ದತ್ತಾಂಶ->ಹಿಂದಿನ_borders_nonzero = true;
+                    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (!(flags & SDL_ಕಿಟಕಿ_FULLSCREEN) &&
+                               ದತ್ತಾಂಶ->ಹಿಂದಿನ_borders_nonzero &&
+                               (!ದತ್ತಾಂಶ->border_ತುದಿ && !ದತ್ತಾಂಶ->border_ಎಡ && !ದತ್ತಾಂಶ->border_bottom && !ದತ್ತಾಂಶ->border_ಬಲ)) {
                         /* If the window is leaving fullscreen and the current borders
                          * are zero sized, but weren't when entering fullscreen, turn
                          * off size events until the borders come back to avoid bogus
                          * window sizes and positions.
                          */
-                        data->size_move_event_flags |= X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS;
-                        data->previous_borders_nonzero = false;
-                    } else {
-                        data->size_move_event_flags = 0;
-                        data->previous_borders_nonzero = false;
+                        ದತ್ತಾಂಶ->ಗಾತ್ರ_move_event_flags |= X11_ಗಾತ್ರ_MOVE_EVENTS_WAIT_FOR_BORDERS;
+                        ದತ್ತಾಂಶ->ಹಿಂದಿನ_borders_nonzero = false;
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        ದತ್ತಾಂಶ->ಗಾತ್ರ_move_event_flags = 0;
+                        ದತ್ತಾಂಶ->ಹಿಂದಿನ_borders_nonzero = false;
 
-                        if (!(data->window->flags & SDL_WINDOW_FULLSCREEN) && data->toggle_borders) {
-                            data->toggle_borders = false;
-                            X11_SetWindowBordered(_this, data->window, !(data->window->flags & SDL_WINDOW_BORDERLESS));
+                        ಆದರೆ (!(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN) && ದತ್ತಾಂಶ->toggle_borders) {
+                            ದತ್ತಾಂಶ->toggle_borders = false;
+                            X11_ಗಣ_ಕಿಟಕಿ_Bordered(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, !(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS));
                         }
                     }
                 }
-                if ((changed & SDL_WINDOW_MAXIMIZED) && ((flags & SDL_WINDOW_MAXIMIZED) && !(flags & SDL_WINDOW_MINIMIZED))) {
-                    data->pending_operation &= ~X11_PENDING_OP_MAXIMIZE;
-                    if ((changed & SDL_WINDOW_MINIMIZED)) {
-                        data->pending_operation &= ~X11_PENDING_OP_RESTORE;
+                ಆದರೆ ((ಬದಲಾಯಿತು & SDL_ಕಿಟಕಿ_MAXIMIZED) && ((flags & SDL_ಕಿಟಕಿ_MAXIMIZED) && !(flags & SDL_ಕಿಟಕಿ_MINIMIZED))) {
+                    ದತ್ತಾಂಶ->pending_operation &= ~X11_PENDING_OP_MAXIMIZE;
+                    ಆದರೆ ((ಬದಲಾಯಿತು & SDL_ಕಿಟಕಿ_MINIMIZED)) {
+                        ದತ್ತಾಂಶ->pending_operation &= ~X11_PENDING_OP_RESTORE;
                         // If coming out of minimized, send a restore event before sending maximized.
-                        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+                        SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESTORED, 0, 0);
                     }
-                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MAXIMIZED, 0, 0);
+                    SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MAXIMIZED, 0, 0);
                 }
-                if ((changed & SDL_WINDOW_MINIMIZED) && (flags & SDL_WINDOW_MINIMIZED)) {
-                    data->pending_operation &= ~X11_PENDING_OP_MINIMIZE;
-                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
+                ಆದರೆ ((ಬದಲಾಯಿತು & SDL_ಕಿಟಕಿ_MINIMIZED) && (flags & SDL_ಕಿಟಕಿ_MINIMIZED)) {
+                    ದತ್ತಾಂಶ->pending_operation &= ~X11_PENDING_OP_MINIMIZE;
+                    SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MINIMIZED, 0, 0);
                 }
-                if (!(flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED))) {
-                    data->pending_operation &= ~X11_PENDING_OP_RESTORE;
-                    SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+                ಆದರೆ (!(flags & (SDL_ಕಿಟಕಿ_MAXIMIZED | SDL_ಕಿಟಕಿ_MINIMIZED))) {
+                    ದತ್ತಾಂಶ->pending_operation &= ~X11_PENDING_OP_RESTORE;
+                    SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESTORED, 0, 0);
 
                     // Apply any pending state if restored.
-                    if (!(flags & SDL_WINDOW_FULLSCREEN)) {
-                        if (data->pending_position) {
-                            data->pending_position = false;
-                            data->pending_operation |= X11_PENDING_OP_MOVE;
-                            data->expected.x = data->window->pending.x - data->border_left;
-                            data->expected.y = data->window->pending.y - data->border_top;
-                            X11_XMoveWindow(display, data->xwindow, data->expected.x, data->expected.y);
+                    ಆದರೆ (!(flags & SDL_ಕಿಟಕಿ_FULLSCREEN)) {
+                        ಆದರೆ (ದತ್ತಾಂಶ->pending_position) {
+                            ದತ್ತಾಂಶ->pending_position = false;
+                            ದತ್ತಾಂಶ->pending_operation |= X11_PENDING_OP_MOVE;
+                            ದತ್ತಾಂಶ->expected.x = ದತ್ತಾಂಶ->ಕಿಟಕಿ->pending.x - ದತ್ತಾಂಶ->border_ಎಡ;
+                            ದತ್ತಾಂಶ->expected.y = ದತ್ತಾಂಶ->ಕಿಟಕಿ->pending.y - ದತ್ತಾಂಶ->border_ತುದಿ;
+                            X11_XMove_ಕಿಟಕಿ(display, ದತ್ತಾಂಶ->xwindow, ದತ್ತಾಂಶ->expected.x, ದತ್ತಾಂಶ->expected.y);
                         }
-                        if (data->pending_size) {
-                            data->pending_size = false;
-                            data->pending_operation |= X11_PENDING_OP_RESIZE;
-                            data->expected.w = data->window->pending.w;
-                            data->expected.h = data->window->pending.h;
-                            X11_XResizeWindow(display, data->xwindow, data->window->pending.w, data->window->pending.h);
+                        ಆದರೆ (ದತ್ತಾಂಶ->pending_ಗಾತ್ರ) {
+                            ದತ್ತಾಂಶ->pending_ಗಾತ್ರ = false;
+                            ದತ್ತಾಂಶ->pending_operation |= X11_PENDING_OP_RESIZE;
+                            ದತ್ತಾಂಶ->expected.w = ದತ್ತಾಂಶ->ಕಿಟಕಿ->pending.w;
+                            ದತ್ತಾಂಶ->expected.h = ದತ್ತಾಂಶ->ಕಿಟಕಿ->pending.h;
+                            X11_XResize_ಕಿಟಕಿ(display, ದತ್ತಾಂಶ->xwindow, ದತ್ತಾಂಶ->ಕಿಟಕಿ->pending.w, ದತ್ತಾಂಶ->ಕಿಟಕಿ->pending.h);
                         }
                     }
                 }
-                if (data->emit_size_move_after_property_notify) {
-                    X11_EmitConfigureNotifyEvents(data, &data->pending_xconfigure);
-                    data->emit_size_move_after_property_notify = false;
+                ಆದರೆ (ದತ್ತಾಂಶ->emit_ಗಾತ್ರ_move_after_property_notify) {
+                    X11_EmitConfigureNotifyEvents(ದತ್ತಾಂಶ, &ದತ್ತಾಂಶ->pending_xconfigure);
+                    ದತ್ತಾಂಶ->emit_ಗಾತ್ರ_move_after_property_notify = false;
                 }
-                if ((flags & SDL_WINDOW_INPUT_FOCUS)) {
-                    if (data->pending_move) {
-                        DispatchWindowMove(_this, data, &data->pending_move_point);
-                        data->pending_move = false;
+                ಆದರೆ ((flags & SDL_ಕಿಟಕಿ_ಒಳಹರಿವು_FOCUS)) {
+                    ಆದರೆ (ದತ್ತಾಂಶ->pending_move) {
+                        Dispatch_ಕಿಟಕಿ_Move(_this, ದತ್ತಾಂಶ, &ದತ್ತಾಂಶ->pending_move_ಬಿಂದು);
+                        ದತ್ತಾಂಶ->pending_move = false;
                     }
                 }
             }
-            if (changed & SDL_WINDOW_OCCLUDED) {
-                SDL_SendWindowEvent(data->window, (flags & SDL_WINDOW_OCCLUDED) ? SDL_EVENT_WINDOW_OCCLUDED : SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+            ಆದರೆ (ಬದಲಾಯಿತು & SDL_ಕಿಟಕಿ_OCCLUDED) {
+                SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, (flags & SDL_ಕಿಟಕಿ_OCCLUDED) ? SDL_EVENT_ಕಿಟಕಿ_OCCLUDED : SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
             }
-        } else if (xevent->xproperty.atom == videodata->atoms.WM_STATE) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->xproperty.atom == videodata->atoms.WM_STATE) {
             /* Support for ICCCM-compliant window managers (like i3) that change
                WM_STATE to WithdrawnState without sending UnmapNotify or updating
                _NET_WM_STATE when moving windows to invisible workspaces. */
             Atom type;
-            int format;
-            unsigned long nitems, bytes_after;
-            unsigned char *prop_data = NULL;
+            ಪೂರ್ಣಾಂಕ format;
+            ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ nitems, ಬೈಟುಗಳು_after;
+            ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *prop_ದತ್ತಾಂಶ = ಖಾಲಿ;
 
-            if (X11_XGetWindowProperty(display, data->xwindow, videodata->atoms.WM_STATE,
+            ಆದರೆ (X11_XGet_ಕಿಟಕಿ_Property(display, ದತ್ತಾಂಶ->xwindow, videodata->atoms.WM_STATE,
                                        0L, 2L, False, videodata->atoms.WM_STATE,
-                                       &type, &format, &nitems, &bytes_after, &prop_data) == Success) {
-                if (nitems > 0) {
+                                       &type, &format, &nitems, &ಬೈಟುಗಳು_after, &prop_ದತ್ತಾಂಶ) == Success) {
+                ಆದರೆ (nitems > 0) {
                     // WM_STATE: 0=Withdrawn, 1=Normal, 3=Iconic
-                    Uint32 state = *(Uint32 *)prop_data;
+                    Uint32 state = *(Uint32 *)prop_ದತ್ತಾಂಶ;
 
-                    if ((state == 0 || state == 3) && !data->window->is_hiding && !(data->window->flags & SDL_WINDOW_HIDDEN)) {
+                    ಆದರೆ ((state == 0 || state == 3) && !ದತ್ತಾಂಶ->ಕಿಟಕಿ->is_hiding && !(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_HIDDEN)) {
                         // Withdrawn or Iconic
-                        if (!(data->window->flags & SDL_WINDOW_MINIMIZED)) {
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_OCCLUDED, 0, 0);
+                        ಆದರೆ (!(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MINIMIZED)) {
+                            SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_MINIMIZED, 0, 0);
+                            SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_OCCLUDED, 0, 0);
                         }
-                    } else if (state == 1) { // NormalState
-                        if (data->window->flags & SDL_WINDOW_MINIMIZED) {
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
-                            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+                    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (state == 1) { // NormalState
+                        ಆದರೆ (ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_MINIMIZED) {
+                            SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESTORED, 0, 0);
+                            SDL_Send_ಕಿಟಕಿ_Event(ದತ್ತಾಂಶ->ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_EXPOSED, 0, 0);
                         }
                     }
                 }
-                X11_XFree(prop_data);
+                X11_XFree(prop_ದತ್ತಾಂಶ);
             }
-        } else if (xevent->xproperty.atom == videodata->atoms.XKLAVIER_STATE) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->xproperty.atom == videodata->atoms.XKLAVIER_STATE) {
             /* Hack for Ubuntu 12.04 (etc) that doesn't send MappingNotify
                events when the keyboard layout changes (for example,
                changing from English to French on the menubar's keyboard
@@ -2192,142 +2192,142 @@ static void X11_DispatchEvent(SDL_VideoDevice *_this, XEvent *xevent)
                notice and reinit our keymap here. This might not be the
                right approach, but it seems to work. */
             X11_UpdateKeymap(_this, true);
-        } else if (xevent->xproperty.atom == videodata->atoms._NET_FRAME_EXTENTS) {
-            X11_GetBorderValues(data);
-            if (data->size_move_event_flags) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (xevent->xproperty.atom == videodata->atoms.NET_ಚೌಕಟ್ಟು_EXTENTS) {
+            X11_Get_Border_ಮೌಲ್ಯಗಳು(ದತ್ತಾಂಶ);
+            ಆದರೆ (ದತ್ತಾಂಶ->ಗಾತ್ರ_move_event_flags) {
                 /* Events are disabled when leaving fullscreen until the borders appear to avoid
                  * incorrect size/position events on compositing window managers.
                  */
-                data->size_move_event_flags &= ~X11_SIZE_MOVE_EVENTS_WAIT_FOR_BORDERS;
+                ದತ್ತಾಂಶ->ಗಾತ್ರ_move_event_flags &= ~X11_ಗಾತ್ರ_MOVE_EVENTS_WAIT_FOR_BORDERS;
             }
-            if (!(data->window->flags & SDL_WINDOW_FULLSCREEN) && data->toggle_borders) {
-                data->toggle_borders = false;
-                X11_SetWindowBordered(_this, data->window, !(data->window->flags & SDL_WINDOW_BORDERLESS));
+            ಆದರೆ (!(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_FULLSCREEN) && ದತ್ತಾಂಶ->toggle_borders) {
+                ದತ್ತಾಂಶ->toggle_borders = false;
+                X11_ಗಣ_ಕಿಟಕಿ_Bordered(_this, ದತ್ತಾಂಶ->ಕಿಟಕಿ, !(ದತ್ತಾಂಶ->ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_BORDERLESS));
             }
         }
-    } break;
+    } ನಿಲ್ಲಿಸು;
 
-    case SelectionNotify:
+    ಸ್ಥಿತಿ SelectionNotify:
     {
-        Atom target = xevent->xselection.target;
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: SelectionNotify (requestor = 0x%lx, target = 0x%lx)", xevent->xany.window,
-               xevent->xselection.requestor, xevent->xselection.target);
-#endif
-        if (target == data->xdnd_req) {
+        Atom ಗುರಿ = xevent->xselection.ಗುರಿ;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: SelectionNotify (requestor = 0x%lx, target = 0x%lx)", xevent->xany.ಕಿಟಕಿ,
+               xevent->xselection.requestor, xevent->xselection.ಗುರಿ);
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆದರೆ (ಗುರಿ == ದತ್ತಾಂಶ->xdnd_req) {
             // read data
             SDL_x11Prop p;
-            X11_ReadProperty(&p, display, data->xwindow, videodata->atoms.PRIMARY);
+            X11_ReadProperty(&p, display, ದತ್ತಾಂಶ->xwindow, videodata->atoms.PRIMARY);
 
-            if (p.format == 8) {
-                char *saveptr = NULL;
-                char *name = X11_XGetAtomName(display, target);
-                if (name) {
-                    char *token = SDL_strtok_r((char *)p.data, "\r\n", &saveptr);
-                    while (token) {
-                        if ((SDL_strcmp("text/plain;charset=utf-8", name) == 0) ||
+            ಆದರೆ (p.format == 8) {
+                ಅಕ್ಷರ *saveptr = ಖಾಲಿ;
+                ಅಕ್ಷರ *name = X11_XGetAtomName(display, ಗುರಿ);
+                ಆದರೆ (name) {
+                    ಅಕ್ಷರ *token = SDL_strtok_r((ಅಕ್ಷರ *)p.ದತ್ತಾಂಶ, "\r\n", &saveptr);
+                    ಆಗ (token) {
+                        ಆದರೆ ((SDL_strcmp("text/plain;charset=utf-8", name) == 0) ||
                             (SDL_strcmp("UTF8_STRING", name) == 0) ||
                             (SDL_strcmp("text/plain", name) == 0) ||
                             (SDL_strcmp("TEXT", name) == 0)) {
-                            SDL_SendDropText(data->window, token);
-                        } else if (SDL_strcmp("text/uri-list", name) == 0) {
-                            if (SDL_URIToLocal(token, token) >= 0) {
-                                SDL_SendDropFile(data->window, NULL, token);
+                            SDL_Send_Drop_ಪಠ್ಯ(ದತ್ತಾಂಶ->ಕಿಟಕಿ, token);
+                        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_strcmp("text/uri-list", name) == 0) {
+                            ಆದರೆ (SDL_URIToLocal(token, token) >= 0) {
+                                SDL_SendDropFile(ದತ್ತಾಂಶ->ಕಿಟಕಿ, ಖಾಲಿ, token);
                             }
                         }
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                        token = SDL_strtok_r(ಖಾಲಿ, "\r\n", &saveptr);
                     }
                     X11_XFree(name);
                 }
-                SDL_SendDropComplete(data->window);
+                SDL_SendDropComplete(ದತ್ತಾಂಶ->ಕಿಟಕಿ);
             }
-            X11_XFree(p.data);
+            X11_XFree(p.ದತ್ತಾಂಶ);
 
             // send reply
             SDL_zero(m);
-            m.type = ClientMessage;
+            m.type = Client_ಸಂದೇಶ;
             m.display = display;
-            m.window = data->xdnd_source;
-            m.message_type = videodata->atoms.XdndFinished;
+            m.ಕಿಟಕಿ = ದತ್ತಾಂಶ->xdnd_ಮೂಲ;
+            m.ಸಂದೇಶ_type = videodata->atoms.Xdnd_ಪೂರ್ಣಗೊಂಡ;
             m.format = 32;
-            m.data.l[0] = data->xwindow;
-            m.data.l[1] = 1;
-            m.data.l[2] = videodata->atoms.XdndActionCopy;
-            X11_XSendEvent(display, data->xdnd_source, False, NoEventMask, (XEvent *)&m);
+            m.ದತ್ತಾಂಶ.l[0] = ದತ್ತಾಂಶ->xwindow;
+            m.ದತ್ತಾಂಶ.l[1] = 1;
+            m.ದತ್ತಾಂಶ.l[2] = videodata->atoms.XdndActionCopy;
+            X11_XSendEvent(display, ದತ್ತಾಂಶ->xdnd_ಮೂಲ, False, No_Event_ಮುಖವಾಡ, (XEvent *)&m);
 
             X11_XSync(display, False);
         }
-    } break;
+    } ನಿಲ್ಲಿಸು;
 
-    default:
+    ಪೂರ್ವನಿಯೋಜಿತ:
     {
-#ifdef DEBUG_XEVENTS
-        SDL_Log("window 0x%lx: Unhandled event %d", xevent->xany.window, xevent->type);
-#endif
-    } break;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_XEVENTS
+        SDL_Log("window 0x%lx: Unhandled event %d", xevent->xany.ಕಿಟಕಿ, xevent->type);
+#ಆದರೆ_ಅಂತ್ಯ
+    } ನಿಲ್ಲಿಸು;
     }
 }
 
-static void X11_HandleFocusChanges(SDL_VideoDevice *_this)
+ಸ್ಥಿರ ಶೂನ್ಯ X11_HandleFocusChanges(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
-    int i;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
+    ಪೂರ್ಣಾಂಕ i;
 
-    if (videodata && videodata->windowlist) {
-        for (i = 0; i < videodata->numwindows; ++i) {
-            SDL_WindowData *data = videodata->windowlist[i];
-            if (data && data->pending_focus != PENDING_FOCUS_NONE) {
+    ಆದರೆ (videodata && videodata->windowlist) {
+        ಗಾಗಿ (i = 0; i < videodata->numwindows; ++i) {
+            SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = videodata->windowlist[i];
+            ಆದರೆ (ದತ್ತಾಂಶ && ದತ್ತಾಂಶ->pending_focus != PENDING_FOCUS_NONE) {
                 Uint64 now = SDL_GetTicks();
-                if (now >= data->pending_focus_time) {
-                    if (data->pending_focus == PENDING_FOCUS_IN) {
-                        X11_DispatchFocusIn(_this, data);
-                    } else {
-                        X11_DispatchFocusOut(_this, data);
+                ಆದರೆ (now >= ದತ್ತಾಂಶ->pending_focus_ಸಮಯ) {
+                    ಆದರೆ (ದತ್ತಾಂಶ->pending_focus == PENDING_FOCUS_ಒಳ) {
+                        X11_Dispatch_Focus_ಒಳ(_this, ದತ್ತಾಂಶ);
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        X11_Dispatch_Focus_ಹೊರಹೋಗು(_this, ದತ್ತಾಂಶ);
                     }
-                    data->pending_focus = PENDING_FOCUS_NONE;
+                    ದತ್ತಾಂಶ->pending_focus = PENDING_FOCUS_NONE;
                 }
             }
         }
     }
 }
 
-static Bool isAnyEvent(Display *display, XEvent *ev, XPointer arg)
+ಸ್ಥಿರ Bool isAnyEvent(Display *display, XEvent *ev, XPointer arg)
 {
-    return True;
+    ಹಿಂತಿರುಗಿ True;
 }
 
-static bool X11_PollEvent(Display *display, XEvent *event)
+ಸ್ಥಿರ bool X11_PollEvent(Display *display, XEvent *event)
 {
-    if (!X11_XCheckIfEvent(display, event, isAnyEvent, NULL)) {
-        return false;
+    ಆದರೆ (!X11_XCheckIfEvent(display, event, isAnyEvent, ಖಾಲಿ)) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ X11_SendWakeupEvent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_VideoData *data = _this->internal;
-    Display *req_display = data->request_display;
-    Window xwindow = window->internal->xwindow;
-    XClientMessageEvent event;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    Display *req_display = ದತ್ತಾಂಶ->request_display;
+    ಕಿಟಕಿ_2 xwindow = ಕಿಟಕಿ->ಆಂತರಿಕ->xwindow;
+    XClient_ಸಂದೇಶ_Event event;
 
     SDL_zero(event);
-    event.type = ClientMessage;
+    event.type = Client_ಸಂದೇಶ;
     event.display = req_display;
     event.send_event = True;
-    event.message_type = data->atoms._SDL_WAKEUP;
+    event.ಸಂದೇಶ_type = ದತ್ತಾಂಶ->atoms._SDL_WAKEUP;
     event.format = 8;
 
-    X11_XSendEvent(req_display, xwindow, False, NoEventMask, (XEvent *)&event);
+    X11_XSendEvent(req_display, xwindow, False, No_Event_ಮುಖವಾಡ, (XEvent *)&event);
     /* XSendEvent returns a status and it could be BadValue or BadWindow. If an
       error happens it is an SDL's internal error and there is nothing we can do here. */
     X11_XFlush(req_display);
 }
 
-int X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
+ಪೂರ್ಣಾಂಕ X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
     Display *display;
     XEvent xevent;
     display = videodata->display;
@@ -2336,85 +2336,85 @@ int X11_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 
     // Flush and poll to grab any events already read and queued
     X11_XFlush(display);
-    if (X11_PollEvent(display, &xevent)) {
+    ಆದರೆ (X11_PollEvent(display, &xevent)) {
         // Fall through
-    } else if (timeoutNS == 0) {
-        return 0;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (timeoutNS == 0) {
+        ಹಿಂತಿರುಗಿ 0;
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // Use SDL_IOR_NO_RETRY to ensure SIGINT will break us out of our wait
-        int err = SDL_IOReady(ConnectionNumber(display), SDL_IOR_READ | SDL_IOR_NO_RETRY, timeoutNS);
-        if (err > 0) {
-            if (!X11_PollEvent(display, &xevent)) {
+        ಪೂರ್ಣಾಂಕ err = SDL_IOReady(Connection_ಸಂಖ್ಯೆ(display), SDL_IOR_READ | SDL_IOR_NO_RETRY, timeoutNS);
+        ಆದರೆ (err > 0) {
+            ಆದರೆ (!X11_PollEvent(display, &xevent)) {
                 /* Someone may have beat us to reading the fd. Return 1 here to
                  * trigger the normal spurious wakeup logic in the event core. */
-                return 1;
+                ಹಿಂತಿರುಗಿ 1;
             }
-        } else if (err == 0) {
+        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (err == 0) {
             // Timeout
-            return 0;
-        } else {
+            ಹಿಂತಿರುಗಿ 0;
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // Error returned from poll()/select()
 
-            if (errno == EINTR) {
+            ಆದರೆ (errno == EINTR) {
                 /* If the wait was interrupted by a signal, we may have generated a
                  * SDL_EVENT_QUIT event. Let the caller know to call SDL_PumpEvents(). */
-                return 1;
-            } else {
-                return err;
+                ಹಿಂತಿರುಗಿ 1;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಹಿಂತಿರುಗಿ err;
             }
         }
     }
 
     X11_DispatchEvent(_this, &xevent);
-    return 1;
+    ಹಿಂತಿರುಗಿ 1;
 }
 
-void X11_PumpEvents(SDL_VideoDevice *_this)
+ಶೂನ್ಯ X11_PumpEvents(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
     XEvent xevent;
-    int i;
+    ಪೂರ್ಣಾಂಕ i;
 
     /* Check if a display had the mode changed and is waiting for a window to asynchronously become
      * fullscreen. If there is no fullscreen window past the elapsed timeout, revert the mode switch.
      */
-    for (i = 0; i < _this->num_displays; ++i) {
-        if (_this->displays[i]->internal->mode_switch_deadline_ns) {
-            if (_this->displays[i]->fullscreen_window) {
-                _this->displays[i]->internal->mode_switch_deadline_ns = 0;
-            } else if (SDL_GetTicksNS() >= _this->displays[i]->internal->mode_switch_deadline_ns) {
+    ಗಾಗಿ (i = 0; i < _this->ಅಂಕೆ_displays; ++i) {
+        ಆದರೆ (_this->displays[i]->ಆಂತರಿಕ->ಬಹುಲಕ_switch_deadline_ns) {
+            ಆದರೆ (_this->displays[i]->fullscreen_ಕಿಟಕಿ) {
+                _this->displays[i]->ಆಂತರಿಕ->ಬಹುಲಕ_switch_deadline_ns = 0;
+            } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (SDL_GetTicksNS() >= _this->displays[i]->ಆಂತರಿಕ->ಬಹುಲಕ_switch_deadline_ns) {
                 SDL_LogError(SDL_LOG_CATEGORY_VIDEO,
                              "Time out elapsed after mode switch on display %" SDL_PRIu32 " with no window becoming fullscreen; reverting", _this->displays[i]->id);
-                SDL_SetDisplayModeForDisplay(_this->displays[i], NULL);
-                _this->displays[i]->internal->mode_switch_deadline_ns = 0;
+                SDL_ಗಣ_Display_ಬಹುಲಕ_For_Display(_this->displays[i], ಖಾಲಿ);
+                _this->displays[i]->ಆಂತರಿಕ->ಬಹುಲಕ_switch_deadline_ns = 0;
             }
         }
     }
 
-    if (data->last_mode_change_deadline) {
-        if (SDL_GetTicks() >= data->last_mode_change_deadline) {
-            data->last_mode_change_deadline = 0; // assume we're done.
+    ಆದರೆ (ದತ್ತಾಂಶ->ಕೊನೆಯ_ಬಹುಲಕ_change_deadline) {
+        ಆದರೆ (SDL_GetTicks() >= ದತ್ತಾಂಶ->ಕೊನೆಯ_ಬಹುಲಕ_change_deadline) {
+            ದತ್ತಾಂಶ->ಕೊನೆಯ_ಬಹುಲಕ_change_deadline = 0; // assume we're done.
         }
     }
 
     // Update activity every 30 seconds to prevent screensaver
-    if (_this->suspend_screensaver) {
+    ಆದರೆ (_this->suspend_screensaver) {
         Uint64 now = SDL_GetTicks();
-        if (!data->screensaver_activity || now >= (data->screensaver_activity + 30000)) {
-            X11_XResetScreenSaver(data->display);
+        ಆದರೆ (!ದತ್ತಾಂಶ->screensaver_activity || now >= (ದತ್ತಾಂಶ->screensaver_activity + 30000)) {
+            X11_XResetScreenSaver(ದತ್ತಾಂಶ->display);
 
-#ifdef SDL_USE_LIBDBUS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
             SDL_DBus_ScreensaverTickle();
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-            data->screensaver_activity = now;
+            ದತ್ತಾಂಶ->screensaver_activity = now;
         }
     }
 
     SDL_zero(xevent);
 
     // Keep processing pending events
-    while (X11_PollEvent(data->display, &xevent)) {
+    ಆಗ (X11_PollEvent(ದತ್ತಾಂಶ->display, &xevent)) {
         X11_DispatchEvent(_this, &xevent);
     }
 
@@ -2422,54 +2422,54 @@ void X11_PumpEvents(SDL_VideoDevice *_this)
     X11_HandleFocusChanges(_this);
 
     // FIXME: Only need to do this when there are flashing windows
-    for (i = 0; i < data->numwindows; ++i) {
-        if (data->windowlist[i] != NULL &&
-            data->windowlist[i]->flash_cancel_time &&
-            SDL_GetTicks() >= data->windowlist[i]->flash_cancel_time) {
-            X11_FlashWindow(_this, data->windowlist[i]->window, SDL_FLASH_CANCEL);
+    ಗಾಗಿ (i = 0; i < ದತ್ತಾಂಶ->numwindows; ++i) {
+        ಆದರೆ (ದತ್ತಾಂಶ->windowlist[i] != ಖಾಲಿ &&
+            ದತ್ತಾಂಶ->windowlist[i]->flash_cancel_ಸಮಯ &&
+            SDL_GetTicks() >= ದತ್ತಾಂಶ->windowlist[i]->flash_cancel_ಸಮಯ) {
+            X11_Flash_ಕಿಟಕಿ(_this, ದತ್ತಾಂಶ->windowlist[i]->ಕಿಟಕಿ, SDL_FLASH_CANCEL);
         }
     }
 
-    if (data->xinput_hierarchy_changed) {
+    ಆದರೆ (ದತ್ತಾಂಶ->xinput_hierarchy_ಬದಲಾಯಿತು) {
         X11_Xinput2UpdateDevices(_this);
-        data->xinput_hierarchy_changed = false;
+        ದತ್ತಾಂಶ->xinput_hierarchy_ಬದಲಾಯಿತು = false;
     }
 }
 
 bool X11_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-#ifdef SDL_VIDEO_DRIVER_X11_XSCRNSAVER
-    SDL_VideoData *data = _this->internal;
-    int dummy;
-    int major_version, minor_version;
-#endif // SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = _this->ಆಂತರಿಕ;
+    ಪೂರ್ಣಾಂಕ dummy;
+    ಪೂರ್ಣಾಂಕ major_ಆವೃತ್ತಿ, minor_ಆವೃತ್ತಿ;
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11_XSCRNSAVER
 
-#ifdef SDL_USE_LIBDBUS
-    if (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
-        return true;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_USE_LIBDBUS
+    ಆದರೆ (SDL_DBus_ScreensaverInhibit(_this->suspend_screensaver)) {
+        ಹಿಂತಿರುಗಿ true;
     }
 
-    if (_this->suspend_screensaver) {
+    ಆದರೆ (_this->suspend_screensaver) {
         SDL_DBus_ScreensaverTickle();
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_VIDEO_DRIVER_X11_XSCRNSAVER
-    if (SDL_X11_HAVE_XSS) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+    ಆದರೆ (SDL_X11_HAVE_XSS) {
         // X11_XScreenSaverSuspend was introduced in MIT-SCREEN-SAVER 1.1
-        if (!X11_XScreenSaverQueryExtension(data->display, &dummy, &dummy) ||
-            !X11_XScreenSaverQueryVersion(data->display,
-                                          &major_version, &minor_version) ||
-            major_version < 1 || (major_version == 1 && minor_version < 1)) {
-            return SDL_Unsupported();
+        ಆದರೆ (!X11_XScreenSaverQueryExtension(ದತ್ತಾಂಶ->display, &dummy, &dummy) ||
+            !X11_XScreen_Saver_Query_ಆವೃತ್ತಿ(ದತ್ತಾಂಶ->display,
+                                          &major_ಆವೃತ್ತಿ, &minor_ಆವೃತ್ತಿ) ||
+            major_ಆವೃತ್ತಿ < 1 || (major_ಆವೃತ್ತಿ == 1 && minor_ಆವೃತ್ತಿ < 1)) {
+            ಹಿಂತಿರುಗಿ SDL_Unsupported();
         }
 
-        X11_XScreenSaverSuspend(data->display, _this->suspend_screensaver);
-        X11_XResetScreenSaver(data->display);
-        return true;
+        X11_XScreenSaverSuspend(ದತ್ತಾಂಶ->display, _this->suspend_screensaver);
+        X11_XResetScreenSaver(ದತ್ತಾಂಶ->display);
+        ಹಿಂತಿರುಗಿ true;
     }
-#endif
-    return SDL_Unsupported();
+#ಆದರೆ_ಅಂತ್ಯ
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_X11

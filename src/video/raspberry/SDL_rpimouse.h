@@ -19,22 +19,22 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_RPI_mouse_h_
-#define SDL_RPI_mouse_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_RPI_mouse_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_RPI_mouse_h_
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-struct SDL_CursorData
+ರಚನೆ SDL_Cursor_ದತ್ತಾಂಶ
 {
     DISPMANX_RESOURCE_HANDLE_T resource;
     DISPMANX_ELEMENT_HANDLE_T element;
-    int hot_x, hot_y;
-    int w, h;
+    ಪೂರ್ಣಾಂಕ hot_x, hot_y;
+    ಪೂರ್ಣಾಂಕ w, h;
 };
 
-#define SDL_RPI_CURSORDATA(curs) RPI_CursorData *curdata = (RPI_CursorData *)((curs) ? (curs)->internal : NULL)
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_RPI_CURSORDATA(curs) RPI_Cursor_ದತ್ತಾಂಶ *curdata = (RPI_Cursor_ದತ್ತಾಂಶ *)((curs) ? (curs)->ಆಂತರಿಕ : ಖಾಲಿ)
 
-extern void RPI_InitMouse(SDL_VideoDevice *_this);
-extern void RPI_QuitMouse(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_InitMouse(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ RPI_QuitMouse(SDL_VideoDevice *_this);
 
-#endif // SDL_RPI_mouse_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_RPI_mouse_h_

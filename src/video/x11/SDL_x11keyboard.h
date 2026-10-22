@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_x11keyboard_h_
-#define SDL_x11keyboard_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_x11keyboard_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool X11_InitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_QuitKeyboard(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Create_ಒಳಹರಿವು_Context(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_Destroy_ಒಳಹರಿವು_Context(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_ClearComposition(SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ);
+ಬಾಹ್ಯ bool X11_ಆರಂಭ_ಪಠ್ಯ_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID props);
+ಬಾಹ್ಯ bool X11_Stop_ಪಠ್ಯ_ಒಳಹರಿವು(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool X11_Update_ಪಠ್ಯ_ಒಳಹರಿವು_Area(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID props);
+ಬಾಹ್ಯ ಶೂನ್ಯ X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
 
-#endif // SDL_x11keyboard_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_x11keyboard_h_

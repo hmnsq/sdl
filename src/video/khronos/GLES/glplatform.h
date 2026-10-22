@@ -1,5 +1,5 @@
-#ifndef __glplatform_h_
-#define __glplatform_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __glplatform_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು __glplatform_h_
 
 /*
 ** Copyright 2017-2020 The Khronos Group Inc.
@@ -14,14 +14,14 @@
  *      https://github.com/KhronosGroup/OpenGL-Registry
  */
 
-#include <KHR/khrplatform.h>
+#ಅನ್ತರ್ಭಾವ <KHR/khrplatform.h>
 
-#ifndef GL_API
-#define GL_API      KHRONOS_APICALL
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ GL_API
+#ವ್ಯಾಖ್ಯಾನಿಸು GL_API      KHRONOS_APICALL
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef GL_APIENTRY
-#define GL_APIENTRY KHRONOS_APIENTRY
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ GL_APIENTRY
+#ವ್ಯಾಖ್ಯಾನಿಸು GL_APIENTRY KHRONOS_APIENTRY
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif /* __glplatform_h_ */
+#ಆದರೆ_ಅಂತ್ಯ /* __glplatform_h_ */

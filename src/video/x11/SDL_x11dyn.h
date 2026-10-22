@@ -18,87 +18,87 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_x11dyn_h_
-#define SDL_x11dyn_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_x11dyn_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_x11dyn_h_
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-#include <X11/Xresource.h>
+#ಅನ್ತರ್ಭಾವ <X11/Xlib.h>
+#ಅನ್ತರ್ಭಾವ <X11/Xutil.h>
+#ಅನ್ತರ್ಭಾವ <X11/Xatom.h>
+#ಅನ್ತರ್ಭಾವ <X11/Xresource.h>
 
-#ifdef SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
-#include <X11/XKBlib.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_HAS_XKBLIB
+#ಅನ್ತರ್ಭಾವ <X11/XKBlib.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Apparently some X11 systems can't include this multiple times...
-#ifndef SDL_INCLUDED_XLIBINT_H
-#define SDL_INCLUDED_XLIBINT_H 1
-#include <X11/Xlibint.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_INCLUDED_XLIBINT_H
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_INCLUDED_XLIBINT_H 1
+#ಅನ್ತರ್ಭಾವ <X11/Xlibint.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
-#include <X11/Xproto.h>
-#include <X11/extensions/Xext.h>
+#ಅನ್ತರ್ಭಾವ <X11/Xproto.h>
+#ಅನ್ತರ್ಭಾವ <X11/extensions/Xext.h>
 
-#ifndef NO_SHARED_MEMORY
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <X11/extensions/XShm.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ NO_SHARED_ಸ್ಮರಣೆ
+#ಅನ್ತರ್ಭಾವ <sys/ipc.h>
+#ಅನ್ತರ್ಭಾವ <sys/shm.h>
+#ಅನ್ತರ್ಭಾವ <X11/extensions/XShm.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_VIDEO_DRIVER_X11_XCURSOR
-#include <X11/Xcursor/Xcursor.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XDBE
-#include <X11/extensions/Xdbe.h>
-#endif
-#if defined(SDL_VIDEO_DRIVER_X11_XINPUT2) || defined(SDL_VIDEO_DRIVER_X11_XFIXES)
-#include <X11/extensions/XInput2.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
-#include <X11/extensions/Xfixes.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSYNC
-#include <X11/extensions/sync.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XRANDR
-#include <X11/extensions/Xrandr.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSCRNSAVER
-#include <X11/extensions/scrnsaver.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XSHAPE
-#include <X11/extensions/shape.h>
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11_XTEST
-#include <X11/extensions/XTest.h>
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XCURSOR
+#ಅನ್ತರ್ಭಾವ <X11/Xcursor/Xcursor.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XDBE
+#ಅನ್ತರ್ಭಾವ <X11/extensions/Xdbe.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_X11_XINPUT2) || defined(SDL_VIDEO_DRIVER_X11_XFIXES)
+#ಅನ್ತರ್ಭಾವ <X11/extensions/XInput2.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XFIXES
+#ಅನ್ತರ್ಭಾವ <X11/extensions/Xfixes.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSYNC
+#ಅನ್ತರ್ಭಾವ <X11/extensions/sync.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XRANDR
+#ಅನ್ತರ್ಭಾವ <X11/extensions/Xrandr.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSCRNSAVER
+#ಅನ್ತರ್ಭಾವ <X11/extensions/scrnsaver.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XSHAPE
+#ಅನ್ತರ್ಭಾವ <X11/extensions/shape.h>
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_X11_XTEST
+#ಅನ್ತರ್ಭಾವ <X11/extensions/XTest.h>
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 // evil function signatures...
-typedef Bool (*SDL_X11_XESetWireToEventRetType)(Display *, XEvent *, xEvent *);
-typedef int (*SDL_X11_XSynchronizeRetType)(Display *);
-typedef Status (*SDL_X11_XESetEventToWireRetType)(Display *, XEvent *, xEvent *);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Bool (*SDL_X11_XESet_Wire_ಗಮ್ಯ_Event_Ret_Type)(Display *, XEvent *, xEvent *);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಪೂರ್ಣಾಂಕ (*SDL_X11_XSynchronizeRetType)(Display *);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಸ್ಥಿತಿ_3 (*SDL_X11_XESet_Event_ಗಮ್ಯ_Wire_Ret_Type)(Display *, XEvent *, xEvent *);
 
-extern bool SDL_X11_LoadSymbols(void);
-extern void SDL_X11_UnloadSymbols(void);
+ಬಾಹ್ಯ bool SDL_X11_ತುಂಬು_Symbols(ಶೂನ್ಯ);
+ಬಾಹ್ಯ ಶೂನ್ಯ SDL_X11_UnloadSymbols(ಶೂನ್ಯ);
 
 // Declare all the function pointers and wrappers...
-#define SDL_X11_SYM(rc, fn, params) \
-    typedef rc(*SDL_DYNX11FN_##fn) params;     \
-    extern SDL_DYNX11FN_##fn X11_##fn;
-#include "SDL_x11sym.h"
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_X11_SYM(rc, fn, params) \
+    ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ rc(*SDL_DYNX11FN_##fn) params;     \
+    ಬಾಹ್ಯ SDL_DYNX11FN_##fn X11_##fn;
+#ಅನ್ತರ್ಭಾವ "SDL_x11sym.h"
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
-#define SDL_X11_MODULE(modname) extern int SDL_X11_HAVE_##modname;
-#include "SDL_x11sym.h"
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_X11_MODULE(modname) ಬಾಹ್ಯ ಪೂರ್ಣಾಂಕ SDL_X11_HAVE_##modname;
+#ಅನ್ತರ್ಭಾವ "SDL_x11sym.h"
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // !defined SDL_x11dyn_h_
+#ಆದರೆ_ಅಂತ್ಯ // !defined SDL_x11dyn_h_

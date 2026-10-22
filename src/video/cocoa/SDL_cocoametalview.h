@@ -24,12 +24,12 @@
  * Thanks to @slime73 on GitHub for their gist showing how to add a CAMetalLayer
  * backed view.
  */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_cocoametalview_h_
-#define SDL_cocoametalview_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_cocoametalview_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_cocoametalview_h_
 
-#if defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import "../SDL_sysvideo.h"
 
@@ -41,26 +41,26 @@
 
 @interface SDL3_cocoametalview : NSView
 
-- (instancetype)initWithFrame:(NSRect)frame
-                      highDPI:(BOOL)highDPI
-                     windowID:(Uint32)windowID
+- (instancetype)init_With_ಚೌಕಟ್ಟು:(NSRect)ಚೌಕಟ್ಟು
+                      ಮೇಲಿನ_DPI:(BOOL)ಮೇಲಿನ_DPI
+                     ಕಿಟಕಿ_ID:(Uint32)ಕಿಟಕಿ_ID
                        opaque:(BOOL)opaque;
 
-- (void)updateDrawableSize;
-- (NSView *)hitTest:(NSPoint)point;
+- (ಶೂನ್ಯ)update_Drawable_ಗಾತ್ರ;
+- (NSView *)ದೊರಕಿತು_Test:(NSPoint)ಬಿಂದು;
 
 // Override superclass tag so this class can set it.
-@property(assign, readonly) NSInteger tag;
+@property(ನಿಯೋಜಿಸು, readonly) NSInteger ಟ್ಯಾಗ್;
 
-@property(nonatomic) BOOL highDPI;
-@property(nonatomic) Uint32 sdlWindowID;
+@property(nonatomic) BOOL ಮೇಲಿನ_DPI;
+@property(nonatomic) Uint32 sdl_ಕಿಟಕಿ_ID;
 
-@end
+@ಕೊನೆ
 
-SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಶೂನ್ಯ Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+ಶೂನ್ಯ *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
-#endif // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#endif // SDL_cocoametalview_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_cocoametalview_h_

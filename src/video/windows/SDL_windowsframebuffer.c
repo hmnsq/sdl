@@ -18,124 +18,124 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_windowsvideo.h"
 
-bool WIN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool WIN_Create_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PixelFormat *format, ಶೂನ್ಯ **pixels, ಪೂರ್ಣಾಂಕ *pitch)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
     bool isstack;
-    size_t size;
+    size_t ಗಾತ್ರ_2;
     LPBITMAPINFO info;
     HBITMAP hbm;
-    int w, h;
+    ಪೂರ್ಣಾಂಕ w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_ಕಿಟಕಿ_ಗಾತ್ರ_ಒಳ_Pixels(ಕಿಟಕಿ, &w, &h);
 
     // Free the old framebuffer surface
-    if (data->mdc) {
-        DeleteDC(data->mdc);
+    ಆದರೆ (ದತ್ತಾಂಶ->mdc) {
+        DeleteDC(ದತ್ತಾಂಶ->mdc);
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
+    ಆದರೆ (ದತ್ತಾಂಶ->hbm) {
+        DeleteObject(ದತ್ತಾಂಶ->hbm);
     }
 
     // Find out the format of the screen
-    size = sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD);
-    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, size, &isstack);
-    if (!info) {
-        return false;
+    ಗಾತ್ರ_2 = ಗಾತ್ರ(BITMAPINFOHEADER) + 256 * ಗಾತ್ರ(RGBQUAD);
+    info = (LPBITMAPINFO)SDL_small_alloc(Uint8, ಗಾತ್ರ_2, &isstack);
+    ಆದರೆ (!info) {
+        ಹಿಂತಿರುಗಿ false;
     }
 
-    SDL_memset(info, 0, size);
-    info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    SDL_memset(info, 0, ಗಾತ್ರ_2);
+    info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಗಾತ್ರ = ಗಾತ್ರ(BITMAPINFOHEADER);
 
     // The second call to GetDIBits() fills in the bitfields
-    hbm = CreateCompatibleBitmap(data->hdc, 1, 1);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
-    GetDIBits(data->hdc, hbm, 0, 0, NULL, info, DIB_RGB_COLORS);
+    hbm = CreateCompatibleBitmap(ದತ್ತಾಂಶ->hdc, 1, 1);
+    GetDIBits(ದತ್ತಾಂಶ->hdc, hbm, 0, 0, ಖಾಲಿ, info, DIB_RGB_COLORS);
+    GetDIBits(ದತ್ತಾಂಶ->hdc, hbm, 0, 0, ಖಾಲಿ, info, DIB_RGB_COLORS);
     DeleteObject(hbm);
 
     // Check if a transparent channel is required
-    bool need_alpha = (window->flags & SDL_WINDOW_TRANSPARENT) != 0;
+    bool need_alpha = (ಕಿಟಕಿ->flags & SDL_ಕಿಟಕಿ_TRANSPARENT) != 0;
 
     *format = SDL_PIXELFORMAT_UNKNOWN;
-    if (info->bmiHeader.biCompression == BI_BITFIELDS) {
-        int bpp;
+    ಆದರೆ (info->bmi_ಶೀರ್ಷಿಕೆ.biCompression == BI_BITFIELDS) {
+        ಪೂರ್ಣಾಂಕ bpp;
         Uint32 *masks;
 
-        bpp = info->bmiHeader.biPlanes * info->bmiHeader.biBitCount;
-        masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        bpp = info->bmi_ಶೀರ್ಷಿಕೆ.biPlanes * info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಬಿಟ್_ಎಣಿಕೆ;
+        masks = (Uint32 *)((Uint8 *)info + info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಗಾತ್ರ);
         *format = SDL_GetPixelFormatForMasks(bpp, masks[0], masks[1], masks[2], 0);
     }
-    if (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
+    ಆದರೆ (*format == SDL_PIXELFORMAT_UNKNOWN || need_alpha) {
         // We'll use RGB or BGRA32 format for now
         *format = need_alpha ? SDL_PIXELFORMAT_BGRA32 : SDL_PIXELFORMAT_XRGB8888;
 
         // Create a new one
-        SDL_memset(info, 0, size);
-        info->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        info->bmiHeader.biPlanes = 1;
-        info->bmiHeader.biBitCount = 32;
-        info->bmiHeader.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
+        SDL_memset(info, 0, ಗಾತ್ರ_2);
+        info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಗಾತ್ರ = ಗಾತ್ರ(BITMAPINFOHEADER);
+        info->bmi_ಶೀರ್ಷಿಕೆ.biPlanes = 1;
+        info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಬಿಟ್_ಎಣಿಕೆ = 32;
+        info->bmi_ಶೀರ್ಷಿಕೆ.biCompression = need_alpha ? BI_BITFIELDS : BI_RGB;
 
-        if (need_alpha) {
-            int tmpbpp;
-            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmiHeader.biSize);
+        ಆದರೆ (need_alpha) {
+            ಪೂರ್ಣಾಂಕ tmpbpp;
+            Uint32 *bgr32masks = (Uint32 *)((Uint8 *)info + info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಗಾತ್ರ);
             SDL_GetMasksForPixelFormat(SDL_PIXELFORMAT_BGRA32, &tmpbpp, &bgr32masks[0], &bgr32masks[1], &bgr32masks[2], &bgr32masks[3]);
         }
     }
 
     // Fill in the size information
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
-    info->bmiHeader.biWidth = w;
-    info->bmiHeader.biHeight = -h; // negative for topdown bitmap
-    info->bmiHeader.biSizeImage = (DWORD)h * (*pitch);
+    info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಅಗಲ = w;
+    info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಎತ್ತರ = -h; // negative for topdown bitmap
+    info->bmi_ಶೀರ್ಷಿಕೆ.bi_ಗಾತ್ರ_Image = (DWORD)h * (*pitch);
 
-    data->mdc = CreateCompatibleDC(data->hdc);
-    data->hbm = CreateDIBSection(data->hdc, info, DIB_RGB_COLORS, pixels, NULL, 0);
+    ದತ್ತಾಂಶ->mdc = CreateCompatibleDC(ದತ್ತಾಂಶ->hdc);
+    ದತ್ತಾಂಶ->hbm = CreateDIBSection(ದತ್ತಾಂಶ->hdc, info, DIB_RGB_COLORS, pixels, ಖಾಲಿ, 0);
     SDL_small_free(info, isstack);
 
-    if (!data->hbm) {
-        return WIN_SetError("Unable to create DIB");
+    ಆದರೆ (!ದತ್ತಾಂಶ->hbm) {
+        ಹಿಂತಿರುಗಿ WIN_ಗಣ_Error("Unable to create DIB");
     }
-    SelectObject(data->mdc, data->hbm);
+    SelectObject(ದತ್ತಾಂಶ->mdc, ದತ್ತಾಂಶ->hbm);
 
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-bool WIN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool WIN_Update_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, ಸ್ಥಿರಾಂಕ SDL_Rect *rects, ಪೂರ್ಣಾಂಕ numrects)
 {
-    SDL_WindowData *data = window->internal;
-    int i;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
+    ಪೂರ್ಣಾಂಕ i;
 
-    for (i = 0; i < numrects; ++i) {
-        BitBlt(data->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
-               data->mdc, rects[i].x, rects[i].y, SRCCOPY);
+    ಗಾಗಿ (i = 0; i < numrects; ++i) {
+        ಬಿಟ್_Blt(ದತ್ತಾಂಶ->hdc, rects[i].x, rects[i].y, rects[i].w, rects[i].h,
+               ದತ್ತಾಂಶ->mdc, rects[i].x, rects[i].y, SRCCOPY);
     }
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void WIN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+ಶೂನ್ಯ WIN_Destroy_ಕಿಟಕಿ_Framebuffer(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ = ಕಿಟಕಿ->ಆಂತರಿಕ;
 
-    if (!data) {
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
         // The window wasn't fully initialized
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
-    if (data->mdc) {
-        DeleteDC(data->mdc);
-        data->mdc = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->mdc) {
+        DeleteDC(ದತ್ತಾಂಶ->mdc);
+        ದತ್ತಾಂಶ->mdc = ಖಾಲಿ;
     }
-    if (data->hbm) {
-        DeleteObject(data->hbm);
-        data->hbm = NULL;
+    ಆದರೆ (ದತ್ತಾಂಶ->hbm) {
+        DeleteObject(ದತ್ತಾಂಶ->hbm);
+        ದತ್ತಾಂಶ->hbm = ಖಾಲಿ;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_WINDOWS

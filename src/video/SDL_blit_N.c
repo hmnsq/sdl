@@ -18,83 +18,83 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_HAVE_BLIT_N
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_HAVE_BLIT_N
 
-#include "SDL_pixels_c.h"
-#include "SDL_surface_c.h"
-#include "SDL_blit_copy.h"
+#ಅನ್ತರ್ಭಾವ "SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_surface_c.h"
+#ಅನ್ತರ್ಭಾವ "SDL_blit_copy.h"
 
-#ifdef SDL_SVE2_INTRINSICS
-#include "./arm/SDL_sve2_blit_N.h"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SVE2_INTRINSICS
+#ಅನ್ತರ್ಭಾವ "./arm/SDL_sve2_blit_N.h"
+#ಆದರೆ_ಅಂತ್ಯ
 
 // General optimized routines that write char by char
-#define HAVE_FAST_WRITE_INT8 1
+#ವ್ಯಾಖ್ಯಾನಿಸು HAVE_FAST_WRITE_INT8 1
 
 // On some CPU, it's slower than combining and write a word
-#ifdef __MIPS__
-#undef HAVE_FAST_WRITE_INT8
-#define HAVE_FAST_WRITE_INT8 0
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __MIPS__
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು HAVE_FAST_WRITE_INT8
+#ವ್ಯಾಖ್ಯಾನಿಸು HAVE_FAST_WRITE_INT8 0
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Functions to blit from N-bit surfaces to other surfaces
 
-#define BLIT_FEATURE_NONE                       0x00
-#define BLIT_FEATURE_HAS_SSE41                  0x01
-#define BLIT_FEATURE_HAS_ALTIVEC                0x02
-#define BLIT_FEATURE_ALTIVEC_DONT_USE_PREFETCH  0x04
+#ವ್ಯಾಖ್ಯಾನಿಸು BLIT_FEATURE_NONE                       0x00
+#ವ್ಯಾಖ್ಯಾನಿಸು BLIT_FEATURE_HAS_SSE41                  0x01
+#ವ್ಯಾಖ್ಯಾನಿಸು BLIT_FEATURE_HAS_ALTIVEC                0x02
+#ವ್ಯಾಖ್ಯಾನಿಸು BLIT_FEATURE_ALTIVEC_DONT_USE_PREFETCH  0x04
 
-#ifdef SDL_ALTIVEC_BLITTERS
-#ifdef SDL_PLATFORM_MACOS
-#include <sys/sysctl.h>
-static size_t GetL3CacheSize(void)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ALTIVEC_BLITTERS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_PLATFORM_MACOS
+#ಅನ್ತರ್ಭಾವ <sys/sysctl.h>
+ಸ್ಥಿರ size_t Get_L3_Cache_ಗಾತ್ರ(ಶೂನ್ಯ)
 {
-    const char key[] = "hw.l3cachesize";
-    u_int64_t result = 0;
-    size_t typeSize = sizeof(result);
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ ಕೀಲಿ[] = "hw.l3cachesize";
+    u_int64_t ಫಲಿತಾಂಶ = 0;
+    size_t type_ಗಾತ್ರ = ಗಾತ್ರ(ಫಲಿತಾಂಶ);
 
-    int err = sysctlbyname(key, &result, &typeSize, NULL, 0);
-    if (0 != err) {
-        return 0;
+    ಪೂರ್ಣಾಂಕ err = sysctlbyname(ಕೀಲಿ, &ಫಲಿತಾಂಶ, &type_ಗಾತ್ರ, ಖಾಲಿ, 0);
+    ಆದರೆ (0 != err) {
+        ಹಿಂತಿರುಗಿ 0;
     }
 
-    return result;
+    ಹಿಂತಿರುಗಿ ಫಲಿತಾಂಶ;
 }
-#else
-static size_t GetL3CacheSize(void)
+#ಇಲ್ಲದಿದ್ದರೆ
+ಸ್ಥಿರ size_t Get_L3_Cache_ಗಾತ್ರ(ಶೂನ್ಯ)
 {
     // XXX: Just guess G4
-    return 2097152;
+    ಹಿಂತಿರುಗಿ 2097152;
 }
-#endif // SDL_PLATFORM_MACOS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_PLATFORM_MACOS
 
-#if (defined(SDL_PLATFORM_MACOS) && (__GNUC__ < 4))
-#define VECUINT8_LITERAL(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
-    (vector unsigned char)(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)
-#define VECUINT16_LITERAL(a, b, c, d, e, f, g, h) \
-    (vector unsigned short)(a, b, c, d, e, f, g, h)
-#else
-#define VECUINT8_LITERAL(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
-    (vector unsigned char)                                               \
+#ಆದರೆ (defined(SDL_PLATFORM_MACOS) && (__GNUC__ < 4))
+#ವ್ಯಾಖ್ಯಾನಿಸು VECUINT8_LITERAL(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
+    (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)
+#ವ್ಯಾಖ್ಯಾನಿಸು VECUINT16_LITERAL(a, b, c, d, e, f, g, h) \
+    (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)(a, b, c, d, e, f, g, h)
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು VECUINT8_LITERAL(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
+    (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)                                               \
     {                                                                    \
         a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p                   \
     }
-#define VECUINT16_LITERAL(a, b, c, d, e, f, g, h) \
-    (vector unsigned short)                       \
+#ವ್ಯಾಖ್ಯಾನಿಸು VECUINT16_LITERAL(a, b, c, d, e, f, g, h) \
+    (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)                       \
     {                                             \
         a, b, c, d, e, f, g, h                    \
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#define UNALIGNED_PTR(x)       (((size_t)x) & 0x0000000F)
-#define VSWIZZLE32(a, b, c, d) (vector unsigned char)(0x00 + a, 0x00 + b, 0x00 + c, 0x00 + d, \
+#ವ್ಯಾಖ್ಯಾನಿಸು UNALIGNED_PTR(x)       (((size_t)x) & 0x0000000F)
+#ವ್ಯಾಖ್ಯಾನಿಸು VSWIZZLE32(a, b, c, d) (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(0x00 + a, 0x00 + b, 0x00 + c, 0x00 + d, \
                                                       0x04 + a, 0x04 + b, 0x04 + c, 0x04 + d, \
                                                       0x08 + a, 0x08 + b, 0x08 + c, 0x08 + d, \
                                                       0x0C + a, 0x0C + b, 0x0C + c, 0x0C + d)
 
-#define MAKE8888(dstfmt, r, g, b, a)           \
+#ವ್ಯಾಖ್ಯಾನಿಸು MAKE8888(dstfmt, r, g, b, a)           \
     (((r << dstfmt->Rshift) & dstfmt->Rmask) | \
      ((g << dstfmt->Gshift) & dstfmt->Gmask) | \
      ((b << dstfmt->Bshift) & dstfmt->Bmask) | \
@@ -106,19 +106,19 @@ static size_t GetL3CacheSize(void)
  *  Don't use this on a G5...however, the speed boost is very significant
  *   on a G4.
  */
-#define DST_CHAN_SRC  1
-#define DST_CHAN_DEST 2
+#ವ್ಯಾಖ್ಯಾನಿಸು DST_CHAN_SRC  1
+#ವ್ಯಾಖ್ಯಾನಿಸು DST_CHAN_DEST 2
 
 // macro to set DST control word value...
-#define DST_CTRL(size, count, stride) \
-    (((size) << 24) | ((count) << 16) | (stride))
+#ವ್ಯಾಖ್ಯಾನಿಸು DST_CTRL(ಗಾತ್ರ_2, ಎಣಿಕೆ_2, stride) \
+    (((ಗಾತ್ರ_2) << 24) | ((ಎಣಿಕೆ_2) << 16) | (stride))
 
-#define VEC_ALIGNER(src) ((UNALIGNED_PTR(src))   \
+#ವ್ಯಾಖ್ಯಾನಿಸು VEC_ALIGNER(src) ((UNALIGNED_PTR(src))   \
                               ? vec_lvsl(0, src) \
-                              : vec_add(vec_lvsl(8, src), vec_splat_u8(8)))
+                              : vec_ಕೂಡಿಸು(vec_lvsl(8, src), vec_splat_u8(8)))
 
 // Calculate the permute vector used for 32->32 swizzling
-static vector unsigned char calc_swizzle32(const SDL_PixelFormatDetails *srcfmt, const SDL_PixelFormatDetails *dstfmt)
+ಸ್ಥಿರ ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ calc_swizzle32(ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt, ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt)
 {
     /*
      * We have to assume that the bits that aren't used by other
@@ -126,49 +126,49 @@ static vector unsigned char calc_swizzle32(const SDL_PixelFormatDetails *srcfmt,
      *  leave alpha with a zero mask, but we should still swizzle the bits.
      */
     // ARGB
-    static const SDL_PixelFormatDetails default_pixel_format = {
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails default_pixel_format = {
         SDL_PIXELFORMAT_ARGB8888, 0, 0, { 0, 0 }, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000, 8, 8, 8, 8, 16, 8, 0, 24
     };
-    const vector unsigned char plus = VECUINT8_LITERAL(0x00, 0x00, 0x00, 0x00,
+    ಸ್ಥಿರಾಂಕ ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ plus = VECUINT8_LITERAL(0x00, 0x00, 0x00, 0x00,
                                                        0x04, 0x04, 0x04, 0x04,
                                                        0x08, 0x08, 0x08, 0x08,
                                                        0x0C, 0x0C, 0x0C,
                                                        0x0C);
-    vector unsigned char vswiz;
-    vector unsigned int srcvec;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vswiz;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ srcvec;
     Uint32 rmask, gmask, bmask, amask;
 
-    if (!srcfmt) {
+    ಆದರೆ (!srcfmt) {
         srcfmt = &default_pixel_format;
     }
-    if (!dstfmt) {
+    ಆದರೆ (!dstfmt) {
         dstfmt = &default_pixel_format;
     }
 
-#define RESHIFT(X) (3 - ((X) >> 3))
+#ವ್ಯಾಖ್ಯಾನಿಸು RESHIFT(X) (3 - ((X) >> 3))
     rmask = RESHIFT(srcfmt->Rshift) << (dstfmt->Rshift);
     gmask = RESHIFT(srcfmt->Gshift) << (dstfmt->Gshift);
     bmask = RESHIFT(srcfmt->Bshift) << (dstfmt->Bshift);
 
     // Use zero for alpha if either surface doesn't have alpha
-    if (dstfmt->Amask) {
+    ಆದರೆ (dstfmt->Amask) {
         amask =
             ((srcfmt->Amask) ? RESHIFT(srcfmt->Ashift) : 0x10) << (dstfmt->Ashift);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         amask =
             0x10101010 & ((dstfmt->Rmask | dstfmt->Gmask | dstfmt->Bmask) ^
                           0xFFFFFFFF);
     }
-#undef RESHIFT
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು RESHIFT
 
-    ((unsigned int *)(char *)&srcvec)[0] = (rmask | gmask | bmask | amask);
-    vswiz = vec_add(plus, (vector unsigned char)vec_splat(srcvec, 0));
-    return (vswiz);
+    ((ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ *)(ಅಕ್ಷರ *)&srcvec)[0] = (rmask | gmask | bmask | amask);
+    vswiz = vec_ಕೂಡಿಸು(plus, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vec_splat(srcvec, 0));
+    ಹಿಂತಿರುಗಿ (vswiz);
 }
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
 // reorder bytes for PowerPC little endian
-static vector unsigned char reorder_ppc64le_vec(vector unsigned char vpermute)
+ಸ್ಥಿರ ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ reorder_ppc64le_vec(ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vpermute)
 {
     /* The result vector of calc_swizzle32 reorder bytes using vec_perm.
        The LE transformation for vec_perm has an implicit assumption
@@ -182,57 +182,57 @@ static vector unsigned char reorder_ppc64le_vec(vector unsigned char vpermute)
        Refer to fedora bug 1392465
      */
 
-    const vector unsigned char ppc64le_reorder = VECUINT8_LITERAL(
+    ಸ್ಥಿರಾಂಕ ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ ppc64le_reorder = VECUINT8_LITERAL(
         0x01, 0x00, 0x03, 0x02,
         0x05, 0x04, 0x07, 0x06,
         0x09, 0x08, 0x0B, 0x0A,
         0x0D, 0x0C, 0x0F, 0x0E);
 
-    vector unsigned char vswiz_ppc64le;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vswiz_ppc64le;
     vswiz_ppc64le = vec_perm(vpermute, vpermute, ppc64le_reorder);
-    return (vswiz_ppc64le);
+    ಹಿಂತಿರುಗಿ (vswiz_ppc64le);
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-static void Blit_XRGB8888_RGB565(SDL_BlitInfo *info);
-static void Blit_XRGB8888_RGB565Altivec(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_XRGB8888_RGB565(SDL_BlitInfo *info);
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_XRGB8888_RGB565Altivec(SDL_BlitInfo *info)
 {
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = (Uint8 *)info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = (Uint8 *)info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    vector unsigned char valpha = vec_splat_u8(0);
-    vector unsigned char vpermute = calc_swizzle32(srcfmt, NULL);
-    vector unsigned char vgmerge = VECUINT8_LITERAL(0x00, 0x02, 0x00, 0x06,
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valpha = vec_splat_u8(0);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vpermute = calc_swizzle32(srcfmt, ಖಾಲಿ);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vgmerge = VECUINT8_LITERAL(0x00, 0x02, 0x00, 0x06,
                                                     0x00, 0x0a, 0x00, 0x0e,
                                                     0x00, 0x12, 0x00, 0x16,
                                                     0x00, 0x1a, 0x00, 0x1e);
-    vector unsigned short v1 = vec_splat_u16(1);
-    vector unsigned short v3 = vec_splat_u16(3);
-    vector unsigned short v3f =
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ v1 = vec_splat_u16(1);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ v3 = vec_splat_u16(3);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ v3f =
         VECUINT16_LITERAL(0x003f, 0x003f, 0x003f, 0x003f,
                           0x003f, 0x003f, 0x003f, 0x003f);
-    vector unsigned short vfc =
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ vfc =
         VECUINT16_LITERAL(0x00fc, 0x00fc, 0x00fc, 0x00fc,
                           0x00fc, 0x00fc, 0x00fc, 0x00fc);
-    vector unsigned short vf800 = (vector unsigned short)vec_splat_u8(-7);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ vf800 = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vec_splat_u8(-7);
     vf800 = vec_sl(vf800, vec_splat_u16(8));
 
-    while (height--) {
-        vector unsigned char valigner;
-        vector unsigned char voverflow;
-        vector unsigned char vsrc;
+    ಆಗ (ಎತ್ತರ--) {
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valigner;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ voverflow;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vsrc;
 
-        int width = info->dst_w;
-        int extrawidth;
+        ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+        ಪೂರ್ಣಾಂಕ extrawidth;
 
         // do scalar until we can align...
-#define ONE_PIXEL_BLEND(condition, widthvar)           \
-    while (condition) {                                \
+#ವ್ಯಾಖ್ಯಾನಿಸು ONE_PIXEL_BLEND(condition, widthvar)           \
+    ಆಗ (condition) {                                \
         Uint32 Pixel;                                  \
-        unsigned sR, sG, sB, sA;                       \
+        ಚಿಹ್ನೆರಹಿತ sR, sG, sB, sA;                       \
         DISEMBLE_RGBA((Uint8 *)src, 4, srcfmt, Pixel,  \
                       sR, sG, sB, sA);                 \
         *(Uint16 *)(dst) = (((sR << 8) & 0x0000F800) | \
@@ -243,392 +243,392 @@ static void Blit_XRGB8888_RGB565Altivec(SDL_BlitInfo *info)
         widthvar--;                                    \
     }
 
-        ONE_PIXEL_BLEND(((UNALIGNED_PTR(dst)) && (width)), width);
+        ONE_PIXEL_BLEND(((UNALIGNED_PTR(dst)) && (ಅಗಲ)), ಅಗಲ);
 
         // After all that work, here's the vector part!
-        extrawidth = (width % 8); // trailing unaligned stores
-        width -= extrawidth;
+        extrawidth = (ಅಗಲ % 8); // trailing unaligned stores
+        ಅಗಲ -= extrawidth;
         vsrc = vec_ld(0, src);
         valigner = VEC_ALIGNER(src);
 
-        while (width) {
-            vector unsigned short vpixel, vrpixel, vgpixel, vbpixel;
-            vector unsigned int vsrc1, vsrc2;
-            vector unsigned char vdst;
+        ಆಗ (ಅಗಲ) {
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ vpixel, vrpixel, vgpixel, vbpixel;
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vsrc1, vsrc2;
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vdst;
 
             voverflow = vec_ld(15, src);
             vsrc = vec_perm(vsrc, voverflow, valigner);
-            vsrc1 = (vector unsigned int)vec_perm(vsrc, valpha, vpermute);
+            vsrc1 = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vec_perm(vsrc, valpha, vpermute);
             src += 16;
             vsrc = voverflow;
             voverflow = vec_ld(15, src);
             vsrc = vec_perm(vsrc, voverflow, valigner);
-            vsrc2 = (vector unsigned int)vec_perm(vsrc, valpha, vpermute);
+            vsrc2 = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vec_perm(vsrc, valpha, vpermute);
             // 1555
-            vpixel = (vector unsigned short)vec_packpx(vsrc1, vsrc2);
-            vgpixel = (vector unsigned short)vec_perm(vsrc1, vsrc2, vgmerge);
+            vpixel = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vec_packpx(vsrc1, vsrc2);
+            vgpixel = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vec_perm(vsrc1, vsrc2, vgmerge);
             vgpixel = vec_and(vgpixel, vfc);
             vgpixel = vec_sl(vgpixel, v3);
             vrpixel = vec_sl(vpixel, v1);
             vrpixel = vec_and(vrpixel, vf800);
             vbpixel = vec_and(vpixel, v3f);
             vdst =
-                vec_or((vector unsigned char)vrpixel,
-                       (vector unsigned char)vgpixel);
+                vec_or((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vrpixel,
+                       (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vgpixel);
             // 565
-            vdst = vec_or(vdst, (vector unsigned char)vbpixel);
+            vdst = vec_or(vdst, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vbpixel);
             vec_st(vdst, 0, dst);
 
-            width -= 8;
+            ಅಗಲ -= 8;
             src += 16;
             dst += 16;
             vsrc = voverflow;
         }
 
-        SDL_assert(width == 0);
+        SDL_assert(ಅಗಲ == 0);
 
         // do scalar until we can align...
         ONE_PIXEL_BLEND((extrawidth), extrawidth);
-#undef ONE_PIXEL_BLEND
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು ONE_PIXEL_BLEND
 
         src += srcskip; // move to next row, accounting for pitch.
         dst += dstskip;
     }
 }
 
-#ifdef BROKEN_ALTIVEC_BLITTERS	// This doesn't properly expand to the lower destination bits
-static void Blit_RGB565_32Altivec(SDL_BlitInfo *info)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ BROKEN_ALTIVEC_BLITTERS	// This doesn't properly expand to the lower destination bits
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_RGB565_32Altivec(SDL_BlitInfo *info)
 {
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = (Uint8 *)info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = (Uint8 *)info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    unsigned alpha;
-    vector unsigned char valpha;
-    vector unsigned char vpermute;
-    vector unsigned short vf800;
-    vector unsigned int v8 = vec_splat_u32(8);
-    vector unsigned int v16 = vec_add(v8, v8);
-    vector unsigned short v2 = vec_splat_u16(2);
-    vector unsigned short v3 = vec_splat_u16(3);
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಚಿಹ್ನೆರಹಿತ alpha;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valpha;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vpermute;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ vf800;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ v8 = vec_splat_u32(8);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ v16 = vec_ಕೂಡಿಸು(v8, v8);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ v2 = vec_splat_u16(2);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ v3 = vec_splat_u16(3);
     /*
        0x10 - 0x1f is the alpha
        0x00 - 0x0e evens are the red
        0x01 - 0x0f odds are zero
      */
-    vector unsigned char vredalpha1 = VECUINT8_LITERAL(0x10, 0x00, 0x01, 0x01,
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vredalpha1 = VECUINT8_LITERAL(0x10, 0x00, 0x01, 0x01,
                                                        0x10, 0x02, 0x01, 0x01,
                                                        0x10, 0x04, 0x01, 0x01,
                                                        0x10, 0x06, 0x01,
                                                        0x01);
-    vector unsigned char vredalpha2 =
-        (vector unsigned char)(vec_add((vector unsigned int)vredalpha1, vec_sl(v8, v16)));
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vredalpha2 =
+        (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(vec_ಕೂಡಿಸು((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vredalpha1, vec_sl(v8, v16)));
     /*
        0x00 - 0x0f is ARxx ARxx ARxx ARxx
        0x11 - 0x0f odds are blue
      */
-    vector unsigned char vblue1 = VECUINT8_LITERAL(0x00, 0x01, 0x02, 0x11,
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vblue1 = VECUINT8_LITERAL(0x00, 0x01, 0x02, 0x11,
                                                    0x04, 0x05, 0x06, 0x13,
                                                    0x08, 0x09, 0x0a, 0x15,
                                                    0x0c, 0x0d, 0x0e, 0x17);
-    vector unsigned char vblue2 =
-        (vector unsigned char)(vec_add((vector unsigned int)vblue1, v8));
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vblue2 =
+        (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(vec_ಕೂಡಿಸು((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vblue1, v8));
     /*
        0x00 - 0x0f is ARxB ARxB ARxB ARxB
        0x10 - 0x0e evens are green
      */
-    vector unsigned char vgreen1 = VECUINT8_LITERAL(0x00, 0x01, 0x10, 0x03,
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vgreen1 = VECUINT8_LITERAL(0x00, 0x01, 0x10, 0x03,
                                                     0x04, 0x05, 0x12, 0x07,
                                                     0x08, 0x09, 0x14, 0x0b,
                                                     0x0c, 0x0d, 0x16, 0x0f);
-    vector unsigned char vgreen2 =
-        (vector unsigned char)(vec_add((vector unsigned int)vgreen1, vec_sl(v8, v8)));
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vgreen2 =
+        (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(vec_ಕೂಡಿಸು((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vgreen1, vec_sl(v8, v8)));
 
-    SDL_assert(srcfmt->bytes_per_pixel == 2);
-    SDL_assert(dstfmt->bytes_per_pixel == 4);
+    SDL_assert(srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 2);
+    SDL_assert(dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4);
 
-    vf800 = (vector unsigned short)vec_splat_u8(-7);
+    vf800 = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vec_splat_u8(-7);
     vf800 = vec_sl(vf800, vec_splat_u16(8));
 
-    if (dstfmt->Amask && info->a) {
-        ((unsigned char *)&valpha)[0] = alpha = info->a;
+    ಆದರೆ (dstfmt->Amask && info->a) {
+        ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)&valpha)[0] = alpha = info->a;
         valpha = vec_splat(valpha, 0);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         alpha = 0;
         valpha = vec_splat_u8(0);
     }
 
-    vpermute = calc_swizzle32(NULL, dstfmt);
-    while (height--) {
-        vector unsigned char valigner;
-        vector unsigned char voverflow;
-        vector unsigned char vsrc;
+    vpermute = calc_swizzle32(ಖಾಲಿ, dstfmt);
+    ಆಗ (ಎತ್ತರ--) {
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valigner;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ voverflow;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vsrc;
 
-        int width = info->dst_w;
-        int extrawidth;
+        ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+        ಪೂರ್ಣಾಂಕ extrawidth;
 
         // do scalar until we can align...
-#define ONE_PIXEL_BLEND(condition, widthvar)              \
-    while (condition) {                                   \
-        unsigned sR, sG, sB;                              \
-        unsigned short Pixel = *((unsigned short *)src);  \
+#ವ್ಯಾಖ್ಯಾನಿಸು ONE_PIXEL_BLEND(condition, widthvar)              \
+    ಆಗ (condition) {                                   \
+        ಚಿಹ್ನೆರಹಿತ sR, sG, sB;                              \
+        ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ Pixel = *((ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ *)src);  \
         RGB_FROM_RGB565(Pixel, sR, sG, sB);               \
         ASSEMBLE_RGBA(dst, 4, dstfmt, sR, sG, sB, alpha); \
         src += 2;                                         \
         dst += 4;                                         \
         widthvar--;                                       \
     }
-        ONE_PIXEL_BLEND(((UNALIGNED_PTR(dst)) && (width)), width);
+        ONE_PIXEL_BLEND(((UNALIGNED_PTR(dst)) && (ಅಗಲ)), ಅಗಲ);
 
         // After all that work, here's the vector part!
-        extrawidth = (width % 8); // trailing unaligned stores
-        width -= extrawidth;
+        extrawidth = (ಅಗಲ % 8); // trailing unaligned stores
+        ಅಗಲ -= extrawidth;
         vsrc = vec_ld(0, src);
         valigner = VEC_ALIGNER(src);
 
-        while (width) {
-            vector unsigned short vR, vG, vB;
-            vector unsigned char vdst1, vdst2;
+        ಆಗ (ಅಗಲ) {
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ vR, vG, vB;
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vdst1, vdst2;
 
             voverflow = vec_ld(15, src);
             vsrc = vec_perm(vsrc, voverflow, valigner);
 
-            vR = vec_and((vector unsigned short)vsrc, vf800);
-            vB = vec_sl((vector unsigned short)vsrc, v3);
+            vR = vec_and((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vsrc, vf800);
+            vB = vec_sl((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vsrc, v3);
             vG = vec_sl(vB, v2);
 
             vdst1 =
-                (vector unsigned char)vec_perm((vector unsigned char)vR,
+                (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vec_perm((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vR,
                                                valpha, vredalpha1);
-            vdst1 = vec_perm(vdst1, (vector unsigned char)vB, vblue1);
-            vdst1 = vec_perm(vdst1, (vector unsigned char)vG, vgreen1);
+            vdst1 = vec_perm(vdst1, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vB, vblue1);
+            vdst1 = vec_perm(vdst1, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vG, vgreen1);
             vdst1 = vec_perm(vdst1, valpha, vpermute);
             vec_st(vdst1, 0, dst);
 
             vdst2 =
-                (vector unsigned char)vec_perm((vector unsigned char)vR,
+                (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vec_perm((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vR,
                                                valpha, vredalpha2);
-            vdst2 = vec_perm(vdst2, (vector unsigned char)vB, vblue2);
-            vdst2 = vec_perm(vdst2, (vector unsigned char)vG, vgreen2);
+            vdst2 = vec_perm(vdst2, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vB, vblue2);
+            vdst2 = vec_perm(vdst2, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vG, vgreen2);
             vdst2 = vec_perm(vdst2, valpha, vpermute);
             vec_st(vdst2, 16, dst);
 
-            width -= 8;
+            ಅಗಲ -= 8;
             dst += 32;
             src += 16;
             vsrc = voverflow;
         }
 
-        SDL_assert(width == 0);
+        SDL_assert(ಅಗಲ == 0);
 
         // do scalar until we can align...
         ONE_PIXEL_BLEND((extrawidth), extrawidth);
-#undef ONE_PIXEL_BLEND
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು ONE_PIXEL_BLEND
 
         src += srcskip; // move to next row, accounting for pitch.
         dst += dstskip;
     }
 }
 
-static void Blit_RGB555_32Altivec(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_RGB555_32Altivec(SDL_BlitInfo *info)
 {
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = (Uint8 *)info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = (Uint8 *)info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    unsigned alpha;
-    vector unsigned char valpha;
-    vector unsigned char vpermute;
-    vector unsigned short vf800;
-    vector unsigned int v8 = vec_splat_u32(8);
-    vector unsigned int v16 = vec_add(v8, v8);
-    vector unsigned short v1 = vec_splat_u16(1);
-    vector unsigned short v3 = vec_splat_u16(3);
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಚಿಹ್ನೆರಹಿತ alpha;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valpha;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vpermute;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ vf800;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ v8 = vec_splat_u32(8);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ v16 = vec_ಕೂಡಿಸು(v8, v8);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ v1 = vec_splat_u16(1);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ v3 = vec_splat_u16(3);
     /*
        0x10 - 0x1f is the alpha
        0x00 - 0x0e evens are the red
        0x01 - 0x0f odds are zero
      */
-    vector unsigned char vredalpha1 = VECUINT8_LITERAL(0x10, 0x00, 0x01, 0x01,
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vredalpha1 = VECUINT8_LITERAL(0x10, 0x00, 0x01, 0x01,
                                                        0x10, 0x02, 0x01, 0x01,
                                                        0x10, 0x04, 0x01, 0x01,
                                                        0x10, 0x06, 0x01,
                                                        0x01);
-    vector unsigned char vredalpha2 =
-        (vector unsigned char)(vec_add((vector unsigned int)vredalpha1, vec_sl(v8, v16)));
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vredalpha2 =
+        (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(vec_ಕೂಡಿಸು((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vredalpha1, vec_sl(v8, v16)));
     /*
        0x00 - 0x0f is ARxx ARxx ARxx ARxx
        0x11 - 0x0f odds are blue
      */
-    vector unsigned char vblue1 = VECUINT8_LITERAL(0x00, 0x01, 0x02, 0x11,
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vblue1 = VECUINT8_LITERAL(0x00, 0x01, 0x02, 0x11,
                                                    0x04, 0x05, 0x06, 0x13,
                                                    0x08, 0x09, 0x0a, 0x15,
                                                    0x0c, 0x0d, 0x0e, 0x17);
-    vector unsigned char vblue2 =
-        (vector unsigned char)(vec_add((vector unsigned int)vblue1, v8));
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vblue2 =
+        (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(vec_ಕೂಡಿಸು((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vblue1, v8));
     /*
        0x00 - 0x0f is ARxB ARxB ARxB ARxB
        0x10 - 0x0e evens are green
      */
-    vector unsigned char vgreen1 = VECUINT8_LITERAL(0x00, 0x01, 0x10, 0x03,
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vgreen1 = VECUINT8_LITERAL(0x00, 0x01, 0x10, 0x03,
                                                     0x04, 0x05, 0x12, 0x07,
                                                     0x08, 0x09, 0x14, 0x0b,
                                                     0x0c, 0x0d, 0x16, 0x0f);
-    vector unsigned char vgreen2 =
-        (vector unsigned char)(vec_add((vector unsigned int)vgreen1, vec_sl(v8, v8)));
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vgreen2 =
+        (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(vec_ಕೂಡಿಸು((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vgreen1, vec_sl(v8, v8)));
 
-    SDL_assert(srcfmt->bytes_per_pixel == 2);
-    SDL_assert(dstfmt->bytes_per_pixel == 4);
+    SDL_assert(srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 2);
+    SDL_assert(dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4);
 
-    vf800 = (vector unsigned short)vec_splat_u8(-7);
+    vf800 = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vec_splat_u8(-7);
     vf800 = vec_sl(vf800, vec_splat_u16(8));
 
-    if (dstfmt->Amask && info->a) {
-        ((unsigned char *)&valpha)[0] = alpha = info->a;
+    ಆದರೆ (dstfmt->Amask && info->a) {
+        ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)&valpha)[0] = alpha = info->a;
         valpha = vec_splat(valpha, 0);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         alpha = 0;
         valpha = vec_splat_u8(0);
     }
 
-    vpermute = calc_swizzle32(NULL, dstfmt);
-    while (height--) {
-        vector unsigned char valigner;
-        vector unsigned char voverflow;
-        vector unsigned char vsrc;
+    vpermute = calc_swizzle32(ಖಾಲಿ, dstfmt);
+    ಆಗ (ಎತ್ತರ--) {
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valigner;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ voverflow;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vsrc;
 
-        int width = info->dst_w;
-        int extrawidth;
+        ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+        ಪೂರ್ಣಾಂಕ extrawidth;
 
         // do scalar until we can align...
-#define ONE_PIXEL_BLEND(condition, widthvar)              \
-    while (condition) {                                   \
-        unsigned sR, sG, sB;                              \
-        unsigned short Pixel = *((unsigned short *)src);  \
+#ವ್ಯಾಖ್ಯಾನಿಸು ONE_PIXEL_BLEND(condition, widthvar)              \
+    ಆಗ (condition) {                                   \
+        ಚಿಹ್ನೆರಹಿತ sR, sG, sB;                              \
+        ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ Pixel = *((ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ *)src);  \
         RGB_FROM_RGB555(Pixel, sR, sG, sB);               \
         ASSEMBLE_RGBA(dst, 4, dstfmt, sR, sG, sB, alpha); \
         src += 2;                                         \
         dst += 4;                                         \
         widthvar--;                                       \
     }
-        ONE_PIXEL_BLEND(((UNALIGNED_PTR(dst)) && (width)), width);
+        ONE_PIXEL_BLEND(((UNALIGNED_PTR(dst)) && (ಅಗಲ)), ಅಗಲ);
 
         // After all that work, here's the vector part!
-        extrawidth = (width % 8); // trailing unaligned stores
-        width -= extrawidth;
+        extrawidth = (ಅಗಲ % 8); // trailing unaligned stores
+        ಅಗಲ -= extrawidth;
         vsrc = vec_ld(0, src);
         valigner = VEC_ALIGNER(src);
 
-        while (width) {
-            vector unsigned short vR, vG, vB;
-            vector unsigned char vdst1, vdst2;
+        ಆಗ (ಅಗಲ) {
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ vR, vG, vB;
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vdst1, vdst2;
 
             voverflow = vec_ld(15, src);
             vsrc = vec_perm(vsrc, voverflow, valigner);
 
-            vR = vec_and(vec_sl((vector unsigned short)vsrc, v1), vf800);
-            vB = vec_sl((vector unsigned short)vsrc, v3);
+            vR = vec_and(vec_sl((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vsrc, v1), vf800);
+            vB = vec_sl((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಗಿಡ್ಡ)vsrc, v3);
             vG = vec_sl(vB, v3);
 
             vdst1 =
-                (vector unsigned char)vec_perm((vector unsigned char)vR,
+                (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vec_perm((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vR,
                                                valpha, vredalpha1);
-            vdst1 = vec_perm(vdst1, (vector unsigned char)vB, vblue1);
-            vdst1 = vec_perm(vdst1, (vector unsigned char)vG, vgreen1);
+            vdst1 = vec_perm(vdst1, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vB, vblue1);
+            vdst1 = vec_perm(vdst1, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vG, vgreen1);
             vdst1 = vec_perm(vdst1, valpha, vpermute);
             vec_st(vdst1, 0, dst);
 
             vdst2 =
-                (vector unsigned char)vec_perm((vector unsigned char)vR,
+                (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vec_perm((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vR,
                                                valpha, vredalpha2);
-            vdst2 = vec_perm(vdst2, (vector unsigned char)vB, vblue2);
-            vdst2 = vec_perm(vdst2, (vector unsigned char)vG, vgreen2);
+            vdst2 = vec_perm(vdst2, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vB, vblue2);
+            vdst2 = vec_perm(vdst2, (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vG, vgreen2);
             vdst2 = vec_perm(vdst2, valpha, vpermute);
             vec_st(vdst2, 16, dst);
 
-            width -= 8;
+            ಅಗಲ -= 8;
             dst += 32;
             src += 16;
             vsrc = voverflow;
         }
 
-        SDL_assert(width == 0);
+        SDL_assert(ಅಗಲ == 0);
 
         // do scalar until we can align...
         ONE_PIXEL_BLEND((extrawidth), extrawidth);
-#undef ONE_PIXEL_BLEND
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು ONE_PIXEL_BLEND
 
         src += srcskip; // move to next row, accounting for pitch.
         dst += dstskip;
     }
 }
-#endif // BROKEN_ALTIVEC_BLITTERS
+#ಆದರೆ_ಅಂತ್ಯ // BROKEN_ALTIVEC_BLITTERS
 
-static void BlitNtoNKey(SDL_BlitInfo *info);
-static void BlitNtoNKeyCopyAlpha(SDL_BlitInfo *info);
-static void Blit32to32KeyAltivec(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ BlitNtoNKey(SDL_BlitInfo *info);
+ಸ್ಥಿರ ಶೂನ್ಯ BlitNtoNKeyCopyAlpha(SDL_BlitInfo *info);
+ಸ್ಥಿರ ಶೂನ್ಯ Blit32to32_ಕೀಲಿ_Altivec(SDL_BlitInfo *info)
 {
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint32 *srcp = (Uint32 *)info->src;
-    int srcskip = info->src_skip / 4;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip / 4;
     Uint32 *dstp = (Uint32 *)info->dst;
-    int dstskip = info->dst_skip / 4;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    int srcbpp = srcfmt->bytes_per_pixel;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int dstbpp = dstfmt->bytes_per_pixel;
-    int copy_alpha = (srcfmt->Amask && dstfmt->Amask);
-    unsigned alpha = dstfmt->Amask ? info->a : 0;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip / 4;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಪೂರ್ಣಾಂಕ copy_alpha = (srcfmt->Amask && dstfmt->Amask);
+    ಚಿಹ್ನೆರಹಿತ alpha = dstfmt->Amask ? info->a : 0;
     Uint32 rgbmask = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
     Uint32 ckey = info->colorkey;
-    vector unsigned int valpha;
-    vector unsigned char vpermute;
-    vector unsigned char vzero;
-    vector unsigned int vckey;
-    vector unsigned int vrgbmask;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ valpha;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vpermute;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vzero;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vckey;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vrgbmask;
     vpermute = calc_swizzle32(srcfmt, dstfmt);
-    if (info->dst_w < 16) {
-        if (copy_alpha) {
+    ಆದರೆ (info->dst_w < 16) {
+        ಆದರೆ (copy_alpha) {
             BlitNtoNKeyCopyAlpha(info);
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             BlitNtoNKey(info);
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
     vzero = vec_splat_u8(0);
-    if (alpha) {
-        ((unsigned char *)&valpha)[0] = (unsigned char)alpha;
+    ಆದರೆ (alpha) {
+        ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)&valpha)[0] = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)alpha;
         valpha =
-            (vector unsigned int)vec_splat((vector unsigned char)valpha, 0);
-    } else {
-        valpha = (vector unsigned int)vzero;
+            (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vec_splat((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)valpha, 0);
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        valpha = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vzero;
     }
     ckey &= rgbmask;
-    ((unsigned int *)(char *)&vckey)[0] = ckey;
+    ((ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ *)(ಅಕ್ಷರ *)&vckey)[0] = ckey;
     vckey = vec_splat(vckey, 0);
-    ((unsigned int *)(char *)&vrgbmask)[0] = rgbmask;
+    ((ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ *)(ಅಕ್ಷರ *)&vrgbmask)[0] = rgbmask;
     vrgbmask = vec_splat(vrgbmask, 0);
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
     // reorder bytes for PowerPC little endian
     vpermute = reorder_ppc64le_vec(vpermute);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    while (height--) {
-#define ONE_PIXEL_BLEND(condition, widthvar)                    \
-    if (copy_alpha) {                                           \
-        while (condition) {                                     \
+    ಆಗ (ಎತ್ತರ--) {
+#ವ್ಯಾಖ್ಯಾನಿಸು ONE_PIXEL_BLEND(condition, widthvar)                    \
+    ಆದರೆ (copy_alpha) {                                           \
+        ಆಗ (condition) {                                     \
             Uint32 Pixel;                                       \
-            unsigned sR, sG, sB, sA;                            \
+            ಚಿಹ್ನೆರಹಿತ sR, sG, sB, sA;                            \
             DISEMBLE_RGBA((Uint8 *)srcp, srcbpp, srcfmt, Pixel, \
                           sR, sG, sB, sA);                      \
-            if ((Pixel & rgbmask) != ckey) {                    \
+            ಆದರೆ ((Pixel & rgbmask) != ckey) {                    \
                 ASSEMBLE_RGBA((Uint8 *)dstp, dstbpp, dstfmt,    \
                               sR, sG, sB, sA);                  \
             }                                                   \
@@ -636,12 +636,12 @@ static void Blit32to32KeyAltivec(SDL_BlitInfo *info)
             srcp = (Uint32 *)(((Uint8 *)srcp) + srcbpp);        \
             widthvar--;                                         \
         }                                                       \
-    } else {                                                    \
-        while (condition) {                                     \
+    } ಇಲ್ಲದಿದ್ದರೆ {                                                    \
+        ಆಗ (condition) {                                     \
             Uint32 Pixel;                                       \
-            unsigned sR, sG, sB;                                \
+            ಚಿಹ್ನೆರಹಿತ sR, sG, sB;                                \
             RETRIEVE_RGB_PIXEL((Uint8 *)srcp, srcbpp, Pixel);   \
-            if (Pixel != ckey) {                                \
+            ಆದರೆ (Pixel != ckey) {                                \
                 RGB_FROM_PIXEL(Pixel, srcfmt, sR, sG, sB);      \
                 ASSEMBLE_RGBA((Uint8 *)dstp, dstbpp, dstfmt,    \
                               sR, sG, sB, alpha);               \
@@ -651,41 +651,41 @@ static void Blit32to32KeyAltivec(SDL_BlitInfo *info)
             widthvar--;                                         \
         }                                                       \
     }
-        int width = info->dst_w;
-        ONE_PIXEL_BLEND((UNALIGNED_PTR(dstp)) && (width), width);
-        SDL_assert(width > 0);
-        if (width > 0) {
-            int extrawidth = (width % 4);
-            vector unsigned char valigner = VEC_ALIGNER(srcp);
-            vector unsigned int vs = vec_ld(0, srcp);
-            width -= extrawidth;
-            SDL_assert(width >= 4);
-            while (width) {
-                vector unsigned char vsel;
-                vector unsigned int vd;
-                vector unsigned int voverflow = vec_ld(15, srcp);
+        ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+        ONE_PIXEL_BLEND((UNALIGNED_PTR(dstp)) && (ಅಗಲ), ಅಗಲ);
+        SDL_assert(ಅಗಲ > 0);
+        ಆದರೆ (ಅಗಲ > 0) {
+            ಪೂರ್ಣಾಂಕ extrawidth = (ಅಗಲ % 4);
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valigner = VEC_ALIGNER(srcp);
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vs = vec_ld(0, srcp);
+            ಅಗಲ -= extrawidth;
+            SDL_assert(ಅಗಲ >= 4);
+            ಆಗ (ಅಗಲ) {
+                ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vsel;
+                ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vd;
+                ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ voverflow = vec_ld(15, srcp);
                 // load the source vec
                 vs = vec_perm(vs, voverflow, valigner);
                 // vsel is set for items that match the key
-                vsel = (vector unsigned char)vec_and(vs, vrgbmask);
-                vsel = (vector unsigned char)vec_cmpeq(vs, vckey);
+                vsel = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vec_and(vs, vrgbmask);
+                vsel = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vec_cmpeq(vs, vckey);
                 // permute the src vec to the dest format
                 vs = vec_perm(vs, valpha, vpermute);
                 // load the destination vec
                 vd = vec_ld(0, dstp);
                 // select the source and dest into vs
-                vd = (vector unsigned int)vec_sel((vector unsigned char)vs,
-                                                  (vector unsigned char)vd,
+                vd = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vec_sel((ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vs,
+                                                  (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)vd,
                                                   vsel);
 
                 vec_st(vd, 0, dstp);
                 srcp += 4;
-                width -= 4;
+                ಅಗಲ -= 4;
                 dstp += 4;
                 vs = voverflow;
             }
             ONE_PIXEL_BLEND((extrawidth), extrawidth);
-#undef ONE_PIXEL_BLEND
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು ONE_PIXEL_BLEND
             srcp += srcskip;
             dstp += dstskip;
         }
@@ -694,63 +694,63 @@ static void Blit32to32KeyAltivec(SDL_BlitInfo *info)
 
 // Altivec code to swizzle one 32-bit surface to a different 32-bit format.
 // Use this on a G5
-static void ConvertAltivec32to32_noprefetch(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ ConvertAltivec32to32_noprefetch(SDL_BlitInfo *info)
 {
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint32 *src = (Uint32 *)info->src;
-    int srcskip = info->src_skip / 4;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip / 4;
     Uint32 *dst = (Uint32 *)info->dst;
-    int dstskip = info->dst_skip / 4;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    vector unsigned int vzero = vec_splat_u32(0);
-    vector unsigned char vpermute = calc_swizzle32(srcfmt, dstfmt);
-    if (dstfmt->Amask && !srcfmt->Amask) {
-        if (info->a) {
-            vector unsigned char valpha;
-            ((unsigned char *)&valpha)[0] = info->a;
-            vzero = (vector unsigned int)vec_splat(valpha, 0);
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip / 4;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vzero = vec_splat_u32(0);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vpermute = calc_swizzle32(srcfmt, dstfmt);
+    ಆದರೆ (dstfmt->Amask && !srcfmt->Amask) {
+        ಆದರೆ (info->a) {
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valpha;
+            ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)&valpha)[0] = info->a;
+            vzero = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vec_splat(valpha, 0);
         }
     }
 
-    SDL_assert(srcfmt->bytes_per_pixel == 4);
-    SDL_assert(dstfmt->bytes_per_pixel == 4);
+    SDL_assert(srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4);
+    SDL_assert(dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4);
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
     // reorder bytes for PowerPC little endian
     vpermute = reorder_ppc64le_vec(vpermute);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    while (height--) {
-        vector unsigned char valigner;
-        vector unsigned int vbits;
-        vector unsigned int voverflow;
-        Uint32 bits;
+    ಆಗ (ಎತ್ತರ--) {
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valigner;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vbits;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ voverflow;
+        Uint32 ಬಿಟ್ಟುಗಳು;
         Uint8 r, g, b, a;
 
-        int width = info->dst_w;
-        int extrawidth;
+        ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+        ಪೂರ್ಣಾಂಕ extrawidth;
 
         // do scalar until we can align...
-        while ((UNALIGNED_PTR(dst)) && (width)) {
-            bits = *(src++);
-            RGBA_FROM_8888(bits, srcfmt, r, g, b, a);
-            if (!srcfmt->Amask)
+        ಆಗ ((UNALIGNED_PTR(dst)) && (ಅಗಲ)) {
+            ಬಿಟ್ಟುಗಳು = *(src++);
+            RGBA_FROM_8888(ಬಿಟ್ಟುಗಳು, srcfmt, r, g, b, a);
+            ಆದರೆ (!srcfmt->Amask)
                 a = info->a;
             *(dst++) = MAKE8888(dstfmt, r, g, b, a);
-            width--;
+            ಅಗಲ--;
         }
 
         // After all that work, here's the vector part!
-        extrawidth = (width % 4);
-        width -= extrawidth;
+        extrawidth = (ಅಗಲ % 4);
+        ಅಗಲ -= extrawidth;
         valigner = VEC_ALIGNER(src);
         vbits = vec_ld(0, src);
 
-        while (width) {
+        ಆಗ (ಅಗಲ) {
             voverflow = vec_ld(15, src);
             src += 4;
-            width -= 4;
+            ಅಗಲ -= 4;
             vbits = vec_perm(vbits, voverflow, valigner); // src is ready.
             vbits = vec_perm(vbits, vzero, vpermute); // swizzle it.
             vec_st(vbits, 0, dst);                    // store it back out.
@@ -758,13 +758,13 @@ static void ConvertAltivec32to32_noprefetch(SDL_BlitInfo *info)
             vbits = voverflow;
         }
 
-        SDL_assert(width == 0);
+        SDL_assert(ಅಗಲ == 0);
 
         // cover pixels at the end of the row that didn't fit in 16 bytes.
-        while (extrawidth) {
-            bits = *(src++); // max 7 pixels, don't bother with prefetch.
-            RGBA_FROM_8888(bits, srcfmt, r, g, b, a);
-            if (!srcfmt->Amask)
+        ಆಗ (extrawidth) {
+            ಬಿಟ್ಟುಗಳು = *(src++); // max 7 pixels, don't bother with prefetch.
+            RGBA_FROM_8888(ಬಿಟ್ಟುಗಳು, srcfmt, r, g, b, a);
+            ಆದರೆ (!srcfmt->Amask)
                 a = info->a;
             *(dst++) = MAKE8888(dstfmt, r, g, b, a);
             extrawidth--;
@@ -777,74 +777,74 @@ static void ConvertAltivec32to32_noprefetch(SDL_BlitInfo *info)
 
 // Altivec code to swizzle one 32-bit surface to a different 32-bit format.
 // Use this on a G4
-static void ConvertAltivec32to32_prefetch(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ ConvertAltivec32to32_prefetch(SDL_BlitInfo *info)
 {
-    const int scalar_dst_lead = sizeof(Uint32) * 4;
-    const int vector_dst_lead = sizeof(Uint32) * 16;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ scalar_dst_lead = ಗಾತ್ರ(Uint32) * 4;
+    ಸ್ಥಿರಾಂಕ ಪೂರ್ಣಾಂಕ ಸದಿಶ_dst_lead = ಗಾತ್ರ(Uint32) * 16;
 
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint32 *src = (Uint32 *)info->src;
-    int srcskip = info->src_skip / 4;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip / 4;
     Uint32 *dst = (Uint32 *)info->dst;
-    int dstskip = info->dst_skip / 4;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    vector unsigned int vzero = vec_splat_u32(0);
-    vector unsigned char vpermute = calc_swizzle32(srcfmt, dstfmt);
-    if (dstfmt->Amask && !srcfmt->Amask) {
-        if (info->a) {
-            vector unsigned char valpha;
-            ((unsigned char *)&valpha)[0] = info->a;
-            vzero = (vector unsigned int)vec_splat(valpha, 0);
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip / 4;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vzero = vec_splat_u32(0);
+    ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ vpermute = calc_swizzle32(srcfmt, dstfmt);
+    ಆದರೆ (dstfmt->Amask && !srcfmt->Amask) {
+        ಆದರೆ (info->a) {
+            ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valpha;
+            ((ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *)&valpha)[0] = info->a;
+            vzero = (ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ)vec_splat(valpha, 0);
         }
     }
 
-    SDL_assert(srcfmt->bytes_per_pixel == 4);
-    SDL_assert(dstfmt->bytes_per_pixel == 4);
+    SDL_assert(srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4);
+    SDL_assert(dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4);
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
     // reorder bytes for PowerPC little endian
     vpermute = reorder_ppc64le_vec(vpermute);
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    while (height--) {
-        vector unsigned char valigner;
-        vector unsigned int vbits;
-        vector unsigned int voverflow;
-        Uint32 bits;
+    ಆಗ (ಎತ್ತರ--) {
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ valigner;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ vbits;
+        ಸದಿಶ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ voverflow;
+        Uint32 ಬಿಟ್ಟುಗಳು;
         Uint8 r, g, b, a;
 
-        int width = info->dst_w;
-        int extrawidth;
+        ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+        ಪೂರ್ಣಾಂಕ extrawidth;
 
         // do scalar until we can align...
-        while ((UNALIGNED_PTR(dst)) && (width)) {
+        ಆಗ ((UNALIGNED_PTR(dst)) && (ಅಗಲ)) {
             vec_dstt(src + scalar_dst_lead, DST_CTRL(2, 32, 1024),
                      DST_CHAN_SRC);
             vec_dstst(dst + scalar_dst_lead, DST_CTRL(2, 32, 1024),
                       DST_CHAN_DEST);
-            bits = *(src++);
-            RGBA_FROM_8888(bits, srcfmt, r, g, b, a);
-            if (!srcfmt->Amask)
+            ಬಿಟ್ಟುಗಳು = *(src++);
+            RGBA_FROM_8888(ಬಿಟ್ಟುಗಳು, srcfmt, r, g, b, a);
+            ಆದರೆ (!srcfmt->Amask)
                 a = info->a;
             *(dst++) = MAKE8888(dstfmt, r, g, b, a);
-            width--;
+            ಅಗಲ--;
         }
 
         // After all that work, here's the vector part!
-        extrawidth = (width % 4);
-        width -= extrawidth;
+        extrawidth = (ಅಗಲ % 4);
+        ಅಗಲ -= extrawidth;
         valigner = VEC_ALIGNER(src);
         vbits = vec_ld(0, src);
 
-        while (width) {
-            vec_dstt(src + vector_dst_lead, DST_CTRL(2, 32, 1024),
+        ಆಗ (ಅಗಲ) {
+            vec_dstt(src + ಸದಿಶ_dst_lead, DST_CTRL(2, 32, 1024),
                      DST_CHAN_SRC);
-            vec_dstst(dst + vector_dst_lead, DST_CTRL(2, 32, 1024),
+            vec_dstst(dst + ಸದಿಶ_dst_lead, DST_CTRL(2, 32, 1024),
                       DST_CHAN_DEST);
             voverflow = vec_ld(15, src);
             src += 4;
-            width -= 4;
+            ಅಗಲ -= 4;
             vbits = vec_perm(vbits, voverflow, valigner); // src is ready.
             vbits = vec_perm(vbits, vzero, vpermute); // swizzle it.
             vec_st(vbits, 0, dst);                    // store it back out.
@@ -852,13 +852,13 @@ static void ConvertAltivec32to32_prefetch(SDL_BlitInfo *info)
             vbits = voverflow;
         }
 
-        SDL_assert(width == 0);
+        SDL_assert(ಅಗಲ == 0);
 
         // cover pixels at the end of the row that didn't fit in 16 bytes.
-        while (extrawidth) {
-            bits = *(src++); // max 7 pixels, don't bother with prefetch.
-            RGBA_FROM_8888(bits, srcfmt, r, g, b, a);
-            if (!srcfmt->Amask)
+        ಆಗ (extrawidth) {
+            ಬಿಟ್ಟುಗಳು = *(src++); // max 7 pixels, don't bother with prefetch.
+            RGBA_FROM_8888(ಬಿಟ್ಟುಗಳು, srcfmt, r, g, b, a);
+            ಆದರೆ (!srcfmt->Amask)
                 a = info->a;
             *(dst++) = MAKE8888(dstfmt, r, g, b, a);
             extrawidth--;
@@ -873,36 +873,36 @@ static void ConvertAltivec32to32_prefetch(SDL_BlitInfo *info)
 }
 
 // !!!! FIXME: Check for G5 or later, not the cache size! Always prefetch on a G4.
-#define GetBlitFeatures()   \
+#ವ್ಯಾಖ್ಯಾನಿಸು GetBlitFeatures()   \
             ((SDL_HasAltiVec() ? BLIT_FEATURE_HAS_ALTIVEC : 0) | \
-             ((GetL3CacheSize() == 0) ? BLIT_FEATURE_ALTIVEC_DONT_USE_PREFETCH : 0))
+             ((Get_L3_Cache_ಗಾತ್ರ() == 0) ? BLIT_FEATURE_ALTIVEC_DONT_USE_PREFETCH : 0))
 
-#ifdef __MWERKS__
-#pragma altivec_model off
-#endif
-#else
-#define GetBlitFeatures()   \
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __MWERKS__
+#ಸೂಚನೆ altivec_model off
+#ಆದರೆ_ಅಂತ್ಯ
+#ಇಲ್ಲದಿದ್ದರೆ
+#ವ್ಯಾಖ್ಯಾನಿಸು GetBlitFeatures()   \
              (SDL_HasSSE41() ? BLIT_FEATURE_HAS_SSE41 : 0)
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 // This is now endian dependent
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-#define HI 1
-#define LO 0
-#else // SDL_BYTEORDER == SDL_BIG_ENDIAN
-#define HI 0
-#define LO 1
-#endif
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ವ್ಯಾಖ್ಯಾನಿಸು HI 1
+#ವ್ಯಾಖ್ಯಾನಿಸು LO 0
+#ಇಲ್ಲದಿದ್ದರೆ // SDL_BYTEORDER == SDL_BIG_ENDIAN
+#ವ್ಯಾಖ್ಯಾನಿಸು HI 0
+#ವ್ಯಾಖ್ಯಾನಿಸು LO 1
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Special optimized blit for RGB 8-8-8 --> RGB 5-5-5
-#define RGB888_RGB555(dst, src)                                    \
+#ವ್ಯಾಖ್ಯಾನಿಸು RGB888_RGB555(dst, src)                                    \
     {                                                              \
         *(Uint16 *)(dst) = (Uint16)((((*src) & 0x00F80000) >> 9) | \
                                     (((*src) & 0x0000F800) >> 6) | \
                                     (((*src) & 0x000000F8) >> 3)); \
     }
-#ifndef USE_DUFFS_LOOP
-#define RGB888_RGB555_TWO(dst, src)                            \
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ USE_DUFFS_LOOP
+#ವ್ಯಾಖ್ಯಾನಿಸು RGB888_RGB555_TWO(dst, src)                            \
     {                                                          \
         *(Uint32 *)(dst) = (((((src[HI]) & 0x00F80000) >> 9) | \
                              (((src[HI]) & 0x0000F800) >> 6) | \
@@ -912,54 +912,54 @@ static void ConvertAltivec32to32_prefetch(SDL_BlitInfo *info)
                            (((src[LO]) & 0x0000F800) >> 6) |   \
                            (((src[LO]) & 0x000000F8) >> 3);    \
     }
-#endif
-static void Blit_XRGB8888_RGB555(SDL_BlitInfo *info)
+#ಆದರೆ_ಅಂತ್ಯ
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_XRGB8888_RGB555(SDL_BlitInfo *info)
 {
-#ifndef USE_DUFFS_LOOP
-    int c;
-#endif
-    int width, height;
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ USE_DUFFS_LOOP
+    ಪೂರ್ಣಾಂಕ c;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಪೂರ್ಣಾಂಕ ಅಗಲ, ಎತ್ತರ;
     Uint32 *src;
     Uint16 *dst;
-    int srcskip, dstskip;
+    ಪೂರ್ಣಾಂಕ srcskip, dstskip;
 
     // Set up some basic variables
-    width = info->dst_w;
-    height = info->dst_h;
+    ಅಗಲ = info->dst_w;
+    ಎತ್ತರ = info->dst_h;
     src = (Uint32 *)info->src;
     srcskip = info->src_skip / 4;
     dst = (Uint16 *)info->dst;
     dstskip = info->dst_skip / 2;
 
-#ifdef USE_DUFFS_LOOP
-    while (height--) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ USE_DUFFS_LOOP
+    ಆಗ (ಎತ್ತರ--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
             RGB888_RGB555(dst, src);
             ++src;
             ++dst;
-        , width);
+        , ಅಗಲ);
         /* *INDENT-ON* */ // clang-format on
         src += srcskip;
         dst += dstskip;
     }
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
     // Memory align at 4-byte boundary, if necessary
-    if ((long)dst & 0x03) {
+    ಆದರೆ ((ದೀರ್ಘ)dst & 0x03) {
         // Don't do anything if width is 0
-        if (width == 0) {
-            return;
+        ಆದರೆ (ಅಗಲ == 0) {
+            ಹಿಂತಿರುಗಿ;
         }
-        --width;
+        --ಅಗಲ;
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             // Perform copy alignment
             RGB888_RGB555(dst, src);
             ++src;
             ++dst;
 
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            ಗಾಗಿ (c = ಅಗಲ / 4; c; --c) {
                 RGB888_RGB555_TWO(dst, src);
                 src += 2;
                 dst += 2;
@@ -968,30 +968,30 @@ static void Blit_XRGB8888_RGB555(SDL_BlitInfo *info)
                 dst += 2;
             }
             // Get any leftovers
-            switch (width & 3) {
-            case 3:
+            ಆಯ್ಕೆ (ಅಗಲ & 3) {
+            ಸ್ಥಿತಿ 3:
                 RGB888_RGB555(dst, src);
                 ++src;
                 ++dst;
                 SDL_FALLTHROUGH;
-            case 2:
+            ಸ್ಥಿತಿ 2:
                 RGB888_RGB555_TWO(dst, src);
                 src += 2;
                 dst += 2;
-                break;
-            case 1:
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 1:
                 RGB888_RGB555(dst, src);
                 ++src;
                 ++dst;
-                break;
+                ನಿಲ್ಲಿಸು;
             }
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆಗ (ಎತ್ತರ--) {
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            ಗಾಗಿ (c = ಅಗಲ / 4; c; --c) {
                 RGB888_RGB555_TWO(dst, src);
                 src += 2;
                 dst += 2;
@@ -1000,39 +1000,39 @@ static void Blit_XRGB8888_RGB555(SDL_BlitInfo *info)
                 dst += 2;
             }
             // Get any leftovers
-            switch (width & 3) {
-            case 3:
+            ಆಯ್ಕೆ (ಅಗಲ & 3) {
+            ಸ್ಥಿತಿ 3:
                 RGB888_RGB555(dst, src);
                 ++src;
                 ++dst;
                 SDL_FALLTHROUGH;
-            case 2:
+            ಸ್ಥಿತಿ 2:
                 RGB888_RGB555_TWO(dst, src);
                 src += 2;
                 dst += 2;
-                break;
-            case 1:
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 1:
                 RGB888_RGB555(dst, src);
                 ++src;
                 ++dst;
-                break;
+                ನಿಲ್ಲಿಸು;
             }
             src += srcskip;
             dst += dstskip;
         }
     }
-#endif // USE_DUFFS_LOOP
+#ಆದರೆ_ಅಂತ್ಯ // USE_DUFFS_LOOP
 }
 
 // Special optimized blit for RGB 8-8-8 --> RGB 5-6-5
-#define RGB888_RGB565(dst, src)                                    \
+#ವ್ಯಾಖ್ಯಾನಿಸು RGB888_RGB565(dst, src)                                    \
     {                                                              \
         *(Uint16 *)(dst) = (Uint16)((((*src) & 0x00F80000) >> 8) | \
                                     (((*src) & 0x0000FC00) >> 5) | \
                                     (((*src) & 0x000000F8) >> 3)); \
     }
-#ifndef USE_DUFFS_LOOP
-#define RGB888_RGB565_TWO(dst, src)                            \
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ USE_DUFFS_LOOP
+#ವ್ಯಾಖ್ಯಾನಿಸು RGB888_RGB565_TWO(dst, src)                            \
     {                                                          \
         *(Uint32 *)(dst) = (((((src[HI]) & 0x00F80000) >> 8) | \
                              (((src[HI]) & 0x0000FC00) >> 5) | \
@@ -1042,54 +1042,54 @@ static void Blit_XRGB8888_RGB555(SDL_BlitInfo *info)
                            (((src[LO]) & 0x0000FC00) >> 5) |   \
                            (((src[LO]) & 0x000000F8) >> 3);    \
     }
-#endif
-static void Blit_XRGB8888_RGB565(SDL_BlitInfo *info)
+#ಆದರೆ_ಅಂತ್ಯ
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_XRGB8888_RGB565(SDL_BlitInfo *info)
 {
-#ifndef USE_DUFFS_LOOP
-    int c;
-#endif
-    int width, height;
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ USE_DUFFS_LOOP
+    ಪೂರ್ಣಾಂಕ c;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಪೂರ್ಣಾಂಕ ಅಗಲ, ಎತ್ತರ;
     Uint32 *src;
     Uint16 *dst;
-    int srcskip, dstskip;
+    ಪೂರ್ಣಾಂಕ srcskip, dstskip;
 
     // Set up some basic variables
-    width = info->dst_w;
-    height = info->dst_h;
+    ಅಗಲ = info->dst_w;
+    ಎತ್ತರ = info->dst_h;
     src = (Uint32 *)info->src;
     srcskip = info->src_skip / 4;
     dst = (Uint16 *)info->dst;
     dstskip = info->dst_skip / 2;
 
-#ifdef USE_DUFFS_LOOP
-    while (height--) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ USE_DUFFS_LOOP
+    ಆಗ (ಎತ್ತರ--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
             RGB888_RGB565(dst, src);
             ++src;
             ++dst;
-        , width);
+        , ಅಗಲ);
         /* *INDENT-ON* */ // clang-format on
         src += srcskip;
         dst += dstskip;
     }
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
     // Memory align at 4-byte boundary, if necessary
-    if ((long)dst & 0x03) {
+    ಆದರೆ ((ದೀರ್ಘ)dst & 0x03) {
         // Don't do anything if width is 0
-        if (width == 0) {
-            return;
+        ಆದರೆ (ಅಗಲ == 0) {
+            ಹಿಂತಿರುಗಿ;
         }
-        --width;
+        --ಅಗಲ;
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             // Perform copy alignment
             RGB888_RGB565(dst, src);
             ++src;
             ++dst;
 
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            ಗಾಗಿ (c = ಅಗಲ / 4; c; --c) {
                 RGB888_RGB565_TWO(dst, src);
                 src += 2;
                 dst += 2;
@@ -1098,30 +1098,30 @@ static void Blit_XRGB8888_RGB565(SDL_BlitInfo *info)
                 dst += 2;
             }
             // Get any leftovers
-            switch (width & 3) {
-            case 3:
+            ಆಯ್ಕೆ (ಅಗಲ & 3) {
+            ಸ್ಥಿತಿ 3:
                 RGB888_RGB565(dst, src);
                 ++src;
                 ++dst;
                 SDL_FALLTHROUGH;
-            case 2:
+            ಸ್ಥಿತಿ 2:
                 RGB888_RGB565_TWO(dst, src);
                 src += 2;
                 dst += 2;
-                break;
-            case 1:
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 1:
                 RGB888_RGB565(dst, src);
                 ++src;
                 ++dst;
-                break;
+                ನಿಲ್ಲಿಸು;
             }
             src += srcskip;
             dst += dstskip;
         }
-    } else {
-        while (height--) {
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        ಆಗ (ಎತ್ತರ--) {
             // Copy in 4 pixel chunks
-            for (c = width / 4; c; --c) {
+            ಗಾಗಿ (c = ಅಗಲ / 4; c; --c) {
                 RGB888_RGB565_TWO(dst, src);
                 src += 2;
                 dst += 2;
@@ -1130,45 +1130,45 @@ static void Blit_XRGB8888_RGB565(SDL_BlitInfo *info)
                 dst += 2;
             }
             // Get any leftovers
-            switch (width & 3) {
-            case 3:
+            ಆಯ್ಕೆ (ಅಗಲ & 3) {
+            ಸ್ಥಿತಿ 3:
                 RGB888_RGB565(dst, src);
                 ++src;
                 ++dst;
                 SDL_FALLTHROUGH;
-            case 2:
+            ಸ್ಥಿತಿ 2:
                 RGB888_RGB565_TWO(dst, src);
                 src += 2;
                 dst += 2;
-                break;
-            case 1:
+                ನಿಲ್ಲಿಸು;
+            ಸ್ಥಿತಿ 1:
                 RGB888_RGB565(dst, src);
                 ++src;
                 ++dst;
-                break;
+                ನಿಲ್ಲಿಸು;
             }
             src += srcskip;
             dst += dstskip;
         }
     }
-#endif // USE_DUFFS_LOOP
+#ಆದರೆ_ಅಂತ್ಯ // USE_DUFFS_LOOP
 }
 
-#ifdef SDL_SSE4_1_INTRINSICS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SSE4_1_INTRINSICS
 
-static void SDL_TARGETING("sse4.1") Blit_RGB565_32_SSE41(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ SDL_TARGETING("sse4.1") Blit_RGB565_32_SSE41(SDL_BlitInfo *info)
 {
-    int c;
-    int width, height;
-    const Uint16 *src;
+    ಪೂರ್ಣಾಂಕ c;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ, ಎತ್ತರ;
+    ಸ್ಥಿರಾಂಕ Uint16 *src;
     Uint32 *dst;
-    int srcskip, dstskip;
+    ಪೂರ್ಣಾಂಕ srcskip, dstskip;
     Uint8 r, g, b;
 
     // Set up some basic variables
-    width = info->dst_w;
-    height = info->dst_h;
-    src = (const Uint16 *)info->src;
+    ಅಗಲ = info->dst_w;
+    ಎತ್ತರ = info->dst_h;
+    src = (ಸ್ಥಿರಾಂಕ Uint16 *)info->src;
     srcskip = info->src_skip / 2;
     dst = (Uint32 *)info->dst;
     dstskip = info->dst_skip / 4;
@@ -1180,43 +1180,43 @@ static void SDL_TARGETING("sse4.1") Blit_RGB565_32_SSE41(SDL_BlitInfo *info)
     __m128i g_mult = _mm_shuffle_epi32(_mm_cvtsi32_si128(0x20802080), 0);
 
     // Red channel mask
-    __m128i r_mask = _mm_shuffle_epi32(_mm_cvtsi32_si128(0xf800f800), 0);
+    __m128i r_ಮುಖವಾಡ = _mm_shuffle_epi32(_mm_cvtsi32_si128(0xf800f800), 0);
 
     // Green channel mask
-    __m128i g_mask = _mm_shuffle_epi32(_mm_cvtsi32_si128(0x07e007e0), 0);
+    __m128i g_ಮುಖವಾಡ = _mm_shuffle_epi32(_mm_cvtsi32_si128(0x07e007e0), 0);
 
     // Alpha channel mask
-    __m128i a_mask = _mm_shuffle_epi32(_mm_cvtsi32_si128(0xff00ff00), 0);
+    __m128i a_ಮುಖವಾಡ = _mm_shuffle_epi32(_mm_cvtsi32_si128(0xff00ff00), 0);
 
     // Get the masks for converting from ARGB
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    const Uint32 Rshift = dstfmt->Rshift;
-    const Uint32 Gshift = dstfmt->Gshift;
-    const Uint32 Bshift = dstfmt->Bshift;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಸ್ಥಿರಾಂಕ Uint32 Rshift = dstfmt->Rshift;
+    ಸ್ಥಿರಾಂಕ Uint32 Gshift = dstfmt->Gshift;
+    ಸ್ಥಿರಾಂಕ Uint32 Bshift = dstfmt->Bshift;
     Uint32 Amask, Ashift;
 
-    SDL_Get8888AlphaMaskAndShift(dstfmt, &Amask, &Ashift);
+    SDL_Get8888_Alpha_ಮುಖವಾಡ_And_ಸರಿಸು(dstfmt, &Amask, &Ashift);
 
     // The byte offsets for the start of each pixel
-    const __m128i mask_offsets = _mm_set_epi8(12, 12, 12, 12, 8, 8, 8, 8, 4, 4, 4, 4, 0, 0, 0, 0);
-    const __m128i convert_mask = _mm_add_epi32(
+    ಸ್ಥಿರಾಂಕ __m128i ಮುಖವಾಡ_offsets = mm_ಗಣ_epi8(12, 12, 12, 12, 8, 8, 8, 8, 4, 4, 4, 4, 0, 0, 0, 0);
+    ಸ್ಥಿರಾಂಕ __m128i convert_ಮುಖವಾಡ = mm_ಕೂಡಿಸು_epi32(
             _mm_set1_epi32(
                 ((16 >> 3) << Rshift) |
                 (( 8 >> 3) << Gshift) |
                 (( 0 >> 3) << Bshift) |
                 ((24 >> 3) << Ashift)),
-            mask_offsets);
+            ಮುಖವಾಡ_offsets);
 
-    while (height--) {
+    ಆಗ (ಎತ್ತರ--) {
         // Copy in 8 pixel chunks
-        for (c = width / 8; c; --c) {
+        ಗಾಗಿ (c = ಅಗಲ / 8; c; --c) {
             __m128i pixel = _mm_loadu_si128((__m128i *)src);
             __m128i red = pixel;
             __m128i green = pixel;
             __m128i blue = pixel;
 
             // Get red in the upper 5 bits and then multiply
-            red = _mm_and_si128(red, r_mask);
+            red = _mm_and_si128(red, r_ಮುಖವಾಡ);
             red = _mm_mulhi_epu16(red, rb_mult);
 
             // Get blue in the upper 5 bits and then multiply
@@ -1227,11 +1227,11 @@ static void SDL_TARGETING("sse4.1") Blit_RGB565_32_SSE41(SDL_BlitInfo *info)
             __m128i red_blue = _mm_or_si128(_mm_slli_epi16(red, 8), blue);
 
             // Get the green channel and then multiply into place
-            green = _mm_and_si128(green, g_mask);
+            green = _mm_and_si128(green, g_ಮುಖವಾಡ);
             green = _mm_mulhi_epu16(green, g_mult);
 
             // Combine the green and alpha channels
-            __m128i green_alpha = _mm_or_si128(green, a_mask);
+            __m128i green_alpha = _mm_or_si128(green, a_ಮುಖವಾಡ);
 
             // Unpack them into output ARGB pixels
             __m128i out1 = _mm_unpacklo_epi8(red_blue, green_alpha);
@@ -1239,8 +1239,8 @@ static void SDL_TARGETING("sse4.1") Blit_RGB565_32_SSE41(SDL_BlitInfo *info)
 
             // Convert to dst format and save!
             // This is an SSSE3 instruction
-            out1 = _mm_shuffle_epi8(out1, convert_mask);
-            out2 = _mm_shuffle_epi8(out2, convert_mask);
+            out1 = _mm_shuffle_epi8(out1, convert_ಮುಖವಾಡ);
+            out2 = _mm_shuffle_epi8(out2, convert_ಮುಖವಾಡ);
 
             _mm_storeu_si128((__m128i*)dst, out1);
             _mm_storeu_si128((__m128i*)(dst + 4), out2);
@@ -1250,89 +1250,89 @@ static void SDL_TARGETING("sse4.1") Blit_RGB565_32_SSE41(SDL_BlitInfo *info)
         }
 
         // Get any leftovers
-        switch (width & 7) {
-        case 7:
+        ಆಯ್ಕೆ (ಅಗಲ & 7) {
+        ಸ್ಥಿತಿ 7:
             RGB_FROM_RGB565(*src, r, g, b);
             *dst++ = (r << Rshift) | (g << Gshift) | (b << Bshift) | Amask;
             ++src;
             SDL_FALLTHROUGH;
-        case 6:
+        ಸ್ಥಿತಿ 6:
             RGB_FROM_RGB565(*src, r, g, b);
             *dst++ = (r << Rshift) | (g << Gshift) | (b << Bshift) | Amask;
             ++src;
             SDL_FALLTHROUGH;
-        case 5:
+        ಸ್ಥಿತಿ 5:
             RGB_FROM_RGB565(*src, r, g, b);
             *dst++ = (r << Rshift) | (g << Gshift) | (b << Bshift) | Amask;
             ++src;
             SDL_FALLTHROUGH;
-        case 4:
+        ಸ್ಥಿತಿ 4:
             RGB_FROM_RGB565(*src, r, g, b);
             *dst++ = (r << Rshift) | (g << Gshift) | (b << Bshift) | Amask;
             ++src;
             SDL_FALLTHROUGH;
-        case 3:
+        ಸ್ಥಿತಿ 3:
             RGB_FROM_RGB565(*src, r, g, b);
             *dst++ = (r << Rshift) | (g << Gshift) | (b << Bshift) | Amask;
             ++src;
             SDL_FALLTHROUGH;
-        case 2:
+        ಸ್ಥಿತಿ 2:
             RGB_FROM_RGB565(*src, r, g, b);
             *dst++ = (r << Rshift) | (g << Gshift) | (b << Bshift) | Amask;
             ++src;
             SDL_FALLTHROUGH;
-        case 1:
+        ಸ್ಥಿತಿ 1:
             RGB_FROM_RGB565(*src, r, g, b);
             *dst++ = (r << Rshift) | (g << Gshift) | (b << Bshift) | Amask;
             ++src;
-            break;
+            ನಿಲ್ಲಿಸು;
         }
         src += srcskip;
         dst += dstskip;
     }
 }
 
-#endif // SDL_SSE4_1_INTRINSICS
+#ಆದರೆ_ಅಂತ್ಯ // SDL_SSE4_1_INTRINSICS
 
-#ifdef SDL_HAVE_BLIT_N_RGB565
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_HAVE_BLIT_N_RGB565
 
 // Special optimized blit for RGB 5-6-5 --> 32-bit RGB surfaces
-#define RGB565_32(dst, src, map) (map[src[LO] * 2] | map[src[HI] * 2 + 1])
-static void Blit_RGB565_32(SDL_BlitInfo *info, const Uint32 *map)
+#ವ್ಯಾಖ್ಯಾನಿಸು RGB565_32(dst, src, map) (map[src[LO] * 2] | map[src[HI] * 2 + 1])
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_RGB565_32(SDL_BlitInfo *info, ಸ್ಥಿರಾಂಕ Uint32 *map)
 {
-#ifndef USE_DUFFS_LOOP
-    int c;
-#endif
-    int width, height;
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ USE_DUFFS_LOOP
+    ಪೂರ್ಣಾಂಕ c;
+#ಆದರೆ_ಅಂತ್ಯ
+    ಪೂರ್ಣಾಂಕ ಅಗಲ, ಎತ್ತರ;
     Uint8 *src;
     Uint32 *dst;
-    int srcskip, dstskip;
+    ಪೂರ್ಣಾಂಕ srcskip, dstskip;
 
     // Set up some basic variables
-    width = info->dst_w;
-    height = info->dst_h;
+    ಅಗಲ = info->dst_w;
+    ಎತ್ತರ = info->dst_h;
     src = info->src;
     srcskip = info->src_skip;
     dst = (Uint32 *)info->dst;
     dstskip = info->dst_skip / 4;
 
-#ifdef USE_DUFFS_LOOP
-    while (height--) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ USE_DUFFS_LOOP
+    ಆಗ (ಎತ್ತರ--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
             *dst++ = RGB565_32(dst, src, map);
             src += 2;
         },
-        width);
+        ಅಗಲ);
         /* *INDENT-ON* */ // clang-format on
         src += srcskip;
         dst += dstskip;
     }
-#else
-    while (height--) {
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಆಗ (ಎತ್ತರ--) {
         // Copy in 4 pixel chunks
-        for (c = width / 4; c; --c) {
+        ಗಾಗಿ (c = ಅಗಲ / 4; c; --c) {
             *dst++ = RGB565_32(dst, src, map);
             src += 2;
             *dst++ = RGB565_32(dst, src, map);
@@ -1343,129 +1343,129 @@ static void Blit_RGB565_32(SDL_BlitInfo *info, const Uint32 *map)
             src += 2;
         }
         // Get any leftovers
-        switch (width & 3) {
-        case 3:
+        ಆಯ್ಕೆ (ಅಗಲ & 3) {
+        ಸ್ಥಿತಿ 3:
             *dst++ = RGB565_32(dst, src, map);
             src += 2;
             SDL_FALLTHROUGH;
-        case 2:
+        ಸ್ಥಿತಿ 2:
             *dst++ = RGB565_32(dst, src, map);
             src += 2;
             SDL_FALLTHROUGH;
-        case 1:
+        ಸ್ಥಿತಿ 1:
             *dst++ = RGB565_32(dst, src, map);
             src += 2;
-            break;
+            ನಿಲ್ಲಿಸು;
         }
         src += srcskip;
         dst += dstskip;
     }
-#endif // USE_DUFFS_LOOP
+#ಆದರೆ_ಅಂತ್ಯ // USE_DUFFS_LOOP
 }
 
 // This is the code used to generate the lookup tables below:
-#if 0
-#include <SDL3/SDL.h>
+#ಆದರೆ 0
+#ಅನ್ತರ್ಭಾವ <SDL3/SDL.h>
 
-#define GENERATE_SHIFTS
+#ವ್ಯಾಖ್ಯಾನಿಸು GENERATE_SHIFTS
 
-static Uint32 Calculate(int v, int bits, int vmax, int shift)
+ಸ್ಥಿರ Uint32 Calculate(ಪೂರ್ಣಾಂಕ v, ಪೂರ್ಣಾಂಕ ಬಿಟ್ಟುಗಳು, ಪೂರ್ಣಾಂಕ vmax, ಪೂರ್ಣಾಂಕ ಸರಿಸು)
 {
-#if defined(GENERATE_FLOOR)
-    return (Uint32)SDL_floor(v * 255.0f / vmax) << shift;
-#elif defined(GENERATE_ROUND)
-    return (Uint32)SDL_roundf(v * 255.0f / vmax) << shift;
-#elif defined(GENERATE_SHIFTS)
-    (void)vmax;
-    switch (bits) {
-    case 1:
+#ಆದರೆ defined(GENERATE_FLOOR)
+    ಹಿಂತಿರುಗಿ (Uint32)SDL_floor(v * 255.0f / vmax) << ಸರಿಸು;
+#ಅಥವಾಆದರೆ defined(GENERATE_ಸುತ್ತು)
+    ಹಿಂತಿರುಗಿ (Uint32)SDL_roundf(v * 255.0f / vmax) << ಸರಿಸು;
+#ಅಥವಾಆದರೆ defined(GENERATE_SHIFTS)
+    (ಶೂನ್ಯ)vmax;
+    ಆಯ್ಕೆ (ಬಿಟ್ಟುಗಳು) {
+    ಸ್ಥಿತಿ 1:
         v = (v << 7) | (v << 6) | (v << 5) | (v << 4) | (v << 3) | (v << 2) | (v << 1) | v;
-        break;
-    case 2:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ 2:
         v = (v << 6) | (v << 4) | (v << 2) | v;
-        break;
-    case 3:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ 3:
         v = (v << 5) | (v << 2) | (v >> 1);
-        break;
-    case 4:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ 4:
         v = (v << 4) | v;
-        break;
-    case 5:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ 5:
         v = (v << 3) | (v >> 2);
-        break;
-    case 6:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ 6:
         v = (v << 2) | (v >> 4);
-        break;
-    case 7:
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ 7:
         v = (v << 1) | (v >> 6);
-        break;
-    case 8:
-        break;
+        ನಿಲ್ಲಿಸು;
+    ಸ್ಥಿತಿ 8:
+        ನಿಲ್ಲಿಸು;
     }
-    return (Uint32)v << shift;
-#endif
+    ಹಿಂತಿರುಗಿ (Uint32)v << ಸರಿಸು;
+#ಆದರೆ_ಅಂತ್ಯ
 }
 
-static Uint32 CalculateARGB(int v, const SDL_PixelFormatDetails *sfmt, const SDL_PixelFormatDetails *dfmt)
+ಸ್ಥಿರ Uint32 CalculateARGB(ಪೂರ್ಣಾಂಕ v, ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *sfmt, ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dfmt)
 {
     Uint8 r = (v & sfmt->Rmask) >> sfmt->Rshift;
     Uint8 g = (v & sfmt->Gmask) >> sfmt->Gshift;
     Uint8 b = (v & sfmt->Bmask) >> sfmt->Bshift;
-    return dfmt->Amask |
+    ಹಿಂತಿರುಗಿ dfmt->Amask |
             Calculate(r, sfmt->Rbits, (1 << sfmt->Rbits) - 1, dfmt->Rshift) |
             Calculate(g, sfmt->Gbits, (1 << sfmt->Gbits) - 1, dfmt->Gshift) |
             Calculate(b, sfmt->Bbits, (1 << sfmt->Bbits) - 1, dfmt->Bshift);
 }
 
-static void GenerateLUT(SDL_PixelFormat src, SDL_PixelFormat dst)
+ಸ್ಥಿರ ಶೂನ್ಯ GenerateLUT(SDL_PixelFormat src, SDL_PixelFormat dst)
 {
-    static Uint32 lut[512];
-    const char *src_name = SDL_GetPixelFormatName(src) + 16;
-    const char *dst_name = SDL_GetPixelFormatName(dst) + 16;
-    const SDL_PixelFormatDetails *sfmt = SDL_GetPixelFormatDetails(src);
-    const SDL_PixelFormatDetails *dfmt = SDL_GetPixelFormatDetails(dst);
+    ಸ್ಥಿರ Uint32 lut[512];
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *src_name = SDL_GetPixelFormatName(src) + 16;
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *dst_name = SDL_GetPixelFormatName(dst) + 16;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *sfmt = SDL_GetPixelFormatDetails(src);
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dfmt = SDL_GetPixelFormatDetails(dst);
     SDL_IOStream *io = SDL_IOFromDynamicMem();
     size_t i;
 
-    for (i = 0; i < 256u; ++i) {
+    ಗಾಗಿ (i = 0; i < 256u; ++i) {
         lut[i * 2] = CalculateARGB(i, sfmt, dfmt);
         lut[i * 2 + 1] = CalculateARGB(i << 8, sfmt, dfmt);
     }
 
     SDL_IOprintf(io, "// Special optimized blit for %s -> %s\n\n", src_name, dst_name);
-    SDL_IOprintf(io, "static const Uint32 %s_%s_LUT[%d] = {", src_name, dst_name, (int)SDL_arraysize(lut));
-    for (i = 0; i < SDL_arraysize(lut); ++i) {
-        if ((i % 8) == 0) {
+    SDL_IOprintf(io, "static const Uint32 %s_%s_LUT[%d] = {", src_name, dst_name, (ಪೂರ್ಣಾಂಕ)SDL_arraysize(lut));
+    ಗಾಗಿ (i = 0; i < SDL_arraysize(lut); ++i) {
+        ಆದರೆ ((i % 8) == 0) {
             SDL_IOprintf(io, "\n    ");
         }
         SDL_IOprintf(io, "0x%.8x", lut[i]);
-        if (i < (SDL_arraysize(lut) - 1)) {
+        ಆದರೆ (i < (SDL_arraysize(lut) - 1)) {
             SDL_IOprintf(io, ",");
-            if (((i + 1) % 8) != 0) {
+            ಆದರೆ (((i + 1) % 8) != 0) {
                 SDL_IOprintf(io, " ");
             }
         }
     }
-    SDL_Log("%s\n};\n\n", (const char *)SDL_GetPointerProperty(SDL_GetIOProperties(io), SDL_PROP_IOSTREAM_DYNAMIC_MEMORY_POINTER, NULL));
+    SDL_Log("%s\n};\n\n", (ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *)SDL_Get_ಸೂಚಕ_Property(SDL_GetIOProperties(io), SDL_PROP_IOSTREAM_DYNAMIC_ಸ್ಮರಣೆ_ಸೂಚಕ, ಖಾಲಿ));
     SDL_CloseIO(io);
 }
 
-int main(int argc, char *argv[])
+ಪೂರ್ಣಾಂಕ ಮುಖ್ಯ(ಪೂರ್ಣಾಂಕ argc, ಅಕ್ಷರ *argv[])
 {
-    (void)argc;
-    (void)argv;
+    (ಶೂನ್ಯ)argc;
+    (ಶೂನ್ಯ)argv;
     GenerateLUT(SDL_PIXELFORMAT_RGB565, SDL_PIXELFORMAT_ARGB8888);
     GenerateLUT(SDL_PIXELFORMAT_RGB565, SDL_PIXELFORMAT_ABGR8888);
     GenerateLUT(SDL_PIXELFORMAT_RGB565, SDL_PIXELFORMAT_RGBA8888);
     GenerateLUT(SDL_PIXELFORMAT_RGB565, SDL_PIXELFORMAT_BGRA8888);
 }
-#endif // 0
+#ಆದರೆ_ಅಂತ್ಯ // 0
 
 /* *INDENT-OFF* */ // clang-format off
 
 // Special optimized blit for RGB565 -> ARGB8888
 
-static const Uint32 RGB565_ARGB8888_LUT[512] = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ Uint32 RGB565_ARGB8888_LUT[512] = {
     0xff000000, 0xff000000, 0xff000008, 0xff002000, 0xff000010, 0xff004100, 0xff000018, 0xff006100,
     0xff000021, 0xff008200, 0xff000029, 0xff00a200, 0xff000031, 0xff00c300, 0xff000039, 0xff00e300,
     0xff000042, 0xff080000, 0xff00004a, 0xff082000, 0xff000052, 0xff084100, 0xff00005a, 0xff086100,
@@ -1532,14 +1532,14 @@ static const Uint32 RGB565_ARGB8888_LUT[512] = {
     0xff001ce7, 0xffff8200, 0xff001cef, 0xffffa200, 0xff001cf7, 0xffffc300, 0xff001cff, 0xffffe300
 };
 
-static void Blit_RGB565_ARGB8888(SDL_BlitInfo * info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_RGB565_ARGB8888(SDL_BlitInfo * info)
 {
     Blit_RGB565_32(info, RGB565_ARGB8888_LUT);
 }
 
 // Special optimized blit for RGB565 -> ABGR8888
 
-static const Uint32 RGB565_ABGR8888_LUT[512] = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ Uint32 RGB565_ABGR8888_LUT[512] = {
     0xff000000, 0xff000000, 0xff080000, 0xff002000, 0xff100000, 0xff004100, 0xff180000, 0xff006100,
     0xff210000, 0xff008200, 0xff290000, 0xff00a200, 0xff310000, 0xff00c300, 0xff390000, 0xff00e300,
     0xff420000, 0xff000008, 0xff4a0000, 0xff002008, 0xff520000, 0xff004108, 0xff5a0000, 0xff006108,
@@ -1606,14 +1606,14 @@ static const Uint32 RGB565_ABGR8888_LUT[512] = {
     0xffe71c00, 0xff0082ff, 0xffef1c00, 0xff00a2ff, 0xfff71c00, 0xff00c3ff, 0xffff1c00, 0xff00e3ff
 };
 
-static void Blit_RGB565_ABGR8888(SDL_BlitInfo * info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_RGB565_ABGR8888(SDL_BlitInfo * info)
 {
     Blit_RGB565_32(info, RGB565_ABGR8888_LUT);
 }
 
 // Special optimized blit for RGB565 -> RGBA8888
 
-static const Uint32 RGB565_RGBA8888_LUT[512] = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ Uint32 RGB565_RGBA8888_LUT[512] = {
     0x000000ff, 0x000000ff, 0x000008ff, 0x002000ff, 0x000010ff, 0x004100ff, 0x000018ff, 0x006100ff,
     0x000021ff, 0x008200ff, 0x000029ff, 0x00a200ff, 0x000031ff, 0x00c300ff, 0x000039ff, 0x00e300ff,
     0x000042ff, 0x080000ff, 0x00004aff, 0x082000ff, 0x000052ff, 0x084100ff, 0x00005aff, 0x086100ff,
@@ -1680,14 +1680,14 @@ static const Uint32 RGB565_RGBA8888_LUT[512] = {
     0x001ce7ff, 0xff8200ff, 0x001cefff, 0xffa200ff, 0x001cf7ff, 0xffc300ff, 0x001cffff, 0xffe300ff
 };
 
-static void Blit_RGB565_RGBA8888(SDL_BlitInfo * info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_RGB565_RGBA8888(SDL_BlitInfo * info)
 {
     Blit_RGB565_32(info, RGB565_RGBA8888_LUT);
 }
 
 // Special optimized blit for RGB565 -> BGRA8888
 
-static const Uint32 RGB565_BGRA8888_LUT[512] = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ Uint32 RGB565_BGRA8888_LUT[512] = {
     0x000000ff, 0x000000ff, 0x080000ff, 0x002000ff, 0x100000ff, 0x004100ff, 0x180000ff, 0x006100ff,
     0x210000ff, 0x008200ff, 0x290000ff, 0x00a200ff, 0x310000ff, 0x00c300ff, 0x390000ff, 0x00e300ff,
     0x420000ff, 0x000008ff, 0x4a0000ff, 0x002008ff, 0x520000ff, 0x004108ff, 0x5a0000ff, 0x006108ff,
@@ -1754,57 +1754,57 @@ static const Uint32 RGB565_BGRA8888_LUT[512] = {
     0xe71c00ff, 0x0082ffff, 0xef1c00ff, 0x00a2ffff, 0xf71c00ff, 0x00c3ffff, 0xff1c00ff, 0x00e3ffff
 };
 
-static void Blit_RGB565_BGRA8888(SDL_BlitInfo * info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_RGB565_BGRA8888(SDL_BlitInfo * info)
 {
     Blit_RGB565_32(info, RGB565_BGRA8888_LUT);
 }
 
 /* *INDENT-ON* */ // clang-format on
 
-#endif // SDL_HAVE_BLIT_N_RGB565
+#ಆದರೆ_ಅಂತ್ಯ // SDL_HAVE_BLIT_N_RGB565
 
 // blits 16 bit RGB<->RGBA with both surfaces having the same R,G,B fields
-static void Blit2to2MaskAlpha(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit2to2_ಮುಖವಾಡ_Alpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint16 *src = (Uint16 *)info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint16 *dst = (Uint16 *)info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
-    if (dstfmt->Amask) {
+    ಆದರೆ (dstfmt->Amask) {
         // RGB->RGBA, SET_ALPHA
-        Uint16 mask = ((Uint32)info->a >> (8 - dstfmt->Abits)) << dstfmt->Ashift;
+        Uint16 ಮುಖವಾಡ = ((Uint32)info->a >> (8 - dstfmt->Abits)) << dstfmt->Ashift;
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                *dst = *src | mask;
+                *dst = *src | ಮುಖವಾಡ;
                 ++dst;
                 ++src;
             },
-            width);
+            ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src = (Uint16 *)((Uint8 *)src + srcskip);
             dst = (Uint16 *)((Uint8 *)dst + dstskip);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // RGBA->RGB, NO_ALPHA
-        Uint16 mask = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
+        Uint16 ಮುಖವಾಡ = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                *dst = *src & mask;
+                *dst = *src & ಮುಖವಾಡ;
                 ++dst;
                 ++src;
             },
-            width);
+            ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src = (Uint16 *)((Uint8 *)src + srcskip);
             dst = (Uint16 *)((Uint8 *)dst + dstskip);
@@ -1813,47 +1813,47 @@ static void Blit2to2MaskAlpha(SDL_BlitInfo *info)
 }
 
 // blits 32 bit RGB<->RGBA with both surfaces having the same R,G,B fields
-static void Blit4to4MaskAlpha(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit4to4_ಮುಖವಾಡ_Alpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint32 *src = (Uint32 *)info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint32 *dst = (Uint32 *)info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
-    if (dstfmt->Amask) {
+    ಆದರೆ (dstfmt->Amask) {
         // RGB->RGBA, SET_ALPHA
-        Uint32 mask = ((Uint32)info->a >> (8 - dstfmt->Abits)) << dstfmt->Ashift;
+        Uint32 ಮುಖವಾಡ = ((Uint32)info->a >> (8 - dstfmt->Abits)) << dstfmt->Ashift;
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                *dst = *src | mask;
+                *dst = *src | ಮುಖವಾಡ;
                 ++dst;
                 ++src;
             },
-            width);
+            ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src = (Uint32 *)((Uint8 *)src + srcskip);
             dst = (Uint32 *)((Uint8 *)dst + dstskip);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // RGBA->RGB, NO_ALPHA
-        Uint32 mask = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
+        Uint32 ಮುಖವಾಡ = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP_TRIVIAL(
             {
-                *dst = *src & mask;
+                *dst = *src & ಮುಖವಾಡ;
                 ++dst;
                 ++src;
             },
-            width);
+            ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src = (Uint32 *)((Uint8 *)src + srcskip);
             dst = (Uint32 *)((Uint8 *)dst + dstskip);
@@ -1862,117 +1862,117 @@ static void Blit4to4MaskAlpha(SDL_BlitInfo *info)
 }
 
 // permutation for mapping srcfmt to dstfmt, overloading or not the alpha channel
-static void get_permutation(const SDL_PixelFormatDetails *srcfmt, const SDL_PixelFormatDetails *dstfmt,
-                            int *_p0, int *_p1, int *_p2, int *_p3, int *_alpha_channel)
+ಸ್ಥಿರ ಶೂನ್ಯ get_permutation(ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt, ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt,
+                            ಪೂರ್ಣಾಂಕ *_p0, ಪೂರ್ಣಾಂಕ *_p1, ಪೂರ್ಣಾಂಕ *_p2, ಪೂರ್ಣಾಂಕ *_p3, ಪೂರ್ಣಾಂಕ *_alpha_channel)
 {
-    int alpha_channel = 0, p0, p1, p2, p3;
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-    int Pixel = 0x04030201; // identity permutation
-#else
-    int Pixel = 0x01020304; // identity permutation
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
-#endif
+    ಪೂರ್ಣಾಂಕ alpha_channel = 0, p0, p1, p2, p3;
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+    ಪೂರ್ಣಾಂಕ Pixel = 0x04030201; // identity permutation
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಪೂರ್ಣಾಂಕ Pixel = 0x01020304; // identity permutation
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+#ಆದರೆ_ಅಂತ್ಯ
 
-    if (srcfmt->Amask) {
+    ಆದರೆ (srcfmt->Amask) {
         RGBA_FROM_PIXEL(Pixel, srcfmt, p0, p1, p2, p3);
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         RGB_FROM_PIXEL(Pixel, srcfmt, p0, p1, p2);
         p3 = 0;
     }
 
-    if (dstfmt->Amask) {
-        if (srcfmt->Amask) {
+    ಆದರೆ (dstfmt->Amask) {
+        ಆದರೆ (srcfmt->Amask) {
             PIXEL_FROM_RGBA(Pixel, dstfmt, p0, p1, p2, p3);
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             PIXEL_FROM_RGBA(Pixel, dstfmt, p0, p1, p2, 0);
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         PIXEL_FROM_RGB(Pixel, dstfmt, p0, p1, p2);
     }
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
     p0 = Pixel & 0xFF;
     p1 = (Pixel >> 8) & 0xFF;
     p2 = (Pixel >> 16) & 0xFF;
     p3 = (Pixel >> 24) & 0xFF;
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
     p3 = Pixel & 0xFF;
     p2 = (Pixel >> 8) & 0xFF;
     p1 = (Pixel >> 16) & 0xFF;
     p0 = (Pixel >> 24) & 0xFF;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    if (p0 == 0) {
+    ಆದರೆ (p0 == 0) {
         p0 = 1;
         alpha_channel = 0;
-    } else if (p1 == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (p1 == 0) {
         p1 = 1;
         alpha_channel = 1;
-    } else if (p2 == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (p2 == 0) {
         p2 = 1;
         alpha_channel = 2;
-    } else if (p3 == 0) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (p3 == 0) {
         p3 = 1;
         alpha_channel = 3;
     }
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-#else
-    if (srcbpp == 3 && dstbpp == 4) {
-        if (p0 != 1) {
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಆದರೆ (srcbpp == 3 && dstbpp == 4) {
+        ಆದರೆ (p0 != 1) {
             p0--;
         }
-        if (p1 != 1) {
+        ಆದರೆ (p1 != 1) {
             p1--;
         }
-        if (p2 != 1) {
+        ಆದರೆ (p2 != 1) {
             p2--;
         }
-        if (p3 != 1) {
+        ಆದರೆ (p3 != 1) {
             p3--;
         }
-    } else if (srcbpp == 4 && dstbpp == 3) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (srcbpp == 4 && dstbpp == 3) {
         p0 = p1;
         p1 = p2;
         p2 = p3;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
     *_p0 = p0 - 1;
     *_p1 = p1 - 1;
     *_p2 = p2 - 1;
     *_p3 = p3 - 1;
 
-    if (_alpha_channel) {
+    ಆದರೆ (_alpha_channel) {
         *_alpha_channel = alpha_channel;
     }
 }
 
-static void BlitNtoN(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ BlitNtoN(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    int srcbpp = srcfmt->bytes_per_pixel;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int dstbpp = dstfmt->bytes_per_pixel;
-    unsigned alpha = dstfmt->Amask ? info->a : 0;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಚಿಹ್ನೆರಹಿತ alpha = dstfmt->Amask ? info->a : 0;
 
-#if HAVE_FAST_WRITE_INT8
+#ಆದರೆ HAVE_FAST_WRITE_INT8
     // Blit with permutation: 4->4
-    if (srcbpp == 4 && dstbpp == 4 &&
-        !SDL_ISPIXELFORMAT_10BIT(srcfmt->format) &&
-        !SDL_ISPIXELFORMAT_10BIT(dstfmt->format)) {
+    ಆದರೆ (srcbpp == 4 && dstbpp == 4 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(srcfmt->format) &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(dstfmt->format)) {
 
         // Find the appropriate permutation
-        int alpha_channel, p0, p1, p2, p3;
+        ಪೂರ್ಣಾಂಕ alpha_channel, p0, p1, p2, p3;
         get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, &alpha_channel);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -1983,24 +1983,24 @@ static void BlitNtoN(SDL_BlitInfo *info)
                 dst[alpha_channel] = (Uint8)alpha;
                 src += 4;
                 dst += 4;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     // Blit with permutation: 4->3
-    if (srcbpp == 4 && dstbpp == 3 &&
-        !SDL_ISPIXELFORMAT_10BIT(srcfmt->format)) {
+    ಆದರೆ (srcbpp == 4 && dstbpp == 3 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(srcfmt->format)) {
 
         // Find the appropriate permutation
-        int p0, p1, p2, p3;
-        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, NULL);
+        ಪೂರ್ಣಾಂಕ p0, p1, p2, p3;
+        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, ಖಾಲಿ);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2009,24 +2009,24 @@ static void BlitNtoN(SDL_BlitInfo *info)
                 dst[2] = src[p2];
                 src += 4;
                 dst += 3;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
-#if HAVE_FAST_WRITE_INT8
+#ಆದರೆ HAVE_FAST_WRITE_INT8
     // Blit with permutation: 3->4
-    if (srcbpp == 3 && dstbpp == 4 &&
-        !SDL_ISPIXELFORMAT_10BIT(dstfmt->format)) {
+    ಆದರೆ (srcbpp == 3 && dstbpp == 4 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(dstfmt->format)) {
 
         // Find the appropriate permutation
-        int alpha_channel, p0, p1, p2, p3;
+        ಪೂರ್ಣಾಂಕ alpha_channel, p0, p1, p2, p3;
         get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, &alpha_channel);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2037,60 +2037,60 @@ static void BlitNtoN(SDL_BlitInfo *info)
                 dst[alpha_channel] = (Uint8)alpha;
                 src += 3;
                 dst += 4;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    while (height--) {
+    ಆಗ (ಎತ್ತರ--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
             Uint32 Pixel;
-            unsigned sR;
-            unsigned sG;
-            unsigned sB;
+            ಚಿಹ್ನೆರಹಿತ sR;
+            ಚಿಹ್ನೆರಹಿತ sG;
+            ಚಿಹ್ನೆರಹಿತ sB;
             DISEMBLE_RGB(src, srcbpp, srcfmt, Pixel, sR, sG, sB);
             ASSEMBLE_RGBA(dst, dstbpp, dstfmt, sR, sG, sB, alpha);
             dst += dstbpp;
             src += srcbpp;
         },
-        width);
+        ಅಗಲ);
         /* *INDENT-ON* */ // clang-format on
         src += srcskip;
         dst += dstskip;
     }
 }
 
-static void BlitNtoNCopyAlpha(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ BlitNtoNCopyAlpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    int srcbpp = srcfmt->bytes_per_pixel;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int dstbpp = dstfmt->bytes_per_pixel;
-    int c;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಪೂರ್ಣಾಂಕ c;
 
-#if HAVE_FAST_WRITE_INT8
+#ಆದರೆ HAVE_FAST_WRITE_INT8
     // Blit with permutation: 4->4
-    if (srcbpp == 4 && dstbpp == 4 &&
-        !SDL_ISPIXELFORMAT_10BIT(srcfmt->format) &&
-        !SDL_ISPIXELFORMAT_10BIT(dstfmt->format)) {
+    ಆದರೆ (srcbpp == 4 && dstbpp == 4 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(srcfmt->format) &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(dstfmt->format)) {
 
         // Find the appropriate permutation
-        int p0, p1, p2, p3;
-        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, NULL);
+        ಪೂರ್ಣಾಂಕ p0, p1, p2, p3;
+        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, ಖಾಲಿ);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2100,19 +2100,19 @@ static void BlitNtoNCopyAlpha(SDL_BlitInfo *info)
                 dst[3] = src[p3];
                 src += 4;
                 dst += 4;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    while (height--) {
-        for (c = width; c; --c) {
+    ಆಗ (ಎತ್ತರ--) {
+        ಗಾಗಿ (c = ಅಗಲ; c; --c) {
             Uint32 Pixel;
-            unsigned sR, sG, sB, sA;
+            ಚಿಹ್ನೆರಹಿತ sR, sG, sB, sA;
             DISEMBLE_RGBA(src, srcbpp, srcfmt, Pixel, sR, sG, sB, sA);
             ASSEMBLE_RGBA(dst, dstbpp, dstfmt, sR, sG, sB, sA);
             dst += dstbpp;
@@ -2123,14 +2123,14 @@ static void BlitNtoNCopyAlpha(SDL_BlitInfo *info)
     }
 }
 
-static void Blit2to2Key(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit2to2_ಕೀಲಿ(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint16 *srcp = (Uint16 *)info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint16 *dstp = (Uint16 *)info->dst;
-    int dstskip = info->dst_skip;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
     Uint32 rgbmask = ~info->src_fmt->Amask;
 
@@ -2139,105 +2139,105 @@ static void Blit2to2Key(SDL_BlitInfo *info)
     dstskip /= 2;
     ckey &= rgbmask;
 
-    while (height--) {
+    ಆಗ (ಎತ್ತರ--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP_TRIVIAL(
         {
-            if ( (*srcp & rgbmask) != ckey ) {
+            ಆದರೆ ( (*srcp & rgbmask) != ckey ) {
                 *dstp = *srcp;
             }
             dstp++;
             srcp++;
         },
-        width);
+        ಅಗಲ);
         /* *INDENT-ON* */ // clang-format on
         srcp += srcskip;
         dstp += dstskip;
     }
 }
 
-static void BlitNtoNKey(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ BlitNtoNKey(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
-    unsigned alpha = dstfmt->Amask ? info->a : 0;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಚಿಹ್ನೆರಹಿತ alpha = dstfmt->Amask ? info->a : 0;
     Uint32 rgbmask = ~srcfmt->Amask;
-    int sfmt = srcfmt->format;
-    int dfmt = dstfmt->format;
+    ಪೂರ್ಣಾಂಕ sfmt = srcfmt->format;
+    ಪೂರ್ಣಾಂಕ dfmt = dstfmt->format;
 
     // Set up some basic variables
     ckey &= rgbmask;
 
     // BPP 4, same rgb
-    if (srcbpp == 4 && dstbpp == 4 && srcfmt->Rmask == dstfmt->Rmask && srcfmt->Gmask == dstfmt->Gmask && srcfmt->Bmask == dstfmt->Bmask) {
+    ಆದರೆ (srcbpp == 4 && dstbpp == 4 && srcfmt->Rmask == dstfmt->Rmask && srcfmt->Gmask == dstfmt->Gmask && srcfmt->Bmask == dstfmt->Bmask) {
         Uint32 *src32 = (Uint32 *)src;
         Uint32 *dst32 = (Uint32 *)dst;
 
-        if (dstfmt->Amask) {
+        ಆದರೆ (dstfmt->Amask) {
             // RGB->RGBA, SET_ALPHA
-            Uint32 mask = ((Uint32)info->a) << dstfmt->Ashift;
-            while (height--) {
+            Uint32 ಮುಖವಾಡ = ((Uint32)info->a) << dstfmt->Ashift;
+            ಆಗ (ಎತ್ತರ--) {
                 /* *INDENT-OFF* */ // clang-format off
                 DUFFS_LOOP_TRIVIAL(
                 {
-                    if ((*src32 & rgbmask) != ckey) {
-                        *dst32 = *src32 | mask;
+                    ಆದರೆ ((*src32 & rgbmask) != ckey) {
+                        *dst32 = *src32 | ಮುಖವಾಡ;
                     }
                     ++dst32;
                     ++src32;
-                }, width);
+                }, ಅಗಲ);
                 /* *INDENT-ON* */ // clang-format on
                 src32 = (Uint32 *)((Uint8 *)src32 + srcskip);
                 dst32 = (Uint32 *)((Uint8 *)dst32 + dstskip);
             }
-            return;
-        } else {
+            ಹಿಂತಿರುಗಿ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // RGBA->RGB, NO_ALPHA
-            Uint32 mask = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
-            while (height--) {
+            Uint32 ಮುಖವಾಡ = srcfmt->Rmask | srcfmt->Gmask | srcfmt->Bmask;
+            ಆಗ (ಎತ್ತರ--) {
                 /* *INDENT-OFF* */ // clang-format off
                 DUFFS_LOOP_TRIVIAL(
                 {
-                    if ((*src32 & rgbmask) != ckey) {
-                        *dst32 = *src32 & mask;
+                    ಆದರೆ ((*src32 & rgbmask) != ckey) {
+                        *dst32 = *src32 & ಮುಖವಾಡ;
                     }
                     ++dst32;
                     ++src32;
-                }, width);
+                }, ಅಗಲ);
                 /* *INDENT-ON* */ // clang-format on
                 src32 = (Uint32 *)((Uint8 *)src32 + srcskip);
                 dst32 = (Uint32 *)((Uint8 *)dst32 + dstskip);
             }
-            return;
+            ಹಿಂತಿರುಗಿ;
         }
     }
 
-#if HAVE_FAST_WRITE_INT8
+#ಆದರೆ HAVE_FAST_WRITE_INT8
     // Blit with permutation: 4->4
-    if (srcbpp == 4 && dstbpp == 4 &&
-        !SDL_ISPIXELFORMAT_10BIT(srcfmt->format) &&
-        !SDL_ISPIXELFORMAT_10BIT(dstfmt->format)) {
+    ಆದರೆ (srcbpp == 4 && dstbpp == 4 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(srcfmt->format) &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(dstfmt->format)) {
 
         // Find the appropriate permutation
-        int alpha_channel, p0, p1, p2, p3;
+        ಪೂರ್ಣಾಂಕ alpha_channel, p0, p1, p2, p3;
         get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, &alpha_channel);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
                 Uint32 *src32 = (Uint32 *)src;
 
-                if ((*src32 & rgbmask) != ckey) {
+                ಆದರೆ ((*src32 & rgbmask) != ckey) {
                     dst[0] = src[p0];
                     dst[1] = src[p1];
                     dst[2] = src[p2];
@@ -2246,30 +2246,30 @@ static void BlitNtoNKey(SDL_BlitInfo *info)
                 }
                 src += 4;
                 dst += 4;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     // BPP 3, same rgb triplet
-    if ((sfmt == SDL_PIXELFORMAT_RGB24 && dfmt == SDL_PIXELFORMAT_RGB24) ||
+    ಆದರೆ ((sfmt == SDL_PIXELFORMAT_RGB24 && dfmt == SDL_PIXELFORMAT_RGB24) ||
         (sfmt == SDL_PIXELFORMAT_BGR24 && dfmt == SDL_PIXELFORMAT_BGR24)) {
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
         Uint8 k0 = ckey & 0xFF;
         Uint8 k1 = (ckey >> 8) & 0xFF;
         Uint8 k2 = (ckey >> 16) & 0xFF;
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
         Uint8 k0 = (ckey >> 16) & 0xFF;
         Uint8 k1 = (ckey >> 8) & 0xFF;
         Uint8 k2 = ckey & 0xFF;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2277,7 +2277,7 @@ static void BlitNtoNKey(SDL_BlitInfo *info)
                 Uint8 s1 = src[1];
                 Uint8 s2 = src[2];
 
-                if (k0 != s0 || k1 != s1 || k2 != s2) {
+                ಆದರೆ (k0 != s0 || k1 != s1 || k2 != s2) {
                     dst[0] = s0;
                     dst[1] = s1;
                     dst[2] = s2;
@@ -2285,36 +2285,36 @@ static void BlitNtoNKey(SDL_BlitInfo *info)
                 src += 3;
                 dst += 3;
             },
-            width);
+            ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
     // BPP 3, inversed rgb triplet
-    if ((sfmt == SDL_PIXELFORMAT_RGB24 && dfmt == SDL_PIXELFORMAT_BGR24) ||
+    ಆದರೆ ((sfmt == SDL_PIXELFORMAT_RGB24 && dfmt == SDL_PIXELFORMAT_BGR24) ||
         (sfmt == SDL_PIXELFORMAT_BGR24 && dfmt == SDL_PIXELFORMAT_RGB24)) {
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
         Uint8 k0 = ckey & 0xFF;
         Uint8 k1 = (ckey >> 8) & 0xFF;
         Uint8 k2 = (ckey >> 16) & 0xFF;
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
         Uint8 k0 = (ckey >> 16) & 0xFF;
         Uint8 k1 = (ckey >> 8) & 0xFF;
         Uint8 k2 = ckey & 0xFF;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
                 Uint8 s0 = src[0];
                 Uint8 s1 = src[1];
                 Uint8 s2 = src[2];
-                if (k0 != s0 || k1 != s1 || k2 != s2) {
+                ಆದರೆ (k0 != s0 || k1 != s1 || k2 != s2) {
                     // Inversed RGB
                     dst[0] = s2;
                     dst[1] = s1;
@@ -2323,62 +2323,62 @@ static void BlitNtoNKey(SDL_BlitInfo *info)
                 src += 3;
                 dst += 3;
             },
-            width);
+            ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
     // Blit with permutation: 4->3
-    if (srcbpp == 4 && dstbpp == 3 &&
-        !SDL_ISPIXELFORMAT_10BIT(srcfmt->format)) {
+    ಆದರೆ (srcbpp == 4 && dstbpp == 3 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(srcfmt->format)) {
 
         // Find the appropriate permutation
-        int p0, p1, p2, p3;
-        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, NULL);
+        ಪೂರ್ಣಾಂಕ p0, p1, p2, p3;
+        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, ಖಾಲಿ);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
                 Uint32 *src32 = (Uint32 *)src;
-                if ((*src32 & rgbmask) != ckey) {
+                ಆದರೆ ((*src32 & rgbmask) != ckey) {
                     dst[0] = src[p0];
                     dst[1] = src[p1];
                     dst[2] = src[p2];
                 }
                 src += 4;
                 dst += 3;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
-#if HAVE_FAST_WRITE_INT8
+#ಆದರೆ HAVE_FAST_WRITE_INT8
     // Blit with permutation: 3->4
-    if (srcbpp == 3 && dstbpp == 4 &&
-        !SDL_ISPIXELFORMAT_10BIT(dstfmt->format)) {
+    ಆದರೆ (srcbpp == 3 && dstbpp == 4 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(dstfmt->format)) {
 
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
         Uint8 k0 = ckey & 0xFF;
         Uint8 k1 = (ckey >> 8) & 0xFF;
         Uint8 k2 = (ckey >> 16) & 0xFF;
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
         Uint8 k0 = (ckey >> 16) & 0xFF;
         Uint8 k1 = (ckey >> 8) & 0xFF;
         Uint8 k2 = ckey & 0xFF;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
         // Find the appropriate permutation
-        int alpha_channel, p0, p1, p2, p3;
+        ಪೂರ್ಣಾಂಕ alpha_channel, p0, p1, p2, p3;
         get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, &alpha_channel);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2386,7 +2386,7 @@ static void BlitNtoNKey(SDL_BlitInfo *info)
                 Uint8 s1 = src[1];
                 Uint8 s2 = src[2];
 
-                if (k0 != s0 || k1 != s1 || k2 != s2) {
+                ಆದರೆ (k0 != s0 || k1 != s1 || k2 != s2) {
                     dst[0] = src[p0];
                     dst[1] = src[p1];
                     dst[2] = src[p2];
@@ -2395,106 +2395,106 @@ static void BlitNtoNKey(SDL_BlitInfo *info)
                 }
                 src += 3;
                 dst += 4;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    while (height--) {
+    ಆಗ (ಎತ್ತರ--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
             Uint32 Pixel;
-            unsigned sR;
-            unsigned sG;
-            unsigned sB;
+            ಚಿಹ್ನೆರಹಿತ sR;
+            ಚಿಹ್ನೆರಹಿತ sG;
+            ಚಿಹ್ನೆರಹಿತ sB;
             RETRIEVE_RGB_PIXEL(src, srcbpp, Pixel);
-            if ( (Pixel & rgbmask) != ckey ) {
+            ಆದರೆ ( (Pixel & rgbmask) != ckey ) {
                 RGB_FROM_PIXEL(Pixel, srcfmt, sR, sG, sB);
                 ASSEMBLE_RGBA(dst, dstbpp, dstfmt, sR, sG, sB, alpha);
             }
             dst += dstbpp;
             src += srcbpp;
         },
-        width);
+        ಅಗಲ);
         /* *INDENT-ON* */ // clang-format on
         src += srcskip;
         dst += dstskip;
     }
 }
 
-static void BlitNtoNKeyCopyAlpha(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ BlitNtoNKeyCopyAlpha(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
     Uint32 ckey = info->colorkey;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
     Uint32 rgbmask = ~srcfmt->Amask;
 
     Uint8 srcbpp;
     Uint8 dstbpp;
     Uint32 Pixel;
-    unsigned sR, sG, sB, sA;
+    ಚಿಹ್ನೆರಹಿತ sR, sG, sB, sA;
 
     // Set up some basic variables
-    srcbpp = srcfmt->bytes_per_pixel;
-    dstbpp = dstfmt->bytes_per_pixel;
+    srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
     ckey &= rgbmask;
 
     // Fastpath: same source/destination format, with Amask, bpp 32, loop is vectorized. ~10x faster
-    if (srcfmt->format == dstfmt->format) {
+    ಆದರೆ (srcfmt->format == dstfmt->format) {
 
-        if (srcfmt->format == SDL_PIXELFORMAT_ARGB8888 ||
+        ಆದರೆ (srcfmt->format == SDL_PIXELFORMAT_ARGB8888 ||
             srcfmt->format == SDL_PIXELFORMAT_ABGR8888 ||
             srcfmt->format == SDL_PIXELFORMAT_BGRA8888 ||
             srcfmt->format == SDL_PIXELFORMAT_RGBA8888) {
 
             Uint32 *src32 = (Uint32 *)src;
             Uint32 *dst32 = (Uint32 *)dst;
-            while (height--) {
+            ಆಗ (ಎತ್ತರ--) {
                 /* *INDENT-OFF* */ // clang-format off
                 DUFFS_LOOP_TRIVIAL(
                 {
-                    if ((*src32 & rgbmask) != ckey) {
+                    ಆದರೆ ((*src32 & rgbmask) != ckey) {
                         *dst32 = *src32;
                     }
                     ++src32;
                     ++dst32;
                 },
-                width);
+                ಅಗಲ);
                 /* *INDENT-ON* */ // clang-format on
                 src32 = (Uint32 *)((Uint8 *)src32 + srcskip);
                 dst32 = (Uint32 *)((Uint8 *)dst32 + dstskip);
             }
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
 
-#if HAVE_FAST_WRITE_INT8
+#ಆದರೆ HAVE_FAST_WRITE_INT8
     // Blit with permutation: 4->4
-    if (srcbpp == 4 && dstbpp == 4 &&
-        !SDL_ISPIXELFORMAT_10BIT(srcfmt->format) &&
-        !SDL_ISPIXELFORMAT_10BIT(dstfmt->format)) {
+    ಆದರೆ (srcbpp == 4 && dstbpp == 4 &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(srcfmt->format) &&
+        !SDL_ISPIXELFORMAT_10_ಬಿಟ್(dstfmt->format)) {
 
         // Find the appropriate permutation
-        int p0, p1, p2, p3;
-        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, NULL);
+        ಪೂರ್ಣಾಂಕ p0, p1, p2, p3;
+        get_permutation(srcfmt, dstfmt, &p0, &p1, &p2, &p3, ಖಾಲಿ);
 
-        while (height--) {
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
                 Uint32 *src32 = (Uint32 *)src;
-                if ((*src32 & rgbmask) != ckey) {
+                ಆದರೆ ((*src32 & rgbmask) != ckey) {
                     dst[0] = src[p0];
                     dst[1] = src[p1];
                     dst[2] = src[p2];
@@ -2502,27 +2502,27 @@ static void BlitNtoNKeyCopyAlpha(SDL_BlitInfo *info)
                 }
                 src += 4;
                 dst += 4;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        ಹಿಂತಿರುಗಿ;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-    while (height--) {
+    ಆಗ (ಎತ್ತರ--) {
         /* *INDENT-OFF* */ // clang-format off
         DUFFS_LOOP(
         {
             DISEMBLE_RGBA(src, srcbpp, srcfmt, Pixel, sR, sG, sB, sA);
-            if ( (Pixel & rgbmask) != ckey ) {
+            ಆದರೆ ( (Pixel & rgbmask) != ckey ) {
                   ASSEMBLE_RGBA(dst, dstbpp, dstfmt, sR, sG, sB, sA);
             }
             dst += dstbpp;
             src += srcbpp;
         },
-        width);
+        ಅಗಲ);
         /* *INDENT-ON* */ // clang-format on
         src += srcskip;
         dst += dstskip;
@@ -2530,69 +2530,69 @@ static void BlitNtoNKeyCopyAlpha(SDL_BlitInfo *info)
 }
 
 // Convert between two 8888 pixels with differing formats.
-#define SWIZZLE_8888_SRC_ALPHA(src, dst, srcfmt, dstfmt)                \
-    do {                                                                \
+#ವ್ಯಾಖ್ಯಾನಿಸು SWIZZLE_8888_SRC_ALPHA(src, dst, srcfmt, dstfmt)                \
+    ಮಾಡು {                                                                \
         dst = (((src >> srcfmt->Rshift) & 0xFF) << dstfmt->Rshift) |    \
               (((src >> srcfmt->Gshift) & 0xFF) << dstfmt->Gshift) |    \
               (((src >> srcfmt->Bshift) & 0xFF) << dstfmt->Bshift) |    \
               (((src >> srcfmt->Ashift) & 0xFF) << dstfmt->Ashift);     \
-    } while (0)
+    } ಆಗ (0)
 
-#define SWIZZLE_8888_DST_ALPHA(src, dst, srcfmt, dstfmt, dstAmask)      \
-    do {                                                                \
+#ವ್ಯಾಖ್ಯಾನಿಸು SWIZZLE_8888_DST_ALPHA(src, dst, srcfmt, dstfmt, dstAmask)      \
+    ಮಾಡು {                                                                \
         dst = (((src >> srcfmt->Rshift) & 0xFF) << dstfmt->Rshift) |    \
               (((src >> srcfmt->Gshift) & 0xFF) << dstfmt->Gshift) |    \
               (((src >> srcfmt->Bshift) & 0xFF) << dstfmt->Bshift) |    \
               dstAmask;                                                 \
-    } while (0)
+    } ಆಗ (0)
 
-#ifdef SDL_SSE4_1_INTRINSICS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SSE4_1_INTRINSICS
 
-static void SDL_TARGETING("sse4.1") Blit8888to8888PixelSwizzleSSE41(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ SDL_TARGETING("sse4.1") Blit8888to8888PixelSwizzleSSE41(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
     bool fill_alpha = (!srcfmt->Amask || !dstfmt->Amask);
     Uint32 srcAmask, srcAshift;
     Uint32 dstAmask, dstAshift;
 
-    SDL_Get8888AlphaMaskAndShift(srcfmt, &srcAmask, &srcAshift);
-    SDL_Get8888AlphaMaskAndShift(dstfmt, &dstAmask, &dstAshift);
+    SDL_Get8888_Alpha_ಮುಖವಾಡ_And_ಸರಿಸು(srcfmt, &srcAmask, &srcAshift);
+    SDL_Get8888_Alpha_ಮುಖವಾಡ_And_ಸರಿಸು(dstfmt, &dstAmask, &dstAshift);
 
     // The byte offsets for the start of each pixel
-    const __m128i mask_offsets = _mm_set_epi8(
+    ಸ್ಥಿರಾಂಕ __m128i ಮುಖವಾಡ_offsets = mm_ಗಣ_epi8(
         12, 12, 12, 12, 8, 8, 8, 8, 4, 4, 4, 4, 0, 0, 0, 0);
 
-    const __m128i convert_mask = _mm_add_epi32(
+    ಸ್ಥಿರಾಂಕ __m128i convert_ಮುಖವಾಡ = mm_ಕೂಡಿಸು_epi32(
         _mm_set1_epi32(
             ((srcfmt->Rshift >> 3) << dstfmt->Rshift) |
             ((srcfmt->Gshift >> 3) << dstfmt->Gshift) |
             ((srcfmt->Bshift >> 3) << dstfmt->Bshift) |
             ((srcAshift >> 3) << dstAshift)),
-        mask_offsets);
+        ಮುಖವಾಡ_offsets);
 
-    const __m128i alpha_fill_mask = _mm_set1_epi32((int)dstAmask);
+    ಸ್ಥಿರಾಂಕ __m128i alpha_fill_ಮುಖವಾಡ = _mm_set1_epi32((ಪೂರ್ಣಾಂಕ)dstAmask);
 
-    while (height--) {
-        int i = 0;
+    ಆಗ (ಎತ್ತರ--) {
+        ಪೂರ್ಣಾಂಕ i = 0;
 
-        for (; i + 4 <= width; i += 4) {
+        ಗಾಗಿ (; i + 4 <= ಅಗಲ; i += 4) {
             // Load 4 src pixels
             __m128i src128 = _mm_loadu_si128((__m128i *)src);
 
             // Convert to dst format
             // This is an SSSE3 instruction
-            src128 = _mm_shuffle_epi8(src128, convert_mask);
+            src128 = _mm_shuffle_epi8(src128, convert_ಮುಖವಾಡ);
 
-            if (fill_alpha) {
+            ಆದರೆ (fill_alpha) {
                 // Set the alpha channels of src to 255
-                src128 = _mm_or_si128(src128, alpha_fill_mask);
+                src128 = _mm_or_si128(src128, alpha_fill_ಮುಖವಾಡ);
             }
 
             // Save the result
@@ -2602,12 +2602,12 @@ static void SDL_TARGETING("sse4.1") Blit8888to8888PixelSwizzleSSE41(SDL_BlitInfo
             dst += 16;
         }
 
-        for (; i < width; ++i) {
+        ಗಾಗಿ (; i < ಅಗಲ; ++i) {
             Uint32 src32 = *(Uint32 *)src;
             Uint32 dst32;
-            if (fill_alpha) {
+            ಆದರೆ (fill_alpha) {
                 SWIZZLE_8888_DST_ALPHA(src32, dst32, srcfmt, dstfmt, dstAmask);
-            } else {
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 SWIZZLE_8888_SRC_ALPHA(src32, dst32, srcfmt, dstfmt);
             }
             *(Uint32 *)dst = dst32;
@@ -2620,54 +2620,54 @@ static void SDL_TARGETING("sse4.1") Blit8888to8888PixelSwizzleSSE41(SDL_BlitInfo
     }
 }
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_AVX2_INTRINSICS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_AVX2_INTRINSICS
 
-static void SDL_TARGETING("avx2") Blit8888to8888PixelSwizzleAVX2(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ SDL_TARGETING("avx2") Blit8888to8888PixelSwizzleAVX2(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
     bool fill_alpha = (!srcfmt->Amask || !dstfmt->Amask);
     Uint32 srcAmask, srcAshift;
     Uint32 dstAmask, dstAshift;
 
-    SDL_Get8888AlphaMaskAndShift(srcfmt, &srcAmask, &srcAshift);
-    SDL_Get8888AlphaMaskAndShift(dstfmt, &dstAmask, &dstAshift);
+    SDL_Get8888_Alpha_ಮುಖವಾಡ_And_ಸರಿಸು(srcfmt, &srcAmask, &srcAshift);
+    SDL_Get8888_Alpha_ಮುಖವಾಡ_And_ಸರಿಸು(dstfmt, &dstAmask, &dstAshift);
 
     // The byte offsets for the start of each pixel
-    const __m256i mask_offsets = _mm256_set_epi8(
+    ಸ್ಥಿರಾಂಕ __m256i ಮುಖವಾಡ_offsets = mm256_ಗಣ_epi8(
         28, 28, 28, 28, 24, 24, 24, 24, 20, 20, 20, 20, 16, 16, 16, 16, 12, 12, 12, 12, 8, 8, 8, 8, 4, 4, 4, 4, 0, 0, 0, 0);
 
-    const __m256i convert_mask = _mm256_add_epi32(
+    ಸ್ಥಿರಾಂಕ __m256i convert_ಮುಖವಾಡ = mm256_ಕೂಡಿಸು_epi32(
         _mm256_set1_epi32(
             ((srcfmt->Rshift >> 3) << dstfmt->Rshift) |
             ((srcfmt->Gshift >> 3) << dstfmt->Gshift) |
             ((srcfmt->Bshift >> 3) << dstfmt->Bshift) |
             ((srcAshift >> 3) << dstAshift)),
-        mask_offsets);
+        ಮುಖವಾಡ_offsets);
 
-    const __m256i alpha_fill_mask = _mm256_set1_epi32((int)dstAmask);
+    ಸ್ಥಿರಾಂಕ __m256i alpha_fill_ಮುಖವಾಡ = _mm256_set1_epi32((ಪೂರ್ಣಾಂಕ)dstAmask);
 
-    while (height--) {
-        int i = 0;
+    ಆಗ (ಎತ್ತರ--) {
+        ಪೂರ್ಣಾಂಕ i = 0;
 
-        for (; i + 8 <= width; i += 8) {
+        ಗಾಗಿ (; i + 8 <= ಅಗಲ; i += 8) {
             // Load 8 src pixels
             __m256i src256 = _mm256_loadu_si256((__m256i *)src);
 
             // Convert to dst format
-            src256 = _mm256_shuffle_epi8(src256, convert_mask);
+            src256 = _mm256_shuffle_epi8(src256, convert_ಮುಖವಾಡ);
 
-            if (fill_alpha) {
+            ಆದರೆ (fill_alpha) {
                 // Set the alpha channels of src to 255
-                src256 = _mm256_or_si256(src256, alpha_fill_mask);
+                src256 = _mm256_or_si256(src256, alpha_fill_ಮುಖವಾಡ);
             }
 
             // Save the result
@@ -2677,12 +2677,12 @@ static void SDL_TARGETING("avx2") Blit8888to8888PixelSwizzleAVX2(SDL_BlitInfo *i
             dst += 32;
         }
 
-        for (; i < width; ++i) {
+        ಗಾಗಿ (; i < ಅಗಲ; ++i) {
             Uint32 src32 = *(Uint32 *)src;
             Uint32 dst32;
-            if (fill_alpha) {
+            ಆದರೆ (fill_alpha) {
                 SWIZZLE_8888_DST_ALPHA(src32, dst32, srcfmt, dstfmt, dstAmask);
-            } else {
+            } ಇಲ್ಲದಿದ್ದರೆ {
                 SWIZZLE_8888_SRC_ALPHA(src32, dst32, srcfmt, dstfmt);
             }
             *(Uint32 *)dst = dst32;
@@ -2695,54 +2695,54 @@ static void SDL_TARGETING("avx2") Blit8888to8888PixelSwizzleAVX2(SDL_BlitInfo *i
     }
 }
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if defined(SDL_NEON_INTRINSICS) && (__ARM_ARCH >= 8) && (defined(__aarch64__) || defined(_M_ARM64))
+#ಆದರೆ defined(SDL_NEON_INTRINSICS) && (__ARM_ARCH >= 8) && (defined(__aarch64__) || defined(_M_ARM64))
 
-static void Blit8888to8888PixelSwizzleNEON(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit8888to8888PixelSwizzleNEON(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
     bool fill_alpha = (!srcfmt->Amask || !dstfmt->Amask);
     Uint32 srcAmask, srcAshift;
     Uint32 dstAmask, dstAshift;
 
-    SDL_Get8888AlphaMaskAndShift(srcfmt, &srcAmask, &srcAshift);
-    SDL_Get8888AlphaMaskAndShift(dstfmt, &dstAmask, &dstAshift);
+    SDL_Get8888_Alpha_ಮುಖವಾಡ_And_ಸರಿಸು(srcfmt, &srcAmask, &srcAshift);
+    SDL_Get8888_Alpha_ಮುಖವಾಡ_And_ಸರಿಸು(dstfmt, &dstAmask, &dstAshift);
 
     // The byte offsets for the start of each pixel
-    const uint8x16_t mask_offsets = vreinterpretq_u8_u64(vcombine_u64(
+    ಸ್ಥಿರಾಂಕ uint8x16_t ಮುಖವಾಡ_offsets = vreinterpretq_u8_u64(vcombine_u64(
         vcreate_u64(0x0404040400000000), vcreate_u64(0x0c0c0c0c08080808)));
 
-    const uint8x16_t convert_mask = vreinterpretq_u8_u32(vaddq_u32(
-        vreinterpretq_u32_u8(mask_offsets),
+    ಸ್ಥಿರಾಂಕ uint8x16_t convert_ಮುಖವಾಡ = vreinterpretq_u8_u32(vaddq_u32(
+        vreinterpretq_u32_u8(ಮುಖವಾಡ_offsets),
         vdupq_n_u32(
             ((srcfmt->Rshift >> 3) << dstfmt->Rshift) |
             ((srcfmt->Gshift >> 3) << dstfmt->Gshift) |
             ((srcfmt->Bshift >> 3) << dstfmt->Bshift) |
             ((srcAshift >> 3) << dstAshift))));
 
-    const uint8x16_t alpha_fill_mask = vreinterpretq_u8_u32(vdupq_n_u32(dstAmask));
+    ಸ್ಥಿರಾಂಕ uint8x16_t alpha_fill_ಮುಖವಾಡ = vreinterpretq_u8_u32(vdupq_n_u32(dstAmask));
 
-    while (height--) {
-        int i = 0;
+    ಆಗ (ಎತ್ತರ--) {
+        ಪೂರ್ಣಾಂಕ i = 0;
 
-        for (; i + 4 <= width; i += 4) {
+        ಗಾಗಿ (; i + 4 <= ಅಗಲ; i += 4) {
             // Load 4 src pixels
             uint8x16_t src128 = vld1q_u8(src);
 
             // Convert to dst format
-            src128 = vqtbl1q_u8(src128, convert_mask);
+            src128 = vqtbl1q_u8(src128, convert_ಮುಖವಾಡ);
 
-            if (fill_alpha) {
+            ಆದರೆ (fill_alpha) {
                 // Set the alpha channels of src to 255
-                src128 = vorrq_u8(src128, alpha_fill_mask);
+                src128 = vorrq_u8(src128, alpha_fill_ಮುಖವಾಡ);
             }
 
             // Save the result
@@ -2753,16 +2753,16 @@ static void Blit8888to8888PixelSwizzleNEON(SDL_BlitInfo *info)
         }
 
         // Process 1 pixel per iteration, max 3 iterations, same calculations as above
-        for (; i < width; ++i) {
+        ಗಾಗಿ (; i < ಅಗಲ; ++i) {
             // Top 32-bits will be not used in src32
             uint8x8_t src32 = vreinterpret_u8_u32(vld1_dup_u32((Uint32 *)src));
 
             // Convert to dst format
-            src32 = vtbl1_u8(src32, vget_low_u8(convert_mask));
+            src32 = vtbl1_u8(src32, vget_ಕೆಳಗಿನ_u8(convert_ಮುಖವಾಡ));
 
-            if (fill_alpha) {
+            ಆದರೆ (fill_alpha) {
                 // Set the alpha channels of src to 255
-                src32 = vorr_u8(src32, vget_low_u8(alpha_fill_mask));
+                src32 = vorr_u8(src32, vget_ಕೆಳಗಿನ_u8(alpha_fill_ಮುಖವಾಡ));
             }
 
             // Save the result, only low 32-bits
@@ -2777,33 +2777,33 @@ static void Blit8888to8888PixelSwizzleNEON(SDL_BlitInfo *info)
     }
 }
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Blit_3or4_to_3or4__same_rgb: 3 or 4 bpp, same RGB triplet
-static void Blit_3or4_to_3or4__same_rgb(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_3or4_ಗಮ್ಯ_3or4_same_rgb(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    int srcbpp = srcfmt->bytes_per_pixel;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
 
-    if (dstfmt->Amask) {
+    ಆದರೆ (dstfmt->Amask) {
         // SET_ALPHA
-        Uint32 mask = ((Uint32)info->a) << dstfmt->Ashift;
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-        int i0 = 0, i1 = 1, i2 = 2;
-#else
-        int i0 = srcbpp - 1 - 0;
-        int i1 = srcbpp - 1 - 1;
-        int i2 = srcbpp - 1 - 2;
-#endif
-        while (height--) {
+        Uint32 ಮುಖವಾಡ = ((Uint32)info->a) << dstfmt->Ashift;
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+        ಪೂರ್ಣಾಂಕ i0 = 0, i1 = 1, i2 = 2;
+#ಇಲ್ಲದಿದ್ದರೆ
+        ಪೂರ್ಣಾಂಕ i0 = srcbpp - 1 - 0;
+        ಪೂರ್ಣಾಂಕ i1 = srcbpp - 1 - 1;
+        ಪೂರ್ಣಾಂಕ i2 = srcbpp - 1 - 2;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2811,28 +2811,28 @@ static void Blit_3or4_to_3or4__same_rgb(SDL_BlitInfo *info)
                 Uint8 s0 = src[i0];
                 Uint8 s1 = src[i1];
                 Uint8 s2 = src[i2];
-                *dst32 = (s0) | (s1 << 8) | (s2 << 16) | mask;
+                *dst32 = (s0) | (s1 << 8) | (s2 << 16) | ಮುಖವಾಡ;
                 dst += 4;
                 src += srcbpp;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // NO_ALPHA
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-        int i0 = 0, i1 = 1, i2 = 2;
-        int j0 = 0, j1 = 1, j2 = 2;
-#else
-        int i0 = srcbpp - 1 - 0;
-        int i1 = srcbpp - 1 - 1;
-        int i2 = srcbpp - 1 - 2;
-        int j0 = dstbpp - 1 - 0;
-        int j1 = dstbpp - 1 - 1;
-        int j2 = dstbpp - 1 - 2;
-#endif
-        while (height--) {
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+        ಪೂರ್ಣಾಂಕ i0 = 0, i1 = 1, i2 = 2;
+        ಪೂರ್ಣಾಂಕ j0 = 0, j1 = 1, j2 = 2;
+#ಇಲ್ಲದಿದ್ದರೆ
+        ಪೂರ್ಣಾಂಕ i0 = srcbpp - 1 - 0;
+        ಪೂರ್ಣಾಂಕ i1 = srcbpp - 1 - 1;
+        ಪೂರ್ಣಾಂಕ i2 = srcbpp - 1 - 2;
+        ಪೂರ್ಣಾಂಕ j0 = dstbpp - 1 - 0;
+        ಪೂರ್ಣಾಂಕ j1 = dstbpp - 1 - 1;
+        ಪೂರ್ಣಾಂಕ j2 = dstbpp - 1 - 2;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2844,7 +2844,7 @@ static void Blit_3or4_to_3or4__same_rgb(SDL_BlitInfo *info)
                 dst[j2] = s2;
                 dst += dstbpp;
                 src += srcbpp;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
@@ -2853,29 +2853,29 @@ static void Blit_3or4_to_3or4__same_rgb(SDL_BlitInfo *info)
 }
 
 // Blit_3or4_to_3or4__inversed_rgb: 3 or 4 bpp, inversed RGB triplet
-static void Blit_3or4_to_3or4__inversed_rgb(SDL_BlitInfo *info)
+ಸ್ಥಿರ ಶೂನ್ಯ Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     Uint8 *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     Uint8 *dst = info->dst;
-    int dstskip = info->dst_skip;
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    int srcbpp = srcfmt->bytes_per_pixel;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
 
-    if (dstfmt->Amask) {
-        if (srcfmt->Amask) {
+    ಆದರೆ (dstfmt->Amask) {
+        ಆದರೆ (srcfmt->Amask) {
             // COPY_ALPHA
             // Only to switch ABGR8888 <-> ARGB8888
-            while (height--) {
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-                int i0 = 0, i1 = 1, i2 = 2, i3 = 3;
-#else
-                int i0 = 3, i1 = 2, i2 = 1, i3 = 0;
-#endif
+            ಆಗ (ಎತ್ತರ--) {
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+                ಪೂರ್ಣಾಂಕ i0 = 0, i1 = 1, i2 = 2, i3 = 3;
+#ಇಲ್ಲದಿದ್ದರೆ
+                ಪೂರ್ಣಾಂಕ i0 = 3, i1 = 2, i2 = 1, i3 = 0;
+#ಆದರೆ_ಅಂತ್ಯ
                 /* *INDENT-OFF* */ // clang-format off
                 DUFFS_LOOP(
                 {
@@ -2888,22 +2888,22 @@ static void Blit_3or4_to_3or4__inversed_rgb(SDL_BlitInfo *info)
                     *dst32 = (s0 << 16) | (s1 << 8) | (s2) | alphashift;
                     dst += 4;
                     src += 4;
-                }, width);
+                }, ಅಗಲ);
                 /* *INDENT-ON* */ // clang-format on
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
+        } ಇಲ್ಲದಿದ್ದರೆ {
             // SET_ALPHA
-            Uint32 mask = ((Uint32)info->a) << dstfmt->Ashift;
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-            int i0 = 0, i1 = 1, i2 = 2;
-#else
-            int i0 = srcbpp - 1 - 0;
-            int i1 = srcbpp - 1 - 1;
-            int i2 = srcbpp - 1 - 2;
-#endif
-            while (height--) {
+            Uint32 ಮುಖವಾಡ = ((Uint32)info->a) << dstfmt->Ashift;
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+            ಪೂರ್ಣಾಂಕ i0 = 0, i1 = 1, i2 = 2;
+#ಇಲ್ಲದಿದ್ದರೆ
+            ಪೂರ್ಣಾಂಕ i0 = srcbpp - 1 - 0;
+            ಪೂರ್ಣಾಂಕ i1 = srcbpp - 1 - 1;
+            ಪೂರ್ಣಾಂಕ i2 = srcbpp - 1 - 2;
+#ಆದರೆ_ಅಂತ್ಯ
+            ಆಗ (ಎತ್ತರ--) {
                 /* *INDENT-OFF* */ // clang-format off
                 DUFFS_LOOP(
                 {
@@ -2912,29 +2912,29 @@ static void Blit_3or4_to_3or4__inversed_rgb(SDL_BlitInfo *info)
                     Uint8 s1 = src[i1];
                     Uint8 s2 = src[i2];
                     // inversed, compared to Blit_3or4_to_3or4__same_rgb
-                    *dst32 = (s0 << 16) | (s1 << 8) | (s2) | mask;
+                    *dst32 = (s0 << 16) | (s1 << 8) | (s2) | ಮುಖವಾಡ;
                     dst += 4;
                     src += srcbpp;
-                }, width);
+                }, ಅಗಲ);
                 /* *INDENT-ON* */ // clang-format on
                 src += srcskip;
                 dst += dstskip;
             }
         }
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         // NO_ALPHA
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-        int i0 = 0, i1 = 1, i2 = 2;
-        int j0 = 2, j1 = 1, j2 = 0;
-#else
-        int i0 = srcbpp - 1 - 0;
-        int i1 = srcbpp - 1 - 1;
-        int i2 = srcbpp - 1 - 2;
-        int j0 = dstbpp - 1 - 2;
-        int j1 = dstbpp - 1 - 1;
-        int j2 = dstbpp - 1 - 0;
-#endif
-        while (height--) {
+#ಆದರೆ SDL_BYTEORDER == SDL_LIL_ENDIAN
+        ಪೂರ್ಣಾಂಕ i0 = 0, i1 = 1, i2 = 2;
+        ಪೂರ್ಣಾಂಕ j0 = 2, j1 = 1, j2 = 0;
+#ಇಲ್ಲದಿದ್ದರೆ
+        ಪೂರ್ಣಾಂಕ i0 = srcbpp - 1 - 0;
+        ಪೂರ್ಣಾಂಕ i1 = srcbpp - 1 - 1;
+        ಪೂರ್ಣಾಂಕ i2 = srcbpp - 1 - 2;
+        ಪೂರ್ಣಾಂಕ j0 = dstbpp - 1 - 2;
+        ಪೂರ್ಣಾಂಕ j1 = dstbpp - 1 - 1;
+        ಪೂರ್ಣಾಂಕ j2 = dstbpp - 1 - 0;
+#ಆದರೆ_ಅಂತ್ಯ
+        ಆಗ (ಎತ್ತರ--) {
             /* *INDENT-OFF* */ // clang-format off
             DUFFS_LOOP(
             {
@@ -2947,7 +2947,7 @@ static void Blit_3or4_to_3or4__inversed_rgb(SDL_BlitInfo *info)
                 dst[j2] = s2;
                 dst += dstbpp;
                 src += srcbpp;
-            }, width);
+            }, ಅಗಲ);
             /* *INDENT-ON* */ // clang-format on
             src += srcskip;
             dst += dstskip;
@@ -2956,128 +2956,128 @@ static void Blit_3or4_to_3or4__inversed_rgb(SDL_BlitInfo *info)
 }
 
 // Normal N to N optimized blitters
-#define NO_ALPHA   1
-#define SET_ALPHA  2
-#define COPY_ALPHA 4
-struct blit_table
+#ವ್ಯಾಖ್ಯಾನಿಸು NO_ALPHA   1
+#ವ್ಯಾಖ್ಯಾನಿಸು ಗಣ_ALPHA  2
+#ವ್ಯಾಖ್ಯಾನಿಸು COPY_ALPHA 4
+ರಚನೆ blit_ಕೋಷ್ಟಕ
 {
     Uint32 srcR, srcG, srcB;
-    int dstbpp;
+    ಪೂರ್ಣಾಂಕ dstbpp;
     Uint32 dstR, dstG, dstB;
     Uint32 blit_features;
     SDL_BlitFunc blitfunc;
     Uint32 alpha; // bitwise NO_ALPHA, SET_ALPHA, COPY_ALPHA
 };
-static const struct blit_table normal_blit_1[] = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ blit_ಕೋಷ್ಟಕ ಸಾಮಾನ್ಯ_blit_1[] = {
     // Default for 8-bit RGB source, never optimized
     { 0, 0, 0, 0, 0, 0, 0, 0, BlitNtoN, 0 }
 };
 
-static const struct blit_table normal_blit_2[] = {
-#ifdef SDL_ALTIVEC_BLITTERS
-#ifdef BROKEN_ALTIVEC_BLITTERS
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ blit_ಕೋಷ್ಟಕ ಸಾಮಾನ್ಯ_blit_2[] = {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ALTIVEC_BLITTERS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ BROKEN_ALTIVEC_BLITTERS
     // has-altivec
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0x00000000, 0x00000000, 0x00000000,
-      BLIT_FEATURE_HAS_ALTIVEC, Blit_RGB565_32Altivec, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      BLIT_FEATURE_HAS_ALTIVEC, Blit_RGB565_32Altivec, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     { 0x00007C00, 0x000003E0, 0x0000001F, 4, 0x00000000, 0x00000000, 0x00000000,
-      BLIT_FEATURE_HAS_ALTIVEC, Blit_RGB555_32Altivec, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
-#endif // BROKEN_ALTIVEC_BLITTERS
-#endif
-#ifdef SDL_SSE4_1_INTRINSICS
+      BLIT_FEATURE_HAS_ALTIVEC, Blit_RGB555_32Altivec, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ // BROKEN_ALTIVEC_BLITTERS
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SSE4_1_INTRINSICS
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0xFF000000, 0x00FF0000, 0x0000FF00,
-      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0x0000FF00, 0x00FF0000, 0xFF000000,
-      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
-#endif
-#ifdef SDL_HAVE_BLIT_N_RGB565
+      BLIT_FEATURE_HAS_SSE41, Blit_RGB565_32_SSE41, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_HAVE_BLIT_N_RGB565
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      0, Blit_RGB565_ARGB8888, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      0, Blit_RGB565_ARGB8888, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      0, Blit_RGB565_ABGR8888, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      0, Blit_RGB565_ABGR8888, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0xFF000000, 0x00FF0000, 0x0000FF00,
-      0, Blit_RGB565_RGBA8888, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      0, Blit_RGB565_RGBA8888, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     { 0x0000F800, 0x000007E0, 0x0000001F, 4, 0x0000FF00, 0x00FF0000, 0xFF000000,
-      0, Blit_RGB565_BGRA8888, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
-#endif
+      0, Blit_RGB565_BGRA8888, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
     // Default for 16-bit RGB source, used if no other blitter matches
     { 0, 0, 0, 0, 0, 0, 0, 0, BlitNtoN, 0 }
 };
 
-static const struct blit_table normal_blit_3[] = {
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ blit_ಕೋಷ್ಟಕ ಸಾಮಾನ್ಯ_blit_3[] = {
     // 3->4 with same rgb triplet
     { 0x000000FF, 0x0000FF00, 0x00FF0000, 4, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      0, Blit_3or4_to_3or4__same_rgb,
-#if HAVE_FAST_WRITE_INT8
+      0, Blit_3or4_ಗಮ್ಯ_3or4_same_rgb,
+#ಆದರೆ HAVE_FAST_WRITE_INT8
       NO_ALPHA |
-#endif
-          SET_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
+          ಗಣ_ALPHA },
     { 0x00FF0000, 0x0000FF00, 0x000000FF, 4, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      0, Blit_3or4_to_3or4__same_rgb,
-#if HAVE_FAST_WRITE_INT8
+      0, Blit_3or4_ಗಮ್ಯ_3or4_same_rgb,
+#ಆದರೆ HAVE_FAST_WRITE_INT8
       NO_ALPHA |
-#endif
-          SET_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
+          ಗಣ_ALPHA },
     // 3->4 with inversed rgb triplet
     { 0x000000FF, 0x0000FF00, 0x00FF0000, 4, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      0, Blit_3or4_to_3or4__inversed_rgb,
-#if HAVE_FAST_WRITE_INT8
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb,
+#ಆದರೆ HAVE_FAST_WRITE_INT8
       NO_ALPHA |
-#endif
-          SET_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
+          ಗಣ_ALPHA },
     { 0x00FF0000, 0x0000FF00, 0x000000FF, 4, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      0, Blit_3or4_to_3or4__inversed_rgb,
-#if HAVE_FAST_WRITE_INT8
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb,
+#ಆದರೆ HAVE_FAST_WRITE_INT8
       NO_ALPHA |
-#endif
-          SET_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
+          ಗಣ_ALPHA },
     // 3->3 to switch RGB 24 <-> BGR 24
     { 0x000000FF, 0x0000FF00, 0x00FF0000, 3, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      0, Blit_3or4_to_3or4__inversed_rgb, NO_ALPHA },
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb, NO_ALPHA },
     { 0x00FF0000, 0x0000FF00, 0x000000FF, 3, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      0, Blit_3or4_to_3or4__inversed_rgb, NO_ALPHA },
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb, NO_ALPHA },
     // Default for 24-bit RGB source, never optimized
     { 0, 0, 0, 0, 0, 0, 0, 0, BlitNtoN, 0 }
 };
 
-static const struct blit_table normal_blit_4[] = {
-#ifdef SDL_ALTIVEC_BLITTERS
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ blit_ಕೋಷ್ಟಕ ಸಾಮಾನ್ಯ_blit_4[] = {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ALTIVEC_BLITTERS
     // has-altivec | dont-use-prefetch
     { 0x00000000, 0x00000000, 0x00000000, 4, 0x00000000, 0x00000000, 0x00000000,
-      BLIT_FEATURE_HAS_ALTIVEC | BLIT_FEATURE_ALTIVEC_DONT_USE_PREFETCH, ConvertAltivec32to32_noprefetch, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      BLIT_FEATURE_HAS_ALTIVEC | BLIT_FEATURE_ALTIVEC_DONT_USE_PREFETCH, ConvertAltivec32to32_noprefetch, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     // has-altivec
     { 0x00000000, 0x00000000, 0x00000000, 4, 0x00000000, 0x00000000, 0x00000000,
-      BLIT_FEATURE_HAS_ALTIVEC, ConvertAltivec32to32_prefetch, NO_ALPHA | COPY_ALPHA | SET_ALPHA },
+      BLIT_FEATURE_HAS_ALTIVEC, ConvertAltivec32to32_prefetch, NO_ALPHA | COPY_ALPHA | ಗಣ_ALPHA },
     // has-altivec
     { 0x00000000, 0x00000000, 0x00000000, 2, 0x0000F800, 0x000007E0, 0x0000001F,
       BLIT_FEATURE_HAS_ALTIVEC, Blit_XRGB8888_RGB565Altivec, NO_ALPHA },
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
     // 4->3 with same rgb triplet
     { 0x000000FF, 0x0000FF00, 0x00FF0000, 3, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      0, Blit_3or4_to_3or4__same_rgb, NO_ALPHA | SET_ALPHA },
+      0, Blit_3or4_ಗಮ್ಯ_3or4_same_rgb, NO_ALPHA | ಗಣ_ALPHA },
     { 0x00FF0000, 0x0000FF00, 0x000000FF, 3, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      0, Blit_3or4_to_3or4__same_rgb, NO_ALPHA | SET_ALPHA },
+      0, Blit_3or4_ಗಮ್ಯ_3or4_same_rgb, NO_ALPHA | ಗಣ_ALPHA },
     // 4->3 with inversed rgb triplet
     { 0x000000FF, 0x0000FF00, 0x00FF0000, 3, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      0, Blit_3or4_to_3or4__inversed_rgb, NO_ALPHA | SET_ALPHA },
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb, NO_ALPHA | ಗಣ_ALPHA },
     { 0x00FF0000, 0x0000FF00, 0x000000FF, 3, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      0, Blit_3or4_to_3or4__inversed_rgb, NO_ALPHA | SET_ALPHA },
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb, NO_ALPHA | ಗಣ_ALPHA },
     // 4->4 with inversed rgb triplet, and COPY_ALPHA to switch ABGR8888 <-> ARGB8888
     { 0x000000FF, 0x0000FF00, 0x00FF0000, 4, 0x00FF0000, 0x0000FF00, 0x000000FF,
-      0, Blit_3or4_to_3or4__inversed_rgb,
-#if HAVE_FAST_WRITE_INT8
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb,
+#ಆದರೆ HAVE_FAST_WRITE_INT8
       NO_ALPHA |
-#endif
-          SET_ALPHA | COPY_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
+          ಗಣ_ALPHA | COPY_ALPHA },
     { 0x00FF0000, 0x0000FF00, 0x000000FF, 4, 0x000000FF, 0x0000FF00, 0x00FF0000,
-      0, Blit_3or4_to_3or4__inversed_rgb,
-#if HAVE_FAST_WRITE_INT8
+      0, Blit_3or4_ಗಮ್ಯ_3or4_inversed_rgb,
+#ಆದರೆ HAVE_FAST_WRITE_INT8
       NO_ALPHA |
-#endif
-          SET_ALPHA | COPY_ALPHA },
+#ಆದರೆ_ಅಂತ್ಯ
+          ಗಣ_ALPHA | COPY_ALPHA },
     // RGB 888 and RGB 565
     { 0x00FF0000, 0x0000FF00, 0x000000FF, 2, 0x0000F800, 0x000007E0, 0x0000001F,
       0, Blit_XRGB8888_RGB565, NO_ALPHA },
@@ -3087,19 +3087,19 @@ static const struct blit_table normal_blit_4[] = {
     { 0, 0, 0, 0, 0, 0, 0, 0, BlitNtoN, 0 }
 };
 
-static const struct blit_table *const normal_blit[] = {
-    normal_blit_1, normal_blit_2, normal_blit_3, normal_blit_4
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ ರಚನೆ blit_ಕೋಷ್ಟಕ *ಸ್ಥಿರಾಂಕ ಸಾಮಾನ್ಯ_blit[] = {
+    ಸಾಮಾನ್ಯ_blit_1, ಸಾಮಾನ್ಯ_blit_2, ಸಾಮಾನ್ಯ_blit_3, ಸಾಮಾನ್ಯ_blit_4
 };
 
 // Mask matches table, or table entry is zero
-#define MASKOK(x, y) (((x) == (y)) || ((y) == 0x00000000))
+#ವ್ಯಾಖ್ಯಾನಿಸು MASKOK(x, y) (((x) == (y)) || ((y) == 0x00000000))
 
 SDL_BlitFunc SDL_CalculateBlitN(SDL_Surface *surface)
 {
-    const SDL_PixelFormatDetails *srcfmt;
-    const SDL_PixelFormatDetails *dstfmt;
-    const struct blit_table *table;
-    int which;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt;
+    ಸ್ಥಿರಾಂಕ ರಚನೆ blit_ಕೋಷ್ಟಕ *ಕೋಷ್ಟಕ;
+    ಪೂರ್ಣಾಂಕ which;
     SDL_BlitFunc blitfun;
 
     // Set up data for choosing the blit
@@ -3107,129 +3107,129 @@ SDL_BlitFunc SDL_CalculateBlitN(SDL_Surface *surface)
     dstfmt = surface->map.info.dst_fmt;
 
     // We don't support destinations less than 8-bits
-    if (dstfmt->bits_per_pixel < 8) {
-        return NULL;
+    ಆದರೆ (dstfmt->ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_pixel < 8) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    switch (surface->map.info.flags & ~SDL_COPY_RLE_MASK) {
-    case 0:
-        if (SDL_PIXELLAYOUT(srcfmt->format) == SDL_PACKEDLAYOUT_8888 &&
+    ಆಯ್ಕೆ (surface->map.info.flags & ~SDL_COPY_RLE_ಮುಖವಾಡ) {
+    ಸ್ಥಿತಿ 0:
+        ಆದರೆ (SDL_PIXELLAYOUT(srcfmt->format) == SDL_PACKEDLAYOUT_8888 &&
             SDL_PIXELLAYOUT(dstfmt->format) == SDL_PACKEDLAYOUT_8888) {
-#ifdef SDL_AVX2_INTRINSICS
-            if (SDL_HasAVX2()) {
-                return Blit8888to8888PixelSwizzleAVX2;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_AVX2_INTRINSICS
+            ಆದರೆ (SDL_HasAVX2()) {
+                ಹಿಂತಿರುಗಿ Blit8888to8888PixelSwizzleAVX2;
             }
-#endif
-#ifdef SDL_SSE4_1_INTRINSICS
-            if (SDL_HasSSE41()) {
-                return Blit8888to8888PixelSwizzleSSE41;
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SSE4_1_INTRINSICS
+            ಆದರೆ (SDL_HasSSE41()) {
+                ಹಿಂತಿರುಗಿ Blit8888to8888PixelSwizzleSSE41;
             }
-#endif
-#ifdef SDL_SVE2_INTRINSICS
-            if (SDL_HasSVE2()) {
-                return Blit8888to8888PixelSwizzleSVE2;
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SVE2_INTRINSICS
+            ಆದರೆ (SDL_HasSVE2()) {
+                ಹಿಂತಿರುಗಿ Blit8888to8888PixelSwizzleSVE2;
             }
-#endif
-#if defined(SDL_NEON_INTRINSICS) && (__ARM_ARCH >= 8) && (defined(__aarch64__) || defined(_M_ARM64))
-            if (SDL_HasNEON()) {
-                return Blit8888to8888PixelSwizzleNEON;
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ defined(SDL_NEON_INTRINSICS) && (__ARM_ARCH >= 8) && (defined(__aarch64__) || defined(_M_ARM64))
+            ಆದರೆ (SDL_HasNEON()) {
+                ಹಿಂತಿರುಗಿ Blit8888to8888PixelSwizzleNEON;
             }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
         }
-#ifdef SDL_SVE2_INTRINSICS
-        if (SDL_HasSVE2()) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SVE2_INTRINSICS
+        ಆದರೆ (SDL_HasSVE2()) {
             /* RGBA8888/ARGB8888/XRGB8888 -> RGB565 */
-            if (srcfmt->bytes_per_pixel == 4 &&
-                dstfmt->bytes_per_pixel == 2 &&
+            ಆದರೆ (srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4 &&
+                dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 2 &&
                 dstfmt->Rmask == 0x0000F800 &&
                 dstfmt->Gmask == 0x000007E0 &&
                 dstfmt->Bmask == 0x0000001F) {
-                return Blit8888to565PixelSwizzleSVE2;
+                ಹಿಂತಿರುಗಿ Blit8888to565PixelSwizzleSVE2;
             }
         }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-        blitfun = NULL;
-        if (dstfmt->bits_per_pixel > 8) {
+        blitfun = ಖಾಲಿ;
+        ಆದರೆ (dstfmt->ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_pixel > 8) {
             Uint32 a_need = NO_ALPHA;
-            if (dstfmt->Amask) {
-                a_need = srcfmt->Amask ? COPY_ALPHA : SET_ALPHA;
+            ಆದರೆ (dstfmt->Amask) {
+                a_need = srcfmt->Amask ? COPY_ALPHA : ಗಣ_ALPHA;
             }
-            if (srcfmt->bytes_per_pixel > 0 &&
-                srcfmt->bytes_per_pixel <= SDL_arraysize(normal_blit)) {
-                table = normal_blit[srcfmt->bytes_per_pixel - 1];
-                for (which = 0; table[which].dstbpp; ++which) {
-                    if (MASKOK(srcfmt->Rmask, table[which].srcR) &&
-                        MASKOK(srcfmt->Gmask, table[which].srcG) &&
-                        MASKOK(srcfmt->Bmask, table[which].srcB) &&
-                        MASKOK(dstfmt->Rmask, table[which].dstR) &&
-                        MASKOK(dstfmt->Gmask, table[which].dstG) &&
-                        MASKOK(dstfmt->Bmask, table[which].dstB) &&
-                        dstfmt->bytes_per_pixel == table[which].dstbpp &&
-                        (a_need & table[which].alpha) == a_need &&
-                        ((table[which].blit_features & GetBlitFeatures()) ==
-                         table[which].blit_features)) {
-                        break;
+            ಆದರೆ (srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel > 0 &&
+                srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel <= SDL_arraysize(ಸಾಮಾನ್ಯ_blit)) {
+                ಕೋಷ್ಟಕ = ಸಾಮಾನ್ಯ_blit[srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel - 1];
+                ಗಾಗಿ (which = 0; ಕೋಷ್ಟಕ[which].dstbpp; ++which) {
+                    ಆದರೆ (MASKOK(srcfmt->Rmask, ಕೋಷ್ಟಕ[which].srcR) &&
+                        MASKOK(srcfmt->Gmask, ಕೋಷ್ಟಕ[which].srcG) &&
+                        MASKOK(srcfmt->Bmask, ಕೋಷ್ಟಕ[which].srcB) &&
+                        MASKOK(dstfmt->Rmask, ಕೋಷ್ಟಕ[which].dstR) &&
+                        MASKOK(dstfmt->Gmask, ಕೋಷ್ಟಕ[which].dstG) &&
+                        MASKOK(dstfmt->Bmask, ಕೋಷ್ಟಕ[which].dstB) &&
+                        dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == ಕೋಷ್ಟಕ[which].dstbpp &&
+                        (a_need & ಕೋಷ್ಟಕ[which].alpha) == a_need &&
+                        ((ಕೋಷ್ಟಕ[which].blit_features & GetBlitFeatures()) ==
+                         ಕೋಷ್ಟಕ[which].blit_features)) {
+                        ನಿಲ್ಲಿಸು;
                     }
                 }
-                blitfun = table[which].blitfunc;
+                blitfun = ಕೋಷ್ಟಕ[which].blitfunc;
             }
 
-            if (blitfun == BlitNtoN) { // default C fallback catch-all. Slow!
-                if (srcfmt->bytes_per_pixel == dstfmt->bytes_per_pixel &&
+            ಆದರೆ (blitfun == BlitNtoN) { // default C fallback catch-all. Slow!
+                ಆದರೆ (srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel &&
                     srcfmt->Rmask == dstfmt->Rmask &&
                     srcfmt->Gmask == dstfmt->Gmask &&
                     srcfmt->Bmask == dstfmt->Bmask) {
-                    if (a_need == COPY_ALPHA) {
-                        if (srcfmt->Amask == dstfmt->Amask) {
+                    ಆದರೆ (a_need == COPY_ALPHA) {
+                        ಆದರೆ (srcfmt->Amask == dstfmt->Amask) {
                             // Fastpath C fallback: RGBA<->RGBA blit with matching RGBA
                             blitfun = SDL_BlitCopy;
-                        } else {
+                        } ಇಲ್ಲದಿದ್ದರೆ {
                             blitfun = BlitNtoNCopyAlpha;
                         }
-                    } else {
-                        if (srcfmt->bytes_per_pixel == 4) {
+                    } ಇಲ್ಲದಿದ್ದರೆ {
+                        ಆದರೆ (srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4) {
                             // Fastpath C fallback: 32bit RGB<->RGBA blit with matching RGB
-                            blitfun = Blit4to4MaskAlpha;
-                        } else if (srcfmt->bytes_per_pixel == 2) {
+                            blitfun = Blit4to4_ಮುಖವಾಡ_Alpha;
+                        } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 2) {
                             // Fastpath C fallback: 16bit RGB<->RGBA blit with matching RGB
-                            blitfun = Blit2to2MaskAlpha;
+                            blitfun = Blit2to2_ಮುಖವಾಡ_Alpha;
                         }
                     }
-                } else if (a_need == COPY_ALPHA) {
+                } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (a_need == COPY_ALPHA) {
                     blitfun = BlitNtoNCopyAlpha;
                 }
             }
         }
-        return blitfun;
+        ಹಿಂತಿರುಗಿ blitfun;
 
-    case SDL_COPY_COLORKEY:
+    ಸ್ಥಿತಿ SDL_COPY_COLORKEY:
         /* colorkey blit: Here we don't have too many options, mostly
            because RLE is the preferred fast way to deal with this.
            If a particular case turns out to be useful we'll add it. */
 
-        if (srcfmt->bytes_per_pixel == 2 && surface->map.identity != 0) {
-#ifdef SDL_SVE2_INTRINSICS
-            if (SDL_HasSVE2()) {
-                return Blit2to2KeySVE2;
+        ಆದರೆ (srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 2 && surface->map.ತಟಸ್ಥ != 0) {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SVE2_INTRINSICS
+            ಆದರೆ (SDL_HasSVE2()) {
+                ಹಿಂತಿರುಗಿ Blit2to2_ಕೀಲಿ_SVE2;
             }
-#endif
-            return Blit2to2Key;
-        } else {
-#ifdef SDL_ALTIVEC_BLITTERS
-            if ((srcfmt->bytes_per_pixel == 4) && (dstfmt->bytes_per_pixel == 4) && SDL_HasAltiVec()) {
-                return Blit32to32KeyAltivec;
-            } else
-#endif
-            if (srcfmt->Amask && dstfmt->Amask) {
-                return BlitNtoNKeyCopyAlpha;
-            } else {
-                return BlitNtoNKey;
+#ಆದರೆ_ಅಂತ್ಯ
+            ಹಿಂತಿರುಗಿ Blit2to2_ಕೀಲಿ;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_ALTIVEC_BLITTERS
+            ಆದರೆ ((srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4) && (dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel == 4) && SDL_HasAltiVec()) {
+                ಹಿಂತಿರುಗಿ Blit32to32_ಕೀಲಿ_Altivec;
+            } ಇಲ್ಲದಿದ್ದರೆ
+#ಆದರೆ_ಅಂತ್ಯ
+            ಆದರೆ (srcfmt->Amask && dstfmt->Amask) {
+                ಹಿಂತಿರುಗಿ BlitNtoNKeyCopyAlpha;
+            } ಇಲ್ಲದಿದ್ದರೆ {
+                ಹಿಂತಿರುಗಿ BlitNtoNKey;
             }
         }
     }
 
-    return NULL;
+    ಹಿಂತಿರುಗಿ ಖಾಲಿ;
 }
 
-#endif // SDL_HAVE_BLIT_N
+#ಆದರೆ_ಅಂತ್ಯ // SDL_HAVE_BLIT_N

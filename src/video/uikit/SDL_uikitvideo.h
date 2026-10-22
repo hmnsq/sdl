@@ -18,46 +18,46 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitvideo_h_
-#define SDL_uikitvideo_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_uikitvideo_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_uikitvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
 
-#ifdef __OBJC__
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __OBJC__
 
-#include <UIKit/UIKit.h>
+#ಅನ್ತರ್ಭಾವ <UIKit/UIKit.h>
 
-@interface SDL_UIKitVideoData : NSObject
+@interface SDL_UIKit_Video_ದತ್ತಾಂಶ : NSObject
 
-@property(nonatomic, assign) id pasteboardObserver;
+@property(nonatomic, ನಿಯೋಜಿಸು) id pasteboardObserver;
 
-@property(nonatomic, assign) bool setting_clipboard;
+@property(nonatomic, ನಿಯೋಜಿಸು) bool setting_clipboard;
 
-@end
+@ಕೊನೆ
 
-#ifdef SDL_PLATFORM_VISIONOS
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_PLATFORM_VISIONOS
+ಬಾಹ್ಯ CGRect UIKit_Compute_View_ಚೌಕಟ್ಟು(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+#ಇಲ್ಲದಿದ್ದರೆ
+ಬಾಹ್ಯ CGRect UIKit_Compute_View_ಚೌಕಟ್ಟು(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, UIScreen *screen);
+#ಆದರೆ_ಅಂತ್ಯ
 
-extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
+ಬಾಹ್ಯ API_ಲಭ್ಯ(ios(13.0)) UIWindowScene *UIKit_Get_ಸಕ್ರಿಯ_ಕಿಟಕಿ_Scene(ಶೂನ್ಯ);
 
-extern void UIKit_SetGameControllerInteraction(bool enabled);
-extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_ಗಣ_Game_Controller_Interaction(bool enabled);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_ಗಣ_View_Game_Controller_Interaction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
-extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
-#endif
+#ಆದರೆ !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+ಬಾಹ್ಯ UIInterfaceOrientation UIKit_GetInterfaceOrientation(ಶೂನ್ಯ);
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // __OBJC__
+#ಆದರೆ_ಅಂತ್ಯ // __OBJC__
 
-extern bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
 
-extern void UIKit_ForceUpdateHomeIndicator(void);
+ಬಾಹ್ಯ ಶೂನ್ಯ UIKit_ForceUpdateHomeIndicator(ಶೂನ್ಯ);
 
-extern bool UIKit_IsSystemVersionAtLeast(double version);
+ಬಾಹ್ಯ bool UIKit_Is_System_ಆವೃತ್ತಿ_At_ಕನಿಷ್ಠ(ದ್ವಿಗುಣ ಆವೃತ್ತಿ);
 
-extern SDL_SystemTheme UIKit_GetSystemTheme(void);
+ಬಾಹ್ಯ SDL_SystemTheme UIKit_GetSystemTheme(ಶೂನ್ಯ);
 
-#endif // SDL_uikitvideo_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_uikitvideo_h_

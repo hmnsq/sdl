@@ -18,162 +18,162 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
 
-#include "SDL_bopengl.h"
+#ಅನ್ತರ್ಭಾವ "SDL_bopengl.h"
 
-#include <unistd.h>
-#include <KernelKit.h>
-#include <OpenGLKit.h>
-#include "SDL_BWin.h"
-#include "../../core/haiku/SDL_BApp.h"
+#ಅನ್ತರ್ಭಾವ <unistd.h>
+#ಅನ್ತರ್ಭಾವ <KernelKit.h>
+#ಅನ್ತರ್ಭಾವ <OpenGLKit.h>
+#ಅನ್ತರ್ಭಾವ "SDL_BWin.h"
+#ಅನ್ತರ್ಭಾವ "../../core/haiku/SDL_BApp.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+ಸ್ಥಿರ SDL_INLINE SDL_BWin *ಗಮ್ಯ_Be_Win(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
-    return (SDL_BWin *)(window->internal);
+    ಹಿಂತಿರುಗಿ (SDL_BWin *)(ಕಿಟಕಿ->ಆಂತರಿಕ);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+ಸ್ಥಿರ SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    ಹಿಂತಿರುಗಿ SDL_Looper;
 }
 
 // Passing a NULL path means load pointers from the application
-bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+ತಾರ್ಕಿಕ HAIKU_GL_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ)
 {
 // FIXME: Is this working correctly?
     image_info info;
             int32 cookie = 0;
-    while (get_next_image_info(0, &cookie, &info) == B_OK) {
-        void *location = NULL;
-        if ( get_image_symbol(info.id, "glBegin", B_SYMBOL_TYPE_ANY,
+    ಆಗ (get_ಮುಂದಿನ_image_info(0, &cookie, &info) == B_OK) {
+        ಶೂನ್ಯ *location = ಖಾಲಿ;
+        ಆದರೆ ( get_image_ಚಿಹ್ನೆ(info.id, "glBegin", B_ಚಿಹ್ನೆ_TYPE_ANY,
                 &location) == B_OK) {
 
             _this->gl_config.dll_handle = (SDL_SharedObject *) (addr_t) info.id;
             _this->gl_config.driver_loaded = 1;
-            SDL_strlcpy(_this->gl_config.driver_path, "libGL.so",
-                    SDL_arraysize(_this->gl_config.driver_path));
+            SDL_strlcpy(_this->gl_config.driver_ಮಾರ್ಗ, "libGL.so",
+                    SDL_arraysize(_this->gl_config.driver_ಮಾರ್ಗ));
         }
     }
-    return true;
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
-SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_Function_ಸೂಚಕ HAIKU_GL_Get_Proc_ವಿಳಾಸ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *proc)
 {
-    if (_this->gl_config.dll_handle) {
-        void *location = NULL;
-        status_t err;
-        if ((err =
-            get_image_symbol((image_id) (addr_t) _this->gl_config.dll_handle,
-                              proc, B_SYMBOL_TYPE_ANY,
+    ಆದರೆ (_this->gl_config.dll_handle) {
+        ಶೂನ್ಯ *location = ಖಾಲಿ;
+        ಸ್ಥಿತಿ_t err;
+        ಆದರೆ ((err =
+            get_image_ಚಿಹ್ನೆ((image_id) (addr_t) _this->gl_config.dll_handle,
+                              proc, B_ಚಿಹ್ನೆ_TYPE_ANY,
                               &location)) == B_OK) {
-            return (SDL_FunctionPointer)location;
-        } else {
-                SDL_SetError("Couldn't find OpenGL symbol");
-                return NULL;
+            ಹಿಂತಿರುಗಿ (SDL_Function_ಸೂಚಕ)location;
+        } ಇಲ್ಲದಿದ್ದರೆ {
+                SDL_ಗಣ_Error("Couldn't find OpenGL symbol");
+                ಹಿಂತಿರುಗಿ ಖಾಲಿ;
         }
-    } else {
-        SDL_SetError("OpenGL library not loaded");
-        return NULL;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        SDL_ಗಣ_Error("OpenGL library not loaded");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 }
 
 
-bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window * window)
+ತಾರ್ಕಿಕ HAIKU_GL_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
-    _ToBeWin(window)->SwapBuffers();
-    return true;
+    ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->ಅದಲುಬದಲು_Buffers();
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
-bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window * window, SDL_GLContext context)
+ತಾರ್ಕಿಕ HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ, SDL_GLContext context)
 {
     BGLView *glView = (BGLView *)context;
     // printf("HAIKU_GL_MakeCurrent(%llx), win = %llx, thread = %d\n", (uint64)context, (uint64)window, find_thread(NULL));
-    if (glView) {
-        if ((glView->Window() == NULL) || (!window) || (_ToBeWin(window)->GetGLView() != glView)) {
-            return SDL_SetError("MakeCurrent failed");
+    ಆದರೆ (glView) {
+        ಆದರೆ ((glView->ಕಿಟಕಿ_2() == ಖಾಲಿ) || (!ಕಿಟಕಿ) || (ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ)->GetGLView() != glView)) {
+            ಹಿಂತಿರುಗಿ SDL_ಗಣ_Error("MakeCurrent failed");
         }
     }
-    _GetBeLooper()->SetCurrentContext(glView);
-    return true;
+    _GetBeLooper()->ಗಣ_Current_Context(glView);
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
 
-SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window * window)
+SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ * ಕಿಟಕಿ)
 {
     /* FIXME: Not sure what flags should be included here; may want to have
        most of them */
-    SDL_BWin *bwin = _ToBeWin(window);
+    SDL_BWin *bwin = ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ);
     // printf("HAIKU_GL_CreateContext, win = %llx, thread = %d\n", (uint64)window, find_thread(NULL));
-    if (bwin->GetGLView() != NULL) {
-        SDL_SetError("Context already creaded");
-        return NULL;
+    ಆದರೆ (bwin->GetGLView() != ಖಾಲಿ) {
+        SDL_ಗಣ_Error("Context already creaded");
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
     Uint32 gl_flags = BGL_RGB;
-    if (_this->gl_config.alpha_size) {
+    ಆದರೆ (_this->gl_config.alpha_ಗಾತ್ರ) {
         gl_flags |= BGL_ALPHA;
     }
-    if (_this->gl_config.depth_size) {
-        gl_flags |= BGL_DEPTH;
+    ಆದರೆ (_this->gl_config.ಆಳ_ಗಾತ್ರ) {
+        gl_flags |= BGL_ಆಳ;
     }
-    if (_this->gl_config.stencil_size) {
+    ಆದರೆ (_this->gl_config.stencil_ಗಾತ್ರ) {
         gl_flags |= BGL_STENCIL;
     }
-    if (_this->gl_config.double_buffer) {
+    ಆದರೆ (_this->gl_config.double_ಬಫರ್) {
         gl_flags |= BGL_DOUBLE;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         gl_flags |= BGL_SINGLE;
     }
-    if (_this->gl_config.accum_red_size ||
-            _this->gl_config.accum_green_size ||
-            _this->gl_config.accum_blue_size ||
-            _this->gl_config.accum_alpha_size) {
+    ಆದರೆ (_this->gl_config.accum_red_ಗಾತ್ರ ||
+            _this->gl_config.accum_green_ಗಾತ್ರ ||
+            _this->gl_config.accum_blue_ಗಾತ್ರ ||
+            _this->gl_config.accum_alpha_ಗಾತ್ರ) {
         gl_flags |= BGL_ACCUM;
     }
-#if __GNUC__ > 3
-    if (_this->gl_config.share_with_current_context) {
+#ಆದರೆ __GNUC__ > 3
+    ಆದರೆ (_this->gl_config.share_with_current_context) {
         gl_flags |= BGL_SHARE_CONTEXT;
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
     bwin->CreateGLView(gl_flags);
-    _GetBeLooper()->SetCurrentContext(bwin->GetGLView());
-    return (SDL_GLContext)(bwin->GetGLView());
+    _GetBeLooper()->ಗಣ_Current_Context(bwin->GetGLView());
+    ಹಿಂತಿರುಗಿ (SDL_GLContext)(bwin->GetGLView());
 }
 
-bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
+ತಾರ್ಕಿಕ HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
     // printf("HAIKU_GL_DestroyContext(%llx), thread = %d\n", (uint64)context, find_thread(NULL));
     BGLView *glView = (BGLView *)context;
-    SDL_BWin *bwin = (SDL_BWin *)glView->Window();
-    if (!bwin) {
-        delete glView;
-    } else {
+    SDL_BWin *bwin = (SDL_BWin *)glView->ಕಿಟಕಿ_2();
+    ಆದರೆ (!bwin) {
+        ಅಳಿಸು glView;
+    } ಇಲ್ಲದಿದ್ದರೆ {
         bwin->RemoveGLView();
     }
-    return true;
+    ಹಿಂತಿರುಗಿ ನಿಜ;
 }
 
 
-bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+ತಾರ್ಕಿಕ HAIKU_GL_ಗಣ_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ interval)
 {
     // TODO: Implement this, if necessary?
-    return SDL_Unsupported();
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
-bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval)
+ತಾರ್ಕಿಕ HAIKU_GL_Get_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ *interval)
 {
-    return SDL_Unsupported();
+    ಹಿಂತಿರುಗಿ SDL_Unsupported();
 }
 
 
-void HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this)
+ಶೂನ್ಯ HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
     // TODO: Implement this, if necessary?
 }
@@ -182,24 +182,24 @@ void HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this)
 /* FIXME: This function is meant to clear the OpenGL context when the video
    mode changes (see SDL_bmodes.cc), but it doesn't seem to help, and is not
    currently in use. */
-void HAIKU_GL_RebootContexts(SDL_VideoDevice *_this)
+ಶೂನ್ಯ HAIKU_GL_RebootContexts(SDL_VideoDevice *_this)
 {
-    SDL_Window *window = _this->windows;
-    while (window) {
-        SDL_BWin *bwin = _ToBeWin(window);
-        if (bwin->GetGLView()) {
-            bwin->LockLooper();
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ = _this->windows;
+    ಆಗ (ಕಿಟಕಿ) {
+        SDL_BWin *bwin = ಗಮ್ಯ_Be_Win(ಕಿಟಕಿ);
+        ಆದರೆ (bwin->GetGLView()) {
+            bwin->ಬೀಗ_Looper();
             bwin->RemoveGLView();
             bwin->CreateGLView(bwin->GetGLType());
             bwin->UnlockLooper();
         }
-        window = window->next;
+        ಕಿಟಕಿ = ಕಿಟಕಿ->ಮುಂದಿನ;
     }
 }
 
 
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // SDL_VIDEO_DRIVER_HAIKU && SDL_VIDEO_OPENGL
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_HAIKU && SDL_VIDEO_OPENGL

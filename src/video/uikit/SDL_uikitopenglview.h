@@ -19,44 +19,44 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#ಆದರೆ defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES3/gl.h>
 
 #import "SDL_uikitview.h"
-#include "SDL_uikitvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_uikitvideo.h"
 
 @interface SDL_uikitopenglview : SDL_uikitview
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)init_With_ಚೌಕಟ್ಟು:(CGRect)ಚೌಕಟ್ಟು
                         scale:(CGFloat)scale
                 retainBacking:(BOOL)retained
-                        rBits:(int)rBits
-                        gBits:(int)gBits
-                        bBits:(int)bBits
-                        aBits:(int)aBits
-                    depthBits:(int)depthBits
-                  stencilBits:(int)stencilBits
-                         sRGB:(int)sRGB
-                 multisamples:(int)multisamples
+                        r_ಬಿಟ್ಟುಗಳು:(ಪೂರ್ಣಾಂಕ)r_ಬಿಟ್ಟುಗಳು
+                        g_ಬಿಟ್ಟುಗಳು:(ಪೂರ್ಣಾಂಕ)g_ಬಿಟ್ಟುಗಳು
+                        b_ಬಿಟ್ಟುಗಳು:(ಪೂರ್ಣಾಂಕ)b_ಬಿಟ್ಟುಗಳು
+                        a_ಬಿಟ್ಟುಗಳು:(ಪೂರ್ಣಾಂಕ)a_ಬಿಟ್ಟುಗಳು
+                    ಆಳ_ಬಿಟ್ಟುಗಳು:(ಪೂರ್ಣಾಂಕ)ಆಳ_ಬಿಟ್ಟುಗಳು
+                  stencil_ಬಿಟ್ಟುಗಳು:(ಪೂರ್ಣಾಂಕ)stencil_ಬಿಟ್ಟುಗಳು
+                         sRGB:(ಪೂರ್ಣಾಂಕ)sRGB
+                 multisamples:(ಪೂರ್ಣಾಂಕ)multisamples
                       context:(EAGLContext *)glcontext;
 
 @property(nonatomic, readonly, weak) EAGLContext *context;
 
 // The width and height of the drawable in pixels (as opposed to points.)
-@property(nonatomic, readonly) int backingWidth;
-@property(nonatomic, readonly) int backingHeight;
+@property(nonatomic, readonly) ಪೂರ್ಣಾಂಕ backing_ಅಗಲ;
+@property(nonatomic, readonly) ಪೂರ್ಣಾಂಕ backing_ಎತ್ತರ;
 
 @property(nonatomic, readonly) GLuint drawableRenderbuffer;
 @property(nonatomic, readonly) GLuint drawableFramebuffer;
 @property(nonatomic, readonly) GLuint msaaResolveFramebuffer;
 
-- (void)swapBuffers;
+- (ಶೂನ್ಯ)ಅದಲುಬದಲು_Buffers_2;
 
-- (void)updateFrame;
+- (ಶೂನ್ಯ)update_ಚೌಕಟ್ಟು;
 
-@end
+@ಕೊನೆ
 
-#endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2

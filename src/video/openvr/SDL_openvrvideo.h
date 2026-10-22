@@ -1,105 +1,105 @@
-#ifndef _SDL_OPENVRVIDEO_H
-#define _SDL_OPENVRVIDEO_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ _SDL_OPENVRVIDEO_H
+#ವ್ಯಾಖ್ಯಾನಿಸು _SDL_OPENVRVIDEO_H
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef EXTERN_C
-#undef EXTERN_C
-#endif
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WINDOWS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ EXTERN_C
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು EXTERN_C
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __GNUC__
+#ಸೂಚನೆ GCC diagnostic ತಳ್ಳು
+#ಸೂಚನೆ GCC diagnostic ignored "-Wunused-variable"
+#ಆದರೆ_ಅಂತ್ಯ
 
-#define USE_SDL
-#include "openvr_capi.h"
+#ವ್ಯಾಖ್ಯಾನಿಸು USE_SDL
+#ಅನ್ತರ್ಭಾವ "openvr_capi.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __GNUC__
+#ಸೂಚನೆ GCC diagnostic ತೆಗೆ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#include <stdint.h>
+#ಅನ್ತರ್ಭಾವ <stdint.h>
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#ಅನ್ತರ್ಭಾವ <GLES3/gl3.h>
+#ಅನ್ತರ್ಭಾವ <GLES3/gl32.h>
+#ಅನ್ತರ್ಭಾವ <EGL/egl.h>
+#ಅನ್ತರ್ಭಾವ <GLES2/gl2.h>
+#ಅನ್ತರ್ಭಾವ <GLES2/gl2ext.h>
+#ಅನ್ತರ್ಭಾವ <GLES2/gl2ext.h>
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 
-struct SDL_WindowData
+ರಚನೆ SDL_ಕಿಟಕಿ_ದತ್ತಾಂಶ
 {
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-    SDL_Window *window;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WINDOWS
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ;
     HWND hwnd;
-    HWND parent;
+    HWND ಪೋಷಕ;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
-#endif
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಪೂರ್ಣಾಂಕ dummy;
+#ಆದರೆ_ಅಂತ್ಯ
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+ರಚನೆ SDL_Video_ದತ್ತಾಂಶ {
+    ಶೂನ್ಯ * openVRLIB;
     intptr_t vrtoken;
-    intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    intptr_t (*FN_VR_Init_ಆಂತರಿಕ)( EVRInitError *peError, EVRApplicationType eType );
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *pch_Interface_ಆವೃತ್ತಿ, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    ಪೂರ್ಣಾಂಕ is_ಬಫರ್_rendering;
 
-    unsigned int overlaytexture;
+    ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ overlaytexture;
 
-    unsigned int fbo, rbo;
+    ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ fbo, rbo;
 
-    int saved_texture_state;
+    ಪೂರ್ಣಾಂಕ saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    ರಚನೆ VR_IVRSystem_Fn_ಕೋಷ್ಟಕ *oSystem;
+    ರಚನೆ VR_IVROverlay_Fn_ಕೋಷ್ಟಕ *oOverlay;
+	ರಚನೆ VR_IVRInput_Fn_ಕೋಷ್ಟಕ * o_ಒಳಹರಿವು;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	ಅಕ್ಷರ * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRAction_ಗಣ_Handle_t ಒಳಹರಿವು_action_ಗಣ;
+	VRActionHandle_t * ಒಳಹರಿವು_action_handles_buttons;
+	ಪೂರ್ಣಾಂಕ ಒಳಹರಿವು_action_handles_buttons_ಎಣಿಕೆ;
+	VRActionHandle_t * ಒಳಹರಿವು_action_handles_axes;
+	ಪೂರ್ಣಾಂಕ ಒಳಹರಿವು_action_handles_axes_ಎಣಿಕೆ;
+	VRActionHandle_t ಒಳಹರಿವು_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    ಪೂರ್ಣಾಂಕ targw, targh;
+    ಪೂರ್ಣಾಂಕ ಕೊನೆಯ_targw, ಕೊನೆಯ_targh;
+    ಪೂರ್ಣಾಂಕ ಅದಲುಬದಲು_interval;
 
     bool bDidCreateOverlay;
-	bool renderdoc_debugmarker_frame_end;
+	bool renderdoc_debugmarker_ಚೌಕಟ್ಟು_ಕೊನೆ;
 	bool bIconOverridden;
 	
-	SDL_Window * window;
+	SDL_ಕಿಟಕಿ * ಕಿಟಕಿ;
 	
 	SDL_Joystick *virtual_joystick;
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
     EGLDisplay eglDpy;
     EGLContext eglCtx;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 };
 
-struct SDL_DisplayData
+ರಚನೆ SDL_Display_ದತ್ತಾಂಶ
 {
-    int dummy;
+    ಪೂರ್ಣಾಂಕ dummy;
 };
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

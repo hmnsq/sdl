@@ -18,134 +18,134 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_DRIVER_ANDROID
 
 // Android SDL video driver implementation
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../SDL_hints_c.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_pixels_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_events_c.h"
+#ಅನ್ತರ್ಭಾವ "../../events/SDL_windowevents_c.h"
+#ಅನ್ತರ್ಭಾವ "../../SDL_hints_c.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidgl.h"
-#include "SDL_androidclipboard.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidkeyboard.h"
-#include "SDL_androidmouse.h"
-#include "SDL_androidtouch.h"
-#include "SDL_androidwindow.h"
-#include "SDL_androidvulkan.h"
-#include "SDL_androidmessagebox.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidgl.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidclipboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidevents.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidkeyboard.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidmouse.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidtouch.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidwindow.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidvulkan.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidmessagebox.h"
 
-#define ANDROID_VID_DRIVER_NAME "android"
+#ವ್ಯಾಖ್ಯಾನಿಸು ANDROID_VID_DRIVER_NAME "android"
 
 // Initialization/Query functions
-static bool Android_VideoInit(SDL_VideoDevice *_this);
-static void Android_VideoQuit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ bool Android_VideoInit(SDL_VideoDevice *_this);
+ಸ್ಥಿರ ಶೂನ್ಯ Android_VideoQuit(SDL_VideoDevice *_this);
 
-#include "../SDL_egl_c.h"
-#define Android_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define Android_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define Android_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define Android_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define Android_GLES_DestroyContext   SDL_EGL_DestroyContext
+#ಅನ್ತರ್ಭಾವ "../SDL_egl_c.h"
+#ವ್ಯಾಖ್ಯಾನಿಸು Android_GLES_Get_Proc_ವಿಳಾಸ  SDL_EGL_Get_Proc_ವಿಳಾಸ_ಆಂತರಿಕ
+#ವ್ಯಾಖ್ಯಾನಿಸು Android_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#ವ್ಯಾಖ್ಯಾನಿಸು Android_GLES_ಗಣ_ಅದಲುಬದಲು_Interval SDL_EGL_ಗಣ_ಅದಲುಬದಲು_Interval
+#ವ್ಯಾಖ್ಯಾನಿಸು Android_GLES_Get_ಅದಲುಬದಲು_Interval SDL_EGL_Get_ಅದಲುಬದಲು_Interval
+#ವ್ಯಾಖ್ಯಾನಿಸು Android_GLES_DestroyContext   SDL_EGL_DestroyContext
 
 // Android driver bootstrap functions
 
 // These are filled in with real values in Android_SetScreenResolution on init (before SDL_main())
-int Android_SurfaceWidth = 0;
-int Android_SurfaceHeight = 0;
-static int Android_DeviceWidth = 0;
-static int Android_DeviceHeight = 0;
-static Uint32 Android_ScreenFormat = SDL_PIXELFORMAT_RGB565; // Default SurfaceView format, in case this is queried before being filled
-float Android_ScreenDensity = 1.0f;
-static float Android_ScreenRate = 0.0f;
-static float Android_ScreenHDRHeadroom = 1.0f;
-static SDL_DisplayOrientation Android_ScreenOrientation = SDL_ORIENTATION_UNKNOWN;
-int Android_SafeInsetLeft = 0;
-int Android_SafeInsetRight = 0;
-int Android_SafeInsetTop = 0;
-int Android_SafeInsetBottom = 0;
-static SDL_SystemTheme Android_SystemTheme;
+ಪೂರ್ಣಾಂಕ Android_Surface_ಅಗಲ = 0;
+ಪೂರ್ಣಾಂಕ Android_Surface_ಎತ್ತರ = 0;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ Android_Device_ಅಗಲ = 0;
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ Android_Device_ಎತ್ತರ = 0;
+ಸ್ಥಿರ Uint32 Android_ScreenFormat = SDL_PIXELFORMAT_RGB565; // Default SurfaceView format, in case this is queried before being filled
+ದಶಮಾಂಶ Android_ScreenDensity = 1.0f;
+ಸ್ಥಿರ ದಶಮಾಂಶ Android_Screen_ದರ = 0.0f;
+ಸ್ಥಿರ ದಶಮಾಂಶ Android_ScreenHDRHeadroom = 1.0f;
+ಸ್ಥಿರ SDL_DisplayOrientation Android_ScreenOrientation = SDL_ORIENTATION_UNKNOWN;
+ಪೂರ್ಣಾಂಕ Android_ಸುರಕ್ಷಿತ_Inset_ಎಡ = 0;
+ಪೂರ್ಣಾಂಕ Android_ಸುರಕ್ಷಿತ_Inset_ಬಲ = 0;
+ಪೂರ್ಣಾಂಕ Android_ಸುರಕ್ಷಿತ_Inset_ತುದಿ = 0;
+ಪೂರ್ಣಾಂಕ Android_ಸುರಕ್ಷಿತ_Inset_Bottom = 0;
+ಸ್ಥಿರ SDL_SystemTheme Android_SystemTheme;
 
-static bool Android_SuspendScreenSaver(SDL_VideoDevice *_this)
+ಸ್ಥಿರ bool Android_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
-    return Android_JNI_SuspendScreenSaver(_this->suspend_screensaver);
+    ಹಿಂತಿರುಗಿ Android_JNI_SuspendScreenSaver(_this->suspend_screensaver);
 }
 
-static void Android_DeleteDevice(SDL_VideoDevice *device)
+ಸ್ಥಿರ ಶೂನ್ಯ Android_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->ಆಂತರಿಕ);
     SDL_free(device);
 }
 
 // Input is part of video for Android, so this goes here.
-static void SDLCALL Android_Video_InternalHintCallback(
-    void *userdata,
-    const char *name,
-    const char *oldvalue,
-    const char *newvalue)
+ಸ್ಥಿರ ಶೂನ್ಯ SDLCALL Android_Video_ಆಂತರಿಕ_Hint_Callback(
+    ಶೂನ್ಯ *userdata,
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *name,
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *oldvalue,
+    ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *newvalue)
 {
-    Android_JNI_SetBackButtonTrapActive(SDL_GetStringBoolean(newvalue, false));
+    Android_JNI_ಗಣ_ಹಿಂಭಾಗ_Button_Trap_ಸಕ್ರಿಯ(SDL_GetStringBoolean(newvalue, false));
 }
 
-static SDL_VideoDevice *Android_CreateDevice(void)
+ಸ್ಥಿರ SDL_VideoDevice *Android_CreateDevice(ಶೂನ್ಯ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
+    SDL_Video_ದತ್ತಾಂಶ *ದತ್ತಾಂಶ;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, ಗಾತ್ರ(SDL_VideoDevice));
+    ಆದರೆ (!device) {
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    ದತ್ತಾಂಶ = (SDL_Video_ದತ್ತಾಂಶ *)SDL_calloc(1, ಗಾತ್ರ(SDL_Video_ದತ್ತಾಂಶ));
+    ಆದರೆ (!ದತ್ತಾಂಶ) {
         SDL_free(device);
-        return NULL;
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     }
 
-    device->internal = data;
+    device->ಆಂತರಿಕ = ದತ್ತಾಂಶ;
     device->system_theme = Android_SystemTheme;
 
     // Set the function pointers
     device->VideoInit = Android_VideoInit;
     device->VideoQuit = Android_VideoQuit;
 
-    device->CreateSDLWindow = Android_CreateWindow;
-    device->SetWindowTitle = Android_SetWindowTitle;
-    device->SetWindowFullscreen = Android_SetWindowFullscreen;
-    device->MinimizeWindow = Android_MinimizeWindow;
-    device->SetWindowResizable = Android_SetWindowResizable;
-    device->DestroyWindow = Android_DestroyWindow;
+    device->CreateSDLWindow = Android_Create_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Title = Android_ಗಣ_ಕಿಟಕಿ_Title;
+    device->ಗಣ_ಕಿಟಕಿ_Fullscreen = Android_ಗಣ_ಕಿಟಕಿ_Fullscreen;
+    device->Minimize_ಕಿಟಕಿ = Android_Minimize_ಕಿಟಕಿ;
+    device->ಗಣ_ಕಿಟಕಿ_Resizable = Android_ಗಣ_ಕಿಟಕಿ_Resizable;
+    device->Destroy_ಕಿಟಕಿ = Android_Destroy_ಕಿಟಕಿ;
 
-    device->free = Android_DeleteDevice;
+    device->ಬಿಡುಗಡೆ = Android_DeleteDevice;
 
     // GL pointers
-#ifdef SDL_VIDEO_OPENGL_EGL
-    device->GL_LoadLibrary = Android_GLES_LoadLibrary;
-    device->GL_GetProcAddress = Android_GLES_GetProcAddress;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_EGL
+    device->GL_ತುಂಬು_Library = Android_GLES_ತುಂಬು_Library;
+    device->GL_Get_Proc_ವಿಳಾಸ = Android_GLES_Get_Proc_ವಿಳಾಸ;
     device->GL_UnloadLibrary = Android_GLES_UnloadLibrary;
     device->GL_CreateContext = Android_GLES_CreateContext;
     device->GL_MakeCurrent = Android_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = Android_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = Android_GLES_GetSwapInterval;
-    device->GL_SwapWindow = Android_GLES_SwapWindow;
+    device->GL_ಗಣ_ಅದಲುಬದಲು_Interval = Android_GLES_ಗಣ_ಅದಲುಬದಲು_Interval;
+    device->GL_Get_ಅದಲುಬದಲು_Interval = Android_GLES_Get_ಅದಲುಬದಲು_Interval;
+    device->GL_ಅದಲುಬದಲು_ಕಿಟಕಿ = Android_GLES_ಅದಲುಬದಲು_ಕಿಟಕಿ;
     device->GL_DestroyContext = Android_GLES_DestroyContext;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifdef SDL_VIDEO_VULKAN
-    device->Vulkan_LoadLibrary = Android_Vulkan_LoadLibrary;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_VULKAN
+    device->Vulkan_ತುಂಬು_Library = Android_Vulkan_ತುಂಬು_Library;
     device->Vulkan_UnloadLibrary = Android_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = Android_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = Android_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = Android_Vulkan_DestroySurface;
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
     // Screensaver
     device->SuspendScreenSaver = Android_SuspendScreenSaver;
@@ -156,123 +156,123 @@ static SDL_VideoDevice *Android_CreateDevice(void)
     device->HideScreenKeyboard = Android_HideScreenKeyboard;
 
     // Clipboard
-    device->SetClipboardText = Android_SetClipboardText;
-    device->GetClipboardText = Android_GetClipboardText;
-    device->HasClipboardText = Android_HasClipboardText;
+    device->ಗಣ_Clipboard_ಪಠ್ಯ = Android_ಗಣ_Clipboard_ಪಠ್ಯ;
+    device->Get_Clipboard_ಪಠ್ಯ = Android_Get_Clipboard_ಪಠ್ಯ;
+    device->Has_Clipboard_ಪಠ್ಯ = Android_Has_Clipboard_ಪಠ್ಯ;
 
     device->device_caps = VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    ಹಿಂತಿರುಗಿ device;
 }
 
 VideoBootStrap Android_bootstrap = {
     ANDROID_VID_DRIVER_NAME, "SDL Android video driver",
     Android_CreateDevice,
-    Android_ShowMessageBox,
+    Android_Show_ಸಂದೇಶ_Box,
     false
 };
 
 bool Android_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_ದತ್ತಾಂಶ *videodata = _this->ಆಂತರಿಕ;
     SDL_DisplayID displayID;
     SDL_VideoDisplay *display;
-    SDL_DisplayMode mode;
+    SDL_Display_ಬಹುಲಕ ಬಹುಲಕ;
 
     videodata->isPaused = false;
     videodata->isPausing = false;
 
-    SDL_zero(mode);
-    mode.format = Android_ScreenFormat;
-    mode.w = Android_DeviceWidth;
-    mode.h = Android_DeviceHeight;
-    mode.refresh_rate = Android_ScreenRate;
+    SDL_zero(ಬಹುಲಕ);
+    ಬಹುಲಕ.format = Android_ScreenFormat;
+    ಬಹುಲಕ.w = Android_Device_ಅಗಲ;
+    ಬಹುಲಕ.h = Android_Device_ಎತ್ತರ;
+    ಬಹುಲಕ.refresh_ದರ = Android_Screen_ದರ;
 
-    displayID = SDL_AddBasicVideoDisplay(&mode);
-    if (displayID == 0) {
-        return false;
+    displayID = SDL_ಕೂಡಿಸು_Basic_Video_Display(&ಬಹುಲಕ);
+    ಆದರೆ (displayID == 0) {
+        ಹಿಂತಿರುಗಿ false;
     }
     display = SDL_GetVideoDisplay(displayID);
     display->natural_orientation = Android_JNI_GetDisplayNaturalOrientation();
     display->current_orientation = Android_JNI_GetDisplayCurrentOrientation();
     display->content_scale = Android_ScreenDensity;
-    Android_SetScreenHDRHeadroom(Android_ScreenHDRHeadroom);
+    Android_ಗಣ_Screen_HDRHeadroom(Android_ScreenHDRHeadroom);
 
-    SDL_AddHintCallback(SDL_HINT_ANDROID_TRAP_BACK_BUTTON, Android_Video_InternalHintCallback, 0);
+    SDL_ಕೂಡಿಸು_Hint_Callback(SDL_HINT_ANDROID_TRAP_ಹಿಂಭಾಗ_BUTTON, Android_Video_ಆಂತರಿಕ_Hint_Callback, 0);
 
     Android_InitTouch();
 
     Android_InitMouse();
 
     // We're done!
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 
-void Android_VideoQuit(SDL_VideoDevice *_this)
+ಶೂನ್ಯ Android_VideoQuit(SDL_VideoDevice *_this)
 {
-    SDL_RemoveHintCallback(SDL_HINT_ANDROID_TRAP_BACK_BUTTON, Android_Video_InternalHintCallback, 0);
+    SDL_RemoveHintCallback(SDL_HINT_ANDROID_TRAP_ಹಿಂಭಾಗ_BUTTON, Android_Video_ಆಂತರಿಕ_Hint_Callback, 0);
     Android_QuitMouse();
     Android_QuitTouch();
 }
 
-void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate)
+ಶೂನ್ಯ Android_ಗಣ_Screen_Resolution(ಪೂರ್ಣಾಂಕ surface_ಅಗಲ, ಪೂರ್ಣಾಂಕ surface_ಎತ್ತರ, ಪೂರ್ಣಾಂಕ device_ಅಗಲ, ಪೂರ್ಣಾಂಕ device_ಎತ್ತರ, ದಶಮಾಂಶ density, ದಶಮಾಂಶ ದರ)
 {
-    Android_SurfaceWidth = surfaceWidth;
-    Android_SurfaceHeight = surfaceHeight;
-    Android_DeviceWidth = deviceWidth;
-    Android_DeviceHeight = deviceHeight;
+    Android_Surface_ಅಗಲ = surface_ಅಗಲ;
+    Android_Surface_ಎತ್ತರ = surface_ಎತ್ತರ;
+    Android_Device_ಅಗಲ = device_ಅಗಲ;
+    Android_Device_ಎತ್ತರ = device_ಎತ್ತರ;
     Android_ScreenDensity = (density > 0.0f) ? density : 1.0f;
-    Android_ScreenRate = rate;
+    Android_Screen_ದರ = ದರ;
 }
 
-void Android_SetScreenHDRHeadroom(float headroom)
+ಶೂನ್ಯ Android_ಗಣ_Screen_HDRHeadroom(ದಶಮಾಂಶ headroom)
 {
     Android_ScreenHDRHeadroom = headroom;
 
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    ಆದರೆ (device && device->ಅಂಕೆ_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
         SDL_HDROutputProperties HDR;
 
         HDR.SDR_white_level = 1.0f;
         HDR.HDR_headroom = headroom;
-        SDL_SetDisplayHDRProperties(display, &HDR);
+        SDL_ಗಣ_Display_HDRProperties(display, &HDR);
     }
 }
 
-static Uint32 format_to_pixelFormat(int format)
+ಸ್ಥಿರ Uint32 format_ಗಮ್ಯ_pixel_Format(ಪೂರ್ಣಾಂಕ format)
 {
     Uint32 pf;
-    if (format == AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM) { // 1
+    ಆದರೆ (format == AHARDWAREBUFFER_FORMAT_R8G8B8A8_UNORM) { // 1
         pf = SDL_PIXELFORMAT_RGBA8888;
-    } else if (format == AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM) { // 2
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (format == AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM) { // 2
         pf = SDL_PIXELFORMAT_RGBX8888;
-    } else if (format == AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM) { // 3
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (format == AHARDWAREBUFFER_FORMAT_R8G8B8_UNORM) { // 3
         pf = SDL_PIXELFORMAT_RGB24;
-    } else if (format == AHARDWAREBUFFER_FORMAT_R5G6B5_UNORM) { // 4
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (format == AHARDWAREBUFFER_FORMAT_R5G6B5_UNORM) { // 4
         pf = SDL_PIXELFORMAT_RGB565;
-    } else if (format == 5) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (format == 5) {
         pf = SDL_PIXELFORMAT_BGRA8888;
-    } else if (format == 6) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (format == 6) {
         pf = SDL_PIXELFORMAT_RGBA5551;
-    } else if (format == 7) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (format == 7) {
         pf = SDL_PIXELFORMAT_RGBA4444;
-    } else if (format == 0x115) {
+    } ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ (format == 0x115) {
         // HAL_PIXEL_FORMAT_BGR_565
         pf = SDL_PIXELFORMAT_RGB565;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         pf = SDL_PIXELFORMAT_UNKNOWN;
     }
-    return pf;
+    ಹಿಂತಿರುಗಿ pf;
 }
 
-void Android_SetFormat(int format_wanted, int format_got)
+ಶೂನ್ಯ Android_ಗಣ_Format(ಪೂರ್ಣಾಂಕ format_wanted, ಪೂರ್ಣಾಂಕ format_got)
 {
     Uint32 pf_wanted;
     Uint32 pf_got;
 
-    pf_wanted = format_to_pixelFormat(format_wanted);
-    pf_got = format_to_pixelFormat(format_got);
+    pf_wanted = format_ಗಮ್ಯ_pixel_Format(format_wanted);
+    pf_got = format_ಗಮ್ಯ_pixel_Format(format_got);
 
     Android_ScreenFormat = pf_got;
 
@@ -281,30 +281,30 @@ void Android_SetFormat(int format_wanted, int format_got)
             SDL_GetPixelFormatName(pf_got), format_got);
 }
 
-static void Android_SendOrientationUpdate(void)
+ಸ್ಥಿರ ಶೂನ್ಯ Android_SendOrientationUpdate(ಶೂನ್ಯ)
 {
     /* If we've received a compatible resize event, update the
      * orientation immediately, otherwise wait for the display
      * resize event.
      */
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    ಆದರೆ (device && device->ಅಂಕೆ_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
-        bool mode_landscape = (display->desktop_mode.w > display->desktop_mode.h);
+        bool ಬಹುಲಕ_landscape = (display->desktop_ಬಹುಲಕ.w > display->desktop_ಬಹುಲಕ.h);
         bool sensor_landscape = (Android_ScreenOrientation == SDL_ORIENTATION_LANDSCAPE || Android_ScreenOrientation == SDL_ORIENTATION_LANDSCAPE_FLIPPED);
-        if (sensor_landscape == mode_landscape) {
+        ಆದರೆ (sensor_landscape == ಬಹುಲಕ_landscape) {
             SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_ORIENTATION, Android_ScreenOrientation, 0);
         }
     }
 }
 
-void Android_SetOrientation(SDL_DisplayOrientation orientation)
+ಶೂನ್ಯ Android_ಗಣ_Orientation(SDL_DisplayOrientation orientation)
 {
     Android_ScreenOrientation = orientation;
     Android_SendOrientationUpdate();
 }
 
-void Android_SendResize(SDL_Window *window)
+ಶೂನ್ಯ Android_SendResize(SDL_ಕಿಟಕಿ *ಕಿಟಕಿ)
 {
     /*
       Update the resolution of the desktop mode, so that the window
@@ -313,49 +313,49 @@ void Android_SendResize(SDL_Window *window)
       which can happen after VideoInit().
     */
     SDL_VideoDevice *device = SDL_GetVideoDevice();
-    if (device && device->num_displays > 0) {
+    ಆದರೆ (device && device->ಅಂಕೆ_displays > 0) {
         SDL_VideoDisplay *display = device->displays[0];
-        SDL_DisplayMode desktop_mode;
+        SDL_Display_ಬಹುಲಕ desktop_ಬಹುಲಕ;
 
-        SDL_zero(desktop_mode);
-        desktop_mode.format = Android_ScreenFormat;
-        desktop_mode.w = Android_DeviceWidth;
-        desktop_mode.h = Android_DeviceHeight;
-        desktop_mode.refresh_rate = Android_ScreenRate;
-        SDL_SetDesktopDisplayMode(display, &desktop_mode);
+        SDL_zero(desktop_ಬಹುಲಕ);
+        desktop_ಬಹುಲಕ.format = Android_ScreenFormat;
+        desktop_ಬಹುಲಕ.w = Android_Device_ಅಗಲ;
+        desktop_ಬಹುಲಕ.h = Android_Device_ಎತ್ತರ;
+        desktop_ಬಹುಲಕ.refresh_ದರ = Android_Screen_ದರ;
+        SDL_ಗಣ_Desktop_Display_ಬಹುಲಕ(display, &desktop_ಬಹುಲಕ);
         Android_SendOrientationUpdate();
     }
 
-    if (window) {
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, Android_SurfaceWidth, Android_SurfaceHeight);
+    ಆದರೆ (ಕಿಟಕಿ) {
+        SDL_Send_ಕಿಟಕಿ_Event(ಕಿಟಕಿ, SDL_EVENT_ಕಿಟಕಿ_RESIZED, Android_Surface_ಅಗಲ, Android_Surface_ಎತ್ತರ);
     }
 }
 
-void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom)
+ಶೂನ್ಯ Android_ಗಣ_ಕಿಟಕಿ_ಸುರಕ್ಷಿತ_Area_Insets(ಪೂರ್ಣಾಂಕ ಎಡ, ಪೂರ್ಣಾಂಕ ಬಲ, ಪೂರ್ಣಾಂಕ ತುದಿ, ಪೂರ್ಣಾಂಕ bottom)
 {
-    Android_SafeInsetLeft = left;
-    Android_SafeInsetRight = right;
-    Android_SafeInsetTop = top;
-    Android_SafeInsetBottom = bottom;
+    Android_ಸುರಕ್ಷಿತ_Inset_ಎಡ = ಎಡ;
+    Android_ಸುರಕ್ಷಿತ_Inset_ಬಲ = ಬಲ;
+    Android_ಸುರಕ್ಷಿತ_Inset_ತುದಿ = ತುದಿ;
+    Android_ಸುರಕ್ಷಿತ_Inset_Bottom = bottom;
 
-    if (Android_Window) {
-        SDL_SetWindowSafeAreaInsets(Android_Window, left, right, top, bottom);
+    ಆದರೆ (Android_ಕಿಟಕಿ) {
+        SDL_ಗಣ_ಕಿಟಕಿ_ಸುರಕ್ಷಿತ_Area_Insets(Android_ಕಿಟಕಿ, ಎಡ, ಬಲ, ತುದಿ, bottom);
     }
 }
 
-void Android_SetDarkMode(bool enabled)
+ಶೂನ್ಯ Android_ಗಣ_Dark_ಬಹುಲಕ(bool enabled)
 {
     SDL_VideoDevice *device = SDL_GetVideoDevice();
 
-    if (enabled) {
+    ಆದರೆ (enabled) {
         Android_SystemTheme = SDL_SYSTEM_THEME_DARK;
-    } else {
+    } ಇಲ್ಲದಿದ್ದರೆ {
         Android_SystemTheme = SDL_SYSTEM_THEME_LIGHT;
     }
 
-    if (device) {
-        SDL_SetSystemTheme(Android_SystemTheme);
+    ಆದರೆ (device) {
+        SDL_ಗಣ_System_Theme(Android_SystemTheme);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_ANDROID

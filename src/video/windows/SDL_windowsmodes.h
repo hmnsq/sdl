@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_windowsmodes_h_
-#define SDL_windowsmodes_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_windowsmodes_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_windowsmodes_h_
 
-typedef enum
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ
 {
     DisplayUnchanged,
     DisplayAdded,
@@ -31,7 +31,7 @@ typedef enum
 
 } WIN_DisplayState;
 
-struct SDL_DisplayData
+ರಚನೆ SDL_Display_ದತ್ತಾಂಶ
 {
     WCHAR DeviceName[32];
     HMONITOR MonitorHandle;
@@ -39,18 +39,18 @@ struct SDL_DisplayData
     SDL_Rect bounds;
 };
 
-struct SDL_DisplayModeData
+ರಚನೆ SDL_Display_ಬಹುಲಕ_ದತ್ತಾಂಶ
 {
-    DEVMODEW DeviceMode;
+    DEVMODEW Device_ಬಹುಲಕ;
 };
 
-extern bool WIN_InitModes(SDL_VideoDevice *_this);
-extern bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool WIN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern void WIN_RefreshDisplays(SDL_VideoDevice *_this);
-extern void WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
-extern void WIN_QuitModes(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool WIN_InitModes(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ bool WIN_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಬಾಹ್ಯ bool WIN_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ಬಾಹ್ಯ bool WIN_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+ಬಾಹ್ಯ bool WIN_ಗಣ_Display_ಬಹುಲಕ(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_ಬಹುಲಕ *ಬಹುಲಕ);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_RefreshDisplays(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_UpdateDisplayUsableBounds(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ WIN_QuitModes(SDL_VideoDevice *_this);
 
-#endif // SDL_windowsmodes_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_windowsmodes_h_

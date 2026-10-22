@@ -19,71 +19,71 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_sve2_blit_A.h"
-#include <assert.h>
+#ಅನ್ತರ್ಭಾವ "SDL_sve2_blit_A.h"
+#ಅನ್ತರ್ಭಾವ <assert.h>
 
-#ifdef SDL_SVE2_INTRINSICS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_SVE2_INTRINSICS
 
-#undef sdl_sve_rgb32_blend_op_fill_alpha
-#define sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx)              \
-    if (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು sdl_sve_rgb32_blend_op_fill_alpha
+#ವ್ಯಾಖ್ಯಾನಿಸು sdl_sve_rgb32_blend_op_fill_alpha(ma_alpha_chn_idx)              \
+    ಆದರೆ (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
         /* fill alpha */                                                 \
-        sve_target_u16 = svdup_u16(0xFF);                                \
-    } else {                                                             \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask(sve_source_u16,     \
-                                                     sve_target_u16,     \
-                                                     vMask);             \
+        sve_ಗುರಿ_u16 = svdup_u16(0xFF);                                \
+    } ಇಲ್ಲದಿದ್ದರೆ {                                                             \
+        svuint16_t v_ಮುಖವಾಡ = svget4(sve_ಮೂಲ_u16x4, (ma_alpha_chn_idx)); \
+        sve_ಗುರಿ_u16 = sdl_sve_chn_blend_with_ಮುಖವಾಡ(sve_ಮೂಲ_u16,     \
+                                                     sve_ಗುರಿ_u16,     \
+                                                     v_ಮುಖವಾಡ);             \
     }
 
-#undef sdl_sve_rgb32_blend_op_copy_alpha
-#define sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx)              \
-    if (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask(svdup_u16(0xFF),    \
-                                                     sve_target_u16,     \
-                                                     vMask);             \
-    } else {                                                             \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx)); \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask(sve_source_u16,     \
-                                                     sve_target_u16,     \
-                                                     vMask);             \
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು sdl_sve_rgb32_blend_op_copy_alpha
+#ವ್ಯಾಖ್ಯಾನಿಸು sdl_sve_rgb32_blend_op_copy_alpha(ma_alpha_chn_idx)              \
+    ಆದರೆ (sve_src_chn_idx == (ma_alpha_chn_idx)) {                         \
+        svuint16_t v_ಮುಖವಾಡ = svget4(sve_ಮೂಲ_u16x4, (ma_alpha_chn_idx)); \
+        sve_ಗುರಿ_u16 = sdl_sve_chn_blend_with_ಮುಖವಾಡ(svdup_u16(0xFF),    \
+                                                     sve_ಗುರಿ_u16,     \
+                                                     v_ಮುಖವಾಡ);             \
+    } ಇಲ್ಲದಿದ್ದರೆ {                                                             \
+        svuint16_t v_ಮುಖವಾಡ = svget4(sve_ಮೂಲ_u16x4, (ma_alpha_chn_idx)); \
+        sve_ಗುರಿ_u16 = sdl_sve_chn_blend_with_ಮುಖವಾಡ(sve_ಮೂಲ_u16,     \
+                                                     sve_ಗುರಿ_u16,     \
+                                                     v_ಮುಖವಾಡ);             \
     }
 
-#undef sdl_sve_rgb32_blend_to_rgb565_op
-#define sdl_sve_rgb32_blend_to_rgb565_op(ma_alpha_chn_idx)                \
-    do {                                                                  \
-        svuint16_t vMask = svget4(sve_source_u16x4, (ma_alpha_chn_idx));  \
-        sve_target_u16 = sdl_sve_chn_blend_with_mask_fast(sve_source_u16, \
-                                                          sve_target_u16, \
-                                                          vMask);         \
-    } while (0)
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು sdl_sve_rgb32_blend_ಗಮ್ಯ_rgb565_op
+#ವ್ಯಾಖ್ಯಾನಿಸು sdl_sve_rgb32_blend_ಗಮ್ಯ_rgb565_op(ma_alpha_chn_idx)                \
+    ಮಾಡು {                                                                  \
+        svuint16_t v_ಮುಖವಾಡ = svget4(sve_ಮೂಲ_u16x4, (ma_alpha_chn_idx));  \
+        sve_ಗುರಿ_u16 = sdl_sve_chn_blend_with_ಮುಖವಾಡ_fast(sve_ಮೂಲ_u16, \
+                                                          sve_ಗುರಿ_u16, \
+                                                          v_ಮುಖವಾಡ);         \
+    } ಆಗ (0)
 
-#include "SDL_sve2_swizzle.h"
+#ಅನ್ತರ್ಭಾವ "SDL_sve2_swizzle.h"
 
 /*-----------------------------------------------------------------------------*
  * Swizzle Blend with Alpha                                                    *
  *-----------------------------------------------------------------------------*/
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
+ಶೂನ್ಯ Blit8888to8888PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
 {
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    assert(0 != srcfmt->Amask);
-    (void)srcfmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಪ್ರತಿಜ್ಞಾ(0 != srcfmt->Amask);
+    (ಶೂನ್ಯ)srcfmt;
 
-    sdl_sve_8888_to_8888_swizzle_dispatcher(info);
+    sdl_sve_8888_ಗಮ್ಯ_8888_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
+ಶೂನ್ಯ Blit8888to565PixelAlphaSwizzleSVE2(SDL_BlitInfo *info)
 {
-    sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(info);
+    sdl_sve_rgb32_ಗಮ್ಯ_rgb565_swizzle_dispatcher(info);
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
-size_t SDL_GetSVEVectorSize(void)
+size_t SDL_Get_SVEVector_ಗಾತ್ರ(ಶೂನ್ಯ)
 {
-    return svlen(svundef_u8()) * 8;
+    ಹಿಂತಿರುಗಿ svlen(svundef_u8()) * 8;
 }
 
 /*-----------------------------------------------------------------------------*
@@ -91,96 +91,96 @@ size_t SDL_GetSVEVectorSize(void)
  *-----------------------------------------------------------------------------*/
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgb565_stride_blend_with_opacity(uint16_t *SDL_RESTRICT phwSource,
-                                                            uint16_t *SDL_RESTRICT phwTarget,
+ಸ್ಥಿರ ಸಾಲೊಳಗೆ ಶೂನ್ಯ sdl_sve_rgb565_stride_blend_with_opacity(uint16_t *SDL_RESTRICT phw_ಮೂಲ,
+                                                            uint16_t *SDL_RESTRICT phw_ಗುರಿ,
                                                             size_t uStride,
                                                             uint16_t hwOpacity)
 {
-    sdl_sve_stride_loop_u16(uStride, vTailPred)
+    sdl_sve_stride_loop_u16(uStride, v_ಬಾಲ_Pred)
     {
 
         svuint16x3_t vSource16x3 =
-            sdl_sve_rgb565_unpack(svld1_u16(vTailPred, phwSource));
+            sdl_sve_rgb565_unpack(svld1_u16(v_ಬಾಲ_Pred, phw_ಮೂಲ));
 
         svuint16x3_t vTarget16x3 =
-            sdl_sve_rgb565_unpack(svld1_u16(vTailPred, phwTarget));
+            sdl_sve_rgb565_unpack(svld1_u16(v_ಬಾಲ_Pred, phw_ಗುರಿ));
 
         sdl_sve_pixel_ccc_foreach_chn(
             vSource16x3,
             vTarget16x3,
             {
-                sve_target_u16 = sdl_sve_chn_blend_with_opacity_fast(
-                    sve_source_u16,
-                    sve_target_u16,
+                sve_ಗುರಿ_u16 = sdl_sve_chn_blend_with_opacity_fast(
+                    sve_ಮೂಲ_u16,
+                    sve_ಗುರಿ_u16,
                     hwOpacity);
             });
 
-        svst1_u16(vTailPred, phwTarget, sdl_sve_rgb565_pack(vTarget16x3));
+        svst1_u16(v_ಬಾಲ_Pred, phw_ಗುರಿ, sdl_sve_rgb565_pack(vTarget16x3));
 
-        phwSource += sve_iteration_advance;
-        phwTarget += sve_iteration_advance;
+        phw_ಮೂಲ += sve_iteration_advance;
+        phw_ಗುರಿ += sve_iteration_advance;
     }
 }
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgb565_blend_with_opacity(uint8_t *SDL_RESTRICT pchSource,
-                                                     size_t uSourceStride,
-                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                     size_t uTargetStride,
-                                                     int nWidth,
-                                                     int nHeight,
+ಸ್ಥಿರ ಸಾಲೊಳಗೆ ಶೂನ್ಯ sdl_sve_rgb565_blend_with_opacity(uint8_t *SDL_RESTRICT pch_ಮೂಲ,
+                                                     size_t u_ಮೂಲ_Stride,
+                                                     uint8_t *SDL_RESTRICT pch_ಗುರಿ,
+                                                     size_t u_ಗುರಿ_Stride,
+                                                     ಪೂರ್ಣಾಂಕ n_ಅಗಲ,
+                                                     ಪೂರ್ಣಾಂಕ n_ಎತ್ತರ,
                                                      uint16_t hwOpacity)
 {
     hwOpacity += hwOpacity == 255;
-    assert(0 == ((uintptr_t)pchSource & 0x01));
-    assert(0 == ((uintptr_t)pchTarget & 0x01));
+    ಪ್ರತಿಜ್ಞಾ(0 == ((uintptr_t)pch_ಮೂಲ & 0x01));
+    ಪ್ರತಿಜ್ಞಾ(0 == ((uintptr_t)pch_ಗುರಿ & 0x01));
 
-    while (nHeight--) {
+    ಆಗ (n_ಎತ್ತರ--) {
 
-        sdl_sve_rgb565_stride_blend_with_opacity((uint16_t *)pchSource,
-                                                 (uint16_t *)pchTarget,
-                                                 nWidth,
+        sdl_sve_rgb565_stride_blend_with_opacity((uint16_t *)pch_ಮೂಲ,
+                                                 (uint16_t *)pch_ಗುರಿ,
+                                                 n_ಅಗಲ,
                                                  hwOpacity);
 
-        pchSource += uSourceStride;
-        pchTarget += uTargetStride;
+        pch_ಮೂಲ += u_ಮೂಲ_Stride;
+        pch_ಗುರಿ += u_ಗುರಿ_Stride;
     }
 }
 
 // fast RGB565->RGB565 blending with surface alpha
 SDL_TARGETING("arch=armv8-a+sve2")
-void Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info)
+ಶೂನ್ಯ Blit565to565SurfaceAlphaSVE2(SDL_BlitInfo *info)
 {
     uint16_t alpha = info->a;
 
-    int width = info->dst_w;
-    int height = info->dst_h;
+    ಪೂರ್ಣಾಂಕ ಅಗಲ = info->dst_w;
+    ಪೂರ್ಣಾಂಕ ಎತ್ತರ = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    ಪೂರ್ಣಾಂಕ srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    ಪೂರ್ಣಾಂಕ dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ಸ್ಥಿರಾಂಕ SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    ಪೂರ್ಣಾಂಕ srcbpp = srcfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
+    ಪೂರ್ಣಾಂಕ dstbpp = dstfmt->ಬೈಟುಗಳು_ಪ್ರತಿ_pixel;
 
-    assert(srcbpp == 2);
-    assert(dstbpp == 2);
+    ಪ್ರತಿಜ್ಞಾ(srcbpp == 2);
+    ಪ್ರತಿಜ್ಞಾ(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    ಪೂರ್ಣಾಂಕ srcstride = srcskip + srcbpp * ಅಗಲ;
+    ಪೂರ್ಣಾಂಕ dststride = dstskip + dstbpp * ಅಗಲ;
 
     sdl_sve_rgb565_blend_with_opacity(src,
                                       srcstride,
                                       dst,
                                       dststride,
-                                      width,
-                                      height,
+                                      ಅಗಲ,
+                                      ಎತ್ತರ,
                                       alpha);
 }
 
-#endif /* SDL_SVE2_INTRINSICS */
+#ಆದರೆ_ಅಂತ್ಯ /* SDL_SVE2_INTRINSICS */

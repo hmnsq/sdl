@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#include "SDL_androidvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_androidvideo.h"
 
-extern void Android_OnKeyDown(int keycode);
-extern void Android_OnKeyUp(int keycode);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_On_ಕೀಲಿ_ಕೆಳಕ್ಕೆ(ಪೂರ್ಣಾಂಕ keycode);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_On_ಕೀಲಿ_ಮೇಲೆ(ಪೂರ್ಣಾಂಕ keycode);
 
-extern bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+ಬಾಹ್ಯ bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_PropertiesID props);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ ಶೂನ್ಯ Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);

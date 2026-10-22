@@ -25,13 +25,13 @@
  * backed view.
  */
 
-#ifndef SDL_uikitmetalview_h_
-#define SDL_uikitmetalview_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_uikitmetalview_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_uikitmetalview_h_
 
-#include "../SDL_sysvideo.h"
-#include "SDL_uikitwindow.h"
+#ಅನ್ತರ್ಭಾವ "../SDL_sysvideo.h"
+#ಅನ್ತರ್ಭಾವ "SDL_uikitwindow.h"
 
-#if defined(SDL_VIDEO_DRIVER_UIKIT) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#ಆದರೆ defined(SDL_VIDEO_DRIVER_UIKIT) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import <UIKit/UIKit.h>
 #import <Metal/Metal.h>
@@ -39,17 +39,17 @@
 
 @interface SDL_uikitmetalview : SDL_uikitview
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)init_With_ಚೌಕಟ್ಟು:(CGRect)ಚೌಕಟ್ಟು
                         scale:(CGFloat)scale;
 
-- (void)updateDrawableSize;
+- (ಶೂನ್ಯ)update_Drawable_ಗಾತ್ರ;
 
-@end
+@ಕೊನೆ
 
-SDL_MetalView UIKit_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *UIKit_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+SDL_MetalView UIKit_Metal_CreateView(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಶೂನ್ಯ UIKit_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+ಶೂನ್ಯ *UIKit_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
-#endif // SDL_VIDEO_DRIVER_UIKIT && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_DRIVER_UIKIT && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#endif // SDL_uikitmetalview_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_uikitmetalview_h_

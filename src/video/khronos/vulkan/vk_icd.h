@@ -4,10 +4,10 @@
  * Copyright 2015-2023 LunarG, Inc.
  * SPDX-License-Identifier: Apache-2.0 OR MIT
  */
-#pragma once
+#ಸೂಚನೆ once
 
-#include "vulkan.h"
-#include <stdbool.h>
+#ಅನ್ತರ್ಭಾವ "vulkan.h"
+#ಅನ್ತರ್ಭಾವ <stdbool.h>
 
 // Loader-ICD version negotiation API.  Versions add the following features:
 //   Version 0 - Initial.  Doesn't support vk_icdGetInstanceProcAddr
@@ -35,44 +35,44 @@
 //               VK_LUNARG_direct_driver_loading be able to support the entire
 //               Driver-Loader interface.
 
-#define CURRENT_LOADER_ICD_INTERFACE_VERSION 7
-#define MIN_SUPPORTED_LOADER_ICD_INTERFACE_VERSION 0
-#define MIN_PHYS_DEV_EXTENSION_ICD_INTERFACE_VERSION 4
+#ವ್ಯಾಖ್ಯಾನಿಸು CURRENT_LOADER_ICD_INTERFACE_ಆವೃತ್ತಿ 7
+#ವ್ಯಾಖ್ಯಾನಿಸು MIN_SUPPORTED_LOADER_ICD_INTERFACE_ಆವೃತ್ತಿ 0
+#ವ್ಯಾಖ್ಯಾನಿಸು MIN_PHYS_DEV_EXTENSION_ICD_INTERFACE_ಆವೃತ್ತಿ 4
 
 // Old typedefs that don't follow a proper naming convention but are preserved for compatibility
-typedef VkResult(VKAPI_PTR *PFN_vkNegotiateLoaderICDInterfaceVersion)(uint32_t *pVersion);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ(VKAPI_PTR *PFN_vk_Negotiate_Loader_ICDInterface_ಆವೃತ್ತಿ)(uint32_t *p_ಆವೃತ್ತಿ);
 // This is defined in vk_layer.h which will be found by the loader, but if an ICD is building against this
 // file directly, it won't be found.
-#ifndef IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-typedef PFN_vkVoidFunction(VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, const char *pName);
-#define IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ PFN_vkVoidFunction(VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *pName);
+#ವ್ಯಾಖ್ಯಾನಿಸು IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Typedefs for loader/ICD interface
-typedef VkResult (VKAPI_PTR *PFN_vk_icdNegotiateLoaderICDInterfaceVersion)(uint32_t* pVersion);
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance instance, const char* pName);
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
-typedef VkResult (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
-    uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
-#endif
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_icd_Negotiate_Loader_ICDInterface_ಆವೃತ್ತಿ)(uint32_t* p_ಆವೃತ್ತಿ);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetInstanceProcAddr)(VkInstance instance, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ* pName);
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ PFN_vkVoidFunction (VKAPI_PTR *PFN_vk_icdGetPhysicalDeviceProcAddr)(VkInstance instance, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ* pName);
+#ಆದರೆ defined(VK_USE_PLATFORM_WIN32_KHR)
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ Vk_ಫಲಿತಾಂಶ (VKAPI_PTR *PFN_vk_icdEnumerateAdapterPhysicalDevices)(VkInstance instance, LUID adapterLUID,
+    uint32_t* p_Physical_Device_ಎಣಿಕೆ, VkPhysicalDevice* pPhysicalDevices);
+#ಆದರೆ_ಅಂತ್ಯ
 
 // Prototypes for loader/ICD interface
-#if !defined(VK_NO_PROTOTYPES)
-#ifdef __cplusplus
-extern "C" {
-#endif
-    VKAPI_ATTR VkResult VKAPI_CALL vk_icdNegotiateLoaderICDInterfaceVersion(uint32_t* pVersion);
-    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(VkInstance instance, const char* pName);
-    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, const char* pName);
-#if defined(VK_USE_PLATFORM_WIN32_KHR)
-    VKAPI_ATTR VkResult VKAPI_CALL vk_icdEnumerateAdapterPhysicalDevices(VkInstance instance, LUID adapterLUID,
-        uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
-#endif
-#ifdef __cplusplus
+#ಆದರೆ !defined(VK_NO_PROTOTYPES)
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
+    VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_icd_Negotiate_Loader_ICDInterface_ಆವೃತ್ತಿ(uint32_t* p_ಆವೃತ್ತಿ);
+    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetInstanceProcAddr(VkInstance instance, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ* pName);
+    VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(VkInstance instance, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ* pName);
+#ಆದರೆ defined(VK_USE_PLATFORM_WIN32_KHR)
+    VKAPI_ATTR Vk_ಫಲಿತಾಂಶ VKAPI_CALL vk_icdEnumerateAdapterPhysicalDevices(VkInstance instance, LUID adapterLUID,
+        uint32_t* p_Physical_Device_ಎಣಿಕೆ, VkPhysicalDevice* pPhysicalDevices);
+#ಆದರೆ_ಅಂತ್ಯ
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-#endif
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 /*
  * The ICD must reserve space for a pointer for the loader's dispatch
@@ -80,28 +80,28 @@ extern "C" {
  * The ICD must initialize this variable using the SET_LOADER_MAGIC_VALUE macro.
  */
 
-#define ICD_LOADER_MAGIC 0x01CDC0DE
+#ವ್ಯಾಖ್ಯಾನಿಸು ICD_LOADER_MAGIC 0x01CDC0DE
 
-typedef union {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಒಕ್ಕೂಟ {
     uintptr_t loaderMagic;
-    void *loaderData;
-} VK_LOADER_DATA;
+    ಶೂನ್ಯ *loader_ದತ್ತಾಂಶ;
+} VK_LOADER_ದತ್ತಾಂಶ;
 
-static inline void set_loader_magic_value(void *pNewObject) {
-    VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
+ಸ್ಥಿರ ಸಾಲೊಳಗೆ ಶೂನ್ಯ ಗಣ_loader_magic_ಮೌಲ್ಯ(ಶೂನ್ಯ *pNewObject) {
+    VK_LOADER_ದತ್ತಾಂಶ *loader_info = (VK_LOADER_ದತ್ತಾಂಶ *)pNewObject;
     loader_info->loaderMagic = ICD_LOADER_MAGIC;
 }
 
-static inline bool valid_loader_magic_value(void *pNewObject) {
-    const VK_LOADER_DATA *loader_info = (VK_LOADER_DATA *)pNewObject;
-    return (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
+ಸ್ಥಿರ ಸಾಲೊಳಗೆ bool valid_loader_magic_ಮೌಲ್ಯ(ಶೂನ್ಯ *pNewObject) {
+    ಸ್ಥಿರಾಂಕ VK_LOADER_ದತ್ತಾಂಶ *loader_info = (VK_LOADER_ದತ್ತಾಂಶ *)pNewObject;
+    ಹಿಂತಿರುಗಿ (loader_info->loaderMagic & 0xffffffff) == ICD_LOADER_MAGIC;
 }
 
 /*
  * Windows and Linux ICDs will treat VkSurfaceKHR as a pointer to a struct that
  * contains the platform-specific connection and surface information.
  */
-typedef enum {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಎಣಿಕೆ {
     VK_ICD_WSI_PLATFORM_MIR,
     VK_ICD_WSI_PLATFORM_WAYLAND,
     VK_ICD_WSI_PLATFORM_WIN32,
@@ -120,125 +120,125 @@ typedef enum {
     VK_ICD_WSI_PLATFORM_FUCHSIA,
 } VkIcdWsiPlatform;
 
-typedef struct {
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
     VkIcdWsiPlatform platform;
-} VkIcdSurfaceBase;
+} Vk_Icd_Surface_ತಳ;
 
-#ifdef VK_USE_PLATFORM_MIR_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_MIR_KHR
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
     MirConnection *connection;
     MirSurface *mirSurface;
 } VkIcdSurfaceMir;
-#endif  // VK_USE_PLATFORM_MIR_KHR
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_MIR_KHR
 
-#ifdef VK_USE_PLATFORM_WAYLAND_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
-    struct wl_display *display;
-    struct wl_surface *surface;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_WAYLAND_KHR
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    ರಚನೆ wl_display *display;
+    ರಚನೆ wl_surface *surface;
 } VkIcdSurfaceWayland;
-#endif  // VK_USE_PLATFORM_WAYLAND_KHR
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_WAYLAND_KHR
 
-#ifdef VK_USE_PLATFORM_WIN32_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_WIN32_KHR
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
     HINSTANCE hinstance;
     HWND hwnd;
 } VkIcdSurfaceWin32;
-#endif  // VK_USE_PLATFORM_WIN32_KHR
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_WIN32_KHR
 
-#ifdef VK_USE_PLATFORM_XCB_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_XCB_KHR
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
     xcb_connection_t *connection;
-    xcb_window_t window;
+    xcb_ಕಿಟಕಿ_t ಕಿಟಕಿ;
 } VkIcdSurfaceXcb;
-#endif  // VK_USE_PLATFORM_XCB_KHR
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_XCB_KHR
 
-#ifdef VK_USE_PLATFORM_XLIB_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_XLIB_KHR
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
     Display *dpy;
-    Window window;
+    ಕಿಟಕಿ_2 ಕಿಟಕಿ;
 } VkIcdSurfaceXlib;
-#endif  // VK_USE_PLATFORM_XLIB_KHR
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_XLIB_KHR
 
-#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-typedef struct {
-    VkIcdSurfaceBase base;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_DIRECTFB_EXT
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
     IDirectFB *dfb;
     IDirectFBSurface *surface;
-} VkIcdSurfaceDirectFB;
-#endif  // VK_USE_PLATFORM_DIRECTFB_EXT
+} Vk_Icd_Surface_ನೇರ_FB;
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_DIRECTFB_EXT
 
-#ifdef VK_USE_PLATFORM_ANDROID_KHR
-typedef struct {
-    VkIcdSurfaceBase base;
-    struct ANativeWindow *window;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_ANDROID_KHR
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    ರಚನೆ ANative_ಕಿಟಕಿ *ಕಿಟಕಿ;
 } VkIcdSurfaceAndroid;
-#endif  // VK_USE_PLATFORM_ANDROID_KHR
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_ANDROID_KHR
 
-#ifdef VK_USE_PLATFORM_MACOS_MVK
-typedef struct {
-    VkIcdSurfaceBase base;
-    const void *pView;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_MACOS_MVK
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *pView;
 } VkIcdSurfaceMacOS;
-#endif  // VK_USE_PLATFORM_MACOS_MVK
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_MACOS_MVK
 
-#ifdef VK_USE_PLATFORM_IOS_MVK
-typedef struct {
-    VkIcdSurfaceBase base;
-    const void *pView;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_IOS_MVK
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    ಸ್ಥಿರಾಂಕ ಶೂನ್ಯ *pView;
 } VkIcdSurfaceIOS;
-#endif  // VK_USE_PLATFORM_IOS_MVK
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_IOS_MVK
 
-#ifdef VK_USE_PLATFORM_GGP
-typedef struct {
-    VkIcdSurfaceBase base;
-    GgpStreamDescriptor streamDescriptor;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_GGP
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    Ggp_ಹರಿವು_Descriptor ಹರಿವು_Descriptor;
 } VkIcdSurfaceGgp;
-#endif  // VK_USE_PLATFORM_GGP
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_GGP
 
-typedef struct {
-    VkIcdSurfaceBase base;
-    VkDisplayModeKHR displayMode;
-    uint32_t planeIndex;
-    uint32_t planeStackIndex;
-    VkSurfaceTransformFlagBitsKHR transform;
-    float globalAlpha;
-    VkDisplayPlaneAlphaFlagBitsKHR alphaMode;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    Vk_Display_ಬಹುಲಕ_KHR display_ಬಹುಲಕ;
+    uint32_t plane_ಸೂಚ್ಯಂಕ;
+    uint32_t plane_ರಾಶಿ_ಸೂಚ್ಯಂಕ;
+    Vk_Surface_Transform_Flag_ಬಿಟ್ಟುಗಳು_KHR transform;
+    ದಶಮಾಂಶ globalAlpha;
+    Vk_Display_Plane_Alpha_Flag_ಬಿಟ್ಟುಗಳು_KHR alpha_ಬಹುಲಕ;
     VkExtent2D imageExtent;
 } VkIcdSurfaceDisplay;
 
-typedef struct {
-    VkIcdSurfaceBase base;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
 } VkIcdSurfaceHeadless;
 
-#ifdef VK_USE_PLATFORM_METAL_EXT
-typedef struct {
-    VkIcdSurfaceBase base;
-    const CAMetalLayer *pLayer;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_METAL_EXT
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    ಸ್ಥಿರಾಂಕ CAMetalLayer *pLayer;
 } VkIcdSurfaceMetal;
-#endif // VK_USE_PLATFORM_METAL_EXT
+#ಆದರೆ_ಅಂತ್ಯ // VK_USE_PLATFORM_METAL_EXT
 
-#ifdef VK_USE_PLATFORM_VI_NN
-typedef struct {
-    VkIcdSurfaceBase base;
-    void *window;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_VI_NN
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    ಶೂನ್ಯ *ಕಿಟಕಿ;
 } VkIcdSurfaceVi;
-#endif // VK_USE_PLATFORM_VI_NN
+#ಆದರೆ_ಅಂತ್ಯ // VK_USE_PLATFORM_VI_NN
 
-#ifdef VK_USE_PLATFORM_SCREEN_QNX
-typedef struct {
-    VkIcdSurfaceBase base;
-    struct _screen_context *context;
-    struct _screen_window *window;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_SCREEN_QNX
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+    Vk_Icd_Surface_ತಳ ತಳ;
+    ರಚನೆ _screen_context *context;
+    ರಚನೆ screen_ಕಿಟಕಿ *ಕಿಟಕಿ;
 } VkIcdSurfaceScreen;
-#endif  // VK_USE_PLATFORM_SCREEN_QNX
+#ಆದರೆ_ಅಂತ್ಯ  // VK_USE_PLATFORM_SCREEN_QNX
 
-#ifdef VK_USE_PLATFORM_FUCHSIA
-typedef struct {
-  VkIcdSurfaceBase base;
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ VK_USE_PLATFORM_FUCHSIA
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ {
+  Vk_Icd_Surface_ತಳ ತಳ;
 } VkIcdSurfaceImagePipe;
-#endif // VK_USE_PLATFORM_FUCHSIA
+#ಆದರೆ_ಅಂತ್ಯ // VK_USE_PLATFORM_FUCHSIA

@@ -18,71 +18,71 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ಅನ್ತರ್ಭಾವ "SDL_internal.h"
 
-#ifndef SDL_cocoaopengl_h_
-#define SDL_cocoaopengl_h_
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ SDL_cocoaopengl_h_
+#ವ್ಯಾಖ್ಯಾನಿಸು SDL_cocoaopengl_h_
 
-#ifdef SDL_VIDEO_OPENGL_CGL
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ SDL_VIDEO_OPENGL_CGL
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CVDisplayLink.h>
 
 // We still support OpenGL as long as Apple offers it, deprecated or not, so disable deprecation warnings about it.
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __clang__
+#ಸೂಚನೆ clang diagnostic ತಳ್ಳು
+#ಸೂಚನೆ clang diagnostic ignored "-Wdeprecated-declarations"
+#ಆದರೆ_ಅಂತ್ಯ
 
-struct SDL_GLDriverData
+ರಚನೆ SDL_GLDriver_ದತ್ತಾಂಶ
 {
-    int initialized;
+    ಪೂರ್ಣಾಂಕ initialized;
 };
 
 @interface SDL3OpenGLContext : NSOpenGLContext
 {
     SDL_AtomicInt dirty;
-    SDL_Window *window;
+    SDL_ಕಿಟಕಿ *ಕಿಟಕಿ;
     CVDisplayLinkRef displayLink;
-  @public
-    SDL_Mutex *swapIntervalMutex;
-  @public
-    SDL_Condition *swapIntervalCond;
-  @public
-    SDL_AtomicInt swapIntervalSetting;
-  @public
-    SDL_AtomicInt swapIntervalsPassed;
+  @ಸಾರ್ವಜನಿಕ
+    SDL_Mutex *ಅದಲುಬದಲು_Interval_Mutex;
+  @ಸಾರ್ವಜನಿಕ
+    SDL_Condition *ಅದಲುಬದಲು_Interval_Cond;
+  @ಸಾರ್ವಜನಿಕ
+    SDL_AtomicInt ಅದಲುಬದಲು_Interval_Setting;
+  @ಸಾರ್ವಜನಿಕ
+    SDL_AtomicInt ಅದಲುಬದಲು_Intervals_Passed;
 }
 
 - (id)initWithFormat:(NSOpenGLPixelFormat *)format
         shareContext:(NSOpenGLContext *)share;
-- (void)scheduleUpdate;
-- (void)updateIfNeeded;
-- (void)movedToNewScreen;
-- (void)setWindow:(SDL_Window *)window;
-- (SDL_Window *)window;
-- (void)explicitUpdate;
-- (void)cleanup;
+- (ಶೂನ್ಯ)ವೇಳಾಪಟ್ಟಿ_Update;
+- (ಶೂನ್ಯ)updateIfNeeded;
+- (ಶೂನ್ಯ)moved_ಗಮ್ಯ_New_Screen;
+- (ಶೂನ್ಯ)ಗಣ_ಕಿಟಕಿ:(SDL_ಕಿಟಕಿ *)ಕಿಟಕಿ;
+- (SDL_ಕಿಟಕಿ *)ಕಿಟಕಿ;
+- (ಶೂನ್ಯ)explicitUpdate;
+- (ಶೂನ್ಯ)cleanup;
 
 @property(retain, nonatomic) NSOpenGLPixelFormat *openglPixelFormat; // macOS 10.10 has -[NSOpenGLContext pixelFormat] but this handles older OS releases.
 
-@end
+@ಕೊನೆ
 
 // OpenGL functions
-extern bool Cocoa_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer Cocoa_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool Cocoa_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+ಬಾಹ್ಯ bool Cocoa_GL_ತುಂಬು_Library(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *ಮಾರ್ಗ);
+ಬಾಹ್ಯ SDL_Function_ಸೂಚಕ Cocoa_GL_Get_Proc_ವಿಳಾಸ(SDL_VideoDevice *_this, ಸ್ಥಿರಾಂಕ ಅಕ್ಷರ *proc);
+ಬಾಹ್ಯ ಶೂನ್ಯ Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
+ಬಾಹ್ಯ SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ, SDL_GLContext context);
+ಬಾಹ್ಯ bool Cocoa_GL_ಗಣ_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ interval);
+ಬಾಹ್ಯ bool Cocoa_GL_Get_ಅದಲುಬದಲು_Interval(SDL_VideoDevice *_this, ಪೂರ್ಣಾಂಕ *interval);
+ಬಾಹ್ಯ bool Cocoa_GL_ಅದಲುಬದಲು_ಕಿಟಕಿ(SDL_VideoDevice *_this, SDL_ಕಿಟಕಿ *ಕಿಟಕಿ);
+ಬಾಹ್ಯ bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __clang__
+#ಸೂಚನೆ clang diagnostic ತೆಗೆ
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif // SDL_VIDEO_OPENGL_CGL
+#ಆದರೆ_ಅಂತ್ಯ // SDL_VIDEO_OPENGL_CGL
 
-#endif // SDL_cocoaopengl_h_
+#ಆದರೆ_ಅಂತ್ಯ // SDL_cocoaopengl_h_
