@@ -18,42 +18,42 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include "SDL_surface_c.h"
+#ضمن "SDL_surface_c.h"
 
-static bool SDL_StretchSurfaceUncheckedNearest(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect);
-static bool SDL_StretchSurfaceUncheckedLinear(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect);
+ساكن bool SDL_StretchSurfaceUncheckedNearest(SDL_Surface *src, ثابت SDL_Rect *srcrect, SDL_Surface *dst, ثابت SDL_Rect *dstrect);
+ساكن bool SDL_StretchSurfaceUncheckedLinear(SDL_Surface *src, ثابت SDL_Rect *srcrect, SDL_Surface *dst, ثابت SDL_Rect *dstrect);
 
-bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *dst, const SDL_Rect *dstrect, SDL_ScaleMode scaleMode)
+bool SDL_StretchSurface(SDL_Surface *src, ثابت SDL_Rect *srcrect, SDL_Surface *dst, ثابت SDL_Rect *dstrect, SDL_ScaleMode scaleMode)
 {
     bool result;
-    int src_locked;
-    int dst_locked;
+    صحيح src_locked;
+    صحيح dst_locked;
     SDL_Rect full_src;
     SDL_Rect full_dst;
 
     CHECK_PARAM(!src) {
-        return SDL_InvalidParamError("src");
+        أرجع SDL_InvalidParamError("src");
     }
     CHECK_PARAM(!dst) {
-        return SDL_InvalidParamError("dst");
+        أرجع SDL_InvalidParamError("dst");
     }
 
-    if (src->format != dst->format) {
+    إذا (src->format != dst->format) {
         // Slow!
         SDL_Surface *src_tmp = SDL_ConvertSurfaceAndColorspace(src, dst->format, dst->palette, dst->colorspace, dst->props);
-        if (!src_tmp) {
-            return false;
+        إذا (!src_tmp) {
+            أرجع false;
         }
         result = SDL_StretchSurface(src_tmp, srcrect, dst, dstrect, scaleMode);
         SDL_DestroySurface(src_tmp);
-        return result;
+        أرجع result;
     }
 
-    if (SDL_ISPIXELFORMAT_FOURCC(src->format)) {
+    إذا (SDL_ISPIXELFORMAT_FOURCC(src->format)) {
         // Slow!
-        if (!dstrect) {
+        إذا (!dstrect) {
             full_dst.x = 0;
             full_dst.y = 0;
             full_dst.w = dst->w;
@@ -63,62 +63,62 @@ bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *
 
         SDL_Surface *src_tmp = SDL_ConvertSurface(src, SDL_PIXELFORMAT_XRGB8888);
         SDL_Surface *dst_tmp = SDL_CreateSurfaceUninitialized(dstrect->w, dstrect->h, SDL_PIXELFORMAT_XRGB8888);
-        if (src_tmp && dst_tmp) {
-            result = SDL_StretchSurface(src_tmp, srcrect, dst_tmp, NULL, scaleMode);
-            if (result) {
+        إذا (src_tmp && dst_tmp) {
+            result = SDL_StretchSurface(src_tmp, srcrect, dst_tmp, عدم, scaleMode);
+            إذا (result) {
                 result = SDL_ConvertPixelsAndColorspace(dstrect->w, dstrect->h,
                             dst_tmp->format, SDL_COLORSPACE_SRGB, 0,
                             dst_tmp->pixels, dst_tmp->pitch,
                             dst->format, dst->colorspace, SDL_GetSurfaceProperties(dst),
                             (Uint8 *)dst->pixels + dstrect->y * dst->pitch + dstrect->x * SDL_BYTESPERPIXEL(dst->format), dst->pitch);
             }
-        } else {
+        } وإلا {
             result = false;
         }
         SDL_DestroySurface(src_tmp);
         SDL_DestroySurface(dst_tmp);
-        return result;
+        أرجع result;
     }
 
-    switch (scaleMode) {
-    case SDL_SCALEMODE_NEAREST:
-        break;
-    case SDL_SCALEMODE_LINEAR:
-        break;
-    case SDL_SCALEMODE_PIXELART:
+    بدل (scaleMode) {
+    حالة SDL_SCALEMODE_NEAREST:
+        اكسر;
+    حالة SDL_SCALEMODE_LINEAR:
+        اكسر;
+    حالة SDL_SCALEMODE_PIXELART:
         scaleMode = SDL_SCALEMODE_NEAREST;
-        break;
-    default:
-        return SDL_InvalidParamError("scaleMode");
+        اكسر;
+    افتراضي:
+        أرجع SDL_InvalidParamError("scaleMode");
     }
 
-    if (scaleMode == SDL_SCALEMODE_LINEAR) {
-        if (SDL_BYTESPERPIXEL(src->format) != 4 || src->format == SDL_PIXELFORMAT_ARGB2101010) {
-            return SDL_SetError("Wrong format");
+    إذا (scaleMode == SDL_SCALEMODE_LINEAR) {
+        إذا (SDL_BYTESPERPIXEL(src->format) != 4 || src->format == SDL_PIXELFORMAT_ARGB2101010) {
+            أرجع SDL_SetError("Wrong format");
         }
     }
 
     // Verify the blit rectangles
-    if (srcrect) {
-        if ((srcrect->x < 0) || (srcrect->y < 0) ||
+    إذا (srcrect) {
+        إذا ((srcrect->x < 0) || (srcrect->y < 0) ||
             ((srcrect->x + srcrect->w) > src->w) ||
             ((srcrect->y + srcrect->h) > src->h)) {
-            return SDL_SetError("Invalid source blit rectangle");
+            أرجع SDL_SetError("Invalid source blit rectangle");
         }
-    } else {
+    } وإلا {
         full_src.x = 0;
         full_src.y = 0;
         full_src.w = src->w;
         full_src.h = src->h;
         srcrect = &full_src;
     }
-    if (dstrect) {
-        if ((dstrect->x < 0) || (dstrect->y < 0) ||
+    إذا (dstrect) {
+        إذا ((dstrect->x < 0) || (dstrect->y < 0) ||
             ((dstrect->x + dstrect->w) > dst->w) ||
             ((dstrect->y + dstrect->h) > dst->h)) {
-            return SDL_SetError("Invalid destination blit rectangle");
+            أرجع SDL_SetError("Invalid destination blit rectangle");
         }
-    } else {
+    } وإلا {
         full_dst.x = 0;
         full_dst.y = 0;
         full_dst.w = dst->w;
@@ -126,50 +126,50 @@ bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *
         dstrect = &full_dst;
     }
 
-    if (dstrect->w <= 0 || dstrect->h <= 0) {
-        return true;
+    إذا (dstrect->w <= 0 || dstrect->h <= 0) {
+        أرجع true;
     }
 
-    if (srcrect->w > SDL_MAX_UINT16 || srcrect->h > SDL_MAX_UINT16 ||
+    إذا (srcrect->w > SDL_MAX_UINT16 || srcrect->h > SDL_MAX_UINT16 ||
         dstrect->w > SDL_MAX_UINT16 || dstrect->h > SDL_MAX_UINT16) {
-        return SDL_SetError("Size too large for scaling");
+        أرجع SDL_SetError("Size too large for scaling");
     }
 
     // Lock the destination if it's in hardware
     dst_locked = 0;
-    if (SDL_MUSTLOCK(dst)) {
-        if (!SDL_LockSurface(dst)) {
-            return SDL_SetError("Unable to lock destination surface");
+    إذا (SDL_MUSTLOCK(dst)) {
+        إذا (!SDL_LockSurface(dst)) {
+            أرجع SDL_SetError("Unable to lock destination surface");
         }
         dst_locked = 1;
     }
     // Lock the source if it's in hardware
     src_locked = 0;
-    if (SDL_MUSTLOCK(src)) {
-        if (!SDL_LockSurface(src)) {
-            if (dst_locked) {
+    إذا (SDL_MUSTLOCK(src)) {
+        إذا (!SDL_LockSurface(src)) {
+            إذا (dst_locked) {
                 SDL_UnlockSurface(dst);
             }
-            return SDL_SetError("Unable to lock source surface");
+            أرجع SDL_SetError("Unable to lock source surface");
         }
         src_locked = 1;
     }
 
-    if (scaleMode == SDL_SCALEMODE_NEAREST) {
+    إذا (scaleMode == SDL_SCALEMODE_NEAREST) {
         result = SDL_StretchSurfaceUncheckedNearest(src, srcrect, dst, dstrect);
-    } else {
+    } وإلا {
         result = SDL_StretchSurfaceUncheckedLinear(src, srcrect, dst, dstrect);
     }
 
     // We need to unlock the surfaces if they're locked
-    if (dst_locked) {
+    إذا (dst_locked) {
         SDL_UnlockSurface(dst);
     }
-    if (src_locked) {
+    إذا (src_locked) {
         SDL_UnlockSurface(src);
     }
 
-    return result;
+    أرجع result;
 }
 
 /* bilinear interpolation precision must be < 8
@@ -187,46 +187,46 @@ bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *
 #define FP_ONE         FIXED_POINT(1)
 
 #define BILINEAR___START                                                              \
-    int i;                                                                            \
+    صحيح i;                                                                            \
     Sint64 fp_sum_h;                                                                  \
-    int fp_step_h, left_pad_h, right_pad_h;                                           \
+    صحيح fp_step_h, بایاں_pad_h, دایاں_pad_h;                                           \
     Sint64 fp_sum_w;                                                                  \
-    int fp_step_w, left_pad_w, right_pad_w;                                           \
+    صحيح fp_step_w, بایاں_pad_w, دایاں_pad_w;                                           \
     Sint64 fp_sum_w_init;                                                             \
-    int left_pad_w_init, right_pad_w_init, dst_gap, middle_init;                      \
-    get_scaler_datas(src_h, dst_h, &fp_sum_h, &fp_step_h, &left_pad_h, &right_pad_h); \
-    get_scaler_datas(src_w, dst_w, &fp_sum_w, &fp_step_w, &left_pad_w, &right_pad_w); \
-    fp_sum_w_init = fp_sum_w + left_pad_w * fp_step_w;                                \
-    left_pad_w_init = left_pad_w;                                                     \
-    right_pad_w_init = right_pad_w;                                                   \
+    صحيح بایاں_pad_w_init, دایاں_pad_w_init, dst_gap, درمیان_init;                      \
+    get_scaler_datas(src_h, dst_h, &fp_sum_h, &fp_step_h, &بایاں_pad_h, &دایاں_pad_h); \
+    get_scaler_datas(src_w, dst_w, &fp_sum_w, &fp_step_w, &بایاں_pad_w, &دایاں_pad_w); \
+    fp_sum_w_init = fp_sum_w + بایاں_pad_w * fp_step_w;                                \
+    بایاں_pad_w_init = بایاں_pad_w;                                                     \
+    دایاں_pad_w_init = دایاں_pad_w;                                                   \
     dst_gap = dst_pitch - 4 * dst_w;                                                  \
-    middle_init = dst_w - left_pad_w - right_pad_w;
+    درمیان_init = dst_w - بایاں_pad_w - دایاں_pad_w;
 
 #define BILINEAR___HEIGHT                                              \
-    int index_h, frac_h0, frac_h1, middle;                             \
-    const Uint32 *src_h0, *src_h1;                                     \
-    int no_padding;                                                    \
+    صحيح index_h, frac_h0, frac_h1, درمیان;                             \
+    ثابت Uint32 *src_h0, *src_h1;                                     \
+    صحيح no_padding;                                                    \
     Uint64 incr_h0, incr_h1;                                           \
                                                                        \
-    no_padding = !(i < left_pad_h || i > dst_h - 1 - right_pad_h);     \
+    no_padding = !(i < بایاں_pad_h || i > dst_h - 1 - دایاں_pad_h);     \
     index_h = SRC_INDEX(fp_sum_h);                                     \
     frac_h0 = FRAC(fp_sum_h);                                          \
                                                                        \
-    index_h = no_padding ? index_h : (i < left_pad_h ? 0 : src_h - 1); \
+    index_h = no_padding ? index_h : (i < بایاں_pad_h ? 0 : src_h - 1); \
     frac_h0 = no_padding ? frac_h0 : 0;                                \
     incr_h1 = no_padding ? src_pitch : 0;                              \
     incr_h0 = (Uint64)index_h * src_pitch;                             \
                                                                        \
-    src_h0 = (const Uint32 *)((const Uint8 *)src + incr_h0);           \
-    src_h1 = (const Uint32 *)((const Uint8 *)src_h0 + incr_h1);        \
+    src_h0 = (ثابت Uint32 *)((ثابت Uint8 *)src + incr_h0);           \
+    src_h1 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + incr_h1);        \
                                                                        \
     fp_sum_h += fp_step_h;                                             \
                                                                        \
     frac_h1 = FRAC_ONE - frac_h0;                                      \
     fp_sum_w = fp_sum_w_init;                                          \
-    right_pad_w = right_pad_w_init;                                    \
-    left_pad_w = left_pad_w_init;                                      \
-    middle = middle_init;
+    دایاں_pad_w = دایاں_pad_w_init;                                    \
+    بایاں_pad_w = بایاں_pad_w_init;                                      \
+    درمیان = درمیان_init;
 
 #ifdef __clang__
 // Remove inlining of this function
@@ -236,40 +236,40 @@ bool SDL_StretchSurface(SDL_Surface *src, const SDL_Rect *srcrect, SDL_Surface *
 // OK with clang 12.0.0 / Xcode
 __attribute__((noinline))
 #endif
-static void get_scaler_datas(int src_nb, int dst_nb, Sint64 *fp_start, int *fp_step, int *left_pad, int *right_pad)
+ساكن فراغ get_scaler_datas(صحيح src_nb, صحيح dst_nb, Sint64 *fp_start, صحيح *fp_step, صحيح *بایاں_pad, صحيح *دایاں_pad)
 {
 
-    int step = FIXED_POINT(src_nb) / (dst_nb); // source step in fixed point
-    int x0 = FP_ONE / 2;                       // dst first pixel center at 0.5 in fixed point
+    صحيح step = FIXED_POINT(src_nb) / (dst_nb); // source step in fixed point
+    صحيح x0 = FP_ONE / 2;                       // dst first pixel center at 0.5 in fixed point
     Sint64 fp_sum;
-    int i;
-#if 0
+    صحيح i;
+#إذا 0
     // scale to source coordinates
     x0 *= src_nb;
     x0 /= dst_nb; // x0 == step / 2
-#else
+#وإلا
     // Use this code for perfect match with pixman
     Sint64 tmp[2];
     tmp[0] = (Sint64)step * (x0 >> 16);
     tmp[1] = (Sint64)step * (x0 & 0xFFFF);
-    x0 = (int)(tmp[0] + ((tmp[1] + 0x8000) >> 16)); // x0 == (step + 1) / 2
+    x0 = (صحيح)(tmp[0] + ((tmp[1] + 0x8000) >> 16)); // x0 == (step + 1) / 2
 #endif
     // -= 0.5, get back the pixel origin, in source coordinates
     x0 -= FP_ONE / 2;
 
     *fp_start = x0;
     *fp_step = step;
-    *left_pad = 0;
-    *right_pad = 0;
+    *بایاں_pad = 0;
+    *دایاں_pad = 0;
 
     fp_sum = x0;
-    for (i = 0; i < dst_nb; i++) {
-        if (fp_sum < 0) {
-            *left_pad += 1;
-        } else {
-            int index = SRC_INDEX(fp_sum);
-            if (index > src_nb - 2) {
-                *right_pad += 1;
+    لكل (i = 0; i < dst_nb; i++) {
+        إذا (fp_sum < 0) {
+            *بایاں_pad += 1;
+        } وإلا {
+            صحيح index = SRC_INDEX(fp_sum);
+            إذا (index > src_nb - 2) {
+                *دایاں_pad += 1;
             }
         }
         fp_sum += step;
@@ -277,7 +277,7 @@ static void get_scaler_datas(int src_nb, int dst_nb, Sint64 *fp_start, int *fp_s
     //    SDL_Log("%d -> %d  x0=%d step=%d left_pad=%d right_pad=%d", src_nb, dst_nb, *fp_start, *fp_step, *left_pad, *right_pad);
 }
 
-typedef struct color_t
+تعريفنوع بنية color_t
 {
     Uint8 a;
     Uint8 b;
@@ -287,17 +287,17 @@ typedef struct color_t
 
 /* Interpolated == x0 + frac * (x1 - x0) == x0 * (1 - frac) + x1 * frac */
 
-static SDL_INLINE void INTERPOL(const Uint32 *src_x0, const Uint32 *src_x1, int frac0, int frac1, Uint32 *dst)
+ساكن SDL_INLINE فراغ INTERPOL(ثابت Uint32 *src_x0, ثابت Uint32 *src_x1, صحيح frac0, صحيح frac1, Uint32 *dst)
 {
-    const color_t *c0 = (const color_t *)src_x0;
-    const color_t *c1 = (const color_t *)src_x1;
+    ثابت color_t *c0 = (ثابت color_t *)src_x0;
+    ثابت color_t *c1 = (ثابت color_t *)src_x1;
     color_t *cx = (color_t *)dst;
-#if 0
+#إذا 0
     cx->a = c0->a + INTEGER(frac0 * (c1->a - c0->a));
     cx->b = c0->b + INTEGER(frac0 * (c1->b - c0->b));
     cx->c = c0->c + INTEGER(frac0 * (c1->c - c0->c));
     cx->d = c0->d + INTEGER(frac0 * (c1->d - c0->d));
-#else
+#وإلا
     cx->a = (Uint8)INTEGER(frac1 * c0->a + frac0 * c1->a);
     cx->b = (Uint8)INTEGER(frac1 * c0->b + frac0 * c1->b);
     cx->c = (Uint8)INTEGER(frac1 * c0->c + frac0 * c1->c);
@@ -305,10 +305,10 @@ static SDL_INLINE void INTERPOL(const Uint32 *src_x0, const Uint32 *src_x1, int 
 #endif
 }
 
-static SDL_INLINE void INTERPOL_BILINEAR(const Uint32 *s0, const Uint32 *s1, int frac_w0, int frac_h0, int frac_h1, Uint32 *dst)
+ساكن SDL_INLINE فراغ INTERPOL_BILINEAR(ثابت Uint32 *s0, ثابت Uint32 *s1, صحيح frac_w0, صحيح frac_h0, صحيح frac_h1, Uint32 *dst)
 {
     Uint32 tmp[2];
-    unsigned int frac_w1 = FRAC_ONE - frac_w0;
+    unsigned صحيح frac_w1 = FRAC_ONE - frac_w0;
 
     // Vertical first, store to 'tmp'
     INTERPOL(s0, s1, frac_h0, frac_h1, tmp);
@@ -318,24 +318,24 @@ static SDL_INLINE void INTERPOL_BILINEAR(const Uint32 *s0, const Uint32 *s1, int
     INTERPOL(tmp, tmp + 1, frac_w0, frac_w1, dst);
 }
 
-static bool scale_mat(const Uint32 *src, int src_w, int src_h, int src_pitch, Uint32 *dst, int dst_w, int dst_h, int dst_pitch)
+ساكن bool scale_mat(ثابت Uint32 *src, صحيح src_w, صحيح src_h, صحيح src_pitch, Uint32 *dst, صحيح dst_w, صحيح dst_h, صحيح dst_pitch)
 {
     BILINEAR___START
 
-    for (i = 0; i < dst_h; i++) {
+    لكل (i = 0; i < dst_h; i++) {
 
         BILINEAR___HEIGHT
 
-        while (left_pad_w--) {
+        طالما (بایاں_pad_w--) {
             INTERPOL_BILINEAR(src_h0, src_h1, FRAC_ZERO, frac_h0, frac_h1, dst);
             dst += 1;
         }
 
-        while (middle--) {
-            const Uint32 *s_00_01;
-            const Uint32 *s_10_11;
-            int index_w = 4 * SRC_INDEX(fp_sum_w);
-            int frac_w = FRAC(fp_sum_w);
+        طالما (درمیان--) {
+            ثابت Uint32 *s_00_01;
+            ثابت Uint32 *s_10_11;
+            صحيح index_w = 4 * SRC_INDEX(fp_sum_w);
+            صحيح frac_w = FRAC(fp_sum_w);
             fp_sum_w += fp_step_w;
 
             /*
@@ -346,50 +346,50 @@ static bool scale_mat(const Uint32 *src, int src_w, int src_h, int src_pitch, Ui
                         .       .         .
                         x10 ... x1_ ..... x11
             */
-            s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
-            s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
+            s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w);
+            s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w);
 
             INTERPOL_BILINEAR(s_00_01, s_10_11, frac_w, frac_h0, frac_h1, dst);
 
             dst += 1;
         }
 
-        while (right_pad_w--) {
-            int index_w = 4 * (src_w - 2);
-            const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
-            const Uint32 *s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
+        طالما (دایاں_pad_w--) {
+            صحيح index_w = 4 * (src_w - 2);
+            ثابت Uint32 *s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w);
+            ثابت Uint32 *s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w);
             INTERPOL_BILINEAR(s_00_01, s_10_11, FRAC_ONE, frac_h0, frac_h1, dst);
             dst += 1;
         }
         dst = (Uint32 *)((Uint8 *)dst + dst_gap);
     }
-    return true;
+    أرجع true;
 }
 
 #ifdef SDL_SSE2_INTRINSICS
 
-static SDL_INLINE int hasSSE2(void)
+ساكن SDL_INLINE صحيح hasSSE2(فراغ)
 {
-    static int val = -1;
-    if (val != -1) {
-        return val;
+    ساكن صحيح val = -1;
+    إذا (val != -1) {
+        أرجع val;
     }
     val = SDL_HasSSE2();
-    return val;
+    أرجع val;
 }
 
-static SDL_INLINE void SDL_TARGETING("sse2") INTERPOL_BILINEAR_SSE(const Uint32 *s0, const Uint32 *s1, int frac_w, __m128i v_frac_h0, __m128i v_frac_h1, Uint32 *dst, __m128i zero)
+ساكن SDL_INLINE فراغ SDL_TARGETING("sse2") INTERPOL_BILINEAR_SSE(ثابت Uint32 *s0, ثابت Uint32 *s1, صحيح frac_w, __m128i v_frac_h0, __m128i v_frac_h1, Uint32 *dst, __m128i zero)
 {
     __m128i x_00_01, x_10_11; /* Pixels in 4*uint8 in row */
     __m128i v_frac_w0, k0, l0, d0, e0;
 
-    int f, f2;
+    صحيح f, f2;
     f = frac_w;
     f2 = FRAC_ONE - frac_w;
     v_frac_w0 = _mm_set_epi16((short)f, (short)f2, (short)f, (short)f2, (short)f, (short)f2, (short)f, (short)f2);
 
-    x_00_01 = _mm_loadl_epi64((const __m128i *)s0); // Load x00 and x01
-    x_10_11 = _mm_loadl_epi64((const __m128i *)s1);
+    x_00_01 = _mm_loadl_epi64((ثابت __m128i *)s0); // Load x00 and x01
+    x_10_11 = _mm_loadl_epi64((ثابت __m128i *)s1);
 
     /* Interpolated == x0 + frac * (x1 - x0) == x0 * (1 - frac) + x1 * frac */
 
@@ -415,40 +415,40 @@ static SDL_INLINE void SDL_TARGETING("sse2") INTERPOL_BILINEAR_SSE(const Uint32 
     *dst = _mm_cvtsi128_si32(e0);
 }
 
-static bool SDL_TARGETING("sse2") scale_mat_SSE(const Uint32 *src, int src_w, int src_h, int src_pitch, Uint32 *dst, int dst_w, int dst_h, int dst_pitch)
+ساكن bool SDL_TARGETING("sse2") scale_mat_SSE(ثابت Uint32 *src, صحيح src_w, صحيح src_h, صحيح src_pitch, Uint32 *dst, صحيح dst_w, صحيح dst_h, صحيح dst_pitch)
 {
     BILINEAR___START
 
-    for (i = 0; i < dst_h; i++) {
-        int nb_block2;
+    لكل (i = 0; i < dst_h; i++) {
+        صحيح nb_block2;
         __m128i v_frac_h0;
         __m128i v_frac_h1;
         __m128i zero;
 
         BILINEAR___HEIGHT
 
-        nb_block2 = middle / 2;
+        nb_block2 = درمیان / 2;
 
         v_frac_h0 = _mm_set_epi16((short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0, (short)frac_h0);
         v_frac_h1 = _mm_set_epi16((short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1, (short)frac_h1);
         zero = _mm_setzero_si128();
 
-        while (left_pad_w--) {
+        طالما (بایاں_pad_w--) {
             INTERPOL_BILINEAR_SSE(src_h0, src_h1, FRAC_ZERO, v_frac_h0, v_frac_h1, dst, zero);
             dst += 1;
         }
 
-        while (nb_block2--) {
-            int index_w_0, frac_w_0;
-            int index_w_1, frac_w_1;
+        طالما (nb_block2--) {
+            صحيح index_w_0, frac_w_0;
+            صحيح index_w_1, frac_w_1;
 
-            const Uint32 *s_00_01, *s_02_03, *s_10_11, *s_12_13;
+            ثابت Uint32 *s_00_01, *s_02_03, *s_10_11, *s_12_13;
 
             __m128i x_00_01, x_10_11, x_02_03, x_12_13; /* Pixels in 4*uint8 in row */
             __m128i v_frac_w0, k0, l0, d0, e0;
             __m128i v_frac_w1, k1, l1, d1, e1;
 
-            int f, f2;
+            صحيح f, f2;
             index_w_0 = 4 * SRC_INDEX(fp_sum_w);
             frac_w_0 = FRAC(fp_sum_w);
             fp_sum_w += fp_step_w;
@@ -464,10 +464,10 @@ static bool SDL_TARGETING("sse2") scale_mat_SSE(const Uint32 *src, int src_w, in
                         .      .         .     .       .     .
                         x10............ x11   x12...........x13
              */
-            s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_0);
-            s_02_03 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_1);
-            s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_0);
-            s_12_13 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_1);
+            s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_0);
+            s_02_03 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_1);
+            s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_0);
+            s_12_13 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_1);
 
             f = frac_w_0;
             f2 = FRAC_ONE - frac_w_0;
@@ -477,10 +477,10 @@ static bool SDL_TARGETING("sse2") scale_mat_SSE(const Uint32 *src, int src_w, in
             f2 = FRAC_ONE - frac_w_1;
             v_frac_w1 = _mm_set_epi16((short)f, (short)f2, (short)f, (short)f2, (short)f, (short)f2, (short)f, (short)f2);
 
-            x_00_01 = _mm_loadl_epi64((const __m128i *)s_00_01); // Load x00 and x01
-            x_02_03 = _mm_loadl_epi64((const __m128i *)s_02_03);
-            x_10_11 = _mm_loadl_epi64((const __m128i *)s_10_11);
-            x_12_13 = _mm_loadl_epi64((const __m128i *)s_12_13);
+            x_00_01 = _mm_loadl_epi64((ثابت __m128i *)s_00_01); // Load x00 and x01
+            x_02_03 = _mm_loadl_epi64((ثابت __m128i *)s_02_03);
+            x_10_11 = _mm_loadl_epi64((ثابت __m128i *)s_10_11);
+            x_12_13 = _mm_loadl_epi64((ثابت __m128i *)s_12_13);
 
             // Interpolation vertical
             k0 = _mm_mullo_epi16(_mm_unpacklo_epi8(x_00_01, zero), v_frac_h1);
@@ -510,44 +510,44 @@ static bool SDL_TARGETING("sse2") scale_mat_SSE(const Uint32 *src, int src_w, in
         }
 
         // Last point
-        if (middle & 0x1) {
-            const Uint32 *s_00_01;
-            const Uint32 *s_10_11;
-            int index_w = 4 * SRC_INDEX(fp_sum_w);
-            int frac_w = FRAC(fp_sum_w);
+        إذا (درمیان & 0x1) {
+            ثابت Uint32 *s_00_01;
+            ثابت Uint32 *s_10_11;
+            صحيح index_w = 4 * SRC_INDEX(fp_sum_w);
+            صحيح frac_w = FRAC(fp_sum_w);
             fp_sum_w += fp_step_w;
-            s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
-            s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
+            s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w);
+            s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w);
             INTERPOL_BILINEAR_SSE(s_00_01, s_10_11, frac_w, v_frac_h0, v_frac_h1, dst, zero);
             dst += 1;
         }
 
-        while (right_pad_w--) {
-            int index_w = 4 * (src_w - 2);
-            const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
-            const Uint32 *s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
+        طالما (دایاں_pad_w--) {
+            صحيح index_w = 4 * (src_w - 2);
+            ثابت Uint32 *s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w);
+            ثابت Uint32 *s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w);
             INTERPOL_BILINEAR_SSE(s_00_01, s_10_11, FRAC_ONE, v_frac_h0, v_frac_h1, dst, zero);
             dst += 1;
         }
         dst = (Uint32 *)((Uint8 *)dst + dst_gap);
     }
-    return true;
+    أرجع true;
 }
 #endif
 
 #ifdef SDL_NEON_INTRINSICS
 
-static SDL_INLINE int hasNEON(void)
+ساكن SDL_INLINE صحيح hasNEON(فراغ)
 {
-    static int val = -1;
-    if (val != -1) {
-        return val;
+    ساكن صحيح val = -1;
+    إذا (val != -1) {
+        أرجع val;
     }
     val = SDL_HasNEON();
-    return val;
+    أرجع val;
 }
 
-static SDL_INLINE void INTERPOL_BILINEAR_NEON(const Uint32 *s0, const Uint32 *s1, int frac_w, uint8x8_t v_frac_h0, uint8x8_t v_frac_h1, Uint32 *dst)
+ساكن SDL_INLINE فراغ INTERPOL_BILINEAR_NEON(ثابت Uint32 *s0, ثابت Uint32 *s1, صحيح frac_w, uint8x8_t v_frac_h0, uint8x8_t v_frac_h1, Uint32 *dst)
 {
     uint8x8_t x_00_01, x_10_11; /* Pixels in 4*uint8 in row */
     uint16x8_t k0;
@@ -563,9 +563,9 @@ static SDL_INLINE void INTERPOL_BILINEAR_NEON(const Uint32 *s0, const Uint32 *s1
     k0 = vmlal_u8(k0, x_10_11, v_frac_h0); /* k0 += x1 * frac          */
 
     // k0 now contains 2 interpolated pixels { j0, j1 }
-    l0 = vshll_n_u16(vget_low_u16(k0), PRECISION);
-    l0 = vmlsl_n_u16(l0, vget_low_u16(k0), frac_w);
-    l0 = vmlal_n_u16(l0, vget_high_u16(k0), frac_w);
+    l0 = vshll_n_u16(vget_کم_u16(k0), PRECISION);
+    l0 = vmlsl_n_u16(l0, vget_کم_u16(k0), frac_w);
+    l0 = vmlal_n_u16(l0, vget_بلند_u16(k0), frac_w);
 
     // Shift and narrow
     d0 = vcombine_u16(
@@ -579,34 +579,34 @@ static SDL_INLINE void INTERPOL_BILINEAR_NEON(const Uint32 *s0, const Uint32 *s1
     *dst = vget_lane_u32(vreinterpret_u32_u8(e0), 0);
 }
 
-static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitch, Uint32 *dst, int dst_w, int dst_h, int dst_pitch)
+ساكن bool scale_mat_NEON(ثابت Uint32 *src, صحيح src_w, صحيح src_h, صحيح src_pitch, Uint32 *dst, صحيح dst_w, صحيح dst_h, صحيح dst_pitch)
 {
     BILINEAR___START
 
-    for (i = 0; i < dst_h; i++) {
-        int nb_block4;
+    لكل (i = 0; i < dst_h; i++) {
+        صحيح nb_block4;
         uint8x8_t v_frac_h0, v_frac_h1;
 
         BILINEAR___HEIGHT
 
-        nb_block4 = middle / 4;
+        nb_block4 = درمیان / 4;
 
         v_frac_h0 = vmov_n_u8(frac_h0);
         v_frac_h1 = vmov_n_u8(frac_h1);
 
-        while (left_pad_w--) {
+        طالما (بایاں_pad_w--) {
             INTERPOL_BILINEAR_NEON(src_h0, src_h1, FRAC_ZERO, v_frac_h0, v_frac_h1, dst);
             dst += 1;
         }
 
-        while (nb_block4--) {
-            int index_w_0, frac_w_0;
-            int index_w_1, frac_w_1;
-            int index_w_2, frac_w_2;
-            int index_w_3, frac_w_3;
+        طالما (nb_block4--) {
+            صحيح index_w_0, frac_w_0;
+            صحيح index_w_1, frac_w_1;
+            صحيح index_w_2, frac_w_2;
+            صحيح index_w_3, frac_w_3;
 
-            const Uint32 *s_00_01, *s_02_03, *s_04_05, *s_06_07;
-            const Uint32 *s_10_11, *s_12_13, *s_14_15, *s_16_17;
+            ثابت Uint32 *s_00_01, *s_02_03, *s_04_05, *s_06_07;
+            ثابت Uint32 *s_10_11, *s_12_13, *s_14_15, *s_16_17;
 
             uint8x8_t x_00_01, x_10_11, x_02_03, x_12_13; /* Pixels in 4*uint8 in row */
             uint8x8_t x_04_05, x_14_15, x_06_07, x_16_17;
@@ -630,14 +630,14 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             frac_w_3 = FRAC(fp_sum_w);
             fp_sum_w += fp_step_w;
 
-            s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_0);
-            s_02_03 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_1);
-            s_04_05 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_2);
-            s_06_07 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_3);
-            s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_0);
-            s_12_13 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_1);
-            s_14_15 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_2);
-            s_16_17 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_3);
+            s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_0);
+            s_02_03 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_1);
+            s_04_05 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_2);
+            s_06_07 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_3);
+            s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_0);
+            s_12_13 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_1);
+            s_14_15 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_2);
+            s_16_17 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_3);
 
             // Interpolation vertical
             x_00_01 = vreinterpret_u8_u32(vld1_u32(s_00_01)); // Load 2 pixels
@@ -667,21 +667,21 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             // k2 now contains 2 interpolated pixels { j4, j5 }
             // k3 now contains 2 interpolated pixels { j6, j7 }
 
-            l0 = vshll_n_u16(vget_low_u16(k0), PRECISION);
-            l0 = vmlsl_n_u16(l0, vget_low_u16(k0), frac_w_0);
-            l0 = vmlal_n_u16(l0, vget_high_u16(k0), frac_w_0);
+            l0 = vshll_n_u16(vget_کم_u16(k0), PRECISION);
+            l0 = vmlsl_n_u16(l0, vget_کم_u16(k0), frac_w_0);
+            l0 = vmlal_n_u16(l0, vget_بلند_u16(k0), frac_w_0);
 
-            l1 = vshll_n_u16(vget_low_u16(k1), PRECISION);
-            l1 = vmlsl_n_u16(l1, vget_low_u16(k1), frac_w_1);
-            l1 = vmlal_n_u16(l1, vget_high_u16(k1), frac_w_1);
+            l1 = vshll_n_u16(vget_کم_u16(k1), PRECISION);
+            l1 = vmlsl_n_u16(l1, vget_کم_u16(k1), frac_w_1);
+            l1 = vmlal_n_u16(l1, vget_بلند_u16(k1), frac_w_1);
 
-            l2 = vshll_n_u16(vget_low_u16(k2), PRECISION);
-            l2 = vmlsl_n_u16(l2, vget_low_u16(k2), frac_w_2);
-            l2 = vmlal_n_u16(l2, vget_high_u16(k2), frac_w_2);
+            l2 = vshll_n_u16(vget_کم_u16(k2), PRECISION);
+            l2 = vmlsl_n_u16(l2, vget_کم_u16(k2), frac_w_2);
+            l2 = vmlal_n_u16(l2, vget_بلند_u16(k2), frac_w_2);
 
-            l3 = vshll_n_u16(vget_low_u16(k3), PRECISION);
-            l3 = vmlsl_n_u16(l3, vget_low_u16(k3), frac_w_3);
-            l3 = vmlal_n_u16(l3, vget_high_u16(k3), frac_w_3);
+            l3 = vshll_n_u16(vget_کم_u16(k3), PRECISION);
+            l3 = vmlsl_n_u16(l3, vget_کم_u16(k3), frac_w_3);
+            l3 = vmlal_n_u16(l3, vget_بلند_u16(k3), frac_w_3);
 
             // shift and narrow
             d0 = vcombine_u16(
@@ -704,11 +704,11 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             dst += 4;
         }
 
-        if (middle & 0x2) {
-            int index_w_0, frac_w_0;
-            int index_w_1, frac_w_1;
-            const Uint32 *s_00_01, *s_02_03;
-            const Uint32 *s_10_11, *s_12_13;
+        إذا (درمیان & 0x2) {
+            صحيح index_w_0, frac_w_0;
+            صحيح index_w_1, frac_w_1;
+            ثابت Uint32 *s_00_01, *s_02_03;
+            ثابت Uint32 *s_10_11, *s_12_13;
             uint8x8_t x_00_01, x_10_11, x_02_03, x_12_13; /* Pixels in 4*uint8 in row */
             uint16x8_t k0, k1;
             uint32x4_t l0, l1;
@@ -730,10 +730,10 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
                         .      .         .     .       .     .
                         x10............ x11   x12...........x13
             */
-            s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_0);
-            s_02_03 = (const Uint32 *)((const Uint8 *)src_h0 + index_w_1);
-            s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_0);
-            s_12_13 = (const Uint32 *)((const Uint8 *)src_h1 + index_w_1);
+            s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_0);
+            s_02_03 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w_1);
+            s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_0);
+            s_12_13 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w_1);
 
             // Interpolation vertical
             x_00_01 = vreinterpret_u8_u32(vld1_u32(s_00_01)); // Load 2 pixels
@@ -751,13 +751,13 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
             // k0 now contains 2 interpolated pixels { j0, j1 }
             // k1 now contains 2 interpolated pixels { j2, j3 }
 
-            l0 = vshll_n_u16(vget_low_u16(k0), PRECISION);
-            l0 = vmlsl_n_u16(l0, vget_low_u16(k0), frac_w_0);
-            l0 = vmlal_n_u16(l0, vget_high_u16(k0), frac_w_0);
+            l0 = vshll_n_u16(vget_کم_u16(k0), PRECISION);
+            l0 = vmlsl_n_u16(l0, vget_کم_u16(k0), frac_w_0);
+            l0 = vmlal_n_u16(l0, vget_بلند_u16(k0), frac_w_0);
 
-            l1 = vshll_n_u16(vget_low_u16(k1), PRECISION);
-            l1 = vmlsl_n_u16(l1, vget_low_u16(k1), frac_w_1);
-            l1 = vmlal_n_u16(l1, vget_high_u16(k1), frac_w_1);
+            l1 = vshll_n_u16(vget_کم_u16(k1), PRECISION);
+            l1 = vmlsl_n_u16(l1, vget_کم_u16(k1), frac_w_1);
+            l1 = vmlal_n_u16(l1, vget_بلند_u16(k1), frac_w_1);
 
             // Shift and narrow
 
@@ -774,67 +774,67 @@ static bool scale_mat_NEON(const Uint32 *src, int src_w, int src_h, int src_pitc
         }
 
         // Last point
-        if (middle & 0x1) {
-            int index_w = 4 * SRC_INDEX(fp_sum_w);
-            int frac_w = FRAC(fp_sum_w);
-            const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
-            const Uint32 *s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
+        إذا (درمیان & 0x1) {
+            صحيح index_w = 4 * SRC_INDEX(fp_sum_w);
+            صحيح frac_w = FRAC(fp_sum_w);
+            ثابت Uint32 *s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w);
+            ثابت Uint32 *s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w);
             INTERPOL_BILINEAR_NEON(s_00_01, s_10_11, frac_w, v_frac_h0, v_frac_h1, dst);
             dst += 1;
         }
 
-        while (right_pad_w--) {
-            int index_w = 4 * (src_w - 2);
-            const Uint32 *s_00_01 = (const Uint32 *)((const Uint8 *)src_h0 + index_w);
-            const Uint32 *s_10_11 = (const Uint32 *)((const Uint8 *)src_h1 + index_w);
+        طالما (دایاں_pad_w--) {
+            صحيح index_w = 4 * (src_w - 2);
+            ثابت Uint32 *s_00_01 = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + index_w);
+            ثابت Uint32 *s_10_11 = (ثابت Uint32 *)((ثابت Uint8 *)src_h1 + index_w);
             INTERPOL_BILINEAR_NEON(s_00_01, s_10_11, FRAC_ONE, v_frac_h0, v_frac_h1, dst);
             dst += 1;
         }
 
         dst = (Uint32 *)((Uint8 *)dst + dst_gap);
     }
-    return true;
+    أرجع true;
 }
 #endif
 
-bool SDL_StretchSurfaceUncheckedLinear(SDL_Surface *s, const SDL_Rect *srcrect, SDL_Surface *d, const SDL_Rect *dstrect)
+bool SDL_StretchSurfaceUncheckedLinear(SDL_Surface *s, ثابت SDL_Rect *srcrect, SDL_Surface *d, ثابت SDL_Rect *dstrect)
 {
     bool result = false;
-    int src_w = srcrect->w;
-    int src_h = srcrect->h;
-    int dst_w = dstrect->w;
-    int dst_h = dstrect->h;
-    int src_pitch = s->pitch;
-    int dst_pitch = d->pitch;
+    صحيح src_w = srcrect->w;
+    صحيح src_h = srcrect->h;
+    صحيح dst_w = dstrect->w;
+    صحيح dst_h = dstrect->h;
+    صحيح src_pitch = s->pitch;
+    صحيح dst_pitch = d->pitch;
     Uint32 *src = (Uint32 *)((Uint8 *)s->pixels + srcrect->x * 4 + srcrect->y * src_pitch);
     Uint32 *dst = (Uint32 *)((Uint8 *)d->pixels + dstrect->x * 4 + dstrect->y * dst_pitch);
 
 #ifdef SDL_NEON_INTRINSICS
-    if (!result && hasNEON()) {
+    إذا (!result && hasNEON()) {
         result = scale_mat_NEON(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
     }
 #endif
 
 #ifdef SDL_SSE2_INTRINSICS
-    if (!result && hasSSE2()) {
+    إذا (!result && hasSSE2()) {
         result = scale_mat_SSE(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
     }
 #endif
 
-    if (!result) {
+    إذا (!result) {
         result = scale_mat(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
     }
 
-    return result;
+    أرجع result;
 }
 
 #define SDL_SCALE_NEAREST__START          \
-    int i;                                \
+    صحيح i;                                \
     Uint64 posy, incy;                    \
     Uint64 posx, incx;                    \
     Uint64 srcy, srcx;                    \
-    int dst_gap, n;                       \
-    const Uint32 *src_h0;                 \
+    صحيح dst_gap, n;                       \
+    ثابت Uint32 *src_h0;                 \
     incy = ((Uint64)src_h << 16) / dst_h; \
     incx = ((Uint64)src_w << 16) / dst_w; \
     dst_gap = dst_pitch - bpp * dst_w;    \
@@ -842,60 +842,60 @@ bool SDL_StretchSurfaceUncheckedLinear(SDL_Surface *s, const SDL_Rect *srcrect, 
 
 #define SDL_SCALE_NEAREST__HEIGHT                                         \
     srcy = (posy >> 16);                                                  \
-    src_h0 = (const Uint32 *)((const Uint8 *)src_ptr + srcy * src_pitch); \
+    src_h0 = (ثابت Uint32 *)((ثابت Uint8 *)src_ptr + srcy * src_pitch); \
     posy += incy;                                                         \
     posx = incx / 2;                                                      \
     n = dst_w;
 
-static bool scale_mat_nearest_1(const Uint32 *src_ptr, int src_w, int src_h, int src_pitch, Uint32 *dst, int dst_w, int dst_h, int dst_pitch)
+ساكن bool scale_mat_nearest_1(ثابت Uint32 *src_ptr, صحيح src_w, صحيح src_h, صحيح src_pitch, Uint32 *dst, صحيح dst_w, صحيح dst_h, صحيح dst_pitch)
 {
     Uint32 bpp = 1;
     SDL_SCALE_NEAREST__START
-    for (i = 0; i < dst_h; i++) {
+    لكل (i = 0; i < dst_h; i++) {
         SDL_SCALE_NEAREST__HEIGHT
-        while (n--) {
-            const Uint8 *src;
+        طالما (n--) {
+            ثابت Uint8 *src;
             srcx = bpp * (posx >> 16);
             posx += incx;
-            src = (const Uint8 *)src_h0 + srcx;
+            src = (ثابت Uint8 *)src_h0 + srcx;
             *(Uint8 *)dst = *src;
             dst = (Uint32 *)((Uint8 *)dst + bpp);
         }
         dst = (Uint32 *)((Uint8 *)dst + dst_gap);
     }
-    return true;
+    أرجع true;
 }
 
-static bool scale_mat_nearest_2(const Uint32 *src_ptr, int src_w, int src_h, int src_pitch, Uint32 *dst, int dst_w, int dst_h, int dst_pitch)
+ساكن bool scale_mat_nearest_2(ثابت Uint32 *src_ptr, صحيح src_w, صحيح src_h, صحيح src_pitch, Uint32 *dst, صحيح dst_w, صحيح dst_h, صحيح dst_pitch)
 {
     Uint32 bpp = 2;
     SDL_SCALE_NEAREST__START
-    for (i = 0; i < dst_h; i++) {
+    لكل (i = 0; i < dst_h; i++) {
         SDL_SCALE_NEAREST__HEIGHT
-        while (n--) {
-            const Uint16 *src;
+        طالما (n--) {
+            ثابت Uint16 *src;
             srcx = bpp * (posx >> 16);
             posx += incx;
-            src = (const Uint16 *)((const Uint8 *)src_h0 + srcx);
+            src = (ثابت Uint16 *)((ثابت Uint8 *)src_h0 + srcx);
             *(Uint16 *)dst = *src;
             dst = (Uint32 *)((Uint8 *)dst + bpp);
         }
         dst = (Uint32 *)((Uint8 *)dst + dst_gap);
     }
-    return true;
+    أرجع true;
 }
 
-static bool scale_mat_nearest_3(const Uint32 *src_ptr, int src_w, int src_h, int src_pitch, Uint32 *dst, int dst_w, int dst_h, int dst_pitch)
+ساكن bool scale_mat_nearest_3(ثابت Uint32 *src_ptr, صحيح src_w, صحيح src_h, صحيح src_pitch, Uint32 *dst, صحيح dst_w, صحيح dst_h, صحيح dst_pitch)
 {
     Uint32 bpp = 3;
     SDL_SCALE_NEAREST__START
-    for (i = 0; i < dst_h; i++) {
+    لكل (i = 0; i < dst_h; i++) {
         SDL_SCALE_NEAREST__HEIGHT
-        while (n--) {
-            const Uint8 *src;
+        طالما (n--) {
+            ثابت Uint8 *src;
             srcx = bpp * (posx >> 16);
             posx += incx;
-            src = (const Uint8 *)src_h0 + srcx;
+            src = (ثابت Uint8 *)src_h0 + srcx;
             ((Uint8 *)dst)[0] = src[0];
             ((Uint8 *)dst)[1] = src[1];
             ((Uint8 *)dst)[2] = src[2];
@@ -903,48 +903,48 @@ static bool scale_mat_nearest_3(const Uint32 *src_ptr, int src_w, int src_h, int
         }
         dst = (Uint32 *)((Uint8 *)dst + dst_gap);
     }
-    return true;
+    أرجع true;
 }
 
-static bool scale_mat_nearest_4(const Uint32 *src_ptr, int src_w, int src_h, int src_pitch, Uint32 *dst, int dst_w, int dst_h, int dst_pitch)
+ساكن bool scale_mat_nearest_4(ثابت Uint32 *src_ptr, صحيح src_w, صحيح src_h, صحيح src_pitch, Uint32 *dst, صحيح dst_w, صحيح dst_h, صحيح dst_pitch)
 {
     Uint32 bpp = 4;
     SDL_SCALE_NEAREST__START
-    for (i = 0; i < dst_h; i++) {
+    لكل (i = 0; i < dst_h; i++) {
         SDL_SCALE_NEAREST__HEIGHT
-        while (n--) {
-            const Uint32 *src;
+        طالما (n--) {
+            ثابت Uint32 *src;
             srcx = bpp * (posx >> 16);
             posx += incx;
-            src = (const Uint32 *)((const Uint8 *)src_h0 + srcx);
+            src = (ثابت Uint32 *)((ثابت Uint8 *)src_h0 + srcx);
             *dst = *src;
             dst = (Uint32 *)((Uint8 *)dst + bpp);
         }
         dst = (Uint32 *)((Uint8 *)dst + dst_gap);
     }
-    return true;
+    أرجع true;
 }
 
-bool SDL_StretchSurfaceUncheckedNearest(SDL_Surface *s, const SDL_Rect *srcrect, SDL_Surface *d, const SDL_Rect *dstrect)
+bool SDL_StretchSurfaceUncheckedNearest(SDL_Surface *s, ثابت SDL_Rect *srcrect, SDL_Surface *d, ثابت SDL_Rect *dstrect)
 {
-    int src_w = srcrect->w;
-    int src_h = srcrect->h;
-    int dst_w = dstrect->w;
-    int dst_h = dstrect->h;
-    int src_pitch = s->pitch;
-    int dst_pitch = d->pitch;
-    int bpp = SDL_BYTESPERPIXEL(d->format);
+    صحيح src_w = srcrect->w;
+    صحيح src_h = srcrect->h;
+    صحيح dst_w = dstrect->w;
+    صحيح dst_h = dstrect->h;
+    صحيح src_pitch = s->pitch;
+    صحيح dst_pitch = d->pitch;
+    صحيح bpp = SDL_BYTESPERPIXEL(d->format);
 
     Uint32 *src = (Uint32 *)((Uint8 *)s->pixels + srcrect->x * bpp + srcrect->y * src_pitch);
     Uint32 *dst = (Uint32 *)((Uint8 *)d->pixels + dstrect->x * bpp + dstrect->y * dst_pitch);
 
-    if (bpp == 4) {
-        return scale_mat_nearest_4(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
-    } else if (bpp == 3) {
-        return scale_mat_nearest_3(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
-    } else if (bpp == 2) {
-        return scale_mat_nearest_2(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
-    } else {
-        return scale_mat_nearest_1(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
+    إذا (bpp == 4) {
+        أرجع scale_mat_nearest_4(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
+    } وإلا إذا (bpp == 3) {
+        أرجع scale_mat_nearest_3(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
+    } وإلا إذا (bpp == 2) {
+        أرجع scale_mat_nearest_2(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
+    } وإلا {
+        أرجع scale_mat_nearest_1(src, src_w, src_h, src_pitch, dst, dst_w, dst_h, dst_pitch);
     }
 }

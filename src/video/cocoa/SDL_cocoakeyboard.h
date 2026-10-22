@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_cocoakeyboard_h_
 #define SDL_cocoakeyboard_h_
 
-extern void Cocoa_InitKeyboard(SDL_VideoDevice *_this);
-extern void Cocoa_HandleKeyEvent(SDL_VideoDevice *_this, NSEvent *event);
-extern void Cocoa_QuitKeyboard(SDL_VideoDevice *_this);
+خارجي فراغ Cocoa_InitKeyboard(SDL_VideoDevice *_this);
+خارجي فراغ Cocoa_Handle_کلید_Event(SDL_VideoDevice *_this, NSEvent *event);
+خارجي فراغ Cocoa_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern bool Cocoa_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool Cocoa_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool Cocoa_Start_Text_داخلہ(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+خارجي bool Cocoa_Stop_Text_داخلہ(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool Cocoa_Update_Text_داخلہ_Area(SDL_VideoDevice *_this, SDL_Window *window);
 
-extern bool Cocoa_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
+خارجي bool Cocoa_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed);
 
 #endif // SDL_cocoakeyboard_h_
