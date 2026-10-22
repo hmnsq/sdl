@@ -20,97 +20,97 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
 
 // For application signature.
-#include "../../core/haiku/SDL_BeApp.h"
+#ضمن "../../core/haiku/SDL_BeApp.h"
 
-#include <Alert.h>
-#include <Application.h>
-#include <Button.h>
-#include <Font.h>
-#include <Layout.h>
-#include <String.h>
-#include <TextView.h>
-#include <View.h>
-#include <Window.h>
+#ضمن <Alert.h>
+#ضمن <Application.h>
+#ضمن <Button.h>
+#ضمن <Font.h>
+#ضمن <Layout.h>
+#ضمن <String.h>
+#ضمن <TextView.h>
+#ضمن <View.h>
+#ضمن <Window.h>
 
-#include <InterfaceDefs.h>
-#include <SupportDefs.h>
-#include <GraphicsDefs.h>
+#ضمن <InterfaceDefs.h>
+#ضمن <SupportDefs.h>
+#ضمن <GraphicsDefs.h>
 
-#include <new>
-#include <vector>
-#include <algorithm>
-#include <memory>
+#ضمن <new>
+#ضمن <vector>
+#ضمن <algorithm>
+#ضمن <memory>
 
-enum
+تعداد
 {
 	G_CLOSE_BUTTON_ID   = -1,
 	G_DEFAULT_BUTTON_ID = 0,
 	G_MAX_STRING_LENGTH_BYTES = 120
 };
 
-class HAIKU_SDL_MessageBox : public BAlert
+صنف HAIKU_SDL_MessageBox : عام BAlert
 {
-	float fComputedMessageBoxWidth;
+	عائم fComputedMessageBoxWidth;
 
 	BTextView *fMessageBoxTextView;
 
-	int fCloseButton;
-	int fDefaultButton;
+	صحيح fCloseButton;
+	صحيح fDefaultButton;
 
-	bool fCustomColorScheme;
-	bool fThereIsLongLine;
+	منطقي fCustomColorScheme;
+	منطقي f_There_Is_Long_لي;
 	rgb_color fTextColor;
 
-	const char *fTitle;
-	const char *HAIKU_SDL_DefTitle;
-	const char *HAIKU_SDL_DefMessage;
-	const char *HAIKU_SDL_DefButton;
+	ثابت حرف *fTitle;
+	ثابت حرف *HAIKU_SDL_DefTitle;
+	ثابت حرف *HAIKU_SDL_DefMessage;
+	ثابت حرف *HAIKU_SDL_DefButton;
 
-	std::vector<const SDL_MessageBoxButtonData *> fButtons;
+	std::vector<ثابت SDL_MessageBoxButtonData *> fButtons;
 
-	static bool
-	SortButtonsPredicate(const SDL_MessageBoxButtonData *aButtonLeft,
-	                                 const SDL_MessageBoxButtonData *aButtonRight)
+	ساكن منطقي
+	SortButtonsPredicate(ثابت SDL_MessageBoxButtonData *a_Button_هغو,
+	                                 ثابت SDL_MessageBoxButtonData *a_Button_دام)
 	{
-		return aButtonLeft->buttonID < aButtonRight->buttonID;
+		أرجع a_Button_هغو->buttonID < a_Button_دام->buttonID;
 	}
 
 	alert_type
-	ConvertMessageBoxType(const SDL_MessageBoxFlags aWindowType) const
+	ConvertMessageBoxType(ثابت SDL_MessageBoxFlags aWindowType) ثابت
 	{
-		switch (aWindowType)
+		بدل (aWindowType)
 		{
-			default:
-			case SDL_MESSAGEBOX_WARNING:
+			افتراضي:
+			حالة SDL_MESSAGEBOX_WARNING:
 			{
-				return B_WARNING_ALERT;
+				أرجع B_WARNING_ALERT;
 			}
-			case SDL_MESSAGEBOX_ERROR:
+			حالة SDL_MESSAGEBOX_ERROR:
 			{
-				return B_STOP_ALERT;
+				أرجع B_STOP_ALERT;
 			}
-			case SDL_MESSAGEBOX_INFORMATION:
+			حالة SDL_MESSAGEBOX_INFORMATION:
 			{
-				return B_INFO_ALERT;
+				أرجع B_INFO_ALERT;
 			}
 		}
 	}
 
 	rgb_color
-	ConvertColorType(const SDL_MessageBoxColor *aColor) const
+	ConvertColorType(ثابت SDL_MessageBoxColor *aColor) ثابت
 	{
 		rgb_color color = { aColor->r, aColor->g, aColor->b, color.alpha = 255 };
-		return color;
+		أرجع color;
 	}
 
 	int32
-	GetLeftPanelWidth(void) const
+	Get_هغو_Panel_Width(فراغ) ثابت
 	{
 		// See file "haiku/src/kits/interface/Alert.cpp" for this magic numbers.
 		//    IconStripeWidth = 30 * Scale
@@ -119,32 +119,32 @@ class HAIKU_SDL_MessageBox : public BAlert
 		//    RealWidth = (IconStripeWidth * Scale) + (IconSize * Scale)
 
 		int32 scale = max_c(1, ((int32)be_plain_font->Size() + 15) / 16);
-		return (30 * scale) + (32 * scale);
+		أرجع (30 * scale) + (32 * scale);
 	}
 
-	void
-	UpdateTextViewWidth(void)
+	فراغ
+	UpdateTextViewWidth(فراغ)
 	{
-		fComputedMessageBoxWidth = fMessageBoxTextView->PreferredSize().Width() + GetLeftPanelWidth();
+		fComputedMessageBoxWidth = fMessageBoxTextView->PreferredSize().Width() + Get_هغو_Panel_Width();
 	}
 
-	void
-	ParseSdlMessageBoxData(const SDL_MessageBoxData *aMessageBoxData)
+	فراغ
+	ParseSdlMessageBoxData(ثابت SDL_MessageBoxData *aMessageBoxData)
 	{
-		if (aMessageBoxData == NULL) {
+		إذا (aMessageBoxData == عدم) {
 			SetTitle(HAIKU_SDL_DefTitle);
 			SetMessageText(HAIKU_SDL_DefMessage);
 			AddButton(HAIKU_SDL_DefButton);
-			return;
+			أرجع;
 		}
 
-		if (aMessageBoxData->numbuttons <= 0) {
+		إذا (aMessageBoxData->numbuttons <= 0) {
 			AddButton(HAIKU_SDL_DefButton);
-		} else {
+		} وإلا {
 			AddSdlButtons(aMessageBoxData->buttons, aMessageBoxData->numbuttons);
 		}
 
-		if (aMessageBoxData->colorScheme != NULL) {
+		إذا (aMessageBoxData->colorScheme != عدم) {
 			fCustomColorScheme = true;
 			ApplyAndParseColorScheme(aMessageBoxData->colorScheme);
 		}
@@ -157,8 +157,8 @@ class HAIKU_SDL_MessageBox : public BAlert
 		SetType(ConvertMessageBoxType(aMessageBoxData->flags));
 	}
 
-	void
-	ApplyAndParseColorScheme(const SDL_MessageBoxColorScheme *aColorScheme)
+	فراغ
+	ApplyAndParseColorScheme(ثابت SDL_MessageBoxColorScheme *aColorScheme)
 	{
 		SetBackgroundColor(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND]);
 		fTextColor = ConvertColorType(&aColorScheme->colors[SDL_MESSAGEBOX_COLOR_TEXT]);
@@ -168,31 +168,31 @@ class HAIKU_SDL_MessageBox : public BAlert
 		                &aColorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED]);
 	}
 
-	void
-	SetButtonColors(const SDL_MessageBoxColor *aBorderColor,
-	                const SDL_MessageBoxColor *aBackgroundColor,
-	                const SDL_MessageBoxColor *aTextColor,
-	                const SDL_MessageBoxColor *aSelectedColor)
+	فراغ
+	SetButtonColors(ثابت SDL_MessageBoxColor *aBorderColor,
+	                ثابت SDL_MessageBoxColor *aBackgroundColor,
+	                ثابت SDL_MessageBoxColor *aTextColor,
+	                ثابت SDL_MessageBoxColor *aSelectedColor)
 	{
-		if (fCustomColorScheme) {
-			int32 countButtons = CountButtons();
-			for (int i = 0; i < countButtons; ++i) {
+		إذا (fCustomColorScheme) {
+			int32 كدي_Buttons = كدي_Buttons_2();
+			لكل (صحيح i = 0; i < كدي_Buttons; ++i) {
 				ButtonAt(i)->SetViewColor(ConvertColorType(aBorderColor));
-				ButtonAt(i)->SetLowColor(ConvertColorType(aBackgroundColor));
+				ButtonAt(i)->Set_كس_Color(ConvertColorType(aBackgroundColor));
 
 				// This doesn't work. See this why:
 				// https://github.com/haiku/haiku/commit/de9c53f8f5008c7b3b0af75d944a628e17f6dffe
 				// Let it remain.
-				ButtonAt(i)->SetHighColor(ConvertColorType(aTextColor));
+				ButtonAt(i)->Set_سم_Color(ConvertColorType(aTextColor));
 			}
 		}
 		// TODO: Not Implemented.
 		// Is it even necessary?!
-		(void)aSelectedColor;
+		(فراغ)aSelectedColor;
 	}
 
-	void
-	SetBackgroundColor(const SDL_MessageBoxColor *aColor)
+	فراغ
+	SetBackgroundColor(ثابت SDL_MessageBoxColor *aColor)
 	{
 		rgb_color background = ConvertColorType(aColor);
 
@@ -202,38 +202,38 @@ class HAIKU_SDL_MessageBox : public BAlert
 		fMessageBoxTextView->SetViewColor(background);
 	}
 
-	bool
-	CheckLongLines(const char *aMessage)
+	منطقي
+	Check_Long_ليوك(ثابت حرف *aMessage)
 	{
-		int final = 0;
+		صحيح final = 0;
 
 		// This UTF-8 friendly.
 		BString message = aMessage;
-		int32 length = message.CountChars();
+		int32 length = message.كدي_Chars();
 
-		for (int i = 0, c = 0; i < length; ++i) {
+		لكل (صحيح i = 0, c = 0; i < length; ++i) {
 			c++;
-			if (*(message.CharAt(i)) == '\n') {
+			إذا (*(message.CharAt(i)) == '\n') {
 				c = 0;
 			}
-			if (c > final) {
+			إذا (c > final) {
 				final = c;
 			}
 		}
 
-		return (final > G_MAX_STRING_LENGTH_BYTES);
+		أرجع (final > G_MAX_STRING_LENGTH_BYTES);
 	}
 
-	void
-	SetMessageText(const char *aMessage)
+	فراغ
+	SetMessageText(ثابت حرف *aMessage)
 	{
-		fThereIsLongLine = CheckLongLines(aMessage);
-		if (fThereIsLongLine) {
+		f_There_Is_Long_لي = Check_Long_ليوك(aMessage);
+		إذا (f_There_Is_Long_لي) {
 			fMessageBoxTextView->SetWordWrap(true);
 		}
 
 		rgb_color textColor = ui_color(B_PANEL_TEXT_COLOR);
-		if (fCustomColorScheme) {
+		إذا (fCustomColorScheme) {
 			textColor = fTextColor;
 		}
 
@@ -247,28 +247,28 @@ class HAIKU_SDL_MessageBox : public BAlert
 		*/
 
 		fMessageBoxTextView->SetFontAndColor(be_plain_font, B_FONT_ALL, &textColor);
-		fMessageBoxTextView->Insert(aMessage);
+		fMessageBoxTextView->سك(aMessage);
 
 		// Be sure to call update width method.
 		UpdateTextViewWidth();
 	}
 
-	void
-	AddSdlButtons(const SDL_MessageBoxButtonData *aButtons, int aNumButtons)
+	فراغ
+	AddSdlButtons(ثابت SDL_MessageBoxButtonData *aButtons, صحيح a_لمب_Buttons)
 	{
-		for (int i = 0; i < aNumButtons; ++i) {
-			fButtons.push_back(&aButtons[i]);
+		لكل (صحيح i = 0; i < a_لمب_Buttons; ++i) {
+			fButtons.تور_back(&aButtons[i]);
 		}
 
 		std::sort(fButtons.begin(), fButtons.end(), &HAIKU_SDL_MessageBox::SortButtonsPredicate);
 
-		size_t countButtons = fButtons.size();
-		for (size_t i = 0; i < countButtons; ++i) {
-			if (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
-                fCloseButton = static_cast<int>(i);
+		size_t كدي_Buttons = fButtons.size();
+		لكل (size_t i = 0; i < كدي_Buttons; ++i) {
+			إذا (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+                fCloseButton = static_cast<صحيح>(i);
             }
-			if (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
-                fDefaultButton = static_cast<int>(i);
+			إذا (fButtons[i]->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+                fDefaultButton = static_cast<صحيح>(i);
             }
 			AddButton(fButtons[i]->text);
 		}
@@ -276,13 +276,13 @@ class HAIKU_SDL_MessageBox : public BAlert
 		SetDefaultButton(ButtonAt(fDefaultButton));
 	}
 
-public:
+عام:
 	explicit
-	HAIKU_SDL_MessageBox(const SDL_MessageBoxData *aMessageBoxData)
-		: BAlert(NULL, NULL, NULL, NULL, NULL, B_WIDTH_FROM_LABEL, B_WARNING_ALERT),
+	HAIKU_SDL_MessageBox(ثابت SDL_MessageBoxData *aMessageBoxData)
+		: BAlert(عدم, عدم, عدم, عدم, عدم, B_WIDTH_FROM_LABEL, B_WARNING_ALERT),
 		  fComputedMessageBoxWidth(0.0f),
 		  fCloseButton(G_CLOSE_BUTTON_ID), fDefaultButton(G_DEFAULT_BUTTON_ID),
-		  fCustomColorScheme(false), fThereIsLongLine(false),
+		  fCustomColorScheme(خطأ), f_There_Is_Long_لي(خطأ),
 		  HAIKU_SDL_DefTitle("SDL MessageBox"),
 		  HAIKU_SDL_DefMessage("Some information has been lost."),
 		  HAIKU_SDL_DefButton("OK")
@@ -294,37 +294,37 @@ public:
 
 		// MessageBox TextView settings.
 		fMessageBoxTextView = TextView();
-		fMessageBoxTextView->SetWordWrap(false);
+		fMessageBoxTextView->SetWordWrap(خطأ);
 		fMessageBoxTextView->SetStylable(true);
 
 		ParseSdlMessageBoxData(aMessageBoxData);
 	}
 
-	int
-	GetCloseButtonId(void) const
+	صحيح
+	GetCloseButtonId(فراغ) ثابت
 	{
-		return fCloseButton;
+		أرجع fCloseButton;
 	}
 
 	virtual
-	~HAIKU_SDL_MessageBox(void)
+	~HAIKU_SDL_MessageBox(فراغ)
 	{
 		fButtons.clear();
 	}
 
-protected:
-	virtual void
-	FrameResized(float aNewWidth, float aNewHeight)
+محمي:
+	virtual فراغ
+	FrameResized(عائم aNewWidth, عائم aNewHeight)
 	{
-		if (fComputedMessageBoxWidth > aNewWidth) {
+		إذا (fComputedMessageBoxWidth > aNewWidth) {
 			ResizeTo(fComputedMessageBoxWidth, aNewHeight);
-		} else {
+		} وإلا {
 			BAlert::FrameResized(aNewWidth, aNewHeight);
 		}
 	}
 
-	virtual void
-	SetTitle(const char *aTitle)
+	virtual فراغ
+	SetTitle(ثابت حرف *aTitle)
 	{
 		fTitle = aTitle;
 		BAlert::SetTitle(aTitle);
@@ -332,10 +332,10 @@ protected:
 };
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
-bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+منطقي HAIKU_ShowMessageBox(ثابت SDL_MessageBoxData *messageboxdata, صحيح *buttonID)
 {
 	// Initialize button by closed or error value first.
 	*buttonID = G_CLOSE_BUTTON_ID;
@@ -345,22 +345,22 @@ bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonI
 	// "You need a valid BApplication object before interacting with the app_server."
 	// "2 BApplication objects were created. Only one is allowed."
 	std::unique_ptr<BApplication> application;
-	if (!be_app) {
-		application = std::unique_ptr<BApplication>(new(std::nothrow) BApplication(SDL_signature));
-		if (!application) {
-			return SDL_SetError("Cannot create the BApplication object. Lack of memory?");
+	إذا (!be_app) {
+		application = std::unique_ptr<BApplication>(جديد(std::nothrow) BApplication(SDL_signature));
+		إذا (!application) {
+			أرجع SDL_SetError("Cannot create the BApplication object. Lack of memory?");
 		}
 	}
 
-	HAIKU_SDL_MessageBox *SDL_MessageBox = new(std::nothrow) HAIKU_SDL_MessageBox(messageboxdata);
-	if (!SDL_MessageBox) {
-		return SDL_SetError("Cannot create the HAIKU_SDL_MessageBox (BAlert inheritor) object. Lack of memory?");
+	HAIKU_SDL_MessageBox *SDL_MessageBox = جديد(std::nothrow) HAIKU_SDL_MessageBox(messageboxdata);
+	إذا (!SDL_MessageBox) {
+		أرجع SDL_SetError("Cannot create the HAIKU_SDL_MessageBox (BAlert inheritor) object. Lack of memory?");
 	}
-	const int closeButton = SDL_MessageBox->GetCloseButtonId();
-	int pushedButton = SDL_MessageBox->Go();
+	ثابت صحيح closeButton = SDL_MessageBox->GetCloseButtonId();
+	صحيح pushedButton = SDL_MessageBox->Go();
 
 	// The close button is equivalent to pressing Escape.
-	if (closeButton != G_CLOSE_BUTTON_ID && pushedButton == G_CLOSE_BUTTON_ID) {
+	إذا (closeButton != G_CLOSE_BUTTON_ID && pushedButton == G_CLOSE_BUTTON_ID) {
 		pushedButton = closeButton;
 	}
 
@@ -373,7 +373,7 @@ bool HAIKU_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonI
 	// Initialize button by real pushed value then.
 	*buttonID = pushedButton;
 
-	return true;
+	أرجع true;
 }
 
 #ifdef __cplusplus
