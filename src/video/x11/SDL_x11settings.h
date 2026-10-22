@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifndef SDL_x11settings_h_
 #define SDL_x11settings_h_
 
-#include <X11/Xlib.h>
-#include "xsettings-client.h"
+#شامل <X11/Xlib.h>
+#شامل "xsettings-client.h"
 
 #define SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR "Gdk/WindowScalingFactor"
 #define SDL_XSETTINGS_GDK_UNSCALED_DPI "Gdk/UnscaledDPI"
 #define SDL_XSETTINGS_XFT_DPI "Xft/DPI"
 
-typedef struct X11_SettingsData {
+تعریفنوع ساختار X11_SettingsData {
     XSettingsClient *xsettings;
 } SDLX11_SettingsData;
 
-extern void X11_InitXsettings(SDL_VideoDevice *_this);
-extern void X11_QuitXsettings(SDL_VideoDevice *_this);
-extern void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent);
-extern int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value);
+بیرونی تهی X11_InitXsettings(SDL_VideoDevice *_this);
+بیرونی تهی X11_QuitXsettings(SDL_VideoDevice *_this);
+بیرونی تهی X11_HandleXsettingsEvent(SDL_VideoDevice *_this, ثابت XEvent *xevent);
+بیرونی صحیح X11_Get_Xsettings_Int_کلید(SDL_VideoDevice *_this, ثابت نویسه *کلید, صحیح fallback_مقدار);
 
-extern int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value);
+بیرونی صحیح X11_Get_Xsettings_Client_Int_کلید(XSettingsClient *client, ثابت نویسه *کلید, صحیح fallback_مقدار);
 
 #endif // SDL_x11settings_h_

@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifndef SDL_riscosvideo_h_
 #define SDL_riscosvideo_h_
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-#define RISCOS_MAX_KEYS_PRESSED 6
+#define RISCOS_MAX_کلیدها_PRESSED 6
 
-struct SDL_VideoData
+ساختار SDL_VideoData
 {
-    int last_mouse_buttons;
-    Uint8 key_pressed[RISCOS_MAX_KEYS_PRESSED];
+    صحیح last_mouse_buttons;
+    Uint8 کلید_pressed[RISCOS_MAX_کلیدها_PRESSED];
 };
 
 #endif // SDL_riscosvideo_h_

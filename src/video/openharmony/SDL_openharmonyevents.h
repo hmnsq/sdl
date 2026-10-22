@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
 // src/core/openharmony/SDL_openharmony.c calls these when it gets events from the system.
-extern void SDL_OpenHarmonyDispatchTouchEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchMouseEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchKeyEvent(void *component, void *window);
-extern void SDL_OpenHarmonyDispatchUIInputEvent(void *component, void *event, int32_t type);
+بیرونی تهی SDL_OpenHarmonyDispatchTouchEvent(تهی *component, تهی *window);
+بیرونی تهی SDL_OpenHarmonyDispatchMouseEvent(تهی *component, تهی *window);
+بیرونی تهی SDL_Open_Harmony_Dispatch_کلید_Event(تهی *component, تهی *window);
+بیرونی تهی SDL_OpenHarmonyDispatchUIInputEvent(تهی *component, تهی *event, int32_t type);
 
-extern void OPENHARMONY_InitEvents(void);
-extern void OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitEvents(void);
+بیرونی تهی OPENHARMONY_InitEvents(تهی);
+بیرونی تهی OPENHARMONY_PumpEvents(SDL_VideoDevice *_this);
+بیرونی تهی OPENHARMONY_QuitEvents(تهی);

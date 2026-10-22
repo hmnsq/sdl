@@ -22,9 +22,9 @@
 #ifndef SDL_blit_slow_h_
 #define SDL_blit_slow_h_
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-extern void SDL_Blit_Slow(SDL_BlitInfo *info);
-extern void SDL_Blit_Slow_Float(SDL_BlitInfo *info);
+بیرونی تهی SDL_Blit_Slow(SDL_BlitInfo *info);
+بیرونی تهی SDL_Blit_Slow_Float(SDL_BlitInfo *info);
 
 #endif // SDL_blit_slow_h_

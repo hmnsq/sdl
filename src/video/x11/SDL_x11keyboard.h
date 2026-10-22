@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifndef SDL_x11keyboard_h_
 #define SDL_x11keyboard_h_
 
-extern bool X11_InitKeyboard(SDL_VideoDevice *_this);
-extern void X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
-extern void X11_QuitKeyboard(SDL_VideoDevice *_this);
-extern void X11_CreateInputContext(SDL_WindowData *data);
-extern void X11_DestroyInputContext(SDL_WindowData *data);
-extern void X11_ClearComposition(SDL_WindowData *data);
-extern bool X11_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool X11_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی bool X11_InitKeyboard(SDL_VideoDevice *_this);
+بیرونی تهی X11_UpdateKeymap(SDL_VideoDevice *_this, bool send_event);
+بیرونی تهی X11_QuitKeyboard(SDL_VideoDevice *_this);
+بیرونی تهی X11_Create_درون_داد_Context(SDL_WindowData *data);
+بیرونی تهی X11_Destroy_درون_داد_Context(SDL_WindowData *data);
+بیرونی تهی X11_ClearComposition(SDL_WindowData *data);
+بیرونی bool X11_Start_Text_درون_داد(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+بیرونی bool X11_Stop_Text_درون_داد(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی bool X11_Update_Text_درون_داد_Area(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی bool X11_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+بیرونی تهی X11_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+بیرونی تهی X11_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_x11keyboard_h_

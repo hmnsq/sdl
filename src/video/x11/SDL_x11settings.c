@@ -19,90 +19,90 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11)
+#اگر defined(SDL_VIDEO_DRIVER_X11)
 
-#include "SDL_x11video.h"
-#include "SDL_x11settings.h"
+#شامل "SDL_x11video.h"
+#شامل "SDL_x11settings.h"
 
-static void UpdateContentScale(SDL_VideoDevice *_this)
+ایستا تهی UpdateContentScale(SDL_VideoDevice *_this)
 {
-    if (_this) {
-        float scale_factor = X11_GetGlobalContentScaleForDevice(_this);
-        for (int i = 0; i < _this->num_displays; ++i) {
+    اگر (_this) {
+        اعشاری scale_factor = X11_GetGlobalContentScaleForDevice(_this);
+        برای (صحیح i = 0; i < _this->رقم_displays; ++i) {
             SDL_SetDisplayContentScale(_this->displays[i], scale_factor);
         }
     }
 }
 
-static void X11_XsettingsNotify(const char *name, XSettingsAction action, XSettingsSetting *setting, void *data)
+ایستا تهی X11_XsettingsNotify(ثابت نویسه *name, XSettingsAction action, XSettingsSetting *setting, تهی *data)
 {
     SDL_VideoDevice *_this = data;
 
-    if (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
+    اگر (SDL_strcmp(name, SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_GDK_UNSCALED_DPI) == 0 ||
         SDL_strcmp(name, SDL_XSETTINGS_XFT_DPI) == 0) {
         UpdateContentScale(_this);
     }
 }
 
-void X11_InitXsettings(SDL_VideoDevice *_this)
+تهی X11_InitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
     xsettings_data->xsettings = xsettings_client_new(data->display,
-        DefaultScreen(data->display), X11_XsettingsNotify, NULL, _this);
+        DefaultScreen(data->display), X11_XsettingsNotify, پوچ, _this);
 }
 
-void X11_QuitXsettings(SDL_VideoDevice *_this)
+تهی X11_QuitXsettings(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    اگر (xsettings_data->xsettings) {
         xsettings_client_destroy(xsettings_data->xsettings);
-        xsettings_data->xsettings = NULL;
+        xsettings_data->xsettings = پوچ;
     }
 }
 
-void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent)
+تهی X11_HandleXsettingsEvent(SDL_VideoDevice *_this, ثابت XEvent *xevent)
 {
     SDL_VideoData *data = _this->internal;
     SDLX11_SettingsData *xsettings_data = &data->xsettings_data;
 
-    if (xsettings_data->xsettings) {
+    اگر (xsettings_data->xsettings) {
         xsettings_client_process_event(xsettings_data->xsettings, xevent);
     }
 }
 
-int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value) {
-    XSettingsSetting *setting = NULL;
-    int res = fallback_value;
+صحیح X11_Get_Xsettings_Client_Int_کلید(XSettingsClient *client, ثابت نویسه *کلید, صحیح fallback_مقدار) {
+    XSettingsSetting *setting = پوچ;
+    صحیح res = fallback_مقدار;
 
-    if (client) {
-        if (xsettings_client_get_setting(client, key, &setting) != XSETTINGS_SUCCESS) {
-            goto no_key;
+    اگر (client) {
+        اگر (xsettings_client_get_setting(client, کلید, &setting) != XSETTINGS_SUCCESS) {
+            برو no_کلید;
         }
 
-        if (setting->type != XSETTINGS_TYPE_INT) {
-            goto no_key;
+        اگر (setting->type != XSETTINGS_TYPE_INT) {
+            برو no_کلید;
         }
 
         res = setting->data.v_int;
     }
 
-no_key:
-    if (setting) {
+no_کلید:
+    اگر (setting) {
         xsettings_setting_free(setting);
     }
 
-    return res;
+    بازگشت res;
 }
 
-int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value) {
-    return X11_GetXsettingsClientIntKey(_this->internal->xsettings_data.xsettings, key, fallback_value);
+صحیح X11_Get_Xsettings_Int_کلید(SDL_VideoDevice *_this, ثابت نویسه *کلید, صحیح fallback_مقدار) {
+    بازگشت X11_Get_Xsettings_Client_Int_کلید(_this->internal->xsettings_data.xsettings, کلید, fallback_مقدار);
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

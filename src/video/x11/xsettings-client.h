@@ -25,25 +25,25 @@
 #define XSETTINGS_CLIENT_H
 
 #ifdef __cplusplus
-extern "C" {
+بیرونی "C" {
 #endif /* __cplusplus */
 
-typedef struct _XSettingsBuffer  XSettingsBuffer;
-typedef struct _XSettingsColor   XSettingsColor;
-typedef struct _XSettingsList    XSettingsList;
-typedef struct _XSettingsSetting XSettingsSetting;
+تعریفنوع ساختار _XSettingsBuffer  XSettingsBuffer;
+تعریفنوع ساختار _XSettingsColor   XSettingsColor;
+تعریفنوع ساختار _XSettingsList    XSettingsList;
+تعریفنوع ساختار _XSettingsSetting XSettingsSetting;
 
 /* Types of settings possible. Enum values correspond to
  * protocol values.
  */
-typedef enum
+تعریفنوع شمارش
 {
   XSETTINGS_TYPE_INT     = 0,
   XSETTINGS_TYPE_STRING  = 1,
   XSETTINGS_TYPE_COLOR   = 2
 } XSettingsType;
 
-typedef enum
+تعریفنوع شمارش
 {
   XSETTINGS_SUCCESS,
   XSETTINGS_NO_MEM,
@@ -53,33 +53,33 @@ typedef enum
   XSETTINGS_DUPLICATE_ENTRY
 } XSettingsResult;
 
-struct _XSettingsBuffer
+ساختار _XSettingsBuffer
 {
-  char byte_order;
+  نویسه byte_order;
   size_t len;
-  unsigned char *data;
-  unsigned char *pos;
+  unsigned نویسه *data;
+  unsigned نویسه *pos;
 };
 
-struct _XSettingsColor
+ساختار _XSettingsColor
 {
   unsigned short red, green, blue, alpha;
 };
 
-struct _XSettingsList
+ساختار _XSettingsList
 {
   XSettingsSetting *setting;
   XSettingsList *next;
 };
 
-struct _XSettingsSetting
+ساختار _XSettingsSetting
 {
-  char *name;
+  نویسه *name;
   XSettingsType type;
 
-  union {
-    int v_int;
-    char *v_string;
+  اجتماع {
+    صحیح v_int;
+    نویسه *v_string;
     XSettingsColor v_color;
   } data;
 
@@ -87,63 +87,63 @@ struct _XSettingsSetting
 };
 
 XSettingsSetting *xsettings_setting_copy  (XSettingsSetting *setting);
-void              xsettings_setting_free  (XSettingsSetting *setting);
-int               xsettings_setting_equal (XSettingsSetting *setting_a,
+تهی              xsettings_setting_free  (XSettingsSetting *setting);
+صحیح               xsettings_setting_equal (XSettingsSetting *setting_a,
                                            XSettingsSetting *setting_b);
 
-void              xsettings_list_free   (XSettingsList     *list);
+تهی              xsettings_list_free   (XSettingsList     *list);
 XSettingsList    *xsettings_list_copy   (XSettingsList     *list);
-XSettingsResult   xsettings_list_insert (XSettingsList    **list,
+XSettingsResult   xsettings_list_درج (XSettingsList    **list,
                                          XSettingsSetting  *setting);
 XSettingsSetting *xsettings_list_lookup (XSettingsList     *list,
-                                         const char        *name);
+                                         ثابت نویسه        *name);
 XSettingsResult   xsettings_list_delete (XSettingsList    **list,
-                                         const char        *name);
+                                         ثابت نویسه        *name);
 
-char xsettings_byte_order (void);
+نویسه xsettings_byte_order (تهی);
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
 
-typedef struct _XSettingsClient XSettingsClient;
+تعریفنوع ساختار _XSettingsClient XSettingsClient;
 
-typedef enum
+تعریفنوع شمارش
 {
   XSETTINGS_ACTION_NEW,
   XSETTINGS_ACTION_CHANGED,
   XSETTINGS_ACTION_DELETED
 } XSettingsAction;
 
-typedef void (*XSettingsNotifyFunc) (const char       *name,
+تعریفنوع تهی (*XSettingsNotifyFunc) (ثابت نویسه       *name,
                                      XSettingsAction   action,
                                      XSettingsSetting *setting,
-                                     void             *cb_data);
-typedef Bool (*XSettingsWatchFunc)  (Window            window,
+                                     تهی             *cb_data);
+تعریفنوع Bool (*XSettingsWatchFunc)  (Window            window,
                                      Bool              is_start,
                                      long              mask,
-                                     void             *cb_data);
-typedef void (*XSettingsGrabFunc)   (Display          *display);
+                                     تهی             *cb_data);
+تعریفنوع تهی (*XSettingsGrabFunc)   (Display          *display);
 
 XSettingsClient *xsettings_client_new             (Display             *display,
-                                                   int                  screen,
+                                                   صحیح                  screen,
                                                    XSettingsNotifyFunc  notify,
                                                    XSettingsWatchFunc   watch,
-                                                   void                *cb_data);
+                                                   تهی                *cb_data);
 XSettingsClient *xsettings_client_new_with_grab_funcs (Display             *display,
-                                                       int                  screen,
+                                                       صحیح                  screen,
                                                        XSettingsNotifyFunc  notify,
                                                        XSettingsWatchFunc   watch,
-                                                       void                *cb_data,
+                                                       تهی                *cb_data,
                                                        XSettingsGrabFunc    grab,
                                                        XSettingsGrabFunc    ungrab);
-void             xsettings_client_set_grab_func   (XSettingsClient     *client,
+تهی             xsettings_client_set_grab_func   (XSettingsClient     *client,
                                                    XSettingsGrabFunc    grab);
-void             xsettings_client_set_ungrab_func (XSettingsClient     *client,
+تهی             xsettings_client_set_ungrab_func (XSettingsClient     *client,
                                                    XSettingsGrabFunc    ungrab);
-void             xsettings_client_destroy         (XSettingsClient     *client);
+تهی             xsettings_client_destroy         (XSettingsClient     *client);
 Bool             xsettings_client_process_event   (XSettingsClient     *client,
-                                                   const XEvent        *xev);
+                                                   ثابت XEvent        *xev);
 XSettingsResult  xsettings_client_get_setting     (XSettingsClient     *client,
-                                                   const char          *name,
+                                                   ثابت نویسه          *name,
                                                    XSettingsSetting   **setting);
 
 #ifdef __cplusplus

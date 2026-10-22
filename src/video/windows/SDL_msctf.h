@@ -22,7 +22,7 @@
 #ifndef SDL_msctf_h_
 #define SDL_msctf_h_
 
-#include <unknwn.h>
+#شامل <unknwn.h>
 
 #define TF_INVALID_COOKIE            (0xffffffff)
 #define TF_IPSINK_FLAG_ACTIVE        0x0001
@@ -30,32 +30,32 @@
 
 /* *INDENT-OFF* */ // clang-format off
 
-typedef struct ITfThreadMgr ITfThreadMgr;
-typedef struct ITfDocumentMgr ITfDocumentMgr;
-typedef struct ITfClientId ITfClientId;
+تعریفنوع ساختار ITfThreadMgr ITfThreadMgr;
+تعریفنوع ساختار ITfDocumentMgr ITfDocumentMgr;
+تعریفنوع ساختار ITfClientId ITfClientId;
 
-typedef struct IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
-typedef struct IEnumTfFunctionProviders IEnumTfFunctionProviders;
-typedef struct ITfFunctionProvider ITfFunctionProvider;
-typedef struct ITfCompartmentMgr ITfCompartmentMgr;
-typedef struct ITfContext ITfContext;
-typedef struct IEnumTfContexts IEnumTfContexts;
-typedef struct ITfUIElementSink ITfUIElementSink;
-typedef struct ITfUIElement ITfUIElement;
-typedef struct ITfUIElementMgr ITfUIElementMgr;
-typedef struct IEnumTfUIElements IEnumTfUIElements;
-typedef struct ITfThreadMgrEx ITfThreadMgrEx;
-typedef struct ITfCandidateListUIElement ITfCandidateListUIElement;
-typedef struct ITfReadingInformationUIElement ITfReadingInformationUIElement;
-typedef struct ITfInputProcessorProfileActivationSink ITfInputProcessorProfileActivationSink;
-typedef struct ITfSource ITfSource;
+تعریفنوع ساختار IEnumTfDocumentMgrs IEnumTfDocumentMgrs;
+تعریفنوع ساختار IEnumTfFunctionProviders IEnumTfFunctionProviders;
+تعریفنوع ساختار ITfFunctionProvider ITfFunctionProvider;
+تعریفنوع ساختار ITfCompartmentMgr ITfCompartmentMgr;
+تعریفنوع ساختار ITfContext ITfContext;
+تعریفنوع ساختار IEnumTfContexts IEnumTfContexts;
+تعریفنوع ساختار ITfUIElementSink ITfUIElementSink;
+تعریفنوع ساختار ITfUIElement ITfUIElement;
+تعریفنوع ساختار ITfUIElementMgr ITfUIElementMgr;
+تعریفنوع ساختار IEnumTfUIElements IEnumTfUIElements;
+تعریفنوع ساختار ITfThreadMgrEx ITfThreadMgrEx;
+تعریفنوع ساختار ITfCandidateListUIElement ITfCandidateListUIElement;
+تعریفنوع ساختار ITfReadingInformationUIElement ITfReadingInformationUIElement;
+تعریفنوع ساختار ITf_درون_داد_Processor_Profile_Activation_Sink ITf_درون_داد_Processor_Profile_Activation_Sink;
+تعریفنوع ساختار ITfSource ITfSource;
 
-typedef DWORD TfClientId;
-typedef DWORD TfEditCookie;
+تعریفنوع DWORD TfClientId;
+تعریفنوع DWORD TfEditCookie;
 
-typedef struct ITfThreadMgrVtbl
+تعریفنوع ساختار ITfThreadMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgr *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgr *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgr *, TfClientId *);
@@ -71,14 +71,14 @@ typedef struct ITfThreadMgrVtbl
     HRESULT (STDMETHODCALLTYPE *GetGlobalCompartment)(ITfThreadMgr *, ITfCompartmentMgr **);
 } ITfThreadMgrVtbl;
 
-struct ITfThreadMgr
+ساختار ITfThreadMgr
 {
-    const struct ITfThreadMgrVtbl *lpVtbl;
+    ثابت ساختار ITfThreadMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfThreadMgrExVtbl
+تعریفنوع ساختار ITfThreadMgrExVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfThreadMgrEx *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfThreadMgrEx *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfThreadMgrEx *);
     HRESULT (STDMETHODCALLTYPE *Activate)(ITfThreadMgrEx *, TfClientId *);
@@ -96,32 +96,32 @@ typedef struct ITfThreadMgrExVtbl
     HRESULT (STDMETHODCALLTYPE *GetActiveFlags)(ITfThreadMgrEx *, DWORD *);
 } ITfThreadMgrExVtbl;
 
-struct ITfThreadMgrEx
+ساختار ITfThreadMgrEx
 {
-    const struct ITfThreadMgrExVtbl *lpVtbl;
+    ثابت ساختار ITfThreadMgrExVtbl *lpVtbl;
 };
 
-typedef struct ITfDocumentMgrVtbl
+تعریفنوع ساختار ITfDocumentMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfDocumentMgr *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfDocumentMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfDocumentMgr *);
     HRESULT (STDMETHODCALLTYPE *CreateContext)(ITfDocumentMgr *, TfClientId, DWORD, IUnknown *, ITfContext **, TfEditCookie *);
-    HRESULT (STDMETHODCALLTYPE *Push)(ITfDocumentMgr *, ITfContext *);
-    HRESULT (STDMETHODCALLTYPE *Pop)(ITfDocumentMgr *);
-    HRESULT (STDMETHODCALLTYPE *GetTop)(ITfDocumentMgr *, ITfContext **);
+    HRESULT (STDMETHODCALLTYPE *افزودن_2)(ITfDocumentMgr *, ITfContext *);
+    HRESULT (STDMETHODCALLTYPE *برداشت_2)(ITfDocumentMgr *);
+    HRESULT (STDMETHODCALLTYPE *Get_بالاترین)(ITfDocumentMgr *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *GetBase)(ITfDocumentMgr *, ITfContext **);
     HRESULT (STDMETHODCALLTYPE *EnumContexts)(ITfDocumentMgr *, IEnumTfContexts **);
 } ITfDocumentMgrVtbl;
 
-struct ITfDocumentMgr
+ساختار ITfDocumentMgr
 {
-    const struct ITfDocumentMgrVtbl *lpVtbl;
+    ثابت ساختار ITfDocumentMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementSinkVtbl
+تعریفنوع ساختار ITfUIElementSinkVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementSink *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementSink *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementSink *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementSink *, DWORD, BOOL *);
@@ -129,14 +129,14 @@ typedef struct ITfUIElementSinkVtbl
     HRESULT (STDMETHODCALLTYPE *EndUIElement)(ITfUIElementSink *, DWORD);
 } ITfUIElementSinkVtbl;
 
-struct ITfUIElementSink
+ساختار ITfUIElementSink
 {
-    const struct ITfUIElementSinkVtbl *lpVtbl;
+    ثابت ساختار ITfUIElementSinkVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementMgrVtbl
+تعریفنوع ساختار ITfUIElementMgrVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElementMgr *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElementMgr *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElementMgr *);
     HRESULT (STDMETHODCALLTYPE *BeginUIElement)(ITfUIElementMgr *, ITfUIElement *, BOOL *, DWORD *);
@@ -146,14 +146,14 @@ typedef struct ITfUIElementMgrVtbl
     HRESULT (STDMETHODCALLTYPE *EnumUIElements)(ITfUIElementMgr *, IEnumTfUIElements **);
 } ITfUIElementMgrVtbl;
 
-struct ITfUIElementMgr
+ساختار ITfUIElementMgr
 {
-    const struct ITfUIElementMgrVtbl *lpVtbl;
+    ثابت ساختار ITfUIElementMgrVtbl *lpVtbl;
 };
 
-typedef struct ITfCandidateListUIElementVtbl
+تعریفنوع ساختار ITfCandidateListUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfCandidateListUIElement *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfCandidateListUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfCandidateListUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfCandidateListUIElement *, BSTR *);
@@ -162,7 +162,7 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfCandidateListUIElement *, BOOL *);
     HRESULT (STDMETHODCALLTYPE *GetUpdatedFlags)(ITfCandidateListUIElement *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *GetDocumentMgr)(ITfCandidateListUIElement *, ITfDocumentMgr **);
-    HRESULT (STDMETHODCALLTYPE *GetCount)(ITfCandidateListUIElement *, UINT *);
+    HRESULT (STDMETHODCALLTYPE *Get_شمار)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetSelection)(ITfCandidateListUIElement *, UINT *);
     HRESULT (STDMETHODCALLTYPE *GetString)(ITfCandidateListUIElement *, UINT, BSTR *);
     HRESULT (STDMETHODCALLTYPE *GetPageIndex)(ITfCandidateListUIElement *, UINT *, UINT, UINT *);
@@ -170,14 +170,14 @@ typedef struct ITfCandidateListUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *GetCurrentPage)(ITfCandidateListUIElement *, UINT *);
 } ITfCandidateListUIElementVtbl;
 
-struct ITfCandidateListUIElement
+ساختار ITfCandidateListUIElement
 {
-    const struct ITfCandidateListUIElementVtbl *lpVtbl;
+    ثابت ساختار ITfCandidateListUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfReadingInformationUIElementVtbl
+تعریفنوع ساختار ITfReadingInformationUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfReadingInformationUIElement *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfReadingInformationUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfReadingInformationUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfReadingInformationUIElement *, BSTR *);
@@ -192,14 +192,14 @@ typedef struct ITfReadingInformationUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsVerticalOrderPreferred)(ITfReadingInformationUIElement *, BOOL *);
 } ITfReadingInformationUIElementVtbl;
 
-struct ITfReadingInformationUIElement
+ساختار ITfReadingInformationUIElement
 {
-    const struct ITfReadingInformationUIElementVtbl *lpVtbl;
+    ثابت ساختار ITfReadingInformationUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfUIElementVtbl
+تعریفنوع ساختار ITfUIElementVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfUIElement *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfUIElement *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfUIElement *);
     HRESULT (STDMETHODCALLTYPE *GetDescription)(ITfUIElement *, BSTR *);
@@ -208,37 +208,37 @@ typedef struct ITfUIElementVtbl
     HRESULT (STDMETHODCALLTYPE *IsShown)(ITfUIElement *, BOOL *);
 } ITfUIElementVtbl;
 
-struct ITfUIElement
+ساختار ITfUIElement
 {
-    const struct ITfUIElementVtbl *lpVtbl;
+    ثابت ساختار ITfUIElementVtbl *lpVtbl;
 };
 
-typedef struct ITfInputProcessorProfileActivationSinkVtbl
+تعریفنوع ساختار ITf_درون_داد_Processor_Profile_Activation_Sink_Vtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfInputProcessorProfileActivationSink *, REFIID, void **);
-    ULONG (STDMETHODCALLTYPE *AddRef)(ITfInputProcessorProfileActivationSink *);
-    ULONG (STDMETHODCALLTYPE *Release)(ITfInputProcessorProfileActivationSink *);
-    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITfInputProcessorProfileActivationSink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITf_درون_داد_Processor_Profile_Activation_Sink *, REFIID, تهی **);
+    ULONG (STDMETHODCALLTYPE *AddRef)(ITf_درون_داد_Processor_Profile_Activation_Sink *);
+    ULONG (STDMETHODCALLTYPE *Release)(ITf_درون_داد_Processor_Profile_Activation_Sink *);
+    HRESULT (STDMETHODCALLTYPE *OnActivated)(ITf_درون_داد_Processor_Profile_Activation_Sink *, DWORD, LANGID, REFCLSID, REFGUID, REFGUID, HKL, DWORD);
 
-} ITfInputProcessorProfileActivationSinkVtbl;
+} ITf_درون_داد_Processor_Profile_Activation_Sink_Vtbl;
 
-struct ITfInputProcessorProfileActivationSink
+ساختار ITf_درون_داد_Processor_Profile_Activation_Sink
 {
-    const struct ITfInputProcessorProfileActivationSinkVtbl *lpVtbl;
+    ثابت ساختار ITf_درون_داد_Processor_Profile_Activation_Sink_Vtbl *lpVtbl;
 };
 
-typedef struct ITfSourceVtbl
+تعریفنوع ساختار ITfSourceVtbl
 {
-    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, void **);
+    HRESULT (STDMETHODCALLTYPE *QueryInterface)(ITfSource *, REFIID, تهی **);
     ULONG (STDMETHODCALLTYPE *AddRef)(ITfSource *);
     ULONG (STDMETHODCALLTYPE *Release)(ITfSource *);
     HRESULT (STDMETHODCALLTYPE *AdviseSink)(ITfSource *, REFIID, IUnknown *, DWORD *);
     HRESULT (STDMETHODCALLTYPE *UnadviseSink)(ITfSource *, DWORD);
 } ITfSourceVtbl;
 
-struct ITfSource
+ساختار ITfSource
 {
-    const struct ITfSourceVtbl *lpVtbl;
+    ثابت ساختار ITfSourceVtbl *lpVtbl;
 };
 
 /* *INDENT-ON* */ // clang-format on

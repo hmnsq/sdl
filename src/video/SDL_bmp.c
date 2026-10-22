@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 /*
    Code to load and save surfaces in Windows BMP format.
@@ -32,8 +32,8 @@
    This code currently supports Win32 DIBs in uncompressed 8 and 24 bpp.
 */
 
-#include "SDL_pixels_c.h"
-#include "SDL_surface_c.h"
+#شامل "SDL_pixels_c.h"
+#شامل "SDL_surface_c.h"
 
 #define SAVE_32BIT_BMP
 
@@ -63,124 +63,124 @@
 #define LCS_GM_GRAPHICS 0x00000002
 #endif
 
-static bool readRlePixels(SDL_Surface *surface, SDL_IOStream *src, int isRle8)
+ایستا bool readRlePixels(SDL_Surface *surface, SDL_IOStream *src, صحیح isRle8)
 {
     /*
     | Sets the surface pixels from src.  A bmp image is upside down.
     */
-    int pitch = surface->pitch;
-    int height = surface->h;
+    صحیح pitch = surface->pitch;
+    صحیح height = surface->h;
     Uint8 *start = (Uint8 *)surface->pixels;
     Uint8 *end = start + (height * pitch);
     Uint8 *bits = end - pitch, *spot;
-    int ofs = 0;
+    صحیح ofs = 0;
     Uint8 ch;
     Uint8 needsPad;
-    const int pixels_per_byte = (isRle8 ? 1 : 2);
+    ثابت صحیح pixels_per_byte = (isRle8 ? 1 : 2);
 
 #define COPY_PIXEL(x)                \
     spot = &bits[ofs++];             \
-    if (spot >= start && spot < end) \
+    اگر (spot >= start && spot < end) \
         *spot = (x)
 
-    for (;;) {
-        if (!SDL_ReadU8(src, &ch)) {
-            return false;
+    برای (;;) {
+        اگر (!SDL_ReadU8(src, &ch)) {
+            بازگشت false;
         }
         /*
         | encoded mode starts with a run length, and then a byte
         | with two colour indexes to alternate between for the run
         */
-        if (ch) {
+        اگر (ch) {
             Uint8 pixelvalue;
-            if (!SDL_ReadU8(src, &pixelvalue)) {
-                return false;
+            اگر (!SDL_ReadU8(src, &pixelvalue)) {
+                بازگشت false;
             }
-            int ich = (int) ch;
-            do {
+            صحیح ich = (صحیح) ch;
+            انجامبده {
                 COPY_PIXEL(pixelvalue);
                 ich -= pixels_per_byte;
-            } while (ich > 0);
-        } else {
+            } وقتی (ich > 0);
+        } وگرنه {
             /*
             | A leading zero is an escape; it may signal the end of the bitmap,
             | a cursor move, or some absolute data.
             | zero tag may be absolute mode or an escape
             */
-            if (!SDL_ReadU8(src, &ch)) {
-                return false;
+            اگر (!SDL_ReadU8(src, &ch)) {
+                بازگشت false;
             }
-            switch (ch) {
-            case 0: // end of line
+            انتخاب (ch) {
+            حالت 0: // end of line
                 ofs = 0;
                 bits -= pitch; // go to previous
-                break;
-            case 1:               // end of bitmap
-                return true; // success!
-            case 2:               // delta
-                if (!SDL_ReadU8(src, &ch)) {
-                    return false;
+                بشکن;
+            حالت 1:               // end of bitmap
+                بازگشت true; // success!
+            حالت 2:               // delta
+                اگر (!SDL_ReadU8(src, &ch)) {
+                    بازگشت false;
                 }
                 ofs += ch / pixels_per_byte;
-                if (ch & pixels_per_byte) {
+                اگر (ch & pixels_per_byte) {
                     ofs++;
                 }
-                if (!SDL_ReadU8(src, &ch)) {
-                    return false;
+                اگر (!SDL_ReadU8(src, &ch)) {
+                    بازگشت false;
                 }
                 bits -= (ch * pitch);
-                break;
-            default: // no compression
+                بشکن;
+            پیشفرض: // no compression
                 // !!! FIXME: this needsPad calculation can probably be simpler than this.
-                if (pixels_per_byte == 1) {
+                اگر (pixels_per_byte == 1) {
                     needsPad = (ch & 1) != 0;
-                } else {
+                } وگرنه {
                     needsPad = (((ch + (pixels_per_byte-1)) / pixels_per_byte) & (pixels_per_byte-1)) != 0;
                 }
 
-                int ich = (int) ch;
-                do {
+                صحیح ich = (صحیح) ch;
+                انجامبده {
                     Uint8 pixelvalue;
-                    if (!SDL_ReadU8(src, &pixelvalue)) {
-                        return false;
+                    اگر (!SDL_ReadU8(src, &pixelvalue)) {
+                        بازگشت false;
                     }
                     COPY_PIXEL(pixelvalue);
                     ich -= pixels_per_byte;
-                } while (ich > 0);
+                } وقتی (ich > 0);
 
                 // pad at even boundary
-                if (needsPad && !SDL_ReadU8(src, &ch)) {
-                    return false;
+                اگر (needsPad && !SDL_ReadU8(src, &ch)) {
+                    بازگشت false;
                 }
-                break;
+                بشکن;
             }
         }
     }
 }
 
-static void CorrectAlphaChannel(SDL_Surface *surface)
+ایستا تهی CorrectAlphaChannel(SDL_Surface *surface)
 {
     // Check to see if there is any alpha channel data
     bool hasAlpha = false;
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    int alphaChannelOffset = 0;
-#else
-    int alphaChannelOffset = 3;
+#اگر SDL_BYTEORDER == SDL_BIG_ENDIAN
+    صحیح alphaChannelOffset = 0;
+#وگرنه
+    صحیح alphaChannelOffset = 3;
 #endif
     Uint8 *alpha = ((Uint8 *)surface->pixels) + alphaChannelOffset;
     Uint8 *end = alpha + surface->h * surface->pitch;
 
-    while (alpha < end) {
-        if (*alpha != 0) {
+    وقتی (alpha < end) {
+        اگر (*alpha != 0) {
             hasAlpha = true;
-            break;
+            بشکن;
         }
         alpha += 4;
     }
 
-    if (!hasAlpha) {
+    اگر (!hasAlpha) {
         alpha = ((Uint8 *)surface->pixels) + alphaChannelOffset;
-        while (alpha < end) {
+        وقتی (alpha < end) {
             *alpha = SDL_ALPHA_OPAQUE;
             alpha += 4;
         }
@@ -195,31 +195,31 @@ bool SDL_IsBMP(SDL_IOStream *src)
 
     is_BMP = false;
     start = SDL_TellIO(src);
-    if (start >= 0) {
-        if (SDL_ReadIO(src, magic, sizeof(magic)) == sizeof(magic)) {
-            if (magic[0] == 'B' && magic[1] == 'M') {
+    اگر (start >= 0) {
+        اگر (SDL_ReadIO(src, magic, اندازه(magic)) == اندازه(magic)) {
+            اگر (magic[0] == 'B' && magic[1] == 'M') {
                 is_BMP = true;
             }
         }
         SDL_SeekIO(src, start, SDL_IO_SEEK_SET);
     }
 
-    return is_BMP;
+    بازگشت is_BMP;
 }
 
 SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
 {
     bool was_error = true;
     Sint64 fp_offset = 0;
-    int i, pad;
+    صحیح i, pad;
     SDL_Surface *surface;
     Uint32 Rmask = 0;
     Uint32 Gmask = 0;
     Uint32 Bmask = 0;
     Uint32 Amask = 0;
     Uint8 *bits;
-    Uint8 *top, *end;
-    bool topDown;
+    Uint8 *بالاترین, *end;
+    bool بالاترین_Down;
     bool haveRGBMasks = false;
     bool haveAlphaMask = false;
     bool correctAlpha = false;
@@ -236,7 +236,7 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     Sint32 biWidth = 0;
     Sint32 biHeight = 0;
     // Uint16 biPlanes;
-    Uint16 biBitCount = 0;
+    Uint16 bi_Bit_شمار = 0;
     Uint32 biCompression = 0;
     // Uint32 biSizeImage;
     // Sint32 biXPelsPerMeter;
@@ -245,41 +245,41 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     // Uint32 biClrImportant;
 
     // Make sure we are passed a valid data source
-    surface = NULL;
+    surface = پوچ;
     CHECK_PARAM(!src) {
         SDL_InvalidParamError("src");
-        goto done;
+        برو done;
     }
 
     // Read in the BMP file header
     fp_offset = SDL_TellIO(src);
-    if (fp_offset < 0) {
-        goto done;
+    اگر (fp_offset < 0) {
+        برو done;
     }
     SDL_ClearError();
-    if (!SDL_IsBMP(src)) {
+    اگر (!SDL_IsBMP(src)) {
         SDL_SetError("File is not a Windows BMP file");
-        goto done;
+        برو done;
     }
-    if (!SDL_ReadU16LE(src, NULL /* magic (already checked) */) ||
-        !SDL_ReadU32LE(src, NULL /* bfSize */) ||
-        !SDL_ReadU16LE(src, NULL /* bfReserved1 */) ||
-        !SDL_ReadU16LE(src, NULL /* bfReserved2 */) ||
+    اگر (!SDL_ReadU16LE(src, پوچ /* magic (already checked) */) ||
+        !SDL_ReadU32LE(src, پوچ /* bfSize */) ||
+        !SDL_ReadU16LE(src, پوچ /* bfReserved1 */) ||
+        !SDL_ReadU16LE(src, پوچ /* bfReserved2 */) ||
         !SDL_ReadU32LE(src, &bfOffBits)) {
-        goto done;
+        برو done;
     }
 
     // Read the Win32 BITMAPINFOHEADER
-    if (!SDL_ReadU32LE(src, &biSize)) {
-        goto done;
+    اگر (!SDL_ReadU32LE(src, &biSize)) {
+        برو done;
     }
-    if (biSize == 12) { // really old BITMAPCOREHEADER
+    اگر (biSize == 12) { // really old BITMAPCOREHEADER
         Uint16 biWidth16, biHeight16;
-        if (!SDL_ReadU16LE(src, &biWidth16) ||
+        اگر (!SDL_ReadU16LE(src, &biWidth16) ||
             !SDL_ReadU16LE(src, &biHeight16) ||
-            !SDL_ReadU16LE(src, NULL /* biPlanes */) ||
-            !SDL_ReadU16LE(src, &biBitCount)) {
-            goto done;
+            !SDL_ReadU16LE(src, پوچ /* biPlanes */) ||
+            !SDL_ReadU16LE(src, &bi_Bit_شمار)) {
+            برو done;
         }
         biWidth = biWidth16;
         biHeight = biHeight16;
@@ -289,23 +289,23 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         // biYPelsPerMeter = 0;
         biClrUsed = 0;
         // biClrImportant = 0;
-    } else if (biSize >= 40) { // some version of BITMAPINFOHEADER
+    } وگرنه اگر (biSize >= 40) { // some version of BITMAPINFOHEADER
         Uint32 headerSize;
-        if (!SDL_ReadS32LE(src, &biWidth) ||
+        اگر (!SDL_ReadS32LE(src, &biWidth) ||
             !SDL_ReadS32LE(src, &biHeight) ||
-            !SDL_ReadU16LE(src, NULL /* biPlanes */) ||
-            !SDL_ReadU16LE(src, &biBitCount) ||
+            !SDL_ReadU16LE(src, پوچ /* biPlanes */) ||
+            !SDL_ReadU16LE(src, &bi_Bit_شمار) ||
             !SDL_ReadU32LE(src, &biCompression) ||
-            !SDL_ReadU32LE(src, NULL /* biSizeImage */) ||
-            !SDL_ReadU32LE(src, NULL /* biXPelsPerMeter */) ||
-            !SDL_ReadU32LE(src, NULL /* biYPelsPerMeter */) ||
+            !SDL_ReadU32LE(src, پوچ /* biSizeImage */) ||
+            !SDL_ReadU32LE(src, پوچ /* biXPelsPerMeter */) ||
+            !SDL_ReadU32LE(src, پوچ /* biYPelsPerMeter */) ||
             !SDL_ReadU32LE(src, &biClrUsed) ||
-            !SDL_ReadU32LE(src, NULL /* biClrImportant */)) {
-            goto done;
+            !SDL_ReadU32LE(src, پوچ /* biClrImportant */)) {
+            برو done;
         }
 
         // 64 == BITMAPCOREHEADER2, an incompatible OS/2 2.x extension. Skip this stuff for now.
-        if (biSize != 64) {
+        اگر (biSize != 64) {
             /* This is complicated. If compression is BI_BITFIELDS, then
                we have 3 DWORDS that specify the RGB masks. This is either
                stored here in an BITMAPV2INFOHEADER (which only differs in
@@ -313,33 +313,33 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
                these masks stored in the exact same place, but strictly
                speaking, this is the bmiColors field in BITMAPINFO immediately
                following the legacy v1 info header, just past biSize. */
-            if (biCompression == BI_BITFIELDS) {
+            اگر (biCompression == BI_BITFIELDS) {
                 haveRGBMasks = true;
-                if (!SDL_ReadU32LE(src, &Rmask) ||
+                اگر (!SDL_ReadU32LE(src, &Rmask) ||
                     !SDL_ReadU32LE(src, &Gmask) ||
                     !SDL_ReadU32LE(src, &Bmask)) {
-                    goto done;
+                    برو done;
                 }
 
                 // ...v3 adds an alpha mask.
-                if (biSize >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
+                اگر (biSize >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
                     haveAlphaMask = true;
-                    if (!SDL_ReadU32LE(src, &Amask)) {
-                        goto done;
+                    اگر (!SDL_ReadU32LE(src, &Amask)) {
+                        برو done;
                     }
                 }
-            } else {
+            } وگرنه {
                 // the mask fields are ignored for v2+ headers if not BI_BITFIELD.
-                if (biSize >= 52) { // BITMAPV2INFOHEADER; adds RGB masks
-                    if (!SDL_ReadU32LE(src, NULL /* Rmask */) ||
-                        !SDL_ReadU32LE(src, NULL /* Gmask */) ||
-                        !SDL_ReadU32LE(src, NULL /* Bmask */)) {
-                        goto done;
+                اگر (biSize >= 52) { // BITMAPV2INFOHEADER; adds RGB masks
+                    اگر (!SDL_ReadU32LE(src, پوچ /* Rmask */) ||
+                        !SDL_ReadU32LE(src, پوچ /* Gmask */) ||
+                        !SDL_ReadU32LE(src, پوچ /* Bmask */)) {
+                        برو done;
                     }
                 }
-                if (biSize >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
-                    if (!SDL_ReadU32LE(src, NULL /* Amask */)) {
-                        goto done;
+                اگر (biSize >= 56) { // BITMAPV3INFOHEADER; adds alpha mask
+                    اگر (!SDL_ReadU32LE(src, پوچ /* Amask */)) {
+                        برو done;
                     }
                 }
             }
@@ -352,70 +352,70 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
 
         // skip any header bytes we didn't handle...
         headerSize = (Uint32)(SDL_TellIO(src) - (fp_offset + 14));
-        if (biSize > headerSize) {
-            if (SDL_SeekIO(src, (biSize - headerSize), SDL_IO_SEEK_CUR) < 0) {
-                goto done;
+        اگر (biSize > headerSize) {
+            اگر (SDL_SeekIO(src, (biSize - headerSize), SDL_IO_SEEK_CUR) < 0) {
+                برو done;
             }
         }
     }
-    if (biWidth <= 0 || biHeight == 0) {
+    اگر (biWidth <= 0 || biHeight == 0) {
         SDL_SetError("BMP file with bad dimensions (%" SDL_PRIs32 "x%" SDL_PRIs32 ")", biWidth, biHeight);
-        goto done;
+        برو done;
     }
-    if (biHeight < 0) {
-        topDown = true;
+    اگر (biHeight < 0) {
+        بالاترین_Down = true;
         biHeight = -biHeight;
-    } else {
-        topDown = false;
+    } وگرنه {
+        بالاترین_Down = false;
     }
 
     // Check for read error
-    if (SDL_strcmp(SDL_GetError(), "") != 0) {
-        goto done;
+    اگر (SDL_strcmp(SDL_GetError(), "") != 0) {
+        برو done;
     }
 
     // Reject invalid bit depths
-    switch (biBitCount) {
-    case 0:
-    case 3:
-    case 5:
-    case 6:
-    case 7:
-        SDL_SetError("%u bpp BMP images are not supported", biBitCount);
-        goto done;
-    default:
-        break;
+    انتخاب (bi_Bit_شمار) {
+    حالت 0:
+    حالت 3:
+    حالت 5:
+    حالت 6:
+    حالت 7:
+        SDL_SetError("%u bpp BMP images are not supported", bi_Bit_شمار);
+        برو done;
+    پیشفرض:
+        بشکن;
     }
 
     // RLE4 and RLE8 BMP compression is supported
-    switch (biCompression) {
-    case BI_RGB:
+    انتخاب (biCompression) {
+    حالت BI_RGB:
         // If there are no masks, use the defaults
         SDL_assert(!haveRGBMasks);
         SDL_assert(!haveAlphaMask);
         // Default values for the BMP format
-        switch (biBitCount) {
-        case 15:
-        case 16:
+        انتخاب (bi_Bit_شمار) {
+        حالت 15:
+        حالت 16:
             // SDL_PIXELFORMAT_XRGB1555 or SDL_PIXELFORMAT_ARGB1555 if Amask
             Rmask = 0x7C00;
             Gmask = 0x03E0;
             Bmask = 0x001F;
-            break;
-        case 24:
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            بشکن;
+        حالت 24:
+#اگر SDL_BYTEORDER == SDL_BIG_ENDIAN
             // SDL_PIXELFORMAT_RGB24
             Rmask = 0x000000FF;
             Gmask = 0x0000FF00;
             Bmask = 0x00FF0000;
-#else
+#وگرنه
             // SDL_PIXELFORMAT_BGR24
             Rmask = 0x00FF0000;
             Gmask = 0x0000FF00;
             Bmask = 0x000000FF;
 #endif
-            break;
-        case 32:
+            بشکن;
+        حالت 32:
             // We don't know if this has alpha channel or not
             correctAlpha = true;
             // SDL_PIXELFORMAT_RGBA8888
@@ -423,17 +423,17 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
             Rmask = 0x00FF0000;
             Gmask = 0x0000FF00;
             Bmask = 0x000000FF;
-            break;
-        default:
-            break;
+            بشکن;
+        پیشفرض:
+            بشکن;
         }
-        break;
+        بشکن;
 
-    case BI_BITFIELDS:
-        break; // we handled this in the info header.
+    حالت BI_BITFIELDS:
+        بشکن; // we handled this in the info header.
 
-    default:
-        break;
+    پیشفرض:
+        بشکن;
     }
 
     // Create a compatible surface, note that the colors are RGB ordered
@@ -441,60 +441,60 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
         SDL_PixelFormat format;
 
         // Get the pixel format
-        format = SDL_GetPixelFormatForMasks(biBitCount, Rmask, Gmask, Bmask, Amask);
+        format = SDL_GetPixelFormatForMasks(bi_Bit_شمار, Rmask, Gmask, Bmask, Amask);
         surface = SDL_CreateSurfaceUninitialized(biWidth, biHeight, format);
 
-        if (!surface) {
-            goto done;
+        اگر (!surface) {
+            برو done;
         }
     }
 
     // Load the palette, if any
-    if (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
+    اگر (SDL_ISPIXELFORMAT_INDEXED(surface->format)) {
         SDL_Palette *palette = SDL_CreateSurfacePalette(surface);
-        if (!palette) {
-            goto done;
+        اگر (!palette) {
+            برو done;
         }
 
-        if (SDL_SeekIO(src, fp_offset + 14 + biSize, SDL_IO_SEEK_SET) < 0) {
+        اگر (SDL_SeekIO(src, fp_offset + 14 + biSize, SDL_IO_SEEK_SET) < 0) {
             SDL_SetError("Error seeking in datastream");
-            goto done;
+            برو done;
         }
 
-        if (biBitCount >= 32) { // we shift biClrUsed by this value later.
+        اگر (bi_Bit_شمار >= 32) { // we shift biClrUsed by this value later.
             SDL_SetError("Unsupported or incorrect biBitCount field");
-            goto done;
+            برو done;
         }
 
-        if (biClrUsed == 0) {
-            biClrUsed = 1 << biBitCount;
+        اگر (biClrUsed == 0) {
+            biClrUsed = 1 << bi_Bit_شمار;
         }
 
-        if (biClrUsed > (Uint32)palette->ncolors) {
-            biClrUsed = 1 << biBitCount; // try forcing it?
-            if (biClrUsed > (Uint32)palette->ncolors) {
+        اگر (biClrUsed > (Uint32)palette->ncolors) {
+            biClrUsed = 1 << bi_Bit_شمار; // try forcing it?
+            اگر (biClrUsed > (Uint32)palette->ncolors) {
                 SDL_SetError("Unsupported or incorrect biClrUsed field");
-                goto done;
+                برو done;
             }
         }
         palette->ncolors = biClrUsed;
 
-        if (biSize == 12) {
-            for (i = 0; i < palette->ncolors; ++i) {
-                if (!SDL_ReadU8(src, &palette->colors[i].b) ||
+        اگر (biSize == 12) {
+            برای (i = 0; i < palette->ncolors; ++i) {
+                اگر (!SDL_ReadU8(src, &palette->colors[i].b) ||
                     !SDL_ReadU8(src, &palette->colors[i].g) ||
                     !SDL_ReadU8(src, &palette->colors[i].r)) {
-                    goto done;
+                    برو done;
                 }
                 palette->colors[i].a = SDL_ALPHA_OPAQUE;
             }
-        } else {
-            for (i = 0; i < palette->ncolors; ++i) {
-                if (!SDL_ReadU8(src, &palette->colors[i].b) ||
+        } وگرنه {
+            برای (i = 0; i < palette->ncolors; ++i) {
+                اگر (!SDL_ReadU8(src, &palette->colors[i].b) ||
                     !SDL_ReadU8(src, &palette->colors[i].g) ||
                     !SDL_ReadU8(src, &palette->colors[i].r) ||
                     !SDL_ReadU8(src, &palette->colors[i].a)) {
-                    goto done;
+                    برو done;
                 }
 
                 /* According to Microsoft documentation, the fourth element
@@ -507,189 +507,189 @@ SDL_Surface *SDL_LoadBMP_IO(SDL_IOStream *src, bool closeio)
     }
 
     // Read the surface pixels.  Note that the bmp image is upside down
-    if (SDL_SeekIO(src, fp_offset + bfOffBits, SDL_IO_SEEK_SET) < 0) {
+    اگر (SDL_SeekIO(src, fp_offset + bfOffBits, SDL_IO_SEEK_SET) < 0) {
         SDL_SetError("Error seeking in datastream");
-        goto done;
+        برو done;
     }
-    if ((biCompression == BI_RLE4) || (biCompression == BI_RLE8)) {
-        if (!readRlePixels(surface, src, biCompression == BI_RLE8)) {
+    اگر ((biCompression == BI_RLE4) || (biCompression == BI_RLE8)) {
+        اگر (!readRlePixels(surface, src, biCompression == BI_RLE8)) {
             SDL_SetError("Error reading from datastream");
-            goto done;
+            برو done;
         }
 
         // Success!
         was_error = false;
-        goto done;
+        برو done;
     }
-    top = (Uint8 *)surface->pixels;
+    بالاترین = (Uint8 *)surface->pixels;
     end = (Uint8 *)surface->pixels + (surface->h * surface->pitch);
     pad = ((surface->pitch % 4) ? (4 - (surface->pitch % 4)) : 0);
-    if (topDown) {
-        bits = top;
-    } else {
+    اگر (بالاترین_Down) {
+        bits = بالاترین;
+    } وگرنه {
         bits = end - surface->pitch;
     }
-    while (bits >= top && bits < end) {
-        if (SDL_ReadIO(src, bits, surface->pitch) != (size_t)surface->pitch) {
-            goto done;
+    وقتی (bits >= بالاترین && bits < end) {
+        اگر (SDL_ReadIO(src, bits, surface->pitch) != (size_t)surface->pitch) {
+            برو done;
         }
-        if (biBitCount == 8 && surface->palette && biClrUsed < (1u << biBitCount)) {
-            for (i = 0; i < surface->w; ++i) {
-                if (bits[i] >= biClrUsed) {
+        اگر (bi_Bit_شمار == 8 && surface->palette && biClrUsed < (1u << bi_Bit_شمار)) {
+            برای (i = 0; i < surface->w; ++i) {
+                اگر (bits[i] >= biClrUsed) {
                     SDL_SetError("A BMP image contains a pixel with a color out of the palette");
-                    goto done;
+                    برو done;
                 }
             }
         }
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+#اگر SDL_BYTEORDER == SDL_BIG_ENDIAN
         /* Byte-swap the pixels if needed. Note that the 24bpp
            case has already been taken care of above. */
-        switch (biBitCount) {
-        case 15:
-        case 16:
+        انتخاب (bi_Bit_شمار) {
+        حالت 15:
+        حالت 16:
         {
             Uint16 *pix = (Uint16 *)bits;
-            for (i = 0; i < surface->w; i++) {
+            برای (i = 0; i < surface->w; i++) {
                 pix[i] = SDL_Swap16(pix[i]);
             }
-            break;
+            بشکن;
         }
 
-        case 32:
+        حالت 32:
         {
             Uint32 *pix = (Uint32 *)bits;
-            for (i = 0; i < surface->w; i++) {
+            برای (i = 0; i < surface->w; i++) {
                 pix[i] = SDL_Swap32(pix[i]);
             }
-            break;
+            بشکن;
         }
         }
 #endif
 
         // Skip padding bytes, ugh
-        if (pad) {
+        اگر (pad) {
             Uint8 padbyte;
-            for (i = 0; i < pad; ++i) {
-                if (!SDL_ReadU8(src, &padbyte)) {
-                    goto done;
+            برای (i = 0; i < pad; ++i) {
+                اگر (!SDL_ReadU8(src, &padbyte)) {
+                    برو done;
                 }
             }
         }
-        if (topDown) {
+        اگر (بالاترین_Down) {
             bits += surface->pitch;
-        } else {
+        } وگرنه {
             bits -= surface->pitch;
         }
     }
-    if (correctAlpha) {
+    اگر (correctAlpha) {
         CorrectAlphaChannel(surface);
     }
 
     was_error = false;
 
 done:
-    if (was_error) {
-        if (src) {
+    اگر (was_error) {
+        اگر (src) {
             SDL_SeekIO(src, fp_offset, SDL_IO_SEEK_SET);
         }
         SDL_DestroySurface(surface);
-        surface = NULL;
+        surface = پوچ;
     }
-    if (closeio && src) {
+    اگر (closeio && src) {
         SDL_CloseIO(src);
     }
-    return surface;
+    بازگشت surface;
 }
 
-typedef struct {
+تعریفنوع ساختار {
     SDL_Surface *surface;
     SDL_Surface *intermediate_surface;
     bool save32bit;
     bool saveLegacyBMP;
 } BMPSaveState;
 
-static void FreeBMPSaveState(BMPSaveState *state)
+ایستا تهی FreeBMPSaveState(BMPSaveState *state)
 {
-    if (state->intermediate_surface && state->intermediate_surface != state->surface) {
+    اگر (state->intermediate_surface && state->intermediate_surface != state->surface) {
         SDL_DestroySurface(state->intermediate_surface);
     }
 }
 
-static bool InitBMPSaveState(BMPSaveState *state, SDL_Surface *surface)
+ایستا bool InitBMPSaveState(BMPSaveState *state, SDL_Surface *surface)
 {
     state->surface = surface;
-    state->intermediate_surface = NULL;
+    state->intermediate_surface = پوچ;
     state->save32bit = false;
     state->saveLegacyBMP = false;
 
     CHECK_PARAM(!SDL_SurfaceValid(surface)) {
-        return SDL_InvalidParamError("surface");
+        بازگشت SDL_InvalidParamError("surface");
     }
 
 #ifdef SAVE_32BIT_BMP
     // We can save alpha information in a 32-bit BMP
-    if (SDL_BITSPERPIXEL(surface->format) >= 8 &&
+    اگر (SDL_BITSPERPIXEL(surface->format) >= 8 &&
         (SDL_ISPIXELFORMAT_ALPHA(surface->format) ||
          (surface->map.info.flags & SDL_COPY_COLORKEY))) {
         state->save32bit = true;
     }
 #endif // SAVE_32BIT_BMP
 
-    if (surface->palette && !state->save32bit) {
-        if (SDL_BITSPERPIXEL(surface->format) == 8) {
+    اگر (surface->palette && !state->save32bit) {
+        اگر (SDL_BITSPERPIXEL(surface->format) == 8) {
             state->intermediate_surface = surface;
-        } else {
+        } وگرنه {
             SDL_SetError("%u bpp BMP files not supported",
                          SDL_BITSPERPIXEL(surface->format));
-            goto error;
+            برو error;
         }
-    } else if ((surface->format == SDL_PIXELFORMAT_BGR24 && !state->save32bit) ||
+    } وگرنه اگر ((surface->format == SDL_PIXELFORMAT_BGR24 && !state->save32bit) ||
                (surface->format == SDL_PIXELFORMAT_BGRA32 && state->save32bit)) {
         state->intermediate_surface = surface;
-    } else {
+    } وگرنه {
         SDL_PixelFormat pixel_format;
 
         /* If the surface has a colorkey or alpha channel we'll save a
            32-bit BMP with alpha channel, otherwise save a 24-bit BMP. */
-        if (state->save32bit) {
+        اگر (state->save32bit) {
             pixel_format = SDL_PIXELFORMAT_BGRA32;
-        } else {
+        } وگرنه {
             pixel_format = SDL_PIXELFORMAT_BGR24;
         }
         state->intermediate_surface = SDL_ConvertSurface(surface, pixel_format);
-        if (!state->intermediate_surface) {
+        اگر (!state->intermediate_surface) {
             SDL_SetError("Couldn't convert image to %d bpp",
-                         (int)SDL_BITSPERPIXEL(pixel_format));
-            goto error;
+                         (صحیح)SDL_BITSPERPIXEL(pixel_format));
+            برو error;
         }
     }
 
-    if (state->save32bit) {
+    اگر (state->save32bit) {
         state->saveLegacyBMP = SDL_GetHintBoolean(SDL_HINT_BMP_SAVE_LEGACY_FORMAT, false);
     }
-    return true;
+    بازگشت true;
 error:
     FreeBMPSaveState(state);
-    return false;
+    بازگشت false;
 }
 
-SDL_Surface *SDL_LoadBMP(const char *file)
+SDL_Surface *SDL_LoadBMP(ثابت نویسه *file)
 {
     SDL_IOStream *stream = SDL_IOFromFile(file, "rb");
-    if (!stream) {
-        return NULL;
+    اگر (!stream) {
+        بازگشت پوچ;
     }
-    return SDL_LoadBMP_IO(stream, true);
+    بازگشت SDL_LoadBMP_IO(stream, true);
 }
-static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool closeio)
+ایستا bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool closeio)
 {
     bool was_error = true;
     Sint64 fp_offset, new_offset;
-    int i, pad;
+    صحیح i, pad;
     Uint8 *bits;
 
     // The Win32 BMP file header (14 bytes)
-    char magic[2] = { 'B', 'M' };
+    نویسه magic[2] = { 'B', 'M' };
     Uint32 bfSize;
     Uint16 bfReserved1;
     Uint16 bfReserved2;
@@ -700,7 +700,7 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
     Sint32 biWidth;
     Sint32 biHeight;
     Uint16 biPlanes;
-    Uint16 biBitCount;
+    Uint16 bi_Bit_شمار;
     Uint32 biCompression;
     Uint32 biSizeImage;
     Sint32 biXPelsPerMeter;
@@ -725,8 +725,8 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
     Uint32 bV5ProfileSize = 0;
     Uint32 bV5Reserved = 0;
 
-    if (SDL_LockSurface(state->intermediate_surface)) {
-        const size_t bw = state->intermediate_surface->w * state->intermediate_surface->fmt->bytes_per_pixel;
+    اگر (SDL_LockSurface(state->intermediate_surface)) {
+        ثابت size_t bw = state->intermediate_surface->w * state->intermediate_surface->fmt->bytes_per_pixel;
 
         // Set the BMP file header values
         bfSize = 0; // We'll write this when we're done
@@ -736,15 +736,15 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
 
         // Write the BMP file header values
         fp_offset = SDL_TellIO(dst);
-        if (fp_offset < 0) {
-            goto done;
+        اگر (fp_offset < 0) {
+            برو done;
         }
-        if (SDL_WriteIO(dst, magic, 2) != 2 ||
+        اگر (SDL_WriteIO(dst, magic, 2) != 2 ||
             !SDL_WriteU32LE(dst, bfSize) ||
             !SDL_WriteU16LE(dst, bfReserved1) ||
             !SDL_WriteU16LE(dst, bfReserved2) ||
             !SDL_WriteU32LE(dst, bfOffBits)) {
-            goto done;
+            برو done;
         }
 
         // Set the BMP info values
@@ -752,20 +752,20 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
         biWidth = state->intermediate_surface->w;
         biHeight = state->intermediate_surface->h;
         biPlanes = 1;
-        biBitCount = state->intermediate_surface->fmt->bits_per_pixel;
+        bi_Bit_شمار = state->intermediate_surface->fmt->bits_per_pixel;
         biCompression = BI_RGB;
         biSizeImage = state->intermediate_surface->h * state->intermediate_surface->pitch;
         biXPelsPerMeter = 0;
         biYPelsPerMeter = 0;
-        if (state->intermediate_surface->palette) {
+        اگر (state->intermediate_surface->palette) {
             biClrUsed = state->intermediate_surface->palette->ncolors;
-        } else {
+        } وگرنه {
             biClrUsed = 0;
         }
         biClrImportant = 0;
 
         // Set the BMP info values
-        if (state->save32bit && !state->saveLegacyBMP) {
+        اگر (state->save32bit && !state->saveLegacyBMP) {
             biSize = 124;
             // Version 4 values
             biCompression = BI_BITFIELDS;
@@ -786,91 +786,91 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
         }
 
         // Write the BMP info values
-        if (!SDL_WriteU32LE(dst, biSize) ||
+        اگر (!SDL_WriteU32LE(dst, biSize) ||
             !SDL_WriteS32LE(dst, biWidth) ||
             !SDL_WriteS32LE(dst, biHeight) ||
             !SDL_WriteU16LE(dst, biPlanes) ||
-            !SDL_WriteU16LE(dst, biBitCount) ||
+            !SDL_WriteU16LE(dst, bi_Bit_شمار) ||
             !SDL_WriteU32LE(dst, biCompression) ||
             !SDL_WriteU32LE(dst, biSizeImage) ||
             !SDL_WriteU32LE(dst, biXPelsPerMeter) ||
             !SDL_WriteU32LE(dst, biYPelsPerMeter) ||
             !SDL_WriteU32LE(dst, biClrUsed) ||
             !SDL_WriteU32LE(dst, biClrImportant)) {
-            goto done;
+            برو done;
         }
 
         // Write the BMP info values
-        if (state->save32bit && !state->saveLegacyBMP) {
+        اگر (state->save32bit && !state->saveLegacyBMP) {
             // Version 4 values
-            if (!SDL_WriteU32LE(dst, bV4RedMask) ||
+            اگر (!SDL_WriteU32LE(dst, bV4RedMask) ||
                 !SDL_WriteU32LE(dst, bV4GreenMask) ||
                 !SDL_WriteU32LE(dst, bV4BlueMask) ||
                 !SDL_WriteU32LE(dst, bV4AlphaMask) ||
                 !SDL_WriteU32LE(dst, bV4CSType)) {
-                goto done;
+                برو done;
             }
-            for (i = 0; i < 3 * 3; i++) {
-                if (!SDL_WriteU32LE(dst, bV4Endpoints[i])) {
-                    goto done;
+            برای (i = 0; i < 3 * 3; i++) {
+                اگر (!SDL_WriteU32LE(dst, bV4Endpoints[i])) {
+                    برو done;
                 }
             }
-            if (!SDL_WriteU32LE(dst, bV4GammaRed) ||
+            اگر (!SDL_WriteU32LE(dst, bV4GammaRed) ||
                 !SDL_WriteU32LE(dst, bV4GammaGreen) ||
                 !SDL_WriteU32LE(dst, bV4GammaBlue)) {
-                goto done;
+                برو done;
             }
             // Version 5 values
-            if (!SDL_WriteU32LE(dst, bV5Intent) ||
+            اگر (!SDL_WriteU32LE(dst, bV5Intent) ||
                 !SDL_WriteU32LE(dst, bV5ProfileData) ||
                 !SDL_WriteU32LE(dst, bV5ProfileSize) ||
                 !SDL_WriteU32LE(dst, bV5Reserved)) {
-                goto done;
+                برو done;
             }
         }
 
         // Write the palette (in BGR color order)
-        if (state->intermediate_surface->palette) {
+        اگر (state->intermediate_surface->palette) {
             SDL_Color *colors;
-            int ncolors;
+            صحیح ncolors;
 
             colors = state->intermediate_surface->palette->colors;
             ncolors = state->intermediate_surface->palette->ncolors;
-            for (i = 0; i < ncolors; ++i) {
-                if (!SDL_WriteU8(dst, colors[i].b) ||
+            برای (i = 0; i < ncolors; ++i) {
+                اگر (!SDL_WriteU8(dst, colors[i].b) ||
                     !SDL_WriteU8(dst, colors[i].g) ||
                     !SDL_WriteU8(dst, colors[i].r) ||
                     !SDL_WriteU8(dst, colors[i].a)) {
-                    goto done;
+                    برو done;
                 }
             }
         }
 
         // Write the bitmap offset
         bfOffBits = (Uint32)(SDL_TellIO(dst) - fp_offset);
-        if (SDL_SeekIO(dst, fp_offset + 10, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        اگر (SDL_SeekIO(dst, fp_offset + 10, SDL_IO_SEEK_SET) < 0) {
+            برو done;
         }
-        if (!SDL_WriteU32LE(dst, bfOffBits)) {
-            goto done;
+        اگر (!SDL_WriteU32LE(dst, bfOffBits)) {
+            برو done;
         }
-        if (SDL_SeekIO(dst, fp_offset + bfOffBits, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        اگر (SDL_SeekIO(dst, fp_offset + bfOffBits, SDL_IO_SEEK_SET) < 0) {
+            برو done;
         }
 
         // Write the bitmap image upside down
         bits = (Uint8 *)state->intermediate_surface->pixels + (state->intermediate_surface->h * state->intermediate_surface->pitch);
         pad = ((bw % 4) ? (4 - (bw % 4)) : 0);
-        while (bits > (Uint8 *)state->intermediate_surface->pixels) {
+        وقتی (bits > (Uint8 *)state->intermediate_surface->pixels) {
             bits -= state->intermediate_surface->pitch;
-            if (SDL_WriteIO(dst, bits, bw) != bw) {
-                goto done;
+            اگر (SDL_WriteIO(dst, bits, bw) != bw) {
+                برو done;
             }
-            if (pad) {
-                const Uint8 padbyte = 0;
-                for (i = 0; i < pad; ++i) {
-                    if (!SDL_WriteU8(dst, padbyte)) {
-                        goto done;
+            اگر (pad) {
+                ثابت Uint8 padbyte = 0;
+                برای (i = 0; i < pad; ++i) {
+                    اگر (!SDL_WriteU8(dst, padbyte)) {
+                        برو done;
                     }
                 }
             }
@@ -878,18 +878,18 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
 
         // Write the BMP file size
         new_offset = SDL_TellIO(dst);
-        if (new_offset < 0) {
-            goto done;
+        اگر (new_offset < 0) {
+            برو done;
         }
         bfSize = (Uint32)(new_offset - fp_offset);
-        if (SDL_SeekIO(dst, fp_offset + 2, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        اگر (SDL_SeekIO(dst, fp_offset + 2, SDL_IO_SEEK_SET) < 0) {
+            برو done;
         }
-        if (!SDL_WriteU32LE(dst, bfSize)) {
-            goto done;
+        اگر (!SDL_WriteU32LE(dst, bfSize)) {
+            برو done;
         }
-        if (SDL_SeekIO(dst, fp_offset + bfSize, SDL_IO_SEEK_SET) < 0) {
-            goto done;
+        اگر (SDL_SeekIO(dst, fp_offset + bfSize, SDL_IO_SEEK_SET) < 0) {
+            برو done;
         }
 
         // Close it up..
@@ -899,47 +899,47 @@ static bool SDL_SaveBMP_IO_Internal(BMPSaveState *state, SDL_IOStream *dst, bool
     }
 
 done:
-    if (closeio && dst) {
-        if (!SDL_CloseIO(dst)) {
+    اگر (closeio && dst) {
+        اگر (!SDL_CloseIO(dst)) {
             was_error = true;
         }
     }
-    if (was_error) {
-        return false;
+    اگر (was_error) {
+        بازگشت false;
     }
-    return true;
+    بازگشت true;
 }
 
 bool SDL_SaveBMP_IO(SDL_Surface *surface, SDL_IOStream *dst, bool closeio)
 {
     bool result = true;
     BMPSaveState state;
-    if (!InitBMPSaveState(&state, surface)) {
-        return false;
+    اگر (!InitBMPSaveState(&state, surface)) {
+        بازگشت false;
     }
     CHECK_PARAM(!dst) {
         result = SDL_InvalidParamError("dst");
-        goto done;
+        برو done;
     }
     result = SDL_SaveBMP_IO_Internal(&state, dst, closeio);
 done:
     FreeBMPSaveState(&state);
-    return result;
+    بازگشت result;
 }
 
-bool SDL_SaveBMP(SDL_Surface *surface, const char *file)
+bool SDL_SaveBMP(SDL_Surface *surface, ثابت نویسه *file)
 {
     BMPSaveState state;
-    if (!InitBMPSaveState(&state, surface)) {
-        return false;
+    اگر (!InitBMPSaveState(&state, surface)) {
+        بازگشت false;
     }
 
     SDL_IOStream *stream = SDL_IOFromFile(file, "wb");
-    if (!stream) {
-        return false;
+    اگر (!stream) {
+        بازگشت false;
     }
 
     bool result = SDL_SaveBMP_IO_Internal(&state, stream, true);
     FreeBMPSaveState(&state);
-    return result;
+    بازگشت result;
 }

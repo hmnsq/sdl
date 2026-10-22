@@ -18,38 +18,38 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
-#include <emscripten/threading.h>
+#شامل <emscripten/emscripten.h>
+#شامل <emscripten/html5.h>
+#شامل <emscripten/threading.h>
 
-#include "SDL_emscriptenmouse.h"
-#include "SDL_emscriptenvideo.h"
+#شامل "SDL_emscriptenmouse.h"
+#شامل "SDL_emscriptenvideo.h"
 
-#include "../SDL_video_c.h"
-#include "../../events/SDL_mouse_c.h"
+#شامل "../SDL_video_c.h"
+#شامل "../../events/SDL_mouse_c.h"
 
 // older Emscriptens don't have this, but we need to for wasm64 compatibility.
 #ifndef MAIN_THREAD_EM_ASM_PTR
     #ifdef __wasm64__
         #error You need to upgrade your Emscripten compiler to support wasm64
-    #else
+    #وگرنه
         #define MAIN_THREAD_EM_ASM_PTR MAIN_THREAD_EM_ASM_INT
     #endif
 #endif
 
-static SDL_Cursor *Emscripten_CreateCursorFromString(const char *cursor_str, bool is_custom)
+ایستا SDL_Cursor *Emscripten_CreateCursorFromString(ثابت نویسه *cursor_str, bool is_custom)
 {
     SDL_CursorData *curdata;
-    SDL_Cursor *cursor = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (cursor) {
-        curdata = (SDL_CursorData *)SDL_calloc(1, sizeof(*curdata));
-        if (!curdata) {
+    SDL_Cursor *cursor = SDL_calloc(1, اندازه(SDL_Cursor));
+    اگر (cursor) {
+        curdata = (SDL_CursorData *)SDL_calloc(1, اندازه(*curdata));
+        اگر (!curdata) {
             SDL_free(cursor);
-            return NULL;
+            بازگشت پوچ;
         }
 
         curdata->system_cursor = cursor_str;
@@ -57,31 +57,31 @@ static SDL_Cursor *Emscripten_CreateCursorFromString(const char *cursor_str, boo
         cursor->internal = curdata;
     }
 
-    return cursor;
+    بازگشت cursor;
 }
 
-static SDL_Cursor *Emscripten_CreateDefaultCursor(void)
+ایستا SDL_Cursor *Emscripten_CreateDefaultCursor(تهی)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    const char *cursor_name = SDL_GetCSSCursorName(id, NULL);
-    return Emscripten_CreateCursorFromString(cursor_name, false);
+    ثابت نویسه *cursor_name = SDL_GetCSSCursorName(id, پوچ);
+    بازگشت Emscripten_CreateCursorFromString(cursor_name, false);
 }
 
 EM_JS_DEPS(sdlmouse, "$stringToUTF8,$UTF8ToString");
 
-static SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+ایستا SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, صحیح hot_x, صحیح hot_y)
 {
-    const char *cursor_url = NULL;
+    ثابت نویسه *cursor_url = پوچ;
     SDL_Surface *conv_surf;
 
     conv_surf = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_RGBA32);
 
-    if (!conv_surf) {
-        return NULL;
+    اگر (!conv_surf) {
+        بازگشت پوچ;
     }
 
     /* *INDENT-OFF* */ // clang-format off
-    cursor_url = (const char *)MAIN_THREAD_EM_ASM_PTR({
+    cursor_url = (ثابت نویسه *)MAIN_THREAD_EM_ASM_PTR({
         var w = $0;
         var h = $1;
         var hot_x = $2;
@@ -109,31 +109,31 @@ static SDL_Cursor *Emscripten_CreateCursor(SDL_Surface *surface, int hot_x, int 
         var urlBuf = _SDL_malloc(url.length + 1);
         stringToUTF8(url, urlBuf, url.length + 1);
 
-        return urlBuf;
+        بازگشت urlBuf;
     }, surface->w, surface->h, hot_x, hot_y, conv_surf->pixels);
     /* *INDENT-ON* */ // clang-format on
 
     SDL_DestroySurface(conv_surf);
 
-    return Emscripten_CreateCursorFromString(cursor_url, true);
+    بازگشت Emscripten_CreateCursorFromString(cursor_url, true);
 }
 
-static SDL_Cursor *Emscripten_CreateSystemCursor(SDL_SystemCursor id)
+ایستا SDL_Cursor *Emscripten_CreateSystemCursor(SDL_SystemCursor id)
 {
-    const char *cursor_name = SDL_GetCSSCursorName(id, NULL);
+    ثابت نویسه *cursor_name = SDL_GetCSSCursorName(id, پوچ);
 
-    return Emscripten_CreateCursorFromString(cursor_name, false);
+    بازگشت Emscripten_CreateCursorFromString(cursor_name, false);
 }
 
-static void Emscripten_FreeCursor(SDL_Cursor *cursor)
+ایستا تهی Emscripten_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *curdata;
-    if (cursor) {
+    اگر (cursor) {
         curdata = cursor->internal;
 
-        if (curdata) {
-            if (curdata->is_custom) {
-                SDL_free((char *)curdata->system_cursor);
+        اگر (curdata) {
+            اگر (curdata->is_custom) {
+                SDL_free((نویسه *)curdata->system_cursor);
             }
             SDL_free(cursor->internal);
         }
@@ -142,81 +142,81 @@ static void Emscripten_FreeCursor(SDL_Cursor *cursor)
     }
 }
 
-static bool Emscripten_ShowCursor(SDL_Cursor *cursor)
+ایستا bool Emscripten_ShowCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *curdata;
-    if (SDL_GetMouseFocus() != NULL) {
-        if (cursor && cursor->internal) {
+    اگر (SDL_GetMouseFocus() != پوچ) {
+        اگر (cursor && cursor->internal) {
             curdata = cursor->internal;
 
-            if (curdata->system_cursor) {
+            اگر (curdata->system_cursor) {
                 /* *INDENT-OFF* */ // clang-format off
                 MAIN_THREAD_EM_ASM({
-                    if (Module['canvas']) {
+                    اگر (Module['canvas']) {
                         Module['canvas'].style['cursor'] = UTF8ToString($0);
                     }
                 }, curdata->system_cursor);
                 /* *INDENT-ON* */ // clang-format on
             }
-        } else {
+        } وگرنه {
             /* *INDENT-OFF* */ // clang-format off
             MAIN_THREAD_EM_ASM(
-                if (Module['canvas']) {
+                اگر (Module['canvas']) {
                     Module['canvas'].style['cursor'] = 'none';
                 }
             );
             /* *INDENT-ON* */ // clang-format on
         }
     }
-    return true;
+    بازگشت true;
 }
 
-static bool Emscripten_SetRelativeMouseMode(bool enabled)
+ایستا bool Emscripten_SetRelativeMouseMode(bool enabled)
 {
     SDL_Window *window;
     SDL_WindowData *window_data;
 
     // TODO: pointer lock isn't actually enabled yet
-    if (enabled) {
+    اگر (enabled) {
         window = SDL_GetMouseFocus();
-        if (!window) {
-            return false;
+        اگر (!window) {
+            بازگشت false;
         }
 
         window_data = window->internal;
 
-        if (emscripten_request_pointerlock(window_data->canvas_id, 1) >= EMSCRIPTEN_RESULT_SUCCESS) {
-            return true;
+        اگر (emscripten_request_pointerlock(window_data->canvas_id, 1) >= EMSCRIPTEN_RESULT_SUCCESS) {
+            بازگشت true;
         }
-    } else {
-        if (emscripten_exit_pointerlock() >= EMSCRIPTEN_RESULT_SUCCESS) {
-            return true;
+    } وگرنه {
+        اگر (emscripten_exit_pointerlock() >= EMSCRIPTEN_RESULT_SUCCESS) {
+            بازگشت true;
         }
     }
-    return false;
+    بازگشت false;
 }
 
-static SDL_MouseButtonFlags Emscripten_GetGlobalMouseState(float *x, float *y)
+ایستا SDL_MouseButtonFlags Emscripten_GetGlobalMouseState(اعشاری *x, اعشاری *y)
 {
     *x = MAIN_THREAD_EM_ASM_DOUBLE({
-        return Module['SDL3']['mouse_x'];
+        بازگشت Module['SDL3']['mouse_x'];
     });
     *y = MAIN_THREAD_EM_ASM_DOUBLE({
-        return Module['SDL3']['mouse_y'];
+        بازگشت Module['SDL3']['mouse_y'];
     });
     SDL_MouseButtonFlags flags = 0;
-    for (int i = 0; i < 5; ++i) {
-        const bool button_down = MAIN_THREAD_EM_ASM_INT({
-            return Module['SDL3']['mouse_buttons'][$0];
+    برای (صحیح i = 0; i < 5; ++i) {
+        ثابت bool button_down = MAIN_THREAD_EM_ASM_INT({
+            بازگشت Module['SDL3']['mouse_buttons'][$0];
         }, i);
-        if (button_down) {
+        اگر (button_down) {
             flags |= 1 << i;
         }
     }
-    return flags;
+    بازگشت flags;
 }
 
-void Emscripten_InitMouse(void)
+تهی Emscripten_InitMouse(تهی)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
@@ -237,7 +237,7 @@ void Emscripten_InitMouse(void)
             NOTE: Some browsers do not allow handling the forwards and backwards buttons
         */
         SDL3['mouse_buttons'] = [];
-        for (var i = 0; i < 5; ++i) {
+        برای (var i = 0; i < 5; ++i) {
             SDL3['mouse_buttons'][i] = false;
         }
         document.addEventListener('mousemove', function(e) {
@@ -249,14 +249,14 @@ void Emscripten_InitMouse(void)
         document.addEventListener('mousedown', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
-            if (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
+            اگر (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
                 SDL3['mouse_buttons'][e.button] = true;
             }
         });
         document.addEventListener('mouseup', function(e) {
             // Reacquire from object in case it changed for some reason
             var SDL3 = Module['SDL3'];
-            if (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
+            اگر (0 <= e.button && e.button < SDL3['mouse_buttons'].length) {
                 SDL3['mouse_buttons'][e.button] = false;
             }
         });
@@ -266,7 +266,7 @@ void Emscripten_InitMouse(void)
     SDL_SetDefaultCursor(Emscripten_CreateDefaultCursor());
 }
 
-void Emscripten_QuitMouse(void)
+تهی Emscripten_QuitMouse(تهی)
 {
 }
 

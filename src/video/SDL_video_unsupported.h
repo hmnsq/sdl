@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if !defined(SDL_VIDEO_DRIVER_WINDOWS)
+#اگر !defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#if defined(SDL_PLATFORM_WINDOWS)
+#اگر defined(SDL_PLATFORM_WINDOWS)
 
-extern SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void *hInst);
-extern SDL_DECLSPEC void SDLCALL SDL_UnregisterApp(void);
-extern SDL_DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata);
+بیرونی SDL_DECLSPEC bool SDLCALL SDL_RegisterApp(ثابت نویسه *name, Uint32 style, تهی *hInst);
+بیرونی SDL_DECLSPEC تهی SDLCALL SDL_UnregisterApp(تهی);
+بیرونی SDL_DECLSPEC تهی SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, تهی *userdata);
 
 #endif /* SDL_PLATFORM_WINDOWS */
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex);
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+بیرونی SDL_DECLSPEC bool SDLCALL SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, صحیح *adapterIndex, صحیح *outputIndex);
+بیرونی SDL_DECLSPEC صحیح SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
-#elif defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#وگرنهاگر defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 
-extern SDL_DECLSPEC int SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
+بیرونی SDL_DECLSPEC صحیح SDLCALL SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID);
 
 #endif /* !SDL_VIDEO_DRIVER_WINDOWS */
 
-#if !defined(SDL_PLATFORM_GDK)
+#اگر !defined(SDL_PLATFORM_GDK)
 
-typedef struct XTaskQueueHandle XTaskQueueHandle;
+تعریفنوع ساختار XTaskQueueHandle XTaskQueueHandle;
 
-extern SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
+بیرونی SDL_DECLSPEC bool SDLCALL SDL_GetGDKTaskQueue(XTaskQueueHandle *outTaskQueue);
 
 #endif /* !SDL_PLATFORM_GDK */
 
-#if !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
+#اگر !defined(SDL_PLATFORM_IOS) || defined(SDL_PLATFORM_TVOS) || defined(SDL_PLATFORM_VISIONOS)
 
-extern SDL_DECLSPEC void SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(void);
+بیرونی SDL_DECLSPEC تهی SDLCALL SDL_OnApplicationDidChangeStatusBarOrientation(تهی);
 
 #endif
 
-#if !defined(SDL_VIDEO_DRIVER_UIKIT)
+#اگر !defined(SDL_VIDEO_DRIVER_UIKIT)
 
-typedef void (SDLCALL *SDL_iOSAnimationCallback)(void *userdata);
+تعریفنوع تهی (SDLCALL *SDL_iOSAnimationCallback)(تهی *userdata);
 
-extern SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, int interval, SDL_iOSAnimationCallback callback, void *callbackParam);
-extern SDL_DECLSPEC void SDLCALL SDL_SetiOSEventPump(bool enabled);
+بیرونی SDL_DECLSPEC bool SDLCALL SDL_SetiOSAnimationCallback(SDL_Window *window, صحیح interval, SDL_iOSAnimationCallback callback, تهی *callbackParam);
+بیرونی SDL_DECLSPEC تهی SDLCALL SDL_SetiOSEventPump(bool enabled);
 #endif

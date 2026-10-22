@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
 
 #ifdef SDL_VIDEO_VULKAN
-#include "../SDL_vulkan_internal.h"
+#شامل "../SDL_vulkan_internal.h"
 #endif
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../SDL_hints_c.h"
-#include "../../core/windows/SDL_hid.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_pixels_c.h"
+#شامل "../../SDL_hints_c.h"
+#شامل "../../core/windows/SDL_hid.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsframebuffer.h"
-#include "SDL_windowsmessagebox.h"
-#include "SDL_windowsrawinput.h"
-#include "SDL_windowsvulkan.h"
+#شامل "SDL_windowsvideo.h"
+#شامل "SDL_windowsframebuffer.h"
+#شامل "SDL_windowsmessagebox.h"
+#شامل "SDL_windowsrawinput.h"
+#شامل "SDL_windowsvulkan.h"
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-#include <shobjidl.h>
+#اگر !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#شامل <shobjidl.h>
 
 #ifndef __ITaskbarList3_FWD_DEFINED__
-typedef struct ITaskbarList3 ITaskbarList3;
+تعریفنوع ساختار ITaskbarList3 ITaskbarList3;
 #endif
 
 #ifndef __ITaskbarList3_INTERFACE_DEFINED__
-typedef enum TBPFLAG
+تعریفنوع شمارش TBPFLAG
 {
     TBPF_NOPROGRESS = 0x0,
     TBPF_INDETERMINATE = 0x1,
@@ -53,7 +53,7 @@ typedef enum TBPFLAG
     TBPF_PAUSED = 0x8
 } TBPFLAG;
 
-typedef enum THUMBBUTTONMASK
+تعریفنوع شمارش THUMBBUTTONMASK
 {
     THB_BITMAP = 0x1,
     THB_ICON = 0x2,
@@ -61,7 +61,7 @@ typedef enum THUMBBUTTONMASK
     THB_FLAGS = 0x8
 } THUMBBUTTONMASK;
 
-typedef enum THUMBBUTTONFLAGS
+تعریفنوع شمارش THUMBBUTTONFLAGS
 {
     THBF_ENABLED = 0x0,
     THBF_DISABLED = 0x1,
@@ -71,11 +71,11 @@ typedef enum THUMBBUTTONFLAGS
     THBF_NONINTERACTIVE = 0x10
 } THUMBBUTTONFLAGS;
 
-#if defined(_MSC_VER)
+#اگر defined(_MSC_VER)
 #pragma warning(disable: 4103)
 #endif
-#pragma pack(push, 8)
-typedef struct THUMBBUTTON
+#pragma pack(افزودن, 8)
+تعریفنوع ساختار THUMBBUTTON
 {
     THUMBBUTTONMASK dwMask;
     UINT iId;
@@ -85,17 +85,17 @@ typedef struct THUMBBUTTON
     THUMBBUTTONFLAGS dwFlags;
 } THUMBBUTTON;
 
-typedef struct THUMBBUTTON *LPTHUMBBUTTON;
-#pragma pack(pop)
+تعریفنوع ساختار THUMBBUTTON *LPTHUMBBUTTON;
+#pragma pack(برداشت)
 
 #ifndef HIMAGELIST
-struct _IMAGELIST;
-typedef struct _IMAGELIST *HIMAGELIST;
+ساختار _IMAGELIST;
+تعریفنوع ساختار _IMAGELIST *HIMAGELIST;
 #endif
 
-typedef struct ITaskbarList3Vtbl
+تعریفنوع ساختار ITaskbarList3Vtbl
 {
-    HRESULT (__stdcall *QueryInterface)(ITaskbarList3 *This, REFIID riid, void **ppvObject);
+    HRESULT (__stdcall *QueryInterface)(ITaskbarList3 *This, REFIID riid, تهی **ppvObject);
     ULONG (__stdcall *AddRef)(ITaskbarList3 *This);
     ULONG (__stdcall *Release)(ITaskbarList3 *This);
     HRESULT (__stdcall *HrInit)(ITaskbarList3 *This);
@@ -104,11 +104,11 @@ typedef struct ITaskbarList3Vtbl
     HRESULT (__stdcall *ActivateTab)(ITaskbarList3 *This, HWND hwnd);
     HRESULT (__stdcall *SetActiveAlt)(ITaskbarList3 *This, HWND hwnd);
     HRESULT (__stdcall *MarkFullscreenWindow)(ITaskbarList3 *This, HWND hwnd, BOOL fFullscreen);
-    HRESULT (__stdcall *SetProgressValue)(ITaskbarList3 *This, HWND hwnd, ULONGLONG ullCompleted, ULONGLONG ullTotal);
+    HRESULT (__stdcall *Set_Progress_مقدار)(ITaskbarList3 *This, HWND hwnd, ULONGLONG ullCompleted, ULONGLONG ullTotal);
     HRESULT (__stdcall *SetProgressState)(ITaskbarList3 *This, HWND hwnd, TBPFLAG tbpFlags);
     HRESULT (__stdcall *RegisterTab)(ITaskbarList3 *This, HWND hwndTab, HWND hwndMDI);
     HRESULT (__stdcall *UnregisterTab)(ITaskbarList3 *This, HWND hwndTab);
-    HRESULT (__stdcall *SetTabOrder)(ITaskbarList3 *This, HWND hwndTab, HWND hwndInsertBefore);
+    HRESULT (__stdcall *SetTabOrder)(ITaskbarList3 *This, HWND hwndTab, HWND hwnd_درج_Before);
     HRESULT (__stdcall *SetTabActive)(ITaskbarList3 *This, HWND hwndTab, HWND hwndMDI, DWORD dwReserved);
     HRESULT (__stdcall *ThumbBarAddButtons)(ITaskbarList3 *This, HWND hwnd, UINT cButtons, LPTHUMBBUTTON pButton);
     HRESULT (__stdcall *ThumbBarUpdateButtons)(ITaskbarList3 *This, HWND hwnd, UINT cButtons, LPTHUMBBUTTON pButton);
@@ -118,7 +118,7 @@ typedef struct ITaskbarList3Vtbl
     HRESULT (__stdcall *SetThumbnailClip)(ITaskbarList3 *This, HWND hwnd, RECT *prcClip);
 } ITaskbarList3Vtbl;
 
-struct ITaskbarList3
+ساختار ITaskbarList3
 {
     ITaskbarList3Vtbl *lpVtbl;
 };
@@ -128,107 +128,107 @@ struct ITaskbarList3
 #endif
 
 #ifdef SDL_GDK_TEXTINPUT
-#include "../gdk/SDL_gdktextinput.h"
+#شامل "../gdk/SDL_gdktextinput.h"
 #endif
 
 // #define HIGHDPI_DEBUG
 
 // Initialization/Query functions
-static bool WIN_VideoInit(SDL_VideoDevice *_this);
-static void WIN_VideoQuit(SDL_VideoDevice *_this);
+ایستا bool WIN_VideoInit(SDL_VideoDevice *_this);
+ایستا تهی WIN_VideoQuit(SDL_VideoDevice *_this);
 
 // Hints
 bool g_WindowsEnableMessageLoop = true;
 bool g_WindowsEnableMenuMnemonics = false;
 bool g_WindowFrameUsableWhileCursorHidden = true;
 
-static void SDLCALL UpdateWindowsRawKeyboard(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ایستا تهی SDLCALL UpdateWindowsRawKeyboard(تهی *userdata, ثابت نویسه *name, ثابت نویسه *old_مقدار, ثابت نویسه *new_مقدار)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_مقدار, false);
     WIN_SetRawKeyboardEnabled(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsRawKeyboardNoHotkeys(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ایستا تهی SDLCALL UpdateWindowsRawKeyboardNoHotkeys(تهی *userdata, ثابت نویسه *name, ثابت نویسه *old_مقدار, ثابت نویسه *new_مقدار)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_مقدار, false);
     WIN_SetRawKeyboardFlag_NoHotkeys(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsRawKeyboardInputsink(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ایستا تهی SDLCALL UpdateWindowsRawKeyboardInputsink(تهی *userdata, ثابت نویسه *name, ثابت نویسه *old_مقدار, ثابت نویسه *new_مقدار)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_مقدار, false);
     WIN_SetRawKeyboardFlag_Inputsink(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsRawMouseNoLegacy(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ایستا تهی SDLCALL UpdateWindowsRawMouseNoLegacy(تهی *userdata, ثابت نویسه *name, ثابت نویسه *old_مقدار, ثابت نویسه *new_مقدار)
 {
     SDL_VideoDevice *_this = (SDL_VideoDevice *)userdata;
-    bool enabled = SDL_GetStringBoolean(newValue, false);
+    bool enabled = SDL_GetStringBoolean(new_مقدار, false);
     WIN_SetRawMouseFlag_NoLegacy(_this, enabled);
 }
 
-static void SDLCALL UpdateWindowsEnableMessageLoop(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ایستا تهی SDLCALL UpdateWindowsEnableMessageLoop(تهی *userdata, ثابت نویسه *name, ثابت نویسه *old_مقدار, ثابت نویسه *new_مقدار)
 {
-    g_WindowsEnableMessageLoop = SDL_GetStringBoolean(newValue, true);
+    g_WindowsEnableMessageLoop = SDL_GetStringBoolean(new_مقدار, true);
 }
 
-static void SDLCALL UpdateWindowsEnableMenuMnemonics(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ایستا تهی SDLCALL UpdateWindowsEnableMenuMnemonics(تهی *userdata, ثابت نویسه *name, ثابت نویسه *old_مقدار, ثابت نویسه *new_مقدار)
 {
-    g_WindowsEnableMenuMnemonics = SDL_GetStringBoolean(newValue, false);
+    g_WindowsEnableMenuMnemonics = SDL_GetStringBoolean(new_مقدار, false);
 }
 
-static void SDLCALL UpdateWindowFrameUsableWhileCursorHidden(void *userdata, const char *name, const char *oldValue, const char *newValue)
+ایستا تهی SDLCALL UpdateWindowFrameUsableWhileCursorHidden(تهی *userdata, ثابت نویسه *name, ثابت نویسه *old_مقدار, ثابت نویسه *new_مقدار)
 {
-    g_WindowFrameUsableWhileCursorHidden = SDL_GetStringBoolean(newValue, true);
+    g_WindowFrameUsableWhileCursorHidden = SDL_GetStringBoolean(new_مقدار, true);
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static bool WIN_SuspendScreenSaver(SDL_VideoDevice *_this)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+ایستا bool WIN_SuspendScreenSaver(SDL_VideoDevice *_this)
 {
     DWORD result;
-    if (_this->suspend_screensaver) {
+    اگر (_this->suspend_screensaver) {
         result = SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
-    } else {
+    } وگرنه {
         result = SetThreadExecutionState(ES_CONTINUOUS);
     }
-    if (result == 0) {
+    اگر (result == 0) {
         SDL_SetError("SetThreadExecutionState() failed");
-        return false;
+        بازگشت false;
     }
-    return true;
+    بازگشت true;
 }
 #endif
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-extern void D3D12_XBOX_GetResolution(Uint32 *width, Uint32 *height);
+#اگر defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+بیرونی تهی D3D12_XBOX_GetResolution(Uint32 *width, Uint32 *height);
 #endif
 
 // Windows driver bootstrap functions
 
-static void WIN_DeleteDevice(SDL_VideoDevice *device)
+ایستا تهی WIN_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
 
     SDL_UnregisterApp();
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (data->userDLL) {
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    اگر (data->userDLL) {
         SDL_UnloadObject(data->userDLL);
     }
-    if (data->shcoreDLL) {
+    اگر (data->shcoreDLL) {
         SDL_UnloadObject(data->shcoreDLL);
     }
-    if (data->dwmapiDLL) {
+    اگر (data->dwmapiDLL) {
         SDL_UnloadObject(data->dwmapiDLL);
     }
 #endif
 #ifdef HAVE_DXGI_H
-    if (data->pDXGIFactory) {
+    اگر (data->pDXGIFactory) {
         IDXGIFactory_Release(data->pDXGIFactory);
     }
-    if (data->dxgiDLL) {
+    اگر (data->dxgiDLL) {
         SDL_UnloadObject(data->dxgiDLL);
     }
 #endif
@@ -237,39 +237,39 @@ static void WIN_DeleteDevice(SDL_VideoDevice *device)
     SDL_free(device);
 }
 
-static SDL_VideoDevice *WIN_CreateDevice(void)
+ایستا SDL_VideoDevice *WIN_CreateDevice(تهی)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
 
-    SDL_RegisterApp(NULL, 0, NULL);
+    SDL_RegisterApp(پوچ, 0, پوچ);
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (device) {
-        data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    } else {
-        data = NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, اندازه(SDL_VideoDevice));
+    اگر (device) {
+        data = (SDL_VideoData *)SDL_calloc(1, اندازه(SDL_VideoData));
+    } وگرنه {
+        data = پوچ;
     }
-    if (!data) {
+    اگر (!data) {
         SDL_UnregisterApp();
         SDL_free(device);
-        return NULL;
+        بازگشت پوچ;
     }
     device->internal = data;
     device->system_theme = WIN_GetSystemTheme();
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     data->userDLL = SDL_LoadObject("USER32.DLL");
-    if (data->userDLL) {
+    اگر (data->userDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        data->CloseTouchInputHandle = (BOOL (WINAPI *)(HTOUCHINPUT))SDL_LoadFunction(data->userDLL, "CloseTouchInputHandle");
-        data->GetTouchInputInfo = (BOOL (WINAPI *)(HTOUCHINPUT, UINT, PTOUCHINPUT, int)) SDL_LoadFunction(data->userDLL, "GetTouchInputInfo");
+        data->Close_Touch_درون_داد_Handle = (BOOL (WINAPI *)(HTOUCHINPUT))SDL_LoadFunction(data->userDLL, "CloseTouchInputHandle");
+        data->Get_Touch_درون_داد_Info = (BOOL (WINAPI *)(HTOUCHINPUT, UINT, PTOUCHINPUT, صحیح)) SDL_LoadFunction(data->userDLL, "GetTouchInputInfo");
         data->RegisterTouchWindow = (BOOL (WINAPI *)(HWND, ULONG))SDL_LoadFunction(data->userDLL, "RegisterTouchWindow");
-        data->SetProcessDPIAware = (BOOL (WINAPI *)(void))SDL_LoadFunction(data->userDLL, "SetProcessDPIAware");
+        data->SetProcessDPIAware = (BOOL (WINAPI *)(تهی))SDL_LoadFunction(data->userDLL, "SetProcessDPIAware");
         data->SetProcessDpiAwarenessContext = (BOOL (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "SetProcessDpiAwarenessContext");
         data->SetThreadDpiAwarenessContext = (DPI_AWARENESS_CONTEXT (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "SetThreadDpiAwarenessContext");
-        data->GetThreadDpiAwarenessContext = (DPI_AWARENESS_CONTEXT (WINAPI *)(void))SDL_LoadFunction(data->userDLL, "GetThreadDpiAwarenessContext");
+        data->GetThreadDpiAwarenessContext = (DPI_AWARENESS_CONTEXT (WINAPI *)(تهی))SDL_LoadFunction(data->userDLL, "GetThreadDpiAwarenessContext");
         data->GetAwarenessFromDpiAwarenessContext = (DPI_AWARENESS (WINAPI *)(DPI_AWARENESS_CONTEXT))SDL_LoadFunction(data->userDLL, "GetAwarenessFromDpiAwarenessContext");
         data->EnableNonClientDpiScaling = (BOOL (WINAPI *)(HWND))SDL_LoadFunction(data->userDLL, "EnableNonClientDpiScaling");
         data->AdjustWindowRectExForDpi = (BOOL (WINAPI *)(LPRECT, DWORD, BOOL, DWORD, UINT))SDL_LoadFunction(data->userDLL, "AdjustWindowRectExForDpi");
@@ -279,48 +279,48 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
         data->GetDisplayConfigBufferSizes = (LONG (WINAPI *)(UINT32,UINT32 *,UINT32 *))SDL_LoadFunction(data->userDLL, "GetDisplayConfigBufferSizes");
         data->QueryDisplayConfig = (LONG (WINAPI *)(UINT32,UINT32 *,DISPLAYCONFIG_PATH_INFO*,UINT32 *,DISPLAYCONFIG_MODE_INFO*,DISPLAYCONFIG_TOPOLOGY_ID*))SDL_LoadFunction(data->userDLL, "QueryDisplayConfig");
         data->DisplayConfigGetDeviceInfo = (LONG (WINAPI *)(DISPLAYCONFIG_DEVICE_INFO_HEADER*))SDL_LoadFunction(data->userDLL, "DisplayConfigGetDeviceInfo");
-        data->GetPointerType = (BOOL (WINAPI *)(UINT32, POINTER_INPUT_TYPE *))SDL_LoadFunction(data->userDLL, "GetPointerType");
+        data->GetPointerType = (BOOL (WINAPI *)(UINT32, POINTER_درون_داد_TYPE *))SDL_LoadFunction(data->userDLL, "GetPointerType");
         data->GetPointerPenInfo = (BOOL (WINAPI *)(UINT32, POINTER_PEN_INFO *))SDL_LoadFunction(data->userDLL, "GetPointerPenInfo");
         data->GetPointerDeviceRects = (BOOL (WINAPI *)(HANDLE, RECT *, RECT *))SDL_LoadFunction(data->userDLL, "GetPointerDeviceRects");
         /* *INDENT-ON* */ // clang-format on
-    } else {
+    } وگرنه {
         SDL_ClearError();
     }
 
     data->shcoreDLL = SDL_LoadObject("SHCORE.DLL");
-    if (data->shcoreDLL) {
+    اگر (data->shcoreDLL) {
         /* *INDENT-OFF* */ // clang-format off
         data->GetDpiForMonitor = (HRESULT (WINAPI *)(HMONITOR, MONITOR_DPI_TYPE, UINT *, UINT *))SDL_LoadFunction(data->shcoreDLL, "GetDpiForMonitor");
         data->SetProcessDpiAwareness = (HRESULT (WINAPI *)(PROCESS_DPI_AWARENESS))SDL_LoadFunction(data->shcoreDLL, "SetProcessDpiAwareness");
         /* *INDENT-ON* */ // clang-format on
-    } else {
+    } وگرنه {
         SDL_ClearError();
     }
 
     data->dwmapiDLL = SDL_LoadObject("DWMAPI.DLL");
-    if (data->dwmapiDLL) {
+    اگر (data->dwmapiDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        data->DwmFlush = (HRESULT (WINAPI *)(void))SDL_LoadFunction(data->dwmapiDLL, "DwmFlush");
-        data->DwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND hwnd, const DWM_BLURBEHIND *pBlurBehind))SDL_LoadFunction(data->dwmapiDLL, "DwmEnableBlurBehindWindow");
+        data->DwmFlush = (HRESULT (WINAPI *)(تهی))SDL_LoadFunction(data->dwmapiDLL, "DwmFlush");
+        data->DwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND hwnd, ثابت DWM_BLURBEHIND *pBlurBehind))SDL_LoadFunction(data->dwmapiDLL, "DwmEnableBlurBehindWindow");
         data->DwmSetWindowAttribute = (HRESULT (WINAPI *)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute))SDL_LoadFunction(data->dwmapiDLL, "DwmSetWindowAttribute");
         /* *INDENT-ON* */ // clang-format on
-    } else {
+    } وگرنه {
         SDL_ClearError();
     }
 #endif // #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 #ifdef HAVE_DXGI_H
     data->dxgiDLL = SDL_LoadObject("DXGI.DLL");
-    if (data->dxgiDLL) {
+    اگر (data->dxgiDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        typedef HRESULT (WINAPI *pfnCreateDXGI)(REFIID riid, void **ppFactory);
+        تعریفنوع HRESULT (WINAPI *pfnCreateDXGI)(REFIID riid, تهی **ppFactory);
         /* *INDENT-ON* */ // clang-format on
         pfnCreateDXGI pCreateDXGI;
 
         pCreateDXGI = (pfnCreateDXGI)SDL_LoadFunction(data->dxgiDLL, "CreateDXGIFactory");
-        if (pCreateDXGI) {
+        اگر (pCreateDXGI) {
             GUID dxgiGUID = { 0x7b7166ec, 0x21c7, 0x44ae, { 0xb2, 0x1a, 0xc9, 0xae, 0x32, 0x1a, 0xe3, 0x69 } };
-            pCreateDXGI(&dxgiGUID, (void **)&data->pDXGIFactory);
+            pCreateDXGI(&dxgiGUID, (تهی **)&data->pDXGIFactory);
         }
     }
 #endif
@@ -328,7 +328,7 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     // Set the function pointers
     device->VideoInit = WIN_VideoInit;
     device->VideoQuit = WIN_VideoQuit;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->RefreshDisplays = WIN_RefreshDisplays;
     device->GetDisplayBounds = WIN_GetDisplayBounds;
     device->GetDisplayUsableBounds = WIN_GetDisplayUsableBounds;
@@ -337,7 +337,7 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
 #endif
     device->PumpEvents = WIN_PumpEvents;
     device->WaitEventTimeout = WIN_WaitEventTimeout;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->SendWakeupEvent = WIN_SendWakeupEvent;
     device->SuspendScreenSaver = WIN_SuspendScreenSaver;
 #endif
@@ -358,18 +358,18 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->RestoreWindow = WIN_RestoreWindow;
     device->SetWindowBordered = WIN_SetWindowBordered;
     device->SetWindowResizable = WIN_SetWindowResizable;
-    device->SetWindowAlwaysOnTop = WIN_SetWindowAlwaysOnTop;
+    device->Set_Window_Always_On_بالاترین = WIN_Set_Window_Always_On_بالاترین;
     device->SetWindowFullscreen = WIN_SetWindowFullscreen;
     device->SetWindowParent = WIN_SetWindowParent;
     device->SetWindowModal = WIN_SetWindowModal;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->GetWindowICCProfile = WIN_GetWindowICCProfile;
     device->SetWindowMouseRect = WIN_SetWindowMouseRect;
     device->SetWindowMouseGrab = WIN_SetWindowMouseGrab;
     device->SetWindowKeyboardGrab = WIN_SetWindowKeyboardGrab;
 #endif
     device->DestroyWindow = WIN_DestroyWindow;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     device->CreateWindowFramebuffer = WIN_CreateWindowFramebuffer;
     device->UpdateWindowFramebuffer = WIN_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = WIN_DestroyWindowFramebuffer;
@@ -393,11 +393,11 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
     device->GL_SwapWindow = WIN_GL_SwapWindow;
     device->GL_DestroyContext = WIN_GL_DestroyContext;
-    device->GL_GetEGLSurface = NULL;
+    device->GL_GetEGLSurface = پوچ;
 #endif
 #ifdef SDL_VIDEO_OPENGL_EGL
 #ifdef SDL_VIDEO_OPENGL_WGL
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
+    اگر (SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
 #endif
         // Use EGL based functions
         device->GL_LoadLibrary = WIN_GLES_LoadLibrary;
@@ -423,10 +423,10 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->Vulkan_GetPresentationSupport = WIN_Vulkan_GetPresentationSupport;
 #endif
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    device->StartTextInput = WIN_StartTextInput;
-    device->StopTextInput = WIN_StopTextInput;
-    device->UpdateTextInputArea = WIN_UpdateTextInputArea;
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    device->Start_Text_درون_داد = WIN_Start_Text_درون_داد;
+    device->Stop_Text_درون_داد = WIN_Stop_Text_درون_داد;
+    device->Update_Text_درون_داد_Area = WIN_Update_Text_درون_داد_Area;
     device->ClearComposition = WIN_ClearComposition;
 
     device->SetClipboardData = WIN_SetClipboardData;
@@ -437,9 +437,9 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
 #ifdef SDL_GDK_TEXTINPUT
     GDK_EnsureHints();
 
-    device->StartTextInput = GDK_StartTextInput;
-    device->StopTextInput = GDK_StopTextInput;
-    device->UpdateTextInputArea = GDK_UpdateTextInputArea;
+    device->Start_Text_درون_داد = GDK_Start_Text_درون_داد;
+    device->Stop_Text_درون_داد = GDK_Stop_Text_درون_داد;
+    device->Update_Text_درون_داد_Area = GDK_Update_Text_درون_داد_Area;
     device->ClearComposition = GDK_ClearComposition;
 
     device->HasScreenKeyboardSupport = GDK_HasScreenKeyboardSupport;
@@ -447,88 +447,88 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->HideScreenKeyboard = GDK_HideScreenKeyboard;
 #endif
 
-    device->free = WIN_DeleteDevice;
+    device->آزاد = WIN_DeleteDevice;
 
     device->device_caps = VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT |
                           VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS;
 
-    return device;
+    بازگشت device;
 }
 
 VideoBootStrap WINDOWS_bootstrap = {
     "windows", "SDL Windows video driver", WIN_CreateDevice,
-    #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    #اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     WIN_ShowMessageBox,
-    #else
-    NULL,
+    #وگرنه
+    پوچ,
     #endif
     false
 };
 
-static BOOL WIN_DeclareDPIAwareUnaware(SDL_VideoDevice *_this)
+ایستا BOOL WIN_DeclareDPIAwareUnaware(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *data = _this->internal;
 
-    if (data->SetProcessDpiAwarenessContext) {
+    اگر (data->SetProcessDpiAwarenessContext) {
         data->dpi_unaware_context_declared = true;
-        return data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_UNAWARE);
-    } else if (data->SetProcessDpiAwareness) {
+        بازگشت data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_UNAWARE);
+    } وگرنه اگر (data->SetProcessDpiAwareness) {
         // Windows 8.1
-        return SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_DPI_UNAWARE));
+        بازگشت SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_DPI_UNAWARE));
     }
 #endif
-    return FALSE;
+    بازگشت FALSE;
 }
 
-static BOOL WIN_DeclareDPIAwareSystem(SDL_VideoDevice *_this)
+ایستا BOOL WIN_DeclareDPIAwareSystem(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *data = _this->internal;
 
-    if (data->SetProcessDpiAwarenessContext) {
+    اگر (data->SetProcessDpiAwarenessContext) {
         // Windows 10, version 1607
-        return data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
-    } else if (data->SetProcessDpiAwareness) {
+        بازگشت data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
+    } وگرنه اگر (data->SetProcessDpiAwareness) {
         // Windows 8.1
-        return SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE));
-    } else if (data->SetProcessDPIAware) {
+        بازگشت SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE));
+    } وگرنه اگر (data->SetProcessDPIAware) {
         // Windows Vista
-        return data->SetProcessDPIAware();
+        بازگشت data->SetProcessDPIAware();
     }
 #endif
-    return FALSE;
+    بازگشت FALSE;
 }
 
-static BOOL WIN_DeclareDPIAwarePerMonitor(SDL_VideoDevice *_this)
+ایستا BOOL WIN_DeclareDPIAwarePerMonitor(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *data = _this->internal;
 
-    if (data->SetProcessDpiAwarenessContext) {
+    اگر (data->SetProcessDpiAwarenessContext) {
         // Windows 10, version 1607
-        return data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
-    } else if (data->SetProcessDpiAwareness) {
+        بازگشت data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
+    } وگرنه اگر (data->SetProcessDpiAwareness) {
         // Windows 8.1
-        return SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE));
-    } else {
+        بازگشت SUCCEEDED(data->SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE));
+    } وگرنه {
         // Older OS: fall back to system DPI aware
-        return WIN_DeclareDPIAwareSystem(_this);
+        بازگشت WIN_DeclareDPIAwareSystem(_this);
     }
-#else
-    return FALSE;
+#وگرنه
+    بازگشت FALSE;
 #endif
 }
 
-static BOOL WIN_DeclareDPIAwarePerMonitorV2(SDL_VideoDevice *_this)
+ایستا BOOL WIN_DeclareDPIAwarePerMonitorV2(SDL_VideoDevice *_this)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    return FALSE;
-#else
+#اگر defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    بازگشت FALSE;
+#وگرنه
     SDL_VideoData *data = _this->internal;
 
     // Declare DPI aware (may have been done in external code or a manifest, as well)
-    if (data->SetProcessDpiAwarenessContext) {
+    اگر (data->SetProcessDpiAwarenessContext) {
         // Windows 10, version 1607
 
         /* NOTE: SetThreadDpiAwarenessContext doesn't work here with OpenGL - the OpenGL contents
@@ -546,77 +546,77 @@ static BOOL WIN_DeclareDPIAwarePerMonitorV2(SDL_VideoDevice *_this)
            will fail in the future until you manually clear the "Override high DPI Scaling behaviour"
            setting in Windows Explorer (tested on Windows 10 21H2).
          */
-        if (data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
-            return TRUE;
-        } else {
-            return WIN_DeclareDPIAwarePerMonitor(_this);
+        اگر (data->SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
+            بازگشت TRUE;
+        } وگرنه {
+            بازگشت WIN_DeclareDPIAwarePerMonitor(_this);
         }
-    } else {
+    } وگرنه {
         // Older OS: fall back to per-monitor (or system)
-        return WIN_DeclareDPIAwarePerMonitor(_this);
+        بازگشت WIN_DeclareDPIAwarePerMonitor(_this);
     }
 #endif
 }
 
 #ifdef HIGHDPI_DEBUG
-static const char *WIN_GetDPIAwareness(SDL_VideoDevice *_this)
+ایستا ثابت نویسه *WIN_GetDPIAwareness(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
 
-    if (data->GetThreadDpiAwarenessContext && data->AreDpiAwarenessContextsEqual) {
+    اگر (data->GetThreadDpiAwarenessContext && data->AreDpiAwarenessContextsEqual) {
         DPI_AWARENESS_CONTEXT context = data->GetThreadDpiAwarenessContext();
 
-        if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE)) {
-            return "unaware";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_SYSTEM_AWARE)) {
-            return "system";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)) {
-            return "permonitor";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
-            return "permonitorv2";
-        } else if (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)) {
-            return "unaware_gdiscaled";
+        اگر (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE)) {
+            بازگشت "unaware";
+        } وگرنه اگر (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_SYSTEM_AWARE)) {
+            بازگشت "system";
+        } وگرنه اگر (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)) {
+            بازگشت "permonitor";
+        } وگرنه اگر (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
+            بازگشت "permonitorv2";
+        } وگرنه اگر (data->AreDpiAwarenessContextsEqual(context, DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)) {
+            بازگشت "unaware_gdiscaled";
         }
     }
 
-    return "";
+    بازگشت "";
 }
 #endif
 
-static void WIN_InitDPIAwareness(SDL_VideoDevice *_this)
+ایستا تهی WIN_InitDPIAwareness(SDL_VideoDevice *_this)
 {
-    const char *hint = SDL_GetHint("SDL_WINDOWS_DPI_AWARENESS");
+    ثابت نویسه *hint = SDL_GetHint("SDL_WINDOWS_DPI_AWARENESS");
 
-    if (!hint || SDL_strcmp(hint, "permonitorv2") == 0) {
+    اگر (!hint || SDL_strcmp(hint, "permonitorv2") == 0) {
         WIN_DeclareDPIAwarePerMonitorV2(_this);
-    } else if (SDL_strcmp(hint, "permonitor") == 0) {
+    } وگرنه اگر (SDL_strcmp(hint, "permonitor") == 0) {
         WIN_DeclareDPIAwarePerMonitor(_this);
-    } else if (SDL_strcmp(hint, "system") == 0) {
+    } وگرنه اگر (SDL_strcmp(hint, "system") == 0) {
         WIN_DeclareDPIAwareSystem(_this);
-    } else if (SDL_strcmp(hint, "unaware") == 0) {
+    } وگرنه اگر (SDL_strcmp(hint, "unaware") == 0) {
         WIN_DeclareDPIAwareUnaware(_this);
     }
 }
 
-static bool WIN_VideoInit(SDL_VideoDevice *_this)
+ایستا bool WIN_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     HRESULT hr;
 
     hr = WIN_CoInitialize();
-    if (SUCCEEDED(hr)) {
+    اگر (SUCCEEDED(hr)) {
         data->coinitialized = true;
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-        hr = OleInitialize(NULL);
-        if (SUCCEEDED(hr)) {
+#اگر !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+        hr = OleInitialize(پوچ);
+        اگر (SUCCEEDED(hr)) {
             data->oleinitialized = true;
-        } else {
-            SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "OleInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (unsigned int)hr);
+        } وگرنه {
+            SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "OleInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (unsigned صحیح)hr);
         }
 #endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-    } else {
-        SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "CoInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (unsigned int)hr);
+    } وگرنه {
+        SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "CoInitialize() failed: 0x%.8x, using fallback drag-n-drop functionality", (unsigned صحیح)hr);
     }
 
     WIN_InitDPIAwareness(_this);
@@ -625,11 +625,11 @@ static bool WIN_VideoInit(SDL_VideoDevice *_this)
     SDL_Log("DPI awareness: %s", WIN_GetDPIAwareness(_this));
 #endif
 
-    if (SDL_GetHintBoolean(SDL_HINT_WINDOWS_GAMEINPUT, false)) {
-        WIN_InitGameInput(_this);
+    اگر (SDL_GetHintBoolean(SDL_HINT_WINDOWS_GAMEINPUT, false)) {
+        WIN_Init_Game_درون_داد(_this);
     }
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#اگر defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     // For Xbox, we just need to create the single display
     {
         SDL_DisplayMode mode;
@@ -641,9 +641,9 @@ static bool WIN_VideoInit(SDL_VideoDevice *_this)
 
         SDL_AddBasicVideoDisplay(&mode);
     }
-#else // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!WIN_InitModes(_this)) {
-        return false;
+#وگرنه // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    اگر (!WIN_InitModes(_this)) {
+        بازگشت false;
     }
 
     _this->internal->detect_device_hotplug = SDL_GetHintBoolean("SDL_WINDOWS_DETECT_DEVICE_HOTPLUG", true);
@@ -657,58 +657,58 @@ static bool WIN_VideoInit(SDL_VideoDevice *_this)
     SDL_AddHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_EXCLUDE_HOTKEYS, UpdateWindowsRawKeyboardNoHotkeys, _this);
     SDL_AddHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_INPUTSINK, UpdateWindowsRawKeyboardInputsink, _this);
     SDL_AddHintCallback(SDL_HINT_WINDOWS_RAW_MOUSE_NOLEGACY, UpdateWindowsRawMouseNoLegacy, _this);
-    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, NULL);
-    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, NULL);
-    SDL_AddHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, NULL);
+    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, پوچ);
+    SDL_AddHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, پوچ);
+    SDL_AddHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, پوچ);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     data->_SDL_WAKEUP = RegisterWindowMessageA("_SDL_WAKEUP");
     data->WM_TASKBAR_BUTTON_CREATED = WIN_IsWindows7OrGreater() ? RegisterWindowMessageA("TaskbarButtonCreated") : 0;
 #endif
 
-    return true;
+    بازگشت true;
 }
 
-void WIN_VideoQuit(SDL_VideoDevice *_this)
+تهی WIN_VideoQuit(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
 
     SDL_RemoveHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD, UpdateWindowsRawKeyboard, _this);
     SDL_RemoveHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_EXCLUDE_HOTKEYS, UpdateWindowsRawKeyboardNoHotkeys, _this);
     SDL_RemoveHintCallback(SDL_HINT_WINDOWS_RAW_KEYBOARD_INPUTSINK, UpdateWindowsRawKeyboardInputsink, _this);
-    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, NULL);
-    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, NULL);
-    SDL_RemoveHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, NULL);
+    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MESSAGELOOP, UpdateWindowsEnableMessageLoop, پوچ);
+    SDL_RemoveHintCallback(SDL_HINT_WINDOWS_ENABLE_MENU_MNEMONICS, UpdateWindowsEnableMenuMnemonics, پوچ);
+    SDL_RemoveHintCallback(SDL_HINT_WINDOW_FRAME_USABLE_WHILE_CURSOR_HIDDEN, UpdateWindowFrameUsableWhileCursorHidden, پوچ);
 
-    WIN_QuitRawInput(_this);
-    WIN_QuitGameInput(_this);
+    WIN_Quit_Raw_درون_داد(_this);
+    WIN_Quit_Game_درون_داد(_this);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     WIN_QuitModes(_this);
     WIN_QuitDeviceNotification();
     WIN_QuitKeyboard(_this);
     WIN_QuitMouse(_this);
 
-    if (data->taskbar_list) {
+    اگر (data->taskbar_list) {
         data->taskbar_list->lpVtbl->Release(data->taskbar_list);
-        data->taskbar_list = NULL;
+        data->taskbar_list = پوچ;
     }
 
-    if (data->oleinitialized) {
+    اگر (data->oleinitialized) {
         OleUninitialize();
         data->oleinitialized = false;
     }
 #endif // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-    if (data->coinitialized) {
+    اگر (data->coinitialized) {
         WIN_CoUninitialize();
         data->coinitialized = false;
     }
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 #define D3D_DEBUG_INFO
-#include <d3d9.h>
+#شامل <d3d9.h>
 
 #ifdef D3D_DEBUG_INFO
 #ifndef D3D_SDK_VERSION
@@ -717,7 +717,7 @@ void WIN_VideoQuit(SDL_VideoDevice *_this)
 #ifndef D3D9b_SDK_VERSION
 #define D3D9b_SDK_VERSION (31 | 0x80000000)
 #endif
-#else //
+#وگرنه //
 #ifndef D3D_SDK_VERSION
 #define D3D_SDK_VERSION 32
 #endif
@@ -726,74 +726,74 @@ void WIN_VideoQuit(SDL_VideoDevice *_this)
 #endif
 #endif
 
-bool D3D_LoadDLL(void **pD3DDLL, IDirect3D9 **pDirect3D9Interface)
+bool D3D_LoadDLL(تهی **pD3DDLL, IDirect3D9 **pDirect3D9Interface)
 {
     *pD3DDLL = SDL_LoadObject("D3D9.DLL");
-    if (*pD3DDLL) {
+    اگر (*pD3DDLL) {
         /* *INDENT-OFF* */ // clang-format off
-        typedef IDirect3D9 *(WINAPI *pfnDirect3DCreate9)(UINT SDKVersion);
-        typedef HRESULT (WINAPI *pfnDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex **ppD3D);
+        تعریفنوع IDirect3D9 *(WINAPI *pfnDirect3DCreate9)(UINT SDKVersion);
+        تعریفنوع HRESULT (WINAPI *pfnDirect3DCreate9Ex)(UINT SDKVersion, IDirect3D9Ex **ppD3D);
         /* *INDENT-ON* */ // clang-format on
         pfnDirect3DCreate9 pDirect3DCreate9;
 
-        if (SDL_GetHintBoolean(SDL_HINT_WINDOWS_USE_D3D9EX, false)) {
+        اگر (SDL_GetHintBoolean(SDL_HINT_WINDOWS_USE_D3D9EX, false)) {
             pfnDirect3DCreate9Ex pDirect3DCreate9Ex;
 
             pDirect3DCreate9Ex = (pfnDirect3DCreate9Ex)SDL_LoadFunction(*pD3DDLL, "Direct3DCreate9Ex");
-            if (pDirect3DCreate9Ex) {
+            اگر (pDirect3DCreate9Ex) {
                 IDirect3D9Ex *pDirect3D9ExInterface;
                 HRESULT hr = pDirect3DCreate9Ex(D3D_SDK_VERSION, &pDirect3D9ExInterface);
-                if (SUCCEEDED(hr)) {
-                    const GUID IDirect3D9_GUID = { 0x81bdcbca, 0x64d4, 0x426d, { 0xae, 0x8d, 0xad, 0x1, 0x47, 0xf4, 0x27, 0x5c } };
-                    hr = IDirect3D9Ex_QueryInterface(pDirect3D9ExInterface, &IDirect3D9_GUID, (void **)pDirect3D9Interface);
+                اگر (SUCCEEDED(hr)) {
+                    ثابت GUID IDirect3D9_GUID = { 0x81bdcbca, 0x64d4, 0x426d, { 0xae, 0x8d, 0xad, 0x1, 0x47, 0xf4, 0x27, 0x5c } };
+                    hr = IDirect3D9Ex_QueryInterface(pDirect3D9ExInterface, &IDirect3D9_GUID, (تهی **)pDirect3D9Interface);
                     IDirect3D9Ex_Release(pDirect3D9ExInterface);
-                    if (SUCCEEDED(hr)) {
-                        return true;
+                    اگر (SUCCEEDED(hr)) {
+                        بازگشت true;
                     }
                 }
             }
         }
 
         pDirect3DCreate9 = (pfnDirect3DCreate9)SDL_LoadFunction(*pD3DDLL, "Direct3DCreate9");
-        if (pDirect3DCreate9) {
+        اگر (pDirect3DCreate9) {
             *pDirect3D9Interface = pDirect3DCreate9(D3D_SDK_VERSION);
-            if (*pDirect3D9Interface) {
-                return true;
+            اگر (*pDirect3D9Interface) {
+                بازگشت true;
             }
         }
 
         SDL_UnloadObject(*pD3DDLL);
-        *pD3DDLL = NULL;
+        *pD3DDLL = پوچ;
     }
-    *pDirect3D9Interface = NULL;
-    return false;
+    *pDirect3D9Interface = پوچ;
+    بازگشت false;
 }
 
-int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
+صحیح SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
 {
-    void *pD3DDLL;
+    تهی *pD3DDLL;
     IDirect3D9 *pD3D;
-    if (!D3D_LoadDLL(&pD3DDLL, &pD3D)) {
+    اگر (!D3D_LoadDLL(&pD3DDLL, &pD3D)) {
         SDL_SetError("Unable to create Direct3D interface");
-        return -1;
-    } else {
+        بازگشت -1;
+    } وگرنه {
         SDL_DisplayData *pData = SDL_GetDisplayDriverData(displayID);
-        int adapterIndex = D3DADAPTER_DEFAULT;
+        صحیح adapterIndex = D3DADAPTER_DEFAULT;
 
-        if (!pData) {
+        اگر (!pData) {
             SDL_SetError("Invalid display index");
             adapterIndex = -1; // make sure we return something invalid
-        } else {
-            char *displayName = WIN_StringToUTF8W(pData->DeviceName);
-            unsigned int count = IDirect3D9_GetAdapterCount(pD3D);
-            unsigned int i;
-            for (i = 0; i < count; i++) {
+        } وگرنه {
+            نویسه *displayName = WIN_StringToUTF8W(pData->DeviceName);
+            unsigned صحیح شمار = IDirect3_D9_Get_Adapter_شمار(pD3D);
+            unsigned صحیح i;
+            برای (i = 0; i < شمار; i++) {
                 D3DADAPTER_IDENTIFIER9 id;
                 IDirect3D9_GetAdapterIdentifier(pD3D, i, 0, &id);
 
-                if (SDL_strcmp(id.DeviceName, displayName) == 0) {
+                اگر (SDL_strcmp(id.DeviceName, displayName) == 0) {
                     adapterIndex = i;
-                    break;
+                    بشکن;
                 }
             }
             SDL_free(displayName);
@@ -803,55 +803,55 @@ int SDL_GetDirect3D9AdapterIndex(SDL_DisplayID displayID)
         IDirect3D9_Release(pD3D);
         SDL_UnloadObject(pD3DDLL);
 
-        return adapterIndex;
+        بازگشت adapterIndex;
     }
 }
 #endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outputIndex)
+bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, صحیح *adapterIndex, صحیح *outputIndex)
 {
 #ifndef HAVE_DXGI_H
-    if (adapterIndex) {
+    اگر (adapterIndex) {
         *adapterIndex = -1;
     }
-    if (outputIndex) {
+    اگر (outputIndex) {
         *outputIndex = -1;
     }
-    return SDL_SetError("SDL was compiled without DXGI support due to missing dxgi.h header");
-#else
-    const SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
-    const SDL_VideoData *videodata = videodevice ? videodevice->internal : NULL;
+    بازگشت SDL_SetError("SDL was compiled without DXGI support due to missing dxgi.h header");
+#وگرنه
+    ثابت SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
+    ثابت SDL_VideoData *videodata = videodevice ? videodevice->internal : پوچ;
     SDL_DisplayData *pData = SDL_GetDisplayDriverData(displayID);
-    int nAdapter, nOutput;
+    صحیح nAdapter, nOutput;
     IDXGIAdapter *pDXGIAdapter;
     IDXGIOutput *pDXGIOutput;
 
     CHECK_PARAM(!adapterIndex) {
-        return SDL_InvalidParamError("adapterIndex");
+        بازگشت SDL_InvalidParamError("adapterIndex");
     }
 
     CHECK_PARAM(!outputIndex) {
-        return SDL_InvalidParamError("outputIndex");
+        بازگشت SDL_InvalidParamError("outputIndex");
     }
 
     *adapterIndex = -1;
     *outputIndex = -1;
 
-    if (!pData) {
-        return SDL_SetError("Invalid display index");
+    اگر (!pData) {
+        بازگشت SDL_SetError("Invalid display index");
     }
 
-    if (!videodata || !videodata->pDXGIFactory) {
-        return SDL_SetError("Unable to create DXGI interface");
+    اگر (!videodata || !videodata->pDXGIFactory) {
+        بازگشت SDL_SetError("Unable to create DXGI interface");
     }
 
     nAdapter = 0;
-    while (*adapterIndex == -1 && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
+    وقتی (*adapterIndex == -1 && SUCCEEDED(IDXGIFactory_EnumAdapters(videodata->pDXGIFactory, nAdapter, &pDXGIAdapter))) {
         nOutput = 0;
-        while (*adapterIndex == -1 && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
+        وقتی (*adapterIndex == -1 && SUCCEEDED(IDXGIAdapter_EnumOutputs(pDXGIAdapter, nOutput, &pDXGIOutput))) {
             DXGI_OUTPUT_DESC outputDesc;
-            if (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
-                if (SDL_wcscmp(outputDesc.DeviceName, pData->DeviceName) == 0) {
+            اگر (SUCCEEDED(IDXGIOutput_GetDesc(pDXGIOutput, &outputDesc))) {
+                اگر (SDL_wcscmp(outputDesc.DeviceName, pData->DeviceName) == 0) {
                     *adapterIndex = nAdapter;
                     *outputIndex = nOutput;
                 }
@@ -863,44 +863,44 @@ bool SDL_GetDXGIOutputInfo(SDL_DisplayID displayID, int *adapterIndex, int *outp
         nAdapter++;
     }
 
-    if (*adapterIndex == -1) {
-        return SDL_SetError("Couldn't find matching adapter");
+    اگر (*adapterIndex == -1) {
+        بازگشت SDL_SetError("Couldn't find matching adapter");
     }
-    return true;
+    بازگشت true;
 #endif
 }
 
-SDL_SystemTheme WIN_GetSystemTheme(void)
+SDL_SystemTheme WIN_GetSystemTheme(تهی)
 {
     SDL_SystemTheme theme = SDL_SYSTEM_THEME_LIGHT;
-    HKEY hKey;
+    HKEY h_کلید;
     DWORD dwType = REG_DWORD;
-    DWORD value = ~0U;
-    DWORD length = sizeof(value);
+    DWORD مقدار = ~0U;
+    DWORD length = اندازه(مقدار);
 
     // Technically this isn't the system theme, but it's the preference for applications
-    if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-        if (RegQueryValueExW(hKey, L"AppsUseLightTheme", 0, &dwType, (LPBYTE)&value, &length) == ERROR_SUCCESS) {
-            if (value == 0) {
+    اگر (Reg_Open_کلید_Ex_W(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, کلید_READ, &h_کلید) == ERROR_SUCCESS) {
+        اگر (Reg_Query_مقدار_Ex_W(h_کلید, L"AppsUseLightTheme", 0, &dwType, (LPBYTE)&مقدار, &length) == ERROR_SUCCESS) {
+            اگر (مقدار == 0) {
                 theme = SDL_SYSTEM_THEME_DARK;
             }
         }
-        RegCloseKey(hKey);
+        Reg_Close_کلید(h_کلید);
     }
-    return theme;
+    بازگشت theme;
 }
 
 bool WIN_IsPerMonitorV2DPIAware(SDL_VideoDevice *_this)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *data = _this->internal;
 
-    if (data->AreDpiAwarenessContextsEqual && data->GetThreadDpiAwarenessContext) {
+    اگر (data->AreDpiAwarenessContextsEqual && data->GetThreadDpiAwarenessContext) {
         // Windows 10, version 1607
-        return data->AreDpiAwarenessContextsEqual(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2, data->GetThreadDpiAwarenessContext());
+        بازگشت data->AreDpiAwarenessContextsEqual(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2, data->GetThreadDpiAwarenessContext());
     }
 #endif
-    return false;
+    بازگشت false;
 }
 
 #endif // SDL_VIDEO_DRIVER_WINDOWS

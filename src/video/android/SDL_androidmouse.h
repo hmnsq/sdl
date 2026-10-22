@@ -22,10 +22,10 @@
 #ifndef SDL_androidmouse_h_
 #define SDL_androidmouse_h_
 
-#include "SDL_androidvideo.h"
+#شامل "SDL_androidvideo.h"
 
-extern void Android_InitMouse(void);
-extern void Android_OnMouse(SDL_Window *window, int button, int action, float x, float y, bool relative);
-extern void Android_QuitMouse(void);
+بیرونی تهی Android_InitMouse(تهی);
+بیرونی تهی Android_OnMouse(SDL_Window *window, صحیح button, صحیح action, اعشاری x, اعشاری y, bool relative);
+بیرونی تهی Android_QuitMouse(تهی);
 
 #endif // SDL_androidmouse_h_

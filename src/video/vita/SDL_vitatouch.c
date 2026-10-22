@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/touch.h>
+#شامل <psp2/kernel/processmgr.h>
+#شامل <psp2/touch.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitatouch.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#شامل "SDL_vitavideo.h"
+#شامل "SDL_vitatouch.h"
+#شامل "../../events/SDL_mouse_c.h"
+#شامل "../../events/SDL_touch_c.h"
 
-SceTouchData touch_old[SCE_TOUCH_PORT_MAX_NUM];
-SceTouchData touch[SCE_TOUCH_PORT_MAX_NUM];
+SceTouchData touch_old[SCE_TOUCH_PORT_MAX_رقم];
+SceTouchData touch[SCE_TOUCH_PORT_MAX_رقم];
 
-SDL_FRect area_info[SCE_TOUCH_PORT_MAX_NUM];
+SDL_FRect area_info[SCE_TOUCH_PORT_MAX_رقم];
 
-struct
+ساختار
 {
-    float min;
-    float range;
-} force_info[SCE_TOUCH_PORT_MAX_NUM];
+    اعشاری min;
+    اعشاری range;
+} force_info[SCE_TOUCH_PORT_MAX_رقم];
 
-static bool disableFrontPoll;
-static bool disableBackPoll;
+ایستا bool disableFrontPoll;
+ایستا bool disableBackPoll;
 
-void VITA_InitTouch(void)
+تهی VITA_InitTouch(تهی)
 {
     disableFrontPoll = !SDL_GetHintBoolean(SDL_HINT_VITA_ENABLE_FRONT_TOUCH, true);
     disableBackPoll = !SDL_GetHintBoolean(SDL_HINT_VITA_ENABLE_BACK_TOUCH, true);
@@ -54,17 +54,17 @@ void VITA_InitTouch(void)
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_FRONT);
     sceTouchEnableTouchForce(SCE_TOUCH_PORT_BACK);
 
-    for (int port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    برای (صحیح port = 0; port < SCE_TOUCH_PORT_MAX_رقم; port++) {
         SceTouchPanelInfo panelinfo;
         sceTouchGetPanelInfo(port, &panelinfo);
 
-        area_info[port].x = (float)panelinfo.minAaX;
-        area_info[port].y = (float)panelinfo.minAaY;
-        area_info[port].w = (float)(panelinfo.maxAaX - panelinfo.minAaX);
-        area_info[port].h = (float)(panelinfo.maxAaY - panelinfo.minAaY);
+        area_info[port].x = (اعشاری)panelinfo.minAaX;
+        area_info[port].y = (اعشاری)panelinfo.minAaY;
+        area_info[port].w = (اعشاری)(panelinfo.maxAaX - panelinfo.minAaX);
+        area_info[port].h = (اعشاری)(panelinfo.maxAaY - panelinfo.minAaY);
 
-        force_info[port].min = (float)panelinfo.minForce;
-        force_info[port].range = (float)(panelinfo.maxForce - panelinfo.minForce);
+        force_info[port].min = (اعشاری)panelinfo.minForce;
+        force_info[port].range = (اعشاری)(panelinfo.maxForce - panelinfo.minForce);
     }
 
     // Support passing both front and back touch devices in events
@@ -72,48 +72,48 @@ void VITA_InitTouch(void)
     SDL_AddTouch(2, SDL_TOUCH_DEVICE_INDIRECT_ABSOLUTE, "Back");
 }
 
-void VITA_QuitTouch(void)
+تهی VITA_QuitTouch(تهی)
 {
     sceTouchDisableTouchForce(SCE_TOUCH_PORT_FRONT);
     sceTouchDisableTouchForce(SCE_TOUCH_PORT_BACK);
 }
 
-void VITA_PollTouch(void)
+تهی VITA_PollTouch(تهی)
 {
     SDL_TouchID touch_id;
     SDL_FingerID finger_id;
-    int port;
+    صحیح port;
 
     // We skip polling touch if no window is created
-    if (!Vita_Window) {
-        return;
+    اگر (!Vita_Window) {
+        بازگشت;
     }
 
-    SDL_memcpy(touch_old, touch, sizeof(touch_old));
+    SDL_memcpy(touch_old, touch, اندازه(touch_old));
 
-    for (port = 0; port < SCE_TOUCH_PORT_MAX_NUM; port++) {
+    برای (port = 0; port < SCE_TOUCH_PORT_MAX_رقم; port++) {
         /** Skip polling of Touch Device if hint is set **/
-        if (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
-            continue;
+        اگر (((port == 0) && disableFrontPoll) || ((port == 1) && disableBackPoll)) {
+            ادامه;
         }
         sceTouchPeek(port, &touch[port], 1);
 
         touch_id = (SDL_TouchID)(port + 1);
 
-        if (touch[port].reportNum > 0) {
-            for (int i = 0; i < touch[port].reportNum; i++) {
+        اگر (touch[port].report_رقم > 0) {
+            برای (صحیح i = 0; i < touch[port].report_رقم; i++) {
                 // adjust coordinates and forces to return normalized values
                 // for the front, screen area is used as a reference (for direct touch)
                 // e.g. touch_x = 1.0 corresponds to screen_x = 960
                 // for the back panel, the active touch area is used as reference
-                float x = 0;
-                float y = 0;
-                float force = (touch[port].report[i].force - force_info[port].min) / force_info[port].range;
-                int finger_down = 0;
+                اعشاری x = 0;
+                اعشاری y = 0;
+                اعشاری force = (touch[port].report[i].force - force_info[port].min) / force_info[port].range;
+                صحیح finger_down = 0;
 
-                if (touch_old[port].reportNum > 0) {
-                    for (int j = 0; j < touch_old[port].reportNum; j++) {
-                        if (touch[port].report[i].id == touch_old[port].report[j].id) {
+                اگر (touch_old[port].report_رقم > 0) {
+                    برای (صحیح j = 0; j < touch_old[port].report_رقم; j++) {
+                        اگر (touch[port].report[i].id == touch_old[port].report[j].id) {
                             finger_down = 1;
                         }
                     }
@@ -123,7 +123,7 @@ void VITA_PollTouch(void)
                 finger_id = (SDL_FingerID)(touch[port].report[i].id + 1);
 
                 // Skip if finger was already previously down
-                if (!finger_down) {
+                اگر (!finger_down) {
                     // Send an initial touch
                     SDL_SendTouch(0, touch_id, finger_id, Vita_Window, SDL_EVENT_FINGER_DOWN, x, y, force);
                 }
@@ -134,20 +134,20 @@ void VITA_PollTouch(void)
         }
 
         // some fingers might have been let go
-        if (touch_old[port].reportNum > 0) {
-            for (int i = 0; i < touch_old[port].reportNum; i++) {
-                int finger_up = 1;
-                if (touch[port].reportNum > 0) {
-                    for (int j = 0; j < touch[port].reportNum; j++) {
-                        if (touch[port].report[j].id == touch_old[port].report[i].id) {
+        اگر (touch_old[port].report_رقم > 0) {
+            برای (صحیح i = 0; i < touch_old[port].report_رقم; i++) {
+                صحیح finger_up = 1;
+                اگر (touch[port].report_رقم > 0) {
+                    برای (صحیح j = 0; j < touch[port].report_رقم; j++) {
+                        اگر (touch[port].report[j].id == touch_old[port].report[i].id) {
                             finger_up = 0;
                         }
                     }
                 }
-                if (finger_up == 1) {
-                    float x = 0;
-                    float y = 0;
-                    float force = (touch_old[port].report[i].force - force_info[port].min) / force_info[port].range;
+                اگر (finger_up == 1) {
+                    اعشاری x = 0;
+                    اعشاری y = 0;
+                    اعشاری force = (touch_old[port].report[i].force - force_info[port].min) / force_info[port].range;
                     VITA_ConvertTouchXYToSDLXY(&x, &y, touch_old[port].report[i].x, touch_old[port].report[i].y, port);
                     finger_id = (SDL_FingerID)(touch_old[port].report[i].id + 1);
                     // Finger released from screen
@@ -158,18 +158,18 @@ void VITA_PollTouch(void)
     }
 }
 
-void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita_y, int port)
+تهی VITA_ConvertTouchXYToSDLXY(اعشاری *sdl_x, اعشاری *sdl_y, صحیح vita_x, صحیح vita_y, صحیح port)
 {
-    float x, y;
+    اعشاری x, y;
 
-    if (area_info[port].w <= 1) {
+    اگر (area_info[port].w <= 1) {
         x = 0.5f;
-    } else {
+    } وگرنه {
         x = (vita_x - area_info[port].x) / (area_info[port].w - 1);
     }
-    if (area_info[port].h <= 1) {
+    اگر (area_info[port].h <= 1) {
         y = 0.5f;
-    } else {
+    } وگرنه {
         y = (vita_y - area_info[port].y) / (area_info[port].h - 1);
     }
 

@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifndef SDL_cocoamouse_h_
 #define SDL_cocoamouse_h_
 
-#include "SDL_cocoavideo.h"
+#شامل "SDL_cocoavideo.h"
 
-extern bool Cocoa_InitMouse(SDL_VideoDevice *_this);
-extern NSWindow *Cocoa_GetMouseFocus(void);
-extern void Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
-extern void Cocoa_HandleMouseWheel(SDL_Window *window, NSEvent *event);
-extern void Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
-extern void Cocoa_QuitMouse(SDL_VideoDevice *_this);
+بیرونی bool Cocoa_InitMouse(SDL_VideoDevice *_this);
+بیرونی NSWindow *Cocoa_GetMouseFocus(تهی);
+بیرونی تهی Cocoa_HandleMouseEvent(SDL_VideoDevice *_this, NSEvent *event);
+بیرونی تهی Cocoa_HandleMouseWheel(SDL_Window *window, NSEvent *event);
+بیرونی تهی Cocoa_HandleMouseWarp(CGFloat x, CGFloat y);
+بیرونی تهی Cocoa_QuitMouse(SDL_VideoDevice *_this);
 
-extern void Cocoa_InitGCMouse(void);
-extern bool Cocoa_GCMouseRelativeMode(void);
-extern bool Cocoa_HasGCMouse(void);
-extern void Cocoa_QuitGCMouse(void);
+بیرونی تهی Cocoa_InitGCMouse(تهی);
+بیرونی bool Cocoa_GCMouseRelativeMode(تهی);
+بیرونی bool Cocoa_HasGCMouse(تهی);
+بیرونی تهی Cocoa_QuitGCMouse(تهی);
 
-struct SDL_CursorData
+ساختار SDL_CursorData
 {
     NSTimer *frameTimer;
-    int current_frame;
+    صحیح current_frame;
 
-    int num_cursors;
-    struct
+    صحیح رقم_cursors;
+    ساختار
     {
-        void *cursor;
+        تهی *cursor;
         Uint32 duration;
     } frames[];
 };
 
-typedef struct
+تعریفنوع ساختار
 {
     // Whether we've seen a cursor warp since the last move event.
     bool seenWarp;

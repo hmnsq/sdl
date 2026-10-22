@@ -18,108 +18,108 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsshape.h"
+#شامل "SDL_windowsvideo.h"
+#شامل "SDL_windowsshape.h"
 
 
-static void AddRegion(HRGN *mask, int x1, int y1, int x2, int y2)
+ایستا تهی AddRegion(HRGN *mask, صحیح x1, صحیح y1, صحیح x2, صحیح y2)
 {
     HRGN region = CreateRectRgn(x1, y1, x2, y2);
-    if (*mask) {
+    اگر (*mask) {
         CombineRgn(*mask, *mask, region, RGN_OR);
         DeleteObject(region);
-    } else {
+    } وگرنه {
         *mask = region;
     }
 }
 
-static HRGN GenerateSpanListRegion(SDL_Surface *shape, int offset_x, int offset_y)
+ایستا HRGN GenerateSpanListRegion(SDL_Surface *shape, صحیح offset_x, صحیح offset_y)
 {
-    HRGN mask = NULL;
-    int x, y;
-    int span_start = -1;
+    HRGN mask = پوچ;
+    صحیح x, y;
+    صحیح span_start = -1;
 
-    for (y = 0; y < shape->h; ++y) {
-        const Uint8 *a = (const Uint8 *)shape->pixels + y * shape->pitch;
-        for (x = 0; x < shape->w; ++x) {
-            if (*a == SDL_ALPHA_TRANSPARENT) {
-                if (span_start != -1) {
+    برای (y = 0; y < shape->h; ++y) {
+        ثابت Uint8 *a = (ثابت Uint8 *)shape->pixels + y * shape->pitch;
+        برای (x = 0; x < shape->w; ++x) {
+            اگر (*a == SDL_ALPHA_TRANSPARENT) {
+                اگر (span_start != -1) {
                     AddRegion(&mask, offset_x + span_start, offset_y + y, offset_x + x, offset_y + y + 1);
                     span_start = -1;
                 }
-            } else {
-                if (span_start == -1) {
+            } وگرنه {
+                اگر (span_start == -1) {
                     span_start = x;
                 }
             }
             a += 4;
         }
-        if (span_start != -1) {
+        اگر (span_start != -1) {
             // Add the final span
             AddRegion(&mask, offset_x + span_start, offset_y + y, offset_x + x, offset_y + y + 1);
             span_start = -1;
         }
     }
-    return mask;
+    بازگشت mask;
 }
 
 bool WIN_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape)
 {
     SDL_WindowData *data = window->internal;
-    HRGN mask = NULL;
+    HRGN mask = پوچ;
 
     // Generate a set of spans for the region
-    if (shape) {
-        SDL_Surface *stretched = NULL;
+    اگر (shape) {
+        SDL_Surface *stretched = پوچ;
         RECT rect;
 
-        if (shape->w != window->w || shape->h != window->h) {
+        اگر (shape->w != window->w || shape->h != window->h) {
             stretched = SDL_CreateSurfaceUninitialized(window->w, window->h, SDL_PIXELFORMAT_ARGB32);
-            if (!stretched) {
-                return false;
+            اگر (!stretched) {
+                بازگشت false;
             }
-            if (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
+            اگر (!SDL_StretchSurface(shape, پوچ, stretched, پوچ, SDL_SCALEMODE_LINEAR)) {
                 SDL_DestroySurface(stretched);
-                return false;
+                بازگشت false;
             }
             shape = stretched;
         }
 
-        rect.top = 0;
-        rect.left = 0;
+        rect.بالاترین = 0;
+        rect.چپ = 0;
         rect.bottom = 0;
-        rect.right = 0;
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
+        rect.راست = 0;
+        اگر (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
             WIN_AdjustWindowRectForHWND(data->hwnd, &rect, 0);
         }
 
-        mask = GenerateSpanListRegion(shape, -rect.left, -rect.top);
+        mask = GenerateSpanListRegion(shape, -rect.چپ, -rect.بالاترین);
 
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
+        اگر (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
             // Add the window borders
             // top
-            AddRegion(&mask, 0, 0, -rect.left + shape->w + rect.right + 1, -rect.top + 1);
+            AddRegion(&mask, 0, 0, -rect.چپ + shape->w + rect.راست + 1, -rect.بالاترین + 1);
             // left
-            AddRegion(&mask, 0, -rect.top, -rect.left + 1, -rect.top + shape->h + 1);
+            AddRegion(&mask, 0, -rect.بالاترین, -rect.چپ + 1, -rect.بالاترین + shape->h + 1);
             // right
-            AddRegion(&mask, -rect.left + shape->w, -rect.top, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + 1);
+            AddRegion(&mask, -rect.چپ + shape->w, -rect.بالاترین, -rect.چپ + shape->w + rect.راست + 1, -rect.بالاترین + shape->h + 1);
             // bottom
-            AddRegion(&mask, 0, -rect.top + shape->h, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + rect.bottom + 1);
+            AddRegion(&mask, 0, -rect.بالاترین + shape->h, -rect.چپ + shape->w + rect.راست + 1, -rect.بالاترین + shape->h + rect.bottom + 1);
         }
 
-        if (stretched) {
+        اگر (stretched) {
             SDL_DestroySurface(stretched);
         }
     }
-    if (!SetWindowRgn(data->hwnd, mask, TRUE)) {
+    اگر (!SetWindowRgn(data->hwnd, mask, TRUE)) {
         DeleteObject(mask);
-        return WIN_SetError("SetWindowRgn failed");
+        بازگشت WIN_SetError("SetWindowRgn failed");
     }
-    return true;
+    بازگشت true;
 }
 
 #endif // defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)

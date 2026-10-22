@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include "SDL_openharmonymouse.h"
+#شامل "SDL_openharmonymouse.h"
 
-#include "../../events/SDL_mouse_c.h"
+#شامل "../../events/SDL_mouse_c.h"
 
-#include "../../core/openharmony/SDL_openharmony.h"
+#شامل "../../core/openharmony/SDL_openharmony.h"
 
-static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
+ایستا bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+بازگشت false;
+#اگر 0
+    اگر (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    اگر (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        اگر (data->custom_cursor) {
+            اگر (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                بازگشت SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } وگرنه {
+            اگر (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                بازگشت SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        بازگشت true;
+    } وگرنه {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        بازگشت false;
     }
 #endif
 }
 
-void OPENHARMONY_InitMouse(void)
+تهی OPENHARMONY_InitMouse(تهی)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 //!!! FIXME:    mouse->CreateCursor = OPENHARMONY_CreateCursor;
@@ -67,7 +67,7 @@ void OPENHARMONY_InitMouse(void)
 //!!! FIXME:    SDL_SetDefaultCursor(OPENHARMONY_CreateDefaultCursor());
 }
 
-void OPENHARMONY_QuitMouse(void)
+تهی OPENHARMONY_QuitMouse(تهی)
 {
 //!!! FIXME:    OPENHARMONY_DestroyEmptyCursor();
 }

@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifndef SDL_emscriptenopengles_h_
 #define SDL_emscriptenopengles_h_
 
 #ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
 // OpenGLES functions
-extern bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+بیرونی bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, ثابت نویسه *path);
+بیرونی تهی Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+بیرونی SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, ثابت نویسه *proc);
+بیرونی bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, صحیح interval);
+بیرونی bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, صحیح *interval);
+بیرونی SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+بیرونی bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 
 #endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
 

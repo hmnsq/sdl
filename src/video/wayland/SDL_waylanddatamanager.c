@@ -19,23 +19,23 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <limits.h>
-#include <signal.h>
+#شامل <fcntl.h>
+#شامل <unistd.h>
+#شامل <limits.h>
+#شامل <signal.h>
 
-#include "../../core/unix/SDL_poll.h"
-#include "../../events/SDL_events_c.h"
-#include "../SDL_clipboard_c.h"
+#شامل "../../core/unix/SDL_poll.h"
+#شامل "../../events/SDL_events_c.h"
+#شامل "../SDL_clipboard_c.h"
 
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylanddatamanager.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
+#شامل "SDL_waylandvideo.h"
+#شامل "SDL_waylandevents_c.h"
+#شامل "SDL_waylanddatamanager.h"
+#شامل "primary-selection-unstable-v1-client-protocol.h"
 
 /* This value is arbitrary, but needs to be long enough to allow the remote end to
  * wake up and do any necessary processing of the data before sending it. In some
@@ -47,155 +47,155 @@
  * Based on https://comp.unix.programmer.narkive.com/rEDH0sPT/sigtimedwait-implementation
  */
 #ifndef HAVE_SIGTIMEDWAIT
-#include <errno.h>
-#include <time.h>
-static int sigtimedwait(const sigset_t *set, siginfo_t *info, const struct timespec *timeout)
+#شامل <errno.h>
+#شامل <time.h>
+ایستا صحیح sigtimedwait(ثابت sigset_t *set, siginfo_t *info, ثابت ساختار timespec *timeout)
 {
-    struct timespec elapsed = { 0 }, rem = { 0 };
+    ساختار timespec elapsed = { 0 }, rem = { 0 };
     sigset_t pending;
 
-    do {
+    انجامبده {
         // Check the pending signals, and call sigwait if there is at least one of interest in the set.
         sigpending(&pending);
-        for (int signo = 1; signo < NSIG; ++signo) {
-            if (sigismember(set, signo) && sigismember(&pending, signo)) {
-                if (!sigwait(set, &signo)) {
-                    if (info) {
+        برای (صحیح signo = 1; signo < NSIG; ++signo) {
+            اگر (sigismember(set, signo) && sigismember(&pending, signo)) {
+                اگر (!sigwait(set, &signo)) {
+                    اگر (info) {
                         SDL_zerop(info);
                         info->si_signo = signo;
                     }
-                    return signo;
-                } else {
-                    return -1;
+                    بازگشت signo;
+                } وگرنه {
+                    بازگشت -1;
                 }
             }
         }
 
-        if (timeout->tv_sec || timeout->tv_nsec) {
+        اگر (timeout->tv_sec || timeout->tv_nsec) {
             long ns = 20000000L; // 2/100ths of a second
-            nanosleep(&(struct timespec){ 0, ns }, &rem);
+            nanosleep(&(ساختار timespec){ 0, ns }, &rem);
             ns -= rem.tv_nsec;
             elapsed.tv_sec += (elapsed.tv_nsec + ns) / 1000000000L;
             elapsed.tv_nsec = (elapsed.tv_nsec + ns) % 1000000000L;
         }
-    } while (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
+    } وقتی (elapsed.tv_sec < timeout->tv_sec || (elapsed.tv_sec == timeout->tv_sec && elapsed.tv_nsec < timeout->tv_nsec));
 
     errno = EAGAIN;
-    return -1;
+    بازگشت -1;
 }
 #endif
 
-static ssize_t WritePipe(int fd, const void *buffer, size_t total_length, size_t *pos)
+ایستا ssize_t WritePipe(صحیح fd, ثابت تهی *buffer, size_t total_length, size_t *pos)
 {
     ssize_t bytes_written = 0;
-    const ssize_t length = total_length - *pos;
+    ثابت ssize_t length = total_length - *pos;
 
     sigset_t sig_set;
     sigset_t old_sig_set;
-    struct timespec zerotime = { 0 };
+    ساختار timespec zerotime = { 0 };
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
+    ثابت صحیح ready = SDL_IOReady(fd, SDL_IOR_WRITE, DEFAULT_PIPE_TIMEOUT_NS);
 
     sigemptyset(&sig_set);
     sigaddset(&sig_set, SIGPIPE);
 
 #ifdef SDL_THREADS_DISABLED
     sigprocmask(SIG_BLOCK, &sig_set, &old_sig_set);
-#else
+#وگرنه
     pthread_sigmask(SIG_BLOCK, &sig_set, &old_sig_set);
 #endif
 
-    if (ready > 0) {
-        if (length > 0) {
-            bytes_written = write(fd, (Uint8 *)buffer + *pos, SDL_min(length, PIPE_BUF));
+    اگر (ready > 0) {
+        اگر (length > 0) {
+            bytes_written = اكتب(fd, (Uint8 *)buffer + *pos, SDL_min(length, PIPE_BUF));
         }
 
-        if (bytes_written > 0) {
+        اگر (bytes_written > 0) {
             *pos += bytes_written;
         }
-    } else if (ready == 0) {
+    } وگرنه اگر (ready == 0) {
         SDL_SetError("Pipe timeout");
-    } else  {
+    } وگرنه  {
         SDL_SetError("Pipe poll error");
     }
 
-    sigtimedwait(&sig_set, NULL, &zerotime);
+    sigtimedwait(&sig_set, پوچ, &zerotime);
 
 #ifdef SDL_THREADS_DISABLED
-    sigprocmask(SIG_SETMASK, &old_sig_set, NULL);
-#else
-    pthread_sigmask(SIG_SETMASK, &old_sig_set, NULL);
+    sigprocmask(SIG_SETMASK, &old_sig_set, پوچ);
+#وگرنه
+    pthread_sigmask(SIG_SETMASK, &old_sig_set, پوچ);
 #endif
 
-    return bytes_written;
+    بازگشت bytes_written;
 }
 
-static ssize_t ReadPipe(int fd, void **buffer, size_t *total_length, Sint64 timeout_ns)
+ایستا ssize_t ReadPipe(صحیح fd, تهی **buffer, size_t *total_length, Sint64 timeout_ns)
 {
-    void *output_buffer = NULL;
-    char temp[PIPE_BUF];
+    تهی *output_buffer = پوچ;
+    نویسه temp[PIPE_BUF];
     ssize_t bytes_read = 0;
 
-    const int ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
+    ثابت صحیح ready = SDL_IOReady(fd, SDL_IOR_READ, timeout_ns);
 
-    if (ready > 0) {
-        bytes_read = read(fd, temp, sizeof(temp));
-    } else if (ready == 0) {
+    اگر (ready > 0) {
+        bytes_read = اقرأ(fd, temp, اندازه(temp));
+    } وگرنه اگر (ready == 0) {
         SDL_SetError("Pipe timeout");
-    } else {
+    } وگرنه {
         SDL_SetError("Pipe poll error");
     }
 
-    if (bytes_read > 0) {
-        const size_t pos = *total_length;
+    اگر (bytes_read > 0) {
+        ثابت size_t pos = *total_length;
         *total_length += bytes_read;
 
-        const size_t new_buffer_length = *total_length + sizeof(Uint32);
+        ثابت size_t new_buffer_length = *total_length + اندازه(Uint32);
 
-        if (!*buffer) {
+        اگر (!*buffer) {
             output_buffer = SDL_malloc(new_buffer_length);
-        } else {
+        } وگرنه {
             output_buffer = SDL_realloc(*buffer, new_buffer_length);
         }
 
-        if (!output_buffer) {
+        اگر (!output_buffer) {
             bytes_read = -1;
-        } else {
+        } وگرنه {
             SDL_memcpy((Uint8 *)output_buffer + pos, temp, bytes_read);
-            SDL_memset((Uint8 *)output_buffer + (new_buffer_length - sizeof(Uint32)), 0, sizeof(Uint32));
+            SDL_memset((Uint8 *)output_buffer + (new_buffer_length - اندازه(Uint32)), 0, اندازه(Uint32));
 
             *buffer = output_buffer;
         }
     }
 
-    return bytes_read;
+    بازگشت bytes_read;
 }
 
-static bool MIMEDataListHasType(struct wl_array *list, const char *mime_type)
+ایستا bool MIMEDataListHasType(ساختار wl_array *list, ثابت نویسه *mime_type)
 {
-    const char **item;
+    ثابت نویسه **item;
     wl_array_for_each(item, list) {
-        if (SDL_strcmp(*item, mime_type) == 0) {
-            return true;
+        اگر (SDL_strcmp(*item, mime_type) == 0) {
+            بازگشت true;
         }
     }
 
-    return false;
+    بازگشت false;
 }
 
-static bool MIMEDataListAdd(struct wl_array *list, const char *mime_type)
+ایستا bool MIMEDataListAdd(ساختار wl_array *list, ثابت نویسه *mime_type)
 {
-    if (!MIMEDataListHasType(list, mime_type)) {
-        char **item = WAYLAND_wl_array_add(list, sizeof(char *));
+    اگر (!MIMEDataListHasType(list, mime_type)) {
+        نویسه **item = WAYLAND_wl_array_add(list, اندازه(نویسه *));
         *item = SDL_strdup(mime_type);
     }
 
-    return true;
+    بازگشت true;
 }
 
-static void MIMEDataListFree(struct wl_array *list)
+ایستا تهی MIMEDataListFree(ساختار wl_array *list)
 {
-    char **item;
+    نویسه **item;
     wl_array_for_each(item, list) {
         SDL_free(*item);
     }
@@ -203,40 +203,40 @@ static void MIMEDataListFree(struct wl_array *list)
     WAYLAND_wl_array_release(list);
 }
 
-static void data_source_handle_target(void *data, struct wl_data_source *wl_data_source, const char *mime_type)
+ایستا تهی data_source_handle_target(تهی *data, ساختار wl_data_source *wl_data_source, ثابت نویسه *mime_type)
 {
 }
 
-static void data_source_handle_send(void *data, struct wl_data_source *wl_data_source, const char *mime_type, int32_t fd)
+ایستا تهی data_source_handle_send(تهی *data, ساختار wl_data_source *wl_data_source, ثابت نویسه *mime_type, int32_t fd)
 {
     Wayland_DataSourceSend((SDL_WaylandDataSource *)data, mime_type, fd);
 }
 
-static void data_source_handle_cancelled(void *data, struct wl_data_source *wl_data_source)
+ایستا تهی data_source_handle_cancelled(تهی *data, ساختار wl_data_source *wl_data_source)
 {
     SDL_WaylandDataSource *source = data;
-    if (source) {
+    اگر (source) {
         Wayland_DataSourceDestroy(source);
     }
 }
 
-static void data_source_handle_dnd_drop_performed(void *data, struct wl_data_source *wl_data_source)
+ایستا تهی data_source_handle_dnd_drop_performed(تهی *data, ساختار wl_data_source *wl_data_source)
 {
 }
 
-static void data_source_handle_dnd_finished(void *data, struct wl_data_source *wl_data_source)
+ایستا تهی data_source_handle_dnd_finished(تهی *data, ساختار wl_data_source *wl_data_source)
 {
     SDL_WaylandDataSource *source = data;
-    if (source) {
+    اگر (source) {
         Wayland_DataSourceDestroy(source);
     }
 }
 
-static void data_source_handle_action(void *data, struct wl_data_source *wl_data_source, uint32_t dnd_action)
+ایستا تهی data_source_handle_action(تهی *data, ساختار wl_data_source *wl_data_source, uint32_t dnd_action)
 {
 }
 
-static const struct wl_data_source_listener data_source_listener = {
+ایستا ثابت ساختار wl_data_source_listener data_source_listener = {
     data_source_handle_target,
     data_source_handle_send,
     data_source_handle_cancelled,
@@ -247,92 +247,92 @@ static const struct wl_data_source_listener data_source_listener = {
 
 SDL_WaylandDataSource *Wayland_DataSourceCreate(SDL_VideoData *video_data)
 {
-    SDL_WaylandDataSource *data_source = SDL_calloc(1, sizeof(*data_source));
-    if (!data_source) {
-        return NULL;
+    SDL_WaylandDataSource *data_source = SDL_calloc(1, اندازه(*data_source));
+    اگر (!data_source) {
+        بازگشت پوچ;
     }
 
-    struct wl_data_source *id = wl_data_device_manager_create_data_source(video_data->data_device_manager);
+    ساختار wl_data_source *id = wl_data_device_manager_create_data_source(video_data->data_device_manager);
     data_source->source = id;
     wl_data_source_set_user_data(id, data_source);
     wl_data_source_add_listener(id, &data_source_listener, data_source);
 
-    return data_source;
+    بازگشت data_source;
 }
 
-static void primary_selection_source_send(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1, const char *mime_type, int32_t fd)
+ایستا تهی primary_selection_source_send(تهی *data, ساختار zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1, ثابت نویسه *mime_type, int32_t fd)
 {
     Wayland_PrimarySelectionSourceSend((SDL_WaylandPrimarySelectionSource *)data, mime_type, fd);
 }
 
-static void primary_selection_source_cancelled(void *data, struct zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1)
+ایستا تهی primary_selection_source_cancelled(تهی *data, ساختار zwp_primary_selection_source_v1 *zwp_primary_selection_source_v1)
 {
     Wayland_PrimarySelectionSourceDestroy(data);
 }
 
-static const struct zwp_primary_selection_source_v1_listener primary_selection_source_listener = {
+ایستا ثابت ساختار zwp_primary_selection_source_v1_listener primary_selection_source_listener = {
     primary_selection_source_send,
     primary_selection_source_cancelled,
 };
 
 SDL_WaylandPrimarySelectionSource *Wayland_PrimarySelectionSourceCreate(SDL_VideoData *video_data)
 {
-    SDL_WaylandPrimarySelectionSource *primary_selection_source = SDL_calloc(1, sizeof(*primary_selection_source));
-    if (!primary_selection_source) {
-        return NULL;
+    SDL_WaylandPrimarySelectionSource *primary_selection_source = SDL_calloc(1, اندازه(*primary_selection_source));
+    اگر (!primary_selection_source) {
+        بازگشت پوچ;
     }
 
-    struct zwp_primary_selection_source_v1 *id = zwp_primary_selection_device_manager_v1_create_source(video_data->primary_selection_device_manager);
+    ساختار zwp_primary_selection_source_v1 *id = zwp_primary_selection_device_manager_v1_create_source(video_data->primary_selection_device_manager);
     primary_selection_source->source = id;
     zwp_primary_selection_source_v1_add_listener(id, &primary_selection_source_listener, primary_selection_source);
 
-    return primary_selection_source;
+    بازگشت primary_selection_source;
 }
 
-static size_t SendData(const void *data, size_t length, int fd)
+ایستا size_t SendData(ثابت تهی *data, size_t length, صحیح fd)
 {
     size_t result = 0;
 
-    if (length > 0 && data) {
-        while (WritePipe(fd, data, length, &result) > 0) {
+    اگر (length > 0 && data) {
+        وقتی (WritePipe(fd, data, length, &result) > 0) {
             // Just keep spinning
         }
     }
     close(fd);
 
-    return result;
+    بازگشت result;
 }
 
-ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, const char *mime_type, int fd)
+ssize_t Wayland_DataSourceSend(SDL_WaylandDataSource *source, ثابت نویسه *mime_type, صحیح fd)
 {
-    const void *data = NULL;
+    ثابت تهی *data = پوچ;
     size_t length = 0;
 
-    if (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
+    اگر (SDL_strcmp(mime_type, SDL_DATA_ORIGIN_MIME) == 0) {
         data = source->data_device->id_str;
         length = SDL_strlen(source->data_device->id_str);
-    } else if (source->data_callback) {
+    } وگرنه اگر (source->data_callback) {
         data = source->data_callback(source->userdata.data, mime_type, &length);
     }
 
-    return SendData(data, length, fd);
+    بازگشت SendData(data, length, fd);
 }
 
-ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, int fd)
+ssize_t Wayland_PrimarySelectionSourceSend(SDL_WaylandPrimarySelectionSource *source, ثابت نویسه *mime_type, صحیح fd)
 {
-    const void *data = NULL;
+    ثابت تهی *data = پوچ;
     size_t length = 0;
 
-    if (source->data_callback) {
+    اگر (source->data_callback) {
         data = source->data_callback(source->userdata.data, mime_type, &length);
     }
 
-    return SendData(data, length, fd);
+    بازگشت SendData(data, length, fd);
 }
 
-void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata, Uint32 sequence)
+تهی Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, تهی *userdata, Uint32 sequence)
 {
-    if (source) {
+    اگر (source) {
         source->data_callback = data_callback;
         source->cleanup_callback = cleanup_callback;
         source->userdata.sequence = sequence;
@@ -340,9 +340,9 @@ void Wayland_DataSourceSetCallback(SDL_WaylandDataSource *source, SDL_ClipboardD
     }
 }
 
-void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, void *userdata)
+تهی Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource *source, SDL_ClipboardDataCallback data_callback, SDL_ClipboardCleanupCallback cleanup_callback, تهی *userdata)
 {
-    if (source) {
+    اگر (source) {
         source->data_callback = data_callback;
         source->cleanup_callback = cleanup_callback;
         source->userdata.sequence = 0;
@@ -350,120 +350,120 @@ void Wayland_PrimarySelectionSourceSetCallback(SDL_WaylandPrimarySelectionSource
     }
 }
 
-static void *CloneDataBuffer(const void *buffer, const size_t *len)
+ایستا تهی *CloneDataBuffer(ثابت تهی *buffer, ثابت size_t *len)
 {
-    void *clone = NULL;
-    if (*len > 0 && buffer) {
-        clone = SDL_malloc((*len)+sizeof(Uint32));
-        if (clone) {
+    تهی *clone = پوچ;
+    اگر (*len > 0 && buffer) {
+        clone = SDL_malloc((*len)+اندازه(Uint32));
+        اگر (clone) {
             SDL_memcpy(clone, buffer, *len);
-            SDL_memset((Uint8 *)clone + *len, 0, sizeof(Uint32));
+            SDL_memset((Uint8 *)clone + *len, 0, اندازه(Uint32));
         }
     }
-    return clone;
+    بازگشت clone;
 }
 
-void *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, const char *mime_type, size_t *length)
+تهی *Wayland_DataSourceGetData(SDL_WaylandDataSource *source, ثابت نویسه *mime_type, size_t *length)
 {
-    void *buffer = NULL;
+    تهی *buffer = پوچ;
     *length = 0;
 
-    if (!source) {
+    اگر (!source) {
         SDL_SetError("Invalid data source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
+    } وگرنه اگر (source->data_callback) {
+        ثابت تهی *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
         buffer = CloneDataBuffer(internal_buffer, length);
     }
 
-    return buffer;
+    بازگشت buffer;
 }
 
-void *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, const char *mime_type, size_t *length)
+تهی *Wayland_PrimarySelectionSourceGetData(SDL_WaylandPrimarySelectionSource *source, ثابت نویسه *mime_type, size_t *length)
 {
-    void *buffer = NULL;
+    تهی *buffer = پوچ;
     *length = 0;
 
-    if (!source) {
+    اگر (!source) {
         SDL_SetError("Invalid primary selection source");
-    } else if (source->data_callback) {
-        const void *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
+    } وگرنه اگر (source->data_callback) {
+        ثابت تهی *internal_buffer = source->data_callback(source->userdata.data, mime_type, length);
         buffer = CloneDataBuffer(internal_buffer, length);
     }
 
-    return buffer;
+    بازگشت buffer;
 }
 
-void Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
+تهی Wayland_DataSourceDestroy(SDL_WaylandDataSource *source)
 {
-    if (source) {
+    اگر (source) {
         SDL_WaylandDataDevice *data_device = source->data_device;
-        if (data_device && (data_device->selection_source == source)) {
-            data_device->selection_source = NULL;
+        اگر (data_device && (data_device->selection_source == source)) {
+            data_device->selection_source = پوچ;
         }
         wl_data_source_destroy(source->source);
-        if (source->userdata.sequence) {
+        اگر (source->userdata.sequence) {
             SDL_CancelClipboardData(source->userdata.sequence);
-        } else if (source->cleanup_callback) {
+        } وگرنه اگر (source->cleanup_callback) {
             source->cleanup_callback(source->userdata.data);
         }
         SDL_free(source);
     }
 }
 
-void Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source)
+تهی Wayland_PrimarySelectionSourceDestroy(SDL_WaylandPrimarySelectionSource *source)
 {
-    if (source) {
+    اگر (source) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = source->primary_selection_device;
-        if (primary_selection_device && (primary_selection_device->selection_source == source)) {
-            primary_selection_device->selection_source = NULL;
+        اگر (primary_selection_device && (primary_selection_device->selection_source == source)) {
+            primary_selection_device->selection_source = پوچ;
         }
         zwp_primary_selection_source_v1_destroy(source->source);
-        if (source->cleanup_callback) {
+        اگر (source->cleanup_callback) {
             source->cleanup_callback(source->userdata.data);
         }
         SDL_free(source);
     }
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin);
+ایستا تهی SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin);
 
-static void offer_source_done_handler(void *data, struct wl_callback *callback, uint32_t callback_data)
+ایستا تهی offer_source_done_handler(تهی *data, ساختار wl_callback *callback, uint32_t callback_data)
 {
-    if (!callback) {
-        return;
+    اگر (!callback) {
+        بازگشت;
     }
 
     SDL_WaylandDataOffer *offer = (SDL_WaylandDataOffer *)data;
-    char *id = NULL;
+    نویسه *id = پوچ;
     size_t length = 0;
 
     wl_callback_destroy(offer->callback);
-    offer->callback = NULL;
+    offer->callback = پوچ;
 
-    while (ReadPipe(offer->read_fd, (void **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+    وقتی (ReadPipe(offer->read_fd, (تهی **)&id, &length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
     }
     close(offer->read_fd);
     offer->read_fd = -1;
 
-    if (id) {
-        const bool source_is_external = SDL_strncmp(offer->data_device->id_str, id, length) != 0;
+    اگر (id) {
+        ثابت bool source_is_external = SDL_strncmp(offer->data_device->id_str, id, length) != 0;
         SDL_free(id);
-        if (source_is_external) {
+        اگر (source_is_external) {
             SelectionOfferNotifyFromMIMEs(offer->data_device, false);
-        } else {
+        } وگرنه {
             // Recursive data offer; just destroy it.
             SDL_WaylandDataDevice *data_device = offer->data_device;
             Wayland_DataOfferDestroy(offer);
-            data_device->selection_offer = NULL;
+            data_device->selection_offer = پوچ;
         }
     }
 }
 
-static const struct wl_callback_listener offer_source_listener = {
+ایستا ثابت ساختار wl_callback_listener offer_source_listener = {
     offer_source_done_handler
 };
 
-static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
+ایستا تهی UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
 {
     SDL_WaylandSeat *offer_seat = data_device->seat;
     SDL_VideoData *video_data = offer_seat->display;
@@ -471,14 +471,14 @@ static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
     // Clear any existing references to the existing clipboard data before replacing the current offer.
     SDL_WaylandSeat *s;
     wl_list_for_each (s, &video_data->seat_list, link) {
-        if (s->data_device) {
+        اگر (s->data_device) {
             Wayland_DataSourceDestroy(s->data_device->selection_source);
-            s->data_device->selection_source = NULL;
+            s->data_device->selection_source = پوچ;
 
             // Don't clear the offer that is about to be set.
-            if (s != offer_seat) {
+            اگر (s != offer_seat) {
                 Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+                s->data_device->selection_offer = پوچ;
             }
         }
     }
@@ -486,110 +486,110 @@ static void UpdateSeatOffers(SDL_WaylandDataDevice *data_device)
     video_data->current_data_offer_seat = offer_seat;
 }
 
-static void SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin)
+ایستا تهی SelectionOfferNotifyFromMIMEs(SDL_WaylandDataDevice *data_device, bool check_origin)
 {
     SDL_WaylandDataOffer *offer = data_device->selection_offer;
-    char **new_mime_types = NULL;
-    size_t num_formats = 0;
+    نویسه **new_mime_types = پوچ;
+    size_t رقم_formats = 0;
 
-    if (offer) {
+    اگر (offer) {
         size_t alloc_size = 0;
 
         // Do a first pass to compute allocation size.
-        const char **item;
+        ثابت نویسه **item;
         wl_array_for_each(item, &offer->mimes) {
             // If origin metadata is found, queue a check and wait for confirmation that this offer isn't recursive.
-            if (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
+            اگر (check_origin && SDL_strcmp(*item, SDL_DATA_ORIGIN_MIME) == 0) {
                 Wayland_DataOfferRequestDataFromSelf(offer, *item, &offer_source_listener, offer);
-                return;
+                بازگشت;
             }
 
-            ++num_formats;
+            ++رقم_formats;
             alloc_size += SDL_strlen(*item) + 1;
         }
 
-        alloc_size += (num_formats + 1) * sizeof(char *);
+        alloc_size += (رقم_formats + 1) * اندازه(نویسه *);
 
         new_mime_types = SDL_AllocateTemporaryMemory(alloc_size);
-        if (!new_mime_types) {
-            SDL_LogError(SDL_LOG_CATEGORY_INPUT, "unable to allocate new_mime_types");
-            return;
+        اگر (!new_mime_types) {
+            SDL_LogError(SDL_LOG_CATEGORY_درون_داد, "unable to allocate new_mime_types");
+            بازگشت;
         }
 
         // Second pass to fill.
-        char *strPtr = (char *)(new_mime_types + num_formats + 1);
+        نویسه *strPtr = (نویسه *)(new_mime_types + رقم_formats + 1);
         alloc_size -= (uintptr_t)strPtr - (uintptr_t)new_mime_types;
 
-        item = NULL;
-        int i = 0;
+        item = پوچ;
+        صحیح i = 0;
         wl_array_for_each(item, &offer->mimes) {
-            if (!item) {
-                continue;
+            اگر (!item) {
+                ادامه;
             }
 
             new_mime_types[i++] = strPtr;
-            const size_t len = SDL_strlcpy(strPtr, *item, alloc_size) + 1;
+            ثابت size_t len = SDL_strlcpy(strPtr, *item, alloc_size) + 1;
             strPtr += len;
             alloc_size -= len;
         }
-        new_mime_types[num_formats] = NULL;
+        new_mime_types[رقم_formats] = پوچ;
     }
 
     UpdateSeatOffers(data_device);
-    SDL_SendClipboardUpdate(false, new_mime_types, num_formats);
+    SDL_SendClipboardUpdate(false, new_mime_types, رقم_formats);
 }
 
-void Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer)
+تهی Wayland_DataDeviceSetSelectionOffer(SDL_WaylandDataDevice *data_device, SDL_WaylandDataOffer *offer)
 {
     // Don't notify when clearing the old selection offer if doing so will inadvertently clear the selection source.
-    const bool notify = offer || (!offer && data_device->selection_offer && (!data_device->selection_offer->callback || !data_device->selection_source));
+    ثابت bool notify = offer || (!offer && data_device->selection_offer && (!data_device->selection_offer->callback || !data_device->selection_source));
     Wayland_DataOfferDestroy(data_device->selection_offer);
     data_device->selection_offer = offer;
-    if (notify) {
+    اگر (notify) {
         SelectionOfferNotifyFromMIMEs(data_device, true);
     }
 }
 
-void *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length)
+تهی *Wayland_DataOfferGetDataFromSelf(SDL_WaylandDataOffer *offer, size_t *length)
 {
-    if (!offer) {
+    اگر (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        بازگشت پوچ;
     }
 
-    if (offer->read_fd < 0) {
+    اگر (offer->read_fd < 0) {
         SDL_SetError("Pipe closed");
-        return NULL;
+        بازگشت پوچ;
     }
 
     // The timeout is 0, as the data will already be in the pipe if it is from this process.
-    void *buffer = NULL;
-    while (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
+    تهی *buffer = پوچ;
+    وقتی (ReadPipe(offer->read_fd, &buffer, length, 0) > 0) {
     }
 
-    return buffer;
+    بازگشت buffer;
 }
 
-bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const char *mime_type, const struct wl_callback_listener *completion_listener, void *userdata)
+bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, ثابت نویسه *mime_type, ثابت ساختار wl_callback_listener *completion_listener, تهی *userdata)
 {
-    int pipefd[2];
+    صحیح pipefd[2];
 
-    if (!offer) {
+    اگر (!offer) {
         SDL_SetError("Invalid data offer");
-        return false;
+        بازگشت false;
     }
 
     SDL_WaylandDataDevice *data_device = offer->data_device;
-    if (offer->read_fd >= 0) {
+    اگر (offer->read_fd >= 0) {
         close(offer->read_fd);
         offer->read_fd = -1;
     }
-    if (offer->callback) {
+    اگر (offer->callback) {
         wl_callback_destroy(offer->callback);
-        offer->callback = NULL;
+        offer->callback = پوچ;
     }
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    اگر (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         offer->read_fd = pipefd[0];
         wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
@@ -598,113 +598,113 @@ bool Wayland_DataOfferRequestDataFromSelf(SDL_WaylandDataOffer *offer, const cha
         wl_callback_add_listener(offer->callback, completion_listener, userdata);
 
         WAYLAND_wl_display_flush(data_device->seat->display->display);
-    } else {
-        return SDL_SetError("Could not create pipe");
+    } وگرنه {
+        بازگشت SDL_SetError("Could not create pipe");
     }
 
-    return true;
+    بازگشت true;
 }
 
-void *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, const char *mime_type, size_t *length)
+تهی *Wayland_DataOfferReceive(SDL_WaylandDataOffer *offer, ثابت نویسه *mime_type, size_t *length)
 {
-    int pipefd[2];
-    void *buffer = NULL;
+    صحیح pipefd[2];
+    تهی *buffer = پوچ;
     *length = 0;
 
-    if (!offer) {
+    اگر (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        بازگشت پوچ;
     }
 
     SDL_WaylandDataDevice *data_device = offer->data_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    اگر (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         wl_data_offer_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(data_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        وقتی (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
-    } else {
+    } وگرنه {
         SDL_SetError("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_درون_داد,
                  ". In Wayland_data_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
-    return buffer;
+    بازگشت buffer;
 }
 
-void *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type, size_t *length)
+تهی *Wayland_PrimarySelectionOfferReceive(SDL_WaylandPrimarySelectionOffer *offer, ثابت نویسه *mime_type, size_t *length)
 {
-    int pipefd[2];
-    void *buffer = NULL;
+    صحیح pipefd[2];
+    تهی *buffer = پوچ;
     *length = 0;
 
-    if (!offer) {
+    اگر (!offer) {
         SDL_SetError("Invalid data offer");
-        return NULL;
+        بازگشت پوچ;
     }
 
     SDL_WaylandPrimarySelectionDevice *primary_selection_device = offer->primary_selection_device;
 
-    if (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
+    اگر (pipe2(pipefd, O_CLOEXEC | O_NONBLOCK) == 0) {
         zwp_primary_selection_offer_v1_receive(offer->offer, mime_type, pipefd[1]);
         close(pipefd[1]);
 
         WAYLAND_wl_display_flush(primary_selection_device->seat->display->display);
 
-        while (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
+        وقتی (ReadPipe(pipefd[0], &buffer, length, DEFAULT_PIPE_TIMEOUT_NS) > 0) {
         }
         close(pipefd[0]);
 
-    } else {
+    } وگرنه {
         SDL_SetError("Could not create pipe");
     }
 
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_درون_داد,
                  ". In Wayland_primary_selection_offer_receive for '%s', buffer (%zu) at %p",
                  mime_type, *length, buffer);
 
-    return buffer;
+    بازگشت buffer;
 }
 
-bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_DataOfferAddMIME(SDL_WaylandDataOffer *offer, ثابت نویسه *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    بازگشت MIMEDataListAdd(&offer->mimes, mime_type);
 }
 
-bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_PrimarySelectionOfferAddMIME(SDL_WaylandPrimarySelectionOffer *offer, ثابت نویسه *mime_type)
 {
-    return MIMEDataListAdd(&offer->mimes, mime_type);
+    بازگشت MIMEDataListAdd(&offer->mimes, mime_type);
 }
 
-bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, const char *mime_type)
+bool Wayland_DataOfferHasMIME(SDL_WaylandDataOffer *offer, ثابت نویسه *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    اگر (offer && mime_type) {
+        بازگشت MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    بازگشت false;
 }
 
-bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, const char *mime_type)
+bool Wayland_PrimarySelectionOfferHasMIME(SDL_WaylandPrimarySelectionOffer *offer, ثابت نویسه *mime_type)
 {
-    if (offer && mime_type) {
-        return MIMEDataListHasType(&offer->mimes, mime_type);
+    اگر (offer && mime_type) {
+        بازگشت MIMEDataListHasType(&offer->mimes, mime_type);
     }
-    return false;
+    بازگشت false;
 }
 
-void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
+تهی Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
 {
-    if (offer) {
-        if (offer->callback) {
+    اگر (offer) {
+        اگر (offer->callback) {
             wl_callback_destroy(offer->callback);
         }
-        if (offer->read_fd >= 0) {
+        اگر (offer->read_fd >= 0) {
             close(offer->read_fd);
         }
         wl_data_offer_destroy(offer->offer);
@@ -713,27 +713,27 @@ void Wayland_DataOfferDestroy(SDL_WaylandDataOffer *offer)
     }
 }
 
-void Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
+تهی Wayland_PrimarySelectionOfferDestroy(SDL_WaylandPrimarySelectionOffer *offer)
 {
-    if (offer) {
+    اگر (offer) {
         zwp_primary_selection_offer_v1_destroy(offer->offer);
         MIMEDataListFree(&offer->mimes);
         SDL_free(offer);
     }
 }
 
-bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, const char **mime_types, size_t mime_count)
+bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SDL_WaylandDataSource *source, ثابت نویسه **mime_types, size_t mime_شمار)
 {
-    if (!data_device) {
-        return SDL_SetError("Invalid Data Device");
+    اگر (!data_device) {
+        بازگشت SDL_SetError("Invalid Data Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    اگر (!source) {
+        بازگشت SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
+    اگر (mime_شمار) {
+        برای (size_t index = 0; index < mime_شمار; ++index) {
+            ثابت نویسه *mime_type = mime_types[index];
             wl_data_source_offer(source->source, mime_type);
         }
 
@@ -741,53 +741,53 @@ bool Wayland_DataDeviceSetSelectionSource(SDL_WaylandDataDevice *data_device, SD
         wl_data_source_offer(source->source, SDL_DATA_ORIGIN_MIME);
 
         wl_data_device_set_selection(data_device->data_device, source->source, data_device->seat->last_implicit_grab_serial);
-        if (data_device->selection_source) {
+        اگر (data_device->selection_source) {
             Wayland_DataSourceDestroy(data_device->selection_source);
         }
         data_device->selection_source = source;
         source->data_device = data_device;
 
-    } else {
+    } وگرنه {
         Wayland_DataSourceDestroy(data_device->selection_source);
-        data_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        data_device->selection_source = پوچ;
+        بازگشت SDL_SetError("No mime data");
     }
 
-    return true;
+    بازگشت true;
 }
 
 bool Wayland_PrimarySelectionDeviceSetSelection(SDL_WaylandPrimarySelectionDevice *primary_selection_device,
                                                 SDL_WaylandPrimarySelectionSource *source,
-                                                const char *const *mime_types, size_t mime_count)
+                                                ثابت نویسه *ثابت *mime_types, size_t mime_شمار)
 {
-    if (!primary_selection_device) {
-        return SDL_SetError("Invalid Primary Selection Device");
+    اگر (!primary_selection_device) {
+        بازگشت SDL_SetError("Invalid Primary Selection Device");
     }
-    if (!source) {
-        return SDL_SetError("Invalid source");
+    اگر (!source) {
+        بازگشت SDL_SetError("Invalid source");
     }
 
-    if (mime_count) {
-        for (size_t index = 0; index < mime_count; ++index) {
-            const char *mime_type = mime_types[index];
+    اگر (mime_شمار) {
+        برای (size_t index = 0; index < mime_شمار; ++index) {
+            ثابت نویسه *mime_type = mime_types[index];
             zwp_primary_selection_source_v1_offer(source->source, mime_type);
         }
 
         zwp_primary_selection_device_v1_set_selection(primary_selection_device->primary_selection_device,
                                                       source->source,
                                                       primary_selection_device->seat->last_implicit_grab_serial);
-        if (primary_selection_device->selection_source) {
+        اگر (primary_selection_device->selection_source) {
             Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
         }
         primary_selection_device->selection_source = source;
         source->primary_selection_device = primary_selection_device;
-    } else {
+    } وگرنه {
         Wayland_PrimarySelectionSourceDestroy(primary_selection_device->selection_source);
-        primary_selection_device->selection_source = NULL;
-        return SDL_SetError("No mime data");
+        primary_selection_device->selection_source = پوچ;
+        بازگشت SDL_SetError("No mime data");
     }
 
-    return true;
+    بازگشت true;
 }
 
 #endif // SDL_VIDEO_DRIVER_WAYLAND

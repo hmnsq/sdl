@@ -22,13 +22,13 @@
 #ifndef SDL_x11framebuffer_h_
 #define SDL_x11framebuffer_h_
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-extern bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+بیرونی bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
                                         SDL_PixelFormat *format,
-                                        void **pixels, int *pitch);
-extern bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
-                                        const SDL_Rect *rects, int numrects);
-extern void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
+                                        تهی **pixels, صحیح *pitch);
+بیرونی bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window,
+                                        ثابت SDL_Rect *rects, صحیح numrects);
+بیرونی تهی X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window);
 
 #endif // SDL_x11framebuffer_h_

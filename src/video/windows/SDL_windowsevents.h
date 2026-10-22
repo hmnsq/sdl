@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifndef SDL_windowsevents_h_
 #define SDL_windowsevents_h_
 
-extern LPTSTR SDL_Appname;
-extern Uint32 SDL_Appstyle;
-extern HINSTANCE SDL_Instance;
+بیرونی LPTSTR SDL_Appname;
+بیرونی Uint32 SDL_Appstyle;
+بیرونی HINSTANCE SDL_Instance;
 
-extern LRESULT CALLBACK WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam);
-extern LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start);
-extern void WIN_PumpEvents(SDL_VideoDevice *_this);
-extern void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
-extern void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+بیرونی LRESULT CALLBACK WIN_KeyboardHookProc(صحیح nCode, WPARAM wParam, LPARAM lParam);
+بیرونی LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT پیام, WPARAM wParam, LPARAM lParam);
+بیرونی تهی WIN_Poll_Raw_درون_داد(SDL_VideoDevice *_this, Uint64 poll_start);
+بیرونی تهی WIN_PumpEvents(SDL_VideoDevice *_this);
+بیرونی تهی WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
+بیرونی تهی WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی صحیح WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
 #endif // SDL_windowsevents_h_

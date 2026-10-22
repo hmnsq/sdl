@@ -6,103 +6,103 @@
 ** SPDX-License-Identifier: Apache-2.0 OR MIT
 */
 
-#include "vk_platform.h"
-#include "vulkan_core.h"
+#شامل "vk_platform.h"
+#شامل "vulkan_core.h"
 
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-#include "vulkan_android.h"
+#شامل "vulkan_android.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_FUCHSIA
-#include <zircon/types.h>
-#include "vulkan_fuchsia.h"
+#شامل <zircon/types.h>
+#شامل "vulkan_fuchsia.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_IOS_MVK
-#include "vulkan_ios.h"
+#شامل "vulkan_ios.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_MACOS_MVK
-#include "vulkan_macos.h"
+#شامل "vulkan_macos.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_METAL_EXT
-#include "vulkan_metal.h"
+#شامل "vulkan_metal.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_VI_NN
-#include "vulkan_vi.h"
+#شامل "vulkan_vi.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_UBM_SEC
-#include "vulkan_ubm.h"
+#شامل "vulkan_ubm.h"
 #endif
 
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-#include "vulkan_wayland.h"
+#شامل "vulkan_wayland.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-#include <windows.h>
-#include "vulkan_win32.h"
+#شامل <windows.h>
+#شامل "vulkan_win32.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XCB_KHR
-#include <xcb/xcb.h>
-#include "vulkan_xcb.h"
+#شامل <xcb/xcb.h>
+#شامل "vulkan_xcb.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-#include <X11/Xlib.h>
-#include "vulkan_xlib.h"
+#شامل <X11/Xlib.h>
+#شامل "vulkan_xlib.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-#include <directfb.h>
-#include "vulkan_directfb.h"
+#شامل <directfb.h>
+#شامل "vulkan_directfb.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
-#include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
-#include "vulkan_xlib_xrandr.h"
+#شامل <X11/Xlib.h>
+#شامل <X11/extensions/Xrandr.h>
+#شامل "vulkan_xlib_xrandr.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_GGP
-#include <ggp_c/vulkan_types.h>
-#include "vulkan_ggp.h"
+#شامل <ggp_c/vulkan_types.h>
+#شامل "vulkan_ggp.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
-#include <screen/screen.h>
-#include "vulkan_screen.h"
+#شامل <screen/screen.h>
+#شامل "vulkan_screen.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_SCI
-#include <nvscisync.h>
-#include <nvscibuf.h>
-#include "vulkan_sci.h"
+#شامل <nvscisync.h>
+#شامل <nvscibuf.h>
+#شامل "vulkan_sci.h"
 #endif
 
 
 #ifdef VK_USE_PLATFORM_OHOS
-#include "vulkan_ohos.h"
+#شامل "vulkan_ohos.h"
 #endif
 
 /* vulkan_beta.h should go last in the event any beta extension interactions
  * with platform extensions exist.
  */
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-#include "vulkan_beta.h"
+#شامل "vulkan_beta.h"
 #endif
 
 #endif // VULKAN_H_

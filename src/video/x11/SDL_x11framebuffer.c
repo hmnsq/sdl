@@ -18,44 +18,44 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
-#include "SDL_x11video.h"
-#include "SDL_x11framebuffer.h"
-#include "SDL_x11xsync.h"
+#شامل "SDL_x11video.h"
+#شامل "SDL_x11framebuffer.h"
+#شامل "SDL_x11xsync.h"
 
 #ifndef NO_SHARED_MEMORY
 
 // Shared memory error handler routine
-static int shm_error;
-static int (*X_handler)(Display *, XErrorEvent *) = NULL;
-static int shm_errhandler(Display *d, XErrorEvent *e)
+ایستا صحیح shm_error;
+ایستا صحیح (*X_handler)(Display *, XErrorEvent *) = پوچ;
+ایستا صحیح shm_errhandler(Display *d, XErrorEvent *e)
 {
-    if (e->error_code == BadAccess || e->error_code == BadRequest) {
+    اگر (e->error_code == BadAccess || e->error_code == BadRequest) {
         shm_error = True;
-        return 0;
+        بازگشت 0;
     }
-    return X_handler(d, e);
+    بازگشت X_handler(d, e);
 }
 
-static bool have_mitshm(Display *dpy)
+ایستا bool have_mitshm(Display *dpy)
 {
     // Only use shared memory on local X servers
-    return X11_XShmQueryExtension(dpy) ? SDL_X11_HAVE_SHM : false;
+    بازگشت X11_XShmQueryExtension(dpy) ? SDL_X11_HAVE_SHM : false;
 }
 
 #endif // !NO_SHARED_MEMORY
 
 bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format,
-                                void **pixels, int *pitch)
+                                تهی **pixels, صحیح *pitch)
 {
     SDL_WindowData *data = window->internal;
     Display *display = data->videodata->display;
     XGCValues gcv;
     XVisualInfo vinfo;
-    int w, h;
+    صحیح w, h;
 
     SDL_GetWindowSizeInPixels(window, &w, &h);
 
@@ -65,18 +65,18 @@ bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
     // Create the graphics context for drawing
     gcv.graphics_exposures = False;
     data->gc = X11_XCreateGC(display, data->xwindow, GCGraphicsExposures, &gcv);
-    if (!data->gc) {
-        return SDL_SetError("Couldn't create graphics context");
+    اگر (!data->gc) {
+        بازگشت SDL_SetError("Couldn't create graphics context");
     }
 
     // Find out the pixel format and depth
-    if (!X11_GetVisualInfoFromVisual(display, data->visual, &vinfo)) {
-        return SDL_SetError("Couldn't get window visual information");
+    اگر (!X11_GetVisualInfoFromVisual(display, data->visual, &vinfo)) {
+        بازگشت SDL_SetError("Couldn't get window visual information");
     }
 
     *format = X11_GetPixelFormatFromVisualInfo(display, &vinfo);
-    if (*format == SDL_PIXELFORMAT_UNKNOWN) {
-        return SDL_SetError("Unknown window pixel format");
+    اگر (*format == SDL_PIXELFORMAT_UNKNOWN) {
+        بازگشت SDL_SetError("Unknown window pixel format");
     }
 
     // Calculate pitch
@@ -84,131 +84,131 @@ bool X11_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL
 
     // Create the actual image
 #ifndef NO_SHARED_MEMORY
-    if (have_mitshm(display)) {
+    اگر (have_mitshm(display)) {
         XShmSegmentInfo *shminfo = &data->shminfo;
 
         shminfo->shmid = shmget(IPC_PRIVATE, (size_t)h * (*pitch), IPC_CREAT | 0777);
-        if (shminfo->shmid >= 0) {
-            shminfo->shmaddr = (char *)shmat(shminfo->shmid, NULL, 0);
+        اگر (shminfo->shmid >= 0) {
+            shminfo->shmaddr = (نویسه *)shmat(shminfo->shmid, پوچ, 0);
             shminfo->readOnly = False;
-            if (shminfo->shmaddr != (char *)-1) {
+            اگر (shminfo->shmaddr != (نویسه *)-1) {
                 shm_error = False;
                 X_handler = X11_XSetErrorHandler(shm_errhandler);
                 X11_XShmAttach(display, shminfo);
                 X11_XSync(display, False);
                 X11_XSetErrorHandler(X_handler);
-                if (shm_error) {
+                اگر (shm_error) {
                     shmdt(shminfo->shmaddr);
                 }
-            } else {
+            } وگرنه {
                 shm_error = True;
             }
-            shmctl(shminfo->shmid, IPC_RMID, NULL);
-        } else {
+            shmctl(shminfo->shmid, IPC_RMID, پوچ);
+        } وگرنه {
             shm_error = True;
         }
-        if (!shm_error) {
+        اگر (!shm_error) {
             data->ximage = X11_XShmCreateImage(display, data->visual,
                                                vinfo.depth, ZPixmap,
                                                shminfo->shmaddr, shminfo,
                                                w, h);
-            if (!data->ximage) {
+            اگر (!data->ximage) {
                 X11_XShmDetach(display, shminfo);
                 X11_XSync(display, False);
                 shmdt(shminfo->shmaddr);
-            } else {
+            } وگرنه {
                 // Done!
                 data->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
                 data->use_mitshm = true;
                 *pixels = shminfo->shmaddr;
-                return true;
+                بازگشت true;
             }
         }
     }
 #endif // not NO_SHARED_MEMORY
 
     *pixels = SDL_malloc((size_t)h * (*pitch));
-    if (!*pixels) {
-        return false;
+    اگر (!*pixels) {
+        بازگشت false;
     }
 
     data->ximage = X11_XCreateImage(display, data->visual,
-                                    vinfo.depth, ZPixmap, 0, (char *)(*pixels),
+                                    vinfo.depth, ZPixmap, 0, (نویسه *)(*pixels),
                                     w, h, 32, 0);
-    if (!data->ximage) {
+    اگر (!data->ximage) {
         SDL_free(*pixels);
-        return SDL_SetError("Couldn't create XImage");
+        بازگشت SDL_SetError("Couldn't create XImage");
     }
     data->ximage->byte_order = (SDL_BYTEORDER == SDL_BIG_ENDIAN) ? MSBFirst : LSBFirst;
-    return true;
+    بازگشت true;
 }
 
-bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects,
-                                int numrects)
+bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ثابت SDL_Rect *rects,
+                                صحیح numrects)
 {
     SDL_WindowData *data = window->internal;
     Display *display = data->videodata->display;
-    int i;
-    int x, y, w, h;
-    int window_w, window_h;
+    صحیح i;
+    صحیح x, y, w, h;
+    صحیح window_w, window_h;
 
     SDL_GetWindowSizeInPixels(window, &window_w, &window_h);
 
 #ifndef NO_SHARED_MEMORY
-    if (data->use_mitshm) {
-        for (i = 0; i < numrects; ++i) {
+    اگر (data->use_mitshm) {
+        برای (i = 0; i < numrects; ++i) {
             x = rects[i].x;
             y = rects[i].y;
             w = rects[i].w;
             h = rects[i].h;
 
-            if (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
+            اگر (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
                 // Clipped?
-                continue;
+                ادامه;
             }
-            if (x < 0) {
+            اگر (x < 0) {
                 x += w;
                 w += rects[i].x;
             }
-            if (y < 0) {
+            اگر (y < 0) {
                 y += h;
                 h += rects[i].y;
             }
-            if (x + w > window_w) {
+            اگر (x + w > window_w) {
                 w = window_w - x;
             }
-            if (y + h > window_h) {
+            اگر (y + h > window_h) {
                 h = window_h - y;
             }
 
             X11_XShmPutImage(display, data->xwindow, data->gc, data->ximage,
                              x, y, x, y, w, h, False);
         }
-    } else
+    } وگرنه
 #endif // !NO_SHARED_MEMORY
     {
-        for (i = 0; i < numrects; ++i) {
+        برای (i = 0; i < numrects; ++i) {
             x = rects[i].x;
             y = rects[i].y;
             w = rects[i].w;
             h = rects[i].h;
 
-            if (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
+            اگر (w <= 0 || h <= 0 || (x + w) <= 0 || (y + h) <= 0) {
                 // Clipped?
-                continue;
+                ادامه;
             }
-            if (x < 0) {
+            اگر (x < 0) {
                 x += w;
                 w += rects[i].x;
             }
-            if (y < 0) {
+            اگر (y < 0) {
                 y += h;
                 h += rects[i].y;
             }
-            if (x + w > window_w) {
+            اگر (x + w > window_w) {
                 w = window_w - x;
             }
-            if (y + h > window_h) {
+            اگر (y + h > window_h) {
                 h = window_h - y;
             }
 
@@ -223,26 +223,26 @@ bool X11_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, con
 
     X11_XSync(display, False);
 
-    return true;
+    بازگشت true;
 }
 
-void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+تهی X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *data = window->internal;
     Display *display;
 
-    if (!data) {
+    اگر (!data) {
         // The window wasn't fully initialized
-        return;
+        بازگشت;
     }
 
     display = data->videodata->display;
 
-    if (data->ximage) {
+    اگر (data->ximage) {
         XDestroyImage(data->ximage);
 
 #ifndef NO_SHARED_MEMORY
-        if (data->use_mitshm) {
+        اگر (data->use_mitshm) {
             X11_XShmDetach(display, &data->shminfo);
             X11_XSync(display, False);
             shmdt(data->shminfo.shmaddr);
@@ -250,11 +250,11 @@ void X11_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
         }
 #endif // !NO_SHARED_MEMORY
 
-        data->ximage = NULL;
+        data->ximage = پوچ;
     }
-    if (data->gc) {
+    اگر (data->gc) {
         X11_XFreeGC(display, data->gc);
-        data->gc = NULL;
+        data->gc = پوچ;
     }
 }
 

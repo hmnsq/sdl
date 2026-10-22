@@ -18,14 +18,14 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifndef SDL_pixels_c_h_
 #define SDL_pixels_c_h_
 
 // Useful functions and variables from SDL_pixel.c
 
-#include "SDL_blit.h"
+#شامل "SDL_blit.h"
 
 // The value, in nits, of scRGB 1.0
 #define SCRGB_NITS  80.0f
@@ -35,30 +35,30 @@
 
 
 // Pixel format functions
-extern void SDL_Get8888AlphaMaskAndShift(const SDL_PixelFormatDetails *fmt, Uint32 *mask, Uint32 *shift);
-extern SDL_Colorspace SDL_GetDefaultColorspaceForFormat(SDL_PixelFormat pixel_format);
-extern void SDL_QuitPixelFormatDetails(void);
+بیرونی تهی SDL_Get8888AlphaMaskAndShift(ثابت SDL_PixelFormatDetails *fmt, Uint32 *mask, Uint32 *shift);
+بیرونی SDL_Colorspace SDL_GetDefaultColorspaceForFormat(SDL_PixelFormat pixel_format);
+بیرونی تهی SDL_QuitPixelFormatDetails(تهی);
 
 // Colorspace conversion functions
-extern float SDL_sRGBtoLinear(float v);
-extern float SDL_sRGBfromLinear(float v);
-extern float SDL_PQtoNits(float v);
-extern float SDL_PQfromNits(float v);
-extern const float *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, int w, int h, int bits_per_pixel);
-extern const float *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_ColorPrimaries dst);
-extern void SDL_ConvertColorPrimaries(float *fR, float *fG, float *fB, const float *matrix);
-extern void SDL_ConvertColor709to2020(float *fR, float *fG, float *fB);
+بیرونی اعشاری SDL_sRGBtoLinear(اعشاری v);
+بیرونی اعشاری SDL_sRGBfromLinear(اعشاری v);
+بیرونی اعشاری SDL_PQtoNits(اعشاری v);
+بیرونی اعشاری SDL_PQfromNits(اعشاری v);
+بیرونی ثابت اعشاری *SDL_GetYCbCRtoRGBConversionMatrix(SDL_Colorspace colorspace, صحیح w, صحیح h, صحیح bits_per_pixel);
+بیرونی ثابت اعشاری *SDL_GetColorPrimariesConversionMatrix(SDL_ColorPrimaries src, SDL_ColorPrimaries dst);
+بیرونی تهی SDL_ConvertColorPrimaries(اعشاری *fR, اعشاری *fG, اعشاری *fB, ثابت اعشاری *matrix);
+بیرونی تهی SDL_ConvertColor709to2020(اعشاری *fR, اعشاری *fG, اعشاری *fB);
 
 // Blit mapping functions
-extern bool SDL_ValidateMap(SDL_Surface *src, SDL_Surface *dst);
-extern void SDL_InvalidateMap(SDL_BlitMap *map);
-extern bool SDL_MapSurface(SDL_Surface *src, SDL_Surface *dst);
+بیرونی bool SDL_ValidateMap(SDL_Surface *src, SDL_Surface *dst);
+بیرونی تهی SDL_InvalidateMap(SDL_BlitMap *map);
+بیرونی bool SDL_MapSurface(SDL_Surface *src, SDL_Surface *dst);
 
 // Miscellaneous functions
-extern bool SDL_IsSamePalette(const SDL_Palette *src, const SDL_Palette *dst);
-extern void SDL_DitherPalette(SDL_Palette *palette);
-extern Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, const SDL_Palette *pal);
-extern void SDL_DetectPalette(const SDL_Palette *pal, bool *is_opaque, bool *has_alpha_channel);
-extern SDL_Surface *SDL_DuplicatePixels(int width, int height, SDL_PixelFormat format, SDL_Colorspace colorspace, void *pixels, int pitch);
+بیرونی bool SDL_IsSamePalette(ثابت SDL_Palette *src, ثابت SDL_Palette *dst);
+بیرونی تهی SDL_DitherPalette(SDL_Palette *palette);
+بیرونی Uint8 SDL_LookupRGBAColor(SDL_HashTable *palette_map, Uint32 pixelvalue, ثابت SDL_Palette *pal);
+بیرونی تهی SDL_DetectPalette(ثابت SDL_Palette *pal, bool *is_opaque, bool *has_alpha_channel);
+بیرونی SDL_Surface *SDL_DuplicatePixels(صحیح width, صحیح height, SDL_PixelFormat format, SDL_Colorspace colorspace, تهی *pixels, صحیح pitch);
 
 #endif // SDL_pixels_c_h_

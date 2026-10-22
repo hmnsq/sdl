@@ -23,18 +23,18 @@
 #define SDL_BMODES_H
 
 #ifdef __cplusplus
-extern "C" {
+بیرونی "C" {
 #endif
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-extern SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace);
+بیرونی SDL_PixelFormat HAIKU_ColorSpaceToSDLPxFormat(uint32 colorspace);
 
-extern bool HAIKU_InitModes(SDL_VideoDevice *_this);
-extern void HAIKU_QuitModes(SDL_VideoDevice *_this);
-extern bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+بیرونی bool HAIKU_InitModes(SDL_VideoDevice *_this);
+بیرونی تهی HAIKU_QuitModes(SDL_VideoDevice *_this);
+بیرونی bool HAIKU_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+بیرونی bool HAIKU_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+بیرونی bool HAIKU_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
 
 #ifdef __cplusplus
 }

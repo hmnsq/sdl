@@ -22,26 +22,26 @@
 #ifndef SDL_BOPENGL_H
 #define SDL_BOPENGL_H
 
-#if defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
+#اگر defined(SDL_VIDEO_DRIVER_HAIKU) && defined(SDL_VIDEO_OPENGL)
 
 #ifdef __cplusplus
-extern "C" {
+بیرونی "C" {
 #endif
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
-extern bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);      // FIXME
-extern SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc); // FIXME
-extern void HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this);                     // TODO
-extern bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+بیرونی bool HAIKU_GL_LoadLibrary(SDL_VideoDevice *_this, ثابت نویسه *path);      // FIXME
+بیرونی SDL_FunctionPointer HAIKU_GL_GetProcAddress(SDL_VideoDevice *_this, ثابت نویسه *proc); // FIXME
+بیرونی تهی HAIKU_GL_UnloadLibrary(SDL_VideoDevice *_this);                     // TODO
+بیرونی bool HAIKU_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                                 SDL_GLContext context);
-extern bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval); // TODO
-extern bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval); // TODO
-extern bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+بیرونی bool HAIKU_GL_SetSwapInterval(SDL_VideoDevice *_this, صحیح interval); // TODO
+بیرونی bool HAIKU_GL_GetSwapInterval(SDL_VideoDevice *_this, صحیح *interval); // TODO
+بیرونی bool HAIKU_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی SDL_GLContext HAIKU_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی bool HAIKU_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
-extern void HAIKU_GL_RebootContexts(SDL_VideoDevice *_this);
+بیرونی تهی HAIKU_GL_RebootContexts(SDL_VideoDevice *_this);
 
 #ifdef __cplusplus
 }

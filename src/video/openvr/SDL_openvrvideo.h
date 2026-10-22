@@ -9,32 +9,32 @@
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
 #ifdef __GNUC__
-#pragma GCC diagnostic push
+#pragma GCC diagnostic افزودن
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #endif
 
 #define USE_SDL
-#include "openvr_capi.h"
+#شامل "openvr_capi.h"
 
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#pragma GCC diagnostic برداشت
 #endif
 
-#include <stdint.h>
+#شامل <stdint.h>
 
 #ifndef SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#شامل <GLES3/gl3.h>
+#شامل <GLES3/gl32.h>
+#شامل <EGL/egl.h>
+#شامل <GLES2/gl2.h>
+#شامل <GLES2/gl2ext.h>
+#شامل <GLES2/gl2ext.h>
 
 #endif
 
 
-struct SDL_WindowData
+ساختار SDL_WindowData
 {
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
     SDL_Window *window;
@@ -42,44 +42,44 @@ struct SDL_WindowData
     HWND parent;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
+#وگرنه
+    صحیح dummy;
 #endif
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+ساختار SDL_VideoData {
+    تهی * openVRLIB;
     intptr_t vrtoken;
     intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    ثابت نویسه *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ثابت نویسه *pchInterfaceVersion, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    صحیح is_buffer_rendering;
 
-    unsigned int overlaytexture;
+    unsigned صحیح overlaytexture;
 
-    unsigned int fbo, rbo;
+    unsigned صحیح fbo, rbo;
 
-    int saved_texture_state;
+    صحیح saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    ساختار VR_IVRSystem_FnTable *oSystem;
+    ساختار VR_IVROverlay_FnTable *oOverlay;
+	ساختار VR_IVRInput_FnTable * o_درون_داد;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	نویسه * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRActionSetHandle_t درون_داد_action_set;
+	VRActionHandle_t * درون_داد_action_handles_buttons;
+	صحیح درون_داد_action_handles_buttons_شمار;
+	VRActionHandle_t * درون_داد_action_handles_axes;
+	صحیح درون_داد_action_handles_axes_شمار;
+	VRActionHandle_t درون_داد_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    صحیح targw, targh;
+    صحیح last_targw, last_targh;
+    صحیح swap_interval;
 
     bool bDidCreateOverlay;
 	bool renderdoc_debugmarker_frame_end;
@@ -91,15 +91,15 @@ struct SDL_VideoData {
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#وگرنه
     EGLDisplay eglDpy;
     EGLContext eglCtx;
 #endif
 };
 
-struct SDL_DisplayData
+ساختار SDL_DisplayData
 {
-    int dummy;
+    صحیح dummy;
 };
 
 #endif

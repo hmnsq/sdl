@@ -18,54 +18,54 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../SDL_pixels_c.h"
+#شامل "../../events/SDL_events_c.h"
+#شامل "../../events/SDL_keyboard_c.h"
+#شامل "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosevents_c.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosmouse.h"
-#include "SDL_riscosmodes.h"
-#include "SDL_riscoswindow.h"
-#include "SDL_riscosmessagebox.h"
+#شامل "SDL_riscosvideo.h"
+#شامل "SDL_riscosevents_c.h"
+#شامل "SDL_riscosframebuffer_c.h"
+#شامل "SDL_riscosmouse.h"
+#شامل "SDL_riscosmodes.h"
+#شامل "SDL_riscoswindow.h"
+#شامل "SDL_riscosmessagebox.h"
 
 #define RISCOSVID_DRIVER_NAME "riscos"
 
 // Initialization/Query functions
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this);
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this);
+ایستا bool RISCOS_VideoInit(SDL_VideoDevice *_this);
+ایستا تهی RISCOS_VideoQuit(SDL_VideoDevice *_this);
 
 // RISC OS driver bootstrap functions
 
-static void RISCOS_DeleteDevice(SDL_VideoDevice *device)
+ایستا تهی RISCOS_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *RISCOS_CreateDevice(void)
+ایستا SDL_VideoDevice *RISCOS_CreateDevice(تهی)
 {
     SDL_VideoDevice *device;
     SDL_VideoData *data;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, اندازه(SDL_VideoDevice));
+    اگر (!device) {
+        بازگشت پوچ;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    data = (SDL_VideoData *)SDL_calloc(1, اندازه(SDL_VideoData));
+    اگر (!data) {
         SDL_free(device);
-        return NULL;
+        بازگشت پوچ;
     }
 
     device->internal = data;
@@ -85,12 +85,12 @@ static SDL_VideoDevice *RISCOS_CreateDevice(void)
     device->UpdateWindowFramebuffer = RISCOS_UpdateWindowFramebuffer;
     device->DestroyWindowFramebuffer = RISCOS_DestroyWindowFramebuffer;
 
-    device->free = RISCOS_DeleteDevice;
+    device->آزاد = RISCOS_DeleteDevice;
 
     // TODO: Support windowed mode
     device->device_caps = VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY;
 
-    return device;
+    بازگشت device;
 }
 
 VideoBootStrap RISCOS_bootstrap = {
@@ -100,29 +100,29 @@ VideoBootStrap RISCOS_bootstrap = {
     false
 };
 
-static bool RISCOS_VideoInit(SDL_VideoDevice *_this)
+ایستا bool RISCOS_VideoInit(SDL_VideoDevice *_this)
 {
-    if (!RISCOS_InitEvents(_this)) {
-        return false;
+    اگر (!RISCOS_InitEvents(_this)) {
+        بازگشت false;
     }
 
-    if (!RISCOS_InitMouse(_this)) {
-        return false;
+    اگر (!RISCOS_InitMouse(_this)) {
+        بازگشت false;
     }
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, پوچ);
+    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, پوچ);
 
-    if (!RISCOS_InitModes(_this)) {
-        return false;
+    اگر (!RISCOS_InitModes(_this)) {
+        بازگشت false;
     }
 
     // We're done!
-    return true;
+    بازگشت true;
 }
 
-static void RISCOS_VideoQuit(SDL_VideoDevice *_this)
+ایستا تهی RISCOS_VideoQuit(SDL_VideoDevice *_this)
 {
     RISCOS_QuitEvents(_this);
 }

@@ -18,55 +18,55 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_OPENHARMONY
 
-#include <database/pasteboard/oh_pasteboard.h>
-#include <database/pasteboard/oh_pasteboard_err_code.h>
-#include <database/udmf/udmf.h>
-#include <database/udmf/uds.h>
+#شامل <database/pasteboard/oh_pasteboard.h>
+#شامل <database/pasteboard/oh_pasteboard_err_code.h>
+#شامل <database/udmf/udmf.h>
+#شامل <database/udmf/uds.h>
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyclipboard.h"
-#include "../../core/openharmony/SDL_openharmony.h"
-#include "../../events/SDL_events_c.h"
+#شامل "SDL_openharmonyvideo.h"
+#شامل "SDL_openharmonyclipboard.h"
+#شامل "../../core/openharmony/SDL_openharmony.h"
+#شامل "../../events/SDL_events_c.h"
 
-static void PasteboardNotifyCallback(void *userdata, Pasteboard_NotifyType type)
+ایستا تهی PasteboardNotifyCallback(تهی *userdata, Pasteboard_NotifyType type)
 {
-    SDL_assert(userdata != NULL);
+    SDL_assert(userdata != پوچ);
     SDL_VideoDevice *_this = (SDL_VideoDevice *) userdata;
     SDL_VideoData *data = _this->internal;
 
-    if (data->clipboard_set) {
+    اگر (data->clipboard_set) {
         data->clipboard_set = false;  // this was us, ignore it.
-        return;
+        بازگشت;
     }
 
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    SDL_assert(pasteboard != NULL);
+    SDL_assert(pasteboard != پوچ);
 
-    const char *mimetype = "text/plain";
-    if (OH_Pasteboard_HasType(pasteboard, mimetype)) {
-        const size_t slen = SDL_strlen(mimetype);
-        const size_t allocationsize = (slen + 1) + (sizeof (char *) * 2);
-        char **new_mime_types = SDL_AllocateTemporaryMemory(allocationsize);
-        if (new_mime_types) {
-            char *ptr = (char *)(new_mime_types + 2);
+    ثابت نویسه *mimetype = "text/plain";
+    اگر (OH_Pasteboard_HasType(pasteboard, mimetype)) {
+        ثابت size_t slen = SDL_strlen(mimetype);
+        ثابت size_t allocationsize = (slen + 1) + (اندازه (نویسه *) * 2);
+        نویسه **new_mime_types = SDL_AllocateTemporaryMemory(allocationsize);
+        اگر (new_mime_types) {
+            نویسه *ptr = (نویسه *)(new_mime_types + 2);
             SDL_strlcpy(ptr, mimetype, slen + 1);
             new_mime_types[0] = ptr;
-            new_mime_types[1] = NULL;
+            new_mime_types[1] = پوچ;
             SDL_SendClipboardUpdate(false, new_mime_types, 1);
         }
     }
 }
 
-static void PasteboardFinalizeCallback(void *userdata)
+ایستا تهی PasteboardFinalizeCallback(تهی *userdata)
 {
     // do nothing.
 }
 
-void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this)
+تهی OPENHARMONY_InitClipboard(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
 
@@ -77,125 +77,125 @@ void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this)
 
     OH_PasteboardObserver *observer = OH_PasteboardObserver_Create();
     data->oh_pasteboard_observer = observer;
-    if (observer) {
+    اگر (observer) {
         OH_PasteboardObserver_SetData(observer, _this, PasteboardNotifyCallback, PasteboardFinalizeCallback);
     }
 
-    if (pasteboard && observer) {
+    اگر (pasteboard && observer) {
         OH_Pasteboard_Subscribe(pasteboard, NOTIFY_LOCAL_DATA_CHANGE, observer);
     }
 }
 
-void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this)
+تهی OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
 
     OH_PasteboardObserver *observer = (OH_PasteboardObserver *) data->oh_pasteboard_observer;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
 
-    if (observer && pasteboard) {
+    اگر (observer && pasteboard) {
         OH_Pasteboard_Unsubscribe(pasteboard, NOTIFY_LOCAL_DATA_CHANGE, observer);
     }
 
-    if (observer) {
+    اگر (observer) {
         OH_PasteboardObserver_Destroy(observer);
-        data->oh_pasteboard_observer = NULL;
+        data->oh_pasteboard_observer = پوچ;
     }
 
-    if (pasteboard) {
+    اگر (pasteboard) {
         OH_Pasteboard_Destroy(pasteboard);
-        data->oh_pasteboard = NULL;
+        data->oh_pasteboard = پوچ;
     }
 }
 
-const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+ثابت نویسه *ثابت *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *رقم_mime_types)
 {
-    static const char *const text_mime_types[] = { "text/plain" };
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    ایستا ثابت نویسه *ثابت text_mime_types[] = { "text/plain" };
+    *رقم_mime_types = SDL_arraysize(text_mime_types);
+    بازگشت text_mime_types;
 }
 
-bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text)
+bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, ثابت نویسه *text)
 {
     SDL_VideoData *data = _this->internal;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
-        return SDL_SetError("Pasteboard not initialized");
+    اگر (!pasteboard) {
+        بازگشت SDL_SetError("Pasteboard not initialized");
     }
 
     OH_UdsPlainText *udspt = OH_UdsPlainText_Create();
-    if (!udspt) {
-        return SDL_SetError("Could not create OH_UdsPlainText instance");
+    اگر (!udspt) {
+        بازگشت SDL_SetError("Could not create OH_UdsPlainText instance");
     }
     OH_UdsPlainText_SetContent(udspt, text);
 
     OH_UdmfRecord *udmfrec = OH_UdmfRecord_Create();
-    if (!udmfrec) {
+    اگر (!udmfrec) {
         OH_UdsPlainText_Destroy(udspt);
-        return SDL_SetError("Could not create OH_UdmfRecord instance");
+        بازگشت SDL_SetError("Could not create OH_UdmfRecord instance");
     }
     OH_UdmfRecord_AddPlainText(udmfrec, udspt);
 
     OH_UdmfData *udmfdata = OH_UdmfData_Create();
-    if (!udmfdata) {
+    اگر (!udmfdata) {
         OH_UdmfRecord_Destroy(udmfrec);
         OH_UdsPlainText_Destroy(udspt);
-        return SDL_SetError("Could not create OH_UdmfData instance");
+        بازگشت SDL_SetError("Could not create OH_UdmfData instance");
     }
     OH_UdmfData_AddRecord(udmfdata, udmfrec);
 
     data->clipboard_set = true;
-    const PASTEBOARD_ErrCode rc = OH_Pasteboard_SetData(pasteboard, udmfdata);
+    ثابت PASTEBOARD_ErrCode rc = OH_Pasteboard_SetData(pasteboard, udmfdata);
 
     OH_UdmfData_Destroy(udmfdata);
     OH_UdmfRecord_Destroy(udmfrec);
     OH_UdsPlainText_Destroy(udspt);
 
-    if (rc != ERR_OK) {
+    اگر (rc != ERR_OK) {
         data->clipboard_set = true;
-        return SDL_SetError("OH_Pasteboard_SetData failed: %d", (int) rc);
+        بازگشت SDL_SetError("OH_Pasteboard_SetData failed: %d", (صحیح) rc);
     }
-    return true;
+    بازگشت true;
 }
 
-char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this)
+نویسه *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
+    اگر (!pasteboard) {
         SDL_SetError("Pasteboard not initialized");
-        return NULL;
+        بازگشت پوچ;
     }
 
-    char *retval = NULL;
-    if (OH_Pasteboard_HasType(pasteboard, "text/plain")) {
-        int rc = (int) ERR_OK;
+    نویسه *retval = پوچ;
+    اگر (OH_Pasteboard_HasType(pasteboard, "text/plain")) {
+        صحیح rc = (صحیح) ERR_OK;
         OH_UdmfData *udmfdata = OH_Pasteboard_GetData(pasteboard, &rc);
-        if (!udmfdata) {
+        اگر (!udmfdata) {
             SDL_SetError("Could not create OH_UdmfData instance %d", rc);
-            return NULL;
+            بازگشت پوچ;
         }
 
         OH_UdmfRecord *udmfrec = OH_UdmfData_GetRecord(udmfdata, 0); // 0 == first record in udmfdata
-        if (!udmfrec) {
+        اگر (!udmfrec) {
             OH_UdmfData_Destroy(udmfdata);
             SDL_SetError("Could not create OH_UdmfRecord instance");
-            return NULL;
+            بازگشت پوچ;
         }
 
         OH_UdsPlainText *udspt = OH_UdsPlainText_Create();
-        if (!udspt) {
+        اگر (!udspt) {
             OH_UdmfRecord_Destroy(udmfrec);
             OH_UdmfData_Destroy(udmfdata);
             SDL_SetError("Could not create OH_UdsPlainText instance");
-            return NULL;
+            بازگشت پوچ;
         }
 
         OH_UdmfRecord_GetPlainText(udmfrec, udspt);
-        const char *utf8 = OH_UdsPlainText_GetContent(udspt);
-        if (!utf8) {
+        ثابت نویسه *utf8 = OH_UdsPlainText_GetContent(udspt);
+        اگر (!utf8) {
             SDL_SetError("Could not get plaintext content");
-        } else {
+        } وگرنه {
             retval = SDL_strdup(utf8);
         }
 
@@ -204,17 +204,17 @@ char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this)
         OH_UdmfData_Destroy(udmfdata);
     }
 
-    return retval;
+    بازگشت retval;
 }
 
 bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
     OH_Pasteboard *pasteboard = (OH_Pasteboard *) data->oh_pasteboard;
-    if (!pasteboard) {
-        return SDL_SetError("Pasteboard not initialized");
+    اگر (!pasteboard) {
+        بازگشت SDL_SetError("Pasteboard not initialized");
     }
-    return OH_Pasteboard_HasType(pasteboard, "text/plain");
+    بازگشت OH_Pasteboard_HasType(pasteboard, "text/plain");
 }
 
 #endif // SDL_VIDEO_DRIVER_OPENHARMONY

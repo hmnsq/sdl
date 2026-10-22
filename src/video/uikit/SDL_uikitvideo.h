@@ -21,11 +21,11 @@
 #ifndef SDL_uikitvideo_h_
 #define SDL_uikitvideo_h_
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 
 #ifdef __OBJC__
 
-#include <UIKit/UIKit.h>
+#شامل <UIKit/UIKit.h>
 
 @interface SDL_UIKitVideoData : NSObject
 
@@ -36,28 +36,28 @@
 @end
 
 #ifdef SDL_PLATFORM_VISIONOS
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window);
-#else
-extern CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
+بیرونی CGRect UIKit_ComputeViewFrame(SDL_Window *window);
+#وگرنه
+بیرونی CGRect UIKit_ComputeViewFrame(SDL_Window *window, UIScreen *screen);
 #endif
 
-extern API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(void);
+بیرونی API_AVAILABLE(ios(13.0)) UIWindowScene *UIKit_GetActiveWindowScene(تهی);
 
-extern void UIKit_SetGameControllerInteraction(bool enabled);
-extern void UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
+بیرونی تهی UIKit_SetGameControllerInteraction(bool enabled);
+بیرونی تهی UIKit_SetViewGameControllerInteraction(UIView *view, bool enabled);
 
-#if !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
-extern UIInterfaceOrientation UIKit_GetInterfaceOrientation(void);
+#اگر !defined(SDL_PLATFORM_TVOS) && !defined(SDL_PLATFORM_VISIONOS)
+بیرونی UIInterfaceOrientation UIKit_GetInterfaceOrientation(تهی);
 #endif
 
 #endif // __OBJC__
 
-extern bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
+بیرونی bool UIKit_SuspendScreenSaver(SDL_VideoDevice *_this);
 
-extern void UIKit_ForceUpdateHomeIndicator(void);
+بیرونی تهی UIKit_ForceUpdateHomeIndicator(تهی);
 
-extern bool UIKit_IsSystemVersionAtLeast(double version);
+بیرونی bool UIKit_IsSystemVersionAtLeast(دوگانه version);
 
-extern SDL_SystemTheme UIKit_GetSystemTheme(void);
+بیرونی SDL_SystemTheme UIKit_GetSystemTheme(تهی);
 
 #endif // SDL_uikitvideo_h_

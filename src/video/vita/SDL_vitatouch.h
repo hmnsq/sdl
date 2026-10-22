@@ -22,12 +22,12 @@
 #ifndef SDL_vitatouch_h
 #define SDL_vitatouch_h
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 // Touch functions
-extern void VITA_InitTouch(void);
-extern void VITA_QuitTouch(void);
-extern void VITA_PollTouch(void);
-void VITA_ConvertTouchXYToSDLXY(float *sdl_x, float *sdl_y, int vita_x, int vita_y, int port);
+بیرونی تهی VITA_InitTouch(تهی);
+بیرونی تهی VITA_QuitTouch(تهی);
+بیرونی تهی VITA_PollTouch(تهی);
+تهی VITA_ConvertTouchXYToSDLXY(اعشاری *sdl_x, اعشاری *sdl_y, صحیح vita_x, صحیح vita_y, صحیح port);
 
 #endif // SDL_vitatouch_h

@@ -24,105 +24,105 @@
  * SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
+#اگر defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_ANDROID)
 
-#include "../SDL_vulkan_internal.h"
+#شامل "../SDL_vulkan_internal.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidwindow.h"
+#شامل "SDL_androidvideo.h"
+#شامل "SDL_androidwindow.h"
 
-#include "SDL_androidvulkan.h"
+#شامل "SDL_androidvulkan.h"
 
 
-bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Android_Vulkan_LoadLibrary(SDL_VideoDevice *_this, ثابت نویسه *path)
 {
-    VkExtensionProperties *extensions = NULL;
-    Uint32 i, extensionCount = 0;
+    VkExtensionProperties *extensions = پوچ;
+    Uint32 i, extension_شمار = 0;
     bool hasSurfaceExtension = false;
     bool hasAndroidSurfaceExtension = false;
-    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = پوچ;
+    اگر (_this->vulkan_config.loader_handle) {
+        بازگشت SDL_SetError("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
+    اگر (!path) {
         path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
-    if (!path) {
+    اگر (!path) {
         path = "libvulkan.so";
     }
     _this->vulkan_config.loader_handle = SDL_LoadObject(path);
-    if (!_this->vulkan_config.loader_handle) {
-        return false;
+    اگر (!_this->vulkan_config.loader_handle) {
+        بازگشت false;
     }
     SDL_strlcpy(_this->vulkan_config.loader_path, path,
                 SDL_arraysize(_this->vulkan_config.loader_path));
     vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
         _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
-    if (!vkGetInstanceProcAddr) {
-        goto fail;
+    اگر (!vkGetInstanceProcAddr) {
+        برو fail;
     }
-    _this->vulkan_config.vkGetInstanceProcAddr = (void *)vkGetInstanceProcAddr;
+    _this->vulkan_config.vkGetInstanceProcAddr = (تهی *)vkGetInstanceProcAddr;
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
-        (void *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
+        (تهی *)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
-        goto fail;
+    اگر (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+        برو fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
-    if (!extensions) {
-        goto fail;
+        &extension_شمار);
+    اگر (!extensions) {
+        برو fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    برای (i = 0; i < extension_شمار; i++) {
+        اگر (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } وگرنه اگر (SDL_strcmp(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasAndroidSurfaceExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
+    اگر (!hasSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
-    } else if (!hasAndroidSurfaceExtension) {
+        برو fail;
+    } وگرنه اگر (!hasAndroidSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_ANDROID_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
+        برو fail;
     }
-    return true;
+    بازگشت true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
-    _this->vulkan_config.loader_handle = NULL;
-    return false;
+    _this->vulkan_config.loader_handle = پوچ;
+    بازگشت false;
 }
 
-void Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
+تهی Android_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    اگر (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
-        _this->vulkan_config.loader_handle = NULL;
+        _this->vulkan_config.loader_handle = پوچ;
     }
 }
 
-char const * const *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count)
+نویسه ثابت * ثابت *Android_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *شمار)
 {
-    static const char *const extensionsForAndroid[] = {
+    ایستا ثابت نویسه *ثابت extensionsForAndroid[] = {
         VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_ANDROID_SURFACE_EXTENSION_NAME
     };
-    *count = SDL_arraysize(extensionsForAndroid);
-    return extensionsForAndroid;
+    *شمار = SDL_arraysize(extensionsForAndroid);
+    بازگشت extensionsForAndroid;
 }
 
 bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                  SDL_Window *window,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ثابت ساختار VkAllocationCallbacks *allocator,
                                  VkSurfaceKHR *surface)
 {
     SDL_WindowData *windowData = window->internal;
@@ -135,42 +135,42 @@ bool Android_Vulkan_CreateSurface(SDL_VideoDevice *_this,
     VkAndroidSurfaceCreateInfoKHR createInfo;
     VkResult result;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    اگر (!_this->vulkan_config.loader_handle) {
+        بازگشت SDL_SetError("Vulkan is not loaded");
     }
 
-    if (!vkCreateAndroidSurfaceKHR) {
-        return SDL_SetError(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME
+    اگر (!vkCreateAndroidSurfaceKHR) {
+        بازگشت SDL_SetError(VK_KHR_ANDROID_SURFACE_EXTENSION_NAME
                             " extension is not enabled in the Vulkan instance.");
     }
 
-    if (!windowData->native_window) {
+    اگر (!windowData->native_window) {
         // passing a NULL window violates Vulkan spec
-        return SDL_SetError("Android native window is not available for surface creation, usually because of backgrounding");
+        بازگشت SDL_SetError("Android native window is not available for surface creation, usually because of backgrounding");
     }
 
     SDL_zero(createInfo);
     createInfo.sType = VK_STRUCTURE_TYPE_ANDROID_SURFACE_CREATE_INFO_KHR;
-    createInfo.pNext = NULL;
+    createInfo.pNext = پوچ;
     createInfo.flags = 0;
     createInfo.window = windowData->native_window;
     result = vkCreateAndroidSurfaceKHR(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        if (result == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR) {
-            return SDL_SetError("vkCreateAndroidSurfaceKHR failed: %s, was the window created with SDL_WINDOW_VULKAN?", SDL_Vulkan_GetResultString(result));
-        } else {
-            return SDL_SetError("vkCreateAndroidSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
+    اگر (result != VK_SUCCESS) {
+        اگر (result == VK_ERROR_NATIVE_WINDOW_IN_USE_KHR) {
+            بازگشت SDL_SetError("vkCreateAndroidSurfaceKHR failed: %s, was the window created with SDL_WINDOW_VULKAN?", SDL_Vulkan_GetResultString(result));
+        } وگرنه {
+            بازگشت SDL_SetError("vkCreateAndroidSurfaceKHR failed: %s", SDL_Vulkan_GetResultString(result));
         }
     }
-    return true;
+    بازگشت true;
 }
 
-void Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+تهی Android_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator)
+                                   ثابت ساختار VkAllocationCallbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
+    اگر (_this->vulkan_config.loader_handle) {
         SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }

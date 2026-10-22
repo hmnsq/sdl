@@ -18,54 +18,54 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
-#include <stdlib.h>
-#include <string.h>
-#include <psp2/kernel/modulemgr.h>
-#include <gpu_es4/psp2_pvr_hint.h>
-#include <gl4esinit.h>
+#اگر defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR) && defined(SDL_VIDEO_VITA_PVR_OGL)
+#شامل <stdlib.h>
+#شامل <string.h>
+#شامل <psp2/kernel/modulemgr.h>
+#شامل <gpu_es4/psp2_pvr_hint.h>
+#شامل <gl4esinit.h>
 
-#include "SDL_vitavideo.h"
-#include "../SDL_egl_c.h"
+#شامل "SDL_vitavideo.h"
+#شامل "../SDL_egl_c.h"
 
 #define MAX_PATH 256 // vita limits are somehow wrong
 
 // Defaults
-static int FB_WIDTH = 960;
-static int FB_HEIGHT = 544;
+ایستا صحیح FB_WIDTH = 960;
+ایستا صحیح FB_HEIGHT = 544;
 
-static void getFBSize(int *width, int *height)
+ایستا تهی getFBSize(صحیح *width, صحیح *height)
 {
     *width = FB_WIDTH;
     *height = FB_HEIGHT;
 }
 
-bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, ثابت نویسه *path)
 {
     PVRSRV_PSP2_APPHINT hint;
-    char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    نویسه *default_path = "app0:module";
+    نویسه target_path[MAX_PATH];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    اگر (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        ثابت نویسه *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
 
-        if (override && *override) {
+        اگر (override && *override) {
             default_path = override;
         }
 
-        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, NULL, 0, NULL, NULL);
-        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, NULL, 0, NULL, NULL);
+        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, پوچ, 0, پوچ, پوچ);
+        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, پوچ, 0, پوچ, پوچ);
 
         SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        sceKernelLoadStartModule(target_path, 0, پوچ, 0, پوچ, پوچ);
 
         SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libgpu_es4_ext.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        sceKernelLoadStartModule(target_path, 0, پوچ, 0, پوچ, پوچ);
 
         SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libIMGEGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        sceKernelLoadStartModule(target_path, 0, پوچ, 0, پوچ, پوچ);
 
         PVRSRVInitializeAppHint(&hint);
 
@@ -76,16 +76,16 @@ bool VITA_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    بازگشت SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    char gl_version[3];
-    SDL_GLContext context = NULL;
-    int temp_major = _this->gl_config.major_version;
-    int temp_minor = _this->gl_config.minor_version;
-    int temp_profile = _this->gl_config.profile_mask;
+    نویسه gl_version[3];
+    SDL_GLContext context = پوچ;
+    صحیح temp_major = _this->gl_config.major_version;
+    صحیح temp_minor = _this->gl_config.minor_version;
+    صحیح temp_profile = _this->gl_config.profile_mask;
 
     // Set version to 2.0 and PROFILE to ES
     _this->gl_config.major_version = 2;
@@ -94,10 +94,10 @@ SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
 
     context = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
 
-    if (context != NULL) {
+    اگر (context != پوچ) {
         FB_WIDTH = window->w;
         FB_HEIGHT = window->h;
-        set_getprocaddress((void *(*)(const char *))eglGetProcAddress);
+        set_getprocaddress((تهی *(*)(ثابت نویسه *))eglGetProcAddress);
         set_getmainfbsize(getFBSize);
         SDL_snprintf(gl_version, 3, "%d%d", temp_major, temp_minor);
         gl4es_setenv("LIBGL_NOTEXRECT", "1", 1); // Currently broken in driver
@@ -110,12 +110,12 @@ SDL_GLContext VITA_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
     _this->gl_config.minor_version = temp_minor;
     _this->gl_config.profile_mask = temp_profile;
 
-    return context;
+    بازگشت context;
 }
 
-SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+SDL_FunctionPointer VITA_GL_GetProcAddress(SDL_VideoDevice *_this, ثابت نویسه *proc)
 {
-    return gl4es_GetProcAddress(proc);
+    بازگشت gl4es_GetProcAddress(proc);
 }
 
 #endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

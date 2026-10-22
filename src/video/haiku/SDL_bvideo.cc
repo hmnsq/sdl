@@ -19,42 +19,42 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../../core/haiku/SDL_BApp.h"
+#شامل "SDL_internal.h"
+#شامل "../../core/haiku/SDL_BApp.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
-#include "SDL_BWin.h"
-#include <Url.h>
+#شامل "SDL_BWin.h"
+#شامل <Url.h>
 
 #ifdef __cplusplus
-extern "C" {
+بیرونی "C" {
 #endif
 
-#include "SDL_bkeyboard.h"
-#include "SDL_bwindow.h"
-#include "SDL_bclipboard.h"
-#include "SDL_bvideo.h"
-#include "SDL_bopengl.h"
-#include "SDL_bmodes.h"
-#include "SDL_bframebuffer.h"
-#include "SDL_bevents.h"
-#include "SDL_bmessagebox.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#شامل "SDL_bkeyboard.h"
+#شامل "SDL_bwindow.h"
+#شامل "SDL_bclipboard.h"
+#شامل "SDL_bvideo.h"
+#شامل "SDL_bopengl.h"
+#شامل "SDL_bmodes.h"
+#شامل "SDL_bframebuffer.h"
+#شامل "SDL_bevents.h"
+#شامل "SDL_bmessagebox.h"
+#شامل "../../events/SDL_keyboard_c.h"
+#شامل "../../events/SDL_mouse_c.h"
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
-    return (SDL_BWin *)(window->internal);
+ایستا SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
+    بازگشت (SDL_BWin *)(window->internal);
 }
 
-static SDL_VideoDevice * HAIKU_CreateDevice(void)
+ایستا SDL_VideoDevice * HAIKU_CreateDevice(تهی)
 {
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *) SDL_calloc(1, sizeof(SDL_VideoDevice));
+    device = (SDL_VideoDevice *) SDL_calloc(1, اندازه(SDL_VideoDevice));
 
-    device->internal = NULL; /* FIXME: Is this the cause of some of the
+    device->internal = پوچ; /* FIXME: Is this the cause of some of the
                                   SDL_Quit() errors? */
 
 // TODO: Figure out if any initialization needs to go here
@@ -105,54 +105,54 @@ static SDL_VideoDevice * HAIKU_CreateDevice(void)
     device->GetClipboardText = HAIKU_GetClipboardText;
     device->HasClipboardText = HAIKU_HasClipboardText;
 
-    device->free = HAIKU_DeleteDevice;
+    device->آزاد = HAIKU_DeleteDevice;
 
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    بازگشت device;
 }
 
 VideoBootStrap HAIKU_bootstrap = {
     "haiku", "Haiku graphics",
     HAIKU_CreateDevice,
     HAIKU_ShowMessageBox,
-    false
+    نادرست
 };
 
-void HAIKU_DeleteDevice(SDL_VideoDevice * device)
+تهی HAIKU_DeleteDevice(SDL_VideoDevice * device)
 {
     SDL_free(device->internal);
     SDL_free(device);
 }
 
-struct SDL_CursorData
+ساختار SDL_CursorData
 {
     BCursor *cursor;
 };
 
-static SDL_Cursor *HAIKU_CreateCursorAndData(BCursor *bcursor)
+ایستا SDL_Cursor *HAIKU_CreateCursorAndData(BCursor *bcursor)
 {
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
-        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, اندازه(*cursor));
+    اگر (cursor) {
+        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, اندازه(*data));
+        اگر (!data) {
             SDL_free(cursor);
-            return NULL;
+            بازگشت پوچ;
         }
         data->cursor = bcursor;
         cursor->internal = data;
     }
-    return cursor;
+    بازگشت cursor;
 }
 
-static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
+ایستا SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
 {
     BCursorID cursorId = B_CURSOR_ID_SYSTEM_DEFAULT;
 
-    switch(id)
+    انتخاب(id)
     {
-        #define CURSORCASE(sdlname, bname) case SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; break
+        #define CURSORCASE(sdlname, bname) حالت SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; بشکن
         CURSORCASE(DEFAULT, SYSTEM_DEFAULT);
         CURSORCASE(TEXT, I_BEAM);
         CURSORCASE(WAIT, PROGRESS);
@@ -188,97 +188,97 @@ static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
         CURSORCASE(ZOOM_IN, ZOOM_IN);
         CURSORCASE(ZOOM_OUT, ZOOM_OUT);
         #undef CURSORCASE
-        default:
+        پیشفرض:
             SDL_assert(0);
-            return NULL;
+            بازگشت پوچ;
     }
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorId));
+    بازگشت HAIKU_CreateCursorAndData(جدید BCursor(cursorId));
 }
 
-static SDL_Cursor * HAIKU_CreateDefaultCursor()
+ایستا SDL_Cursor * HAIKU_CreateDefaultCursor()
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return HAIKU_CreateSystemCursor(id);
+    بازگشت HAIKU_CreateSystemCursor(id);
 }
 
-static void HAIKU_FreeCursor(SDL_Cursor * cursor)
+ایستا تهی HAIKU_FreeCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData *data = cursor->internal;
 
-    if (data) {
+    اگر (data) {
         delete data->cursor;
     }
     SDL_free(data);
     SDL_free(cursor);
 }
 
-static SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, int hot_x, int hot_y)
+ایستا SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, صحیح hot_x, صحیح hot_y)
 {
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    اگر (!converted) {
+        بازگشت پوچ;
     }
 
-	BBitmap *cursorBitmap = new BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
+	BBitmap *cursorBitmap = جدید BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
 	cursorBitmap->SetBits(converted->pixels, converted->h * converted->pitch, 0, B_RGBA32);
     SDL_DestroySurface(converted);
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
+    بازگشت HAIKU_CreateCursorAndData(جدید BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
 }
 
-static bool HAIKU_ShowCursor(SDL_Cursor *cursor)
+ایستا منطقی HAIKU_ShowCursor(SDL_Cursor *cursor)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
 
-	if (!mouse) {
-		return true;
+	اگر (!mouse) {
+		بازگشت درست;
 	}
 
-	if (cursor) {
+	اگر (cursor) {
 		BCursor *hCursor = cursor->internal->cursor;
 		be_app->SetCursor(hCursor);
-	} else {
-		BCursor *hCursor = new BCursor(B_CURSOR_ID_NO_CURSOR);
+	} وگرنه {
+		BCursor *hCursor = جدید BCursor(B_CURSOR_ID_NO_CURSOR);
 		be_app->SetCursor(hCursor);
 		delete hCursor;
 	}
 
-	return true;
+	بازگشت درست;
 }
 
-static bool HAIKU_SetRelativeMouseMode(bool enabled)
+ایستا منطقی HAIKU_SetRelativeMouseMode(منطقی enabled)
 {
     SDL_Window *window = SDL_GetMouseFocus();
-    if (!window) {
-      return true;
+    اگر (!window) {
+      بازگشت درست;
     }
 
 	SDL_BWin *bewin = _ToBeWin(window);
 	BView *_SDL_View = bewin->GetGLView();
-	if (!_SDL_View) {
+	اگر (!_SDL_View) {
 		_SDL_View = bewin->GetView();
-		if (!_SDL_View)
-			return false;
+		اگر (!_SDL_View)
+			بازگشت نادرست;
 	}
 
 	bewin->Lock();
-	if (enabled)
+	اگر (enabled)
 		_SDL_View->SetEventMask(B_POINTER_EVENTS, B_NO_POINTER_HISTORY);
-	else
+	وگرنه
 		_SDL_View->SetEventMask(0, 0);
 	bewin->Unlock();
 
-    return true;
+    بازگشت درست;
 }
 
-static void HAIKU_MouseInit(SDL_VideoDevice *_this)
+ایستا تهی HAIKU_MouseInit(SDL_VideoDevice *_this)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
-	if (!mouse) {
-		return;
+	اگر (!mouse) {
+		بازگشت;
 	}
 	mouse->CreateCursor = HAIKU_CreateCursor;
 	mouse->CreateSystemCursor = HAIKU_CreateSystemCursor;
@@ -289,11 +289,11 @@ static void HAIKU_MouseInit(SDL_VideoDevice *_this)
 	SDL_SetDefaultCursor(HAIKU_CreateDefaultCursor());
 }
 
-bool HAIKU_VideoInit(SDL_VideoDevice *_this)
+منطقی HAIKU_VideoInit(SDL_VideoDevice *_this)
 {
     // Initialize the Be Application for appserver interaction
-    if (!SDL_InitBeApp()) {
-        return false;
+    اگر (!SDL_InitBeApp()) {
+        بازگشت نادرست;
     }
 
     // Initialize video modes
@@ -305,20 +305,20 @@ bool HAIKU_VideoInit(SDL_VideoDevice *_this)
     HAIKU_MouseInit(_this);
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, پوچ);
+    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, پوچ);
 
 #ifdef SDL_VIDEO_OPENGL
         // testgl application doesn't load library, just tries to load symbols
         // is it correct? if so we have to load library here
-    HAIKU_GL_LoadLibrary(_this, NULL);
+    HAIKU_GL_LoadLibrary(_this, پوچ);
 #endif
 
     // We're done!
-    return true;
+    بازگشت درست;
 }
 
-void HAIKU_VideoQuit(SDL_VideoDevice *_this)
+تهی HAIKU_VideoQuit(SDL_VideoDevice *_this)
 {
 
     HAIKU_QuitModes(_this);
@@ -327,19 +327,19 @@ void HAIKU_VideoQuit(SDL_VideoDevice *_this)
 }
 
 // just sticking this function in here so it's in a C++ source file.
-extern "C"
-bool HAIKU_OpenURL(const char *url)
+بیرونی "C"
+منطقی HAIKU_OpenURL(ثابت نویسه *url)
 {
-#if B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
+#اگر B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
     BUrl burl(url);
-#else
-    BUrl burl(url, true);
+#وگرنه
+    BUrl burl(url, درست);
 #endif
-    const status_t rc = burl.OpenWithPreferredApplication(false);
-    if (rc != B_NO_ERROR) {
-        return SDL_SetError("URL open failed (err=%d)", (int)rc);
+    ثابت status_t rc = burl.OpenWithPreferredApplication(نادرست);
+    اگر (rc != B_NO_ERROR) {
+        بازگشت SDL_SetError("URL open failed (err=%d)", (صحیح)rc);
     }
-    return true;
+    بازگشت درست;
 }
 
 #ifdef __cplusplus

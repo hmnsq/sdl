@@ -18,44 +18,44 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#include "SDL_surface_c.h"
-#include "SDL_blit_copy.h"
+#شامل "SDL_surface_c.h"
+#شامل "SDL_blit_copy.h"
 
 #ifdef SDL_SSE_INTRINSICS
 // This assumes 16-byte aligned src and dst
-static SDL_INLINE void SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, const Uint8 *src, int len)
+ایستا SDL_INLINE تهی SDL_TARGETING("sse") SDL_memcpySSE(Uint8 *dst, ثابت Uint8 *src, صحیح len)
 {
-    int i;
+    صحیح i;
 
-    __m128 values[4];
-    for (i = len / 64; i--;) {
-        _mm_prefetch((const char *)src, _MM_HINT_NTA);
-        values[0] = *(__m128 *)(src + 0);
-        values[1] = *(__m128 *)(src + 16);
-        values[2] = *(__m128 *)(src + 32);
-        values[3] = *(__m128 *)(src + 48);
-        _mm_stream_ps((float *)(dst + 0), values[0]);
-        _mm_stream_ps((float *)(dst + 16), values[1]);
-        _mm_stream_ps((float *)(dst + 32), values[2]);
-        _mm_stream_ps((float *)(dst + 48), values[3]);
+    __m128 مقادیر[4];
+    برای (i = len / 64; i--;) {
+        _mm_prefetch((ثابت نویسه *)src, _MM_HINT_NTA);
+        مقادیر[0] = *(__m128 *)(src + 0);
+        مقادیر[1] = *(__m128 *)(src + 16);
+        مقادیر[2] = *(__m128 *)(src + 32);
+        مقادیر[3] = *(__m128 *)(src + 48);
+        _mm_stream_ps((اعشاری *)(dst + 0), مقادیر[0]);
+        _mm_stream_ps((اعشاری *)(dst + 16), مقادیر[1]);
+        _mm_stream_ps((اعشاری *)(dst + 32), مقادیر[2]);
+        _mm_stream_ps((اعشاری *)(dst + 48), مقادیر[3]);
         src += 64;
         dst += 64;
     }
 
-    if (len & 63) {
+    اگر (len & 63) {
         SDL_memcpy(dst, src, len & 63);
     }
 }
 #endif // SDL_SSE_INTRINSICS
 
-void SDL_BlitCopy(SDL_BlitInfo *info)
+تهی SDL_BlitCopy(SDL_BlitInfo *info)
 {
     bool overlap;
     Uint8 *src, *dst;
-    int w, h;
-    int srcskip, dstskip;
+    صحیح w, h;
+    صحیح srcskip, dstskip;
 
     w = info->dst_w * info->dst_fmt->bytes_per_pixel;
     h = info->dst_h;
@@ -65,44 +65,44 @@ void SDL_BlitCopy(SDL_BlitInfo *info)
     dstskip = info->dst_pitch;
 
     // Properly handle overlapping blits
-    if (src < dst) {
+    اگر (src < dst) {
         overlap = (dst < (src + h * srcskip));
-    } else {
+    } وگرنه {
         overlap = (src < (dst + h * dstskip));
     }
-    if (overlap) {
-        if (dst < src) {
-            while (h--) {
+    اگر (overlap) {
+        اگر (dst < src) {
+            وقتی (h--) {
                 SDL_memmove(dst, src, w);
                 src += srcskip;
                 dst += dstskip;
             }
-        } else {
+        } وگرنه {
             src += ((h - 1) * srcskip);
             dst += ((h - 1) * dstskip);
-            while (h--) {
+            وقتی (h--) {
                 SDL_memmove(dst, src, w);
                 src -= srcskip;
                 dst -= dstskip;
             }
         }
-        return;
+        بازگشت;
     }
 
 #ifdef SDL_SSE_INTRINSICS
-    if (SDL_HasSSE() &&
+    اگر (SDL_HasSSE() &&
         !((uintptr_t)src & 15) && !(srcskip & 15) &&
         !((uintptr_t)dst & 15) && !(dstskip & 15)) {
-        while (h--) {
+        وقتی (h--) {
             SDL_memcpySSE(dst, src, w);
             src += srcskip;
             dst += dstskip;
         }
-        return;
+        بازگشت;
     }
 #endif
 
-    while (h--) {
+    وقتی (h--) {
         SDL_memcpy(dst, src, w);
         src += srcskip;
         dst += dstskip;

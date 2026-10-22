@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+بیرونی "C" {
 #endif
 
 
@@ -25,25 +25,25 @@ extern "C" {
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_SPEC_VERSION 1
 #define VK_GGP_STREAM_DESCRIPTOR_SURFACE_EXTENSION_NAME "VK_GGP_stream_descriptor_surface"
 
-typedef VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
+تعریفنوع VkFlags VkStreamDescriptorSurfaceCreateFlagsGGP;
 
-typedef struct VkStreamDescriptorSurfaceCreateInfoGGP {
+تعریفنوع ساختار VkStreamDescriptorSurfaceCreateInfoGGP {
     VkStructureType                            sType;
-    const void*                                pNext;
+    ثابت تهی*                                pNext;
     VkStreamDescriptorSurfaceCreateFlagsGGP    flags;
     GgpStreamDescriptor                        streamDescriptor;
 } VkStreamDescriptorSurfaceCreateInfoGGP;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعریفنوع VkResult (VKAPI_PTR *PFN_vkCreateStreamDescriptorSurfaceGGP)(VkInstance instance, ثابت VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo, ثابت VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
     VkInstance                                  instance,
-    const VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkStreamDescriptorSurfaceCreateInfoGGP* pCreateInfo,
+    ثابت VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif
@@ -55,9 +55,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateStreamDescriptorSurfaceGGP(
 #define VK_GGP_FRAME_TOKEN_SPEC_VERSION   1
 #define VK_GGP_FRAME_TOKEN_EXTENSION_NAME "VK_GGP_frame_token"
 
-typedef struct VkPresentFrameTokenGGP {
+تعریفنوع ساختار VkPresentFrameTokenGGP {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت تهی*        pNext;
     GgpFrameToken      frameToken;
 } VkPresentFrameTokenGGP;
 

@@ -18,28 +18,28 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DUMMY
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_nullframebuffer_c.h"
+#شامل "../SDL_sysvideo.h"
+#شامل "../../SDL_properties_c.h"
+#شامل "SDL_nullframebuffer_c.h"
 
 #define DUMMY_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, تهی **pixels, صحیح *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    ثابت SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
+    صحیح w, h;
 
     // Create a new framebuffer
     SDL_GetWindowSizeInPixels(window, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    اگر (!surface) {
+        بازگشت false;
     }
 
     // Save the info and return!
@@ -47,30 +47,30 @@ bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *windo
     *format = surface_format;
     *pixels = surface->pixels;
     *pitch = surface->pitch;
-    return true;
+    بازگشت true;
 }
 
-bool SDL_DUMMY_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_DUMMY_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ثابت SDL_Rect *rects, صحیح numrects)
 {
-    static int frame_number;
+    ایستا صحیح frame_عدد;
     SDL_Surface *surface;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find dummy surface for window");
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE, پوچ);
+    اگر (!surface) {
+        بازگشت SDL_SetError("Couldn't find dummy surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DUMMY_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
-                           SDL_GetWindowID(window), ++frame_number);
+    اگر (SDL_GetHintBoolean(SDL_HINT_VIDEO_DUMMY_SAVE_FRAMES, false)) {
+        نویسه file[128];
+        (تهی)SDL_snprintf(file, اندازه(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+                           SDL_GetWindowID(window), ++frame_عدد);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    بازگشت true;
 }
 
-void SDL_DUMMY_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+تهی SDL_DUMMY_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_ClearProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE);
 }

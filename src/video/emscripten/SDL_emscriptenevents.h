@@ -22,12 +22,12 @@
 #ifndef SDL_emscriptenevents_h_
 #define SDL_emscriptenevents_h_
 
-#include "SDL_emscriptenvideo.h"
+#شامل "SDL_emscriptenvideo.h"
 
-extern void Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
-extern void Emscripten_RegisterEventHandlers(SDL_WindowData *data);
-extern void Emscripten_UnregisterEventHandlers(SDL_WindowData *data);
-extern EM_BOOL Emscripten_HandleCanvasResize(int eventType, const void *reserved, void *userData);
+بیرونی تهی Emscripten_RegisterGlobalEventHandlers(SDL_VideoDevice *device);
+بیرونی تهی Emscripten_UnregisterGlobalEventHandlers(SDL_VideoDevice *device);
+بیرونی تهی Emscripten_RegisterEventHandlers(SDL_WindowData *data);
+بیرونی تهی Emscripten_UnregisterEventHandlers(SDL_WindowData *data);
+بیرونی EM_BOOL Emscripten_HandleCanvasResize(صحیح eventType, ثابت تهی *reserved, تهی *userData);
 
 #endif // SDL_emscriptenevents_h_

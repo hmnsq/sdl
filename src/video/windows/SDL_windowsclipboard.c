@@ -18,232 +18,232 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#شامل "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#اگر defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_clipboardevents_c.h"
+#شامل "SDL_windowsvideo.h"
+#شامل "SDL_windowswindow.h"
+#شامل "../SDL_clipboard_c.h"
+#شامل "../../events/SDL_events_c.h"
+#شامل "../../events/SDL_clipboardevents_c.h"
 
 #define BFT_BITMAP 0x4d42 // 'BM'
 
 // Assume we can directly read and write BMP fields without byte swapping
 SDL_COMPILE_TIME_ASSERT(verify_byte_order, SDL_BYTEORDER == SDL_LIL_ENDIAN);
 
-static UINT GetClipboardFormatPNG(void)
+ایستا UINT GetClipboardFormatPNG(تهی)
 {
-    static UINT format;
+    ایستا UINT format;
 
-    if (!format) {
+    اگر (!format) {
         format = RegisterClipboardFormat(TEXT("PNG"));
     }
-    return format;
+    بازگشت format;
 }
 
-static BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
+ایستا BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
 {
     // Retry to open the clipboard in case another application has it open
-    const int MAX_ATTEMPTS = 3;
-    int attempt;
-    HWND hwnd = NULL;
+    ثابت صحیح MAX_ATTEMPTS = 3;
+    صحیح attempt;
+    HWND hwnd = پوچ;
 
-    if (_this->windows) {
+    اگر (_this->windows) {
         hwnd = _this->windows->internal->hwnd;
     }
-    for (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
-        if (OpenClipboard(hwnd)) {
-            return TRUE;
+    برای (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
+        اگر (OpenClipboard(hwnd)) {
+            بازگشت TRUE;
         }
         SDL_Delay(10);
     }
-    return FALSE;
+    بازگشت FALSE;
 }
 
-static void WIN_CloseClipboard(void)
+ایستا تهی WIN_CloseClipboard(تهی)
 {
     CloseClipboard();
 }
 
-static HANDLE WIN_ConvertBMPtoDIB(const void *bmp, size_t bmp_size, UINT *format)
+ایستا HANDLE WIN_ConvertBMPtoDIB(ثابت تهی *bmp, size_t bmp_size, UINT *format)
 {
-    HANDLE hMem = NULL;
+    HANDLE hMem = پوچ;
 
-    if (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
+    اگر (bmp && bmp_size > اندازه(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
         BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
-        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + sizeof(BITMAPFILEHEADER));
-        size_t bih_size = pbih->biSize + pbih->biClrUsed * sizeof(RGBQUAD);
+        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + اندازه(BITMAPFILEHEADER));
+        size_t bih_size = pbih->biSize + pbih->biClrUsed * اندازه(RGBQUAD);
         size_t pixels_size = pbih->biSizeImage;
 
-        if (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
+        اگر (pbih->biSize >= اندازه(BITMAPV5HEADER)) {
             *format = CF_DIBV5;
-        } else {
+        } وگرنه {
             *format = CF_DIB;
         }
 
-        if (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
+        اگر (pbfh->bfOffBits >= (اندازه(BITMAPFILEHEADER) + bih_size) &&
             (pbfh->bfOffBits + pixels_size) <= bmp_size) {
-            const Uint8 *pixels = (const Uint8 *)bmp + pbfh->bfOffBits;
+            ثابت Uint8 *pixels = (ثابت Uint8 *)bmp + pbfh->bfOffBits;
             size_t dib_size = bih_size + pixels_size;
             hMem = GlobalAlloc(GMEM_MOVEABLE, dib_size);
-            if (hMem) {
+            اگر (hMem) {
                 LPVOID dst = GlobalLock(hMem);
-                if (dst) {
+                اگر (dst) {
                     SDL_memcpy(dst, pbih, bih_size);
                     SDL_memcpy((Uint8 *)dst + bih_size, pixels, pixels_size);
                     GlobalUnlock(hMem);
-                } else {
+                } وگرنه {
                     WIN_SetError("GlobalLock()");
                     GlobalFree(hMem);
-                    hMem = NULL;
+                    hMem = پوچ;
                 }
-            } else {
+            } وگرنه {
                 SDL_OutOfMemory();
             }
-        } else {
+        } وگرنه {
             SDL_SetError("Invalid BMP data");
         }
-    } else {
+    } وگرنه {
         SDL_SetError("Invalid BMP data");
     }
-    return hMem;
+    بازگشت hMem;
 }
 
-static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
+ایستا تهی *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
 {
-    void *bmp = NULL;
+    تهی *bmp = پوچ;
     size_t mem_size = GlobalSize(hMem);
 
-    if (mem_size > sizeof(BITMAPINFOHEADER)) {
+    اگر (mem_size > اندازه(BITMAPINFOHEADER)) {
         LPVOID dib = GlobalLock(hMem);
-        if (dib) {
+        اگر (dib) {
             BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)dib;
 
             // https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader#color-tables
             size_t color_table_size;
-            switch (pbih->biCompression) {
-            case BI_RGB:
-                if (pbih->biBitCount <= 8) {
-                    color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->biBitCount : pbih->biClrUsed);
-                } else {
+            انتخاب (pbih->biCompression) {
+            حالت BI_RGB:
+                اگر (pbih->bi_Bit_شمار <= 8) {
+                    color_table_size = اندازه(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->bi_Bit_شمار : pbih->biClrUsed);
+                } وگرنه {
                     color_table_size = 0;
                 }
-                break;
-            case BI_BITFIELDS:
-                color_table_size = 3 * sizeof(DWORD);
-                break;
-            case 6 /* BI_ALPHABITFIELDS */:
+                بشکن;
+            حالت BI_BITFIELDS:
+                color_table_size = 3 * اندازه(DWORD);
+                بشکن;
+            حالت 6 /* BI_ALPHABITFIELDS */:
                 // https://learn.microsoft.com/en-us/previous-versions/windows/embedded/aa452885(v=msdn.10)
-                color_table_size = 4 * sizeof(DWORD);
-                break;
-            default: // FOURCC
-                color_table_size = sizeof(RGBQUAD) * pbih->biClrUsed;
+                color_table_size = 4 * اندازه(DWORD);
+                بشکن;
+            پیشفرض: // FOURCC
+                color_table_size = اندازه(RGBQUAD) * pbih->biClrUsed;
             }
 
             size_t bih_size = pbih->biSize + color_table_size;
             size_t dib_size = bih_size + pbih->biSizeImage;
-            if (dib_size <= mem_size) {
-                size_t bmp_size = sizeof(BITMAPFILEHEADER) + mem_size;
+            اگر (dib_size <= mem_size) {
+                size_t bmp_size = اندازه(BITMAPFILEHEADER) + mem_size;
                 bmp = SDL_malloc(bmp_size);
-                if (bmp) {
+                اگر (bmp) {
                     BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
                     pbfh->bfType = BFT_BITMAP;
                     pbfh->bfSize = (DWORD)bmp_size;
                     pbfh->bfReserved1 = 0;
                     pbfh->bfReserved2 = 0;
-                    pbfh->bfOffBits = (DWORD)(sizeof(BITMAPFILEHEADER) + pbih->biSize + color_table_size);
-                    SDL_memcpy((Uint8 *)bmp + sizeof(BITMAPFILEHEADER), dib, mem_size);
+                    pbfh->bfOffBits = (DWORD)(اندازه(BITMAPFILEHEADER) + pbih->biSize + color_table_size);
+                    SDL_memcpy((Uint8 *)bmp + اندازه(BITMAPFILEHEADER), dib, mem_size);
                     *size = bmp_size;
                 }
-            } else {
+            } وگرنه {
                 SDL_SetError("Invalid BMP data");
             }
             GlobalUnlock(hMem);
-        } else {
+        } وگرنه {
             WIN_SetError("GlobalLock()");
         }
-    } else {
+    } وگرنه {
         SDL_SetError("Invalid BMP data");
     }
-    return bmp;
+    بازگشت bmp;
 }
 
-static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
+ایستا bool WIN_SetClipboardImage(SDL_VideoDevice *_this, ثابت نویسه *mime_type)
 {
     UINT format = 0;
-    HANDLE hMem = NULL;
+    HANDLE hMem = پوچ;
     size_t clipboard_data_size;
-    const void *clipboard_data;
+    ثابت تهی *clipboard_data;
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (SDL_strcmp(mime_type, "image/bmp") == 0) {
+    اگر (SDL_strcmp(mime_type, "image/bmp") == 0) {
         hMem = WIN_ConvertBMPtoDIB(clipboard_data, clipboard_data_size, &format);
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
+    } وگرنه اگر (SDL_strcmp(mime_type, "image/png") == 0) {
         format = GetClipboardFormatPNG();
         hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_data_size);
-        if (hMem) {
+        اگر (hMem) {
             LPVOID dst = GlobalLock(hMem);
-            if (dst) {
+            اگر (dst) {
                 SDL_memcpy(dst, clipboard_data, clipboard_data_size);
                 GlobalUnlock(hMem);
-            } else {
+            } وگرنه {
                 result = WIN_SetError("GlobalLock()");
                 GlobalFree(hMem);
-                hMem = NULL;
+                hMem = پوچ;
             }
-        } else {
+        } وگرنه {
             result = SDL_OutOfMemory();
         }
-    } else {
+    } وگرنه {
         result = SDL_SetError("Unknown image format");
     }
-    if (hMem) {
+    اگر (hMem) {
         // Save the image to the clipboard
-        if (!SetClipboardData(format, hMem)) {
+        اگر (!SetClipboardData(format, hMem)) {
             result = WIN_SetError("Couldn't set clipboard data");
         }
-    } else {
+    } وگرنه {
         // WIN_ConvertBMPtoDIB() set the error
         result = false;
     }
-    return result;
+    بازگشت result;
 }
 
-static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
+ایستا bool WIN_SetClipboardText(SDL_VideoDevice *_this, ثابت نویسه *mime_type)
 {
     HANDLE hMem;
     size_t clipboard_data_size;
-    const void *clipboard_data;
+    ثابت تهی *clipboard_data;
     bool result = true;
 
     clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (clipboard_data && clipboard_data_size > 0) {
+    اگر (clipboard_data && clipboard_data_size > 0) {
         SIZE_T i, size;
-        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (const char *)clipboard_data, clipboard_data_size);
-        if (!tstr) {
-            return SDL_SetError("Couldn't convert text from UTF-8");
+        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (ثابت نویسه *)clipboard_data, clipboard_data_size);
+        اگر (!tstr) {
+            بازگشت SDL_SetError("Couldn't convert text from UTF-8");
         }
 
         // Find out the size of the data
-        for (size = 0, i = 0; tstr[i]; ++i, ++size) {
-            if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+        برای (size = 0, i = 0; tstr[i]; ++i, ++size) {
+            اگر (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                 // We're going to insert a carriage return
                 ++size;
             }
         }
-        size = (size + 1) * sizeof(*tstr);
+        size = (size + 1) * اندازه(*tstr);
 
         // Save the data to the clipboard
         hMem = GlobalAlloc(GMEM_MOVEABLE, size);
-        if (hMem) {
+        اگر (hMem) {
             LPWSTR dst = (LPWSTR)GlobalLock(hMem);
-            if (dst) {
+            اگر (dst) {
                 // Copy the text over, adding carriage returns as necessary
-                for (i = 0; tstr[i]; ++i) {
-                    if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+                برای (i = 0; tstr[i]; ++i) {
+                    اگر (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                         *dst++ = '\r';
                     }
                     *dst++ = tstr[i];
@@ -252,15 +252,15 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
                 GlobalUnlock(hMem);
             }
 
-            if (!SetClipboardData(CF_UNICODETEXT, hMem)) {
+            اگر (!SetClipboardData(CF_UNICODETEXT, hMem)) {
                 result = WIN_SetError("Couldn't set clipboard data");
             }
-        } else {
+        } وگرنه {
             result = SDL_OutOfMemory();
         }
         SDL_free(tstr);
     }
-    return result;
+    بازگشت result;
 }
 
 bool WIN_SetClipboardData(SDL_VideoDevice *_this)
@@ -274,282 +274,282 @@ bool WIN_SetClipboardData(SDL_VideoDevice *_this)
      * requests them being rendered immediately, so there isn't any benefit.
      */
 
-    if (WIN_OpenClipboard(_this)) {
+    اگر (WIN_OpenClipboard(_this)) {
         EmptyClipboard();
 
         // Set the clipboard text
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        برای (i = 0; i < _this->رقم_clipboard_mime_types; ++i) {
+            ثابت نویسه *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_IsTextMimeType(mime_type)) {
-                if (!WIN_SetClipboardText(_this, mime_type)) {
+            اگر (SDL_IsTextMimeType(mime_type)) {
+                اگر (!WIN_SetClipboardText(_this, mime_type)) {
                     result = false;
                 }
                 // Only set the first clipboard text
-                break;
+                بشکن;
             }
         }
 
         // Set the clipboard image
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        برای (i = 0; i < _this->رقم_clipboard_mime_types; ++i) {
+            ثابت نویسه *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_strcmp(mime_type, "image/bmp") == 0 ||
+            اگر (SDL_strcmp(mime_type, "image/bmp") == 0 ||
                 SDL_strcmp(mime_type, "image/png") == 0) {
-                if (!WIN_SetClipboardImage(_this, mime_type)) {
+                اگر (!WIN_SetClipboardImage(_this, mime_type)) {
                     result = false;
                 }
-                break;
+                بشکن;
             }
         }
 
-        data->clipboard_count = GetClipboardSequenceNumber();
+        data->clipboard_شمار = Get_Clipboard_Sequence_عدد();
         WIN_CloseClipboard();
-    } else {
+    } وگرنه {
         result = WIN_SetError("Couldn't open clipboard");
     }
-    return result;
+    بازگشت result;
 }
 
-void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
+تهی *WIN_GetClipboardData(SDL_VideoDevice *_this, ثابت نویسه *mime_type, size_t *size)
 {
-    void *data = NULL;
+    تهی *data = پوچ;
 
-    if (SDL_IsTextMimeType(mime_type)) {
-        char *text = NULL;
+    اگر (SDL_IsTextMimeType(mime_type)) {
+        نویسه *text = پوچ;
 
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        اگر (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
+            اگر (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPTSTR str;
 
                 hMem = GetClipboardData(CF_UNICODETEXT);
-                if (hMem) {
+                اگر (hMem) {
                     str = (LPTSTR)GlobalLock(hMem);
-                    if (str) {
+                    اگر (str) {
                         text = WIN_StringToUTF8W(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } وگرنه {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } وگرنه {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_TEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        } وگرنه اگر (IsClipboardFormatAvailable(CF_TEXT)) {
+            اگر (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPCSTR str;
 
                 hMem = GetClipboardData(CF_TEXT);
-                if (hMem) {
+                اگر (hMem) {
                     str = (LPCSTR)GlobalLock(hMem);
-                    if (str) {
+                    اگر (str) {
                         text = SDL_strdup(str);
                         GlobalUnlock(hMem);
-                    } else {
+                    } وگرنه {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } وگرنه {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
-        if (!text) {
+        اگر (!text) {
             text = SDL_strdup("");
         }
         data = text;
         *size = SDL_strlen(text);
 
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5)) {
-            if (WIN_OpenClipboard(_this)) {
+    } وگرنه اگر (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        اگر (IsClipboardFormatAvailable(CF_DIBV5)) {
+            اگر (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIBV5);
-                if (hMem) {
+                اگر (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } وگرنه {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_DIB)) {
-            if (WIN_OpenClipboard(_this)) {
+        } وگرنه اگر (IsClipboardFormatAvailable(CF_DIB)) {
+            اگر (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(CF_DIB);
-                if (hMem) {
+                اگر (hMem) {
                     data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
+                } وگرنه {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            if (WIN_OpenClipboard(_this)) {
+    } وگرنه اگر (SDL_strcmp(mime_type, "image/png") == 0) {
+        اگر (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            اگر (WIN_OpenClipboard(_this)) {
                 HANDLE hMem = GetClipboardData(GetClipboardFormatPNG());
-                if (hMem) {
+                اگر (hMem) {
                     size_t mem_size = GlobalSize(hMem);
-                    void *mem = GlobalLock(hMem);
-                    if (mem) {
+                    تهی *mem = GlobalLock(hMem);
+                    اگر (mem) {
                         data = SDL_malloc(mem_size);
-                        if (data) {
+                        اگر (data) {
                             SDL_memcpy(data, mem, mem_size);
                             *size = mem_size;
                         }
                         GlobalUnlock(hMem);
-                    } else {
+                    } وگرنه {
                         WIN_SetError("Couldn't lock clipboard data");
                     }
-                } else {
+                } وگرنه {
                     WIN_SetError("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else {
+    } وگرنه {
         data = SDL_GetInternalClipboardData(_this, mime_type, size);
     }
-    return data;
+    بازگشت data;
 }
 
-bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool WIN_HasClipboardData(SDL_VideoDevice *_this, ثابت نویسه *mime_type)
 {
-    if (SDL_IsTextMimeType(mime_type)) {
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
-            return true;
+    اگر (SDL_IsTextMimeType(mime_type)) {
+        اگر (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
+            بازگشت true;
         }
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
-            return true;
+    } وگرنه اگر (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        اگر (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
+            بازگشت true;
         }
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            return true;
+    } وگرنه اگر (SDL_strcmp(mime_type, "image/png") == 0) {
+        اگر (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
+            بازگشت true;
         }
     }
-    return SDL_HasInternalClipboardData(_this, mime_type);
+    بازگشت SDL_HasInternalClipboardData(_this, mime_type);
 }
 
-static int GetClipboardFormatMimeType(UINT format, char *name)
+ایستا صحیح GetClipboardFormatMimeType(UINT format, نویسه *name)
 {
-    const char *mime_type = NULL;
+    ثابت نویسه *mime_type = پوچ;
 
-    switch (format) {
-    case CF_TEXT:
+    انتخاب (format) {
+    حالت CF_TEXT:
         mime_type = "text/plain";
-        break;
-    case CF_UNICODETEXT:
+        بشکن;
+    حالت CF_UNICODETEXT:
         mime_type = "text/plain;charset=utf-8";
-        break;
-    case CF_DIB:
-    case CF_DIBV5:
+        بشکن;
+    حالت CF_DIB:
+    حالت CF_DIBV5:
         mime_type = "image/bmp";
-        break;
-    default:
-        if (format == GetClipboardFormatPNG()) {
+        بشکن;
+    پیشفرض:
+        اگر (format == GetClipboardFormatPNG()) {
             mime_type = "image/png";
         }
-        break;
+        بشکن;
     }
-    if (mime_type) {
+    اگر (mime_type) {
         size_t len = SDL_strlen(mime_type) + 1;
-        if (name) {
+        اگر (name) {
             SDL_memcpy(name, mime_type, len);
         }
-        return (int)len;
+        بازگشت (صحیح)len;
     }
-    return 0;
+    بازگشت 0;
 }
 
-static char **GetMimeTypes(int *pnformats)
+ایستا نویسه **GetMimeTypes(صحیح *pnformats)
 {
-    char **new_mime_types = NULL;
+    نویسه **new_mime_types = پوچ;
 
     *pnformats = 0;
 
-    if (WIN_OpenClipboard(SDL_GetVideoDevice())) {
-        int nformats = 0;
+    اگر (WIN_OpenClipboard(SDL_GetVideoDevice())) {
+        صحیح nformats = 0;
         UINT format = 0;
-        int formatsSz = 0;
+        صحیح formatsSz = 0;
         bool have_image_bmp = false;
-        for ( ; ; ) {
+        برای ( ; ; ) {
             format = EnumClipboardFormats(format);
-            if (!format) {
-                break;
+            اگر (!format) {
+                بشکن;
             }
 
 #ifdef DEBUG_CLIPBOARD
-            char name[128] = { 0 };
-            GetClipboardFormatNameA(format, name, sizeof(name));
+            نویسه name[128] = { 0 };
+            GetClipboardFormatNameA(format, name, اندازه(name));
             SDL_Log("Clipboard format: %d (0x%x), '%s'", format, format, name);
 #endif
 
-            if (format == CF_DIB || format == CF_DIBV5) {
-                if (have_image_bmp) {
+            اگر (format == CF_DIB || format == CF_DIBV5) {
+                اگر (have_image_bmp) {
                     // We have already registered this format
-                    continue;
+                    ادامه;
                 }
                 have_image_bmp = true;
             }
 
-            int len = GetClipboardFormatMimeType(format, NULL);
-            if (len > 0) {
+            صحیح len = GetClipboardFormatMimeType(format, پوچ);
+            اگر (len > 0) {
                 ++nformats;
                 formatsSz += len;
             }
         }
 
         have_image_bmp = false;
-        new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * sizeof(char *) + formatsSz);
-        if (new_mime_types) {
+        new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * اندازه(نویسه *) + formatsSz);
+        اگر (new_mime_types) {
             format = 0;
-            char *strPtr = (char *)(new_mime_types + nformats + 1);
-            int i = 0;
-            for ( ; ; ) {
+            نویسه *strPtr = (نویسه *)(new_mime_types + nformats + 1);
+            صحیح i = 0;
+            برای ( ; ; ) {
                 format = EnumClipboardFormats(format);
-                if (!format) {
-                    break;
+                اگر (!format) {
+                    بشکن;
                 }
 
-                if (format == CF_DIB || format == CF_DIBV5) {
-                    if (have_image_bmp) {
+                اگر (format == CF_DIB || format == CF_DIBV5) {
+                    اگر (have_image_bmp) {
                         // We have already registered this format
-                        continue;
+                        ادامه;
                     }
                     have_image_bmp = true;
                 }
 
-                int len = GetClipboardFormatMimeType(format, strPtr);
-                if (len > 0) {
+                صحیح len = GetClipboardFormatMimeType(format, strPtr);
+                اگر (len > 0) {
                     new_mime_types[i++] = strPtr;
                     strPtr += len;
                 }
             }
 
-            new_mime_types[nformats] = NULL;
+            new_mime_types[nformats] = پوچ;
             *pnformats = nformats;
         }
         WIN_CloseClipboard();
     }
-    return new_mime_types;
+    بازگشت new_mime_types;
 }
 
-void WIN_CheckClipboardUpdate(struct SDL_VideoData *data)
+تهی WIN_CheckClipboardUpdate(ساختار SDL_VideoData *data)
 {
-    DWORD count = GetClipboardSequenceNumber();
-    if (count != data->clipboard_count) {
-        if (count) {
-            int nformats = 0;
-            char **new_mime_types = GetMimeTypes(&nformats);
-            if (new_mime_types) {
+    DWORD شمار = Get_Clipboard_Sequence_عدد();
+    اگر (شمار != data->clipboard_شمار) {
+        اگر (شمار) {
+            صحیح nformats = 0;
+            نویسه **new_mime_types = GetMimeTypes(&nformats);
+            اگر (new_mime_types) {
                 SDL_SendClipboardUpdate(false, new_mime_types, nformats);
             }
         }
-        data->clipboard_count = count;
+        data->clipboard_شمار = شمار;
     }
 }
 

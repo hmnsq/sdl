@@ -21,24 +21,24 @@
 #ifndef SDL_uikitwindow_h_
 #define SDL_uikitwindow_h_
 
-#include "../SDL_sysvideo.h"
+#شامل "../SDL_sysvideo.h"
 #import "SDL_uikitvideo.h"
 #import "SDL_uikitview.h"
 #import "SDL_uikitviewcontroller.h"
 
-extern bool UIKit_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void UIKit_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern SDL_FullscreenResult UIKit_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void UIKit_UpdatePointerLock(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+بیرونی bool UIKit_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+بیرونی تهی UIKit_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی تهی UIKit_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی تهی UIKit_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی تهی UIKit_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی تهی UIKit_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی تهی UIKit_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
+بیرونی SDL_FullscreenResult UIKit_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+بیرونی تهی UIKit_UpdatePointerLock(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی تهی UIKit_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+بیرونی تهی UIKit_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, صحیح *w, صحیح *h);
 
-extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
+بیرونی NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
 
 #define SDL_METALVIEW_TAG 255
 
