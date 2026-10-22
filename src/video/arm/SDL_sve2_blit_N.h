@@ -22,15 +22,15 @@
 #ifndef SDL_sve2_blit_N_h_
 #define SDL_sve2_blit_N_h_
 
-#include "../../SDL_internal.h"
-#include "../SDL_blit.h"
+#अन्तर्भाव "../../SDL_internal.h"
+#अन्तर्भाव "../SDL_blit.h"
 
 #ifdef SDL_SVE2_INTRINSICS
 
-void Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info);
-void Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info);
-void Blit2to2KeySVE2(SDL_BlitInfo *info);
-void Blit4to4KeySVE2(SDL_BlitInfo *info);
+शून्य Blit8888to8888PixelSwizzleSVE2(SDL_BlitInfo *info);
+शून्य Blit8888to565PixelSwizzleSVE2(SDL_BlitInfo *info);
+शून्य Blit2to2_साँचो_SVE2(SDL_BlitInfo *info);
+शून्य Blit4to4_साँचो_SVE2(SDL_BlitInfo *info);
 
 #endif /* SDL_SVE2_INTRINSICS */
 

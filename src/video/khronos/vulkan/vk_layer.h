@@ -11,9 +11,9 @@
  * Along with object ptrs for current and next OBJ
  */
 
-#include "vulkan_core.h"
+#अन्तर्भाव "vulkan_core.h"
 
-#define MAX_NUM_UNKNOWN_EXTS 250
+#define MAX_अङ्क_UNKNOWN_EXTS 250
 
  // Loader-Layer version negotiation API.  Versions add the following features:
  //   Versions 0/1 - Initial.  Doesn't support vk_layerGetPhysicalDeviceProcAddr
@@ -27,20 +27,20 @@
 
 // Typedef for use in the interfaces below
 #ifndef IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
-typedef PFN_vkVoidFunction (VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, const char* pName);
+प्रकारनिर्देश PFN_vkVoidFunction (VKAPI_PTR *PFN_GetPhysicalDeviceProcAddr)(VkInstance instance, अचर वर्ण* pName);
 #define IS_DEFINED_PFN_GetPhysicalDeviceProcAddr
 #endif
 
 // Version negotiation values
-typedef enum VkNegotiateLayerStructType {
+प्रकारनिर्देश गणना VkNegotiateLayerStructType {
     LAYER_NEGOTIATE_UNINTIALIZED = 0,
     LAYER_NEGOTIATE_INTERFACE_STRUCT = 1,
 } VkNegotiateLayerStructType;
 
 // Version negotiation structures
-typedef struct VkNegotiateLayerInterface {
+प्रकारनिर्देश संरचना VkNegotiateLayerInterface {
     VkNegotiateLayerStructType sType;
-    void *pNext;
+    शून्य *pNext;
     uint32_t loaderLayerInterfaceVersion;
     PFN_vkGetInstanceProcAddr pfnGetInstanceProcAddr;
     PFN_vkGetDeviceProcAddr pfnGetDeviceProcAddr;
@@ -48,10 +48,10 @@ typedef struct VkNegotiateLayerInterface {
 } VkNegotiateLayerInterface;
 
 // Version negotiation functions
-typedef VkResult (VKAPI_PTR *PFN_vkNegotiateLoaderLayerInterfaceVersion)(VkNegotiateLayerInterface *pVersionStruct);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkNegotiateLoaderLayerInterfaceVersion)(VkNegotiateLayerInterface *pVersionStruct);
 
 // Function prototype for unknown physical device extension command
-typedef VkResult(VKAPI_PTR *PFN_PhysDevExt)(VkPhysicalDevice phys_device);
+प्रकारनिर्देश VkResult(VKAPI_PTR *PFN_PhysDevExt)(VkPhysicalDevice phys_device);
 
 // ------------------------------------------------------------------------------------------------
 // CreateInstance and CreateDevice support structures
@@ -61,15 +61,15 @@ typedef VkResult(VKAPI_PTR *PFN_PhysDevExt)(VkPhysicalDevice phys_device);
  * or sType == VK_STRUCTURE_TYPE_LOADER_DEVICE_CREATE_INFO
  * then VkLayerFunction indicates struct type pointed to by pNext
  */
-typedef enum VkLayerFunction_ {
+प्रकारनिर्देश गणना VkLayerFunction_ {
     VK_LAYER_LINK_INFO = 0,
     VK_LOADER_DATA_CALLBACK = 1,
     VK_LOADER_LAYER_CREATE_DEVICE_CALLBACK = 2,
     VK_LOADER_FEATURES = 3,
 } VkLayerFunction;
 
-typedef struct VkLayerInstanceLink_ {
-    struct VkLayerInstanceLink_ *pNext;
+प्रकारनिर्देश संरचना VkLayerInstanceLink_ {
+    संरचना VkLayerInstanceLink_ *pNext;
     PFN_vkGetInstanceProcAddr pfnNextGetInstanceProcAddr;
     PFN_GetPhysicalDeviceProcAddr pfnNextGetPhysicalDeviceProcAddr;
 } VkLayerInstanceLink;
@@ -81,32 +81,32 @@ typedef struct VkLayerInstanceLink_ {
  * VkLayerDeviceInfo avoids issues with finding the
  * exact instance being used.
  */
-typedef struct VkLayerDeviceInfo_ {
-    void *device_info;
+प्रकारनिर्देश संरचना VkLayerDeviceInfo_ {
+    शून्य *device_info;
     PFN_vkGetInstanceProcAddr pfnNextGetInstanceProcAddr;
 } VkLayerDeviceInfo;
 
-typedef VkResult (VKAPI_PTR *PFN_vkSetInstanceLoaderData)(VkInstance instance,
-        void *object);
-typedef VkResult (VKAPI_PTR *PFN_vkSetDeviceLoaderData)(VkDevice device,
-        void *object);
-typedef VkResult (VKAPI_PTR *PFN_vkLayerCreateDevice)(VkInstance instance, VkPhysicalDevice physicalDevice, const VkDeviceCreateInfo *pCreateInfo,
-						      const VkAllocationCallbacks *pAllocator, VkDevice *pDevice, PFN_vkGetInstanceProcAddr layerGIPA, PFN_vkGetDeviceProcAddr *nextGDPA);
-typedef void (VKAPI_PTR *PFN_vkLayerDestroyDevice)(VkDevice physicalDevice, const VkAllocationCallbacks *pAllocator, PFN_vkDestroyDevice destroyFunction);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkSetInstanceLoaderData)(VkInstance instance,
+        शून्य *object);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkSetDeviceLoaderData)(VkDevice device,
+        शून्य *object);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkLayerCreateDevice)(VkInstance instance, VkPhysicalDevice physicalDevice, अचर VkDeviceCreateInfo *pCreateInfo,
+						      अचर VkAllocationCallbacks *pAllocator, VkDevice *pDevice, PFN_vkGetInstanceProcAddr layerGIPA, PFN_vkGetDeviceProcAddr *nextGDPA);
+प्रकारनिर्देश शून्य (VKAPI_PTR *PFN_vkLayerDestroyDevice)(VkDevice physicalDevice, अचर VkAllocationCallbacks *pAllocator, PFN_vkDestroyDevice destroyFunction);
 
-typedef enum VkLoaderFeastureFlagBits {
+प्रकारनिर्देश गणना VkLoaderFeastureFlagBits {
     VK_LOADER_FEATURE_PHYSICAL_DEVICE_SORTING = 0x00000001,
 } VkLoaderFlagBits;
-typedef VkFlags VkLoaderFeatureFlags;
+प्रकारनिर्देश VkFlags VkLoaderFeatureFlags;
 
-typedef struct {
+प्रकारनिर्देश संरचना {
     VkStructureType sType; // VK_STRUCTURE_TYPE_LOADER_INSTANCE_CREATE_INFO
-    const void *pNext;
+    अचर शून्य *pNext;
     VkLayerFunction function;
-    union {
+    सङ्घ {
         VkLayerInstanceLink *pLayerInfo;
         PFN_vkSetInstanceLoaderData pfnSetInstanceLoaderData;
-        struct {
+        संरचना {
 	        PFN_vkLayerCreateDevice pfnLayerCreateDevice;
 	        PFN_vkLayerDestroyDevice pfnLayerDestroyDevice;
 	    } layerDevice;
@@ -114,74 +114,74 @@ typedef struct {
     } u;
 } VkLayerInstanceCreateInfo;
 
-typedef struct VkLayerDeviceLink_ {
-    struct VkLayerDeviceLink_ *pNext;
+प्रकारनिर्देश संरचना VkLayerDeviceLink_ {
+    संरचना VkLayerDeviceLink_ *pNext;
     PFN_vkGetInstanceProcAddr pfnNextGetInstanceProcAddr;
     PFN_vkGetDeviceProcAddr pfnNextGetDeviceProcAddr;
 } VkLayerDeviceLink;
 
-typedef struct {
+प्रकारनिर्देश संरचना {
     VkStructureType sType; // VK_STRUCTURE_TYPE_LOADER_DEVICE_CREATE_INFO
-    const void *pNext;
+    अचर शून्य *pNext;
     VkLayerFunction function;
-    union {
+    सङ्घ {
         VkLayerDeviceLink *pLayerInfo;
         PFN_vkSetDeviceLoaderData pfnSetDeviceLoaderData;
     } u;
 } VkLayerDeviceCreateInfo;
 
 #ifdef __cplusplus
-extern "C" {
+बाह्य "C" {
 #endif
 
 VKAPI_ATTR VkResult VKAPI_CALL vkNegotiateLoaderLayerInterfaceVersion(VkNegotiateLayerInterface *pVersionStruct);
 
-typedef enum VkChainType {
+प्रकारनिर्देश गणना VkChainType {
     VK_CHAIN_TYPE_UNKNOWN = 0,
     VK_CHAIN_TYPE_ENUMERATE_INSTANCE_EXTENSION_PROPERTIES = 1,
     VK_CHAIN_TYPE_ENUMERATE_INSTANCE_LAYER_PROPERTIES = 2,
     VK_CHAIN_TYPE_ENUMERATE_INSTANCE_VERSION = 3,
 } VkChainType;
 
-typedef struct VkChainHeader {
+प्रकारनिर्देश संरचना VkChainHeader {
     VkChainType type;
     uint32_t version;
     uint32_t size;
 } VkChainHeader;
 
-typedef struct VkEnumerateInstanceExtensionPropertiesChain {
+प्रकारनिर्देश संरचना VkEnumerateInstanceExtensionPropertiesChain {
     VkChainHeader header;
-    VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceExtensionPropertiesChain *, const char *, uint32_t *,
+    VkResult(VKAPI_PTR *pfnNextLayer)(अचर संरचना VkEnumerateInstanceExtensionPropertiesChain *, अचर वर्ण *, uint32_t *,
                                       VkExtensionProperties *);
-    const struct VkEnumerateInstanceExtensionPropertiesChain *pNextLink;
+    अचर संरचना VkEnumerateInstanceExtensionPropertiesChain *pNextLink;
 
-#if defined(__cplusplus)
-    inline VkResult CallDown(const char *pLayerName, uint32_t *pPropertyCount, VkExtensionProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pLayerName, pPropertyCount, pProperties);
+#यदि defined(__cplusplus)
+    अन्तःस्थ VkResult CallDown(अचर वर्ण *pLayerName, uint32_t *p_Property_गन्ती, VkExtensionProperties *pProperties) अचर {
+        फर्काऊ pfnNextLayer(pNextLink, pLayerName, p_Property_गन्ती, pProperties);
     }
 #endif
 } VkEnumerateInstanceExtensionPropertiesChain;
 
-typedef struct VkEnumerateInstanceLayerPropertiesChain {
+प्रकारनिर्देश संरचना VkEnumerateInstanceLayerPropertiesChain {
     VkChainHeader header;
-    VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceLayerPropertiesChain *, uint32_t *, VkLayerProperties *);
-    const struct VkEnumerateInstanceLayerPropertiesChain *pNextLink;
+    VkResult(VKAPI_PTR *pfnNextLayer)(अचर संरचना VkEnumerateInstanceLayerPropertiesChain *, uint32_t *, VkLayerProperties *);
+    अचर संरचना VkEnumerateInstanceLayerPropertiesChain *pNextLink;
 
-#if defined(__cplusplus)
-    inline VkResult CallDown(uint32_t *pPropertyCount, VkLayerProperties *pProperties) const {
-        return pfnNextLayer(pNextLink, pPropertyCount, pProperties);
+#यदि defined(__cplusplus)
+    अन्तःस्थ VkResult CallDown(uint32_t *p_Property_गन्ती, VkLayerProperties *pProperties) अचर {
+        फर्काऊ pfnNextLayer(pNextLink, p_Property_गन्ती, pProperties);
     }
 #endif
 } VkEnumerateInstanceLayerPropertiesChain;
 
-typedef struct VkEnumerateInstanceVersionChain {
+प्रकारनिर्देश संरचना VkEnumerateInstanceVersionChain {
     VkChainHeader header;
-    VkResult(VKAPI_PTR *pfnNextLayer)(const struct VkEnumerateInstanceVersionChain *, uint32_t *);
-    const struct VkEnumerateInstanceVersionChain *pNextLink;
+    VkResult(VKAPI_PTR *pfnNextLayer)(अचर संरचना VkEnumerateInstanceVersionChain *, uint32_t *);
+    अचर संरचना VkEnumerateInstanceVersionChain *pNextLink;
 
-#if defined(__cplusplus)
-    inline VkResult CallDown(uint32_t *pApiVersion) const {
-        return pfnNextLayer(pNextLink, pApiVersion);
+#यदि defined(__cplusplus)
+    अन्तःस्थ VkResult CallDown(uint32_t *pApiVersion) अचर {
+        फर्काऊ pfnNextLayer(pNextLink, pApiVersion);
     }
 #endif
 } VkEnumerateInstanceVersionChain;

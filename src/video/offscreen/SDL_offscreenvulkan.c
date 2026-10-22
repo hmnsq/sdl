@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OFFSCREEN)
+#यदि defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OFFSCREEN)
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_vulkan_internal.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
 
-static const char *s_defaultPaths[] = {
-#if defined(SDL_PLATFORM_WINDOWS)
+स्थिर अचर वर्ण *s_defaultPaths[] = {
+#यदि defined(SDL_PLATFORM_WINDOWS)
     "vulkan-1.dll"
-#elif defined(SDL_PLATFORM_APPLE)
+#अथवायदि defined(SDL_PLATFORM_APPLE)
     "vulkan.framework/vulkan",
     "libvulkan.1.dylib",
     "libvulkan.dylib",
     "MoltenVK.framework/MoltenVK",
     "libMoltenVK.dylib"
-#elif defined(SDL_PLATFORM_OPENBSD)
+#अथवायदि defined(SDL_PLATFORM_OPENBSD)
     "libvulkan.so"
-#else
+#अन्यथा
     "libvulkan.so.1"
 #endif
 };
@@ -49,8 +49,8 @@ SDL_ELF_NOTE_DLOPEN(
     "libvulkan.so.1"
 )
 
-#if defined( SDL_PLATFORM_APPLE )
-#include <dlfcn.h>
+#यदि defined( SDL_PLATFORM_APPLE )
+#अन्तर्भाव <dlfcn.h>
 
 // Since libSDL is most likely a .dylib, need RTLD_DEFAULT not RTLD_SELF.
 #define DEFAULT_HANDLE RTLD_DEFAULT
@@ -63,55 +63,55 @@ SDL_ELF_NOTE_DLOPEN(
 #define HEADLESS_SURFACE_EXTENSION_REQUIRED_TO_LOAD 0
 
 
-bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, अचर वर्ण *path)
 {
-    VkExtensionProperties *extensions = NULL;
-    Uint32 extensionCount = 0;
+    VkExtensionProperties *extensions = रिक्त;
+    Uint32 extension_गन्ती = 0;
     bool hasSurfaceExtension = false;
     bool hasHeadlessSurfaceExtension = false;
-    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = NULL;
+    PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = रिक्त;
     Uint32 i;
-    const char **paths;
-    const char *foundPath = NULL;
-    Uint32 numPaths;
+    अचर वर्ण **paths;
+    अचर वर्ण *foundPath = रिक्त;
+    Uint32 अङ्क_Paths;
 
-    if (_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan already loaded");
+    यदि (_this->vulkan_config.loader_handle) {
+        फर्काऊ SDL_SetError("Vulkan already loaded");
     }
 
     // Load the Vulkan loader library
-    if (!path) {
+    यदि (!path) {
         path = SDL_GetHint(SDL_HINT_VULKAN_LIBRARY);
     }
 
-#if defined(SDL_PLATFORM_APPLE)
-    if (!path) {
+#यदि defined(SDL_PLATFORM_APPLE)
+    यदि (!path) {
         // Handle the case where Vulkan Portability is linked statically.
         vkGetInstanceProcAddr =
             (PFN_vkGetInstanceProcAddr)dlsym(DEFAULT_HANDLE,
                                              "vkGetInstanceProcAddr");
     }
 
-    if (vkGetInstanceProcAddr) {
+    यदि (vkGetInstanceProcAddr) {
         _this->vulkan_config.loader_handle = DEFAULT_HANDLE;
-    } else
+    } अन्यथा
 #endif
     {
-        if (path) {
+        यदि (path) {
             paths = &path;
-            numPaths = 1;
-        } else {
+            अङ्क_Paths = 1;
+        } अन्यथा {
             paths = s_defaultPaths;
-            numPaths = SDL_arraysize(s_defaultPaths);
+            अङ्क_Paths = SDL_arraysize(s_defaultPaths);
         }
 
-        for (i = 0; i < numPaths && _this->vulkan_config.loader_handle == NULL; i++) {
+        लागि (i = 0; i < अङ्क_Paths && _this->vulkan_config.loader_handle == रिक्त; i++) {
             foundPath = paths[i];
             _this->vulkan_config.loader_handle = SDL_LoadObject(foundPath);
         }
 
-        if (_this->vulkan_config.loader_handle == NULL) {
-            return SDL_SetError("Failed to load Vulkan Portability library");
+        यदि (_this->vulkan_config.loader_handle == रिक्त) {
+            फर्काऊ SDL_SetError("Failed to load Vulkan Portability library");
         }
 
         SDL_strlcpy(_this->vulkan_config.loader_path, foundPath,
@@ -119,9 +119,9 @@ bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
         vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)SDL_LoadFunction(
             _this->vulkan_config.loader_handle, "vkGetInstanceProcAddr");
 
-        if (!vkGetInstanceProcAddr) {
+        यदि (!vkGetInstanceProcAddr) {
             SDL_SetError("Failed to load vkGetInstanceProcAddr from Vulkan Portability library");
-            goto fail;
+            गच्छ fail;
         }
     }
 
@@ -129,63 +129,63 @@ bool OFFSCREEN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     _this->vulkan_config.vkEnumerateInstanceExtensionProperties =
         (SDL_FunctionPointer)((PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr)(
             VK_NULL_HANDLE, "vkEnumerateInstanceExtensionProperties");
-    if (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
-        goto fail;
+    यदि (!_this->vulkan_config.vkEnumerateInstanceExtensionProperties) {
+        गच्छ fail;
     }
     extensions = SDL_Vulkan_CreateInstanceExtensionsList(
         (PFN_vkEnumerateInstanceExtensionProperties)
             _this->vulkan_config.vkEnumerateInstanceExtensionProperties,
-        &extensionCount);
-    if (!extensions) {
-        goto fail;
+        &extension_गन्ती);
+    यदि (!extensions) {
+        गच्छ fail;
     }
-    for (i = 0; i < extensionCount; i++) {
-        if (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+    लागि (i = 0; i < extension_गन्ती; i++) {
+        यदि (SDL_strcmp(VK_KHR_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasSurfaceExtension = true;
-        } else if (SDL_strcmp(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
+        } अन्यथा यदि (SDL_strcmp(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME, extensions[i].extensionName) == 0) {
             hasHeadlessSurfaceExtension = true;
         }
     }
     SDL_free(extensions);
-    if (!hasSurfaceExtension) {
+    यदि (!hasSurfaceExtension) {
         SDL_SetError("Installed Vulkan doesn't implement the " VK_KHR_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
+        गच्छ fail;
     }
-    if (!hasHeadlessSurfaceExtension) {
-#if (HEADLESS_SURFACE_EXTENSION_REQUIRED_TO_LOAD != 0)
+    यदि (!hasHeadlessSurfaceExtension) {
+#यदि (HEADLESS_SURFACE_EXTENSION_REQUIRED_TO_LOAD != 0)
         SDL_SetError("Installed Vulkan doesn't implement the " VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME " extension");
-        goto fail;
-#else
+        गच्छ fail;
+#अन्यथा
         // Let's at least leave a breadcrumb for people to find if they have issues
         SDL_Log("Installed Vulkan doesn't implement the " VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME " extension");
 #endif
     }
-    return true;
+    फर्काऊ true;
 
 fail:
     SDL_UnloadObject(_this->vulkan_config.loader_handle);
-    _this->vulkan_config.loader_handle = NULL;
-    return false;
+    _this->vulkan_config.loader_handle = रिक्त;
+    फर्काऊ false;
 }
 
-void OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
+शून्य OFFSCREEN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this)
 {
-    if (_this->vulkan_config.loader_handle) {
+    यदि (_this->vulkan_config.loader_handle) {
         SDL_UnloadObject(_this->vulkan_config.loader_handle);
-        _this->vulkan_config.loader_handle = NULL;
+        _this->vulkan_config.loader_handle = रिक्त;
     }
 }
 
-char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this,
-                                                          Uint32 *count)
+वर्ण अचर *अचर *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this,
+                                                          Uint32 *गन्ती)
 {
-    static const char *const returnExtensions[] = { VK_KHR_SURFACE_EXTENSION_NAME, VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME };
+    स्थिर अचर वर्ण *अचर returnExtensions[] = { VK_KHR_SURFACE_EXTENSION_NAME, VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME };
 
-    *count = SDL_arraysize(returnExtensions);
+    *गन्ती = SDL_arraysize(returnExtensions);
 
-#if (HEADLESS_SURFACE_EXTENSION_REQUIRED_TO_LOAD == 0)
-    VkExtensionProperties *enumerateExtensions = NULL;
-    Uint32 enumerateExtensionCount = 0;
+#यदि (HEADLESS_SURFACE_EXTENSION_REQUIRED_TO_LOAD == 0)
+    VkExtensionProperties *enumerateExtensions = रिक्त;
+    Uint32 enumerate_Extension_गन्ती = 0;
     bool hasHeadlessSurfaceExtension = false;
     Uint32 i;
 
@@ -193,34 +193,34 @@ char const *const *OFFSCREEN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this
        There's probably a better way to cache the presence of the extension during OFFSCREEN_Vulkan_LoadLibrary().
        But both SDL_VideoData and SDL_VideoDevice::vulkan_config seem like I'd need to touch a bunch of code to do properly.
        And I want a smaller footprint for the first pass*/
-    if ( _this->vulkan_config.vkEnumerateInstanceExtensionProperties ) {
-        enumerateExtensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &enumerateExtensionCount);
-        for (i = 0; i < enumerateExtensionCount; i++) {
-            if (SDL_strcmp(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME, enumerateExtensions[i].extensionName) == 0) {
+    यदि ( _this->vulkan_config.vkEnumerateInstanceExtensionProperties ) {
+        enumerateExtensions = SDL_Vulkan_CreateInstanceExtensionsList((PFN_vkEnumerateInstanceExtensionProperties) _this->vulkan_config.vkEnumerateInstanceExtensionProperties, &enumerate_Extension_गन्ती);
+        लागि (i = 0; i < enumerate_Extension_गन्ती; i++) {
+            यदि (SDL_strcmp(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME, enumerateExtensions[i].extensionName) == 0) {
                 hasHeadlessSurfaceExtension = true;
             }
         }
         SDL_free(enumerateExtensions);
     }
 
-    if (!hasHeadlessSurfaceExtension) {
-        (*count)--;  // assumes VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME is last
+    यदि (!hasHeadlessSurfaceExtension) {
+        (*गन्ती)--;  // assumes VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME is last
     }
 #endif
 
-    return returnExtensions;
+    फर्काऊ returnExtensions;
 }
 
 bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                    SDL_Window *window,
                                    VkInstance instance,
-                                   const struct VkAllocationCallbacks *allocator,
+                                   अचर संरचना VkAllocationCallbacks *allocator,
                                    VkSurfaceKHR *surface)
 {
     *surface = VK_NULL_HANDLE;
 
-    if (!_this->vulkan_config.loader_handle) {
-        return SDL_SetError("Vulkan is not loaded");
+    यदि (!_this->vulkan_config.loader_handle) {
+        फर्काऊ SDL_SetError("Vulkan is not loaded");
     }
 
     PFN_vkGetInstanceProcAddr vkGetInstanceProcAddr = (PFN_vkGetInstanceProcAddr)_this->vulkan_config.vkGetInstanceProcAddr;
@@ -228,29 +228,29 @@ bool OFFSCREEN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
         (PFN_vkCreateHeadlessSurfaceEXT)vkGetInstanceProcAddr(instance, "vkCreateHeadlessSurfaceEXT");
     VkHeadlessSurfaceCreateInfoEXT createInfo;
     VkResult result;
-    if (!vkCreateHeadlessSurfaceEXT) {
+    यदि (!vkCreateHeadlessSurfaceEXT) {
         /* This may be surprising to the consumer when HEADLESS_SURFACE_EXTENSION_REQUIRED_TO_LOAD == 0
            But this is the tradeoff for allowing offscreen rendering to a buffer to continue working without requiring the extension during driver load */
-        return SDL_SetError(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME
+        फर्काऊ SDL_SetError(VK_EXT_HEADLESS_SURFACE_EXTENSION_NAME
                             " extension is not enabled in the Vulkan instance.");
     }
     SDL_zero(createInfo);
     createInfo.sType = VK_STRUCTURE_TYPE_HEADLESS_SURFACE_CREATE_INFO_EXT;
-    createInfo.pNext = NULL;
+    createInfo.pNext = रिक्त;
     createInfo.flags = 0;
     result = vkCreateHeadlessSurfaceEXT(instance, &createInfo, allocator, surface);
-    if (result != VK_SUCCESS) {
-        return SDL_SetError("vkCreateHeadlessSurfaceEXT failed: %s", SDL_Vulkan_GetResultString(result));
+    यदि (result != VK_SUCCESS) {
+        फर्काऊ SDL_SetError("vkCreateHeadlessSurfaceEXT failed: %s", SDL_Vulkan_GetResultString(result));
     }
-    return true;
+    फर्काऊ true;
 }
 
-void OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+शून्य OFFSCREEN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                      VkInstance instance,
                                      VkSurfaceKHR surface,
-                                     const struct VkAllocationCallbacks *allocator)
+                                     अचर संरचना VkAllocationCallbacks *allocator)
 {
-    if (_this->vulkan_config.loader_handle) {
+    यदि (_this->vulkan_config.loader_handle) {
         SDL_Vulkan_DestroySurface_Internal(_this->vulkan_config.vkGetInstanceProcAddr, instance, surface, allocator);
     }
 }

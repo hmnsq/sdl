@@ -21,20 +21,20 @@
 
 // Atomic KMSDRM backend originally written by Manuel Alfayate Corchete <redwindwanderer@gmail.com>
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifndef SDL_kmsdrmvideo_h
 #define SDL_kmsdrmvideo_h
 
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <xf86drm.h>
-#include <xf86drmMode.h>
-#include <gbm.h>
-#include <EGL/egl.h>
-#include <EGL/eglext.h>
+#अन्तर्भाव <fcntl.h>
+#अन्तर्भाव <unistd.h>
+#अन्तर्भाव <xf86drm.h>
+#अन्तर्भाव <xf86drmMode.h>
+#अन्तर्भाव <gbm.h>
+#अन्तर्भाव <EGL/egl.h>
+#अन्तर्भाव <EGL/eglext.h>
 
 #ifndef DRM_FORMAT_MOD_INVALID
 #define DRM_FORMAT_MOD_INVALID 0x00ffffffffffffffULL
@@ -75,42 +75,42 @@
 #define GBM_BO_USE_LINEAR   (1 << 4)
 #endif
 
-typedef struct KMSDRM_plane
+प्रकारनिर्देश संरचना KMSDRM_plane
 {
     drmModePlane *plane;
     drmModeObjectProperties *props;
     drmModePropertyRes **props_info;
 } KMSDRM_plane;
  
-typedef struct KMSDRM_crtc
+प्रकारनिर्देश संरचना KMSDRM_crtc
 {
     drmModeCrtc *crtc;
     drmModeObjectProperties *props;
     drmModePropertyRes **props_info;
 } KMSDRM_crtc;
 
-typedef struct KMSDRM_connector
+प्रकारनिर्देश संरचना KMSDRM_connector
 {
     drmModeConnector *connector;
     drmModeObjectProperties *props;
     drmModePropertyRes **props_info;
 } KMSDRM_connector;
 
-struct SDL_VideoData
+संरचना SDL_VideoData
 {
-    int devindex;     // device index that was passed on creation
-    int drm_fd;       // DRM file desc
-    char devpath[32]; // DRM dev path.
+    पूर्णाङ्क devindex;     // device index that was passed on creation
+    पूर्णाङ्क drm_fd;       // DRM file desc
+    वर्ण devpath[32]; // DRM dev path.
 
-    struct gbm_device *gbm_dev;
+    संरचना gbm_device *gbm_dev;
 
     bool video_init;             // Has VideoInit succeeded?
     bool vulkan_mode;            // Are we in Vulkan mode? One VK window is enough to be.
     bool async_pageflip_support; // Does the hardware support async. pageflips?
 
     SDL_Window **windows;
-    int max_windows;
-    int num_windows;
+    पूर्णाङ्क max_windows;
+    पूर्णाङ्क अङ्क_windows;
 
     /* Even if we have several displays, we only have to
        open 1 FD and create 1 gbm device. */
@@ -119,12 +119,12 @@ struct SDL_VideoData
     bool is_atomic;  // true if atomic interfaces are supported.
 };
 
-struct SDL_DisplayModeData
+संरचना SDL_DisplayModeData
 {
-    int mode_index;
+    पूर्णाङ्क mode_index;
 };
 
-struct SDL_DisplayData
+संरचना SDL_DisplayData
 {
     KMSDRM_plane *display_plane;
     KMSDRM_plane *cursor_plane;
@@ -142,32 +142,32 @@ struct SDL_DisplayData
        because setting/unsetting up these is done on window creation/destruction,
        where we may not have an SDL_Cursor at all (so no SDL_Cursor internal).
        There's only one cursor GBM BO because we only support one cursor. */
-    struct gbm_bo *cursor_bo;
-    int cursor_bo_drm_fd;
+    संरचना gbm_bo *cursor_bo;
+    पूर्णाङ्क cursor_bo_drm_fd;
     uint64_t cursor_w, cursor_h;
 
     /* Central atomic request list, used for the prop
        changeset related to pageflip in SwapWindow. */
     drmModeAtomicReq *atomic_req;
 
-    int kms_in_fence_fd;
-    int kms_out_fence_fd;
+    पूर्णाङ्क kms_in_fence_fd;
+    पूर्णाङ्क kms_out_fence_fd;
     EGLSyncKHR kms_fence;
     EGLSyncKHR gpu_fence;
 
     bool default_cursor_init;
 };
 
-struct SDL_WindowData
+संरचना SDL_WindowData
 {
     SDL_VideoData *viddata;
     /* SDL internals expect EGL surface to be here, and in KMSDRM the GBM surface is
        what supports the EGL surface on the driver side, so all these surfaces and buffers
        are expected to be here, in the struct pointed by SDL_Window internal pointer:
        this one. So don't try to move these to dispdata!  */
-    struct gbm_surface *gs;
-    struct gbm_bo *bo;
-    struct gbm_bo *next_bo;
+    संरचना gbm_surface *gs;
+    संरचना gbm_bo *bo;
+    संरचना gbm_bo *next_bo;
 
     bool waiting_for_flip;
     bool double_buffer;
@@ -179,15 +179,15 @@ struct SDL_WindowData
     bool (*swap_window)(SDL_VideoDevice *_this, SDL_Window *window);
 };
 
-typedef struct KMSDRM_FBInfo
+प्रकारनिर्देश संरचना KMSDRM_FBInfo
 {
-    int drm_fd;     // DRM file desc
+    पूर्णाङ्क drm_fd;     // DRM file desc
     uint32_t fb_id; // DRM framebuffer ID
 } KMSDRM_FBInfo;
 
-typedef struct KMSDRM_PlaneInfo
+प्रकारनिर्देश संरचना KMSDRM_PlaneInfo
 {
-    struct KMSDRM_plane *plane;
+    संरचना KMSDRM_plane *plane;
     uint32_t fb_id;
     uint32_t crtc_id;
     int32_t src_x;
@@ -201,42 +201,42 @@ typedef struct KMSDRM_PlaneInfo
 } KMSDRM_PlaneInfo;
 
 // Helper functions
-extern bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, struct gbm_bo *bo);
-extern KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, struct gbm_bo *bo, int w, int h);
-extern bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata);
+बाह्य bool KMSDRM_CreateSurfaces(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य KMSDRM_FBInfo *KMSDRM_FBFromBO(SDL_VideoDevice *_this, संरचना gbm_bo *bo);
+बाह्य KMSDRM_FBInfo *KMSDRM_FBFromBO2(SDL_VideoDevice *_this, संरचना gbm_bo *bo, पूर्णाङ्क w, पूर्णाङ्क h);
+बाह्य bool KMSDRM_WaitPageflip(SDL_VideoDevice *_this, SDL_WindowData *windata);
 
 // Atomic functions that are used from SDL_kmsdrmopengles.c and SDL_kmsdrmmouse.c
-void drm_atomic_set_plane_props(SDL_DisplayData *dispdata, struct KMSDRM_PlaneInfo *info);
-void drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata);
-int drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
-int add_plane_property(drmModeAtomicReq *req, struct KMSDRM_plane *plane, const char *name, uint64_t value);
-int add_crtc_property(drmModeAtomicReq *req, struct KMSDRM_crtc *crtc, const char *name, uint64_t value);
-int add_connector_property(drmModeAtomicReq *req, struct KMSDRM_connector *connector, const char *name, uint64_t value);
-bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, struct KMSDRM_plane **plane, uint32_t plane_type);
-void free_plane(struct KMSDRM_plane **plane);
+शून्य drm_atomic_set_plane_props(SDL_DisplayData *dispdata, संरचना KMSDRM_PlaneInfo *info);
+शून्य drm_atomic_waitpending(SDL_VideoDevice *_this, SDL_DisplayData *dispdata);
+पूर्णाङ्क drm_atomic_commit(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, bool blocking, bool allow_modeset);
+पूर्णाङ्क add_plane_property(drmModeAtomicReq *req, संरचना KMSDRM_plane *plane, अचर वर्ण *name, uint64_t मान);
+पूर्णाङ्क add_crtc_property(drmModeAtomicReq *req, संरचना KMSDRM_crtc *crtc, अचर वर्ण *name, uint64_t मान);
+पूर्णाङ्क add_connector_property(drmModeAtomicReq *req, संरचना KMSDRM_connector *connector, अचर वर्ण *name, uint64_t मान);
+bool setup_plane(SDL_VideoDevice *_this, SDL_DisplayData *dispdata, संरचना KMSDRM_plane **plane, uint32_t plane_type);
+शून्य free_plane(संरचना KMSDRM_plane **plane);
 
 /****************************************************************************/
 // SDL_VideoDevice functions declaration
 /****************************************************************************/
 
 // Display and window functions
-extern bool KMSDRM_VideoInit(SDL_VideoDevice *_this);
-extern void KMSDRM_VideoQuit(SDL_VideoDevice *_this);
-extern bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool KMSDRM_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-extern bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void KMSDRM_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult KMSDRM_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
-extern void KMSDRM_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
+बाह्य bool KMSDRM_VideoInit(SDL_VideoDevice *_this);
+बाह्य शून्य KMSDRM_VideoQuit(SDL_VideoDevice *_this);
+बाह्य bool KMSDRM_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+बाह्य bool KMSDRM_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+बाह्य bool KMSDRM_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
+बाह्य शून्य KMSDRM_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool KMSDRM_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य KMSDRM_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य SDL_FullscreenResult KMSDRM_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *_display, SDL_FullscreenOp fullscreen);
+बाह्य शून्य KMSDRM_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य KMSDRM_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य KMSDRM_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य KMSDRM_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य KMSDRM_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य KMSDRM_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य शून्य KMSDRM_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool KMSDRM_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable);
 
 #endif // SDL_kmsdrmvideo_h

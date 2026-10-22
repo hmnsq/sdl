@@ -18,83 +18,83 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_VITA
 
-#include <psp2/kernel/processmgr.h>
-#include <psp2/ctrl.h>
-#include <psp2/hid.h>
+#अन्तर्भाव <psp2/kernel/processmgr.h>
+#अन्तर्भाव <psp2/ctrl.h>
+#अन्तर्भाव <psp2/hid.h>
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitamouse_c.h"
-#include "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "SDL_vitavideo.h"
+#अन्तर्भाव "SDL_vitamouse_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
 
 SceHidMouseReport m_reports[SCE_HID_MAX_REPORT];
-int mouse_hid_handle = 0;
+पूर्णाङ्क mouse_hid_handle = 0;
 Uint8 prev_buttons = 0;
 
-void VITA_InitMouse(void)
+शून्य VITA_InitMouse(शून्य)
 {
     sceHidMouseEnumerate(&mouse_hid_handle, 1);
 
-    if (mouse_hid_handle > 0) {
-        SDL_AddMouse((SDL_MouseID)mouse_hid_handle, NULL);
+    यदि (mouse_hid_handle > 0) {
+        SDL_AddMouse((SDL_MouseID)mouse_hid_handle, रिक्त);
     }
 }
 
-void VITA_PollMouse(void)
+शून्य VITA_PollMouse(शून्य)
 {
     // We skip polling mouse if no window is created
-    if (!Vita_Window) {
-        return;
+    यदि (!Vita_Window) {
+        फर्काऊ;
     }
 
-    if (mouse_hid_handle > 0) {
+    यदि (mouse_hid_handle > 0) {
         SDL_MouseID mouseID = (SDL_MouseID)mouse_hid_handle;
-        int numReports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
-        if (numReports > 0) {
-            for (int i = 0; i <= numReports - 1; i++) {
+        पूर्णाङ्क अङ्क_Reports = sceHidMouseRead(mouse_hid_handle, (SceHidMouseReport **)&m_reports, SCE_HID_MAX_REPORT);
+        यदि (अङ्क_Reports > 0) {
+            लागि (पूर्णाङ्क i = 0; i <= अङ्क_Reports - 1; i++) {
                 Uint8 changed_buttons = m_reports[i].buttons ^ prev_buttons;
 
-                if (changed_buttons & 0x1) {
-                    if (prev_buttons & 0x1)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_LEFT, true);
+                यदि (changed_buttons & 0x1) {
+                    यदि (prev_buttons & 0x1)
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_बायाँ, false);
+                    अन्यथा
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_बायाँ, true);
                 }
-                if (changed_buttons & 0x2) {
-                    if (prev_buttons & 0x2)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_RIGHT, true);
+                यदि (changed_buttons & 0x2) {
+                    यदि (prev_buttons & 0x2)
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_दायाँ, false);
+                    अन्यथा
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_दायाँ, true);
                 }
-                if (changed_buttons & 0x4) {
-                    if (prev_buttons & 0x4)
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, false);
-                    else
-                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_MIDDLE, true);
+                यदि (changed_buttons & 0x4) {
+                    यदि (prev_buttons & 0x4)
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_बीच, false);
+                    अन्यथा
+                        SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_बीच, true);
                 }
-                if (changed_buttons & 0x8) {
-                    if (prev_buttons & 0x8)
+                यदि (changed_buttons & 0x8) {
+                    यदि (prev_buttons & 0x8)
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X1, false);
-                    else
+                    अन्यथा
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X1, true);
                 }
-                if (changed_buttons & 0x10) {
-                    if (prev_buttons & 0x10)
+                यदि (changed_buttons & 0x10) {
+                    यदि (prev_buttons & 0x10)
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X2, false);
-                    else
+                    अन्यथा
                         SDL_SendMouseButton(0, Vita_Window, mouseID, SDL_BUTTON_X2, true);
                 }
 
                 prev_buttons = m_reports[i].buttons;
 
-                if (m_reports[i].rel_x || m_reports[i].rel_y) {
-                    SDL_SendMouseMotion(0, Vita_Window, mouseID, true, (float)m_reports[i].rel_x, (float)m_reports[i].rel_y);
+                यदि (m_reports[i].rel_x || m_reports[i].rel_y) {
+                    SDL_SendMouseMotion(0, Vita_Window, mouseID, true, (भिन्न)m_reports[i].rel_x, (भिन्न)m_reports[i].rel_y);
                 }
 
-                if (m_reports[i].tilt != 0 || m_reports[i].wheel != 0) {
+                यदि (m_reports[i].tilt != 0 || m_reports[i].wheel != 0) {
                     SDL_SendMouseWheel(0, Vita_Window, mouseID, m_reports[i].tilt, m_reports[i].wheel, SDL_MOUSEWHEEL_NORMAL);
                 }
             }

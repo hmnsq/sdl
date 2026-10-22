@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_PSP
 
 /* Being a null driver, there's no event stream. We just define stubs for
    most of the API. */
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_pspvideo.h"
-#include "SDL_pspevents_c.h"
-#include "../../thread/SDL_systhread.h"
-#include <psphprm.h>
-#include <pspthreadman.h>
+#अन्तर्भाव "../../events/SDL_events_c.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "SDL_pspvideo.h"
+#अन्तर्भाव "SDL_pspevents_c.h"
+#अन्तर्भाव "../../thread/SDL_systhread.h"
+#अन्तर्भाव <psphprm.h>
+#अन्तर्भाव <pspthreadman.h>
 
 #ifdef PSPIRKEYB
-#include <pspirkeyb.h>
-#include <pspirkeyb_rawkeys.h>
+#अन्तर्भाव <pspirkeyb.h>
+#अन्तर्भाव <pspirkeyb_rawkeys.h>
 
-#define IRKBD_CONFIG_FILE NULL // this will take ms0:/seplugins/pspirkeyb.ini
+#define IRKBD_CONFIG_FILE रिक्त // this will take ms0:/seplugins/pspirkeyb.ini
 
-static int irkbd_ready = 0;
-static SDL_Scancode keymap[256];
+स्थिर पूर्णाङ्क irkbd_ready = 0;
+स्थिर SDL_Scancode keymap[256];
 #endif
 
-static enum PspHprmKeys hprm = 0;
-static SDL_Semaphore *event_sem = NULL;
-static SDL_Thread *thread = NULL;
-static int running = 0;
-static struct
+स्थिर गणना Psp_Hprm_साँचोहरू hprm = 0;
+स्थिर SDL_Semaphore *event_sem = रिक्त;
+स्थिर SDL_Thread *thread = रिक्त;
+स्थिर पूर्णाङ्क running = 0;
+स्थिर संरचना
 {
-    enum PspHprmKeys id;
+    गणना Psp_Hprm_साँचोहरू id;
     SDL_Scancode scancode;
 } keymap_psp[] = {
     { PSP_HPRM_PLAYPAUSE, SDL_SCANCODE_F10 },
@@ -61,57 +61,57 @@ static struct
     { PSP_HPRM_HOLD, SDL_SCANCODE_F15 }
 };
 
-int EventUpdate(void *data)
+पूर्णाङ्क EventUpdate(शून्य *data)
 {
-    while (running) {
+    जबसम्म (running) {
         SDL_WaitSemaphore(event_sem);
-        sceHprmPeekCurrentKey((u32 *)&hprm);
+        sce_Hprm_Peek_Current_साँचो((u32 *)&hprm);
         SDL_SignalSemaphore(event_sem);
         // Delay 1/60th of a second
         sceKernelDelayThread(1000000 / 60);
     }
-    return 0;
+    फर्काऊ 0;
 }
 
-void PSP_PumpEvents(SDL_VideoDevice *_this)
+शून्य PSP_PumpEvents(SDL_VideoDevice *_this)
 {
-    int i;
-    enum PspHprmKeys keys;
-    enum PspHprmKeys changed;
-    static enum PspHprmKeys old_keys = 0;
+    पूर्णाङ्क i;
+    गणना Psp_Hprm_साँचोहरू साँचोहरू;
+    गणना Psp_Hprm_साँचोहरू changed;
+    स्थिर गणना Psp_Hprm_साँचोहरू old_साँचोहरू = 0;
 
     SDL_WaitSemaphore(event_sem);
-    keys = hprm;
+    साँचोहरू = hprm;
     SDL_SignalSemaphore(event_sem);
 
     // HPRM Keyboard
-    changed = old_keys ^ keys;
-    old_keys = keys;
-    if (changed) {
-        for (i = 0; i < SDL_arraysize(keymap_psp); i++) {
-            if (changed & keymap_psp[i].id) {
-                bool down = ((keys & keymap_psp[i].id) != 0);
-                SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, keymap_psp[i].id, keymap_psp[i].scancode, down);
+    changed = old_साँचोहरू ^ साँचोहरू;
+    old_साँचोहरू = साँचोहरू;
+    यदि (changed) {
+        लागि (i = 0; i < SDL_arraysize(keymap_psp); i++) {
+            यदि (changed & keymap_psp[i].id) {
+                bool down = ((साँचोहरू & keymap_psp[i].id) != 0);
+                SDL_Send_Keyboard_साँचो(0, SDL_GLOBAL_KEYBOARD_ID, keymap_psp[i].id, keymap_psp[i].scancode, down);
             }
         }
     }
 
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
-        unsigned char buffer[255];
-        int i, length, count;
+    यदि (irkbd_ready) {
+        अचिन्हित वर्ण buffer[255];
+        पूर्णाङ्क i, length, गन्ती;
         SIrKeybScanCodeData *scanData;
 
-        if (pspIrKeybReadinput(buffer, &length) >= 0) {
-            if ((length % sizeof(SIrKeybScanCodeData)) == 0) {
-                count = length / sizeof(SIrKeybScanCodeData);
-                for (i = 0; i < count; i++) {
-                    unsigned char raw;
+        यदि (pspIrKeybReadinput(buffer, &length) >= 0) {
+            यदि ((length % परिमाण(SIrKeybScanCodeData)) == 0) {
+                गन्ती = length / परिमाण(SIrKeybScanCodeData);
+                लागि (i = 0; i < गन्ती; i++) {
+                    अचिन्हित वर्ण raw;
                     bool down;
                     scanData = (SIrKeybScanCodeData *)buffer + i;
                     raw = scanData->raw;
                     down = (scanData->pressed != 0);
-                    SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, raw, keymap[raw], down);
+                    SDL_Send_Keyboard_साँचो(0, SDL_GLOBAL_KEYBOARD_ID, raw, keymap[raw], down);
                 }
             }
         }
@@ -119,150 +119,150 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
 #endif
     sceKernelDelayThread(0);
 
-    return;
+    फर्काऊ;
 }
 
-void PSP_InitOSKeymap(SDL_VideoDevice *_this)
+शून्य PSP_InitOSKeymap(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int i;
-    for (i = 0; i < SDL_arraysize(keymap); ++i) {
+    पूर्णाङ्क i;
+    लागि (i = 0; i < SDL_arraysize(keymap); ++i) {
         keymap[i] = SDL_SCANCODE_UNKNOWN;
     }
 
-    keymap[KEY_ESC] = SDL_SCANCODE_ESCAPE;
+    keymap[साँचो_ESC] = SDL_SCANCODE_ESCAPE;
 
-    keymap[KEY_F1] = SDL_SCANCODE_F1;
-    keymap[KEY_F2] = SDL_SCANCODE_F2;
-    keymap[KEY_F3] = SDL_SCANCODE_F3;
-    keymap[KEY_F4] = SDL_SCANCODE_F4;
-    keymap[KEY_F5] = SDL_SCANCODE_F5;
-    keymap[KEY_F6] = SDL_SCANCODE_F6;
-    keymap[KEY_F7] = SDL_SCANCODE_F7;
-    keymap[KEY_F8] = SDL_SCANCODE_F8;
-    keymap[KEY_F9] = SDL_SCANCODE_F9;
-    keymap[KEY_F10] = SDL_SCANCODE_F10;
-    keymap[KEY_F11] = SDL_SCANCODE_F11;
-    keymap[KEY_F12] = SDL_SCANCODE_F12;
-    keymap[KEY_F13] = SDL_SCANCODE_PRINT;
-    keymap[KEY_F14] = SDL_SCANCODE_PAUSE;
+    keymap[साँचो_F1] = SDL_SCANCODE_F1;
+    keymap[साँचो_F2] = SDL_SCANCODE_F2;
+    keymap[साँचो_F3] = SDL_SCANCODE_F3;
+    keymap[साँचो_F4] = SDL_SCANCODE_F4;
+    keymap[साँचो_F5] = SDL_SCANCODE_F5;
+    keymap[साँचो_F6] = SDL_SCANCODE_F6;
+    keymap[साँचो_F7] = SDL_SCANCODE_F7;
+    keymap[साँचो_F8] = SDL_SCANCODE_F8;
+    keymap[साँचो_F9] = SDL_SCANCODE_F9;
+    keymap[साँचो_F10] = SDL_SCANCODE_F10;
+    keymap[साँचो_F11] = SDL_SCANCODE_F11;
+    keymap[साँचो_F12] = SDL_SCANCODE_F12;
+    keymap[साँचो_F13] = SDL_SCANCODE_PRINT;
+    keymap[साँचो_F14] = SDL_SCANCODE_PAUSE;
 
-    keymap[KEY_GRAVE] = SDL_SCANCODE_GRAVE;
-    keymap[KEY_1] = SDL_SCANCODE_1;
-    keymap[KEY_2] = SDL_SCANCODE_2;
-    keymap[KEY_3] = SDL_SCANCODE_3;
-    keymap[KEY_4] = SDL_SCANCODE_4;
-    keymap[KEY_5] = SDL_SCANCODE_5;
-    keymap[KEY_6] = SDL_SCANCODE_6;
-    keymap[KEY_7] = SDL_SCANCODE_7;
-    keymap[KEY_8] = SDL_SCANCODE_8;
-    keymap[KEY_9] = SDL_SCANCODE_9;
-    keymap[KEY_0] = SDL_SCANCODE_0;
-    keymap[KEY_MINUS] = SDL_SCANCODE_MINUS;
-    keymap[KEY_EQUAL] = SDL_SCANCODE_EQUALS;
-    keymap[KEY_BACKSPACE] = SDL_SCANCODE_BACKSPACE;
+    keymap[साँचो_GRAVE] = SDL_SCANCODE_GRAVE;
+    keymap[साँचो_1] = SDL_SCANCODE_1;
+    keymap[साँचो_2_2] = SDL_SCANCODE_2;
+    keymap[साँचो_3] = SDL_SCANCODE_3;
+    keymap[साँचो_4] = SDL_SCANCODE_4;
+    keymap[साँचो_5] = SDL_SCANCODE_5;
+    keymap[साँचो_6] = SDL_SCANCODE_6;
+    keymap[साँचो_7] = SDL_SCANCODE_7;
+    keymap[साँचो_8] = SDL_SCANCODE_8;
+    keymap[साँचो_9] = SDL_SCANCODE_9;
+    keymap[साँचो_0] = SDL_SCANCODE_0;
+    keymap[साँचो_MINUS] = SDL_SCANCODE_MINUS;
+    keymap[साँचो_EQUAL] = SDL_SCANCODE_EQUALS;
+    keymap[साँचो_BACKSPACE] = SDL_SCANCODE_BACKSPACE;
 
-    keymap[KEY_TAB] = SDL_SCANCODE_TAB;
-    keymap[KEY_Q] = SDL_SCANCODE_q;
-    keymap[KEY_W] = SDL_SCANCODE_w;
-    keymap[KEY_E] = SDL_SCANCODE_e;
-    keymap[KEY_R] = SDL_SCANCODE_r;
-    keymap[KEY_T] = SDL_SCANCODE_t;
-    keymap[KEY_Y] = SDL_SCANCODE_y;
-    keymap[KEY_U] = SDL_SCANCODE_u;
-    keymap[KEY_I] = SDL_SCANCODE_i;
-    keymap[KEY_O] = SDL_SCANCODE_o;
-    keymap[KEY_P] = SDL_SCANCODE_p;
-    keymap[KEY_LEFTBRACE] = SDL_SCANCODE_LEFTBRACKET;
-    keymap[KEY_RIGHTBRACE] = SDL_SCANCODE_RIGHTBRACKET;
-    keymap[KEY_ENTER] = SDL_SCANCODE_RETURN;
+    keymap[साँचो_TAB] = SDL_SCANCODE_TAB;
+    keymap[साँचो_Q] = SDL_SCANCODE_q;
+    keymap[साँचो_W] = SDL_SCANCODE_w;
+    keymap[साँचो_E] = SDL_SCANCODE_e;
+    keymap[साँचो_R] = SDL_SCANCODE_r;
+    keymap[साँचो_T] = SDL_SCANCODE_t;
+    keymap[साँचो_Y] = SDL_SCANCODE_y;
+    keymap[साँचो_U] = SDL_SCANCODE_u;
+    keymap[साँचो_I] = SDL_SCANCODE_i;
+    keymap[साँचो_O] = SDL_SCANCODE_o;
+    keymap[साँचो_P] = SDL_SCANCODE_p;
+    keymap[साँचो_LEFTBRACE] = SDL_SCANCODE_LEFTBRACKET;
+    keymap[साँचो_RIGHTBRACE] = SDL_SCANCODE_RIGHTBRACKET;
+    keymap[साँचो_ENTER] = SDL_SCANCODE_RETURN;
 
-    keymap[KEY_CAPSLOCK] = SDL_SCANCODE_CAPSLOCK;
-    keymap[KEY_A] = SDL_SCANCODE_a;
-    keymap[KEY_S] = SDL_SCANCODE_s;
-    keymap[KEY_D] = SDL_SCANCODE_d;
-    keymap[KEY_F] = SDL_SCANCODE_f;
-    keymap[KEY_G] = SDL_SCANCODE_g;
-    keymap[KEY_H] = SDL_SCANCODE_h;
-    keymap[KEY_J] = SDL_SCANCODE_j;
-    keymap[KEY_K] = SDL_SCANCODE_k;
-    keymap[KEY_L] = SDL_SCANCODE_l;
-    keymap[KEY_SEMICOLON] = SDL_SCANCODE_SEMICOLON;
-    keymap[KEY_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE;
-    keymap[KEY_BACKSLASH] = SDL_SCANCODE_BACKSLASH;
+    keymap[साँचो_CAPSLOCK] = SDL_SCANCODE_CAPSLOCK;
+    keymap[साँचो_A] = SDL_SCANCODE_a;
+    keymap[साँचो_S] = SDL_SCANCODE_s;
+    keymap[साँचो_D] = SDL_SCANCODE_d;
+    keymap[साँचो_F] = SDL_SCANCODE_f;
+    keymap[साँचो_G] = SDL_SCANCODE_g;
+    keymap[साँचो_H] = SDL_SCANCODE_h;
+    keymap[साँचो_J] = SDL_SCANCODE_j;
+    keymap[साँचो_K] = SDL_SCANCODE_k;
+    keymap[साँचो_L] = SDL_SCANCODE_l;
+    keymap[साँचो_SEMICOLON] = SDL_SCANCODE_SEMICOLON;
+    keymap[साँचो_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE;
+    keymap[साँचो_BACKSLASH] = SDL_SCANCODE_BACKSLASH;
 
-    keymap[KEY_Z] = SDL_SCANCODE_z;
-    keymap[KEY_X] = SDL_SCANCODE_x;
-    keymap[KEY_C] = SDL_SCANCODE_c;
-    keymap[KEY_V] = SDL_SCANCODE_v;
-    keymap[KEY_B] = SDL_SCANCODE_b;
-    keymap[KEY_N] = SDL_SCANCODE_n;
-    keymap[KEY_M] = SDL_SCANCODE_m;
-    keymap[KEY_COMMA] = SDL_SCANCODE_COMMA;
-    keymap[KEY_DOT] = SDL_SCANCODE_PERIOD;
-    keymap[KEY_SLASH] = SDL_SCANCODE_SLASH;
+    keymap[साँचो_Z] = SDL_SCANCODE_z;
+    keymap[साँचो_X] = SDL_SCANCODE_x;
+    keymap[साँचो_C] = SDL_SCANCODE_c;
+    keymap[साँचो_V] = SDL_SCANCODE_v;
+    keymap[साँचो_B] = SDL_SCANCODE_b;
+    keymap[साँचो_N] = SDL_SCANCODE_n;
+    keymap[साँचो_M] = SDL_SCANCODE_m;
+    keymap[साँचो_COMMA] = SDL_SCANCODE_COMMA;
+    keymap[साँचो_DOT] = SDL_SCANCODE_PERIOD;
+    keymap[साँचो_SLASH] = SDL_SCANCODE_SLASH;
 
-    keymap[KEY_SPACE] = SDL_SCANCODE_SPACE;
+    keymap[साँचो_SPACE] = SDL_SCANCODE_SPACE;
 
-    keymap[KEY_UP] = SDL_SCANCODE_UP;
-    keymap[KEY_DOWN] = SDL_SCANCODE_DOWN;
-    keymap[KEY_LEFT] = SDL_SCANCODE_LEFT;
-    keymap[KEY_RIGHT] = SDL_SCANCODE_RIGHT;
+    keymap[साँचो_UP] = SDL_SCANCODE_UP;
+    keymap[साँचो_DOWN] = SDL_SCANCODE_DOWN;
+    keymap[साँचो_बायाँ] = SDL_SCANCODE_बायाँ;
+    keymap[साँचो_दायाँ] = SDL_SCANCODE_दायाँ;
 
-    keymap[KEY_HOME] = SDL_SCANCODE_HOME;
-    keymap[KEY_END] = SDL_SCANCODE_END;
-    keymap[KEY_INSERT] = SDL_SCANCODE_INSERT;
-    keymap[KEY_DELETE] = SDL_SCANCODE_DELETE;
+    keymap[साँचो_HOME] = SDL_SCANCODE_HOME;
+    keymap[साँचो_END] = SDL_SCANCODE_END;
+    keymap[साँचो_घुसाउ] = SDL_SCANCODE_घुसाउ;
+    keymap[साँचो_DELETE] = SDL_SCANCODE_DELETE;
 
-    keymap[KEY_NUMLOCK] = SDL_SCANCODE_NUMLOCK;
-    keymap[KEY_LEFTMETA] = SDL_SCANCODE_LSUPER;
+    keymap[साँचो_NUMLOCK] = SDL_SCANCODE_NUMLOCK;
+    keymap[साँचो_LEFTMETA] = SDL_SCANCODE_LSUPER;
 
-    keymap[KEY_KPSLASH] = SDL_SCANCODE_KP_DIVIDE;
-    keymap[KEY_KPASTERISK] = SDL_SCANCODE_KP_MULTIPLY;
-    keymap[KEY_KPMINUS] = SDL_SCANCODE_KP_MINUS;
-    keymap[KEY_KPPLUS] = SDL_SCANCODE_KP_PLUS;
-    keymap[KEY_KPDOT] = SDL_SCANCODE_KP_PERIOD;
-    keymap[KEY_KPEQUAL] = SDL_SCANCODE_KP_EQUALS;
+    keymap[साँचो_KPSLASH] = SDL_SCANCODE_KP_DIVIDE;
+    keymap[साँचो_KPASTERISK] = SDL_SCANCODE_KP_MULTIPLY;
+    keymap[साँचो_KPMINUS] = SDL_SCANCODE_KP_MINUS;
+    keymap[साँचो_KPPLUS] = SDL_SCANCODE_KP_PLUS;
+    keymap[साँचो_KPDOT] = SDL_SCANCODE_KP_PERIOD;
+    keymap[साँचो_KPEQUAL] = SDL_SCANCODE_KP_EQUALS;
 
-    keymap[KEY_LEFTCTRL] = SDL_SCANCODE_LCTRL;
-    keymap[KEY_RIGHTCTRL] = SDL_SCANCODE_RCTRL;
-    keymap[KEY_LEFTALT] = SDL_SCANCODE_LALT;
-    keymap[KEY_RIGHTALT] = SDL_SCANCODE_RALT;
-    keymap[KEY_LEFTSHIFT] = SDL_SCANCODE_LSHIFT;
-    keymap[KEY_RIGHTSHIFT] = SDL_SCANCODE_RSHIFT;
+    keymap[साँचो_LEFTCTRL] = SDL_SCANCODE_LCTRL;
+    keymap[साँचो_RIGHTCTRL] = SDL_SCANCODE_RCTRL;
+    keymap[साँचो_LEFTALT] = SDL_SCANCODE_LALT;
+    keymap[साँचो_RIGHTALT] = SDL_SCANCODE_RALT;
+    keymap[साँचो_LEFTSHIFT] = SDL_SCANCODE_LSHIFT;
+    keymap[साँचो_RIGHTSHIFT] = SDL_SCANCODE_RSHIFT;
 #endif
 }
 
 bool PSP_EventInit(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
-    int ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
-    if (ret == PSP_IRKBD_RESULT_OK) {
+    पूर्णाङ्क outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
+    पूर्णाङ्क ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
+    यदि (ret == PSP_IRKBD_RESULT_OK) {
         pspIrKeybOutputMode(outputmode);
         irkbd_ready = 1;
-    } else {
+    } अन्यथा {
         irkbd_ready = 0;
     }
 #endif
     // Start thread to read data
-    if ((event_sem = SDL_CreateSemaphore(1)) == NULL) {
-        return SDL_SetError("Can't create input semaphore");
+    यदि ((event_sem = SDL_CreateSemaphore(1)) == रिक्त) {
+        फर्काऊ SDL_SetError("Can't create input semaphore");
     }
     running = 1;
-    if ((thread = SDL_CreateThreadWithStackSize(EventUpdate, "PSPInputThread", 4096, NULL)) == NULL) {
-        return SDL_SetError("Can't create input thread");
+    यदि ((thread = SDL_Create_Thread_With_थाक_Size(EventUpdate, "PSPInputThread", 4096, रिक्त)) == रिक्त) {
+        फर्काऊ SDL_SetError("Can't create input thread");
     }
-    return true;
+    फर्काऊ true;
 }
 
-void PSP_EventQuit(SDL_VideoDevice *_this)
+शून्य PSP_EventQuit(SDL_VideoDevice *_this)
 {
     running = 0;
-    SDL_WaitThread(thread, NULL);
+    SDL_WaitThread(thread, रिक्त);
     SDL_DestroySemaphore(event_sem);
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
+    यदि (irkbd_ready) {
         pspIrKeybFinish();
         irkbd_ready = 0;
     }

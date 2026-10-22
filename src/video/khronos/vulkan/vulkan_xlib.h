@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+बाह्य "C" {
 #endif
 
 
@@ -25,27 +25,27 @@ extern "C" {
 #define VK_KHR_XLIB_SURFACE_SPEC_VERSION  6
 #define VK_KHR_XLIB_SURFACE_EXTENSION_NAME "VK_KHR_xlib_surface"
 
-typedef VkFlags VkXlibSurfaceCreateFlagsKHR;
+प्रकारनिर्देश VkFlags VkXlibSurfaceCreateFlagsKHR;
 
-typedef struct VkXlibSurfaceCreateInfoKHR {
+प्रकारनिर्देश संरचना VkXlibSurfaceCreateInfoKHR {
     VkStructureType                sType;
-    const void*                    pNext;
+    अचर शून्य*                    pNext;
     VkXlibSurfaceCreateFlagsKHR    flags;
     Display*                       dpy;
     Window                         window;
 } VkXlibSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateXlibSurfaceKHR)(VkInstance instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, Display* dpy, VisualID visualID);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkCreateXlibSurfaceKHR)(VkInstance instance, अचर VkXlibSurfaceCreateInfoKHR* pCreateInfo, अचर VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकारनिर्देश VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, Display* dpy, VisualID visualID);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateXlibSurfaceKHR(
     VkInstance                                  instance,
-    const VkXlibSurfaceCreateInfoKHR*           pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    अचर VkXlibSurfaceCreateInfoKHR*           pCreateInfo,
+    अचर VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
