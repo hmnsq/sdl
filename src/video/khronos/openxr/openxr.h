@@ -38,10 +38,10 @@ extern "C" {
 #define XR_MIN_COMPOSITION_LAYERS_SUPPORTED 16
 
 
-#if !defined(XR_NULL_HANDLE)
-#if (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
+#ᮚᮦᮔ᮪ !defined(XR_NULL_HANDLE)
+#ᮚᮦᮔ᮪ (XR_PTR_SIZE == 8) && XR_CPP_NULLPTR_SUPPORTED
     #define XR_NULL_HANDLE nullptr
-#else
+#ᮜᮤᮚ
     #define XR_NULL_HANDLE 0
 #endif
 #endif
@@ -74,7 +74,7 @@ extern "C" {
 #define XR_FREQUENCY_UNSPECIFIED 0
 
 
-#define XR_MAX_EVENT_DATA_SIZE sizeof(XrEventDataBuffer)
+#define XR_MAX_EVENT_DATA_SIZE parimaa_na(XrEventDataBuffer)
 
 
 #define XR_EXTENSION_ENUM_BASE 1000000000
@@ -83,34 +83,34 @@ extern "C" {
 #define XR_EXTENSION_ENUM_STRIDE 1000
 
 
-#if !defined(XR_MAY_ALIAS)
-#if defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
+#ᮚᮦᮔ᮪ !defined(XR_MAY_ALIAS)
+#ᮚᮦᮔ᮪ defined(__clang__) || (defined(__GNUC__) && (__GNUC__ > 4))
 #define XR_MAY_ALIAS __attribute__((__may_alias__))
-#else
+#ᮜᮤᮚ
 #define XR_MAY_ALIAS
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_HANDLE)
-#if (XR_PTR_SIZE == 8)
-    #define XR_DEFINE_HANDLE(object) typedef struct object##_T* object;
-#else
+#ᮚᮦᮔ᮪ !defined(XR_DEFINE_HANDLE)
+#ᮚᮦᮔ᮪ (XR_PTR_SIZE == 8)
+    #define XR_DEFINE_HANDLE(object) typedef sa_nracanaa object##_T* object;
+#ᮜᮤᮚ
     #define XR_DEFINE_HANDLE(object) typedef uint64_t object;
 #endif
 #endif
 
 
-#if !defined(XR_DEFINE_OPAQUE_64)
-    #if (XR_PTR_SIZE == 8)
-        #define XR_DEFINE_OPAQUE_64(object) typedef struct object##_T* object;
-    #else
+#ᮚᮦᮔ᮪ !defined(XR_DEFINE_OPAQUE_64)
+    #ᮚᮦᮔ᮪ (XR_PTR_SIZE == 8)
+        #define XR_DEFINE_OPAQUE_64(object) typedef sa_nracanaa object##_T* object;
+    #ᮜᮤᮚ
         #define XR_DEFINE_OPAQUE_64(object) typedef uint64_t object;
     #endif
 #endif
 
 
-#if !defined(XR_DEFINE_ATOM)
+#ᮚᮦᮔ᮪ !defined(XR_DEFINE_ATOM)
     #define XR_DEFINE_ATOM(object) typedef uint64_t object;
 #endif
 
@@ -144,7 +144,7 @@ XR_DEFINE_HANDLE(XrActionSet)
 #define XR_MAX_ACTION_NAME_SIZE           64
 #define XR_MAX_LOCALIZED_ACTION_NAME_SIZE 128
 
-typedef enum XrResult {
+typedef ga_nanaa XrResult {
     XR_SUCCESS = 0,
     XR_TIMEOUT_EXPIRED = 1,
     XR_SESSION_LOSS_PENDING = 3,
@@ -347,7 +347,7 @@ typedef enum XrResult {
     XR_RESULT_MAX_ENUM = 0x7FFFFFFF
 } XrResult;
 
-typedef enum XrStructureType {
+typedef ga_nanaa XrStructureType {
     XR_TYPE_UNKNOWN = 0,
     XR_TYPE_API_LAYER_PROPERTIES = 1,
     XR_TYPE_EXTENSION_PROPERTIES = 2,
@@ -1130,20 +1130,20 @@ typedef enum XrStructureType {
     XR_STRUCTURE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrStructureType;
 
-typedef enum XrFormFactor {
+typedef ga_nanaa XrFormFactor {
     XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY = 1,
     XR_FORM_FACTOR_HANDHELD_DISPLAY = 2,
     XR_FORM_FACTOR_MAX_ENUM = 0x7FFFFFFF
 } XrFormFactor;
 
-typedef enum XrEnvironmentBlendMode {
+typedef ga_nanaa XrEnvironmentBlendMode {
     XR_ENVIRONMENT_BLEND_MODE_OPAQUE = 1,
     XR_ENVIRONMENT_BLEND_MODE_ADDITIVE = 2,
     XR_ENVIRONMENT_BLEND_MODE_ALPHA_BLEND = 3,
     XR_ENVIRONMENT_BLEND_MODE_MAX_ENUM = 0x7FFFFFFF
 } XrEnvironmentBlendMode;
 
-typedef enum XrViewConfigurationType {
+typedef ga_nanaa XrViewConfigurationType {
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_MONO = 1,
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO = 2,
     XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO_WITH_FOVEATED_INSET = 1000037000,
@@ -1152,7 +1152,7 @@ typedef enum XrViewConfigurationType {
     XR_VIEW_CONFIGURATION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrViewConfigurationType;
 
-typedef enum XrReferenceSpaceType {
+typedef ga_nanaa XrReferenceSpaceType {
     XR_REFERENCE_SPACE_TYPE_VIEW = 1,
     XR_REFERENCE_SPACE_TYPE_LOCAL = 2,
     XR_REFERENCE_SPACE_TYPE_STAGE = 3,
@@ -1166,14 +1166,14 @@ typedef enum XrReferenceSpaceType {
     XR_REFERENCE_SPACE_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrReferenceSpaceType;
 
-typedef enum XrEyeVisibility {
+typedef ga_nanaa XrEyeVisibility {
     XR_EYE_VISIBILITY_BOTH = 0,
     XR_EYE_VISIBILITY_LEFT = 1,
     XR_EYE_VISIBILITY_RIGHT = 2,
     XR_EYE_VISIBILITY_MAX_ENUM = 0x7FFFFFFF
 } XrEyeVisibility;
 
-typedef enum XrActionType {
+typedef ga_nanaa XrActionType {
     XR_ACTION_TYPE_BOOLEAN_INPUT = 1,
     XR_ACTION_TYPE_FLOAT_INPUT = 2,
     XR_ACTION_TYPE_VECTOR2F_INPUT = 3,
@@ -1182,7 +1182,7 @@ typedef enum XrActionType {
     XR_ACTION_TYPE_MAX_ENUM = 0x7FFFFFFF
 } XrActionType;
 
-typedef enum XrSessionState {
+typedef ga_nanaa XrSessionState {
     XR_SESSION_STATE_UNKNOWN = 0,
     XR_SESSION_STATE_IDLE = 1,
     XR_SESSION_STATE_READY = 2,
@@ -1195,7 +1195,7 @@ typedef enum XrSessionState {
     XR_SESSION_STATE_MAX_ENUM = 0x7FFFFFFF
 } XrSessionState;
 
-typedef enum XrObjectType {
+typedef ga_nanaa XrObjectType {
     XR_OBJECT_TYPE_UNKNOWN = 0,
     XR_OBJECT_TYPE_INSTANCE = 1,
     XR_OBJECT_TYPE_SESSION = 2,
@@ -1333,114 +1333,114 @@ static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_INTE
 static const XrInputSourceLocalizedNameFlags XR_INPUT_SOURCE_LOCALIZED_NAME_COMPONENT_BIT = 0x00000004;
 
 typedef void (XRAPI_PTR *PFN_xrVoidFunction)(void);
-typedef struct XrApiLayerProperties {
+typedef sa_nracanaa XrApiLayerProperties {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
-    char                  layerName[XR_MAX_API_LAYER_NAME_SIZE];
+    var_na                  layerName[XR_MAX_API_LAYER_NAME_SIZE];
     XrVersion             specVersion;
     uint32_t              layerVersion;
-    char                  description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
+    var_na                  description[XR_MAX_API_LAYER_DESCRIPTION_SIZE];
 } XrApiLayerProperties;
 
-typedef struct XrExtensionProperties {
+typedef sa_nracanaa XrExtensionProperties {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
-    char                  extensionName[XR_MAX_EXTENSION_NAME_SIZE];
+    var_na                  extensionName[XR_MAX_EXTENSION_NAME_SIZE];
     uint32_t              extensionVersion;
 } XrExtensionProperties;
 
-typedef struct XrApplicationInfo {
-    char         applicationName[XR_MAX_APPLICATION_NAME_SIZE];
+typedef sa_nracanaa XrApplicationInfo {
+    var_na         applicationName[XR_MAX_APPLICATION_NAME_SIZE];
     uint32_t     applicationVersion;
-    char         engineName[XR_MAX_ENGINE_NAME_SIZE];
+    var_na         engineName[XR_MAX_ENGINE_NAME_SIZE];
     uint32_t     engineVersion;
     XrVersion    apiVersion;
 } XrApplicationInfo;
 
-typedef struct XrInstanceCreateInfo {
+typedef sa_nracanaa XrInstanceCreateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrInstanceCreateFlags       createFlags;
     XrApplicationInfo           applicationInfo;
     uint32_t                    enabledApiLayerCount;
-    const char* const*          enabledApiLayerNames;
+    const var_na* const*          enabledApiLayerNames;
     uint32_t                    enabledExtensionCount;
-    const char* const*          enabledExtensionNames;
+    const var_na* const*          enabledExtensionNames;
 } XrInstanceCreateInfo;
 
-typedef struct XrInstanceProperties {
+typedef sa_nracanaa XrInstanceProperties {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrVersion             runtimeVersion;
-    char                  runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
+    var_na                  runtimeName[XR_MAX_RUNTIME_NAME_SIZE];
 } XrInstanceProperties;
 
-typedef struct XrEventDataBuffer {
+typedef sa_nracanaa XrEventDataBuffer {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint8_t                     varying[4000];
 } XrEventDataBuffer;
 
-typedef struct XrSystemGetInfo {
+typedef sa_nracanaa XrSystemGetInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFormFactor                formFactor;
 } XrSystemGetInfo;
 
-typedef struct XrSystemGraphicsProperties {
+typedef sa_nracanaa XrSystemGraphicsProperties {
     uint32_t    maxSwapchainImageHeight;
     uint32_t    maxSwapchainImageWidth;
     uint32_t    maxLayerCount;
 } XrSystemGraphicsProperties;
 
-typedef struct XrSystemTrackingProperties {
+typedef sa_nracanaa XrSystemTrackingProperties {
     XrBool32    orientationTracking;
     XrBool32    positionTracking;
 } XrSystemTrackingProperties;
 
-typedef struct XrSystemProperties {
+typedef sa_nracanaa XrSystemProperties {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     XrSystemId                    systemId;
     uint32_t                      vendorId;
-    char                          systemName[XR_MAX_SYSTEM_NAME_SIZE];
+    var_na                          systemName[XR_MAX_SYSTEM_NAME_SIZE];
     XrSystemGraphicsProperties    graphicsProperties;
     XrSystemTrackingProperties    trackingProperties;
 } XrSystemProperties;
 
-typedef struct XrSessionCreateInfo {
+typedef sa_nracanaa XrSessionCreateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSessionCreateFlags        createFlags;
     XrSystemId                  systemId;
 } XrSessionCreateInfo;
 
-typedef struct XrQuaternionf {
+typedef sa_nracanaa XrQuaternionf {
     float    x;
     float    y;
     float    z;
     float    w;
 } XrQuaternionf;
 
-typedef struct XrVector3f {
+typedef sa_nracanaa XrVector3f {
     float    x;
     float    y;
     float    z;
 } XrVector3f;
 
-typedef struct XrPosef {
+typedef sa_nracanaa XrPosef {
     XrQuaternionf    orientation;
     XrVector3f       position;
 } XrPosef;
 
-typedef struct XrReferenceSpaceCreateInfo {
+typedef sa_nracanaa XrReferenceSpaceCreateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrReferenceSpaceType        referenceSpaceType;
     XrPosef                     poseInReferenceSpace;
 } XrReferenceSpaceCreateInfo;
 
-typedef struct XrActionSpaceCreateInfo {
+typedef sa_nracanaa XrActionSpaceCreateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAction                    action;
@@ -1448,7 +1448,7 @@ typedef struct XrActionSpaceCreateInfo {
     XrPosef                     poseInActionSpace;
 } XrActionSpaceCreateInfo;
 
-typedef struct XrSpaceLocation {
+typedef sa_nracanaa XrSpaceLocation {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     XrSpaceLocationFlags    locationFlags;
@@ -1456,7 +1456,7 @@ typedef struct XrSpaceLocation {
 } XrSpaceLocation;
 
 // XrSpaceVelocity extends XrSpaceLocation
-typedef struct XrSpaceVelocity {
+typedef sa_nracanaa XrSpaceVelocity {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     XrSpaceVelocityFlags    velocityFlags;
@@ -1464,19 +1464,19 @@ typedef struct XrSpaceVelocity {
     XrVector3f              angularVelocity;
 } XrSpaceVelocity;
 
-typedef struct XrExtent2Df {
+typedef sa_nracanaa XrExtent2Df {
     float    width;
     float    height;
 } XrExtent2Df;
 
-typedef struct XrViewConfigurationProperties {
+typedef sa_nracanaa XrViewConfigurationProperties {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     XrViewConfigurationType    viewConfigurationType;
     XrBool32                   fovMutable;
 } XrViewConfigurationProperties;
 
-typedef struct XrViewConfigurationView {
+typedef sa_nracanaa XrViewConfigurationView {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              recommendedImageRectWidth;
@@ -1487,7 +1487,7 @@ typedef struct XrViewConfigurationView {
     uint32_t              maxSwapchainSampleCount;
 } XrViewConfigurationView;
 
-typedef struct XrSwapchainCreateInfo {
+typedef sa_nracanaa XrSwapchainCreateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSwapchainCreateFlags      createFlags;
@@ -1501,34 +1501,34 @@ typedef struct XrSwapchainCreateInfo {
     uint32_t                    mipCount;
 } XrSwapchainCreateInfo;
 
-typedef struct XR_MAY_ALIAS XrSwapchainImageBaseHeader {
+typedef sa_nracanaa XR_MAY_ALIAS XrSwapchainImageBaseHeader {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
 } XrSwapchainImageBaseHeader;
 
-typedef struct XrSwapchainImageAcquireInfo {
+typedef sa_nracanaa XrSwapchainImageAcquireInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSwapchainImageAcquireInfo;
 
-typedef struct XrSwapchainImageWaitInfo {
+typedef sa_nracanaa XrSwapchainImageWaitInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrDuration                  timeout;
 } XrSwapchainImageWaitInfo;
 
-typedef struct XrSwapchainImageReleaseInfo {
+typedef sa_nracanaa XrSwapchainImageReleaseInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSwapchainImageReleaseInfo;
 
-typedef struct XrSessionBeginInfo {
+typedef sa_nracanaa XrSessionBeginInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrViewConfigurationType     primaryViewConfigurationType;
 } XrSessionBeginInfo;
 
-typedef struct XrFrameState {
+typedef sa_nracanaa XrFrameState {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrTime                predictedDisplayTime;
@@ -1536,24 +1536,24 @@ typedef struct XrFrameState {
     XrBool32              shouldRender;
 } XrFrameState;
 
-typedef struct XrFrameWaitInfo {
+typedef sa_nracanaa XrFrameWaitInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrFrameWaitInfo;
 
-typedef struct XrFrameBeginInfo {
+typedef sa_nracanaa XrFrameBeginInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrFrameBeginInfo;
 
-typedef struct XR_MAY_ALIAS XrCompositionLayerBaseHeader {
+typedef sa_nracanaa XR_MAY_ALIAS XrCompositionLayerBaseHeader {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
     XrSpace                     space;
 } XrCompositionLayerBaseHeader;
 
-typedef struct XrFrameEndInfo {
+typedef sa_nracanaa XrFrameEndInfo {
     XrStructureType                               type;
     const void* XR_MAY_ALIAS                      next;
     XrTime                                        displayTime;
@@ -1562,13 +1562,13 @@ typedef struct XrFrameEndInfo {
     const XrCompositionLayerBaseHeader* const*    layers;
 } XrFrameEndInfo;
 
-typedef struct XrViewState {
+typedef sa_nracanaa XrViewState {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrViewStateFlags      viewStateFlags;
 } XrViewState;
 
-typedef struct XrViewLocateInfo {
+typedef sa_nracanaa XrViewLocateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
@@ -1576,44 +1576,44 @@ typedef struct XrViewLocateInfo {
     XrSpace                     space;
 } XrViewLocateInfo;
 
-typedef struct XrFovf {
+typedef sa_nracanaa XrFovf {
     float    angleLeft;
     float    angleRight;
     float    angleUp;
     float    angleDown;
 } XrFovf;
 
-typedef struct XrView {
+typedef sa_nracanaa XrView {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrPosef               pose;
     XrFovf                fov;
 } XrView;
 
-typedef struct XrActionSetCreateInfo {
+typedef sa_nracanaa XrActionSetCreateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
-    char                        actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
-    char                        localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
+    var_na                        actionSetName[XR_MAX_ACTION_SET_NAME_SIZE];
+    var_na                        localizedActionSetName[XR_MAX_LOCALIZED_ACTION_SET_NAME_SIZE];
     uint32_t                    priority;
 } XrActionSetCreateInfo;
 
-typedef struct XrActionCreateInfo {
+typedef sa_nracanaa XrActionCreateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
-    char                        actionName[XR_MAX_ACTION_NAME_SIZE];
+    var_na                        actionName[XR_MAX_ACTION_NAME_SIZE];
     XrActionType                actionType;
     uint32_t                    countSubactionPaths;
     const XrPath*               subactionPaths;
-    char                        localizedActionName[XR_MAX_LOCALIZED_ACTION_NAME_SIZE];
+    var_na                        localizedActionName[XR_MAX_LOCALIZED_ACTION_NAME_SIZE];
 } XrActionCreateInfo;
 
-typedef struct XrActionSuggestedBinding {
+typedef sa_nracanaa XrActionSuggestedBinding {
     XrAction    action;
     XrPath      binding;
 } XrActionSuggestedBinding;
 
-typedef struct XrInteractionProfileSuggestedBinding {
+typedef sa_nracanaa XrInteractionProfileSuggestedBinding {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrPath                             interactionProfile;
@@ -1621,27 +1621,27 @@ typedef struct XrInteractionProfileSuggestedBinding {
     const XrActionSuggestedBinding*    suggestedBindings;
 } XrInteractionProfileSuggestedBinding;
 
-typedef struct XrSessionActionSetsAttachInfo {
+typedef sa_nracanaa XrSessionActionSetsAttachInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    countActionSets;
     const XrActionSet*          actionSets;
 } XrSessionActionSetsAttachInfo;
 
-typedef struct XrInteractionProfileState {
+typedef sa_nracanaa XrInteractionProfileState {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrPath                interactionProfile;
 } XrInteractionProfileState;
 
-typedef struct XrActionStateGetInfo {
+typedef sa_nracanaa XrActionStateGetInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
 } XrActionStateGetInfo;
 
-typedef struct XrActionStateBoolean {
+typedef sa_nracanaa XrActionStateBoolean {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              currentState;
@@ -1650,7 +1650,7 @@ typedef struct XrActionStateBoolean {
     XrBool32              isActive;
 } XrActionStateBoolean;
 
-typedef struct XrActionStateFloat {
+typedef sa_nracanaa XrActionStateFloat {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     float                 currentState;
@@ -1659,12 +1659,12 @@ typedef struct XrActionStateFloat {
     XrBool32              isActive;
 } XrActionStateFloat;
 
-typedef struct XrVector2f {
+typedef sa_nracanaa XrVector2f {
     float    x;
     float    y;
 } XrVector2f;
 
-typedef struct XrActionStateVector2f {
+typedef sa_nracanaa XrActionStateVector2f {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrVector2f            currentState;
@@ -1673,81 +1673,81 @@ typedef struct XrActionStateVector2f {
     XrBool32              isActive;
 } XrActionStateVector2f;
 
-typedef struct XrActionStatePose {
+typedef sa_nracanaa XrActionStatePose {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              isActive;
 } XrActionStatePose;
 
-typedef struct XrActiveActionSet {
+typedef sa_nracanaa XrActiveActionSet {
     XrActionSet    actionSet;
     XrPath         subactionPath;
 } XrActiveActionSet;
 
-typedef struct XrActionsSyncInfo {
+typedef sa_nracanaa XrActionsSyncInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    countActiveActionSets;
     const XrActiveActionSet*    activeActionSets;
 } XrActionsSyncInfo;
 
-typedef struct XrBoundSourcesForActionEnumerateInfo {
+typedef sa_nracanaa XrBoundSourcesForActionEnumerateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAction                    action;
 } XrBoundSourcesForActionEnumerateInfo;
 
-typedef struct XrInputSourceLocalizedNameGetInfo {
+typedef sa_nracanaa XrInputSourceLocalizedNameGetInfo {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrPath                             sourcePath;
     XrInputSourceLocalizedNameFlags    whichComponents;
 } XrInputSourceLocalizedNameGetInfo;
 
-typedef struct XR_MAY_ALIAS XrHapticBaseHeader {
+typedef sa_nracanaa XR_MAY_ALIAS XrHapticBaseHeader {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrHapticBaseHeader;
 
-typedef struct XrHapticActionInfo {
+typedef sa_nracanaa XrHapticActionInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAction                    action;
     XrPath                      subactionPath;
 } XrHapticActionInfo;
 
-typedef struct XR_MAY_ALIAS XrBaseInStructure {
+typedef sa_nracanaa XR_MAY_ALIAS XrBaseInStructure {
     XrStructureType                    type;
-    const struct XrBaseInStructure*    next;
+    const sa_nracanaa XrBaseInStructure*    next;
 } XrBaseInStructure;
 
-typedef struct XR_MAY_ALIAS XrBaseOutStructure {
+typedef sa_nracanaa XR_MAY_ALIAS XrBaseOutStructure {
     XrStructureType               type;
-    struct XrBaseOutStructure*    next;
+    sa_nracanaa XrBaseOutStructure*    next;
 } XrBaseOutStructure;
 
-typedef struct XrOffset2Di {
+typedef sa_nracanaa XrOffset2Di {
     int32_t    x;
     int32_t    y;
 } XrOffset2Di;
 
-typedef struct XrExtent2Di {
+typedef sa_nracanaa XrExtent2Di {
     int32_t    width;
     int32_t    height;
 } XrExtent2Di;
 
-typedef struct XrRect2Di {
+typedef sa_nracanaa XrRect2Di {
     XrOffset2Di    offset;
     XrExtent2Di    extent;
 } XrRect2Di;
 
-typedef struct XrSwapchainSubImage {
+typedef sa_nracanaa XrSwapchainSubImage {
     XrSwapchain    swapchain;
     XrRect2Di      imageRect;
     uint32_t       imageArrayIndex;
 } XrSwapchainSubImage;
 
-typedef struct XrCompositionLayerProjectionView {
+typedef sa_nracanaa XrCompositionLayerProjectionView {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPosef                     pose;
@@ -1755,7 +1755,7 @@ typedef struct XrCompositionLayerProjectionView {
     XrSwapchainSubImage         subImage;
 } XrCompositionLayerProjectionView;
 
-typedef struct XrCompositionLayerProjection {
+typedef sa_nracanaa XrCompositionLayerProjection {
     XrStructureType                            type;
     const void* XR_MAY_ALIAS                   next;
     XrCompositionLayerFlags                    layerFlags;
@@ -1764,7 +1764,7 @@ typedef struct XrCompositionLayerProjection {
     const XrCompositionLayerProjectionView*    views;
 } XrCompositionLayerProjection;
 
-typedef struct XrCompositionLayerQuad {
+typedef sa_nracanaa XrCompositionLayerQuad {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
@@ -1775,24 +1775,24 @@ typedef struct XrCompositionLayerQuad {
     XrExtent2Df                 size;
 } XrCompositionLayerQuad;
 
-typedef struct XR_MAY_ALIAS XrEventDataBaseHeader {
+typedef sa_nracanaa XR_MAY_ALIAS XrEventDataBaseHeader {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrEventDataBaseHeader;
 
-typedef struct XrEventDataEventsLost {
+typedef sa_nracanaa XrEventDataEventsLost {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    lostEventCount;
 } XrEventDataEventsLost;
 
-typedef struct XrEventDataInstanceLossPending {
+typedef sa_nracanaa XrEventDataInstanceLossPending {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      lossTime;
 } XrEventDataInstanceLossPending;
 
-typedef struct XrEventDataSessionStateChanged {
+typedef sa_nracanaa XrEventDataSessionStateChanged {
      XrStructureType            type;
     const void* XR_MAY_ALIAS    next;
     XrSession                   session;
@@ -1800,7 +1800,7 @@ typedef struct XrEventDataSessionStateChanged {
     XrTime                      time;
 } XrEventDataSessionStateChanged;
 
-typedef struct XrEventDataReferenceSpaceChangePending {
+typedef sa_nracanaa XrEventDataReferenceSpaceChangePending {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSession                   session;
@@ -1810,13 +1810,13 @@ typedef struct XrEventDataReferenceSpaceChangePending {
     XrPosef                     poseInPreviousSpace;
 } XrEventDataReferenceSpaceChangePending;
 
-typedef struct XrEventDataInteractionProfileChanged {
+typedef sa_nracanaa XrEventDataInteractionProfileChanged {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSession                   session;
 } XrEventDataInteractionProfileChanged;
 
-typedef struct XrHapticVibration {
+typedef sa_nracanaa XrHapticVibration {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrDuration                  duration;
@@ -1824,39 +1824,39 @@ typedef struct XrHapticVibration {
     float                       amplitude;
 } XrHapticVibration;
 
-typedef struct XrOffset2Df {
+typedef sa_nracanaa XrOffset2Df {
     float    x;
     float    y;
 } XrOffset2Df;
 
-typedef struct XrRect2Df {
+typedef sa_nracanaa XrRect2Df {
     XrOffset2Df    offset;
     XrExtent2Df    extent;
 } XrRect2Df;
 
-typedef struct XrVector4f {
+typedef sa_nracanaa XrVector4f {
     float    x;
     float    y;
     float    z;
     float    w;
 } XrVector4f;
 
-typedef struct XrColor4f {
+typedef sa_nracanaa XrColor4f {
     float    r;
     float    g;
     float    b;
     float    a;
 } XrColor4f;
 
-typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, const char* name, PFN_xrVoidFunction* function);
+typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProcAddr)(XrInstance instance, const var_na* name, PFN_xrVoidFunction* function);
 typedef XrResult (XRAPI_PTR *PFN_xrEnumerateApiLayerProperties)(uint32_t propertyCapacityInput, uint32_t* propertyCountOutput, XrApiLayerProperties* properties);
-typedef XrResult (XRAPI_PTR *PFN_xrEnumerateInstanceExtensionProperties)(const char* layerName, uint32_t propertyCapacityInput, uint32_t* propertyCountOutput, XrExtensionProperties* properties);
+typedef XrResult (XRAPI_PTR *PFN_xrEnumerateInstanceExtensionProperties)(const var_na* layerName, uint32_t propertyCapacityInput, uint32_t* propertyCountOutput, XrExtensionProperties* properties);
 typedef XrResult (XRAPI_PTR *PFN_xrCreateInstance)(const XrInstanceCreateInfo* createInfo, XrInstance* instance);
 typedef XrResult (XRAPI_PTR *PFN_xrDestroyInstance)(XrInstance instance);
 typedef XrResult (XRAPI_PTR *PFN_xrGetInstanceProperties)(XrInstance instance, XrInstanceProperties* instanceProperties);
 typedef XrResult (XRAPI_PTR *PFN_xrPollEvent)(XrInstance instance, XrEventDataBuffer* eventData);
-typedef XrResult (XRAPI_PTR *PFN_xrResultToString)(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE]);
-typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString)(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
+typedef XrResult (XRAPI_PTR *PFN_xrResultToString)(XrInstance instance, XrResult value, var_na buffer[XR_MAX_RESULT_STRING_SIZE]);
+typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString)(XrInstance instance, XrStructureType value, var_na buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
 typedef XrResult (XRAPI_PTR *PFN_xrGetSystem)(XrInstance instance, const XrSystemGetInfo* getInfo, XrSystemId* systemId);
 typedef XrResult (XRAPI_PTR *PFN_xrGetSystemProperties)(XrInstance instance, XrSystemId systemId, XrSystemProperties* properties);
 typedef XrResult (XRAPI_PTR *PFN_xrEnumerateEnvironmentBlendModes)(XrInstance instance, XrSystemId systemId, XrViewConfigurationType viewConfigurationType, uint32_t environmentBlendModeCapacityInput, uint32_t* environmentBlendModeCountOutput, XrEnvironmentBlendMode* environmentBlendModes);
@@ -1885,8 +1885,8 @@ typedef XrResult (XRAPI_PTR *PFN_xrWaitFrame)(XrSession session, const XrFrameWa
 typedef XrResult (XRAPI_PTR *PFN_xrBeginFrame)(XrSession session, const XrFrameBeginInfo* frameBeginInfo);
 typedef XrResult (XRAPI_PTR *PFN_xrEndFrame)(XrSession session, const XrFrameEndInfo* frameEndInfo);
 typedef XrResult (XRAPI_PTR *PFN_xrLocateViews)(XrSession session, const XrViewLocateInfo* viewLocateInfo, XrViewState* viewState, uint32_t viewCapacityInput, uint32_t* viewCountOutput, XrView* views);
-typedef XrResult (XRAPI_PTR *PFN_xrStringToPath)(XrInstance instance, const char* pathString, XrPath* path);
-typedef XrResult (XRAPI_PTR *PFN_xrPathToString)(XrInstance instance, XrPath path, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrStringToPath)(XrInstance instance, const var_na* pathString, XrPath* path);
+typedef XrResult (XRAPI_PTR *PFN_xrPathToString)(XrInstance instance, XrPath path, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, var_na* buffer);
 typedef XrResult (XRAPI_PTR *PFN_xrCreateActionSet)(XrInstance instance, const XrActionSetCreateInfo* createInfo, XrActionSet* actionSet);
 typedef XrResult (XRAPI_PTR *PFN_xrDestroyActionSet)(XrActionSet actionSet);
 typedef XrResult (XRAPI_PTR *PFN_xrCreateAction)(XrActionSet actionSet, const XrActionCreateInfo* createInfo, XrAction* action);
@@ -1900,14 +1900,14 @@ typedef XrResult (XRAPI_PTR *PFN_xrGetActionStateVector2f)(XrSession session, co
 typedef XrResult (XRAPI_PTR *PFN_xrGetActionStatePose)(XrSession session, const XrActionStateGetInfo* getInfo, XrActionStatePose* state);
 typedef XrResult (XRAPI_PTR *PFN_xrSyncActions)(XrSession session, const XrActionsSyncInfo* syncInfo);
 typedef XrResult (XRAPI_PTR *PFN_xrEnumerateBoundSourcesForAction)(XrSession session, const XrBoundSourcesForActionEnumerateInfo* enumerateInfo, uint32_t sourceCapacityInput, uint32_t* sourceCountOutput, XrPath* sources);
-typedef XrResult (XRAPI_PTR *PFN_xrGetInputSourceLocalizedName)(XrSession session, const XrInputSourceLocalizedNameGetInfo* getInfo, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrGetInputSourceLocalizedName)(XrSession session, const XrInputSourceLocalizedNameGetInfo* getInfo, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, var_na* buffer);
 typedef XrResult (XRAPI_PTR *PFN_xrApplyHapticFeedback)(XrSession session, const XrHapticActionInfo* hapticActionInfo, const XrHapticBaseHeader* hapticFeedback);
 typedef XrResult (XRAPI_PTR *PFN_xrStopHapticFeedback)(XrSession session, const XrHapticActionInfo* hapticActionInfo);
 
 #ifndef XR_NO_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrGetInstanceProcAddr(
     XrInstance                                  instance,
-    const char*                                 name,
+    const var_na*                                 name,
     PFN_xrVoidFunction*                         function);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateApiLayerProperties(
@@ -1916,7 +1916,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateApiLayerProperties(
     XrApiLayerProperties*                       properties);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateInstanceExtensionProperties(
-    const char*                                 layerName,
+    const var_na*                                 layerName,
     uint32_t                                    propertyCapacityInput,
     uint32_t*                                   propertyCountOutput,
     XrExtensionProperties*                      properties);
@@ -1939,12 +1939,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPollEvent(
 XRAPI_ATTR XrResult XRAPI_CALL xrResultToString(
     XrInstance                                  instance,
     XrResult                                    value,
-    char                                        buffer[XR_MAX_RESULT_STRING_SIZE]);
+    var_na                                        buffer[XR_MAX_RESULT_STRING_SIZE]);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStructureTypeToString(
     XrInstance                                  instance,
     XrStructureType                             value,
-    char                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
+    var_na                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE]);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSystem(
     XrInstance                                  instance,
@@ -2089,7 +2089,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateViews(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrStringToPath(
     XrInstance                                  instance,
-    const char*                                 pathString,
+    const var_na*                                 pathString,
     XrPath*                                     path);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrPathToString(
@@ -2097,7 +2097,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPathToString(
     XrPath                                      path,
     uint32_t                                    bufferCapacityInput,
     uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    var_na*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateActionSet(
     XrInstance                                  instance,
@@ -2164,7 +2164,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetInputSourceLocalizedName(
     const XrInputSourceLocalizedNameGetInfo*    getInfo,
     uint32_t                                    bufferCapacityInput,
     uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    var_na*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrApplyHapticFeedback(
     XrSession                                   session,
@@ -2183,40 +2183,40 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopHapticFeedback(
 #define XR_API_VERSION_1_1 XR_MAKE_VERSION(1, 1, XR_VERSION_PATCH(XR_CURRENT_API_VERSION))
 
 #define XR_UUID_SIZE                      16
-typedef struct XrColor3f {
+typedef sa_nracanaa XrColor3f {
     float    r;
     float    g;
     float    b;
 } XrColor3f;
 
-typedef struct XrExtent3Df {
+typedef sa_nracanaa XrExtent3Df {
     float    width;
     float    height;
     float    depth;
 } XrExtent3Df;
 
-typedef struct XrSpheref {
+typedef sa_nracanaa XrSpheref {
     XrPosef    center;
     float      radius;
 } XrSpheref;
 
-typedef struct XrBoxf {
+typedef sa_nracanaa XrBoxf {
     XrPosef        center;
     XrExtent3Df    extents;
 } XrBoxf;
 
-typedef struct XrFrustumf {
+typedef sa_nracanaa XrFrustumf {
     XrPosef    pose;
     XrFovf     fov;
     float      nearZ;
     float      farZ;
 } XrFrustumf;
 
-typedef struct XrUuid {
+typedef sa_nracanaa XrUuid {
     uint8_t    data[XR_UUID_SIZE];
 } XrUuid;
 
-typedef struct XrSpacesLocateInfo {
+typedef sa_nracanaa XrSpacesLocateInfo {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -2225,26 +2225,26 @@ typedef struct XrSpacesLocateInfo {
     const XrSpace*              spaces;
 } XrSpacesLocateInfo;
 
-typedef struct XrSpaceLocationData {
+typedef sa_nracanaa XrSpaceLocationData {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrSpaceLocationData;
 
-typedef struct XrSpaceLocations {
+typedef sa_nracanaa XrSpaceLocations {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     uint32_t                locationCount;
     XrSpaceLocationData*    locations;
 } XrSpaceLocations;
 
-typedef struct XrSpaceVelocityData {
+typedef sa_nracanaa XrSpaceVelocityData {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrSpaceVelocityData;
 
 // XrSpaceVelocities extends XrSpaceLocations
-typedef struct XrSpaceVelocities {
+typedef sa_nracanaa XrSpaceVelocities {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     uint32_t                velocityCount;
@@ -2265,7 +2265,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateSpaces(
 #define XR_KHR_composition_layer_cube 1
 #define XR_KHR_composition_layer_cube_SPEC_VERSION 8
 #define XR_KHR_COMPOSITION_LAYER_CUBE_EXTENSION_NAME "XR_KHR_composition_layer_cube"
-typedef struct XrCompositionLayerCubeKHR {
+typedef sa_nracanaa XrCompositionLayerCubeKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
@@ -2283,7 +2283,7 @@ typedef struct XrCompositionLayerCubeKHR {
 #define XR_KHR_composition_layer_depth_SPEC_VERSION 6
 #define XR_KHR_COMPOSITION_LAYER_DEPTH_EXTENSION_NAME "XR_KHR_composition_layer_depth"
 // XrCompositionLayerDepthInfoKHR extends XrCompositionLayerProjectionView
-typedef struct XrCompositionLayerDepthInfoKHR {
+typedef sa_nracanaa XrCompositionLayerDepthInfoKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSwapchainSubImage         subImage;
@@ -2299,7 +2299,7 @@ typedef struct XrCompositionLayerDepthInfoKHR {
 #define XR_KHR_composition_layer_cylinder 1
 #define XR_KHR_composition_layer_cylinder_SPEC_VERSION 4
 #define XR_KHR_COMPOSITION_LAYER_CYLINDER_EXTENSION_NAME "XR_KHR_composition_layer_cylinder"
-typedef struct XrCompositionLayerCylinderKHR {
+typedef sa_nracanaa XrCompositionLayerCylinderKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
@@ -2318,7 +2318,7 @@ typedef struct XrCompositionLayerCylinderKHR {
 #define XR_KHR_composition_layer_equirect 1
 #define XR_KHR_composition_layer_equirect_SPEC_VERSION 3
 #define XR_KHR_COMPOSITION_LAYER_EQUIRECT_EXTENSION_NAME "XR_KHR_composition_layer_equirect"
-typedef struct XrCompositionLayerEquirectKHR {
+typedef sa_nracanaa XrCompositionLayerEquirectKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
@@ -2338,13 +2338,13 @@ typedef struct XrCompositionLayerEquirectKHR {
 #define XR_KHR_visibility_mask_SPEC_VERSION 2
 #define XR_KHR_VISIBILITY_MASK_EXTENSION_NAME "XR_KHR_visibility_mask"
 
-typedef enum XrVisibilityMaskTypeKHR {
+typedef ga_nanaa XrVisibilityMaskTypeKHR {
     XR_VISIBILITY_MASK_TYPE_HIDDEN_TRIANGLE_MESH_KHR = 1,
     XR_VISIBILITY_MASK_TYPE_VISIBLE_TRIANGLE_MESH_KHR = 2,
     XR_VISIBILITY_MASK_TYPE_LINE_LOOP_KHR = 3,
     XR_VISIBILITY_MASK_TYPE_MAX_ENUM_KHR = 0x7FFFFFFF
 } XrVisibilityMaskTypeKHR;
-typedef struct XrVisibilityMaskKHR {
+typedef sa_nracanaa XrVisibilityMaskKHR {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              vertexCapacityInput;
@@ -2355,7 +2355,7 @@ typedef struct XrVisibilityMaskKHR {
     uint32_t*             indices;
 } XrVisibilityMaskKHR;
 
-typedef struct XrEventDataVisibilityMaskChangedKHR {
+typedef sa_nracanaa XrEventDataVisibilityMaskChangedKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSession                   session;
@@ -2382,7 +2382,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetVisibilityMaskKHR(
 #define XR_KHR_composition_layer_color_scale_bias_SPEC_VERSION 5
 #define XR_KHR_COMPOSITION_LAYER_COLOR_SCALE_BIAS_EXTENSION_NAME "XR_KHR_composition_layer_color_scale_bias"
 // XrCompositionLayerColorScaleBiasKHR extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerColorScaleBiasKHR {
+typedef sa_nracanaa XrCompositionLayerColorScaleBiasKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrColor4f                   colorScale;
@@ -2395,7 +2395,7 @@ typedef struct XrCompositionLayerColorScaleBiasKHR {
 #define XR_KHR_loader_init 1
 #define XR_KHR_loader_init_SPEC_VERSION   2
 #define XR_KHR_LOADER_INIT_EXTENSION_NAME "XR_KHR_loader_init"
-typedef struct XR_MAY_ALIAS XrLoaderInitInfoBaseHeaderKHR {
+typedef sa_nracanaa XR_MAY_ALIAS XrLoaderInitInfoBaseHeaderKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrLoaderInitInfoBaseHeaderKHR;
@@ -2414,7 +2414,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrInitializeLoaderKHR(
 #define XR_KHR_composition_layer_equirect2 1
 #define XR_KHR_composition_layer_equirect2_SPEC_VERSION 1
 #define XR_KHR_COMPOSITION_LAYER_EQUIRECT2_EXTENSION_NAME "XR_KHR_composition_layer_equirect2"
-typedef struct XrCompositionLayerEquirect2KHR {
+typedef sa_nracanaa XrCompositionLayerEquirect2KHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
@@ -2434,13 +2434,13 @@ typedef struct XrCompositionLayerEquirect2KHR {
 #define XR_KHR_binding_modification 1
 #define XR_KHR_binding_modification_SPEC_VERSION 1
 #define XR_KHR_BINDING_MODIFICATION_EXTENSION_NAME "XR_KHR_binding_modification"
-typedef struct XR_MAY_ALIAS XrBindingModificationBaseHeaderKHR {
+typedef sa_nracanaa XR_MAY_ALIAS XrBindingModificationBaseHeaderKHR {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrBindingModificationBaseHeaderKHR;
 
 // XrBindingModificationsKHR extends XrInteractionProfileSuggestedBinding
-typedef struct XrBindingModificationsKHR {
+typedef sa_nracanaa XrBindingModificationsKHR {
     XrStructureType                                     type;
     const void* XR_MAY_ALIAS                            next;
     uint32_t                                            bindingModificationCount;
@@ -2454,14 +2454,14 @@ typedef struct XrBindingModificationsKHR {
 #define XR_KHR_extended_struct_name_lengths_SPEC_VERSION 2
 #define XR_KHR_EXTENDED_STRUCT_NAME_LENGTHS_EXTENSION_NAME "XR_KHR_extended_struct_name_lengths"
 #define XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR 256
-typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString2KHR)(XrInstance instance, XrStructureType value, char buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
+typedef XrResult (XRAPI_PTR *PFN_xrStructureTypeToString2KHR)(XrInstance instance, XrStructureType value, var_na buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrStructureTypeToString2KHR(
     XrInstance                                  instance,
     XrStructureType                             value,
-    char                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
+    var_na                                        buffer[XR_MAX_STRUCTURE_NAME_SIZE_EXTENDED_KHR]);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2525,14 +2525,14 @@ typedef XrFrustumf XrFrustumfKHR;
 #define XR_KHR_extended_result_name_lengths_SPEC_VERSION 1
 #define XR_KHR_EXTENDED_RESULT_NAME_LENGTHS_EXTENSION_NAME "XR_KHR_extended_result_name_lengths"
 #define XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR 256
-typedef XrResult (XRAPI_PTR *PFN_xrResultToString2KHR)(XrInstance instance, XrResult value, char buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
+typedef XrResult (XRAPI_PTR *PFN_xrResultToString2KHR)(XrInstance instance, XrResult value, var_na buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
 XRAPI_ATTR XrResult XRAPI_CALL xrResultToString2KHR(
     XrInstance                                  instance,
     XrResult                                    value,
-    char                                        buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
+    var_na                                        buffer[XR_MAX_RESULT_STRING_SIZE_EXTENDED_KHR]);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -2542,20 +2542,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrResultToString2KHR(
 #define XR_EXT_performance_settings_SPEC_VERSION 4
 #define XR_EXT_PERFORMANCE_SETTINGS_EXTENSION_NAME "XR_EXT_performance_settings"
 
-typedef enum XrPerfSettingsDomainEXT {
+typedef ga_nanaa XrPerfSettingsDomainEXT {
     XR_PERF_SETTINGS_DOMAIN_CPU_EXT = 1,
     XR_PERF_SETTINGS_DOMAIN_GPU_EXT = 2,
     XR_PERF_SETTINGS_DOMAIN_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsDomainEXT;
 
-typedef enum XrPerfSettingsSubDomainEXT {
+typedef ga_nanaa XrPerfSettingsSubDomainEXT {
     XR_PERF_SETTINGS_SUB_DOMAIN_COMPOSITING_EXT = 1,
     XR_PERF_SETTINGS_SUB_DOMAIN_RENDERING_EXT = 2,
     XR_PERF_SETTINGS_SUB_DOMAIN_THERMAL_EXT = 3,
     XR_PERF_SETTINGS_SUB_DOMAIN_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsSubDomainEXT;
 
-typedef enum XrPerfSettingsLevelEXT {
+typedef ga_nanaa XrPerfSettingsLevelEXT {
     XR_PERF_SETTINGS_LEVEL_POWER_SAVINGS_EXT = 0,
     XR_PERF_SETTINGS_LEVEL_SUSTAINED_LOW_EXT = 25,
     XR_PERF_SETTINGS_LEVEL_SUSTAINED_HIGH_EXT = 50,
@@ -2563,13 +2563,13 @@ typedef enum XrPerfSettingsLevelEXT {
     XR_PERF_SETTINGS_LEVEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsLevelEXT;
 
-typedef enum XrPerfSettingsNotificationLevelEXT {
+typedef ga_nanaa XrPerfSettingsNotificationLevelEXT {
     XR_PERF_SETTINGS_NOTIF_LEVEL_NORMAL_EXT = 0,
     XR_PERF_SETTINGS_NOTIF_LEVEL_WARNING_EXT = 25,
     XR_PERF_SETTINGS_NOTIF_LEVEL_IMPAIRED_EXT = 75,
     XR_PERF_SETTINGS_NOTIFICATION_LEVEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPerfSettingsNotificationLevelEXT;
-typedef struct XrEventDataPerfSettingsEXT {
+typedef sa_nracanaa XrEventDataPerfSettingsEXT {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     XrPerfSettingsDomainEXT               domain;
@@ -2629,26 +2629,26 @@ static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_VALIDAT
 static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT = 0x00000004;
 static const XrDebugUtilsMessageTypeFlagsEXT XR_DEBUG_UTILS_MESSAGE_TYPE_CONFORMANCE_BIT_EXT = 0x00000008;
 
-typedef struct XrDebugUtilsObjectNameInfoEXT {
+typedef sa_nracanaa XrDebugUtilsObjectNameInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrObjectType                objectType;
     uint64_t                    objectHandle;
-    const char*                 objectName;
+    const var_na*                 objectName;
 } XrDebugUtilsObjectNameInfoEXT;
 
-typedef struct XrDebugUtilsLabelEXT {
+typedef sa_nracanaa XrDebugUtilsLabelEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
-    const char*                 labelName;
+    const var_na*                 labelName;
 } XrDebugUtilsLabelEXT;
 
-typedef struct XrDebugUtilsMessengerCallbackDataEXT {
+typedef sa_nracanaa XrDebugUtilsMessengerCallbackDataEXT {
     XrStructureType                   type;
     const void* XR_MAY_ALIAS          next;
-    const char*                       messageId;
-    const char*                       functionName;
-    const char*                       message;
+    const var_na*                       messageId;
+    const var_na*                       functionName;
+    const var_na*                       message;
     uint32_t                          objectCount;
     XrDebugUtilsObjectNameInfoEXT*    objects;
     uint32_t                          sessionLabelCount;
@@ -2663,7 +2663,7 @@ typedef XrBool32 (XRAPI_PTR *PFN_xrDebugUtilsMessengerCallbackEXT)(
         
 
 // XrDebugUtilsMessengerCreateInfoEXT extends XrInstanceCreateInfo
-typedef struct XrDebugUtilsMessengerCreateInfoEXT {
+typedef sa_nracanaa XrDebugUtilsMessengerCreateInfoEXT {
     XrStructureType                         type;
     const void* XR_MAY_ALIAS                next;
     XrDebugUtilsMessageSeverityFlagsEXT     messageSeverities;
@@ -2719,14 +2719,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSessionInsertDebugUtilsLabelEXT(
 #define XR_EXT_eye_gaze_interaction_SPEC_VERSION 2
 #define XR_EXT_EYE_GAZE_INTERACTION_EXTENSION_NAME "XR_EXT_eye_gaze_interaction"
 // XrSystemEyeGazeInteractionPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemEyeGazeInteractionPropertiesEXT {
+typedef sa_nracanaa XrSystemEyeGazeInteractionPropertiesEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeGazeInteraction;
 } XrSystemEyeGazeInteractionPropertiesEXT;
 
 // XrEyeGazeSampleTimeEXT extends XrSpaceLocation
-typedef struct XrEyeGazeSampleTimeEXT {
+typedef sa_nracanaa XrEyeGazeSampleTimeEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrTime                time;
@@ -2748,14 +2748,14 @@ typedef XrFlags64 XrOverlayMainSessionFlagsEXTX;
 static const XrOverlayMainSessionFlagsEXTX XR_OVERLAY_MAIN_SESSION_ENABLED_COMPOSITION_LAYER_INFO_DEPTH_BIT_EXTX = 0x00000001;
 
 // XrSessionCreateInfoOverlayEXTX extends XrSessionCreateInfo
-typedef struct XrSessionCreateInfoOverlayEXTX {
+typedef sa_nracanaa XrSessionCreateInfoOverlayEXTX {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrOverlaySessionCreateFlagsEXTX    createFlags;
     uint32_t                           sessionLayersPlacement;
 } XrSessionCreateInfoOverlayEXTX;
 
-typedef struct XrEventDataMainSessionVisibilityChangedEXTX {
+typedef sa_nracanaa XrEventDataMainSessionVisibilityChangedEXTX {
     XrStructureType                  type;
     const void* XR_MAY_ALIAS         next;
     XrBool32                         visible;
@@ -2781,7 +2781,7 @@ typedef struct XrEventDataMainSessionVisibilityChangedEXTX {
 XR_DEFINE_HANDLE(XrSpatialAnchorMSFT)
 #define XR_MSFT_spatial_anchor_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_ANCHOR_EXTENSION_NAME "XR_MSFT_spatial_anchor"
-typedef struct XrSpatialAnchorCreateInfoMSFT {
+typedef sa_nracanaa XrSpatialAnchorCreateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -2789,7 +2789,7 @@ typedef struct XrSpatialAnchorCreateInfoMSFT {
     XrTime                      time;
 } XrSpatialAnchorCreateInfoMSFT;
 
-typedef struct XrSpatialAnchorSpaceCreateInfoMSFT {
+typedef sa_nracanaa XrSpatialAnchorSpaceCreateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialAnchorMSFT         anchor;
@@ -2828,7 +2828,7 @@ typedef XrFlags64 XrCompositionLayerImageLayoutFlagsFB;
 static const XrCompositionLayerImageLayoutFlagsFB XR_COMPOSITION_LAYER_IMAGE_LAYOUT_VERTICAL_FLIP_BIT_FB = 0x00000001;
 
 // XrCompositionLayerImageLayoutFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerImageLayoutFB {
+typedef sa_nracanaa XrCompositionLayerImageLayoutFB {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     XrCompositionLayerImageLayoutFlagsFB    flags;
@@ -2841,7 +2841,7 @@ typedef struct XrCompositionLayerImageLayoutFB {
 #define XR_FB_composition_layer_alpha_blend_SPEC_VERSION 3
 #define XR_FB_COMPOSITION_LAYER_ALPHA_BLEND_EXTENSION_NAME "XR_FB_composition_layer_alpha_blend"
 
-typedef enum XrBlendFactorFB {
+typedef ga_nanaa XrBlendFactorFB {
     XR_BLEND_FACTOR_ZERO_FB = 0,
     XR_BLEND_FACTOR_ONE_FB = 1,
     XR_BLEND_FACTOR_SRC_ALPHA_FB = 2,
@@ -2857,7 +2857,7 @@ static const XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_
 static const XrCompositionLayerSecureContentFlagsFB XR_COMPOSITION_LAYER_SECURE_CONTENT_REPLACE_LAYER_BIT_FB = 0x00000002;
 
 // XrCompositionLayerAlphaBlendFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerAlphaBlendFB {
+typedef sa_nracanaa XrCompositionLayerAlphaBlendFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBlendFactorFB       srcFactorColor;
@@ -2885,7 +2885,7 @@ typedef struct XrCompositionLayerAlphaBlendFB {
 #define XR_EXT_view_configuration_depth_range_SPEC_VERSION 1
 #define XR_EXT_VIEW_CONFIGURATION_DEPTH_RANGE_EXTENSION_NAME "XR_EXT_view_configuration_depth_range"
 // XrViewConfigurationDepthRangeEXT extends XrViewConfigurationView
-typedef struct XrViewConfigurationDepthRangeEXT {
+typedef sa_nracanaa XrViewConfigurationDepthRangeEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     float                 recommendedNearZ;
@@ -2949,12 +2949,12 @@ XR_DEFINE_HANDLE(XrSpatialGraphNodeBindingMSFT)
 #define XR_MSFT_spatial_graph_bridge_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_GRAPH_BRIDGE_EXTENSION_NAME "XR_MSFT_spatial_graph_bridge"
 
-typedef enum XrSpatialGraphNodeTypeMSFT {
+typedef ga_nanaa XrSpatialGraphNodeTypeMSFT {
     XR_SPATIAL_GRAPH_NODE_TYPE_STATIC_MSFT = 1,
     XR_SPATIAL_GRAPH_NODE_TYPE_DYNAMIC_MSFT = 2,
     XR_SPATIAL_GRAPH_NODE_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSpatialGraphNodeTypeMSFT;
-typedef struct XrSpatialGraphNodeSpaceCreateInfoMSFT {
+typedef sa_nracanaa XrSpatialGraphNodeSpaceCreateInfoMSFT {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrSpatialGraphNodeTypeMSFT    nodeType;
@@ -2962,7 +2962,7 @@ typedef struct XrSpatialGraphNodeSpaceCreateInfoMSFT {
     XrPosef                       pose;
 } XrSpatialGraphNodeSpaceCreateInfoMSFT;
 
-typedef struct XrSpatialGraphStaticNodeBindingCreateInfoMSFT {
+typedef sa_nracanaa XrSpatialGraphStaticNodeBindingCreateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -2970,12 +2970,12 @@ typedef struct XrSpatialGraphStaticNodeBindingCreateInfoMSFT {
     XrTime                      time;
 } XrSpatialGraphStaticNodeBindingCreateInfoMSFT;
 
-typedef struct XrSpatialGraphNodeBindingPropertiesGetInfoMSFT {
+typedef sa_nracanaa XrSpatialGraphNodeBindingPropertiesGetInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpatialGraphNodeBindingPropertiesGetInfoMSFT;
 
-typedef struct XrSpatialGraphNodeBindingPropertiesMSFT {
+typedef sa_nracanaa XrSpatialGraphNodeBindingPropertiesMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint8_t               nodeId[XR_GUID_SIZE_MSFT];
@@ -3025,13 +3025,13 @@ XR_DEFINE_HANDLE(XrHandTrackerEXT)
 #define XR_EXT_hand_tracking_SPEC_VERSION 4
 #define XR_EXT_HAND_TRACKING_EXTENSION_NAME "XR_EXT_hand_tracking"
 
-typedef enum XrHandEXT {
+typedef ga_nanaa XrHandEXT {
     XR_HAND_LEFT_EXT = 1,
     XR_HAND_RIGHT_EXT = 2,
     XR_HAND_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandEXT;
 
-typedef enum XrHandJointEXT {
+typedef ga_nanaa XrHandJointEXT {
     XR_HAND_JOINT_PALM_EXT = 0,
     XR_HAND_JOINT_WRIST_EXT = 1,
     XR_HAND_JOINT_THUMB_METACARPAL_EXT = 2,
@@ -3061,45 +3061,45 @@ typedef enum XrHandJointEXT {
     XR_HAND_JOINT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointEXT;
 
-typedef enum XrHandJointSetEXT {
+typedef ga_nanaa XrHandJointSetEXT {
     XR_HAND_JOINT_SET_DEFAULT_EXT = 0,
     XR_HAND_JOINT_SET_HAND_WITH_FOREARM_ULTRALEAP = 1000149000,
     XR_HAND_JOINT_SET_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointSetEXT;
 // XrSystemHandTrackingPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemHandTrackingPropertiesEXT {
+typedef sa_nracanaa XrSystemHandTrackingPropertiesEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsHandTracking;
 } XrSystemHandTrackingPropertiesEXT;
 
-typedef struct XrHandTrackerCreateInfoEXT {
+typedef sa_nracanaa XrHandTrackerCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrHandEXT                   hand;
     XrHandJointSetEXT           handJointSet;
 } XrHandTrackerCreateInfoEXT;
 
-typedef struct XrHandJointsLocateInfoEXT {
+typedef sa_nracanaa XrHandJointsLocateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrHandJointsLocateInfoEXT;
 
-typedef struct XrHandJointLocationEXT {
+typedef sa_nracanaa XrHandJointLocationEXT {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
     float                   radius;
 } XrHandJointLocationEXT;
 
-typedef struct XrHandJointVelocityEXT {
+typedef sa_nracanaa XrHandJointVelocityEXT {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrHandJointVelocityEXT;
 
-typedef struct XrHandJointLocationsEXT {
+typedef sa_nracanaa XrHandJointLocationsEXT {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     XrBool32                   isActive;
@@ -3108,7 +3108,7 @@ typedef struct XrHandJointLocationsEXT {
 } XrHandJointLocationsEXT;
 
 // XrHandJointVelocitiesEXT extends XrHandJointLocationsEXT
-typedef struct XrHandJointVelocitiesEXT {
+typedef sa_nracanaa XrHandJointVelocitiesEXT {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     uint32_t                   jointCount;
@@ -3142,13 +3142,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateHandJointsEXT(
 #define XR_MSFT_hand_tracking_mesh_SPEC_VERSION 4
 #define XR_MSFT_HAND_TRACKING_MESH_EXTENSION_NAME "XR_MSFT_hand_tracking_mesh"
 
-typedef enum XrHandPoseTypeMSFT {
+typedef ga_nanaa XrHandPoseTypeMSFT {
     XR_HAND_POSE_TYPE_TRACKED_MSFT = 0,
     XR_HAND_POSE_TYPE_REFERENCE_OPEN_PALM_MSFT = 1,
     XR_HAND_POSE_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrHandPoseTypeMSFT;
 // XrSystemHandTrackingMeshPropertiesMSFT extends XrSystemProperties
-typedef struct XrSystemHandTrackingMeshPropertiesMSFT {
+typedef sa_nracanaa XrSystemHandTrackingMeshPropertiesMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsHandTrackingMesh;
@@ -3156,40 +3156,40 @@ typedef struct XrSystemHandTrackingMeshPropertiesMSFT {
     uint32_t              maxHandMeshVertexCount;
 } XrSystemHandTrackingMeshPropertiesMSFT;
 
-typedef struct XrHandMeshSpaceCreateInfoMSFT {
+typedef sa_nracanaa XrHandMeshSpaceCreateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrHandPoseTypeMSFT          handPoseType;
     XrPosef                     poseInHandMeshSpace;
 } XrHandMeshSpaceCreateInfoMSFT;
 
-typedef struct XrHandMeshUpdateInfoMSFT {
+typedef sa_nracanaa XrHandMeshUpdateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      time;
     XrHandPoseTypeMSFT          handPoseType;
 } XrHandMeshUpdateInfoMSFT;
 
-typedef struct XrHandMeshIndexBufferMSFT {
+typedef sa_nracanaa XrHandMeshIndexBufferMSFT {
     uint32_t     indexBufferKey;
     uint32_t     indexCapacityInput;
     uint32_t     indexCountOutput;
     uint32_t*    indices;
 } XrHandMeshIndexBufferMSFT;
 
-typedef struct XrHandMeshVertexMSFT {
+typedef sa_nracanaa XrHandMeshVertexMSFT {
     XrVector3f    position;
     XrVector3f    normal;
 } XrHandMeshVertexMSFT;
 
-typedef struct XrHandMeshVertexBufferMSFT {
+typedef sa_nracanaa XrHandMeshVertexBufferMSFT {
     XrTime                   vertexUpdateTime;
     uint32_t                 vertexCapacityInput;
     uint32_t                 vertexCountOutput;
     XrHandMeshVertexMSFT*    vertices;
 } XrHandMeshVertexBufferMSFT;
 
-typedef struct XrHandMeshMSFT {
+typedef sa_nracanaa XrHandMeshMSFT {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     XrBool32                      isActive;
@@ -3200,7 +3200,7 @@ typedef struct XrHandMeshMSFT {
 } XrHandMeshMSFT;
 
 // XrHandPoseTypeInfoMSFT extends XrHandTrackerCreateInfoEXT
-typedef struct XrHandPoseTypeInfoMSFT {
+typedef sa_nracanaa XrHandPoseTypeInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrHandPoseTypeMSFT          handPoseType;
@@ -3229,14 +3229,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUpdateHandMeshMSFT(
 #define XR_MSFT_secondary_view_configuration_SPEC_VERSION 1
 #define XR_MSFT_SECONDARY_VIEW_CONFIGURATION_EXTENSION_NAME "XR_MSFT_secondary_view_configuration"
 // XrSecondaryViewConfigurationSessionBeginInfoMSFT extends XrSessionBeginInfo
-typedef struct XrSecondaryViewConfigurationSessionBeginInfoMSFT {
+typedef sa_nracanaa XrSecondaryViewConfigurationSessionBeginInfoMSFT {
     XrStructureType                   type;
     const void* XR_MAY_ALIAS          next;
     uint32_t                          viewConfigurationCount;
     const XrViewConfigurationType*    enabledViewConfigurationTypes;
 } XrSecondaryViewConfigurationSessionBeginInfoMSFT;
 
-typedef struct XrSecondaryViewConfigurationStateMSFT {
+typedef sa_nracanaa XrSecondaryViewConfigurationStateMSFT {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     XrViewConfigurationType    viewConfigurationType;
@@ -3244,14 +3244,14 @@ typedef struct XrSecondaryViewConfigurationStateMSFT {
 } XrSecondaryViewConfigurationStateMSFT;
 
 // XrSecondaryViewConfigurationFrameStateMSFT extends XrFrameState
-typedef struct XrSecondaryViewConfigurationFrameStateMSFT {
+typedef sa_nracanaa XrSecondaryViewConfigurationFrameStateMSFT {
     XrStructureType                           type;
     void* XR_MAY_ALIAS                        next;
     uint32_t                                  viewConfigurationCount;
     XrSecondaryViewConfigurationStateMSFT*    viewConfigurationStates;
 } XrSecondaryViewConfigurationFrameStateMSFT;
 
-typedef struct XrSecondaryViewConfigurationLayerInfoMSFT {
+typedef sa_nracanaa XrSecondaryViewConfigurationLayerInfoMSFT {
     XrStructureType                               type;
     const void* XR_MAY_ALIAS                      next;
     XrViewConfigurationType                       viewConfigurationType;
@@ -3261,7 +3261,7 @@ typedef struct XrSecondaryViewConfigurationLayerInfoMSFT {
 } XrSecondaryViewConfigurationLayerInfoMSFT;
 
 // XrSecondaryViewConfigurationFrameEndInfoMSFT extends XrFrameEndInfo
-typedef struct XrSecondaryViewConfigurationFrameEndInfoMSFT {
+typedef sa_nracanaa XrSecondaryViewConfigurationFrameEndInfoMSFT {
     XrStructureType                                     type;
     const void* XR_MAY_ALIAS                            next;
     uint32_t                                            viewConfigurationCount;
@@ -3269,7 +3269,7 @@ typedef struct XrSecondaryViewConfigurationFrameEndInfoMSFT {
 } XrSecondaryViewConfigurationFrameEndInfoMSFT;
 
 // XrSecondaryViewConfigurationSwapchainCreateInfoMSFT extends XrSwapchainCreateInfo
-typedef struct XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
+typedef sa_nracanaa XrSecondaryViewConfigurationSwapchainCreateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
@@ -3292,20 +3292,20 @@ XR_DEFINE_ATOM(XrControllerModelKeyMSFT)
 #define XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT 64
 #define XR_MSFT_controller_model_SPEC_VERSION 2
 #define XR_MSFT_CONTROLLER_MODEL_EXTENSION_NAME "XR_MSFT_controller_model"
-typedef struct XrControllerModelKeyStateMSFT {
+typedef sa_nracanaa XrControllerModelKeyStateMSFT {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrControllerModelKeyMSFT    modelKey;
 } XrControllerModelKeyStateMSFT;
 
-typedef struct XrControllerModelNodePropertiesMSFT {
+typedef sa_nracanaa XrControllerModelNodePropertiesMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
-    char                  parentNodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
-    char                  nodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
+    var_na                  parentNodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
+    var_na                  nodeName[XR_MAX_CONTROLLER_MODEL_NODE_NAME_SIZE_MSFT];
 } XrControllerModelNodePropertiesMSFT;
 
-typedef struct XrControllerModelPropertiesMSFT {
+typedef sa_nracanaa XrControllerModelPropertiesMSFT {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     uint32_t                                nodeCapacityInput;
@@ -3313,13 +3313,13 @@ typedef struct XrControllerModelPropertiesMSFT {
     XrControllerModelNodePropertiesMSFT*    nodeProperties;
 } XrControllerModelPropertiesMSFT;
 
-typedef struct XrControllerModelNodeStateMSFT {
+typedef sa_nracanaa XrControllerModelNodeStateMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrPosef               nodePose;
 } XrControllerModelNodeStateMSFT;
 
-typedef struct XrControllerModelStateMSFT {
+typedef sa_nracanaa XrControllerModelStateMSFT {
     XrStructureType                    type;
     void* XR_MAY_ALIAS                 next;
     uint32_t                           nodeCapacityInput;
@@ -3370,7 +3370,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetControllerModelStateMSFT(
 #define XR_EPIC_view_configuration_fov_SPEC_VERSION 2
 #define XR_EPIC_VIEW_CONFIGURATION_FOV_EXTENSION_NAME "XR_EPIC_view_configuration_fov"
 // XrViewConfigurationViewFovEPIC extends XrViewConfigurationView
-typedef struct XrViewConfigurationViewFovEPIC {
+typedef sa_nracanaa XrViewConfigurationViewFovEPIC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFovf                      recommendedFov;
@@ -3384,7 +3384,7 @@ typedef struct XrViewConfigurationViewFovEPIC {
 #define XR_MSFT_composition_layer_reprojection_SPEC_VERSION 1
 #define XR_MSFT_COMPOSITION_LAYER_REPROJECTION_EXTENSION_NAME "XR_MSFT_composition_layer_reprojection"
 
-typedef enum XrReprojectionModeMSFT {
+typedef ga_nanaa XrReprojectionModeMSFT {
     XR_REPROJECTION_MODE_DEPTH_MSFT = 1,
     XR_REPROJECTION_MODE_PLANAR_FROM_DEPTH_MSFT = 2,
     XR_REPROJECTION_MODE_PLANAR_MANUAL_MSFT = 3,
@@ -3392,14 +3392,14 @@ typedef enum XrReprojectionModeMSFT {
     XR_REPROJECTION_MODE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrReprojectionModeMSFT;
 // XrCompositionLayerReprojectionInfoMSFT extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerReprojectionInfoMSFT {
+typedef sa_nracanaa XrCompositionLayerReprojectionInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrReprojectionModeMSFT      reprojectionMode;
 } XrCompositionLayerReprojectionInfoMSFT;
 
 // XrCompositionLayerReprojectionPlaneOverrideMSFT extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerReprojectionPlaneOverrideMSFT {
+typedef sa_nracanaa XrCompositionLayerReprojectionPlaneOverrideMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrVector3f                  position;
@@ -3432,7 +3432,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateReprojectionModesMSFT(
 #define XR_FB_swapchain_update_state 1
 #define XR_FB_swapchain_update_state_SPEC_VERSION 3
 #define XR_FB_SWAPCHAIN_UPDATE_STATE_EXTENSION_NAME "XR_FB_swapchain_update_state"
-typedef struct XR_MAY_ALIAS XrSwapchainStateBaseHeaderFB {
+typedef sa_nracanaa XR_MAY_ALIAS XrSwapchainStateBaseHeaderFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
 } XrSwapchainStateBaseHeaderFB;
@@ -3458,7 +3458,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSwapchainStateFB(
 #define XR_FB_composition_layer_secure_content_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_SECURE_CONTENT_EXTENSION_NAME "XR_FB_composition_layer_secure_content"
 // XrCompositionLayerSecureContentFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerSecureContentFB {
+typedef sa_nracanaa XrCompositionLayerSecureContentFB {
     XrStructureType                           type;
     const void* XR_MAY_ALIAS                  next;
     XrCompositionLayerSecureContentFlagsFB    flags;
@@ -3472,7 +3472,7 @@ XR_DEFINE_HANDLE(XrBodyTrackerFB)
 #define XR_FB_body_tracking_SPEC_VERSION  1
 #define XR_FB_BODY_TRACKING_EXTENSION_NAME "XR_FB_body_tracking"
 
-typedef enum XrBodyJointFB {
+typedef ga_nanaa XrBodyJointFB {
     XR_BODY_JOINT_ROOT_FB = 0,
     XR_BODY_JOINT_HIPS_FB = 1,
     XR_BODY_JOINT_SPINE_LOWER_FB = 2,
@@ -3548,50 +3548,50 @@ typedef enum XrBodyJointFB {
     XR_BODY_JOINT_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBodyJointFB;
 
-typedef enum XrBodyJointSetFB {
+typedef ga_nanaa XrBodyJointSetFB {
     XR_BODY_JOINT_SET_DEFAULT_FB = 0,
     XR_BODY_JOINT_SET_FULL_BODY_META = 1000274000,
     XR_BODY_JOINT_SET_MAX_ENUM_FB = 0x7FFFFFFF
 } XrBodyJointSetFB;
-typedef struct XrBodyJointLocationFB {
+typedef sa_nracanaa XrBodyJointLocationFB {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationFB;
 
 // XrSystemBodyTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesFB {
+typedef sa_nracanaa XrSystemBodyTrackingPropertiesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesFB;
 
-typedef struct XrBodyTrackerCreateInfoFB {
+typedef sa_nracanaa XrBodyTrackerCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBodyJointSetFB            bodyJointSet;
 } XrBodyTrackerCreateInfoFB;
 
-typedef struct XrBodySkeletonJointFB {
+typedef sa_nracanaa XrBodySkeletonJointFB {
     int32_t    joint;
     int32_t    parentJoint;
     XrPosef    pose;
 } XrBodySkeletonJointFB;
 
-typedef struct XrBodySkeletonFB {
+typedef sa_nracanaa XrBodySkeletonFB {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     uint32_t                  jointCount;
     XrBodySkeletonJointFB*    joints;
 } XrBodySkeletonFB;
 
-typedef struct XrBodyJointsLocateInfoFB {
+typedef sa_nracanaa XrBodyJointsLocateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoFB;
 
-typedef struct XrBodyJointLocationsFB {
+typedef sa_nracanaa XrBodyJointLocationsFB {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     XrBool32                  isActive;
@@ -3633,7 +3633,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonFB(
 #define XR_EXT_dpad_binding 1
 #define XR_EXT_dpad_binding_SPEC_VERSION  1
 #define XR_EXT_DPAD_BINDING_EXTENSION_NAME "XR_EXT_dpad_binding"
-typedef struct XrInteractionProfileDpadBindingEXT {
+typedef sa_nracanaa XrInteractionProfileDpadBindingEXT {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrPath                       binding;
@@ -3653,7 +3653,7 @@ typedef struct XrInteractionProfileDpadBindingEXT {
 #define XR_VALVE_analog_threshold 1
 #define XR_VALVE_analog_threshold_SPEC_VERSION 2
 #define XR_VALVE_ANALOG_THRESHOLD_EXTENSION_NAME "XR_VALVE_analog_threshold"
-typedef struct XrInteractionProfileAnalogThresholdVALVE {
+typedef sa_nracanaa XrInteractionProfileAnalogThresholdVALVE {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrAction                     action;
@@ -3671,13 +3671,13 @@ typedef struct XrInteractionProfileAnalogThresholdVALVE {
 #define XR_EXT_hand_joints_motion_range_SPEC_VERSION 1
 #define XR_EXT_HAND_JOINTS_MOTION_RANGE_EXTENSION_NAME "XR_EXT_hand_joints_motion_range"
 
-typedef enum XrHandJointsMotionRangeEXT {
+typedef ga_nanaa XrHandJointsMotionRangeEXT {
     XR_HAND_JOINTS_MOTION_RANGE_UNOBSTRUCTED_EXT = 1,
     XR_HAND_JOINTS_MOTION_RANGE_CONFORMING_TO_CONTROLLER_EXT = 2,
     XR_HAND_JOINTS_MOTION_RANGE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandJointsMotionRangeEXT;
 // XrHandJointsMotionRangeInfoEXT extends XrHandJointsLocateInfoEXT
-typedef struct XrHandJointsMotionRangeInfoEXT {
+typedef sa_nracanaa XrHandJointsMotionRangeInfoEXT {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrHandJointsMotionRangeEXT    handJointsMotionRange;
@@ -3714,7 +3714,7 @@ typedef struct XrHandJointsMotionRangeInfoEXT {
 #define XR_MSFT_scene_understanding_SPEC_VERSION 2
 #define XR_MSFT_SCENE_UNDERSTANDING_EXTENSION_NAME "XR_MSFT_scene_understanding"
 
-typedef enum XrSceneComputeFeatureMSFT {
+typedef ga_nanaa XrSceneComputeFeatureMSFT {
     XR_SCENE_COMPUTE_FEATURE_PLANE_MSFT = 1,
     XR_SCENE_COMPUTE_FEATURE_PLANE_MESH_MSFT = 2,
     XR_SCENE_COMPUTE_FEATURE_VISUAL_MESH_MSFT = 3,
@@ -3724,14 +3724,14 @@ typedef enum XrSceneComputeFeatureMSFT {
     XR_SCENE_COMPUTE_FEATURE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeFeatureMSFT;
 
-typedef enum XrSceneComputeConsistencyMSFT {
+typedef ga_nanaa XrSceneComputeConsistencyMSFT {
     XR_SCENE_COMPUTE_CONSISTENCY_SNAPSHOT_COMPLETE_MSFT = 1,
     XR_SCENE_COMPUTE_CONSISTENCY_SNAPSHOT_INCOMPLETE_FAST_MSFT = 2,
     XR_SCENE_COMPUTE_CONSISTENCY_OCCLUSION_OPTIMIZED_MSFT = 3,
     XR_SCENE_COMPUTE_CONSISTENCY_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeConsistencyMSFT;
 
-typedef enum XrMeshComputeLodMSFT {
+typedef ga_nanaa XrMeshComputeLodMSFT {
     XR_MESH_COMPUTE_LOD_COARSE_MSFT = 1,
     XR_MESH_COMPUTE_LOD_MEDIUM_MSFT = 2,
     XR_MESH_COMPUTE_LOD_FINE_MSFT = 3,
@@ -3739,7 +3739,7 @@ typedef enum XrMeshComputeLodMSFT {
     XR_MESH_COMPUTE_LOD_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrMeshComputeLodMSFT;
 
-typedef enum XrSceneComponentTypeMSFT {
+typedef ga_nanaa XrSceneComponentTypeMSFT {
     XR_SCENE_COMPONENT_TYPE_INVALID_MSFT = -1,
     XR_SCENE_COMPONENT_TYPE_OBJECT_MSFT = 1,
     XR_SCENE_COMPONENT_TYPE_PLANE_MSFT = 2,
@@ -3750,7 +3750,7 @@ typedef enum XrSceneComponentTypeMSFT {
     XR_SCENE_COMPONENT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComponentTypeMSFT;
 
-typedef enum XrSceneObjectTypeMSFT {
+typedef ga_nanaa XrSceneObjectTypeMSFT {
     XR_SCENE_OBJECT_TYPE_UNCATEGORIZED_MSFT = -1,
     XR_SCENE_OBJECT_TYPE_BACKGROUND_MSFT = 1,
     XR_SCENE_OBJECT_TYPE_WALL_MSFT = 2,
@@ -3761,51 +3761,51 @@ typedef enum XrSceneObjectTypeMSFT {
     XR_SCENE_OBJECT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneObjectTypeMSFT;
 
-typedef enum XrScenePlaneAlignmentTypeMSFT {
+typedef ga_nanaa XrScenePlaneAlignmentTypeMSFT {
     XR_SCENE_PLANE_ALIGNMENT_TYPE_NON_ORTHOGONAL_MSFT = 0,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_HORIZONTAL_MSFT = 1,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_VERTICAL_MSFT = 2,
     XR_SCENE_PLANE_ALIGNMENT_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrScenePlaneAlignmentTypeMSFT;
 
-typedef enum XrSceneComputeStateMSFT {
+typedef ga_nanaa XrSceneComputeStateMSFT {
     XR_SCENE_COMPUTE_STATE_NONE_MSFT = 0,
     XR_SCENE_COMPUTE_STATE_UPDATING_MSFT = 1,
     XR_SCENE_COMPUTE_STATE_COMPLETED_MSFT = 2,
     XR_SCENE_COMPUTE_STATE_COMPLETED_WITH_ERROR_MSFT = 3,
     XR_SCENE_COMPUTE_STATE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneComputeStateMSFT;
-typedef struct XrUuidMSFT {
+typedef sa_nracanaa XrUuidMSFT {
     uint8_t    bytes[16];
 } XrUuidMSFT;
 
-typedef struct XrSceneObserverCreateInfoMSFT {
+typedef sa_nracanaa XrSceneObserverCreateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSceneObserverCreateInfoMSFT;
 
-typedef struct XrSceneCreateInfoMSFT {
+typedef sa_nracanaa XrSceneCreateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSceneCreateInfoMSFT;
 
-typedef struct XrSceneSphereBoundMSFT {
+typedef sa_nracanaa XrSceneSphereBoundMSFT {
     XrVector3f    center;
     float         radius;
 } XrSceneSphereBoundMSFT;
 
-typedef struct XrSceneOrientedBoxBoundMSFT {
+typedef sa_nracanaa XrSceneOrientedBoxBoundMSFT {
     XrPosef       pose;
     XrVector3f    extents;
 } XrSceneOrientedBoxBoundMSFT;
 
-typedef struct XrSceneFrustumBoundMSFT {
+typedef sa_nracanaa XrSceneFrustumBoundMSFT {
     XrPosef    pose;
     XrFovf     fov;
     float      farDistance;
 } XrSceneFrustumBoundMSFT;
 
-typedef struct XrSceneBoundsMSFT {
+typedef sa_nracanaa XrSceneBoundsMSFT {
     XrSpace                               space;
     XrTime                                time;
     uint32_t                              sphereCount;
@@ -3816,7 +3816,7 @@ typedef struct XrSceneBoundsMSFT {
     const XrSceneFrustumBoundMSFT*        frustums;
 } XrSceneBoundsMSFT;
 
-typedef struct XrNewSceneComputeInfoMSFT {
+typedef sa_nracanaa XrNewSceneComputeInfoMSFT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     uint32_t                            requestedFeatureCount;
@@ -3826,20 +3826,20 @@ typedef struct XrNewSceneComputeInfoMSFT {
 } XrNewSceneComputeInfoMSFT;
 
 // XrVisualMeshComputeLodInfoMSFT extends XrNewSceneComputeInfoMSFT
-typedef struct XrVisualMeshComputeLodInfoMSFT {
+typedef sa_nracanaa XrVisualMeshComputeLodInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrMeshComputeLodMSFT        lod;
 } XrVisualMeshComputeLodInfoMSFT;
 
-typedef struct XrSceneComponentMSFT {
+typedef sa_nracanaa XrSceneComponentMSFT {
     XrSceneComponentTypeMSFT    componentType;
     XrUuidMSFT                  id;
     XrUuidMSFT                  parentId;
     XrTime                      updateTime;
 } XrSceneComponentMSFT;
 
-typedef struct XrSceneComponentsMSFT {
+typedef sa_nracanaa XrSceneComponentsMSFT {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     uint32_t                 componentCapacityInput;
@@ -3847,25 +3847,25 @@ typedef struct XrSceneComponentsMSFT {
     XrSceneComponentMSFT*    components;
 } XrSceneComponentsMSFT;
 
-typedef struct XrSceneComponentsGetInfoMSFT {
+typedef sa_nracanaa XrSceneComponentsGetInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSceneComponentTypeMSFT    componentType;
 } XrSceneComponentsGetInfoMSFT;
 
-typedef struct XrSceneComponentLocationMSFT {
+typedef sa_nracanaa XrSceneComponentLocationMSFT {
     XrSpaceLocationFlags    flags;
     XrPosef                 pose;
 } XrSceneComponentLocationMSFT;
 
-typedef struct XrSceneComponentLocationsMSFT {
+typedef sa_nracanaa XrSceneComponentLocationsMSFT {
     XrStructureType                  type;
     void* XR_MAY_ALIAS               next;
     uint32_t                         locationCount;
     XrSceneComponentLocationMSFT*    locations;
 } XrSceneComponentLocationsMSFT;
 
-typedef struct XrSceneComponentsLocateInfoMSFT {
+typedef sa_nracanaa XrSceneComponentsLocateInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -3874,12 +3874,12 @@ typedef struct XrSceneComponentsLocateInfoMSFT {
     const XrUuidMSFT*           componentIds;
 } XrSceneComponentsLocateInfoMSFT;
 
-typedef struct XrSceneObjectMSFT {
+typedef sa_nracanaa XrSceneObjectMSFT {
     XrSceneObjectTypeMSFT    objectType;
 } XrSceneObjectMSFT;
 
 // XrSceneObjectsMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneObjectsMSFT {
+typedef sa_nracanaa XrSceneObjectsMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              sceneObjectCount;
@@ -3887,21 +3887,21 @@ typedef struct XrSceneObjectsMSFT {
 } XrSceneObjectsMSFT;
 
 // XrSceneComponentParentFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneComponentParentFilterInfoMSFT {
+typedef sa_nracanaa XrSceneComponentParentFilterInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuidMSFT                  parentId;
 } XrSceneComponentParentFilterInfoMSFT;
 
 // XrSceneObjectTypesFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneObjectTypesFilterInfoMSFT {
+typedef sa_nracanaa XrSceneObjectTypesFilterInfoMSFT {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     uint32_t                        objectTypeCount;
     const XrSceneObjectTypeMSFT*    objectTypes;
 } XrSceneObjectTypesFilterInfoMSFT;
 
-typedef struct XrScenePlaneMSFT {
+typedef sa_nracanaa XrScenePlaneMSFT {
     XrScenePlaneAlignmentTypeMSFT    alignment;
     XrExtent2Df                      size;
     uint64_t                         meshBufferId;
@@ -3909,7 +3909,7 @@ typedef struct XrScenePlaneMSFT {
 } XrScenePlaneMSFT;
 
 // XrScenePlanesMSFT extends XrSceneComponentsMSFT
-typedef struct XrScenePlanesMSFT {
+typedef sa_nracanaa XrScenePlanesMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              scenePlaneCount;
@@ -3917,39 +3917,39 @@ typedef struct XrScenePlanesMSFT {
 } XrScenePlanesMSFT;
 
 // XrScenePlaneAlignmentFilterInfoMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrScenePlaneAlignmentFilterInfoMSFT {
+typedef sa_nracanaa XrScenePlaneAlignmentFilterInfoMSFT {
     XrStructureType                         type;
     const void* XR_MAY_ALIAS                next;
     uint32_t                                alignmentCount;
     const XrScenePlaneAlignmentTypeMSFT*    alignments;
 } XrScenePlaneAlignmentFilterInfoMSFT;
 
-typedef struct XrSceneMeshMSFT {
+typedef sa_nracanaa XrSceneMeshMSFT {
     uint64_t    meshBufferId;
     XrBool32    supportsIndicesUint16;
 } XrSceneMeshMSFT;
 
 // XrSceneMeshesMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMeshesMSFT {
+typedef sa_nracanaa XrSceneMeshesMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              sceneMeshCount;
     XrSceneMeshMSFT*      sceneMeshes;
 } XrSceneMeshesMSFT;
 
-typedef struct XrSceneMeshBuffersGetInfoMSFT {
+typedef sa_nracanaa XrSceneMeshBuffersGetInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint64_t                    meshBufferId;
 } XrSceneMeshBuffersGetInfoMSFT;
 
-typedef struct XrSceneMeshBuffersMSFT {
+typedef sa_nracanaa XrSceneMeshBuffersMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
 } XrSceneMeshBuffersMSFT;
 
 // XrSceneMeshVertexBufferMSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshVertexBufferMSFT {
+typedef sa_nracanaa XrSceneMeshVertexBufferMSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              vertexCapacityInput;
@@ -3958,7 +3958,7 @@ typedef struct XrSceneMeshVertexBufferMSFT {
 } XrSceneMeshVertexBufferMSFT;
 
 // XrSceneMeshIndicesUint32MSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshIndicesUint32MSFT {
+typedef sa_nracanaa XrSceneMeshIndicesUint32MSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              indexCapacityInput;
@@ -3967,7 +3967,7 @@ typedef struct XrSceneMeshIndicesUint32MSFT {
 } XrSceneMeshIndicesUint32MSFT;
 
 // XrSceneMeshIndicesUint16MSFT extends XrSceneMeshBuffersMSFT
-typedef struct XrSceneMeshIndicesUint16MSFT {
+typedef sa_nracanaa XrSceneMeshIndicesUint16MSFT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              indexCapacityInput;
@@ -4041,18 +4041,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMeshBuffersMSFT(
 #define XR_MSFT_scene_understanding_serialization 1
 #define XR_MSFT_scene_understanding_serialization_SPEC_VERSION 2
 #define XR_MSFT_SCENE_UNDERSTANDING_SERIALIZATION_EXTENSION_NAME "XR_MSFT_scene_understanding_serialization"
-typedef struct XrSerializedSceneFragmentDataGetInfoMSFT {
+typedef sa_nracanaa XrSerializedSceneFragmentDataGetInfoMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuidMSFT                  sceneFragmentId;
 } XrSerializedSceneFragmentDataGetInfoMSFT;
 
-typedef struct XrDeserializeSceneFragmentMSFT {
+typedef sa_nracanaa XrDeserializeSceneFragmentMSFT {
     uint32_t          bufferSize;
     const uint8_t*    buffer;
 } XrDeserializeSceneFragmentMSFT;
 
-typedef struct XrSceneDeserializeInfoMSFT {
+typedef sa_nracanaa XrSceneDeserializeInfoMSFT {
     XrStructureType                          type;
     const void* XR_MAY_ALIAS                 next;
     uint32_t                                 fragmentCount;
@@ -4082,7 +4082,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSerializedSceneFragmentDataMSFT(
 #define XR_FB_display_refresh_rate 1
 #define XR_FB_display_refresh_rate_SPEC_VERSION 1
 #define XR_FB_DISPLAY_REFRESH_RATE_EXTENSION_NAME "XR_FB_display_refresh_rate"
-typedef struct XrEventDataDisplayRefreshRateChangedFB {
+typedef sa_nracanaa XrEventDataDisplayRefreshRateChangedFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       fromDisplayRefreshRate;
@@ -4122,14 +4122,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestDisplayRefreshRateFB(
 #define XR_HTCX_vive_tracker_interaction 1
 #define XR_HTCX_vive_tracker_interaction_SPEC_VERSION 3
 #define XR_HTCX_VIVE_TRACKER_INTERACTION_EXTENSION_NAME "XR_HTCX_vive_tracker_interaction"
-typedef struct XrViveTrackerPathsHTCX {
+typedef sa_nracanaa XrViveTrackerPathsHTCX {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrPath                persistentPath;
     XrPath                rolePath;
 } XrViveTrackerPathsHTCX;
 
-typedef struct XrEventDataViveTrackerConnectedHTCX {
+typedef sa_nracanaa XrEventDataViveTrackerConnectedHTCX {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrViveTrackerPathsHTCX*     paths;
@@ -4160,7 +4160,7 @@ XR_DEFINE_HANDLE(XrFacialTrackerHTC)
 #define XR_HTC_facial_tracking_SPEC_VERSION 3
 #define XR_HTC_FACIAL_TRACKING_EXTENSION_NAME "XR_HTC_facial_tracking"
 
-typedef enum XrEyeExpressionHTC {
+typedef ga_nanaa XrEyeExpressionHTC {
     XR_EYE_EXPRESSION_LEFT_BLINK_HTC = 0,
     XR_EYE_EXPRESSION_LEFT_WIDE_HTC = 1,
     XR_EYE_EXPRESSION_RIGHT_BLINK_HTC = 2,
@@ -4178,7 +4178,7 @@ typedef enum XrEyeExpressionHTC {
     XR_EYE_EXPRESSION_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrEyeExpressionHTC;
 
-typedef enum XrLipExpressionHTC {
+typedef ga_nanaa XrLipExpressionHTC {
     XR_LIP_EXPRESSION_JAW_RIGHT_HTC = 0,
     XR_LIP_EXPRESSION_JAW_LEFT_HTC = 1,
     XR_LIP_EXPRESSION_JAW_FORWARD_HTC = 2,
@@ -4223,20 +4223,20 @@ typedef enum XrLipExpressionHTC {
     XR_LIP_EXPRESSION_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrLipExpressionHTC;
 
-typedef enum XrFacialTrackingTypeHTC {
+typedef ga_nanaa XrFacialTrackingTypeHTC {
     XR_FACIAL_TRACKING_TYPE_EYE_DEFAULT_HTC = 1,
     XR_FACIAL_TRACKING_TYPE_LIP_DEFAULT_HTC = 2,
     XR_FACIAL_TRACKING_TYPE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFacialTrackingTypeHTC;
 // XrSystemFacialTrackingPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemFacialTrackingPropertiesHTC {
+typedef sa_nracanaa XrSystemFacialTrackingPropertiesHTC {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportEyeFacialTracking;
     XrBool32              supportLipFacialTracking;
 } XrSystemFacialTrackingPropertiesHTC;
 
-typedef struct XrFacialExpressionsHTC {
+typedef sa_nracanaa XrFacialExpressionsHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    isActive;
@@ -4245,7 +4245,7 @@ typedef struct XrFacialExpressionsHTC {
     float*                      expressionWeightings;
 } XrFacialExpressionsHTC;
 
-typedef struct XrFacialTrackerCreateInfoHTC {
+typedef sa_nracanaa XrFacialTrackerCreateInfoHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFacialTrackingTypeHTC     facialTrackingType;
@@ -4295,7 +4295,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionsHTC(
 #define XR_FB_color_space_SPEC_VERSION    3
 #define XR_FB_COLOR_SPACE_EXTENSION_NAME  "XR_FB_color_space"
 
-typedef enum XrColorSpaceFB {
+typedef ga_nanaa XrColorSpaceFB {
     XR_COLOR_SPACE_UNMANAGED_FB = 0,
     XR_COLOR_SPACE_REC2020_FB = 1,
     XR_COLOR_SPACE_REC709_FB = 2,
@@ -4307,7 +4307,7 @@ typedef enum XrColorSpaceFB {
     XR_COLOR_SPACE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrColorSpaceFB;
 // XrSystemColorSpacePropertiesFB extends XrSystemProperties
-typedef struct XrSystemColorSpacePropertiesFB {
+typedef sa_nracanaa XrSystemColorSpacePropertiesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrColorSpaceFB        colorSpace;
@@ -4335,14 +4335,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetColorSpaceFB(
 #define XR_FB_hand_tracking_mesh 1
 #define XR_FB_hand_tracking_mesh_SPEC_VERSION 3
 #define XR_FB_HAND_TRACKING_MESH_EXTENSION_NAME "XR_FB_hand_tracking_mesh"
-typedef struct XrVector4sFB {
+typedef sa_nracanaa XrVector4sFB {
     int16_t    x;
     int16_t    y;
     int16_t    z;
     int16_t    w;
 } XrVector4sFB;
 
-typedef struct XrHandTrackingMeshFB {
+typedef sa_nracanaa XrHandTrackingMeshFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              jointCapacityInput;
@@ -4363,7 +4363,7 @@ typedef struct XrHandTrackingMeshFB {
 } XrHandTrackingMeshFB;
 
 // XrHandTrackingScaleFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingScaleFB {
+typedef sa_nracanaa XrHandTrackingScaleFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     float                 sensorOutput;
@@ -4401,7 +4401,7 @@ static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_DOMINANT_HAND_BIT_FB 
 static const XrHandTrackingAimFlagsFB XR_HAND_TRACKING_AIM_MENU_PRESSED_BIT_FB = 0x00000100;
 
 // XrHandTrackingAimStateFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingAimStateFB {
+typedef sa_nracanaa XrHandTrackingAimStateFB {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrHandTrackingAimFlagsFB    status;
@@ -4422,14 +4422,14 @@ typedef struct XrHandTrackingAimStateFB {
 #define XR_FB_HAND_TRACKING_CAPSULES_EXTENSION_NAME "XR_FB_hand_tracking_capsules"
 #define XR_FB_HAND_TRACKING_CAPSULE_POINT_COUNT XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB
 #define XR_FB_HAND_TRACKING_CAPSULE_COUNT XR_HAND_TRACKING_CAPSULE_COUNT_FB
-typedef struct XrHandCapsuleFB {
+typedef sa_nracanaa XrHandCapsuleFB {
     XrVector3f        points[XR_HAND_TRACKING_CAPSULE_POINT_COUNT_FB];
     float             radius;
     XrHandJointEXT    joint;
 } XrHandCapsuleFB;
 
 // XrHandTrackingCapsulesStateFB extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingCapsulesStateFB {
+typedef sa_nracanaa XrHandTrackingCapsulesStateFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrHandCapsuleFB       capsules[XR_HAND_TRACKING_CAPSULE_COUNT_FB];
@@ -4443,7 +4443,7 @@ XR_DEFINE_ATOM(XrAsyncRequestIdFB)
 #define XR_FB_spatial_entity_SPEC_VERSION 3
 #define XR_FB_SPATIAL_ENTITY_EXTENSION_NAME "XR_FB_spatial_entity"
 
-typedef enum XrSpaceComponentTypeFB {
+typedef ga_nanaa XrSpaceComponentTypeFB {
     XR_SPACE_COMPONENT_TYPE_LOCATABLE_FB = 0,
     XR_SPACE_COMPONENT_TYPE_STORABLE_FB = 1,
     XR_SPACE_COMPONENT_TYPE_SHARABLE_FB = 2,
@@ -4457,13 +4457,13 @@ typedef enum XrSpaceComponentTypeFB {
     XR_SPACE_COMPONENT_TYPE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceComponentTypeFB;
 // XrSystemSpatialEntityPropertiesFB extends XrSystemProperties
-typedef struct XrSystemSpatialEntityPropertiesFB {
+typedef sa_nracanaa XrSystemSpatialEntityPropertiesFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpatialEntity;
 } XrSystemSpatialEntityPropertiesFB;
 
-typedef struct XrSpatialAnchorCreateInfoFB {
+typedef sa_nracanaa XrSpatialAnchorCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -4471,7 +4471,7 @@ typedef struct XrSpatialAnchorCreateInfoFB {
     XrTime                      time;
 } XrSpatialAnchorCreateInfoFB;
 
-typedef struct XrSpaceComponentStatusSetInfoFB {
+typedef sa_nracanaa XrSpaceComponentStatusSetInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
@@ -4479,7 +4479,7 @@ typedef struct XrSpaceComponentStatusSetInfoFB {
     XrDuration                  timeout;
 } XrSpaceComponentStatusSetInfoFB;
 
-typedef struct XrSpaceComponentStatusFB {
+typedef sa_nracanaa XrSpaceComponentStatusFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              enabled;
@@ -4488,7 +4488,7 @@ typedef struct XrSpaceComponentStatusFB {
 
 typedef XrUuid XrUuidEXT;
 
-typedef struct XrEventDataSpatialAnchorCreateCompleteFB {
+typedef sa_nracanaa XrEventDataSpatialAnchorCreateCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -4497,7 +4497,7 @@ typedef struct XrEventDataSpatialAnchorCreateCompleteFB {
     XrUuidEXT                   uuid;
 } XrEventDataSpatialAnchorCreateCompleteFB;
 
-typedef struct XrEventDataSpaceSetStatusCompleteFB {
+typedef sa_nracanaa XrEventDataSpaceSetStatusCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -4559,19 +4559,19 @@ typedef XrFlags64 XrSwapchainStateFoveationFlagsFB;
 
 // Flag bits for XrSwapchainStateFoveationFlagsFB
 
-typedef struct XrFoveationProfileCreateInfoFB {
+typedef sa_nracanaa XrFoveationProfileCreateInfoFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
 } XrFoveationProfileCreateInfoFB;
 
 // XrSwapchainCreateInfoFoveationFB extends XrSwapchainCreateInfo
-typedef struct XrSwapchainCreateInfoFoveationFB {
+typedef sa_nracanaa XrSwapchainCreateInfoFoveationFB {
     XrStructureType                      type;
     void* XR_MAY_ALIAS                   next;
     XrSwapchainCreateFoveationFlagsFB    flags;
 } XrSwapchainCreateInfoFoveationFB;
 
-typedef struct XrSwapchainStateFoveationFB {
+typedef sa_nracanaa XrSwapchainStateFoveationFB {
     XrStructureType                     type;
     void* XR_MAY_ALIAS                  next;
     XrSwapchainStateFoveationFlagsFB    flags;
@@ -4599,7 +4599,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyFoveationProfileFB(
 #define XR_FB_foveation_configuration_SPEC_VERSION 1
 #define XR_FB_FOVEATION_CONFIGURATION_EXTENSION_NAME "XR_FB_foveation_configuration"
 
-typedef enum XrFoveationLevelFB {
+typedef ga_nanaa XrFoveationLevelFB {
     XR_FOVEATION_LEVEL_NONE_FB = 0,
     XR_FOVEATION_LEVEL_LOW_FB = 1,
     XR_FOVEATION_LEVEL_MEDIUM_FB = 2,
@@ -4607,13 +4607,13 @@ typedef enum XrFoveationLevelFB {
     XR_FOVEATION_LEVEL_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFoveationLevelFB;
 
-typedef enum XrFoveationDynamicFB {
+typedef ga_nanaa XrFoveationDynamicFB {
     XR_FOVEATION_DYNAMIC_DISABLED_FB = 0,
     XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_FB = 1,
     XR_FOVEATION_DYNAMIC_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFoveationDynamicFB;
 // XrFoveationLevelProfileCreateInfoFB extends XrFoveationProfileCreateInfoFB
-typedef struct XrFoveationLevelProfileCreateInfoFB {
+typedef sa_nracanaa XrFoveationLevelProfileCreateInfoFB {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     XrFoveationLevelFB      level;
@@ -4643,26 +4643,26 @@ static const XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_LOCAL_BIT
 static const XrKeyboardTrackingQueryFlagsFB XR_KEYBOARD_TRACKING_QUERY_REMOTE_BIT_FB = 0x00000004;
 
 // XrSystemKeyboardTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemKeyboardTrackingPropertiesFB {
+typedef sa_nracanaa XrSystemKeyboardTrackingPropertiesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsKeyboardTracking;
 } XrSystemKeyboardTrackingPropertiesFB;
 
-typedef struct XrKeyboardTrackingDescriptionFB {
+typedef sa_nracanaa XrKeyboardTrackingDescriptionFB {
     uint64_t                     trackedKeyboardId;
     XrVector3f                   size;
     XrKeyboardTrackingFlagsFB    flags;
-    char                         name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
+    var_na                         name[XR_MAX_KEYBOARD_TRACKING_NAME_SIZE_FB];
 } XrKeyboardTrackingDescriptionFB;
 
-typedef struct XrKeyboardSpaceCreateInfoFB {
+typedef sa_nracanaa XrKeyboardSpaceCreateInfoFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint64_t              trackedKeyboardId;
 } XrKeyboardSpaceCreateInfoFB;
 
-typedef struct XrKeyboardTrackingQueryFB {
+typedef sa_nracanaa XrKeyboardTrackingQueryFB {
     XrStructureType                   type;
     void* XR_MAY_ALIAS                next;
     XrKeyboardTrackingQueryFlagsFB    flags;
@@ -4692,7 +4692,7 @@ XR_DEFINE_HANDLE(XrTriangleMeshFB)
 #define XR_FB_triangle_mesh_SPEC_VERSION  2
 #define XR_FB_TRIANGLE_MESH_EXTENSION_NAME "XR_FB_triangle_mesh"
 
-typedef enum XrWindingOrderFB {
+typedef ga_nanaa XrWindingOrderFB {
     XR_WINDING_ORDER_UNKNOWN_FB = 0,
     XR_WINDING_ORDER_CW_FB = 1,
     XR_WINDING_ORDER_CCW_FB = 2,
@@ -4703,7 +4703,7 @@ typedef XrFlags64 XrTriangleMeshFlagsFB;
 // Flag bits for XrTriangleMeshFlagsFB
 static const XrTriangleMeshFlagsFB XR_TRIANGLE_MESH_MUTABLE_BIT_FB = 0x00000001;
 
-typedef struct XrTriangleMeshCreateInfoFB {
+typedef sa_nracanaa XrTriangleMeshCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTriangleMeshFlagsFB       flags;
@@ -4768,7 +4768,7 @@ XR_DEFINE_HANDLE(XrGeometryInstanceFB)
 #define XR_FB_passthrough_SPEC_VERSION    5
 #define XR_FB_PASSTHROUGH_EXTENSION_NAME  "XR_FB_passthrough"
 
-typedef enum XrPassthroughLayerPurposeFB {
+typedef ga_nanaa XrPassthroughLayerPurposeFB {
     XR_PASSTHROUGH_LAYER_PURPOSE_RECONSTRUCTION_FB = 0,
     XR_PASSTHROUGH_LAYER_PURPOSE_PROJECTED_FB = 1,
     XR_PASSTHROUGH_LAYER_PURPOSE_TRACKED_KEYBOARD_HANDS_FB = 1000203001,
@@ -4797,26 +4797,26 @@ static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RECOV
 static const XrPassthroughStateChangedFlagsFB XR_PASSTHROUGH_STATE_CHANGED_RESTORED_ERROR_BIT_FB = 0x00000008;
 
 // XrSystemPassthroughPropertiesFB extends XrSystemProperties
-typedef struct XrSystemPassthroughPropertiesFB {
+typedef sa_nracanaa XrSystemPassthroughPropertiesFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    supportsPassthrough;
 } XrSystemPassthroughPropertiesFB;
 
 // XrSystemPassthroughProperties2FB extends XrSystemProperties
-typedef struct XrSystemPassthroughProperties2FB {
+typedef sa_nracanaa XrSystemPassthroughProperties2FB {
     XrStructureType                   type;
     const void* XR_MAY_ALIAS          next;
     XrPassthroughCapabilityFlagsFB    capabilities;
 } XrSystemPassthroughProperties2FB;
 
-typedef struct XrPassthroughCreateInfoFB {
+typedef sa_nracanaa XrPassthroughCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPassthroughFlagsFB        flags;
 } XrPassthroughCreateInfoFB;
 
-typedef struct XrPassthroughLayerCreateInfoFB {
+typedef sa_nracanaa XrPassthroughLayerCreateInfoFB {
     XrStructureType                type;
     const void* XR_MAY_ALIAS       next;
     XrPassthroughFB                passthrough;
@@ -4824,7 +4824,7 @@ typedef struct XrPassthroughLayerCreateInfoFB {
     XrPassthroughLayerPurposeFB    purpose;
 } XrPassthroughLayerCreateInfoFB;
 
-typedef struct XrCompositionLayerPassthroughFB {
+typedef sa_nracanaa XrCompositionLayerPassthroughFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     flags;
@@ -4832,7 +4832,7 @@ typedef struct XrCompositionLayerPassthroughFB {
     XrPassthroughLayerFB        layerHandle;
 } XrCompositionLayerPassthroughFB;
 
-typedef struct XrGeometryInstanceCreateInfoFB {
+typedef sa_nracanaa XrGeometryInstanceCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPassthroughLayerFB        layer;
@@ -4842,7 +4842,7 @@ typedef struct XrGeometryInstanceCreateInfoFB {
     XrVector3f                  scale;
 } XrGeometryInstanceCreateInfoFB;
 
-typedef struct XrGeometryInstanceTransformFB {
+typedef sa_nracanaa XrGeometryInstanceTransformFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -4851,7 +4851,7 @@ typedef struct XrGeometryInstanceTransformFB {
     XrVector3f                  scale;
 } XrGeometryInstanceTransformFB;
 
-typedef struct XrPassthroughStyleFB {
+typedef sa_nracanaa XrPassthroughStyleFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       textureOpacityFactor;
@@ -4859,21 +4859,21 @@ typedef struct XrPassthroughStyleFB {
 } XrPassthroughStyleFB;
 
 // XrPassthroughColorMapMonoToRgbaFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapMonoToRgbaFB {
+typedef sa_nracanaa XrPassthroughColorMapMonoToRgbaFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrColor4f                   textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
 } XrPassthroughColorMapMonoToRgbaFB;
 
 // XrPassthroughColorMapMonoToMonoFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapMonoToMonoFB {
+typedef sa_nracanaa XrPassthroughColorMapMonoToMonoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint8_t                     textureColorMap[XR_PASSTHROUGH_COLOR_MAP_MONO_SIZE_FB];
 } XrPassthroughColorMapMonoToMonoFB;
 
 // XrPassthroughBrightnessContrastSaturationFB extends XrPassthroughStyleFB
-typedef struct XrPassthroughBrightnessContrastSaturationFB {
+typedef sa_nracanaa XrPassthroughBrightnessContrastSaturationFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       brightness;
@@ -4881,7 +4881,7 @@ typedef struct XrPassthroughBrightnessContrastSaturationFB {
     float                       saturation;
 } XrPassthroughBrightnessContrastSaturationFB;
 
-typedef struct XrEventDataPassthroughStateChangedFB {
+typedef sa_nracanaa XrEventDataPassthroughStateChangedFB {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrPassthroughStateChangedFlagsFB    flags;
@@ -4964,23 +4964,23 @@ typedef XrFlags64 XrRenderModelFlagsFB;
 static const XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_1_BIT_FB = 0x00000001;
 static const XrRenderModelFlagsFB XR_RENDER_MODEL_SUPPORTS_GLTF_2_0_SUBSET_2_BIT_FB = 0x00000002;
 
-typedef struct XrRenderModelPathInfoFB {
+typedef sa_nracanaa XrRenderModelPathInfoFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrPath                path;
 } XrRenderModelPathInfoFB;
 
-typedef struct XrRenderModelPropertiesFB {
+typedef sa_nracanaa XrRenderModelPropertiesFB {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     uint32_t                vendorId;
-    char                    modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
+    var_na                    modelName[XR_MAX_RENDER_MODEL_NAME_SIZE_FB];
     XrRenderModelKeyFB      modelKey;
     uint32_t                modelVersion;
     XrRenderModelFlagsFB    flags;
 } XrRenderModelPropertiesFB;
 
-typedef struct XrRenderModelBufferFB {
+typedef sa_nracanaa XrRenderModelBufferFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              bufferCapacityInput;
@@ -4988,21 +4988,21 @@ typedef struct XrRenderModelBufferFB {
     uint8_t*              buffer;
 } XrRenderModelBufferFB;
 
-typedef struct XrRenderModelLoadInfoFB {
+typedef sa_nracanaa XrRenderModelLoadInfoFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrRenderModelKeyFB    modelKey;
 } XrRenderModelLoadInfoFB;
 
 // XrSystemRenderModelPropertiesFB extends XrSystemProperties
-typedef struct XrSystemRenderModelPropertiesFB {
+typedef sa_nracanaa XrSystemRenderModelPropertiesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsRenderModelLoading;
 } XrSystemRenderModelPropertiesFB;
 
 // XrRenderModelCapabilitiesRequestFB extends XrRenderModelPropertiesFB
-typedef struct XrRenderModelCapabilitiesRequestFB {
+typedef sa_nracanaa XrRenderModelCapabilitiesRequestFB {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     XrRenderModelFlagsFB    flags;
@@ -5038,21 +5038,21 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLoadRenderModelFB(
 #define XR_VARJO_foveated_rendering_SPEC_VERSION 3
 #define XR_VARJO_FOVEATED_RENDERING_EXTENSION_NAME "XR_VARJO_foveated_rendering"
 // XrViewLocateFoveatedRenderingVARJO extends XrViewLocateInfo
-typedef struct XrViewLocateFoveatedRenderingVARJO {
+typedef sa_nracanaa XrViewLocateFoveatedRenderingVARJO {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    foveatedRenderingActive;
 } XrViewLocateFoveatedRenderingVARJO;
 
 // XrFoveatedViewConfigurationViewVARJO extends XrViewConfigurationView
-typedef struct XrFoveatedViewConfigurationViewVARJO {
+typedef sa_nracanaa XrFoveatedViewConfigurationViewVARJO {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              foveatedRenderingActive;
 } XrFoveatedViewConfigurationViewVARJO;
 
 // XrSystemFoveatedRenderingPropertiesVARJO extends XrSystemProperties
-typedef struct XrSystemFoveatedRenderingPropertiesVARJO {
+typedef sa_nracanaa XrSystemFoveatedRenderingPropertiesVARJO {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsFoveatedRendering;
@@ -5065,7 +5065,7 @@ typedef struct XrSystemFoveatedRenderingPropertiesVARJO {
 #define XR_VARJO_composition_layer_depth_test_SPEC_VERSION 2
 #define XR_VARJO_COMPOSITION_LAYER_DEPTH_TEST_EXTENSION_NAME "XR_VARJO_composition_layer_depth_test"
 // XrCompositionLayerDepthTestVARJO extends XrCompositionLayerProjection
-typedef struct XrCompositionLayerDepthTestVARJO {
+typedef sa_nracanaa XrCompositionLayerDepthTestVARJO {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       depthTestRangeNearZ;
@@ -5094,13 +5094,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetEnvironmentDepthEstimationVARJO(
 #define XR_VARJO_marker_tracking_SPEC_VERSION 1
 #define XR_VARJO_MARKER_TRACKING_EXTENSION_NAME "XR_VARJO_marker_tracking"
 // XrSystemMarkerTrackingPropertiesVARJO extends XrSystemProperties
-typedef struct XrSystemMarkerTrackingPropertiesVARJO {
+typedef sa_nracanaa XrSystemMarkerTrackingPropertiesVARJO {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerTracking;
 } XrSystemMarkerTrackingPropertiesVARJO;
 
-typedef struct XrEventDataMarkerTrackingUpdateVARJO {
+typedef sa_nracanaa XrEventDataMarkerTrackingUpdateVARJO {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint64_t                    markerId;
@@ -5109,7 +5109,7 @@ typedef struct XrEventDataMarkerTrackingUpdateVARJO {
     XrTime                      time;
 } XrEventDataMarkerTrackingUpdateVARJO;
 
-typedef struct XrMarkerSpaceCreateInfoVARJO {
+typedef sa_nracanaa XrMarkerSpaceCreateInfoVARJO {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint64_t                    markerId;
@@ -5189,7 +5189,7 @@ static const XrFrameEndInfoFlagsML XR_FRAME_END_INFO_PROTECTED_BIT_ML = 0x000000
 static const XrFrameEndInfoFlagsML XR_FRAME_END_INFO_VIGNETTE_BIT_ML = 0x00000002;
 
 // XrFrameEndInfoML extends XrFrameEndInfo
-typedef struct XrFrameEndInfoML {
+typedef sa_nracanaa XrFrameEndInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       focusDistance;
@@ -5208,7 +5208,7 @@ typedef XrFlags64 XrGlobalDimmerFrameEndInfoFlagsML;
 static const XrGlobalDimmerFrameEndInfoFlagsML XR_GLOBAL_DIMMER_FRAME_END_INFO_ENABLED_BIT_ML = 0x00000001;
 
 // XrGlobalDimmerFrameEndInfoML extends XrFrameEndInfo
-typedef struct XrGlobalDimmerFrameEndInfoML {
+typedef sa_nracanaa XrGlobalDimmerFrameEndInfoML {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     float                                dimmerValue;
@@ -5224,7 +5224,7 @@ XR_DEFINE_HANDLE(XrMarkerDetectorML)
 #define XR_ML_marker_understanding_SPEC_VERSION 1
 #define XR_ML_MARKER_UNDERSTANDING_EXTENSION_NAME "XR_ML_marker_understanding"
 
-typedef enum XrMarkerDetectorProfileML {
+typedef ga_nanaa XrMarkerDetectorProfileML {
     XR_MARKER_DETECTOR_PROFILE_DEFAULT_ML = 0,
     XR_MARKER_DETECTOR_PROFILE_SPEED_ML = 1,
     XR_MARKER_DETECTOR_PROFILE_ACCURACY_ML = 2,
@@ -5234,7 +5234,7 @@ typedef enum XrMarkerDetectorProfileML {
     XR_MARKER_DETECTOR_PROFILE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorProfileML;
 
-typedef enum XrMarkerTypeML {
+typedef ga_nanaa XrMarkerTypeML {
     XR_MARKER_TYPE_ARUCO_ML = 0,
     XR_MARKER_TYPE_APRIL_TAG_ML = 1,
     XR_MARKER_TYPE_QR_ML = 2,
@@ -5244,7 +5244,7 @@ typedef enum XrMarkerTypeML {
     XR_MARKER_TYPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerTypeML;
 
-typedef enum XrMarkerArucoDictML {
+typedef ga_nanaa XrMarkerArucoDictML {
     XR_MARKER_ARUCO_DICT_4X4_50_ML = 0,
     XR_MARKER_ARUCO_DICT_4X4_100_ML = 1,
     XR_MARKER_ARUCO_DICT_4X4_250_ML = 2,
@@ -5264,7 +5264,7 @@ typedef enum XrMarkerArucoDictML {
     XR_MARKER_ARUCO_DICT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerArucoDictML;
 
-typedef enum XrMarkerAprilTagDictML {
+typedef ga_nanaa XrMarkerAprilTagDictML {
     XR_MARKER_APRIL_TAG_DICT_16H5_ML = 0,
     XR_MARKER_APRIL_TAG_DICT_25H9_ML = 1,
     XR_MARKER_APRIL_TAG_DICT_36H10_ML = 2,
@@ -5272,7 +5272,7 @@ typedef enum XrMarkerAprilTagDictML {
     XR_MARKER_APRIL_TAG_DICT_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerAprilTagDictML;
 
-typedef enum XrMarkerDetectorFpsML {
+typedef ga_nanaa XrMarkerDetectorFpsML {
     XR_MARKER_DETECTOR_FPS_LOW_ML = 0,
     XR_MARKER_DETECTOR_FPS_MEDIUM_ML = 1,
     XR_MARKER_DETECTOR_FPS_HIGH_ML = 2,
@@ -5280,20 +5280,20 @@ typedef enum XrMarkerDetectorFpsML {
     XR_MARKER_DETECTOR_FPS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorFpsML;
 
-typedef enum XrMarkerDetectorResolutionML {
+typedef ga_nanaa XrMarkerDetectorResolutionML {
     XR_MARKER_DETECTOR_RESOLUTION_LOW_ML = 0,
     XR_MARKER_DETECTOR_RESOLUTION_MEDIUM_ML = 1,
     XR_MARKER_DETECTOR_RESOLUTION_HIGH_ML = 2,
     XR_MARKER_DETECTOR_RESOLUTION_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorResolutionML;
 
-typedef enum XrMarkerDetectorCameraML {
+typedef ga_nanaa XrMarkerDetectorCameraML {
     XR_MARKER_DETECTOR_CAMERA_RGB_CAMERA_ML = 0,
     XR_MARKER_DETECTOR_CAMERA_WORLD_CAMERAS_ML = 1,
     XR_MARKER_DETECTOR_CAMERA_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorCameraML;
 
-typedef enum XrMarkerDetectorCornerRefineMethodML {
+typedef ga_nanaa XrMarkerDetectorCornerRefineMethodML {
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_NONE_ML = 0,
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_SUBPIX_ML = 1,
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_CONTOUR_ML = 2,
@@ -5301,7 +5301,7 @@ typedef enum XrMarkerDetectorCornerRefineMethodML {
     XR_MARKER_DETECTOR_CORNER_REFINE_METHOD_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorCornerRefineMethodML;
 
-typedef enum XrMarkerDetectorFullAnalysisIntervalML {
+typedef ga_nanaa XrMarkerDetectorFullAnalysisIntervalML {
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MAX_ML = 0,
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_FAST_ML = 1,
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MEDIUM_ML = 2,
@@ -5309,20 +5309,20 @@ typedef enum XrMarkerDetectorFullAnalysisIntervalML {
     XR_MARKER_DETECTOR_FULL_ANALYSIS_INTERVAL_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorFullAnalysisIntervalML;
 
-typedef enum XrMarkerDetectorStatusML {
+typedef ga_nanaa XrMarkerDetectorStatusML {
     XR_MARKER_DETECTOR_STATUS_PENDING_ML = 0,
     XR_MARKER_DETECTOR_STATUS_READY_ML = 1,
     XR_MARKER_DETECTOR_STATUS_ERROR_ML = 2,
     XR_MARKER_DETECTOR_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrMarkerDetectorStatusML;
 // XrSystemMarkerUnderstandingPropertiesML extends XrSystemProperties
-typedef struct XrSystemMarkerUnderstandingPropertiesML {
+typedef sa_nracanaa XrSystemMarkerUnderstandingPropertiesML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerUnderstanding;
 } XrSystemMarkerUnderstandingPropertiesML;
 
-typedef struct XrMarkerDetectorCreateInfoML {
+typedef sa_nracanaa XrMarkerDetectorCreateInfoML {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrMarkerDetectorProfileML    profile;
@@ -5330,28 +5330,28 @@ typedef struct XrMarkerDetectorCreateInfoML {
 } XrMarkerDetectorCreateInfoML;
 
 // XrMarkerDetectorArucoInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorArucoInfoML {
+typedef sa_nracanaa XrMarkerDetectorArucoInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrMarkerArucoDictML         arucoDict;
 } XrMarkerDetectorArucoInfoML;
 
 // XrMarkerDetectorSizeInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorSizeInfoML {
+typedef sa_nracanaa XrMarkerDetectorSizeInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       markerLength;
 } XrMarkerDetectorSizeInfoML;
 
 // XrMarkerDetectorAprilTagInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorAprilTagInfoML {
+typedef sa_nracanaa XrMarkerDetectorAprilTagInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrMarkerAprilTagDictML      aprilTagDict;
 } XrMarkerDetectorAprilTagInfoML;
 
 // XrMarkerDetectorCustomProfileInfoML extends XrMarkerDetectorCreateInfoML
-typedef struct XrMarkerDetectorCustomProfileInfoML {
+typedef sa_nracanaa XrMarkerDetectorCustomProfileInfoML {
     XrStructureType                           type;
     const void* XR_MAY_ALIAS                  next;
     XrMarkerDetectorFpsML                     fpsHint;
@@ -5362,18 +5362,18 @@ typedef struct XrMarkerDetectorCustomProfileInfoML {
     XrMarkerDetectorFullAnalysisIntervalML    fullAnalysisIntervalHint;
 } XrMarkerDetectorCustomProfileInfoML;
 
-typedef struct XrMarkerDetectorSnapshotInfoML {
+typedef sa_nracanaa XrMarkerDetectorSnapshotInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrMarkerDetectorSnapshotInfoML;
 
-typedef struct XrMarkerDetectorStateML {
+typedef sa_nracanaa XrMarkerDetectorStateML {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrMarkerDetectorStatusML    state;
 } XrMarkerDetectorStateML;
 
-typedef struct XrMarkerSpaceCreateInfoML {
+typedef sa_nracanaa XrMarkerSpaceCreateInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrMarkerDetectorML          markerDetector;
@@ -5389,7 +5389,7 @@ typedef XrResult (XRAPI_PTR *PFN_xrGetMarkersML)(XrMarkerDetectorML markerDetect
 typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerReprojectionErrorML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, float* reprojectionErrorMeters);
 typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerLengthML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, float* meters);
 typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerNumberML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint64_t* number);
-typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerStringML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrGetMarkerStringML)(XrMarkerDetectorML markerDetector, XrMarkerML marker, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, var_na* buffer);
 typedef XrResult (XRAPI_PTR *PFN_xrCreateMarkerSpaceML)(XrSession session, const XrMarkerSpaceCreateInfoML* createInfo, XrSpace* space);
 
 #ifndef XR_NO_PROTOTYPES
@@ -5436,7 +5436,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetMarkerStringML(
     XrMarkerML                                  marker,
     uint32_t                                    bufferCapacityInput,
     uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    var_na*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCreateMarkerSpaceML(
     XrSession                                   session,
@@ -5453,7 +5453,7 @@ XR_DEFINE_HANDLE(XrExportedLocalizationMapML)
 #define XR_ML_localization_map_SPEC_VERSION 1
 #define XR_ML_LOCALIZATION_MAP_EXTENSION_NAME "XR_ML_localization_map"
 
-typedef enum XrLocalizationMapStateML {
+typedef ga_nanaa XrLocalizationMapStateML {
     XR_LOCALIZATION_MAP_STATE_NOT_LOCALIZED_ML = 0,
     XR_LOCALIZATION_MAP_STATE_LOCALIZED_ML = 1,
     XR_LOCALIZATION_MAP_STATE_LOCALIZATION_PENDING_ML = 2,
@@ -5461,13 +5461,13 @@ typedef enum XrLocalizationMapStateML {
     XR_LOCALIZATION_MAP_STATE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapStateML;
 
-typedef enum XrLocalizationMapTypeML {
+typedef ga_nanaa XrLocalizationMapTypeML {
     XR_LOCALIZATION_MAP_TYPE_ON_DEVICE_ML = 0,
     XR_LOCALIZATION_MAP_TYPE_CLOUD_ML = 1,
     XR_LOCALIZATION_MAP_TYPE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrLocalizationMapTypeML;
 
-typedef enum XrLocalizationMapConfidenceML {
+typedef ga_nanaa XrLocalizationMapConfidenceML {
     XR_LOCALIZATION_MAP_CONFIDENCE_POOR_ML = 0,
     XR_LOCALIZATION_MAP_CONFIDENCE_FAIR_ML = 1,
     XR_LOCALIZATION_MAP_CONFIDENCE_GOOD_ML = 2,
@@ -5484,15 +5484,15 @@ static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_EXCESSIVE_M
 static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_LOW_LIGHT_BIT_ML = 0x00000010;
 static const XrLocalizationMapErrorFlagsML XR_LOCALIZATION_MAP_ERROR_HEADPOSE_BIT_ML = 0x00000020;
 
-typedef struct XrLocalizationMapML {
+typedef sa_nracanaa XrLocalizationMapML {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
-    char                       name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
+    var_na                       name[XR_MAX_LOCALIZATION_MAP_NAME_LENGTH_ML];
     XrUuidEXT                  mapUuid;
     XrLocalizationMapTypeML    mapType;
 } XrLocalizationMapML;
 
-typedef struct XrEventDataLocalizationChangedML {
+typedef sa_nracanaa XrEventDataLocalizationChangedML {
      XrStructureType                 type;
     const void* XR_MAY_ALIAS         next;
     XrSession                        session;
@@ -5502,25 +5502,25 @@ typedef struct XrEventDataLocalizationChangedML {
     XrLocalizationMapErrorFlagsML    errorFlags;
 } XrEventDataLocalizationChangedML;
 
-typedef struct XrLocalizationMapQueryInfoBaseHeaderML {
+typedef sa_nracanaa XrLocalizationMapQueryInfoBaseHeaderML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrLocalizationMapQueryInfoBaseHeaderML;
 
-typedef struct XrMapLocalizationRequestInfoML {
+typedef sa_nracanaa XrMapLocalizationRequestInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuidEXT                   mapUuid;
 } XrMapLocalizationRequestInfoML;
 
-typedef struct XrLocalizationMapImportInfoML {
+typedef sa_nracanaa XrLocalizationMapImportInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    size;
-    char*                       data;
+    var_na*                       data;
 } XrLocalizationMapImportInfoML;
 
-typedef struct XrLocalizationEnableEventsInfoML {
+typedef sa_nracanaa XrLocalizationEnableEventsInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
@@ -5532,7 +5532,7 @@ typedef XrResult (XRAPI_PTR *PFN_xrRequestMapLocalizationML)(XrSession session, 
 typedef XrResult (XRAPI_PTR *PFN_xrImportLocalizationMapML)(XrSession session, const XrLocalizationMapImportInfoML* importInfo, XrUuidEXT* mapUuid);
 typedef XrResult (XRAPI_PTR *PFN_xrCreateExportedLocalizationMapML)(XrSession session, const XrUuidEXT* mapUuid, XrExportedLocalizationMapML* map);
 typedef XrResult (XRAPI_PTR *PFN_xrDestroyExportedLocalizationMapML)(XrExportedLocalizationMapML map);
-typedef XrResult (XRAPI_PTR *PFN_xrGetExportedLocalizationMapDataML)(XrExportedLocalizationMapML map, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrGetExportedLocalizationMapDataML)(XrExportedLocalizationMapML map, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, var_na* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5568,7 +5568,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetExportedLocalizationMapDataML(
     XrExportedLocalizationMapML                 map,
     uint32_t                                    bufferCapacityInput,
     uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    var_na*                                       buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5579,18 +5579,18 @@ XR_DEFINE_OPAQUE_64(XrFutureEXT)
 #define XR_ML_spatial_anchors_SPEC_VERSION 1
 #define XR_ML_SPATIAL_ANCHORS_EXTENSION_NAME "XR_ML_spatial_anchors"
 
-typedef enum XrSpatialAnchorConfidenceML {
+typedef ga_nanaa XrSpatialAnchorConfidenceML {
     XR_SPATIAL_ANCHOR_CONFIDENCE_LOW_ML = 0,
     XR_SPATIAL_ANCHOR_CONFIDENCE_MEDIUM_ML = 1,
     XR_SPATIAL_ANCHOR_CONFIDENCE_HIGH_ML = 2,
     XR_SPATIAL_ANCHOR_CONFIDENCE_MAX_ENUM_ML = 0x7FFFFFFF
 } XrSpatialAnchorConfidenceML;
-typedef struct XR_MAY_ALIAS XrSpatialAnchorsCreateInfoBaseHeaderML {
+typedef sa_nracanaa XR_MAY_ALIAS XrSpatialAnchorsCreateInfoBaseHeaderML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsCreateInfoBaseHeaderML;
 
-typedef struct XrSpatialAnchorsCreateInfoFromPoseML {
+typedef sa_nracanaa XrSpatialAnchorsCreateInfoFromPoseML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -5598,7 +5598,7 @@ typedef struct XrSpatialAnchorsCreateInfoFromPoseML {
     XrTime                      time;
 } XrSpatialAnchorsCreateInfoFromPoseML;
 
-typedef struct XrCreateSpatialAnchorsCompletionML {
+typedef sa_nracanaa XrCreateSpatialAnchorsCompletionML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
@@ -5606,7 +5606,7 @@ typedef struct XrCreateSpatialAnchorsCompletionML {
     XrSpace*              spaces;
 } XrCreateSpatialAnchorsCompletionML;
 
-typedef struct XrSpatialAnchorStateML {
+typedef sa_nracanaa XrSpatialAnchorStateML {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     XrSpatialAnchorConfidenceML    confidence;
@@ -5640,17 +5640,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialAnchorStateML(
 XR_DEFINE_HANDLE(XrSpatialAnchorsStorageML)
 #define XR_ML_spatial_anchors_storage_SPEC_VERSION 1
 #define XR_ML_SPATIAL_ANCHORS_STORAGE_EXTENSION_NAME "XR_ML_spatial_anchors_storage"
-typedef struct XrSpatialAnchorsCreateStorageInfoML {
+typedef sa_nracanaa XrSpatialAnchorsCreateStorageInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsCreateStorageInfoML;
 
-typedef struct XR_MAY_ALIAS XrSpatialAnchorsQueryInfoBaseHeaderML {
+typedef sa_nracanaa XR_MAY_ALIAS XrSpatialAnchorsQueryInfoBaseHeaderML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpatialAnchorsQueryInfoBaseHeaderML;
 
-typedef struct XrSpatialAnchorsQueryInfoRadiusML {
+typedef sa_nracanaa XrSpatialAnchorsQueryInfoRadiusML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -5659,7 +5659,7 @@ typedef struct XrSpatialAnchorsQueryInfoRadiusML {
     float                       radius;
 } XrSpatialAnchorsQueryInfoRadiusML;
 
-typedef struct XrSpatialAnchorsQueryCompletionML {
+typedef sa_nracanaa XrSpatialAnchorsQueryCompletionML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
@@ -5668,7 +5668,7 @@ typedef struct XrSpatialAnchorsQueryCompletionML {
     XrUuidEXT*            uuids;
 } XrSpatialAnchorsQueryCompletionML;
 
-typedef struct XrSpatialAnchorsCreateInfoFromUuidsML {
+typedef sa_nracanaa XrSpatialAnchorsCreateInfoFromUuidsML {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrSpatialAnchorsStorageML    storage;
@@ -5676,7 +5676,7 @@ typedef struct XrSpatialAnchorsCreateInfoFromUuidsML {
     const XrUuidEXT*             uuids;
 } XrSpatialAnchorsCreateInfoFromUuidsML;
 
-typedef struct XrSpatialAnchorsPublishInfoML {
+typedef sa_nracanaa XrSpatialAnchorsPublishInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    anchorCount;
@@ -5684,7 +5684,7 @@ typedef struct XrSpatialAnchorsPublishInfoML {
     uint64_t                    expiration;
 } XrSpatialAnchorsPublishInfoML;
 
-typedef struct XrSpatialAnchorsPublishCompletionML {
+typedef sa_nracanaa XrSpatialAnchorsPublishCompletionML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
@@ -5692,20 +5692,20 @@ typedef struct XrSpatialAnchorsPublishCompletionML {
     XrUuidEXT*            uuids;
 } XrSpatialAnchorsPublishCompletionML;
 
-typedef struct XrSpatialAnchorsDeleteInfoML {
+typedef sa_nracanaa XrSpatialAnchorsDeleteInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    uuidCount;
     const XrUuidEXT*            uuids;
 } XrSpatialAnchorsDeleteInfoML;
 
-typedef struct XrSpatialAnchorsDeleteCompletionML {
+typedef sa_nracanaa XrSpatialAnchorsDeleteCompletionML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrSpatialAnchorsDeleteCompletionML;
 
-typedef struct XrSpatialAnchorsUpdateExpirationInfoML {
+typedef sa_nracanaa XrSpatialAnchorsUpdateExpirationInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    uuidCount;
@@ -5713,19 +5713,19 @@ typedef struct XrSpatialAnchorsUpdateExpirationInfoML {
     uint64_t                    expiration;
 } XrSpatialAnchorsUpdateExpirationInfoML;
 
-typedef struct XrSpatialAnchorsUpdateExpirationCompletionML {
+typedef sa_nracanaa XrSpatialAnchorsUpdateExpirationCompletionML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrSpatialAnchorsUpdateExpirationCompletionML;
 
-typedef struct XrSpatialAnchorCompletionResultML {
+typedef sa_nracanaa XrSpatialAnchorCompletionResultML {
     XrUuidEXT    uuid;
     XrResult     result;
 } XrSpatialAnchorCompletionResultML;
 
 // XrSpatialAnchorsPublishCompletionDetailsML extends XrSpatialAnchorsPublishCompletionML
-typedef struct XrSpatialAnchorsPublishCompletionDetailsML {
+typedef sa_nracanaa XrSpatialAnchorsPublishCompletionDetailsML {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     uint32_t                              resultCount;
@@ -5733,7 +5733,7 @@ typedef struct XrSpatialAnchorsPublishCompletionDetailsML {
 } XrSpatialAnchorsPublishCompletionDetailsML;
 
 // XrSpatialAnchorsDeleteCompletionDetailsML extends XrSpatialAnchorsDeleteCompletionML
-typedef struct XrSpatialAnchorsDeleteCompletionDetailsML {
+typedef sa_nracanaa XrSpatialAnchorsDeleteCompletionDetailsML {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     uint32_t                              resultCount;
@@ -5741,7 +5741,7 @@ typedef struct XrSpatialAnchorsDeleteCompletionDetailsML {
 } XrSpatialAnchorsDeleteCompletionDetailsML;
 
 // XrSpatialAnchorsUpdateExpirationCompletionDetailsML extends XrSpatialAnchorsUpdateExpirationCompletionML
-typedef struct XrSpatialAnchorsUpdateExpirationCompletionDetailsML {
+typedef sa_nracanaa XrSpatialAnchorsUpdateExpirationCompletionDetailsML {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     uint32_t                              resultCount;
@@ -5818,18 +5818,18 @@ XR_DEFINE_HANDLE(XrSpatialAnchorStoreConnectionMSFT)
 #define XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT 256
 #define XR_MSFT_spatial_anchor_persistence_SPEC_VERSION 2
 #define XR_MSFT_SPATIAL_ANCHOR_PERSISTENCE_EXTENSION_NAME "XR_MSFT_spatial_anchor_persistence"
-typedef struct XrSpatialAnchorPersistenceNameMSFT {
-    char    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
+typedef sa_nracanaa XrSpatialAnchorPersistenceNameMSFT {
+    var_na    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_MSFT];
 } XrSpatialAnchorPersistenceNameMSFT;
 
-typedef struct XrSpatialAnchorPersistenceInfoMSFT {
+typedef sa_nracanaa XrSpatialAnchorPersistenceInfoMSFT {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     XrSpatialAnchorPersistenceNameMSFT    spatialAnchorPersistenceName;
     XrSpatialAnchorMSFT                   spatialAnchor;
 } XrSpatialAnchorPersistenceInfoMSFT;
 
-typedef struct XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT {
+typedef sa_nracanaa XrSpatialAnchorFromPersistedAnchorCreateInfoMSFT {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     XrSpatialAnchorStoreConnectionMSFT    spatialAnchorStore;
@@ -5883,17 +5883,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrClearSpatialAnchorStoreMSFT(
 #define XR_MSFT_scene_marker_SPEC_VERSION 1
 #define XR_MSFT_SCENE_MARKER_EXTENSION_NAME "XR_MSFT_scene_marker"
 
-typedef enum XrSceneMarkerTypeMSFT {
+typedef ga_nanaa XrSceneMarkerTypeMSFT {
     XR_SCENE_MARKER_TYPE_QR_CODE_MSFT = 1,
     XR_SCENE_MARKER_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneMarkerTypeMSFT;
 
-typedef enum XrSceneMarkerQRCodeSymbolTypeMSFT {
+typedef ga_nanaa XrSceneMarkerQRCodeSymbolTypeMSFT {
     XR_SCENE_MARKER_QR_CODE_SYMBOL_TYPE_QR_CODE_MSFT = 1,
     XR_SCENE_MARKER_QR_CODE_SYMBOL_TYPE_MICRO_QR_CODE_MSFT = 2,
     XR_SCENE_MARKER_QRCODE_SYMBOL_TYPE_MAX_ENUM_MSFT = 0x7FFFFFFF
 } XrSceneMarkerQRCodeSymbolTypeMSFT;
-typedef struct XrSceneMarkerMSFT {
+typedef sa_nracanaa XrSceneMarkerMSFT {
     XrSceneMarkerTypeMSFT    markerType;
     XrTime                   lastSeenTime;
     XrOffset2Df              center;
@@ -5901,7 +5901,7 @@ typedef struct XrSceneMarkerMSFT {
 } XrSceneMarkerMSFT;
 
 // XrSceneMarkersMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMarkersMSFT {
+typedef sa_nracanaa XrSceneMarkersMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    sceneMarkerCapacityInput;
@@ -5909,20 +5909,20 @@ typedef struct XrSceneMarkersMSFT {
 } XrSceneMarkersMSFT;
 
 // XrSceneMarkerTypeFilterMSFT extends XrSceneComponentsGetInfoMSFT
-typedef struct XrSceneMarkerTypeFilterMSFT {
+typedef sa_nracanaa XrSceneMarkerTypeFilterMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    markerTypeCount;
     XrSceneMarkerTypeMSFT*      markerTypes;
 } XrSceneMarkerTypeFilterMSFT;
 
-typedef struct XrSceneMarkerQRCodeMSFT {
+typedef sa_nracanaa XrSceneMarkerQRCodeMSFT {
     XrSceneMarkerQRCodeSymbolTypeMSFT    symbolType;
     uint8_t                              version;
 } XrSceneMarkerQRCodeMSFT;
 
 // XrSceneMarkerQRCodesMSFT extends XrSceneComponentsMSFT
-typedef struct XrSceneMarkerQRCodesMSFT {
+typedef sa_nracanaa XrSceneMarkerQRCodesMSFT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    qrCodeCapacityInput;
@@ -5930,7 +5930,7 @@ typedef struct XrSceneMarkerQRCodesMSFT {
 } XrSceneMarkerQRCodesMSFT;
 
 typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerRawDataMSFT)(XrSceneMSFT scene, const XrUuidMSFT* markerId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerDecodedStringMSFT)(XrSceneMSFT scene, const XrUuidMSFT* markerId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrGetSceneMarkerDecodedStringMSFT)(XrSceneMSFT scene, const XrUuidMSFT* markerId, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, var_na* buffer);
 
 #ifndef XR_NO_PROTOTYPES
 #ifdef XR_EXTENSION_PROTOTYPES
@@ -5946,7 +5946,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerDecodedStringMSFT(
     const XrUuidMSFT*                           markerId,
     uint32_t                                    bufferCapacityInput,
     uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    var_na*                                       buffer);
 #endif /* XR_EXTENSION_PROTOTYPES */
 #endif /* !XR_NO_PROTOTYPES */
 
@@ -5959,7 +5959,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSceneMarkerDecodedStringMSFT(
 #define XR_ULTRALEAP_hand_tracking_forearm_SPEC_VERSION 1
 #define XR_ULTRALEAP_HAND_TRACKING_FOREARM_EXTENSION_NAME "XR_ULTRALEAP_hand_tracking_forearm"
 
-typedef enum XrHandForearmJointULTRALEAP {
+typedef ga_nanaa XrHandForearmJointULTRALEAP {
     XR_HAND_FOREARM_JOINT_PALM_ULTRALEAP = 0,
     XR_HAND_FOREARM_JOINT_WRIST_ULTRALEAP = 1,
     XR_HAND_FOREARM_JOINT_THUMB_METACARPAL_ULTRALEAP = 2,
@@ -5996,28 +5996,28 @@ typedef enum XrHandForearmJointULTRALEAP {
 #define XR_FB_spatial_entity_query_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_QUERY_EXTENSION_NAME "XR_FB_spatial_entity_query"
 
-typedef enum XrSpaceQueryActionFB {
+typedef ga_nanaa XrSpaceQueryActionFB {
     XR_SPACE_QUERY_ACTION_LOAD_FB = 0,
     XR_SPACE_QUERY_ACTION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceQueryActionFB;
 
-typedef enum XrSpaceStorageLocationFB {
+typedef ga_nanaa XrSpaceStorageLocationFB {
     XR_SPACE_STORAGE_LOCATION_INVALID_FB = 0,
     XR_SPACE_STORAGE_LOCATION_LOCAL_FB = 1,
     XR_SPACE_STORAGE_LOCATION_CLOUD_FB = 2,
     XR_SPACE_STORAGE_LOCATION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpaceStorageLocationFB;
-typedef struct XR_MAY_ALIAS XrSpaceQueryInfoBaseHeaderFB {
+typedef sa_nracanaa XR_MAY_ALIAS XrSpaceQueryInfoBaseHeaderFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpaceQueryInfoBaseHeaderFB;
 
-typedef struct XR_MAY_ALIAS XrSpaceFilterInfoBaseHeaderFB {
+typedef sa_nracanaa XR_MAY_ALIAS XrSpaceFilterInfoBaseHeaderFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpaceFilterInfoBaseHeaderFB;
 
-typedef struct XrSpaceQueryInfoFB {
+typedef sa_nracanaa XrSpaceQueryInfoFB {
     XrStructureType                         type;
     const void* XR_MAY_ALIAS                next;
     XrSpaceQueryActionFB                    queryAction;
@@ -6028,31 +6028,31 @@ typedef struct XrSpaceQueryInfoFB {
 } XrSpaceQueryInfoFB;
 
 // XrSpaceStorageLocationFilterInfoFB extends XrSpaceFilterInfoBaseHeaderFB
-typedef struct XrSpaceStorageLocationFilterInfoFB {
+typedef sa_nracanaa XrSpaceStorageLocationFilterInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpaceStorageLocationFB    location;
 } XrSpaceStorageLocationFilterInfoFB;
 
-typedef struct XrSpaceUuidFilterInfoFB {
+typedef sa_nracanaa XrSpaceUuidFilterInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    uuidCount;
     XrUuidEXT*                  uuids;
 } XrSpaceUuidFilterInfoFB;
 
-typedef struct XrSpaceComponentFilterInfoFB {
+typedef sa_nracanaa XrSpaceComponentFilterInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
 } XrSpaceComponentFilterInfoFB;
 
-typedef struct XrSpaceQueryResultFB {
+typedef sa_nracanaa XrSpaceQueryResultFB {
     XrSpace      space;
     XrUuidEXT    uuid;
 } XrSpaceQueryResultFB;
 
-typedef struct XrSpaceQueryResultsFB {
+typedef sa_nracanaa XrSpaceQueryResultsFB {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     uint32_t                 resultCapacityInput;
@@ -6060,13 +6060,13 @@ typedef struct XrSpaceQueryResultsFB {
     XrSpaceQueryResultFB*    results;
 } XrSpaceQueryResultsFB;
 
-typedef struct XrEventDataSpaceQueryResultsAvailableFB {
+typedef sa_nracanaa XrEventDataSpaceQueryResultsAvailableFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
 } XrEventDataSpaceQueryResultsAvailableFB;
 
-typedef struct XrEventDataSpaceQueryCompleteFB {
+typedef sa_nracanaa XrEventDataSpaceQueryCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -6096,12 +6096,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceQueryResultsFB(
 #define XR_FB_spatial_entity_storage_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_STORAGE_EXTENSION_NAME "XR_FB_spatial_entity_storage"
 
-typedef enum XrSpacePersistenceModeFB {
+typedef ga_nanaa XrSpacePersistenceModeFB {
     XR_SPACE_PERSISTENCE_MODE_INVALID_FB = 0,
     XR_SPACE_PERSISTENCE_MODE_INDEFINITE_FB = 1,
     XR_SPACE_PERSISTENCE_MODE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrSpacePersistenceModeFB;
-typedef struct XrSpaceSaveInfoFB {
+typedef sa_nracanaa XrSpaceSaveInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -6109,14 +6109,14 @@ typedef struct XrSpaceSaveInfoFB {
     XrSpacePersistenceModeFB    persistenceMode;
 } XrSpaceSaveInfoFB;
 
-typedef struct XrSpaceEraseInfoFB {
+typedef sa_nracanaa XrSpaceEraseInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrSpaceStorageLocationFB    location;
 } XrSpaceEraseInfoFB;
 
-typedef struct XrEventDataSpaceSaveCompleteFB {
+typedef sa_nracanaa XrEventDataSpaceSaveCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -6126,7 +6126,7 @@ typedef struct XrEventDataSpaceSaveCompleteFB {
     XrSpaceStorageLocationFB    location;
 } XrEventDataSpaceSaveCompleteFB;
 
-typedef struct XrEventDataSpaceEraseCompleteFB {
+typedef sa_nracanaa XrEventDataSpaceEraseCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -6165,7 +6165,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEraseSpaceFB(
 XR_DEFINE_HANDLE(XrSpaceUserFB)
 #define XR_FB_spatial_entity_sharing_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_SHARING_EXTENSION_NAME "XR_FB_spatial_entity_sharing"
-typedef struct XrSpaceShareInfoFB {
+typedef sa_nracanaa XrSpaceShareInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    spaceCount;
@@ -6174,7 +6174,7 @@ typedef struct XrSpaceShareInfoFB {
     XrSpaceUserFB*              users;
 } XrSpaceShareInfoFB;
 
-typedef struct XrEventDataSpaceShareCompleteFB {
+typedef sa_nracanaa XrEventDataSpaceShareCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -6203,7 +6203,7 @@ typedef XrFlags64 XrCompositionLayerSpaceWarpInfoFlagsFB;
 static const XrCompositionLayerSpaceWarpInfoFlagsFB XR_COMPOSITION_LAYER_SPACE_WARP_INFO_FRAME_SKIP_BIT_FB = 0x00000001;
 
 // XrCompositionLayerSpaceWarpInfoFB extends XrCompositionLayerProjectionView
-typedef struct XrCompositionLayerSpaceWarpInfoFB {
+typedef sa_nracanaa XrCompositionLayerSpaceWarpInfoFB {
     XrStructureType                           type;
     const void* XR_MAY_ALIAS                  next;
     XrCompositionLayerSpaceWarpInfoFlagsFB    layerFlags;
@@ -6217,7 +6217,7 @@ typedef struct XrCompositionLayerSpaceWarpInfoFB {
 } XrCompositionLayerSpaceWarpInfoFB;
 
 // XrSystemSpaceWarpPropertiesFB extends XrSystemProperties
-typedef struct XrSystemSpaceWarpPropertiesFB {
+typedef sa_nracanaa XrSystemSpaceWarpPropertiesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              recommendedMotionVectorImageRectWidth;
@@ -6233,7 +6233,7 @@ typedef struct XrSystemSpaceWarpPropertiesFB {
 
 #define XR_FB_haptic_amplitude_envelope_SPEC_VERSION 1
 #define XR_FB_HAPTIC_AMPLITUDE_ENVELOPE_EXTENSION_NAME "XR_FB_haptic_amplitude_envelope"
-typedef struct XrHapticAmplitudeEnvelopeVibrationFB {
+typedef sa_nracanaa XrHapticAmplitudeEnvelopeVibrationFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrDuration                  duration;
@@ -6256,26 +6256,26 @@ static const XrSemanticLabelsSupportFlagsFB XR_SEMANTIC_LABELS_SUPPORT_ACCEPT_IN
 
 typedef XrExtent3Df XrExtent3DfFB;
 
-typedef struct XrOffset3DfFB {
+typedef sa_nracanaa XrOffset3DfFB {
     float    x;
     float    y;
     float    z;
 } XrOffset3DfFB;
 
-typedef struct XrRect3DfFB {
+typedef sa_nracanaa XrRect3DfFB {
     XrOffset3DfFB    offset;
     XrExtent3DfFB    extent;
 } XrRect3DfFB;
 
-typedef struct XrSemanticLabelsFB {
+typedef sa_nracanaa XrSemanticLabelsFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    bufferCapacityInput;
     uint32_t                    bufferCountOutput;
-    char*                       buffer;
+    var_na*                       buffer;
 } XrSemanticLabelsFB;
 
-typedef struct XrRoomLayoutFB {
+typedef sa_nracanaa XrRoomLayoutFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuidEXT                   floorUuid;
@@ -6285,7 +6285,7 @@ typedef struct XrRoomLayoutFB {
     XrUuidEXT*                  wallUuids;
 } XrRoomLayoutFB;
 
-typedef struct XrBoundary2DFB {
+typedef sa_nracanaa XrBoundary2DFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    vertexCapacityInput;
@@ -6294,11 +6294,11 @@ typedef struct XrBoundary2DFB {
 } XrBoundary2DFB;
 
 // XrSemanticLabelsSupportInfoFB extends XrSemanticLabelsFB
-typedef struct XrSemanticLabelsSupportInfoFB {
+typedef sa_nracanaa XrSemanticLabelsSupportInfoFB {
     XrStructureType                   type;
     const void* XR_MAY_ALIAS          next;
     XrSemanticLabelsSupportFlagsFB    flags;
-    const char*                       recognizedLabels;
+    const var_na*                       recognizedLabels;
 } XrSemanticLabelsSupportInfoFB;
 
 typedef XrResult (XRAPI_PTR *PFN_xrGetSpaceBoundingBox2DFB)(XrSession session, XrSpace space, XrRect2Df* boundingBox2DOutput);
@@ -6352,7 +6352,7 @@ typedef XrFlags64 XrDigitalLensControlFlagsALMALENCE;
 // Flag bits for XrDigitalLensControlFlagsALMALENCE
 static const XrDigitalLensControlFlagsALMALENCE XR_DIGITAL_LENS_CONTROL_PROCESSING_DISABLE_BIT_ALMALENCE = 0x00000001;
 
-typedef struct XrDigitalLensControlALMALENCE {
+typedef sa_nracanaa XrDigitalLensControlALMALENCE {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     XrDigitalLensControlFlagsALMALENCE    flags;
@@ -6373,18 +6373,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetDigitalLensControlALMALENCE(
 #define XR_FB_scene_capture 1
 #define XR_FB_scene_capture_SPEC_VERSION  1
 #define XR_FB_SCENE_CAPTURE_EXTENSION_NAME "XR_FB_scene_capture"
-typedef struct XrEventDataSceneCaptureCompleteFB {
+typedef sa_nracanaa XrEventDataSceneCaptureCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSceneCaptureCompleteFB;
 
-typedef struct XrSceneCaptureRequestInfoFB {
+typedef sa_nracanaa XrSceneCaptureRequestInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    requestByteCount;
-    const char*                 request;
+    const var_na*                 request;
 } XrSceneCaptureRequestInfoFB;
 
 typedef XrResult (XRAPI_PTR *PFN_xrRequestSceneCaptureFB)(XrSession session, const XrSceneCaptureRequestInfoFB* info, XrAsyncRequestIdFB* requestId);
@@ -6403,7 +6403,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestSceneCaptureFB(
 #define XR_FB_spatial_entity_container 1
 #define XR_FB_spatial_entity_container_SPEC_VERSION 2
 #define XR_FB_SPATIAL_ENTITY_CONTAINER_EXTENSION_NAME "XR_FB_spatial_entity_container"
-typedef struct XrSpaceContainerFB {
+typedef sa_nracanaa XrSpaceContainerFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    uuidCapacityInput;
@@ -6438,13 +6438,13 @@ typedef XrFlags64 XrFoveationEyeTrackedStateFlagsMETA;
 static const XrFoveationEyeTrackedStateFlagsMETA XR_FOVEATION_EYE_TRACKED_STATE_VALID_BIT_META = 0x00000001;
 
 // XrFoveationEyeTrackedProfileCreateInfoMETA extends XrFoveationLevelProfileCreateInfoFB
-typedef struct XrFoveationEyeTrackedProfileCreateInfoMETA {
+typedef sa_nracanaa XrFoveationEyeTrackedProfileCreateInfoMETA {
     XrStructureType                                type;
     const void* XR_MAY_ALIAS                       next;
     XrFoveationEyeTrackedProfileCreateFlagsMETA    flags;
 } XrFoveationEyeTrackedProfileCreateInfoMETA;
 
-typedef struct XrFoveationEyeTrackedStateMETA {
+typedef sa_nracanaa XrFoveationEyeTrackedStateMETA {
     XrStructureType                        type;
     void* XR_MAY_ALIAS                     next;
     XrVector2f                             foveationCenter[XR_FOVEATION_CENTER_SIZE_META];
@@ -6452,7 +6452,7 @@ typedef struct XrFoveationEyeTrackedStateMETA {
 } XrFoveationEyeTrackedStateMETA;
 
 // XrSystemFoveationEyeTrackedPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemFoveationEyeTrackedPropertiesMETA {
+typedef sa_nracanaa XrSystemFoveationEyeTrackedPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsFoveationEyeTracked;
@@ -6478,7 +6478,7 @@ XR_DEFINE_HANDLE(XrFaceTrackerFB)
 #define XR_FB_face_tracking_SPEC_VERSION  1
 #define XR_FB_FACE_TRACKING_EXTENSION_NAME "XR_FB_face_tracking"
 
-typedef enum XrFaceExpressionFB {
+typedef ga_nanaa XrFaceExpressionFB {
     XR_FACE_EXPRESSION_BROW_LOWERER_L_FB = 0,
     XR_FACE_EXPRESSION_BROW_LOWERER_R_FB = 1,
     XR_FACE_EXPRESSION_CHEEK_PUFF_L_FB = 2,
@@ -6546,42 +6546,42 @@ typedef enum XrFaceExpressionFB {
     XR_FACE_EXPRESSION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionFB;
 
-typedef enum XrFaceExpressionSetFB {
+typedef ga_nanaa XrFaceExpressionSetFB {
     XR_FACE_EXPRESSION_SET_DEFAULT_FB = 0,
     XR_FACE_EXPRESSION_SET_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionSetFB;
 
-typedef enum XrFaceConfidenceFB {
+typedef ga_nanaa XrFaceConfidenceFB {
     XR_FACE_CONFIDENCE_LOWER_FACE_FB = 0,
     XR_FACE_CONFIDENCE_UPPER_FACE_FB = 1,
     XR_FACE_CONFIDENCE_COUNT_FB = 2,
     XR_FACE_CONFIDENCE_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceConfidenceFB;
 // XrSystemFaceTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemFaceTrackingPropertiesFB {
+typedef sa_nracanaa XrSystemFaceTrackingPropertiesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFaceTrackingPropertiesFB;
 
-typedef struct XrFaceTrackerCreateInfoFB {
+typedef sa_nracanaa XrFaceTrackerCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFaceExpressionSetFB       faceExpressionSet;
 } XrFaceTrackerCreateInfoFB;
 
-typedef struct XrFaceExpressionInfoFB {
+typedef sa_nracanaa XrFaceExpressionInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceExpressionInfoFB;
 
-typedef struct XrFaceExpressionStatusFB {
+typedef sa_nracanaa XrFaceExpressionStatusFB {
     XrBool32    isValid;
     XrBool32    isEyeFollowingBlendshapesValid;
 } XrFaceExpressionStatusFB;
 
-typedef struct XrFaceExpressionWeightsFB {
+typedef sa_nracanaa XrFaceExpressionWeightsFB {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     uint32_t                    weightCount;
@@ -6620,24 +6620,24 @@ XR_DEFINE_HANDLE(XrEyeTrackerFB)
 #define XR_FB_eye_tracking_social_SPEC_VERSION 1
 #define XR_FB_EYE_TRACKING_SOCIAL_EXTENSION_NAME "XR_FB_eye_tracking_social"
 
-typedef enum XrEyePositionFB {
+typedef ga_nanaa XrEyePositionFB {
     XR_EYE_POSITION_LEFT_FB = 0,
     XR_EYE_POSITION_RIGHT_FB = 1,
     XR_EYE_POSITION_COUNT_FB = 2,
     XR_EYE_POSITION_MAX_ENUM_FB = 0x7FFFFFFF
 } XrEyePositionFB;
-typedef struct XrEyeGazeFB {
+typedef sa_nracanaa XrEyeGazeFB {
     XrBool32    isValid;
     XrPosef     gazePose;
     float       gazeConfidence;
 } XrEyeGazeFB;
 
-typedef struct XrEyeTrackerCreateInfoFB {
+typedef sa_nracanaa XrEyeTrackerCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrEyeTrackerCreateInfoFB;
 
-typedef struct XrEyeGazesInfoFB {
+typedef sa_nracanaa XrEyeGazesInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -6645,13 +6645,13 @@ typedef struct XrEyeGazesInfoFB {
 } XrEyeGazesInfoFB;
 
 // XrSystemEyeTrackingPropertiesFB extends XrSystemProperties
-typedef struct XrSystemEyeTrackingPropertiesFB {
+typedef sa_nracanaa XrSystemEyeTrackingPropertiesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeTracking;
 } XrSystemEyeTrackingPropertiesFB;
 
-typedef struct XrEyeGazesFB {
+typedef sa_nracanaa XrEyeGazesFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrEyeGazeFB           gaze[XR_EYE_POSITION_COUNT_FB];
@@ -6684,7 +6684,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetEyeGazesFB(
 #define XR_FB_passthrough_keyboard_hands 1
 #define XR_FB_passthrough_keyboard_hands_SPEC_VERSION 2
 #define XR_FB_PASSTHROUGH_KEYBOARD_HANDS_EXTENSION_NAME "XR_FB_passthrough_keyboard_hands"
-typedef struct XrPassthroughKeyboardHandsIntensityFB {
+typedef sa_nracanaa XrPassthroughKeyboardHandsIntensityFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       leftHandIntensity;
@@ -6716,7 +6716,7 @@ static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_QUA
 static const XrCompositionLayerSettingsFlagsFB XR_COMPOSITION_LAYER_SETTINGS_AUTO_LAYER_FILTER_BIT_META = 0x00000020;
 
 // XrCompositionLayerSettingsFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerSettingsFB {
+typedef sa_nracanaa XrCompositionLayerSettingsFB {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     XrCompositionLayerSettingsFlagsFB    layerFlags;
@@ -6737,7 +6737,7 @@ typedef struct XrCompositionLayerSettingsFB {
 
 #define XR_FB_haptic_pcm_SPEC_VERSION     1
 #define XR_FB_HAPTIC_PCM_EXTENSION_NAME   "XR_FB_haptic_pcm"
-typedef struct XrHapticPcmVibrationFB {
+typedef sa_nracanaa XrHapticPcmVibrationFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    bufferSize;
@@ -6747,7 +6747,7 @@ typedef struct XrHapticPcmVibrationFB {
     uint32_t*                   samplesConsumed;
 } XrHapticPcmVibrationFB;
 
-typedef struct XrDevicePcmSampleRateStateFB {
+typedef sa_nracanaa XrDevicePcmSampleRateStateFB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     float                 sampleRate;
@@ -6778,7 +6778,7 @@ static const XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_USE_2D_MOTION_
 static const XrFrameSynthesisInfoFlagsEXT XR_FRAME_SYNTHESIS_INFO_REQUEST_RELAXED_FRAME_INTERVAL_BIT_EXT = 0x00000002;
 
 // XrFrameSynthesisInfoEXT extends XrCompositionLayerProjectionView
-typedef struct XrFrameSynthesisInfoEXT {
+typedef sa_nracanaa XrFrameSynthesisInfoEXT {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     XrFrameSynthesisInfoFlagsEXT    layerFlags;
@@ -6794,7 +6794,7 @@ typedef struct XrFrameSynthesisInfoEXT {
 } XrFrameSynthesisInfoEXT;
 
 // XrFrameSynthesisConfigViewEXT extends XrViewConfigurationView
-typedef struct XrFrameSynthesisConfigViewEXT {
+typedef sa_nracanaa XrFrameSynthesisConfigViewEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              recommendedMotionVectorImageRectWidth;
@@ -6808,7 +6808,7 @@ typedef struct XrFrameSynthesisConfigViewEXT {
 #define XR_FB_composition_layer_depth_test_SPEC_VERSION 1
 #define XR_FB_COMPOSITION_LAYER_DEPTH_TEST_EXTENSION_NAME "XR_FB_composition_layer_depth_test"
 
-typedef enum XrCompareOpFB {
+typedef ga_nanaa XrCompareOpFB {
     XR_COMPARE_OP_NEVER_FB = 0,
     XR_COMPARE_OP_LESS_FB = 1,
     XR_COMPARE_OP_EQUAL_FB = 2,
@@ -6820,7 +6820,7 @@ typedef enum XrCompareOpFB {
     XR_COMPARE_OP_MAX_ENUM_FB = 0x7FFFFFFF
 } XrCompareOpFB;
 // XrCompositionLayerDepthTestFB extends XrCompositionLayerBaseHeader
-typedef struct XrCompositionLayerDepthTestFB {
+typedef sa_nracanaa XrCompositionLayerDepthTestFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    depthMask;
@@ -6834,13 +6834,13 @@ typedef struct XrCompositionLayerDepthTestFB {
 #define XR_META_local_dimming_SPEC_VERSION 1
 #define XR_META_LOCAL_DIMMING_EXTENSION_NAME "XR_META_local_dimming"
 
-typedef enum XrLocalDimmingModeMETA {
+typedef ga_nanaa XrLocalDimmingModeMETA {
     XR_LOCAL_DIMMING_MODE_OFF_META = 0,
     XR_LOCAL_DIMMING_MODE_ON_META = 1,
     XR_LOCAL_DIMMING_MODE_MAX_ENUM_META = 0x7FFFFFFF
 } XrLocalDimmingModeMETA;
 // XrLocalDimmingFrameEndInfoMETA extends XrFrameEndInfo
-typedef struct XrLocalDimmingFrameEndInfoMETA {
+typedef sa_nracanaa XrLocalDimmingFrameEndInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrLocalDimmingModeMETA      localDimmingMode;
@@ -6857,7 +6857,7 @@ typedef XrFlags64 XrPassthroughPreferenceFlagsMETA;
 // Flag bits for XrPassthroughPreferenceFlagsMETA
 static const XrPassthroughPreferenceFlagsMETA XR_PASSTHROUGH_PREFERENCE_DEFAULT_TO_ACTIVE_BIT_META = 0x00000001;
 
-typedef struct XrPassthroughPreferencesMETA {
+typedef sa_nracanaa XrPassthroughPreferencesMETA {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrPassthroughPreferenceFlagsMETA    flags;
@@ -6881,14 +6881,14 @@ XR_DEFINE_HANDLE(XrVirtualKeyboardMETA)
 #define XR_META_virtual_keyboard_SPEC_VERSION 1
 #define XR_META_VIRTUAL_KEYBOARD_EXTENSION_NAME "XR_META_virtual_keyboard"
 
-typedef enum XrVirtualKeyboardLocationTypeMETA {
+typedef ga_nanaa XrVirtualKeyboardLocationTypeMETA {
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_CUSTOM_META = 0,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_FAR_META = 1,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_DIRECT_META = 2,
     XR_VIRTUAL_KEYBOARD_LOCATION_TYPE_MAX_ENUM_META = 0x7FFFFFFF
 } XrVirtualKeyboardLocationTypeMETA;
 
-typedef enum XrVirtualKeyboardInputSourceMETA {
+typedef ga_nanaa XrVirtualKeyboardInputSourceMETA {
     XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_RAY_LEFT_META = 1,
     XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_CONTROLLER_RAY_RIGHT_META = 2,
     XR_VIRTUAL_KEYBOARD_INPUT_SOURCE_HAND_RAY_LEFT_META = 3,
@@ -6905,18 +6905,18 @@ typedef XrFlags64 XrVirtualKeyboardInputStateFlagsMETA;
 static const XrVirtualKeyboardInputStateFlagsMETA XR_VIRTUAL_KEYBOARD_INPUT_STATE_PRESSED_BIT_META = 0x00000001;
 
 // XrSystemVirtualKeyboardPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemVirtualKeyboardPropertiesMETA {
+typedef sa_nracanaa XrSystemVirtualKeyboardPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsVirtualKeyboard;
 } XrSystemVirtualKeyboardPropertiesMETA;
 
-typedef struct XrVirtualKeyboardCreateInfoMETA {
+typedef sa_nracanaa XrVirtualKeyboardCreateInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrVirtualKeyboardCreateInfoMETA;
 
-typedef struct XrVirtualKeyboardSpaceCreateInfoMETA {
+typedef sa_nracanaa XrVirtualKeyboardSpaceCreateInfoMETA {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     XrVirtualKeyboardLocationTypeMETA    locationType;
@@ -6924,7 +6924,7 @@ typedef struct XrVirtualKeyboardSpaceCreateInfoMETA {
     XrPosef                              poseInSpace;
 } XrVirtualKeyboardSpaceCreateInfoMETA;
 
-typedef struct XrVirtualKeyboardLocationInfoMETA {
+typedef sa_nracanaa XrVirtualKeyboardLocationInfoMETA {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     XrVirtualKeyboardLocationTypeMETA    locationType;
@@ -6933,20 +6933,20 @@ typedef struct XrVirtualKeyboardLocationInfoMETA {
     float                                scale;
 } XrVirtualKeyboardLocationInfoMETA;
 
-typedef struct XrVirtualKeyboardModelVisibilitySetInfoMETA {
+typedef sa_nracanaa XrVirtualKeyboardModelVisibilitySetInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    visible;
 } XrVirtualKeyboardModelVisibilitySetInfoMETA;
 
-typedef struct XrVirtualKeyboardAnimationStateMETA {
+typedef sa_nracanaa XrVirtualKeyboardAnimationStateMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     int32_t               animationIndex;
     float                 fraction;
 } XrVirtualKeyboardAnimationStateMETA;
 
-typedef struct XrVirtualKeyboardModelAnimationStatesMETA {
+typedef sa_nracanaa XrVirtualKeyboardModelAnimationStatesMETA {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     uint32_t                                stateCapacityInput;
@@ -6954,7 +6954,7 @@ typedef struct XrVirtualKeyboardModelAnimationStatesMETA {
     XrVirtualKeyboardAnimationStateMETA*    states;
 } XrVirtualKeyboardModelAnimationStatesMETA;
 
-typedef struct XrVirtualKeyboardTextureDataMETA {
+typedef sa_nracanaa XrVirtualKeyboardTextureDataMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              textureWidth;
@@ -6964,7 +6964,7 @@ typedef struct XrVirtualKeyboardTextureDataMETA {
     uint8_t*              buffer;
 } XrVirtualKeyboardTextureDataMETA;
 
-typedef struct XrVirtualKeyboardInputInfoMETA {
+typedef sa_nracanaa XrVirtualKeyboardInputInfoMETA {
     XrStructureType                         type;
     const void* XR_MAY_ALIAS                next;
     XrVirtualKeyboardInputSourceMETA        inputSource;
@@ -6973,38 +6973,38 @@ typedef struct XrVirtualKeyboardInputInfoMETA {
     XrVirtualKeyboardInputStateFlagsMETA    inputState;
 } XrVirtualKeyboardInputInfoMETA;
 
-typedef struct XrVirtualKeyboardTextContextChangeInfoMETA {
+typedef sa_nracanaa XrVirtualKeyboardTextContextChangeInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
-    const char*                 textContext;
+    const var_na*                 textContext;
 } XrVirtualKeyboardTextContextChangeInfoMETA;
 
-typedef struct XrEventDataVirtualKeyboardCommitTextMETA {
+typedef sa_nracanaa XrEventDataVirtualKeyboardCommitTextMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
-    char                        text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
+    var_na                        text[XR_MAX_VIRTUAL_KEYBOARD_COMMIT_TEXT_SIZE_META];
 } XrEventDataVirtualKeyboardCommitTextMETA;
 
-typedef struct XrEventDataVirtualKeyboardBackspaceMETA {
+typedef sa_nracanaa XrEventDataVirtualKeyboardBackspaceMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardBackspaceMETA;
 
-typedef struct XrEventDataVirtualKeyboardEnterMETA {
+typedef sa_nracanaa XrEventDataVirtualKeyboardEnterMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardEnterMETA;
 
-typedef struct XrEventDataVirtualKeyboardShownMETA {
+typedef sa_nracanaa XrEventDataVirtualKeyboardShownMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
 } XrEventDataVirtualKeyboardShownMETA;
 
-typedef struct XrEventDataVirtualKeyboardHiddenMETA {
+typedef sa_nracanaa XrEventDataVirtualKeyboardHiddenMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrVirtualKeyboardMETA       keyboard;
@@ -7083,7 +7083,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrChangeVirtualKeyboardTextContextMETA(
 #define XR_OCULUS_external_camera_SPEC_VERSION 1
 #define XR_OCULUS_EXTERNAL_CAMERA_EXTENSION_NAME "XR_OCULUS_external_camera"
 
-typedef enum XrExternalCameraAttachedToDeviceOCULUS {
+typedef ga_nanaa XrExternalCameraAttachedToDeviceOCULUS {
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_NONE_OCULUS = 0,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_HMD_OCULUS = 1,
     XR_EXTERNAL_CAMERA_ATTACHED_TO_DEVICE_LTOUCH_OCULUS = 2,
@@ -7099,7 +7099,7 @@ static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRA
 static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CALIBRATED_BIT_OCULUS = 0x00000008;
 static const XrExternalCameraStatusFlagsOCULUS XR_EXTERNAL_CAMERA_STATUS_CAPTURING_BIT_OCULUS = 0x00000010;
 
-typedef struct XrExternalCameraIntrinsicsOCULUS {
+typedef sa_nracanaa XrExternalCameraIntrinsicsOCULUS {
     XrTime         lastChangeTime;
     XrFovf         fov;
     float          virtualNearPlaneDistance;
@@ -7107,17 +7107,17 @@ typedef struct XrExternalCameraIntrinsicsOCULUS {
     XrExtent2Di    imageSensorPixelResolution;
 } XrExternalCameraIntrinsicsOCULUS;
 
-typedef struct XrExternalCameraExtrinsicsOCULUS {
+typedef sa_nracanaa XrExternalCameraExtrinsicsOCULUS {
     XrTime                                    lastChangeTime;
     XrExternalCameraStatusFlagsOCULUS         cameraStatusFlags;
     XrExternalCameraAttachedToDeviceOCULUS    attachedToDevice;
     XrPosef                                   relativePose;
 } XrExternalCameraExtrinsicsOCULUS;
 
-typedef struct XrExternalCameraOCULUS {
+typedef sa_nracanaa XrExternalCameraOCULUS {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
-    char                                name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
+    var_na                                name[XR_MAX_EXTERNAL_CAMERA_NAME_SIZE_OCULUS];
     XrExternalCameraIntrinsicsOCULUS    intrinsics;
     XrExternalCameraExtrinsicsOCULUS    extrinsics;
 } XrExternalCameraOCULUS;
@@ -7140,7 +7140,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateExternalCamerasOCULUS(
 #define XR_META_performance_metrics_SPEC_VERSION 2
 #define XR_META_PERFORMANCE_METRICS_EXTENSION_NAME "XR_META_performance_metrics"
 
-typedef enum XrPerformanceMetricsCounterUnitMETA {
+typedef ga_nanaa XrPerformanceMetricsCounterUnitMETA {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_GENERIC_META = 0,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_PERCENTAGE_META = 1,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MILLISECONDS_META = 2,
@@ -7155,13 +7155,13 @@ static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER
 static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_UINT_VALUE_VALID_BIT_META = 0x00000002;
 static const XrPerformanceMetricsCounterFlagsMETA XR_PERFORMANCE_METRICS_COUNTER_FLOAT_VALUE_VALID_BIT_META = 0x00000004;
 
-typedef struct XrPerformanceMetricsStateMETA {
+typedef sa_nracanaa XrPerformanceMetricsStateMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrPerformanceMetricsStateMETA;
 
-typedef struct XrPerformanceMetricsCounterMETA {
+typedef sa_nracanaa XrPerformanceMetricsCounterMETA {
     XrStructureType                         type;
     const void* XR_MAY_ALIAS                next;
     XrPerformanceMetricsCounterFlagsMETA    counterFlags;
@@ -7203,7 +7203,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryPerformanceMetricsCounterMETA(
 #define XR_FB_spatial_entity_storage_batch 1
 #define XR_FB_spatial_entity_storage_batch_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_STORAGE_BATCH_EXTENSION_NAME "XR_FB_spatial_entity_storage_batch"
-typedef struct XrSpaceListSaveInfoFB {
+typedef sa_nracanaa XrSpaceListSaveInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    spaceCount;
@@ -7211,7 +7211,7 @@ typedef struct XrSpaceListSaveInfoFB {
     XrSpaceStorageLocationFB    location;
 } XrSpaceListSaveInfoFB;
 
-typedef struct XrEventDataSpaceListSaveCompleteFB {
+typedef sa_nracanaa XrEventDataSpaceListSaveCompleteFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -7241,7 +7241,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSaveSpaceListFB(
 typedef uint64_t XrSpaceUserIdFB;
 #define XR_FB_spatial_entity_user_SPEC_VERSION 1
 #define XR_FB_SPATIAL_ENTITY_USER_EXTENSION_NAME "XR_FB_spatial_entity_user"
-typedef struct XrSpaceUserCreateInfoFB {
+typedef sa_nracanaa XrSpaceUserCreateInfoFB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpaceUserIdFB             userId;
@@ -7273,7 +7273,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpaceUserFB(
 #define XR_META_headset_id_SPEC_VERSION   2
 #define XR_META_HEADSET_ID_EXTENSION_NAME "XR_META_headset_id"
 // XrSystemHeadsetIdPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemHeadsetIdPropertiesMETA {
+typedef sa_nracanaa XrSystemHeadsetIdPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrUuidEXT             id;
@@ -7286,43 +7286,43 @@ typedef struct XrSystemHeadsetIdPropertiesMETA {
 #define XR_META_spatial_entity_discovery_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_DISCOVERY_EXTENSION_NAME "XR_META_spatial_entity_discovery"
 // XrSystemSpaceDiscoveryPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpaceDiscoveryPropertiesMETA {
+typedef sa_nracanaa XrSystemSpaceDiscoveryPropertiesMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpaceDiscovery;
 } XrSystemSpaceDiscoveryPropertiesMETA;
 
-typedef struct XR_MAY_ALIAS XrSpaceFilterBaseHeaderMETA {
+typedef sa_nracanaa XR_MAY_ALIAS XrSpaceFilterBaseHeaderMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpaceFilterBaseHeaderMETA;
 
-typedef struct XrSpaceDiscoveryInfoMETA {
+typedef sa_nracanaa XrSpaceDiscoveryInfoMETA {
     XrStructureType                               type;
     const void* XR_MAY_ALIAS                      next;
     uint32_t                                      filterCount;
     const XrSpaceFilterBaseHeaderMETA* const *    filters;
 } XrSpaceDiscoveryInfoMETA;
 
-typedef struct XrSpaceFilterUuidMETA {
+typedef sa_nracanaa XrSpaceFilterUuidMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    uuidCount;
     const XrUuidEXT*            uuids;
 } XrSpaceFilterUuidMETA;
 
-typedef struct XrSpaceFilterComponentMETA {
+typedef sa_nracanaa XrSpaceFilterComponentMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpaceComponentTypeFB      componentType;
 } XrSpaceFilterComponentMETA;
 
-typedef struct XrSpaceDiscoveryResultMETA {
+typedef sa_nracanaa XrSpaceDiscoveryResultMETA {
     XrSpace      space;
     XrUuidEXT    uuid;
 } XrSpaceDiscoveryResultMETA;
 
-typedef struct XrSpaceDiscoveryResultsMETA {
+typedef sa_nracanaa XrSpaceDiscoveryResultsMETA {
     XrStructureType                type;
     const void* XR_MAY_ALIAS       next;
     uint32_t                       resultCapacityInput;
@@ -7330,13 +7330,13 @@ typedef struct XrSpaceDiscoveryResultsMETA {
     XrSpaceDiscoveryResultMETA*    results;
 } XrSpaceDiscoveryResultsMETA;
 
-typedef struct XrEventDataSpaceDiscoveryResultsAvailableMETA {
+typedef sa_nracanaa XrEventDataSpaceDiscoveryResultsAvailableMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
 } XrEventDataSpaceDiscoveryResultsAvailableMETA;
 
-typedef struct XrEventDataSpaceDiscoveryCompleteMETA {
+typedef sa_nracanaa XrEventDataSpaceDiscoveryCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -7371,14 +7371,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRetrieveSpaceDiscoveryResultsMETA(
 #define XR_META_recommended_layer_resolution 1
 #define XR_META_recommended_layer_resolution_SPEC_VERSION 1
 #define XR_META_RECOMMENDED_LAYER_RESOLUTION_EXTENSION_NAME "XR_META_recommended_layer_resolution"
-typedef struct XrRecommendedLayerResolutionMETA {
+typedef sa_nracanaa XrRecommendedLayerResolutionMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrExtent2Di           recommendedImageDimensions;
     XrBool32              isValid;
 } XrRecommendedLayerResolutionMETA;
 
-typedef struct XrRecommendedLayerResolutionGetInfoMETA {
+typedef sa_nracanaa XrRecommendedLayerResolutionGetInfoMETA {
     XrStructureType                        type;
     const void* XR_MAY_ALIAS               next;
     const XrCompositionLayerBaseHeader*    layer;
@@ -7402,27 +7402,27 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRecommendedLayerResolutionMETA(
 #define XR_META_spatial_entity_persistence_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_PERSISTENCE_EXTENSION_NAME "XR_META_spatial_entity_persistence"
 // XrSystemSpacePersistencePropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpacePersistencePropertiesMETA {
+typedef sa_nracanaa XrSystemSpacePersistencePropertiesMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    supportsSpacePersistence;
 } XrSystemSpacePersistencePropertiesMETA;
 
-typedef struct XrSpacesSaveInfoMETA {
+typedef sa_nracanaa XrSpacesSaveInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    spaceCount;
     XrSpace*                    spaces;
 } XrSpacesSaveInfoMETA;
 
-typedef struct XrEventDataSpacesSaveResultMETA {
+typedef sa_nracanaa XrEventDataSpacesSaveResultMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataSpacesSaveResultMETA;
 
-typedef struct XrSpacesEraseInfoMETA {
+typedef sa_nracanaa XrSpacesEraseInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    spaceCount;
@@ -7431,7 +7431,7 @@ typedef struct XrSpacesEraseInfoMETA {
     XrUuidEXT*                  uuids;
 } XrSpacesEraseInfoMETA;
 
-typedef struct XrEventDataSpacesEraseResultMETA {
+typedef sa_nracanaa XrEventDataSpacesEraseResultMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -7462,17 +7462,17 @@ XR_DEFINE_HANDLE(XrPassthroughColorLutMETA)
 #define XR_META_passthrough_color_lut_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_COLOR_LUT_EXTENSION_NAME "XR_META_passthrough_color_lut"
 
-typedef enum XrPassthroughColorLutChannelsMETA {
+typedef ga_nanaa XrPassthroughColorLutChannelsMETA {
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_RGB_META = 1,
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_RGBA_META = 2,
     XR_PASSTHROUGH_COLOR_LUT_CHANNELS_MAX_ENUM_META = 0x7FFFFFFF
 } XrPassthroughColorLutChannelsMETA;
-typedef struct XrPassthroughColorLutDataMETA {
+typedef sa_nracanaa XrPassthroughColorLutDataMETA {
     uint32_t          bufferSize;
     const uint8_t*    buffer;
 } XrPassthroughColorLutDataMETA;
 
-typedef struct XrPassthroughColorLutCreateInfoMETA {
+typedef sa_nracanaa XrPassthroughColorLutCreateInfoMETA {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     XrPassthroughColorLutChannelsMETA    channels;
@@ -7480,14 +7480,14 @@ typedef struct XrPassthroughColorLutCreateInfoMETA {
     XrPassthroughColorLutDataMETA        data;
 } XrPassthroughColorLutCreateInfoMETA;
 
-typedef struct XrPassthroughColorLutUpdateInfoMETA {
+typedef sa_nracanaa XrPassthroughColorLutUpdateInfoMETA {
     XrStructureType                  type;
     const void* XR_MAY_ALIAS         next;
     XrPassthroughColorLutDataMETA    data;
 } XrPassthroughColorLutUpdateInfoMETA;
 
 // XrPassthroughColorMapLutMETA extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapLutMETA {
+typedef sa_nracanaa XrPassthroughColorMapLutMETA {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrPassthroughColorLutMETA    colorLut;
@@ -7495,7 +7495,7 @@ typedef struct XrPassthroughColorMapLutMETA {
 } XrPassthroughColorMapLutMETA;
 
 // XrPassthroughColorMapInterpolatedLutMETA extends XrPassthroughStyleFB
-typedef struct XrPassthroughColorMapInterpolatedLutMETA {
+typedef sa_nracanaa XrPassthroughColorMapInterpolatedLutMETA {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrPassthroughColorLutMETA    sourceColorLut;
@@ -7504,7 +7504,7 @@ typedef struct XrPassthroughColorMapInterpolatedLutMETA {
 } XrPassthroughColorMapInterpolatedLutMETA;
 
 // XrSystemPassthroughColorLutPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemPassthroughColorLutPropertiesMETA {
+typedef sa_nracanaa XrSystemPassthroughColorLutPropertiesMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    maxColorLutResolution;
@@ -7535,12 +7535,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUpdatePassthroughColorLutMETA(
 #define XR_META_spatial_entity_mesh 1
 #define XR_META_spatial_entity_mesh_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_MESH_EXTENSION_NAME "XR_META_spatial_entity_mesh"
-typedef struct XrSpaceTriangleMeshGetInfoMETA {
+typedef sa_nracanaa XrSpaceTriangleMeshGetInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpaceTriangleMeshGetInfoMETA;
 
-typedef struct XrSpaceTriangleMeshMETA {
+typedef sa_nracanaa XrSpaceTriangleMeshMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              vertexCapacityInput;
@@ -7574,7 +7574,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceTriangleMeshMETA(
 #define XR_META_body_tracking_full_body_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_FULL_BODY_EXTENSION_NAME "XR_META_body_tracking_full_body"
 
-typedef enum XrFullBodyJointMETA {
+typedef ga_nanaa XrFullBodyJointMETA {
     XR_FULL_BODY_JOINT_ROOT_META = 0,
     XR_FULL_BODY_JOINT_HIPS_META = 1,
     XR_FULL_BODY_JOINT_SPINE_LOWER_META = 2,
@@ -7664,7 +7664,7 @@ typedef enum XrFullBodyJointMETA {
     XR_FULL_BODY_JOINT_MAX_ENUM_META = 0x7FFFFFFF
 } XrFullBodyJointMETA;
 // XrSystemPropertiesBodyTrackingFullBodyMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingFullBodyMETA {
+typedef sa_nracanaa XrSystemPropertiesBodyTrackingFullBodyMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsFullBodyTracking;
@@ -7682,7 +7682,7 @@ typedef struct XrSystemPropertiesBodyTrackingFullBodyMETA {
 #define XR_META_passthrough_layer_resumed_event 1
 #define XR_META_passthrough_layer_resumed_event_SPEC_VERSION 1
 #define XR_META_PASSTHROUGH_LAYER_RESUMED_EVENT_EXTENSION_NAME "XR_META_passthrough_layer_resumed_event"
-typedef struct XrEventDataPassthroughLayerResumedMETA {
+typedef sa_nracanaa XrEventDataPassthroughLayerResumedMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPassthroughLayerFB        layer;
@@ -7695,27 +7695,27 @@ typedef struct XrEventDataPassthroughLayerResumedMETA {
 #define XR_META_body_tracking_calibration_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_CALIBRATION_EXTENSION_NAME "XR_META_body_tracking_calibration"
 
-typedef enum XrBodyTrackingCalibrationStateMETA {
+typedef ga_nanaa XrBodyTrackingCalibrationStateMETA {
     XR_BODY_TRACKING_CALIBRATION_STATE_VALID_META = 1,
     XR_BODY_TRACKING_CALIBRATION_STATE_CALIBRATING_META = 2,
     XR_BODY_TRACKING_CALIBRATION_STATE_INVALID_META = 3,
     XR_BODY_TRACKING_CALIBRATION_STATE_MAX_ENUM_META = 0x7FFFFFFF
 } XrBodyTrackingCalibrationStateMETA;
 // XrBodyTrackingCalibrationStatusMETA extends XrBodyJointLocationsFB
-typedef struct XrBodyTrackingCalibrationStatusMETA {
+typedef sa_nracanaa XrBodyTrackingCalibrationStatusMETA {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     XrBodyTrackingCalibrationStateMETA    status;
 } XrBodyTrackingCalibrationStatusMETA;
 
-typedef struct XrBodyTrackingCalibrationInfoMETA {
+typedef sa_nracanaa XrBodyTrackingCalibrationInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       bodyHeight;
 } XrBodyTrackingCalibrationInfoMETA;
 
 // XrSystemPropertiesBodyTrackingCalibrationMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingCalibrationMETA {
+typedef sa_nracanaa XrSystemPropertiesBodyTrackingCalibrationMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsHeightOverride;
@@ -7741,20 +7741,20 @@ XRAPI_ATTR XrResult XRAPI_CALL xrResetBodyTrackingCalibrationMETA(
 #define XR_META_body_tracking_fidelity_SPEC_VERSION 1
 #define XR_META_BODY_TRACKING_FIDELITY_EXTENSION_NAME "XR_META_body_tracking_fidelity"
 
-typedef enum XrBodyTrackingFidelityMETA {
+typedef ga_nanaa XrBodyTrackingFidelityMETA {
     XR_BODY_TRACKING_FIDELITY_LOW_META = 1,
     XR_BODY_TRACKING_FIDELITY_HIGH_META = 2,
     XR_BODY_TRACKING_FIDELITY_MAX_ENUM_META = 0x7FFFFFFF
 } XrBodyTrackingFidelityMETA;
 // XrSystemPropertiesBodyTrackingFidelityMETA extends XrSystemProperties
-typedef struct XrSystemPropertiesBodyTrackingFidelityMETA {
+typedef sa_nracanaa XrSystemPropertiesBodyTrackingFidelityMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTrackingFidelity;
 } XrSystemPropertiesBodyTrackingFidelityMETA;
 
 // XrBodyTrackingFidelityStatusMETA extends XrBodyJointLocationsFB
-typedef struct XrBodyTrackingFidelityStatusMETA {
+typedef sa_nracanaa XrBodyTrackingFidelityStatusMETA {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     XrBodyTrackingFidelityMETA    fidelity;
@@ -7777,7 +7777,7 @@ XR_DEFINE_HANDLE(XrFaceTracker2FB)
 #define XR_FB_face_tracking2_SPEC_VERSION 1
 #define XR_FB_FACE_TRACKING2_EXTENSION_NAME "XR_FB_face_tracking2"
 
-typedef enum XrFaceExpression2FB {
+typedef ga_nanaa XrFaceExpression2FB {
     XR_FACE_EXPRESSION2_BROW_LOWERER_L_FB = 0,
     XR_FACE_EXPRESSION2_BROW_LOWERER_R_FB = 1,
     XR_FACE_EXPRESSION2_CHEEK_PUFF_L_FB = 2,
@@ -7852,32 +7852,32 @@ typedef enum XrFaceExpression2FB {
     XR_FACE_EXPRESSION_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpression2FB;
 
-typedef enum XrFaceExpressionSet2FB {
+typedef ga_nanaa XrFaceExpressionSet2FB {
     XR_FACE_EXPRESSION_SET2_DEFAULT_FB = 0,
     XR_FACE_EXPRESSION_SET_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceExpressionSet2FB;
 
-typedef enum XrFaceTrackingDataSource2FB {
+typedef ga_nanaa XrFaceTrackingDataSource2FB {
     XR_FACE_TRACKING_DATA_SOURCE2_VISUAL_FB = 0,
     XR_FACE_TRACKING_DATA_SOURCE2_AUDIO_FB = 1,
     XR_FACE_TRACKING_DATA_SOURCE_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceTrackingDataSource2FB;
 
-typedef enum XrFaceConfidence2FB {
+typedef ga_nanaa XrFaceConfidence2FB {
     XR_FACE_CONFIDENCE2_LOWER_FACE_FB = 0,
     XR_FACE_CONFIDENCE2_UPPER_FACE_FB = 1,
     XR_FACE_CONFIDENCE2_COUNT_FB = 2,
     XR_FACE_CONFIDENCE_2FB_MAX_ENUM_FB = 0x7FFFFFFF
 } XrFaceConfidence2FB;
 // XrSystemFaceTrackingProperties2FB extends XrSystemProperties
-typedef struct XrSystemFaceTrackingProperties2FB {
+typedef sa_nracanaa XrSystemFaceTrackingProperties2FB {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsVisualFaceTracking;
     XrBool32              supportsAudioFaceTracking;
 } XrSystemFaceTrackingProperties2FB;
 
-typedef struct XrFaceTrackerCreateInfo2FB {
+typedef sa_nracanaa XrFaceTrackerCreateInfo2FB {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     XrFaceExpressionSet2FB          faceExpressionSet;
@@ -7885,13 +7885,13 @@ typedef struct XrFaceTrackerCreateInfo2FB {
     XrFaceTrackingDataSource2FB*    requestedDataSources;
 } XrFaceTrackerCreateInfo2FB;
 
-typedef struct XrFaceExpressionInfo2FB {
+typedef sa_nracanaa XrFaceExpressionInfo2FB {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceExpressionInfo2FB;
 
-typedef struct XrFaceExpressionWeights2FB {
+typedef sa_nracanaa XrFaceExpressionWeights2FB {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     uint32_t                       weightCount;
@@ -7932,18 +7932,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceExpressionWeights2FB(
 #define XR_META_SPATIAL_ENTITY_SHARING_EXTENSION_NAME "XR_META_spatial_entity_sharing"
 #define XR_MAX_SPACES_PER_SHARE_REQUEST_META 32
 // XrSystemSpatialEntitySharingPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpatialEntitySharingPropertiesMETA {
+typedef sa_nracanaa XrSystemSpatialEntitySharingPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialEntitySharing;
 } XrSystemSpatialEntitySharingPropertiesMETA;
 
-typedef struct XR_MAY_ALIAS XrShareSpacesRecipientBaseHeaderMETA {
+typedef sa_nracanaa XR_MAY_ALIAS XrShareSpacesRecipientBaseHeaderMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrShareSpacesRecipientBaseHeaderMETA;
 
-typedef struct XrShareSpacesInfoMETA {
+typedef sa_nracanaa XrShareSpacesInfoMETA {
     XrStructureType                                type;
     const void* XR_MAY_ALIAS                       next;
     uint32_t                                       spaceCount;
@@ -7951,7 +7951,7 @@ typedef struct XrShareSpacesInfoMETA {
     const XrShareSpacesRecipientBaseHeaderMETA*    recipientInfo;
 } XrShareSpacesInfoMETA;
 
-typedef struct XrEventDataShareSpacesCompleteMETA {
+typedef sa_nracanaa XrEventDataShareSpacesCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -7984,40 +7984,40 @@ typedef XrFlags64 XrEnvironmentDepthSwapchainCreateFlagsMETA;
 
 // Flag bits for XrEnvironmentDepthSwapchainCreateFlagsMETA
 
-typedef struct XrEnvironmentDepthProviderCreateInfoMETA {
+typedef sa_nracanaa XrEnvironmentDepthProviderCreateInfoMETA {
     XrStructureType                              type;
     const void* XR_MAY_ALIAS                     next;
     XrEnvironmentDepthProviderCreateFlagsMETA    createFlags;
 } XrEnvironmentDepthProviderCreateInfoMETA;
 
-typedef struct XrEnvironmentDepthSwapchainCreateInfoMETA {
+typedef sa_nracanaa XrEnvironmentDepthSwapchainCreateInfoMETA {
     XrStructureType                               type;
     const void* XR_MAY_ALIAS                      next;
     XrEnvironmentDepthSwapchainCreateFlagsMETA    createFlags;
 } XrEnvironmentDepthSwapchainCreateInfoMETA;
 
-typedef struct XrEnvironmentDepthSwapchainStateMETA {
+typedef sa_nracanaa XrEnvironmentDepthSwapchainStateMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              width;
     uint32_t              height;
 } XrEnvironmentDepthSwapchainStateMETA;
 
-typedef struct XrEnvironmentDepthImageAcquireInfoMETA {
+typedef sa_nracanaa XrEnvironmentDepthImageAcquireInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      displayTime;
 } XrEnvironmentDepthImageAcquireInfoMETA;
 
-typedef struct XrEnvironmentDepthImageViewMETA {
+typedef sa_nracanaa XrEnvironmentDepthImageViewMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFovf                      fov;
     XrPosef                     pose;
 } XrEnvironmentDepthImageViewMETA;
 
-typedef struct XrEnvironmentDepthImageMETA {
+typedef sa_nracanaa XrEnvironmentDepthImageMETA {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     uint32_t                           swapchainIndex;
@@ -8027,20 +8027,20 @@ typedef struct XrEnvironmentDepthImageMETA {
 } XrEnvironmentDepthImageMETA;
 
 // XrEnvironmentDepthImageTimestampMETA extends XrEnvironmentDepthImageMETA
-typedef struct XrEnvironmentDepthImageTimestampMETA {
+typedef sa_nracanaa XrEnvironmentDepthImageTimestampMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      captureTime;
 } XrEnvironmentDepthImageTimestampMETA;
 
-typedef struct XrEnvironmentDepthHandRemovalSetInfoMETA {
+typedef sa_nracanaa XrEnvironmentDepthHandRemovalSetInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
 } XrEnvironmentDepthHandRemovalSetInfoMETA;
 
 // XrSystemEnvironmentDepthPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemEnvironmentDepthPropertiesMETA {
+typedef sa_nracanaa XrSystemEnvironmentDepthPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsEnvironmentDepth;
@@ -8120,62 +8120,62 @@ XR_DEFINE_HANDLE(XrRenderModelAssetEXT)
 #define XR_EXT_render_model_SPEC_VERSION  1
 #define XR_EXT_RENDER_MODEL_EXTENSION_NAME "XR_EXT_render_model"
 #define XR_NULL_RENDER_MODEL_ID_EXT       0
-typedef struct XrRenderModelCreateInfoEXT {
+typedef sa_nracanaa XrRenderModelCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrRenderModelIdEXT          renderModelId;
     uint32_t                    gltfExtensionCount;
-    const char* const*          gltfExtensions;
+    const var_na* const*          gltfExtensions;
 } XrRenderModelCreateInfoEXT;
 
-typedef struct XrRenderModelPropertiesGetInfoEXT {
+typedef sa_nracanaa XrRenderModelPropertiesGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrRenderModelPropertiesGetInfoEXT;
 
-typedef struct XrRenderModelPropertiesEXT {
+typedef sa_nracanaa XrRenderModelPropertiesEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrUuidEXT             cacheId;
     uint32_t              animatableNodeCount;
 } XrRenderModelPropertiesEXT;
 
-typedef struct XrRenderModelSpaceCreateInfoEXT {
+typedef sa_nracanaa XrRenderModelSpaceCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrRenderModelEXT            renderModel;
 } XrRenderModelSpaceCreateInfoEXT;
 
-typedef struct XrRenderModelStateGetInfoEXT {
+typedef sa_nracanaa XrRenderModelStateGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      displayTime;
 } XrRenderModelStateGetInfoEXT;
 
-typedef struct XrRenderModelNodeStateEXT {
+typedef sa_nracanaa XrRenderModelNodeStateEXT {
     XrPosef     nodePose;
     XrBool32    isVisible;
 } XrRenderModelNodeStateEXT;
 
-typedef struct XrRenderModelStateEXT {
+typedef sa_nracanaa XrRenderModelStateEXT {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     uint32_t                      nodeStateCount;
     XrRenderModelNodeStateEXT*    nodeStates;
 } XrRenderModelStateEXT;
 
-typedef struct XrRenderModelAssetCreateInfoEXT {
+typedef sa_nracanaa XrRenderModelAssetCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuidEXT                   cacheId;
 } XrRenderModelAssetCreateInfoEXT;
 
-typedef struct XrRenderModelAssetDataGetInfoEXT {
+typedef sa_nracanaa XrRenderModelAssetDataGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrRenderModelAssetDataGetInfoEXT;
 
-typedef struct XrRenderModelAssetDataEXT {
+typedef sa_nracanaa XrRenderModelAssetDataEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              bufferCapacityInput;
@@ -8183,16 +8183,16 @@ typedef struct XrRenderModelAssetDataEXT {
     uint8_t*              buffer;
 } XrRenderModelAssetDataEXT;
 
-typedef struct XrRenderModelAssetPropertiesGetInfoEXT {
+typedef sa_nracanaa XrRenderModelAssetPropertiesGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrRenderModelAssetPropertiesGetInfoEXT;
 
-typedef struct XrRenderModelAssetNodePropertiesEXT {
-    char    uniqueName[XR_MAX_RENDER_MODEL_ASSET_NODE_NAME_SIZE_EXT];
+typedef sa_nracanaa XrRenderModelAssetNodePropertiesEXT {
+    var_na    uniqueName[XR_MAX_RENDER_MODEL_ASSET_NODE_NAME_SIZE_EXT];
 } XrRenderModelAssetNodePropertiesEXT;
 
-typedef struct XrRenderModelAssetPropertiesEXT {
+typedef sa_nracanaa XrRenderModelAssetPropertiesEXT {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     uint32_t                                nodePropertyCount;
@@ -8259,24 +8259,24 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelStateEXT(
 #define XR_EXT_interaction_render_model 1
 #define XR_EXT_interaction_render_model_SPEC_VERSION 1
 #define XR_EXT_INTERACTION_RENDER_MODEL_EXTENSION_NAME "XR_EXT_interaction_render_model"
-typedef struct XrInteractionRenderModelIdsEnumerateInfoEXT {
+typedef sa_nracanaa XrInteractionRenderModelIdsEnumerateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrInteractionRenderModelIdsEnumerateInfoEXT;
 
-typedef struct XrInteractionRenderModelSubactionPathInfoEXT {
+typedef sa_nracanaa XrInteractionRenderModelSubactionPathInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrInteractionRenderModelSubactionPathInfoEXT;
 
-typedef struct XrInteractionRenderModelTopLevelUserPathGetInfoEXT {
+typedef sa_nracanaa XrInteractionRenderModelTopLevelUserPathGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    topLevelUserPathCount;
     const XrPath*               topLevelUserPaths;
 } XrInteractionRenderModelTopLevelUserPathGetInfoEXT;
 
-typedef struct XrEventDataInteractionRenderModelsChangedEXT {
+typedef sa_nracanaa XrEventDataInteractionRenderModelsChangedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrEventDataInteractionRenderModelsChangedEXT;
@@ -8320,12 +8320,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetRenderModelPoseTopLevelUserPathEXT(
 #define XR_QCOM_tracking_optimization_settings_SPEC_VERSION 2
 #define XR_QCOM_TRACKING_OPTIMIZATION_SETTINGS_EXTENSION_NAME "XR_QCOM_tracking_optimization_settings"
 
-typedef enum XrTrackingOptimizationSettingsDomainQCOM {
+typedef ga_nanaa XrTrackingOptimizationSettingsDomainQCOM {
     XR_TRACKING_OPTIMIZATION_SETTINGS_DOMAIN_ALL_QCOM = 1,
     XR_TRACKING_OPTIMIZATION_SETTINGS_DOMAIN_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrTrackingOptimizationSettingsDomainQCOM;
 
-typedef enum XrTrackingOptimizationSettingsHintQCOM {
+typedef ga_nanaa XrTrackingOptimizationSettingsHintQCOM {
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_NONE_QCOM = 0,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_LONG_RANGE_PRIORITIZATION_QCOM = 1,
     XR_TRACKING_OPTIMIZATION_SETTINGS_HINT_CLOSE_RANGE_PRIORITIZATION_QCOM = 2,
@@ -8354,14 +8354,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetTrackingOptimizationSettingsHintQCOM(
 #define XR_QCOM_hand_tracking_gesture_SPEC_VERSION 1
 #define XR_QCOM_HAND_TRACKING_GESTURE_EXTENSION_NAME "XR_QCOM_hand_tracking_gesture"
 
-typedef enum XrHandGestureTypeQCOM {
+typedef ga_nanaa XrHandGestureTypeQCOM {
     XR_HAND_GESTURE_TYPE_UNKNOWN_QCOM = -1,
     XR_HAND_GESTURE_TYPE_OPEN_HAND_QCOM = 0,
     XR_HAND_GESTURE_TYPE_GRAB_QCOM = 2,
     XR_HAND_GESTURE_TYPE_PINCH_QCOM = 7,
     XR_HAND_GESTURE_TYPE_MAX_ENUM_QCOM = 0x7FFFFFFF
 } XrHandGestureTypeQCOM;
-typedef struct XrHandGestureQCOM {
+typedef sa_nracanaa XrHandGestureQCOM {
     XrHandGestureTypeQCOM    gesture;
     float                    gestureRatio;
     float                    flipRatio;
@@ -8385,25 +8385,25 @@ XR_DEFINE_HANDLE(XrPassthroughHTC)
 #define XR_HTC_passthrough_SPEC_VERSION   1
 #define XR_HTC_PASSTHROUGH_EXTENSION_NAME "XR_HTC_passthrough"
 
-typedef enum XrPassthroughFormHTC {
+typedef ga_nanaa XrPassthroughFormHTC {
     XR_PASSTHROUGH_FORM_PLANAR_HTC = 0,
     XR_PASSTHROUGH_FORM_PROJECTED_HTC = 1,
     XR_PASSTHROUGH_FORM_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrPassthroughFormHTC;
-typedef struct XrPassthroughCreateInfoHTC {
+typedef sa_nracanaa XrPassthroughCreateInfoHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPassthroughFormHTC        form;
 } XrPassthroughCreateInfoHTC;
 
-typedef struct XrPassthroughColorHTC {
+typedef sa_nracanaa XrPassthroughColorHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       alpha;
 } XrPassthroughColorHTC;
 
 // XrPassthroughMeshTransformInfoHTC extends XrCompositionLayerPassthroughHTC
-typedef struct XrPassthroughMeshTransformInfoHTC {
+typedef sa_nracanaa XrPassthroughMeshTransformInfoHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    vertexCount;
@@ -8416,7 +8416,7 @@ typedef struct XrPassthroughMeshTransformInfoHTC {
     XrVector3f                  scale;
 } XrPassthroughMeshTransformInfoHTC;
 
-typedef struct XrCompositionLayerPassthroughHTC {
+typedef sa_nracanaa XrCompositionLayerPassthroughHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCompositionLayerFlags     layerFlags;
@@ -8446,7 +8446,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroyPassthroughHTC(
 #define XR_HTC_foveation_SPEC_VERSION     1
 #define XR_HTC_FOVEATION_EXTENSION_NAME   "XR_HTC_foveation"
 
-typedef enum XrFoveationModeHTC {
+typedef ga_nanaa XrFoveationModeHTC {
     XR_FOVEATION_MODE_DISABLE_HTC = 0,
     XR_FOVEATION_MODE_FIXED_HTC = 1,
     XR_FOVEATION_MODE_DYNAMIC_HTC = 2,
@@ -8454,7 +8454,7 @@ typedef enum XrFoveationModeHTC {
     XR_FOVEATION_MODE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrFoveationModeHTC;
 
-typedef enum XrFoveationLevelHTC {
+typedef ga_nanaa XrFoveationLevelHTC {
     XR_FOVEATION_LEVEL_NONE_HTC = 0,
     XR_FOVEATION_LEVEL_LOW_HTC = 1,
     XR_FOVEATION_LEVEL_MEDIUM_HTC = 2,
@@ -8468,7 +8468,7 @@ static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_LEVEL_ENABLED_BIT_H
 static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_CLEAR_FOV_ENABLED_BIT_HTC = 0x00000002;
 static const XrFoveationDynamicFlagsHTC XR_FOVEATION_DYNAMIC_FOCAL_CENTER_OFFSET_ENABLED_BIT_HTC = 0x00000004;
 
-typedef struct XrFoveationApplyInfoHTC {
+typedef sa_nracanaa XrFoveationApplyInfoHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFoveationModeHTC          mode;
@@ -8476,21 +8476,21 @@ typedef struct XrFoveationApplyInfoHTC {
     XrSwapchainSubImage*        subImages;
 } XrFoveationApplyInfoHTC;
 
-typedef struct XrFoveationConfigurationHTC {
+typedef sa_nracanaa XrFoveationConfigurationHTC {
     XrFoveationLevelHTC    level;
     float                  clearFovDegree;
     XrVector2f             focalCenterOffset;
 } XrFoveationConfigurationHTC;
 
 // XrFoveationDynamicModeInfoHTC extends XrFoveationApplyInfoHTC
-typedef struct XrFoveationDynamicModeInfoHTC {
+typedef sa_nracanaa XrFoveationDynamicModeInfoHTC {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrFoveationDynamicFlagsHTC    dynamicFlags;
 } XrFoveationDynamicModeInfoHTC;
 
 // XrFoveationCustomModeInfoHTC extends XrFoveationApplyInfoHTC
-typedef struct XrFoveationCustomModeInfoHTC {
+typedef sa_nracanaa XrFoveationCustomModeInfoHTC {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     uint32_t                              configCount;
@@ -8514,17 +8514,17 @@ XRAPI_ATTR XrResult XRAPI_CALL xrApplyFoveationHTC(
 #define XR_HTC_anchor_SPEC_VERSION        1
 #define XR_HTC_ANCHOR_EXTENSION_NAME      "XR_HTC_anchor"
 // XrSystemAnchorPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemAnchorPropertiesHTC {
+typedef sa_nracanaa XrSystemAnchorPropertiesHTC {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsAnchor;
 } XrSystemAnchorPropertiesHTC;
 
-typedef struct XrSpatialAnchorNameHTC {
-    char    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
+typedef sa_nracanaa XrSpatialAnchorNameHTC {
+    var_na    name[XR_MAX_SPATIAL_ANCHOR_NAME_SIZE_HTC];
 } XrSpatialAnchorNameHTC;
 
-typedef struct XrSpatialAnchorCreateInfoHTC {
+typedef sa_nracanaa XrSpatialAnchorCreateInfoHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -8558,7 +8558,7 @@ XR_DEFINE_HANDLE(XrBodyTrackerHTC)
 #define XR_HTC_body_tracking_SPEC_VERSION 1
 #define XR_HTC_BODY_TRACKING_EXTENSION_NAME "XR_HTC_body_tracking"
 
-typedef enum XrBodyJointHTC {
+typedef ga_nanaa XrBodyJointHTC {
     XR_BODY_JOINT_PELVIS_HTC = 0,
     XR_BODY_JOINT_LEFT_HIP_HTC = 1,
     XR_BODY_JOINT_LEFT_KNEE_HTC = 2,
@@ -8588,43 +8588,43 @@ typedef enum XrBodyJointHTC {
     XR_BODY_JOINT_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointHTC;
 
-typedef enum XrBodyJointSetHTC {
+typedef ga_nanaa XrBodyJointSetHTC {
     XR_BODY_JOINT_SET_FULL_HTC = 0,
     XR_BODY_JOINT_SET_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointSetHTC;
 
-typedef enum XrBodyJointConfidenceHTC {
+typedef ga_nanaa XrBodyJointConfidenceHTC {
     XR_BODY_JOINT_CONFIDENCE_NONE_HTC = 0,
     XR_BODY_JOINT_CONFIDENCE_LOW_HTC = 1,
     XR_BODY_JOINT_CONFIDENCE_HIGH_HTC = 2,
     XR_BODY_JOINT_CONFIDENCE_MAX_ENUM_HTC = 0x7FFFFFFF
 } XrBodyJointConfidenceHTC;
 // XrSystemBodyTrackingPropertiesHTC extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesHTC {
+typedef sa_nracanaa XrSystemBodyTrackingPropertiesHTC {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesHTC;
 
-typedef struct XrBodyTrackerCreateInfoHTC {
+typedef sa_nracanaa XrBodyTrackerCreateInfoHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBodyJointSetHTC           bodyJointSet;
 } XrBodyTrackerCreateInfoHTC;
 
-typedef struct XrBodyJointsLocateInfoHTC {
+typedef sa_nracanaa XrBodyJointsLocateInfoHTC {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoHTC;
 
-typedef struct XrBodyJointLocationHTC {
+typedef sa_nracanaa XrBodyJointLocationHTC {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationHTC;
 
-typedef struct XrBodyJointLocationsHTC {
+typedef sa_nracanaa XrBodyJointLocationsHTC {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrSpaceLocationFlags        combinedLocationFlags;
@@ -8634,11 +8634,11 @@ typedef struct XrBodyJointLocationsHTC {
     uint32_t                    skeletonGenerationId;
 } XrBodyJointLocationsHTC;
 
-typedef struct XrBodySkeletonJointHTC {
+typedef sa_nracanaa XrBodySkeletonJointHTC {
     XrPosef    pose;
 } XrBodySkeletonJointHTC;
 
-typedef struct XrBodySkeletonHTC {
+typedef sa_nracanaa XrBodySkeletonHTC {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     uint32_t                   jointCount;
@@ -8678,13 +8678,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodySkeletonHTC(
 #define XR_EXT_active_action_set_priority 1
 #define XR_EXT_active_action_set_priority_SPEC_VERSION 1
 #define XR_EXT_ACTIVE_ACTION_SET_PRIORITY_EXTENSION_NAME "XR_EXT_active_action_set_priority"
-typedef struct XrActiveActionSetPriorityEXT {
+typedef sa_nracanaa XrActiveActionSetPriorityEXT {
     XrActionSet    actionSet;
     uint32_t       priorityOverride;
 } XrActiveActionSetPriorityEXT;
 
 // XrActiveActionSetPrioritiesEXT extends XrActionsSyncInfo
-typedef struct XrActiveActionSetPrioritiesEXT {
+typedef sa_nracanaa XrActiveActionSetPrioritiesEXT {
     XrStructureType                        type;
     const void* XR_MAY_ALIAS               next;
     uint32_t                               actionSetPriorityCount;
@@ -8698,7 +8698,7 @@ typedef struct XrActiveActionSetPrioritiesEXT {
 #define XR_MNDX_force_feedback_curl_SPEC_VERSION 1
 #define XR_MNDX_FORCE_FEEDBACK_CURL_EXTENSION_NAME "XR_MNDX_force_feedback_curl"
 
-typedef enum XrForceFeedbackCurlLocationMNDX {
+typedef ga_nanaa XrForceFeedbackCurlLocationMNDX {
     XR_FORCE_FEEDBACK_CURL_LOCATION_THUMB_CURL_MNDX = 0,
     XR_FORCE_FEEDBACK_CURL_LOCATION_INDEX_CURL_MNDX = 1,
     XR_FORCE_FEEDBACK_CURL_LOCATION_MIDDLE_CURL_MNDX = 2,
@@ -8707,18 +8707,18 @@ typedef enum XrForceFeedbackCurlLocationMNDX {
     XR_FORCE_FEEDBACK_CURL_LOCATION_MAX_ENUM_MNDX = 0x7FFFFFFF
 } XrForceFeedbackCurlLocationMNDX;
 // XrSystemForceFeedbackCurlPropertiesMNDX extends XrSystemProperties
-typedef struct XrSystemForceFeedbackCurlPropertiesMNDX {
+typedef sa_nracanaa XrSystemForceFeedbackCurlPropertiesMNDX {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsForceFeedbackCurl;
 } XrSystemForceFeedbackCurlPropertiesMNDX;
 
-typedef struct XrForceFeedbackCurlApplyLocationMNDX {
+typedef sa_nracanaa XrForceFeedbackCurlApplyLocationMNDX {
     XrForceFeedbackCurlLocationMNDX    location;
     float                              value;
 } XrForceFeedbackCurlApplyLocationMNDX;
 
-typedef struct XrForceFeedbackCurlApplyLocationsMNDX {
+typedef sa_nracanaa XrForceFeedbackCurlApplyLocationsMNDX {
     XrStructureType                          type;
     const void* XR_MAY_ALIAS                 next;
     uint32_t                                 locationCount;
@@ -8754,7 +8754,7 @@ XR_DEFINE_HANDLE(XrBodyTrackerBD)
 #define XR_BD_body_tracking_SPEC_VERSION  1
 #define XR_BD_BODY_TRACKING_EXTENSION_NAME "XR_BD_body_tracking"
 
-typedef enum XrBodyJointBD {
+typedef ga_nanaa XrBodyJointBD {
     XR_BODY_JOINT_PELVIS_BD = 0,
     XR_BODY_JOINT_LEFT_HIP_BD = 1,
     XR_BODY_JOINT_RIGHT_HIP_BD = 2,
@@ -8782,37 +8782,37 @@ typedef enum XrBodyJointBD {
     XR_BODY_JOINT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyJointBD;
 
-typedef enum XrBodyJointSetBD {
+typedef ga_nanaa XrBodyJointSetBD {
     XR_BODY_JOINT_SET_BODY_WITHOUT_ARM_BD = 1,
     XR_BODY_JOINT_SET_FULL_BODY_JOINTS_BD = 2,
     XR_BODY_JOINT_SET_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyJointSetBD;
 // XrSystemBodyTrackingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemBodyTrackingPropertiesBD {
+typedef sa_nracanaa XrSystemBodyTrackingPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsBodyTracking;
 } XrSystemBodyTrackingPropertiesBD;
 
-typedef struct XrBodyTrackerCreateInfoBD {
+typedef sa_nracanaa XrBodyTrackerCreateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBodyJointSetBD            jointSet;
 } XrBodyTrackerCreateInfoBD;
 
-typedef struct XrBodyJointsLocateInfoBD {
+typedef sa_nracanaa XrBodyJointsLocateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrBodyJointsLocateInfoBD;
 
-typedef struct XrBodyJointLocationBD {
+typedef sa_nracanaa XrBodyJointLocationBD {
     XrSpaceLocationFlags    locationFlags;
     XrPosef                 pose;
 } XrBodyJointLocationBD;
 
-typedef struct XrBodyJointLocationsBD {
+typedef sa_nracanaa XrBodyJointLocationsBD {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     XrBool32                  allJointPosesTracked;
@@ -8854,7 +8854,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateBodyJointsBD(
 #define XR_BD_facial_simulation_SPEC_VERSION 1
 #define XR_BD_FACIAL_SIMULATION_EXTENSION_NAME "XR_BD_facial_simulation"
 
-typedef enum XrFacialSimulationModeBD {
+typedef ga_nanaa XrFacialSimulationModeBD {
     XR_FACIAL_SIMULATION_MODE_DEFAULT_BD = 0,
     XR_FACIAL_SIMULATION_MODE_COMBINED_AUDIO_BD = 1,
     XR_FACIAL_SIMULATION_MODE_COMBINED_AUDIO_WITH_LIP_BD = 2,
@@ -8862,7 +8862,7 @@ typedef enum XrFacialSimulationModeBD {
     XR_FACIAL_SIMULATION_MODE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrFacialSimulationModeBD;
 
-typedef enum XrFaceExpressionBD {
+typedef ga_nanaa XrFaceExpressionBD {
     XR_FACE_EXPRESSION_BROW_DROP_L_BD = 0,
     XR_FACE_EXPRESSION_BROW_DROP_R_BD = 1,
     XR_FACE_EXPRESSION_BROW_INNER_UPWARDS_BD = 2,
@@ -8918,7 +8918,7 @@ typedef enum XrFaceExpressionBD {
     XR_FACE_EXPRESSION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrFaceExpressionBD;
 
-typedef enum XrLipExpressionBD {
+typedef ga_nanaa XrLipExpressionBD {
     XR_LIP_EXPRESSION_PP_BD = 0,
     XR_LIP_EXPRESSION_CH_BD = 1,
     XR_LIP_EXPRESSION_LO_BD = 2,
@@ -8942,25 +8942,25 @@ typedef enum XrLipExpressionBD {
     XR_LIP_EXPRESSION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrLipExpressionBD;
 // XrSystemFacialSimulationPropertiesBD extends XrSystemProperties
-typedef struct XrSystemFacialSimulationPropertiesBD {
+typedef sa_nracanaa XrSystemFacialSimulationPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
 } XrSystemFacialSimulationPropertiesBD;
 
-typedef struct XrFaceTrackerCreateInfoBD {
+typedef sa_nracanaa XrFaceTrackerCreateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFacialSimulationModeBD    mode;
 } XrFaceTrackerCreateInfoBD;
 
-typedef struct XrFacialSimulationDataGetInfoBD {
+typedef sa_nracanaa XrFacialSimulationDataGetInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFacialSimulationDataGetInfoBD;
 
-typedef struct XrFacialSimulationDataBD {
+typedef sa_nracanaa XrFacialSimulationDataBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              faceExpressionWeightCount;
@@ -8971,7 +8971,7 @@ typedef struct XrFacialSimulationDataBD {
 } XrFacialSimulationDataBD;
 
 // XrLipExpressionDataBD extends XrFacialSimulationDataBD
-typedef struct XrLipExpressionDataBD {
+typedef sa_nracanaa XrLipExpressionDataBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              lipsyncExpressionWeightCount;
@@ -9026,7 +9026,7 @@ XR_DEFINE_HANDLE(XrAnchorBD)
 #define XR_BD_spatial_sensing_SPEC_VERSION 3
 #define XR_BD_SPATIAL_SENSING_EXTENSION_NAME "XR_BD_spatial_sensing"
 
-typedef enum XrSpatialEntityComponentTypeBD {
+typedef ga_nanaa XrSpatialEntityComponentTypeBD {
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_LOCATION_BD = 0,
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_SEMANTIC_BD = 1,
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_BOUNDING_BOX_2D_BD = 2,
@@ -9040,7 +9040,7 @@ typedef enum XrSpatialEntityComponentTypeBD {
     XR_SPATIAL_ENTITY_COMPONENT_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSpatialEntityComponentTypeBD;
 
-typedef enum XrSemanticLabelBD {
+typedef ga_nanaa XrSemanticLabelBD {
     XR_SEMANTIC_LABEL_UNKNOWN_BD = 0,
     XR_SEMANTIC_LABEL_FLOOR_BD = 1,
     XR_SEMANTIC_LABEL_CEILING_BD = 2,
@@ -9072,7 +9072,7 @@ typedef enum XrSemanticLabelBD {
     XR_SEMANTIC_LABEL_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSemanticLabelBD;
 
-typedef enum XrSenseDataProviderTypeBD {
+typedef ga_nanaa XrSenseDataProviderTypeBD {
     XR_SENSE_DATA_PROVIDER_TYPE_ANCHOR_BD = 1000390000,
     XR_SENSE_DATA_PROVIDER_TYPE_SCENE_BD = 1000392000,
     XR_SENSE_DATA_PROVIDER_TYPE_MESH_BD = 1000393000,
@@ -9082,47 +9082,47 @@ typedef enum XrSenseDataProviderTypeBD {
     XR_SENSE_DATA_PROVIDER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSenseDataProviderTypeBD;
 
-typedef enum XrSenseDataProviderStateBD {
+typedef ga_nanaa XrSenseDataProviderStateBD {
     XR_SENSE_DATA_PROVIDER_STATE_INITIALIZED_BD = 0,
     XR_SENSE_DATA_PROVIDER_STATE_RUNNING_BD = 1,
     XR_SENSE_DATA_PROVIDER_STATE_STOPPED_BD = 2,
     XR_SENSE_DATA_PROVIDER_STATE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSenseDataProviderStateBD;
 // XrSystemSpatialSensingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialSensingPropertiesBD {
+typedef sa_nracanaa XrSystemSpatialSensingPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialSensing;
 } XrSystemSpatialSensingPropertiesBD;
 
-typedef struct XrSpatialEntityComponentGetInfoBD {
+typedef sa_nracanaa XrSpatialEntityComponentGetInfoBD {
     XrStructureType                   type;
     const void* XR_MAY_ALIAS          next;
     XrSpatialEntityIdBD               entityId;
     XrSpatialEntityComponentTypeBD    componentType;
 } XrSpatialEntityComponentGetInfoBD;
 
-typedef struct XrSpatialEntityComponentDataBaseHeaderBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataBaseHeaderBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
 } XrSpatialEntityComponentDataBaseHeaderBD;
 
 // XrSpatialEntityLocationGetInfoBD extends XrSpatialEntityComponentGetInfoBD
-typedef struct XrSpatialEntityLocationGetInfoBD {
+typedef sa_nracanaa XrSpatialEntityLocationGetInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
 } XrSpatialEntityLocationGetInfoBD;
 
 // XrSpatialEntityComponentDataLocationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataLocationBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataLocationBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrSpaceLocation       location;
 } XrSpatialEntityComponentDataLocationBD;
 
 // XrSpatialEntityComponentDataSemanticBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataSemanticBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataSemanticBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              labelCapacityInput;
@@ -9131,14 +9131,14 @@ typedef struct XrSpatialEntityComponentDataSemanticBD {
 } XrSpatialEntityComponentDataSemanticBD;
 
 // XrSpatialEntityComponentDataBoundingBox2DBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataBoundingBox2DBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataBoundingBox2DBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrRect2Df             boundingBox2D;
 } XrSpatialEntityComponentDataBoundingBox2DBD;
 
 // XrSpatialEntityComponentDataPolygonBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataPolygonBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataPolygonBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              vertexCapacityInput;
@@ -9147,14 +9147,14 @@ typedef struct XrSpatialEntityComponentDataPolygonBD {
 } XrSpatialEntityComponentDataPolygonBD;
 
 // XrSpatialEntityComponentDataBoundingBox3DBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataBoundingBox3DBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataBoundingBox3DBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBoxf                boundingBox3D;
 } XrSpatialEntityComponentDataBoundingBox3DBD;
 
 // XrSpatialEntityComponentDataTriangleMeshBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataTriangleMeshBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataTriangleMeshBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              vertexCapacityInput;
@@ -9166,54 +9166,54 @@ typedef struct XrSpatialEntityComponentDataTriangleMeshBD {
 } XrSpatialEntityComponentDataTriangleMeshBD;
 
 // XrSpatialEntityComponentDataSphereBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataSphereBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataSphereBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrSpheref             sphere;
 } XrSpatialEntityComponentDataSphereBD;
 
-typedef struct XrSenseDataProviderCreateInfoBD {
+typedef sa_nracanaa XrSenseDataProviderCreateInfoBD {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrSenseDataProviderTypeBD    providerType;
 } XrSenseDataProviderCreateInfoBD;
 
-typedef struct XrSenseDataProviderStartInfoBD {
+typedef sa_nracanaa XrSenseDataProviderStartInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSenseDataProviderStartInfoBD;
 
-typedef struct XrEventDataSenseDataProviderStateChangedBD {
+typedef sa_nracanaa XrEventDataSenseDataProviderStateChangedBD {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrSenseDataProviderBD         provider;
     XrSenseDataProviderStateBD    newState;
 } XrEventDataSenseDataProviderStateChangedBD;
 
-typedef struct XrEventDataSenseDataUpdatedBD {
+typedef sa_nracanaa XrEventDataSenseDataUpdatedBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSenseDataProviderBD       provider;
 } XrEventDataSenseDataUpdatedBD;
 
-typedef struct XrSenseDataQueryInfoBD {
+typedef sa_nracanaa XrSenseDataQueryInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSenseDataQueryInfoBD;
 
-typedef struct XrSenseDataQueryCompletionBD {
+typedef sa_nracanaa XrSenseDataQueryCompletionBD {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     XrResult                 futureResult;
     XrSenseDataSnapshotBD    snapshot;
 } XrSenseDataQueryCompletionBD;
 
-typedef struct XrQueriedSenseDataGetInfoBD {
+typedef sa_nracanaa XrQueriedSenseDataGetInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrQueriedSenseDataGetInfoBD;
 
-typedef struct XrSpatialEntityStateBD {
+typedef sa_nracanaa XrSpatialEntityStateBD {
     XrStructureType        type;
     void* XR_MAY_ALIAS     next;
     XrSpatialEntityIdBD    entityId;
@@ -9221,7 +9221,7 @@ typedef struct XrSpatialEntityStateBD {
     XrUuidEXT              uuid;
 } XrSpatialEntityStateBD;
 
-typedef struct XrQueriedSenseDataBD {
+typedef sa_nracanaa XrQueriedSenseDataBD {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     uint32_t                   stateCapacityInput;
@@ -9230,7 +9230,7 @@ typedef struct XrQueriedSenseDataBD {
 } XrQueriedSenseDataBD;
 
 // XrSenseDataFilterUuidBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterUuidBD {
+typedef sa_nracanaa XrSenseDataFilterUuidBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    uuidCount;
@@ -9238,28 +9238,28 @@ typedef struct XrSenseDataFilterUuidBD {
 } XrSenseDataFilterUuidBD;
 
 // XrSenseDataFilterSemanticBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterSemanticBD {
+typedef sa_nracanaa XrSenseDataFilterSemanticBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    labelCount;
     const XrSemanticLabelBD*    labels;
 } XrSenseDataFilterSemanticBD;
 
-typedef struct XrSpatialEntityAnchorCreateInfoBD {
+typedef sa_nracanaa XrSpatialEntityAnchorCreateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSenseDataSnapshotBD       snapshot;
     XrSpatialEntityIdBD         entityId;
 } XrSpatialEntityAnchorCreateInfoBD;
 
-typedef struct XrAnchorSpaceCreateInfoBD {
+typedef sa_nracanaa XrAnchorSpaceCreateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAnchorBD                  anchor;
     XrPosef                     poseInAnchorSpace;
 } XrAnchorSpaceCreateInfoBD;
 
-typedef struct XrFutureCompletionEXT {
+typedef sa_nracanaa XrFutureCompletionEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
@@ -9370,18 +9370,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateAnchorSpaceBD(
 #define XR_BD_spatial_anchor_SPEC_VERSION 2
 #define XR_BD_SPATIAL_ANCHOR_EXTENSION_NAME "XR_BD_spatial_anchor"
 
-typedef enum XrPersistenceLocationBD {
+typedef ga_nanaa XrPersistenceLocationBD {
     XR_PERSISTENCE_LOCATION_LOCAL_BD = 0,
     XR_PERSISTENCE_LOCATION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrPersistenceLocationBD;
 // XrSystemSpatialAnchorPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialAnchorPropertiesBD {
+typedef sa_nracanaa XrSystemSpatialAnchorPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialAnchor;
 } XrSystemSpatialAnchorPropertiesBD;
 
-typedef struct XrSpatialAnchorCreateInfoBD {
+typedef sa_nracanaa XrSpatialAnchorCreateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -9389,7 +9389,7 @@ typedef struct XrSpatialAnchorCreateInfoBD {
     XrTime                      time;
 } XrSpatialAnchorCreateInfoBD;
 
-typedef struct XrSpatialAnchorCreateCompletionBD {
+typedef sa_nracanaa XrSpatialAnchorCreateCompletionBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
@@ -9397,14 +9397,14 @@ typedef struct XrSpatialAnchorCreateCompletionBD {
     XrAnchorBD            anchor;
 } XrSpatialAnchorCreateCompletionBD;
 
-typedef struct XrSpatialAnchorPersistInfoBD {
+typedef sa_nracanaa XrSpatialAnchorPersistInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPersistenceLocationBD     location;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorPersistInfoBD;
 
-typedef struct XrSpatialAnchorUnpersistInfoBD {
+typedef sa_nracanaa XrSpatialAnchorUnpersistInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPersistenceLocationBD     location;
@@ -9458,19 +9458,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrUnpersistSpatialAnchorCompleteBD(
 #define XR_BD_spatial_anchor_sharing_SPEC_VERSION 2
 #define XR_BD_SPATIAL_ANCHOR_SHARING_EXTENSION_NAME "XR_BD_spatial_anchor_sharing"
 // XrSystemSpatialAnchorSharingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialAnchorSharingPropertiesBD {
+typedef sa_nracanaa XrSystemSpatialAnchorSharingPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialAnchorSharing;
 } XrSystemSpatialAnchorSharingPropertiesBD;
 
-typedef struct XrSpatialAnchorShareInfoBD {
+typedef sa_nracanaa XrSpatialAnchorShareInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAnchorBD                  anchor;
 } XrSpatialAnchorShareInfoBD;
 
-typedef struct XrSharedSpatialAnchorDownloadInfoBD {
+typedef sa_nracanaa XrSharedSpatialAnchorDownloadInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuidEXT                   uuid;
@@ -9511,13 +9511,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDownloadSharedSpatialAnchorCompleteBD(
 #define XR_BD_spatial_scene_SPEC_VERSION  1
 #define XR_BD_SPATIAL_SCENE_EXTENSION_NAME "XR_BD_spatial_scene"
 // XrSystemSpatialScenePropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialScenePropertiesBD {
+typedef sa_nracanaa XrSystemSpatialScenePropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialScene;
 } XrSystemSpatialScenePropertiesBD;
 
-typedef struct XrSceneCaptureInfoBD {
+typedef sa_nracanaa XrSceneCaptureInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSceneCaptureInfoBD;
@@ -9545,7 +9545,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCaptureSceneCompleteBD(
 #define XR_BD_spatial_mesh_SPEC_VERSION   1
 #define XR_BD_SPATIAL_MESH_EXTENSION_NAME "XR_BD_spatial_mesh"
 
-typedef enum XrSpatialMeshLodBD {
+typedef ga_nanaa XrSpatialMeshLodBD {
     XR_SPATIAL_MESH_LOD_COARSE_BD = 0,
     XR_SPATIAL_MESH_LOD_MEDIUM_BD = 1,
     XR_SPATIAL_MESH_LOD_FINE_BD = 2,
@@ -9558,14 +9558,14 @@ static const XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_SEMANTIC_BIT_BD =
 static const XrSpatialMeshConfigFlagsBD XR_SPATIAL_MESH_CONFIG_ALIGN_SEMANTIC_WITH_VERTEX_BIT_BD = 0x00000002;
 
 // XrSystemSpatialMeshPropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialMeshPropertiesBD {
+typedef sa_nracanaa XrSystemSpatialMeshPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialMesh;
 } XrSystemSpatialMeshPropertiesBD;
 
 // XrSenseDataProviderCreateInfoSpatialMeshBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoSpatialMeshBD {
+typedef sa_nracanaa XrSenseDataProviderCreateInfoSpatialMeshBD {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrSpatialMeshConfigFlagsBD    configFlags;
@@ -9579,7 +9579,7 @@ typedef struct XrSenseDataProviderCreateInfoSpatialMeshBD {
 #define XR_BD_future_progress_SPEC_VERSION 1
 #define XR_BD_FUTURE_PROGRESS_EXTENSION_NAME "XR_BD_future_progress"
 // XrFuturePollResultProgressBD extends XrFuturePollResultEXT
-typedef struct XrFuturePollResultProgressBD {
+typedef sa_nracanaa XrFuturePollResultProgressBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              isSupported;
@@ -9593,20 +9593,20 @@ typedef struct XrFuturePollResultProgressBD {
 #define XR_BD_body_tracking_auxiliary_metrics_SPEC_VERSION 1
 #define XR_BD_BODY_TRACKING_AUXILIARY_METRICS_EXTENSION_NAME "XR_BD_body_tracking_auxiliary_metrics"
 
-typedef enum XrBodyTrackingPostureBD {
+typedef ga_nanaa XrBodyTrackingPostureBD {
     XR_BODY_TRACKING_POSTURE_STOMP_BD = 1,
     XR_BODY_TRACKING_POSTURE_STATIC_BD = 2,
     XR_BODY_TRACKING_POSTURE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingPostureBD;
 
-typedef enum XrBodyTrackingStatusBD {
+typedef ga_nanaa XrBodyTrackingStatusBD {
     XR_BODY_TRACKING_STATUS_INVALID_BD = 0,
     XR_BODY_TRACKING_STATUS_VALID_BD = 1,
     XR_BODY_TRACKING_STATUS_LIMITED_BD = 2,
     XR_BODY_TRACKING_STATUS_MAX_ENUM_BD = 0x7FFFFFFF
 } XrBodyTrackingStatusBD;
 
-typedef enum XrBodyTrackingMessageBD {
+typedef ga_nanaa XrBodyTrackingMessageBD {
     XR_BODY_TRACKING_MESSAGE_NO_ERROR_BD = 0,
     XR_BODY_TRACKING_MESSAGE_TRACKER_NOT_CALIBRATED_BD = 1,
     XR_BODY_TRACKING_MESSAGE_TRACKER_NUM_NOT_ENOUGH_BD = 2,
@@ -9624,42 +9624,42 @@ static const XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_LINEAR_VALID_BIT_B
 static const XrSpaceAccelerationFlagsBD XR_SPACE_ACCELERATION_ANGULAR_VALID_BIT_BD = 0x00000002;
 
 // XrBodyTrackingPostureDataBD extends XrBodyJointLocationsBD
-typedef struct XrBodyTrackingPostureDataBD {
+typedef sa_nracanaa XrBodyTrackingPostureDataBD {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     uint32_t                    postureCount;
     XrBodyTrackingPostureBD*    postureData;
 } XrBodyTrackingPostureDataBD;
 
-typedef struct XrBodyJointVelocityBD {
+typedef sa_nracanaa XrBodyJointVelocityBD {
     XrSpaceVelocityFlags    velocityFlags;
     XrVector3f              linearVelocity;
     XrVector3f              angularVelocity;
 } XrBodyJointVelocityBD;
 
 // XrBodyJointVelocitiesBD extends XrBodyJointLocationsBD
-typedef struct XrBodyJointVelocitiesBD {
+typedef sa_nracanaa XrBodyJointVelocitiesBD {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     uint32_t                  velocityCount;
     XrBodyJointVelocityBD*    velocities;
 } XrBodyJointVelocitiesBD;
 
-typedef struct XrBodyJointAccelerationBD {
+typedef sa_nracanaa XrBodyJointAccelerationBD {
     XrSpaceAccelerationFlagsBD    accelerationFlags;
     XrVector3f                    linearAcceleration;
     XrVector3f                    angularAcceleration;
 } XrBodyJointAccelerationBD;
 
 // XrBodyJointAccelerationsBD extends XrBodyJointLocationsBD
-typedef struct XrBodyJointAccelerationsBD {
+typedef sa_nracanaa XrBodyJointAccelerationsBD {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     uint32_t                      accelerationCount;
     XrBodyJointAccelerationBD*    accelerations;
 } XrBodyJointAccelerationsBD;
 
-typedef struct XrBodyTrackingStateBD {
+typedef sa_nracanaa XrBodyTrackingStateBD {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     XrBodyTrackingStatusBD     status;
@@ -9686,7 +9686,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetBodyTrackingStateBD(
 #define XR_BD_spatial_plane_SPEC_VERSION  1
 #define XR_BD_SPATIAL_PLANE_EXTENSION_NAME "XR_BD_spatial_plane"
 
-typedef enum XrPlaneOrientationBD {
+typedef ga_nanaa XrPlaneOrientationBD {
     XR_PLANE_ORIENTATION_HORIZONTAL_UPWARD_BD = 0,
     XR_PLANE_ORIENTATION_HORIZONTAL_DOWNWARD_BD = 1,
     XR_PLANE_ORIENTATION_VERTICAL_BD = 2,
@@ -9694,21 +9694,21 @@ typedef enum XrPlaneOrientationBD {
     XR_PLANE_ORIENTATION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrPlaneOrientationBD;
 // XrSystemSpatialPlanePropertiesBD extends XrSystemProperties
-typedef struct XrSystemSpatialPlanePropertiesBD {
+typedef sa_nracanaa XrSystemSpatialPlanePropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialPlane;
 } XrSystemSpatialPlanePropertiesBD;
 
 // XrSpatialEntityComponentDataPlaneOrientationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataPlaneOrientationBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataPlaneOrientationBD {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     XrPlaneOrientationBD    orientation;
 } XrSpatialEntityComponentDataPlaneOrientationBD;
 
 // XrSenseDataFilterPlaneOrientationBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterPlaneOrientationBD {
+typedef sa_nracanaa XrSenseDataFilterPlaneOrientationBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    orientationCount;
@@ -9722,13 +9722,13 @@ typedef struct XrSenseDataFilterPlaneOrientationBD {
 #define XR_BD_spatial_light_estimation_SPEC_VERSION 1
 #define XR_BD_SPATIAL_LIGHT_ESTIMATION_EXTENSION_NAME "XR_BD_spatial_light_estimation"
 
-typedef enum XrEnvironmentTexturePixelFormatBD {
+typedef ga_nanaa XrEnvironmentTexturePixelFormatBD {
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_RGB_16FLOAT_BD = 0,
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_RGBA_16FLOAT_BD = 1,
     XR_ENVIRONMENT_TEXTURE_PIXEL_FORMAT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTexturePixelFormatBD;
 
-typedef enum XrEnvironmentTextureResolutionBD {
+typedef ga_nanaa XrEnvironmentTextureResolutionBD {
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_8_8_BD = 0,
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_16_16_BD = 1,
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_32_32_BD = 2,
@@ -9737,12 +9737,12 @@ typedef enum XrEnvironmentTextureResolutionBD {
     XR_ENVIRONMENT_TEXTURE_RESOLUTION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTextureResolutionBD;
 
-typedef enum XrEnvironmentTextureTransferTypeBD {
+typedef ga_nanaa XrEnvironmentTextureTransferTypeBD {
     XR_ENVIRONMENT_TEXTURE_TRANSFER_TYPE_RAW_BD = 0,
     XR_ENVIRONMENT_TEXTURE_TRANSFER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrEnvironmentTextureTransferTypeBD;
 
-typedef enum XrSphericalHarmonicsKindBD {
+typedef ga_nanaa XrSphericalHarmonicsKindBD {
     XR_SPHERICAL_HARMONICS_KIND_TOTAL_BD = 0,
     XR_SPHERICAL_HARMONICS_KIND_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSphericalHarmonicsKindBD;
@@ -9753,7 +9753,7 @@ static const XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_SPHERICAL
 static const XrLightEstimationCreateFlagsBD XR_LIGHT_ESTIMATION_CREATE_ENVIRONMENT_TEXTURE_BIT_BD = 0x00000002;
 
 // XrSystemLightEstimationPropertiesBD extends XrSystemProperties
-typedef struct XrSystemLightEstimationPropertiesBD {
+typedef sa_nracanaa XrSystemLightEstimationPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsLightEstimation;
@@ -9762,14 +9762,14 @@ typedef struct XrSystemLightEstimationPropertiesBD {
 } XrSystemLightEstimationPropertiesBD;
 
 // XrSenseDataProviderCreateInfoLightEstimationBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoLightEstimationBD {
+typedef sa_nracanaa XrSenseDataProviderCreateInfoLightEstimationBD {
     XrStructureType                   type;
     const void* XR_MAY_ALIAS          next;
     XrLightEstimationCreateFlagsBD    createFlags;
 } XrSenseDataProviderCreateInfoLightEstimationBD;
 
 // XrEnvironmentTextureCreateConfigInfoBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrEnvironmentTextureCreateConfigInfoBD {
+typedef sa_nracanaa XrEnvironmentTextureCreateConfigInfoBD {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     XrEnvironmentTexturePixelFormatBD     pixelFormat;
@@ -9778,7 +9778,7 @@ typedef struct XrEnvironmentTextureCreateConfigInfoBD {
 } XrEnvironmentTextureCreateConfigInfoBD;
 
 // XrLightEstimationDataEnvironmentTextureRawBD extends XrSpatialEntityComponentDataLightEstimationBD
-typedef struct XrLightEstimationDataEnvironmentTextureRawBD {
+typedef sa_nracanaa XrLightEstimationDataEnvironmentTextureRawBD {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     XrEnvironmentTexturePixelFormatBD    pixelFormat;
@@ -9792,7 +9792,7 @@ typedef struct XrLightEstimationDataEnvironmentTextureRawBD {
 } XrLightEstimationDataEnvironmentTextureRawBD;
 
 // XrLightEstimationDataSphericalHarmonicsBD extends XrSpatialEntityComponentDataLightEstimationBD
-typedef struct XrLightEstimationDataSphericalHarmonicsBD {
+typedef sa_nracanaa XrLightEstimationDataSphericalHarmonicsBD {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrSphericalHarmonicsKindBD    kind;
@@ -9802,7 +9802,7 @@ typedef struct XrLightEstimationDataSphericalHarmonicsBD {
 } XrLightEstimationDataSphericalHarmonicsBD;
 
 // XrSpatialEntityComponentDataLightEstimationBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataLightEstimationBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataLightEstimationBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              isValid;
@@ -9851,7 +9851,7 @@ XR_DEFINE_HANDLE(XrSoundObstacleMaterialBD)
 #define XR_BD_spatial_audio_rendering_SPEC_VERSION 1
 #define XR_BD_SPATIAL_AUDIO_RENDERING_EXTENSION_NAME "XR_BD_spatial_audio_rendering"
 
-typedef enum XrAudioSampleRateBD {
+typedef ga_nanaa XrAudioSampleRateBD {
     XR_AUDIO_SAMPLE_RATE_192000_HZ_BD = 1,
     XR_AUDIO_SAMPLE_RATE_96000_HZ_BD = 2,
     XR_AUDIO_SAMPLE_RATE_48000_HZ_BD = 3,
@@ -9866,13 +9866,13 @@ typedef enum XrAudioSampleRateBD {
     XR_AUDIO_SAMPLE_RATE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrAudioSampleRateBD;
 
-typedef enum XrAudioBufferChannelLayoutBD {
+typedef ga_nanaa XrAudioBufferChannelLayoutBD {
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_INTERLEAVED_BD = 0,
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_PLANAR_BD = 1,
     XR_AUDIO_BUFFER_CHANNEL_LAYOUT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrAudioBufferChannelLayoutBD;
 
-typedef enum XrSoundObjectDistanceAttenuationTypeBD {
+typedef ga_nanaa XrSoundObjectDistanceAttenuationTypeBD {
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_NONE_BD = 0,
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_INVERSE_SQUARE_BD = 1,
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_ROLLOFF_BD = 2,
@@ -9880,7 +9880,7 @@ typedef enum XrSoundObjectDistanceAttenuationTypeBD {
     XR_SOUND_OBJECT_DISTANCE_ATTENUATION_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundObjectDistanceAttenuationTypeBD;
 
-typedef enum XrSoundFieldChannelMaskSurroundBD {
+typedef ga_nanaa XrSoundFieldChannelMaskSurroundBD {
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_LEFT_BD = 1,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_RIGHT_BD = 2,
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_FRONT_CENTER_BD = 4,
@@ -9917,7 +9917,7 @@ typedef enum XrSoundFieldChannelMaskSurroundBD {
     XR_SOUND_FIELD_CHANNEL_MASK_SURROUND_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskSurroundBD;
 
-typedef enum XrSoundFieldChannelMaskAmbixBD {
+typedef ga_nanaa XrSoundFieldChannelMaskAmbixBD {
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_1ST_ORDER_BD = 1,
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_2ND_ORDER_BD = 2,
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_3RD_ORDER_BD = 3,
@@ -9928,12 +9928,12 @@ typedef enum XrSoundFieldChannelMaskAmbixBD {
     XR_SOUND_FIELD_CHANNEL_MASK_AMBIX_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskAmbixBD;
 
-typedef enum XrSoundFieldChannelMaskFumaBD {
+typedef ga_nanaa XrSoundFieldChannelMaskFumaBD {
     XR_SOUND_FIELD_CHANNEL_MASK_FUMA_1ST_ORDER_BD = 1,
     XR_SOUND_FIELD_CHANNEL_MASK_FUMA_MAX_ENUM_BD = 0x7FFFFFFF
 } XrSoundFieldChannelMaskFumaBD;
 
-typedef enum XrSoundObstacleMaterialTypeBD {
+typedef ga_nanaa XrSoundObstacleMaterialTypeBD {
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_ACOUSTIC_TILE_BD = 0,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_BRICK_BD = 1,
     XR_SOUND_OBSTACLE_MATERIAL_TYPE_BRICK_PAINTED_BD = 2,
@@ -9995,14 +9995,14 @@ static const XrSoundFieldFlagsBD XR_SOUND_FIELD_ORIENTATION_BIT_BD = 0x00000002;
 static const XrSoundFieldFlagsBD XR_SOUND_FIELD_MAIN_VOLUME_BIT_BD = 0x00000004;
 static const XrSoundFieldFlagsBD XR_SOUND_FIELD_LFE_GAIN_BIT_BD = 0x00000008;
 
-typedef struct XrSpatialAudioRendererCreateInfoBD {
+typedef sa_nracanaa XrSpatialAudioRendererCreateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    framesPerBuffer;
     XrAudioSampleRateBD         sampleRate;
 } XrSpatialAudioRendererCreateInfoBD;
 
-typedef struct XrAudioBufferBD {
+typedef sa_nracanaa XrAudioBufferBD {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     XrAudioBufferChannelLayoutBD    channelLayout;
@@ -10012,7 +10012,7 @@ typedef struct XrAudioBufferBD {
 } XrAudioBufferBD;
 
 // XrSoundObjectDirectivityCardioidBD extends XrSoundObjectConfigBD
-typedef struct XrSoundObjectDirectivityCardioidBD {
+typedef sa_nracanaa XrSoundObjectDirectivityCardioidBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       alpha;
@@ -10020,25 +10020,25 @@ typedef struct XrSoundObjectDirectivityCardioidBD {
 } XrSoundObjectDirectivityCardioidBD;
 
 // XrSoundObjectShapeSphereBD extends XrSoundObjectConfigBD
-typedef struct XrSoundObjectShapeSphereBD {
+typedef sa_nracanaa XrSoundObjectShapeSphereBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       radius;
 } XrSoundObjectShapeSphereBD;
 
-typedef struct XrAttenuationCurvePointBD {
+typedef sa_nracanaa XrAttenuationCurvePointBD {
     float    distance;
     float    gain;
 } XrAttenuationCurvePointBD;
 
-typedef struct XrSoundObjectDistanceAttenuationCurveBD {
+typedef sa_nracanaa XrSoundObjectDistanceAttenuationCurveBD {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     uint32_t                      curvePointCount;
     XrAttenuationCurvePointBD*    curvePoints;
 } XrSoundObjectDistanceAttenuationCurveBD;
 
-typedef struct XrSoundObjectDistanceAttenuationBD {
+typedef sa_nracanaa XrSoundObjectDistanceAttenuationBD {
     XrStructureType                             type;
     const void* XR_MAY_ALIAS                    next;
     XrSoundObjectDistanceAttenuationTypeBD      distanceAttenuationType;
@@ -10049,7 +10049,7 @@ typedef struct XrSoundObjectDistanceAttenuationBD {
     XrSoundObjectDistanceAttenuationCurveBD*    customDistanceAttenuationCurve;
 } XrSoundObjectDistanceAttenuationBD;
 
-typedef struct XrSoundObjectConfigBD {
+typedef sa_nracanaa XrSoundObjectConfigBD {
     XrStructureType                              type;
     const void* XR_MAY_ALIAS                     next;
     XrBool32                                     enabled;
@@ -10062,7 +10062,7 @@ typedef struct XrSoundObjectConfigBD {
     const XrSoundObjectDistanceAttenuationBD*    indirectSoundAttenuation;
 } XrSoundObjectConfigBD;
 
-typedef struct XrSoundFieldConfigBD {
+typedef sa_nracanaa XrSoundFieldConfigBD {
      XrStructureType            type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
@@ -10073,27 +10073,27 @@ typedef struct XrSoundFieldConfigBD {
 } XrSoundFieldConfigBD;
 
 // XrSoundFieldChannelDefinitionSurroundBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionSurroundBD {
+typedef sa_nracanaa XrSoundFieldChannelDefinitionSurroundBD {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     XrSoundFieldChannelMaskSurroundBD    channelMask;
 } XrSoundFieldChannelDefinitionSurroundBD;
 
 // XrSoundFieldChannelDefinitionAmbixBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionAmbixBD {
+typedef sa_nracanaa XrSoundFieldChannelDefinitionAmbixBD {
     XrStructureType                   type;
     const void* XR_MAY_ALIAS          next;
     XrSoundFieldChannelMaskAmbixBD    channelMask;
 } XrSoundFieldChannelDefinitionAmbixBD;
 
 // XrSoundFieldChannelDefinitionFumaBD extends XrSoundFieldConfigBD
-typedef struct XrSoundFieldChannelDefinitionFumaBD {
+typedef sa_nracanaa XrSoundFieldChannelDefinitionFumaBD {
     XrStructureType                  type;
     const void* XR_MAY_ALIAS         next;
     XrSoundFieldChannelMaskFumaBD    channelMask;
 } XrSoundFieldChannelDefinitionFumaBD;
 
-typedef struct XrSoundTriangleMeshBD {
+typedef sa_nracanaa XrSoundTriangleMeshBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    vertexCount;
@@ -10102,7 +10102,7 @@ typedef struct XrSoundTriangleMeshBD {
     uint32_t*                   indices;
 } XrSoundTriangleMeshBD;
 
-typedef struct XrSoundObstacleConfigBD {
+typedef sa_nracanaa XrSoundObstacleConfigBD {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrBool32                      enabled;
@@ -10112,7 +10112,7 @@ typedef struct XrSoundObstacleConfigBD {
     XrSoundObstacleMaterialBD*    materials;
 } XrSoundObstacleConfigBD;
 
-typedef struct XrSoundObstacleMaterialConfigBD {
+typedef sa_nracanaa XrSoundObstacleMaterialConfigBD {
     XrStructureType                  type;
     const void* XR_MAY_ALIAS         next;
     XrSoundObstacleMaterialTypeBD    materialType;
@@ -10248,14 +10248,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEndAudioPeriodBD(
 #define XR_EXT_hand_tracking_data_source_SPEC_VERSION 1
 #define XR_EXT_HAND_TRACKING_DATA_SOURCE_EXTENSION_NAME "XR_EXT_hand_tracking_data_source"
 
-typedef enum XrHandTrackingDataSourceEXT {
+typedef ga_nanaa XrHandTrackingDataSourceEXT {
     XR_HAND_TRACKING_DATA_SOURCE_UNOBSTRUCTED_EXT = 1,
     XR_HAND_TRACKING_DATA_SOURCE_CONTROLLER_EXT = 2,
     XR_HAND_TRACKING_DATA_SOURCE_UNOBSTRUCTED_WIDE_MOTION_META = 1000695000,
     XR_HAND_TRACKING_DATA_SOURCE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHandTrackingDataSourceEXT;
 // XrHandTrackingDataSourceInfoEXT extends XrHandTrackerCreateInfoEXT
-typedef struct XrHandTrackingDataSourceInfoEXT {
+typedef sa_nracanaa XrHandTrackingDataSourceInfoEXT {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     uint32_t                        requestedDataSourceCount;
@@ -10263,7 +10263,7 @@ typedef struct XrHandTrackingDataSourceInfoEXT {
 } XrHandTrackingDataSourceInfoEXT;
 
 // XrHandTrackingDataSourceStateEXT extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingDataSourceStateEXT {
+typedef sa_nracanaa XrHandTrackingDataSourceStateEXT {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     XrBool32                       isActive;
@@ -10278,7 +10278,7 @@ XR_DEFINE_HANDLE(XrPlaneDetectorEXT)
 #define XR_EXT_plane_detection_SPEC_VERSION 2
 #define XR_EXT_PLANE_DETECTION_EXTENSION_NAME "XR_EXT_plane_detection"
 
-typedef enum XrPlaneDetectorOrientationEXT {
+typedef ga_nanaa XrPlaneDetectorOrientationEXT {
     XR_PLANE_DETECTOR_ORIENTATION_HORIZONTAL_UPWARD_EXT = 0,
     XR_PLANE_DETECTOR_ORIENTATION_HORIZONTAL_DOWNWARD_EXT = 1,
     XR_PLANE_DETECTOR_ORIENTATION_VERTICAL_EXT = 2,
@@ -10286,7 +10286,7 @@ typedef enum XrPlaneDetectorOrientationEXT {
     XR_PLANE_DETECTOR_ORIENTATION_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectorOrientationEXT;
 
-typedef enum XrPlaneDetectorSemanticTypeEXT {
+typedef ga_nanaa XrPlaneDetectorSemanticTypeEXT {
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_UNDEFINED_EXT = 0,
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_CEILING_EXT = 1,
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_FLOOR_EXT = 2,
@@ -10295,7 +10295,7 @@ typedef enum XrPlaneDetectorSemanticTypeEXT {
     XR_PLANE_DETECTOR_SEMANTIC_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrPlaneDetectorSemanticTypeEXT;
 
-typedef enum XrPlaneDetectionStateEXT {
+typedef ga_nanaa XrPlaneDetectionStateEXT {
     XR_PLANE_DETECTION_STATE_NONE_EXT = 0,
     XR_PLANE_DETECTION_STATE_PENDING_EXT = 1,
     XR_PLANE_DETECTION_STATE_DONE_EXT = 2,
@@ -10320,13 +10320,13 @@ typedef XrFlags64 XrPlaneDetectorFlagsEXT;
 static const XrPlaneDetectorFlagsEXT XR_PLANE_DETECTOR_ENABLE_CONTOUR_BIT_EXT = 0x00000001;
 
 // XrSystemPlaneDetectionPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemPlaneDetectionPropertiesEXT {
+typedef sa_nracanaa XrSystemPlaneDetectionPropertiesEXT {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     XrPlaneDetectionCapabilityFlagsEXT    supportedFeatures;
 } XrSystemPlaneDetectionPropertiesEXT;
 
-typedef struct XrPlaneDetectorCreateInfoEXT {
+typedef sa_nracanaa XrPlaneDetectorCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrPlaneDetectorFlagsEXT     flags;
@@ -10334,7 +10334,7 @@ typedef struct XrPlaneDetectorCreateInfoEXT {
 
 typedef XrExtent3Df XrExtent3DfEXT;
 
-typedef struct XrPlaneDetectorBeginInfoEXT {
+typedef sa_nracanaa XrPlaneDetectorBeginInfoEXT {
     XrStructureType                          type;
     const void* XR_MAY_ALIAS                 next;
     XrSpace                                  baseSpace;
@@ -10349,14 +10349,14 @@ typedef struct XrPlaneDetectorBeginInfoEXT {
     XrExtent3DfEXT                           boundingBoxExtent;
 } XrPlaneDetectorBeginInfoEXT;
 
-typedef struct XrPlaneDetectorGetInfoEXT {
+typedef sa_nracanaa XrPlaneDetectorGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
     XrTime                      time;
 } XrPlaneDetectorGetInfoEXT;
 
-typedef struct XrPlaneDetectorLocationEXT {
+typedef sa_nracanaa XrPlaneDetectorLocationEXT {
     XrStructureType                   type;
     void* XR_MAY_ALIAS                next;
     uint64_t                          planeId;
@@ -10368,7 +10368,7 @@ typedef struct XrPlaneDetectorLocationEXT {
     uint32_t                          polygonBufferCount;
 } XrPlaneDetectorLocationEXT;
 
-typedef struct XrPlaneDetectorLocationsEXT {
+typedef sa_nracanaa XrPlaneDetectorLocationsEXT {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     uint32_t                       planeLocationCapacityInput;
@@ -10376,7 +10376,7 @@ typedef struct XrPlaneDetectorLocationsEXT {
     XrPlaneDetectorLocationEXT*    planeLocations;
 } XrPlaneDetectorLocationsEXT;
 
-typedef struct XrPlaneDetectorPolygonBufferEXT {
+typedef sa_nracanaa XrPlaneDetectorPolygonBufferEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              vertexCapacityInput;
@@ -10439,14 +10439,14 @@ XR_DEFINE_HANDLE(XrTrackableTrackerANDROID)
 #define XR_ANDROID_trackables_SPEC_VERSION 2
 #define XR_ANDROID_TRACKABLES_EXTENSION_NAME "XR_ANDROID_trackables"
 
-typedef enum XrTrackingStateANDROID {
+typedef ga_nanaa XrTrackingStateANDROID {
     XR_TRACKING_STATE_PAUSED_ANDROID = 0,
     XR_TRACKING_STATE_STOPPED_ANDROID = 1,
     XR_TRACKING_STATE_TRACKING_ANDROID = 2,
     XR_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackingStateANDROID;
 
-typedef enum XrTrackableTypeANDROID {
+typedef ga_nanaa XrTrackableTypeANDROID {
     XR_TRACKABLE_TYPE_NOT_VALID_ANDROID = 0,
     XR_TRACKABLE_TYPE_PLANE_ANDROID = 1,
     XR_TRACKABLE_TYPE_DEPTH_ANDROID = 1000463000,
@@ -10457,7 +10457,7 @@ typedef enum XrTrackableTypeANDROID {
     XR_TRACKABLE_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableTypeANDROID;
 
-typedef enum XrPlaneTypeANDROID {
+typedef ga_nanaa XrPlaneTypeANDROID {
     XR_PLANE_TYPE_HORIZONTAL_DOWNWARD_FACING_ANDROID = 0,
     XR_PLANE_TYPE_HORIZONTAL_UPWARD_FACING_ANDROID = 1,
     XR_PLANE_TYPE_VERTICAL_ANDROID = 2,
@@ -10465,7 +10465,7 @@ typedef enum XrPlaneTypeANDROID {
     XR_PLANE_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPlaneTypeANDROID;
 
-typedef enum XrPlaneLabelANDROID {
+typedef ga_nanaa XrPlaneLabelANDROID {
     XR_PLANE_LABEL_UNKNOWN_ANDROID = 0,
     XR_PLANE_LABEL_WALL_ANDROID = 1,
     XR_PLANE_LABEL_FLOOR_ANDROID = 2,
@@ -10473,13 +10473,13 @@ typedef enum XrPlaneLabelANDROID {
     XR_PLANE_LABEL_TABLE_ANDROID = 4,
     XR_PLANE_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPlaneLabelANDROID;
-typedef struct XrTrackableTrackerCreateInfoANDROID {
+typedef sa_nracanaa XrTrackableTrackerCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTrackableTypeANDROID      trackableType;
 } XrTrackableTrackerCreateInfoANDROID;
 
-typedef struct XrTrackableGetInfoANDROID {
+typedef sa_nracanaa XrTrackableGetInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTrackableANDROID          trackable;
@@ -10487,7 +10487,7 @@ typedef struct XrTrackableGetInfoANDROID {
     XrTime                      time;
 } XrTrackableGetInfoANDROID;
 
-typedef struct XrTrackablePlaneANDROID {
+typedef sa_nracanaa XrTrackablePlaneANDROID {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
@@ -10502,7 +10502,7 @@ typedef struct XrTrackablePlaneANDROID {
     XrVector2f*               vertices;
 } XrTrackablePlaneANDROID;
 
-typedef struct XrAnchorSpaceCreateInfoANDROID {
+typedef sa_nracanaa XrAnchorSpaceCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -10512,7 +10512,7 @@ typedef struct XrAnchorSpaceCreateInfoANDROID {
 } XrAnchorSpaceCreateInfoANDROID;
 
 // XrSystemTrackablesPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemTrackablesPropertiesANDROID {
+typedef sa_nracanaa XrSystemTrackablesPropertiesANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    supportsAnchor;
@@ -10577,20 +10577,20 @@ XR_DEFINE_HANDLE(XrEyeTrackerANDROID)
 #define XR_ANDROID_eye_tracking_SPEC_VERSION 1
 #define XR_ANDROID_EYE_TRACKING_EXTENSION_NAME "XR_ANDROID_eye_tracking"
 
-typedef enum XrEyeIndexANDROID {
+typedef ga_nanaa XrEyeIndexANDROID {
     XR_EYE_INDEX_LEFT_ANDROID = 0,
     XR_EYE_INDEX_RIGHT_ANDROID = 1,
     XR_EYE_INDEX_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeIndexANDROID;
 
-typedef enum XrEyeStateANDROID {
+typedef ga_nanaa XrEyeStateANDROID {
     XR_EYE_STATE_INVALID_ANDROID = 0,
     XR_EYE_STATE_GAZING_ANDROID = 1,
     XR_EYE_STATE_SHUT_ANDROID = 2,
     XR_EYE_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeStateANDROID;
 
-typedef enum XrEyeTrackingModeANDROID {
+typedef ga_nanaa XrEyeTrackingModeANDROID {
     XR_EYE_TRACKING_MODE_NOT_TRACKING_ANDROID = 0,
     XR_EYE_TRACKING_MODE_RIGHT_ANDROID = 1,
     XR_EYE_TRACKING_MODE_LEFT_ANDROID = 2,
@@ -10598,32 +10598,32 @@ typedef enum XrEyeTrackingModeANDROID {
     XR_EYE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrEyeTrackingModeANDROID;
 // XrSystemEyeTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemEyeTrackingPropertiesANDROID {
+typedef sa_nracanaa XrSystemEyeTrackingPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsEyeTracking;
 } XrSystemEyeTrackingPropertiesANDROID;
 
-typedef struct XrEyeANDROID {
+typedef sa_nracanaa XrEyeANDROID {
     XrEyeStateANDROID    eyeState;
     XrPosef              eyePose;
 } XrEyeANDROID;
 
-typedef struct XrEyesANDROID {
+typedef sa_nracanaa XrEyesANDROID {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrEyeANDROID                eyes[XR_EYE_MAX_ANDROID];
     XrEyeTrackingModeANDROID    mode;
 } XrEyesANDROID;
 
-typedef struct XrEyesGetInfoANDROID {
+typedef sa_nracanaa XrEyesGetInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      time;
     XrSpace                     baseSpace;
 } XrEyesGetInfoANDROID;
 
-typedef struct XrEyeTrackerCreateInfoANDROID {
+typedef sa_nracanaa XrEyeTrackerCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrEyeTrackerCreateInfoANDROID;
@@ -10662,31 +10662,31 @@ XR_DEFINE_HANDLE(XrDeviceAnchorPersistenceANDROID)
 #define XR_ANDROID_device_anchor_persistence_SPEC_VERSION 1
 #define XR_ANDROID_DEVICE_ANCHOR_PERSISTENCE_EXTENSION_NAME "XR_ANDROID_device_anchor_persistence"
 
-typedef enum XrAnchorPersistStateANDROID {
+typedef ga_nanaa XrAnchorPersistStateANDROID {
     XR_ANCHOR_PERSIST_STATE_PERSIST_NOT_REQUESTED_ANDROID = 0,
     XR_ANCHOR_PERSIST_STATE_PERSIST_PENDING_ANDROID = 1,
     XR_ANCHOR_PERSIST_STATE_PERSISTED_ANDROID = 2,
     XR_ANCHOR_PERSIST_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrAnchorPersistStateANDROID;
-typedef struct XrDeviceAnchorPersistenceCreateInfoANDROID {
+typedef sa_nracanaa XrDeviceAnchorPersistenceCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrDeviceAnchorPersistenceCreateInfoANDROID;
 
-typedef struct XrPersistedAnchorSpaceCreateInfoANDROID {
+typedef sa_nracanaa XrPersistedAnchorSpaceCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuidEXT                   anchorId;
 } XrPersistedAnchorSpaceCreateInfoANDROID;
 
-typedef struct XrPersistedAnchorSpaceInfoANDROID {
+typedef sa_nracanaa XrPersistedAnchorSpaceInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     anchor;
 } XrPersistedAnchorSpaceInfoANDROID;
 
 // XrSystemDeviceAnchorPersistencePropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemDeviceAnchorPersistencePropertiesANDROID {
+typedef sa_nracanaa XrSystemDeviceAnchorPersistencePropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsAnchorPersistence;
@@ -10754,7 +10754,7 @@ XR_DEFINE_HANDLE(XrFaceTrackerANDROID)
 #define XR_FACE_PARAMETER_COUNT_ANDROID   68
 #define XR_FACE_REGION_CONFIDENCE_COUNT_ANDROID 3
 
-typedef enum XrFaceParameterIndicesANDROID {
+typedef ga_nanaa XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_BROW_LOWERER_L_ANDROID = 0,
     XR_FACE_PARAMETER_INDICES_BROW_LOWERER_R_ANDROID = 1,
     XR_FACE_PARAMETER_INDICES_CHEEK_PUFF_L_ANDROID = 2,
@@ -10826,31 +10826,31 @@ typedef enum XrFaceParameterIndicesANDROID {
     XR_FACE_PARAMETER_INDICES_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceParameterIndicesANDROID;
 
-typedef enum XrFaceTrackingStateANDROID {
+typedef ga_nanaa XrFaceTrackingStateANDROID {
     XR_FACE_TRACKING_STATE_PAUSED_ANDROID = 0,
     XR_FACE_TRACKING_STATE_STOPPED_ANDROID = 1,
     XR_FACE_TRACKING_STATE_TRACKING_ANDROID = 2,
     XR_FACE_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceTrackingStateANDROID;
 
-typedef enum XrFaceConfidenceRegionsANDROID {
+typedef ga_nanaa XrFaceConfidenceRegionsANDROID {
     XR_FACE_CONFIDENCE_REGIONS_LOWER_ANDROID = 0,
     XR_FACE_CONFIDENCE_REGIONS_LEFT_UPPER_ANDROID = 1,
     XR_FACE_CONFIDENCE_REGIONS_RIGHT_UPPER_ANDROID = 2,
     XR_FACE_CONFIDENCE_REGIONS_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrFaceConfidenceRegionsANDROID;
-typedef struct XrFaceTrackerCreateInfoANDROID {
+typedef sa_nracanaa XrFaceTrackerCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrFaceTrackerCreateInfoANDROID;
 
-typedef struct XrFaceStateGetInfoANDROID {
+typedef sa_nracanaa XrFaceStateGetInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      time;
 } XrFaceStateGetInfoANDROID;
 
-typedef struct XrFaceStateANDROID {
+typedef sa_nracanaa XrFaceStateANDROID {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     uint32_t                      parametersCapacityInput;
@@ -10865,7 +10865,7 @@ typedef struct XrFaceStateANDROID {
 } XrFaceStateANDROID;
 
 // XrSystemFaceTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemFaceTrackingPropertiesANDROID {
+typedef sa_nracanaa XrSystemFaceTrackingPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsFaceTracking;
@@ -10903,7 +10903,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFaceCalibrationStateANDROID(
 #define XR_ANDROID_passthrough_camera_state_SPEC_VERSION 1
 #define XR_ANDROID_PASSTHROUGH_CAMERA_STATE_EXTENSION_NAME "XR_ANDROID_passthrough_camera_state"
 
-typedef enum XrPassthroughCameraStateANDROID {
+typedef ga_nanaa XrPassthroughCameraStateANDROID {
     XR_PASSTHROUGH_CAMERA_STATE_DISABLED_ANDROID = 0,
     XR_PASSTHROUGH_CAMERA_STATE_INITIALIZING_ANDROID = 1,
     XR_PASSTHROUGH_CAMERA_STATE_READY_ANDROID = 2,
@@ -10911,13 +10911,13 @@ typedef enum XrPassthroughCameraStateANDROID {
     XR_PASSTHROUGH_CAMERA_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrPassthroughCameraStateANDROID;
 // XrSystemPassthroughCameraStatePropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemPassthroughCameraStatePropertiesANDROID {
+typedef sa_nracanaa XrSystemPassthroughCameraStatePropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsPassthroughCameraState;
 } XrSystemPassthroughCameraStatePropertiesANDROID;
 
-typedef struct XrPassthroughCameraStateGetInfoANDROID {
+typedef sa_nracanaa XrPassthroughCameraStateGetInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrPassthroughCameraStateGetInfoANDROID;
@@ -10938,7 +10938,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetPassthroughCameraStateANDROID(
 #define XR_ANDROID_recommended_resolution 1
 #define XR_ANDROID_recommended_resolution_SPEC_VERSION 1
 #define XR_ANDROID_RECOMMENDED_RESOLUTION_EXTENSION_NAME "XR_ANDROID_recommended_resolution"
-typedef struct XrEventDataRecommendedResolutionChangedANDROID {
+typedef sa_nracanaa XrEventDataRecommendedResolutionChangedANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrEventDataRecommendedResolutionChangedANDROID;
@@ -10951,13 +10951,13 @@ XR_DEFINE_HANDLE(XrPassthroughLayerANDROID)
 #define XR_ANDROID_composition_layer_passthrough_mesh_SPEC_VERSION 1
 #define XR_ANDROID_COMPOSITION_LAYER_PASSTHROUGH_MESH_EXTENSION_NAME "XR_ANDROID_composition_layer_passthrough_mesh"
 
-typedef enum XrWindingOrderANDROID {
+typedef ga_nanaa XrWindingOrderANDROID {
     XR_WINDING_ORDER_UNKNOWN_ANDROID = 0,
     XR_WINDING_ORDER_CW_ANDROID = 1,
     XR_WINDING_ORDER_CCW_ANDROID = 2,
     XR_WINDING_ORDER_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrWindingOrderANDROID;
-typedef struct XrPassthroughLayerCreateInfoANDROID {
+typedef sa_nracanaa XrPassthroughLayerCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    vertexCapacity;
@@ -10965,7 +10965,7 @@ typedef struct XrPassthroughLayerCreateInfoANDROID {
 } XrPassthroughLayerCreateInfoANDROID;
 
 // XrPassthroughLayerMeshANDROID extends XrPassthroughLayerCreateInfoANDROID
-typedef struct XrPassthroughLayerMeshANDROID {
+typedef sa_nracanaa XrPassthroughLayerMeshANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrWindingOrderANDROID       windingOrder;
@@ -10975,7 +10975,7 @@ typedef struct XrPassthroughLayerMeshANDROID {
     const uint16_t*             indices;
 } XrPassthroughLayerMeshANDROID;
 
-typedef struct XrCompositionLayerPassthroughANDROID {
+typedef sa_nracanaa XrCompositionLayerPassthroughANDROID {
     XrStructureType              type;
     const void* XR_MAY_ALIAS     next;
     XrCompositionLayerFlags      layerFlags;
@@ -10987,7 +10987,7 @@ typedef struct XrCompositionLayerPassthroughANDROID {
 } XrCompositionLayerPassthroughANDROID;
 
 // XrSystemPassthroughLayerPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemPassthroughLayerPropertiesANDROID {
+typedef sa_nracanaa XrSystemPassthroughLayerPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsPassthroughLayer;
@@ -11020,7 +11020,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetPassthroughLayerMeshANDROID(
 #define XR_ANDROID_raycast 1
 #define XR_ANDROID_raycast_SPEC_VERSION   1
 #define XR_ANDROID_RAYCAST_EXTENSION_NAME "XR_ANDROID_raycast"
-typedef struct XrRaycastInfoANDROID {
+typedef sa_nracanaa XrRaycastInfoANDROID {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     uint32_t                            maxResults;
@@ -11032,13 +11032,13 @@ typedef struct XrRaycastInfoANDROID {
     XrTime                              time;
 } XrRaycastInfoANDROID;
 
-typedef struct XrRaycastHitResultANDROID {
+typedef sa_nracanaa XrRaycastHitResultANDROID {
     XrTrackableTypeANDROID    type;
     XrTrackableANDROID        trackable;
     XrPosef                   pose;
 } XrRaycastHitResultANDROID;
 
-typedef struct XrRaycastHitResultsANDROID {
+typedef sa_nracanaa XrRaycastHitResultsANDROID {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     uint32_t                      resultsCapacityInput;
@@ -11071,7 +11071,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRaycastANDROID(
 #define XR_ANDROID_performance_metrics_SPEC_VERSION 1
 #define XR_ANDROID_PERFORMANCE_METRICS_EXTENSION_NAME "XR_ANDROID_performance_metrics"
 
-typedef enum XrPerformanceMetricsCounterUnitANDROID {
+typedef ga_nanaa XrPerformanceMetricsCounterUnitANDROID {
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_GENERIC_ANDROID = 0,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_PERCENTAGE_ANDROID = 1,
     XR_PERFORMANCE_METRICS_COUNTER_UNIT_MILLISECONDS_ANDROID = 2,
@@ -11086,13 +11086,13 @@ static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUN
 static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_UINT_VALUE_VALID_BIT_ANDROID = 0x00000002;
 static const XrPerformanceMetricsCounterFlagsANDROID XR_PERFORMANCE_METRICS_COUNTER_FLOAT_VALUE_VALID_BIT_ANDROID = 0x00000004;
 
-typedef struct XrPerformanceMetricsStateANDROID {
+typedef sa_nracanaa XrPerformanceMetricsStateANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              enabled;
 } XrPerformanceMetricsStateANDROID;
 
-typedef struct XrPerformanceMetricsCounterANDROID {
+typedef sa_nracanaa XrPerformanceMetricsCounterANDROID {
     XrStructureType                            type;
     void* XR_MAY_ALIAS                         next;
     XrPerformanceMetricsCounterFlagsANDROID    counterFlags;
@@ -11135,14 +11135,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrQueryPerformanceMetricsCounterANDROID(
 #define XR_ANDROID_trackables_object_SPEC_VERSION 2
 #define XR_ANDROID_TRACKABLES_OBJECT_EXTENSION_NAME "XR_ANDROID_trackables_object"
 
-typedef enum XrObjectLabelANDROID {
+typedef ga_nanaa XrObjectLabelANDROID {
     XR_OBJECT_LABEL_UNKNOWN_ANDROID = 0,
     XR_OBJECT_LABEL_KEYBOARD_ANDROID = 1,
     XR_OBJECT_LABEL_MOUSE_ANDROID = 2,
     XR_OBJECT_LABEL_LAPTOP_ANDROID = 3,
     XR_OBJECT_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrObjectLabelANDROID;
-typedef struct XrTrackableObjectANDROID {
+typedef sa_nracanaa XrTrackableObjectANDROID {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
@@ -11153,7 +11153,7 @@ typedef struct XrTrackableObjectANDROID {
 } XrTrackableObjectANDROID;
 
 // XrTrackableObjectConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableObjectConfigurationANDROID {
+typedef sa_nracanaa XrTrackableObjectConfigurationANDROID {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     uint32_t                       labelCount;
@@ -11184,30 +11184,30 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableObjectANDROID(
 #define XR_EXT_FUTURE_EXTENSION_NAME      "XR_EXT_future"
 #define XR_NULL_FUTURE_EXT                0
 
-typedef enum XrFutureStateEXT {
+typedef ga_nanaa XrFutureStateEXT {
     XR_FUTURE_STATE_PENDING_EXT = 1,
     XR_FUTURE_STATE_READY_EXT = 2,
     XR_FUTURE_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrFutureStateEXT;
-typedef struct XrFutureCancelInfoEXT {
+typedef sa_nracanaa XrFutureCancelInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFutureEXT                 future;
 } XrFutureCancelInfoEXT;
 
-typedef struct XrFuturePollInfoEXT {
+typedef sa_nracanaa XrFuturePollInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrFutureEXT                 future;
 } XrFuturePollInfoEXT;
 
-typedef struct XR_MAY_ALIAS XrFutureCompletionBaseHeaderEXT {
+typedef sa_nracanaa XR_MAY_ALIAS XrFutureCompletionBaseHeaderEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
 } XrFutureCompletionBaseHeaderEXT;
 
-typedef struct XrFuturePollResultEXT {
+typedef sa_nracanaa XrFuturePollResultEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrFutureStateEXT      state;
@@ -11234,7 +11234,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCancelFutureEXT(
 #define XR_EXT_user_presence 1
 #define XR_EXT_user_presence_SPEC_VERSION 1
 #define XR_EXT_USER_PRESENCE_EXTENSION_NAME "XR_EXT_user_presence"
-typedef struct XrEventDataUserPresenceChangedEXT {
+typedef sa_nracanaa XrEventDataUserPresenceChangedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSession                   session;
@@ -11242,7 +11242,7 @@ typedef struct XrEventDataUserPresenceChangedEXT {
 } XrEventDataUserPresenceChangedEXT;
 
 // XrSystemUserPresencePropertiesEXT extends XrSystemProperties
-typedef struct XrSystemUserPresencePropertiesEXT {
+typedef sa_nracanaa XrSystemUserPresencePropertiesEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsUserPresence;
@@ -11255,7 +11255,7 @@ typedef struct XrSystemUserPresencePropertiesEXT {
 #define XR_ML_user_calibration_SPEC_VERSION 1
 #define XR_ML_USER_CALIBRATION_EXTENSION_NAME "XR_ML_user_calibration"
 
-typedef enum XrHeadsetFitStatusML {
+typedef ga_nanaa XrHeadsetFitStatusML {
     XR_HEADSET_FIT_STATUS_UNKNOWN_ML = 0,
     XR_HEADSET_FIT_STATUS_NOT_WORN_ML = 1,
     XR_HEADSET_FIT_STATUS_GOOD_FIT_ML = 2,
@@ -11263,27 +11263,27 @@ typedef enum XrHeadsetFitStatusML {
     XR_HEADSET_FIT_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrHeadsetFitStatusML;
 
-typedef enum XrEyeCalibrationStatusML {
+typedef ga_nanaa XrEyeCalibrationStatusML {
     XR_EYE_CALIBRATION_STATUS_UNKNOWN_ML = 0,
     XR_EYE_CALIBRATION_STATUS_NONE_ML = 1,
     XR_EYE_CALIBRATION_STATUS_COARSE_ML = 2,
     XR_EYE_CALIBRATION_STATUS_FINE_ML = 3,
     XR_EYE_CALIBRATION_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrEyeCalibrationStatusML;
-typedef struct XrEventDataHeadsetFitChangedML {
+typedef sa_nracanaa XrEventDataHeadsetFitChangedML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrHeadsetFitStatusML        status;
     XrTime                      time;
 } XrEventDataHeadsetFitChangedML;
 
-typedef struct XrEventDataEyeCalibrationChangedML {
+typedef sa_nracanaa XrEventDataEyeCalibrationChangedML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrEyeCalibrationStatusML    status;
 } XrEventDataEyeCalibrationChangedML;
 
-typedef struct XrUserCalibrationEnableEventsInfoML {
+typedef sa_nracanaa XrUserCalibrationEnableEventsInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    enabled;
@@ -11304,7 +11304,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnableUserCalibrationEventsML(
 #define XR_ML_system_notifications 1
 #define XR_ML_system_notifications_SPEC_VERSION 1
 #define XR_ML_SYSTEM_NOTIFICATIONS_EXTENSION_NAME "XR_ML_system_notifications"
-typedef struct XrSystemNotificationsSetInfoML {
+typedef sa_nracanaa XrSystemNotificationsSetInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    suppressNotifications;
@@ -11327,14 +11327,14 @@ XR_DEFINE_HANDLE(XrWorldMeshDetectorML)
 #define XR_ML_world_mesh_detection_SPEC_VERSION 1
 #define XR_ML_WORLD_MESH_DETECTION_EXTENSION_NAME "XR_ML_world_mesh_detection"
 
-typedef enum XrWorldMeshDetectorLodML {
+typedef ga_nanaa XrWorldMeshDetectorLodML {
     XR_WORLD_MESH_DETECTOR_LOD_MINIMUM_ML = 0,
     XR_WORLD_MESH_DETECTOR_LOD_MEDIUM_ML = 1,
     XR_WORLD_MESH_DETECTOR_LOD_MAXIMUM_ML = 2,
     XR_WORLD_MESH_DETECTOR_LOD_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshDetectorLodML;
 
-typedef enum XrWorldMeshBlockStatusML {
+typedef ga_nanaa XrWorldMeshBlockStatusML {
     XR_WORLD_MESH_BLOCK_STATUS_NEW_ML = 0,
     XR_WORLD_MESH_BLOCK_STATUS_UPDATED_ML = 1,
     XR_WORLD_MESH_BLOCK_STATUS_DELETED_ML = 2,
@@ -11342,7 +11342,7 @@ typedef enum XrWorldMeshBlockStatusML {
     XR_WORLD_MESH_BLOCK_STATUS_MAX_ENUM_ML = 0x7FFFFFFF
 } XrWorldMeshBlockStatusML;
 
-typedef enum XrWorldMeshBlockResultML {
+typedef ga_nanaa XrWorldMeshBlockResultML {
     XR_WORLD_MESH_BLOCK_RESULT_SUCCESS_ML = 0,
     XR_WORLD_MESH_BLOCK_RESULT_FAILED_ML = 1,
     XR_WORLD_MESH_BLOCK_RESULT_PENDING_ML = 2,
@@ -11359,12 +11359,12 @@ static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_PLANARIZE_BIT_ML 
 static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_REMOVE_MESH_SKIRT_BIT_ML = 0x00000010;
 static const XrWorldMeshDetectorFlagsML XR_WORLD_MESH_DETECTOR_INDEX_ORDER_CW_BIT_ML = 0x00000020;
 
-typedef struct XrWorldMeshDetectorCreateInfoML {
+typedef sa_nracanaa XrWorldMeshDetectorCreateInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrWorldMeshDetectorCreateInfoML;
 
-typedef struct XrWorldMeshBlockStateML {
+typedef sa_nracanaa XrWorldMeshBlockStateML {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrUuidEXT                   uuid;
@@ -11374,7 +11374,7 @@ typedef struct XrWorldMeshBlockStateML {
     XrWorldMeshBlockStatusML    status;
 } XrWorldMeshBlockStateML;
 
-typedef struct XrWorldMeshStateRequestInfoML {
+typedef sa_nracanaa XrWorldMeshStateRequestInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -11383,7 +11383,7 @@ typedef struct XrWorldMeshStateRequestInfoML {
     XrExtent3DfEXT              boundingBoxExtents;
 } XrWorldMeshStateRequestInfoML;
 
-typedef struct XrWorldMeshStateRequestCompletionML {
+typedef sa_nracanaa XrWorldMeshStateRequestCompletionML {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
@@ -11393,33 +11393,33 @@ typedef struct XrWorldMeshStateRequestCompletionML {
     XrWorldMeshBlockStateML*    meshBlockStates;
 } XrWorldMeshStateRequestCompletionML;
 
-typedef struct XrWorldMeshBufferRecommendedSizeInfoML {
+typedef sa_nracanaa XrWorldMeshBufferRecommendedSizeInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    maxBlockCount;
 } XrWorldMeshBufferRecommendedSizeInfoML;
 
-typedef struct XrWorldMeshBufferSizeML {
+typedef sa_nracanaa XrWorldMeshBufferSizeML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              size;
 } XrWorldMeshBufferSizeML;
 
-typedef struct XrWorldMeshBufferML {
+typedef sa_nracanaa XrWorldMeshBufferML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              bufferSize;
     void* XR_MAY_ALIAS    buffer;
 } XrWorldMeshBufferML;
 
-typedef struct XrWorldMeshBlockRequestML {
+typedef sa_nracanaa XrWorldMeshBlockRequestML {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrUuidEXT                   uuid;
     XrWorldMeshDetectorLodML    lod;
 } XrWorldMeshBlockRequestML;
 
-typedef struct XrWorldMeshGetInfoML {
+typedef sa_nracanaa XrWorldMeshGetInfoML {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrWorldMeshDetectorFlagsML    flags;
@@ -11429,7 +11429,7 @@ typedef struct XrWorldMeshGetInfoML {
     XrWorldMeshBlockRequestML*    blocks;
 } XrWorldMeshGetInfoML;
 
-typedef struct XrWorldMeshBlockML {
+typedef sa_nracanaa XrWorldMeshBlockML {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     XrUuidEXT                     uuid;
@@ -11446,14 +11446,14 @@ typedef struct XrWorldMeshBlockML {
     float*                        confidenceBuffer;
 } XrWorldMeshBlockML;
 
-typedef struct XrWorldMeshRequestCompletionInfoML {
+typedef sa_nracanaa XrWorldMeshRequestCompletionInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     meshSpace;
     XrTime                      meshSpaceLocateTime;
 } XrWorldMeshRequestCompletionInfoML;
 
-typedef struct XrWorldMeshRequestCompletionML {
+typedef sa_nracanaa XrWorldMeshRequestCompletionML {
     XrStructureType        type;
     void* XR_MAY_ALIAS     next;
     XrResult               futureResult;
@@ -11526,7 +11526,7 @@ XR_DEFINE_HANDLE(XrFacialExpressionClientML)
 #define XR_ML_facial_expression_SPEC_VERSION 1
 #define XR_ML_FACIAL_EXPRESSION_EXTENSION_NAME "XR_ML_facial_expression"
 
-typedef enum XrFacialBlendShapeML {
+typedef ga_nanaa XrFacialBlendShapeML {
     XR_FACIAL_BLEND_SHAPE_BROW_LOWERER_L_ML = 0,
     XR_FACIAL_BLEND_SHAPE_BROW_LOWERER_R_ML = 1,
     XR_FACIAL_BLEND_SHAPE_CHEEK_RAISER_L_ML = 2,
@@ -11582,25 +11582,25 @@ static const XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_
 static const XrFacialExpressionBlendShapePropertiesFlagsML XR_FACIAL_EXPRESSION_BLEND_SHAPE_PROPERTIES_TRACKED_BIT_ML = 0x00000002;
 
 // XrSystemFacialExpressionPropertiesML extends XrSystemProperties
-typedef struct XrSystemFacialExpressionPropertiesML {
+typedef sa_nracanaa XrSystemFacialExpressionPropertiesML {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsFacialExpression;
 } XrSystemFacialExpressionPropertiesML;
 
-typedef struct XrFacialExpressionClientCreateInfoML {
+typedef sa_nracanaa XrFacialExpressionClientCreateInfoML {
     XrStructureType                type;
     const void* XR_MAY_ALIAS       next;
     uint32_t                       requestedCount;
     const XrFacialBlendShapeML*    requestedFacialBlendShapes;
 } XrFacialExpressionClientCreateInfoML;
 
-typedef struct XrFacialExpressionBlendShapeGetInfoML {
+typedef sa_nracanaa XrFacialExpressionBlendShapeGetInfoML {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrFacialExpressionBlendShapeGetInfoML;
 
-typedef struct XrFacialExpressionBlendShapePropertiesML {
+typedef sa_nracanaa XrFacialExpressionBlendShapePropertiesML {
     XrStructureType                                  type;
     void* XR_MAY_ALIAS                               next;
     XrFacialBlendShapeML                             requestedFacialBlendShape;
@@ -11649,19 +11649,19 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetFacialExpressionBlendShapePropertiesML(
 #define XR_META_boundary_visibility_SPEC_VERSION 1
 #define XR_META_BOUNDARY_VISIBILITY_EXTENSION_NAME "XR_META_boundary_visibility"
 
-typedef enum XrBoundaryVisibilityMETA {
+typedef ga_nanaa XrBoundaryVisibilityMETA {
     XR_BOUNDARY_VISIBILITY_NOT_SUPPRESSED_META = 1,
     XR_BOUNDARY_VISIBILITY_SUPPRESSED_META = 2,
     XR_BOUNDARY_VISIBILITY_MAX_ENUM_META = 0x7FFFFFFF
 } XrBoundaryVisibilityMETA;
 // XrSystemBoundaryVisibilityPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemBoundaryVisibilityPropertiesMETA {
+typedef sa_nracanaa XrSystemBoundaryVisibilityPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsBoundaryVisibility;
 } XrSystemBoundaryVisibilityPropertiesMETA;
 
-typedef struct XrEventDataBoundaryVisibilityChangedMETA {
+typedef sa_nracanaa XrEventDataBoundaryVisibilityChangedMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBoundaryVisibilityMETA    boundaryVisibility;
@@ -11683,18 +11683,18 @@ XRAPI_ATTR XrResult XRAPI_CALL xrRequestBoundaryVisibilityMETA(
 #define XR_META_simultaneous_hands_and_controllers_SPEC_VERSION 1
 #define XR_META_SIMULTANEOUS_HANDS_AND_CONTROLLERS_EXTENSION_NAME "XR_META_simultaneous_hands_and_controllers"
 // XrSystemSimultaneousHandsAndControllersPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSimultaneousHandsAndControllersPropertiesMETA {
+typedef sa_nracanaa XrSystemSimultaneousHandsAndControllersPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSimultaneousHandsAndControllers;
 } XrSystemSimultaneousHandsAndControllersPropertiesMETA;
 
-typedef struct XrSimultaneousHandsAndControllersTrackingResumeInfoMETA {
+typedef sa_nracanaa XrSimultaneousHandsAndControllersTrackingResumeInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSimultaneousHandsAndControllersTrackingResumeInfoMETA;
 
-typedef struct XrSimultaneousHandsAndControllersTrackingPauseInfoMETA {
+typedef sa_nracanaa XrSimultaneousHandsAndControllersTrackingPauseInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSimultaneousHandsAndControllersTrackingPauseInfoMETA;
@@ -11721,7 +11721,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPauseSimultaneousHandsAndControllersTrackingMET
 #define XR_META_face_tracking_visemes_SPEC_VERSION 1
 #define XR_META_FACE_TRACKING_VISEMES_EXTENSION_NAME "XR_META_face_tracking_visemes"
 
-typedef enum XrFaceTrackingVisemeMETA {
+typedef ga_nanaa XrFaceTrackingVisemeMETA {
     XR_FACE_TRACKING_VISEME_SIL_META = 0,
     XR_FACE_TRACKING_VISEME_PP_META = 1,
     XR_FACE_TRACKING_VISEME_FF_META = 2,
@@ -11740,7 +11740,7 @@ typedef enum XrFaceTrackingVisemeMETA {
     XR_FACE_TRACKING_VISEME_MAX_ENUM_META = 0x7FFFFFFF
 } XrFaceTrackingVisemeMETA;
 // XrFaceTrackingVisemesMETA extends XrFaceExpressionWeights2FB
-typedef struct XrFaceTrackingVisemesMETA {
+typedef sa_nracanaa XrFaceTrackingVisemesMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    isValid;
@@ -11748,7 +11748,7 @@ typedef struct XrFaceTrackingVisemesMETA {
 } XrFaceTrackingVisemesMETA;
 
 // XrSystemFaceTrackingVisemesPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemFaceTrackingVisemesPropertiesMETA {
+typedef sa_nracanaa XrSystemFaceTrackingVisemesPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsVisemes;
@@ -11761,7 +11761,7 @@ typedef struct XrSystemFaceTrackingVisemesPropertiesMETA {
 #define XR_META_spatial_entity_semantic_label_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_SEMANTIC_LABEL_EXTENSION_NAME "XR_META_spatial_entity_semantic_label"
 
-typedef enum XrSemanticLabelMETA {
+typedef ga_nanaa XrSemanticLabelMETA {
     XR_SEMANTIC_LABEL_UNKNOWN_META = 0,
     XR_SEMANTIC_LABEL_FLOOR_META = 1,
     XR_SEMANTIC_LABEL_CEILING_META = 2,
@@ -11778,13 +11778,13 @@ typedef enum XrSemanticLabelMETA {
 #define XR_META_spatial_entity_room_mesh 1
 #define XR_META_spatial_entity_room_mesh_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_ROOM_MESH_EXTENSION_NAME "XR_META_spatial_entity_room_mesh"
-typedef struct XrRoomMeshFaceMETA {
+typedef sa_nracanaa XrRoomMeshFaceMETA {
     XrUuid                 uuid;
     XrUuid                 parentUuid;
     XrSemanticLabelMETA    semanticLabel;
 } XrRoomMeshFaceMETA;
 
-typedef struct XrRoomMeshFaceIndicesMETA {
+typedef sa_nracanaa XrRoomMeshFaceIndicesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              indexCapacityInput;
@@ -11792,14 +11792,14 @@ typedef struct XrRoomMeshFaceIndicesMETA {
     uint32_t*             indices;
 } XrRoomMeshFaceIndicesMETA;
 
-typedef struct XrSpaceRoomMeshGetInfoMETA {
+typedef sa_nracanaa XrSpaceRoomMeshGetInfoMETA {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     uint32_t                      recognizedSemanticLabelCount;
     const XrSemanticLabelMETA*    recognizedSemanticLabels;
 } XrSpaceRoomMeshGetInfoMETA;
 
-typedef struct XrRoomMeshMETA {
+typedef sa_nracanaa XrRoomMeshMETA {
     XrStructureType        type;
     void* XR_MAY_ALIAS     next;
     uint32_t               vertexCapacityInput;
@@ -11839,29 +11839,29 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpaceRoomMeshFaceIndicesMETA(
 #define XR_MAX_COLOCATION_DISCOVERY_BUFFER_SIZE_META 1024
 #define XR_META_colocation_discovery_SPEC_VERSION 1
 #define XR_META_COLOCATION_DISCOVERY_EXTENSION_NAME "XR_META_colocation_discovery"
-typedef struct XrColocationDiscoveryStartInfoMETA {
+typedef sa_nracanaa XrColocationDiscoveryStartInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrColocationDiscoveryStartInfoMETA;
 
-typedef struct XrColocationDiscoveryStopInfoMETA {
+typedef sa_nracanaa XrColocationDiscoveryStopInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrColocationDiscoveryStopInfoMETA;
 
-typedef struct XrColocationAdvertisementStartInfoMETA {
+typedef sa_nracanaa XrColocationAdvertisementStartInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    bufferSize;
     uint8_t*                    buffer;
 } XrColocationAdvertisementStartInfoMETA;
 
-typedef struct XrColocationAdvertisementStopInfoMETA {
+typedef sa_nracanaa XrColocationAdvertisementStopInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrColocationAdvertisementStopInfoMETA;
 
-typedef struct XrEventDataStartColocationAdvertisementCompleteMETA {
+typedef sa_nracanaa XrEventDataStartColocationAdvertisementCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          advertisementRequestId;
@@ -11869,28 +11869,28 @@ typedef struct XrEventDataStartColocationAdvertisementCompleteMETA {
     XrUuid                      advertisementUuid;
 } XrEventDataStartColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataStopColocationAdvertisementCompleteMETA {
+typedef sa_nracanaa XrEventDataStopColocationAdvertisementCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
     XrResult                    result;
 } XrEventDataStopColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataColocationAdvertisementCompleteMETA {
+typedef sa_nracanaa XrEventDataColocationAdvertisementCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          advertisementRequestId;
     XrResult                    result;
 } XrEventDataColocationAdvertisementCompleteMETA;
 
-typedef struct XrEventDataStartColocationDiscoveryCompleteMETA {
+typedef sa_nracanaa XrEventDataStartColocationDiscoveryCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrResult                    result;
 } XrEventDataStartColocationDiscoveryCompleteMETA;
 
-typedef struct XrEventDataColocationDiscoveryResultMETA {
+typedef sa_nracanaa XrEventDataColocationDiscoveryResultMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
@@ -11899,14 +11899,14 @@ typedef struct XrEventDataColocationDiscoveryResultMETA {
     uint8_t                     buffer[XR_MAX_COLOCATION_DISCOVERY_BUFFER_SIZE_META];
 } XrEventDataColocationDiscoveryResultMETA;
 
-typedef struct XrEventDataColocationDiscoveryCompleteMETA {
+typedef sa_nracanaa XrEventDataColocationDiscoveryCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          discoveryRequestId;
     XrResult                    result;
 } XrEventDataColocationDiscoveryCompleteMETA;
 
-typedef struct XrEventDataStopColocationDiscoveryCompleteMETA {
+typedef sa_nracanaa XrEventDataStopColocationDiscoveryCompleteMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrAsyncRequestIdFB          requestId;
@@ -11914,7 +11914,7 @@ typedef struct XrEventDataStopColocationDiscoveryCompleteMETA {
 } XrEventDataStopColocationDiscoveryCompleteMETA;
 
 // XrSystemColocationDiscoveryPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemColocationDiscoveryPropertiesMETA {
+typedef sa_nracanaa XrSystemColocationDiscoveryPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsColocationDiscovery;
@@ -11955,13 +11955,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrStopColocationAdvertisementMETA(
 #define XR_META_spatial_entity_group_sharing_SPEC_VERSION 1
 #define XR_META_SPATIAL_ENTITY_GROUP_SHARING_EXTENSION_NAME "XR_META_spatial_entity_group_sharing"
 // XrSystemSpatialEntityGroupSharingPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemSpatialEntityGroupSharingPropertiesMETA {
+typedef sa_nracanaa XrSystemSpatialEntityGroupSharingPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSpatialEntityGroupSharing;
 } XrSystemSpatialEntityGroupSharingPropertiesMETA;
 
-typedef struct XrShareSpacesRecipientGroupsMETA {
+typedef sa_nracanaa XrShareSpacesRecipientGroupsMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    groupCount;
@@ -11969,7 +11969,7 @@ typedef struct XrShareSpacesRecipientGroupsMETA {
 } XrShareSpacesRecipientGroupsMETA;
 
 // XrSpaceGroupUuidFilterInfoMETA extends XrSpaceQueryInfoBaseHeaderFB
-typedef struct XrSpaceGroupUuidFilterInfoMETA {
+typedef sa_nracanaa XrSpaceGroupUuidFilterInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuid                      groupUuid;
@@ -11983,7 +11983,7 @@ XR_DEFINE_HANDLE(XrEnvironmentRaycasterMETA)
 #define XR_META_environment_raycast_SPEC_VERSION 1
 #define XR_META_ENVIRONMENT_RAYCAST_EXTENSION_NAME "XR_META_environment_raycast"
 
-typedef enum XrEnvironmentRaycastHitStatusMETA {
+typedef ga_nanaa XrEnvironmentRaycastHitStatusMETA {
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_HIT_META = 1,
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_NO_HIT_META = 2,
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_HIT_POINT_OCCLUDED_META = 3,
@@ -11993,30 +11993,30 @@ typedef enum XrEnvironmentRaycastHitStatusMETA {
     XR_ENVIRONMENT_RAYCAST_HIT_STATUS_MAX_ENUM_META = 0x7FFFFFFF
 } XrEnvironmentRaycastHitStatusMETA;
 // XrSystemEnvironmentRaycastPropertiesMETA extends XrSystemProperties
-typedef struct XrSystemEnvironmentRaycastPropertiesMETA {
+typedef sa_nracanaa XrSystemEnvironmentRaycastPropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsEnvironmentRaycast;
 } XrSystemEnvironmentRaycastPropertiesMETA;
 
-typedef struct XrEnvironmentRaycasterCreateInfoMETA {
+typedef sa_nracanaa XrEnvironmentRaycasterCreateInfoMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrEnvironmentRaycasterCreateInfoMETA;
 
-typedef struct XrEnvironmentRaycasterCreateCompletionMETA {
+typedef sa_nracanaa XrEnvironmentRaycasterCreateCompletionMETA {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     XrResult                      futureResult;
     XrEnvironmentRaycasterMETA    environmentRaycaster;
 } XrEnvironmentRaycasterCreateCompletionMETA;
 
-typedef struct XR_MAY_ALIAS XrEnvironmentRaycastFilterBaseHeaderMETA {
+typedef sa_nracanaa XR_MAY_ALIAS XrEnvironmentRaycastFilterBaseHeaderMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrEnvironmentRaycastFilterBaseHeaderMETA;
 
-typedef struct XrEnvironmentRaycastHitGetInfoMETA {
+typedef sa_nracanaa XrEnvironmentRaycastHitGetInfoMETA {
     XrStructureType                                            type;
     const void* XR_MAY_ALIAS                                   next;
     XrSpace                                                    baseSpace;
@@ -12027,14 +12027,14 @@ typedef struct XrEnvironmentRaycastHitGetInfoMETA {
     const XrEnvironmentRaycastFilterBaseHeaderMETA* const *    filters;
 } XrEnvironmentRaycastHitGetInfoMETA;
 
-typedef struct XrEnvironmentRaycastHitMETA {
+typedef sa_nracanaa XrEnvironmentRaycastHitMETA {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     XrEnvironmentRaycastHitStatusMETA    status;
     XrPosef                              pose;
 } XrEnvironmentRaycastHitMETA;
 
-typedef struct XrEnvironmentRaycastFilterDistanceMETA {
+typedef sa_nracanaa XrEnvironmentRaycastFilterDistanceMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       maxDistance;
@@ -12072,13 +12072,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrPerformEnvironmentRaycastMETA(
 #define XR_META_tile_properties_hint 1
 #define XR_META_tile_properties_hint_SPEC_VERSION 1
 #define XR_META_TILE_PROPERTIES_HINT_EXTENSION_NAME "XR_META_tile_properties_hint"
-typedef struct XrExtent3DiMETA {
+typedef sa_nracanaa XrExtent3DiMETA {
     int32_t    width;
     int32_t    height;
     int32_t    depth;
 } XrExtent3DiMETA;
 
-typedef struct XrTilePropertiesMETA {
+typedef sa_nracanaa XrTilePropertiesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrExtent3DiMETA       tileDimensions;
@@ -12086,7 +12086,7 @@ typedef struct XrTilePropertiesMETA {
     XrOffset2Di           origin;
 } XrTilePropertiesMETA;
 
-typedef struct XrTilePropertiesHintMETA {
+typedef sa_nracanaa XrTilePropertiesHintMETA {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     uint32_t                       propertiesCount;
@@ -12109,13 +12109,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetTilePropertiesHintMETA(
 #define XR_META_hand_tracking_unextrapolated_poses_SPEC_VERSION 1
 #define XR_META_HAND_TRACKING_UNEXTRAPOLATED_POSES_EXTENSION_NAME "XR_META_hand_tracking_unextrapolated_poses"
 // XrHandTrackingUnextrapolatedPosesRequestMETA extends XrHandJointsLocateInfoEXT
-typedef struct XrHandTrackingUnextrapolatedPosesRequestMETA {
+typedef sa_nracanaa XrHandTrackingUnextrapolatedPosesRequestMETA {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrHandTrackingUnextrapolatedPosesRequestMETA;
 
 // XrHandTrackingUnextrapolatedPosesMETA extends XrHandJointLocationsEXT
-typedef struct XrHandTrackingUnextrapolatedPosesMETA {
+typedef sa_nracanaa XrHandTrackingUnextrapolatedPosesMETA {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrTime                captureTime;
@@ -12128,7 +12128,7 @@ typedef struct XrHandTrackingUnextrapolatedPosesMETA {
 #define XR_META_hand_tracking_frequency_hint_SPEC_VERSION 1
 #define XR_META_HAND_TRACKING_FREQUENCY_HINT_EXTENSION_NAME "XR_META_hand_tracking_frequency_hint"
 
-typedef enum XrHandTrackingFrequencyHintMETA {
+typedef ga_nanaa XrHandTrackingFrequencyHintMETA {
     XR_HAND_TRACKING_FREQUENCY_HINT_DEFAULT_META = 1,
     XR_HAND_TRACKING_FREQUENCY_HINT_HIGH_META = 2,
     XR_HAND_TRACKING_FREQUENCY_HINT_MAX_ENUM_META = 0x7FFFFFFF
@@ -12156,37 +12156,37 @@ XR_DEFINE_HANDLE(XrLightEstimatorANDROID)
 #define XR_ANDROID_light_estimation_SPEC_VERSION 1
 #define XR_ANDROID_LIGHT_ESTIMATION_EXTENSION_NAME "XR_ANDROID_light_estimation"
 
-typedef enum XrLightEstimateStateANDROID {
+typedef ga_nanaa XrLightEstimateStateANDROID {
     XR_LIGHT_ESTIMATE_STATE_VALID_ANDROID = 0,
     XR_LIGHT_ESTIMATE_STATE_INVALID_ANDROID = 1,
     XR_LIGHT_ESTIMATE_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrLightEstimateStateANDROID;
 
-typedef enum XrSphericalHarmonicsKindANDROID {
+typedef ga_nanaa XrSphericalHarmonicsKindANDROID {
     XR_SPHERICAL_HARMONICS_KIND_TOTAL_ANDROID = 0,
     XR_SPHERICAL_HARMONICS_KIND_AMBIENT_ANDROID = 1,
     XR_SPHERICAL_HARMONICS_KIND_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSphericalHarmonicsKindANDROID;
 // XrSystemLightEstimationPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemLightEstimationPropertiesANDROID {
+typedef sa_nracanaa XrSystemLightEstimationPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsLightEstimation;
 } XrSystemLightEstimationPropertiesANDROID;
 
-typedef struct XrLightEstimatorCreateInfoANDROID {
+typedef sa_nracanaa XrLightEstimatorCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrLightEstimatorCreateInfoANDROID;
 
-typedef struct XrLightEstimateGetInfoANDROID {
+typedef sa_nracanaa XrLightEstimateGetInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
     XrTime                      time;
 } XrLightEstimateGetInfoANDROID;
 
-typedef struct XrLightEstimateANDROID {
+typedef sa_nracanaa XrLightEstimateANDROID {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
@@ -12194,7 +12194,7 @@ typedef struct XrLightEstimateANDROID {
 } XrLightEstimateANDROID;
 
 // XrDirectionalLightANDROID extends XrLightEstimateANDROID
-typedef struct XrDirectionalLightANDROID {
+typedef sa_nracanaa XrDirectionalLightANDROID {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
@@ -12203,7 +12203,7 @@ typedef struct XrDirectionalLightANDROID {
 } XrDirectionalLightANDROID;
 
 // XrAmbientLightANDROID extends XrLightEstimateANDROID
-typedef struct XrAmbientLightANDROID {
+typedef sa_nracanaa XrAmbientLightANDROID {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     XrLightEstimateStateANDROID    state;
@@ -12212,7 +12212,7 @@ typedef struct XrAmbientLightANDROID {
 } XrAmbientLightANDROID;
 
 // XrSphericalHarmonicsANDROID extends XrLightEstimateANDROID
-typedef struct XrSphericalHarmonicsANDROID {
+typedef sa_nracanaa XrSphericalHarmonicsANDROID {
     XrStructureType                    type;
     void* XR_MAY_ALIAS                 next;
     XrLightEstimateStateANDROID        state;
@@ -12253,13 +12253,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetLightEstimateANDROID(
 #define XR_ANDROID_trackables_marker_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_MARKER_EXTENSION_NAME "XR_ANDROID_trackables_marker"
 
-typedef enum XrTrackableMarkerTrackingModeANDROID {
+typedef ga_nanaa XrTrackableMarkerTrackingModeANDROID {
     XR_TRACKABLE_MARKER_TRACKING_MODE_DYNAMIC_ANDROID = 0,
     XR_TRACKABLE_MARKER_TRACKING_MODE_STATIC_ANDROID = 1,
     XR_TRACKABLE_MARKER_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableMarkerTrackingModeANDROID;
 
-typedef enum XrTrackableMarkerDictionaryANDROID {
+typedef ga_nanaa XrTrackableMarkerDictionaryANDROID {
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_50_ANDROID = 0,
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_100_ANDROID = 1,
     XR_TRACKABLE_MARKER_DICTIONARY_ARUCO_4X4_250_ANDROID = 2,
@@ -12283,7 +12283,7 @@ typedef enum XrTrackableMarkerDictionaryANDROID {
     XR_TRACKABLE_MARKER_DICTIONARY_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableMarkerDictionaryANDROID;
 // XrSystemMarkerTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemMarkerTrackingPropertiesANDROID {
+typedef sa_nracanaa XrSystemMarkerTrackingPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsMarkerTracking;
@@ -12291,19 +12291,19 @@ typedef struct XrSystemMarkerTrackingPropertiesANDROID {
     uint16_t              maxMarkerCount;
 } XrSystemMarkerTrackingPropertiesANDROID;
 
-typedef struct XrTrackableMarkerDatabaseEntryANDROID {
+typedef sa_nracanaa XrTrackableMarkerDatabaseEntryANDROID {
     int32_t    id;
     float      edgeSize;
 } XrTrackableMarkerDatabaseEntryANDROID;
 
-typedef struct XrTrackableMarkerDatabaseANDROID {
+typedef sa_nracanaa XrTrackableMarkerDatabaseANDROID {
     XrTrackableMarkerDictionaryANDROID              dictionary;
     uint32_t                                        entryCount;
     const XrTrackableMarkerDatabaseEntryANDROID*    entries;
 } XrTrackableMarkerDatabaseANDROID;
 
 // XrTrackableMarkerConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableMarkerConfigurationANDROID {
+typedef sa_nracanaa XrTrackableMarkerConfigurationANDROID {
     XrStructureType                            type;
     void* XR_MAY_ALIAS                         next;
     XrTrackableMarkerTrackingModeANDROID       trackingMode;
@@ -12311,7 +12311,7 @@ typedef struct XrTrackableMarkerConfigurationANDROID {
     const XrTrackableMarkerDatabaseANDROID*    databases;
 } XrTrackableMarkerConfigurationANDROID;
 
-typedef struct XrTrackableMarkerANDROID {
+typedef sa_nracanaa XrTrackableMarkerANDROID {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     XrTrackingStateANDROID                trackingState;
@@ -12339,13 +12339,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetTrackableMarkerANDROID(
 #define XR_ANDROID_trackables_qr_code_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_QR_CODE_EXTENSION_NAME "XR_ANDROID_trackables_qr_code"
 
-typedef enum XrQrCodeTrackingModeANDROID {
+typedef ga_nanaa XrQrCodeTrackingModeANDROID {
     XR_QR_CODE_TRACKING_MODE_DYNAMIC_ANDROID = 0,
     XR_QR_CODE_TRACKING_MODE_STATIC_ANDROID = 1,
     XR_QR_CODE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrQrCodeTrackingModeANDROID;
 // XrSystemQrCodeTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemQrCodeTrackingPropertiesANDROID {
+typedef sa_nracanaa XrSystemQrCodeTrackingPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsQrCodeTracking;
@@ -12354,14 +12354,14 @@ typedef struct XrSystemQrCodeTrackingPropertiesANDROID {
 } XrSystemQrCodeTrackingPropertiesANDROID;
 
 // XrTrackableQrCodeConfigurationANDROID extends XrTrackableTrackerCreateInfoANDROID
-typedef struct XrTrackableQrCodeConfigurationANDROID {
+typedef sa_nracanaa XrTrackableQrCodeConfigurationANDROID {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     XrQrCodeTrackingModeANDROID    trackingMode;
     float                          qrCodeEdgeSize;
 } XrTrackableQrCodeConfigurationANDROID;
 
-typedef struct XrTrackableQrCodeANDROID {
+typedef sa_nracanaa XrTrackableQrCodeANDROID {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     XrTrackingStateANDROID    trackingState;
@@ -12370,7 +12370,7 @@ typedef struct XrTrackableQrCodeANDROID {
     XrExtent2Df               extents;
     uint32_t                  bufferCapacityInput;
     uint32_t                  bufferCountOutput;
-    char*                     buffer;
+    var_na*                     buffer;
 } XrTrackableQrCodeANDROID;
 
 typedef XrResult (XRAPI_PTR *PFN_xrGetTrackableQrCodeANDROID)(XrTrackableTrackerANDROID tracker, const XrTrackableGetInfoANDROID* getInfo, XrTrackableQrCodeANDROID* qrCodeOutput);
@@ -12391,18 +12391,18 @@ XR_DEFINE_HANDLE(XrTrackableImageDatabaseANDROID)
 #define XR_ANDROID_trackables_image_SPEC_VERSION 1
 #define XR_ANDROID_TRACKABLES_IMAGE_EXTENSION_NAME "XR_ANDROID_trackables_image"
 
-typedef enum XrTrackableImageTrackingModeANDROID {
+typedef ga_nanaa XrTrackableImageTrackingModeANDROID {
     XR_TRACKABLE_IMAGE_TRACKING_MODE_DYNAMIC_ANDROID = 1,
     XR_TRACKABLE_IMAGE_TRACKING_MODE_STATIC_ANDROID = 2,
     XR_TRACKABLE_IMAGE_TRACKING_MODE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableImageTrackingModeANDROID;
 
-typedef enum XrTrackableImageFormatANDROID {
+typedef ga_nanaa XrTrackableImageFormatANDROID {
     XR_TRACKABLE_IMAGE_FORMAT_R8G8B8A8_ANDROID = 1,
     XR_TRACKABLE_IMAGE_FORMAT_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrTrackableImageFormatANDROID;
 // XrSystemImageTrackingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemImageTrackingPropertiesANDROID {
+typedef sa_nracanaa XrSystemImageTrackingPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsImageTracking;
@@ -12411,7 +12411,7 @@ typedef struct XrSystemImageTrackingPropertiesANDROID {
     uint32_t              maxLoadedImageCount;
 } XrSystemImageTrackingPropertiesANDROID;
 
-typedef struct XrTrackableImageDatabaseEntryANDROID {
+typedef sa_nracanaa XrTrackableImageDatabaseEntryANDROID {
     XrStructureType                        type;
     const void* XR_MAY_ALIAS               next;
     XrTrackableImageTrackingModeANDROID    trackingMode;
@@ -12423,28 +12423,28 @@ typedef struct XrTrackableImageDatabaseEntryANDROID {
     const uint8_t*                         buffer;
 } XrTrackableImageDatabaseEntryANDROID;
 
-typedef struct XrTrackableImageDatabaseCreateInfoANDROID {
+typedef sa_nracanaa XrTrackableImageDatabaseCreateInfoANDROID {
     XrStructureType                                type;
     const void* XR_MAY_ALIAS                       next;
     uint32_t                                       entryCount;
     const XrTrackableImageDatabaseEntryANDROID*    entries;
 } XrTrackableImageDatabaseCreateInfoANDROID;
 
-typedef struct XrCreateTrackableImageDatabaseCompletionANDROID {
+typedef sa_nracanaa XrCreateTrackableImageDatabaseCompletionANDROID {
     XrStructureType                    type;
     void* XR_MAY_ALIAS                 next;
     XrResult                           futureResult;
     XrTrackableImageDatabaseANDROID    database;
 } XrCreateTrackableImageDatabaseCompletionANDROID;
 
-typedef struct XrTrackableImageConfigurationANDROID {
+typedef sa_nracanaa XrTrackableImageConfigurationANDROID {
     XrStructureType                           type;
     const void* XR_MAY_ALIAS                  next;
     uint32_t                                  databaseCount;
     const XrTrackableImageDatabaseANDROID*    databases;
 } XrTrackableImageConfigurationANDROID;
 
-typedef struct XrTrackableImageANDROID {
+typedef sa_nracanaa XrTrackableImageANDROID {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrTrackingStateANDROID             trackingState;
@@ -12455,7 +12455,7 @@ typedef struct XrTrackableImageANDROID {
     XrExtent2Df                        extents;
 } XrTrackableImageANDROID;
 
-typedef struct XrEventDataImageTrackingLostANDROID {
+typedef sa_nracanaa XrEventDataImageTrackingLostANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      time;
@@ -12506,13 +12506,13 @@ XR_DEFINE_HANDLE(XrSceneMeshSnapshotANDROID)
 #define XR_ANDROID_scene_meshing_SPEC_VERSION 3
 #define XR_ANDROID_SCENE_MESHING_EXTENSION_NAME "XR_ANDROID_scene_meshing"
 
-typedef enum XrSceneMeshSemanticLabelSetANDROID {
+typedef ga_nanaa XrSceneMeshSemanticLabelSetANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_NONE_ANDROID = 0,
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_DEFAULT_ANDROID = 1,
     XR_SCENE_MESH_SEMANTIC_LABEL_SET_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshSemanticLabelSetANDROID;
 
-typedef enum XrSceneMeshTrackingStateANDROID {
+typedef ga_nanaa XrSceneMeshTrackingStateANDROID {
     XR_SCENE_MESH_TRACKING_STATE_INITIALIZING_ANDROID = 0,
     XR_SCENE_MESH_TRACKING_STATE_TRACKING_ANDROID = 1,
     XR_SCENE_MESH_TRACKING_STATE_WAITING_ANDROID = 2,
@@ -12520,7 +12520,7 @@ typedef enum XrSceneMeshTrackingStateANDROID {
     XR_SCENE_MESH_TRACKING_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshTrackingStateANDROID;
 
-typedef enum XrSceneMeshSemanticLabelANDROID {
+typedef ga_nanaa XrSceneMeshSemanticLabelANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_OTHER_ANDROID = 0,
     XR_SCENE_MESH_SEMANTIC_LABEL_FLOOR_ANDROID = 1,
     XR_SCENE_MESH_SEMANTIC_LABEL_CEILING_ANDROID = 2,
@@ -12529,20 +12529,20 @@ typedef enum XrSceneMeshSemanticLabelANDROID {
     XR_SCENE_MESH_SEMANTIC_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSceneMeshSemanticLabelANDROID;
 // XrSystemSceneMeshingPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemSceneMeshingPropertiesANDROID {
+typedef sa_nracanaa XrSystemSceneMeshingPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsSceneMeshing;
 } XrSystemSceneMeshingPropertiesANDROID;
 
-typedef struct XrSceneMeshingTrackerCreateInfoANDROID {
+typedef sa_nracanaa XrSceneMeshingTrackerCreateInfoANDROID {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     XrSceneMeshSemanticLabelSetANDROID    semanticLabelSet;
     XrBool32                              enableNormals;
 } XrSceneMeshingTrackerCreateInfoANDROID;
 
-typedef struct XrSceneMeshSnapshotCreateInfoANDROID {
+typedef sa_nracanaa XrSceneMeshSnapshotCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -12550,14 +12550,14 @@ typedef struct XrSceneMeshSnapshotCreateInfoANDROID {
     XrBoxf                      boundingBox;
 } XrSceneMeshSnapshotCreateInfoANDROID;
 
-typedef struct XrSceneMeshSnapshotCreationResultANDROID {
+typedef sa_nracanaa XrSceneMeshSnapshotCreationResultANDROID {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrSceneMeshSnapshotANDROID         snapshot;
     XrSceneMeshTrackingStateANDROID    trackingState;
 } XrSceneMeshSnapshotCreationResultANDROID;
 
-typedef struct XrSceneSubmeshStateANDROID {
+typedef sa_nracanaa XrSceneSubmeshStateANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrUuid                submeshId;
@@ -12566,7 +12566,7 @@ typedef struct XrSceneSubmeshStateANDROID {
     XrExtent3Df           bounds;
 } XrSceneSubmeshStateANDROID;
 
-typedef struct XrSceneSubmeshDataANDROID {
+typedef sa_nracanaa XrSceneSubmeshDataANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuid                      submeshId;
@@ -12643,7 +12643,7 @@ XR_DEFINE_HANDLE(XrSpatialSnapshotEXT)
 #define XR_EXT_spatial_entity_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ENTITY_EXTENSION_NAME "XR_EXT_spatial_entity"
 
-typedef enum XrSpatialCapabilityEXT {
+typedef ga_nanaa XrSpatialCapabilityEXT {
     XR_SPATIAL_CAPABILITY_PLANE_TRACKING_EXT = 1000741000,
     XR_SPATIAL_CAPABILITY_MARKER_TRACKING_QR_CODE_EXT = 1000743000,
     XR_SPATIAL_CAPABILITY_MARKER_TRACKING_MICRO_QR_CODE_EXT = 1000743001,
@@ -12658,7 +12658,7 @@ typedef enum XrSpatialCapabilityEXT {
     XR_SPATIAL_CAPABILITY_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialCapabilityEXT;
 
-typedef enum XrSpatialCapabilityFeatureEXT {
+typedef ga_nanaa XrSpatialCapabilityFeatureEXT {
     XR_SPATIAL_CAPABILITY_FEATURE_MARKER_TRACKING_FIXED_SIZE_MARKERS_EXT = 1000743000,
     XR_SPATIAL_CAPABILITY_FEATURE_MARKER_TRACKING_STATIC_MARKERS_EXT = 1000743001,
     XR_SPATIAL_CAPABILITY_FEATURE_OBJECT_SEMANTIC_LABEL_SUBSET_EXT = 1000744000,
@@ -12673,7 +12673,7 @@ typedef enum XrSpatialCapabilityFeatureEXT {
     XR_SPATIAL_CAPABILITY_FEATURE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialCapabilityFeatureEXT;
 
-typedef enum XrSpatialComponentTypeEXT {
+typedef ga_nanaa XrSpatialComponentTypeEXT {
     XR_SPATIAL_COMPONENT_TYPE_BOUNDED_2D_EXT = 1,
     XR_SPATIAL_COMPONENT_TYPE_BOUNDED_3D_EXT = 2,
     XR_SPATIAL_COMPONENT_TYPE_PARENT_EXT = 3,
@@ -12699,14 +12699,14 @@ typedef enum XrSpatialComponentTypeEXT {
     XR_SPATIAL_COMPONENT_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialComponentTypeEXT;
 
-typedef enum XrSpatialEntityTrackingStateEXT {
+typedef ga_nanaa XrSpatialEntityTrackingStateEXT {
     XR_SPATIAL_ENTITY_TRACKING_STATE_STOPPED_EXT = 1,
     XR_SPATIAL_ENTITY_TRACKING_STATE_PAUSED_EXT = 2,
     XR_SPATIAL_ENTITY_TRACKING_STATE_TRACKING_EXT = 3,
     XR_SPATIAL_ENTITY_TRACKING_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialEntityTrackingStateEXT;
 
-typedef enum XrSpatialBufferTypeEXT {
+typedef ga_nanaa XrSpatialBufferTypeEXT {
     XR_SPATIAL_BUFFER_TYPE_UNKNOWN_EXT = 0,
     XR_SPATIAL_BUFFER_TYPE_STRING_EXT = 1,
     XR_SPATIAL_BUFFER_TYPE_UINT8_EXT = 2,
@@ -12717,7 +12717,7 @@ typedef enum XrSpatialBufferTypeEXT {
     XR_SPATIAL_BUFFER_TYPE_VECTOR3F_EXT = 7,
     XR_SPATIAL_BUFFER_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialBufferTypeEXT;
-typedef struct XrSpatialCapabilityComponentTypesEXT {
+typedef sa_nracanaa XrSpatialCapabilityComponentTypesEXT {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     uint32_t                      componentTypeCapacityInput;
@@ -12725,7 +12725,7 @@ typedef struct XrSpatialCapabilityComponentTypesEXT {
     XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialCapabilityComponentTypesEXT;
 
-typedef struct XR_MAY_ALIAS XrSpatialCapabilityConfigurationBaseHeaderEXT {
+typedef sa_nracanaa XR_MAY_ALIAS XrSpatialCapabilityConfigurationBaseHeaderEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -12733,28 +12733,28 @@ typedef struct XR_MAY_ALIAS XrSpatialCapabilityConfigurationBaseHeaderEXT {
     const XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationBaseHeaderEXT;
 
-typedef struct XrSpatialContextCreateInfoEXT {
+typedef sa_nracanaa XrSpatialContextCreateInfoEXT {
     XrStructureType                                                type;
     const void* XR_MAY_ALIAS                                       next;
     uint32_t                                                       capabilityConfigCount;
     const XrSpatialCapabilityConfigurationBaseHeaderEXT* const*    capabilityConfigs;
 } XrSpatialContextCreateInfoEXT;
 
-typedef struct XrCreateSpatialContextCompletionEXT {
+typedef sa_nracanaa XrCreateSpatialContextCompletionEXT {
     XrStructureType        type;
     void* XR_MAY_ALIAS     next;
     XrResult               futureResult;
     XrSpatialContextEXT    spatialContext;
 } XrCreateSpatialContextCompletionEXT;
 
-typedef struct XrSpatialDiscoverySnapshotCreateInfoEXT {
+typedef sa_nracanaa XrSpatialDiscoverySnapshotCreateInfoEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     uint32_t                            componentTypeCount;
     const XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialDiscoverySnapshotCreateInfoEXT;
 
-typedef struct XrCreateSpatialDiscoverySnapshotCompletionInfoEXT {
+typedef sa_nracanaa XrCreateSpatialDiscoverySnapshotCompletionInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -12762,21 +12762,21 @@ typedef struct XrCreateSpatialDiscoverySnapshotCompletionInfoEXT {
     XrFutureEXT                 future;
 } XrCreateSpatialDiscoverySnapshotCompletionInfoEXT;
 
-typedef struct XrCreateSpatialDiscoverySnapshotCompletionEXT {
+typedef sa_nracanaa XrCreateSpatialDiscoverySnapshotCompletionEXT {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     XrResult                futureResult;
     XrSpatialSnapshotEXT    snapshot;
 } XrCreateSpatialDiscoverySnapshotCompletionEXT;
 
-typedef struct XrSpatialComponentDataQueryConditionEXT {
+typedef sa_nracanaa XrSpatialComponentDataQueryConditionEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     uint32_t                            componentTypeCount;
     const XrSpatialComponentTypeEXT*    componentTypes;
 } XrSpatialComponentDataQueryConditionEXT;
 
-typedef struct XrSpatialComponentDataQueryResultEXT {
+typedef sa_nracanaa XrSpatialComponentDataQueryResultEXT {
     XrStructureType                     type;
     void* XR_MAY_ALIAS                  next;
     uint32_t                            entityIdCapacityInput;
@@ -12787,24 +12787,24 @@ typedef struct XrSpatialComponentDataQueryResultEXT {
     XrSpatialEntityTrackingStateEXT*    entityStates;
 } XrSpatialComponentDataQueryResultEXT;
 
-typedef struct XrSpatialBufferEXT {
+typedef sa_nracanaa XrSpatialBufferEXT {
     XrSpatialBufferIdEXT      bufferId;
     XrSpatialBufferTypeEXT    bufferType;
 } XrSpatialBufferEXT;
 
-typedef struct XrSpatialBufferGetInfoEXT {
+typedef sa_nracanaa XrSpatialBufferGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialBufferIdEXT        bufferId;
 } XrSpatialBufferGetInfoEXT;
 
-typedef struct XrSpatialBounded2DDataEXT {
+typedef sa_nracanaa XrSpatialBounded2DDataEXT {
     XrPosef        center;
     XrExtent2Df    extents;
 } XrSpatialBounded2DDataEXT;
 
 // XrSpatialComponentBounded2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentBounded2DListEXT {
+typedef sa_nracanaa XrSpatialComponentBounded2DListEXT {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     uint32_t                      boundCount;
@@ -12812,7 +12812,7 @@ typedef struct XrSpatialComponentBounded2DListEXT {
 } XrSpatialComponentBounded2DListEXT;
 
 // XrSpatialComponentBounded3DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentBounded3DListEXT {
+typedef sa_nracanaa XrSpatialComponentBounded3DListEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              boundCount;
@@ -12820,34 +12820,34 @@ typedef struct XrSpatialComponentBounded3DListEXT {
 } XrSpatialComponentBounded3DListEXT;
 
 // XrSpatialComponentParentListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentParentListEXT {
+typedef sa_nracanaa XrSpatialComponentParentListEXT {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     uint32_t                 parentCount;
     XrSpatialEntityIdEXT*    parents;
 } XrSpatialComponentParentListEXT;
 
-typedef struct XrSpatialMeshDataEXT {
+typedef sa_nracanaa XrSpatialMeshDataEXT {
     XrPosef               origin;
     XrSpatialBufferEXT    vertexBuffer;
     XrSpatialBufferEXT    indexBuffer;
 } XrSpatialMeshDataEXT;
 
 // XrSpatialComponentMesh3DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DListEXT {
+typedef sa_nracanaa XrSpatialComponentMesh3DListEXT {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     uint32_t                 meshCount;
     XrSpatialMeshDataEXT*    meshes;
 } XrSpatialComponentMesh3DListEXT;
 
-typedef struct XrSpatialEntityFromIdCreateInfoEXT {
+typedef sa_nracanaa XrSpatialEntityFromIdCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        entityId;
 } XrSpatialEntityFromIdCreateInfoEXT;
 
-typedef struct XrSpatialUpdateSnapshotCreateInfoEXT {
+typedef sa_nracanaa XrSpatialUpdateSnapshotCreateInfoEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     uint32_t                            entityCount;
@@ -12858,14 +12858,14 @@ typedef struct XrSpatialUpdateSnapshotCreateInfoEXT {
     XrTime                              time;
 } XrSpatialUpdateSnapshotCreateInfoEXT;
 
-typedef struct XrEventDataSpatialDiscoveryRecommendedEXT {
+typedef sa_nracanaa XrEventDataSpatialDiscoveryRecommendedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContextEXT         spatialContext;
 } XrEventDataSpatialDiscoveryRecommendedEXT;
 
 // XrSpatialFilterTrackingStateEXT extends XrSpatialDiscoverySnapshotCreateInfoEXT,XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialFilterTrackingStateEXT {
+typedef sa_nracanaa XrSpatialFilterTrackingStateEXT {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrSpatialEntityTrackingStateEXT    trackingState;
@@ -12884,7 +12884,7 @@ typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialSnapshotEXT)(XrSpatialSnapshotE
 typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialEntityFromIdEXT)(XrSpatialContextEXT spatialContext, const XrSpatialEntityFromIdCreateInfoEXT* createInfo, XrSpatialEntityEXT* spatialEntity);
 typedef XrResult (XRAPI_PTR *PFN_xrDestroySpatialEntityEXT)(XrSpatialEntityEXT spatialEntity);
 typedef XrResult (XRAPI_PTR *PFN_xrCreateSpatialUpdateSnapshotEXT)(XrSpatialContextEXT spatialContext, const XrSpatialUpdateSnapshotCreateInfoEXT* createInfo, XrSpatialSnapshotEXT* snapshot);
-typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferStringEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, char* buffer);
+typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferStringEXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, var_na* buffer);
 typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint8EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint8_t* buffer);
 typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint16EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint16_t* buffer);
 typedef XrResult (XRAPI_PTR *PFN_xrGetSpatialBufferUint32EXT)(XrSpatialSnapshotEXT snapshot, const XrSpatialBufferGetInfoEXT* info, uint32_t bufferCapacityInput, uint32_t* bufferCountOutput, uint32_t* buffer);
@@ -12964,7 +12964,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferStringEXT(
     const XrSpatialBufferGetInfoEXT*            info,
     uint32_t                                    bufferCapacityInput,
     uint32_t*                                   bufferCountOutput,
-    char*                                       buffer);
+    var_na*                                       buffer);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferUint8EXT(
     XrSpatialSnapshotEXT                        snapshot,
@@ -13016,7 +13016,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetSpatialBufferVector3fEXT(
 #define XR_EXT_spatial_plane_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PLANE_TRACKING_EXTENSION_NAME "XR_EXT_spatial_plane_tracking"
 
-typedef enum XrSpatialPlaneAlignmentEXT {
+typedef ga_nanaa XrSpatialPlaneAlignmentEXT {
     XR_SPATIAL_PLANE_ALIGNMENT_HORIZONTAL_UPWARD_EXT = 0,
     XR_SPATIAL_PLANE_ALIGNMENT_HORIZONTAL_DOWNWARD_EXT = 1,
     XR_SPATIAL_PLANE_ALIGNMENT_VERTICAL_EXT = 2,
@@ -13024,7 +13024,7 @@ typedef enum XrSpatialPlaneAlignmentEXT {
     XR_SPATIAL_PLANE_ALIGNMENT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneAlignmentEXT;
 
-typedef enum XrSpatialPlaneSemanticLabelEXT {
+typedef ga_nanaa XrSpatialPlaneSemanticLabelEXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_FLOOR_EXT = 2,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_WALL_EXT = 3,
@@ -13032,7 +13032,7 @@ typedef enum XrSpatialPlaneSemanticLabelEXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_TABLE_EXT = 5,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationPlaneTrackingEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationPlaneTrackingEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -13041,7 +13041,7 @@ typedef struct XrSpatialCapabilityConfigurationPlaneTrackingEXT {
 } XrSpatialCapabilityConfigurationPlaneTrackingEXT;
 
 // XrSpatialComponentPlaneAlignmentListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneAlignmentListEXT {
+typedef sa_nracanaa XrSpatialComponentPlaneAlignmentListEXT {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     uint32_t                       planeAlignmentCount;
@@ -13049,20 +13049,20 @@ typedef struct XrSpatialComponentPlaneAlignmentListEXT {
 } XrSpatialComponentPlaneAlignmentListEXT;
 
 // XrSpatialComponentMesh2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh2DListEXT {
+typedef sa_nracanaa XrSpatialComponentMesh2DListEXT {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     uint32_t                 meshCount;
     XrSpatialMeshDataEXT*    meshes;
 } XrSpatialComponentMesh2DListEXT;
 
-typedef struct XrSpatialPolygon2DDataEXT {
+typedef sa_nracanaa XrSpatialPolygon2DDataEXT {
     XrPosef               origin;
     XrSpatialBufferEXT    vertexBuffer;
 } XrSpatialPolygon2DDataEXT;
 
 // XrSpatialComponentPolygon2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPolygon2DListEXT {
+typedef sa_nracanaa XrSpatialComponentPolygon2DListEXT {
     XrStructureType               type;
     void* XR_MAY_ALIAS            next;
     uint32_t                      polygonCount;
@@ -13070,7 +13070,7 @@ typedef struct XrSpatialComponentPolygon2DListEXT {
 } XrSpatialComponentPolygon2DListEXT;
 
 // XrSpatialComponentPlaneSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneSemanticLabelListEXT {
+typedef sa_nracanaa XrSpatialComponentPlaneSemanticLabelListEXT {
     XrStructureType                    type;
     void* XR_MAY_ALIAS                 next;
     uint32_t                           semanticLabelCount;
@@ -13083,12 +13083,12 @@ typedef struct XrSpatialComponentPlaneSemanticLabelListEXT {
 #define XR_EXT_stationary_reference_space 1
 #define XR_EXT_stationary_reference_space_SPEC_VERSION 1
 #define XR_EXT_STATIONARY_REFERENCE_SPACE_EXTENSION_NAME "XR_EXT_stationary_reference_space"
-typedef struct XrStationaryReferenceSpaceGenerationIdGetInfoEXT {
+typedef sa_nracanaa XrStationaryReferenceSpaceGenerationIdGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrStationaryReferenceSpaceGenerationIdGetInfoEXT;
 
-typedef struct XrStationaryReferenceSpaceGenerationIdResultEXT {
+typedef sa_nracanaa XrStationaryReferenceSpaceGenerationIdResultEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrUuid                generationId;
@@ -13111,7 +13111,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrGetStationaryReferenceSpaceGenerationIdEXT(
 #define XR_EXT_spatial_marker_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_MARKER_TRACKING_EXTENSION_NAME "XR_EXT_spatial_marker_tracking"
 
-typedef enum XrSpatialMarkerArucoDictEXT {
+typedef ga_nanaa XrSpatialMarkerArucoDictEXT {
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_50_EXT = 1,
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_100_EXT = 2,
     XR_SPATIAL_MARKER_ARUCO_DICT_4X4_250_EXT = 3,
@@ -13131,14 +13131,14 @@ typedef enum XrSpatialMarkerArucoDictEXT {
     XR_SPATIAL_MARKER_ARUCO_DICT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMarkerArucoDictEXT;
 
-typedef enum XrSpatialMarkerAprilTagDictEXT {
+typedef ga_nanaa XrSpatialMarkerAprilTagDictEXT {
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_16H5_EXT = 1,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_25H9_EXT = 2,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_36H10_EXT = 3,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_36H11_EXT = 4,
     XR_SPATIAL_MARKER_APRIL_TAG_DICT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMarkerAprilTagDictEXT;
-typedef struct XrSpatialCapabilityConfigurationQrCodeEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationQrCodeEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -13146,7 +13146,7 @@ typedef struct XrSpatialCapabilityConfigurationQrCodeEXT {
     const XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationQrCodeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationMicroQrCodeEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationMicroQrCodeEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -13154,7 +13154,7 @@ typedef struct XrSpatialCapabilityConfigurationMicroQrCodeEXT {
     const XrSpatialComponentTypeEXT*    enabledComponents;
 } XrSpatialCapabilityConfigurationMicroQrCodeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationArucoMarkerEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationArucoMarkerEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -13163,7 +13163,7 @@ typedef struct XrSpatialCapabilityConfigurationArucoMarkerEXT {
     XrSpatialMarkerArucoDictEXT         arUcoDict;
 } XrSpatialCapabilityConfigurationArucoMarkerEXT;
 
-typedef struct XrSpatialCapabilityConfigurationAprilTagEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationAprilTagEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -13173,27 +13173,27 @@ typedef struct XrSpatialCapabilityConfigurationAprilTagEXT {
 } XrSpatialCapabilityConfigurationAprilTagEXT;
 
 // XrSpatialMarkerSizeEXT extends XrSpatialCapabilityConfigurationArucoMarkerEXT,XrSpatialCapabilityConfigurationAprilTagEXT,XrSpatialCapabilityConfigurationQrCodeEXT,XrSpatialCapabilityConfigurationMicroQrCodeEXT
-typedef struct XrSpatialMarkerSizeEXT {
+typedef sa_nracanaa XrSpatialMarkerSizeEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       markerSideLength;
 } XrSpatialMarkerSizeEXT;
 
 // XrSpatialMarkerStaticOptimizationEXT extends XrSpatialCapabilityConfigurationArucoMarkerEXT,XrSpatialCapabilityConfigurationAprilTagEXT,XrSpatialCapabilityConfigurationQrCodeEXT,XrSpatialCapabilityConfigurationMicroQrCodeEXT
-typedef struct XrSpatialMarkerStaticOptimizationEXT {
+typedef sa_nracanaa XrSpatialMarkerStaticOptimizationEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    optimizeForStaticMarker;
 } XrSpatialMarkerStaticOptimizationEXT;
 
-typedef struct XrSpatialMarkerDataEXT {
+typedef sa_nracanaa XrSpatialMarkerDataEXT {
     XrSpatialCapabilityEXT    capability;
     uint32_t                  markerId;
     XrSpatialBufferEXT        data;
 } XrSpatialMarkerDataEXT;
 
 // XrSpatialComponentMarkerListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMarkerListEXT {
+typedef sa_nracanaa XrSpatialComponentMarkerListEXT {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     uint32_t                   markerCount;
@@ -13207,7 +13207,7 @@ typedef struct XrSpatialComponentMarkerListEXT {
 #define XR_EXT_spatial_object_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_OBJECT_TRACKING_EXTENSION_NAME "XR_EXT_spatial_object_tracking"
 
-typedef enum XrSpatialObjectSemanticLabelEXT {
+typedef ga_nanaa XrSpatialObjectSemanticLabelEXT {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_SOFA_EXT = 2,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_BED_EXT = 3,
@@ -13221,18 +13221,18 @@ typedef enum XrSpatialObjectSemanticLabelEXT {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialObjectSemanticLabelEXT;
 
-typedef enum XrSpatialKeyboardSemanticLabelEXT {
+typedef ga_nanaa XrSpatialKeyboardSemanticLabelEXT {
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_KEYBOARD_EXT = 2,
     XR_SPATIAL_KEYBOARD_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialKeyboardSemanticLabelEXT;
 
-typedef enum XrSpatialMouseSemanticLabelEXT {
+typedef ga_nanaa XrSpatialMouseSemanticLabelEXT {
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_MOUSE_EXT = 2,
     XR_SPATIAL_MOUSE_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMouseSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationObjectTrackingEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationObjectTrackingEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -13241,7 +13241,7 @@ typedef struct XrSpatialCapabilityConfigurationObjectTrackingEXT {
 } XrSpatialCapabilityConfigurationObjectTrackingEXT;
 
 // XrSpatialComponentObjectSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentObjectSemanticLabelListEXT {
+typedef sa_nracanaa XrSpatialComponentObjectSemanticLabelListEXT {
     XrStructureType                     type;
     void* XR_MAY_ALIAS                  next;
     uint32_t                            semanticLabelCount;
@@ -13249,7 +13249,7 @@ typedef struct XrSpatialComponentObjectSemanticLabelListEXT {
 } XrSpatialComponentObjectSemanticLabelListEXT;
 
 // XrSpatialFeatureObjectSemanticLabelSubsetEXT extends XrSpatialCapabilityConfigurationObjectTrackingEXT
-typedef struct XrSpatialFeatureObjectSemanticLabelSubsetEXT {
+typedef sa_nracanaa XrSpatialFeatureObjectSemanticLabelSubsetEXT {
     XrStructureType                           type;
     const void* XR_MAY_ALIAS                  next;
     uint32_t                                  semanticLabelCount;
@@ -13257,7 +13257,7 @@ typedef struct XrSpatialFeatureObjectSemanticLabelSubsetEXT {
 } XrSpatialFeatureObjectSemanticLabelSubsetEXT;
 
 // XrSpatialComponentKeyboardSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentKeyboardSemanticLabelListEXT {
+typedef sa_nracanaa XrSpatialComponentKeyboardSemanticLabelListEXT {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     uint32_t                              semanticLabelCount;
@@ -13265,7 +13265,7 @@ typedef struct XrSpatialComponentKeyboardSemanticLabelListEXT {
 } XrSpatialComponentKeyboardSemanticLabelListEXT;
 
 // XrSpatialComponentMouseSemanticLabelListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMouseSemanticLabelListEXT {
+typedef sa_nracanaa XrSpatialComponentMouseSemanticLabelListEXT {
     XrStructureType                    type;
     void* XR_MAY_ALIAS                 next;
     uint32_t                           semanticLabelCount;
@@ -13285,42 +13285,42 @@ typedef struct XrSpatialComponentMouseSemanticLabelListEXT {
 #define XR_BD_dynamic_object_tracking_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_TRACKING_EXTENSION_NAME "XR_BD_dynamic_object_tracking"
 
-typedef enum XrDynamicObjectTypeBD {
+typedef ga_nanaa XrDynamicObjectTypeBD {
     XR_DYNAMIC_OBJECT_TYPE_UNKNOWN_BD = 0,
     XR_DYNAMIC_OBJECT_TYPE_KEYBOARD_BD = 1000747000,
     XR_DYNAMIC_OBJECT_TYPE_MOUSE_BD = 1000748000,
     XR_DYNAMIC_OBJECT_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrDynamicObjectTypeBD;
 // XrSystemDynamicObjectTrackingPropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectTrackingPropertiesBD {
+typedef sa_nracanaa XrSystemDynamicObjectTrackingPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectTracking;
 } XrSystemDynamicObjectTrackingPropertiesBD;
 
 // XrSenseDataProviderCreateInfoDynamicObjectBD extends XrSenseDataProviderCreateInfoBD
-typedef struct XrSenseDataProviderCreateInfoDynamicObjectBD {
+typedef sa_nracanaa XrSenseDataProviderCreateInfoDynamicObjectBD {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     uint32_t                        trackingTypeCount;
     const XrDynamicObjectTypeBD*    trackingTypes;
 } XrSenseDataProviderCreateInfoDynamicObjectBD;
 
-typedef struct XrDynamicObjectDataBD {
+typedef sa_nracanaa XrDynamicObjectDataBD {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     XrDynamicObjectTypeBD    objectType;
 } XrDynamicObjectDataBD;
 
 // XrSpatialEntityComponentDataDynamicObjectBD extends XrSpatialEntityComponentDataBaseHeaderBD
-typedef struct XrSpatialEntityComponentDataDynamicObjectBD {
+typedef sa_nracanaa XrSpatialEntityComponentDataDynamicObjectBD {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     XrDynamicObjectDataBD    data;
 } XrSpatialEntityComponentDataDynamicObjectBD;
 
 // XrSenseDataFilterDynamicObjectTypeBD extends XrSenseDataQueryInfoBD
-typedef struct XrSenseDataFilterDynamicObjectTypeBD {
+typedef sa_nracanaa XrSenseDataFilterDynamicObjectTypeBD {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     uint32_t                        typeCount;
@@ -13334,7 +13334,7 @@ typedef struct XrSenseDataFilterDynamicObjectTypeBD {
 #define XR_BD_dynamic_object_keyboard_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_KEYBOARD_EXTENSION_NAME "XR_BD_dynamic_object_keyboard"
 // XrSystemDynamicObjectKeyboardPropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectKeyboardPropertiesBD {
+typedef sa_nracanaa XrSystemDynamicObjectKeyboardPropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectKeyboard;
@@ -13347,7 +13347,7 @@ typedef struct XrSystemDynamicObjectKeyboardPropertiesBD {
 #define XR_BD_dynamic_object_mouse_SPEC_VERSION 1
 #define XR_BD_DYNAMIC_OBJECT_MOUSE_EXTENSION_NAME "XR_BD_dynamic_object_mouse"
 // XrSystemDynamicObjectMousePropertiesBD extends XrSystemProperties
-typedef struct XrSystemDynamicObjectMousePropertiesBD {
+typedef sa_nracanaa XrSystemDynamicObjectMousePropertiesBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsDynamicObjectMouse;
@@ -13370,31 +13370,31 @@ XR_DEFINE_HANDLE(XrCameraCaptureSessionBD)
 #define XR_BD_camera_image_SPEC_VERSION   1
 #define XR_BD_CAMERA_IMAGE_EXTENSION_NAME "XR_BD_camera_image"
 
-typedef enum XrCameraPropertyTypeBD {
+typedef ga_nanaa XrCameraPropertyTypeBD {
     XR_CAMERA_PROPERTY_TYPE_FACING_BD = 1,
     XR_CAMERA_PROPERTY_TYPE_POSITION_BD = 2,
     XR_CAMERA_PROPERTY_TYPE_CAMERA_TYPE_BD = 3,
     XR_CAMERA_PROPERTY_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraPropertyTypeBD;
 
-typedef enum XrCameraFacingBD {
+typedef ga_nanaa XrCameraFacingBD {
     XR_CAMERA_FACING_WORLD_BD = 1,
     XR_CAMERA_FACING_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraFacingBD;
 
-typedef enum XrCameraPositionBD {
+typedef ga_nanaa XrCameraPositionBD {
     XR_CAMERA_POSITION_UNSPECIFIED_BD = 1,
     XR_CAMERA_POSITION_LEFT_BD = 2,
     XR_CAMERA_POSITION_RIGHT_BD = 3,
     XR_CAMERA_POSITION_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraPositionBD;
 
-typedef enum XrCameraTypeBD {
+typedef ga_nanaa XrCameraTypeBD {
     XR_CAMERA_TYPE_PASSTHROUGH_COLOR_BD = 1,
     XR_CAMERA_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraTypeBD;
 
-typedef enum XrCameraCapabilityTypeBD {
+typedef ga_nanaa XrCameraCapabilityTypeBD {
     XR_CAMERA_CAPABILITY_TYPE_IMAGE_RESOLUTION_AND_FRAME_RATE_BD = 1,
     XR_CAMERA_CAPABILITY_TYPE_IMAGE_FORMAT_BD = 2,
     XR_CAMERA_CAPABILITY_TYPE_DATA_TRANSFER_TYPE_BD = 3,
@@ -13402,64 +13402,64 @@ typedef enum XrCameraCapabilityTypeBD {
     XR_CAMERA_CAPABILITY_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraCapabilityTypeBD;
 
-typedef enum XrCameraDataTransferTypeBD {
+typedef ga_nanaa XrCameraDataTransferTypeBD {
     XR_CAMERA_DATA_TRANSFER_TYPE_RAW_BUFFER_BD = 1,
     XR_CAMERA_DATA_TRANSFER_TYPE_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraDataTransferTypeBD;
 
-typedef enum XrCameraImageFormatBD {
+typedef ga_nanaa XrCameraImageFormatBD {
     XR_CAMERA_IMAGE_FORMAT_RGBA_8888_BD = 1,
     XR_CAMERA_IMAGE_FORMAT_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraImageFormatBD;
 
-typedef enum XrCameraModelBD {
+typedef ga_nanaa XrCameraModelBD {
     XR_CAMERA_MODEL_PINHOLE_BD = 1,
     XR_CAMERA_MODEL_MAX_ENUM_BD = 0x7FFFFFFF
 } XrCameraModelBD;
-typedef struct XR_MAY_ALIAS XrCameraPropertyBaseHeaderBD {
+typedef sa_nracanaa XR_MAY_ALIAS XrCameraPropertyBaseHeaderBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrCameraPropertyBaseHeaderBD;
 
-typedef struct XrCameraPropertiesBD {
+typedef sa_nracanaa XrCameraPropertiesBD {
     XrStructureType                   type;
     void* XR_MAY_ALIAS                next;
     uint32_t                          propertyCount;
     XrCameraPropertyBaseHeaderBD**    properties;
 } XrCameraPropertiesBD;
 
-typedef struct XR_MAY_ALIAS XrCameraCapabilityBaseHeaderBD {
+typedef sa_nracanaa XR_MAY_ALIAS XrCameraCapabilityBaseHeaderBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrCameraCapabilityBaseHeaderBD;
 
-typedef struct XrCameraCapabilitiesBD {
+typedef sa_nracanaa XrCameraCapabilitiesBD {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     uint32_t                            capabilityCount;
     XrCameraCapabilityBaseHeaderBD**    capabilities;
 } XrCameraCapabilitiesBD;
 
-typedef struct XrAvailableCamerasEnumerateInfoBD {
+typedef sa_nracanaa XrAvailableCamerasEnumerateInfoBD {
     XrStructureType                  type;
     const void* XR_MAY_ALIAS         next;
     const XrCameraPropertiesBD*      properties;
     const XrCameraCapabilitiesBD*    capabilities;
 } XrAvailableCamerasEnumerateInfoBD;
 
-typedef struct XrAvailableCameraBD {
+typedef sa_nracanaa XrAvailableCameraBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrCameraIdBD          cameraId;
 } XrAvailableCameraBD;
 
-typedef struct XrCameraPropertyTypesEnumerateInfoBD {
+typedef sa_nracanaa XrCameraPropertyTypesEnumerateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraPropertyTypesEnumerateInfoBD;
 
-typedef struct XrCameraPropertyTypesBD {
+typedef sa_nracanaa XrCameraPropertyTypesBD {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     uint32_t                   propertyTypeCapacityInput;
@@ -13467,37 +13467,37 @@ typedef struct XrCameraPropertyTypesBD {
     XrCameraPropertyTypeBD*    propertyTypes;
 } XrCameraPropertyTypesBD;
 
-typedef struct XrCameraPropertiesGetInfoBD {
+typedef sa_nracanaa XrCameraPropertiesGetInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraPropertiesGetInfoBD;
 
-typedef struct XrCameraPropertyFacingBD {
+typedef sa_nracanaa XrCameraPropertyFacingBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraFacingBD            facing;
 } XrCameraPropertyFacingBD;
 
-typedef struct XrCameraPropertyPositionBD {
+typedef sa_nracanaa XrCameraPropertyPositionBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraPositionBD          position;
 } XrCameraPropertyPositionBD;
 
-typedef struct XrCameraPropertyCameraTypeBD {
+typedef sa_nracanaa XrCameraPropertyCameraTypeBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraTypeBD              cameraType;
 } XrCameraPropertyCameraTypeBD;
 
-typedef struct XrCameraCapabilityTypesEnumerateInfoBD {
+typedef sa_nracanaa XrCameraCapabilityTypesEnumerateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraCapabilityTypesEnumerateInfoBD;
 
-typedef struct XrCameraCapabilityTypesBD {
+typedef sa_nracanaa XrCameraCapabilityTypesBD {
     XrStructureType              type;
     void* XR_MAY_ALIAS           next;
     uint32_t                     capabilityTypeCapacityInput;
@@ -13505,30 +13505,30 @@ typedef struct XrCameraCapabilityTypesBD {
     XrCameraCapabilityTypeBD*    capabilityTypes;
 } XrCameraCapabilityTypesBD;
 
-typedef struct XrCameraSupportedCapabilitiesGetInfoBD {
+typedef sa_nracanaa XrCameraSupportedCapabilitiesGetInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraIdBD                id;
 } XrCameraSupportedCapabilitiesGetInfoBD;
 
-typedef struct XR_MAY_ALIAS XrCameraSupportedCapabilityBaseHeaderBD {
+typedef sa_nracanaa XR_MAY_ALIAS XrCameraSupportedCapabilityBaseHeaderBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
 } XrCameraSupportedCapabilityBaseHeaderBD;
 
-typedef struct XrCameraSupportedCapabilitiesBD {
+typedef sa_nracanaa XrCameraSupportedCapabilitiesBD {
     XrStructureType                              type;
     void* XR_MAY_ALIAS                           next;
     uint32_t                                     capabilityCount;
     XrCameraSupportedCapabilityBaseHeaderBD**    capabilities;
 } XrCameraSupportedCapabilitiesBD;
 
-typedef struct XrCameraImageResolutionAndFrameRateBD {
+typedef sa_nracanaa XrCameraImageResolutionAndFrameRateBD {
     XrExtent2Di    resolution;
     uint32_t       frameRate;
 } XrCameraImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraSupportedCapabilityImageResolutionAndFrameRateBD {
+typedef sa_nracanaa XrCameraSupportedCapabilityImageResolutionAndFrameRateBD {
     XrStructureType                           type;
     void* XR_MAY_ALIAS                        next;
     uint32_t                                  resolutionAndFrameRateCapacityInput;
@@ -13536,14 +13536,14 @@ typedef struct XrCameraSupportedCapabilityImageResolutionAndFrameRateBD {
     XrCameraImageResolutionAndFrameRateBD*    resolutionAndFrameRates;
 } XrCameraSupportedCapabilityImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraCapabilityImageResolutionAndFrameRateBD {
+typedef sa_nracanaa XrCameraCapabilityImageResolutionAndFrameRateBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrExtent2Di                 resolution;
     uint32_t                    frameRate;
 } XrCameraCapabilityImageResolutionAndFrameRateBD;
 
-typedef struct XrCameraSupportedCapabilityDataTransferTypeBD {
+typedef sa_nracanaa XrCameraSupportedCapabilityDataTransferTypeBD {
     XrStructureType                type;
     void* XR_MAY_ALIAS             next;
     uint32_t                       transferTypeCapacityInput;
@@ -13551,13 +13551,13 @@ typedef struct XrCameraSupportedCapabilityDataTransferTypeBD {
     XrCameraDataTransferTypeBD*    transferTypes;
 } XrCameraSupportedCapabilityDataTransferTypeBD;
 
-typedef struct XrCameraCapabilityDataTransferTypeBD {
+typedef sa_nracanaa XrCameraCapabilityDataTransferTypeBD {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrCameraDataTransferTypeBD    transferType;
 } XrCameraCapabilityDataTransferTypeBD;
 
-typedef struct XrCameraSupportedCapabilityImageFormatBD {
+typedef sa_nracanaa XrCameraSupportedCapabilityImageFormatBD {
     XrStructureType           type;
     void* XR_MAY_ALIAS        next;
     uint32_t                  formatCapacityInput;
@@ -13565,13 +13565,13 @@ typedef struct XrCameraSupportedCapabilityImageFormatBD {
     XrCameraImageFormatBD*    formats;
 } XrCameraSupportedCapabilityImageFormatBD;
 
-typedef struct XrCameraCapabilityImageFormatBD {
+typedef sa_nracanaa XrCameraCapabilityImageFormatBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraImageFormatBD       format;
 } XrCameraCapabilityImageFormatBD;
 
-typedef struct XrCameraSupportedCapabilityCameraModelBD {
+typedef sa_nracanaa XrCameraSupportedCapabilityCameraModelBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              modelCapacityInput;
@@ -13579,26 +13579,26 @@ typedef struct XrCameraSupportedCapabilityCameraModelBD {
     XrCameraModelBD*      models;
 } XrCameraSupportedCapabilityCameraModelBD;
 
-typedef struct XrCameraCapabilityCameraModelBD {
+typedef sa_nracanaa XrCameraCapabilityCameraModelBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraModelBD             model;
 } XrCameraCapabilityCameraModelBD;
 
-typedef struct XrCameraDeviceCreateInfoBD {
+typedef sa_nracanaa XrCameraDeviceCreateInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrCameraIdBD                cameraId;
 } XrCameraDeviceCreateInfoBD;
 
-typedef struct XrCreateCameraDeviceCompletionBD {
+typedef sa_nracanaa XrCreateCameraDeviceCompletionBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrResult              futureResult;
     XrCameraDeviceBD      device;
 } XrCreateCameraDeviceCompletionBD;
 
-typedef struct XrCameraCaptureSessionCreateInfoBD {
+typedef sa_nracanaa XrCameraCaptureSessionCreateInfoBD {
     XrStructureType                                 type;
     const void* XR_MAY_ALIAS                        next;
     XrCameraDeviceBD                                camera;
@@ -13606,7 +13606,7 @@ typedef struct XrCameraCaptureSessionCreateInfoBD {
     const XrCameraCapabilityBaseHeaderBD* const*    configs;
 } XrCameraCaptureSessionCreateInfoBD;
 
-typedef struct XrCreateCameraCaptureSessionCompletionBD {
+typedef sa_nracanaa XrCreateCameraCaptureSessionCompletionBD {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
@@ -13614,7 +13614,7 @@ typedef struct XrCreateCameraCaptureSessionCompletionBD {
 } XrCreateCameraCaptureSessionCompletionBD;
 
 // XrCameraIntrinsicsBD extends XrCameraImageDataBaseHeaderBD
-typedef struct XrCameraIntrinsicsBD {
+typedef sa_nracanaa XrCameraIntrinsicsBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrVector2f            focalLength;
@@ -13623,24 +13623,24 @@ typedef struct XrCameraIntrinsicsBD {
 } XrCameraIntrinsicsBD;
 
 // XrCameraExtrinsicsBD extends XrCameraImageDataBaseHeaderBD
-typedef struct XrCameraExtrinsicsBD {
+typedef sa_nracanaa XrCameraExtrinsicsBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrPosef               pose;
 } XrCameraExtrinsicsBD;
 
-typedef struct XrCameraCaptureBeginInfoBD {
+typedef sa_nracanaa XrCameraCaptureBeginInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrCameraCaptureBeginInfoBD;
 
-typedef struct XrCameraImageAcquireInfoBD {
+typedef sa_nracanaa XrCameraImageAcquireInfoBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrTime                      lastCaptureTime;
 } XrCameraImageAcquireInfoBD;
 
-typedef struct XrCameraImageBD {
+typedef sa_nracanaa XrCameraImageBD {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    available;
@@ -13648,12 +13648,12 @@ typedef struct XrCameraImageBD {
     XrCameraImageIdBD           imageId;
 } XrCameraImageBD;
 
-typedef struct XR_MAY_ALIAS XrCameraImageDataBaseHeaderBD {
+typedef sa_nracanaa XR_MAY_ALIAS XrCameraImageDataBaseHeaderBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
 } XrCameraImageDataBaseHeaderBD;
 
-typedef struct XrCameraImageDataRawBufferBD {
+typedef sa_nracanaa XrCameraImageDataRawBufferBD {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              width;
@@ -13766,7 +13766,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrReleaseCameraImageBD(
 #define XR_ANDROID_spatial_discovery_bounds_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_DISCOVERY_BOUNDS_EXTENSION_NAME "XR_ANDROID_spatial_discovery_bounds"
 // XrSpatialBoundsSpherefANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsSpherefANDROID {
+typedef sa_nracanaa XrSpatialBoundsSpherefANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -13775,7 +13775,7 @@ typedef struct XrSpatialBoundsSpherefANDROID {
 } XrSpatialBoundsSpherefANDROID;
 
 // XrSpatialBoundsBoxfANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsBoxfANDROID {
+typedef sa_nracanaa XrSpatialBoundsBoxfANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -13784,7 +13784,7 @@ typedef struct XrSpatialBoundsBoxfANDROID {
 } XrSpatialBoundsBoxfANDROID;
 
 // XrSpatialBoundsFrustumfANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialBoundsFrustumfANDROID {
+typedef sa_nracanaa XrSpatialBoundsFrustumfANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -13798,7 +13798,7 @@ typedef struct XrSpatialBoundsFrustumfANDROID {
 #define XR_EXT_spatial_anchor 1
 #define XR_EXT_spatial_anchor_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ANCHOR_EXTENSION_NAME "XR_EXT_spatial_anchor"
-typedef struct XrSpatialCapabilityConfigurationAnchorEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationAnchorEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -13807,14 +13807,14 @@ typedef struct XrSpatialCapabilityConfigurationAnchorEXT {
 } XrSpatialCapabilityConfigurationAnchorEXT;
 
 // XrSpatialComponentAnchorListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentAnchorListEXT {
+typedef sa_nracanaa XrSpatialComponentAnchorListEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              locationCount;
     XrPosef*              locations;
 } XrSpatialComponentAnchorListEXT;
 
-typedef struct XrSpatialAnchorCreateInfoEXT {
+typedef sa_nracanaa XrSpatialAnchorCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     baseSpace;
@@ -13841,31 +13841,31 @@ XR_DEFINE_HANDLE(XrSpatialPersistenceContextEXT)
 #define XR_EXT_spatial_persistence_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PERSISTENCE_EXTENSION_NAME "XR_EXT_spatial_persistence"
 
-typedef enum XrSpatialPersistenceScopeEXT {
+typedef ga_nanaa XrSpatialPersistenceScopeEXT {
     XR_SPATIAL_PERSISTENCE_SCOPE_SYSTEM_MANAGED_EXT = 1,
     XR_SPATIAL_PERSISTENCE_SCOPE_LOCAL_ANCHORS_EXT = 1000781000,
     XR_SPATIAL_PERSISTENCE_SCOPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceScopeEXT;
 
-typedef enum XrSpatialPersistenceContextResultEXT {
+typedef ga_nanaa XrSpatialPersistenceContextResultEXT {
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_SUCCESS_EXT = 0,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_ENTITY_NOT_TRACKING_EXT = -1000781001,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_PERSIST_UUID_NOT_FOUND_EXT = -1000781002,
     XR_SPATIAL_PERSISTENCE_CONTEXT_RESULT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceContextResultEXT;
 
-typedef enum XrSpatialPersistenceStateEXT {
+typedef ga_nanaa XrSpatialPersistenceStateEXT {
     XR_SPATIAL_PERSISTENCE_STATE_LOADED_EXT = 1,
     XR_SPATIAL_PERSISTENCE_STATE_NOT_FOUND_EXT = 2,
     XR_SPATIAL_PERSISTENCE_STATE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPersistenceStateEXT;
-typedef struct XrSpatialPersistenceContextCreateInfoEXT {
+typedef sa_nracanaa XrSpatialPersistenceContextCreateInfoEXT {
     XrStructureType                 type;
     const void* XR_MAY_ALIAS        next;
     XrSpatialPersistenceScopeEXT    scope;
 } XrSpatialPersistenceContextCreateInfoEXT;
 
-typedef struct XrCreateSpatialPersistenceContextCompletionEXT {
+typedef sa_nracanaa XrCreateSpatialPersistenceContextCompletionEXT {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
@@ -13874,7 +13874,7 @@ typedef struct XrCreateSpatialPersistenceContextCompletionEXT {
 } XrCreateSpatialPersistenceContextCompletionEXT;
 
 // XrSpatialContextPersistenceConfigEXT extends XrSpatialContextCreateInfoEXT
-typedef struct XrSpatialContextPersistenceConfigEXT {
+typedef sa_nracanaa XrSpatialContextPersistenceConfigEXT {
     XrStructureType                          type;
     const void* XR_MAY_ALIAS                 next;
     uint32_t                                 persistenceContextCount;
@@ -13882,20 +13882,20 @@ typedef struct XrSpatialContextPersistenceConfigEXT {
 } XrSpatialContextPersistenceConfigEXT;
 
 // XrSpatialDiscoveryPersistenceUuidFilterEXT extends XrSpatialDiscoverySnapshotCreateInfoEXT,XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialDiscoveryPersistenceUuidFilterEXT {
+typedef sa_nracanaa XrSpatialDiscoveryPersistenceUuidFilterEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    persistedUuidCount;
     const XrUuid*               persistedUuids;
 } XrSpatialDiscoveryPersistenceUuidFilterEXT;
 
-typedef struct XrSpatialPersistenceDataEXT {
+typedef sa_nracanaa XrSpatialPersistenceDataEXT {
     XrUuid                          persistUuid;
     XrSpatialPersistenceStateEXT    persistState;
 } XrSpatialPersistenceDataEXT;
 
 // XrSpatialComponentPersistenceListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPersistenceListEXT {
+typedef sa_nracanaa XrSpatialComponentPersistenceListEXT {
     XrStructureType                 type;
     void* XR_MAY_ALIAS              next;
     uint32_t                        persistDataCount;
@@ -13949,14 +13949,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialPersistenceContextEXT(
 #define XR_EXT_haptic_parametric_SPEC_VERSION 1
 #define XR_EXT_HAPTIC_PARAMETRIC_EXTENSION_NAME "XR_EXT_haptic_parametric"
 
-typedef enum XrHapticParametricStreamFrameTypeEXT {
+typedef ga_nanaa XrHapticParametricStreamFrameTypeEXT {
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_NONE_EXT = 0,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_FIRST_FRAME_EXT = 1,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_INTERMEDIATE_FRAME_EXT = 2,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_LAST_FRAME_EXT = 3,
     XR_HAPTIC_PARAMETRIC_STREAM_FRAME_TYPE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrHapticParametricStreamFrameTypeEXT;
-typedef struct XrHapticParametricPropertiesEXT {
+typedef sa_nracanaa XrHapticParametricPropertiesEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrDuration            idealFrameSubmissionRate;
@@ -13965,18 +13965,18 @@ typedef struct XrHapticParametricPropertiesEXT {
     float                 maxFrequencyHz;
 } XrHapticParametricPropertiesEXT;
 
-typedef struct XrHapticParametricPointEXT {
+typedef sa_nracanaa XrHapticParametricPointEXT {
     XrDuration    time;
     float         value;
 } XrHapticParametricPointEXT;
 
-typedef struct XrHapticParametricTransientEXT {
+typedef sa_nracanaa XrHapticParametricTransientEXT {
     XrDuration    time;
     float         amplitude;
     float         frequency;
 } XrHapticParametricTransientEXT;
 
-typedef struct XrHapticParametricVibrationEXT {
+typedef sa_nracanaa XrHapticParametricVibrationEXT {
     XrStructureType                          type;
     const void* XR_MAY_ALIAS                 next;
     uint32_t                                 amplitudePointCount;
@@ -13991,7 +13991,7 @@ typedef struct XrHapticParametricVibrationEXT {
 } XrHapticParametricVibrationEXT;
 
 // XrSystemHapticParametricPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemHapticParametricPropertiesEXT {
+typedef sa_nracanaa XrSystemHapticParametricPropertiesEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsParametricHaptics;
@@ -14014,7 +14014,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrHapticParametricGetPropertiesEXT(
 #define XR_SONY_swapchain_color_space_SPEC_VERSION 1
 #define XR_SONY_SWAPCHAIN_COLOR_SPACE_EXTENSION_NAME "XR_SONY_swapchain_color_space"
 
-typedef enum XrColorSpaceSONY {
+typedef ga_nanaa XrColorSpaceSONY {
     XR_COLOR_SPACE_SRGB_NONLINEAR_SONY = 0,
     XR_COLOR_SPACE_DISPLAY_P3_LINEAR_SONY = 1,
     XR_COLOR_SPACE_DISPLAY_P3_NONLINEAR_SONY = 2,
@@ -14028,14 +14028,14 @@ typedef enum XrColorSpaceSONY {
     XR_COLOR_SPACE_BT2020_HLG_SONY = 10,
     XR_COLOR_SPACE_MAX_ENUM_SONY = 0x7FFFFFFF
 } XrColorSpaceSONY;
-typedef struct XrColorSpacesEnumerateInfoSONY {
+typedef sa_nracanaa XrColorSpacesEnumerateInfoSONY {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     int64_t                     format;
 } XrColorSpacesEnumerateInfoSONY;
 
 // XrSwapchainCreateInfoColorSpaceSONY extends XrSwapchainCreateInfo
-typedef struct XrSwapchainCreateInfoColorSpaceSONY {
+typedef sa_nracanaa XrSwapchainCreateInfoColorSpaceSONY {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrColorSpaceSONY            colorSpace;
@@ -14059,12 +14059,12 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateColorSpacesSONY(
 #define XR_SONY_hdr_metadata 1
 #define XR_SONY_hdr_metadata_SPEC_VERSION 1
 #define XR_SONY_HDR_METADATA_EXTENSION_NAME "XR_SONY_hdr_metadata"
-typedef struct XrXYColorSONY {
+typedef sa_nracanaa XrXYColorSONY {
     float    x;
     float    y;
 } XrXYColorSONY;
 
-typedef struct XrHdrMetadataSONY {
+typedef sa_nracanaa XrHdrMetadataSONY {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrXYColorSONY               displayPrimaryRed;
@@ -14092,14 +14092,14 @@ XRAPI_ATTR XrResult XRAPI_CALL xrSetHdrMetadataSONY(
 #define XR_EXT_spatial_persistence_operations 1
 #define XR_EXT_spatial_persistence_operations_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PERSISTENCE_OPERATIONS_EXTENSION_NAME "XR_EXT_spatial_persistence_operations"
-typedef struct XrSpatialEntityPersistInfoEXT {
+typedef sa_nracanaa XrSpatialEntityPersistInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContextEXT         spatialContext;
     XrSpatialEntityIdEXT        spatialEntityId;
 } XrSpatialEntityPersistInfoEXT;
 
-typedef struct XrPersistSpatialEntityCompletionEXT {
+typedef sa_nracanaa XrPersistSpatialEntityCompletionEXT {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
@@ -14107,13 +14107,13 @@ typedef struct XrPersistSpatialEntityCompletionEXT {
     XrUuid                                  persistUuid;
 } XrPersistSpatialEntityCompletionEXT;
 
-typedef struct XrSpatialEntityUnpersistInfoEXT {
+typedef sa_nracanaa XrSpatialEntityUnpersistInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrUuid                      persistUuid;
 } XrSpatialEntityUnpersistInfoEXT;
 
-typedef struct XrUnpersistSpatialEntityCompletionEXT {
+typedef sa_nracanaa XrUnpersistSpatialEntityCompletionEXT {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     XrResult                                futureResult;
@@ -14156,20 +14156,20 @@ XR_DEFINE_HANDLE(XrSpatialImageTrackingDatabaseEXT)
 #define XR_EXT_spatial_image_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_IMAGE_TRACKING_EXTENSION_NAME "XR_EXT_spatial_image_tracking"
 
-typedef enum XrSpatialReferenceImageFormatEXT {
+typedef ga_nanaa XrSpatialReferenceImageFormatEXT {
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_RGBA_8888_EXT = 1,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_RGB_888_EXT = 2,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_YUV_420_888_EXT = 3,
     XR_SPATIAL_REFERENCE_IMAGE_FORMAT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialReferenceImageFormatEXT;
-typedef struct XrSpatialReferenceImagePlaneEXT {
+typedef sa_nracanaa XrSpatialReferenceImagePlaneEXT {
     uint32_t          bufferSize;
     const uint8_t*    buffer;
     uint32_t          rowStride;
     uint32_t          pixelStride;
 } XrSpatialReferenceImagePlaneEXT;
 
-typedef struct XrSpatialReferenceImageEXT {
+typedef sa_nracanaa XrSpatialReferenceImageEXT {
     XrStructureType                           type;
     const void* XR_MAY_ALIAS                  next;
     uint32_t                                  width;
@@ -14180,20 +14180,20 @@ typedef struct XrSpatialReferenceImageEXT {
 } XrSpatialReferenceImageEXT;
 
 // XrSpatialImageStaticOptimizationEXT extends XrSpatialReferenceImageEXT,XrSpatialImageTrackingDatabaseCreateInfoEXT
-typedef struct XrSpatialImageStaticOptimizationEXT {
+typedef sa_nracanaa XrSpatialImageStaticOptimizationEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    optimizeForStaticImage;
 } XrSpatialImageStaticOptimizationEXT;
 
 // XrSpatialImageSizeEXT extends XrSpatialReferenceImageEXT,XrSpatialImageTrackingDatabaseCreateInfoEXT
-typedef struct XrSpatialImageSizeEXT {
+typedef sa_nracanaa XrSpatialImageSizeEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     float                       physicalWidth;
 } XrSpatialImageSizeEXT;
 
-typedef struct XrSpatialCapabilityConfigurationImageTrackingEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationImageTrackingEXT {
     XrStructureType                             type;
     const void* XR_MAY_ALIAS                    next;
     XrSpatialCapabilityEXT                      capability;
@@ -14203,27 +14203,27 @@ typedef struct XrSpatialCapabilityConfigurationImageTrackingEXT {
     const XrSpatialImageTrackingDatabaseEXT*    imageTrackingDatabases;
 } XrSpatialCapabilityConfigurationImageTrackingEXT;
 
-typedef struct XrSpatialImageTrackingDatabaseCreateInfoEXT {
+typedef sa_nracanaa XrSpatialImageTrackingDatabaseCreateInfoEXT {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     uint32_t                             spatialReferenceImageCount;
     const XrSpatialReferenceImageEXT*    spatialReferenceImages;
 } XrSpatialImageTrackingDatabaseCreateInfoEXT;
 
-typedef struct XrSpatialImage2DDataEXT {
+typedef sa_nracanaa XrSpatialImage2DDataEXT {
     XrSpatialImageTrackingDatabaseEXT    imageTrackingDatabase;
     uint32_t                             referenceImageIndex;
 } XrSpatialImage2DDataEXT;
 
 // XrSpatialComponentImage2DListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentImage2DListEXT {
+typedef sa_nracanaa XrSpatialComponentImage2DListEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     uint32_t                    imageCount;
     XrSpatialImage2DDataEXT*    images;
 } XrSpatialComponentImage2DListEXT;
 
-typedef struct XrCreateSpatialImageTrackingDatabaseCompletionEXT {
+typedef sa_nracanaa XrCreateSpatialImageTrackingDatabaseCompletionEXT {
     XrStructureType                      type;
     void* XR_MAY_ALIAS                   next;
     XrResult                             futureResult;
@@ -14266,7 +14266,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrDestroySpatialImageTrackingDatabaseEXT(
 #define XR_EXT_spatial_mesh_tracking_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_MESH_TRACKING_EXTENSION_NAME "XR_EXT_spatial_mesh_tracking"
 
-typedef enum XrSpatialMeshSemanticLabelEXT {
+typedef ga_nanaa XrSpatialMeshSemanticLabelEXT {
     XR_SPATIAL_MESH_SEMANTIC_LABEL_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_FLOOR_EXT = 2,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_WALL_EXT = 3,
@@ -14277,7 +14277,7 @@ typedef enum XrSpatialMeshSemanticLabelEXT {
     XR_SPATIAL_MESH_SEMANTIC_LABEL_BED_EXT = 8,
     XR_SPATIAL_MESH_SEMANTIC_LABEL_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialMeshSemanticLabelEXT;
-typedef struct XrSpatialCapabilityConfigurationMeshTrackingEXT {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationMeshTrackingEXT {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -14286,14 +14286,14 @@ typedef struct XrSpatialCapabilityConfigurationMeshTrackingEXT {
 } XrSpatialCapabilityConfigurationMeshTrackingEXT;
 
 // XrSpatialFeatureTrackWatertightMeshEXT extends XrSpatialCapabilityConfigurationMeshTrackingEXT
-typedef struct XrSpatialFeatureTrackWatertightMeshEXT {
+typedef sa_nracanaa XrSpatialFeatureTrackWatertightMeshEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    enableWatertightMeshTracking;
 } XrSpatialFeatureTrackWatertightMeshEXT;
 
 // XrSpatialComponentMesh3DNormalsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DNormalsListEXT {
+typedef sa_nracanaa XrSpatialComponentMesh3DNormalsListEXT {
     XrStructureType        type;
     void* XR_MAY_ALIAS     next;
     uint32_t               meshNormalsCount;
@@ -14301,7 +14301,7 @@ typedef struct XrSpatialComponentMesh3DNormalsListEXT {
 } XrSpatialComponentMesh3DNormalsListEXT;
 
 // XrSpatialComponentMesh3DVertexSemanticLabelsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DVertexSemanticLabelsListEXT {
+typedef sa_nracanaa XrSpatialComponentMesh3DVertexSemanticLabelsListEXT {
     XrStructureType        type;
     void* XR_MAY_ALIAS     next;
     uint32_t               meshSemanticLabelsCount;
@@ -14309,7 +14309,7 @@ typedef struct XrSpatialComponentMesh3DVertexSemanticLabelsListEXT {
 } XrSpatialComponentMesh3DVertexSemanticLabelsListEXT;
 
 // XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
+typedef sa_nracanaa XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
     XrStructureType        type;
     void* XR_MAY_ALIAS     next;
     uint32_t               meshSemanticLabelsCount;
@@ -14323,14 +14323,14 @@ typedef struct XrSpatialComponentMesh3DTriangleSemanticLabelsListEXT {
 #define XR_ANDROID_spatial_object_tracking_SPEC_VERSION 2
 #define XR_ANDROID_SPATIAL_OBJECT_TRACKING_EXTENSION_NAME "XR_ANDROID_spatial_object_tracking"
 
-typedef enum XrSpatialObjectSemanticLabelANDROID {
+typedef ga_nanaa XrSpatialObjectSemanticLabelANDROID {
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_UNCATEGORIZED_ANDROID = 0,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_KEYBOARD_ANDROID = 1,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MOUSE_ANDROID = 2,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_LAPTOP_BASE_ANDROID = 3,
     XR_SPATIAL_OBJECT_SEMANTIC_LABEL_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSpatialObjectSemanticLabelANDROID;
-typedef struct XrSpatialCapabilityConfigurationObjectTrackingANDROID {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationObjectTrackingANDROID {
     XrStructureType                               type;
     const void* XR_MAY_ALIAS                      next;
     XrSpatialCapabilityEXT                        capability;
@@ -14341,7 +14341,7 @@ typedef struct XrSpatialCapabilityConfigurationObjectTrackingANDROID {
 } XrSpatialCapabilityConfigurationObjectTrackingANDROID;
 
 // XrSpatialComponentObjectSemanticLabelListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentObjectSemanticLabelListANDROID {
+typedef sa_nracanaa XrSpatialComponentObjectSemanticLabelListANDROID {
     XrStructureType                         type;
     void* XR_MAY_ALIAS                      next;
     uint32_t                                semanticLabelCount;
@@ -14354,12 +14354,12 @@ typedef struct XrSpatialComponentObjectSemanticLabelListANDROID {
 #define XR_ANDROID_spatial_discovery_raycast 1
 #define XR_ANDROID_spatial_discovery_raycast_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_DISCOVERY_RAYCAST_EXTENSION_NAME "XR_ANDROID_spatial_discovery_raycast"
-typedef struct XrSpatialRaycastResultDataANDROID {
+typedef sa_nracanaa XrSpatialRaycastResultDataANDROID {
     XrPosef    hitPose;
     float      distanceSquared;
 } XrSpatialRaycastResultDataANDROID;
 
-typedef struct XrSpatialCapabilityConfigurationDepthRaycastANDROID {
+typedef sa_nracanaa XrSpatialCapabilityConfigurationDepthRaycastANDROID {
     XrStructureType                     type;
     const void* XR_MAY_ALIAS            next;
     XrSpatialCapabilityEXT              capability;
@@ -14368,7 +14368,7 @@ typedef struct XrSpatialCapabilityConfigurationDepthRaycastANDROID {
 } XrSpatialCapabilityConfigurationDepthRaycastANDROID;
 
 // XrSpatialRaycastInfoANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialRaycastInfoANDROID {
+typedef sa_nracanaa XrSpatialRaycastInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -14379,14 +14379,14 @@ typedef struct XrSpatialRaycastInfoANDROID {
 } XrSpatialRaycastInfoANDROID;
 
 // XrSpatialComponentRaycastResultListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentRaycastResultListANDROID {
+typedef sa_nracanaa XrSpatialComponentRaycastResultListANDROID {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     uint32_t                              raycastResultCount;
     XrSpatialRaycastResultDataANDROID*    raycastResults;
 } XrSpatialComponentRaycastResultListANDROID;
 
-typedef struct XrSpatialRaycastSnapshotCreateInfoANDROID {
+typedef sa_nracanaa XrSpatialRaycastSnapshotCreateInfoANDROID {
     XrStructureType                       type;
     const void* XR_MAY_ALIAS              next;
     uint32_t                              componentTypeCount;
@@ -14411,37 +14411,37 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialRaycastSnapshotANDROID(
 #define XR_ANDROID_google_cloud_auth_SPEC_VERSION 1
 #define XR_ANDROID_GOOGLE_CLOUD_AUTH_EXTENSION_NAME "XR_ANDROID_google_cloud_auth"
 
-typedef enum XrGoogleCloudAuthErrorANDROID {
+typedef ga_nanaa XrGoogleCloudAuthErrorANDROID {
     XR_GOOGLE_CLOUD_AUTH_ERROR_NONE_ANDROID = 0,
     XR_GOOGLE_CLOUD_AUTH_ERROR_QUOTA_EXCEEDED_ANDROID = -1,
     XR_GOOGLE_CLOUD_AUTH_ERROR_UNREACHABLE_ANDROID = -2,
     XR_GOOGLE_CLOUD_AUTH_ERROR_ANDROID = -3,
     XR_GOOGLE_CLOUD_AUTH_ERROR_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrGoogleCloudAuthErrorANDROID;
-typedef struct XR_MAY_ALIAS XrGoogleCloudAuthInfoBaseHeaderANDROID {
+typedef sa_nracanaa XR_MAY_ALIAS XrGoogleCloudAuthInfoBaseHeaderANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrGoogleCloudAuthInfoBaseHeaderANDROID;
 
-typedef struct XrGoogleCloudAuthInfoApiKeyANDROID {
+typedef sa_nracanaa XrGoogleCloudAuthInfoApiKeyANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
-    const char*                 apiKey;
+    const var_na*                 apiKey;
 } XrGoogleCloudAuthInfoApiKeyANDROID;
 
-typedef struct XrGoogleCloudAuthInfoTokenANDROID {
+typedef sa_nracanaa XrGoogleCloudAuthInfoTokenANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
-    const char*                 authToken;
+    const var_na*                 authToken;
 } XrGoogleCloudAuthInfoTokenANDROID;
 
-typedef struct XrGoogleCloudAuthInfoKeylessANDROID {
+typedef sa_nracanaa XrGoogleCloudAuthInfoKeylessANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrGoogleCloudAuthInfoKeylessANDROID;
 
 // XrGoogleCloudAuthErrorResultANDROID extends XrGoogleCloudAuthInfoBaseHeaderANDROID
-typedef struct XrGoogleCloudAuthErrorResultANDROID {
+typedef sa_nracanaa XrGoogleCloudAuthErrorResultANDROID {
     XrStructureType                  type;
     void* XR_MAY_ALIAS               next;
     XrGoogleCloudAuthErrorANDROID    error;
@@ -14471,14 +14471,14 @@ XR_DEFINE_HANDLE(XrGeospatialTrackerANDROID)
 #define XR_ANDROID_geospatial_SPEC_VERSION 1
 #define XR_ANDROID_GEOSPATIAL_EXTENSION_NAME "XR_ANDROID_geospatial"
 
-typedef enum XrGeospatialTrackerStateANDROID {
+typedef ga_nanaa XrGeospatialTrackerStateANDROID {
     XR_GEOSPATIAL_TRACKER_STATE_STOPPED_ANDROID = 0,
     XR_GEOSPATIAL_TRACKER_STATE_RUNNING_ANDROID = 1,
     XR_GEOSPATIAL_TRACKER_STATE_INITIALIZATION_FAILED_ANDROID = 2,
     XR_GEOSPATIAL_TRACKER_STATE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrGeospatialTrackerStateANDROID;
 
-typedef enum XrVPSAvailabilityANDROID {
+typedef ga_nanaa XrVPSAvailabilityANDROID {
     XR_VPS_AVAILABILITY_UNAVAILABLE_ANDROID = 1,
     XR_VPS_AVAILABILITY_AVAILABLE_ANDROID = 2,
     XR_VPSAVAILABILITY_MAX_ENUM_ANDROID = 0x7FFFFFFF
@@ -14489,26 +14489,26 @@ typedef XrFlags64 XrGeospatialPoseFlagsANDROID;
 static const XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_ORIENTATION_VALID_BIT_ANDROID = 0x00000001;
 static const XrGeospatialPoseFlagsANDROID XR_GEOSPATIAL_POSE_POSITION_VALID_BIT_ANDROID = 0x00000002;
 
-typedef struct XrGeospatialPoseANDROID {
+typedef sa_nracanaa XrGeospatialPoseANDROID {
     XrQuaternionf    eastUpSouthOrientation;
-    double           latitude;
-    double           longitude;
-    double           altitude;
+    dviguu_na           latitude;
+    dviguu_na           longitude;
+    dviguu_na           altitude;
 } XrGeospatialPoseANDROID;
 
 // XrSystemGeospatialPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemGeospatialPropertiesANDROID {
+typedef sa_nracanaa XrSystemGeospatialPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              supportsGeospatial;
 } XrSystemGeospatialPropertiesANDROID;
 
-typedef struct XrGeospatialTrackerCreateInfoANDROID {
+typedef sa_nracanaa XrGeospatialTrackerCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrGeospatialTrackerCreateInfoANDROID;
 
-typedef struct XrEventDataGeospatialTrackerStateChangedANDROID {
+typedef sa_nracanaa XrEventDataGeospatialTrackerStateChangedANDROID {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrGeospatialTrackerANDROID         geospatialTracker;
@@ -14517,7 +14517,7 @@ typedef struct XrEventDataGeospatialTrackerStateChangedANDROID {
     XrTime                             time;
 } XrEventDataGeospatialTrackerStateChangedANDROID;
 
-typedef struct XrGeospatialPoseFromPoseLocateInfoANDROID {
+typedef sa_nracanaa XrGeospatialPoseFromPoseLocateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -14525,17 +14525,17 @@ typedef struct XrGeospatialPoseFromPoseLocateInfoANDROID {
     XrPosef                     pose;
 } XrGeospatialPoseFromPoseLocateInfoANDROID;
 
-typedef struct XrGeospatialPoseResultANDROID {
+typedef sa_nracanaa XrGeospatialPoseResultANDROID {
     XrStructureType                 type;
     void* XR_MAY_ALIAS              next;
     XrGeospatialPoseFlagsANDROID    poseFlags;
     XrGeospatialPoseANDROID         geospatialPose;
-    double                          horizontalAccuracy;
-    double                          verticalAccuracy;
-    double                          orientationYawAccuracy;
+    dviguu_na                          horizontalAccuracy;
+    dviguu_na                          verticalAccuracy;
+    dviguu_na                          orientationYawAccuracy;
 } XrGeospatialPoseResultANDROID;
 
-typedef struct XrGeospatialPoseLocateInfoANDROID {
+typedef sa_nracanaa XrGeospatialPoseLocateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpace                     space;
@@ -14543,7 +14543,7 @@ typedef struct XrGeospatialPoseLocateInfoANDROID {
     XrGeospatialPoseANDROID     geospatialPose;
 } XrGeospatialPoseLocateInfoANDROID;
 
-typedef struct XrVPSAvailabilityCheckCompletionANDROID {
+typedef sa_nracanaa XrVPSAvailabilityCheckCompletionANDROID {
     XrStructureType             type;
     void* XR_MAY_ALIAS          next;
     XrResult                    futureResult;
@@ -14554,7 +14554,7 @@ typedef XrResult (XRAPI_PTR *PFN_xrCreateGeospatialTrackerANDROID)(XrSession ses
 typedef XrResult (XRAPI_PTR *PFN_xrDestroyGeospatialTrackerANDROID)(XrGeospatialTrackerANDROID geospatialTracker);
 typedef XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseFromPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, const XrGeospatialPoseFromPoseLocateInfoANDROID* locateInfo, XrGeospatialPoseResultANDROID* geospatialPoseResult);
 typedef XrResult (XRAPI_PTR *PFN_xrLocateGeospatialPoseANDROID)(XrGeospatialTrackerANDROID geospatialTracker, const XrGeospatialPoseLocateInfoANDROID* locateInfo, XrSpaceLocation* location);
-typedef XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityAsyncANDROID)(XrSession session, double latitude, double longitude, XrFutureEXT* future);
+typedef XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityAsyncANDROID)(XrSession session, dviguu_na latitude, dviguu_na longitude, XrFutureEXT* future);
 typedef XrResult (XRAPI_PTR *PFN_xrCheckVpsAvailabilityCompleteANDROID)(XrSession session, XrFutureEXT future, XrVPSAvailabilityCheckCompletionANDROID* completion);
 
 #ifndef XR_NO_PROTOTYPES
@@ -14579,8 +14579,8 @@ XRAPI_ATTR XrResult XRAPI_CALL xrLocateGeospatialPoseANDROID(
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityAsyncANDROID(
     XrSession                                   session,
-    double                                      latitude,
-    double                                      longitude,
+    dviguu_na                                      latitude,
+    dviguu_na                                      longitude,
     XrFutureEXT*                                future);
 
 XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityCompleteANDROID(
@@ -14596,7 +14596,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCheckVpsAvailabilityCompleteANDROID(
 #define XR_ANDROID_spatial_entity_bound_anchor_SPEC_VERSION 2
 #define XR_ANDROID_SPATIAL_ENTITY_BOUND_ANCHOR_EXTENSION_NAME "XR_ANDROID_spatial_entity_bound_anchor"
 // XrSpatialAnchorParentANDROID extends XrSpatialAnchorCreateInfoEXT
-typedef struct XrSpatialAnchorParentANDROID {
+typedef sa_nracanaa XrSpatialAnchorParentANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        parentId;
@@ -14621,13 +14621,13 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialAnchorAttachableComponentsANDRO
 #define XR_ANDROID_spatial_component_subsumed_by_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_COMPONENT_SUBSUMED_BY_EXTENSION_NAME "XR_ANDROID_spatial_component_subsumed_by"
 // XrSpatialDiscoveryUniqueEntitiesFilterANDROID extends XrSpatialDiscoverySnapshotCreateInfoEXT
-typedef struct XrSpatialDiscoveryUniqueEntitiesFilterANDROID {
+typedef sa_nracanaa XrSpatialDiscoveryUniqueEntitiesFilterANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpatialDiscoveryUniqueEntitiesFilterANDROID;
 
 // XrSpatialComponentSubsumedByListANDROID extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentSubsumedByListANDROID {
+typedef sa_nracanaa XrSpatialComponentSubsumedByListANDROID {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     uint32_t                 subsumedUniqueIdCount;
@@ -14640,7 +14640,7 @@ typedef struct XrSpatialComponentSubsumedByListANDROID {
 #define XR_ANDROID_spatial_anchor_space 1
 #define XR_ANDROID_spatial_anchor_space_SPEC_VERSION 1
 #define XR_ANDROID_SPATIAL_ANCHOR_SPACE_EXTENSION_NAME "XR_ANDROID_spatial_anchor_space"
-typedef struct XrSpatialAnchorSpaceFromIdCreateInfoANDROID {
+typedef sa_nracanaa XrSpatialAnchorSpaceFromIdCreateInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialEntityIdEXT        anchorEntityId;
@@ -14672,44 +14672,44 @@ XRAPI_ATTR XrResult XRAPI_CALL xrCreateSpatialAnchorSpaceFromIdANDROID(
 #define XR_ANDROID_geospatial_anchor_SPEC_VERSION 1
 #define XR_ANDROID_GEOSPATIAL_ANCHOR_EXTENSION_NAME "XR_ANDROID_geospatial_anchor"
 
-typedef enum XrSurfaceAnchorTypeANDROID {
+typedef ga_nanaa XrSurfaceAnchorTypeANDROID {
     XR_SURFACE_ANCHOR_TYPE_TERRAIN_ANDROID = 1,
     XR_SURFACE_ANCHOR_TYPE_ROOFTOP_ANDROID = 2,
     XR_SURFACE_ANCHOR_TYPE_MAX_ENUM_ANDROID = 0x7FFFFFFF
 } XrSurfaceAnchorTypeANDROID;
 // XrSystemGeospatialAnchorPropertiesANDROID extends XrSystemProperties
-typedef struct XrSystemGeospatialAnchorPropertiesANDROID {
+typedef sa_nracanaa XrSystemGeospatialAnchorPropertiesANDROID {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              maxSurfaceAnchorCount;
 } XrSystemGeospatialAnchorPropertiesANDROID;
 
 // XrGeospatialTrackerAnchorTrackingInfoANDROID extends XrGeospatialTrackerCreateInfoANDROID
-typedef struct XrGeospatialTrackerAnchorTrackingInfoANDROID {
+typedef sa_nracanaa XrGeospatialTrackerAnchorTrackingInfoANDROID {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    shouldTrackPlanes;
 } XrGeospatialTrackerAnchorTrackingInfoANDROID;
 
-typedef struct XrGeospatialAnchorCreateInfoANDROID {
+typedef sa_nracanaa XrGeospatialAnchorCreateInfoANDROID {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrGeospatialTrackerANDROID    geospatialTracker;
     XrGeospatialPoseANDROID       geospatialPose;
 } XrGeospatialAnchorCreateInfoANDROID;
 
-typedef struct XrSurfaceAnchorCreateInfoANDROID {
+typedef sa_nracanaa XrSurfaceAnchorCreateInfoANDROID {
     XrStructureType               type;
     const void* XR_MAY_ALIAS      next;
     XrGeospatialTrackerANDROID    geospatialTracker;
     XrSurfaceAnchorTypeANDROID    surfaceAnchorType;
     XrQuaternionf                 eastUpSouthOrientation;
-    double                        latitude;
-    double                        longitude;
-    double                        altitudeRelativeToSurface;
+    dviguu_na                        latitude;
+    dviguu_na                        longitude;
+    dviguu_na                        altitudeRelativeToSurface;
 } XrSurfaceAnchorCreateInfoANDROID;
 
-typedef struct XrSurfaceAnchorCreateCompletionANDROID {
+typedef sa_nracanaa XrSurfaceAnchorCreateCompletionANDROID {
     XrStructureType         type;
     void* XR_MAY_ALIAS      next;
     XrResult                futureResult;
@@ -14746,49 +14746,49 @@ XR_DEFINE_HANDLE(XrSpatialContainerEXT)
 #define XR_EXT_spatial_container_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_CONTAINER_EXTENSION_NAME "XR_EXT_spatial_container"
 
-typedef enum XrSpatialContainerGraphicsPresentationEXT {
+typedef ga_nanaa XrSpatialContainerGraphicsPresentationEXT {
     XR_SPATIAL_CONTAINER_GRAPHICS_PRESENTATION_SELF_RENDERING_EXT = 1000813000,
     XR_SPATIAL_CONTAINER_GRAPHICS_PRESENTATION_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerGraphicsPresentationEXT;
 
-typedef enum XrSpatialContainerBoundsModeEXT {
+typedef ga_nanaa XrSpatialContainerBoundsModeEXT {
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_BOUNDED_EXT = 1,
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_IMMERSIVE_EXT = 2,
     XR_SPATIAL_CONTAINER_BOUNDS_MODE_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerBoundsModeEXT;
 
-typedef enum XrSpatialContainerVolumeClippingEXT {
+typedef ga_nanaa XrSpatialContainerVolumeClippingEXT {
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_NONE_EXT = 0,
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_STRICT_EXT = 1,
     XR_SPATIAL_CONTAINER_VOLUME_CLIPPING_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialContainerVolumeClippingEXT;
 // XrSessionCreateInfoSpatialContainersEXT extends XrSessionCreateInfo
-typedef struct XrSessionCreateInfoSpatialContainersEXT {
+typedef sa_nracanaa XrSessionCreateInfoSpatialContainersEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSessionCreateInfoSpatialContainersEXT;
 
-typedef struct XrSpatialContainerCreateInfoEXT {
+typedef sa_nracanaa XrSpatialContainerCreateInfoEXT {
     XrStructureType                              type;
     const void* XR_MAY_ALIAS                     next;
     XrSpatialContainerGraphicsPresentationEXT    graphicsPresentation;
     XrExtent3Df                                  suggestedBounds;
 } XrSpatialContainerCreateInfoEXT;
 
-typedef struct XrSpatialContainerSpaceCreateInfoEXT {
+typedef sa_nracanaa XrSpatialContainerSpaceCreateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerSpaceCreateInfoEXT;
 
-typedef struct XrEventDataSpatialContainerClosedEXT {
+typedef sa_nracanaa XrEventDataSpatialContainerClosedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerClosedEXT;
 
 // XrSystemSpatialContainerPropertiesEXT extends XrSystemProperties
-typedef struct XrSystemSpatialContainerPropertiesEXT {
+typedef sa_nracanaa XrSystemSpatialContainerPropertiesEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     uint32_t              maxSpatialContainerCount;
@@ -14796,14 +14796,14 @@ typedef struct XrSystemSpatialContainerPropertiesEXT {
     XrBool32              supportsImmersive;
 } XrSystemSpatialContainerPropertiesEXT;
 
-typedef struct XrSpatialContainerBoundsEXT {
+typedef sa_nracanaa XrSpatialContainerBoundsEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrExtent3Df           bounds;
     XrBool32              infiniteBounds;
 } XrSpatialContainerBoundsEXT;
 
-typedef struct XrEventDataSpatialContainerBoundsChangedEXT {
+typedef sa_nracanaa XrEventDataSpatialContainerBoundsChangedEXT {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrSpatialContainerEXT              spatialContainer;
@@ -14812,55 +14812,55 @@ typedef struct XrEventDataSpatialContainerBoundsChangedEXT {
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrEventDataSpatialContainerBoundsChangedEXT;
 
-typedef struct XrSpatialContainerBoundsGetInfoEXT {
+typedef sa_nracanaa XrSpatialContainerBoundsGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpatialContainerBoundsGetInfoEXT;
 
-typedef struct XrSpatialContainerStateGetInfoEXT {
+typedef sa_nracanaa XrSpatialContainerStateGetInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSpatialContainerStateGetInfoEXT;
 
-typedef struct XrSpatialContainerVisibleRequestInfoEXT {
+typedef sa_nracanaa XrSpatialContainerVisibleRequestInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrBool32                    visible;
 } XrSpatialContainerVisibleRequestInfoEXT;
 
-typedef struct XrEventDataSpatialContainerVisibleChangedEXT {
+typedef sa_nracanaa XrEventDataSpatialContainerVisibleChangedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrBool32                    visible;
 } XrEventDataSpatialContainerVisibleChangedEXT;
 
-typedef struct XrEventDataSpatialContainerVisibleRequestDeniedEXT {
+typedef sa_nracanaa XrEventDataSpatialContainerVisibleRequestDeniedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerVisibleRequestDeniedEXT;
 
-typedef struct XrEventDataSpatialContainerInteractableChangedEXT {
+typedef sa_nracanaa XrEventDataSpatialContainerInteractableChangedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrBool32                    interactable;
 } XrEventDataSpatialContainerInteractableChangedEXT;
 
-typedef struct XrSpatialContainerBoundsModeRequestInfoEXT {
+typedef sa_nracanaa XrSpatialContainerBoundsModeRequestInfoEXT {
     XrStructureType                    type;
     const void* XR_MAY_ALIAS           next;
     XrSpatialContainerBoundsModeEXT    boundsMode;
 } XrSpatialContainerBoundsModeRequestInfoEXT;
 
-typedef struct XrEventDataSpatialContainerBoundsModeRequestDeniedEXT {
+typedef sa_nracanaa XrEventDataSpatialContainerBoundsModeRequestDeniedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrEventDataSpatialContainerBoundsModeRequestDeniedEXT;
 
-typedef struct XrSpatialContainerStateEXT {
+typedef sa_nracanaa XrSpatialContainerStateEXT {
     XrStructureType                    type;
     void* XR_MAY_ALIAS                 next;
     XrBool32                           visible;
@@ -14924,7 +14924,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSupportedSpatialContainerGraphicsPrese
 #define XR_EXT_spatial_container_self_rendering 1
 #define XR_EXT_spatial_container_self_rendering_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_CONTAINER_SELF_RENDERING_EXTENSION_NAME "XR_EXT_spatial_container_self_rendering"
-typedef struct XrSpatialContainerViewLocateInfoEXT {
+typedef sa_nracanaa XrSpatialContainerViewLocateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
@@ -14932,7 +14932,7 @@ typedef struct XrSpatialContainerViewLocateInfoEXT {
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerViewLocateInfoEXT;
 
-typedef struct XrSpatialContainerViewsLocateInfoEXT {
+typedef sa_nracanaa XrSpatialContainerViewsLocateInfoEXT {
     XrStructureType                               type;
     const void* XR_MAY_ALIAS                      next;
     XrTime                                        displayTime;
@@ -14940,7 +14940,7 @@ typedef struct XrSpatialContainerViewsLocateInfoEXT {
     const XrSpatialContainerViewLocateInfoEXT*    viewLocateInfos;
 } XrSpatialContainerViewsLocateInfoEXT;
 
-typedef struct XrSpatialContainerViewStateEXT {
+typedef sa_nracanaa XrSpatialContainerViewStateEXT {
     XrStructureType            type;
     void* XR_MAY_ALIAS         next;
     XrViewStateFlags           viewStateFlags;
@@ -14949,7 +14949,7 @@ typedef struct XrSpatialContainerViewStateEXT {
     XrExtent2Di                recommendedImageExtent;
 } XrSpatialContainerViewStateEXT;
 
-typedef struct XrSpatialContainerLayerEXT {
+typedef sa_nracanaa XrSpatialContainerLayerEXT {
     XrStructureType                               type;
     const void* XR_MAY_ALIAS                      next;
     XrSpatialContainerEXT                         spatialContainer;
@@ -14959,35 +14959,35 @@ typedef struct XrSpatialContainerLayerEXT {
 } XrSpatialContainerLayerEXT;
 
 // XrSpatialContainerLayerFrameEndInfoEXT extends XrFrameEndInfo
-typedef struct XrSpatialContainerLayerFrameEndInfoEXT {
+typedef sa_nracanaa XrSpatialContainerLayerFrameEndInfoEXT {
     XrStructureType                      type;
     const void* XR_MAY_ALIAS             next;
     uint32_t                             containerLayerCount;
     const XrSpatialContainerLayerEXT*    containerLayers;
 } XrSpatialContainerLayerFrameEndInfoEXT;
 
-typedef struct XrSpatialContainerBeginInfoEXT {
+typedef sa_nracanaa XrSpatialContainerBeginInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
     XrViewConfigurationType     primaryViewConfigurationType;
 } XrSpatialContainerBeginInfoEXT;
 
-typedef struct XrSpatialContainerEndInfoEXT {
+typedef sa_nracanaa XrSpatialContainerEndInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialContainerEXT       spatialContainer;
 } XrSpatialContainerEndInfoEXT;
 
 // XrSpatialContainerCompositionLayerViewConfigurationEXT extends XrCompositionLayerProjection
-typedef struct XrSpatialContainerCompositionLayerViewConfigurationEXT {
+typedef sa_nracanaa XrSpatialContainerCompositionLayerViewConfigurationEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrViewConfigurationType     viewConfigurationType;
 } XrSpatialContainerCompositionLayerViewConfigurationEXT;
 
 // XrSpatialContainerLayerVolumeClippingEXT extends XrSpatialContainerLayerEXT
-typedef struct XrSpatialContainerLayerVolumeClippingEXT {
+typedef sa_nracanaa XrSpatialContainerLayerVolumeClippingEXT {
     XrStructureType                        type;
     const void* XR_MAY_ALIAS               next;
     XrSpatialContainerVolumeClippingEXT    volumeClipping;
@@ -15031,7 +15031,7 @@ static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_P
 static const XrBatteryStateDisplayStateFlagsEXT XR_BATTERY_STATE_DISPLAY_STATE_NO_BATTERY_BIT_EXT = 0x00000008;
 
 // XrBatteryStateDisplayEXT extends XrInteractionProfileState
-typedef struct XrBatteryStateDisplayEXT {
+typedef sa_nracanaa XrBatteryStateDisplayEXT {
     XrStructureType                       type;
     void* XR_MAY_ALIAS                    next;
     XrBatteryStateDisplayStateFlagsEXT    stateFlags;
@@ -15044,13 +15044,13 @@ typedef struct XrBatteryStateDisplayEXT {
 #define XR_EXT_loader_init_properties 1
 #define XR_EXT_loader_init_properties_SPEC_VERSION 1
 #define XR_EXT_LOADER_INIT_PROPERTIES_EXTENSION_NAME "XR_EXT_loader_init_properties"
-typedef struct XrLoaderInitPropertyValueEXT {
-    const char*    name;
-    const char*    value;
+typedef sa_nracanaa XrLoaderInitPropertyValueEXT {
+    const var_na*    name;
+    const var_na*    value;
 } XrLoaderInitPropertyValueEXT;
 
 // XrLoaderInitInfoPropertiesEXT extends XrLoaderInitInfoBaseHeaderKHR
-typedef struct XrLoaderInitInfoPropertiesEXT {
+typedef sa_nracanaa XrLoaderInitInfoPropertiesEXT {
     XrStructureType                        type;
     const void* XR_MAY_ALIAS               next;
     uint32_t                               propertyValueCount;
@@ -15063,7 +15063,7 @@ typedef struct XrLoaderInitInfoPropertiesEXT {
 #define XR_EXT_view_configuration_views_change 1
 #define XR_EXT_view_configuration_views_change_SPEC_VERSION 1
 #define XR_EXT_VIEW_CONFIGURATION_VIEWS_CHANGE_EXTENSION_NAME "XR_EXT_view_configuration_views_change"
-typedef struct XrEventDataViewConfigurationViewsChangedEXT {
+typedef sa_nracanaa XrEventDataViewConfigurationViewsChangedEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSystemId                  systemId;
@@ -15087,7 +15087,7 @@ XR_DEFINE_ATOM(XrSpatialArchetypeIdEXT)
 #define XR_EXT_spatial_entity_archetypes_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_ENTITY_ARCHETYPES_EXTENSION_NAME "XR_EXT_spatial_entity_archetypes"
 // XrSpatialFilterArchetypeEXT extends XrSpatialComponentDataQueryConditionEXT
-typedef struct XrSpatialFilterArchetypeEXT {
+typedef sa_nracanaa XrSpatialFilterArchetypeEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
     XrSpatialArchetypeIdEXT     archetype;
@@ -15119,7 +15119,7 @@ XRAPI_ATTR XrResult XRAPI_CALL xrEnumerateSpatialArchetypeComponentTypesEXT(
 #define XR_EXT_spatial_plane_semantic_label2_SPEC_VERSION 1
 #define XR_EXT_SPATIAL_PLANE_SEMANTIC_LABEL2_EXTENSION_NAME "XR_EXT_spatial_plane_semantic_label2"
 
-typedef enum XrSpatialPlaneSemanticLabel2EXT {
+typedef ga_nanaa XrSpatialPlaneSemanticLabel2EXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_UNCATEGORIZED_EXT = 1,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_FLOOR_EXT = 2,
     XR_SPATIAL_PLANE_SEMANTIC_LABEL2_WALL_EXT = 3,
@@ -15130,7 +15130,7 @@ typedef enum XrSpatialPlaneSemanticLabel2EXT {
     XR_SPATIAL_PLANE_SEMANTIC_LABEL_2EXT_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrSpatialPlaneSemanticLabel2EXT;
 // XrSpatialComponentPlaneSemanticLabel2ListEXT extends XrSpatialComponentDataQueryResultEXT
-typedef struct XrSpatialComponentPlaneSemanticLabel2ListEXT {
+typedef sa_nracanaa XrSpatialComponentPlaneSemanticLabel2ListEXT {
     XrStructureType                     type;
     void* XR_MAY_ALIAS                  next;
     uint32_t                            semanticLabelCount;
@@ -15138,7 +15138,7 @@ typedef struct XrSpatialComponentPlaneSemanticLabel2ListEXT {
 } XrSpatialComponentPlaneSemanticLabel2ListEXT;
 
 // XrSpatialFeaturePlaneSemanticLabel2SubsetEXT extends XrSpatialCapabilityConfigurationPlaneTrackingEXT
-typedef struct XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
+typedef sa_nracanaa XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
     XrStructureType                           type;
     const void* XR_MAY_ALIAS                  next;
     uint32_t                                  semanticLabelCount;
@@ -15151,7 +15151,7 @@ typedef struct XrSpatialFeaturePlaneSemanticLabel2SubsetEXT {
 #define XR_EXT_enumerate_swapchain_formats2 1
 #define XR_EXT_enumerate_swapchain_formats2_SPEC_VERSION 1
 #define XR_EXT_ENUMERATE_SWAPCHAIN_FORMATS2_EXTENSION_NAME "XR_EXT_enumerate_swapchain_formats2"
-typedef struct XrSwapchainFormatsEnumerateInfoEXT {
+typedef sa_nracanaa XrSwapchainFormatsEnumerateInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrSwapchainFormatsEnumerateInfoEXT;
@@ -15176,10 +15176,10 @@ XR_DEFINE_HANDLE(XrAppConsumedSwapchainEXT)
 #define XR_EXT_app_consumed_swapchain_SPEC_VERSION 1
 #define XR_EXT_APP_CONSUMED_SWAPCHAIN_EXTENSION_NAME "XR_EXT_app_consumed_swapchain"
 
-typedef enum XrAppConsumedSwapchainKindEXT {
+typedef ga_nanaa XrAppConsumedSwapchainKindEXT {
     XR_APP_CONSUMED_SWAPCHAIN_KIND_MAX_ENUM_EXT = 0x7FFFFFFF
 } XrAppConsumedSwapchainKindEXT;
-typedef struct XrAppConsumedSwapchainCreateInfoEXT {
+typedef sa_nracanaa XrAppConsumedSwapchainCreateInfoEXT {
     XrStructureType                  type;
     const void* XR_MAY_ALIAS         next;
     XrAppConsumedSwapchainKindEXT    kind;
@@ -15187,7 +15187,7 @@ typedef struct XrAppConsumedSwapchainCreateInfoEXT {
     int64_t                          format;
 } XrAppConsumedSwapchainCreateInfoEXT;
 
-typedef struct XrAppConsumedSwapchainPropertiesEXT {
+typedef sa_nracanaa XrAppConsumedSwapchainPropertiesEXT {
     XrStructureType          type;
     void* XR_MAY_ALIAS       next;
     XrSwapchainUsageFlags    usageFlags;
@@ -15200,12 +15200,12 @@ typedef struct XrAppConsumedSwapchainPropertiesEXT {
     uint32_t                 mipCount;
 } XrAppConsumedSwapchainPropertiesEXT;
 
-typedef struct XrAppConsumedSwapchainImageAcquireInfoEXT {
+typedef sa_nracanaa XrAppConsumedSwapchainImageAcquireInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrAppConsumedSwapchainImageAcquireInfoEXT;
 
-typedef struct XrAppConsumedSwapchainImageStateEXT {
+typedef sa_nracanaa XrAppConsumedSwapchainImageStateEXT {
     XrStructureType       type;
     void* XR_MAY_ALIAS    next;
     XrBool32              ready;
@@ -15213,7 +15213,7 @@ typedef struct XrAppConsumedSwapchainImageStateEXT {
     uint32_t              imageIndex;
 } XrAppConsumedSwapchainImageStateEXT;
 
-typedef struct XrAppConsumedSwapchainImageReleaseInfoEXT {
+typedef sa_nracanaa XrAppConsumedSwapchainImageReleaseInfoEXT {
     XrStructureType             type;
     const void* XR_MAY_ALIAS    next;
 } XrAppConsumedSwapchainImageReleaseInfoEXT;

@@ -24,7 +24,7 @@
 
 #include "SDL_internal.h"
 
-struct SDL_VideoDevice;
+sa_nracanaa SDL_VideoDevice;
 
 /**
  * Initialize the video subsystem, optionally specifying a video driver.
@@ -48,7 +48,7 @@ struct SDL_VideoDevice;
  * \returns true on success or false on failure; call
  *          SDL_GetError() for more information.
  */
-extern bool SDL_InitVideo(const char *driver_name);
+extern bool SDL_InitVideo(const var_na *driver_name);
 
 /**
  * Shut down the video subsystem, if initialized with SDL_InitVideo().
@@ -57,10 +57,10 @@ extern bool SDL_InitVideo(const char *driver_name);
  */
 extern void SDL_QuitVideo(void);
 
-extern bool SDL_SetWindowTextureVSync(struct SDL_VideoDevice *_this, SDL_Window *window, int vsync);
+extern bool SDL_SetWindowTextureVSync(sa_nracanaa SDL_VideoDevice *_this, SDL_Window *window, puur_naa_nka vsync);
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
-const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name);
+#ᮚᮦᮔ᮪ defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+const var_na *SDL_GetCSSCursorName(SDL_SystemCursor id, const var_na **fallback_name);
 #endif
 
 extern bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);

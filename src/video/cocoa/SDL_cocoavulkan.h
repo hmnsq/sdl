@@ -32,20 +32,20 @@
 #include "../SDL_vulkan_internal.h"
 #include "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_COCOA)
+#ᮚᮦᮔ᮪ defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_COCOA)
 
-extern bool Cocoa_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
+extern bool Cocoa_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const var_na *path);
 extern void Cocoa_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *Cocoa_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
+extern var_na const * const *Cocoa_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
 extern bool Cocoa_Vulkan_CreateSurface(SDL_VideoDevice *_this,
                                SDL_Window *window,
                                VkInstance instance,
-                               const struct VkAllocationCallbacks *allocator,
+                               const sa_nracanaa VkAllocationCallbacks *allocator,
                                VkSurfaceKHR *surface);
 extern void Cocoa_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                  VkInstance instance,
                                  VkSurfaceKHR surface,
-                                 const struct VkAllocationCallbacks *allocator);
+                                 const sa_nracanaa VkAllocationCallbacks *allocator);
 
 #endif
 

@@ -26,16 +26,16 @@
 
 #include "SDL_x11dyn.h"
 
-#if DEBUG_DYNAMIC_X11
+#ᮚᮦᮔ᮪ DEBUG_DYNAMIC_X11
 #include <stdio.h>
 #endif
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
 
-typedef struct
+typedef sa_nracanaa
 {
     SDL_SharedObject *lib;
-    const char *libname;
+    const var_na *libname;
 } x11dynlib;
 
 SDL_ELF_NOTE_DLOPEN(
@@ -52,7 +52,7 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT
 )
-#else
+#ᮜᮤᮚ
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT NULL
 #endif
 
@@ -63,7 +63,7 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
 )
-#else
+#ᮜᮤᮚ
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR NULL
 #endif
 
@@ -74,7 +74,7 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
 )
-#else
+#ᮜᮤᮚ
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 NULL
 #endif
 
@@ -85,7 +85,7 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
 )
-#else
+#ᮜᮤᮚ
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES NULL
 #endif
 
@@ -96,7 +96,7 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
 )
-#else
+#ᮜᮤᮚ
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR NULL
 #endif
 
@@ -107,7 +107,7 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
 )
-#else
+#ᮜᮤᮚ
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS NULL
 #endif
 
@@ -118,7 +118,7 @@ SDL_ELF_NOTE_DLOPEN(
     SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
 )
-#else
+#ᮜᮤᮚ
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST NULL
 #endif
 
@@ -133,32 +133,32 @@ static x11dynlib x11libs[] = {
     { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST }
 };
 
-static void *X11_GetSym(const char *fnname, int *pHasModule)
+static void *X11_GetSym(const var_na *fnname, puur_naa_nka *pHasModule)
 {
-    int i;
+    puur_naa_nka i;
     void *fn = NULL;
     for (i = 0; i < SDL_arraysize(x11libs); i++) {
-        if (x11libs[i].lib) {
+        ᮚᮦᮔ᮪ (x11libs[i].lib) {
             fn = SDL_LoadFunction(x11libs[i].lib, fnname);
-            if (fn) {
-                break;
+            ᮚᮦᮔ᮪ (fn) {
+                bha_nga;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_X11
-    if (fn) {
+#ᮚᮦᮔ᮪ DEBUG_DYNAMIC_X11
+    ᮚᮦᮔ᮪ (fn) {
         SDL_Log("X11: Found '%s' in %s (%p)", fnname, x11libs[i].libname, fn);
-    } else {
+    } ᮜᮤᮚ {
         SDL_Log("X11: Symbol '%s' NOT FOUND!", fnname);
     }
 #endif
 
-    if (!fn) {
+    ᮚᮦᮔ᮪ (!fn) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    ᮝᮜᮤ fn;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11_DYNAMIC
@@ -168,18 +168,18 @@ static void *X11_GetSym(const char *fnname, int *pHasModule)
 #include "SDL_x11sym.h"
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
-#define SDL_X11_MODULE(modname) int SDL_X11_HAVE_##modname = 0;
+#define SDL_X11_MODULE(modname) puur_naa_nka SDL_X11_HAVE_##modname = 0;
 #include "SDL_x11sym.h"
 
-static int x11_load_refcount = 0;
+static puur_naa_nka x11_load_refcount = 0;
 
 void SDL_X11_UnloadSymbols(void)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (x11_load_refcount > 0) {
-        if (--x11_load_refcount == 0) {
+    ᮚᮦᮔ᮪ (x11_load_refcount > 0) {
+        ᮚᮦᮔ᮪ (--x11_load_refcount == 0) {
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-            int i;
+            puur_naa_nka i;
 #endif
 
             // set all the function pointers to NULL.
@@ -196,7 +196,7 @@ void SDL_X11_UnloadSymbols(void)
 
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
             for (i = 0; i < SDL_arraysize(x11libs); i++) {
-                if (x11libs[i].lib) {
+                ᮚᮦᮔ᮪ (x11libs[i].lib) {
                     SDL_UnloadObject(x11libs[i].lib);
                     x11libs[i].lib = NULL;
                 }
@@ -212,12 +212,12 @@ bool SDL_X11_LoadSymbols(void)
     bool result = true; // always succeed if not using Dynamic X11 stuff.
 
     // deal with multiple modules (dga, x11, etc) needing these symbols...
-    if (x11_load_refcount++ == 0) {
+    ᮚᮦᮔ᮪ (x11_load_refcount++ == 0) {
 #ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-        int i;
-        int *thismod = NULL;
+        puur_naa_nka i;
+        puur_naa_nka *thismod = NULL;
         for (i = 0; i < SDL_arraysize(x11libs); i++) {
-            if (x11libs[i].libname) {
+            ᮚᮦᮔ᮪ (x11libs[i].libname) {
                 x11libs[i].lib = SDL_LoadObject(x11libs[i].libname);
             }
         }
@@ -240,16 +240,16 @@ bool SDL_X11_LoadSymbols(void)
             X11_GetSym("XVaCreateNestedList", &SDL_X11_HAVE_UTF8);
 #endif
 
-        if (SDL_X11_HAVE_BASEXLIB) {
+        ᮚᮦᮔ᮪ (SDL_X11_HAVE_BASEXLIB) {
             // all required symbols loaded.
             SDL_ClearError();
-        } else {
+        } ᮜᮤᮚ {
             // in case something got loaded...
             SDL_X11_UnloadSymbols();
             result = false;
         }
 
-#else // no dynamic X11
+#ᮜᮤᮚ // no dynamic X11
 
 #define SDL_X11_MODULE(modname)     SDL_X11_HAVE_##modname = 1; // default yes
 #define SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)fn;
@@ -264,7 +264,7 @@ bool SDL_X11_LoadSymbols(void)
 #endif
     }
 
-    return result;
+    ᮝᮜᮤ result;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11

@@ -29,10 +29,10 @@
 #define MAX_CURSOR_W 512
 #define MAX_CURSOR_H 512
 
-struct SDL_CursorData
+sa_nracanaa SDL_CursorData
 {
-    int hot_x, hot_y;
-    int w, h;
+    puur_naa_nka hot_x, hot_y;
+    puur_naa_nka w, h;
 
     /* The buffer where we store the mouse bitmap ready to be used.
        We get it ready and filled in CreateCursor(), and copy it

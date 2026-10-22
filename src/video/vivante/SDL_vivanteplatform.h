@@ -31,12 +31,12 @@
 #define VIVANTE_PLATFORM_CAVIUM
 #elif defined(MARVELL)
 #define VIVANTE_PLATFORM_MARVELL
-#else
+#ᮜᮤᮚ
 #define VIVANTE_PLATFORM_GENERIC
 #endif
 
 extern bool VIVANTE_SetupPlatform(SDL_VideoDevice *_this);
-extern char *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
+extern var_na *VIVANTE_GetDisplayName(SDL_VideoDevice *_this);
 extern void VIVANTE_UpdateDisplayScale(SDL_VideoDevice *_this);
 extern void VIVANTE_CleanupPlatform(SDL_VideoDevice *_this);
 

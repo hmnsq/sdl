@@ -38,14 +38,14 @@
 #ifndef __d3d12_h__
 #define __d3d12_h__
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
 #endif
 
 #ifndef DECLSPEC_XFGVIRT
-#if defined(_CONTROL_FLOW_GUARD_XFG)
+#ᮚᮦᮔ᮪ defined(_CONTROL_FLOW_GUARD_XFG)
 #define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
-#else
+#ᮜᮤᮚ
 #define DECLSPEC_XFGVIRT(base, func)
 #endif
 #endif
@@ -596,7 +596,7 @@ extern "C"{
 #ifdef _MSC_VER
 #pragma region App Family
 #endif
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
+#ᮚᮦᮔ᮪ WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 #ifndef _D3D12_CONSTANTS
 #define _D3D12_CONSTANTS
 #define	D3D12_16BIT_INDEX_STRIP_CUT_VALUE	( 0xffff )
@@ -1415,7 +1415,7 @@ extern "C"{
 typedef UINT64 D3D12_GPU_VIRTUAL_ADDRESS;
 
 typedef 
-enum D3D12_COMMAND_LIST_TYPE
+ga_nanaa D3D12_COMMAND_LIST_TYPE
     {
         D3D12_COMMAND_LIST_TYPE_DIRECT	= 0,
         D3D12_COMMAND_LIST_TYPE_BUNDLE	= 1,
@@ -1428,7 +1428,7 @@ enum D3D12_COMMAND_LIST_TYPE
     } 	D3D12_COMMAND_LIST_TYPE;
 
 typedef 
-enum D3D12_COMMAND_QUEUE_FLAGS
+ga_nanaa D3D12_COMMAND_QUEUE_FLAGS
     {
         D3D12_COMMAND_QUEUE_FLAG_NONE	= 0,
         D3D12_COMMAND_QUEUE_FLAG_DISABLE_GPU_TIMEOUT	= 0x1
@@ -1436,14 +1436,14 @@ enum D3D12_COMMAND_QUEUE_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_COMMAND_QUEUE_FLAGS )
 typedef 
-enum D3D12_COMMAND_QUEUE_PRIORITY
+ga_nanaa D3D12_COMMAND_QUEUE_PRIORITY
     {
         D3D12_COMMAND_QUEUE_PRIORITY_NORMAL	= 0,
         D3D12_COMMAND_QUEUE_PRIORITY_HIGH	= 100,
         D3D12_COMMAND_QUEUE_PRIORITY_GLOBAL_REALTIME	= 10000
     } 	D3D12_COMMAND_QUEUE_PRIORITY;
 
-typedef struct D3D12_COMMAND_QUEUE_DESC
+typedef sa_nracanaa D3D12_COMMAND_QUEUE_DESC
     {
     D3D12_COMMAND_LIST_TYPE Type;
     INT Priority;
@@ -1452,7 +1452,7 @@ typedef struct D3D12_COMMAND_QUEUE_DESC
     } 	D3D12_COMMAND_QUEUE_DESC;
 
 typedef 
-enum D3D12_PRIMITIVE_TOPOLOGY_TYPE
+ga_nanaa D3D12_PRIMITIVE_TOPOLOGY_TYPE
     {
         D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED	= 0,
         D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT	= 1,
@@ -1462,13 +1462,13 @@ enum D3D12_PRIMITIVE_TOPOLOGY_TYPE
     } 	D3D12_PRIMITIVE_TOPOLOGY_TYPE;
 
 typedef 
-enum D3D12_INPUT_CLASSIFICATION
+ga_nanaa D3D12_INPUT_CLASSIFICATION
     {
         D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA	= 0,
         D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA	= 1
     } 	D3D12_INPUT_CLASSIFICATION;
 
-typedef struct D3D12_INPUT_ELEMENT_DESC
+typedef sa_nracanaa D3D12_INPUT_ELEMENT_DESC
     {
     LPCSTR SemanticName;
     UINT SemanticIndex;
@@ -1480,7 +1480,7 @@ typedef struct D3D12_INPUT_ELEMENT_DESC
     } 	D3D12_INPUT_ELEMENT_DESC;
 
 typedef 
-enum D3D12_FILL_MODE
+ga_nanaa D3D12_FILL_MODE
     {
         D3D12_FILL_MODE_WIREFRAME	= 2,
         D3D12_FILL_MODE_SOLID	= 3
@@ -1491,14 +1491,14 @@ typedef D3D_PRIMITIVE_TOPOLOGY D3D12_PRIMITIVE_TOPOLOGY;
 typedef D3D_PRIMITIVE D3D12_PRIMITIVE;
 
 typedef 
-enum D3D12_CULL_MODE
+ga_nanaa D3D12_CULL_MODE
     {
         D3D12_CULL_MODE_NONE	= 1,
         D3D12_CULL_MODE_FRONT	= 2,
         D3D12_CULL_MODE_BACK	= 3
     } 	D3D12_CULL_MODE;
 
-typedef struct D3D12_SO_DECLARATION_ENTRY
+typedef sa_nracanaa D3D12_SO_DECLARATION_ENTRY
     {
     UINT Stream;
     LPCSTR SemanticName;
@@ -1508,7 +1508,7 @@ typedef struct D3D12_SO_DECLARATION_ENTRY
     BYTE OutputSlot;
     } 	D3D12_SO_DECLARATION_ENTRY;
 
-typedef struct D3D12_VIEWPORT
+typedef sa_nracanaa D3D12_VIEWPORT
     {
     FLOAT TopLeftX;
     FLOAT TopLeftY;
@@ -1520,7 +1520,7 @@ typedef struct D3D12_VIEWPORT
 
 typedef RECT D3D12_RECT;
 
-typedef struct D3D12_BOX
+typedef sa_nracanaa D3D12_BOX
     {
     UINT left;
     UINT top;
@@ -1531,7 +1531,7 @@ typedef struct D3D12_BOX
     } 	D3D12_BOX;
 
 typedef 
-enum D3D12_COMPARISON_FUNC
+ga_nanaa D3D12_COMPARISON_FUNC
     {
         D3D12_COMPARISON_FUNC_NONE	= 0,
         D3D12_COMPARISON_FUNC_NEVER	= 1,
@@ -1545,14 +1545,14 @@ enum D3D12_COMPARISON_FUNC
     } 	D3D12_COMPARISON_FUNC;
 
 typedef 
-enum D3D12_DEPTH_WRITE_MASK
+ga_nanaa D3D12_DEPTH_WRITE_MASK
     {
         D3D12_DEPTH_WRITE_MASK_ZERO	= 0,
         D3D12_DEPTH_WRITE_MASK_ALL	= 1
     } 	D3D12_DEPTH_WRITE_MASK;
 
 typedef 
-enum D3D12_STENCIL_OP
+ga_nanaa D3D12_STENCIL_OP
     {
         D3D12_STENCIL_OP_KEEP	= 1,
         D3D12_STENCIL_OP_ZERO	= 2,
@@ -1564,7 +1564,7 @@ enum D3D12_STENCIL_OP
         D3D12_STENCIL_OP_DECR	= 8
     } 	D3D12_STENCIL_OP;
 
-typedef struct D3D12_DEPTH_STENCILOP_DESC
+typedef sa_nracanaa D3D12_DEPTH_STENCILOP_DESC
     {
     D3D12_STENCIL_OP StencilFailOp;
     D3D12_STENCIL_OP StencilDepthFailOp;
@@ -1572,7 +1572,7 @@ typedef struct D3D12_DEPTH_STENCILOP_DESC
     D3D12_COMPARISON_FUNC StencilFunc;
     } 	D3D12_DEPTH_STENCILOP_DESC;
 
-typedef struct D3D12_DEPTH_STENCIL_DESC
+typedef sa_nracanaa D3D12_DEPTH_STENCIL_DESC
     {
     BOOL DepthEnable;
     D3D12_DEPTH_WRITE_MASK DepthWriteMask;
@@ -1584,7 +1584,7 @@ typedef struct D3D12_DEPTH_STENCIL_DESC
     D3D12_DEPTH_STENCILOP_DESC BackFace;
     } 	D3D12_DEPTH_STENCIL_DESC;
 
-typedef struct D3D12_DEPTH_STENCIL_DESC1
+typedef sa_nracanaa D3D12_DEPTH_STENCIL_DESC1
     {
     BOOL DepthEnable;
     D3D12_DEPTH_WRITE_MASK DepthWriteMask;
@@ -1597,7 +1597,7 @@ typedef struct D3D12_DEPTH_STENCIL_DESC1
     BOOL DepthBoundsTestEnable;
     } 	D3D12_DEPTH_STENCIL_DESC1;
 
-typedef struct D3D12_DEPTH_STENCILOP_DESC1
+typedef sa_nracanaa D3D12_DEPTH_STENCILOP_DESC1
     {
     D3D12_STENCIL_OP StencilFailOp;
     D3D12_STENCIL_OP StencilDepthFailOp;
@@ -1607,7 +1607,7 @@ typedef struct D3D12_DEPTH_STENCILOP_DESC1
     UINT8 StencilWriteMask;
     } 	D3D12_DEPTH_STENCILOP_DESC1;
 
-typedef struct D3D12_DEPTH_STENCIL_DESC2
+typedef sa_nracanaa D3D12_DEPTH_STENCIL_DESC2
     {
     BOOL DepthEnable;
     D3D12_DEPTH_WRITE_MASK DepthWriteMask;
@@ -1619,7 +1619,7 @@ typedef struct D3D12_DEPTH_STENCIL_DESC2
     } 	D3D12_DEPTH_STENCIL_DESC2;
 
 typedef 
-enum D3D12_BLEND
+ga_nanaa D3D12_BLEND
     {
         D3D12_BLEND_ZERO	= 1,
         D3D12_BLEND_ONE	= 2,
@@ -1643,7 +1643,7 @@ enum D3D12_BLEND
     } 	D3D12_BLEND;
 
 typedef 
-enum D3D12_BLEND_OP
+ga_nanaa D3D12_BLEND_OP
     {
         D3D12_BLEND_OP_ADD	= 1,
         D3D12_BLEND_OP_SUBTRACT	= 2,
@@ -1653,7 +1653,7 @@ enum D3D12_BLEND_OP
     } 	D3D12_BLEND_OP;
 
 typedef 
-enum D3D12_COLOR_WRITE_ENABLE
+ga_nanaa D3D12_COLOR_WRITE_ENABLE
     {
         D3D12_COLOR_WRITE_ENABLE_RED	= 1,
         D3D12_COLOR_WRITE_ENABLE_GREEN	= 2,
@@ -1663,7 +1663,7 @@ enum D3D12_COLOR_WRITE_ENABLE
     } 	D3D12_COLOR_WRITE_ENABLE;
 
 typedef 
-enum D3D12_LOGIC_OP
+ga_nanaa D3D12_LOGIC_OP
     {
         D3D12_LOGIC_OP_CLEAR	= 0,
         D3D12_LOGIC_OP_SET	= ( D3D12_LOGIC_OP_CLEAR + 1 ) ,
@@ -1683,7 +1683,7 @@ enum D3D12_LOGIC_OP
         D3D12_LOGIC_OP_OR_INVERTED	= ( D3D12_LOGIC_OP_OR_REVERSE + 1 ) 
     } 	D3D12_LOGIC_OP;
 
-typedef struct D3D12_RENDER_TARGET_BLEND_DESC
+typedef sa_nracanaa D3D12_RENDER_TARGET_BLEND_DESC
     {
     BOOL BlendEnable;
     BOOL LogicOpEnable;
@@ -1697,7 +1697,7 @@ typedef struct D3D12_RENDER_TARGET_BLEND_DESC
     UINT8 RenderTargetWriteMask;
     } 	D3D12_RENDER_TARGET_BLEND_DESC;
 
-typedef struct D3D12_BLEND_DESC
+typedef sa_nracanaa D3D12_BLEND_DESC
     {
     BOOL AlphaToCoverageEnable;
     BOOL IndependentBlendEnable;
@@ -1707,13 +1707,13 @@ typedef struct D3D12_BLEND_DESC
 /* Note, the array size for RenderTarget[] above is D3D12_SIMULTANEOUS_RENDERTARGET_COUNT. 
    IDL processing/generation of this header replaces the define; this comment is merely explaining what happened. */
 typedef 
-enum D3D12_CONSERVATIVE_RASTERIZATION_MODE
+ga_nanaa D3D12_CONSERVATIVE_RASTERIZATION_MODE
     {
         D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF	= 0,
         D3D12_CONSERVATIVE_RASTERIZATION_MODE_ON	= 1
     } 	D3D12_CONSERVATIVE_RASTERIZATION_MODE;
 
-typedef struct D3D12_RASTERIZER_DESC
+typedef sa_nracanaa D3D12_RASTERIZER_DESC
     {
     D3D12_FILL_MODE FillMode;
     D3D12_CULL_MODE CullMode;
@@ -1728,7 +1728,7 @@ typedef struct D3D12_RASTERIZER_DESC
     D3D12_CONSERVATIVE_RASTERIZATION_MODE ConservativeRaster;
     } 	D3D12_RASTERIZER_DESC;
 
-typedef struct D3D12_RASTERIZER_DESC1
+typedef sa_nracanaa D3D12_RASTERIZER_DESC1
     {
     D3D12_FILL_MODE FillMode;
     D3D12_CULL_MODE CullMode;
@@ -1744,7 +1744,7 @@ typedef struct D3D12_RASTERIZER_DESC1
     } 	D3D12_RASTERIZER_DESC1;
 
 typedef 
-enum D3D12_LINE_RASTERIZATION_MODE
+ga_nanaa D3D12_LINE_RASTERIZATION_MODE
     {
         D3D12_LINE_RASTERIZATION_MODE_ALIASED	= 0,
         D3D12_LINE_RASTERIZATION_MODE_ALPHA_ANTIALIASED	= ( D3D12_LINE_RASTERIZATION_MODE_ALIASED + 1 ) ,
@@ -1752,7 +1752,7 @@ enum D3D12_LINE_RASTERIZATION_MODE
         D3D12_LINE_RASTERIZATION_MODE_QUADRILATERAL_NARROW	= ( D3D12_LINE_RASTERIZATION_MODE_QUADRILATERAL_WIDE + 1 ) 
     } 	D3D12_LINE_RASTERIZATION_MODE;
 
-typedef struct D3D12_RASTERIZER_DESC2
+typedef sa_nracanaa D3D12_RASTERIZER_DESC2
     {
     D3D12_FILL_MODE FillMode;
     D3D12_CULL_MODE CullMode;
@@ -1780,7 +1780,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0000_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Object;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c4fec28f-7966-4e95-9f94-f431cb56c3b8")
     ID3D12Object : public IUnknown
@@ -1806,9 +1806,9 @@ EXTERN_C const IID IID_ID3D12Object;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12ObjectVtbl
+    typedef sa_nracanaa ID3D12ObjectVtbl
     {
         BEGIN_INTERFACE
         
@@ -1856,7 +1856,7 @@ EXTERN_C const IID IID_ID3D12Object;
 
     interface ID3D12Object
     {
-        CONST_VTBL struct ID3D12ObjectVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ObjectVtbl *lpVtbl;
     };
 
     
@@ -1906,7 +1906,7 @@ EXTERN_C const IID IID_ID3D12Object;
 
 EXTERN_C const IID IID_ID3D12DeviceChild;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("905db94b-a00c-4140-9df5-2b64ca9ea357")
     ID3D12DeviceChild : public ID3D12Object
@@ -1919,9 +1919,9 @@ EXTERN_C const IID IID_ID3D12DeviceChild;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceChildVtbl
+    typedef sa_nracanaa ID3D12DeviceChildVtbl
     {
         BEGIN_INTERFACE
         
@@ -1975,7 +1975,7 @@ EXTERN_C const IID IID_ID3D12DeviceChild;
 
     interface ID3D12DeviceChild
     {
-        CONST_VTBL struct ID3D12DeviceChildVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceChildVtbl *lpVtbl;
     };
 
     
@@ -2029,7 +2029,7 @@ EXTERN_C const IID IID_ID3D12DeviceChild;
 
 EXTERN_C const IID IID_ID3D12RootSignature;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c54a6b66-72df-4ee8-8be5-a946a1429214")
     ID3D12RootSignature : public ID3D12DeviceChild
@@ -2038,9 +2038,9 @@ EXTERN_C const IID IID_ID3D12RootSignature;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12RootSignatureVtbl
+    typedef sa_nracanaa ID3D12RootSignatureVtbl
     {
         BEGIN_INTERFACE
         
@@ -2094,7 +2094,7 @@ EXTERN_C const IID IID_ID3D12RootSignature;
 
     interface ID3D12RootSignature
     {
-        CONST_VTBL struct ID3D12RootSignatureVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12RootSignatureVtbl *lpVtbl;
     };
 
     
@@ -2143,13 +2143,13 @@ EXTERN_C const IID IID_ID3D12RootSignature;
 /* interface __MIDL_itf_d3d12_0000_0001 */
 /* [local] */ 
 
-typedef struct D3D12_SHADER_BYTECODE
+typedef sa_nracanaa D3D12_SHADER_BYTECODE
     {
     _Field_size_bytes_full_(BytecodeLength)  const void *pShaderBytecode;
     SIZE_T BytecodeLength;
     } 	D3D12_SHADER_BYTECODE;
 
-typedef struct D3D12_STREAM_OUTPUT_DESC
+typedef sa_nracanaa D3D12_STREAM_OUTPUT_DESC
     {
     _Field_size_full_(NumEntries)  const D3D12_SO_DECLARATION_ENTRY *pSODeclaration;
     UINT NumEntries;
@@ -2158,14 +2158,14 @@ typedef struct D3D12_STREAM_OUTPUT_DESC
     UINT RasterizedStream;
     } 	D3D12_STREAM_OUTPUT_DESC;
 
-typedef struct D3D12_INPUT_LAYOUT_DESC
+typedef sa_nracanaa D3D12_INPUT_LAYOUT_DESC
     {
     _Field_size_full_(NumElements)  const D3D12_INPUT_ELEMENT_DESC *pInputElementDescs;
     UINT NumElements;
     } 	D3D12_INPUT_LAYOUT_DESC;
 
 typedef 
-enum D3D12_INDEX_BUFFER_STRIP_CUT_VALUE
+ga_nanaa D3D12_INDEX_BUFFER_STRIP_CUT_VALUE
     {
         D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED	= 0,
         D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_0xFFFF	= 1,
@@ -2173,20 +2173,20 @@ enum D3D12_INDEX_BUFFER_STRIP_CUT_VALUE
     } 	D3D12_INDEX_BUFFER_STRIP_CUT_VALUE;
 
 typedef 
-enum D3D12_STANDARD_MULTISAMPLE_QUALITY_LEVELS
+ga_nanaa D3D12_STANDARD_MULTISAMPLE_QUALITY_LEVELS
     {
         D3D12_STANDARD_MULTISAMPLE_PATTERN	= 0xffffffff,
         D3D12_CENTER_MULTISAMPLE_PATTERN	= 0xfffffffe
     } 	D3D12_STANDARD_MULTISAMPLE_QUALITY_LEVELS;
 
-typedef struct D3D12_CACHED_PIPELINE_STATE
+typedef sa_nracanaa D3D12_CACHED_PIPELINE_STATE
     {
     _Field_size_bytes_full_(CachedBlobSizeInBytes)  const void *pCachedBlob;
     SIZE_T CachedBlobSizeInBytes;
     } 	D3D12_CACHED_PIPELINE_STATE;
 
 typedef 
-enum D3D12_PIPELINE_STATE_FLAGS
+ga_nanaa D3D12_PIPELINE_STATE_FLAGS
     {
         D3D12_PIPELINE_STATE_FLAG_NONE	= 0,
         D3D12_PIPELINE_STATE_FLAG_TOOL_DEBUG	= 0x1,
@@ -2195,7 +2195,7 @@ enum D3D12_PIPELINE_STATE_FLAGS
     } 	D3D12_PIPELINE_STATE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_PIPELINE_STATE_FLAGS )
-typedef struct D3D12_GRAPHICS_PIPELINE_STATE_DESC
+typedef sa_nracanaa D3D12_GRAPHICS_PIPELINE_STATE_DESC
     {
     ID3D12RootSignature *pRootSignature;
     D3D12_SHADER_BYTECODE VS;
@@ -2220,7 +2220,7 @@ typedef struct D3D12_GRAPHICS_PIPELINE_STATE_DESC
     D3D12_PIPELINE_STATE_FLAGS Flags;
     } 	D3D12_GRAPHICS_PIPELINE_STATE_DESC;
 
-typedef struct D3D12_COMPUTE_PIPELINE_STATE_DESC
+typedef sa_nracanaa D3D12_COMPUTE_PIPELINE_STATE_DESC
     {
     ID3D12RootSignature *pRootSignature;
     D3D12_SHADER_BYTECODE CS;
@@ -2229,19 +2229,19 @@ typedef struct D3D12_COMPUTE_PIPELINE_STATE_DESC
     D3D12_PIPELINE_STATE_FLAGS Flags;
     } 	D3D12_COMPUTE_PIPELINE_STATE_DESC;
 
-struct D3D12_RT_FORMAT_ARRAY
+sa_nracanaa D3D12_RT_FORMAT_ARRAY
     {
     DXGI_FORMAT RTFormats[ 8 ];
     UINT NumRenderTargets;
     } ;
-typedef struct D3D12_PIPELINE_STATE_STREAM_DESC
+typedef sa_nracanaa D3D12_PIPELINE_STATE_STREAM_DESC
     {
     _In_  SIZE_T SizeInBytes;
     _In_reads_(_Inexpressible_("Dependent on size of subobjects"))  void *pPipelineStateSubobjectStream;
     } 	D3D12_PIPELINE_STATE_STREAM_DESC;
 
 typedef 
-enum D3D12_PIPELINE_STATE_SUBOBJECT_TYPE
+ga_nanaa D3D12_PIPELINE_STATE_SUBOBJECT_TYPE
     {
         D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_ROOT_SIGNATURE	= 0,
         D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_VS	= ( D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_ROOT_SIGNATURE + 1 ) ,
@@ -2275,7 +2275,7 @@ enum D3D12_PIPELINE_STATE_SUBOBJECT_TYPE
     } 	D3D12_PIPELINE_STATE_SUBOBJECT_TYPE;
 
 typedef 
-enum D3D12_FEATURE
+ga_nanaa D3D12_FEATURE
     {
         D3D12_FEATURE_D3D12_OPTIONS	= 0,
         D3D12_FEATURE_ARCHITECTURE	= 1,
@@ -2324,7 +2324,7 @@ enum D3D12_FEATURE
     } 	D3D12_FEATURE;
 
 typedef 
-enum D3D12_SHADER_MIN_PRECISION_SUPPORT
+ga_nanaa D3D12_SHADER_MIN_PRECISION_SUPPORT
     {
         D3D12_SHADER_MIN_PRECISION_SUPPORT_NONE	= 0,
         D3D12_SHADER_MIN_PRECISION_SUPPORT_10_BIT	= 0x1,
@@ -2333,7 +2333,7 @@ enum D3D12_SHADER_MIN_PRECISION_SUPPORT
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_SHADER_MIN_PRECISION_SUPPORT )
 typedef 
-enum D3D12_TILED_RESOURCES_TIER
+ga_nanaa D3D12_TILED_RESOURCES_TIER
     {
         D3D12_TILED_RESOURCES_TIER_NOT_SUPPORTED	= 0,
         D3D12_TILED_RESOURCES_TIER_1	= 1,
@@ -2343,7 +2343,7 @@ enum D3D12_TILED_RESOURCES_TIER
     } 	D3D12_TILED_RESOURCES_TIER;
 
 typedef 
-enum D3D12_RESOURCE_BINDING_TIER
+ga_nanaa D3D12_RESOURCE_BINDING_TIER
     {
         D3D12_RESOURCE_BINDING_TIER_1	= 1,
         D3D12_RESOURCE_BINDING_TIER_2	= 2,
@@ -2351,7 +2351,7 @@ enum D3D12_RESOURCE_BINDING_TIER
     } 	D3D12_RESOURCE_BINDING_TIER;
 
 typedef 
-enum D3D12_CONSERVATIVE_RASTERIZATION_TIER
+ga_nanaa D3D12_CONSERVATIVE_RASTERIZATION_TIER
     {
         D3D12_CONSERVATIVE_RASTERIZATION_TIER_NOT_SUPPORTED	= 0,
         D3D12_CONSERVATIVE_RASTERIZATION_TIER_1	= 1,
@@ -2360,7 +2360,7 @@ enum D3D12_CONSERVATIVE_RASTERIZATION_TIER
     } 	D3D12_CONSERVATIVE_RASTERIZATION_TIER;
 
 typedef 
-enum D3D12_FORMAT_SUPPORT1
+ga_nanaa D3D12_FORMAT_SUPPORT1
     {
         D3D12_FORMAT_SUPPORT1_NONE	= 0,
         D3D12_FORMAT_SUPPORT1_BUFFER	= 0x1,
@@ -2396,7 +2396,7 @@ enum D3D12_FORMAT_SUPPORT1
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_FORMAT_SUPPORT1 )
 typedef 
-enum D3D12_FORMAT_SUPPORT2
+ga_nanaa D3D12_FORMAT_SUPPORT2
     {
         D3D12_FORMAT_SUPPORT2_NONE	= 0,
         D3D12_FORMAT_SUPPORT2_UAV_ATOMIC_ADD	= 0x1,
@@ -2415,7 +2415,7 @@ enum D3D12_FORMAT_SUPPORT2
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_FORMAT_SUPPORT2 )
 typedef 
-enum D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS
+ga_nanaa D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS
     {
         D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE	= 0,
         D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_TILED_RESOURCE	= 0x1
@@ -2423,7 +2423,7 @@ enum D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS )
 typedef 
-enum D3D12_CROSS_NODE_SHARING_TIER
+ga_nanaa D3D12_CROSS_NODE_SHARING_TIER
     {
         D3D12_CROSS_NODE_SHARING_TIER_NOT_SUPPORTED	= 0,
         D3D12_CROSS_NODE_SHARING_TIER_1_EMULATED	= 1,
@@ -2433,14 +2433,14 @@ enum D3D12_CROSS_NODE_SHARING_TIER
     } 	D3D12_CROSS_NODE_SHARING_TIER;
 
 typedef 
-enum D3D12_RESOURCE_HEAP_TIER
+ga_nanaa D3D12_RESOURCE_HEAP_TIER
     {
         D3D12_RESOURCE_HEAP_TIER_1	= 1,
         D3D12_RESOURCE_HEAP_TIER_2	= 2
     } 	D3D12_RESOURCE_HEAP_TIER;
 
 typedef 
-enum D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER
+ga_nanaa D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER
     {
         D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER_NOT_SUPPORTED	= 0,
         D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER_1	= 1,
@@ -2448,7 +2448,7 @@ enum D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER
     } 	D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER;
 
 typedef 
-enum D3D12_VIEW_INSTANCING_TIER
+ga_nanaa D3D12_VIEW_INSTANCING_TIER
     {
         D3D12_VIEW_INSTANCING_TIER_NOT_SUPPORTED	= 0,
         D3D12_VIEW_INSTANCING_TIER_1	= 1,
@@ -2457,13 +2457,13 @@ enum D3D12_VIEW_INSTANCING_TIER
     } 	D3D12_VIEW_INSTANCING_TIER;
 
 typedef 
-enum D3D12_WORK_GRAPHS_TIER
+ga_nanaa D3D12_WORK_GRAPHS_TIER
     {
         D3D12_WORK_GRAPHS_TIER_NOT_SUPPORTED	= 0,
         D3D12_WORK_GRAPHS_TIER_1_0	= 10
     } 	D3D12_WORK_GRAPHS_TIER;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS
     {
     _Out_  BOOL DoublePrecisionFloatShaderOps;
     _Out_  BOOL OutputMergerLogicOp;
@@ -2482,7 +2482,7 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS
     _Out_  D3D12_RESOURCE_HEAP_TIER ResourceHeapTier;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS1
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS1
     {
     _Out_  BOOL WaveOps;
     _Out_  UINT WaveLaneCountMin;
@@ -2492,14 +2492,14 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS1
     _Out_  BOOL Int64ShaderOps;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS1;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS2
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS2
     {
     _Out_  BOOL DepthBoundsTestSupported;
     _Out_  D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER ProgrammableSamplePositionsTier;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS2;
 
 typedef 
-enum D3D_ROOT_SIGNATURE_VERSION
+ga_nanaa D3D_ROOT_SIGNATURE_VERSION
     {
         D3D_ROOT_SIGNATURE_VERSION_1	= 0x1,
         D3D_ROOT_SIGNATURE_VERSION_1_0	= 0x1,
@@ -2507,12 +2507,12 @@ enum D3D_ROOT_SIGNATURE_VERSION
         D3D_ROOT_SIGNATURE_VERSION_1_2	= 0x3
     } 	D3D_ROOT_SIGNATURE_VERSION;
 
-typedef struct D3D12_FEATURE_DATA_ROOT_SIGNATURE
+typedef sa_nracanaa D3D12_FEATURE_DATA_ROOT_SIGNATURE
     {
     _Inout_  D3D_ROOT_SIGNATURE_VERSION HighestVersion;
     } 	D3D12_FEATURE_DATA_ROOT_SIGNATURE;
 
-typedef struct D3D12_FEATURE_DATA_ARCHITECTURE
+typedef sa_nracanaa D3D12_FEATURE_DATA_ARCHITECTURE
     {
     _In_  UINT NodeIndex;
     _Out_  BOOL TileBasedRenderer;
@@ -2520,7 +2520,7 @@ typedef struct D3D12_FEATURE_DATA_ARCHITECTURE
     _Out_  BOOL CacheCoherentUMA;
     } 	D3D12_FEATURE_DATA_ARCHITECTURE;
 
-typedef struct D3D12_FEATURE_DATA_ARCHITECTURE1
+typedef sa_nracanaa D3D12_FEATURE_DATA_ARCHITECTURE1
     {
     _In_  UINT NodeIndex;
     _Out_  BOOL TileBasedRenderer;
@@ -2529,7 +2529,7 @@ typedef struct D3D12_FEATURE_DATA_ARCHITECTURE1
     _Out_  BOOL IsolatedMMU;
     } 	D3D12_FEATURE_DATA_ARCHITECTURE1;
 
-typedef struct D3D12_FEATURE_DATA_FEATURE_LEVELS
+typedef sa_nracanaa D3D12_FEATURE_DATA_FEATURE_LEVELS
     {
     _In_  UINT NumFeatureLevels;
     _In_reads_(NumFeatureLevels)  const D3D_FEATURE_LEVEL *pFeatureLevelsRequested;
@@ -2537,7 +2537,7 @@ typedef struct D3D12_FEATURE_DATA_FEATURE_LEVELS
     } 	D3D12_FEATURE_DATA_FEATURE_LEVELS;
 
 typedef 
-enum D3D_SHADER_MODEL
+ga_nanaa D3D_SHADER_MODEL
     {
         D3D_SHADER_MODEL_NONE	= 0,
         D3D_SHADER_MODEL_5_1	= 0x51,
@@ -2554,19 +2554,19 @@ enum D3D_SHADER_MODEL
         D3D_HIGHEST_SHADER_MODEL	= D3D_SHADER_MODEL_6_9
     } 	D3D_SHADER_MODEL;
 
-typedef struct D3D12_FEATURE_DATA_SHADER_MODEL
+typedef sa_nracanaa D3D12_FEATURE_DATA_SHADER_MODEL
     {
     _Inout_  D3D_SHADER_MODEL HighestShaderModel;
     } 	D3D12_FEATURE_DATA_SHADER_MODEL;
 
-typedef struct D3D12_FEATURE_DATA_FORMAT_SUPPORT
+typedef sa_nracanaa D3D12_FEATURE_DATA_FORMAT_SUPPORT
     {
     _In_  DXGI_FORMAT Format;
     _Out_  D3D12_FORMAT_SUPPORT1 Support1;
     _Out_  D3D12_FORMAT_SUPPORT2 Support2;
     } 	D3D12_FEATURE_DATA_FORMAT_SUPPORT;
 
-typedef struct D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS
+typedef sa_nracanaa D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS
     {
     _In_  DXGI_FORMAT Format;
     _In_  UINT SampleCount;
@@ -2574,20 +2574,20 @@ typedef struct D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS
     _Out_  UINT NumQualityLevels;
     } 	D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS;
 
-typedef struct D3D12_FEATURE_DATA_FORMAT_INFO
+typedef sa_nracanaa D3D12_FEATURE_DATA_FORMAT_INFO
     {
     DXGI_FORMAT Format;
     UINT8 PlaneCount;
     } 	D3D12_FEATURE_DATA_FORMAT_INFO;
 
-typedef struct D3D12_FEATURE_DATA_GPU_VIRTUAL_ADDRESS_SUPPORT
+typedef sa_nracanaa D3D12_FEATURE_DATA_GPU_VIRTUAL_ADDRESS_SUPPORT
     {
     UINT MaxGPUVirtualAddressBitsPerResource;
     UINT MaxGPUVirtualAddressBitsPerProcess;
     } 	D3D12_FEATURE_DATA_GPU_VIRTUAL_ADDRESS_SUPPORT;
 
 typedef 
-enum D3D12_SHADER_CACHE_SUPPORT_FLAGS
+ga_nanaa D3D12_SHADER_CACHE_SUPPORT_FLAGS
     {
         D3D12_SHADER_CACHE_SUPPORT_NONE	= 0,
         D3D12_SHADER_CACHE_SUPPORT_SINGLE_PSO	= 0x1,
@@ -2600,12 +2600,12 @@ enum D3D12_SHADER_CACHE_SUPPORT_FLAGS
     } 	D3D12_SHADER_CACHE_SUPPORT_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_SHADER_CACHE_SUPPORT_FLAGS )
-typedef struct D3D12_FEATURE_DATA_SHADER_CACHE
+typedef sa_nracanaa D3D12_FEATURE_DATA_SHADER_CACHE
     {
     _Out_  D3D12_SHADER_CACHE_SUPPORT_FLAGS SupportFlags;
     } 	D3D12_FEATURE_DATA_SHADER_CACHE;
 
-typedef struct D3D12_FEATURE_DATA_COMMAND_QUEUE_PRIORITY
+typedef sa_nracanaa D3D12_FEATURE_DATA_COMMAND_QUEUE_PRIORITY
     {
     _In_  D3D12_COMMAND_LIST_TYPE CommandListType;
     _In_  UINT Priority;
@@ -2613,7 +2613,7 @@ typedef struct D3D12_FEATURE_DATA_COMMAND_QUEUE_PRIORITY
     } 	D3D12_FEATURE_DATA_COMMAND_QUEUE_PRIORITY;
 
 typedef 
-enum D3D12_COMMAND_LIST_SUPPORT_FLAGS
+ga_nanaa D3D12_COMMAND_LIST_SUPPORT_FLAGS
     {
         D3D12_COMMAND_LIST_SUPPORT_FLAG_NONE	= 0,
         D3D12_COMMAND_LIST_SUPPORT_FLAG_DIRECT	= ( 1 << D3D12_COMMAND_LIST_TYPE_DIRECT ) ,
@@ -2626,7 +2626,7 @@ enum D3D12_COMMAND_LIST_SUPPORT_FLAGS
     } 	D3D12_COMMAND_LIST_SUPPORT_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_COMMAND_LIST_SUPPORT_FLAGS )
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS3
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS3
     {
     _Out_  BOOL CopyQueueTimestampQueriesSupported;
     _Out_  BOOL CastingFullyTypedFormatSupported;
@@ -2635,26 +2635,26 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS3
     _Out_  BOOL BarycentricsSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS3;
 
-typedef struct D3D12_FEATURE_DATA_EXISTING_HEAPS
+typedef sa_nracanaa D3D12_FEATURE_DATA_EXISTING_HEAPS
     {
     _Out_  BOOL Supported;
     } 	D3D12_FEATURE_DATA_EXISTING_HEAPS;
 
 typedef 
-enum D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER
+ga_nanaa D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER
     {
         D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER_0	= 0,
         D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER_1	= ( D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER_0 + 1 ) ,
         D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER_2	= ( D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER_1 + 1 ) 
     } 	D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER;
 
-typedef struct D3D12_FEATURE_DATA_DISPLAYABLE
+typedef sa_nracanaa D3D12_FEATURE_DATA_DISPLAYABLE
     {
     _Out_  BOOL DisplayableTexture;
     _Out_  D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER SharedResourceCompatibilityTier;
     } 	D3D12_FEATURE_DATA_DISPLAYABLE;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS4
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS4
     {
     _Out_  BOOL MSAA64KBAlignedTextureSupported;
     _Out_  D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER SharedResourceCompatibilityTier;
@@ -2662,26 +2662,26 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS4
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS4;
 
 typedef 
-enum D3D12_HEAP_SERIALIZATION_TIER
+ga_nanaa D3D12_HEAP_SERIALIZATION_TIER
     {
         D3D12_HEAP_SERIALIZATION_TIER_0	= 0,
         D3D12_HEAP_SERIALIZATION_TIER_10	= 10
     } 	D3D12_HEAP_SERIALIZATION_TIER;
 
-typedef struct D3D12_FEATURE_DATA_SERIALIZATION
+typedef sa_nracanaa D3D12_FEATURE_DATA_SERIALIZATION
     {
     _In_  UINT NodeIndex;
     _Out_  D3D12_HEAP_SERIALIZATION_TIER HeapSerializationTier;
     } 	D3D12_FEATURE_DATA_SERIALIZATION;
 
-typedef struct D3D12_FEATURE_DATA_CROSS_NODE
+typedef sa_nracanaa D3D12_FEATURE_DATA_CROSS_NODE
     {
     D3D12_CROSS_NODE_SHARING_TIER SharingTier;
     BOOL AtomicShaderInstructions;
     } 	D3D12_FEATURE_DATA_CROSS_NODE;
 
 typedef 
-enum D3D12_RENDER_PASS_TIER
+ga_nanaa D3D12_RENDER_PASS_TIER
     {
         D3D12_RENDER_PASS_TIER_0	= 0,
         D3D12_RENDER_PASS_TIER_1	= 1,
@@ -2689,14 +2689,14 @@ enum D3D12_RENDER_PASS_TIER
     } 	D3D12_RENDER_PASS_TIER;
 
 typedef 
-enum D3D12_RAYTRACING_TIER
+ga_nanaa D3D12_RAYTRACING_TIER
     {
         D3D12_RAYTRACING_TIER_NOT_SUPPORTED	= 0,
         D3D12_RAYTRACING_TIER_1_0	= 10,
         D3D12_RAYTRACING_TIER_1_1	= 11
     } 	D3D12_RAYTRACING_TIER;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS5
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS5
     {
     _Out_  BOOL SRVOnlyTiledResourceTier3;
     _Out_  D3D12_RENDER_PASS_TIER RenderPassesTier;
@@ -2704,14 +2704,14 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS5
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS5;
 
 typedef 
-enum D3D12_VARIABLE_SHADING_RATE_TIER
+ga_nanaa D3D12_VARIABLE_SHADING_RATE_TIER
     {
         D3D12_VARIABLE_SHADING_RATE_TIER_NOT_SUPPORTED	= 0,
         D3D12_VARIABLE_SHADING_RATE_TIER_1	= 1,
         D3D12_VARIABLE_SHADING_RATE_TIER_2	= 2
     } 	D3D12_VARIABLE_SHADING_RATE_TIER;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS6
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS6
     {
     _Out_  BOOL AdditionalShadingRatesSupported;
     _Out_  BOOL PerPrimitiveShadingRateSupportedWithViewportIndexing;
@@ -2721,27 +2721,27 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS6
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS6;
 
 typedef 
-enum D3D12_MESH_SHADER_TIER
+ga_nanaa D3D12_MESH_SHADER_TIER
     {
         D3D12_MESH_SHADER_TIER_NOT_SUPPORTED	= 0,
         D3D12_MESH_SHADER_TIER_1	= 10
     } 	D3D12_MESH_SHADER_TIER;
 
 typedef 
-enum D3D12_SAMPLER_FEEDBACK_TIER
+ga_nanaa D3D12_SAMPLER_FEEDBACK_TIER
     {
         D3D12_SAMPLER_FEEDBACK_TIER_NOT_SUPPORTED	= 0,
         D3D12_SAMPLER_FEEDBACK_TIER_0_9	= 90,
         D3D12_SAMPLER_FEEDBACK_TIER_1_0	= 100
     } 	D3D12_SAMPLER_FEEDBACK_TIER;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS7
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS7
     {
     _Out_  D3D12_MESH_SHADER_TIER MeshShaderTier;
     _Out_  D3D12_SAMPLER_FEEDBACK_TIER SamplerFeedbackTier;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS7;
 
-typedef struct D3D12_FEATURE_DATA_QUERY_META_COMMAND
+typedef sa_nracanaa D3D12_FEATURE_DATA_QUERY_META_COMMAND
     {
     _In_  GUID CommandId;
     _In_  UINT NodeMask;
@@ -2751,19 +2751,19 @@ typedef struct D3D12_FEATURE_DATA_QUERY_META_COMMAND
     _In_  SIZE_T QueryOutputDataSizeInBytes;
     } 	D3D12_FEATURE_DATA_QUERY_META_COMMAND;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS8
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS8
     {
     _Out_  BOOL UnalignedBlockTexturesSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS8;
 
 typedef 
-enum D3D12_WAVE_MMA_TIER
+ga_nanaa D3D12_WAVE_MMA_TIER
     {
         D3D12_WAVE_MMA_TIER_NOT_SUPPORTED	= 0,
         D3D12_WAVE_MMA_TIER_1_0	= 10
     } 	D3D12_WAVE_MMA_TIER;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS9
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS9
     {
     _Out_  BOOL MeshShaderPipelineStatsSupported;
     _Out_  BOOL MeshShaderSupportsFullRangeRenderTargetArrayIndex;
@@ -2773,33 +2773,33 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS9
     _Out_  D3D12_WAVE_MMA_TIER WaveMMATier;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS9;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS10
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS10
     {
     _Out_  BOOL VariableRateShadingSumCombinerSupported;
     _Out_  BOOL MeshShaderPerPrimitiveShadingRateSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS10;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS11
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS11
     {
     _Out_  BOOL AtomicInt64OnDescriptorHeapResourceSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS11;
 
 typedef 
-enum D3D12_TRI_STATE
+ga_nanaa D3D12_TRI_STATE
     {
         D3D12_TRI_STATE_UNKNOWN	= -1,
         D3D12_TRI_STATE_FALSE	= 0,
         D3D12_TRI_STATE_TRUE	= 1
     } 	D3D12_TRI_STATE;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS12
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS12
     {
     _Out_  D3D12_TRI_STATE MSPrimitivesPipelineStatisticIncludesCulledPrimitives;
     _Out_  BOOL EnhancedBarriersSupported;
     _Out_  BOOL RelaxedFormatCastingSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS12;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS13
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS13
     {
     _Out_  BOOL UnrestrictedBufferTextureCopyPitchSupported;
     _Out_  BOOL UnrestrictedVertexElementAlignmentSupported;
@@ -2809,37 +2809,37 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS13
     _Out_  BOOL AlphaBlendFactorSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS13;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS14
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS14
     {
     _Out_  BOOL AdvancedTextureOpsSupported;
     _Out_  BOOL WriteableMSAATexturesSupported;
     _Out_  BOOL IndependentFrontAndBackStencilRefMaskSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS14;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS15
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS15
     {
     _Out_  BOOL TriangleFanSupported;
     _Out_  BOOL DynamicIndexBufferStripCutSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS15;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS16
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS16
     {
     _Out_  BOOL DynamicDepthBiasSupported;
     _Out_  BOOL GPUUploadHeapSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS16;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS17
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS17
     {
     _Out_  BOOL NonNormalizedCoordinateSamplersSupported;
     _Out_  BOOL ManualWriteTrackingResourceSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS17;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS18
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS18
     {
     _Out_  BOOL RenderPassesValid;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS18;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS19
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS19
     {
     BOOL MismatchingOutputDimensionsSupported;
     UINT SupportedSampleCountsWithNoOutputs;
@@ -2854,26 +2854,26 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS19
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS19;
 
 typedef 
-enum D3D12_RECREATE_AT_TIER
+ga_nanaa D3D12_RECREATE_AT_TIER
     {
         D3D12_RECREATE_AT_TIER_NOT_SUPPORTED	= 0,
         D3D12_RECREATE_AT_TIER_1	= 1
     } 	D3D12_RECREATE_AT_TIER;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS20
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS20
     {
     _Out_  BOOL ComputeOnlyWriteWatchSupported;
     D3D12_RECREATE_AT_TIER RecreateAtTier;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS20;
 
 typedef 
-enum D3D12_EXECUTE_INDIRECT_TIER
+ga_nanaa D3D12_EXECUTE_INDIRECT_TIER
     {
         D3D12_EXECUTE_INDIRECT_TIER_1_0	= 10,
         D3D12_EXECUTE_INDIRECT_TIER_1_1	= 11
     } 	D3D12_EXECUTE_INDIRECT_TIER;
 
-typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS21
+typedef sa_nracanaa D3D12_FEATURE_DATA_D3D12_OPTIONS21
     {
     _Out_  D3D12_WORK_GRAPHS_TIER WorkGraphsTier;
     _Out_  D3D12_EXECUTE_INDIRECT_TIER ExecuteIndirectTier;
@@ -2881,23 +2881,23 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS21
     _Out_  BOOL ExtendedCommandInfoSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS21;
 
-typedef struct D3D12_FEATURE_DATA_PREDICATION
+typedef sa_nracanaa D3D12_FEATURE_DATA_PREDICATION
     {
     _Out_  BOOL Supported;
     } 	D3D12_FEATURE_DATA_PREDICATION;
 
-typedef struct D3D12_FEATURE_DATA_HARDWARE_COPY
+typedef sa_nracanaa D3D12_FEATURE_DATA_HARDWARE_COPY
     {
     _Out_  BOOL Supported;
     } 	D3D12_FEATURE_DATA_HARDWARE_COPY;
 
-typedef struct D3D12_RESOURCE_ALLOCATION_INFO
+typedef sa_nracanaa D3D12_RESOURCE_ALLOCATION_INFO
     {
     UINT64 SizeInBytes;
     UINT64 Alignment;
     } 	D3D12_RESOURCE_ALLOCATION_INFO;
 
-typedef struct D3D12_RESOURCE_ALLOCATION_INFO1
+typedef sa_nracanaa D3D12_RESOURCE_ALLOCATION_INFO1
     {
     UINT64 Offset;
     UINT64 Alignment;
@@ -2905,7 +2905,7 @@ typedef struct D3D12_RESOURCE_ALLOCATION_INFO1
     } 	D3D12_RESOURCE_ALLOCATION_INFO1;
 
 typedef 
-enum D3D12_HEAP_TYPE
+ga_nanaa D3D12_HEAP_TYPE
     {
         D3D12_HEAP_TYPE_DEFAULT	= 1,
         D3D12_HEAP_TYPE_UPLOAD	= 2,
@@ -2915,7 +2915,7 @@ enum D3D12_HEAP_TYPE
     } 	D3D12_HEAP_TYPE;
 
 typedef 
-enum D3D12_CPU_PAGE_PROPERTY
+ga_nanaa D3D12_CPU_PAGE_PROPERTY
     {
         D3D12_CPU_PAGE_PROPERTY_UNKNOWN	= 0,
         D3D12_CPU_PAGE_PROPERTY_NOT_AVAILABLE	= 1,
@@ -2924,14 +2924,14 @@ enum D3D12_CPU_PAGE_PROPERTY
     } 	D3D12_CPU_PAGE_PROPERTY;
 
 typedef 
-enum D3D12_MEMORY_POOL
+ga_nanaa D3D12_MEMORY_POOL
     {
         D3D12_MEMORY_POOL_UNKNOWN	= 0,
         D3D12_MEMORY_POOL_L0	= 1,
         D3D12_MEMORY_POOL_L1	= 2
     } 	D3D12_MEMORY_POOL;
 
-typedef struct D3D12_HEAP_PROPERTIES
+typedef sa_nracanaa D3D12_HEAP_PROPERTIES
     {
     D3D12_HEAP_TYPE Type;
     D3D12_CPU_PAGE_PROPERTY CPUPageProperty;
@@ -2941,7 +2941,7 @@ typedef struct D3D12_HEAP_PROPERTIES
     } 	D3D12_HEAP_PROPERTIES;
 
 typedef 
-enum D3D12_HEAP_FLAGS
+ga_nanaa D3D12_HEAP_FLAGS
     {
         D3D12_HEAP_FLAG_NONE	= 0,
         D3D12_HEAP_FLAG_SHARED	= 0x1,
@@ -2963,7 +2963,7 @@ enum D3D12_HEAP_FLAGS
     } 	D3D12_HEAP_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_HEAP_FLAGS )
-typedef struct D3D12_HEAP_DESC
+typedef sa_nracanaa D3D12_HEAP_DESC
     {
     UINT64 SizeInBytes;
     D3D12_HEAP_PROPERTIES Properties;
@@ -2972,7 +2972,7 @@ typedef struct D3D12_HEAP_DESC
     } 	D3D12_HEAP_DESC;
 
 typedef 
-enum D3D12_RESOURCE_DIMENSION
+ga_nanaa D3D12_RESOURCE_DIMENSION
     {
         D3D12_RESOURCE_DIMENSION_UNKNOWN	= 0,
         D3D12_RESOURCE_DIMENSION_BUFFER	= 1,
@@ -2981,7 +2981,7 @@ enum D3D12_RESOURCE_DIMENSION
         D3D12_RESOURCE_DIMENSION_TEXTURE3D	= 4
     } 	D3D12_RESOURCE_DIMENSION;
 
-typedef struct D3D12_FEATURE_DATA_PLACED_RESOURCE_SUPPORT_INFO
+typedef sa_nracanaa D3D12_FEATURE_DATA_PLACED_RESOURCE_SUPPORT_INFO
     {
     _In_  DXGI_FORMAT Format;
     _In_  D3D12_RESOURCE_DIMENSION Dimension;
@@ -2990,7 +2990,7 @@ typedef struct D3D12_FEATURE_DATA_PLACED_RESOURCE_SUPPORT_INFO
     } 	D3D12_FEATURE_DATA_PLACED_RESOURCE_SUPPORT_INFO;
 
 typedef 
-enum D3D12_TEXTURE_LAYOUT
+ga_nanaa D3D12_TEXTURE_LAYOUT
     {
         D3D12_TEXTURE_LAYOUT_UNKNOWN	= 0,
         D3D12_TEXTURE_LAYOUT_ROW_MAJOR	= 1,
@@ -2999,7 +2999,7 @@ enum D3D12_TEXTURE_LAYOUT
     } 	D3D12_TEXTURE_LAYOUT;
 
 typedef 
-enum D3D12_RESOURCE_FLAGS
+ga_nanaa D3D12_RESOURCE_FLAGS
     {
         D3D12_RESOURCE_FLAG_NONE	= 0,
         D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET	= 0x1,
@@ -3014,14 +3014,14 @@ enum D3D12_RESOURCE_FLAGS
     } 	D3D12_RESOURCE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RESOURCE_FLAGS )
-typedef struct D3D12_MIP_REGION
+typedef sa_nracanaa D3D12_MIP_REGION
     {
     UINT Width;
     UINT Height;
     UINT Depth;
     } 	D3D12_MIP_REGION;
 
-typedef struct D3D12_RESOURCE_DESC
+typedef sa_nracanaa D3D12_RESOURCE_DESC
     {
     D3D12_RESOURCE_DIMENSION Dimension;
     UINT64 Alignment;
@@ -3035,7 +3035,7 @@ typedef struct D3D12_RESOURCE_DESC
     D3D12_RESOURCE_FLAGS Flags;
     } 	D3D12_RESOURCE_DESC;
 
-typedef struct D3D12_RESOURCE_DESC1
+typedef sa_nracanaa D3D12_RESOURCE_DESC1
     {
     D3D12_RESOURCE_DIMENSION Dimension;
     UINT64 Alignment;
@@ -3050,48 +3050,48 @@ typedef struct D3D12_RESOURCE_DESC1
     D3D12_MIP_REGION SamplerFeedbackMipRegion;
     } 	D3D12_RESOURCE_DESC1;
 
-typedef struct D3D12_DEPTH_STENCIL_VALUE
+typedef sa_nracanaa D3D12_DEPTH_STENCIL_VALUE
     {
     FLOAT Depth;
     UINT8 Stencil;
     } 	D3D12_DEPTH_STENCIL_VALUE;
 
-typedef struct D3D12_CLEAR_VALUE
+typedef sa_nracanaa D3D12_CLEAR_VALUE
     {
     DXGI_FORMAT Format;
-    union 
+    sa_ngha 
         {
         FLOAT Color[ 4 ];
         D3D12_DEPTH_STENCIL_VALUE DepthStencil;
         } 	;
     } 	D3D12_CLEAR_VALUE;
 
-typedef struct D3D12_RANGE
+typedef sa_nracanaa D3D12_RANGE
     {
     SIZE_T Begin;
     SIZE_T End;
     } 	D3D12_RANGE;
 
-typedef struct D3D12_RANGE_UINT64
+typedef sa_nracanaa D3D12_RANGE_UINT64
     {
     UINT64 Begin;
     UINT64 End;
     } 	D3D12_RANGE_UINT64;
 
-typedef struct D3D12_SUBRESOURCE_RANGE_UINT64
+typedef sa_nracanaa D3D12_SUBRESOURCE_RANGE_UINT64
     {
     UINT Subresource;
     D3D12_RANGE_UINT64 Range;
     } 	D3D12_SUBRESOURCE_RANGE_UINT64;
 
-typedef struct D3D12_SUBRESOURCE_INFO
+typedef sa_nracanaa D3D12_SUBRESOURCE_INFO
     {
     UINT64 Offset;
     UINT RowPitch;
     UINT DepthPitch;
     } 	D3D12_SUBRESOURCE_INFO;
 
-typedef struct D3D12_TILED_RESOURCE_COORDINATE
+typedef sa_nracanaa D3D12_TILED_RESOURCE_COORDINATE
     {
     UINT X;
     UINT Y;
@@ -3099,7 +3099,7 @@ typedef struct D3D12_TILED_RESOURCE_COORDINATE
     UINT Subresource;
     } 	D3D12_TILED_RESOURCE_COORDINATE;
 
-typedef struct D3D12_TILE_REGION_SIZE
+typedef sa_nracanaa D3D12_TILE_REGION_SIZE
     {
     UINT NumTiles;
     BOOL UseBox;
@@ -3109,7 +3109,7 @@ typedef struct D3D12_TILE_REGION_SIZE
     } 	D3D12_TILE_REGION_SIZE;
 
 typedef 
-enum D3D12_TILE_RANGE_FLAGS
+ga_nanaa D3D12_TILE_RANGE_FLAGS
     {
         D3D12_TILE_RANGE_FLAG_NONE	= 0,
         D3D12_TILE_RANGE_FLAG_NULL	= 1,
@@ -3117,7 +3117,7 @@ enum D3D12_TILE_RANGE_FLAGS
         D3D12_TILE_RANGE_FLAG_REUSE_SINGLE_TILE	= 4
     } 	D3D12_TILE_RANGE_FLAGS;
 
-typedef struct D3D12_SUBRESOURCE_TILING
+typedef sa_nracanaa D3D12_SUBRESOURCE_TILING
     {
     UINT WidthInTiles;
     UINT16 HeightInTiles;
@@ -3125,14 +3125,14 @@ typedef struct D3D12_SUBRESOURCE_TILING
     UINT StartTileIndexInOverallResource;
     } 	D3D12_SUBRESOURCE_TILING;
 
-typedef struct D3D12_TILE_SHAPE
+typedef sa_nracanaa D3D12_TILE_SHAPE
     {
     UINT WidthInTexels;
     UINT HeightInTexels;
     UINT DepthInTexels;
     } 	D3D12_TILE_SHAPE;
 
-typedef struct D3D12_PACKED_MIP_INFO
+typedef sa_nracanaa D3D12_PACKED_MIP_INFO
     {
     UINT8 NumStandardMips;
     UINT8 NumPackedMips;
@@ -3141,7 +3141,7 @@ typedef struct D3D12_PACKED_MIP_INFO
     } 	D3D12_PACKED_MIP_INFO;
 
 typedef 
-enum D3D12_TILE_MAPPING_FLAGS
+ga_nanaa D3D12_TILE_MAPPING_FLAGS
     {
         D3D12_TILE_MAPPING_FLAG_NONE	= 0,
         D3D12_TILE_MAPPING_FLAG_NO_HAZARD	= 0x1
@@ -3149,7 +3149,7 @@ enum D3D12_TILE_MAPPING_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_TILE_MAPPING_FLAGS )
 typedef 
-enum D3D12_TILE_COPY_FLAGS
+ga_nanaa D3D12_TILE_COPY_FLAGS
     {
         D3D12_TILE_COPY_FLAG_NONE	= 0,
         D3D12_TILE_COPY_FLAG_NO_HAZARD	= 0x1,
@@ -3159,7 +3159,7 @@ enum D3D12_TILE_COPY_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_TILE_COPY_FLAGS )
 typedef 
-enum D3D12_RESOURCE_STATES
+ga_nanaa D3D12_RESOURCE_STATES
     {
         D3D12_RESOURCE_STATE_COMMON	= 0,
         D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER	= 0x1,
@@ -3197,7 +3197,7 @@ enum D3D12_RESOURCE_STATES
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RESOURCE_STATES )
 typedef 
-enum D3D12_RESOURCE_BARRIER_TYPE
+ga_nanaa D3D12_RESOURCE_BARRIER_TYPE
     {
         D3D12_RESOURCE_BARRIER_TYPE_TRANSITION	= 0,
         D3D12_RESOURCE_BARRIER_TYPE_ALIASING	= ( D3D12_RESOURCE_BARRIER_TYPE_TRANSITION + 1 ) ,
@@ -3205,7 +3205,7 @@ enum D3D12_RESOURCE_BARRIER_TYPE
     } 	D3D12_RESOURCE_BARRIER_TYPE;
 
 
-typedef struct D3D12_RESOURCE_TRANSITION_BARRIER
+typedef sa_nracanaa D3D12_RESOURCE_TRANSITION_BARRIER
     {
     ID3D12Resource *pResource;
     UINT Subresource;
@@ -3213,19 +3213,19 @@ typedef struct D3D12_RESOURCE_TRANSITION_BARRIER
     D3D12_RESOURCE_STATES StateAfter;
     } 	D3D12_RESOURCE_TRANSITION_BARRIER;
 
-typedef struct D3D12_RESOURCE_ALIASING_BARRIER
+typedef sa_nracanaa D3D12_RESOURCE_ALIASING_BARRIER
     {
     ID3D12Resource *pResourceBefore;
     ID3D12Resource *pResourceAfter;
     } 	D3D12_RESOURCE_ALIASING_BARRIER;
 
-typedef struct D3D12_RESOURCE_UAV_BARRIER
+typedef sa_nracanaa D3D12_RESOURCE_UAV_BARRIER
     {
     ID3D12Resource *pResource;
     } 	D3D12_RESOURCE_UAV_BARRIER;
 
 typedef 
-enum D3D12_RESOURCE_BARRIER_FLAGS
+ga_nanaa D3D12_RESOURCE_BARRIER_FLAGS
     {
         D3D12_RESOURCE_BARRIER_FLAG_NONE	= 0,
         D3D12_RESOURCE_BARRIER_FLAG_BEGIN_ONLY	= 0x1,
@@ -3233,11 +3233,11 @@ enum D3D12_RESOURCE_BARRIER_FLAGS
     } 	D3D12_RESOURCE_BARRIER_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RESOURCE_BARRIER_FLAGS )
-typedef struct D3D12_RESOURCE_BARRIER
+typedef sa_nracanaa D3D12_RESOURCE_BARRIER
     {
     D3D12_RESOURCE_BARRIER_TYPE Type;
     D3D12_RESOURCE_BARRIER_FLAGS Flags;
-    union 
+    sa_ngha 
         {
         D3D12_RESOURCE_TRANSITION_BARRIER Transition;
         D3D12_RESOURCE_ALIASING_BARRIER Aliasing;
@@ -3245,7 +3245,7 @@ typedef struct D3D12_RESOURCE_BARRIER
         } 	;
     } 	D3D12_RESOURCE_BARRIER;
 
-typedef struct D3D12_SUBRESOURCE_FOOTPRINT
+typedef sa_nracanaa D3D12_SUBRESOURCE_FOOTPRINT
     {
     DXGI_FORMAT Format;
     UINT Width;
@@ -3254,24 +3254,24 @@ typedef struct D3D12_SUBRESOURCE_FOOTPRINT
     UINT RowPitch;
     } 	D3D12_SUBRESOURCE_FOOTPRINT;
 
-typedef struct D3D12_PLACED_SUBRESOURCE_FOOTPRINT
+typedef sa_nracanaa D3D12_PLACED_SUBRESOURCE_FOOTPRINT
     {
     UINT64 Offset;
     D3D12_SUBRESOURCE_FOOTPRINT Footprint;
     } 	D3D12_PLACED_SUBRESOURCE_FOOTPRINT;
 
 typedef 
-enum D3D12_TEXTURE_COPY_TYPE
+ga_nanaa D3D12_TEXTURE_COPY_TYPE
     {
         D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX	= 0,
         D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT	= 1
     } 	D3D12_TEXTURE_COPY_TYPE;
 
-typedef struct D3D12_TEXTURE_COPY_LOCATION
+typedef sa_nracanaa D3D12_TEXTURE_COPY_LOCATION
     {
     ID3D12Resource *pResource;
     D3D12_TEXTURE_COPY_TYPE Type;
-    union 
+    sa_ngha 
         {
         D3D12_PLACED_SUBRESOURCE_FOOTPRINT PlacedFootprint;
         UINT SubresourceIndex;
@@ -3279,7 +3279,7 @@ typedef struct D3D12_TEXTURE_COPY_LOCATION
     } 	D3D12_TEXTURE_COPY_LOCATION;
 
 typedef 
-enum D3D12_RESOLVE_MODE
+ga_nanaa D3D12_RESOLVE_MODE
     {
         D3D12_RESOLVE_MODE_DECOMPRESS	= 0,
         D3D12_RESOLVE_MODE_MIN	= 1,
@@ -3289,27 +3289,27 @@ enum D3D12_RESOLVE_MODE
         D3D12_RESOLVE_MODE_DECODE_SAMPLER_FEEDBACK	= 5
     } 	D3D12_RESOLVE_MODE;
 
-typedef struct D3D12_SAMPLE_POSITION
+typedef sa_nracanaa D3D12_SAMPLE_POSITION
     {
     INT8 X;
     INT8 Y;
     } 	D3D12_SAMPLE_POSITION;
 
-typedef struct D3D12_VIEW_INSTANCE_LOCATION
+typedef sa_nracanaa D3D12_VIEW_INSTANCE_LOCATION
     {
     UINT ViewportArrayIndex;
     UINT RenderTargetArrayIndex;
     } 	D3D12_VIEW_INSTANCE_LOCATION;
 
 typedef 
-enum D3D12_VIEW_INSTANCING_FLAGS
+ga_nanaa D3D12_VIEW_INSTANCING_FLAGS
     {
         D3D12_VIEW_INSTANCING_FLAG_NONE	= 0,
         D3D12_VIEW_INSTANCING_FLAG_ENABLE_VIEW_INSTANCE_MASKING	= 0x1
     } 	D3D12_VIEW_INSTANCING_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_VIEW_INSTANCING_FLAGS )
-typedef struct D3D12_VIEW_INSTANCING_DESC
+typedef sa_nracanaa D3D12_VIEW_INSTANCING_DESC
     {
     UINT ViewInstanceCount;
     _Field_size_full_(ViewInstanceCount)  const D3D12_VIEW_INSTANCE_LOCATION *pViewInstanceLocations;
@@ -3317,7 +3317,7 @@ typedef struct D3D12_VIEW_INSTANCING_DESC
     } 	D3D12_VIEW_INSTANCING_DESC;
 
 typedef 
-enum D3D12_SHADER_COMPONENT_MAPPING
+ga_nanaa D3D12_SHADER_COMPONENT_MAPPING
     {
         D3D12_SHADER_COMPONENT_MAPPING_FROM_MEMORY_COMPONENT_0	= 0,
         D3D12_SHADER_COMPONENT_MAPPING_FROM_MEMORY_COMPONENT_1	= 1,
@@ -3338,14 +3338,14 @@ enum D3D12_SHADER_COMPONENT_MAPPING
 #define D3D12_DECODE_SHADER_4_COMPONENT_MAPPING(ComponentToExtract,Mapping) ((D3D12_SHADER_COMPONENT_MAPPING)(Mapping >> (D3D12_SHADER_COMPONENT_MAPPING_SHIFT*ComponentToExtract) & D3D12_SHADER_COMPONENT_MAPPING_MASK))
 #define D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING(0,1,2,3) 
 typedef 
-enum D3D12_BUFFER_SRV_FLAGS
+ga_nanaa D3D12_BUFFER_SRV_FLAGS
     {
         D3D12_BUFFER_SRV_FLAG_NONE	= 0,
         D3D12_BUFFER_SRV_FLAG_RAW	= 0x1
     } 	D3D12_BUFFER_SRV_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_BUFFER_SRV_FLAGS )
-typedef struct D3D12_BUFFER_SRV
+typedef sa_nracanaa D3D12_BUFFER_SRV
     {
     UINT64 FirstElement;
     UINT NumElements;
@@ -3353,14 +3353,14 @@ typedef struct D3D12_BUFFER_SRV
     D3D12_BUFFER_SRV_FLAGS Flags;
     } 	D3D12_BUFFER_SRV;
 
-typedef struct D3D12_TEX1D_SRV
+typedef sa_nracanaa D3D12_TEX1D_SRV
     {
     UINT MostDetailedMip;
     UINT MipLevels;
     FLOAT ResourceMinLODClamp;
     } 	D3D12_TEX1D_SRV;
 
-typedef struct D3D12_TEX1D_ARRAY_SRV
+typedef sa_nracanaa D3D12_TEX1D_ARRAY_SRV
     {
     UINT MostDetailedMip;
     UINT MipLevels;
@@ -3369,7 +3369,7 @@ typedef struct D3D12_TEX1D_ARRAY_SRV
     FLOAT ResourceMinLODClamp;
     } 	D3D12_TEX1D_ARRAY_SRV;
 
-typedef struct D3D12_TEX2D_SRV
+typedef sa_nracanaa D3D12_TEX2D_SRV
     {
     UINT MostDetailedMip;
     UINT MipLevels;
@@ -3377,7 +3377,7 @@ typedef struct D3D12_TEX2D_SRV
     FLOAT ResourceMinLODClamp;
     } 	D3D12_TEX2D_SRV;
 
-typedef struct D3D12_TEX2D_ARRAY_SRV
+typedef sa_nracanaa D3D12_TEX2D_ARRAY_SRV
     {
     UINT MostDetailedMip;
     UINT MipLevels;
@@ -3387,21 +3387,21 @@ typedef struct D3D12_TEX2D_ARRAY_SRV
     FLOAT ResourceMinLODClamp;
     } 	D3D12_TEX2D_ARRAY_SRV;
 
-typedef struct D3D12_TEX3D_SRV
+typedef sa_nracanaa D3D12_TEX3D_SRV
     {
     UINT MostDetailedMip;
     UINT MipLevels;
     FLOAT ResourceMinLODClamp;
     } 	D3D12_TEX3D_SRV;
 
-typedef struct D3D12_TEXCUBE_SRV
+typedef sa_nracanaa D3D12_TEXCUBE_SRV
     {
     UINT MostDetailedMip;
     UINT MipLevels;
     FLOAT ResourceMinLODClamp;
     } 	D3D12_TEXCUBE_SRV;
 
-typedef struct D3D12_TEXCUBE_ARRAY_SRV
+typedef sa_nracanaa D3D12_TEXCUBE_ARRAY_SRV
     {
     UINT MostDetailedMip;
     UINT MipLevels;
@@ -3410,24 +3410,24 @@ typedef struct D3D12_TEXCUBE_ARRAY_SRV
     FLOAT ResourceMinLODClamp;
     } 	D3D12_TEXCUBE_ARRAY_SRV;
 
-typedef struct D3D12_TEX2DMS_SRV
+typedef sa_nracanaa D3D12_TEX2DMS_SRV
     {
     UINT UnusedField_NothingToDefine;
     } 	D3D12_TEX2DMS_SRV;
 
-typedef struct D3D12_TEX2DMS_ARRAY_SRV
+typedef sa_nracanaa D3D12_TEX2DMS_ARRAY_SRV
     {
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX2DMS_ARRAY_SRV;
 
-typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_SRV
+typedef sa_nracanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_SRV
     {
     D3D12_GPU_VIRTUAL_ADDRESS Location;
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_SRV;
 
 typedef 
-enum D3D12_SRV_DIMENSION
+ga_nanaa D3D12_SRV_DIMENSION
     {
         D3D12_SRV_DIMENSION_UNKNOWN	= 0,
         D3D12_SRV_DIMENSION_BUFFER	= 1,
@@ -3443,12 +3443,12 @@ enum D3D12_SRV_DIMENSION
         D3D12_SRV_DIMENSION_RAYTRACING_ACCELERATION_STRUCTURE	= 11
     } 	D3D12_SRV_DIMENSION;
 
-typedef struct D3D12_SHADER_RESOURCE_VIEW_DESC
+typedef sa_nracanaa D3D12_SHADER_RESOURCE_VIEW_DESC
     {
     DXGI_FORMAT Format;
     D3D12_SRV_DIMENSION ViewDimension;
     UINT Shader4ComponentMapping;
-    union 
+    sa_ngha 
         {
         D3D12_BUFFER_SRV Buffer;
         D3D12_TEX1D_SRV Texture1D;
@@ -3464,14 +3464,14 @@ typedef struct D3D12_SHADER_RESOURCE_VIEW_DESC
         } 	;
     } 	D3D12_SHADER_RESOURCE_VIEW_DESC;
 
-typedef struct D3D12_CONSTANT_BUFFER_VIEW_DESC
+typedef sa_nracanaa D3D12_CONSTANT_BUFFER_VIEW_DESC
     {
     D3D12_GPU_VIRTUAL_ADDRESS BufferLocation;
     UINT SizeInBytes;
     } 	D3D12_CONSTANT_BUFFER_VIEW_DESC;
 
 typedef 
-enum D3D12_FILTER
+ga_nanaa D3D12_FILTER
     {
         D3D12_FILTER_MIN_MAG_MIP_POINT	= 0,
         D3D12_FILTER_MIN_MAG_POINT_MIP_LINEAR	= 0x1,
@@ -3516,14 +3516,14 @@ enum D3D12_FILTER
     } 	D3D12_FILTER;
 
 typedef 
-enum D3D12_FILTER_TYPE
+ga_nanaa D3D12_FILTER_TYPE
     {
         D3D12_FILTER_TYPE_POINT	= 0,
         D3D12_FILTER_TYPE_LINEAR	= 1
     } 	D3D12_FILTER_TYPE;
 
 typedef 
-enum D3D12_FILTER_REDUCTION_TYPE
+ga_nanaa D3D12_FILTER_REDUCTION_TYPE
     {
         D3D12_FILTER_REDUCTION_TYPE_STANDARD	= 0,
         D3D12_FILTER_REDUCTION_TYPE_COMPARISON	= 1,
@@ -3584,7 +3584,7 @@ enum D3D12_FILTER_REDUCTION_TYPE
                             ( D3D12_FILTER_TYPE_LINEAR == D3D12_DECODE_MIN_FILTER( D3D12Filter ) ) &&   \
                             ( D3D12_FILTER_TYPE_LINEAR == D3D12_DECODE_MAG_FILTER( D3D12Filter ) ) )      
 typedef 
-enum D3D12_TEXTURE_ADDRESS_MODE
+ga_nanaa D3D12_TEXTURE_ADDRESS_MODE
     {
         D3D12_TEXTURE_ADDRESS_MODE_WRAP	= 1,
         D3D12_TEXTURE_ADDRESS_MODE_MIRROR	= 2,
@@ -3593,7 +3593,7 @@ enum D3D12_TEXTURE_ADDRESS_MODE
         D3D12_TEXTURE_ADDRESS_MODE_MIRROR_ONCE	= 5
     } 	D3D12_TEXTURE_ADDRESS_MODE;
 
-typedef struct D3D12_SAMPLER_DESC
+typedef sa_nracanaa D3D12_SAMPLER_DESC
     {
     D3D12_FILTER Filter;
     D3D12_TEXTURE_ADDRESS_MODE AddressU;
@@ -3608,7 +3608,7 @@ typedef struct D3D12_SAMPLER_DESC
     } 	D3D12_SAMPLER_DESC;
 
 typedef 
-enum D3D12_SAMPLER_FLAGS
+ga_nanaa D3D12_SAMPLER_FLAGS
     {
         D3D12_SAMPLER_FLAG_NONE	= 0,
         D3D12_SAMPLER_FLAG_UINT_BORDER_COLOR	= 0x1,
@@ -3616,7 +3616,7 @@ enum D3D12_SAMPLER_FLAGS
     } 	D3D12_SAMPLER_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_SAMPLER_FLAGS )
-typedef struct D3D12_SAMPLER_DESC2
+typedef sa_nracanaa D3D12_SAMPLER_DESC2
     {
     D3D12_FILTER Filter;
     D3D12_TEXTURE_ADDRESS_MODE AddressU;
@@ -3625,7 +3625,7 @@ typedef struct D3D12_SAMPLER_DESC2
     FLOAT MipLODBias;
     UINT MaxAnisotropy;
     D3D12_COMPARISON_FUNC ComparisonFunc;
-    union 
+    sa_ngha 
         {
         FLOAT FloatBorderColor[ 4 ];
         UINT UintBorderColor[ 4 ];
@@ -3636,14 +3636,14 @@ typedef struct D3D12_SAMPLER_DESC2
     } 	D3D12_SAMPLER_DESC2;
 
 typedef 
-enum D3D12_BUFFER_UAV_FLAGS
+ga_nanaa D3D12_BUFFER_UAV_FLAGS
     {
         D3D12_BUFFER_UAV_FLAG_NONE	= 0,
         D3D12_BUFFER_UAV_FLAG_RAW	= 0x1
     } 	D3D12_BUFFER_UAV_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_BUFFER_UAV_FLAGS )
-typedef struct D3D12_BUFFER_UAV
+typedef sa_nracanaa D3D12_BUFFER_UAV
     {
     UINT64 FirstElement;
     UINT NumElements;
@@ -3652,25 +3652,25 @@ typedef struct D3D12_BUFFER_UAV
     D3D12_BUFFER_UAV_FLAGS Flags;
     } 	D3D12_BUFFER_UAV;
 
-typedef struct D3D12_TEX1D_UAV
+typedef sa_nracanaa D3D12_TEX1D_UAV
     {
     UINT MipSlice;
     } 	D3D12_TEX1D_UAV;
 
-typedef struct D3D12_TEX1D_ARRAY_UAV
+typedef sa_nracanaa D3D12_TEX1D_ARRAY_UAV
     {
     UINT MipSlice;
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX1D_ARRAY_UAV;
 
-typedef struct D3D12_TEX2D_UAV
+typedef sa_nracanaa D3D12_TEX2D_UAV
     {
     UINT MipSlice;
     UINT PlaneSlice;
     } 	D3D12_TEX2D_UAV;
 
-typedef struct D3D12_TEX2D_ARRAY_UAV
+typedef sa_nracanaa D3D12_TEX2D_ARRAY_UAV
     {
     UINT MipSlice;
     UINT FirstArraySlice;
@@ -3678,18 +3678,18 @@ typedef struct D3D12_TEX2D_ARRAY_UAV
     UINT PlaneSlice;
     } 	D3D12_TEX2D_ARRAY_UAV;
 
-typedef struct D3D12_TEX2DMS_UAV
+typedef sa_nracanaa D3D12_TEX2DMS_UAV
     {
     UINT UnusedField_NothingToDefine;
     } 	D3D12_TEX2DMS_UAV;
 
-typedef struct D3D12_TEX2DMS_ARRAY_UAV
+typedef sa_nracanaa D3D12_TEX2DMS_ARRAY_UAV
     {
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX2DMS_ARRAY_UAV;
 
-typedef struct D3D12_TEX3D_UAV
+typedef sa_nracanaa D3D12_TEX3D_UAV
     {
     UINT MipSlice;
     UINT FirstWSlice;
@@ -3697,7 +3697,7 @@ typedef struct D3D12_TEX3D_UAV
     } 	D3D12_TEX3D_UAV;
 
 typedef 
-enum D3D12_UAV_DIMENSION
+ga_nanaa D3D12_UAV_DIMENSION
     {
         D3D12_UAV_DIMENSION_UNKNOWN	= 0,
         D3D12_UAV_DIMENSION_BUFFER	= 1,
@@ -3710,11 +3710,11 @@ enum D3D12_UAV_DIMENSION
         D3D12_UAV_DIMENSION_TEXTURE3D	= 8
     } 	D3D12_UAV_DIMENSION;
 
-typedef struct D3D12_UNORDERED_ACCESS_VIEW_DESC
+typedef sa_nracanaa D3D12_UNORDERED_ACCESS_VIEW_DESC
     {
     DXGI_FORMAT Format;
     D3D12_UAV_DIMENSION ViewDimension;
-    union 
+    sa_ngha 
         {
         D3D12_BUFFER_UAV Buffer;
         D3D12_TEX1D_UAV Texture1D;
@@ -3727,36 +3727,36 @@ typedef struct D3D12_UNORDERED_ACCESS_VIEW_DESC
         } 	;
     } 	D3D12_UNORDERED_ACCESS_VIEW_DESC;
 
-typedef struct D3D12_BUFFER_RTV
+typedef sa_nracanaa D3D12_BUFFER_RTV
     {
     UINT64 FirstElement;
     UINT NumElements;
     } 	D3D12_BUFFER_RTV;
 
-typedef struct D3D12_TEX1D_RTV
+typedef sa_nracanaa D3D12_TEX1D_RTV
     {
     UINT MipSlice;
     } 	D3D12_TEX1D_RTV;
 
-typedef struct D3D12_TEX1D_ARRAY_RTV
+typedef sa_nracanaa D3D12_TEX1D_ARRAY_RTV
     {
     UINT MipSlice;
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX1D_ARRAY_RTV;
 
-typedef struct D3D12_TEX2D_RTV
+typedef sa_nracanaa D3D12_TEX2D_RTV
     {
     UINT MipSlice;
     UINT PlaneSlice;
     } 	D3D12_TEX2D_RTV;
 
-typedef struct D3D12_TEX2DMS_RTV
+typedef sa_nracanaa D3D12_TEX2DMS_RTV
     {
     UINT UnusedField_NothingToDefine;
     } 	D3D12_TEX2DMS_RTV;
 
-typedef struct D3D12_TEX2D_ARRAY_RTV
+typedef sa_nracanaa D3D12_TEX2D_ARRAY_RTV
     {
     UINT MipSlice;
     UINT FirstArraySlice;
@@ -3764,13 +3764,13 @@ typedef struct D3D12_TEX2D_ARRAY_RTV
     UINT PlaneSlice;
     } 	D3D12_TEX2D_ARRAY_RTV;
 
-typedef struct D3D12_TEX2DMS_ARRAY_RTV
+typedef sa_nracanaa D3D12_TEX2DMS_ARRAY_RTV
     {
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX2DMS_ARRAY_RTV;
 
-typedef struct D3D12_TEX3D_RTV
+typedef sa_nracanaa D3D12_TEX3D_RTV
     {
     UINT MipSlice;
     UINT FirstWSlice;
@@ -3778,7 +3778,7 @@ typedef struct D3D12_TEX3D_RTV
     } 	D3D12_TEX3D_RTV;
 
 typedef 
-enum D3D12_RTV_DIMENSION
+ga_nanaa D3D12_RTV_DIMENSION
     {
         D3D12_RTV_DIMENSION_UNKNOWN	= 0,
         D3D12_RTV_DIMENSION_BUFFER	= 1,
@@ -3791,11 +3791,11 @@ enum D3D12_RTV_DIMENSION
         D3D12_RTV_DIMENSION_TEXTURE3D	= 8
     } 	D3D12_RTV_DIMENSION;
 
-typedef struct D3D12_RENDER_TARGET_VIEW_DESC
+typedef sa_nracanaa D3D12_RENDER_TARGET_VIEW_DESC
     {
     DXGI_FORMAT Format;
     D3D12_RTV_DIMENSION ViewDimension;
-    union 
+    sa_ngha 
         {
         D3D12_BUFFER_RTV Buffer;
         D3D12_TEX1D_RTV Texture1D;
@@ -3808,43 +3808,43 @@ typedef struct D3D12_RENDER_TARGET_VIEW_DESC
         } 	;
     } 	D3D12_RENDER_TARGET_VIEW_DESC;
 
-typedef struct D3D12_TEX1D_DSV
+typedef sa_nracanaa D3D12_TEX1D_DSV
     {
     UINT MipSlice;
     } 	D3D12_TEX1D_DSV;
 
-typedef struct D3D12_TEX1D_ARRAY_DSV
+typedef sa_nracanaa D3D12_TEX1D_ARRAY_DSV
     {
     UINT MipSlice;
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX1D_ARRAY_DSV;
 
-typedef struct D3D12_TEX2D_DSV
+typedef sa_nracanaa D3D12_TEX2D_DSV
     {
     UINT MipSlice;
     } 	D3D12_TEX2D_DSV;
 
-typedef struct D3D12_TEX2D_ARRAY_DSV
+typedef sa_nracanaa D3D12_TEX2D_ARRAY_DSV
     {
     UINT MipSlice;
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX2D_ARRAY_DSV;
 
-typedef struct D3D12_TEX2DMS_DSV
+typedef sa_nracanaa D3D12_TEX2DMS_DSV
     {
     UINT UnusedField_NothingToDefine;
     } 	D3D12_TEX2DMS_DSV;
 
-typedef struct D3D12_TEX2DMS_ARRAY_DSV
+typedef sa_nracanaa D3D12_TEX2DMS_ARRAY_DSV
     {
     UINT FirstArraySlice;
     UINT ArraySize;
     } 	D3D12_TEX2DMS_ARRAY_DSV;
 
 typedef 
-enum D3D12_DSV_FLAGS
+ga_nanaa D3D12_DSV_FLAGS
     {
         D3D12_DSV_FLAG_NONE	= 0,
         D3D12_DSV_FLAG_READ_ONLY_DEPTH	= 0x1,
@@ -3853,7 +3853,7 @@ enum D3D12_DSV_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_DSV_FLAGS )
 typedef 
-enum D3D12_DSV_DIMENSION
+ga_nanaa D3D12_DSV_DIMENSION
     {
         D3D12_DSV_DIMENSION_UNKNOWN	= 0,
         D3D12_DSV_DIMENSION_TEXTURE1D	= 1,
@@ -3864,12 +3864,12 @@ enum D3D12_DSV_DIMENSION
         D3D12_DSV_DIMENSION_TEXTURE2DMSARRAY	= 6
     } 	D3D12_DSV_DIMENSION;
 
-typedef struct D3D12_DEPTH_STENCIL_VIEW_DESC
+typedef sa_nracanaa D3D12_DEPTH_STENCIL_VIEW_DESC
     {
     DXGI_FORMAT Format;
     D3D12_DSV_DIMENSION ViewDimension;
     D3D12_DSV_FLAGS Flags;
-    union 
+    sa_ngha 
         {
         D3D12_TEX1D_DSV Texture1D;
         D3D12_TEX1D_ARRAY_DSV Texture1DArray;
@@ -3881,7 +3881,7 @@ typedef struct D3D12_DEPTH_STENCIL_VIEW_DESC
     } 	D3D12_DEPTH_STENCIL_VIEW_DESC;
 
 typedef 
-enum D3D12_CLEAR_FLAGS
+ga_nanaa D3D12_CLEAR_FLAGS
     {
         D3D12_CLEAR_FLAG_DEPTH	= 0x1,
         D3D12_CLEAR_FLAG_STENCIL	= 0x2
@@ -3889,7 +3889,7 @@ enum D3D12_CLEAR_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_CLEAR_FLAGS )
 typedef 
-enum D3D12_FENCE_FLAGS
+ga_nanaa D3D12_FENCE_FLAGS
     {
         D3D12_FENCE_FLAG_NONE	= 0,
         D3D12_FENCE_FLAG_SHARED	= 0x1,
@@ -3899,7 +3899,7 @@ enum D3D12_FENCE_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_FENCE_FLAGS )
 typedef 
-enum D3D12_DESCRIPTOR_HEAP_TYPE
+ga_nanaa D3D12_DESCRIPTOR_HEAP_TYPE
     {
         D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV	= 0,
         D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER	= ( D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV + 1 ) ,
@@ -3909,14 +3909,14 @@ enum D3D12_DESCRIPTOR_HEAP_TYPE
     } 	D3D12_DESCRIPTOR_HEAP_TYPE;
 
 typedef 
-enum D3D12_DESCRIPTOR_HEAP_FLAGS
+ga_nanaa D3D12_DESCRIPTOR_HEAP_FLAGS
     {
         D3D12_DESCRIPTOR_HEAP_FLAG_NONE	= 0,
         D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE	= 0x1
     } 	D3D12_DESCRIPTOR_HEAP_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_DESCRIPTOR_HEAP_FLAGS )
-typedef struct D3D12_DESCRIPTOR_HEAP_DESC
+typedef sa_nracanaa D3D12_DESCRIPTOR_HEAP_DESC
     {
     D3D12_DESCRIPTOR_HEAP_TYPE Type;
     UINT NumDescriptors;
@@ -3925,7 +3925,7 @@ typedef struct D3D12_DESCRIPTOR_HEAP_DESC
     } 	D3D12_DESCRIPTOR_HEAP_DESC;
 
 typedef 
-enum D3D12_DESCRIPTOR_RANGE_TYPE
+ga_nanaa D3D12_DESCRIPTOR_RANGE_TYPE
     {
         D3D12_DESCRIPTOR_RANGE_TYPE_SRV	= 0,
         D3D12_DESCRIPTOR_RANGE_TYPE_UAV	= ( D3D12_DESCRIPTOR_RANGE_TYPE_SRV + 1 ) ,
@@ -3933,7 +3933,7 @@ enum D3D12_DESCRIPTOR_RANGE_TYPE
         D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER	= ( D3D12_DESCRIPTOR_RANGE_TYPE_CBV + 1 ) 
     } 	D3D12_DESCRIPTOR_RANGE_TYPE;
 
-typedef struct D3D12_DESCRIPTOR_RANGE
+typedef sa_nracanaa D3D12_DESCRIPTOR_RANGE
     {
     D3D12_DESCRIPTOR_RANGE_TYPE RangeType;
     UINT NumDescriptors;
@@ -3942,27 +3942,27 @@ typedef struct D3D12_DESCRIPTOR_RANGE
     UINT OffsetInDescriptorsFromTableStart;
     } 	D3D12_DESCRIPTOR_RANGE;
 
-typedef struct D3D12_ROOT_DESCRIPTOR_TABLE
+typedef sa_nracanaa D3D12_ROOT_DESCRIPTOR_TABLE
     {
     UINT NumDescriptorRanges;
     _Field_size_full_(NumDescriptorRanges)  const D3D12_DESCRIPTOR_RANGE *pDescriptorRanges;
     } 	D3D12_ROOT_DESCRIPTOR_TABLE;
 
-typedef struct D3D12_ROOT_CONSTANTS
+typedef sa_nracanaa D3D12_ROOT_CONSTANTS
     {
     UINT ShaderRegister;
     UINT RegisterSpace;
     UINT Num32BitValues;
     } 	D3D12_ROOT_CONSTANTS;
 
-typedef struct D3D12_ROOT_DESCRIPTOR
+typedef sa_nracanaa D3D12_ROOT_DESCRIPTOR
     {
     UINT ShaderRegister;
     UINT RegisterSpace;
     } 	D3D12_ROOT_DESCRIPTOR;
 
 typedef 
-enum D3D12_SHADER_VISIBILITY
+ga_nanaa D3D12_SHADER_VISIBILITY
     {
         D3D12_SHADER_VISIBILITY_ALL	= 0,
         D3D12_SHADER_VISIBILITY_VERTEX	= 1,
@@ -3975,7 +3975,7 @@ enum D3D12_SHADER_VISIBILITY
     } 	D3D12_SHADER_VISIBILITY;
 
 typedef 
-enum D3D12_ROOT_PARAMETER_TYPE
+ga_nanaa D3D12_ROOT_PARAMETER_TYPE
     {
         D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE	= 0,
         D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS	= ( D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE + 1 ) ,
@@ -3984,10 +3984,10 @@ enum D3D12_ROOT_PARAMETER_TYPE
         D3D12_ROOT_PARAMETER_TYPE_UAV	= ( D3D12_ROOT_PARAMETER_TYPE_SRV + 1 ) 
     } 	D3D12_ROOT_PARAMETER_TYPE;
 
-typedef struct D3D12_ROOT_PARAMETER
+typedef sa_nracanaa D3D12_ROOT_PARAMETER
     {
     D3D12_ROOT_PARAMETER_TYPE ParameterType;
-    union 
+    sa_ngha 
         {
         D3D12_ROOT_DESCRIPTOR_TABLE DescriptorTable;
         D3D12_ROOT_CONSTANTS Constants;
@@ -3997,7 +3997,7 @@ typedef struct D3D12_ROOT_PARAMETER
     } 	D3D12_ROOT_PARAMETER;
 
 typedef 
-enum D3D12_ROOT_SIGNATURE_FLAGS
+ga_nanaa D3D12_ROOT_SIGNATURE_FLAGS
     {
         D3D12_ROOT_SIGNATURE_FLAG_NONE	= 0,
         D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT	= 0x1,
@@ -4016,7 +4016,7 @@ enum D3D12_ROOT_SIGNATURE_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_ROOT_SIGNATURE_FLAGS )
 typedef 
-enum D3D12_STATIC_BORDER_COLOR
+ga_nanaa D3D12_STATIC_BORDER_COLOR
     {
         D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK	= 0,
         D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK	= ( D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK + 1 ) ,
@@ -4025,7 +4025,7 @@ enum D3D12_STATIC_BORDER_COLOR
         D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE_UINT	= ( D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK_UINT + 1 ) 
     } 	D3D12_STATIC_BORDER_COLOR;
 
-typedef struct D3D12_STATIC_SAMPLER_DESC
+typedef sa_nracanaa D3D12_STATIC_SAMPLER_DESC
     {
     D3D12_FILTER Filter;
     D3D12_TEXTURE_ADDRESS_MODE AddressU;
@@ -4042,7 +4042,7 @@ typedef struct D3D12_STATIC_SAMPLER_DESC
     D3D12_SHADER_VISIBILITY ShaderVisibility;
     } 	D3D12_STATIC_SAMPLER_DESC;
 
-typedef struct D3D12_STATIC_SAMPLER_DESC1
+typedef sa_nracanaa D3D12_STATIC_SAMPLER_DESC1
     {
     D3D12_FILTER Filter;
     D3D12_TEXTURE_ADDRESS_MODE AddressU;
@@ -4060,7 +4060,7 @@ typedef struct D3D12_STATIC_SAMPLER_DESC1
     D3D12_SAMPLER_FLAGS Flags;
     } 	D3D12_STATIC_SAMPLER_DESC1;
 
-typedef struct D3D12_ROOT_SIGNATURE_DESC
+typedef sa_nracanaa D3D12_ROOT_SIGNATURE_DESC
     {
     UINT NumParameters;
     _Field_size_full_(NumParameters)  const D3D12_ROOT_PARAMETER *pParameters;
@@ -4070,7 +4070,7 @@ typedef struct D3D12_ROOT_SIGNATURE_DESC
     } 	D3D12_ROOT_SIGNATURE_DESC;
 
 typedef 
-enum D3D12_DESCRIPTOR_RANGE_FLAGS
+ga_nanaa D3D12_DESCRIPTOR_RANGE_FLAGS
     {
         D3D12_DESCRIPTOR_RANGE_FLAG_NONE	= 0,
         D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE	= 0x1,
@@ -4081,7 +4081,7 @@ enum D3D12_DESCRIPTOR_RANGE_FLAGS
     } 	D3D12_DESCRIPTOR_RANGE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_DESCRIPTOR_RANGE_FLAGS )
-typedef struct D3D12_DESCRIPTOR_RANGE1
+typedef sa_nracanaa D3D12_DESCRIPTOR_RANGE1
     {
     D3D12_DESCRIPTOR_RANGE_TYPE RangeType;
     UINT NumDescriptors;
@@ -4091,14 +4091,14 @@ typedef struct D3D12_DESCRIPTOR_RANGE1
     UINT OffsetInDescriptorsFromTableStart;
     } 	D3D12_DESCRIPTOR_RANGE1;
 
-typedef struct D3D12_ROOT_DESCRIPTOR_TABLE1
+typedef sa_nracanaa D3D12_ROOT_DESCRIPTOR_TABLE1
     {
     UINT NumDescriptorRanges;
     _Field_size_full_(NumDescriptorRanges)  const D3D12_DESCRIPTOR_RANGE1 *pDescriptorRanges;
     } 	D3D12_ROOT_DESCRIPTOR_TABLE1;
 
 typedef 
-enum D3D12_ROOT_DESCRIPTOR_FLAGS
+ga_nanaa D3D12_ROOT_DESCRIPTOR_FLAGS
     {
         D3D12_ROOT_DESCRIPTOR_FLAG_NONE	= 0,
         D3D12_ROOT_DESCRIPTOR_FLAG_DATA_VOLATILE	= 0x2,
@@ -4107,17 +4107,17 @@ enum D3D12_ROOT_DESCRIPTOR_FLAGS
     } 	D3D12_ROOT_DESCRIPTOR_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_ROOT_DESCRIPTOR_FLAGS )
-typedef struct D3D12_ROOT_DESCRIPTOR1
+typedef sa_nracanaa D3D12_ROOT_DESCRIPTOR1
     {
     UINT ShaderRegister;
     UINT RegisterSpace;
     D3D12_ROOT_DESCRIPTOR_FLAGS Flags;
     } 	D3D12_ROOT_DESCRIPTOR1;
 
-typedef struct D3D12_ROOT_PARAMETER1
+typedef sa_nracanaa D3D12_ROOT_PARAMETER1
     {
     D3D12_ROOT_PARAMETER_TYPE ParameterType;
-    union 
+    sa_ngha 
         {
         D3D12_ROOT_DESCRIPTOR_TABLE1 DescriptorTable;
         D3D12_ROOT_CONSTANTS Constants;
@@ -4126,7 +4126,7 @@ typedef struct D3D12_ROOT_PARAMETER1
     D3D12_SHADER_VISIBILITY ShaderVisibility;
     } 	D3D12_ROOT_PARAMETER1;
 
-typedef struct D3D12_ROOT_SIGNATURE_DESC1
+typedef sa_nracanaa D3D12_ROOT_SIGNATURE_DESC1
     {
     UINT NumParameters;
     _Field_size_full_(NumParameters)  const D3D12_ROOT_PARAMETER1 *pParameters;
@@ -4135,7 +4135,7 @@ typedef struct D3D12_ROOT_SIGNATURE_DESC1
     D3D12_ROOT_SIGNATURE_FLAGS Flags;
     } 	D3D12_ROOT_SIGNATURE_DESC1;
 
-typedef struct D3D12_ROOT_SIGNATURE_DESC2
+typedef sa_nracanaa D3D12_ROOT_SIGNATURE_DESC2
     {
     UINT NumParameters;
     _Field_size_full_(NumParameters)  const D3D12_ROOT_PARAMETER1 *pParameters;
@@ -4144,10 +4144,10 @@ typedef struct D3D12_ROOT_SIGNATURE_DESC2
     D3D12_ROOT_SIGNATURE_FLAGS Flags;
     } 	D3D12_ROOT_SIGNATURE_DESC2;
 
-typedef struct D3D12_VERSIONED_ROOT_SIGNATURE_DESC
+typedef sa_nracanaa D3D12_VERSIONED_ROOT_SIGNATURE_DESC
     {
     D3D_ROOT_SIGNATURE_VERSION Version;
-    union 
+    sa_ngha 
         {
         D3D12_ROOT_SIGNATURE_DESC Desc_1_0;
         D3D12_ROOT_SIGNATURE_DESC1 Desc_1_1;
@@ -4169,7 +4169,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0001_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12RootSignatureDeserializer;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("34AB647B-3CC8-46AC-841B-C0965645C046")
     ID3D12RootSignatureDeserializer : public IUnknown
@@ -4180,9 +4180,9 @@ EXTERN_C const IID IID_ID3D12RootSignatureDeserializer;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12RootSignatureDeserializerVtbl
+    typedef sa_nracanaa ID3D12RootSignatureDeserializerVtbl
     {
         BEGIN_INTERFACE
         
@@ -4209,7 +4209,7 @@ EXTERN_C const IID IID_ID3D12RootSignatureDeserializer;
 
     interface ID3D12RootSignatureDeserializer
     {
-        CONST_VTBL struct ID3D12RootSignatureDeserializerVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12RootSignatureDeserializerVtbl *lpVtbl;
     };
 
     
@@ -4250,7 +4250,7 @@ EXTERN_C const IID IID_ID3D12RootSignatureDeserializer;
 
 EXTERN_C const IID IID_ID3D12VersionedRootSignatureDeserializer;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7F91CE67-090C-4BB7-B78E-ED8FF2E31DA0")
     ID3D12VersionedRootSignatureDeserializer : public IUnknown
@@ -4265,9 +4265,9 @@ EXTERN_C const IID IID_ID3D12VersionedRootSignatureDeserializer;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12VersionedRootSignatureDeserializerVtbl
+    typedef sa_nracanaa ID3D12VersionedRootSignatureDeserializerVtbl
     {
         BEGIN_INTERFACE
         
@@ -4300,7 +4300,7 @@ EXTERN_C const IID IID_ID3D12VersionedRootSignatureDeserializer;
 
     interface ID3D12VersionedRootSignatureDeserializer
     {
-        CONST_VTBL struct ID3D12VersionedRootSignatureDeserializerVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12VersionedRootSignatureDeserializerVtbl *lpVtbl;
     };
 
     
@@ -4384,19 +4384,19 @@ HRESULT WINAPI D3D12CreateVersionedRootSignatureDeserializer(
                                      _In_ REFIID pRootSignatureDeserializerInterface,
                                      _Out_ void** ppRootSignatureDeserializer);
 
-typedef struct D3D12_CPU_DESCRIPTOR_HANDLE
+typedef sa_nracanaa D3D12_CPU_DESCRIPTOR_HANDLE
     {
     SIZE_T ptr;
     } 	D3D12_CPU_DESCRIPTOR_HANDLE;
 
-typedef struct D3D12_GPU_DESCRIPTOR_HANDLE
+typedef sa_nracanaa D3D12_GPU_DESCRIPTOR_HANDLE
     {
     UINT64 ptr;
     } 	D3D12_GPU_DESCRIPTOR_HANDLE;
 
 // If rects are supplied in D3D12_DISCARD_REGION, below, the resource 
 // must have 2D subresources with all specified subresources the same dimension.
-typedef struct D3D12_DISCARD_REGION
+typedef sa_nracanaa D3D12_DISCARD_REGION
     {
     UINT NumRects;
     _In_reads_(NumRects)  const D3D12_RECT *pRects;
@@ -4405,7 +4405,7 @@ typedef struct D3D12_DISCARD_REGION
     } 	D3D12_DISCARD_REGION;
 
 typedef 
-enum D3D12_QUERY_HEAP_TYPE
+ga_nanaa D3D12_QUERY_HEAP_TYPE
     {
         D3D12_QUERY_HEAP_TYPE_OCCLUSION	= 0,
         D3D12_QUERY_HEAP_TYPE_TIMESTAMP	= 1,
@@ -4416,7 +4416,7 @@ enum D3D12_QUERY_HEAP_TYPE
         D3D12_QUERY_HEAP_TYPE_PIPELINE_STATISTICS1	= 7
     } 	D3D12_QUERY_HEAP_TYPE;
 
-typedef struct D3D12_QUERY_HEAP_DESC
+typedef sa_nracanaa D3D12_QUERY_HEAP_DESC
     {
     D3D12_QUERY_HEAP_TYPE Type;
     UINT Count;
@@ -4424,7 +4424,7 @@ typedef struct D3D12_QUERY_HEAP_DESC
     } 	D3D12_QUERY_HEAP_DESC;
 
 typedef 
-enum D3D12_QUERY_TYPE
+ga_nanaa D3D12_QUERY_TYPE
     {
         D3D12_QUERY_TYPE_OCCLUSION	= 0,
         D3D12_QUERY_TYPE_BINARY_OCCLUSION	= 1,
@@ -4439,13 +4439,13 @@ enum D3D12_QUERY_TYPE
     } 	D3D12_QUERY_TYPE;
 
 typedef 
-enum D3D12_PREDICATION_OP
+ga_nanaa D3D12_PREDICATION_OP
     {
         D3D12_PREDICATION_OP_EQUAL_ZERO	= 0,
         D3D12_PREDICATION_OP_NOT_EQUAL_ZERO	= 1
     } 	D3D12_PREDICATION_OP;
 
-typedef struct D3D12_QUERY_DATA_PIPELINE_STATISTICS
+typedef sa_nracanaa D3D12_QUERY_DATA_PIPELINE_STATISTICS
     {
     UINT64 IAVertices;
     UINT64 IAPrimitives;
@@ -4460,7 +4460,7 @@ typedef struct D3D12_QUERY_DATA_PIPELINE_STATISTICS
     UINT64 CSInvocations;
     } 	D3D12_QUERY_DATA_PIPELINE_STATISTICS;
 
-typedef struct D3D12_QUERY_DATA_PIPELINE_STATISTICS1
+typedef sa_nracanaa D3D12_QUERY_DATA_PIPELINE_STATISTICS1
     {
     UINT64 IAVertices;
     UINT64 IAPrimitives;
@@ -4478,20 +4478,20 @@ typedef struct D3D12_QUERY_DATA_PIPELINE_STATISTICS1
     UINT64 MSPrimitives;
     } 	D3D12_QUERY_DATA_PIPELINE_STATISTICS1;
 
-typedef struct D3D12_QUERY_DATA_SO_STATISTICS
+typedef sa_nracanaa D3D12_QUERY_DATA_SO_STATISTICS
     {
     UINT64 NumPrimitivesWritten;
     UINT64 PrimitivesStorageNeeded;
     } 	D3D12_QUERY_DATA_SO_STATISTICS;
 
-typedef struct D3D12_STREAM_OUTPUT_BUFFER_VIEW
+typedef sa_nracanaa D3D12_STREAM_OUTPUT_BUFFER_VIEW
     {
     D3D12_GPU_VIRTUAL_ADDRESS BufferLocation;
     UINT64 SizeInBytes;
     D3D12_GPU_VIRTUAL_ADDRESS BufferFilledSizeLocation;
     } 	D3D12_STREAM_OUTPUT_BUFFER_VIEW;
 
-typedef struct D3D12_DRAW_ARGUMENTS
+typedef sa_nracanaa D3D12_DRAW_ARGUMENTS
     {
     UINT VertexCountPerInstance;
     UINT InstanceCount;
@@ -4499,7 +4499,7 @@ typedef struct D3D12_DRAW_ARGUMENTS
     UINT StartInstanceLocation;
     } 	D3D12_DRAW_ARGUMENTS;
 
-typedef struct D3D12_DRAW_INDEXED_ARGUMENTS
+typedef sa_nracanaa D3D12_DRAW_INDEXED_ARGUMENTS
     {
     UINT IndexCountPerInstance;
     UINT InstanceCount;
@@ -4508,21 +4508,21 @@ typedef struct D3D12_DRAW_INDEXED_ARGUMENTS
     UINT StartInstanceLocation;
     } 	D3D12_DRAW_INDEXED_ARGUMENTS;
 
-typedef struct D3D12_DISPATCH_ARGUMENTS
+typedef sa_nracanaa D3D12_DISPATCH_ARGUMENTS
     {
     UINT ThreadGroupCountX;
     UINT ThreadGroupCountY;
     UINT ThreadGroupCountZ;
     } 	D3D12_DISPATCH_ARGUMENTS;
 
-typedef struct D3D12_VERTEX_BUFFER_VIEW
+typedef sa_nracanaa D3D12_VERTEX_BUFFER_VIEW
     {
     D3D12_GPU_VIRTUAL_ADDRESS BufferLocation;
     UINT SizeInBytes;
     UINT StrideInBytes;
     } 	D3D12_VERTEX_BUFFER_VIEW;
 
-typedef struct D3D12_INDEX_BUFFER_VIEW
+typedef sa_nracanaa D3D12_INDEX_BUFFER_VIEW
     {
     D3D12_GPU_VIRTUAL_ADDRESS BufferLocation;
     UINT SizeInBytes;
@@ -4530,7 +4530,7 @@ typedef struct D3D12_INDEX_BUFFER_VIEW
     } 	D3D12_INDEX_BUFFER_VIEW;
 
 typedef 
-enum D3D12_INDIRECT_ARGUMENT_TYPE
+ga_nanaa D3D12_INDIRECT_ARGUMENT_TYPE
     {
         D3D12_INDIRECT_ARGUMENT_TYPE_DRAW	= 0,
         D3D12_INDIRECT_ARGUMENT_TYPE_DRAW_INDEXED	= ( D3D12_INDIRECT_ARGUMENT_TYPE_DRAW + 1 ) ,
@@ -4546,34 +4546,34 @@ enum D3D12_INDIRECT_ARGUMENT_TYPE
         D3D12_INDIRECT_ARGUMENT_TYPE_INCREMENTING_CONSTANT	= ( D3D12_INDIRECT_ARGUMENT_TYPE_DISPATCH_MESH + 1 ) 
     } 	D3D12_INDIRECT_ARGUMENT_TYPE;
 
-typedef struct D3D12_INDIRECT_ARGUMENT_DESC
+typedef sa_nracanaa D3D12_INDIRECT_ARGUMENT_DESC
     {
     D3D12_INDIRECT_ARGUMENT_TYPE Type;
-    union 
+    sa_ngha 
         {
-        struct 
+        sa_nracanaa 
             {
             UINT Slot;
             } 	VertexBuffer;
-        struct 
+        sa_nracanaa 
             {
             UINT RootParameterIndex;
             UINT DestOffsetIn32BitValues;
             UINT Num32BitValuesToSet;
             } 	Constant;
-        struct 
+        sa_nracanaa 
             {
             UINT RootParameterIndex;
             } 	ConstantBufferView;
-        struct 
+        sa_nracanaa 
             {
             UINT RootParameterIndex;
             } 	ShaderResourceView;
-        struct 
+        sa_nracanaa 
             {
             UINT RootParameterIndex;
             } 	UnorderedAccessView;
-        struct 
+        sa_nracanaa 
             {
             UINT RootParameterIndex;
             UINT DestOffsetIn32BitValues;
@@ -4581,7 +4581,7 @@ typedef struct D3D12_INDIRECT_ARGUMENT_DESC
         } 	;
     } 	D3D12_INDIRECT_ARGUMENT_DESC;
 
-typedef struct D3D12_COMMAND_SIGNATURE_DESC
+typedef sa_nracanaa D3D12_COMMAND_SIGNATURE_DESC
     {
     UINT ByteStride;
     UINT NumArgumentDescs;
@@ -4604,7 +4604,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0003_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Pageable;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("63ee58fb-1268-4835-86da-f008ce62f0d6")
     ID3D12Pageable : public ID3D12DeviceChild
@@ -4613,9 +4613,9 @@ EXTERN_C const IID IID_ID3D12Pageable;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12PageableVtbl
+    typedef sa_nracanaa ID3D12PageableVtbl
     {
         BEGIN_INTERFACE
         
@@ -4669,7 +4669,7 @@ EXTERN_C const IID IID_ID3D12Pageable;
 
     interface ID3D12Pageable
     {
-        CONST_VTBL struct ID3D12PageableVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12PageableVtbl *lpVtbl;
     };
 
     
@@ -4724,15 +4724,15 @@ EXTERN_C const IID IID_ID3D12Pageable;
 
 EXTERN_C const IID IID_ID3D12Heap;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6b3b2502-6e51-45b3-90ee-9884265e8df3")
     ID3D12Heap : public ID3D12Pageable
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_HEAP_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_HEAP_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_HEAP_DESC * RetVal) = 0;
 #endif
@@ -4740,9 +4740,9 @@ EXTERN_C const IID IID_ID3D12Heap;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12HeapVtbl
+    typedef sa_nracanaa ID3D12HeapVtbl
     {
         BEGIN_INTERFACE
         
@@ -4792,11 +4792,11 @@ EXTERN_C const IID IID_ID3D12Heap;
             _COM_Outptr_opt_  void **ppvDevice);
         
         DECLSPEC_XFGVIRT(ID3D12Heap, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap * This,
             D3D12_HEAP_DESC * RetVal);
@@ -4808,7 +4808,7 @@ EXTERN_C const IID IID_ID3D12Heap;
 
     interface ID3D12Heap
     {
-        CONST_VTBL struct ID3D12HeapVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12HeapVtbl *lpVtbl;
     };
 
     
@@ -4843,11 +4843,11 @@ EXTERN_C const IID IID_ID3D12Heap;
     ( (This)->lpVtbl -> GetDevice(This,riid,ppvDevice) ) 
 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Heap_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Heap_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -4872,7 +4872,7 @@ EXTERN_C const IID IID_ID3D12Heap;
 
 EXTERN_C const IID IID_ID3D12Resource;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("696442be-a72e-4059-bc79-5b5c98040fad")
     ID3D12Resource : public ID3D12Pageable
@@ -4887,9 +4887,9 @@ EXTERN_C const IID IID_ID3D12Resource;
             UINT Subresource,
             _In_opt_  const D3D12_RANGE *pWrittenRange) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_RESOURCE_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_RESOURCE_DESC * RetVal) = 0;
 #endif
@@ -4917,9 +4917,9 @@ EXTERN_C const IID IID_ID3D12Resource;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12ResourceVtbl
+    typedef sa_nracanaa ID3D12ResourceVtbl
     {
         BEGIN_INTERFACE
         
@@ -4982,11 +4982,11 @@ EXTERN_C const IID IID_ID3D12Resource;
             _In_opt_  const D3D12_RANGE *pWrittenRange);
         
         DECLSPEC_XFGVIRT(ID3D12Resource, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource * This,
             D3D12_RESOURCE_DESC * RetVal);
@@ -5026,7 +5026,7 @@ EXTERN_C const IID IID_ID3D12Resource;
 
     interface ID3D12Resource
     {
-        CONST_VTBL struct ID3D12ResourceVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ResourceVtbl *lpVtbl;
     };
 
     
@@ -5067,11 +5067,11 @@ EXTERN_C const IID IID_ID3D12Resource;
 
 #define ID3D12Resource_Unmap(This,Subresource,pWrittenRange)	\
     ( (This)->lpVtbl -> Unmap(This,Subresource,pWrittenRange) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Resource_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Resource_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -5108,7 +5108,7 @@ EXTERN_C const IID IID_ID3D12Resource;
 
 EXTERN_C const IID IID_ID3D12CommandAllocator;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6102dee4-af59-4b09-b999-b44d73f09b24")
     ID3D12CommandAllocator : public ID3D12Pageable
@@ -5119,9 +5119,9 @@ EXTERN_C const IID IID_ID3D12CommandAllocator;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12CommandAllocatorVtbl
+    typedef sa_nracanaa ID3D12CommandAllocatorVtbl
     {
         BEGIN_INTERFACE
         
@@ -5179,7 +5179,7 @@ EXTERN_C const IID IID_ID3D12CommandAllocator;
 
     interface ID3D12CommandAllocator
     {
-        CONST_VTBL struct ID3D12CommandAllocatorVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12CommandAllocatorVtbl *lpVtbl;
     };
 
     
@@ -5238,7 +5238,7 @@ EXTERN_C const IID IID_ID3D12CommandAllocator;
 
 EXTERN_C const IID IID_ID3D12Fence;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0a753dcf-c4d8-4b91-adf6-be5a60d95a76")
     ID3D12Fence : public ID3D12Pageable
@@ -5256,9 +5256,9 @@ EXTERN_C const IID IID_ID3D12Fence;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12FenceVtbl
+    typedef sa_nracanaa ID3D12FenceVtbl
     {
         BEGIN_INTERFACE
         
@@ -5327,7 +5327,7 @@ EXTERN_C const IID IID_ID3D12Fence;
 
     interface ID3D12Fence
     {
-        CONST_VTBL struct ID3D12FenceVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12FenceVtbl *lpVtbl;
     };
 
     
@@ -5392,7 +5392,7 @@ EXTERN_C const IID IID_ID3D12Fence;
 
 EXTERN_C const IID IID_ID3D12Fence1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("433685fe-e22b-4ca0-a8db-b5b4f4dd0e4a")
     ID3D12Fence1 : public ID3D12Fence
@@ -5403,9 +5403,9 @@ EXTERN_C const IID IID_ID3D12Fence1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Fence1Vtbl
+    typedef sa_nracanaa ID3D12Fence1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -5478,7 +5478,7 @@ EXTERN_C const IID IID_ID3D12Fence1;
 
     interface ID3D12Fence1
     {
-        CONST_VTBL struct ID3D12Fence1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Fence1Vtbl *lpVtbl;
     };
 
     
@@ -5547,7 +5547,7 @@ EXTERN_C const IID IID_ID3D12Fence1;
 
 EXTERN_C const IID IID_ID3D12PipelineState;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("765a30f3-f624-4c6f-a828-ace948622445")
     ID3D12PipelineState : public ID3D12Pageable
@@ -5559,9 +5559,9 @@ EXTERN_C const IID IID_ID3D12PipelineState;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12PipelineStateVtbl
+    typedef sa_nracanaa ID3D12PipelineStateVtbl
     {
         BEGIN_INTERFACE
         
@@ -5620,7 +5620,7 @@ EXTERN_C const IID IID_ID3D12PipelineState;
 
     interface ID3D12PipelineState
     {
-        CONST_VTBL struct ID3D12PipelineStateVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12PipelineStateVtbl *lpVtbl;
     };
 
     
@@ -5679,29 +5679,29 @@ EXTERN_C const IID IID_ID3D12PipelineState;
 
 EXTERN_C const IID IID_ID3D12DescriptorHeap;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8efb471d-616c-4f49-90f7-127bb763fa51")
     ID3D12DescriptorHeap : public ID3D12Pageable
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_DESCRIPTOR_HEAP_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_DESCRIPTOR_HEAP_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_DESCRIPTOR_HEAP_DESC * RetVal) = 0;
 #endif
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_CPU_DESCRIPTOR_HANDLE STDMETHODCALLTYPE GetCPUDescriptorHandleForHeapStart( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_CPU_DESCRIPTOR_HANDLE *STDMETHODCALLTYPE GetCPUDescriptorHandleForHeapStart( 
             D3D12_CPU_DESCRIPTOR_HANDLE * RetVal) = 0;
 #endif
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_GPU_DESCRIPTOR_HANDLE STDMETHODCALLTYPE GetGPUDescriptorHandleForHeapStart( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_GPU_DESCRIPTOR_HANDLE *STDMETHODCALLTYPE GetGPUDescriptorHandleForHeapStart( 
             D3D12_GPU_DESCRIPTOR_HANDLE * RetVal) = 0;
 #endif
@@ -5709,9 +5709,9 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DescriptorHeapVtbl
+    typedef sa_nracanaa ID3D12DescriptorHeapVtbl
     {
         BEGIN_INTERFACE
         
@@ -5761,11 +5761,11 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
             _COM_Outptr_opt_  void **ppvDevice);
         
         DECLSPEC_XFGVIRT(ID3D12DescriptorHeap, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_DESCRIPTOR_HEAP_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DescriptorHeap * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_DESCRIPTOR_HEAP_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DescriptorHeap * This,
             D3D12_DESCRIPTOR_HEAP_DESC * RetVal);
@@ -5773,11 +5773,11 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12DescriptorHeap, GetCPUDescriptorHandleForHeapStart)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_CPU_DESCRIPTOR_HANDLE ( STDMETHODCALLTYPE *GetCPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_CPU_DESCRIPTOR_HANDLE *( STDMETHODCALLTYPE *GetCPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This,
             D3D12_CPU_DESCRIPTOR_HANDLE * RetVal);
@@ -5785,11 +5785,11 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12DescriptorHeap, GetGPUDescriptorHandleForHeapStart)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_GPU_DESCRIPTOR_HANDLE ( STDMETHODCALLTYPE *GetGPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_GPU_DESCRIPTOR_HANDLE *( STDMETHODCALLTYPE *GetGPUDescriptorHandleForHeapStart )( 
             ID3D12DescriptorHeap * This,
             D3D12_GPU_DESCRIPTOR_HANDLE * RetVal);
@@ -5801,7 +5801,7 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
 
     interface ID3D12DescriptorHeap
     {
-        CONST_VTBL struct ID3D12DescriptorHeapVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DescriptorHeapVtbl *lpVtbl;
     };
 
     
@@ -5836,27 +5836,27 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
     ( (This)->lpVtbl -> GetDevice(This,riid,ppvDevice) ) 
 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12DescriptorHeap_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12DescriptorHeap_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12DescriptorHeap_GetCPUDescriptorHandleForHeapStart(This)	\
     ( (This)->lpVtbl -> GetCPUDescriptorHandleForHeapStart(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12DescriptorHeap_GetCPUDescriptorHandleForHeapStart(This,RetVal)	\
     ( (This)->lpVtbl -> GetCPUDescriptorHandleForHeapStart(This,RetVal) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12DescriptorHeap_GetGPUDescriptorHandleForHeapStart(This)	\
     ( (This)->lpVtbl -> GetGPUDescriptorHandleForHeapStart(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12DescriptorHeap_GetGPUDescriptorHandleForHeapStart(This,RetVal)	\
     ( (This)->lpVtbl -> GetGPUDescriptorHandleForHeapStart(This,RetVal) ) 
 #endif
@@ -5881,7 +5881,7 @@ EXTERN_C const IID IID_ID3D12DescriptorHeap;
 
 EXTERN_C const IID IID_ID3D12QueryHeap;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0d9658ae-ed45-469e-a61d-970ec583cab4")
     ID3D12QueryHeap : public ID3D12Pageable
@@ -5890,9 +5890,9 @@ EXTERN_C const IID IID_ID3D12QueryHeap;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12QueryHeapVtbl
+    typedef sa_nracanaa ID3D12QueryHeapVtbl
     {
         BEGIN_INTERFACE
         
@@ -5946,7 +5946,7 @@ EXTERN_C const IID IID_ID3D12QueryHeap;
 
     interface ID3D12QueryHeap
     {
-        CONST_VTBL struct ID3D12QueryHeapVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12QueryHeapVtbl *lpVtbl;
     };
 
     
@@ -6002,7 +6002,7 @@ EXTERN_C const IID IID_ID3D12QueryHeap;
 
 EXTERN_C const IID IID_ID3D12CommandSignature;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c36a797c-ec80-4f0a-8985-a7b2475082d1")
     ID3D12CommandSignature : public ID3D12Pageable
@@ -6011,9 +6011,9 @@ EXTERN_C const IID IID_ID3D12CommandSignature;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12CommandSignatureVtbl
+    typedef sa_nracanaa ID3D12CommandSignatureVtbl
     {
         BEGIN_INTERFACE
         
@@ -6067,7 +6067,7 @@ EXTERN_C const IID IID_ID3D12CommandSignature;
 
     interface ID3D12CommandSignature
     {
-        CONST_VTBL struct ID3D12CommandSignatureVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12CommandSignatureVtbl *lpVtbl;
     };
 
     
@@ -6123,7 +6123,7 @@ EXTERN_C const IID IID_ID3D12CommandSignature;
 
 EXTERN_C const IID IID_ID3D12CommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7116d91c-e7e4-47ce-b8c6-ec8168f437e5")
     ID3D12CommandList : public ID3D12DeviceChild
@@ -6134,9 +6134,9 @@ EXTERN_C const IID IID_ID3D12CommandList;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12CommandListVtbl
+    typedef sa_nracanaa ID3D12CommandListVtbl
     {
         BEGIN_INTERFACE
         
@@ -6194,7 +6194,7 @@ EXTERN_C const IID IID_ID3D12CommandList;
 
     interface ID3D12CommandList
     {
-        CONST_VTBL struct ID3D12CommandListVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12CommandListVtbl *lpVtbl;
     };
 
     
@@ -6252,7 +6252,7 @@ EXTERN_C const IID IID_ID3D12CommandList;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5b160d0f-ac1b-4185-8ba8-b3ae42a5a455")
     ID3D12GraphicsCommandList : public ID3D12CommandList
@@ -6377,13 +6377,13 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
         virtual void STDMETHODCALLTYPE SetComputeRoot32BitConstants( 
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues) = 0;
         
         virtual void STDMETHODCALLTYPE SetGraphicsRoot32BitConstants( 
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues) = 0;
         
         virtual void STDMETHODCALLTYPE SetComputeRootConstantBufferView( 
@@ -6509,9 +6509,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandListVtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandListVtbl
     {
         BEGIN_INTERFACE
         
@@ -6737,7 +6737,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
             ID3D12GraphicsCommandList * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -6745,7 +6745,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
             ID3D12GraphicsCommandList * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -6919,7 +6919,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
 
     interface ID3D12GraphicsCommandList
     {
-        CONST_VTBL struct ID3D12GraphicsCommandListVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandListVtbl *lpVtbl;
     };
 
     
@@ -7131,7 +7131,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("553103fb-1fe7-4557-bb38-946d7d0e7ca7")
     ID3D12GraphicsCommandList1 : public ID3D12GraphicsCommandList
@@ -7181,9 +7181,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList1Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -7409,7 +7409,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
             ID3D12GraphicsCommandList1 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -7417,7 +7417,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
             ID3D12GraphicsCommandList1 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -7644,7 +7644,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
 
     interface ID3D12GraphicsCommandList1
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList1Vtbl *lpVtbl;
     };
 
     
@@ -7869,14 +7869,14 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList1;
 /* interface __MIDL_itf_d3d12_0000_0018 */
 /* [local] */ 
 
-typedef struct D3D12_WRITEBUFFERIMMEDIATE_PARAMETER
+typedef sa_nracanaa D3D12_WRITEBUFFERIMMEDIATE_PARAMETER
     {
     D3D12_GPU_VIRTUAL_ADDRESS Dest;
     UINT32 Value;
     } 	D3D12_WRITEBUFFERIMMEDIATE_PARAMETER;
 
 typedef 
-enum D3D12_WRITEBUFFERIMMEDIATE_MODE
+ga_nanaa D3D12_WRITEBUFFERIMMEDIATE_MODE
     {
         D3D12_WRITEBUFFERIMMEDIATE_MODE_DEFAULT	= 0,
         D3D12_WRITEBUFFERIMMEDIATE_MODE_MARKER_IN	= 0x1,
@@ -7897,7 +7897,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0018_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("38C3E585-FF17-412C-9150-4FC6F9D72A28")
     ID3D12GraphicsCommandList2 : public ID3D12GraphicsCommandList1
@@ -7911,9 +7911,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList2Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -8139,7 +8139,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
             ID3D12GraphicsCommandList2 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -8147,7 +8147,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
             ID3D12GraphicsCommandList2 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -8381,7 +8381,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
 
     interface ID3D12GraphicsCommandList2
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList2Vtbl *lpVtbl;
     };
 
     
@@ -8616,7 +8616,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList2;
 
 EXTERN_C const IID IID_ID3D12CommandQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0ec870a6-5d7e-4c22-8cfc-5baae07616ed")
     ID3D12CommandQueue : public ID3D12Pageable
@@ -8673,9 +8673,9 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
             _Out_  UINT64 *pGpuTimestamp,
             _Out_  UINT64 *pCpuTimestamp) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_COMMAND_QUEUE_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_COMMAND_QUEUE_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_COMMAND_QUEUE_DESC * RetVal) = 0;
 #endif
@@ -8683,9 +8683,9 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12CommandQueueVtbl
+    typedef sa_nracanaa ID3D12CommandQueueVtbl
     {
         BEGIN_INTERFACE
         
@@ -8806,11 +8806,11 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
             _Out_  UINT64 *pCpuTimestamp);
         
         DECLSPEC_XFGVIRT(ID3D12CommandQueue, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_COMMAND_QUEUE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12CommandQueue * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_COMMAND_QUEUE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12CommandQueue * This,
             D3D12_COMMAND_QUEUE_DESC * RetVal);
@@ -8822,7 +8822,7 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
 
     interface ID3D12CommandQueue
     {
-        CONST_VTBL struct ID3D12CommandQueueVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12CommandQueueVtbl *lpVtbl;
     };
 
     
@@ -8887,11 +8887,11 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
 
 #define ID3D12CommandQueue_GetClockCalibration(This,pGpuTimestamp,pCpuTimestamp)	\
     ( (This)->lpVtbl -> GetClockCalibration(This,pGpuTimestamp,pCpuTimestamp) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12CommandQueue_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12CommandQueue_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -8913,13 +8913,13 @@ EXTERN_C const IID IID_ID3D12CommandQueue;
 #ifdef __midl
 #ifndef LUID_DEFINED
 #define LUID_DEFINED 1
-typedef struct __LUID
+typedef sa_nracanaa __LUID
     {
     DWORD LowPart;
     LONG HighPart;
     } 	LUID;
 
-typedef struct __LUID *PLUID;
+typedef sa_nracanaa __LUID *PLUID;
 
 #endif
 #endif
@@ -8937,7 +8937,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0020_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("189819f1-1db6-4b57-be54-1821339b85f7")
     ID3D12Device : public ID3D12Object
@@ -9037,12 +9037,12 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE SrcDescriptorRangeStart,
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo( 
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             _In_  UINT visibleMask,
@@ -9050,11 +9050,11 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs) = 0;
 #endif
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_HEAP_PROPERTIES STDMETHODCALLTYPE GetCustomHeapProperties( 
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_HEAP_PROPERTIES *STDMETHODCALLTYPE GetCustomHeapProperties( 
             D3D12_HEAP_PROPERTIES * RetVal,
             _In_  UINT nodeMask,
@@ -9158,9 +9158,9 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_  UINT FirstSubresourceTilingToGet,
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual LUID STDMETHODCALLTYPE GetAdapterLuid( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual LUID *STDMETHODCALLTYPE GetAdapterLuid( 
             LUID * RetVal) = 0;
 #endif
@@ -9168,9 +9168,9 @@ EXTERN_C const IID IID_ID3D12Device;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceVtbl
+    typedef sa_nracanaa ID3D12DeviceVtbl
     {
         BEGIN_INTERFACE
         
@@ -9344,14 +9344,14 @@ EXTERN_C const IID IID_ID3D12Device;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -9362,13 +9362,13 @@ EXTERN_C const IID IID_ID3D12Device;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -9507,11 +9507,11 @@ EXTERN_C const IID IID_ID3D12Device;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device * This,
             LUID * RetVal);
@@ -9523,7 +9523,7 @@ EXTERN_C const IID IID_ID3D12Device;
 
     interface ID3D12Device
     {
-        CONST_VTBL struct ID3D12DeviceVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceVtbl *lpVtbl;
     };
 
     
@@ -9607,19 +9607,19 @@ EXTERN_C const IID IID_ID3D12Device;
 
 #define ID3D12Device_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -9671,11 +9671,11 @@ EXTERN_C const IID IID_ID3D12Device;
 
 #define ID3D12Device_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -9700,7 +9700,7 @@ EXTERN_C const IID IID_ID3D12Device;
 
 EXTERN_C const IID IID_ID3D12PipelineLibrary;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c64226a8-9201-46af-b4cc-53fb9ff7414f")
     ID3D12PipelineLibrary : public ID3D12DeviceChild
@@ -9731,9 +9731,9 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12PipelineLibraryVtbl
+    typedef sa_nracanaa ID3D12PipelineLibraryVtbl
     {
         BEGIN_INTERFACE
         
@@ -9819,7 +9819,7 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary;
 
     interface ID3D12PipelineLibrary
     {
-        CONST_VTBL struct ID3D12PipelineLibraryVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12PipelineLibraryVtbl *lpVtbl;
     };
 
     
@@ -9889,7 +9889,7 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary;
 
 EXTERN_C const IID IID_ID3D12PipelineLibrary1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("80eabf42-2568-4e5e-bd82-c37f86961dc3")
     ID3D12PipelineLibrary1 : public ID3D12PipelineLibrary
@@ -9904,9 +9904,9 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12PipelineLibrary1Vtbl
+    typedef sa_nracanaa ID3D12PipelineLibrary1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -10000,7 +10000,7 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary1;
 
     interface ID3D12PipelineLibrary1
     {
-        CONST_VTBL struct ID3D12PipelineLibrary1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12PipelineLibrary1Vtbl *lpVtbl;
     };
 
     
@@ -10069,7 +10069,7 @@ EXTERN_C const IID IID_ID3D12PipelineLibrary1;
 /* [local] */ 
 
 typedef 
-enum D3D12_MULTIPLE_FENCE_WAIT_FLAGS
+ga_nanaa D3D12_MULTIPLE_FENCE_WAIT_FLAGS
     {
         D3D12_MULTIPLE_FENCE_WAIT_FLAG_NONE	= 0,
         D3D12_MULTIPLE_FENCE_WAIT_FLAG_ANY	= 0x1,
@@ -10078,7 +10078,7 @@ enum D3D12_MULTIPLE_FENCE_WAIT_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_MULTIPLE_FENCE_WAIT_FLAGS )
 typedef 
-enum D3D12_RESIDENCY_PRIORITY
+ga_nanaa D3D12_RESIDENCY_PRIORITY
     {
         D3D12_RESIDENCY_PRIORITY_MINIMUM	= 0x28000000,
         D3D12_RESIDENCY_PRIORITY_LOW	= 0x50000000,
@@ -10101,7 +10101,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0023_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("77acce80-638e-4e65-8895-c1f23386863e")
     ID3D12Device1 : public ID3D12Device
@@ -10128,9 +10128,9 @@ EXTERN_C const IID IID_ID3D12Device1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device1Vtbl
+    typedef sa_nracanaa ID3D12Device1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -10304,14 +10304,14 @@ EXTERN_C const IID IID_ID3D12Device1;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device1 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device1 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -10322,13 +10322,13 @@ EXTERN_C const IID IID_ID3D12Device1;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device1 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device1 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -10467,11 +10467,11 @@ EXTERN_C const IID IID_ID3D12Device1;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device1 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device1 * This,
             LUID * RetVal);
@@ -10507,7 +10507,7 @@ EXTERN_C const IID IID_ID3D12Device1;
 
     interface ID3D12Device1
     {
-        CONST_VTBL struct ID3D12Device1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device1Vtbl *lpVtbl;
     };
 
     
@@ -10591,19 +10591,19 @@ EXTERN_C const IID IID_ID3D12Device1;
 
 #define ID3D12Device1_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device1_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device1_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device1_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device1_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -10655,11 +10655,11 @@ EXTERN_C const IID IID_ID3D12Device1;
 
 #define ID3D12Device1_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device1_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device1_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -10694,7 +10694,7 @@ EXTERN_C const IID IID_ID3D12Device1;
 
 EXTERN_C const IID IID_ID3D12Device2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("30baa41e-b15b-475c-a0bb-1af5c5b64328")
     ID3D12Device2 : public ID3D12Device1
@@ -10708,9 +10708,9 @@ EXTERN_C const IID IID_ID3D12Device2;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device2Vtbl
+    typedef sa_nracanaa ID3D12Device2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -10884,14 +10884,14 @@ EXTERN_C const IID IID_ID3D12Device2;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device2 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device2 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -10902,13 +10902,13 @@ EXTERN_C const IID IID_ID3D12Device2;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device2 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device2 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -11047,11 +11047,11 @@ EXTERN_C const IID IID_ID3D12Device2;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device2 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device2 * This,
             LUID * RetVal);
@@ -11094,7 +11094,7 @@ EXTERN_C const IID IID_ID3D12Device2;
 
     interface ID3D12Device2
     {
-        CONST_VTBL struct ID3D12Device2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device2Vtbl *lpVtbl;
     };
 
     
@@ -11178,19 +11178,19 @@ EXTERN_C const IID IID_ID3D12Device2;
 
 #define ID3D12Device2_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device2_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device2_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device2_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device2_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -11242,11 +11242,11 @@ EXTERN_C const IID IID_ID3D12Device2;
 
 #define ID3D12Device2_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device2_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device2_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -11280,7 +11280,7 @@ EXTERN_C const IID IID_ID3D12Device2;
 /* [local] */ 
 
 typedef 
-enum D3D12_RESIDENCY_FLAGS
+ga_nanaa D3D12_RESIDENCY_FLAGS
     {
         D3D12_RESIDENCY_FLAG_NONE	= 0,
         D3D12_RESIDENCY_FLAG_DENY_OVERBUDGET	= 0x1
@@ -11301,7 +11301,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0025_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("81dadc15-2bad-4392-93c5-101345c4aa98")
     ID3D12Device3 : public ID3D12Device2
@@ -11327,9 +11327,9 @@ EXTERN_C const IID IID_ID3D12Device3;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device3Vtbl
+    typedef sa_nracanaa ID3D12Device3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -11503,14 +11503,14 @@ EXTERN_C const IID IID_ID3D12Device3;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device3 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device3 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -11521,13 +11521,13 @@ EXTERN_C const IID IID_ID3D12Device3;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device3 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device3 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -11666,11 +11666,11 @@ EXTERN_C const IID IID_ID3D12Device3;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device3 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device3 * This,
             LUID * RetVal);
@@ -11736,7 +11736,7 @@ EXTERN_C const IID IID_ID3D12Device3;
 
     interface ID3D12Device3
     {
-        CONST_VTBL struct ID3D12Device3Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device3Vtbl *lpVtbl;
     };
 
     
@@ -11820,19 +11820,19 @@ EXTERN_C const IID IID_ID3D12Device3;
 
 #define ID3D12Device3_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device3_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device3_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device3_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device3_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -11884,11 +11884,11 @@ EXTERN_C const IID IID_ID3D12Device3;
 
 #define ID3D12Device3_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device3_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device3_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -11932,28 +11932,28 @@ EXTERN_C const IID IID_ID3D12Device3;
 /* [local] */ 
 
 typedef 
-enum D3D12_COMMAND_LIST_FLAGS
+ga_nanaa D3D12_COMMAND_LIST_FLAGS
     {
         D3D12_COMMAND_LIST_FLAG_NONE	= 0
     } 	D3D12_COMMAND_LIST_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_COMMAND_LIST_FLAGS )
 typedef 
-enum D3D12_COMMAND_POOL_FLAGS
+ga_nanaa D3D12_COMMAND_POOL_FLAGS
     {
         D3D12_COMMAND_POOL_FLAG_NONE	= 0
     } 	D3D12_COMMAND_POOL_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_COMMAND_POOL_FLAGS )
 typedef 
-enum D3D12_COMMAND_RECORDER_FLAGS
+ga_nanaa D3D12_COMMAND_RECORDER_FLAGS
     {
         D3D12_COMMAND_RECORDER_FLAG_NONE	= 0
     } 	D3D12_COMMAND_RECORDER_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_COMMAND_RECORDER_FLAGS )
 typedef 
-enum D3D12_PROTECTED_SESSION_STATUS
+ga_nanaa D3D12_PROTECTED_SESSION_STATUS
     {
         D3D12_PROTECTED_SESSION_STATUS_OK	= 0,
         D3D12_PROTECTED_SESSION_STATUS_INVALID	= 1
@@ -11973,7 +11973,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0026_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ProtectedSession;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("A1533D18-0AC1-4084-85B9-89A96116806B")
     ID3D12ProtectedSession : public ID3D12DeviceChild
@@ -11988,9 +11988,9 @@ EXTERN_C const IID IID_ID3D12ProtectedSession;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12ProtectedSessionVtbl
+    typedef sa_nracanaa ID3D12ProtectedSessionVtbl
     {
         BEGIN_INTERFACE
         
@@ -12054,7 +12054,7 @@ EXTERN_C const IID IID_ID3D12ProtectedSession;
 
     interface ID3D12ProtectedSession
     {
-        CONST_VTBL struct ID3D12ProtectedSessionVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ProtectedSessionVtbl *lpVtbl;
     };
 
     
@@ -12110,27 +12110,27 @@ EXTERN_C const IID IID_ID3D12ProtectedSession;
 /* [local] */ 
 
 typedef 
-enum D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAGS
+ga_nanaa D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAGS
     {
         D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAG_NONE	= 0,
         D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAG_SUPPORTED	= 0x1
     } 	D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAGS )
-typedef struct D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_SUPPORT
+typedef sa_nracanaa D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_SUPPORT
     {
     UINT NodeIndex;
     D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAGS Support;
     } 	D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_SUPPORT;
 
 typedef 
-enum D3D12_PROTECTED_RESOURCE_SESSION_FLAGS
+ga_nanaa D3D12_PROTECTED_RESOURCE_SESSION_FLAGS
     {
         D3D12_PROTECTED_RESOURCE_SESSION_FLAG_NONE	= 0
     } 	D3D12_PROTECTED_RESOURCE_SESSION_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_PROTECTED_RESOURCE_SESSION_FLAGS )
-typedef struct D3D12_PROTECTED_RESOURCE_SESSION_DESC
+typedef sa_nracanaa D3D12_PROTECTED_RESOURCE_SESSION_DESC
     {
     UINT NodeMask;
     D3D12_PROTECTED_RESOURCE_SESSION_FLAGS Flags;
@@ -12150,15 +12150,15 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0027_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6CD696F4-F289-40CC-8091-5A6C0A099C3D")
     ID3D12ProtectedResourceSession : public ID3D12ProtectedSession
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_PROTECTED_RESOURCE_SESSION_DESC * RetVal) = 0;
 #endif
@@ -12166,9 +12166,9 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12ProtectedResourceSessionVtbl
+    typedef sa_nracanaa ID3D12ProtectedResourceSessionVtbl
     {
         BEGIN_INTERFACE
         
@@ -12228,11 +12228,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
             ID3D12ProtectedResourceSession * This);
         
         DECLSPEC_XFGVIRT(ID3D12ProtectedResourceSession, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_PROTECTED_RESOURCE_SESSION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_PROTECTED_RESOURCE_SESSION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession * This,
             D3D12_PROTECTED_RESOURCE_SESSION_DESC * RetVal);
@@ -12244,7 +12244,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
 
     interface ID3D12ProtectedResourceSession
     {
-        CONST_VTBL struct ID3D12ProtectedResourceSessionVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ProtectedResourceSessionVtbl *lpVtbl;
     };
 
     
@@ -12285,11 +12285,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
 #define ID3D12ProtectedResourceSession_GetSessionStatus(This)	\
     ( (This)->lpVtbl -> GetSessionStatus(This) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12ProtectedResourceSession_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12ProtectedResourceSession_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -12314,7 +12314,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession;
 
 EXTERN_C const IID IID_ID3D12Device4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("e865df17-a9ee-46f9-a463-3098315aa2e5")
     ID3D12Device4 : public ID3D12Device3
@@ -12356,13 +12356,13 @@ EXTERN_C const IID IID_ID3D12Device4;
             REFIID riid,
             _COM_Outptr_opt_  void **ppvResource) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo1( 
             UINT visibleMask,
             UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo1( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             UINT visibleMask,
@@ -12374,9 +12374,9 @@ EXTERN_C const IID IID_ID3D12Device4;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device4Vtbl
+    typedef sa_nracanaa ID3D12Device4Vtbl
     {
         BEGIN_INTERFACE
         
@@ -12550,14 +12550,14 @@ EXTERN_C const IID IID_ID3D12Device4;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device4 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device4 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -12568,13 +12568,13 @@ EXTERN_C const IID IID_ID3D12Device4;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device4 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device4 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -12713,11 +12713,11 @@ EXTERN_C const IID IID_ID3D12Device4;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device4 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device4 * This,
             LUID * RetVal);
@@ -12825,7 +12825,7 @@ EXTERN_C const IID IID_ID3D12Device4;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device4 * This,
             UINT visibleMask,
@@ -12833,7 +12833,7 @@ EXTERN_C const IID IID_ID3D12Device4;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device4 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -12849,7 +12849,7 @@ EXTERN_C const IID IID_ID3D12Device4;
 
     interface ID3D12Device4
     {
-        CONST_VTBL struct ID3D12Device4Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device4Vtbl *lpVtbl;
     };
 
     
@@ -12933,19 +12933,19 @@ EXTERN_C const IID IID_ID3D12Device4;
 
 #define ID3D12Device4_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device4_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device4_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device4_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device4_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -12997,11 +12997,11 @@ EXTERN_C const IID IID_ID3D12Device4;
 
 #define ID3D12Device4_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device4_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device4_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -13045,11 +13045,11 @@ EXTERN_C const IID IID_ID3D12Device4;
 
 #define ID3D12Device4_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device4_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device4_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -13069,7 +13069,7 @@ EXTERN_C const IID IID_ID3D12Device4;
 /* [local] */ 
 
 typedef 
-enum D3D12_LIFETIME_STATE
+ga_nanaa D3D12_LIFETIME_STATE
     {
         D3D12_LIFETIME_STATE_IN_USE	= 0,
         D3D12_LIFETIME_STATE_NOT_IN_USE	= ( D3D12_LIFETIME_STATE_IN_USE + 1 ) 
@@ -13090,7 +13090,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0029_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12LifetimeOwner;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("e667af9f-cd56-4f46-83ce-032e595d70a8")
     ID3D12LifetimeOwner : public IUnknown
@@ -13102,9 +13102,9 @@ EXTERN_C const IID IID_ID3D12LifetimeOwner;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12LifetimeOwnerVtbl
+    typedef sa_nracanaa ID3D12LifetimeOwnerVtbl
     {
         BEGIN_INTERFACE
         
@@ -13132,7 +13132,7 @@ EXTERN_C const IID IID_ID3D12LifetimeOwner;
 
     interface ID3D12LifetimeOwner
     {
-        CONST_VTBL struct ID3D12LifetimeOwnerVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12LifetimeOwnerVtbl *lpVtbl;
     };
 
     
@@ -13173,15 +13173,15 @@ EXTERN_C const IID IID_ID3D12LifetimeOwner;
 
 EXTERN_C const IID IID_ID3D12SwapChainAssistant;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("f1df64b6-57fd-49cd-8807-c0eb88b45c8f")
     ID3D12SwapChainAssistant : public IUnknown
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual LUID STDMETHODCALLTYPE GetLUID( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual LUID *STDMETHODCALLTYPE GetLUID( 
             LUID * RetVal) = 0;
 #endif
@@ -13201,9 +13201,9 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12SwapChainAssistantVtbl
+    typedef sa_nracanaa ID3D12SwapChainAssistantVtbl
     {
         BEGIN_INTERFACE
         
@@ -13222,11 +13222,11 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
             ID3D12SwapChainAssistant * This);
         
         DECLSPEC_XFGVIRT(ID3D12SwapChainAssistant, GetLUID)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetLUID )( 
             ID3D12SwapChainAssistant * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetLUID )( 
             ID3D12SwapChainAssistant * This,
             LUID * RetVal);
@@ -13256,7 +13256,7 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
 
     interface ID3D12SwapChainAssistant
     {
-        CONST_VTBL struct ID3D12SwapChainAssistantVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12SwapChainAssistantVtbl *lpVtbl;
     };
 
     
@@ -13273,11 +13273,11 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
 #define ID3D12SwapChainAssistant_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12SwapChainAssistant_GetLUID(This)	\
     ( (This)->lpVtbl -> GetLUID(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12SwapChainAssistant_GetLUID(This,RetVal)	\
     ( (This)->lpVtbl -> GetLUID(This,RetVal) ) 
 #endif
@@ -13311,7 +13311,7 @@ EXTERN_C const IID IID_ID3D12SwapChainAssistant;
 
 EXTERN_C const IID IID_ID3D12LifetimeTracker;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("3fd03d36-4eb1-424a-a582-494ecb8ba813")
     ID3D12LifetimeTracker : public ID3D12DeviceChild
@@ -13323,9 +13323,9 @@ EXTERN_C const IID IID_ID3D12LifetimeTracker;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12LifetimeTrackerVtbl
+    typedef sa_nracanaa ID3D12LifetimeTrackerVtbl
     {
         BEGIN_INTERFACE
         
@@ -13384,7 +13384,7 @@ EXTERN_C const IID IID_ID3D12LifetimeTracker;
 
     interface ID3D12LifetimeTracker
     {
-        CONST_VTBL struct ID3D12LifetimeTrackerVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12LifetimeTrackerVtbl *lpVtbl;
     };
 
     
@@ -13437,7 +13437,7 @@ EXTERN_C const IID IID_ID3D12LifetimeTracker;
 /* [local] */ 
 
 typedef 
-enum D3D12_META_COMMAND_PARAMETER_TYPE
+ga_nanaa D3D12_META_COMMAND_PARAMETER_TYPE
     {
         D3D12_META_COMMAND_PARAMETER_TYPE_FLOAT	= 0,
         D3D12_META_COMMAND_PARAMETER_TYPE_UINT64	= 1,
@@ -13447,7 +13447,7 @@ enum D3D12_META_COMMAND_PARAMETER_TYPE
     } 	D3D12_META_COMMAND_PARAMETER_TYPE;
 
 typedef 
-enum D3D12_META_COMMAND_PARAMETER_FLAGS
+ga_nanaa D3D12_META_COMMAND_PARAMETER_FLAGS
     {
         D3D12_META_COMMAND_PARAMETER_FLAG_INPUT	= 0x1,
         D3D12_META_COMMAND_PARAMETER_FLAG_OUTPUT	= 0x2
@@ -13455,14 +13455,14 @@ enum D3D12_META_COMMAND_PARAMETER_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_META_COMMAND_PARAMETER_FLAGS )
 typedef 
-enum D3D12_META_COMMAND_PARAMETER_STAGE
+ga_nanaa D3D12_META_COMMAND_PARAMETER_STAGE
     {
         D3D12_META_COMMAND_PARAMETER_STAGE_CREATION	= 0,
         D3D12_META_COMMAND_PARAMETER_STAGE_INITIALIZATION	= 1,
         D3D12_META_COMMAND_PARAMETER_STAGE_EXECUTION	= 2
     } 	D3D12_META_COMMAND_PARAMETER_STAGE;
 
-typedef struct D3D12_META_COMMAND_PARAMETER_DESC
+typedef sa_nracanaa D3D12_META_COMMAND_PARAMETER_DESC
     {
     LPCWSTR Name;
     D3D12_META_COMMAND_PARAMETER_TYPE Type;
@@ -13472,7 +13472,7 @@ typedef struct D3D12_META_COMMAND_PARAMETER_DESC
     } 	D3D12_META_COMMAND_PARAMETER_DESC;
 
 typedef 
-enum D3D12_GRAPHICS_STATES
+ga_nanaa D3D12_GRAPHICS_STATES
     {
         D3D12_GRAPHICS_STATE_NONE	= 0,
         D3D12_GRAPHICS_STATE_IA_VERTEX_BUFFERS	= ( 1 << 0 ) ,
@@ -13495,7 +13495,7 @@ enum D3D12_GRAPHICS_STATES
     } 	D3D12_GRAPHICS_STATES;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_GRAPHICS_STATES )
-typedef struct D3D12_META_COMMAND_DESC
+typedef sa_nracanaa D3D12_META_COMMAND_DESC
     {
     GUID Id;
     LPCWSTR Name;
@@ -13517,7 +13517,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0032_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12StateObject;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("47016943-fca8-4594-93ea-af258b55346d")
     ID3D12StateObject : public ID3D12Pageable
@@ -13526,9 +13526,9 @@ EXTERN_C const IID IID_ID3D12StateObject;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12StateObjectVtbl
+    typedef sa_nracanaa ID3D12StateObjectVtbl
     {
         BEGIN_INTERFACE
         
@@ -13582,7 +13582,7 @@ EXTERN_C const IID IID_ID3D12StateObject;
 
     interface ID3D12StateObject
     {
-        CONST_VTBL struct ID3D12StateObjectVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12StateObjectVtbl *lpVtbl;
     };
 
     
@@ -13638,7 +13638,7 @@ EXTERN_C const IID IID_ID3D12StateObject;
 
 EXTERN_C const IID IID_ID3D12StateObjectProperties;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("de5fa827-9bf9-4f26-89ff-d7f56fde3860")
     ID3D12StateObjectProperties : public IUnknown
@@ -13658,9 +13658,9 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12StateObjectPropertiesVtbl
+    typedef sa_nracanaa ID3D12StateObjectPropertiesVtbl
     {
         BEGIN_INTERFACE
         
@@ -13702,7 +13702,7 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties;
 
     interface ID3D12StateObjectProperties
     {
-        CONST_VTBL struct ID3D12StateObjectPropertiesVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12StateObjectPropertiesVtbl *lpVtbl;
     };
 
     
@@ -13746,7 +13746,7 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties;
 /* interface __MIDL_itf_d3d12_0000_0034 */
 /* [local] */ 
 
-typedef struct D3D12_PROGRAM_IDENTIFIER
+typedef sa_nracanaa D3D12_PROGRAM_IDENTIFIER
     {
     UINT64 OpaqueData[ 4 ];
     } 	D3D12_PROGRAM_IDENTIFIER;
@@ -13765,16 +13765,16 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0034_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12StateObjectProperties1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("460caac7-1d24-446a-a184-ca67db494138")
     ID3D12StateObjectProperties1 : public ID3D12StateObjectProperties
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_PROGRAM_IDENTIFIER STDMETHODCALLTYPE GetProgramIdentifier( 
             LPCWSTR pProgramName) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_PROGRAM_IDENTIFIER *STDMETHODCALLTYPE GetProgramIdentifier( 
             D3D12_PROGRAM_IDENTIFIER * RetVal,
             LPCWSTR pProgramName) = 0;
@@ -13783,9 +13783,9 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12StateObjectProperties1Vtbl
+    typedef sa_nracanaa ID3D12StateObjectProperties1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -13823,12 +13823,12 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
             UINT64 PipelineStackSizeInBytes);
         
         DECLSPEC_XFGVIRT(ID3D12StateObjectProperties1, GetProgramIdentifier)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_PROGRAM_IDENTIFIER ( STDMETHODCALLTYPE *GetProgramIdentifier )( 
             ID3D12StateObjectProperties1 * This,
             LPCWSTR pProgramName);
         
-#else
+#ᮜᮤᮚ
         D3D12_PROGRAM_IDENTIFIER *( STDMETHODCALLTYPE *GetProgramIdentifier )( 
             ID3D12StateObjectProperties1 * This,
             D3D12_PROGRAM_IDENTIFIER * RetVal,
@@ -13841,7 +13841,7 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
 
     interface ID3D12StateObjectProperties1
     {
-        CONST_VTBL struct ID3D12StateObjectProperties1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12StateObjectProperties1Vtbl *lpVtbl;
     };
 
     
@@ -13871,11 +13871,11 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
 #define ID3D12StateObjectProperties1_SetPipelineStackSize(This,PipelineStackSizeInBytes)	\
     ( (This)->lpVtbl -> SetPipelineStackSize(This,PipelineStackSizeInBytes) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12StateObjectProperties1_GetProgramIdentifier(This,pProgramName)	\
     ( (This)->lpVtbl -> GetProgramIdentifier(This,pProgramName) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12StateObjectProperties1_GetProgramIdentifier(This,RetVal,pProgramName)	\
     ( (This)->lpVtbl -> GetProgramIdentifier(This,RetVal,pProgramName) ) 
 #endif
@@ -13894,13 +13894,13 @@ EXTERN_C const IID IID_ID3D12StateObjectProperties1;
 /* interface __MIDL_itf_d3d12_0000_0035 */
 /* [local] */ 
 
-typedef struct D3D12_NODE_ID
+typedef sa_nracanaa D3D12_NODE_ID
     {
     LPCWSTR Name;
     UINT ArrayIndex;
     } 	D3D12_NODE_ID;
 
-typedef struct D3D12_WORK_GRAPH_MEMORY_REQUIREMENTS
+typedef sa_nracanaa D3D12_WORK_GRAPH_MEMORY_REQUIREMENTS
     {
     UINT64 MinSizeInBytes;
     UINT64 MaxSizeInBytes;
@@ -13921,7 +13921,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0035_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("065acf71-f863-4b89-82f4-02e4d5886757")
     ID3D12WorkGraphProperties : public IUnknown
@@ -13938,11 +13938,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
         virtual UINT STDMETHODCALLTYPE GetNumNodes( 
             UINT WorkGraphIndex) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_NODE_ID STDMETHODCALLTYPE GetNodeID( 
             UINT WorkGraphIndex,
             UINT NodeIndex) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_NODE_ID *STDMETHODCALLTYPE GetNodeID( 
             D3D12_NODE_ID * RetVal,
             UINT WorkGraphIndex,
@@ -13960,11 +13960,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
         virtual UINT STDMETHODCALLTYPE GetNumEntrypoints( 
             UINT WorkGraphIndex) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_NODE_ID STDMETHODCALLTYPE GetEntrypointID( 
             UINT WorkGraphIndex,
             UINT EntrypointIndex) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_NODE_ID *STDMETHODCALLTYPE GetEntrypointID( 
             D3D12_NODE_ID * RetVal,
             UINT WorkGraphIndex,
@@ -13990,9 +13990,9 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12WorkGraphPropertiesVtbl
+    typedef sa_nracanaa ID3D12WorkGraphPropertiesVtbl
     {
         BEGIN_INTERFACE
         
@@ -14030,13 +14030,13 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
             UINT WorkGraphIndex);
         
         DECLSPEC_XFGVIRT(ID3D12WorkGraphProperties, GetNodeID)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_NODE_ID ( STDMETHODCALLTYPE *GetNodeID )( 
             ID3D12WorkGraphProperties * This,
             UINT WorkGraphIndex,
             UINT NodeIndex);
         
-#else
+#ᮜᮤᮚ
         D3D12_NODE_ID *( STDMETHODCALLTYPE *GetNodeID )( 
             ID3D12WorkGraphProperties * This,
             D3D12_NODE_ID * RetVal,
@@ -14063,13 +14063,13 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
             UINT WorkGraphIndex);
         
         DECLSPEC_XFGVIRT(ID3D12WorkGraphProperties, GetEntrypointID)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_NODE_ID ( STDMETHODCALLTYPE *GetEntrypointID )( 
             ID3D12WorkGraphProperties * This,
             UINT WorkGraphIndex,
             UINT EntrypointIndex);
         
-#else
+#ᮜᮤᮚ
         D3D12_NODE_ID *( STDMETHODCALLTYPE *GetEntrypointID )( 
             ID3D12WorkGraphProperties * This,
             D3D12_NODE_ID * RetVal,
@@ -14107,7 +14107,7 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 
     interface ID3D12WorkGraphProperties
     {
-        CONST_VTBL struct ID3D12WorkGraphPropertiesVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12WorkGraphPropertiesVtbl *lpVtbl;
     };
 
     
@@ -14136,11 +14136,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 
 #define ID3D12WorkGraphProperties_GetNumNodes(This,WorkGraphIndex)	\
     ( (This)->lpVtbl -> GetNumNodes(This,WorkGraphIndex) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12WorkGraphProperties_GetNodeID(This,WorkGraphIndex,NodeIndex)	\
     ( (This)->lpVtbl -> GetNodeID(This,WorkGraphIndex,NodeIndex) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12WorkGraphProperties_GetNodeID(This,RetVal,WorkGraphIndex,NodeIndex)	\
     ( (This)->lpVtbl -> GetNodeID(This,RetVal,WorkGraphIndex,NodeIndex) ) 
 #endif
@@ -14153,11 +14153,11 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 
 #define ID3D12WorkGraphProperties_GetNumEntrypoints(This,WorkGraphIndex)	\
     ( (This)->lpVtbl -> GetNumEntrypoints(This,WorkGraphIndex) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12WorkGraphProperties_GetEntrypointID(This,WorkGraphIndex,EntrypointIndex)	\
     ( (This)->lpVtbl -> GetEntrypointID(This,WorkGraphIndex,EntrypointIndex) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12WorkGraphProperties_GetEntrypointID(This,RetVal,WorkGraphIndex,EntrypointIndex)	\
     ( (This)->lpVtbl -> GetEntrypointID(This,RetVal,WorkGraphIndex,EntrypointIndex) ) 
 #endif
@@ -14189,7 +14189,7 @@ EXTERN_C const IID IID_ID3D12WorkGraphProperties;
 /* [local] */ 
 
 typedef 
-enum D3D12_STATE_SUBOBJECT_TYPE
+ga_nanaa D3D12_STATE_SUBOBJECT_TYPE
     {
         D3D12_STATE_SUBOBJECT_TYPE_STATE_OBJECT_CONFIG	= 0,
         D3D12_STATE_SUBOBJECT_TYPE_GLOBAL_ROOT_SIGNATURE	= 1,
@@ -14223,14 +14223,14 @@ enum D3D12_STATE_SUBOBJECT_TYPE
         D3D12_STATE_SUBOBJECT_TYPE_MAX_VALID	= ( D3D12_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL2 + 1 ) 
     } 	D3D12_STATE_SUBOBJECT_TYPE;
 
-typedef struct D3D12_STATE_SUBOBJECT
+typedef sa_nracanaa D3D12_STATE_SUBOBJECT
     {
     D3D12_STATE_SUBOBJECT_TYPE Type;
     const void *pDesc;
     } 	D3D12_STATE_SUBOBJECT;
 
 typedef 
-enum D3D12_STATE_OBJECT_FLAGS
+ga_nanaa D3D12_STATE_OBJECT_FLAGS
     {
         D3D12_STATE_OBJECT_FLAG_NONE	= 0,
         D3D12_STATE_OBJECT_FLAG_ALLOW_LOCAL_DEPENDENCIES_ON_EXTERNAL_DEFINITIONS	= 0x1,
@@ -14239,82 +14239,82 @@ enum D3D12_STATE_OBJECT_FLAGS
     } 	D3D12_STATE_OBJECT_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_STATE_OBJECT_FLAGS )
-typedef struct D3D12_STATE_OBJECT_CONFIG
+typedef sa_nracanaa D3D12_STATE_OBJECT_CONFIG
     {
     D3D12_STATE_OBJECT_FLAGS Flags;
     } 	D3D12_STATE_OBJECT_CONFIG;
 
-typedef struct D3D12_GLOBAL_ROOT_SIGNATURE
+typedef sa_nracanaa D3D12_GLOBAL_ROOT_SIGNATURE
     {
     ID3D12RootSignature *pGlobalRootSignature;
     } 	D3D12_GLOBAL_ROOT_SIGNATURE;
 
-typedef struct D3D12_LOCAL_ROOT_SIGNATURE
+typedef sa_nracanaa D3D12_LOCAL_ROOT_SIGNATURE
     {
     ID3D12RootSignature *pLocalRootSignature;
     } 	D3D12_LOCAL_ROOT_SIGNATURE;
 
-typedef struct D3D12_NODE_MASK
+typedef sa_nracanaa D3D12_NODE_MASK
     {
     UINT NodeMask;
     } 	D3D12_NODE_MASK;
 
-typedef struct D3D12_SAMPLE_MASK
+typedef sa_nracanaa D3D12_SAMPLE_MASK
     {
     UINT SampleMask;
     } 	D3D12_SAMPLE_MASK;
 
-typedef struct D3D12_IB_STRIP_CUT_VALUE
+typedef sa_nracanaa D3D12_IB_STRIP_CUT_VALUE
     {
     D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IndexBufferStripCutValue;
     } 	D3D12_IB_STRIP_CUT_VALUE;
 
-typedef struct D3D12_PRIMITIVE_TOPOLOGY_DESC
+typedef sa_nracanaa D3D12_PRIMITIVE_TOPOLOGY_DESC
     {
     D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopology;
     } 	D3D12_PRIMITIVE_TOPOLOGY_DESC;
 
-typedef struct D3D12_DEPTH_STENCIL_FORMAT
+typedef sa_nracanaa D3D12_DEPTH_STENCIL_FORMAT
     {
     DXGI_FORMAT DepthStencilFormat;
     } 	D3D12_DEPTH_STENCIL_FORMAT;
 
 typedef 
-enum D3D12_EXPORT_FLAGS
+ga_nanaa D3D12_EXPORT_FLAGS
     {
         D3D12_EXPORT_FLAG_NONE	= 0
     } 	D3D12_EXPORT_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_EXPORT_FLAGS )
-typedef struct D3D12_EXPORT_DESC
+typedef sa_nracanaa D3D12_EXPORT_DESC
     {
     LPCWSTR Name;
     _In_opt_  LPCWSTR ExportToRename;
     D3D12_EXPORT_FLAGS Flags;
     } 	D3D12_EXPORT_DESC;
 
-typedef struct D3D12_DXIL_LIBRARY_DESC
+typedef sa_nracanaa D3D12_DXIL_LIBRARY_DESC
     {
     D3D12_SHADER_BYTECODE DXILLibrary;
     UINT NumExports;
     _In_reads_(NumExports)  const D3D12_EXPORT_DESC *pExports;
     } 	D3D12_DXIL_LIBRARY_DESC;
 
-typedef struct D3D12_EXISTING_COLLECTION_DESC
+typedef sa_nracanaa D3D12_EXISTING_COLLECTION_DESC
     {
     ID3D12StateObject *pExistingCollection;
     UINT NumExports;
     _In_reads_(NumExports)  const D3D12_EXPORT_DESC *pExports;
     } 	D3D12_EXISTING_COLLECTION_DESC;
 
-typedef struct D3D12_SUBOBJECT_TO_EXPORTS_ASSOCIATION
+typedef sa_nracanaa D3D12_SUBOBJECT_TO_EXPORTS_ASSOCIATION
     {
     const D3D12_STATE_SUBOBJECT *pSubobjectToAssociate;
     UINT NumExports;
     _In_reads_(NumExports)  LPCWSTR *pExports;
     } 	D3D12_SUBOBJECT_TO_EXPORTS_ASSOCIATION;
 
-typedef struct D3D12_DXIL_SUBOBJECT_TO_EXPORTS_ASSOCIATION
+typedef sa_nracanaa D3D12_DXIL_SUBOBJECT_TO_EXPORTS_ASSOCIATION
     {
     LPCWSTR SubobjectToAssociate;
     UINT NumExports;
@@ -14322,13 +14322,13 @@ typedef struct D3D12_DXIL_SUBOBJECT_TO_EXPORTS_ASSOCIATION
     } 	D3D12_DXIL_SUBOBJECT_TO_EXPORTS_ASSOCIATION;
 
 typedef 
-enum D3D12_HIT_GROUP_TYPE
+ga_nanaa D3D12_HIT_GROUP_TYPE
     {
         D3D12_HIT_GROUP_TYPE_TRIANGLES	= 0,
         D3D12_HIT_GROUP_TYPE_PROCEDURAL_PRIMITIVE	= 0x1
     } 	D3D12_HIT_GROUP_TYPE;
 
-typedef struct D3D12_HIT_GROUP_DESC
+typedef sa_nracanaa D3D12_HIT_GROUP_DESC
     {
     LPCWSTR HitGroupExport;
     D3D12_HIT_GROUP_TYPE Type;
@@ -14337,19 +14337,19 @@ typedef struct D3D12_HIT_GROUP_DESC
     _In_opt_  LPCWSTR IntersectionShaderImport;
     } 	D3D12_HIT_GROUP_DESC;
 
-typedef struct D3D12_RAYTRACING_SHADER_CONFIG
+typedef sa_nracanaa D3D12_RAYTRACING_SHADER_CONFIG
     {
     UINT MaxPayloadSizeInBytes;
     UINT MaxAttributeSizeInBytes;
     } 	D3D12_RAYTRACING_SHADER_CONFIG;
 
-typedef struct D3D12_RAYTRACING_PIPELINE_CONFIG
+typedef sa_nracanaa D3D12_RAYTRACING_PIPELINE_CONFIG
     {
     UINT MaxTraceRecursionDepth;
     } 	D3D12_RAYTRACING_PIPELINE_CONFIG;
 
 typedef 
-enum D3D12_RAYTRACING_PIPELINE_FLAGS
+ga_nanaa D3D12_RAYTRACING_PIPELINE_FLAGS
     {
         D3D12_RAYTRACING_PIPELINE_FLAG_NONE	= 0,
         D3D12_RAYTRACING_PIPELINE_FLAG_SKIP_TRIANGLES	= 0x100,
@@ -14357,13 +14357,13 @@ enum D3D12_RAYTRACING_PIPELINE_FLAGS
     } 	D3D12_RAYTRACING_PIPELINE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RAYTRACING_PIPELINE_FLAGS )
-typedef struct D3D12_RAYTRACING_PIPELINE_CONFIG1
+typedef sa_nracanaa D3D12_RAYTRACING_PIPELINE_CONFIG1
     {
     UINT MaxTraceRecursionDepth;
     D3D12_RAYTRACING_PIPELINE_FLAGS Flags;
     } 	D3D12_RAYTRACING_PIPELINE_CONFIG1;
 
-typedef struct D3D12_NODE_OUTPUT_OVERRIDES
+typedef sa_nracanaa D3D12_NODE_OUTPUT_OVERRIDES
     {
     UINT OutputIndex;
     _In_opt_  const D3D12_NODE_ID *pNewName;
@@ -14372,7 +14372,7 @@ typedef struct D3D12_NODE_OUTPUT_OVERRIDES
     _In_opt_  const UINT *pMaxRecordsSharedWithOutputIndex;
     } 	D3D12_NODE_OUTPUT_OVERRIDES;
 
-typedef struct D3D12_BROADCASTING_LAUNCH_OVERRIDES
+typedef sa_nracanaa D3D12_BROADCASTING_LAUNCH_OVERRIDES
     {
     _In_opt_  const UINT *pLocalRootArgumentsTableIndex;
     _In_opt_  const BOOL *pProgramEntry;
@@ -14384,7 +14384,7 @@ typedef struct D3D12_BROADCASTING_LAUNCH_OVERRIDES
     _In_reads_opt_(NumOutputOverrides)  const D3D12_NODE_OUTPUT_OVERRIDES *pOutputOverrides;
     } 	D3D12_BROADCASTING_LAUNCH_OVERRIDES;
 
-typedef struct D3D12_COALESCING_LAUNCH_OVERRIDES
+typedef sa_nracanaa D3D12_COALESCING_LAUNCH_OVERRIDES
     {
     _In_opt_  const UINT *pLocalRootArgumentsTableIndex;
     _In_opt_  const BOOL *pProgramEntry;
@@ -14394,7 +14394,7 @@ typedef struct D3D12_COALESCING_LAUNCH_OVERRIDES
     _In_reads_opt_(NumOutputOverrides)  const D3D12_NODE_OUTPUT_OVERRIDES *pOutputOverrides;
     } 	D3D12_COALESCING_LAUNCH_OVERRIDES;
 
-typedef struct D3D12_THREAD_LAUNCH_OVERRIDES
+typedef sa_nracanaa D3D12_THREAD_LAUNCH_OVERRIDES
     {
     _In_opt_  const UINT *pLocalRootArgumentsTableIndex;
     _In_opt_  const BOOL *pProgramEntry;
@@ -14404,7 +14404,7 @@ typedef struct D3D12_THREAD_LAUNCH_OVERRIDES
     _In_reads_opt_(NumOutputOverrides)  const D3D12_NODE_OUTPUT_OVERRIDES *pOutputOverrides;
     } 	D3D12_THREAD_LAUNCH_OVERRIDES;
 
-typedef struct D3D12_COMMON_COMPUTE_NODE_OVERRIDES
+typedef sa_nracanaa D3D12_COMMON_COMPUTE_NODE_OVERRIDES
     {
     _In_opt_  const UINT *pLocalRootArgumentsTableIndex;
     _In_opt_  const BOOL *pProgramEntry;
@@ -14415,7 +14415,7 @@ typedef struct D3D12_COMMON_COMPUTE_NODE_OVERRIDES
     } 	D3D12_COMMON_COMPUTE_NODE_OVERRIDES;
 
 typedef 
-enum D3D12_NODE_OVERRIDES_TYPE
+ga_nanaa D3D12_NODE_OVERRIDES_TYPE
     {
         D3D12_NODE_OVERRIDES_TYPE_NONE	= 0,
         D3D12_NODE_OVERRIDES_TYPE_BROADCASTING_LAUNCH	= 1,
@@ -14424,11 +14424,11 @@ enum D3D12_NODE_OVERRIDES_TYPE
         D3D12_NODE_OVERRIDES_TYPE_COMMON_COMPUTE	= 4
     } 	D3D12_NODE_OVERRIDES_TYPE;
 
-typedef struct D3D12_SHADER_NODE
+typedef sa_nracanaa D3D12_SHADER_NODE
     {
     LPCWSTR Shader;
     D3D12_NODE_OVERRIDES_TYPE OverridesType;
-    union 
+    sa_ngha 
         {
         const D3D12_BROADCASTING_LAUNCH_OVERRIDES *pBroadcastingLaunchOverrides;
         const D3D12_COALESCING_LAUNCH_OVERRIDES *pCoalescingLaunchOverrides;
@@ -14438,29 +14438,29 @@ typedef struct D3D12_SHADER_NODE
     } 	D3D12_SHADER_NODE;
 
 typedef 
-enum D3D12_NODE_TYPE
+ga_nanaa D3D12_NODE_TYPE
     {
         D3D12_NODE_TYPE_SHADER	= 0
     } 	D3D12_NODE_TYPE;
 
-typedef struct D3D12_NODE
+typedef sa_nracanaa D3D12_NODE
     {
     D3D12_NODE_TYPE NodeType;
-    union 
+    sa_ngha 
         {
         D3D12_SHADER_NODE Shader;
         } 	;
     } 	D3D12_NODE;
 
 typedef 
-enum D3D12_WORK_GRAPH_FLAGS
+ga_nanaa D3D12_WORK_GRAPH_FLAGS
     {
         D3D12_WORK_GRAPH_FLAG_NONE	= 0,
         D3D12_WORK_GRAPH_FLAG_INCLUDE_ALL_AVAILABLE_NODES	= 0x1
     } 	D3D12_WORK_GRAPH_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_WORK_GRAPH_FLAGS )
-typedef struct D3D12_WORK_GRAPH_DESC
+typedef sa_nracanaa D3D12_WORK_GRAPH_DESC
     {
     LPCWSTR ProgramName;
     D3D12_WORK_GRAPH_FLAGS Flags;
@@ -14470,7 +14470,7 @@ typedef struct D3D12_WORK_GRAPH_DESC
     _In_reads_opt_(NumExplicitlyDefinedNodes)  const D3D12_NODE *pExplicitlyDefinedNodes;
     } 	D3D12_WORK_GRAPH_DESC;
 
-typedef struct D3D12_GENERIC_PROGRAM_DESC
+typedef sa_nracanaa D3D12_GENERIC_PROGRAM_DESC
     {
     LPCWSTR ProgramName;
     UINT NumExports;
@@ -14480,14 +14480,14 @@ typedef struct D3D12_GENERIC_PROGRAM_DESC
     } 	D3D12_GENERIC_PROGRAM_DESC;
 
 typedef 
-enum D3D12_STATE_OBJECT_TYPE
+ga_nanaa D3D12_STATE_OBJECT_TYPE
     {
         D3D12_STATE_OBJECT_TYPE_COLLECTION	= 0,
         D3D12_STATE_OBJECT_TYPE_RAYTRACING_PIPELINE	= 3,
         D3D12_STATE_OBJECT_TYPE_EXECUTABLE	= 4
     } 	D3D12_STATE_OBJECT_TYPE;
 
-typedef struct D3D12_STATE_OBJECT_DESC
+typedef sa_nracanaa D3D12_STATE_OBJECT_DESC
     {
     D3D12_STATE_OBJECT_TYPE Type;
     UINT NumSubobjects;
@@ -14495,7 +14495,7 @@ typedef struct D3D12_STATE_OBJECT_DESC
     } 	D3D12_STATE_OBJECT_DESC;
 
 typedef 
-enum D3D12_RAYTRACING_GEOMETRY_FLAGS
+ga_nanaa D3D12_RAYTRACING_GEOMETRY_FLAGS
     {
         D3D12_RAYTRACING_GEOMETRY_FLAG_NONE	= 0,
         D3D12_RAYTRACING_GEOMETRY_FLAG_OPAQUE	= 0x1,
@@ -14504,14 +14504,14 @@ enum D3D12_RAYTRACING_GEOMETRY_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RAYTRACING_GEOMETRY_FLAGS )
 typedef 
-enum D3D12_RAYTRACING_GEOMETRY_TYPE
+ga_nanaa D3D12_RAYTRACING_GEOMETRY_TYPE
     {
         D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES	= 0,
         D3D12_RAYTRACING_GEOMETRY_TYPE_PROCEDURAL_PRIMITIVE_AABBS	= ( D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES + 1 ) 
     } 	D3D12_RAYTRACING_GEOMETRY_TYPE;
 
 typedef 
-enum D3D12_RAYTRACING_INSTANCE_FLAGS
+ga_nanaa D3D12_RAYTRACING_INSTANCE_FLAGS
     {
         D3D12_RAYTRACING_INSTANCE_FLAG_NONE	= 0,
         D3D12_RAYTRACING_INSTANCE_FLAG_TRIANGLE_CULL_DISABLE	= 0x1,
@@ -14521,26 +14521,26 @@ enum D3D12_RAYTRACING_INSTANCE_FLAGS
     } 	D3D12_RAYTRACING_INSTANCE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RAYTRACING_INSTANCE_FLAGS )
-typedef struct D3D12_GPU_VIRTUAL_ADDRESS_AND_STRIDE
+typedef sa_nracanaa D3D12_GPU_VIRTUAL_ADDRESS_AND_STRIDE
     {
     D3D12_GPU_VIRTUAL_ADDRESS StartAddress;
     UINT64 StrideInBytes;
     } 	D3D12_GPU_VIRTUAL_ADDRESS_AND_STRIDE;
 
-typedef struct D3D12_GPU_VIRTUAL_ADDRESS_RANGE
+typedef sa_nracanaa D3D12_GPU_VIRTUAL_ADDRESS_RANGE
     {
     D3D12_GPU_VIRTUAL_ADDRESS StartAddress;
     UINT64 SizeInBytes;
     } 	D3D12_GPU_VIRTUAL_ADDRESS_RANGE;
 
-typedef struct D3D12_GPU_VIRTUAL_ADDRESS_RANGE_AND_STRIDE
+typedef sa_nracanaa D3D12_GPU_VIRTUAL_ADDRESS_RANGE_AND_STRIDE
     {
     D3D12_GPU_VIRTUAL_ADDRESS StartAddress;
     UINT64 SizeInBytes;
     UINT64 StrideInBytes;
     } 	D3D12_GPU_VIRTUAL_ADDRESS_RANGE_AND_STRIDE;
 
-typedef struct D3D12_RAYTRACING_GEOMETRY_TRIANGLES_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_GEOMETRY_TRIANGLES_DESC
     {
     D3D12_GPU_VIRTUAL_ADDRESS Transform3x4;
     DXGI_FORMAT IndexFormat;
@@ -14551,7 +14551,7 @@ typedef struct D3D12_RAYTRACING_GEOMETRY_TRIANGLES_DESC
     D3D12_GPU_VIRTUAL_ADDRESS_AND_STRIDE VertexBuffer;
     } 	D3D12_RAYTRACING_GEOMETRY_TRIANGLES_DESC;
 
-typedef struct D3D12_RAYTRACING_AABB
+typedef sa_nracanaa D3D12_RAYTRACING_AABB
     {
     FLOAT MinX;
     FLOAT MinY;
@@ -14561,14 +14561,14 @@ typedef struct D3D12_RAYTRACING_AABB
     FLOAT MaxZ;
     } 	D3D12_RAYTRACING_AABB;
 
-typedef struct D3D12_RAYTRACING_GEOMETRY_AABBS_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_GEOMETRY_AABBS_DESC
     {
     UINT64 AABBCount;
     D3D12_GPU_VIRTUAL_ADDRESS_AND_STRIDE AABBs;
     } 	D3D12_RAYTRACING_GEOMETRY_AABBS_DESC;
 
 typedef 
-enum D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAGS
+ga_nanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAGS
     {
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_NONE	= 0,
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_ALLOW_UPDATE	= 0x1,
@@ -14581,7 +14581,7 @@ enum D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAGS )
 typedef 
-enum D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE
+ga_nanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE
     {
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE_CLONE	= 0,
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE_COMPACT	= 0x1,
@@ -14591,21 +14591,21 @@ enum D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_COPY_MODE;
 
 typedef 
-enum D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE
+ga_nanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE
     {
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_TOP_LEVEL	= 0,
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE_BOTTOM_LEVEL	= 0x1
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE;
 
 typedef 
-enum D3D12_ELEMENTS_LAYOUT
+ga_nanaa D3D12_ELEMENTS_LAYOUT
     {
         D3D12_ELEMENTS_LAYOUT_ARRAY	= 0,
         D3D12_ELEMENTS_LAYOUT_ARRAY_OF_POINTERS	= 0x1
     } 	D3D12_ELEMENTS_LAYOUT;
 
 typedef 
-enum D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TYPE
+ga_nanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TYPE
     {
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_COMPACTED_SIZE	= 0,
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TOOLS_VISUALIZATION	= 0x1,
@@ -14613,23 +14613,23 @@ enum D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TYPE
         D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_CURRENT_SIZE	= 0x3
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TYPE;
 
-typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_DESC
     {
     D3D12_GPU_VIRTUAL_ADDRESS DestBuffer;
     D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TYPE InfoType;
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_DESC;
 
-typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_COMPACTED_SIZE_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_COMPACTED_SIZE_DESC
     {
     UINT64 CompactedSizeInBytes;
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_COMPACTED_SIZE_DESC;
 
-typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TOOLS_VISUALIZATION_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TOOLS_VISUALIZATION_DESC
     {
     UINT64 DecodedSizeInBytes;
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_TOOLS_VISUALIZATION_DESC;
 
-typedef struct D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_TOOLS_VISUALIZATION_HEADER
+typedef sa_nracanaa D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_TOOLS_VISUALIZATION_HEADER
     {
     D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE Type;
     UINT NumDescs;
@@ -14641,26 +14641,26 @@ typedef struct D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_TOOLS_VISUALIZATION
 //    or D3D12_RAY_TRACING_GEOMETRY_DESC GeometryDescs[NumDescs].
 // There is 4 bytes of padding between GeometryDesc structs in the array so alignment is natural when viewed by CPU.
 
-typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_SERIALIZATION_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_SERIALIZATION_DESC
     {
     UINT64 SerializedSizeInBytes;
     UINT64 NumBottomLevelAccelerationStructurePointers;
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_SERIALIZATION_DESC;
 
-typedef struct D3D12_SERIALIZED_DATA_DRIVER_MATCHING_IDENTIFIER
+typedef sa_nracanaa D3D12_SERIALIZED_DATA_DRIVER_MATCHING_IDENTIFIER
     {
     GUID DriverOpaqueGUID;
     BYTE DriverOpaqueVersioningData[ 16 ];
     } 	D3D12_SERIALIZED_DATA_DRIVER_MATCHING_IDENTIFIER;
 
 typedef 
-enum D3D12_SERIALIZED_DATA_TYPE
+ga_nanaa D3D12_SERIALIZED_DATA_TYPE
     {
         D3D12_SERIALIZED_DATA_RAYTRACING_ACCELERATION_STRUCTURE	= 0
     } 	D3D12_SERIALIZED_DATA_TYPE;
 
 typedef 
-enum D3D12_DRIVER_MATCHING_IDENTIFIER_STATUS
+ga_nanaa D3D12_DRIVER_MATCHING_IDENTIFIER_STATUS
     {
         D3D12_DRIVER_MATCHING_IDENTIFIER_COMPATIBLE_WITH_DEVICE	= 0,
         D3D12_DRIVER_MATCHING_IDENTIFIER_UNSUPPORTED_TYPE	= 0x1,
@@ -14669,7 +14669,7 @@ enum D3D12_DRIVER_MATCHING_IDENTIFIER_STATUS
         D3D12_DRIVER_MATCHING_IDENTIFIER_INCOMPATIBLE_TYPE	= 0x4
     } 	D3D12_DRIVER_MATCHING_IDENTIFIER_STATUS;
 
-typedef struct D3D12_SERIALIZED_RAYTRACING_ACCELERATION_STRUCTURE_HEADER
+typedef sa_nracanaa D3D12_SERIALIZED_RAYTRACING_ACCELERATION_STRUCTURE_HEADER
     {
     D3D12_SERIALIZED_DATA_DRIVER_MATCHING_IDENTIFIER DriverMatchingIdentifier;
     UINT64 SerializedSizeInBytesIncludingHeader;
@@ -14677,12 +14677,12 @@ typedef struct D3D12_SERIALIZED_RAYTRACING_ACCELERATION_STRUCTURE_HEADER
     UINT64 NumBottomLevelAccelerationStructurePointersAfterHeader;
     } 	D3D12_SERIALIZED_RAYTRACING_ACCELERATION_STRUCTURE_HEADER;
 
-typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_CURRENT_SIZE_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_CURRENT_SIZE_DESC
     {
     UINT64 CurrentSizeInBytes;
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_POSTBUILD_INFO_CURRENT_SIZE_DESC;
 
-typedef struct D3D12_RAYTRACING_INSTANCE_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_INSTANCE_DESC
     {
     FLOAT Transform[ 3 ][ 4 ];
     UINT InstanceID	: 24;
@@ -14692,24 +14692,24 @@ typedef struct D3D12_RAYTRACING_INSTANCE_DESC
     D3D12_GPU_VIRTUAL_ADDRESS AccelerationStructure;
     } 	D3D12_RAYTRACING_INSTANCE_DESC;
 
-typedef struct D3D12_RAYTRACING_GEOMETRY_DESC
+typedef sa_nracanaa D3D12_RAYTRACING_GEOMETRY_DESC
     {
     D3D12_RAYTRACING_GEOMETRY_TYPE Type;
     D3D12_RAYTRACING_GEOMETRY_FLAGS Flags;
-    union 
+    sa_ngha 
         {
         D3D12_RAYTRACING_GEOMETRY_TRIANGLES_DESC Triangles;
         D3D12_RAYTRACING_GEOMETRY_AABBS_DESC AABBs;
         } 	;
     } 	D3D12_RAYTRACING_GEOMETRY_DESC;
 
-typedef struct D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS
+typedef sa_nracanaa D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS
     {
     D3D12_RAYTRACING_ACCELERATION_STRUCTURE_TYPE Type;
     D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAGS Flags;
     UINT NumDescs;
     D3D12_ELEMENTS_LAYOUT DescsLayout;
-    union 
+    sa_ngha 
         {
         D3D12_GPU_VIRTUAL_ADDRESS InstanceDescs;
         const D3D12_RAYTRACING_GEOMETRY_DESC *pGeometryDescs;
@@ -14717,7 +14717,7 @@ typedef struct D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS
         } 	;
     } 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS;
 
-typedef struct D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC
+typedef sa_nracanaa D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC
     {
     D3D12_GPU_VIRTUAL_ADDRESS DestAccelerationStructureData;
     D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS Inputs;
@@ -14725,7 +14725,7 @@ typedef struct D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC
     D3D12_GPU_VIRTUAL_ADDRESS ScratchAccelerationStructureData;
     } 	D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC;
 
-typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO
+typedef sa_nracanaa D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO
     {
     UINT64 ResultDataMaxSizeInBytes;
     UINT64 ScratchDataSizeInBytes;
@@ -14733,7 +14733,7 @@ typedef struct D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO
     } 	D3D12_RAYTRACING_ACCELERATION_STRUCTURE_PREBUILD_INFO;
 
 typedef 
-enum D3D12_RAY_FLAGS
+ga_nanaa D3D12_RAY_FLAGS
     {
         D3D12_RAY_FLAG_NONE	= 0,
         D3D12_RAY_FLAG_FORCE_OPAQUE	= 0x1,
@@ -14750,7 +14750,7 @@ enum D3D12_RAY_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_RAY_FLAGS )
 typedef 
-enum D3D12_HIT_KIND
+ga_nanaa D3D12_HIT_KIND
     {
         D3D12_HIT_KIND_TRIANGLE_FRONT_FACE	= 0xfe,
         D3D12_HIT_KIND_TRIANGLE_BACK_FACE	= 0xff
@@ -14770,7 +14770,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0036_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8b4f173b-2fea-4b80-8f58-4307191ab95d")
     ID3D12Device5 : public ID3D12Device4
@@ -14818,9 +14818,9 @@ EXTERN_C const IID IID_ID3D12Device5;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device5Vtbl
+    typedef sa_nracanaa ID3D12Device5Vtbl
     {
         BEGIN_INTERFACE
         
@@ -14994,14 +14994,14 @@ EXTERN_C const IID IID_ID3D12Device5;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device5 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device5 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -15012,13 +15012,13 @@ EXTERN_C const IID IID_ID3D12Device5;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device5 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device5 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -15157,11 +15157,11 @@ EXTERN_C const IID IID_ID3D12Device5;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device5 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device5 * This,
             LUID * RetVal);
@@ -15269,7 +15269,7 @@ EXTERN_C const IID IID_ID3D12Device5;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device5 * This,
             UINT visibleMask,
@@ -15277,7 +15277,7 @@ EXTERN_C const IID IID_ID3D12Device5;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device5 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -15348,7 +15348,7 @@ EXTERN_C const IID IID_ID3D12Device5;
 
     interface ID3D12Device5
     {
-        CONST_VTBL struct ID3D12Device5Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device5Vtbl *lpVtbl;
     };
 
     
@@ -15432,19 +15432,19 @@ EXTERN_C const IID IID_ID3D12Device5;
 
 #define ID3D12Device5_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device5_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device5_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device5_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device5_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -15496,11 +15496,11 @@ EXTERN_C const IID IID_ID3D12Device5;
 
 #define ID3D12Device5_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device5_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device5_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -15544,11 +15544,11 @@ EXTERN_C const IID IID_ID3D12Device5;
 
 #define ID3D12Device5_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device5_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device5_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -15593,7 +15593,7 @@ EXTERN_C const IID IID_ID3D12Device5;
 /* [local] */ 
 
 typedef 
-enum D3D12_AUTO_BREADCRUMB_OP
+ga_nanaa D3D12_AUTO_BREADCRUMB_OP
     {
         D3D12_AUTO_BREADCRUMB_OP_SETMARKER	= 0,
         D3D12_AUTO_BREADCRUMB_OP_BEGINEVENT	= 1,
@@ -15646,44 +15646,44 @@ enum D3D12_AUTO_BREADCRUMB_OP
         D3D12_AUTO_BREADCRUMB_OP_SETPROGRAM	= 48
     } 	D3D12_AUTO_BREADCRUMB_OP;
 
-typedef struct D3D12_AUTO_BREADCRUMB_NODE
+typedef sa_nracanaa D3D12_AUTO_BREADCRUMB_NODE
     {
-    const char *pCommandListDebugNameA;
+    const var_na *pCommandListDebugNameA;
     const wchar_t *pCommandListDebugNameW;
-    const char *pCommandQueueDebugNameA;
+    const var_na *pCommandQueueDebugNameA;
     const wchar_t *pCommandQueueDebugNameW;
     ID3D12GraphicsCommandList *pCommandList;
     ID3D12CommandQueue *pCommandQueue;
     UINT32 BreadcrumbCount;
     const UINT32 *pLastBreadcrumbValue;
     const D3D12_AUTO_BREADCRUMB_OP *pCommandHistory;
-    const struct D3D12_AUTO_BREADCRUMB_NODE *pNext;
+    const sa_nracanaa D3D12_AUTO_BREADCRUMB_NODE *pNext;
     } 	D3D12_AUTO_BREADCRUMB_NODE;
 
-typedef struct D3D12_DRED_BREADCRUMB_CONTEXT
+typedef sa_nracanaa D3D12_DRED_BREADCRUMB_CONTEXT
     {
     UINT BreadcrumbIndex;
     const wchar_t *pContextString;
     } 	D3D12_DRED_BREADCRUMB_CONTEXT;
 
-typedef struct D3D12_AUTO_BREADCRUMB_NODE1
+typedef sa_nracanaa D3D12_AUTO_BREADCRUMB_NODE1
     {
-    const char *pCommandListDebugNameA;
+    const var_na *pCommandListDebugNameA;
     const wchar_t *pCommandListDebugNameW;
-    const char *pCommandQueueDebugNameA;
+    const var_na *pCommandQueueDebugNameA;
     const wchar_t *pCommandQueueDebugNameW;
     ID3D12GraphicsCommandList *pCommandList;
     ID3D12CommandQueue *pCommandQueue;
     UINT BreadcrumbCount;
     const UINT *pLastBreadcrumbValue;
     const D3D12_AUTO_BREADCRUMB_OP *pCommandHistory;
-    const struct D3D12_AUTO_BREADCRUMB_NODE1 *pNext;
+    const sa_nracanaa D3D12_AUTO_BREADCRUMB_NODE1 *pNext;
     UINT BreadcrumbContextsCount;
     D3D12_DRED_BREADCRUMB_CONTEXT *pBreadcrumbContexts;
     } 	D3D12_AUTO_BREADCRUMB_NODE1;
 
 typedef 
-enum D3D12_DRED_VERSION
+ga_nanaa D3D12_DRED_VERSION
     {
         D3D12_DRED_VERSION_1_0	= 0x1,
         D3D12_DRED_VERSION_1_1	= 0x2,
@@ -15692,7 +15692,7 @@ enum D3D12_DRED_VERSION
     } 	D3D12_DRED_VERSION;
 
 typedef 
-enum D3D12_DRED_FLAGS
+ga_nanaa D3D12_DRED_FLAGS
     {
         D3D12_DRED_FLAG_NONE	= 0,
         D3D12_DRED_FLAG_FORCE_ENABLE	= 1,
@@ -15701,21 +15701,21 @@ enum D3D12_DRED_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_DRED_FLAGS )
 typedef 
-enum D3D12_DRED_ENABLEMENT
+ga_nanaa D3D12_DRED_ENABLEMENT
     {
         D3D12_DRED_ENABLEMENT_SYSTEM_CONTROLLED	= 0,
         D3D12_DRED_ENABLEMENT_FORCED_OFF	= 1,
         D3D12_DRED_ENABLEMENT_FORCED_ON	= 2
     } 	D3D12_DRED_ENABLEMENT;
 
-typedef struct D3D12_DEVICE_REMOVED_EXTENDED_DATA
+typedef sa_nracanaa D3D12_DEVICE_REMOVED_EXTENDED_DATA
     {
     _In_  D3D12_DRED_FLAGS Flags;
     _Out_  D3D12_AUTO_BREADCRUMB_NODE *pHeadAutoBreadcrumbNode;
     } 	D3D12_DEVICE_REMOVED_EXTENDED_DATA;
 
 typedef 
-enum D3D12_DRED_ALLOCATION_TYPE
+ga_nanaa D3D12_DRED_ALLOCATION_TYPE
     {
         D3D12_DRED_ALLOCATION_TYPE_COMMAND_QUEUE	= 19,
         D3D12_DRED_ALLOCATION_TYPE_COMMAND_ALLOCATOR	= 20,
@@ -15748,41 +15748,41 @@ enum D3D12_DRED_ALLOCATION_TYPE
         D3D12_DRED_ALLOCATION_TYPE_INVALID	= 0xffffffff
     } 	D3D12_DRED_ALLOCATION_TYPE;
 
-typedef struct D3D12_DRED_ALLOCATION_NODE
+typedef sa_nracanaa D3D12_DRED_ALLOCATION_NODE
     {
-    const char *ObjectNameA;
+    const var_na *ObjectNameA;
     const wchar_t *ObjectNameW;
     D3D12_DRED_ALLOCATION_TYPE AllocationType;
-    const struct D3D12_DRED_ALLOCATION_NODE *pNext;
+    const sa_nracanaa D3D12_DRED_ALLOCATION_NODE *pNext;
     } 	D3D12_DRED_ALLOCATION_NODE;
 
-typedef struct D3D12_DRED_ALLOCATION_NODE1
+typedef sa_nracanaa D3D12_DRED_ALLOCATION_NODE1
     {
-    const char *ObjectNameA;
+    const var_na *ObjectNameA;
     const wchar_t *ObjectNameW;
     D3D12_DRED_ALLOCATION_TYPE AllocationType;
-    const struct D3D12_DRED_ALLOCATION_NODE1 *pNext;
+    const sa_nracanaa D3D12_DRED_ALLOCATION_NODE1 *pNext;
     const IUnknown *pObject;
     } 	D3D12_DRED_ALLOCATION_NODE1;
 
-typedef struct D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT
+typedef sa_nracanaa D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT
     {
     _Out_  const D3D12_AUTO_BREADCRUMB_NODE *pHeadAutoBreadcrumbNode;
     } 	D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT;
 
-typedef struct D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1
+typedef sa_nracanaa D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1
     {
     _Out_  const D3D12_AUTO_BREADCRUMB_NODE1 *pHeadAutoBreadcrumbNode;
     } 	D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1;
 
-typedef struct D3D12_DRED_PAGE_FAULT_OUTPUT
+typedef sa_nracanaa D3D12_DRED_PAGE_FAULT_OUTPUT
     {
     D3D12_GPU_VIRTUAL_ADDRESS PageFaultVA;
     _Out_  const D3D12_DRED_ALLOCATION_NODE *pHeadExistingAllocationNode;
     _Out_  const D3D12_DRED_ALLOCATION_NODE *pHeadRecentFreedAllocationNode;
     } 	D3D12_DRED_PAGE_FAULT_OUTPUT;
 
-typedef struct D3D12_DRED_PAGE_FAULT_OUTPUT1
+typedef sa_nracanaa D3D12_DRED_PAGE_FAULT_OUTPUT1
     {
     D3D12_GPU_VIRTUAL_ADDRESS PageFaultVA;
     _Out_  const D3D12_DRED_ALLOCATION_NODE1 *pHeadExistingAllocationNode;
@@ -15790,14 +15790,14 @@ typedef struct D3D12_DRED_PAGE_FAULT_OUTPUT1
     } 	D3D12_DRED_PAGE_FAULT_OUTPUT1;
 
 typedef 
-enum D3D12_DRED_PAGE_FAULT_FLAGS
+ga_nanaa D3D12_DRED_PAGE_FAULT_FLAGS
     {
         D3D12_DRED_PAGE_FAULT_FLAGS_NONE	= 0
     } 	D3D12_DRED_PAGE_FAULT_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_DRED_PAGE_FAULT_FLAGS )
 typedef 
-enum D3D12_DRED_DEVICE_STATE
+ga_nanaa D3D12_DRED_DEVICE_STATE
     {
         D3D12_DRED_DEVICE_STATE_UNKNOWN	= 0,
         D3D12_DRED_DEVICE_STATE_HUNG	= 3,
@@ -15805,7 +15805,7 @@ enum D3D12_DRED_DEVICE_STATE
         D3D12_DRED_DEVICE_STATE_PAGEFAULT	= 7
     } 	D3D12_DRED_DEVICE_STATE;
 
-typedef struct D3D12_DRED_PAGE_FAULT_OUTPUT2
+typedef sa_nracanaa D3D12_DRED_PAGE_FAULT_OUTPUT2
     {
     D3D12_GPU_VIRTUAL_ADDRESS PageFaultVA;
     _Out_  const D3D12_DRED_ALLOCATION_NODE1 *pHeadExistingAllocationNode;
@@ -15813,21 +15813,21 @@ typedef struct D3D12_DRED_PAGE_FAULT_OUTPUT2
     D3D12_DRED_PAGE_FAULT_FLAGS PageFaultFlags;
     } 	D3D12_DRED_PAGE_FAULT_OUTPUT2;
 
-typedef struct D3D12_DEVICE_REMOVED_EXTENDED_DATA1
+typedef sa_nracanaa D3D12_DEVICE_REMOVED_EXTENDED_DATA1
     {
     HRESULT DeviceRemovedReason;
     D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT AutoBreadcrumbsOutput;
     D3D12_DRED_PAGE_FAULT_OUTPUT PageFaultOutput;
     } 	D3D12_DEVICE_REMOVED_EXTENDED_DATA1;
 
-typedef struct D3D12_DEVICE_REMOVED_EXTENDED_DATA2
+typedef sa_nracanaa D3D12_DEVICE_REMOVED_EXTENDED_DATA2
     {
     HRESULT DeviceRemovedReason;
     D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1 AutoBreadcrumbsOutput;
     D3D12_DRED_PAGE_FAULT_OUTPUT1 PageFaultOutput;
     } 	D3D12_DEVICE_REMOVED_EXTENDED_DATA2;
 
-typedef struct D3D12_DEVICE_REMOVED_EXTENDED_DATA3
+typedef sa_nracanaa D3D12_DEVICE_REMOVED_EXTENDED_DATA3
     {
     HRESULT DeviceRemovedReason;
     D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1 AutoBreadcrumbsOutput;
@@ -15835,10 +15835,10 @@ typedef struct D3D12_DEVICE_REMOVED_EXTENDED_DATA3
     D3D12_DRED_DEVICE_STATE DeviceState;
     } 	D3D12_DEVICE_REMOVED_EXTENDED_DATA3;
 
-typedef struct D3D12_VERSIONED_DEVICE_REMOVED_EXTENDED_DATA
+typedef sa_nracanaa D3D12_VERSIONED_DEVICE_REMOVED_EXTENDED_DATA
     {
     D3D12_DRED_VERSION Version;
-    union 
+    sa_ngha 
         {
         D3D12_DEVICE_REMOVED_EXTENDED_DATA Dred_1_0;
         D3D12_DEVICE_REMOVED_EXTENDED_DATA1 Dred_1_1;
@@ -15861,7 +15861,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0037_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("82BC481C-6B9B-4030-AEDB-7EE3D1DF1E63")
     ID3D12DeviceRemovedExtendedDataSettings : public IUnknown
@@ -15879,9 +15879,9 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceRemovedExtendedDataSettingsVtbl
+    typedef sa_nracanaa ID3D12DeviceRemovedExtendedDataSettingsVtbl
     {
         BEGIN_INTERFACE
         
@@ -15919,7 +15919,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings;
 
     interface ID3D12DeviceRemovedExtendedDataSettings
     {
-        CONST_VTBL struct ID3D12DeviceRemovedExtendedDataSettingsVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceRemovedExtendedDataSettingsVtbl *lpVtbl;
     };
 
     
@@ -15966,7 +15966,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("DBD5AE51-3317-4F0A-ADF9-1D7CEDCAAE0B")
     ID3D12DeviceRemovedExtendedDataSettings1 : public ID3D12DeviceRemovedExtendedDataSettings
@@ -15978,9 +15978,9 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceRemovedExtendedDataSettings1Vtbl
+    typedef sa_nracanaa ID3D12DeviceRemovedExtendedDataSettings1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -16023,7 +16023,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings1;
 
     interface ID3D12DeviceRemovedExtendedDataSettings1
     {
-        CONST_VTBL struct ID3D12DeviceRemovedExtendedDataSettings1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceRemovedExtendedDataSettings1Vtbl *lpVtbl;
     };
 
     
@@ -16074,7 +16074,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings1;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("61552388-01ab-4008-a436-83db189566ea")
     ID3D12DeviceRemovedExtendedDataSettings2 : public ID3D12DeviceRemovedExtendedDataSettings1
@@ -16086,9 +16086,9 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings2;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceRemovedExtendedDataSettings2Vtbl
+    typedef sa_nracanaa ID3D12DeviceRemovedExtendedDataSettings2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -16136,7 +16136,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings2;
 
     interface ID3D12DeviceRemovedExtendedDataSettings2
     {
-        CONST_VTBL struct ID3D12DeviceRemovedExtendedDataSettings2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceRemovedExtendedDataSettings2Vtbl *lpVtbl;
     };
 
     
@@ -16191,7 +16191,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedDataSettings2;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("98931D33-5AE8-4791-AA3C-1A73A2934E71")
     ID3D12DeviceRemovedExtendedData : public IUnknown
@@ -16206,9 +16206,9 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceRemovedExtendedDataVtbl
+    typedef sa_nracanaa ID3D12DeviceRemovedExtendedDataVtbl
     {
         BEGIN_INTERFACE
         
@@ -16241,7 +16241,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData;
 
     interface ID3D12DeviceRemovedExtendedData
     {
-        CONST_VTBL struct ID3D12DeviceRemovedExtendedDataVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceRemovedExtendedDataVtbl *lpVtbl;
     };
 
     
@@ -16285,7 +16285,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("9727A022-CF1D-4DDA-9EBA-EFFA653FC506")
     ID3D12DeviceRemovedExtendedData1 : public ID3D12DeviceRemovedExtendedData
@@ -16300,9 +16300,9 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceRemovedExtendedData1Vtbl
+    typedef sa_nracanaa ID3D12DeviceRemovedExtendedData1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -16345,7 +16345,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData1;
 
     interface ID3D12DeviceRemovedExtendedData1
     {
-        CONST_VTBL struct ID3D12DeviceRemovedExtendedData1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceRemovedExtendedData1Vtbl *lpVtbl;
     };
 
     
@@ -16396,7 +16396,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData1;
 
 EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("67FC5816-E4CA-4915-BF18-42541272DA54")
     ID3D12DeviceRemovedExtendedData2 : public ID3D12DeviceRemovedExtendedData1
@@ -16410,9 +16410,9 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData2;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceRemovedExtendedData2Vtbl
+    typedef sa_nracanaa ID3D12DeviceRemovedExtendedData2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -16464,7 +16464,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData2;
 
     interface ID3D12DeviceRemovedExtendedData2
     {
-        CONST_VTBL struct ID3D12DeviceRemovedExtendedData2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceRemovedExtendedData2Vtbl *lpVtbl;
     };
 
     
@@ -16517,7 +16517,7 @@ EXTERN_C const IID IID_ID3D12DeviceRemovedExtendedData2;
 /* [local] */ 
 
 typedef 
-enum D3D12_BACKGROUND_PROCESSING_MODE
+ga_nanaa D3D12_BACKGROUND_PROCESSING_MODE
     {
         D3D12_BACKGROUND_PROCESSING_MODE_ALLOWED	= 0,
         D3D12_BACKGROUND_PROCESSING_MODE_ALLOW_INTRUSIVE_MEASUREMENTS	= ( D3D12_BACKGROUND_PROCESSING_MODE_ALLOWED + 1 ) ,
@@ -16526,7 +16526,7 @@ enum D3D12_BACKGROUND_PROCESSING_MODE
     } 	D3D12_BACKGROUND_PROCESSING_MODE;
 
 typedef 
-enum D3D12_MEASUREMENTS_ACTION
+ga_nanaa D3D12_MEASUREMENTS_ACTION
     {
         D3D12_MEASUREMENTS_ACTION_KEEP_ALL	= 0,
         D3D12_MEASUREMENTS_ACTION_COMMIT_RESULTS	= ( D3D12_MEASUREMENTS_ACTION_KEEP_ALL + 1 ) ,
@@ -16548,7 +16548,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0043_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c70b221b-40e4-4a17-89af-025a0727a6dc")
     ID3D12Device6 : public ID3D12Device5
@@ -16563,9 +16563,9 @@ EXTERN_C const IID IID_ID3D12Device6;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device6Vtbl
+    typedef sa_nracanaa ID3D12Device6Vtbl
     {
         BEGIN_INTERFACE
         
@@ -16739,14 +16739,14 @@ EXTERN_C const IID IID_ID3D12Device6;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device6 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device6 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -16757,13 +16757,13 @@ EXTERN_C const IID IID_ID3D12Device6;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device6 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device6 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -16902,11 +16902,11 @@ EXTERN_C const IID IID_ID3D12Device6;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device6 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device6 * This,
             LUID * RetVal);
@@ -17014,7 +17014,7 @@ EXTERN_C const IID IID_ID3D12Device6;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device6 * This,
             UINT visibleMask,
@@ -17022,7 +17022,7 @@ EXTERN_C const IID IID_ID3D12Device6;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device6 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -17101,7 +17101,7 @@ EXTERN_C const IID IID_ID3D12Device6;
 
     interface ID3D12Device6
     {
-        CONST_VTBL struct ID3D12Device6Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device6Vtbl *lpVtbl;
     };
 
     
@@ -17185,19 +17185,19 @@ EXTERN_C const IID IID_ID3D12Device6;
 
 #define ID3D12Device6_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device6_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device6_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device6_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device6_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -17249,11 +17249,11 @@ EXTERN_C const IID IID_ID3D12Device6;
 
 #define ID3D12Device6_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device6_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device6_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -17297,11 +17297,11 @@ EXTERN_C const IID IID_ID3D12Device6;
 
 #define ID3D12Device6_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device6_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device6_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -17350,20 +17350,20 @@ EXTERN_C const IID IID_ID3D12Device6;
 /* [local] */ 
 
 DEFINE_GUID(D3D12_PROTECTED_RESOURCES_SESSION_HARDWARE_PROTECTED,                           0x62B0084E, 0xC70E, 0x4DAA, 0xA1, 0x09, 0x30, 0xFF, 0x8D, 0x5A, 0x04, 0x82); 
-typedef struct D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPE_COUNT
+typedef sa_nracanaa D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPE_COUNT
     {
     UINT NodeIndex;
     UINT Count;
     } 	D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPE_COUNT;
 
-typedef struct D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPES
+typedef sa_nracanaa D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPES
     {
     UINT NodeIndex;
     UINT Count;
     GUID *pTypes;
     } 	D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPES;
 
-typedef struct D3D12_PROTECTED_RESOURCE_SESSION_DESC1
+typedef sa_nracanaa D3D12_PROTECTED_RESOURCE_SESSION_DESC1
     {
     UINT NodeMask;
     D3D12_PROTECTED_RESOURCE_SESSION_FLAGS Flags;
@@ -17384,15 +17384,15 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0044_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("D6F12DD6-76FB-406E-8961-4296EEFC0409")
     ID3D12ProtectedResourceSession1 : public ID3D12ProtectedResourceSession
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC1 STDMETHODCALLTYPE GetDesc1( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_PROTECTED_RESOURCE_SESSION_DESC1 *STDMETHODCALLTYPE GetDesc1( 
             D3D12_PROTECTED_RESOURCE_SESSION_DESC1 * RetVal) = 0;
 #endif
@@ -17400,9 +17400,9 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12ProtectedResourceSession1Vtbl
+    typedef sa_nracanaa ID3D12ProtectedResourceSession1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -17462,11 +17462,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
             ID3D12ProtectedResourceSession1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12ProtectedResourceSession, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_PROTECTED_RESOURCE_SESSION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession1 * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_PROTECTED_RESOURCE_SESSION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ProtectedResourceSession1 * This,
             D3D12_PROTECTED_RESOURCE_SESSION_DESC * RetVal);
@@ -17474,11 +17474,11 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12ProtectedResourceSession1, GetDesc1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_PROTECTED_RESOURCE_SESSION_DESC1 ( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12ProtectedResourceSession1 * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_PROTECTED_RESOURCE_SESSION_DESC1 *( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12ProtectedResourceSession1 * This,
             D3D12_PROTECTED_RESOURCE_SESSION_DESC1 * RetVal);
@@ -17490,7 +17490,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 
     interface ID3D12ProtectedResourceSession1
     {
-        CONST_VTBL struct ID3D12ProtectedResourceSession1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ProtectedResourceSession1Vtbl *lpVtbl;
     };
 
     
@@ -17531,20 +17531,20 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 #define ID3D12ProtectedResourceSession1_GetSessionStatus(This)	\
     ( (This)->lpVtbl -> GetSessionStatus(This) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12ProtectedResourceSession1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12ProtectedResourceSession1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12ProtectedResourceSession1_GetDesc1(This)	\
     ( (This)->lpVtbl -> GetDesc1(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12ProtectedResourceSession1_GetDesc1(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc1(This,RetVal) ) 
 #endif
@@ -17569,7 +17569,7 @@ EXTERN_C const IID IID_ID3D12ProtectedResourceSession1;
 
 EXTERN_C const IID IID_ID3D12Device7;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5c014b53-68a1-4b9b-8bd1-dd6046b9358b")
     ID3D12Device7 : public ID3D12Device6
@@ -17589,9 +17589,9 @@ EXTERN_C const IID IID_ID3D12Device7;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device7Vtbl
+    typedef sa_nracanaa ID3D12Device7Vtbl
     {
         BEGIN_INTERFACE
         
@@ -17765,14 +17765,14 @@ EXTERN_C const IID IID_ID3D12Device7;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device7 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device7 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -17783,13 +17783,13 @@ EXTERN_C const IID IID_ID3D12Device7;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device7 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device7 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -17928,11 +17928,11 @@ EXTERN_C const IID IID_ID3D12Device7;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device7 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device7 * This,
             LUID * RetVal);
@@ -18040,7 +18040,7 @@ EXTERN_C const IID IID_ID3D12Device7;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device7 * This,
             UINT visibleMask,
@@ -18048,7 +18048,7 @@ EXTERN_C const IID IID_ID3D12Device7;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device7 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -18142,7 +18142,7 @@ EXTERN_C const IID IID_ID3D12Device7;
 
     interface ID3D12Device7
     {
-        CONST_VTBL struct ID3D12Device7Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device7Vtbl *lpVtbl;
     };
 
     
@@ -18226,19 +18226,19 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 #define ID3D12Device7_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device7_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device7_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device7_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device7_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -18290,11 +18290,11 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 #define ID3D12Device7_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device7_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device7_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -18338,11 +18338,11 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 #define ID3D12Device7_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device7_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device7_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -18403,19 +18403,19 @@ EXTERN_C const IID IID_ID3D12Device7;
 
 EXTERN_C const IID IID_ID3D12Device8;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("9218E6BB-F944-4F7E-A75C-B1B2C7B701F3")
     ID3D12Device8 : public ID3D12Device7
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo2( 
             UINT visibleMask,
             UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo2( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             UINT visibleMask,
@@ -18461,9 +18461,9 @@ EXTERN_C const IID IID_ID3D12Device8;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device8Vtbl
+    typedef sa_nracanaa ID3D12Device8Vtbl
     {
         BEGIN_INTERFACE
         
@@ -18637,14 +18637,14 @@ EXTERN_C const IID IID_ID3D12Device8;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device8 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device8 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -18655,13 +18655,13 @@ EXTERN_C const IID IID_ID3D12Device8;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device8 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device8 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -18800,11 +18800,11 @@ EXTERN_C const IID IID_ID3D12Device8;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device8 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device8 * This,
             LUID * RetVal);
@@ -18912,7 +18912,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device8 * This,
             UINT visibleMask,
@@ -18920,7 +18920,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device8 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -19010,7 +19010,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device8 * This,
             UINT visibleMask,
@@ -19018,7 +19018,7 @@ EXTERN_C const IID IID_ID3D12Device8;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device8 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -19076,7 +19076,7 @@ EXTERN_C const IID IID_ID3D12Device8;
 
     interface ID3D12Device8
     {
-        CONST_VTBL struct ID3D12Device8Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device8Vtbl *lpVtbl;
     };
 
     
@@ -19160,19 +19160,19 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 #define ID3D12Device8_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device8_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device8_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device8_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device8_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -19224,11 +19224,11 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 #define ID3D12Device8_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device8_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device8_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -19272,11 +19272,11 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 #define ID3D12Device8_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device8_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device8_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -19317,11 +19317,11 @@ EXTERN_C const IID IID_ID3D12Device8;
 #define ID3D12Device8_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device8_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device8_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -19358,7 +19358,7 @@ EXTERN_C const IID IID_ID3D12Device8;
 
 EXTERN_C const IID IID_ID3D12Resource1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("9D5E227A-4430-4161-88B3-3ECA6BB16E19")
     ID3D12Resource1 : public ID3D12Resource
@@ -19371,9 +19371,9 @@ EXTERN_C const IID IID_ID3D12Resource1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Resource1Vtbl
+    typedef sa_nracanaa ID3D12Resource1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -19436,11 +19436,11 @@ EXTERN_C const IID IID_ID3D12Resource1;
             _In_opt_  const D3D12_RANGE *pWrittenRange);
         
         DECLSPEC_XFGVIRT(ID3D12Resource, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource1 * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource1 * This,
             D3D12_RESOURCE_DESC * RetVal);
@@ -19486,7 +19486,7 @@ EXTERN_C const IID IID_ID3D12Resource1;
 
     interface ID3D12Resource1
     {
-        CONST_VTBL struct ID3D12Resource1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Resource1Vtbl *lpVtbl;
     };
 
     
@@ -19527,11 +19527,11 @@ EXTERN_C const IID IID_ID3D12Resource1;
 
 #define ID3D12Resource1_Unmap(This,Subresource,pWrittenRange)	\
     ( (This)->lpVtbl -> Unmap(This,Subresource,pWrittenRange) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Resource1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Resource1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -19572,15 +19572,15 @@ EXTERN_C const IID IID_ID3D12Resource1;
 
 EXTERN_C const IID IID_ID3D12Resource2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("BE36EC3B-EA85-4AEB-A45A-E9D76404A495")
     ID3D12Resource2 : public ID3D12Resource1
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_DESC1 STDMETHODCALLTYPE GetDesc1( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_RESOURCE_DESC1 *STDMETHODCALLTYPE GetDesc1( 
             D3D12_RESOURCE_DESC1 * RetVal) = 0;
 #endif
@@ -19588,9 +19588,9 @@ EXTERN_C const IID IID_ID3D12Resource2;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Resource2Vtbl
+    typedef sa_nracanaa ID3D12Resource2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -19653,11 +19653,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
             _In_opt_  const D3D12_RANGE *pWrittenRange);
         
         DECLSPEC_XFGVIRT(ID3D12Resource, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource2 * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Resource2 * This,
             D3D12_RESOURCE_DESC * RetVal);
@@ -19699,11 +19699,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
             _COM_Outptr_opt_  void **ppProtectedSession);
         
         DECLSPEC_XFGVIRT(ID3D12Resource2, GetDesc1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_DESC1 ( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12Resource2 * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_DESC1 *( STDMETHODCALLTYPE *GetDesc1 )( 
             ID3D12Resource2 * This,
             D3D12_RESOURCE_DESC1 * RetVal);
@@ -19715,7 +19715,7 @@ EXTERN_C const IID IID_ID3D12Resource2;
 
     interface ID3D12Resource2
     {
-        CONST_VTBL struct ID3D12Resource2Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Resource2Vtbl *lpVtbl;
     };
 
     
@@ -19756,11 +19756,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
 
 #define ID3D12Resource2_Unmap(This,Subresource,pWrittenRange)	\
     ( (This)->lpVtbl -> Unmap(This,Subresource,pWrittenRange) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Resource2_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Resource2_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -19781,11 +19781,11 @@ EXTERN_C const IID IID_ID3D12Resource2;
 #define ID3D12Resource2_GetProtectedResourceSession(This,riid,ppProtectedSession)	\
     ( (This)->lpVtbl -> GetProtectedResourceSession(This,riid,ppProtectedSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Resource2_GetDesc1(This)	\
     ( (This)->lpVtbl -> GetDesc1(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Resource2_GetDesc1(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc1(This,RetVal) ) 
 #endif
@@ -19810,7 +19810,7 @@ EXTERN_C const IID IID_ID3D12Resource2;
 
 EXTERN_C const IID IID_ID3D12Heap1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("572F7389-2168-49E3-9693-D6DF5871BF6D")
     ID3D12Heap1 : public ID3D12Heap
@@ -19823,9 +19823,9 @@ EXTERN_C const IID IID_ID3D12Heap1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Heap1Vtbl
+    typedef sa_nracanaa ID3D12Heap1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -19875,11 +19875,11 @@ EXTERN_C const IID IID_ID3D12Heap1;
             _COM_Outptr_opt_  void **ppvDevice);
         
         DECLSPEC_XFGVIRT(ID3D12Heap, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap1 * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12Heap1 * This,
             D3D12_HEAP_DESC * RetVal);
@@ -19897,7 +19897,7 @@ EXTERN_C const IID IID_ID3D12Heap1;
 
     interface ID3D12Heap1
     {
-        CONST_VTBL struct ID3D12Heap1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Heap1Vtbl *lpVtbl;
     };
 
     
@@ -19932,11 +19932,11 @@ EXTERN_C const IID IID_ID3D12Heap1;
     ( (This)->lpVtbl -> GetDevice(This,riid,ppvDevice) ) 
 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Heap1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Heap1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -19965,7 +19965,7 @@ EXTERN_C const IID IID_ID3D12Heap1;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("6FDA83A7-B84C-4E38-9AC8-C7BD22016B3D")
     ID3D12GraphicsCommandList3 : public ID3D12GraphicsCommandList2
@@ -19977,9 +19977,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList3Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -20205,7 +20205,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
             ID3D12GraphicsCommandList3 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -20213,7 +20213,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
             ID3D12GraphicsCommandList3 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -20452,7 +20452,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
 
     interface ID3D12GraphicsCommandList3
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList3Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList3Vtbl *lpVtbl;
     };
 
     
@@ -20686,7 +20686,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList3;
 /* [local] */ 
 
 typedef 
-enum D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE
+ga_nanaa D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE
     {
         D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE_DISCARD	= 0,
         D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE_PRESERVE	= ( D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE_DISCARD + 1 ) ,
@@ -20697,21 +20697,21 @@ enum D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE
         D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE_PRESERVE_LOCAL_UAV	= ( D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE_PRESERVE_LOCAL_SRV + 1 ) 
     } 	D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE;
 
-typedef struct D3D12_RENDER_PASS_BEGINNING_ACCESS_CLEAR_PARAMETERS
+typedef sa_nracanaa D3D12_RENDER_PASS_BEGINNING_ACCESS_CLEAR_PARAMETERS
     {
     D3D12_CLEAR_VALUE ClearValue;
     } 	D3D12_RENDER_PASS_BEGINNING_ACCESS_CLEAR_PARAMETERS;
 
-typedef struct D3D12_RENDER_PASS_BEGINNING_ACCESS_PRESERVE_LOCAL_PARAMETERS
+typedef sa_nracanaa D3D12_RENDER_PASS_BEGINNING_ACCESS_PRESERVE_LOCAL_PARAMETERS
     {
     UINT AdditionalWidth;
     UINT AdditionalHeight;
     } 	D3D12_RENDER_PASS_BEGINNING_ACCESS_PRESERVE_LOCAL_PARAMETERS;
 
-typedef struct D3D12_RENDER_PASS_BEGINNING_ACCESS
+typedef sa_nracanaa D3D12_RENDER_PASS_BEGINNING_ACCESS
     {
     D3D12_RENDER_PASS_BEGINNING_ACCESS_TYPE Type;
-    union 
+    sa_ngha 
         {
         D3D12_RENDER_PASS_BEGINNING_ACCESS_CLEAR_PARAMETERS Clear;
         D3D12_RENDER_PASS_BEGINNING_ACCESS_PRESERVE_LOCAL_PARAMETERS PreserveLocal;
@@ -20719,7 +20719,7 @@ typedef struct D3D12_RENDER_PASS_BEGINNING_ACCESS
     } 	D3D12_RENDER_PASS_BEGINNING_ACCESS;
 
 typedef 
-enum D3D12_RENDER_PASS_ENDING_ACCESS_TYPE
+ga_nanaa D3D12_RENDER_PASS_ENDING_ACCESS_TYPE
     {
         D3D12_RENDER_PASS_ENDING_ACCESS_TYPE_DISCARD	= 0,
         D3D12_RENDER_PASS_ENDING_ACCESS_TYPE_PRESERVE	= ( D3D12_RENDER_PASS_ENDING_ACCESS_TYPE_DISCARD + 1 ) ,
@@ -20730,7 +20730,7 @@ enum D3D12_RENDER_PASS_ENDING_ACCESS_TYPE
         D3D12_RENDER_PASS_ENDING_ACCESS_TYPE_PRESERVE_LOCAL_UAV	= ( D3D12_RENDER_PASS_ENDING_ACCESS_TYPE_PRESERVE_LOCAL_SRV + 1 ) 
     } 	D3D12_RENDER_PASS_ENDING_ACCESS_TYPE;
 
-typedef struct D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_SUBRESOURCE_PARAMETERS
+typedef sa_nracanaa D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_SUBRESOURCE_PARAMETERS
     {
     UINT SrcSubresource;
     UINT DstSubresource;
@@ -20739,7 +20739,7 @@ typedef struct D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_SUBRESOURCE_PARAMETERS
     D3D12_RECT SrcRect;
     } 	D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_SUBRESOURCE_PARAMETERS;
 
-typedef struct D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS
+typedef sa_nracanaa D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS
     {
     ID3D12Resource *pSrcResource;
     ID3D12Resource *pDstResource;
@@ -20750,30 +20750,30 @@ typedef struct D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS
     BOOL PreserveResolveSource;
     } 	D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS;
 
-typedef struct D3D12_RENDER_PASS_ENDING_ACCESS_PRESERVE_LOCAL_PARAMETERS
+typedef sa_nracanaa D3D12_RENDER_PASS_ENDING_ACCESS_PRESERVE_LOCAL_PARAMETERS
     {
     UINT AdditionalWidth;
     UINT AdditionalHeight;
     } 	D3D12_RENDER_PASS_ENDING_ACCESS_PRESERVE_LOCAL_PARAMETERS;
 
-typedef struct D3D12_RENDER_PASS_ENDING_ACCESS
+typedef sa_nracanaa D3D12_RENDER_PASS_ENDING_ACCESS
     {
     D3D12_RENDER_PASS_ENDING_ACCESS_TYPE Type;
-    union 
+    sa_ngha 
         {
         D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS Resolve;
         D3D12_RENDER_PASS_ENDING_ACCESS_PRESERVE_LOCAL_PARAMETERS PreserveLocal;
         } 	;
     } 	D3D12_RENDER_PASS_ENDING_ACCESS;
 
-typedef struct D3D12_RENDER_PASS_RENDER_TARGET_DESC
+typedef sa_nracanaa D3D12_RENDER_PASS_RENDER_TARGET_DESC
     {
     D3D12_CPU_DESCRIPTOR_HANDLE cpuDescriptor;
     D3D12_RENDER_PASS_BEGINNING_ACCESS BeginningAccess;
     D3D12_RENDER_PASS_ENDING_ACCESS EndingAccess;
     } 	D3D12_RENDER_PASS_RENDER_TARGET_DESC;
 
-typedef struct D3D12_RENDER_PASS_DEPTH_STENCIL_DESC
+typedef sa_nracanaa D3D12_RENDER_PASS_DEPTH_STENCIL_DESC
     {
     D3D12_CPU_DESCRIPTOR_HANDLE cpuDescriptor;
     D3D12_RENDER_PASS_BEGINNING_ACCESS DepthBeginningAccess;
@@ -20783,7 +20783,7 @@ typedef struct D3D12_RENDER_PASS_DEPTH_STENCIL_DESC
     } 	D3D12_RENDER_PASS_DEPTH_STENCIL_DESC;
 
 typedef 
-enum D3D12_RENDER_PASS_FLAGS
+ga_nanaa D3D12_RENDER_PASS_FLAGS
     {
         D3D12_RENDER_PASS_FLAG_NONE	= 0,
         D3D12_RENDER_PASS_FLAG_ALLOW_UAV_WRITES	= 0x1,
@@ -20808,7 +20808,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0051_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12MetaCommand;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("DBB84C27-36CE-4FC9-B801-F048C46AC570")
     ID3D12MetaCommand : public ID3D12Pageable
@@ -20821,9 +20821,9 @@ EXTERN_C const IID IID_ID3D12MetaCommand;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12MetaCommandVtbl
+    typedef sa_nracanaa ID3D12MetaCommandVtbl
     {
         BEGIN_INTERFACE
         
@@ -20883,7 +20883,7 @@ EXTERN_C const IID IID_ID3D12MetaCommand;
 
     interface ID3D12MetaCommand
     {
-        CONST_VTBL struct ID3D12MetaCommandVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12MetaCommandVtbl *lpVtbl;
     };
 
     
@@ -20936,7 +20936,7 @@ EXTERN_C const IID IID_ID3D12MetaCommand;
 /* interface __MIDL_itf_d3d12_0000_0052 */
 /* [local] */ 
 
-typedef struct D3D12_DISPATCH_RAYS_DESC
+typedef sa_nracanaa D3D12_DISPATCH_RAYS_DESC
     {
     D3D12_GPU_VIRTUAL_ADDRESS_RANGE RayGenerationShaderRecord;
     D3D12_GPU_VIRTUAL_ADDRESS_RANGE_AND_STRIDE MissShaderTable;
@@ -20948,14 +20948,14 @@ typedef struct D3D12_DISPATCH_RAYS_DESC
     } 	D3D12_DISPATCH_RAYS_DESC;
 
 typedef 
-enum D3D12_SET_WORK_GRAPH_FLAGS
+ga_nanaa D3D12_SET_WORK_GRAPH_FLAGS
     {
         D3D12_SET_WORK_GRAPH_FLAG_NONE	= 0,
         D3D12_SET_WORK_GRAPH_FLAG_INITIALIZE	= 0x1
     } 	D3D12_SET_WORK_GRAPH_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_SET_WORK_GRAPH_FLAGS )
-typedef struct D3D12_SET_WORK_GRAPH_DESC
+typedef sa_nracanaa D3D12_SET_WORK_GRAPH_DESC
     {
     D3D12_PROGRAM_IDENTIFIER ProgramIdentifier;
     D3D12_SET_WORK_GRAPH_FLAGS Flags;
@@ -20963,28 +20963,28 @@ typedef struct D3D12_SET_WORK_GRAPH_DESC
     D3D12_GPU_VIRTUAL_ADDRESS_RANGE_AND_STRIDE NodeLocalRootArgumentsTable;
     } 	D3D12_SET_WORK_GRAPH_DESC;
 
-typedef struct D3D12_SET_RAYTRACING_PIPELINE_DESC
+typedef sa_nracanaa D3D12_SET_RAYTRACING_PIPELINE_DESC
     {
     D3D12_PROGRAM_IDENTIFIER ProgramIdentifier;
     } 	D3D12_SET_RAYTRACING_PIPELINE_DESC;
 
-typedef struct D3D12_SET_GENERIC_PIPELINE_DESC
+typedef sa_nracanaa D3D12_SET_GENERIC_PIPELINE_DESC
     {
     D3D12_PROGRAM_IDENTIFIER ProgramIdentifier;
     } 	D3D12_SET_GENERIC_PIPELINE_DESC;
 
 typedef 
-enum D3D12_PROGRAM_TYPE
+ga_nanaa D3D12_PROGRAM_TYPE
     {
         D3D12_PROGRAM_TYPE_GENERIC_PIPELINE	= 1,
         D3D12_PROGRAM_TYPE_RAYTRACING_PIPELINE	= 4,
         D3D12_PROGRAM_TYPE_WORK_GRAPH	= 5
     } 	D3D12_PROGRAM_TYPE;
 
-typedef struct D3D12_SET_PROGRAM_DESC
+typedef sa_nracanaa D3D12_SET_PROGRAM_DESC
     {
     D3D12_PROGRAM_TYPE Type;
-    union 
+    sa_ngha 
         {
         D3D12_SET_GENERIC_PIPELINE_DESC GenericPipeline;
         D3D12_SET_RAYTRACING_PIPELINE_DESC RaytracingPipeline;
@@ -20993,7 +20993,7 @@ typedef struct D3D12_SET_PROGRAM_DESC
     } 	D3D12_SET_PROGRAM_DESC;
 
 typedef 
-enum D3D12_DISPATCH_MODE
+ga_nanaa D3D12_DISPATCH_MODE
     {
         D3D12_DISPATCH_MODE_NODE_CPU_INPUT	= 0,
         D3D12_DISPATCH_MODE_NODE_GPU_INPUT	= 1,
@@ -21001,7 +21001,7 @@ enum D3D12_DISPATCH_MODE
         D3D12_DISPATCH_MODE_MULTI_NODE_GPU_INPUT	= 3
     } 	D3D12_DISPATCH_MODE;
 
-typedef struct D3D12_NODE_CPU_INPUT
+typedef sa_nracanaa D3D12_NODE_CPU_INPUT
     {
     UINT EntrypointIndex;
     UINT NumRecords;
@@ -21009,30 +21009,30 @@ typedef struct D3D12_NODE_CPU_INPUT
     UINT64 RecordStrideInBytes;
     } 	D3D12_NODE_CPU_INPUT;
 
-typedef struct D3D12_NODE_GPU_INPUT
+typedef sa_nracanaa D3D12_NODE_GPU_INPUT
     {
     UINT EntrypointIndex;
     UINT NumRecords;
     D3D12_GPU_VIRTUAL_ADDRESS_AND_STRIDE Records;
     } 	D3D12_NODE_GPU_INPUT;
 
-typedef struct D3D12_MULTI_NODE_CPU_INPUT
+typedef sa_nracanaa D3D12_MULTI_NODE_CPU_INPUT
     {
     UINT NumNodeInputs;
     const D3D12_NODE_CPU_INPUT *pNodeInputs;
     UINT64 NodeInputStrideInBytes;
     } 	D3D12_MULTI_NODE_CPU_INPUT;
 
-typedef struct D3D12_MULTI_NODE_GPU_INPUT
+typedef sa_nracanaa D3D12_MULTI_NODE_GPU_INPUT
     {
     UINT NumNodeInputs;
     D3D12_GPU_VIRTUAL_ADDRESS_AND_STRIDE NodeInputs;
     } 	D3D12_MULTI_NODE_GPU_INPUT;
 
-typedef struct D3D12_DISPATCH_GRAPH_DESC
+typedef sa_nracanaa D3D12_DISPATCH_GRAPH_DESC
     {
     D3D12_DISPATCH_MODE Mode;
-    union 
+    sa_ngha 
         {
         D3D12_NODE_CPU_INPUT NodeCPUInput;
         D3D12_GPU_VIRTUAL_ADDRESS NodeGPUInput;
@@ -21055,7 +21055,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0052_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8754318e-d3a9-4541-98cf-645b50dc4874")
     ID3D12GraphicsCommandList4 : public ID3D12GraphicsCommandList3
@@ -21103,9 +21103,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList4Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList4Vtbl
     {
         BEGIN_INTERFACE
         
@@ -21331,7 +21331,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
             ID3D12GraphicsCommandList4 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -21339,7 +21339,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
             ID3D12GraphicsCommandList4 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -21635,7 +21635,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
 
     interface ID3D12GraphicsCommandList4
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList4Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList4Vtbl *lpVtbl;
     };
 
     
@@ -21897,14 +21897,14 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList4;
 /* [local] */ 
 
 typedef 
-enum D3D12_SHADER_CACHE_MODE
+ga_nanaa D3D12_SHADER_CACHE_MODE
     {
         D3D12_SHADER_CACHE_MODE_MEMORY	= 0,
         D3D12_SHADER_CACHE_MODE_DISK	= ( D3D12_SHADER_CACHE_MODE_MEMORY + 1 ) 
     } 	D3D12_SHADER_CACHE_MODE;
 
 typedef 
-enum D3D12_SHADER_CACHE_FLAGS
+ga_nanaa D3D12_SHADER_CACHE_FLAGS
     {
         D3D12_SHADER_CACHE_FLAG_NONE	= 0,
         D3D12_SHADER_CACHE_FLAG_DRIVER_VERSIONED	= 0x1,
@@ -21912,7 +21912,7 @@ enum D3D12_SHADER_CACHE_FLAGS
     } 	D3D12_SHADER_CACHE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_SHADER_CACHE_FLAGS )
-typedef struct D3D12_SHADER_CACHE_SESSION_DESC
+typedef sa_nracanaa D3D12_SHADER_CACHE_SESSION_DESC
     {
     GUID Identifier;
     D3D12_SHADER_CACHE_MODE Mode;
@@ -21924,7 +21924,7 @@ typedef struct D3D12_SHADER_CACHE_SESSION_DESC
     } 	D3D12_SHADER_CACHE_SESSION_DESC;
 
 typedef 
-enum D3D12_BARRIER_LAYOUT
+ga_nanaa D3D12_BARRIER_LAYOUT
     {
         D3D12_BARRIER_LAYOUT_UNDEFINED	= 0xffffffff,
         D3D12_BARRIER_LAYOUT_COMMON	= 0,
@@ -21962,7 +21962,7 @@ enum D3D12_BARRIER_LAYOUT
     } 	D3D12_BARRIER_LAYOUT;
 
 typedef 
-enum D3D12_BARRIER_SYNC
+ga_nanaa D3D12_BARRIER_SYNC
     {
         D3D12_BARRIER_SYNC_NONE	= 0,
         D3D12_BARRIER_SYNC_ALL	= 0x1,
@@ -21992,7 +21992,7 @@ enum D3D12_BARRIER_SYNC
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_BARRIER_SYNC )
 typedef 
-enum D3D12_BARRIER_ACCESS
+ga_nanaa D3D12_BARRIER_ACCESS
     {
         D3D12_BARRIER_ACCESS_COMMON	= 0,
         D3D12_BARRIER_ACCESS_VERTEX_BUFFER	= 0x1,
@@ -22024,7 +22024,7 @@ enum D3D12_BARRIER_ACCESS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_BARRIER_ACCESS )
 typedef 
-enum D3D12_BARRIER_TYPE
+ga_nanaa D3D12_BARRIER_TYPE
     {
         D3D12_BARRIER_TYPE_GLOBAL	= 0,
         D3D12_BARRIER_TYPE_TEXTURE	= ( D3D12_BARRIER_TYPE_GLOBAL + 1 ) ,
@@ -22032,14 +22032,14 @@ enum D3D12_BARRIER_TYPE
     } 	D3D12_BARRIER_TYPE;
 
 typedef 
-enum D3D12_TEXTURE_BARRIER_FLAGS
+ga_nanaa D3D12_TEXTURE_BARRIER_FLAGS
     {
         D3D12_TEXTURE_BARRIER_FLAG_NONE	= 0,
         D3D12_TEXTURE_BARRIER_FLAG_DISCARD	= 0x1
     } 	D3D12_TEXTURE_BARRIER_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_TEXTURE_BARRIER_FLAGS )
-typedef struct D3D12_BARRIER_SUBRESOURCE_RANGE
+typedef sa_nracanaa D3D12_BARRIER_SUBRESOURCE_RANGE
     {
     UINT IndexOrFirstMipLevel;
     UINT NumMipLevels;
@@ -22049,7 +22049,7 @@ typedef struct D3D12_BARRIER_SUBRESOURCE_RANGE
     UINT NumPlanes;
     } 	D3D12_BARRIER_SUBRESOURCE_RANGE;
 
-typedef struct D3D12_GLOBAL_BARRIER
+typedef sa_nracanaa D3D12_GLOBAL_BARRIER
     {
     D3D12_BARRIER_SYNC SyncBefore;
     D3D12_BARRIER_SYNC SyncAfter;
@@ -22057,7 +22057,7 @@ typedef struct D3D12_GLOBAL_BARRIER
     D3D12_BARRIER_ACCESS AccessAfter;
     } 	D3D12_GLOBAL_BARRIER;
 
-typedef struct D3D12_TEXTURE_BARRIER
+typedef sa_nracanaa D3D12_TEXTURE_BARRIER
     {
     D3D12_BARRIER_SYNC SyncBefore;
     D3D12_BARRIER_SYNC SyncAfter;
@@ -22070,7 +22070,7 @@ typedef struct D3D12_TEXTURE_BARRIER
     D3D12_TEXTURE_BARRIER_FLAGS Flags;
     } 	D3D12_TEXTURE_BARRIER;
 
-typedef struct D3D12_BUFFER_BARRIER
+typedef sa_nracanaa D3D12_BUFFER_BARRIER
     {
     D3D12_BARRIER_SYNC SyncBefore;
     D3D12_BARRIER_SYNC SyncAfter;
@@ -22081,11 +22081,11 @@ typedef struct D3D12_BUFFER_BARRIER
     UINT64 Size;
     } 	D3D12_BUFFER_BARRIER;
 
-typedef struct D3D12_BARRIER_GROUP
+typedef sa_nracanaa D3D12_BARRIER_GROUP
     {
     D3D12_BARRIER_TYPE Type;
     UINT32 NumBarriers;
-    union 
+    sa_ngha 
         {
         _In_reads_(NumBarriers)  const D3D12_GLOBAL_BARRIER *pGlobalBarriers;
         _In_reads_(NumBarriers)  const D3D12_TEXTURE_BARRIER *pTextureBarriers;
@@ -22107,7 +22107,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0053_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12ShaderCacheSession;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("28e2495d-0f64-4ae4-a6ec-129255dc49a8")
     ID3D12ShaderCacheSession : public ID3D12DeviceChild
@@ -22131,9 +22131,9 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
         
         virtual void STDMETHODCALLTYPE SetDeleteOnDestroy( void) = 0;
         
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_SHADER_CACHE_SESSION_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_SHADER_CACHE_SESSION_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_SHADER_CACHE_SESSION_DESC * RetVal) = 0;
 #endif
@@ -22141,9 +22141,9 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12ShaderCacheSessionVtbl
+    typedef sa_nracanaa ID3D12ShaderCacheSessionVtbl
     {
         BEGIN_INTERFACE
         
@@ -22217,11 +22217,11 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
             ID3D12ShaderCacheSession * This);
         
         DECLSPEC_XFGVIRT(ID3D12ShaderCacheSession, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_SHADER_CACHE_SESSION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ShaderCacheSession * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_SHADER_CACHE_SESSION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12ShaderCacheSession * This,
             D3D12_SHADER_CACHE_SESSION_DESC * RetVal);
@@ -22233,7 +22233,7 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
 
     interface ID3D12ShaderCacheSession
     {
-        CONST_VTBL struct ID3D12ShaderCacheSessionVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ShaderCacheSessionVtbl *lpVtbl;
     };
 
     
@@ -22276,11 +22276,11 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
 
 #define ID3D12ShaderCacheSession_SetDeleteOnDestroy(This)	\
     ( (This)->lpVtbl -> SetDeleteOnDestroy(This) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12ShaderCacheSession_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12ShaderCacheSession_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -22300,7 +22300,7 @@ EXTERN_C const IID IID_ID3D12ShaderCacheSession;
 /* [local] */ 
 
 typedef 
-enum D3D12_SHADER_CACHE_KIND_FLAGS
+ga_nanaa D3D12_SHADER_CACHE_KIND_FLAGS
     {
         D3D12_SHADER_CACHE_KIND_FLAG_IMPLICIT_D3D_CACHE_FOR_DRIVER	= 0x1,
         D3D12_SHADER_CACHE_KIND_FLAG_IMPLICIT_D3D_CONVERSIONS	= 0x2,
@@ -22310,7 +22310,7 @@ enum D3D12_SHADER_CACHE_KIND_FLAGS
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_SHADER_CACHE_KIND_FLAGS )
 typedef 
-enum D3D12_SHADER_CACHE_CONTROL_FLAGS
+ga_nanaa D3D12_SHADER_CACHE_CONTROL_FLAGS
     {
         D3D12_SHADER_CACHE_CONTROL_FLAG_DISABLE	= 0x1,
         D3D12_SHADER_CACHE_CONTROL_FLAG_ENABLE	= 0x2,
@@ -22332,7 +22332,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0054_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12Device9;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("4c80e962-f032-4f60-bc9e-ebc2cfa1d83c")
     ID3D12Device9 : public ID3D12Device8
@@ -22356,9 +22356,9 @@ EXTERN_C const IID IID_ID3D12Device9;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device9Vtbl
+    typedef sa_nracanaa ID3D12Device9Vtbl
     {
         BEGIN_INTERFACE
         
@@ -22532,14 +22532,14 @@ EXTERN_C const IID IID_ID3D12Device9;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device9 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device9 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -22550,13 +22550,13 @@ EXTERN_C const IID IID_ID3D12Device9;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device9 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device9 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -22695,11 +22695,11 @@ EXTERN_C const IID IID_ID3D12Device9;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device9 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device9 * This,
             LUID * RetVal);
@@ -22807,7 +22807,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device9 * This,
             UINT visibleMask,
@@ -22815,7 +22815,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device9 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -22905,7 +22905,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device9 * This,
             UINT visibleMask,
@@ -22913,7 +22913,7 @@ EXTERN_C const IID IID_ID3D12Device9;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device9 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -22992,7 +22992,7 @@ EXTERN_C const IID IID_ID3D12Device9;
 
     interface ID3D12Device9
     {
-        CONST_VTBL struct ID3D12Device9Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device9Vtbl *lpVtbl;
     };
 
     
@@ -23076,19 +23076,19 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 #define ID3D12Device9_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device9_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device9_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device9_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device9_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -23140,11 +23140,11 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 #define ID3D12Device9_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device9_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device9_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -23188,11 +23188,11 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 #define ID3D12Device9_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device9_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device9_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -23233,11 +23233,11 @@ EXTERN_C const IID IID_ID3D12Device9;
 #define ID3D12Device9_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device9_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device9_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -23284,7 +23284,7 @@ EXTERN_C const IID IID_ID3D12Device9;
 
 EXTERN_C const IID IID_ID3D12Device10;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("517f8718-aa66-49f9-b02b-a7ab89c06031")
     ID3D12Device10 : public ID3D12Device9
@@ -23326,9 +23326,9 @@ EXTERN_C const IID IID_ID3D12Device10;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device10Vtbl
+    typedef sa_nracanaa ID3D12Device10Vtbl
     {
         BEGIN_INTERFACE
         
@@ -23502,14 +23502,14 @@ EXTERN_C const IID IID_ID3D12Device10;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device10 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device10 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -23520,13 +23520,13 @@ EXTERN_C const IID IID_ID3D12Device10;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device10 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device10 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -23665,11 +23665,11 @@ EXTERN_C const IID IID_ID3D12Device10;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device10 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device10 * This,
             LUID * RetVal);
@@ -23777,7 +23777,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device10 * This,
             UINT visibleMask,
@@ -23785,7 +23785,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device10 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -23875,7 +23875,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device10 * This,
             UINT visibleMask,
@@ -23883,7 +23883,7 @@ EXTERN_C const IID IID_ID3D12Device10;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device10 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -24001,7 +24001,7 @@ EXTERN_C const IID IID_ID3D12Device10;
 
     interface ID3D12Device10
     {
-        CONST_VTBL struct ID3D12Device10Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device10Vtbl *lpVtbl;
     };
 
     
@@ -24085,19 +24085,19 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 #define ID3D12Device10_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device10_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device10_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device10_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device10_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -24149,11 +24149,11 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 #define ID3D12Device10_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device10_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device10_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -24197,11 +24197,11 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 #define ID3D12Device10_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device10_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device10_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -24242,11 +24242,11 @@ EXTERN_C const IID IID_ID3D12Device10;
 #define ID3D12Device10_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device10_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device10_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -24303,7 +24303,7 @@ EXTERN_C const IID IID_ID3D12Device10;
 
 EXTERN_C const IID IID_ID3D12Device11;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5405c344-d457-444e-b4dd-2366e45aee39")
     ID3D12Device11 : public ID3D12Device10
@@ -24316,9 +24316,9 @@ EXTERN_C const IID IID_ID3D12Device11;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device11Vtbl
+    typedef sa_nracanaa ID3D12Device11Vtbl
     {
         BEGIN_INTERFACE
         
@@ -24492,14 +24492,14 @@ EXTERN_C const IID IID_ID3D12Device11;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device11 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device11 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -24510,13 +24510,13 @@ EXTERN_C const IID IID_ID3D12Device11;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device11 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device11 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -24655,11 +24655,11 @@ EXTERN_C const IID IID_ID3D12Device11;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device11 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device11 * This,
             LUID * RetVal);
@@ -24767,7 +24767,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device11 * This,
             UINT visibleMask,
@@ -24775,7 +24775,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device11 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -24865,7 +24865,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device11 * This,
             UINT visibleMask,
@@ -24873,7 +24873,7 @@ EXTERN_C const IID IID_ID3D12Device11;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device11 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -24997,7 +24997,7 @@ EXTERN_C const IID IID_ID3D12Device11;
 
     interface ID3D12Device11
     {
-        CONST_VTBL struct ID3D12Device11Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device11Vtbl *lpVtbl;
     };
 
     
@@ -25081,19 +25081,19 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 #define ID3D12Device11_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device11_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device11_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device11_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device11_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -25145,11 +25145,11 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 #define ID3D12Device11_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device11_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device11_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -25193,11 +25193,11 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 #define ID3D12Device11_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device11_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device11_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -25238,11 +25238,11 @@ EXTERN_C const IID IID_ID3D12Device11;
 #define ID3D12Device11_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device11_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device11_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -25303,13 +25303,13 @@ EXTERN_C const IID IID_ID3D12Device11;
 
 EXTERN_C const IID IID_ID3D12Device12;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5af5c532-4c91-4cd0-b541-15a405395fc5")
     ID3D12Device12 : public ID3D12Device11
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_RESOURCE_ALLOCATION_INFO STDMETHODCALLTYPE GetResourceAllocationInfo3( 
             UINT visibleMask,
             UINT numResourceDescs,
@@ -25317,7 +25317,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_opt_count_(numResourceDescs)  const UINT32 *pNumCastableFormats,
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_RESOURCE_ALLOCATION_INFO *STDMETHODCALLTYPE GetResourceAllocationInfo3( 
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
             UINT visibleMask,
@@ -25331,9 +25331,9 @@ EXTERN_C const IID IID_ID3D12Device12;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device12Vtbl
+    typedef sa_nracanaa ID3D12Device12Vtbl
     {
         BEGIN_INTERFACE
         
@@ -25507,14 +25507,14 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device12 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -25525,13 +25525,13 @@ EXTERN_C const IID IID_ID3D12Device12;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device12 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device12 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -25670,11 +25670,11 @@ EXTERN_C const IID IID_ID3D12Device12;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device12 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device12 * This,
             LUID * RetVal);
@@ -25782,7 +25782,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device12 * This,
             UINT visibleMask,
@@ -25790,7 +25790,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -25880,7 +25880,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device12 * This,
             UINT visibleMask,
@@ -25888,7 +25888,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26008,7 +26008,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
         
         DECLSPEC_XFGVIRT(ID3D12Device12, GetResourceAllocationInfo3)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device12 * This,
             UINT visibleMask,
@@ -26018,7 +26018,7 @@ EXTERN_C const IID IID_ID3D12Device12;
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device12 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26036,7 +26036,7 @@ EXTERN_C const IID IID_ID3D12Device12;
 
     interface ID3D12Device12
     {
-        CONST_VTBL struct ID3D12Device12Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device12Vtbl *lpVtbl;
     };
 
     
@@ -26120,19 +26120,19 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 #define ID3D12Device12_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device12_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device12_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device12_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -26184,11 +26184,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 #define ID3D12Device12_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device12_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device12_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -26232,11 +26232,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 #define ID3D12Device12_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device12_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -26277,11 +26277,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 #define ID3D12Device12_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device12_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -26322,11 +26322,11 @@ EXTERN_C const IID IID_ID3D12Device12;
 #define ID3D12Device12_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->lpVtbl -> CreateSampler2(This,pDesc,DestDescriptor) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device12_GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device12_GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
 #endif
@@ -26351,7 +26351,7 @@ EXTERN_C const IID IID_ID3D12Device12;
 
 EXTERN_C const IID IID_ID3D12Device13;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("14eecffc-4df8-40f7-a118-5c816f45695e")
     ID3D12Device13 : public ID3D12Device12
@@ -26366,9 +26366,9 @@ EXTERN_C const IID IID_ID3D12Device13;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device13Vtbl
+    typedef sa_nracanaa ID3D12Device13Vtbl
     {
         BEGIN_INTERFACE
         
@@ -26542,14 +26542,14 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device13 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26560,13 +26560,13 @@ EXTERN_C const IID IID_ID3D12Device13;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device13 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device13 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -26705,11 +26705,11 @@ EXTERN_C const IID IID_ID3D12Device13;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device13 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device13 * This,
             LUID * RetVal);
@@ -26817,7 +26817,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device13 * This,
             UINT visibleMask,
@@ -26825,7 +26825,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -26915,7 +26915,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device13 * This,
             UINT visibleMask,
@@ -26923,7 +26923,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27043,7 +27043,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
         
         DECLSPEC_XFGVIRT(ID3D12Device12, GetResourceAllocationInfo3)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device13 * This,
             UINT visibleMask,
@@ -27053,7 +27053,7 @@ EXTERN_C const IID IID_ID3D12Device13;
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device13 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27079,7 +27079,7 @@ EXTERN_C const IID IID_ID3D12Device13;
 
     interface ID3D12Device13
     {
-        CONST_VTBL struct ID3D12Device13Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device13Vtbl *lpVtbl;
     };
 
     
@@ -27163,19 +27163,19 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 #define ID3D12Device13_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device13_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device13_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device13_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -27227,11 +27227,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 #define ID3D12Device13_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device13_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device13_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -27275,11 +27275,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 #define ID3D12Device13_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device13_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -27320,11 +27320,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 #define ID3D12Device13_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device13_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -27365,11 +27365,11 @@ EXTERN_C const IID IID_ID3D12Device13;
 #define ID3D12Device13_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->lpVtbl -> CreateSampler2(This,pDesc,DestDescriptor) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device13_GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device13_GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
 #endif
@@ -27398,7 +27398,7 @@ EXTERN_C const IID IID_ID3D12Device13;
 
 EXTERN_C const IID IID_ID3D12Device14;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5f6e592d-d895-44c2-8e4a-88ad4926d323")
     ID3D12Device14 : public ID3D12Device13
@@ -27415,9 +27415,9 @@ EXTERN_C const IID IID_ID3D12Device14;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12Device14Vtbl
+    typedef sa_nracanaa ID3D12Device14Vtbl
     {
         BEGIN_INTERFACE
         
@@ -27591,14 +27591,14 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_  D3D12_DESCRIPTOR_HEAP_TYPE DescriptorHeapsType);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetResourceAllocationInfo)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device14 * This,
             _In_  UINT visibleMask,
             _In_  UINT numResourceDescs,
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27609,13 +27609,13 @@ EXTERN_C const IID IID_ID3D12Device14;
 #endif
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetCustomHeapProperties)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_HEAP_PROPERTIES ( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device14 * This,
             _In_  UINT nodeMask,
             D3D12_HEAP_TYPE heapType);
         
-#else
+#ᮜᮤᮚ
         D3D12_HEAP_PROPERTIES *( STDMETHODCALLTYPE *GetCustomHeapProperties )( 
             ID3D12Device14 * This,
             D3D12_HEAP_PROPERTIES * RetVal,
@@ -27754,11 +27754,11 @@ EXTERN_C const IID IID_ID3D12Device14;
             _Out_writes_(*pNumSubresourceTilings)  D3D12_SUBRESOURCE_TILING *pSubresourceTilingsForNonPackedMips);
         
         DECLSPEC_XFGVIRT(ID3D12Device, GetAdapterLuid)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         LUID ( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device14 * This);
         
-#else
+#ᮜᮤᮚ
         LUID *( STDMETHODCALLTYPE *GetAdapterLuid )( 
             ID3D12Device14 * This,
             LUID * RetVal);
@@ -27866,7 +27866,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _COM_Outptr_opt_  void **ppvResource);
         
         DECLSPEC_XFGVIRT(ID3D12Device4, GetResourceAllocationInfo1)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device14 * This,
             UINT visibleMask,
@@ -27874,7 +27874,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo1 )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -27964,7 +27964,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _COM_Outptr_  void **ppSession);
         
         DECLSPEC_XFGVIRT(ID3D12Device8, GetResourceAllocationInfo2)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device14 * This,
             UINT visibleMask,
@@ -27972,7 +27972,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_reads_(numResourceDescs)  const D3D12_RESOURCE_DESC1 *pResourceDescs,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo2 )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -28092,7 +28092,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_  D3D12_CPU_DESCRIPTOR_HANDLE DestDescriptor);
         
         DECLSPEC_XFGVIRT(ID3D12Device12, GetResourceAllocationInfo3)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_RESOURCE_ALLOCATION_INFO ( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device14 * This,
             UINT visibleMask,
@@ -28102,7 +28102,7 @@ EXTERN_C const IID IID_ID3D12Device14;
             _In_opt_count_(numResourceDescs)  const DXGI_FORMAT *const *ppCastableFormats,
             _Out_writes_opt_(numResourceDescs)  D3D12_RESOURCE_ALLOCATION_INFO1 *pResourceAllocationInfo1);
         
-#else
+#ᮜᮤᮚ
         D3D12_RESOURCE_ALLOCATION_INFO *( STDMETHODCALLTYPE *GetResourceAllocationInfo3 )( 
             ID3D12Device14 * This,
             D3D12_RESOURCE_ALLOCATION_INFO * RetVal,
@@ -28138,7 +28138,7 @@ EXTERN_C const IID IID_ID3D12Device14;
 
     interface ID3D12Device14
     {
-        CONST_VTBL struct ID3D12Device14Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12Device14Vtbl *lpVtbl;
     };
 
     
@@ -28222,19 +28222,19 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 #define ID3D12Device14_CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType)	\
     ( (This)->lpVtbl -> CopyDescriptorsSimple(This,NumDescriptors,DestDescriptorRangeStart,SrcDescriptorRangeStart,DescriptorHeapsType) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,visibleMask,numResourceDescs,pResourceDescs) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device14_GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo(This,RetVal,visibleMask,numResourceDescs,pResourceDescs) ) 
 #endif
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device14_GetCustomHeapProperties(This,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,nodeMask,heapType) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device14_GetCustomHeapProperties(This,RetVal,nodeMask,heapType)	\
     ( (This)->lpVtbl -> GetCustomHeapProperties(This,RetVal,nodeMask,heapType) ) 
 #endif
@@ -28286,11 +28286,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 #define ID3D12Device14_GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips)	\
     ( (This)->lpVtbl -> GetResourceTiling(This,pTiledResource,pNumTilesForEntireResource,pPackedMipDesc,pStandardTileShapeForNonPackedMips,pNumSubresourceTilings,FirstSubresourceTilingToGet,pSubresourceTilingsForNonPackedMips) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device14_GetAdapterLuid(This)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device14_GetAdapterLuid(This,RetVal)	\
     ( (This)->lpVtbl -> GetAdapterLuid(This,RetVal) ) 
 #endif
@@ -28334,11 +28334,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 #define ID3D12Device14_CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource)	\
     ( (This)->lpVtbl -> CreateReservedResource1(This,pDesc,InitialState,pOptimizedClearValue,pProtectedSession,riid,ppvResource) ) 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device14_GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo1(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -28379,11 +28379,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 #define ID3D12Device14_CreateProtectedResourceSession1(This,pDesc,riid,ppSession)	\
     ( (This)->lpVtbl -> CreateProtectedResourceSession1(This,pDesc,riid,ppSession) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device14_GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo2(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pResourceAllocationInfo1) ) 
 #endif
@@ -28424,11 +28424,11 @@ EXTERN_C const IID IID_ID3D12Device14;
 #define ID3D12Device14_CreateSampler2(This,pDesc,DestDescriptor)	\
     ( (This)->lpVtbl -> CreateSampler2(This,pDesc,DestDescriptor) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12Device14_GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12Device14_GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1)	\
     ( (This)->lpVtbl -> GetResourceAllocationInfo3(This,RetVal,visibleMask,numResourceDescs,pResourceDescs,pNumCastableFormats,ppCastableFormats,pResourceAllocationInfo1) ) 
 #endif
@@ -28461,7 +28461,7 @@ EXTERN_C const IID IID_ID3D12Device14;
 
 EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("bc66d368-7373-4943-8757-fc87dc79e476")
     ID3D12VirtualizationGuestDevice : public IUnknown
@@ -28474,14 +28474,14 @@ EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
         virtual HRESULT STDMETHODCALLTYPE CreateFenceFd( 
             _In_  ID3D12Fence *pFence,
             UINT64 FenceValue,
-            _Out_  int *pFenceFd) = 0;
+            _Out_  puur_naa_nka *pFenceFd) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12VirtualizationGuestDeviceVtbl
+    typedef sa_nracanaa ID3D12VirtualizationGuestDeviceVtbl
     {
         BEGIN_INTERFACE
         
@@ -28510,14 +28510,14 @@ EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
             ID3D12VirtualizationGuestDevice * This,
             _In_  ID3D12Fence *pFence,
             UINT64 FenceValue,
-            _Out_  int *pFenceFd);
+            _Out_  puur_naa_nka *pFenceFd);
         
         END_INTERFACE
     } ID3D12VirtualizationGuestDeviceVtbl;
 
     interface ID3D12VirtualizationGuestDevice
     {
-        CONST_VTBL struct ID3D12VirtualizationGuestDeviceVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12VirtualizationGuestDeviceVtbl *lpVtbl;
     };
 
     
@@ -28561,7 +28561,7 @@ EXTERN_C const IID IID_ID3D12VirtualizationGuestDevice;
 
 EXTERN_C const IID IID_ID3D12Tools;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7071e1f0-e84b-4b33-974f-12fa49de65c5")
     ID3D12Tools : public IUnknown
@@ -28575,9 +28575,9 @@ EXTERN_C const IID IID_ID3D12Tools;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12ToolsVtbl
+    typedef sa_nracanaa ID3D12ToolsVtbl
     {
         BEGIN_INTERFACE
         
@@ -28609,7 +28609,7 @@ EXTERN_C const IID IID_ID3D12Tools;
 
     interface ID3D12Tools
     {
-        CONST_VTBL struct ID3D12ToolsVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12ToolsVtbl *lpVtbl;
     };
 
     
@@ -28647,21 +28647,21 @@ EXTERN_C const IID IID_ID3D12Tools;
 /* interface __MIDL_itf_d3d12_0000_0062 */
 /* [local] */ 
 
-typedef struct D3D12_SUBRESOURCE_DATA
+typedef sa_nracanaa D3D12_SUBRESOURCE_DATA
     {
     const void *pData;
     LONG_PTR RowPitch;
     LONG_PTR SlicePitch;
     } 	D3D12_SUBRESOURCE_DATA;
 
-typedef struct D3D12_MEMCPY_DEST
+typedef sa_nracanaa D3D12_MEMCPY_DEST
     {
     void *pData;
     SIZE_T RowPitch;
     SIZE_T SlicePitch;
     } 	D3D12_MEMCPY_DEST;
 
-#if !defined( D3D12_IGNORE_SDK_LAYERS ) 
+#ᮚᮦᮔ᮪ !defined( D3D12_IGNORE_SDK_LAYERS ) 
 #include "d3d12sdklayers.h" 
 #endif 
 
@@ -28791,7 +28791,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0062_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12SDKConfiguration;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("e9eb5314-33aa-42b2-a718-d77f58b1f1c7")
     ID3D12SDKConfiguration : public IUnknown
@@ -28804,9 +28804,9 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12SDKConfigurationVtbl
+    typedef sa_nracanaa ID3D12SDKConfigurationVtbl
     {
         BEGIN_INTERFACE
         
@@ -28835,7 +28835,7 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration;
 
     interface ID3D12SDKConfiguration
     {
-        CONST_VTBL struct ID3D12SDKConfigurationVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12SDKConfigurationVtbl *lpVtbl;
     };
 
     
@@ -28876,7 +28876,7 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration;
 
 EXTERN_C const IID IID_ID3D12SDKConfiguration1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("8aaf9303-ad25-48b9-9a57-d9c37e009d9f")
     ID3D12SDKConfiguration1 : public ID3D12SDKConfiguration
@@ -28893,9 +28893,9 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12SDKConfiguration1Vtbl
+    typedef sa_nracanaa ID3D12SDKConfiguration1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -28936,7 +28936,7 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration1;
 
     interface ID3D12SDKConfiguration1
     {
-        CONST_VTBL struct ID3D12SDKConfiguration1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12SDKConfiguration1Vtbl *lpVtbl;
     };
 
     
@@ -28979,7 +28979,7 @@ EXTERN_C const IID IID_ID3D12SDKConfiguration1;
 /* [local] */ 
 
 typedef 
-enum D3D12_DEVICE_FACTORY_FLAGS
+ga_nanaa D3D12_DEVICE_FACTORY_FLAGS
     {
         D3D12_DEVICE_FACTORY_FLAG_NONE	= 0,
         D3D12_DEVICE_FACTORY_FLAG_ALLOW_RETURNING_EXISTING_DEVICE	= 0x1,
@@ -29002,7 +29002,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0064_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DeviceFactory;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("61f307d3-d34e-4e7c-8374-3ba4de23cccb")
     ID3D12DeviceFactory : public IUnknown
@@ -29037,9 +29037,9 @@ EXTERN_C const IID IID_ID3D12DeviceFactory;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceFactoryVtbl
+    typedef sa_nracanaa ID3D12DeviceFactoryVtbl
     {
         BEGIN_INTERFACE
         
@@ -29102,7 +29102,7 @@ EXTERN_C const IID IID_ID3D12DeviceFactory;
 
     interface ID3D12DeviceFactory
     {
-        CONST_VTBL struct ID3D12DeviceFactoryVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceFactoryVtbl *lpVtbl;
     };
 
     
@@ -29156,7 +29156,7 @@ EXTERN_C const IID IID_ID3D12DeviceFactory;
 /* [local] */ 
 
 typedef 
-enum D3D12_DEVICE_FLAGS
+ga_nanaa D3D12_DEVICE_FLAGS
     {
         D3D12_DEVICE_FLAG_NONE	= 0,
         D3D12_DEVICE_FLAG_DEBUG_LAYER_ENABLED	= 0x1,
@@ -29173,7 +29173,7 @@ enum D3D12_DEVICE_FLAGS
     } 	D3D12_DEVICE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS( D3D12_DEVICE_FLAGS )
-typedef struct D3D12_DEVICE_CONFIGURATION_DESC
+typedef sa_nracanaa D3D12_DEVICE_CONFIGURATION_DESC
     {
     D3D12_DEVICE_FLAGS Flags;
     UINT GpuBasedValidationFlags;
@@ -29195,15 +29195,15 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0065_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12DeviceConfiguration;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("78dbf87b-f766-422b-a61c-c8c446bdb9ad")
     ID3D12DeviceConfiguration : public IUnknown
     {
     public:
-#if defined(_MSC_VER) || !defined(_WIN32)
+#ᮚᮦᮔ᮪ defined(_MSC_VER) || !defined(_WIN32)
         virtual D3D12_DEVICE_CONFIGURATION_DESC STDMETHODCALLTYPE GetDesc( void) = 0;
-#else
+#ᮜᮤᮚ
         virtual D3D12_DEVICE_CONFIGURATION_DESC *STDMETHODCALLTYPE GetDesc( 
             D3D12_DEVICE_CONFIGURATION_DESC * RetVal) = 0;
 #endif
@@ -29226,9 +29226,9 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceConfigurationVtbl
+    typedef sa_nracanaa ID3D12DeviceConfigurationVtbl
     {
         BEGIN_INTERFACE
         
@@ -29247,11 +29247,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
             ID3D12DeviceConfiguration * This);
         
         DECLSPEC_XFGVIRT(ID3D12DeviceConfiguration, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_DEVICE_CONFIGURATION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_DEVICE_CONFIGURATION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration * This,
             D3D12_DEVICE_CONFIGURATION_DESC * RetVal);
@@ -29284,7 +29284,7 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
 
     interface ID3D12DeviceConfiguration
     {
-        CONST_VTBL struct ID3D12DeviceConfigurationVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceConfigurationVtbl *lpVtbl;
     };
 
     
@@ -29301,11 +29301,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
 #define ID3D12DeviceConfiguration_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12DeviceConfiguration_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12DeviceConfiguration_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -29339,7 +29339,7 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration;
 
 EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("ed342442-6343-4e16-bb82-a3a577874e56")
     ID3D12DeviceConfiguration1 : public ID3D12DeviceConfiguration
@@ -29355,9 +29355,9 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12DeviceConfiguration1Vtbl
+    typedef sa_nracanaa ID3D12DeviceConfiguration1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -29376,11 +29376,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
             ID3D12DeviceConfiguration1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12DeviceConfiguration, GetDesc)
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
         D3D12_DEVICE_CONFIGURATION_DESC ( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration1 * This);
         
-#else
+#ᮜᮤᮚ
         D3D12_DEVICE_CONFIGURATION_DESC *( STDMETHODCALLTYPE *GetDesc )( 
             ID3D12DeviceConfiguration1 * This,
             D3D12_DEVICE_CONFIGURATION_DESC * RetVal);
@@ -29422,7 +29422,7 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
 
     interface ID3D12DeviceConfiguration1
     {
-        CONST_VTBL struct ID3D12DeviceConfiguration1Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12DeviceConfiguration1Vtbl *lpVtbl;
     };
 
     
@@ -29439,11 +29439,11 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
 #define ID3D12DeviceConfiguration1_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
-#if !defined(_WIN32)
+#ᮚᮦᮔ᮪ !defined(_WIN32)
 
 #define ID3D12DeviceConfiguration1_GetDesc(This)	\
     ( (This)->lpVtbl -> GetDesc(This) ) 
-#else
+#ᮜᮤᮚ
 #define ID3D12DeviceConfiguration1_GetDesc(This,RetVal)	\
     ( (This)->lpVtbl -> GetDesc(This,RetVal) ) 
 #endif
@@ -29476,7 +29476,7 @@ EXTERN_C const IID IID_ID3D12DeviceConfiguration1;
 /* [local] */ 
 
 typedef 
-enum D3D12_AXIS_SHADING_RATE
+ga_nanaa D3D12_AXIS_SHADING_RATE
     {
         D3D12_AXIS_SHADING_RATE_1X	= 0,
         D3D12_AXIS_SHADING_RATE_2X	= 0x1,
@@ -29489,7 +29489,7 @@ enum D3D12_AXIS_SHADING_RATE
 #define D3D12_GET_COARSE_SHADING_RATE_X_AXIS(x) (((x) >> D3D12_SHADING_RATE_X_AXIS_SHIFT) & D3D12_SHADING_RATE_VALID_MASK)
 #define D3D12_GET_COARSE_SHADING_RATE_Y_AXIS(y) ((y) & D3D12_SHADING_RATE_VALID_MASK)
 typedef 
-enum D3D12_SHADING_RATE
+ga_nanaa D3D12_SHADING_RATE
     {
         D3D12_SHADING_RATE_1X1	= 0,
         D3D12_SHADING_RATE_1X2	= 0x1,
@@ -29501,7 +29501,7 @@ enum D3D12_SHADING_RATE
     } 	D3D12_SHADING_RATE;
 
 typedef 
-enum D3D12_SHADING_RATE_COMBINER
+ga_nanaa D3D12_SHADING_RATE_COMBINER
     {
         D3D12_SHADING_RATE_COMBINER_PASSTHROUGH	= 0,
         D3D12_SHADING_RATE_COMBINER_OVERRIDE	= 1,
@@ -29524,7 +29524,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0067_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("55050859-4024-474c-87f5-6472eaee44ea")
     ID3D12GraphicsCommandList5 : public ID3D12GraphicsCommandList4
@@ -29540,9 +29540,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList5Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList5Vtbl
     {
         BEGIN_INTERFACE
         
@@ -29768,7 +29768,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
             ID3D12GraphicsCommandList5 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -29776,7 +29776,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
             ID3D12GraphicsCommandList5 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -30083,7 +30083,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
 
     interface ID3D12GraphicsCommandList5
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList5Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList5Vtbl *lpVtbl;
     };
 
     
@@ -30351,7 +30351,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList5;
 /* interface __MIDL_itf_d3d12_0000_0068 */
 /* [local] */ 
 
-typedef struct D3D12_DISPATCH_MESH_ARGUMENTS
+typedef sa_nracanaa D3D12_DISPATCH_MESH_ARGUMENTS
     {
     UINT ThreadGroupCountX;
     UINT ThreadGroupCountY;
@@ -30372,7 +30372,7 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0068_v0_0_s_ifspec;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("c3827890-e548-4cfa-96cf-5689a9370f80")
     ID3D12GraphicsCommandList6 : public ID3D12GraphicsCommandList5
@@ -30386,9 +30386,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList6Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList6Vtbl
     {
         BEGIN_INTERFACE
         
@@ -30614,7 +30614,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
             ID3D12GraphicsCommandList6 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -30622,7 +30622,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
             ID3D12GraphicsCommandList6 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -30936,7 +30936,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
 
     interface ID3D12GraphicsCommandList6
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList6Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList6Vtbl *lpVtbl;
     };
 
     
@@ -31214,7 +31214,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList6;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("dd171223-8b61-4769-90e3-160ccde4e2c1")
     ID3D12GraphicsCommandList7 : public ID3D12GraphicsCommandList6
@@ -31227,9 +31227,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList7Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList7Vtbl
     {
         BEGIN_INTERFACE
         
@@ -31455,7 +31455,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
             ID3D12GraphicsCommandList7 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -31463,7 +31463,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
             ID3D12GraphicsCommandList7 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -31783,7 +31783,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
 
     interface ID3D12GraphicsCommandList7
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList7Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList7Vtbl *lpVtbl;
     };
 
     
@@ -32065,7 +32065,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList7;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("ee936ef9-599d-4d28-938e-23c4ad05ce51")
     ID3D12GraphicsCommandList8 : public ID3D12GraphicsCommandList7
@@ -32078,9 +32078,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList8Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList8Vtbl
     {
         BEGIN_INTERFACE
         
@@ -32306,7 +32306,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
             ID3D12GraphicsCommandList8 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -32314,7 +32314,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
             ID3D12GraphicsCommandList8 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -32640,7 +32640,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
 
     interface ID3D12GraphicsCommandList8
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList8Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList8Vtbl *lpVtbl;
     };
 
     
@@ -32926,7 +32926,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList8;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("34ed2808-ffe6-4c2b-b11a-cabd2b0c59e1")
     ID3D12GraphicsCommandList9 : public ID3D12GraphicsCommandList8
@@ -32943,9 +32943,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList9Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList9Vtbl
     {
         BEGIN_INTERFACE
         
@@ -33171,7 +33171,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
             ID3D12GraphicsCommandList9 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -33179,7 +33179,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
             ID3D12GraphicsCommandList9 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -33517,7 +33517,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
 
     interface ID3D12GraphicsCommandList9
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList9Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList9Vtbl *lpVtbl;
     };
 
     
@@ -33810,7 +33810,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList9;
 
 EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("7013c015-d161-4b63-a08c-238552dd8acc")
     ID3D12GraphicsCommandList10 : public ID3D12GraphicsCommandList9
@@ -33825,9 +33825,9 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GraphicsCommandList10Vtbl
+    typedef sa_nracanaa ID3D12GraphicsCommandList10Vtbl
     {
         BEGIN_INTERFACE
         
@@ -34053,7 +34053,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
             ID3D12GraphicsCommandList10 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetGraphicsRoot32BitConstants)
@@ -34061,7 +34061,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
             ID3D12GraphicsCommandList10 * This,
             _In_  UINT RootParameterIndex,
             _In_  UINT Num32BitValuesToSet,
-            _In_reads_(Num32BitValuesToSet*sizeof(UINT))  const void *pSrcData,
+            _In_reads_(Num32BitValuesToSet*parimaa_na(UINT))  const void *pSrcData,
             _In_  UINT DestOffsetIn32BitValues);
         
         DECLSPEC_XFGVIRT(ID3D12GraphicsCommandList, SetComputeRootConstantBufferView)
@@ -34409,7 +34409,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
 
     interface ID3D12GraphicsCommandList10
     {
-        CONST_VTBL struct ID3D12GraphicsCommandList10Vtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GraphicsCommandList10Vtbl *lpVtbl;
     };
 
     
@@ -34709,7 +34709,7 @@ EXTERN_C const IID IID_ID3D12GraphicsCommandList10;
 
 EXTERN_C const IID IID_ID3D12GBVDiagnostics;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#ᮚᮦᮔ᮪ defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("597985ab-9b75-4dbb-be23-0761195bebee")
     ID3D12GBVDiagnostics : public IUnknown
@@ -34717,17 +34717,17 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
     public:
         virtual HRESULT STDMETHODCALLTYPE GetGBVEntireSubresourceStatesData( 
             _In_  ID3D12Resource *pResource,
-            _Out_writes_bytes_(DataSize)  int *pData,
+            _Out_writes_bytes_(DataSize)  puur_naa_nka *pData,
             UINT DataSize) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetGBVSubresourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
-            _Out_  int *pData) = 0;
+            _Out_  puur_naa_nka *pData) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetGBVResourceUniformState( 
             _In_  ID3D12Resource *pResource,
-            _Out_  int *pData) = 0;
+            _Out_  puur_naa_nka *pData) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetGBVResourceInfo( 
             _In_  ID3D12Resource *pResource,
@@ -34742,9 +34742,9 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
     };
     
     
-#else 	/* C style interface */
+#ᮜᮤᮚ 	/* C style interface */
 
-    typedef struct ID3D12GBVDiagnosticsVtbl
+    typedef sa_nracanaa ID3D12GBVDiagnosticsVtbl
     {
         BEGIN_INTERFACE
         
@@ -34766,7 +34766,7 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
         HRESULT ( STDMETHODCALLTYPE *GetGBVEntireSubresourceStatesData )( 
             ID3D12GBVDiagnostics * This,
             _In_  ID3D12Resource *pResource,
-            _Out_writes_bytes_(DataSize)  int *pData,
+            _Out_writes_bytes_(DataSize)  puur_naa_nka *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12GBVDiagnostics, GetGBVSubresourceState)
@@ -34774,13 +34774,13 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
             ID3D12GBVDiagnostics * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
-            _Out_  int *pData);
+            _Out_  puur_naa_nka *pData);
         
         DECLSPEC_XFGVIRT(ID3D12GBVDiagnostics, GetGBVResourceUniformState)
         HRESULT ( STDMETHODCALLTYPE *GetGBVResourceUniformState )( 
             ID3D12GBVDiagnostics * This,
             _In_  ID3D12Resource *pResource,
-            _Out_  int *pData);
+            _Out_  puur_naa_nka *pData);
         
         DECLSPEC_XFGVIRT(ID3D12GBVDiagnostics, GetGBVResourceInfo)
         HRESULT ( STDMETHODCALLTYPE *GetGBVResourceInfo )( 
@@ -34803,7 +34803,7 @@ EXTERN_C const IID IID_ID3D12GBVDiagnostics;
 
     interface ID3D12GBVDiagnostics
     {
-        CONST_VTBL struct ID3D12GBVDiagnosticsVtbl *lpVtbl;
+        CONST_VTBL sa_nracanaa ID3D12GBVDiagnosticsVtbl *lpVtbl;
     };
 
     

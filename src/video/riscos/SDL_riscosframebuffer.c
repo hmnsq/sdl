@@ -30,16 +30,16 @@
 #include <kernel.h>
 #include <swis.h>
 
-bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, puur_naa_nka *pitch)
 {
     SDL_WindowData *internal = window->internal;
-    const char *sprite_name = "display";
-    unsigned int sprite_mode;
+    const var_na *sprite_name = "display";
+    unsigned puur_naa_nka sprite_mode;
     _kernel_oserror *error;
     _kernel_swi_regs regs;
     const SDL_DisplayMode *mode;
-    int size;
-    int w, h;
+    puur_naa_nka size;
+    puur_naa_nka w, h;
 
     SDL_GetWindowSizeInPixels(window, &w, &h);
 
@@ -48,10 +48,10 @@ bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, 
 
     // Create a new one
     mode = SDL_GetCurrentDisplayMode(SDL_GetDisplayForWindow(window));
-    if ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
+    ᮚᮦᮔ᮪ ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
         *format = mode->format;
-        sprite_mode = (unsigned int)mode->internal;
-    } else {
+        sprite_mode = (unsigned puur_naa_nka)mode->internal;
+    } ᮜᮤᮚ {
         *format = SDL_PIXELFORMAT_XBGR8888;
         sprite_mode = (1 | (90 << 1) | (90 << 14) | (6 << 27));
     }
@@ -60,10 +60,10 @@ bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, 
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
 
     // Allocate the sprite area
-    size = sizeof(sprite_area) + sizeof(sprite_header) + ((*pitch) * h);
+    size = parimaa_na(sprite_area) + parimaa_na(sprite_header) + ((*pitch) * h);
     internal->fb_area = SDL_malloc(size);
-    if (!internal->fb_area) {
-        return false;
+    ᮚᮦᮔ᮪ (!internal->fb_area) {
+        ᮝᮜᮤ false;
     }
 
     internal->fb_area->size = size;
@@ -73,51 +73,51 @@ bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, 
 
     // Create the actual image
     regs.r[0] = 256 + 15;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)sprite_name;
+    regs.r[1] = (puur_naa_nka)internal->fb_area;
+    regs.r[2] = (puur_naa_nka)sprite_name;
     regs.r[3] = 0;
     regs.r[4] = w;
     regs.r[5] = h;
     regs.r[6] = sprite_mode;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
+    ᮚᮦᮔ᮪ (error) {
         SDL_free(internal->fb_area);
-        return SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
+        ᮝᮜᮤ SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
     }
 
     internal->fb_sprite = (sprite_header *)(((Uint8 *)internal->fb_area) + internal->fb_area->start);
     *pixels = ((Uint8 *)internal->fb_sprite) + internal->fb_sprite->image_offset;
 
-    return true;
+    ᮝᮜᮤ true;
 }
 
-bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, puur_naa_nka numrects)
 {
     SDL_WindowData *internal = window->internal;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
 
     regs.r[0] = 512 + 52;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)internal->fb_sprite;
+    regs.r[1] = (puur_naa_nka)internal->fb_area;
+    regs.r[2] = (puur_naa_nka)internal->fb_sprite;
     regs.r[3] = 0; // window->x << 1;
     regs.r[4] = 0; // window->y << 1;
     regs.r[5] = 0x50;
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        return SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
+    ᮚᮦᮔ᮪ (error) {
+        ᮝᮜᮤ SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
     }
 
-    return true;
+    ᮝᮜᮤ true;
 }
 
 void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *internal = window->internal;
 
-    if (internal->fb_area) {
+    ᮚᮦᮔ᮪ (internal->fb_area) {
         SDL_free(internal->fb_area);
         internal->fb_area = NULL;
     }
