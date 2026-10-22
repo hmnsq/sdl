@@ -19,43 +19,43 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#𐤀𐤌 defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES3/gl.h>
 
 #import "SDL_uikitview.h"
-#include "SDL_uikitvideo.h"
+#ضمن "SDL_uikitvideo.h"
 
 @interface SDL_uikitopenglview : SDL_uikitview
 
 - (instancetype)initWithFrame:(CGRect)frame
                         scale:(CGFloat)scale
                 retainBacking:(BOOL)retained
-                        rBits:(int)rBits
-                        gBits:(int)gBits
-                        bBits:(int)bBits
-                        aBits:(int)aBits
-                    depthBits:(int)depthBits
-                  stencilBits:(int)stencilBits
-                         sRGB:(int)sRGB
-                 multisamples:(int)multisamples
+                        rBits:(صحيح)rBits
+                        gBits:(صحيح)gBits
+                        bBits:(صحيح)bBits
+                        aBits:(صحيح)aBits
+                    depthBits:(صحيح)depthBits
+                  stencilBits:(صحيح)stencilBits
+                         sRGB:(صحيح)sRGB
+                 multisamples:(صحيح)multisamples
                       context:(EAGLContext *)glcontext;
 
 @property(nonatomic, readonly, weak) EAGLContext *context;
 
 // The width and height of the drawable in pixels (as opposed to points.)
-@property(nonatomic, readonly) int backingWidth;
-@property(nonatomic, readonly) int backingHeight;
+@property(nonatomic, readonly) صحيح backingWidth;
+@property(nonatomic, readonly) صحيح backingHeight;
 
 @property(nonatomic, readonly) GLuint drawableRenderbuffer;
 @property(nonatomic, readonly) GLuint drawableFramebuffer;
 @property(nonatomic, readonly) GLuint msaaResolveFramebuffer;
 
-- (void)swapBuffers;
+- (فراغ)swapBuffers;
 
-- (void)updateFrame;
+- (فراغ)updateFrame;
 
 @end
 

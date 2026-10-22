@@ -22,8 +22,8 @@
   Screen keyboard and text input backend
   for GDK platforms.
 */
-#include "SDL_internal.h"
-#include "SDL_gdktextinput.h"
+#ضمن "SDL_internal.h"
+#ضمن "SDL_gdktextinput.h"
 
 #ifdef SDL_GDK_TEXTINPUT
 
@@ -31,102 +31,102 @@
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
-#include <Windows.h>
-#include <XGameUI.h>
-#include <XUser.h>
+#ضمن <Windows.h>
+#ضمن <XGameUI.h>
+#ضمن <XUser.h>
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
-#include "../../events/SDL_keyboard_c.h"
-#include "../windows/SDL_windowsvideo.h"
+#ضمن "../../events/SDL_keyboard_c.h"
+#ضمن "../windows/SDL_windowsvideo.h"
 
 // TODO: Have a separate task queue for text input perhaps?
-static XTaskQueueHandle g_TextTaskQueue = NULL;
+ساكن XTaskQueueHandle g_TextTaskQueue = عدم;
 // Global because there can be only one text entry shown at once.
-static XAsyncBlock *g_TextBlock = NULL;
+ساكن XAsyncBlock *g_TextBlock = عدم;
 
 // Creation parameters
-static bool g_DidRegisterHints = false;
-static char *g_TitleText = NULL;
-static char *g_DescriptionText = NULL;
-static char *g_DefaultText = NULL;
-static const Sint32 g_DefaultTextInputScope = (Sint32)XGameUiTextEntryInputScope::Default;
-static Sint32 g_TextInputScope = g_DefaultTextInputScope;
-static const Sint32 g_DefaultMaxTextLength = 1024; // as per doc: maximum allowed amount on consoles
-static Sint32 g_MaxTextLength = g_DefaultMaxTextLength;
+ساكن منطقي g_DidRegisterHints = خطأ;
+ساكن حرف *g_TitleText = عدم;
+ساكن حرف *g_DescriptionText = عدم;
+ساكن حرف *g_DefaultText = عدم;
+ساكن ثابت Sint32 g_DefaultTextInputScope = (Sint32)XGameUiTextEntryInputScope::Default;
+ساكن Sint32 g_TextInputScope = g_DefaultTextInputScope;
+ساكن ثابت Sint32 g_DefaultMaxTextLength = 1024; // as per doc: maximum allowed amount on consoles
+ساكن Sint32 g_MaxTextLength = g_DefaultMaxTextLength;
 
-static void SDLCALL GDK_InternalHintCallback(
-    void *userdata,
-    const char *name,
-    const char *oldValue,
-    const char *newValue)
+ساكن فراغ SDLCALL GDK_InternalHintCallback(
+    فراغ *userdata,
+    ثابت حرف *name,
+    ثابت حرف *oldValue,
+    ثابت حرف *newValue)
 {
-    if (!userdata) {
-        return;
+    𐤀𐤌 (!userdata) {
+        أرجع;
     }
 
     // oldValue is ignored because we store it ourselves.
     // name is ignored because we deduce it from userdata
 
-    if (userdata == &g_TextInputScope || userdata == &g_MaxTextLength) {
+    𐤀𐤌 (userdata == &g_TextInputScope || userdata == &g_MaxTextLength) {
         // int32 hint
         Sint32 intValue = (!newValue || newValue[0] == '\0') ? 0 : SDL_atoi(newValue);
-        if (userdata == &g_MaxTextLength && intValue <= 0) {
+        𐤀𐤌 (userdata == &g_MaxTextLength && intValue <= 0) {
             intValue = g_DefaultMaxTextLength;
-        } else if (userdata == &g_TextInputScope && intValue < 0) {
+        } وإلا 𐤀𐤌 (userdata == &g_TextInputScope && intValue < 0) {
             intValue = g_DefaultTextInputScope;
         }
 
         *(Sint32 *)userdata = intValue;
-    } else {
+    } وإلا {
         // string hint
-        if (!newValue || newValue[0] == '\0') {
+        𐤀𐤌 (!newValue || newValue[0] == '\0') {
             // treat empty or NULL strings as just NULL for this impl
-            SDL_free(*(char **)userdata);
-            *(char **)userdata = NULL;
-        } else {
-            char *newString = SDL_strdup(newValue);
-            if (newString) {
+            SDL_free(*(حرف **)userdata);
+            *(حرف **)userdata = عدم;
+        } وإلا {
+            حرف *newString = SDL_strdup(newValue);
+            𐤀𐤌 (newString) {
                 // free previous value and write the new one
-                SDL_free(*(char **)userdata);
-                *(char **)userdata = newString;
+                SDL_free(*(حرف **)userdata);
+                *(حرف **)userdata = newString;
             }
         }
     }
 }
 
-static bool GDK_InternalEnsureTaskQueue(void)
+ساكن منطقي GDK_InternalEnsureTaskQueue(فراغ)
 {
-    if (!g_TextTaskQueue) {
-        if (!SDL_GetGDKTaskQueue(&g_TextTaskQueue)) {
+    𐤀𐤌 (!g_TextTaskQueue) {
+        𐤀𐤌 (!SDL_GetGDKTaskQueue(&g_TextTaskQueue)) {
             // SetError will be done for us.
-            return false;
+            أرجع خطأ;
         }
     }
-    return true;
+    أرجع true;
 }
 
-static void CALLBACK GDK_InternalTextEntryCallback(XAsyncBlock *asyncBlock)
+ساكن فراغ CALLBACK GDK_InternalTextEntryCallback(XAsyncBlock *asyncBlock)
 {
     HRESULT hR = S_OK;
     Uint32 resultSize = 0;
     Uint32 resultUsed = 0;
-    char *resultBuffer = NULL;
+    حرف *resultBuffer = عدم;
 
     // The keyboard will be already hidden when we reach this code
 
-    if (FAILED(hR = XGameUiShowTextEntryResultSize(
+    𐤀𐤌 (FAILED(hR = XGameUiShowTextEntryResultSize(
                    asyncBlock,
                    &resultSize))) {
         SDL_SetError("XGameUiShowTextEntryResultSize failure with HRESULT of %08X", hR);
-    } else if (resultSize > 0) {
+    } وإلا 𐤀𐤌 (resultSize > 0) {
         // +1 to be super sure that the buffer will be null terminated
-        resultBuffer = (char *)SDL_calloc(1 + (size_t)resultSize, sizeof(*resultBuffer));
-        if (resultBuffer) {
+        resultBuffer = (حرف *)SDL_calloc(1 + (size_t)resultSize, حجم(*resultBuffer));
+        𐤀𐤌 (resultBuffer) {
             // still pass the original size that we got from ResultSize
-            if (FAILED(hR = XGameUiShowTextEntryResult(
+            𐤀𐤌 (FAILED(hR = XGameUiShowTextEntryResult(
                            asyncBlock,
                            resultSize,
                            resultBuffer,
@@ -134,27 +134,27 @@ static void CALLBACK GDK_InternalTextEntryCallback(XAsyncBlock *asyncBlock)
                 SDL_SetError("XGameUiShowTextEntryResult failure with HRESULT of %08X", hR);
             }
             // check that we have some text and that we weren't cancelled
-            else if (resultUsed > 0 && resultBuffer[0] != '\0') {
+            وإلا 𐤀𐤌 (resultUsed > 0 && resultBuffer[0] != '\0') {
                 // it's null terminated so it's fine
                 SDL_SendKeyboardText(resultBuffer);
             }
             // we're done with the buffer
             SDL_free(resultBuffer);
-            resultBuffer = NULL;
+            resultBuffer = عدم;
         }
     }
 
     // free the async block after we're done
     SDL_free(asyncBlock);
-    asyncBlock = NULL;
-    g_TextBlock = NULL; // once we do this we're fully done with the keyboard
+    asyncBlock = عدم;
+    g_TextBlock = عدم; // once we do this we're fully done with the keyboard
 
     SDL_SendScreenKeyboardHidden();
 }
 
-void GDK_EnsureHints(void)
+فراغ GDK_EnsureHints(فراغ)
 {
-    if (g_DidRegisterHints == false) {
+    𐤀𐤌 (g_DidRegisterHints == خطأ) {
         SDL_AddHintCallback(
             SDL_HINT_GDK_TEXTINPUT_TITLE,
             GDK_InternalHintCallback,
@@ -179,7 +179,7 @@ void GDK_EnsureHints(void)
     }
 }
 
-bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+منطقي GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
     /*
      * Currently a stub, since all input is handled by the virtual keyboard,
@@ -192,16 +192,16 @@ bool GDK_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properti
      * Right now this function isn't implemented on Desktop
      * and seems to be present only in the docs? So I didn't bother.
      */
-    return true;
+    أرجع true;
 }
 
-bool GDK_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
+منطقي GDK_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // See notice in GDK_StartTextInput
-    return true;
+    أرجع true;
 }
 
-bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
+منطقي GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
 {
     /*
      * XGameUiShowTextEntryAsync does not allow you to set
@@ -212,22 +212,22 @@ bool GDK_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window)
      *
      * Right now it's a stub which may be useful later.
      */
-    return true;
+    أرجع true;
 }
 
-bool GDK_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window)
+منطقي GDK_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window)
 {
     // See notice in GDK_StartTextInput
-    return true;
+    أرجع true;
 }
 
-bool GDK_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
+منطقي GDK_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
     // Currently always true for this input method
-    return true;
+    أرجع true;
 }
 
-void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+فراغ GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
     /*
      * There is XGameUiTextEntryOpen but it's only in online docs,
@@ -239,58 +239,58 @@ void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
 
     HRESULT hR = S_OK;
 
-    if (g_TextBlock) {
+    𐤀𐤌 (g_TextBlock) {
         // already showing the keyboard
-        return;
+        أرجع;
     }
 
-    if (!GDK_InternalEnsureTaskQueue()) {
+    𐤀𐤌 (!GDK_InternalEnsureTaskQueue()) {
         // unable to obtain the SDL GDK queue
-        return;
+        أرجع;
     }
 
-    g_TextBlock = (XAsyncBlock *)SDL_calloc(1, sizeof(*g_TextBlock));
-    if (!g_TextBlock) {
-        return;
+    g_TextBlock = (XAsyncBlock *)SDL_calloc(1, حجم(*g_TextBlock));
+    𐤀𐤌 (!g_TextBlock) {
+        أرجع;
     }
 
     XGameUiTextEntryInputScope scope;
-    switch (SDL_GetTextInputType(props)) {
-    default:
-    case SDL_TEXTINPUT_TYPE_TEXT:
+    بدل (SDL_GetTextInputType(props)) {
+    افتراضي:
+    حالة SDL_TEXTINPUT_TYPE_TEXT:
         scope = (XGameUiTextEntryInputScope)g_TextInputScope;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_NAME:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_TEXT_NAME:
         scope = XGameUiTextEntryInputScope::Default;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
         scope = XGameUiTextEntryInputScope::EmailSmtpAddress;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
         scope = XGameUiTextEntryInputScope::Default;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
         scope = XGameUiTextEntryInputScope::Password;
-        break;
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
         scope = XGameUiTextEntryInputScope::Default;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_NUMBER:
         scope = XGameUiTextEntryInputScope::Number;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
         // FIXME: Password or number scope?
         scope = XGameUiTextEntryInputScope::Number;
-        break;
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
+        اكسر;
+    حالة SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
         scope = XGameUiTextEntryInputScope::Number;
-        break;
+        اكسر;
     }
 
     g_TextBlock->queue = g_TextTaskQueue;
     g_TextBlock->context = _this;
     g_TextBlock->callback = GDK_InternalTextEntryCallback;
-    if (SUCCEEDED(hR = XGameUiShowTextEntryAsync(
+    𐤀𐤌 (SUCCEEDED(hR = XGameUiShowTextEntryAsync(
                    g_TextBlock,
                    g_TitleText,
                    g_DescriptionText,
@@ -298,16 +298,16 @@ void GDK_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_Prop
                    scope,
                    (uint32_t)g_MaxTextLength))) {
         SDL_SendScreenKeyboardShown();
-    } else {
+    } وإلا {
         SDL_free(g_TextBlock);
-        g_TextBlock = NULL;
+        g_TextBlock = عدم;
         SDL_SetError("XGameUiShowTextEntryAsync failure with HRESULT of %08X", hR);
     }
 }
 
-void GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ GDK_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (g_TextBlock) {
+    𐤀𐤌 (g_TextBlock) {
         XAsyncCancel(g_TextBlock);
         // the completion callback will free the block
     }

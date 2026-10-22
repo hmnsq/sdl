@@ -21,7 +21,7 @@
 #ifndef SDL_vulkan_internal_h_
 #define SDL_vulkan_internal_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_VULKAN
 #ifdef SDL_VIDEO_DRIVER_ANDROID
@@ -40,11 +40,11 @@
 #endif
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
 #define VK_USE_PLATFORM_WAYLAND_KHR
-#include "wayland/SDL_waylanddyn.h"
+#ضمن "wayland/SDL_waylanddyn.h"
 #endif
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
 #define VK_USE_PLATFORM_WIN32_KHR
-#include "../core/windows/SDL_windows.h"
+#ضمن "../core/windows/SDL_windows.h"
 #endif
 #ifdef SDL_VIDEO_DRIVER_X11
 #define VK_USE_PLATFORM_XLIB_KHR
@@ -52,13 +52,13 @@
 #endif
 
 #define VK_NO_PROTOTYPES
-#include "./khronos/vulkan/vulkan.h"
+#ضمن "./khronos/vulkan/vulkan.h"
 
-#include <SDL3/SDL_vulkan.h>
+#ضمن <SDL3/SDL_vulkan.h>
 
-extern const char *SDL_Vulkan_GetResultString(VkResult result);
+خارجي ثابت حرف *SDL_Vulkan_GetResultString(VkResult result);
 
-extern VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
+خارجي VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
     PFN_vkEnumerateInstanceExtensionProperties vkEnumerateInstanceExtensionProperties,
     Uint32 *extensionCount); // free returned list with SDL_free
 
@@ -66,9 +66,9 @@ extern VkExtensionProperties *SDL_Vulkan_CreateInstanceExtensionsList(
  * using the DisplayKHR extension.
  * This needs to be passed an instance that was created with the VK_KHR_DISPLAY_EXTENSION_NAME
  * extension. */
-extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
+خارجي bool SDL_Vulkan_Display_CreateSurface(فراغ *vkGetInstanceProcAddr,
                                              VkInstance instance,
-                                             const struct VkAllocationCallbacks *allocator,
+                                             ثابت بنية VkAllocationCallbacks *allocator,
                                              VkSurfaceKHR *surface);
 
 /* Platform independent base function for destroying the Vulkan surface. Unlike surface
@@ -77,17 +77,17 @@ extern bool SDL_Vulkan_Display_CreateSurface(void *vkGetInstanceProcAddr,
  * necessary extension is cross platform VK_KHR_surface, which is a dependency to all
  * WSI platform extensions, so we can handle surface destruction in an platform-independent
  * manner. */
-extern void SDL_Vulkan_DestroySurface_Internal(void *vkGetInstanceProcAddr,
+خارجي فراغ SDL_Vulkan_DestroySurface_Internal(فراغ *vkGetInstanceProcAddr,
                                                VkInstance instance,
                                                VkSurfaceKHR surface,
-                                               const struct VkAllocationCallbacks *allocator);
-#else
+                                               ثابت بنية VkAllocationCallbacks *allocator);
+#وإلا
 
 // No SDL Vulkan support, just include the header for typedefs
-#include <SDL3/SDL_vulkan.h>
+#ضمن <SDL3/SDL_vulkan.h>
 
-typedef void (*PFN_vkGetInstanceProcAddr)(void);
-typedef int (*PFN_vkEnumerateInstanceExtensionProperties)(void);
+تعريفنوع فراغ (*PFN_vkGetInstanceProcAddr)(فراغ);
+تعريفنوع صحيح (*PFN_vkEnumerateInstanceExtensionProperties)(فراغ);
 
 #endif // SDL_VIDEO_VULKAN
 

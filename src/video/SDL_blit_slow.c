@@ -18,13 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include "SDL_surface_c.h"
-#include "SDL_blit_slow.h"
-#include "SDL_pixels_c.h"
+#ضمن "SDL_surface_c.h"
+#ضمن "SDL_blit_slow.h"
+#ضمن "SDL_pixels_c.h"
 
-typedef enum
+تعريفنوع تعداد
 {
     SlowBlitPixelAccess_Index8,
     SlowBlitPixelAccess_RGB,
@@ -33,31 +33,31 @@ typedef enum
     SlowBlitPixelAccess_Large,
 } SlowBlitPixelAccess;
 
-static SlowBlitPixelAccess GetPixelAccessMethod(SDL_PixelFormat format)
+ساكن SlowBlitPixelAccess GetPixelAccessMethod(SDL_PixelFormat format)
 {
-    if (SDL_BYTESPERPIXEL(format) > 4) {
-        return SlowBlitPixelAccess_Large;
-    } else if (SDL_ISPIXELFORMAT_10BIT(format)) {
-        return SlowBlitPixelAccess_10Bit;
-    } else if (format == SDL_PIXELFORMAT_INDEX8) {
-        return SlowBlitPixelAccess_Index8;
-    } else if (SDL_ISPIXELFORMAT_ALPHA(format)) {
-        return SlowBlitPixelAccess_RGBA;
-    } else {
-        return SlowBlitPixelAccess_RGB;
+    𐤀𐤌 (SDL_BYTESPERPIXEL(format) > 4) {
+        أرجع SlowBlitPixelAccess_Large;
+    } وإلا 𐤀𐤌 (SDL_ISPIXELFORMAT_10BIT(format)) {
+        أرجع SlowBlitPixelAccess_10Bit;
+    } وإلا 𐤀𐤌 (format == SDL_PIXELFORMAT_INDEX8) {
+        أرجع SlowBlitPixelAccess_Index8;
+    } وإلا 𐤀𐤌 (SDL_ISPIXELFORMAT_ALPHA(format)) {
+        أرجع SlowBlitPixelAccess_RGBA;
+    } وإلا {
+        أرجع SlowBlitPixelAccess_RGB;
     }
 }
 
 /* The ONE TRUE BLITTER
  * This puppy has to handle all the unoptimized cases - yes, it's slow.
  */
-void SDL_Blit_Slow(SDL_BlitInfo *info)
+فراغ SDL_Blit_Slow(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
-    const Uint32 modulateR = info->r;
-    const Uint32 modulateG = info->g;
-    const Uint32 modulateB = info->b;
-    const Uint32 modulateA = info->a;
+    ثابت صحيح flags = info->flags;
+    ثابت Uint32 modulateR = info->r;
+    ثابت Uint32 modulateG = info->g;
+    ثابت Uint32 modulateB = info->b;
+    ثابت Uint32 modulateA = info->a;
     Uint32 srcpixel = 0;
     Uint32 srcR = 0, srcG = 0, srcB = 0, srcA = 0;
     Uint32 dstpixel = 0;
@@ -65,13 +65,13 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
     Uint64 srcy, srcx;
     Uint64 posy, posx;
     Uint64 incy, incx;
-    const SDL_PixelFormatDetails *src_fmt = info->src_fmt;
-    const SDL_Palette *src_pal = info->src_pal;
-    const SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
-    const SDL_Palette *dst_pal = info->dst_pal;
+    ثابت SDL_PixelFormatDetails *src_fmt = info->src_fmt;
+    ثابت SDL_Palette *src_pal = info->src_pal;
+    ثابت SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
+    ثابت SDL_Palette *dst_pal = info->dst_pal;
     SDL_HashTable *palette_map = info->palette_map;
-    int srcbpp = src_fmt->bytes_per_pixel;
-    int dstbpp = dst_fmt->bytes_per_pixel;
+    صحيح srcbpp = src_fmt->bytes_per_pixel;
+    صحيح dstbpp = dst_fmt->bytes_per_pixel;
     SlowBlitPixelAccess src_access;
     SlowBlitPixelAccess dst_access;
     Uint32 rgbmask = ~src_fmt->Amask;
@@ -81,7 +81,7 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
 
     src_access = GetPixelAccessMethod(src_fmt->format);
     dst_access = GetPixelAccessMethod(dst_fmt->format);
-    if (dst_access == SlowBlitPixelAccess_Index8) {
+    𐤀𐤌 (dst_access == SlowBlitPixelAccess_Index8) {
         last_index = SDL_LookupRGBAColor(palette_map, last_pixel, dst_pal);
     }
 
@@ -89,237 +89,237 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
     incx = info->dst_w ? ((Uint64)info->src_w << 16) / info->dst_w : 0;
     posy = incy / 2; // start at the middle of pixel
 
-    while (info->dst_h--) {
-        Uint8 *src = NULL;
+    طالما (info->dst_h--) {
+        Uint8 *src = عدم;
         Uint8 *dst = info->dst;
-        int n = info->dst_w;
+        صحيح n = info->dst_w;
         posx = incx / 2; // start at the middle of pixel
         srcy = posy >> 16;
-        while (n--) {
+        طالما (n--) {
             srcx = posx >> 16;
             src = (info->src + (srcy * info->src_pitch) + (srcx * srcbpp));
 
-            switch (src_access) {
-            case SlowBlitPixelAccess_Index8:
+            بدل (src_access) {
+            حالة SlowBlitPixelAccess_Index8:
                 srcpixel = *src;
                 srcR = src_pal->colors[srcpixel].r;
                 srcG = src_pal->colors[srcpixel].g;
                 srcB = src_pal->colors[srcpixel].b;
                 srcA = src_pal->colors[srcpixel].a;
-                break;
-            case SlowBlitPixelAccess_RGB:
+                اكسر;
+            حالة SlowBlitPixelAccess_RGB:
                 DISEMBLE_RGB(src, srcbpp, src_fmt, srcpixel, srcR, srcG, srcB);
                 srcA = 0xFF;
-                break;
-            case SlowBlitPixelAccess_RGBA:
+                اكسر;
+            حالة SlowBlitPixelAccess_RGBA:
                 DISEMBLE_RGBA(src, srcbpp, src_fmt, srcpixel, srcR, srcG, srcB, srcA);
-                break;
-            case SlowBlitPixelAccess_10Bit:
+                اكسر;
+            حالة SlowBlitPixelAccess_10Bit:
                 srcpixel = *((Uint32 *)(src));
-                switch (src_fmt->format) {
-                case SDL_PIXELFORMAT_XRGB2101010:
+                بدل (src_fmt->format) {
+                حالة SDL_PIXELFORMAT_XRGB2101010:
                     RGBA_FROM_ARGB2101010(srcpixel, srcR, srcG, srcB, srcA);
                     srcA = 0xFF;
-                    break;
-                case SDL_PIXELFORMAT_XBGR2101010:
+                    اكسر;
+                حالة SDL_PIXELFORMAT_XBGR2101010:
                     RGBA_FROM_ABGR2101010(srcpixel, srcR, srcG, srcB, srcA);
                     srcA = 0xFF;
-                    break;
-                case SDL_PIXELFORMAT_ARGB2101010:
+                    اكسر;
+                حالة SDL_PIXELFORMAT_ARGB2101010:
                     RGBA_FROM_ARGB2101010(srcpixel, srcR, srcG, srcB, srcA);
-                    break;
-                case SDL_PIXELFORMAT_ABGR2101010:
+                    اكسر;
+                حالة SDL_PIXELFORMAT_ABGR2101010:
                     RGBA_FROM_ABGR2101010(srcpixel, srcR, srcG, srcB, srcA);
-                    break;
-                default:
-                    break;
+                    اكسر;
+                افتراضي:
+                    اكسر;
                 }
-                break;
-            case SlowBlitPixelAccess_Large:
+                اكسر;
+            حالة SlowBlitPixelAccess_Large:
                 // Handled in SDL_Blit_Slow_Float()
-                break;
+                اكسر;
             }
 
-            if (flags & SDL_COPY_COLORKEY) {
+            𐤀𐤌 (flags & SDL_COPY_COLORKEY) {
                 // srcpixel isn't set for 24 bpp
-                if (srcbpp == 3) {
+                𐤀𐤌 (srcbpp == 3) {
                     srcpixel = (srcR << src_fmt->Rshift) |
                                (srcG << src_fmt->Gshift) | (srcB << src_fmt->Bshift);
                 }
-                if ((srcpixel & rgbmask) == ckey) {
+                𐤀𐤌 ((srcpixel & rgbmask) == ckey) {
                     posx += incx;
                     dst += dstbpp;
-                    continue;
+                    استمر;
                 }
             }
-            if (flags & SDL_COPY_BLEND_MASK) {
-                switch (dst_access) {
-                case SlowBlitPixelAccess_Index8:
+            𐤀𐤌 (flags & SDL_COPY_BLEND_MASK) {
+                بدل (dst_access) {
+                حالة SlowBlitPixelAccess_Index8:
                     dstpixel = *dst;
                     dstR = dst_pal->colors[dstpixel].r;
                     dstG = dst_pal->colors[dstpixel].g;
                     dstB = dst_pal->colors[dstpixel].b;
                     dstA = dst_pal->colors[dstpixel].a;
-                    break;
-                case SlowBlitPixelAccess_RGB:
+                    اكسر;
+                حالة SlowBlitPixelAccess_RGB:
                     DISEMBLE_RGB(dst, dstbpp, dst_fmt, dstpixel, dstR, dstG, dstB);
                     dstA = 0xFF;
-                    break;
-                case SlowBlitPixelAccess_RGBA:
+                    اكسر;
+                حالة SlowBlitPixelAccess_RGBA:
                     DISEMBLE_RGBA(dst, dstbpp, dst_fmt, dstpixel, dstR, dstG, dstB, dstA);
-                    break;
-                case SlowBlitPixelAccess_10Bit:
+                    اكسر;
+                حالة SlowBlitPixelAccess_10Bit:
                     dstpixel = *((Uint32 *)(dst));
-                    switch (dst_fmt->format) {
-                    case SDL_PIXELFORMAT_XRGB2101010:
+                    بدل (dst_fmt->format) {
+                    حالة SDL_PIXELFORMAT_XRGB2101010:
                         RGBA_FROM_ARGB2101010(dstpixel, dstR, dstG, dstB, dstA);
                         dstA = 0xFF;
-                        break;
-                    case SDL_PIXELFORMAT_XBGR2101010:
+                        اكسر;
+                    حالة SDL_PIXELFORMAT_XBGR2101010:
                         RGBA_FROM_ABGR2101010(dstpixel, dstR, dstG, dstB, dstA);
                         dstA = 0xFF;
-                        break;
-                    case SDL_PIXELFORMAT_ARGB2101010:
+                        اكسر;
+                    حالة SDL_PIXELFORMAT_ARGB2101010:
                         RGBA_FROM_ARGB2101010(dstpixel, dstR, dstG, dstB, dstA);
-                        break;
-                    case SDL_PIXELFORMAT_ABGR2101010:
+                        اكسر;
+                    حالة SDL_PIXELFORMAT_ABGR2101010:
                         RGBA_FROM_ABGR2101010(dstpixel, dstR, dstG, dstB, dstA);
-                        break;
-                    default:
-                        break;
+                        اكسر;
+                    افتراضي:
+                        اكسر;
                     }
-                    break;
-                case SlowBlitPixelAccess_Large:
+                    اكسر;
+                حالة SlowBlitPixelAccess_Large:
                     // Handled in SDL_Blit_Slow_Float()
-                    break;
+                    اكسر;
                 }
-            } else {
+            } وإلا {
                 // don't care
             }
 
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            𐤀𐤌 (flags & SDL_COPY_MODULATE_COLOR) {
                 srcR = (srcR * modulateR) / 255;
                 srcG = (srcG * modulateG) / 255;
                 srcB = (srcB * modulateB) / 255;
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            𐤀𐤌 (flags & SDL_COPY_MODULATE_ALPHA) {
                 srcA = (srcA * modulateA) / 255;
             }
-            if (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
-                if (srcA < 255) {
+            𐤀𐤌 (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
+                𐤀𐤌 (srcA < 255) {
                     srcR = (srcR * srcA) / 255;
                     srcG = (srcG * srcA) / 255;
                     srcB = (srcB * srcA) / 255;
                 }
             }
-            switch (flags & SDL_COPY_BLEND_MASK) {
-            case 0:
+            بدل (flags & SDL_COPY_BLEND_MASK) {
+            حالة 0:
                 dstR = srcR;
                 dstG = srcG;
                 dstB = srcB;
                 dstA = srcA;
-                break;
-            case SDL_COPY_BLEND:
+                اكسر;
+            حالة SDL_COPY_BLEND:
                 dstR = srcR + ((255 - srcA) * dstR) / 255;
                 dstG = srcG + ((255 - srcA) * dstG) / 255;
                 dstB = srcB + ((255 - srcA) * dstB) / 255;
                 dstA = srcA + ((255 - srcA) * dstA) / 255;
-                break;
-            case SDL_COPY_BLEND_PREMULTIPLIED:
+                اكسر;
+            حالة SDL_COPY_BLEND_PREMULTIPLIED:
                 dstR = srcR + ((255 - srcA) * dstR) / 255;
-                if (dstR > 255) {
+                𐤀𐤌 (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = srcG + ((255 - srcA) * dstG) / 255;
-                if (dstG > 255) {
+                𐤀𐤌 (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = srcB + ((255 - srcA) * dstB) / 255;
-                if (dstB > 255) {
+                𐤀𐤌 (dstB > 255) {
                     dstB = 255;
                 }
                 dstA = srcA + ((255 - srcA) * dstA) / 255;
-                if (dstA > 255) {
+                𐤀𐤌 (dstA > 255) {
                     dstA = 255;
                 }
-                break;
-            case SDL_COPY_ADD:
-            case SDL_COPY_ADD_PREMULTIPLIED:
+                اكسر;
+            حالة SDL_COPY_ADD:
+            حالة SDL_COPY_ADD_PREMULTIPLIED:
                 dstR = srcR + dstR;
-                if (dstR > 255) {
+                𐤀𐤌 (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = srcG + dstG;
-                if (dstG > 255) {
+                𐤀𐤌 (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = srcB + dstB;
-                if (dstB > 255) {
+                𐤀𐤌 (dstB > 255) {
                     dstB = 255;
                 }
-                break;
-            case SDL_COPY_MOD:
+                اكسر;
+            حالة SDL_COPY_MOD:
                 dstR = (srcR * dstR) / 255;
                 dstG = (srcG * dstG) / 255;
                 dstB = (srcB * dstB) / 255;
-                break;
-            case SDL_COPY_MUL:
+                اكسر;
+            حالة SDL_COPY_MUL:
                 dstR = ((srcR * dstR) + (dstR * (255 - srcA))) / 255;
-                if (dstR > 255) {
+                𐤀𐤌 (dstR > 255) {
                     dstR = 255;
                 }
                 dstG = ((srcG * dstG) + (dstG * (255 - srcA))) / 255;
-                if (dstG > 255) {
+                𐤀𐤌 (dstG > 255) {
                     dstG = 255;
                 }
                 dstB = ((srcB * dstB) + (dstB * (255 - srcA))) / 255;
-                if (dstB > 255) {
+                𐤀𐤌 (dstB > 255) {
                     dstB = 255;
                 }
-                break;
+                اكسر;
             }
 
-            switch (dst_access) {
-            case SlowBlitPixelAccess_Index8:
+            بدل (dst_access) {
+            حالة SlowBlitPixelAccess_Index8:
                 dstpixel = ((dstR << 24) | (dstG << 16) | (dstB << 8) | dstA);
-                if (dstpixel != last_pixel) {
+                𐤀𐤌 (dstpixel != last_pixel) {
                     last_pixel = dstpixel;
                     last_index = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
                 }
                 *dst = last_index;
-                break;
-            case SlowBlitPixelAccess_RGB:
+                اكسر;
+            حالة SlowBlitPixelAccess_RGB:
                 ASSEMBLE_RGB(dst, dstbpp, dst_fmt, dstR, dstG, dstB);
-                break;
-            case SlowBlitPixelAccess_RGBA:
+                اكسر;
+            حالة SlowBlitPixelAccess_RGBA:
                 ASSEMBLE_RGBA(dst, dstbpp, dst_fmt, dstR, dstG, dstB, dstA);
-                break;
-            case SlowBlitPixelAccess_10Bit:
+                اكسر;
+            حالة SlowBlitPixelAccess_10Bit:
             {
                 Uint32 pixelvalue;
-                switch (dst_fmt->format) {
-                case SDL_PIXELFORMAT_XRGB2101010:
+                بدل (dst_fmt->format) {
+                حالة SDL_PIXELFORMAT_XRGB2101010:
                     dstA = 0xFF;
                     SDL_FALLTHROUGH;
-                case SDL_PIXELFORMAT_ARGB2101010:
+                حالة SDL_PIXELFORMAT_ARGB2101010:
                     ARGB2101010_FROM_RGBA(pixelvalue, dstR, dstG, dstB, dstA);
-                    break;
-                case SDL_PIXELFORMAT_XBGR2101010:
+                    اكسر;
+                حالة SDL_PIXELFORMAT_XBGR2101010:
                     dstA = 0xFF;
                     SDL_FALLTHROUGH;
-                case SDL_PIXELFORMAT_ABGR2101010:
+                حالة SDL_PIXELFORMAT_ABGR2101010:
                     ABGR2101010_FROM_RGBA(pixelvalue, dstR, dstG, dstB, dstA);
-                    break;
-                default:
+                    اكسر;
+                افتراضي:
                     pixelvalue = 0;
-                    break;
+                    اكسر;
                 }
                 *(Uint32 *)dst = pixelvalue;
-                break;
+                اكسر;
             }
-            case SlowBlitPixelAccess_Large:
+            حالة SlowBlitPixelAccess_Large:
                 // Handled in SDL_Blit_Slow_Float()
-                break;
+                اكسر;
             }
 
             posx += incx;
@@ -333,11 +333,11 @@ void SDL_Blit_Slow(SDL_BlitInfo *info)
 /* Convert from F16 to float
  * Public domain implementation from https://gist.github.com/rygorous/2144712
  */
-typedef union
+تعريفنوع اتحاد
 {
     Uint32 u;
-    float f;
-    struct
+    عائم f;
+    بنية
     {
         Uint32 Mantissa : 23;
         Uint32 Exponent : 8;
@@ -350,10 +350,10 @@ typedef union
 #pragma warning(disable:4214)
 #endif
 
-typedef union
+تعريفنوع اتحاد
 {
     Uint16 u;
-    struct
+    بنية
     {
         Uint16 Mantissa : 10;
         Uint16 Exponent : 5;
@@ -365,216 +365,216 @@ typedef union
 #pragma warning(pop)
 #endif
 
-static float half_to_float(Uint16 unValue)
+ساكن عائم half_to_float(Uint16 unValue)
 {
-    static const FP32 magic = { (254 - 15) << 23 };
-    static const FP32 was_infnan = { (127 + 16) << 23 };
+    ساكن ثابت FP32 magic = { (254 - 15) << 23 };
+    ساكن ثابت FP32 was_infnan = { (127 + 16) << 23 };
     FP16 h;
     FP32 o;
 
     h.u = unValue;
     o.u = (h.u & 0x7fff) << 13;     // exponent/mantissa bits
     o.f *= magic.f;                 // exponent adjust
-    if (o.f >= was_infnan.f)        // make sure Inf/NaN survive
+    𐤀𐤌 (o.f >= was_infnan.f)        // make sure Inf/NaN survive
         o.u |= 255 << 23;
     o.u |= (h.u & 0x8000) << 16;    // sign bit
-    return o.f;
+    أرجع o.f;
 }
 
 /* Convert from float to F16
  * Public domain implementation from https://stackoverflow.com/questions/76799117/how-to-convert-a-float-to-a-half-type-and-the-other-way-around-in-c
  */
-static Uint16 float_to_half(float a)
+ساكن Uint16 float_to_half(عائم a)
 {
     Uint32 ia;
     Uint16 ir;
 
-    SDL_memcpy(&ia, &a, sizeof(ia));
+    SDL_memcpy(&ia, &a, حجم(ia));
 
     ir = (ia >> 16) & 0x8000;
-    if ((ia & 0x7f800000) == 0x7f800000) {
-        if ((ia & 0x7fffffff) == 0x7f800000) {
+    𐤀𐤌 ((ia & 0x7f800000) == 0x7f800000) {
+        𐤀𐤌 ((ia & 0x7fffffff) == 0x7f800000) {
             ir |= 0x7c00; // infinity
-        } else {
+        } وإلا {
             ir |= 0x7e00 | ((ia >> (24 - 11)) & 0x1ff); // NaN, quietened
         }
-    } else if ((ia & 0x7f800000) >= 0x33000000) {
-        int shift = (int)((ia >> 23) & 0xff) - 127;
-        if (shift > 15) {
+    } وإلا 𐤀𐤌 ((ia & 0x7f800000) >= 0x33000000) {
+        صحيح shift = (صحيح)((ia >> 23) & 0xff) - 127;
+        𐤀𐤌 (shift > 15) {
             ir |= 0x7c00; // infinity
-        } else {
+        } وإلا {
             ia = (ia & 0x007fffff) | 0x00800000; // extract mantissa
-            if (shift < -14) { // denormal
+            𐤀𐤌 (shift < -14) { // denormal
                 ir |= ia >> (-1 - shift);
                 ia = ia << (32 - (-1 - shift));
-            } else { // normal
+            } وإلا { // normal
                 ir |= ia >> (24 - 11);
                 ia = ia << (32 - (24 - 11));
                 ir = ir + ((14 + shift) << 10);
             }
             // IEEE-754 round to nearest of even
-            if ((ia > 0x80000000) || ((ia == 0x80000000) && (ir & 1))) {
+            𐤀𐤌 ((ia > 0x80000000) || ((ia == 0x80000000) && (ir & 1))) {
                 ir++;
             }
         }
     }
-    return ir;
+    أرجع ir;
 }
 
-static void ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_PixelFormatDetails *fmt, const SDL_Palette *pal, SDL_Colorspace colorspace, float SDR_white_point,
-                           float *outR, float *outG, float *outB, float *outA)
+ساكن فراغ ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, ثابت SDL_PixelFormatDetails *fmt, ثابت SDL_Palette *pal, SDL_Colorspace colorspace, عائم SDR_white_point,
+                           عائم *outR, عائم *outG, عائم *outB, عائم *outA)
 {
     Uint32 pixelvalue;
     Uint32 R, G, B, A;
-    float fR = 0.0f, fG = 0.0f, fB = 0.0f, fA = 0.0f;
-    float v[4];
+    عائم fR = 0.0f, fG = 0.0f, fB = 0.0f, fA = 0.0f;
+    عائم v[4];
 
-    switch (access) {
-    case SlowBlitPixelAccess_Index8:
+    بدل (access) {
+    حالة SlowBlitPixelAccess_Index8:
         pixelvalue = *pixels;
-        fR = (float)pal->colors[pixelvalue].r / 255.0f;
-        fG = (float)pal->colors[pixelvalue].g / 255.0f;
-        fB = (float)pal->colors[pixelvalue].b / 255.0f;
-        fA = (float)pal->colors[pixelvalue].a / 255.0f;
-        break;
-    case SlowBlitPixelAccess_RGB:
+        fR = (عائم)pal->colors[pixelvalue].r / 255.0f;
+        fG = (عائم)pal->colors[pixelvalue].g / 255.0f;
+        fB = (عائم)pal->colors[pixelvalue].b / 255.0f;
+        fA = (عائم)pal->colors[pixelvalue].a / 255.0f;
+        اكسر;
+    حالة SlowBlitPixelAccess_RGB:
         DISEMBLE_RGB(pixels, fmt->bytes_per_pixel, fmt, pixelvalue, R, G, B);
-        fR = (float)R / 255.0f;
-        fG = (float)G / 255.0f;
-        fB = (float)B / 255.0f;
+        fR = (عائم)R / 255.0f;
+        fG = (عائم)G / 255.0f;
+        fB = (عائم)B / 255.0f;
         fA = 1.0f;
-        break;
-    case SlowBlitPixelAccess_RGBA:
+        اكسر;
+    حالة SlowBlitPixelAccess_RGBA:
         DISEMBLE_RGBA(pixels, fmt->bytes_per_pixel, fmt, pixelvalue, R, G, B, A);
-        fR = (float)R / 255.0f;
-        fG = (float)G / 255.0f;
-        fB = (float)B / 255.0f;
-        fA = (float)A / 255.0f;
-        break;
-    case SlowBlitPixelAccess_10Bit:
+        fR = (عائم)R / 255.0f;
+        fG = (عائم)G / 255.0f;
+        fB = (عائم)B / 255.0f;
+        fA = (عائم)A / 255.0f;
+        اكسر;
+    حالة SlowBlitPixelAccess_10Bit:
         pixelvalue = *((Uint32 *)pixels);
-        switch (fmt->format) {
-        case SDL_PIXELFORMAT_XRGB2101010:
+        بدل (fmt->format) {
+        حالة SDL_PIXELFORMAT_XRGB2101010:
             RGBAFLOAT_FROM_ARGB2101010(pixelvalue, fR, fG, fB, fA);
             fA = 1.0f;
-            break;
-        case SDL_PIXELFORMAT_XBGR2101010:
+            اكسر;
+        حالة SDL_PIXELFORMAT_XBGR2101010:
             RGBAFLOAT_FROM_ABGR2101010(pixelvalue, fR, fG, fB, fA);
             fA = 1.0f;
-            break;
-        case SDL_PIXELFORMAT_ARGB2101010:
+            اكسر;
+        حالة SDL_PIXELFORMAT_ARGB2101010:
             RGBAFLOAT_FROM_ARGB2101010(pixelvalue, fR, fG, fB, fA);
-            break;
-        case SDL_PIXELFORMAT_ABGR2101010:
+            اكسر;
+        حالة SDL_PIXELFORMAT_ABGR2101010:
             RGBAFLOAT_FROM_ABGR2101010(pixelvalue, fR, fG, fB, fA);
-            break;
-        default:
+            اكسر;
+        افتراضي:
             fR = fG = fB = fA = 0.0f;
-            break;
+            اكسر;
         }
-        break;
-    case SlowBlitPixelAccess_Large:
-        switch (SDL_PIXELTYPE(fmt->format)) {
-        case SDL_PIXELTYPE_ARRAYU16:
-            v[0] = (float)(((Uint16 *)pixels)[0]) / SDL_MAX_UINT16;
-            v[1] = (float)(((Uint16 *)pixels)[1]) / SDL_MAX_UINT16;
-            v[2] = (float)(((Uint16 *)pixels)[2]) / SDL_MAX_UINT16;
-            if (fmt->bytes_per_pixel == 8) {
-                v[3] = (float)(((Uint16 *)pixels)[3]) / SDL_MAX_UINT16;
-            } else {
+        اكسر;
+    حالة SlowBlitPixelAccess_Large:
+        بدل (SDL_PIXELTYPE(fmt->format)) {
+        حالة SDL_PIXELTYPE_ARRAYU16:
+            v[0] = (عائم)(((Uint16 *)pixels)[0]) / SDL_MAX_UINT16;
+            v[1] = (عائم)(((Uint16 *)pixels)[1]) / SDL_MAX_UINT16;
+            v[2] = (عائم)(((Uint16 *)pixels)[2]) / SDL_MAX_UINT16;
+            𐤀𐤌 (fmt->bytes_per_pixel == 8) {
+                v[3] = (عائم)(((Uint16 *)pixels)[3]) / SDL_MAX_UINT16;
+            } وإلا {
                 v[3] = 1.0f;
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF16:
+            اكسر;
+        حالة SDL_PIXELTYPE_ARRAYF16:
             v[0] = half_to_float(((Uint16 *)pixels)[0]);
             v[1] = half_to_float(((Uint16 *)pixels)[1]);
             v[2] = half_to_float(((Uint16 *)pixels)[2]);
-            if (fmt->bytes_per_pixel == 8) {
+            𐤀𐤌 (fmt->bytes_per_pixel == 8) {
                 v[3] = half_to_float(((Uint16 *)pixels)[3]);
-            } else {
+            } وإلا {
                 v[3] = 1.0f;
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF32:
-            v[0] = ((float *)pixels)[0];
-            v[1] = ((float *)pixels)[1];
-            v[2] = ((float *)pixels)[2];
-            if (fmt->bytes_per_pixel == 16) {
-                v[3] = ((float *)pixels)[3];
-            } else {
+            اكسر;
+        حالة SDL_PIXELTYPE_ARRAYF32:
+            v[0] = ((عائم *)pixels)[0];
+            v[1] = ((عائم *)pixels)[1];
+            v[2] = ((عائم *)pixels)[2];
+            𐤀𐤌 (fmt->bytes_per_pixel == 16) {
+                v[3] = ((عائم *)pixels)[3];
+            } وإلا {
                 v[3] = 1.0f;
             }
-            break;
-        default:
+            اكسر;
+        افتراضي:
             // Unknown array type
             v[0] = v[1] = v[2] = v[3] = 0.0f;
-            break;
+            اكسر;
         }
-        switch (SDL_PIXELORDER(fmt->format)) {
-        case SDL_ARRAYORDER_RGB:
+        بدل (SDL_PIXELORDER(fmt->format)) {
+        حالة SDL_ARRAYORDER_RGB:
             fR = v[0];
             fG = v[1];
             fB = v[2];
             fA = 1.0f;
-            break;
-        case SDL_ARRAYORDER_RGBA:
+            اكسر;
+        حالة SDL_ARRAYORDER_RGBA:
             fR = v[0];
             fG = v[1];
             fB = v[2];
             fA = v[3];
-            break;
-        case SDL_ARRAYORDER_ARGB:
+            اكسر;
+        حالة SDL_ARRAYORDER_ARGB:
             fA = v[0];
             fR = v[1];
             fG = v[2];
             fB = v[3];
-            break;
-        case SDL_ARRAYORDER_BGR:
+            اكسر;
+        حالة SDL_ARRAYORDER_BGR:
             fB = v[0];
             fG = v[1];
             fR = v[2];
             fA = 1.0f;
-            break;
-        case SDL_ARRAYORDER_BGRA:
+            اكسر;
+        حالة SDL_ARRAYORDER_BGRA:
             fB = v[0];
             fG = v[1];
             fR = v[2];
             fA = v[3];
-            break;
-        case SDL_ARRAYORDER_ABGR:
+            اكسر;
+        حالة SDL_ARRAYORDER_ABGR:
             fA = v[0];
             fB = v[1];
             fG = v[2];
             fR = v[3];
-            break;
-        default:
+            اكسر;
+        افتراضي:
             // Unknown array order
             fA = fR = fG = fB = 0.0f;
-            break;
+            اكسر;
         }
-        break;
+        اكسر;
     }
 
     // Convert to nits so src and dst are guaranteed to be linear and in the same units
-    switch (SDL_COLORSPACETRANSFER(colorspace)) {
-    case SDL_TRANSFER_CHARACTERISTICS_SRGB:
+    بدل (SDL_COLORSPACETRANSFER(colorspace)) {
+    حالة SDL_TRANSFER_CHARACTERISTICS_SRGB:
         fR = SDL_sRGBtoLinear(fR);
         fG = SDL_sRGBtoLinear(fG);
         fB = SDL_sRGBtoLinear(fB);
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_PQ:
+        اكسر;
+    حالة SDL_TRANSFER_CHARACTERISTICS_PQ:
         fR = SDL_PQtoNits(fR) / SDR_white_point;
         fG = SDL_PQtoNits(fG) / SDR_white_point;
         fB = SDL_PQtoNits(fB) / SDR_white_point;
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_LINEAR:
+        اكسر;
+    حالة SDL_TRANSFER_CHARACTERISTICS_LINEAR:
         fR /= SDR_white_point;
         fG /= SDR_white_point;
         fB /= SDR_white_point;
-        break;
-    default:
+        اكسر;
+    افتراضي:
         // Unknown, leave it alone
-        break;
+        اكسر;
     }
 
     *outR = fR;
@@ -583,178 +583,178 @@ static void ReadFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_
     *outA = fA;
 }
 
-static void WriteFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, const SDL_PixelFormatDetails *fmt, SDL_Colorspace colorspace, float SDR_white_point,
-                            float fR, float fG, float fB, float fA)
+ساكن فراغ WriteFloatPixel(Uint8 *pixels, SlowBlitPixelAccess access, ثابت SDL_PixelFormatDetails *fmt, SDL_Colorspace colorspace, عائم SDR_white_point,
+                            عائم fR, عائم fG, عائم fB, عائم fA)
 {
     Uint32 R, G, B, A;
     Uint32 pixelvalue;
-    float v[4];
+    عائم v[4];
 
     // We converted to nits so src and dst are guaranteed to be linear and in the same units
-    switch (SDL_COLORSPACETRANSFER(colorspace)) {
-    case SDL_TRANSFER_CHARACTERISTICS_SRGB:
+    بدل (SDL_COLORSPACETRANSFER(colorspace)) {
+    حالة SDL_TRANSFER_CHARACTERISTICS_SRGB:
         fR = SDL_sRGBfromLinear(fR);
         fG = SDL_sRGBfromLinear(fG);
         fB = SDL_sRGBfromLinear(fB);
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_PQ:
+        اكسر;
+    حالة SDL_TRANSFER_CHARACTERISTICS_PQ:
         fR = SDL_PQfromNits(fR * SDR_white_point);
         fG = SDL_PQfromNits(fG * SDR_white_point);
         fB = SDL_PQfromNits(fB * SDR_white_point);
-        break;
-    case SDL_TRANSFER_CHARACTERISTICS_LINEAR:
+        اكسر;
+    حالة SDL_TRANSFER_CHARACTERISTICS_LINEAR:
         fR *= SDR_white_point;
         fG *= SDR_white_point;
         fB *= SDR_white_point;
-        break;
-    default:
+        اكسر;
+    افتراضي:
         // Unknown, leave it alone
-        break;
+        اكسر;
     }
 
-    switch (access) {
-    case SlowBlitPixelAccess_Index8:
+    بدل (access) {
+    حالة SlowBlitPixelAccess_Index8:
         // This should never happen, checked before this call
         SDL_assert(0);
-        break;
-    case SlowBlitPixelAccess_RGB:
+        اكسر;
+    حالة SlowBlitPixelAccess_RGB:
         R = (Uint8)SDL_roundf(SDL_clamp(fR, 0.0f, 1.0f) * 255.0f);
         G = (Uint8)SDL_roundf(SDL_clamp(fG, 0.0f, 1.0f) * 255.0f);
         B = (Uint8)SDL_roundf(SDL_clamp(fB, 0.0f, 1.0f) * 255.0f);
         ASSEMBLE_RGB(pixels, fmt->bytes_per_pixel, fmt, R, G, B);
-        break;
-    case SlowBlitPixelAccess_RGBA:
+        اكسر;
+    حالة SlowBlitPixelAccess_RGBA:
         R = (Uint8)SDL_roundf(SDL_clamp(fR, 0.0f, 1.0f) * 255.0f);
         G = (Uint8)SDL_roundf(SDL_clamp(fG, 0.0f, 1.0f) * 255.0f);
         B = (Uint8)SDL_roundf(SDL_clamp(fB, 0.0f, 1.0f) * 255.0f);
         A = (Uint8)SDL_roundf(SDL_clamp(fA, 0.0f, 1.0f) * 255.0f);
         ASSEMBLE_RGBA(pixels, fmt->bytes_per_pixel, fmt, R, G, B, A);
-        break;
-    case SlowBlitPixelAccess_10Bit:
+        اكسر;
+    حالة SlowBlitPixelAccess_10Bit:
     {
-        switch (fmt->format) {
-        case SDL_PIXELFORMAT_XRGB2101010:
+        بدل (fmt->format) {
+        حالة SDL_PIXELFORMAT_XRGB2101010:
             fA = 1.0f;
             SDL_FALLTHROUGH;
-        case SDL_PIXELFORMAT_ARGB2101010:
+        حالة SDL_PIXELFORMAT_ARGB2101010:
             ARGB2101010_FROM_RGBAFLOAT(pixelvalue, fR, fG, fB, fA);
-            break;
-        case SDL_PIXELFORMAT_XBGR2101010:
+            اكسر;
+        حالة SDL_PIXELFORMAT_XBGR2101010:
             fA = 1.0f;
             SDL_FALLTHROUGH;
-        case SDL_PIXELFORMAT_ABGR2101010:
+        حالة SDL_PIXELFORMAT_ABGR2101010:
             ABGR2101010_FROM_RGBAFLOAT(pixelvalue, fR, fG, fB, fA);
-            break;
-        default:
+            اكسر;
+        افتراضي:
             pixelvalue = 0;
-            break;
+            اكسر;
         }
         *(Uint32 *)pixels = pixelvalue;
-        break;
+        اكسر;
     }
-    case SlowBlitPixelAccess_Large:
-        switch (SDL_PIXELORDER(fmt->format)) {
-        case SDL_ARRAYORDER_RGB:
+    حالة SlowBlitPixelAccess_Large:
+        بدل (SDL_PIXELORDER(fmt->format)) {
+        حالة SDL_ARRAYORDER_RGB:
             v[0] = fR;
             v[1] = fG;
             v[2] = fB;
             v[3] = 1.0f;
-            break;
-        case SDL_ARRAYORDER_RGBA:
+            اكسر;
+        حالة SDL_ARRAYORDER_RGBA:
             v[0] = fR;
             v[1] = fG;
             v[2] = fB;
             v[3] = fA;
-            break;
-        case SDL_ARRAYORDER_ARGB:
+            اكسر;
+        حالة SDL_ARRAYORDER_ARGB:
             v[0] = fA;
             v[1] = fR;
             v[2] = fG;
             v[3] = fB;
-            break;
-        case SDL_ARRAYORDER_BGR:
+            اكسر;
+        حالة SDL_ARRAYORDER_BGR:
             v[0] = fB;
             v[1] = fG;
             v[2] = fR;
             v[3] = 1.0f;
-            break;
-        case SDL_ARRAYORDER_BGRA:
+            اكسر;
+        حالة SDL_ARRAYORDER_BGRA:
             v[0] = fB;
             v[1] = fG;
             v[2] = fR;
             v[3] = fA;
-            break;
-        case SDL_ARRAYORDER_ABGR:
+            اكسر;
+        حالة SDL_ARRAYORDER_ABGR:
             v[0] = fA;
             v[1] = fB;
             v[2] = fG;
             v[3] = fR;
-            break;
-        default:
+            اكسر;
+        افتراضي:
             // Unknown array order
             v[0] = v[1] = v[2] = v[3] = 0.0f;
-            break;
+            اكسر;
         }
-        switch (SDL_PIXELTYPE(fmt->format)) {
-        case SDL_PIXELTYPE_ARRAYU16:
+        بدل (SDL_PIXELTYPE(fmt->format)) {
+        حالة SDL_PIXELTYPE_ARRAYU16:
             ((Uint16 *)pixels)[0] = (Uint16)SDL_roundf(SDL_clamp(v[0], 0.0f, 1.0f) * SDL_MAX_UINT16);
             ((Uint16 *)pixels)[1] = (Uint16)SDL_roundf(SDL_clamp(v[1], 0.0f, 1.0f) * SDL_MAX_UINT16);
             ((Uint16 *)pixels)[2] = (Uint16)SDL_roundf(SDL_clamp(v[2], 0.0f, 1.0f) * SDL_MAX_UINT16);
-            if (fmt->bytes_per_pixel == 8) {
+            𐤀𐤌 (fmt->bytes_per_pixel == 8) {
                 ((Uint16 *)pixels)[3] = (Uint16)SDL_roundf(SDL_clamp(v[3], 0.0f, 1.0f) * SDL_MAX_UINT16);
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF16:
+            اكسر;
+        حالة SDL_PIXELTYPE_ARRAYF16:
             ((Uint16 *)pixels)[0] = float_to_half(v[0]);
             ((Uint16 *)pixels)[1] = float_to_half(v[1]);
             ((Uint16 *)pixels)[2] = float_to_half(v[2]);
-            if (fmt->bytes_per_pixel == 8) {
+            𐤀𐤌 (fmt->bytes_per_pixel == 8) {
                 ((Uint16 *)pixels)[3] = float_to_half(v[3]);
             }
-            break;
-        case SDL_PIXELTYPE_ARRAYF32:
-            ((float *)pixels)[0] = v[0];
-            ((float *)pixels)[1] = v[1];
-            ((float *)pixels)[2] = v[2];
-            if (fmt->bytes_per_pixel == 16) {
-                ((float *)pixels)[3] = v[3];
+            اكسر;
+        حالة SDL_PIXELTYPE_ARRAYF32:
+            ((عائم *)pixels)[0] = v[0];
+            ((عائم *)pixels)[1] = v[1];
+            ((عائم *)pixels)[2] = v[2];
+            𐤀𐤌 (fmt->bytes_per_pixel == 16) {
+                ((عائم *)pixels)[3] = v[3];
             }
-            break;
-        default:
+            اكسر;
+        افتراضي:
             // Unknown array type
-            break;
+            اكسر;
         }
-        break;
+        اكسر;
     }
 }
 
-typedef enum
+تعريفنوع تعداد
 {
     SDL_TONEMAP_NONE,
     SDL_TONEMAP_LINEAR,
     SDL_TONEMAP_CHROME
 } SDL_TonemapOperator;
 
-typedef struct
+تعريفنوع بنية
 {
     SDL_TonemapOperator op;
 
-    union {
-        struct {
-            float scale;
+    اتحاد {
+        بنية {
+            عائم scale;
         } linear;
 
-        struct {
-            float a;
-            float b;
-            const float *color_primaries_matrix;
+        بنية {
+            عائم a;
+            عائم b;
+            ثابت عائم *color_primaries_matrix;
         } chrome;
 
     } data;
 
 } SDL_TonemapContext;
 
-static void TonemapLinear(float *r, float *g, float *b, float scale)
+ساكن فراغ TonemapLinear(عائم *r, عائم *g, عائم *b, عائم scale)
 {
     *r *= scale;
     *g *= scale;
@@ -772,69 +772,69 @@ static void TonemapLinear(float *r, float *g, float *b, float scale)
  * Then you normalize your source color by the HDR whitepoint,
  * and calculate a final scaling factor in BT.2020 colorspace.
  */
-static void TonemapChrome(float *r, float *g, float *b, float tonemap_a, float tonemap_b)
+ساكن فراغ TonemapChrome(عائم *r, عائم *g, عائم *b, عائم tonemap_a, عائم tonemap_b)
 {
-    float v1 = *r;
-    float v2 = *g;
-    float v3 = *b;
-    float vmax = SDL_max(v1, SDL_max(v2, v3));
+    عائم v1 = *r;
+    عائم v2 = *g;
+    عائم v3 = *b;
+    عائم vmax = SDL_max(v1, SDL_max(v2, v3));
 
-    if (vmax > 0.0f) {
-        float scale = (1.0f + tonemap_a * vmax) / (1.0f + tonemap_b * vmax);
+    𐤀𐤌 (vmax > 0.0f) {
+        عائم scale = (1.0f + tonemap_a * vmax) / (1.0f + tonemap_b * vmax);
         TonemapLinear(r, g, b, scale);
     }
 }
 
-static void ApplyTonemap(SDL_TonemapContext *ctx, float *r, float *g, float *b)
+ساكن فراغ ApplyTonemap(SDL_TonemapContext *ctx, عائم *r, عائم *g, عائم *b)
 {
-    switch (ctx->op) {
-    case SDL_TONEMAP_LINEAR:
+    بدل (ctx->op) {
+    حالة SDL_TONEMAP_LINEAR:
         TonemapLinear(r, g, b, ctx->data.linear.scale);
-        break;
-    case SDL_TONEMAP_CHROME:
-        if (ctx->data.chrome.color_primaries_matrix) {
+        اكسر;
+    حالة SDL_TONEMAP_CHROME:
+        𐤀𐤌 (ctx->data.chrome.color_primaries_matrix) {
             SDL_ConvertColorPrimaries(r, g, b, ctx->data.chrome.color_primaries_matrix);
         }
         TonemapChrome(r, g, b, ctx->data.chrome.a, ctx->data.chrome.b);
-        break;
-    default:
-        break;
+        اكسر;
+    افتراضي:
+        اكسر;
     }
 }
 
 /* The SECOND TRUE BLITTER
  * This one is even slower than the first, but also handles large pixel formats and colorspace conversion
  */
-void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
+فراغ SDL_Blit_Slow_Float(SDL_BlitInfo *info)
 {
-    const int flags = info->flags;
-    const Uint32 modulateR = info->r;
-    const Uint32 modulateG = info->g;
-    const Uint32 modulateB = info->b;
-    const Uint32 modulateA = info->a;
-    float srcR, srcG, srcB, srcA;
-    float dstR, dstG, dstB, dstA;
+    ثابت صحيح flags = info->flags;
+    ثابت Uint32 modulateR = info->r;
+    ثابت Uint32 modulateG = info->g;
+    ثابت Uint32 modulateB = info->b;
+    ثابت Uint32 modulateA = info->a;
+    عائم srcR, srcG, srcB, srcA;
+    عائم dstR, dstG, dstB, dstA;
     Uint64 srcy, srcx;
     Uint64 posy, posx;
     Uint64 incy, incx;
-    const SDL_PixelFormatDetails *src_fmt = info->src_fmt;
-    const SDL_Palette *src_pal = info->src_pal;
-    const SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
-    const SDL_Palette *dst_pal = info->dst_pal;
+    ثابت SDL_PixelFormatDetails *src_fmt = info->src_fmt;
+    ثابت SDL_Palette *src_pal = info->src_pal;
+    ثابت SDL_PixelFormatDetails *dst_fmt = info->dst_fmt;
+    ثابت SDL_Palette *dst_pal = info->dst_pal;
     SDL_HashTable *palette_map = info->palette_map;
-    int srcbpp = src_fmt->bytes_per_pixel;
-    int dstbpp = dst_fmt->bytes_per_pixel;
+    صحيح srcbpp = src_fmt->bytes_per_pixel;
+    صحيح dstbpp = dst_fmt->bytes_per_pixel;
     SlowBlitPixelAccess src_access;
     SlowBlitPixelAccess dst_access;
     SDL_Colorspace src_colorspace;
     SDL_Colorspace dst_colorspace;
     SDL_ColorPrimaries src_primaries;
     SDL_ColorPrimaries dst_primaries;
-    const float *color_primaries_matrix = NULL;
-    float src_white_point;
-    float dst_white_point;
-    float dst_headroom;
-    float src_headroom;
+    ثابت عائم *color_primaries_matrix = عدم;
+    عائم src_white_point;
+    عائم dst_white_point;
+    عائم dst_headroom;
+    عائم src_headroom;
     SDL_TonemapContext tonemap;
     Uint32 last_pixel = 0;
     Uint8 last_index = 0;
@@ -848,7 +848,7 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
     dst_white_point = SDL_GetSurfaceSDRWhitePoint(info->dst_surface, dst_colorspace);
     src_headroom = SDL_GetSurfaceHDRHeadroom(info->src_surface, src_colorspace);
     dst_headroom = SDL_GetSurfaceHDRHeadroom(info->dst_surface, dst_colorspace);
-    if (dst_headroom == 0.0f) {
+    𐤀𐤌 (dst_headroom == 0.0f) {
         // The destination will have the same headroom as the source
         dst_headroom = src_headroom;
         SDL_SetFloatProperty(SDL_GetSurfaceProperties(info->dst_surface), SDL_PROP_SURFACE_HDR_HEADROOM_FLOAT, dst_headroom);
@@ -856,39 +856,39 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
 
     SDL_zero(tonemap);
 
-    if (src_headroom > dst_headroom) {
-        const char *tonemap_operator = SDL_GetStringProperty(SDL_GetSurfaceProperties(info->src_surface), SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING, NULL);
-        if (tonemap_operator) {
-            if (SDL_strncmp(tonemap_operator, "*=", 2) == 0) {
+    𐤀𐤌 (src_headroom > dst_headroom) {
+        ثابت حرف *tonemap_operator = SDL_GetStringProperty(SDL_GetSurfaceProperties(info->src_surface), SDL_PROP_SURFACE_TONEMAP_OPERATOR_STRING, عدم);
+        𐤀𐤌 (tonemap_operator) {
+            𐤀𐤌 (SDL_strncmp(tonemap_operator, "*=", 2) == 0) {
                 tonemap.op = SDL_TONEMAP_LINEAR;
-                tonemap.data.linear.scale = (float)SDL_atof(tonemap_operator + 2);
-            } else if (SDL_strcasecmp(tonemap_operator, "chrome") == 0) {
+                tonemap.data.linear.scale = (عائم)SDL_atof(tonemap_operator + 2);
+            } وإلا 𐤀𐤌 (SDL_strcasecmp(tonemap_operator, "chrome") == 0) {
                 tonemap.op = SDL_TONEMAP_CHROME;
-            } else if (SDL_strcasecmp(tonemap_operator, "none") == 0) {
+            } وإلا 𐤀𐤌 (SDL_strcasecmp(tonemap_operator, "none") == 0) {
                 tonemap.op = SDL_TONEMAP_NONE;
             }
-        } else {
+        } وإلا {
             tonemap.op = SDL_TONEMAP_CHROME;
         }
-        if (tonemap.op == SDL_TONEMAP_CHROME) {
+        𐤀𐤌 (tonemap.op == SDL_TONEMAP_CHROME) {
             tonemap.data.chrome.a = (dst_headroom / (src_headroom * src_headroom));
             tonemap.data.chrome.b = (1.0f / dst_headroom);
 
             // We'll convert to BT.2020 primaries for the tonemap operation
             tonemap.data.chrome.color_primaries_matrix = SDL_GetColorPrimariesConversionMatrix(src_primaries, SDL_COLOR_PRIMARIES_BT2020);
-            if (tonemap.data.chrome.color_primaries_matrix) {
+            𐤀𐤌 (tonemap.data.chrome.color_primaries_matrix) {
                 src_primaries = SDL_COLOR_PRIMARIES_BT2020;
             }
         }
     }
 
-    if (src_primaries != dst_primaries) {
+    𐤀𐤌 (src_primaries != dst_primaries) {
         color_primaries_matrix = SDL_GetColorPrimariesConversionMatrix(src_primaries, dst_primaries);
     }
 
     src_access = GetPixelAccessMethod(src_fmt->format);
     dst_access = GetPixelAccessMethod(dst_fmt->format);
-    if (dst_access == SlowBlitPixelAccess_Index8) {
+    𐤀𐤌 (dst_access == SlowBlitPixelAccess_Index8) {
         last_index = SDL_LookupRGBAColor(palette_map, last_pixel, dst_pal);
     }
 
@@ -896,93 +896,93 @@ void SDL_Blit_Slow_Float(SDL_BlitInfo *info)
     incx = ((Uint64)info->src_w << 16) / info->dst_w;
     posy = incy / 2; // start at the middle of pixel
 
-    while (info->dst_h--) {
-        Uint8 *src = NULL;
+    طالما (info->dst_h--) {
+        Uint8 *src = عدم;
         Uint8 *dst = info->dst;
-        int n = info->dst_w;
+        صحيح n = info->dst_w;
         posx = incx / 2; // start at the middle of pixel
         srcy = posy >> 16;
-        while (n--) {
+        طالما (n--) {
             srcx = posx >> 16;
             src = (info->src + (srcy * info->src_pitch) + (srcx * srcbpp));
 
             ReadFloatPixel(src, src_access, src_fmt, src_pal, src_colorspace, src_white_point, &srcR, &srcG, &srcB, &srcA);
 
-            if (tonemap.op) {
+            𐤀𐤌 (tonemap.op) {
                 ApplyTonemap(&tonemap, &srcR, &srcG, &srcB);
             }
 
-            if (color_primaries_matrix) {
+            𐤀𐤌 (color_primaries_matrix) {
                 SDL_ConvertColorPrimaries(&srcR, &srcG, &srcB, color_primaries_matrix);
             }
 
-            if (flags & SDL_COPY_COLORKEY) {
+            𐤀𐤌 (flags & SDL_COPY_COLORKEY) {
                 // colorkey isn't supported
             }
-            if ((flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL))) {
+            𐤀𐤌 ((flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL))) {
                 ReadFloatPixel(dst, dst_access, dst_fmt, dst_pal, dst_colorspace, dst_white_point, &dstR, &dstG, &dstB, &dstA);
-            } else {
+            } وإلا {
                 // don't care
                 dstR = dstG = dstB = dstA = 0.0f;
             }
 
-            if (flags & SDL_COPY_MODULATE_COLOR) {
+            𐤀𐤌 (flags & SDL_COPY_MODULATE_COLOR) {
                 srcR = (srcR * modulateR) / 255;
                 srcG = (srcG * modulateG) / 255;
                 srcB = (srcB * modulateB) / 255;
             }
-            if (flags & SDL_COPY_MODULATE_ALPHA) {
+            𐤀𐤌 (flags & SDL_COPY_MODULATE_ALPHA) {
                 srcA = (srcA * modulateA) / 255;
             }
-            if (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
-                if (srcA < 1.0f) {
+            𐤀𐤌 (flags & (SDL_COPY_BLEND | SDL_COPY_ADD)) {
+                𐤀𐤌 (srcA < 1.0f) {
                     srcR = (srcR * srcA);
                     srcG = (srcG * srcA);
                     srcB = (srcB * srcA);
                 }
             }
-            switch (flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL)) {
-            case 0:
+            بدل (flags & (SDL_COPY_BLEND | SDL_COPY_ADD | SDL_COPY_MOD | SDL_COPY_MUL)) {
+            حالة 0:
                 dstR = srcR;
                 dstG = srcG;
                 dstB = srcB;
                 dstA = srcA;
-                break;
-            case SDL_COPY_BLEND:
+                اكسر;
+            حالة SDL_COPY_BLEND:
                 dstR = srcR + ((1.0f - srcA) * dstR);
                 dstG = srcG + ((1.0f - srcA) * dstG);
                 dstB = srcB + ((1.0f - srcA) * dstB);
                 dstA = srcA + ((1.0f - srcA) * dstA);
-                break;
-            case SDL_COPY_ADD:
+                اكسر;
+            حالة SDL_COPY_ADD:
                 dstR = srcR + dstR;
                 dstG = srcG + dstG;
                 dstB = srcB + dstB;
-                break;
-            case SDL_COPY_MOD:
+                اكسر;
+            حالة SDL_COPY_MOD:
                 dstR = (srcR * dstR);
                 dstG = (srcG * dstG);
                 dstB = (srcB * dstB);
-                break;
-            case SDL_COPY_MUL:
+                اكسر;
+            حالة SDL_COPY_MUL:
                 dstR = ((srcR * dstR) + (dstR * (1.0f - srcA)));
                 dstG = ((srcG * dstG) + (dstG * (1.0f - srcA)));
                 dstB = ((srcB * dstB) + (dstB * (1.0f - srcA)));
-                break;
+                اكسر;
             }
 
-            if (dst_access == SlowBlitPixelAccess_Index8) {
+            𐤀𐤌 (dst_access == SlowBlitPixelAccess_Index8) {
                 Uint32 R = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstR), 0.0f, 1.0f) * 255.0f);
                 Uint32 G = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstG), 0.0f, 1.0f) * 255.0f);
                 Uint32 B = (Uint8)SDL_roundf(SDL_clamp(SDL_sRGBfromLinear(dstB), 0.0f, 1.0f) * 255.0f);
                 Uint32 A = (Uint8)SDL_roundf(SDL_clamp(dstA, 0.0f, 1.0f) * 255.0f);
                 Uint32 dstpixel = ((R << 24) | (G << 16) | (B << 8) | A);
-                if (dstpixel != last_pixel) {
+                𐤀𐤌 (dstpixel != last_pixel) {
                     last_pixel = dstpixel;
                     last_index = SDL_LookupRGBAColor(palette_map, dstpixel, dst_pal);
                 }
                 *dst = last_index;
-            } else {
+            } وإلا {
                 WriteFloatPixel(dst, dst_access, dst_fmt, dst_colorspace, dst_white_point, dstR, dstG, dstB, dstA);
             }
 
