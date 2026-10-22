@@ -25,10 +25,10 @@
  *
  */
 
-#if !defined(SD_SVE2_SWIZZLE_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
+#यदि !defined(SD_SVE2_SWIZZLE_H) //&& (defined(__ARM_FEATURE_SVE2) && __ARM_FEATURE_SVE2)
 #define SD_SVE2_SWIZZLE_H
 
-#include "SDL_sve2_extension.h"
+#अन्तर्भाव "SDL_sve2_extension.h"
 
 #define sdl_sve_rgb32_stride_impl(ma_sve_chn_iterator, ...)   \
     sdl_sve_stride_loop_pixel(uStride, vTailPred)             \
@@ -207,10 +207,10 @@
  */
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_accc_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_stride_blend_to_accc_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn,
@@ -222,10 +222,10 @@ static inline void sdl_sve_accc_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_accc_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_stride_blend_to_accc_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn,
@@ -234,10 +234,10 @@ static inline void sdl_sve_accc_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn,
@@ -246,10 +246,10 @@ static inline void sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn,
@@ -261,15 +261,15 @@ static inline void sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_accc_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_blend_to_accc_fill_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_accc_fill_alpha(
             (uint32_t *)pchSource,
@@ -283,15 +283,15 @@ static inline void sdl_sve_accc_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_accc_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_blend_to_accc_copy_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_accc_copy_alpha(
             (uint32_t *)pchSource,
@@ -305,15 +305,15 @@ static inline void sdl_sve_accc_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_ccca_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_blend_to_ccca_fill_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_ccca_fill_alpha(
             (uint32_t *)pchSource,
@@ -327,15 +327,15 @@ static inline void sdl_sve_ccca_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_ccca_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_blend_to_ccca_copy_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_ccca_copy_alpha(
             (uint32_t *)pchSource,
@@ -349,10 +349,10 @@ static inline void sdl_sve_ccca_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_321a_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_stride_blend_to_321a_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_src_dst_rev,
@@ -363,10 +363,10 @@ static inline void sdl_sve_a123_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_321a_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_stride_blend_to_321a_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_src_dst_rev,
@@ -377,14 +377,14 @@ static inline void sdl_sve_a123_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -397,14 +397,14 @@ static inline void sdl_sve_a123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -417,10 +417,10 @@ static inline void sdl_sve_a123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_a321_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_stride_blend_to_a321_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_src_dst_rev,
@@ -431,10 +431,10 @@ static inline void sdl_sve_123a_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_a321_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_stride_blend_to_a321_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_src_dst_rev,
@@ -445,14 +445,14 @@ static inline void sdl_sve_123a_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -465,14 +465,14 @@ static inline void sdl_sve_123a_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -485,10 +485,10 @@ static inline void sdl_sve_123a_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_ccca_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_stride_blend_to_ccca_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_accc_ccca,
@@ -499,10 +499,10 @@ static inline void sdl_sve_accc_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_accc_stride_blend_to_ccca_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_stride_blend_to_ccca_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_accc_ccca,
@@ -513,14 +513,14 @@ static inline void sdl_sve_accc_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_ccca_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -533,14 +533,14 @@ static inline void sdl_sve_accc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_accc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_accc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_accc_stride_blend_to_ccca_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -553,10 +553,10 @@ static inline void sdl_sve_accc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_accc_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_stride_blend_to_accc_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_ccca_accc,
@@ -567,10 +567,10 @@ static inline void sdl_sve_ccca_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_ccca_stride_blend_to_accc_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_stride_blend_to_accc_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_ccca_accc,
@@ -579,14 +579,14 @@ static inline void sdl_sve_ccca_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_accc_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -599,14 +599,14 @@ static inline void sdl_sve_ccca_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_ccca_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_ccca_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_ccca_stride_blend_to_accc_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -619,10 +619,10 @@ static inline void sdl_sve_ccca_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_a321_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_stride_blend_to_a321_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_a123_a321,
@@ -631,10 +631,10 @@ static inline void sdl_sve_a123_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_a123_stride_blend_to_a321_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_stride_blend_to_a321_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_a123_a321,
@@ -643,14 +643,14 @@ static inline void sdl_sve_a123_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -663,14 +663,14 @@ static inline void sdl_sve_a123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_a123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_a123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_a123_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -683,10 +683,10 @@ static inline void sdl_sve_a123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_321a_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_stride_blend_to_321a_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_123a_321a,
@@ -695,10 +695,10 @@ static inline void sdl_sve_123a_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123a_stride_blend_to_321a_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_stride_blend_to_321a_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
     sdl_sve_rgb32_stride_impl(sdl_sve_pixel_u16x4_foreach_chn_123a_321a,
                               sdl_sve_rgb32_blend_op_copy_alpha(0););
@@ -706,14 +706,14 @@ static inline void sdl_sve_123a_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -726,14 +726,14 @@ static inline void sdl_sve_123a_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123a_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123a_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123a_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -750,10 +750,10 @@ static inline void sdl_sve_123a_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -763,10 +763,10 @@ static inline void sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -776,10 +776,10 @@ static inline void sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -791,10 +791,10 @@ static inline void sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -804,15 +804,15 @@ static inline void sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_accc_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_blend_to_accc_fill_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_accc_fill_alpha(
             (uint32_t *)pchSource,
@@ -826,15 +826,15 @@ static inline void sdl_sve_xccc_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_accc_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_blend_to_accc_copy_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_accc_copy_alpha(
             (uint32_t *)pchSource,
@@ -848,15 +848,15 @@ static inline void sdl_sve_xccc_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_ccca_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_blend_to_ccca_fill_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_ccca_fill_alpha(
             (uint32_t *)pchSource,
@@ -870,15 +870,15 @@ static inline void sdl_sve_cccx_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_ccca_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_blend_to_ccca_copy_alpha(
     uint8_t *SDL_RESTRICT pchSource,
-    size_t uSourceStride,
+    माप_प्रकार uSourceStride,
     uint8_t *SDL_RESTRICT pchTarget,
-    size_t uTargetStride,
-    int nWidth,
-    int nHeight)
+    माप_प्रकार uTargetStride,
+    पूर्णाङ्क nWidth,
+    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_ccca_copy_alpha(
             (uint32_t *)pchSource,
@@ -892,10 +892,10 @@ static inline void sdl_sve_cccx_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_321a_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_stride_blend_to_321a_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -905,10 +905,10 @@ static inline void sdl_sve_x123_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_321a_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_stride_blend_to_321a_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -918,14 +918,14 @@ static inline void sdl_sve_x123_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -938,14 +938,14 @@ static inline void sdl_sve_x123_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -958,10 +958,10 @@ static inline void sdl_sve_x123_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_a321_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_stride_blend_to_a321_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -971,10 +971,10 @@ static inline void sdl_sve_123x_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_a321_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_stride_blend_to_a321_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -984,14 +984,14 @@ static inline void sdl_sve_123x_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1004,14 +1004,14 @@ static inline void sdl_sve_123x_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1024,10 +1024,10 @@ static inline void sdl_sve_123x_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_ccca_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_stride_blend_to_ccca_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -1037,10 +1037,10 @@ static inline void sdl_sve_xccc_stride_blend_to_ccca_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xccc_stride_blend_to_ccca_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_stride_blend_to_ccca_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -1050,14 +1050,14 @@ static inline void sdl_sve_xccc_stride_blend_to_ccca_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_ccca_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1070,14 +1070,14 @@ static inline void sdl_sve_xccc_blend_to_ccca_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xccc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_xccc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_xccc_stride_blend_to_ccca_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1090,10 +1090,10 @@ static inline void sdl_sve_xccc_blend_to_ccca_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_accc_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_stride_blend_to_accc_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -1103,10 +1103,10 @@ static inline void sdl_sve_cccx_stride_blend_to_accc_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_cccx_stride_blend_to_accc_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_stride_blend_to_accc_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -1116,14 +1116,14 @@ static inline void sdl_sve_cccx_stride_blend_to_accc_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_accc_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1136,14 +1136,14 @@ static inline void sdl_sve_cccx_blend_to_accc_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_cccx_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_cccx_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_cccx_stride_blend_to_accc_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1156,10 +1156,10 @@ static inline void sdl_sve_cccx_blend_to_accc_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_a321_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_stride_blend_to_a321_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -1169,10 +1169,10 @@ static inline void sdl_sve_x123_stride_blend_to_a321_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_x123_stride_blend_to_a321_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_stride_blend_to_a321_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(3,
@@ -1182,14 +1182,14 @@ static inline void sdl_sve_x123_stride_blend_to_a321_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_a321_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1202,14 +1202,14 @@ static inline void sdl_sve_x123_blend_to_a321_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_x123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_x123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_x123_stride_blend_to_a321_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1222,10 +1222,10 @@ static inline void sdl_sve_x123_blend_to_a321_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_321a_fill_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_stride_blend_to_321a_fill_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
 
     sdl_sve_rgb32_no_alpha_stride_impl(0,
@@ -1235,10 +1235,10 @@ static inline void sdl_sve_123x_stride_blend_to_321a_fill_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_123x_stride_blend_to_321a_copy_alpha(
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_stride_blend_to_321a_copy_alpha(
     uint32_t *SDL_RESTRICT pwSource,
     uint32_t *SDL_RESTRICT pwTarget,
-    size_t uStride)
+    माप_प्रकार uStride)
 {
     sdl_sve_rgb32_no_alpha_stride_impl(0,
                                        sdl_sve_pixel_u16x4_foreach_chn_123a_321a,
@@ -1247,14 +1247,14 @@ static inline void sdl_sve_123x_stride_blend_to_321a_copy_alpha(
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_321a_fill_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1267,14 +1267,14 @@ static inline void sdl_sve_123x_blend_to_321a_fill_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_123x_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
-                                                         size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_123x_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT pchSource,
+                                                         माप_प्रकार uSourceStride,
                                                          uint8_t *SDL_RESTRICT pchTarget,
-                                                         size_t uTargetStride,
-                                                         int nWidth,
-                                                         int nHeight)
+                                                         माप_प्रकार uTargetStride,
+                                                         पूर्णाङ्क nWidth,
+                                                         पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_123x_stride_blend_to_321a_copy_alpha((uint32_t *)pchSource,
                                                      (uint32_t *)pchTarget,
@@ -1287,35 +1287,35 @@ static inline void sdl_sve_123x_blend_to_321a_copy_alpha(uint8_t *SDL_RESTRICT p
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1)
-static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
+स्थिर अन्तःस्थ शून्य sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णाङ्क width = info->dst_w;
+    पूर्णाङ्क height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    पूर्णाङ्क srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    पूर्णाङ्क dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ध्रुव SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ध्रुव SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    पूर्णाङ्क srcbpp = srcfmt->bytes_per_pixel;
+    पूर्णाङ्क dstbpp = dstfmt->bytes_per_pixel;
 
-    assert((srcbpp == 4) && (dstbpp == 4));
+    प्रतिज्ञा((srcbpp == 4) && (dstbpp == 4));
 
     bool fill_alpha = (!dstfmt->Amask);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    पूर्णाङ्क srcstride = srcskip + srcbpp * width;
+    पूर्णाङ्क dststride = dstskip + dstbpp * width;
 
-    switch (srcfmt->format) {
-    case SDL_PIXELFORMAT_XRGB8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    विकल्प (srcfmt->format) {
+    पक्ष SDL_PIXELFORMAT_XRGB8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_xccc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1323,7 +1323,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_xccc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1332,18 +1332,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_xccc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_xccc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1351,18 +1351,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_x123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_x123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1370,18 +1370,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_x123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_x123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1389,18 +1389,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_ARGB8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    पक्ष SDL_PIXELFORMAT_ARGB8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_accc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1408,7 +1408,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_accc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1417,18 +1417,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_accc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_accc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1436,18 +1436,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_a123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_a123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1455,18 +1455,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_a123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_a123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1474,25 +1474,25 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_RGBX8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    पक्ष SDL_PIXELFORMAT_RGBX8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_cccx_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_cccx_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1500,11 +1500,11 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_cccx_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1512,7 +1512,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_cccx_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -1521,18 +1521,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_123x_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123x_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1540,18 +1540,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_123x_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123x_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1559,25 +1559,25 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_RGBA8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    पक्ष SDL_PIXELFORMAT_RGBA8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_ccca_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_ccca_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1585,11 +1585,11 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_ccca_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1597,7 +1597,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_ccca_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -1606,18 +1606,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_123a_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123a_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1625,18 +1625,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_123a_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123a_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1644,25 +1644,25 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_XBGR8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    पक्ष SDL_PIXELFORMAT_XBGR8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_x123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_x123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1670,18 +1670,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_x123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_x123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1689,11 +1689,11 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_xccc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1701,7 +1701,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_xccc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1710,18 +1710,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_xccc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_xccc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1729,25 +1729,25 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_ABGR8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    पक्ष SDL_PIXELFORMAT_ABGR8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_a123_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_a123_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1755,18 +1755,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_a123_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_a123_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1774,11 +1774,11 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_accc_blend_to_accc_fill_alpha(
                     src,
                     srcstride,
@@ -1786,7 +1786,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_accc_blend_to_accc_copy_alpha(
                     src,
                     srcstride,
@@ -1795,18 +1795,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_accc_blend_to_ccca_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_accc_blend_to_ccca_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1814,25 +1814,25 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_BGRX8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    पक्ष SDL_PIXELFORMAT_BGRX8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_123x_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123x_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1840,18 +1840,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_123x_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123x_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1859,18 +1859,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_cccx_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_cccx_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1878,11 +1878,11 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_cccx_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1890,7 +1890,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_cccx_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -1899,25 +1899,25 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_BGRA8888:
-        switch (dstfmt->format) {
-        case SDL_PIXELFORMAT_ARGB8888:
-        case SDL_PIXELFORMAT_XRGB8888:
-            if (fill_alpha) {
+    पक्ष SDL_PIXELFORMAT_BGRA8888:
+        विकल्प (dstfmt->format) {
+        पक्ष SDL_PIXELFORMAT_ARGB8888:
+        पक्ष SDL_PIXELFORMAT_XRGB8888:
+            यदि (fill_alpha) {
                 sdl_sve_123a_blend_to_a321_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123a_blend_to_a321_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1925,18 +1925,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_RGBA8888:
-        case SDL_PIXELFORMAT_RGBX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_RGBA8888:
+        पक्ष SDL_PIXELFORMAT_RGBX8888:
+            यदि (fill_alpha) {
                 sdl_sve_123a_blend_to_321a_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_123a_blend_to_321a_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1944,18 +1944,18 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_ABGR8888:
-        case SDL_PIXELFORMAT_XBGR8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_ABGR8888:
+        पक्ष SDL_PIXELFORMAT_XBGR8888:
+            यदि (fill_alpha) {
                 sdl_sve_ccca_blend_to_accc_fill_alpha(src,
                                                       srcstride,
                                                       dst,
                                                       dststride,
                                                       width,
                                                       height);
-            } else {
+            } अन्यथा {
                 sdl_sve_ccca_blend_to_accc_copy_alpha(src,
                                                       srcstride,
                                                       dst,
@@ -1963,11 +1963,11 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                                                       width,
                                                       height);
             }
-            break;
+            भङ्ग;
 
-        case SDL_PIXELFORMAT_BGRA8888:
-        case SDL_PIXELFORMAT_BGRX8888:
-            if (fill_alpha) {
+        पक्ष SDL_PIXELFORMAT_BGRA8888:
+        पक्ष SDL_PIXELFORMAT_BGRX8888:
+            यदि (fill_alpha) {
                 sdl_sve_ccca_blend_to_ccca_fill_alpha(
                     src,
                     srcstride,
@@ -1975,7 +1975,7 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     dststride,
                     width,
                     height);
-            } else {
+            } अन्यथा {
                 sdl_sve_ccca_blend_to_ccca_copy_alpha(
                     src,
                     srcstride,
@@ -1984,16 +1984,16 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
                     width,
                     height);
             }
-            break;
-        default:
-            assert(false);
-            break;
+            भङ्ग;
+        स्वभाव:
+            प्रतिज्ञा(false);
+            भङ्ग;
         }
-        break;
+        भङ्ग;
 
-    default:
-        assert(false);
-        break;
+    स्वभाव:
+        प्रतिज्ञा(false);
+        भङ्ग;
     }
 }
 
@@ -2006,9 +2006,9 @@ static inline void sdl_sve_8888_to_8888_swizzle_dispatcher(SDL_BlitInfo *info)
  */
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_argb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_argb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_to_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_argb_rgb565,
@@ -2019,14 +2019,14 @@ static inline void sdl_sve_argb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_argb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_argb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_argb8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2039,9 +2039,9 @@ static inline void sdl_sve_argb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgba8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_rgba8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_to_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_rgba_rgb565,
@@ -2052,14 +2052,14 @@ static inline void sdl_sve_rgba8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgba8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_rgba8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_rgba8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2072,9 +2072,9 @@ static inline void sdl_sve_rgba8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_bgra8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_bgra8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_to_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_bgra_rgb565,
@@ -2085,14 +2085,14 @@ static inline void sdl_sve_bgra8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_bgra8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_bgra8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_bgra8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2105,9 +2105,9 @@ static inline void sdl_sve_bgra8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_abgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_abgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_to_rgb565_stride_impl(
         sdl_sve_pixel_u16x4_foreach_chn_abgr_rgb565,
@@ -2118,14 +2118,14 @@ static inline void sdl_sve_abgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_abgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_abgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_abgr8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2141,9 +2141,9 @@ static inline void sdl_sve_abgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
  */
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xrgb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_xrgb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
         3,
@@ -2155,14 +2155,14 @@ static inline void sdl_sve_xrgb8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xrgb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_xrgb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_xrgb8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2175,9 +2175,9 @@ static inline void sdl_sve_xrgb8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_rgbx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_rgbx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
         0,
@@ -2189,14 +2189,14 @@ static inline void sdl_sve_rgbx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_rgbx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_rgbx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_rgbx8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2209,9 +2209,9 @@ static inline void sdl_sve_rgbx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_bgrx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_bgrx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
         0,
@@ -2223,14 +2223,14 @@ static inline void sdl_sve_bgrx8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_bgrx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_bgrx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_bgrx8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2243,9 +2243,9 @@ static inline void sdl_sve_bgrx8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 2)
-static inline void sdl_sve_xbgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
+स्थिर अन्तःस्थ शून्य sdl_sve_xbgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRICT pwSource,
                                                            uint16_t *SDL_RESTRICT phwTarget,
-                                                           size_t uStride)
+                                                           माप_प्रकार uStride)
 {
     sdl_sve_rgb32_no_alpha_to_rgb565_stride_impl(
         3,
@@ -2257,14 +2257,14 @@ static inline void sdl_sve_xbgr8888_stride_blend_to_rgb565(uint32_t *SDL_RESTRIC
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1, 3)
-static inline void sdl_sve_xbgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
-                                                    size_t uSourceStride,
+स्थिर अन्तःस्थ शून्य sdl_sve_xbgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSource,
+                                                    माप_प्रकार uSourceStride,
                                                     uint8_t *SDL_RESTRICT pchTarget,
-                                                    size_t uTargetStride,
-                                                    int nWidth,
-                                                    int nHeight)
+                                                    माप_प्रकार uTargetStride,
+                                                    पूर्णाङ्क nWidth,
+                                                    पूर्णाङ्क nHeight)
 {
-    while (nHeight--) {
+    यावत् (nHeight--) {
 
         sdl_sve_xbgr8888_stride_blend_to_rgb565((uint32_t *)pchSource,
                                                 (uint16_t *)pchTarget,
@@ -2277,104 +2277,104 @@ static inline void sdl_sve_xbgr8888_blend_to_rgb565(uint8_t *SDL_RESTRICT pchSou
 
 SDL_TARGETING("arch=armv8-a+sve2")
 ARM_NONNULL(1)
-static inline void sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(SDL_BlitInfo *info)
+स्थिर अन्तःस्थ शून्य sdl_sve_rgb32_to_rgb565_swizzle_dispatcher(SDL_BlitInfo *info)
 {
-    int width = info->dst_w;
-    int height = info->dst_h;
+    पूर्णाङ्क width = info->dst_w;
+    पूर्णाङ्क height = info->dst_h;
     uint8_t *src = info->src;
-    int srcskip = info->src_skip;
+    पूर्णाङ्क srcskip = info->src_skip;
     uint8_t *dst = info->dst;
-    int dstskip = info->dst_skip;
+    पूर्णाङ्क dstskip = info->dst_skip;
 
-    const SDL_PixelFormatDetails *srcfmt = info->src_fmt;
-    const SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
+    ध्रुव SDL_PixelFormatDetails *srcfmt = info->src_fmt;
+    ध्रुव SDL_PixelFormatDetails *dstfmt = info->dst_fmt;
 
     // Set up some basic variables
-    int srcbpp = srcfmt->bytes_per_pixel;
-    int dstbpp = dstfmt->bytes_per_pixel;
+    पूर्णाङ्क srcbpp = srcfmt->bytes_per_pixel;
+    पूर्णाङ्क dstbpp = dstfmt->bytes_per_pixel;
 
-    assert(srcbpp == 4);
-    assert(dstbpp == 2);
+    प्रतिज्ञा(srcbpp == 4);
+    प्रतिज्ञा(dstbpp == 2);
 
-    int srcstride = srcskip + srcbpp * width;
-    int dststride = dstskip + dstbpp * width;
+    पूर्णाङ्क srcstride = srcskip + srcbpp * width;
+    पूर्णाङ्क dststride = dstskip + dstbpp * width;
 
-    switch (srcfmt->format) {
-    case SDL_PIXELFORMAT_XRGB8888:
+    विकल्प (srcfmt->format) {
+    पक्ष SDL_PIXELFORMAT_XRGB8888:
         sdl_sve_xrgb8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_ARGB8888:
+    पक्ष SDL_PIXELFORMAT_ARGB8888:
         sdl_sve_argb8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_RGBX8888:
+    पक्ष SDL_PIXELFORMAT_RGBX8888:
         sdl_sve_rgbx8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_RGBA8888:
+    पक्ष SDL_PIXELFORMAT_RGBA8888:
         sdl_sve_rgba8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_XBGR8888:
+    पक्ष SDL_PIXELFORMAT_XBGR8888:
         sdl_sve_xbgr8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_ABGR8888:
+    पक्ष SDL_PIXELFORMAT_ABGR8888:
         sdl_sve_abgr8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_BGRX8888:
+    पक्ष SDL_PIXELFORMAT_BGRX8888:
         sdl_sve_bgrx8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    case SDL_PIXELFORMAT_BGRA8888:
+    पक्ष SDL_PIXELFORMAT_BGRA8888:
         sdl_sve_bgra8888_blend_to_rgb565(src,
                                          srcstride,
                                          dst,
                                          dststride,
                                          width,
                                          height);
-        break;
+        भङ्ग;
 
-    default:
-        assert(false);
-        break;
+    स्वभाव:
+        प्रतिज्ञा(false);
+        भङ्ग;
     }
 }
 

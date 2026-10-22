@@ -14,7 +14,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+बाह्य "C" {
 #endif
 
 
@@ -24,13 +24,13 @@ extern "C" {
 
 #ifdef __OBJC__
 @class CAMetalLayer;
-#else
-typedef void CAMetalLayer;
+#अन्यथा
+प्रकारनिर्देश शून्य CAMetalLayer;
 #endif
 
 #define SDL_UNSAFE_UNRETAINED
-#if defined(__OBJC__) && defined(__has_feature)
-#if __has_feature(objc_arc)
+#यदि defined(__OBJC__) && defined(__has_feature)
+#यदि __has_feature(objc_arc)
 #undef SDL_UNSAFE_UNRETAINED
 #define SDL_UNSAFE_UNRETAINED __unsafe_unretained
 #endif
@@ -39,25 +39,25 @@ typedef void CAMetalLayer;
 #define VK_EXT_METAL_SURFACE_SPEC_VERSION 1
 #define VK_EXT_METAL_SURFACE_EXTENSION_NAME "VK_EXT_metal_surface"
 
-typedef VkFlags VkMetalSurfaceCreateFlagsEXT;
+प्रकारनिर्देश VkFlags VkMetalSurfaceCreateFlagsEXT;
 
-typedef struct VkMetalSurfaceCreateInfoEXT {
+प्रकारनिर्देश संरचना VkMetalSurfaceCreateInfoEXT {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ध्रुव शून्य*                     pNext;
     VkMetalSurfaceCreateFlagsEXT    flags;
-    const CAMetalLayer SDL_UNSAFE_UNRETAINED *pLayer;
+    ध्रुव CAMetalLayer SDL_UNSAFE_UNRETAINED *pLayer;
 } VkMetalSurfaceCreateInfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMetalSurfaceEXT)(VkInstance instance, const VkMetalSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkCreateMetalSurfaceEXT)(VkInstance instance, ध्रुव VkMetalSurfaceCreateInfoEXT* pCreateInfo, ध्रुव VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateMetalSurfaceEXT(
     VkInstance                                  instance,
-    const VkMetalSurfaceCreateInfoEXT*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ध्रुव VkMetalSurfaceCreateInfoEXT*          pCreateInfo,
+    ध्रुव VkAllocationCallbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
 #endif
 #endif
@@ -68,43 +68,43 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateMetalSurfaceEXT(
 
 #ifdef __OBJC__
 @protocol MTLDevice;
-typedef __unsafe_unretained id<MTLDevice> MTLDevice_id;
-#else
-typedef void* MTLDevice_id;
+प्रकारनिर्देश __unsafe_unretained id<MTLDevice> MTLDevice_id;
+#अन्यथा
+प्रकारनिर्देश शून्य* MTLDevice_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLCommandQueue;
-typedef __unsafe_unretained id<MTLCommandQueue> MTLCommandQueue_id;
-#else
-typedef void* MTLCommandQueue_id;
+प्रकारनिर्देश __unsafe_unretained id<MTLCommandQueue> MTLCommandQueue_id;
+#अन्यथा
+प्रकारनिर्देश शून्य* MTLCommandQueue_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLBuffer;
-typedef __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
-#else
-typedef void* MTLBuffer_id;
+प्रकारनिर्देश __unsafe_unretained id<MTLBuffer> MTLBuffer_id;
+#अन्यथा
+प्रकारनिर्देश शून्य* MTLBuffer_id;
 #endif
 #ifdef __OBJC__
 @protocol MTLTexture;
-typedef __unsafe_unretained id<MTLTexture> MTLTexture_id;
-#else
-typedef void* MTLTexture_id;
+प्रकारनिर्देश __unsafe_unretained id<MTLTexture> MTLTexture_id;
+#अन्यथा
+प्रकारनिर्देश शून्य* MTLTexture_id;
 #endif
-typedef struct __IOSurface* IOSurfaceRef;
+प्रकारनिर्देश संरचना __IOSurface* IOSurfaceRef;
 #ifdef __OBJC__
-#pragma clang diagnostic push
+#pragma clang diagnostic धकेलो
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 @protocol MTLSharedEvent;
-typedef __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
-#pragma clang diagnostic pop
-#else
-typedef void* MTLSharedEvent_id;
+प्रकारनिर्देश __unsafe_unretained id<MTLSharedEvent> MTLSharedEvent_id;
+#pragma clang diagnostic निकालो
+#अन्यथा
+प्रकारनिर्देश शून्य* MTLSharedEvent_id;
 #endif
 
 #define VK_EXT_METAL_OBJECTS_SPEC_VERSION 2
 #define VK_EXT_METAL_OBJECTS_EXTENSION_NAME "VK_EXT_metal_objects"
 
-typedef enum VkExportMetalObjectTypeFlagBitsEXT {
+प्रकारनिर्देश गणना VkExportMetalObjectTypeFlagBitsEXT {
     VK_EXPORT_METAL_OBJECT_TYPE_METAL_DEVICE_BIT_EXT = 0x00000001,
     VK_EXPORT_METAL_OBJECT_TYPE_METAL_COMMAND_QUEUE_BIT_EXT = 0x00000002,
     VK_EXPORT_METAL_OBJECT_TYPE_METAL_BUFFER_BIT_EXT = 0x00000004,
@@ -113,48 +113,48 @@ typedef enum VkExportMetalObjectTypeFlagBitsEXT {
     VK_EXPORT_METAL_OBJECT_TYPE_METAL_SHARED_EVENT_BIT_EXT = 0x00000020,
     VK_EXPORT_METAL_OBJECT_TYPE_FLAG_BITS_MAX_ENUM_EXT = 0x7FFFFFFF
 } VkExportMetalObjectTypeFlagBitsEXT;
-typedef VkFlags VkExportMetalObjectTypeFlagsEXT;
+प्रकारनिर्देश VkFlags VkExportMetalObjectTypeFlagsEXT;
 
-typedef struct VkExportMetalObjectCreateInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalObjectCreateInfoEXT {
     VkStructureType                       sType;
-    const void*                           pNext;
+    ध्रुव शून्य*                           pNext;
     VkExportMetalObjectTypeFlagBitsEXT    exportObjectType;
 } VkExportMetalObjectCreateInfoEXT;
 
-typedef struct VkExportMetalObjectsInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalObjectsInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ध्रुव शून्य*        pNext;
 } VkExportMetalObjectsInfoEXT;
 
-typedef struct VkExportMetalDeviceInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalDeviceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ध्रुव शून्य*        pNext;
     MTLDevice_id       mtlDevice;
 } VkExportMetalDeviceInfoEXT;
 
-typedef struct VkExportMetalCommandQueueInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalCommandQueueInfoEXT {
     VkStructureType       sType;
-    const void*           pNext;
+    ध्रुव शून्य*           pNext;
     VkQueue               queue;
     MTLCommandQueue_id    mtlCommandQueue;
 } VkExportMetalCommandQueueInfoEXT;
 
-typedef struct VkExportMetalBufferInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalBufferInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ध्रुव शून्य*        pNext;
     VkDeviceMemory     memory;
     MTLBuffer_id       mtlBuffer;
 } VkExportMetalBufferInfoEXT;
 
-typedef struct VkImportMetalBufferInfoEXT {
+प्रकारनिर्देश संरचना VkImportMetalBufferInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ध्रुव शून्य*        pNext;
     MTLBuffer_id       mtlBuffer;
 } VkImportMetalBufferInfoEXT;
 
-typedef struct VkExportMetalTextureInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalTextureInfoEXT {
     VkStructureType          sType;
-    const void*              pNext;
+    ध्रुव शून्य*              pNext;
     VkImage                  image;
     VkImageView              imageView;
     VkBufferView             bufferView;
@@ -162,47 +162,47 @@ typedef struct VkExportMetalTextureInfoEXT {
     MTLTexture_id            mtlTexture;
 } VkExportMetalTextureInfoEXT;
 
-typedef struct VkImportMetalTextureInfoEXT {
+प्रकारनिर्देश संरचना VkImportMetalTextureInfoEXT {
     VkStructureType          sType;
-    const void*              pNext;
+    ध्रुव शून्य*              pNext;
     VkImageAspectFlagBits    plane;
     MTLTexture_id            mtlTexture;
 } VkImportMetalTextureInfoEXT;
 
-typedef struct VkExportMetalIOSurfaceInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ध्रुव शून्य*        pNext;
     VkImage            image;
     IOSurfaceRef       ioSurface;
 } VkExportMetalIOSurfaceInfoEXT;
 
-typedef struct VkImportMetalIOSurfaceInfoEXT {
+प्रकारनिर्देश संरचना VkImportMetalIOSurfaceInfoEXT {
     VkStructureType    sType;
-    const void*        pNext;
+    ध्रुव शून्य*        pNext;
     IOSurfaceRef       ioSurface;
 } VkImportMetalIOSurfaceInfoEXT;
 
-typedef struct VkExportMetalSharedEventInfoEXT {
+प्रकारनिर्देश संरचना VkExportMetalSharedEventInfoEXT {
     VkStructureType      sType;
-    const void*          pNext;
+    ध्रुव शून्य*          pNext;
     VkSemaphore          semaphore;
     VkEvent              event;
     MTLSharedEvent_id    mtlSharedEvent;
 } VkExportMetalSharedEventInfoEXT;
 
-typedef struct VkImportMetalSharedEventInfoEXT {
+प्रकारनिर्देश संरचना VkImportMetalSharedEventInfoEXT {
     VkStructureType      sType;
-    const void*          pNext;
+    ध्रुव शून्य*          pNext;
     MTLSharedEvent_id    mtlSharedEvent;
 } VkImportMetalSharedEventInfoEXT;
 
 
-typedef void (VKAPI_PTR *PFN_vkExportMetalObjectsEXT)(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
+प्रकारनिर्देश शून्य (VKAPI_PTR *PFN_vkExportMetalObjectsEXT)(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkExportMetalObjectsEXT(
+VKAPI_ATTR शून्य VKAPI_CALL vkExportMetalObjectsEXT(
     VkDevice                                    device,
     VkExportMetalObjectsInfoEXT*                pMetalObjectsInfo);
 #endif
@@ -215,43 +215,43 @@ VKAPI_ATTR void VKAPI_CALL vkExportMetalObjectsEXT(
 #define VK_EXT_EXTERNAL_MEMORY_METAL_SPEC_VERSION 1
 #define VK_EXT_EXTERNAL_MEMORY_METAL_EXTENSION_NAME "VK_EXT_external_memory_metal"
 
-typedef struct VkImportMemoryMetalHandleInfoEXT {
+प्रकारनिर्देश संरचना VkImportMemoryMetalHandleInfoEXT {
     VkStructureType                       sType;
-    const void*                           pNext;
+    ध्रुव शून्य*                           pNext;
     VkExternalMemoryHandleTypeFlagBits    handleType;
-    void*                                 handle;
+    शून्य*                                 handle;
 } VkImportMemoryMetalHandleInfoEXT;
 
-typedef struct VkMemoryMetalHandlePropertiesEXT {
+प्रकारनिर्देश संरचना VkMemoryMetalHandlePropertiesEXT {
     VkStructureType    sType;
-    void*              pNext;
+    शून्य*              pNext;
     uint32_t           memoryTypeBits;
 } VkMemoryMetalHandlePropertiesEXT;
 
-typedef struct VkMemoryGetMetalHandleInfoEXT {
+प्रकारनिर्देश संरचना VkMemoryGetMetalHandleInfoEXT {
     VkStructureType                       sType;
-    const void*                           pNext;
+    ध्रुव शून्य*                           pNext;
     VkDeviceMemory                        memory;
     VkExternalMemoryHandleTypeFlagBits    handleType;
 } VkMemoryGetMetalHandleInfoEXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandleEXT)(VkDevice device, const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, void** pHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandlePropertiesEXT)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, const void* pHandle, VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandleEXT)(VkDevice device, ध्रुव VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, शून्य** pHandle);
+प्रकारनिर्देश VkResult (VKAPI_PTR *PFN_vkGetMemoryMetalHandlePropertiesEXT)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, ध्रुव शून्य* pHandle, VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties);
 
 #ifndef VK_NO_PROTOTYPES
 
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryMetalHandleEXT(
     VkDevice                                    device,
-    const VkMemoryGetMetalHandleInfoEXT*        pGetMetalHandleInfo,
-    void**                                      pHandle);
+    ध्रुव VkMemoryGetMetalHandleInfoEXT*        pGetMetalHandleInfo,
+    शून्य**                                      pHandle);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryMetalHandlePropertiesEXT(
     VkDevice                                    device,
     VkExternalMemoryHandleTypeFlagBits          handleType,
-    const void*                                 pHandle,
+    ध्रुव शून्य*                                 pHandle,
     VkMemoryMetalHandlePropertiesEXT*           pMemoryMetalHandleProperties);
 #endif
 #endif
