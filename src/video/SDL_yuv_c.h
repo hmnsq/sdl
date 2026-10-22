@@ -26,11 +26,11 @@
 
 // YUV conversion functions
 
-extern bool SDL_ConvertPixels_YUV_to_RGB(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_RGB_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
-extern bool SDL_ConvertPixels_YUV_to_YUV(int width, int height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, int src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, int dst_pitch);
+extern bool SDL_ConvertPixels_YUV_to_RGB(số_nguyên width, số_nguyên height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, số_nguyên src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, số_nguyên dst_pitch);
+extern bool SDL_ConvertPixels_RGB_to_YUV(số_nguyên width, số_nguyên height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, số_nguyên src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, số_nguyên dst_pitch);
+extern bool SDL_ConvertPixels_YUV_to_YUV(số_nguyên width, số_nguyên height, SDL_PixelFormat src_format, SDL_Colorspace src_colorspace, SDL_PropertiesID src_properties, const void *src, số_nguyên src_pitch, SDL_PixelFormat dst_format, SDL_Colorspace dst_colorspace, SDL_PropertiesID dst_properties, void *dst, số_nguyên dst_pitch);
 
 
-extern bool SDL_CalculateYUVSize(SDL_PixelFormat format, int w, int h, size_t *size, size_t *pitch);
+extern bool SDL_CalculateYUVSize(SDL_PixelFormat format, số_nguyên w, số_nguyên h, size_t *size, size_t *pitch);
 
 #endif // SDL_yuv_c_h_

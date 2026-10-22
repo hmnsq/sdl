@@ -28,8 +28,8 @@ struct SDL_CursorData
 {
     DISPMANX_RESOURCE_HANDLE_T resource;
     DISPMANX_ELEMENT_HANDLE_T element;
-    int hot_x, hot_y;
-    int w, h;
+    số_nguyên hot_x, hot_y;
+    số_nguyên w, h;
 };
 
 #define SDL_RPI_CURSORDATA(curs) RPI_CursorData *curdata = (RPI_CursorData *)((curs) ? (curs)->internal : NULL)

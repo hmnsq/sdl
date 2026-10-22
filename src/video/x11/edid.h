@@ -58,74 +58,74 @@ typedef enum
 
 struct Timing
 {
-    int width;
-    int height;
-    int frequency;
+    số_nguyên width;
+    số_nguyên height;
+    số_nguyên frequency;
 };
 
 struct DetailedTiming
 {
-    int pixel_clock;
-    int h_addr;
-    int h_blank;
-    int h_sync;
-    int h_front_porch;
-    int v_addr;
-    int v_blank;
-    int v_sync;
-    int v_front_porch;
-    int width_mm;
-    int height_mm;
-    int right_border;
-    int top_border;
-    int interlaced;
+    số_nguyên pixel_clock;
+    số_nguyên h_addr;
+    số_nguyên h_blank;
+    số_nguyên h_sync;
+    số_nguyên h_front_porch;
+    số_nguyên v_addr;
+    số_nguyên v_blank;
+    số_nguyên v_sync;
+    số_nguyên v_front_porch;
+    số_nguyên width_mm;
+    số_nguyên height_mm;
+    số_nguyên right_border;
+    số_nguyên top_border;
+    số_nguyên interlaced;
     StereoType stereo;
 
-    int digital_sync;
+    số_nguyên digital_sync;
     union
     {
         struct
         {
-            int bipolar;
-            int serrations;
-            int sync_on_green;
+            số_nguyên bipolar;
+            số_nguyên serrations;
+            số_nguyên sync_on_green;
         } analog;
 
         struct
         {
-            int composite;
-            int serrations;
-            int negative_vsync;
-            int negative_hsync;
+            số_nguyên composite;
+            số_nguyên serrations;
+            số_nguyên negative_vsync;
+            số_nguyên negative_hsync;
         } digital;
     } ad;
 };
 
 struct MonitorInfo
 {
-    int checksum;
+    số_nguyên checksum;
     char manufacturer_code[4];
-    int product_code;
-    unsigned int serial_number;
+    số_nguyên product_code;
+    unsigned số_nguyên serial_number;
 
-    int production_week; // -1 if not specified
-    int production_year; // -1 if not specified
-    int model_year;      // -1 if not specified
+    số_nguyên production_week; // -1 if not specified
+    số_nguyên production_year; // -1 if not specified
+    số_nguyên model_year;      // -1 if not specified
 
-    int major_version;
-    int minor_version;
+    số_nguyên major_version;
+    số_nguyên minor_version;
 
-    int is_digital;
+    số_nguyên is_digital;
 
     union
     {
         struct
         {
-            int bits_per_primary;
+            số_nguyên bits_per_primary;
             Interface interface;
-            int rgb444;
-            int ycrcb444;
-            int ycrcb422;
+            số_nguyên rgb444;
+            số_nguyên ycrcb444;
+            số_nguyên ycrcb422;
         } digital;
 
         struct
@@ -134,29 +134,29 @@ struct MonitorInfo
             double sync_signal_level;
             double total_signal_level;
 
-            int blank_to_black;
+            số_nguyên blank_to_black;
 
-            int separate_hv_sync;
-            int composite_sync_on_h;
-            int composite_sync_on_green;
-            int serration_on_vsync;
+            số_nguyên separate_hv_sync;
+            số_nguyên composite_sync_on_h;
+            số_nguyên composite_sync_on_green;
+            số_nguyên serration_on_vsync;
             ColorType color_type;
         } analog;
     } ad;
 
-    int width_mm;        // -1 if not specified
-    int height_mm;       // -1 if not specified
+    số_nguyên width_mm;        // -1 if not specified
+    số_nguyên height_mm;       // -1 if not specified
     double aspect_ratio; // -1.0 if not specififed
 
     double gamma; // -1.0 if not specified
 
-    int standby;
-    int suspend;
-    int active_off;
+    số_nguyên standby;
+    số_nguyên suspend;
+    số_nguyên active_off;
 
-    int srgb_is_standard;
-    int preferred_timing_includes_native;
-    int continuous_frequency;
+    số_nguyên srgb_is_standard;
+    số_nguyên preferred_timing_includes_native;
+    số_nguyên continuous_frequency;
 
     double red_x;
     double red_y;
@@ -174,7 +174,7 @@ struct MonitorInfo
     Timing established[24]; // Terminated by 0x0x0
     Timing standard[8];
 
-    int n_detailed_timings;
+    số_nguyên n_detailed_timings;
     DetailedTiming detailed_timings[4]; /* If monitor has a preferred
                                          * mode, it is the first one
                                          * (whether it has, is

@@ -40,8 +40,8 @@ struct SDL_VideoData
     bool clipboard_set;
 
 // !!! FIXME: Android stuff.
-    int isPaused;
-    int isPausing;
+    số_nguyên isPaused;
+    số_nguyên isPausing;
 };
 
 #endif // SDL_openharmonyvideo_h_

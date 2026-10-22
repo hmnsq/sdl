@@ -46,7 +46,7 @@ enum
 static const struct
 {
     SDL_PixelFormat pixel_format;
-    int modeflags, ncolour, log2bpp;
+    số_nguyên modeflags, ncolour, log2bpp;
 } mode_to_pixelformat[] = {
     // { SDL_PIXELFORMAT_INDEX1LSB, 0, 1, 0 },
     // { SDL_PIXELFORMAT_INDEX2LSB, 0, 3, 1 },
@@ -70,64 +70,64 @@ static const struct
     { SDL_PIXELFORMAT_ARGB8888, MODE_FLAG_ARGB, -1, 5 }
 };
 
-static SDL_PixelFormat RISCOS_ModeToPixelFormat(int ncolour, int modeflags, int log2bpp)
+static SDL_PixelFormat RISCOS_ModeToPixelFormat(số_nguyên ncolour, số_nguyên modeflags, số_nguyên log2bpp)
 {
-    int i;
+    số_nguyên i;
 
-    for (i = 0; i < SDL_arraysize(mode_to_pixelformat); i++) {
-        if (log2bpp == mode_to_pixelformat[i].log2bpp &&
+    cho (i = 0; i < SDL_arraysize(mode_to_pixelformat); i++) {
+        nếu (log2bpp == mode_to_pixelformat[i].log2bpp &&
             (ncolour == mode_to_pixelformat[i].ncolour || ncolour == 0) &&
             (modeflags & (MODE_FLAG_565 | MODE_FLAG_COLOUR_SPACE)) == mode_to_pixelformat[i].modeflags) {
-            return mode_to_pixelformat[i].pixel_format;
+            trả_về mode_to_pixelformat[i].pixel_format;
         }
     }
 
-    return SDL_PIXELFORMAT_UNKNOWN;
+    trả_về SDL_PIXELFORMAT_UNKNOWN;
 }
 
-static size_t measure_mode_block(const int *block)
+static size_t measure_mode_block(const số_nguyên *block)
 {
     size_t blockSize = ((block[0] & 0xFF) == 3) ? 7 : 5;
-    while (block[blockSize] != -1) {
+    trong_khi (block[blockSize] != -1) {
         blockSize += 2;
     }
     blockSize++;
 
-    return blockSize * 4;
+    trả_về blockSize * 4;
 }
 
-static int read_mode_variable(int *block, int var)
+static số_nguyên read_mode_variable(số_nguyên *block, số_nguyên var)
 {
     _kernel_swi_regs regs;
-    regs.r[0] = (int)block;
+    regs.r[0] = (số_nguyên)block;
     regs.r[1] = var;
     _kernel_swi(OS_ReadModeVariable, &regs, &regs);
-    return regs.r[2];
+    trả_về regs.r[2];
 }
 
-static bool read_mode_block(int *block, SDL_DisplayMode *mode, bool extended)
+static bool read_mode_block(số_nguyên *block, SDL_DisplayMode *mode, bool extended)
 {
-    int xres, yres, ncolour, modeflags, log2bpp, rate;
+    số_nguyên xres, yres, ncolour, modeflags, log2bpp, rate;
 
-    if ((block[0] & 0xFF) == 1) {
+    nếu ((block[0] & 0xFF) == 1) {
         xres = block[1];
         yres = block[2];
         log2bpp = block[3];
         rate = block[4];
         ncolour = (1 << (1 << log2bpp)) - 1;
         modeflags = MODE_FLAG_TBGR;
-    } else if ((block[0] & 0xFF) == 3) {
+    } không_thì nếu ((block[0] & 0xFF) == 3) {
         xres = block[1];
         yres = block[2];
         ncolour = block[3];
         modeflags = block[4];
         log2bpp = block[5];
         rate = block[6];
-    } else {
-        return false;
+    } không_thì {
+        trả_về false;
     }
 
-    if (extended) {
+    nếu (extended) {
         xres = read_mode_variable(block, 11) + 1;
         yres = read_mode_variable(block, 12) + 1;
         log2bpp = read_mode_variable(block, 9);
@@ -141,34 +141,34 @@ static bool read_mode_block(int *block, SDL_DisplayMode *mode, bool extended)
     mode->format = RISCOS_ModeToPixelFormat(ncolour, modeflags, log2bpp);
     mode->refresh_rate = (float)rate;
 
-    return true;
+    trả_về true;
 }
 
-static void *convert_mode_block(const int *block)
+static void *convert_mode_block(const số_nguyên *block)
 {
-    int xres, yres, log2bpp, rate, ncolour = 0, modeflags = 0;
+    số_nguyên xres, yres, log2bpp, rate, ncolour = 0, modeflags = 0;
     size_t pos = 0;
-    int *dst;
+    số_nguyên *dst;
 
-    if ((block[0] & 0xFF) == 1) {
+    nếu ((block[0] & 0xFF) == 1) {
         xres = block[1];
         yres = block[2];
         log2bpp = block[3];
         rate = block[4];
-    } else if ((block[0] & 0xFF) == 3) {
+    } không_thì nếu ((block[0] & 0xFF) == 3) {
         xres = block[1];
         yres = block[2];
         ncolour = block[3];
         modeflags = block[4];
         log2bpp = block[5];
         rate = block[6];
-    } else {
-        return NULL;
+    } không_thì {
+        trả_về NULL;
     }
 
     dst = SDL_malloc(40);
-    if (!dst) {
-        return NULL;
+    nếu (!dst) {
+        trả_về NULL;
     }
 
     dst[pos++] = 1;
@@ -176,57 +176,57 @@ static void *convert_mode_block(const int *block)
     dst[pos++] = yres;
     dst[pos++] = log2bpp;
     dst[pos++] = rate;
-    if (ncolour != 0) {
+    nếu (ncolour != 0) {
         dst[pos++] = 3;
         dst[pos++] = ncolour;
     }
-    if (modeflags != 0) {
+    nếu (modeflags != 0) {
         dst[pos++] = 0;
         dst[pos++] = modeflags;
     }
     dst[pos++] = -1;
 
-    return dst;
+    trả_về dst;
 }
 
 static void *copy_memory(const void *src, size_t size, size_t alloc)
 {
     void *dst = SDL_malloc(alloc);
-    if (dst) {
+    nếu (dst) {
         SDL_memcpy(dst, src, size);
     }
-    return dst;
+    trả_về dst;
 }
 
 bool RISCOS_InitModes(SDL_VideoDevice *_this)
 {
     SDL_DisplayMode mode;
-    int *current_mode;
+    số_nguyên *current_mode;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
     size_t size;
 
     regs.r[0] = 1;
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
+    nếu (error) {
+        trả_về SDL_SetError("Unable to retrieve the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
-    current_mode = (int *)regs.r[1];
-    if (!read_mode_block(current_mode, &mode, true)) {
-        return SDL_SetError("Unsupported mode block format %d", current_mode[0]);
+    current_mode = (số_nguyên *)regs.r[1];
+    nếu (!read_mode_block(current_mode, &mode, true)) {
+        trả_về SDL_SetError("Unsupported mode block format %d", current_mode[0]);
     }
 
     size = measure_mode_block(current_mode);
     mode.internal = copy_memory(current_mode, size, size);
-    if (!mode.internal) {
-        return false;
+    nếu (!mode.internal) {
+        trả_về false;
     }
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    nếu (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        trả_về false;
     }
-    return true;
+    trả_về true;
 }
 
 bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
@@ -241,45 +241,45 @@ bool RISCOS_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+    nếu (error) {
+        trả_về SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
     block = SDL_malloc(-regs.r[7]);
-    if (!block) {
-        return false;
+    nếu (!block) {
+        trả_về false;
     }
 
-    regs.r[6] = (int)block;
+    regs.r[6] = (số_nguyên)block;
     regs.r[7] = -regs.r[7];
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
+    nếu (error) {
         SDL_free(block);
-        return SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
+        trả_về SDL_SetError("Unable to enumerate screen modes: %s (%i)", error->errmess, error->errnum);
     }
 
-    for (pos = block; pos < (void *)regs.r[6]; pos += *((int *)pos)) {
-        if (!read_mode_block(pos + 4, &mode, false)) {
+    cho (pos = block; pos < (void *)regs.r[6]; pos += *((số_nguyên *)pos)) {
+        nếu (!read_mode_block(pos + 4, &mode, false)) {
             continue;
         }
 
-        if (mode.format == SDL_PIXELFORMAT_UNKNOWN) {
+        nếu (mode.format == SDL_PIXELFORMAT_UNKNOWN) {
             continue;
         }
 
         mode.internal = convert_mode_block(pos + 4);
-        if (!mode.internal) {
+        nếu (!mode.internal) {
             SDL_free(block);
-            return false;
+            trả_về false;
         }
 
-        if (!SDL_AddFullscreenDisplayMode(display, &mode)) {
+        nếu (!SDL_AddFullscreenDisplayMode(display, &mode)) {
             SDL_free(mode.internal);
         }
     }
 
     SDL_free(block);
-    return true;
+    trả_về true;
 }
 
 bool RISCOS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
@@ -287,24 +287,24 @@ bool RISCOS_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SD
     const char disable_cursor[] = { 23, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     _kernel_swi_regs regs;
     _kernel_oserror *error;
-    int i;
+    số_nguyên i;
 
     regs.r[0] = 0;
-    regs.r[1] = (int)mode->internal;
+    regs.r[1] = (số_nguyên)mode->internal;
     error = _kernel_swi(OS_ScreenMode, &regs, &regs);
-    if (error) {
-        return SDL_SetError("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
+    nếu (error) {
+        trả_về SDL_SetError("Unable to set the current screen mode: %s (%i)", error->errmess, error->errnum);
     }
 
     // Turn the text cursor off
-    for (i = 0; i < SDL_arraysize(disable_cursor); i++) {
+    cho (i = 0; i < SDL_arraysize(disable_cursor); i++) {
         _kernel_oswrch(disable_cursor[i]);
     }
 
     // Update cursor visibility, since it may have been disabled by the mode change.
     SDL_RedrawCursor();
 
-    return true;
+    trả_về true;
 }
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

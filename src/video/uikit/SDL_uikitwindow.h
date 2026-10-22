@@ -36,7 +36,7 @@ extern void UIKit_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, 
 extern SDL_FullscreenResult UIKit_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
 extern void UIKit_UpdatePointerLock(SDL_VideoDevice *_this, SDL_Window *window);
 extern void UIKit_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+extern void UIKit_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, số_nguyên *w, số_nguyên *h);
 
 extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
 

@@ -49,71 +49,71 @@
 
 struct SDL_CursorData
 {
-    int custom_cursor;
-    int system_cursor;
+    số_nguyên custom_cursor;
+    số_nguyên system_cursor;
 };
 
 static const char k_aAndroidButtons[] = { BUTTON_PRIMARY, BUTTON_SECONDARY, BUTTON_TERTIARY, BUTTON_BACK, BUTTON_FORWARD };
 
 // Last known Android mouse button state (includes all buttons)
-static int last_state;
+static số_nguyên last_state;
 
 // Blank cursor
 static SDL_Cursor *empty_cursor;
 
-static SDL_Cursor *Android_WrapCursor(int custom_cursor, int system_cursor)
+static SDL_Cursor *Android_WrapCursor(số_nguyên custom_cursor, số_nguyên system_cursor)
 {
     SDL_Cursor *cursor;
 
     cursor = SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
+    nếu (cursor) {
         SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (data) {
+        nếu (data) {
             data->custom_cursor = custom_cursor;
             data->system_cursor = system_cursor;
             cursor->internal = data;
-        } else {
+        } không_thì {
             SDL_free(cursor);
             cursor = NULL;
         }
     }
 
-    return cursor;
+    trả_về cursor;
 }
 
 static SDL_Cursor *Android_CreateDefaultCursor(void)
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return Android_WrapCursor(0, id);
+    trả_về Android_WrapCursor(0, id);
 }
 
-static SDL_Cursor *Android_CreateCursor(SDL_Surface *surface, int hot_x, int hot_y)
+static SDL_Cursor *Android_CreateCursor(SDL_Surface *surface, số_nguyên hot_x, số_nguyên hot_y)
 {
-    int custom_cursor;
+    số_nguyên custom_cursor;
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    nếu (!converted) {
+        trả_về NULL;
     }
     custom_cursor = Android_JNI_CreateCustomCursor(converted, hot_x, hot_y);
     SDL_DestroySurface(converted);
-    if (!custom_cursor) {
+    nếu (!custom_cursor) {
         SDL_Unsupported();
-        return NULL;
+        trả_về NULL;
     }
-    return Android_WrapCursor(custom_cursor, 0);
+    trả_về Android_WrapCursor(custom_cursor, 0);
 }
 
 static SDL_Cursor *Android_CreateSystemCursor(SDL_SystemCursor id)
 {
-    return Android_WrapCursor(0, id);
+    trả_về Android_WrapCursor(0, id);
 }
 
 static void Android_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_CursorData *data = cursor->internal;
-    if (data->custom_cursor != 0) {
+    nếu (data->custom_cursor != 0) {
         Android_JNI_DestroyCustomCursor(data->custom_cursor);
     }
     SDL_free(cursor->internal);
@@ -122,19 +122,19 @@ static void Android_FreeCursor(SDL_Cursor *cursor)
 
 static SDL_Cursor *Android_CreateEmptyCursor(void)
 {
-    if (!empty_cursor) {
+    nếu (!empty_cursor) {
         SDL_Surface *empty_surface = SDL_CreateSurfaceZeroed(1, 1, SDL_PIXELFORMAT_ARGB8888);
-        if (empty_surface) {
+        nếu (empty_surface) {
             empty_cursor = Android_CreateCursor(empty_surface, 0, 0);
             SDL_DestroySurface(empty_surface);
         }
     }
-    return empty_cursor;
+    trả_về empty_cursor;
 }
 
 static void Android_DestroyEmptyCursor(void)
 {
-    if (empty_cursor) {
+    nếu (empty_cursor) {
         Android_FreeCursor(empty_cursor);
         empty_cursor = NULL;
     }
@@ -142,38 +142,38 @@ static void Android_DestroyEmptyCursor(void)
 
 static bool Android_ShowCursor(SDL_Cursor *cursor)
 {
-    if (!cursor) {
+    nếu (!cursor) {
         cursor = Android_CreateEmptyCursor();
     }
-    if (cursor) {
+    nếu (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!Android_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        nếu (data->custom_cursor) {
+            nếu (!Android_JNI_SetCustomCursor(data->custom_cursor)) {
+                trả_về SDL_Unsupported();
             }
-        } else {
-            if (!Android_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } không_thì {
+            nếu (!Android_JNI_SetSystemCursor(data->system_cursor)) {
+                trả_về SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        trả_về true;
+    } không_thì {
         // SDL error set inside Android_CreateEmptyCursor()
-        return false;
+        trả_về false;
     }
 }
 
 static bool Android_SetRelativeMouseMode(bool enabled)
 {
-    if (!Android_JNI_SupportsRelativeMouse()) {
-        return SDL_Unsupported();
+    nếu (!Android_JNI_SupportsRelativeMouse()) {
+        trả_về SDL_Unsupported();
     }
 
-    if (!Android_JNI_SetRelativeMouseEnabled(enabled)) {
-        return SDL_Unsupported();
+    nếu (!Android_JNI_SetRelativeMouseEnabled(enabled)) {
+        trả_về SDL_Unsupported();
     }
 
-    return true;
+    trả_về true;
 }
 
 void Android_InitMouse(void)
@@ -197,31 +197,31 @@ void Android_QuitMouse(void)
 }
 
 // Translate Android mouse button state to SDL mouse button
-static Uint8 TranslateButton(int state)
+static Uint8 TranslateButton(số_nguyên state)
 {
-    if (state & BUTTON_PRIMARY) {
-        return SDL_BUTTON_LEFT;
-    } else if (state & BUTTON_SECONDARY) {
-        return SDL_BUTTON_RIGHT;
-    } else if (state & BUTTON_TERTIARY) {
-        return SDL_BUTTON_MIDDLE;
-    } else if (state & BUTTON_FORWARD) {
-        return SDL_BUTTON_X1;
-    } else if (state & BUTTON_BACK) {
-        return SDL_BUTTON_X2;
-    } else {
-        return 0;
+    nếu (state & BUTTON_PRIMARY) {
+        trả_về SDL_BUTTON_LEFT;
+    } không_thì nếu (state & BUTTON_SECONDARY) {
+        trả_về SDL_BUTTON_RIGHT;
+    } không_thì nếu (state & BUTTON_TERTIARY) {
+        trả_về SDL_BUTTON_MIDDLE;
+    } không_thì nếu (state & BUTTON_FORWARD) {
+        trả_về SDL_BUTTON_X1;
+    } không_thì nếu (state & BUTTON_BACK) {
+        trả_về SDL_BUTTON_X2;
+    } không_thì {
+        trả_về 0;
     }
 }
 
-void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y, bool relative)
+void Android_OnMouse(SDL_Window *window, số_nguyên state, số_nguyên action, float x, float y, bool relative)
 {
-    int changes_press;
-    int changes_release;
+    số_nguyên changes_press;
+    số_nguyên changes_release;
     Uint8 button;
 
-    if (!window) {
-        return;
+    nếu (!window) {
+        trả_về;
     }
 
     switch (action) {
@@ -261,9 +261,9 @@ void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y
 
         // Some versions of Android will send multiple mouse buttons in a single
         // event, so read it bit-by-bit.
-        if (changes_press) {
-            for (int i = 0; i < sizeof(k_aAndroidButtons); i++) {
-                if (changes_press & k_aAndroidButtons[i]) {
+        nếu (changes_press) {
+            cho (số_nguyên i = 0; i < sizeof(k_aAndroidButtons); i++) {
+                nếu (changes_press & k_aAndroidButtons[i]) {
                     button = TranslateButton(k_aAndroidButtons[i]);
                     SDL_SendMouseButton(0, window, SDL_DEFAULT_MOUSE_ID, button, true);
                 }
@@ -271,9 +271,9 @@ void Android_OnMouse(SDL_Window *window, int state, int action, float x, float y
             last_state = state;
         }
 
-        if (changes_release) {
-            for (int i = 0; i < sizeof(k_aAndroidButtons); i++) {
-                if (changes_release & k_aAndroidButtons[i]) {
+        nếu (changes_release) {
+            cho (số_nguyên i = 0; i < sizeof(k_aAndroidButtons); i++) {
+                nếu (changes_release & k_aAndroidButtons[i]) {
                     button = TranslateButton(k_aAndroidButtons[i]);
                     SDL_SendMouseButton(0, window, SDL_DEFAULT_MOUSE_ID, button, false);
                 }

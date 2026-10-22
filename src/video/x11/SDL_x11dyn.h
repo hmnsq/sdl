@@ -53,7 +53,7 @@
 #ifdef SDL_VIDEO_DRIVER_X11_XDBE
 #include <X11/extensions/Xdbe.h>
 #endif
-#if defined(SDL_VIDEO_DRIVER_X11_XINPUT2) || defined(SDL_VIDEO_DRIVER_X11_XFIXES)
+#nếu defined(SDL_VIDEO_DRIVER_X11_XINPUT2) || defined(SDL_VIDEO_DRIVER_X11_XFIXES)
 #include <X11/extensions/XInput2.h>
 #endif
 #ifdef SDL_VIDEO_DRIVER_X11_XFIXES
@@ -81,7 +81,7 @@ extern "C" {
 
 // evil function signatures...
 typedef Bool (*SDL_X11_XESetWireToEventRetType)(Display *, XEvent *, xEvent *);
-typedef int (*SDL_X11_XSynchronizeRetType)(Display *);
+typedef số_nguyên (*SDL_X11_XSynchronizeRetType)(Display *);
 typedef Status (*SDL_X11_XESetEventToWireRetType)(Display *, XEvent *, xEvent *);
 
 extern bool SDL_X11_LoadSymbols(void);
@@ -94,7 +94,7 @@ extern void SDL_X11_UnloadSymbols(void);
 #include "SDL_x11sym.h"
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
-#define SDL_X11_MODULE(modname) extern int SDL_X11_HAVE_##modname;
+#define SDL_X11_MODULE(modname) extern số_nguyên SDL_X11_HAVE_##modname;
 #include "SDL_x11sym.h"
 
 #ifdef __cplusplus

@@ -29,7 +29,7 @@
 
 struct SDL_VideoData
 {
-    int last_mouse_buttons;
+    số_nguyên last_mouse_buttons;
     Uint8 key_pressed[RISCOS_MAX_KEYS_PRESSED];
 };
 

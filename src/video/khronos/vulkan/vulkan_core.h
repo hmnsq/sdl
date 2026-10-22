@@ -27,21 +27,21 @@ extern "C" {
 #define VK_DEFINE_HANDLE(object) typedef struct object##_T* object;
 
 #ifndef VK_USE_64_BIT_PTR_DEFINES
-    #if defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) && !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__) || (defined(__riscv) && __riscv_xlen == 64)
+    #nếu defined(__LP64__) || defined(_WIN64) || (defined(__x86_64__) && !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__) || (defined(__riscv) && __riscv_xlen == 64)
         #define VK_USE_64_BIT_PTR_DEFINES 1
-    #else
+    #không_thì
         #define VK_USE_64_BIT_PTR_DEFINES 0
     #endif
 #endif
 
 #ifndef VK_DEFINE_NON_DISPATCHABLE_HANDLE
-    #if (VK_USE_64_BIT_PTR_DEFINES==1)
-        #if (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201103L))
+    #nếu (VK_USE_64_BIT_PTR_DEFINES==1)
+        #nếu (defined(__cplusplus) && (__cplusplus >= 201103L)) || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201103L))
             #define VK_NULL_HANDLE nullptr
-        #else
+        #không_thì
             #define VK_NULL_HANDLE ((void*)0)
         #endif
-    #else
+    #không_thì
         #define VK_NULL_HANDLE 0ULL
     #endif
 #endif
@@ -50,9 +50,9 @@ extern "C" {
 #endif
 
 #ifndef VK_DEFINE_NON_DISPATCHABLE_HANDLE
-    #if (VK_USE_64_BIT_PTR_DEFINES==1)
+    #nếu (VK_USE_64_BIT_PTR_DEFINES==1)
         #define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef struct object##_T *object;
-    #else
+    #không_thì
         #define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef uint64_t object;
     #endif
 #endif
@@ -10379,7 +10379,7 @@ typedef struct VkImportMemoryFdInfoKHR {
     VkStructureType                       sType;
     const void*                           pNext;
     VkExternalMemoryHandleTypeFlagBits    handleType;
-    int                                   fd;
+    số_nguyên                                   fd;
 } VkImportMemoryFdInfoKHR;
 
 typedef struct VkMemoryFdPropertiesKHR {
@@ -10396,8 +10396,8 @@ typedef struct VkMemoryGetFdInfoKHR {
 } VkMemoryGetFdInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryFdKHR)(VkDevice device, const VkMemoryGetFdInfoKHR* pGetFdInfo, int* pFd);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryFdPropertiesKHR)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, int fd, VkMemoryFdPropertiesKHR* pMemoryFdProperties);
+typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryFdKHR)(VkDevice device, const VkMemoryGetFdInfoKHR* pGetFdInfo, số_nguyên* pFd);
+typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryFdPropertiesKHR)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, số_nguyên fd, VkMemoryFdPropertiesKHR* pMemoryFdProperties);
 
 #ifndef VK_NO_PROTOTYPES
 
@@ -10405,13 +10405,13 @@ typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryFdPropertiesKHR)(VkDevice device, Vk
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryFdKHR(
     VkDevice                                    device,
     const VkMemoryGetFdInfoKHR*                 pGetFdInfo,
-    int*                                        pFd);
+    số_nguyên*                                        pFd);
 #endif
 #ifndef VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryFdPropertiesKHR(
     VkDevice                                    device,
     VkExternalMemoryHandleTypeFlagBits          handleType,
-    int                                         fd,
+    số_nguyên                                         fd,
     VkMemoryFdPropertiesKHR*                    pMemoryFdProperties);
 #endif
 #endif
@@ -10471,7 +10471,7 @@ typedef struct VkImportSemaphoreFdInfoKHR {
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
     VkExternalSemaphoreHandleTypeFlagBits    handleType;
-    int                                      fd;
+    số_nguyên                                      fd;
 } VkImportSemaphoreFdInfoKHR;
 
 typedef struct VkSemaphoreGetFdInfoKHR {
@@ -10483,7 +10483,7 @@ typedef struct VkSemaphoreGetFdInfoKHR {
 
 
 typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreFdKHR)(VkDevice device, const VkImportSemaphoreFdInfoKHR* pImportSemaphoreFdInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreFdKHR)(VkDevice device, const VkSemaphoreGetFdInfoKHR* pGetFdInfo, int* pFd);
+typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreFdKHR)(VkDevice device, const VkSemaphoreGetFdInfoKHR* pGetFdInfo, số_nguyên* pFd);
 
 #ifndef VK_NO_PROTOTYPES
 
@@ -10496,7 +10496,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreFdKHR(
 VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreFdKHR(
     VkDevice                                    device,
     const VkSemaphoreGetFdInfoKHR*              pGetFdInfo,
-    int*                                        pFd);
+    số_nguyên*                                        pFd);
 #endif
 #endif
 
@@ -10779,7 +10779,7 @@ typedef struct VkImportFenceFdInfoKHR {
     VkFence                              fence;
     VkFenceImportFlags                   flags;
     VkExternalFenceHandleTypeFlagBits    handleType;
-    int                                  fd;
+    số_nguyên                                  fd;
 } VkImportFenceFdInfoKHR;
 
 typedef struct VkFenceGetFdInfoKHR {
@@ -10791,7 +10791,7 @@ typedef struct VkFenceGetFdInfoKHR {
 
 
 typedef VkResult (VKAPI_PTR *PFN_vkImportFenceFdKHR)(VkDevice device, const VkImportFenceFdInfoKHR* pImportFenceFdInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetFenceFdKHR)(VkDevice device, const VkFenceGetFdInfoKHR* pGetFdInfo, int* pFd);
+typedef VkResult (VKAPI_PTR *PFN_vkGetFenceFdKHR)(VkDevice device, const VkFenceGetFdInfoKHR* pGetFdInfo, số_nguyên* pFd);
 
 #ifndef VK_NO_PROTOTYPES
 
@@ -10804,7 +10804,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkImportFenceFdKHR(
 VKAPI_ATTR VkResult VKAPI_CALL vkGetFenceFdKHR(
     VkDevice                                    device,
     const VkFenceGetFdInfoKHR*                  pGetFdInfo,
-    int*                                        pFd);
+    số_nguyên*                                        pFd);
 #endif
 #endif
 

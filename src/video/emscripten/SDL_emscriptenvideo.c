@@ -44,7 +44,7 @@ static bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoD
 static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
 static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
 static void Emscripten_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable);
-static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, số_nguyên *w, số_nguyên *h);
 static void Emscripten_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
 static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
 static void Emscripten_PumpEvents(SDL_VideoDevice *_this);
@@ -55,7 +55,7 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
 SDL_Window *Emscripten_fill_document_window = NULL;
 
 static bool pumpevents_has_run = false;
-static int pending_swap_interval = -1;
+static số_nguyên pending_swap_interval = -1;
 
 // Emscripten driver bootstrap functions
 
@@ -69,38 +69,38 @@ static SDL_SystemTheme Emscripten_GetSystemTheme(void)
     /* Technically, light theme can mean explicit light theme or no preference.
        https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme#syntax */
 
-    int theme_code = MAIN_THREAD_EM_ASM_INT({
-        if (!window.matchMedia) {
-            return -1;
+    số_nguyên theme_code = MAIN_THREAD_EM_ASM_INT({
+        nếu (!window.matchMedia) {
+            trả_về -1;
         }
 
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-            return 0;
+        nếu (window.matchMedia('(prefers-color-scheme: light)').matches) {
+            trả_về 0;
         }
 
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return 1;
+        nếu (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            trả_về 1;
         }
 
-        return -1;
+        trả_về -1;
     });
 
     switch (theme_code) {
     case 0:
-        return SDL_SYSTEM_THEME_LIGHT;
+        trả_về SDL_SYSTEM_THEME_LIGHT;
 
     case 1:
-        return SDL_SYSTEM_THEME_DARK;
+        trả_về SDL_SYSTEM_THEME_DARK;
 
     default:
-        return SDL_SYSTEM_THEME_UNKNOWN;
+        trả_về SDL_SYSTEM_THEME_UNKNOWN;
     }
 }
 
 static void Emscripten_ListenSystemTheme(void)
 {
     MAIN_THREAD_EM_ASM({
-        if (window.matchMedia) {
+        nếu (window.matchMedia) {
             var SDL3 = Module['SDL3'];
 
             SDL3.eventHandlerThemeChanged = function(event) {
@@ -116,7 +116,7 @@ static void Emscripten_ListenSystemTheme(void)
 static void Emscripten_UnlistenSystemTheme(void)
 {
     MAIN_THREAD_EM_ASM({
-        if (typeof(Module['SDL3']) !== 'undefined') {
+        nếu (typeof(Module['SDL3']) !== 'undefined') {
             var SDL3 = Module['SDL3'];
 
             SDL3.themeChangedMatchMedia.removeEventListener('change', SDL3.eventHandlerThemeChanged);
@@ -137,8 +137,8 @@ static SDL_VideoDevice *Emscripten_CreateDevice(void)
 
     // Initialize all variables that we clean on shutdown
     device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    nếu (!device) {
+        trả_về NULL;
     }
 
     /* Firefox sends blur event which would otherwise prevent full screen
@@ -192,18 +192,18 @@ static SDL_VideoDevice *Emscripten_CreateDevice(void)
     Emscripten_ListenSystemTheme();
     device->system_theme = Emscripten_GetSystemTheme();
 
-    return device;
+    trả_về device;
 }
 
-static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, int *buttonID) {
-    if (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
+static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, số_nguyên *buttonID) {
+    nếu (emscripten_has_asyncify() && SDL_GetHintBoolean(SDL_HINT_EMSCRIPTEN_ASYNCIFY, true)) {
         char dialog_background[32];
         char dialog_color[32];
         char button_border[32];
         char button_background[32];
         char button_hovered[32];
 
-        if (messageboxdata->colorScheme) {
+        nếu (messageboxdata->colorScheme) {
             SDL_MessageBoxColor color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BACKGROUND];
             SDL_snprintf(dialog_background, sizeof(dialog_background), "rgb(%u, %u, %u)", color.r, color.g, color.b);
 
@@ -218,7 +218,7 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
 
             color = messageboxdata->colorScheme->colors[SDL_MESSAGEBOX_COLOR_BUTTON_SELECTED];
             SDL_snprintf(button_hovered, sizeof(button_hovered), "rgb(%u, %u, %u)", color.r, color.g, color.b);
-        } else {
+        } không_thì {
             SDL_zero(dialog_background);
             SDL_zero(dialog_color);
             SDL_zero(button_border);
@@ -256,11 +256,11 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
             dialog.showModal();
         }, messageboxdata->title, messageboxdata->message, dialog_background, dialog_color, dialog_id);
 
-        int i;
-        for (i = 0; i < messageboxdata->numbuttons; ++i) {
+        số_nguyên i;
+        cho (i = 0; i < messageboxdata->numbuttons; ++i) {
             SDL_MessageBoxButtonData button = messageboxdata->buttons[i];
 
-            const int created = EM_ASM_INT({
+            const số_nguyên created = EM_ASM_INT({
                     var dialog_id = UTF8ToString($0);
                     var text = UTF8ToString($1);
                     var responseId = $2;
@@ -271,8 +271,8 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                     var hovered = UTF8ToString($7);
 
                     var dialog = document.getElementById(dialog_id);
-                    if (!dialog) {
-                        return false;
+                    nếu (!dialog) {
+                        trả_về false;
                     }
 
                     var button = document.createElement("button");
@@ -281,10 +281,10 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                     button.style.backgroundColor = background;
 
                     dialog.addEventListener('keydown', function(e) {
-                        if (clickOnReturn && e.key === "Enter") {
+                        nếu (clickOnReturn && e.key === "Enter") {
                             e.preventDefault();
                             button.click();
-                        } else if (clickOnEscape && e.key === "Escape") {
+                        } không_thì nếu (clickOnEscape && e.key === "Escape") {
                             e.preventDefault();
                             button.click();
                         }
@@ -304,7 +304,7 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                     };
 
                     dialog.append(button);
-                    return true;
+                    trả_về true;
                 },
                 dialog_id,
                 button.text,
@@ -316,54 +316,54 @@ static bool Emscripten_ShowMessagebox(const SDL_MessageBoxData *messageboxdata, 
                 button_hovered
             );
 
-            if (!created) {
-                return false;
+            nếu (!created) {
+                trả_về false;
             }
         }
 
-        while (true) {
+        trong_khi (true) {
             // give back control to browser for screen refresh
             emscripten_sleep(0);
 
-            const int dialog_open = EM_ASM_INT({
+            const số_nguyên dialog_open = EM_ASM_INT({
                 var dialog_id = UTF8ToString($0);
 
                 var dialog = document.getElementById(dialog_id);
-                if (!dialog) {
-                    return false;
+                nếu (!dialog) {
+                    trả_về false;
                 }
-                return dialog.open;
+                trả_về dialog.open;
             }, dialog_id);
 
-            if (dialog_open) {
+            nếu (dialog_open) {
                 continue;
             }
 
             *buttonID = EM_ASM_INT({
                 var dialog_id = UTF8ToString($0);
                 var dialog = document.getElementById(dialog_id);
-                if (!dialog) {
-                    return 0;
+                nếu (!dialog) {
+                    trả_về 0;
                 }
                 try
                 {
-                    return parseInt(dialog.returnValue);
+                    trả_về parseInt(dialog.returnValue);
                 }
                 catch(e)
                 {
-                    return 0;
+                    trả_về 0;
                 }
             }, dialog_id);
             break;
         }
 
-    } else {
+    } không_thì {
         // Cannot add elements to DOM and block without Asyncify. So, fall back to the alert function.
         EM_ASM({
             alert(UTF8ToString($0) + "\n\n" + UTF8ToString($1));
         }, messageboxdata->title, messageboxdata->message);
     }
-    return true;
+    trả_về true;
 }
 
 VideoBootStrap Emscripten_bootstrap = {
@@ -383,8 +383,8 @@ bool Emscripten_VideoInit(SDL_VideoDevice *_this)
     emscripten_get_screen_size(&mode.w, &mode.h);
     mode.pixel_density = emscripten_get_device_pixel_ratio();
 
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    nếu (SDL_AddBasicVideoDisplay(&mode) == 0) {
+        trả_về false;
     }
 
     Emscripten_InitMouse();
@@ -396,13 +396,13 @@ bool Emscripten_VideoInit(SDL_VideoDevice *_this)
     Emscripten_RegisterGlobalEventHandlers(_this);
 
     // We're done!
-    return true;
+    trả_về true;
 }
 
 static bool Emscripten_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
     // can't do this
-    return true;
+    trả_về true;
 }
 
 static void Emscripten_VideoQuit(SDL_VideoDevice *_this)
@@ -416,40 +416,40 @@ static void Emscripten_VideoQuit(SDL_VideoDevice *_this)
 
 static bool Emscripten_GetDisplayUsableBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    if (rect) {
+    nếu (rect) {
         rect->x = 0;
         rect->y = 0;
         rect->w = MAIN_THREAD_EM_ASM_INT({
-            return window.innerWidth;
+            trả_về window.innerWidth;
         });
         rect->h = MAIN_THREAD_EM_ASM_INT({
-            return window.innerHeight;
+            trả_về window.innerHeight;
         });
     }
-    return true;
+    trả_về true;
 }
 
-bool Emscripten_ShouldSetSwapInterval(int interval)
+bool Emscripten_ShouldSetSwapInterval(số_nguyên interval)
 {
-    if (!pumpevents_has_run) {
+    nếu (!pumpevents_has_run) {
         pending_swap_interval = interval;
-        return false;
+        trả_về false;
     }
-    return true;
+    trả_về true;
 }
 
-int Emscripten_GetPendingSwapInterval(void)
+số_nguyên Emscripten_GetPendingSwapInterval(void)
 {
-    return pending_swap_interval;
+    trả_về pending_swap_interval;
 }
 
 static void Emscripten_PumpEvents(SDL_VideoDevice *_this)
 {
-    if (!pumpevents_has_run) {
+    nếu (!pumpevents_has_run) {
         // we assume you've set a mainloop by the time you've called pumpevents, so we delay initial SetInterval changes until then.
         // otherwise you'll get a warning on the javascript console.
         pumpevents_has_run = true;
-        if (pending_swap_interval >= 0) {
+        nếu (pending_swap_interval >= 0) {
             Emscripten_GLES_SetSwapInterval(_this, pending_swap_interval);
             pending_swap_interval = -1;
         }
@@ -465,16 +465,16 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
 {
     SDL_WindowData *wdata = window->internal;
 
-    if (fill && Emscripten_fill_document_window && (Emscripten_fill_document_window != window)) {
-        return SDL_SetError("Only one fill-document window allowed at a time.");
+    nếu (fill && Emscripten_fill_document_window && (Emscripten_fill_document_window != window)) {
+        trả_về SDL_SetError("Only one fill-document window allowed at a time.");
     }
 
     // fill_document takes up the entire page and resizes as the browser window resizes.
-    if (fill) {
+    nếu (fill) {
         Emscripten_fill_document_window = window;
 
-        const int w = MAIN_THREAD_EM_ASM_INT({ return window.innerWidth; });
-        const int h = MAIN_THREAD_EM_ASM_INT({ return window.innerHeight; });
+        const số_nguyên w = MAIN_THREAD_EM_ASM_INT({ trả_về window.innerWidth; });
+        const số_nguyên h = MAIN_THREAD_EM_ASM_INT({ trả_về window.innerHeight; });
         const double scaled_w = w * wdata->pixel_ratio;
         const double scaled_h = h * wdata->pixel_ratio;
 
@@ -496,7 +496,7 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
             div.SDL3_canvas_nextsib = canvas.nextSibling;
 
             var children = Array.from(document.body.children);
-            for (var child of children) {
+            cho (var child of children) {
                 div.appendChild(child);
             }
             document.body.appendChild(div);
@@ -510,26 +510,26 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
         emscripten_set_canvas_element_size(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
 
         // set_canvas_size unsets this
-        if (wdata->pixel_ratio != 1.0f) {
+        nếu (wdata->pixel_ratio != 1.0f) {
             emscripten_set_element_css_size(wdata->canvas_id, w, h);
         }
 
         // force the event to trigger, so pixel ratio changes can be handled
         window->w = window->h = 0;
         SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, SDL_lroundf(w), SDL_lroundf(h));
-    } else {
+    } không_thì {
         const bool transitioning = (Emscripten_fill_document_window == window);
-        if (transitioning) {
+        nếu (transitioning) {
             MAIN_THREAD_EM_ASM({
                 // if we had previously hidden everything behind a fill_document window, put it back.
                 var div = document.getElementById('SDL3_fill_document_background_elements');
-                if (div) {
-                    if (div.SDL3_canvas_nextsib) {
+                nếu (div) {
+                    nếu (div.SDL3_canvas_nextsib) {
                         div.SDL3_canvas_parent.insertBefore(div.SDL3_canvas, div.SDL3_canvas_nextsib);
-                    } else {
+                    } không_thì {
                         div.SDL3_canvas_parent.appendChild(div.SDL3_canvas);
                     }
-                    while (div.firstChild) {
+                    trong_khi (div.firstChild) {
                         document.body.insertBefore(div.firstChild, div);
                     }
                     div.SDL3_canvas.style.position = div.SDL3_canvas.SDL3_original_position;
@@ -548,18 +548,18 @@ static bool Emscripten_SetWindowFillDocument(SDL_VideoDevice *_this, SDL_Window 
         emscripten_set_canvas_element_size(wdata->canvas_id, SDL_lroundf(scaled_w), SDL_lroundf(scaled_h));
 
         // if the size is not being controlled by css, we need to scale down for hidpi
-        if (!wdata->external_size && (wdata->pixel_ratio != 1.0f)) {
+        nếu (!wdata->external_size && (wdata->pixel_ratio != 1.0f)) {
             // scale canvas down
             emscripten_set_element_css_size(wdata->canvas_id, window->w, window->h);
         }
 
-        if (transitioning) {
+        nếu (transitioning) {
             window->w = window->h = 0;
             SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, wdata->non_fill_document_width, wdata->non_fill_document_height);
         }
     }
 
-    return true;
+    trả_về true;
 }
 
 static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
@@ -569,32 +569,32 @@ static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, 
     const char *selector;
 
     bool fill_document = ((window->flags & SDL_WINDOW_FILL_DOCUMENT) != 0);
-    if (fill_document && Emscripten_fill_document_window) {
+    nếu (fill_document && Emscripten_fill_document_window) {
         fill_document = false;  // only one allowed at a time.
         window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;   // !!! FIXME: should this fail instead?
     }
 
     // Allocate window internal data
     wdata = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!wdata) {
-        return false;
+    nếu (!wdata) {
+        trả_về false;
     }
 
     selector = SDL_GetHint(SDL_HINT_EMSCRIPTEN_CANVAS_SELECTOR);
-    if (!selector || !*selector) {
+    nếu (!selector || !*selector) {
         selector = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_CANVAS_ID_STRING, "#canvas");
     }
     wdata->canvas_id = SDL_strdup(selector);
 
     selector = SDL_GetHint(SDL_HINT_EMSCRIPTEN_KEYBOARD_ELEMENT);
-    if (!selector || !*selector) {
+    nếu (!selector || !*selector) {
         selector = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, "#window");
     }
     wdata->keyboard_element = SDL_strdup(selector);
 
-    if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+    nếu (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
         wdata->pixel_ratio = emscripten_get_device_pixel_ratio();
-    } else {
+    } không_thì {
         wdata->pixel_ratio = 1.0f;
     }
 
@@ -603,10 +603,10 @@ static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, 
     emscripten_get_element_css_size(wdata->canvas_id, &css_w, &css_h);
 
     wdata->external_size = SDL_floor(css_w) != 1 || SDL_floor(css_h) != 1;
-    if (wdata->external_size) {
+    nếu (wdata->external_size) {
         fill_document = false;  // can't be resizable if something else is controlling it.
-        window->w = (int) css_w;
-        window->h = (int) css_h;
+        window->w = (số_nguyên) css_w;
+        window->h = (số_nguyên) css_h;
     }
 
     wdata->window = window;
@@ -636,7 +636,7 @@ static bool Emscripten_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, 
     SDL_SetStringProperty(window->props, SDL_PROP_WINDOW_EMSCRIPTEN_KEYBOARD_ELEMENT_STRING, wdata->keyboard_element);
 
     // Window has been successfully created
-    return true;
+    trả_về true;
 }
 
 static void Emscripten_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable)
@@ -646,20 +646,20 @@ static void Emscripten_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * w
 
 static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (window->internal) {
+    nếu (window->internal) {
         SDL_WindowData *data = window->internal;
-        if (window == Emscripten_fill_document_window) {
-            return;  // canvas size is being dictated by the browser window size, refuse request.
+        nếu (window == Emscripten_fill_document_window) {
+            trả_về;  // canvas size is being dictated by the browser window size, refuse request.
         }
 
         // update pixel ratio
-        if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+        nếu (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
             data->pixel_ratio = emscripten_get_device_pixel_ratio();
         }
         emscripten_set_canvas_element_size(data->canvas_id, SDL_lroundf(window->pending.w * data->pixel_ratio), SDL_lroundf(window->pending.h * data->pixel_ratio));
 
         // scale canvas down
-        if (!data->external_size && data->pixel_ratio != 1.0f) {
+        nếu (!data->external_size && data->pixel_ratio != 1.0f) {
             emscripten_set_element_css_size(data->canvas_id, window->pending.w, window->pending.h);
         }
 
@@ -667,10 +667,10 @@ static void Emscripten_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
     }
 }
 
-static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+static void Emscripten_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, số_nguyên *w, số_nguyên *h)
 {
     SDL_WindowData *data;
-    if (window->internal) {
+    nếu (window->internal) {
         data = window->internal;
         *w = SDL_lroundf(window->w * data->pixel_ratio);
         *h = SDL_lroundf(window->h * data->pixel_ratio);
@@ -683,14 +683,14 @@ static void Emscripten_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     Emscripten_SetWindowFillDocument(_this, window, false);
 
-    if (window->internal) {
+    nếu (window->internal) {
         data = window->internal;
 
         Emscripten_UnregisterEventHandlers(data);
 
         // We can't destroy the canvas, so resize it to zero instead
         emscripten_set_canvas_element_size(data->canvas_id, 0, 0);
-        if (data->pixel_ratio != 1.0f) {
+        nếu (data->pixel_ratio != 1.0f) {
             emscripten_set_element_css_size(data->canvas_id, 1, 1);
         }
         SDL_free(data->canvas_id);
@@ -710,34 +710,34 @@ static void Emscripten_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
 static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
     SDL_WindowData *data;
-    int res = -1;
+    số_nguyên res = -1;
 
-    if (window->internal) {
+    nếu (window->internal) {
         data = window->internal;
 
-        if (data->fullscreen_change_in_progress) {
-            return SDL_FULLSCREEN_FAILED;;
+        nếu (data->fullscreen_change_in_progress) {
+            trả_về SDL_FULLSCREEN_FAILED;;
         }
 
         EmscriptenFullscreenChangeEvent fsevent;
-        if (emscripten_get_fullscreen_status(&fsevent) == EMSCRIPTEN_RESULT_SUCCESS) {
-            if ((fullscreen == SDL_FULLSCREEN_OP_ENTER) == fsevent.isFullscreen) {
-                return SDL_FULLSCREEN_SUCCEEDED;  // already there.
+        nếu (emscripten_get_fullscreen_status(&fsevent) == EMSCRIPTEN_RESULT_SUCCESS) {
+            nếu ((fullscreen == SDL_FULLSCREEN_OP_ENTER) == fsevent.isFullscreen) {
+                trả_về SDL_FULLSCREEN_SUCCEEDED;  // already there.
             }
         }
 
-        if (fullscreen) {
+        nếu (fullscreen) {
             EmscriptenFullscreenStrategy strategy;
             bool is_fullscreen_desktop = !window->fullscreen_exclusive;
 
             SDL_zero(strategy);
             strategy.scaleMode = is_fullscreen_desktop ? EMSCRIPTEN_FULLSCREEN_SCALE_STRETCH : EMSCRIPTEN_FULLSCREEN_SCALE_ASPECT;
 
-            if (!is_fullscreen_desktop) {
+            nếu (!is_fullscreen_desktop) {
                 strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_NONE;
-            } else if (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
+            } không_thì nếu (window->flags & SDL_WINDOW_HIGH_PIXEL_DENSITY) {
                 strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_HIDEF;
-            } else {
+            } không_thì {
                 strategy.canvasResolutionScaleMode = EMSCRIPTEN_FULLSCREEN_CANVAS_SCALE_STDDEF;
             }
 
@@ -750,19 +750,19 @@ static SDL_FullscreenResult Emscripten_SetWindowFullscreen(SDL_VideoDevice *_thi
             data->fullscreen_resize = is_fullscreen_desktop;
 
             res = emscripten_request_fullscreen_strategy(data->canvas_id, 1, &strategy);
-        } else {
+        } không_thì {
             res = emscripten_exit_fullscreen();
         }
     }
 
-    if (res == EMSCRIPTEN_RESULT_SUCCESS) {
+    nếu (res == EMSCRIPTEN_RESULT_SUCCESS) {
         data->fullscreen_change_in_progress = true;   // even on success, this might animate to the new state.
-        return SDL_FULLSCREEN_SUCCEEDED;
-    } else if (res == EMSCRIPTEN_RESULT_DEFERRED) {
+        trả_về SDL_FULLSCREEN_SUCCEEDED;
+    } không_thì nếu (res == EMSCRIPTEN_RESULT_DEFERRED) {
         data->fullscreen_change_in_progress = true;
-        return SDL_FULLSCREEN_PENDING;
-    } else {
-        return SDL_FULLSCREEN_FAILED;
+        trả_về SDL_FULLSCREEN_PENDING;
+    } không_thì {
+        trả_về SDL_FULLSCREEN_FAILED;
     }
 }
 
@@ -775,14 +775,14 @@ static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window,
 {
     // Create dynamic memory stream for PNG encoding
     SDL_IOStream *stream = SDL_IOFromDynamicMem();
-    if (!stream) {
-        return false;
+    nếu (!stream) {
+        trả_về false;
     }
 
     // Encode icon to PNG using SDL's native PNG encoder
-    if (!SDL_SavePNG_IO(icon, stream, false)) {
+    nếu (!SDL_SavePNG_IO(icon, stream, false)) {
         SDL_CloseIO(stream);
-        return false;
+        trả_về false;
     }
 
     // Get the PNG data from the stream
@@ -804,7 +804,7 @@ static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window,
 
         // Set as favicon (create link element if it doesn't exist)
         var link = document.querySelector("link[rel~='icon']");
-        if (!link) {
+        nếu (!link) {
             link = document.createElement('link');
             link.rel = 'icon';
             link.type = 'image/png';
@@ -812,7 +812,7 @@ static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window,
         }
 
         // Revoke old URL if it exists to prevent memory leaks
-        if (link.href && link.href.startsWith('blob:')) {
+        nếu (link.href && link.href.startsWith('blob:')) {
             URL.revokeObjectURL(link.href);
         }
 
@@ -820,7 +820,7 @@ static bool Emscripten_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window,
     }, png_data, png_size);
 
     SDL_CloseIO(stream);
-    return true;
+    trả_về true;
 }
 
 #endif // SDL_VIDEO_DRIVER_EMSCRIPTEN

@@ -30,7 +30,7 @@
 #include "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
 #endif // SDL_VIDEO_RENDER_VITA_GXM
 
-bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, số_nguyên *buttonID)
 {
 #ifdef SDL_VIDEO_RENDER_VITA_GXM
     SceMsgDialogParam param;
@@ -43,8 +43,8 @@ bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID
     SceCommonDialogErrorCode init_result;
     bool setup_minimal_gxm = false;
 
-    if (messageboxdata->numbuttons > 3) {
-        return false;
+    nếu (messageboxdata->numbuttons > 3) {
+        trả_về false;
     }
 
     SDL_zero(param);
@@ -57,15 +57,15 @@ bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID
     msgParam.msg = (const SceChar8 *)message;
     SDL_zero(buttonParam);
 
-    if (messageboxdata->numbuttons == 3) {
+    nếu (messageboxdata->numbuttons == 3) {
         msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
         msgParam.buttonParam = &buttonParam;
         buttonParam.msg1 = messageboxdata->buttons[0].text;
         buttonParam.msg2 = messageboxdata->buttons[1].text;
         buttonParam.msg3 = messageboxdata->buttons[2].text;
-    } else if (messageboxdata->numbuttons == 2) {
+    } không_thì nếu (messageboxdata->numbuttons == 2) {
         msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
-    } else if (messageboxdata->numbuttons == 1) {
+    } không_thì nếu (messageboxdata->numbuttons == 1) {
         msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
     }
     param.userMsgParam = &msgParam;
@@ -75,7 +75,7 @@ bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID
     init_result = sceMsgDialogInit(&param);
 
     // Setup display if it hasn't been initialized before
-    if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
+    nếu (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
         gxm_minimal_init_for_common_dialog();
         init_result = sceMsgDialogInit(&param);
         setup_minimal_gxm = true;
@@ -83,42 +83,42 @@ bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID
 
     gxm_init_for_common_dialog();
 
-    if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
+    nếu (init_result >= 0) {
+        trong_khi (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
             gxm_swap_for_common_dialog();
         }
         SDL_zero(dialog_result);
         sceMsgDialogGetResult(&dialog_result);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        nếu (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } không_thì nếu (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } không_thì nếu (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } không_thì nếu (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } không_thì nếu (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } không_thì nếu (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
         sceMsgDialogTerm();
-    } else {
-        return false;
+    } không_thì {
+        trả_về false;
     }
 
     gxm_term_for_common_dialog();
 
-    if (setup_minimal_gxm) {
+    nếu (setup_minimal_gxm) {
         gxm_minimal_term_for_common_dialog();
     }
 
-    return true;
-#else
+    trả_về true;
+#không_thì
     (void)messageboxdata;
     (void)buttonID;
-    return SDL_Unsupported();
+    trả_về SDL_Unsupported();
 #endif // SDL_VIDEO_RENDER_VITA_GXM
 }
 

@@ -28,7 +28,7 @@
 
 typedef struct SDL_PrivateGLESData
 {
-    int dummy;
+    số_nguyên dummy;
 } SDL_PrivateGLESData;
 
 // OpenGLES functions
@@ -38,8 +38,8 @@ typedef struct SDL_PrivateGLESData
 
 extern bool Wayland_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern SDL_GLContext Wayland_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool Wayland_GLES_SetSwapInterval(SDL_VideoDevice *_this, số_nguyên interval);
+extern bool Wayland_GLES_GetSwapInterval(SDL_VideoDevice *_this, số_nguyên *interval);
 extern bool Wayland_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool Wayland_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
 extern bool Wayland_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);

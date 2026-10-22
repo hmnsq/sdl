@@ -30,7 +30,7 @@
 
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
 #include <gc_vdk.h>
-#else
+#không_thì
 #include <EGL/egl.h>
 #endif
 
@@ -38,16 +38,16 @@ struct SDL_VideoData
 {
 #ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
     vdkPrivate vdk_private;
-#else
+#không_thì
     SDL_SharedObject *egl_handle; // EGL shared library handle
     EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplay)(void *context);
-    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(int DisplayIndex);
-    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, int *Width, int *Height, unsigned long *Physical, int *Stride, int *bits_per_pixel);
+    EGLNativeDisplayType(EGLAPIENTRY *fbGetDisplayByIndex)(số_nguyên DisplayIndex);
+    void(EGLAPIENTRY *fbGetDisplayGeometry)(EGLNativeDisplayType Display, số_nguyên *Width, số_nguyên *Height);
+    void(EGLAPIENTRY *fbGetDisplayInfo)(EGLNativeDisplayType Display, số_nguyên *Width, số_nguyên *Height, unsigned long *Physical, số_nguyên *Stride, số_nguyên *bits_per_pixel);
     void(EGLAPIENTRY *fbDestroyDisplay)(EGLNativeDisplayType Display);
-    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, int X, int Y, int Width, int Height);
-    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height);
-    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, int *X, int *Y, int *Width, int *Height, int *bits_per_pixel, unsigned int *Offset);
+    EGLNativeWindowType(EGLAPIENTRY *fbCreateWindow)(EGLNativeDisplayType Display, số_nguyên X, số_nguyên Y, số_nguyên Width, số_nguyên Height);
+    void(EGLAPIENTRY *fbGetWindowGeometry)(EGLNativeWindowType Window, số_nguyên *X, số_nguyên *Y, số_nguyên *Width, số_nguyên *Height);
+    void(EGLAPIENTRY *fbGetWindowInfo)(EGLNativeWindowType Window, số_nguyên *X, số_nguyên *Y, số_nguyên *Width, số_nguyên *Height, số_nguyên *bits_per_pixel, unsigned số_nguyên *Offset);
     void(EGLAPIENTRY *fbDestroyWindow)(EGLNativeWindowType Window);
 #endif
 };

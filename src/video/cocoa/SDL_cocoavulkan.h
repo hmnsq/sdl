@@ -32,7 +32,7 @@
 #include "../SDL_vulkan_internal.h"
 #include "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_COCOA)
+#nếu defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_COCOA)
 
 extern bool Cocoa_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern void Cocoa_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);

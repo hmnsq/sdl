@@ -48,31 +48,31 @@ void Android_QuitTouch(void)
 }
 
 
-SDL_TouchID Android_ConvertJavaTouchID(int touchID)
+SDL_TouchID Android_ConvertJavaTouchID(số_nguyên touchID)
 {
     SDL_TouchID retval = touchID;
 
-    if (touchID < 0) {
+    nếu (touchID < 0) {
         // Touch ID -1 appears when using Android emulator, eg:
         //  adb shell input mouse tap 100 100
         //  adb shell input touchscreen tap 100 100
         //
         // Prevent the values -1 and -2, since they're used in SDL internal for synthetic events:
         retval -= 2;
-    } else {
+    } không_thì {
         // Touch ID 0 is invalid
         retval += 1;
     }
-    return retval;
+    trả_về retval;
 }
 
-void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_finger_id_in, int action, float x, float y, float p)
+void Android_OnTouch(SDL_Window *window, số_nguyên touch_device_id_in, số_nguyên pointer_finger_id_in, số_nguyên action, float x, float y, float p)
 {
     SDL_TouchID touchDeviceId = 0;
     SDL_FingerID fingerId = 0;
 
-    if (!window) {
-        return;
+    nếu (!window) {
+        trả_về;
     }
 
     touchDeviceId = Android_ConvertJavaTouchID(touch_device_id_in);
@@ -80,8 +80,8 @@ void Android_OnTouch(SDL_Window *window, int touch_device_id_in, int pointer_fin
     // Finger ID should be greater than 0
     fingerId = (SDL_FingerID)(pointer_finger_id_in + 1);
 
-    if (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
-        return;
+    nếu (SDL_AddTouch(touchDeviceId, SDL_TOUCH_DEVICE_DIRECT, "") < 0) {
+        trả_về;
     }
 
     switch (action) {

@@ -31,26 +31,26 @@
 
 static bool OPENHARMONY_ShowCursor(SDL_Cursor *cursor)
 {
-return false;
-#if 0
-    if (!cursor) {
+trả_về false;
+#nếu 0
+    nếu (!cursor) {
         cursor = OPENHARMONY_CreateEmptyCursor();
     }
-    if (cursor) {
+    nếu (cursor) {
         SDL_CursorData *data = cursor->internal;
-        if (data->custom_cursor) {
-            if (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
-                return SDL_Unsupported();
+        nếu (data->custom_cursor) {
+            nếu (!OPENHARMONY_JNI_SetCustomCursor(data->custom_cursor)) {
+                trả_về SDL_Unsupported();
             }
-        } else {
-            if (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
-                return SDL_Unsupported();
+        } không_thì {
+            nếu (!OPENHARMONY_JNI_SetSystemCursor(data->system_cursor)) {
+                trả_về SDL_Unsupported();
             }
         }
-        return true;
-    } else {
+        trả_về true;
+    } không_thì {
         // SDL error set inside OPENHARMONY_CreateEmptyCursor()
-        return false;
+        trả_về false;
     }
 #endif
 }

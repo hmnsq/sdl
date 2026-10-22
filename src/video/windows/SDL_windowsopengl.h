@@ -25,7 +25,7 @@
 
 #ifdef SDL_VIDEO_OPENGL_WGL
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+#nếu defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
 typedef struct tagPIXELFORMATDESCRIPTOR
 {
     WORD nSize;
@@ -74,8 +74,8 @@ struct SDL_GLDriverData
      */
     struct
     {
-        int major;
-        int minor;
+        số_nguyên major;
+        số_nguyên minor;
     } es_profile_max_supported_version;
 
     /* *INDENT-OFF* */ // clang-format off
@@ -84,22 +84,22 @@ struct SDL_GLDriverData
     BOOL (WINAPI *wglDeleteContext)(HGLRC hglrc);
     BOOL (WINAPI *wglMakeCurrent)(HDC hdc, HGLRC hglrc);
     BOOL (WINAPI *wglShareLists)(HGLRC hglrc1, HGLRC hglrc2);
-    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int *piFormats, UINT * nNumFormats);
-    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
-    BOOL (WINAPI *wglSwapIntervalEXT)(int interval);
-    int (WINAPI *wglGetSwapIntervalEXT)(void);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const số_nguyên *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, số_nguyên *piFormats, UINT * nNumFormats);
+    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, số_nguyên iPixelFormat, số_nguyên iLayerPlane, UINT nAttributes, const số_nguyên *piAttributes, số_nguyên *piValues);
+    BOOL (WINAPI *wglSwapIntervalEXT)(số_nguyên interval);
+    số_nguyên (WINAPI *wglGetSwapIntervalEXT)(void);
+#nếu defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     BOOL (WINAPI *wglSwapBuffers)(HDC hdc);
-    int (WINAPI *wglDescribePixelFormat)(HDC hdc,
-                                         int iPixelFormat,
+    số_nguyên (WINAPI *wglDescribePixelFormat)(HDC hdc,
+                                         số_nguyên iPixelFormat,
                                          UINT nBytes,
                                          LPPIXELFORMATDESCRIPTOR ppfd);
-    int (WINAPI *wglChoosePixelFormat)(HDC hdc,
+    số_nguyên (WINAPI *wglChoosePixelFormat)(HDC hdc,
                                        const PIXELFORMATDESCRIPTOR *ppfd);
     BOOL (WINAPI *wglSetPixelFormat)(HDC hdc,
-                                     int format,
+                                     số_nguyên format,
                                      const PIXELFORMATDESCRIPTOR *ppfd);
-    int (WINAPI *wglGetPixelFormat)(HDC hdc);
+    số_nguyên (WINAPI *wglGetPixelFormat)(HDC hdc);
 #endif
     /* *INDENT-ON* */ // clang-format on
 };
@@ -113,8 +113,8 @@ extern bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                               SDL_GLContext context);
-extern bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, số_nguyên interval);
+extern bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, số_nguyên *interval);
 extern bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);

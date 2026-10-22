@@ -38,7 +38,7 @@
 struct _XSettingsClient
 {
   Display *display;
-  int screen;
+  số_nguyên screen;
   XSettingsNotifyFunc notify;
   XSettingsWatchFunc watch;
   void *cb_data;
@@ -61,37 +61,37 @@ notify_changes (XSettingsClient *client,
   XSettingsList *old_iter = old_list;
   XSettingsList *new_iter = client->settings;
 
-  if (!client->notify)
-    return;
+  nếu (!client->notify)
+    trả_về;
 
-  while (old_iter || new_iter)
+  trong_khi (old_iter || new_iter)
     {
-      int cmp;
+      số_nguyên cmp;
 
-      if (old_iter && new_iter)
+      nếu (old_iter && new_iter)
         cmp = strcmp (old_iter->setting->name, new_iter->setting->name);
-      else if (old_iter)
+      không_thì nếu (old_iter)
         cmp = -1;
-      else
+      không_thì
         cmp = 1;
 
-      if (cmp < 0)
+      nếu (cmp < 0)
         {
           client->notify (old_iter->setting->name,
                           XSETTINGS_ACTION_DELETED,
                           NULL,
                           client->cb_data);
         }
-      else if (cmp == 0)
+      không_thì nếu (cmp == 0)
         {
-          if (!xsettings_setting_equal (old_iter->setting,
+          nếu (!xsettings_setting_equal (old_iter->setting,
                                         new_iter->setting))
             client->notify (old_iter->setting->name,
                             XSETTINGS_ACTION_CHANGED,
                             new_iter->setting,
                             client->cb_data);
         }
-      else
+      không_thì
         {
           client->notify (new_iter->setting->name,
                           XSETTINGS_ACTION_NEW,
@@ -99,17 +99,17 @@ notify_changes (XSettingsClient *client,
                           client->cb_data);
         }
 
-      if (old_iter)
+      nếu (old_iter)
         old_iter = old_iter->next;
-      if (new_iter)
+      nếu (new_iter)
         new_iter = new_iter->next;
     }
 }
 
-static int
+static số_nguyên
 ignore_errors (Display *display, XErrorEvent *event)
 {
-  return True;
+  trả_về True;
 }
 
 static char local_byte_order = '\0';
@@ -122,18 +122,18 @@ fetch_card16 (XSettingsBuffer *buffer,
 {
   CARD16 x;
 
-  if (BYTES_LEFT (buffer) < 2)
-    return XSETTINGS_ACCESS;
+  nếu (BYTES_LEFT (buffer) < 2)
+    trả_về XSETTINGS_ACCESS;
 
   x = *(CARD16 *)buffer->pos;
   buffer->pos += 2;
 
-  if (buffer->byte_order == local_byte_order)
+  nếu (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  không_thì
     *result = (x << 8) | (x >> 8);
 
-  return XSETTINGS_SUCCESS;
+  trả_về XSETTINGS_SUCCESS;
 }
 
 static XSettingsResult
@@ -144,10 +144,10 @@ fetch_ushort (XSettingsBuffer *buffer,
   XSettingsResult r;
 
   r = fetch_card16 (buffer, &x);
-  if (r == XSETTINGS_SUCCESS)
+  nếu (r == XSETTINGS_SUCCESS)
     *result = x;
 
-  return r;
+  trả_về r;
 }
 
 static XSettingsResult
@@ -156,31 +156,31 @@ fetch_card32 (XSettingsBuffer *buffer,
 {
   CARD32 x;
 
-  if (BYTES_LEFT (buffer) < 4)
-    return XSETTINGS_ACCESS;
+  nếu (BYTES_LEFT (buffer) < 4)
+    trả_về XSETTINGS_ACCESS;
 
   x = *(CARD32 *)buffer->pos;
   buffer->pos += 4;
 
-  if (buffer->byte_order == local_byte_order)
+  nếu (buffer->byte_order == local_byte_order)
     *result = x;
-  else
+  không_thì
     *result = (x << 24) | ((x & 0xff00) << 8) | ((x & 0xff0000) >> 8) | (x >> 24);
 
-  return XSETTINGS_SUCCESS;
+  trả_về XSETTINGS_SUCCESS;
 }
 
 static XSettingsResult
 fetch_card8 (XSettingsBuffer *buffer,
              CARD8           *result)
 {
-  if (BYTES_LEFT (buffer) < 1)
-    return XSETTINGS_ACCESS;
+  nếu (BYTES_LEFT (buffer) < 1)
+    trả_về XSETTINGS_ACCESS;
 
   *result = *(CARD8 *)buffer->pos;
   buffer->pos += 1;
 
-  return XSETTINGS_SUCCESS;
+  trả_về XSETTINGS_SUCCESS;
 }
 
 #define XSETTINGS_PAD(n,m) ((n + m - 1) & (~(m-1)))
@@ -205,7 +205,7 @@ parse_settings (unsigned char *data,
   buffer.byte_order = '\0';
 
   result = fetch_card8 (&buffer, (unsigned char *) &buffer_byte_order);
-  if (buffer_byte_order != MSBFirst &&
+  nếu (buffer_byte_order != MSBFirst &&
       buffer_byte_order != LSBFirst)
     {
       fprintf (stderr, "Invalid byte order in XSETTINGS property\n");
@@ -217,14 +217,14 @@ parse_settings (unsigned char *data,
   buffer.pos += 3;
 
   result = fetch_card32 (&buffer, &serial);
-  if (result != XSETTINGS_SUCCESS)
+  nếu (result != XSETTINGS_SUCCESS)
     goto out;
 
   result = fetch_card32 (&buffer, &n_entries);
-  if (result != XSETTINGS_SUCCESS)
+  nếu (result != XSETTINGS_SUCCESS)
     goto out;
 
-  for (i = 0; i < n_entries; i++)
+  cho (i = 0; i < n_entries; i++)
     {
       CARD8 type;
       CARD16 name_len;
@@ -232,24 +232,24 @@ parse_settings (unsigned char *data,
       size_t pad_len;
 
       result = fetch_card8 (&buffer, &type);
-      if (result != XSETTINGS_SUCCESS)
+      nếu (result != XSETTINGS_SUCCESS)
         goto out;
 
       buffer.pos += 1;
 
       result = fetch_card16 (&buffer, &name_len);
-      if (result != XSETTINGS_SUCCESS)
+      nếu (result != XSETTINGS_SUCCESS)
         goto out;
 
       pad_len = XSETTINGS_PAD(name_len, 4);
-      if (BYTES_LEFT (&buffer) < pad_len)
+      nếu (BYTES_LEFT (&buffer) < pad_len)
         {
           result = XSETTINGS_ACCESS;
           goto out;
         }
 
       setting = malloc (sizeof *setting);
-      if (!setting)
+      nếu (!setting)
         {
           result = XSETTINGS_NO_MEM;
           goto out;
@@ -257,7 +257,7 @@ parse_settings (unsigned char *data,
       setting->type = XSETTINGS_TYPE_INT; /* No allocated memory */
 
       setting->name = malloc (name_len + 1);
-      if (!setting->name)
+      nếu (!setting->name)
         {
           result = XSETTINGS_NO_MEM;
           goto out;
@@ -268,7 +268,7 @@ parse_settings (unsigned char *data,
       buffer.pos += pad_len;
 
       result = fetch_card32 (&buffer, &v_int);
-      if (result != XSETTINGS_SUCCESS)
+      nếu (result != XSETTINGS_SUCCESS)
         goto out;
       setting->last_change_serial = v_int;
 
@@ -276,18 +276,18 @@ parse_settings (unsigned char *data,
         {
         case XSETTINGS_TYPE_INT:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
+          nếu (result != XSETTINGS_SUCCESS)
             goto out;
 
           setting->data.v_int = (INT32)v_int;
           break;
         case XSETTINGS_TYPE_STRING:
           result = fetch_card32 (&buffer, &v_int);
-          if (result != XSETTINGS_SUCCESS)
+          nếu (result != XSETTINGS_SUCCESS)
             goto out;
 
           pad_len = XSETTINGS_PAD (v_int, 4);
-          if (v_int + 1 == 0 || /* Guard against wrap-around */
+          nếu (v_int + 1 == 0 || /* Guard against wrap-around */
               BYTES_LEFT (&buffer) < pad_len)
             {
               result = XSETTINGS_ACCESS;
@@ -295,7 +295,7 @@ parse_settings (unsigned char *data,
             }
 
           setting->data.v_string = malloc (v_int + 1);
-          if (!setting->data.v_string)
+          nếu (!setting->data.v_string)
             {
               result = XSETTINGS_NO_MEM;
               goto out;
@@ -308,16 +308,16 @@ parse_settings (unsigned char *data,
           break;
         case XSETTINGS_TYPE_COLOR:
           result = fetch_ushort (&buffer, &setting->data.v_color.red);
-          if (result != XSETTINGS_SUCCESS)
+          nếu (result != XSETTINGS_SUCCESS)
             goto out;
           result = fetch_ushort (&buffer, &setting->data.v_color.green);
-          if (result != XSETTINGS_SUCCESS)
+          nếu (result != XSETTINGS_SUCCESS)
             goto out;
           result = fetch_ushort (&buffer, &setting->data.v_color.blue);
-          if (result != XSETTINGS_SUCCESS)
+          nếu (result != XSETTINGS_SUCCESS)
             goto out;
           result = fetch_ushort (&buffer, &setting->data.v_color.alpha);
-          if (result != XSETTINGS_SUCCESS)
+          nếu (result != XSETTINGS_SUCCESS)
             goto out;
 
           break;
@@ -329,7 +329,7 @@ parse_settings (unsigned char *data,
       setting->type = type;
 
       result = xsettings_list_insert (&settings, setting);
-      if (result != XSETTINGS_SUCCESS)
+      nếu (result != XSETTINGS_SUCCESS)
         goto out;
 
       setting = NULL;
@@ -337,7 +337,7 @@ parse_settings (unsigned char *data,
 
  out:
 
-  if (result != XSETTINGS_SUCCESS)
+  nếu (result != XSETTINGS_SUCCESS)
     {
       switch (result)
         {
@@ -358,7 +358,7 @@ parse_settings (unsigned char *data,
           break;
         }
 
-      if (setting)
+      nếu (setting)
         xsettings_setting_free (setting);
 
       xsettings_list_free (settings);
@@ -366,26 +366,26 @@ parse_settings (unsigned char *data,
 
     }
 
-  return settings;
+  trả_về settings;
 }
 
 static void
 read_settings (XSettingsClient *client)
 {
   Atom type;
-  int format;
+  số_nguyên format;
   unsigned long n_items;
   unsigned long bytes_after;
   unsigned char *data;
-  int result;
+  số_nguyên result;
 
-  int (*old_handler) (Display *, XErrorEvent *);
+  số_nguyên (*old_handler) (Display *, XErrorEvent *);
 
   XSettingsList *old_list = client->settings;
 
   client->settings = NULL;
 
-  if (client->manager_window)
+  nếu (client->manager_window)
     {
       old_handler = X11_XSetErrorHandler (ignore_errors);
       result = X11_XGetWindowProperty (client->display, client->manager_window,
@@ -394,17 +394,17 @@ read_settings (XSettingsClient *client)
                                        &type, &format, &n_items, &bytes_after, &data);
       X11_XSetErrorHandler (old_handler);
 
-      if (result == Success && type != None)
+      nếu (result == Success && type != None)
         {
-          if (type != client->xsettings_atom)
+          nếu (type != client->xsettings_atom)
             {
               fprintf (stderr, "Invalid type for XSETTINGS property");
             }
-          else if (format != 8)
+          không_thì nếu (format != 8)
             {
               fprintf (stderr, "Invalid format for XSETTINGS property %d", format);
             }
-          else
+          không_thì
             client->settings = parse_settings (data, n_items);
 
           X11_XFree (data);
@@ -429,30 +429,30 @@ add_events (Display *display,
 static void
 check_manager_window (XSettingsClient *client)
 {
-  if (client->manager_window && client->watch)
+  nếu (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
-  if (client->grab)
+  nếu (client->grab)
     client->grab (client->display);
-  else
+  không_thì
     X11_XGrabServer (client->display);
 
   client->manager_window = X11_XGetSelectionOwner (client->display,
                                                    client->selection_atom);
-  if (client->manager_window)
+  nếu (client->manager_window)
     X11_XSelectInput (client->display, client->manager_window,
                       PropertyChangeMask | StructureNotifyMask);
 
-  if (client->ungrab)
+  nếu (client->ungrab)
     client->ungrab (client->display);
-  else
+  không_thì
     X11_XUngrabServer (client->display);
 
   X11_XFlush (client->display);
 
-  if (client->manager_window && client->watch)
+  nếu (client->manager_window && client->watch)
     {
-      if (!client->watch (client->manager_window, True,
+      nếu (!client->watch (client->manager_window, True,
                           PropertyChangeMask | StructureNotifyMask,
                           client->cb_data))
         {
@@ -460,7 +460,7 @@ check_manager_window (XSettingsClient *client)
            * after we ungrabbed
            */
           client->manager_window = None;
-          return;
+          trả_về;
         }
     }
 
@@ -470,18 +470,18 @@ check_manager_window (XSettingsClient *client)
 
 XSettingsClient *
 xsettings_client_new (Display             *display,
-                      int                  screen,
+                      số_nguyên                  screen,
                       XSettingsNotifyFunc  notify,
                       XSettingsWatchFunc   watch,
                       void                *cb_data)
 {
-  return xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
+  trả_về xsettings_client_new_with_grab_funcs (display, screen, notify, watch, cb_data,
                                                NULL, NULL);
 }
 
 XSettingsClient *
 xsettings_client_new_with_grab_funcs (Display             *display,
-                                      int                  screen,
+                                      số_nguyên                  screen,
                                       XSettingsNotifyFunc  notify,
                                       XSettingsWatchFunc   watch,
                                       void                *cb_data,
@@ -494,8 +494,8 @@ xsettings_client_new_with_grab_funcs (Display             *display,
   Atom atoms[3];
 
   client = malloc (sizeof *client);
-  if (!client)
-    return NULL;
+  nếu (!client)
+    trả_về NULL;
 
   client->display = display;
   client->screen = screen;
@@ -515,7 +515,7 @@ xsettings_client_new_with_grab_funcs (Display             *display,
 
 #ifdef HAVE_XINTERNATOMS
   XInternAtoms (display, atom_names, 3, False, atoms);
-#else
+#không_thì
   atoms[0] = X11_XInternAtom (display, atom_names[0], False);
   atoms[1] = X11_XInternAtom (display, atom_names[1], False);
   atoms[2] = X11_XInternAtom (display, atom_names[2], False);
@@ -529,13 +529,13 @@ xsettings_client_new_with_grab_funcs (Display             *display,
    */
   add_events (display, RootWindow (display, screen), StructureNotifyMask);
 
-  if (client->watch)
+  nếu (client->watch)
     client->watch (RootWindow (display, screen), True, StructureNotifyMask,
                    client->cb_data);
 
   check_manager_window (client);
 
-  return client;
+  trả_về client;
 }
 
 
@@ -556,10 +556,10 @@ xsettings_client_set_ungrab_func (XSettingsClient      *client,
 void
 xsettings_client_destroy (XSettingsClient *client)
 {
-  if (client->watch)
+  nếu (client->watch)
     client->watch (RootWindow (client->display, client->screen),
                    False, 0, client->cb_data);
-  if (client->manager_window && client->watch)
+  nếu (client->manager_window && client->watch)
     client->watch (client->manager_window, False, 0, client->cb_data);
 
   xsettings_list_free (client->settings);
@@ -572,13 +572,13 @@ xsettings_client_get_setting (XSettingsClient   *client,
                               XSettingsSetting **setting)
 {
   XSettingsSetting *search = xsettings_list_lookup (client->settings, name);
-  if (search)
+  nếu (search)
     {
       *setting = xsettings_setting_copy (search);
-      return *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
+      trả_về *setting ? XSETTINGS_SUCCESS : XSETTINGS_NO_MEM;
     }
-  else
-    return XSETTINGS_NO_ENTRY;
+  không_thì
+    trả_về XSETTINGS_NO_ENTRY;
 }
 
 Bool
@@ -590,31 +590,31 @@ xsettings_client_process_event (XSettingsClient *client,
    * times when the manager changes from A->B. But manager changes
    * are going to be pretty rare.
    */
-  if (xev->xany.window == RootWindow (client->display, client->screen))
+  nếu (xev->xany.window == RootWindow (client->display, client->screen))
     {
-      if (xev->xany.type == ClientMessage &&
+      nếu (xev->xany.type == ClientMessage &&
           xev->xclient.message_type == client->manager_atom &&
           xev->xclient.data.l[1] == client->selection_atom)
         {
           check_manager_window (client);
-          return True;
+          trả_về True;
         }
     }
-  else if (xev->xany.window == client->manager_window)
+  không_thì nếu (xev->xany.window == client->manager_window)
     {
-      if (xev->xany.type == DestroyNotify)
+      nếu (xev->xany.type == DestroyNotify)
         {
           check_manager_window (client);
-          return False;
+          trả_về False;
         }
-      else if (xev->xany.type == PropertyNotify)
+      không_thì nếu (xev->xany.type == PropertyNotify)
         {
           read_settings (client);
-          return True;
+          trả_về True;
         }
     }
 
-  return False;
+  trả_về False;
 }
 
 XSettingsSetting *
@@ -624,12 +624,12 @@ xsettings_setting_copy (XSettingsSetting *setting)
   size_t str_len;
 
   result = malloc (sizeof *result);
-  if (!result)
-    return NULL;
+  nếu (!result)
+    trả_về NULL;
 
   str_len = strlen (setting->name);
   result->name = malloc (str_len + 1);
-  if (!result->name)
+  nếu (!result->name)
     goto err;
 
   memcpy (result->name, setting->name, str_len + 1);
@@ -647,7 +647,7 @@ xsettings_setting_copy (XSettingsSetting *setting)
     case XSETTINGS_TYPE_STRING:
       str_len = strlen (setting->data.v_string);
       result->data.v_string = malloc (str_len + 1);
-      if (!result->data.v_string)
+      nếu (!result->data.v_string)
         goto err;
 
       memcpy (result->data.v_string, setting->data.v_string, str_len + 1);
@@ -656,13 +656,13 @@ xsettings_setting_copy (XSettingsSetting *setting)
 
   result->last_change_serial = setting->last_change_serial;
 
-  return result;
+  trả_về result;
 
  err:
   free(result->name); // This should NOT be SDL_free()
   free(result); // This should NOT be SDL_free()
 
-  return NULL;
+  trả_về NULL;
 }
 
 XSettingsList *
@@ -672,24 +672,24 @@ xsettings_list_copy (XSettingsList *list)
   XSettingsList *old_iter = list;
   XSettingsList *new_iter = NULL;
 
-  while (old_iter)
+  trong_khi (old_iter)
     {
       XSettingsList *new_node;
 
       new_node = malloc (sizeof *new_node);
-      if (!new_node)
+      nếu (!new_node)
         goto error;
 
       new_node->setting = xsettings_setting_copy (old_iter->setting);
-      if (!new_node->setting)
+      nếu (!new_node->setting)
         {
           free (new_node);
           goto error;
         }
 
-      if (new_iter)
+      nếu (new_iter)
         new_iter->next = new_node;
-      else
+      không_thì
         {
           new = new_node;
           new->next = NULL;
@@ -701,43 +701,43 @@ xsettings_list_copy (XSettingsList *list)
       old_iter = old_iter->next;
     }
 
-  return new;
+  trả_về new;
 
  error:
   xsettings_list_free (new);
-  return NULL;
+  trả_về NULL;
 }
 
-int
+số_nguyên
 xsettings_setting_equal (XSettingsSetting *setting_a,
                          XSettingsSetting *setting_b)
 {
-  if (setting_a->type != setting_b->type)
-    return 0;
+  nếu (setting_a->type != setting_b->type)
+    trả_về 0;
 
-  if (strcmp (setting_a->name, setting_b->name) != 0)
-    return 0;
+  nếu (strcmp (setting_a->name, setting_b->name) != 0)
+    trả_về 0;
 
   switch (setting_a->type)
     {
     case XSETTINGS_TYPE_INT:
-      return setting_a->data.v_int == setting_b->data.v_int;
+      trả_về setting_a->data.v_int == setting_b->data.v_int;
     case XSETTINGS_TYPE_COLOR:
-      return (setting_a->data.v_color.red == setting_b->data.v_color.red &&
+      trả_về (setting_a->data.v_color.red == setting_b->data.v_color.red &&
               setting_a->data.v_color.green == setting_b->data.v_color.green &&
               setting_a->data.v_color.blue == setting_b->data.v_color.blue &&
               setting_a->data.v_color.alpha == setting_b->data.v_color.alpha);
     case XSETTINGS_TYPE_STRING:
-      return strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
+      trả_về strcmp (setting_a->data.v_string, setting_b->data.v_string) == 0;
     }
 
-  return 0;
+  trả_về 0;
 }
 
 void
 xsettings_setting_free (XSettingsSetting *setting)
 {
-  if (setting->type == XSETTINGS_TYPE_STRING)
+  nếu (setting->type == XSETTINGS_TYPE_STRING)
     free (setting->data.v_string);
 
   free(setting->name); // This should NOT be SDL_free()
@@ -747,7 +747,7 @@ xsettings_setting_free (XSettingsSetting *setting)
 void
 xsettings_list_free (XSettingsList *list)
 {
-  while (list)
+  trong_khi (list)
     {
       XSettingsList *next = list->next;
 
@@ -767,35 +767,35 @@ xsettings_list_insert (XSettingsList    **list,
   XSettingsList *last = NULL;
 
   node = malloc (sizeof *node);
-  if (!node)
-    return XSETTINGS_NO_MEM;
+  nếu (!node)
+    trả_về XSETTINGS_NO_MEM;
   node->setting = setting;
 
   iter = *list;
-  while (iter)
+  trong_khi (iter)
     {
-      int cmp = strcmp (setting->name, iter->setting->name);
+      số_nguyên cmp = strcmp (setting->name, iter->setting->name);
 
-      if (cmp < 0)
+      nếu (cmp < 0)
         break;
-      else if (cmp == 0)
+      không_thì nếu (cmp == 0)
         {
           free (node);
-          return XSETTINGS_DUPLICATE_ENTRY;
+          trả_về XSETTINGS_DUPLICATE_ENTRY;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  if (last)
+  nếu (last)
     last->next = node;
-  else
+  không_thì
     *list = node;
 
   node->next = iter;
 
-  return XSETTINGS_SUCCESS;
+  trả_về XSETTINGS_SUCCESS;
 }
 
 XSettingsResult
@@ -806,26 +806,26 @@ xsettings_list_delete (XSettingsList **list,
   XSettingsList *last = NULL;
 
   iter = *list;
-  while (iter)
+  trong_khi (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
+      nếu (strcmp (name, iter->setting->name) == 0)
         {
-          if (last)
+          nếu (last)
             last->next = iter->next;
-          else
+          không_thì
             *list = iter->next;
 
           xsettings_setting_free (iter->setting);
           free (iter);
 
-          return XSETTINGS_SUCCESS;
+          trả_về XSETTINGS_SUCCESS;
         }
 
       last = iter;
       iter = iter->next;
     }
 
-  return XSETTINGS_FAILED;
+  trả_về XSETTINGS_FAILED;
 }
 
 XSettingsSetting *
@@ -835,22 +835,22 @@ xsettings_list_lookup (XSettingsList *list,
   XSettingsList *iter;
 
   iter = list;
-  while (iter)
+  trong_khi (iter)
     {
-      if (strcmp (name, iter->setting->name) == 0)
-        return iter->setting;
+      nếu (strcmp (name, iter->setting->name) == 0)
+        trả_về iter->setting;
 
       iter = iter->next;
     }
 
-  return NULL;
+  trả_về NULL;
 }
 
 char
 xsettings_byte_order (void)
 {
   CARD32 myint = 0x01020304;
-  return (*(char *)&myint == 1) ? MSBFirst : LSBFirst;
+  trả_về (*(char *)&myint == 1) ? MSBFirst : LSBFirst;
 }
 
 #endif /* SDL_VIDEO_DRIVER_X11 */

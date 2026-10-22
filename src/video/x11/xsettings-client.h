@@ -78,7 +78,7 @@ struct _XSettingsSetting
   XSettingsType type;
 
   union {
-    int v_int;
+    số_nguyên v_int;
     char *v_string;
     XSettingsColor v_color;
   } data;
@@ -88,7 +88,7 @@ struct _XSettingsSetting
 
 XSettingsSetting *xsettings_setting_copy  (XSettingsSetting *setting);
 void              xsettings_setting_free  (XSettingsSetting *setting);
-int               xsettings_setting_equal (XSettingsSetting *setting_a,
+số_nguyên               xsettings_setting_equal (XSettingsSetting *setting_a,
                                            XSettingsSetting *setting_b);
 
 void              xsettings_list_free   (XSettingsList     *list);
@@ -124,12 +124,12 @@ typedef Bool (*XSettingsWatchFunc)  (Window            window,
 typedef void (*XSettingsGrabFunc)   (Display          *display);
 
 XSettingsClient *xsettings_client_new             (Display             *display,
-                                                   int                  screen,
+                                                   số_nguyên                  screen,
                                                    XSettingsNotifyFunc  notify,
                                                    XSettingsWatchFunc   watch,
                                                    void                *cb_data);
 XSettingsClient *xsettings_client_new_with_grab_funcs (Display             *display,
-                                                       int                  screen,
+                                                       số_nguyên                  screen,
                                                        XSettingsNotifyFunc  notify,
                                                        XSettingsWatchFunc   watch,
                                                        void                *cb_data,

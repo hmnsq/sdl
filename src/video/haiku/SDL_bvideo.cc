@@ -44,7 +44,7 @@ extern "C" {
 #include "../../events/SDL_mouse_c.h"
 
 static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
-    return (SDL_BWin *)(window->internal);
+    trả_về (SDL_BWin *)(window->internal);
 }
 
 static SDL_VideoDevice * HAIKU_CreateDevice(void)
@@ -110,7 +110,7 @@ static SDL_VideoDevice * HAIKU_CreateDevice(void)
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    trả_về device;
 }
 
 VideoBootStrap HAIKU_bootstrap = {
@@ -134,16 +134,16 @@ struct SDL_CursorData
 static SDL_Cursor *HAIKU_CreateCursorAndData(BCursor *bcursor)
 {
     SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
+    nếu (cursor) {
         SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+        nếu (!data) {
             SDL_free(cursor);
-            return NULL;
+            trả_về NULL;
         }
         data->cursor = bcursor;
         cursor->internal = data;
     }
-    return cursor;
+    trả_về cursor;
 }
 
 static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
@@ -190,95 +190,95 @@ static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
         #undef CURSORCASE
         default:
             SDL_assert(0);
-            return NULL;
+            trả_về NULL;
     }
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorId));
+    trả_về HAIKU_CreateCursorAndData(new BCursor(cursorId));
 }
 
 static SDL_Cursor * HAIKU_CreateDefaultCursor()
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return HAIKU_CreateSystemCursor(id);
+    trả_về HAIKU_CreateSystemCursor(id);
 }
 
 static void HAIKU_FreeCursor(SDL_Cursor * cursor)
 {
     SDL_CursorData *data = cursor->internal;
 
-    if (data) {
+    nếu (data) {
         delete data->cursor;
     }
     SDL_free(data);
     SDL_free(cursor);
 }
 
-static SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, int hot_x, int hot_y)
+static SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, số_nguyên hot_x, số_nguyên hot_y)
 {
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    nếu (!converted) {
+        trả_về NULL;
     }
 
 	BBitmap *cursorBitmap = new BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
 	cursorBitmap->SetBits(converted->pixels, converted->h * converted->pitch, 0, B_RGBA32);
     SDL_DestroySurface(converted);
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
+    trả_về HAIKU_CreateCursorAndData(new BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
 }
 
 static bool HAIKU_ShowCursor(SDL_Cursor *cursor)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
 
-	if (!mouse) {
-		return true;
+	nếu (!mouse) {
+		trả_về true;
 	}
 
-	if (cursor) {
+	nếu (cursor) {
 		BCursor *hCursor = cursor->internal->cursor;
 		be_app->SetCursor(hCursor);
-	} else {
+	} không_thì {
 		BCursor *hCursor = new BCursor(B_CURSOR_ID_NO_CURSOR);
 		be_app->SetCursor(hCursor);
 		delete hCursor;
 	}
 
-	return true;
+	trả_về true;
 }
 
 static bool HAIKU_SetRelativeMouseMode(bool enabled)
 {
     SDL_Window *window = SDL_GetMouseFocus();
-    if (!window) {
-      return true;
+    nếu (!window) {
+      trả_về true;
     }
 
 	SDL_BWin *bewin = _ToBeWin(window);
 	BView *_SDL_View = bewin->GetGLView();
-	if (!_SDL_View) {
+	nếu (!_SDL_View) {
 		_SDL_View = bewin->GetView();
-		if (!_SDL_View)
-			return false;
+		nếu (!_SDL_View)
+			trả_về false;
 	}
 
 	bewin->Lock();
-	if (enabled)
+	nếu (enabled)
 		_SDL_View->SetEventMask(B_POINTER_EVENTS, B_NO_POINTER_HISTORY);
-	else
+	không_thì
 		_SDL_View->SetEventMask(0, 0);
 	bewin->Unlock();
 
-    return true;
+    trả_về true;
 }
 
 static void HAIKU_MouseInit(SDL_VideoDevice *_this)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
-	if (!mouse) {
-		return;
+	nếu (!mouse) {
+		trả_về;
 	}
 	mouse->CreateCursor = HAIKU_CreateCursor;
 	mouse->CreateSystemCursor = HAIKU_CreateSystemCursor;
@@ -292,8 +292,8 @@ static void HAIKU_MouseInit(SDL_VideoDevice *_this)
 bool HAIKU_VideoInit(SDL_VideoDevice *_this)
 {
     // Initialize the Be Application for appserver interaction
-    if (!SDL_InitBeApp()) {
-        return false;
+    nếu (!SDL_InitBeApp()) {
+        trả_về false;
     }
 
     // Initialize video modes
@@ -315,7 +315,7 @@ bool HAIKU_VideoInit(SDL_VideoDevice *_this)
 #endif
 
     // We're done!
-    return true;
+    trả_về true;
 }
 
 void HAIKU_VideoQuit(SDL_VideoDevice *_this)
@@ -330,16 +330,16 @@ void HAIKU_VideoQuit(SDL_VideoDevice *_this)
 extern "C"
 bool HAIKU_OpenURL(const char *url)
 {
-#if B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
+#nếu B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
     BUrl burl(url);
-#else
+#không_thì
     BUrl burl(url, true);
 #endif
     const status_t rc = burl.OpenWithPreferredApplication(false);
-    if (rc != B_NO_ERROR) {
-        return SDL_SetError("URL open failed (err=%d)", (int)rc);
+    nếu (rc != B_NO_ERROR) {
+        trả_về SDL_SetError("URL open failed (err=%d)", (số_nguyên)rc);
     }
-    return true;
+    trả_về true;
 }
 
 #ifdef __cplusplus

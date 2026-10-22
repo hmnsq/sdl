@@ -27,8 +27,8 @@
 
 void SDL_FreeClipboardMimeTypes(SDL_VideoDevice *_this)
 {
-    if (_this->clipboard_mime_types) {
-        for (size_t i = 0; i < _this->num_clipboard_mime_types; ++i) {
+    nếu (_this->clipboard_mime_types) {
+        cho (size_t i = 0; i < _this->num_clipboard_mime_types; ++i) {
             SDL_free(_this->clipboard_mime_types[i]);
         }
         SDL_free(_this->clipboard_mime_types);
@@ -42,16 +42,16 @@ void SDL_CancelClipboardData(Uint32 sequence)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return;
+    nếu (!_this) {
+        trả_về;
     }
 
-    if (sequence && sequence != _this->clipboard_sequence) {
+    nếu (sequence && sequence != _this->clipboard_sequence) {
         // This clipboard data was already canceled
-        return;
+        trả_về;
     }
 
-    if (_this->clipboard_cleanup) {
+    nếu (_this->clipboard_cleanup) {
         _this->clipboard_cleanup(_this->clipboard_userdata);
     }
 
@@ -66,131 +66,131 @@ bool SDL_SaveClipboardMimeTypes(const char *const *mime_types, size_t num_mime_t
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    nếu (!_this) {
+        trả_về SDL_UninitializedVideo();
     }
 
     SDL_FreeClipboardMimeTypes(_this);
 
-    if (mime_types && num_mime_types > 0) {
+    nếu (mime_types && num_mime_types > 0) {
         size_t num_allocated = 0;
 
         _this->clipboard_mime_types = (char **)SDL_malloc(num_mime_types * sizeof(char *));
-        if (_this->clipboard_mime_types) {
-            for (size_t i = 0; i < num_mime_types; ++i) {
+        nếu (_this->clipboard_mime_types) {
+            cho (size_t i = 0; i < num_mime_types; ++i) {
                 _this->clipboard_mime_types[i] = SDL_strdup(mime_types[i]);
-                if (_this->clipboard_mime_types[i]) {
+                nếu (_this->clipboard_mime_types[i]) {
                     ++num_allocated;
                 }
             }
         }
-        if (num_allocated < num_mime_types) {
+        nếu (num_allocated < num_mime_types) {
             SDL_FreeClipboardMimeTypes(_this);
-            return false;
+            trả_về false;
         }
         _this->num_clipboard_mime_types = num_mime_types;
     }
-    return true;
+    trả_về true;
 }
 
 bool SDL_SetClipboardData(SDL_ClipboardDataCallback callback, SDL_ClipboardCleanupCallback cleanup, void *userdata, const char *const *mime_types, size_t num_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    nếu (!_this) {
+        trả_về SDL_UninitializedVideo();
     }
 
     // Parameter validation
-    if (!((callback && mime_types && num_mime_types > 0) ||
+    nếu (!((callback && mime_types && num_mime_types > 0) ||
           (!callback && !mime_types && num_mime_types == 0))) {
-        return SDL_SetError("Invalid parameters");
+        trả_về SDL_SetError("Invalid parameters");
     }
 
     SDL_CancelClipboardData(0);
 
     ++_this->clipboard_sequence;
-    if (!_this->clipboard_sequence) {
+    nếu (!_this->clipboard_sequence) {
         _this->clipboard_sequence = 1;
     }
     _this->clipboard_callback = callback;
     _this->clipboard_cleanup = cleanup;
     _this->clipboard_userdata = userdata;
 
-    if (!SDL_SaveClipboardMimeTypes(mime_types, num_mime_types)) {
+    nếu (!SDL_SaveClipboardMimeTypes(mime_types, num_mime_types)) {
         SDL_ClearClipboardData();
-        return false;
+        trả_về false;
     }
 
-    if (_this->SetClipboardData) {
-        if (!_this->SetClipboardData(_this)) {
-            return false;
+    nếu (_this->SetClipboardData) {
+        nếu (!_this->SetClipboardData(_this)) {
+            trả_về false;
         }
-    } else if (_this->SetClipboardText) {
+    } không_thì nếu (_this->SetClipboardText) {
         char *text = NULL;
         size_t size;
 
-        for (size_t i = 0; i < num_mime_types; ++i) {
+        cho (size_t i = 0; i < num_mime_types; ++i) {
             const char *mime_type = _this->clipboard_mime_types[i];
-            if (SDL_IsTextMimeType(mime_type)) {
+            nếu (SDL_IsTextMimeType(mime_type)) {
                 const void *data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &size);
-                if (data) {
+                nếu (data) {
                     text = (char *)SDL_malloc(size + 1);
                     SDL_memcpy(text, data, size);
                     text[size] = '\0';
-                    if (!_this->SetClipboardText(_this, text)) {
+                    nếu (!_this->SetClipboardText(_this, text)) {
                         SDL_free(text);
-                        return false;
+                        trả_về false;
                     }
                     break;
                 }
             }
         }
-        if (text) {
+        nếu (text) {
             SDL_free(text);
-        } else {
-            if (!_this->SetClipboardText(_this, "")) {
-                return false;
+        } không_thì {
+            nếu (!_this->SetClipboardText(_this, "")) {
+                trả_về false;
             }
         }
     }
 
     char **mime_types_copy = SDL_CopyClipboardMimeTypes(mime_types, num_mime_types, true);
-    if (!mime_types_copy) {
-        return SDL_SetError("unable to copy current mime types");
+    nếu (!mime_types_copy) {
+        trả_về SDL_SetError("unable to copy current mime types");
 	}
     SDL_SendClipboardUpdate(true, mime_types_copy, num_mime_types);
-    return true;
+    trả_về true;
 }
 
 bool SDL_ClearClipboardData(void)
 {
-    return SDL_SetClipboardData(NULL, NULL, NULL, NULL, 0);
+    trả_về SDL_SetClipboardData(NULL, NULL, NULL, NULL, 0);
 }
 
 void *SDL_GetInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
 {
     void *data = NULL;
 
-    if (_this->clipboard_callback) {
-        if (!SDL_HasInternalClipboardData(_this, mime_type)) {
+    nếu (_this->clipboard_callback) {
+        nếu (!SDL_HasInternalClipboardData(_this, mime_type)) {
             // The callback hasn't advertised that it can handle this mime type
-            return NULL;
+            trả_về NULL;
         }
 
         const void *provided_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, size);
-        if (provided_data) {
+        nếu (provided_data) {
             // Make a copy of it for the caller and guarantee null termination
             data = SDL_malloc(*size + sizeof(Uint32));
-            if (data) {
+            nếu (data) {
                 SDL_memcpy(data, provided_data, *size);
                 SDL_memset((Uint8 *)data + *size, 0, sizeof(Uint32));
-            } else {
+            } không_thì {
                 *size = 0;
             }
         }
     }
-    return data;
+    trả_về data;
 }
 
 void *SDL_GetClipboardData(const char *mime_type, size_t *size)
@@ -198,37 +198,37 @@ void *SDL_GetClipboardData(const char *mime_type, size_t *size)
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
     size_t unused;
 
-    if (!_this) {
+    nếu (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        trả_về NULL;
     }
 
     CHECK_PARAM(!mime_type) {
         SDL_InvalidParamError("mime_type");
-        return NULL;
+        trả_về NULL;
     }
-    if (!size) {
+    nếu (!size) {
         size = &unused;
     }
 
     // Initialize size to empty, so implementations don't have to worry about it
     *size = 0;
 
-    if (_this->GetClipboardData) {
-        return _this->GetClipboardData(_this, mime_type, size);
-    } else if (_this->GetClipboardText && SDL_IsTextMimeType(mime_type)) {
+    nếu (_this->GetClipboardData) {
+        trả_về _this->GetClipboardData(_this, mime_type, size);
+    } không_thì nếu (_this->GetClipboardText && SDL_IsTextMimeType(mime_type)) {
         char *text = _this->GetClipboardText(_this);
-        if (text) {
-            if (*text == '\0') {
+        nếu (text) {
+            nếu (*text == '\0') {
                 SDL_free(text);
                 text = NULL;
-            } else {
+            } không_thì {
                 *size = SDL_strlen(text);
             }
         }
-        return text;
-    } else {
-        return SDL_GetInternalClipboardData(_this, mime_type, size);
+        trả_về text;
+    } không_thì {
+        trả_về SDL_GetInternalClipboardData(_this, mime_type, size);
     }
 }
 
@@ -236,55 +236,55 @@ bool SDL_HasInternalClipboardData(SDL_VideoDevice *_this, const char *mime_type)
 {
     size_t i;
 
-    for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-        if (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
-            return true;
+    cho (i = 0; i < _this->num_clipboard_mime_types; ++i) {
+        nếu (SDL_strcmp(mime_type, _this->clipboard_mime_types[i]) == 0) {
+            trả_về true;
         }
     }
-    return false;
+    trả_về false;
 }
 
 bool SDL_HasClipboardData(const char *mime_type)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    nếu (!_this) {
+        trả_về SDL_UninitializedVideo();
     }
 
     CHECK_PARAM(!mime_type) {
-        return SDL_InvalidParamError("mime_type");
+        trả_về SDL_InvalidParamError("mime_type");
     }
 
-    if (_this->HasClipboardData) {
-        return _this->HasClipboardData(_this, mime_type);
-    } else if (_this->HasClipboardText && SDL_IsTextMimeType(mime_type)) {
-        return _this->HasClipboardText(_this);
-    } else {
-        return SDL_HasInternalClipboardData(_this, mime_type);
+    nếu (_this->HasClipboardData) {
+        trả_về _this->HasClipboardData(_this, mime_type);
+    } không_thì nếu (_this->HasClipboardText && SDL_IsTextMimeType(mime_type)) {
+        trả_về _this->HasClipboardText(_this);
+    } không_thì {
+        trả_về SDL_HasInternalClipboardData(_this, mime_type);
     }
 }
 
 char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_t num_mime_types, bool temporary)
 {
     size_t allocSize = sizeof(char *);
-    for (size_t i = 0; i < num_mime_types; i++) {
+    cho (size_t i = 0; i < num_mime_types; i++) {
         allocSize += sizeof(char *) + SDL_strlen(clipboard_mime_types[i]) + 1;
     }
 
     char *ret;
-    if (temporary)
+    nếu (temporary)
         ret = (char *)SDL_AllocateTemporaryMemory(allocSize);
-    else
+    không_thì
         ret = (char *)SDL_malloc(allocSize);
-    if (!ret) {
-        return NULL;
+    nếu (!ret) {
+        trả_về NULL;
     }
 
     char **result = (char **)ret;
     ret += sizeof(char *) * (num_mime_types + 1);
 
-    for (size_t i = 0; i < num_mime_types; i++) {
+    cho (size_t i = 0; i < num_mime_types; i++) {
         result[i] = ret;
 
         const char *mime_type = clipboard_mime_types[i];
@@ -292,11 +292,11 @@ char **SDL_CopyClipboardMimeTypes(const char *const *clipboard_mime_types, size_
         char c;
         do {
             c = *ret++ = *mime_type++;
-        } while (c != '\0');
+        } trong_khi (c != '\0');
     }
     result[num_mime_types] = NULL;
 
-    return result;
+    trả_về result;
 
 }
 
@@ -304,51 +304,51 @@ char **SDL_GetClipboardMimeTypes(size_t *num_mime_types)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (num_mime_types) {
+    nếu (num_mime_types) {
         *num_mime_types = 0;
     }
 
-    if (!_this) {
+    nếu (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        trả_về NULL;
     }
 
-    if (num_mime_types) {
+    nếu (num_mime_types) {
         *num_mime_types = _this->num_clipboard_mime_types;
     }
-    return SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, false);
+    trả_về SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, false);
 }
 
 // Clipboard text
 
 bool SDL_IsTextMimeType(const char *mime_type)
 {
-    return (SDL_strncmp(mime_type, "text", 4) == 0);
+    trả_về (SDL_strncmp(mime_type, "text", 4) == 0);
 }
 
 static const char *const *SDL_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
 {
-    if (_this->GetTextMimeTypes) {
-        return _this->GetTextMimeTypes(_this, num_mime_types);
-    } else {
+    nếu (_this->GetTextMimeTypes) {
+        trả_về _this->GetTextMimeTypes(_this, num_mime_types);
+    } không_thì {
         static const char *const text_mime_types[] = {
             "text/plain;charset=utf-8"
         };
 
         *num_mime_types = SDL_arraysize(text_mime_types);
-        return text_mime_types;
+        trả_về text_mime_types;
     }
 }
 
 const void * SDLCALL SDL_ClipboardTextCallback(void *userdata, const char *mime_type, size_t *size)
 {
     char *text = (char *)userdata;
-    if (text) {
+    nếu (text) {
         *size = SDL_strlen(text);
-    } else {
+    } không_thì {
         *size = 0;
     }
-    return text;
+    trả_về text;
 }
 
 bool SDL_SetClipboardText(const char *text)
@@ -357,16 +357,16 @@ bool SDL_SetClipboardText(const char *text)
     size_t num_mime_types;
     const char *const *text_mime_types;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    nếu (!_this) {
+        trả_về SDL_UninitializedVideo();
     }
 
-    if (text && *text) {
+    nếu (text && *text) {
         text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
 
-        return SDL_SetClipboardData(SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text), text_mime_types, num_mime_types);
+        trả_về SDL_SetClipboardData(SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text), text_mime_types, num_mime_types);
     }
-    return SDL_ClearClipboardData();
+    trả_về SDL_ClearClipboardData();
 }
 
 char *SDL_GetClipboardText(void)
@@ -377,24 +377,24 @@ char *SDL_GetClipboardText(void)
     size_t length;
     char *text = NULL;
 
-    if (!_this) {
+    nếu (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        trả_về SDL_strdup("");
     }
 
     text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
+    cho (i = 0; i < num_mime_types; ++i) {
         void *clipdata = SDL_GetClipboardData(text_mime_types[i], &length);
-        if (clipdata) {
+        nếu (clipdata) {
             text = (char *)clipdata;
             break;
         }
     }
 
-    if (!text) {
+    nếu (!text) {
         text = SDL_strdup("");
     }
-    return text;
+    trả_về text;
 }
 
 bool SDL_HasClipboardText(void)
@@ -403,17 +403,17 @@ bool SDL_HasClipboardText(void)
     size_t i, num_mime_types;
     const char *const *text_mime_types;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    nếu (!_this) {
+        trả_về SDL_UninitializedVideo();
     }
 
     text_mime_types = SDL_GetTextMimeTypes(_this, &num_mime_types);
-    for (i = 0; i < num_mime_types; ++i) {
-        if (SDL_HasClipboardData(text_mime_types[i])) {
-            return true;
+    cho (i = 0; i < num_mime_types; ++i) {
+        nếu (SDL_HasClipboardData(text_mime_types[i])) {
+            trả_về true;
         }
     }
-    return false;
+    trả_về false;
 }
 
 // Primary selection text
@@ -422,47 +422,47 @@ bool SDL_SetPrimarySelectionText(const char *text)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    nếu (!_this) {
+        trả_về SDL_UninitializedVideo();
     }
 
-    if (!text) {
+    nếu (!text) {
         text = "";
     }
-    if (_this->SetPrimarySelectionText) {
-        if (!_this->SetPrimarySelectionText(_this, text)) {
-            return false;
+    nếu (_this->SetPrimarySelectionText) {
+        nếu (!_this->SetPrimarySelectionText(_this, text)) {
+            trả_về false;
         }
-    } else {
+    } không_thì {
         SDL_free(_this->primary_selection_text);
         _this->primary_selection_text = SDL_strdup(text);
     }
 
     char **mime_types = SDL_CopyClipboardMimeTypes((const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, true);
-    if (!mime_types) {
-        return SDL_SetError("unable to copy current mime types");
+    nếu (!mime_types) {
+        trả_về SDL_SetError("unable to copy current mime types");
 	}
     SDL_SendClipboardUpdate(true, mime_types, _this->num_clipboard_mime_types);
-    return true;
+    trả_về true;
 }
 
 char *SDL_GetPrimarySelectionText(void)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
+    nếu (!_this) {
         SDL_UninitializedVideo();
-        return SDL_strdup("");
+        trả_về SDL_strdup("");
     }
 
-    if (_this->GetPrimarySelectionText) {
-        return _this->GetPrimarySelectionText(_this);
-    } else {
+    nếu (_this->GetPrimarySelectionText) {
+        trả_về _this->GetPrimarySelectionText(_this);
+    } không_thì {
         const char *text = _this->primary_selection_text;
-        if (!text) {
+        nếu (!text) {
             text = "";
         }
-        return SDL_strdup(text);
+        trả_về SDL_strdup(text);
     }
 }
 
@@ -470,17 +470,17 @@ bool SDL_HasPrimarySelectionText(void)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    nếu (!_this) {
+        trả_về SDL_UninitializedVideo();
     }
 
-    if (_this->HasPrimarySelectionText) {
-        return _this->HasPrimarySelectionText(_this);
-    } else {
-        if (_this->primary_selection_text && _this->primary_selection_text[0] != '\0') {
-            return true;
-        } else {
-            return false;
+    nếu (_this->HasPrimarySelectionText) {
+        trả_về _this->HasPrimarySelectionText(_this);
+    } không_thì {
+        nếu (_this->primary_selection_text && _this->primary_selection_text[0] != '\0') {
+            trả_về true;
+        } không_thì {
+            trả_về false;
         }
     }
 }

@@ -20,7 +20,7 @@
 */
 #include "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#nếu defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
 #include "SDL_offscreenopengles.h"
 #include "SDL_offscreenvideo.h"
@@ -30,8 +30,8 @@
 
 bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
-    if (!SDL_EGL_LoadLibraryOnly(_this, path)) {
-        return false;
+    nếu (!SDL_EGL_LoadLibraryOnly(_this, path)) {
+        trả_về false;
     }
 
     /* driver_loaded gets incremented by SDL_GL_LoadLibrary when we return,
@@ -41,15 +41,15 @@ bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
     _this->gl_config.driver_loaded++;
     result = SDL_EGL_InitializeOffscreen(_this, 0);
     _this->gl_config.driver_loaded--;
-    if (!result) {
-        return false;
+    nếu (!result) {
+        trả_về false;
     }
 
-    if (!SDL_EGL_ChooseConfig(_this)) {
-        return false;
+    nếu (!SDL_EGL_ChooseConfig(_this)) {
+        trả_về false;
     }
 
-    return true;
+    trả_về true;
 }
 
 SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
@@ -59,16 +59,16 @@ SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *w
     SDL_GLContext context;
     context = SDL_EGL_CreateContext(_this, offscreen_window->egl_surface);
 
-    return context;
+    trả_về context;
 }
 
 bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window) {
+    nếu (window) {
         EGLSurface egl_surface = window->internal->egl_surface;
-        return SDL_EGL_MakeCurrent(_this, egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+        trả_về SDL_EGL_MakeCurrent(_this, egl_surface, context);
+    } không_thì {
+        trả_về SDL_EGL_MakeCurrent(_this, NULL, NULL);
     }
 }
 
@@ -76,7 +76,7 @@ bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_WindowData *offscreen_wind = window->internal;
 
-    return SDL_EGL_SwapBuffers(_this, offscreen_wind->egl_surface);
+    trả_về SDL_EGL_SwapBuffers(_this, offscreen_wind->egl_surface);
 }
 
 #endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL

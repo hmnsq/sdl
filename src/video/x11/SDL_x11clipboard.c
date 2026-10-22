@@ -46,7 +46,7 @@ Window GetWindow(SDL_VideoDevice *_this)
        since X11 selection data is tied to a specific window and dies with it.
        We create the window on demand, so apps that don't use the clipboard
        don't have to keep an unnecessary resource around. */
-    if (data->clipboard_window == None) {
+    nếu (data->clipboard_window == None) {
         Display *dpy = data->display;
         Window parent = RootWindow(dpy, DefaultScreen(dpy));
         XSetWindowAttributes xattr;
@@ -58,7 +58,7 @@ Window GetWindow(SDL_VideoDevice *_this)
         X11_XFlush(data->display);
     }
 
-    return data->clipboard_window;
+    trả_về data->clipboard_window;
 }
 
 static bool SetSelectionData(SDL_VideoDevice *_this, Atom selection, SDL_ClipboardDataCallback callback,
@@ -71,20 +71,20 @@ static bool SetSelectionData(SDL_VideoDevice *_this, Atom selection, SDL_Clipboa
     bool clipboard_owner = false;
 
     window = GetWindow(_this);
-    if (window == None) {
-        return SDL_SetError("Couldn't find a window to own the selection");
+    nếu (window == None) {
+        trả_về SDL_SetError("Couldn't find a window to own the selection");
     }
 
-    if (selection == XA_PRIMARY) {
+    nếu (selection == XA_PRIMARY) {
         clipboard = &videodata->primary_selection;
-    } else {
+    } không_thì {
         clipboard = &videodata->clipboard;
     }
 
     clipboard_owner = X11_XGetSelectionOwner(display, selection) == window;
 
     // If we are canceling our own data we need to clean it up
-    if (clipboard_owner && clipboard->sequence == 0) {
+    nếu (clipboard_owner && clipboard->sequence == 0) {
         SDL_free(clipboard->userdata);
     }
 
@@ -95,20 +95,20 @@ static bool SetSelectionData(SDL_VideoDevice *_this, Atom selection, SDL_Clipboa
     clipboard->sequence = sequence;
 
     X11_XSetSelectionOwner(display, selection, window, CurrentTime);
-    return true;
+    trả_về true;
 }
 
 static void *CloneDataBuffer(const void *buffer, const size_t len)
 {
     void *clone = NULL;
-    if (len > 0 && buffer) {
+    nếu (len > 0 && buffer) {
         clone = SDL_malloc(len + sizeof(Uint32));
-        if (clone) {
+        nếu (clone) {
             SDL_memcpy(clone, buffer, len);
             SDL_memset((Uint8 *)clone + len, 0, sizeof(Uint32));
         }
     }
-    return clone;
+    trả_về clone;
 }
 
 /*
@@ -118,16 +118,16 @@ static void *AppendDataBuffer(void *original_buffer, const size_t old_len, const
 {
     void *resized_buffer;
 
-    if (buffer_len > 0 && buffer) {
+    nếu (buffer_len > 0 && buffer) {
         resized_buffer = SDL_realloc(original_buffer, old_len + buffer_len + sizeof(Uint32));
-        if (resized_buffer) {
+        nếu (resized_buffer) {
             SDL_memcpy((Uint8 *)resized_buffer + old_len, buffer, buffer_len);
             SDL_memset((Uint8 *)resized_buffer + old_len + buffer_len, 0, sizeof(Uint32));
         }
 
-        return resized_buffer;
-    } else {
-        return original_buffer;
+        trả_về resized_buffer;
+    } không_thì {
+        trả_về original_buffer;
     }
 }
 
@@ -138,22 +138,22 @@ static bool WaitForSelection(SDL_VideoDevice *_this, Atom selection_type, bool *
 
     waitStart = SDL_GetTicks();
     *flag = true;
-    while (*flag) {
+    trong_khi (*flag) {
         X11_PumpEvents(_this);
         waitElapsed = SDL_GetTicks() - waitStart;
         // Wait one second for a selection response.
-        if (waitElapsed > 1000) {
+        nếu (waitElapsed > 1000) {
             *flag = false;
             SDL_SetError("Selection timeout");
             /* We need to set the selection text so that next time we won't
                timeout, otherwise we will hang on every call to this function. */
             SetSelectionData(_this, selection_type, SDL_ClipboardTextCallback, NULL,
                              text_mime_types, SDL_arraysize(text_mime_types), 0);
-            return false;
+            trả_về false;
         }
     }
 
-    return true;
+    trả_về true;
 }
 
 static void *GetSelectionData(SDL_VideoDevice *_this, Atom selection_type,
@@ -165,7 +165,7 @@ static void *GetSelectionData(SDL_VideoDevice *_this, Atom selection_type,
     Window owner;
     Atom selection;
     Atom seln_type;
-    int seln_format;
+    số_nguyên seln_format;
     unsigned long count;
     unsigned long overflow;
 
@@ -180,73 +180,73 @@ static void *GetSelectionData(SDL_VideoDevice *_this, Atom selection_type,
     // Get the window that holds the selection
     window = GetWindow(_this);
     owner = X11_XGetSelectionOwner(display, selection_type);
-    if (owner == None) {
+    nếu (owner == None) {
         // This requires a fallback to ancient X10 cut-buffers. We will just skip those for now
         data = NULL;
-    } else if (owner == window) {
+    } không_thì nếu (owner == window) {
         owner = DefaultRootWindow(display);
-        if (selection_type == XA_PRIMARY) {
+        nếu (selection_type == XA_PRIMARY) {
             clipboard = &videodata->primary_selection;
-        } else {
+        } không_thì {
             clipboard = &videodata->clipboard;
         }
 
-        if (clipboard->callback) {
+        nếu (clipboard->callback) {
             const void *clipboard_data = clipboard->callback(clipboard->userdata, mime_type, length);
             data = CloneDataBuffer(clipboard_data, *length);
         }
-    } else {
+    } không_thì {
         // Request that the selection owner copy the data to our window
         owner = window;
         selection = videodata->atoms.SDL_SELECTION;
         X11_XConvertSelection(display, selection_type, XA_MIME, selection, owner,
                               CurrentTime);
 
-        if (WaitForSelection(_this, selection_type, &videodata->selection_waiting) == false) {
+        nếu (WaitForSelection(_this, selection_type, &videodata->selection_waiting) == false) {
             data = NULL;
             *length = 0;
         }
 
-        if (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
+        nếu (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
                                    XA_MIME, &seln_type, &seln_format, &count, &overflow, &src) == Success) {
-            if (seln_type == XA_MIME) {
+            nếu (seln_type == XA_MIME) {
                 *length = (size_t)count;
                 data = CloneDataBuffer(src, count);
-            } else if (seln_type == videodata->atoms.INCR) {
-                while (1) {
+            } không_thì nếu (seln_type == videodata->atoms.INCR) {
+                trong_khi (1) {
                     // Only delete the property after being done with the previous "chunk".
                     X11_XDeleteProperty(display, owner, selection);
                     X11_XFlush(display);
 
-                    if (WaitForSelection(_this, selection_type, &videodata->selection_incr_waiting) == false) {
+                    nếu (WaitForSelection(_this, selection_type, &videodata->selection_incr_waiting) == false) {
                         break;
                     }
 
                     X11_XFree(src);
-                    if (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
+                    nếu (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
                                            XA_MIME, &seln_type, &seln_format, &count, &overflow, &src) != Success) {
                         break;
                     }
 
-                    if (count == 0) {
+                    nếu (count == 0) {
                         incr_success = true;
                         break;
                     }
 
-                    if (*length == 0) {
+                    nếu (*length == 0) {
                         *length = (size_t)count;
                         data = CloneDataBuffer(src, count);
-                    } else {
+                    } không_thì {
                         data = AppendDataBuffer(data, *length, src, count);
                         *length += (size_t)count;
                     }
 
-                    if (data == NULL) {
+                    nếu (data == NULL) {
                         break;
                     }
                 }
 
-                if (incr_success == false) {
+                nếu (incr_success == false) {
                     SDL_free(data);
                     data = NULL;
                     *length = 0;
@@ -255,19 +255,19 @@ static void *GetSelectionData(SDL_VideoDevice *_this, Atom selection_type,
             X11_XFree(src);
         }
     }
-    return data;
+    trả_về data;
 }
 
 const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
 {
     *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    trả_về text_mime_types;
 }
 
 bool X11_SetClipboardData(SDL_VideoDevice *_this)
 {
     SDL_VideoData *videodata = _this->internal;
-    return SetSelectionData(_this, videodata->atoms.CLIPBOARD, _this->clipboard_callback, _this->clipboard_userdata, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, _this->clipboard_sequence);
+    trả_về SetSelectionData(_this, videodata->atoms.CLIPBOARD, _this->clipboard_callback, _this->clipboard_userdata, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, _this->clipboard_sequence);
 }
 
 void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length)
@@ -276,12 +276,12 @@ void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t
 
     *length = 0;
 
-    if (!SDL_HasInternalClipboardData(_this, mime_type)) {
+    nếu (!SDL_HasInternalClipboardData(_this, mime_type)) {
         // This mime type wasn't advertised by the last selection owner.
         // The atom might still have data, but it's stale, so ignore it.
-        return NULL;
+        trả_về NULL;
     }
-    return GetSelectionData(_this, videodata->atoms.CLIPBOARD, mime_type, length);
+    trả_về GetSelectionData(_this, videodata->atoms.CLIPBOARD, mime_type, length);
 }
 
 bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
@@ -290,44 +290,44 @@ bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
     void *data;
     data = X11_GetClipboardData(_this, mime_type, &length);
     SDL_free(data);
-    return length > 0;
+    trả_về length > 0;
 }
 
 bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text)
 {
-    return SetSelectionData(_this, XA_PRIMARY, SDL_ClipboardTextCallback, SDL_strdup(text), text_mime_types, SDL_arraysize(text_mime_types), 0);
+    trả_về SetSelectionData(_this, XA_PRIMARY, SDL_ClipboardTextCallback, SDL_strdup(text), text_mime_types, SDL_arraysize(text_mime_types), 0);
 }
 
 char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this)
 {
     size_t length;
     char *text = GetSelectionData(_this, XA_PRIMARY, text_mime_types[0], &length);
-    if (!text) {
+    nếu (!text) {
         text = SDL_strdup("");
     }
-    return text;
+    trả_về text;
 }
 
 bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this)
 {
     bool result = false;
     char *text = X11_GetPrimarySelectionText(_this);
-    if (text) {
-        if (text[0] != '\0') {
+    nếu (text) {
+        nếu (text[0] != '\0') {
             result = true;
         }
         SDL_free(text);
     }
-    return result;
+    trả_về result;
 }
 
 void X11_QuitClipboard(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
-    if (data->primary_selection.sequence == 0) {
+    nếu (data->primary_selection.sequence == 0) {
         SDL_free(data->primary_selection.userdata);
     }
-    if (data->clipboard.sequence == 0) {
+    nếu (data->clipboard.sequence == 0) {
         SDL_free(data->clipboard.userdata);
     }
 }

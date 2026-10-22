@@ -39,7 +39,7 @@ typedef enum SDL_GLSwapIntervalTearBehavior
 
 struct SDL_GLDriverData
 {
-    int errorBase, eventBase;
+    số_nguyên errorBase, eventBase;
 
     bool HAS_GLX_EXT_visual_rating;
     bool HAS_GLX_EXT_visual_info;
@@ -55,27 +55,27 @@ struct SDL_GLDriverData
      */
     struct
     {
-        int major;
-        int minor;
+        số_nguyên major;
+        số_nguyên minor;
     } es_profile_max_supported_version;
 
     SDL_GLSwapIntervalTearBehavior swap_interval_tear_behavior;
 
-    Bool (*glXQueryExtension)(Display *, int *, int *);
+    Bool (*glXQueryExtension)(Display *, số_nguyên *, số_nguyên *);
     __GLXextFuncPtr (*glXGetProcAddress)(const GLubyte *);
-    XVisualInfo *(*glXChooseVisual)(Display *, int, int *);
+    XVisualInfo *(*glXChooseVisual)(Display *, số_nguyên, số_nguyên *);
     GLXContext (*glXCreateContext)(Display *, XVisualInfo *, GLXContext, Bool);
-    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, const int *);
-    GLXFBConfig *(*glXChooseFBConfig)(Display *, int, const int *, int *);
+    GLXContext (*glXCreateContextAttribsARB)(Display *, GLXFBConfig, GLXContext, Bool, const số_nguyên *);
+    GLXFBConfig *(*glXChooseFBConfig)(Display *, số_nguyên, const số_nguyên *, số_nguyên *);
     XVisualInfo *(*glXGetVisualFromFBConfig)(Display *, GLXFBConfig);
     void (*glXDestroyContext)(Display *, GLXContext);
     Bool (*glXMakeCurrent)(Display *, GLXDrawable, GLXContext);
     void (*glXSwapBuffers)(Display *, GLXDrawable);
-    void (*glXQueryDrawable)(Display *, GLXDrawable, int, unsigned int *);
-    void (*glXSwapIntervalEXT)(Display *, GLXDrawable, int);
-    int (*glXSwapIntervalSGI)(int);
-    int (*glXSwapIntervalMESA)(int);
-    int (*glXGetSwapIntervalMESA)(void);
+    void (*glXQueryDrawable)(Display *, GLXDrawable, số_nguyên, unsigned số_nguyên *);
+    void (*glXSwapIntervalEXT)(Display *, GLXDrawable, số_nguyên);
+    số_nguyên (*glXSwapIntervalSGI)(số_nguyên);
+    số_nguyên (*glXSwapIntervalMESA)(số_nguyên);
+    số_nguyên (*glXGetSwapIntervalMESA)(void);
 };
 
 // OpenGL functions
@@ -83,12 +83,12 @@ extern bool X11_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
 extern SDL_FunctionPointer X11_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
 extern void X11_GL_UnloadLibrary(SDL_VideoDevice *_this);
 extern bool X11_GL_UseEGL(SDL_VideoDevice *_this);
-extern XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, int screen, bool transparent);
+extern XVisualInfo *X11_GL_GetVisual(SDL_VideoDevice *_this, Display *display, số_nguyên screen, bool transparent);
 extern SDL_GLContext X11_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                               SDL_GLContext context);
-extern bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+extern bool X11_GL_SetSwapInterval(SDL_VideoDevice *_this, số_nguyên interval);
+extern bool X11_GL_GetSwapInterval(SDL_VideoDevice *_this, số_nguyên *interval);
 extern bool X11_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
 extern bool X11_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 

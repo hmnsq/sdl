@@ -23,7 +23,7 @@
 #ifndef SDL_offscreenvulkan_h
 #define SDL_offscreenvulkan_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
+#nếu defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_VULKAN)
 
 #include "../SDL_sysvideo.h"
 
