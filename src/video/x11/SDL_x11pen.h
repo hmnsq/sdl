@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#ضمن "../../SDL_internal.h"
 
 #ifndef SDL_x11pen_h_
 #define SDL_x11pen_h_
 
 // Pressure-sensitive pen support for X11.
 
-#include "SDL_x11video.h"
-#include "../../events/SDL_pen_c.h"
+#ضمن "SDL_x11video.h"
+#ضمن "../../events/SDL_pen_c.h"
 
 // Prep pen support (never fails; pens simply won't be added if there's a problem).
-extern void X11_InitPen(SDL_VideoDevice *_this);
+خارجي فراغ X11_InitPen(SDL_VideoDevice *_this);
 
 // Clean up pen support.
-extern void X11_QuitPen(SDL_VideoDevice *_this);
+خارجي فراغ X11_QuitPen(SDL_VideoDevice *_this);
 
 #ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
 
 // Forward definition for SDL_x11video.h
-struct SDL_VideoData;
+بنية SDL_VideoData;
 
 #define SDL_X11_PEN_AXIS_VALUATOR_MISSING -1
 
-typedef struct X11_PenHandle
+تعريفنوع بنية X11_PenHandle
 {
     SDL_PenID pen;
     bool is_eraser;
-    int x11_deviceid;
-    int valuator_for_axis[SDL_PEN_AXIS_COUNT];
-    float slider_bias;      // shift value to add to PEN_AXIS_SLIDER (before normalisation)
-    float rotation_bias;    // rotation to add to PEN_AXIS_ROTATION  (after normalisation)
-    float axis_min[SDL_PEN_AXIS_COUNT];
-    float axis_max[SDL_PEN_AXIS_COUNT];
+    صحيح x11_deviceid;
+    صحيح valuator_for_axis[SDL_PEN_AXIS_COUNT];
+    عائم slider_bias;      // shift value to add to PEN_AXIS_SLIDER (before normalisation)
+    عائم rotation_bias;    // rotation to add to PEN_AXIS_ROTATION  (after normalisation)
+    عائم axis_min[SDL_PEN_AXIS_COUNT];
+    عائم axis_max[SDL_PEN_AXIS_COUNT];
 } X11_PenHandle;
 
 // Converts XINPUT2 valuators into pen axis information, including normalisation.
-extern void X11_PenAxesFromValuators(const X11_PenHandle *pen,
-                                     const double *input_values, const unsigned char *mask, int mask_len,
-                                     float axis_values[SDL_PEN_AXIS_COUNT]);
+خارجي فراغ X11_PenAxesFromValuators(ثابت X11_PenHandle *pen,
+                                     ثابت مزدوج *input_values, ثابت unsigned حرف *mask, صحيح mask_len,
+                                     عائم axis_values[SDL_PEN_AXIS_COUNT]);
 
 // Add a pen (if this function's further checks validate it).
-extern X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, int deviceid);
+خارجي X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, صحيح deviceid);
 
 // Remove a pen. It's okay if deviceid is bogus or not a pen, we'll check it.
-extern void X11_RemovePenByDeviceID(int deviceid);
+خارجي فراغ X11_RemovePenByDeviceID(صحيح deviceid);
 
 // Map X11 device ID to pen ID.
-extern X11_PenHandle *X11_FindPenByDeviceID(int deviceid);
+خارجي X11_PenHandle *X11_FindPenByDeviceID(صحيح deviceid);
 
 // Notify that the pen has entered/left proximity
-extern void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, int deviceid);
+خارجي فراغ X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, صحيح deviceid);
 
 #endif // SDL_VIDEO_DRIVER_X11_XINPUT2
 

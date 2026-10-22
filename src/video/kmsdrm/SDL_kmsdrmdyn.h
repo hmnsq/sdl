@@ -22,30 +22,30 @@
 #ifndef SDL_kmsdrmdyn_h_
 #define SDL_kmsdrmdyn_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#include <xf86drm.h>
-#include <xf86drmMode.h>
-#include <gbm.h>
+#ضمن <xf86drm.h>
+#ضمن <xf86drmMode.h>
+#ضمن <gbm.h>
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
-extern bool SDL_KMSDRM_LoadSymbols(void);
-extern void SDL_KMSDRM_UnloadSymbols(void);
+خارجي bool SDL_KMSDRM_LoadSymbols(فراغ);
+خارجي فراغ SDL_KMSDRM_UnloadSymbols(فراغ);
 
 // Declare all the function pointers and wrappers...
 #define SDL_KMSDRM_SYM(rc, fn, params)        \
-    typedef rc(*SDL_DYNKMSDRMFN_##fn) params; \
-    extern SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
+    تعريفنوع rc(*SDL_DYNKMSDRMFN_##fn) params; \
+    خارجي SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
 #define SDL_KMSDRM_SYM_CONST(type, name)    \
-    typedef type SDL_DYNKMSDRMCONST_##name; \
-    extern SDL_DYNKMSDRMCONST_##name KMSDRM_##name;
+    تعريفنوع type SDL_DYNKMSDRMCONST_##name; \
+    خارجي SDL_DYNKMSDRMCONST_##name KMSDRM_##name;
 #define SDL_KMSDRM_SYM_OPT(rc, fn, params)    \
-    typedef rc(*SDL_DYNKMSDRMFN_##fn) params; \
-    extern SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
-#include "SDL_kmsdrmsym.h"
+    تعريفنوع rc(*SDL_DYNKMSDRMFN_##fn) params; \
+    خارجي SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
+#ضمن "SDL_kmsdrmsym.h"
 
 #ifdef __cplusplus
 }

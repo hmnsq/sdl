@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_ANDROID
 
-#include <android/log.h>
+#ضمن <android/log.h>
 
-#include "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_events_c.h"
 
-#include "SDL_androidkeyboard.h"
+#ضمن "SDL_androidkeyboard.h"
 
-#include "../../core/android/SDL_android.h"
+#ضمن "../../core/android/SDL_android.h"
 
 #define TYPE_CLASS_TEXT                         0x00000001
 #define TYPE_CLASS_NUMBER                       0x00000002
@@ -70,7 +70,7 @@
 #define TYPE_TEXT_VARIATION_WEB_PASSWORD        0x000000e0
 
 
-static SDL_Scancode Android_Keycodes[] = {
+ساكن SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_UNKNOWN
     SDL_SCANCODE_SOFTLEFT,         // AKEYCODE_SOFT_LEFT
     SDL_SCANCODE_SOFTRIGHT,        // AKEYCODE_SOFT_RIGHT
@@ -353,109 +353,109 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_PASTE,            // AKEYCODE_PASTE
 };
 
-static SDL_Scancode TranslateKeycode(int keycode)
+ساكن SDL_Scancode TranslateKeycode(صحيح keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(Android_Keycodes)) {
+    אם (keycode < SDL_arraysize(Android_Keycodes)) {
         scancode = Android_Keycodes[keycode];
     }
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
-        if (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
+    אם (scancode == SDL_SCANCODE_UNKNOWN) {
+        אם (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
             // Ignore game controller buttons
-        } else {
+        } אחרת {
             __android_log_print(ANDROID_LOG_INFO, "SDL", "Unknown keycode %d", keycode);
         }
     }
-    return scancode;
+    החזר scancode;
 }
 
-void Android_OnKeyDown(int keycode)
+فراغ Android_OnKeyDown(صحيح keycode)
 {
     SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), true);
 }
 
-void Android_OnKeyUp(int keycode)
+فراغ Android_OnKeyUp(صحيح keycode)
 {
     SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), false);
 }
 
 bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    החזר true;
 }
 
-void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+فراغ Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
-    } else {
-        switch (SDL_GetTextInputType(props)) {
-        default:
-        case SDL_TEXTINPUT_TYPE_TEXT:
+    صحيح input_type = 0;
+    אם (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
+        input_type = (صحيح)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
+    } אחרת {
+        بدل (SDL_GetTextInputType(props)) {
+        افتراضي:
+        حالة SDL_TEXTINPUT_TYPE_TEXT:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_NAME:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_TEXT_NAME:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PERSON_NAME);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
             input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_NUMBER:
             input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
             input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
+            اكسر;
+        حالة SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
             input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
-            break;
+            اكسر;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
-        default:
-        case SDL_CAPITALIZE_NONE:
-            break;
-        case SDL_CAPITALIZE_LETTERS:
+        بدل (SDL_GetTextInputCapitalization(props)) {
+        افتراضي:
+        حالة SDL_CAPITALIZE_NONE:
+            اكسر;
+        حالة SDL_CAPITALIZE_LETTERS:
             input_type |= TYPE_TEXT_FLAG_CAP_CHARACTERS;
-            break;
-        case SDL_CAPITALIZE_WORDS:
+            اكسر;
+        حالة SDL_CAPITALIZE_WORDS:
             input_type |= TYPE_TEXT_FLAG_CAP_WORDS;
-            break;
-        case SDL_CAPITALIZE_SENTENCES:
+            اكسر;
+        حالة SDL_CAPITALIZE_SENTENCES:
             input_type |= TYPE_TEXT_FLAG_CAP_SENTENCES;
-            break;
+            اكسر;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
+        אם (SDL_GetTextInputAutocorrect(props)) {
             input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
 
-        if (SDL_GetTextInputMultiline(props)) {
+        אם (SDL_GetTextInputMultiline(props)) {
             input_type |= TYPE_TEXT_FLAG_MULTI_LINE;
         }
     }
     Android_JNI_ShowScreenKeyboard(input_type, &window->text_input_rect);
 }
 
-void Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
     Android_JNI_HideScreenKeyboard();
 }
 
-void Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (_this->screen_keyboard_shown) {
+    אם (_this->screen_keyboard_shown) {
         Android_ShowScreenKeyboard(_this, window, window->text_input_props);
     }
 }

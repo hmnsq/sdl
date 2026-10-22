@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_D3D12_H
 #define SDL_D3D12_H
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#אם !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
 /* From the DirectX-Headers build system:
  * "MinGW has RPC headers which define old versions, and complain if D3D
@@ -42,19 +42,19 @@
   #define _WIN32 1
 #endif
 #define COBJMACROS
-#include "d3d12.h"
+#ضمن "d3d12.h"
 #ifdef __CYGWIN__
   #undef _WIN32
 #endif
-#include <dxgi1_6.h>
-#include <dxgidebug.h>
+#ضمن <dxgi1_6.h>
+#ضمن <dxgidebug.h>
 
 #define D3D_GUID(X) &(X)
 
 #define D3D_SAFE_RELEASE(X)      \
-    if (X) {                     \
+    אם (X) {                     \
         (X)->lpVtbl->Release(X); \
-        X = NULL;                \
+        X = عدم;                \
     }
 
 /* Some D3D12 calls are mismatched between Windows/Xbox, so we need to wrap the
@@ -62,20 +62,20 @@
  */
 #define D3D_CALL_RET(THIS, FUNC, ...) (THIS)->lpVtbl->FUNC((THIS), ##__VA_ARGS__)
 
-#else // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#אחרת // !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
 
-#if defined(SDL_PLATFORM_XBOXONE)
-#include <d3d12_x.h>
-#else // SDL_PLATFORM_XBOXSERIES
-#include <d3d12_xs.h>
+#אם defined(SDL_PLATFORM_XBOXONE)
+#ضمن <d3d12_x.h>
+#אחרת // SDL_PLATFORM_XBOXSERIES
+#ضمن <d3d12_xs.h>
 #endif
 
 #define D3D_GUID(X) (X)
 
 #define D3D_SAFE_RELEASE(X) \
-    if (X) {                \
+    אם (X) {                \
         (X)->Release();     \
-        X = NULL;           \
+        X = عدم;           \
     }
 
 // Older versions of the Xbox GDK may not have this defined
@@ -93,7 +93,7 @@
 #define DXGI_PRESENT_ALLOW_TEARING 0
 
 // Xbox D3D12 does not define the COBJMACROS, so we need to define them ourselves
-#include "SDL_d3d12_xbox_cmacros.h"
+#ضمن "SDL_d3d12_xbox_cmacros.h"
 
 // They don't even define the CMACROS for ID3DBlob, come on man
 #define ID3D10Blob_GetBufferPointer(blob) blob->GetBufferPointer()

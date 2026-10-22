@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_OPENHARMONY) && defined(SDL_VIDEO_OPENGL_EGL)
+#אם defined(SDL_VIDEO_DRIVER_OPENHARMONY) && defined(SDL_VIDEO_OPENGL_EGL)
 
 // OpenHarmony/HarmonyOS SDL video driver implementation
 
-#include "../SDL_egl_c.h"
-#include "SDL_openharmonywindow.h"
+#ضمن "../SDL_egl_c.h"
+#ضمن "SDL_openharmonywindow.h"
 
-#include "SDL_openharmonyvideo.h"
-#include "SDL_openharmonyevents.h"
-#include "SDL_openharmonyopengl.h"
-#include "../../core/openharmony/SDL_openharmony.h"
+#ضمن "SDL_openharmonyvideo.h"
+#ضمن "SDL_openharmonyevents.h"
+#ضمن "SDL_openharmonyopengl.h"
+#ضمن "../../core/openharmony/SDL_openharmony.h"
 
 bool OPENHARMONY_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    אם (window && context) {
+        החזר SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
+    } אחרת {
+        החזר SDL_EGL_MakeCurrent(_this, عدم, عدم);
     }
 }
 
@@ -54,7 +54,7 @@ SDL_GLContext OPENHARMONY_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window 
 
     //OPENHARMONY_UnlockActivityMutex();
 
-    return result;
+    החזר result;
 }
 
 bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -68,12 +68,12 @@ bool OPENHARMONY_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     //OPENHARMONY_UnlockActivityMutex();
 
-    return result;
+    החזר result;
 }
 
-bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OPENHARMONY_GLES_LoadLibrary(SDL_VideoDevice *_this, ثابت حرف *path)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    החזר SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 #endif // SDL_VIDEO_DRIVER_OPENHARMONY

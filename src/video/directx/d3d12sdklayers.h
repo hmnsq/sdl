@@ -23,29 +23,29 @@
 #define __REQUIRED_RPCSAL_H_VERSION__ 100
 #endif
 
-#include "rpc.h"
-#include "rpcndr.h"
+#ضمن "rpc.h"
+#ضمن "rpcndr.h"
 
 #ifndef __RPCNDR_H_VERSION__
 #error this stub requires an updated version of <rpcndr.h>
 #endif /* __RPCNDR_H_VERSION__ */
 
 #ifndef COM_NO_WINDOWS_H
-#include "windows.h"
-#include "ole2.h"
+#ضمن "windows.h"
+#ضمن "ole2.h"
 #endif /*COM_NO_WINDOWS_H*/
 
 #ifndef __d3d12sdklayers_h__
 #define __d3d12sdklayers_h__
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#אם defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
 #endif
 
 #ifndef DECLSPEC_XFGVIRT
-#if defined(_CONTROL_FLOW_GUARD_XFG)
+#אם defined(_CONTROL_FLOW_GUARD_XFG)
 #define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
-#else
+#אחרת
 #define DECLSPEC_XFGVIRT(base, func)
 #endif
 #endif
@@ -54,166 +54,166 @@
 
 #ifndef __ID3D12Debug_FWD_DEFINED__
 #define __ID3D12Debug_FWD_DEFINED__
-typedef interface ID3D12Debug ID3D12Debug;
+تعريفنوع interface ID3D12Debug ID3D12Debug;
 
 #endif 	/* __ID3D12Debug_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12Debug1_FWD_DEFINED__
 #define __ID3D12Debug1_FWD_DEFINED__
-typedef interface ID3D12Debug1 ID3D12Debug1;
+تعريفنوع interface ID3D12Debug1 ID3D12Debug1;
 
 #endif 	/* __ID3D12Debug1_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12Debug2_FWD_DEFINED__
 #define __ID3D12Debug2_FWD_DEFINED__
-typedef interface ID3D12Debug2 ID3D12Debug2;
+تعريفنوع interface ID3D12Debug2 ID3D12Debug2;
 
 #endif 	/* __ID3D12Debug2_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12Debug3_FWD_DEFINED__
 #define __ID3D12Debug3_FWD_DEFINED__
-typedef interface ID3D12Debug3 ID3D12Debug3;
+تعريفنوع interface ID3D12Debug3 ID3D12Debug3;
 
 #endif 	/* __ID3D12Debug3_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12Debug4_FWD_DEFINED__
 #define __ID3D12Debug4_FWD_DEFINED__
-typedef interface ID3D12Debug4 ID3D12Debug4;
+تعريفنوع interface ID3D12Debug4 ID3D12Debug4;
 
 #endif 	/* __ID3D12Debug4_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12Debug5_FWD_DEFINED__
 #define __ID3D12Debug5_FWD_DEFINED__
-typedef interface ID3D12Debug5 ID3D12Debug5;
+تعريفنوع interface ID3D12Debug5 ID3D12Debug5;
 
 #endif 	/* __ID3D12Debug5_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12Debug6_FWD_DEFINED__
 #define __ID3D12Debug6_FWD_DEFINED__
-typedef interface ID3D12Debug6 ID3D12Debug6;
+تعريفنوع interface ID3D12Debug6 ID3D12Debug6;
 
 #endif 	/* __ID3D12Debug6_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugDevice1_FWD_DEFINED__
 #define __ID3D12DebugDevice1_FWD_DEFINED__
-typedef interface ID3D12DebugDevice1 ID3D12DebugDevice1;
+تعريفنوع interface ID3D12DebugDevice1 ID3D12DebugDevice1;
 
 #endif 	/* __ID3D12DebugDevice1_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugDevice_FWD_DEFINED__
 #define __ID3D12DebugDevice_FWD_DEFINED__
-typedef interface ID3D12DebugDevice ID3D12DebugDevice;
+تعريفنوع interface ID3D12DebugDevice ID3D12DebugDevice;
 
 #endif 	/* __ID3D12DebugDevice_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugDevice2_FWD_DEFINED__
 #define __ID3D12DebugDevice2_FWD_DEFINED__
-typedef interface ID3D12DebugDevice2 ID3D12DebugDevice2;
+تعريفنوع interface ID3D12DebugDevice2 ID3D12DebugDevice2;
 
 #endif 	/* __ID3D12DebugDevice2_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugCommandQueue_FWD_DEFINED__
 #define __ID3D12DebugCommandQueue_FWD_DEFINED__
-typedef interface ID3D12DebugCommandQueue ID3D12DebugCommandQueue;
+تعريفنوع interface ID3D12DebugCommandQueue ID3D12DebugCommandQueue;
 
 #endif 	/* __ID3D12DebugCommandQueue_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugCommandQueue1_FWD_DEFINED__
 #define __ID3D12DebugCommandQueue1_FWD_DEFINED__
-typedef interface ID3D12DebugCommandQueue1 ID3D12DebugCommandQueue1;
+تعريفنوع interface ID3D12DebugCommandQueue1 ID3D12DebugCommandQueue1;
 
 #endif 	/* __ID3D12DebugCommandQueue1_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugCommandList1_FWD_DEFINED__
 #define __ID3D12DebugCommandList1_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList1 ID3D12DebugCommandList1;
+تعريفنوع interface ID3D12DebugCommandList1 ID3D12DebugCommandList1;
 
 #endif 	/* __ID3D12DebugCommandList1_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugCommandList_FWD_DEFINED__
 #define __ID3D12DebugCommandList_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList ID3D12DebugCommandList;
+تعريفنوع interface ID3D12DebugCommandList ID3D12DebugCommandList;
 
 #endif 	/* __ID3D12DebugCommandList_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugCommandList2_FWD_DEFINED__
 #define __ID3D12DebugCommandList2_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList2 ID3D12DebugCommandList2;
+تعريفنوع interface ID3D12DebugCommandList2 ID3D12DebugCommandList2;
 
 #endif 	/* __ID3D12DebugCommandList2_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12DebugCommandList3_FWD_DEFINED__
 #define __ID3D12DebugCommandList3_FWD_DEFINED__
-typedef interface ID3D12DebugCommandList3 ID3D12DebugCommandList3;
+تعريفنوع interface ID3D12DebugCommandList3 ID3D12DebugCommandList3;
 
 #endif 	/* __ID3D12DebugCommandList3_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12SharingContract_FWD_DEFINED__
 #define __ID3D12SharingContract_FWD_DEFINED__
-typedef interface ID3D12SharingContract ID3D12SharingContract;
+تعريفنوع interface ID3D12SharingContract ID3D12SharingContract;
 
 #endif 	/* __ID3D12SharingContract_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12ManualWriteTrackingResource_FWD_DEFINED__
 #define __ID3D12ManualWriteTrackingResource_FWD_DEFINED__
-typedef interface ID3D12ManualWriteTrackingResource ID3D12ManualWriteTrackingResource;
+تعريفنوع interface ID3D12ManualWriteTrackingResource ID3D12ManualWriteTrackingResource;
 
 #endif 	/* __ID3D12ManualWriteTrackingResource_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12InfoQueue_FWD_DEFINED__
 #define __ID3D12InfoQueue_FWD_DEFINED__
-typedef interface ID3D12InfoQueue ID3D12InfoQueue;
+تعريفنوع interface ID3D12InfoQueue ID3D12InfoQueue;
 
 #endif 	/* __ID3D12InfoQueue_FWD_DEFINED__ */
 
 
 #ifndef __ID3D12InfoQueue1_FWD_DEFINED__
 #define __ID3D12InfoQueue1_FWD_DEFINED__
-typedef interface ID3D12InfoQueue1 ID3D12InfoQueue1;
+تعريفنوع interface ID3D12InfoQueue1 ID3D12InfoQueue1;
 
 #endif 	/* __ID3D12InfoQueue1_FWD_DEFINED__ */
 
 
 /* header files for imported files */
-#include "oaidl.h"
-#include "ocidl.h"
-#include "d3d12.h"
+#ضمن "oaidl.h"
+#ضمن "ocidl.h"
+#ضمن "d3d12.h"
 
 #ifdef __cplusplus
-extern "C"{
+خارجي "C"{
 #endif 
 
 
 /* interface __MIDL_itf_d3d12sdklayers_0000_0000 */
 /* [local] */ 
 
-#include <winapifamily.h>
+#ضمن <winapifamily.h>
 #ifdef _MSC_VER
 #pragma region App Family
 #endif
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
+#אם WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES)
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_s_ifspec;
 
 #ifndef __ID3D12Debug_INTERFACE_DEFINED__
 #define __ID3D12Debug_INTERFACE_DEFINED__
@@ -222,22 +222,22 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0000_v0_0_s_ifspec;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug;
+EXTERN_C ثابت IID IID_ID3D12Debug;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("344488b7-6846-474b-b989-f027448245e0")
-    ID3D12Debug : public IUnknown
+    ID3D12Debug : عام IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE EnableDebugLayer( void) = 0;
+    عام:
+        virtual فراغ STDMETHODCALLTYPE EnableDebugLayer( فراغ) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugVtbl
+    تعريفنوع بنية ID3D12DebugVtbl
     {
         BEGIN_INTERFACE
         
@@ -245,7 +245,7 @@ EXTERN_C const IID IID_ID3D12Debug;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -256,7 +256,7 @@ EXTERN_C const IID IID_ID3D12Debug;
             ID3D12Debug * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug * This);
         
         END_INTERFACE
@@ -264,7 +264,7 @@ EXTERN_C const IID IID_ID3D12Debug;
 
     interface ID3D12Debug
     {
-        CONST_VTBL struct ID3D12DebugVtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugVtbl *lpVtbl;
     };
 
     
@@ -299,8 +299,8 @@ EXTERN_C const IID IID_ID3D12Debug;
 /* interface __MIDL_itf_d3d12sdklayers_0000_0001 */
 /* [local] */ 
 
-typedef 
-enum D3D12_GPU_BASED_VALIDATION_FLAGS
+تعريفنوع 
+تعداد D3D12_GPU_BASED_VALIDATION_FLAGS
     {
         D3D12_GPU_BASED_VALIDATION_FLAGS_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_FLAGS_DISABLE_STATE_TRACKING	= 0x1
@@ -309,8 +309,8 @@ enum D3D12_GPU_BASED_VALIDATION_FLAGS
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_GPU_BASED_VALIDATION_FLAGS)
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_s_ifspec;
 
 #ifndef __ID3D12Debug1_INTERFACE_DEFINED__
 #define __ID3D12Debug1_INTERFACE_DEFINED__
@@ -319,28 +319,28 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0001_v0_0_s_ifspec;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug1;
+EXTERN_C ثابت IID IID_ID3D12Debug1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("affaa4ca-63fe-4d8e-b8ad-159000af4304")
-    ID3D12Debug1 : public IUnknown
+    ID3D12Debug1 : عام IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE EnableDebugLayer( void) = 0;
+    عام:
+        virtual فراغ STDMETHODCALLTYPE EnableDebugLayer( فراغ) = 0;
         
-        virtual void STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
+        virtual فراغ STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
             BOOL Enable) = 0;
         
-        virtual void STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
+        virtual فراغ STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
             BOOL Enable) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12Debug1Vtbl
+    تعريفنوع بنية ID3D12Debug1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -348,7 +348,7 @@ EXTERN_C const IID IID_ID3D12Debug1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -359,16 +359,16 @@ EXTERN_C const IID IID_ID3D12Debug1;
             ID3D12Debug1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug1, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug1, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug1 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug1, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug1 * This,
             BOOL Enable);
         
@@ -377,7 +377,7 @@ EXTERN_C const IID IID_ID3D12Debug1;
 
     interface ID3D12Debug1
     {
-        CONST_VTBL struct ID3D12Debug1Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12Debug1Vtbl *lpVtbl;
     };
 
     
@@ -422,23 +422,23 @@ EXTERN_C const IID IID_ID3D12Debug1;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug2;
+EXTERN_C ثابت IID IID_ID3D12Debug2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("93a665c4-a3b2-4e5d-b692-a26ae14e3374")
-    ID3D12Debug2 : public IUnknown
+    ID3D12Debug2 : عام IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12Debug2Vtbl
+    تعريفنوع بنية ID3D12Debug2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -446,7 +446,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug2 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -457,7 +457,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
             ID3D12Debug2 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug2, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        فراغ ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug2 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
@@ -466,7 +466,7 @@ EXTERN_C const IID IID_ID3D12Debug2;
 
     interface ID3D12Debug2
     {
-        CONST_VTBL struct ID3D12Debug2Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12Debug2Vtbl *lpVtbl;
     };
 
     
@@ -505,29 +505,29 @@ EXTERN_C const IID IID_ID3D12Debug2;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug3;
+EXTERN_C ثابت IID IID_ID3D12Debug3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("5cf4e58f-f671-4ff1-a542-3686e3d153d1")
-    ID3D12Debug3 : public ID3D12Debug
+    ID3D12Debug3 : عام ID3D12Debug
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE SetEnableGPUBasedValidation( 
             BOOL Enable) = 0;
         
-        virtual void STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
+        virtual فراغ STDMETHODCALLTYPE SetEnableSynchronizedCommandQueueValidation( 
             BOOL Enable) = 0;
         
-        virtual void STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
+        virtual فراغ STDMETHODCALLTYPE SetGPUBasedValidationFlags( 
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12Debug3Vtbl
+    تعريفنوع بنية ID3D12Debug3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -535,7 +535,7 @@ EXTERN_C const IID IID_ID3D12Debug3;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug3 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -546,21 +546,21 @@ EXTERN_C const IID IID_ID3D12Debug3;
             ID3D12Debug3 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug3 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug3 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug3 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        فراغ ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug3 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
@@ -569,7 +569,7 @@ EXTERN_C const IID IID_ID3D12Debug3;
 
     interface ID3D12Debug3
     {
-        CONST_VTBL struct ID3D12Debug3Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12Debug3Vtbl *lpVtbl;
     };
 
     
@@ -618,22 +618,22 @@ EXTERN_C const IID IID_ID3D12Debug3;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug4;
+EXTERN_C ثابت IID IID_ID3D12Debug4;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("014b816e-9ec5-4a2f-a845-ffbe441ce13a")
-    ID3D12Debug4 : public ID3D12Debug3
+    ID3D12Debug4 : عام ID3D12Debug3
     {
-    public:
-        virtual void STDMETHODCALLTYPE DisableDebugLayer( void) = 0;
+    عام:
+        virtual فراغ STDMETHODCALLTYPE DisableDebugLayer( فراغ) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12Debug4Vtbl
+    تعريفنوع بنية ID3D12Debug4Vtbl
     {
         BEGIN_INTERFACE
         
@@ -641,7 +641,7 @@ EXTERN_C const IID IID_ID3D12Debug4;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug4 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -652,26 +652,26 @@ EXTERN_C const IID IID_ID3D12Debug4;
             ID3D12Debug4 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug4 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug4 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug4 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        فراغ ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug4 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
         DECLSPEC_XFGVIRT(ID3D12Debug4, DisableDebugLayer)
-        void ( STDMETHODCALLTYPE *DisableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *DisableDebugLayer )( 
             ID3D12Debug4 * This);
         
         END_INTERFACE
@@ -679,7 +679,7 @@ EXTERN_C const IID IID_ID3D12Debug4;
 
     interface ID3D12Debug4
     {
-        CONST_VTBL struct ID3D12Debug4Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12Debug4Vtbl *lpVtbl;
     };
 
     
@@ -732,23 +732,23 @@ EXTERN_C const IID IID_ID3D12Debug4;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug5;
+EXTERN_C ثابت IID IID_ID3D12Debug5;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("548d6b12-09fa-40e0-9069-5dcd589a52c9")
-    ID3D12Debug5 : public ID3D12Debug4
+    ID3D12Debug5 : عام ID3D12Debug4
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetEnableAutoName( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE SetEnableAutoName( 
             BOOL Enable) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12Debug5Vtbl
+    تعريفنوع بنية ID3D12Debug5Vtbl
     {
         BEGIN_INTERFACE
         
@@ -756,7 +756,7 @@ EXTERN_C const IID IID_ID3D12Debug5;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug5 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -767,30 +767,30 @@ EXTERN_C const IID IID_ID3D12Debug5;
             ID3D12Debug5 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug5 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug5 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug5 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        فراغ ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug5 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
         DECLSPEC_XFGVIRT(ID3D12Debug4, DisableDebugLayer)
-        void ( STDMETHODCALLTYPE *DisableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *DisableDebugLayer )( 
             ID3D12Debug5 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug5, SetEnableAutoName)
-        void ( STDMETHODCALLTYPE *SetEnableAutoName )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableAutoName )( 
             ID3D12Debug5 * This,
             BOOL Enable);
         
@@ -799,7 +799,7 @@ EXTERN_C const IID IID_ID3D12Debug5;
 
     interface ID3D12Debug5
     {
-        CONST_VTBL struct ID3D12Debug5Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12Debug5Vtbl *lpVtbl;
     };
 
     
@@ -856,23 +856,23 @@ EXTERN_C const IID IID_ID3D12Debug5;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12Debug6;
+EXTERN_C ثابت IID IID_ID3D12Debug6;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("82a816d6-5d01-4157-97d0-4975463fd1ed")
-    ID3D12Debug6 : public ID3D12Debug5
+    ID3D12Debug6 : عام ID3D12Debug5
     {
-    public:
-        virtual void STDMETHODCALLTYPE SetForceLegacyBarrierValidation( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE SetForceLegacyBarrierValidation( 
             BOOL Enable) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12Debug6Vtbl
+    تعريفنوع بنية ID3D12Debug6Vtbl
     {
         BEGIN_INTERFACE
         
@@ -880,7 +880,7 @@ EXTERN_C const IID IID_ID3D12Debug6;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12Debug6 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -891,35 +891,35 @@ EXTERN_C const IID IID_ID3D12Debug6;
             ID3D12Debug6 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug, EnableDebugLayer)
-        void ( STDMETHODCALLTYPE *EnableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *EnableDebugLayer )( 
             ID3D12Debug6 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableGPUBasedValidation)
-        void ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableGPUBasedValidation )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetEnableSynchronizedCommandQueueValidation)
-        void ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableSynchronizedCommandQueueValidation )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug3, SetGPUBasedValidationFlags)
-        void ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
+        فراغ ( STDMETHODCALLTYPE *SetGPUBasedValidationFlags )( 
             ID3D12Debug6 * This,
             D3D12_GPU_BASED_VALIDATION_FLAGS Flags);
         
         DECLSPEC_XFGVIRT(ID3D12Debug4, DisableDebugLayer)
-        void ( STDMETHODCALLTYPE *DisableDebugLayer )( 
+        فراغ ( STDMETHODCALLTYPE *DisableDebugLayer )( 
             ID3D12Debug6 * This);
         
         DECLSPEC_XFGVIRT(ID3D12Debug5, SetEnableAutoName)
-        void ( STDMETHODCALLTYPE *SetEnableAutoName )( 
+        فراغ ( STDMETHODCALLTYPE *SetEnableAutoName )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
         DECLSPEC_XFGVIRT(ID3D12Debug6, SetForceLegacyBarrierValidation)
-        void ( STDMETHODCALLTYPE *SetForceLegacyBarrierValidation )( 
+        فراغ ( STDMETHODCALLTYPE *SetForceLegacyBarrierValidation )( 
             ID3D12Debug6 * This,
             BOOL Enable);
         
@@ -928,7 +928,7 @@ EXTERN_C const IID IID_ID3D12Debug6;
 
     interface ID3D12Debug6
     {
-        CONST_VTBL struct ID3D12Debug6Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12Debug6Vtbl *lpVtbl;
     };
 
     
@@ -986,8 +986,8 @@ EXTERN_C const IID IID_ID3D12Debug6;
 /* [local] */ 
 
 DEFINE_GUID(WKPDID_D3DAutoDebugObjectNameW, 0xd4902e36, 0x757a, 0x4942, 0x95, 0x94, 0xb6, 0x76, 0x9a, 0xfa, 0x43, 0xcd);
-typedef 
-enum D3D12_RLDO_FLAGS
+تعريفنوع 
+تعداد D3D12_RLDO_FLAGS
     {
         D3D12_RLDO_NONE	= 0,
         D3D12_RLDO_SUMMARY	= 0x1,
@@ -996,16 +996,16 @@ enum D3D12_RLDO_FLAGS
     } 	D3D12_RLDO_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_RLDO_FLAGS)
-typedef 
-enum D3D12_DEBUG_DEVICE_PARAMETER_TYPE
+تعريفنوع 
+تعداد D3D12_DEBUG_DEVICE_PARAMETER_TYPE
     {
         D3D12_DEBUG_DEVICE_PARAMETER_FEATURE_FLAGS	= 0,
         D3D12_DEBUG_DEVICE_PARAMETER_GPU_BASED_VALIDATION_SETTINGS	= ( D3D12_DEBUG_DEVICE_PARAMETER_FEATURE_FLAGS + 1 ) ,
         D3D12_DEBUG_DEVICE_PARAMETER_GPU_SLOWDOWN_PERFORMANCE_FACTOR	= ( D3D12_DEBUG_DEVICE_PARAMETER_GPU_BASED_VALIDATION_SETTINGS + 1 ) 
     } 	D3D12_DEBUG_DEVICE_PARAMETER_TYPE;
 
-typedef 
-enum D3D12_DEBUG_FEATURE
+تعريفنوع 
+تعداد D3D12_DEBUG_FEATURE
     {
         D3D12_DEBUG_FEATURE_NONE	= 0,
         D3D12_DEBUG_FEATURE_ALLOW_BEHAVIOR_CHANGING_DEBUG_AIDS	= 0x1,
@@ -1015,8 +1015,8 @@ enum D3D12_DEBUG_FEATURE
     } 	D3D12_DEBUG_FEATURE;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_DEBUG_FEATURE)
-typedef 
-enum D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
+تعريفنوع 
+تعداد D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
     {
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_STATE_TRACKING_ONLY	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_NONE + 1 ) ,
@@ -1025,8 +1025,8 @@ enum D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE
         NUM_D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODES	= ( D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE_GUARDED_VALIDATION + 1 ) 
     } 	D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE;
 
-typedef 
-enum D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
+تعريفنوع 
+تعداد D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
     {
         D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAG_NONE	= 0,
         D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAG_FRONT_LOAD_CREATE_TRACKING_ONLY_SHADERS	= 0x1,
@@ -1036,22 +1036,22 @@ enum D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS
     } 	D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS)
-typedef struct D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS
+تعريفنوع بنية D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS
     {
     UINT MaxMessagesPerCommandList;
     D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE DefaultShaderPatchMode;
     D3D12_GPU_BASED_VALIDATION_PIPELINE_STATE_CREATE_FLAGS PipelineStateCreateFlags;
     } 	D3D12_DEBUG_DEVICE_GPU_BASED_VALIDATION_SETTINGS;
 
-typedef struct D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR
+تعريفنوع بنية D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR
     {
     FLOAT SlowdownFactor;
     } 	D3D12_DEBUG_DEVICE_GPU_SLOWDOWN_PERFORMANCE_FACTOR;
 
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_s_ifspec;
 
 #ifndef __ID3D12DebugDevice1_INTERFACE_DEFINED__
 #define __ID3D12DebugDevice1_INTERFACE_DEFINED__
@@ -1060,22 +1060,22 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0007_v0_0_s_ifspec;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugDevice1;
+EXTERN_C ثابت IID IID_ID3D12DebugDevice1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("a9b71770-d099-4a65-a698-3dee10020f88")
-    ID3D12DebugDevice1 : public IUnknown
+    ID3D12DebugDevice1 : عام IUnknown
     {
-    public:
+    عام:
         virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE ReportLiveDeviceObjects( 
@@ -1084,9 +1084,9 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugDevice1Vtbl
+    تعريفنوع بنية ID3D12DebugDevice1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1094,7 +1094,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugDevice1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1108,14 +1108,14 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugDevice1 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12DebugDevice1, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugDevice1 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12DebugDevice1, ReportLiveDeviceObjects)
@@ -1128,7 +1128,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
 
     interface ID3D12DebugDevice1
     {
-        CONST_VTBL struct ID3D12DebugDevice1Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugDevice1Vtbl *lpVtbl;
     };
 
     
@@ -1173,18 +1173,18 @@ EXTERN_C const IID IID_ID3D12DebugDevice1;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugDevice;
+EXTERN_C ثابت IID IID_ID3D12DebugDevice;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("3febd6dd-4973-4787-8194-e45f9e28923e")
-    ID3D12DebugDevice : public IUnknown
+    ID3D12DebugDevice : عام IUnknown
     {
-    public:
+    عام:
         virtual HRESULT STDMETHODCALLTYPE SetFeatureMask( 
             D3D12_DEBUG_FEATURE Mask) = 0;
         
-        virtual D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( void) = 0;
+        virtual D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( فراغ) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE ReportLiveDeviceObjects( 
             D3D12_RLDO_FLAGS Flags) = 0;
@@ -1192,9 +1192,9 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugDeviceVtbl
+    تعريفنوع بنية ID3D12DebugDeviceVtbl
     {
         BEGIN_INTERFACE
         
@@ -1202,7 +1202,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugDevice * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1231,7 +1231,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
 
     interface ID3D12DebugDevice
     {
-        CONST_VTBL struct ID3D12DebugDeviceVtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugDeviceVtbl *lpVtbl;
     };
 
     
@@ -1276,30 +1276,30 @@ EXTERN_C const IID IID_ID3D12DebugDevice;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugDevice2;
+EXTERN_C ثابت IID IID_ID3D12DebugDevice2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("60eccbc1-378d-4df1-894c-f8ac5ce4d7dd")
-    ID3D12DebugDevice2 : public ID3D12DebugDevice
+    ID3D12DebugDevice2 : عام ID3D12DebugDevice
     {
-    public:
+    عام:
         virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugDevice2Vtbl
+    تعريفنوع بنية ID3D12DebugDevice2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1307,7 +1307,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugDevice2 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1335,14 +1335,14 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugDevice2 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12DebugDevice2, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugDevice2 * This,
             D3D12_DEBUG_DEVICE_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize);
         
         END_INTERFACE
@@ -1350,7 +1350,7 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
 
     interface ID3D12DebugDevice2
     {
-        CONST_VTBL struct ID3D12DebugDevice2Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugDevice2Vtbl *lpVtbl;
     };
 
     
@@ -1401,8 +1401,8 @@ EXTERN_C const IID IID_ID3D12DebugDevice2;
 DEFINE_GUID(DXGI_DEBUG_D3D12, 0xcf59a98c, 0xa950, 0x4326, 0x91, 0xef, 0x9b, 0xba, 0xa1, 0x7b, 0xfd, 0x95);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_s_ifspec;
 
 #ifndef __ID3D12DebugCommandQueue_INTERFACE_DEFINED__
 #define __ID3D12DebugCommandQueue_INTERFACE_DEFINED__
@@ -1411,14 +1411,14 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0010_v0_0_s_ifspec;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandQueue;
+EXTERN_C ثابت IID IID_ID3D12DebugCommandQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053a")
-    ID3D12DebugCommandQueue : public IUnknown
+    ID3D12DebugCommandQueue : عام IUnknown
     {
-    public:
+    عام:
         virtual BOOL STDMETHODCALLTYPE AssertResourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
@@ -1427,9 +1427,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandQueueVtbl
+    تعريفنوع بنية ID3D12DebugCommandQueueVtbl
     {
         BEGIN_INTERFACE
         
@@ -1437,7 +1437,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandQueue * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1459,7 +1459,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 
     interface ID3D12DebugCommandQueue
     {
-        CONST_VTBL struct ID3D12DebugCommandQueueVtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugCommandQueueVtbl *lpVtbl;
     };
 
     
@@ -1498,20 +1498,20 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
+EXTERN_C ثابت IID IID_ID3D12DebugCommandQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("16be35a2-bfd6-49f2-bcae-eaae4aff862d")
-    ID3D12DebugCommandQueue1 : public ID3D12DebugCommandQueue
+    ID3D12DebugCommandQueue1 : عام ID3D12DebugCommandQueue
     {
-    public:
-        virtual void STDMETHODCALLTYPE AssertResourceAccess( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE AssertResourceAccess( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access) = 0;
         
-        virtual void STDMETHODCALLTYPE AssertTextureLayout( 
+        virtual فراغ STDMETHODCALLTYPE AssertTextureLayout( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_LAYOUT Layout) = 0;
@@ -1519,9 +1519,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandQueue1Vtbl
+    تعريفنوع بنية ID3D12DebugCommandQueue1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1529,7 +1529,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandQueue1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1547,14 +1547,14 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
             UINT State);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandQueue1, AssertResourceAccess)
-        void ( STDMETHODCALLTYPE *AssertResourceAccess )( 
+        فراغ ( STDMETHODCALLTYPE *AssertResourceAccess )( 
             ID3D12DebugCommandQueue1 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandQueue1, AssertTextureLayout)
-        void ( STDMETHODCALLTYPE *AssertTextureLayout )( 
+        فراغ ( STDMETHODCALLTYPE *AssertTextureLayout )( 
             ID3D12DebugCommandQueue1 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
@@ -1565,7 +1565,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
 
     interface ID3D12DebugCommandQueue1
     {
-        CONST_VTBL struct ID3D12DebugCommandQueue1Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugCommandQueue1Vtbl *lpVtbl;
     };
 
     
@@ -1607,21 +1607,21 @@ EXTERN_C const IID IID_ID3D12DebugCommandQueue1;
 /* interface __MIDL_itf_d3d12sdklayers_0000_0012 */
 /* [local] */ 
 
-typedef 
-enum D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE
+تعريفنوع 
+تعداد D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE
     {
         D3D12_DEBUG_COMMAND_LIST_PARAMETER_GPU_BASED_VALIDATION_SETTINGS	= 0
     } 	D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE;
 
-typedef struct D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS
+تعريفنوع بنية D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS
     {
     D3D12_GPU_BASED_VALIDATION_SHADER_PATCH_MODE ShaderPatchMode;
     } 	D3D12_DEBUG_COMMAND_LIST_GPU_BASED_VALIDATION_SETTINGS;
 
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_s_ifspec;
 
 #ifndef __ID3D12DebugCommandList1_INTERFACE_DEFINED__
 #define __ID3D12DebugCommandList1_INTERFACE_DEFINED__
@@ -1630,14 +1630,14 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0012_v0_0_s_ifspec;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList1;
+EXTERN_C ثابت IID IID_ID3D12DebugCommandList1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("102ca951-311b-4b01-b11f-ecb83e061b37")
-    ID3D12DebugCommandList1 : public IUnknown
+    ID3D12DebugCommandList1 : عام IUnknown
     {
-    public:
+    عام:
         virtual BOOL STDMETHODCALLTYPE AssertResourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
@@ -1645,20 +1645,20 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
         
         virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList1Vtbl
+    تعريفنوع بنية ID3D12DebugCommandList1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1666,7 +1666,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1687,14 +1687,14 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugCommandList1 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList1, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugCommandList1 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize);
         
         END_INTERFACE
@@ -1702,7 +1702,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
 
     interface ID3D12DebugCommandList1
     {
-        CONST_VTBL struct ID3D12DebugCommandList1Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugCommandList1Vtbl *lpVtbl;
     };
 
     
@@ -1747,14 +1747,14 @@ EXTERN_C const IID IID_ID3D12DebugCommandList1;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList;
+EXTERN_C ثابت IID IID_ID3D12DebugCommandList;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("09e0bf36-54ac-484f-8847-4baeeab6053f")
-    ID3D12DebugCommandList : public IUnknown
+    ID3D12DebugCommandList : عام IUnknown
     {
-    public:
+    عام:
         virtual BOOL STDMETHODCALLTYPE AssertResourceState( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
@@ -1763,14 +1763,14 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
         virtual HRESULT STDMETHODCALLTYPE SetFeatureMask( 
             D3D12_DEBUG_FEATURE Mask) = 0;
         
-        virtual D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( void) = 0;
+        virtual D3D12_DEBUG_FEATURE STDMETHODCALLTYPE GetFeatureMask( فراغ) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandListVtbl
+    تعريفنوع بنية ID3D12DebugCommandListVtbl
     {
         BEGIN_INTERFACE
         
@@ -1778,7 +1778,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1809,7 +1809,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
 
     interface ID3D12DebugCommandList
     {
-        CONST_VTBL struct ID3D12DebugCommandListVtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugCommandListVtbl *lpVtbl;
     };
 
     
@@ -1854,30 +1854,30 @@ EXTERN_C const IID IID_ID3D12DebugCommandList;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList2;
+EXTERN_C ثابت IID IID_ID3D12DebugCommandList2;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("aeb575cf-4e06-48be-ba3b-c450fc96652e")
-    ID3D12DebugCommandList2 : public ID3D12DebugCommandList
+    ID3D12DebugCommandList2 : عام ID3D12DebugCommandList
     {
-    public:
+    عام:
         virtual HRESULT STDMETHODCALLTYPE SetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetDebugParameter( 
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList2Vtbl
+    تعريفنوع بنية ID3D12DebugCommandList2Vtbl
     {
         BEGIN_INTERFACE
         
@@ -1885,7 +1885,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList2 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -1915,14 +1915,14 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugCommandList2 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList2, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugCommandList2 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize);
         
         END_INTERFACE
@@ -1930,7 +1930,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
 
     interface ID3D12DebugCommandList2
     {
-        CONST_VTBL struct ID3D12DebugCommandList2Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugCommandList2Vtbl *lpVtbl;
     };
 
     
@@ -1982,20 +1982,20 @@ EXTERN_C const IID IID_ID3D12DebugCommandList2;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12DebugCommandList3;
+EXTERN_C ثابت IID IID_ID3D12DebugCommandList3;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("197d5e15-4d37-4d34-af78-724cd70fdb1f")
-    ID3D12DebugCommandList3 : public ID3D12DebugCommandList2
+    ID3D12DebugCommandList3 : عام ID3D12DebugCommandList2
     {
-    public:
-        virtual void STDMETHODCALLTYPE AssertResourceAccess( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE AssertResourceAccess( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access) = 0;
         
-        virtual void STDMETHODCALLTYPE AssertTextureLayout( 
+        virtual فراغ STDMETHODCALLTYPE AssertTextureLayout( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_LAYOUT Layout) = 0;
@@ -2003,9 +2003,9 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12DebugCommandList3Vtbl
+    تعريفنوع بنية ID3D12DebugCommandList3Vtbl
     {
         BEGIN_INTERFACE
         
@@ -2013,7 +2013,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12DebugCommandList3 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -2043,25 +2043,25 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
         HRESULT ( STDMETHODCALLTYPE *SetDebugParameter )( 
             ID3D12DebugCommandList3 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _In_reads_bytes_(DataSize)  const void *pData,
+            _In_reads_bytes_(DataSize)  ثابت فراغ *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList2, GetDebugParameter)
         HRESULT ( STDMETHODCALLTYPE *GetDebugParameter )( 
             ID3D12DebugCommandList3 * This,
             D3D12_DEBUG_COMMAND_LIST_PARAMETER_TYPE Type,
-            _Out_writes_bytes_(DataSize)  void *pData,
+            _Out_writes_bytes_(DataSize)  فراغ *pData,
             UINT DataSize);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList3, AssertResourceAccess)
-        void ( STDMETHODCALLTYPE *AssertResourceAccess )( 
+        فراغ ( STDMETHODCALLTYPE *AssertResourceAccess )( 
             ID3D12DebugCommandList3 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             D3D12_BARRIER_ACCESS Access);
         
         DECLSPEC_XFGVIRT(ID3D12DebugCommandList3, AssertTextureLayout)
-        void ( STDMETHODCALLTYPE *AssertTextureLayout )( 
+        فراغ ( STDMETHODCALLTYPE *AssertTextureLayout )( 
             ID3D12DebugCommandList3 * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
@@ -2072,7 +2072,7 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
 
     interface ID3D12DebugCommandList3
     {
-        CONST_VTBL struct ID3D12DebugCommandList3Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12DebugCommandList3Vtbl *lpVtbl;
     };
 
     
@@ -2131,35 +2131,35 @@ EXTERN_C const IID IID_ID3D12DebugCommandList3;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12SharingContract;
+EXTERN_C ثابت IID IID_ID3D12SharingContract;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0adf7d52-929c-4e61-addb-ffed30de66ef")
-    ID3D12SharingContract : public IUnknown
+    ID3D12SharingContract : عام IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE Present( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE Present( 
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             _In_  HWND window) = 0;
         
-        virtual void STDMETHODCALLTYPE SharedFenceSignal( 
+        virtual فراغ STDMETHODCALLTYPE SharedFenceSignal( 
             _In_  ID3D12Fence *pFence,
             UINT64 FenceValue) = 0;
         
-        virtual void STDMETHODCALLTYPE BeginCapturableWork( 
+        virtual فراغ STDMETHODCALLTYPE BeginCapturableWork( 
             _In_  REFGUID guid) = 0;
         
-        virtual void STDMETHODCALLTYPE EndCapturableWork( 
+        virtual فراغ STDMETHODCALLTYPE EndCapturableWork( 
             _In_  REFGUID guid) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12SharingContractVtbl
+    تعريفنوع بنية ID3D12SharingContractVtbl
     {
         BEGIN_INTERFACE
         
@@ -2167,7 +2167,7 @@ EXTERN_C const IID IID_ID3D12SharingContract;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12SharingContract * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -2178,25 +2178,25 @@ EXTERN_C const IID IID_ID3D12SharingContract;
             ID3D12SharingContract * This);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, Present)
-        void ( STDMETHODCALLTYPE *Present )( 
+        فراغ ( STDMETHODCALLTYPE *Present )( 
             ID3D12SharingContract * This,
             _In_  ID3D12Resource *pResource,
             UINT Subresource,
             _In_  HWND window);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, SharedFenceSignal)
-        void ( STDMETHODCALLTYPE *SharedFenceSignal )( 
+        فراغ ( STDMETHODCALLTYPE *SharedFenceSignal )( 
             ID3D12SharingContract * This,
             _In_  ID3D12Fence *pFence,
             UINT64 FenceValue);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, BeginCapturableWork)
-        void ( STDMETHODCALLTYPE *BeginCapturableWork )( 
+        فراغ ( STDMETHODCALLTYPE *BeginCapturableWork )( 
             ID3D12SharingContract * This,
             _In_  REFGUID guid);
         
         DECLSPEC_XFGVIRT(ID3D12SharingContract, EndCapturableWork)
-        void ( STDMETHODCALLTYPE *EndCapturableWork )( 
+        فراغ ( STDMETHODCALLTYPE *EndCapturableWork )( 
             ID3D12SharingContract * This,
             _In_  REFGUID guid);
         
@@ -2205,7 +2205,7 @@ EXTERN_C const IID IID_ID3D12SharingContract;
 
     interface ID3D12SharingContract
     {
-        CONST_VTBL struct ID3D12SharingContractVtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12SharingContractVtbl *lpVtbl;
     };
 
     
@@ -2253,24 +2253,24 @@ EXTERN_C const IID IID_ID3D12SharingContract;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
+EXTERN_C ثابت IID IID_ID3D12ManualWriteTrackingResource;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("86ca3b85-49ad-4b6e-aed5-eddb18540f41")
-    ID3D12ManualWriteTrackingResource : public IUnknown
+    ID3D12ManualWriteTrackingResource : عام IUnknown
     {
-    public:
-        virtual void STDMETHODCALLTYPE TrackWrite( 
+    عام:
+        virtual فراغ STDMETHODCALLTYPE TrackWrite( 
             UINT Subresource,
-            _In_opt_  const D3D12_RANGE *pWrittenRange) = 0;
+            _In_opt_  ثابت D3D12_RANGE *pWrittenRange) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12ManualWriteTrackingResourceVtbl
+    تعريفنوع بنية ID3D12ManualWriteTrackingResourceVtbl
     {
         BEGIN_INTERFACE
         
@@ -2278,7 +2278,7 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12ManualWriteTrackingResource * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -2289,17 +2289,17 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
             ID3D12ManualWriteTrackingResource * This);
         
         DECLSPEC_XFGVIRT(ID3D12ManualWriteTrackingResource, TrackWrite)
-        void ( STDMETHODCALLTYPE *TrackWrite )( 
+        فراغ ( STDMETHODCALLTYPE *TrackWrite )( 
             ID3D12ManualWriteTrackingResource * This,
             UINT Subresource,
-            _In_opt_  const D3D12_RANGE *pWrittenRange);
+            _In_opt_  ثابت D3D12_RANGE *pWrittenRange);
         
         END_INTERFACE
     } ID3D12ManualWriteTrackingResourceVtbl;
 
     interface ID3D12ManualWriteTrackingResource
     {
-        CONST_VTBL struct ID3D12ManualWriteTrackingResourceVtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12ManualWriteTrackingResourceVtbl *lpVtbl;
     };
 
     
@@ -2334,8 +2334,8 @@ EXTERN_C const IID IID_ID3D12ManualWriteTrackingResource;
 /* interface __MIDL_itf_d3d12sdklayers_0000_0018 */
 /* [local] */ 
 
-typedef 
-enum D3D12_MESSAGE_CATEGORY
+تعريفنوع 
+تعداد D3D12_MESSAGE_CATEGORY
     {
         D3D12_MESSAGE_CATEGORY_APPLICATION_DEFINED	= 0,
         D3D12_MESSAGE_CATEGORY_MISCELLANEOUS	= ( D3D12_MESSAGE_CATEGORY_APPLICATION_DEFINED + 1 ) ,
@@ -2350,8 +2350,8 @@ enum D3D12_MESSAGE_CATEGORY
         D3D12_MESSAGE_CATEGORY_SHADER	= ( D3D12_MESSAGE_CATEGORY_EXECUTION + 1 ) 
     } 	D3D12_MESSAGE_CATEGORY;
 
-typedef 
-enum D3D12_MESSAGE_SEVERITY
+تعريفنوع 
+تعداد D3D12_MESSAGE_SEVERITY
     {
         D3D12_MESSAGE_SEVERITY_CORRUPTION	= 0,
         D3D12_MESSAGE_SEVERITY_ERROR	= ( D3D12_MESSAGE_SEVERITY_CORRUPTION + 1 ) ,
@@ -2360,8 +2360,8 @@ enum D3D12_MESSAGE_SEVERITY
         D3D12_MESSAGE_SEVERITY_MESSAGE	= ( D3D12_MESSAGE_SEVERITY_INFO + 1 ) 
     } 	D3D12_MESSAGE_SEVERITY;
 
-typedef 
-enum D3D12_MESSAGE_ID
+تعريفنوع 
+تعداد D3D12_MESSAGE_ID
     {
         D3D12_MESSAGE_ID_UNKNOWN	= 0,
         D3D12_MESSAGE_ID_STRING_FROM_APPLICATION	= 1,
@@ -3351,16 +3351,16 @@ enum D3D12_MESSAGE_ID
         D3D12_MESSAGE_ID_D3D12_MESSAGES_END	= ( D3D12_MESSAGE_ID_DIFFERENT_DESCRIPTOR_HEAP_SET_AFTER_ROOT_SIGNATURE_WITH_DIRECTLY_INDEXED_FLAG + 1 ) 
     } 	D3D12_MESSAGE_ID;
 
-typedef struct D3D12_MESSAGE
+تعريفنوع بنية D3D12_MESSAGE
     {
     D3D12_MESSAGE_CATEGORY Category;
     D3D12_MESSAGE_SEVERITY Severity;
     D3D12_MESSAGE_ID ID;
-    _Field_size_(DescriptionByteLength)  const char *pDescription;
+    _Field_size_(DescriptionByteLength)  ثابت حرف *pDescription;
     SIZE_T DescriptionByteLength;
     } 	D3D12_MESSAGE;
 
-typedef struct D3D12_INFO_QUEUE_FILTER_DESC
+تعريفنوع بنية D3D12_INFO_QUEUE_FILTER_DESC
     {
     UINT NumCategories;
     _Field_size_(NumCategories)  D3D12_MESSAGE_CATEGORY *pCategoryList;
@@ -3370,7 +3370,7 @@ typedef struct D3D12_INFO_QUEUE_FILTER_DESC
     _Field_size_(NumIDs)  D3D12_MESSAGE_ID *pIDList;
     } 	D3D12_INFO_QUEUE_FILTER_DESC;
 
-typedef struct D3D12_INFO_QUEUE_FILTER
+تعريفنوع بنية D3D12_INFO_QUEUE_FILTER
     {
     D3D12_INFO_QUEUE_FILTER_DESC AllowList;
     D3D12_INFO_QUEUE_FILTER_DESC DenyList;
@@ -3379,8 +3379,8 @@ typedef struct D3D12_INFO_QUEUE_FILTER
 #define D3D12_INFO_QUEUE_DEFAULT_MESSAGE_COUNT_LIMIT 1024
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_s_ifspec;
 
 #ifndef __ID3D12InfoQueue_INTERFACE_DEFINED__
 #define __ID3D12InfoQueue_INTERFACE_DEFINED__
@@ -3389,35 +3389,35 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0018_v0_0_s_ifspec;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12InfoQueue;
+EXTERN_C ثابت IID IID_ID3D12InfoQueue;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0742a90b-c387-483f-b946-30a7e4e61458")
-    ID3D12InfoQueue : public IUnknown
+    ID3D12InfoQueue : عام IUnknown
     {
-    public:
+    عام:
         virtual HRESULT STDMETHODCALLTYPE SetMessageCountLimit( 
             _In_  UINT64 MessageCountLimit) = 0;
         
-        virtual void STDMETHODCALLTYPE ClearStoredMessages( void) = 0;
+        virtual فراغ STDMETHODCALLTYPE ClearStoredMessages( فراغ) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetMessage( 
             _In_  UINT64 MessageIndex,
             _Out_writes_bytes_opt_(*pMessageByteLength)  D3D12_MESSAGE *pMessage,
             _Inout_  SIZE_T *pMessageByteLength) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesAllowedByStorageFilter( void) = 0;
+        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesAllowedByStorageFilter( فراغ) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesDeniedByStorageFilter( void) = 0;
+        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesDeniedByStorageFilter( فراغ) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumStoredMessages( void) = 0;
+        virtual UINT64 STDMETHODCALLTYPE GetNumStoredMessages( فراغ) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumStoredMessagesAllowedByRetrievalFilter( void) = 0;
+        virtual UINT64 STDMETHODCALLTYPE GetNumStoredMessagesAllowedByRetrievalFilter( فراغ) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesDiscardedByMessageCountLimit( void) = 0;
+        virtual UINT64 STDMETHODCALLTYPE GetNumMessagesDiscardedByMessageCountLimit( فراغ) = 0;
         
-        virtual UINT64 STDMETHODCALLTYPE GetMessageCountLimit( void) = 0;
+        virtual UINT64 STDMETHODCALLTYPE GetMessageCountLimit( فراغ) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE AddStorageFilterEntries( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
@@ -3426,18 +3426,18 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
             _Inout_  SIZE_T *pFilterByteLength) = 0;
         
-        virtual void STDMETHODCALLTYPE ClearStorageFilter( void) = 0;
+        virtual فراغ STDMETHODCALLTYPE ClearStorageFilter( فراغ) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushEmptyStorageFilter( void) = 0;
+        virtual HRESULT STDMETHODCALLTYPE PushEmptyStorageFilter( فراغ) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushCopyOfStorageFilter( void) = 0;
+        virtual HRESULT STDMETHODCALLTYPE PushCopyOfStorageFilter( فراغ) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE PushStorageFilter( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
         
-        virtual void STDMETHODCALLTYPE PopStorageFilter( void) = 0;
+        virtual فراغ STDMETHODCALLTYPE PopStorageFilter( فراغ) = 0;
         
-        virtual UINT STDMETHODCALLTYPE GetStorageFilterStackSize( void) = 0;
+        virtual UINT STDMETHODCALLTYPE GetStorageFilterStackSize( فراغ) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE AddRetrievalFilterEntries( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
@@ -3446,18 +3446,18 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _Out_writes_bytes_opt_(*pFilterByteLength)  D3D12_INFO_QUEUE_FILTER *pFilter,
             _Inout_  SIZE_T *pFilterByteLength) = 0;
         
-        virtual void STDMETHODCALLTYPE ClearRetrievalFilter( void) = 0;
+        virtual فراغ STDMETHODCALLTYPE ClearRetrievalFilter( فراغ) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushEmptyRetrievalFilter( void) = 0;
+        virtual HRESULT STDMETHODCALLTYPE PushEmptyRetrievalFilter( فراغ) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE PushCopyOfRetrievalFilter( void) = 0;
+        virtual HRESULT STDMETHODCALLTYPE PushCopyOfRetrievalFilter( فراغ) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE PushRetrievalFilter( 
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter) = 0;
         
-        virtual void STDMETHODCALLTYPE PopRetrievalFilter( void) = 0;
+        virtual فراغ STDMETHODCALLTYPE PopRetrievalFilter( فراغ) = 0;
         
-        virtual UINT STDMETHODCALLTYPE GetRetrievalFilterStackSize( void) = 0;
+        virtual UINT STDMETHODCALLTYPE GetRetrievalFilterStackSize( فراغ) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE AddMessage( 
             _In_  D3D12_MESSAGE_CATEGORY Category,
@@ -3490,17 +3490,17 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
         virtual BOOL STDMETHODCALLTYPE GetBreakOnID( 
             _In_  D3D12_MESSAGE_ID ID) = 0;
         
-        virtual void STDMETHODCALLTYPE SetMuteDebugOutput( 
+        virtual فراغ STDMETHODCALLTYPE SetMuteDebugOutput( 
             _In_  BOOL bMute) = 0;
         
-        virtual BOOL STDMETHODCALLTYPE GetMuteDebugOutput( void) = 0;
+        virtual BOOL STDMETHODCALLTYPE GetMuteDebugOutput( فراغ) = 0;
         
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12InfoQueueVtbl
+    تعريفنوع بنية ID3D12InfoQueueVtbl
     {
         BEGIN_INTERFACE
         
@@ -3508,7 +3508,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12InfoQueue * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -3524,7 +3524,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _In_  UINT64 MessageCountLimit);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStoredMessages)
-        void ( STDMETHODCALLTYPE *ClearStoredMessages )( 
+        فراغ ( STDMETHODCALLTYPE *ClearStoredMessages )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetMessage)
@@ -3570,7 +3570,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _Inout_  SIZE_T *pFilterByteLength);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStorageFilter)
-        void ( STDMETHODCALLTYPE *ClearStorageFilter )( 
+        فراغ ( STDMETHODCALLTYPE *ClearStorageFilter )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyStorageFilter)
@@ -3587,7 +3587,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopStorageFilter)
-        void ( STDMETHODCALLTYPE *PopStorageFilter )( 
+        فراغ ( STDMETHODCALLTYPE *PopStorageFilter )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetStorageFilterStackSize)
@@ -3606,7 +3606,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _Inout_  SIZE_T *pFilterByteLength);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearRetrievalFilter)
-        void ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
+        فراغ ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyRetrievalFilter)
@@ -3623,7 +3623,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopRetrievalFilter)
-        void ( STDMETHODCALLTYPE *PopRetrievalFilter )( 
+        فراغ ( STDMETHODCALLTYPE *PopRetrievalFilter )( 
             ID3D12InfoQueue * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetRetrievalFilterStackSize)
@@ -3678,7 +3678,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
             _In_  D3D12_MESSAGE_ID ID);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, SetMuteDebugOutput)
-        void ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
+        فراغ ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
             ID3D12InfoQueue * This,
             _In_  BOOL bMute);
         
@@ -3691,7 +3691,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
 
     interface ID3D12InfoQueue
     {
-        CONST_VTBL struct ID3D12InfoQueueVtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12InfoQueueVtbl *lpVtbl;
     };
 
     
@@ -3828,25 +3828,25 @@ EXTERN_C const IID IID_ID3D12InfoQueue;
 /* interface __MIDL_itf_d3d12sdklayers_0000_0019 */
 /* [local] */ 
 
-typedef 
-enum D3D12_MESSAGE_CALLBACK_FLAGS
+تعريفنوع 
+تعداد D3D12_MESSAGE_CALLBACK_FLAGS
     {
         D3D12_MESSAGE_CALLBACK_FLAG_NONE	= 0,
         D3D12_MESSAGE_CALLBACK_IGNORE_FILTERS	= 0x1
     } 	D3D12_MESSAGE_CALLBACK_FLAGS;
 
 DEFINE_ENUM_FLAG_OPERATORS(D3D12_MESSAGE_CALLBACK_FLAGS)
-typedef void ( __stdcall *D3D12MessageFunc )( 
+تعريفنوع فراغ ( __stdcall *D3D12MessageFunc )( 
     D3D12_MESSAGE_CATEGORY Category,
     D3D12_MESSAGE_SEVERITY Severity,
     D3D12_MESSAGE_ID ID,
     LPCSTR pDescription,
-    void *pContext);
+    فراغ *pContext);
 
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_s_ifspec;
 
 #ifndef __ID3D12InfoQueue1_INTERFACE_DEFINED__
 #define __ID3D12InfoQueue1_INTERFACE_DEFINED__
@@ -3855,18 +3855,18 @@ extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0019_v0_0_s_ifspec;
 /* [unique][local][object][uuid] */ 
 
 
-EXTERN_C const IID IID_ID3D12InfoQueue1;
+EXTERN_C ثابت IID IID_ID3D12InfoQueue1;
 
-#if defined(__cplusplus) && !defined(CINTERFACE)
+#אם defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("2852dd88-b484-4c0c-b6b1-67168500e600")
-    ID3D12InfoQueue1 : public ID3D12InfoQueue
+    ID3D12InfoQueue1 : عام ID3D12InfoQueue
     {
-    public:
+    عام:
         virtual HRESULT STDMETHODCALLTYPE RegisterMessageCallback( 
             _In_  D3D12MessageFunc CallbackFunc,
             _In_  D3D12_MESSAGE_CALLBACK_FLAGS CallbackFilterFlags,
-            _Inout_  void *pContext,
+            _Inout_  فراغ *pContext,
             _Inout_  DWORD *pCallbackCookie) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE UnregisterMessageCallback( 
@@ -3875,9 +3875,9 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
     };
     
     
-#else 	/* C style interface */
+#אחרת 	/* C style interface */
 
-    typedef struct ID3D12InfoQueue1Vtbl
+    تعريفنوع بنية ID3D12InfoQueue1Vtbl
     {
         BEGIN_INTERFACE
         
@@ -3885,7 +3885,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             ID3D12InfoQueue1 * This,
             REFIID riid,
-            _COM_Outptr_  void **ppvObject);
+            _COM_Outptr_  فراغ **ppvObject);
         
         DECLSPEC_XFGVIRT(IUnknown, AddRef)
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
@@ -3901,7 +3901,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             _In_  UINT64 MessageCountLimit);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStoredMessages)
-        void ( STDMETHODCALLTYPE *ClearStoredMessages )( 
+        فراغ ( STDMETHODCALLTYPE *ClearStoredMessages )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetMessage)
@@ -3947,7 +3947,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             _Inout_  SIZE_T *pFilterByteLength);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearStorageFilter)
-        void ( STDMETHODCALLTYPE *ClearStorageFilter )( 
+        فراغ ( STDMETHODCALLTYPE *ClearStorageFilter )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyStorageFilter)
@@ -3964,7 +3964,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopStorageFilter)
-        void ( STDMETHODCALLTYPE *PopStorageFilter )( 
+        فراغ ( STDMETHODCALLTYPE *PopStorageFilter )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetStorageFilterStackSize)
@@ -3983,7 +3983,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             _Inout_  SIZE_T *pFilterByteLength);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, ClearRetrievalFilter)
-        void ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
+        فراغ ( STDMETHODCALLTYPE *ClearRetrievalFilter )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PushEmptyRetrievalFilter)
@@ -4000,7 +4000,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             _In_  D3D12_INFO_QUEUE_FILTER *pFilter);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, PopRetrievalFilter)
-        void ( STDMETHODCALLTYPE *PopRetrievalFilter )( 
+        فراغ ( STDMETHODCALLTYPE *PopRetrievalFilter )( 
             ID3D12InfoQueue1 * This);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, GetRetrievalFilterStackSize)
@@ -4055,7 +4055,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             _In_  D3D12_MESSAGE_ID ID);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue, SetMuteDebugOutput)
-        void ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
+        فراغ ( STDMETHODCALLTYPE *SetMuteDebugOutput )( 
             ID3D12InfoQueue1 * This,
             _In_  BOOL bMute);
         
@@ -4068,7 +4068,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
             ID3D12InfoQueue1 * This,
             _In_  D3D12MessageFunc CallbackFunc,
             _In_  D3D12_MESSAGE_CALLBACK_FLAGS CallbackFilterFlags,
-            _Inout_  void *pContext,
+            _Inout_  فراغ *pContext,
             _Inout_  DWORD *pCallbackCookie);
         
         DECLSPEC_XFGVIRT(ID3D12InfoQueue1, UnregisterMessageCallback)
@@ -4081,7 +4081,7 @@ EXTERN_C const IID IID_ID3D12InfoQueue1;
 
     interface ID3D12InfoQueue1
     {
-        CONST_VTBL struct ID3D12InfoQueue1Vtbl *lpVtbl;
+        CONST_VTBL بنية ID3D12InfoQueue1Vtbl *lpVtbl;
     };
 
     
@@ -4251,8 +4251,8 @@ DEFINE_GUID(IID_ID3D12InfoQueue,0x0742a90b,0xc387,0x483f,0xb9,0x46,0x30,0xa7,0xe
 DEFINE_GUID(IID_ID3D12InfoQueue1,0x2852dd88,0xb484,0x4c0c,0xb6,0xb1,0x67,0x16,0x85,0x00,0xe6,0x00);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_s_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_c_ifspec;
+خارجي RPC_IF_HANDLE __MIDL_itf_d3d12sdklayers_0000_0020_v0_0_s_ifspec;
 
 /* Additional Prototypes for ALL interfaces */
 

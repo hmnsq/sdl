@@ -18,35 +18,35 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_N3DS
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_n3dsframebuffer_c.h"
-#include "SDL_n3dsvideo.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../SDL_properties_c.h"
+#ضمن "SDL_n3dsframebuffer_c.h"
+#ضمن "SDL_n3dsvideo.h"
 
 #define N3DS_SURFACE "SDL.internal.window.surface"
 
-typedef struct
+تعريفنوع بنية
 {
-    int width, height;
+    صحيح width, height;
 } Dimensions;
 
-static void CopyFramebuffertoN3DS_16(u16 *dest, const Dimensions dest_dim, const u16 *source, const Dimensions source_dim);
-static void CopyFramebuffertoN3DS_24(u8  *dest, const Dimensions dest_dim, const u8  *source, const Dimensions source_dim);
-static void CopyFramebuffertoN3DS_32(u32 *dest, const Dimensions dest_dim, const u32 *source, const Dimensions source_dim);
-static int GetDestOffset(int x, int y, int dest_width);
-static int GetSourceOffset(int x, int y, int source_width);
-static void FlushN3DSBuffer(const void *buffer, u32 bufsize, gfxScreen_t screen);
+ساكن فراغ CopyFramebuffertoN3DS_16(u16 *dest, ثابت Dimensions dest_dim, ثابت u16 *source, ثابت Dimensions source_dim);
+ساكن فراغ CopyFramebuffertoN3DS_24(u8  *dest, ثابت Dimensions dest_dim, ثابت u8  *source, ثابت Dimensions source_dim);
+ساكن فراغ CopyFramebuffertoN3DS_32(u32 *dest, ثابت Dimensions dest_dim, ثابت u32 *source, ثابت Dimensions source_dim);
+ساكن صحيح GetDestOffset(صحيح x, صحيح y, صحيح dest_width);
+ساكن صحيح GetSourceOffset(صحيح x, صحيح y, صحيح source_width);
+ساكن فراغ FlushN3DSBuffer(ثابت فراغ *buffer, u32 bufsize, gfxScreen_t screen);
 
 
-bool SDL_N3DS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_N3DS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, فراغ **pixels, صحيح *pitch)
 {
     SDL_Surface *framebuffer;
-    const SDL_DisplayMode *mode;
-    int w, h;
+    ثابت SDL_DisplayMode *mode;
+    صحيح w, h;
 
     SDL_N3DS_DestroyWindowFramebuffer(_this, window);
 
@@ -54,68 +54,68 @@ bool SDL_N3DS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window
     SDL_GetWindowSizeInPixels(window, &w, &h);
     framebuffer = SDL_CreateSurfaceZeroed(w, h, mode->format);
 
-    if (!framebuffer) {
-        return false;
+    אם (!framebuffer) {
+        החזר false;
     }
 
     SDL_SetSurfaceProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, framebuffer);
     *format = mode->format;
     *pixels = framebuffer->pixels;
     *pitch = framebuffer->pitch;
-    return true;
+    החזר true;
 }
 
-bool SDL_N3DS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_N3DS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, ثابت SDL_Rect *rects, صحيح numrects)
 {
     SDL_WindowData *drv_data = window->internal;
     SDL_Surface *surface;
     u16 width, height;
-    void *framebuffer;
+    فراغ *framebuffer;
     u32 bufsize;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("%s: Unable to get the window surface.", SDL_FUNCTION);
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, عدم);
+    אם (!surface) {
+        החזר SDL_SetError("%s: Unable to get the window surface.", SDL_FUNCTION);
     }
 
     // Get the N3DS internal framebuffer and its size
     framebuffer = gfxGetFramebuffer(drv_data->screen, GFX_LEFT, &width, &height);
     bufsize = width * height * 4;
 
-    if (SDL_BYTESPERPIXEL(surface->format) == 2)
+    אם (SDL_BYTESPERPIXEL(surface->format) == 2)
         CopyFramebuffertoN3DS_16(framebuffer, (Dimensions){ width, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
-    else if (SDL_BYTESPERPIXEL(surface->format) == 3)
+    אחרת אם (SDL_BYTESPERPIXEL(surface->format) == 3)
         CopyFramebuffertoN3DS_24(framebuffer, (Dimensions){ width, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
-    else
+    אחרת
         CopyFramebuffertoN3DS_32(framebuffer, (Dimensions){ width, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
     FlushN3DSBuffer(framebuffer, bufsize, drv_data->screen);
 
-    return true;
+    החזר true;
 }
 
-static void CopyFramebuffertoN3DS_16(u16 *dest, const Dimensions dest_dim, const u16 *source, const Dimensions source_dim)
+ساكن فراغ CopyFramebuffertoN3DS_16(u16 *dest, ثابت Dimensions dest_dim, ثابت u16 *source, ثابت Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u16 *s = source + GetSourceOffset(x, y, source_dim.width);
+    صحيح rows = SDL_min(dest_dim.width, source_dim.height);
+    صحيح cols = SDL_min(dest_dim.height, source_dim.width);
+    עבור (صحيح y = 0; y < rows; ++y) {
+        עבור (صحيح x = 0; x < cols; ++x) {
+            ثابت u16 *s = source + GetSourceOffset(x, y, source_dim.width);
             u16 *d = dest + GetDestOffset(x, y, dest_dim.width);
             *d = *s;
         }
     }
 }
 
-static void CopyFramebuffertoN3DS_24(u8 *dest, const Dimensions dest_dim, const u8 *source, const Dimensions source_dim)
+ساكن فراغ CopyFramebuffertoN3DS_24(u8 *dest, ثابت Dimensions dest_dim, ثابت u8 *source, ثابت Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u8 *s = source + GetSourceOffset(x, y, source_dim.width) * 3;
+    صحيح rows = SDL_min(dest_dim.width, source_dim.height);
+    صحيح cols = SDL_min(dest_dim.height, source_dim.width);
+    עבור (صحيح y = 0; y < rows; ++y) {
+        עבור (صحيح x = 0; x < cols; ++x) {
+            ثابت u8 *s = source + GetSourceOffset(x, y, source_dim.width) * 3;
             u8 *d = dest + GetDestOffset(x, y, dest_dim.width) * 3;
             d[0] = s[0];
             d[1] = s[1];
@@ -124,36 +124,36 @@ static void CopyFramebuffertoN3DS_24(u8 *dest, const Dimensions dest_dim, const 
     }
 }
 
-static void CopyFramebuffertoN3DS_32(u32 *dest, const Dimensions dest_dim, const u32 *source, const Dimensions source_dim)
+ساكن فراغ CopyFramebuffertoN3DS_32(u32 *dest, ثابت Dimensions dest_dim, ثابت u32 *source, ثابت Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u32 *s = source + GetSourceOffset(x, y, source_dim.width);
+    صحيح rows = SDL_min(dest_dim.width, source_dim.height);
+    صحيح cols = SDL_min(dest_dim.height, source_dim.width);
+    עבור (صحيح y = 0; y < rows; ++y) {
+        עבור (صحيح x = 0; x < cols; ++x) {
+            ثابت u32 *s = source + GetSourceOffset(x, y, source_dim.width);
             u32 *d = dest + GetDestOffset(x, y, dest_dim.width);
             *d = *s;
         }
     }
 }
 
-static int GetDestOffset(int x, int y, int dest_width)
+ساكن صحيح GetDestOffset(صحيح x, صحيح y, صحيح dest_width)
 {
-    return dest_width - y - 1 + dest_width * x;
+    החזר dest_width - y - 1 + dest_width * x;
 }
 
-static int GetSourceOffset(int x, int y, int source_width)
+ساكن صحيح GetSourceOffset(صحيح x, صحيح y, صحيح source_width)
 {
-    return x + y * source_width;
+    החזר x + y * source_width;
 }
 
-static void FlushN3DSBuffer(const void *buffer, u32 bufsize, gfxScreen_t screen)
+ساكن فراغ FlushN3DSBuffer(ثابت فراغ *buffer, u32 bufsize, gfxScreen_t screen)
 {
     GSPGPU_FlushDataCache(buffer, bufsize);
     gfxScreenSwapBuffers(screen, false);
 }
 
-void SDL_N3DS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ SDL_N3DS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
 {
     SDL_ClearProperty(SDL_GetWindowProperties(window), N3DS_SURFACE);
 }

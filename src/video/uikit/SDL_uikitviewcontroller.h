@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
 #ifdef SDL_PLATFORM_TVOS
 #import <GameController/GameController.h>
 #define SDLRootViewController GCEventViewController
-#else
+#אחרת
 #define SDLRootViewController UIViewController
 #endif
 
@@ -37,7 +37,7 @@
 
 #ifdef SDL_IPHONE_KEYBOARD
 @interface SDL_uikitviewcontroller : SDLRootViewController <UITextFieldDelegate>
-#else
+#אחרת
 @interface SDL_uikitviewcontroller : SDLRootViewController
 #endif
 
@@ -45,22 +45,22 @@
 
 - (instancetype)initWithSDLWindow:(SDL_Window *)_window;
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
+- (فراغ)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
 
-- (void)setAnimationCallback:(int)interval
-                    callback:(void (*)(void *))callback
-               callbackParam:(void *)callbackParam;
+- (فراغ)setAnimationCallback:(صحيح)interval
+                    callback:(فراغ (*)(فراغ *))callback
+               callbackParam:(فراغ *)callbackParam;
 
-- (void)startAnimation;
-- (void)stopAnimation;
+- (فراغ)startAnimation;
+- (فراغ)stopAnimation;
 
-- (void)doLoop:(CADisplayLink *)sender;
+- (فراغ)doLoop:(CADisplayLink *)sender;
 
-- (void)loadView;
-- (void)viewDidLayoutSubviews;
+- (فراغ)loadView;
+- (فراغ)viewDidLayoutSubviews;
 
 #ifdef SDL_PLATFORM_VISIONOS
-- (void)initializeVisionOSCurvedUI;
+- (فراغ)initializeVisionOSCurvedUI;
 #endif
 
 #ifndef SDL_PLATFORM_TVOS
@@ -69,25 +69,25 @@
 - (BOOL)prefersHomeIndicatorAutoHidden;
 - (UIRectEdge)preferredScreenEdgesDeferringSystemGestures;
 
-@property(nonatomic, assign) int homeIndicatorHidden;
+@property(nonatomic, assign) صحيح homeIndicatorHidden;
 #endif
 
 #ifdef SDL_IPHONE_KEYBOARD
 - (bool)startTextInput;
 - (bool)stopTextInput;
-- (void)initKeyboard;
-- (void)deinitKeyboard;
+- (فراغ)initKeyboard;
+- (فراغ)deinitKeyboard;
 
-- (void)keyboardWillShow:(NSNotification *)notification;
-- (void)keyboardDidShow:(NSNotification *)notification;
-- (void)keyboardWillHide:(NSNotification *)notification;
-- (void)keyboardDidHide:(NSNotification *)notification;
+- (فراغ)keyboardWillShow:(NSNotification *)notification;
+- (فراغ)keyboardDidShow:(NSNotification *)notification;
+- (فراغ)keyboardWillHide:(NSNotification *)notification;
+- (فراغ)keyboardDidHide:(NSNotification *)notification;
 
-- (void)updateKeyboard;
+- (فراغ)updateKeyboard;
 
 @property(nonatomic, assign, getter=isTextFieldFocused) BOOL textFieldFocused;
 @property(nonatomic, assign) SDL_Rect textInputRect;
-@property(nonatomic, assign) int keyboardHeight;
+@property(nonatomic, assign) صحيح keyboardHeight;
 #endif
 
 @end
@@ -96,6 +96,6 @@
 bool UIKit_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 bool UIKit_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
 bool UIKit_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_SetTextInputProperties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
+فراغ UIKit_SetTextInputProperties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
 bool UIKit_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
 #endif
