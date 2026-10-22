@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_PS2
 
@@ -37,33 +37,33 @@
  *  SDL video driver.  Renamed to "PS2" by Sam Lantinga.
  */
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
+#অন্তর্ভাৱ "../SDL_sysvideo.h"
+#অন্তর্ভাৱ "../SDL_pixels_c.h"
+#অন্তর্ভাৱ "../../events/SDL_events_c.h"
 
-#include "SDL_ps2video.h"
+#অন্তর্ভাৱ "SDL_ps2video.h"
 
 // PS2 driver bootstrap functions
 
-static bool PS2_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+স্থির bool PS2_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
 {
-    return true;
+    ঘূৰাই true;
 }
 
-static void PS2_DeleteDevice(SDL_VideoDevice *device)
+স্থির শূন্য PS2_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static bool PS2_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+স্থির bool PS2_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
 {
     SDL_SetKeyboardFocus(window);
 
     // Window has been successfully created
-    return true;
+    ঘূৰাই true;
 }
 
-static bool PS2_VideoInit(SDL_VideoDevice *_this)
+স্থির bool PS2_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_DisplayMode mode;
 
@@ -77,26 +77,26 @@ static bool PS2_VideoInit(SDL_VideoDevice *_this)
 
     SDL_AddBasicVideoDisplay(&mode);
 
-    return true;
+    ঘূৰাই true;
 }
 
-static void PS2_VideoQuit(SDL_VideoDevice *_this)
+স্থির শূন্য PS2_VideoQuit(SDL_VideoDevice *_this)
 {
 }
 
-static void PS2_PumpEvents(SDL_VideoDevice *_this)
+স্থির শূন্য PS2_PumpEvents(SDL_VideoDevice *_this)
 {
     // do nothing.
 }
 
-static SDL_VideoDevice *PS2_CreateDevice(void)
+স্থির SDL_VideoDevice *PS2_CreateDevice(শূন্য)
 {
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, পরিমাণ(SDL_VideoDevice));
+    যদি (!device) {
+        ঘূৰাই রিক্ত;
     }
 
     // Set the function pointers
@@ -105,16 +105,16 @@ static SDL_VideoDevice *PS2_CreateDevice(void)
     device->SetDisplayMode = PS2_SetDisplayMode;
     device->CreateSDLWindow = PS2_CreateWindow;
     device->PumpEvents = PS2_PumpEvents;
-    device->free = PS2_DeleteDevice;
+    device->মুক্ত = PS2_DeleteDevice;
 
-    return device;
+    ঘূৰাই device;
 }
 
 VideoBootStrap PS2_bootstrap = {
     "ps2",
     "PS2 Video Driver",
     PS2_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    রিক্ত, // no ShowMessageBox implementation
     false
 };
 

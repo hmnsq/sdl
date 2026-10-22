@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifndef SDL_androidvideo_h_
 #define SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#অন্তর্ভাৱ "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+বাহ্য শূন্য Android_SetScreenResolution(পূর্ণাঙ্ক surfaceWidth, পূর্ণাঙ্ক surfaceHeight, পূর্ণাঙ্ক deviceWidth, পূর্ণাঙ্ক deviceHeight, ভিন্ন density, ভিন্ন rate);
+বাহ্য শূন্য Android_SetScreenHDRHeadroom(ভিন্ন headroom);
+বাহ্য শূন্য Android_SetFormat(পূর্ণাঙ্ক format_wanted, পূর্ণাঙ্ক format_got);
+বাহ্য শূন্য Android_SetOrientation(SDL_DisplayOrientation orientation);
+বাহ্য শূন্য Android_SendResize(SDL_Window *window);
+বাহ্য শূন্য Android_SetWindowSafeAreaInsets(পূর্ণাঙ্ক বাম, পূর্ণাঙ্ক ডান, পূর্ণাঙ্ক শীৰ্ষ, পূর্ণাঙ্ক bottom);
+বাহ্য শূন্য Android_SetDarkMode(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+সংরচনা SDL_VideoData
 {
-    int isPaused;
-    int isPausing;
+    পূর্ণাঙ্ক isPaused;
+    পূর্ণাঙ্ক isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+বাহ্য পূর্ণাঙ্ক Android_SurfaceWidth;
+বাহ্য পূর্ণাঙ্ক Android_SurfaceHeight;
+বাহ্য ভিন্ন Android_ScreenDensity;
+বাহ্য পূর্ণাঙ্ক Android_Safe_Inset_বাম;
+বাহ্য পূর্ণাঙ্ক Android_Safe_Inset_ডান;
+বাহ্য পূর্ণাঙ্ক Android_Safe_Inset_শীৰ্ষ;
+বাহ্য পূর্ণাঙ্ক Android_SafeInsetBottom;
 
 #endif // SDL_androidvideo_h_

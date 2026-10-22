@@ -22,10 +22,10 @@
 #ifndef SDL_vitakeyboard_h
 #define SDL_vitakeyboard_h
 
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 // Keyboard functions
-extern void VITA_InitKeyboard(void);
-extern void VITA_PollKeyboard(void);
+বাহ্য শূন্য VITA_InitKeyboard(শূন্য);
+বাহ্য শূন্য VITA_PollKeyboard(শূন্য);
 
 #endif // SDL_vitakeyboard_h

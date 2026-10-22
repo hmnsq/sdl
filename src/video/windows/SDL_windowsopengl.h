@@ -18,15 +18,15 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifndef SDL_windowsopengl_h_
 #define SDL_windowsopengl_h_
 
 #ifdef SDL_VIDEO_OPENGL_WGL
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-typedef struct tagPIXELFORMATDESCRIPTOR
+#যদি defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+প্রকারনির্দেশ সংরচনা tagPIXELFORMATDESCRIPTOR
 {
     WORD nSize;
     WORD nVersion;
@@ -57,7 +57,7 @@ typedef struct tagPIXELFORMATDESCRIPTOR
 } PIXELFORMATDESCRIPTOR, *PPIXELFORMATDESCRIPTOR, *LPPIXELFORMATDESCRIPTOR;
 #endif
 
-struct SDL_GLDriverData
+সংরচনা SDL_GLDriverData
 {
     bool HAS_WGL_ARB_pixel_format;
     bool HAS_WGL_EXT_swap_control_tear;
@@ -72,55 +72,55 @@ struct SDL_GLDriverData
        implementation supports WGL_EXT_create_context_es2_profile.
        major = minor = 0 when unsupported.
      */
-    struct
+    সংরচনা
     {
-        int major;
-        int minor;
+        পূর্ণাঙ্ক major;
+        পূর্ণাঙ্ক minor;
     } es_profile_max_supported_version;
 
     /* *INDENT-OFF* */ // clang-format off
-    PROC (WINAPI *wglGetProcAddress)(const char *proc);
+    PROC (WINAPI *wglGetProcAddress)(ধ্রুৱ ৱর্ণ *proc);
     HGLRC (WINAPI *wglCreateContext)(HDC hdc);
     BOOL (WINAPI *wglDeleteContext)(HGLRC hglrc);
     BOOL (WINAPI *wglMakeCurrent)(HDC hdc, HGLRC hglrc);
     BOOL (WINAPI *wglShareLists)(HGLRC hglrc1, HGLRC hglrc2);
-    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, const int *piAttribIList, const FLOAT * pfAttribFList, UINT nMaxFormats, int *piFormats, UINT * nNumFormats);
-    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
-    BOOL (WINAPI *wglSwapIntervalEXT)(int interval);
-    int (WINAPI *wglGetSwapIntervalEXT)(void);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    BOOL (WINAPI *wglChoosePixelFormatARB)(HDC hdc, ধ্রুৱ পূর্ণাঙ্ক *piAttribIList, ধ্রুৱ FLOAT * pfAttribFList, UINT nMaxFormats, পূর্ণাঙ্ক *piFormats, UINT * n_অঙ্ক_Formats);
+    BOOL (WINAPI *wglGetPixelFormatAttribivARB)(HDC hdc, পূর্ণাঙ্ক iPixelFormat, পূর্ণাঙ্ক iLayerPlane, UINT nAttributes, ধ্রুৱ পূর্ণাঙ্ক *piAttributes, পূর্ণাঙ্ক *pi_মানসমূহ);
+    BOOL (WINAPI *wglSwapIntervalEXT)(পূর্ণাঙ্ক interval);
+    পূর্ণাঙ্ক (WINAPI *wglGetSwapIntervalEXT)(শূন্য);
+#যদি defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     BOOL (WINAPI *wglSwapBuffers)(HDC hdc);
-    int (WINAPI *wglDescribePixelFormat)(HDC hdc,
-                                         int iPixelFormat,
+    পূর্ণাঙ্ক (WINAPI *wglDescribePixelFormat)(HDC hdc,
+                                         পূর্ণাঙ্ক iPixelFormat,
                                          UINT nBytes,
                                          LPPIXELFORMATDESCRIPTOR ppfd);
-    int (WINAPI *wglChoosePixelFormat)(HDC hdc,
-                                       const PIXELFORMATDESCRIPTOR *ppfd);
+    পূর্ণাঙ্ক (WINAPI *wglChoosePixelFormat)(HDC hdc,
+                                       ধ্রুৱ PIXELFORMATDESCRIPTOR *ppfd);
     BOOL (WINAPI *wglSetPixelFormat)(HDC hdc,
-                                     int format,
-                                     const PIXELFORMATDESCRIPTOR *ppfd);
-    int (WINAPI *wglGetPixelFormat)(HDC hdc);
+                                     পূর্ণাঙ্ক format,
+                                     ধ্রুৱ PIXELFORMATDESCRIPTOR *ppfd);
+    পূর্ণাঙ্ক (WINAPI *wglGetPixelFormat)(HDC hdc);
 #endif
     /* *INDENT-ON* */ // clang-format on
 };
 
 // OpenGL functions
-extern bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void WIN_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool WIN_GL_UseEGL(SDL_VideoDevice *_this);
-extern bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
+বাহ্য bool WIN_GL_LoadLibrary(SDL_VideoDevice *_this, ধ্রুৱ ৱর্ণ *path);
+বাহ্য SDL_FunctionPointer WIN_GL_GetProcAddress(SDL_VideoDevice *_this, ধ্রুৱ ৱর্ণ *proc);
+বাহ্য শূন্য WIN_GL_UnloadLibrary(SDL_VideoDevice *_this);
+বাহ্য bool WIN_GL_UseEGL(SDL_VideoDevice *_this);
+বাহ্য bool WIN_GL_SetupWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্য SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্য bool WIN_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window,
                               SDL_GLContext context);
-extern bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);
+বাহ্য bool WIN_GL_SetSwapInterval(SDL_VideoDevice *_this, পূর্ণাঙ্ক interval);
+বাহ্য bool WIN_GL_GetSwapInterval(SDL_VideoDevice *_this, পূর্ণাঙ্ক *interval);
+বাহ্য bool WIN_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+বাহ্য bool WIN_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+বাহ্য শূন্য WIN_GL_InitExtensions(SDL_VideoDevice *_this);
 
 #ifndef WGL_ARB_pixel_format
-#define WGL_NUMBER_PIXEL_FORMATS_ARB    0x2000
+#define WGL_সংখ্যা_PIXEL_FORMATS_ARB    0x2000
 #define WGL_DRAW_TO_WINDOW_ARB          0x2001
 #define WGL_DRAW_TO_BITMAP_ARB          0x2002
 #define WGL_ACCELERATION_ARB            0x2003
@@ -128,14 +128,14 @@ extern void WIN_GL_InitExtensions(SDL_VideoDevice *_this);
 #define WGL_NEED_SYSTEM_PALETTE_ARB     0x2005
 #define WGL_SWAP_LAYER_BUFFERS_ARB      0x2006
 #define WGL_SWAP_METHOD_ARB             0x2007
-#define WGL_NUMBER_OVERLAYS_ARB         0x2008
-#define WGL_NUMBER_UNDERLAYS_ARB        0x2009
+#define WGL_সংখ্যা_OVERLAYS_ARB         0x2008
+#define WGL_সংখ্যা_UNDERLAYS_ARB        0x2009
 #define WGL_TRANSPARENT_ARB             0x200A
-#define WGL_TRANSPARENT_RED_VALUE_ARB   0x2037
-#define WGL_TRANSPARENT_GREEN_VALUE_ARB 0x2038
-#define WGL_TRANSPARENT_BLUE_VALUE_ARB  0x2039
-#define WGL_TRANSPARENT_ALPHA_VALUE_ARB 0x203A
-#define WGL_TRANSPARENT_INDEX_VALUE_ARB 0x203B
+#define WGL_TRANSPARENT_RED_মান_ARB   0x2037
+#define WGL_TRANSPARENT_GREEN_মান_ARB 0x2038
+#define WGL_TRANSPARENT_BLUE_মান_ARB  0x2039
+#define WGL_TRANSPARENT_ALPHA_মান_ARB 0x203A
+#define WGL_TRANSPARENT_INDEX_মান_ARB 0x203B
 #define WGL_SHARE_DEPTH_ARB             0x200C
 #define WGL_SHARE_STENCIL_ARB           0x200D
 #define WGL_SHARE_ACCUM_ARB             0x200E

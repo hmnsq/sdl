@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_HAIKU
 
-#include "SDL_bevents.h"
+#অন্তর্ভাৱ "SDL_bevents.h"
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্য "C" {
 #endif
 
-void HAIKU_PumpEvents(SDL_VideoDevice *_this) {
+শূন্য HAIKU_PumpEvents(SDL_VideoDevice *_this) {
     // Since the event thread is its own thread, this isn't really necessary
 }
 

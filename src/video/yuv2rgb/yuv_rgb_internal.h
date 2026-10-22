@@ -1,11 +1,11 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
-#include "yuv_rgb.h"
+#অন্তর্ভাৱ "yuv_rgb.h"
 
 #define PRECISION 6
 #define PRECISION_FACTOR (1<<PRECISION)
 
-typedef struct
+প্রকারনির্দেশ সংরচনা
 {
 	uint8_t y_shift;
 	int16_t matrix[3][3];
@@ -14,7 +14,7 @@ typedef struct
 // |U| = |  128  | + 1/PRECISION_FACTOR * |matrix[1][0] matrix[1][1] matrix[1][2]| * |G|
 // |V|   |  128  |                        |matrix[2][0] matrix[2][1] matrix[2][2]|   |B|
 
-typedef struct
+প্রকারনির্দেশ সংরচনা
 {
 	uint8_t y_shift;
 	int16_t y_factor;
@@ -28,11 +28,11 @@ typedef struct
 // |B|                        |y_factor  u_b_factor      0     |   |  V-128  |
 
 #ifdef _MSC_VER
-#pragma warning(push)
+#pragma warning(ঠেলো)
 #pragma warning(disable : 26451)
 #endif
 
-#define V(value) (int16_t)((value*PRECISION_FACTOR)+0.5)
+#define V(মান) (int16_t)((মান*PRECISION_FACTOR)+0.5)
 
 // for ITU-T T.871, values can be found in section 7
 // for ITU-R BT.601-7 values are derived from equations in sections 2.5.1-2.5.3, assuming RGB is encoded using full range ([0-1]<->[0-255])
@@ -40,7 +40,7 @@ typedef struct
 // for ITU-R BT.2020 values are assuming RGB is encoded using full 10-bit range ([0-1]<->[0-1023])
 // all values are rounded to the fourth decimal
 
-static const YUV2RGBParam YUV2RGB[] = {
+স্থির ধ্রুৱ YUV2RGBParam YUV2RGB[] = {
 	// ITU-T T.871 (JPEG)
 	{/*.y_shift=*/ 0, /*.y_factor=*/ V(1.0), /*.v_r_factor=*/ V(1.402), /*.u_g_factor=*/ -V(0.3441), /*.v_g_factor=*/ -V(0.7141), /*.u_b_factor=*/ V(1.772)},
 	// ITU-R BT.601-7
@@ -53,7 +53,7 @@ static const YUV2RGBParam YUV2RGB[] = {
 	{/*.y_shift=*/ 0, /*.y_factor=*/ V(1.0), /*.v_r_factor=*/ V(1.4760), /*.u_g_factor=*/ -V(0.1647), /*.v_g_factor=*/ -V(0.5719), /*.u_b_factor=*/ V(1.8832) }
 };
 
-static const RGB2YUVParam RGB2YUV[] = {
+স্থির ধ্রুৱ RGB2YUVParam RGB2YUV[] = {
 	// ITU-T T.871 (JPEG)
 	{/*.y_shift=*/ 0, /*.matrix=*/ {{V(0.299), V(0.587), V(0.114)}, {-V(0.1687), -V(0.3313), V(0.5)}, {V(0.5), -V(0.4187), -V(0.0813)}}},
 	// ITU-R BT.601-7
@@ -67,7 +67,7 @@ static const RGB2YUVParam RGB2YUV[] = {
 };
 
 #ifdef _MSC_VER
-#pragma warning(pop)
+#pragma warning(বেৰ_কৰো)
 #endif
 
 /* The various layouts of YUV data we support */

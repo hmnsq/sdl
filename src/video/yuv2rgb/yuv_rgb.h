@@ -22,12 +22,12 @@
 /*#include <stdint.h>*/
 
 // yuv to rgb, standard c implementation
-#include "yuv_rgb_std.h"
+#অন্তর্ভাৱ "yuv_rgb_std.h"
 
 // yuv to rgb, sse2 implementation
-#include "yuv_rgb_sse.h"
+#অন্তর্ভাৱ "yuv_rgb_sse.h"
 
 // yuv to rgb, lsx implementation
-#include "yuv_rgb_lsx.h"
+#অন্তর্ভাৱ "yuv_rgb_lsx.h"
 
 #endif /* YUV_RGB_H_ */

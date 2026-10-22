@@ -1,9 +1,9 @@
 // Copyright 2016 Adrien Descamps
 // // Distributed under BSD 3-Clause License
 
-#include <lsxintrin.h>
+#অন্তর্ভাৱ <lsxintrin.h>
 
-#if YUV_FORMAT == YUV_FORMAT_420
+#যদি YUV_FORMAT == YUV_FORMAT_420
 
 #define READ_Y(y_ptr)                                     \
     y = __lsx_vld(y_ptr, 0);                              \
@@ -12,7 +12,7 @@
     u_temp = __lsx_vld(u_ptr, 0);                         \
     v_temp = __lsx_vld(v_ptr, 0);                         \
 
-#else
+#অন্যথা
 #error READ_UV unimplemented
 #endif
 
@@ -50,7 +50,7 @@
     PACK_RGB24_32_STEP(R1, G1, B1, RGB1, RGB2, RGB3);                              \
     PACK_RGB24_32_STEP(R2, G2, B2, RGB4, RGB5, RGB6);                              \
 
-#if RGB_FORMAT == RGB_FORMAT_RGB24
+#যদি RGB_FORMAT == RGB_FORMAT_RGB24
 
 #define PACK_PIXEL                                                             \
     __m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6;                          \
@@ -60,7 +60,7 @@
     PACK_RGB24_32(r_8_21, r_8_22, g_8_21, g_8_22, b_8_21, b_8_22,              \
                   rgb_7, rgb_8, rgb_9, rgb_10, rgb_11, rgb_12)                 \
 
-#elif RGB_FORMAT == RGB_FORMAT_RGBA
+#নোচেদ্যদি RGB_FORMAT == RGB_FORMAT_RGBA
 
 #define PACK_PIXEL                                                              \
     __m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8;             \
@@ -71,7 +71,7 @@
     PACK_RGBA_32(r_8_21, r_8_22, g_8_21, g_8_22, b_8_21, b_8_22, a, a,          \
                  rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16) \
 
-#elif RGB_FORMAT == RGB_FORMAT_BGRA
+#নোচেদ্যদি RGB_FORMAT == RGB_FORMAT_BGRA
 
 #define PACK_PIXEL                                                              \
     __m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8;             \
@@ -82,7 +82,7 @@
     PACK_RGBA_32(b_8_21, b_8_22, g_8_21, g_8_22, r_8_21, r_8_22, a, a,          \
                  rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16) \
 
-#elif RGB_FORMAT == RGB_FORMAT_ARGB
+#নোচেদ্যদি RGB_FORMAT == RGB_FORMAT_ARGB
 
 #define PACK_PIXEL                                                              \
     __m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8;             \
@@ -93,7 +93,7 @@
     PACK_RGBA_32(a, a, r_8_21, r_8_22, g_8_21, g_8_22, b_8_21, b_8_22,          \
                  rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16) \
 
-#elif RGB_FORMAT == RGB_FORMAT_ABGR
+#নোচেদ্যদি RGB_FORMAT == RGB_FORMAT_ABGR
 
 #define PACK_PIXEL                                                              \
     __m128i rgb_1, rgb_2, rgb_3, rgb_4, rgb_5, rgb_6, rgb_7, rgb_8;             \
@@ -104,7 +104,7 @@
     PACK_RGBA_32(a, a, b_8_21, b_8_22, g_8_21, g_8_22, r_8_21, r_8_22,          \
                  rgb_9, rgb_10, rgb_11, rgb_12, rgb_13, rgb_14, rgb_15, rgb_16) \
 
-#else
+#অন্যথা
 #error PACK_PIXEL unimplemented
 #endif
 
@@ -114,7 +114,7 @@
     __lsx_vst(in1, pdst + stride, 0);                           \
 }
 
-#if RGB_FORMAT == RGB_FORMAT_RGB24                              \
+#যদি RGB_FORMAT == RGB_FORMAT_RGB24                              \
 
 #define SAVE_LINE1                                              \
     LSX_ST_UB2(rgb_1, rgb_2, rgb_ptr1, 16);                     \
@@ -126,7 +126,7 @@
     LSX_ST_UB2(rgb_9, rgb_10, rgb_ptr2 + 32, 16);               \
     LSX_ST_UB2(rgb_11, rgb_12, rgb_ptr2 + 64, 16);              \
 
-#elif RGB_FORMAT == RGB_FORMAT_RGBA || RGB_FORMAT == RGB_FORMAT_BGRA ||  \
+#নোচেদ্যদি RGB_FORMAT == RGB_FORMAT_RGBA || RGB_FORMAT == RGB_FORMAT_BGRA ||  \
     RGB_FORMAT == RGB_FORMAT_ARGB || RGB_FORMAT == RGB_FORMAT_ABGR       \
 
 #define SAVE_LINE1                                              \
@@ -141,8 +141,8 @@
     LSX_ST_UB2(rgb_13, rgb_14, rgb_ptr2 + 64, 16);              \
     LSX_ST_UB2(rgb_15, rgb_16, rgb_ptr2 + 96, 16);              \
 
-#else
-#error SAVE_LINE unimplemented
+#অন্যথা
+#error SAVE_সাৰি unimplemented
 #endif
 
 // = u*vr g=u*ug+v*vg b=u*ub
@@ -265,32 +265,32 @@
     b_8_22 = __lsx_vpickev_b(b_2, b_1);                       \
                                                               \
 
-void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
-                       const uint8_t *U, const uint8_t *V, uint32_t Y_stride,
+শূন্য LSX_FUNCTION_NAME(uint32_t width, uint32_t height, ধ্রুৱ uint8_t *Y,
+                       ধ্রুৱ uint8_t *U, ধ্রুৱ uint8_t *V, uint32_t Y_stride,
                        uint32_t UV_stride, uint8_t *RGB, uint32_t RGB_stride,
                        YCbCrType yuv_type)
 {
-    const YUV2RGBParam *const param = &(YUV2RGB[yuv_type]);
-#if YUV_FORMAT == YUV_FORMAT_420
-    const int y_pixel_stride = 1;
-    const int uv_pixel_stride = 1;
-    const int uv_x_sample_interval = 2;
-    const int uv_y_sample_interval = 2;
+    ধ্রুৱ YUV2RGBParam *ধ্রুৱ param = &(YUV2RGB[yuv_type]);
+#যদি YUV_FORMAT == YUV_FORMAT_420
+    ধ্রুৱ পূর্ণাঙ্ক y_pixel_stride = 1;
+    ধ্রুৱ পূর্ণাঙ্ক uv_pixel_stride = 1;
+    ধ্রুৱ পূর্ণাঙ্ক uv_x_sample_interval = 2;
+    ধ্রুৱ পূর্ণাঙ্ক uv_y_sample_interval = 2;
 #endif
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
-    const int rgb_pixel_stride = 2;
-#elif RGB_FORMAT == RGB_FORMAT_RGB24
-    const int rgb_pixel_stride = 3;
+#যদি RGB_FORMAT == RGB_FORMAT_RGB565
+    ধ্রুৱ পূর্ণাঙ্ক rgb_pixel_stride = 2;
+#নোচেদ্যদি RGB_FORMAT == RGB_FORMAT_RGB24
+    ধ্রুৱ পূর্ণাঙ্ক rgb_pixel_stride = 3;
     __m128i mask1 = {0x0504110302100100, 0x0A14090813070612};
     __m128i mask2 = {0x1808170716061505, 0x00000000000A1909};
     __m128i mask3 = {0x0504170302160100, 0x0A1A090819070618};
     __m128i mask4 = {0x1E0D1D0C1C0B1B0A, 0x00000000000F1F0E};
     __m128i mask5 = {0x05041C03021B0100, 0x0A1F09081E07061D};
-#elif RGB_FORMAT == RGB_FORMAT_RGBA || RGB_FORMAT_BGRA || \
+#নোচেদ্যদি RGB_FORMAT == RGB_FORMAT_RGBA || RGB_FORMAT_BGRA || \
     RGB_FORMAT == RGB_FORMAT_ARGB || RGB_FORMAT_ABGR
-    const int rgb_pixel_stride = 4;
-#else
+    ধ্রুৱ পূর্ণাঙ্ক rgb_pixel_stride = 4;
+#অন্যথা
 #error Unknown RGB pixel size
 #endif
 
@@ -304,21 +304,21 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
     __m128i yf    = __lsx_vreplgr2vr_h(param->y_factor);
     __m128i zero  = __lsx_vldi(0);
 
-    if (width >= 32) {
-        for (ypos = 0; ypos < (height - (uv_y_sample_interval - 1)); ypos += uv_y_sample_interval) {
-            const uint8_t *y_ptr1 = Y + ypos * Y_stride,
+    যদি (width >= 32) {
+        বাবে (ypos = 0; ypos < (height - (uv_y_sample_interval - 1)); ypos += uv_y_sample_interval) {
+            ধ্রুৱ uint8_t *y_ptr1 = Y + ypos * Y_stride,
                           *y_ptr2 = Y + (ypos + 1) * Y_stride,
                           *u_ptr  = U + (ypos/uv_y_sample_interval) * UV_stride,
                           *v_ptr  = V + (ypos/uv_y_sample_interval) * UV_stride;
             uint8_t *rgb_ptr1 = RGB + ypos * RGB_stride,
                     *rgb_ptr2 = RGB + (ypos + 1) * RGB_stride;
 
-            for (xpos = 0; xpos < (width - 31); xpos += 32){
+            বাবে (xpos = 0; xpos < (width - 31); xpos += 32){
                 YUV2RGB_32
                 {
                     PACK_PIXEL
                     SAVE_LINE1
-                    if (uv_y_sample_interval > 1)
+                    যদি (uv_y_sample_interval > 1)
                     {
                         SAVE_LINE2
                     }
@@ -331,8 +331,8 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
                 rgb_ptr2 += 32 * rgb_pixel_stride;
             }
         }
-        if (uv_y_sample_interval == 2 && ypos == (height - 1)) {
-            const uint8_t *y_ptr = Y + ypos * Y_stride,
+        যদি (uv_y_sample_interval == 2 && ypos == (height - 1)) {
+            ধ্রুৱ uint8_t *y_ptr = Y + ypos * Y_stride,
                           *u_ptr = U + (ypos/uv_y_sample_interval) * UV_stride,
                           *v_ptr = V + (ypos/uv_y_sample_interval) * UV_stride;
             uint8_t *rgb_ptr = RGB + ypos * RGB_stride;
@@ -340,10 +340,10 @@ void LSX_FUNCTION_NAME(uint32_t width, uint32_t height, const uint8_t *Y,
         }
     }
     {
-        int converted = (width & ~31);
-        if (converted != width)
+        পূর্ণাঙ্ক converted = (width & ~31);
+        যদি (converted != width)
         {
-            const uint8_t *y_ptr = Y + converted * y_pixel_stride,
+            ধ্রুৱ uint8_t *y_ptr = Y + converted * y_pixel_stride,
                           *u_ptr = U + converted * uv_pixel_stride / uv_x_sample_interval,
                           *v_ptr = V + converted * uv_pixel_stride / uv_x_sample_interval;
             uint8_t *rgb_ptr = RGB + converted * rgb_pixel_stride;

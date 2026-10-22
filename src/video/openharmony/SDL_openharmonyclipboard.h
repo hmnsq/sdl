@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifndef SDL_openharmonyclipboard_h_
 #define SDL_openharmonyclipboard_h_
 
-extern void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
+বাহ্য শূন্য OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
+বাহ্য শূন্য OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
 
-extern const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
-extern bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this);
+বাহ্য ধ্রুৱ ৱর্ণ *ধ্রুৱ *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *অঙ্ক_mime_types);
+বাহ্য bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, ধ্রুৱ ৱর্ণ *text);
+বাহ্য ৱর্ণ *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
+বাহ্য bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this);
 
 #endif // SDL_openharmonyclipboard_h_

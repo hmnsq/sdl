@@ -18,10 +18,10 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-extern bool RISCOS_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+বাহ্য bool RISCOS_ShowMessageBox(ধ্রুৱ SDL_MessageBoxData *messageboxdata, পূর্ণাঙ্ক *buttonID);
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

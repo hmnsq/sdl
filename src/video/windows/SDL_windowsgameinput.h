@@ -18,19 +18,19 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
-typedef struct WIN_GameInputData WIN_GameInputData;
+প্রকারনির্দেশ সংরচনা WIN_Game_প্ৰবেশ_Data WIN_Game_প্ৰবেশ_Data;
 
 // Set up for C function definitions, even when using C++
 #ifdef __cplusplus
-extern "C" {
+বাহ্য "C" {
 #endif
 
-extern bool WIN_InitGameInput(SDL_VideoDevice *_this);
-extern bool WIN_UpdateGameInputEnabled(SDL_VideoDevice *_this);
-extern void WIN_UpdateGameInput(SDL_VideoDevice *_this);
-extern void WIN_QuitGameInput(SDL_VideoDevice *_this);
+বাহ্য bool WIN_Init_Game_প্ৰবেশ(SDL_VideoDevice *_this);
+বাহ্য bool WIN_Update_Game_প্ৰবেশ_Enabled(SDL_VideoDevice *_this);
+বাহ্য শূন্য WIN_Update_Game_প্ৰবেশ(SDL_VideoDevice *_this);
+বাহ্য শূন্য WIN_Quit_Game_প্ৰবেশ(SDL_VideoDevice *_this);
 
 // Ends C function definitions when using C++
 #ifdef __cplusplus

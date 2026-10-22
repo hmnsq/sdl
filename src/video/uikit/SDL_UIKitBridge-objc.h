@@ -45,11 +45,11 @@ bool SDL_UIKit_IsCurvedWindow(SDL_Window *window);
 /**
  * Dismiss the curved content view
  */
-void SDL_UIKit_HideCurvedWindow(SDL_Window *window);
+শূন্য SDL_UIKit_HideCurvedWindow(SDL_Window *window);
 
 /**
  * Get the curved content display texture.
  */
-id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_Window *window, id<MTLCommandBuffer> commandBuffer, int width, int height, MTLPixelFormat pixelFormat);
+id<MTLTexture> SDL_UIKit_GetCurvedDisplayTexture(SDL_Window *window, id<MTLCommandBuffer> commandBuffer, পূর্ণাঙ্ক width, পূর্ণাঙ্ক height, MTLPixelFormat pixelFormat);
 
 #endif /* SDL_uikitvisionosscene_h_ */

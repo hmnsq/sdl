@@ -18,16 +18,16 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifndef SDL_windowsrawinput_h_
 #define SDL_windowsrawinput_h_
 
-extern void WIN_QuitRawInput(SDL_VideoDevice *_this);
-extern bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled);
-extern bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled);
+বাহ্য শূন্য WIN_Quit_Raw_প্ৰবেশ(SDL_VideoDevice *_this);
+বাহ্য bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled);
+বাহ্য bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled);
+বাহ্য bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled);
+বাহ্য bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled);
+বাহ্য bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled);
 
 #endif // SDL_windowsrawinput_h_

@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#অন্তর্ভাৱ "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_DOSVESA
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_dosvideo.h"
+#অন্তর্ভাৱ "../../events/SDL_events_c.h"
+#অন্তর্ভাৱ "../../events/SDL_keyboard_c.h"
+#অন্তর্ভাৱ "../../events/SDL_mouse_c.h"
+#অন্তর্ভাৱ "../SDL_sysvideo.h"
+#অন্তর্ভাৱ "SDL_dosvideo.h"
 
-#include "../../core/dos/SDL_dos_scheduler.h"
-#include "SDL_dosevents_c.h"
+#অন্তর্ভাৱ "../../core/dos/SDL_dos_scheduler.h"
+#অন্তর্ভাৱ "SDL_dosevents_c.h"
 
 // PS/2 keyboard controller port
 #define KBD_DATA_PORT 0x60
@@ -48,7 +48,7 @@
 #define VGA_STATUS_VBLANK 0x08 // bit 3: vertical retrace active
 
 // Scancode table: https://www.plantation-productions.com/Webster/www.artofasm.com/DOS/pdf/apndxc.pdf
-static const SDL_Scancode DOSVESA_ScancodeMapping[] = { // index is the scancode from the IRQ1 handler bitwise-ANDed against 0x7F.
+স্থির ধ্রুৱ SDL_Scancode DOSVESA_ScancodeMapping[] = { // index is the scancode from the IRQ1 handler bitwise-ANDed against 0x7F.
     /* 0x00 */ SDL_SCANCODE_UNKNOWN,
     /* 0x01 */ SDL_SCANCODE_ESCAPE,
     /* 0x02 */ SDL_SCANCODE_1,
@@ -146,7 +146,7 @@ static const SDL_Scancode DOSVESA_ScancodeMapping[] = { // index is the scancode
 };
 
 // Extended scancode table for keys prefixed with 0xE0
-static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the scancode byte following the 0xE0 prefix, masked with 0x7F.
+স্থির ধ্রুৱ SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the scancode byte following the 0xE0 prefix, masked with 0x7F.
     /* 0x00 */ SDL_SCANCODE_UNKNOWN,
     /* 0x01 */ SDL_SCANCODE_UNKNOWN,
     /* 0x02 */ SDL_SCANCODE_UNKNOWN,
@@ -226,15 +226,15 @@ static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the 
     /* 0x48 */ SDL_SCANCODE_UP,
     /* 0x49 */ SDL_SCANCODE_PAGEUP,
     /* 0x4A */ SDL_SCANCODE_UNKNOWN,
-    /* 0x4B */ SDL_SCANCODE_LEFT,
+    /* 0x4B */ SDL_SCANCODE_বাম,
     /* 0x4C */ SDL_SCANCODE_UNKNOWN,
-    /* 0x4D */ SDL_SCANCODE_RIGHT,
+    /* 0x4D */ SDL_SCANCODE_ডান,
     /* 0x4E */ SDL_SCANCODE_UNKNOWN,
     /* 0x4F */ SDL_SCANCODE_END,
 
     /* 0x50 */ SDL_SCANCODE_DOWN,
     /* 0x51 */ SDL_SCANCODE_PAGEDOWN,
-    /* 0x52 */ SDL_SCANCODE_INSERT,
+    /* 0x52 */ SDL_SCANCODE_ঢোকাও,
     /* 0x53 */ SDL_SCANCODE_DELETE,
     /* 0x54 */ SDL_SCANCODE_UNKNOWN,
     /* 0x55 */ SDL_SCANCODE_UNKNOWN,
@@ -248,25 +248,25 @@ static const SDL_Scancode DOSVESA_ExtendedScancodeMapping[] = { // index is the 
     /* 0x5D */ SDL_SCANCODE_APPLICATION
 };
 
-static Uint8 keyevents_ringbuffer[256];
-static int keyevents_head = 0;
-static int keyevents_tail = 0;
+স্থির Uint8 keyevents_ringbuffer[256];
+স্থির পূর্ণাঙ্ক keyevents_head = 0;
+স্থির পূর্ণাঙ্ক keyevents_tail = 0;
 
-static void DOSVESA_DrainBIOSKeyboardBuffer(void)
+স্থির শূন্য DOSVESA_DrainBIOSKeyboardBuffer(শূন্য)
 {
     __dpmi_regs regs;
-    for (;;) {
+    বাবে (;;) {
         regs.h.ah = 0x01; // BIOS: check for keystroke
         __dpmi_int(0x16, &regs);
-        if (regs.x.flags & 0x40) { // ZF set = buffer empty
-            break;
+        যদি (regs.x.flags & 0x40) { // ZF set = buffer empty
+            ভঙ্গ;
         }
         regs.h.ah = 0x00; // BIOS: read keystroke (removes it)
         __dpmi_int(0x16, &regs);
     }
 }
 
-void DOSVESA_PumpEvents(SDL_VideoDevice *device)
+শূন্য DOSVESA_PumpEvents(SDL_VideoDevice *device)
 {
     /* Give cooperative threads a chance to run.  Audio mixing now runs
        in its own cooperative thread (via SDL's normal audio thread),
@@ -274,60 +274,60 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
        and anything else that is runnable. */
     DOS_Yield();
 
-    static bool is_extended = false;
-    static int pause_sequence_remaining = 0;
+    স্থির bool is_extended = false;
+    স্থির পূর্ণাঙ্ক pause_sequence_remaining = 0;
 
-    while (keyevents_head != keyevents_tail) {
-        const Uint8 event = keyevents_ringbuffer[keyevents_tail];
+    যেতিয়ালৈ (keyevents_head != keyevents_tail) {
+        ধ্রুৱ Uint8 event = keyevents_ringbuffer[keyevents_tail];
         keyevents_tail = (keyevents_tail + 1) & (SDL_arraysize(keyevents_ringbuffer) - 1);
 
         // Handle remaining bytes of E1 Pause key sequence (E1 1D 45 E1 9D C5).
-        if (pause_sequence_remaining > 0) {
+        যদি (pause_sequence_remaining > 0) {
             pause_sequence_remaining--;
-            continue;
+            অনুৱর্ত;
         }
 
         // Pause key sends a multi-byte sequence: E1 1D 45 E1 9D C5. Emit PAUSE press+release and consume the rest.
-        if (event == SCANCODE_PREFIX_PAUSE) {
+        যদি (event == SCANCODE_PREFIX_PAUSE) {
             pause_sequence_remaining = 5; // skip the next 5 bytes
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, true);
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, false);
-            continue;
+            SDL_Send_Keyboard_চাবি(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, true);
+            SDL_Send_Keyboard_চাবি(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_PAUSE, false);
+            অনুৱর্ত;
         }
 
-        if (event == SCANCODE_PREFIX_EXTENDED) {
+        যদি (event == SCANCODE_PREFIX_EXTENDED) {
             is_extended = true;
-            continue;
+            অনুৱর্ত;
         }
 
-        const int scancode = (int)(event & SCANCODE_MASK);
-        const bool pressed = ((event & SCANCODE_RELEASE) == 0);
+        ধ্রুৱ পূর্ণাঙ্ক scancode = (পূর্ণাঙ্ক)(event & SCANCODE_MASK);
+        ধ্রুৱ bool pressed = ((event & SCANCODE_RELEASE) == 0);
 
         SDL_Scancode sc = SDL_SCANCODE_UNKNOWN;
 
-        if (is_extended) {
+        যদি (is_extended) {
             is_extended = false;
-            if (scancode < SDL_arraysize(DOSVESA_ExtendedScancodeMapping)) {
+            যদি (scancode < SDL_arraysize(DOSVESA_ExtendedScancodeMapping)) {
                 sc = DOSVESA_ExtendedScancodeMapping[scancode];
             }
-        } else {
-            if (scancode < SDL_arraysize(DOSVESA_ScancodeMapping)) {
+        } অন্যথা {
+            যদি (scancode < SDL_arraysize(DOSVESA_ScancodeMapping)) {
                 sc = DOSVESA_ScancodeMapping[scancode];
             }
         }
 
-        if (sc != SDL_SCANCODE_UNKNOWN) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, sc, pressed);
+        যদি (sc != SDL_SCANCODE_UNKNOWN) {
+            SDL_Send_Keyboard_চাবি(0, SDL_GLOBAL_KEYBOARD_ID, 0, sc, pressed);
 
             // Generate text input events for key-down on printable characters.
             // SDL keycodes below SDLK_SCANCODE_MASK are Unicode codepoints.
-            if (pressed) {
+            যদি (pressed) {
                 SDL_Keymod mod = SDL_GetModState();
-                if (!(mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
-                    SDL_Keycode keycode = SDL_GetKeyFromScancode(sc, mod, false);
-                    if (keycode > 0 && keycode < SDLK_SCANCODE_MASK && !SDL_iscntrl((int)keycode)) {
-                        char text[5];
-                        char *end = SDL_UCS4ToUTF8((Uint32)keycode, text);
+                যদি (!(mod & (SDL_KMOD_CTRL | SDL_KMOD_ALT))) {
+                    SDL_Keycode keycode = SDL_Get_চাবি_From_Scancode(sc, mod, false);
+                    যদি (keycode > 0 && keycode < SDLK_SCANCODE_MASK && !SDL_iscntrl((পূর্ণাঙ্ক)keycode)) {
+                        ৱর্ণ text[5];
+                        ৱর্ণ *end = SDL_UCS4ToUTF8((Uint32)keycode, text);
                         *end = '\0';
                         SDL_SendKeyboardText(text);
                     }
@@ -341,44 +341,44 @@ void DOSVESA_PumpEvents(SDL_VideoDevice *device)
     DOSVESA_DrainBIOSKeyboardBuffer();
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (mouse->internal) { // if non-NULL, there's a mouse detected on the system.
+    যদি (mouse->internal) { // if non-NULL, there's a mouse detected on the system.
         __dpmi_regs regs;
 
         regs.x.ax = 0x3; // read mouse buttons and position.
         __dpmi_int(0x33, &regs);
-        const Uint16 buttons = (int)(Sint16)regs.x.bx;
+        ধ্রুৱ Uint16 buttons = (পূর্ণাঙ্ক)(Sint16)regs.x.bx;
 
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_LEFT, (buttons & (1 << 0)) != 0);
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_RIGHT, (buttons & (1 << 1)) != 0);
-        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_MIDDLE, (buttons & (1 << 2)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_বাম, (buttons & (1 << 0)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_ডান, (buttons & (1 << 1)) != 0);
+        SDL_SendMouseButton(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, SDL_BUTTON_মধ্য, (buttons & (1 << 2)) != 0);
 
-        if (!mouse->relative_mode) {
-            const int x = (int)(Sint16)regs.x.cx; // part of function 0x3's return value.
-            const int y = (int)(Sint16)regs.x.dx;
+        যদি (!mouse->relative_mode) {
+            ধ্রুৱ পূর্ণাঙ্ক x = (পূর্ণাঙ্ক)(Sint16)regs.x.cx; // part of function 0x3's return value.
+            ধ্রুৱ পূর্ণাঙ্ক y = (পূর্ণাঙ্ক)(Sint16)regs.x.dx;
             SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, false, x, y);
-        } else {
+        } অন্যথা {
             regs.x.ax = 0xB; // read motion counters
             __dpmi_int(0x33, &regs);
             // values returned here are -32768 to 32767
-            const SDL_VideoData *viddata = device->internal;
-            const float MICKEYS_PER_HPIXEL = viddata->mickeys_per_hpixel;
-            const float MICKEYS_PER_VPIXEL = viddata->mickeys_per_vpixel;
-            const int mickeys_x = (int)(Sint16)regs.x.cx;
-            const int mickeys_y = (int)(Sint16)regs.x.dx;
+            ধ্রুৱ SDL_VideoData *viddata = device->internal;
+            ধ্রুৱ ভিন্ন MICKEYS_PER_HPIXEL = viddata->mickeys_per_hpixel;
+            ধ্রুৱ ভিন্ন MICKEYS_PER_VPIXEL = viddata->mickeys_per_vpixel;
+            ধ্রুৱ পূর্ণাঙ্ক mickeys_x = (পূর্ণাঙ্ক)(Sint16)regs.x.cx;
+            ধ্রুৱ পূর্ণাঙ্ক mickeys_y = (পূর্ণাঙ্ক)(Sint16)regs.x.dx;
             SDL_SendMouseMotion(0, mouse->focus, SDL_DEFAULT_MOUSE_ID, true, mickeys_x / MICKEYS_PER_HPIXEL, mickeys_y / MICKEYS_PER_VPIXEL);
         }
     }
 }
 
-static void KeyboardIRQHandler(void) // this is wrapped in a thing that handles IRET, etc.
+স্থির শূন্য KeyboardIRQHandler(শূন্য) // this is wrapped in a thing that handles IRET, etc.
 {
     keyevents_ringbuffer[keyevents_head] = inportb(KBD_DATA_PORT);
     keyevents_head = (keyevents_head + 1) & (SDL_arraysize(keyevents_ringbuffer) - 1);
     DOS_EndOfInterrupt(1);
 }
-static void KeyboardIRQHandler_End(void) {} // end-of-ISR label for memory locking
+স্থির শূন্য KeyboardIRQHandler_End(শূন্য) {} // end-of-ISR label for memory locking
 
-void DOSVESA_InitKeyboard(SDL_VideoDevice *device)
+শূন্য DOSVESA_InitKeyboard(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
 
@@ -391,7 +391,7 @@ void DOSVESA_InitKeyboard(SDL_VideoDevice *device)
     DOS_HookInterrupt(1, KeyboardIRQHandler, &data->keyboard_interrupt_hook);
 }
 
-void DOSVESA_QuitKeyboard(SDL_VideoDevice *device)
+শূন্য DOSVESA_QuitKeyboard(SDL_VideoDevice *device)
 {
     SDL_VideoData *data = device->internal;
     DOS_UnhookInterrupt(&data->keyboard_interrupt_hook, false);
