@@ -18,50 +18,50 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_RISCOS
 
-#include "SDL_riscosmessagebox.h"
+#ضمن "SDL_riscosmessagebox.h"
 
-#include <kernel.h>
-#include <swis.h>
+#ضمن <kernel.h>
+#ضمن <swis.h>
 
-bool RISCOS_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool RISCOS_ShowMessageBox(ثابت SDL_MessageBoxData *messageboxdata, صحيح *buttonID)
 {
     _kernel_swi_regs regs;
     _kernel_oserror error;
-    char buttonstring[1024];
-    int i;
+    حرف buttonstring[1024];
+    صحيح i;
 
     error.errnum = 0;
     SDL_strlcpy(error.errmess, messageboxdata->message, 252);
-    regs.r[0] = (unsigned int)&error;
+    regs.r[0] = (unsigned صحيح)&error;
 
     regs.r[1] = (1 << 8) | (1 << 4);
-    if (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
+    إذا (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
         regs.r[1] |= (1 << 9);
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
+    } وإلا إذا (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
         regs.r[1] |= (2 << 9);
     }
 
-    regs.r[2] = (unsigned int)messageboxdata->title;
+    regs.r[2] = (unsigned صحيح)messageboxdata->title;
     regs.r[3] = 0;
     regs.r[4] = 0;
 
     SDL_strlcpy(buttonstring, "", 1024);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    لكل (i = 0; i < messageboxdata->numbuttons; i++) {
         SDL_strlcat(buttonstring, messageboxdata->buttons[i].text, 1024);
-        if (i + 1 < messageboxdata->numbuttons) {
+        إذا (i + 1 < messageboxdata->numbuttons) {
             SDL_strlcat(buttonstring, ",", 1024);
         }
     }
-    regs.r[5] = (unsigned int)buttonstring;
+    regs.r[5] = (unsigned صحيح)buttonstring;
 
     _kernel_swi(Wimp_ReportError, &regs, &regs);
 
     *buttonID = (regs.r[1] == 0) ? -1 : messageboxdata->buttons[regs.r[1] - 3].buttonID;
-    return true;
+    إرجاع true;
 }
 
 #endif // SDL_VIDEO_DRIVER_RISCOS

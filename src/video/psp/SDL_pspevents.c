@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_PSP
 
 /* Being a null driver, there's no event stream. We just define stubs for
    most of the API. */
 
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_pspvideo.h"
-#include "SDL_pspevents_c.h"
-#include "../../thread/SDL_systhread.h"
-#include <psphprm.h>
-#include <pspthreadman.h>
+#ضمن "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_keyboard_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "SDL_pspvideo.h"
+#ضمن "SDL_pspevents_c.h"
+#ضمن "../../thread/SDL_systhread.h"
+#ضمن <psphprm.h>
+#ضمن <pspthreadman.h>
 
 #ifdef PSPIRKEYB
-#include <pspirkeyb.h>
-#include <pspirkeyb_rawkeys.h>
+#ضمن <pspirkeyb.h>
+#ضمن <pspirkeyb_rawkeys.h>
 
-#define IRKBD_CONFIG_FILE NULL // this will take ms0:/seplugins/pspirkeyb.ini
+#define IRKBD_CONFIG_FILE عدم // this will take ms0:/seplugins/pspirkeyb.ini
 
-static int irkbd_ready = 0;
-static SDL_Scancode keymap[256];
+ساكن صحيح irkbd_ready = 0;
+ساكن SDL_Scancode keymap[256];
 #endif
 
-static enum PspHprmKeys hprm = 0;
-static SDL_Semaphore *event_sem = NULL;
-static SDL_Thread *thread = NULL;
-static int running = 0;
-static struct
+ساكن تعداد Psp_Hprm_مفاتيح hprm = 0;
+ساكن SDL_Semaphore *event_sem = عدم;
+ساكن SDL_Thread *thread = عدم;
+ساكن صحيح running = 0;
+ساكن بنية
 {
-    enum PspHprmKeys id;
+    تعداد Psp_Hprm_مفاتيح id;
     SDL_Scancode scancode;
 } keymap_psp[] = {
     { PSP_HPRM_PLAYPAUSE, SDL_SCANCODE_F10 },
@@ -61,57 +61,57 @@ static struct
     { PSP_HPRM_HOLD, SDL_SCANCODE_F15 }
 };
 
-int EventUpdate(void *data)
+صحيح EventUpdate(فراغ *data)
 {
-    while (running) {
+    بينما (running) {
         SDL_WaitSemaphore(event_sem);
-        sceHprmPeekCurrentKey((u32 *)&hprm);
+        sce_Hprm_Peek_Current_مفتاح((u32 *)&hprm);
         SDL_SignalSemaphore(event_sem);
         // Delay 1/60th of a second
         sceKernelDelayThread(1000000 / 60);
     }
-    return 0;
+    إرجاع 0;
 }
 
-void PSP_PumpEvents(SDL_VideoDevice *_this)
+فراغ PSP_PumpEvents(SDL_VideoDevice *_this)
 {
-    int i;
-    enum PspHprmKeys keys;
-    enum PspHprmKeys changed;
-    static enum PspHprmKeys old_keys = 0;
+    صحيح i;
+    تعداد Psp_Hprm_مفاتيح مفاتيح;
+    تعداد Psp_Hprm_مفاتيح changed;
+    ساكن تعداد Psp_Hprm_مفاتيح old_مفاتيح = 0;
 
     SDL_WaitSemaphore(event_sem);
-    keys = hprm;
+    مفاتيح = hprm;
     SDL_SignalSemaphore(event_sem);
 
     // HPRM Keyboard
-    changed = old_keys ^ keys;
-    old_keys = keys;
-    if (changed) {
-        for (i = 0; i < SDL_arraysize(keymap_psp); i++) {
-            if (changed & keymap_psp[i].id) {
-                bool down = ((keys & keymap_psp[i].id) != 0);
-                SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, keymap_psp[i].id, keymap_psp[i].scancode, down);
+    changed = old_مفاتيح ^ مفاتيح;
+    old_مفاتيح = مفاتيح;
+    إذا (changed) {
+        لكل (i = 0; i < SDL_arraysize(keymap_psp); i++) {
+            إذا (changed & keymap_psp[i].id) {
+                bool down = ((مفاتيح & keymap_psp[i].id) != 0);
+                SDL_Send_Keyboard_مفتاح(0, SDL_GLOBAL_KEYBOARD_ID, keymap_psp[i].id, keymap_psp[i].scancode, down);
             }
         }
     }
 
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
-        unsigned char buffer[255];
-        int i, length, count;
+    إذا (irkbd_ready) {
+        unsigned حرف buffer[255];
+        صحيح i, length, تعداد_2;
         SIrKeybScanCodeData *scanData;
 
-        if (pspIrKeybReadinput(buffer, &length) >= 0) {
-            if ((length % sizeof(SIrKeybScanCodeData)) == 0) {
-                count = length / sizeof(SIrKeybScanCodeData);
-                for (i = 0; i < count; i++) {
-                    unsigned char raw;
+        إذا (pspIrKeybReadinput(buffer, &length) >= 0) {
+            إذا ((length % حجم(SIrKeybScanCodeData)) == 0) {
+                تعداد_2 = length / حجم(SIrKeybScanCodeData);
+                لكل (i = 0; i < تعداد_2; i++) {
+                    unsigned حرف raw;
                     bool down;
                     scanData = (SIrKeybScanCodeData *)buffer + i;
                     raw = scanData->raw;
                     down = (scanData->pressed != 0);
-                    SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, raw, keymap[raw], down);
+                    SDL_Send_Keyboard_مفتاح(0, SDL_GLOBAL_KEYBOARD_ID, raw, keymap[raw], down);
                 }
             }
         }
@@ -119,150 +119,150 @@ void PSP_PumpEvents(SDL_VideoDevice *_this)
 #endif
     sceKernelDelayThread(0);
 
-    return;
+    إرجاع;
 }
 
-void PSP_InitOSKeymap(SDL_VideoDevice *_this)
+فراغ PSP_InitOSKeymap(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int i;
-    for (i = 0; i < SDL_arraysize(keymap); ++i) {
+    صحيح i;
+    لكل (i = 0; i < SDL_arraysize(keymap); ++i) {
         keymap[i] = SDL_SCANCODE_UNKNOWN;
     }
 
-    keymap[KEY_ESC] = SDL_SCANCODE_ESCAPE;
+    keymap[مفتاح_ESC] = SDL_SCANCODE_ESCAPE;
 
-    keymap[KEY_F1] = SDL_SCANCODE_F1;
-    keymap[KEY_F2] = SDL_SCANCODE_F2;
-    keymap[KEY_F3] = SDL_SCANCODE_F3;
-    keymap[KEY_F4] = SDL_SCANCODE_F4;
-    keymap[KEY_F5] = SDL_SCANCODE_F5;
-    keymap[KEY_F6] = SDL_SCANCODE_F6;
-    keymap[KEY_F7] = SDL_SCANCODE_F7;
-    keymap[KEY_F8] = SDL_SCANCODE_F8;
-    keymap[KEY_F9] = SDL_SCANCODE_F9;
-    keymap[KEY_F10] = SDL_SCANCODE_F10;
-    keymap[KEY_F11] = SDL_SCANCODE_F11;
-    keymap[KEY_F12] = SDL_SCANCODE_F12;
-    keymap[KEY_F13] = SDL_SCANCODE_PRINT;
-    keymap[KEY_F14] = SDL_SCANCODE_PAUSE;
+    keymap[مفتاح_F1] = SDL_SCANCODE_F1;
+    keymap[مفتاح_F2] = SDL_SCANCODE_F2;
+    keymap[مفتاح_F3] = SDL_SCANCODE_F3;
+    keymap[مفتاح_F4] = SDL_SCANCODE_F4;
+    keymap[مفتاح_F5] = SDL_SCANCODE_F5;
+    keymap[مفتاح_F6] = SDL_SCANCODE_F6;
+    keymap[مفتاح_F7] = SDL_SCANCODE_F7;
+    keymap[مفتاح_F8] = SDL_SCANCODE_F8;
+    keymap[مفتاح_F9] = SDL_SCANCODE_F9;
+    keymap[مفتاح_F10] = SDL_SCANCODE_F10;
+    keymap[مفتاح_F11] = SDL_SCANCODE_F11;
+    keymap[مفتاح_F12] = SDL_SCANCODE_F12;
+    keymap[مفتاح_F13] = SDL_SCANCODE_PRINT;
+    keymap[مفتاح_F14] = SDL_SCANCODE_PAUSE;
 
-    keymap[KEY_GRAVE] = SDL_SCANCODE_GRAVE;
-    keymap[KEY_1] = SDL_SCANCODE_1;
-    keymap[KEY_2] = SDL_SCANCODE_2;
-    keymap[KEY_3] = SDL_SCANCODE_3;
-    keymap[KEY_4] = SDL_SCANCODE_4;
-    keymap[KEY_5] = SDL_SCANCODE_5;
-    keymap[KEY_6] = SDL_SCANCODE_6;
-    keymap[KEY_7] = SDL_SCANCODE_7;
-    keymap[KEY_8] = SDL_SCANCODE_8;
-    keymap[KEY_9] = SDL_SCANCODE_9;
-    keymap[KEY_0] = SDL_SCANCODE_0;
-    keymap[KEY_MINUS] = SDL_SCANCODE_MINUS;
-    keymap[KEY_EQUAL] = SDL_SCANCODE_EQUALS;
-    keymap[KEY_BACKSPACE] = SDL_SCANCODE_BACKSPACE;
+    keymap[مفتاح_GRAVE] = SDL_SCANCODE_GRAVE;
+    keymap[مفتاح_1] = SDL_SCANCODE_1;
+    keymap[مفتاح_2_2] = SDL_SCANCODE_2;
+    keymap[مفتاح_3] = SDL_SCANCODE_3;
+    keymap[مفتاح_4] = SDL_SCANCODE_4;
+    keymap[مفتاح_5] = SDL_SCANCODE_5;
+    keymap[مفتاح_6] = SDL_SCANCODE_6;
+    keymap[مفتاح_7] = SDL_SCANCODE_7;
+    keymap[مفتاح_8] = SDL_SCANCODE_8;
+    keymap[مفتاح_9] = SDL_SCANCODE_9;
+    keymap[مفتاح_0] = SDL_SCANCODE_0;
+    keymap[مفتاح_MINUS] = SDL_SCANCODE_MINUS;
+    keymap[مفتاح_EQUAL] = SDL_SCANCODE_EQUALS;
+    keymap[مفتاح_BACKSPACE] = SDL_SCANCODE_BACKSPACE;
 
-    keymap[KEY_TAB] = SDL_SCANCODE_TAB;
-    keymap[KEY_Q] = SDL_SCANCODE_q;
-    keymap[KEY_W] = SDL_SCANCODE_w;
-    keymap[KEY_E] = SDL_SCANCODE_e;
-    keymap[KEY_R] = SDL_SCANCODE_r;
-    keymap[KEY_T] = SDL_SCANCODE_t;
-    keymap[KEY_Y] = SDL_SCANCODE_y;
-    keymap[KEY_U] = SDL_SCANCODE_u;
-    keymap[KEY_I] = SDL_SCANCODE_i;
-    keymap[KEY_O] = SDL_SCANCODE_o;
-    keymap[KEY_P] = SDL_SCANCODE_p;
-    keymap[KEY_LEFTBRACE] = SDL_SCANCODE_LEFTBRACKET;
-    keymap[KEY_RIGHTBRACE] = SDL_SCANCODE_RIGHTBRACKET;
-    keymap[KEY_ENTER] = SDL_SCANCODE_RETURN;
+    keymap[مفتاح_TAB] = SDL_SCANCODE_TAB;
+    keymap[مفتاح_Q] = SDL_SCANCODE_q;
+    keymap[مفتاح_W] = SDL_SCANCODE_w;
+    keymap[مفتاح_E] = SDL_SCANCODE_e;
+    keymap[مفتاح_R] = SDL_SCANCODE_r;
+    keymap[مفتاح_T] = SDL_SCANCODE_t;
+    keymap[مفتاح_Y] = SDL_SCANCODE_y;
+    keymap[مفتاح_U] = SDL_SCANCODE_u;
+    keymap[مفتاح_I] = SDL_SCANCODE_i;
+    keymap[مفتاح_O] = SDL_SCANCODE_o;
+    keymap[مفتاح_P] = SDL_SCANCODE_p;
+    keymap[مفتاح_LEFTBRACE] = SDL_SCANCODE_LEFTBRACKET;
+    keymap[مفتاح_RIGHTBRACE] = SDL_SCANCODE_RIGHTBRACKET;
+    keymap[مفتاح_ENTER] = SDL_SCANCODE_RETURN;
 
-    keymap[KEY_CAPSLOCK] = SDL_SCANCODE_CAPSLOCK;
-    keymap[KEY_A] = SDL_SCANCODE_a;
-    keymap[KEY_S] = SDL_SCANCODE_s;
-    keymap[KEY_D] = SDL_SCANCODE_d;
-    keymap[KEY_F] = SDL_SCANCODE_f;
-    keymap[KEY_G] = SDL_SCANCODE_g;
-    keymap[KEY_H] = SDL_SCANCODE_h;
-    keymap[KEY_J] = SDL_SCANCODE_j;
-    keymap[KEY_K] = SDL_SCANCODE_k;
-    keymap[KEY_L] = SDL_SCANCODE_l;
-    keymap[KEY_SEMICOLON] = SDL_SCANCODE_SEMICOLON;
-    keymap[KEY_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE;
-    keymap[KEY_BACKSLASH] = SDL_SCANCODE_BACKSLASH;
+    keymap[مفتاح_CAPSLOCK] = SDL_SCANCODE_CAPSLOCK;
+    keymap[مفتاح_A] = SDL_SCANCODE_a;
+    keymap[مفتاح_S] = SDL_SCANCODE_s;
+    keymap[مفتاح_D] = SDL_SCANCODE_d;
+    keymap[مفتاح_F] = SDL_SCANCODE_f;
+    keymap[مفتاح_G] = SDL_SCANCODE_g;
+    keymap[مفتاح_H] = SDL_SCANCODE_h;
+    keymap[مفتاح_J] = SDL_SCANCODE_j;
+    keymap[مفتاح_K] = SDL_SCANCODE_k;
+    keymap[مفتاح_L] = SDL_SCANCODE_l;
+    keymap[مفتاح_SEMICOLON] = SDL_SCANCODE_SEMICOLON;
+    keymap[مفتاح_APOSTROPHE] = SDL_SCANCODE_APOSTROPHE;
+    keymap[مفتاح_BACKSLASH] = SDL_SCANCODE_BACKSLASH;
 
-    keymap[KEY_Z] = SDL_SCANCODE_z;
-    keymap[KEY_X] = SDL_SCANCODE_x;
-    keymap[KEY_C] = SDL_SCANCODE_c;
-    keymap[KEY_V] = SDL_SCANCODE_v;
-    keymap[KEY_B] = SDL_SCANCODE_b;
-    keymap[KEY_N] = SDL_SCANCODE_n;
-    keymap[KEY_M] = SDL_SCANCODE_m;
-    keymap[KEY_COMMA] = SDL_SCANCODE_COMMA;
-    keymap[KEY_DOT] = SDL_SCANCODE_PERIOD;
-    keymap[KEY_SLASH] = SDL_SCANCODE_SLASH;
+    keymap[مفتاح_Z] = SDL_SCANCODE_z;
+    keymap[مفتاح_X] = SDL_SCANCODE_x;
+    keymap[مفتاح_C] = SDL_SCANCODE_c;
+    keymap[مفتاح_V] = SDL_SCANCODE_v;
+    keymap[مفتاح_B] = SDL_SCANCODE_b;
+    keymap[مفتاح_N] = SDL_SCANCODE_n;
+    keymap[مفتاح_M] = SDL_SCANCODE_m;
+    keymap[مفتاح_COMMA] = SDL_SCANCODE_COMMA;
+    keymap[مفتاح_DOT] = SDL_SCANCODE_PERIOD;
+    keymap[مفتاح_SLASH] = SDL_SCANCODE_SLASH;
 
-    keymap[KEY_SPACE] = SDL_SCANCODE_SPACE;
+    keymap[مفتاح_SPACE] = SDL_SCANCODE_SPACE;
 
-    keymap[KEY_UP] = SDL_SCANCODE_UP;
-    keymap[KEY_DOWN] = SDL_SCANCODE_DOWN;
-    keymap[KEY_LEFT] = SDL_SCANCODE_LEFT;
-    keymap[KEY_RIGHT] = SDL_SCANCODE_RIGHT;
+    keymap[مفتاح_UP] = SDL_SCANCODE_UP;
+    keymap[مفتاح_DOWN] = SDL_SCANCODE_DOWN;
+    keymap[مفتاح_يسار] = SDL_SCANCODE_يسار;
+    keymap[مفتاح_يمين] = SDL_SCANCODE_يمين;
 
-    keymap[KEY_HOME] = SDL_SCANCODE_HOME;
-    keymap[KEY_END] = SDL_SCANCODE_END;
-    keymap[KEY_INSERT] = SDL_SCANCODE_INSERT;
-    keymap[KEY_DELETE] = SDL_SCANCODE_DELETE;
+    keymap[مفتاح_HOME] = SDL_SCANCODE_HOME;
+    keymap[مفتاح_END] = SDL_SCANCODE_END;
+    keymap[مفتاح_أدرج] = SDL_SCANCODE_أدرج;
+    keymap[مفتاح_DELETE] = SDL_SCANCODE_DELETE;
 
-    keymap[KEY_NUMLOCK] = SDL_SCANCODE_NUMLOCK;
-    keymap[KEY_LEFTMETA] = SDL_SCANCODE_LSUPER;
+    keymap[مفتاح_NUMLOCK] = SDL_SCANCODE_NUMLOCK;
+    keymap[مفتاح_LEFTMETA] = SDL_SCANCODE_LSUPER;
 
-    keymap[KEY_KPSLASH] = SDL_SCANCODE_KP_DIVIDE;
-    keymap[KEY_KPASTERISK] = SDL_SCANCODE_KP_MULTIPLY;
-    keymap[KEY_KPMINUS] = SDL_SCANCODE_KP_MINUS;
-    keymap[KEY_KPPLUS] = SDL_SCANCODE_KP_PLUS;
-    keymap[KEY_KPDOT] = SDL_SCANCODE_KP_PERIOD;
-    keymap[KEY_KPEQUAL] = SDL_SCANCODE_KP_EQUALS;
+    keymap[مفتاح_KPSLASH] = SDL_SCANCODE_KP_DIVIDE;
+    keymap[مفتاح_KPASTERISK] = SDL_SCANCODE_KP_MULTIPLY;
+    keymap[مفتاح_KPMINUS] = SDL_SCANCODE_KP_MINUS;
+    keymap[مفتاح_KPPLUS] = SDL_SCANCODE_KP_PLUS;
+    keymap[مفتاح_KPDOT] = SDL_SCANCODE_KP_PERIOD;
+    keymap[مفتاح_KPEQUAL] = SDL_SCANCODE_KP_EQUALS;
 
-    keymap[KEY_LEFTCTRL] = SDL_SCANCODE_LCTRL;
-    keymap[KEY_RIGHTCTRL] = SDL_SCANCODE_RCTRL;
-    keymap[KEY_LEFTALT] = SDL_SCANCODE_LALT;
-    keymap[KEY_RIGHTALT] = SDL_SCANCODE_RALT;
-    keymap[KEY_LEFTSHIFT] = SDL_SCANCODE_LSHIFT;
-    keymap[KEY_RIGHTSHIFT] = SDL_SCANCODE_RSHIFT;
+    keymap[مفتاح_LEFTCTRL] = SDL_SCANCODE_LCTRL;
+    keymap[مفتاح_RIGHTCTRL] = SDL_SCANCODE_RCTRL;
+    keymap[مفتاح_LEFTALT] = SDL_SCANCODE_LALT;
+    keymap[مفتاح_RIGHTALT] = SDL_SCANCODE_RALT;
+    keymap[مفتاح_LEFTSHIFT] = SDL_SCANCODE_LSHIFT;
+    keymap[مفتاح_RIGHTSHIFT] = SDL_SCANCODE_RSHIFT;
 #endif
 }
 
 bool PSP_EventInit(SDL_VideoDevice *_this)
 {
 #ifdef PSPIRKEYB
-    int outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
-    int ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
-    if (ret == PSP_IRKBD_RESULT_OK) {
+    صحيح outputmode = PSP_IRKBD_OUTPUT_MODE_SCANCODE;
+    صحيح ret = pspIrKeybInit(IRKBD_CONFIG_FILE, 0);
+    إذا (ret == PSP_IRKBD_RESULT_OK) {
         pspIrKeybOutputMode(outputmode);
         irkbd_ready = 1;
-    } else {
+    } وإلا {
         irkbd_ready = 0;
     }
 #endif
     // Start thread to read data
-    if ((event_sem = SDL_CreateSemaphore(1)) == NULL) {
-        return SDL_SetError("Can't create input semaphore");
+    إذا ((event_sem = SDL_CreateSemaphore(1)) == عدم) {
+        إرجاع SDL_SetError("Can't create input semaphore");
     }
     running = 1;
-    if ((thread = SDL_CreateThreadWithStackSize(EventUpdate, "PSPInputThread", 4096, NULL)) == NULL) {
-        return SDL_SetError("Can't create input thread");
+    إذا ((thread = SDL_Create_Thread_With_مكدس_Size(EventUpdate, "PSPInputThread", 4096, عدم)) == عدم) {
+        إرجاع SDL_SetError("Can't create input thread");
     }
-    return true;
+    إرجاع true;
 }
 
-void PSP_EventQuit(SDL_VideoDevice *_this)
+فراغ PSP_EventQuit(SDL_VideoDevice *_this)
 {
     running = 0;
-    SDL_WaitThread(thread, NULL);
+    SDL_WaitThread(thread, عدم);
     SDL_DestroySemaphore(event_sem);
 #ifdef PSPIRKEYB
-    if (irkbd_ready) {
+    إذا (irkbd_ready) {
         pspIrKeybFinish();
         irkbd_ready = 0;
     }

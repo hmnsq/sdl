@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 #ifndef SDL_x11clipboard_h_
 #define SDL_x11clipboard_h_
 
-#include <X11/Xlib.h>
+#ضمن <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
+تعريفنوع بنية X11_ClipboardData {
     SDL_ClipboardDataCallback callback;
-    void *userdata;
-    const char *const *mime_types;
-    size_t mime_count;
+    فراغ *userdata;
+    ثابت حرف *ثابت *mime_types;
+    size_t mime_تعداد;
     Uint32 sequence;
 } SDLX11_ClipboardData;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
-extern void X11_QuitClipboard(SDL_VideoDevice *_this);
+خارجي ثابت حرف *ثابت *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *رقم_mime_types);
+خارجي bool X11_SetClipboardData(SDL_VideoDevice *_this);
+خارجي فراغ *X11_GetClipboardData(SDL_VideoDevice *_this, ثابت حرف *mime_type, size_t *length);
+خارجي bool X11_HasClipboardData(SDL_VideoDevice *_this, ثابت حرف *mime_type);
+خارجي bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, ثابت حرف *text);
+خارجي حرف *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
+خارجي bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
+خارجي فراغ X11_QuitClipboard(SDL_VideoDevice *_this);
 Window GetWindow(SDL_VideoDevice *_this);
 
 #endif // SDL_x11clipboard_h_

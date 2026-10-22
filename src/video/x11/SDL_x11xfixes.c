@@ -19,92 +19,92 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XFIXES)
+#إذا defined(SDL_VIDEO_DRIVER_X11) && defined(SDL_VIDEO_DRIVER_X11_XFIXES)
 
-#include "SDL_x11video.h"
-#include "SDL_x11xfixes.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11xfixes.h"
+#ضمن "../../events/SDL_mouse_c.h"
+#ضمن "../../events/SDL_touch_c.h"
 
-static bool xfixes_initialized = true;
-static int xfixes_selection_notify_event = 0;
+ساكن bool xfixes_initialized = true;
+ساكن صحيح xfixes_selection_notify_event = 0;
 
-static int query_xfixes_version(Display *display, int major, int minor)
+ساكن صحيح query_xfixes_version(Display *display, صحيح major, صحيح minor)
 {
     // We don't care if this fails, so long as it sets major/minor on it's way out the door.
     X11_XFixesQueryVersion(display, &major, &minor);
-    return (major * 1000) + minor;
+    إرجاع (major * 1000) + minor;
 }
 
-static bool xfixes_version_atleast(const int version, const int wantmajor, const int wantminor)
+ساكن bool xfixes_version_atleast(ثابت صحيح version, ثابت صحيح wantmajor, ثابت صحيح wantminor)
 {
-    return version >= ((wantmajor * 1000) + wantminor);
+    إرجاع version >= ((wantmajor * 1000) + wantminor);
 }
 
-void X11_InitXfixes(SDL_VideoDevice *_this)
+فراغ X11_InitXfixes(SDL_VideoDevice *_this)
 {
     SDL_VideoData *data = _this->internal;
 
-    int version = 0;
-    int event, error;
-    int fixes_opcode;
+    صحيح version = 0;
+    صحيح event, error;
+    صحيح fixes_opcode;
 
     Atom XA_CLIPBOARD = data->atoms.CLIPBOARD;
 
-    if (!SDL_X11_HAVE_XFIXES ||
+    إذا (!SDL_X11_HAVE_XFIXES ||
         !X11_XQueryExtension(data->display, "XFIXES", &fixes_opcode, &event, &error)) {
-        return;
+        إرجاع;
     }
 
     // Selection tracking is available in all versions of XFixes
     xfixes_selection_notify_event = event + XFixesSelectionNotify;
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
+    X11_XFixes_Select_Selection_إدخال(data->display, Default_جذر_Window(data->display),
             XA_CLIPBOARD, XFixesSetSelectionOwnerNotifyMask);
-    X11_XFixesSelectSelectionInput(data->display, DefaultRootWindow(data->display),
+    X11_XFixes_Select_Selection_إدخال(data->display, Default_جذر_Window(data->display),
             XA_PRIMARY, XFixesSetSelectionOwnerNotifyMask);
 
     // We need at least 5.0 for barriers.
     version = query_xfixes_version(data->display, 5, 0);
-    if (!xfixes_version_atleast(version, 5, 0)) {
-        return; // X server does not support the version we want at all.
+    إذا (!xfixes_version_atleast(version, 5, 0)) {
+        إرجاع; // X server does not support the version we want at all.
     }
 
     xfixes_initialized = 1;
 }
 
-bool X11_XfixesIsInitialized(void)
+bool X11_XfixesIsInitialized(فراغ)
 {
-    return xfixes_initialized;
+    إرجاع xfixes_initialized;
 }
 
-int X11_GetXFixesSelectionNotifyEvent(void)
+صحيح X11_GetXFixesSelectionNotifyEvent(فراغ)
 {
-    return xfixes_selection_notify_event;
+    إرجاع xfixes_selection_notify_event;
 }
 
 bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    if (SDL_RectEmpty(&window->mouse_rect)) {
-        X11_ConfineCursorWithFlags(_this, window, NULL, 0);
-    } else {
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+    إذا (SDL_RectEmpty(&window->mouse_rect)) {
+        X11_ConfineCursorWithFlags(_this, window, عدم, 0);
+    } وإلا {
+        إذا (window->flags & SDL_WINDOW_إدخال_FOCUS) {
             X11_ConfineCursorWithFlags(_this, window, &window->mouse_rect, 0);
-        } else {
+        } وإلا {
             // Save the state for when we get focus again
             SDL_WindowData *wdata = window->internal;
 
-            SDL_memcpy(&wdata->barrier_rect, &window->mouse_rect, sizeof(wdata->barrier_rect));
+            SDL_memcpy(&wdata->barrier_rect, &window->mouse_rect, حجم(wdata->barrier_rect));
 
             wdata->pointer_barrier_active = true;
         }
     }
 
-    return true;
+    إرجاع true;
 }
 
-bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags)
+bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, ثابت SDL_Rect *rect, صحيح flags)
 {
     /* Yaakuro: For some reason Xfixes when confining inside a rect where the
      * edges exactly match, a rectangle the cursor 'slips' out of the barrier.
@@ -113,22 +113,22 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
     SDL_VideoData *data = _this->internal;
     SDL_WindowData *wdata;
 
-    if (!X11_XfixesIsInitialized()) {
-        return SDL_Unsupported();
+    إذا (!X11_XfixesIsInitialized()) {
+        إرجاع SDL_Unsupported();
     }
 
     // If there is already a set of barriers active, disable them.
-    if (data->active_cursor_confined_window) {
+    إذا (data->active_cursor_confined_window) {
         X11_DestroyPointerBarrier(_this, data->active_cursor_confined_window);
     }
 
-    SDL_assert(window != NULL);
+    SDL_assert(window != عدم);
     wdata = window->internal;
 
     /* If user did not specify an area to confine, destroy the barrier that was/is assigned to
      * this window it was assigned */
-    if (rect) {
-        int x1, y1, x2, y2;
+    إذا (rect) {
+        صحيح x1, y1, x2, y2;
         SDL_Rect bounds;
         SDL_GetWindowPosition(window, &bounds.x, &bounds.y);
         SDL_GetWindowSize(window, &bounds.w, &bounds.h);
@@ -139,7 +139,7 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
         x2 = SDL_min(bounds.x + rect->x + rect->w, bounds.x + bounds.w);
         y2 = SDL_min(bounds.y + rect->y + rect->h, bounds.y + bounds.h);
 
-        if ((wdata->barrier_rect.x != rect->x) ||
+        إذا ((wdata->barrier_rect.x != rect->x) ||
             (wdata->barrier_rect.y != rect->y) ||
             (wdata->barrier_rect.w != rect->w) ||
             (wdata->barrier_rect.h != rect->h)) {
@@ -154,25 +154,25 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
                                                            x1, bounds.y,
                                                            x1, bounds.y + bounds.h,
                                                            BarrierPositiveX,
-                                                           0, NULL);
+                                                           0, عدم);
         /** Create the right barrier */
         wdata->barrier[1] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
                                                            x2, bounds.y,
                                                            x2, bounds.y + bounds.h,
                                                            BarrierNegativeX,
-                                                           0, NULL);
+                                                           0, عدم);
         /** Create the top barrier */
         wdata->barrier[2] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
                                                            bounds.x, y1,
                                                            bounds.x + bounds.w, y1,
                                                            BarrierPositiveY,
-                                                           0, NULL);
+                                                           0, عدم);
         /** Create the bottom barrier */
         wdata->barrier[3] = X11_XFixesCreatePointerBarrier(data->display, wdata->xwindow,
                                                            bounds.x, y2,
                                                            bounds.x + bounds.w, y2,
                                                            BarrierNegativeY,
-                                                           0, NULL);
+                                                           0, عدم);
 
         X11_XFlush(data->display);
 
@@ -182,33 +182,33 @@ bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, cons
         /* User activated the confinement for this window. We use this later to reactivate
          * the confinement if it got deactivated by FocusOut or UnmapNotify */
         wdata->pointer_barrier_active = true;
-    } else {
+    } وإلا {
         X11_DestroyPointerBarrier(_this, window);
 
         // Only set barrier inactive when user specified NULL and not handled by focus out.
-        if (flags != X11_BARRIER_HANDLED_BY_EVENT) {
+        إذا (flags != X11_BARRIER_HANDLED_BY_EVENT) {
             wdata->pointer_barrier_active = false;
         }
     }
-    return true;
+    إرجاع true;
 }
 
-void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window)
 {
-    int i;
+    صحيح i;
     SDL_VideoData *data = _this->internal;
-    if (window) {
+    إذا (window) {
         SDL_WindowData *wdata = window->internal;
 
-        for (i = 0; i < 4; i++) {
-            if (wdata->barrier[i] > 0) {
+        لكل (i = 0; i < 4; i++) {
+            إذا (wdata->barrier[i] > 0) {
                 X11_XFixesDestroyPointerBarrier(data->display, wdata->barrier[i]);
                 wdata->barrier[i] = 0;
             }
         }
         X11_XFlush(data->display);
     }
-    data->active_cursor_confined_window = NULL;
+    data->active_cursor_confined_window = عدم;
 }
 
 #endif // SDL_VIDEO_DRIVER_X11 && SDL_VIDEO_DRIVER_X11_XFIXES

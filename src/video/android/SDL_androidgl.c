@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
+#إذا defined(SDL_VIDEO_DRIVER_ANDROID) && defined(SDL_VIDEO_OPENGL_EGL)
 
 // Android SDL video driver implementation
 
-#include "../SDL_egl_c.h"
-#include "SDL_androidwindow.h"
+#ضمن "../SDL_egl_c.h"
+#ضمن "SDL_androidwindow.h"
 
-#include "SDL_androidvideo.h"
-#include "SDL_androidevents.h"
-#include "SDL_androidgl.h"
-#include "../../core/android/SDL_android.h"
+#ضمن "SDL_androidvideo.h"
+#ضمن "SDL_androidevents.h"
+#ضمن "SDL_androidgl.h"
+#ضمن "../../core/android/SDL_android.h"
 
-#include <android/log.h>
+#ضمن <android/log.h>
 
-#include <dlfcn.h>
+#ضمن <dlfcn.h>
 
 bool Android_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    إذا (window && context) {
+        إرجاع SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
+    } وإلا {
+        إرجاع SDL_EGL_MakeCurrent(_this, عدم, عدم);
     }
 }
 
@@ -49,15 +49,15 @@ SDL_GLContext Android_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *win
 {
     SDL_GLContext result;
 
-    if (!Android_WaitActiveAndLockActivity()) {
-        return NULL;
+    إذا (!Android_WaitActiveAndLockActivity()) {
+        إرجاع عدم;
     }
 
     result = SDL_EGL_CreateContext(_this, window->internal->egl_surface);
 
     Android_UnlockActivityMutex();
 
-    return result;
+    إرجاع result;
 }
 
 bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
@@ -77,12 +77,12 @@ bool Android_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
 
     Android_UnlockActivityMutex();
 
-    return result;
+    إرجاع result;
 }
 
-bool Android_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool Android_GLES_LoadLibrary(SDL_VideoDevice *_this, ثابت حرف *path)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    إرجاع SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
 }
 
 #endif // SDL_VIDEO_DRIVER_ANDROID
