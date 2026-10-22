@@ -19,253 +19,253 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND
 
-#include "../../core/linux/SDL_system_theme.h"
-#include "../../core/linux/SDL_progressbar.h"
-#include "../../events/SDL_events_c.h"
+#ضمن "../../core/linux/SDL_system_theme.h"
+#ضمن "../../core/linux/SDL_progressbar.h"
+#ضمن "../../events/SDL_events_c.h"
 
-#include "SDL_waylandclipboard.h"
-#include "SDL_waylandcolor.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandkeyboard.h"
-#include "SDL_waylandmessagebox.h"
-#include "SDL_waylandmouse.h"
-#include "SDL_waylandopengles.h"
-#include "SDL_waylandvideo.h"
-#include "SDL_waylandvulkan.h"
-#include "SDL_waylandwindow.h"
+#ضمن "SDL_waylandclipboard.h"
+#ضمن "SDL_waylandcolor.h"
+#ضمن "SDL_waylandevents_c.h"
+#ضمن "SDL_waylandkeyboard.h"
+#ضمن "SDL_waylandmessagebox.h"
+#ضمن "SDL_waylandmouse.h"
+#ضمن "SDL_waylandopengles.h"
+#ضمن "SDL_waylandvideo.h"
+#ضمن "SDL_waylandvulkan.h"
+#ضمن "SDL_waylandwindow.h"
 
-#include <fcntl.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <errno.h>
-#include <xkbcommon/xkbcommon.h>
+#ضمن <fcntl.h>
+#ضمن <sys/types.h>
+#ضمن <unistd.h>
+#ضمن <errno.h>
+#ضمن <xkbcommon/xkbcommon.h>
 
-#include <wayland-util.h>
+#ضمن <wayland-util.h>
 
-#include "alpha-modifier-v1-client-protocol.h"
-#include "cursor-shape-v1-client-protocol.h"
-#include "fractional-scale-v1-client-protocol.h"
-#include "frog-color-management-v1-client-protocol.h"
-#include "idle-inhibit-unstable-v1-client-protocol.h"
-#include "input-timestamps-unstable-v1-client-protocol.h"
-#include "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
-#include "pointer-constraints-unstable-v1-client-protocol.h"
-#include "primary-selection-unstable-v1-client-protocol.h"
-#include "relative-pointer-unstable-v1-client-protocol.h"
-#include "tablet-v2-client-protocol.h"
-#include "text-input-unstable-v3-client-protocol.h"
-#include "viewporter-client-protocol.h"
-#include "xdg-activation-v1-client-protocol.h"
-#include "xdg-decoration-unstable-v1-client-protocol.h"
-#include "xdg-dialog-v1-client-protocol.h"
-#include "xdg-foreign-unstable-v2-client-protocol.h"
-#include "xdg-output-unstable-v1-client-protocol.h"
-#include "xdg-shell-client-protocol.h"
-#include "xdg-toplevel-icon-v1-client-protocol.h"
-#include "color-management-v1-client-protocol.h"
-#include "pointer-warp-v1-client-protocol.h"
-#include "pointer-gestures-unstable-v1-client-protocol.h"
-#include "single-pixel-buffer-v1-client-protocol.h"
-#include "xdg-session-management-v1-client-protocol.h"
-#include "xdg-toplevel-tag-v1-client-protocol.h"
+#ضمن "alpha-modifier-v1-client-protocol.h"
+#ضمن "cursor-shape-v1-client-protocol.h"
+#ضمن "fractional-scale-v1-client-protocol.h"
+#ضمن "frog-color-management-v1-client-protocol.h"
+#ضمن "idle-inhibit-unstable-v1-client-protocol.h"
+#ضمن "input-timestamps-unstable-v1-client-protocol.h"
+#ضمن "keyboard-shortcuts-inhibit-unstable-v1-client-protocol.h"
+#ضمن "pointer-constraints-unstable-v1-client-protocol.h"
+#ضمن "primary-selection-unstable-v1-client-protocol.h"
+#ضمن "relative-pointer-unstable-v1-client-protocol.h"
+#ضمن "tablet-v2-client-protocol.h"
+#ضمن "text-input-unstable-v3-client-protocol.h"
+#ضمن "viewporter-client-protocol.h"
+#ضمن "xdg-activation-v1-client-protocol.h"
+#ضمن "xdg-decoration-unstable-v1-client-protocol.h"
+#ضمن "xdg-dialog-v1-client-protocol.h"
+#ضمن "xdg-foreign-unstable-v2-client-protocol.h"
+#ضمن "xdg-output-unstable-v1-client-protocol.h"
+#ضمن "xdg-shell-client-protocol.h"
+#ضمن "xdg-toplevel-icon-v1-client-protocol.h"
+#ضمن "color-management-v1-client-protocol.h"
+#ضمن "pointer-warp-v1-client-protocol.h"
+#ضمن "pointer-gestures-unstable-v1-client-protocol.h"
+#ضمن "single-pixel-buffer-v1-client-protocol.h"
+#ضمن "xdg-session-management-v1-client-protocol.h"
+#ضمن "xdg-toplevel-tag-v1-client-protocol.h"
 
-#ifdef HAVE_LIBDECOR_H
-#include <libdecor.h>
-#endif
+#جے_تعریف_شدہ HAVE_LIBDECOR_H
+#ضمن <libdecor.h>
+#جے_انت
 
-#define WAYLANDVID_DRIVER_NAME "wayland"
+#تعریف_کرو WAYLANDVID_DRIVER_NAME "wayland"
 
 // Clamp core protocol versions on older versions of libwayland.
-#if SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
-#define SDL_WL_COMPOSITOR_VERSION 6
-#else
-#define SDL_WL_COMPOSITOR_VERSION 4
-#endif
+#إذا SDL_WAYLAND_CHECK_نسخہ(1, 22, 0)
+#تعریف_کرو SDL_WL_COMPOSITOR_نسخہ 6
+#وإلا
+#تعریف_کرو SDL_WL_COMPOSITOR_نسخہ 4
+#جے_انت
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
-#define SDL_WL_SEAT_VERSION 11
-#elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
-#define SDL_WL_SEAT_VERSION 10
-#elif SDL_WAYLAND_CHECK_VERSION(1, 22, 0)
-#define SDL_WL_SEAT_VERSION 9
-#elif SDL_WAYLAND_CHECK_VERSION(1, 21, 0)
-#define SDL_WL_SEAT_VERSION 8
-#else
-#define SDL_WL_SEAT_VERSION 5
-#endif
+#إذا SDL_WAYLAND_CHECK_نسخہ(1, 26, 0)
+#تعریف_کرو SDL_WL_SEAT_نسخہ 11
+#وإلاإذا SDL_WAYLAND_CHECK_نسخہ(1, 24, 0)
+#تعریف_کرو SDL_WL_SEAT_نسخہ 10
+#وإلاإذا SDL_WAYLAND_CHECK_نسخہ(1, 22, 0)
+#تعریف_کرو SDL_WL_SEAT_نسخہ 9
+#وإلاإذا SDL_WAYLAND_CHECK_نسخہ(1, 21, 0)
+#تعریف_کرو SDL_WL_SEAT_نسخہ 8
+#وإلا
+#تعریف_کرو SDL_WL_SEAT_نسخہ 5
+#جے_انت
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 20, 0)
-#define SDL_WL_OUTPUT_VERSION 4
-#else
-#define SDL_WL_OUTPUT_VERSION 3
-#endif
+#إذا SDL_WAYLAND_CHECK_نسخہ(1, 20, 0)
+#تعریف_کرو SDL_WL_OUTPUT_نسخہ 4
+#وإلا
+#تعریف_کرو SDL_WL_OUTPUT_نسخہ 3
+#جے_انت
 
-#if SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
-#define SDL_WL_SHM_VERSION 2
-#else
-#define SDL_WL_SHM_VERSION 1
-#endif
+#إذا SDL_WAYLAND_CHECK_نسخہ(1, 24, 0)
+#تعریف_کرو SDL_WL_SHM_نسخہ 2
+#وإلا
+#تعریف_کرو SDL_WL_SHM_نسخہ 1
+#جے_انت
 
 // The SDL libwayland-client minimum is 1.18, which supports version 3.
-#define SDL_WL_DATA_DEVICE_VERSION 3
+#تعریف_کرو SDL_WL_انکڑے_DEVICE_نسخہ 3
 
 // wl_fixes was introduced in 1.24.0
-#if SDL_WAYLAND_CHECK_VERSION(1, 26, 0)
-#define SDL_WL_FIXES_VERSION 2
-#elif SDL_WAYLAND_CHECK_VERSION(1, 24, 0)
-#define SDL_WL_FIXES_VERSION 1
-#endif
+#إذا SDL_WAYLAND_CHECK_نسخہ(1, 26, 0)
+#تعریف_کرو SDL_WL_FIXES_نسخہ 2
+#وإلاإذا SDL_WAYLAND_CHECK_نسخہ(1, 24, 0)
+#تعریف_کرو SDL_WL_FIXES_نسخہ 1
+#جے_انت
 
-#ifdef SDL_USE_LIBDBUS
-#include "../../core/linux/SDL_dbus.h"
+#جے_تعریف_شدہ SDL_USE_LIBDBUS
+#ضمن "../../core/linux/SDL_dbus.h"
 
-#define DISPLAY_INFO_NODE   "org.gnome.Mutter.DisplayConfig"
-#define DISPLAY_INFO_PATH   "/org/gnome/Mutter/DisplayConfig"
-#define DISPLAY_INFO_METHOD "GetCurrentState"
-#endif
+#تعریف_کرو DISPLAY_INFO_گرہ   "org.gnome.Mutter.DisplayConfig"
+#تعریف_کرو DISPLAY_INFO_رستہ   "/org/gnome/Mutter/DisplayConfig"
+#تعریف_کرو DISPLAY_INFO_طریقہ "GetCurrentState"
+#جے_انت
 
 /* GNOME doesn't expose displays in any particular order, but we can find the
  * primary display and its logical coordinates via a DBus method.
  */
-static bool Wayland_GetGNOMEPrimaryDisplayCoordinates(int *x, int *y)
+ساكن bool Wayland_GetGNOMEPrimaryDisplayCoordinates(صحيح *x, صحيح *y)
 {
-#ifdef SDL_USE_LIBDBUS
+#جے_تعریف_شدہ SDL_USE_LIBDBUS
     SDL_DBusContext *dbus = SDL_DBus_GetContext();
-    if (dbus == NULL) {
-        return false;
+    إذا (dbus == عدم) {
+        أرجع false;
     }
-    DBusMessage *reply = NULL;
-    DBusMessageIter iter[3];
-    DBusMessage *msg = dbus->message_new_method_call(DISPLAY_INFO_NODE,
-                                                     DISPLAY_INFO_PATH,
-                                                     DISPLAY_INFO_NODE,
-                                                     DISPLAY_INFO_METHOD);
+    DBus_سنیہا *جواب = عدم;
+    DBus_سنیہا_Iter iter[3];
+    DBus_سنیہا *پیغام = dbus->سنیہا_new_طریقہ_call(DISPLAY_INFO_گرہ,
+                                                     DISPLAY_INFO_رستہ,
+                                                     DISPLAY_INFO_گرہ,
+                                                     DISPLAY_INFO_طریقہ);
 
-    if (msg) {
-        reply = dbus->connection_send_with_reply_and_block(dbus->session_conn, msg, DBUS_TIMEOUT_USE_DEFAULT, NULL);
-        dbus->message_unref(msg);
+    إذا (پیغام) {
+        جواب = dbus->connection_send_with_جواب_and_بلاک(dbus->session_conn, پیغام, DBUS_TIMEOUT_USE_DEFAULT, عدم);
+        dbus->سنیہا_unref(پیغام);
     }
 
-    if (reply) {
+    إذا (جواب) {
         // Serial (don't care)
-        dbus->message_iter_init(reply, &iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
-            goto error;
+        dbus->سنیہا_iter_init(جواب, &iter[0]);
+        إذا (dbus->سنیہا_iter_get_arg_type(&iter[0]) != DBUS_TYPE_UINT32) {
+            اذهب error;
         }
 
         // Physical monitor array (don't care)
-        dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
-            goto error;
+        dbus->سنیہا_iter_اگلا(&iter[0]);
+        إذا (dbus->سنیہا_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+            اذهب error;
         }
 
         // Logical monitor array of structs
-        dbus->message_iter_next(&iter[0]);
-        if (dbus->message_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
-            goto error;
+        dbus->سنیہا_iter_اگلا(&iter[0]);
+        إذا (dbus->سنیہا_iter_get_arg_type(&iter[0]) != DBUS_TYPE_ARRAY) {
+            اذهب error;
         }
 
         // First logical monitor struct
-        dbus->message_iter_recurse(&iter[0], &iter[1]);
-        if (dbus->message_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
-            goto error;
+        dbus->سنیہا_iter_recurse(&iter[0], &iter[1]);
+        إذا (dbus->سنیہا_iter_get_arg_type(&iter[1]) != DBUS_TYPE_STRUCT) {
+            اذهب error;
         }
 
-        do {
-            int logical_x, logical_y;
+        افعل {
+            صحيح logical_x, logical_y;
             dbus_bool_t primary;
 
             // Logical X
-            dbus->message_iter_recurse(&iter[1], &iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
-                goto error;
+            dbus->سنیہا_iter_recurse(&iter[1], &iter[2]);
+            إذا (dbus->سنیہا_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+                اذهب error;
             }
-            dbus->message_iter_get_basic(&iter[2], &logical_x);
+            dbus->سنیہا_iter_get_basic(&iter[2], &logical_x);
 
             // Logical Y
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
-                goto error;
+            dbus->سنیہا_iter_اگلا(&iter[2]);
+            إذا (dbus->سنیہا_iter_get_arg_type(&iter[2]) != DBUS_TYPE_INT32) {
+                اذهب error;
             }
-            dbus->message_iter_get_basic(&iter[2], &logical_y);
+            dbus->سنیہا_iter_get_basic(&iter[2], &logical_y);
 
             // Scale (don't care)
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
-                goto error;
+            dbus->سنیہا_iter_اگلا(&iter[2]);
+            إذا (dbus->سنیہا_iter_get_arg_type(&iter[2]) != DBUS_TYPE_DOUBLE) {
+                اذهب error;
             }
 
             // Transform (don't care)
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
-                goto error;
+            dbus->سنیہا_iter_اگلا(&iter[2]);
+            إذا (dbus->سنیہا_iter_get_arg_type(&iter[2]) != DBUS_TYPE_UINT32) {
+                اذهب error;
             }
 
             // Primary display boolean
-            dbus->message_iter_next(&iter[2]);
-            if (dbus->message_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
-                goto error;
+            dbus->سنیہا_iter_اگلا(&iter[2]);
+            إذا (dbus->سنیہا_iter_get_arg_type(&iter[2]) != DBUS_TYPE_BOOLEAN) {
+                اذهب error;
             }
-            dbus->message_iter_get_basic(&iter[2], &primary);
+            dbus->سنیہا_iter_get_basic(&iter[2], &primary);
 
-            if (primary) {
+            إذا (primary) {
                 *x = logical_x;
                 *y = logical_y;
 
                 // We found the primary display: success.
-                dbus->message_unref(reply);
-                return true;
+                dbus->سنیہا_unref(جواب);
+                أرجع true;
             }
-        } while (dbus->message_iter_next(&iter[1]));
+        } طالما (dbus->سنیہا_iter_اگلا(&iter[1]));
     }
 
 error:
-    if (reply) {
-        dbus->message_unref(reply);
+    إذا (جواب) {
+        dbus->سنیہا_unref(جواب);
     }
-#endif
-    return false;
+#جے_انت
+    أرجع false;
 }
 
 // Sort the list of displays into a deterministic order
-static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
+ساكن صحيح SDLCALL Wayland_DisplayPositionCompare(ثابت فراغ *a, ثابت فراغ *b)
 {
-    const SDL_DisplayData *da = *(SDL_DisplayData **)a;
-    const SDL_DisplayData *db = *(SDL_DisplayData **)b;
-    const bool a_at_origin = da->logical.x == 0 && da->logical.y == 0;
-    const bool b_at_origin = db->logical.x == 0 && db->logical.y == 0;
+    ثابت SDL_Display_انکڑے *da = *(SDL_Display_انکڑے **)a;
+    ثابت SDL_Display_انکڑے *db = *(SDL_Display_انکڑے **)b;
+    ثابت bool a_at_origin = da->logical.x == 0 && da->logical.y == 0;
+    ثابت bool b_at_origin = db->logical.x == 0 && db->logical.y == 0;
 
     // Sort the display at 0,0 to be beginning of the list, as that will be the fallback primary.
-    if (a_at_origin && !b_at_origin) {
-        return -1;
+    إذا (a_at_origin && !b_at_origin) {
+        أرجع -1;
     }
-    if (b_at_origin && !a_at_origin) {
-        return 1;
+    إذا (b_at_origin && !a_at_origin) {
+        أرجع 1;
     }
 
-    if (da->logical.x < db->logical.x) {
-        return -1;
+    إذا (da->logical.x < db->logical.x) {
+        أرجع -1;
     }
-    if (da->logical.x > db->logical.x) {
-        return 1;
+    إذا (da->logical.x > db->logical.x) {
+        أرجع 1;
     }
-    if (da->logical.y < db->logical.y) {
-        return -1;
+    إذا (da->logical.y < db->logical.y) {
+        أرجع -1;
     }
-    if (da->logical.y > db->logical.y) {
-        return 1;
+    إذا (da->logical.y > db->logical.y) {
+        أرجع 1;
     }
 
     // If no position information is available, use the connector name.
-    if (da->wl_output_name && db->wl_output_name) {
-        return SDL_strcmp(da->wl_output_name, db->wl_output_name);
+    إذا (da->wl_output_name && db->wl_output_name) {
+        أرجع SDL_strcmp(da->wl_output_name, db->wl_output_name);
     }
 
-    return 0;
+    أرجع 0;
 }
 
 /* Wayland doesn't have the native concept of a primary display, but there are clients that
@@ -282,103 +282,103 @@ static int SDLCALL Wayland_DisplayPositionCompare(const void *a, const void *b)
  * - Higher refresh is preferred (ignoring small differences)
  * - Lower scale values are preferred (larger display)
  */
-static int Wayland_GetPrimaryDisplay(SDL_VideoData *vid)
+ساكن صحيح Wayland_GetPrimaryDisplay(SDL_Video_انکڑے *vid)
 {
-    static const int REFRESH_DELTA = 4000;
+    ساكن ثابت صحيح REFRESH_DELTA = 4000;
 
     // Query the DBus interface to see if the coordinates of the primary display are exposed.
-    int x, y;
-    if (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
-        for (int i = 0; i < vid->output_count; ++i) {
-            if (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
-                return i;
+    صحيح x, y;
+    إذا (Wayland_GetGNOMEPrimaryDisplayCoordinates(&x, &y)) {
+        لكل (صحيح i = 0; i < vid->output_گنتی; ++i) {
+            إذا (vid->output_list[i]->logical.x == x && vid->output_list[i]->logical.y == y) {
+                أرجع i;
             }
         }
     }
 
     // Otherwise, choose the 'best' display.
-    int best_width = 0;
-    int best_height = 0;
-    double best_scale = 0.0;
-    float best_headroom = 0.0f;
-    int best_refresh = 0;
-    bool best_is_landscape = false;
-    int best_index = 0;
+    صحيح بہترین_چوڑائی = 0;
+    صحيح بہترین_اچائی = 0;
+    مزدوج بہترین_scale = 0.0;
+    عائم بہترین_headroom = 0.0f;
+    صحيح بہترین_refresh = 0;
+    bool بہترین_is_landscape = false;
+    صحيح بہترین_اشاریہ = 0;
 
-    for (int i = 0; i < vid->output_count; ++i) {
-        const SDL_DisplayData *d = vid->output_list[i];
-        const bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
-        bool have_new_best = false;
+    لكل (صحيح i = 0; i < vid->output_گنتی; ++i) {
+        ثابت SDL_Display_انکڑے *d = vid->output_list[i];
+        ثابت bool is_landscape = d->orientation != SDL_ORIENTATION_PORTRAIT && d->orientation != SDL_ORIENTATION_PORTRAIT_FLIPPED;
+        bool have_new_بہترین = false;
 
-        if (!best_is_landscape && is_landscape) { // Favor landscape over portrait displays.
-            have_new_best = true;
-        } else if (!best_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
-            if (d->pixel.width > best_width || d->pixel.height > best_height) {
-                have_new_best = true;
-            } else if (d->pixel.width == best_width && d->pixel.height == best_height) {
-                if (d->HDR.HDR_headroom > best_headroom) { // Favor a higher HDR luminance range
-                    have_new_best = true;
-                } else if (d->HDR.HDR_headroom == best_headroom) {
-                    if (d->refresh - best_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
-                        have_new_best = true;
-                    } else if (d->scale_factor < best_scale && SDL_abs(d->refresh - best_refresh) <= REFRESH_DELTA) {
+        إذا (!بہترین_is_landscape && is_landscape) { // Favor landscape over portrait displays.
+            have_new_بہترین = true;
+        } وإلا إذا (!بہترین_is_landscape || is_landscape) { // Ignore portrait displays if a landscape was already found.
+            إذا (d->pixel.چوڑائی > بہترین_چوڑائی || d->pixel.اچائی > بہترین_اچائی) {
+                have_new_بہترین = true;
+            } وإلا إذا (d->pixel.چوڑائی == بہترین_چوڑائی && d->pixel.اچائی == بہترین_اچائی) {
+                إذا (d->HDR.HDR_headroom > بہترین_headroom) { // Favor a higher HDR luminance range
+                    have_new_بہترین = true;
+                } وإلا إذا (d->HDR.HDR_headroom == بہترین_headroom) {
+                    إذا (d->refresh - بہترین_refresh > REFRESH_DELTA) { // Favor a higher refresh rate, but ignore small differences (e.g. 59.97 vs 60.1)
+                        have_new_بہترین = true;
+                    } وإلا إذا (d->scale_ضارب_2 < بہترین_scale && SDL_abs(d->refresh - بہترین_refresh) <= REFRESH_DELTA) {
                         // Prefer a lower scale display if the difference in refresh rate is small.
-                        have_new_best = true;
+                        have_new_بہترین = true;
                     }
                 }
             }
         }
 
-        if (have_new_best) {
-            best_width = d->pixel.width;
-            best_height = d->pixel.height;
-            best_scale = d->scale_factor;
-            best_headroom = d->HDR.HDR_headroom;
-            best_refresh = d->refresh;
-            best_is_landscape = is_landscape;
-            best_index = i;
+        إذا (have_new_بہترین) {
+            بہترین_چوڑائی = d->pixel.چوڑائی;
+            بہترین_اچائی = d->pixel.اچائی;
+            بہترین_scale = d->scale_ضارب_2;
+            بہترین_headroom = d->HDR.HDR_headroom;
+            بہترین_refresh = d->refresh;
+            بہترین_is_landscape = is_landscape;
+            بہترین_اشاریہ = i;
         }
     }
 
-    return best_index;
+    أرجع بہترین_اشاریہ;
 }
 
-static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
+ساكن فراغ Wayland_ترتیب_دیو_Outputs_By_ترجیح_Hint(SDL_Video_انکڑے *vid)
 {
-    const char *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_PRIORITY);
+    ثابت حرف *name_hint = SDL_GetHint(SDL_HINT_VIDEO_DISPLAY_ترجیح);
 
-    if (name_hint) {
-        char *saveptr;
-        char *str = SDL_strdup(name_hint);
-        SDL_DisplayData **sorted_list = SDL_malloc(sizeof(SDL_DisplayData *) * vid->output_count);
+    إذا (name_hint) {
+        حرف *saveptr;
+        حرف *str = SDL_strdup(name_hint);
+        SDL_Display_انکڑے **sorted_list = SDL_malloc(حجم(SDL_Display_انکڑے *) * vid->output_گنتی);
 
-        if (str && sorted_list) {
-            int sorted_index = 0;
+        إذا (str && sorted_list) {
+            صحيح sorted_اشاریہ = 0;
 
             // Sort the requested displays to the front of the list.
-            const char *token = SDL_strtok_r(str, ",", &saveptr);
-            while (token) {
-                for (int i = 0; i < vid->output_count; ++i) {
-                    SDL_DisplayData *d = vid->output_list[i];
-                    if (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
-                        sorted_list[sorted_index++] = d;
-                        vid->output_list[i] = NULL;
-                        break;
+            ثابت حرف *token = SDL_strtok_r(str, ",", &saveptr);
+            طالما (token) {
+                لكل (صحيح i = 0; i < vid->output_گنتی; ++i) {
+                    SDL_Display_انکڑے *d = vid->output_list[i];
+                    إذا (d && d->wl_output_name && SDL_strcmp(token, d->wl_output_name) == 0) {
+                        sorted_list[sorted_اشاریہ++] = d;
+                        vid->output_list[i] = عدم;
+                        اكسر;
                     }
                 }
 
-                token = SDL_strtok_r(NULL, ",", &saveptr);
+                token = SDL_strtok_r(عدم, ",", &saveptr);
             }
 
             // Append the remaining outputs to the end of the list.
-            for (int i = 0; i < vid->output_count; ++i) {
-                if (vid->output_list[i]) {
-                    sorted_list[sorted_index++] = vid->output_list[i];
+            لكل (صحيح i = 0; i < vid->output_گنتی; ++i) {
+                إذا (vid->output_list[i]) {
+                    sorted_list[sorted_اشاریہ++] = vid->output_list[i];
                 }
             }
 
             // Copy the sorted list to the output list.
-            SDL_memcpy(vid->output_list, sorted_list, sizeof(SDL_DisplayData *) * vid->output_count);
+            SDL_memcpy(vid->output_list, sorted_list, حجم(SDL_Display_انکڑے *) * vid->output_گنتی);
         }
 
         SDL_free(str);
@@ -386,7 +386,7 @@ static void Wayland_SortOutputsByPriorityHint(SDL_VideoData *vid)
     }
 }
 
-static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
+ساكن فراغ Wayland_DeriveOutputPixelCoordinates(SDL_Video_انکڑے *vid)
 {
     /* Ensure outputs are not overlapping in the pixel coordinate space.
      *
@@ -397,26 +397,26 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
      *
      * Patches for a more sophisticated algorithm are welcome.
      */
-    for ( int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d = vid->output_list[i];
+    لكل ( صحيح i = 0; i < vid->output_گنتی; ++i) {
+        SDL_Display_انکڑے *d = vid->output_list[i];
         d->pixel.x = d->logical.x;
         d->pixel.y = d->logical.y;
     }
 
-    for (int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d1 = vid->output_list[i];
-        if (d1->logical.width != d1->pixel.width || d1->logical.height != d1->pixel.height) {
-            const int x_adj = d1->pixel.width - d1->logical.width;
-            const int y_adj = d1->pixel.height - d1->logical.height;
+    لكل (صحيح i = 0; i < vid->output_گنتی; ++i) {
+        SDL_Display_انکڑے *d1 = vid->output_list[i];
+        إذا (d1->logical.چوڑائی != d1->pixel.چوڑائی || d1->logical.اچائی != d1->pixel.اچائی) {
+            ثابت صحيح x_adj = d1->pixel.چوڑائی - d1->logical.چوڑائی;
+            ثابت صحيح y_adj = d1->pixel.اچائی - d1->logical.اچائی;
 
             // Don't adjust for scale values less than 1.0.
-            if (x_adj > 0 && y_adj > 0) {
-                for (int j = 0; j < vid->output_count; ++j) {
-                    SDL_DisplayData *d2 = vid->output_list[j];
-                    if (d2->logical.x > d1->logical.x) {
+            إذا (x_adj > 0 && y_adj > 0) {
+                لكل (صحيح j = 0; j < vid->output_گنتی; ++j) {
+                    SDL_Display_انکڑے *d2 = vid->output_list[j];
+                    إذا (d2->logical.x > d1->logical.x) {
                         d2->pixel.x += x_adj;
                     }
-                    if (d2->logical.y > d1->logical.y) {
+                    إذا (d2->logical.y > d1->logical.y) {
                         d2->pixel.y += y_adj;
                     }
                 }
@@ -425,211 +425,211 @@ static void Wayland_DeriveOutputPixelCoordinates(SDL_VideoData *vid)
     }
 }
 
-static void Wayland_SortOutputs(SDL_VideoData *vid)
+ساكن فراغ Wayland_ترتیب_دیو_Outputs(SDL_Video_انکڑے *vid)
 {
     // Sort by position or connector name, so the order of outputs is deterministic.
-    SDL_qsort(vid->output_list, vid->output_count, sizeof(SDL_DisplayData *), Wayland_DisplayPositionCompare);
+    SDL_qsort(vid->output_list, vid->output_گنتی, حجم(SDL_Display_انکڑے *), Wayland_DisplayPositionCompare);
 
     // Derive the output pixel coordinates if scale to display is enabled.
-    if (vid->scale_to_display_enabled) {
+    إذا (vid->scale_منزل_display_enabled) {
         Wayland_DeriveOutputPixelCoordinates(vid);
     }
 
     // Find a suitable primary display and move it to the front of the list.
-    const int primary_index = Wayland_GetPrimaryDisplay(vid);
-    if (primary_index) {
-        SDL_DisplayData *primary = vid->output_list[primary_index];
-        SDL_memmove(&vid->output_list[1], &vid->output_list[0], sizeof(SDL_DisplayData *) * primary_index);
+    ثابت صحيح primary_اشاریہ = Wayland_GetPrimaryDisplay(vid);
+    إذا (primary_اشاریہ) {
+        SDL_Display_انکڑے *primary = vid->output_list[primary_اشاریہ];
+        SDL_memmove(&vid->output_list[1], &vid->output_list[0], حجم(SDL_Display_انکڑے *) * primary_اشاریہ);
         vid->output_list[0] = primary;
     }
 
     // Apply the ordering hint, if specified.
-    Wayland_SortOutputsByPriorityHint(vid);
+    Wayland_ترتیب_دیو_Outputs_By_ترجیح_Hint(vid);
 }
 
-static void Wayland_RefreshWindowPositions()
+ساكن فراغ Wayland_Refresh_کھڑکی_Positions()
 {
     SDL_VideoDevice *vid = SDL_GetVideoDevice();
 
-    for (SDL_Window *w = vid->windows; w; w = w->next) {
-        Wayland_UpdateWindowPosition(w);
+    لكل (SDL_کھڑکی *w = vid->windows; w; w = w->اگلا) {
+        Wayland_Update_کھڑکی_Position(w);
     }
 }
 
-static void handle_wl_output_done(void *data, struct wl_output *output);
+ساكن فراغ handle_wl_output_پورا(فراغ *انکڑے, بنية wl_output *output);
 
 // Initialization/Query functions
-static bool Wayland_VideoInit(SDL_VideoDevice *_this);
-static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-static void Wayland_VideoQuit(SDL_VideoDevice *_this);
+ساكن bool Wayland_VideoInit(SDL_VideoDevice *_this);
+ساكن bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+ساكن فراغ Wayland_VideoQuit(SDL_VideoDevice *_this);
 
-static const char *SDL_WAYLAND_surface_tag = "sdl-window";
-static const char *SDL_WAYLAND_output_tag = "sdl-output";
+ساكن ثابت حرف *SDL_WAYLAND_surface_ٹیگ = "sdl-window";
+ساكن ثابت حرف *SDL_WAYLAND_output_ٹیگ = "sdl-output";
 
-void SDL_WAYLAND_register_surface(struct wl_surface *surface)
+فراغ SDL_WAYLAND_رجسٹر_surface(بنية wl_surface *surface)
 {
-    wl_proxy_set_tag((struct wl_proxy *)surface, &SDL_WAYLAND_surface_tag);
+    wl_proxy_سیٹ_ٹیگ((بنية wl_proxy *)surface, &SDL_WAYLAND_surface_ٹیگ);
 }
 
-void SDL_WAYLAND_register_output(struct wl_output *output)
+فراغ SDL_WAYLAND_رجسٹر_output(بنية wl_output *output)
 {
-    wl_proxy_set_tag((struct wl_proxy *)output, &SDL_WAYLAND_output_tag);
+    wl_proxy_سیٹ_ٹیگ((بنية wl_proxy *)output, &SDL_WAYLAND_output_ٹیگ);
 }
 
-bool SDL_WAYLAND_own_surface(struct wl_surface *surface)
+bool SDL_WAYLAND_own_surface(بنية wl_surface *surface)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)surface) == &SDL_WAYLAND_surface_tag;
+    أرجع wl_proxy_get_ٹیگ((بنية wl_proxy *)surface) == &SDL_WAYLAND_surface_ٹیگ;
 }
 
-bool SDL_WAYLAND_own_output(struct wl_output *output)
+bool SDL_WAYLAND_own_output(بنية wl_output *output)
 {
-    return wl_proxy_get_tag((struct wl_proxy *)output) == &SDL_WAYLAND_output_tag;
+    أرجع wl_proxy_get_ٹیگ((بنية wl_proxy *)output) == &SDL_WAYLAND_output_ٹیگ;
 }
 
 /* External surfaces may have their own user data attached, the modification of which
  * can cause problems with external toolkits. Instead, external windows are kept in
  * their own list, and a search is conducted to find a matching surface.
  */
-static struct wl_list external_window_list;
+ساكن بنية wl_list external_کھڑکی_list;
 
-void Wayland_AddWindowDataToExternalList(SDL_WindowData *data)
+فراغ Wayland_جوڑو_کھڑکی_انکڑے_منزل_External_List(SDL_کھڑکی_انکڑے *انکڑے)
 {
-    WAYLAND_wl_list_insert(&external_window_list, &data->external_window_list_link);
+    WAYLAND_wl_list_داخل_کرو(&external_کھڑکی_list, &انکڑے->external_کھڑکی_list_link);
 }
 
-void Wayland_RemoveWindowDataFromExternalList(SDL_WindowData *data)
+فراغ Wayland_Remove_کھڑکی_انکڑے_From_External_List(SDL_کھڑکی_انکڑے *انکڑے)
 {
-    WAYLAND_wl_list_remove(&data->external_window_list_link);
+    WAYLAND_wl_list_remove(&انکڑے->external_کھڑکی_list_link);
 }
 
-SDL_WindowData *Wayland_GetWindowDataForOwnedSurface(struct wl_surface *surface)
+SDL_کھڑکی_انکڑے *Wayland_Get_کھڑکی_انکڑے_For_Owned_Surface(بنية wl_surface *surface)
 {
-    if (SDL_WAYLAND_own_surface(surface)) {
-        return (SDL_WindowData *)wl_surface_get_user_data(surface);
-    } else if (!WAYLAND_wl_list_empty(&external_window_list)) {
-        SDL_WindowData *p;
-        wl_list_for_each (p, &external_window_list, external_window_list_link) {
-            if (p->surface == surface) {
-                return p;
+    إذا (SDL_WAYLAND_own_surface(surface)) {
+        أرجع (SDL_کھڑکی_انکڑے *)wl_surface_get_user_انکڑے(surface);
+    } وإلا إذا (!WAYLAND_wl_list_خالی_تھاواں(&external_کھڑکی_list)) {
+        SDL_کھڑکی_انکڑے *p;
+        wl_list_for_each (p, &external_کھڑکی_list, external_کھڑکی_list_link) {
+            إذا (p->surface == surface) {
+                أرجع p;
             }
         }
     }
 
-    return NULL;
+    أرجع عدم;
 }
 
-struct wl_event_queue *Wayland_DisplayCreateQueue(struct wl_display *display, const char *name)
+بنية wl_event_قطار *Wayland_Display_Create_قطار(بنية wl_display *display, ثابت حرف *name)
 {
-#ifdef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
-    if (WAYLAND_wl_display_create_queue_with_name) {
-        return WAYLAND_wl_display_create_queue_with_name(display, name);
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC
+    إذا (WAYLAND_wl_display_create_قطار_with_name) {
+        أرجع WAYLAND_wl_display_create_قطار_with_name(display, name);
     }
-#elif SDL_WAYLAND_CHECK_VERSION(1, 23, 0)
-    return WAYLAND_wl_display_create_queue_with_name(display, name);
-#endif
-    return WAYLAND_wl_display_create_queue(display);
+#وإلاإذا SDL_WAYLAND_CHECK_نسخہ(1, 23, 0)
+    أرجع WAYLAND_wl_display_create_قطار_with_name(display, name);
+#جے_انت
+    أرجع WAYLAND_wl_display_create_قطار(display);
 }
 
-static void Wayland_DeleteDevice(SDL_VideoDevice *device)
+ساكن فراغ Wayland_DeleteDevice(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
-    if (data->display && !data->display_externally_owned) {
-        WAYLAND_wl_display_disconnect(data->display);
-        SDL_ClearProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER);
+    SDL_Video_انکڑے *انکڑے = device->اندرونی;
+    إذا (انکڑے->display && !انکڑے->display_externally_owned) {
+        WAYLAND_wl_display_disconnect(انکڑے->display);
+        SDL_ClearProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_اشارہ_گر);
     }
-    SDL_free(data);
+    SDL_free(انکڑے);
     SDL_free(device);
     SDL_WAYLAND_UnloadSymbols();
 }
 
-typedef struct
+تعريفنوع بنية
 {
     bool has_fifo_v1;
-    struct wl_fixes *wl_fixes;
-} SDL_WaylandPreferredData;
+    بنية wl_fixes *wl_fixes;
+} SDL_Wayland_Preferred_انکڑے;
 
-static void wayland_preferred_check_handle_global(void *data, struct wl_registry *registry, uint32_t id,
-                                                  const char *interface, uint32_t version)
+ساكن فراغ wayland_preferred_check_handle_global(فراغ *انکڑے, بنية wl_registry *registry, uint32_t id,
+                                                  ثابت حرف *interface, uint32_t نسخہ)
 {
-    SDL_WaylandPreferredData *d = data;
+    SDL_Wayland_Preferred_انکڑے *d = انکڑے;
 
-    if (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
+    إذا (SDL_strcmp(interface, "wp_fifo_manager_v1") == 0) {
         d->has_fifo_v1 = true;
     }
-#ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
-        d->wl_fixes = wl_registry_bind(registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
+#جے_تعریف_شدہ SDL_WL_FIXES_نسخہ
+    وإلا إذا (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+        d->wl_fixes = wl_registry_bind(registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_نسخہ, نسخہ));
     }
-#endif
+#جے_انت
 }
 
-static void wayland_preferred_check_remove_global(void *data, struct wl_registry *registry, uint32_t id)
+ساكن فراغ wayland_preferred_check_remove_global(فراغ *انکڑے, بنية wl_registry *registry, uint32_t id)
 {
-    SDL_WaylandPreferredData *d = (SDL_WaylandPreferredData *)data;
+    SDL_Wayland_Preferred_انکڑے *d = (SDL_Wayland_Preferred_انکڑے *)انکڑے;
 
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    إذا (d->wl_fixes && wl_fixes_get_نسخہ(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_نسخہ) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
 
-static const struct wl_registry_listener preferred_registry_listener = {
+ساكن ثابت بنية wl_registry_listener preferred_registry_listener = {
     wayland_preferred_check_handle_global,
     wayland_preferred_check_remove_global
 };
 
-static bool Wayland_IsPreferred(struct wl_display *display)
+ساكن bool Wayland_IsPreferred(بنية wl_display *display)
 {
-    struct wl_registry *registry = wl_display_get_registry(display);
-    SDL_WaylandPreferredData preferred_data = { 0 };
+    بنية wl_registry *registry = wl_display_get_registry(display);
+    SDL_Wayland_Preferred_انکڑے preferred_انکڑے = { 0 };
 
-    if (!registry) {
-        SDL_SetError("Failed to get the Wayland registry");
-        return false;
+    إذا (!registry) {
+        SDL_سیٹ_Error("Failed to get the Wayland registry");
+        أرجع false;
     }
 
-    wl_registry_add_listener(registry, &preferred_registry_listener, &preferred_data);
+    wl_registry_جوڑو_listener(registry, &preferred_registry_listener, &preferred_انکڑے);
 
     WAYLAND_wl_display_roundtrip(display);
 
-    if (preferred_data.wl_fixes) {
-        wl_fixes_destroy_registry(preferred_data.wl_fixes, registry);
-        wl_fixes_destroy(preferred_data.wl_fixes);
+    إذا (preferred_انکڑے.wl_fixes) {
+        wl_fixes_destroy_registry(preferred_انکڑے.wl_fixes, registry);
+        wl_fixes_destroy(preferred_انکڑے.wl_fixes);
     }
     wl_registry_destroy(registry);
 
-    if (!preferred_data.has_fifo_v1) {
+    إذا (!preferred_انکڑے.has_fifo_v1) {
         SDL_LogInfo(SDL_LOG_CATEGORY_VIDEO, "This compositor lacks support for the fifo-v1 protocol; falling back to XWayland for GPU performance reasons (set SDL_VIDEO_DRIVER=wayland to override)");
     }
-    return preferred_data.has_fifo_v1;
+    أرجع preferred_انکڑے.has_fifo_v1;
 }
 
-static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
+ساكن SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
-    struct wl_display *display = SDL_GetPointerProperty(SDL_GetGlobalProperties(),
-                                                 SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, NULL);
+    SDL_Video_انکڑے *انکڑے;
+    بنية wl_display *display = SDL_Get_اشارہ_گر_Property(SDL_GetGlobalProperties(),
+                                                 SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_اشارہ_گر, عدم);
     bool display_is_external = !!display;
 
     // Are we trying to connect to, or are currently in, a Wayland session?
-    if (!SDL_getenv("WAYLAND_DISPLAY")) {
-        const char *session = SDL_getenv("XDG_SESSION_TYPE");
-        if (session && SDL_strcasecmp(session, "wayland") != 0) {
+    إذا (!SDL_getenv("WAYLAND_DISPLAY")) {
+        ثابت حرف *session = SDL_getenv("XDG_SESSION_TYPE");
+        إذا (session && SDL_strcasecmp(session, "wayland") != 0) {
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Wayland initialization failed: no Wayland session available");
-            return NULL;
+            أرجع عدم;
         }
     }
 
-    if (!SDL_WAYLAND_LoadSymbols()) {
-        return NULL;
+    إذا (!SDL_WAYLAND_لدو_Symbols()) {
+        أرجع عدم;
     }
 
-    if (!display) {
-        display = WAYLAND_wl_display_connect(NULL);
-        if (!display) {
+    إذا (!display) {
+        display = WAYLAND_wl_display_connect(عدم);
+        إذا (!display) {
             SDL_WAYLAND_UnloadSymbols();
             SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, "Failed to connect to the Wayland display server: %s", strerror(errno));
-            return NULL;
+            أرجع عدم;
         }
     }
 
@@ -638,47 +638,47 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
      * fifo-v1's existence, so we don't regress GPU-bound performance
      * and frame-pacing by default due to swapchain starvation.
      */
-    if (require_preferred_protocols && !Wayland_IsPreferred(display)) {
-        if (!display_is_external) {
+    إذا (require_preferred_protocols && !Wayland_IsPreferred(display)) {
+        إذا (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        أرجع عدم;
     }
 
-    data = SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        if (!display_is_external) {
+    انکڑے = SDL_calloc(1, حجم(*انکڑے));
+    إذا (!انکڑے) {
+        إذا (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        أرجع عدم;
     }
 
-    data->initializing = true;
-    data->display = display;
-    data->display_externally_owned = display_is_external;
-    data->scale_to_display_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, false);
-    WAYLAND_wl_list_init(&data->seat_list);
-    WAYLAND_wl_list_init(&external_window_list);
+    انکڑے->initializing = true;
+    انکڑے->display = display;
+    انکڑے->display_externally_owned = display_is_external;
+    انکڑے->scale_منزل_display_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_SCALE_منزل_DISPLAY, false);
+    WAYLAND_wl_list_init(&انکڑے->seat_list);
+    WAYLAND_wl_list_init(&external_کھڑکی_list);
 
     // Initialize all variables that we clean on shutdown
-    device = SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        SDL_free(data);
-        if (!display_is_external) {
+    device = SDL_calloc(1, حجم(SDL_VideoDevice));
+    إذا (!device) {
+        SDL_free(انکڑے);
+        إذا (!display_is_external) {
             WAYLAND_wl_display_disconnect(display);
         }
         SDL_WAYLAND_UnloadSymbols();
-        return NULL;
+        أرجع عدم;
     }
 
-    if (!display_is_external) {
-        SDL_SetPointerProperty(SDL_GetGlobalProperties(),
-                               SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_POINTER, display);
+    إذا (!display_is_external) {
+        SDL_سیٹ_اشارہ_گر_Property(SDL_GetGlobalProperties(),
+                               SDL_PROP_GLOBAL_VIDEO_WAYLAND_WL_DISPLAY_اشارہ_گر, display);
     }
 
-    device->internal = data;
+    device->اندرونی = انکڑے;
 
     // Set the function pointers
     device->VideoInit = Wayland_VideoInit;
@@ -690,193 +690,193 @@ static SDL_VideoDevice *Wayland_CreateDevice(bool require_preferred_protocols)
     device->WaitEventTimeout = Wayland_WaitEventTimeout;
     device->SendWakeupEvent = Wayland_SendWakeupEvent;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    device->GL_SwapWindow = Wayland_GLES_SwapWindow;
-    device->GL_GetSwapInterval = Wayland_GLES_GetSwapInterval;
-    device->GL_SetSwapInterval = Wayland_GLES_SetSwapInterval;
+#جے_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    device->GL_وٹاندرا_کھڑکی = Wayland_GLES_وٹاندرا_کھڑکی;
+    device->GL_Get_وٹاندرا_Interval = Wayland_GLES_Get_وٹاندرا_Interval;
+    device->GL_سیٹ_وٹاندرا_Interval = Wayland_GLES_سیٹ_وٹاندرا_Interval;
     device->GL_MakeCurrent = Wayland_GLES_MakeCurrent;
     device->GL_CreateContext = Wayland_GLES_CreateContext;
-    device->GL_LoadLibrary = Wayland_GLES_LoadLibrary;
+    device->GL_لدو_Library = Wayland_GLES_لدو_Library;
     device->GL_UnloadLibrary = Wayland_GLES_UnloadLibrary;
-    device->GL_GetProcAddress = Wayland_GLES_GetProcAddress;
+    device->GL_Get_Proc_پتہ = Wayland_GLES_Get_Proc_پتہ;
     device->GL_DestroyContext = Wayland_GLES_DestroyContext;
-    device->GL_SetDefaultProfileConfig = Wayland_GLES_SetDefaultProfileConfig;
+    device->GL_سیٹ_Default_Profile_Config = Wayland_GLES_سیٹ_Default_Profile_Config;
     device->GL_GetEGLSurface = Wayland_GLES_GetEGLSurface;
-#endif
+#جے_انت
 
-    device->CreateSDLWindow = Wayland_CreateWindow;
-    device->ShowWindow = Wayland_ShowWindow;
-    device->HideWindow = Wayland_HideWindow;
-    device->RaiseWindow = Wayland_RaiseWindow;
-    device->SetWindowFullscreen = Wayland_SetWindowFullscreen;
-    device->MaximizeWindow = Wayland_MaximizeWindow;
-    device->MinimizeWindow = Wayland_MinimizeWindow;
-    device->SetWindowMouseRect = Wayland_SetWindowMouseRect;
-    device->SetWindowMouseGrab = Wayland_SetWindowMouseGrab;
-    device->SetWindowKeyboardGrab = Wayland_SetWindowKeyboardGrab;
-    device->RestoreWindow = Wayland_RestoreWindow;
-    device->SetWindowBordered = Wayland_SetWindowBordered;
-    device->SetWindowResizable = Wayland_SetWindowResizable;
-    device->SetWindowPosition = Wayland_SetWindowPosition;
-    device->SetWindowSize = Wayland_SetWindowSize;
-    device->SetWindowAspectRatio = Wayland_SetWindowAspectRatio;
-    device->SetWindowMinimumSize = Wayland_SetWindowMinimumSize;
-    device->SetWindowMaximumSize = Wayland_SetWindowMaximumSize;
-    device->SetWindowParent = Wayland_SetWindowParent;
-    device->SetWindowModal = Wayland_SetWindowModal;
-    device->SetWindowOpacity = Wayland_SetWindowOpacity;
-    device->SetWindowTitle = Wayland_SetWindowTitle;
-    device->SetWindowIcon = Wayland_SetWindowIcon;
-    device->GetWindowSizeInPixels = Wayland_GetWindowSizeInPixels;
-    device->GetWindowContentScale = Wayland_GetWindowContentScale;
-    device->GetWindowICCProfile = Wayland_GetWindowICCProfile;
-    device->GetDisplayForWindow = Wayland_GetDisplayForWindow;
-    device->DestroyWindow = Wayland_DestroyWindow;
-    device->SetWindowHitTest = Wayland_SetWindowHitTest;
-    device->FlashWindow = Wayland_FlashWindow;
-#ifdef SDL_USE_LIBDBUS
-    device->ApplyWindowProgress = DBUS_ApplyWindowProgress;
-#endif // SDL_USE_LIBDBUS
+    device->CreateSDLWindow = Wayland_Create_کھڑکی;
+    device->Show_کھڑکی = Wayland_Show_کھڑکی;
+    device->Hide_کھڑکی = Wayland_Hide_کھڑکی;
+    device->Raise_کھڑکی = Wayland_Raise_کھڑکی;
+    device->سیٹ_کھڑکی_Fullscreen = Wayland_سیٹ_کھڑکی_Fullscreen;
+    device->Maximize_کھڑکی = Wayland_Maximize_کھڑکی;
+    device->Minimize_کھڑکی = Wayland_Minimize_کھڑکی;
+    device->سیٹ_کھڑکی_Mouse_Rect = Wayland_سیٹ_کھڑکی_Mouse_Rect;
+    device->سیٹ_کھڑکی_Mouse_Grab = Wayland_سیٹ_کھڑکی_Mouse_Grab;
+    device->سیٹ_کھڑکی_Keyboard_Grab = Wayland_سیٹ_کھڑکی_Keyboard_Grab;
+    device->Restore_کھڑکی = Wayland_Restore_کھڑکی;
+    device->سیٹ_کھڑکی_Bordered = Wayland_سیٹ_کھڑکی_Bordered;
+    device->سیٹ_کھڑکی_Resizable = Wayland_سیٹ_کھڑکی_Resizable;
+    device->سیٹ_کھڑکی_Position = Wayland_سیٹ_کھڑکی_Position;
+    device->سیٹ_کھڑکی_ناپ = Wayland_سیٹ_کھڑکی_ناپ;
+    device->سیٹ_کھڑکی_Aspect_تناسب = Wayland_سیٹ_کھڑکی_Aspect_تناسب;
+    device->سیٹ_کھڑکی_Minimum_ناپ = Wayland_سیٹ_کھڑکی_Minimum_ناپ;
+    device->سیٹ_کھڑکی_ودھ_توں_ودھ_ناپ = Wayland_سیٹ_کھڑکی_ودھ_توں_ودھ_ناپ;
+    device->سیٹ_کھڑکی_ماپا = Wayland_سیٹ_کھڑکی_ماپا;
+    device->سیٹ_کھڑکی_Modal = Wayland_سیٹ_کھڑکی_Modal;
+    device->سیٹ_کھڑکی_Opacity = Wayland_سیٹ_کھڑکی_Opacity;
+    device->سیٹ_کھڑکی_Title = Wayland_سیٹ_کھڑکی_Title;
+    device->سیٹ_کھڑکی_Icon = Wayland_سیٹ_کھڑکی_Icon;
+    device->Get_کھڑکی_ناپ_وچ_Pixels = Wayland_Get_کھڑکی_ناپ_وچ_Pixels;
+    device->Get_کھڑکی_Content_Scale = Wayland_Get_کھڑکی_Content_Scale;
+    device->Get_کھڑکی_ICCProfile = Wayland_Get_کھڑکی_ICCProfile;
+    device->Get_Display_For_کھڑکی = Wayland_Get_Display_For_کھڑکی;
+    device->Destroy_کھڑکی = Wayland_Destroy_کھڑکی;
+    device->سیٹ_کھڑکی_کامیابی_Test = Wayland_سیٹ_کھڑکی_کامیابی_Test;
+    device->Flash_کھڑکی = Wayland_Flash_کھڑکی;
+#جے_تعریف_شدہ SDL_USE_LIBDBUS
+    device->Apply_کھڑکی_ترقی = DBUS_Apply_کھڑکی_ترقی;
+#جے_انت // SDL_USE_LIBDBUS
     device->HasScreenKeyboardSupport = Wayland_HasScreenKeyboardSupport;
-    device->ShowWindowSystemMenu = Wayland_ShowWindowSystemMenu;
-    device->SyncWindow = Wayland_SyncWindow;
-    device->SetWindowFocusable = Wayland_SetWindowFocusable;
-    device->ReconfigureWindow = Wayland_ReconfigureWindow;
+    device->Show_کھڑکی_System_Menu = Wayland_Show_کھڑکی_System_Menu;
+    device->Sync_کھڑکی = Wayland_Sync_کھڑکی;
+    device->سیٹ_کھڑکی_Focusable = Wayland_سیٹ_کھڑکی_Focusable;
+    device->Reconfigure_کھڑکی = Wayland_Reconfigure_کھڑکی;
     device->AcceptDragAndDrop = Wayland_AcceptDragAndDrop;
 
-#ifdef SDL_USE_LIBDBUS
-    if (SDL_SystemTheme_Init())
+#جے_تعریف_شدہ SDL_USE_LIBDBUS
+    إذا (SDL_SystemTheme_Init())
         device->system_theme = SDL_SystemTheme_Get();
-#endif
+#جے_انت
 
-    device->GetTextMimeTypes = Wayland_GetTextMimeTypes;
-    device->SetClipboardData = Wayland_SetClipboardData;
-    device->GetClipboardData = Wayland_GetClipboardData;
-    device->HasClipboardData = Wayland_HasClipboardData;
-    device->StartTextInput = Wayland_StartTextInput;
-    device->StopTextInput = Wayland_StopTextInput;
-    device->UpdateTextInputArea = Wayland_UpdateTextInputArea;
+    device->Get_متن_Mime_Types = Wayland_Get_متن_Mime_Types;
+    device->سیٹ_Clipboard_انکڑے = Wayland_سیٹ_Clipboard_انکڑے;
+    device->Get_Clipboard_انکڑے = Wayland_Get_Clipboard_انکڑے;
+    device->Has_Clipboard_انکڑے = Wayland_Has_Clipboard_انکڑے;
+    device->شروع_متن_داخلہ = Wayland_شروع_متن_داخلہ;
+    device->Stop_متن_داخلہ = Wayland_Stop_متن_داخلہ;
+    device->Update_متن_داخلہ_Area = Wayland_Update_متن_داخلہ_Area;
 
-#ifdef SDL_VIDEO_VULKAN
-    device->Vulkan_LoadLibrary = Wayland_Vulkan_LoadLibrary;
+#جے_تعریف_شدہ SDL_VIDEO_VULKAN
+    device->Vulkan_لدو_Library = Wayland_Vulkan_لدو_Library;
     device->Vulkan_UnloadLibrary = Wayland_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = Wayland_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = Wayland_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = Wayland_Vulkan_DestroySurface;
     device->Vulkan_GetPresentationSupport = Wayland_Vulkan_GetPresentationSupport;
-#endif
+#جے_انت
 
-    device->free = Wayland_DeleteDevice;
+    device->حرر = Wayland_DeleteDevice;
 
-    device->device_caps = VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED |
-                          VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT |
+    device->device_caps = VIDEO_DEVICE_CAPS_منوال_SWITCHING_EMULATED |
+                          VIDEO_DEVICE_CAPS_HAS_POPUP_کھڑکی_SUPPORT |
                           VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS |
                           VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES |
                           VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES;
 
-    return device;
+    أرجع device;
 }
 
-static SDL_VideoDevice *Wayland_Preferred_CreateDevice(void)
+ساكن SDL_VideoDevice *Wayland_Preferred_CreateDevice(فراغ)
 {
-    return Wayland_CreateDevice(true);
+    أرجع Wayland_CreateDevice(true);
 }
 
-static SDL_VideoDevice *Wayland_Fallback_CreateDevice(void)
+ساكن SDL_VideoDevice *Wayland_Fallback_CreateDevice(فراغ)
 {
-    return Wayland_CreateDevice(false);
+    أرجع Wayland_CreateDevice(false);
 }
 
 VideoBootStrap Wayland_preferred_bootstrap = {
     WAYLANDVID_DRIVER_NAME, "SDL Wayland video driver",
     Wayland_Preferred_CreateDevice,
-    Wayland_ShowMessageBox,
+    Wayland_Show_سنیہا_Box,
     true
 };
 
 VideoBootStrap Wayland_bootstrap = {
     WAYLANDVID_DRIVER_NAME, "SDL Wayland video driver",
     Wayland_Fallback_CreateDevice,
-    Wayland_ShowMessageBox,
+    Wayland_Show_سنیہا_Box,
     false
 };
 
-static void handle_xdg_output_logical_position(void *data, struct zxdg_output_v1 *xdg_output, int32_t x, int32_t y)
+ساكن فراغ handle_xdg_output_logical_position(فراغ *انکڑے, بنية zxdg_output_v1 *xdg_output, int32_t x, int32_t y)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
-    internal->geometry_changed |= internal->logical.x != x || internal->logical.y != y;
-    internal->logical.x = x;
-    internal->logical.y = y;
-    internal->has_logical_position = true;
+    اندرونی->geometry_بدلیا |= اندرونی->logical.x != x || اندرونی->logical.y != y;
+    اندرونی->logical.x = x;
+    اندرونی->logical.y = y;
+    اندرونی->has_logical_position = true;
 }
 
-static void handle_xdg_output_logical_size(void *data, struct zxdg_output_v1 *xdg_output, int32_t width, int32_t height)
+ساكن فراغ handle_xdg_output_logical_ناپ(فراغ *انکڑے, بنية zxdg_output_v1 *xdg_output, int32_t چوڑائی, int32_t اچائی)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
-    internal->geometry_changed |= internal->logical.width != width || internal->logical.height != height;
-    internal->logical.width = width;
-    internal->logical.height = height;
-    internal->has_logical_size = true;
+    اندرونی->geometry_بدلیا |= اندرونی->logical.چوڑائی != چوڑائی || اندرونی->logical.اچائی != اچائی;
+    اندرونی->logical.چوڑائی = چوڑائی;
+    اندرونی->logical.اچائی = اچائی;
+    اندرونی->has_logical_ناپ = true;
 }
 
-static void handle_xdg_output_done(void *data, struct zxdg_output_v1 *xdg_output)
+ساكن فراغ handle_xdg_output_پورا(فراغ *انکڑے, بنية zxdg_output_v1 *xdg_output)
 {
-    SDL_DisplayData *internal = data;
+    SDL_Display_انکڑے *اندرونی = انکڑے;
 
     /*
      * xdg-output.done events are deprecated and only apply below version 3 of the protocol.
      * A wl-output.done event will be emitted in version 3 or higher.
      */
-    if (zxdg_output_v1_get_version(internal->xdg_output) < 3) {
-        handle_wl_output_done(data, internal->output);
+    إذا (zxdg_output_v1_get_نسخہ(اندرونی->xdg_output) < 3) {
+        handle_wl_output_پورا(انکڑے, اندرونی->output);
     }
 }
 
-static void handle_xdg_output_name(void *data, struct zxdg_output_v1 *xdg_output, const char *name)
+ساكن فراغ handle_xdg_output_name(فراغ *انکڑے, بنية zxdg_output_v1 *xdg_output, ثابت حرف *name)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_NAME_SINCE_VERSION &&
-        internal->display == 0) {
-        SDL_free(internal->wl_output_name);
-        internal->wl_output_name = SDL_strdup(name);
+    إذا (wl_output_get_نسخہ(اندرونی->output) < WL_OUTPUT_NAME_SINCE_نسخہ &&
+        اندرونی->display == 0) {
+        SDL_free(اندرونی->wl_output_name);
+        اندرونی->wl_output_name = SDL_strdup(name);
     }
 }
 
-static void handle_xdg_output_description(void *data, struct zxdg_output_v1 *xdg_output, const char *description)
+ساكن فراغ handle_xdg_output_description(فراغ *انکڑے, بنية zxdg_output_v1 *xdg_output, ثابت حرف *description)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
     // Deprecated as of wl_output v4.
-    if (wl_output_get_version(internal->output) < WL_OUTPUT_DESCRIPTION_SINCE_VERSION &&
-        internal->display == 0) {
+    إذا (wl_output_get_نسخہ(اندرونی->output) < WL_OUTPUT_DESCRIPTION_SINCE_نسخہ &&
+        اندرونی->display == 0) {
         // xdg-output descriptions, if available, supersede wl-output model names.
-        SDL_free(internal->placeholder.name);
-        internal->placeholder.name = SDL_strdup(description);
+        SDL_free(اندرونی->placeholder.name);
+        اندرونی->placeholder.name = SDL_strdup(description);
     }
 }
 
-static const struct zxdg_output_v1_listener xdg_output_listener = {
+ساكن ثابت بنية zxdg_output_v1_listener xdg_output_listener = {
     handle_xdg_output_logical_position,
-    handle_xdg_output_logical_size,
-    handle_xdg_output_done,
+    handle_xdg_output_logical_ناپ,
+    handle_xdg_output_پورا,
     handle_xdg_output_name,
     handle_xdg_output_description,
 };
 
-static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int native_height)
+ساكن فراغ جوڑو_Emulated_Modes(SDL_Display_انکڑے *dispdata, صحيح native_چوڑائی, صحيح native_اچائی)
 {
-    struct EmulatedMode
+    بنية Emulated_منوال
     {
-        int w;
-        int h;
+        صحيح w;
+        صحيح h;
     };
 
     // Resolution lists courtesy of XWayland
-    const struct EmulatedMode mode_list[] = {
+    ثابت بنية Emulated_منوال منوال_list[] = {
         // 16:9 (1.77)
         { 7680, 4320 },
         { 6144, 3160 },
@@ -917,62 +917,62 @@ static void AddEmulatedModes(SDL_DisplayData *dispdata, int native_width, int na
         { 640, 480 }
     };
 
-    int i;
-    SDL_DisplayMode mode;
+    صحيح i;
+    SDL_Display_منوال منوال;
     SDL_VideoDisplay *dpy = dispdata->display ? SDL_GetVideoDisplay(dispdata->display) : &dispdata->placeholder;
-    const bool rot_90 = native_width < native_height; // Reverse width/height for portrait displays.
+    ثابت bool rot_90 = native_چوڑائی < native_اچائی; // Reverse width/height for portrait displays.
 
-    for (i = 0; i < SDL_arraysize(mode_list); ++i) {
-        SDL_zero(mode);
-        mode.format = dpy->desktop_mode.format;
-        mode.refresh_rate_numerator = dpy->desktop_mode.refresh_rate_numerator;
-        mode.refresh_rate_denominator = dpy->desktop_mode.refresh_rate_denominator;
+    لكل (i = 0; i < SDL_arraysize(منوال_list); ++i) {
+        SDL_zero(منوال);
+        منوال.format = dpy->desktop_منوال.format;
+        منوال.refresh_شرح_numerator = dpy->desktop_منوال.refresh_شرح_numerator;
+        منوال.refresh_شرح_denominator = dpy->desktop_منوال.refresh_شرح_denominator;
 
-        if (rot_90) {
-            mode.w = mode_list[i].h;
-            mode.h = mode_list[i].w;
-        } else {
-            mode.w = mode_list[i].w;
-            mode.h = mode_list[i].h;
+        إذا (rot_90) {
+            منوال.w = منوال_list[i].h;
+            منوال.h = منوال_list[i].w;
+        } وإلا {
+            منوال.w = منوال_list[i].w;
+            منوال.h = منوال_list[i].h;
         }
 
         // Only add modes that are smaller than the native mode.
-        if ((mode.w < native_width && mode.h < native_height) ||
-            (mode.w < native_width && mode.h == native_height) ||
-            (mode.w == native_width && mode.h < native_height)) {
-            SDL_AddFullscreenDisplayMode(dpy, &mode);
+        إذا ((منوال.w < native_چوڑائی && منوال.h < native_اچائی) ||
+            (منوال.w < native_چوڑائی && منوال.h == native_اچائی) ||
+            (منوال.w == native_چوڑائی && منوال.h < native_اچائی)) {
+            SDL_جوڑو_Fullscreen_Display_منوال(dpy, &منوال);
         }
     }
 }
 
-static void handle_wl_output_geometry(void *data, struct wl_output *output, int x, int y,
-                                      int physical_width, int physical_height, int subpixel,
-                                      const char *make, const char *model, int transform)
+ساكن فراغ handle_wl_output_geometry(فراغ *انکڑے, بنية wl_output *output, صحيح x, صحيح y,
+                                      صحيح physical_چوڑائی_2, صحيح physical_اچائی_2, صحيح subpixel,
+                                      ثابت حرف *make, ثابت حرف *model, صحيح transform)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
     // Apply the change from wl-output only if xdg-output is not supported
-    if (!internal->has_logical_position) {
-        internal->geometry_changed |= internal->logical.x != x || internal->logical.y != y;
-        internal->logical.x = x;
-        internal->logical.y = y;
+    إذا (!اندرونی->has_logical_position) {
+        اندرونی->geometry_بدلیا |= اندرونی->logical.x != x || اندرونی->logical.y != y;
+        اندرونی->logical.x = x;
+        اندرونی->logical.y = y;
     }
-    internal->physical.width_mm = physical_width;
-    internal->physical.height_mm = physical_height;
+    اندرونی->physical.چوڑائی_mm = physical_چوڑائی_2;
+    اندرونی->physical.اچائی_mm = physical_اچائی_2;
 
     // The model is only used for the output name if wl_output or xdg-output haven't provided a description.
-    if (internal->display == 0 && !internal->placeholder.name) {
-        internal->placeholder.name = SDL_strdup(model);
+    إذا (اندرونی->display == 0 && !اندرونی->placeholder.name) {
+        اندرونی->placeholder.name = SDL_strdup(model);
     }
 
-    internal->transform = transform;
-#define TF_CASE(in, out)                                 \
-    case WL_OUTPUT_TRANSFORM_##in:                       \
-        internal->orientation = SDL_ORIENTATION_##out; \
-        break;
-    if (internal->physical.width_mm >= internal->physical.height_mm) {
-        switch (transform) {
-            TF_CASE(NORMAL, LANDSCAPE)
+    اندرونی->transform = transform;
+#تعریف_کرو TF_CASE(وچ_2, باہرلا)                                 \
+    حالة WL_OUTPUT_TRANSFORM_##in:                       \
+        اندرونی->orientation = SDL_ORIENTATION_##out; \
+        اكسر;
+    إذا (اندرونی->physical.چوڑائی_mm >= اندرونی->physical.اچائی_mm) {
+        بدل (transform) {
+            TF_CASE(عام_3, LANDSCAPE)
             TF_CASE(90, PORTRAIT)
             TF_CASE(180, LANDSCAPE_FLIPPED)
             TF_CASE(270, PORTRAIT_FLIPPED)
@@ -981,9 +981,9 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
             TF_CASE(FLIPPED_180, LANDSCAPE)
             TF_CASE(FLIPPED_270, PORTRAIT)
         }
-    } else {
-        switch (transform) {
-            TF_CASE(NORMAL, PORTRAIT)
+    } وإلا {
+        بدل (transform) {
+            TF_CASE(عام_3, PORTRAIT)
             TF_CASE(90, LANDSCAPE)
             TF_CASE(180, PORTRAIT_FLIPPED)
             TF_CASE(270, LANDSCAPE_FLIPPED)
@@ -993,39 +993,39 @@ static void handle_wl_output_geometry(void *data, struct wl_output *output, int 
             TF_CASE(FLIPPED_270, LANDSCAPE)
         }
     }
-#undef TF_CASE
+#تعریف_رد TF_CASE
 }
 
-static void handle_wl_output_mode(void *data, struct wl_output *output, uint32_t flags,
-                                  int width, int height, int refresh)
+ساكن فراغ handle_wl_output_منوال(فراغ *انکڑے, بنية wl_output *output, uint32_t flags,
+                                  صحيح چوڑائی, صحيح اچائی, صحيح refresh)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
-    if (flags & WL_OUTPUT_MODE_CURRENT) {
-        internal->geometry_changed |= internal->pixel.width != width || internal->pixel.height != height;
-        internal->pixel.width = width;
-        internal->pixel.height = height;
+    إذا (flags & WL_OUTPUT_منوال_CURRENT) {
+        اندرونی->geometry_بدلیا |= اندرونی->pixel.چوڑائی != چوڑائی || اندرونی->pixel.اچائی != اچائی;
+        اندرونی->pixel.چوڑائی = چوڑائی;
+        اندرونی->pixel.اچائی = اچائی;
 
         /*
          * Don't rotate this yet, wl-output coordinates are transformed in
          * handle_done and xdg-output coordinates are pre-transformed.
          */
-        if (!internal->has_logical_size) {
-            internal->geometry_changed |= internal->logical.width != width || internal->logical.height != height;
-            internal->logical.width = width;
-            internal->logical.height = height;
+        إذا (!اندرونی->has_logical_ناپ) {
+            اندرونی->geometry_بدلیا |= اندرونی->logical.چوڑائی != چوڑائی || اندرونی->logical.اچائی != اچائی;
+            اندرونی->logical.چوڑائی = چوڑائی;
+            اندرونی->logical.اچائی = اچائی;
         }
 
-        internal->refresh = refresh;
+        اندرونی->refresh = refresh;
     }
 }
 
-static void handle_wl_output_done(void *data, struct wl_output *output)
+ساكن فراغ handle_wl_output_پورا(فراغ *انکڑے, بنية wl_output *output)
 {
-    const bool mode_emulation_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_MODE_EMULATION, true);
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
-    SDL_VideoData *video = internal->videodata;
-    SDL_DisplayMode native_mode, desktop_mode;
+    ثابت bool منوال_emulation_enabled = SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_منوال_EMULATION, true);
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
+    SDL_Video_انکڑے *video = اندرونی->videodata;
+    SDL_Display_منوال native_منوال, desktop_منوال;
 
     /*
      * When using xdg-output, two wl-output.done events will be emitted:
@@ -1033,614 +1033,614 @@ static void handle_wl_output_done(void *data, struct wl_output *output)
      *
      * All required events must be received before proceeding.
      */
-    const int event_await_count = 1 + (internal->xdg_output != NULL);
+    ثابت صحيح event_await_گنتی = 1 + (اندرونی->xdg_output != عدم);
 
-    internal->wl_output_done_count = SDL_min(internal->wl_output_done_count + 1, event_await_count + 1);
+    اندرونی->wl_output_پورا_گنتی = SDL_min(اندرونی->wl_output_پورا_گنتی + 1, event_await_گنتی + 1);
 
-    if (internal->wl_output_done_count < event_await_count) {
-        return;
+    إذا (اندرونی->wl_output_پورا_گنتی < event_await_گنتی) {
+        أرجع;
     }
 
     // If the display was already created, reset and rebuild the mode list.
-    SDL_VideoDisplay *dpy = SDL_GetVideoDisplay(internal->display);
-    if (dpy) {
+    SDL_VideoDisplay *dpy = SDL_GetVideoDisplay(اندرونی->display);
+    إذا (dpy) {
         SDL_ResetFullscreenDisplayModes(dpy);
     }
 
     // The native display resolution
-    SDL_zero(native_mode);
-    native_mode.format = SDL_PIXELFORMAT_XRGB8888;
+    SDL_zero(native_منوال);
+    native_منوال.format = SDL_PIXELFORMAT_XRGB8888;
 
     // Transform the pixel values, if necessary.
-    if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
-        native_mode.w = internal->pixel.height;
-        native_mode.h = internal->pixel.width;
-    } else {
-        native_mode.w = internal->pixel.width;
-        native_mode.h = internal->pixel.height;
+    إذا (اندرونی->transform & WL_OUTPUT_TRANSFORM_90) {
+        native_منوال.w = اندرونی->pixel.اچائی;
+        native_منوال.h = اندرونی->pixel.چوڑائی;
+    } وإلا {
+        native_منوال.w = اندرونی->pixel.چوڑائی;
+        native_منوال.h = اندرونی->pixel.اچائی;
     }
-    native_mode.refresh_rate_numerator = internal->refresh;
-    native_mode.refresh_rate_denominator = 1000;
+    native_منوال.refresh_شرح_numerator = اندرونی->refresh;
+    native_منوال.refresh_شرح_denominator = 1000;
 
-    if (internal->has_logical_size) { // If xdg-output is present...
-        if (native_mode.w != internal->logical.width || native_mode.h != internal->logical.height) {
+    إذا (اندرونی->has_logical_ناپ) { // If xdg-output is present...
+        إذا (native_منوال.w != اندرونی->logical.چوڑائی || native_منوال.h != اندرونی->logical.اچائی) {
             // ...and the compositor scales the logical viewport...
-            if (video->viewporter) {
+            إذا (video->viewporter) {
                 // ...and viewports are supported, calculate the true scale of the output.
-                internal->scale_factor = (double)native_mode.w / (double)internal->logical.width;
-            } else {
+                اندرونی->scale_ضارب_2 = (مزدوج)native_منوال.w / (مزدوج)اندرونی->logical.چوڑائی;
+            } وإلا {
                 // ...otherwise, the 'native' pixel values are a multiple of the logical screen size.
-                internal->scale_factor = internal->integer_scale_factor;
-                internal->pixel.width = internal->logical.width * internal->integer_scale_factor;
-                internal->pixel.height = internal->logical.height * internal->integer_scale_factor;
+                اندرونی->scale_ضارب_2 = اندرونی->integer_scale_ضارب;
+                اندرونی->pixel.چوڑائی = اندرونی->logical.چوڑائی * اندرونی->integer_scale_ضارب;
+                اندرونی->pixel.اچائی = اندرونی->logical.اچائی * اندرونی->integer_scale_ضارب;
             }
-        } else {
+        } وإلا {
             /* ...and the output viewport is not scaled in the global compositing
              * space, the output dimensions need to be divided by the scale factor.
              *
              * NOTE: This path is needed for old versions of GNOME that predate fractional scaling.
              */
-            internal->scale_factor = internal->integer_scale_factor;
-            internal->logical.width /= internal->integer_scale_factor;
-            internal->logical.height /= internal->integer_scale_factor;
+            اندرونی->scale_ضارب_2 = اندرونی->integer_scale_ضارب;
+            اندرونی->logical.چوڑائی /= اندرونی->integer_scale_ضارب;
+            اندرونی->logical.اچائی /= اندرونی->integer_scale_ضارب;
         }
-    } else {
+    } وإلا {
         /* Calculate the points from the pixel values, if xdg-output isn't present.
          * Use the native mode pixel values since they are pre-transformed.
          */
-        internal->scale_factor = internal->integer_scale_factor;
-        internal->logical.width = native_mode.w / internal->integer_scale_factor;
-        internal->logical.height = native_mode.h / internal->integer_scale_factor;
+        اندرونی->scale_ضارب_2 = اندرونی->integer_scale_ضارب;
+        اندرونی->logical.چوڑائی = native_منوال.w / اندرونی->integer_scale_ضارب;
+        اندرونی->logical.اچائی = native_منوال.h / اندرونی->integer_scale_ضارب;
     }
 
     // The scaled desktop mode
-    SDL_zero(desktop_mode);
-    desktop_mode.format = SDL_PIXELFORMAT_XRGB8888;
+    SDL_zero(desktop_منوال);
+    desktop_منوال.format = SDL_PIXELFORMAT_XRGB8888;
 
-    if (!video->scale_to_display_enabled) {
-        desktop_mode.w = internal->logical.width;
-        desktop_mode.h = internal->logical.height;
-        desktop_mode.pixel_density = (float)internal->scale_factor;
-    } else {
-        desktop_mode.w = native_mode.w;
-        desktop_mode.h = native_mode.h;
-        desktop_mode.pixel_density = 1.0f;
+    إذا (!video->scale_منزل_display_enabled) {
+        desktop_منوال.w = اندرونی->logical.چوڑائی;
+        desktop_منوال.h = اندرونی->logical.اچائی;
+        desktop_منوال.pixel_density = (عائم)اندرونی->scale_ضارب_2;
+    } وإلا {
+        desktop_منوال.w = native_منوال.w;
+        desktop_منوال.h = native_منوال.h;
+        desktop_منوال.pixel_density = 1.0f;
     }
 
-    desktop_mode.refresh_rate_numerator = internal->refresh;
-    desktop_mode.refresh_rate_denominator = 1000;
+    desktop_منوال.refresh_شرح_numerator = اندرونی->refresh;
+    desktop_منوال.refresh_شرح_denominator = 1000;
 
-    if (internal->display > 0) {
-        dpy = SDL_GetVideoDisplay(internal->display);
-    } else {
-        dpy = &internal->placeholder;
+    إذا (اندرونی->display > 0) {
+        dpy = SDL_GetVideoDisplay(اندرونی->display);
+    } وإلا {
+        dpy = &اندرونی->placeholder;
     }
 
-    if (video->scale_to_display_enabled) {
-        SDL_SetDisplayContentScale(dpy, (float)internal->scale_factor);
+    إذا (video->scale_منزل_display_enabled) {
+        SDL_سیٹ_Display_Content_Scale(dpy, (عائم)اندرونی->scale_ضارب_2);
     }
 
     // Set the desktop display mode.
-    SDL_SetDesktopDisplayMode(dpy, &desktop_mode);
+    SDL_سیٹ_Desktop_Display_منوال(dpy, &desktop_منوال);
 
     // Expose the unscaled, native resolution if the scale is 1.0 or viewports are available...
-    if (internal->scale_factor == 1.0 || video->viewporter) {
-        SDL_AddFullscreenDisplayMode(dpy, &native_mode);
-        if (native_mode.w != desktop_mode.w ||
-            native_mode.h != desktop_mode.h) {
-            SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
+    إذا (اندرونی->scale_ضارب_2 == 1.0 || video->viewporter) {
+        SDL_جوڑو_Fullscreen_Display_منوال(dpy, &native_منوال);
+        إذا (native_منوال.w != desktop_منوال.w ||
+            native_منوال.h != desktop_منوال.h) {
+            SDL_جوڑو_Fullscreen_Display_منوال(dpy, &desktop_منوال);
         }
-    } else {
+    } وإلا {
         // ...otherwise expose the integer scaled variants of the desktop resolution down to 1.
-        desktop_mode.pixel_density = 1.0f;
+        desktop_منوال.pixel_density = 1.0f;
 
-        for (int i = (int)internal->scale_factor; i > 0; --i) {
-            desktop_mode.w = internal->logical.width * i;
-            desktop_mode.h = internal->logical.height * i;
-            SDL_AddFullscreenDisplayMode(dpy, &desktop_mode);
+        لكل (صحيح i = (صحيح)اندرونی->scale_ضارب_2; i > 0; --i) {
+            desktop_منوال.w = اندرونی->logical.چوڑائی * i;
+            desktop_منوال.h = اندرونی->logical.اچائی * i;
+            SDL_جوڑو_Fullscreen_Display_منوال(dpy, &desktop_منوال);
         }
     }
 
     // Add emulated modes if wp_viewporter is supported and mode emulation is enabled.
-    if (video->viewporter && mode_emulation_enabled) {
+    إذا (video->viewporter && منوال_emulation_enabled) {
         // The transformed display pixel width/height must be used here.
-        AddEmulatedModes(internal, native_mode.w, native_mode.h);
+        جوڑو_Emulated_Modes(اندرونی, native_منوال.w, native_منوال.h);
     }
 
-    if (internal->display == 0) {
+    إذا (اندرونی->display == 0) {
         // First time getting display info, initialize the VideoDisplay
-        if (internal->physical.width_mm >= internal->physical.height_mm) {
-            internal->placeholder.natural_orientation = SDL_ORIENTATION_LANDSCAPE;
-        } else {
-            internal->placeholder.natural_orientation = SDL_ORIENTATION_PORTRAIT;
+        إذا (اندرونی->physical.چوڑائی_mm >= اندرونی->physical.اچائی_mm) {
+            اندرونی->placeholder.natural_orientation = SDL_ORIENTATION_LANDSCAPE;
+        } وإلا {
+            اندرونی->placeholder.natural_orientation = SDL_ORIENTATION_PORTRAIT;
         }
-        internal->placeholder.current_orientation = internal->orientation;
-        internal->placeholder.internal = internal;
+        اندرونی->placeholder.current_orientation = اندرونی->orientation;
+        اندرونی->placeholder.اندرونی = اندرونی;
 
-        internal->placeholder.props = SDL_CreateProperties();
-        SDL_SetPointerProperty(internal->placeholder.props, SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_POINTER, internal->output);
+        اندرونی->placeholder.props = SDL_CreateProperties();
+        SDL_سیٹ_اشارہ_گر_Property(اندرونی->placeholder.props, SDL_PROP_DISPLAY_WAYLAND_WL_OUTPUT_اشارہ_گر, اندرونی->output);
 
         // During initialization, the displays will be added after enumeration is complete.
-        if (!video->initializing) {
-            if (video->wp_color_manager_v1) {
-                Wayland_GetColorInfoForOutput(internal, false);
+        إذا (!video->initializing) {
+            إذا (video->wp_color_manager_v1) {
+                Wayland_GetColorInfoForOutput(اندرونی, false);
             }
-            if (video->scale_to_display_enabled) {
+            إذا (video->scale_منزل_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
-            internal->display = SDL_AddVideoDisplay(&internal->placeholder, true);
-            Wayland_RefreshWindowPositions();
+            اندرونی->display = SDL_جوڑو_Video_Display(&اندرونی->placeholder, true);
+            Wayland_Refresh_کھڑکی_Positions();
 
-            SDL_free(internal->placeholder.name);
-            SDL_zero(internal->placeholder);
+            SDL_free(اندرونی->placeholder.name);
+            SDL_zero(اندرونی->placeholder);
         }
-    } else {
-        SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_ORIENTATION, internal->orientation, 0);
+    } وإلا {
+        SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_ORIENTATION, اندرونی->orientation, 0);
 
-        if (internal->geometry_changed) {
-            if (video->scale_to_display_enabled) {
+        إذا (اندرونی->geometry_بدلیا) {
+            إذا (video->scale_منزل_display_enabled) {
                 Wayland_DeriveOutputPixelCoordinates(video);
             }
 
             SDL_SendDisplayEvent(dpy, SDL_EVENT_DISPLAY_MOVED, 0, 0);
-            Wayland_RefreshWindowPositions();
+            Wayland_Refresh_کھڑکی_Positions();
         }
     }
 
-    internal->geometry_changed = false;
+    اندرونی->geometry_بدلیا = false;
 }
 
-static void handle_wl_output_scale(void *data, struct wl_output *output, int32_t factor)
+ساكن فراغ handle_wl_output_scale(فراغ *انکڑے, بنية wl_output *output, int32_t ضارب)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
-    internal->integer_scale_factor = factor;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
+    اندرونی->integer_scale_ضارب = ضارب;
 }
 
-static void handle_wl_output_name(void *data, struct wl_output *wl_output, const char *name)
+ساكن فراغ handle_wl_output_name(فراغ *انکڑے, بنية wl_output *wl_output, ثابت حرف *name)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
-    SDL_free(internal->wl_output_name);
-    internal->wl_output_name = SDL_strdup(name);
+    SDL_free(اندرونی->wl_output_name);
+    اندرونی->wl_output_name = SDL_strdup(name);
 }
 
-static void handle_wl_output_description(void *data, struct wl_output *wl_output, const char *description)
+ساكن فراغ handle_wl_output_description(فراغ *انکڑے, بنية wl_output *wl_output, ثابت حرف *description)
 {
-    SDL_DisplayData *internal = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *اندرونی = (SDL_Display_انکڑے *)انکڑے;
 
-    if (internal->display == 0) {
+    إذا (اندرونی->display == 0) {
         // The description, if available, supersedes the model name.
-        SDL_free(internal->placeholder.name);
-        internal->placeholder.name = SDL_strdup(description);
+        SDL_free(اندرونی->placeholder.name);
+        اندرونی->placeholder.name = SDL_strdup(description);
     }
 }
 
-static const struct wl_output_listener output_listener = {
+ساكن ثابت بنية wl_output_listener output_listener = {
     handle_wl_output_geometry,   // Version 1
-    handle_wl_output_mode,       // Version 1
-    handle_wl_output_done,       // Version 2
+    handle_wl_output_منوال,       // Version 1
+    handle_wl_output_پورا,       // Version 2
     handle_wl_output_scale,      // Version 2
     handle_wl_output_name,       // Version 4
     handle_wl_output_description // Version 4
 };
 
-static void handle_output_image_description_changed(void *data,
-                                                    struct wp_color_management_output_v1 *wp_color_management_output_v1)
+ساكن فراغ handle_output_image_description_بدلیا(فراغ *انکڑے,
+                                                    بنية wp_color_management_output_v1 *wp_color_management_output_v1)
 {
-    SDL_DisplayData *display = (SDL_DisplayData *)data;
+    SDL_Display_انکڑے *display = (SDL_Display_انکڑے *)انکڑے;
     Wayland_GetColorInfoForOutput(display, false);
 }
 
-static const struct wp_color_management_output_v1_listener wp_color_management_output_listener = {
-    handle_output_image_description_changed
+ساكن ثابت بنية wp_color_management_output_v1_listener wp_color_management_output_listener = {
+    handle_output_image_description_بدلیا
 };
 
-static bool Wayland_add_display(SDL_VideoData *d, uint32_t id, uint32_t version)
+ساكن bool Wayland_جوڑو_display(SDL_Video_انکڑے *d, uint32_t id, uint32_t نسخہ)
 {
-    struct wl_output *output;
-    SDL_DisplayData *data;
+    بنية wl_output *output;
+    SDL_Display_انکڑے *انکڑے;
 
-    output = wl_registry_bind(d->registry, id, &wl_output_interface, version);
-    if (!output) {
-        return SDL_SetError("Failed to retrieve output.");
+    output = wl_registry_bind(d->registry, id, &wl_output_interface, نسخہ);
+    إذا (!output) {
+        أرجع SDL_سیٹ_Error("Failed to retrieve output.");
     }
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(*data));
-    data->videodata = d;
-    data->output = output;
-    data->registry_id = id;
-    data->scale_factor = 1.0f;
-    data->integer_scale_factor = 1;
+    انکڑے = (SDL_Display_انکڑے *)SDL_calloc(1, حجم(*انکڑے));
+    انکڑے->videodata = d;
+    انکڑے->output = output;
+    انکڑے->registry_id = id;
+    انکڑے->scale_ضارب_2 = 1.0f;
+    انکڑے->integer_scale_ضارب = 1;
 
-    wl_output_add_listener(output, &output_listener, data);
-    SDL_WAYLAND_register_output(output);
+    wl_output_جوڑو_listener(output, &output_listener, انکڑے);
+    SDL_WAYLAND_رجسٹر_output(output);
 
     // Keep a list of outputs for sorting and deferred protocol initialization.
-    if (d->output_count == d->output_max) {
+    إذا (d->output_گنتی == d->output_max) {
         d->output_max += 4;
-        d->output_list = SDL_realloc(d->output_list, sizeof(SDL_DisplayData *) * d->output_max);
+        d->output_list = SDL_realloc(d->output_list, حجم(SDL_Display_انکڑے *) * d->output_max);
     }
-    d->output_list[d->output_count++] = data;
+    d->output_list[d->output_گنتی++] = انکڑے;
 
-    if (data->videodata->xdg_output_manager) {
-        data->xdg_output = zxdg_output_manager_v1_get_xdg_output(data->videodata->xdg_output_manager, output);
-        zxdg_output_v1_add_listener(data->xdg_output, &xdg_output_listener, data);
+    إذا (انکڑے->videodata->xdg_output_manager) {
+        انکڑے->xdg_output = zxdg_output_manager_v1_get_xdg_output(انکڑے->videodata->xdg_output_manager, output);
+        zxdg_output_v1_جوڑو_listener(انکڑے->xdg_output, &xdg_output_listener, انکڑے);
     }
-    if (data->videodata->wp_color_manager_v1) {
-        data->wp_color_management_output = wp_color_manager_v1_get_output(data->videodata->wp_color_manager_v1, output);
-        wp_color_management_output_v1_add_listener(data->wp_color_management_output, &wp_color_management_output_listener, data);
+    إذا (انکڑے->videodata->wp_color_manager_v1) {
+        انکڑے->wp_color_management_output = wp_color_manager_v1_get_output(انکڑے->videodata->wp_color_manager_v1, output);
+        wp_color_management_output_v1_جوڑو_listener(انکڑے->wp_color_management_output, &wp_color_management_output_listener, انکڑے);
 
         // If not initializing, this will be queried synchronously in wl_output.done.
-        if (d->initializing) {
-            Wayland_GetColorInfoForOutput(data, true);
+        إذا (d->initializing) {
+            Wayland_GetColorInfoForOutput(انکڑے, true);
         }
     }
-    return true;
+    أرجع true;
 }
 
-static void Wayland_free_display(SDL_VideoDisplay *display, bool send_event)
+ساكن فراغ Wayland_free_display(SDL_VideoDisplay *display, bool send_event)
 {
-    if (display) {
-        SDL_DisplayData *display_data = display->internal;
+    إذا (display) {
+        SDL_Display_انکڑے *display_انکڑے = display->اندرونی;
 
         /* A preceding surface leave event is not guaranteed when an output is removed,
          * so ensure that no window continues to hold a reference to a removed output.
          */
-        for (SDL_Window *window = SDL_GetVideoDevice()->windows; window; window = window->next) {
-            Wayland_RemoveOutputFromWindow(window->internal, display_data);
+        لكل (SDL_کھڑکی *کھڑکی = SDL_GetVideoDevice()->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+            Wayland_Remove_Output_From_کھڑکی(کھڑکی->اندرونی, display_انکڑے);
         }
 
-        SDL_free(display_data->wl_output_name);
+        SDL_free(display_انکڑے->wl_output_name);
 
-        if (display_data->wp_color_management_output) {
-            Wayland_FreeColorInfoState(display_data->color_info_state);
-            wp_color_management_output_v1_destroy(display_data->wp_color_management_output);
+        إذا (display_انکڑے->wp_color_management_output) {
+            Wayland_FreeColorInfoState(display_انکڑے->color_info_state);
+            wp_color_management_output_v1_destroy(display_انکڑے->wp_color_management_output);
         }
 
-        if (display_data->xdg_output) {
-            zxdg_output_v1_destroy(display_data->xdg_output);
+        إذا (display_انکڑے->xdg_output) {
+            zxdg_output_v1_destroy(display_انکڑے->xdg_output);
         }
 
-        if (wl_output_get_version(display_data->output) >= WL_OUTPUT_RELEASE_SINCE_VERSION) {
-            wl_output_release(display_data->output);
-        } else {
-            wl_output_destroy(display_data->output);
+        إذا (wl_output_get_نسخہ(display_انکڑے->output) >= WL_OUTPUT_RELEASE_SINCE_نسخہ) {
+            wl_output_release(display_انکڑے->output);
+        } وإلا {
+            wl_output_destroy(display_انکڑے->output);
         }
 
         SDL_DelVideoDisplay(display->id, send_event);
     }
 }
 
-static void Wayland_FinalizeDisplays(SDL_VideoData *vid)
+ساكن فراغ Wayland_FinalizeDisplays(SDL_Video_انکڑے *vid)
 {
-    Wayland_SortOutputs(vid);
+    Wayland_ترتیب_دیو_Outputs(vid);
 
-    for(int i = 0; i < vid->output_count; ++i) {
-        SDL_DisplayData *d = vid->output_list[i];
-        d->display = SDL_AddVideoDisplay(&d->placeholder, false);
+    لكل(صحيح i = 0; i < vid->output_گنتی; ++i) {
+        SDL_Display_انکڑے *d = vid->output_list[i];
+        d->display = SDL_جوڑو_Video_Display(&d->placeholder, false);
         SDL_free(d->placeholder.name);
         SDL_zero(d->placeholder);
     }
 }
 
-static void Wayland_init_xdg_output(SDL_VideoData *d)
+ساكن فراغ Wayland_init_xdg_output(SDL_Video_انکڑے *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
+    لكل (صحيح i = 0; i < d->output_گنتی; ++i) {
+        SDL_Display_انکڑے *disp = d->output_list[i];
         disp->xdg_output = zxdg_output_manager_v1_get_xdg_output(disp->videodata->xdg_output_manager, disp->output);
-        zxdg_output_v1_add_listener(disp->xdg_output, &xdg_output_listener, disp);
+        zxdg_output_v1_جوڑو_listener(disp->xdg_output, &xdg_output_listener, disp);
     }
 }
 
-static void Wayland_InitColorManager(SDL_VideoData *d)
+ساكن فراغ Wayland_InitColorManager(SDL_Video_انکڑے *d)
 {
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
+    لكل (صحيح i = 0; i < d->output_گنتی; ++i) {
+        SDL_Display_انکڑے *disp = d->output_list[i];
         disp->wp_color_management_output = wp_color_manager_v1_get_output(disp->videodata->wp_color_manager_v1, disp->output);
-        wp_color_management_output_v1_add_listener(disp->wp_color_management_output, &wp_color_management_output_listener, disp);
+        wp_color_management_output_v1_جوڑو_listener(disp->wp_color_management_output, &wp_color_management_output_listener, disp);
         Wayland_GetColorInfoForOutput(disp, true);
     }
 }
 
-static void handle_xdg_session_created(void *data, struct xdg_session_v1 *xdg_session_v1, const char *id)
+ساكن فراغ handle_xdg_session_created(فراغ *انکڑے, بنية xdg_session_v1 *xdg_session_v1, ثابت حرف *id)
 {
-    SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, id);
+    SDL_سیٹ_String_Property(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, id);
 }
 
-static void handle_xdg_session_restored(void *data, struct xdg_session_v1 *xdg_session_v1)
+ساكن فراغ handle_xdg_session_restored(فراغ *انکڑے, بنية xdg_session_v1 *xdg_session_v1)
 {
     // NOP
 }
 
-static void handle_xdg_session_replaced(void *data, struct xdg_session_v1 *xdg_session_v1)
+ساكن فراغ handle_xdg_session_replaced(فراغ *انکڑے, بنية xdg_session_v1 *xdg_session_v1)
 {
     SDL_VideoDevice *viddev = SDL_GetVideoDevice();
-    SDL_VideoData *viddata = data;
+    SDL_Video_انکڑے *viddata = انکڑے;
 
     // Clean up all session objects, as they have become inert, and should be destroyed.
-    SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
+    SDL_سیٹ_String_Property(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, عدم);
 
-    for (SDL_Window *w = viddev->windows; w; w = w->next) {
-        SDL_WindowData *d = w->internal;
+    لكل (SDL_کھڑکی *w = viddev->windows; w; w = w->اگلا) {
+        SDL_کھڑکی_انکڑے *d = w->اندرونی;
 
-        if (d->xdg_toplevel_session) {
+        إذا (d->xdg_toplevel_session) {
             xdg_toplevel_session_v1_destroy(d->xdg_toplevel_session);
-            d->xdg_toplevel_session = NULL;
+            d->xdg_toplevel_session = عدم;
 
             SDL_free(d->session_id);
-            d->session_id = NULL;
+            d->session_id = عدم;
         }
     }
 
-    if (viddata->xdg_session) {
+    إذا (viddata->xdg_session) {
         xdg_session_v1_destroy(viddata->xdg_session);
-        viddata->xdg_session = NULL;
+        viddata->xdg_session = عدم;
     }
 }
 
-static const struct xdg_session_v1_listener xdg_session_listener = {
+ساكن ثابت بنية xdg_session_v1_listener xdg_session_listener = {
     .created  = handle_xdg_session_created,
     .restored = handle_xdg_session_restored,
     .replaced = handle_xdg_session_replaced
 };
 
-void Wayland_CreateSession(SDL_VideoData *viddata)
+فراغ Wayland_CreateSession(SDL_Video_انکڑے *viddata)
 {
-    if (!viddata->xdg_session_manager) {
+    إذا (!viddata->xdg_session_manager) {
         // Set the ID string to null if session management is not available.
-        SDL_SetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        return;
+        SDL_سیٹ_String_Property(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, عدم);
+        أرجع;
     }
 
     // Register a new session, if one does not yet exist.
-    if (!viddata->xdg_session) {
-        const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (session_id) {
-            if (*session_id == '\0') {
+    إذا (!viddata->xdg_session) {
+        ثابت حرف *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, عدم);
+        إذا (session_id) {
+            إذا (*session_id == '\0') {
                 // Create a new session if the ID string is empty.
-                session_id = NULL;
+                session_id = عدم;
             }
 
-            const enum xdg_session_manager_v1_reason reason = session_id ? XDG_SESSION_MANAGER_V1_REASON_SESSION_RESTORE : XDG_SESSION_MANAGER_V1_REASON_LAUNCH;
+            ثابت تعداد xdg_session_manager_v1_reason reason = session_id ? XDG_SESSION_MANAGER_V1_REASON_SESSION_RESTORE : XDG_SESSION_MANAGER_V1_REASON_LAUNCH;
             viddata->xdg_session = xdg_session_manager_v1_get_session(viddata->xdg_session_manager, reason, session_id);
-            xdg_session_v1_add_listener(viddata->xdg_session, &xdg_session_listener, viddata);
+            xdg_session_v1_جوڑو_listener(viddata->xdg_session, &xdg_session_listener, viddata);
         }
     }
 }
 
-static void Wayland_SessionDestroy(SDL_VideoData *viddata)
+ساكن فراغ Wayland_SessionDestroy(SDL_Video_انکڑے *viddata)
 {
     // If the session string was cleared, remove the session.
-    if (viddata->xdg_session) {
-        const char *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, NULL);
-        if (!session_id || *session_id == '\0') {
+    إذا (viddata->xdg_session) {
+        ثابت حرف *session_id = SDL_GetStringProperty(SDL_GetGlobalProperties(), SDL_PROP_GLOBAL_VIDEO_WAYLAND_SESSION_ID_STRING, عدم);
+        إذا (!session_id || *session_id == '\0') {
             xdg_session_v1_remove(viddata->xdg_session);
 
             WAYLAND_wl_display_roundtrip(viddata->display);
-        } else {
+        } وإلا {
             xdg_session_v1_destroy(viddata->xdg_session);
         }
 
-        viddata->xdg_session = NULL;
+        viddata->xdg_session = عدم;
     }
 }
 
-static void handle_xdg_wm_base_ping(void *data, struct xdg_wm_base *xdg, uint32_t serial)
+ساكن فراغ handle_xdg_wm_ادھار_ping(فراغ *انکڑے, بنية xdg_wm_ادھار *xdg, uint32_t serial)
 {
-    xdg_wm_base_pong(xdg, serial);
+    xdg_wm_ادھار_pong(xdg, serial);
 }
 
-static const struct xdg_wm_base_listener _xdg_wm_base_listener = {
-    handle_xdg_wm_base_ping
+ساكن ثابت بنية xdg_wm_ادھار_listener xdg_wm_ادھار_listener_2 = {
+    handle_xdg_wm_ادھار_ping
 };
 
-#ifdef HAVE_LIBDECOR_H
-static void libdecor_error(struct libdecor *context,
-                           enum libdecor_error error,
-                           const char *message)
+#جے_تعریف_شدہ HAVE_LIBDECOR_H
+ساكن فراغ libdecor_error(بنية libdecor *context,
+                           تعداد libdecor_error error,
+                           ثابت حرف *سنیہا)
 {
-    SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "libdecor error (%d): %s", error, message);
+    SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "libdecor error (%d): %s", error, سنیہا);
 }
 
-static struct libdecor_interface libdecor_interface = {
+ساكن بنية libdecor_interface libdecor_interface = {
     libdecor_error
 };
-#endif
+#جے_انت
 
-static void handle_registry_global(void *data, struct wl_registry *registry, uint32_t id,
-                                   const char *interface, uint32_t version)
+ساكن فراغ handle_registry_global(فراغ *انکڑے, بنية wl_registry *registry, uint32_t id,
+                                   ثابت حرف *interface, uint32_t نسخہ)
 {
-    SDL_VideoData *d = data;
+    SDL_Video_انکڑے *d = انکڑے;
 
-    if (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
-        d->compositor = wl_registry_bind(d->registry, id, &wl_compositor_interface, SDL_min(SDL_WL_COMPOSITOR_VERSION, version));
-    } else if (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
+    إذا (SDL_strcmp(interface, wl_compositor_interface.name) == 0) {
+        d->compositor = wl_registry_bind(d->registry, id, &wl_compositor_interface, SDL_min(SDL_WL_COMPOSITOR_نسخہ, نسخہ));
+    } وإلا إذا (SDL_strcmp(interface, wl_subcompositor_interface.name) == 0) {
         d->subcompositor = wl_registry_bind(d->registry, id, &wl_subcompositor_interface, 1);
-    } else if (SDL_strcmp(interface, wl_output_interface.name) == 0) {
-        Wayland_add_display(d, id, SDL_min(version, SDL_WL_OUTPUT_VERSION));
-    } else if (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
-        struct wl_seat *seat = wl_registry_bind(d->registry, id, &wl_seat_interface, SDL_min(SDL_WL_SEAT_VERSION, version));
+    } وإلا إذا (SDL_strcmp(interface, wl_output_interface.name) == 0) {
+        Wayland_جوڑو_display(d, id, SDL_min(نسخہ, SDL_WL_OUTPUT_نسخہ));
+    } وإلا إذا (SDL_strcmp(interface, wl_seat_interface.name) == 0) {
+        بنية wl_seat *seat = wl_registry_bind(d->registry, id, &wl_seat_interface, SDL_min(SDL_WL_SEAT_نسخہ, نسخہ));
         Wayland_DisplayCreateSeat(d, seat, id);
-    } else if (SDL_strcmp(interface, xdg_wm_base_interface.name) == 0) {
-        d->shell.xdg = wl_registry_bind(d->registry, id, &xdg_wm_base_interface, SDL_min(version, 7));
-        xdg_wm_base_add_listener(d->shell.xdg, &_xdg_wm_base_listener, NULL);
-    } else if (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
-        d->shm = wl_registry_bind(registry, id, &wl_shm_interface, SDL_min(SDL_WL_SHM_VERSION, version));
-    } else if (SDL_strcmp(interface, zwp_relative_pointer_manager_v1_interface.name) == 0) {
-        d->relative_pointer_manager = wl_registry_bind(d->registry, id, &zwp_relative_pointer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_constraints_v1_interface.name) == 0) {
-        d->pointer_constraints = wl_registry_bind(d->registry, id, &zwp_pointer_constraints_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
-        d->key_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, xdg_wm_ادھار_interface.name) == 0) {
+        d->shell.xdg = wl_registry_bind(d->registry, id, &xdg_wm_ادھار_interface, SDL_min(نسخہ, 7));
+        xdg_wm_ادھار_جوڑو_listener(d->shell.xdg, &xdg_wm_ادھار_listener_2, عدم);
+    } وإلا إذا (SDL_strcmp(interface, wl_shm_interface.name) == 0) {
+        d->shm = wl_registry_bind(registry, id, &wl_shm_interface, SDL_min(SDL_WL_SHM_نسخہ, نسخہ));
+    } وإلا إذا (SDL_strcmp(interface, zwp_relative_اشارہ_گر_manager_v1_interface.name) == 0) {
+        d->relative_اشارہ_گر_manager = wl_registry_bind(d->registry, id, &zwp_relative_اشارہ_گر_manager_v1_interface, 1);
+    } وإلا إذا (SDL_strcmp(interface, zwp_اشارہ_گر_constraints_v1_interface.name) == 0) {
+        d->اشارہ_گر_constraints = wl_registry_bind(d->registry, id, &zwp_اشارہ_گر_constraints_v1_interface, 1);
+    } وإلا إذا (SDL_strcmp(interface, zwp_keyboard_shortcuts_inhibit_manager_v1_interface.name) == 0) {
+        d->کلید_inhibitor_manager = wl_registry_bind(d->registry, id, &zwp_keyboard_shortcuts_inhibit_manager_v1_interface, 1);
+    } وإلا إذا (SDL_strcmp(interface, zwp_idle_inhibit_manager_v1_interface.name) == 0) {
         d->idle_inhibit_manager = wl_registry_bind(d->registry, id, &zwp_idle_inhibit_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, xdg_activation_v1_interface.name) == 0) {
         d->activation_manager = wl_registry_bind(d->registry, id, &xdg_activation_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_text_input_manager_v3_interface.name) == 0) {
-        d->text_input_manager = wl_registry_bind(d->registry, id, &zwp_text_input_manager_v3_interface, 1);
-        Wayland_DisplayInitTextInputManager(d, id);
-    } else if (SDL_strcmp(interface, wl_data_device_manager_interface.name) == 0) {
-        d->data_device_manager = wl_registry_bind(d->registry, id, &wl_data_device_manager_interface, SDL_min(3, version));
-        Wayland_DisplayInitDataDeviceManager(d);
-    } else if (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, zwp_متن_داخلہ_manager_v3_interface.name) == 0) {
+        d->متن_داخلہ_manager = wl_registry_bind(d->registry, id, &zwp_متن_داخلہ_manager_v3_interface, 1);
+        Wayland_Display_Init_متن_داخلہ_Manager(d, id);
+    } وإلا إذا (SDL_strcmp(interface, wl_انکڑے_device_manager_interface.name) == 0) {
+        d->انکڑے_device_manager = wl_registry_bind(d->registry, id, &wl_انکڑے_device_manager_interface, SDL_min(3, نسخہ));
+        Wayland_Display_Init_انکڑے_Device_Manager(d);
+    } وإلا إذا (SDL_strcmp(interface, zwp_primary_selection_device_manager_v1_interface.name) == 0) {
         d->primary_selection_device_manager = wl_registry_bind(d->registry, id, &zwp_primary_selection_device_manager_v1_interface, 1);
         Wayland_DisplayInitPrimarySelectionDeviceManager(d);
-    } else if (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
-        d->decoration_manager = wl_registry_bind(d->registry, id, &zxdg_decoration_manager_v1_interface, SDL_min(2, version));
-    } else if (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, zxdg_decoration_manager_v1_interface.name) == 0) {
+        d->decoration_manager = wl_registry_bind(d->registry, id, &zxdg_decoration_manager_v1_interface, SDL_min(2, نسخہ));
+    } وإلا إذا (SDL_strcmp(interface, zwp_tablet_manager_v2_interface.name) == 0) {
         d->tablet_manager = wl_registry_bind(d->registry, id, &zwp_tablet_manager_v2_interface, 1);
         Wayland_DisplayInitTabletManager(d);
-    } else if (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
-        version = SDL_min(version, 3); // Versions 1 through 3 are supported.
-        d->xdg_output_manager = wl_registry_bind(d->registry, id, &zxdg_output_manager_v1_interface, version);
+    } وإلا إذا (SDL_strcmp(interface, zxdg_output_manager_v1_interface.name) == 0) {
+        نسخہ = SDL_min(نسخہ, 3); // Versions 1 through 3 are supported.
+        d->xdg_output_manager = wl_registry_bind(d->registry, id, &zxdg_output_manager_v1_interface, نسخہ);
         Wayland_init_xdg_output(d);
-    } else if (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, wp_viewporter_interface.name) == 0) {
         d->viewporter = wl_registry_bind(d->registry, id, &wp_viewporter_interface, 1);
-    } else if (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, wp_fractional_scale_manager_v1_interface.name) == 0) {
         d->fractional_scale_manager = wl_registry_bind(d->registry, id, &wp_fractional_scale_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_input_timestamps_manager_v1_interface.name) == 0) {
-        d->input_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_input_timestamps_manager_v1_interface, 1);
-        Wayland_DisplayInitInputTimestampManager(d);
-    } else if (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
-        d->cursor_shape_manager = wl_registry_bind(d->registry, id, &wp_cursor_shape_manager_v1_interface, SDL_min(version, 2));
+    } وإلا إذا (SDL_strcmp(interface, zwp_داخلہ_timestamps_manager_v1_interface.name) == 0) {
+        d->داخلہ_timestamps_manager = wl_registry_bind(d->registry, id, &zwp_داخلہ_timestamps_manager_v1_interface, 1);
+        Wayland_Display_Init_داخلہ_Timestamp_Manager(d);
+    } وإلا إذا (SDL_strcmp(interface, wp_cursor_shape_manager_v1_interface.name) == 0) {
+        d->cursor_shape_manager = wl_registry_bind(d->registry, id, &wp_cursor_shape_manager_v1_interface, SDL_min(نسخہ, 2));
         Wayland_DisplayInitCursorShapeManager(d);
-    } else if (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, zxdg_exporter_v2_interface.name) == 0) {
         d->zxdg_exporter_v2 = wl_registry_bind(d->registry, id, &zxdg_exporter_v2_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, xdg_wm_dialog_v1_interface.name) == 0) {
         d->xdg_wm_dialog_v1 = wl_registry_bind(d->registry, id, &xdg_wm_dialog_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, wp_alpha_modifier_v1_interface.name) == 0) {
         d->wp_alpha_modifier_v1 = wl_registry_bind(d->registry, id, &wp_alpha_modifier_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, xdg_toplevel_icon_manager_v1_interface.name) == 0) {
         d->xdg_toplevel_icon_manager_v1 = wl_registry_bind(d->registry, id, &xdg_toplevel_icon_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, frog_color_management_factory_v1_interface.name) == 0) {
         d->frog_color_management_factory_v1 = wl_registry_bind(d->registry, id, &frog_color_management_factory_v1_interface, 1);
-    } else if (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
-        d->wp_color_manager_v1 = wl_registry_bind(d->registry, id, &wp_color_manager_v1_interface, SDL_min(version, 2));
+    } وإلا إذا (SDL_strcmp(interface, wp_color_manager_v1_interface.name) == 0) {
+        d->wp_color_manager_v1 = wl_registry_bind(d->registry, id, &wp_color_manager_v1_interface, SDL_min(نسخہ, 2));
         Wayland_InitColorManager(d);
-    } else if (SDL_strcmp(interface, wp_pointer_warp_v1_interface.name) == 0) {
-        d->wp_pointer_warp_v1 = wl_registry_bind(d->registry, id, &wp_pointer_warp_v1_interface, 1);
-    } else if (SDL_strcmp(interface, zwp_pointer_gestures_v1_interface.name) == 0) {
-        d->zwp_pointer_gestures = wl_registry_bind(d->registry, id, &zwp_pointer_gestures_v1_interface, SDL_min(version, 3));
-        Wayland_DisplayInitPointerGestureManager(d);
-    } else if (SDL_strcmp(interface, wp_single_pixel_buffer_manager_v1_interface.name) == 0) {
-        d->single_pixel_buffer_manager = wl_registry_bind(d->registry, id, &wp_single_pixel_buffer_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
+    } وإلا إذا (SDL_strcmp(interface, wp_اشارہ_گر_warp_v1_interface.name) == 0) {
+        d->wp_اشارہ_گر_warp_v1 = wl_registry_bind(d->registry, id, &wp_اشارہ_گر_warp_v1_interface, 1);
+    } وإلا إذا (SDL_strcmp(interface, zwp_اشارہ_گر_gestures_v1_interface.name) == 0) {
+        d->zwp_اشارہ_گر_gestures = wl_registry_bind(d->registry, id, &zwp_اشارہ_گر_gestures_v1_interface, SDL_min(نسخہ, 3));
+        Wayland_Display_Init_اشارہ_گر_Gesture_Manager(d);
+    } وإلا إذا (SDL_strcmp(interface, wp_single_pixel_بفر_manager_v1_interface.name) == 0) {
+        d->single_pixel_بفر_manager = wl_registry_bind(d->registry, id, &wp_single_pixel_بفر_manager_v1_interface, 1);
+    } وإلا إذا (SDL_strcmp(interface, xdg_session_manager_v1_interface.name) == 0) {
         d->xdg_session_manager = wl_registry_bind(d->registry, id, &xdg_session_manager_v1_interface, 1);
-    } else if (SDL_strcmp(interface, xdg_toplevel_tag_manager_v1_interface.name) == 0) {
-        d->xdg_toplevel_tag_manager = wl_registry_bind(d->registry, id, &xdg_toplevel_tag_manager_v1_interface, 1);
+    } وإلا إذا (SDL_strcmp(interface, xdg_toplevel_ٹیگ_manager_v1_interface.name) == 0) {
+        d->xdg_toplevel_ٹیگ_manager = wl_registry_bind(d->registry, id, &xdg_toplevel_ٹیگ_manager_v1_interface, 1);
     }
-#ifdef SDL_WL_FIXES_VERSION
-    else if (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
-        d->wl_fixes = wl_registry_bind(d->registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_VERSION, version));
+#جے_تعریف_شدہ SDL_WL_FIXES_نسخہ
+    وإلا إذا (SDL_strcmp(interface, wl_fixes_interface.name) == 0) {
+        d->wl_fixes = wl_registry_bind(d->registry, id, &wl_fixes_interface, SDL_min(SDL_WL_FIXES_نسخہ, نسخہ));
     }
-#endif
+#جے_انت
 }
 
-static void handle_registry_remove_global(void *data, struct wl_registry *registry, uint32_t id)
+ساكن فراغ handle_registry_remove_global(فراغ *انکڑے, بنية wl_registry *registry, uint32_t id)
 {
-    SDL_VideoData *d = data;
+    SDL_Video_انکڑے *d = انکڑے;
 
     // We don't get an interface, just an ID, so check outputs and seats.
-    for (int i = 0; i < d->output_count; ++i) {
-        SDL_DisplayData *disp = d->output_list[i];
-        if (disp->registry_id == id) {
+    لكل (صحيح i = 0; i < d->output_گنتی; ++i) {
+        SDL_Display_انکڑے *disp = d->output_list[i];
+        إذا (disp->registry_id == id) {
             Wayland_free_display(SDL_GetVideoDisplay(disp->display), true);
 
-            if (i < d->output_count) {
-                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], sizeof(SDL_DisplayData *) * (d->output_count - i - 1));
+            إذا (i < d->output_گنتی) {
+                SDL_memmove(&d->output_list[i], &d->output_list[i + 1], حجم(SDL_Display_انکڑے *) * (d->output_گنتی - i - 1));
             }
 
-            d->output_count--;
-            goto ack_remove;
+            d->output_گنتی--;
+            اذهب ack_remove;
         }
     }
 
-    SDL_WaylandSeat *seat, *temp;
-    wl_list_for_each_safe (seat, temp, &d->seat_list, link) {
-        if (seat->registry_id == id) {
+    SDL_WaylandSeat *seat, *عارضی;
+    wl_list_for_each_محفوظ (seat, عارضی, &d->seat_list, link) {
+        إذا (seat->registry_id == id) {
             Wayland_SeatDestroy(seat, false);
-            goto ack_remove;
+            اذهب ack_remove;
         }
     }
 
 ack_remove:
-    if (d->wl_fixes && wl_fixes_get_version(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_VERSION) {
+    إذا (d->wl_fixes && wl_fixes_get_نسخہ(d->wl_fixes) >= WL_FIXES_ACK_GLOBAL_REMOVE_SINCE_نسخہ) {
         wl_fixes_ack_global_remove(d->wl_fixes, registry, id);
     }
 }
 
-static const struct wl_registry_listener registry_listener = {
+ساكن ثابت بنية wl_registry_listener registry_listener = {
     handle_registry_global,
     handle_registry_remove_global
 };
 
-#ifdef HAVE_LIBDECOR_H
-static bool should_use_libdecor(SDL_VideoData *data, bool ignore_xdg)
+#جے_تعریف_شدہ HAVE_LIBDECOR_H
+ساكن bool should_use_libdecor(SDL_Video_انکڑے *انکڑے, bool ignore_xdg)
 {
-    if (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
-        return false;
+    إذا (!SDL_WAYLAND_HAVE_WAYLAND_LIBDECOR) {
+        أرجع false;
     }
 
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
-        return true;
+    إذا (SDL_GetHintBoolean(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, false)) {
+        أرجع true;
     }
 
-    if (ignore_xdg) {
-        return true;
+    إذا (ignore_xdg) {
+        أرجع true;
     }
 
-    if (data->decoration_manager) {
-        return false;
+    إذا (انکڑے->decoration_manager) {
+        أرجع false;
     }
 
-    return true;
+    أرجع true;
 }
 
-static void LibdecorNew(SDL_VideoData *data)
+ساكن فراغ LibdecorNew(SDL_Video_انکڑے *انکڑے)
 {
-    data->shell.libdecor = libdecor_new(data->display, &libdecor_interface);
+    انکڑے->shell.libdecor = libdecor_new(انکڑے->display, &libdecor_interface);
 }
 
 // Called in another thread, but the UI thread is blocked in SDL_WaitThread
 // during that time, so it should be OK to dereference data without locks
-static int SDLCALL LibdecorNewInThread(void *data)
+ساكن صحيح SDLCALL Libdecor_New_وچ_Thread(فراغ *انکڑے)
 {
-    LibdecorNew((SDL_VideoData *)data);
-    return 0;
+    LibdecorNew((SDL_Video_انکڑے *)انکڑے);
+    أرجع 0;
 }
-#endif
+#جے_انت
 
-#ifdef HAVE_GETRESUID
-#define SDL_getresuid getresuid
-#else
+#جے_تعریف_شدہ HAVE_GETRESUID
+#تعریف_کرو SDL_getresuid getresuid
+#وإلا
 // Non-POSIX, but Linux and some BSDs have it.
 // To reduce the number of code paths, if getresuid() isn't available at
 // compile-time, we behave as though it existed but failed at runtime.
-static inline int SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
+ساكن مضمن صحيح SDL_getresuid(uid_t *ruid, uid_t *euid, uid_t *suid) {
     errno = ENOSYS;
-    return -1;
+    أرجع -1;
 }
-#endif
+#جے_انت
 
-#ifdef HAVE_GETRESGID
-#define SDL_getresgid getresgid
-#else
+#جے_تعریف_شدہ HAVE_GETRESGID
+#تعریف_کرو SDL_getresgid getresgid
+#وإلا
 // Same as getresuid() but for the primary group
-static inline int SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
+ساكن مضمن صحيح SDL_getresgid(gid_t *rgid, gid_t *egid, gid_t *sgid) {
     errno = ENOSYS;
-    return -1;
+    أرجع -1;
 }
-#endif
+#جے_انت
 
-bool CanUseGtk(void)
+bool CanUseGtk(فراغ)
 {
     // "Real", "effective" and "saved" IDs: see e.g. Linux credentials(7)
     uid_t ruid = -1, euid = -1, suid = -1;
     gid_t rgid = -1, egid = -1, sgid = -1;
 
-    if (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
+    إذا (!SDL_GetHintBoolean("SDL_ENABLE_GTK", true)) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to hint");
-        return false;
+        أرجع false;
     }
 
     // This is intended to match the check in gtkmain.c, rather than being
@@ -1648,382 +1648,382 @@ bool CanUseGtk(void)
     // we don't use Linux getauxval() or prctl PR_GET_DUMPABLE,
     // BSD issetugid(), or similar OS-specific detection
 
-    if (SDL_getresuid(&ruid, &euid, &suid) != 0) {
+    إذا (SDL_getresuid(&ruid, &euid, &suid) != 0) {
         ruid = suid = getuid();
         euid = geteuid();
     }
 
-    if (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
+    إذا (SDL_getresgid(&rgid, &egid, &sgid) != 0) {
         rgid = sgid = getgid();
         egid = getegid();
     }
 
     // Real ID != effective ID means we are setuid or setgid:
     // GTK will refuse to initialize, and instead will call exit().
-    if (ruid != euid || rgid != egid) {
+    إذا (ruid != euid || rgid != egid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to setuid/setgid");
-        return false;
+        أرجع false;
     }
 
     // Real ID != saved ID means we are setuid or setgid, we previously
     // dropped privileges, but we can regain them; this protects against
     // accidents but does not protect against arbitrary code execution.
     // Again, GTK will refuse to initialize if this is the case.
-    if (ruid != suid || rgid != sgid) {
+    إذا (ruid != suid || rgid != sgid) {
         SDL_LogDebug(SDL_LOG_CATEGORY_SYSTEM, "Not using GTK due to saved uid/gid");
-        return false;
+        أرجع false;
     }
 
-    return true;
+    أرجع true;
 }
 
-bool Wayland_LoadLibdecor(SDL_VideoData *data, bool ignore_xdg)
+bool Wayland_لدو_Libdecor(SDL_Video_انکڑے *انکڑے, bool ignore_xdg)
 {
-#ifdef HAVE_LIBDECOR_H
-    if (data->shell.libdecor != NULL) {
-        return true; // Already loaded!
+#جے_تعریف_شدہ HAVE_LIBDECOR_H
+    إذا (انکڑے->shell.libdecor != عدم) {
+        أرجع true; // Already loaded!
     }
-    if (should_use_libdecor(data, ignore_xdg)) {
-        if (CanUseGtk()) {
-            LibdecorNew(data);
-        } else {
+    إذا (should_use_libdecor(انکڑے, ignore_xdg)) {
+        إذا (CanUseGtk()) {
+            LibdecorNew(انکڑے);
+        } وإلا {
             // Intentionally initialize libdecor in a non-main thread
             // so that it will not use its GTK plugin, but instead will
             // fall back to the Cairo or dummy plugin
-            SDL_Thread *thread = SDL_CreateThread(LibdecorNewInThread, "SDL_LibdecorNew", (void *)data);
+            SDL_Thread *thread = SDL_CreateThread(Libdecor_New_وچ_Thread, "SDL_LibdecorNew", (فراغ *)انکڑے);
             // Note that the other thread now "owns" data until we have
             // waited for it, so don't touch data here
-            SDL_WaitThread(thread, NULL);
+            SDL_WaitThread(thread, عدم);
         }
 
-        return data->shell.libdecor != NULL;
+        أرجع انکڑے->shell.libdecor != عدم;
     }
-#endif
-    return false;
+#جے_انت
+    أرجع false;
 }
 
 bool Wayland_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
 
-    data->event_thread_context = Wayland_CreateEventThread(data, "SDL Event Thread Queue");
-    if (!data->event_thread_context) {
+    انکڑے->event_thread_context = Wayland_CreateEventThread(انکڑے, "SDL Event Thread Queue");
+    إذا (!انکڑے->event_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create event thread context");
     }
 
-    data->job_thread_context = Wayland_CreateJobThread();
-    if (!data->job_thread_context) {
+    انکڑے->کم_thread_context = Wayland_Create_کم_Thread();
+    إذا (!انکڑے->کم_thread_context) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Failed to create job thread context");
     }
 
-    data->xkb_context = WAYLAND_xkb_context_new(0);
-    if (!data->xkb_context) {
-        return SDL_SetError("Failed to create XKB context");
+    انکڑے->xkb_context = WAYLAND_xkb_context_new(0);
+    إذا (!انکڑے->xkb_context) {
+        أرجع SDL_سیٹ_Error("Failed to create XKB context");
     }
 
-    data->registry = wl_display_get_registry(data->display);
-    if (!data->registry) {
-        return SDL_SetError("Failed to get the Wayland registry");
+    انکڑے->registry = wl_display_get_registry(انکڑے->display);
+    إذا (!انکڑے->registry) {
+        أرجع SDL_سیٹ_Error("Failed to get the Wayland registry");
     }
 
-    wl_registry_add_listener(data->registry, &registry_listener, data);
+    wl_registry_جوڑو_listener(انکڑے->registry, &registry_listener, انکڑے);
 
     // First roundtrip to receive all registry objects.
-    WAYLAND_wl_display_roundtrip(data->display);
+    WAYLAND_wl_display_roundtrip(انکڑے->display);
 
     // Require viewports and xdg-output for display scaling.
-    if (data->scale_to_display_enabled) {
-        if (!data->viewporter) {
+    إذا (انکڑے->scale_منزل_display_enabled) {
+        إذا (!انکڑے->viewporter) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'wp_viewporter' protocol: disabling");
-            data->scale_to_display_enabled = false;
+            انکڑے->scale_منزل_display_enabled = false;
         }
-        if (!data->xdg_output_manager) {
+        إذا (!انکڑے->xdg_output_manager) {
             SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "wayland: Display scaling requires the missing 'zxdg_output_manager_v1' protocol: disabling");
-            data->scale_to_display_enabled = false;
+            انکڑے->scale_منزل_display_enabled = false;
         }
     }
 
     // Now that we have all the protocols, load libdecor if applicable
-    Wayland_LoadLibdecor(data, false);
+    Wayland_لدو_Libdecor(انکڑے, false);
 
     // Second roundtrip to receive all output events.
-    WAYLAND_wl_display_roundtrip(data->display);
+    WAYLAND_wl_display_roundtrip(انکڑے->display);
 
-    Wayland_FinalizeDisplays(data);
+    Wayland_FinalizeDisplays(انکڑے);
 
-    Wayland_InitMouse(data);
+    Wayland_InitMouse(انکڑے);
     Wayland_InitKeyboard(_this);
 
-    if (data->primary_selection_device_manager) {
-        _this->SetPrimarySelectionText = Wayland_SetPrimarySelectionText;
-        _this->GetPrimarySelectionText = Wayland_GetPrimarySelectionText;
-        _this->HasPrimarySelectionText = Wayland_HasPrimarySelectionText;
+    إذا (انکڑے->primary_selection_device_manager) {
+        _this->سیٹ_Primary_Selection_متن = Wayland_سیٹ_Primary_Selection_متن;
+        _this->Get_Primary_Selection_متن = Wayland_Get_Primary_Selection_متن;
+        _this->Has_Primary_Selection_متن = Wayland_Has_Primary_Selection_متن;
     }
 
-    data->initializing = false;
+    انکڑے->initializing = false;
 
-    return true;
+    أرجع true;
 }
 
-static bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
+ساكن bool Wayland_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    SDL_VideoData *viddata = _this->internal;
-    SDL_DisplayData *internal = display->internal;
+    SDL_Video_انکڑے *viddata = _this->اندرونی;
+    SDL_Display_انکڑے *اندرونی = display->اندرونی;
 
-    if (!viddata->scale_to_display_enabled) {
-        rect->x = internal->logical.x;
-        rect->y = internal->logical.y;
-    } else {
-        rect->x = internal->pixel.x;
-        rect->y = internal->pixel.y;
+    إذا (!viddata->scale_منزل_display_enabled) {
+        rect->x = اندرونی->logical.x;
+        rect->y = اندرونی->logical.y;
+    } وإلا {
+        rect->x = اندرونی->pixel.x;
+        rect->y = اندرونی->pixel.y;
     }
 
     // When an emulated, exclusive fullscreen window has focus, treat the mode dimensions as the display bounds.
-    if (display->fullscreen_window &&
-        display->fullscreen_window->fullscreen_exclusive &&
-        display->fullscreen_window->internal->active &&
-        display->fullscreen_window->current_fullscreen_mode.w != 0 &&
-        display->fullscreen_window->current_fullscreen_mode.h != 0) {
-        rect->w = display->fullscreen_window->current_fullscreen_mode.w;
-        rect->h = display->fullscreen_window->current_fullscreen_mode.h;
-    } else {
-        if (!viddata->scale_to_display_enabled) {
-            rect->w = display->current_mode->w;
-            rect->h = display->current_mode->h;
-        } else if (internal->transform & WL_OUTPUT_TRANSFORM_90) {
-            rect->w = internal->pixel.height;
-            rect->h = internal->pixel.width;
-        } else {
-            rect->w = internal->pixel.width;
-            rect->h = internal->pixel.height;
+    إذا (display->fullscreen_کھڑکی &&
+        display->fullscreen_کھڑکی->fullscreen_exclusive &&
+        display->fullscreen_کھڑکی->اندرونی->سرگرم &&
+        display->fullscreen_کھڑکی->current_fullscreen_منوال.w != 0 &&
+        display->fullscreen_کھڑکی->current_fullscreen_منوال.h != 0) {
+        rect->w = display->fullscreen_کھڑکی->current_fullscreen_منوال.w;
+        rect->h = display->fullscreen_کھڑکی->current_fullscreen_منوال.h;
+    } وإلا {
+        إذا (!viddata->scale_منزل_display_enabled) {
+            rect->w = display->current_منوال->w;
+            rect->h = display->current_منوال->h;
+        } وإلا إذا (اندرونی->transform & WL_OUTPUT_TRANSFORM_90) {
+            rect->w = اندرونی->pixel.اچائی;
+            rect->h = اندرونی->pixel.چوڑائی;
+        } وإلا {
+            rect->w = اندرونی->pixel.چوڑائی;
+            rect->h = اندرونی->pixel.اچائی;
         }
     }
-    return true;
+    أرجع true;
 }
 
-static void Wayland_VideoCleanup(SDL_VideoDevice *_this)
+ساكن فراغ Wayland_VideoCleanup(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
     SDL_WaylandSeat *seat, *tmp;
 
-    Wayland_SessionDestroy(data);
+    Wayland_SessionDestroy(انکڑے);
 
-    for (int i = _this->num_displays - 1; i >= 0; --i) {
+    لكل (صحيح i = _this->عدد_displays - 1; i >= 0; --i) {
         SDL_VideoDisplay *display = _this->displays[i];
         Wayland_free_display(display, false);
     }
-    SDL_free(data->output_list);
+    SDL_free(انکڑے->output_list);
 
-    wl_list_for_each_safe (seat, tmp, &data->seat_list, link) {
+    wl_list_for_each_محفوظ (seat, tmp, &انکڑے->seat_list, link) {
         Wayland_SeatDestroy(seat, true);
     }
 
-    Wayland_FiniMouse(data);
+    Wayland_FiniMouse(انکڑے);
     Wayland_QuitKeyboard(_this);
 
-    Wayland_DestroyEventThread(data->event_thread_context);
-    data->event_thread_context = NULL;
+    Wayland_DestroyEventThread(انکڑے->event_thread_context);
+    انکڑے->event_thread_context = عدم;
 
-    Wayland_DestroyJobThread(data->job_thread_context);
-    data->job_thread_context = NULL;
+    Wayland_Destroy_کم_Thread(انکڑے->کم_thread_context);
+    انکڑے->کم_thread_context = عدم;
 
-    if (data->pointer_constraints) {
-        zwp_pointer_constraints_v1_destroy(data->pointer_constraints);
-        data->pointer_constraints = NULL;
+    إذا (انکڑے->اشارہ_گر_constraints) {
+        zwp_اشارہ_گر_constraints_v1_destroy(انکڑے->اشارہ_گر_constraints);
+        انکڑے->اشارہ_گر_constraints = عدم;
     }
 
-    if (data->relative_pointer_manager) {
-        zwp_relative_pointer_manager_v1_destroy(data->relative_pointer_manager);
-        data->relative_pointer_manager = NULL;
+    إذا (انکڑے->relative_اشارہ_گر_manager) {
+        zwp_relative_اشارہ_گر_manager_v1_destroy(انکڑے->relative_اشارہ_گر_manager);
+        انکڑے->relative_اشارہ_گر_manager = عدم;
     }
 
-    if (data->activation_manager) {
-        xdg_activation_v1_destroy(data->activation_manager);
-        data->activation_manager = NULL;
+    إذا (انکڑے->activation_manager) {
+        xdg_activation_v1_destroy(انکڑے->activation_manager);
+        انکڑے->activation_manager = عدم;
     }
 
-    if (data->idle_inhibit_manager) {
-        zwp_idle_inhibit_manager_v1_destroy(data->idle_inhibit_manager);
-        data->idle_inhibit_manager = NULL;
+    إذا (انکڑے->idle_inhibit_manager) {
+        zwp_idle_inhibit_manager_v1_destroy(انکڑے->idle_inhibit_manager);
+        انکڑے->idle_inhibit_manager = عدم;
     }
 
-    if (data->key_inhibitor_manager) {
-        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(data->key_inhibitor_manager);
-        data->key_inhibitor_manager = NULL;
+    إذا (انکڑے->کلید_inhibitor_manager) {
+        zwp_keyboard_shortcuts_inhibit_manager_v1_destroy(انکڑے->کلید_inhibitor_manager);
+        انکڑے->کلید_inhibitor_manager = عدم;
     }
 
-    if (data->text_input_manager) {
-        zwp_text_input_manager_v3_destroy(data->text_input_manager);
-        data->text_input_manager = NULL;
+    إذا (انکڑے->متن_داخلہ_manager) {
+        zwp_متن_داخلہ_manager_v3_destroy(انکڑے->متن_داخلہ_manager);
+        انکڑے->متن_داخلہ_manager = عدم;
     }
 
-    if (data->xkb_context) {
-        WAYLAND_xkb_context_unref(data->xkb_context);
-        data->xkb_context = NULL;
+    إذا (انکڑے->xkb_context) {
+        WAYLAND_xkb_context_unref(انکڑے->xkb_context);
+        انکڑے->xkb_context = عدم;
     }
 
-    if (data->tablet_manager) {
-        zwp_tablet_manager_v2_destroy((struct zwp_tablet_manager_v2 *)data->tablet_manager);
-        data->tablet_manager = NULL;
+    إذا (انکڑے->tablet_manager) {
+        zwp_tablet_manager_v2_destroy((بنية zwp_tablet_manager_v2 *)انکڑے->tablet_manager);
+        انکڑے->tablet_manager = عدم;
     }
 
-    if (data->data_device_manager) {
-        wl_data_device_manager_destroy(data->data_device_manager);
-        data->data_device_manager = NULL;
+    إذا (انکڑے->انکڑے_device_manager) {
+        wl_انکڑے_device_manager_destroy(انکڑے->انکڑے_device_manager);
+        انکڑے->انکڑے_device_manager = عدم;
     }
 
-    if (data->shm) {
-        if (wl_shm_get_version(data->shm) >= WL_SHM_RELEASE_SINCE_VERSION) {
-            wl_shm_release(data->shm);
-        } else {
-            wl_shm_destroy(data->shm);
+    إذا (انکڑے->shm) {
+        إذا (wl_shm_get_نسخہ(انکڑے->shm) >= WL_SHM_RELEASE_SINCE_نسخہ) {
+            wl_shm_release(انکڑے->shm);
+        } وإلا {
+            wl_shm_destroy(انکڑے->shm);
         }
-        data->shm = NULL;
+        انکڑے->shm = عدم;
     }
 
-    if (data->shell.xdg) {
-        xdg_wm_base_destroy(data->shell.xdg);
-        data->shell.xdg = NULL;
+    إذا (انکڑے->shell.xdg) {
+        xdg_wm_ادھار_destroy(انکڑے->shell.xdg);
+        انکڑے->shell.xdg = عدم;
     }
 
-    if (data->decoration_manager) {
-        zxdg_decoration_manager_v1_destroy(data->decoration_manager);
-        data->decoration_manager = NULL;
+    إذا (انکڑے->decoration_manager) {
+        zxdg_decoration_manager_v1_destroy(انکڑے->decoration_manager);
+        انکڑے->decoration_manager = عدم;
     }
 
-    if (data->xdg_output_manager) {
-        zxdg_output_manager_v1_destroy(data->xdg_output_manager);
-        data->xdg_output_manager = NULL;
+    إذا (انکڑے->xdg_output_manager) {
+        zxdg_output_manager_v1_destroy(انکڑے->xdg_output_manager);
+        انکڑے->xdg_output_manager = عدم;
     }
 
-    if (data->viewporter) {
-        wp_viewporter_destroy(data->viewporter);
-        data->viewporter = NULL;
+    إذا (انکڑے->viewporter) {
+        wp_viewporter_destroy(انکڑے->viewporter);
+        انکڑے->viewporter = عدم;
     }
 
-    if (data->primary_selection_device_manager) {
-        zwp_primary_selection_device_manager_v1_destroy(data->primary_selection_device_manager);
-        data->primary_selection_device_manager = NULL;
+    إذا (انکڑے->primary_selection_device_manager) {
+        zwp_primary_selection_device_manager_v1_destroy(انکڑے->primary_selection_device_manager);
+        انکڑے->primary_selection_device_manager = عدم;
     }
 
-    if (data->fractional_scale_manager) {
-        wp_fractional_scale_manager_v1_destroy(data->fractional_scale_manager);
-        data->fractional_scale_manager = NULL;
+    إذا (انکڑے->fractional_scale_manager) {
+        wp_fractional_scale_manager_v1_destroy(انکڑے->fractional_scale_manager);
+        انکڑے->fractional_scale_manager = عدم;
     }
 
-    if (data->input_timestamps_manager) {
-        zwp_input_timestamps_manager_v1_destroy(data->input_timestamps_manager);
-        data->input_timestamps_manager = NULL;
+    إذا (انکڑے->داخلہ_timestamps_manager) {
+        zwp_داخلہ_timestamps_manager_v1_destroy(انکڑے->داخلہ_timestamps_manager);
+        انکڑے->داخلہ_timestamps_manager = عدم;
     }
 
-    if (data->cursor_shape_manager) {
-        wp_cursor_shape_manager_v1_destroy(data->cursor_shape_manager);
-        data->cursor_shape_manager = NULL;
+    إذا (انکڑے->cursor_shape_manager) {
+        wp_cursor_shape_manager_v1_destroy(انکڑے->cursor_shape_manager);
+        انکڑے->cursor_shape_manager = عدم;
     }
 
-    if (data->zxdg_exporter_v2) {
-        zxdg_exporter_v2_destroy(data->zxdg_exporter_v2);
-        data->zxdg_exporter_v2 = NULL;
+    إذا (انکڑے->zxdg_exporter_v2) {
+        zxdg_exporter_v2_destroy(انکڑے->zxdg_exporter_v2);
+        انکڑے->zxdg_exporter_v2 = عدم;
     }
 
-    if (data->xdg_wm_dialog_v1) {
-        xdg_wm_dialog_v1_destroy(data->xdg_wm_dialog_v1);
-        data->xdg_wm_dialog_v1 = NULL;
+    إذا (انکڑے->xdg_wm_dialog_v1) {
+        xdg_wm_dialog_v1_destroy(انکڑے->xdg_wm_dialog_v1);
+        انکڑے->xdg_wm_dialog_v1 = عدم;
     }
 
-    if (data->wp_alpha_modifier_v1) {
-        wp_alpha_modifier_v1_destroy(data->wp_alpha_modifier_v1);
-        data->wp_alpha_modifier_v1 = NULL;
+    إذا (انکڑے->wp_alpha_modifier_v1) {
+        wp_alpha_modifier_v1_destroy(انکڑے->wp_alpha_modifier_v1);
+        انکڑے->wp_alpha_modifier_v1 = عدم;
     }
 
-    if (data->xdg_toplevel_icon_manager_v1) {
-        xdg_toplevel_icon_manager_v1_destroy(data->xdg_toplevel_icon_manager_v1);
-        data->xdg_toplevel_icon_manager_v1 = NULL;
+    إذا (انکڑے->xdg_toplevel_icon_manager_v1) {
+        xdg_toplevel_icon_manager_v1_destroy(انکڑے->xdg_toplevel_icon_manager_v1);
+        انکڑے->xdg_toplevel_icon_manager_v1 = عدم;
     }
 
-    if (data->frog_color_management_factory_v1) {
-        frog_color_management_factory_v1_destroy(data->frog_color_management_factory_v1);
-        data->frog_color_management_factory_v1 = NULL;
+    إذا (انکڑے->frog_color_management_factory_v1) {
+        frog_color_management_factory_v1_destroy(انکڑے->frog_color_management_factory_v1);
+        انکڑے->frog_color_management_factory_v1 = عدم;
     }
 
-    if (data->wp_color_manager_v1) {
-        wp_color_manager_v1_destroy(data->wp_color_manager_v1);
-        data->wp_color_manager_v1 = NULL;
+    إذا (انکڑے->wp_color_manager_v1) {
+        wp_color_manager_v1_destroy(انکڑے->wp_color_manager_v1);
+        انکڑے->wp_color_manager_v1 = عدم;
     }
 
-    if (data->wp_pointer_warp_v1) {
-        wp_pointer_warp_v1_destroy(data->wp_pointer_warp_v1);
-        data->wp_pointer_warp_v1 = NULL;
+    إذا (انکڑے->wp_اشارہ_گر_warp_v1) {
+        wp_اشارہ_گر_warp_v1_destroy(انکڑے->wp_اشارہ_گر_warp_v1);
+        انکڑے->wp_اشارہ_گر_warp_v1 = عدم;
     }
 
-    if (data->zwp_pointer_gestures) {
-        if (zwp_pointer_gestures_v1_get_version(data->zwp_pointer_gestures) >= ZWP_POINTER_GESTURES_V1_RELEASE_SINCE_VERSION) {
-            zwp_pointer_gestures_v1_release(data->zwp_pointer_gestures);
-        } else {
-            zwp_pointer_gestures_v1_destroy(data->zwp_pointer_gestures);
+    إذا (انکڑے->zwp_اشارہ_گر_gestures) {
+        إذا (zwp_اشارہ_گر_gestures_v1_get_نسخہ(انکڑے->zwp_اشارہ_گر_gestures) >= ZWP_اشارہ_گر_GESTURES_V1_RELEASE_SINCE_نسخہ) {
+            zwp_اشارہ_گر_gestures_v1_release(انکڑے->zwp_اشارہ_گر_gestures);
+        } وإلا {
+            zwp_اشارہ_گر_gestures_v1_destroy(انکڑے->zwp_اشارہ_گر_gestures);
         }
-        data->zwp_pointer_gestures = NULL;
+        انکڑے->zwp_اشارہ_گر_gestures = عدم;
     }
 
-    if (data->single_pixel_buffer_manager) {
-        wp_single_pixel_buffer_manager_v1_destroy(data->single_pixel_buffer_manager);
-        data->single_pixel_buffer_manager = NULL;
+    إذا (انکڑے->single_pixel_بفر_manager) {
+        wp_single_pixel_بفر_manager_v1_destroy(انکڑے->single_pixel_بفر_manager);
+        انکڑے->single_pixel_بفر_manager = عدم;
     }
 
-    if (data->xdg_session_manager) {
-        xdg_session_manager_v1_destroy(data->xdg_session_manager);
-        data->xdg_session_manager = NULL;
+    إذا (انکڑے->xdg_session_manager) {
+        xdg_session_manager_v1_destroy(انکڑے->xdg_session_manager);
+        انکڑے->xdg_session_manager = عدم;
     }
 
-    if (data->xdg_toplevel_tag_manager) {
-        xdg_toplevel_tag_manager_v1_destroy(data->xdg_toplevel_tag_manager);
-        data->xdg_toplevel_tag_manager = NULL;
+    إذا (انکڑے->xdg_toplevel_ٹیگ_manager) {
+        xdg_toplevel_ٹیگ_manager_v1_destroy(انکڑے->xdg_toplevel_ٹیگ_manager);
+        انکڑے->xdg_toplevel_ٹیگ_manager = عدم;
     }
 
-    if (data->subcompositor) {
-        wl_subcompositor_destroy(data->subcompositor);
-        data->subcompositor = NULL;
+    إذا (انکڑے->subcompositor) {
+        wl_subcompositor_destroy(انکڑے->subcompositor);
+        انکڑے->subcompositor = عدم;
     }
 
-    if (data->compositor) {
-        wl_compositor_destroy(data->compositor);
-        data->compositor = NULL;
+    إذا (انکڑے->compositor) {
+        wl_compositor_destroy(انکڑے->compositor);
+        انکڑے->compositor = عدم;
     }
 
-    if (data->registry) {
-        if (data->wl_fixes) {
-            wl_fixes_destroy_registry(data->wl_fixes, data->registry);
-            wl_fixes_destroy(data->wl_fixes);
-            data->wl_fixes = NULL;
+    إذا (انکڑے->registry) {
+        إذا (انکڑے->wl_fixes) {
+            wl_fixes_destroy_registry(انکڑے->wl_fixes, انکڑے->registry);
+            wl_fixes_destroy(انکڑے->wl_fixes);
+            انکڑے->wl_fixes = عدم;
         }
-        wl_registry_destroy(data->registry);
-        data->registry = NULL;
+        wl_registry_destroy(انکڑے->registry);
+        انکڑے->registry = عدم;
     }
 }
 
-static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
+ساكن bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
 {
-#if 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
-    SDL_VideoData *data = _this->internal;
+#إذا 0 // TODO RECONNECT: Uncomment all when https://invent.kde.org/plasma/kwin/-/wikis/Restarting is completed
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
 
-    SDL_Window *window = NULL;
+    SDL_کھڑکی *کھڑکی = عدم;
 
     SDL_GLContext current_ctx = SDL_GL_GetCurrentContext();
-    SDL_Window *current_window = SDL_GL_GetCurrentWindow();
+    SDL_کھڑکی *current_کھڑکی = SDL_GL_Get_Current_کھڑکی();
 
-    SDL_GL_MakeCurrent(NULL, NULL);
+    SDL_GL_MakeCurrent(عدم, عدم);
     Wayland_VideoCleanup(_this);
 
     SDL_ResetKeyboard();
     SDL_ResetMouse();
-    if (WAYLAND_wl_display_reconnect(data->display) < 0) {
-        return false;
+    إذا (WAYLAND_wl_display_reconnect(انکڑے->display) < 0) {
+        أرجع false;
     }
 
     Wayland_VideoInit(_this);
 
-    window = _this->windows;
-    while (window) {
+    کھڑکی = _this->windows;
+    طالما (کھڑکی) {
         /* We're going to cheat _just_ for a second and strip the OpenGL flag.
          * The Wayland driver actually forces it in CreateWindow, and
          * RecreateWindow does a bunch of unloading/loading of libGL, so just
@@ -2031,26 +2031,26 @@ static bool Wayland_VideoReconnect(SDL_VideoDevice *_this)
          * and CreateWindow will add it right back!
          * -flibit
          */
-        window->flags &= ~SDL_WINDOW_OPENGL;
+        کھڑکی->flags &= ~SDL_کھڑکی_OPENGL;
 
-        SDL_RecreateWindow(window, window->flags);
-        window = window->next;
+        SDL_Recreate_کھڑکی(کھڑکی, کھڑکی->flags);
+        کھڑکی = کھڑکی->اگلا;
     }
 
     Wayland_RecreateCursors();
 
-    if (current_window && current_ctx) {
-        SDL_GL_MakeCurrent (current_window, current_ctx);
+    إذا (current_کھڑکی && current_ctx) {
+        SDL_GL_MakeCurrent (current_کھڑکی, current_ctx);
     }
-    return true;
-#else
-    return false;
-#endif // 0
+    أرجع true;
+#وإلا
+    أرجع false;
+#جے_انت // 0
 }
 
 bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
+    SDL_Video_انکڑے *video_انکڑے = _this->اندرونی;
 
     /* Something has failed with the Wayland connection -- for example,
      * the compositor may have shut down and closed its end of the socket,
@@ -2058,34 +2058,34 @@ bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this)
      *
      * Try to recover once, then quit.
      */
-    if (video_data->display_disconnected) {
-        return false;
+    إذا (video_انکڑے->display_disconnected) {
+        أرجع false;
     }
 
-    if (Wayland_VideoReconnect(_this)) {
-        return true;
+    إذا (Wayland_VideoReconnect(_this)) {
+        أرجع true;
     }
 
-    video_data->display_disconnected = true;
+    video_انکڑے->display_disconnected = true;
     SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Wayland display connection closed by server (fatal)");
 
     // Only send a single quit message, as application shutdown might call SDL_PumpEvents().
     SDL_SendQuit();
 
-    return false;
+    أرجع false;
 }
 
-void Wayland_VideoQuit(SDL_VideoDevice *_this)
+فراغ Wayland_VideoQuit(SDL_VideoDevice *_this)
 {
     Wayland_VideoCleanup(_this);
 
-#ifdef HAVE_LIBDECOR_H
-    SDL_VideoData *data = _this->internal;
-    if (data->shell.libdecor) {
-        libdecor_unref(data->shell.libdecor);
-        data->shell.libdecor = NULL;
+#جے_تعریف_شدہ HAVE_LIBDECOR_H
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+    إذا (انکڑے->shell.libdecor) {
+        libdecor_unref(انکڑے->shell.libdecor);
+        انکڑے->shell.libdecor = عدم;
     }
-#endif
+#جے_انت
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#جے_انت // SDL_VIDEO_DRIVER_WAYLAND

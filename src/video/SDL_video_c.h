@@ -19,12 +19,12 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_video_c_h_
-#define SDL_video_c_h_
+#جے_بنا_تعریف SDL_video_c_h_
+#تعریف_کرو SDL_video_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-struct SDL_VideoDevice;
+بنية SDL_VideoDevice;
 
 /**
  * Initialize the video subsystem, optionally specifying a video driver.
@@ -48,22 +48,22 @@ struct SDL_VideoDevice;
  * \returns true on success or false on failure; call
  *          SDL_GetError() for more information.
  */
-extern bool SDL_InitVideo(const char *driver_name);
+خارجي bool SDL_InitVideo(ثابت حرف *driver_name);
 
 /**
  * Shut down the video subsystem, if initialized with SDL_InitVideo().
  *
  * This function closes all windows, and restores the original video mode.
  */
-extern void SDL_QuitVideo(void);
+خارجي فراغ SDL_QuitVideo(فراغ);
 
-extern bool SDL_SetWindowTextureVSync(struct SDL_VideoDevice *_this, SDL_Window *window, int vsync);
+خارجي bool SDL_سیٹ_کھڑکی_Texture_VSync(بنية SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحيح vsync);
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
-const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name);
-#endif
+#إذا defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+ثابت حرف *SDL_GetCSSCursorName(SDL_SystemCursor id, ثابت حرف **fallback_name);
+#جے_انت
 
-extern bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
-extern void SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer);
+خارجي bool SDL_جوڑو_کھڑکی_Renderer(SDL_کھڑکی *کھڑکی, SDL_Renderer *renderer);
+خارجي فراغ SDL_Remove_کھڑکی_Renderer(SDL_کھڑکی *کھڑکی, SDL_Renderer *renderer);
 
-#endif // SDL_video_c_h_
+#جے_انت // SDL_video_c_h_

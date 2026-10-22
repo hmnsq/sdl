@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
 /*
  * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
  * SDL_x11vulkan.h and Mark Callow's SDL_vivantevulkan.h
  */
 
-#ifndef SDL_vivantevulkan_h_
-#define SDL_vivantevulkan_h_
+#جے_بنا_تعریف SDL_vivantevulkan_h_
+#تعریف_کرو SDL_vivantevulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_vulkan_internal.h"
+#ضمن "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#إذا defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
-extern bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+خارجي bool VIVANTE_Vulkan_لدو_Library(SDL_VideoDevice *_this, ثابت حرف *رستہ);
+خارجي فراغ VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي حرف ثابت * ثابت *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *گنتی);
+خارجي bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                 SDL_کھڑکی *کھڑکی,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ثابت بنية Vk_ونڈ_Callbacks *allocator,
                                  VkSurfaceKHR *surface);
-extern void VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+خارجي فراغ VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator);
+                                   ثابت بنية Vk_ونڈ_Callbacks *allocator);
 
-#endif
+#جے_انت
 
-#endif // SDL_vivantevulkan_h_
+#جے_انت // SDL_vivantevulkan_h_

@@ -1,5 +1,5 @@
-#ifndef VULKAN_VIDEO_CODECS_COMMON_H_
-#define VULKAN_VIDEO_CODECS_COMMON_H_ 1
+#جے_بنا_تعریف VULKAN_VIDEO_CODECS_COMMON_H_
+#تعریف_کرو VULKAN_VIDEO_CODECS_COMMON_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,24 +13,24 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+خارجي "C" {
+#جے_انت
 
 
 
 // vulkan_video_codecs_common is a preprocessor guard. Do not pass it to API calls.
-#define vulkan_video_codecs_common 1
+#تعریف_کرو vulkan_video_codecs_common 1
 
-#if !defined(VK_NO_STDINT_H)
-    #include <stdint.h>
-#endif
+#إذا !defined(VK_NO_STDINT_H)
+    #ضمن <stdint.h>
+#جے_انت
 
-#define VK_MAKE_VIDEO_STD_VERSION(major, minor, patch) \
+#تعریف_کرو VK_MAKE_VIDEO_STD_نسخہ(major, minor, patch) \
     ((((uint32_t)(major)) << 22) | (((uint32_t)(minor)) << 12) | ((uint32_t)(patch)))
 
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
 }
-#endif
+#جے_انت
 
-#endif
+#جے_انت

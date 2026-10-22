@@ -18,74 +18,74 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
-#include <stdlib.h>
-#include <string.h>
-#include <psp2/kernel/modulemgr.h>
-#include <gpu_es4/psp2_pvr_hint.h>
+#إذا defined(SDL_VIDEO_DRIVER_VITA) && defined(SDL_VIDEO_VITA_PVR)
+#ضمن <stdlib.h>
+#ضمن <string.h>
+#ضمن <psp2/kernel/modulemgr.h>
+#ضمن <gpu_es4/psp2_pvr_hint.h>
 
-#include "SDL_vitavideo.h"
-#include "../SDL_egl_c.h"
+#ضمن "SDL_vitavideo.h"
+#ضمن "../SDL_egl_c.h"
 
-#define MAX_PATH 256 // vita limits are somehow wrong
+#تعریف_کرو MAX_رستہ 256 // vita limits are somehow wrong
 
-bool VITA_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool VITA_GLES_لدو_Library(SDL_VideoDevice *_this, ثابت حرف *رستہ)
 {
     PVRSRV_PSP2_APPHINT hint;
-    const char *default_path = "app0:module";
-    char target_path[MAX_PATH];
+    ثابت حرف *default_رستہ = "app0:module";
+    حرف نشانہ_رستہ[MAX_رستہ];
 
-    if (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
-        const char *override = SDL_GetHint(SDL_HINT_VITA_MODULE_PATH);
+    إذا (SDL_GetHintBoolean(SDL_HINT_VITA_PVR_INIT, true)) {
+        ثابت حرف *override = SDL_GetHint(SDL_HINT_VITA_MODULE_رستہ);
 
-        if (override && *override) {
-            default_path = override;
+        إذا (override && *override) {
+            default_رستہ = override;
         }
 
-        sceKernelLoadStartModule("vs0:sys/external/libfios2.suprx", 0, NULL, 0, NULL, NULL);
-        sceKernelLoadStartModule("vs0:sys/external/libc.suprx", 0, NULL, 0, NULL, NULL);
+        sce_Kernel_لدو_شروع_Module("vs0:sys/external/libfios2.suprx", 0, عدم, 0, عدم, عدم);
+        sce_Kernel_لدو_شروع_Module("vs0:sys/external/libc.suprx", 0, عدم, 0, عدم, عدم);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libgpu_es4_ext.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(نشانہ_رستہ, MAX_رستہ, "%s/%s", default_رستہ, "libgpu_es4_ext.suprx");
+        sce_Kernel_لدو_شروع_Module(نشانہ_رستہ, 0, عدم, 0, عدم, عدم);
 
-        SDL_snprintf(target_path, MAX_PATH, "%s/%s", default_path, "libIMGEGL.suprx");
-        sceKernelLoadStartModule(target_path, 0, NULL, 0, NULL, NULL);
+        SDL_snprintf(نشانہ_رستہ, MAX_رستہ, "%s/%s", default_رستہ, "libIMGEGL.suprx");
+        sce_Kernel_لدو_شروع_Module(نشانہ_رستہ, 0, عدم, 0, عدم, عدم);
 
         PVRSRVInitializeAppHint(&hint);
 
-        SDL_snprintf(hint.szGLES1, MAX_PATH, "%s/%s", default_path, "libGLESv1_CM.suprx");
-        SDL_snprintf(hint.szGLES2, MAX_PATH, "%s/%s", default_path, "libGLESv2.suprx");
-        SDL_snprintf(hint.szWindowSystem, MAX_PATH, "%s/%s", default_path, "libpvrPSP2_WSEGL.suprx");
+        SDL_snprintf(hint.szGLES1, MAX_رستہ, "%s/%s", default_رستہ, "libGLESv1_CM.suprx");
+        SDL_snprintf(hint.szGLES2, MAX_رستہ, "%s/%s", default_رستہ, "libGLESv2.suprx");
+        SDL_snprintf(hint.sz_کھڑکی_System, MAX_رستہ, "%s/%s", default_رستہ, "libpvrPSP2_WSEGL.suprx");
 
         PVRSRVCreateVirtualAppHint(&hint);
     }
 
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    أرجع SDL_EGL_لدو_Library(_this, رستہ, EGL_DEFAULT_DISPLAY);
 }
 
-SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext VITA_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    return SDL_EGL_CreateContext(_this, window->internal->egl_surface);
+    أرجع SDL_EGL_CreateContext(_this, کھڑکی->اندرونی->egl_surface);
 }
 
-bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool VITA_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context)
 {
-    if (window && context) {
-        return SDL_EGL_MakeCurrent(_this, window->internal->egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    إذا (کھڑکی && context) {
+        أرجع SDL_EGL_MakeCurrent(_this, کھڑکی->اندرونی->egl_surface, context);
+    } وإلا {
+        أرجع SDL_EGL_MakeCurrent(_this, عدم, عدم);
     }
 }
 
-bool VITA_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool VITA_GLES_وٹاندرا_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_VideoData *videodata = _this->internal;
-    if (videodata->ime_active) {
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
+    إذا (videodata->ime_سرگرم) {
         sceImeUpdate();
     }
-    return SDL_EGL_SwapBuffers(_this, window->internal->egl_surface);
+    أرجع SDL_EGL_وٹاندرا_Buffers(_this, کھڑکی->اندرونی->egl_surface);
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR
+#جے_انت // SDL_VIDEO_DRIVER_VITA && SDL_VIDEO_VITA_PVR

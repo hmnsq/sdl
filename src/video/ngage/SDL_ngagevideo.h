@@ -18,22 +18,22 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_NGAGE
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_NGAGE
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-#ifndef _SDL_ngagevideo_h
-#define _SDL_ngagevideo_h
+#جے_بنا_تعریف _SDL_ngagevideo_h
+#تعریف_کرو _SDL_ngagevideo_h
 
-typedef struct SDL_VideoData
+تعريفنوع بنية SDL_Video_انکڑے
 {
-    SDL_DisplayMode mode;
+    SDL_Display_منوال منوال;
     SDL_VideoDisplay display;
 
-} SDL_VideoData;
+} SDL_Video_انکڑے;
 
-#endif // _SDL_ngagevideo_h
+#جے_انت // _SDL_ngagevideo_h
 
-#endif // SDL_VIDEO_DRIVER_NGAGE
+#جے_انت // SDL_VIDEO_DRIVER_NGAGE

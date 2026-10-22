@@ -1,5 +1,5 @@
-#ifndef VULKAN_VI_H_
-#define VULKAN_VI_H_ 1
+#جے_بنا_تعریف VULKAN_VI_H_
+#تعریف_کرو VULKAN_VI_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+خارجي "C" {
+#جے_انت
 
 
 
 // VK_NN_vi_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_NN_vi_surface 1
+#تعریف_کرو VK_NN_vi_surface 1
 
-#define VK_NN_VI_SURFACE_SPEC_VERSION     1
-#define VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
+#تعریف_کرو VK_NN_VI_SURFACE_SPEC_نسخہ     1
+#تعریف_کرو VK_NN_VI_SURFACE_EXTENSION_NAME   "VK_NN_vi_surface"
 
-typedef VkFlags VkViSurfaceCreateFlagsNN;
+تعريفنوع VkFlags VkViSurfaceCreateFlagsNN;
 
-typedef struct VkViSurfaceCreateInfoNN {
+تعريفنوع بنية VkViSurfaceCreateInfoNN {
     VkStructureType             sType;
-    const void*                 pNext;
+    ثابت فراغ*                 p_اگلا;
     VkViSurfaceCreateFlagsNN    flags;
-    void*                       window;
+    فراغ*                       کھڑکی;
 } VkViSurfaceCreateInfoNN;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, const VkViSurfaceCreateInfoNN* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vkCreateViSurfaceNN)(VkInstance instance, ثابت VkViSurfaceCreateInfoNN* pCreateInfo, ثابت Vk_ونڈ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateViSurfaceNN(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkCreateViSurfaceNN(
     VkInstance                                  instance,
-    const VkViSurfaceCreateInfoNN*              pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkViSurfaceCreateInfoNN*              pCreateInfo,
+    ثابت Vk_ونڈ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#جے_انت
+#جے_انت
 
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
 }
-#endif
+#جے_انت
 
-#endif
+#جے_انت

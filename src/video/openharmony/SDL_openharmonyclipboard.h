@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_openharmonyclipboard_h_
-#define SDL_openharmonyclipboard_h_
+#جے_بنا_تعریف SDL_openharmonyclipboard_h_
+#تعریف_کرو SDL_openharmonyclipboard_h_
 
-extern void OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
-extern void OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
+خارجي فراغ OPENHARMONY_InitClipboard(SDL_VideoDevice *_this);
+خارجي فراغ OPENHARMONY_QuitClipboard(SDL_VideoDevice *_this);
 
-extern const char *const *OPENHARMONY_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool OPENHARMONY_SetClipboardText(SDL_VideoDevice *_this, const char *text);
-extern char *OPENHARMONY_GetClipboardText(SDL_VideoDevice *_this);
-extern bool OPENHARMONY_HasClipboardText(SDL_VideoDevice *_this);
+خارجي ثابت حرف *ثابت *OPENHARMONY_Get_متن_Mime_Types(SDL_VideoDevice *_this, size_t *عدد_mime_types);
+خارجي bool OPENHARMONY_سیٹ_Clipboard_متن(SDL_VideoDevice *_this, ثابت حرف *متن);
+خارجي حرف *OPENHARMONY_Get_Clipboard_متن(SDL_VideoDevice *_this);
+خارجي bool OPENHARMONY_Has_Clipboard_متن(SDL_VideoDevice *_this);
 
-#endif // SDL_openharmonyclipboard_h_
+#جے_انت // SDL_openharmonyclipboard_h_

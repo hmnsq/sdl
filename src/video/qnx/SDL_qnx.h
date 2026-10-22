@@ -19,71 +19,71 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef __SDL_QNX_H__
-#define __SDL_QNX_H__
+#جے_بنا_تعریف __SDL_QNX_H__
+#تعریف_کرو __SDL_QNX_H__
 
-#include "../SDL_sysvideo.h"
-#include <screen/screen.h>
-#include <EGL/egl.h>
+#ضمن "../SDL_sysvideo.h"
+#ضمن <screen/screen.h>
+#ضمن <EGL/egl.h>
 
-typedef struct SDL_DisplayData
+تعريفنوع بنية SDL_Display_انکڑے
 {
     screen_display_t screen_display;
-} SDL_DisplayData;
+} SDL_Display_انکڑے;
 
-typedef struct SDL_DisplayModeData
+تعريفنوع بنية SDL_Display_منوال_انکڑے
 {
-    int                   screen_format;
-    screen_display_mode_t screen_display_mode;
-} SDL_DisplayModeData;
+    صحيح                   screen_format;
+    screen_display_منوال_t screen_display_منوال;
+} SDL_Display_منوال_انکڑے;
 
-typedef struct SDL_WindowData
+تعريفنوع بنية SDL_کھڑکی_انکڑے
 {
-    screen_window_t window;
+    screen_کھڑکی_t کھڑکی;
     EGLSurface      egl_surface;
     SDL_GLContext   context;
     bool            resize;
     bool            has_focus;
-} SDL_WindowData;
+} SDL_کھڑکی_انکڑے;
 
-typedef struct SDL_CursorData
+تعريفنوع بنية SDL_Cursor_انکڑے
 {
     screen_session_t session;
-    int              realized_shape;
+    صحيح              realized_shape;
     bool             is_visible;
-} SDL_CursorData;
+} SDL_Cursor_انکڑے;
 
-typedef struct SDL_MouseData
+تعريفنوع بنية SDL_Mouse_انکڑے
 {
-    int      x_prev;
-    int      y_prev;
-} SDL_MouseData;
+    صحيح      x_prev;
+    صحيح      y_prev;
+} SDL_Mouse_انکڑے;
 
-extern screen_context_t * getContext();
-extern screen_event_t * getEvent();
+خارجي screen_context_t * getContext();
+خارجي screen_event_t * getEvent();
 
-extern void handleKeyboardEvent(screen_event_t event);
-extern void handlePointerEvent(screen_event_t event);
+خارجي فراغ handleKeyboardEvent(screen_event_t event);
+خارجي فراغ handle_اشارہ_گر_Event(screen_event_t event);
 
 // extern bool glInitConfig(SDL_WindowData *impl, int *pformat);
-extern bool QNX_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *egl_path);
-extern SDL_FunctionPointer QNX_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool QNX_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool QNX_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool QNX_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool QNX_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window * window, SDL_GLContext context);
-extern bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern void QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي bool QNX_GLES_لدو_Library(SDL_VideoDevice *_this, ثابت حرف *egl_رستہ);
+خارجي SDL_Function_اشارہ_گر QNX_GLES_Get_Proc_پتہ(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي SDL_GLContext QNX_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool QNX_GLES_سیٹ_وٹاندرا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool QNX_GLES_Get_وٹاندرا_Interval(SDL_VideoDevice *_this, صحيح *interval);
+خارجي bool QNX_GLES_وٹاندرا_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool QNX_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, SDL_GLContext context);
+خارجي bool QNX_GLES_DeleteContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي فراغ QNX_GLES_UnloadLibrary(SDL_VideoDevice *_this);
 
-extern SDL_PixelFormat screenToPixelFormat(int screen_format);
-extern bool QNX_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
-extern bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
-extern bool QNX_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
+خارجي SDL_PixelFormat screen_منزل_Pixel_Format(صحيح screen_format);
+خارجي bool QNX_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect);
+خارجي bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display);
+خارجي bool QNX_سیٹ_Display_منوال(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_منوال *منوال);
 
-extern void initMouse(SDL_VideoDevice *_this);
-extern void quitMouse(SDL_VideoDevice *_this);
+خارجي فراغ initMouse(SDL_VideoDevice *_this);
+خارجي فراغ quitMouse(SDL_VideoDevice *_this);
 
-extern int QNX_ChooseFormat(SDL_VideoDevice *_this, EGLConfig egl_conf);
+خارجي صحيح QNX_چنو_Format(SDL_VideoDevice *_this, EGLConfig egl_conf);
 
-#endif
+#جے_انت

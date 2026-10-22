@@ -18,26 +18,26 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_emscriptenopengles_h_
-#define SDL_emscriptenopengles_h_
+#جے_بنا_تعریف SDL_emscriptenopengles_h_
+#تعریف_کرو SDL_emscriptenopengles_h_
 
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
 // OpenGLES functions
-extern bool Emscripten_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_FunctionPointer Emscripten_GLES_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool Emscripten_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Emscripten_GLES_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
-extern bool Emscripten_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+خارجي bool Emscripten_GLES_لدو_Library(SDL_VideoDevice *_this, ثابت حرف *رستہ);
+خارجي فراغ Emscripten_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي SDL_Function_اشارہ_گر Emscripten_GLES_Get_Proc_پتہ(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي bool Emscripten_GLES_سیٹ_وٹاندرا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool Emscripten_GLES_Get_وٹاندرا_Interval(SDL_VideoDevice *_this, صحيح *interval);
+خارجي SDL_GLContext Emscripten_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool Emscripten_GLES_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي bool Emscripten_GLES_وٹاندرا_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool Emscripten_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
 
-#endif // SDL_VIDEO_DRIVER_EMSCRIPTEN
+#جے_انت // SDL_VIDEO_DRIVER_EMSCRIPTEN
 
-#endif // SDL_emscriptenopengles_h_
+#جے_انت // SDL_emscriptenopengles_h_

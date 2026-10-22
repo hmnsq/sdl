@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_x11xfixes_h_
-#define SDL_x11xfixes_h_
+#جے_بنا_تعریف SDL_x11xfixes_h_
+#تعریف_کرو SDL_x11xfixes_h_
 
-#ifdef SDL_VIDEO_DRIVER_X11_XFIXES
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XFIXES
 
-#define X11_BARRIER_HANDLED_BY_EVENT 1
+#تعریف_کرو X11_BARRIER_HANDLED_BY_EVENT 1
 
-extern void X11_InitXfixes(SDL_VideoDevice *_this);
-extern bool X11_XfixesIsInitialized(void);
-extern bool X11_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rect, int flags);
-extern void X11_DestroyPointerBarrier(SDL_VideoDevice *_this, SDL_Window *window);
-extern int X11_GetXFixesSelectionNotifyEvent(void);
-#endif // SDL_VIDEO_DRIVER_X11_XFIXES
+خارجي فراغ X11_InitXfixes(SDL_VideoDevice *_this);
+خارجي bool X11_XfixesIsInitialized(فراغ);
+خارجي bool X11_سیٹ_کھڑکی_Mouse_Rect(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool X11_ConfineCursorWithFlags(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rect, صحيح flags);
+خارجي فراغ X11_Destroy_اشارہ_گر_Barrier(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي صحيح X11_GetXFixesSelectionNotifyEvent(فراغ);
+#جے_انت // SDL_VIDEO_DRIVER_X11_XFIXES
 
-#endif // SDL_x11xfixes_h_
+#جے_انت // SDL_x11xfixes_h_

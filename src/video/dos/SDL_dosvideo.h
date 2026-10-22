@@ -19,71 +19,71 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_dosvideo_h
-#define SDL_dosvideo_h
+#جے_بنا_تعریف SDL_dosvideo_h
+#تعریف_کرو SDL_dosvideo_h
 
-#include "../../core/dos/SDL_dos.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_internal.h"
+#ضمن "../../core/dos/SDL_dos.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "SDL_internal.h"
 
-struct SDL_DisplayModeData
+بنية SDL_Display_منوال_انکڑے
 {
     // we can add more fields to this, if we want them, later.
-    Uint16 mode_id;
-    Uint16 attributes;
+    Uint16 منوال_id;
+    Uint16 گن;
     Uint16 pitch;
     Uint16 w;
     Uint16 h;
-    Uint8 num_planes;
+    Uint8 عدد_planes;
     Uint8 bpp;
-    Uint8 memory_model;
-    Uint8 num_image_pages;
-    Uint8 red_mask_size;
-    Uint8 red_mask_pos;
-    Uint8 green_mask_size;
-    Uint8 green_mask_pos;
-    Uint8 blue_mask_size;
-    Uint8 blue_mask_pos;
-    Uint32 physical_base_addr;
+    Uint8 حافظہ_model;
+    Uint8 عدد_image_ورقے;
+    Uint8 red_نقاب_ناپ;
+    Uint8 red_نقاب_pos;
+    Uint8 green_نقاب_ناپ;
+    Uint8 green_نقاب_pos;
+    Uint8 blue_نقاب_ناپ;
+    Uint8 blue_نقاب_pos;
+    Uint32 physical_ادھار_addr;
 
     // VBE 1.2 banked framebuffer fields (used when LFB is not available)
     bool has_lfb;           // true if linear framebuffer is available (VBE 2.0+)
     Uint16 win_granularity; // bank positioning granularity in KB
-    Uint16 win_size;        // window size in KB (typically 64)
+    Uint16 win_ناپ;        // window size in KB (typically 64)
     Uint16 win_a_segment;   // real-mode segment of window A (typically 0xA000)
     Uint32 win_func_ptr;    // real-mode far pointer to bank-switch function
-    Uint8 win_a_attributes; // window A capabilities
+    Uint8 win_a_گن; // window A capabilities
 };
 
-struct SDL_VideoData
+بنية SDL_Video_انکڑے
 {
     __dpmi_meminfo mapping; // video memory mapping.
-    SDL_DisplayMode current_mode;
-    DOS_InterruptHook keyboard_interrupt_hook;
-    Uint32 palette_version;       // tracks SDL_Palette::version to detect changes
-    Uint16 original_vbe_mode;     // VBE mode number at startup
-    void *vbe_state_buffer;       // saved VBE state (from VBE 0x4F04)
-    Uint32 vbe_state_buffer_size; // size of the state buffer
+    SDL_Display_منوال current_منوال;
+    DOS_رکاوٹ_Hook keyboard_رکاوٹ_hook;
+    Uint32 palette_نسخہ;       // tracks SDL_Palette::version to detect changes
+    Uint16 original_vbe_منوال;     // VBE mode number at startup
+    فراغ *vbe_state_بفر;       // saved VBE state (from VBE 0x4F04)
+    Uint32 vbe_state_بفر_ناپ; // size of the state buffer
 
     // Mouse sensitivity (mickeys per pixel), queried from INT 33h function 0x1B
-    float mickeys_per_hpixel; // horizontal mickeys per pixel (default: 8)
-    float mickeys_per_vpixel; // vertical mickeys per pixel (default: 16)
+    عائم mickeys_فی_hpixel; // horizontal mickeys per pixel (default: 8)
+    عائم mickeys_فی_vpixel; // vertical mickeys per pixel (default: 16)
 
     // Page-flipping (double-buffering) state
-    int current_page;         // 0 or 1: which page is currently displayed
-    Uint32 page_offset[2];    // byte offset of each page within video memory
-    bool page_flip_available; // true if mode supports double-buffering
-    bool banked_mode;         // true if current mode uses banked (not LFB) access
+    صحيح current_ورقہ;         // 0 or 1: which page is currently displayed
+    Uint32 ورقہ_وتھ[2];    // byte offset of each page within video memory
+    bool ورقہ_flip_دستیاب; // true if mode supports double-buffering
+    bool banked_منوال;         // true if current mode uses banked (not LFB) access
 };
 
-struct SDL_DisplayData
+بنية SDL_Display_انکڑے
 {
-    int unused; // for now
+    صحيح بن_ورتیا; // for now
 };
 
-struct SDL_WindowData
+بنية SDL_کھڑکی_انکڑے
 {
-    int framebuffer_vsync;
+    صحيح framebuffer_vsync;
 };
 
-#endif // SDL_dosvideo_h
+#جے_انت // SDL_dosvideo_h

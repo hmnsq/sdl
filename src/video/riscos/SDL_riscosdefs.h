@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_riscosdefs_h_
-#define SDL_riscosdefs_h_
+#جے_بنا_تعریف SDL_riscosdefs_h_
+#تعریف_کرو SDL_riscosdefs_h_
 
-typedef struct sprite_area
+تعريفنوع بنية sprite_area
 {
-    int size;  // +0
-    int count; // +4
-    int start; // +8
-    int end;   // +12
+    صحيح ناپ;  // +0
+    صحيح گنتی; // +4
+    صحيح شروع; // +8
+    صحيح سرا;   // +12
 } sprite_area;
 
-SDL_COMPILE_TIME_ASSERT(sprite_area, sizeof(sprite_area) == 16);
+SDL_COMPILE_ویلا_ASSERT(sprite_area, حجم(sprite_area) == 16);
 
-typedef struct sprite_header
+تعريفنوع بنية sprite_سرخی
 {
-    int next;         // +0
-    char name[12];    // +4
-    int width;        // +16
-    int height;       // +20
-    int first_bit;    // +24
-    int last_bit;     // +28
-    int image_offset; // +32
-    int mask_offset;  // +36
-    int mode;         // +40
-} sprite_header;
+    صحيح اگلا;         // +0
+    حرف name[12];    // +4
+    صحيح چوڑائی;        // +16
+    صحيح اچائی;       // +20
+    صحيح پہلا_ثنائی_ہندسہ;    // +24
+    صحيح آخری_ثنائی_ہندسہ;     // +28
+    صحيح image_وتھ_2; // +32
+    صحيح نقاب_وتھ;  // +36
+    صحيح منوال;         // +40
+} sprite_سرخی;
 
-SDL_COMPILE_TIME_ASSERT(sprite_header, sizeof(sprite_header) == 44);
+SDL_COMPILE_ویلا_ASSERT(sprite_سرخی, حجم(sprite_سرخی) == 44);
 
-#endif // SDL_riscosdefs_h_
+#جے_انت // SDL_riscosdefs_h_

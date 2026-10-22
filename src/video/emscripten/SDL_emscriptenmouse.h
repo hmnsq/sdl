@@ -19,16 +19,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_emscriptenmouse_h_
-#define SDL_emscriptenmouse_h_
+#جے_بنا_تعریف SDL_emscriptenmouse_h_
+#تعریف_کرو SDL_emscriptenmouse_h_
 
-struct SDL_CursorData
+بنية SDL_Cursor_انکڑے
 {
-    const char *system_cursor;
+    ثابت حرف *system_cursor;
     bool is_custom;
 };
 
-extern void Emscripten_InitMouse(void);
-extern void Emscripten_QuitMouse(void);
+خارجي فراغ Emscripten_InitMouse(فراغ);
+خارجي فراغ Emscripten_QuitMouse(فراغ);
 
-#endif // SDL_emscriptenmouse_h_
+#جے_انت // SDL_emscriptenmouse_h_

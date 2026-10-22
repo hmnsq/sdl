@@ -1,5 +1,5 @@
-#ifndef VULKAN_FUCHSIA_H_
-#define VULKAN_FUCHSIA_H_ 1
+#جے_بنا_تعریف VULKAN_FUCHSIA_H_
+#تعریف_کرو VULKAN_FUCHSIA_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,283 +13,283 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+خارجي "C" {
+#جے_انت
 
 
 
 // VK_FUCHSIA_imagepipe_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_imagepipe_surface 1
+#تعریف_کرو VK_FUCHSIA_imagepipe_surface 1
 
-#define VK_FUCHSIA_IMAGEPIPE_SURFACE_SPEC_VERSION 1
-#define VK_FUCHSIA_IMAGEPIPE_SURFACE_EXTENSION_NAME "VK_FUCHSIA_imagepipe_surface"
+#تعریف_کرو VK_FUCHSIA_IMAGEPIPE_SURFACE_SPEC_نسخہ 1
+#تعریف_کرو VK_FUCHSIA_IMAGEPIPE_SURFACE_EXTENSION_NAME "VK_FUCHSIA_imagepipe_surface"
 
-typedef VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
+تعريفنوع VkFlags VkImagePipeSurfaceCreateFlagsFUCHSIA;
 
-typedef struct VkImagePipeSurfaceCreateInfoFUCHSIA {
+تعريفنوع بنية VkImagePipeSurfaceCreateInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    ثابت فراغ*                             p_اگلا;
     VkImagePipeSurfaceCreateFlagsFUCHSIA    flags;
     zx_handle_t                             imagePipeHandle;
 } VkImagePipeSurfaceCreateInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, const VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vkCreateImagePipeSurfaceFUCHSIA)(VkInstance instance, ثابت VkImagePipeSurfaceCreateInfoFUCHSIA* pCreateInfo, ثابت Vk_ونڈ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkCreateImagePipeSurfaceFUCHSIA(
     VkInstance                                  instance,
-    const VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkImagePipeSurfaceCreateInfoFUCHSIA*  pCreateInfo,
+    ثابت Vk_ونڈ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#جے_انت
+#جے_انت
 
 
 // VK_FUCHSIA_external_memory is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_external_memory 1
+#تعریف_کرو VK_FUCHSIA_external_حافظہ 1
 
-#define VK_FUCHSIA_EXTERNAL_MEMORY_SPEC_VERSION 1
-#define VK_FUCHSIA_EXTERNAL_MEMORY_EXTENSION_NAME "VK_FUCHSIA_external_memory"
+#تعریف_کرو VK_FUCHSIA_EXTERNAL_حافظہ_SPEC_نسخہ 1
+#تعریف_کرو VK_FUCHSIA_EXTERNAL_حافظہ_EXTENSION_NAME "VK_FUCHSIA_external_memory"
 
-typedef struct VkImportMemoryZirconHandleInfoFUCHSIA {
+تعريفنوع بنية Vk_Import_حافظہ_Zircon_Handle_Info_FUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
+    ثابت فراغ*                           p_اگلا;
+    Vk_External_حافظہ_Handle_Type_Flag_بٹ    handleType;
     zx_handle_t                           handle;
-} VkImportMemoryZirconHandleInfoFUCHSIA;
+} Vk_Import_حافظہ_Zircon_Handle_Info_FUCHSIA;
 
-typedef struct VkMemoryZirconHandlePropertiesFUCHSIA {
+تعريفنوع بنية Vk_حافظہ_Zircon_Handle_Properties_FUCHSIA {
     VkStructureType    sType;
-    void*              pNext;
-    uint32_t           memoryTypeBits;
-} VkMemoryZirconHandlePropertiesFUCHSIA;
+    فراغ*              p_اگلا;
+    uint32_t           حافظہ_Type_بٹ;
+} Vk_حافظہ_Zircon_Handle_Properties_FUCHSIA;
 
-typedef struct VkMemoryGetZirconHandleInfoFUCHSIA {
+تعريفنوع بنية Vk_حافظہ_Get_Zircon_Handle_Info_FUCHSIA {
     VkStructureType                       sType;
-    const void*                           pNext;
-    VkDeviceMemory                        memory;
-    VkExternalMemoryHandleTypeFlagBits    handleType;
-} VkMemoryGetZirconHandleInfoFUCHSIA;
+    ثابت فراغ*                           p_اگلا;
+    Vk_Device_حافظہ                        حافظہ;
+    Vk_External_حافظہ_Handle_Type_Flag_بٹ    handleType;
+} Vk_حافظہ_Get_Zircon_Handle_Info_FUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandleFUCHSIA)(VkDevice device, const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryZirconHandlePropertiesFUCHSIA)(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, zx_handle_t zirconHandle, VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_Get_حافظہ_Zircon_Handle_FUCHSIA)(VkDevice device, ثابت Vk_حافظہ_Get_Zircon_Handle_Info_FUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_Get_حافظہ_Zircon_Handle_Properties_FUCHSIA)(VkDevice device, Vk_External_حافظہ_Handle_Type_Flag_بٹ handleType, zx_handle_t zirconHandle, Vk_حافظہ_Zircon_Handle_Properties_FUCHSIA* p_حافظہ_Zircon_Handle_Properties);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandleFUCHSIA(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_Get_حافظہ_Zircon_Handle_FUCHSIA(
     VkDevice                                    device,
-    const VkMemoryGetZirconHandleInfoFUCHSIA*   pGetZirconHandleInfo,
+    ثابت Vk_حافظہ_Get_Zircon_Handle_Info_FUCHSIA*   pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryZirconHandlePropertiesFUCHSIA(
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_Get_حافظہ_Zircon_Handle_Properties_FUCHSIA(
     VkDevice                                    device,
-    VkExternalMemoryHandleTypeFlagBits          handleType,
+    Vk_External_حافظہ_Handle_Type_Flag_بٹ          handleType,
     zx_handle_t                                 zirconHandle,
-    VkMemoryZirconHandlePropertiesFUCHSIA*      pMemoryZirconHandleProperties);
-#endif
-#endif
+    Vk_حافظہ_Zircon_Handle_Properties_FUCHSIA*      p_حافظہ_Zircon_Handle_Properties);
+#جے_انت
+#جے_انت
 
 
 // VK_FUCHSIA_external_semaphore is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_external_semaphore 1
+#تعریف_کرو VK_FUCHSIA_external_semaphore 1
 
-#define VK_FUCHSIA_EXTERNAL_SEMAPHORE_SPEC_VERSION 1
-#define VK_FUCHSIA_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_FUCHSIA_external_semaphore"
+#تعریف_کرو VK_FUCHSIA_EXTERNAL_SEMAPHORE_SPEC_نسخہ 1
+#تعریف_کرو VK_FUCHSIA_EXTERNAL_SEMAPHORE_EXTENSION_NAME "VK_FUCHSIA_external_semaphore"
 
-typedef struct VkImportSemaphoreZirconHandleInfoFUCHSIA {
+تعريفنوع بنية VkImportSemaphoreZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ثابت فراغ*                              p_اگلا;
     VkSemaphore                              semaphore;
     VkSemaphoreImportFlags                   flags;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_بٹ    handleType;
     zx_handle_t                              zirconHandle;
 } VkImportSemaphoreZirconHandleInfoFUCHSIA;
 
-typedef struct VkSemaphoreGetZirconHandleInfoFUCHSIA {
+تعريفنوع بنية VkSemaphoreGetZirconHandleInfoFUCHSIA {
     VkStructureType                          sType;
-    const void*                              pNext;
+    ثابت فراغ*                              p_اگلا;
     VkSemaphore                              semaphore;
-    VkExternalSemaphoreHandleTypeFlagBits    handleType;
+    Vk_External_Semaphore_Handle_Type_Flag_بٹ    handleType;
 } VkSemaphoreGetZirconHandleInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vkImportSemaphoreZirconHandleFUCHSIA)(VkDevice device, ثابت VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vkGetSemaphoreZirconHandleFUCHSIA)(VkDevice device, ثابت VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo, zx_handle_t* pZirconHandle);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkImportSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
+    ثابت VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo);
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkGetSemaphoreZirconHandleFUCHSIA(
     VkDevice                                    device,
-    const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
+    ثابت VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
     zx_handle_t*                                pZirconHandle);
-#endif
-#endif
+#جے_انت
+#جے_انت
 
 
 // VK_FUCHSIA_buffer_collection is a preprocessor guard. Do not pass it to API calls.
-#define VK_FUCHSIA_buffer_collection 1
+#تعریف_کرو VK_FUCHSIA_بفر_collection 1
 
-VK_DEFINE_NON_DISPATCHABLE_HANDLE(VkBufferCollectionFUCHSIA)
+VK_DEFINE_NON_DISPATCHABLE_HANDLE(Vk_بفر_Collection_FUCHSIA)
 
-#define VK_FUCHSIA_BUFFER_COLLECTION_SPEC_VERSION 2
-#define VK_FUCHSIA_BUFFER_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
+#تعریف_کرو VK_FUCHSIA_بفر_COLLECTION_SPEC_نسخہ 2
+#تعریف_کرو VK_FUCHSIA_بفر_COLLECTION_EXTENSION_NAME "VK_FUCHSIA_buffer_collection"
 
-typedef VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
+تعريفنوع VkFlags VkImageFormatConstraintsFlagsFUCHSIA;
 
-typedef enum VkImageConstraintsInfoFlagBitsFUCHSIA {
+تعريفنوع تعداد Vk_Image_Constraints_Info_Flag_بٹ_FUCHSIA {
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_RARELY_FUCHSIA = 0x00000001,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_READ_OFTEN_FUCHSIA = 0x00000002,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_WRITE_RARELY_FUCHSIA = 0x00000004,
     VK_IMAGE_CONSTRAINTS_INFO_CPU_WRITE_OFTEN_FUCHSIA = 0x00000008,
     VK_IMAGE_CONSTRAINTS_INFO_PROTECTED_OPTIONAL_FUCHSIA = 0x00000010,
-    VK_IMAGE_CONSTRAINTS_INFO_FLAG_BITS_MAX_ENUM_FUCHSIA = 0x7FFFFFFF
-} VkImageConstraintsInfoFlagBitsFUCHSIA;
-typedef VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
+    VK_IMAGE_CONSTRAINTS_INFO_FLAG_بٹ_MAX_ENUM_FUCHSIA = 0x7FFFFFFF
+} Vk_Image_Constraints_Info_Flag_بٹ_FUCHSIA;
+تعريفنوع VkFlags VkImageConstraintsInfoFlagsFUCHSIA;
 
-typedef struct VkBufferCollectionCreateInfoFUCHSIA {
+تعريفنوع بنية Vk_بفر_Collection_Create_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_اگلا;
     zx_handle_t        collectionToken;
-} VkBufferCollectionCreateInfoFUCHSIA;
+} Vk_بفر_Collection_Create_Info_FUCHSIA;
 
-typedef struct VkImportMemoryBufferCollectionFUCHSIA {
+تعريفنوع بنية Vk_Import_حافظہ_بفر_Collection_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkImportMemoryBufferCollectionFUCHSIA;
+    ثابت فراغ*                  p_اگلا;
+    Vk_بفر_Collection_FUCHSIA    collection;
+    uint32_t                     اشاریہ;
+} Vk_Import_حافظہ_بفر_Collection_FUCHSIA;
 
-typedef struct VkBufferCollectionImageCreateInfoFUCHSIA {
+تعريفنوع بنية Vk_بفر_Collection_Image_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionImageCreateInfoFUCHSIA;
+    ثابت فراغ*                  p_اگلا;
+    Vk_بفر_Collection_FUCHSIA    collection;
+    uint32_t                     اشاریہ;
+} Vk_بفر_Collection_Image_Create_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionConstraintsInfoFUCHSIA {
+تعريفنوع بنية Vk_بفر_Collection_Constraints_Info_FUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
-    uint32_t           minBufferCount;
-    uint32_t           maxBufferCount;
-    uint32_t           minBufferCountForCamping;
-    uint32_t           minBufferCountForDedicatedSlack;
-    uint32_t           minBufferCountForSharedSlack;
-} VkBufferCollectionConstraintsInfoFUCHSIA;
+    ثابت فراغ*        p_اگلا;
+    uint32_t           min_بفر_گنتی;
+    uint32_t           max_بفر_گنتی;
+    uint32_t           min_بفر_گنتی_For_Camping;
+    uint32_t           min_بفر_گنتی_For_Dedicated_Slack;
+    uint32_t           min_بفر_گنتی_For_Shared_Slack;
+} Vk_بفر_Collection_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferConstraintsInfoFUCHSIA {
+تعريفنوع بنية Vk_بفر_Constraints_Info_FUCHSIA {
     VkStructureType                             sType;
-    const void*                                 pNext;
-    VkBufferCreateInfo                          createInfo;
+    ثابت فراغ*                                 p_اگلا;
+    Vk_بفر_Create_Info                          createInfo;
     VkFormatFeatureFlags                        requiredFormatFeatures;
-    VkBufferCollectionConstraintsInfoFUCHSIA    bufferCollectionConstraints;
-} VkBufferConstraintsInfoFUCHSIA;
+    Vk_بفر_Collection_Constraints_Info_FUCHSIA    بفر_Collection_Constraints;
+} Vk_بفر_Constraints_Info_FUCHSIA;
 
-typedef struct VkBufferCollectionBufferCreateInfoFUCHSIA {
+تعريفنوع بنية Vk_بفر_Collection_بفر_Create_Info_FUCHSIA {
     VkStructureType              sType;
-    const void*                  pNext;
-    VkBufferCollectionFUCHSIA    collection;
-    uint32_t                     index;
-} VkBufferCollectionBufferCreateInfoFUCHSIA;
+    ثابت فراغ*                  p_اگلا;
+    Vk_بفر_Collection_FUCHSIA    collection;
+    uint32_t                     اشاریہ;
+} Vk_بفر_Collection_بفر_Create_Info_FUCHSIA;
 
-typedef struct VkSysmemColorSpaceFUCHSIA {
+تعريفنوع بنية VkSysmemColorSpaceFUCHSIA {
     VkStructureType    sType;
-    const void*        pNext;
+    ثابت فراغ*        p_اگلا;
     uint32_t           colorSpace;
 } VkSysmemColorSpaceFUCHSIA;
 
-typedef struct VkBufferCollectionPropertiesFUCHSIA {
+تعريفنوع بنية Vk_بفر_Collection_Properties_FUCHSIA {
     VkStructureType                  sType;
-    void*                            pNext;
-    uint32_t                         memoryTypeBits;
-    uint32_t                         bufferCount;
-    uint32_t                         createInfoIndex;
+    فراغ*                            p_اگلا;
+    uint32_t                         حافظہ_Type_بٹ;
+    uint32_t                         بفر_گنتی;
+    uint32_t                         create_Info_اشاریہ;
     uint64_t                         sysmemPixelFormat;
     VkFormatFeatureFlags             formatFeatures;
-    VkSysmemColorSpaceFUCHSIA        sysmemColorSpaceIndex;
+    VkSysmemColorSpaceFUCHSIA        sysmem_Color_Space_اشاریہ;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkBufferCollectionPropertiesFUCHSIA;
+    VkChromaLocation                 suggested_XChroma_وتھ;
+    VkChromaLocation                 suggested_YChroma_وتھ;
+} Vk_بفر_Collection_Properties_FUCHSIA;
 
-typedef struct VkImageFormatConstraintsInfoFUCHSIA {
+تعريفنوع بنية VkImageFormatConstraintsInfoFUCHSIA {
     VkStructureType                         sType;
-    const void*                             pNext;
+    ثابت فراغ*                             p_اگلا;
     VkImageCreateInfo                       imageCreateInfo;
     VkFormatFeatureFlags                    requiredFormatFeatures;
     VkImageFormatConstraintsFlagsFUCHSIA    flags;
     uint64_t                                sysmemPixelFormat;
-    uint32_t                                colorSpaceCount;
-    const VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
+    uint32_t                                color_Space_گنتی;
+    ثابت VkSysmemColorSpaceFUCHSIA*        pColorSpaces;
 } VkImageFormatConstraintsInfoFUCHSIA;
 
-typedef struct VkImageConstraintsInfoFUCHSIA {
+تعريفنوع بنية VkImageConstraintsInfoFUCHSIA {
     VkStructureType                               sType;
-    const void*                                   pNext;
-    uint32_t                                      formatConstraintsCount;
-    const VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
-    VkBufferCollectionConstraintsInfoFUCHSIA      bufferCollectionConstraints;
+    ثابت فراغ*                                   p_اگلا;
+    uint32_t                                      format_Constraints_گنتی;
+    ثابت VkImageFormatConstraintsInfoFUCHSIA*    pFormatConstraints;
+    Vk_بفر_Collection_Constraints_Info_FUCHSIA      بفر_Collection_Constraints;
     VkImageConstraintsInfoFlagsFUCHSIA            flags;
 } VkImageConstraintsInfoFUCHSIA;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateBufferCollectionFUCHSIA)(VkDevice device, const VkBufferCollectionCreateInfoFUCHSIA* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkBufferCollectionFUCHSIA* pCollection);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionImageConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
-typedef VkResult (VKAPI_PTR *PFN_vkSetBufferCollectionBufferConstraintsFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkBufferConstraintsInfoFUCHSIA* pBufferConstraintsInfo);
-typedef void (VKAPI_PTR *PFN_vkDestroyBufferCollectionFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, const VkAllocationCallbacks* pAllocator);
-typedef VkResult (VKAPI_PTR *PFN_vkGetBufferCollectionPropertiesFUCHSIA)(VkDevice device, VkBufferCollectionFUCHSIA collection, VkBufferCollectionPropertiesFUCHSIA* pProperties);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_Create_بفر_Collection_FUCHSIA)(VkDevice device, ثابت Vk_بفر_Collection_Create_Info_FUCHSIA* pCreateInfo, ثابت Vk_ونڈ_Callbacks* pAllocator, Vk_بفر_Collection_FUCHSIA* pCollection);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_سیٹ_بفر_Collection_Image_Constraints_FUCHSIA)(VkDevice device, Vk_بفر_Collection_FUCHSIA collection, ثابت VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_سیٹ_بفر_Collection_بفر_Constraints_FUCHSIA)(VkDevice device, Vk_بفر_Collection_FUCHSIA collection, ثابت Vk_بفر_Constraints_Info_FUCHSIA* p_بفر_Constraints_Info);
+تعريفنوع فراغ (VKAPI_PTR *PFN_vk_Destroy_بفر_Collection_FUCHSIA)(VkDevice device, Vk_بفر_Collection_FUCHSIA collection, ثابت Vk_ونڈ_Callbacks* pAllocator);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_Get_بفر_Collection_Properties_FUCHSIA)(VkDevice device, Vk_بفر_Collection_FUCHSIA collection, Vk_بفر_Collection_Properties_FUCHSIA* pProperties);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateBufferCollectionFUCHSIA(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_Create_بفر_Collection_FUCHSIA(
     VkDevice                                    device,
-    const VkBufferCollectionCreateInfoFUCHSIA*  pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
-    VkBufferCollectionFUCHSIA*                  pCollection);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionImageConstraintsFUCHSIA(
+    ثابت Vk_بفر_Collection_Create_Info_FUCHSIA*  pCreateInfo,
+    ثابت Vk_ونڈ_Callbacks*                pAllocator,
+    Vk_بفر_Collection_FUCHSIA*                  pCollection);
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_سیٹ_بفر_Collection_Image_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkSetBufferCollectionBufferConstraintsFUCHSIA(
+    Vk_بفر_Collection_FUCHSIA                   collection,
+    ثابت VkImageConstraintsInfoFUCHSIA*        pImageConstraintsInfo);
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_سیٹ_بفر_Collection_بفر_Constraints_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkBufferConstraintsInfoFUCHSIA*       pBufferConstraintsInfo);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR void VKAPI_CALL vkDestroyBufferCollectionFUCHSIA(
+    Vk_بفر_Collection_FUCHSIA                   collection,
+    ثابت Vk_بفر_Constraints_Info_FUCHSIA*       p_بفر_Constraints_Info);
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR فراغ VKAPI_CALL vk_Destroy_بفر_Collection_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    const VkAllocationCallbacks*                pAllocator);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetBufferCollectionPropertiesFUCHSIA(
+    Vk_بفر_Collection_FUCHSIA                   collection,
+    ثابت Vk_ونڈ_Callbacks*                pAllocator);
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_Get_بفر_Collection_Properties_FUCHSIA(
     VkDevice                                    device,
-    VkBufferCollectionFUCHSIA                   collection,
-    VkBufferCollectionPropertiesFUCHSIA*        pProperties);
-#endif
-#endif
+    Vk_بفر_Collection_FUCHSIA                   collection,
+    Vk_بفر_Collection_Properties_FUCHSIA*        pProperties);
+#جے_انت
+#جے_انت
 
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
 }
-#endif
+#جے_انت
 
-#endif
+#جے_انت

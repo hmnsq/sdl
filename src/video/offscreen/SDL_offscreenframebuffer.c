@@ -18,62 +18,62 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_offscreenframebuffer_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../SDL_properties_c.h"
+#ضمن "SDL_offscreenframebuffer_c.h"
 
-#define OFFSCREEN_SURFACE "SDL.internal.window.surface"
+#تعریف_کرو OFFSCREEN_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_OFFSCREEN_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_OFFSCREEN_Create_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PixelFormat *format, فراغ **pixels, صحيح *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    ثابت SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
+    صحيح w, h;
 
     // Create a new framebuffer
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_کھڑکی_ناپ_وچ_Pixels(کھڑکی, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    إذا (!surface) {
+        أرجع false;
     }
 
     // Save the info and return!
-    SDL_SetSurfaceProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, surface);
+    SDL_سیٹ_Surface_Property(SDL_Get_کھڑکی_Properties(کھڑکی), OFFSCREEN_SURFACE, surface);
     *format = surface_format;
     *pixels = surface->pixels;
     *pitch = surface->pitch;
 
-    return true;
+    أرجع true;
 }
 
-bool SDL_OFFSCREEN_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_OFFSCREEN_Update_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, ثابت SDL_Rect *rects, صحيح numrects)
 {
-    static int frame_number;
+    ساكن صحيح چوکھٹا_نمبر;
     SDL_Surface *surface;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find offscreen surface for window");
+    surface = (SDL_Surface *)SDL_Get_اشارہ_گر_Property(SDL_Get_کھڑکی_Properties(کھڑکی), OFFSCREEN_SURFACE, عدم);
+    إذا (!surface) {
+        أرجع SDL_سیٹ_Error("Couldn't find offscreen surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
-                           SDL_GetWindowID(window), ++frame_number);
+    إذا (SDL_GetHintBoolean(SDL_HINT_VIDEO_OFFSCREEN_SAVE_چوکھٹے, false)) {
+        حرف file[128];
+        (فراغ)SDL_snprintf(file, حجم(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+                           SDL_Get_کھڑکی_ID(کھڑکی), ++چوکھٹا_نمبر);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    أرجع true;
 }
 
-void SDL_OFFSCREEN_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ SDL_OFFSCREEN_Destroy_کھڑکی_Framebuffer(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_ClearProperty(SDL_GetWindowProperties(window), OFFSCREEN_SURFACE);
+    SDL_ClearProperty(SDL_Get_کھڑکی_Properties(کھڑکی), OFFSCREEN_SURFACE);
 }
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#جے_انت // SDL_VIDEO_DRIVER_OFFSCREEN

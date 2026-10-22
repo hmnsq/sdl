@@ -19,13 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_waylandmessagebox_h_
-#define SDL_waylandmessagebox_h_
+#جے_بنا_تعریف SDL_waylandmessagebox_h_
+#تعریف_کرو SDL_waylandmessagebox_h_
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND
 
-extern bool Wayland_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+خارجي bool Wayland_Show_سنیہا_Box(ثابت SDL_سنیہا_Box_انکڑے *messageboxdata, صحيح *buttonID);
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#جے_انت // SDL_VIDEO_DRIVER_WAYLAND
 
-#endif // SDL_waylandmessagebox_h_
+#جے_انت // SDL_waylandmessagebox_h_

@@ -24,29 +24,29 @@
  * www.edgewise-consulting.com, and originally based on Jacob Lifshay's SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_openharmonyvulkan_h_
-#define SDL_openharmonyvulkan_h_
+#جے_بنا_تعریف SDL_openharmonyvulkan_h_
+#تعریف_کرو SDL_openharmonyvulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_vulkan_internal.h"
+#ضمن "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
+#إذا defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_OPENHARMONY)
 
-extern bool OPENHARMONY_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                         SDL_Window *window,
+خارجي bool OPENHARMONY_Vulkan_لدو_Library(SDL_VideoDevice *_this, ثابت حرف *رستہ);
+خارجي فراغ OPENHARMONY_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي حرف ثابت * ثابت *OPENHARMONY_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *گنتی);
+خارجي bool OPENHARMONY_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                         SDL_کھڑکی *کھڑکی,
                                          VkInstance instance,
-                                         const struct VkAllocationCallbacks *allocator,
+                                         ثابت بنية Vk_ونڈ_Callbacks *allocator,
                                          VkSurfaceKHR *surface);
-extern void OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+خارجي فراغ OPENHARMONY_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                           VkInstance instance,
                                           VkSurfaceKHR surface,
-                                          const struct VkAllocationCallbacks *allocator);
+                                          ثابت بنية Vk_ونڈ_Callbacks *allocator);
 
-#endif
+#جے_انت
 
-#endif // SDL_openharmonyvulkan_h_
+#جے_انت // SDL_openharmonyvulkan_h_

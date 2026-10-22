@@ -18,96 +18,96 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE
 
 // SDL internals
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_events_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../events/SDL_events_c.h"
 
-#ifdef SDL_INPUT_LINUXEV
-#include "../../core/linux/SDL_evdev.h"
-#endif
+#جے_تعریف_شدہ SDL_داخلہ_LINUXEV
+#ضمن "../../core/linux/SDL_evdev.h"
+#جے_انت
 
-#include "SDL_vivantevideo.h"
-#include "SDL_vivanteplatform.h"
-#include "SDL_vivanteopengles.h"
-#include "SDL_vivantevulkan.h"
+#ضمن "SDL_vivantevideo.h"
+#ضمن "SDL_vivanteplatform.h"
+#ضمن "SDL_vivanteopengles.h"
+#ضمن "SDL_vivantevulkan.h"
 
-static void VIVANTE_Destroy(SDL_VideoDevice *device)
+ساكن فراغ VIVANTE_Destroy(SDL_VideoDevice *device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->اندرونی);
     SDL_free(device);
 }
 
-static SDL_VideoDevice *VIVANTE_Create(void)
+ساكن SDL_VideoDevice *VIVANTE_Create(فراغ)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
+    SDL_Video_انکڑے *انکڑے;
 
     // Initialize SDL_VideoDevice structure
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, حجم(SDL_VideoDevice));
+    إذا (!device) {
+        أرجع عدم;
     }
 
     // Initialize internal data
-    data = (SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    if (!data) {
+    انکڑے = (SDL_Video_انکڑے *)SDL_calloc(1, حجم(SDL_Video_انکڑے));
+    إذا (!انکڑے) {
         SDL_free(device);
-        return NULL;
+        أرجع عدم;
     }
 
-    device->internal = data;
+    device->اندرونی = انکڑے;
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->عدد_displays = 0;
 
     // Set device free function
-    device->free = VIVANTE_Destroy;
+    device->حرر = VIVANTE_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = VIVANTE_VideoInit;
     device->VideoQuit = VIVANTE_VideoQuit;
-    device->CreateSDLWindow = VIVANTE_CreateWindow;
-    device->SetWindowTitle = VIVANTE_SetWindowTitle;
-    device->SetWindowPosition = VIVANTE_SetWindowPosition;
-    device->SetWindowSize = VIVANTE_SetWindowSize;
-    device->ShowWindow = VIVANTE_ShowWindow;
-    device->HideWindow = VIVANTE_HideWindow;
-    device->DestroyWindow = VIVANTE_DestroyWindow;
+    device->CreateSDLWindow = VIVANTE_Create_کھڑکی;
+    device->سیٹ_کھڑکی_Title = VIVANTE_سیٹ_کھڑکی_Title;
+    device->سیٹ_کھڑکی_Position = VIVANTE_سیٹ_کھڑکی_Position;
+    device->سیٹ_کھڑکی_ناپ = VIVANTE_سیٹ_کھڑکی_ناپ;
+    device->Show_کھڑکی = VIVANTE_Show_کھڑکی;
+    device->Hide_کھڑکی = VIVANTE_Hide_کھڑکی;
+    device->Destroy_کھڑکی = VIVANTE_Destroy_کھڑکی;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    device->GL_LoadLibrary = VIVANTE_GLES_LoadLibrary;
-    device->GL_GetProcAddress = VIVANTE_GLES_GetProcAddress;
+#جے_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    device->GL_لدو_Library = VIVANTE_GLES_لدو_Library;
+    device->GL_Get_Proc_پتہ = VIVANTE_GLES_Get_Proc_پتہ;
     device->GL_UnloadLibrary = VIVANTE_GLES_UnloadLibrary;
     device->GL_CreateContext = VIVANTE_GLES_CreateContext;
     device->GL_MakeCurrent = VIVANTE_GLES_MakeCurrent;
-    device->GL_SetSwapInterval = VIVANTE_GLES_SetSwapInterval;
-    device->GL_GetSwapInterval = VIVANTE_GLES_GetSwapInterval;
-    device->GL_SwapWindow = VIVANTE_GLES_SwapWindow;
+    device->GL_سیٹ_وٹاندرا_Interval = VIVANTE_GLES_سیٹ_وٹاندرا_Interval;
+    device->GL_Get_وٹاندرا_Interval = VIVANTE_GLES_Get_وٹاندرا_Interval;
+    device->GL_وٹاندرا_کھڑکی = VIVANTE_GLES_وٹاندرا_کھڑکی;
     device->GL_DestroyContext = VIVANTE_GLES_DestroyContext;
-#endif
+#جے_انت
 
-#ifdef SDL_VIDEO_VULKAN
-    device->Vulkan_LoadLibrary = VIVANTE_Vulkan_LoadLibrary;
+#جے_تعریف_شدہ SDL_VIDEO_VULKAN
+    device->Vulkan_لدو_Library = VIVANTE_Vulkan_لدو_Library;
     device->Vulkan_UnloadLibrary = VIVANTE_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = VIVANTE_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = VIVANTE_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = VIVANTE_Vulkan_DestroySurface;
-#endif
+#جے_انت
 
     device->PumpEvents = VIVANTE_PumpEvents;
 
-    return device;
+    أرجع device;
 }
 
 VideoBootStrap VIVANTE_bootstrap = {
     "vivante",
     "Vivante EGL Video Driver",
     VIVANTE_Create,
-    NULL, // no ShowMessageBox implementation
+    عدم, // no ShowMessageBox implementation
     false
 };
 
@@ -115,249 +115,249 @@ VideoBootStrap VIVANTE_bootstrap = {
 // SDL Video and Display initialization/handling functions
 /*****************************************************************************/
 
-static bool VIVANTE_AddVideoDisplays(SDL_VideoDevice *_this)
+ساكن bool VIVANTE_جوڑو_Video_Displays(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
     SDL_VideoDisplay display;
-    SDL_DisplayMode mode;
-    SDL_DisplayData *data;
-    int pitch = 0, bpp = 0;
-    unsigned long pixels = 0;
+    SDL_Display_منوال منوال;
+    SDL_Display_انکڑے *انکڑے;
+    صحيح pitch = 0, bpp = 0;
+    بنانشانی لما pixels = 0;
 
-    data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-    if (!data) {
-        return false;
+    انکڑے = (SDL_Display_انکڑے *)SDL_calloc(1, حجم(SDL_Display_انکڑے));
+    إذا (!انکڑے) {
+        أرجع false;
     }
 
-    SDL_zero(mode);
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    data->native_display = vdkGetDisplay(videodata->vdk_private);
+    SDL_zero(منوال);
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    انکڑے->native_display = vdkGetDisplay(videodata->vdk_نجی);
 
-    vdkGetDisplayInfo(data->native_display, &mode.w, &mode.h, &pixels, &pitch,
+    vdkGetDisplayInfo(انکڑے->native_display, &منوال.w, &منوال.h, &pixels, &pitch,
                       &bpp);
-#else
-    data->native_display = videodata->fbGetDisplayByIndex(0);
+#وإلا
+    انکڑے->native_display = videodata->fb_Get_Display_By_اشاریہ(0);
 
-    videodata->fbGetDisplayInfo(data->native_display, &mode.w, &mode.h,
+    videodata->fbGetDisplayInfo(انکڑے->native_display, &منوال.w, &منوال.h,
                                 &pixels, &pitch, &bpp);
-#endif // SDL_VIDEO_DRIVER_VIVANTE_VDK
+#جے_انت // SDL_VIDEO_DRIVER_VIVANTE_VDK
 
-    switch (bpp) {
-    default: // Is another format used?
-    case 32:
-        mode.format = SDL_PIXELFORMAT_ARGB8888;
-        break;
-    case 16:
-        mode.format = SDL_PIXELFORMAT_RGB565;
-        break;
+    بدل (bpp) {
+    افتراضي: // Is another format used?
+    حالة 32:
+        منوال.format = SDL_PIXELFORMAT_ARGB8888;
+        اكسر;
+    حالة 16:
+        منوال.format = SDL_PIXELFORMAT_RGB565;
+        اكسر;
     }
     // FIXME: How do we query refresh rate?
-    mode.refresh_rate = 60.0f;
+    منوال.refresh_شرح = 60.0f;
 
     SDL_zero(display);
     display.name = VIVANTE_GetDisplayName(_this);
-    display.desktop_mode = mode;
-    display.internal = data;
-    if (SDL_AddVideoDisplay(&display, false) == 0) {
-        return false;
+    display.desktop_منوال = منوال;
+    display.اندرونی = انکڑے;
+    إذا (SDL_جوڑو_Video_Display(&display, false) == 0) {
+        أرجع false;
     }
-    return true;
+    أرجع true;
 }
 
 bool VIVANTE_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    videodata->vdk_private = vdkInitialize();
-    if (!videodata->vdk_private) {
-        return SDL_SetError("vdkInitialize() failed");
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    videodata->vdk_نجی = vdkInitialize();
+    إذا (!videodata->vdk_نجی) {
+        أرجع SDL_سیٹ_Error("vdkInitialize() failed");
     }
-#else
-    videodata->egl_handle = SDL_LoadObject("libEGL.so.1");
-    if (!videodata->egl_handle) {
-        videodata->egl_handle = SDL_LoadObject("libEGL.so");
-        if (!videodata->egl_handle) {
-            return false;
+#وإلا
+    videodata->egl_handle = SDL_لدو_Object("libEGL.so.1");
+    إذا (!videodata->egl_handle) {
+        videodata->egl_handle = SDL_لدو_Object("libEGL.so");
+        إذا (!videodata->egl_handle) {
+            أرجع false;
         }
     }
-#define LOAD_FUNC(TYPE, NAME)                                               \
-    videodata->NAME = (TYPE)SDL_LoadFunction(videodata->egl_handle, #NAME); \
-    if (!videodata->NAME)                                                   \
-        return false;
+#تعریف_کرو لدو_FUNC(TYPE, NAME)                                               \
+    videodata->NAME = (TYPE)SDL_لدو_Function(videodata->egl_handle, #NAME); \
+    إذا (!videodata->NAME)                                                   \
+        أرجع false;
 
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(void *), fbGetDisplay);
-    LOAD_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(int), fbGetDisplayByIndex);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *), fbGetDisplayGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType, int *, int *, unsigned long *, int *, int *), fbGetDisplayInfo);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
-    LOAD_FUNC(EGLNativeWindowType (EGLAPIENTRY *)(EGLNativeDisplayType, int, int, int, int), fbCreateWindow);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *), fbGetWindowGeometry);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType, int *, int *, int *, int *, int *, unsigned int *), fbGetWindowInfo);
-    LOAD_FUNC(void (EGLAPIENTRY *)(EGLNativeWindowType), fbDestroyWindow);
-#endif
+    لدو_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(فراغ *), fbGetDisplay);
+    لدو_FUNC(EGLNativeDisplayType (EGLAPIENTRY *)(صحيح), fb_Get_Display_By_اشاریہ);
+    لدو_FUNC(فراغ (EGLAPIENTRY *)(EGLNativeDisplayType, صحيح *, صحيح *), fbGetDisplayGeometry);
+    لدو_FUNC(فراغ (EGLAPIENTRY *)(EGLNativeDisplayType, صحيح *, صحيح *, بنانشانی لما *, صحيح *, صحيح *), fbGetDisplayInfo);
+    لدو_FUNC(فراغ (EGLAPIENTRY *)(EGLNativeDisplayType), fbDestroyDisplay);
+    لدو_FUNC(EGLNative_کھڑکی_Type (EGLAPIENTRY *)(EGLNativeDisplayType, صحيح, صحيح, صحيح, صحيح), fb_Create_کھڑکی);
+    لدو_FUNC(فراغ (EGLAPIENTRY *)(EGLNative_کھڑکی_Type, صحيح *, صحيح *, صحيح *, صحيح *), fb_Get_کھڑکی_Geometry);
+    لدو_FUNC(فراغ (EGLAPIENTRY *)(EGLNative_کھڑکی_Type, صحيح *, صحيح *, صحيح *, صحيح *, صحيح *, بنانشانی صحيح *), fb_Get_کھڑکی_Info);
+    لدو_FUNC(فراغ (EGLAPIENTRY *)(EGLNative_کھڑکی_Type), fb_Destroy_کھڑکی);
+#جے_انت
 
-    if (!VIVANTE_SetupPlatform(_this)) {
-        return false;
+    إذا (!VIVANTE_تیاری_Platform(_this)) {
+        أرجع false;
     }
 
-    if (!VIVANTE_AddVideoDisplays(_this)) {
-        return false;
+    إذا (!VIVANTE_جوڑو_Video_Displays(_this)) {
+        أرجع false;
     }
 
     VIVANTE_UpdateDisplayScale(_this);
 
-#ifdef SDL_INPUT_LINUXEV
-    if (!SDL_EVDEV_Init()) {
-        return false;
+#جے_تعریف_شدہ SDL_داخلہ_LINUXEV
+    إذا (!SDL_EVDEV_Init()) {
+        أرجع false;
     }
-#endif
+#جے_انت
 
-    return true;
+    أرجع true;
 }
 
-void VIVANTE_VideoQuit(SDL_VideoDevice *_this)
+فراغ VIVANTE_VideoQuit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
 
-#ifdef SDL_INPUT_LINUXEV
+#جے_تعریف_شدہ SDL_داخلہ_LINUXEV
     SDL_EVDEV_Quit();
-#endif
+#جے_انت
 
     VIVANTE_CleanupPlatform(_this);
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    if (videodata->vdk_private) {
-        vdkExit(videodata->vdk_private);
-        videodata->vdk_private = NULL;
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    إذا (videodata->vdk_نجی) {
+        vdkExit(videodata->vdk_نجی);
+        videodata->vdk_نجی = عدم;
     }
-#else
-    if (videodata->egl_handle) {
+#وإلا
+    إذا (videodata->egl_handle) {
         SDL_UnloadObject(videodata->egl_handle);
-        videodata->egl_handle = NULL;
+        videodata->egl_handle = عدم;
     }
-#endif
+#جے_انت
 }
 
-bool VIVANTE_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool VIVANTE_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_DisplayData *displaydata;
-    SDL_WindowData *data;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
+    SDL_Display_انکڑے *displaydata;
+    SDL_کھڑکی_انکڑے *انکڑے;
 
-    displaydata = SDL_GetDisplayDriverData(SDL_GetPrimaryDisplay());
+    displaydata = SDL_Get_Display_Driver_انکڑے(SDL_GetPrimaryDisplay());
 
     // Allocate window internal data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (!data) {
-        return false;
+    انکڑے = (SDL_کھڑکی_انکڑے *)SDL_calloc(1, حجم(SDL_کھڑکی_انکڑے));
+    إذا (!انکڑے) {
+        أرجع false;
     }
 
     // Setup driver data for this window
-    window->internal = data;
+    کھڑکی->اندرونی = انکڑے;
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_DISPLAY_POINTER, displaydata->native_display);
+    SDL_PropertiesID props = SDL_Get_کھڑکی_Properties(کھڑکی);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_VIVANTE_DISPLAY_اشارہ_گر, displaydata->native_display);
 
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    data->native_window = vdkCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
-#else
-    data->native_window = videodata->fbCreateWindow(displaydata->native_display, window->x, window->y, window->w, window->h);
-#endif
-    if (!data->native_window) {
-        return SDL_SetError("VIVANTE: Can't create native window");
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    انکڑے->native_کھڑکی = vdk_Create_کھڑکی(displaydata->native_display, کھڑکی->x, کھڑکی->y, کھڑکی->w, کھڑکی->h);
+#وإلا
+    انکڑے->native_کھڑکی = videodata->fb_Create_کھڑکی(displaydata->native_display, کھڑکی->x, کھڑکی->y, کھڑکی->w, کھڑکی->h);
+#جے_انت
+    إذا (!انکڑے->native_کھڑکی) {
+        أرجع SDL_سیٹ_Error("VIVANTE: Can't create native window");
     }
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_WINDOW_POINTER, data->native_window);
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_VIVANTE_کھڑکی_اشارہ_گر, انکڑے->native_کھڑکی);
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        data->egl_surface = SDL_EGL_CreateSurface(_this, window, data->native_window);
-        if (data->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("VIVANTE: Can't create EGL surface");
+#جے_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+    إذا (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
+        انکڑے->egl_surface = SDL_EGL_CreateSurface(_this, کھڑکی, انکڑے->native_کھڑکی);
+        إذا (انکڑے->egl_surface == EGL_NO_SURFACE) {
+            أرجع SDL_سیٹ_Error("VIVANTE: Can't create EGL surface");
         }
-    } else {
-        data->egl_surface = EGL_NO_SURFACE;
+    } وإلا {
+        انکڑے->egl_surface = EGL_NO_SURFACE;
     }
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_VIVANTE_SURFACE_POINTER, data->egl_surface);
-#endif
+    SDL_سیٹ_اشارہ_گر_Property(props, SDL_PROP_کھڑکی_VIVANTE_SURFACE_اشارہ_گر, انکڑے->egl_surface);
+#جے_انت
 
     // Window has been successfully created
-    return true;
+    أرجع true;
 }
 
-void VIVANTE_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ VIVANTE_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_WindowData *data;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
+    SDL_کھڑکی_انکڑے *انکڑے;
 
-    data = window->internal;
-    if (data) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        if (data->egl_surface != EGL_NO_SURFACE) {
-            SDL_EGL_DestroySurface(_this, data->egl_surface);
+    انکڑے = کھڑکی->اندرونی;
+    إذا (انکڑے) {
+#جے_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
+        إذا (انکڑے->egl_surface != EGL_NO_SURFACE) {
+            SDL_EGL_DestroySurface(_this, انکڑے->egl_surface);
         }
-#endif
+#جے_انت
 
-        if (data->native_window) {
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-            vdkDestroyWindow(data->native_window);
-#else
-            videodata->fbDestroyWindow(data->native_window);
-#endif
+        إذا (انکڑے->native_کھڑکی) {
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+            vdk_Destroy_کھڑکی(انکڑے->native_کھڑکی);
+#وإلا
+            videodata->fb_Destroy_کھڑکی(انکڑے->native_کھڑکی);
+#جے_انت
         }
 
-        SDL_free(data);
+        SDL_free(انکڑے);
     }
-    window->internal = NULL;
+    کھڑکی->اندرونی = عدم;
 }
 
-void VIVANTE_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ VIVANTE_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    SDL_WindowData *data = window->internal;
-    vdkSetWindowTitle(data->native_window, window->title);
-#endif
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    SDL_کھڑکی_انکڑے *انکڑے = کھڑکی->اندرونی;
+    vdk_سیٹ_کھڑکی_Title(انکڑے->native_کھڑکی, کھڑکی->title);
+#جے_انت
 }
 
-bool VIVANTE_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
-{
-    // FIXME
-    return SDL_Unsupported();
-}
-
-void VIVANTE_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+bool VIVANTE_سیٹ_کھڑکی_Position(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
     // FIXME
+    أرجع SDL_Unsupported();
 }
 
-void VIVANTE_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ VIVANTE_سیٹ_کھڑکی_ناپ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    SDL_WindowData *data = window->internal;
-    vdkShowWindow(data->native_window);
-#endif
-    SDL_SetMouseFocus(window);
-    SDL_SetKeyboardFocus(window);
+    // FIXME
 }
 
-void VIVANTE_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ VIVANTE_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-#ifdef SDL_VIDEO_DRIVER_VIVANTE_VDK
-    SDL_WindowData *data = window->internal;
-    vdkHideWindow(data->native_window);
-#endif
-    SDL_SetMouseFocus(NULL);
-    SDL_SetKeyboardFocus(NULL);
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    SDL_کھڑکی_انکڑے *انکڑے = کھڑکی->اندرونی;
+    vdk_Show_کھڑکی(انکڑے->native_کھڑکی);
+#جے_انت
+    SDL_سیٹ_Mouse_Focus(کھڑکی);
+    SDL_سیٹ_Keyboard_Focus(کھڑکی);
+}
+
+فراغ VIVANTE_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
+{
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_VIVANTE_VDK
+    SDL_کھڑکی_انکڑے *انکڑے = کھڑکی->اندرونی;
+    vdk_Hide_کھڑکی(انکڑے->native_کھڑکی);
+#جے_انت
+    SDL_سیٹ_Mouse_Focus(عدم);
+    SDL_سیٹ_Keyboard_Focus(عدم);
 }
 
 /*****************************************************************************/
 // SDL event functions
 /*****************************************************************************/
-void VIVANTE_PumpEvents(SDL_VideoDevice *_this)
+فراغ VIVANTE_PumpEvents(SDL_VideoDevice *_this)
 {
-#ifdef SDL_INPUT_LINUXEV
+#جے_تعریف_شدہ SDL_داخلہ_LINUXEV
     SDL_EVDEV_Poll();
-#endif
+#جے_انت
 }
 
-#endif // SDL_VIDEO_DRIVER_VIVANTE
+#جے_انت // SDL_VIDEO_DRIVER_VIVANTE

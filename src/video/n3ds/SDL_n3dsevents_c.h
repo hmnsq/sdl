@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_n3dsevents_c_h_
-#define SDL_n3dsevents_c_h_
+#جے_بنا_تعریف SDL_n3dsevents_c_h_
+#تعریف_کرو SDL_n3dsevents_c_h_
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-extern void N3DS_PumpEvents(SDL_VideoDevice *_this);
+خارجي فراغ N3DS_PumpEvents(SDL_VideoDevice *_this);
 
-#endif // SDL_n3dsevents_c_h_
+#جے_انت // SDL_n3dsevents_c_h_

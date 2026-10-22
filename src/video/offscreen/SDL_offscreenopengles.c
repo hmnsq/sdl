@@ -18,65 +18,65 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#إذا defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_offscreenopengles.h"
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenwindow.h"
+#ضمن "SDL_offscreenopengles.h"
+#ضمن "SDL_offscreenvideo.h"
+#ضمن "SDL_offscreenwindow.h"
 
 // EGL implementation of SDL OpenGL support
 
-bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool OFFSCREEN_GLES_لدو_Library(SDL_VideoDevice *_this, ثابت حرف *رستہ)
 {
-    if (!SDL_EGL_LoadLibraryOnly(_this, path)) {
-        return false;
+    إذا (!SDL_EGL_لدو_Library_Only(_this, رستہ)) {
+        أرجع false;
     }
 
     /* driver_loaded gets incremented by SDL_GL_LoadLibrary when we return,
        but SDL_EGL_InitializeOffscreen checks that we're loaded before then,
        so temporarily bump it since we know that LoadLibraryOnly succeeded. */
-    bool result;
+    bool نتیجہ;
     _this->gl_config.driver_loaded++;
-    result = SDL_EGL_InitializeOffscreen(_this, 0);
+    نتیجہ = SDL_EGL_InitializeOffscreen(_this, 0);
     _this->gl_config.driver_loaded--;
-    if (!result) {
-        return false;
+    إذا (!نتیجہ) {
+        أرجع false;
     }
 
-    if (!SDL_EGL_ChooseConfig(_this)) {
-        return false;
+    إذا (!SDL_EGL_چنو_Config(_this)) {
+        أرجع false;
     }
 
-    return true;
+    أرجع true;
 }
 
-SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *offscreen_window = window->internal;
+    SDL_کھڑکی_انکڑے *offscreen_کھڑکی = کھڑکی->اندرونی;
 
     SDL_GLContext context;
-    context = SDL_EGL_CreateContext(_this, offscreen_window->egl_surface);
+    context = SDL_EGL_CreateContext(_this, offscreen_کھڑکی->egl_surface);
 
-    return context;
+    أرجع context;
 }
 
-bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context)
+bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context)
 {
-    if (window) {
-        EGLSurface egl_surface = window->internal->egl_surface;
-        return SDL_EGL_MakeCurrent(_this, egl_surface, context);
-    } else {
-        return SDL_EGL_MakeCurrent(_this, NULL, NULL);
+    إذا (کھڑکی) {
+        EGLSurface egl_surface = کھڑکی->اندرونی->egl_surface;
+        أرجع SDL_EGL_MakeCurrent(_this, egl_surface, context);
+    } وإلا {
+        أرجع SDL_EGL_MakeCurrent(_this, عدم, عدم);
     }
 }
 
-bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool OFFSCREEN_GLES_وٹاندرا_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *offscreen_wind = window->internal;
+    SDL_کھڑکی_انکڑے *offscreen_wind = کھڑکی->اندرونی;
 
-    return SDL_EGL_SwapBuffers(_this, offscreen_wind->egl_surface);
+    أرجع SDL_EGL_وٹاندرا_Buffers(_this, offscreen_wind->egl_surface);
 }
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
+#جے_انت // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL

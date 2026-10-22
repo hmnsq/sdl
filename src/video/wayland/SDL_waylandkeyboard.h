@@ -18,17 +18,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_waylandkeyboard_h_
-#define SDL_waylandkeyboard_h_
+#جے_بنا_تعریف SDL_waylandkeyboard_h_
+#تعریف_کرو SDL_waylandkeyboard_h_
 
-extern bool Wayland_InitKeyboard(SDL_VideoDevice *_this);
-extern void Wayland_QuitKeyboard(SDL_VideoDevice *_this);
-extern bool Wayland_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool Wayland_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Wayland_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Wayland_SeatUpdateTextInput(SDL_WaylandSeat *seat);
-extern bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+خارجي bool Wayland_InitKeyboard(SDL_VideoDevice *_this);
+خارجي فراغ Wayland_QuitKeyboard(SDL_VideoDevice *_this);
+خارجي bool Wayland_شروع_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID props);
+خارجي bool Wayland_Stop_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool Wayland_Update_متن_داخلہ_Area(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي فراغ Wayland_Seat_Update_متن_داخلہ(SDL_WaylandSeat *seat);
+خارجي bool Wayland_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 
-#endif // SDL_waylandkeyboard_h_
+#جے_انت // SDL_waylandkeyboard_h_

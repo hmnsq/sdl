@@ -18,71 +18,71 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_cocoaopengl_h_
-#define SDL_cocoaopengl_h_
+#جے_بنا_تعریف SDL_cocoaopengl_h_
+#تعریف_کرو SDL_cocoaopengl_h_
 
-#ifdef SDL_VIDEO_OPENGL_CGL
+#جے_تعریف_شدہ SDL_VIDEO_OPENGL_CGL
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CVDisplayLink.h>
 
 // We still support OpenGL as long as Apple offers it, deprecated or not, so disable deprecation warnings about it.
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#endif
+#جے_تعریف_شدہ __clang__
+#ہدایت clang diagnostic ڈالو
+#ہدایت clang diagnostic ignored "-Wdeprecated-declarations"
+#جے_انت
 
-struct SDL_GLDriverData
+بنية SDL_GLDriver_انکڑے
 {
-    int initialized;
+    صحيح initialized;
 };
 
 @interface SDL3OpenGLContext : NSOpenGLContext
 {
     SDL_AtomicInt dirty;
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
     CVDisplayLinkRef displayLink;
-  @public
-    SDL_Mutex *swapIntervalMutex;
-  @public
-    SDL_Condition *swapIntervalCond;
-  @public
-    SDL_AtomicInt swapIntervalSetting;
-  @public
-    SDL_AtomicInt swapIntervalsPassed;
+  @عام
+    SDL_Mutex *وٹاندرا_Interval_Mutex;
+  @عام
+    SDL_Condition *وٹاندرا_Interval_Cond;
+  @عام
+    SDL_AtomicInt وٹاندرا_Interval_Setting;
+  @عام
+    SDL_AtomicInt وٹاندرا_Intervals_Passed;
 }
 
 - (id)initWithFormat:(NSOpenGLPixelFormat *)format
         shareContext:(NSOpenGLContext *)share;
-- (void)scheduleUpdate;
-- (void)updateIfNeeded;
-- (void)movedToNewScreen;
-- (void)setWindow:(SDL_Window *)window;
-- (SDL_Window *)window;
-- (void)explicitUpdate;
-- (void)cleanup;
+- (فراغ)ویلا_سارنی_Update;
+- (فراغ)updateIfNeeded;
+- (فراغ)moved_منزل_New_Screen;
+- (فراغ)سیٹ_کھڑکی:(SDL_کھڑکی *)کھڑکی;
+- (SDL_کھڑکی *)کھڑکی;
+- (فراغ)explicitUpdate;
+- (فراغ)cleanup;
 
 @property(retain, nonatomic) NSOpenGLPixelFormat *openglPixelFormat; // macOS 10.10 has -[NSOpenGLContext pixelFormat] but this handles older OS releases.
 
-@end
+@سرا
 
 // OpenGL functions
-extern bool Cocoa_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_FunctionPointer Cocoa_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern void Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool Cocoa_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool Cocoa_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
-extern bool Cocoa_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
+خارجي bool Cocoa_GL_لدو_Library(SDL_VideoDevice *_this, ثابت حرف *رستہ);
+خارجي SDL_Function_اشارہ_گر Cocoa_GL_Get_Proc_پتہ(SDL_VideoDevice *_this, ثابت حرف *proc);
+خارجي فراغ Cocoa_GL_UnloadLibrary(SDL_VideoDevice *_this);
+خارجي SDL_GLContext Cocoa_GL_CreateContext(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool Cocoa_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_GLContext context);
+خارجي bool Cocoa_GL_سیٹ_وٹاندرا_Interval(SDL_VideoDevice *_this, صحيح interval);
+خارجي bool Cocoa_GL_Get_وٹاندرا_Interval(SDL_VideoDevice *_this, صحيح *interval);
+خارجي bool Cocoa_GL_وٹاندرا_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool Cocoa_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context);
 
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
+#جے_تعریف_شدہ __clang__
+#ہدایت clang diagnostic نکالو
+#جے_انت
 
-#endif // SDL_VIDEO_OPENGL_CGL
+#جے_انت // SDL_VIDEO_OPENGL_CGL
 
-#endif // SDL_cocoaopengl_h_
+#جے_انت // SDL_cocoaopengl_h_

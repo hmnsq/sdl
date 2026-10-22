@@ -18,206 +18,206 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
-#include "../SDL_sysvideo.h"
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_HAIKU
+#ضمن "../SDL_sysvideo.h"
 
-#include "SDL_BWin.h"
-#include <new>
+#ضمن "SDL_BWin.h"
+#ضمن <new>
 
 // Define a path to window's BWIN data
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+خارجي "C" {
+#جے_انت
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+ساكن SDL_INLINE SDL_BWin *منزل_Be_Win(SDL_کھڑکی *کھڑکی)
 {
-    return (SDL_BWin *)(window->internal);
+    أرجع (SDL_BWin *)(کھڑکی->اندرونی);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+ساكن SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    أرجع SDL_Looper;
 }
 
-static bool _InitWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+ساكن منطقي Init_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
     uint32 flags = 0;
-    window_look look = B_TITLED_WINDOW_LOOK;
+    کھڑکی_look look = B_TITLED_کھڑکی_LOOK;
 
     BRect bounds(
-        window->x,
-        window->y,
-        window->x + window->w - 1,    //BeWindows have an off-by-one px w/h thing
-        window->y + window->h - 1
+        کھڑکی->x,
+        کھڑکی->y,
+        کھڑکی->x + کھڑکی->w - 1,    //BeWindows have an off-by-one px w/h thing
+        کھڑکی->y + کھڑکی->h - 1
     );
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    إذا (کھڑکی->flags & SDL_کھڑکی_FULLSCREEN) {
         // TODO: Add support for this flag
     }
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    إذا (کھڑکی->flags & SDL_کھڑکی_OPENGL) {
         // TODO: Add support for this flag
     }
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
+    إذا (!(کھڑکی->flags & SDL_کھڑکی_RESIZABLE)) {
         flags |= B_NOT_RESIZABLE | B_NOT_ZOOMABLE;
     }
-    if (window->flags & SDL_WINDOW_BORDERLESS) {
-        look = B_NO_BORDER_WINDOW_LOOK;
+    إذا (کھڑکی->flags & SDL_کھڑکی_BORDERLESS) {
+        look = B_NO_BORDER_کھڑکی_LOOK;
     }
 
-    SDL_BWin *bwin = new(std::nothrow) SDL_BWin(bounds, look, flags);
-    if (!bwin) {
-        return false;
+    SDL_BWin *bwin = جديد(std::nothrow) SDL_BWin(bounds, look, flags);
+    إذا (!bwin) {
+        أرجع خطأ;
     }
 
-    window->internal = (SDL_WindowData *)bwin;
-    int32 winID = _GetBeLooper()->GetID(window);
-    bwin->SetID(winID);
+    کھڑکی->اندرونی = (SDL_کھڑکی_انکڑے *)bwin;
+    int32 winID = _GetBeLooper()->GetID(کھڑکی);
+    bwin->سیٹ_ID(winID);
 
-    return true;
+    أرجع سچ;
 }
 
-bool HAIKU_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+منطقي HAIKU_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props)
 {
-    if (!_InitWindow(_this, window, create_props)) {
-        return false;
+    إذا (!Init_کھڑکی(_this, کھڑکی, create_props)) {
+        أرجع خطأ;
     }
 
     // Start window loop
-    _ToBeWin(window)->Show();
-    return true;
+    منزل_Be_Win(کھڑکی)->Show();
+    أرجع سچ;
 }
 
-void HAIKU_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_SET_TITLE);
-    msg.AddString("window-title", window->title);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_سیٹ_TITLE);
+    پیغام.جوڑو_String("window-title", کھڑکی->title);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-bool HAIKU_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window * window)
+منطقي HAIKU_سیٹ_کھڑکی_Position(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_MOVE_WINDOW);
-    msg.AddInt32("window-x", window->pending.x);
-    msg.AddInt32("window-y", window->pending.y);
-    _ToBeWin(window)->PostMessage(&msg);
-    return true;
+    BMessage پیغام(BWIN_MOVE_کھڑکی);
+    پیغام.جوڑو_Int32("window-x", کھڑکی->pending.x);
+    پیغام.جوڑو_Int32("window-y", کھڑکی->pending.y);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
+    أرجع سچ;
 }
 
-void HAIKU_SetWindowSize(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_سیٹ_کھڑکی_ناپ(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_RESIZE_WINDOW);
-    msg.AddInt32("window-w", window->pending.w - 1);
-    msg.AddInt32("window-h", window->pending.h - 1);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_RESIZE_کھڑکی);
+    پیغام.جوڑو_Int32("window-w", کھڑکی->pending.w - 1);
+    پیغام.جوڑو_Int32("window-h", کھڑکی->pending.h - 1);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window * window, bool bordered)
+فراغ HAIKU_سیٹ_کھڑکی_Bordered(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, منطقي bordered)
 {
-    BMessage msg(BWIN_SET_BORDERED);
-    msg.AddBool("window-border", bordered != false);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_سیٹ_BORDERED);
+    پیغام.جوڑو_Bool("window-border", bordered != خطأ);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window * window, bool resizable)
+فراغ HAIKU_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, منطقي resizable)
 {
-    BMessage msg(BWIN_SET_RESIZABLE);
-    msg.AddBool("window-resizable", resizable != false);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_سیٹ_RESIZABLE);
+    پیغام.جوڑو_Bool("window-resizable", resizable != خطأ);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_ShowWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Show_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_SHOW_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_SHOW_کھڑکی);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_HideWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Hide_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_HIDE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_HIDE_کھڑکی);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_RaiseWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Raise_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_SHOW_WINDOW);    // Activate this window and move to front
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_SHOW_کھڑکی);    // Activate this window and move to front
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Maximize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_MAXIMIZE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_MAXIMIZE_کھڑکی);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_MINIMIZE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_MINIMIZE_کھڑکی);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-void HAIKU_RestoreWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Restore_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_RESTORE_WINDOW);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_RESTORE_کھڑکی);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-SDL_FullscreenResult HAIKU_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay * display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_نتیجہ HAIKU_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay * display, SDL_FullscreenOp fullscreen)
 {
     // Haiku tracks all video display information
-    BMessage msg(BWIN_FULLSCREEN);
-    msg.AddBool("fullscreen", !!fullscreen);
-    _ToBeWin(window)->PostMessage(&msg);
-    return SDL_FULLSCREEN_SUCCEEDED;
+    BMessage پیغام(BWIN_FULLSCREEN);
+    پیغام.جوڑو_Bool("fullscreen", !!fullscreen);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
+    أرجع SDL_FULLSCREEN_SUCCEEDED;
 }
 
 
-void HAIKU_SetWindowMinimumSize(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_سیٹ_کھڑکی_Minimum_ناپ(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    BMessage msg(BWIN_MINIMUM_SIZE_WINDOW);
-    msg.AddInt32("window-w", window->w -1);
-    msg.AddInt32("window-h", window->h -1);
-    _ToBeWin(window)->PostMessage(&msg);
+    BMessage پیغام(BWIN_MINIMUM_ناپ_کھڑکی);
+    پیغام.جوڑو_Int32("window-w", کھڑکی->w -1);
+    پیغام.جوڑو_Int32("window-h", کھڑکی->h -1);
+    منزل_Be_Win(کھڑکی)->Post_سنیہا(&پیغام);
 }
 
-bool HAIKU_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window * window, bool grabbed)
+منطقي HAIKU_سیٹ_کھڑکی_Mouse_Grab(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, منطقي grabbed)
 {
     // TODO: Implement this!
-    return SDL_Unsupported();
+    أرجع SDL_Unsupported();
 }
 
-bool HAIKU_SetWindowParent(SDL_VideoDevice *_this, SDL_Window * window, SDL_Window *parent)
+منطقي HAIKU_سیٹ_کھڑکی_ماپا(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی, SDL_کھڑکی *ماپا)
 {
-    return true;
+    أرجع سچ;
 }
 
-bool HAIKU_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+منطقي HAIKU_سیٹ_کھڑکی_Modal(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, منطقي modal)
 {
-    if (modal) {
-        _ToBeWin(window)->SetLook(B_MODAL_WINDOW_LOOK);
-        _ToBeWin(window)->SetFeel(B_MODAL_SUBSET_WINDOW_FEEL);
-        _ToBeWin(window)->AddToSubset(_ToBeWin(window->parent));
-    } else {
-        window_look look = (window->flags & SDL_WINDOW_BORDERLESS) ? B_NO_BORDER_WINDOW_LOOK : B_TITLED_WINDOW_LOOK;
-        _ToBeWin(window)->RemoveFromSubset(_ToBeWin(window->parent));
-        _ToBeWin(window)->SetLook(look);
-        _ToBeWin(window)->SetFeel(B_NORMAL_WINDOW_FEEL);
+    إذا (modal) {
+        منزل_Be_Win(کھڑکی)->سیٹ_Look(B_MODAL_کھڑکی_LOOK);
+        منزل_Be_Win(کھڑکی)->سیٹ_Feel(B_MODAL_SUBSET_کھڑکی_FEEL);
+        منزل_Be_Win(کھڑکی)->جوڑو_منزل_Subset(منزل_Be_Win(کھڑکی->ماپا));
+    } وإلا {
+        کھڑکی_look look = (کھڑکی->flags & SDL_کھڑکی_BORDERLESS) ? B_NO_BORDER_کھڑکی_LOOK : B_TITLED_کھڑکی_LOOK;
+        منزل_Be_Win(کھڑکی)->RemoveFromSubset(منزل_Be_Win(کھڑکی->ماپا));
+        منزل_Be_Win(کھڑکی)->سیٹ_Look(look);
+        منزل_Be_Win(کھڑکی)->سیٹ_Feel(B_عام_کھڑکی_FEEL);
     }
 
-    return true;
+    أرجع سچ;
 }
 
-void HAIKU_DestroyWindow(SDL_VideoDevice *_this, SDL_Window * window)
+فراغ HAIKU_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی * کھڑکی)
 {
-    _ToBeWin(window)->LockLooper();    // This MUST be locked
-    _GetBeLooper()->ClearID(_ToBeWin(window));
-    _ToBeWin(window)->Quit();
-    window->internal = NULL;
+    منزل_Be_Win(کھڑکی)->جندرا_Looper();    // This MUST be locked
+    _GetBeLooper()->ClearID(منزل_Be_Win(کھڑکی));
+    منزل_Be_Win(کھڑکی)->Quit();
+    کھڑکی->اندرونی = عدم;
 }
 
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
 }
-#endif
+#جے_انت
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#جے_انت // SDL_VIDEO_DRIVER_HAIKU

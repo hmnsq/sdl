@@ -18,78 +18,78 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#ضمن "../../SDL_internal.h"
 
-#include "../../events/SDL_pen_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_x11pen.h"
-#include "SDL_x11video.h"
-#include "SDL_x11xinput2.h"
+#ضمن "../../events/SDL_pen_c.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "SDL_x11pen.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11xinput2.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11_XINPUT2
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_X11_XINPUT2
 
 // Does this device have a valuator for pressure sensitivity?
-static bool X11_XInput2DeviceIsPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
+ساكن bool X11_XInput2DeviceIsPen(SDL_VideoDevice *_this, ثابت XIDeviceInfo *dev)
 {
-    const SDL_VideoData *data = _this->internal;
-    for (int i = 0; i < dev->num_classes; i++) {
-        const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIValuatorClass) {
-            const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
-            if (val_classinfo->label == data->atoms.pen_atom_abs_pressure) {
-                return true;
+    ثابت SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+    لكل (صحيح i = 0; i < dev->عدد_classes; i++) {
+        ثابت XIAnyClassInfo *classinfo = dev->classes[i];
+        إذا (classinfo->type == XIValuatorClass) {
+            ثابت XIValuatorClassInfo *val_classinfo = (ثابت XIValuatorClassInfo *)classinfo;
+            إذا (val_classinfo->label == انکڑے->atoms.pen_atom_abs_pressure) {
+                أرجع true;
             }
         }
     }
 
-    return false;
+    أرجع false;
 }
 
 // Heuristically determines if device is an eraser
-static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *devicename)
+ساكن bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, صحيح deviceid, حرف *devicename)
 {
-    #define PEN_ERASER_NAME_TAG  "eraser" // String constant to identify erasers
-    SDL_VideoData *data = _this->internal;
+    #تعریف_کرو PEN_ERASER_NAME_ٹیگ  "eraser" // String constant to identify erasers
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
 
-    if (data->atoms.pen_atom_wacom_tool_type != None) {
+    إذا (انکڑے->atoms.pen_atom_wacom_tool_type != None) {
         Atom type_return;
-        int format_return;
-        unsigned long num_items_return;
-        unsigned long bytes_after_return;
-        unsigned char *tooltype_name_info = NULL;
+        صحيح format_return;
+        بنانشانی لما عدد_اشیاء_return;
+        بنانشانی لما بائٹاں_after_return;
+        بنانشانی حرف *tooltype_name_info = عدم;
 
         // Try Wacom-specific method
-        if (Success == X11_XIGetProperty(data->display, deviceid,
-                                         data->atoms.pen_atom_wacom_tool_type,
+        إذا (Success == X11_XIGetProperty(انکڑے->display, deviceid,
+                                         انکڑے->atoms.pen_atom_wacom_tool_type,
                                          0, 32, False,
                                          AnyPropertyType, &type_return, &format_return,
-                                         &num_items_return, &bytes_after_return,
+                                         &عدد_اشیاء_return, &بائٹاں_after_return,
                                          &tooltype_name_info) &&
-            tooltype_name_info != NULL && num_items_return > 0) {
+            tooltype_name_info != عدم && عدد_اشیاء_return > 0) {
 
-            bool result = false;
-            char *tooltype_name = NULL;
+            bool نتیجہ = false;
+            حرف *tooltype_name = عدم;
 
-            if (type_return == XA_ATOM) {
+            إذا (type_return == XA_ATOM) {
                 // Atom instead of string?  Un-intern
                 Atom atom = *((Atom *)tooltype_name_info);
-                if (atom != None) {
-                    tooltype_name = X11_XGetAtomName(data->display, atom);
+                إذا (atom != None) {
+                    tooltype_name = X11_XGetAtomName(انکڑے->display, atom);
                 }
-            } else if (type_return == XA_STRING && format_return == 8) {
-                tooltype_name = (char *)tooltype_name_info;
+            } وإلا إذا (type_return == XA_STRING && format_return == 8) {
+                tooltype_name = (حرف *)tooltype_name_info;
             }
 
-            if (tooltype_name) {
-                if (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_TAG) == 0) {
-                    result = true;
+            إذا (tooltype_name) {
+                إذا (SDL_strcasecmp(tooltype_name, PEN_ERASER_NAME_ٹیگ) == 0) {
+                    نتیجہ = true;
                 }
-                if (tooltype_name != (char *)tooltype_name_info) {
+                إذا (tooltype_name != (حرف *)tooltype_name_info) {
                     X11_XFree(tooltype_name_info);
                 }
                 X11_XFree(tooltype_name);
 
-                return result;
+                أرجع نتیجہ;
             }
         }
     }
@@ -98,161 +98,161 @@ static bool X11_XInput2PenIsEraser(SDL_VideoDevice *_this, int deviceid, char *d
 
     /* We assume that a device is an eraser if its name contains the string "eraser".
      * Unfortunately there doesn't seem to be a clean way to distinguish these cases (as of 2022-03). */
-    return (SDL_strcasestr(devicename, PEN_ERASER_NAME_TAG)) ? true : false;
+    أرجع (SDL_strcasestr(devicename, PEN_ERASER_NAME_ٹیگ)) ? true : false;
 }
 
 // Read out an integer property and store into a preallocated Sint32 array, extending 8 and 16 bit values suitably.
 // Returns number of Sint32s written (<= max_words), or 0 on error.
-static size_t X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, int deviceid, Atom property, Sint32 *dest, size_t max_words)
+ساكن size_t X11_XInput2PenGetIntProperty(SDL_VideoDevice *_this, صحيح deviceid, Atom property, Sint32 *dest, size_t max_الفاظ)
 {
-    const SDL_VideoData *data = _this->internal;
+    ثابت SDL_Video_انکڑے *انکڑے = _this->اندرونی;
     Atom type_return;
-    int format_return;
-    unsigned long num_items_return;
-    unsigned long bytes_after_return;
-    unsigned char *output;
+    صحيح format_return;
+    بنانشانی لما عدد_اشیاء_return;
+    بنانشانی لما بائٹاں_after_return;
+    بنانشانی حرف *output;
 
-    if (property == None) {
-        return 0;
+    إذا (property == None) {
+        أرجع 0;
     }
 
-    if (Success != X11_XIGetProperty(data->display, deviceid,
+    إذا (Success != X11_XIGetProperty(انکڑے->display, deviceid,
                                      property,
-                                     0, max_words, False,
+                                     0, max_الفاظ, False,
                                      XA_INTEGER, &type_return, &format_return,
-                                     &num_items_return, &bytes_after_return,
+                                     &عدد_اشیاء_return, &بائٹاں_after_return,
                                      &output) ||
-        num_items_return == 0 || output == NULL) {
-        return 0;
+        عدد_اشیاء_return == 0 || output == عدم) {
+        أرجع 0;
     }
 
-    if (type_return == XA_INTEGER) {
-        int k;
-        const int to_copy = SDL_min(max_words, num_items_return);
+    إذا (type_return == XA_INTEGER) {
+        صحيح k;
+        ثابت صحيح منزل_copy = SDL_min(max_الفاظ, عدد_اشیاء_return);
 
-        if (format_return == 8) {
+        إذا (format_return == 8) {
             Sint8 *numdata = (Sint8 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            لكل (k = 0; k < منزل_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else if (format_return == 16) {
+        } وإلا إذا (format_return == 16) {
             Sint16 *numdata = (Sint16 *)output;
-            for (k = 0; k < to_copy; ++k) {
+            لكل (k = 0; k < منزل_copy; ++k) {
                 dest[k] = numdata[k];
             }
-        } else {
-            SDL_memcpy(dest, output, sizeof(Sint32) * to_copy);
+        } وإلا {
+            SDL_memcpy(dest, output, حجم(Sint32) * منزل_copy);
         }
         X11_XFree(output);
-        return to_copy;
+        أرجع منزل_copy;
     }
 
-    return 0; // type mismatch
+    أرجع 0; // type mismatch
 }
 
 // Identify Wacom devices (if true is returned) and extract their device type and serial IDs
-static bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, int deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
+ساكن bool X11_XInput2PenWacomDeviceID(SDL_VideoDevice *_this, صحيح deviceid, Uint32 *wacom_devicetype_id, Uint32 *wacom_serial)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
     Sint32 serial_id_buf[3];
-    int result;
+    صحيح نتیجہ;
 
-    if ((result = X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
+    إذا ((نتیجہ = X11_XInput2PenGetIntProperty(_this, deviceid, انکڑے->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 3)) == 3) {
         *wacom_devicetype_id = serial_id_buf[2];
         *wacom_serial = serial_id_buf[1];
-        return true;
+        أرجع true;
     }
 
     *wacom_devicetype_id = *wacom_serial = 0;
-    return false;
+    أرجع false;
 }
 
 // Check if a Wacom device is in proximity of the tablet
-static bool X11_XInput2PenIsInProximity(SDL_VideoDevice *_this, int deviceid, bool *in_proximity)
+ساكن bool X11_XInput2_Pen_Is_وچ_Proximity(SDL_VideoDevice *_this, صحيح deviceid, bool *وچ_proximity)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
     Sint32 serial_id_buf[5];
-    if (X11_XInput2PenGetIntProperty(_this, deviceid, data->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
-        *in_proximity = serial_id_buf[4] != 0 || serial_id_buf[3] != 0;
-        return true;
+    إذا (X11_XInput2PenGetIntProperty(_this, deviceid, انکڑے->atoms.pen_atom_wacom_serial_ids, serial_id_buf, 5) == 5) {
+        *وچ_proximity = serial_id_buf[4] != 0 || serial_id_buf[3] != 0;
+        أرجع true;
     }
-    return false;
+    أرجع false;
 }
 
 
-typedef struct FindPenByDeviceIDData
+تعريفنوع بنية لبھو_Pen_By_Device_IDData
 {
-    int x11_deviceid;
-    void *handle;
-} FindPenByDeviceIDData;
+    صحيح x11_deviceid;
+    فراغ *handle;
+} لبھو_Pen_By_Device_IDData;
 
-static bool FindPenByDeviceID(void *handle, void *userdata)
+ساكن bool لبھو_Pen_By_Device_ID(فراغ *handle, فراغ *userdata)
 {
-    const X11_PenHandle *x11_handle = (const X11_PenHandle *) handle;
-    FindPenByDeviceIDData *data = (FindPenByDeviceIDData *) userdata;
-    if (x11_handle->x11_deviceid != data->x11_deviceid) {
-        return false;
+    ثابت X11_PenHandle *x11_handle = (ثابت X11_PenHandle *) handle;
+    لبھو_Pen_By_Device_IDData *انکڑے = (لبھو_Pen_By_Device_IDData *) userdata;
+    إذا (x11_handle->x11_deviceid != انکڑے->x11_deviceid) {
+        أرجع false;
     }
-    data->handle = handle;
-    return true;
+    انکڑے->handle = handle;
+    أرجع true;
 }
 
-X11_PenHandle *X11_FindPenByDeviceID(int deviceid)
+X11_PenHandle *X11_لبھو_Pen_By_Device_ID(صحيح deviceid)
 {
-    FindPenByDeviceIDData data;
-    data.x11_deviceid = deviceid;
-    data.handle = NULL;
-    SDL_FindPenByCallback(FindPenByDeviceID, &data);
-    return (X11_PenHandle *) data.handle;
+    لبھو_Pen_By_Device_IDData انکڑے;
+    انکڑے.x11_deviceid = deviceid;
+    انکڑے.handle = عدم;
+    SDL_لبھو_Pen_By_Callback(لبھو_Pen_By_Device_ID, &انکڑے);
+    أرجع (X11_PenHandle *) انکڑے.handle;
 }
 
-static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo *dev)
+ساكن X11_PenHandle *X11_Maybe_جوڑو_Pen(SDL_VideoDevice *_this, ثابت XIDeviceInfo *dev)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
     SDL_PenCapabilityFlags capabilities = 0;
-    X11_PenHandle *handle = NULL;
+    X11_PenHandle *handle = عدم;
 
-    if ((dev->use != XISlavePointer && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
-        return NULL;  // Only track physical devices that are enabled and look like pens
-    } else if ((handle = X11_FindPenByDeviceID(dev->deviceid)) != NULL) {
-        return handle;  // already have this pen, skip it.
-    } else if ((handle = SDL_calloc(1, sizeof(*handle))) == NULL) {
-        return NULL;  // oh well.
+    إذا ((dev->use != XISlave_اشارہ_گر && (dev->use != XIFloatingSlave)) || dev->enabled == 0 || !X11_XInput2DeviceIsPen(_this, dev)) {
+        أرجع عدم;  // Only track physical devices that are enabled and look like pens
+    } وإلا إذا ((handle = X11_لبھو_Pen_By_Device_ID(dev->deviceid)) != عدم) {
+        أرجع handle;  // already have this pen, skip it.
+    } وإلا إذا ((handle = SDL_calloc(1, حجم(*handle))) == عدم) {
+        أرجع عدم;  // oh well.
     }
 
-    for (int i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
+    لكل (صحيح i = 0; i < SDL_arraysize(handle->valuator_for_axis); i++) {
         handle->valuator_for_axis[i] = SDL_X11_PEN_AXIS_VALUATOR_MISSING;  // until proven otherwise
     }
 
-    int total_buttons = 0;
-    for (int i = 0; i < dev->num_classes; i++) {
-        const XIAnyClassInfo *classinfo = dev->classes[i];
-        if (classinfo->type == XIButtonClass) {
-            const XIButtonClassInfo *button_classinfo = (const XIButtonClassInfo *)classinfo;
-            total_buttons += button_classinfo->num_buttons;
-        } else if (classinfo->type == XIValuatorClass) {
-            const XIValuatorClassInfo *val_classinfo = (const XIValuatorClassInfo *)classinfo;
-            const Sint8 valuator_nr = val_classinfo->number;
-            const Atom vname = val_classinfo->label;
-            const float min = (float)val_classinfo->min;
-            const float max = (float)val_classinfo->max;
+    صحيح کل_buttons = 0;
+    لكل (صحيح i = 0; i < dev->عدد_classes; i++) {
+        ثابت XIAnyClassInfo *classinfo = dev->classes[i];
+        إذا (classinfo->type == XIButtonClass) {
+            ثابت XIButtonClassInfo *button_classinfo = (ثابت XIButtonClassInfo *)classinfo;
+            کل_buttons += button_classinfo->عدد_buttons;
+        } وإلا إذا (classinfo->type == XIValuatorClass) {
+            ثابت XIValuatorClassInfo *val_classinfo = (ثابت XIValuatorClassInfo *)classinfo;
+            ثابت Sint8 valuator_nr = val_classinfo->نمبر_2;
+            ثابت Atom vname = val_classinfo->label;
+            ثابت عائم min = (عائم)val_classinfo->min;
+            ثابت عائم max = (عائم)val_classinfo->max;
             bool use_this_axis = true;
-            SDL_PenAxis axis = SDL_PEN_AXIS_COUNT;
+            SDL_PenAxis axis = SDL_PEN_AXIS_گنتی;
 
             // afaict, SDL_PEN_AXIS_DISTANCE is never reported by XInput2 (Wayland can offer it, though)
-            if (vname == data->atoms.pen_atom_abs_pressure) {
+            إذا (vname == انکڑے->atoms.pen_atom_abs_pressure) {
                 axis = SDL_PEN_AXIS_PRESSURE;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_x) {
+            } وإلا إذا (vname == انکڑے->atoms.pen_atom_abs_tilt_x) {
                 axis = SDL_PEN_AXIS_XTILT;
-            } else if (vname == data->atoms.pen_atom_abs_tilt_y) {
+            } وإلا إذا (vname == انکڑے->atoms.pen_atom_abs_tilt_y) {
                 axis = SDL_PEN_AXIS_YTILT;
-            } else {
+            } وإلا {
                 use_this_axis = false;
             }
 
             // !!! FIXME: there are wacom-specific hacks for getting SDL_PEN_AXIS_(ROTATION|SLIDER) on some devices, but for simplicity, we're skipping all that for now.
 
-            if (use_this_axis) {
+            إذا (use_this_axis) {
                 capabilities |= SDL_GetPenCapabilityFromAxis(axis);
                 handle->valuator_for_axis[axis] = valuator_nr;
                 handle->axis_min[axis] = min;
@@ -265,7 +265,7 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     // We checked this in X11_XInput2DeviceIsPen, so just assert it here.
     SDL_assert(capabilities & SDL_PEN_CAPABILITY_PRESSURE);
 
-    const bool is_eraser = X11_XInput2PenIsEraser(_this, dev->deviceid, dev->name);
+    ثابت bool is_eraser = X11_XInput2PenIsEraser(_this, dev->deviceid, dev->name);
     Uint32 wacom_devicetype_id = 0;
     Uint32 wacom_serial = 0;
     X11_XInput2PenWacomDeviceID(_this, dev->deviceid, &wacom_devicetype_id, &wacom_serial);
@@ -275,195 +275,195 @@ static X11_PenHandle *X11_MaybeAddPen(SDL_VideoDevice *_this, const XIDeviceInfo
     peninfo.capabilities = capabilities;
     peninfo.max_tilt = -1;
     peninfo.wacom_id = wacom_devicetype_id;
-    peninfo.num_buttons = total_buttons;
+    peninfo.عدد_buttons = کل_buttons;
     peninfo.subtype = is_eraser ? SDL_PEN_TYPE_ERASER : SDL_PEN_TYPE_PEN;
-    if (is_eraser) {
+    إذا (is_eraser) {
         peninfo.capabilities |= SDL_PEN_CAPABILITY_ERASER;
     }
 
     handle->is_eraser = is_eraser;
     handle->x11_deviceid = dev->deviceid;
 
-    bool in_proximity = false;
-    if (!X11_XInput2PenIsInProximity(_this, dev->deviceid, &in_proximity)) {
-        in_proximity = true;  // just say it's in proximity if we can't detect this state.
+    bool وچ_proximity = false;
+    إذا (!X11_XInput2_Pen_Is_وچ_Proximity(_this, dev->deviceid, &وچ_proximity)) {
+        وچ_proximity = true;  // just say it's in proximity if we can't detect this state.
     }
 
-    handle->pen = SDL_AddPenDevice(0, dev->name, NULL, &peninfo, handle, in_proximity);
-    if (!handle->pen) {
+    handle->pen = SDL_جوڑو_Pen_Device(0, dev->name, عدم, &peninfo, handle, وچ_proximity);
+    إذا (!handle->pen) {
         SDL_free(handle);
-        return NULL;
+        أرجع عدم;
     }
 
-    return handle;
+    أرجع handle;
 }
 
-X11_PenHandle *X11_MaybeAddPenByDeviceID(SDL_VideoDevice *_this, int deviceid)
+X11_PenHandle *X11_Maybe_جوڑو_Pen_By_Device_ID(SDL_VideoDevice *_this, صحيح deviceid)
 {
-    if (X11_Xinput2IsInitialized()) {
-        SDL_VideoData *data = _this->internal;
-        int num_device_info = 0;
-        XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, deviceid, &num_device_info);
-        if (device_info) {
-            SDL_assert(num_device_info == 1);
-            X11_PenHandle *handle = X11_MaybeAddPen(_this, device_info);
+    إذا (X11_Xinput2IsInitialized()) {
+        SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+        صحيح عدد_device_info = 0;
+        XIDeviceInfo *device_info = X11_XIQueryDevice(انکڑے->display, deviceid, &عدد_device_info);
+        إذا (device_info) {
+            SDL_assert(عدد_device_info == 1);
+            X11_PenHandle *handle = X11_Maybe_جوڑو_Pen(_this, device_info);
             X11_XIFreeDeviceInfo(device_info);
-            return handle;
+            أرجع handle;
         }
     }
-    return NULL;
+    أرجع عدم;
 }
 
-void X11_RemovePenByDeviceID(int deviceid)
+فراغ X11_RemovePenByDeviceID(صحيح deviceid)
 {
-    X11_PenHandle *handle = X11_FindPenByDeviceID(deviceid);
-    if (handle) {
-        SDL_RemovePenDevice(0, NULL, handle->pen);
+    X11_PenHandle *handle = X11_لبھو_Pen_By_Device_ID(deviceid);
+    إذا (handle) {
+        SDL_RemovePenDevice(0, عدم, handle->pen);
         SDL_free(handle);
     }
 }
 
-void X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_Window *window, int deviceid)
+فراغ X11_NotifyPenProximityChange(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, صحيح deviceid)
 {
-    bool in_proximity;
-    X11_PenHandle *pen = X11_FindPenByDeviceID(deviceid);
-    if (pen && X11_XInput2PenIsInProximity(_this, deviceid, &in_proximity)) {
-        SDL_SendPenProximity(0, pen->pen, window, in_proximity, in_proximity);
+    bool وچ_proximity;
+    X11_PenHandle *pen = X11_لبھو_Pen_By_Device_ID(deviceid);
+    إذا (pen && X11_XInput2_Pen_Is_وچ_Proximity(_this, deviceid, &وچ_proximity)) {
+        SDL_SendPenProximity(0, pen->pen, کھڑکی, وچ_proximity, وچ_proximity);
     }
 }
 
-void X11_InitPen(SDL_VideoDevice *_this)
+فراغ X11_InitPen(SDL_VideoDevice *_this)
 {
-    if (!X11_Xinput2IsInitialized()) {
-        return;  // we need XIQueryDevice() for this.
+    إذا (!X11_Xinput2IsInitialized()) {
+        أرجع;  // we need XIQueryDevice() for this.
     }
 
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
 
-    #define LOOKUP_PEN_ATOM(X) X11_XInternAtom(data->display, X, False)
-    data->atoms.pen_atom_device_product_id = LOOKUP_PEN_ATOM("Device Product ID");
-    data->atoms.pen_atom_wacom_serial_ids = LOOKUP_PEN_ATOM("Wacom Serial IDs");
-    data->atoms.pen_atom_wacom_tool_type = LOOKUP_PEN_ATOM("Wacom Tool Type");
-    data->atoms.pen_atom_abs_pressure = LOOKUP_PEN_ATOM("Abs Pressure");
-    data->atoms.pen_atom_abs_tilt_x = LOOKUP_PEN_ATOM("Abs Tilt X");
-    data->atoms.pen_atom_abs_tilt_y = LOOKUP_PEN_ATOM("Abs Tilt Y");
-    #undef LOOKUP_PEN_ATOM
+    #تعریف_کرو LOOKUP_PEN_ATOM(X) X11_XInternAtom(انکڑے->display, X, False)
+    انکڑے->atoms.pen_atom_device_ضرب_حاصل_id = LOOKUP_PEN_ATOM("Device Product ID");
+    انکڑے->atoms.pen_atom_wacom_serial_ids = LOOKUP_PEN_ATOM("Wacom Serial IDs");
+    انکڑے->atoms.pen_atom_wacom_tool_type = LOOKUP_PEN_ATOM("Wacom Tool Type");
+    انکڑے->atoms.pen_atom_abs_pressure = LOOKUP_PEN_ATOM("Abs Pressure");
+    انکڑے->atoms.pen_atom_abs_tilt_x = LOOKUP_PEN_ATOM("Abs Tilt X");
+    انکڑے->atoms.pen_atom_abs_tilt_y = LOOKUP_PEN_ATOM("Abs Tilt Y");
+    #تعریف_رد LOOKUP_PEN_ATOM
 
     // Do an initial check on devices. After this, we'll add/remove individual pens when XI_HierarchyChanged events alert us.
-    int num_device_info = 0;
-    XIDeviceInfo *device_info = X11_XIQueryDevice(data->display, XIAllDevices, &num_device_info);
-    if (device_info) {
-        for (int i = 0; i < num_device_info; i++) {
-            X11_MaybeAddPen(_this, &device_info[i]);
+    صحيح عدد_device_info = 0;
+    XIDeviceInfo *device_info = X11_XIQueryDevice(انکڑے->display, XIAllDevices, &عدد_device_info);
+    إذا (device_info) {
+        لكل (صحيح i = 0; i < عدد_device_info; i++) {
+            X11_Maybe_جوڑو_Pen(_this, &device_info[i]);
         }
         X11_XIFreeDeviceInfo(device_info);
     }
 }
 
-static void X11_FreePenHandle(SDL_PenID instance_id, void *handle, void *userdata)
+ساكن فراغ X11_FreePenHandle(SDL_PenID instance_id, فراغ *handle, فراغ *userdata)
 {
     SDL_free(handle);
 }
 
-void X11_QuitPen(SDL_VideoDevice *_this)
+فراغ X11_QuitPen(SDL_VideoDevice *_this)
 {
-    SDL_RemoveAllPenDevices(X11_FreePenHandle, NULL);
+    SDL_RemoveAllPenDevices(X11_FreePenHandle, عدم);
 }
 
-static void X11_XInput2NormalizePenAxes(const X11_PenHandle *pen, float *coords)
+ساكن فراغ X11_XInput2NormalizePenAxes(ثابت X11_PenHandle *pen, عائم *coords)
 {
     // Normalise axes
-    for (int axis = 0; axis < SDL_PEN_AXIS_COUNT; ++axis) {
-        const int valuator = pen->valuator_for_axis[axis];
-        if (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
-            continue;
+    لكل (صحيح axis = 0; axis < SDL_PEN_AXIS_گنتی; ++axis) {
+        ثابت صحيح valuator = pen->valuator_for_axis[axis];
+        إذا (valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) {
+            استمر;
         }
 
-        float value = coords[axis];
-        const float min = pen->axis_min[axis];
-        const float max = pen->axis_max[axis];
+        عائم قدر = coords[axis];
+        ثابت عائم min = pen->axis_min[axis];
+        ثابت عائم max = pen->axis_max[axis];
 
-        if (axis == SDL_PEN_AXIS_SLIDER) {
-            value += pen->slider_bias;
+        إذا (axis == SDL_PEN_AXIS_SLIDER) {
+            قدر += pen->slider_bias;
         }
 
         // min ... 0 ... max
-        if (min < 0.0) {
+        إذا (min < 0.0) {
             // Normalise so that 0 remains 0.0
-            if (value < 0) {
-                value = value / (-min);
-            } else {
-                if (max == 0.0f) {
-                    value = 0.0f;
-                } else {
-                    value = value / max;
+            إذا (قدر < 0) {
+                قدر = قدر / (-min);
+            } وإلا {
+                إذا (max == 0.0f) {
+                    قدر = 0.0f;
+                } وإلا {
+                    قدر = قدر / max;
                 }
             }
-        } else {
+        } وإلا {
             // 0 ... min ... max
             // including 0.0 = min
-            if (max == 0.0f) {
-                value = 0.0f;
-            } else {
-                value = (value - min) / max;
+            إذا (max == 0.0f) {
+                قدر = 0.0f;
+            } وإلا {
+                قدر = (قدر - min) / max;
             }
         }
 
-        switch (axis) {
-            case SDL_PEN_AXIS_XTILT:
-            case SDL_PEN_AXIS_YTILT:
+        بدل (axis) {
+            حالة SDL_PEN_AXIS_XTILT:
+            حالة SDL_PEN_AXIS_YTILT:
                 //if (peninfo->info.max_tilt > 0.0f) {
                 //    value *= peninfo->info.max_tilt; // normalize to physical max
                 //}
-                break;
+                اكسر;
 
-            case SDL_PEN_AXIS_ROTATION:
+            حالة SDL_PEN_AXIS_ROTATION:
                 // normalised to -1..1, so let's convert to degrees
-                value *= 180.0f;
-                value += pen->rotation_bias;
+                قدر *= 180.0f;
+                قدر += pen->rotation_bias;
 
                 // handle simple over/underflow
-                if (value >= 180.0f) {
-                    value -= 360.0f;
-                } else if (value < -180.0f) {
-                    value += 360.0f;
+                إذا (قدر >= 180.0f) {
+                    قدر -= 360.0f;
+                } وإلا إذا (قدر < -180.0f) {
+                    قدر += 360.0f;
                 }
-                break;
+                اكسر;
 
-            default:
-                break;
+            افتراضي:
+                اكسر;
         }
 
-        coords[axis] = value;
+        coords[axis] = قدر;
     }
 }
 
-void X11_PenAxesFromValuators(const X11_PenHandle *pen,
-                              const double *input_values, const unsigned char *mask, int mask_len,
-                              float axis_values[SDL_PEN_AXIS_COUNT])
+فراغ X11_PenAxesFromValuators(ثابت X11_PenHandle *pen,
+                              ثابت مزدوج *داخلہ_اقدار, ثابت بنانشانی حرف *نقاب, صحيح نقاب_len,
+                              عائم axis_اقدار[SDL_PEN_AXIS_گنتی])
 {
-    for (int i = 0; i < SDL_PEN_AXIS_COUNT; i++) {
-        const int valuator = pen->valuator_for_axis[i];
-        if ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= mask_len * 8) || !(XIMaskIsSet(mask, valuator))) {
-            axis_values[i] = 0.0f;
-        } else {
-            axis_values[i] = (float)input_values[valuator];
+    لكل (صحيح i = 0; i < SDL_PEN_AXIS_گنتی; i++) {
+        ثابت صحيح valuator = pen->valuator_for_axis[i];
+        إذا ((valuator == SDL_X11_PEN_AXIS_VALUATOR_MISSING) || (valuator >= نقاب_len * 8) || !(XIMask_Is_سیٹ(نقاب, valuator))) {
+            axis_اقدار[i] = 0.0f;
+        } وإلا {
+            axis_اقدار[i] = (عائم)داخلہ_اقدار[valuator];
         }
     }
-    X11_XInput2NormalizePenAxes(pen, axis_values);
+    X11_XInput2NormalizePenAxes(pen, axis_اقدار);
 }
 
-#else
+#وإلا
 
-void X11_InitPen(SDL_VideoDevice *_this)
+فراغ X11_InitPen(SDL_VideoDevice *_this)
 {
-    (void) _this;
+    (فراغ) _this;
 }
 
-void X11_QuitPen(SDL_VideoDevice *_this)
+فراغ X11_QuitPen(SDL_VideoDevice *_this)
 {
-    (void) _this;
+    (فراغ) _this;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11_XINPUT2
+#جے_انت // SDL_VIDEO_DRIVER_X11_XINPUT2
 

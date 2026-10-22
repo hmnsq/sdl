@@ -1,5 +1,5 @@
-#ifndef VULKAN_ANDROID_H_
-#define VULKAN_ANDROID_H_ 1
+#جے_بنا_تعریف VULKAN_ANDROID_H_
+#تعریف_کرو VULKAN_ANDROID_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,159 +13,159 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+خارجي "C" {
+#جے_انت
 
 
 
 // VK_KHR_android_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_android_surface 1
+#تعریف_کرو VK_KHR_android_surface 1
 
-struct ANativeWindow;
+بنية ANative_کھڑکی;
 
-#define VK_KHR_ANDROID_SURFACE_SPEC_VERSION 6
-#define VK_KHR_ANDROID_SURFACE_EXTENSION_NAME "VK_KHR_android_surface"
+#تعریف_کرو VK_KHR_ANDROID_SURFACE_SPEC_نسخہ 6
+#تعریف_کرو VK_KHR_ANDROID_SURFACE_EXTENSION_NAME "VK_KHR_android_surface"
 
-typedef VkFlags VkAndroidSurfaceCreateFlagsKHR;
+تعريفنوع VkFlags VkAndroidSurfaceCreateFlagsKHR;
 
-typedef struct VkAndroidSurfaceCreateInfoKHR {
+تعريفنوع بنية VkAndroidSurfaceCreateInfoKHR {
     VkStructureType                   sType;
-    const void*                       pNext;
+    ثابت فراغ*                       p_اگلا;
     VkAndroidSurfaceCreateFlagsKHR    flags;
-    struct ANativeWindow*             window;
+    بنية ANative_کھڑکی*             کھڑکی;
 } VkAndroidSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateAndroidSurfaceKHR)(VkInstance instance, const VkAndroidSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vkCreateAndroidSurfaceKHR)(VkInstance instance, ثابت VkAndroidSurfaceCreateInfoKHR* pCreateInfo, ثابت Vk_ونڈ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateAndroidSurfaceKHR(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkCreateAndroidSurfaceKHR(
     VkInstance                                  instance,
-    const VkAndroidSurfaceCreateInfoKHR*        pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkAndroidSurfaceCreateInfoKHR*        pCreateInfo,
+    ثابت Vk_ونڈ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#جے_انت
+#جے_انت
 
 
 // VK_ANDROID_external_memory_android_hardware_buffer is a preprocessor guard. Do not pass it to API calls.
-#define VK_ANDROID_external_memory_android_hardware_buffer 1
+#تعریف_کرو VK_ANDROID_external_حافظہ_android_hardware_بفر 1
 
-struct AHardwareBuffer;
+بنية AHardware_بفر;
 
-#define VK_ANDROID_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER_SPEC_VERSION 5
-#define VK_ANDROID_EXTERNAL_MEMORY_ANDROID_HARDWARE_BUFFER_EXTENSION_NAME "VK_ANDROID_external_memory_android_hardware_buffer"
+#تعریف_کرو VK_ANDROID_EXTERNAL_حافظہ_ANDROID_HARDWARE_بفر_SPEC_نسخہ 5
+#تعریف_کرو VK_ANDROID_EXTERNAL_حافظہ_ANDROID_HARDWARE_بفر_EXTENSION_NAME "VK_ANDROID_external_memory_android_hardware_buffer"
 
-typedef struct VkAndroidHardwareBufferUsageANDROID {
+تعريفنوع بنية Vk_Android_Hardware_بفر_Usage_ANDROID {
     VkStructureType    sType;
-    void*              pNext;
-    uint64_t           androidHardwareBufferUsage;
-} VkAndroidHardwareBufferUsageANDROID;
+    فراغ*              p_اگلا;
+    uint64_t           android_Hardware_بفر_Usage;
+} Vk_Android_Hardware_بفر_Usage_ANDROID;
 
-typedef struct VkAndroidHardwareBufferPropertiesANDROID {
+تعريفنوع بنية Vk_Android_Hardware_بفر_Properties_ANDROID {
     VkStructureType    sType;
-    void*              pNext;
-    VkDeviceSize       allocationSize;
-    uint32_t           memoryTypeBits;
-} VkAndroidHardwareBufferPropertiesANDROID;
+    فراغ*              p_اگلا;
+    Vk_Device_ناپ       ونڈ_ناپ;
+    uint32_t           حافظہ_Type_بٹ;
+} Vk_Android_Hardware_بفر_Properties_ANDROID;
 
-typedef struct VkAndroidHardwareBufferFormatPropertiesANDROID {
+تعريفنوع بنية Vk_Android_Hardware_بفر_Format_Properties_ANDROID {
     VkStructureType                  sType;
-    void*                            pNext;
+    فراغ*                            p_اگلا;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags             formatFeatures;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkAndroidHardwareBufferFormatPropertiesANDROID;
+    VkChromaLocation                 suggested_XChroma_وتھ;
+    VkChromaLocation                 suggested_YChroma_وتھ;
+} Vk_Android_Hardware_بفر_Format_Properties_ANDROID;
 
-typedef struct VkImportAndroidHardwareBufferInfoANDROID {
+تعريفنوع بنية Vk_Import_Android_Hardware_بفر_Info_ANDROID {
     VkStructureType            sType;
-    const void*                pNext;
-    struct AHardwareBuffer*    buffer;
-} VkImportAndroidHardwareBufferInfoANDROID;
+    ثابت فراغ*                p_اگلا;
+    بنية AHardware_بفر*    بفر_2;
+} Vk_Import_Android_Hardware_بفر_Info_ANDROID;
 
-typedef struct VkMemoryGetAndroidHardwareBufferInfoANDROID {
+تعريفنوع بنية Vk_حافظہ_Get_Android_Hardware_بفر_Info_ANDROID {
     VkStructureType    sType;
-    const void*        pNext;
-    VkDeviceMemory     memory;
-} VkMemoryGetAndroidHardwareBufferInfoANDROID;
+    ثابت فراغ*        p_اگلا;
+    Vk_Device_حافظہ     حافظہ;
+} Vk_حافظہ_Get_Android_Hardware_بفر_Info_ANDROID;
 
-typedef struct VkExternalFormatANDROID {
+تعريفنوع بنية VkExternalFormatANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_اگلا;
     uint64_t           externalFormat;
 } VkExternalFormatANDROID;
 
-typedef struct VkAndroidHardwareBufferFormatProperties2ANDROID {
+تعريفنوع بنية Vk_Android_Hardware_بفر_Format_Properties2_ANDROID {
     VkStructureType                  sType;
-    void*                            pNext;
+    فراغ*                            p_اگلا;
     VkFormat                         format;
     uint64_t                         externalFormat;
     VkFormatFeatureFlags2            formatFeatures;
     VkComponentMapping               samplerYcbcrConversionComponents;
     VkSamplerYcbcrModelConversion    suggestedYcbcrModel;
     VkSamplerYcbcrRange              suggestedYcbcrRange;
-    VkChromaLocation                 suggestedXChromaOffset;
-    VkChromaLocation                 suggestedYChromaOffset;
-} VkAndroidHardwareBufferFormatProperties2ANDROID;
+    VkChromaLocation                 suggested_XChroma_وتھ;
+    VkChromaLocation                 suggested_YChroma_وتھ;
+} Vk_Android_Hardware_بفر_Format_Properties2_ANDROID;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkGetAndroidHardwareBufferPropertiesANDROID)(VkDevice device, const struct AHardwareBuffer* buffer, VkAndroidHardwareBufferPropertiesANDROID* pProperties);
-typedef VkResult (VKAPI_PTR *PFN_vkGetMemoryAndroidHardwareBufferANDROID)(VkDevice device, const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo, struct AHardwareBuffer** pBuffer);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_Get_Android_Hardware_بفر_Properties_ANDROID)(VkDevice device, ثابت بنية AHardware_بفر* بفر_2, Vk_Android_Hardware_بفر_Properties_ANDROID* pProperties);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vk_Get_حافظہ_Android_Hardware_بفر_ANDROID)(VkDevice device, ثابت Vk_حافظہ_Get_Android_Hardware_بفر_Info_ANDROID* pInfo, بنية AHardware_بفر** p_بفر);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetAndroidHardwareBufferPropertiesANDROID(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_Get_Android_Hardware_بفر_Properties_ANDROID(
     VkDevice                                    device,
-    const struct AHardwareBuffer*               buffer,
-    VkAndroidHardwareBufferPropertiesANDROID*   pProperties);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryAndroidHardwareBufferANDROID(
+    ثابت بنية AHardware_بفر*               بفر_2,
+    Vk_Android_Hardware_بفر_Properties_ANDROID*   pProperties);
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vk_Get_حافظہ_Android_Hardware_بفر_ANDROID(
     VkDevice                                    device,
-    const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo,
-    struct AHardwareBuffer**                    pBuffer);
-#endif
-#endif
+    ثابت Vk_حافظہ_Get_Android_Hardware_بفر_Info_ANDROID* pInfo,
+    بنية AHardware_بفر**                    p_بفر);
+#جے_انت
+#جے_انت
 
 
 // VK_ANDROID_external_format_resolve is a preprocessor guard. Do not pass it to API calls.
-#define VK_ANDROID_external_format_resolve 1
+#تعریف_کرو VK_ANDROID_external_format_resolve 1
 
-#define VK_ANDROID_EXTERNAL_FORMAT_RESOLVE_SPEC_VERSION 1
-#define VK_ANDROID_EXTERNAL_FORMAT_RESOLVE_EXTENSION_NAME "VK_ANDROID_external_format_resolve"
+#تعریف_کرو VK_ANDROID_EXTERNAL_FORMAT_RESOLVE_SPEC_نسخہ 1
+#تعریف_کرو VK_ANDROID_EXTERNAL_FORMAT_RESOLVE_EXTENSION_NAME "VK_ANDROID_external_format_resolve"
 
-typedef struct VkPhysicalDeviceExternalFormatResolveFeaturesANDROID {
+تعريفنوع بنية VkPhysicalDeviceExternalFormatResolveFeaturesANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_اگلا;
     VkBool32           externalFormatResolve;
 } VkPhysicalDeviceExternalFormatResolveFeaturesANDROID;
 
-typedef struct VkPhysicalDeviceExternalFormatResolvePropertiesANDROID {
+تعريفنوع بنية VkPhysicalDeviceExternalFormatResolvePropertiesANDROID {
     VkStructureType     sType;
-    void*               pNext;
+    فراغ*               p_اگلا;
     VkBool32            nullColorAttachmentWithExternalFormatResolve;
-    VkChromaLocation    externalFormatResolveChromaOffsetX;
-    VkChromaLocation    externalFormatResolveChromaOffsetY;
+    VkChromaLocation    external_Format_Resolve_Chroma_وتھ_X;
+    VkChromaLocation    external_Format_Resolve_Chroma_وتھ_Y;
 } VkPhysicalDeviceExternalFormatResolvePropertiesANDROID;
 
-typedef struct VkAndroidHardwareBufferFormatResolvePropertiesANDROID {
+تعريفنوع بنية Vk_Android_Hardware_بفر_Format_Resolve_Properties_ANDROID {
     VkStructureType    sType;
-    void*              pNext;
+    فراغ*              p_اگلا;
     VkFormat           colorAttachmentFormat;
-} VkAndroidHardwareBufferFormatResolvePropertiesANDROID;
+} Vk_Android_Hardware_بفر_Format_Resolve_Properties_ANDROID;
 
 
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
 }
-#endif
+#جے_انت
 
-#endif
+#جے_انت

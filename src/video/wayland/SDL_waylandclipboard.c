@@ -18,200 +18,200 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylanddatamanager.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandclipboard.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
+#ضمن "SDL_waylanddatamanager.h"
+#ضمن "SDL_waylandevents_c.h"
+#ضمن "SDL_waylandclipboard.h"
+#ضمن "../SDL_clipboard_c.h"
+#ضمن "../../events/SDL_events_c.h"
 
-bool Wayland_SetClipboardData(SDL_VideoDevice *_this)
+bool Wayland_سیٹ_Clipboard_انکڑے(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result = false;
+    SDL_Video_انکڑے *video_انکڑے = _this->اندرونی;
+    SDL_WaylandSeat *seat = video_انکڑے->آخری_implicit_grab_seat;
+    bool نتیجہ = false;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    إذا (!seat && !WAYLAND_wl_list_خالی_تھاواں(&video_انکڑے->seat_list)) {
+        seat = wl_container_دا(video_انکڑے->seat_list.اگلا, seat, link);
     }
 
-    video_data->current_data_offer_seat = seat;
+    video_انکڑے->current_انکڑے_offer_seat = seat;
 
-    if (seat && seat->data_device) {
+    إذا (seat && seat->انکڑے_device) {
         /* Clear references to the clipboard held by other seats, as they are about to become invalid.
          * For the target seat, the new source data is set before clearing the old source, as some
          * clipboard managers prefer this behavior.
          */
         SDL_WaylandSeat *s;
-        wl_list_for_each (s, &video_data->seat_list, link) {
-            if (s->data_device) {
-                if (s != seat) {
-                    Wayland_DataSourceDestroy(s->data_device->selection_source);
-                    s->data_device->selection_source = NULL;
+        wl_list_for_each (s, &video_انکڑے->seat_list, link) {
+            إذا (s->انکڑے_device) {
+                إذا (s != seat) {
+                    Wayland_انکڑے_سروت_Destroy(s->انکڑے_device->selection_سروت);
+                    s->انکڑے_device->selection_سروت = عدم;
                 }
 
-                Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+                Wayland_انکڑے_Offer_Destroy(s->انکڑے_device->selection_offer);
+                s->انکڑے_device->selection_offer = عدم;
             }
         }
 
-        SDL_WaylandDataDevice *data_device = seat->data_device;
+        SDL_Wayland_انکڑے_Device *انکڑے_device = seat->انکڑے_device;
 
-        if (_this->clipboard_callback && _this->clipboard_mime_types) {
-            SDL_WaylandDataSource *source = Wayland_DataSourceCreate(video_data);
-            Wayland_DataSourceSetCallback(source, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
+        إذا (_this->clipboard_callback && _this->clipboard_mime_types) {
+            SDL_Wayland_انکڑے_سروت *سروت = Wayland_انکڑے_سروت_Create(video_انکڑے);
+            Wayland_انکڑے_سروت_سیٹ_Callback(سروت, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
 
-            result = Wayland_DataDeviceSetSelectionSource(data_device, source, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types);
-            if (!result) {
-                Wayland_DataSourceDestroy(source);
+            نتیجہ = Wayland_انکڑے_Device_سیٹ_Selection_سروت(انکڑے_device, سروت, (ثابت حرف **)_this->clipboard_mime_types, _this->عدد_clipboard_mime_types);
+            إذا (!نتیجہ) {
+                Wayland_انکڑے_سروت_Destroy(سروت);
             }
-        } else {
-            Wayland_DataSourceDestroy(data_device->selection_source);
-            data_device->selection_source = NULL;
-            result = true;
+        } وإلا {
+            Wayland_انکڑے_سروت_Destroy(انکڑے_device->selection_سروت);
+            انکڑے_device->selection_سروت = عدم;
+            نتیجہ = true;
         }
     }
 
-    return result;
+    أرجع نتیجہ;
 }
 
-void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length)
+فراغ *Wayland_Get_Clipboard_انکڑے(SDL_VideoDevice *_this, ثابت حرف *mime_type, size_t *لمائی)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    void *buffer = NULL;
+    SDL_Video_انکڑے *video_انکڑے = _this->اندرونی;
+    SDL_WaylandSeat *seat = video_انکڑے->current_انکڑے_offer_seat;
+    فراغ *بفر_2 = عدم;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            buffer = SDL_GetInternalClipboardData(_this, mime_type, length);
-        } else if (Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type)) {
-            buffer = Wayland_DataOfferReceive(data_device->selection_offer, mime_type, length);
+    إذا (seat && seat->انکڑے_device) {
+        SDL_Wayland_انکڑے_Device *انکڑے_device = seat->انکڑے_device;
+        إذا (انکڑے_device->selection_سروت) {
+            بفر_2 = SDL_Get_اندرونی_Clipboard_انکڑے(_this, mime_type, لمائی);
+        } وإلا إذا (Wayland_انکڑے_Offer_Has_MIME(انکڑے_device->selection_offer, mime_type)) {
+            بفر_2 = Wayland_انکڑے_Offer_Receive(انکڑے_device->selection_offer, mime_type, لمائی);
         }
     }
 
-    return buffer;
+    أرجع بفر_2;
 }
 
-bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool Wayland_Has_Clipboard_انکڑے(SDL_VideoDevice *_this, ثابت حرف *mime_type)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    bool result = false;
+    SDL_Video_انکڑے *video_انکڑے = _this->اندرونی;
+    SDL_WaylandSeat *seat = video_انکڑے->current_انکڑے_offer_seat;
+    bool نتیجہ = false;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            result = SDL_HasInternalClipboardData(_this, mime_type);
-        } else {
-            result = Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type);
+    إذا (seat && seat->انکڑے_device) {
+        SDL_Wayland_انکڑے_Device *انکڑے_device = seat->انکڑے_device;
+        إذا (انکڑے_device->selection_سروت) {
+            نتیجہ = SDL_Has_اندرونی_Clipboard_انکڑے(_this, mime_type);
+        } وإلا {
+            نتیجہ = Wayland_انکڑے_Offer_Has_MIME(انکڑے_device->selection_offer, mime_type);
         }
     }
-    return result;
+    أرجع نتیجہ;
 }
 
-static const char *const text_mime_types[] = {
-    TEXT_MIME,
+ساكن ثابت حرف *ثابت متن_mime_types[] = {
+    متن_MIME,
     "text/plain",
     "TEXT",
     "UTF8_STRING",
     "STRING"
 };
 
-const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+ثابت حرف *ثابت *Wayland_Get_متن_Mime_Types(SDL_VideoDevice *_this, size_t *عدد_mime_types)
 {
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    *عدد_mime_types = SDL_arraysize(متن_mime_types);
+    أرجع متن_mime_types;
 }
 
-bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text)
+bool Wayland_سیٹ_Primary_Selection_متن(SDL_VideoDevice *_this, ثابت حرف *متن)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result;
+    SDL_Video_انکڑے *video_انکڑے = _this->اندرونی;
+    SDL_WaylandSeat *seat = video_انکڑے->آخری_implicit_grab_seat;
+    bool نتیجہ;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    إذا (!seat && !WAYLAND_wl_list_خالی_تھاواں(&video_انکڑے->seat_list)) {
+        seat = wl_container_دا(video_انکڑے->seat_list.اگلا, seat, link);
     }
 
-    video_data->current_primary_selection_seat = seat;
+    video_انکڑے->current_primary_selection_seat = seat;
 
-    if (seat && seat->primary_selection_device) {
+    إذا (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (text[0] != '\0') {
-            SDL_WaylandPrimarySelectionSource *source = Wayland_PrimarySelectionSourceCreate(video_data);
-            Wayland_PrimarySelectionSourceSetCallback(source, SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text));
+        إذا (متن[0] != '\0') {
+            SDL_Wayland_Primary_Selection_سروت *سروت = Wayland_Primary_Selection_سروت_Create(video_انکڑے);
+            Wayland_Primary_Selection_سروت_سیٹ_Callback(سروت, SDL_Clipboard_متن_Callback, SDL_free, SDL_strdup(متن));
 
-            result = Wayland_PrimarySelectionDeviceSetSelection(primary_selection_device, source, text_mime_types, SDL_arraysize(text_mime_types));
-            if (!result) {
-                Wayland_PrimarySelectionSourceDestroy(source);
+            نتیجہ = Wayland_Primary_Selection_Device_سیٹ_Selection(primary_selection_device, سروت, متن_mime_types, SDL_arraysize(متن_mime_types));
+            إذا (!نتیجہ) {
+                Wayland_Primary_Selection_سروت_Destroy(سروت);
             }
-        } else {
-            Wayland_PrimarySelectionSourceDestroy(seat->primary_selection_device->selection_source);
-            seat->primary_selection_device->selection_source = NULL;
-            result = true;
+        } وإلا {
+            Wayland_Primary_Selection_سروت_Destroy(seat->primary_selection_device->selection_سروت);
+            seat->primary_selection_device->selection_سروت = عدم;
+            نتیجہ = true;
         }
-    } else {
-        result = SDL_SetError("Primary selection not supported");
+    } وإلا {
+        نتیجہ = SDL_سیٹ_Error("Primary selection not supported");
     }
-    return result;
+    أرجع نتیجہ;
 }
 
-char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this)
+حرف *Wayland_Get_Primary_Selection_متن(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    char *text = NULL;
-    size_t length = 0;
+    SDL_Video_انکڑے *video_انکڑے = _this->اندرونی;
+    SDL_WaylandSeat *seat = video_انکڑے->current_primary_selection_seat;
+    حرف *متن = عدم;
+    size_t لمائی = 0;
 
-    if (seat && seat->primary_selection_device) {
+    إذا (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            text = Wayland_PrimarySelectionSourceGetData(primary_selection_device->selection_source, TEXT_MIME, &length);
-        } else {
-            for (size_t i = 0; i < SDL_arraysize(text_mime_types); i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, text_mime_types[i])) {
-                    text = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, text_mime_types[i], &length);
-                    break;
+        إذا (primary_selection_device->selection_سروت) {
+            متن = Wayland_Primary_Selection_سروت_Get_انکڑے(primary_selection_device->selection_سروت, متن_MIME, &لمائی);
+        } وإلا {
+            لكل (size_t i = 0; i < SDL_arraysize(متن_mime_types); i++) {
+                إذا (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, متن_mime_types[i])) {
+                    متن = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, متن_mime_types[i], &لمائی);
+                    اكسر;
                 }
             }
         }
     }
 
-    if (!text) {
-        text = SDL_strdup("");
+    إذا (!متن) {
+        متن = SDL_strdup("");
     }
 
-    return text;
+    أرجع متن;
 }
 
-bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this)
+bool Wayland_Has_Primary_Selection_متن(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    bool result = false;
+    SDL_Video_انکڑے *video_انکڑے = _this->اندرونی;
+    SDL_WaylandSeat *seat = video_انکڑے->current_primary_selection_seat;
+    bool نتیجہ = false;
 
-    if (seat && seat->primary_selection_device) {
+    إذا (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            result = true;
-        } else {
-            size_t mime_count = 0;
-            const char *const *mime_types = Wayland_GetTextMimeTypes(_this, &mime_count);
-            for (size_t i = 0; i < mime_count; i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
-                    result = true;
-                    break;
+        إذا (primary_selection_device->selection_سروت) {
+            نتیجہ = true;
+        } وإلا {
+            size_t mime_گنتی = 0;
+            ثابت حرف *ثابت *mime_types = Wayland_Get_متن_Mime_Types(_this, &mime_گنتی);
+            لكل (size_t i = 0; i < mime_گنتی; i++) {
+                إذا (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
+                    نتیجہ = true;
+                    اكسر;
                 }
             }
         }
     }
-    return result;
+    أرجع نتیجہ;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#جے_انت // SDL_VIDEO_DRIVER_WAYLAND

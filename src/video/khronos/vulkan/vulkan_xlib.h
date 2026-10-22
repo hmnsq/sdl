@@ -1,5 +1,5 @@
-#ifndef VULKAN_XLIB_H_
-#define VULKAN_XLIB_H_ 1
+#جے_بنا_تعریف VULKAN_XLIB_H_
+#تعریف_کرو VULKAN_XLIB_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,52 +13,52 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+خارجي "C" {
+#جے_انت
 
 
 
 // VK_KHR_xlib_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_xlib_surface 1
+#تعریف_کرو VK_KHR_xlib_surface 1
 
-#define VK_KHR_XLIB_SURFACE_SPEC_VERSION  6
-#define VK_KHR_XLIB_SURFACE_EXTENSION_NAME "VK_KHR_xlib_surface"
+#تعریف_کرو VK_KHR_XLIB_SURFACE_SPEC_نسخہ  6
+#تعریف_کرو VK_KHR_XLIB_SURFACE_EXTENSION_NAME "VK_KHR_xlib_surface"
 
-typedef VkFlags VkXlibSurfaceCreateFlagsKHR;
+تعريفنوع VkFlags VkXlibSurfaceCreateFlagsKHR;
 
-typedef struct VkXlibSurfaceCreateInfoKHR {
+تعريفنوع بنية VkXlibSurfaceCreateInfoKHR {
     VkStructureType                sType;
-    const void*                    pNext;
+    ثابت فراغ*                    p_اگلا;
     VkXlibSurfaceCreateFlagsKHR    flags;
     Display*                       dpy;
-    Window                         window;
+    کھڑکی_2                         کھڑکی;
 } VkXlibSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateXlibSurfaceKHR)(VkInstance instance, const VkXlibSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, Display* dpy, VisualID visualID);
+تعريفنوع Vk_نتیجہ (VKAPI_PTR *PFN_vkCreateXlibSurfaceKHR)(VkInstance instance, ثابت VkXlibSurfaceCreateInfoKHR* pCreateInfo, ثابت Vk_ونڈ_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+تعريفنوع VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t قطار_Family_اشاریہ, Display* dpy, VisualID visualID);
 
-#ifndef VK_NO_PROTOTYPES
+#جے_بنا_تعریف VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateXlibSurfaceKHR(
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_نتیجہ VKAPI_CALL vkCreateXlibSurfaceKHR(
     VkInstance                                  instance,
-    const VkXlibSurfaceCreateInfoKHR*           pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ثابت VkXlibSurfaceCreateInfoKHR*           pCreateInfo,
+    ثابت Vk_ونڈ_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#جے_انت
+#جے_بنا_تعریف VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceXlibPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
+    uint32_t                                    قطار_Family_اشاریہ,
     Display*                                    dpy,
     VisualID                                    visualID);
-#endif
-#endif
+#جے_انت
+#جے_انت
 
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
 }
-#endif
+#جے_انت
 
-#endif
+#جے_انت

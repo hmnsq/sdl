@@ -18,45 +18,45 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS)
+#إذا defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-#include "SDL_windowsvideo.h"
+#ضمن "SDL_windowsvideo.h"
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsevents.h"
+#ضمن "SDL_windowsevents.h"
 
-#include "../../joystick/usb_ids.h"
-#include "../../events/SDL_events_c.h"
-#include "../../thread/SDL_systhread.h"
+#ضمن "../../joystick/usb_ids.h"
+#ضمن "../../events/SDL_events_c.h"
+#ضمن "../../thread/SDL_systhread.h"
 
-#define ENABLE_RAW_MOUSE_INPUT      0x01
-#define RAW_MOUSE_FLAG_NOLEGACY     0x02
-#define ENABLE_RAW_KEYBOARD_INPUT   0x10
-#define RAW_KEYBOARD_FLAG_NOHOTKEYS 0x20
-#define RAW_KEYBOARD_FLAG_INPUTSINK 0x40
+#تعریف_کرو ENABLE_RAW_MOUSE_داخلہ      0x01
+#تعریف_کرو RAW_MOUSE_FLAG_NOLEGACY     0x02
+#تعریف_کرو ENABLE_RAW_KEYBOARD_داخلہ   0x10
+#تعریف_کرو RAW_KEYBOARD_FLAG_NOHOTKEYS 0x20
+#تعریف_کرو RAW_KEYBOARD_FLAG_INPUTSINK 0x40
 
-typedef struct
+تعريفنوع بنية
 {
-    bool done;
+    bool پورا;
     SDL_AtomicU32 flags; // Thread sets this to the actually-set flags if updating state failed
     HANDLE ready_event;
     HANDLE signal_event;
     HANDLE thread;
-} RawInputThreadData;
+} Raw_داخلہ_Thread_انکڑے;
 
-static RawInputThreadData thread_data = { 0 };
+ساكن Raw_داخلہ_Thread_انکڑے thread_انکڑے = { 0 };
 
-typedef enum
+تعريفنوع تعداد
 {
     RINP_QUIT,
     RINP_UPDATE,
     RINP_CONTINUE
-} RawInputIterateResult;
+} Raw_داخلہ_Iterate_نتیجہ;
 
-static RawInputIterateResult IterateRawInputThread(void)
+ساكن Raw_داخلہ_Iterate_نتیجہ Iterate_Raw_داخلہ_Thread(فراغ)
 {
     // The high-order word of GetQueueStatus() will let us know if there's immediate raw input to be processed.
     // A (necessary!) side effect is that it also marks the message queue bits as stale,
@@ -64,370 +64,370 @@ static RawInputIterateResult IterateRawInputThread(void)
 
     // Any pending flag update won't be processed until the queue drains, but this is
     // at most one poll cycle since GetQueueStatus clears the wake bits.
-    if (HIWORD(GetQueueStatus(QS_RAWINPUT)) & QS_RAWINPUT) {
-        return thread_data.done ? RINP_QUIT : RINP_CONTINUE;
+    إذا (HIWORD(Get_قطار_حالت(QS_RAWINPUT)) & QS_RAWINPUT) {
+        أرجع thread_انکڑے.پورا ? RINP_QUIT : RINP_CONTINUE;
     }
 
-    static const DWORD WAIT_SIGNAL = WAIT_OBJECT_0;
-    static const DWORD WAIT_INPUT = WAIT_OBJECT_0 + 1;
+    ساكن ثابت DWORD WAIT_SIGNAL = WAIT_OBJECT_0;
+    ساكن ثابت DWORD WAIT_داخلہ = WAIT_OBJECT_0 + 1;
 
     // There wasn't anything, so we'll wait until new data (or signal_event) wakes us up.
-    DWORD wait_status = MsgWaitForMultipleObjects(1, &thread_data.signal_event, FALSE, INFINITE, QS_RAWINPUT);
-    if (wait_status == WAIT_SIGNAL) {
+    DWORD wait_حالت = پیغام_Wait_For_مضرب_Objects(1, &thread_انکڑے.signal_event, FALSE, INFINITE, QS_RAWINPUT);
+    إذا (wait_حالت == WAIT_SIGNAL) {
         // signal_event can only be set if we need to update or quit.
-        return thread_data.done ? RINP_QUIT : RINP_UPDATE;
-    } else if (wait_status == WAIT_INPUT) {
-        return RINP_CONTINUE;
-    } else {
-        SDL_LogWarn(SDL_LOG_CATEGORY_INPUT, "Raw input thread exiting, unexpected wait result: %" SDL_PRIuULONG, wait_status);
-        return RINP_QUIT;
+        أرجع thread_انکڑے.پورا ? RINP_QUIT : RINP_UPDATE;
+    } وإلا إذا (wait_حالت == WAIT_داخلہ) {
+        أرجع RINP_CONTINUE;
+    } وإلا {
+        SDL_LogWarn(SDL_LOG_CATEGORY_داخلہ, "Raw input thread exiting, unexpected wait result: %" SDL_PRIuULONG, wait_حالت);
+        أرجع RINP_QUIT;
     }
 }
 
-static bool UpdateRawInputDeviceFlags(HWND window, Uint32 last_flags, Uint32 new_flags)
+ساكن bool Update_Raw_داخلہ_Device_Flags(HWND کھڑکی, Uint32 آخری_flags, Uint32 new_flags)
 {
     // We had nothing enabled, and we're trying to stop everything. Nothing to do.
-    if (last_flags == new_flags) {
-        return true;
+    إذا (آخری_flags == new_flags) {
+        أرجع true;
     }
 
     RAWINPUTDEVICE devices[2] = { 0 };
-    UINT count = 0;
+    UINT گنتی = 0;
 
-    const Uint32 old_mouse_flags = last_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
-    const Uint32 new_mouse_flags = new_flags & (ENABLE_RAW_MOUSE_INPUT | RAW_MOUSE_FLAG_NOLEGACY);
+    ثابت Uint32 old_mouse_flags = آخری_flags & (ENABLE_RAW_MOUSE_داخلہ | RAW_MOUSE_FLAG_NOLEGACY);
+    ثابت Uint32 new_mouse_flags = new_flags & (ENABLE_RAW_MOUSE_داخلہ | RAW_MOUSE_FLAG_NOLEGACY);
 
-    if (old_mouse_flags != new_mouse_flags) {
-        devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
-        devices[count].usUsage = USB_USAGE_GENERIC_MOUSE;
+    إذا (old_mouse_flags != new_mouse_flags) {
+        devices[گنتی].us_Usage_ورقہ = USB_USAGEPAGE_GENERIC_DESKTOP;
+        devices[گنتی].usUsage = USB_USAGE_GENERIC_MOUSE;
 
-        if (new_flags & ENABLE_RAW_MOUSE_INPUT) {
-            devices[count].dwFlags = 0;
-            devices[count].hwndTarget = window;
-            if (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
-                devices[count].dwFlags |= RIDEV_NOLEGACY;
+        إذا (new_flags & ENABLE_RAW_MOUSE_داخلہ) {
+            devices[گنتی].dwFlags = 0;
+            devices[گنتی].hwnd_نشانہ = کھڑکی;
+            إذا (new_mouse_flags & RAW_MOUSE_FLAG_NOLEGACY) {
+                devices[گنتی].dwFlags |= RIDEV_NOLEGACY;
             }
-        } else {
-            devices[count].dwFlags = RIDEV_REMOVE;
-            devices[count].hwndTarget = NULL;
+        } وإلا {
+            devices[گنتی].dwFlags = RIDEV_REMOVE;
+            devices[گنتی].hwnd_نشانہ = عدم;
         }
 
-        ++count;
+        ++گنتی;
     }
 
-    const Uint32 old_kb_flags = last_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
-    const Uint32 new_kb_flags = new_flags & (ENABLE_RAW_KEYBOARD_INPUT | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
+    ثابت Uint32 old_kb_flags = آخری_flags & (ENABLE_RAW_KEYBOARD_داخلہ | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
+    ثابت Uint32 new_kb_flags = new_flags & (ENABLE_RAW_KEYBOARD_داخلہ | RAW_KEYBOARD_FLAG_NOHOTKEYS | RAW_KEYBOARD_FLAG_INPUTSINK);
 
-    if (old_kb_flags != new_kb_flags) {
-        devices[count].usUsagePage = USB_USAGEPAGE_GENERIC_DESKTOP;
-        devices[count].usUsage = USB_USAGE_GENERIC_KEYBOARD;
+    إذا (old_kb_flags != new_kb_flags) {
+        devices[گنتی].us_Usage_ورقہ = USB_USAGEPAGE_GENERIC_DESKTOP;
+        devices[گنتی].usUsage = USB_USAGE_GENERIC_KEYBOARD;
 
-        if (new_kb_flags & ENABLE_RAW_KEYBOARD_INPUT) {
-            devices[count].dwFlags = 0;
-            devices[count].hwndTarget = window;
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
-                devices[count].dwFlags |= RIDEV_NOHOTKEYS;
+        إذا (new_kb_flags & ENABLE_RAW_KEYBOARD_داخلہ) {
+            devices[گنتی].dwFlags = 0;
+            devices[گنتی].hwnd_نشانہ = کھڑکی;
+            إذا (new_kb_flags & RAW_KEYBOARD_FLAG_NOHOTKEYS) {
+                devices[گنتی].dwFlags |= RIDEV_NOHOTKEYS;
             }
-            if (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
-                devices[count].dwFlags |= RIDEV_INPUTSINK;
+            إذا (new_kb_flags & RAW_KEYBOARD_FLAG_INPUTSINK) {
+                devices[گنتی].dwFlags |= RIDEV_INPUTSINK;
             }
-        } else {
-            devices[count].dwFlags = RIDEV_REMOVE;
-            devices[count].hwndTarget = NULL;
+        } وإلا {
+            devices[گنتی].dwFlags = RIDEV_REMOVE;
+            devices[گنتی].hwnd_نشانہ = عدم;
         }
 
-        ++count;
+        ++گنتی;
     }
 
-    if (RegisterRawInputDevices(devices, count, sizeof(devices[0]))) {
-        return true;
+    إذا (رجسٹر_Raw_داخلہ_Devices(devices, گنتی, حجم(devices[0]))) {
+        أرجع true;
     }
-    return false;
+    أرجع false;
 }
 
-static DWORD WINAPI WIN_RawInputThread(LPVOID param)
+ساكن DWORD WINAPI WIN_Raw_داخلہ_Thread(LPVOID param)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    Uint32 last_flags = 0;
-    HWND window;
+    Uint32 آخری_flags = 0;
+    HWND کھڑکی;
 
-    SDL_SYS_SetupThread("SDLRawInput");
+    SDL_SYS_تیاری_Thread("SDLRawInput");
 
-    window = CreateWindowEx(0, TEXT("Message"), NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
-    if (!window) {
-        return 0;
+    کھڑکی = Create_کھڑکی_Ex(0, متن_2("Message"), عدم, 0, 0, 0, 0, 0, HWND_سنیہا, عدم, عدم, عدم);
+    إذا (!کھڑکی) {
+        أرجع 0;
     }
 
     // This doesn't *really* need to be atomic, because the parent is waiting for us
-    last_flags = SDL_GetAtomicU32(&thread_data.flags);
-    if (!UpdateRawInputDeviceFlags(window, 0, last_flags)) {
-        DestroyWindow(window);
-        return 0;
+    آخری_flags = SDL_GetAtomicU32(&thread_انکڑے.flags);
+    إذا (!Update_Raw_داخلہ_Device_Flags(کھڑکی, 0, آخری_flags)) {
+        Destroy_کھڑکی(کھڑکی);
+        أرجع 0;
     }
 
     // Make sure we get events as soon as possible
-    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+    سیٹ_Thread_ترجیح(GetCurrentThread(), THREAD_ترجیح_ویلا_CRITICAL);
 
     // Tell the parent we're ready to go!
-    SetEvent(thread_data.ready_event);
+    سیٹ_Event(thread_انکڑے.ready_event);
 
-    RawInputIterateResult iter_result;
+    Raw_داخلہ_Iterate_نتیجہ iter_نتیجہ;
 
     Uint64 idle_begin = SDL_GetTicksNS();
-    while ((iter_result = IterateRawInputThread()) != RINP_QUIT) {
-        switch (iter_result) {
-        case RINP_QUIT: // Unreachable
-            break;
-        case RINP_UPDATE:
+    طالما ((iter_نتیجہ = Iterate_Raw_داخلہ_Thread()) != RINP_QUIT) {
+        بدل (iter_نتیجہ) {
+        حالة RINP_QUIT: // Unreachable
+            اكسر;
+        حالة RINP_UPDATE:
         {
-            const Uint32 new_flags = SDL_GetAtomicU32(&thread_data.flags);
-            if (!UpdateRawInputDeviceFlags(window, last_flags, new_flags)) {
+            ثابت Uint32 new_flags = SDL_GetAtomicU32(&thread_انکڑے.flags);
+            إذا (!Update_Raw_داخلہ_Device_Flags(کھڑکی, آخری_flags, new_flags)) {
                 // Revert the shared flags so the main thread can detect the failure
-                SDL_SetAtomicU32(&thread_data.flags, last_flags);
-            } else {
-                last_flags = new_flags;
+                SDL_سیٹ_Atomic_U32(&thread_انکڑے.flags, آخری_flags);
+            } وإلا {
+                آخری_flags = new_flags;
             }
-        } break;
-        case RINP_CONTINUE:
+        } اكسر;
+        حالة RINP_CONTINUE:
         {
-            Uint64 idle_end = SDL_GetTicksNS();
-            Uint64 idle_time = idle_end - idle_begin;
-            Uint64 usb_8khz_interval = SDL_US_TO_NS(125);
-            Uint64 poll_start = idle_time < usb_8khz_interval ? _this->internal->last_rawinput_poll : idle_end;
+            Uint64 idle_سرا = SDL_GetTicksNS();
+            Uint64 idle_ویلا = idle_سرا - idle_begin;
+            Uint64 usb_8khz_interval = SDL_US_منزل_NS(125);
+            Uint64 poll_شروع = idle_ویلا < usb_8khz_interval ? _this->اندرونی->آخری_rawinput_poll : idle_سرا;
 
-            WIN_PollRawInput(_this, poll_start);
+            WIN_Poll_Raw_داخلہ(_this, poll_شروع);
 
             // Reset idle_begin for the next go-around
             idle_begin = SDL_GetTicksNS();
-        } break;
+        } اكسر;
         }
     }
 
-    if (_this->internal->raw_input_fake_pen_id) {
-        SDL_RemovePenDevice(0, SDL_GetKeyboardFocus(), _this->internal->raw_input_fake_pen_id);
-        _this->internal->raw_input_fake_pen_id = 0;
+    إذا (_this->اندرونی->raw_داخلہ_fake_pen_id) {
+        SDL_RemovePenDevice(0, SDL_GetKeyboardFocus(), _this->اندرونی->raw_داخلہ_fake_pen_id);
+        _this->اندرونی->raw_داخلہ_fake_pen_id = 0;
     }
 
     // Reset this here, since if we're exiting due to failure, WIN_UpdateRawInputEnabled would see a stale value.
-    SDL_SetAtomicU32(&thread_data.flags, 0);
+    SDL_سیٹ_Atomic_U32(&thread_انکڑے.flags, 0);
 
-    UpdateRawInputDeviceFlags(NULL, last_flags, 0);
+    Update_Raw_داخلہ_Device_Flags(عدم, آخری_flags, 0);
 
-    DestroyWindow(window);
+    Destroy_کھڑکی(کھڑکی);
 
-    return 0;
+    أرجع 0;
 }
 
-static void CleanupRawInputThreadData(void)
+ساكن فراغ Cleanup_Raw_داخلہ_Thread_انکڑے(فراغ)
 {
-    if (thread_data.thread) {
-        thread_data.done = true;
-        SetEvent(thread_data.signal_event);
-        WaitForSingleObject(thread_data.thread, 3000);
-        CloseHandle(thread_data.thread);
+    إذا (thread_انکڑے.thread) {
+        thread_انکڑے.پورا = true;
+        سیٹ_Event(thread_انکڑے.signal_event);
+        WaitForSingleObject(thread_انکڑے.thread, 3000);
+        CloseHandle(thread_انکڑے.thread);
     }
 
-    if (thread_data.ready_event) {
-        CloseHandle(thread_data.ready_event);
+    إذا (thread_انکڑے.ready_event) {
+        CloseHandle(thread_انکڑے.ready_event);
     }
 
-    if (thread_data.signal_event) {
-        CloseHandle(thread_data.signal_event);
+    إذا (thread_انکڑے.signal_event) {
+        CloseHandle(thread_انکڑے.signal_event);
     }
 
-    thread_data = (RawInputThreadData){ 0 };
+    thread_انکڑے = (Raw_داخلہ_Thread_انکڑے){ 0 };
 }
 
 // Computes the desired raw input flags from SDL_VideoData and ensures the
 // raw input thread's device registrations match.
 // Creates the thread on first use, only WIN_QuitRawInput actually shuts it down.
-static bool WIN_UpdateRawInputEnabled(SDL_VideoDevice *_this)
+ساكن bool WIN_Update_Raw_داخلہ_Enabled(SDL_VideoDevice *_this)
 {
-    bool result = false;
-    SDL_VideoData *data = _this->internal;
+    bool نتیجہ = false;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
     Uint32 desired_flags = 0;
 
-    if (!data->gameinput_context) {
-        if (data->raw_mouse_enabled) {
-            desired_flags |= ENABLE_RAW_MOUSE_INPUT;
-            if (data->raw_mouse_flag_nolegacy) {
+    إذا (!انکڑے->gameinput_context) {
+        إذا (انکڑے->raw_mouse_enabled) {
+            desired_flags |= ENABLE_RAW_MOUSE_داخلہ;
+            إذا (انکڑے->raw_mouse_flag_nolegacy) {
                 desired_flags |= RAW_MOUSE_FLAG_NOLEGACY;
             }
         }
-        if (data->raw_keyboard_enabled) {
-            desired_flags |= ENABLE_RAW_KEYBOARD_INPUT;
-            if (data->raw_keyboard_flag_nohotkeys) {
+        إذا (انکڑے->raw_keyboard_enabled) {
+            desired_flags |= ENABLE_RAW_KEYBOARD_داخلہ;
+            إذا (انکڑے->raw_keyboard_flag_nohotkeys) {
                 desired_flags |= RAW_KEYBOARD_FLAG_NOHOTKEYS;
             }
-            if (data->raw_keyboard_flag_inputsink) {
+            إذا (انکڑے->raw_keyboard_flag_inputsink) {
                 desired_flags |= RAW_KEYBOARD_FLAG_INPUTSINK;
             }
         }
     }
 
-    if (desired_flags == SDL_GetAtomicU32(&thread_data.flags)) {
-        result = true;
-        goto done;
+    إذا (desired_flags == SDL_GetAtomicU32(&thread_انکڑے.flags)) {
+        نتیجہ = true;
+        اذهب پورا;
     }
 
     // If the thread exited unexpectedly (e.g. MsgWaitForMultipleObjects failed),
     // the handle is stale. Clean it up so the creation path below can recover.
-    if (thread_data.thread && WaitForSingleObject(thread_data.thread, 0) != WAIT_TIMEOUT) {
-        CleanupRawInputThreadData();
+    إذا (thread_انکڑے.thread && WaitForSingleObject(thread_انکڑے.thread, 0) != WAIT_TIMEOUT) {
+        Cleanup_Raw_داخلہ_Thread_انکڑے();
     }
 
     // The thread will read from this to update its flags
-    SDL_SetAtomicU32(&thread_data.flags, desired_flags);
+    SDL_سیٹ_Atomic_U32(&thread_انکڑے.flags, desired_flags);
 
-    if (thread_data.thread) {
+    إذا (thread_انکڑے.thread) {
         // Thread is already running. Fire (the event) and forget, it'll read the atomic flags on wakeup.
 
         // If RegisterRawInputDevices fails, the thread reverts the atomic and the next call
         // to this function will see the mismatch and retry.
-        SDL_assert(thread_data.signal_event);
-        SetEvent(thread_data.signal_event);
-        result = true;
-    } else if (desired_flags) {
+        SDL_assert(thread_انکڑے.signal_event);
+        سیٹ_Event(thread_انکڑے.signal_event);
+        نتیجہ = true;
+    } وإلا إذا (desired_flags) {
         HANDLE wait_handles[2];
 
         // Thread isn't running, spin it up
-        thread_data.ready_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.ready_event) {
-            WIN_SetError("CreateEvent");
-            goto done;
+        thread_انکڑے.ready_event = CreateEvent(عدم, FALSE, FALSE, عدم);
+        إذا (!thread_انکڑے.ready_event) {
+            WIN_سیٹ_Error("CreateEvent");
+            اذهب پورا;
         }
 
-        thread_data.done = false;
-        thread_data.signal_event = CreateEvent(NULL, FALSE, FALSE, NULL);
-        if (!thread_data.signal_event) {
-            WIN_SetError("CreateEvent");
-            goto done;
+        thread_انکڑے.پورا = false;
+        thread_انکڑے.signal_event = CreateEvent(عدم, FALSE, FALSE, عدم);
+        إذا (!thread_انکڑے.signal_event) {
+            WIN_سیٹ_Error("CreateEvent");
+            اذهب پورا;
         }
 
-        thread_data.thread = CreateThread(NULL, 0, WIN_RawInputThread, NULL, 0, NULL);
-        if (!thread_data.thread) {
-            WIN_SetError("CreateThread");
-            goto done;
+        thread_انکڑے.thread = CreateThread(عدم, 0, WIN_Raw_داخلہ_Thread, عدم, 0, عدم);
+        إذا (!thread_انکڑے.thread) {
+            WIN_سیٹ_Error("CreateThread");
+            اذهب پورا;
         }
 
         // Wait for the thread to complete initial setup or exit
-        wait_handles[0] = thread_data.ready_event;
-        wait_handles[1] = thread_data.thread;
-        if (WaitForMultipleObjects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
-            SDL_SetError("Couldn't set up raw input handling");
-            goto done;
+        wait_handles[0] = thread_انکڑے.ready_event;
+        wait_handles[1] = thread_انکڑے.thread;
+        إذا (Wait_For_مضرب_Objects(2, wait_handles, FALSE, INFINITE) != WAIT_OBJECT_0) {
+            SDL_سیٹ_Error("Couldn't set up raw input handling");
+            اذهب پورا;
         }
-        result = true;
-    } else {
+        نتیجہ = true;
+    } وإلا {
         // Thread isn't running and we tried to disable raw input, nothing to do
-        result = true;
+        نتیجہ = true;
     }
-done:
-    if (!result) {
-        CleanupRawInputThreadData();
+پورا:
+    إذا (!نتیجہ) {
+        Cleanup_Raw_داخلہ_Thread_انکڑے();
     }
-    return result;
+    أرجع نتیجہ;
 }
 
-bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
+bool WIN_سیٹ_Raw_Mouse_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    SDL_VideoData *data = _this->internal;
-    data->raw_mouse_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
-            data->raw_mouse_enabled = !enabled;
-            return false;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+    انکڑے->raw_mouse_enabled = enabled;
+    إذا (انکڑے->gameinput_context) {
+        إذا (!WIN_Update_Game_داخلہ_Enabled(_this)) {
+            انکڑے->raw_mouse_enabled = !enabled;
+            أرجع false;
         }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
-            data->raw_mouse_enabled = !enabled;
-            return false;
-        }
-    }
-    return true;
-}
-
-bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
-{
-    SDL_VideoData *data = _this->internal;
-
-    data->raw_mouse_flag_nolegacy = enabled;
-
-    return WIN_UpdateRawInputEnabled(_this);
-}
-
-bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
-{
-    SDL_VideoData *data = _this->internal;
-    data->raw_keyboard_enabled = enabled;
-    if (data->gameinput_context) {
-        if (!WIN_UpdateGameInputEnabled(_this)) {
-            data->raw_keyboard_enabled = !enabled;
-            return false;
-        }
-    } else {
-        if (!WIN_UpdateRawInputEnabled(_this)) {
-            data->raw_keyboard_enabled = !enabled;
-            return false;
+    } وإلا {
+        إذا (!WIN_Update_Raw_داخلہ_Enabled(_this)) {
+            انکڑے->raw_mouse_enabled = !enabled;
+            أرجع false;
         }
     }
-    return true;
+    أرجع true;
 }
 
-bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
+bool WIN_سیٹ_Raw_Mouse_Flag_No_Legacy(SDL_VideoDevice *_this, bool enabled)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
 
-    data->raw_keyboard_flag_nohotkeys = enabled;
+    انکڑے->raw_mouse_flag_nolegacy = enabled;
 
-    return WIN_UpdateRawInputEnabled(_this);
+    أرجع WIN_Update_Raw_داخلہ_Enabled(_this);
 }
 
-bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
+bool WIN_سیٹ_Raw_Keyboard_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    SDL_VideoData *data = _this->internal;
-
-    data->raw_keyboard_flag_inputsink = enabled;
-
-    return WIN_UpdateRawInputEnabled(_this);
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+    انکڑے->raw_keyboard_enabled = enabled;
+    إذا (انکڑے->gameinput_context) {
+        إذا (!WIN_Update_Game_داخلہ_Enabled(_this)) {
+            انکڑے->raw_keyboard_enabled = !enabled;
+            أرجع false;
+        }
+    } وإلا {
+        إذا (!WIN_Update_Raw_داخلہ_Enabled(_this)) {
+            انکڑے->raw_keyboard_enabled = !enabled;
+            أرجع false;
+        }
+    }
+    أرجع true;
 }
 
-void WIN_QuitRawInput(SDL_VideoDevice *_this)
+bool WIN_سیٹ_Raw_Keyboard_Flag_No_Hotkeys(SDL_VideoDevice *_this, bool enabled)
 {
-    CleanupRawInputThreadData();
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+
+    انکڑے->raw_keyboard_flag_nohotkeys = enabled;
+
+    أرجع WIN_Update_Raw_داخلہ_Enabled(_this);
 }
 
-#else
-
-bool WIN_SetRawMouseEnabled(SDL_VideoDevice *_this, bool enabled)
+bool WIN_سیٹ_Raw_Keyboard_Flag_Inputsink(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+
+    انکڑے->raw_keyboard_flag_inputsink = enabled;
+
+    أرجع WIN_Update_Raw_داخلہ_Enabled(_this);
 }
 
-bool WIN_SetRawMouseFlag_NoLegacy(SDL_VideoDevice *_this, bool enabled)
+فراغ WIN_Quit_Raw_داخلہ(SDL_VideoDevice *_this)
 {
-    return SDL_Unsupported();
+    Cleanup_Raw_داخلہ_Thread_انکڑے();
 }
 
-bool WIN_SetRawKeyboardEnabled(SDL_VideoDevice *_this, bool enabled)
+#وإلا
+
+bool WIN_سیٹ_Raw_Mouse_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    أرجع SDL_Unsupported();
 }
 
-bool WIN_SetRawKeyboardFlag_NoHotkeys(SDL_VideoDevice *_this, bool enabled)
+bool WIN_سیٹ_Raw_Mouse_Flag_No_Legacy(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    أرجع SDL_Unsupported();
 }
 
-bool WIN_SetRawKeyboardFlag_Inputsink(SDL_VideoDevice *_this, bool enabled)
+bool WIN_سیٹ_Raw_Keyboard_Enabled(SDL_VideoDevice *_this, bool enabled)
 {
-    return SDL_Unsupported();
+    أرجع SDL_Unsupported();
 }
 
-void WIN_QuitRawInput(SDL_VideoDevice *_this)
+bool WIN_سیٹ_Raw_Keyboard_Flag_No_Hotkeys(SDL_VideoDevice *_this, bool enabled)
+{
+    أرجع SDL_Unsupported();
+}
+
+bool WIN_سیٹ_Raw_Keyboard_Flag_Inputsink(SDL_VideoDevice *_this, bool enabled)
+{
+    أرجع SDL_Unsupported();
+}
+
+فراغ WIN_Quit_Raw_داخلہ(SDL_VideoDevice *_this)
 {
 }
 
-#endif // !SDL_PLATFORM_XBOXONE && !SDL_PLATFORM_XBOXSERIES
+#جے_انت // !SDL_PLATFORM_XBOXONE && !SDL_PLATFORM_XBOXSERIES
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#جے_انت // SDL_VIDEO_DRIVER_WINDOWS

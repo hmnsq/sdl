@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_windowskeyboard_h_
-#define SDL_windowskeyboard_h_
+#جے_بنا_تعریف SDL_windowskeyboard_h_
+#تعریف_کرو SDL_windowskeyboard_h_
 
-extern void WIN_InitKeyboard(SDL_VideoDevice *_this);
-extern void WIN_UpdateKeymap(bool send_event);
-extern void WIN_QuitKeyboard(SDL_VideoDevice *_this);
+خارجي فراغ WIN_InitKeyboard(SDL_VideoDevice *_this);
+خارجي فراغ WIN_UpdateKeymap(bool send_event);
+خارجي فراغ WIN_QuitKeyboard(SDL_VideoDevice *_this);
 
-extern void WIN_ResetDeadKeys(void);
+خارجي فراغ WIN_Reset_Dead_کلیدیں(فراغ);
 
-extern bool WIN_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern bool WIN_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_Window *window);
+خارجي bool WIN_شروع_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID props);
+خارجي bool WIN_Stop_متن_داخلہ(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool WIN_Update_متن_داخلہ_Area(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي bool WIN_ClearComposition(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
 
-extern bool WIN_HandleIMEMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM *lParam, struct SDL_VideoData *videodata);
-extern void WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
+خارجي bool WIN_HandleIMEMessage(HWND hwnd, UINT پیغام, WPARAM wParam, LPARAM *lParam, بنية SDL_Video_انکڑے *videodata);
+خارجي فراغ WIN_UpdateIMECandidates(SDL_VideoDevice *_this);
 
-#endif // SDL_windowskeyboard_h_
+#جے_انت // SDL_windowskeyboard_h_

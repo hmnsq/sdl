@@ -18,258 +18,258 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
 
-#include "SDL_windowsvideo.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../events/scancodes_windows.h"
-#include "../../main/SDL_main_callbacks.h"
-#include "../../core/windows/SDL_hid.h"
+#ضمن "SDL_windowsvideo.h"
+#ضمن "../../events/SDL_events_c.h"
+#ضمن "../../events/SDL_touch_c.h"
+#ضمن "../../events/scancodes_windows.h"
+#ضمن "../../main/SDL_main_callbacks.h"
+#ضمن "../../core/windows/SDL_hid.h"
 
 // Dropfile support
-#include <shellapi.h>
+#ضمن <shellapi.h>
 
 // Device names
-#include <setupapi.h>
+#ضمن <setupapi.h>
 
 // For GET_X_LPARAM, GET_Y_LPARAM.
-#include <windowsx.h>
+#ضمن <windowsx.h>
 
 // For WM_TABLET_QUERYSYSTEMGESTURESTATUS et. al.
-#ifdef HAVE_TPCSHRD_H
-#include <tpcshrd.h>
-#endif // HAVE_TPCSHRD_H
+#جے_تعریف_شدہ HAVE_TPCSHRD_H
+#ضمن <tpcshrd.h>
+#جے_انت // HAVE_TPCSHRD_H
 
-#if 0
-#define WMMSG_DEBUG
-#endif
-#ifdef WMMSG_DEBUG
-#include <stdio.h>
-#include "wmmsg.h"
-#endif
+#إذا 0
+#تعریف_کرو WMMSG_DEBUG
+#جے_انت
+#جے_تعریف_شدہ WMMSG_DEBUG
+#ضمن <stdio.h>
+#ضمن "wmmsg.h"
+#جے_انت
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-#include <shobjidl.h>
-#endif
+#إذا !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#ضمن <shobjidl.h>
+#جے_انت
 
-#ifdef SDL_PLATFORM_GDK
-#include "../../core/gdk/SDL_gdk.h"
-#endif
+#جے_تعریف_شدہ SDL_PLATFORM_GDK
+#ضمن "../../core/gdk/SDL_gdk.h"
+#جے_انت
 
 // #define HIGHDPI_DEBUG
 
 // Undocumented window messages
-#ifndef WM_NCUAHDRAWCAPTION
-#define WM_NCUAHDRAWCAPTION 0xAE
-#endif
-#ifndef WM_NCUAHDRAWFRAME
-#define WM_NCUAHDRAWFRAME 0xAF
-#endif
+#جے_بنا_تعریف WM_NCUAHDRAWCAPTION
+#تعریف_کرو WM_NCUAHDRAWCAPTION 0xAE
+#جے_انت
+#جے_بنا_تعریف WM_NCUAHDRAWFRAME
+#تعریف_کرو WM_NCUAHDRAWFRAME 0xAF
+#جے_انت
 
 // Make sure XBUTTON stuff is defined that isn't in older Platform SDKs...
-#ifndef WM_XBUTTONDOWN
-#define WM_XBUTTONDOWN 0x020B
-#endif
-#ifndef WM_XBUTTONUP
-#define WM_XBUTTONUP 0x020C
-#endif
-#ifndef GET_XBUTTON_WPARAM
-#define GET_XBUTTON_WPARAM(w) (HIWORD(w))
-#endif
-#ifndef WM_INPUT
-#define WM_INPUT 0x00ff
-#endif
-#ifndef WM_TOUCH
-#define WM_TOUCH 0x0240
-#endif
-#ifndef WM_MOUSEHWHEEL
-#define WM_MOUSEHWHEEL 0x020E
-#endif
-#ifndef RI_MOUSE_HWHEEL
-#define RI_MOUSE_HWHEEL 0x0800
-#endif
-#ifndef WM_POINTERUPDATE
-#define WM_POINTERUPDATE 0x0245
-#endif
-#ifndef WM_POINTERDOWN
-#define WM_POINTERDOWN 0x0246
-#endif
-#ifndef WM_POINTERUP
-#define WM_POINTERUP 0x0247
-#endif
-#ifndef WM_POINTERENTER
-#define WM_POINTERENTER 0x0249
-#endif
-#ifndef WM_POINTERLEAVE
-#define WM_POINTERLEAVE 0x024A
-#endif
-#ifndef WM_POINTERCAPTURECHANGED
-#define WM_POINTERCAPTURECHANGED 0x024C
-#endif
-#ifndef WM_UNICHAR
-#define WM_UNICHAR 0x0109
-#endif
-#ifndef WM_DPICHANGED
-#define WM_DPICHANGED 0x02E0
-#endif
-#ifndef WM_GETDPISCALEDSIZE
-#define WM_GETDPISCALEDSIZE 0x02E4
-#endif
-#ifndef TOUCHEVENTF_PEN
-#define TOUCHEVENTF_PEN 0x0040
-#endif
+#جے_بنا_تعریف WM_XBUTTONDOWN
+#تعریف_کرو WM_XBUTTONDOWN 0x020B
+#جے_انت
+#جے_بنا_تعریف WM_XBUTTONUP
+#تعریف_کرو WM_XBUTTONUP 0x020C
+#جے_انت
+#جے_بنا_تعریف GET_XBUTTON_WPARAM
+#تعریف_کرو GET_XBUTTON_WPARAM(w) (HIWORD(w))
+#جے_انت
+#جے_بنا_تعریف WM_داخلہ
+#تعریف_کرو WM_داخلہ 0x00ff
+#جے_انت
+#جے_بنا_تعریف WM_TOUCH
+#تعریف_کرو WM_TOUCH 0x0240
+#جے_انت
+#جے_بنا_تعریف WM_MOUSEHWHEEL
+#تعریف_کرو WM_MOUSEHWHEEL 0x020E
+#جے_انت
+#جے_بنا_تعریف RI_MOUSE_HWHEEL
+#تعریف_کرو RI_MOUSE_HWHEEL 0x0800
+#جے_انت
+#جے_بنا_تعریف WM_POINTERUPDATE
+#تعریف_کرو WM_POINTERUPDATE 0x0245
+#جے_انت
+#جے_بنا_تعریف WM_POINTERDOWN
+#تعریف_کرو WM_POINTERDOWN 0x0246
+#جے_انت
+#جے_بنا_تعریف WM_POINTERUP
+#تعریف_کرو WM_POINTERUP 0x0247
+#جے_انت
+#جے_بنا_تعریف WM_POINTERENTER
+#تعریف_کرو WM_POINTERENTER 0x0249
+#جے_انت
+#جے_بنا_تعریف WM_POINTERLEAVE
+#تعریف_کرو WM_POINTERLEAVE 0x024A
+#جے_انت
+#جے_بنا_تعریف WM_POINTERCAPTURECHANGED
+#تعریف_کرو WM_POINTERCAPTURECHANGED 0x024C
+#جے_انت
+#جے_بنا_تعریف WM_UNICHAR
+#تعریف_کرو WM_UNICHAR 0x0109
+#جے_انت
+#جے_بنا_تعریف WM_DPICHANGED
+#تعریف_کرو WM_DPICHANGED 0x02E0
+#جے_انت
+#جے_بنا_تعریف WM_GETDPISCALEDSIZE
+#تعریف_کرو WM_GETDPISCALEDSIZE 0x02E4
+#جے_انت
+#جے_بنا_تعریف TOUCHEVENTF_PEN
+#تعریف_کرو TOUCHEVENTF_PEN 0x0040
+#جے_انت
 
-#ifndef MAPVK_VK_TO_VSC_EX
-#define MAPVK_VK_TO_VSC_EX 4
-#endif
+#جے_بنا_تعریف MAPVK_VK_منزل_VSC_EX
+#تعریف_کرو MAPVK_VK_منزل_VSC_EX 4
+#جے_انت
 
-#ifndef WC_ERR_INVALID_CHARS
-#define WC_ERR_INVALID_CHARS 0x00000080
-#endif
+#جے_بنا_تعریف WC_ERR_INVALID_CHARS
+#تعریف_کرو WC_ERR_INVALID_CHARS 0x00000080
+#جے_انت
 
-#ifndef IS_HIGH_SURROGATE
-#define IS_HIGH_SURROGATE(x) (((x) >= 0xd800) && ((x) <= 0xdbff))
-#endif
+#جے_بنا_تعریف IS_بلند_SURROGATE
+#تعریف_کرو IS_بلند_SURROGATE(x) (((x) >= 0xd800) && ((x) <= 0xdbff))
+#جے_انت
 
-#ifndef USER_TIMER_MINIMUM
-#define USER_TIMER_MINIMUM 0x0000000A
-#endif
+#جے_بنا_تعریف USER_TIMER_MINIMUM
+#تعریف_کرو USER_TIMER_MINIMUM 0x0000000A
+#جے_انت
 
 // Used to compare Windows message timestamps
-#define SDL_TICKS_PASSED(A, B) ((Sint32)((B) - (A)) <= 0)
+#تعریف_کرو SDL_TICKS_PASSED(A, B) ((Sint32)((B) - (A)) <= 0)
 
-#ifdef _WIN64
-typedef Uint64 QWORD; // Needed for NEXTRAWINPUTBLOCK()
-#endif
+#جے_تعریف_شدہ _WIN64
+تعريفنوع Uint64 QWORD; // Needed for NEXTRAWINPUTBLOCK()
+#جے_انت
 
-static bool SDL_processing_messages;
-static DWORD message_tick;
-static Uint64 timestamp_offset;
+ساكن bool SDL_processing_messages;
+ساكن DWORD سنیہا_tick;
+ساكن Uint64 timestamp_وتھ;
 
-static void WIN_SetMessageTick(DWORD tick)
+ساكن فراغ WIN_سیٹ_سنیہا_Tick(DWORD tick)
 {
-    message_tick = tick;
+    سنیہا_tick = tick;
 }
 
-static Uint64 WIN_GetEventTimestamp(void)
+ساكن Uint64 WIN_GetEventTimestamp(فراغ)
 {
-    const Uint64 TIMESTAMP_WRAP_OFFSET = SDL_MS_TO_NS(0x100000000LL);
+    ثابت Uint64 TIMESTAMP_WRAP_وتھ = SDL_MS_منزل_NS(0x100000000LL);
     Uint64 timestamp, now;
 
-    if (!SDL_processing_messages) {
+    إذا (!SDL_processing_messages) {
         // message_tick isn't valid, just use the current time
-        return 0;
+        أرجع 0;
     }
 
     now = SDL_GetTicksNS();
-    timestamp = SDL_MS_TO_NS(message_tick);
-    timestamp += timestamp_offset;
-    if (!timestamp_offset) {
+    timestamp = SDL_MS_منزل_NS(سنیہا_tick);
+    timestamp += timestamp_وتھ;
+    إذا (!timestamp_وتھ) {
         // Initializing timestamp offset
         //SDL_Log("Initializing timestamp offset");
-        timestamp_offset = (now - timestamp);
+        timestamp_وتھ = (now - timestamp);
         timestamp = now;
-    } else if ((Sint64)(now - timestamp - TIMESTAMP_WRAP_OFFSET) >= 0) {
+    } وإلا إذا ((Sint64)(now - timestamp - TIMESTAMP_WRAP_وتھ) >= 0) {
         // The windows message tick wrapped
         //SDL_Log("Adjusting timestamp offset for wrapping tick");
-        timestamp_offset += TIMESTAMP_WRAP_OFFSET;
-        timestamp += TIMESTAMP_WRAP_OFFSET;
-    } else if (timestamp > now) {
+        timestamp_وتھ += TIMESTAMP_WRAP_وتھ;
+        timestamp += TIMESTAMP_WRAP_وتھ;
+    } وإلا إذا (timestamp > now) {
         // We got a newer timestamp, but it can't be newer than now, so adjust our offset
         //SDL_Log("Adjusting timestamp offset, %.2f ms newer", (double)(timestamp - now) / SDL_NS_PER_MS);
-        timestamp_offset -= (timestamp - now);
+        timestamp_وتھ -= (timestamp - now);
         timestamp = now;
     }
-    return timestamp;
+    أرجع timestamp;
 }
 
 // A message hook called before TranslateMessage()
-static SDL_WindowsMessageHook g_WindowsMessageHook = NULL;
-static void *g_WindowsMessageHookData = NULL;
+ساكن SDL_Windows_سنیہا_Hook g_Windows_سنیہا_Hook = عدم;
+ساكن فراغ *g_Windows_سنیہا_Hook_انکڑے = عدم;
 
-void SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata)
+فراغ SDL_سیٹ_Windows_سنیہا_Hook(SDL_Windows_سنیہا_Hook callback, فراغ *userdata)
 {
-    g_WindowsMessageHook = callback;
-    g_WindowsMessageHookData = userdata;
+    g_Windows_سنیہا_Hook = callback;
+    g_Windows_سنیہا_Hook_انکڑے = userdata;
 }
 
-static SDL_Scancode WindowsScanCodeToSDLScanCode(LPARAM lParam, WPARAM wParam, Uint16 *rawcode, bool *virtual_key)
+ساكن SDL_Scancode Windows_جانچ_کوڈ_منزل_SDLScan_کوڈ(LPARAM lParam, WPARAM wParam, Uint16 *rawcode, bool *virtual_کلید)
 {
-    SDL_Scancode code;
-    Uint8 index;
-    Uint16 keyFlags = HIWORD(lParam);
-    Uint16 scanCode = LOBYTE(keyFlags);
+    SDL_Scancode کوڈ;
+    Uint8 اشاریہ;
+    Uint16 کلید_Flags = HIWORD(lParam);
+    Uint16 جانچ_کوڈ = LOBYTE(کلید_Flags);
 
     /* On-Screen Keyboard can send wrong scan codes with high-order bit set (key break code).
      * Strip high-order bit. */
-    scanCode &= ~0x80;
+    جانچ_کوڈ &= ~0x80;
 
-    *virtual_key = (scanCode == 0);
+    *virtual_کلید = (جانچ_کوڈ == 0);
 
-    if (scanCode != 0) {
-        if ((keyFlags & KF_EXTENDED) == KF_EXTENDED) {
-            scanCode = MAKEWORD(scanCode, 0xe0);
-        } else if (scanCode == 0x45) {
+    إذا (جانچ_کوڈ != 0) {
+        إذا ((کلید_Flags & KF_EXTENDED) == KF_EXTENDED) {
+            جانچ_کوڈ = MAKEWORD(جانچ_کوڈ, 0xe0);
+        } وإلا إذا (جانچ_کوڈ == 0x45) {
             // Pause
-            scanCode = 0xe046;
+            جانچ_کوڈ = 0xe046;
         }
-    } else {
-        Uint16 vkCode = LOWORD(wParam);
+    } وإلا {
+        Uint16 vk_کوڈ = LOWORD(wParam);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         /* Windows may not report scan codes for some buttons (multimedia buttons etc).
          * Get scan code from the VK code.*/
-        scanCode = LOWORD(MapVirtualKey(vkCode, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        جانچ_کوڈ = LOWORD(Map_Virtual_کلید(vk_کوڈ, WIN_IsWindowsXP() ? MAPVK_VK_منزل_VSC : MAPVK_VK_منزل_VSC_EX));
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
         /* Pause/Break key have a special scan code with 0xe1 prefix.
          * Use Pause scan code that is used in Win32. */
-        if (scanCode == 0xe11d) {
-            scanCode = 0xe046;
+        إذا (جانچ_کوڈ == 0xe11d) {
+            جانچ_کوڈ = 0xe046;
         }
     }
 
     // Pack scan code into one byte to make the index.
-    index = LOBYTE(scanCode) | (HIBYTE(scanCode) ? 0x80 : 0x00);
-    code = windows_scancode_table[index];
-    *rawcode = scanCode;
+    اشاریہ = LOBYTE(جانچ_کوڈ) | (HIBYTE(جانچ_کوڈ) ? 0x80 : 0x00);
+    کوڈ = windows_scancode_جدول[اشاریہ];
+    *rawcode = جانچ_کوڈ;
 
-    return code;
+    أرجع کوڈ;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static bool WIN_ShouldIgnoreFocusClick(SDL_WindowData *data)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+ساكن bool WIN_ShouldIgnoreFocusClick(SDL_کھڑکی_انکڑے *انکڑے)
 {
-    return !SDL_WINDOW_IS_POPUP(data->window) &&
+    أرجع !SDL_کھڑکی_IS_POPUP(انکڑے->کھڑکی) &&
            !SDL_GetHintBoolean(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, false);
 }
 
-static void WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePressed, Uint32 mouseFlags, bool bSwapButtons, SDL_WindowData *data, Uint8 button, SDL_MouseID mouseID)
+ساكن فراغ WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePressed, Uint32 mouseFlags, bool b_وٹاندرا_Buttons, SDL_کھڑکی_انکڑے *انکڑے, Uint8 button, SDL_MouseID mouseID)
 {
-    if (bSwapButtons) {
-        if (button == SDL_BUTTON_LEFT) {
-            button = SDL_BUTTON_RIGHT;
-        } else if (button == SDL_BUTTON_RIGHT) {
-            button = SDL_BUTTON_LEFT;
+    إذا (b_وٹاندرا_Buttons) {
+        إذا (button == SDL_BUTTON_بایاں) {
+            button = SDL_BUTTON_دایاں;
+        } وإلا إذا (button == SDL_BUTTON_دایاں) {
+            button = SDL_BUTTON_بایاں;
         }
     }
 
-    if (data->focus_click_pending & SDL_BUTTON_MASK(button)) {
+    إذا (انکڑے->focus_click_pending & SDL_BUTTON_نقاب(button)) {
         // Ignore the button click for activation
-        if (!bwParamMousePressed) {
-            data->focus_click_pending &= ~SDL_BUTTON_MASK(button);
-            WIN_UpdateClipCursor(data->window);
+        إذا (!bwParamMousePressed) {
+            انکڑے->focus_click_pending &= ~SDL_BUTTON_نقاب(button);
+            WIN_UpdateClipCursor(انکڑے->کھڑکی);
         }
-        return;
+        أرجع;
     }
 
-    if (bwParamMousePressed && !(mouseFlags & SDL_BUTTON_MASK(button))) {
-        SDL_SendMouseButton(timestamp, data->window, mouseID, button, true);
-    } else if (!bwParamMousePressed && (mouseFlags & SDL_BUTTON_MASK(button))) {
-        SDL_SendMouseButton(timestamp, data->window, mouseID, button, false);
+    إذا (bwParamMousePressed && !(mouseFlags & SDL_BUTTON_نقاب(button))) {
+        SDL_SendMouseButton(timestamp, انکڑے->کھڑکی, mouseID, button, true);
+    } وإلا إذا (!bwParamMousePressed && (mouseFlags & SDL_BUTTON_نقاب(button))) {
+        SDL_SendMouseButton(timestamp, انکڑے->کھڑکی, mouseID, button, false);
     }
 }
 
@@ -277,257 +277,257 @@ static void WIN_CheckWParamMouseButton(Uint64 timestamp, bool bwParamMousePresse
  * Some windows systems fail to send a WM_LBUTTONDOWN sometimes, but each mouse move contains the current button state also
  *  so this function reconciles our view of the world with the current buttons reported by windows
  */
-static void WIN_CheckWParamMouseButtons(Uint64 timestamp, WPARAM wParam, SDL_WindowData *data, SDL_MouseID mouseID)
+ساكن فراغ WIN_CheckWParamMouseButtons(Uint64 timestamp, WPARAM wParam, SDL_کھڑکی_انکڑے *انکڑے, SDL_MouseID mouseID)
 {
-    if (wParam != data->mouse_button_flags) {
-        SDL_MouseButtonFlags mouseFlags = SDL_GetMouseState(NULL, NULL);
+    إذا (wParam != انکڑے->mouse_button_flags) {
+        SDL_MouseButtonFlags mouseFlags = SDL_GetMouseState(عدم, عدم);
 
         // WM_LBUTTONDOWN and friends handle button swapping for us. No need to check SM_SWAPBUTTON here.
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_LBUTTON), mouseFlags, false, data, SDL_BUTTON_LEFT, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_MBUTTON), mouseFlags, false, data, SDL_BUTTON_MIDDLE, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_RBUTTON), mouseFlags, false, data, SDL_BUTTON_RIGHT, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON1), mouseFlags, false, data, SDL_BUTTON_X1, mouseID);
-        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON2), mouseFlags, false, data, SDL_BUTTON_X2, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_LBUTTON), mouseFlags, false, انکڑے, SDL_BUTTON_بایاں, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_MBUTTON), mouseFlags, false, انکڑے, SDL_BUTTON_درمیان, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_RBUTTON), mouseFlags, false, انکڑے, SDL_BUTTON_دایاں, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON1), mouseFlags, false, انکڑے, SDL_BUTTON_X1, mouseID);
+        WIN_CheckWParamMouseButton(timestamp, (wParam & MK_XBUTTON2), mouseFlags, false, انکڑے, SDL_BUTTON_X2, mouseID);
 
-        data->mouse_button_flags = wParam;
+        انکڑے->mouse_button_flags = wParam;
     }
 }
 
-static void WIN_CheckAsyncMouseRelease(Uint64 timestamp, SDL_WindowData *data)
+ساكن فراغ WIN_CheckAsyncMouseRelease(Uint64 timestamp, SDL_کھڑکی_انکڑے *انکڑے)
 {
     SDL_MouseID mouseID = SDL_GLOBAL_MOUSE_ID;
     Uint32 mouseFlags;
-    SHORT keyState;
-    bool swapButtons;
+    SHORT کلید_State;
+    bool وٹاندرا_Buttons;
 
     /* mouse buttons may have changed state here, we need to resync them,
        but we will get a WM_MOUSEMOVE right away which will fix things up if in non raw mode also
     */
-    mouseFlags = SDL_GetMouseState(NULL, NULL);
-    swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
+    mouseFlags = SDL_GetMouseState(عدم, عدم);
+    وٹاندرا_Buttons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
 
-    keyState = GetAsyncKeyState(VK_LBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_LEFT, mouseID);
+    کلید_State = Get_Async_کلید_State(VK_LBUTTON);
+    إذا (!(کلید_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, وٹاندرا_Buttons, انکڑے, SDL_BUTTON_بایاں, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_RBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_RIGHT, mouseID);
+    کلید_State = Get_Async_کلید_State(VK_RBUTTON);
+    إذا (!(کلید_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, وٹاندرا_Buttons, انکڑے, SDL_BUTTON_دایاں, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_MBUTTON);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_MIDDLE, mouseID);
+    کلید_State = Get_Async_کلید_State(VK_MBUTTON);
+    إذا (!(کلید_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, وٹاندرا_Buttons, انکڑے, SDL_BUTTON_درمیان, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_XBUTTON1);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X1, mouseID);
+    کلید_State = Get_Async_کلید_State(VK_XBUTTON1);
+    إذا (!(کلید_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, وٹاندرا_Buttons, انکڑے, SDL_BUTTON_X1, mouseID);
     }
-    keyState = GetAsyncKeyState(VK_XBUTTON2);
-    if (!(keyState & 0x8000)) {
-        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, swapButtons, data, SDL_BUTTON_X2, mouseID);
+    کلید_State = Get_Async_کلید_State(VK_XBUTTON2);
+    إذا (!(کلید_State & 0x8000)) {
+        WIN_CheckWParamMouseButton(timestamp, false, mouseFlags, وٹاندرا_Buttons, انکڑے, SDL_BUTTON_X2, mouseID);
     }
-    data->mouse_button_flags = (WPARAM)-1;
+    انکڑے->mouse_button_flags = (WPARAM)-1;
 }
 
-static void WIN_UpdateFocus(SDL_Window *window, bool expect_focus, LPPOINT pos)
+ساكن فراغ WIN_UpdateFocus(SDL_کھڑکی *کھڑکی, bool expect_focus, LPPOINT pos)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    bool had_focus = (SDL_GetKeyboardFocus() == window);
-    bool has_focus = (GetForegroundWindow() == hwnd);
+    SDL_کھڑکی_انکڑے *انکڑے = کھڑکی->اندرونی;
+    HWND hwnd = انکڑے->hwnd;
+    bool had_focus = (SDL_GetKeyboardFocus() == کھڑکی);
+    bool has_focus = (Get_Foreground_کھڑکی() == hwnd);
 
-    if (had_focus == has_focus || has_focus != expect_focus) {
-        return;
+    إذا (had_focus == has_focus || has_focus != expect_focus) {
+        أرجع;
     }
 
-    if (has_focus) {
-        POINT cursorPos;
+    إذا (has_focus) {
+        نقطہ_2 cursorPos;
 
-        if (WIN_ShouldIgnoreFocusClick(data) && !(window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-            bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
-            if (GetAsyncKeyState(VK_LBUTTON)) {
-                data->focus_click_pending |= !swapButtons ? SDL_BUTTON_LMASK : SDL_BUTTON_RMASK;
+        إذا (WIN_ShouldIgnoreFocusClick(انکڑے) && !(کھڑکی->flags & SDL_کھڑکی_MOUSE_CAPTURE)) {
+            bool وٹاندرا_Buttons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
+            إذا (Get_Async_کلید_State(VK_LBUTTON)) {
+                انکڑے->focus_click_pending |= !وٹاندرا_Buttons ? SDL_BUTTON_LMASK : SDL_BUTTON_RMASK;
             }
-            if (GetAsyncKeyState(VK_RBUTTON)) {
-                data->focus_click_pending |= !swapButtons ? SDL_BUTTON_RMASK : SDL_BUTTON_LMASK;
+            إذا (Get_Async_کلید_State(VK_RBUTTON)) {
+                انکڑے->focus_click_pending |= !وٹاندرا_Buttons ? SDL_BUTTON_RMASK : SDL_BUTTON_LMASK;
             }
-            if (GetAsyncKeyState(VK_MBUTTON)) {
-                data->focus_click_pending |= SDL_BUTTON_MMASK;
+            إذا (Get_Async_کلید_State(VK_MBUTTON)) {
+                انکڑے->focus_click_pending |= SDL_BUTTON_MMASK;
             }
-            if (GetAsyncKeyState(VK_XBUTTON1)) {
-                data->focus_click_pending |= SDL_BUTTON_X1MASK;
+            إذا (Get_Async_کلید_State(VK_XBUTTON1)) {
+                انکڑے->focus_click_pending |= SDL_BUTTON_X1_نقاب;
             }
-            if (GetAsyncKeyState(VK_XBUTTON2)) {
-                data->focus_click_pending |= SDL_BUTTON_X2MASK;
+            إذا (Get_Async_کلید_State(VK_XBUTTON2)) {
+                انکڑے->focus_click_pending |= SDL_BUTTON_X2_نقاب;
             }
         }
 
-        SDL_SetKeyboardFocus(window->keyboard_focus ? window->keyboard_focus : window);
+        SDL_سیٹ_Keyboard_Focus(کھڑکی->keyboard_focus ? کھڑکی->keyboard_focus : کھڑکی);
 
         // In relative mode we are guaranteed to have mouse focus if we have keyboard focus
-        if (!SDL_GetMouse()->relative_mode) {
+        إذا (!SDL_GetMouse()->relative_منوال) {
             cursorPos.x = pos->x;
             cursorPos.y = pos->y;
-            ScreenToClient(hwnd, &cursorPos);
-            SDL_SendMouseMotion(WIN_GetEventTimestamp(), window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
+            Screen_منزل_Client(hwnd, &cursorPos);
+            SDL_SendMouseMotion(WIN_GetEventTimestamp(), کھڑکی, SDL_GLOBAL_MOUSE_ID, false, (عائم)cursorPos.x, (عائم)cursorPos.y);
         }
 
-        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
-        WIN_UpdateClipCursor(window);
+        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), انکڑے);
+        WIN_UpdateClipCursor(کھڑکی);
 
         /*
          * FIXME: Update keyboard state
          */
-        WIN_CheckClipboardUpdate(data->videodata);
+        WIN_CheckClipboardUpdate(انکڑے->videodata);
 
-        SDL_ToggleModState(SDL_KMOD_CAPS, (GetKeyState(VK_CAPITAL) & 0x0001) ? true : false);
-        SDL_ToggleModState(SDL_KMOD_NUM, (GetKeyState(VK_NUMLOCK) & 0x0001) ? true : false);
-        SDL_ToggleModState(SDL_KMOD_SCROLL, (GetKeyState(VK_SCROLL) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_CAPS, (Get_کلید_State(VK_CAPITAL) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_عدد, (Get_کلید_State(VK_NUMLOCK) & 0x0001) ? true : false);
+        SDL_ToggleModState(SDL_KMOD_SCROLL, (Get_کلید_State(VK_SCROLL) & 0x0001) ? true : false);
 
-        WIN_UpdateWindowICCProfile(data->window, true);
-    } else {
-        data->in_window_deactivation = true;
+        WIN_Update_کھڑکی_ICCProfile(انکڑے->کھڑکی, true);
+    } وإلا {
+        انکڑے->وچ_کھڑکی_deactivation = true;
 
-        SDL_SetKeyboardFocus(NULL);
+        SDL_سیٹ_Keyboard_Focus(عدم);
         // In relative mode we are guaranteed to not have mouse focus if we don't have keyboard focus
-        if (SDL_GetMouse()->relative_mode) {
-            SDL_SetMouseFocus(NULL);
+        إذا (SDL_GetMouse()->relative_منوال) {
+            SDL_سیٹ_Mouse_Focus(عدم);
         }
-        WIN_ResetDeadKeys();
+        WIN_Reset_Dead_کلیدیں();
 
-        WIN_UnclipCursorForWindow(window);
+        WIN_Unclip_Cursor_For_کھڑکی(کھڑکی);
 
-        data->in_window_deactivation = false;
+        انکڑے->وچ_کھڑکی_deactivation = false;
     }
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-static bool ShouldGenerateWindowCloseOnAltF4(void)
+ساكن bool Should_Generate_کھڑکی_Close_On_Alt_F4(فراغ)
 {
-    return SDL_GetHintBoolean(SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4, true);
+    أرجع SDL_GetHintBoolean(SDL_HINT_WINDOWS_CLOSE_ON_ALT_F4, true);
 }
 
-static bool ShouldClearWindowOnEraseBackground(SDL_WindowData *data)
+ساكن bool Should_Clear_کھڑکی_On_Erase_Background(SDL_کھڑکی_انکڑے *انکڑے)
 {
-    switch (data->hint_erase_background_mode) {
-    case SDL_ERASEBACKGROUNDMODE_NEVER:
-        return false;
-    case SDL_ERASEBACKGROUNDMODE_INITIAL:
-        return !data->videodata->cleared;
-    case SDL_ERASEBACKGROUNDMODE_ALWAYS:
-        return true;
-    default:
+    بدل (انکڑے->hint_erase_background_منوال) {
+    حالة SDL_ERASEBACKGROUNDMODE_NEVER:
+        أرجع false;
+    حالة SDL_ERASEBACKGROUNDMODE_INITIAL:
+        أرجع !انکڑے->videodata->cleared;
+    حالة SDL_ERASEBACKGROUNDMODE_ALWAYS:
+        أرجع true;
+    افتراضي:
         // Unexpected value, fallback to default behaviour
-        return !data->videodata->cleared;
+        أرجع !انکڑے->videodata->cleared;
     }
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 // We want to generate mouse events from mouse and pen, and touch events from touchscreens
-#define MI_WP_SIGNATURE      0xFF515700
-#define MI_WP_SIGNATURE_MASK 0xFFFFFF00
-#define IsTouchEvent(dw)     ((dw)&MI_WP_SIGNATURE_MASK) == MI_WP_SIGNATURE
+#تعریف_کرو MI_WP_SIGNATURE      0xFF515700
+#تعریف_کرو MI_WP_SIGNATURE_نقاب 0xFFFFFF00
+#تعریف_کرو IsTouchEvent(dw)     ((dw)&MI_WP_SIGNATURE_نقاب) == MI_WP_SIGNATURE
 
-typedef enum
+تعريفنوع تعداد
 {
-    SDL_MOUSE_EVENT_SOURCE_UNKNOWN,
-    SDL_MOUSE_EVENT_SOURCE_MOUSE,
-    SDL_MOUSE_EVENT_SOURCE_TOUCH,
-    SDL_MOUSE_EVENT_SOURCE_PEN,
-} SDL_MOUSE_EVENT_SOURCE;
+    SDL_MOUSE_EVENT_سروت_UNKNOWN,
+    SDL_MOUSE_EVENT_سروت_MOUSE,
+    SDL_MOUSE_EVENT_سروت_TOUCH,
+    SDL_MOUSE_EVENT_سروت_PEN,
+} SDL_MOUSE_EVENT_سروت;
 
-static SDL_MOUSE_EVENT_SOURCE GetMouseMessageSource(ULONG extrainfo)
+ساكن SDL_MOUSE_EVENT_سروت Get_Mouse_سنیہا_سروت(ULONG extrainfo)
 {
     // Mouse data (ignoring synthetic mouse events generated for touchscreens)
     /* Versions below Vista will set the low 7 bits to the Mouse ID and don't use bit 7:
        Check bits 8-31 for the signature (which will indicate a Tablet PC Pen or Touch Device).
        Only check bit 7 when Vista and up(Cleared=Pen, Set=Touch(which we need to filter out)),
        when the signature is set. The Mouse ID will be zero for an actual mouse. */
-    if (IsTouchEvent(extrainfo)) {
-        if (extrainfo & 0x80) {
-            return SDL_MOUSE_EVENT_SOURCE_TOUCH;
-        } else {
-            return SDL_MOUSE_EVENT_SOURCE_PEN;
+    إذا (IsTouchEvent(extrainfo)) {
+        إذا (extrainfo & 0x80) {
+            أرجع SDL_MOUSE_EVENT_سروت_TOUCH;
+        } وإلا {
+            أرجع SDL_MOUSE_EVENT_سروت_PEN;
         }
     }
-    return SDL_MOUSE_EVENT_SOURCE_MOUSE;
+    أرجع SDL_MOUSE_EVENT_سروت_MOUSE;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-static SDL_WindowData *WIN_GetWindowDataFromHWND(HWND hwnd)
+ساكن SDL_کھڑکی_انکڑے *WIN_Get_کھڑکی_انکڑے_From_HWND(HWND hwnd)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    SDL_Window *window;
+    SDL_کھڑکی *کھڑکی;
 
-    if (_this) {
-        for (window = _this->windows; window; window = window->next) {
-            SDL_WindowData *data = window->internal;
-            if (data && data->hwnd == hwnd) {
-                return data;
+    إذا (_this) {
+        لكل (کھڑکی = _this->windows; کھڑکی; کھڑکی = کھڑکی->اگلا) {
+            SDL_کھڑکی_انکڑے *انکڑے = کھڑکی->اندرونی;
+            إذا (انکڑے && انکڑے->hwnd == hwnd) {
+                أرجع انکڑے;
             }
         }
     }
-    return NULL;
+    أرجع عدم;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 LRESULT CALLBACK
-WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
+WIN_KeyboardHookProc(صحيح n_کوڈ, WPARAM wParam, LPARAM lParam)
 {
-    KBDLLHOOKSTRUCT *hookData = (KBDLLHOOKSTRUCT *)lParam;
-    SDL_VideoData *data = SDL_GetVideoDevice()->internal;
-    SDL_Scancode scanCode;
+    KBDLLHOOKSTRUCT *hook_انکڑے = (KBDLLHOOKSTRUCT *)lParam;
+    SDL_Video_انکڑے *انکڑے = SDL_GetVideoDevice()->اندرونی;
+    SDL_Scancode جانچ_کوڈ;
 
-    if (nCode < 0 || nCode != HC_ACTION) {
-        return CallNextHookEx(NULL, nCode, wParam, lParam);
+    إذا (n_کوڈ < 0 || n_کوڈ != HC_ACTION) {
+        أرجع Call_اگلا_Hook_Ex(عدم, n_کوڈ, wParam, lParam);
     }
-    if (hookData->scanCode == 0x21d) {
+    إذا (hook_انکڑے->جانچ_کوڈ == 0x21d) {
         // Skip fake LCtrl when RAlt is pressed
-        return 1;
+        أرجع 1;
     }
 
-    switch (hookData->vkCode) {
-    case VK_LWIN:
-        scanCode = SDL_SCANCODE_LGUI;
-        break;
-    case VK_RWIN:
-        scanCode = SDL_SCANCODE_RGUI;
-        break;
-    case VK_LMENU:
-        scanCode = SDL_SCANCODE_LALT;
-        break;
-    case VK_RMENU:
-        scanCode = SDL_SCANCODE_RALT;
-        break;
-    case VK_LCONTROL:
-        scanCode = SDL_SCANCODE_LCTRL;
-        break;
-    case VK_RCONTROL:
-        scanCode = SDL_SCANCODE_RCTRL;
-        break;
-    case VK_SNAPSHOT:
-        scanCode = SDL_SCANCODE_PRINTSCREEN;
-        break;
+    بدل (hook_انکڑے->vk_کوڈ) {
+    حالة VK_LWIN:
+        جانچ_کوڈ = SDL_SCANCODE_LGUI;
+        اكسر;
+    حالة VK_RWIN:
+        جانچ_کوڈ = SDL_SCANCODE_RGUI;
+        اكسر;
+    حالة VK_LMENU:
+        جانچ_کوڈ = SDL_SCANCODE_LALT;
+        اكسر;
+    حالة VK_RMENU:
+        جانچ_کوڈ = SDL_SCANCODE_RALT;
+        اكسر;
+    حالة VK_LCONTROL:
+        جانچ_کوڈ = SDL_SCANCODE_LCTRL;
+        اكسر;
+    حالة VK_RCONTROL:
+        جانچ_کوڈ = SDL_SCANCODE_RCTRL;
+        اكسر;
+    حالة VK_SNAPSHOT:
+        جانچ_کوڈ = SDL_SCANCODE_PRINTSCREEN;
+        اكسر;
 
     // These are required to intercept Alt+Tab and Alt+Esc on Windows 7
-    case VK_TAB:
-        scanCode = SDL_SCANCODE_TAB;
-        break;
-    case VK_ESCAPE:
-        scanCode = SDL_SCANCODE_ESCAPE;
-        break;
+    حالة VK_TAB:
+        جانچ_کوڈ = SDL_SCANCODE_TAB;
+        اكسر;
+    حالة VK_ESCAPE:
+        جانچ_کوڈ = SDL_SCANCODE_ESCAPE;
+        اكسر;
 
-    default:
-        return CallNextHookEx(NULL, nCode, wParam, lParam);
+    افتراضي:
+        أرجع Call_اگلا_Hook_Ex(عدم, n_کوڈ, wParam, lParam);
     }
 
-    if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
-        if (!data->raw_keyboard_enabled) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, true);
+    إذا (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN) {
+        إذا (!انکڑے->raw_keyboard_enabled) {
+            SDL_Send_Keyboard_کلید(0, SDL_GLOBAL_KEYBOARD_ID, hook_انکڑے->جانچ_کوڈ, جانچ_کوڈ, true);
         }
-    } else {
-        if (!data->raw_keyboard_enabled) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, hookData->scanCode, scanCode, false);
+    } وإلا {
+        إذا (!انکڑے->raw_keyboard_enabled) {
+            SDL_Send_Keyboard_کلید(0, SDL_GLOBAL_KEYBOARD_ID, hook_انکڑے->جانچ_کوڈ, جانچ_کوڈ, false);
         }
 
         /* If the key was down prior to our hook being installed, allow the
@@ -535,77 +535,77 @@ WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam)
            windows have a consistent view of the key state, and avoids keys
            being stuck down in those windows if they are down when the grab
            happens and raised while grabbed. */
-        if (hookData->vkCode <= 0xFF && data->pre_hook_key_state[hookData->vkCode]) {
-            data->pre_hook_key_state[hookData->vkCode] = 0;
-            return CallNextHookEx(NULL, nCode, wParam, lParam);
+        إذا (hook_انکڑے->vk_کوڈ <= 0xFF && انکڑے->pre_hook_کلید_state[hook_انکڑے->vk_کوڈ]) {
+            انکڑے->pre_hook_کلید_state[hook_انکڑے->vk_کوڈ] = 0;
+            أرجع Call_اگلا_Hook_Ex(عدم, n_کوڈ, wParam, lParam);
         }
     }
 
-    return 1;
+    أرجع 1;
 }
 
-static bool WIN_SwapButtons(HANDLE hDevice)
+ساكن bool WIN_وٹاندرا_Buttons(HANDLE hDevice)
 {
-    if (hDevice == NULL) {
+    إذا (hDevice == عدم) {
         // Touchpad, already has buttons swapped
-        return false;
+        أرجع false;
     }
-    return GetSystemMetrics(SM_SWAPBUTTON) != 0;
+    أرجع GetSystemMetrics(SM_SWAPBUTTON) != 0;
 }
 
-static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWMOUSE *rawmouse)
+ساكن فراغ WIN_Handle_Raw_Mouse_داخلہ(Uint64 timestamp, SDL_Video_انکڑے *انکڑے, HANDLE hDevice, RAWMOUSE *rawmouse)
 {
-    static struct {
+    ساكن بنية {
         USHORT usButtonFlags;
         Uint8 button;
-        bool down;
+        bool تھلے;
     } raw_buttons[] = {
-        { RI_MOUSE_LEFT_BUTTON_DOWN, SDL_BUTTON_LEFT, true },
-        { RI_MOUSE_LEFT_BUTTON_UP, SDL_BUTTON_LEFT, false },
-        { RI_MOUSE_RIGHT_BUTTON_DOWN, SDL_BUTTON_RIGHT, true },
-        { RI_MOUSE_RIGHT_BUTTON_UP, SDL_BUTTON_RIGHT, false },
-        { RI_MOUSE_MIDDLE_BUTTON_DOWN, SDL_BUTTON_MIDDLE, true },
-        { RI_MOUSE_MIDDLE_BUTTON_UP, SDL_BUTTON_MIDDLE, false },
-        { RI_MOUSE_BUTTON_4_DOWN, SDL_BUTTON_X1, true },
-        { RI_MOUSE_BUTTON_4_UP, SDL_BUTTON_X1, false },
-        { RI_MOUSE_BUTTON_5_DOWN, SDL_BUTTON_X2, true },
-        { RI_MOUSE_BUTTON_5_UP, SDL_BUTTON_X2, false }
+        { RI_MOUSE_بایاں_BUTTON_تھلے, SDL_BUTTON_بایاں, true },
+        { RI_MOUSE_بایاں_BUTTON_اتے, SDL_BUTTON_بایاں, false },
+        { RI_MOUSE_دایاں_BUTTON_تھلے, SDL_BUTTON_دایاں, true },
+        { RI_MOUSE_دایاں_BUTTON_اتے, SDL_BUTTON_دایاں, false },
+        { RI_MOUSE_درمیان_BUTTON_تھلے, SDL_BUTTON_درمیان, true },
+        { RI_MOUSE_درمیان_BUTTON_اتے, SDL_BUTTON_درمیان, false },
+        { RI_MOUSE_BUTTON_4_تھلے, SDL_BUTTON_X1, true },
+        { RI_MOUSE_BUTTON_4_اتے, SDL_BUTTON_X1, false },
+        { RI_MOUSE_BUTTON_5_تھلے, SDL_BUTTON_X2, true },
+        { RI_MOUSE_BUTTON_5_اتے, SDL_BUTTON_X2, false }
     };
 
-    int dx = (int)rawmouse->lLastX;
-    int dy = (int)rawmouse->lLastY;
+    صحيح dx = (صحيح)rawmouse->l_آخری_X;
+    صحيح dy = (صحيح)rawmouse->l_آخری_Y;
     bool haveMotion = (dx || dy);
     bool haveButton = (rawmouse->usButtonFlags != 0);
     bool isAbsolute = ((rawmouse->usFlags & MOUSE_MOVE_ABSOLUTE) != 0);
     SDL_MouseID mouseID = (SDL_MouseID)(uintptr_t)hDevice;
 
     // Check whether relative mode should also receive events from the rawinput stream
-    if (!data->raw_mouse_enabled) {
-        return;
+    إذا (!انکڑے->raw_mouse_enabled) {
+        أرجع;
     }
 
     // Relative mouse motion is delivered to the window with keyboard focus
-    SDL_Window *window = SDL_GetKeyboardFocus();
-    if (!window) {
-        return;
+    SDL_کھڑکی *کھڑکی = SDL_GetKeyboardFocus();
+    إذا (!کھڑکی) {
+        أرجع;
     }
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    if (!mouse) {
-        return;
+    إذا (!mouse) {
+        أرجع;
     }
 
-    if (GetMouseMessageSource(rawmouse->ulExtraInformation) != SDL_MOUSE_EVENT_SOURCE_MOUSE ||
-        (SDL_TouchDevicesAvailable() && (rawmouse->ulExtraInformation & 0x80) == 0x80)) {
-        return;
+    إذا (Get_Mouse_سنیہا_سروت(rawmouse->ulExtraInformation) != SDL_MOUSE_EVENT_سروت_MOUSE ||
+        (SDL_Touch_Devices_دستیاب() && (rawmouse->ulExtraInformation & 0x80) == 0x80)) {
+        أرجع;
     }
 
-    SDL_WindowData *windowdata = window->internal;
+    SDL_کھڑکی_انکڑے *windowdata = کھڑکی->اندرونی;
 
-    if (haveMotion && !windowdata->in_modal_loop) {
-        if (!isAbsolute) {
-            SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)dx, (float)dy);
-        } else {
+    إذا (haveMotion && !windowdata->وچ_modal_loop) {
+        إذا (!isAbsolute) {
+            SDL_SendMouseMotion(timestamp, کھڑکی, mouseID, true, (عائم)dx, (عائم)dy);
+        } وإلا {
             /* This is absolute motion, either using a tablet or mouse over RDP
 
                 Notes on how RDP appears to work, as of Windows 10 2004:
@@ -619,111 +619,111 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
             bool remote_desktop = (GetSystemMetrics(SM_REMOTESESSION) == TRUE);
             bool virtual_desktop = ((rawmouse->usFlags & MOUSE_VIRTUAL_DESKTOP) != 0);
             bool raw_coordinates = ((rawmouse->usFlags & 0x40) != 0);
-            int w = GetSystemMetrics(virtual_desktop ? SM_CXVIRTUALSCREEN : SM_CXSCREEN);
-            int h = GetSystemMetrics(virtual_desktop ? SM_CYVIRTUALSCREEN : SM_CYSCREEN);
-            int x = raw_coordinates ? dx : (int)(((float)dx / 65535.0f) * w);
-            int y = raw_coordinates ? dy : (int)(((float)dy / 65535.0f) * h);
-            int relX, relY;
+            صحيح w = GetSystemMetrics(virtual_desktop ? SM_CXVIRTUALSCREEN : SM_CXSCREEN);
+            صحيح h = GetSystemMetrics(virtual_desktop ? SM_CYVIRTUALSCREEN : SM_CYSCREEN);
+            صحيح x = raw_coordinates ? dx : (صحيح)(((عائم)dx / 65535.0f) * w);
+            صحيح y = raw_coordinates ? dy : (صحيح)(((عائم)dy / 65535.0f) * h);
+            صحيح relX, relY;
 
             /* Calculate relative motion */
-            if (data->last_raw_mouse_position.x == 0 && data->last_raw_mouse_position.y == 0) {
-                data->last_raw_mouse_position.x = x;
-                data->last_raw_mouse_position.y = y;
+            إذا (انکڑے->آخری_raw_mouse_position.x == 0 && انکڑے->آخری_raw_mouse_position.y == 0) {
+                انکڑے->آخری_raw_mouse_position.x = x;
+                انکڑے->آخری_raw_mouse_position.y = y;
             }
-            relX = x - data->last_raw_mouse_position.x;
-            relY = y - data->last_raw_mouse_position.y;
+            relX = x - انکڑے->آخری_raw_mouse_position.x;
+            relY = y - انکڑے->آخری_raw_mouse_position.y;
 
-            if (remote_desktop) {
-                if (!windowdata->in_title_click && !windowdata->focus_click_pending) {
-                    static int wobble;
-                    float floatX = (float)x / w;
-                    float floatY = (float)y / h;
+            إذا (remote_desktop) {
+                إذا (!windowdata->وچ_title_click && !windowdata->focus_click_pending) {
+                    ساكن صحيح wobble;
+                    عائم floatX = (عائم)x / w;
+                    عائم floatY = (عائم)y / h;
 
                     /* See if the mouse is at the edge of the screen, or in the RDP title bar area */
-                    if (floatX <= 0.01f || floatX >= 0.99f || floatY <= 0.01f || floatY >= 0.99f || y < 32) {
+                    إذا (floatX <= 0.01f || floatX >= 0.99f || floatY <= 0.01f || floatY >= 0.99f || y < 32) {
                         /* Wobble the cursor position so it's not ignored if the last warp didn't have any effect */
                         RECT rect = windowdata->cursor_clipped_rect;
-                        int warpX = rect.left + ((rect.right - rect.left) / 2) + wobble;
-                        int warpY = rect.top + ((rect.bottom - rect.top) / 2);
+                        صحيح warpX = rect.بایاں + ((rect.دایاں - rect.بایاں) / 2) + wobble;
+                        صحيح warpY = rect.چوٹی + ((rect.bottom - rect.چوٹی) / 2);
 
-                        WIN_SetCursorPos(warpX, warpY);
+                        WIN_سیٹ_Cursor_Pos(warpX, warpY);
 
                         ++wobble;
-                        if (wobble > 1) {
+                        إذا (wobble > 1) {
                             wobble = -1;
                         }
-                    } else {
+                    } وإلا {
                         /* Send relative motion if we didn't warp last frame (had good position data)
                            We also sometimes get large deltas due to coalesced mouse motion and warping,
                            so ignore those.
                          */
-                        const int MAX_RELATIVE_MOTION = (h / 6);
-                        if (SDL_abs(relX) < MAX_RELATIVE_MOTION &&
+                        ثابت صحيح MAX_RELATIVE_MOTION = (h / 6);
+                        إذا (SDL_abs(relX) < MAX_RELATIVE_MOTION &&
                             SDL_abs(relY) < MAX_RELATIVE_MOTION) {
-                            SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)relX, (float)relY);
+                            SDL_SendMouseMotion(timestamp, کھڑکی, mouseID, true, (عائم)relX, (عائم)relY);
                         }
                     }
                 }
-            } else if (mouse->pen_mouse_events) {
-                const int MAXIMUM_TABLET_RELATIVE_MOTION = 32;
-                if (SDL_abs(relX) > MAXIMUM_TABLET_RELATIVE_MOTION ||
-                    SDL_abs(relY) > MAXIMUM_TABLET_RELATIVE_MOTION) {
+            } وإلا إذا (mouse->pen_mouse_events) {
+                ثابت صحيح ودھ_توں_ودھ_TABLET_RELATIVE_MOTION = 32;
+                إذا (SDL_abs(relX) > ودھ_توں_ودھ_TABLET_RELATIVE_MOTION ||
+                    SDL_abs(relY) > ودھ_توں_ودھ_TABLET_RELATIVE_MOTION) {
                     /* Ignore this motion, probably a pen lift and drop */
-                } else {
-                    SDL_SendMouseMotion(timestamp, window, mouseID, true, (float)relX, (float)relY);
+                } وإلا {
+                    SDL_SendMouseMotion(timestamp, کھڑکی, mouseID, true, (عائم)relX, (عائم)relY);
                 }
-            } else {
-                int screen_x = virtual_desktop ? GetSystemMetrics(SM_XVIRTUALSCREEN) : 0;
-                int screen_y = virtual_desktop ? GetSystemMetrics(SM_YVIRTUALSCREEN) : 0;
+            } وإلا {
+                صحيح screen_x = virtual_desktop ? GetSystemMetrics(SM_XVIRTUALSCREEN) : 0;
+                صحيح screen_y = virtual_desktop ? GetSystemMetrics(SM_YVIRTUALSCREEN) : 0;
 
-                if (!data->raw_input_fake_pen_id) {
-                    data->raw_input_fake_pen_id = SDL_AddPenDevice(timestamp, "raw mouse input", window, NULL, (void *)(size_t)-1, true);
+                إذا (!انکڑے->raw_داخلہ_fake_pen_id) {
+                    انکڑے->raw_داخلہ_fake_pen_id = SDL_جوڑو_Pen_Device(timestamp, "raw mouse input", کھڑکی, عدم, (فراغ *)(size_t)-1, true);
                 }
-                SDL_SendPenMotion(timestamp, data->raw_input_fake_pen_id, window, (float)(x + screen_x - window->x), (float)(y + screen_y - window->y));
+                SDL_SendPenMotion(timestamp, انکڑے->raw_داخلہ_fake_pen_id, کھڑکی, (عائم)(x + screen_x - کھڑکی->x), (عائم)(y + screen_y - کھڑکی->y));
             }
 
-            data->last_raw_mouse_position.x = x;
-            data->last_raw_mouse_position.y = y;
+            انکڑے->آخری_raw_mouse_position.x = x;
+            انکڑے->آخری_raw_mouse_position.y = y;
         }
     }
 
-    if (haveButton) {
-        for (int i = 0; i < SDL_arraysize(raw_buttons); ++i) {
-            if (rawmouse->usButtonFlags & raw_buttons[i].usButtonFlags) {
+    إذا (haveButton) {
+        لكل (صحيح i = 0; i < SDL_arraysize(raw_buttons); ++i) {
+            إذا (rawmouse->usButtonFlags & raw_buttons[i].usButtonFlags) {
                 Uint8 button = raw_buttons[i].button;
-                bool down = raw_buttons[i].down;
+                bool تھلے = raw_buttons[i].تھلے;
 
-                if (button == SDL_BUTTON_LEFT) {
-                    if (WIN_SwapButtons(hDevice)) {
-                        button = SDL_BUTTON_RIGHT;
+                إذا (button == SDL_BUTTON_بایاں) {
+                    إذا (WIN_وٹاندرا_Buttons(hDevice)) {
+                        button = SDL_BUTTON_دایاں;
                     }
-                } else if (button == SDL_BUTTON_RIGHT) {
-                    if (WIN_SwapButtons(hDevice)) {
-                        button = SDL_BUTTON_LEFT;
+                } وإلا إذا (button == SDL_BUTTON_دایاں) {
+                    إذا (WIN_وٹاندرا_Buttons(hDevice)) {
+                        button = SDL_BUTTON_بایاں;
                     }
                 }
 
-                if (windowdata->focus_click_pending & SDL_BUTTON_MASK(button)) {
+                إذا (windowdata->focus_click_pending & SDL_BUTTON_نقاب(button)) {
                     // Ignore the button click for activation
-                    if (!down) {
-                        windowdata->focus_click_pending &= ~SDL_BUTTON_MASK(button);
-                        WIN_UpdateClipCursor(window);
+                    إذا (!تھلے) {
+                        windowdata->focus_click_pending &= ~SDL_BUTTON_نقاب(button);
+                        WIN_UpdateClipCursor(کھڑکی);
                     }
-                    continue;
+                    استمر;
                 }
 
-                SDL_SendMouseButton(timestamp, window, mouseID, button, down);
+                SDL_SendMouseButton(timestamp, کھڑکی, mouseID, button, تھلے);
             }
         }
 
-        if (rawmouse->usButtonFlags & RI_MOUSE_WHEEL) {
-            SHORT amount = (SHORT)rawmouse->usButtonData;
-            float fAmount = (float)amount / WHEEL_DELTA;
-            SDL_SendMouseWheel(timestamp, window, mouseID, 0.0f, fAmount, SDL_MOUSEWHEEL_NORMAL);
-        } else if (rawmouse->usButtonFlags & RI_MOUSE_HWHEEL) {
-            SHORT amount = (SHORT)rawmouse->usButtonData;
-            float fAmount = (float)amount / WHEEL_DELTA;
-            SDL_SendMouseWheel(timestamp, window, mouseID, fAmount, 0.0f, SDL_MOUSEWHEEL_NORMAL);
+        إذا (rawmouse->usButtonFlags & RI_MOUSE_WHEEL) {
+            SHORT amount = (SHORT)rawmouse->us_Button_انکڑے;
+            عائم fAmount = (عائم)amount / WHEEL_DELTA;
+            SDL_SendMouseWheel(timestamp, کھڑکی, mouseID, 0.0f, fAmount, SDL_MOUSEWHEEL_عام);
+        } وإلا إذا (rawmouse->usButtonFlags & RI_MOUSE_HWHEEL) {
+            SHORT amount = (SHORT)rawmouse->us_Button_انکڑے;
+            عائم fAmount = (عائم)amount / WHEEL_DELTA;
+            SDL_SendMouseWheel(timestamp, کھڑکی, mouseID, fAmount, 0.0f, SDL_MOUSEWHEEL_عام);
         }
 
         /* Invalidate the mouse button flags. If we don't do this then disabling raw input
@@ -732,379 +732,379 @@ static void WIN_HandleRawMouseInput(Uint64 timestamp, SDL_VideoData *data, HANDL
     }
 }
 
-static void WIN_HandleRawKeyboardInput(Uint64 timestamp, SDL_VideoData *data, HANDLE hDevice, RAWKEYBOARD *rawkeyboard)
+ساكن فراغ WIN_Handle_Raw_Keyboard_داخلہ(Uint64 timestamp, SDL_Video_انکڑے *انکڑے, HANDLE hDevice, RAWKEYBOARD *rawkeyboard)
 {
     SDL_KeyboardID keyboardID = (SDL_KeyboardID)(uintptr_t)hDevice;
 
-    if (!data->raw_keyboard_enabled) {
-        return;
+    إذا (!انکڑے->raw_keyboard_enabled) {
+        أرجع;
     }
 
-    if (rawkeyboard->Flags & RI_KEY_E1) {
+    إذا (rawkeyboard->Flags & RI_کلید_E1) {
         // First key in a Ctrl+{key} sequence
-        data->pending_E1_key_sequence = true;
-        return;
+        انکڑے->pending_E1_کلید_sequence = true;
+        أرجع;
     }
 
-    if ((rawkeyboard->Flags & RI_KEY_E0) && rawkeyboard->MakeCode == 0x2A) {
+    إذا ((rawkeyboard->Flags & RI_کلید_E0) && rawkeyboard->Make_کوڈ == 0x2A) {
         // 0xE02A make code prefix, ignored
-        return;
+        أرجع;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!rawkeyboard->MakeCode) {
-        rawkeyboard->MakeCode = LOWORD(MapVirtualKey(rawkeyboard->VKey, WIN_IsWindowsXP() ? MAPVK_VK_TO_VSC : MAPVK_VK_TO_VSC_EX));
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (!rawkeyboard->Make_کوڈ) {
+        rawkeyboard->Make_کوڈ = LOWORD(Map_Virtual_کلید(rawkeyboard->VKey, WIN_IsWindowsXP() ? MAPVK_VK_منزل_VSC : MAPVK_VK_منزل_VSC_EX));
     }
-#endif
-    if (!rawkeyboard->MakeCode) {
-        return;
-    }
-
-    bool down;
-    switch (rawkeyboard->Message) {
-    case WM_KEYDOWN:
-    case WM_SYSKEYDOWN:
-        down = true;
-        break;
-    case WM_KEYUP:
-    case WM_SYSKEYUP:
-        down = false;
-        break;
-    default:
-        down = !(rawkeyboard->Flags & RI_KEY_BREAK);
-        break;
+#جے_انت
+    إذا (!rawkeyboard->Make_کوڈ) {
+        أرجع;
     }
 
-    SDL_Scancode code;
-    USHORT rawcode = rawkeyboard->MakeCode;
-    if (data->pending_E1_key_sequence) {
+    bool تھلے;
+    بدل (rawkeyboard->سنیہا_2) {
+    حالة WM_KEYDOWN:
+    حالة WM_SYSKEYDOWN:
+        تھلے = true;
+        اكسر;
+    حالة WM_KEYUP:
+    حالة WM_SYSKEYUP:
+        تھلے = false;
+        اكسر;
+    افتراضي:
+        تھلے = !(rawkeyboard->Flags & RI_کلید_BREAK);
+        اكسر;
+    }
+
+    SDL_Scancode کوڈ;
+    USHORT rawcode = rawkeyboard->Make_کوڈ;
+    إذا (انکڑے->pending_E1_کلید_sequence) {
         rawcode |= 0xE100;
-        if (rawkeyboard->MakeCode == 0x45) {
+        إذا (rawkeyboard->Make_کوڈ == 0x45) {
             // Ctrl+NumLock == Pause
-            code = SDL_SCANCODE_PAUSE;
-        } else {
+            کوڈ = SDL_SCANCODE_PAUSE;
+        } وإلا {
             // Ctrl+ScrollLock == Break (no SDL scancode?)
-            code = SDL_SCANCODE_UNKNOWN;
+            کوڈ = SDL_SCANCODE_UNKNOWN;
         }
-        data->pending_E1_key_sequence = false;
-    } else {
+        انکڑے->pending_E1_کلید_sequence = false;
+    } وإلا {
         // The code is in the lower 7 bits, the high bit is set for the E0 prefix
-        Uint8 index = (Uint8)rawkeyboard->MakeCode;
-        if (rawkeyboard->Flags & RI_KEY_E0) {
+        Uint8 اشاریہ = (Uint8)rawkeyboard->Make_کوڈ;
+        إذا (rawkeyboard->Flags & RI_کلید_E0) {
             rawcode |= 0xE000;
-            index |= 0x80;
+            اشاریہ |= 0x80;
         }
-        code = windows_scancode_table[index];
+        کوڈ = windows_scancode_جدول[اشاریہ];
     }
 
-    if (down) {
-        SDL_Window *focus = SDL_GetKeyboardFocus();
+    إذا (تھلے) {
+        SDL_کھڑکی *focus = SDL_GetKeyboardFocus();
         // With input sink flag we want to receive input even if not focused
-        if ((!data->raw_keyboard_flag_inputsink && !focus) || (focus && focus->text_input_active)) {
-            return;
+        إذا ((!انکڑے->raw_keyboard_flag_inputsink && !focus) || (focus && focus->متن_داخلہ_سرگرم)) {
+            أرجع;
         }
     }
 
-    SDL_SendKeyboardKey(timestamp, keyboardID, rawcode, code, down);
+    SDL_Send_Keyboard_کلید(timestamp, keyboardID, rawcode, کوڈ, تھلے);
 }
 
-void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start)
+فراغ WIN_Poll_Raw_داخلہ(SDL_VideoDevice *_this, Uint64 poll_شروع)
 {
-    SDL_VideoData *data = _this->internal;
-    UINT size, i, count, total = 0;
-    RAWINPUT *input;
-    Uint64 poll_finish;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+    UINT ناپ, i, گنتی, کل = 0;
+    RAWINPUT *داخلہ;
+    Uint64 poll_انت;
 
-    if (data->rawinput_offset == 0) {
+    إذا (انکڑے->rawinput_وتھ == 0) {
         BOOL isWow64;
 
-        data->rawinput_offset = sizeof(RAWINPUTHEADER);
-        if (IsWow64Process(GetCurrentProcess(), &isWow64) && isWow64) {
+        انکڑے->rawinput_وتھ = حجم(RAWINPUTHEADER);
+        إذا (IsWow64Process(GetCurrentProcess(), &isWow64) && isWow64) {
             // We're going to get 64-bit data, so use the 64-bit RAWINPUTHEADER size
-            data->rawinput_offset += 8;
+            انکڑے->rawinput_وتھ += 8;
         }
     }
 
     // Get all available events
-    input = (RAWINPUT *)data->rawinput;
-    for (;;) {
-        size = data->rawinput_size - (UINT)((BYTE *)input - data->rawinput);
-        count = GetRawInputBuffer(input, &size, sizeof(RAWINPUTHEADER));
-        poll_finish = SDL_GetTicksNS();
-        if (count == 0 || count == (UINT)-1) {
-            if (!data->rawinput || (count == (UINT)-1 && GetLastError() == ERROR_INSUFFICIENT_BUFFER)) {
-                const UINT RAWINPUT_BUFFER_SIZE_INCREMENT = 96;   // 2 64-bit raw mouse packets
-                BYTE *rawinput = (BYTE *)SDL_realloc(data->rawinput, data->rawinput_size + RAWINPUT_BUFFER_SIZE_INCREMENT);
-                if (!rawinput) {
-                    break;
+    داخلہ = (RAWINPUT *)انکڑے->rawinput;
+    لكل (;;) {
+        ناپ = انکڑے->rawinput_ناپ - (UINT)((BYTE *)داخلہ - انکڑے->rawinput);
+        گنتی = Get_Raw_داخلہ_بفر(داخلہ, &ناپ, حجم(RAWINPUTHEADER));
+        poll_انت = SDL_GetTicksNS();
+        إذا (گنتی == 0 || گنتی == (UINT)-1) {
+            إذا (!انکڑے->rawinput || (گنتی == (UINT)-1 && Get_آخری_Error() == ERROR_INSUFFICIENT_بفر)) {
+                ثابت UINT RAWINPUT_بفر_ناپ_INCREMENT = 96;   // 2 64-bit raw mouse packets
+                BYTE *rawinput = (BYTE *)SDL_realloc(انکڑے->rawinput, انکڑے->rawinput_ناپ + RAWINPUT_بفر_ناپ_INCREMENT);
+                إذا (!rawinput) {
+                    اكسر;
                 }
-                input = (RAWINPUT *)(rawinput + ((BYTE *)input - data->rawinput));
-                data->rawinput = rawinput;
-                data->rawinput_size += RAWINPUT_BUFFER_SIZE_INCREMENT;
-            } else {
-                break;
+                داخلہ = (RAWINPUT *)(rawinput + ((BYTE *)داخلہ - انکڑے->rawinput));
+                انکڑے->rawinput = rawinput;
+                انکڑے->rawinput_ناپ += RAWINPUT_بفر_ناپ_INCREMENT;
+            } وإلا {
+                اكسر;
             }
-        } else {
-            total += count;
+        } وإلا {
+            کل += گنتی;
 
             // Advance input to the end of the buffer
-            while (count--) {
-                input = NEXTRAWINPUTBLOCK(input);
+            طالما (گنتی--) {
+                داخلہ = NEXTRAWINPUTBLOCK(داخلہ);
             }
         }
     }
 
-    if (total > 0) {
-        Uint64 delta = poll_finish - poll_start;
-        UINT mouse_total = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
-                mouse_total += 1;
+    إذا (کل > 0) {
+        Uint64 delta = poll_انت - poll_شروع;
+        UINT mouse_کل = 0;
+        لكل (i = 0, داخلہ = (RAWINPUT *)انکڑے->rawinput; i < کل; ++i, داخلہ = NEXTRAWINPUTBLOCK(داخلہ)) {
+            إذا (داخلہ->سرخی.dwType == RIM_TYPEMOUSE) {
+                mouse_کل += 1;
             }
         }
-        int mouse_index = 0;
-        for (i = 0, input = (RAWINPUT *)data->rawinput; i < total; ++i, input = NEXTRAWINPUTBLOCK(input)) {
-            if (input->header.dwType == RIM_TYPEMOUSE) {
-                mouse_index += 1; // increment first so that it starts at one
-                RAWMOUSE *rawmouse = (RAWMOUSE *)((BYTE *)input + data->rawinput_offset);
-                Uint64 time = poll_finish - (delta * (mouse_total - mouse_index)) / mouse_total;
-                WIN_HandleRawMouseInput(time, data, input->header.hDevice, rawmouse);
-            } else if (input->header.dwType == RIM_TYPEKEYBOARD) {
-                RAWKEYBOARD *rawkeyboard = (RAWKEYBOARD *)((BYTE *)input + data->rawinput_offset);
-                WIN_HandleRawKeyboardInput(poll_finish, data, input->header.hDevice, rawkeyboard);
+        صحيح mouse_اشاریہ = 0;
+        لكل (i = 0, داخلہ = (RAWINPUT *)انکڑے->rawinput; i < کل; ++i, داخلہ = NEXTRAWINPUTBLOCK(داخلہ)) {
+            إذا (داخلہ->سرخی.dwType == RIM_TYPEMOUSE) {
+                mouse_اشاریہ += 1; // increment first so that it starts at one
+                RAWMOUSE *rawmouse = (RAWMOUSE *)((BYTE *)داخلہ + انکڑے->rawinput_وتھ);
+                Uint64 ویلا = poll_انت - (delta * (mouse_کل - mouse_اشاریہ)) / mouse_کل;
+                WIN_Handle_Raw_Mouse_داخلہ(ویلا, انکڑے, داخلہ->سرخی.hDevice, rawmouse);
+            } وإلا إذا (داخلہ->سرخی.dwType == RIM_TYPEKEYBOARD) {
+                RAWKEYBOARD *rawkeyboard = (RAWKEYBOARD *)((BYTE *)داخلہ + انکڑے->rawinput_وتھ);
+                WIN_Handle_Raw_Keyboard_داخلہ(poll_انت, انکڑے, داخلہ->سرخی.hDevice, rawkeyboard);
             }
         }
     }
-    data->last_rawinput_poll = poll_finish;
+    انکڑے->آخری_rawinput_poll = poll_انت;
 }
 
-static void AddDeviceID(Uint32 deviceID, Uint32 **list, int *count)
+ساكن فراغ جوڑو_Device_ID(Uint32 deviceID, Uint32 **list, صحيح *گنتی)
 {
-    int new_count = (*count + 1);
-    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_count * sizeof(*new_list));
-    if (!new_list) {
+    صحيح new_گنتی = (*گنتی + 1);
+    Uint32 *new_list = (Uint32 *)SDL_realloc(*list, new_گنتی * حجم(*new_list));
+    إذا (!new_list) {
         // Oh well, we'll drop this one
-        return;
+        أرجع;
     }
-    new_list[new_count - 1] = deviceID;
+    new_list[new_گنتی - 1] = deviceID;
 
-    *count = new_count;
+    *گنتی = new_گنتی;
     *list = new_list;
 }
 
-static bool HasDeviceID(Uint32 deviceID, const Uint32 *list, int count)
+ساكن bool HasDeviceID(Uint32 deviceID, ثابت Uint32 *list, صحيح گنتی)
 {
-    for (int i = 0; i < count; ++i) {
-        if (deviceID == list[i]) {
-            return true;
+    لكل (صحيح i = 0; i < گنتی; ++i) {
+        إذا (deviceID == list[i]) {
+            أرجع true;
         }
     }
-    return false;
+    أرجع false;
 }
 
-static char *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, const char *instance, Uint16 vendor, Uint16 product, const char *default_name, bool hid_loaded)
+ساكن حرف *GetDeviceName(HANDLE hDevice, HDEVINFO devinfo, ثابت حرف *instance, Uint16 vendor, Uint16 ضرب_حاصل, ثابت حرف *default_name, bool hid_loaded)
 {
-    char *vendor_name = NULL;
-    char *product_name = NULL;
-    char *name = NULL;
+    حرف *vendor_name = عدم;
+    حرف *ضرب_حاصل_name = عدم;
+    حرف *name = عدم;
 
     // These are 126 for USB, but can be longer for Bluetooth devices
     WCHAR vend[256], prod[256];
     vend[0] = 0;
     prod[0] = 0;
 
-    if (hid_loaded) {
-        char devName[MAX_PATH + 1];
+    إذا (hid_loaded) {
+        حرف devName[MAX_رستہ + 1];
         devName[0] = '\0';
-        UINT cap = sizeof(devName) - 1;
-        UINT len = GetRawInputDeviceInfoA(hDevice, RIDI_DEVICENAME, devName, &cap);
-        if (len != (UINT)-1) {
+        UINT cap = حجم(devName) - 1;
+        UINT len = Get_Raw_داخلہ_Device_Info_A(hDevice, RIDI_DEVICENAME, devName, &cap);
+        إذا (len != (UINT)-1) {
             devName[len] = '\0';
 
             // important: for devices with exclusive access mode as per
             // https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/top-level-collections-opened-by-windows-for-system-use
             // they can only be opened with a desired access of none instead of generic read.
-            HANDLE hFile = CreateFileA(devName, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
-            if (hFile != INVALID_HANDLE_VALUE) {
-                SDL_HidD_GetManufacturerString(hFile, vend, sizeof(vend));
-                SDL_HidD_GetProductString(hFile, prod, sizeof(prod));
+            HANDLE hFile = CreateFileA(devName, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, عدم, OPEN_EXISTING, 0, عدم);
+            إذا (hFile != INVALID_HANDLE_قدر) {
+                SDL_HidD_GetManufacturerString(hFile, vend, حجم(vend));
+                SDL_Hid_D_Get_ضرب_حاصل_String(hFile, prod, حجم(prod));
                 CloseHandle(hFile);
             }
         }
     }
 
-    if (vend[0]) {
-        vendor_name = WIN_StringToUTF8W(vend);
+    إذا (vend[0]) {
+        vendor_name = WIN_String_منزل_UTF8_W(vend);
     }
 
-    if (prod[0]) {
-        product_name = WIN_StringToUTF8W(prod);
-    } else {
-        SP_DEVINFO_DATA data;
-        SDL_zero(data);
-        data.cbSize = sizeof(data);
-        for (DWORD i = 0;; ++i) {
-            if (!SetupDiEnumDeviceInfo(devinfo, i, &data)) {
-                if (GetLastError() == ERROR_NO_MORE_ITEMS) {
-                    break;
-                } else {
-                    continue;
+    إذا (prod[0]) {
+        ضرب_حاصل_name = WIN_String_منزل_UTF8_W(prod);
+    } وإلا {
+        SP_DEVINFO_انکڑے انکڑے;
+        SDL_zero(انکڑے);
+        انکڑے.cb_ناپ = حجم(انکڑے);
+        لكل (DWORD i = 0;; ++i) {
+            إذا (!تیاری_Di_Enum_Device_Info(devinfo, i, &انکڑے)) {
+                إذا (Get_آخری_Error() == ERROR_NO_ہور_اشیاء) {
+                    اكسر;
+                } وإلا {
+                    استمر;
                 }
             }
 
-            char DeviceInstanceId[64];
-            if (!SetupDiGetDeviceInstanceIdA(devinfo, &data, DeviceInstanceId, sizeof(DeviceInstanceId), NULL))
-                continue;
+            حرف DeviceInstanceId[64];
+            إذا (!تیاری_Di_Get_Device_Instance_Id_A(devinfo, &انکڑے, DeviceInstanceId, حجم(DeviceInstanceId), عدم))
+                استمر;
 
-            if (SDL_strcasecmp(instance, DeviceInstanceId) == 0) {
-                DWORD size = 0;
-                if (SetupDiGetDeviceRegistryPropertyW(devinfo, &data, SPDRP_DEVICEDESC, NULL, (PBYTE)prod, sizeof(prod), &size)) {
+            إذا (SDL_strcasecmp(instance, DeviceInstanceId) == 0) {
+                DWORD ناپ = 0;
+                إذا (تیاری_Di_Get_Device_Registry_Property_W(devinfo, &انکڑے, SPDRP_DEVICEDESC, عدم, (PBYTE)prod, حجم(prod), &ناپ)) {
                     // Make sure the device description is null terminated
-                    size /= sizeof(*prod);
-                    if (size >= SDL_arraysize(prod)) {
+                    ناپ /= حجم(*prod);
+                    إذا (ناپ >= SDL_arraysize(prod)) {
                         // Truncated description...
-                        size = (SDL_arraysize(prod) - 1);
+                        ناپ = (SDL_arraysize(prod) - 1);
                     }
-                    prod[size] = 0;
+                    prod[ناپ] = 0;
 
-                    if (vendor || product) {
-                        SDL_asprintf(&product_name, "%S (0x%.4x/0x%.4x)", prod, vendor, product);
-                    } else {
-                        product_name = WIN_StringToUTF8W(prod);
+                    إذا (vendor || ضرب_حاصل) {
+                        SDL_asprintf(&ضرب_حاصل_name, "%S (0x%.4x/0x%.4x)", prod, vendor, ضرب_حاصل);
+                    } وإلا {
+                        ضرب_حاصل_name = WIN_String_منزل_UTF8_W(prod);
                     }
                 }
-                break;
+                اكسر;
             }
         }
     }
 
-    if (!product_name && (vendor || product)) {
-        SDL_asprintf(&product_name, "%s (0x%.4x/0x%.4x)", default_name, vendor, product);
+    إذا (!ضرب_حاصل_name && (vendor || ضرب_حاصل)) {
+        SDL_asprintf(&ضرب_حاصل_name, "%s (0x%.4x/0x%.4x)", default_name, vendor, ضرب_حاصل);
     }
-    name = SDL_CreateDeviceName(vendor, product, vendor_name, product_name, default_name);
+    name = SDL_CreateDeviceName(vendor, ضرب_حاصل, vendor_name, ضرب_حاصل_name, default_name);
     SDL_free(vendor_name);
-    SDL_free(product_name);
+    SDL_free(ضرب_حاصل_name);
 
-    return name;
+    أرجع name;
 }
 
-void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
+فراغ WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
 {
     SDL_VideoDevice *_this = SDL_GetVideoDevice();
-    PRAWINPUTDEVICELIST raw_devices = NULL;
-    UINT raw_device_count = 0;
-    int old_keyboard_count = 0;
-    SDL_KeyboardID *old_keyboards = NULL;
-    int new_keyboard_count = 0;
-    SDL_KeyboardID *new_keyboards = NULL;
-    int old_mouse_count = 0;
-    SDL_MouseID *old_mice = NULL;
-    int new_mouse_count = 0;
-    SDL_MouseID *new_mice = NULL;
+    PRAWINPUTDEVICELIST raw_devices = عدم;
+    UINT raw_device_گنتی = 0;
+    صحيح old_keyboard_گنتی = 0;
+    SDL_KeyboardID *old_keyboards = عدم;
+    صحيح new_keyboard_گنتی = 0;
+    SDL_KeyboardID *new_keyboards = عدم;
+    صحيح old_mouse_گنتی = 0;
+    SDL_MouseID *old_mice = عدم;
+    صحيح new_mouse_گنتی = 0;
+    SDL_MouseID *new_mice = عدم;
 
-    if (!_this ||
+    إذا (!_this ||
         SDL_strcmp(_this->name, "windows") != 0 ||
-        !_this->internal->detect_device_hotplug ||
-        _this->internal->gameinput_context) {
-        return;
+        !_this->اندرونی->detect_device_hotplug ||
+        _this->اندرونی->gameinput_context) {
+        أرجع;
     }
 
-    if ((GetRawInputDeviceList(NULL, &raw_device_count, sizeof(RAWINPUTDEVICELIST)) == -1) || (!raw_device_count)) {
-        return; // oh well.
+    إذا ((Get_Raw_داخلہ_Device_List(عدم, &raw_device_گنتی, حجم(RAWINPUTDEVICELIST)) == -1) || (!raw_device_گنتی)) {
+        أرجع; // oh well.
     }
 
-    raw_devices = (PRAWINPUTDEVICELIST)SDL_malloc(sizeof(RAWINPUTDEVICELIST) * raw_device_count);
-    if (!raw_devices) {
-        return; // oh well.
+    raw_devices = (PRAWINPUTDEVICELIST)SDL_malloc(حجم(RAWINPUTDEVICELIST) * raw_device_گنتی);
+    إذا (!raw_devices) {
+        أرجع; // oh well.
     }
 
-    raw_device_count = GetRawInputDeviceList(raw_devices, &raw_device_count, sizeof(RAWINPUTDEVICELIST));
-    if (raw_device_count == (UINT)-1) {
+    raw_device_گنتی = Get_Raw_داخلہ_Device_List(raw_devices, &raw_device_گنتی, حجم(RAWINPUTDEVICELIST));
+    إذا (raw_device_گنتی == (UINT)-1) {
         SDL_free(raw_devices);
-        raw_devices = NULL;
-        return; // oh well.
+        raw_devices = عدم;
+        أرجع; // oh well.
     }
 
-    HDEVINFO devinfo = SetupDiGetClassDevsA(NULL, NULL, NULL, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
+    HDEVINFO devinfo = تیاری_Di_Get_Class_Devs_A(عدم, عدم, عدم, (DIGCF_ALLCLASSES | DIGCF_PRESENT));
 
-    old_keyboards = SDL_GetKeyboards(&old_keyboard_count);
-    old_mice = SDL_GetMice(&old_mouse_count);
+    old_keyboards = SDL_GetKeyboards(&old_keyboard_گنتی);
+    old_mice = SDL_GetMice(&old_mouse_گنتی);
 
-    for (UINT i = 0; i < raw_device_count; i++) {
+    لكل (UINT i = 0; i < raw_device_گنتی; i++) {
         RID_DEVICE_INFO rdi;
-        char devName[MAX_PATH] = { 0 };
-        UINT rdiSize = sizeof(rdi);
-        UINT nameSize = SDL_arraysize(devName);
-        int vendor = 0, product = 0;
+        حرف devName[MAX_رستہ] = { 0 };
+        UINT rdi_ناپ = حجم(rdi);
+        UINT name_ناپ = SDL_arraysize(devName);
+        صحيح vendor = 0, ضرب_حاصل = 0;
         DWORD dwType = raw_devices[i].dwType;
-        char *instance, *ptr, *name;
+        حرف *instance, *ptr, *name;
 
-        if (dwType != RIM_TYPEKEYBOARD && dwType != RIM_TYPEMOUSE) {
-            continue;
+        إذا (dwType != RIM_TYPEKEYBOARD && dwType != RIM_TYPEMOUSE) {
+            استمر;
         }
 
-        rdi.cbSize = sizeof(rdi);
-        if (GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdiSize) == ((UINT)-1) ||
-            GetRawInputDeviceInfoA(raw_devices[i].hDevice, RIDI_DEVICENAME, devName, &nameSize) == ((UINT)-1)) {
-            continue;
+        rdi.cb_ناپ = حجم(rdi);
+        إذا (Get_Raw_داخلہ_Device_Info_A(raw_devices[i].hDevice, RIDI_DEVICEINFO, &rdi, &rdi_ناپ) == ((UINT)-1) ||
+            Get_Raw_داخلہ_Device_Info_A(raw_devices[i].hDevice, RIDI_DEVICENAME, devName, &name_ناپ) == ((UINT)-1)) {
+            استمر;
         }
 
         // Extract the device instance
         instance = devName;
-        while (*instance == '\\' || *instance == '?') {
+        طالما (*instance == '\\' || *instance == '?') {
             ++instance;
         }
-        for (ptr = instance; *ptr; ++ptr) {
-            if (*ptr == '#') {
+        لكل (ptr = instance; *ptr; ++ptr) {
+            إذا (*ptr == '#') {
                 *ptr = '\\';
             }
-            if (*ptr == '{') {
-                if (ptr > instance && ptr[-1] == '\\') {
+            إذا (*ptr == '{') {
+                إذا (ptr > instance && ptr[-1] == '\\') {
                     --ptr;
                 }
-                break;
+                اكسر;
             }
         }
         *ptr = '\0';
 
-        SDL_sscanf(instance, "HID\\VID_%X&PID_%X&", &vendor, &product);
+        SDL_sscanf(instance, "HID\\VID_%X&PID_%X&", &vendor, &ضرب_حاصل);
 
-        switch (dwType) {
-        case RIM_TYPEKEYBOARD:
-            if (SDL_IsKeyboard((Uint16)vendor, (Uint16)product, rdi.keyboard.dwNumberOfKeysTotal)) {
+        بدل (dwType) {
+        حالة RIM_TYPEKEYBOARD:
+            إذا (SDL_IsKeyboard((Uint16)vendor, (Uint16)ضرب_حاصل, rdi.keyboard.dw_نمبر_دا_کلیدیں_کل)) {
                 SDL_KeyboardID keyboardID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
-                AddDeviceID(keyboardID, &new_keyboards, &new_keyboard_count);
-                if (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_count)) {
-                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Keyboard", hid_loaded);
-                    SDL_AddKeyboard(keyboardID, name);
+                جوڑو_Device_ID(keyboardID, &new_keyboards, &new_keyboard_گنتی);
+                إذا (!HasDeviceID(keyboardID, old_keyboards, old_keyboard_گنتی)) {
+                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)ضرب_حاصل, "Keyboard", hid_loaded);
+                    SDL_جوڑو_Keyboard(keyboardID, name);
                     SDL_free(name);
                 }
             }
-            break;
-        case RIM_TYPEMOUSE:
-            if (SDL_IsMouse((Uint16)vendor, (Uint16)product)) {
+            اكسر;
+        حالة RIM_TYPEMOUSE:
+            إذا (SDL_IsMouse((Uint16)vendor, (Uint16)ضرب_حاصل)) {
                 SDL_MouseID mouseID = (Uint32)(uintptr_t)raw_devices[i].hDevice;
-                AddDeviceID(mouseID, &new_mice, &new_mouse_count);
-                if (!HasDeviceID(mouseID, old_mice, old_mouse_count)) {
-                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)product, "Mouse", hid_loaded);
-                    SDL_AddMouse(mouseID, name);
+                جوڑو_Device_ID(mouseID, &new_mice, &new_mouse_گنتی);
+                إذا (!HasDeviceID(mouseID, old_mice, old_mouse_گنتی)) {
+                    name = GetDeviceName(raw_devices[i].hDevice, devinfo, instance, (Uint16)vendor, (Uint16)ضرب_حاصل, "Mouse", hid_loaded);
+                    SDL_جوڑو_Mouse(mouseID, name);
                     SDL_free(name);
                 }
             }
-            break;
-        default:
-            break;
+            اكسر;
+        افتراضي:
+            اكسر;
         }
     }
 
-    for (int i = old_keyboard_count; i--;) {
-        if (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_count)) {
+    لكل (صحيح i = old_keyboard_گنتی; i--;) {
+        إذا (!HasDeviceID(old_keyboards[i], new_keyboards, new_keyboard_گنتی)) {
             SDL_RemoveKeyboard(old_keyboards[i]);
         }
     }
 
-    for (int i = old_mouse_count; i--;) {
-        if (!HasDeviceID(old_mice[i], new_mice, new_mouse_count)) {
+    لكل (صحيح i = old_mouse_گنتی; i--;) {
+        إذا (!HasDeviceID(old_mice[i], new_mice, new_mouse_گنتی)) {
             SDL_RemoveMouse(old_mice[i]);
         }
     }
@@ -1114,124 +1114,124 @@ void WIN_CheckKeyboardAndMouseHotplug(bool hid_loaded)
     SDL_free(old_mice);
     SDL_free(new_mice);
 
-    SetupDiDestroyDeviceInfoList(devinfo);
+    تیاری_Di_Destroy_Device_Info_List(devinfo);
 
     SDL_free(raw_devices);
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 // Return true if spurious LCtrl is pressed
 // LCtrl is sent when RAltGR is pressed
-static bool SkipAltGrLeftControl(WPARAM wParam, LPARAM lParam)
+ساكن bool Skip_Alt_Gr_بایاں_Control(WPARAM wParam, LPARAM lParam)
 {
-    if (wParam != VK_CONTROL) {
-        return false;
+    إذا (wParam != VK_CONTROL) {
+        أرجع false;
     }
 
     // Is this an extended key (i.e. right key)?
-    if (lParam & 0x01000000) {
-        return false;
+    إذا (lParam & 0x01000000) {
+        أرجع false;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Here is a trick: "Alt Gr" sends LCTRL, then RALT. We only
     // want the RALT message, so we try to see if the next message
     // is a RALT message. In that case, this is a false LCTRL!
-    MSG next_msg;
-    DWORD msg_time = GetMessageTime();
-    if (PeekMessage(&next_msg, NULL, 0, 0, PM_NOREMOVE)) {
-        if (next_msg.message == WM_KEYDOWN ||
-            next_msg.message == WM_SYSKEYDOWN) {
-            if (next_msg.wParam == VK_MENU && (next_msg.lParam & 0x01000000) && next_msg.time == msg_time) {
+    پیغام_2 اگلا_پیغام;
+    DWORD پیغام_ویلا = Get_سنیہا_ویلا();
+    إذا (Peek_سنیہا(&اگلا_پیغام, عدم, 0, 0, PM_NOREMOVE)) {
+        إذا (اگلا_پیغام.سنیہا == WM_KEYDOWN ||
+            اگلا_پیغام.سنیہا == WM_SYSKEYDOWN) {
+            إذا (اگلا_پیغام.wParam == VK_MENU && (اگلا_پیغام.lParam & 0x01000000) && اگلا_پیغام.ویلا == پیغام_ویلا) {
                 // Next message is a RALT down message, which means that this is NOT a proper LCTRL message!
-                return true;
+                أرجع true;
             }
         }
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return false;
+    أرجع false;
 }
 
-static bool DispatchModalLoopMessageHook(HWND *hwnd, UINT *msg, WPARAM *wParam, LPARAM *lParam)
+ساكن bool Dispatch_Modal_Loop_سنیہا_Hook(HWND *hwnd, UINT *پیغام, WPARAM *wParam, LPARAM *lParam)
 {
-    MSG dummy;
+    پیغام_2 dummy;
 
     SDL_zero(dummy);
     dummy.hwnd = *hwnd;
-    dummy.message = *msg;
+    dummy.سنیہا = *پیغام;
     dummy.wParam = *wParam;
     dummy.lParam = *lParam;
-    if (g_WindowsMessageHook(g_WindowsMessageHookData, &dummy)) {
+    إذا (g_Windows_سنیہا_Hook(g_Windows_سنیہا_Hook_انکڑے, &dummy)) {
         // Can't modify the hwnd, but everything else is fair game
-        *msg = dummy.message;
+        *پیغام = dummy.سنیہا;
         *wParam = dummy.wParam;
         *lParam = dummy.lParam;
-        return true;
+        أرجع true;
     }
-    return false;
+    أرجع false;
 }
 
-LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WIN_کھڑکی_Proc(HWND hwnd, UINT پیغام, WPARAM wParam, LPARAM lParam)
 {
-    SDL_WindowData *data;
-    LRESULT returnCode = -1;
+    SDL_کھڑکی_انکڑے *انکڑے;
+    LRESULT return_کوڈ = -1;
 
     // Get the window data for the window
-    data = WIN_GetWindowDataFromHWND(hwnd);
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!data) {
+    انکڑے = WIN_Get_کھڑکی_انکڑے_From_HWND(hwnd);
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (!انکڑے) {
         // Fallback
-        data = (SDL_WindowData *)GetProp(hwnd, TEXT("SDL_WindowData"));
+        انکڑے = (SDL_کھڑکی_انکڑے *)GetProp(hwnd, متن_2("SDL_WindowData"));
     }
-#endif
-    if (!data) {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+#جے_انت
+    إذا (!انکڑے) {
+        أرجع Call_کھڑکی_Proc(Def_کھڑکی_Proc, hwnd, پیغام, wParam, lParam);
     }
 
-#ifdef WMMSG_DEBUG
+#جے_تعریف_شدہ WMMSG_DEBUG
     {
-        char message[1024];
-        if (msg > MAX_WMMSG) {
-            SDL_snprintf(message, sizeof(message), "Received windows message: %p UNKNOWN (%d) -- 0x%x, 0x%x\r\n", hwnd, msg, wParam, lParam);
-        } else {
-            SDL_snprintf(message, sizeof(message), "Received windows message: %p %s -- 0x%x, 0x%x\r\n", hwnd, wmtab[msg], wParam, lParam);
+        حرف سنیہا[1024];
+        إذا (پیغام > MAX_WMMSG) {
+            SDL_snprintf(سنیہا, حجم(سنیہا), "Received windows message: %p UNKNOWN (%d) -- 0x%x, 0x%x\r\n", hwnd, پیغام, wParam, lParam);
+        } وإلا {
+            SDL_snprintf(سنیہا, حجم(سنیہا), "Received windows message: %p %s -- 0x%x, 0x%x\r\n", hwnd, wmtab[پیغام], wParam, lParam);
         }
-        OutputDebugStringA(message);
+        OutputDebugStringA(سنیہا);
     }
-#endif // WMMSG_DEBUG
+#جے_انت // WMMSG_DEBUG
 
 
-    if (g_WindowsMessageHook && data->in_modal_loop) {
+    إذا (g_Windows_سنیہا_Hook && انکڑے->وچ_modal_loop) {
         // Synthesize a message for window hooks so they can modify the message if desired
-        if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
-            return 0;
+        إذا (!Dispatch_Modal_Loop_سنیہا_Hook(&hwnd, &پیغام, &wParam, &lParam)) {
+            أرجع 0;
         }
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (WIN_HandleIMEMessage(hwnd, msg, wParam, &lParam, data->videodata)) {
-        return 0;
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (WIN_HandleIMEMessage(hwnd, پیغام, wParam, &lParam, انکڑے->videodata)) {
+        أرجع 0;
     }
-#endif
+#جے_انت
 
-    switch (msg) {
+    بدل (پیغام) {
 
-    case WM_SHOWWINDOW:
+    حالة WM_SHOWWINDOW:
     {
-        if (wParam) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-        } else {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
+        إذا (wParam) {
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_SHOWN, 0, 0);
+        } وإلا {
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_HIDDEN, 0, 0);
         }
-    } break;
+    } اكسر;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    case WM_NCACTIVATE:
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    حالة WM_NCACTIVATE:
     {
         // Don't immediately clip the cursor in case we're clicking minimize/maximize buttons
-        data->postpone_clipcursor = true;
-        data->clipcursor_queued = true;
+        انکڑے->postpone_clipcursor = true;
+        انکڑے->clipcursor_queued = true;
 
         /* Update the focus here, since it's possible to get WM_ACTIVATE and WM_SETFOCUS without
            actually being the foreground window, but this appears to get called in all cases where
@@ -1239,89 +1239,89 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
            The current cursor position is needed here, as the message position contains old
            coordinates if the pointer moved while an overlay was active. */
-        POINT pos = { 0, 0 };
+        نقطہ_2 pos = { 0, 0 };
         GetCursorPos(&pos);
-        WIN_UpdateFocus(data->window, !!wParam, &pos);
+        WIN_UpdateFocus(انکڑے->کھڑکی, !!wParam, &pos);
 
         /* Handle borderless windows; this event is intended for drawing the titlebar, so we need
            to stop that from happening. */
-        if (data->window->flags & SDL_WINDOW_BORDERLESS) {
+        إذا (انکڑے->کھڑکی->flags & SDL_کھڑکی_BORDERLESS) {
             lParam = -1; // According to MSDN, DefWindowProc will draw a title bar if lParam != -1
         }
-    } break;
+    } اكسر;
 
-    case WM_NCUAHDRAWCAPTION:
-    case WM_NCUAHDRAWFRAME:
+    حالة WM_NCUAHDRAWCAPTION:
+    حالة WM_NCUAHDRAWFRAME:
     {
         /* These messages are undocumented. They are responsible for redrawing the window frame and
            caption. Notably, WM_NCUAHDRAWCAPTION is sent when calling SetWindowText on a window.
            For borderless windows, we don't want to draw a frame or caption, so we should stop
            that from happening. */
-        if (data->window->flags & SDL_WINDOW_BORDERLESS) {
-            returnCode = 0;
+        إذا (انکڑے->کھڑکی->flags & SDL_کھڑکی_BORDERLESS) {
+            return_کوڈ = 0;
         }
-    } break;
+    } اكسر;
 
-    case WM_ACTIVATE:
+    حالة WM_ACTIVATE:
     {
         // Update the focus in case we changed focus to a child window and then away from the application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
-        WIN_UpdateFocus(data->window, !!LOWORD(wParam), &pos);
-    } break;
+        ثابت DWORD پیغام_Pos = Get_سنیہا_Pos();
+        نقطہ_2 pos = { GET_X_LPARAM(پیغام_Pos), GET_Y_LPARAM(پیغام_Pos) };
+        WIN_UpdateFocus(انکڑے->کھڑکی, !!LOWORD(wParam), &pos);
+    } اكسر;
 
-    case WM_MOUSEACTIVATE:
+    حالة WM_MOUSEACTIVATE:
     {
-        if (SDL_WINDOW_IS_POPUP(data->window)) {
-            return MA_NOACTIVATE;
+        إذا (SDL_کھڑکی_IS_POPUP(انکڑے->کھڑکی)) {
+            أرجع MA_NOACTIVATE;
         }
 
         // Check parents to see if they are in relative mouse mode and focused
-        SDL_Window *parent = data->window->parent;
-        while (parent) {
-            if ((parent->flags & SDL_WINDOW_INPUT_FOCUS) &&
-                (parent->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE)) {
-                return MA_NOACTIVATE;
+        SDL_کھڑکی *ماپا = انکڑے->کھڑکی->ماپا;
+        طالما (ماپا) {
+            إذا ((ماپا->flags & SDL_کھڑکی_داخلہ_FOCUS) &&
+                (ماپا->flags & SDL_کھڑکی_MOUSE_RELATIVE_منوال)) {
+                أرجع MA_NOACTIVATE;
             }
-            parent = parent->parent;
+            ماپا = ماپا->ماپا;
         }
-    } break;
+    } اكسر;
 
-    case WM_SETFOCUS:
+    حالة WM_SETFOCUS:
     {
         // Update the focus in case it's changing between top-level windows in the same application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
-        WIN_UpdateFocus(data->window, true, &pos);
-    } break;
+        ثابت DWORD پیغام_Pos = Get_سنیہا_Pos();
+        نقطہ_2 pos = { GET_X_LPARAM(پیغام_Pos), GET_Y_LPARAM(پیغام_Pos) };
+        WIN_UpdateFocus(انکڑے->کھڑکی, true, &pos);
+    } اكسر;
 
-    case WM_KILLFOCUS:
-    case WM_ENTERIDLE:
+    حالة WM_KILLFOCUS:
+    حالة WM_ENTERIDLE:
     {
         // Update the focus in case it's changing between top-level windows in the same application
-        const DWORD msgPos = GetMessagePos();
-        POINT pos = { GET_X_LPARAM(msgPos), GET_Y_LPARAM(msgPos) };
-        WIN_UpdateFocus(data->window, false, &pos);
-    } break;
+        ثابت DWORD پیغام_Pos = Get_سنیہا_Pos();
+        نقطہ_2 pos = { GET_X_LPARAM(پیغام_Pos), GET_Y_LPARAM(پیغام_Pos) };
+        WIN_UpdateFocus(انکڑے->کھڑکی, false, &pos);
+    } اكسر;
 
-    case WM_POINTERENTER:
+    حالة WM_POINTERENTER:
     {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
-        const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType) {
-            break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
-        } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
-            break;  // oh well.
-        } else if (pointer_type != PT_PEN) {
-            break;  // we only care about pens here.
+        ثابت UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
+        اشارہ_گر_داخلہ_TYPE اشارہ_گر_type = PT_اشارہ_گر;
+        إذا (!انکڑے->videodata->Get_اشارہ_گر_Type) {
+            اكسر;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
+        } وإلا إذا (!انکڑے->videodata->Get_اشارہ_گر_Type(pointerid, &اشارہ_گر_type)) {
+            اكسر;  // oh well.
+        } وإلا إذا (اشارہ_گر_type != PT_PEN) {
+            اكسر;  // we only care about pens here.
         }
 
-        void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
-        const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        if (pen) {
-            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, data->window, true, true);
-        } else {
+        فراغ *hpointer = (فراغ *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
+        ثابت SDL_PenID pen = SDL_لبھو_Pen_By_Handle(hpointer);
+        إذا (pen) {
+            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, انکڑے->کھڑکی, true, true);
+        } وإلا {
             // one can use GetPointerPenInfo() to get the current state of the pen, and check POINTER_PEN_INFO::penMask,
             //  but the docs aren't clear if these masks are _always_ set for pens with specific features, or if they
             //  could be unset at this moment because Windows is still deciding what capabilities the pen has, and/or
@@ -1329,505 +1329,505 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
             //  available...we don't expose this information through the public API at the moment anyhow.
             SDL_PenInfo info;
             SDL_zero(info);
-            info.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT | SDL_PEN_CAPABILITY_DISTANCE | SDL_PEN_CAPABILITY_ROTATION | SDL_PEN_CAPABILITY_ERASER;
+            info.capabilities = SDL_PEN_CAPABILITY_PRESSURE | SDL_PEN_CAPABILITY_XTILT | SDL_PEN_CAPABILITY_YTILT | SDL_PEN_CAPABILITY_فاصلہ | SDL_PEN_CAPABILITY_ROTATION | SDL_PEN_CAPABILITY_ERASER;
             info.max_tilt = 90.0f;
-            info.num_buttons = 1;
+            info.عدد_buttons = 1;
             info.subtype = SDL_PEN_TYPE_PENCIL;
-            SDL_AddPenDevice(WIN_GetEventTimestamp(), NULL, data->window, &info, hpointer, true);
+            SDL_جوڑو_Pen_Device(WIN_GetEventTimestamp(), عدم, انکڑے->کھڑکی, &info, hpointer, true);
         }
-        returnCode = 0;
-    } break;
+        return_کوڈ = 0;
+    } اكسر;
 
-    case WM_POINTERCAPTURECHANGED:
-    case WM_POINTERLEAVE:
+    حالة WM_POINTERCAPTURECHANGED:
+    حالة WM_POINTERLEAVE:
     {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
-        const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType) {
-            break;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
-        } else if (!data->videodata->GetPointerType(pointerid, &pointer_type)) {
-            break;  // oh well.
-        } else if (pointer_type != PT_PEN) {
-            break;  // we only care about pens here.
+        ثابت UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
+        اشارہ_گر_داخلہ_TYPE اشارہ_گر_type = PT_اشارہ_گر;
+        إذا (!انکڑے->videodata->Get_اشارہ_گر_Type) {
+            اكسر;  // Not on Windows8 or later? We shouldn't get this event, but just in case...
+        } وإلا إذا (!انکڑے->videodata->Get_اشارہ_گر_Type(pointerid, &اشارہ_گر_type)) {
+            اكسر;  // oh well.
+        } وإلا إذا (اشارہ_گر_type != PT_PEN) {
+            اكسر;  // we only care about pens here.
         }
 
-        void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
-        const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        if (pen == 0) {
-            break;  // not a pen, or not a pen we already knew about.
+        فراغ *hpointer = (فراغ *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
+        ثابت SDL_PenID pen = SDL_لبھو_Pen_By_Handle(hpointer);
+        إذا (pen == 0) {
+            اكسر;  // not a pen, or not a pen we already knew about.
         }
 
         // if this just left the _window_, we don't care. If this is no longer visible to the tablet, time to remove it!
-        if ((msg == WM_POINTERCAPTURECHANGED) || !IS_POINTER_INCONTACT_WPARAM(wParam)) {
+        إذا ((پیغام == WM_POINTERCAPTURECHANGED) || !IS_اشارہ_گر_INCONTACT_WPARAM(wParam)) {
             // technically this isn't just _proximity_ but maybe just leaving the window. Good enough. WinTab apparently has real proximity info.
-            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, data->window, false, false);
+            SDL_SendPenProximity(WIN_GetEventTimestamp(), pen, انکڑے->کھڑکی, false, false);
         }
-        returnCode = 0;
-    } break;
+        return_کوڈ = 0;
+    } اكسر;
 
-    case WM_POINTERDOWN:
-    case WM_POINTERUP:
-    case WM_POINTERUPDATE: {
+    حالة WM_POINTERDOWN:
+    حالة WM_POINTERUP:
+    حالة WM_POINTERUPDATE: {
         // NOTE: GET_POINTERID_WPARAM(wParam) is not a tool ID! It changes for each new WM_POINTERENTER, like a finger ID on a touch display. We can't identify a specific pen through these events.
-        const UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
-        POINTER_INPUT_TYPE pointer_type = PT_POINTER;
-        if (!data->videodata->GetPointerType || !data->videodata->GetPointerType(pointerid, &pointer_type)) {
-            break;  // oh well.
-        } else if ((msg == WM_POINTERUPDATE) && (pointer_type == PT_MOUSE)) {
-            data->last_pointer_update = lParam;
-            returnCode = 0;
-            break;
-        } else if (pointer_type != PT_PEN) {
-            break; // we only care about pens here.
+        ثابت UINT32 pointerid = GET_POINTERID_WPARAM(wParam);
+        اشارہ_گر_داخلہ_TYPE اشارہ_گر_type = PT_اشارہ_گر;
+        إذا (!انکڑے->videodata->Get_اشارہ_گر_Type || !انکڑے->videodata->Get_اشارہ_گر_Type(pointerid, &اشارہ_گر_type)) {
+            اكسر;  // oh well.
+        } وإلا إذا ((پیغام == WM_POINTERUPDATE) && (اشارہ_گر_type == PT_MOUSE)) {
+            انکڑے->آخری_اشارہ_گر_update = lParam;
+            return_کوڈ = 0;
+            اكسر;
+        } وإلا إذا (اشارہ_گر_type != PT_PEN) {
+            اكسر; // we only care about pens here.
         }
 
-        void *hpointer = (void *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
-        const SDL_PenID pen = SDL_FindPenByHandle(hpointer);
-        POINTER_PEN_INFO pen_info;
-        if (pen == 0) {
-            break;  // not a pen, or not a pen we already knew about.
-        } else if (!data->videodata->GetPointerPenInfo || !data->videodata->GetPointerPenInfo(pointerid, &pen_info)) {
-            break;  // oh well.
+        فراغ *hpointer = (فراغ *)(size_t)1; // just something > 0. We're using this one ID any possible pen.
+        ثابت SDL_PenID pen = SDL_لبھو_Pen_By_Handle(hpointer);
+        اشارہ_گر_PEN_INFO pen_info;
+        إذا (pen == 0) {
+            اكسر;  // not a pen, or not a pen we already knew about.
+        } وإلا إذا (!انکڑے->videodata->Get_اشارہ_گر_Pen_Info || !انکڑے->videodata->Get_اشارہ_گر_Pen_Info(pointerid, &pen_info)) {
+            اكسر;  // oh well.
         }
 
-        const Uint64 timestamp = WIN_GetEventTimestamp();
-        SDL_Window *window = data->window;
+        ثابت Uint64 timestamp = WIN_GetEventTimestamp();
+        SDL_کھڑکی *کھڑکی = انکڑے->کھڑکی;
 
-        const bool istouching = IS_POINTER_INCONTACT_WPARAM(wParam) && IS_POINTER_FIRSTBUTTON_WPARAM(wParam);
+        ثابت bool istouching = IS_اشارہ_گر_INCONTACT_WPARAM(wParam) && IS_اشارہ_گر_FIRSTBUTTON_WPARAM(wParam);
 
         // if lifting off, do it first, so any motion changes don't cause app issues.
-        if (!istouching) {
-            SDL_SendPenTouch(timestamp, pen, window, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, false);
+        إذا (!istouching) {
+            SDL_SendPenTouch(timestamp, pen, کھڑکی, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, false);
         }
 
-        const POINTER_INFO *pointer_info = &pen_info.pointerInfo;
+        ثابت اشارہ_گر_INFO *اشارہ_گر_info = &pen_info.اشارہ_گر_Info;
         RECT tablet_bounds, tablet_mapping;
-        float fx, fy;
+        عائم fx, fy;
 
         // try to get a more-precise position than is stored in lParam...GetPointerDeviceRects is available starting in Windows 8.
         // we might need to cache this somewhere (and if we cache it, we will need to update it if the display changes)...for now we'll see if GetPointerDeviceRect is fast enough.
-        if (!data->videodata->GetPointerDeviceRects || !data->videodata->GetPointerDeviceRects(pointer_info->sourceDevice, &tablet_bounds, &tablet_mapping)) {
-            POINT position = { (LONG) GET_X_LPARAM(lParam), (LONG) GET_Y_LPARAM(lParam) };
-            ScreenToClient(data->hwnd, &position);
-            fx = (float) position.x;
-            fy = (float) position.y;
-        } else {
-            int ix, iy;
-            SDL_GetWindowPosition(window, &ix, &iy);
-            const SDL_FPoint window_pos = { (float) ix, (float) iy };
+        إذا (!انکڑے->videodata->Get_اشارہ_گر_Device_Rects || !انکڑے->videodata->Get_اشارہ_گر_Device_Rects(اشارہ_گر_info->سروت_Device, &tablet_bounds, &tablet_mapping)) {
+            نقطہ_2 position = { (LONG) GET_X_LPARAM(lParam), (LONG) GET_Y_LPARAM(lParam) };
+            Screen_منزل_Client(انکڑے->hwnd, &position);
+            fx = (عائم) position.x;
+            fy = (عائم) position.y;
+        } وإلا {
+            صحيح ix, iy;
+            SDL_Get_کھڑکی_Position(کھڑکی, &ix, &iy);
+            ثابت SDL_FPoint کھڑکی_pos = { (عائم) ix, (عائم) iy };
 
-            const float facX = pointer_info->ptHimetricLocationRaw.x / (float) (tablet_bounds.right );
-            const float facY = pointer_info->ptHimetricLocationRaw.y / (float) (tablet_bounds.bottom);
+            ثابت عائم facX = اشارہ_گر_info->ptHimetricLocationRaw.x / (عائم) (tablet_bounds.دایاں );
+            ثابت عائم facY = اشارہ_گر_info->ptHimetricLocationRaw.y / (عائم) (tablet_bounds.bottom);
 
-            const float w = tablet_mapping.right  - tablet_mapping.left;
-            const float h = tablet_mapping.bottom - tablet_mapping.top;
+            ثابت عائم w = tablet_mapping.دایاں  - tablet_mapping.بایاں;
+            ثابت عائم h = tablet_mapping.bottom - tablet_mapping.چوٹی;
 
-            fx = (tablet_mapping.left + (facX * w)) - window_pos.x;
-            fy = (tablet_mapping.top  + (facY * h)) - window_pos.y;
+            fx = (tablet_mapping.بایاں + (facX * w)) - کھڑکی_pos.x;
+            fy = (tablet_mapping.چوٹی  + (facY * h)) - کھڑکی_pos.y;
         }
 
-        SDL_SendPenMotion(timestamp, pen, window, fx, fy);
-        SDL_SendPenButton(timestamp, pen, window, 1, (pen_info.penFlags & PEN_FLAG_BARREL) != 0);
-        SDL_SendPenButton(timestamp, pen, window, 2, (pen_info.penFlags & PEN_FLAG_ERASER) != 0);
+        SDL_SendPenMotion(timestamp, pen, کھڑکی, fx, fy);
+        SDL_SendPenButton(timestamp, pen, کھڑکی, 1, (pen_info.penFlags & PEN_FLAG_BARREL) != 0);
+        SDL_SendPenButton(timestamp, pen, کھڑکی, 2, (pen_info.penFlags & PEN_FLAG_ERASER) != 0);
 
-        if (pen_info.penMask & PEN_MASK_PRESSURE) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_PRESSURE, ((float) pen_info.pressure) / 1024.0f);  // pen_info.pressure is in the range 0..1024.
+        إذا (pen_info.pen_نقاب & PEN_نقاب_PRESSURE) {
+            SDL_SendPenAxis(timestamp, pen, کھڑکی, SDL_PEN_AXIS_PRESSURE, ((عائم) pen_info.pressure) / 1024.0f);  // pen_info.pressure is in the range 0..1024.
         }
 
-        if (pen_info.penMask & PEN_MASK_ROTATION) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_ROTATION, ((float) pen_info.rotation));  // it's already in the range of 0 to 359.
+        إذا (pen_info.pen_نقاب & PEN_نقاب_ROTATION) {
+            SDL_SendPenAxis(timestamp, pen, کھڑکی, SDL_PEN_AXIS_ROTATION, ((عائم) pen_info.rotation));  // it's already in the range of 0 to 359.
         }
 
-        if (pen_info.penMask & PEN_MASK_TILT_X) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_XTILT, ((float) pen_info.tiltX));  // it's already in the range of -90 to 90..
+        إذا (pen_info.pen_نقاب & PEN_نقاب_TILT_X) {
+            SDL_SendPenAxis(timestamp, pen, کھڑکی, SDL_PEN_AXIS_XTILT, ((عائم) pen_info.tiltX));  // it's already in the range of -90 to 90..
         }
 
-        if (pen_info.penMask & PEN_MASK_TILT_Y) {
-            SDL_SendPenAxis(timestamp, pen, window, SDL_PEN_AXIS_YTILT, ((float) pen_info.tiltY));  // it's already in the range of -90 to 90..
+        إذا (pen_info.pen_نقاب & PEN_نقاب_TILT_Y) {
+            SDL_SendPenAxis(timestamp, pen, کھڑکی, SDL_PEN_AXIS_YTILT, ((عائم) pen_info.tiltY));  // it's already in the range of -90 to 90..
         }
 
         // if setting down, do it last, so the pen is positioned correctly from the first contact.
-        if (istouching) {
-            SDL_SendPenTouch(timestamp, pen, window, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, true);
+        إذا (istouching) {
+            SDL_SendPenTouch(timestamp, pen, کھڑکی, (pen_info.penFlags & PEN_FLAG_INVERTED) != 0, true);
         }
 
-        returnCode = 0;
-    } break;
+        return_کوڈ = 0;
+    } اكسر;
 
-    case WM_MOUSEMOVE:
+    حالة WM_MOUSEMOVE:
     {
-        SDL_Window *window = data->window;
+        SDL_کھڑکی *کھڑکی = انکڑے->کھڑکی;
 
-        if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
+        إذا (کھڑکی->flags & SDL_کھڑکی_داخلہ_FOCUS) {
             bool wish_clip_cursor = (
-                window->flags & (SDL_WINDOW_MOUSE_RELATIVE_MODE | SDL_WINDOW_MOUSE_GRABBED) ||
-                (window->mouse_rect.w > 0 && window->mouse_rect.h > 0)
+                کھڑکی->flags & (SDL_کھڑکی_MOUSE_RELATIVE_منوال | SDL_کھڑکی_MOUSE_GRABBED) ||
+                (کھڑکی->mouse_rect.w > 0 && کھڑکی->mouse_rect.h > 0)
             );
-            if (wish_clip_cursor) { // queue clipcursor refresh on pump finish
-                data->clipcursor_queued = true;
+            إذا (wish_clip_cursor) { // queue clipcursor refresh on pump finish
+                انکڑے->clipcursor_queued = true;
             }
         }
 
-        if (!data->mouse_tracked) {
+        إذا (!انکڑے->mouse_tracked) {
             TRACKMOUSEEVENT trackMouseEvent;
 
-            trackMouseEvent.cbSize = sizeof(TRACKMOUSEEVENT);
+            trackMouseEvent.cb_ناپ = حجم(TRACKMOUSEEVENT);
             trackMouseEvent.dwFlags = TME_LEAVE;
-            trackMouseEvent.hwndTrack = data->hwnd;
+            trackMouseEvent.hwndTrack = انکڑے->hwnd;
 
-            if (TrackMouseEvent(&trackMouseEvent)) {
-                data->mouse_tracked = true;
+            إذا (TrackMouseEvent(&trackMouseEvent)) {
+                انکڑے->mouse_tracked = true;
             }
 
-            WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
+            WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), انکڑے);
         }
 
-        if (!data->videodata->raw_mouse_enabled) {
+        إذا (!انکڑے->videodata->raw_mouse_enabled) {
             // Only generate mouse events for real mouse
-            if (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
-                lParam != data->last_pointer_update) {
-                SDL_SendMouseMotion(WIN_GetEventTimestamp(), window, SDL_GLOBAL_MOUSE_ID, false, (float)GET_X_LPARAM(lParam), (float)GET_Y_LPARAM(lParam));
+            إذا (Get_Mouse_سنیہا_سروت((ULONG)Get_سنیہا_Extra_Info()) == SDL_MOUSE_EVENT_سروت_MOUSE &&
+                lParam != انکڑے->آخری_اشارہ_گر_update) {
+                SDL_SendMouseMotion(WIN_GetEventTimestamp(), کھڑکی, SDL_GLOBAL_MOUSE_ID, false, (عائم)GET_X_LPARAM(lParam), (عائم)GET_Y_LPARAM(lParam));
             }
         }
 
-    } break;
+    } اكسر;
 
-    case WM_LBUTTONUP:
-    case WM_RBUTTONUP:
-    case WM_MBUTTONUP:
-    case WM_XBUTTONUP:
-    case WM_LBUTTONDOWN:
-    case WM_LBUTTONDBLCLK:
-    case WM_RBUTTONDOWN:
-    case WM_RBUTTONDBLCLK:
-    case WM_MBUTTONDOWN:
-    case WM_MBUTTONDBLCLK:
-    case WM_XBUTTONDOWN:
-    case WM_XBUTTONDBLCLK:
+    حالة WM_LBUTTONUP:
+    حالة WM_RBUTTONUP:
+    حالة WM_MBUTTONUP:
+    حالة WM_XBUTTONUP:
+    حالة WM_LBUTTONDOWN:
+    حالة WM_LBUTTONDBLCLK:
+    حالة WM_RBUTTONDOWN:
+    حالة WM_RBUTTONDBLCLK:
+    حالة WM_MBUTTONDOWN:
+    حالة WM_MBUTTONDBLCLK:
+    حالة WM_XBUTTONDOWN:
+    حالة WM_XBUTTONDBLCLK:
     {
         /* SDL_Mouse *mouse = SDL_GetMouse(); */
-        if (!data->videodata->raw_mouse_enabled) {
-            if (GetMouseMessageSource((ULONG)GetMessageExtraInfo()) == SDL_MOUSE_EVENT_SOURCE_MOUSE &&
-                lParam != data->last_pointer_update) {
-                WIN_CheckWParamMouseButtons(WIN_GetEventTimestamp(), wParam, data, SDL_GLOBAL_MOUSE_ID);
+        إذا (!انکڑے->videodata->raw_mouse_enabled) {
+            إذا (Get_Mouse_سنیہا_سروت((ULONG)Get_سنیہا_Extra_Info()) == SDL_MOUSE_EVENT_سروت_MOUSE &&
+                lParam != انکڑے->آخری_اشارہ_گر_update) {
+                WIN_CheckWParamMouseButtons(WIN_GetEventTimestamp(), wParam, انکڑے, SDL_GLOBAL_MOUSE_ID);
             }
         }
-    } break;
+    } اكسر;
 
-#if 0   // We handle raw input all at once instead of using a syscall for each mouse event
-    case WM_INPUT:
+#إذا 0   // We handle raw input all at once instead of using a syscall for each mouse event
+    حالة WM_داخلہ:
     {
-        HRAWINPUT hRawInput = (HRAWINPUT)lParam;
+        HRAWINPUT h_Raw_داخلہ = (HRAWINPUT)lParam;
         RAWINPUT inp;
-        UINT size = sizeof(inp);
+        UINT ناپ = حجم(inp);
 
         // Relative mouse motion is delivered to the window with keyboard focus
-        if (data->window != SDL_GetKeyboardFocus()) {
-            break;
+        إذا (انکڑے->کھڑکی != SDL_GetKeyboardFocus()) {
+            اكسر;
         }
 
-        GetRawInputData(hRawInput, RID_INPUT, &inp, &size, sizeof(RAWINPUTHEADER));
-        if (inp.header.dwType == RIM_TYPEMOUSE) {
-            WIN_HandleRawMouseInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.mouse);
-        } else if (inp.header.dwType == RIM_TYPEKEYBOARD) {
-            WIN_HandleRawKeyboardInput(WIN_GetEventTimestamp(), data, inp.header.hDevice, &inp.data.keyboard);
+        Get_Raw_داخلہ_انکڑے(h_Raw_داخلہ, RID_داخلہ, &inp, &ناپ, حجم(RAWINPUTHEADER));
+        إذا (inp.سرخی.dwType == RIM_TYPEMOUSE) {
+            WIN_Handle_Raw_Mouse_داخلہ(WIN_GetEventTimestamp(), انکڑے, inp.سرخی.hDevice, &inp.انکڑے.mouse);
+        } وإلا إذا (inp.سرخی.dwType == RIM_TYPEKEYBOARD) {
+            WIN_Handle_Raw_Keyboard_داخلہ(WIN_GetEventTimestamp(), انکڑے, inp.سرخی.hDevice, &inp.انکڑے.keyboard);
         }
-    } break;
-#endif
+    } اكسر;
+#جے_انت
 
-    case WM_MOUSEWHEEL:
-    case WM_MOUSEHWHEEL:
+    حالة WM_MOUSEWHEEL:
+    حالة WM_MOUSEHWHEEL:
     {
-        if (!data->videodata->raw_mouse_enabled) {
-            short amount = GET_WHEEL_DELTA_WPARAM(wParam);
-            float fAmount = (float)amount / WHEEL_DELTA;
-            if (msg == WM_MOUSEWHEEL) {
-                SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, 0.0f, fAmount, SDL_MOUSEWHEEL_NORMAL);
-            } else {
-                SDL_SendMouseWheel(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, fAmount, 0.0f, SDL_MOUSEWHEEL_NORMAL);
+        إذا (!انکڑے->videodata->raw_mouse_enabled) {
+            چھوٹا amount = GET_WHEEL_DELTA_WPARAM(wParam);
+            عائم fAmount = (عائم)amount / WHEEL_DELTA;
+            إذا (پیغام == WM_MOUSEWHEEL) {
+                SDL_SendMouseWheel(WIN_GetEventTimestamp(), انکڑے->کھڑکی, SDL_GLOBAL_MOUSE_ID, 0.0f, fAmount, SDL_MOUSEWHEEL_عام);
+            } وإلا {
+                SDL_SendMouseWheel(WIN_GetEventTimestamp(), انکڑے->کھڑکی, SDL_GLOBAL_MOUSE_ID, fAmount, 0.0f, SDL_MOUSEWHEEL_عام);
             }
         }
-    } break;
+    } اكسر;
 
-    case WM_MOUSELEAVE:
-        if (!(data->window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-            if (SDL_GetMouseFocus() == data->window && !SDL_GetMouse()->relative_mode && !IsIconic(hwnd)) {
+    حالة WM_MOUSELEAVE:
+        إذا (!(انکڑے->کھڑکی->flags & SDL_کھڑکی_MOUSE_CAPTURE)) {
+            إذا (SDL_GetMouseFocus() == انکڑے->کھڑکی && !SDL_GetMouse()->relative_منوال && !IsIconic(hwnd)) {
                 SDL_Mouse *mouse;
-                DWORD pos = GetMessagePos();
-                POINT cursorPos;
+                DWORD pos = Get_سنیہا_Pos();
+                نقطہ_2 cursorPos;
                 cursorPos.x = GET_X_LPARAM(pos);
                 cursorPos.y = GET_Y_LPARAM(pos);
-                ScreenToClient(hwnd, &cursorPos);
+                Screen_منزل_Client(hwnd, &cursorPos);
                 mouse = SDL_GetMouse();
-                if (!mouse->was_touch_mouse_events) { // we're not a touch handler causing a mouse leave?
-                    SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
-                } else {                                       // touch handling?
+                إذا (!mouse->was_touch_mouse_events) { // we're not a touch handler causing a mouse leave?
+                    SDL_SendMouseMotion(WIN_GetEventTimestamp(), انکڑے->کھڑکی, SDL_GLOBAL_MOUSE_ID, false, (عائم)cursorPos.x, (عائم)cursorPos.y);
+                } وإلا {                                       // touch handling?
                     mouse->was_touch_mouse_events = false; // not anymore
-                    if (mouse->touch_mouse_events) {           // convert touch to mouse events
-                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_TOUCH_MOUSEID, false, (float)cursorPos.x, (float)cursorPos.y);
-                    } else { // normal handling
-                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, SDL_GLOBAL_MOUSE_ID, false, (float)cursorPos.x, (float)cursorPos.y);
+                    إذا (mouse->touch_mouse_events) {           // convert touch to mouse events
+                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), انکڑے->کھڑکی, SDL_TOUCH_MOUSEID, false, (عائم)cursorPos.x, (عائم)cursorPos.y);
+                    } وإلا { // normal handling
+                        SDL_SendMouseMotion(WIN_GetEventTimestamp(), انکڑے->کھڑکی, SDL_GLOBAL_MOUSE_ID, false, (عائم)cursorPos.x, (عائم)cursorPos.y);
                     }
                 }
             }
 
-            if (!SDL_GetMouse()->relative_mode) {
+            إذا (!SDL_GetMouse()->relative_منوال) {
                 // When WM_MOUSELEAVE is fired we can be assured that the cursor has left the window
-                SDL_SetMouseFocus(NULL);
+                SDL_سیٹ_Mouse_Focus(عدم);
             }
         }
 
         // Once we get WM_MOUSELEAVE we're guaranteed that the window is no longer tracked
-        data->mouse_tracked = false;
+        انکڑے->mouse_tracked = false;
 
-        returnCode = 0;
-        break;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        return_کوڈ = 0;
+        اكسر;
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    case WM_KEYDOWN:
-    case WM_SYSKEYDOWN:
+    حالة WM_KEYDOWN:
+    حالة WM_SYSKEYDOWN:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
-            returnCode = 0;
-            break;
+        إذا (Skip_Alt_Gr_بایاں_Control(wParam, lParam)) {
+            return_کوڈ = 0;
+            اكسر;
         }
 
-        bool virtual_key = false;
+        bool virtual_کلید = false;
         Uint16 rawcode = 0;
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
+        SDL_Scancode کوڈ = Windows_جانچ_کوڈ_منزل_SDLScan_کوڈ(lParam, wParam, &rawcode, &virtual_کلید);
 
         // Detect relevant keyboard shortcuts
-        if (code == SDL_SCANCODE_F4 && (SDL_GetModState() & SDL_KMOD_ALT)) {
+        إذا (کوڈ == SDL_SCANCODE_F4 && (SDL_GetModState() & SDL_KMOD_ALT)) {
             // ALT+F4: Close window
-            if (ShouldGenerateWindowCloseOnAltF4()) {
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+            إذا (Should_Generate_کھڑکی_Close_On_Alt_F4()) {
+                SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_CLOSE_REQUESTED, 0, 0);
             }
         }
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
-            SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
+        إذا (virtual_کلید || !انکڑے->videodata->raw_keyboard_enabled || انکڑے->کھڑکی->متن_داخلہ_سرگرم) {
+            SDL_Send_Keyboard_کلید(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, کوڈ, true);
         }
     }
 
-        returnCode = 0;
-        break;
+        return_کوڈ = 0;
+        اكسر;
 
-    case WM_SYSKEYUP:
-    case WM_KEYUP:
+    حالة WM_SYSKEYUP:
+    حالة WM_KEYUP:
     {
-        if (SkipAltGrLeftControl(wParam, lParam)) {
-            returnCode = 0;
-            break;
+        إذا (Skip_Alt_Gr_بایاں_Control(wParam, lParam)) {
+            return_کوڈ = 0;
+            اكسر;
         }
 
-        bool virtual_key = false;
+        bool virtual_کلید = false;
         Uint16 rawcode = 0;
-        SDL_Scancode code = WindowsScanCodeToSDLScanCode(lParam, wParam, &rawcode, &virtual_key);
-        const bool *keyboardState = SDL_GetKeyboardState(NULL);
+        SDL_Scancode کوڈ = Windows_جانچ_کوڈ_منزل_SDLScan_کوڈ(lParam, wParam, &rawcode, &virtual_کلید);
+        ثابت bool *keyboardState = SDL_GetKeyboardState(عدم);
 
-        if (virtual_key || !data->videodata->raw_keyboard_enabled || data->window->text_input_active) {
-            if (code == SDL_SCANCODE_PRINTSCREEN && !keyboardState[code]) {
-                SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, true);
+        إذا (virtual_کلید || !انکڑے->videodata->raw_keyboard_enabled || انکڑے->کھڑکی->متن_داخلہ_سرگرم) {
+            إذا (کوڈ == SDL_SCANCODE_PRINTSCREEN && !keyboardState[کوڈ]) {
+                SDL_Send_Keyboard_کلید(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, کوڈ, true);
             }
-            SDL_SendKeyboardKey(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, code, false);
+            SDL_Send_Keyboard_کلید(WIN_GetEventTimestamp(), SDL_GLOBAL_KEYBOARD_ID, rawcode, کوڈ, false);
         }
     }
-        returnCode = 0;
-        break;
+        return_کوڈ = 0;
+        اكسر;
 
-    case WM_UNICHAR:
-        if (wParam == UNICODE_NOCHAR) {
-            returnCode = 1;
-        } else {
-            if (SDL_TextInputActive(data->window)) {
-                char text[5];
-                char *end = SDL_UCS4ToUTF8((Uint32)wParam, text);
-                *end = '\0';
-                SDL_SendKeyboardText(text);
+    حالة WM_UNICHAR:
+        إذا (wParam == UNICODE_NOCHAR) {
+            return_کوڈ = 1;
+        } وإلا {
+            إذا (SDL_متن_داخلہ_سرگرم(انکڑے->کھڑکی)) {
+                حرف متن[5];
+                حرف *سرا = SDL_UCS4_منزل_UTF8((Uint32)wParam, متن);
+                *سرا = '\0';
+                SDL_Send_Keyboard_متن(متن);
             }
-            returnCode = 0;
+            return_کوڈ = 0;
         }
-        break;
+        اكسر;
 
-    case WM_CHAR:
-        if (SDL_TextInputActive(data->window)) {
+    حالة WM_CHAR:
+        إذا (SDL_متن_داخلہ_سرگرم(انکڑے->کھڑکی)) {
             /* Characters outside Unicode Basic Multilingual Plane (BMP)
              * are coded as so called "surrogate pair" in two separate UTF-16 character events.
              * Cache high surrogate until next character event. */
-            if (IS_HIGH_SURROGATE(wParam)) {
-                data->high_surrogate = (WCHAR)wParam;
-            } else {
+            إذا (IS_بلند_SURROGATE(wParam)) {
+                انکڑے->بلند_surrogate = (WCHAR)wParam;
+            } وإلا {
                 WCHAR utf16[3];
 
-                utf16[0] = data->high_surrogate ? data->high_surrogate : (WCHAR)wParam;
-                utf16[1] = data->high_surrogate ? (WCHAR)wParam : L'\0';
+                utf16[0] = انکڑے->بلند_surrogate ? انکڑے->بلند_surrogate : (WCHAR)wParam;
+                utf16[1] = انکڑے->بلند_surrogate ? (WCHAR)wParam : L'\0';
                 utf16[2] = L'\0';
 
-                char utf8[5];
-                int result = WIN_WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, utf16, -1, utf8, sizeof(utf8), NULL, NULL);
-                if (result > 0) {
-                    SDL_SendKeyboardText(utf8);
+                حرف utf8[5];
+                صحيح نتیجہ = WIN_Wide_Char_منزل_Multi_Byte(CP_UTF8, WC_ERR_INVALID_CHARS, utf16, -1, utf8, حجم(utf8), عدم, عدم);
+                إذا (نتیجہ > 0) {
+                    SDL_Send_Keyboard_متن(utf8);
                 }
-                data->high_surrogate = L'\0';
+                انکڑے->بلند_surrogate = L'\0';
             }
-        } else {
-            data->high_surrogate = L'\0';
+        } وإلا {
+            انکڑے->بلند_surrogate = L'\0';
         }
 
-        returnCode = 0;
-        break;
+        return_کوڈ = 0;
+        اكسر;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#ifdef WM_INPUTLANGCHANGE
-    case WM_INPUTLANGCHANGE:
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_تعریف_شدہ WM_INPUTLANGCHANGE
+    حالة WM_INPUTLANGCHANGE:
     {
         WIN_UpdateKeymap(true);
     }
-        returnCode = 1;
-        break;
-#endif // WM_INPUTLANGCHANGE
+        return_کوڈ = 1;
+        اكسر;
+#جے_انت // WM_INPUTLANGCHANGE
 
-    case WM_NCLBUTTONDOWN:
+    حالة WM_NCLBUTTONDOWN:
     {
-        data->in_title_click = true;
+        انکڑے->وچ_title_click = true;
 
         // Fix for 500ms hang after user clicks on the title bar, but before moving mouse
         // Reference: https://gamedev.net/forums/topic/672094-keeping-things-moving-during-win32-moveresize-events/5254386/
-        if (SendMessage(hwnd, WM_NCHITTEST, wParam, lParam) == HTCAPTION) {
-            POINT cursorPos;
+        إذا (Send_سنیہا(hwnd, WM_NCHITTEST, wParam, lParam) == HTCAPTION) {
+            نقطہ_2 cursorPos;
             GetCursorPos(&cursorPos); // want the most current pos so as to not cause position change
-            ScreenToClient(hwnd, &cursorPos);
-            PostMessage(hwnd, WM_MOUSEMOVE, 0, cursorPos.x | (((Uint32)((Sint16)cursorPos.y)) << 16));
+            Screen_منزل_Client(hwnd, &cursorPos);
+            Post_سنیہا(hwnd, WM_MOUSEMOVE, 0, cursorPos.x | (((Uint32)((Sint16)cursorPos.y)) << 16));
         }
-    } break;
+    } اكسر;
 
-    case WM_CAPTURECHANGED:
+    حالة WM_CAPTURECHANGED:
     {
-        data->in_title_click = false;
+        انکڑے->وچ_title_click = false;
 
         // The mouse may have been released during a modal loop
-        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), data);
-    } break;
+        WIN_CheckAsyncMouseRelease(WIN_GetEventTimestamp(), انکڑے);
+    } اكسر;
 
-#ifdef WM_GETMINMAXINFO
-    case WM_GETMINMAXINFO:
+#جے_تعریف_شدہ WM_GETMINMAXINFO
+    حالة WM_GETMINMAXINFO:
     {
         MINMAXINFO *info;
-        RECT size;
-        int x, y;
-        int w, h;
-        int min_w, min_h;
-        int max_w, max_h;
-        BOOL constrain_max_size;
+        RECT ناپ;
+        صحيح x, y;
+        صحيح w, h;
+        صحيح min_w, min_h;
+        صحيح max_w, max_h;
+        BOOL constrain_max_ناپ;
 
         // If this is an expected size change, allow it
-        if (data->expected_resize) {
-            break;
+        إذا (انکڑے->expected_resize) {
+            اكسر;
         }
 
         // Get the current position of our window
-        GetWindowRect(hwnd, &size);
-        x = size.left;
-        y = size.top;
+        Get_کھڑکی_Rect(hwnd, &ناپ);
+        x = ناپ.بایاں;
+        y = ناپ.چوٹی;
 
         // Calculate current size of our window
-        SDL_GetWindowSize(data->window, &w, &h);
-        SDL_GetWindowMinimumSize(data->window, &min_w, &min_h);
-        SDL_GetWindowMaximumSize(data->window, &max_w, &max_h);
+        SDL_Get_کھڑکی_ناپ(انکڑے->کھڑکی, &w, &h);
+        SDL_Get_کھڑکی_Minimum_ناپ(انکڑے->کھڑکی, &min_w, &min_h);
+        SDL_Get_کھڑکی_ودھ_توں_ودھ_ناپ(انکڑے->کھڑکی, &max_w, &max_h);
 
         /* Store in min_w and min_h difference between current size and minimal
            size so we don't need to call AdjustWindowRectEx twice */
         min_w -= w;
         min_h -= h;
-        if (max_w && max_h) {
+        إذا (max_w && max_h) {
             max_w -= w;
             max_h -= h;
-            constrain_max_size = TRUE;
-        } else {
-            constrain_max_size = FALSE;
+            constrain_max_ناپ = TRUE;
+        } وإلا {
+            constrain_max_ناپ = FALSE;
         }
 
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
-            size.top = 0;
-            size.left = 0;
-            size.bottom = h;
-            size.right = w;
-            WIN_AdjustWindowRectForHWND(hwnd, &size, 0);
-            w = size.right - size.left;
-            h = size.bottom - size.top;
-#ifdef HIGHDPI_DEBUG
+        إذا (!(SDL_Get_کھڑکی_Flags(انکڑے->کھڑکی) & SDL_کھڑکی_BORDERLESS) && !SDL_کھڑکی_IS_POPUP(انکڑے->کھڑکی)) {
+            ناپ.چوٹی = 0;
+            ناپ.بایاں = 0;
+            ناپ.bottom = h;
+            ناپ.دایاں = w;
+            WIN_Adjust_کھڑکی_Rect_For_HWND(hwnd, &ناپ, 0);
+            w = ناپ.دایاں - ناپ.بایاں;
+            h = ناپ.bottom - ناپ.چوٹی;
+#جے_تعریف_شدہ HIGHDPI_DEBUG
             SDL_Log("WM_GETMINMAXINFO: max window size: %dx%d using dpi: %u", w, h, dpi);
-#endif
+#جے_انت
         }
 
         // Fix our size to the current size
         info = (MINMAXINFO *)lParam;
-        if (SDL_GetWindowFlags(data->window) & SDL_WINDOW_RESIZABLE) {
-            if (SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS) {
-                int screenW = GetSystemMetrics(SM_CXSCREEN);
-                int screenH = GetSystemMetrics(SM_CYSCREEN);
-                info->ptMaxSize.x = SDL_max(w, screenW);
-                info->ptMaxSize.y = SDL_max(h, screenH);
+        إذا (SDL_Get_کھڑکی_Flags(انکڑے->کھڑکی) & SDL_کھڑکی_RESIZABLE) {
+            إذا (SDL_Get_کھڑکی_Flags(انکڑے->کھڑکی) & SDL_کھڑکی_BORDERLESS) {
+                صحيح screenW = GetSystemMetrics(SM_CXSCREEN);
+                صحيح screenH = GetSystemMetrics(SM_CYSCREEN);
+                info->pt_Max_ناپ.x = SDL_max(w, screenW);
+                info->pt_Max_ناپ.y = SDL_max(h, screenH);
                 info->ptMaxPosition.x = SDL_min(0, ((screenW - w) / 2));
                 info->ptMaxPosition.y = SDL_min(0, ((screenH - h) / 2));
             }
-            info->ptMinTrackSize.x = (LONG)w + min_w;
-            info->ptMinTrackSize.y = (LONG)h + min_h;
-            if (constrain_max_size) {
-                info->ptMaxTrackSize.x = (LONG)w + max_w;
-                info->ptMaxTrackSize.y = (LONG)h + max_h;
+            info->pt_Min_Track_ناپ.x = (LONG)w + min_w;
+            info->pt_Min_Track_ناپ.y = (LONG)h + min_h;
+            إذا (constrain_max_ناپ) {
+                info->pt_Max_Track_ناپ.x = (LONG)w + max_w;
+                info->pt_Max_Track_ناپ.y = (LONG)h + max_h;
             }
-        } else {
-            info->ptMaxSize.x = w;
-            info->ptMaxSize.y = h;
+        } وإلا {
+            info->pt_Max_ناپ.x = w;
+            info->pt_Max_ناپ.y = h;
             info->ptMaxPosition.x = x;
             info->ptMaxPosition.y = y;
-            info->ptMinTrackSize.x = w;
-            info->ptMinTrackSize.y = h;
-            info->ptMaxTrackSize.x = w;
-            info->ptMaxTrackSize.y = h;
+            info->pt_Min_Track_ناپ.x = w;
+            info->pt_Min_Track_ناپ.y = h;
+            info->pt_Max_Track_ناپ.x = w;
+            info->pt_Max_Track_ناپ.y = h;
         }
     }
-        returnCode = 0;
-        break;
-#endif // WM_GETMINMAXINFO
+        return_کوڈ = 0;
+        اكسر;
+#جے_انت // WM_GETMINMAXINFO
 
-    case WM_WINDOWPOSCHANGING:
+    حالة WM_WINDOWPOSCHANGING:
 
-        if (data->expected_resize) {
-            returnCode = 0;
-        } else if (data->in_modal_loop) {
+        إذا (انکڑے->expected_resize) {
+            return_کوڈ = 0;
+        } وإلا إذا (انکڑے->وچ_modal_loop) {
             WINDOWPOS *windowpos = (WINDOWPOS *)lParam;
 
             /* While in a modal loop, the size may only be updated if the window is being resized interactively.
              * Set the SWP_NOSIZE flag if the reported size hasn't changed from the last WM_WINDOWPOSCHANGING
              * event, or a size set programmatically may end up being overwritten by old size data.
              */
-            if (data->last_modal_width == windowpos->cx && data->last_modal_height == windowpos->cy) {
+            إذا (انکڑے->آخری_modal_چوڑائی == windowpos->cx && انکڑے->آخری_modal_اچائی == windowpos->cy) {
                 windowpos->flags |= SWP_NOSIZE;
             }
 
-            data->last_modal_width = windowpos->cx;
-            data->last_modal_height = windowpos->cy;
+            انکڑے->آخری_modal_چوڑائی = windowpos->cx;
+            انکڑے->آخری_modal_اچائی = windowpos->cy;
 
-            returnCode = 0;
+            return_کوڈ = 0;
         }
-        break;
+        اكسر;
 
-    case WM_WINDOWPOSCHANGED:
+    حالة WM_WINDOWPOSCHANGED:
     {
-        SDL_Window *win;
-        const SDL_DisplayID original_displayID = data->window->displayID;
-        const WINDOWPOS *windowpos = (WINDOWPOS *)lParam;
+        SDL_کھڑکی *win;
+        ثابت SDL_DisplayID original_displayID = انکڑے->کھڑکی->displayID;
+        ثابت WINDOWPOS *windowpos = (WINDOWPOS *)lParam;
         bool iconic;
         bool zoomed;
         RECT rect;
-        int x, y;
-        int w, h;
+        صحيح x, y;
+        صحيح w, h;
 
-        if (windowpos->flags & SWP_SHOWWINDOW) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
+        إذا (windowpos->flags & SWP_SHOWWINDOW) {
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_SHOWN, 0, 0);
         }
 
         // These must be set after sending SDL_EVENT_WINDOW_SHOWN as that may apply pending
@@ -1835,556 +1835,556 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
         iconic = IsIconic(hwnd);
         zoomed = IsZoomed(hwnd);
 
-        if (iconic) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-        } else if (zoomed) {
-            if (data->window->flags & SDL_WINDOW_MINIMIZED) {
+        إذا (iconic) {
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_MINIMIZED, 0, 0);
+        } وإلا إذا (zoomed) {
+            إذا (انکڑے->کھڑکی->flags & SDL_کھڑکی_MINIMIZED) {
                 // If going from minimized to maximized, send the restored event first.
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+                SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_RESTORED, 0, 0);
             }
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MAXIMIZED, 0, 0);
-            data->force_ws_maximizebox = true;
-        } else if (data->window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_MAXIMIZED, 0, 0);
+            انکڑے->force_ws_maximizebox = true;
+        } وإلا إذا (انکڑے->کھڑکی->flags & (SDL_کھڑکی_MAXIMIZED | SDL_کھڑکی_MINIMIZED)) {
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_RESTORED, 0, 0);
 
             /* If resizable was forced on for the maximized window, clear the style flags now,
              * but not if the window is fullscreen, as this needs to be preserved in that case.
              */
-            if (!(data->window->flags & SDL_WINDOW_FULLSCREEN)) {
-                data->force_ws_maximizebox = false;
-                WIN_SetWindowResizable(SDL_GetVideoDevice(), data->window, !!(data->window->flags & SDL_WINDOW_RESIZABLE));
+            إذا (!(انکڑے->کھڑکی->flags & SDL_کھڑکی_FULLSCREEN)) {
+                انکڑے->force_ws_maximizebox = false;
+                WIN_سیٹ_کھڑکی_Resizable(SDL_GetVideoDevice(), انکڑے->کھڑکی, !!(انکڑے->کھڑکی->flags & SDL_کھڑکی_RESIZABLE));
             }
         }
 
-        if (windowpos->flags & SWP_HIDEWINDOW) {
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
+        إذا (windowpos->flags & SWP_HIDEWINDOW) {
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_HIDDEN, 0, 0);
         }
 
         // When the window is minimized it's resized to the dock icon size, ignore this
-        if (iconic) {
-            break;
+        إذا (iconic) {
+            اكسر;
         }
 
-        if (data->initializing) {
-            break;
+        إذا (انکڑے->initializing) {
+            اكسر;
         }
 
-        if (!data->disable_move_size_events) {
-            if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-                ClientToScreen(hwnd, (LPPOINT) &rect);
-                ClientToScreen(hwnd, (LPPOINT) &rect + 1);
+        إذا (!انکڑے->disable_move_ناپ_events) {
+            إذا (GetClientRect(hwnd, &rect) && WIN_کھڑکی_Rect_Valid(&rect)) {
+                Client_منزل_Screen(hwnd, (LPPOINT) &rect);
+                Client_منزل_Screen(hwnd, (LPPOINT) &rect + 1);
 
-                x = rect.left;
-                y = rect.top;
+                x = rect.بایاں;
+                y = rect.چوٹی;
 
-                SDL_GlobalToRelativeForWindow(data->window, x, y, &x, &y);
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_MOVED, x, y);
+                SDL_Global_منزل_Relative_For_کھڑکی(انکڑے->کھڑکی, x, y, &x, &y);
+                SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_MOVED, x, y);
             }
 
             // Moving the window from one display to another can change the size of the window (in the handling of SDL_EVENT_WINDOW_MOVED), so we need to re-query the bounds
-            if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-                w = rect.right;
+            إذا (GetClientRect(hwnd, &rect) && WIN_کھڑکی_Rect_Valid(&rect)) {
+                w = rect.دایاں;
                 h = rect.bottom;
 
-                SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, w, h);
+                SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_RESIZED, w, h);
             }
         }
 
-        WIN_UpdateClipCursor(data->window);
+        WIN_UpdateClipCursor(انکڑے->کھڑکی);
 
         // Update the window display position
-        if (data->window->displayID != original_displayID) {
+        إذا (انکڑے->کھڑکی->displayID != original_displayID) {
             // Display changed, check ICC profile
-            WIN_UpdateWindowICCProfile(data->window, true);
+            WIN_Update_کھڑکی_ICCProfile(انکڑے->کھڑکی, true);
         }
 
         // Update the position of any child windows
-        for (win = data->window->first_child; win; win = win->next_sibling) {
+        لكل (win = انکڑے->کھڑکی->پہلا_بچہ; win; win = win->اگلا_sibling) {
             // Don't update hidden child popup windows, their relative position doesn't change
-            if (SDL_WINDOW_IS_POPUP(win) && !(win->flags & SDL_WINDOW_HIDDEN)) {
-                WIN_SetWindowPositionInternal(win, SWP_NOCOPYBITS | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
+            إذا (SDL_کھڑکی_IS_POPUP(win) && !(win->flags & SDL_کھڑکی_HIDDEN)) {
+                WIN_سیٹ_کھڑکی_Position_اندرونی(win, SWP_NOCOPYBITS | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
             }
         }
 
-    } break;
+    } اكسر;
 
-    case WM_ENTERSIZEMOVE:
-    case WM_ENTERMENULOOP:
+    حالة WM_ENTERSIZEMOVE:
+    حالة WM_ENTERMENULOOP:
     {
-        if (g_WindowsMessageHook) {
-            if (!DispatchModalLoopMessageHook(&hwnd, &msg, &wParam, &lParam)) {
-                return 0;
+        إذا (g_Windows_سنیہا_Hook) {
+            إذا (!Dispatch_Modal_Loop_سنیہا_Hook(&hwnd, &پیغام, &wParam, &lParam)) {
+                أرجع 0;
             }
         }
 
-        ++data->in_modal_loop;
-        if (data->in_modal_loop == 1) {
+        ++انکڑے->وچ_modal_loop;
+        إذا (انکڑے->وچ_modal_loop == 1) {
             RECT rect;
             SDL_zero(rect);
-            GetWindowRect(data->hwnd, &rect);
-            data->last_modal_width = rect.right - rect.left;
-            data->last_modal_height = rect.bottom - rect.top;
+            Get_کھڑکی_Rect(انکڑے->hwnd, &rect);
+            انکڑے->آخری_modal_چوڑائی = rect.دایاں - rect.بایاں;
+            انکڑے->آخری_modal_اچائی = rect.bottom - rect.چوٹی;
 
-            data->initial_size_rect.left = data->window->x;
-            data->initial_size_rect.right = data->window->x + data->window->w;
-            data->initial_size_rect.top = data->window->y;
-            data->initial_size_rect.bottom = data->window->y + data->window->h;
+            انکڑے->initial_ناپ_rect.بایاں = انکڑے->کھڑکی->x;
+            انکڑے->initial_ناپ_rect.دایاں = انکڑے->کھڑکی->x + انکڑے->کھڑکی->w;
+            انکڑے->initial_ناپ_rect.چوٹی = انکڑے->کھڑکی->y;
+            انکڑے->initial_ناپ_rect.bottom = انکڑے->کھڑکی->y + انکڑے->کھڑکی->h;
 
-            SetTimer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks, USER_TIMER_MINIMUM, NULL);
+            سیٹ_Timer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks, USER_TIMER_MINIMUM, عدم);
 
             // Reset the keyboard, as we won't get any key up events during the modal loop
             SDL_ResetKeyboard();
         }
-    } break;
+    } اكسر;
 
-    case WM_TIMER:
+    حالة WM_TIMER:
     {
-        if (wParam == (UINT_PTR)SDL_IterateMainCallbacks) {
-            SDL_OnWindowLiveResizeUpdate(data->window);
+        إذا (wParam == (UINT_PTR)SDL_IterateMainCallbacks) {
+            SDL_On_کھڑکی_جیوندا_Resize_Update(انکڑے->کھڑکی);
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-#if 0 // This locks up the Windows compositor when called by Steam; disabling until we understand why
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا 0 // This locks up the Windows compositor when called by Steam; disabling until we understand why
             // Make sure graphics operations are complete for smooth refresh
-            if (data->videodata->DwmFlush) {
-                data->videodata->DwmFlush();
+            إذا (انکڑے->videodata->DwmFlush) {
+                انکڑے->videodata->DwmFlush();
             }
-#endif
-#endif
-            return 0;
+#جے_انت
+#جے_انت
+            أرجع 0;
         }
-    } break;
+    } اكسر;
 
-    case WM_EXITSIZEMOVE:
-    case WM_EXITMENULOOP:
+    حالة WM_EXITSIZEMOVE:
+    حالة WM_EXITMENULOOP:
     {
-        --data->in_modal_loop;
-        if (data->in_modal_loop == 0) {
+        --انکڑے->وچ_modal_loop;
+        إذا (انکڑے->وچ_modal_loop == 0) {
             KillTimer(hwnd, (UINT_PTR)SDL_IterateMainCallbacks);
         }
-    } break;
+    } اكسر;
 
-    case WM_SIZING:
+    حالة WM_SIZING:
         {
-            WPARAM edge = wParam;
+            WPARAM کنارا = wParam;
             RECT* dragRect = (RECT*)lParam;
             RECT clientDragRect = *dragRect;
-            bool lock_aspect_ratio = (data->window->max_aspect == data->window->min_aspect) ? true : false;
+            bool جندرا_aspect_تناسب = (انکڑے->کھڑکی->max_aspect == انکڑے->کھڑکی->min_aspect) ? true : false;
             RECT rc;
             LONG w, h;
-            float new_aspect;
+            عائم new_aspect;
 
             // if aspect ratio constraints are not enabled then skip this message
-            if (data->window->min_aspect <= 0 && data->window->max_aspect <= 0) {
-                break;
+            إذا (انکڑے->کھڑکی->min_aspect <= 0 && انکڑے->کھڑکی->max_aspect <= 0) {
+                اكسر;
             }
 
             // unadjust the dragRect from the window rect to the client rect
-            SetRectEmpty(&rc);
-            if (!AdjustWindowRectEx(&rc, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
-                break;
+            سیٹ_Rect_خالی_تھاواں(&rc);
+            إذا (!Adjust_کھڑکی_Rect_Ex(&rc, Get_کھڑکی_Style(hwnd), GetMenu(hwnd) != عدم, Get_کھڑکی_Ex_Style(hwnd))) {
+                اكسر;
             }
 
-            clientDragRect.left -= rc.left;
-            clientDragRect.top -= rc.top;
-            clientDragRect.right -= rc.right;
+            clientDragRect.بایاں -= rc.بایاں;
+            clientDragRect.چوٹی -= rc.چوٹی;
+            clientDragRect.دایاں -= rc.دایاں;
             clientDragRect.bottom -= rc.bottom;
 
-            w = clientDragRect.right - clientDragRect.left;
-            h = clientDragRect.bottom - clientDragRect.top;
-            new_aspect = w / (float)h;
+            w = clientDragRect.دایاں - clientDragRect.بایاں;
+            h = clientDragRect.bottom - clientDragRect.چوٹی;
+            new_aspect = w / (عائم)h;
 
             // handle the special case in which the min ar and max ar are the same so the window can size symmetrically
-            if (lock_aspect_ratio) {
-                switch (edge) {
-                case WMSZ_LEFT:
-                case WMSZ_RIGHT:
-                    h = (int)SDL_roundf(w / data->window->max_aspect);
-                    break;
-                default:
+            إذا (جندرا_aspect_تناسب) {
+                بدل (کنارا) {
+                حالة WMSZ_بایاں:
+                حالة WMSZ_دایاں:
+                    h = (صحيح)SDL_roundf(w / انکڑے->کھڑکی->max_aspect);
+                    اكسر;
+                افتراضي:
                     // resizing via corners or top or bottom
-                    w = (int)SDL_roundf(h * data->window->max_aspect);
-                    break;
+                    w = (صحيح)SDL_roundf(h * انکڑے->کھڑکی->max_aspect);
+                    اكسر;
                 }
-            } else {
-                switch (edge) {
-                case WMSZ_LEFT:
-                case WMSZ_RIGHT:
-                    if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        w = (int)SDL_roundf(h * data->window->max_aspect);
-                    } else if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        w = (int)SDL_roundf(h * data->window->min_aspect);
+            } وإلا {
+                بدل (کنارا) {
+                حالة WMSZ_بایاں:
+                حالة WMSZ_دایاں:
+                    إذا (انکڑے->کھڑکی->max_aspect > 0.0f && new_aspect > انکڑے->کھڑکی->max_aspect) {
+                        w = (صحيح)SDL_roundf(h * انکڑے->کھڑکی->max_aspect);
+                    } وإلا إذا (انکڑے->کھڑکی->min_aspect > 0.0f && new_aspect < انکڑے->کھڑکی->min_aspect) {
+                        w = (صحيح)SDL_roundf(h * انکڑے->کھڑکی->min_aspect);
                     }
-                    break;
-                case WMSZ_TOP:
-                case WMSZ_BOTTOM:
-                    if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        h = (int)SDL_roundf(w / data->window->min_aspect);
-                    } else if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        h = (int)SDL_roundf(w / data->window->max_aspect);
+                    اكسر;
+                حالة WMSZ_چوٹی:
+                حالة WMSZ_BOTTOM:
+                    إذا (انکڑے->کھڑکی->min_aspect > 0.0f && new_aspect < انکڑے->کھڑکی->min_aspect) {
+                        h = (صحيح)SDL_roundf(w / انکڑے->کھڑکی->min_aspect);
+                    } وإلا إذا (انکڑے->کھڑکی->max_aspect > 0.0f && new_aspect > انکڑے->کھڑکی->max_aspect) {
+                        h = (صحيح)SDL_roundf(w / انکڑے->کھڑکی->max_aspect);
                     }
-                    break;
+                    اكسر;
 
-                default:
+                افتراضي:
                     // resizing via corners
-                    if (data->window->max_aspect > 0.0f && new_aspect > data->window->max_aspect) {
-                        w = (int)SDL_roundf(h * data->window->max_aspect);
-                    } else if (data->window->min_aspect > 0.0f && new_aspect < data->window->min_aspect) {
-                        h = (int)SDL_roundf(w / data->window->min_aspect);
+                    إذا (انکڑے->کھڑکی->max_aspect > 0.0f && new_aspect > انکڑے->کھڑکی->max_aspect) {
+                        w = (صحيح)SDL_roundf(h * انکڑے->کھڑکی->max_aspect);
+                    } وإلا إذا (انکڑے->کھڑکی->min_aspect > 0.0f && new_aspect < انکڑے->کھڑکی->min_aspect) {
+                        h = (صحيح)SDL_roundf(w / انکڑے->کھڑکی->min_aspect);
                     }
-                    break;
+                    اكسر;
                 }
             }
 
-            switch (edge) {
-            case WMSZ_LEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                if (lock_aspect_ratio) {
-                    clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
+            بدل (کنارا) {
+            حالة WMSZ_بایاں:
+                clientDragRect.بایاں = clientDragRect.دایاں - w;
+                إذا (جندرا_aspect_تناسب) {
+                    clientDragRect.چوٹی = (انکڑے->initial_ناپ_rect.bottom + انکڑے->initial_ناپ_rect.چوٹی - h) / 2;
                 }
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_BOTTOMLEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_RIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                if (lock_aspect_ratio) {
-                    clientDragRect.top = (data->initial_size_rect.bottom + data->initial_size_rect.top - h) / 2;
+                clientDragRect.bottom = h + clientDragRect.چوٹی;
+                اكسر;
+            حالة WMSZ_BOTTOMLEFT:
+                clientDragRect.بایاں = clientDragRect.دایاں - w;
+                clientDragRect.bottom = h + clientDragRect.چوٹی;
+                اكسر;
+            حالة WMSZ_دایاں:
+                clientDragRect.دایاں = w + clientDragRect.بایاں;
+                إذا (جندرا_aspect_تناسب) {
+                    clientDragRect.چوٹی = (انکڑے->initial_ناپ_rect.bottom + انکڑے->initial_ناپ_rect.چوٹی - h) / 2;
                 }
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_TOPRIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.top = clientDragRect.bottom - h;
-                break;
-            case WMSZ_TOP:
-                if (lock_aspect_ratio) {
-                    clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
+                clientDragRect.bottom = h + clientDragRect.چوٹی;
+                اكسر;
+            حالة WMSZ_TOPRIGHT:
+                clientDragRect.دایاں = w + clientDragRect.بایاں;
+                clientDragRect.چوٹی = clientDragRect.bottom - h;
+                اكسر;
+            حالة WMSZ_چوٹی:
+                إذا (جندرا_aspect_تناسب) {
+                    clientDragRect.بایاں = (انکڑے->initial_ناپ_rect.دایاں + انکڑے->initial_ناپ_rect.بایاں - w) / 2;
                 }
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.top = clientDragRect.bottom - h;
-                break;
-            case WMSZ_TOPLEFT:
-                clientDragRect.left = clientDragRect.right - w;
-                clientDragRect.top = clientDragRect.bottom - h;
-                break;
-            case WMSZ_BOTTOM:
-                if (lock_aspect_ratio) {
-                    clientDragRect.left = (data->initial_size_rect.right + data->initial_size_rect.left - w) / 2;
+                clientDragRect.دایاں = w + clientDragRect.بایاں;
+                clientDragRect.چوٹی = clientDragRect.bottom - h;
+                اكسر;
+            حالة WMSZ_TOPLEFT:
+                clientDragRect.بایاں = clientDragRect.دایاں - w;
+                clientDragRect.چوٹی = clientDragRect.bottom - h;
+                اكسر;
+            حالة WMSZ_BOTTOM:
+                إذا (جندرا_aspect_تناسب) {
+                    clientDragRect.بایاں = (انکڑے->initial_ناپ_rect.دایاں + انکڑے->initial_ناپ_rect.بایاں - w) / 2;
                 }
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
-            case WMSZ_BOTTOMRIGHT:
-                clientDragRect.right = w + clientDragRect.left;
-                clientDragRect.bottom = h + clientDragRect.top;
-                break;
+                clientDragRect.دایاں = w + clientDragRect.بایاں;
+                clientDragRect.bottom = h + clientDragRect.چوٹی;
+                اكسر;
+            حالة WMSZ_BOTTOMRIGHT:
+                clientDragRect.دایاں = w + clientDragRect.بایاں;
+                clientDragRect.bottom = h + clientDragRect.چوٹی;
+                اكسر;
             }
 
             // convert the client rect to a window rect
-            if (!AdjustWindowRectEx(&clientDragRect, GetWindowStyle(hwnd), GetMenu(hwnd) != NULL, GetWindowExStyle(hwnd))) {
-                break;
+            إذا (!Adjust_کھڑکی_Rect_Ex(&clientDragRect, Get_کھڑکی_Style(hwnd), GetMenu(hwnd) != عدم, Get_کھڑکی_Ex_Style(hwnd))) {
+                اكسر;
             }
 
             *dragRect = clientDragRect;
         }
-        break;
+        اكسر;
 
-    case WM_SETCURSOR:
+    حالة WM_SETCURSOR:
     {
         Uint16 hittest;
 
         hittest = LOWORD(lParam);
-        if (hittest == HTCLIENT) {
-            SetCursor(SDL_cursor);
-            returnCode = TRUE;
-        } else if (!g_WindowFrameUsableWhileCursorHidden && !SDL_cursor) {
-            SetCursor(NULL);
-            returnCode = TRUE;
+        إذا (hittest == HTCLIENT) {
+            سیٹ_Cursor(SDL_cursor);
+            return_کوڈ = TRUE;
+        } وإلا إذا (!g_کھڑکی_چوکھٹا_Usable_While_Cursor_Hidden && !SDL_cursor) {
+            سیٹ_Cursor(عدم);
+            return_کوڈ = TRUE;
         }
-    } break;
+    } اكسر;
 
         // We were occluded, refresh our display
-    case WM_PAINT:
+    حالة WM_PAINT:
     {
         RECT rect;
-        if (GetUpdateRect(hwnd, &rect, FALSE)) {
-            const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+        إذا (GetUpdateRect(hwnd, &rect, FALSE)) {
+            ثابت LONG style = Get_کھڑکی_Long(hwnd, GWL_EXSTYLE);
 
             /* Composited windows will continue to receive WM_PAINT messages for update
                regions until the window is actually painted through Begin/EndPaint */
-            if (style & WS_EX_COMPOSITED) {
+            إذا (style & WS_EX_COMPOSITED) {
                 PAINTSTRUCT ps;
                 BeginPaint(hwnd, &ps);
-                EndPaint(hwnd, &ps);
+                سرا_Paint(hwnd, &ps);
             }
 
-            ValidateRect(hwnd, NULL);
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_EXPOSED, 0, 0);
+            ValidateRect(hwnd, عدم);
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_EXPOSED, 0, 0);
         }
     }
-        returnCode = 0;
-        break;
+        return_کوڈ = 0;
+        اكسر;
 
         // We'll do our own drawing, prevent flicker
-    case WM_ERASEBKGND:
-        if (ShouldClearWindowOnEraseBackground(data)) {
+    حالة WM_ERASEBKGND:
+        إذا (Should_Clear_کھڑکی_On_Erase_Background(انکڑے)) {
             RECT client_rect;
             HBRUSH brush;
-            data->videodata->cleared = true;
+            انکڑے->videodata->cleared = true;
             GetClientRect(hwnd, &client_rect);
             brush = CreateSolidBrush(0);
             FillRect(GetDC(hwnd), &client_rect, brush);
             DeleteObject(brush);
         }
-        return 1;
+        أرجع 1;
 
-    case WM_SYSCOMMAND:
+    حالة WM_SYSCOMMAND:
     {
-        if (!g_WindowsEnableMenuMnemonics) {
-            if ((wParam & 0xFFF0) == SC_KEYMENU) {
-                return 0;
+        إذا (!g_WindowsEnableMenuMnemonics) {
+            إذا ((wParam & 0xFFF0) == SC_KEYMENU) {
+                أرجع 0;
             }
         }
 
-#if defined(SC_SCREENSAVE) || defined(SC_MONITORPOWER)
+#إذا defined(SC_SCREENSAVE) || defined(SC_MONITORPOWER)
         // Don't start the screensaver or blank the monitor in fullscreen apps
-        if ((wParam & 0xFFF0) == SC_SCREENSAVE ||
+        إذا ((wParam & 0xFFF0) == SC_SCREENSAVE ||
             (wParam & 0xFFF0) == SC_MONITORPOWER) {
-            if (SDL_GetVideoDevice()->suspend_screensaver) {
-                return 0;
+            إذا (SDL_GetVideoDevice()->suspend_screensaver) {
+                أرجع 0;
             }
         }
-#endif // System has screensaver support
-    } break;
+#جے_انت // System has screensaver support
+    } اكسر;
 
-    case WM_CLOSE:
+    حالة WM_CLOSE:
     {
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_CLOSE_REQUESTED, 0, 0);
+        SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_CLOSE_REQUESTED, 0, 0);
     }
-        returnCode = 0;
-        break;
+        return_کوڈ = 0;
+        اكسر;
 
-    case WM_TOUCH:
-        if (data->videodata->GetTouchInputInfo && data->videodata->CloseTouchInputHandle) {
-            UINT i, num_inputs = LOWORD(wParam);
+    حالة WM_TOUCH:
+        إذا (انکڑے->videodata->Get_Touch_داخلہ_Info && انکڑے->videodata->Close_Touch_داخلہ_Handle) {
+            UINT i, عدد_inputs = LOWORD(wParam);
             bool isstack;
-            PTOUCHINPUT inputs = SDL_small_alloc(TOUCHINPUT, num_inputs, &isstack);
-            if (inputs && data->videodata->GetTouchInputInfo((HTOUCHINPUT)lParam, num_inputs, inputs, sizeof(TOUCHINPUT))) {
+            PTOUCHINPUT inputs = SDL_small_alloc(TOUCHINPUT, عدد_inputs, &isstack);
+            إذا (inputs && انکڑے->videodata->Get_Touch_داخلہ_Info((HTOUCHINPUT)lParam, عدد_inputs, inputs, حجم(TOUCHINPUT))) {
                 RECT rect;
-                float x, y;
+                عائم x, y;
 
-                if (!GetClientRect(hwnd, &rect) || !WIN_WindowRectValid(&rect)) {
-                    if (inputs) {
+                إذا (!GetClientRect(hwnd, &rect) || !WIN_کھڑکی_Rect_Valid(&rect)) {
+                    إذا (inputs) {
                         SDL_small_free(inputs, isstack);
                     }
-                    break;
+                    اكسر;
                 }
-                ClientToScreen(hwnd, (LPPOINT)&rect);
-                ClientToScreen(hwnd, (LPPOINT)&rect + 1);
-                rect.top *= 100;
-                rect.left *= 100;
+                Client_منزل_Screen(hwnd, (LPPOINT)&rect);
+                Client_منزل_Screen(hwnd, (LPPOINT)&rect + 1);
+                rect.چوٹی *= 100;
+                rect.بایاں *= 100;
                 rect.bottom *= 100;
-                rect.right *= 100;
+                rect.دایاں *= 100;
 
-                for (i = 0; i < num_inputs; ++i) {
-                    PTOUCHINPUT input = &inputs[i];
-                    const int w = (rect.right - rect.left);
-                    const int h = (rect.bottom - rect.top);
+                لكل (i = 0; i < عدد_inputs; ++i) {
+                    PTOUCHINPUT داخلہ = &inputs[i];
+                    ثابت صحيح w = (rect.دایاں - rect.بایاں);
+                    ثابت صحيح h = (rect.bottom - rect.چوٹی);
 
-                    const SDL_TouchID touchId = (SDL_TouchID)((uintptr_t)input->hSource);
-                    const SDL_FingerID fingerId = (input->dwID + 1);
+                    ثابت SDL_TouchID touchId = (SDL_TouchID)((uintptr_t)داخلہ->h_سروت);
+                    ثابت SDL_FingerID fingerId = (داخلہ->dwID + 1);
 
                     /* TODO: Can we use GetRawInputDeviceInfo and HID info to
                        determine if this is a direct or indirect touch device?
                      */
-                    if (SDL_AddTouch(touchId, SDL_TOUCH_DEVICE_DIRECT, (input->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
-                        continue;
+                    إذا (SDL_جوڑو_Touch(touchId, SDL_TOUCH_DEVICE_سدھا, (داخلہ->dwFlags & TOUCHEVENTF_PEN) == TOUCHEVENTF_PEN ? "pen" : "touch") < 0) {
+                        استمر;
                     }
 
                     // Get the normalized coordinates for the window
-                    if (w <= 1) {
+                    إذا (w <= 1) {
                         x = 0.5f;
-                    } else {
-                        x = (float)(input->x - rect.left) / (w - 1);
+                    } وإلا {
+                        x = (عائم)(داخلہ->x - rect.بایاں) / (w - 1);
                     }
-                    if (h <= 1) {
+                    إذا (h <= 1) {
                         y = 0.5f;
-                    } else {
-                        y = (float)(input->y - rect.top) / (h - 1);
+                    } وإلا {
+                        y = (عائم)(داخلہ->y - rect.چوٹی) / (h - 1);
                     }
 
                     // FIXME: Should we use the input->dwTime field for the tick source of the timestamp?
-                    if (input->dwFlags & TOUCHEVENTF_DOWN) {
-                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_DOWN, x, y, 1.0f);
+                    إذا (داخلہ->dwFlags & TOUCHEVENTF_تھلے) {
+                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, انکڑے->کھڑکی, SDL_EVENT_FINGER_تھلے, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_MOVE) {
-                        SDL_SendTouchMotion(WIN_GetEventTimestamp(), touchId, fingerId, data->window, x, y, 1.0f);
+                    إذا (داخلہ->dwFlags & TOUCHEVENTF_MOVE) {
+                        SDL_SendTouchMotion(WIN_GetEventTimestamp(), touchId, fingerId, انکڑے->کھڑکی, x, y, 1.0f);
                     }
-                    if (input->dwFlags & TOUCHEVENTF_UP) {
-                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, data->window, SDL_EVENT_FINGER_UP, x, y, 1.0f);
+                    إذا (داخلہ->dwFlags & TOUCHEVENTF_اتے) {
+                        SDL_SendTouch(WIN_GetEventTimestamp(), touchId, fingerId, انکڑے->کھڑکی, SDL_EVENT_FINGER_اتے, x, y, 1.0f);
                     }
                 }
             }
             SDL_small_free(inputs, isstack);
 
-            data->videodata->CloseTouchInputHandle((HTOUCHINPUT)lParam);
-            return 0;
+            انکڑے->videodata->Close_Touch_داخلہ_Handle((HTOUCHINPUT)lParam);
+            أرجع 0;
         }
-        break;
+        اكسر;
 
-#ifdef HAVE_TPCSHRD_H
+#جے_تعریف_شدہ HAVE_TPCSHRD_H
 
-    case WM_TABLET_QUERYSYSTEMGESTURESTATUS:
+    حالة WM_TABLET_QUERYSYSTEMGESTURESTATUS:
         /* See https://msdn.microsoft.com/en-us/library/windows/desktop/bb969148(v=vs.85).aspx .
          * If we're handling our own touches, we don't want any gestures.
          * Not all of these settings are documented.
          * The use of the undocumented ones was suggested by https://github.com/bjarkeck/GCGJ/blob/master/Monogame/Windows/WinFormsGameForm.cs . */
-        return TABLET_DISABLE_PRESSANDHOLD | TABLET_DISABLE_PENTAPFEEDBACK | TABLET_DISABLE_PENBARRELFEEDBACK | TABLET_DISABLE_TOUCHUIFORCEON | TABLET_DISABLE_TOUCHUIFORCEOFF | TABLET_DISABLE_TOUCHSWITCH | TABLET_DISABLE_FLICKS | TABLET_DISABLE_SMOOTHSCROLLING | TABLET_DISABLE_FLICKFALLBACKKEYS; // disables press and hold (right-click) gesture
+        أرجع TABLET_DISABLE_PRESSANDHOLD | TABLET_DISABLE_PENTAPFEEDBACK | TABLET_DISABLE_PENBARRELFEEDBACK | TABLET_DISABLE_TOUCHUIFORCEON | TABLET_DISABLE_TOUCHUIFORCEOFF | TABLET_DISABLE_TOUCHSWITCH | TABLET_DISABLE_FLICKS | TABLET_DISABLE_SMOOTHSCROLLING | TABLET_DISABLE_FLICKFALLBACKKEYS; // disables press and hold (right-click) gesture
                                                                                                                                                                                                                                                                                                          // disables UI feedback on pen up (waves)
                                                                                                                                                                                                                                                                                                          // disables UI feedback on pen button down (circle)
                                                                                                                                                                                                                                                                                                          // disables pen flicks (back, forward, drag down, drag up)
 
-#endif // HAVE_TPCSHRD_H
+#جے_انت // HAVE_TPCSHRD_H
 
-    case WM_DROPFILES:
+    حالة WM_DROPFILES:
     {
         UINT i;
         HDROP drop = (HDROP)wParam;
-        UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-        for (i = 0; i < count; ++i) {
-            UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
-            LPTSTR buffer = (LPTSTR)SDL_malloc(sizeof(TCHAR) * size);
-            if (buffer) {
-                if (DragQueryFile(drop, i, buffer, size)) {
-                    char *file = WIN_StringToUTF8(buffer);
-                    SDL_SendDropFile(data->window, NULL, file);
+        UINT گنتی = DragQueryFile(drop, 0xFFFFFFFF, عدم, 0);
+        لكل (i = 0; i < گنتی; ++i) {
+            UINT ناپ = DragQueryFile(drop, i, عدم, 0) + 1;
+            LPTSTR بفر_2 = (LPTSTR)SDL_malloc(حجم(TCHAR) * ناپ);
+            إذا (بفر_2) {
+                إذا (DragQueryFile(drop, i, بفر_2, ناپ)) {
+                    حرف *file = WIN_String_منزل_UTF8(بفر_2);
+                    SDL_SendDropFile(انکڑے->کھڑکی, عدم, file);
                     SDL_free(file);
                 }
-                SDL_free(buffer);
+                SDL_free(بفر_2);
             }
         }
-        SDL_SendDropComplete(data->window);
-        DragFinish(drop);
-        return 0;
+        SDL_SendDropComplete(انکڑے->کھڑکی);
+        Drag_انت(drop);
+        أرجع 0;
     }
 
-    case WM_DISPLAYCHANGE:
+    حالة WM_DISPLAYCHANGE:
     {
         // Reacquire displays if any were added or removed
         WIN_RefreshDisplays(SDL_GetVideoDevice());
-    } break;
+    } اكسر;
 
-    case WM_NCCALCSIZE:
+    حالة WM_NCCALCSIZE:
     {
-        SDL_WindowFlags window_flags = data->window->flags;
-        if (wParam == TRUE && (window_flags & SDL_WINDOW_BORDERLESS) && !(window_flags & SDL_WINDOW_FULLSCREEN)) {
+        SDL_کھڑکی_Flags کھڑکی_flags = انکڑے->کھڑکی->flags;
+        إذا (wParam == TRUE && (کھڑکی_flags & SDL_کھڑکی_BORDERLESS) && !(کھڑکی_flags & SDL_کھڑکی_FULLSCREEN)) {
             // When borderless, need to tell windows that the size of the non-client area is 0
             NCCALCSIZE_PARAMS *params = (NCCALCSIZE_PARAMS *)lParam;
             WINDOWPLACEMENT placement;
-            if (GetWindowPlacement(hwnd, &placement) && placement.showCmd == SW_MAXIMIZE) {
+            إذا (Get_کھڑکی_Placement(hwnd, &placement) && placement.showCmd == SW_MAXIMIZE) {
                 // Maximized borderless windows should use the monitor work area.
-                HMONITOR hMonitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONULL);
-                if (!hMonitor) {
+                HMONITOR hMonitor = Monitor_From_کھڑکی(hwnd, MONITOR_DEFAULTTONULL);
+                إذا (!hMonitor) {
                     // The returned monitor can be null when restoring from minimized, so use the last coordinates.
-                    const POINT pt = { data->window->windowed.x, data->window->windowed.y };
-                    hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST);
+                    ثابت نقطہ_2 pt = { انکڑے->کھڑکی->windowed.x, انکڑے->کھڑکی->windowed.y };
+                    hMonitor = Monitor_From_نقطہ(pt, MONITOR_DEFAULTTONEAREST);
                 }
-                if (hMonitor) {
+                إذا (hMonitor) {
                     MONITORINFO info;
                     SDL_zero(info);
-                    info.cbSize = sizeof(info);
-                    if (GetMonitorInfo(hMonitor, &info)) {
+                    info.cb_ناپ = حجم(info);
+                    إذا (GetMonitorInfo(hMonitor, &info)) {
                         params->rgrc[0] = info.rcWork;
                     }
                 }
-            } else if (!(window_flags & SDL_WINDOW_RESIZABLE) && !data->force_ws_maximizebox) {
-                int w, h;
-                if (data->window->last_size_pending) {
-                    w = data->window->pending.w;
-                    h = data->window->pending.h;
-                } else {
-                    w = data->window->floating.w;
-                    h = data->window->floating.h;
+            } وإلا إذا (!(کھڑکی_flags & SDL_کھڑکی_RESIZABLE) && !انکڑے->force_ws_maximizebox) {
+                صحيح w, h;
+                إذا (انکڑے->کھڑکی->آخری_ناپ_pending) {
+                    w = انکڑے->کھڑکی->pending.w;
+                    h = انکڑے->کھڑکی->pending.h;
+                } وإلا {
+                    w = انکڑے->کھڑکی->floating.w;
+                    h = انکڑے->کھڑکی->floating.h;
                 }
-                params->rgrc[0].right = params->rgrc[0].left + w;
-                params->rgrc[0].bottom = params->rgrc[0].top + h;
+                params->rgrc[0].دایاں = params->rgrc[0].بایاں + w;
+                params->rgrc[0].bottom = params->rgrc[0].چوٹی + h;
             }
-            return 0;
+            أرجع 0;
         }
-    } break;
+    } اكسر;
 
-    case WM_NCHITTEST:
+    حالة WM_NCHITTEST:
     {
-        SDL_Window *window = data->window;
+        SDL_کھڑکی *کھڑکی = انکڑے->کھڑکی;
 
-        if (window->flags & SDL_WINDOW_TOOLTIP) {
-            return HTTRANSPARENT;
+        إذا (کھڑکی->flags & SDL_کھڑکی_TOOLTIP) {
+            أرجع HTTRANSPARENT;
         }
 
-        if (window->hit_test) {
-            POINT winpoint;
+        إذا (کھڑکی->کامیابی_test) {
+            نقطہ_2 winpoint;
             winpoint.x = GET_X_LPARAM(lParam);
             winpoint.y = GET_Y_LPARAM(lParam);
-            if (ScreenToClient(hwnd, &winpoint)) {
-                SDL_Point point;
-                SDL_HitTestResult rc;
-                point.x = winpoint.x;
-                point.y = winpoint.y;
-                rc = window->hit_test(window, &point, window->hit_test_data);
-                switch (rc) {
-#define POST_HIT_TEST(ret)                                                 \
+            إذا (Screen_منزل_Client(hwnd, &winpoint)) {
+                SDL_نقطہ نقطہ;
+                SDL_کامیابی_Test_نتیجہ rc;
+                نقطہ.x = winpoint.x;
+                نقطہ.y = winpoint.y;
+                rc = کھڑکی->کامیابی_test(کھڑکی, &نقطہ, کھڑکی->کامیابی_test_انکڑے);
+                بدل (rc) {
+#تعریف_کرو POST_کامیابی_TEST(ret)                                                 \
     {                                                                      \
-        SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_HIT_TEST, 0, 0); \
-        return ret;                                                        \
+        SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_کامیابی_TEST, 0, 0); \
+        أرجع ret;                                                        \
     }
-                case SDL_HITTEST_DRAGGABLE:
+                حالة SDL_HITTEST_DRAGGABLE:
                 {
                     /* If the mouse button state is something other than none or left button down,
                      * return HTCLIENT, or Windows will eat the button press.
                      */
-                    SDL_MouseButtonFlags buttonState = SDL_GetGlobalMouseState(NULL, NULL);
-                    if (buttonState && !(buttonState & SDL_BUTTON_LMASK)) {
+                    SDL_MouseButtonFlags buttonState = SDL_GetGlobalMouseState(عدم, عدم);
+                    إذا (buttonState && !(buttonState & SDL_BUTTON_LMASK)) {
                         // Set focus in case it was lost while previously moving over a draggable area.
-                        SDL_SetMouseFocus(window);
-                        return HTCLIENT;
+                        SDL_سیٹ_Mouse_Focus(کھڑکی);
+                        أرجع HTCLIENT;
                     }
 
-                    POST_HIT_TEST(HTCAPTION);
+                    POST_کامیابی_TEST(HTCAPTION);
                 }
-                case SDL_HITTEST_RESIZE_TOPLEFT:
-                    POST_HIT_TEST(HTTOPLEFT);
-                case SDL_HITTEST_RESIZE_TOP:
-                    POST_HIT_TEST(HTTOP);
-                case SDL_HITTEST_RESIZE_TOPRIGHT:
-                    POST_HIT_TEST(HTTOPRIGHT);
-                case SDL_HITTEST_RESIZE_RIGHT:
-                    POST_HIT_TEST(HTRIGHT);
-                case SDL_HITTEST_RESIZE_BOTTOMRIGHT:
-                    POST_HIT_TEST(HTBOTTOMRIGHT);
-                case SDL_HITTEST_RESIZE_BOTTOM:
-                    POST_HIT_TEST(HTBOTTOM);
-                case SDL_HITTEST_RESIZE_BOTTOMLEFT:
-                    POST_HIT_TEST(HTBOTTOMLEFT);
-                case SDL_HITTEST_RESIZE_LEFT:
-                    POST_HIT_TEST(HTLEFT);
-#undef POST_HIT_TEST
-                case SDL_HITTEST_NORMAL:
-                    return HTCLIENT;
+                حالة SDL_HITTEST_RESIZE_TOPLEFT:
+                    POST_کامیابی_TEST(HTTOPLEFT);
+                حالة SDL_HITTEST_RESIZE_چوٹی:
+                    POST_کامیابی_TEST(HTTOP);
+                حالة SDL_HITTEST_RESIZE_TOPRIGHT:
+                    POST_کامیابی_TEST(HTTOPRIGHT);
+                حالة SDL_HITTEST_RESIZE_دایاں:
+                    POST_کامیابی_TEST(HTRIGHT);
+                حالة SDL_HITTEST_RESIZE_BOTTOMRIGHT:
+                    POST_کامیابی_TEST(HTBOTTOMRIGHT);
+                حالة SDL_HITTEST_RESIZE_BOTTOM:
+                    POST_کامیابی_TEST(HTBOTTOM);
+                حالة SDL_HITTEST_RESIZE_BOTTOMLEFT:
+                    POST_کامیابی_TEST(HTBOTTOMLEFT);
+                حالة SDL_HITTEST_RESIZE_بایاں:
+                    POST_کامیابی_TEST(HTLEFT);
+#تعریف_رد POST_کامیابی_TEST
+                حالة SDL_HITTEST_عام:
+                    أرجع HTCLIENT;
                 }
             }
             // If we didn't return, this will call DefWindowProc below.
         }
-    } break;
+    } اكسر;
 
-    case WM_GETDPISCALEDSIZE:
+    حالة WM_GETDPISCALEDSIZE:
         // Windows 10 Creators Update+
         /* Documented as only being sent to windows that are per-monitor V2 DPI aware.
 
            Experimentation shows it's only sent during interactive dragging, not in response to
            SetWindowPos. */
-        if (data->videodata->GetDpiForWindow && data->videodata->AdjustWindowRectExForDpi) {
+        إذا (انکڑے->videodata->Get_Dpi_For_کھڑکی && انکڑے->videodata->Adjust_کھڑکی_Rect_Ex_For_Dpi) {
             /* Windows expects applications to scale their window rects linearly
                when dragging between monitors with different DPI's.
                e.g. a 100x100 window dragged to a 200% scaled monitor
@@ -2396,75 +2396,75 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                linearly. So, we need to handle this message to request custom
                scaling. */
 
-            const int nextDPI = (int)wParam;
-            const int prevDPI = (int)data->videodata->GetDpiForWindow(hwnd);
-            SIZE *sizeInOut = (SIZE *)lParam;
+            ثابت صحيح اگلا_DPI = (صحيح)wParam;
+            ثابت صحيح prevDPI = (صحيح)انکڑے->videodata->Get_Dpi_For_کھڑکی(hwnd);
+            ناپ_3 *ناپ_وچ_باہرلا = (ناپ_3 *)lParam;
 
-            int frame_w, frame_h;
-            int query_client_w_win, query_client_h_win;
+            صحيح چوکھٹا_w, چوکھٹا_h;
+            صحيح query_client_w_win, query_client_h_win;
 
-#ifdef HIGHDPI_DEBUG
+#جے_تعریف_شدہ HIGHDPI_DEBUG
             SDL_Log("WM_GETDPISCALEDSIZE: current DPI: %d potential DPI: %d input size: (%dx%d)",
-                    prevDPI, nextDPI, sizeInOut->cx, sizeInOut->cy);
-#endif
+                    prevDPI, اگلا_DPI, ناپ_وچ_باہرلا->cx, ناپ_وچ_باہرلا->cy);
+#جے_انت
 
             // Subtract the window frame size that would have been used at prevDPI
             {
                 RECT rect = { 0 };
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
-                    WIN_AdjustWindowRectForHWND(hwnd, &rect, prevDPI);
+                إذا (!(انکڑے->کھڑکی->flags & SDL_کھڑکی_BORDERLESS) && !SDL_کھڑکی_IS_POPUP(انکڑے->کھڑکی)) {
+                    WIN_Adjust_کھڑکی_Rect_For_HWND(hwnd, &rect, prevDPI);
                 }
 
-                frame_w = -rect.left + rect.right;
-                frame_h = -rect.top + rect.bottom;
+                چوکھٹا_w = -rect.بایاں + rect.دایاں;
+                چوکھٹا_h = -rect.چوٹی + rect.bottom;
 
-                query_client_w_win = sizeInOut->cx - frame_w;
-                query_client_h_win = sizeInOut->cy - frame_h;
+                query_client_w_win = ناپ_وچ_باہرلا->cx - چوکھٹا_w;
+                query_client_h_win = ناپ_وچ_باہرلا->cy - چوکھٹا_h;
             }
 
             // Add the window frame size that would be used at nextDPI
             {
                 RECT rect = { 0 };
-                rect.right = query_client_w_win;
+                rect.دایاں = query_client_w_win;
                 rect.bottom = query_client_h_win;
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(data->window)) {
-                    WIN_AdjustWindowRectForHWND(hwnd, &rect, nextDPI);
+                إذا (!(انکڑے->کھڑکی->flags & SDL_کھڑکی_BORDERLESS) && !SDL_کھڑکی_IS_POPUP(انکڑے->کھڑکی)) {
+                    WIN_Adjust_کھڑکی_Rect_For_HWND(hwnd, &rect, اگلا_DPI);
                 }
 
                 // This is supposed to control the suggested rect param of WM_DPICHANGED
-                sizeInOut->cx = rect.right - rect.left;
-                sizeInOut->cy = rect.bottom - rect.top;
+                ناپ_وچ_باہرلا->cx = rect.دایاں - rect.بایاں;
+                ناپ_وچ_باہرلا->cy = rect.bottom - rect.چوٹی;
             }
 
-#ifdef HIGHDPI_DEBUG
-            SDL_Log("WM_GETDPISCALEDSIZE: output size: (%dx%d)", sizeInOut->cx, sizeInOut->cy);
-#endif
-            return TRUE;
+#جے_تعریف_شدہ HIGHDPI_DEBUG
+            SDL_Log("WM_GETDPISCALEDSIZE: output size: (%dx%d)", ناپ_وچ_باہرلا->cx, ناپ_وچ_باہرلا->cy);
+#جے_انت
+            أرجع TRUE;
         }
-        break;
+        اكسر;
 
-    case WM_DPICHANGED:
+    حالة WM_DPICHANGED:
         // Windows 8.1+
         {
-            const int newDPI = HIWORD(wParam);
-            RECT *const suggestedRect = (RECT *)lParam;
-            int w, h;
+            ثابت صحيح newDPI = HIWORD(wParam);
+            RECT *ثابت suggestedRect = (RECT *)lParam;
+            صحيح w, h;
 
-#ifdef HIGHDPI_DEBUG
+#جے_تعریف_شدہ HIGHDPI_DEBUG
             SDL_Log("WM_DPICHANGED: to %d\tsuggested rect: (%d, %d), (%dx%d)", newDPI,
-                    suggestedRect->left, suggestedRect->top, suggestedRect->right - suggestedRect->left, suggestedRect->bottom - suggestedRect->top);
-#endif
+                    suggestedRect->بایاں, suggestedRect->چوٹی, suggestedRect->دایاں - suggestedRect->بایاں, suggestedRect->bottom - suggestedRect->چوٹی);
+#جے_انت
 
-            if (data->expected_resize) {
+            إذا (انکڑے->expected_resize) {
                 /* This DPI change is coming from an explicit SetWindowPos call within SDL.
                    Assume all call sites are calculating the DPI-aware frame correctly, so
                    we don't need to do any further adjustment. */
-#ifdef HIGHDPI_DEBUG
+#جے_تعریف_شدہ HIGHDPI_DEBUG
                 SDL_Log("WM_DPICHANGED: Doing nothing, assuming window is already sized correctly");
-#endif
-                return 0;
+#جے_انت
+                أرجع 0;
             }
 
             // Interactive user-initiated resizing/movement
@@ -2472,213 +2472,213 @@ LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
                 /* Calculate the new frame w/h such that
                    the client area size is maintained. */
                 RECT rect = { 0 };
-                rect.right = data->window->w;
-                rect.bottom = data->window->h;
+                rect.دایاں = انکڑے->کھڑکی->w;
+                rect.bottom = انکڑے->کھڑکی->h;
 
-                if (!(data->window->flags & SDL_WINDOW_BORDERLESS)) {
-                    WIN_AdjustWindowRectForHWND(hwnd, &rect, newDPI);
+                إذا (!(انکڑے->کھڑکی->flags & SDL_کھڑکی_BORDERLESS)) {
+                    WIN_Adjust_کھڑکی_Rect_For_HWND(hwnd, &rect, newDPI);
                 }
 
-                w = rect.right - rect.left;
-                h = rect.bottom - rect.top;
+                w = rect.دایاں - rect.بایاں;
+                h = rect.bottom - rect.چوٹی;
             }
 
-#ifdef HIGHDPI_DEBUG
+#جے_تعریف_شدہ HIGHDPI_DEBUG
             SDL_Log("WM_DPICHANGED: current SDL window size: (%dx%d)\tcalling SetWindowPos: (%d, %d), (%dx%d)",
-                    data->window->w, data->window->h,
-                    suggestedRect->left, suggestedRect->top, w, h);
-#endif
+                    انکڑے->کھڑکی->w, انکڑے->کھڑکی->h,
+                    suggestedRect->بایاں, suggestedRect->چوٹی, w, h);
+#جے_انت
 
-            data->expected_resize = true;
-            SetWindowPos(hwnd,
-                         NULL,
-                         suggestedRect->left,
-                         suggestedRect->top,
+            انکڑے->expected_resize = true;
+            سیٹ_کھڑکی_Pos(hwnd,
+                         عدم,
+                         suggestedRect->بایاں,
+                         suggestedRect->چوٹی,
                          w,
                          h,
                          SWP_NOZORDER | SWP_NOACTIVATE);
-            data->expected_resize = false;
-            return 0;
+            انکڑے->expected_resize = false;
+            أرجع 0;
         }
 
-    case WM_SETTINGCHANGE:
-        if (wParam == 0 && lParam != 0 && SDL_wcscmp((wchar_t *)lParam, L"ImmersiveColorSet") == 0) {
-            SDL_SetSystemTheme(WIN_GetSystemTheme());
-            WIN_UpdateDarkModeForHWND(hwnd);
+    حالة WM_SETTINGCHANGE:
+        إذا (wParam == 0 && lParam != 0 && SDL_wcscmp((wchar_t *)lParam, L"ImmersiveColorSet") == 0) {
+            SDL_سیٹ_System_Theme(WIN_GetSystemTheme());
+            WIN_Update_Dark_منوال_For_HWND(hwnd);
         }
-        if (wParam == SPI_SETMOUSE || wParam == SPI_SETMOUSESPEED) {
+        إذا (wParam == SPI_SETMOUSE || wParam == SPI_SETMOUSESPEED) {
             WIN_UpdateMouseSystemScale();
         }
-        if (wParam == SPI_SETWORKAREA) {
+        إذا (wParam == SPI_SETWORKAREA) {
             WIN_UpdateDisplayUsableBounds(SDL_GetVideoDevice());
         }
-        break;
-#else
+        اكسر;
+#وإلا
     // Xbox does not support WM_WINDOWPOSCHANGED, so use WM_SIZE instead to detect window resizes
-    case WM_SIZE:
+    حالة WM_ناپ:
     {
         RECT rect;
-        int w, h;
+        صحيح w, h;
 
-        if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-            w = rect.right;
+        إذا (GetClientRect(hwnd, &rect) && WIN_کھڑکی_Rect_Valid(&rect)) {
+            w = rect.دایاں;
             h = rect.bottom;
-            SDL_SendWindowEvent(data->window, SDL_EVENT_WINDOW_RESIZED, w, h);
+            SDL_Send_کھڑکی_Event(انکڑے->کھڑکی, SDL_EVENT_کھڑکی_RESIZED, w, h);
         }
-    } break;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    } اكسر;
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    default:
-        break;
+    افتراضي:
+        اكسر;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (msg && msg == data->videodata->WM_TASKBAR_BUTTON_CREATED) {
-        data->taskbar_button_created = true;
-        WIN_ApplyWindowProgress(SDL_GetVideoDevice(), data->window);
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (پیغام && پیغام == انکڑے->videodata->WM_TASKBAR_BUTTON_CREATED) {
+        انکڑے->taskbar_button_created = true;
+        WIN_Apply_کھڑکی_ترقی(SDL_GetVideoDevice(), انکڑے->کھڑکی);
     }
-#endif
+#جے_انت
 
     // If there's a window proc, assume it's going to handle messages
-    if (data->wndproc) {
-        return CallWindowProc(data->wndproc, hwnd, msg, wParam, lParam);
-    } else if (returnCode >= 0) {
-        return returnCode;
-    } else {
-        return CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
+    إذا (انکڑے->wndproc) {
+        أرجع Call_کھڑکی_Proc(انکڑے->wndproc, hwnd, پیغام, wParam, lParam);
+    } وإلا إذا (return_کوڈ >= 0) {
+        أرجع return_کوڈ;
+    } وإلا {
+        أرجع Call_کھڑکی_Proc(Def_کھڑکی_Proc, hwnd, پیغام, wParam, lParam);
     }
 }
 
-int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
+صحيح WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS)
 {
-    if (g_WindowsEnableMessageLoop) {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (g_Windows_Enable_سنیہا_Loop) {
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         DWORD timeout, ret;
-        timeout = timeoutNS < 0 ? INFINITE : (DWORD)SDL_NS_TO_MS(timeoutNS);
-        ret = MsgWaitForMultipleObjects(0, NULL, FALSE, timeout, QS_ALLINPUT);
-        if (ret == WAIT_OBJECT_0) {
-            return 1;
-        } else {
-            return 0;
+        timeout = timeoutNS < 0 ? INFINITE : (DWORD)SDL_NS_منزل_MS(timeoutNS);
+        ret = پیغام_Wait_For_مضرب_Objects(0, عدم, FALSE, timeout, QS_ALLINPUT);
+        إذا (ret == WAIT_OBJECT_0) {
+            أرجع 1;
+        } وإلا {
+            أرجع 0;
         }
-#else
+#وإلا
         // MsgWaitForMultipleObjects is desktop-only.
-        MSG msg;
-        BOOL message_result;
+        پیغام_2 پیغام;
+        BOOL سنیہا_نتیجہ;
         UINT_PTR timer_id = 0;
-        if (timeoutNS > 0) {
-            timer_id = SetTimer(NULL, 0, (UINT)SDL_NS_TO_MS(timeoutNS), NULL);
-            message_result = GetMessage(&msg, 0, 0, 0);
-            KillTimer(NULL, timer_id);
-        } else if (timeoutNS == 0) {
-            message_result = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-        } else {
-            message_result = GetMessage(&msg, 0, 0, 0);
+        إذا (timeoutNS > 0) {
+            timer_id = سیٹ_Timer(عدم, 0, (UINT)SDL_NS_منزل_MS(timeoutNS), عدم);
+            سنیہا_نتیجہ = Get_سنیہا(&پیغام, 0, 0, 0);
+            KillTimer(عدم, timer_id);
+        } وإلا إذا (timeoutNS == 0) {
+            سنیہا_نتیجہ = Peek_سنیہا(&پیغام, عدم, 0, 0, PM_REMOVE);
+        } وإلا {
+            سنیہا_نتیجہ = Get_سنیہا(&پیغام, 0, 0, 0);
         }
-        if (message_result) {
-            if (msg.message == WM_TIMER && !msg.hwnd && msg.wParam == timer_id) {
-                return 0;
+        إذا (سنیہا_نتیجہ) {
+            إذا (پیغام.سنیہا == WM_TIMER && !پیغام.hwnd && پیغام.wParam == timer_id) {
+                أرجع 0;
             }
-            if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
-                    return 1;
+            إذا (g_Windows_سنیہا_Hook) {
+                إذا (!g_Windows_سنیہا_Hook(g_Windows_سنیہا_Hook_انکڑے, &پیغام)) {
+                    أرجع 1;
                 }
             }
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-            return 1;
-        } else {
-            return 0;
+            Translate_سنیہا(&پیغام);
+            Dispatch_سنیہا(&پیغام);
+            أرجع 1;
+        } وإلا {
+            أرجع 0;
         }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    } else {
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    } وإلا {
         // Fail the wait so the caller falls back to polling
-        return -1;
+        أرجع -1;
     }
 }
 
-void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window)
+فراغ WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی)
 {
-    SDL_WindowData *data = window->internal;
-    PostMessage(data->hwnd, data->videodata->_SDL_WAKEUP, 0, 0);
+    SDL_کھڑکی_انکڑے *انکڑے = کھڑکی->اندرونی;
+    Post_سنیہا(انکڑے->hwnd, انکڑے->videodata->_SDL_WAKEUP, 0, 0);
 }
 
 // Simplified event pump for using when creating and destroying windows
-void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd)
+فراغ WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd)
 {
-    MSG msg;
+    پیغام_2 پیغام;
 
-    if (g_WindowsEnableMessageLoop) {
+    إذا (g_Windows_Enable_سنیہا_Loop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, hwnd, 0, 0, PM_REMOVE)) {
-            WIN_SetMessageTick(msg.time);
+        طالما (Peek_سنیہا(&پیغام, hwnd, 0, 0, PM_REMOVE)) {
+            WIN_سیٹ_سنیہا_Tick(پیغام.ویلا);
 
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            Translate_سنیہا(&پیغام);
+            Dispatch_سنیہا(&پیغام);
         }
 
         SDL_processing_messages = false;
     }
 }
 
-void WIN_PumpEvents(SDL_VideoDevice *_this)
+فراغ WIN_PumpEvents(SDL_VideoDevice *_this)
 {
-    MSG msg;
-#ifdef _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
-#pragma warning(push)
-#pragma warning(disable : 28159)
-#endif
-    DWORD end_ticks = GetTickCount() + 1;
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
-    int new_messages = 0;
+    پیغام_2 پیغام;
+#جے_تعریف_شدہ _MSC_VER // We explicitly want to use GetTickCount(), not GetTickCount64()
+#ہدایت warning(ڈالو)
+#ہدایت warning(disable : 28159)
+#جے_انت
+    DWORD سرا_ticks = Get_Tick_گنتی() + 1;
+#جے_تعریف_شدہ _MSC_VER
+#ہدایت warning(نکالو)
+#جے_انت
+    صحيح new_messages = 0;
 
-    if (_this->internal->gameinput_context) {
-        WIN_UpdateGameInput(_this);
+    إذا (_this->اندرونی->gameinput_context) {
+        WIN_Update_Game_داخلہ(_this);
     }
 
-    if (g_WindowsEnableMessageLoop) {
+    إذا (g_Windows_Enable_سنیہا_Loop) {
         SDL_processing_messages = true;
 
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-            if (g_WindowsMessageHook) {
-                if (!g_WindowsMessageHook(g_WindowsMessageHookData, &msg)) {
-                    continue;
+        طالما (Peek_سنیہا(&پیغام, عدم, 0, 0, PM_REMOVE)) {
+            إذا (g_Windows_سنیہا_Hook) {
+                إذا (!g_Windows_سنیہا_Hook(g_Windows_سنیہا_Hook_انکڑے, &پیغام)) {
+                    استمر;
                 }
             }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
             // Don't dispatch any mouse motion queued prior to or including the last mouse warp
-            if (msg.message == WM_MOUSEMOVE && SDL_last_warp_time) {
-                if (!SDL_TICKS_PASSED(msg.time, (SDL_last_warp_time + 1))) {
-                    continue;
+            إذا (پیغام.سنیہا == WM_MOUSEMOVE && SDL_آخری_warp_ویلا) {
+                إذا (!SDL_TICKS_PASSED(پیغام.ویلا, (SDL_آخری_warp_ویلا + 1))) {
+                    استمر;
                 }
 
                 // This mouse message happened after the warp
-                SDL_last_warp_time = 0;
+                SDL_آخری_warp_ویلا = 0;
             }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-            WIN_SetMessageTick(msg.time);
+            WIN_سیٹ_سنیہا_Tick(پیغام.ویلا);
 
             // Always translate the message in case it's a non-SDL window (e.g. with Qt integration)
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            Translate_سنیہا(&پیغام);
+            Dispatch_سنیہا(&پیغام);
 
             // Make sure we don't busy loop here forever if there are lots of events coming in
-            if (SDL_TICKS_PASSED(msg.time, end_ticks)) {
+            إذا (SDL_TICKS_PASSED(پیغام.ویلا, سرا_ticks)) {
                 /* We might get a few new messages generated by the Steam overlay or other application hooks
                    In this case those messages will be processed before any pending input, so we want to continue after those messages.
                    (thanks to Peter Deayton for his investigation here)
                  */
-                const int MAX_NEW_MESSAGES = 3;
+                ثابت صحيح MAX_NEW_MESSAGES = 3;
                 ++new_messages;
-                if (new_messages > MAX_NEW_MESSAGES) {
-                    break;
+                إذا (new_messages > MAX_NEW_MESSAGES) {
+                    اكسر;
                 }
             }
         }
@@ -2686,42 +2686,42 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
         SDL_processing_messages = false;
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     /* Windows loses a shift KEYUP event when you have both pressed at once and let go of one.
        You won't get a KEYUP until both are released, and that keyup will only be for the second
        key you released. Take heroic measures and check the keystate as of the last handled event,
        and if we think a key is pressed when Windows doesn't, unstick it in SDL's state. */
-    const bool *keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_LSHIFT] && !(GetKeyState(VK_LSHIFT) & 0x8000)) {
-        SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LSHIFT, false);
+    ثابت bool *keystate = SDL_GetKeyboardState(عدم);
+    إذا (keystate[SDL_SCANCODE_LSHIFT] && !(Get_کلید_State(VK_LSHIFT) & 0x8000)) {
+        SDL_Send_Keyboard_کلید(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LSHIFT, false);
     }
-    if (keystate[SDL_SCANCODE_RSHIFT] && !(GetKeyState(VK_RSHIFT) & 0x8000)) {
-        SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RSHIFT, false);
+    إذا (keystate[SDL_SCANCODE_RSHIFT] && !(Get_کلید_State(VK_RSHIFT) & 0x8000)) {
+        SDL_Send_Keyboard_کلید(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RSHIFT, false);
     }
 
     /* The Windows key state gets lost when using Windows+Space or Windows+G shortcuts and
        not grabbing the keyboard. Note: If we *are* grabbing the keyboard, GetKeyState()
        will return inaccurate results for VK_LWIN and VK_RWIN but we don't need it anyway. */
-    SDL_Window *focusWindow = SDL_GetKeyboardFocus();
-    if (!focusWindow || !(focusWindow->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        if (keystate[SDL_SCANCODE_LGUI] && !(GetKeyState(VK_LWIN) & 0x8000)) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LGUI, false);
+    SDL_کھڑکی *focus_کھڑکی = SDL_GetKeyboardFocus();
+    إذا (!focus_کھڑکی || !(focus_کھڑکی->flags & SDL_کھڑکی_KEYBOARD_GRABBED)) {
+        إذا (keystate[SDL_SCANCODE_LGUI] && !(Get_کلید_State(VK_LWIN) & 0x8000)) {
+            SDL_Send_Keyboard_کلید(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_LGUI, false);
         }
-        if (keystate[SDL_SCANCODE_RGUI] && !(GetKeyState(VK_RWIN) & 0x8000)) {
-            SDL_SendKeyboardKey(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RGUI, false);
+        إذا (keystate[SDL_SCANCODE_RGUI] && !(Get_کلید_State(VK_RWIN) & 0x8000)) {
+            SDL_Send_Keyboard_کلید(0, SDL_GLOBAL_KEYBOARD_ID, 0, SDL_SCANCODE_RGUI, false);
         }
     }
 
     // fire queued clipcursor refreshes
-    if (_this) {
-        SDL_Window *window = _this->windows;
-        while (window) {
+    إذا (_this) {
+        SDL_کھڑکی *کھڑکی = _this->windows;
+        طالما (کھڑکی) {
             bool refresh_clipcursor = false;
-            SDL_WindowData *data = window->internal;
-            if (data) {
-                refresh_clipcursor = data->clipcursor_queued;
-                data->clipcursor_queued = false;    // Must be cleared unconditionally.
-                data->postpone_clipcursor = false;  // Must be cleared unconditionally.
+            SDL_کھڑکی_انکڑے *انکڑے = کھڑکی->اندرونی;
+            إذا (انکڑے) {
+                refresh_clipcursor = انکڑے->clipcursor_queued;
+                انکڑے->clipcursor_queued = false;    // Must be cleared unconditionally.
+                انکڑے->postpone_clipcursor = false;  // Must be cleared unconditionally.
                                                     // Must happen before UpdateClipCursor.
                                                     // Although its occurrence currently
                                                     // always coincides with the queuing of
@@ -2732,10 +2732,10 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
                                                     // conveys its unconditionality
                                                     // vis-a-vis the queuing of clipcursor.
             }
-            if (refresh_clipcursor) {
-                WIN_UpdateClipCursor(window);
+            إذا (refresh_clipcursor) {
+                WIN_UpdateClipCursor(کھڑکی);
             }
-            window = window->next;
+            کھڑکی = کھڑکی->اگلا;
         }
     }
 
@@ -2744,159 +2744,159 @@ void WIN_PumpEvents(SDL_VideoDevice *_this)
     // ReleaseCapture to pipe in out-of-window mouse events.
     // Formerly WIN_UpdateMouseCapture().
     // TODO: can this go before clipcursor?
-    focusWindow = SDL_GetKeyboardFocus();
-    if (focusWindow && (focusWindow->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
-        SDL_WindowData *data = focusWindow->internal;
+    focus_کھڑکی = SDL_GetKeyboardFocus();
+    إذا (focus_کھڑکی && (focus_کھڑکی->flags & SDL_کھڑکی_MOUSE_CAPTURE)) {
+        SDL_کھڑکی_انکڑے *انکڑے = focus_کھڑکی->اندرونی;
 
-        if (!data->mouse_tracked) {
-            POINT cursorPos;
+        إذا (!انکڑے->mouse_tracked) {
+            نقطہ_2 cursorPos;
 
-            if (GetCursorPos(&cursorPos) && ScreenToClient(data->hwnd, &cursorPos)) {
-                bool swapButtons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
+            إذا (GetCursorPos(&cursorPos) && Screen_منزل_Client(انکڑے->hwnd, &cursorPos)) {
+                bool وٹاندرا_Buttons = GetSystemMetrics(SM_SWAPBUTTON) != 0;
                 SDL_MouseID mouseID = SDL_GLOBAL_MOUSE_ID;
 
-                SDL_SendMouseMotion(WIN_GetEventTimestamp(), data->window, mouseID, false, (float)cursorPos.x, (float)cursorPos.y);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    !swapButtons ? SDL_BUTTON_LEFT : SDL_BUTTON_RIGHT,
-                                    (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    !swapButtons ? SDL_BUTTON_RIGHT : SDL_BUTTON_LEFT,
-                                    (GetAsyncKeyState(VK_RBUTTON) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
-                                    SDL_BUTTON_MIDDLE,
-                                    (GetAsyncKeyState(VK_MBUTTON) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
+                SDL_SendMouseMotion(WIN_GetEventTimestamp(), انکڑے->کھڑکی, mouseID, false, (عائم)cursorPos.x, (عائم)cursorPos.y);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), انکڑے->کھڑکی, mouseID,
+                                    !وٹاندرا_Buttons ? SDL_BUTTON_بایاں : SDL_BUTTON_دایاں,
+                                    (Get_Async_کلید_State(VK_LBUTTON) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), انکڑے->کھڑکی, mouseID,
+                                    !وٹاندرا_Buttons ? SDL_BUTTON_دایاں : SDL_BUTTON_بایاں,
+                                    (Get_Async_کلید_State(VK_RBUTTON) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), انکڑے->کھڑکی, mouseID,
+                                    SDL_BUTTON_درمیان,
+                                    (Get_Async_کلید_State(VK_MBUTTON) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), انکڑے->کھڑکی, mouseID,
                                     SDL_BUTTON_X1,
-                                    (GetAsyncKeyState(VK_XBUTTON1) & 0x8000) != 0);
-                SDL_SendMouseButton(WIN_GetEventTimestamp(), data->window, mouseID,
+                                    (Get_Async_کلید_State(VK_XBUTTON1) & 0x8000) != 0);
+                SDL_SendMouseButton(WIN_GetEventTimestamp(), انکڑے->کھڑکی, mouseID,
                                     SDL_BUTTON_X2,
-                                    (GetAsyncKeyState(VK_XBUTTON2) & 0x8000) != 0);
+                                    (Get_Async_کلید_State(VK_XBUTTON2) & 0x8000) != 0);
             }
         }
     }
 
     WIN_UpdateIMECandidates(_this);
 
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef SDL_PLATFORM_GDK
-    GDK_DispatchTaskQueue();
-#endif
+#جے_تعریف_شدہ SDL_PLATFORM_GDK
+    GDK_Dispatch_Task_قطار();
+#جے_انت
 }
 
-static int app_registered = 0;
-LPTSTR SDL_Appname = NULL;
+ساكن صحيح app_registered = 0;
+LPTSTR SDL_Appname = عدم;
 Uint32 SDL_Appstyle = 0;
-HINSTANCE SDL_Instance = NULL;
+HINSTANCE SDL_Instance = عدم;
 
-static void WIN_CleanRegisterApp(WNDCLASSEX wcex)
+ساكن فراغ WIN_Clean_رجسٹر_App(WNDCLASSEX wcex)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (wcex.hIcon) {
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    إذا (wcex.hIcon) {
         DestroyIcon(wcex.hIcon);
     }
-    if (wcex.hIconSm) {
+    إذا (wcex.hIconSm) {
         DestroyIcon(wcex.hIconSm);
     }
-#endif
+#جے_انت
     SDL_free(SDL_Appname);
-    SDL_Appname = NULL;
+    SDL_Appname = عدم;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static BOOL CALLBACK WIN_ResourceNameCallback(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+ساكن BOOL CALLBACK WIN_ResourceNameCallback(HMODULE hModule, LPCTSTR lpType, LPTSTR lpName, LONG_PTR lParam)
 {
     WNDCLASSEX *wcex = (WNDCLASSEX *)lParam;
 
-    (void)lpType; // We already know that the resource type is RT_GROUP_ICON.
+    (فراغ)lpType; // We already know that the resource type is RT_GROUP_ICON.
 
     /* We leave hIconSm as NULL as it will allow Windows to automatically
        choose the appropriate small icon size to suit the current DPI. */
-    wcex->hIcon = LoadIcon(hModule, lpName);
+    wcex->hIcon = لدو_Icon(hModule, lpName);
 
     // Do not bother enumerating any more.
-    return FALSE;
+    أرجع FALSE;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
 // Register the class for this application
-bool SDL_RegisterApp(const char *name, Uint32 style, void *hInst)
+bool SDL_رجسٹر_App(ثابت حرف *name, Uint32 style, فراغ *hInst)
 {
     WNDCLASSEX wcex;
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    const char *hint;
-#endif
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ثابت حرف *hint;
+#جے_انت
 
     // Only do this once...
-    if (app_registered) {
+    إذا (app_registered) {
         ++app_registered;
-        return true;
+        أرجع true;
     }
     SDL_assert(!SDL_Appname);
-    if (!name) {
+    إذا (!name) {
         name = "SDL_app";
-#if defined(CS_BYTEALIGNCLIENT) || defined(CS_OWNDC)
+#إذا defined(CS_BYTEALIGNCLIENT) || defined(CS_OWNDC)
         style = (CS_BYTEALIGNCLIENT | CS_OWNDC);
-#endif
+#جے_انت
     }
-    SDL_Appname = WIN_UTF8ToString(name);
+    SDL_Appname = WIN_UTF8_منزل_String(name);
     SDL_Appstyle = style;
-    SDL_Instance = hInst ? (HINSTANCE)hInst : GetModuleHandle(NULL);
+    SDL_Instance = hInst ? (HINSTANCE)hInst : GetModuleHandle(عدم);
 
     // Register the application class
     SDL_zero(wcex);
-    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.cb_ناپ = حجم(WNDCLASSEX);
     wcex.lpszClassName = SDL_Appname;
     wcex.style = SDL_Appstyle;
-    wcex.lpfnWndProc = WIN_WindowProc;
+    wcex.lpfnWndProc = WIN_کھڑکی_Proc;
     wcex.hInstance = SDL_Instance;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     hint = SDL_GetHint(SDL_HINT_WINDOWS_INTRESOURCE_ICON);
-    if (hint && *hint) {
-        wcex.hIcon = LoadIcon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
+    إذا (hint && *hint) {
+        wcex.hIcon = لدو_Icon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
 
         hint = SDL_GetHint(SDL_HINT_WINDOWS_INTRESOURCE_ICON_SMALL);
-        if (hint && *hint) {
-            wcex.hIconSm = LoadIcon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
+        إذا (hint && *hint) {
+            wcex.hIconSm = لدو_Icon(SDL_Instance, MAKEINTRESOURCE(SDL_atoi(hint)));
         }
-    } else {
+    } وإلا {
         // Use the first icon as a default icon, like in the Explorer.
-        EnumResourceNames(SDL_Instance, RT_GROUP_ICON, WIN_ResourceNameCallback, (LONG_PTR)&wcex);
+        Enum_Resource_ناں(SDL_Instance, RT_گروہ_ICON, WIN_ResourceNameCallback, (LONG_PTR)&wcex);
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#جے_انت // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    if (!RegisterClassEx(&wcex)) {
-        WIN_CleanRegisterApp(wcex);
-        return SDL_SetError("Couldn't register application class");
+    إذا (!رجسٹر_Class_Ex(&wcex)) {
+        WIN_Clean_رجسٹر_App(wcex);
+        أرجع SDL_سیٹ_Error("Couldn't register application class");
     }
 
     app_registered = 1;
-    return true;
+    أرجع true;
 }
 
 // Unregisters the windowclass registered in SDL_RegisterApp above.
-void SDL_UnregisterApp(void)
+فراغ SDL_UnregisterApp(فراغ)
 {
     WNDCLASSEX wcex;
 
     // SDL_RegisterApp might not have been called before
-    if (!app_registered) {
-        return;
+    إذا (!app_registered) {
+        أرجع;
     }
     --app_registered;
-    if (app_registered == 0) {
+    إذا (app_registered == 0) {
         // Ensure the icons are initialized.
-        wcex.hIcon = NULL;
-        wcex.hIconSm = NULL;
+        wcex.hIcon = عدم;
+        wcex.hIconSm = عدم;
         // Check for any registered window classes.
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (GetClassInfoEx(SDL_Instance, SDL_Appname, &wcex)) {
+#إذا !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        إذا (GetClassInfoEx(SDL_Instance, SDL_Appname, &wcex)) {
             UnregisterClass(SDL_Appname, SDL_Instance);
         }
-#endif
-        WIN_CleanRegisterApp(wcex);
+#جے_انت
+        WIN_Clean_رجسٹر_App(wcex);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#جے_انت // SDL_VIDEO_DRIVER_WINDOWS

@@ -1,5 +1,5 @@
-#ifndef __eglplatform_h_
-#define __eglplatform_h_
+#جے_بنا_تعریف __eglplatform_h_
+#تعریف_کرو __eglplatform_h_
 
 /*
 ** Copyright 2007-2020 The Khronos Group Inc.
@@ -15,7 +15,7 @@
  * https://www.github.com/KhronosGroup/EGL-Registry/
  */
 
-#include <KHR/khrplatform.h>
+#ضمن <KHR/khrplatform.h>
 
 /* Macros used in EGL function prototype declarations.
  *
@@ -27,14 +27,14 @@
  * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
  */
 
-#ifndef EGLAPI
-#define EGLAPI KHRONOS_APICALL
-#endif
+#جے_بنا_تعریف EGLAPI
+#تعریف_کرو EGLAPI KHRONOS_APICALL
+#جے_انت
 
-#ifndef EGLAPIENTRY
-#define EGLAPIENTRY  KHRONOS_APIENTRY
-#endif
-#define EGLAPIENTRYP EGLAPIENTRY*
+#جے_بنا_تعریف EGLAPIENTRY
+#تعریف_کرو EGLAPIENTRY  KHRONOS_APIENTRY
+#جے_انت
+#تعریف_کرو EGLAPIENTRYP EGLAPIENTRY*
 
 /* The types NativeDisplayType, NativeWindowType, and NativePixmapType
  * are aliases of window-system-dependent types, such as X Display * or
@@ -48,111 +48,111 @@
  * implementations.
  */
 
-#if defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
+#إذا defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
 
-typedef void *EGLNativeDisplayType;
-typedef void *EGLNativePixmapType;
-typedef void *EGLNativeWindowType;
+تعريفنوع فراغ *EGLNativeDisplayType;
+تعريفنوع فراغ *EGLNativePixmapType;
+تعريفنوع فراغ *EGLNative_کھڑکی_Type;
 
-#elif defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN 1
-#endif
-#include <windows.h>
+#وإلاإذا defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
+#جے_بنا_تعریف WIN32_LEAN_AND_اوسط
+#تعریف_کرو WIN32_LEAN_AND_اوسط 1
+#جے_انت
+#ضمن <windows.h>
 
-typedef HDC     EGLNativeDisplayType;
-typedef HBITMAP EGLNativePixmapType;
-typedef HWND    EGLNativeWindowType;
+تعريفنوع HDC     EGLNativeDisplayType;
+تعريفنوع HBITMAP EGLNativePixmapType;
+تعريفنوع HWND    EGLNative_کھڑکی_Type;
 
-#elif defined(__QNX__)
+#وإلاإذا defined(__QNX__)
 
-typedef khronos_uintptr_t      EGLNativeDisplayType;
-typedef struct _screen_pixmap* EGLNativePixmapType;  /* screen_pixmap_t */
-typedef struct _screen_window* EGLNativeWindowType;  /* screen_window_t */
+تعريفنوع khronos_uintptr_t      EGLNativeDisplayType;
+تعريفنوع بنية _screen_pixmap* EGLNativePixmapType;  /* screen_pixmap_t */
+تعريفنوع بنية screen_کھڑکی* EGLNative_کھڑکی_Type;  /* screen_window_t */
 
-#elif defined(__EMSCRIPTEN__)
+#وإلاإذا defined(__EMSCRIPTEN__)
 
-typedef int EGLNativeDisplayType;
-typedef int EGLNativePixmapType;
-typedef int EGLNativeWindowType;
+تعريفنوع صحيح EGLNativeDisplayType;
+تعريفنوع صحيح EGLNativePixmapType;
+تعريفنوع صحيح EGLNative_کھڑکی_Type;
 
-#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
+#وإلاإذا defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
 
-typedef int   EGLNativeDisplayType;
-typedef void *EGLNativePixmapType;
-typedef void *EGLNativeWindowType;
+تعريفنوع صحيح   EGLNativeDisplayType;
+تعريفنوع فراغ *EGLNativePixmapType;
+تعريفنوع فراغ *EGLNative_کھڑکی_Type;
 
-#elif defined(WL_EGL_PLATFORM)
+#وإلاإذا defined(WL_EGL_PLATFORM)
 
-typedef struct wl_display     *EGLNativeDisplayType;
-typedef struct wl_egl_pixmap  *EGLNativePixmapType;
-typedef struct wl_egl_window  *EGLNativeWindowType;
+تعريفنوع بنية wl_display     *EGLNativeDisplayType;
+تعريفنوع بنية wl_egl_pixmap  *EGLNativePixmapType;
+تعريفنوع بنية wl_egl_کھڑکی  *EGLNative_کھڑکی_Type;
 
-#elif defined(__GBM__)
+#وإلاإذا defined(__GBM__)
 
-typedef struct gbm_device  *EGLNativeDisplayType;
-typedef struct gbm_bo      *EGLNativePixmapType;
-typedef void               *EGLNativeWindowType;
+تعريفنوع بنية gbm_device  *EGLNativeDisplayType;
+تعريفنوع بنية gbm_bo      *EGLNativePixmapType;
+تعريفنوع فراغ               *EGLNative_کھڑکی_Type;
 
-#elif defined(__ANDROID__) || defined(ANDROID)
+#وإلاإذا defined(__ANDROID__) || defined(ANDROID)
 
-struct ANativeWindow;
-struct egl_native_pixmap_t;
+بنية ANative_کھڑکی;
+بنية egl_native_pixmap_t;
 
-typedef void*                           EGLNativeDisplayType;
-typedef struct egl_native_pixmap_t*     EGLNativePixmapType;
-typedef struct ANativeWindow*           EGLNativeWindowType;
+تعريفنوع فراغ*                           EGLNativeDisplayType;
+تعريفنوع بنية egl_native_pixmap_t*     EGLNativePixmapType;
+تعريفنوع بنية ANative_کھڑکی*           EGLNative_کھڑکی_Type;
 
-#elif defined(USE_OZONE)
+#وإلاإذا defined(USE_OZONE)
 
-typedef intptr_t EGLNativeDisplayType;
-typedef intptr_t EGLNativePixmapType;
-typedef intptr_t EGLNativeWindowType;
+تعريفنوع intptr_t EGLNativeDisplayType;
+تعريفنوع intptr_t EGLNativePixmapType;
+تعريفنوع intptr_t EGLNative_کھڑکی_Type;
 
-#elif defined(USE_X11)
+#وإلاإذا defined(USE_X11)
 
 /* X11 (tentative)  */
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
+#ضمن <X11/Xlib.h>
+#ضمن <X11/Xutil.h>
 
-typedef Display *EGLNativeDisplayType;
-typedef Pixmap   EGLNativePixmapType;
-typedef Window   EGLNativeWindowType;
+تعريفنوع Display *EGLNativeDisplayType;
+تعريفنوع Pixmap   EGLNativePixmapType;
+تعريفنوع کھڑکی_2   EGLNative_کھڑکی_Type;
 
-#elif defined(__unix__)
+#وإلاإذا defined(__unix__)
 
-typedef void             *EGLNativeDisplayType;
-typedef khronos_uintptr_t EGLNativePixmapType;
-typedef khronos_uintptr_t EGLNativeWindowType;
+تعريفنوع فراغ             *EGLNativeDisplayType;
+تعريفنوع khronos_uintptr_t EGLNativePixmapType;
+تعريفنوع khronos_uintptr_t EGLNative_کھڑکی_Type;
 
-#elif defined(__APPLE__)
+#وإلاإذا defined(__APPLE__)
 
-typedef int   EGLNativeDisplayType;
-typedef void *EGLNativePixmapType;
-typedef void *EGLNativeWindowType;
+تعريفنوع صحيح   EGLNativeDisplayType;
+تعريفنوع فراغ *EGLNativePixmapType;
+تعريفنوع فراغ *EGLNative_کھڑکی_Type;
 
-#elif defined(__HAIKU__)
+#وإلاإذا defined(__HAIKU__)
 
-#include <kernel/image.h>
+#ضمن <kernel/image.h>
 
-typedef void              *EGLNativeDisplayType;
-typedef khronos_uintptr_t  EGLNativePixmapType;
-typedef khronos_uintptr_t  EGLNativeWindowType;
+تعريفنوع فراغ              *EGLNativeDisplayType;
+تعريفنوع khronos_uintptr_t  EGLNativePixmapType;
+تعريفنوع khronos_uintptr_t  EGLNative_کھڑکی_Type;
 
-#elif defined(__Fuchsia__)
+#وإلاإذا defined(__Fuchsia__)
 
-typedef void              *EGLNativeDisplayType;
-typedef khronos_uintptr_t  EGLNativePixmapType;
-typedef khronos_uintptr_t  EGLNativeWindowType;
+تعريفنوع فراغ              *EGLNativeDisplayType;
+تعريفنوع khronos_uintptr_t  EGLNativePixmapType;
+تعريفنوع khronos_uintptr_t  EGLNative_کھڑکی_Type;
 
-#else
-#error "Platform not recognized"
-#endif
+#وإلا
+#غلطی "Platform not recognized"
+#جے_انت
 
 /* EGL 1.2 types, renamed for consistency in EGL 1.3 */
-typedef EGLNativeDisplayType NativeDisplayType;
-typedef EGLNativePixmapType  NativePixmapType;
-typedef EGLNativeWindowType  NativeWindowType;
+تعريفنوع EGLNativeDisplayType NativeDisplayType;
+تعريفنوع EGLNativePixmapType  NativePixmapType;
+تعريفنوع EGLNative_کھڑکی_Type  Native_کھڑکی_Type;
 
 
 /* Define EGLint. This must be a signed integral type large enough to contain
@@ -162,14 +162,14 @@ typedef EGLNativeWindowType  NativeWindowType;
  * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
  * integer type.
  */
-typedef khronos_int32_t EGLint;
+تعريفنوع khronos_int32_t EGLint;
 
 
 /* C++ / C typecast macros for special EGL handle values */
-#if defined(__cplusplus)
-#define EGL_CAST(type, value) (static_cast<type>(value))
-#else
-#define EGL_CAST(type, value) ((type) (value))
-#endif
+#إذا defined(__cplusplus)
+#تعریف_کرو EGL_CAST(type, قدر) (static_cast<type>(قدر))
+#وإلا
+#تعریف_کرو EGL_CAST(type, قدر) ((type) (قدر))
+#جے_انت
 
-#endif /* __eglplatform_h */
+#جے_انت /* __eglplatform_h */

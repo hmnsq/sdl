@@ -19,134 +19,134 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_waylandvideo_h_
-#define SDL_waylandvideo_h_
+#جے_بنا_تعریف SDL_waylandvideo_h_
+#تعریف_کرو SDL_waylandvideo_h_
 
-#include <EGL/egl.h>
-#include "wayland-util.h"
+#ضمن <EGL/egl.h>
+#ضمن "wayland-util.h"
 
-#include "../SDL_sysvideo.h"
-#include "../../core/linux/SDL_dbus.h"
-#include "../../core/linux/SDL_ime.h"
-#include "SDL_waylandeventthread.h"
+#ضمن "../SDL_sysvideo.h"
+#ضمن "../../core/linux/SDL_dbus.h"
+#ضمن "../../core/linux/SDL_ime.h"
+#ضمن "SDL_waylandeventthread.h"
 
-struct xkb_context;
-struct SDL_WaylandSeat;
+بنية xkb_context;
+بنية SDL_WaylandSeat;
 
-typedef struct
+تعريفنوع بنية
 {
-    struct wl_cursor_theme *theme;
-    int size;
+    بنية wl_cursor_theme *theme;
+    صحيح ناپ;
 } SDL_WaylandCursorTheme;
 
-typedef struct
+تعريفنوع بنية
 {
-    struct wl_list link;
-    char wl_output_name[];
+    بنية wl_list link;
+    حرف wl_output_name[];
 } SDL_WaylandConnectorName;
 
-struct SDL_VideoData
+بنية SDL_Video_انکڑے
 {
-    struct wl_display *display;
-    struct wl_registry *registry;
-    struct wl_compositor *compositor;
-    struct wl_shm *shm;
+    بنية wl_display *display;
+    بنية wl_registry *registry;
+    بنية wl_compositor *compositor;
+    بنية wl_shm *shm;
     SDL_WaylandCursorTheme *cursor_themes;
-    int num_cursor_themes;
-    struct
+    صحيح عدد_cursor_themes;
+    بنية
     {
-        struct xdg_wm_base *xdg;
-#ifdef HAVE_LIBDECOR_H
-        struct libdecor *libdecor;
-#endif
+        بنية xdg_wm_ادھار *xdg;
+#جے_تعریف_شدہ HAVE_LIBDECOR_H
+        بنية libdecor *libdecor;
+#جے_انت
     } shell;
-    struct wl_subcompositor *subcompositor;
-    struct zwp_relative_pointer_manager_v1 *relative_pointer_manager;
-    struct zwp_pointer_constraints_v1 *pointer_constraints;
-    struct wp_pointer_warp_v1 *wp_pointer_warp_v1;
-    struct wp_cursor_shape_manager_v1 *cursor_shape_manager;
-    struct wl_data_device_manager *data_device_manager;
-    struct zwp_primary_selection_device_manager_v1 *primary_selection_device_manager;
-    struct zxdg_decoration_manager_v1 *decoration_manager;
-    struct zwp_keyboard_shortcuts_inhibit_manager_v1 *key_inhibitor_manager;
-    struct zwp_idle_inhibit_manager_v1 *idle_inhibit_manager;
-    struct xdg_activation_v1 *activation_manager;
-    struct zwp_text_input_manager_v3 *text_input_manager;
-    struct zxdg_output_manager_v1 *xdg_output_manager;
-    struct wp_viewporter *viewporter;
-    struct wp_fractional_scale_manager_v1 *fractional_scale_manager;
-    struct zwp_input_timestamps_manager_v1 *input_timestamps_manager;
-    struct zxdg_exporter_v2 *zxdg_exporter_v2;
-    struct xdg_wm_dialog_v1 *xdg_wm_dialog_v1;
-    struct wp_alpha_modifier_v1 *wp_alpha_modifier_v1;
-    struct xdg_toplevel_icon_manager_v1 *xdg_toplevel_icon_manager_v1;
-    struct frog_color_management_factory_v1 *frog_color_management_factory_v1;
-    struct wp_color_manager_v1 *wp_color_manager_v1;
-    struct zwp_tablet_manager_v2 *tablet_manager;
-    struct wl_fixes *wl_fixes;
-    struct zwp_pointer_gestures_v1 *zwp_pointer_gestures;
-    struct wp_single_pixel_buffer_manager_v1 *single_pixel_buffer_manager;
-    struct xdg_session_manager_v1 *xdg_session_manager;
-    struct xdg_toplevel_tag_manager_v1 *xdg_toplevel_tag_manager;
+    بنية wl_subcompositor *subcompositor;
+    بنية zwp_relative_اشارہ_گر_manager_v1 *relative_اشارہ_گر_manager;
+    بنية zwp_اشارہ_گر_constraints_v1 *اشارہ_گر_constraints;
+    بنية wp_اشارہ_گر_warp_v1 *wp_اشارہ_گر_warp_v1;
+    بنية wp_cursor_shape_manager_v1 *cursor_shape_manager;
+    بنية wl_انکڑے_device_manager *انکڑے_device_manager;
+    بنية zwp_primary_selection_device_manager_v1 *primary_selection_device_manager;
+    بنية zxdg_decoration_manager_v1 *decoration_manager;
+    بنية zwp_keyboard_shortcuts_inhibit_manager_v1 *کلید_inhibitor_manager;
+    بنية zwp_idle_inhibit_manager_v1 *idle_inhibit_manager;
+    بنية xdg_activation_v1 *activation_manager;
+    بنية zwp_متن_داخلہ_manager_v3 *متن_داخلہ_manager;
+    بنية zxdg_output_manager_v1 *xdg_output_manager;
+    بنية wp_viewporter *viewporter;
+    بنية wp_fractional_scale_manager_v1 *fractional_scale_manager;
+    بنية zwp_داخلہ_timestamps_manager_v1 *داخلہ_timestamps_manager;
+    بنية zxdg_exporter_v2 *zxdg_exporter_v2;
+    بنية xdg_wm_dialog_v1 *xdg_wm_dialog_v1;
+    بنية wp_alpha_modifier_v1 *wp_alpha_modifier_v1;
+    بنية xdg_toplevel_icon_manager_v1 *xdg_toplevel_icon_manager_v1;
+    بنية frog_color_management_factory_v1 *frog_color_management_factory_v1;
+    بنية wp_color_manager_v1 *wp_color_manager_v1;
+    بنية zwp_tablet_manager_v2 *tablet_manager;
+    بنية wl_fixes *wl_fixes;
+    بنية zwp_اشارہ_گر_gestures_v1 *zwp_اشارہ_گر_gestures;
+    بنية wp_single_pixel_بفر_manager_v1 *single_pixel_بفر_manager;
+    بنية xdg_session_manager_v1 *xdg_session_manager;
+    بنية xdg_toplevel_ٹیگ_manager_v1 *xdg_toplevel_ٹیگ_manager;
 
-    struct xdg_session_v1 *xdg_session;
-    struct xkb_context *xkb_context;
+    بنية xdg_session_v1 *xdg_session;
+    بنية xkb_context *xkb_context;
 
-    struct wl_list seat_list;
-    struct SDL_WaylandSeat *last_implicit_grab_seat;
-    struct SDL_WaylandSeat *current_data_offer_seat;
-    struct SDL_WaylandSeat *current_primary_selection_seat;
+    بنية wl_list seat_list;
+    بنية SDL_WaylandSeat *آخری_implicit_grab_seat;
+    بنية SDL_WaylandSeat *current_انکڑے_offer_seat;
+    بنية SDL_WaylandSeat *current_primary_selection_seat;
     Wayland_EventThreadContext *event_thread_context;
-    Wayland_JobThreadContext *job_thread_context;
+    Wayland_کم_Thread_Context *کم_thread_context;
 
-    SDL_DisplayData **output_list;
-    int output_count;
-    int output_max;
+    SDL_Display_انکڑے **output_list;
+    صحيح output_گنتی;
+    صحيح output_max;
 
     bool initializing;
     bool display_disconnected;
     bool display_externally_owned;
-    bool scale_to_display_enabled;
+    bool scale_منزل_display_enabled;
 };
 
-struct SDL_DisplayData
+بنية SDL_Display_انکڑے
 {
-    SDL_VideoData *videodata;
-    struct wl_output *output;
-    struct zxdg_output_v1 *xdg_output;
-    struct wp_color_management_output_v1 *wp_color_management_output;
-    struct Wayland_ColorInfoState *color_info_state;
-    char *wl_output_name;
-    double scale_factor;
-    int integer_scale_factor; // The integer scale factor set by wl_output.
+    SDL_Video_انکڑے *videodata;
+    بنية wl_output *output;
+    بنية zxdg_output_v1 *xdg_output;
+    بنية wp_color_management_output_v1 *wp_color_management_output;
+    بنية Wayland_ColorInfoState *color_info_state;
+    حرف *wl_output_name;
+    مزدوج scale_ضارب_2;
+    صحيح integer_scale_ضارب; // The integer scale factor set by wl_output.
     Uint32 registry_id;
 
-    struct
+    بنية
     {
-        int x;
-        int y;
-        int width;
-        int height;
+        صحيح x;
+        صحيح y;
+        صحيح چوڑائی;
+        صحيح اچائی;
     } logical;
 
-    struct
+    بنية
     {
-        int x;
-        int y;
-        int width;
-        int height;
+        صحيح x;
+        صحيح y;
+        صحيح چوڑائی;
+        صحيح اچائی;
     } pixel;
 
-    struct
+    بنية
     {
-        int width_mm;  // Physical width in millimeters.
-        int height_mm; // Physical height in millimeters.
+        صحيح چوڑائی_mm;  // Physical width in millimeters.
+        صحيح اچائی_mm; // Physical height in millimeters.
     } physical;
 
-    int refresh;   // Refresh in mHz
-    int transform; // wl_output_transform enum
+    صحيح refresh;   // Refresh in mHz
+    صحيح transform; // wl_output_transform enum
     SDL_DisplayOrientation orientation;
 
     SDL_HDROutputProperties HDR;
@@ -154,28 +154,28 @@ struct SDL_DisplayData
     SDL_DisplayID display;
     SDL_VideoDisplay placeholder;
 
-    int wl_output_done_count;
+    صحيح wl_output_پورا_گنتی;
     bool has_logical_position;
-    bool has_logical_size;
-    bool geometry_changed;
+    bool has_logical_ناپ;
+    bool geometry_بدلیا;
 };
 
 // Needed here to get wl_surface declaration, fixes GitHub#4594
-#include "SDL_waylanddyn.h"
+#ضمن "SDL_waylanddyn.h"
 
-extern void SDL_WAYLAND_register_surface(struct wl_surface *surface);
-extern void SDL_WAYLAND_register_output(struct wl_output *output);
-extern bool SDL_WAYLAND_own_surface(struct wl_surface *surface);
-extern bool SDL_WAYLAND_own_output(struct wl_output *output);
+خارجي فراغ SDL_WAYLAND_رجسٹر_surface(بنية wl_surface *surface);
+خارجي فراغ SDL_WAYLAND_رجسٹر_output(بنية wl_output *output);
+خارجي bool SDL_WAYLAND_own_surface(بنية wl_surface *surface);
+خارجي bool SDL_WAYLAND_own_output(بنية wl_output *output);
 
-extern SDL_WindowData *Wayland_GetWindowDataForOwnedSurface(struct wl_surface *surface);
-extern void Wayland_AddWindowDataToExternalList(SDL_WindowData *data);
-extern void Wayland_RemoveWindowDataFromExternalList(SDL_WindowData *data);
-extern struct wl_event_queue *Wayland_DisplayCreateQueue(struct wl_display *display, const char *name);
-extern void Wayland_CreateSession(SDL_VideoData *data);
+خارجي SDL_کھڑکی_انکڑے *Wayland_Get_کھڑکی_انکڑے_For_Owned_Surface(بنية wl_surface *surface);
+خارجي فراغ Wayland_جوڑو_کھڑکی_انکڑے_منزل_External_List(SDL_کھڑکی_انکڑے *انکڑے);
+خارجي فراغ Wayland_Remove_کھڑکی_انکڑے_From_External_List(SDL_کھڑکی_انکڑے *انکڑے);
+خارجي بنية wl_event_قطار *Wayland_Display_Create_قطار(بنية wl_display *display, ثابت حرف *name);
+خارجي فراغ Wayland_CreateSession(SDL_Video_انکڑے *انکڑے);
 
-extern bool Wayland_LoadLibdecor(SDL_VideoData *data, bool ignore_xdg);
+خارجي bool Wayland_لدو_Libdecor(SDL_Video_انکڑے *انکڑے, bool ignore_xdg);
 
-extern bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this);
+خارجي bool Wayland_HandleDisplayDisconnected(SDL_VideoDevice *_this);
 
-#endif // SDL_waylandvideo_h_
+#جے_انت // SDL_waylandvideo_h_

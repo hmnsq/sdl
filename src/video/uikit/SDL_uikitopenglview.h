@@ -19,44 +19,44 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#if defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#إذا defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
 
 #import <UIKit/UIKit.h>
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/ES3/gl.h>
 
 #import "SDL_uikitview.h"
-#include "SDL_uikitvideo.h"
+#ضمن "SDL_uikitvideo.h"
 
 @interface SDL_uikitopenglview : SDL_uikitview
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)init_With_چوکھٹا:(CGRect)چوکھٹا
                         scale:(CGFloat)scale
                 retainBacking:(BOOL)retained
-                        rBits:(int)rBits
-                        gBits:(int)gBits
-                        bBits:(int)bBits
-                        aBits:(int)aBits
-                    depthBits:(int)depthBits
-                  stencilBits:(int)stencilBits
-                         sRGB:(int)sRGB
-                 multisamples:(int)multisamples
+                        r_بٹ:(صحيح)r_بٹ
+                        g_بٹ:(صحيح)g_بٹ
+                        b_بٹ:(صحيح)b_بٹ
+                        a_بٹ:(صحيح)a_بٹ
+                    ڈونگھائی_بٹ:(صحيح)ڈونگھائی_بٹ
+                  stencil_بٹ:(صحيح)stencil_بٹ
+                         sRGB:(صحيح)sRGB
+                 multisamples:(صحيح)multisamples
                       context:(EAGLContext *)glcontext;
 
 @property(nonatomic, readonly, weak) EAGLContext *context;
 
 // The width and height of the drawable in pixels (as opposed to points.)
-@property(nonatomic, readonly) int backingWidth;
-@property(nonatomic, readonly) int backingHeight;
+@property(nonatomic, readonly) صحيح backing_چوڑائی;
+@property(nonatomic, readonly) صحيح backing_اچائی;
 
 @property(nonatomic, readonly) GLuint drawableRenderbuffer;
 @property(nonatomic, readonly) GLuint drawableFramebuffer;
 @property(nonatomic, readonly) GLuint msaaResolveFramebuffer;
 
-- (void)swapBuffers;
+- (فراغ)وٹاندرا_Buffers_2;
 
-- (void)updateFrame;
+- (فراغ)update_چوکھٹا;
 
-@end
+@سرا
 
-#endif // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#جے_انت // SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2

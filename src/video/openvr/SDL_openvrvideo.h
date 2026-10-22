@@ -1,105 +1,105 @@
-#ifndef _SDL_OPENVRVIDEO_H
-#define _SDL_OPENVRVIDEO_H
+#جے_بنا_تعریف _SDL_OPENVRVIDEO_H
+#تعریف_کرو _SDL_OPENVRVIDEO_H
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef EXTERN_C
-#undef EXTERN_C
-#endif
-#endif
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
+#جے_تعریف_شدہ EXTERN_C
+#تعریف_رد EXTERN_C
+#جے_انت
+#جے_انت
 
 // OpenVR has a LOT of unused variables that GCC will freak out on.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
+#جے_تعریف_شدہ __GNUC__
+#ہدایت GCC diagnostic ڈالو
+#ہدایت GCC diagnostic ignored "-Wunused-variable"
+#جے_انت
 
-#define USE_SDL
-#include "openvr_capi.h"
+#تعریف_کرو USE_SDL
+#ضمن "openvr_capi.h"
 
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+#جے_تعریف_شدہ __GNUC__
+#ہدایت GCC diagnostic نکالو
+#جے_انت
 
-#include <stdint.h>
+#ضمن <stdint.h>
 
-#ifndef SDL_VIDEO_DRIVER_WINDOWS
+#جے_بنا_تعریف SDL_VIDEO_DRIVER_WINDOWS
 
-#include <GLES3/gl3.h>
-#include <GLES3/gl32.h>
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#include <GLES2/gl2ext.h>
+#ضمن <GLES3/gl3.h>
+#ضمن <GLES3/gl32.h>
+#ضمن <EGL/egl.h>
+#ضمن <GLES2/gl2.h>
+#ضمن <GLES2/gl2ext.h>
+#ضمن <GLES2/gl2ext.h>
 
-#endif
+#جے_انت
 
 
-struct SDL_WindowData
+بنية SDL_کھڑکی_انکڑے
 {
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-    SDL_Window *window;
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
+    SDL_کھڑکی *کھڑکی;
     HWND hwnd;
-    HWND parent;
+    HWND ماپا;
     HDC hdc;
     HDC mdc;
-#else
-    int dummy;
-#endif
+#وإلا
+    صحيح dummy;
+#جے_انت
 };
 
-struct SDL_VideoData {
-    void * openVRLIB;
+بنية SDL_Video_انکڑے {
+    فراغ * openVRLIB;
     intptr_t vrtoken;
-    intptr_t (*FN_VR_InitInternal)( EVRInitError *peError, EVRApplicationType eType );
-    const char *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
-    intptr_t (*FN_VR_GetGenericInterface)( const char *pchInterfaceVersion, EVRInitError *peError );
+    intptr_t (*FN_VR_Init_اندرونی)( EVRInitError *peError, EVRApplicationType eType );
+    ثابت حرف *(*FN_VR_GetVRInitErrorAsEnglishDescription)( EVRInitError error );
+    intptr_t (*FN_VR_GetGenericInterface)( ثابت حرف *pch_Interface_نسخہ, EVRInitError *peError );
 
-    int is_buffer_rendering;
+    صحيح is_بفر_rendering;
 
-    unsigned int overlaytexture;
+    بنانشانی صحيح overlaytexture;
 
-    unsigned int fbo, rbo;
+    بنانشانی صحيح fbo, rbo;
 
-    int saved_texture_state;
+    صحيح saved_texture_state;
 
-    struct VR_IVRSystem_FnTable *oSystem;
-    struct VR_IVROverlay_FnTable *oOverlay;
-	struct VR_IVRInput_FnTable * oInput;
+    بنية VR_IVRSystem_Fn_جدول *oSystem;
+    بنية VR_IVROverlay_Fn_جدول *oOverlay;
+	بنية VR_IVRInput_Fn_جدول * o_داخلہ;
 	VROverlayHandle_t overlayID, thumbID, cursorID;
 	
-	char * sOverlayName;
+	حرف * sOverlayName;
 
-	VRActionSetHandle_t input_action_set;
-	VRActionHandle_t * input_action_handles_buttons;
-	int input_action_handles_buttons_count;
-	VRActionHandle_t * input_action_handles_axes;
-	int input_action_handles_axes_count;
-	VRActionHandle_t input_action_handles_haptics[2];
+	VRAction_سیٹ_Handle_t داخلہ_action_سیٹ;
+	VRActionHandle_t * داخلہ_action_handles_buttons;
+	صحيح داخلہ_action_handles_buttons_گنتی;
+	VRActionHandle_t * داخلہ_action_handles_axes;
+	صحيح داخلہ_action_handles_axes_گنتی;
+	VRActionHandle_t داخلہ_action_handles_haptics[2];
 
     bool bHasShownOverlay;
-    int targw, targh;
-    int last_targw, last_targh;
-    int swap_interval;
+    صحيح targw, targh;
+    صحيح آخری_targw, آخری_targh;
+    صحيح وٹاندرا_interval;
 
     bool bDidCreateOverlay;
-	bool renderdoc_debugmarker_frame_end;
+	bool renderdoc_debugmarker_چوکھٹا_سرا;
 	bool bIconOverridden;
 	
-	SDL_Window * window;
+	SDL_کھڑکی * کھڑکی;
 	
 	SDL_Joystick *virtual_joystick;
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_WINDOWS
     HDC hdc;
     HGLRC hglrc;
-#else
+#وإلا
     EGLDisplay eglDpy;
     EGLContext eglCtx;
-#endif
+#جے_انت
 };
 
-struct SDL_DisplayData
+بنية SDL_Display_انکڑے
 {
-    int dummy;
+    صحيح dummy;
 };
 
-#endif
+#جے_انت

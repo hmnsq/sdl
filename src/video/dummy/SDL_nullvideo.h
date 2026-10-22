@@ -18,11 +18,11 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_nullvideo_h_
-#define SDL_nullvideo_h_
+#جے_بنا_تعریف SDL_nullvideo_h_
+#تعریف_کرو SDL_nullvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
-#endif // SDL_nullvideo_h_
+#جے_انت // SDL_nullvideo_h_

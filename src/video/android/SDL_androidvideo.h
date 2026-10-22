@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_androidvideo_h_
-#define SDL_androidvideo_h_
+#جے_بنا_تعریف SDL_androidvideo_h_
+#تعریف_کرو SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#ضمن "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+خارجي فراغ Android_سیٹ_Screen_Resolution(صحيح surface_چوڑائی, صحيح surface_اچائی, صحيح device_چوڑائی, صحيح device_اچائی, عائم density, عائم شرح);
+خارجي فراغ Android_سیٹ_Screen_HDRHeadroom(عائم headroom);
+خارجي فراغ Android_سیٹ_Format(صحيح format_wanted, صحيح format_got);
+خارجي فراغ Android_سیٹ_Orientation(SDL_DisplayOrientation orientation);
+خارجي فراغ Android_SendResize(SDL_کھڑکی *کھڑکی);
+خارجي فراغ Android_سیٹ_کھڑکی_محفوظ_Area_Insets(صحيح بایاں, صحيح دایاں, صحيح چوٹی, صحيح bottom);
+خارجي فراغ Android_سیٹ_Dark_منوال(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+بنية SDL_Video_انکڑے
 {
-    int isPaused;
-    int isPausing;
+    صحيح isPaused;
+    صحيح isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+خارجي صحيح Android_Surface_چوڑائی;
+خارجي صحيح Android_Surface_اچائی;
+خارجي عائم Android_ScreenDensity;
+خارجي صحيح Android_محفوظ_Inset_بایاں;
+خارجي صحيح Android_محفوظ_Inset_دایاں;
+خارجي صحيح Android_محفوظ_Inset_چوٹی;
+خارجي صحيح Android_محفوظ_Inset_Bottom;
 
-#endif // SDL_androidvideo_h_
+#جے_انت // SDL_androidvideo_h_

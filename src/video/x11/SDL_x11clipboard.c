@@ -18,18 +18,18 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#جے_تعریف_شدہ SDL_VIDEO_DRIVER_X11
 
-#include <limits.h> // For INT_MAX
+#ضمن <limits.h> // For INT_MAX
 
-#include "SDL_x11video.h"
-#include "SDL_x11clipboard.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
+#ضمن "SDL_x11video.h"
+#ضمن "SDL_x11clipboard.h"
+#ضمن "../SDL_clipboard_c.h"
+#ضمن "../../events/SDL_events_c.h"
 
-static const char *const text_mime_types[] = {
+ساكن ثابت حرف *ثابت متن_mime_types[] = {
     "UTF8_STRING",
     "text/plain;charset=utf-8",
     "text/plain",
@@ -38,298 +38,298 @@ static const char *const text_mime_types[] = {
 };
 
 // Get any application owned window handle for clipboard association
-Window GetWindow(SDL_VideoDevice *_this)
+کھڑکی_2 Get_کھڑکی(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
 
     /* We create an unmapped window that exists just to manage the clipboard,
        since X11 selection data is tied to a specific window and dies with it.
        We create the window on demand, so apps that don't use the clipboard
        don't have to keep an unnecessary resource around. */
-    if (data->clipboard_window == None) {
-        Display *dpy = data->display;
-        Window parent = RootWindow(dpy, DefaultScreen(dpy));
-        XSetWindowAttributes xattr;
-        data->clipboard_window = X11_XCreateWindow(dpy, parent, -10, -10, 1, 1, 0,
-                                                   CopyFromParent, InputOnly,
-                                                   NULL, 0, &xattr);
+    إذا (انکڑے->clipboard_کھڑکی == None) {
+        Display *dpy = انکڑے->display;
+        کھڑکی_2 ماپا = جڑ_کھڑکی(dpy, DefaultScreen(dpy));
+        XSet_کھڑکی_گن xattr;
+        انکڑے->clipboard_کھڑکی = X11_XCreate_کھڑکی(dpy, ماپا, -10, -10, 1, 1, 0,
+                                                   Copy_From_ماپا, داخلہ_Only,
+                                                   عدم, 0, &xattr);
 
-        X11_XSelectInput(dpy, data->clipboard_window, PropertyChangeMask);
-        X11_XFlush(data->display);
+        X11_XSelect_داخلہ(dpy, انکڑے->clipboard_کھڑکی, Property_Change_نقاب);
+        X11_XFlush(انکڑے->display);
     }
 
-    return data->clipboard_window;
+    أرجع انکڑے->clipboard_کھڑکی;
 }
 
-static bool SetSelectionData(SDL_VideoDevice *_this, Atom selection, SDL_ClipboardDataCallback callback,
-                            void *userdata, const char *const *mime_types, size_t mime_count, Uint32 sequence)
+ساكن bool سیٹ_Selection_انکڑے(SDL_VideoDevice *_this, Atom selection, SDL_Clipboard_انکڑے_Callback callback,
+                            فراغ *userdata, ثابت حرف *ثابت *mime_types, size_t mime_گنتی, Uint32 sequence)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
     Display *display = videodata->display;
-    Window window;
-    SDLX11_ClipboardData *clipboard;
+    کھڑکی_2 کھڑکی;
+    SDLX11_Clipboard_انکڑے *clipboard;
     bool clipboard_owner = false;
 
-    window = GetWindow(_this);
-    if (window == None) {
-        return SDL_SetError("Couldn't find a window to own the selection");
+    کھڑکی = Get_کھڑکی(_this);
+    إذا (کھڑکی == None) {
+        أرجع SDL_سیٹ_Error("Couldn't find a window to own the selection");
     }
 
-    if (selection == XA_PRIMARY) {
+    إذا (selection == XA_PRIMARY) {
         clipboard = &videodata->primary_selection;
-    } else {
+    } وإلا {
         clipboard = &videodata->clipboard;
     }
 
-    clipboard_owner = X11_XGetSelectionOwner(display, selection) == window;
+    clipboard_owner = X11_XGetSelectionOwner(display, selection) == کھڑکی;
 
     // If we are canceling our own data we need to clean it up
-    if (clipboard_owner && clipboard->sequence == 0) {
+    إذا (clipboard_owner && clipboard->sequence == 0) {
         SDL_free(clipboard->userdata);
     }
 
     clipboard->callback = callback;
     clipboard->userdata = userdata;
     clipboard->mime_types = mime_types;
-    clipboard->mime_count = mime_count;
+    clipboard->mime_گنتی = mime_گنتی;
     clipboard->sequence = sequence;
 
-    X11_XSetSelectionOwner(display, selection, window, CurrentTime);
-    return true;
+    X11_XSetSelectionOwner(display, selection, کھڑکی, Current_ویلا);
+    أرجع true;
 }
 
-static void *CloneDataBuffer(const void *buffer, const size_t len)
+ساكن فراغ *Clone_انکڑے_بفر(ثابت فراغ *بفر_2, ثابت size_t len)
 {
-    void *clone = NULL;
-    if (len > 0 && buffer) {
-        clone = SDL_malloc(len + sizeof(Uint32));
-        if (clone) {
-            SDL_memcpy(clone, buffer, len);
-            SDL_memset((Uint8 *)clone + len, 0, sizeof(Uint32));
+    فراغ *clone = عدم;
+    إذا (len > 0 && بفر_2) {
+        clone = SDL_malloc(len + حجم(Uint32));
+        إذا (clone) {
+            SDL_memcpy(clone, بفر_2, len);
+            SDL_memset((Uint8 *)clone + len, 0, حجم(Uint32));
         }
     }
-    return clone;
+    أرجع clone;
 }
 
 /*
  * original_buffer is considered unusable after the function is called.
  */
-static void *AppendDataBuffer(void *original_buffer, const size_t old_len, const void *buffer, const size_t buffer_len)
+ساكن فراغ *Append_انکڑے_بفر(فراغ *original_بفر, ثابت size_t old_len, ثابت فراغ *بفر_2, ثابت size_t بفر_len)
 {
-    void *resized_buffer;
+    فراغ *resized_بفر;
 
-    if (buffer_len > 0 && buffer) {
-        resized_buffer = SDL_realloc(original_buffer, old_len + buffer_len + sizeof(Uint32));
-        if (resized_buffer) {
-            SDL_memcpy((Uint8 *)resized_buffer + old_len, buffer, buffer_len);
-            SDL_memset((Uint8 *)resized_buffer + old_len + buffer_len, 0, sizeof(Uint32));
+    إذا (بفر_len > 0 && بفر_2) {
+        resized_بفر = SDL_realloc(original_بفر, old_len + بفر_len + حجم(Uint32));
+        إذا (resized_بفر) {
+            SDL_memcpy((Uint8 *)resized_بفر + old_len, بفر_2, بفر_len);
+            SDL_memset((Uint8 *)resized_بفر + old_len + بفر_len, 0, حجم(Uint32));
         }
 
-        return resized_buffer;
-    } else {
-        return original_buffer;
+        أرجع resized_بفر;
+    } وإلا {
+        أرجع original_بفر;
     }
 }
 
-static bool WaitForSelection(SDL_VideoDevice *_this, Atom selection_type, bool *flag)
+ساكن bool WaitForSelection(SDL_VideoDevice *_this, Atom selection_type, bool *flag)
 {
-    Uint64 waitStart;
+    Uint64 wait_شروع;
     Uint64 waitElapsed;
 
-    waitStart = SDL_GetTicks();
+    wait_شروع = SDL_GetTicks();
     *flag = true;
-    while (*flag) {
+    طالما (*flag) {
         X11_PumpEvents(_this);
-        waitElapsed = SDL_GetTicks() - waitStart;
+        waitElapsed = SDL_GetTicks() - wait_شروع;
         // Wait one second for a selection response.
-        if (waitElapsed > 1000) {
+        إذا (waitElapsed > 1000) {
             *flag = false;
-            SDL_SetError("Selection timeout");
+            SDL_سیٹ_Error("Selection timeout");
             /* We need to set the selection text so that next time we won't
                timeout, otherwise we will hang on every call to this function. */
-            SetSelectionData(_this, selection_type, SDL_ClipboardTextCallback, NULL,
-                             text_mime_types, SDL_arraysize(text_mime_types), 0);
-            return false;
+            سیٹ_Selection_انکڑے(_this, selection_type, SDL_Clipboard_متن_Callback, عدم,
+                             متن_mime_types, SDL_arraysize(متن_mime_types), 0);
+            أرجع false;
         }
     }
 
-    return true;
+    أرجع true;
 }
 
-static void *GetSelectionData(SDL_VideoDevice *_this, Atom selection_type,
-                              const char *mime_type, size_t *length)
+ساكن فراغ *Get_Selection_انکڑے(SDL_VideoDevice *_this, Atom selection_type,
+                              ثابت حرف *mime_type, size_t *لمائی)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
     Display *display = videodata->display;
-    Window window;
-    Window owner;
+    کھڑکی_2 کھڑکی;
+    کھڑکی_2 owner;
     Atom selection;
     Atom seln_type;
-    int seln_format;
-    unsigned long count;
-    unsigned long overflow;
+    صحيح seln_format;
+    بنانشانی لما گنتی;
+    بنانشانی لما حد_توں_ودھ;
 
-    SDLX11_ClipboardData *clipboard;
-    void *data = NULL;
-    unsigned char *src = NULL;
+    SDLX11_Clipboard_انکڑے *clipboard;
+    فراغ *انکڑے = عدم;
+    بنانشانی حرف *src = عدم;
     bool incr_success = false;
     Atom XA_MIME = X11_XInternAtom(display, mime_type, False);
 
-    *length = 0;
+    *لمائی = 0;
 
     // Get the window that holds the selection
-    window = GetWindow(_this);
+    کھڑکی = Get_کھڑکی(_this);
     owner = X11_XGetSelectionOwner(display, selection_type);
-    if (owner == None) {
+    إذا (owner == None) {
         // This requires a fallback to ancient X10 cut-buffers. We will just skip those for now
-        data = NULL;
-    } else if (owner == window) {
-        owner = DefaultRootWindow(display);
-        if (selection_type == XA_PRIMARY) {
+        انکڑے = عدم;
+    } وإلا إذا (owner == کھڑکی) {
+        owner = Default_جڑ_کھڑکی(display);
+        إذا (selection_type == XA_PRIMARY) {
             clipboard = &videodata->primary_selection;
-        } else {
+        } وإلا {
             clipboard = &videodata->clipboard;
         }
 
-        if (clipboard->callback) {
-            const void *clipboard_data = clipboard->callback(clipboard->userdata, mime_type, length);
-            data = CloneDataBuffer(clipboard_data, *length);
+        إذا (clipboard->callback) {
+            ثابت فراغ *clipboard_انکڑے = clipboard->callback(clipboard->userdata, mime_type, لمائی);
+            انکڑے = Clone_انکڑے_بفر(clipboard_انکڑے, *لمائی);
         }
-    } else {
+    } وإلا {
         // Request that the selection owner copy the data to our window
-        owner = window;
+        owner = کھڑکی;
         selection = videodata->atoms.SDL_SELECTION;
         X11_XConvertSelection(display, selection_type, XA_MIME, selection, owner,
-                              CurrentTime);
+                              Current_ویلا);
 
-        if (WaitForSelection(_this, selection_type, &videodata->selection_waiting) == false) {
-            data = NULL;
-            *length = 0;
+        إذا (WaitForSelection(_this, selection_type, &videodata->selection_اڈیک) == false) {
+            انکڑے = عدم;
+            *لمائی = 0;
         }
 
-        if (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
-                                   XA_MIME, &seln_type, &seln_format, &count, &overflow, &src) == Success) {
-            if (seln_type == XA_MIME) {
-                *length = (size_t)count;
-                data = CloneDataBuffer(src, count);
-            } else if (seln_type == videodata->atoms.INCR) {
-                while (1) {
+        إذا (X11_XGet_کھڑکی_Property(display, owner, selection, 0, ودھ_توں_ودھ_عدد / 4, False,
+                                   XA_MIME, &seln_type, &seln_format, &گنتی, &حد_توں_ودھ, &src) == Success) {
+            إذا (seln_type == XA_MIME) {
+                *لمائی = (size_t)گنتی;
+                انکڑے = Clone_انکڑے_بفر(src, گنتی);
+            } وإلا إذا (seln_type == videodata->atoms.INCR) {
+                طالما (1) {
                     // Only delete the property after being done with the previous "chunk".
                     X11_XDeleteProperty(display, owner, selection);
                     X11_XFlush(display);
 
-                    if (WaitForSelection(_this, selection_type, &videodata->selection_incr_waiting) == false) {
-                        break;
+                    إذا (WaitForSelection(_this, selection_type, &videodata->selection_incr_اڈیک) == false) {
+                        اكسر;
                     }
 
                     X11_XFree(src);
-                    if (X11_XGetWindowProperty(display, owner, selection, 0, INT_MAX / 4, False,
-                                           XA_MIME, &seln_type, &seln_format, &count, &overflow, &src) != Success) {
-                        break;
+                    إذا (X11_XGet_کھڑکی_Property(display, owner, selection, 0, ودھ_توں_ودھ_عدد / 4, False,
+                                           XA_MIME, &seln_type, &seln_format, &گنتی, &حد_توں_ودھ, &src) != Success) {
+                        اكسر;
                     }
 
-                    if (count == 0) {
+                    إذا (گنتی == 0) {
                         incr_success = true;
-                        break;
+                        اكسر;
                     }
 
-                    if (*length == 0) {
-                        *length = (size_t)count;
-                        data = CloneDataBuffer(src, count);
-                    } else {
-                        data = AppendDataBuffer(data, *length, src, count);
-                        *length += (size_t)count;
+                    إذا (*لمائی == 0) {
+                        *لمائی = (size_t)گنتی;
+                        انکڑے = Clone_انکڑے_بفر(src, گنتی);
+                    } وإلا {
+                        انکڑے = Append_انکڑے_بفر(انکڑے, *لمائی, src, گنتی);
+                        *لمائی += (size_t)گنتی;
                     }
 
-                    if (data == NULL) {
-                        break;
+                    إذا (انکڑے == عدم) {
+                        اكسر;
                     }
                 }
 
-                if (incr_success == false) {
-                    SDL_free(data);
-                    data = NULL;
-                    *length = 0;
+                إذا (incr_success == false) {
+                    SDL_free(انکڑے);
+                    انکڑے = عدم;
+                    *لمائی = 0;
                 }
             }
             X11_XFree(src);
         }
     }
-    return data;
+    أرجع انکڑے;
 }
 
-const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+ثابت حرف *ثابت *X11_Get_متن_Mime_Types(SDL_VideoDevice *_this, size_t *عدد_mime_types)
 {
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    *عدد_mime_types = SDL_arraysize(متن_mime_types);
+    أرجع متن_mime_types;
 }
 
-bool X11_SetClipboardData(SDL_VideoDevice *_this)
+bool X11_سیٹ_Clipboard_انکڑے(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = _this->internal;
-    return SetSelectionData(_this, videodata->atoms.CLIPBOARD, _this->clipboard_callback, _this->clipboard_userdata, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types, _this->clipboard_sequence);
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
+    أرجع سیٹ_Selection_انکڑے(_this, videodata->atoms.CLIPBOARD, _this->clipboard_callback, _this->clipboard_userdata, (ثابت حرف **)_this->clipboard_mime_types, _this->عدد_clipboard_mime_types, _this->clipboard_sequence);
 }
 
-void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length)
+فراغ *X11_Get_Clipboard_انکڑے(SDL_VideoDevice *_this, ثابت حرف *mime_type, size_t *لمائی)
 {
-    SDL_VideoData *videodata = _this->internal;
+    SDL_Video_انکڑے *videodata = _this->اندرونی;
 
-    *length = 0;
+    *لمائی = 0;
 
-    if (!SDL_HasInternalClipboardData(_this, mime_type)) {
+    إذا (!SDL_Has_اندرونی_Clipboard_انکڑے(_this, mime_type)) {
         // This mime type wasn't advertised by the last selection owner.
         // The atom might still have data, but it's stale, so ignore it.
-        return NULL;
+        أرجع عدم;
     }
-    return GetSelectionData(_this, videodata->atoms.CLIPBOARD, mime_type, length);
+    أرجع Get_Selection_انکڑے(_this, videodata->atoms.CLIPBOARD, mime_type, لمائی);
 }
 
-bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool X11_Has_Clipboard_انکڑے(SDL_VideoDevice *_this, ثابت حرف *mime_type)
 {
-    size_t length;
-    void *data;
-    data = X11_GetClipboardData(_this, mime_type, &length);
-    SDL_free(data);
-    return length > 0;
+    size_t لمائی;
+    فراغ *انکڑے;
+    انکڑے = X11_Get_Clipboard_انکڑے(_this, mime_type, &لمائی);
+    SDL_free(انکڑے);
+    أرجع لمائی > 0;
 }
 
-bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text)
+bool X11_سیٹ_Primary_Selection_متن(SDL_VideoDevice *_this, ثابت حرف *متن)
 {
-    return SetSelectionData(_this, XA_PRIMARY, SDL_ClipboardTextCallback, SDL_strdup(text), text_mime_types, SDL_arraysize(text_mime_types), 0);
+    أرجع سیٹ_Selection_انکڑے(_this, XA_PRIMARY, SDL_Clipboard_متن_Callback, SDL_strdup(متن), متن_mime_types, SDL_arraysize(متن_mime_types), 0);
 }
 
-char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this)
+حرف *X11_Get_Primary_Selection_متن(SDL_VideoDevice *_this)
 {
-    size_t length;
-    char *text = GetSelectionData(_this, XA_PRIMARY, text_mime_types[0], &length);
-    if (!text) {
-        text = SDL_strdup("");
+    size_t لمائی;
+    حرف *متن = Get_Selection_انکڑے(_this, XA_PRIMARY, متن_mime_types[0], &لمائی);
+    إذا (!متن) {
+        متن = SDL_strdup("");
     }
-    return text;
+    أرجع متن;
 }
 
-bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this)
+bool X11_Has_Primary_Selection_متن(SDL_VideoDevice *_this)
 {
-    bool result = false;
-    char *text = X11_GetPrimarySelectionText(_this);
-    if (text) {
-        if (text[0] != '\0') {
-            result = true;
+    bool نتیجہ = false;
+    حرف *متن = X11_Get_Primary_Selection_متن(_this);
+    إذا (متن) {
+        إذا (متن[0] != '\0') {
+            نتیجہ = true;
         }
-        SDL_free(text);
+        SDL_free(متن);
     }
-    return result;
+    أرجع نتیجہ;
 }
 
-void X11_QuitClipboard(SDL_VideoDevice *_this)
+فراغ X11_QuitClipboard(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
-    if (data->primary_selection.sequence == 0) {
-        SDL_free(data->primary_selection.userdata);
+    SDL_Video_انکڑے *انکڑے = _this->اندرونی;
+    إذا (انکڑے->primary_selection.sequence == 0) {
+        SDL_free(انکڑے->primary_selection.userdata);
     }
-    if (data->clipboard.sequence == 0) {
-        SDL_free(data->clipboard.userdata);
+    إذا (انکڑے->clipboard.sequence == 0) {
+        SDL_free(انکڑے->clipboard.userdata);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#جے_انت // SDL_VIDEO_DRIVER_X11

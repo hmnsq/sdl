@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#ضمن "SDL_internal.h"
 
-#ifndef SDL_openharmonywindow_h_
-#define SDL_openharmonywindow_h_
+#جے_بنا_تعریف SDL_openharmonywindow_h_
+#تعریف_کرو SDL_openharmonywindow_h_
 
-#include "../../core/openharmony/SDL_openharmony.h"
-#include "../SDL_egl_c.h"
+#ضمن "../../core/openharmony/SDL_openharmony.h"
+#ضمن "../SDL_egl_c.h"
 
-extern bool OPENHARMONY_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OPENHARMONY_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult OPENHARMONY_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void OPENHARMONY_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OPENHARMONY_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+خارجي bool OPENHARMONY_Create_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_PropertiesID create_props);
+خارجي فراغ OPENHARMONY_سیٹ_کھڑکی_Title(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي SDL_Fullscreen_نتیجہ OPENHARMONY_سیٹ_کھڑکی_Fullscreen(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+خارجي فراغ OPENHARMONY_Minimize_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي فراغ OPENHARMONY_سیٹ_کھڑکی_Resizable(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی, bool resizable);
 
-extern void OPENHARMONY_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *OPENHARMONY_Window;
+خارجي فراغ OPENHARMONY_Destroy_کھڑکی(SDL_VideoDevice *_this, SDL_کھڑکی *کھڑکی);
+خارجي SDL_کھڑکی *OPENHARMONY_کھڑکی;
 
-struct SDL_WindowData
+بنية SDL_کھڑکی_انکڑے
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#جے_تعریف_شدہ SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
-#endif
-    bool backup_done;
-    void *native_xcomponent;
-    void *native_window;
+    صحيح has_وٹاندرا_interval;  // Save/Restore the swap interval / vsync
+    صحيح وٹاندرا_interval;
+#جے_انت
+    bool backup_پورا;
+    فراغ *native_xcomponent;
+    فراغ *native_کھڑکی;
 };
 
-#endif // SDL_openharmonywindow_h_
+#جے_انت // SDL_openharmonywindow_h_

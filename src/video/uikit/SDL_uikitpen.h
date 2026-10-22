@@ -19,21 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_uikitpen_h_
-#define SDL_uikitpen_h_
+#جے_بنا_تعریف SDL_uikitpen_h_
+#تعریف_کرو SDL_uikitpen_h_
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitwindow.h"
+#ضمن "SDL_uikitvideo.h"
+#ضمن "SDL_uikitwindow.h"
 
-extern bool UIKit_InitPen(SDL_VideoDevice *_this);
-extern void UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
-extern void UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
+خارجي bool UIKit_InitPen(SDL_VideoDevice *_this);
+خارجي فراغ UIKit_HandlePenMotion(SDL_uikitview *view, UITouch *pencil);
+خارجي فراغ UIKit_HandlePenPress(SDL_uikitview *view, UITouch *pencil);
+خارجي فراغ UIKit_HandlePenRelease(SDL_uikitview *view, UITouch *pencil);
 
-#if !defined(SDL_PLATFORM_TVOS)
-extern void UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_AVAILABLE(ios(13.0));
-#endif
+#إذا !defined(SDL_PLATFORM_TVOS)
+خارجي فراغ UIKit_HandlePenHover(SDL_uikitview *view, UIHoverGestureRecognizer *recognizer) API_دستیاب(ios(13.0));
+#جے_انت
 
-extern void UIKit_QuitPen(SDL_VideoDevice *_this);
+خارجي فراغ UIKit_QuitPen(SDL_VideoDevice *_this);
 
-#endif // SDL_uikitpen_h_
+#جے_انت // SDL_uikitpen_h_
