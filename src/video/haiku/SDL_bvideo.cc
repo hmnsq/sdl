@@ -19,42 +19,42 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../../core/haiku/SDL_BApp.h"
+#अन्तर्भाव "SDL_internal.h"
+#अन्तर्भाव "../../core/haiku/SDL_BApp.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_HAIKU
 
-#include "SDL_BWin.h"
-#include <Url.h>
+#अन्तर्भाव "SDL_BWin.h"
+#अन्तर्भाव <Url.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+बाह्य "C" {
+#यदि_अन्तः
 
-#include "SDL_bkeyboard.h"
-#include "SDL_bwindow.h"
-#include "SDL_bclipboard.h"
-#include "SDL_bvideo.h"
-#include "SDL_bopengl.h"
-#include "SDL_bmodes.h"
-#include "SDL_bframebuffer.h"
-#include "SDL_bevents.h"
-#include "SDL_bmessagebox.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "SDL_bkeyboard.h"
+#अन्तर्भाव "SDL_bwindow.h"
+#अन्तर्भाव "SDL_bclipboard.h"
+#अन्तर्भाव "SDL_bvideo.h"
+#अन्तर्भाव "SDL_bopengl.h"
+#अन्तर्भाव "SDL_bmodes.h"
+#अन्तर्भाव "SDL_bframebuffer.h"
+#अन्तर्भाव "SDL_bevents.h"
+#अन्तर्भाव "SDL_bmessagebox.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window) {
-    return (SDL_BWin *)(window->internal);
+स्थिर SDL_INLINE SDL_BWin *गन्तव्यम्_Be_Win(SDL_गवाक्षः *गवाक्षः) {
+    प्रत्यागम (SDL_BWin *)(गवाक्षः->आन्तरिकम्);
 }
 
-static SDL_VideoDevice * HAIKU_CreateDevice(void)
+स्थिर SDL_VideoDevice * HAIKU_CreateDevice(शून्य)
 {
     SDL_VideoDevice *device;
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *) SDL_calloc(1, sizeof(SDL_VideoDevice));
+    device = (SDL_VideoDevice *) SDL_calloc(1, परिमाण(SDL_VideoDevice));
 
-    device->internal = NULL; /* FIXME: Is this the cause of some of the
+    device->आन्तरिकम् = रिक्त; /* FIXME: Is this the cause of some of the
                                   SDL_Quit() errors? */
 
 // TODO: Figure out if any initialization needs to go here
@@ -64,100 +64,100 @@ static SDL_VideoDevice * HAIKU_CreateDevice(void)
     device->VideoQuit = HAIKU_VideoQuit;
     device->GetDisplayBounds = HAIKU_GetDisplayBounds;
     device->GetDisplayModes = HAIKU_GetDisplayModes;
-    device->SetDisplayMode = HAIKU_SetDisplayMode;
+    device->समुच्चयः_Display_बहुलकम् = HAIKU_समुच्चयः_Display_बहुलकम्;
     device->PumpEvents = HAIKU_PumpEvents;
 
-    device->CreateSDLWindow = HAIKU_CreateWindow;
-    device->SetWindowTitle = HAIKU_SetWindowTitle;
-    device->SetWindowPosition = HAIKU_SetWindowPosition;
-    device->SetWindowSize = HAIKU_SetWindowSize;
-    device->ShowWindow = HAIKU_ShowWindow;
-    device->HideWindow = HAIKU_HideWindow;
-    device->RaiseWindow = HAIKU_RaiseWindow;
-    device->MaximizeWindow = HAIKU_MaximizeWindow;
-    device->MinimizeWindow = HAIKU_MinimizeWindow;
-    device->RestoreWindow = HAIKU_RestoreWindow;
-    device->SetWindowBordered = HAIKU_SetWindowBordered;
-    device->SetWindowResizable = HAIKU_SetWindowResizable;
-    device->SetWindowFullscreen = HAIKU_SetWindowFullscreen;
-    device->SetWindowMouseGrab = HAIKU_SetWindowMouseGrab;
-    device->SetWindowMinimumSize = HAIKU_SetWindowMinimumSize;
-    device->SetWindowParent = HAIKU_SetWindowParent;
-    device->SetWindowModal = HAIKU_SetWindowModal;
-    device->DestroyWindow = HAIKU_DestroyWindow;
-    device->CreateWindowFramebuffer = HAIKU_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = HAIKU_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = HAIKU_DestroyWindowFramebuffer;
+    device->CreateSDLWindow = HAIKU_Create_गवाक्षः;
+    device->समुच्चयः_गवाक्षः_Title = HAIKU_समुच्चयः_गवाक्षः_Title;
+    device->समुच्चयः_गवाक्षः_Position = HAIKU_समुच्चयः_गवाक्षः_Position;
+    device->समुच्चयः_गवाक्षः_आकार = HAIKU_समुच्चयः_गवाक्षः_आकार;
+    device->Show_गवाक्षः = HAIKU_Show_गवाक्षः;
+    device->Hide_गवाक्षः = HAIKU_Hide_गवाक्षः;
+    device->Raise_गवाक्षः = HAIKU_Raise_गवाक्षः;
+    device->Maximize_गवाक्षः = HAIKU_Maximize_गवाक्षः;
+    device->Minimize_गवाक्षः = HAIKU_Minimize_गवाक्षः;
+    device->Restore_गवाक्षः = HAIKU_Restore_गवाक्षः;
+    device->समुच्चयः_गवाक्षः_Bordered = HAIKU_समुच्चयः_गवाक्षः_Bordered;
+    device->समुच्चयः_गवाक्षः_Resizable = HAIKU_समुच्चयः_गवाक्षः_Resizable;
+    device->समुच्चयः_गवाक्षः_Fullscreen = HAIKU_समुच्चयः_गवाक्षः_Fullscreen;
+    device->समुच्चयः_गवाक्षः_Mouse_Grab = HAIKU_समुच्चयः_गवाक्षः_Mouse_Grab;
+    device->समुच्चयः_गवाक्षः_Minimum_आकार = HAIKU_समुच्चयः_गवाक्षः_Minimum_आकार;
+    device->समुच्चयः_गवाक्षः_Parent = HAIKU_समुच्चयः_गवाक्षः_Parent;
+    device->समुच्चयः_गवाक्षः_Modal = HAIKU_समुच्चयः_गवाक्षः_Modal;
+    device->Destroy_गवाक्षः = HAIKU_Destroy_गवाक्षः;
+    device->Create_गवाक्षः_Framebuffer = HAIKU_Create_गवाक्षः_Framebuffer;
+    device->Update_गवाक्षः_Framebuffer = HAIKU_Update_गवाक्षः_Framebuffer;
+    device->Destroy_गवाक्षः_Framebuffer = HAIKU_Destroy_गवाक्षः_Framebuffer;
 
-#ifdef SDL_VIDEO_OPENGL
-    device->GL_LoadLibrary = HAIKU_GL_LoadLibrary;
-    device->GL_GetProcAddress = HAIKU_GL_GetProcAddress;
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+    device->GL_आरोपय_Library = HAIKU_GL_आरोपय_Library;
+    device->GL_Get_Proc_स्थानाङ्कः = HAIKU_GL_Get_Proc_स्थानाङ्कः;
     device->GL_UnloadLibrary = HAIKU_GL_UnloadLibrary;
     device->GL_CreateContext = HAIKU_GL_CreateContext;
     device->GL_MakeCurrent = HAIKU_GL_MakeCurrent;
-    device->GL_SetSwapInterval = HAIKU_GL_SetSwapInterval;
+    device->GL_समुच्चयः_Swap_Interval = HAIKU_GL_समुच्चयः_Swap_Interval;
     device->GL_GetSwapInterval = HAIKU_GL_GetSwapInterval;
-    device->GL_SwapWindow = HAIKU_GL_SwapWindow;
+    device->GL_Swap_गवाक्षः = HAIKU_GL_Swap_गवाक्षः;
     device->GL_DestroyContext = HAIKU_GL_DestroyContext;
-#endif
+#यदि_अन्तः
 
-    device->SetClipboardText = HAIKU_SetClipboardText;
+    device->समुच्चयः_Clipboard_Text = HAIKU_समुच्चयः_Clipboard_Text;
     device->GetClipboardText = HAIKU_GetClipboardText;
     device->HasClipboardText = HAIKU_HasClipboardText;
 
-    device->free = HAIKU_DeleteDevice;
+    device->मुक्त = HAIKU_DeleteDevice;
 
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    प्रत्यागम device;
 }
 
 VideoBootStrap HAIKU_bootstrap = {
     "haiku", "Haiku graphics",
     HAIKU_CreateDevice,
-    HAIKU_ShowMessageBox,
-    false
+    HAIKU_Show_सन्देशः_Box,
+    असत्य
 };
 
-void HAIKU_DeleteDevice(SDL_VideoDevice * device)
+शून्य HAIKU_DeleteDevice(SDL_VideoDevice * device)
 {
-    SDL_free(device->internal);
+    SDL_free(device->आन्तरिकम्);
     SDL_free(device);
 }
 
-struct SDL_CursorData
+संरचना SDL_Cursor_दत्त
 {
     BCursor *cursor;
 };
 
-static SDL_Cursor *HAIKU_CreateCursorAndData(BCursor *bcursor)
+स्थिर SDL_Cursor *HAIKU_Create_Cursor_And_दत्त(BCursor *bcursor)
 {
-    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
-        SDL_CursorData *data = (SDL_CursorData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+    SDL_Cursor *cursor = (SDL_Cursor *)SDL_calloc(1, परिमाण(*cursor));
+    यदि (cursor) {
+        SDL_Cursor_दत्त *दत्त = (SDL_Cursor_दत्त *)SDL_calloc(1, परिमाण(*दत्त));
+        यदि (!दत्त) {
             SDL_free(cursor);
-            return NULL;
+            प्रत्यागम रिक्त;
         }
-        data->cursor = bcursor;
-        cursor->internal = data;
+        दत्त->cursor = bcursor;
+        cursor->आन्तरिकम् = दत्त;
     }
-    return cursor;
+    प्रत्यागम cursor;
 }
 
-static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
+स्थिर SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
 {
     BCursorID cursorId = B_CURSOR_ID_SYSTEM_DEFAULT;
 
-    switch(id)
+    विकल्प(id)
     {
-        #define CURSORCASE(sdlname, bname) case SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; break
+        #परिभाषय CURSORCASE(sdlname, bname) पक्ष SDL_SYSTEM_CURSOR_##sdlname: cursorId = B_CURSOR_ID_##bname; भङ्ग
         CURSORCASE(DEFAULT, SYSTEM_DEFAULT);
         CURSORCASE(TEXT, I_BEAM);
-        CURSORCASE(WAIT, PROGRESS);
+        CURSORCASE(WAIT, प्रगतिः);
         CURSORCASE(CROSSHAIR, CROSS_HAIR);
-        CURSORCASE(PROGRESS, PROGRESS);
+        CURSORCASE(प्रगतिः, प्रगतिः);
         CURSORCASE(NWSE_RESIZE, RESIZE_NORTH_WEST_SOUTH_EAST);
         CURSORCASE(NESW_RESIZE, RESIZE_NORTH_EAST_SOUTH_WEST);
         CURSORCASE(EW_RESIZE, RESIZE_EAST_WEST);
@@ -185,115 +185,115 @@ static SDL_Cursor * HAIKU_CreateSystemCursor(SDL_SystemCursor id)
         CURSORCASE(COL_RESIZE, RESIZE_EAST_WEST);
         CURSORCASE(ROW_RESIZE, RESIZE_NORTH_SOUTH);
         CURSORCASE(ALL_SCROLL, MOVE);
-        CURSORCASE(ZOOM_IN, ZOOM_IN);
-        CURSORCASE(ZOOM_OUT, ZOOM_OUT);
-        #undef CURSORCASE
-        default:
+        CURSORCASE(ZOOM_अन्तर्, ZOOM_अन्तर्);
+        CURSORCASE(ZOOM_बहिर्गमनम्, ZOOM_बहिर्गमनम्);
+        #अपरिभाषय CURSORCASE
+        स्वभाव:
             SDL_assert(0);
-            return NULL;
+            प्रत्यागम रिक्त;
     }
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorId));
+    प्रत्यागम HAIKU_Create_Cursor_And_दत्त(नूतन BCursor(cursorId));
 }
 
-static SDL_Cursor * HAIKU_CreateDefaultCursor()
+स्थिर SDL_Cursor * HAIKU_CreateDefaultCursor()
 {
     SDL_SystemCursor id = SDL_GetDefaultSystemCursor();
-    return HAIKU_CreateSystemCursor(id);
+    प्रत्यागम HAIKU_CreateSystemCursor(id);
 }
 
-static void HAIKU_FreeCursor(SDL_Cursor * cursor)
+स्थिर शून्य HAIKU_FreeCursor(SDL_Cursor * cursor)
 {
-    SDL_CursorData *data = cursor->internal;
+    SDL_Cursor_दत्त *दत्त = cursor->आन्तरिकम्;
 
-    if (data) {
-        delete data->cursor;
+    यदि (दत्त) {
+        विलोपय दत्त->cursor;
     }
-    SDL_free(data);
+    SDL_free(दत्त);
     SDL_free(cursor);
 }
 
-static SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, int hot_x, int hot_y)
+स्थिर SDL_Cursor * HAIKU_CreateCursor(SDL_Surface * surface, पूर्णाङ्क hot_x, पूर्णाङ्क hot_y)
 {
     SDL_Surface *converted;
 
     converted = SDL_ConvertSurface(surface, SDL_PIXELFORMAT_ARGB8888);
-    if (!converted) {
-        return NULL;
+    यदि (!converted) {
+        प्रत्यागम रिक्त;
     }
 
-	BBitmap *cursorBitmap = new BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
-	cursorBitmap->SetBits(converted->pixels, converted->h * converted->pitch, 0, B_RGBA32);
+	BBitmap *cursorBitmap = नूतन BBitmap(BRect(0, 0, surface->w - 1, surface->h - 1), B_RGBA32);
+	cursorBitmap->समुच्चयः_द्वयङ्काः(converted->pixels, converted->h * converted->pitch, 0, B_RGBA32);
     SDL_DestroySurface(converted);
 
-    return HAIKU_CreateCursorAndData(new BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
+    प्रत्यागम HAIKU_Create_Cursor_And_दत्त(नूतन BCursor(cursorBitmap, BPoint(hot_x, hot_y)));
 }
 
-static bool HAIKU_ShowCursor(SDL_Cursor *cursor)
+स्थिर तार्किक HAIKU_ShowCursor(SDL_Cursor *cursor)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
 
-	if (!mouse) {
-		return true;
+	यदि (!mouse) {
+		प्रत्यागम सत्य;
 	}
 
-	if (cursor) {
-		BCursor *hCursor = cursor->internal->cursor;
-		be_app->SetCursor(hCursor);
-	} else {
-		BCursor *hCursor = new BCursor(B_CURSOR_ID_NO_CURSOR);
-		be_app->SetCursor(hCursor);
-		delete hCursor;
+	यदि (cursor) {
+		BCursor *hCursor = cursor->आन्तरिकम्->cursor;
+		be_app->समुच्चयः_Cursor(hCursor);
+	} अन्यथा {
+		BCursor *hCursor = नूतन BCursor(B_CURSOR_ID_NO_CURSOR);
+		be_app->समुच्चयः_Cursor(hCursor);
+		विलोपय hCursor;
 	}
 
-	return true;
+	प्रत्यागम सत्य;
 }
 
-static bool HAIKU_SetRelativeMouseMode(bool enabled)
+स्थिर तार्किक HAIKU_समुच्चयः_Relative_Mouse_बहुलकम्(तार्किक enabled)
 {
-    SDL_Window *window = SDL_GetMouseFocus();
-    if (!window) {
-      return true;
+    SDL_गवाक्षः *गवाक्षः = SDL_GetMouseFocus();
+    यदि (!गवाक्षः) {
+      प्रत्यागम सत्य;
     }
 
-	SDL_BWin *bewin = _ToBeWin(window);
+	SDL_BWin *bewin = गन्तव्यम्_Be_Win(गवाक्षः);
 	BView *_SDL_View = bewin->GetGLView();
-	if (!_SDL_View) {
+	यदि (!_SDL_View) {
 		_SDL_View = bewin->GetView();
-		if (!_SDL_View)
-			return false;
+		यदि (!_SDL_View)
+			प्रत्यागम असत्य;
 	}
 
-	bewin->Lock();
-	if (enabled)
-		_SDL_View->SetEventMask(B_POINTER_EVENTS, B_NO_POINTER_HISTORY);
-	else
-		_SDL_View->SetEventMask(0, 0);
+	bewin->तालकम्();
+	यदि (enabled)
+		_SDL_View->समुच्चयः_Event_आवरणम्(B_POINTER_EVENTS, B_NO_POINTER_HISTORY);
+	अन्यथा
+		_SDL_View->समुच्चयः_Event_आवरणम्(0, 0);
 	bewin->Unlock();
 
-    return true;
+    प्रत्यागम सत्य;
 }
 
-static void HAIKU_MouseInit(SDL_VideoDevice *_this)
+स्थिर शून्य HAIKU_MouseInit(SDL_VideoDevice *_this)
 {
 	SDL_Mouse *mouse = SDL_GetMouse();
-	if (!mouse) {
-		return;
+	यदि (!mouse) {
+		प्रत्यागम;
 	}
 	mouse->CreateCursor = HAIKU_CreateCursor;
 	mouse->CreateSystemCursor = HAIKU_CreateSystemCursor;
 	mouse->ShowCursor = HAIKU_ShowCursor;
 	mouse->FreeCursor = HAIKU_FreeCursor;
-	mouse->SetRelativeMouseMode = HAIKU_SetRelativeMouseMode;
+	mouse->समुच्चयः_Relative_Mouse_बहुलकम् = HAIKU_समुच्चयः_Relative_Mouse_बहुलकम्;
 
-	SDL_SetDefaultCursor(HAIKU_CreateDefaultCursor());
+	SDL_समुच्चयः_Default_Cursor(HAIKU_CreateDefaultCursor());
 }
 
-bool HAIKU_VideoInit(SDL_VideoDevice *_this)
+तार्किक HAIKU_VideoInit(SDL_VideoDevice *_this)
 {
     // Initialize the Be Application for appserver interaction
-    if (!SDL_InitBeApp()) {
-        return false;
+    यदि (!SDL_InitBeApp()) {
+        प्रत्यागम असत्य;
     }
 
     // Initialize video modes
@@ -305,20 +305,20 @@ bool HAIKU_VideoInit(SDL_VideoDevice *_this)
     HAIKU_MouseInit(_this);
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_सङ्कलय_Keyboard(SDL_DEFAULT_KEYBOARD_ID, रिक्त);
+    SDL_सङ्कलय_Mouse(SDL_DEFAULT_MOUSE_ID, रिक्त);
 
-#ifdef SDL_VIDEO_OPENGL
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
         // testgl application doesn't load library, just tries to load symbols
         // is it correct? if so we have to load library here
-    HAIKU_GL_LoadLibrary(_this, NULL);
-#endif
+    HAIKU_GL_आरोपय_Library(_this, रिक्त);
+#यदि_अन्तः
 
     // We're done!
-    return true;
+    प्रत्यागम सत्य;
 }
 
-void HAIKU_VideoQuit(SDL_VideoDevice *_this)
+शून्य HAIKU_VideoQuit(SDL_VideoDevice *_this)
 {
 
     HAIKU_QuitModes(_this);
@@ -327,23 +327,23 @@ void HAIKU_VideoQuit(SDL_VideoDevice *_this)
 }
 
 // just sticking this function in here so it's in a C++ source file.
-extern "C"
-bool HAIKU_OpenURL(const char *url)
+बाह्य "C"
+तार्किक HAIKU_OpenURL(ध्रुव वर्ण *url)
 {
-#if B_HAIKU_VERSION <= B_HAIKU_VERSION_1_BETA_5
+#यदि B_HAIKU_संस्करणम् <= B_HAIKU_संस्करणम्_1_BETA_5
     BUrl burl(url);
-#else
-    BUrl burl(url, true);
-#endif
-    const status_t rc = burl.OpenWithPreferredApplication(false);
-    if (rc != B_NO_ERROR) {
-        return SDL_SetError("URL open failed (err=%d)", (int)rc);
+#अन्यथा
+    BUrl burl(url, सत्य);
+#यदि_अन्तः
+    ध्रुव स्थितिः_t rc = burl.OpenWithPreferredApplication(असत्य);
+    यदि (rc != B_NO_ERROR) {
+        प्रत्यागम SDL_समुच्चयः_Error("URL open failed (err=%d)", (पूर्णाङ्क)rc);
     }
-    return true;
+    प्रत्यागम सत्य;
 }
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 }
-#endif
+#यदि_अन्तः
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#यदि_अन्तः // SDL_VIDEO_DRIVER_HAIKU

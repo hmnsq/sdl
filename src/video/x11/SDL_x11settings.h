@@ -19,27 +19,27 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_x11settings_h_
-#define SDL_x11settings_h_
+#यदि_अपरिभाषितम् SDL_x11settings_h_
+#परिभाषय SDL_x11settings_h_
 
-#include <X11/Xlib.h>
-#include "xsettings-client.h"
+#अन्तर्भाव <X11/Xlib.h>
+#अन्तर्भाव "xsettings-client.h"
 
-#define SDL_XSETTINGS_GDK_WINDOW_SCALING_FACTOR "Gdk/WindowScalingFactor"
-#define SDL_XSETTINGS_GDK_UNSCALED_DPI "Gdk/UnscaledDPI"
-#define SDL_XSETTINGS_XFT_DPI "Xft/DPI"
+#परिभाषय SDL_XSETTINGS_GDK_गवाक्षः_SCALING_गुणकः "Gdk/WindowScalingFactor"
+#परिभाषय SDL_XSETTINGS_GDK_UNSCALED_DPI "Gdk/UnscaledDPI"
+#परिभाषय SDL_XSETTINGS_XFT_DPI "Xft/DPI"
 
-typedef struct X11_SettingsData {
+प्रकारनिर्देश संरचना X11_Settings_दत्त {
     XSettingsClient *xsettings;
-} SDLX11_SettingsData;
+} SDLX11_Settings_दत्त;
 
-extern void X11_InitXsettings(SDL_VideoDevice *_this);
-extern void X11_QuitXsettings(SDL_VideoDevice *_this);
-extern void X11_HandleXsettingsEvent(SDL_VideoDevice *_this, const XEvent *xevent);
-extern int X11_GetXsettingsIntKey(SDL_VideoDevice *_this, const char *key, int fallback_value);
+बाह्य शून्य X11_InitXsettings(SDL_VideoDevice *_this);
+बाह्य शून्य X11_QuitXsettings(SDL_VideoDevice *_this);
+बाह्य शून्य X11_HandleXsettingsEvent(SDL_VideoDevice *_this, ध्रुव XEvent *xevent);
+बाह्य पूर्णाङ्क X11_Get_Xsettings_Int_कुञ्चिका(SDL_VideoDevice *_this, ध्रुव वर्ण *कुञ्चिका, पूर्णाङ्क fallback_मानम्);
 
-extern int X11_GetXsettingsClientIntKey(XSettingsClient *client, const char *key, int fallback_value);
+बाह्य पूर्णाङ्क X11_Get_Xsettings_Client_Int_कुञ्चिका(XSettingsClient *client, ध्रुव वर्ण *कुञ्चिका, पूर्णाङ्क fallback_मानम्);
 
-#endif // SDL_x11settings_h_
+#यदि_अन्तः // SDL_x11settings_h_

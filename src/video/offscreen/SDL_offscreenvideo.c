@@ -18,9 +18,9 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_OFFSCREEN
 
 /* Offscreen video driver is similar to dummy driver, however its purpose
  * is enabling applications to use some of the SDL video functionality
@@ -30,123 +30,123 @@
  * for automated testing.
  */
 
-#include "SDL_offscreenvideo.h"
-#include "SDL_offscreenevents_c.h"
-#include "SDL_offscreenframebuffer_c.h"
-#include "SDL_offscreenopengles.h"
-#include "SDL_offscreenvulkan.h"
-#include "SDL_offscreenwindow.h"
+#अन्तर्भाव "SDL_offscreenvideo.h"
+#अन्तर्भाव "SDL_offscreenevents_c.h"
+#अन्तर्भाव "SDL_offscreenframebuffer_c.h"
+#अन्तर्भाव "SDL_offscreenopengles.h"
+#अन्तर्भाव "SDL_offscreenvulkan.h"
+#अन्तर्भाव "SDL_offscreenwindow.h"
 
-#define OFFSCREENVID_DRIVER_NAME "offscreen"
+#परिभाषय OFFSCREENVID_DRIVER_NAME "offscreen"
 
 // Initialization/Query functions
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode);
-static void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
+स्थिर bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this);
+स्थिर bool OFFSCREEN_समुच्चयः_Display_बहुलकम्(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_बहुलकम् *बहुलकम्);
+स्थिर शून्य OFFSCREEN_VideoQuit(SDL_VideoDevice *_this);
 
 // OFFSCREEN driver bootstrap functions
 
-static void OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
+स्थिर शून्य OFFSCREEN_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
 
-static bool OFFSCREEN_Available(const char *drivername)
+स्थिर bool OFFSCREEN_उपलब्धम्(ध्रुव वर्ण *drivername)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-    if (hint && SDL_strstr(hint, drivername) != NULL) {
-        return true;
+    ध्रुव वर्ण *hint = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+    यदि (hint && SDL_strstr(hint, drivername) != रिक्त) {
+        प्रत्यागम true;
     }
-    return false;
+    प्रत्यागम false;
 }
 
-static SDL_VideoDevice *OFFSCREEN_CreateDevice(void)
+स्थिर SDL_VideoDevice *OFFSCREEN_CreateDevice(शून्य)
 {
     SDL_VideoDevice *device;
 
-    if (!OFFSCREEN_Available(OFFSCREENVID_DRIVER_NAME)) {
-        return NULL;
+    यदि (!OFFSCREEN_उपलब्धम्(OFFSCREENVID_DRIVER_NAME)) {
+        प्रत्यागम रिक्त;
     }
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, परिमाण(SDL_VideoDevice));
+    यदि (!device) {
+        प्रत्यागम रिक्त;
     }
 
     // General video
     device->VideoInit = OFFSCREEN_VideoInit;
     device->VideoQuit = OFFSCREEN_VideoQuit;
-    device->SetDisplayMode = OFFSCREEN_SetDisplayMode;
+    device->समुच्चयः_Display_बहुलकम् = OFFSCREEN_समुच्चयः_Display_बहुलकम्;
     device->PumpEvents = OFFSCREEN_PumpEvents;
-    device->CreateWindowFramebuffer = SDL_OFFSCREEN_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = SDL_OFFSCREEN_UpdateWindowFramebuffer;
-    device->DestroyWindowFramebuffer = SDL_OFFSCREEN_DestroyWindowFramebuffer;
-    device->free = OFFSCREEN_DeleteDevice;
+    device->Create_गवाक्षः_Framebuffer = SDL_OFFSCREEN_Create_गवाक्षः_Framebuffer;
+    device->Update_गवाक्षः_Framebuffer = SDL_OFFSCREEN_Update_गवाक्षः_Framebuffer;
+    device->Destroy_गवाक्षः_Framebuffer = SDL_OFFSCREEN_Destroy_गवाक्षः_Framebuffer;
+    device->मुक्त = OFFSCREEN_DeleteDevice;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
     // GL context
-    device->GL_SwapWindow = OFFSCREEN_GLES_SwapWindow;
+    device->GL_Swap_गवाक्षः = OFFSCREEN_GLES_Swap_गवाक्षः;
     device->GL_MakeCurrent = OFFSCREEN_GLES_MakeCurrent;
     device->GL_CreateContext = OFFSCREEN_GLES_CreateContext;
     device->GL_DestroyContext = OFFSCREEN_GLES_DestroyContext;
-    device->GL_LoadLibrary = OFFSCREEN_GLES_LoadLibrary;
+    device->GL_आरोपय_Library = OFFSCREEN_GLES_आरोपय_Library;
     device->GL_UnloadLibrary = OFFSCREEN_GLES_UnloadLibrary;
-    device->GL_GetProcAddress = OFFSCREEN_GLES_GetProcAddress;
+    device->GL_Get_Proc_स्थानाङ्कः = OFFSCREEN_GLES_Get_Proc_स्थानाङ्कः;
     device->GL_GetSwapInterval = OFFSCREEN_GLES_GetSwapInterval;
-    device->GL_SetSwapInterval = OFFSCREEN_GLES_SetSwapInterval;
-#endif
+    device->GL_समुच्चयः_Swap_Interval = OFFSCREEN_GLES_समुच्चयः_Swap_Interval;
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_VULKAN
-    device->Vulkan_LoadLibrary = OFFSCREEN_Vulkan_LoadLibrary;
+#यदि_परिभाषितम् SDL_VIDEO_VULKAN
+    device->Vulkan_आरोपय_Library = OFFSCREEN_Vulkan_आरोपय_Library;
     device->Vulkan_UnloadLibrary = OFFSCREEN_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = OFFSCREEN_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = OFFSCREEN_Vulkan_CreateSurface;
     device->Vulkan_DestroySurface = OFFSCREEN_Vulkan_DestroySurface;
-#endif
+#यदि_अन्तः
 
     // "Window"
-    device->CreateSDLWindow = OFFSCREEN_CreateWindow;
-    device->DestroyWindow = OFFSCREEN_DestroyWindow;
-    device->SetWindowSize = OFFSCREEN_SetWindowSize;
+    device->CreateSDLWindow = OFFSCREEN_Create_गवाक्षः;
+    device->Destroy_गवाक्षः = OFFSCREEN_Destroy_गवाक्षः;
+    device->समुच्चयः_गवाक्षः_आकार = OFFSCREEN_समुच्चयः_गवाक्षः_आकार;
 
     // TODO: Is this needed?
     device->device_caps = VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER;
 
-    return device;
+    प्रत्यागम device;
 }
 
 VideoBootStrap OFFSCREEN_bootstrap = {
     OFFSCREENVID_DRIVER_NAME, "SDL offscreen video driver",
     OFFSCREEN_CreateDevice,
-    NULL, // no ShowMessageBox implementation
+    रिक्त, // no ShowMessageBox implementation
     false
 };
 
-static bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
+स्थिर bool OFFSCREEN_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_DisplayMode mode;
+    SDL_Display_बहुलकम् बहुलकम्;
 
     // Use a fake 32-bpp desktop mode
-    SDL_zero(mode);
-    mode.format = SDL_PIXELFORMAT_XRGB8888;
-    mode.w = 1024;
-    mode.h = 768;
-    if (SDL_AddBasicVideoDisplay(&mode) == 0) {
-        return false;
+    SDL_zero(बहुलकम्);
+    बहुलकम्.format = SDL_PIXELFORMAT_XRGB8888;
+    बहुलकम्.w = 1024;
+    बहुलकम्.h = 768;
+    यदि (SDL_सङ्कलय_Basic_Video_Display(&बहुलकम्) == 0) {
+        प्रत्यागम false;
     }
 
     // We're done!
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OFFSCREEN_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+स्थिर bool OFFSCREEN_समुच्चयः_Display_बहुलकम्(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_बहुलकम् *बहुलकम्)
 {
-    return true;
+    प्रत्यागम true;
 }
 
-void OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
+शून्य OFFSCREEN_VideoQuit(SDL_VideoDevice *_this)
 {
 }
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#यदि_अन्तः // SDL_VIDEO_DRIVER_OFFSCREEN

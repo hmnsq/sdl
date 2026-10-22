@@ -18,35 +18,35 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_x11vulkan_h_
-#define SDL_x11vulkan_h_
+#यदि_अपरिभाषितम् SDL_x11vulkan_h_
+#परिभाषय SDL_x11vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#अन्तर्भाव <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
+#यदि defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_X11)
 
-typedef struct xcb_connection_t xcb_connection_t;
-typedef xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
+प्रकारनिर्देश संरचना xcb_connection_t xcb_connection_t;
+प्रकारनिर्देश xcb_connection_t *(*PFN_XGetXCBConnection)(Display *dpy);
 
-extern bool X11_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                             SDL_Window *window,
+बाह्य bool X11_Vulkan_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य शून्य X11_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य वर्ण ध्रुव * ध्रुव *X11_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गणनम्);
+बाह्य bool X11_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                             SDL_गवाक्षः *गवाक्षः,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य शून्य X11_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
-extern bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
+                               ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator);
+बाह्य bool X11_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex);
+                                           Uint32 queue_Family_सूचकांक);
 
-#endif
+#यदि_अन्तः
 
-#endif // SDL_x11vulkan_h_
+#यदि_अन्तः // SDL_x11vulkan_h_

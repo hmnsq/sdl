@@ -19,19 +19,19 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_N3DS
 
-#include <3ds.h>
+#अन्तर्भाव <3ds.h>
 
-#include "../../events/SDL_touch_c.h"
-#include "../SDL_sysvideo.h"
-#include "SDL_n3dstouch.h"
-#include "SDL_n3dsvideo.h"
+#अन्तर्भाव "../../events/SDL_touch_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "SDL_n3dstouch.h"
+#अन्तर्भाव "SDL_n3dsvideo.h"
 
-#define N3DS_TOUCH_ID 1
-#define N3DS_TOUCH_FINGER 1
+#परिभाषय N3DS_TOUCH_ID 1
+#परिभाषय N3DS_TOUCH_FINGER 1
 
 /*
   Factors used to convert touchscreen coordinates to
@@ -39,48 +39,48 @@
   internally in a portrait disposition so the
   GSP_SCREEN constants are flipped.
 */
-#define TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_HEIGHT_BOTTOM - 1)
-#define TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_WIDTH - 1)
+#परिभाषय TOUCHSCREEN_SCALE_X 1.0f / (GSP_SCREEN_HEIGHT_BOTTOM - 1)
+#परिभाषय TOUCHSCREEN_SCALE_Y 1.0f / (GSP_SCREEN_विस्तारः - 1)
 
-void N3DS_InitTouch(void)
+शून्य N3DS_InitTouch(शून्य)
 {
-    SDL_AddTouch(N3DS_TOUCH_ID, SDL_TOUCH_DEVICE_DIRECT, "Touchscreen");
+    SDL_सङ्कलय_Touch(N3DS_TOUCH_ID, SDL_TOUCH_DEVICE_प्रत्यक्षम्, "Touchscreen");
 }
 
-void N3DS_QuitTouch(void)
+शून्य N3DS_QuitTouch(शून्य)
 {
     SDL_DelTouch(N3DS_TOUCH_ID);
 }
 
-void N3DS_PollTouch(SDL_VideoDevice *_this)
+शून्य N3DS_PollTouch(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *internal = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *आन्तरिकम् = (SDL_Video_दत्त *)_this->आन्तरिकम्;
     touchPosition touch;
-    SDL_Window *window;
+    SDL_गवाक्षः *गवाक्षः;
     SDL_VideoDisplay *display;
-    static bool was_pressed = false;
+    स्थिर bool was_pressed = false;
     bool pressed;
     hidTouchRead(&touch);
     pressed = (touch.px != 0 || touch.py != 0);
 
-    display = SDL_GetVideoDisplay(internal->touch_display);
-    window = display ? display->fullscreen_window : NULL;
+    display = SDL_GetVideoDisplay(आन्तरिकम्->touch_display);
+    गवाक्षः = display ? display->fullscreen_गवाक्षः : रिक्त;
 
-    if (pressed != was_pressed) {
+    यदि (pressed != was_pressed) {
         was_pressed = pressed;
         SDL_SendTouch(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
-                      window,
-                      pressed ? SDL_EVENT_FINGER_DOWN : SDL_EVENT_FINGER_UP,
+                      गवाक्षः,
+                      pressed ? SDL_EVENT_FINGER_अधस्तात् : SDL_EVENT_FINGER_ऊर्ध्वम्,
                       touch.px * TOUCHSCREEN_SCALE_X,
                       touch.py * TOUCHSCREEN_SCALE_Y,
                       pressed ? 1.0f : 0.0f);
-    } else if (pressed) {
+    } अन्यथा यदि (pressed) {
         SDL_SendTouchMotion(0, N3DS_TOUCH_ID, N3DS_TOUCH_FINGER,
-                            window,
+                            गवाक्षः,
                             touch.px * TOUCHSCREEN_SCALE_X,
                             touch.py * TOUCHSCREEN_SCALE_Y,
                             1.0f);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_N3DS

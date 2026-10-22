@@ -1,16 +1,16 @@
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_HAVE_YUV
+#यदि_परिभाषितम् SDL_HAVE_YUV
 
-#include "yuv_rgb_internal.h"
+#अन्तर्भाव "yuv_rgb_internal.h"
 
 // divide by PRECISION_FACTOR and clamp to [0:255] interval
 // input must be in the [-128*PRECISION_FACTOR:384*PRECISION_FACTOR] range
-static uint8_t clampU8(int32_t v)
+स्थिर uint8_t clampU8(int32_t v)
 {
-    static const uint8_t lut[512] =
+    स्थिर ध्रुव uint8_t lut[512] =
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
              0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,
@@ -25,178 +25,178 @@ static uint8_t clampU8(int32_t v)
              255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,
              255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255
             };
-    return lut[((v+128*PRECISION_FACTOR)>>PRECISION)&511];
+    प्रत्यागम lut[((v+128*PRECISION_गुणकः)>>PRECISION)&511];
 }
 
-static uint16_t clamp10(int32_t v)
+स्थिर uint16_t clamp10(int32_t v)
 {
     v >>= PRECISION;
-    if (v < 0) {
-        return 0;
-    } else if (v > 1023) {
-        return 1023;
-    } else {
-        return (uint16_t)v;
+    यदि (v < 0) {
+        प्रत्यागम 0;
+    } अन्यथा यदि (v > 1023) {
+        प्रत्यागम 1023;
+    } अन्यथा {
+        प्रत्यागम (uint16_t)v;
     }
 }
 
-static uint16_t clamp16(int32_t v)
+स्थिर uint16_t clamp16(int32_t v)
 {
     v >>= PRECISION;
-    if (v < 0) {
-        return 0;
-    } else if (v > 0xffff) {
-        return 0xffff;
-    } else {
-        return (uint16_t)v;
+    यदि (v < 0) {
+        प्रत्यागम 0;
+    } अन्यथा यदि (v > 0xffff) {
+        प्रत्यागम 0xffff;
+    } अन्यथा {
+        प्रत्यागम (uint16_t)v;
     }
 }
 
-#define YUV_BITS    8
+#परिभाषय YUV_द्वयङ्काः    8
 
-#define STD_FUNCTION_NAME	yuv420_rgb565_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGB565
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv420_rgb565_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_420
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB565
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv420_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv420_rgb24_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_420
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB24
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv420_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv420_rgba_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_420
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGBA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv420_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv420_bgra_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_420
+#परिभाषय RGB_FORMAT			RGB_FORMAT_BGRA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv420_argb_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv420_argb_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_420
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ARGB
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv420_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv420_abgr_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_420
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ABGR
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv422_rgb565_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_RGB565
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv422_rgb565_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_422
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB565
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv422_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv422_rgb24_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_422
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB24
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv422_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv422_rgba_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_422
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGBA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv422_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv422_bgra_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_422
+#परिभाषय RGB_FORMAT			RGB_FORMAT_BGRA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv422_argb_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv422_argb_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_422
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ARGB
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv422_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_422
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv422_abgr_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_422
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ABGR
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv444_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_444
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv444_rgba_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_444
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGBA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv444_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_444
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv444_bgra_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_444
+#परिभाषय RGB_FORMAT			RGB_FORMAT_BGRA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv444_argb_std
-#define YUV_FORMAT			YUV_FORMAT_444
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv444_argb_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_444
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ARGB
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuv444_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_444
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuv444_abgr_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_444
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ABGR
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuvnv12_rgb565_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_RGB565
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvnv12_rgb565_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_NV12
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB565
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuvnv12_rgb24_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_RGB24
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvnv12_rgb24_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_NV12
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB24
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuvnv12_rgba_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_RGBA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvnv12_rgba_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_NV12
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGBA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuvnv12_bgra_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_BGRA
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvnv12_bgra_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_NV12
+#परिभाषय RGB_FORMAT			RGB_FORMAT_BGRA
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuvnv12_argb_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_ARGB
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvnv12_argb_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_NV12
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ARGB
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuvnv12_abgr_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_ABGR
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvnv12_abgr_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_NV12
+#परिभाषय RGB_FORMAT			RGB_FORMAT_ABGR
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#undef YUV_BITS
-#define YUV_BITS    10
+#अपरिभाषय YUV_द्वयङ्काः
+#परिभाषय YUV_द्वयङ्काः    10
 
-#define STD_FUNCTION_NAME	yuvp010_xbgr2101010_std
-#define YUV_FORMAT			YUV_FORMAT_NV12
-#define RGB_FORMAT			RGB_FORMAT_XBGR2101010
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvp010_xbgr2101010_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_NV12
+#परिभाषय RGB_FORMAT			RGB_FORMAT_XBGR2101010
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#undef YUV_BITS
-#define YUV_BITS    16
+#अपरिभाषय YUV_द्वयङ्काः
+#परिभाषय YUV_द्वयङ्काः    16
 
-#define STD_FUNCTION_NAME	yuvi0fl_rgb48_std
-#define YUV_FORMAT			YUV_FORMAT_420
-#define RGB_FORMAT			RGB_FORMAT_RGB48
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvi0fl_rgb48_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_420
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB48
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-#define STD_FUNCTION_NAME	yuvi4fl_rgb48_std
-#define YUV_FORMAT			YUV_FORMAT_444
-#define RGB_FORMAT			RGB_FORMAT_RGB48
-#include "yuv_rgb_std_func.h"
+#परिभाषय STD_FUNCTION_NAME	yuvi4fl_rgb48_std
+#परिभाषय YUV_FORMAT			YUV_FORMAT_444
+#परिभाषय RGB_FORMAT			RGB_FORMAT_RGB48
+#अन्तर्भाव "yuv_rgb_std_func.h"
 
-void rgb24_yuv420_std(
-        uint32_t width, uint32_t height,
-        const uint8_t *RGB, uint32_t RGB_stride,
+शून्य rgb24_yuv420_std(
+        uint32_t विस्तारः, uint32_t height,
+        ध्रुव uint8_t *RGB, uint32_t RGB_stride,
         uint8_t *Y, uint8_t *U, uint8_t *V, uint32_t Y_stride, uint32_t UV_stride,
         YCbCrType yuv_type)
 {
-    const RGB2YUVParam *const param = &(RGB2YUV[yuv_type]);
+    ध्रुव RGB2YUVParam *ध्रुव param = &(RGB2YUV[yuv_type]);
 
     uint32_t x, y;
-    for(y=0; y<(height-1); y+=2)
+    प्रति(y=0; y<(height-1); y+=2)
     {
-        const uint8_t *rgb_ptr1=RGB+y*RGB_stride,
+        ध्रुव uint8_t *rgb_ptr1=RGB+y*RGB_stride,
                 *rgb_ptr2=RGB+(y+1)*RGB_stride;
 
         uint8_t *y_ptr1=Y+y*Y_stride,
@@ -204,7 +204,7 @@ void rgb24_yuv420_std(
                 *u_ptr=U+(y/2)*UV_stride,
                 *v_ptr=V+(y/2)*UV_stride;
 
-        for(x=0; x<(width-1); x+=2)
+        प्रति(x=0; x<(विस्तारः-1); x+=2)
         {
             // compute yuv for the four pixels, u and v values are summed
             int32_t y_tmp, u_tmp, v_tmp;
@@ -212,22 +212,22 @@ void rgb24_yuv420_std(
             y_tmp = param->matrix[0][0]*rgb_ptr1[0] + param->matrix[0][1]*rgb_ptr1[1] + param->matrix[0][2]*rgb_ptr1[2];
             u_tmp = param->matrix[1][0]*rgb_ptr1[0] + param->matrix[1][1]*rgb_ptr1[1] + param->matrix[1][2]*rgb_ptr1[2];
             v_tmp = param->matrix[2][0]*rgb_ptr1[0] + param->matrix[2][1]*rgb_ptr1[1] + param->matrix[2][2]*rgb_ptr1[2];
-            y_ptr1[0]=clampU8(y_tmp+((param->y_shift)<<PRECISION));
+            y_ptr1[0]=clampU8(y_tmp+((param->y_सरणम्)<<PRECISION));
 
             y_tmp = param->matrix[0][0]*rgb_ptr1[3] + param->matrix[0][1]*rgb_ptr1[4] + param->matrix[0][2]*rgb_ptr1[5];
             u_tmp += param->matrix[1][0]*rgb_ptr1[3] + param->matrix[1][1]*rgb_ptr1[4] + param->matrix[1][2]*rgb_ptr1[5];
             v_tmp += param->matrix[2][0]*rgb_ptr1[3] + param->matrix[2][1]*rgb_ptr1[4] + param->matrix[2][2]*rgb_ptr1[5];
-            y_ptr1[1]=clampU8(y_tmp+((param->y_shift)<<PRECISION));
+            y_ptr1[1]=clampU8(y_tmp+((param->y_सरणम्)<<PRECISION));
 
             y_tmp = param->matrix[0][0]*rgb_ptr2[0] + param->matrix[0][1]*rgb_ptr2[1] + param->matrix[0][2]*rgb_ptr2[2];
             u_tmp += param->matrix[1][0]*rgb_ptr2[0] + param->matrix[1][1]*rgb_ptr2[1] + param->matrix[1][2]*rgb_ptr2[2];
             v_tmp += param->matrix[2][0]*rgb_ptr2[0] + param->matrix[2][1]*rgb_ptr2[1] + param->matrix[2][2]*rgb_ptr2[2];
-            y_ptr2[0]=clampU8(y_tmp+((param->y_shift)<<PRECISION));
+            y_ptr2[0]=clampU8(y_tmp+((param->y_सरणम्)<<PRECISION));
 
             y_tmp = param->matrix[0][0]*rgb_ptr2[3] + param->matrix[0][1]*rgb_ptr2[4] + param->matrix[0][2]*rgb_ptr2[5];
             u_tmp += param->matrix[1][0]*rgb_ptr2[3] + param->matrix[1][1]*rgb_ptr2[4] + param->matrix[1][2]*rgb_ptr2[5];
             v_tmp += param->matrix[2][0]*rgb_ptr2[3] + param->matrix[2][1]*rgb_ptr2[4] + param->matrix[2][2]*rgb_ptr2[5];
-            y_ptr2[1]=clampU8(y_tmp+((param->y_shift)<<PRECISION));
+            y_ptr2[1]=clampU8(y_tmp+((param->y_सरणम्)<<PRECISION));
 
             u_ptr[0] = clampU8(u_tmp/4+(128<<PRECISION));
             v_ptr[0] = clampU8(v_tmp/4+(128<<PRECISION));
@@ -242,4 +242,4 @@ void rgb24_yuv420_std(
     }
 }
 
-#endif /* SDL_HAVE_YUV */
+#यदि_अन्तः /* SDL_HAVE_YUV */

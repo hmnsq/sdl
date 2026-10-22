@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 /*
  * @author Wladimir J. van der Laan. Based on Jacob Lifshay's
  * SDL_x11vulkan.h and Mark Callow's SDL_vivantevulkan.h
  */
 
-#ifndef SDL_vivantevulkan_h_
-#define SDL_vivantevulkan_h_
+#यदि_अपरिभाषितम् SDL_vivantevulkan_h_
+#परिभाषय SDL_vivantevulkan_h_
 
-#include "../SDL_vulkan_internal.h"
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_vulkan_internal.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
+#यदि defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_VIVANTE)
 
-extern bool VIVANTE_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                 SDL_Window *window,
+बाह्य bool VIVANTE_Vulkan_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य शून्य VIVANTE_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य वर्ण ध्रुव * ध्रुव *VIVANTE_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गणनम्);
+बाह्य bool VIVANTE_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                 SDL_गवाक्षः *गवाक्षः,
                                  VkInstance instance,
-                                 const struct VkAllocationCallbacks *allocator,
+                                 ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator,
                                  VkSurfaceKHR *surface);
-extern void VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य शून्य VIVANTE_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                    VkInstance instance,
                                    VkSurfaceKHR surface,
-                                   const struct VkAllocationCallbacks *allocator);
+                                   ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator);
 
-#endif
+#यदि_अन्तः
 
-#endif // SDL_vivantevulkan_h_
+#यदि_अन्तः // SDL_vivantevulkan_h_

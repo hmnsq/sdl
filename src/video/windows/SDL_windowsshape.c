@@ -18,108 +18,108 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowsshape.h"
+#अन्तर्भाव "SDL_windowsvideo.h"
+#अन्तर्भाव "SDL_windowsshape.h"
 
 
-static void AddRegion(HRGN *mask, int x1, int y1, int x2, int y2)
+स्थिर शून्य सङ्कलय_Region(HRGN *आवरणम्, पूर्णाङ्क x1, पूर्णाङ्क y1, पूर्णाङ्क x2, पूर्णाङ्क y2)
 {
     HRGN region = CreateRectRgn(x1, y1, x2, y2);
-    if (*mask) {
-        CombineRgn(*mask, *mask, region, RGN_OR);
+    यदि (*आवरणम्) {
+        CombineRgn(*आवरणम्, *आवरणम्, region, RGN_OR);
         DeleteObject(region);
-    } else {
-        *mask = region;
+    } अन्यथा {
+        *आवरणम् = region;
     }
 }
 
-static HRGN GenerateSpanListRegion(SDL_Surface *shape, int offset_x, int offset_y)
+स्थिर HRGN Generate_विस्तृतिः_List_Region(SDL_Surface *shape, पूर्णाङ्क विस्थापनम्_x, पूर्णाङ्क विस्थापनम्_y)
 {
-    HRGN mask = NULL;
-    int x, y;
-    int span_start = -1;
+    HRGN आवरणम् = रिक्त;
+    पूर्णाङ्क x, y;
+    पूर्णाङ्क विस्तृतिः_start = -1;
 
-    for (y = 0; y < shape->h; ++y) {
-        const Uint8 *a = (const Uint8 *)shape->pixels + y * shape->pitch;
-        for (x = 0; x < shape->w; ++x) {
-            if (*a == SDL_ALPHA_TRANSPARENT) {
-                if (span_start != -1) {
-                    AddRegion(&mask, offset_x + span_start, offset_y + y, offset_x + x, offset_y + y + 1);
-                    span_start = -1;
+    प्रति (y = 0; y < shape->h; ++y) {
+        ध्रुव Uint8 *a = (ध्रुव Uint8 *)shape->pixels + y * shape->pitch;
+        प्रति (x = 0; x < shape->w; ++x) {
+            यदि (*a == SDL_ALPHA_TRANSPARENT) {
+                यदि (विस्तृतिः_start != -1) {
+                    सङ्कलय_Region(&आवरणम्, विस्थापनम्_x + विस्तृतिः_start, विस्थापनम्_y + y, विस्थापनम्_x + x, विस्थापनम्_y + y + 1);
+                    विस्तृतिः_start = -1;
                 }
-            } else {
-                if (span_start == -1) {
-                    span_start = x;
+            } अन्यथा {
+                यदि (विस्तृतिः_start == -1) {
+                    विस्तृतिः_start = x;
                 }
             }
             a += 4;
         }
-        if (span_start != -1) {
+        यदि (विस्तृतिः_start != -1) {
             // Add the final span
-            AddRegion(&mask, offset_x + span_start, offset_y + y, offset_x + x, offset_y + y + 1);
-            span_start = -1;
+            सङ्कलय_Region(&आवरणम्, विस्थापनम्_x + विस्तृतिः_start, विस्थापनम्_y + y, विस्थापनम्_x + x, विस्थापनम्_y + y + 1);
+            विस्तृतिः_start = -1;
         }
     }
-    return mask;
+    प्रत्यागम आवरणम्;
 }
 
-bool WIN_UpdateWindowShape(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *shape)
+bool WIN_Update_गवाक्षः_Shape(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_Surface *shape)
 {
-    SDL_WindowData *data = window->internal;
-    HRGN mask = NULL;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HRGN आवरणम् = रिक्त;
 
     // Generate a set of spans for the region
-    if (shape) {
-        SDL_Surface *stretched = NULL;
+    यदि (shape) {
+        SDL_Surface *stretched = रिक्त;
         RECT rect;
 
-        if (shape->w != window->w || shape->h != window->h) {
-            stretched = SDL_CreateSurfaceUninitialized(window->w, window->h, SDL_PIXELFORMAT_ARGB32);
-            if (!stretched) {
-                return false;
+        यदि (shape->w != गवाक्षः->w || shape->h != गवाक्षः->h) {
+            stretched = SDL_CreateSurfaceUninitialized(गवाक्षः->w, गवाक्षः->h, SDL_PIXELFORMAT_ARGB32);
+            यदि (!stretched) {
+                प्रत्यागम false;
             }
-            if (!SDL_StretchSurface(shape, NULL, stretched, NULL, SDL_SCALEMODE_LINEAR)) {
+            यदि (!SDL_StretchSurface(shape, रिक्त, stretched, रिक्त, SDL_SCALEMODE_रैखिकम्)) {
                 SDL_DestroySurface(stretched);
-                return false;
+                प्रत्यागम false;
             }
             shape = stretched;
         }
 
-        rect.top = 0;
-        rect.left = 0;
+        rect.शिखरम् = 0;
+        rect.वामः = 0;
         rect.bottom = 0;
-        rect.right = 0;
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
-            WIN_AdjustWindowRectForHWND(data->hwnd, &rect, 0);
+        rect.दक्षिणः = 0;
+        यदि (!(SDL_Get_गवाक्षः_Flags(दत्त->गवाक्षः) & SDL_गवाक्षः_BORDERLESS)) {
+            WIN_Adjust_गवाक्षः_Rect_For_HWND(दत्त->hwnd, &rect, 0);
         }
 
-        mask = GenerateSpanListRegion(shape, -rect.left, -rect.top);
+        आवरणम् = Generate_विस्तृतिः_List_Region(shape, -rect.वामः, -rect.शिखरम्);
 
-        if (!(SDL_GetWindowFlags(data->window) & SDL_WINDOW_BORDERLESS)) {
+        यदि (!(SDL_Get_गवाक्षः_Flags(दत्त->गवाक्षः) & SDL_गवाक्षः_BORDERLESS)) {
             // Add the window borders
             // top
-            AddRegion(&mask, 0, 0, -rect.left + shape->w + rect.right + 1, -rect.top + 1);
+            सङ्कलय_Region(&आवरणम्, 0, 0, -rect.वामः + shape->w + rect.दक्षिणः + 1, -rect.शिखरम् + 1);
             // left
-            AddRegion(&mask, 0, -rect.top, -rect.left + 1, -rect.top + shape->h + 1);
+            सङ्कलय_Region(&आवरणम्, 0, -rect.शिखरम्, -rect.वामः + 1, -rect.शिखरम् + shape->h + 1);
             // right
-            AddRegion(&mask, -rect.left + shape->w, -rect.top, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + 1);
+            सङ्कलय_Region(&आवरणम्, -rect.वामः + shape->w, -rect.शिखरम्, -rect.वामः + shape->w + rect.दक्षिणः + 1, -rect.शिखरम् + shape->h + 1);
             // bottom
-            AddRegion(&mask, 0, -rect.top + shape->h, -rect.left + shape->w + rect.right + 1, -rect.top + shape->h + rect.bottom + 1);
+            सङ्कलय_Region(&आवरणम्, 0, -rect.शिखरम् + shape->h, -rect.वामः + shape->w + rect.दक्षिणः + 1, -rect.शिखरम् + shape->h + rect.bottom + 1);
         }
 
-        if (stretched) {
+        यदि (stretched) {
             SDL_DestroySurface(stretched);
         }
     }
-    if (!SetWindowRgn(data->hwnd, mask, TRUE)) {
-        DeleteObject(mask);
-        return WIN_SetError("SetWindowRgn failed");
+    यदि (!समुच्चयः_गवाक्षः_Rgn(दत्त->hwnd, आवरणम्, TRUE)) {
+        DeleteObject(आवरणम्);
+        प्रत्यागम WIN_समुच्चयः_Error("SetWindowRgn failed");
     }
-    return true;
+    प्रत्यागम true;
 }
 
-#endif // defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)

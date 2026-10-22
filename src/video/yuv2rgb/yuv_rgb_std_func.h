@@ -7,26 +7,26 @@
 	RGB_FORMAT
 */
 
-#if RGB_FORMAT == RGB_FORMAT_RGB565
+#यदि RGB_FORMAT == RGB_FORMAT_RGB565
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	*(Uint16 *)rgb_ptr = \
 		((((Uint16)clampU8(y_tmp+r_tmp)) << 8 ) & 0xF800) | \
 		((((Uint16)clampU8(y_tmp+g_tmp)) << 3) & 0x07E0) | \
 		(((Uint16)clampU8(y_tmp+b_tmp)) >> 3); \
 	rgb_ptr += 2
 
-#elif RGB_FORMAT == RGB_FORMAT_RGB24
+#नोचेद्यदि RGB_FORMAT == RGB_FORMAT_RGB24
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	rgb_ptr[0] = clampU8(y_tmp+r_tmp); \
 	rgb_ptr[1] = clampU8(y_tmp+g_tmp); \
 	rgb_ptr[2] = clampU8(y_tmp+b_tmp); \
 	rgb_ptr += 3
 
-#elif RGB_FORMAT == RGB_FORMAT_RGBA
+#नोचेद्यदि RGB_FORMAT == RGB_FORMAT_RGBA
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 24) | \
 		(((Uint32)clampU8(y_tmp+g_tmp)) << 16) | \
@@ -34,9 +34,9 @@
 		0x000000FF; \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_BGRA
+#नोचेद्यदि RGB_FORMAT == RGB_FORMAT_BGRA
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 24) | \
 		(((Uint32)clampU8(y_tmp+g_tmp)) << 16) | \
@@ -44,9 +44,9 @@
 		0x000000FF; \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_ARGB
+#नोचेद्यदि RGB_FORMAT == RGB_FORMAT_ARGB
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xFF000000 | \
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 16) | \
@@ -54,9 +54,9 @@
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_ABGR
+#नोचेद्यदि RGB_FORMAT == RGB_FORMAT_ABGR
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xFF000000 | \
 		(((Uint32)clampU8(y_tmp+b_tmp)) << 16) | \
@@ -64,9 +64,9 @@
 		(((Uint32)clampU8(y_tmp+r_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_XBGR2101010
+#नोचेद्यदि RGB_FORMAT == RGB_FORMAT_XBGR2101010
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	*(Uint32 *)rgb_ptr = \
 		0xC0000000 | \
 		(((Uint32)clamp10(y_tmp+b_tmp)) << 20) | \
@@ -74,190 +74,190 @@
 		(((Uint32)clamp10(y_tmp+r_tmp)) << 0); \
 	rgb_ptr += 4
 
-#elif RGB_FORMAT == RGB_FORMAT_RGB48
+#नोचेद्यदि RGB_FORMAT == RGB_FORMAT_RGB48
 
-#define PACK_PIXEL(rgb_ptr) \
+#परिभाषय PACK_PIXEL(rgb_ptr) \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + r_tmp); \
-	rgb_ptr += sizeof(Uint16);				   \
+	rgb_ptr += परिमाण(Uint16);				   \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + g_tmp); \
-	rgb_ptr += sizeof(Uint16);				   \
+	rgb_ptr += परिमाण(Uint16);				   \
 	*(Uint16 *)rgb_ptr = clamp16(y_tmp + b_tmp); \
-	rgb_ptr += sizeof(Uint16)
+	rgb_ptr += परिमाण(Uint16)
 
-#else
-#error PACK_PIXEL unimplemented
-#endif
+#अन्यथा
+#दोषः PACK_PIXEL unimplemented
+#यदि_अन्तः
 
 
-#ifdef _MSC_VER /* Visual Studio analyzer can't tell that we're building this with different constants */
-#pragma warning(push)
-#pragma warning(disable : 6239)
-#endif
+#यदि_परिभाषितम् _MSC_VER /* Visual Studio analyzer can't tell that we're building this with different constants */
+#निर्देशः warning(प्रक्षिप)
+#निर्देशः warning(disable : 6239)
+#यदि_अन्तः
 
-#undef YUV_TYPE
-#if YUV_BITS > 8
-#define YUV_TYPE	uint16_t
-#else
-#define YUV_TYPE	uint8_t
-#endif
-#undef UV_OFFSET
-#define UV_OFFSET	(1 << ((YUV_BITS)-1))
+#अपरिभाषय YUV_TYPE
+#यदि YUV_द्वयङ्काः > 8
+#परिभाषय YUV_TYPE	uint16_t
+#अन्यथा
+#परिभाषय YUV_TYPE	uint8_t
+#यदि_अन्तः
+#अपरिभाषय UV_विस्थापनम्
+#परिभाषय UV_विस्थापनम्	(1 << ((YUV_द्वयङ्काः)-1))
 
-#undef GET
-#if YUV_BITS == 10
-#define GET(X)	((X) >> 6)
-#else
-#define GET(X)	(X)
-#endif
+#अपरिभाषय GET
+#यदि YUV_द्वयङ्काः == 10
+#परिभाषय GET(X)	((X) >> 6)
+#अन्यथा
+#परिभाषय GET(X)	(X)
+#यदि_अन्तः
 
-void STD_FUNCTION_NAME(
-	uint32_t width, uint32_t height,
-	const YUV_TYPE *Y, const YUV_TYPE *U, const YUV_TYPE *V, uint32_t Y_stride, uint32_t UV_stride,
+शून्य STD_FUNCTION_NAME(
+	uint32_t विस्तारः, uint32_t height,
+	ध्रुव YUV_TYPE *Y, ध्रुव YUV_TYPE *U, ध्रुव YUV_TYPE *V, uint32_t Y_stride, uint32_t UV_stride,
 	uint8_t *RGB, uint32_t RGB_stride,
 	YCbCrType yuv_type)
 {
-	const YUV2RGBParam *const param = &(YUV2RGB[yuv_type]);
-#if YUV_FORMAT == YUV_FORMAT_420
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 1
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 2
-#elif YUV_FORMAT == YUV_FORMAT_422
-	#define y_pixel_stride 2
-	#define uv_pixel_stride 4
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 1
-#elif YUV_FORMAT == YUV_FORMAT_444
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 1
-	#define uv_x_sample_interval 1
-	#define uv_y_sample_interval 1
-#elif YUV_FORMAT == YUV_FORMAT_NV12
-	#define y_pixel_stride 1
-	#define uv_pixel_stride 2
-	#define uv_x_sample_interval 2
-	#define uv_y_sample_interval 2
-#endif
+	ध्रुव YUV2RGBParam *ध्रुव param = &(YUV2RGB[yuv_type]);
+#यदि YUV_FORMAT == YUV_FORMAT_420
+	#परिभाषय y_pixel_stride 1
+	#परिभाषय uv_pixel_stride 1
+	#परिभाषय uv_x_sample_interval 2
+	#परिभाषय uv_y_sample_interval 2
+#नोचेद्यदि YUV_FORMAT == YUV_FORMAT_422
+	#परिभाषय y_pixel_stride 2
+	#परिभाषय uv_pixel_stride 4
+	#परिभाषय uv_x_sample_interval 2
+	#परिभाषय uv_y_sample_interval 1
+#नोचेद्यदि YUV_FORMAT == YUV_FORMAT_444
+	#परिभाषय y_pixel_stride 1
+	#परिभाषय uv_pixel_stride 1
+	#परिभाषय uv_x_sample_interval 1
+	#परिभाषय uv_y_sample_interval 1
+#नोचेद्यदि YUV_FORMAT == YUV_FORMAT_NV12
+	#परिभाषय y_pixel_stride 1
+	#परिभाषय uv_pixel_stride 2
+	#परिभाषय uv_x_sample_interval 2
+	#परिभाषय uv_y_sample_interval 2
+#यदि_अन्तः
 
-	Y_stride /= sizeof(YUV_TYPE);
-	UV_stride /= sizeof(YUV_TYPE);
+	Y_stride /= परिमाण(YUV_TYPE);
+	UV_stride /= परिमाण(YUV_TYPE);
 
 	uint32_t x, y;
-	for(y=0; y<(height-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
+	प्रति(y=0; y<(height-(uv_y_sample_interval-1)); y+=uv_y_sample_interval)
 	{
-		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
+		ध्रुव YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
 			*v_ptr=V+(y/uv_y_sample_interval)*UV_stride;
 
-		#if uv_y_sample_interval > 1
-		const YUV_TYPE *y_ptr2=Y+(y+1)*Y_stride;
-		#endif
+		#यदि uv_y_sample_interval > 1
+		ध्रुव YUV_TYPE *y_ptr2=Y+(y+1)*Y_stride;
+		#यदि_अन्तः
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		#if uv_y_sample_interval > 1
+		#यदि uv_y_sample_interval > 1
 		uint8_t *rgb_ptr2=RGB+(y+1)*RGB_stride;
-		#endif
+		#यदि_अन्तः
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		प्रति(x=0; x<(विस्तारः-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_विस्थापनम्);
+			int32_t v_tmp = (GET(*v_ptr)-UV_विस्थापनम्);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_गुणकः);
+			int32_t g_tmp = (u_tmp*param->u_g_गुणकः + v_tmp*param->v_g_गुणकः);
+			int32_t b_tmp = (u_tmp*param->u_b_गुणकः);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_x_sample_interval > 1
-			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_shift)*param->y_factor);
+			#यदि uv_x_sample_interval > 1
+			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr1);
-			#endif
+			#यदि_अन्तः
 
-			#if uv_y_sample_interval > 1
-			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
+			#यदि uv_y_sample_interval > 1
+			y_tmp = (GET(y_ptr2[0]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr2);
 
-			y_tmp = (GET(y_ptr2[y_pixel_stride]-param->y_shift)*param->y_factor);
+			y_tmp = (GET(y_ptr2[y_pixel_stride]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr2);
-			#endif
+			#यदि_अन्तः
 
-			#if uv_x_sample_interval > 1
+			#यदि uv_x_sample_interval > 1
 			y_ptr1+=2*y_pixel_stride;
-			#else
+			#अन्यथा
 			y_ptr1+=y_pixel_stride;
-			#endif
-			#if uv_y_sample_interval > 1
+			#यदि_अन्तः
+			#यदि uv_y_sample_interval > 1
 			y_ptr2+=2*y_pixel_stride;
-			#endif
-			#if uv_x_sample_interval > 1
+			#यदि_अन्तः
+			#यदि uv_x_sample_interval > 1
 			u_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=2*uv_pixel_stride/uv_x_sample_interval;
-			#else
+			#अन्यथा
 			u_ptr+=uv_pixel_stride/uv_x_sample_interval;
 			v_ptr+=uv_pixel_stride/uv_x_sample_interval;
-			#endif
+			#यदि_अन्तः
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#यदि uv_x_sample_interval == 2
+		यदि (x == (विस्तारः-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_विस्थापनम्);
+			int32_t v_tmp = (GET(*v_ptr)-UV_विस्थापनम्);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_गुणकः);
+			int32_t g_tmp = (u_tmp*param->u_g_गुणकः + v_tmp*param->v_g_गुणकः);
+			int32_t b_tmp = (u_tmp*param->u_b_गुणकः);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr1);
 
-			#if uv_y_sample_interval > 1
-			y_tmp = (GET(y_ptr2[0]-param->y_shift)*param->y_factor);
+			#यदि uv_y_sample_interval > 1
+			y_tmp = (GET(y_ptr2[0]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr2);
-			#endif
+			#यदि_अन्तः
 		}
-#endif
+#यदि_अन्तः
 	}
 
 	/* Catch the last line, if needed */
-#if uv_y_sample_interval == 2
-	if (y == (height-1))
+#यदि uv_y_sample_interval == 2
+	यदि (y == (height-1))
 	{
-		const YUV_TYPE *y_ptr1=Y+y*Y_stride,
+		ध्रुव YUV_TYPE *y_ptr1=Y+y*Y_stride,
 			*u_ptr=U+(y/uv_y_sample_interval)*UV_stride,
 			*v_ptr=V+(y/uv_y_sample_interval)*UV_stride;
 
 		uint8_t *rgb_ptr1=RGB+y*RGB_stride;
 
-		for(x=0; x<(width-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
+		प्रति(x=0; x<(विस्तारः-(uv_x_sample_interval-1)); x+=uv_x_sample_interval)
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_विस्थापनम्);
+			int32_t v_tmp = (GET(*v_ptr)-UV_विस्थापनम्);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_गुणकः);
+			int32_t g_tmp = (u_tmp*param->u_g_गुणकः + v_tmp*param->v_g_गुणकः);
+			int32_t b_tmp = (u_tmp*param->u_b_गुणकः);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr1);
 
-			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_shift)*param->y_factor);
+			y_tmp = (GET(y_ptr1[y_pixel_stride]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr1);
 
 			y_ptr1+=2*y_pixel_stride;
@@ -266,38 +266,38 @@ void STD_FUNCTION_NAME(
 		}
 
 		/* Catch the last pixel, if needed */
-#if uv_x_sample_interval == 2
-		if (x == (width-1))
+#यदि uv_x_sample_interval == 2
+		यदि (x == (विस्तारः-1))
 		{
 			// Compute U and V contributions, common to the four pixels
 
-			int32_t u_tmp = (GET(*u_ptr)-UV_OFFSET);
-			int32_t v_tmp = (GET(*v_ptr)-UV_OFFSET);
+			int32_t u_tmp = (GET(*u_ptr)-UV_विस्थापनम्);
+			int32_t v_tmp = (GET(*v_ptr)-UV_विस्थापनम्);
 
-			int32_t r_tmp = (v_tmp*param->v_r_factor);
-			int32_t g_tmp = (u_tmp*param->u_g_factor + v_tmp*param->v_g_factor);
-			int32_t b_tmp = (u_tmp*param->u_b_factor);
+			int32_t r_tmp = (v_tmp*param->v_r_गुणकः);
+			int32_t g_tmp = (u_tmp*param->u_g_गुणकः + v_tmp*param->v_g_गुणकः);
+			int32_t b_tmp = (u_tmp*param->u_b_गुणकः);
 
 			// Compute the Y contribution for each pixel
 
-			int32_t y_tmp = (GET(y_ptr1[0]-param->y_shift)*param->y_factor);
+			int32_t y_tmp = (GET(y_ptr1[0]-param->y_सरणम्)*param->y_गुणकः);
 			PACK_PIXEL(rgb_ptr1);
 		}
-#endif
+#यदि_अन्तः
 	}
-#endif
+#यदि_अन्तः
 
-	#undef y_pixel_stride
-	#undef uv_pixel_stride
-	#undef uv_x_sample_interval
-	#undef uv_y_sample_interval
+	#अपरिभाषय y_pixel_stride
+	#अपरिभाषय uv_pixel_stride
+	#अपरिभाषय uv_x_sample_interval
+	#अपरिभाषय uv_y_sample_interval
 }
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
+#यदि_परिभाषितम् _MSC_VER
+#निर्देशः warning(निष्कासय)
+#यदि_अन्तः
 
-#undef STD_FUNCTION_NAME
-#undef YUV_FORMAT
-#undef RGB_FORMAT
-#undef PACK_PIXEL
+#अपरिभाषय STD_FUNCTION_NAME
+#अपरिभाषय YUV_FORMAT
+#अपरिभाषय RGB_FORMAT
+#अपरिभाषय PACK_PIXEL

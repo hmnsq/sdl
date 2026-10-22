@@ -19,17 +19,17 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "SDL_qnx.h"
+#अन्तर्भाव "SDL_internal.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../../events/SDL_windowevents_c.h"
+#अन्तर्भाव "SDL_qnx.h"
 
-#include <errno.h>
+#अन्तर्भाव <errno.h>
 
 // All indices not already assigned will be zero'd to SDL_PIXELFORMAT_UNKNOWN.
-static const SDL_PixelFormat _format_map[] = {
+स्थिर ध्रुव SDL_PixelFormat _format_map[] = {
     [SCREEN_FORMAT_RGBA4444] = SDL_PIXELFORMAT_RGBA4444,
     [SCREEN_FORMAT_RGBA5551] = SDL_PIXELFORMAT_RGBA5551,
     [SCREEN_FORMAT_RGB565] = SDL_PIXELFORMAT_RGB565,
@@ -45,151 +45,151 @@ static const SDL_PixelFormat _format_map[] = {
     [SCREEN_FORMAT_BGRX8888] = SDL_PIXELFORMAT_BGRX8888,
 };
 
-SDL_PixelFormat screenToPixelFormat(int screen_format)
+SDL_PixelFormat screen_गन्तव्यम्_Pixel_Format(पूर्णाङ्क screen_format)
 {
-    if ((screen_format < 0) || (screen_format >= SDL_arraysize(_format_map))) {
-        return SDL_PIXELFORMAT_UNKNOWN;
+    यदि ((screen_format < 0) || (screen_format >= SDL_arraysize(_format_map))) {
+        प्रत्यागम SDL_PIXELFORMAT_UNKNOWN;
     }
 
-    return _format_map[screen_format];
+    प्रत्यागम _format_map[screen_format];
 }
 
 bool QNX_GetDisplayModes(SDL_VideoDevice *_this, SDL_VideoDisplay *display)
 {
-    SDL_DisplayData     *display_data = display->internal;
-    SDL_DisplayMode     display_mode;
-    SDL_DisplayModeData *display_mode_data;
+    SDL_Display_दत्त     *display_दत्त = display->आन्तरिकम्;
+    SDL_Display_बहुलकम्     display_बहुलकम्_2;
+    SDL_Display_बहुलकम्_दत्त *display_बहुलकम्_दत्त;
 
-    int index;
-    int display_mode_count;
+    पूर्णाङ्क सूचकांक;
+    पूर्णाङ्क display_बहुलकम्_गणनम्;
 
     screen_display_t      screen_display;
-    screen_display_mode_t *screen_display_modes;
-    int                   screen_format;
-    int                   screen_refresh_rate;
+    screen_display_बहुलकम्_t *screen_display_modes;
+    पूर्णाङ्क                   screen_format;
+    पूर्णाङ्क                   screen_refresh_दरः;
 
-    if (display_data == NULL) {
-        return false;
+    यदि (display_दत्त == रिक्त) {
+        प्रत्यागम false;
     }
-    screen_display = display_data->screen_display;
+    screen_display = display_दत्त->screen_display;
 
     /* create SDL display imodes based on display mode info from the display */
-    if (screen_get_display_property_iv(screen_display, SCREEN_PROPERTY_MODE_COUNT, &display_mode_count) < 0) {
-        return false;
+    यदि (screen_get_display_property_iv(screen_display, SCREEN_PROPERTY_बहुलकम्_गणनम्, &display_बहुलकम्_गणनम्) < 0) {
+        प्रत्यागम false;
     }
 
-    screen_display_modes = SDL_calloc(display_mode_count, sizeof(screen_display_mode_t));
-    if (screen_display_modes == NULL) {
-        return false;
+    screen_display_modes = SDL_calloc(display_बहुलकम्_गणनम्, परिमाण(screen_display_बहुलकम्_t));
+    यदि (screen_display_modes == रिक्त) {
+        प्रत्यागम false;
     }
 
-    if(screen_get_display_modes(screen_display, display_mode_count, screen_display_modes) < 0) {
+    यदि(screen_get_display_modes(screen_display, display_बहुलकम्_गणनम्, screen_display_modes) < 0) {
         SDL_free(screen_display_modes);
-        return false;
+        प्रत्यागम false;
     }
 
-    for (index = 0; index < display_mode_count; index++) {
-        display_mode_data = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
-        if (display_mode_data == NULL) {
+    प्रति (सूचकांक = 0; सूचकांक < display_बहुलकम्_गणनम्; सूचकांक++) {
+        display_बहुलकम्_दत्त = (SDL_Display_बहुलकम्_दत्त *)SDL_calloc(1, परिमाण(SDL_Display_बहुलकम्_दत्त));
+        यदि (display_बहुलकम्_दत्त == रिक्त) {
             // Not much we can do about the objs we've already created at this point.
             SDL_free(screen_display_modes);
-            return false;
+            प्रत्यागम false;
         }
 
-        SDL_zero(display_mode);
-        display_mode.w = screen_display_modes[index].width;
-        display_mode.h = screen_display_modes[index].height;
-        display_mode.pixel_density = 1.0;
-        display_mode.internal = display_mode_data;
+        SDL_zero(display_बहुलकम्_2);
+        display_बहुलकम्_2.w = screen_display_modes[सूचकांक].विस्तारः;
+        display_बहुलकम्_2.h = screen_display_modes[सूचकांक].height;
+        display_बहुलकम्_2.pixel_density = 1.0;
+        display_बहुलकम्_2.आन्तरिकम् = display_बहुलकम्_दत्त;
 
-        if (screen_display_modes[index].flags & SCREEN_DISPLAY_MODE_REFRESH_VALID) {
-            screen_refresh_rate = screen_display_modes[index].refresh;
-        } else {
+        यदि (screen_display_modes[सूचकांक].flags & SCREEN_DISPLAY_बहुलकम्_REFRESH_VALID) {
+            screen_refresh_दरः = screen_display_modes[सूचकांक].refresh;
+        } अन्यथा {
             // Fallback
-            screen_refresh_rate = 60;
+            screen_refresh_दरः = 60;
         }
-        if (screen_display_modes[index].flags & SCREEN_DISPLAY_MODE_FORMAT_VALID) {
-            screen_format = screen_display_modes[index].format;
-        } else {
+        यदि (screen_display_modes[सूचकांक].flags & SCREEN_DISPLAY_बहुलकम्_FORMAT_VALID) {
+            screen_format = screen_display_modes[सूचकांक].format;
+        } अन्यथा {
             // Fallback
             screen_format = SCREEN_FORMAT_RGBX8888;
         }
-        display_mode.refresh_rate = screen_refresh_rate;
-        display_mode.format = screenToPixelFormat(screen_format);
-        display_mode_data->screen_format = screen_format;
-        display_mode_data->screen_display_mode = screen_display_modes[index];
+        display_बहुलकम्_2.refresh_दरः = screen_refresh_दरः;
+        display_बहुलकम्_2.format = screen_गन्तव्यम्_Pixel_Format(screen_format);
+        display_बहुलकम्_दत्त->screen_format = screen_format;
+        display_बहुलकम्_दत्त->screen_display_बहुलकम् = screen_display_modes[सूचकांक];
 
         // This op can fail if the mode already exists.
-        SDL_AddFullscreenDisplayMode(display, &display_mode);
+        SDL_सङ्कलय_Fullscreen_Display_बहुलकम्(display, &display_बहुलकम्_2);
     }
 
     SDL_free(screen_display_modes);
 
-    return true;
+    प्रत्यागम true;
 }
 
-#if 0
+#यदि 0
 // FIXME: This seems to invalidate the screen_display_t, causing issues with the
 // (get|set)_display_property_*() apis. For now, mode switching is emulated
 // instead.
-bool QNX_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool QNX_समुच्चयः_Display_बहुलकम्(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_बहुलकम् *बहुलकम्)
 {
-    SDL_DisplayData     *display_data = display->internal;
-    SDL_DisplayModeData *display_mode_data = mode->internal;
+    SDL_Display_दत्त     *display_दत्त = display->आन्तरिकम्;
+    SDL_Display_बहुलकम्_दत्त *display_बहुलकम्_दत्त = बहुलकम्->आन्तरिकम्;
 
-    if ((display_data == NULL) || (display_mode_data == NULL)) {
-        return false;
+    यदि ((display_दत्त == रिक्त) || (display_बहुलकम्_दत्त == रिक्त)) {
+        प्रत्यागम false;
     }
 
     // TODO: May need to call glInitConfig and screen_create_window_buffers.
-    if (screen_set_display_property_iv(display_data->screen_display,
-        SCREEN_PROPERTY_MODE, (int *)&display_mode_data->screen_display_mode.index) < 0) {
-        return false;
+    यदि (screen_समुच्चयः_display_property_iv(display_दत्त->screen_display,
+        SCREEN_PROPERTY_बहुलकम्, (पूर्णाङ्क *)&display_बहुलकम्_दत्त->screen_display_बहुलकम्.सूचकांक) < 0) {
+        प्रत्यागम false;
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
 bool QNX_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    SDL_DisplayData *data = display->internal;
-    int             size[2] = { 0, 0 };
+    SDL_Display_दत्त *दत्त = display->आन्तरिकम्;
+    पूर्णाङ्क             आकार[2] = { 0, 0 };
 
-    if (data == NULL) {
-        return false;
+    यदि (दत्त == रिक्त) {
+        प्रत्यागम false;
     }
 
-    if (screen_get_display_property_iv(data->screen_display, SCREEN_PROPERTY_SIZE, size) < 0) {
-        return false;
+    यदि (screen_get_display_property_iv(दत्त->screen_display, SCREEN_PROPERTY_आकार, आकार) < 0) {
+        प्रत्यागम false;
     }
 
     rect->x = 0;
     rect->y = 0;
-    rect->w = size[0];
-    rect->h = size[1];
-    return true;
+    rect->w = आकार[0];
+    rect->h = आकार[1];
+    प्रत्यागम true;
 }
-#else
+#अन्यथा
 bool QNX_GetDisplayBounds(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Rect *rect)
 {
-    if (display->current_mode == NULL) {
-        return false;
+    यदि (display->current_बहुलकम् == रिक्त) {
+        प्रत्यागम false;
     }
 
     rect->x = 0;
     rect->y = 0;
 
     // When an emulated, exclusive fullscreen window has focus, treat the mode dimensions as the display bounds.
-    if (display->fullscreen_window &&
-        display->fullscreen_window->fullscreen_exclusive &&
-        display->fullscreen_window->current_fullscreen_mode.w != 0 &&
-        display->fullscreen_window->current_fullscreen_mode.h != 0) {
-        rect->w = display->fullscreen_window->current_fullscreen_mode.w;
-        rect->h = display->fullscreen_window->current_fullscreen_mode.h;
-    } else {
-        rect->w = display->current_mode->w;
-        rect->h = display->current_mode->h;
+    यदि (display->fullscreen_गवाक्षः &&
+        display->fullscreen_गवाक्षः->fullscreen_exclusive &&
+        display->fullscreen_गवाक्षः->current_fullscreen_बहुलकम्.w != 0 &&
+        display->fullscreen_गवाक्षः->current_fullscreen_बहुलकम्.h != 0) {
+        rect->w = display->fullscreen_गवाक्षः->current_fullscreen_बहुलकम्.w;
+        rect->h = display->fullscreen_गवाक्षः->current_fullscreen_बहुलकम्.h;
+    } अन्यथा {
+        rect->w = display->current_बहुलकम्->w;
+        rect->h = display->current_बहुलकम्->h;
     }
-    return true;
+    प्रत्यागम true;
 }
-#endif
+#यदि_अन्तः

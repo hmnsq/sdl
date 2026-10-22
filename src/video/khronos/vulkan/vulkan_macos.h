@@ -1,5 +1,5 @@
-#ifndef VULKAN_MACOS_H_
-#define VULKAN_MACOS_H_ 1
+#यदि_अपरिभाषितम् VULKAN_MACOS_H_
+#परिभाषय VULKAN_MACOS_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,43 +13,43 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+बाह्य "C" {
+#यदि_अन्तः
 
 
 
 // VK_MVK_macos_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_MVK_macos_surface 1
+#परिभाषय VK_MVK_macos_surface 1
 
-#define VK_MVK_MACOS_SURFACE_SPEC_VERSION 3
-#define VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
+#परिभाषय VK_MVK_MACOS_SURFACE_SPEC_संस्करणम् 3
+#परिभाषय VK_MVK_MACOS_SURFACE_EXTENSION_NAME "VK_MVK_macos_surface"
 
-typedef VkFlags VkMacOSSurfaceCreateFlagsMVK;
+प्रकारनिर्देश VkFlags VkMacOSSurfaceCreateFlagsMVK;
 
-typedef struct VkMacOSSurfaceCreateInfoMVK {
+प्रकारनिर्देश संरचना VkMacOSSurfaceCreateInfoMVK {
     VkStructureType                 sType;
-    const void*                     pNext;
+    ध्रुव शून्य*                     p_अग्र;
     VkMacOSSurfaceCreateFlagsMVK    flags;
-    const void*                     pView;
+    ध्रुव शून्य*                     pView;
 } VkMacOSSurfaceCreateInfoMVK;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, const VkMacOSSurfaceCreateInfoMVK* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकारनिर्देश Vk_परिणाम (VKAPI_PTR *PFN_vkCreateMacOSSurfaceMVK)(VkInstance instance, ध्रुव VkMacOSSurfaceCreateInfoMVK* pCreateInfo, ध्रुव Vk_आवण्टनम्_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
 
-#ifndef VK_NO_PROTOTYPES
+#यदि_अपरिभाषितम् VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateMacOSSurfaceMVK(
+#यदि_अपरिभाषितम् VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vkCreateMacOSSurfaceMVK(
     VkInstance                                  instance,
-    const VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ध्रुव VkMacOSSurfaceCreateInfoMVK*          pCreateInfo,
+    ध्रुव Vk_आवण्टनम्_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#endif
+#यदि_अन्तः
+#यदि_अन्तः
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 }
-#endif
+#यदि_अन्तः
 
-#endif
+#यदि_अन्तः

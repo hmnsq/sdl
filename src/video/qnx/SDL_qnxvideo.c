@@ -19,28 +19,28 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "SDL_qnx.h"
+#अन्तर्भाव "SDL_internal.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_egl_c.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../../events/SDL_windowevents_c.h"
+#अन्तर्भाव "SDL_qnx.h"
 
-#include <errno.h>
+#अन्तर्भाव <errno.h>
 
-static screen_context_t context;
-static screen_event_t   event;
-static bool video_initialized = false;
+स्थिर screen_context_t context;
+स्थिर screen_event_t   event;
+स्थिर bool video_initialized = false;
 
 screen_context_t * getContext()
 {
-    return &context;
+    प्रत्यागम &context;
 }
 
 screen_event_t * getEvent()
 {
-    return &event;
+    प्रत्यागम &event;
 }
 
 /**
@@ -48,103 +48,103 @@ screen_event_t * getEvent()
  * Creates the Screen context and event handles used for all window operations
  * by the plugin.
  */
-static bool QNX_VideoInit(SDL_VideoDevice *_this)
+स्थिर bool QNX_VideoInit(SDL_VideoDevice *_this)
 {
     SDL_VideoDisplay     display;
-    SDL_DisplayData      *display_data;
-    SDL_DisplayMode      display_mode;
-    SDL_DisplayModeData  *display_mode_data;
+    SDL_Display_दत्त      *display_दत्त;
+    SDL_Display_बहुलकम्      display_बहुलकम्_2;
+    SDL_Display_बहुलकम्_दत्त  *display_बहुलकम्_दत्त;
 
-    int size[2];
-    int index;
-    int display_count;
-    int active;
+    पूर्णाङ्क आकार[2];
+    पूर्णाङ्क सूचकांक;
+    पूर्णाङ्क display_गणनम्;
+    पूर्णाङ्क सक्रिय;
 
     screen_display_t *screen_display;
 
-    if (video_initialized) {
-        return true;
+    यदि (video_initialized) {
+        प्रत्यागम true;
     }
 
-    if (screen_create_context(&context, 0) < 0) {
-        return false;
+    यदि (screen_create_context(&context, 0) < 0) {
+        प्रत्यागम false;
     }
 
-    if (screen_create_event(&event) < 0) {
-        return false;
+    यदि (screen_create_event(&event) < 0) {
+        प्रत्यागम false;
     }
 
     /* start with no displays and increment as attached displays are found */
-    if (screen_get_context_property_iv(context, SCREEN_PROPERTY_DISPLAY_COUNT, &display_count) < 0) {
-        return false;
+    यदि (screen_get_context_property_iv(context, SCREEN_PROPERTY_DISPLAY_गणनम्, &display_गणनम्) < 0) {
+        प्रत्यागम false;
     }
 
-    screen_display = SDL_calloc(display_count, sizeof(screen_display_t));
-    if (screen_display == NULL) {
-        return false;
+    screen_display = SDL_calloc(display_गणनम्, परिमाण(screen_display_t));
+    यदि (screen_display == रिक्त) {
+        प्रत्यागम false;
     }
 
-    if (screen_get_context_property_pv(context, SCREEN_PROPERTY_DISPLAYS, (void **)screen_display) < 0) {
-        return false;
+    यदि (screen_get_context_property_pv(context, SCREEN_PROPERTY_DISPLAYS, (शून्य **)screen_display) < 0) {
+        प्रत्यागम false;
     }
 
     /* create SDL displays based on display info from the screen API */
-    for (index = 0; index < display_count; index++) {
-        active = 0;
-        if (screen_get_display_property_iv(screen_display[index], SCREEN_PROPERTY_ATTACHED, &active) < 0) {
+    प्रति (सूचकांक = 0; सूचकांक < display_गणनम्; सूचकांक++) {
+        सक्रिय = 0;
+        यदि (screen_get_display_property_iv(screen_display[सूचकांक], SCREEN_PROPERTY_ATTACHED, &सक्रिय) < 0) {
             SDL_free(screen_display);
-            return false;
+            प्रत्यागम false;
         }
 
-        if (active) {
-            display_data = (SDL_DisplayData *)SDL_calloc(1, sizeof(SDL_DisplayData));
-            if (display_data == NULL) {
+        यदि (सक्रिय) {
+            display_दत्त = (SDL_Display_दत्त *)SDL_calloc(1, परिमाण(SDL_Display_दत्त));
+            यदि (display_दत्त == रिक्त) {
                 SDL_free(screen_display);
-                return false;
+                प्रत्यागम false;
             }
-            SDL_zerop(display_data);
+            SDL_zerop(display_दत्त);
 
-            if (screen_get_display_property_iv(screen_display[index], SCREEN_PROPERTY_SIZE, size) < 0) {
+            यदि (screen_get_display_property_iv(screen_display[सूचकांक], SCREEN_PROPERTY_आकार, आकार) < 0) {
                 SDL_free(screen_display);
-                SDL_free(display_data);
-                return false;
+                SDL_free(display_दत्त);
+                प्रत्यागम false;
             }
 
-            display_mode_data = (SDL_DisplayModeData *)SDL_calloc(1, sizeof(SDL_DisplayModeData));
-            if (display_mode_data == NULL) {
+            display_बहुलकम्_दत्त = (SDL_Display_बहुलकम्_दत्त *)SDL_calloc(1, परिमाण(SDL_Display_बहुलकम्_दत्त));
+            यदि (display_बहुलकम्_दत्त == रिक्त) {
                 SDL_free(screen_display);
-                SDL_free(display_data);
-                return false;
+                SDL_free(display_दत्त);
+                प्रत्यागम false;
             }
-            SDL_zerop(display_mode_data);
+            SDL_zerop(display_बहुलकम्_दत्त);
 
             SDL_zero(display);
-            SDL_zero(display_mode);
+            SDL_zero(display_बहुलकम्_2);
 
-            display_data->screen_display = screen_display[index];
-            display.internal = (void *)display_data;
+            display_दत्त->screen_display = screen_display[सूचकांक];
+            display.आन्तरिकम् = (शून्य *)display_दत्त;
 
-            display_mode.w = size[0];
-            display_mode.h = size[1];
-            display_mode.refresh_rate = 60;
-            display_mode.pixel_density = 1.0;
-            display_mode.internal = display_mode_data;
+            display_बहुलकम्_2.w = आकार[0];
+            display_बहुलकम्_2.h = आकार[1];
+            display_बहुलकम्_2.refresh_दरः = 60;
+            display_बहुलकम्_2.pixel_density = 1.0;
+            display_बहुलकम्_2.आन्तरिकम् = display_बहुलकम्_दत्त;
             // This is assigned later when the window is created. For now, use a
             // safe guess.
-            display_mode.format = SDL_PIXELFORMAT_RGBX8888;
-            display_mode_data->screen_format = SCREEN_FORMAT_RGBX8888;
+            display_बहुलकम्_2.format = SDL_PIXELFORMAT_RGBX8888;
+            display_बहुलकम्_दत्त->screen_format = SCREEN_FORMAT_RGBX8888;
             // Be able to revert to the default display mode despite not having
             // the actual object to refer to.
-            display_mode_data->screen_display_mode.index = SCREEN_DISPLAY_MODE_PREFERRED_INDEX;
+            display_बहुलकम्_दत्त->screen_display_बहुलकम्.सूचकांक = SCREEN_DISPLAY_बहुलकम्_PREFERRED_सूचकांक;
 
             // Added to current_mode when the display is added.
-            display.desktop_mode = display_mode;
+            display.desktop_बहुलकम् = display_बहुलकम्_2;
 
-            if (!SDL_AddVideoDisplay(&display, false)) {
+            यदि (!SDL_सङ्कलय_Video_Display(&display, false)) {
                 SDL_free(screen_display);
-                SDL_free(display_mode_data);
-                SDL_free(display_data);
-                return false;
+                SDL_free(display_बहुलकम्_दत्त);
+                SDL_free(display_दत्त);
+                प्रत्यागम false;
             }
         }
     }
@@ -152,19 +152,19 @@ static bool QNX_VideoInit(SDL_VideoDevice *_this)
     initMouse(_this);
 
     // Assume we have a mouse and keyboard
-    SDL_AddKeyboard(SDL_DEFAULT_KEYBOARD_ID, NULL);
-    SDL_AddMouse(SDL_DEFAULT_MOUSE_ID, NULL);
+    SDL_सङ्कलय_Keyboard(SDL_DEFAULT_KEYBOARD_ID, रिक्त);
+    SDL_सङ्कलय_Mouse(SDL_DEFAULT_MOUSE_ID, रिक्त);
 
     video_initialized = true;
 
     SDL_free(screen_display);
 
-    return true;
+    प्रत्यागम true;
 }
 
-static void QNX_VideoQuit(SDL_VideoDevice *_this)
+स्थिर शून्य QNX_VideoQuit(SDL_VideoDevice *_this)
 {
-    if (video_initialized) {
+    यदि (video_initialized) {
         screen_destroy_event(event);
         screen_destroy_context(context);
         video_initialized = false;
@@ -175,318 +175,318 @@ static void QNX_VideoQuit(SDL_VideoDevice *_this)
  * Creates a new native Screen window and associates it with the given SDL
  * window.
  */
-static bool QNX_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+स्थिर bool QNX_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props)
 {
-    SDL_WindowData       *impl;
-    SDL_VideoDisplay     *display = NULL;
-    SDL_DisplayData      *display_data = NULL;
-    SDL_DisplayModeData  *display_mode_data = NULL;
+    SDL_गवाक्षः_दत्त       *impl;
+    SDL_VideoDisplay     *display = रिक्त;
+    SDL_Display_दत्त      *display_दत्त = रिक्त;
+    SDL_Display_बहुलकम्_दत्त  *display_बहुलकम्_दत्त = रिक्त;
 
-    int             size[2];
-    int             position[2];
-    int             numbufs;
-    int             format;
-    int             usage;
-    int             has_focus_i;
+    पूर्णाङ्क             आकार[2];
+    पूर्णाङ्क             position[2];
+    पूर्णाङ्क             numbufs;
+    पूर्णाङ्क             format;
+    पूर्णाङ्क             usage;
+    पूर्णाङ्क             has_focus_i;
 
-    impl = SDL_calloc(1, sizeof(*impl));
-    if (!impl) {
-        return false;
+    impl = SDL_calloc(1, परिमाण(*impl));
+    यदि (!impl) {
+        प्रत्यागम false;
     }
-    window->internal = impl;
+    गवाक्षः->आन्तरिकम् = impl;
 
     // Create a native window.
-    if (screen_create_window(&impl->window, context) < 0) {
-        goto fail;
+    यदि (screen_create_गवाक्षः(&impl->गवाक्षः, context) < 0) {
+        गच्छ fail;
     }
 
     // Set the native window's size to match the SDL window.
-    size[0] = window->w;
-    size[1] = window->h;
-    position[0] = window->x;
-    position[1] = window->y;
+    आकार[0] = गवाक्षः->w;
+    आकार[1] = गवाक्षः->h;
+    position[0] = गवाक्षः->x;
+    position[1] = गवाक्षः->y;
 
-    if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SIZE, size) < 0) {
-        goto fail;
+    यदि (screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_आकार, आकार) < 0) {
+        गच्छ fail;
     }
 
-    if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SOURCE_SIZE, size) < 0) {
-        goto fail;
+    यदि (screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_SOURCE_आकार, आकार) < 0) {
+        गच्छ fail;
     }
 
-    if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_POSITION, position) < 0) {
-        goto fail;
+    यदि (screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_POSITION, position) < 0) {
+        गच्छ fail;
     }
 
-    display = SDL_GetVideoDisplayForWindow(window);
-    SDL_assert(display != NULL);
-    SDL_assert(display->desktop_mode.internal != NULL);
-    display_mode_data = display->desktop_mode.internal;
+    display = SDL_Get_Video_Display_For_गवाक्षः(गवाक्षः);
+    SDL_assert(display != रिक्त);
+    SDL_assert(display->desktop_बहुलकम्.आन्तरिकम् != रिक्त);
+    display_बहुलकम्_दत्त = display->desktop_बहुलकम्.आन्तरिकम्;
 
     // Create window buffer(s).
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
         numbufs = 2;
 
         usage = SCREEN_USAGE_OPENGL_ES2 | SCREEN_USAGE_OPENGL_ES3;
-        if (screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_USAGE, &usage) < 0) {
-            goto fail;
+        यदि (screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_USAGE, &usage) < 0) {
+            गच्छ fail;
         }
-    } else {
+    } अन्यथा {
         numbufs = 1;
     }
 
     // Create buffer(s).
-    if (screen_create_window_buffers(impl->window, numbufs>0?numbufs:1) < 0) {
-        goto fail;
+    यदि (screen_create_गवाक्षः_buffers(impl->गवाक्षः, numbufs>0?numbufs:1) < 0) {
+        गच्छ fail;
     }
 
     // Initialize EGL surface.
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
         // The SDL_EGL_CreateSurface() function chooses the EGL config and
         // assigns the window the corresponding format.
-        impl->egl_surface = SDL_EGL_CreateSurface(_this, window, (NativeWindowType)impl->window);
-        if (impl->egl_surface == EGL_NO_SURFACE) {
-            goto fail;
+        impl->egl_surface = SDL_EGL_CreateSurface(_this, गवाक्षः, (Native_गवाक्षः_Type)impl->गवाक्षः);
+        यदि (impl->egl_surface == EGL_NO_SURFACE) {
+            गच्छ fail;
         }
-        SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_SURFACE_POINTER, impl->egl_surface);
+        SDL_समुच्चयः_Pointer_Property(SDL_Get_गवाक्षः_Properties(गवाक्षः), SDL_PROP_गवाक्षः_QNX_SURFACE_POINTER, impl->egl_surface);
     }
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_FORMAT, &format) < 0) {
-        format = display_mode_data->screen_format;
+    यदि (screen_get_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_FORMAT, &format) < 0) {
+        format = display_बहुलकम्_दत्त->screen_format;
     }
 
     // We now know what the pixel format is, so we need to provide it to the
     // right SDL APIs.
-    display->desktop_mode.format = screenToPixelFormat(format);
-    display_mode_data->screen_format = format;
+    display->desktop_बहुलकम्.format = screen_गन्तव्यम्_Pixel_Format(format);
+    display_बहुलकम्_दत्त->screen_format = format;
 
-    display_data = display->internal;
+    display_दत्त = display->आन्तरिकम्;
     // Initialized in QNX_VideoInit()
-    SDL_assert(display_data != NULL);
+    SDL_assert(display_दत्त != रिक्त);
 
     // Get initial focus state. Fallback to true.
-    if(screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
+    यदि(screen_get_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
         impl->has_focus = true;
-    } else {
+    } अन्यथा {
         impl->has_focus = (bool)has_focus_i;
     }
 
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_QNX_WINDOW_POINTER, impl->window);
+    SDL_समुच्चयः_Pointer_Property(SDL_Get_गवाक्षः_Properties(गवाक्षः), SDL_PROP_गवाक्षः_QNX_गवाक्षः_POINTER, impl->गवाक्षः);
 
-    return true;
+    प्रत्यागम true;
 
 fail:
-    if (impl->window) {
-        screen_destroy_window(impl->window);
+    यदि (impl->गवाक्षः) {
+        screen_destroy_गवाक्षः(impl->गवाक्षः);
     }
-    if (display_data) {
-        SDL_free(display_data);
-        display->internal = NULL;
+    यदि (display_दत्त) {
+        SDL_free(display_दत्त);
+        display->आन्तरिकम् = रिक्त;
     }
 
     SDL_free(impl);
-    window->internal = NULL;
-    return false;
+    गवाक्षः->आन्तरिकम् = रिक्त;
+    प्रत्यागम false;
 }
 
 /**
  * Gets a pointer to the Screen buffer associated with the given window. Note
  * that the buffer is actually created in QNX_CreateWindow().
  */
-static bool QNX_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format,
-                        void ** pixels, int *pitch)
+स्थिर bool QNX_Create_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः * गवाक्षः, SDL_PixelFormat * format,
+                        शून्य ** pixels, पूर्णाङ्क *pitch)
 {
-    int              buffer_count;
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    screen_buffer_t  *buffer;
-    SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
+    पूर्णाङ्क              बफर_गणनम्_2;
+    SDL_गवाक्षः_दत्त   *impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
+    screen_बफर_t  *बफर_2;
+    SDL_VideoDisplay *display = SDL_Get_Video_Display_For_गवाक्षः(गवाक्षः);
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_COUNT, &buffer_count) < 0) {
-        return false;
+    यदि (screen_get_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_बफर_गणनम्, &बफर_गणनम्_2) < 0) {
+        प्रत्यागम false;
     }
-    buffer = SDL_calloc(buffer_count, sizeof(screen_buffer_t));
+    बफर_2 = SDL_calloc(बफर_गणनम्_2, परिमाण(screen_बफर_t));
 
     // Get a pointer to the buffer's memory.
-    if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_BUFFERS, (void **)buffer) < 0) {
-        return false;
+    यदि (screen_get_गवाक्षः_property_pv(impl->गवाक्षः, SCREEN_PROPERTY_BUFFERS, (शून्य **)बफर_2) < 0) {
+        प्रत्यागम false;
     }
 
-    if (screen_get_buffer_property_pv(*buffer, SCREEN_PROPERTY_POINTER, pixels) < 0) {
-        return false;
+    यदि (screen_get_बफर_property_pv(*बफर_2, SCREEN_PROPERTY_POINTER, pixels) < 0) {
+        प्रत्यागम false;
     }
 
     // Set format and pitch.
-    if (screen_get_buffer_property_iv(*buffer, SCREEN_PROPERTY_STRIDE, pitch) < 0) {
-        return false;
+    यदि (screen_get_बफर_property_iv(*बफर_2, SCREEN_PROPERTY_STRIDE, pitch) < 0) {
+        प्रत्यागम false;
     }
 
-    *format = display->desktop_mode.format;
-    return true;
+    *format = display->desktop_बहुलकम्.format;
+    प्रत्यागम true;
 }
 
 /**
  * Informs the window manager that the window needs to be updated.
  */
-static bool QNX_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects,
-                        int numrects)
+स्थिर bool QNX_Update_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rects,
+                        पूर्णाङ्क numrects)
 {
-    int buffer_count, *rects_int;
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    screen_buffer_t *buffer;
+    पूर्णाङ्क बफर_गणनम्_2, *rects_int;
+    SDL_गवाक्षः_दत्त   *impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
+    screen_बफर_t *बफर_2;
 
-    if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_BUFFER_COUNT, &buffer_count) < 0) {
-        return false;
+    यदि (screen_get_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_बफर_गणनम्, &बफर_गणनम्_2) < 0) {
+        प्रत्यागम false;
     }
-    buffer = SDL_calloc(buffer_count, sizeof(screen_buffer_t));
+    बफर_2 = SDL_calloc(बफर_गणनम्_2, परिमाण(screen_बफर_t));
 
-    if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_BUFFERS, (void **)buffer) < 0) {
-        return false;
+    यदि (screen_get_गवाक्षः_property_pv(impl->गवाक्षः, SCREEN_PROPERTY_BUFFERS, (शून्य **)बफर_2) < 0) {
+        प्रत्यागम false;
     }
 
-    if(numrects>0){
-        rects_int = SDL_calloc(4*numrects, sizeof(int));
+    यदि(numrects>0){
+        rects_int = SDL_calloc(4*numrects, परिमाण(पूर्णाङ्क));
 
-        for(int i = 0; i < numrects; i++){
+        प्रति(पूर्णाङ्क i = 0; i < numrects; i++){
             rects_int[4*i]   = rects[i].x;
             rects_int[4*i+1] = rects[i].y;
             rects_int[4*i+2] = rects[i].w;
             rects_int[4*i+3] = rects[i].h;
         }
 
-        if(screen_post_window(impl->window, buffer[0], numrects, rects_int, 0)) {
-            return false;
+        यदि(screen_post_गवाक्षः(impl->गवाक्षः, बफर_2[0], numrects, rects_int, 0)) {
+            प्रत्यागम false;
         }
-        if(screen_flush_context(context, 0)) {
-            return false;
+        यदि(screen_flush_context(context, 0)) {
+            प्रत्यागम false;
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-static SDL_FullscreenResult QNX_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+स्थिर SDL_Fullscreen_परिणाम QNX_समुच्चयः_गवाक्षः_Fullscreen(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-    SDL_WindowData *window_data = window->internal;
-    int size[2] = { 0, 0 };
-    int position[2] = { 0, 0 };
+    SDL_गवाक्षः_दत्त *गवाक्षः_दत्त_2 = गवाक्षः->आन्तरिकम्;
+    पूर्णाङ्क आकार[2] = { 0, 0 };
+    पूर्णाङ्क position[2] = { 0, 0 };
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) && !fullscreen) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) && !fullscreen) {
+        प्रत्यागम SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (fullscreen) {
+    यदि (fullscreen) {
         SDL_Rect bounds;
 
-        if (!QNX_GetDisplayBounds(_this, display, &bounds)) {
-            return SDL_FULLSCREEN_FAILED;
+        यदि (!QNX_GetDisplayBounds(_this, display, &bounds)) {
+            प्रत्यागम SDL_FULLSCREEN_FAILED;
         }
         position[0] = bounds.x;
         position[1] = bounds.y;
-        size[0] = bounds.w;
-        size[1] = bounds.h;
-    } else {
-        position[0] = window->x;
-        position[1] = window->y;
-        size[0] = window->w;
-        size[1] = window->h;
+        आकार[0] = bounds.w;
+        आकार[1] = bounds.h;
+    } अन्यथा {
+        position[0] = गवाक्षः->x;
+        position[1] = गवाक्षः->y;
+        आकार[0] = गवाक्षः->w;
+        आकार[1] = गवाक्षः->h;
     }
 
-    if (screen_set_window_property_iv(window_data->window, SCREEN_PROPERTY_SIZE, size) < 0) {
-        return SDL_FULLSCREEN_FAILED;
+    यदि (screen_समुच्चयः_गवाक्षः_property_iv(गवाक्षः_दत्त_2->गवाक्षः, SCREEN_PROPERTY_आकार, आकार) < 0) {
+        प्रत्यागम SDL_FULLSCREEN_FAILED;
     }
 
-    if (screen_set_window_property_iv(window_data->window, SCREEN_PROPERTY_SOURCE_SIZE, size) < 0) {
-        return SDL_FULLSCREEN_FAILED;
+    यदि (screen_समुच्चयः_गवाक्षः_property_iv(गवाक्षः_दत्त_2->गवाक्षः, SCREEN_PROPERTY_SOURCE_आकार, आकार) < 0) {
+        प्रत्यागम SDL_FULLSCREEN_FAILED;
     }
 
-    if (screen_set_window_property_iv(window_data->window, SCREEN_PROPERTY_POSITION, position) < 0) {
-        return SDL_FULLSCREEN_FAILED;
+    यदि (screen_समुच्चयः_गवाक्षः_property_iv(गवाक्षः_दत्त_2->गवाक्षः, SCREEN_PROPERTY_POSITION, position) < 0) {
+        प्रत्यागम SDL_FULLSCREEN_FAILED;
     }
 
-    SDL_SendWindowEvent(window, fullscreen ? SDL_EVENT_WINDOW_ENTER_FULLSCREEN : SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
+    SDL_Send_गवाक्षः_Event(गवाक्षः, fullscreen ? SDL_EVENT_गवाक्षः_ENTER_FULLSCREEN : SDL_EVENT_गवाक्षः_LEAVE_FULLSCREEN, 0, 0);
 
-    return SDL_FULLSCREEN_SUCCEEDED;
+    प्रत्यागम SDL_FULLSCREEN_SUCCEEDED;
 }
 
-static SDL_DisplayID QNX_GetDisplayForWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर SDL_DisplayID QNX_Get_Display_For_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
     // We need this, otherwise SDL will fallback to the primary display, meaning
     // any data we store about the display will be inconveniently overwritten.
-    SDL_WindowData  *impl = (SDL_WindowData *)window->internal;
-    SDL_DisplayData *display_data;
+    SDL_गवाक्षः_दत्त  *impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
+    SDL_Display_दत्त *display_दत्त;
 
     screen_display_t screen_display;
 
-    if (impl == NULL) {
-        return 0;
+    यदि (impl == रिक्त) {
+        प्रत्यागम 0;
     }
 
-    if (screen_get_window_property_pv(impl->window, SCREEN_PROPERTY_DISPLAY, (void **)&screen_display) < 0) {
-        return 0;
+    यदि (screen_get_गवाक्षः_property_pv(impl->गवाक्षः, SCREEN_PROPERTY_DISPLAY, (शून्य **)&screen_display) < 0) {
+        प्रत्यागम 0;
     }
 
-    for (int i = 0; i < _this->num_displays; i++) {
-        display_data = _this->displays[i]->internal;
-        if (display_data && (display_data->screen_display == screen_display)) {
-            return _this->displays[i]->id;
+    प्रति (पूर्णाङ्क i = 0; i < _this->अङ्कः_displays; i++) {
+        display_दत्त = _this->displays[i]->आन्तरिकम्;
+        यदि (display_दत्त && (display_दत्त->screen_display == screen_display)) {
+            प्रत्यागम _this->displays[i]->id;
         }
     }
 
-    return 0;
+    प्रत्यागम 0;
 }
 
 /**
  * Runs the main event loop.
  */
-static void QNX_PumpEvents(SDL_VideoDevice *_this)
+स्थिर शून्य QNX_PumpEvents(SDL_VideoDevice *_this)
 {
-    SDL_Window      *window;
-    SDL_WindowData   *impl;
-    int             type;
-    int             has_focus_i;
+    SDL_गवाक्षः      *गवाक्षः;
+    SDL_गवाक्षः_दत्त   *impl;
+    पूर्णाङ्क             type;
+    पूर्णाङ्क             has_focus_i;
     bool            has_focus;
 
     // Let apps know the state of focus.
-    for (window = _this->windows; window; window = window->next) {
-        impl = (SDL_WindowData *)window->internal;
-        if (screen_get_window_property_iv(impl->window, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
-            continue;
+    प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+        impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
+        यदि (screen_get_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_FOCUS, &has_focus_i) < 0){
+            अनुवर्त;
         }
         has_focus = (bool)has_focus_i;
 
-        if (impl->has_focus != has_focus) {
-            SDL_SendWindowEvent(window, (has_focus ? SDL_EVENT_WINDOW_FOCUS_GAINED : SDL_EVENT_WINDOW_FOCUS_LOST), 0, 0);
-            SDL_SendWindowEvent(window, (has_focus ? SDL_EVENT_WINDOW_MOUSE_ENTER : SDL_EVENT_WINDOW_MOUSE_LEAVE), 0, 0);
+        यदि (impl->has_focus != has_focus) {
+            SDL_Send_गवाक्षः_Event(गवाक्षः, (has_focus ? SDL_EVENT_गवाक्षः_FOCUS_GAINED : SDL_EVENT_गवाक्षः_FOCUS_नष्टम्), 0, 0);
+            SDL_Send_गवाक्षः_Event(गवाक्षः, (has_focus ? SDL_EVENT_गवाक्षः_MOUSE_ENTER : SDL_EVENT_गवाक्षः_MOUSE_LEAVE), 0, 0);
             // Update the SDL mouse to track the window it's focused on.
-            SDL_SetMouseFocus(window);
-            SDL_SetKeyboardFocus(window);
+            SDL_समुच्चयः_Mouse_Focus(गवाक्षः);
+            SDL_समुच्चयः_Keyboard_Focus(गवाक्षः);
         }
     }
 
-    for (;;) {
-        if (screen_get_event(context, event, 0) < 0) {
-            break;
+    प्रति (;;) {
+        यदि (screen_get_event(context, event, 0) < 0) {
+            भङ्ग;
         }
 
-        if (screen_get_event_property_iv(event, SCREEN_PROPERTY_TYPE, &type)
+        यदि (screen_get_event_property_iv(event, SCREEN_PROPERTY_TYPE, &type)
             < 0) {
-            break;
+            भङ्ग;
         }
 
-        if (type == SCREEN_EVENT_NONE) {
-            break;
+        यदि (type == SCREEN_EVENT_NONE) {
+            भङ्ग;
         }
 
-        switch (type) {
-        case SCREEN_EVENT_KEYBOARD:
+        विकल्प (type) {
+        पक्ष SCREEN_EVENT_KEYBOARD:
             handleKeyboardEvent(event);
-            break;
+            भङ्ग;
 
-        case SCREEN_EVENT_POINTER:
+        पक्ष SCREEN_EVENT_POINTER:
             handlePointerEvent(event);
-            break;
+            भङ्ग;
 
-        default:
-            break;
+        स्वभाव:
+            भङ्ग;
         }
     }
 }
@@ -494,69 +494,69 @@ static void QNX_PumpEvents(SDL_VideoDevice *_this)
 /**
  * Updates the size of the native window using the geometry of the SDL window.
  */
-static void QNX_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य QNX_समुच्चयः_गवाक्षः_आकार(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    int             size[2];
+    SDL_गवाक्षः_दत्त   *impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
+    पूर्णाङ्क             आकार[2];
 
-    size[0] = window->pending.w;
-    size[1] = window->pending.h;
+    आकार[0] = गवाक्षः->pending.w;
+    आकार[1] = गवाक्षः->pending.h;
 
-    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED))) {
-        if (screen_destroy_window_buffers(impl->window) < 0) {
-            return;
+    यदि (!(गवाक्षः->flags & (SDL_गवाक्षः_FULLSCREEN | SDL_गवाक्षः_MAXIMIZED))) {
+        यदि (screen_destroy_गवाक्षः_buffers(impl->गवाक्षः) < 0) {
+            प्रत्यागम;
         }
         impl->resize = true;
 
-        screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SIZE, size);
-        screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_SOURCE_SIZE, size);
+        screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_आकार, आकार);
+        screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_SOURCE_आकार, आकार);
 
-        screen_create_window_buffers(impl->window, (window->flags & SDL_WINDOW_OPENGL) ? 2 : 1);
-    } else {
-        window->last_size_pending = false;
+        screen_create_गवाक्षः_buffers(impl->गवाक्षः, (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) ? 2 : 1);
+    } अन्यथा {
+        गवाक्षः->चरमः_आकार_pending = false;
     }
 }
 
 /**
  * Makes the native window associated with the given SDL window visible.
  */
-static void QNX_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य QNX_Show_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    const int       visible = 1;
+    SDL_गवाक्षः_दत्त   *impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
+    ध्रुव पूर्णाङ्क       visible = 1;
 
-    screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_VISIBLE, &visible);
+    screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_VISIBLE, &visible);
 }
 
 /**
  * Makes the native window associated with the given SDL window invisible.
  */
-static void QNX_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य QNX_Hide_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
-    const int       visible = 0;
+    SDL_गवाक्षः_दत्त   *impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
+    ध्रुव पूर्णाङ्क       visible = 0;
 
-    screen_set_window_property_iv(impl->window, SCREEN_PROPERTY_VISIBLE, &visible);
+    screen_समुच्चयः_गवाक्षः_property_iv(impl->गवाक्षः, SCREEN_PROPERTY_VISIBLE, &visible);
 }
 
 /**
  * Destroys the native window associated with the given SDL window.
  */
-static void QNX_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य QNX_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData   *impl = (SDL_WindowData *)window->internal;
+    SDL_गवाक्षः_दत्त   *impl = (SDL_गवाक्षः_दत्त *)गवाक्षः->आन्तरिकम्;
 
-    if (impl) {
+    यदि (impl) {
         SDL_EGL_DestroySurface(_this, impl->egl_surface);
-        screen_destroy_window(impl->window);
-        window->internal = NULL;
+        screen_destroy_गवाक्षः(impl->गवाक्षः);
+        गवाक्षः->आन्तरिकम् = रिक्त;
     }
 }
 
 /**
  * Frees the plugin object created by createDevice().
  */
-static void QNX_DeleteDevice(SDL_VideoDevice *device)
+स्थिर शून्य QNX_DeleteDevice(SDL_VideoDevice *device)
 {
     SDL_free(device);
 }
@@ -564,52 +564,52 @@ static void QNX_DeleteDevice(SDL_VideoDevice *device)
 /**
  * Creates the QNX video plugin used by SDL.
  */
-static SDL_VideoDevice *createDevice(void)
+स्थिर SDL_VideoDevice *createDevice(शून्य)
 {
     SDL_VideoDevice *device;
 
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (!device) {
-        return NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, परिमाण(SDL_VideoDevice));
+    यदि (!device) {
+        प्रत्यागम रिक्त;
     }
 
-    device->internal = NULL;
+    device->आन्तरिकम् = रिक्त;
     device->VideoInit = QNX_VideoInit;
     device->VideoQuit = QNX_VideoQuit;
-    device->CreateSDLWindow = QNX_CreateWindow;
-    device->CreateWindowFramebuffer = QNX_CreateWindowFramebuffer;
-    device->UpdateWindowFramebuffer = QNX_UpdateWindowFramebuffer;
-    device->SetWindowSize = QNX_SetWindowSize;
-    device->SetWindowFullscreen = QNX_SetWindowFullscreen;
-    device->ShowWindow = QNX_ShowWindow;
-    device->HideWindow = QNX_HideWindow;
-    device->GetDisplayForWindow = QNX_GetDisplayForWindow;
+    device->CreateSDLWindow = QNX_Create_गवाक्षः;
+    device->Create_गवाक्षः_Framebuffer = QNX_Create_गवाक्षः_Framebuffer;
+    device->Update_गवाक्षः_Framebuffer = QNX_Update_गवाक्षः_Framebuffer;
+    device->समुच्चयः_गवाक्षः_आकार = QNX_समुच्चयः_गवाक्षः_आकार;
+    device->समुच्चयः_गवाक्षः_Fullscreen = QNX_समुच्चयः_गवाक्षः_Fullscreen;
+    device->Show_गवाक्षः = QNX_Show_गवाक्षः;
+    device->Hide_गवाक्षः = QNX_Hide_गवाक्षः;
+    device->Get_Display_For_गवाक्षः = QNX_Get_Display_For_गवाक्षः;
     device->GetDisplayBounds = QNX_GetDisplayBounds;
     device->GetDisplayModes = QNX_GetDisplayModes;
-#if 0
-    device->SetDisplayMode = QNX_SetDisplayMode;
-#endif
+#यदि 0
+    device->समुच्चयः_Display_बहुलकम् = QNX_समुच्चयः_Display_बहुलकम्;
+#यदि_अन्तः
     device->PumpEvents = QNX_PumpEvents;
-    device->DestroyWindow = QNX_DestroyWindow;
+    device->Destroy_गवाक्षः = QNX_Destroy_गवाक्षः;
 
-    device->GL_LoadLibrary = QNX_GLES_LoadLibrary;
-    device->GL_GetProcAddress = QNX_GLES_GetProcAddress;
+    device->GL_आरोपय_Library = QNX_GLES_आरोपय_Library;
+    device->GL_Get_Proc_स्थानाङ्कः = QNX_GLES_Get_Proc_स्थानाङ्कः;
     device->GL_CreateContext = QNX_GLES_CreateContext;
-    device->GL_SetSwapInterval = QNX_GLES_SetSwapInterval;
+    device->GL_समुच्चयः_Swap_Interval = QNX_GLES_समुच्चयः_Swap_Interval;
     device->GL_GetSwapInterval = QNX_GLES_GetSwapInterval;
-    device->GL_SwapWindow = QNX_GLES_SwapWindow;
+    device->GL_Swap_गवाक्षः = QNX_GLES_Swap_गवाक्षः;
     device->GL_MakeCurrent = QNX_GLES_MakeCurrent;
     device->GL_DestroyContext = QNX_GLES_DeleteContext;
     device->GL_UnloadLibrary = QNX_GLES_UnloadLibrary;
 
-    device->free = QNX_DeleteDevice;
+    device->मुक्त = QNX_DeleteDevice;
 
-    return device;
+    प्रत्यागम device;
 }
 
 VideoBootStrap QNX_bootstrap = {
     "qnx", "QNX Screen",
     createDevice,
-    NULL, // no ShowMessageBox implementation
+    रिक्त, // no ShowMessageBox implementation
     false
 };

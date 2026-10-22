@@ -18,108 +18,108 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
-#include "SDL_vitamessagebox.h"
-#include <psp2/message_dialog.h>
+#अन्तर्भाव "SDL_vitavideo.h"
+#अन्तर्भाव "SDL_vitamessagebox.h"
+#अन्तर्भाव <psp2/message_dialog.h>
 
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-#include "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+#यदि_परिभाषितम् SDL_VIDEO_RENDER_VITA_GXM
+#अन्तर्भाव "../../render/vitagxm/SDL_render_vita_gxm_tools.h"
+#यदि_अन्तः // SDL_VIDEO_RENDER_VITA_GXM
 
-bool VITA_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool VITA_Show_सन्देशः_Box(ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, पूर्णाङ्क *buttonID)
 {
-#ifdef SDL_VIDEO_RENDER_VITA_GXM
-    SceMsgDialogParam param;
-    SceMsgDialogUserMessageParam msgParam;
-    SceMsgDialogButtonsParam buttonParam;
+#यदि_परिभाषितम् SDL_VIDEO_RENDER_VITA_GXM
+    Sce_सन्देशः_Dialog_Param param;
+    Sce_सन्देशः_Dialog_User_सन्देशः_Param सन्देशः_Param;
+    Sce_सन्देशः_Dialog_Buttons_Param buttonParam;
     SceDisplayFrameBuf dispparam;
-    char message[512];
+    वर्ण सन्देशः[512];
 
-    SceMsgDialogResult dialog_result;
-    SceCommonDialogErrorCode init_result;
-    bool setup_minimal_gxm = false;
+    Sce_सन्देशः_Dialog_परिणाम dialog_परिणाम;
+    Sce_Common_Dialog_Error_संहिता init_परिणाम;
+    bool सज्जता_अल्पिष्ठम्_gxm = false;
 
-    if (messageboxdata->numbuttons > 3) {
-        return false;
+    यदि (messageboxdata->numbuttons > 3) {
+        प्रत्यागम false;
     }
 
     SDL_zero(param);
-    sceMsgDialogParamInit(&param);
-    param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;
+    sce_सन्देशः_Dialog_Param_Init(&param);
+    param.बहुलकम् = SCE_सन्देशः_DIALOG_बहुलकम्_USER_सन्देशः;
 
-    SDL_zero(msgParam);
-    SDL_snprintf(message, sizeof(message), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->message);
+    SDL_zero(सन्देशः_Param);
+    SDL_snprintf(सन्देशः, परिमाण(सन्देशः), "%s\r\n\r\n%s", messageboxdata->title, messageboxdata->सन्देशः);
 
-    msgParam.msg = (const SceChar8 *)message;
+    सन्देशः_Param.सन्देशः_2 = (ध्रुव SceChar8 *)सन्देशः;
     SDL_zero(buttonParam);
 
-    if (messageboxdata->numbuttons == 3) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_3BUTTONS;
-        msgParam.buttonParam = &buttonParam;
+    यदि (messageboxdata->numbuttons == 3) {
+        सन्देशः_Param.buttonType = SCE_सन्देशः_DIALOG_BUTTON_TYPE_3_BUTTONS;
+        सन्देशः_Param.buttonParam = &buttonParam;
         buttonParam.msg1 = messageboxdata->buttons[0].text;
         buttonParam.msg2 = messageboxdata->buttons[1].text;
         buttonParam.msg3 = messageboxdata->buttons[2].text;
-    } else if (messageboxdata->numbuttons == 2) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_YESNO;
-    } else if (messageboxdata->numbuttons == 1) {
-        msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;
+    } अन्यथा यदि (messageboxdata->numbuttons == 2) {
+        सन्देशः_Param.buttonType = SCE_सन्देशः_DIALOG_BUTTON_TYPE_YESNO;
+    } अन्यथा यदि (messageboxdata->numbuttons == 1) {
+        सन्देशः_Param.buttonType = SCE_सन्देशः_DIALOG_BUTTON_TYPE_OK;
     }
-    param.userMsgParam = &msgParam;
+    param.user_सन्देशः_Param = &सन्देशः_Param;
 
-    dispparam.size = sizeof(dispparam);
+    dispparam.आकार = परिमाण(dispparam);
 
-    init_result = sceMsgDialogInit(&param);
+    init_परिणाम = sce_सन्देशः_Dialog_Init(&param);
 
     // Setup display if it hasn't been initialized before
-    if (init_result == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
-        gxm_minimal_init_for_common_dialog();
-        init_result = sceMsgDialogInit(&param);
-        setup_minimal_gxm = true;
+    यदि (init_परिणाम == SCE_COMMON_DIALOG_ERROR_GXM_IS_UNINITIALIZED) {
+        gxm_अल्पिष्ठम्_init_for_common_dialog();
+        init_परिणाम = sce_सन्देशः_Dialog_Init(&param);
+        सज्जता_अल्पिष्ठम्_gxm = true;
     }
 
     gxm_init_for_common_dialog();
 
-    if (init_result >= 0) {
-        while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
+    यदि (init_परिणाम >= 0) {
+        यावत् (sce_सन्देशः_Dialog_Get_स्थितिः() == SCE_COMMON_DIALOG_स्थितिः_RUNNING) {
             gxm_swap_for_common_dialog();
         }
-        SDL_zero(dialog_result);
-        sceMsgDialogGetResult(&dialog_result);
+        SDL_zero(dialog_परिणाम);
+        sce_सन्देशः_Dialog_Get_परिणाम(&dialog_परिणाम);
 
-        if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON1) {
+        यदि (dialog_परिणाम.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_BUTTON1) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON2) {
+        } अन्यथा यदि (dialog_परिणाम.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_BUTTON2) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_BUTTON3) {
+        } अन्यथा यदि (dialog_परिणाम.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_BUTTON3) {
             *buttonID = messageboxdata->buttons[2].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_YES) {
+        } अन्यथा यदि (dialog_परिणाम.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_YES) {
             *buttonID = messageboxdata->buttons[0].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_NO) {
+        } अन्यथा यदि (dialog_परिणाम.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_NO) {
             *buttonID = messageboxdata->buttons[1].buttonID;
-        } else if (dialog_result.buttonId == SCE_MSG_DIALOG_BUTTON_ID_OK) {
+        } अन्यथा यदि (dialog_परिणाम.buttonId == SCE_सन्देशः_DIALOG_BUTTON_ID_OK) {
             *buttonID = messageboxdata->buttons[0].buttonID;
         }
-        sceMsgDialogTerm();
-    } else {
-        return false;
+        sce_सन्देशः_Dialog_पदांशः();
+    } अन्यथा {
+        प्रत्यागम false;
     }
 
-    gxm_term_for_common_dialog();
+    gxm_पदांशः_for_common_dialog();
 
-    if (setup_minimal_gxm) {
-        gxm_minimal_term_for_common_dialog();
+    यदि (सज्जता_अल्पिष्ठम्_gxm) {
+        gxm_अल्पिष्ठम्_पदांशः_for_common_dialog();
     }
 
-    return true;
-#else
-    (void)messageboxdata;
-    (void)buttonID;
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_RENDER_VITA_GXM
+    प्रत्यागम true;
+#अन्यथा
+    (शून्य)messageboxdata;
+    (शून्य)buttonID;
+    प्रत्यागम SDL_Unsupported();
+#यदि_अन्तः // SDL_VIDEO_RENDER_VITA_GXM
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#यदि_अन्तः // SDL_VIDEO_DRIVER_VITA

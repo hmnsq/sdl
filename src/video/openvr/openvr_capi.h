@@ -34,448 +34,448 @@
 //
 //=============================================================================
 
-#ifndef __OPENVR_API_FLAT_H__
-#define __OPENVR_API_FLAT_H__
-#if defined( _WIN32 ) || defined( __clang__ )
-#pragma once
-#endif
+#यदि_अपरिभाषितम् __OPENVR_API_FLAT_H__
+#परिभाषय __OPENVR_API_FLAT_H__
+#यदि defined( _WIN32 ) || defined( __clang__ )
+#निर्देशः once
+#यदि_अन्तः
 
-#ifdef __cplusplus
-#define EXTERN_C extern "C"
-#else
-#define EXTERN_C
-#endif
+#यदि_परिभाषितम् __cplusplus
+#परिभाषय EXTERN_C बाह्य "C"
+#अन्यथा
+#परिभाषय EXTERN_C
+#यदि_अन्तः
 
-#if defined( _WIN32 )
-#define OPENVR_FNTABLE_CALLTYPE __stdcall
-#else
-#define OPENVR_FNTABLE_CALLTYPE 
-#endif
+#यदि defined( _WIN32 )
+#परिभाषय OPENVR_FNTABLE_CALLTYPE __stdcall
+#अन्यथा
+#परिभाषय OPENVR_FNTABLE_CALLTYPE 
+#यदि_अन्तः
 
 // OPENVR API export macro
-#if defined( _WIN32 ) && !defined( _X360 )
-	#if defined( OPENVR_API_EXPORTS )
-	#define S_API EXTERN_C __declspec( dllexport )
-	#elif defined( OPENVR_API_NODLL )
-	#define S_API EXTERN_C
-	#else
-	#define S_API extern "C" __declspec( dllimport ) 
-	#endif // OPENVR_API_EXPORTS
-#elif defined( __GNUC__ )
-	#if defined( OPENVR_API_EXPORTS )
-	#define S_API EXTERN_C __attribute__ ((visibility("default")))
-	#else
-	#define S_API EXTERN_C
-	#endif // OPENVR_API_EXPORTS
-#else // !WIN32
-	#if defined( OPENVR_API_EXPORTS )
-	#define S_API EXTERN_C
-	#else
-	#define S_API EXTERN_C
-	#endif // OPENVR_API_EXPORTS
-#endif
+#यदि defined( _WIN32 ) && !defined( _X360 )
+	#यदि defined( OPENVR_API_EXPORTS )
+	#परिभाषय S_API EXTERN_C __declspec( dllexport )
+	#नोचेद्यदि defined( OPENVR_API_NODLL )
+	#परिभाषय S_API EXTERN_C
+	#अन्यथा
+	#परिभाषय S_API बाह्य "C" __declspec( dllimport ) 
+	#यदि_अन्तः // OPENVR_API_EXPORTS
+#नोचेद्यदि defined( __GNUC__ )
+	#यदि defined( OPENVR_API_EXPORTS )
+	#परिभाषय S_API EXTERN_C __attribute__ ((visibility("default")))
+	#अन्यथा
+	#परिभाषय S_API EXTERN_C
+	#यदि_अन्तः // OPENVR_API_EXPORTS
+#अन्यथा // !WIN32
+	#यदि defined( OPENVR_API_EXPORTS )
+	#परिभाषय S_API EXTERN_C
+	#अन्यथा
+	#परिभाषय S_API EXTERN_C
+	#यदि_अन्तः // OPENVR_API_EXPORTS
+#यदि_अन्तः
 
-#ifndef USE_SDL
-#include <stdint.h>
+#यदि_अपरिभाषितम् USE_SDL
+#अन्तर्भाव <stdint.h>
 
-#if defined( __WIN32 )
-typedef char bool;
-#else
-#include <stdbool.h>
-#endif
-#endif // USE_SDL
+#यदि defined( __WIN32 )
+प्रकारनिर्देश वर्ण bool;
+#अन्यथा
+#अन्तर्भाव <stdbool.h>
+#यदि_अन्तः
+#यदि_अन्तः // USE_SDL
 
 // OpenVR Constants
 
-static const unsigned long k_nDriverNone = 4294967295;
-static const unsigned long k_unMaxDriverDebugResponseSize = 32768;
-static const unsigned long k_unTrackedDeviceIndex_Hmd = 0;
-static const unsigned long k_unMaxTrackedDeviceCount = 64;
-static const unsigned long k_unTrackedDeviceIndexOther = 4294967294;
-static const unsigned long k_unTrackedDeviceIndexInvalid = 4294967295;
-static const unsigned long long k_ulInvalidPropertyContainer = 0;
-static const unsigned long k_unInvalidPropertyTag = 0;
-static const unsigned long long k_ulInvalidDriverHandle = 0;
-static const unsigned long k_unFloatPropertyTag = 1;
-static const unsigned long k_unInt32PropertyTag = 2;
-static const unsigned long k_unUint64PropertyTag = 3;
-static const unsigned long k_unBoolPropertyTag = 4;
-static const unsigned long k_unStringPropertyTag = 5;
-static const unsigned long k_unErrorPropertyTag = 6;
-static const unsigned long k_unDoublePropertyTag = 7;
-static const unsigned long k_unHmdMatrix34PropertyTag = 20;
-static const unsigned long k_unHmdMatrix44PropertyTag = 21;
-static const unsigned long k_unHmdVector3PropertyTag = 22;
-static const unsigned long k_unHmdVector4PropertyTag = 23;
-static const unsigned long k_unHmdVector2PropertyTag = 24;
-static const unsigned long k_unHmdQuadPropertyTag = 25;
-static const unsigned long k_unHiddenAreaPropertyTag = 30;
-static const unsigned long k_unPathHandleInfoTag = 31;
-static const unsigned long k_unActionPropertyTag = 32;
-static const unsigned long k_unInputValuePropertyTag = 33;
-static const unsigned long k_unWildcardPropertyTag = 34;
-static const unsigned long k_unHapticVibrationPropertyTag = 35;
-static const unsigned long k_unSkeletonPropertyTag = 36;
-static const unsigned long k_unSpatialAnchorPosePropertyTag = 40;
-static const unsigned long k_unJsonPropertyTag = 41;
-static const unsigned long k_unActiveActionSetPropertyTag = 42;
-static const unsigned long k_unOpenVRInternalReserved_Start = 1000;
-static const unsigned long k_unOpenVRInternalReserved_End = 10000;
-static const unsigned long k_unMaxPropertyStringSize = 32768;
-static const unsigned long long k_ulInvalidActionHandle = 0;
-static const unsigned long long k_ulInvalidActionSetHandle = 0;
-static const unsigned long long k_ulInvalidInputValueHandle = 0;
-static const unsigned long k_unControllerStateAxisCount = 5;
-static const unsigned long long k_ulOverlayHandleInvalid = 0;
-static const unsigned long k_unMaxDistortionFunctionParameters = 8;
-static const unsigned long k_unScreenshotHandleInvalid = 0;
-static const char * IVRSystem_Version = "IVRSystem_022";
-static const char * IVRExtendedDisplay_Version = "IVRExtendedDisplay_001";
-static const char * IVRTrackedCamera_Version = "IVRTrackedCamera_006";
-static const unsigned long k_unMaxApplicationKeyLength = 128;
-static const char * k_pch_MimeType_HomeApp = "vr/home";
-static const char * k_pch_MimeType_GameTheater = "vr/game_theater";
-static const char * IVRApplications_Version = "IVRApplications_007";
-static const char * IVRChaperone_Version = "IVRChaperone_004";
-static const char * IVRChaperoneSetup_Version = "IVRChaperoneSetup_006";
-static const char * IVRCompositor_Version = "IVRCompositor_027";
-static const unsigned long k_unVROverlayMaxKeyLength = 128;
-static const unsigned long k_unVROverlayMaxNameLength = 128;
-static const unsigned long k_unMaxOverlayCount = 128;
-static const unsigned long k_unMaxOverlayIntersectionMaskPrimitivesCount = 32;
-static const char * IVROverlay_Version = "IVROverlay_026";
-static const char * IVROverlayView_Version = "IVROverlayView_003";
-static const unsigned long k_unHeadsetViewMaxWidth = 3840;
-static const unsigned long k_unHeadsetViewMaxHeight = 2160;
-static const char * k_pchHeadsetViewOverlayKey = "system.HeadsetView";
-static const char * IVRHeadsetView_Version = "IVRHeadsetView_001";
-static const char * k_pch_Controller_Component_GDC2015 = "gdc2015";
-static const char * k_pch_Controller_Component_Base = "base";
-static const char * k_pch_Controller_Component_Tip = "tip";
-static const char * k_pch_Controller_Component_OpenXR_Aim = "openxr_aim";
-static const char * k_pch_Controller_Component_HandGrip = "handgrip";
-static const char * k_pch_Controller_Component_OpenXR_Grip = "openxr_grip";
-static const char * k_pch_Controller_Component_OpenXR_HandModel = "openxr_handmodel";
-static const char * k_pch_Controller_Component_Status = "status";
-static const char * IVRRenderModels_Version = "IVRRenderModels_006";
-static const unsigned long k_unNotificationTextMaxSize = 256;
-static const char * IVRNotifications_Version = "IVRNotifications_002";
-static const unsigned long k_unMaxSettingsKeyLength = 128;
-static const char * IVRSettings_Version = "IVRSettings_003";
-static const char * k_pch_SteamVR_Section = "steamvr";
-static const char * k_pch_SteamVR_RequireHmd_String = "requireHmd";
-static const char * k_pch_SteamVR_ForcedDriverKey_String = "forcedDriver";
-static const char * k_pch_SteamVR_ForcedHmdKey_String = "forcedHmd";
-static const char * k_pch_SteamVR_DisplayDebug_Bool = "displayDebug";
-static const char * k_pch_SteamVR_DebugProcessPipe_String = "debugProcessPipe";
-static const char * k_pch_SteamVR_DisplayDebugX_Int32 = "displayDebugX";
-static const char * k_pch_SteamVR_DisplayDebugY_Int32 = "displayDebugY";
-static const char * k_pch_SteamVR_SendSystemButtonToAllApps_Bool = "sendSystemButtonToAllApps";
-static const char * k_pch_SteamVR_LogLevel_Int32 = "loglevel";
-static const char * k_pch_SteamVR_IPD_Float = "ipd";
-static const char * k_pch_SteamVR_Background_String = "background";
-static const char * k_pch_SteamVR_BackgroundUseDomeProjection_Bool = "backgroundUseDomeProjection";
-static const char * k_pch_SteamVR_BackgroundCameraHeight_Float = "backgroundCameraHeight";
-static const char * k_pch_SteamVR_BackgroundDomeRadius_Float = "backgroundDomeRadius";
-static const char * k_pch_SteamVR_GridColor_String = "gridColor";
-static const char * k_pch_SteamVR_PlayAreaColor_String = "playAreaColor";
-static const char * k_pch_SteamVR_TrackingLossColor_String = "trackingLossColor";
-static const char * k_pch_SteamVR_ShowStage_Bool = "showStage";
-static const char * k_pch_SteamVR_DrawTrackingReferences_Bool = "drawTrackingReferences";
-static const char * k_pch_SteamVR_ActivateMultipleDrivers_Bool = "activateMultipleDrivers";
-static const char * k_pch_SteamVR_UsingSpeakers_Bool = "usingSpeakers";
-static const char * k_pch_SteamVR_SpeakersForwardYawOffsetDegrees_Float = "speakersForwardYawOffsetDegrees";
-static const char * k_pch_SteamVR_BaseStationPowerManagement_Int32 = "basestationPowerManagement";
-static const char * k_pch_SteamVR_ShowBaseStationPowerManagementTip_Int32 = "ShowBaseStationPowerManagementTip";
-static const char * k_pch_SteamVR_NeverKillProcesses_Bool = "neverKillProcesses";
-static const char * k_pch_SteamVR_SupersampleScale_Float = "supersampleScale";
-static const char * k_pch_SteamVR_MaxRecommendedResolution_Int32 = "maxRecommendedResolution";
-static const char * k_pch_SteamVR_MotionSmoothing_Bool = "motionSmoothing";
-static const char * k_pch_SteamVR_MotionSmoothingOverride_Int32 = "motionSmoothingOverride";
-static const char * k_pch_SteamVR_FramesToThrottle_Int32 = "framesToThrottle";
-static const char * k_pch_SteamVR_AdditionalFramesToPredict_Int32 = "additionalFramesToPredict";
-static const char * k_pch_SteamVR_WorldScale_Float = "worldScale";
-static const char * k_pch_SteamVR_FovScale_Int32 = "fovScale";
-static const char * k_pch_SteamVR_DisableAsyncReprojection_Bool = "disableAsync";
-static const char * k_pch_SteamVR_ForceFadeOnBadTracking_Bool = "forceFadeOnBadTracking";
-static const char * k_pch_SteamVR_DefaultMirrorView_Int32 = "mirrorView";
-static const char * k_pch_SteamVR_ShowLegacyMirrorView_Bool = "showLegacyMirrorView";
-static const char * k_pch_SteamVR_MirrorViewVisibility_Bool = "showMirrorView";
-static const char * k_pch_SteamVR_MirrorViewDisplayMode_Int32 = "mirrorViewDisplayMode";
-static const char * k_pch_SteamVR_MirrorViewEye_Int32 = "mirrorViewEye";
-static const char * k_pch_SteamVR_MirrorViewGeometry_String = "mirrorViewGeometry";
-static const char * k_pch_SteamVR_MirrorViewGeometryMaximized_String = "mirrorViewGeometryMaximized";
-static const char * k_pch_SteamVR_PerfGraphVisibility_Bool = "showPerfGraph";
-static const char * k_pch_SteamVR_StartMonitorFromAppLaunch = "startMonitorFromAppLaunch";
-static const char * k_pch_SteamVR_StartCompositorFromAppLaunch_Bool = "startCompositorFromAppLaunch";
-static const char * k_pch_SteamVR_StartDashboardFromAppLaunch_Bool = "startDashboardFromAppLaunch";
-static const char * k_pch_SteamVR_StartOverlayAppsFromDashboard_Bool = "startOverlayAppsFromDashboard";
-static const char * k_pch_SteamVR_EnableHomeApp = "enableHomeApp";
-static const char * k_pch_SteamVR_CycleBackgroundImageTimeSec_Int32 = "CycleBackgroundImageTimeSec";
-static const char * k_pch_SteamVR_RetailDemo_Bool = "retailDemo";
-static const char * k_pch_SteamVR_IpdOffset_Float = "ipdOffset";
-static const char * k_pch_SteamVR_AllowSupersampleFiltering_Bool = "allowSupersampleFiltering";
-static const char * k_pch_SteamVR_SupersampleManualOverride_Bool = "supersampleManualOverride";
-static const char * k_pch_SteamVR_EnableLinuxVulkanAsync_Bool = "enableLinuxVulkanAsync";
-static const char * k_pch_SteamVR_AllowDisplayLockedMode_Bool = "allowDisplayLockedMode";
-static const char * k_pch_SteamVR_HaveStartedTutorialForNativeChaperoneDriver_Bool = "haveStartedTutorialForNativeChaperoneDriver";
-static const char * k_pch_SteamVR_ForceWindows32bitVRMonitor = "forceWindows32BitVRMonitor";
-static const char * k_pch_SteamVR_DebugInputBinding = "debugInputBinding";
-static const char * k_pch_SteamVR_DoNotFadeToGrid = "doNotFadeToGrid";
-static const char * k_pch_SteamVR_RenderCameraMode = "renderCameraMode";
-static const char * k_pch_SteamVR_EnableSharedResourceJournaling = "enableSharedResourceJournaling";
-static const char * k_pch_SteamVR_EnableSafeMode = "enableSafeMode";
-static const char * k_pch_SteamVR_PreferredRefreshRate = "preferredRefreshRate";
-static const char * k_pch_SteamVR_LastVersionNotice = "lastVersionNotice";
-static const char * k_pch_SteamVR_LastVersionNoticeDate = "lastVersionNoticeDate";
-static const char * k_pch_SteamVR_HmdDisplayColorGainR_Float = "hmdDisplayColorGainR";
-static const char * k_pch_SteamVR_HmdDisplayColorGainG_Float = "hmdDisplayColorGainG";
-static const char * k_pch_SteamVR_HmdDisplayColorGainB_Float = "hmdDisplayColorGainB";
-static const char * k_pch_SteamVR_CustomIconStyle_String = "customIconStyle";
-static const char * k_pch_SteamVR_CustomOffIconStyle_String = "customOffIconStyle";
-static const char * k_pch_SteamVR_CustomIconForceUpdate_String = "customIconForceUpdate";
-static const char * k_pch_SteamVR_AllowGlobalActionSetPriority = "globalActionSetPriority";
-static const char * k_pch_SteamVR_OverlayRenderQuality = "overlayRenderQuality_2";
-static const char * k_pch_SteamVR_BlockOculusSDKOnOpenVRLaunchOption_Bool = "blockOculusSDKOnOpenVRLaunchOption";
-static const char * k_pch_SteamVR_BlockOculusSDKOnAllLaunches_Bool = "blockOculusSDKOnAllLaunches";
-static const char * k_pch_SteamVR_HDCPLegacyCompatibility_Bool = "hdcp14legacyCompatibility";
-static const char * k_pch_SteamVR_DisplayPortTrainingMode_Int = "displayPortTrainingMode";
-static const char * k_pch_SteamVR_UsePrism_Bool = "usePrism";
-static const char * k_pch_DirectMode_Section = "direct_mode";
-static const char * k_pch_DirectMode_Enable_Bool = "enable";
-static const char * k_pch_DirectMode_Count_Int32 = "count";
-static const char * k_pch_DirectMode_EdidVid_Int32 = "edidVid";
-static const char * k_pch_DirectMode_EdidPid_Int32 = "edidPid";
-static const char * k_pch_Lighthouse_Section = "driver_lighthouse";
-static const char * k_pch_Lighthouse_DisableIMU_Bool = "disableimu";
-static const char * k_pch_Lighthouse_DisableIMUExceptHMD_Bool = "disableimuexcepthmd";
-static const char * k_pch_Lighthouse_UseDisambiguation_String = "usedisambiguation";
-static const char * k_pch_Lighthouse_DisambiguationDebug_Int32 = "disambiguationdebug";
-static const char * k_pch_Lighthouse_PrimaryBasestation_Int32 = "primarybasestation";
-static const char * k_pch_Lighthouse_DBHistory_Bool = "dbhistory";
-static const char * k_pch_Lighthouse_EnableBluetooth_Bool = "enableBluetooth";
-static const char * k_pch_Lighthouse_PowerManagedBaseStations_String = "PowerManagedBaseStations";
-static const char * k_pch_Lighthouse_PowerManagedBaseStations2_String = "PowerManagedBaseStations2";
-static const char * k_pch_Lighthouse_InactivityTimeoutForBaseStations_Int32 = "InactivityTimeoutForBaseStations";
-static const char * k_pch_Lighthouse_EnableImuFallback_Bool = "enableImuFallback";
-static const char * k_pch_Null_Section = "driver_null";
-static const char * k_pch_Null_SerialNumber_String = "serialNumber";
-static const char * k_pch_Null_ModelNumber_String = "modelNumber";
-static const char * k_pch_Null_WindowX_Int32 = "windowX";
-static const char * k_pch_Null_WindowY_Int32 = "windowY";
-static const char * k_pch_Null_WindowWidth_Int32 = "windowWidth";
-static const char * k_pch_Null_WindowHeight_Int32 = "windowHeight";
-static const char * k_pch_Null_RenderWidth_Int32 = "renderWidth";
-static const char * k_pch_Null_RenderHeight_Int32 = "renderHeight";
-static const char * k_pch_Null_SecondsFromVsyncToPhotons_Float = "secondsFromVsyncToPhotons";
-static const char * k_pch_Null_DisplayFrequency_Float = "displayFrequency";
-static const char * k_pch_WindowsMR_Section = "driver_holographic";
-static const char * k_pch_UserInterface_Section = "userinterface";
-static const char * k_pch_UserInterface_StatusAlwaysOnTop_Bool = "StatusAlwaysOnTop";
-static const char * k_pch_UserInterface_MinimizeToTray_Bool = "MinimizeToTray";
-static const char * k_pch_UserInterface_HidePopupsWhenStatusMinimized_Bool = "HidePopupsWhenStatusMinimized";
-static const char * k_pch_UserInterface_Screenshots_Bool = "screenshots";
-static const char * k_pch_UserInterface_ScreenshotType_Int = "screenshotType";
-static const char * k_pch_Notifications_Section = "notifications";
-static const char * k_pch_Notifications_DoNotDisturb_Bool = "DoNotDisturb";
-static const char * k_pch_Keyboard_Section = "keyboard";
-static const char * k_pch_Keyboard_TutorialCompletions = "TutorialCompletions";
-static const char * k_pch_Keyboard_ScaleX = "ScaleX";
-static const char * k_pch_Keyboard_ScaleY = "ScaleY";
-static const char * k_pch_Keyboard_OffsetLeftX = "OffsetLeftX";
-static const char * k_pch_Keyboard_OffsetRightX = "OffsetRightX";
-static const char * k_pch_Keyboard_OffsetY = "OffsetY";
-static const char * k_pch_Keyboard_Smoothing = "Smoothing";
-static const char * k_pch_Perf_Section = "perfcheck";
-static const char * k_pch_Perf_PerfGraphInHMD_Bool = "perfGraphInHMD";
-static const char * k_pch_Perf_AllowTimingStore_Bool = "allowTimingStore";
-static const char * k_pch_Perf_SaveTimingsOnExit_Bool = "saveTimingsOnExit";
-static const char * k_pch_Perf_TestData_Float = "perfTestData";
-static const char * k_pch_Perf_GPUProfiling_Bool = "GPUProfiling";
-static const char * k_pch_CollisionBounds_Section = "collisionBounds";
-static const char * k_pch_CollisionBounds_Style_Int32 = "CollisionBoundsStyle";
-static const char * k_pch_CollisionBounds_GroundPerimeterOn_Bool = "CollisionBoundsGroundPerimeterOn";
-static const char * k_pch_CollisionBounds_CenterMarkerOn_Bool = "CollisionBoundsCenterMarkerOn";
-static const char * k_pch_CollisionBounds_PlaySpaceOn_Bool = "CollisionBoundsPlaySpaceOn";
-static const char * k_pch_CollisionBounds_FadeDistance_Float = "CollisionBoundsFadeDistance";
-static const char * k_pch_CollisionBounds_WallHeight_Float = "CollisionBoundsWallHeight";
-static const char * k_pch_CollisionBounds_ColorGammaR_Int32 = "CollisionBoundsColorGammaR";
-static const char * k_pch_CollisionBounds_ColorGammaG_Int32 = "CollisionBoundsColorGammaG";
-static const char * k_pch_CollisionBounds_ColorGammaB_Int32 = "CollisionBoundsColorGammaB";
-static const char * k_pch_CollisionBounds_ColorGammaA_Int32 = "CollisionBoundsColorGammaA";
-static const char * k_pch_CollisionBounds_EnableDriverImport = "enableDriverBoundsImport";
-static const char * k_pch_Camera_Section = "camera";
-static const char * k_pch_Camera_EnableCamera_Bool = "enableCamera";
-static const char * k_pch_Camera_ShowOnController_Bool = "showOnController";
-static const char * k_pch_Camera_EnableCameraForCollisionBounds_Bool = "enableCameraForCollisionBounds";
-static const char * k_pch_Camera_RoomView_Int32 = "roomView";
-static const char * k_pch_Camera_BoundsColorGammaR_Int32 = "cameraBoundsColorGammaR";
-static const char * k_pch_Camera_BoundsColorGammaG_Int32 = "cameraBoundsColorGammaG";
-static const char * k_pch_Camera_BoundsColorGammaB_Int32 = "cameraBoundsColorGammaB";
-static const char * k_pch_Camera_BoundsColorGammaA_Int32 = "cameraBoundsColorGammaA";
-static const char * k_pch_Camera_BoundsStrength_Int32 = "cameraBoundsStrength";
-static const char * k_pch_Camera_RoomViewStyle_Int32 = "roomViewStyle";
-static const char * k_pch_audio_Section = "audio";
-static const char * k_pch_audio_SetOsDefaultPlaybackDevice_Bool = "setOsDefaultPlaybackDevice";
-static const char * k_pch_audio_EnablePlaybackDeviceOverride_Bool = "enablePlaybackDeviceOverride";
-static const char * k_pch_audio_PlaybackDeviceOverride_String = "playbackDeviceOverride";
-static const char * k_pch_audio_PlaybackDeviceOverrideName_String = "playbackDeviceOverrideName";
-static const char * k_pch_audio_SetOsDefaultRecordingDevice_Bool = "setOsDefaultRecordingDevice";
-static const char * k_pch_audio_EnableRecordingDeviceOverride_Bool = "enableRecordingDeviceOverride";
-static const char * k_pch_audio_RecordingDeviceOverride_String = "recordingDeviceOverride";
-static const char * k_pch_audio_RecordingDeviceOverrideName_String = "recordingDeviceOverrideName";
-static const char * k_pch_audio_EnablePlaybackMirror_Bool = "enablePlaybackMirror";
-static const char * k_pch_audio_PlaybackMirrorDevice_String = "playbackMirrorDevice";
-static const char * k_pch_audio_PlaybackMirrorDeviceName_String = "playbackMirrorDeviceName";
-static const char * k_pch_audio_OldPlaybackMirrorDevice_String = "onPlaybackMirrorDevice";
-static const char * k_pch_audio_ActiveMirrorDevice_String = "activePlaybackMirrorDevice";
-static const char * k_pch_audio_EnablePlaybackMirrorIndependentVolume_Bool = "enablePlaybackMirrorIndependentVolume";
-static const char * k_pch_audio_LastHmdPlaybackDeviceId_String = "lastHmdPlaybackDeviceId";
-static const char * k_pch_audio_VIVEHDMIGain = "viveHDMIGain";
-static const char * k_pch_audio_DualSpeakerAndJackOutput_Bool = "dualSpeakerAndJackOutput";
-static const char * k_pch_audio_MuteMicMonitor_Bool = "muteMicMonitor";
-static const char * k_pch_Power_Section = "power";
-static const char * k_pch_Power_PowerOffOnExit_Bool = "powerOffOnExit";
-static const char * k_pch_Power_TurnOffScreensTimeout_Float = "turnOffScreensTimeout";
-static const char * k_pch_Power_TurnOffControllersTimeout_Float = "turnOffControllersTimeout";
-static const char * k_pch_Power_ReturnToWatchdogTimeout_Float = "returnToWatchdogTimeout";
-static const char * k_pch_Power_AutoLaunchSteamVROnButtonPress = "autoLaunchSteamVROnButtonPress";
-static const char * k_pch_Power_PauseCompositorOnStandby_Bool = "pauseCompositorOnStandby";
-static const char * k_pch_Dashboard_Section = "dashboard";
-static const char * k_pch_Dashboard_EnableDashboard_Bool = "enableDashboard";
-static const char * k_pch_Dashboard_ArcadeMode_Bool = "arcadeMode";
-static const char * k_pch_Dashboard_Position = "position";
-static const char * k_pch_Dashboard_DesktopScale = "desktopScale";
-static const char * k_pch_Dashboard_DashboardScale = "dashboardScale";
-static const char * k_pch_Dashboard_UseStandaloneSystemLayer = "standaloneSystemLayer";
-static const char * k_pch_Dashboard_StickyDashboard = "stickyDashboard";
-static const char * k_pch_modelskin_Section = "modelskins";
-static const char * k_pch_Driver_Enable_Bool = "enable";
-static const char * k_pch_Driver_BlockedBySafemode_Bool = "blocked_by_safe_mode";
-static const char * k_pch_Driver_LoadPriority_Int32 = "loadPriority";
-static const char * k_pch_WebInterface_Section = "WebInterface";
-static const char * k_pch_VRWebHelper_Section = "VRWebHelper";
-static const char * k_pch_VRWebHelper_DebuggerEnabled_Bool = "DebuggerEnabled";
-static const char * k_pch_VRWebHelper_DebuggerPort_Int32 = "DebuggerPort";
-static const char * k_pch_TrackingOverride_Section = "TrackingOverrides";
-static const char * k_pch_App_BindingAutosaveURLSuffix_String = "AutosaveURL";
-static const char * k_pch_App_BindingLegacyAPISuffix_String = "_legacy";
-static const char * k_pch_App_BindingSteamVRInputAPISuffix_String = "_steamvrinput";
-static const char * k_pch_App_BindingOpenXRAPISuffix_String = "_openxr";
-static const char * k_pch_App_BindingCurrentURLSuffix_String = "CurrentURL";
-static const char * k_pch_App_BindingPreviousURLSuffix_String = "PreviousURL";
-static const char * k_pch_App_NeedToUpdateAutosaveSuffix_Bool = "NeedToUpdateAutosave";
-static const char * k_pch_App_DominantHand_Int32 = "DominantHand";
-static const char * k_pch_App_BlockOculusSDK_Bool = "blockOculusSDK";
-static const char * k_pch_Trackers_Section = "trackers";
-static const char * k_pch_DesktopUI_Section = "DesktopUI";
-static const char * k_pch_LastKnown_Section = "LastKnown";
-static const char * k_pch_LastKnown_HMDManufacturer_String = "HMDManufacturer";
-static const char * k_pch_LastKnown_HMDModel_String = "HMDModel";
-static const char * k_pch_DismissedWarnings_Section = "DismissedWarnings";
-static const char * k_pch_Input_Section = "input";
-static const char * k_pch_Input_LeftThumbstickRotation_Float = "leftThumbstickRotation";
-static const char * k_pch_Input_RightThumbstickRotation_Float = "rightThumbstickRotation";
-static const char * k_pch_Input_ThumbstickDeadzone_Float = "thumbstickDeadzone";
-static const char * k_pch_GpuSpeed_Section = "GpuSpeed";
-static const char * IVRScreenshots_Version = "IVRScreenshots_001";
-static const char * IVRResources_Version = "IVRResources_001";
-static const char * IVRDriverManager_Version = "IVRDriverManager_001";
-static const unsigned long k_unMaxActionNameLength = 64;
-static const unsigned long k_unMaxActionSetNameLength = 64;
-static const unsigned long k_unMaxActionOriginCount = 16;
-static const unsigned long k_unMaxBoneNameLength = 32;
-static const int k_nActionSetOverlayGlobalPriorityMin = 16777216;
-static const int k_nActionSetOverlayGlobalPriorityMax = 33554431;
-static const int k_nActionSetPriorityReservedMin = 33554432;
-static const char * IVRInput_Version = "IVRInput_010";
-static const unsigned long long k_ulInvalidIOBufferHandle = 0;
-static const char * IVRIOBuffer_Version = "IVRIOBuffer_002";
-static const unsigned long k_ulInvalidSpatialAnchorHandle = 0;
-static const char * IVRSpatialAnchors_Version = "IVRSpatialAnchors_001";
-static const char * IVRDebug_Version = "IVRDebug_001";
-static const unsigned long long k_ulDisplayRedirectContainer = 25769803779;
-static const char * IVRProperties_Version = "IVRProperties_001";
-static const char * k_pchPathUserHandRight = "/user/hand/right";
-static const char * k_pchPathUserHandLeft = "/user/hand/left";
-static const char * k_pchPathUserHandPrimary = "/user/hand/primary";
-static const char * k_pchPathUserHandSecondary = "/user/hand/secondary";
-static const char * k_pchPathUserHead = "/user/head";
-static const char * k_pchPathUserGamepad = "/user/gamepad";
-static const char * k_pchPathUserTreadmill = "/user/treadmill";
-static const char * k_pchPathUserStylus = "/user/stylus";
-static const char * k_pchPathDevices = "/devices";
-static const char * k_pchPathDevicePath = "/device_path";
-static const char * k_pchPathBestAliasPath = "/best_alias_path";
-static const char * k_pchPathBoundTrackerAliasPath = "/bound_tracker_path";
-static const char * k_pchPathBoundTrackerRole = "/bound_tracker_role";
-static const char * k_pchPathPoseRaw = "/pose/raw";
-static const char * k_pchPathPoseTip = "/pose/tip";
-static const char * k_pchPathPoseGrip = "/pose/grip";
-static const char * k_pchPathSystemButtonClick = "/input/system/click";
-static const char * k_pchPathProximity = "/proximity";
-static const char * k_pchPathControllerTypePrefix = "/controller_type/";
-static const char * k_pchPathInputProfileSuffix = "/input_profile";
-static const char * k_pchPathBindingNameSuffix = "/binding_name";
-static const char * k_pchPathBindingUrlSuffix = "/binding_url";
-static const char * k_pchPathBindingErrorSuffix = "/binding_error";
-static const char * k_pchPathActiveActionSets = "/active_action_sets";
-static const char * k_pchPathComponentUpdates = "/total_component_updates";
-static const char * k_pchPathUserFootLeft = "/user/foot/left";
-static const char * k_pchPathUserFootRight = "/user/foot/right";
-static const char * k_pchPathUserShoulderLeft = "/user/shoulder/left";
-static const char * k_pchPathUserShoulderRight = "/user/shoulder/right";
-static const char * k_pchPathUserElbowLeft = "/user/elbow/left";
-static const char * k_pchPathUserElbowRight = "/user/elbow/right";
-static const char * k_pchPathUserKneeLeft = "/user/knee/left";
-static const char * k_pchPathUserKneeRight = "/user/knee/right";
-static const char * k_pchPathUserWaist = "/user/waist";
-static const char * k_pchPathUserChest = "/user/chest";
-static const char * k_pchPathUserCamera = "/user/camera";
-static const char * k_pchPathUserKeyboard = "/user/keyboard";
-static const char * k_pchPathClientAppKey = "/client_info/app_key";
-static const unsigned long long k_ulInvalidPathHandle = 0;
-static const char * IVRPaths_Version = "IVRPaths_001";
-static const char * IVRBlockQueue_Version = "IVRBlockQueue_005";
+स्थिर ध्रुव अचिह्नित दीर्घ k_nDriverNone = 4294967295;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Driver_Debug_Response_आकार = 32768;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Tracked_Device_सूचकांक_Hmd = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Tracked_Device_गणनम् = 64;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Tracked_Device_सूचकांक_Other = 4294967294;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Tracked_Device_सूचकांक_Invalid = 4294967295;
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ulInvalidPropertyContainer = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Invalid_Property_चिह्नकम् = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ulInvalidDriverHandle = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Float_Property_चिह्नकम् = 1;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Int32_Property_चिह्नकम् = 2;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Uint64_Property_चिह्नकम् = 3;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Bool_Property_चिह्नकम् = 4;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_String_Property_चिह्नकम् = 5;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Error_Property_चिह्नकम् = 6;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Double_Property_चिह्नकम् = 7;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Hmd_Matrix34_Property_चिह्नकम् = 20;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Hmd_Matrix44_Property_चिह्नकम् = 21;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Hmd_Vector3_Property_चिह्नकम् = 22;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Hmd_Vector4_Property_चिह्नकम् = 23;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Hmd_Vector2_Property_चिह्नकम् = 24;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Hmd_Quad_Property_चिह्नकम् = 25;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Hidden_Area_Property_चिह्नकम् = 30;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_मार्गः_Handle_Info_चिह्नकम् = 31;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Action_Property_चिह्नकम् = 32;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_निवेशः_मानम्_Property_चिह्नकम् = 33;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Wildcard_Property_चिह्नकम् = 34;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Haptic_Vibration_Property_चिह्नकम् = 35;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Skeleton_Property_चिह्नकम् = 36;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Spatial_Anchor_Pose_Property_चिह्नकम् = 40;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Json_Property_चिह्नकम् = 41;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_सक्रिय_Action_समुच्चयः_Property_चिह्नकम् = 42;
+स्थिर ध्रुव अचिह्नित दीर्घ k_unOpenVRInternalReserved_Start = 1000;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Open_VRInternal_Reserved_अन्तः = 10000;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Property_String_आकार = 32768;
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ulInvalidActionHandle = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ul_Invalid_Action_समुच्चयः_Handle = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ul_Invalid_निवेशः_मानम्_Handle = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Controller_State_Axis_गणनम् = 5;
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ulOverlayHandleInvalid = 0;
+स्थिर ध्रुव अचिह्नित दीर्घ k_unMaxDistortionFunctionParameters = 8;
+स्थिर ध्रुव अचिह्नित दीर्घ k_unScreenshotHandleInvalid = 0;
+स्थिर ध्रुव वर्ण * IVRSystem_संस्करणम् = "IVRSystem_022";
+स्थिर ध्रुव वर्ण * IVRExtended_Display_संस्करणम् = "IVRExtendedDisplay_001";
+स्थिर ध्रुव वर्ण * IVRTracked_Camera_संस्करणम् = "IVRTrackedCamera_006";
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Application_कुञ्चिका_दीर्घता = 128;
+स्थिर ध्रुव वर्ण * k_pch_MimeType_HomeApp = "vr/home";
+स्थिर ध्रुव वर्ण * k_pch_MimeType_GameTheater = "vr/game_theater";
+स्थिर ध्रुव वर्ण * IVRApplications_संस्करणम् = "IVRApplications_007";
+स्थिर ध्रुव वर्ण * IVRChaperone_संस्करणम् = "IVRChaperone_004";
+स्थिर ध्रुव वर्ण * IVRChaperone_सज्जता_संस्करणम् = "IVRChaperoneSetup_006";
+स्थिर ध्रुव वर्ण * IVRCompositor_संस्करणम् = "IVRCompositor_027";
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_VROverlay_Max_कुञ्चिका_दीर्घता = 128;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_VROverlay_Max_Name_दीर्घता = 128;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Overlay_गणनम् = 128;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Overlay_Intersection_आवरणम्_Primitives_गणनम् = 32;
+स्थिर ध्रुव वर्ण * IVROverlay_संस्करणम् = "IVROverlay_026";
+स्थिर ध्रुव वर्ण * IVROverlay_View_संस्करणम् = "IVROverlayView_003";
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Headset_View_Max_विस्तारः = 3840;
+स्थिर ध्रुव अचिह्नित दीर्घ k_unHeadsetViewMaxHeight = 2160;
+स्थिर ध्रुव वर्ण * k_pch_Headset_View_Overlay_कुञ्चिका = "system.HeadsetView";
+स्थिर ध्रुव वर्ण * IVRHeadset_View_संस्करणम् = "IVRHeadsetView_001";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_GDC2015 = "gdc2015";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_आधारः = "base";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_Tip = "tip";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_OpenXR_Aim = "openxr_aim";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_HandGrip = "handgrip";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_OpenXR_Grip = "openxr_grip";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_OpenXR_HandModel = "openxr_handmodel";
+स्थिर ध्रुव वर्ण * k_pch_Controller_Component_स्थितिः = "status";
+स्थिर ध्रुव वर्ण * IVRRender_Models_संस्करणम् = "IVRRenderModels_006";
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Notification_Text_Max_आकार = 256;
+स्थिर ध्रुव वर्ण * IVRNotifications_संस्करणम् = "IVRNotifications_002";
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Settings_कुञ्चिका_दीर्घता = 128;
+स्थिर ध्रुव वर्ण * IVRSettings_संस्करणम् = "IVRSettings_003";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_Section = "steamvr";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_RequireHmd_String = "requireHmd";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Forced_Driver_कुञ्चिका_String = "forcedDriver";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Forced_Hmd_कुञ्चिका_String = "forcedHmd";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_DisplayDebug_Bool = "displayDebug";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_DebugProcessPipe_String = "debugProcessPipe";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_DisplayDebugX_Int32 = "displayDebugX";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_DisplayDebugY_Int32 = "displayDebugY";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Send_System_Button_गन्तव्यम्_All_Apps_Bool = "sendSystemButtonToAllApps";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_LogLevel_Int32 = "loglevel";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_IPD_Float = "ipd";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_Background_String = "background";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_BackgroundUseDomeProjection_Bool = "backgroundUseDomeProjection";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_BackgroundCameraHeight_Float = "backgroundCameraHeight";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_BackgroundDomeRadius_Float = "backgroundDomeRadius";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_GridColor_String = "gridColor";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_PlayAreaColor_String = "playAreaColor";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_TrackingLossColor_String = "trackingLossColor";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_ShowStage_Bool = "showStage";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_DrawTrackingReferences_Bool = "drawTrackingReferences";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Activate_गुणजः_Drivers_Bool = "activateMultipleDrivers";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_UsingSpeakers_Bool = "usingSpeakers";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Speakers_Forward_Yaw_विस्थापनम्_Degrees_Float = "speakersForwardYawOffsetDegrees";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_आधारः_Station_Power_Management_Int32 = "basestationPowerManagement";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Show_आधारः_Station_Power_Management_Tip_Int32 = "ShowBaseStationPowerManagementTip";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_NeverKillProcesses_Bool = "neverKillProcesses";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_SupersampleScale_Float = "supersampleScale";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_MaxRecommendedResolution_Int32 = "maxRecommendedResolution";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_MotionSmoothing_Bool = "motionSmoothing";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_MotionSmoothingOverride_Int32 = "motionSmoothingOverride";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_चौकटाः_गन्तव्यम्_Throttle_Int32 = "framesToThrottle";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Additional_चौकटाः_गन्तव्यम्_Predict_Int32 = "additionalFramesToPredict";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_WorldScale_Float = "worldScale";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_FovScale_Int32 = "fovScale";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_DisableAsyncReprojection_Bool = "disableAsync";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_ForceFadeOnBadTracking_Bool = "forceFadeOnBadTracking";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_DefaultMirrorView_Int32 = "mirrorView";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_ShowLegacyMirrorView_Bool = "showLegacyMirrorView";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_MirrorViewVisibility_Bool = "showMirrorView";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Mirror_View_Display_बहुलकम्_Int32 = "mirrorViewDisplayMode";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_MirrorViewEye_Int32 = "mirrorViewEye";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_MirrorViewGeometry_String = "mirrorViewGeometry";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_MirrorViewGeometryMaximized_String = "mirrorViewGeometryMaximized";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_PerfGraphVisibility_Bool = "showPerfGraph";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_StartMonitorFromAppLaunch = "startMonitorFromAppLaunch";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_StartCompositorFromAppLaunch_Bool = "startCompositorFromAppLaunch";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_StartDashboardFromAppLaunch_Bool = "startDashboardFromAppLaunch";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_StartOverlayAppsFromDashboard_Bool = "startOverlayAppsFromDashboard";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_EnableHomeApp = "enableHomeApp";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_आवृत्तिः_Background_Image_Time_Sec_Int32 = "CycleBackgroundImageTimeSec";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_RetailDemo_Bool = "retailDemo";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Ipd_विस्थापनम्_Float = "ipdOffset";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_AllowSupersampleFiltering_Bool = "allowSupersampleFiltering";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_SupersampleManualOverride_Bool = "supersampleManualOverride";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_EnableLinuxVulkanAsync_Bool = "enableLinuxVulkanAsync";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Allow_Display_Locked_बहुलकम्_Bool = "allowDisplayLockedMode";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_HaveStartedTutorialForNativeChaperoneDriver_Bool = "haveStartedTutorialForNativeChaperoneDriver";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_ForceWindows32bitVRMonitor = "forceWindows32BitVRMonitor";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Debug_निवेशः_Binding = "debugInputBinding";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Do_Not_Fade_गन्तव्यम्_Grid = "doNotFadeToGrid";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Render_Camera_बहुलकम् = "renderCameraMode";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_EnableSharedResourceJournaling = "enableSharedResourceJournaling";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Enable_Safe_बहुलकम् = "enableSafeMode";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Preferred_Refresh_दरः = "preferredRefreshRate";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_चरमः_संस्करणम्_Notice = "lastVersionNotice";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_चरमः_संस्करणम्_Notice_Date = "lastVersionNoticeDate";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_HmdDisplayColorGainR_Float = "hmdDisplayColorGainR";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_HmdDisplayColorGainG_Float = "hmdDisplayColorGainG";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_HmdDisplayColorGainB_Float = "hmdDisplayColorGainB";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_CustomIconStyle_String = "customIconStyle";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_CustomOffIconStyle_String = "customOffIconStyle";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_CustomIconForceUpdate_String = "customIconForceUpdate";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Allow_Global_Action_समुच्चयः_प्राथमिकता = "globalActionSetPriority";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_OverlayRenderQuality = "overlayRenderQuality_2";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_खण्डम्_Oculus_SDKOn_Open_VRLaunch_Option_Bool = "blockOculusSDKOnOpenVRLaunchOption";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_खण्डम्_Oculus_SDKOn_All_Launches_Bool = "blockOculusSDKOnAllLaunches";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_HDCPLegacyCompatibility_Bool = "hdcp14legacyCompatibility";
+स्थिर ध्रुव वर्ण * k_pch_Steam_VR_Display_पत्तनम्_Training_बहुलकम्_Int = "displayPortTrainingMode";
+स्थिर ध्रुव वर्ण * k_pch_SteamVR_UsePrism_Bool = "usePrism";
+स्थिर ध्रुव वर्ण * k_pch_प्रत्यक्षम्_बहुलकम्_Section = "direct_mode";
+स्थिर ध्रुव वर्ण * k_pch_प्रत्यक्षम्_बहुलकम्_Enable_Bool = "enable";
+स्थिर ध्रुव वर्ण * k_pch_प्रत्यक्षम्_बहुलकम्_गणनम्_Int32 = "count";
+स्थिर ध्रुव वर्ण * k_pch_प्रत्यक्षम्_बहुलकम्_Edid_Vid_Int32 = "edidVid";
+स्थिर ध्रुव वर्ण * k_pch_प्रत्यक्षम्_बहुलकम्_Edid_Pid_Int32 = "edidPid";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_Section = "driver_lighthouse";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_DisableIMU_Bool = "disableimu";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_DisableIMUExceptHMD_Bool = "disableimuexcepthmd";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_UseDisambiguation_String = "usedisambiguation";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_DisambiguationDebug_Int32 = "disambiguationdebug";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_PrimaryBasestation_Int32 = "primarybasestation";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_DBHistory_Bool = "dbhistory";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_EnableBluetooth_Bool = "enableBluetooth";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_Power_Managed_आधारः_Stations_String = "PowerManagedBaseStations";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_Power_Managed_आधारः_Stations2_String = "PowerManagedBaseStations2";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_Inactivity_Timeout_For_आधारः_Stations_Int32 = "InactivityTimeoutForBaseStations";
+स्थिर ध्रुव वर्ण * k_pch_Lighthouse_EnableImuFallback_Bool = "enableImuFallback";
+स्थिर ध्रुव वर्ण * k_pch_Null_Section = "driver_null";
+स्थिर ध्रुव वर्ण * k_pch_Null_Serial_सङ्ख्या_String = "serialNumber";
+स्थिर ध्रुव वर्ण * k_pch_Null_Model_सङ्ख्या_String = "modelNumber";
+स्थिर ध्रुव वर्ण * k_pch_Null_गवाक्षः_X_Int32 = "windowX";
+स्थिर ध्रुव वर्ण * k_pch_Null_गवाक्षः_Y_Int32 = "windowY";
+स्थिर ध्रुव वर्ण * k_pch_Null_गवाक्षः_विस्तारः_Int32 = "windowWidth";
+स्थिर ध्रुव वर्ण * k_pch_Null_गवाक्षः_Height_Int32 = "windowHeight";
+स्थिर ध्रुव वर्ण * k_pch_Null_Render_विस्तारः_Int32 = "renderWidth";
+स्थिर ध्रुव वर्ण * k_pch_Null_RenderHeight_Int32 = "renderHeight";
+स्थिर ध्रुव वर्ण * k_pch_Null_Seconds_From_Vsync_गन्तव्यम्_Photons_Float = "secondsFromVsyncToPhotons";
+स्थिर ध्रुव वर्ण * k_pch_Null_DisplayFrequency_Float = "displayFrequency";
+स्थिर ध्रुव वर्ण * k_pch_WindowsMR_Section = "driver_holographic";
+स्थिर ध्रुव वर्ण * k_pch_UserInterface_Section = "userinterface";
+स्थिर ध्रुव वर्ण * k_pch_User_Interface_स्थितिः_Always_On_शिखरम्_Bool = "StatusAlwaysOnTop";
+स्थिर ध्रुव वर्ण * k_pch_User_Interface_Minimize_गन्तव्यम्_Tray_Bool = "MinimizeToTray";
+स्थिर ध्रुव वर्ण * k_pch_User_Interface_Hide_Popups_When_स्थितिः_Minimized_Bool = "HidePopupsWhenStatusMinimized";
+स्थिर ध्रुव वर्ण * k_pch_UserInterface_Screenshots_Bool = "screenshots";
+स्थिर ध्रुव वर्ण * k_pch_UserInterface_ScreenshotType_Int = "screenshotType";
+स्थिर ध्रुव वर्ण * k_pch_Notifications_Section = "notifications";
+स्थिर ध्रुव वर्ण * k_pch_Notifications_DoNotDisturb_Bool = "DoNotDisturb";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_Section = "keyboard";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_TutorialCompletions = "TutorialCompletions";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_ScaleX = "ScaleX";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_ScaleY = "ScaleY";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_विस्थापनम्_वामः_X = "OffsetLeftX";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_विस्थापनम्_दक्षिणः_X = "OffsetRightX";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_विस्थापनम्_Y = "OffsetY";
+स्थिर ध्रुव वर्ण * k_pch_Keyboard_Smoothing = "Smoothing";
+स्थिर ध्रुव वर्ण * k_pch_Perf_Section = "perfcheck";
+स्थिर ध्रुव वर्ण * k_pch_Perf_Perf_Graph_अन्तर्_HMD_Bool = "perfGraphInHMD";
+स्थिर ध्रुव वर्ण * k_pch_Perf_AllowTimingStore_Bool = "allowTimingStore";
+स्थिर ध्रुव वर्ण * k_pch_Perf_SaveTimingsOnExit_Bool = "saveTimingsOnExit";
+स्थिर ध्रुव वर्ण * k_pch_Perf_Test_दत्त_Float = "perfTestData";
+स्थिर ध्रुव वर्ण * k_pch_Perf_GPUProfiling_Bool = "GPUProfiling";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_Section = "collisionBounds";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_Style_Int32 = "CollisionBoundsStyle";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_GroundPerimeterOn_Bool = "CollisionBoundsGroundPerimeterOn";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_CenterMarkerOn_Bool = "CollisionBoundsCenterMarkerOn";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_PlaySpaceOn_Bool = "CollisionBoundsPlaySpaceOn";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_FadeDistance_Float = "CollisionBoundsFadeDistance";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_WallHeight_Float = "CollisionBoundsWallHeight";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_ColorGammaR_Int32 = "CollisionBoundsColorGammaR";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_ColorGammaG_Int32 = "CollisionBoundsColorGammaG";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_ColorGammaB_Int32 = "CollisionBoundsColorGammaB";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_ColorGammaA_Int32 = "CollisionBoundsColorGammaA";
+स्थिर ध्रुव वर्ण * k_pch_CollisionBounds_EnableDriverImport = "enableDriverBoundsImport";
+स्थिर ध्रुव वर्ण * k_pch_Camera_Section = "camera";
+स्थिर ध्रुव वर्ण * k_pch_Camera_EnableCamera_Bool = "enableCamera";
+स्थिर ध्रुव वर्ण * k_pch_Camera_ShowOnController_Bool = "showOnController";
+स्थिर ध्रुव वर्ण * k_pch_Camera_EnableCameraForCollisionBounds_Bool = "enableCameraForCollisionBounds";
+स्थिर ध्रुव वर्ण * k_pch_Camera_अवकाशः_View_Int32 = "roomView";
+स्थिर ध्रुव वर्ण * k_pch_Camera_BoundsColorGammaR_Int32 = "cameraBoundsColorGammaR";
+स्थिर ध्रुव वर्ण * k_pch_Camera_BoundsColorGammaG_Int32 = "cameraBoundsColorGammaG";
+स्थिर ध्रुव वर्ण * k_pch_Camera_BoundsColorGammaB_Int32 = "cameraBoundsColorGammaB";
+स्थिर ध्रुव वर्ण * k_pch_Camera_BoundsColorGammaA_Int32 = "cameraBoundsColorGammaA";
+स्थिर ध्रुव वर्ण * k_pch_Camera_BoundsStrength_Int32 = "cameraBoundsStrength";
+स्थिर ध्रुव वर्ण * k_pch_Camera_अवकाशः_View_Style_Int32 = "roomViewStyle";
+स्थिर ध्रुव वर्ण * k_pch_audio_Section = "audio";
+स्थिर ध्रुव वर्ण * k_pch_audio_समुच्चयः_Os_Default_Playback_Device_Bool = "setOsDefaultPlaybackDevice";
+स्थिर ध्रुव वर्ण * k_pch_audio_EnablePlaybackDeviceOverride_Bool = "enablePlaybackDeviceOverride";
+स्थिर ध्रुव वर्ण * k_pch_audio_PlaybackDeviceOverride_String = "playbackDeviceOverride";
+स्थिर ध्रुव वर्ण * k_pch_audio_PlaybackDeviceOverrideName_String = "playbackDeviceOverrideName";
+स्थिर ध्रुव वर्ण * k_pch_audio_समुच्चयः_Os_Default_Recording_Device_Bool = "setOsDefaultRecordingDevice";
+स्थिर ध्रुव वर्ण * k_pch_audio_EnableRecordingDeviceOverride_Bool = "enableRecordingDeviceOverride";
+स्थिर ध्रुव वर्ण * k_pch_audio_RecordingDeviceOverride_String = "recordingDeviceOverride";
+स्थिर ध्रुव वर्ण * k_pch_audio_RecordingDeviceOverrideName_String = "recordingDeviceOverrideName";
+स्थिर ध्रुव वर्ण * k_pch_audio_EnablePlaybackMirror_Bool = "enablePlaybackMirror";
+स्थिर ध्रुव वर्ण * k_pch_audio_PlaybackMirrorDevice_String = "playbackMirrorDevice";
+स्थिर ध्रुव वर्ण * k_pch_audio_PlaybackMirrorDeviceName_String = "playbackMirrorDeviceName";
+स्थिर ध्रुव वर्ण * k_pch_audio_OldPlaybackMirrorDevice_String = "onPlaybackMirrorDevice";
+स्थिर ध्रुव वर्ण * k_pch_audio_सक्रिय_Mirror_Device_String = "activePlaybackMirrorDevice";
+स्थिर ध्रुव वर्ण * k_pch_audio_EnablePlaybackMirrorIndependentVolume_Bool = "enablePlaybackMirrorIndependentVolume";
+स्थिर ध्रुव वर्ण * k_pch_audio_चरमः_Hmd_Playback_Device_Id_String = "lastHmdPlaybackDeviceId";
+स्थिर ध्रुव वर्ण * k_pch_audio_VIVEHDMIGain = "viveHDMIGain";
+स्थिर ध्रुव वर्ण * k_pch_audio_DualSpeakerAndJackOutput_Bool = "dualSpeakerAndJackOutput";
+स्थिर ध्रुव वर्ण * k_pch_audio_MuteMicMonitor_Bool = "muteMicMonitor";
+स्थिर ध्रुव वर्ण * k_pch_Power_Section = "power";
+स्थिर ध्रुव वर्ण * k_pch_Power_PowerOffOnExit_Bool = "powerOffOnExit";
+स्थिर ध्रुव वर्ण * k_pch_Power_TurnOffScreensTimeout_Float = "turnOffScreensTimeout";
+स्थिर ध्रुव वर्ण * k_pch_Power_TurnOffControllersTimeout_Float = "turnOffControllersTimeout";
+स्थिर ध्रुव वर्ण * k_pch_Power_Return_गन्तव्यम्_Watchdog_Timeout_Float = "returnToWatchdogTimeout";
+स्थिर ध्रुव वर्ण * k_pch_Power_AutoLaunchSteamVROnButtonPress = "autoLaunchSteamVROnButtonPress";
+स्थिर ध्रुव वर्ण * k_pch_Power_PauseCompositorOnStandby_Bool = "pauseCompositorOnStandby";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_Section = "dashboard";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_EnableDashboard_Bool = "enableDashboard";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_Arcade_बहुलकम्_Bool = "arcadeMode";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_Position = "position";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_DesktopScale = "desktopScale";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_DashboardScale = "dashboardScale";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_UseStandaloneSystemLayer = "standaloneSystemLayer";
+स्थिर ध्रुव वर्ण * k_pch_Dashboard_StickyDashboard = "stickyDashboard";
+स्थिर ध्रुव वर्ण * k_pch_modelskin_Section = "modelskins";
+स्थिर ध्रुव वर्ण * k_pch_Driver_Enable_Bool = "enable";
+स्थिर ध्रुव वर्ण * k_pch_Driver_BlockedBySafemode_Bool = "blocked_by_safe_mode";
+स्थिर ध्रुव वर्ण * k_pch_Driver_आरोपय_प्राथमिकता_Int32 = "loadPriority";
+स्थिर ध्रुव वर्ण * k_pch_WebInterface_Section = "WebInterface";
+स्थिर ध्रुव वर्ण * k_pch_VRWebHelper_Section = "VRWebHelper";
+स्थिर ध्रुव वर्ण * k_pch_VRWebHelper_DebuggerEnabled_Bool = "DebuggerEnabled";
+स्थिर ध्रुव वर्ण * k_pch_VRWeb_Helper_Debugger_पत्तनम्_Int32 = "DebuggerPort";
+स्थिर ध्रुव वर्ण * k_pch_TrackingOverride_Section = "TrackingOverrides";
+स्थिर ध्रुव वर्ण * k_pch_App_BindingAutosaveURLSuffix_String = "AutosaveURL";
+स्थिर ध्रुव वर्ण * k_pch_App_BindingLegacyAPISuffix_String = "_legacy";
+स्थिर ध्रुव वर्ण * k_pch_App_BindingSteamVRInputAPISuffix_String = "_steamvrinput";
+स्थिर ध्रुव वर्ण * k_pch_App_BindingOpenXRAPISuffix_String = "_openxr";
+स्थिर ध्रुव वर्ण * k_pch_App_BindingCurrentURLSuffix_String = "CurrentURL";
+स्थिर ध्रुव वर्ण * k_pch_App_BindingPreviousURLSuffix_String = "PreviousURL";
+स्थिर ध्रुव वर्ण * k_pch_App_Need_गन्तव्यम्_Update_Autosave_Suffix_Bool = "NeedToUpdateAutosave";
+स्थिर ध्रुव वर्ण * k_pch_App_DominantHand_Int32 = "DominantHand";
+स्थिर ध्रुव वर्ण * k_pch_App_खण्डम्_Oculus_SDK_Bool = "blockOculusSDK";
+स्थिर ध्रुव वर्ण * k_pch_Trackers_Section = "trackers";
+स्थिर ध्रुव वर्ण * k_pch_DesktopUI_Section = "DesktopUI";
+स्थिर ध्रुव वर्ण * k_pch_चरमः_ज्ञातम्_Section = "LastKnown";
+स्थिर ध्रुव वर्ण * k_pch_चरमः_ज्ञातम्_HMDManufacturer_String = "HMDManufacturer";
+स्थिर ध्रुव वर्ण * k_pch_चरमः_ज्ञातम्_HMDModel_String = "HMDModel";
+स्थिर ध्रुव वर्ण * k_pch_DismissedWarnings_Section = "DismissedWarnings";
+स्थिर ध्रुव वर्ण * k_pch_निवेशः_Section = "input";
+स्थिर ध्रुव वर्ण * k_pch_निवेशः_वामः_Thumbstick_Rotation_Float = "leftThumbstickRotation";
+स्थिर ध्रुव वर्ण * k_pch_निवेशः_दक्षिणः_Thumbstick_Rotation_Float = "rightThumbstickRotation";
+स्थिर ध्रुव वर्ण * k_pch_निवेशः_Thumbstick_Deadzone_Float = "thumbstickDeadzone";
+स्थिर ध्रुव वर्ण * k_pch_Gpu_जवः_Section = "GpuSpeed";
+स्थिर ध्रुव वर्ण * IVRScreenshots_संस्करणम् = "IVRScreenshots_001";
+स्थिर ध्रुव वर्ण * IVRResources_संस्करणम् = "IVRResources_001";
+स्थिर ध्रुव वर्ण * IVRDriver_Manager_संस्करणम् = "IVRDriverManager_001";
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Action_Name_दीर्घता = 64;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Action_समुच्चयः_Name_दीर्घता = 64;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Action_Origin_गणनम् = 16;
+स्थिर ध्रुव अचिह्नित दीर्घ k_un_Max_Bone_Name_दीर्घता = 32;
+स्थिर ध्रुव पूर्णाङ्क k_n_Action_समुच्चयः_Overlay_Global_प्राथमिकता_Min = 16777216;
+स्थिर ध्रुव पूर्णाङ्क k_n_Action_समुच्चयः_Overlay_Global_प्राथमिकता_Max = 33554431;
+स्थिर ध्रुव पूर्णाङ्क k_n_Action_समुच्चयः_प्राथमिकता_Reserved_Min = 33554432;
+स्थिर ध्रुव वर्ण * IVRInput_संस्करणम् = "IVRInput_010";
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ulInvalidIOBufferHandle = 0;
+स्थिर ध्रुव वर्ण * IVRIOBuffer_संस्करणम् = "IVRIOBuffer_002";
+स्थिर ध्रुव अचिह्नित दीर्घ k_ulInvalidSpatialAnchorHandle = 0;
+स्थिर ध्रुव वर्ण * IVRSpatial_Anchors_संस्करणम् = "IVRSpatialAnchors_001";
+स्थिर ध्रुव वर्ण * IVRDebug_संस्करणम् = "IVRDebug_001";
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ulDisplayRedirectContainer = 25769803779;
+स्थिर ध्रुव वर्ण * IVRProperties_संस्करणम् = "IVRProperties_001";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Hand_दक्षिणः = "/user/hand/right";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Hand_वामः = "/user/hand/left";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Hand_Primary = "/user/hand/primary";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Hand_Secondary = "/user/hand/secondary";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_शीर्ष = "/user/head";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Gamepad = "/user/gamepad";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Treadmill = "/user/treadmill";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Stylus = "/user/stylus";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Devices = "/devices";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Device_मार्गः = "/device_path";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Best_Alias_मार्गः = "/best_alias_path";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Bound_Tracker_Alias_मार्गः = "/bound_tracker_path";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Bound_Tracker_Role = "/bound_tracker_role";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Pose_Raw = "/pose/raw";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Pose_Tip = "/pose/tip";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Pose_Grip = "/pose/grip";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_System_Button_Click = "/input/system/click";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Proximity = "/proximity";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Controller_Type_उपसर्गः = "/controller_type/";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_निवेशः_Profile_Suffix = "/input_profile";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Binding_Name_Suffix = "/binding_name";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Binding_Url_Suffix = "/binding_url";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Binding_Error_Suffix = "/binding_error";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_सक्रिय_Action_Sets = "/active_action_sets";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Component_Updates = "/total_component_updates";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Foot_वामः = "/user/foot/left";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Foot_दक्षिणः = "/user/foot/right";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Shoulder_वामः = "/user/shoulder/left";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Shoulder_दक्षिणः = "/user/shoulder/right";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Elbow_वामः = "/user/elbow/left";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Elbow_दक्षिणः = "/user/elbow/right";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Knee_वामः = "/user/knee/left";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Knee_दक्षिणः = "/user/knee/right";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Waist = "/user/waist";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Chest = "/user/chest";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Camera = "/user/camera";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_User_Keyboard = "/user/keyboard";
+स्थिर ध्रुव वर्ण * k_pch_मार्गः_Client_App_कुञ्चिका = "/client_info/app_key";
+स्थिर ध्रुव अचिह्नित दीर्घ दीर्घ k_ul_Invalid_मार्गः_Handle = 0;
+स्थिर ध्रुव वर्ण * IVRPaths_संस्करणम् = "IVRPaths_001";
+स्थिर ध्रुव वर्ण * IVRBlock_Queue_संस्करणम् = "IVRBlockQueue_005";
 
 // OpenVR Enums
 
-typedef enum EVREye
+प्रकारनिर्देश गणना EVREye
 {
-	EVREye_Eye_Left = 0,
-	EVREye_Eye_Right = 1,
+	EVREye_Eye_वामः = 0,
+	EVREye_Eye_दक्षिणः = 1,
 } EVREye;
 
-typedef enum ETextureType
+प्रकारनिर्देश गणना ETextureType
 {
 	ETextureType_TextureType_Invalid = -1,
-	ETextureType_TextureType_DirectX = 0,
+	ETexture_Type_Texture_Type_प्रत्यक्षम्_X = 0,
 	ETextureType_TextureType_OpenGL = 1,
 	ETextureType_TextureType_Vulkan = 2,
 	ETextureType_TextureType_IOSurface = 3,
-	ETextureType_TextureType_DirectX12 = 4,
+	ETexture_Type_Texture_Type_प्रत्यक्षम्_X12 = 4,
 	ETextureType_TextureType_DXGISharedHandle = 5,
 	ETextureType_TextureType_Metal = 6,
 } ETextureType;
 
-typedef enum EColorSpace
+प्रकारनिर्देश गणना EColorSpace
 {
 	EColorSpace_ColorSpace_Auto = 0,
 	EColorSpace_ColorSpace_Gamma = 1,
-	EColorSpace_ColorSpace_Linear = 2,
+	EColor_Space_Color_Space_रैखिकम् = 2,
 } EColorSpace;
 
-typedef enum ETrackingResult
+प्रकारनिर्देश गणना ETracking_परिणाम
 {
-	ETrackingResult_TrackingResult_Uninitialized = 1,
-	ETrackingResult_TrackingResult_Calibrating_InProgress = 100,
-	ETrackingResult_TrackingResult_Calibrating_OutOfRange = 101,
-	ETrackingResult_TrackingResult_Running_OK = 200,
-	ETrackingResult_TrackingResult_Running_OutOfRange = 201,
-	ETrackingResult_TrackingResult_Fallback_RotationOnly = 300,
-} ETrackingResult;
+	ETracking_परिणाम_Tracking_परिणाम_Uninitialized = 1,
+	ETracking_परिणाम_Tracking_परिणाम_Calibrating_अन्तर्_प्रगतिः = 100,
+	ETracking_परिणाम_Tracking_परिणाम_Calibrating_बहिर्गमनम्_सम्बन्धि_Range = 101,
+	ETracking_परिणाम_Tracking_परिणाम_Running_OK = 200,
+	ETracking_परिणाम_Tracking_परिणाम_Running_बहिर्गमनम्_सम्बन्धि_Range = 201,
+	ETracking_परिणाम_Tracking_परिणाम_Fallback_Rotation_Only = 300,
+} ETracking_परिणाम;
 
-typedef enum ETrackedDeviceClass
+प्रकारनिर्देश गणना ETrackedDeviceClass
 {
 	ETrackedDeviceClass_TrackedDeviceClass_Invalid = 0,
 	ETrackedDeviceClass_TrackedDeviceClass_HMD = 1,
@@ -486,151 +486,151 @@ typedef enum ETrackedDeviceClass
 	ETrackedDeviceClass_TrackedDeviceClass_Max = 6,
 } ETrackedDeviceClass;
 
-typedef enum ETrackedControllerRole
+प्रकारनिर्देश गणना ETrackedControllerRole
 {
 	ETrackedControllerRole_TrackedControllerRole_Invalid = 0,
-	ETrackedControllerRole_TrackedControllerRole_LeftHand = 1,
-	ETrackedControllerRole_TrackedControllerRole_RightHand = 2,
-	ETrackedControllerRole_TrackedControllerRole_OptOut = 3,
+	ETracked_Controller_Role_Tracked_Controller_Role_वामः_Hand = 1,
+	ETracked_Controller_Role_Tracked_Controller_Role_दक्षिणः_Hand = 2,
+	ETracked_Controller_Role_Tracked_Controller_Role_Opt_बहिर्गमनम् = 3,
 	ETrackedControllerRole_TrackedControllerRole_Treadmill = 4,
 	ETrackedControllerRole_TrackedControllerRole_Stylus = 5,
 	ETrackedControllerRole_TrackedControllerRole_Max = 5,
 } ETrackedControllerRole;
 
-typedef enum ETrackingUniverseOrigin
+प्रकारनिर्देश गणना ETrackingUniverseOrigin
 {
 	ETrackingUniverseOrigin_TrackingUniverseSeated = 0,
 	ETrackingUniverseOrigin_TrackingUniverseStanding = 1,
 	ETrackingUniverseOrigin_TrackingUniverseRawAndUncalibrated = 2,
 } ETrackingUniverseOrigin;
 
-typedef enum EAdditionalRadioFeatures
+प्रकारनिर्देश गणना EAdditionalRadioFeatures
 {
 	EAdditionalRadioFeatures_AdditionalRadioFeatures_None = 0,
 	EAdditionalRadioFeatures_AdditionalRadioFeatures_HTCLinkBox = 1,
-	EAdditionalRadioFeatures_AdditionalRadioFeatures_InternalDongle = 2,
+	EAdditional_Radio_Features_Additional_Radio_Features_आन्तरिकम्_Dongle = 2,
 	EAdditionalRadioFeatures_AdditionalRadioFeatures_ExternalDongle = 4,
 } EAdditionalRadioFeatures;
 
-typedef enum ETrackedDeviceProperty
+प्रकारनिर्देश गणना ETrackedDeviceProperty
 {
 	ETrackedDeviceProperty_Prop_Invalid = 0,
 	ETrackedDeviceProperty_Prop_TrackingSystemName_String = 1000,
-	ETrackedDeviceProperty_Prop_ModelNumber_String = 1001,
-	ETrackedDeviceProperty_Prop_SerialNumber_String = 1002,
+	ETracked_Device_Property_Prop_Model_सङ्ख्या_String = 1001,
+	ETracked_Device_Property_Prop_Serial_सङ्ख्या_String = 1002,
 	ETrackedDeviceProperty_Prop_RenderModelName_String = 1003,
-	ETrackedDeviceProperty_Prop_WillDriftInYaw_Bool = 1004,
+	ETracked_Device_Property_Prop_Will_Drift_अन्तर्_Yaw_Bool = 1004,
 	ETrackedDeviceProperty_Prop_ManufacturerName_String = 1005,
-	ETrackedDeviceProperty_Prop_TrackingFirmwareVersion_String = 1006,
+	ETracked_Device_Property_Prop_Tracking_Firmware_संस्करणम्_String = 1006,
 	ETrackedDeviceProperty_Prop_HardwareRevision_String = 1007,
 	ETrackedDeviceProperty_Prop_AllWirelessDongleDescriptions_String = 1008,
 	ETrackedDeviceProperty_Prop_ConnectedWirelessDongle_String = 1009,
 	ETrackedDeviceProperty_Prop_DeviceIsWireless_Bool = 1010,
 	ETrackedDeviceProperty_Prop_DeviceIsCharging_Bool = 1011,
 	ETrackedDeviceProperty_Prop_DeviceBatteryPercentage_Float = 1012,
-	ETrackedDeviceProperty_Prop_StatusDisplayTransform_Matrix34 = 1013,
-	ETrackedDeviceProperty_Prop_Firmware_UpdateAvailable_Bool = 1014,
+	ETracked_Device_Property_Prop_स्थितिः_Display_Transform_Matrix34 = 1013,
+	ETracked_Device_Property_Prop_Firmware_Update_उपलब्धम्_Bool = 1014,
 	ETrackedDeviceProperty_Prop_Firmware_ManualUpdate_Bool = 1015,
 	ETrackedDeviceProperty_Prop_Firmware_ManualUpdateURL_String = 1016,
 	ETrackedDeviceProperty_Prop_HardwareRevision_Uint64 = 1017,
-	ETrackedDeviceProperty_Prop_FirmwareVersion_Uint64 = 1018,
+	ETracked_Device_Property_Prop_Firmware_संस्करणम्_Uint64 = 1018,
 	ETrackedDeviceProperty_Prop_FPGAVersion_Uint64 = 1019,
 	ETrackedDeviceProperty_Prop_VRCVersion_Uint64 = 1020,
-	ETrackedDeviceProperty_Prop_RadioVersion_Uint64 = 1021,
-	ETrackedDeviceProperty_Prop_DongleVersion_Uint64 = 1022,
-	ETrackedDeviceProperty_Prop_BlockServerShutdown_Bool = 1023,
+	ETracked_Device_Property_Prop_Radio_संस्करणम्_Uint64 = 1021,
+	ETracked_Device_Property_Prop_Dongle_संस्करणम्_Uint64 = 1022,
+	ETracked_Device_Property_Prop_खण्डम्_Server_Shutdown_Bool = 1023,
 	ETrackedDeviceProperty_Prop_CanUnifyCoordinateSystemWithHmd_Bool = 1024,
-	ETrackedDeviceProperty_Prop_ContainsProximitySensor_Bool = 1025,
-	ETrackedDeviceProperty_Prop_DeviceProvidesBatteryStatus_Bool = 1026,
+	ETracked_Device_Property_Prop_अन्तर्भवति_Proximity_Sensor_Bool = 1025,
+	ETracked_Device_Property_Prop_Device_Provides_Battery_स्थितिः_Bool = 1026,
 	ETrackedDeviceProperty_Prop_DeviceCanPowerOff_Bool = 1027,
 	ETrackedDeviceProperty_Prop_Firmware_ProgrammingTarget_String = 1028,
 	ETrackedDeviceProperty_Prop_DeviceClass_Int32 = 1029,
 	ETrackedDeviceProperty_Prop_HasCamera_Bool = 1030,
-	ETrackedDeviceProperty_Prop_DriverVersion_String = 1031,
+	ETracked_Device_Property_Prop_Driver_संस्करणम्_String = 1031,
 	ETrackedDeviceProperty_Prop_Firmware_ForceUpdateRequired_Bool = 1032,
 	ETrackedDeviceProperty_Prop_ViveSystemButtonFixRequired_Bool = 1033,
 	ETrackedDeviceProperty_Prop_ParentDriver_Uint64 = 1034,
-	ETrackedDeviceProperty_Prop_ResourceRoot_String = 1035,
+	ETracked_Device_Property_Prop_Resource_मूलम्_String = 1035,
 	ETrackedDeviceProperty_Prop_RegisteredDeviceType_String = 1036,
-	ETrackedDeviceProperty_Prop_InputProfilePath_String = 1037,
+	ETracked_Device_Property_Prop_निवेशः_Profile_मार्गः_String = 1037,
 	ETrackedDeviceProperty_Prop_NeverTracked_Bool = 1038,
-	ETrackedDeviceProperty_Prop_NumCameras_Int32 = 1039,
+	ETracked_Device_Property_Prop_अङ्कः_Cameras_Int32 = 1039,
 	ETrackedDeviceProperty_Prop_CameraFrameLayout_Int32 = 1040,
-	ETrackedDeviceProperty_Prop_CameraStreamFormat_Int32 = 1041,
-	ETrackedDeviceProperty_Prop_AdditionalDeviceSettingsPath_String = 1042,
+	ETracked_Device_Property_Prop_Camera_प्रवाहः_Format_Int32 = 1041,
+	ETracked_Device_Property_Prop_Additional_Device_Settings_मार्गः_String = 1042,
 	ETrackedDeviceProperty_Prop_Identifiable_Bool = 1043,
-	ETrackedDeviceProperty_Prop_BootloaderVersion_Uint64 = 1044,
-	ETrackedDeviceProperty_Prop_AdditionalSystemReportData_String = 1045,
-	ETrackedDeviceProperty_Prop_CompositeFirmwareVersion_String = 1046,
+	ETracked_Device_Property_Prop_Bootloader_संस्करणम्_Uint64 = 1044,
+	ETracked_Device_Property_Prop_Additional_System_Report_दत्त_String = 1045,
+	ETracked_Device_Property_Prop_संयुक्त_Firmware_संस्करणम्_String = 1046,
 	ETrackedDeviceProperty_Prop_Firmware_RemindUpdate_Bool = 1047,
-	ETrackedDeviceProperty_Prop_PeripheralApplicationVersion_Uint64 = 1048,
-	ETrackedDeviceProperty_Prop_ManufacturerSerialNumber_String = 1049,
-	ETrackedDeviceProperty_Prop_ComputedSerialNumber_String = 1050,
+	ETracked_Device_Property_Prop_Peripheral_Application_संस्करणम्_Uint64 = 1048,
+	ETracked_Device_Property_Prop_Manufacturer_Serial_सङ्ख्या_String = 1049,
+	ETracked_Device_Property_Prop_Computed_Serial_सङ्ख्या_String = 1050,
 	ETrackedDeviceProperty_Prop_EstimatedDeviceFirstUseTime_Int32 = 1051,
 	ETrackedDeviceProperty_Prop_DevicePowerUsage_Float = 1052,
 	ETrackedDeviceProperty_Prop_IgnoreMotionForStandby_Bool = 1053,
 	ETrackedDeviceProperty_Prop_ReportsTimeSinceVSync_Bool = 2000,
-	ETrackedDeviceProperty_Prop_SecondsFromVsyncToPhotons_Float = 2001,
+	ETracked_Device_Property_Prop_Seconds_From_Vsync_गन्तव्यम्_Photons_Float = 2001,
 	ETrackedDeviceProperty_Prop_DisplayFrequency_Float = 2002,
 	ETrackedDeviceProperty_Prop_UserIpdMeters_Float = 2003,
 	ETrackedDeviceProperty_Prop_CurrentUniverseId_Uint64 = 2004,
 	ETrackedDeviceProperty_Prop_PreviousUniverseId_Uint64 = 2005,
-	ETrackedDeviceProperty_Prop_DisplayFirmwareVersion_Uint64 = 2006,
+	ETracked_Device_Property_Prop_Display_Firmware_संस्करणम्_Uint64 = 2006,
 	ETrackedDeviceProperty_Prop_IsOnDesktop_Bool = 2007,
 	ETrackedDeviceProperty_Prop_DisplayMCType_Int32 = 2008,
 	ETrackedDeviceProperty_Prop_DisplayMCOffset_Float = 2009,
 	ETrackedDeviceProperty_Prop_DisplayMCScale_Float = 2010,
 	ETrackedDeviceProperty_Prop_EdidVendorID_Int32 = 2011,
-	ETrackedDeviceProperty_Prop_DisplayMCImageLeft_String = 2012,
-	ETrackedDeviceProperty_Prop_DisplayMCImageRight_String = 2013,
+	ETracked_Device_Property_Prop_Display_MCImage_वामः_String = 2012,
+	ETracked_Device_Property_Prop_Display_MCImage_दक्षिणः_String = 2013,
 	ETrackedDeviceProperty_Prop_DisplayGCBlackClamp_Float = 2014,
-	ETrackedDeviceProperty_Prop_EdidProductID_Int32 = 2015,
-	ETrackedDeviceProperty_Prop_CameraToHeadTransform_Matrix34 = 2016,
+	ETracked_Device_Property_Prop_Edid_गुणनफलम्_ID_Int32 = 2015,
+	ETracked_Device_Property_Prop_Camera_गन्तव्यम्_शीर्ष_Transform_Matrix34 = 2016,
 	ETrackedDeviceProperty_Prop_DisplayGCType_Int32 = 2017,
 	ETrackedDeviceProperty_Prop_DisplayGCOffset_Float = 2018,
 	ETrackedDeviceProperty_Prop_DisplayGCScale_Float = 2019,
 	ETrackedDeviceProperty_Prop_DisplayGCPrescale_Float = 2020,
 	ETrackedDeviceProperty_Prop_DisplayGCImage_String = 2021,
-	ETrackedDeviceProperty_Prop_LensCenterLeftU_Float = 2022,
-	ETrackedDeviceProperty_Prop_LensCenterLeftV_Float = 2023,
-	ETrackedDeviceProperty_Prop_LensCenterRightU_Float = 2024,
-	ETrackedDeviceProperty_Prop_LensCenterRightV_Float = 2025,
-	ETrackedDeviceProperty_Prop_UserHeadToEyeDepthMeters_Float = 2026,
-	ETrackedDeviceProperty_Prop_CameraFirmwareVersion_Uint64 = 2027,
+	ETracked_Device_Property_Prop_Lens_Center_वामः_U_Float = 2022,
+	ETracked_Device_Property_Prop_Lens_Center_वामः_V_Float = 2023,
+	ETracked_Device_Property_Prop_Lens_Center_दक्षिणः_U_Float = 2024,
+	ETracked_Device_Property_Prop_Lens_Center_दक्षिणः_V_Float = 2025,
+	ETracked_Device_Property_Prop_User_शीर्ष_गन्तव्यम्_Eye_गभीरता_Meters_Float = 2026,
+	ETracked_Device_Property_Prop_Camera_Firmware_संस्करणम्_Uint64 = 2027,
 	ETrackedDeviceProperty_Prop_CameraFirmwareDescription_String = 2028,
 	ETrackedDeviceProperty_Prop_DisplayFPGAVersion_Uint64 = 2029,
-	ETrackedDeviceProperty_Prop_DisplayBootloaderVersion_Uint64 = 2030,
-	ETrackedDeviceProperty_Prop_DisplayHardwareVersion_Uint64 = 2031,
-	ETrackedDeviceProperty_Prop_AudioFirmwareVersion_Uint64 = 2032,
-	ETrackedDeviceProperty_Prop_CameraCompatibilityMode_Int32 = 2033,
-	ETrackedDeviceProperty_Prop_ScreenshotHorizontalFieldOfViewDegrees_Float = 2034,
-	ETrackedDeviceProperty_Prop_ScreenshotVerticalFieldOfViewDegrees_Float = 2035,
+	ETracked_Device_Property_Prop_Display_Bootloader_संस्करणम्_Uint64 = 2030,
+	ETracked_Device_Property_Prop_Display_Hardware_संस्करणम्_Uint64 = 2031,
+	ETracked_Device_Property_Prop_Audio_Firmware_संस्करणम्_Uint64 = 2032,
+	ETracked_Device_Property_Prop_Camera_Compatibility_बहुलकम्_Int32 = 2033,
+	ETracked_Device_Property_Prop_Screenshot_Horizontal_क्षेत्रम्_सम्बन्धि_View_Degrees_Float = 2034,
+	ETracked_Device_Property_Prop_Screenshot_Vertical_क्षेत्रम्_सम्बन्धि_View_Degrees_Float = 2035,
 	ETrackedDeviceProperty_Prop_DisplaySuppressed_Bool = 2036,
-	ETrackedDeviceProperty_Prop_DisplayAllowNightMode_Bool = 2037,
-	ETrackedDeviceProperty_Prop_DisplayMCImageWidth_Int32 = 2038,
+	ETracked_Device_Property_Prop_Display_Allow_Night_बहुलकम्_Bool = 2037,
+	ETracked_Device_Property_Prop_Display_MCImage_विस्तारः_Int32 = 2038,
 	ETrackedDeviceProperty_Prop_DisplayMCImageHeight_Int32 = 2039,
-	ETrackedDeviceProperty_Prop_DisplayMCImageNumChannels_Int32 = 2040,
-	ETrackedDeviceProperty_Prop_DisplayMCImageData_Binary = 2041,
-	ETrackedDeviceProperty_Prop_SecondsFromPhotonsToVblank_Float = 2042,
-	ETrackedDeviceProperty_Prop_DriverDirectModeSendsVsyncEvents_Bool = 2043,
-	ETrackedDeviceProperty_Prop_DisplayDebugMode_Bool = 2044,
+	ETracked_Device_Property_Prop_Display_MCImage_अङ्कः_Channels_Int32 = 2040,
+	ETracked_Device_Property_Prop_Display_MCImage_दत्त_द्विमान = 2041,
+	ETracked_Device_Property_Prop_Seconds_From_Photons_गन्तव्यम्_Vblank_Float = 2042,
+	ETracked_Device_Property_Prop_Driver_प्रत्यक्षम्_बहुलकम्_Sends_Vsync_Events_Bool = 2043,
+	ETracked_Device_Property_Prop_Display_Debug_बहुलकम्_Bool = 2044,
 	ETrackedDeviceProperty_Prop_GraphicsAdapterLuid_Uint64 = 2045,
-	ETrackedDeviceProperty_Prop_DriverProvidedChaperonePath_String = 2048,
-	ETrackedDeviceProperty_Prop_ExpectedTrackingReferenceCount_Int32 = 2049,
-	ETrackedDeviceProperty_Prop_ExpectedControllerCount_Int32 = 2050,
-	ETrackedDeviceProperty_Prop_NamedIconPathControllerLeftDeviceOff_String = 2051,
-	ETrackedDeviceProperty_Prop_NamedIconPathControllerRightDeviceOff_String = 2052,
-	ETrackedDeviceProperty_Prop_NamedIconPathTrackingReferenceDeviceOff_String = 2053,
+	ETracked_Device_Property_Prop_Driver_Provided_Chaperone_मार्गः_String = 2048,
+	ETracked_Device_Property_Prop_Expected_Tracking_Reference_गणनम्_Int32 = 2049,
+	ETracked_Device_Property_Prop_Expected_Controller_गणनम्_Int32 = 2050,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Controller_वामः_Device_Off_String = 2051,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Controller_दक्षिणः_Device_Off_String = 2052,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Tracking_Reference_Device_Off_String = 2053,
 	ETrackedDeviceProperty_Prop_DoNotApplyPrediction_Bool = 2054,
-	ETrackedDeviceProperty_Prop_CameraToHeadTransforms_Matrix34_Array = 2055,
+	ETracked_Device_Property_Prop_Camera_गन्तव्यम्_शीर्ष_Transforms_Matrix34_Array = 2055,
 	ETrackedDeviceProperty_Prop_DistortionMeshResolution_Int32 = 2056,
 	ETrackedDeviceProperty_Prop_DriverIsDrawingControllers_Bool = 2057,
-	ETrackedDeviceProperty_Prop_DriverRequestsApplicationPause_Bool = 2058,
-	ETrackedDeviceProperty_Prop_DriverRequestsReducedRendering_Bool = 2059,
-	ETrackedDeviceProperty_Prop_MinimumIpdStepMeters_Float = 2060,
-	ETrackedDeviceProperty_Prop_AudioBridgeFirmwareVersion_Uint64 = 2061,
-	ETrackedDeviceProperty_Prop_ImageBridgeFirmwareVersion_Uint64 = 2062,
-	ETrackedDeviceProperty_Prop_ImuToHeadTransform_Matrix34 = 2063,
+	ETracked_Device_Property_Prop_Driver_अनुरोधाः_Application_Pause_Bool = 2058,
+	ETracked_Device_Property_Prop_Driver_अनुरोधाः_Reduced_Rendering_Bool = 2059,
+	ETracked_Device_Property_Prop_Minimum_Ipd_चरणः_Meters_Float = 2060,
+	ETracked_Device_Property_Prop_Audio_Bridge_Firmware_संस्करणम्_Uint64 = 2061,
+	ETracked_Device_Property_Prop_Image_Bridge_Firmware_संस्करणम्_Uint64 = 2062,
+	ETracked_Device_Property_Prop_Imu_गन्तव्यम्_शीर्ष_Transform_Matrix34 = 2063,
 	ETrackedDeviceProperty_Prop_ImuFactoryGyroBias_Vector3 = 2064,
 	ETrackedDeviceProperty_Prop_ImuFactoryGyroScale_Vector3 = 2065,
 	ETrackedDeviceProperty_Prop_ImuFactoryAccelerometerBias_Vector3 = 2066,
@@ -643,13 +643,13 @@ typedef enum ETrackedDeviceProperty
 	ETrackedDeviceProperty_Prop_ExpectedControllerType_String = 2074,
 	ETrackedDeviceProperty_Prop_HmdTrackingStyle_Int32 = 2075,
 	ETrackedDeviceProperty_Prop_DriverProvidedChaperoneVisibility_Bool = 2076,
-	ETrackedDeviceProperty_Prop_HmdColumnCorrectionSettingPrefix_String = 2077,
+	ETracked_Device_Property_Prop_Hmd_Column_Correction_Setting_उपसर्गः_String = 2077,
 	ETrackedDeviceProperty_Prop_CameraSupportsCompatibilityModes_Bool = 2078,
-	ETrackedDeviceProperty_Prop_SupportsRoomViewDepthProjection_Bool = 2079,
-	ETrackedDeviceProperty_Prop_DisplayAvailableFrameRates_Float_Array = 2080,
-	ETrackedDeviceProperty_Prop_DisplaySupportsMultipleFramerates_Bool = 2081,
-	ETrackedDeviceProperty_Prop_DisplayColorMultLeft_Vector3 = 2082,
-	ETrackedDeviceProperty_Prop_DisplayColorMultRight_Vector3 = 2083,
+	ETracked_Device_Property_Prop_Supports_अवकाशः_View_गभीरता_Projection_Bool = 2079,
+	ETracked_Device_Property_Prop_Display_उपलब्धम्_Frame_Rates_Float_Array = 2080,
+	ETracked_Device_Property_Prop_Display_Supports_गुणजः_Framerates_Bool = 2081,
+	ETracked_Device_Property_Prop_Display_Color_Mult_वामः_Vector3 = 2082,
+	ETracked_Device_Property_Prop_Display_Color_Mult_दक्षिणः_Vector3 = 2083,
 	ETrackedDeviceProperty_Prop_DisplaySupportsRuntimeFramerateChange_Bool = 2084,
 	ETrackedDeviceProperty_Prop_DisplaySupportsAnalogGain_Bool = 2085,
 	ETrackedDeviceProperty_Prop_DisplayMinAnalogGain_Float = 2086,
@@ -663,20 +663,20 @@ typedef enum ETrackedDeviceProperty
 	ETrackedDeviceProperty_Prop_IpdUIRangeMaxMeters_Float = 2101,
 	ETrackedDeviceProperty_Prop_Hmd_SupportsHDCP14LegacyCompat_Bool = 2102,
 	ETrackedDeviceProperty_Prop_Hmd_SupportsMicMonitoring_Bool = 2103,
-	ETrackedDeviceProperty_Prop_Hmd_SupportsDisplayPortTrainingMode_Bool = 2104,
-	ETrackedDeviceProperty_Prop_SupportsRoomViewDirect_Bool = 2105,
+	ETracked_Device_Property_Prop_Hmd_Supports_Display_पत्तनम्_Training_बहुलकम्_Bool = 2104,
+	ETracked_Device_Property_Prop_Supports_अवकाशः_View_प्रत्यक्षम्_Bool = 2105,
 	ETrackedDeviceProperty_Prop_SupportsAppThrottling_Bool = 2106,
 	ETrackedDeviceProperty_Prop_DSCVersion_Int32 = 2110,
-	ETrackedDeviceProperty_Prop_DSCSliceCount_Int32 = 2111,
+	ETracked_Device_Property_Prop_DSCSlice_गणनम्_Int32 = 2111,
 	ETrackedDeviceProperty_Prop_DSCBPPx16_Int32 = 2112,
-	ETrackedDeviceProperty_Prop_DriverRequestedMuraCorrectionMode_Int32 = 2200,
-	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_InnerLeft_Int32 = 2201,
-	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_InnerRight_Int32 = 2202,
-	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_InnerTop_Int32 = 2203,
+	ETracked_Device_Property_Prop_Driver_Requested_Mura_Correction_बहुलकम्_Int32 = 2200,
+	ETracked_Device_Property_Prop_Driver_Requested_Mura_Feather_Inner_वामः_Int32 = 2201,
+	ETracked_Device_Property_Prop_Driver_Requested_Mura_Feather_Inner_दक्षिणः_Int32 = 2202,
+	ETracked_Device_Property_Prop_Driver_Requested_Mura_Feather_Inner_शिखरम्_Int32 = 2203,
 	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_InnerBottom_Int32 = 2204,
-	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_OuterLeft_Int32 = 2205,
-	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_OuterRight_Int32 = 2206,
-	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_OuterTop_Int32 = 2207,
+	ETracked_Device_Property_Prop_Driver_Requested_Mura_Feather_Outer_वामः_Int32 = 2205,
+	ETracked_Device_Property_Prop_Driver_Requested_Mura_Feather_Outer_दक्षिणः_Int32 = 2206,
+	ETracked_Device_Property_Prop_Driver_Requested_Mura_Feather_Outer_शिखरम्_Int32 = 2207,
 	ETrackedDeviceProperty_Prop_DriverRequestedMuraFeather_OuterBottom_Int32 = 2208,
 	ETrackedDeviceProperty_Prop_Audio_DefaultPlaybackDeviceId_String = 2300,
 	ETrackedDeviceProperty_Prop_Audio_DefaultRecordingDeviceId_String = 2301,
@@ -690,88 +690,88 @@ typedef enum ETrackedDeviceProperty
 	ETrackedDeviceProperty_Prop_Axis3Type_Int32 = 3005,
 	ETrackedDeviceProperty_Prop_Axis4Type_Int32 = 3006,
 	ETrackedDeviceProperty_Prop_ControllerRoleHint_Int32 = 3007,
-	ETrackedDeviceProperty_Prop_FieldOfViewLeftDegrees_Float = 4000,
-	ETrackedDeviceProperty_Prop_FieldOfViewRightDegrees_Float = 4001,
-	ETrackedDeviceProperty_Prop_FieldOfViewTopDegrees_Float = 4002,
-	ETrackedDeviceProperty_Prop_FieldOfViewBottomDegrees_Float = 4003,
+	ETracked_Device_Property_Prop_क्षेत्रम्_सम्बन्धि_View_वामः_Degrees_Float = 4000,
+	ETracked_Device_Property_Prop_क्षेत्रम्_सम्बन्धि_View_दक्षिणः_Degrees_Float = 4001,
+	ETracked_Device_Property_Prop_क्षेत्रम्_सम्बन्धि_View_शिखरम्_Degrees_Float = 4002,
+	ETracked_Device_Property_Prop_क्षेत्रम्_सम्बन्धि_View_Bottom_Degrees_Float = 4003,
 	ETrackedDeviceProperty_Prop_TrackingRangeMinimumMeters_Float = 4004,
-	ETrackedDeviceProperty_Prop_TrackingRangeMaximumMeters_Float = 4005,
-	ETrackedDeviceProperty_Prop_ModeLabel_String = 4006,
+	ETracked_Device_Property_Prop_Tracking_Range_अधिकतमम्_Meters_Float = 4005,
+	ETracked_Device_Property_Prop_बहुलकम्_Label_String = 4006,
 	ETrackedDeviceProperty_Prop_CanWirelessIdentify_Bool = 4007,
 	ETrackedDeviceProperty_Prop_Nonce_Int32 = 4008,
-	ETrackedDeviceProperty_Prop_IconPathName_String = 5000,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceOff_String = 5001,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceSearching_String = 5002,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceSearchingAlert_String = 5003,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceReady_String = 5004,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceReadyAlert_String = 5005,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceNotReady_String = 5006,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceStandby_String = 5007,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceAlertLow_String = 5008,
-	ETrackedDeviceProperty_Prop_NamedIconPathDeviceStandbyAlert_String = 5009,
-	ETrackedDeviceProperty_Prop_DisplayHiddenArea_Binary_Start = 5100,
-	ETrackedDeviceProperty_Prop_DisplayHiddenArea_Binary_End = 5150,
+	ETracked_Device_Property_Prop_Icon_मार्गः_Name_String = 5000,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Off_String = 5001,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Searching_String = 5002,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Searching_Alert_String = 5003,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Ready_String = 5004,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Ready_Alert_String = 5005,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Not_Ready_String = 5006,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Standby_String = 5007,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Alert_नीचः_String = 5008,
+	ETracked_Device_Property_Prop_Named_Icon_मार्गः_Device_Standby_Alert_String = 5009,
+	ETracked_Device_Property_Prop_Display_Hidden_Area_द्विमान_Start = 5100,
+	ETracked_Device_Property_Prop_Display_Hidden_Area_द्विमान_अन्तः = 5150,
 	ETrackedDeviceProperty_Prop_ParentContainer = 5151,
 	ETrackedDeviceProperty_Prop_OverrideContainer_Uint64 = 5152,
-	ETrackedDeviceProperty_Prop_UserConfigPath_String = 6000,
-	ETrackedDeviceProperty_Prop_InstallPath_String = 6001,
+	ETracked_Device_Property_Prop_User_Config_मार्गः_String = 6000,
+	ETracked_Device_Property_Prop_Install_मार्गः_String = 6001,
 	ETrackedDeviceProperty_Prop_HasDisplayComponent_Bool = 6002,
 	ETrackedDeviceProperty_Prop_HasControllerComponent_Bool = 6003,
 	ETrackedDeviceProperty_Prop_HasCameraComponent_Bool = 6004,
-	ETrackedDeviceProperty_Prop_HasDriverDirectModeComponent_Bool = 6005,
+	ETracked_Device_Property_Prop_Has_Driver_प्रत्यक्षम्_बहुलकम्_Component_Bool = 6005,
 	ETrackedDeviceProperty_Prop_HasVirtualDisplayComponent_Bool = 6006,
 	ETrackedDeviceProperty_Prop_HasSpatialAnchorsSupport_Bool = 6007,
 	ETrackedDeviceProperty_Prop_ControllerType_String = 7000,
-	ETrackedDeviceProperty_Prop_ControllerHandSelectionPriority_Int32 = 7002,
+	ETracked_Device_Property_Prop_Controller_Hand_Selection_प्राथमिकता_Int32 = 7002,
 	ETrackedDeviceProperty_Prop_VendorSpecific_Reserved_Start = 10000,
-	ETrackedDeviceProperty_Prop_VendorSpecific_Reserved_End = 10999,
+	ETracked_Device_Property_Prop_Vendor_Specific_Reserved_अन्तः = 10999,
 	ETrackedDeviceProperty_Prop_TrackedDeviceProperty_Max = 1000000,
 } ETrackedDeviceProperty;
 
-typedef enum ETrackedPropertyError
+प्रकारनिर्देश गणना ETrackedPropertyError
 {
 	ETrackedPropertyError_TrackedProp_Success = 0,
-	ETrackedPropertyError_TrackedProp_WrongDataType = 1,
+	ETracked_Property_Error_Tracked_Prop_Wrong_दत्त_Type = 1,
 	ETrackedPropertyError_TrackedProp_WrongDeviceClass = 2,
-	ETrackedPropertyError_TrackedProp_BufferTooSmall = 3,
+	ETracked_Property_Error_Tracked_Prop_बफर_Too_Small = 3,
 	ETrackedPropertyError_TrackedProp_UnknownProperty = 4,
 	ETrackedPropertyError_TrackedProp_InvalidDevice = 5,
 	ETrackedPropertyError_TrackedProp_CouldNotContactServer = 6,
-	ETrackedPropertyError_TrackedProp_ValueNotProvidedByDevice = 7,
-	ETrackedPropertyError_TrackedProp_StringExceedsMaximumLength = 8,
-	ETrackedPropertyError_TrackedProp_NotYetAvailable = 9,
+	ETracked_Property_Error_Tracked_Prop_मानम्_Not_Provided_By_Device = 7,
+	ETracked_Property_Error_Tracked_Prop_String_Exceeds_अधिकतमम्_दीर्घता = 8,
+	ETracked_Property_Error_Tracked_Prop_Not_Yet_उपलब्धम् = 9,
 	ETrackedPropertyError_TrackedProp_PermissionDenied = 10,
 	ETrackedPropertyError_TrackedProp_InvalidOperation = 11,
-	ETrackedPropertyError_TrackedProp_CannotWriteToWildcards = 12,
+	ETracked_Property_Error_Tracked_Prop_Cannot_Write_गन्तव्यम्_Wildcards = 12,
 	ETrackedPropertyError_TrackedProp_IPCReadFailure = 13,
-	ETrackedPropertyError_TrackedProp_OutOfMemory = 14,
+	ETracked_Property_Error_Tracked_Prop_बहिर्गमनम्_सम्बन्धि_स्मृतिः = 14,
 	ETrackedPropertyError_TrackedProp_InvalidContainer = 15,
 } ETrackedPropertyError;
 
-typedef enum EHmdTrackingStyle
+प्रकारनिर्देश गणना EHmdTrackingStyle
 {
 	EHmdTrackingStyle_HmdTrackingStyle_Unknown = 0,
 	EHmdTrackingStyle_HmdTrackingStyle_Lighthouse = 1,
-	EHmdTrackingStyle_HmdTrackingStyle_OutsideInCameras = 2,
-	EHmdTrackingStyle_HmdTrackingStyle_InsideOutCameras = 3,
+	EHmd_Tracking_Style_Hmd_Tracking_Style_Outside_अन्तर्_Cameras = 2,
+	EHmd_Tracking_Style_Hmd_Tracking_Style_Inside_बहिर्गमनम्_Cameras = 3,
 } EHmdTrackingStyle;
 
-typedef enum EVRSubmitFlags
+प्रकारनिर्देश गणना EVRSubmitFlags
 {
 	EVRSubmitFlags_Submit_Default = 0,
 	EVRSubmitFlags_Submit_LensDistortionAlreadyApplied = 1,
-	EVRSubmitFlags_Submit_GlRenderBuffer = 2,
+	EVRSubmit_Flags_Submit_Gl_Render_बफर = 2,
 	EVRSubmitFlags_Submit_Reserved = 4,
 	EVRSubmitFlags_Submit_TextureWithPose = 8,
-	EVRSubmitFlags_Submit_TextureWithDepth = 16,
+	EVRSubmit_Flags_Submit_Texture_With_गभीरता = 16,
 	EVRSubmitFlags_Submit_FrameDiscontinuty = 32,
-	EVRSubmitFlags_Submit_VulkanTextureWithArrayData = 64,
+	EVRSubmit_Flags_Submit_Vulkan_Texture_With_Array_दत्त = 64,
 	EVRSubmitFlags_Submit_GlArrayTexture = 128,
 	EVRSubmitFlags_Submit_Reserved2 = 32768,
 	EVRSubmitFlags_Submit_Reserved3 = 65536,
 } EVRSubmitFlags;
 
-typedef enum EVRState
+प्रकारनिर्देश गणना EVRState
 {
 	EVRState_VRState_Undefined = -1,
 	EVRState_VRState_Off = 0,
@@ -781,10 +781,10 @@ typedef enum EVRState
 	EVRState_VRState_Ready_Alert = 4,
 	EVRState_VRState_NotReady = 5,
 	EVRState_VRState_Standby = 6,
-	EVRState_VRState_Ready_Alert_Low = 7,
+	EVRState_VRState_Ready_Alert_नीचः = 7,
 } EVRState;
 
-typedef enum EVREventType
+प्रकारनिर्देश गणना EVREventType
 {
 	EVREventType_VREvent_None = 0,
 	EVREventType_VREvent_TrackedDeviceActivated = 100,
@@ -792,13 +792,13 @@ typedef enum EVREventType
 	EVREventType_VREvent_TrackedDeviceUpdated = 102,
 	EVREventType_VREvent_TrackedDeviceUserInteractionStarted = 103,
 	EVREventType_VREvent_TrackedDeviceUserInteractionEnded = 104,
-	EVREventType_VREvent_IpdChanged = 105,
-	EVREventType_VREvent_EnterStandbyMode = 106,
-	EVREventType_VREvent_LeaveStandbyMode = 107,
-	EVREventType_VREvent_TrackedDeviceRoleChanged = 108,
-	EVREventType_VREvent_WatchdogWakeUpRequested = 109,
-	EVREventType_VREvent_LensDistortionChanged = 110,
-	EVREventType_VREvent_PropertyChanged = 111,
+	EVREvent_Type_VREvent_Ipd_परिवर्तितम् = 105,
+	EVREvent_Type_VREvent_Enter_Standby_बहुलकम् = 106,
+	EVREvent_Type_VREvent_Leave_Standby_बहुलकम् = 107,
+	EVREvent_Type_VREvent_Tracked_Device_Role_परिवर्तितम् = 108,
+	EVREvent_Type_VREvent_Watchdog_Wake_ऊर्ध्वम्_Requested = 109,
+	EVREvent_Type_VREvent_Lens_Distortion_परिवर्तितम् = 110,
+	EVREvent_Type_VREvent_Property_परिवर्तितम् = 111,
 	EVREventType_VREvent_WirelessDisconnect = 112,
 	EVREventType_VREvent_WirelessReconnect = 113,
 	EVREventType_VREvent_ButtonPress = 200,
@@ -807,26 +807,26 @@ typedef enum EVREventType
 	EVREventType_VREvent_ButtonUntouch = 203,
 	EVREventType_VREvent_Modal_Cancel = 257,
 	EVREventType_VREvent_MouseMove = 300,
-	EVREventType_VREvent_MouseButtonDown = 301,
-	EVREventType_VREvent_MouseButtonUp = 302,
+	EVREvent_Type_VREvent_Mouse_Button_अधस्तात् = 301,
+	EVREvent_Type_VREvent_Mouse_Button_ऊर्ध्वम् = 302,
 	EVREventType_VREvent_FocusEnter = 303,
 	EVREventType_VREvent_FocusLeave = 304,
 	EVREventType_VREvent_ScrollDiscrete = 305,
 	EVREventType_VREvent_TouchPadMove = 306,
-	EVREventType_VREvent_OverlayFocusChanged = 307,
+	EVREvent_Type_VREvent_Overlay_Focus_परिवर्तितम् = 307,
 	EVREventType_VREvent_ReloadOverlays = 308,
 	EVREventType_VREvent_ScrollSmooth = 309,
-	EVREventType_VREvent_LockMousePosition = 310,
+	EVREvent_Type_VREvent_तालकम्_Mouse_Position = 310,
 	EVREventType_VREvent_UnlockMousePosition = 311,
-	EVREventType_VREvent_InputFocusCaptured = 400,
-	EVREventType_VREvent_InputFocusReleased = 401,
-	EVREventType_VREvent_SceneApplicationChanged = 404,
-	EVREventType_VREvent_InputFocusChanged = 406,
+	EVREvent_Type_VREvent_निवेशः_Focus_Captured = 400,
+	EVREvent_Type_VREvent_निवेशः_Focus_Released = 401,
+	EVREvent_Type_VREvent_Scene_Application_परिवर्तितम् = 404,
+	EVREvent_Type_VREvent_निवेशः_Focus_परिवर्तितम् = 406,
 	EVREventType_VREvent_SceneApplicationUsingWrongGraphicsAdapter = 408,
 	EVREventType_VREvent_ActionBindingReloaded = 409,
 	EVREventType_VREvent_HideRenderModels = 410,
 	EVREventType_VREvent_ShowRenderModels = 411,
-	EVREventType_VREvent_SceneApplicationStateChanged = 412,
+	EVREvent_Type_VREvent_Scene_Application_State_परिवर्तितम् = 412,
 	EVREventType_VREvent_SceneAppPipeDisconnected = 413,
 	EVREventType_VREvent_ConsoleOpened = 420,
 	EVREventType_VREvent_ConsoleClosed = 421,
@@ -840,20 +840,20 @@ typedef enum EVREventType
 	EVREventType_VREvent_ShowKeyboard = 509,
 	EVREventType_VREvent_HideKeyboard = 510,
 	EVREventType_VREvent_OverlayGamepadFocusGained = 511,
-	EVREventType_VREvent_OverlayGamepadFocusLost = 512,
-	EVREventType_VREvent_OverlaySharedTextureChanged = 513,
+	EVREvent_Type_VREvent_Overlay_Gamepad_Focus_नष्टम् = 512,
+	EVREvent_Type_VREvent_Overlay_Shared_Texture_परिवर्तितम् = 513,
 	EVREventType_VREvent_ScreenshotTriggered = 516,
 	EVREventType_VREvent_ImageFailed = 517,
 	EVREventType_VREvent_DashboardOverlayCreated = 518,
 	EVREventType_VREvent_SwitchGamepadFocus = 519,
 	EVREventType_VREvent_RequestScreenshot = 520,
-	EVREventType_VREvent_ScreenshotTaken = 521,
+	EVREvent_Type_VREvent_Screenshot_गृहीतम् = 521,
 	EVREventType_VREvent_ScreenshotFailed = 522,
-	EVREventType_VREvent_SubmitScreenshotToDashboard = 523,
-	EVREventType_VREvent_ScreenshotProgressToDashboard = 524,
-	EVREventType_VREvent_PrimaryDashboardDeviceChanged = 525,
-	EVREventType_VREvent_RoomViewShown = 526,
-	EVREventType_VREvent_RoomViewHidden = 527,
+	EVREvent_Type_VREvent_Submit_Screenshot_गन्तव्यम्_Dashboard = 523,
+	EVREvent_Type_VREvent_Screenshot_प्रगतिः_गन्तव्यम्_Dashboard = 524,
+	EVREvent_Type_VREvent_Primary_Dashboard_Device_परिवर्तितम् = 525,
+	EVREvent_Type_VREvent_अवकाशः_View_Shown = 526,
+	EVREvent_Type_VREvent_अवकाशः_View_Hidden = 527,
 	EVREventType_VREvent_ShowUI = 528,
 	EVREventType_VREvent_ShowDevTools = 529,
 	EVREventType_VREvent_DesktopViewUpdating = 530,
@@ -871,48 +871,48 @@ typedef enum EVREventType
 	EVREventType_VREvent_DriverRequestedQuit = 704,
 	EVREventType_VREvent_RestartRequested = 705,
 	EVREventType_VREvent_InvalidateSwapTextureSets = 706,
-	EVREventType_VREvent_ChaperoneDataHasChanged = 800,
-	EVREventType_VREvent_ChaperoneUniverseHasChanged = 801,
-	EVREventType_VREvent_ChaperoneTempDataHasChanged = 802,
-	EVREventType_VREvent_ChaperoneSettingsHaveChanged = 803,
+	EVREvent_Type_VREvent_Chaperone_दत्त_Has_परिवर्तितम् = 800,
+	EVREvent_Type_VREvent_Chaperone_Universe_Has_परिवर्तितम् = 801,
+	EVREvent_Type_VREvent_Chaperone_अस्थायी_दत्त_Has_परिवर्तितम् = 802,
+	EVREvent_Type_VREvent_Chaperone_Settings_Have_परिवर्तितम् = 803,
 	EVREventType_VREvent_SeatedZeroPoseReset = 804,
 	EVREventType_VREvent_ChaperoneFlushCache = 805,
-	EVREventType_VREvent_ChaperoneRoomSetupStarting = 806,
-	EVREventType_VREvent_ChaperoneRoomSetupFinished = 807,
+	EVREvent_Type_VREvent_Chaperone_अवकाशः_सज्जता_Starting = 806,
+	EVREvent_Type_VREvent_Chaperone_अवकाशः_सज्जता_परिसमाप्तम् = 807,
 	EVREventType_VREvent_StandingZeroPoseReset = 808,
-	EVREventType_VREvent_AudioSettingsHaveChanged = 820,
-	EVREventType_VREvent_BackgroundSettingHasChanged = 850,
-	EVREventType_VREvent_CameraSettingsHaveChanged = 851,
-	EVREventType_VREvent_ReprojectionSettingHasChanged = 852,
-	EVREventType_VREvent_ModelSkinSettingsHaveChanged = 853,
-	EVREventType_VREvent_EnvironmentSettingsHaveChanged = 854,
-	EVREventType_VREvent_PowerSettingsHaveChanged = 855,
-	EVREventType_VREvent_EnableHomeAppSettingsHaveChanged = 856,
-	EVREventType_VREvent_SteamVRSectionSettingChanged = 857,
-	EVREventType_VREvent_LighthouseSectionSettingChanged = 858,
-	EVREventType_VREvent_NullSectionSettingChanged = 859,
-	EVREventType_VREvent_UserInterfaceSectionSettingChanged = 860,
-	EVREventType_VREvent_NotificationsSectionSettingChanged = 861,
-	EVREventType_VREvent_KeyboardSectionSettingChanged = 862,
-	EVREventType_VREvent_PerfSectionSettingChanged = 863,
-	EVREventType_VREvent_DashboardSectionSettingChanged = 864,
-	EVREventType_VREvent_WebInterfaceSectionSettingChanged = 865,
-	EVREventType_VREvent_TrackersSectionSettingChanged = 866,
-	EVREventType_VREvent_LastKnownSectionSettingChanged = 867,
-	EVREventType_VREvent_DismissedWarningsSectionSettingChanged = 868,
-	EVREventType_VREvent_GpuSpeedSectionSettingChanged = 869,
-	EVREventType_VREvent_WindowsMRSectionSettingChanged = 870,
-	EVREventType_VREvent_OtherSectionSettingChanged = 871,
-	EVREventType_VREvent_StatusUpdate = 900,
+	EVREvent_Type_VREvent_Audio_Settings_Have_परिवर्तितम् = 820,
+	EVREvent_Type_VREvent_Background_Setting_Has_परिवर्तितम् = 850,
+	EVREvent_Type_VREvent_Camera_Settings_Have_परिवर्तितम् = 851,
+	EVREvent_Type_VREvent_Reprojection_Setting_Has_परिवर्तितम् = 852,
+	EVREvent_Type_VREvent_Model_Skin_Settings_Have_परिवर्तितम् = 853,
+	EVREvent_Type_VREvent_Environment_Settings_Have_परिवर्तितम् = 854,
+	EVREvent_Type_VREvent_Power_Settings_Have_परिवर्तितम् = 855,
+	EVREvent_Type_VREvent_Enable_Home_App_Settings_Have_परिवर्तितम् = 856,
+	EVREvent_Type_VREvent_Steam_VRSection_Setting_परिवर्तितम् = 857,
+	EVREvent_Type_VREvent_Lighthouse_Section_Setting_परिवर्तितम् = 858,
+	EVREvent_Type_VREvent_Null_Section_Setting_परिवर्तितम् = 859,
+	EVREvent_Type_VREvent_User_Interface_Section_Setting_परिवर्तितम् = 860,
+	EVREvent_Type_VREvent_Notifications_Section_Setting_परिवर्तितम् = 861,
+	EVREvent_Type_VREvent_Keyboard_Section_Setting_परिवर्तितम् = 862,
+	EVREvent_Type_VREvent_Perf_Section_Setting_परिवर्तितम् = 863,
+	EVREvent_Type_VREvent_Dashboard_Section_Setting_परिवर्तितम् = 864,
+	EVREvent_Type_VREvent_Web_Interface_Section_Setting_परिवर्तितम् = 865,
+	EVREvent_Type_VREvent_Trackers_Section_Setting_परिवर्तितम् = 866,
+	EVREvent_Type_VREvent_चरमः_ज्ञातम्_Section_Setting_परिवर्तितम् = 867,
+	EVREvent_Type_VREvent_Dismissed_Warnings_Section_Setting_परिवर्तितम् = 868,
+	EVREvent_Type_VREvent_Gpu_जवः_Section_Setting_परिवर्तितम् = 869,
+	EVREvent_Type_VREvent_Windows_MRSection_Setting_परिवर्तितम् = 870,
+	EVREvent_Type_VREvent_Other_Section_Setting_परिवर्तितम् = 871,
+	EVREvent_Type_VREvent_स्थितिः_Update = 900,
 	EVREventType_VREvent_WebInterface_InstallDriverCompleted = 950,
 	EVREventType_VREvent_MCImageUpdated = 1000,
 	EVREventType_VREvent_FirmwareUpdateStarted = 1100,
-	EVREventType_VREvent_FirmwareUpdateFinished = 1101,
+	EVREvent_Type_VREvent_Firmware_Update_परिसमाप्तम् = 1101,
 	EVREventType_VREvent_KeyboardClosed = 1200,
-	EVREventType_VREvent_KeyboardCharInput = 1201,
-	EVREventType_VREvent_KeyboardDone = 1202,
+	EVREvent_Type_VREvent_Keyboard_Char_निवेशः = 1201,
+	EVREvent_Type_VREvent_Keyboard_समाप्तम् = 1202,
 	EVREventType_VREvent_ApplicationListUpdated = 1303,
-	EVREventType_VREvent_ApplicationMimeTypeLoad = 1304,
+	EVREvent_Type_VREvent_Application_Mime_Type_आरोपय = 1304,
 	EVREventType_VREvent_ProcessConnected = 1306,
 	EVREventType_VREvent_ProcessDisconnected = 1307,
 	EVREventType_VREvent_Compositor_ChaperoneBoundsShown = 1410,
@@ -922,29 +922,29 @@ typedef enum EVREventType
 	EVREventType_VREvent_Compositor_HDCPError = 1414,
 	EVREventType_VREvent_Compositor_ApplicationNotResponding = 1415,
 	EVREventType_VREvent_Compositor_ApplicationResumed = 1416,
-	EVREventType_VREvent_Compositor_OutOfVideoMemory = 1417,
-	EVREventType_VREvent_Compositor_DisplayModeNotSupported = 1418,
+	EVREvent_Type_VREvent_Compositor_बहिर्गमनम्_सम्बन्धि_Video_स्मृतिः = 1417,
+	EVREvent_Type_VREvent_Compositor_Display_बहुलकम्_Not_Supported = 1418,
 	EVREventType_VREvent_Compositor_StageOverrideReady = 1419,
 	EVREventType_VREvent_Compositor_RequestDisconnectReconnect = 1420,
-	EVREventType_VREvent_TrackedCamera_StartVideoStream = 1500,
-	EVREventType_VREvent_TrackedCamera_StopVideoStream = 1501,
-	EVREventType_VREvent_TrackedCamera_PauseVideoStream = 1502,
-	EVREventType_VREvent_TrackedCamera_ResumeVideoStream = 1503,
+	EVREvent_Type_VREvent_Tracked_Camera_Start_Video_प्रवाहः = 1500,
+	EVREvent_Type_VREvent_Tracked_Camera_Stop_Video_प्रवाहः = 1501,
+	EVREvent_Type_VREvent_Tracked_Camera_Pause_Video_प्रवाहः = 1502,
+	EVREvent_Type_VREvent_Tracked_Camera_Resume_Video_प्रवाहः = 1503,
 	EVREventType_VREvent_TrackedCamera_EditingSurface = 1550,
 	EVREventType_VREvent_PerformanceTest_EnableCapture = 1600,
 	EVREventType_VREvent_PerformanceTest_DisableCapture = 1601,
 	EVREventType_VREvent_PerformanceTest_FidelityLevel = 1602,
-	EVREventType_VREvent_MessageOverlay_Closed = 1650,
-	EVREventType_VREvent_MessageOverlayCloseRequested = 1651,
-	EVREventType_VREvent_Input_HapticVibration = 1700,
-	EVREventType_VREvent_Input_BindingLoadFailed = 1701,
-	EVREventType_VREvent_Input_BindingLoadSuccessful = 1702,
-	EVREventType_VREvent_Input_ActionManifestReloaded = 1703,
-	EVREventType_VREvent_Input_ActionManifestLoadFailed = 1704,
-	EVREventType_VREvent_Input_ProgressUpdate = 1705,
-	EVREventType_VREvent_Input_TrackerActivated = 1706,
-	EVREventType_VREvent_Input_BindingsUpdated = 1707,
-	EVREventType_VREvent_Input_BindingSubscriptionChanged = 1708,
+	EVREvent_Type_VREvent_सन्देशः_Overlay_Closed = 1650,
+	EVREvent_Type_VREvent_सन्देशः_Overlay_Close_Requested = 1651,
+	EVREvent_Type_VREvent_निवेशः_Haptic_Vibration = 1700,
+	EVREvent_Type_VREvent_निवेशः_Binding_आरोपय_Failed = 1701,
+	EVREvent_Type_VREvent_निवेशः_Binding_आरोपय_Successful = 1702,
+	EVREvent_Type_VREvent_निवेशः_Action_Manifest_Reloaded = 1703,
+	EVREvent_Type_VREvent_निवेशः_Action_Manifest_आरोपय_Failed = 1704,
+	EVREvent_Type_VREvent_निवेशः_प्रगतिः_Update = 1705,
+	EVREvent_Type_VREvent_निवेशः_Tracker_Activated = 1706,
+	EVREvent_Type_VREvent_निवेशः_Bindings_Updated = 1707,
+	EVREvent_Type_VREvent_निवेशः_Binding_Subscription_परिवर्तितम् = 1708,
 	EVREventType_VREvent_SpatialAnchors_PoseUpdated = 1800,
 	EVREventType_VREvent_SpatialAnchors_DescriptorUpdated = 1801,
 	EVREventType_VREvent_SpatialAnchors_RequestPoseUpdate = 1802,
@@ -953,10 +953,10 @@ typedef enum EVREventType
 	EVREventType_VREvent_Monitor_ShowHeadsetView = 2000,
 	EVREventType_VREvent_Monitor_HideHeadsetView = 2001,
 	EVREventType_VREvent_VendorSpecific_Reserved_Start = 10000,
-	EVREventType_VREvent_VendorSpecific_Reserved_End = 19999,
+	EVREvent_Type_VREvent_Vendor_Specific_Reserved_अन्तः = 19999,
 } EVREventType;
 
-typedef enum EDeviceActivityLevel
+प्रकारनिर्देश गणना EDeviceActivityLevel
 {
 	EDeviceActivityLevel_k_EDeviceActivityLevel_Unknown = -1,
 	EDeviceActivityLevel_k_EDeviceActivityLevel_Idle = 0,
@@ -966,15 +966,15 @@ typedef enum EDeviceActivityLevel
 	EDeviceActivityLevel_k_EDeviceActivityLevel_Idle_Timeout = 4,
 } EDeviceActivityLevel;
 
-typedef enum EVRButtonId
+प्रकारनिर्देश गणना EVRButtonId
 {
 	EVRButtonId_k_EButton_System = 0,
 	EVRButtonId_k_EButton_ApplicationMenu = 1,
 	EVRButtonId_k_EButton_Grip = 2,
-	EVRButtonId_k_EButton_DPad_Left = 3,
-	EVRButtonId_k_EButton_DPad_Up = 4,
-	EVRButtonId_k_EButton_DPad_Right = 5,
-	EVRButtonId_k_EButton_DPad_Down = 6,
+	EVRButton_Id_k_EButton_DPad_वामः = 3,
+	EVRButton_Id_k_EButton_DPad_ऊर्ध्वम् = 4,
+	EVRButton_Id_k_EButton_DPad_दक्षिणः = 5,
+	EVRButton_Id_k_EButton_DPad_अधस्तात् = 6,
 	EVRButtonId_k_EButton_A = 7,
 	EVRButtonId_k_EButton_ProximitySensor = 31,
 	EVRButtonId_k_EButton_Axis0 = 32,
@@ -984,41 +984,41 @@ typedef enum EVRButtonId
 	EVRButtonId_k_EButton_Axis4 = 36,
 	EVRButtonId_k_EButton_SteamVR_Touchpad = 32,
 	EVRButtonId_k_EButton_SteamVR_Trigger = 33,
-	EVRButtonId_k_EButton_Dashboard_Back = 2,
-	EVRButtonId_k_EButton_IndexController_A = 2,
-	EVRButtonId_k_EButton_IndexController_B = 1,
-	EVRButtonId_k_EButton_IndexController_JoyStick = 35,
+	EVRButton_Id_k_EButton_Dashboard_पृष्ठभागः = 2,
+	EVRButton_Id_k_EButton_सूचकांक_Controller_A = 2,
+	EVRButton_Id_k_EButton_सूचकांक_Controller_B = 1,
+	EVRButton_Id_k_EButton_सूचकांक_Controller_Joy_Stick = 35,
 	EVRButtonId_k_EButton_Max = 64,
 } EVRButtonId;
 
-typedef enum EVRMouseButton
+प्रकारनिर्देश गणना EVRMouseButton
 {
-	EVRMouseButton_VRMouseButton_Left = 1,
-	EVRMouseButton_VRMouseButton_Right = 2,
-	EVRMouseButton_VRMouseButton_Middle = 4,
+	EVRMouse_Button_VRMouse_Button_वामः = 1,
+	EVRMouse_Button_VRMouse_Button_दक्षिणः = 2,
+	EVRMouse_Button_VRMouse_Button_मध्यः = 4,
 } EVRMouseButton;
 
-typedef enum EShowUIType
+प्रकारनिर्देश गणना EShowUIType
 {
 	EShowUIType_ShowUI_ControllerBinding = 0,
 	EShowUIType_ShowUI_ManageTrackers = 1,
 	EShowUIType_ShowUI_Pairing = 3,
 	EShowUIType_ShowUI_Settings = 4,
 	EShowUIType_ShowUI_DebugCommands = 5,
-	EShowUIType_ShowUI_FullControllerBinding = 6,
+	EShow_UIType_Show_UI_पूर्णम्_Controller_Binding = 6,
 	EShowUIType_ShowUI_ManageDrivers = 7,
 } EShowUIType;
 
-typedef enum EHDCPError
+प्रकारनिर्देश गणना EHDCPError
 {
 	EHDCPError_HDCPError_None = 0,
-	EHDCPError_HDCPError_LinkLost = 1,
+	EHDCPError_HDCPError_Link_नष्टम् = 1,
 	EHDCPError_HDCPError_Tampered = 2,
 	EHDCPError_HDCPError_DeviceRevoked = 3,
 	EHDCPError_HDCPError_Unknown = 4,
 } EHDCPError;
 
-typedef enum EVRComponentProperty
+प्रकारनिर्देश गणना EVRComponentProperty
 {
 	EVRComponentProperty_VRComponentProperty_IsStatic = 1,
 	EVRComponentProperty_VRComponentProperty_IsVisible = 2,
@@ -1028,58 +1028,58 @@ typedef enum EVRComponentProperty
 	EVRComponentProperty_VRComponentProperty_IsHighlighted = 32,
 } EVRComponentProperty;
 
-typedef enum EVRInputError
+प्रकारनिर्देश गणना EVRInputError
 {
 	EVRInputError_VRInputError_None = 0,
-	EVRInputError_VRInputError_NameNotFound = 1,
+	EVRInput_Error_VRInput_Error_Name_Not_प्राप्तम् = 1,
 	EVRInputError_VRInputError_WrongType = 2,
 	EVRInputError_VRInputError_InvalidHandle = 3,
 	EVRInputError_VRInputError_InvalidParam = 4,
 	EVRInputError_VRInputError_NoSteam = 5,
-	EVRInputError_VRInputError_MaxCapacityReached = 6,
+	EVRInput_Error_VRInput_Error_Max_क्षमता_Reached = 6,
 	EVRInputError_VRInputError_IPCError = 7,
-	EVRInputError_VRInputError_NoActiveActionSet = 8,
+	EVRInput_Error_VRInput_Error_No_सक्रिय_Action_समुच्चयः = 8,
 	EVRInputError_VRInputError_InvalidDevice = 9,
 	EVRInputError_VRInputError_InvalidSkeleton = 10,
-	EVRInputError_VRInputError_InvalidBoneCount = 11,
-	EVRInputError_VRInputError_InvalidCompressedData = 12,
-	EVRInputError_VRInputError_NoData = 13,
-	EVRInputError_VRInputError_BufferTooSmall = 14,
+	EVRInput_Error_VRInput_Error_Invalid_Bone_गणनम् = 11,
+	EVRInput_Error_VRInput_Error_Invalid_Compressed_दत्त = 12,
+	EVRInput_Error_VRInput_Error_No_दत्त = 13,
+	EVRInput_Error_VRInput_Error_बफर_Too_Small = 14,
 	EVRInputError_VRInputError_MismatchedActionManifest = 15,
-	EVRInputError_VRInputError_MissingSkeletonData = 16,
-	EVRInputError_VRInputError_InvalidBoneIndex = 17,
-	EVRInputError_VRInputError_InvalidPriority = 18,
+	EVRInput_Error_VRInput_Error_Missing_Skeleton_दत्त = 16,
+	EVRInput_Error_VRInput_Error_Invalid_Bone_सूचकांक = 17,
+	EVRInput_Error_VRInput_Error_Invalid_प्राथमिकता = 18,
 	EVRInputError_VRInputError_PermissionDenied = 19,
 	EVRInputError_VRInputError_InvalidRenderModel = 20,
 } EVRInputError;
 
-typedef enum EVRSpatialAnchorError
+प्रकारनिर्देश गणना EVRSpatialAnchorError
 {
 	EVRSpatialAnchorError_VRSpatialAnchorError_Success = 0,
-	EVRSpatialAnchorError_VRSpatialAnchorError_Internal = 1,
+	EVRSpatial_Anchor_Error_VRSpatial_Anchor_Error_आन्तरिकम् = 1,
 	EVRSpatialAnchorError_VRSpatialAnchorError_UnknownHandle = 2,
 	EVRSpatialAnchorError_VRSpatialAnchorError_ArrayTooSmall = 3,
 	EVRSpatialAnchorError_VRSpatialAnchorError_InvalidDescriptorChar = 4,
-	EVRSpatialAnchorError_VRSpatialAnchorError_NotYetAvailable = 5,
-	EVRSpatialAnchorError_VRSpatialAnchorError_NotAvailableInThisUniverse = 6,
+	EVRSpatial_Anchor_Error_VRSpatial_Anchor_Error_Not_Yet_उपलब्धम् = 5,
+	EVRSpatial_Anchor_Error_VRSpatial_Anchor_Error_Not_उपलब्धम्_अन्तर्_This_Universe = 6,
 	EVRSpatialAnchorError_VRSpatialAnchorError_PermanentlyUnavailable = 7,
 	EVRSpatialAnchorError_VRSpatialAnchorError_WrongDriver = 8,
 	EVRSpatialAnchorError_VRSpatialAnchorError_DescriptorTooLong = 9,
 	EVRSpatialAnchorError_VRSpatialAnchorError_Unknown = 10,
-	EVRSpatialAnchorError_VRSpatialAnchorError_NoRoomCalibration = 11,
-	EVRSpatialAnchorError_VRSpatialAnchorError_InvalidArgument = 12,
+	EVRSpatial_Anchor_Error_VRSpatial_Anchor_Error_No_अवकाशः_Calibration = 11,
+	EVRSpatial_Anchor_Error_VRSpatial_Anchor_Error_Invalid_तर्कः = 12,
 	EVRSpatialAnchorError_VRSpatialAnchorError_UnknownDriver = 13,
 } EVRSpatialAnchorError;
 
-typedef enum EHiddenAreaMeshType
+प्रकारनिर्देश गणना EHiddenAreaMeshType
 {
 	EHiddenAreaMeshType_k_eHiddenAreaMesh_Standard = 0,
 	EHiddenAreaMeshType_k_eHiddenAreaMesh_Inverse = 1,
-	EHiddenAreaMeshType_k_eHiddenAreaMesh_LineLoop = 2,
+	EHidden_Area_Mesh_Type_k_e_Hidden_Area_Mesh_पङ्क्तिः_Loop = 2,
 	EHiddenAreaMeshType_k_eHiddenAreaMesh_Max = 3,
 } EHiddenAreaMeshType;
 
-typedef enum EVRControllerAxisType
+प्रकारनिर्देश गणना EVRControllerAxisType
 {
 	EVRControllerAxisType_k_eControllerAxis_None = 0,
 	EVRControllerAxisType_k_eControllerAxis_TrackPad = 1,
@@ -1087,33 +1087,33 @@ typedef enum EVRControllerAxisType
 	EVRControllerAxisType_k_eControllerAxis_Trigger = 3,
 } EVRControllerAxisType;
 
-typedef enum EVRControllerEventOutputType
+प्रकारनिर्देश गणना EVRControllerEventOutputType
 {
 	EVRControllerEventOutputType_ControllerEventOutput_OSEvents = 0,
 	EVRControllerEventOutputType_ControllerEventOutput_VREvents = 1,
 } EVRControllerEventOutputType;
 
-typedef enum ECollisionBoundsStyle
+प्रकारनिर्देश गणना ECollisionBoundsStyle
 {
 	ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_BEGINNER = 0,
 	ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_INTERMEDIATE = 1,
 	ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_SQUARES = 2,
 	ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_ADVANCED = 3,
 	ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_NONE = 4,
-	ECollisionBoundsStyle_COLLISION_BOUNDS_STYLE_COUNT = 5,
+	ECollision_Bounds_Style_COLLISION_BOUNDS_STYLE_गणनम् = 5,
 } ECollisionBoundsStyle;
 
-typedef enum EVROverlayError
+प्रकारनिर्देश गणना EVROverlayError
 {
 	EVROverlayError_VROverlayError_None = 0,
 	EVROverlayError_VROverlayError_UnknownOverlay = 10,
 	EVROverlayError_VROverlayError_InvalidHandle = 11,
 	EVROverlayError_VROverlayError_PermissionDenied = 12,
-	EVROverlayError_VROverlayError_OverlayLimitExceeded = 13,
+	EVROverlay_Error_VROverlay_Error_Overlay_सीमा_Exceeded = 13,
 	EVROverlayError_VROverlayError_WrongVisibilityType = 14,
-	EVROverlayError_VROverlayError_KeyTooLong = 15,
+	EVROverlay_Error_VROverlay_Error_कुञ्चिका_Too_Long = 15,
 	EVROverlayError_VROverlayError_NameTooLong = 16,
-	EVROverlayError_VROverlayError_KeyInUse = 17,
+	EVROverlay_Error_VROverlay_Error_कुञ्चिका_अन्तर्_Use = 17,
 	EVROverlayError_VROverlayError_WrongTransformType = 18,
 	EVROverlayError_VROverlayError_InvalidTrackedDevice = 19,
 	EVROverlayError_VROverlayError_InvalidParameter = 20,
@@ -1121,18 +1121,18 @@ typedef enum EVROverlayError
 	EVROverlayError_VROverlayError_ArrayTooSmall = 22,
 	EVROverlayError_VROverlayError_RequestFailed = 23,
 	EVROverlayError_VROverlayError_InvalidTexture = 24,
-	EVROverlayError_VROverlayError_UnableToLoadFile = 25,
-	EVROverlayError_VROverlayError_KeyboardAlreadyInUse = 26,
+	EVROverlay_Error_VROverlay_Error_Unable_गन्तव्यम्_आरोपय_File = 25,
+	EVROverlay_Error_VROverlay_Error_Keyboard_Already_अन्तर्_Use = 26,
 	EVROverlayError_VROverlayError_NoNeighbor = 27,
-	EVROverlayError_VROverlayError_TooManyMaskPrimitives = 29,
-	EVROverlayError_VROverlayError_BadMaskPrimitive = 30,
+	EVROverlay_Error_VROverlay_Error_Too_Many_आवरणम्_Primitives = 29,
+	EVROverlay_Error_VROverlay_Error_Bad_आवरणम्_Primitive = 30,
 	EVROverlayError_VROverlayError_TextureAlreadyLocked = 31,
-	EVROverlayError_VROverlayError_TextureLockCapacityReached = 32,
+	EVROverlay_Error_VROverlay_Error_Texture_तालकम्_क्षमता_Reached = 32,
 	EVROverlayError_VROverlayError_TextureNotLocked = 33,
-	EVROverlayError_VROverlayError_TimedOut = 34,
+	EVROverlay_Error_VROverlay_Error_Timed_बहिर्गमनम् = 34,
 } EVROverlayError;
 
-typedef enum EVRApplicationType
+प्रकारनिर्देश गणना EVRApplicationType
 {
 	EVRApplicationType_VRApplication_Other = 0,
 	EVRApplicationType_VRApplication_Scene = 1,
@@ -1147,81 +1147,81 @@ typedef enum EVRApplicationType
 	EVRApplicationType_VRApplication_OpenXRScene = 10,
 	EVRApplicationType_VRApplication_OpenXROverlay = 11,
 	EVRApplicationType_VRApplication_Prism = 12,
-	EVRApplicationType_VRApplication_RoomView = 13,
+	EVRApplication_Type_VRApplication_अवकाशः_View = 13,
 	EVRApplicationType_VRApplication_Max = 14,
 } EVRApplicationType;
 
-typedef enum EVRFirmwareError
+प्रकारनिर्देश गणना EVRFirmwareError
 {
 	EVRFirmwareError_VRFirmwareError_None = 0,
 	EVRFirmwareError_VRFirmwareError_Success = 1,
 	EVRFirmwareError_VRFirmwareError_Fail = 2,
 } EVRFirmwareError;
 
-typedef enum EVRNotificationError
+प्रकारनिर्देश गणना EVRNotificationError
 {
 	EVRNotificationError_VRNotificationError_OK = 0,
 	EVRNotificationError_VRNotificationError_InvalidNotificationId = 100,
-	EVRNotificationError_VRNotificationError_NotificationQueueFull = 101,
+	EVRNotification_Error_VRNotification_Error_Notification_Queue_पूर्णम् = 101,
 	EVRNotificationError_VRNotificationError_InvalidOverlayHandle = 102,
-	EVRNotificationError_VRNotificationError_SystemWithUserValueAlreadyExists = 103,
+	EVRNotification_Error_VRNotification_Error_System_With_User_मानम्_Already_Exists = 103,
 } EVRNotificationError;
 
-typedef enum EVRSkeletalMotionRange
+प्रकारनिर्देश गणना EVRSkeletalMotionRange
 {
 	EVRSkeletalMotionRange_VRSkeletalMotionRange_WithController = 0,
 	EVRSkeletalMotionRange_VRSkeletalMotionRange_WithoutController = 1,
 } EVRSkeletalMotionRange;
 
-typedef enum EVRSkeletalTrackingLevel
+प्रकारनिर्देश गणना EVRSkeletalTrackingLevel
 {
 	EVRSkeletalTrackingLevel_VRSkeletalTracking_Estimated = 0,
 	EVRSkeletalTrackingLevel_VRSkeletalTracking_Partial = 1,
-	EVRSkeletalTrackingLevel_VRSkeletalTracking_Full = 2,
-	EVRSkeletalTrackingLevel_VRSkeletalTrackingLevel_Count = 3,
+	EVRSkeletal_Tracking_Level_VRSkeletal_Tracking_पूर्णम् = 2,
+	EVRSkeletal_Tracking_Level_VRSkeletal_Tracking_Level_गणनम् = 3,
 	EVRSkeletalTrackingLevel_VRSkeletalTrackingLevel_Max = 2,
 } EVRSkeletalTrackingLevel;
 
-typedef enum EVRInitError
+प्रकारनिर्देश गणना EVRInitError
 {
 	EVRInitError_VRInitError_None = 0,
 	EVRInitError_VRInitError_Unknown = 1,
-	EVRInitError_VRInitError_Init_InstallationNotFound = 100,
+	EVRInit_Error_VRInit_Error_Init_Installation_Not_प्राप्तम् = 100,
 	EVRInitError_VRInitError_Init_InstallationCorrupt = 101,
-	EVRInitError_VRInitError_Init_VRClientDLLNotFound = 102,
-	EVRInitError_VRInitError_Init_FileNotFound = 103,
-	EVRInitError_VRInitError_Init_FactoryNotFound = 104,
-	EVRInitError_VRInitError_Init_InterfaceNotFound = 105,
+	EVRInit_Error_VRInit_Error_Init_VRClient_DLLNot_प्राप्तम् = 102,
+	EVRInit_Error_VRInit_Error_Init_File_Not_प्राप्तम् = 103,
+	EVRInit_Error_VRInit_Error_Init_Factory_Not_प्राप्तम् = 104,
+	EVRInit_Error_VRInit_Error_Init_Interface_Not_प्राप्तम् = 105,
 	EVRInitError_VRInitError_Init_InvalidInterface = 106,
 	EVRInitError_VRInitError_Init_UserConfigDirectoryInvalid = 107,
-	EVRInitError_VRInitError_Init_HmdNotFound = 108,
+	EVRInit_Error_VRInit_Error_Init_Hmd_Not_प्राप्तम् = 108,
 	EVRInitError_VRInitError_Init_NotInitialized = 109,
-	EVRInitError_VRInitError_Init_PathRegistryNotFound = 110,
-	EVRInitError_VRInitError_Init_NoConfigPath = 111,
-	EVRInitError_VRInitError_Init_NoLogPath = 112,
-	EVRInitError_VRInitError_Init_PathRegistryNotWritable = 113,
+	EVRInit_Error_VRInit_Error_Init_मार्गः_Registry_Not_प्राप्तम् = 110,
+	EVRInit_Error_VRInit_Error_Init_No_Config_मार्गः = 111,
+	EVRInit_Error_VRInit_Error_Init_No_Log_मार्गः = 112,
+	EVRInit_Error_VRInit_Error_Init_मार्गः_Registry_Not_Writable = 113,
 	EVRInitError_VRInitError_Init_AppInfoInitFailed = 114,
 	EVRInitError_VRInitError_Init_Retry = 115,
 	EVRInitError_VRInitError_Init_InitCanceledByUser = 116,
 	EVRInitError_VRInitError_Init_AnotherAppLaunching = 117,
 	EVRInitError_VRInitError_Init_SettingsInitFailed = 118,
-	EVRInitError_VRInitError_Init_ShuttingDown = 119,
+	EVRInit_Error_VRInit_Error_Init_Shutting_अधस्तात् = 119,
 	EVRInitError_VRInitError_Init_TooManyObjects = 120,
 	EVRInitError_VRInitError_Init_NoServerForBackgroundApp = 121,
 	EVRInitError_VRInitError_Init_NotSupportedWithCompositor = 122,
-	EVRInitError_VRInitError_Init_NotAvailableToUtilityApps = 123,
-	EVRInitError_VRInitError_Init_Internal = 124,
+	EVRInit_Error_VRInit_Error_Init_Not_उपलब्धम्_गन्तव्यम्_Utility_Apps = 123,
+	EVRInit_Error_VRInit_Error_Init_आन्तरिकम् = 124,
 	EVRInitError_VRInitError_Init_HmdDriverIdIsNone = 125,
-	EVRInitError_VRInitError_Init_HmdNotFoundPresenceFailed = 126,
-	EVRInitError_VRInitError_Init_VRMonitorNotFound = 127,
+	EVRInit_Error_VRInit_Error_Init_Hmd_Not_प्राप्तम्_Presence_Failed = 126,
+	EVRInit_Error_VRInit_Error_Init_VRMonitor_Not_प्राप्तम् = 127,
 	EVRInitError_VRInitError_Init_VRMonitorStartupFailed = 128,
-	EVRInitError_VRInitError_Init_LowPowerWatchdogNotSupported = 129,
+	EVRInit_Error_VRInit_Error_Init_नीचः_Power_Watchdog_Not_Supported = 129,
 	EVRInitError_VRInitError_Init_InvalidApplicationType = 130,
-	EVRInitError_VRInitError_Init_NotAvailableToWatchdogApps = 131,
-	EVRInitError_VRInitError_Init_WatchdogDisabledInSettings = 132,
-	EVRInitError_VRInitError_Init_VRDashboardNotFound = 133,
+	EVRInit_Error_VRInit_Error_Init_Not_उपलब्धम्_गन्तव्यम्_Watchdog_Apps = 131,
+	EVRInit_Error_VRInit_Error_Init_Watchdog_Disabled_अन्तर्_Settings = 132,
+	EVRInit_Error_VRInit_Error_Init_VRDashboard_Not_प्राप्तम् = 133,
 	EVRInitError_VRInitError_Init_VRDashboardStartupFailed = 134,
-	EVRInitError_VRInitError_Init_VRHomeNotFound = 135,
+	EVRInit_Error_VRInit_Error_Init_VRHome_Not_प्राप्तम् = 135,
 	EVRInitError_VRInitError_Init_VRHomeStartupFailed = 136,
 	EVRInitError_VRInitError_Init_RebootingBusy = 137,
 	EVRInitError_VRInitError_Init_FirmwareUpdateBusy = 138,
@@ -1238,7 +1238,7 @@ typedef enum EVRInitError
 	EVRInitError_VRInitError_Init_InvalidProcessId = 149,
 	EVRInitError_VRInitError_Init_VRServiceStartupFailed = 150,
 	EVRInitError_VRInitError_Init_PrismNeedsNewDrivers = 151,
-	EVRInitError_VRInitError_Init_PrismStartupTimedOut = 152,
+	EVRInit_Error_VRInit_Error_Init_Prism_Startup_Timed_बहिर्गमनम् = 152,
 	EVRInitError_VRInitError_Init_CouldNotStartPrism = 153,
 	EVRInitError_VRInitError_Init_PrismClientInitFailed = 154,
 	EVRInitError_VRInitError_Init_PrismClientStartFailed = 155,
@@ -1253,20 +1253,20 @@ typedef enum EVRInitError
 	EVRInitError_VRInitError_Init_VRDashboardCopyFailed = 164,
 	EVRInitError_VRInitError_Init_VRDashboardTokenFailure = 165,
 	EVRInitError_VRInitError_Init_VRDashboardEnvironmentFailure = 166,
-	EVRInitError_VRInitError_Init_VRDashboardPathFailure = 167,
+	EVRInit_Error_VRInit_Error_Init_VRDashboard_मार्गः_Failure = 167,
 	EVRInitError_VRInitError_Driver_Failed = 200,
 	EVRInitError_VRInitError_Driver_Unknown = 201,
 	EVRInitError_VRInitError_Driver_HmdUnknown = 202,
 	EVRInitError_VRInitError_Driver_NotLoaded = 203,
-	EVRInitError_VRInitError_Driver_RuntimeOutOfDate = 204,
-	EVRInitError_VRInitError_Driver_HmdInUse = 205,
+	EVRInit_Error_VRInit_Error_Driver_Runtime_बहिर्गमनम्_सम्बन्धि_Date = 204,
+	EVRInit_Error_VRInit_Error_Driver_Hmd_अन्तर्_Use = 205,
 	EVRInitError_VRInitError_Driver_NotCalibrated = 206,
 	EVRInitError_VRInitError_Driver_CalibrationInvalid = 207,
-	EVRInitError_VRInitError_Driver_HmdDisplayNotFound = 208,
+	EVRInit_Error_VRInit_Error_Driver_Hmd_Display_Not_प्राप्तम् = 208,
 	EVRInitError_VRInitError_Driver_TrackedDeviceInterfaceUnknown = 209,
-	EVRInitError_VRInitError_Driver_HmdDriverIdOutOfBounds = 211,
+	EVRInit_Error_VRInit_Error_Driver_Hmd_Driver_Id_बहिर्गमनम्_सम्बन्धि_Bounds = 211,
 	EVRInitError_VRInitError_Driver_HmdDisplayMirrored = 212,
-	EVRInitError_VRInitError_Driver_HmdDisplayNotFoundLaptop = 213,
+	EVRInit_Error_VRInit_Error_Driver_Hmd_Display_Not_प्राप्तम्_Laptop = 213,
 	EVRInitError_VRInitError_Driver_PeerDriverNotInstalled = 214,
 	EVRInitError_VRInitError_Driver_WirelessHmdNotConnected = 215,
 	EVRInitError_VRInitError_IPC_ServerInitFailed = 300,
@@ -1277,7 +1277,7 @@ typedef enum EVRInitError
 	EVRInitError_VRInitError_IPC_Failed = 305,
 	EVRInitError_VRInitError_IPC_CompositorConnectFailed = 306,
 	EVRInitError_VRInitError_IPC_CompositorInvalidConnectResponse = 307,
-	EVRInitError_VRInitError_IPC_ConnectFailedAfterMultipleAttempts = 308,
+	EVRInit_Error_VRInit_Error_IPC_Connect_Failed_After_गुणजः_Attempts = 308,
 	EVRInitError_VRInitError_IPC_ConnectFailedAfterTargetExited = 309,
 	EVRInitError_VRInitError_IPC_NamespaceUnavailable = 310,
 	EVRInitError_VRInitError_Compositor_Failed = 400,
@@ -1285,15 +1285,15 @@ typedef enum EVRInitError
 	EVRInitError_VRInitError_Compositor_FirmwareRequiresUpdate = 402,
 	EVRInitError_VRInitError_Compositor_OverlayInitFailed = 403,
 	EVRInitError_VRInitError_Compositor_ScreenshotsInitFailed = 404,
-	EVRInitError_VRInitError_Compositor_UnableToCreateDevice = 405,
+	EVRInit_Error_VRInit_Error_Compositor_Unable_गन्तव्यम्_Create_Device = 405,
 	EVRInitError_VRInitError_Compositor_SharedStateIsNull = 406,
 	EVRInitError_VRInitError_Compositor_NotificationManagerIsNull = 407,
 	EVRInitError_VRInitError_Compositor_ResourceManagerClientIsNull = 408,
-	EVRInitError_VRInitError_Compositor_MessageOverlaySharedStateInitFailure = 409,
+	EVRInit_Error_VRInit_Error_Compositor_सन्देशः_Overlay_Shared_State_Init_Failure = 409,
 	EVRInitError_VRInitError_Compositor_PropertiesInterfaceIsNull = 410,
-	EVRInitError_VRInitError_Compositor_CreateFullscreenWindowFailed = 411,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Fullscreen_गवाक्षः_Failed = 411,
 	EVRInitError_VRInitError_Compositor_SettingsInterfaceIsNull = 412,
-	EVRInitError_VRInitError_Compositor_FailedToShowWindow = 413,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Show_गवाक्षः = 413,
 	EVRInitError_VRInitError_Compositor_DistortInterfaceIsNull = 414,
 	EVRInitError_VRInitError_Compositor_DisplayFrequencyFailure = 415,
 	EVRInitError_VRInitError_Compositor_RendererInitializationFailed = 416,
@@ -1305,24 +1305,24 @@ typedef enum EVRInitError
 	EVRInitError_VRInitError_Compositor_InvalidOutputDesktop = 422,
 	EVRInitError_VRInitError_Compositor_InvalidDeviceProvided = 423,
 	EVRInitError_VRInitError_Compositor_D3D11RendererInitializationFailed = 424,
-	EVRInitError_VRInitError_Compositor_FailedToFindDisplayMode = 425,
-	EVRInitError_VRInitError_Compositor_FailedToCreateSwapChain = 426,
-	EVRInitError_VRInitError_Compositor_FailedToGetBackBuffer = 427,
-	EVRInitError_VRInitError_Compositor_FailedToCreateRenderTarget = 428,
-	EVRInitError_VRInitError_Compositor_FailedToCreateDXGI2SwapChain = 429,
-	EVRInitError_VRInitError_Compositor_FailedtoGetDXGI2BackBuffer = 430,
-	EVRInitError_VRInitError_Compositor_FailedToCreateDXGI2RenderTarget = 431,
-	EVRInitError_VRInitError_Compositor_FailedToGetDXGIDeviceInterface = 432,
-	EVRInitError_VRInitError_Compositor_SelectDisplayMode = 433,
-	EVRInitError_VRInitError_Compositor_FailedToCreateNvAPIRenderTargets = 434,
-	EVRInitError_VRInitError_Compositor_NvAPISetDisplayMode = 435,
-	EVRInitError_VRInitError_Compositor_FailedToCreateDirectModeDisplay = 436,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Find_Display_बहुलकम् = 425,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_Swap_Chain = 426,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Get_पृष्ठभागः_बफर = 427,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_Render_Target = 428,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_DXGI2_Swap_Chain = 429,
+	EVRInit_Error_VRInit_Error_Compositor_Failedto_Get_DXGI2_पृष्ठभागः_बफर = 430,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_DXGI2_Render_Target = 431,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Get_DXGIDevice_Interface = 432,
+	EVRInit_Error_VRInit_Error_Compositor_Select_Display_बहुलकम् = 433,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_Nv_APIRender_Targets = 434,
+	EVRInit_Error_VRInit_Error_Compositor_Nv_APISet_Display_बहुलकम् = 435,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_प्रत्यक्षम्_बहुलकम्_Display = 436,
 	EVRInitError_VRInitError_Compositor_InvalidHmdPropertyContainer = 437,
 	EVRInitError_VRInitError_Compositor_UpdateDisplayFrequency = 438,
 	EVRInitError_VRInitError_Compositor_CreateRasterizerState = 439,
 	EVRInitError_VRInitError_Compositor_CreateWireframeRasterizerState = 440,
 	EVRInitError_VRInitError_Compositor_CreateSamplerState = 441,
-	EVRInitError_VRInitError_Compositor_CreateClampToBorderSamplerState = 442,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Clamp_गन्तव्यम्_Border_Sampler_State = 442,
 	EVRInitError_VRInitError_Compositor_CreateAnisoSamplerState = 443,
 	EVRInitError_VRInitError_Compositor_CreateOverlaySamplerState = 444,
 	EVRInitError_VRInitError_Compositor_CreatePanoramaSamplerState = 445,
@@ -1330,75 +1330,75 @@ typedef enum EVRInitError
 	EVRInitError_VRInitError_Compositor_CreateNoBlendState = 447,
 	EVRInitError_VRInitError_Compositor_CreateBlendState = 448,
 	EVRInitError_VRInitError_Compositor_CreateAlphaBlendState = 449,
-	EVRInitError_VRInitError_Compositor_CreateBlendStateMaskR = 450,
-	EVRInitError_VRInitError_Compositor_CreateBlendStateMaskG = 451,
-	EVRInitError_VRInitError_Compositor_CreateBlendStateMaskB = 452,
-	EVRInitError_VRInitError_Compositor_CreateDepthStencilState = 453,
-	EVRInitError_VRInitError_Compositor_CreateDepthStencilStateNoWrite = 454,
-	EVRInitError_VRInitError_Compositor_CreateDepthStencilStateNoDepth = 455,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Blend_State_आवरणम्_R = 450,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Blend_State_आवरणम्_G = 451,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Blend_State_आवरणम्_B = 452,
+	EVRInit_Error_VRInit_Error_Compositor_Create_गभीरता_Stencil_State = 453,
+	EVRInit_Error_VRInit_Error_Compositor_Create_गभीरता_Stencil_State_No_Write = 454,
+	EVRInit_Error_VRInit_Error_Compositor_Create_गभीरता_Stencil_State_No_गभीरता = 455,
 	EVRInitError_VRInitError_Compositor_CreateFlushTexture = 456,
 	EVRInitError_VRInitError_Compositor_CreateDistortionSurfaces = 457,
-	EVRInitError_VRInitError_Compositor_CreateConstantBuffer = 458,
-	EVRInitError_VRInitError_Compositor_CreateHmdPoseConstantBuffer = 459,
-	EVRInitError_VRInitError_Compositor_CreateHmdPoseStagingConstantBuffer = 460,
-	EVRInitError_VRInitError_Compositor_CreateSharedFrameInfoConstantBuffer = 461,
-	EVRInitError_VRInitError_Compositor_CreateOverlayConstantBuffer = 462,
-	EVRInitError_VRInitError_Compositor_CreateSceneTextureIndexConstantBuffer = 463,
-	EVRInitError_VRInitError_Compositor_CreateReadableSceneTextureIndexConstantBuffer = 464,
-	EVRInitError_VRInitError_Compositor_CreateLayerGraphicsTextureIndexConstantBuffer = 465,
-	EVRInitError_VRInitError_Compositor_CreateLayerComputeTextureIndexConstantBuffer = 466,
-	EVRInitError_VRInitError_Compositor_CreateLayerComputeSceneTextureIndexConstantBuffer = 467,
-	EVRInitError_VRInitError_Compositor_CreateComputeHmdPoseConstantBuffer = 468,
-	EVRInitError_VRInitError_Compositor_CreateGeomConstantBuffer = 469,
-	EVRInitError_VRInitError_Compositor_CreatePanelMaskConstantBuffer = 470,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Constant_बफर = 458,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Hmd_Pose_Constant_बफर = 459,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Hmd_Pose_Staging_Constant_बफर = 460,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Shared_Frame_Info_Constant_बफर = 461,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Overlay_Constant_बफर = 462,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Scene_Texture_सूचकांक_Constant_बफर = 463,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Readable_Scene_Texture_सूचकांक_Constant_बफर = 464,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Layer_Graphics_Texture_सूचकांक_Constant_बफर = 465,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Layer_Compute_Texture_सूचकांक_Constant_बफर = 466,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Layer_Compute_Scene_Texture_सूचकांक_Constant_बफर = 467,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Compute_Hmd_Pose_Constant_बफर = 468,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Geom_Constant_बफर = 469,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Panel_आवरणम्_Constant_बफर = 470,
 	EVRInitError_VRInitError_Compositor_CreatePixelSimUBO = 471,
 	EVRInitError_VRInitError_Compositor_CreateMSAARenderTextures = 472,
 	EVRInitError_VRInitError_Compositor_CreateResolveRenderTextures = 473,
 	EVRInitError_VRInitError_Compositor_CreateComputeResolveRenderTextures = 474,
-	EVRInitError_VRInitError_Compositor_CreateDriverDirectModeResolveTextures = 475,
-	EVRInitError_VRInitError_Compositor_OpenDriverDirectModeResolveTextures = 476,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Driver_प्रत्यक्षम्_बहुलकम्_Resolve_Textures = 475,
+	EVRInit_Error_VRInit_Error_Compositor_Open_Driver_प्रत्यक्षम्_बहुलकम्_Resolve_Textures = 476,
 	EVRInitError_VRInitError_Compositor_CreateFallbackSyncTexture = 477,
 	EVRInitError_VRInitError_Compositor_ShareFallbackSyncTexture = 478,
-	EVRInitError_VRInitError_Compositor_CreateOverlayIndexBuffer = 479,
-	EVRInitError_VRInitError_Compositor_CreateOverlayVertexBuffer = 480,
-	EVRInitError_VRInitError_Compositor_CreateTextVertexBuffer = 481,
-	EVRInitError_VRInitError_Compositor_CreateTextIndexBuffer = 482,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Overlay_सूचकांक_बफर = 479,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Overlay_Vertex_बफर = 480,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Text_Vertex_बफर = 481,
+	EVRInit_Error_VRInit_Error_Compositor_Create_Text_सूचकांक_बफर = 482,
 	EVRInitError_VRInitError_Compositor_CreateMirrorTextures = 483,
-	EVRInitError_VRInitError_Compositor_CreateLastFrameRenderTexture = 484,
+	EVRInit_Error_VRInit_Error_Compositor_Create_चरमः_Frame_Render_Texture = 484,
 	EVRInitError_VRInitError_Compositor_CreateMirrorOverlay = 485,
-	EVRInitError_VRInitError_Compositor_FailedToCreateVirtualDisplayBackbuffer = 486,
-	EVRInitError_VRInitError_Compositor_DisplayModeNotSupported = 487,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_Virtual_Display_Backbuffer = 486,
+	EVRInit_Error_VRInit_Error_Compositor_Display_बहुलकम्_Not_Supported = 487,
 	EVRInitError_VRInitError_Compositor_CreateOverlayInvalidCall = 488,
 	EVRInitError_VRInitError_Compositor_CreateOverlayAlreadyInitialized = 489,
-	EVRInitError_VRInitError_Compositor_FailedToCreateMailbox = 490,
-	EVRInitError_VRInitError_Compositor_WindowInterfaceIsNull = 491,
+	EVRInit_Error_VRInit_Error_Compositor_Failed_गन्तव्यम्_Create_Mailbox = 490,
+	EVRInit_Error_VRInit_Error_Compositor_गवाक्षः_Interface_Is_Null = 491,
 	EVRInitError_VRInitError_Compositor_SystemLayerCreateInstance = 492,
 	EVRInitError_VRInitError_Compositor_SystemLayerCreateSession = 493,
 	EVRInitError_VRInitError_Compoistor_CreateInverseDistortUVs = 494,
-	EVRInitError_VRInitError_Compoistor_CreateBackbufferDepth = 495,
-	EVRInitError_VRInitError_VendorSpecific_UnableToConnectToOculusRuntime = 1000,
-	EVRInitError_VRInitError_VendorSpecific_WindowsNotInDevMode = 1001,
+	EVRInit_Error_VRInit_Error_Compoistor_Create_Backbuffer_गभीरता = 495,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Unable_गन्तव्यम्_Connect_गन्तव्यम्_Oculus_Runtime = 1000,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Windows_Not_अन्तर्_Dev_बहुलकम् = 1001,
 	EVRInitError_VRInitError_VendorSpecific_OculusLinkNotEnabled = 1002,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_CantOpenDevice = 1101,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToRequestConfigStart = 1102,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_NoStoredConfig = 1103,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigTooBig = 1104,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigTooSmall = 1105,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToInitZLib = 1106,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_CantReadFirmwareVersion = 1107,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToSendUserDataStart = 1108,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToGetUserDataStart = 1109,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UnableToGetUserDataNext = 1110,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UserDataAddressRange = 1111,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UserDataError = 1112,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_ConfigFailedSanityCheck = 1113,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Cant_Open_Device = 1101,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Unable_गन्तव्यम्_Request_Config_Start = 1102,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_No_Stored_Config = 1103,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Config_Too_Big = 1104,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Config_Too_Small = 1105,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Unable_गन्तव्यम्_Init_ZLib = 1106,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Cant_Read_Firmware_संस्करणम् = 1107,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Unable_गन्तव्यम्_Send_User_दत्त_Start = 1108,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Unable_गन्तव्यम्_Get_User_दत्त_Start = 1109,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Unable_गन्तव्यम्_Get_User_दत्त_अग्र = 1110,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_User_दत्त_स्थानाङ्कः_Range = 1111,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_User_दत्त_Error = 1112,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Config_Failed_Sanity_Check = 1113,
 	EVRInitError_VRInitError_VendorSpecific_OculusRuntimeBadInstall = 1114,
-	EVRInitError_VRInitError_VendorSpecific_HmdFound_UnexpectedConfiguration_1 = 1115,
-	EVRInitError_VRInitError_Steam_SteamInstallationNotFound = 2000,
-	EVRInitError_VRInitError_LastError = 2001,
+	EVRInit_Error_VRInit_Error_Vendor_Specific_Hmd_प्राप्तम्_Unexpected_Configuration_1 = 1115,
+	EVRInit_Error_VRInit_Error_Steam_Steam_Installation_Not_प्राप्तम् = 2000,
+	EVRInit_Error_VRInit_Error_चरमः_Error = 2001,
 } EVRInitError;
 
-typedef enum EVRScreenshotType
+प्रकारनिर्देश गणना EVRScreenshotType
 {
 	EVRScreenshotType_VRScreenshotType_None = 0,
 	EVRScreenshotType_VRScreenshotType_Mono = 1,
@@ -1408,34 +1408,34 @@ typedef enum EVRScreenshotType
 	EVRScreenshotType_VRScreenshotType_StereoPanorama = 5,
 } EVRScreenshotType;
 
-typedef enum EVRScreenshotPropertyFilenames
+प्रकारनिर्देश गणना EVRScreenshotPropertyFilenames
 {
 	EVRScreenshotPropertyFilenames_VRScreenshotPropertyFilenames_Preview = 0,
 	EVRScreenshotPropertyFilenames_VRScreenshotPropertyFilenames_VR = 1,
 } EVRScreenshotPropertyFilenames;
 
-typedef enum EVRTrackedCameraError
+प्रकारनिर्देश गणना EVRTrackedCameraError
 {
 	EVRTrackedCameraError_VRTrackedCameraError_None = 0,
 	EVRTrackedCameraError_VRTrackedCameraError_OperationFailed = 100,
 	EVRTrackedCameraError_VRTrackedCameraError_InvalidHandle = 101,
-	EVRTrackedCameraError_VRTrackedCameraError_InvalidFrameHeaderVersion = 102,
-	EVRTrackedCameraError_VRTrackedCameraError_OutOfHandles = 103,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_Invalid_Frame_शीर्षकम्_संस्करणम् = 102,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_बहिर्गमनम्_सम्बन्धि_Handles = 103,
 	EVRTrackedCameraError_VRTrackedCameraError_IPCFailure = 104,
 	EVRTrackedCameraError_VRTrackedCameraError_NotSupportedForThisDevice = 105,
-	EVRTrackedCameraError_VRTrackedCameraError_SharedMemoryFailure = 106,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_Shared_स्मृतिः_Failure = 106,
 	EVRTrackedCameraError_VRTrackedCameraError_FrameBufferingFailure = 107,
-	EVRTrackedCameraError_VRTrackedCameraError_StreamSetupFailure = 108,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_प्रवाहः_सज्जता_Failure = 108,
 	EVRTrackedCameraError_VRTrackedCameraError_InvalidGLTextureId = 109,
 	EVRTrackedCameraError_VRTrackedCameraError_InvalidSharedTextureHandle = 110,
-	EVRTrackedCameraError_VRTrackedCameraError_FailedToGetGLTextureId = 111,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_Failed_गन्तव्यम्_Get_GLTexture_Id = 111,
 	EVRTrackedCameraError_VRTrackedCameraError_SharedTextureFailure = 112,
-	EVRTrackedCameraError_VRTrackedCameraError_NoFrameAvailable = 113,
-	EVRTrackedCameraError_VRTrackedCameraError_InvalidArgument = 114,
-	EVRTrackedCameraError_VRTrackedCameraError_InvalidFrameBufferSize = 115,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_No_Frame_उपलब्धम् = 113,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_Invalid_तर्कः = 114,
+	EVRTracked_Camera_Error_VRTracked_Camera_Error_Invalid_Frame_बफर_आकार = 115,
 } EVRTrackedCameraError;
 
-typedef enum EVRTrackedCameraFrameLayout
+प्रकारनिर्देश गणना EVRTrackedCameraFrameLayout
 {
 	EVRTrackedCameraFrameLayout_Mono = 1,
 	EVRTrackedCameraFrameLayout_Stereo = 2,
@@ -1443,15 +1443,15 @@ typedef enum EVRTrackedCameraFrameLayout
 	EVRTrackedCameraFrameLayout_HorizontalLayout = 32,
 } EVRTrackedCameraFrameLayout;
 
-typedef enum EVRTrackedCameraFrameType
+प्रकारनिर्देश गणना EVRTrackedCameraFrameType
 {
 	EVRTrackedCameraFrameType_VRTrackedCameraFrameType_Distorted = 0,
 	EVRTrackedCameraFrameType_VRTrackedCameraFrameType_Undistorted = 1,
-	EVRTrackedCameraFrameType_VRTrackedCameraFrameType_MaximumUndistorted = 2,
+	EVRTracked_Camera_Frame_Type_VRTracked_Camera_Frame_Type_अधिकतमम्_Undistorted = 2,
 	EVRTrackedCameraFrameType_MAX_CAMERA_FRAME_TYPES = 3,
 } EVRTrackedCameraFrameType;
 
-typedef enum EVRDistortionFunctionType
+प्रकारनिर्देश गणना EVRDistortionFunctionType
 {
 	EVRDistortionFunctionType_VRDistortionFunctionType_None = 0,
 	EVRDistortionFunctionType_VRDistortionFunctionType_FTheta = 1,
@@ -1459,20 +1459,20 @@ typedef enum EVRDistortionFunctionType
 	EVRDistortionFunctionType_MAX_DISTORTION_FUNCTION_TYPES = 3,
 } EVRDistortionFunctionType;
 
-typedef enum EVSync
+प्रकारनिर्देश गणना EVSync
 {
 	EVSync_VSync_None = 0,
 	EVSync_VSync_WaitRender = 1,
 	EVSync_VSync_NoWaitRender = 2,
 } EVSync;
 
-typedef enum EVRMuraCorrectionMode
+प्रकारनिर्देश गणना EVRMura_Correction_बहुलकम्
 {
-	EVRMuraCorrectionMode_Default = 0,
-	EVRMuraCorrectionMode_NoCorrection = 1,
-} EVRMuraCorrectionMode;
+	EVRMura_Correction_बहुलकम्_Default = 0,
+	EVRMura_Correction_बहुलकम्_No_Correction = 1,
+} EVRMura_Correction_बहुलकम्;
 
-typedef enum Imu_OffScaleFlags
+प्रकारनिर्देश गणना Imu_OffScaleFlags
 {
 	Imu_OffScaleFlags_OffScale_AccelX = 1,
 	Imu_OffScaleFlags_OffScale_AccelY = 2,
@@ -1482,13 +1482,13 @@ typedef enum Imu_OffScaleFlags
 	Imu_OffScaleFlags_OffScale_GyroZ = 32,
 } Imu_OffScaleFlags;
 
-typedef enum EVRApplicationError
+प्रकारनिर्देश गणना EVRApplicationError
 {
 	EVRApplicationError_VRApplicationError_None = 0,
-	EVRApplicationError_VRApplicationError_AppKeyAlreadyExists = 100,
+	EVRApplication_Error_VRApplication_Error_App_कुञ्चिका_Already_Exists = 100,
 	EVRApplicationError_VRApplicationError_NoManifest = 101,
 	EVRApplicationError_VRApplicationError_NoApplication = 102,
-	EVRApplicationError_VRApplicationError_InvalidIndex = 103,
+	EVRApplication_Error_VRApplication_Error_Invalid_सूचकांक = 103,
 	EVRApplicationError_VRApplicationError_UnknownApplication = 104,
 	EVRApplicationError_VRApplicationError_IPCFailed = 105,
 	EVRApplicationError_VRApplicationError_ApplicationAlreadyRunning = 106,
@@ -1496,105 +1496,105 @@ typedef enum EVRApplicationError
 	EVRApplicationError_VRApplicationError_InvalidApplication = 108,
 	EVRApplicationError_VRApplicationError_LaunchFailed = 109,
 	EVRApplicationError_VRApplicationError_ApplicationAlreadyStarting = 110,
-	EVRApplicationError_VRApplicationError_LaunchInProgress = 111,
+	EVRApplication_Error_VRApplication_Error_Launch_अन्तर्_प्रगतिः = 111,
 	EVRApplicationError_VRApplicationError_OldApplicationQuitting = 112,
 	EVRApplicationError_VRApplicationError_TransitionAborted = 113,
 	EVRApplicationError_VRApplicationError_IsTemplate = 114,
 	EVRApplicationError_VRApplicationError_SteamVRIsExiting = 115,
-	EVRApplicationError_VRApplicationError_BufferTooSmall = 200,
-	EVRApplicationError_VRApplicationError_PropertyNotSet = 201,
+	EVRApplication_Error_VRApplication_Error_बफर_Too_Small = 200,
+	EVRApplication_Error_VRApplication_Error_Property_Not_समुच्चयः = 201,
 	EVRApplicationError_VRApplicationError_UnknownProperty = 202,
 	EVRApplicationError_VRApplicationError_InvalidParameter = 203,
 	EVRApplicationError_VRApplicationError_NotImplemented = 300,
 } EVRApplicationError;
 
-typedef enum EVRApplicationProperty
+प्रकारनिर्देश गणना EVRApplicationProperty
 {
 	EVRApplicationProperty_VRApplicationProperty_Name_String = 0,
 	EVRApplicationProperty_VRApplicationProperty_LaunchType_String = 11,
 	EVRApplicationProperty_VRApplicationProperty_WorkingDirectory_String = 12,
-	EVRApplicationProperty_VRApplicationProperty_BinaryPath_String = 13,
+	EVRApplication_Property_VRApplication_Property_द्विमान_मार्गः_String = 13,
 	EVRApplicationProperty_VRApplicationProperty_Arguments_String = 14,
 	EVRApplicationProperty_VRApplicationProperty_URL_String = 15,
 	EVRApplicationProperty_VRApplicationProperty_Description_String = 50,
 	EVRApplicationProperty_VRApplicationProperty_NewsURL_String = 51,
-	EVRApplicationProperty_VRApplicationProperty_ImagePath_String = 52,
+	EVRApplication_Property_VRApplication_Property_Image_मार्गः_String = 52,
 	EVRApplicationProperty_VRApplicationProperty_Source_String = 53,
 	EVRApplicationProperty_VRApplicationProperty_ActionManifestURL_String = 54,
 	EVRApplicationProperty_VRApplicationProperty_IsDashboardOverlay_Bool = 60,
 	EVRApplicationProperty_VRApplicationProperty_IsTemplate_Bool = 61,
 	EVRApplicationProperty_VRApplicationProperty_IsInstanced_Bool = 62,
-	EVRApplicationProperty_VRApplicationProperty_IsInternal_Bool = 63,
-	EVRApplicationProperty_VRApplicationProperty_WantsCompositorPauseInStandby_Bool = 64,
+	EVRApplication_Property_VRApplication_Property_Is_आन्तरिकम्_Bool = 63,
+	EVRApplication_Property_VRApplication_Property_इच्छति_Compositor_Pause_अन्तर्_Standby_Bool = 64,
 	EVRApplicationProperty_VRApplicationProperty_IsHidden_Bool = 65,
-	EVRApplicationProperty_VRApplicationProperty_LastLaunchTime_Uint64 = 70,
+	EVRApplication_Property_VRApplication_Property_चरमः_Launch_Time_Uint64 = 70,
 } EVRApplicationProperty;
 
-typedef enum EVRSceneApplicationState
+प्रकारनिर्देश गणना EVRSceneApplicationState
 {
 	EVRSceneApplicationState_None = 0,
 	EVRSceneApplicationState_Starting = 1,
 	EVRSceneApplicationState_Quitting = 2,
 	EVRSceneApplicationState_Running = 3,
-	EVRSceneApplicationState_Waiting = 4,
+	EVRScene_Application_State_प्रतीक्षा = 4,
 } EVRSceneApplicationState;
 
-typedef enum ChaperoneCalibrationState
+प्रकारनिर्देश गणना ChaperoneCalibrationState
 {
 	ChaperoneCalibrationState_OK = 1,
 	ChaperoneCalibrationState_Warning = 100,
-	ChaperoneCalibrationState_Warning_BaseStationMayHaveMoved = 101,
-	ChaperoneCalibrationState_Warning_BaseStationRemoved = 102,
+	Chaperone_Calibration_State_Warning_आधारः_Station_May_Have_Moved = 101,
+	Chaperone_Calibration_State_Warning_आधारः_Station_Removed = 102,
 	ChaperoneCalibrationState_Warning_SeatedBoundsInvalid = 103,
 	ChaperoneCalibrationState_Error = 200,
-	ChaperoneCalibrationState_Error_BaseStationUninitialized = 201,
-	ChaperoneCalibrationState_Error_BaseStationConflict = 202,
+	Chaperone_Calibration_State_Error_आधारः_Station_Uninitialized = 201,
+	Chaperone_Calibration_State_Error_आधारः_Station_Conflict = 202,
 	ChaperoneCalibrationState_Error_PlayAreaInvalid = 203,
 	ChaperoneCalibrationState_Error_CollisionBoundsInvalid = 204,
 } ChaperoneCalibrationState;
 
-typedef enum EChaperoneConfigFile
+प्रकारनिर्देश गणना EChaperoneConfigFile
 {
-	EChaperoneConfigFile_Live = 1,
-	EChaperoneConfigFile_Temp = 2,
+	EChaperone_Config_File_जीवितम् = 1,
+	EChaperone_Config_File_अस्थायी = 2,
 } EChaperoneConfigFile;
 
-typedef enum EChaperoneImportFlags
+प्रकारनिर्देश गणना EChaperoneImportFlags
 {
 	EChaperoneImportFlags_EChaperoneImport_BoundsOnly = 1,
 } EChaperoneImportFlags;
 
-typedef enum EVRCompositorError
+प्रकारनिर्देश गणना EVRCompositorError
 {
 	EVRCompositorError_VRCompositorError_None = 0,
 	EVRCompositorError_VRCompositorError_RequestFailed = 1,
-	EVRCompositorError_VRCompositorError_IncompatibleVersion = 100,
+	EVRCompositor_Error_VRCompositor_Error_Incompatible_संस्करणम् = 100,
 	EVRCompositorError_VRCompositorError_DoNotHaveFocus = 101,
 	EVRCompositorError_VRCompositorError_InvalidTexture = 102,
 	EVRCompositorError_VRCompositorError_IsNotSceneApplication = 103,
 	EVRCompositorError_VRCompositorError_TextureIsOnWrongDevice = 104,
-	EVRCompositorError_VRCompositorError_TextureUsesUnsupportedFormat = 105,
+	EVRCompositor_Error_VRCompositor_Error_Texture_उपयुङ्क्ते_Unsupported_Format = 105,
 	EVRCompositorError_VRCompositorError_SharedTexturesNotSupported = 106,
-	EVRCompositorError_VRCompositorError_IndexOutOfRange = 107,
+	EVRCompositor_Error_VRCompositor_Error_सूचकांक_बहिर्गमनम्_सम्बन्धि_Range = 107,
 	EVRCompositorError_VRCompositorError_AlreadySubmitted = 108,
 	EVRCompositorError_VRCompositorError_InvalidBounds = 109,
-	EVRCompositorError_VRCompositorError_AlreadySet = 110,
+	EVRCompositor_Error_VRCompositor_Error_Already_समुच्चयः = 110,
 } EVRCompositorError;
 
-typedef enum EVRCompositorTimingMode
+प्रकारनिर्देश गणना EVRCompositor_Timing_बहुलकम्
 {
-	EVRCompositorTimingMode_VRCompositorTimingMode_Implicit = 0,
-	EVRCompositorTimingMode_VRCompositorTimingMode_Explicit_RuntimePerformsPostPresentHandoff = 1,
-	EVRCompositorTimingMode_VRCompositorTimingMode_Explicit_ApplicationPerformsPostPresentHandoff = 2,
-} EVRCompositorTimingMode;
+	EVRCompositor_Timing_बहुलकम्_VRCompositor_Timing_बहुलकम्_Implicit = 0,
+	EVRCompositor_Timing_बहुलकम्_VRCompositor_Timing_बहुलकम्_Explicit_Runtime_Performs_Post_Present_Handoff = 1,
+	EVRCompositor_Timing_बहुलकम्_VRCompositor_Timing_बहुलकम्_Explicit_Application_Performs_Post_Present_Handoff = 2,
+} EVRCompositor_Timing_बहुलकम्;
 
-typedef enum VROverlayInputMethod
+प्रकारनिर्देश गणना VROverlay_निवेशः_विधानम्
 {
-	VROverlayInputMethod_None = 0,
-	VROverlayInputMethod_Mouse = 1,
-} VROverlayInputMethod;
+	VROverlay_निवेशः_विधानम्_None = 0,
+	VROverlay_निवेशः_विधानम्_Mouse = 1,
+} VROverlay_निवेशः_विधानम्;
 
-typedef enum VROverlayTransformType
+प्रकारनिर्देश गणना VROverlayTransformType
 {
 	VROverlayTransformType_VROverlayTransform_Invalid = -1,
 	VROverlayTransformType_VROverlayTransform_Absolute = 0,
@@ -1608,24 +1608,24 @@ typedef enum VROverlayTransformType
 	VROverlayTransformType_VROverlayTransform_Projection = 8,
 } VROverlayTransformType;
 
-typedef enum VROverlayFlags
+प्रकारनिर्देश गणना VROverlayFlags
 {
 	VROverlayFlags_NoDashboardTab = 8,
 	VROverlayFlags_SendVRDiscreteScrollEvents = 64,
 	VROverlayFlags_SendVRTouchpadEvents = 128,
 	VROverlayFlags_ShowTouchPadScrollWheel = 256,
-	VROverlayFlags_TransferOwnershipToInternalProcess = 512,
+	VROverlay_Flags_Transfer_Ownership_गन्तव्यम्_आन्तरिकम्_Process = 512,
 	VROverlayFlags_SideBySide_Parallel = 1024,
 	VROverlayFlags_SideBySide_Crossed = 2048,
 	VROverlayFlags_Panorama = 4096,
 	VROverlayFlags_StereoPanorama = 8192,
-	VROverlayFlags_SortWithNonSceneOverlays = 16384,
-	VROverlayFlags_VisibleInDashboard = 32768,
+	VROverlay_Flags_क्रमय_With_Non_Scene_Overlays = 16384,
+	VROverlay_Flags_Visible_अन्तर्_Dashboard = 32768,
 	VROverlayFlags_MakeOverlaysInteractiveIfVisible = 65536,
 	VROverlayFlags_SendVRSmoothScrollEvents = 131072,
 	VROverlayFlags_ProtectedContent = 262144,
 	VROverlayFlags_HideLaserIntersection = 524288,
-	VROverlayFlags_WantsModalBehavior = 1048576,
+	VROverlay_Flags_इच्छति_Modal_Behavior = 1048576,
 	VROverlayFlags_IsPremultiplied = 2097152,
 	VROverlayFlags_IgnoreTextureAlpha = 4194304,
 	VROverlayFlags_EnableControlBar = 8388608,
@@ -1633,7 +1633,7 @@ typedef enum VROverlayFlags
 	VROverlayFlags_EnableControlBarClose = 33554432,
 } VROverlayFlags;
 
-typedef enum VRMessageOverlayResponse
+प्रकारनिर्देश गणना VRMessageOverlayResponse
 {
 	VRMessageOverlayResponse_ButtonPress_0 = 0,
 	VRMessageOverlayResponse_ButtonPress_1 = 1,
@@ -1644,46 +1644,46 @@ typedef enum VRMessageOverlayResponse
 	VRMessageOverlayResponse_ApplicationQuit = 6,
 } VRMessageOverlayResponse;
 
-typedef enum EGamepadTextInputMode
+प्रकारनिर्देश गणना EGamepad_Text_निवेशः_बहुलकम्
 {
-	EGamepadTextInputMode_k_EGamepadTextInputModeNormal = 0,
-	EGamepadTextInputMode_k_EGamepadTextInputModePassword = 1,
-	EGamepadTextInputMode_k_EGamepadTextInputModeSubmit = 2,
-} EGamepadTextInputMode;
+	EGamepad_Text_निवेशः_बहुलकम्_k_EGamepad_Text_निवेशः_बहुलकम्_प्रसामान्यम् = 0,
+	EGamepad_Text_निवेशः_बहुलकम्_k_EGamepad_Text_निवेशः_बहुलकम्_Password = 1,
+	EGamepad_Text_निवेशः_बहुलकम्_k_EGamepad_Text_निवेशः_बहुलकम्_Submit = 2,
+} EGamepad_Text_निवेशः_बहुलकम्;
 
-typedef enum EGamepadTextInputLineMode
+प्रकारनिर्देश गणना EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्
 {
-	EGamepadTextInputLineMode_k_EGamepadTextInputLineModeSingleLine = 0,
-	EGamepadTextInputLineMode_k_EGamepadTextInputLineModeMultipleLines = 1,
-} EGamepadTextInputLineMode;
+	EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_k_EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_Single_पङ्क्तिः = 0,
+	EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_k_EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_गुणजः_पङ्क्तयः = 1,
+} EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्;
 
-typedef enum EVROverlayIntersectionMaskPrimitiveType
+प्रकारनिर्देश गणना EVROverlay_Intersection_आवरणम्_Primitive_Type
 {
-	EVROverlayIntersectionMaskPrimitiveType_OverlayIntersectionPrimitiveType_Rectangle = 0,
-	EVROverlayIntersectionMaskPrimitiveType_OverlayIntersectionPrimitiveType_Circle = 1,
-} EVROverlayIntersectionMaskPrimitiveType;
+	EVROverlay_Intersection_आवरणम्_Primitive_Type_Overlay_Intersection_Primitive_Type_Rectangle = 0,
+	EVROverlay_Intersection_आवरणम्_Primitive_Type_Overlay_Intersection_Primitive_Type_Circle = 1,
+} EVROverlay_Intersection_आवरणम्_Primitive_Type;
 
-typedef enum EKeyboardFlags
+प्रकारनिर्देश गणना EKeyboardFlags
 {
-	EKeyboardFlags_KeyboardFlag_Minimal = 1,
+	EKeyboard_Flags_Keyboard_Flag_अल्पिष्ठम् = 1,
 	EKeyboardFlags_KeyboardFlag_Modal = 2,
 } EKeyboardFlags;
 
-typedef enum EDeviceType
+प्रकारनिर्देश गणना EDeviceType
 {
 	EDeviceType_DeviceType_Invalid = -1,
-	EDeviceType_DeviceType_DirectX11 = 0,
+	EDevice_Type_Device_Type_प्रत्यक्षम्_X11 = 0,
 	EDeviceType_DeviceType_Vulkan = 1,
 } EDeviceType;
 
-typedef enum HeadsetViewMode_t
+प्रकारनिर्देश गणना Headset_View_बहुलकम्_t
 {
-	HeadsetViewMode_t_HeadsetViewMode_Left = 0,
-	HeadsetViewMode_t_HeadsetViewMode_Right = 1,
-	HeadsetViewMode_t_HeadsetViewMode_Both = 2,
-} HeadsetViewMode_t;
+	Headset_View_बहुलकम्_t_Headset_View_बहुलकम्_वामः = 0,
+	Headset_View_बहुलकम्_t_Headset_View_बहुलकम्_दक्षिणः = 1,
+	Headset_View_बहुलकम्_t_Headset_View_बहुलकम्_Both = 2,
+} Headset_View_बहुलकम्_t;
 
-typedef enum EVRRenderModelError
+प्रकारनिर्देश गणना EVRRenderModelError
 {
 	EVRRenderModelError_VRRenderModelError_None = 0,
 	EVRRenderModelError_VRRenderModelError_Loading = 100,
@@ -1691,16 +1691,16 @@ typedef enum EVRRenderModelError
 	EVRRenderModelError_VRRenderModelError_InvalidArg = 300,
 	EVRRenderModelError_VRRenderModelError_InvalidModel = 301,
 	EVRRenderModelError_VRRenderModelError_NoShapes = 302,
-	EVRRenderModelError_VRRenderModelError_MultipleShapes = 303,
+	EVRRender_Model_Error_VRRender_Model_Error_गुणजः_Shapes = 303,
 	EVRRenderModelError_VRRenderModelError_TooManyVertices = 304,
-	EVRRenderModelError_VRRenderModelError_MultipleTextures = 305,
-	EVRRenderModelError_VRRenderModelError_BufferTooSmall = 306,
+	EVRRender_Model_Error_VRRender_Model_Error_गुणजः_Textures = 305,
+	EVRRender_Model_Error_VRRender_Model_Error_बफर_Too_Small = 306,
 	EVRRenderModelError_VRRenderModelError_NotEnoughNormals = 307,
 	EVRRenderModelError_VRRenderModelError_NotEnoughTexCoords = 308,
 	EVRRenderModelError_VRRenderModelError_InvalidTexture = 400,
 } EVRRenderModelError;
 
-typedef enum EVRRenderModelTextureFormat
+प्रकारनिर्देश गणना EVRRenderModelTextureFormat
 {
 	EVRRenderModelTextureFormat_VRRenderModelTextureFormat_RGBA8_SRGB = 0,
 	EVRRenderModelTextureFormat_VRRenderModelTextureFormat_BC2 = 1,
@@ -1710,23 +1710,23 @@ typedef enum EVRRenderModelTextureFormat
 	EVRRenderModelTextureFormat_VRRenderModelTextureFormat_RGBA16_FLOAT = 5,
 } EVRRenderModelTextureFormat;
 
-typedef enum EVRNotificationType
+प्रकारनिर्देश गणना EVRNotificationType
 {
 	EVRNotificationType_Transient = 0,
 	EVRNotificationType_Persistent = 1,
-	EVRNotificationType_Transient_SystemWithUserValue = 2,
+	EVRNotification_Type_Transient_System_With_User_मानम् = 2,
 } EVRNotificationType;
 
-typedef enum EVRNotificationStyle
+प्रकारनिर्देश गणना EVRNotificationStyle
 {
 	EVRNotificationStyle_None = 0,
 	EVRNotificationStyle_Application = 100,
 	EVRNotificationStyle_Contact_Disabled = 200,
 	EVRNotificationStyle_Contact_Enabled = 201,
-	EVRNotificationStyle_Contact_Active = 202,
+	EVRNotification_Style_Contact_सक्रिय = 202,
 } EVRNotificationStyle;
 
-typedef enum EVRSettingsError
+प्रकारनिर्देश गणना EVRSettingsError
 {
 	EVRSettingsError_VRSettingsError_None = 0,
 	EVRSettingsError_VRSettingsError_IPCFailed = 1,
@@ -1736,413 +1736,413 @@ typedef enum EVRSettingsError
 	EVRSettingsError_VRSettingsError_UnsetSettingHasNoDefault = 5,
 } EVRSettingsError;
 
-typedef enum EVRScreenshotError
+प्रकारनिर्देश गणना EVRScreenshotError
 {
 	EVRScreenshotError_VRScreenshotError_None = 0,
 	EVRScreenshotError_VRScreenshotError_RequestFailed = 1,
-	EVRScreenshotError_VRScreenshotError_IncompatibleVersion = 100,
-	EVRScreenshotError_VRScreenshotError_NotFound = 101,
-	EVRScreenshotError_VRScreenshotError_BufferTooSmall = 102,
-	EVRScreenshotError_VRScreenshotError_ScreenshotAlreadyInProgress = 108,
+	EVRScreenshot_Error_VRScreenshot_Error_Incompatible_संस्करणम् = 100,
+	EVRScreenshot_Error_VRScreenshot_Error_Not_प्राप्तम् = 101,
+	EVRScreenshot_Error_VRScreenshot_Error_बफर_Too_Small = 102,
+	EVRScreenshot_Error_VRScreenshot_Error_Screenshot_Already_अन्तर्_प्रगतिः = 108,
 } EVRScreenshotError;
 
-typedef enum EVRSkeletalTransformSpace
+प्रकारनिर्देश गणना EVRSkeletalTransformSpace
 {
 	EVRSkeletalTransformSpace_VRSkeletalTransformSpace_Model = 0,
 	EVRSkeletalTransformSpace_VRSkeletalTransformSpace_Parent = 1,
 } EVRSkeletalTransformSpace;
 
-typedef enum EVRSkeletalReferencePose
+प्रकारनिर्देश गणना EVRSkeletalReferencePose
 {
 	EVRSkeletalReferencePose_VRSkeletalReferencePose_BindPose = 0,
 	EVRSkeletalReferencePose_VRSkeletalReferencePose_OpenHand = 1,
 	EVRSkeletalReferencePose_VRSkeletalReferencePose_Fist = 2,
-	EVRSkeletalReferencePose_VRSkeletalReferencePose_GripLimit = 3,
+	EVRSkeletal_Reference_Pose_VRSkeletal_Reference_Pose_Grip_सीमा = 3,
 } EVRSkeletalReferencePose;
 
-typedef enum EVRFinger
+प्रकारनिर्देश गणना EVRFinger
 {
 	EVRFinger_VRFinger_Thumb = 0,
-	EVRFinger_VRFinger_Index = 1,
-	EVRFinger_VRFinger_Middle = 2,
+	EVRFinger_VRFinger_सूचकांक = 1,
+	EVRFinger_VRFinger_मध्यः = 2,
 	EVRFinger_VRFinger_Ring = 3,
 	EVRFinger_VRFinger_Pinky = 4,
-	EVRFinger_VRFinger_Count = 5,
+	EVRFinger_VRFinger_गणनम् = 5,
 } EVRFinger;
 
-typedef enum EVRFingerSplay
+प्रकारनिर्देश गणना EVRFingerSplay
 {
-	EVRFingerSplay_VRFingerSplay_Thumb_Index = 0,
-	EVRFingerSplay_VRFingerSplay_Index_Middle = 1,
-	EVRFingerSplay_VRFingerSplay_Middle_Ring = 2,
+	EVRFinger_Splay_VRFinger_Splay_Thumb_सूचकांक = 0,
+	EVRFinger_Splay_VRFinger_Splay_सूचकांक_मध्यः = 1,
+	EVRFinger_Splay_VRFinger_Splay_मध्यः_Ring = 2,
 	EVRFingerSplay_VRFingerSplay_Ring_Pinky = 3,
-	EVRFingerSplay_VRFingerSplay_Count = 4,
+	EVRFinger_Splay_VRFinger_Splay_गणनम् = 4,
 } EVRFingerSplay;
 
-typedef enum EVRSummaryType
+प्रकारनिर्देश गणना EVRSummaryType
 {
 	EVRSummaryType_VRSummaryType_FromAnimation = 0,
 	EVRSummaryType_VRSummaryType_FromDevice = 1,
 } EVRSummaryType;
 
-typedef enum EVRInputFilterCancelType
+प्रकारनिर्देश गणना EVRInputFilterCancelType
 {
 	EVRInputFilterCancelType_VRInputFilterCancel_Timers = 0,
 	EVRInputFilterCancelType_VRInputFilterCancel_Momentum = 1,
 } EVRInputFilterCancelType;
 
-typedef enum EVRInputStringBits
+प्रकारनिर्देश गणना EVRInput_String_द्वयङ्काः
 {
-	EVRInputStringBits_VRInputString_Hand = 1,
-	EVRInputStringBits_VRInputString_ControllerType = 2,
-	EVRInputStringBits_VRInputString_InputSource = 4,
-	EVRInputStringBits_VRInputString_All = -1,
-} EVRInputStringBits;
+	EVRInput_String_द्वयङ्काः_VRInput_String_Hand = 1,
+	EVRInput_String_द्वयङ्काः_VRInput_String_Controller_Type = 2,
+	EVRInput_String_द्वयङ्काः_VRInput_String_निवेशः_Source = 4,
+	EVRInput_String_द्वयङ्काः_VRInput_String_All = -1,
+} EVRInput_String_द्वयङ्काः;
 
-typedef enum EIOBufferError
+प्रकारनिर्देश गणना EIOBufferError
 {
 	EIOBufferError_IOBuffer_Success = 0,
 	EIOBufferError_IOBuffer_OperationFailed = 100,
 	EIOBufferError_IOBuffer_InvalidHandle = 101,
-	EIOBufferError_IOBuffer_InvalidArgument = 102,
-	EIOBufferError_IOBuffer_PathExists = 103,
-	EIOBufferError_IOBuffer_PathDoesNotExist = 104,
+	EIOBuffer_Error_IOBuffer_Invalid_तर्कः = 102,
+	EIOBuffer_Error_IOBuffer_मार्गः_Exists = 103,
+	EIOBuffer_Error_IOBuffer_मार्गः_Does_Not_Exist = 104,
 	EIOBufferError_IOBuffer_Permission = 105,
 } EIOBufferError;
 
-typedef enum EIOBufferMode
+प्रकारनिर्देश गणना EIOBuffer_बहुलकम्
 {
-	EIOBufferMode_IOBufferMode_Read = 1,
-	EIOBufferMode_IOBufferMode_Write = 2,
-	EIOBufferMode_IOBufferMode_Create = 512,
-} EIOBufferMode;
+	EIOBuffer_बहुलकम्_IOBuffer_बहुलकम्_Read = 1,
+	EIOBuffer_बहुलकम्_IOBuffer_बहुलकम्_Write = 2,
+	EIOBuffer_बहुलकम्_IOBuffer_बहुलकम्_Create = 512,
+} EIOBuffer_बहुलकम्;
 
-typedef enum EVRDebugError
+प्रकारनिर्देश गणना EVRDebugError
 {
 	EVRDebugError_VRDebugError_Success = 0,
 	EVRDebugError_VRDebugError_BadParameter = 1,
 } EVRDebugError;
 
-typedef enum EPropertyWriteType
+प्रकारनिर्देश गणना EPropertyWriteType
 {
-	EPropertyWriteType_PropertyWrite_Set = 0,
+	EProperty_Write_Type_Property_Write_समुच्चयः = 0,
 	EPropertyWriteType_PropertyWrite_Erase = 1,
-	EPropertyWriteType_PropertyWrite_SetError = 2,
+	EProperty_Write_Type_Property_Write_समुच्चयः_Error = 2,
 } EPropertyWriteType;
 
-typedef enum EBlockQueueError
+प्रकारनिर्देश गणना EBlockQueueError
 {
-	EBlockQueueError_BlockQueueError_None = 0,
-	EBlockQueueError_BlockQueueError_QueueAlreadyExists = 1,
-	EBlockQueueError_BlockQueueError_QueueNotFound = 2,
-	EBlockQueueError_BlockQueueError_BlockNotAvailable = 3,
-	EBlockQueueError_BlockQueueError_InvalidHandle = 4,
-	EBlockQueueError_BlockQueueError_InvalidParam = 5,
-	EBlockQueueError_BlockQueueError_ParamMismatch = 6,
-	EBlockQueueError_BlockQueueError_InternalError = 7,
-	EBlockQueueError_BlockQueueError_AlreadyInitialized = 8,
-	EBlockQueueError_BlockQueueError_OperationIsServerOnly = 9,
-	EBlockQueueError_BlockQueueError_TooManyConnections = 10,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_None = 0,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Queue_Already_Exists = 1,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Queue_Not_प्राप्तम् = 2,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_खण्डम्_Not_उपलब्धम् = 3,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Invalid_Handle = 4,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Invalid_Param = 5,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Param_Mismatch = 6,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_आन्तरिकम्_Error = 7,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Already_Initialized = 8,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Operation_Is_Server_Only = 9,
+	EBlock_Queue_Error_खण्डम्_Queue_Error_Too_Many_Connections = 10,
 } EBlockQueueError;
 
-typedef enum EBlockQueueReadType
+प्रकारनिर्देश गणना EBlockQueueReadType
 {
-	EBlockQueueReadType_BlockQueueRead_Latest = 0,
-	EBlockQueueReadType_BlockQueueRead_New = 1,
-	EBlockQueueReadType_BlockQueueRead_Next = 2,
+	EBlock_Queue_Read_Type_खण्डम्_Queue_Read_Latest = 0,
+	EBlock_Queue_Read_Type_खण्डम्_Queue_Read_New = 1,
+	EBlock_Queue_Read_Type_खण्डम्_Queue_Read_अग्र = 2,
 } EBlockQueueReadType;
 
-typedef enum EBlockQueueCreationFlag
+प्रकारनिर्देश गणना EBlockQueueCreationFlag
 {
-	EBlockQueueCreationFlag_BlockQueueFlag_OwnerIsReader = 1,
+	EBlock_Queue_Creation_Flag_खण्डम्_Queue_Flag_Owner_Is_Reader = 1,
 } EBlockQueueCreationFlag;
 
 
 // OpenVR typedefs
 
-typedef uint32_t PropertyTypeTag_t;
-typedef uint32_t SpatialAnchorHandle_t;
-typedef void * glSharedTextureHandle_t;
-typedef int32_t glInt_t;
-typedef uint32_t glUInt_t;
-typedef uint64_t SharedTextureHandle_t;
-typedef uint32_t DriverId_t;
-typedef uint32_t TrackedDeviceIndex_t;
-typedef uint64_t WebConsoleHandle_t;
-typedef uint64_t PropertyContainerHandle_t;
-typedef PropertyContainerHandle_t DriverHandle_t;
-typedef uint64_t VRActionHandle_t;
-typedef uint64_t VRActionSetHandle_t;
-typedef uint64_t VRInputValueHandle_t;
-typedef uint32_t VRComponentProperties;
-typedef uint64_t VROverlayHandle_t;
-typedef int32_t BoneIndex_t;
-typedef uint64_t TrackedCameraHandle_t;
-typedef uint32_t ScreenshotHandle_t;
-typedef int32_t TextureID_t;
-typedef uint32_t VRNotificationId;
-typedef uint64_t IOBufferHandle_t;
-typedef uint64_t VrProfilerEventHandle_t;
-typedef EVRInitError HmdError;
-typedef EVREye Hmd_Eye;
-typedef EColorSpace ColorSpace;
-typedef ETrackingResult HmdTrackingResult;
-typedef ETrackedDeviceClass TrackedDeviceClass;
-typedef ETrackingUniverseOrigin TrackingUniverseOrigin;
-typedef ETrackedDeviceProperty TrackedDeviceProperty;
-typedef ETrackedPropertyError TrackedPropertyError;
-typedef EVRSubmitFlags VRSubmitFlags_t;
-typedef EVRState VRState_t;
-typedef ECollisionBoundsStyle CollisionBoundsStyle_t;
-typedef EVROverlayError VROverlayError;
-typedef EVRFirmwareError VRFirmwareError;
-typedef EVRCompositorError VRCompositorError;
-typedef EVRScreenshotError VRScreenshotsError;
-typedef uint64_t PathHandle_t;
+प्रकारनिर्देश uint32_t Property_Type_चिह्नकम्_t;
+प्रकारनिर्देश uint32_t SpatialAnchorHandle_t;
+प्रकारनिर्देश शून्य * glSharedTextureHandle_t;
+प्रकारनिर्देश int32_t glInt_t;
+प्रकारनिर्देश uint32_t glUInt_t;
+प्रकारनिर्देश uint64_t SharedTextureHandle_t;
+प्रकारनिर्देश uint32_t DriverId_t;
+प्रकारनिर्देश uint32_t Tracked_Device_सूचकांक_t;
+प्रकारनिर्देश uint64_t WebConsoleHandle_t;
+प्रकारनिर्देश uint64_t PropertyContainerHandle_t;
+प्रकारनिर्देश PropertyContainerHandle_t DriverHandle_t;
+प्रकारनिर्देश uint64_t VRActionHandle_t;
+प्रकारनिर्देश uint64_t VRAction_समुच्चयः_Handle_t;
+प्रकारनिर्देश uint64_t VRInput_मानम्_Handle_t;
+प्रकारनिर्देश uint32_t VRComponentProperties;
+प्रकारनिर्देश uint64_t VROverlayHandle_t;
+प्रकारनिर्देश int32_t Bone_सूचकांक_t;
+प्रकारनिर्देश uint64_t TrackedCameraHandle_t;
+प्रकारनिर्देश uint32_t ScreenshotHandle_t;
+प्रकारनिर्देश int32_t TextureID_t;
+प्रकारनिर्देश uint32_t VRNotificationId;
+प्रकारनिर्देश uint64_t IOBufferHandle_t;
+प्रकारनिर्देश uint64_t VrProfilerEventHandle_t;
+प्रकारनिर्देश EVRInitError HmdError;
+प्रकारनिर्देश EVREye Hmd_Eye;
+प्रकारनिर्देश EColorSpace ColorSpace;
+प्रकारनिर्देश ETracking_परिणाम Hmd_Tracking_परिणाम;
+प्रकारनिर्देश ETrackedDeviceClass TrackedDeviceClass;
+प्रकारनिर्देश ETrackingUniverseOrigin TrackingUniverseOrigin;
+प्रकारनिर्देश ETrackedDeviceProperty TrackedDeviceProperty;
+प्रकारनिर्देश ETrackedPropertyError TrackedPropertyError;
+प्रकारनिर्देश EVRSubmitFlags VRSubmitFlags_t;
+प्रकारनिर्देश EVRState VRState_t;
+प्रकारनिर्देश ECollisionBoundsStyle CollisionBoundsStyle_t;
+प्रकारनिर्देश EVROverlayError VROverlayError;
+प्रकारनिर्देश EVRFirmwareError VRFirmwareError;
+प्रकारनिर्देश EVRCompositorError VRCompositorError;
+प्रकारनिर्देश EVRScreenshotError VRScreenshotsError;
+प्रकारनिर्देश uint64_t मार्गः_Handle_t;
 
 // OpenVR Structs
 
-typedef struct HmdMatrix34_t
+प्रकारनिर्देश संरचना HmdMatrix34_t
 {
-	float m[3][4]; //float[3][4]
+	भिन्न m[3][4]; //float[3][4]
 } HmdMatrix34_t;
 
-typedef struct HmdMatrix33_t
+प्रकारनिर्देश संरचना HmdMatrix33_t
 {
-	float m[3][3]; //float[3][3]
+	भिन्न m[3][3]; //float[3][3]
 } HmdMatrix33_t;
 
-typedef struct HmdMatrix44_t
+प्रकारनिर्देश संरचना HmdMatrix44_t
 {
-	float m[4][4]; //float[4][4]
+	भिन्न m[4][4]; //float[4][4]
 } HmdMatrix44_t;
 
-typedef struct HmdVector3_t
+प्रकारनिर्देश संरचना HmdVector3_t
 {
-	float v[3]; //float[3]
+	भिन्न v[3]; //float[3]
 } HmdVector3_t;
 
-typedef struct HmdVector4_t
+प्रकारनिर्देश संरचना HmdVector4_t
 {
-	float v[4]; //float[4]
+	भिन्न v[4]; //float[4]
 } HmdVector4_t;
 
-typedef struct HmdVector3d_t
+प्रकारनिर्देश संरचना HmdVector3d_t
 {
-	double v[3]; //double[3]
+	द्विगुण v[3]; //double[3]
 } HmdVector3d_t;
 
-typedef struct HmdVector2_t
+प्रकारनिर्देश संरचना HmdVector2_t
 {
-	float v[2]; //float[2]
+	भिन्न v[2]; //float[2]
 } HmdVector2_t;
 
-typedef struct HmdQuaternion_t
+प्रकारनिर्देश संरचना HmdQuaternion_t
 {
-	double w;
-	double x;
-	double y;
-	double z;
+	द्विगुण w;
+	द्विगुण x;
+	द्विगुण y;
+	द्विगुण z;
 } HmdQuaternion_t;
 
-typedef struct HmdQuaternionf_t
+प्रकारनिर्देश संरचना HmdQuaternionf_t
 {
-	float w;
-	float x;
-	float y;
-	float z;
+	भिन्न w;
+	भिन्न x;
+	भिन्न y;
+	भिन्न z;
 } HmdQuaternionf_t;
 
-typedef struct HmdColor_t
+प्रकारनिर्देश संरचना HmdColor_t
 {
-	float r;
-	float g;
-	float b;
-	float a;
+	भिन्न r;
+	भिन्न g;
+	भिन्न b;
+	भिन्न a;
 } HmdColor_t;
 
-typedef struct HmdQuad_t
+प्रकारनिर्देश संरचना HmdQuad_t
 {
-	struct HmdVector3_t vCorners[4]; //struct vr::HmdVector3_t[4]
+	संरचना HmdVector3_t vCorners[4]; //struct vr::HmdVector3_t[4]
 } HmdQuad_t;
 
-typedef struct HmdRect2_t
+प्रकारनिर्देश संरचना HmdRect2_t
 {
-	struct HmdVector2_t vTopLeft;
-	struct HmdVector2_t vBottomRight;
+	संरचना HmdVector2_t v_शिखरम्_वामः;
+	संरचना HmdVector2_t v_Bottom_दक्षिणः;
 } HmdRect2_t;
 
-typedef struct VRBoneTransform_t
+प्रकारनिर्देश संरचना VRBoneTransform_t
 {
-	struct HmdVector4_t position;
-	struct HmdQuaternionf_t orientation;
+	संरचना HmdVector4_t position;
+	संरचना HmdQuaternionf_t orientation;
 } VRBoneTransform_t;
 
-typedef struct DistortionCoordinates_t
+प्रकारनिर्देश संरचना DistortionCoordinates_t
 {
-	float rfRed[2]; //float[2]
-	float rfGreen[2]; //float[2]
-	float rfBlue[2]; //float[2]
+	भिन्न rfRed[2]; //float[2]
+	भिन्न rfGreen[2]; //float[2]
+	भिन्न rfBlue[2]; //float[2]
 } DistortionCoordinates_t;
 
-typedef struct Texture_t
+प्रकारनिर्देश संरचना Texture_t
 {
-	void * handle; // void *
-	enum ETextureType eType;
-	enum EColorSpace eColorSpace;
+	शून्य * handle; // void *
+	गणना ETextureType eType;
+	गणना EColorSpace eColorSpace;
 } Texture_t;
 
-typedef struct TrackedDevicePose_t
+प्रकारनिर्देश संरचना TrackedDevicePose_t
 {
-	struct HmdMatrix34_t mDeviceToAbsoluteTracking;
-	struct HmdVector3_t vVelocity;
-	struct HmdVector3_t vAngularVelocity;
-	enum ETrackingResult eTrackingResult;
+	संरचना HmdMatrix34_t m_Device_गन्तव्यम्_Absolute_Tracking;
+	संरचना HmdVector3_t vVelocity;
+	संरचना HmdVector3_t vAngularVelocity;
+	गणना ETracking_परिणाम e_Tracking_परिणाम;
 	bool bPoseIsValid;
 	bool bDeviceIsConnected;
 } TrackedDevicePose_t;
 
-typedef struct VRTextureBounds_t
+प्रकारनिर्देश संरचना VRTextureBounds_t
 {
-	float uMin;
-	float vMin;
-	float uMax;
-	float vMax;
+	भिन्न uMin;
+	भिन्न vMin;
+	भिन्न uMax;
+	भिन्न vMax;
 } VRTextureBounds_t;
 
-typedef struct VRTextureWithPose_t
+प्रकारनिर्देश संरचना VRTextureWithPose_t
 {
-	void * handle; // void *
-	enum ETextureType eType;
-	enum EColorSpace eColorSpace;
-	struct HmdMatrix34_t mDeviceToAbsoluteTracking;
+	शून्य * handle; // void *
+	गणना ETextureType eType;
+	गणना EColorSpace eColorSpace;
+	संरचना HmdMatrix34_t m_Device_गन्तव्यम्_Absolute_Tracking;
 } VRTextureWithPose_t;
 
-typedef struct VRTextureDepthInfo_t
+प्रकारनिर्देश संरचना VRTexture_गभीरता_Info_t
 {
-	void * handle; // void *
-	struct HmdMatrix44_t mProjection;
-	struct HmdVector2_t vRange;
-} VRTextureDepthInfo_t;
+	शून्य * handle; // void *
+	संरचना HmdMatrix44_t mProjection;
+	संरचना HmdVector2_t vRange;
+} VRTexture_गभीरता_Info_t;
 
-typedef struct VRTextureWithDepth_t
+प्रकारनिर्देश संरचना VRTexture_With_गभीरता_t
 {
-	void * handle; // void *
-	enum ETextureType eType;
-	enum EColorSpace eColorSpace;
-	struct VRTextureDepthInfo_t depth;
-} VRTextureWithDepth_t;
+	शून्य * handle; // void *
+	गणना ETextureType eType;
+	गणना EColorSpace eColorSpace;
+	संरचना VRTexture_गभीरता_Info_t गभीरता_2;
+} VRTexture_With_गभीरता_t;
 
-typedef struct VRTextureWithPoseAndDepth_t
+प्रकारनिर्देश संरचना VRTexture_With_Pose_And_गभीरता_t
 {
-	void * handle; // void *
-	enum ETextureType eType;
-	enum EColorSpace eColorSpace;
-	struct HmdMatrix34_t mDeviceToAbsoluteTracking;
-	struct VRTextureDepthInfo_t depth;
-} VRTextureWithPoseAndDepth_t;
+	शून्य * handle; // void *
+	गणना ETextureType eType;
+	गणना EColorSpace eColorSpace;
+	संरचना HmdMatrix34_t m_Device_गन्तव्यम्_Absolute_Tracking;
+	संरचना VRTexture_गभीरता_Info_t गभीरता_2;
+} VRTexture_With_Pose_And_गभीरता_t;
 
-typedef struct VRVulkanTextureData_t
+प्रकारनिर्देश संरचना VRVulkan_Texture_दत्त_t
 {
 	uint64_t m_nImage;
-	struct VkDevice_T * m_pDevice; // struct VkDevice_T *
-	struct VkPhysicalDevice_T * m_pPhysicalDevice; // struct VkPhysicalDevice_T *
-	struct VkInstance_T * m_pInstance; // struct VkInstance_T *
-	struct VkQueue_T * m_pQueue; // struct VkQueue_T *
-	uint32_t m_nQueueFamilyIndex;
-	uint32_t m_nWidth;
+	संरचना VkDevice_T * m_pDevice; // struct VkDevice_T *
+	संरचना VkPhysicalDevice_T * m_pPhysicalDevice; // struct VkPhysicalDevice_T *
+	संरचना VkInstance_T * m_pInstance; // struct VkInstance_T *
+	संरचना VkQueue_T * m_pQueue; // struct VkQueue_T *
+	uint32_t m_n_Queue_Family_सूचकांक;
+	uint32_t m_n_विस्तारः;
 	uint32_t m_nHeight;
 	uint32_t m_nFormat;
-	uint32_t m_nSampleCount;
-} VRVulkanTextureData_t;
+	uint32_t m_n_Sample_गणनम्;
+} VRVulkan_Texture_दत्त_t;
 
-typedef struct VRVulkanTextureArrayData_t
+प्रकारनिर्देश संरचना VRVulkan_Texture_Array_दत्त_t
 {
-	uint32_t m_unArrayIndex;
-	uint32_t m_unArraySize;
-} VRVulkanTextureArrayData_t;
+	uint32_t m_un_Array_सूचकांक;
+	uint32_t m_un_Array_आकार;
+} VRVulkan_Texture_Array_दत्त_t;
 
-typedef struct D3D12TextureData_t
+प्रकारनिर्देश संरचना D3_D12_Texture_दत्त_t
 {
-	struct ID3D12Resource * m_pResource; // struct ID3D12Resource *
-	struct ID3D12CommandQueue * m_pCommandQueue; // struct ID3D12CommandQueue *
-	uint32_t m_nNodeMask;
-} D3D12TextureData_t;
+	संरचना ID3D12Resource * m_pResource; // struct ID3D12Resource *
+	संरचना ID3D12CommandQueue * m_pCommandQueue; // struct ID3D12CommandQueue *
+	uint32_t m_n_ग्रन्थिः_आवरणम्;
+} D3_D12_Texture_दत्त_t;
 
-typedef struct VREvent_Controller_t
+प्रकारनिर्देश संरचना VREvent_Controller_t
 {
 	uint32_t button;
 } VREvent_Controller_t;
 
-typedef struct VREvent_Mouse_t
+प्रकारनिर्देश संरचना VREvent_Mouse_t
 {
-	float x;
-	float y;
+	भिन्न x;
+	भिन्न y;
 	uint32_t button;
 } VREvent_Mouse_t;
 
-typedef struct VREvent_Scroll_t
+प्रकारनिर्देश संरचना VREvent_Scroll_t
 {
-	float xdelta;
-	float ydelta;
-	uint32_t unused;
-	float viewportscale;
+	भिन्न xdelta;
+	भिन्न ydelta;
+	uint32_t अप्रयुक्तम्;
+	भिन्न viewportscale;
 } VREvent_Scroll_t;
 
-typedef struct VREvent_TouchPadMove_t
+प्रकारनिर्देश संरचना VREvent_TouchPadMove_t
 {
-	bool bFingerDown;
-	float flSecondsFingerDown;
-	float fValueXFirst;
-	float fValueYFirst;
-	float fValueXRaw;
-	float fValueYRaw;
+	bool b_Finger_अधस्तात्;
+	भिन्न fl_Seconds_Finger_अधस्तात्;
+	भिन्न f_मानम्_XFirst;
+	भिन्न f_मानम्_YFirst;
+	भिन्न f_मानम्_XRaw;
+	भिन्न f_मानम्_YRaw;
 } VREvent_TouchPadMove_t;
 
-typedef struct VREvent_Notification_t
+प्रकारनिर्देश संरचना VREvent_Notification_t
 {
-	uint64_t ulUserValue;
+	uint64_t ul_User_मानम्;
 	uint32_t notificationId;
 } VREvent_Notification_t;
 
-typedef struct VREvent_Process_t
+प्रकारनिर्देश संरचना VREvent_Process_t
 {
 	uint32_t pid;
 	uint32_t oldPid;
 	bool bForced;
-	bool bConnectionLost;
+	bool b_Connection_नष्टम्;
 } VREvent_Process_t;
 
-typedef struct VREvent_Overlay_t
+प्रकारनिर्देश संरचना VREvent_Overlay_t
 {
 	uint64_t overlayHandle;
-	uint64_t devicePath;
-	uint64_t memoryBlockId;
+	uint64_t device_मार्गः;
+	uint64_t स्मृतिः_खण्डम्_Id;
 } VREvent_Overlay_t;
 
-typedef struct VREvent_Status_t
+प्रकारनिर्देश संरचना VREvent_स्थितिः_t
 {
-	uint32_t statusState;
-} VREvent_Status_t;
+	uint32_t स्थितिः_State;
+} VREvent_स्थितिः_t;
 
-typedef struct VREvent_Keyboard_t
+प्रकारनिर्देश संरचना VREvent_Keyboard_t
 {
-	char cNewInput[8]; //char[8]
-	uint64_t uUserValue;
+	वर्ण c_New_निवेशः[8]; //char[8]
+	uint64_t u_User_मानम्;
 } VREvent_Keyboard_t;
 
-typedef struct VREvent_Ipd_t
+प्रकारनिर्देश संरचना VREvent_Ipd_t
 {
-	float ipdMeters;
+	भिन्न ipdMeters;
 } VREvent_Ipd_t;
 
-typedef struct VREvent_Chaperone_t
+प्रकारनिर्देश संरचना VREvent_Chaperone_t
 {
 	uint64_t m_nPreviousUniverse;
 	uint64_t m_nCurrentUniverse;
 } VREvent_Chaperone_t;
 
-typedef struct VREvent_Reserved_t
+प्रकारनिर्देश संरचना VREvent_Reserved_t
 {
 	uint64_t reserved0;
 	uint64_t reserved1;
@@ -2152,435 +2152,435 @@ typedef struct VREvent_Reserved_t
 	uint64_t reserved5;
 } VREvent_Reserved_t;
 
-typedef struct VREvent_PerformanceTest_t
+प्रकारनिर्देश संरचना VREvent_PerformanceTest_t
 {
 	uint32_t m_nFidelityLevel;
 } VREvent_PerformanceTest_t;
 
-typedef struct VREvent_SeatedZeroPoseReset_t
+प्रकारनिर्देश संरचना VREvent_SeatedZeroPoseReset_t
 {
 	bool bResetBySystemMenu;
 } VREvent_SeatedZeroPoseReset_t;
 
-typedef struct VREvent_Screenshot_t
+प्रकारनिर्देश संरचना VREvent_Screenshot_t
 {
 	uint32_t handle;
 	uint32_t type;
 } VREvent_Screenshot_t;
 
-typedef struct VREvent_ScreenshotProgress_t
+प्रकारनिर्देश संरचना VREvent_Screenshot_प्रगतिः_t
 {
-	float progress;
-} VREvent_ScreenshotProgress_t;
+	भिन्न प्रगतिः_2;
+} VREvent_Screenshot_प्रगतिः_t;
 
-typedef struct VREvent_ApplicationLaunch_t
+प्रकारनिर्देश संरचना VREvent_ApplicationLaunch_t
 {
 	uint32_t pid;
-	uint32_t unArgsHandle;
+	uint32_t un_तर्काः_Handle;
 } VREvent_ApplicationLaunch_t;
 
-typedef struct VREvent_EditingCameraSurface_t
+प्रकारनिर्देश संरचना VREvent_EditingCameraSurface_t
 {
 	uint64_t overlayHandle;
-	uint32_t nVisualMode;
+	uint32_t n_Visual_बहुलकम्;
 } VREvent_EditingCameraSurface_t;
 
-typedef struct VREvent_MessageOverlay_t
+प्रकारनिर्देश संरचना VREvent_सन्देशः_Overlay_t
 {
 	uint32_t unVRMessageOverlayResponse;
-} VREvent_MessageOverlay_t;
+} VREvent_सन्देशः_Overlay_t;
 
-typedef struct VREvent_Property_t
+प्रकारनिर्देश संरचना VREvent_Property_t
 {
 	PropertyContainerHandle_t container;
-	enum ETrackedDeviceProperty prop;
+	गणना ETrackedDeviceProperty prop;
 } VREvent_Property_t;
 
-typedef struct VREvent_HapticVibration_t
+प्रकारनिर्देश संरचना VREvent_HapticVibration_t
 {
 	uint64_t containerHandle;
 	uint64_t componentHandle;
-	float fDurationSeconds;
-	float fFrequency;
-	float fAmplitude;
+	भिन्न fDurationSeconds;
+	भिन्न fFrequency;
+	भिन्न fAmplitude;
 } VREvent_HapticVibration_t;
 
-typedef struct VREvent_WebConsole_t
+प्रकारनिर्देश संरचना VREvent_WebConsole_t
 {
 	WebConsoleHandle_t webConsoleHandle;
 } VREvent_WebConsole_t;
 
-typedef struct VREvent_InputBindingLoad_t
+प्रकारनिर्देश संरचना VREvent_निवेशः_Binding_आरोपय_t
 {
 	PropertyContainerHandle_t ulAppContainer;
-	uint64_t pathMessage;
-	uint64_t pathUrl;
-	uint64_t pathControllerType;
-} VREvent_InputBindingLoad_t;
+	uint64_t मार्गः_सन्देशः;
+	uint64_t मार्गः_Url;
+	uint64_t मार्गः_Controller_Type;
+} VREvent_निवेशः_Binding_आरोपय_t;
 
-typedef struct VREvent_InputActionManifestLoad_t
+प्रकारनिर्देश संरचना VREvent_निवेशः_Action_Manifest_आरोपय_t
 {
-	uint64_t pathAppKey;
-	uint64_t pathMessage;
-	uint64_t pathMessageParam;
-	uint64_t pathManifestPath;
-} VREvent_InputActionManifestLoad_t;
+	uint64_t मार्गः_App_कुञ्चिका;
+	uint64_t मार्गः_सन्देशः;
+	uint64_t मार्गः_सन्देशः_Param;
+	uint64_t मार्गः_Manifest_मार्गः;
+} VREvent_निवेशः_Action_Manifest_आरोपय_t;
 
-typedef struct VREvent_SpatialAnchor_t
+प्रकारनिर्देश संरचना VREvent_SpatialAnchor_t
 {
 	SpatialAnchorHandle_t unHandle;
 } VREvent_SpatialAnchor_t;
 
-typedef struct VREvent_ProgressUpdate_t
+प्रकारनिर्देश संरचना VREvent_प्रगतिः_Update_t
 {
 	uint64_t ulApplicationPropertyContainer;
-	uint64_t pathDevice;
-	uint64_t pathInputSource;
-	uint64_t pathProgressAction;
-	uint64_t pathIcon;
-	float fProgress;
-} VREvent_ProgressUpdate_t;
+	uint64_t मार्गः_Device;
+	uint64_t मार्गः_निवेशः_Source;
+	uint64_t मार्गः_प्रगतिः_Action;
+	uint64_t मार्गः_Icon;
+	भिन्न f_प्रगतिः;
+} VREvent_प्रगतिः_Update_t;
 
-typedef struct VREvent_ShowUI_t
+प्रकारनिर्देश संरचना VREvent_ShowUI_t
 {
-	enum EShowUIType eType;
+	गणना EShowUIType eType;
 } VREvent_ShowUI_t;
 
-typedef struct VREvent_ShowDevTools_t
+प्रकारनिर्देश संरचना VREvent_ShowDevTools_t
 {
 	int32_t nBrowserIdentifier;
 } VREvent_ShowDevTools_t;
 
-typedef struct VREvent_HDCPError_t
+प्रकारनिर्देश संरचना VREvent_HDCPError_t
 {
-	enum EHDCPError eCode;
+	गणना EHDCPError e_संहिता;
 } VREvent_HDCPError_t;
 
-typedef struct RenderModel_ComponentState_t
+प्रकारनिर्देश संरचना RenderModel_ComponentState_t
 {
-	struct HmdMatrix34_t mTrackingToComponentRenderModel;
-	struct HmdMatrix34_t mTrackingToComponentLocal;
+	संरचना HmdMatrix34_t m_Tracking_गन्तव्यम्_Component_Render_Model;
+	संरचना HmdMatrix34_t m_Tracking_गन्तव्यम्_Component_Local;
 	VRComponentProperties uProperties;
 } RenderModel_ComponentState_t;
 
-typedef struct HiddenAreaMesh_t
+प्रकारनिर्देश संरचना HiddenAreaMesh_t
 {
-	struct HmdVector2_t * pVertexData; // const struct vr::HmdVector2_t *
-	uint32_t unTriangleCount;
+	संरचना HmdVector2_t * p_Vertex_दत्त; // const struct vr::HmdVector2_t *
+	uint32_t un_Triangle_गणनम्;
 } HiddenAreaMesh_t;
 
-typedef struct VRControllerAxis_t
+प्रकारनिर्देश संरचना VRControllerAxis_t
 {
-	float x;
-	float y;
+	भिन्न x;
+	भिन्न y;
 } VRControllerAxis_t;
 
-typedef struct VRControllerState_t
+प्रकारनिर्देश संरचना VRControllerState_t
 {
-	uint32_t unPacketNum;
+	uint32_t un_Packet_अङ्कः;
 	uint64_t ulButtonPressed;
 	uint64_t ulButtonTouched;
-	struct VRControllerAxis_t rAxis[5]; //struct vr::VRControllerAxis_t[5]
+	संरचना VRControllerAxis_t rAxis[5]; //struct vr::VRControllerAxis_t[5]
 } VRControllerState_t;
 
-typedef struct CameraVideoStreamFrameHeader_t
+प्रकारनिर्देश संरचना Camera_Video_प्रवाहः_Frame_शीर्षकम्_t
 {
-	enum EVRTrackedCameraFrameType eFrameType;
-	uint32_t nWidth;
+	गणना EVRTrackedCameraFrameType eFrameType;
+	uint32_t n_विस्तारः;
 	uint32_t nHeight;
-	uint32_t nBytesPerPixel;
+	uint32_t n_अष्टकानि_प्रत्येकम्_Pixel;
 	uint32_t nFrameSequence;
-	struct TrackedDevicePose_t trackedDevicePose;
+	संरचना TrackedDevicePose_t trackedDevicePose;
 	uint64_t ulFrameExposureTime;
-} CameraVideoStreamFrameHeader_t;
+} Camera_Video_प्रवाहः_Frame_शीर्षकम्_t;
 
-typedef struct Compositor_FrameTiming
+प्रकारनिर्देश संरचना Compositor_FrameTiming
 {
-	uint32_t m_nSize;
-	uint32_t m_nFrameIndex;
-	uint32_t m_nNumFramePresents;
-	uint32_t m_nNumMisPresented;
-	uint32_t m_nNumDroppedFrames;
+	uint32_t m_n_आकार;
+	uint32_t m_n_Frame_सूचकांक;
+	uint32_t m_n_अङ्कः_Frame_Presents;
+	uint32_t m_n_अङ्कः_Mis_Presented;
+	uint32_t m_n_अङ्कः_Dropped_चौकटाः;
 	uint32_t m_nReprojectionFlags;
-	double m_flSystemTimeInSeconds;
-	float m_flPreSubmitGpuMs;
-	float m_flPostSubmitGpuMs;
-	float m_flTotalRenderGpuMs;
-	float m_flCompositorRenderGpuMs;
-	float m_flCompositorRenderCpuMs;
-	float m_flCompositorIdleCpuMs;
-	float m_flClientFrameIntervalMs;
-	float m_flPresentCallCpuMs;
-	float m_flWaitForPresentCpuMs;
-	float m_flSubmitFrameMs;
-	float m_flWaitGetPosesCalledMs;
-	float m_flNewPosesReadyMs;
-	float m_flNewFrameReadyMs;
-	float m_flCompositorUpdateStartMs;
-	float m_flCompositorUpdateEndMs;
-	float m_flCompositorRenderStartMs;
+	द्विगुण m_fl_System_Time_अन्तर्_Seconds;
+	भिन्न m_flPreSubmitGpuMs;
+	भिन्न m_flPostSubmitGpuMs;
+	भिन्न m_fl_योग_Render_Gpu_Ms;
+	भिन्न m_flCompositorRenderGpuMs;
+	भिन्न m_flCompositorRenderCpuMs;
+	भिन्न m_flCompositorIdleCpuMs;
+	भिन्न m_flClientFrameIntervalMs;
+	भिन्न m_flPresentCallCpuMs;
+	भिन्न m_flWaitForPresentCpuMs;
+	भिन्न m_flSubmitFrameMs;
+	भिन्न m_flWaitGetPosesCalledMs;
+	भिन्न m_flNewPosesReadyMs;
+	भिन्न m_flNewFrameReadyMs;
+	भिन्न m_flCompositorUpdateStartMs;
+	भिन्न m_fl_Compositor_Update_अन्तः_Ms;
+	भिन्न m_flCompositorRenderStartMs;
 	TrackedDevicePose_t m_HmdPose;
-	uint32_t m_nNumVSyncsReadyForUse;
-	uint32_t m_nNumVSyncsToFirstView;
+	uint32_t m_n_अङ्कः_VSyncs_Ready_For_Use;
+	uint32_t m_n_अङ्कः_VSyncs_गन्तव्यम्_First_View;
 } Compositor_FrameTiming;
 
-typedef struct Compositor_BenchmarkResults
+प्रकारनिर्देश संरचना Compositor_BenchmarkResults
 {
-	float m_flMegaPixelsPerSecond;
-	float m_flHmdRecommendedMegaPixelsPerSecond;
+	भिन्न m_fl_Mega_Pixels_प्रत्येकम्_Second;
+	भिन्न m_fl_Hmd_Recommended_Mega_Pixels_प्रत्येकम्_Second;
 } Compositor_BenchmarkResults;
 
-typedef struct DriverDirectMode_FrameTiming
+प्रकारनिर्देश संरचना Driver_प्रत्यक्षम्_बहुलकम्_Frame_Timing
 {
-	uint32_t m_nSize;
-	uint32_t m_nNumFramePresents;
-	uint32_t m_nNumMisPresented;
-	uint32_t m_nNumDroppedFrames;
+	uint32_t m_n_आकार;
+	uint32_t m_n_अङ्कः_Frame_Presents;
+	uint32_t m_n_अङ्कः_Mis_Presented;
+	uint32_t m_n_अङ्कः_Dropped_चौकटाः;
 	uint32_t m_nReprojectionFlags;
-} DriverDirectMode_FrameTiming;
+} Driver_प्रत्यक्षम्_बहुलकम्_Frame_Timing;
 
-typedef struct ImuSample_t
+प्रकारनिर्देश संरचना ImuSample_t
 {
-	double fSampleTime;
-	struct HmdVector3d_t vAccel;
-	struct HmdVector3d_t vGyro;
+	द्विगुण fSampleTime;
+	संरचना HmdVector3d_t vAccel;
+	संरचना HmdVector3d_t vGyro;
 	uint32_t unOffScaleFlags;
 } ImuSample_t;
 
-typedef struct AppOverrideKeys_t
+प्रकारनिर्देश संरचना App_Override_कुञ्चिकाः_t
 {
-	char * pchKey; // const char *
-	char * pchValue; // const char *
-} AppOverrideKeys_t;
+	वर्ण * pch_कुञ्चिका; // const char *
+	वर्ण * pch_मानम्; // const char *
+} App_Override_कुञ्चिकाः_t;
 
-typedef struct Compositor_CumulativeStats
+प्रकारनिर्देश संरचना Compositor_CumulativeStats
 {
 	uint32_t m_nPid;
-	uint32_t m_nNumFramePresents;
-	uint32_t m_nNumDroppedFrames;
-	uint32_t m_nNumReprojectedFrames;
-	uint32_t m_nNumFramePresentsOnStartup;
-	uint32_t m_nNumDroppedFramesOnStartup;
-	uint32_t m_nNumReprojectedFramesOnStartup;
-	uint32_t m_nNumLoading;
-	uint32_t m_nNumFramePresentsLoading;
-	uint32_t m_nNumDroppedFramesLoading;
-	uint32_t m_nNumReprojectedFramesLoading;
-	uint32_t m_nNumTimedOut;
-	uint32_t m_nNumFramePresentsTimedOut;
-	uint32_t m_nNumDroppedFramesTimedOut;
-	uint32_t m_nNumReprojectedFramesTimedOut;
-	uint32_t m_nNumFrameSubmits;
-	double m_flSumCompositorCPUTimeMS;
-	double m_flSumCompositorGPUTimeMS;
-	double m_flSumTargetFrameTimes;
-	double m_flSumApplicationCPUTimeMS;
-	double m_flSumApplicationGPUTimeMS;
+	uint32_t m_n_अङ्कः_Frame_Presents;
+	uint32_t m_n_अङ्कः_Dropped_चौकटाः;
+	uint32_t m_n_अङ्कः_Reprojected_चौकटाः;
+	uint32_t m_n_अङ्कः_Frame_Presents_On_Startup;
+	uint32_t m_n_अङ्कः_Dropped_चौकटाः_On_Startup;
+	uint32_t m_n_अङ्कः_Reprojected_चौकटाः_On_Startup;
+	uint32_t m_n_अङ्कः_Loading;
+	uint32_t m_n_अङ्कः_Frame_Presents_Loading;
+	uint32_t m_n_अङ्कः_Dropped_चौकटाः_Loading;
+	uint32_t m_n_अङ्कः_Reprojected_चौकटाः_Loading;
+	uint32_t m_n_अङ्कः_Timed_बहिर्गमनम्;
+	uint32_t m_n_अङ्कः_Frame_Presents_Timed_बहिर्गमनम्;
+	uint32_t m_n_अङ्कः_Dropped_चौकटाः_Timed_बहिर्गमनम्;
+	uint32_t m_n_अङ्कः_Reprojected_चौकटाः_Timed_बहिर्गमनम्;
+	uint32_t m_n_अङ्कः_Frame_Submits;
+	द्विगुण m_fl_योग_Compositor_CPUTime_MS;
+	द्विगुण m_fl_योग_Compositor_GPUTime_MS;
+	द्विगुण m_fl_योग_Target_Frame_Times;
+	द्विगुण m_fl_योग_Application_CPUTime_MS;
+	द्विगुण m_fl_योग_Application_GPUTime_MS;
 } Compositor_CumulativeStats;
 
-typedef struct Compositor_StageRenderSettings
+प्रकारनिर्देश संरचना Compositor_StageRenderSettings
 {
-	struct HmdColor_t m_PrimaryColor;
-	struct HmdColor_t m_SecondaryColor;
-	float m_flVignetteInnerRadius;
-	float m_flVignetteOuterRadius;
-	float m_flFresnelStrength;
+	संरचना HmdColor_t m_PrimaryColor;
+	संरचना HmdColor_t m_SecondaryColor;
+	भिन्न m_flVignetteInnerRadius;
+	भिन्न m_flVignetteOuterRadius;
+	भिन्न m_flFresnelStrength;
 	bool m_bBackfaceCulling;
 	bool m_bGreyscale;
 	bool m_bWireframe;
 } Compositor_StageRenderSettings;
 
-typedef struct VROverlayIntersectionParams_t
+प्रकारनिर्देश संरचना VROverlayIntersectionParams_t
 {
-	struct HmdVector3_t vSource;
-	struct HmdVector3_t vDirection;
-	enum ETrackingUniverseOrigin eOrigin;
+	संरचना HmdVector3_t vSource;
+	संरचना HmdVector3_t vDirection;
+	गणना ETrackingUniverseOrigin eOrigin;
 } VROverlayIntersectionParams_t;
 
-typedef struct VROverlayIntersectionResults_t
+प्रकारनिर्देश संरचना VROverlayIntersectionResults_t
 {
-	struct HmdVector3_t vPoint;
-	struct HmdVector3_t vNormal;
-	struct HmdVector2_t vUVs;
-	float fDistance;
+	संरचना HmdVector3_t vPoint;
+	संरचना HmdVector3_t v_प्रसामान्यम्;
+	संरचना HmdVector2_t vUVs;
+	भिन्न fDistance;
 } VROverlayIntersectionResults_t;
 
-typedef struct IntersectionMaskRectangle_t
+प्रकारनिर्देश संरचना Intersection_आवरणम्_Rectangle_t
 {
-	float m_flTopLeftX;
-	float m_flTopLeftY;
-	float m_flWidth;
-	float m_flHeight;
-} IntersectionMaskRectangle_t;
+	भिन्न m_fl_शिखरम्_वामः_X;
+	भिन्न m_fl_शिखरम्_वामः_Y;
+	भिन्न m_fl_विस्तारः;
+	भिन्न m_flHeight;
+} Intersection_आवरणम्_Rectangle_t;
 
-typedef struct IntersectionMaskCircle_t
+प्रकारनिर्देश संरचना Intersection_आवरणम्_Circle_t
 {
-	float m_flCenterX;
-	float m_flCenterY;
-	float m_flRadius;
-} IntersectionMaskCircle_t;
+	भिन्न m_flCenterX;
+	भिन्न m_flCenterY;
+	भिन्न m_flRadius;
+} Intersection_आवरणम्_Circle_t;
 
-typedef struct VROverlayProjection_t
+प्रकारनिर्देश संरचना VROverlayProjection_t
 {
-	float fLeft;
-	float fRight;
-	float fTop;
-	float fBottom;
+	भिन्न f_वामः;
+	भिन्न f_दक्षिणः;
+	भिन्न f_शिखरम्;
+	भिन्न fBottom;
 } VROverlayProjection_t;
 
-typedef struct VROverlayView_t
+प्रकारनिर्देश संरचना VROverlayView_t
 {
 	VROverlayHandle_t overlayHandle;
-	struct Texture_t texture;
-	struct VRTextureBounds_t textureBounds;
+	संरचना Texture_t texture;
+	संरचना VRTextureBounds_t textureBounds;
 } VROverlayView_t;
 
-typedef struct VRVulkanDevice_t
+प्रकारनिर्देश संरचना VRVulkanDevice_t
 {
-	struct VkInstance_T * m_pInstance; // struct VkInstance_T *
-	struct VkDevice_T * m_pDevice; // struct VkDevice_T *
-	struct VkPhysicalDevice_T * m_pPhysicalDevice; // struct VkPhysicalDevice_T *
-	struct VkQueue_T * m_pQueue; // struct VkQueue_T *
-	uint32_t m_uQueueFamilyIndex;
+	संरचना VkInstance_T * m_pInstance; // struct VkInstance_T *
+	संरचना VkDevice_T * m_pDevice; // struct VkDevice_T *
+	संरचना VkPhysicalDevice_T * m_pPhysicalDevice; // struct VkPhysicalDevice_T *
+	संरचना VkQueue_T * m_pQueue; // struct VkQueue_T *
+	uint32_t m_u_Queue_Family_सूचकांक;
 } VRVulkanDevice_t;
 
-typedef struct VRNativeDevice_t
+प्रकारनिर्देश संरचना VRNativeDevice_t
 {
-	void * handle; // void *
-	enum EDeviceType eType;
+	शून्य * handle; // void *
+	गणना EDeviceType eType;
 } VRNativeDevice_t;
 
-typedef struct RenderModel_Vertex_t
+प्रकारनिर्देश संरचना RenderModel_Vertex_t
 {
-	struct HmdVector3_t vPosition;
-	struct HmdVector3_t vNormal;
-	float rfTextureCoord[2]; //float[2]
+	संरचना HmdVector3_t vPosition;
+	संरचना HmdVector3_t v_प्रसामान्यम्;
+	भिन्न rfTextureCoord[2]; //float[2]
 } RenderModel_Vertex_t;
 
-#if defined(__linux__) || defined(__APPLE__)
-#pragma pack( push, 4 )
-#endif
-typedef struct RenderModel_TextureMap_t
+#यदि defined(__linux__) || defined(__APPLE__)
+#निर्देशः pack( प्रक्षिप, 4 )
+#यदि_अन्तः
+प्रकारनिर्देश संरचना RenderModel_TextureMap_t
 {
-	uint16_t unWidth;
+	uint16_t un_विस्तारः;
 	uint16_t unHeight;
-	uint8_t * rubTextureMapData; // const uint8_t *
-	enum EVRRenderModelTextureFormat format;
-	uint16_t unMipLevels;
+	uint8_t * rub_Texture_Map_दत्त; // const uint8_t *
+	गणना EVRRenderModelTextureFormat format;
+	uint16_t un_Mip_स्तराः;
 } RenderModel_TextureMap_t;
 
-#if defined(__linux__) || defined(__APPLE__)
-#pragma pack( pop )
-#endif
-#if defined(__linux__) || defined(__APPLE__)
-#pragma pack( push, 4 )
-#endif
-typedef struct RenderModel_t
+#यदि defined(__linux__) || defined(__APPLE__)
+#निर्देशः pack( निष्कासय )
+#यदि_अन्तः
+#यदि defined(__linux__) || defined(__APPLE__)
+#निर्देशः pack( प्रक्षिप, 4 )
+#यदि_अन्तः
+प्रकारनिर्देश संरचना RenderModel_t
 {
-	struct RenderModel_Vertex_t * rVertexData; // const struct vr::RenderModel_Vertex_t *
-	uint32_t unVertexCount;
-	uint16_t * rIndexData; // const uint16_t *
-	uint32_t unTriangleCount;
+	संरचना RenderModel_Vertex_t * r_Vertex_दत्त; // const struct vr::RenderModel_Vertex_t *
+	uint32_t un_Vertex_गणनम्;
+	uint16_t * r_सूचकांक_दत्त; // const uint16_t *
+	uint32_t un_Triangle_गणनम्;
 	TextureID_t diffuseTextureId;
 } RenderModel_t;
 
-#if defined(__linux__) || defined(__APPLE__)
-#pragma pack( pop )
-#endif
-typedef struct RenderModel_ControllerMode_State_t
+#यदि defined(__linux__) || defined(__APPLE__)
+#निर्देशः pack( निष्कासय )
+#यदि_अन्तः
+प्रकारनिर्देश संरचना Render_Model_Controller_बहुलकम्_State_t
 {
 	bool bScrollWheelVisible;
-} RenderModel_ControllerMode_State_t;
+} Render_Model_Controller_बहुलकम्_State_t;
 
-typedef struct NotificationBitmap_t
+प्रकारनिर्देश संरचना NotificationBitmap_t
 {
-	void * m_pImageData; // void *
-	int32_t m_nWidth;
+	शून्य * m_p_Image_दत्त; // void *
+	int32_t m_n_विस्तारः;
 	int32_t m_nHeight;
-	int32_t m_nBytesPerPixel;
+	int32_t m_n_अष्टकानि_प्रत्येकम्_Pixel;
 } NotificationBitmap_t;
 
-typedef struct CVRSettingHelper
+प्रकारनिर्देश संरचना CVRSettingHelper
 {
 	intptr_t m_pSettings; // class vr::IVRSettings *
 } CVRSettingHelper;
 
-typedef struct InputAnalogActionData_t
+प्रकारनिर्देश संरचना निवेशः_Analog_Action_दत्त_t
 {
-	bool bActive;
-	VRInputValueHandle_t activeOrigin;
-	float x;
-	float y;
-	float z;
-	float deltaX;
-	float deltaY;
-	float deltaZ;
-	float fUpdateTime;
-} InputAnalogActionData_t;
+	bool b_सक्रिय;
+	VRInput_मानम्_Handle_t सक्रिय_Origin;
+	भिन्न x;
+	भिन्न y;
+	भिन्न z;
+	भिन्न deltaX;
+	भिन्न deltaY;
+	भिन्न deltaZ;
+	भिन्न fUpdateTime;
+} निवेशः_Analog_Action_दत्त_t;
 
-typedef struct InputDigitalActionData_t
+प्रकारनिर्देश संरचना निवेशः_Digital_Action_दत्त_t
 {
-	bool bActive;
-	VRInputValueHandle_t activeOrigin;
+	bool b_सक्रिय;
+	VRInput_मानम्_Handle_t सक्रिय_Origin;
 	bool bState;
-	bool bChanged;
-	float fUpdateTime;
-} InputDigitalActionData_t;
+	bool b_परिवर्तितम्;
+	भिन्न fUpdateTime;
+} निवेशः_Digital_Action_दत्त_t;
 
-typedef struct InputPoseActionData_t
+प्रकारनिर्देश संरचना निवेशः_Pose_Action_दत्त_t
 {
-	bool bActive;
-	VRInputValueHandle_t activeOrigin;
-	struct TrackedDevicePose_t pose;
-} InputPoseActionData_t;
+	bool b_सक्रिय;
+	VRInput_मानम्_Handle_t सक्रिय_Origin;
+	संरचना TrackedDevicePose_t pose;
+} निवेशः_Pose_Action_दत्त_t;
 
-typedef struct InputSkeletalActionData_t
+प्रकारनिर्देश संरचना निवेशः_Skeletal_Action_दत्त_t
 {
-	bool bActive;
-	VRInputValueHandle_t activeOrigin;
-} InputSkeletalActionData_t;
+	bool b_सक्रिय;
+	VRInput_मानम्_Handle_t सक्रिय_Origin;
+} निवेशः_Skeletal_Action_दत्त_t;
 
-typedef struct InputOriginInfo_t
+प्रकारनिर्देश संरचना निवेशः_Origin_Info_t
 {
-	VRInputValueHandle_t devicePath;
-	TrackedDeviceIndex_t trackedDeviceIndex;
-	char rchRenderModelComponentName[128]; //char[128]
-} InputOriginInfo_t;
+	VRInput_मानम्_Handle_t device_मार्गः;
+	Tracked_Device_सूचकांक_t tracked_Device_सूचकांक;
+	वर्ण rchRenderModelComponentName[128]; //char[128]
+} निवेशः_Origin_Info_t;
 
-typedef struct InputBindingInfo_t
+प्रकारनिर्देश संरचना निवेशः_Binding_Info_t
 {
-	char rchDevicePathName[128]; //char[128]
-	char rchInputPathName[128]; //char[128]
-	char rchModeName[128]; //char[128]
-	char rchSlotName[128]; //char[128]
-	char rchInputSourceType[32]; //char[32]
-} InputBindingInfo_t;
+	वर्ण rch_Device_मार्गः_Name[128]; //char[128]
+	वर्ण rch_निवेशः_मार्गः_Name[128]; //char[128]
+	वर्ण rch_बहुलकम्_Name[128]; //char[128]
+	वर्ण rchSlotName[128]; //char[128]
+	वर्ण rch_निवेशः_Source_Type[32]; //char[32]
+} निवेशः_Binding_Info_t;
 
-typedef struct VRActiveActionSet_t
+प्रकारनिर्देश संरचना VRActive_Action_समुच्चयः_t
 {
-	VRActionSetHandle_t ulActionSet;
-	VRInputValueHandle_t ulRestrictedToDevice;
-	VRActionSetHandle_t ulSecondaryActionSet;
+	VRAction_समुच्चयः_Handle_t ul_Action_समुच्चयः;
+	VRInput_मानम्_Handle_t ul_Restricted_गन्तव्यम्_Device;
+	VRAction_समुच्चयः_Handle_t ul_Secondary_Action_समुच्चयः;
 	uint32_t unPadding;
-	int32_t nPriority;
-} VRActiveActionSet_t;
+	int32_t n_प्राथमिकता;
+} VRActive_Action_समुच्चयः_t;
 
-typedef struct VRSkeletalSummaryData_t
+प्रकारनिर्देश संरचना VRSkeletal_Summary_दत्त_t
 {
-	float flFingerCurl[5]; //float[5]
-	float flFingerSplay[4]; //float[4]
-} VRSkeletalSummaryData_t;
+	भिन्न flFingerCurl[5]; //float[5]
+	भिन्न flFingerSplay[4]; //float[4]
+} VRSkeletal_Summary_दत्त_t;
 
-typedef struct SpatialAnchorPose_t
+प्रकारनिर्देश संरचना SpatialAnchorPose_t
 {
-	struct HmdMatrix34_t mAnchorToAbsoluteTracking;
+	संरचना HmdMatrix34_t m_Anchor_गन्तव्यम्_Absolute_Tracking;
 } SpatialAnchorPose_t;
 
-typedef struct COpenVRContext
+प्रकारनिर्देश संरचना COpenVRContext
 {
 	intptr_t m_pVRSystem; // class vr::IVRSystem *
 	intptr_t m_pVRChaperone; // class vr::IVRChaperone *
-	intptr_t m_pVRChaperoneSetup; // class vr::IVRChaperoneSetup *
+	intptr_t m_p_VRChaperone_सज्जता; // class vr::IVRChaperoneSetup *
 	intptr_t m_pVRCompositor; // class vr::IVRCompositor *
 	intptr_t m_pVRHeadsetView; // class vr::IVRHeadsetView *
 	intptr_t m_pVROverlay; // class vr::IVROverlay *
@@ -2600,57 +2600,57 @@ typedef struct COpenVRContext
 	intptr_t m_pVRNotifications; // class vr::IVRNotifications *
 } COpenVRContext;
 
-typedef struct PropertyWrite_t
+प्रकारनिर्देश संरचना PropertyWrite_t
 {
-	enum ETrackedDeviceProperty prop;
-	enum EPropertyWriteType writeType;
-	enum ETrackedPropertyError eSetError;
-	void * pvBuffer; // void *
-	uint32_t unBufferSize;
-	PropertyTypeTag_t unTag;
-	enum ETrackedPropertyError eError;
+	गणना ETrackedDeviceProperty prop;
+	गणना EPropertyWriteType writeType;
+	गणना ETrackedPropertyError e_समुच्चयः_Error;
+	शून्य * pv_बफर; // void *
+	uint32_t un_बफर_आकार;
+	Property_Type_चिह्नकम्_t un_चिह्नकम्;
+	गणना ETrackedPropertyError eError;
 } PropertyWrite_t;
 
-typedef struct PropertyRead_t
+प्रकारनिर्देश संरचना PropertyRead_t
 {
-	enum ETrackedDeviceProperty prop;
-	void * pvBuffer; // void *
-	uint32_t unBufferSize;
-	PropertyTypeTag_t unTag;
-	uint32_t unRequiredBufferSize;
-	enum ETrackedPropertyError eError;
+	गणना ETrackedDeviceProperty prop;
+	शून्य * pv_बफर; // void *
+	uint32_t un_बफर_आकार;
+	Property_Type_चिह्नकम्_t un_चिह्नकम्;
+	uint32_t un_Required_बफर_आकार;
+	गणना ETrackedPropertyError eError;
 } PropertyRead_t;
 
-typedef struct CVRPropertyHelpers
+प्रकारनिर्देश संरचना CVRPropertyHelpers
 {
 	intptr_t m_pProperties; // class vr::IVRProperties *
 } CVRPropertyHelpers;
 
-typedef struct PathWrite_t
+प्रकारनिर्देश संरचना मार्गः_Write_t
 {
-	PathHandle_t ulPath;
-	enum EPropertyWriteType writeType;
-	enum ETrackedPropertyError eSetError;
-	void * pvBuffer; // void *
-	uint32_t unBufferSize;
-	PropertyTypeTag_t unTag;
-	enum ETrackedPropertyError eError;
-	char * pszPath; // const char *
-} PathWrite_t;
+	मार्गः_Handle_t ul_मार्गः;
+	गणना EPropertyWriteType writeType;
+	गणना ETrackedPropertyError e_समुच्चयः_Error;
+	शून्य * pv_बफर; // void *
+	uint32_t un_बफर_आकार;
+	Property_Type_चिह्नकम्_t un_चिह्नकम्;
+	गणना ETrackedPropertyError eError;
+	वर्ण * psz_मार्गः; // const char *
+} मार्गः_Write_t;
 
-typedef struct PathRead_t
+प्रकारनिर्देश संरचना मार्गः_Read_t
 {
-	PathHandle_t ulPath;
-	void * pvBuffer; // void *
-	uint32_t unBufferSize;
-	PropertyTypeTag_t unTag;
-	uint32_t unRequiredBufferSize;
-	enum ETrackedPropertyError eError;
-	char * pszPath; // const char *
-} PathRead_t;
+	मार्गः_Handle_t ul_मार्गः;
+	शून्य * pv_बफर; // void *
+	uint32_t un_बफर_आकार;
+	Property_Type_चिह्नकम्_t un_चिह्नकम्;
+	uint32_t un_Required_बफर_आकार;
+	गणना ETrackedPropertyError eError;
+	वर्ण * psz_मार्गः; // const char *
+} मार्गः_Read_t;
 
 
-typedef union
+प्रकारनिर्देश सङ्घ
 {
 	VREvent_Reserved_t reserved;
 	VREvent_Controller_t controller;
@@ -2659,7 +2659,7 @@ typedef union
 	VREvent_Process_t process;
 	VREvent_Notification_t notification;
 	VREvent_Overlay_t overlay;
-	VREvent_Status_t status;
+	VREvent_स्थितिः_t स्थितिः;
 	VREvent_Keyboard_t keyboard;
 	VREvent_Ipd_t ipd;
 	VREvent_Chaperone_t chaperone;
@@ -2667,534 +2667,534 @@ typedef union
 	VREvent_TouchPadMove_t touchPadMove;
 	VREvent_SeatedZeroPoseReset_t seatedZeroPoseReset;
 	VREvent_Screenshot_t screenshot;
-	VREvent_ScreenshotProgress_t screenshotProgress;
+	VREvent_Screenshot_प्रगतिः_t screenshot_प्रगतिः;
 	VREvent_ApplicationLaunch_t applicationLaunch;
 	VREvent_EditingCameraSurface_t cameraSurface;
-	VREvent_MessageOverlay_t messageOverlay;
+	VREvent_सन्देशः_Overlay_t सन्देशः_Overlay;
 	VREvent_Property_t property;
 	VREvent_HapticVibration_t hapticVibration;
 	VREvent_WebConsole_t webConsole;
-	VREvent_InputBindingLoad_t inputBinding;
-	VREvent_InputActionManifestLoad_t actionManifest;
+	VREvent_निवेशः_Binding_आरोपय_t निवेशः_Binding;
+	VREvent_निवेशः_Action_Manifest_आरोपय_t actionManifest;
 	VREvent_SpatialAnchor_t spatialAnchor;
-} VREvent_Data_t;
+} VREvent_दत्त_t;
 
-#if defined(__linux__) || defined(__APPLE__) 
+#यदि defined(__linux__) || defined(__APPLE__) 
 // This structure was originally defined mis-packed on Linux, preserved for 
 // compatibility. 
-#pragma pack( push, 4 )
-#endif
+#निर्देशः pack( प्रक्षिप, 4 )
+#यदि_अन्तः
 
 /** An event posted by the server to all running applications */
-struct VREvent_t
+संरचना VREvent_t
 {
 	uint32_t eventType; // EVREventType enum
-	TrackedDeviceIndex_t trackedDeviceIndex;
-	float eventAgeSeconds;
+	Tracked_Device_सूचकांक_t tracked_Device_सूचकांक;
+	भिन्न eventAgeSeconds;
 	// event data must be the end of the struct as its size is variable
-	VREvent_Data_t data;
+	VREvent_दत्त_t दत्त;
 };
 
-#if defined(__linux__) || defined(__APPLE__) 
-#pragma pack( pop )
-#endif
+#यदि defined(__linux__) || defined(__APPLE__) 
+#निर्देशः pack( निष्कासय )
+#यदि_अन्तः
 
 
-typedef union
+प्रकारनिर्देश सङ्घ
 {
-	IntersectionMaskRectangle_t m_Rectangle;
-	IntersectionMaskCircle_t m_Circle;
-} VROverlayIntersectionMaskPrimitive_Data_t;
+	Intersection_आवरणम्_Rectangle_t m_Rectangle;
+	Intersection_आवरणम्_Circle_t m_Circle;
+} VROverlay_Intersection_आवरणम्_Primitive_दत्त_t;
 
-struct VROverlayIntersectionMaskPrimitive_t
+संरचना VROverlay_Intersection_आवरणम्_Primitive_t
 {
-	EVROverlayIntersectionMaskPrimitiveType m_nPrimitiveType;
-	VROverlayIntersectionMaskPrimitive_Data_t m_Primitive;
+	EVROverlay_Intersection_आवरणम्_Primitive_Type m_nPrimitiveType;
+	VROverlay_Intersection_आवरणम्_Primitive_दत्त_t m_Primitive;
 };
 
 
 // OpenVR Function Pointer Tables
 
-struct VR_IVRSystem_FnTable
+संरचना VR_IVRSystem_Fn_सारणी
 {
-	void (OPENVR_FNTABLE_CALLTYPE *GetRecommendedRenderTargetSize)(uint32_t * pnWidth, uint32_t * pnHeight);
-	struct HmdMatrix44_t (OPENVR_FNTABLE_CALLTYPE *GetProjectionMatrix)(EVREye eEye, float fNearZ, float fFarZ);
-	void (OPENVR_FNTABLE_CALLTYPE *GetProjectionRaw)(EVREye eEye, float * pfLeft, float * pfRight, float * pfTop, float * pfBottom);
-	bool (OPENVR_FNTABLE_CALLTYPE *ComputeDistortion)(EVREye eEye, float fU, float fV, struct DistortionCoordinates_t * pDistortionCoordinates);
-	struct HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *GetEyeToHeadTransform)(EVREye eEye);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetTimeSinceLastVsync)(float * pfSecondsSinceLastVsync, uint64_t * pulFrameCounter);
-	int32_t (OPENVR_FNTABLE_CALLTYPE *GetD3D9AdapterIndex)();
-	void (OPENVR_FNTABLE_CALLTYPE *GetDXGIOutputInfo)(int32_t * pnAdapterIndex);
-	void (OPENVR_FNTABLE_CALLTYPE *GetOutputDevice)(uint64_t * pnDevice, ETextureType textureType, struct VkInstance_T * pInstance);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Get_Recommended_Render_Target_आकार)(uint32_t * pn_विस्तारः, uint32_t * pnHeight);
+	संरचना HmdMatrix44_t (OPENVR_FNTABLE_CALLTYPE *GetProjectionMatrix)(EVREye eEye, भिन्न fNearZ, भिन्न fFarZ);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetProjectionRaw)(EVREye eEye, भिन्न * pf_वामः, भिन्न * pf_दक्षिणः, भिन्न * pf_शिखरम्, भिन्न * pfBottom);
+	bool (OPENVR_FNTABLE_CALLTYPE *ComputeDistortion)(EVREye eEye, भिन्न fU, भिन्न fV, संरचना DistortionCoordinates_t * pDistortionCoordinates);
+	संरचना HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *Get_Eye_गन्तव्यम्_शीर्ष_Transform)(EVREye eEye);
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_Time_Since_चरमः_Vsync)(भिन्न * pf_Seconds_Since_चरमः_Vsync, uint64_t * pul_Frame_गणक);
+	int32_t (OPENVR_FNTABLE_CALLTYPE *Get_D3_D9_Adapter_सूचकांक)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetDXGIOutputInfo)(int32_t * pn_Adapter_सूचकांक);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetOutputDevice)(uint64_t * pnDevice, ETextureType textureType, संरचना VkInstance_T * pInstance);
 	bool (OPENVR_FNTABLE_CALLTYPE *IsDisplayOnDesktop)();
-	bool (OPENVR_FNTABLE_CALLTYPE *SetDisplayVisibility)(bool bIsVisibleOnDesktop);
-	void (OPENVR_FNTABLE_CALLTYPE *GetDeviceToAbsoluteTrackingPose)(ETrackingUniverseOrigin eOrigin, float fPredictedSecondsToPhotonsFromNow, struct TrackedDevicePose_t * pTrackedDevicePoseArray, uint32_t unTrackedDevicePoseArrayCount);
-	struct HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *GetSeatedZeroPoseToStandingAbsoluteTrackingPose)();
-	struct HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *GetRawZeroPoseToStandingAbsoluteTrackingPose)();
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetSortedTrackedDeviceIndicesOfClass)(ETrackedDeviceClass eTrackedDeviceClass, TrackedDeviceIndex_t * punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex);
-	EDeviceActivityLevel (OPENVR_FNTABLE_CALLTYPE *GetTrackedDeviceActivityLevel)(TrackedDeviceIndex_t unDeviceId);
-	void (OPENVR_FNTABLE_CALLTYPE *ApplyTransform)(struct TrackedDevicePose_t * pOutputPose, struct TrackedDevicePose_t * pTrackedDevicePose, struct HmdMatrix34_t * pTransform);
-	TrackedDeviceIndex_t (OPENVR_FNTABLE_CALLTYPE *GetTrackedDeviceIndexForControllerRole)(ETrackedControllerRole unDeviceType);
-	ETrackedControllerRole (OPENVR_FNTABLE_CALLTYPE *GetControllerRoleForTrackedDeviceIndex)(TrackedDeviceIndex_t unDeviceIndex);
-	ETrackedDeviceClass (OPENVR_FNTABLE_CALLTYPE *GetTrackedDeviceClass)(TrackedDeviceIndex_t unDeviceIndex);
-	bool (OPENVR_FNTABLE_CALLTYPE *IsTrackedDeviceConnected)(TrackedDeviceIndex_t unDeviceIndex);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetBoolTrackedDeviceProperty)(TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
-	float (OPENVR_FNTABLE_CALLTYPE *GetFloatTrackedDeviceProperty)(TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
-	int32_t (OPENVR_FNTABLE_CALLTYPE *GetInt32TrackedDeviceProperty)(TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
-	uint64_t (OPENVR_FNTABLE_CALLTYPE *GetUint64TrackedDeviceProperty)(TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
-	struct HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *GetMatrix34TrackedDeviceProperty)(TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetArrayTrackedDeviceProperty)(TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void * pBuffer, uint32_t unBufferSize, ETrackedPropertyError * pError);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetStringTrackedDeviceProperty)(TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, char * pchValue, uint32_t unBufferSize, ETrackedPropertyError * pError);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetPropErrorNameFromEnum)(ETrackedPropertyError error);
-	bool (OPENVR_FNTABLE_CALLTYPE *PollNextEvent)(struct VREvent_t * pEvent, uint32_t uncbVREvent);
-	bool (OPENVR_FNTABLE_CALLTYPE *PollNextEventWithPose)(ETrackingUniverseOrigin eOrigin, struct VREvent_t * pEvent, uint32_t uncbVREvent, TrackedDevicePose_t * pTrackedDevicePose);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetEventTypeNameFromEnum)(EVREventType eType);
-	struct HiddenAreaMesh_t (OPENVR_FNTABLE_CALLTYPE *GetHiddenAreaMesh)(EVREye eEye, EHiddenAreaMeshType type);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetControllerState)(TrackedDeviceIndex_t unControllerDeviceIndex, VRControllerState_t * pControllerState, uint32_t unControllerStateSize);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetControllerStateWithPose)(ETrackingUniverseOrigin eOrigin, TrackedDeviceIndex_t unControllerDeviceIndex, VRControllerState_t * pControllerState, uint32_t unControllerStateSize, struct TrackedDevicePose_t * pTrackedDevicePose);
-	void (OPENVR_FNTABLE_CALLTYPE *TriggerHapticPulse)(TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetButtonIdNameFromEnum)(EVRButtonId eButtonId);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetControllerAxisTypeNameFromEnum)(EVRControllerAxisType eAxisType);
-	bool (OPENVR_FNTABLE_CALLTYPE *IsInputAvailable)();
+	bool (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Display_Visibility)(bool bIsVisibleOnDesktop);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Get_Device_गन्तव्यम्_Absolute_Tracking_Pose)(ETrackingUniverseOrigin eOrigin, भिन्न f_Predicted_Seconds_गन्तव्यम्_Photons_From_Now, संरचना TrackedDevicePose_t * pTrackedDevicePoseArray, uint32_t un_Tracked_Device_Pose_Array_गणनम्);
+	संरचना HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *Get_Seated_Zero_Pose_गन्तव्यम्_Standing_Absolute_Tracking_Pose)();
+	संरचना HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *Get_Raw_Zero_Pose_गन्तव्यम्_Standing_Absolute_Tracking_Pose)();
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Sorted_Tracked_Device_Indices_सम्बन्धि_Class)(ETrackedDeviceClass eTrackedDeviceClass, Tracked_Device_सूचकांक_t * pun_Tracked_Device_सूचकांक_Array, uint32_t un_Tracked_Device_सूचकांक_Array_गणनम्, Tracked_Device_सूचकांक_t un_Relative_गन्तव्यम्_Tracked_Device_सूचकांक);
+	EDeviceActivityLevel (OPENVR_FNTABLE_CALLTYPE *GetTrackedDeviceActivityLevel)(Tracked_Device_सूचकांक_t unDeviceId);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ApplyTransform)(संरचना TrackedDevicePose_t * pOutputPose, संरचना TrackedDevicePose_t * pTrackedDevicePose, संरचना HmdMatrix34_t * pTransform);
+	Tracked_Device_सूचकांक_t (OPENVR_FNTABLE_CALLTYPE *Get_Tracked_Device_सूचकांक_For_Controller_Role)(ETrackedControllerRole unDeviceType);
+	ETrackedControllerRole (OPENVR_FNTABLE_CALLTYPE *Get_Controller_Role_For_Tracked_Device_सूचकांक)(Tracked_Device_सूचकांक_t un_Device_सूचकांक);
+	ETrackedDeviceClass (OPENVR_FNTABLE_CALLTYPE *GetTrackedDeviceClass)(Tracked_Device_सूचकांक_t un_Device_सूचकांक);
+	bool (OPENVR_FNTABLE_CALLTYPE *IsTrackedDeviceConnected)(Tracked_Device_सूचकांक_t un_Device_सूचकांक);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetBoolTrackedDeviceProperty)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
+	भिन्न (OPENVR_FNTABLE_CALLTYPE *GetFloatTrackedDeviceProperty)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
+	int32_t (OPENVR_FNTABLE_CALLTYPE *GetInt32TrackedDeviceProperty)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
+	uint64_t (OPENVR_FNTABLE_CALLTYPE *GetUint64TrackedDeviceProperty)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
+	संरचना HmdMatrix34_t (OPENVR_FNTABLE_CALLTYPE *GetMatrix34TrackedDeviceProperty)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackedDeviceProperty prop, ETrackedPropertyError * pError);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetArrayTrackedDeviceProperty)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackedDeviceProperty prop, Property_Type_चिह्नकम्_t propType, शून्य * p_बफर, uint32_t un_बफर_आकार, ETrackedPropertyError * pError);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetStringTrackedDeviceProperty)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackedDeviceProperty prop, वर्ण * pch_मानम्, uint32_t un_बफर_आकार, ETrackedPropertyError * pError);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetPropErrorNameFromEnum)(ETrackedPropertyError error);
+	bool (OPENVR_FNTABLE_CALLTYPE *Poll_अग्र_Event)(संरचना VREvent_t * pEvent, uint32_t uncbVREvent);
+	bool (OPENVR_FNTABLE_CALLTYPE *Poll_अग्र_Event_With_Pose)(ETrackingUniverseOrigin eOrigin, संरचना VREvent_t * pEvent, uint32_t uncbVREvent, TrackedDevicePose_t * pTrackedDevicePose);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetEventTypeNameFromEnum)(EVREventType eType);
+	संरचना HiddenAreaMesh_t (OPENVR_FNTABLE_CALLTYPE *GetHiddenAreaMesh)(EVREye eEye, EHiddenAreaMeshType type);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetControllerState)(Tracked_Device_सूचकांक_t un_Controller_Device_सूचकांक, VRControllerState_t * pControllerState, uint32_t un_Controller_State_आकार);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetControllerStateWithPose)(ETrackingUniverseOrigin eOrigin, Tracked_Device_सूचकांक_t un_Controller_Device_सूचकांक, VRControllerState_t * pControllerState, uint32_t un_Controller_State_आकार, संरचना TrackedDevicePose_t * pTrackedDevicePose);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *TriggerHapticPulse)(Tracked_Device_सूचकांक_t un_Controller_Device_सूचकांक, uint32_t unAxisId, अचिह्नित ह्रस्व usDurationMicroSec);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetButtonIdNameFromEnum)(EVRButtonId eButtonId);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetControllerAxisTypeNameFromEnum)(EVRControllerAxisType eAxisType);
+	bool (OPENVR_FNTABLE_CALLTYPE *Is_निवेशः_उपलब्धम्)();
 	bool (OPENVR_FNTABLE_CALLTYPE *IsSteamVRDrawingControllers)();
 	bool (OPENVR_FNTABLE_CALLTYPE *ShouldApplicationPause)();
 	bool (OPENVR_FNTABLE_CALLTYPE *ShouldApplicationReduceRenderingWork)();
-	EVRFirmwareError (OPENVR_FNTABLE_CALLTYPE *PerformFirmwareUpdate)(TrackedDeviceIndex_t unDeviceIndex);
-	void (OPENVR_FNTABLE_CALLTYPE *AcknowledgeQuit_Exiting)();
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetAppContainerFilePaths)(char * pchBuffer, uint32_t unBufferSize);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetRuntimeVersion)();
+	EVRFirmwareError (OPENVR_FNTABLE_CALLTYPE *PerformFirmwareUpdate)(Tracked_Device_सूचकांक_t un_Device_सूचकांक);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *AcknowledgeQuit_Exiting)();
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetAppContainerFilePaths)(वर्ण * pch_बफर, uint32_t un_बफर_आकार);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *Get_Runtime_संस्करणम्)();
 };
 
-struct VR_IVRExtendedDisplay_FnTable
+संरचना VR_IVRExtended_Display_Fn_सारणी
 {
-	void (OPENVR_FNTABLE_CALLTYPE *GetWindowBounds)(int32_t * pnX, int32_t * pnY, uint32_t * pnWidth, uint32_t * pnHeight);
-	void (OPENVR_FNTABLE_CALLTYPE *GetEyeOutputViewport)(EVREye eEye, uint32_t * pnX, uint32_t * pnY, uint32_t * pnWidth, uint32_t * pnHeight);
-	void (OPENVR_FNTABLE_CALLTYPE *GetDXGIOutputInfo)(int32_t * pnAdapterIndex, int32_t * pnAdapterOutputIndex);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Get_गवाक्षः_Bounds)(int32_t * pnX, int32_t * pnY, uint32_t * pn_विस्तारः, uint32_t * pnHeight);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetEyeOutputViewport)(EVREye eEye, uint32_t * pnX, uint32_t * pnY, uint32_t * pn_विस्तारः, uint32_t * pnHeight);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetDXGIOutputInfo)(int32_t * pn_Adapter_सूचकांक, int32_t * pn_Adapter_Output_सूचकांक);
 };
 
-struct VR_IVRTrackedCamera_FnTable
+संरचना VR_IVRTracked_Camera_Fn_सारणी
 {
-	char * (OPENVR_FNTABLE_CALLTYPE *GetCameraErrorNameFromEnum)(EVRTrackedCameraError eCameraError);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *HasCamera)(TrackedDeviceIndex_t nDeviceIndex, bool * pHasCamera);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetCameraFrameSize)(TrackedDeviceIndex_t nDeviceIndex, EVRTrackedCameraFrameType eFrameType, uint32_t * pnWidth, uint32_t * pnHeight, uint32_t * pnFrameBufferSize);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetCameraIntrinsics)(TrackedDeviceIndex_t nDeviceIndex, uint32_t nCameraIndex, EVRTrackedCameraFrameType eFrameType, HmdVector2_t * pFocalLength, HmdVector2_t * pCenter);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetCameraProjection)(TrackedDeviceIndex_t nDeviceIndex, uint32_t nCameraIndex, EVRTrackedCameraFrameType eFrameType, float flZNear, float flZFar, HmdMatrix44_t * pProjection);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *AcquireVideoStreamingService)(TrackedDeviceIndex_t nDeviceIndex, TrackedCameraHandle_t * pHandle);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetCameraErrorNameFromEnum)(EVRTrackedCameraError eCameraError);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *HasCamera)(Tracked_Device_सूचकांक_t n_Device_सूचकांक, bool * pHasCamera);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *Get_Camera_Frame_आकार)(Tracked_Device_सूचकांक_t n_Device_सूचकांक, EVRTrackedCameraFrameType eFrameType, uint32_t * pn_विस्तारः, uint32_t * pnHeight, uint32_t * pn_Frame_बफर_आकार);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetCameraIntrinsics)(Tracked_Device_सूचकांक_t n_Device_सूचकांक, uint32_t n_Camera_सूचकांक, EVRTrackedCameraFrameType eFrameType, HmdVector2_t * p_Focal_दीर्घता, HmdVector2_t * pCenter);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetCameraProjection)(Tracked_Device_सूचकांक_t n_Device_सूचकांक, uint32_t n_Camera_सूचकांक, EVRTrackedCameraFrameType eFrameType, भिन्न flZNear, भिन्न flZFar, HmdMatrix44_t * pProjection);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *AcquireVideoStreamingService)(Tracked_Device_सूचकांक_t n_Device_सूचकांक, TrackedCameraHandle_t * pHandle);
 	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *ReleaseVideoStreamingService)(TrackedCameraHandle_t hTrackedCamera);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetVideoStreamFrameBuffer)(TrackedCameraHandle_t hTrackedCamera, EVRTrackedCameraFrameType eFrameType, void * pFrameBuffer, uint32_t nFrameBufferSize, CameraVideoStreamFrameHeader_t * pFrameHeader, uint32_t nFrameHeaderSize);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetVideoStreamTextureSize)(TrackedDeviceIndex_t nDeviceIndex, EVRTrackedCameraFrameType eFrameType, VRTextureBounds_t * pTextureBounds, uint32_t * pnWidth, uint32_t * pnHeight);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetVideoStreamTextureD3D11)(TrackedCameraHandle_t hTrackedCamera, EVRTrackedCameraFrameType eFrameType, void * pD3D11DeviceOrResource, void ** ppD3D11ShaderResourceView, CameraVideoStreamFrameHeader_t * pFrameHeader, uint32_t nFrameHeaderSize);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *GetVideoStreamTextureGL)(TrackedCameraHandle_t hTrackedCamera, EVRTrackedCameraFrameType eFrameType, glUInt_t * pglTextureId, CameraVideoStreamFrameHeader_t * pFrameHeader, uint32_t nFrameHeaderSize);
-	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *ReleaseVideoStreamTextureGL)(TrackedCameraHandle_t hTrackedCamera, glUInt_t glTextureId);
-	void (OPENVR_FNTABLE_CALLTYPE *SetCameraTrackingSpace)(ETrackingUniverseOrigin eUniverse);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *Get_Video_प्रवाहः_Frame_बफर)(TrackedCameraHandle_t hTrackedCamera, EVRTrackedCameraFrameType eFrameType, शून्य * p_Frame_बफर, uint32_t n_Frame_बफर_आकार, Camera_Video_प्रवाहः_Frame_शीर्षकम्_t * p_Frame_शीर्षकम्, uint32_t n_Frame_शीर्षकम्_आकार);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *Get_Video_प्रवाहः_Texture_आकार)(Tracked_Device_सूचकांक_t n_Device_सूचकांक, EVRTrackedCameraFrameType eFrameType, VRTextureBounds_t * pTextureBounds, uint32_t * pn_विस्तारः, uint32_t * pnHeight);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *Get_Video_प्रवाहः_Texture_D3_D11)(TrackedCameraHandle_t hTrackedCamera, EVRTrackedCameraFrameType eFrameType, शून्य * pD3D11DeviceOrResource, शून्य ** ppD3D11ShaderResourceView, Camera_Video_प्रवाहः_Frame_शीर्षकम्_t * p_Frame_शीर्षकम्, uint32_t n_Frame_शीर्षकम्_आकार);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *Get_Video_प्रवाहः_Texture_GL)(TrackedCameraHandle_t hTrackedCamera, EVRTrackedCameraFrameType eFrameType, glUInt_t * pglTextureId, Camera_Video_प्रवाहः_Frame_शीर्षकम्_t * p_Frame_शीर्षकम्, uint32_t n_Frame_शीर्षकम्_आकार);
+	EVRTrackedCameraError (OPENVR_FNTABLE_CALLTYPE *Release_Video_प्रवाहः_Texture_GL)(TrackedCameraHandle_t hTrackedCamera, glUInt_t glTextureId);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Camera_Tracking_Space)(ETrackingUniverseOrigin eUniverse);
 	ETrackingUniverseOrigin (OPENVR_FNTABLE_CALLTYPE *GetCameraTrackingSpace)();
 };
 
-struct VR_IVRApplications_FnTable
+संरचना VR_IVRApplications_Fn_सारणी
 {
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *AddApplicationManifest)(char * pchApplicationManifestFullPath, bool bTemporary);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *RemoveApplicationManifest)(char * pchApplicationManifestFullPath);
-	bool (OPENVR_FNTABLE_CALLTYPE *IsApplicationInstalled)(char * pchAppKey);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationCount)();
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *GetApplicationKeyByIndex)(uint32_t unApplicationIndex, char * pchAppKeyBuffer, uint32_t unAppKeyBufferLen);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *GetApplicationKeyByProcessId)(uint32_t unProcessId, char * pchAppKeyBuffer, uint32_t unAppKeyBufferLen);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchApplication)(char * pchAppKey);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchTemplateApplication)(char * pchTemplateAppKey, char * pchNewAppKey, struct AppOverrideKeys_t * pKeys, uint32_t unKeys);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchApplicationFromMimeType)(char * pchMimeType, char * pchArgs);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchDashboardOverlay)(char * pchAppKey);
-	bool (OPENVR_FNTABLE_CALLTYPE *CancelApplicationLaunch)(char * pchAppKey);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *IdentifyApplication)(uint32_t unProcessId, char * pchAppKey);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationProcessId)(char * pchAppKey);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetApplicationsErrorNameFromEnum)(EVRApplicationError error);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationPropertyString)(char * pchAppKey, EVRApplicationProperty eProperty, char * pchPropertyValueBuffer, uint32_t unPropertyValueBufferLen, EVRApplicationError * peError);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetApplicationPropertyBool)(char * pchAppKey, EVRApplicationProperty eProperty, EVRApplicationError * peError);
-	uint64_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationPropertyUint64)(char * pchAppKey, EVRApplicationProperty eProperty, EVRApplicationError * peError);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *SetApplicationAutoLaunch)(char * pchAppKey, bool bAutoLaunch);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetApplicationAutoLaunch)(char * pchAppKey);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *SetDefaultApplicationForMimeType)(char * pchAppKey, char * pchMimeType);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetDefaultApplicationForMimeType)(char * pchMimeType, char * pchAppKeyBuffer, uint32_t unAppKeyBufferLen);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetApplicationSupportedMimeTypes)(char * pchAppKey, char * pchMimeTypesBuffer, uint32_t unMimeTypesBuffer);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationsThatSupportMimeType)(char * pchMimeType, char * pchAppKeysThatSupportBuffer, uint32_t unAppKeysThatSupportBuffer);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationLaunchArguments)(uint32_t unHandle, char * pchArgs, uint32_t unArgs);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *GetStartingApplication)(char * pchAppKeyBuffer, uint32_t unAppKeyBufferLen);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *सङ्कलय_Application_Manifest)(वर्ण * pch_Application_Manifest_पूर्णम्_मार्गः, bool bTemporary);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *RemoveApplicationManifest)(वर्ण * pch_Application_Manifest_पूर्णम्_मार्गः);
+	bool (OPENVR_FNTABLE_CALLTYPE *IsApplicationInstalled)(वर्ण * pch_App_कुञ्चिका);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Application_गणनम्)();
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *Get_Application_कुञ्चिका_By_सूचकांक)(uint32_t un_Application_सूचकांक, वर्ण * pch_App_कुञ्चिका_बफर, uint32_t un_App_कुञ्चिका_बफर_Len);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *Get_Application_कुञ्चिका_By_Process_Id)(uint32_t unProcessId, वर्ण * pch_App_कुञ्चिका_बफर, uint32_t un_App_कुञ्चिका_बफर_Len);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchApplication)(वर्ण * pch_App_कुञ्चिका);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchTemplateApplication)(वर्ण * pch_Template_App_कुञ्चिका, वर्ण * pch_New_App_कुञ्चिका, संरचना App_Override_कुञ्चिकाः_t * p_कुञ्चिकाः, uint32_t un_कुञ्चिकाः);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchApplicationFromMimeType)(वर्ण * pchMimeType, वर्ण * pch_तर्काः);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchDashboardOverlay)(वर्ण * pch_App_कुञ्चिका);
+	bool (OPENVR_FNTABLE_CALLTYPE *CancelApplicationLaunch)(वर्ण * pch_App_कुञ्चिका);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *IdentifyApplication)(uint32_t unProcessId, वर्ण * pch_App_कुञ्चिका);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationProcessId)(वर्ण * pch_App_कुञ्चिका);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetApplicationsErrorNameFromEnum)(EVRApplicationError error);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationPropertyString)(वर्ण * pch_App_कुञ्चिका, EVRApplicationProperty eProperty, वर्ण * pch_Property_मानम्_बफर, uint32_t un_Property_मानम्_बफर_Len, EVRApplicationError * peError);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetApplicationPropertyBool)(वर्ण * pch_App_कुञ्चिका, EVRApplicationProperty eProperty, EVRApplicationError * peError);
+	uint64_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationPropertyUint64)(वर्ण * pch_App_कुञ्चिका, EVRApplicationProperty eProperty, EVRApplicationError * peError);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Application_Auto_Launch)(वर्ण * pch_App_कुञ्चिका, bool bAutoLaunch);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetApplicationAutoLaunch)(वर्ण * pch_App_कुञ्चिका);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Default_Application_For_Mime_Type)(वर्ण * pch_App_कुञ्चिका, वर्ण * pchMimeType);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetDefaultApplicationForMimeType)(वर्ण * pchMimeType, वर्ण * pch_App_कुञ्चिका_बफर, uint32_t un_App_कुञ्चिका_बफर_Len);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetApplicationSupportedMimeTypes)(वर्ण * pch_App_कुञ्चिका, वर्ण * pch_Mime_Types_बफर, uint32_t un_Mime_Types_बफर);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationsThatSupportMimeType)(वर्ण * pchMimeType, वर्ण * pch_App_कुञ्चिकाः_That_Support_बफर, uint32_t un_App_कुञ्चिकाः_That_Support_बफर);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetApplicationLaunchArguments)(uint32_t unHandle, वर्ण * pch_तर्काः, uint32_t un_तर्काः);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *GetStartingApplication)(वर्ण * pch_App_कुञ्चिका_बफर, uint32_t un_App_कुञ्चिका_बफर_Len);
 	EVRSceneApplicationState (OPENVR_FNTABLE_CALLTYPE *GetSceneApplicationState)();
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *PerformApplicationPrelaunchCheck)(char * pchAppKey);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetSceneApplicationStateNameFromEnum)(EVRSceneApplicationState state);
-	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *LaunchInternalProcess)(char * pchBinaryPath, char * pchArguments, char * pchWorkingDirectory);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *PerformApplicationPrelaunchCheck)(वर्ण * pch_App_कुञ्चिका);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetSceneApplicationStateNameFromEnum)(EVRSceneApplicationState state);
+	EVRApplicationError (OPENVR_FNTABLE_CALLTYPE *Launch_आन्तरिकम्_Process)(वर्ण * pch_द्विमान_मार्गः, वर्ण * pchArguments, वर्ण * pchWorkingDirectory);
 	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetCurrentSceneProcessId)();
 };
 
-struct VR_IVRChaperone_FnTable
+संरचना VR_IVRChaperone_Fn_सारणी
 {
 	ChaperoneCalibrationState (OPENVR_FNTABLE_CALLTYPE *GetCalibrationState)();
-	bool (OPENVR_FNTABLE_CALLTYPE *GetPlayAreaSize)(float * pSizeX, float * pSizeZ);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetPlayAreaRect)(struct HmdQuad_t * rect);
-	void (OPENVR_FNTABLE_CALLTYPE *ReloadInfo)();
-	void (OPENVR_FNTABLE_CALLTYPE *SetSceneColor)(struct HmdColor_t color);
-	void (OPENVR_FNTABLE_CALLTYPE *GetBoundsColor)(struct HmdColor_t * pOutputColorArray, int nNumOutputColors, float flCollisionBoundsFadeDistance, struct HmdColor_t * pOutputCameraColor);
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_Play_Area_आकार)(भिन्न * p_आकार_X, भिन्न * p_आकार_Z);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetPlayAreaRect)(संरचना HmdQuad_t * rect);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ReloadInfo)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Scene_Color)(संरचना HmdColor_t color);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetBoundsColor)(संरचना HmdColor_t * pOutputColorArray, पूर्णाङ्क n_अङ्कः_Output_Colors, भिन्न flCollisionBoundsFadeDistance, संरचना HmdColor_t * pOutputCameraColor);
 	bool (OPENVR_FNTABLE_CALLTYPE *AreBoundsVisible)();
-	void (OPENVR_FNTABLE_CALLTYPE *ForceBoundsVisible)(bool bForce);
-	void (OPENVR_FNTABLE_CALLTYPE *ResetZeroPose)(ETrackingUniverseOrigin eTrackingUniverseOrigin);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ForceBoundsVisible)(bool bForce);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ResetZeroPose)(ETrackingUniverseOrigin eTrackingUniverseOrigin);
 };
 
-struct VR_IVRChaperoneSetup_FnTable
+संरचना VR_IVRChaperone_सज्जता_Fn_सारणी
 {
 	bool (OPENVR_FNTABLE_CALLTYPE *CommitWorkingCopy)(EChaperoneConfigFile configFile);
-	void (OPENVR_FNTABLE_CALLTYPE *RevertWorkingCopy)();
-	bool (OPENVR_FNTABLE_CALLTYPE *GetWorkingPlayAreaSize)(float * pSizeX, float * pSizeZ);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetWorkingPlayAreaRect)(struct HmdQuad_t * rect);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetWorkingCollisionBoundsInfo)(struct HmdQuad_t * pQuadsBuffer, uint32_t * punQuadsCount);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetLiveCollisionBoundsInfo)(struct HmdQuad_t * pQuadsBuffer, uint32_t * punQuadsCount);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetWorkingSeatedZeroPoseToRawTrackingPose)(struct HmdMatrix34_t * pmatSeatedZeroPoseToRawTrackingPose);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetWorkingStandingZeroPoseToRawTrackingPose)(struct HmdMatrix34_t * pmatStandingZeroPoseToRawTrackingPose);
-	void (OPENVR_FNTABLE_CALLTYPE *SetWorkingPlayAreaSize)(float sizeX, float sizeZ);
-	void (OPENVR_FNTABLE_CALLTYPE *SetWorkingCollisionBoundsInfo)(struct HmdQuad_t * pQuadsBuffer, uint32_t unQuadsCount);
-	void (OPENVR_FNTABLE_CALLTYPE *SetWorkingPerimeter)(struct HmdVector2_t * pPointBuffer, uint32_t unPointCount);
-	void (OPENVR_FNTABLE_CALLTYPE *SetWorkingSeatedZeroPoseToRawTrackingPose)(struct HmdMatrix34_t * pMatSeatedZeroPoseToRawTrackingPose);
-	void (OPENVR_FNTABLE_CALLTYPE *SetWorkingStandingZeroPoseToRawTrackingPose)(struct HmdMatrix34_t * pMatStandingZeroPoseToRawTrackingPose);
-	void (OPENVR_FNTABLE_CALLTYPE *ReloadFromDisk)(EChaperoneConfigFile configFile);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetLiveSeatedZeroPoseToRawTrackingPose)(struct HmdMatrix34_t * pmatSeatedZeroPoseToRawTrackingPose);
-	bool (OPENVR_FNTABLE_CALLTYPE *ExportLiveToBuffer)(char * pBuffer, uint32_t * pnBufferLength);
-	bool (OPENVR_FNTABLE_CALLTYPE *ImportFromBufferToWorking)(char * pBuffer, uint32_t nImportFlags);
-	void (OPENVR_FNTABLE_CALLTYPE *ShowWorkingSetPreview)();
-	void (OPENVR_FNTABLE_CALLTYPE *HideWorkingSetPreview)();
-	void (OPENVR_FNTABLE_CALLTYPE *RoomSetupStarting)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *RevertWorkingCopy)();
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_Working_Play_Area_आकार)(भिन्न * p_आकार_X, भिन्न * p_आकार_Z);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetWorkingPlayAreaRect)(संरचना HmdQuad_t * rect);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetWorkingCollisionBoundsInfo)(संरचना HmdQuad_t * p_Quads_बफर, uint32_t * pun_Quads_गणनम्);
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_जीवितम्_Collision_Bounds_Info)(संरचना HmdQuad_t * p_Quads_बफर, uint32_t * pun_Quads_गणनम्);
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_Working_Seated_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose)(संरचना HmdMatrix34_t * pmat_Seated_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose);
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_Working_Standing_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose)(संरचना HmdMatrix34_t * pmat_Standing_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Working_Play_Area_आकार)(भिन्न आकार_X, भिन्न आकार_Z);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Working_Collision_Bounds_Info)(संरचना HmdQuad_t * p_Quads_बफर, uint32_t un_Quads_गणनम्);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Working_Perimeter)(संरचना HmdVector2_t * p_Point_बफर, uint32_t un_Point_गणनम्);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Working_Seated_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose)(संरचना HmdMatrix34_t * p_Mat_Seated_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Working_Standing_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose)(संरचना HmdMatrix34_t * p_Mat_Standing_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ReloadFromDisk)(EChaperoneConfigFile configFile);
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_जीवितम्_Seated_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose)(संरचना HmdMatrix34_t * pmat_Seated_Zero_Pose_गन्तव्यम्_Raw_Tracking_Pose);
+	bool (OPENVR_FNTABLE_CALLTYPE *Export_जीवितम्_गन्तव्यम्_बफर)(वर्ण * p_बफर, uint32_t * pn_बफर_दीर्घता);
+	bool (OPENVR_FNTABLE_CALLTYPE *Import_From_बफर_गन्तव्यम्_Working)(वर्ण * p_बफर, uint32_t nImportFlags);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Show_Working_समुच्चयः_Preview)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Hide_Working_समुच्चयः_Preview)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *अवकाशः_सज्जता_Starting)();
 };
 
-struct VR_IVRCompositor_FnTable
+संरचना VR_IVRCompositor_Fn_सारणी
 {
-	void (OPENVR_FNTABLE_CALLTYPE *SetTrackingSpace)(ETrackingUniverseOrigin eOrigin);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Tracking_Space)(ETrackingUniverseOrigin eOrigin);
 	ETrackingUniverseOrigin (OPENVR_FNTABLE_CALLTYPE *GetTrackingSpace)();
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *WaitGetPoses)(struct TrackedDevicePose_t * pRenderPoseArray, uint32_t unRenderPoseArrayCount, struct TrackedDevicePose_t * pGamePoseArray, uint32_t unGamePoseArrayCount);
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetLastPoses)(struct TrackedDevicePose_t * pRenderPoseArray, uint32_t unRenderPoseArrayCount, struct TrackedDevicePose_t * pGamePoseArray, uint32_t unGamePoseArrayCount);
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetLastPoseForTrackedDeviceIndex)(TrackedDeviceIndex_t unDeviceIndex, struct TrackedDevicePose_t * pOutputPose, struct TrackedDevicePose_t * pOutputGamePose);
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *Submit)(EVREye eEye, struct Texture_t * pTexture, struct VRTextureBounds_t * pBounds, EVRSubmitFlags nSubmitFlags);
-	void (OPENVR_FNTABLE_CALLTYPE *ClearLastSubmittedFrame)();
-	void (OPENVR_FNTABLE_CALLTYPE *PostPresentHandoff)();
-	bool (OPENVR_FNTABLE_CALLTYPE *GetFrameTiming)(struct Compositor_FrameTiming * pTiming, uint32_t unFramesAgo);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetFrameTimings)(struct Compositor_FrameTiming * pTiming, uint32_t nFrames);
-	float (OPENVR_FNTABLE_CALLTYPE *GetFrameTimeRemaining)();
-	void (OPENVR_FNTABLE_CALLTYPE *GetCumulativeStats)(struct Compositor_CumulativeStats * pStats, uint32_t nStatsSizeInBytes);
-	void (OPENVR_FNTABLE_CALLTYPE *FadeToColor)(float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground);
-	struct HmdColor_t (OPENVR_FNTABLE_CALLTYPE *GetCurrentFadeColor)(bool bBackground);
-	void (OPENVR_FNTABLE_CALLTYPE *FadeGrid)(float fSeconds, bool bFadeGridIn);
-	float (OPENVR_FNTABLE_CALLTYPE *GetCurrentGridAlpha)();
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *SetSkyboxOverride)(struct Texture_t * pTextures, uint32_t unTextureCount);
-	void (OPENVR_FNTABLE_CALLTYPE *ClearSkyboxOverride)();
-	void (OPENVR_FNTABLE_CALLTYPE *CompositorBringToFront)();
-	void (OPENVR_FNTABLE_CALLTYPE *CompositorGoToBack)();
-	void (OPENVR_FNTABLE_CALLTYPE *CompositorQuit)();
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *WaitGetPoses)(संरचना TrackedDevicePose_t * pRenderPoseArray, uint32_t un_Render_Pose_Array_गणनम्, संरचना TrackedDevicePose_t * pGamePoseArray, uint32_t un_Game_Pose_Array_गणनम्);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *Get_चरमः_Poses)(संरचना TrackedDevicePose_t * pRenderPoseArray, uint32_t un_Render_Pose_Array_गणनम्, संरचना TrackedDevicePose_t * pGamePoseArray, uint32_t un_Game_Pose_Array_गणनम्);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *Get_चरमः_Pose_For_Tracked_Device_सूचकांक)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, संरचना TrackedDevicePose_t * pOutputPose, संरचना TrackedDevicePose_t * pOutputGamePose);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *Submit)(EVREye eEye, संरचना Texture_t * pTexture, संरचना VRTextureBounds_t * pBounds, EVRSubmitFlags nSubmitFlags);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Clear_चरमः_Submitted_Frame)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *PostPresentHandoff)();
+	bool (OPENVR_FNTABLE_CALLTYPE *GetFrameTiming)(संरचना Compositor_FrameTiming * pTiming, uint32_t un_चौकटाः_Ago);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetFrameTimings)(संरचना Compositor_FrameTiming * pTiming, uint32_t n_चौकटाः);
+	भिन्न (OPENVR_FNTABLE_CALLTYPE *GetFrameTimeRemaining)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetCumulativeStats)(संरचना Compositor_CumulativeStats * pStats, uint32_t n_Stats_आकार_अन्तर्_अष्टकानि);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Fade_गन्तव्यम्_Color)(भिन्न fSeconds, भिन्न fRed, भिन्न fGreen, भिन्न fBlue, भिन्न fAlpha, bool bBackground);
+	संरचना HmdColor_t (OPENVR_FNTABLE_CALLTYPE *GetCurrentFadeColor)(bool bBackground);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *FadeGrid)(भिन्न fSeconds, bool b_Fade_Grid_अन्तर्);
+	भिन्न (OPENVR_FNTABLE_CALLTYPE *GetCurrentGridAlpha)();
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Skybox_Override)(संरचना Texture_t * pTextures, uint32_t un_Texture_गणनम्);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ClearSkyboxOverride)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Compositor_Bring_गन्तव्यम्_Front)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Compositor_Go_गन्तव्यम्_पृष्ठभागः)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *CompositorQuit)();
 	bool (OPENVR_FNTABLE_CALLTYPE *IsFullscreen)();
 	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetCurrentSceneFocusProcess)();
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetLastFrameRenderer)();
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_चरमः_Frame_Renderer)();
 	bool (OPENVR_FNTABLE_CALLTYPE *CanRenderScene)();
-	void (OPENVR_FNTABLE_CALLTYPE *ShowMirrorWindow)();
-	void (OPENVR_FNTABLE_CALLTYPE *HideMirrorWindow)();
-	bool (OPENVR_FNTABLE_CALLTYPE *IsMirrorWindowVisible)();
-	void (OPENVR_FNTABLE_CALLTYPE *CompositorDumpImages)();
-	bool (OPENVR_FNTABLE_CALLTYPE *ShouldAppRenderWithLowResources)();
-	void (OPENVR_FNTABLE_CALLTYPE *ForceInterleavedReprojectionOn)(bool bOverride);
-	void (OPENVR_FNTABLE_CALLTYPE *ForceReconnectProcess)();
-	void (OPENVR_FNTABLE_CALLTYPE *SuspendRendering)(bool bSuspend);
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetMirrorTextureD3D11)(EVREye eEye, void * pD3D11DeviceOrResource, void ** ppD3D11ShaderResourceView);
-	void (OPENVR_FNTABLE_CALLTYPE *ReleaseMirrorTextureD3D11)(void * pD3D11ShaderResourceView);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Show_Mirror_गवाक्षः)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Hide_Mirror_गवाक्षः)();
+	bool (OPENVR_FNTABLE_CALLTYPE *Is_Mirror_गवाक्षः_Visible)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *CompositorDumpImages)();
+	bool (OPENVR_FNTABLE_CALLTYPE *Should_App_Render_With_नीचः_Resources)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ForceInterleavedReprojectionOn)(bool bOverride);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ForceReconnectProcess)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *SuspendRendering)(bool bSuspend);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetMirrorTextureD3D11)(EVREye eEye, शून्य * pD3D11DeviceOrResource, शून्य ** ppD3D11ShaderResourceView);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ReleaseMirrorTextureD3D11)(शून्य * pD3D11ShaderResourceView);
 	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetMirrorTextureGL)(EVREye eEye, glUInt_t * pglTextureId, glSharedTextureHandle_t * pglSharedTextureHandle);
 	bool (OPENVR_FNTABLE_CALLTYPE *ReleaseSharedGLTexture)(glUInt_t glTextureId, glSharedTextureHandle_t glSharedTextureHandle);
-	void (OPENVR_FNTABLE_CALLTYPE *LockGLSharedTextureForAccess)(glSharedTextureHandle_t glSharedTextureHandle);
-	void (OPENVR_FNTABLE_CALLTYPE *UnlockGLSharedTextureForAccess)(glSharedTextureHandle_t glSharedTextureHandle);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetVulkanInstanceExtensionsRequired)(char * pchValue, uint32_t unBufferSize);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetVulkanDeviceExtensionsRequired)(struct VkPhysicalDevice_T * pPhysicalDevice, char * pchValue, uint32_t unBufferSize);
-	void (OPENVR_FNTABLE_CALLTYPE *SetExplicitTimingMode)(EVRCompositorTimingMode eTimingMode);
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *SubmitExplicitTimingData)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *तालकम्_GLShared_Texture_For_Access)(glSharedTextureHandle_t glSharedTextureHandle);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *UnlockGLSharedTextureForAccess)(glSharedTextureHandle_t glSharedTextureHandle);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetVulkanInstanceExtensionsRequired)(वर्ण * pch_मानम्, uint32_t un_बफर_आकार);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetVulkanDeviceExtensionsRequired)(संरचना VkPhysicalDevice_T * pPhysicalDevice, वर्ण * pch_मानम्, uint32_t un_बफर_आकार);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Explicit_Timing_बहुलकम्)(EVRCompositor_Timing_बहुलकम् e_Timing_बहुलकम्);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *Submit_Explicit_Timing_दत्त)();
 	bool (OPENVR_FNTABLE_CALLTYPE *IsMotionSmoothingEnabled)();
 	bool (OPENVR_FNTABLE_CALLTYPE *IsMotionSmoothingSupported)();
 	bool (OPENVR_FNTABLE_CALLTYPE *IsCurrentSceneFocusAppLoading)();
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *SetStageOverride_Async)(char * pchRenderModelPath, struct HmdMatrix34_t * pTransform, struct Compositor_StageRenderSettings * pRenderSettings, uint32_t nSizeOfRenderSettings);
-	void (OPENVR_FNTABLE_CALLTYPE *ClearStageOverride)();
-	bool (OPENVR_FNTABLE_CALLTYPE *GetCompositorBenchmarkResults)(struct Compositor_BenchmarkResults * pBenchmarkResults, uint32_t nSizeOfBenchmarkResults);
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetLastPosePredictionIDs)(uint32_t * pRenderPosePredictionID, uint32_t * pGamePosePredictionID);
-	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetPosesForFrame)(uint32_t unPosePredictionID, struct TrackedDevicePose_t * pPoseArray, uint32_t unPoseArrayCount);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Stage_Override_Async)(वर्ण * pch_Render_Model_मार्गः, संरचना HmdMatrix34_t * pTransform, संरचना Compositor_StageRenderSettings * pRenderSettings, uint32_t n_आकार_सम्बन्धि_Render_Settings);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ClearStageOverride)();
+	bool (OPENVR_FNTABLE_CALLTYPE *GetCompositorBenchmarkResults)(संरचना Compositor_BenchmarkResults * pBenchmarkResults, uint32_t n_आकार_सम्बन्धि_Benchmark_Results);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *Get_चरमः_Pose_Prediction_IDs)(uint32_t * pRenderPosePredictionID, uint32_t * pGamePosePredictionID);
+	EVRCompositorError (OPENVR_FNTABLE_CALLTYPE *GetPosesForFrame)(uint32_t unPosePredictionID, संरचना TrackedDevicePose_t * pPoseArray, uint32_t un_Pose_Array_गणनम्);
 };
 
-struct VR_IVROverlay_FnTable
+संरचना VR_IVROverlay_Fn_सारणी
 {
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *FindOverlay)(char * pchOverlayKey, VROverlayHandle_t * pOverlayHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *CreateOverlay)(char * pchOverlayKey, char * pchOverlayName, VROverlayHandle_t * pOverlayHandle);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *FindOverlay)(वर्ण * pch_Overlay_कुञ्चिका, VROverlayHandle_t * pOverlayHandle);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *CreateOverlay)(वर्ण * pch_Overlay_कुञ्चिका, वर्ण * pchOverlayName, VROverlayHandle_t * pOverlayHandle);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *DestroyOverlay)(VROverlayHandle_t ulOverlayHandle);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetOverlayKey)(VROverlayHandle_t ulOverlayHandle, char * pchValue, uint32_t unBufferSize, EVROverlayError * pError);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetOverlayName)(VROverlayHandle_t ulOverlayHandle, char * pchValue, uint32_t unBufferSize, EVROverlayError * pError);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayName)(VROverlayHandle_t ulOverlayHandle, char * pchName);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayImageData)(VROverlayHandle_t ulOverlayHandle, void * pvBuffer, uint32_t unBufferSize, uint32_t * punWidth, uint32_t * punHeight);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetOverlayErrorNameFromEnum)(EVROverlayError error);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayRenderingPid)(VROverlayHandle_t ulOverlayHandle, uint32_t unPID);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Overlay_कुञ्चिका)(VROverlayHandle_t ulOverlayHandle, वर्ण * pch_मानम्, uint32_t un_बफर_आकार, EVROverlayError * pError);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetOverlayName)(VROverlayHandle_t ulOverlayHandle, वर्ण * pch_मानम्, uint32_t un_बफर_आकार, EVROverlayError * pError);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Name)(VROverlayHandle_t ulOverlayHandle, वर्ण * pchName);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *Get_Overlay_Image_दत्त)(VROverlayHandle_t ulOverlayHandle, शून्य * pv_बफर, uint32_t un_बफर_आकार, uint32_t * pun_विस्तारः, uint32_t * punHeight);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetOverlayErrorNameFromEnum)(EVROverlayError error);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Rendering_Pid)(VROverlayHandle_t ulOverlayHandle, uint32_t unPID);
 	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetOverlayRenderingPid)(VROverlayHandle_t ulOverlayHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayFlag)(VROverlayHandle_t ulOverlayHandle, VROverlayFlags eOverlayFlag, bool bEnabled);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Flag)(VROverlayHandle_t ulOverlayHandle, VROverlayFlags eOverlayFlag, bool bEnabled);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayFlag)(VROverlayHandle_t ulOverlayHandle, VROverlayFlags eOverlayFlag, bool * pbEnabled);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayFlags)(VROverlayHandle_t ulOverlayHandle, uint32_t * pFlags);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayColor)(VROverlayHandle_t ulOverlayHandle, float fRed, float fGreen, float fBlue);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayColor)(VROverlayHandle_t ulOverlayHandle, float * pfRed, float * pfGreen, float * pfBlue);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayAlpha)(VROverlayHandle_t ulOverlayHandle, float fAlpha);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayAlpha)(VROverlayHandle_t ulOverlayHandle, float * pfAlpha);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTexelAspect)(VROverlayHandle_t ulOverlayHandle, float fTexelAspect);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTexelAspect)(VROverlayHandle_t ulOverlayHandle, float * pfTexelAspect);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlaySortOrder)(VROverlayHandle_t ulOverlayHandle, uint32_t unSortOrder);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlaySortOrder)(VROverlayHandle_t ulOverlayHandle, uint32_t * punSortOrder);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayWidthInMeters)(VROverlayHandle_t ulOverlayHandle, float fWidthInMeters);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayWidthInMeters)(VROverlayHandle_t ulOverlayHandle, float * pfWidthInMeters);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayCurvature)(VROverlayHandle_t ulOverlayHandle, float fCurvature);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayCurvature)(VROverlayHandle_t ulOverlayHandle, float * pfCurvature);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayPreCurvePitch)(VROverlayHandle_t ulOverlayHandle, float fRadians);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayPreCurvePitch)(VROverlayHandle_t ulOverlayHandle, float * pfRadians);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTextureColorSpace)(VROverlayHandle_t ulOverlayHandle, EColorSpace eTextureColorSpace);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Color)(VROverlayHandle_t ulOverlayHandle, भिन्न fRed, भिन्न fGreen, भिन्न fBlue);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayColor)(VROverlayHandle_t ulOverlayHandle, भिन्न * pfRed, भिन्न * pfGreen, भिन्न * pfBlue);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Alpha)(VROverlayHandle_t ulOverlayHandle, भिन्न fAlpha);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayAlpha)(VROverlayHandle_t ulOverlayHandle, भिन्न * pfAlpha);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Texel_Aspect)(VROverlayHandle_t ulOverlayHandle, भिन्न fTexelAspect);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTexelAspect)(VROverlayHandle_t ulOverlayHandle, भिन्न * pfTexelAspect);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_क्रमय_क्रमः)(VROverlayHandle_t ulOverlayHandle, uint32_t un_क्रमय_क्रमः);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *Get_Overlay_क्रमय_क्रमः)(VROverlayHandle_t ulOverlayHandle, uint32_t * pun_क्रमय_क्रमः);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_विस्तारः_अन्तर्_Meters)(VROverlayHandle_t ulOverlayHandle, भिन्न f_विस्तारः_अन्तर्_Meters);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *Get_Overlay_विस्तारः_अन्तर्_Meters)(VROverlayHandle_t ulOverlayHandle, भिन्न * pf_विस्तारः_अन्तर्_Meters);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Curvature)(VROverlayHandle_t ulOverlayHandle, भिन्न fCurvature);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayCurvature)(VROverlayHandle_t ulOverlayHandle, भिन्न * pfCurvature);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Pre_वक्रम्_Pitch)(VROverlayHandle_t ulOverlayHandle, भिन्न fRadians);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *Get_Overlay_Pre_वक्रम्_Pitch)(VROverlayHandle_t ulOverlayHandle, भिन्न * pfRadians);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Texture_Color_Space)(VROverlayHandle_t ulOverlayHandle, EColorSpace eTextureColorSpace);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTextureColorSpace)(VROverlayHandle_t ulOverlayHandle, EColorSpace * peTextureColorSpace);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTextureBounds)(VROverlayHandle_t ulOverlayHandle, struct VRTextureBounds_t * pOverlayTextureBounds);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTextureBounds)(VROverlayHandle_t ulOverlayHandle, struct VRTextureBounds_t * pOverlayTextureBounds);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Texture_Bounds)(VROverlayHandle_t ulOverlayHandle, संरचना VRTextureBounds_t * pOverlayTextureBounds);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTextureBounds)(VROverlayHandle_t ulOverlayHandle, संरचना VRTextureBounds_t * pOverlayTextureBounds);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformType)(VROverlayHandle_t ulOverlayHandle, VROverlayTransformType * peTransformType);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTransformAbsolute)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, struct HmdMatrix34_t * pmatTrackingOriginToOverlayTransform);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformAbsolute)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin * peTrackingOrigin, struct HmdMatrix34_t * pmatTrackingOriginToOverlayTransform);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTransformTrackedDeviceRelative)(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unTrackedDevice, struct HmdMatrix34_t * pmatTrackedDeviceToOverlayTransform);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformTrackedDeviceRelative)(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t * punTrackedDevice, struct HmdMatrix34_t * pmatTrackedDeviceToOverlayTransform);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTransformTrackedDeviceComponent)(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unDeviceIndex, char * pchComponentName);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformTrackedDeviceComponent)(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t * punDeviceIndex, char * pchComponentName, uint32_t unComponentNameSize);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformOverlayRelative)(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t * ulOverlayHandleParent, struct HmdMatrix34_t * pmatParentOverlayToOverlayTransform);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTransformOverlayRelative)(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t ulOverlayHandleParent, struct HmdMatrix34_t * pmatParentOverlayToOverlayTransform);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTransformCursor)(VROverlayHandle_t ulCursorOverlayHandle, struct HmdVector2_t * pvHotspot);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformCursor)(VROverlayHandle_t ulOverlayHandle, struct HmdVector2_t * pvHotspot);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTransformProjection)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, struct HmdMatrix34_t * pmatTrackingOriginToOverlayTransform, struct VROverlayProjection_t * pProjection, EVREye eEye);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Transform_Absolute)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, संरचना HmdMatrix34_t * pmat_Tracking_Origin_गन्तव्यम्_Overlay_Transform);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformAbsolute)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin * peTrackingOrigin, संरचना HmdMatrix34_t * pmat_Tracking_Origin_गन्तव्यम्_Overlay_Transform);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Transform_Tracked_Device_Relative)(VROverlayHandle_t ulOverlayHandle, Tracked_Device_सूचकांक_t unTrackedDevice, संरचना HmdMatrix34_t * pmat_Tracked_Device_गन्तव्यम्_Overlay_Transform);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformTrackedDeviceRelative)(VROverlayHandle_t ulOverlayHandle, Tracked_Device_सूचकांक_t * punTrackedDevice, संरचना HmdMatrix34_t * pmat_Tracked_Device_गन्तव्यम्_Overlay_Transform);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Transform_Tracked_Device_Component)(VROverlayHandle_t ulOverlayHandle, Tracked_Device_सूचकांक_t un_Device_सूचकांक, वर्ण * pchComponentName);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformTrackedDeviceComponent)(VROverlayHandle_t ulOverlayHandle, Tracked_Device_सूचकांक_t * pun_Device_सूचकांक, वर्ण * pchComponentName, uint32_t un_Component_Name_आकार);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformOverlayRelative)(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t * ulOverlayHandleParent, संरचना HmdMatrix34_t * pmat_Parent_Overlay_गन्तव्यम्_Overlay_Transform);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Transform_Overlay_Relative)(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t ulOverlayHandleParent, संरचना HmdMatrix34_t * pmat_Parent_Overlay_गन्तव्यम्_Overlay_Transform);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Transform_Cursor)(VROverlayHandle_t ulCursorOverlayHandle, संरचना HmdVector2_t * pvHotspot);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTransformCursor)(VROverlayHandle_t ulOverlayHandle, संरचना HmdVector2_t * pvHotspot);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Transform_Projection)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, संरचना HmdMatrix34_t * pmat_Tracking_Origin_गन्तव्यम्_Overlay_Transform, संरचना VROverlayProjection_t * pProjection, EVREye eEye);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ShowOverlay)(VROverlayHandle_t ulOverlayHandle);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *HideOverlay)(VROverlayHandle_t ulOverlayHandle);
 	bool (OPENVR_FNTABLE_CALLTYPE *IsOverlayVisible)(VROverlayHandle_t ulOverlayHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetTransformForOverlayCoordinates)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, struct HmdVector2_t coordinatesInOverlay, struct HmdMatrix34_t * pmatTransform);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetTransformForOverlayCoordinates)(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, संरचना HmdVector2_t coordinates_अन्तर्_Overlay, संरचना HmdMatrix34_t * pmatTransform);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *WaitFrameSync)(uint32_t nTimeoutMs);
-	bool (OPENVR_FNTABLE_CALLTYPE *PollNextOverlayEvent)(VROverlayHandle_t ulOverlayHandle, struct VREvent_t * pEvent, uint32_t uncbVREvent);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayInputMethod)(VROverlayHandle_t ulOverlayHandle, VROverlayInputMethod * peInputMethod);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayInputMethod)(VROverlayHandle_t ulOverlayHandle, VROverlayInputMethod eInputMethod);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayMouseScale)(VROverlayHandle_t ulOverlayHandle, struct HmdVector2_t * pvecMouseScale);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayMouseScale)(VROverlayHandle_t ulOverlayHandle, struct HmdVector2_t * pvecMouseScale);
-	bool (OPENVR_FNTABLE_CALLTYPE *ComputeOverlayIntersection)(VROverlayHandle_t ulOverlayHandle, struct VROverlayIntersectionParams_t * pParams, struct VROverlayIntersectionResults_t * pResults);
+	bool (OPENVR_FNTABLE_CALLTYPE *Poll_अग्र_Overlay_Event)(VROverlayHandle_t ulOverlayHandle, संरचना VREvent_t * pEvent, uint32_t uncbVREvent);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *Get_Overlay_निवेशः_विधानम्)(VROverlayHandle_t ulOverlayHandle, VROverlay_निवेशः_विधानम् * pe_निवेशः_विधानम्);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_निवेशः_विधानम्)(VROverlayHandle_t ulOverlayHandle, VROverlay_निवेशः_विधानम् e_निवेशः_विधानम्);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayMouseScale)(VROverlayHandle_t ulOverlayHandle, संरचना HmdVector2_t * pvecMouseScale);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Mouse_Scale)(VROverlayHandle_t ulOverlayHandle, संरचना HmdVector2_t * pvecMouseScale);
+	bool (OPENVR_FNTABLE_CALLTYPE *ComputeOverlayIntersection)(VROverlayHandle_t ulOverlayHandle, संरचना VROverlayIntersectionParams_t * pParams, संरचना VROverlayIntersectionResults_t * pResults);
 	bool (OPENVR_FNTABLE_CALLTYPE *IsHoverTargetOverlay)(VROverlayHandle_t ulOverlayHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayIntersectionMask)(VROverlayHandle_t ulOverlayHandle, struct VROverlayIntersectionMaskPrimitive_t * pMaskPrimitives, uint32_t unNumMaskPrimitives, uint32_t unPrimitiveSize);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *TriggerLaserMouseHapticVibration)(VROverlayHandle_t ulOverlayHandle, float fDurationSeconds, float fFrequency, float fAmplitude);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayCursor)(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t ulCursorHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayCursorPositionOverride)(VROverlayHandle_t ulOverlayHandle, struct HmdVector2_t * pvCursor);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Intersection_आवरणम्)(VROverlayHandle_t ulOverlayHandle, संरचना VROverlay_Intersection_आवरणम्_Primitive_t * p_आवरणम्_Primitives, uint32_t un_अङ्कः_आवरणम्_Primitives, uint32_t un_Primitive_आकार);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *TriggerLaserMouseHapticVibration)(VROverlayHandle_t ulOverlayHandle, भिन्न fDurationSeconds, भिन्न fFrequency, भिन्न fAmplitude);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Cursor)(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t ulCursorHandle);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Cursor_Position_Override)(VROverlayHandle_t ulOverlayHandle, संरचना HmdVector2_t * pvCursor);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ClearOverlayCursorPositionOverride)(VROverlayHandle_t ulOverlayHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayTexture)(VROverlayHandle_t ulOverlayHandle, struct Texture_t * pTexture);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Texture)(VROverlayHandle_t ulOverlayHandle, संरचना Texture_t * pTexture);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ClearOverlayTexture)(VROverlayHandle_t ulOverlayHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayRaw)(VROverlayHandle_t ulOverlayHandle, void * pvBuffer, uint32_t unWidth, uint32_t unHeight, uint32_t unBytesPerPixel);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetOverlayFromFile)(VROverlayHandle_t ulOverlayHandle, char * pchFilePath);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTexture)(VROverlayHandle_t ulOverlayHandle, void ** pNativeTextureHandle, void * pNativeTextureRef, uint32_t * pWidth, uint32_t * pHeight, uint32_t * pNativeFormat, ETextureType * pAPIType, EColorSpace * pColorSpace, struct VRTextureBounds_t * pTextureBounds);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ReleaseNativeOverlayHandle)(VROverlayHandle_t ulOverlayHandle, void * pNativeTextureHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTextureSize)(VROverlayHandle_t ulOverlayHandle, uint32_t * pWidth, uint32_t * pHeight);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *CreateDashboardOverlay)(char * pchOverlayKey, char * pchOverlayFriendlyName, VROverlayHandle_t * pMainHandle, VROverlayHandle_t * pThumbnailHandle);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_Raw)(VROverlayHandle_t ulOverlayHandle, शून्य * pv_बफर, uint32_t un_विस्तारः, uint32_t unHeight, uint32_t un_अष्टकानि_प्रत्येकम्_Pixel);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Overlay_From_File)(VROverlayHandle_t ulOverlayHandle, वर्ण * pch_File_मार्गः);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetOverlayTexture)(VROverlayHandle_t ulOverlayHandle, शून्य ** pNativeTextureHandle, शून्य * pNativeTextureRef, uint32_t * p_विस्तारः, uint32_t * pHeight, uint32_t * pNativeFormat, ETextureType * pAPIType, EColorSpace * pColorSpace, संरचना VRTextureBounds_t * pTextureBounds);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ReleaseNativeOverlayHandle)(VROverlayHandle_t ulOverlayHandle, शून्य * pNativeTextureHandle);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *Get_Overlay_Texture_आकार)(VROverlayHandle_t ulOverlayHandle, uint32_t * p_विस्तारः, uint32_t * pHeight);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *CreateDashboardOverlay)(वर्ण * pch_Overlay_कुञ्चिका, वर्ण * pchOverlayFriendlyName, VROverlayHandle_t * pMainHandle, VROverlayHandle_t * pThumbnailHandle);
 	bool (OPENVR_FNTABLE_CALLTYPE *IsDashboardVisible)();
-	bool (OPENVR_FNTABLE_CALLTYPE *IsActiveDashboardOverlay)(VROverlayHandle_t ulOverlayHandle);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *SetDashboardOverlaySceneProcess)(VROverlayHandle_t ulOverlayHandle, uint32_t unProcessId);
+	bool (OPENVR_FNTABLE_CALLTYPE *Is_सक्रिय_Dashboard_Overlay)(VROverlayHandle_t ulOverlayHandle);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Dashboard_Overlay_Scene_Process)(VROverlayHandle_t ulOverlayHandle, uint32_t unProcessId);
 	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *GetDashboardOverlaySceneProcess)(VROverlayHandle_t ulOverlayHandle, uint32_t * punProcessId);
-	void (OPENVR_FNTABLE_CALLTYPE *ShowDashboard)(char * pchOverlayToShow);
-	TrackedDeviceIndex_t (OPENVR_FNTABLE_CALLTYPE *GetPrimaryDashboardDevice)();
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ShowKeyboard)(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, uint32_t unFlags, char * pchDescription, uint32_t unCharMax, char * pchExistingText, uint64_t uUserValue);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ShowKeyboardForOverlay)(VROverlayHandle_t ulOverlayHandle, EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, uint32_t unFlags, char * pchDescription, uint32_t unCharMax, char * pchExistingText, uint64_t uUserValue);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetKeyboardText)(char * pchText, uint32_t cchText);
-	void (OPENVR_FNTABLE_CALLTYPE *HideKeyboard)();
-	void (OPENVR_FNTABLE_CALLTYPE *SetKeyboardTransformAbsolute)(ETrackingUniverseOrigin eTrackingOrigin, struct HmdMatrix34_t * pmatTrackingOriginToKeyboardTransform);
-	void (OPENVR_FNTABLE_CALLTYPE *SetKeyboardPositionForOverlay)(VROverlayHandle_t ulOverlayHandle, struct HmdRect2_t avoidRect);
-	VRMessageOverlayResponse (OPENVR_FNTABLE_CALLTYPE *ShowMessageOverlay)(char * pchText, char * pchCaption, char * pchButton0Text, char * pchButton1Text, char * pchButton2Text, char * pchButton3Text);
-	void (OPENVR_FNTABLE_CALLTYPE *CloseMessageOverlay)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *ShowDashboard)(वर्ण * pch_Overlay_गन्तव्यम्_Show);
+	Tracked_Device_सूचकांक_t (OPENVR_FNTABLE_CALLTYPE *GetPrimaryDashboardDevice)();
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ShowKeyboard)(EGamepad_Text_निवेशः_बहुलकम् e_निवेशः_बहुलकम्, EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम् e_पङ्क्तिः_निवेशः_बहुलकम्, uint32_t unFlags, वर्ण * pchDescription, uint32_t unCharMax, वर्ण * pchExistingText, uint64_t u_User_मानम्);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ShowKeyboardForOverlay)(VROverlayHandle_t ulOverlayHandle, EGamepad_Text_निवेशः_बहुलकम् e_निवेशः_बहुलकम्, EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम् e_पङ्क्तिः_निवेशः_बहुलकम्, uint32_t unFlags, वर्ण * pchDescription, uint32_t unCharMax, वर्ण * pchExistingText, uint64_t u_User_मानम्);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetKeyboardText)(वर्ण * pchText, uint32_t cchText);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *HideKeyboard)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Keyboard_Transform_Absolute)(ETrackingUniverseOrigin eTrackingOrigin, संरचना HmdMatrix34_t * pmat_Tracking_Origin_गन्तव्यम्_Keyboard_Transform);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Keyboard_Position_For_Overlay)(VROverlayHandle_t ulOverlayHandle, संरचना HmdRect2_t avoidRect);
+	VRMessageOverlayResponse (OPENVR_FNTABLE_CALLTYPE *Show_सन्देशः_Overlay)(वर्ण * pchText, वर्ण * pchCaption, वर्ण * pchButton0Text, वर्ण * pchButton1Text, वर्ण * pchButton2Text, वर्ण * pchButton3Text);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Close_सन्देशः_Overlay)();
 };
 
-struct VR_IVROverlayView_FnTable
+संरचना VR_IVROverlay_View_Fn_सारणी
 {
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *AcquireOverlayView)(VROverlayHandle_t ulOverlayHandle, struct VRNativeDevice_t * pNativeDevice, struct VROverlayView_t * pOverlayView, uint32_t unOverlayViewSize);
-	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ReleaseOverlayView)(struct VROverlayView_t * pOverlayView);
-	void (OPENVR_FNTABLE_CALLTYPE *PostOverlayEvent)(VROverlayHandle_t ulOverlayHandle, struct VREvent_t * pvrEvent);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *AcquireOverlayView)(VROverlayHandle_t ulOverlayHandle, संरचना VRNativeDevice_t * pNativeDevice, संरचना VROverlayView_t * pOverlayView, uint32_t un_Overlay_View_आकार);
+	EVROverlayError (OPENVR_FNTABLE_CALLTYPE *ReleaseOverlayView)(संरचना VROverlayView_t * pOverlayView);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *PostOverlayEvent)(VROverlayHandle_t ulOverlayHandle, संरचना VREvent_t * pvrEvent);
 	bool (OPENVR_FNTABLE_CALLTYPE *IsViewingPermitted)(VROverlayHandle_t ulOverlayHandle);
 };
 
-struct VR_IVRHeadsetView_FnTable
+संरचना VR_IVRHeadset_View_Fn_सारणी
 {
-	void (OPENVR_FNTABLE_CALLTYPE *SetHeadsetViewSize)(uint32_t nWidth, uint32_t nHeight);
-	void (OPENVR_FNTABLE_CALLTYPE *GetHeadsetViewSize)(uint32_t * pnWidth, uint32_t * pnHeight);
-	void (OPENVR_FNTABLE_CALLTYPE *SetHeadsetViewMode)(HeadsetViewMode_t eHeadsetViewMode);
-	HeadsetViewMode_t (OPENVR_FNTABLE_CALLTYPE *GetHeadsetViewMode)();
-	void (OPENVR_FNTABLE_CALLTYPE *SetHeadsetViewCropped)(bool bCropped);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Headset_View_आकार)(uint32_t n_विस्तारः, uint32_t nHeight);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Get_Headset_View_आकार)(uint32_t * pn_विस्तारः, uint32_t * pnHeight);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Headset_View_बहुलकम्)(Headset_View_बहुलकम्_t e_Headset_View_बहुलकम्);
+	Headset_View_बहुलकम्_t (OPENVR_FNTABLE_CALLTYPE *Get_Headset_View_बहुलकम्)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Headset_View_Cropped)(bool bCropped);
 	bool (OPENVR_FNTABLE_CALLTYPE *GetHeadsetViewCropped)();
-	float (OPENVR_FNTABLE_CALLTYPE *GetHeadsetViewAspectRatio)();
-	void (OPENVR_FNTABLE_CALLTYPE *SetHeadsetViewBlendRange)(float flStartPct, float flEndPct);
-	void (OPENVR_FNTABLE_CALLTYPE *GetHeadsetViewBlendRange)(float * pStartPct, float * pEndPct);
+	भिन्न (OPENVR_FNTABLE_CALLTYPE *Get_Headset_View_Aspect_अनुपातः)();
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Headset_View_Blend_Range)(भिन्न flStartPct, भिन्न fl_अन्तः_Pct);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetHeadsetViewBlendRange)(भिन्न * pStartPct, भिन्न * p_अन्तः_Pct);
 };
 
-struct VR_IVRRenderModels_FnTable
+संरचना VR_IVRRender_Models_Fn_सारणी
 {
-	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *LoadRenderModel_Async)(char * pchRenderModelName, struct RenderModel_t ** ppRenderModel);
-	void (OPENVR_FNTABLE_CALLTYPE *FreeRenderModel)(struct RenderModel_t * pRenderModel);
-	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *LoadTexture_Async)(TextureID_t textureId, struct RenderModel_TextureMap_t ** ppTexture);
-	void (OPENVR_FNTABLE_CALLTYPE *FreeTexture)(struct RenderModel_TextureMap_t * pTexture);
-	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *LoadTextureD3D11_Async)(TextureID_t textureId, void * pD3D11Device, void ** ppD3D11Texture2D);
-	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *LoadIntoTextureD3D11_Async)(TextureID_t textureId, void * pDstTexture);
-	void (OPENVR_FNTABLE_CALLTYPE *FreeTextureD3D11)(void * pD3D11Texture2D);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetRenderModelName)(uint32_t unRenderModelIndex, char * pchRenderModelName, uint32_t unRenderModelNameLen);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetRenderModelCount)();
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetComponentCount)(char * pchRenderModelName);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetComponentName)(char * pchRenderModelName, uint32_t unComponentIndex, char * pchComponentName, uint32_t unComponentNameLen);
-	uint64_t (OPENVR_FNTABLE_CALLTYPE *GetComponentButtonMask)(char * pchRenderModelName, char * pchComponentName);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetComponentRenderModelName)(char * pchRenderModelName, char * pchComponentName, char * pchComponentRenderModelName, uint32_t unComponentRenderModelNameLen);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetComponentStateForDevicePath)(char * pchRenderModelName, char * pchComponentName, VRInputValueHandle_t devicePath, RenderModel_ControllerMode_State_t * pState, RenderModel_ComponentState_t * pComponentState);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetComponentState)(char * pchRenderModelName, char * pchComponentName, VRControllerState_t * pControllerState, struct RenderModel_ControllerMode_State_t * pState, struct RenderModel_ComponentState_t * pComponentState);
-	bool (OPENVR_FNTABLE_CALLTYPE *RenderModelHasComponent)(char * pchRenderModelName, char * pchComponentName);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetRenderModelThumbnailURL)(char * pchRenderModelName, char * pchThumbnailURL, uint32_t unThumbnailURLLen, EVRRenderModelError * peError);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetRenderModelOriginalPath)(char * pchRenderModelName, char * pchOriginalPath, uint32_t unOriginalPathLen, EVRRenderModelError * peError);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetRenderModelErrorNameFromEnum)(EVRRenderModelError error);
+	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *आरोपय_Render_Model_Async)(वर्ण * pchRenderModelName, संरचना RenderModel_t ** ppRenderModel);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *FreeRenderModel)(संरचना RenderModel_t * pRenderModel);
+	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *आरोपय_Texture_Async)(TextureID_t textureId, संरचना RenderModel_TextureMap_t ** ppTexture);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *FreeTexture)(संरचना RenderModel_TextureMap_t * pTexture);
+	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *आरोपय_Texture_D3_D11_Async)(TextureID_t textureId, शून्य * pD3D11Device, शून्य ** ppD3D11Texture2D);
+	EVRRenderModelError (OPENVR_FNTABLE_CALLTYPE *आरोपय_Into_Texture_D3_D11_Async)(TextureID_t textureId, शून्य * pDstTexture);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *FreeTextureD3D11)(शून्य * pD3D11Texture2D);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetRenderModelName)(uint32_t un_Render_Model_सूचकांक, वर्ण * pchRenderModelName, uint32_t unRenderModelNameLen);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Render_Model_गणनम्)();
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Component_गणनम्)(वर्ण * pchRenderModelName);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetComponentName)(वर्ण * pchRenderModelName, uint32_t un_Component_सूचकांक, वर्ण * pchComponentName, uint32_t unComponentNameLen);
+	uint64_t (OPENVR_FNTABLE_CALLTYPE *Get_Component_Button_आवरणम्)(वर्ण * pchRenderModelName, वर्ण * pchComponentName);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetComponentRenderModelName)(वर्ण * pchRenderModelName, वर्ण * pchComponentName, वर्ण * pchComponentRenderModelName, uint32_t unComponentRenderModelNameLen);
+	bool (OPENVR_FNTABLE_CALLTYPE *Get_Component_State_For_Device_मार्गः)(वर्ण * pchRenderModelName, वर्ण * pchComponentName, VRInput_मानम्_Handle_t device_मार्गः, Render_Model_Controller_बहुलकम्_State_t * pState, RenderModel_ComponentState_t * pComponentState);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetComponentState)(वर्ण * pchRenderModelName, वर्ण * pchComponentName, VRControllerState_t * pControllerState, संरचना Render_Model_Controller_बहुलकम्_State_t * pState, संरचना RenderModel_ComponentState_t * pComponentState);
+	bool (OPENVR_FNTABLE_CALLTYPE *RenderModelHasComponent)(वर्ण * pchRenderModelName, वर्ण * pchComponentName);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetRenderModelThumbnailURL)(वर्ण * pchRenderModelName, वर्ण * pchThumbnailURL, uint32_t unThumbnailURLLen, EVRRenderModelError * peError);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Render_Model_Original_मार्गः)(वर्ण * pchRenderModelName, वर्ण * pch_Original_मार्गः, uint32_t un_Original_मार्गः_Len, EVRRenderModelError * peError);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetRenderModelErrorNameFromEnum)(EVRRenderModelError error);
 };
 
-struct VR_IVRNotifications_FnTable
+संरचना VR_IVRNotifications_Fn_सारणी
 {
-	EVRNotificationError (OPENVR_FNTABLE_CALLTYPE *CreateNotification)(VROverlayHandle_t ulOverlayHandle, uint64_t ulUserValue, EVRNotificationType type, char * pchText, EVRNotificationStyle style, struct NotificationBitmap_t * pImage, VRNotificationId * pNotificationId);
+	EVRNotificationError (OPENVR_FNTABLE_CALLTYPE *CreateNotification)(VROverlayHandle_t ulOverlayHandle, uint64_t ul_User_मानम्, EVRNotificationType type, वर्ण * pchText, EVRNotificationStyle style, संरचना NotificationBitmap_t * pImage, VRNotificationId * pNotificationId);
 	EVRNotificationError (OPENVR_FNTABLE_CALLTYPE *RemoveNotification)(VRNotificationId notificationId);
 };
 
-struct VR_IVRSettings_FnTable
+संरचना VR_IVRSettings_Fn_सारणी
 {
-	char * (OPENVR_FNTABLE_CALLTYPE *GetSettingsErrorNameFromEnum)(EVRSettingsError eError);
-	void (OPENVR_FNTABLE_CALLTYPE *SetBool)(char * pchSection, char * pchSettingsKey, bool bValue, EVRSettingsError * peError);
-	void (OPENVR_FNTABLE_CALLTYPE *SetInt32)(char * pchSection, char * pchSettingsKey, int32_t nValue, EVRSettingsError * peError);
-	void (OPENVR_FNTABLE_CALLTYPE *SetFloat)(char * pchSection, char * pchSettingsKey, float flValue, EVRSettingsError * peError);
-	void (OPENVR_FNTABLE_CALLTYPE *SetString)(char * pchSection, char * pchSettingsKey, char * pchValue, EVRSettingsError * peError);
-	bool (OPENVR_FNTABLE_CALLTYPE *GetBool)(char * pchSection, char * pchSettingsKey, EVRSettingsError * peError);
-	int32_t (OPENVR_FNTABLE_CALLTYPE *GetInt32)(char * pchSection, char * pchSettingsKey, EVRSettingsError * peError);
-	float (OPENVR_FNTABLE_CALLTYPE *GetFloat)(char * pchSection, char * pchSettingsKey, EVRSettingsError * peError);
-	void (OPENVR_FNTABLE_CALLTYPE *GetString)(char * pchSection, char * pchSettingsKey, char * pchValue, uint32_t unValueLen, EVRSettingsError * peError);
-	void (OPENVR_FNTABLE_CALLTYPE *RemoveSection)(char * pchSection, EVRSettingsError * peError);
-	void (OPENVR_FNTABLE_CALLTYPE *RemoveKeyInSection)(char * pchSection, char * pchSettingsKey, EVRSettingsError * peError);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetSettingsErrorNameFromEnum)(EVRSettingsError eError);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Bool)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, bool b_मानम्, EVRSettingsError * peError);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Int32)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, int32_t n_मानम्, EVRSettingsError * peError);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Float)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, भिन्न fl_मानम्, EVRSettingsError * peError);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_String)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, वर्ण * pch_मानम्, EVRSettingsError * peError);
+	bool (OPENVR_FNTABLE_CALLTYPE *GetBool)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, EVRSettingsError * peError);
+	int32_t (OPENVR_FNTABLE_CALLTYPE *GetInt32)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, EVRSettingsError * peError);
+	भिन्न (OPENVR_FNTABLE_CALLTYPE *GetFloat)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, EVRSettingsError * peError);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *GetString)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, वर्ण * pch_मानम्, uint32_t un_मानम्_Len, EVRSettingsError * peError);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *RemoveSection)(वर्ण * pchSection, EVRSettingsError * peError);
+	शून्य (OPENVR_FNTABLE_CALLTYPE *Remove_कुञ्चिका_अन्तर्_Section)(वर्ण * pchSection, वर्ण * pch_Settings_कुञ्चिका, EVRSettingsError * peError);
 };
 
-struct VR_IVRScreenshots_FnTable
+संरचना VR_IVRScreenshots_Fn_सारणी
 {
-	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *RequestScreenshot)(ScreenshotHandle_t * pOutScreenshotHandle, EVRScreenshotType type, char * pchPreviewFilename, char * pchVRFilename);
-	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *HookScreenshot)(EVRScreenshotType * pSupportedTypes, int numTypes);
+	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *RequestScreenshot)(ScreenshotHandle_t * p_बहिर्गमनम्_Screenshot_Handle, EVRScreenshotType type, वर्ण * pchPreviewFilename, वर्ण * pchVRFilename);
+	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *HookScreenshot)(EVRScreenshotType * pSupportedTypes, पूर्णाङ्क अङ्कः_Types);
 	EVRScreenshotType (OPENVR_FNTABLE_CALLTYPE *GetScreenshotPropertyType)(ScreenshotHandle_t screenshotHandle, EVRScreenshotError * pError);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetScreenshotPropertyFilename)(ScreenshotHandle_t screenshotHandle, EVRScreenshotPropertyFilenames filenameType, char * pchFilename, uint32_t cchFilename, EVRScreenshotError * pError);
-	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *UpdateScreenshotProgress)(ScreenshotHandle_t screenshotHandle, float flProgress);
-	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *TakeStereoScreenshot)(ScreenshotHandle_t * pOutScreenshotHandle, char * pchPreviewFilename, char * pchVRFilename);
-	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *SubmitScreenshot)(ScreenshotHandle_t screenshotHandle, EVRScreenshotType type, char * pchSourcePreviewFilename, char * pchSourceVRFilename);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetScreenshotPropertyFilename)(ScreenshotHandle_t screenshotHandle, EVRScreenshotPropertyFilenames filenameType, वर्ण * pchFilename, uint32_t cchFilename, EVRScreenshotError * pError);
+	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *Update_Screenshot_प्रगतिः)(ScreenshotHandle_t screenshotHandle, भिन्न fl_प्रगतिः);
+	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *TakeStereoScreenshot)(ScreenshotHandle_t * p_बहिर्गमनम्_Screenshot_Handle, वर्ण * pchPreviewFilename, वर्ण * pchVRFilename);
+	EVRScreenshotError (OPENVR_FNTABLE_CALLTYPE *SubmitScreenshot)(ScreenshotHandle_t screenshotHandle, EVRScreenshotType type, वर्ण * pchSourcePreviewFilename, वर्ण * pchSourceVRFilename);
 };
 
-struct VR_IVRResources_FnTable
+संरचना VR_IVRResources_Fn_सारणी
 {
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *LoadSharedResource)(char * pchResourceName, char * pchBuffer, uint32_t unBufferLen);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetResourceFullPath)(char * pchResourceName, char * pchResourceTypeDirectory, char * pchPathBuffer, uint32_t unBufferLen);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *आरोपय_Shared_Resource)(वर्ण * pchResourceName, वर्ण * pch_बफर, uint32_t un_बफर_Len);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Resource_पूर्णम्_मार्गः)(वर्ण * pchResourceName, वर्ण * pchResourceTypeDirectory, वर्ण * pch_मार्गः_बफर, uint32_t un_बफर_Len);
 };
 
-struct VR_IVRDriverManager_FnTable
+संरचना VR_IVRDriver_Manager_Fn_सारणी
 {
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetDriverCount)();
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetDriverName)(DriverId_t nDriver, char * pchValue, uint32_t unBufferSize);
-	DriverHandle_t (OPENVR_FNTABLE_CALLTYPE *GetDriverHandle)(char * pchDriverName);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *Get_Driver_गणनम्)();
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *GetDriverName)(DriverId_t nDriver, वर्ण * pch_मानम्, uint32_t un_बफर_आकार);
+	DriverHandle_t (OPENVR_FNTABLE_CALLTYPE *GetDriverHandle)(वर्ण * pchDriverName);
 	bool (OPENVR_FNTABLE_CALLTYPE *IsEnabled)(DriverId_t nDriver);
 };
 
-struct VR_IVRInput_FnTable
+संरचना VR_IVRInput_Fn_सारणी
 {
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *SetActionManifestPath)(char * pchActionManifestPath);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetActionSetHandle)(char * pchActionSetName, VRActionSetHandle_t * pHandle);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetActionHandle)(char * pchActionName, VRActionHandle_t * pHandle);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetInputSourceHandle)(char * pchInputSourcePath, VRInputValueHandle_t * pHandle);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *UpdateActionState)(struct VRActiveActionSet_t * pSets, uint32_t unSizeOfVRSelectedActionSet_t, uint32_t unSetCount);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetDigitalActionData)(VRActionHandle_t action, struct InputDigitalActionData_t * pActionData, uint32_t unActionDataSize, VRInputValueHandle_t ulRestrictToDevice);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetAnalogActionData)(VRActionHandle_t action, struct InputAnalogActionData_t * pActionData, uint32_t unActionDataSize, VRInputValueHandle_t ulRestrictToDevice);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetPoseActionDataRelativeToNow)(VRActionHandle_t action, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, struct InputPoseActionData_t * pActionData, uint32_t unActionDataSize, VRInputValueHandle_t ulRestrictToDevice);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetPoseActionDataForNextFrame)(VRActionHandle_t action, ETrackingUniverseOrigin eOrigin, struct InputPoseActionData_t * pActionData, uint32_t unActionDataSize, VRInputValueHandle_t ulRestrictToDevice);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetSkeletalActionData)(VRActionHandle_t action, struct InputSkeletalActionData_t * pActionData, uint32_t unActionDataSize);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Action_Manifest_मार्गः)(वर्ण * pch_Action_Manifest_मार्गः);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Action_समुच्चयः_Handle)(वर्ण * pch_Action_समुच्चयः_Name, VRAction_समुच्चयः_Handle_t * pHandle);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetActionHandle)(वर्ण * pchActionName, VRActionHandle_t * pHandle);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_निवेशः_Source_Handle)(वर्ण * pch_निवेशः_Source_मार्गः, VRInput_मानम्_Handle_t * pHandle);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *UpdateActionState)(संरचना VRActive_Action_समुच्चयः_t * pSets, uint32_t un_आकार_सम्बन्धि_VRSelected_Action_समुच्चयः_t, uint32_t un_समुच्चयः_गणनम्);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Digital_Action_दत्त)(VRActionHandle_t action, संरचना निवेशः_Digital_Action_दत्त_t * p_Action_दत्त, uint32_t un_Action_दत्त_आकार, VRInput_मानम्_Handle_t ul_Restrict_गन्तव्यम्_Device);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Analog_Action_दत्त)(VRActionHandle_t action, संरचना निवेशः_Analog_Action_दत्त_t * p_Action_दत्त, uint32_t un_Action_दत्त_आकार, VRInput_मानम्_Handle_t ul_Restrict_गन्तव्यम्_Device);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Pose_Action_दत्त_Relative_गन्तव्यम्_Now)(VRActionHandle_t action, ETrackingUniverseOrigin eOrigin, भिन्न fPredictedSecondsFromNow, संरचना निवेशः_Pose_Action_दत्त_t * p_Action_दत्त, uint32_t un_Action_दत्त_आकार, VRInput_मानम्_Handle_t ul_Restrict_गन्तव्यम्_Device);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Pose_Action_दत्त_For_अग्र_Frame)(VRActionHandle_t action, ETrackingUniverseOrigin eOrigin, संरचना निवेशः_Pose_Action_दत्त_t * p_Action_दत्त, uint32_t un_Action_दत्त_आकार, VRInput_मानम्_Handle_t ul_Restrict_गन्तव्यम्_Device);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Skeletal_Action_दत्त)(VRActionHandle_t action, संरचना निवेशः_Skeletal_Action_दत्त_t * p_Action_दत्त, uint32_t un_Action_दत्त_आकार);
 	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetDominantHand)(ETrackedControllerRole * peDominantHand);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *SetDominantHand)(ETrackedControllerRole eDominantHand);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetBoneCount)(VRActionHandle_t action, uint32_t * pBoneCount);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetBoneHierarchy)(VRActionHandle_t action, BoneIndex_t * pParentIndices, uint32_t unIndexArayCount);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetBoneName)(VRActionHandle_t action, BoneIndex_t nBoneIndex, char * pchBoneName, uint32_t unNameBufferSize);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetSkeletalReferenceTransforms)(VRActionHandle_t action, EVRSkeletalTransformSpace eTransformSpace, EVRSkeletalReferencePose eReferencePose, struct VRBoneTransform_t * pTransformArray, uint32_t unTransformArrayCount);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *समुच्चयः_Dominant_Hand)(ETrackedControllerRole eDominantHand);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Bone_गणनम्)(VRActionHandle_t action, uint32_t * p_Bone_गणनम्);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetBoneHierarchy)(VRActionHandle_t action, Bone_सूचकांक_t * pParentIndices, uint32_t un_सूचकांक_Aray_गणनम्);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetBoneName)(VRActionHandle_t action, Bone_सूचकांक_t n_Bone_सूचकांक, वर्ण * pchBoneName, uint32_t un_Name_बफर_आकार);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetSkeletalReferenceTransforms)(VRActionHandle_t action, EVRSkeletalTransformSpace eTransformSpace, EVRSkeletalReferencePose eReferencePose, संरचना VRBoneTransform_t * pTransformArray, uint32_t un_Transform_Array_गणनम्);
 	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetSkeletalTrackingLevel)(VRActionHandle_t action, EVRSkeletalTrackingLevel * pSkeletalTrackingLevel);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetSkeletalBoneData)(VRActionHandle_t action, EVRSkeletalTransformSpace eTransformSpace, EVRSkeletalMotionRange eMotionRange, struct VRBoneTransform_t * pTransformArray, uint32_t unTransformArrayCount);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetSkeletalSummaryData)(VRActionHandle_t action, EVRSummaryType eSummaryType, struct VRSkeletalSummaryData_t * pSkeletalSummaryData);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetSkeletalBoneDataCompressed)(VRActionHandle_t action, EVRSkeletalMotionRange eMotionRange, void * pvCompressedData, uint32_t unCompressedSize, uint32_t * punRequiredCompressedSize);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *DecompressSkeletalBoneData)(void * pvCompressedBuffer, uint32_t unCompressedBufferSize, EVRSkeletalTransformSpace eTransformSpace, struct VRBoneTransform_t * pTransformArray, uint32_t unTransformArrayCount);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *TriggerHapticVibrationAction)(VRActionHandle_t action, float fStartSecondsFromNow, float fDurationSeconds, float fFrequency, float fAmplitude, VRInputValueHandle_t ulRestrictToDevice);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetActionOrigins)(VRActionSetHandle_t actionSetHandle, VRActionHandle_t digitalActionHandle, VRInputValueHandle_t * originsOut, uint32_t originOutCount);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetOriginLocalizedName)(VRInputValueHandle_t origin, char * pchNameArray, uint32_t unNameArraySize, int32_t unStringSectionsToInclude);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetOriginTrackedDeviceInfo)(VRInputValueHandle_t origin, struct InputOriginInfo_t * pOriginInfo, uint32_t unOriginInfoSize);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetActionBindingInfo)(VRActionHandle_t action, struct InputBindingInfo_t * pOriginInfo, uint32_t unBindingInfoSize, uint32_t unBindingInfoCount, uint32_t * punReturnedBindingInfoCount);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *ShowActionOrigins)(VRActionSetHandle_t actionSetHandle, VRActionHandle_t ulActionHandle);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *ShowBindingsForActionSet)(struct VRActiveActionSet_t * pSets, uint32_t unSizeOfVRSelectedActionSet_t, uint32_t unSetCount, VRInputValueHandle_t originToHighlight);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetComponentStateForBinding)(char * pchRenderModelName, char * pchComponentName, struct InputBindingInfo_t * pOriginInfo, uint32_t unBindingInfoSize, uint32_t unBindingInfoCount, RenderModel_ComponentState_t * pComponentState);
-	bool (OPENVR_FNTABLE_CALLTYPE *IsUsingLegacyInput)();
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *OpenBindingUI)(char * pchAppKey, VRActionSetHandle_t ulActionSetHandle, VRInputValueHandle_t ulDeviceHandle, bool bShowOnDesktop);
-	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetBindingVariant)(VRInputValueHandle_t ulDevicePath, char * pchVariantArray, uint32_t unVariantArraySize);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Skeletal_Bone_दत्त)(VRActionHandle_t action, EVRSkeletalTransformSpace eTransformSpace, EVRSkeletalMotionRange eMotionRange, संरचना VRBoneTransform_t * pTransformArray, uint32_t un_Transform_Array_गणनम्);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Skeletal_Summary_दत्त)(VRActionHandle_t action, EVRSummaryType eSummaryType, संरचना VRSkeletal_Summary_दत्त_t * p_Skeletal_Summary_दत्त);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Get_Skeletal_Bone_दत्त_Compressed)(VRActionHandle_t action, EVRSkeletalMotionRange eMotionRange, शून्य * pv_Compressed_दत्त, uint32_t un_Compressed_आकार, uint32_t * pun_Required_Compressed_आकार);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Decompress_Skeletal_Bone_दत्त)(शून्य * pv_Compressed_बफर, uint32_t un_Compressed_बफर_आकार, EVRSkeletalTransformSpace eTransformSpace, संरचना VRBoneTransform_t * pTransformArray, uint32_t un_Transform_Array_गणनम्);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *TriggerHapticVibrationAction)(VRActionHandle_t action, भिन्न fStartSecondsFromNow, भिन्न fDurationSeconds, भिन्न fFrequency, भिन्न fAmplitude, VRInput_मानम्_Handle_t ul_Restrict_गन्तव्यम्_Device);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetActionOrigins)(VRAction_समुच्चयः_Handle_t action_समुच्चयः_Handle, VRActionHandle_t digitalActionHandle, VRInput_मानम्_Handle_t * origins_बहिर्गमनम्, uint32_t origin_बहिर्गमनम्_गणनम्);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetOriginLocalizedName)(VRInput_मानम्_Handle_t origin, वर्ण * pchNameArray, uint32_t un_Name_Array_आकार, int32_t un_String_Sections_गन्तव्यम्_Include);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetOriginTrackedDeviceInfo)(VRInput_मानम्_Handle_t origin, संरचना निवेशः_Origin_Info_t * pOriginInfo, uint32_t un_Origin_Info_आकार);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetActionBindingInfo)(VRActionHandle_t action, संरचना निवेशः_Binding_Info_t * pOriginInfo, uint32_t un_Binding_Info_आकार, uint32_t un_Binding_Info_गणनम्, uint32_t * pun_Returned_Binding_Info_गणनम्);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *ShowActionOrigins)(VRAction_समुच्चयः_Handle_t action_समुच्चयः_Handle, VRActionHandle_t ulActionHandle);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *Show_Bindings_For_Action_समुच्चयः)(संरचना VRActive_Action_समुच्चयः_t * pSets, uint32_t un_आकार_सम्बन्धि_VRSelected_Action_समुच्चयः_t, uint32_t un_समुच्चयः_गणनम्, VRInput_मानम्_Handle_t origin_गन्तव्यम्_Highlight);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetComponentStateForBinding)(वर्ण * pchRenderModelName, वर्ण * pchComponentName, संरचना निवेशः_Binding_Info_t * pOriginInfo, uint32_t un_Binding_Info_आकार, uint32_t un_Binding_Info_गणनम्, RenderModel_ComponentState_t * pComponentState);
+	bool (OPENVR_FNTABLE_CALLTYPE *Is_Using_Legacy_निवेशः)();
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *OpenBindingUI)(वर्ण * pch_App_कुञ्चिका, VRAction_समुच्चयः_Handle_t ul_Action_समुच्चयः_Handle, VRInput_मानम्_Handle_t ulDeviceHandle, bool bShowOnDesktop);
+	EVRInputError (OPENVR_FNTABLE_CALLTYPE *GetBindingVariant)(VRInput_मानम्_Handle_t ul_Device_मार्गः, वर्ण * pchVariantArray, uint32_t un_Variant_Array_आकार);
 };
 
-struct VR_IVRIOBuffer_FnTable
+संरचना VR_IVRIOBuffer_Fn_सारणी
 {
-	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Open)(char * pchPath, EIOBufferMode mode, uint32_t unElementSize, uint32_t unElements, IOBufferHandle_t * pulBuffer);
-	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Close)(IOBufferHandle_t ulBuffer);
-	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Read)(IOBufferHandle_t ulBuffer, void * pDst, uint32_t unBytes, uint32_t * punRead);
-	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Write)(IOBufferHandle_t ulBuffer, void * pSrc, uint32_t unBytes);
-	PropertyContainerHandle_t (OPENVR_FNTABLE_CALLTYPE *PropertyContainer)(IOBufferHandle_t ulBuffer);
-	bool (OPENVR_FNTABLE_CALLTYPE *HasReaders)(IOBufferHandle_t ulBuffer);
+	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Open)(वर्ण * pch_मार्गः, EIOBuffer_बहुलकम् बहुलकम्, uint32_t un_Element_आकार, uint32_t unElements, IOBufferHandle_t * pul_बफर);
+	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Close)(IOBufferHandle_t ul_बफर);
+	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Read)(IOBufferHandle_t ul_बफर, शून्य * pDst, uint32_t un_अष्टकानि, uint32_t * punRead);
+	EIOBufferError (OPENVR_FNTABLE_CALLTYPE *Write)(IOBufferHandle_t ul_बफर, शून्य * pSrc, uint32_t un_अष्टकानि);
+	PropertyContainerHandle_t (OPENVR_FNTABLE_CALLTYPE *PropertyContainer)(IOBufferHandle_t ul_बफर);
+	bool (OPENVR_FNTABLE_CALLTYPE *HasReaders)(IOBufferHandle_t ul_बफर);
 };
 
-struct VR_IVRSpatialAnchors_FnTable
+संरचना VR_IVRSpatial_Anchors_Fn_सारणी
 {
-	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *CreateSpatialAnchorFromDescriptor)(char * pchDescriptor, SpatialAnchorHandle_t * pHandleOut);
-	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *CreateSpatialAnchorFromPose)(TrackedDeviceIndex_t unDeviceIndex, ETrackingUniverseOrigin eOrigin, struct SpatialAnchorPose_t * pPose, SpatialAnchorHandle_t * pHandleOut);
-	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *GetSpatialAnchorPose)(SpatialAnchorHandle_t unHandle, ETrackingUniverseOrigin eOrigin, struct SpatialAnchorPose_t * pPoseOut);
-	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *GetSpatialAnchorDescriptor)(SpatialAnchorHandle_t unHandle, char * pchDescriptorOut, uint32_t * punDescriptorBufferLenInOut);
+	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *CreateSpatialAnchorFromDescriptor)(वर्ण * pchDescriptor, SpatialAnchorHandle_t * p_Handle_बहिर्गमनम्);
+	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *CreateSpatialAnchorFromPose)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, ETrackingUniverseOrigin eOrigin, संरचना SpatialAnchorPose_t * pPose, SpatialAnchorHandle_t * p_Handle_बहिर्गमनम्);
+	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *GetSpatialAnchorPose)(SpatialAnchorHandle_t unHandle, ETrackingUniverseOrigin eOrigin, संरचना SpatialAnchorPose_t * p_Pose_बहिर्गमनम्);
+	EVRSpatialAnchorError (OPENVR_FNTABLE_CALLTYPE *GetSpatialAnchorDescriptor)(SpatialAnchorHandle_t unHandle, वर्ण * pch_Descriptor_बहिर्गमनम्, uint32_t * pun_Descriptor_बफर_Len_अन्तर्_बहिर्गमनम्);
 };
 
-struct VR_IVRDebug_FnTable
+संरचना VR_IVRDebug_Fn_सारणी
 {
-	EVRDebugError (OPENVR_FNTABLE_CALLTYPE *EmitVrProfilerEvent)(char * pchMessage);
-	EVRDebugError (OPENVR_FNTABLE_CALLTYPE *BeginVrProfilerEvent)(VrProfilerEventHandle_t * pHandleOut);
-	EVRDebugError (OPENVR_FNTABLE_CALLTYPE *FinishVrProfilerEvent)(VrProfilerEventHandle_t hHandle, char * pchMessage);
-	uint32_t (OPENVR_FNTABLE_CALLTYPE *DriverDebugRequest)(TrackedDeviceIndex_t unDeviceIndex, char * pchRequest, char * pchResponseBuffer, uint32_t unResponseBufferSize);
+	EVRDebugError (OPENVR_FNTABLE_CALLTYPE *EmitVrProfilerEvent)(वर्ण * pch_सन्देशः);
+	EVRDebugError (OPENVR_FNTABLE_CALLTYPE *BeginVrProfilerEvent)(VrProfilerEventHandle_t * p_Handle_बहिर्गमनम्);
+	EVRDebugError (OPENVR_FNTABLE_CALLTYPE *FinishVrProfilerEvent)(VrProfilerEventHandle_t hHandle, वर्ण * pch_सन्देशः);
+	uint32_t (OPENVR_FNTABLE_CALLTYPE *DriverDebugRequest)(Tracked_Device_सूचकांक_t un_Device_सूचकांक, वर्ण * pchRequest, वर्ण * pch_Response_बफर, uint32_t un_Response_बफर_आकार);
 };
 
-struct VR_IVRProperties_FnTable
+संरचना VR_IVRProperties_Fn_सारणी
 {
-	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *ReadPropertyBatch)(PropertyContainerHandle_t ulContainerHandle, struct PropertyRead_t * pBatch, uint32_t unBatchEntryCount);
-	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *WritePropertyBatch)(PropertyContainerHandle_t ulContainerHandle, struct PropertyWrite_t * pBatch, uint32_t unBatchEntryCount);
-	char * (OPENVR_FNTABLE_CALLTYPE *GetPropErrorNameFromEnum)(ETrackedPropertyError error);
-	PropertyContainerHandle_t (OPENVR_FNTABLE_CALLTYPE *TrackedDeviceToPropertyContainer)(TrackedDeviceIndex_t nDevice);
+	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *ReadPropertyBatch)(PropertyContainerHandle_t ulContainerHandle, संरचना PropertyRead_t * pBatch, uint32_t un_Batch_प्रविष्टिः_गणनम्);
+	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *WritePropertyBatch)(PropertyContainerHandle_t ulContainerHandle, संरचना PropertyWrite_t * pBatch, uint32_t un_Batch_प्रविष्टिः_गणनम्);
+	वर्ण * (OPENVR_FNTABLE_CALLTYPE *GetPropErrorNameFromEnum)(ETrackedPropertyError error);
+	PropertyContainerHandle_t (OPENVR_FNTABLE_CALLTYPE *Tracked_Device_गन्तव्यम्_Property_Container)(Tracked_Device_सूचकांक_t nDevice);
 };
 
-struct VR_IVRPaths_FnTable
+संरचना VR_IVRPaths_Fn_सारणी
 {
-	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *ReadPathBatch)(PropertyContainerHandle_t ulRootHandle, struct PathRead_t * pBatch, uint32_t unBatchEntryCount);
-	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *WritePathBatch)(PropertyContainerHandle_t ulRootHandle, struct PathWrite_t * pBatch, uint32_t unBatchEntryCount);
-	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *StringToHandle)(PathHandle_t * pHandle, char * pchPath);
-	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *HandleToString)(PathHandle_t pHandle, char * pchBuffer, uint32_t unBufferSize, uint32_t * punBufferSizeUsed);
+	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *Read_मार्गः_Batch)(PropertyContainerHandle_t ul_मूलम्_Handle, संरचना मार्गः_Read_t * pBatch, uint32_t un_Batch_प्रविष्टिः_गणनम्);
+	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *Write_मार्गः_Batch)(PropertyContainerHandle_t ul_मूलम्_Handle, संरचना मार्गः_Write_t * pBatch, uint32_t un_Batch_प्रविष्टिः_गणनम्);
+	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *String_गन्तव्यम्_Handle)(मार्गः_Handle_t * pHandle, वर्ण * pch_मार्गः);
+	ETrackedPropertyError (OPENVR_FNTABLE_CALLTYPE *Handle_गन्तव्यम्_String)(मार्गः_Handle_t pHandle, वर्ण * pch_बफर, uint32_t un_बफर_आकार, uint32_t * pun_बफर_आकार_प्रयुक्तम्);
 };
 
-struct VR_IVRBlockQueue_FnTable
+संरचना VR_IVRBlock_Queue_Fn_सारणी
 {
-	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Create)(PropertyContainerHandle_t * pulQueueHandle, char * pchPath, uint32_t unBlockDataSize, uint32_t unBlockHeaderSize, uint32_t unBlockCount, uint32_t unFlags);
-	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Connect)(PropertyContainerHandle_t * pulQueueHandle, char * pchPath);
+	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Create)(PropertyContainerHandle_t * pulQueueHandle, वर्ण * pch_मार्गः, uint32_t un_खण्डम्_दत्त_आकार, uint32_t un_खण्डम्_शीर्षकम्_आकार, uint32_t un_खण्डम्_गणनम्, uint32_t unFlags);
+	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Connect)(PropertyContainerHandle_t * pulQueueHandle, वर्ण * pch_मार्गः);
 	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Destroy)(PropertyContainerHandle_t ulQueueHandle);
-	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *AcquireWriteOnlyBlock)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t * pulBlockHandle, void ** ppvBuffer);
-	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *ReleaseWriteOnlyBlock)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t ulBlockHandle);
-	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *WaitAndAcquireReadOnlyBlock)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t * pulBlockHandle, void ** ppvBuffer, EBlockQueueReadType eReadType, uint32_t unTimeoutMs);
-	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *AcquireReadOnlyBlock)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t * pulBlockHandle, void ** ppvBuffer, EBlockQueueReadType eReadType);
-	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *ReleaseReadOnlyBlock)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t ulBlockHandle);
+	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Acquire_Write_Only_खण्डम्)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t * pul_खण्डम्_Handle, शून्य ** ppv_बफर);
+	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Release_Write_Only_खण्डम्)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t ul_खण्डम्_Handle);
+	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Wait_And_Acquire_Read_Only_खण्डम्)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t * pul_खण्डम्_Handle, शून्य ** ppv_बफर, EBlockQueueReadType eReadType, uint32_t unTimeoutMs);
+	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Acquire_Read_Only_खण्डम्)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t * pul_खण्डम्_Handle, शून्य ** ppv_बफर, EBlockQueueReadType eReadType);
+	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *Release_Read_Only_खण्डम्)(PropertyContainerHandle_t ulQueueHandle, PropertyContainerHandle_t ul_खण्डम्_Handle);
 	EBlockQueueError (OPENVR_FNTABLE_CALLTYPE *QueueHasReader)(PropertyContainerHandle_t ulQueueHandle, bool * pbHasReaders);
 };
 
 
-#if 0
+#यदि 0
 // Global entry points
-S_API intptr_t VR_InitInternal( EVRInitError *peError, EVRApplicationType eType );
-S_API void VR_ShutdownInternal();
+S_API intptr_t VR_Init_आन्तरिकम्( EVRInitError *peError, EVRApplicationType eType );
+S_API शून्य VR_Shutdown_आन्तरिकम्();
 S_API bool VR_IsHmdPresent();
-S_API intptr_t VR_GetGenericInterface( const char *pchInterfaceVersion, EVRInitError *peError );
+S_API intptr_t VR_GetGenericInterface( ध्रुव वर्ण *pch_Interface_संस्करणम्, EVRInitError *peError );
 S_API bool VR_IsRuntimeInstalled();
-S_API const char * VR_GetVRInitErrorAsSymbol( EVRInitError error );
-S_API const char * VR_GetVRInitErrorAsEnglishDescription( EVRInitError error );
-#endif
+S_API ध्रुव वर्ण * VR_Get_VRInit_Error_As_चिह्नम्( EVRInitError error );
+S_API ध्रुव वर्ण * VR_GetVRInitErrorAsEnglishDescription( EVRInitError error );
+#यदि_अन्तः
 
-#endif // __OPENVR_API_FLAT_H__
+#यदि_अन्तः // __OPENVR_API_FLAT_H__
 
 

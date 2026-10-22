@@ -19,18 +19,18 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_n3dskeyboard_h_
-#define SDL_n3dskeyboard_h_
+#यदि_अपरिभाषितम् SDL_n3dskeyboard_h_
+#परिभाषय SDL_n3dskeyboard_h_
 
-#include "../../events/SDL_events_c.h"
+#अन्तर्भाव "../../events/SDL_events_c.h"
 
-void N3DS_SwkbInit();
-void N3DS_SwkbPoll();
-void N3DS_SwkbQuit();
+शून्य N3DS_SwkbInit();
+शून्य N3DS_SwkbPoll();
+शून्य N3DS_SwkbQuit();
 
 bool N3DS_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
 
-bool N3DS_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool N3DS_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
+bool N3_DS_Start_Text_निवेशः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID props);
+bool N3_DS_Stop_Text_निवेशः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
 
-#endif // SDL_n3dskeyboard_h_
+#यदि_अन्तः // SDL_n3dskeyboard_h_

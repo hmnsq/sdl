@@ -18,29 +18,29 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_x11clipboard_h_
-#define SDL_x11clipboard_h_
+#यदि_अपरिभाषितम् SDL_x11clipboard_h_
+#परिभाषय SDL_x11clipboard_h_
 
-#include <X11/Xlib.h>
+#अन्तर्भाव <X11/Xlib.h>
 
-typedef struct X11_ClipboardData {
-    SDL_ClipboardDataCallback callback;
-    void *userdata;
-    const char *const *mime_types;
-    size_t mime_count;
+प्रकारनिर्देश संरचना X11_Clipboard_दत्त {
+    SDL_Clipboard_दत्त_Callback callback;
+    शून्य *userdata;
+    ध्रुव वर्ण *ध्रुव *mime_types;
+    size_t mime_गणनम्;
     Uint32 sequence;
-} SDLX11_ClipboardData;
+} SDLX11_Clipboard_दत्त;
 
-extern const char *const *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types);
-extern bool X11_SetClipboardData(SDL_VideoDevice *_this);
-extern void *X11_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length);
-extern bool X11_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type);
-extern bool X11_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text);
-extern char *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
-extern bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
-extern void X11_QuitClipboard(SDL_VideoDevice *_this);
-Window GetWindow(SDL_VideoDevice *_this);
+बाह्य ध्रुव वर्ण *ध्रुव *X11_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *अङ्कः_mime_types);
+बाह्य bool X11_समुच्चयः_Clipboard_दत्त(SDL_VideoDevice *_this);
+बाह्य शून्य *X11_Get_Clipboard_दत्त(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type, size_t *दीर्घता);
+बाह्य bool X11_Has_Clipboard_दत्त(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type);
+बाह्य bool X11_समुच्चयः_Primary_Selection_Text(SDL_VideoDevice *_this, ध्रुव वर्ण *text);
+बाह्य वर्ण *X11_GetPrimarySelectionText(SDL_VideoDevice *_this);
+बाह्य bool X11_HasPrimarySelectionText(SDL_VideoDevice *_this);
+बाह्य शून्य X11_QuitClipboard(SDL_VideoDevice *_this);
+गवाक्षः_2 Get_गवाक्षः(SDL_VideoDevice *_this);
 
-#endif // SDL_x11clipboard_h_
+#यदि_अन्तः // SDL_x11clipboard_h_

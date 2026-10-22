@@ -18,165 +18,165 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OPENVR
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_OPENVR
 
-#if 0
-#define DEBUG_OPENVR
-#endif
+#यदि 0
+#परिभाषय DEBUG_OPENVR
+#यदि_अन्तः
 
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../SDL_egl_c.h"
-#include "SDL_openvrvideo.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_events_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_pixels_c.h"
+#अन्तर्भाव "../SDL_egl_c.h"
+#अन्तर्भाव "SDL_openvrvideo.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WINDOWS
 // Currently only OpenGL, not EGL, is supported on Windows
-#include <SDL3/SDL_opengl.h>
-#else
+#अन्तर्भाव <SDL3/SDL_opengl.h>
+#अन्यथा
 // Currently only EGL, not OpenGL, is supported on other platforms
-#include <SDL3/SDL_opengles2.h>
-#include <SDL3/SDL_opengles2_gl2.h>
-#endif
+#अन्तर्भाव <SDL3/SDL_opengles2.h>
+#अन्तर्भाव <SDL3/SDL_opengles2_gl2.h>
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#include "../windows/SDL_windowsopengl.h"
-#include "../windows/SDL_windowsvulkan.h"
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WINDOWS
+#अन्तर्भाव "../windows/SDL_windowsopengl.h"
+#अन्तर्भाव "../windows/SDL_windowsvulkan.h"
 
-#define DEFAULT_OPENGL "OPENGL32.DLL"
+#परिभाषय DEFAULT_OPENGL "OPENGL32.DLL"
 
-static bool OPENVR_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-static SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+स्थिर bool OPENVR_GL_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+स्थिर SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
 
-struct SDL_GLContextState
+संरचना SDL_GLContextState
 {
     HGLRC hglrc;
 };
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_WINDOWS
 
 
 
-#ifdef SDL_PLATFORM_WINDOWS
-#define SDL_OPENVR_DRIVER_DYNAMIC "openvr_api.dll"
-#else
-#define SDL_OPENVR_DRIVER_DYNAMIC "openvr_api.so"
-#endif
+#यदि_परिभाषितम् SDL_PLATFORM_WINDOWS
+#परिभाषय SDL_OPENVR_DRIVER_DYNAMIC "openvr_api.dll"
+#अन्यथा
+#परिभाषय SDL_OPENVR_DRIVER_DYNAMIC "openvr_api.so"
+#यदि_अन्तः
 
 SDL_ELF_NOTE_DLOPEN(
     "video-openvr",
     "Support for OpenVR video",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_SUGGESTED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_SUGGESTED,
     SDL_OPENVR_DRIVER_DYNAMIC
 )
 
-#define MARKER_ID 0
-#define MARKER_STR "vr-marker,frame_end,type,application"
+#परिभाषय MARKER_ID 0
+#परिभाषय MARKER_STR "vr-marker,frame_end,type,application"
 
-#undef EXTERN_C
+#अपरिभाषय EXTERN_C
 
 // For access to functions that don't get the video data context.
-SDL_VideoData * global_openvr_driver;
+SDL_Video_दत्त * global_openvr_driver;
 
-static void InitializeMouseFunctions(void);
+स्थिर शून्य InitializeMouseFunctions(शून्य);
 
-struct SDL_CursorData
+संरचना SDL_Cursor_दत्त
 {
-    unsigned texture_id_handle;
-    int hot_x, hot_y;
-    int w, h;
+    अचिह्नित texture_id_handle;
+    पूर्णाङ्क hot_x, hot_y;
+    पूर्णाङ्क w, h;
 };
 
 // GL Extensions for functions we will be using.
-static void (APIENTRY *ov_glGenFramebuffers)(GLsizei n, GLuint *framebuffers);
-static void (APIENTRY *ov_glGenRenderbuffers)(GLsizei n, GLuint *renderbuffers);
-static void (APIENTRY *ov_glBindFramebuffer)(GLenum target, GLuint framebuffer);
-static void (APIENTRY *ov_glBindRenderbuffer)(GLenum target, GLuint renderbuffer);
-static void (APIENTRY *ov_glRenderbufferStorage)(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
-static void (APIENTRY *ov_glFramebufferRenderbuffer)(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-static void (APIENTRY *ov_glFramebufferTexture2D)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-static GLenum (APIENTRY *ov_glCheckNamedFramebufferStatus)(GLuint framebuffer, GLenum target);
-static GLenum (APIENTRY *ov_glGetError)(void);
-static void (APIENTRY *ov_glFlush)(void);
-static void (APIENTRY *ov_glFinish)(void);
-static void (APIENTRY *ov_glGenTextures)(GLsizei n, GLuint *textures);
-static void (APIENTRY *ov_glDeleteTextures)(GLsizei n, GLuint *textures);
-static void (APIENTRY *ov_glTexParameterf)(GLenum target, GLenum pname, GLfloat param);
-static void (APIENTRY *ov_glTexParameteri)(GLenum target, GLenum pname, GLenum param);
-static void (APIENTRY *ov_glTexImage2D)(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void *data);
-static void (APIENTRY *ov_glBindTexture)(GLenum target, GLuint texture);
-static void (APIENTRY *ov_glDrawBuffers)(GLsizei n, const GLenum *bufs);
-static void (APIENTRY *ov_glGetIntegerv)(GLenum pname, GLint * data);
-static const GLubyte *(APIENTRY *ov_glGetStringi)(GLenum name, GLuint index);
-static void (APIENTRY *ov_glClear)(GLbitfield mask);
-static void (APIENTRY *ov_glClearColor)(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
-static void (APIENTRY *ov_glColorMask)(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-static void (APIENTRY *ov_glDebugMessageInsert)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const char *message);
+स्थिर शून्य (APIENTRY *ov_glGenFramebuffers)(GLsizei n, GLuint *framebuffers);
+स्थिर शून्य (APIENTRY *ov_glGenRenderbuffers)(GLsizei n, GLuint *renderbuffers);
+स्थिर शून्य (APIENTRY *ov_glBindFramebuffer)(GLenum target, GLuint framebuffer);
+स्थिर शून्य (APIENTRY *ov_glBindRenderbuffer)(GLenum target, GLuint renderbuffer);
+स्थिर शून्य (APIENTRY *ov_glRenderbufferStorage)(GLenum target, GLenum internalformat, GLsizei विस्तारः, GLsizei height);
+स्थिर शून्य (APIENTRY *ov_glFramebufferRenderbuffer)(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
+स्थिर शून्य (APIENTRY *ov_glFramebufferTexture2D)(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
+स्थिर GLenum (APIENTRY *ov_gl_Check_Named_Framebuffer_स्थितिः)(GLuint framebuffer, GLenum target);
+स्थिर GLenum (APIENTRY *ov_glGetError)(शून्य);
+स्थिर शून्य (APIENTRY *ov_glFlush)(शून्य);
+स्थिर शून्य (APIENTRY *ov_glFinish)(शून्य);
+स्थिर शून्य (APIENTRY *ov_glGenTextures)(GLsizei n, GLuint *textures);
+स्थिर शून्य (APIENTRY *ov_glDeleteTextures)(GLsizei n, GLuint *textures);
+स्थिर शून्य (APIENTRY *ov_glTexParameterf)(GLenum target, GLenum pname, GLfloat param);
+स्थिर शून्य (APIENTRY *ov_glTexParameteri)(GLenum target, GLenum pname, GLenum param);
+स्थिर शून्य (APIENTRY *ov_glTexImage2D)(GLenum target, GLint level, GLint internalformat, GLsizei विस्तारः, GLsizei height, GLint border, GLenum format, GLenum type, ध्रुव शून्य *दत्त);
+स्थिर शून्य (APIENTRY *ov_glBindTexture)(GLenum target, GLuint texture);
+स्थिर शून्य (APIENTRY *ov_glDrawBuffers)(GLsizei n, ध्रुव GLenum *bufs);
+स्थिर शून्य (APIENTRY *ov_glGetIntegerv)(GLenum pname, GLint * दत्त);
+स्थिर ध्रुव GLubyte *(APIENTRY *ov_glGetStringi)(GLenum name, GLuint सूचकांक);
+स्थिर शून्य (APIENTRY *ov_glClear)(GLbitfield आवरणम्);
+स्थिर शून्य (APIENTRY *ov_glClearColor)(GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
+स्थिर शून्य (APIENTRY *ov_gl_Color_आवरणम्)(GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+स्थिर शून्य (APIENTRY *ov_gl_Debug_सन्देशः_निवेशय)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei दीर्घता, ध्रुव वर्ण *सन्देशः);
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-static PROC (*ov_wglGetProcAddress)(LPCSTR);
-static HGLRC (*ov_wglCreateContext)(HDC);
-static BOOL (*ov_wglDeleteContext)(HGLRC);
-static BOOL (*ov_wglMakeCurrent)(HDC, HGLRC);
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WINDOWS
+स्थिर PROC (*ov_wgl_Get_Proc_स्थानाङ्कः)(LPCSTR);
+स्थिर HGLRC (*ov_wglCreateContext)(HDC);
+स्थिर BOOL (*ov_wglDeleteContext)(HGLRC);
+स्थिर BOOL (*ov_wglMakeCurrent)(HDC, HGLRC);
 //static HGLRC (*ov_wglGetCurrentContext)(void);
-#endif
+#यदि_अन्तः
 
 
-#define OPENVR_DEFAULT_WIDTH 1920
-#define OPENVR_DEFAULT_HEIGHT 1080
+#परिभाषय OPENVR_DEFAULT_विस्तारः 1920
+#परिभाषय OPENVR_DEFAULT_HEIGHT 1080
 
-#define OPENVR_SetupProc(proc) { proc = (void *)SDL_GL_GetProcAddress((#proc)+3); if (!proc) { failed_extension = (#proc)+3; } }
+#परिभाषय OPENVR_सज्जता_Proc(proc) { proc = (शून्य *)SDL_GL_Get_Proc_स्थानाङ्कः((#proc)+3); यदि (!proc) { failed_extension = (#proc)+3; } }
 
-static bool OPENVR_InitExtensions(SDL_VideoDevice *_this)
+स्थिर bool OPENVR_InitExtensions(SDL_VideoDevice *_this)
 {
-    if (!ov_glGetError) {
-        const char * failed_extension = 0;
-        OPENVR_SetupProc(ov_glGenFramebuffers);
-        OPENVR_SetupProc(ov_glGenRenderbuffers);
-        OPENVR_SetupProc(ov_glBindFramebuffer);
-        OPENVR_SetupProc(ov_glBindRenderbuffer);
-        OPENVR_SetupProc(ov_glRenderbufferStorage);
-        OPENVR_SetupProc(ov_glFramebufferRenderbuffer);
-        OPENVR_SetupProc(ov_glFramebufferTexture2D);
-        OPENVR_SetupProc(ov_glCheckNamedFramebufferStatus);
-        OPENVR_SetupProc(ov_glGetError);
-        OPENVR_SetupProc(ov_glFlush);
-        OPENVR_SetupProc(ov_glFinish);
-        OPENVR_SetupProc(ov_glGenTextures);
-        OPENVR_SetupProc(ov_glDeleteTextures);
-        OPENVR_SetupProc(ov_glTexParameterf);
-        OPENVR_SetupProc(ov_glTexParameteri);
-        OPENVR_SetupProc(ov_glTexImage2D);
-        OPENVR_SetupProc(ov_glBindTexture);
-        OPENVR_SetupProc(ov_glDrawBuffers);
-        OPENVR_SetupProc(ov_glClear);
-        OPENVR_SetupProc(ov_glClearColor);
-        OPENVR_SetupProc(ov_glColorMask);
-        OPENVR_SetupProc(ov_glGetStringi);
-        OPENVR_SetupProc(ov_glGetIntegerv);
-        OPENVR_SetupProc(ov_glDebugMessageInsert);
-        if (failed_extension) {
-            return SDL_SetError("Error loading GL extension for %s", failed_extension);
+    यदि (!ov_glGetError) {
+        ध्रुव वर्ण * failed_extension = 0;
+        OPENVR_सज्जता_Proc(ov_glGenFramebuffers);
+        OPENVR_सज्जता_Proc(ov_glGenRenderbuffers);
+        OPENVR_सज्जता_Proc(ov_glBindFramebuffer);
+        OPENVR_सज्जता_Proc(ov_glBindRenderbuffer);
+        OPENVR_सज्जता_Proc(ov_glRenderbufferStorage);
+        OPENVR_सज्जता_Proc(ov_glFramebufferRenderbuffer);
+        OPENVR_सज्जता_Proc(ov_glFramebufferTexture2D);
+        OPENVR_सज्जता_Proc(ov_gl_Check_Named_Framebuffer_स्थितिः);
+        OPENVR_सज्जता_Proc(ov_glGetError);
+        OPENVR_सज्जता_Proc(ov_glFlush);
+        OPENVR_सज्जता_Proc(ov_glFinish);
+        OPENVR_सज्जता_Proc(ov_glGenTextures);
+        OPENVR_सज्जता_Proc(ov_glDeleteTextures);
+        OPENVR_सज्जता_Proc(ov_glTexParameterf);
+        OPENVR_सज्जता_Proc(ov_glTexParameteri);
+        OPENVR_सज्जता_Proc(ov_glTexImage2D);
+        OPENVR_सज्जता_Proc(ov_glBindTexture);
+        OPENVR_सज्जता_Proc(ov_glDrawBuffers);
+        OPENVR_सज्जता_Proc(ov_glClear);
+        OPENVR_सज्जता_Proc(ov_glClearColor);
+        OPENVR_सज्जता_Proc(ov_gl_Color_आवरणम्);
+        OPENVR_सज्जता_Proc(ov_glGetStringi);
+        OPENVR_सज्जता_Proc(ov_glGetIntegerv);
+        OPENVR_सज्जता_Proc(ov_gl_Debug_सन्देशः_निवेशय);
+        यदि (failed_extension) {
+            प्रत्यागम SDL_समुच्चयः_Error("Error loading GL extension for %s", failed_extension);
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_SetOverlayError(EVROverlayError e)
+स्थिर bool OPENVR_समुच्चयः_Overlay_Error(EVROverlayError e)
 {
-    switch (e) {
-#define CASE(X) case EVROverlayError_VROverlayError_##X: return SDL_SetError("VROverlayError %s", #X)
+    विकल्प (e) {
+#परिभाषय CASE(X) पक्ष EVROverlayError_VROverlayError_##X: प्रत्यागम SDL_समुच्चयः_Error("VROverlayError %s", #X)
     CASE(UnknownOverlay);
     CASE(InvalidHandle);
     CASE(PermissionDenied);
-    CASE(OverlayLimitExceeded);
+    CASE(Overlay_सीमा_Exceeded);
     CASE(WrongVisibilityType);
-    CASE(KeyTooLong);
+    CASE(कुञ्चिका_Too_Long);
     CASE(NameTooLong);
-    CASE(KeyInUse);
+    CASE(कुञ्चिका_अन्तर्_Use);
     CASE(WrongTransformType);
     CASE(InvalidTrackedDevice);
     CASE(InvalidParameter);
@@ -184,117 +184,117 @@ static bool OPENVR_SetOverlayError(EVROverlayError e)
     CASE(ArrayTooSmall);
     CASE(RequestFailed);
     CASE(InvalidTexture);
-    CASE(UnableToLoadFile);
-    CASE(KeyboardAlreadyInUse);
+    CASE(Unable_गन्तव्यम्_आरोपय_File);
+    CASE(Keyboard_Already_अन्तर्_Use);
     CASE(NoNeighbor);
-    CASE(TooManyMaskPrimitives);
-    CASE(BadMaskPrimitive);
+    CASE(Too_Many_आवरणम्_Primitives);
+    CASE(Bad_आवरणम्_Primitive);
     CASE(TextureAlreadyLocked);
-    CASE(TextureLockCapacityReached);
+    CASE(Texture_तालकम्_क्षमता_Reached);
     CASE(TextureNotLocked);
-    CASE(TimedOut);
-#undef CASE
-    default:
-        return SDL_SetError("Unknown VROverlayError %d", e);
+    CASE(Timed_बहिर्गमनम्);
+#अपरिभाषय CASE
+    स्वभाव:
+        प्रत्यागम SDL_समुच्चयः_Error("Unknown VROverlayError %d", e);
     }
 }
 
-static bool OPENVR_InitializeOverlay(SDL_VideoDevice *_this, SDL_Window *window);
+स्थिर bool OPENVR_InitializeOverlay(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
 
-static bool OPENVR_VideoInit(SDL_VideoDevice *_this)
+स्थिर bool OPENVR_VideoInit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *दत्त = (SDL_Video_दत्त *)_this->आन्तरिकम्;
 
-    const char * hintWidth = SDL_GetHint("SDL_DEFAULT_WIDTH");
-    const char * hintHeight = SDL_GetHint("SDL_DEFAULT_HEIGHT");
-    const char * hintFPS = SDL_GetHint("SDL_DEFAULT_FPS");
-    int width = hintWidth ? SDL_atoi(hintWidth) : 0;
-    int height = hintHeight ? SDL_atoi(hintHeight) : 0;
-    int fps = hintFPS ? SDL_atoi(hintFPS) : 0;
+    ध्रुव वर्ण * hint_विस्तारः = SDL_GetHint("SDL_DEFAULT_WIDTH");
+    ध्रुव वर्ण * hintHeight = SDL_GetHint("SDL_DEFAULT_HEIGHT");
+    ध्रुव वर्ण * hintFPS = SDL_GetHint("SDL_DEFAULT_FPS");
+    पूर्णाङ्क विस्तारः = hint_विस्तारः ? SDL_atoi(hint_विस्तारः) : 0;
+    पूर्णाङ्क height = hintHeight ? SDL_atoi(hintHeight) : 0;
+    पूर्णाङ्क fps = hintFPS ? SDL_atoi(hintFPS) : 0;
 
     SDL_VideoDisplay display;
     SDL_zero(display);
-    display.desktop_mode.format = SDL_PIXELFORMAT_RGBA32;
-    display.desktop_mode.w = OPENVR_DEFAULT_WIDTH;
-    display.desktop_mode.h = OPENVR_DEFAULT_HEIGHT;
+    display.desktop_बहुलकम्.format = SDL_PIXELFORMAT_RGBA32;
+    display.desktop_बहुलकम्.w = OPENVR_DEFAULT_विस्तारः;
+    display.desktop_बहुलकम्.h = OPENVR_DEFAULT_HEIGHT;
     display.natural_orientation = SDL_ORIENTATION_LANDSCAPE;
     display.current_orientation = SDL_ORIENTATION_LANDSCAPE;
     display.content_scale = 1.0f;
-    if (height > 0 && width > 0) {
-        display.desktop_mode.w = width;
-        display.desktop_mode.h = height;
+    यदि (height > 0 && विस्तारः > 0) {
+        display.desktop_बहुलकम्.w = विस्तारः;
+        display.desktop_बहुलकम्.h = height;
     }
-    if (fps) {
-        display.desktop_mode.refresh_rate = fps;
-    } else {
-        display.desktop_mode.refresh_rate = data->oSystem->GetFloatTrackedDeviceProperty(k_unTrackedDeviceIndex_Hmd, ETrackedDeviceProperty_Prop_DisplayFrequency_Float, 0);
+    यदि (fps) {
+        display.desktop_बहुलकम्.refresh_दरः = fps;
+    } अन्यथा {
+        display.desktop_बहुलकम्.refresh_दरः = दत्त->oSystem->GetFloatTrackedDeviceProperty(k_un_Tracked_Device_सूचकांक_Hmd, ETrackedDeviceProperty_Prop_DisplayFrequency_Float, 0);
     }
-    display.name = (char *)"OpenVRDisplay";
-    SDL_AddVideoDisplay(&display, false);
+    display.name = (वर्ण *)"OpenVRDisplay";
+    SDL_सङ्कलय_Video_Display(&display, false);
 
-    return true;
+    प्रत्यागम true;
 }
 
-static void OPENVR_VideoQuit(SDL_VideoDevice *_this)
+स्थिर शून्य OPENVR_VideoQuit(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (videodata->bDidCreateOverlay && videodata->overlayID != 0) {
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (videodata->bDidCreateOverlay && videodata->overlayID != 0) {
         videodata->oOverlay->DestroyOverlay(videodata->overlayID);
     }
 }
 
-static void OPENVR_Destroy(SDL_VideoDevice *device)
+स्थिर शून्य OPENVR_Destroy(SDL_VideoDevice *device)
 {
-    SDL_VideoData *data = device->internal;
+    SDL_Video_दत्त *दत्त = device->आन्तरिकम्;
 
-#ifdef SDL_PLATFORM_WINDOWS
+#यदि_परिभाषितम् SDL_PLATFORM_WINDOWS
     SDL_UnregisterApp();
-#endif
+#यदि_अन्तः
 
-    if (data) {
-        if (data->openVRLIB) {
-            SDL_UnloadObject(data->openVRLIB);
+    यदि (दत्त) {
+        यदि (दत्त->openVRLIB) {
+            SDL_UnloadObject(दत्त->openVRLIB);
         }
     }
-    SDL_free(device->internal);
+    SDL_free(device->आन्तरिकम्);
     SDL_free(device);
 }
 
-static uint32_t *ImageSDLToOpenVRGL(SDL_Surface * surf, bool bFlipY)
+स्थिर uint32_t *ImageSDLToOpenVRGL(SDL_Surface * surf, bool bFlipY)
 {
-    int w = surf->w;
-    int h = surf->h;
-    int pitch = surf->pitch;
-    int x, y;
+    पूर्णाङ्क w = surf->w;
+    पूर्णाङ्क h = surf->h;
+    पूर्णाङ्क pitch = surf->pitch;
+    पूर्णाङ्क x, y;
     uint32_t * pxd = SDL_malloc(4 * surf->w * surf->h);
-    for(y = 0; y < h; y++) {
+    प्रति(y = 0; y < h; y++) {
         uint32_t * iline = (uint32_t *)&(((uint8_t *)surf->pixels)[y * pitch]);
         uint32_t * oline = &pxd[(bFlipY?(h-y-1):y)*w];
-        for(x = 0; x < w; x++)
+        प्रति(x = 0; x < w; x++)
         {
             uint32_t pr = iline[x];
             oline[x] = (pr & 0xff00ff00) | ((pr & 0xff) << 16) | ((pr & 0xff0000)>>16);
         }
     }
-    return pxd;
+    प्रत्यागम pxd;
 }
 
-static bool OPENVR_CheckRenderbuffer(SDL_VideoDevice *_this)
+स्थिर bool OPENVR_CheckRenderbuffer(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
 
-    if (videodata->targw == 0 || videodata->targh == 0) {
-        videodata->targw = OPENVR_DEFAULT_WIDTH;
+    यदि (videodata->targw == 0 || videodata->targh == 0) {
+        videodata->targw = OPENVR_DEFAULT_विस्तारः;
         videodata->targh = OPENVR_DEFAULT_HEIGHT;
     }
 
-    if (videodata->targh != videodata->last_targh
-     || videodata->targw != videodata->last_targw) {
+    यदि (videodata->targh != videodata->चरमः_targh
+     || videodata->targw != videodata->चरमः_targw) {
 
-        struct HmdVector2_t ms;
-        int status;
+        संरचना HmdVector2_t ms;
+        पूर्णाङ्क स्थितिः;
 
-        if (videodata->fbo <= 0) {
+        यदि (videodata->fbo <= 0) {
             ov_glGenFramebuffers(1, &videodata->fbo);
             ov_glGenRenderbuffers(1, &videodata->rbo);
             ov_glGenTextures(1, &videodata->overlaytexture);
@@ -303,173 +303,173 @@ static bool OPENVR_CheckRenderbuffer(SDL_VideoDevice *_this)
         // Generate the OpenGL Backing buffers/etc.
         ov_glBindFramebuffer(GL_FRAMEBUFFER, videodata->fbo);
         ov_glBindRenderbuffer(GL_RENDERBUFFER, videodata->rbo);
-        ov_glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, videodata->targw, videodata->targh);
-        ov_glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, videodata->rbo);
+        ov_glRenderbufferStorage(GL_RENDERBUFFER, GL_गभीरता_COMPONENT, videodata->targw, videodata->targh);
+        ov_glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_गभीरता_ATTACHMENT, GL_RENDERBUFFER, videodata->rbo);
         ov_glBindTexture(GL_TEXTURE_2D, videodata->overlaytexture);
-        ov_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        ov_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        ov_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_निकटतमः);
+        ov_glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_निकटतमः);
         ov_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, videodata->targw, videodata->targh, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
         ov_glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, videodata->overlaytexture, 0);
-        status = ov_glCheckNamedFramebufferStatus(videodata->fbo, GL_FRAMEBUFFER);
-        if (status != GL_FRAMEBUFFER_COMPLETE) {
-            return SDL_SetError("OPENVR: Can't generate overlay buffer");
+        स्थितिः = ov_gl_Check_Named_Framebuffer_स्थितिः(videodata->fbo, GL_FRAMEBUFFER);
+        यदि (स्थितिः != GL_FRAMEBUFFER_COMPLETE) {
+            प्रत्यागम SDL_समुच्चयः_Error("OPENVR: Can't generate overlay buffer");
         }
         ov_glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        ms.v[0] = (float)videodata->targw;
-        ms.v[1] = (float)videodata->targh;
-        videodata->oOverlay->SetOverlayMouseScale(videodata->overlayID, &ms);
+        ms.v[0] = (भिन्न)videodata->targw;
+        ms.v[1] = (भिन्न)videodata->targh;
+        videodata->oOverlay->समुच्चयः_Overlay_Mouse_Scale(videodata->overlayID, &ms);
 
-        videodata->last_targh = videodata->targh;
-        videodata->last_targw = videodata->targw;
+        videodata->चरमः_targh = videodata->targh;
+        videodata->चरमः_targw = videodata->targw;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_VirtualControllerRumble(void *userdata, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble)
+स्थिर bool OPENVR_VirtualControllerRumble(शून्य *userdata, Uint16 नीचः_frequency_rumble, Uint16 उच्चः_frequency_rumble)
 {
     // On XBOX Controllers Low/High maps to Left/Right
-    SDL_VideoData *videodata = (SDL_VideoData *)userdata;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)userdata;
 
-    const float k_flIntensity = 320.f; // Maximum frequency
-    float flLeftFrequency = (float)low_frequency_rumble * k_flIntensity / 65535.f;
-    float flRightFrequency = (float)high_frequency_rumble * k_flIntensity / 65535.f;
-    float flDurationSeconds = 2.f;
-    float flAmplitude = 1.f;
+    ध्रुव भिन्न k_flIntensity = 320.f; // Maximum frequency
+    भिन्न fl_वामः_Frequency = (भिन्न)नीचः_frequency_rumble * k_flIntensity / 65535.f;
+    भिन्न fl_दक्षिणः_Frequency = (भिन्न)उच्चः_frequency_rumble * k_flIntensity / 65535.f;
+    भिन्न flDurationSeconds = 2.f;
+    भिन्न flAmplitude = 1.f;
 
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[0], 0, flDurationSeconds, flLeftFrequency, flAmplitude, 0);
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[1], 0, flDurationSeconds, flRightFrequency, flAmplitude, 0);
+    videodata->o_निवेशः->TriggerHapticVibrationAction(videodata->निवेशः_action_handles_haptics[0], 0, flDurationSeconds, fl_वामः_Frequency, flAmplitude, 0);
+    videodata->o_निवेशः->TriggerHapticVibrationAction(videodata->निवेशः_action_handles_haptics[1], 0, flDurationSeconds, fl_दक्षिणः_Frequency, flAmplitude, 0);
 
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_VirtualControllerRumbleTriggers(void *userdata, Uint16 left_rumble, Uint16 right_rumble)
+स्थिर bool OPENVR_VirtualControllerRumbleTriggers(शून्य *userdata, Uint16 वामः_rumble, Uint16 दक्षिणः_rumble)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)userdata;
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[0], 0, 0.1f, left_rumble, 1.0, 0);
-    videodata->oInput->TriggerHapticVibrationAction(videodata->input_action_handles_haptics[1], 0, 0.1f, right_rumble, 1.0, 0);
-    return true;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)userdata;
+    videodata->o_निवेशः->TriggerHapticVibrationAction(videodata->निवेशः_action_handles_haptics[0], 0, 0.1f, वामः_rumble, 1.0, 0);
+    videodata->o_निवेशः->TriggerHapticVibrationAction(videodata->निवेशः_action_handles_haptics[1], 0, 0.1f, दक्षिणः_rumble, 1.0, 0);
+    प्रत्यागम true;
 }
 
-static void OPENVR_VirtualControllerUpdate(void *userdata)
+स्थिर शून्य OPENVR_VirtualControllerUpdate(शून्य *userdata)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)userdata;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)userdata;
     SDL_Joystick * joystick = videodata->virtual_joystick;
-    InputDigitalActionData_t digital_input_action;
-    InputAnalogActionData_t analog_input_action;
+    निवेशः_Digital_Action_दत्त_t digital_निवेशः_action;
+    निवेशः_Analog_Action_दत्त_t analog_निवेशः_action;
     EVRInputError e;
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
     //char cts[10240];
     //char * ctsx = cts;
-#endif
-    VRActiveActionSet_t actionSet = { 0 };
-    actionSet.ulActionSet = videodata->input_action_set;
-    e = videodata->oInput->UpdateActionState(&actionSet, sizeof(actionSet), 1);
-    if (e)
+#यदि_अन्तः
+    VRActive_Action_समुच्चयः_t action_समुच्चयः = { 0 };
+    action_समुच्चयः.ul_Action_समुच्चयः = videodata->निवेशः_action_समुच्चयः;
+    e = videodata->o_निवेशः->UpdateActionState(&action_समुच्चयः, परिमाण(action_समुच्चयः), 1);
+    यदि (e)
     {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
         SDL_Log("ERROR: Failed to update action state");
-#endif
-        return;
+#यदि_अन्तः
+        प्रत्यागम;
     }
 
-    for (int d = 0; d < videodata->input_action_handles_buttons_count; d++)
+    प्रति (पूर्णाङ्क d = 0; d < videodata->निवेशः_action_handles_buttons_गणनम्; d++)
     {
-        if (videodata->input_action_handles_buttons[d] == k_ulInvalidActionHandle)
-            continue;
-        e = videodata->oInput->GetDigitalActionData(videodata->input_action_handles_buttons[d], &digital_input_action, sizeof(digital_input_action), k_ulInvalidInputValueHandle);
-        if (e)
+        यदि (videodata->निवेशः_action_handles_buttons[d] == k_ulInvalidActionHandle)
+            अनुवर्त;
+        e = videodata->o_निवेशः->Get_Digital_Action_दत्त(videodata->निवेशः_action_handles_buttons[d], &digital_निवेशः_action, परिमाण(digital_निवेशः_action), k_ul_Invalid_निवेशः_मानम्_Handle);
+        यदि (e)
         {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
             SDL_Log("ERROR: Failed to get digital action data: %d", d);
-#endif
-            return;
+#यदि_अन्तः
+            प्रत्यागम;
         }
-        SDL_SetJoystickVirtualButton(joystick, d, digital_input_action.bState);
-#ifdef DEBUG_OPENVR
+        SDL_समुच्चयः_Joystick_Virtual_Button(joystick, d, digital_निवेशः_action.bState);
+#यदि_परिभाषितम् DEBUG_OPENVR
         //ctsx+=sprintf(ctsx,"%d", digital_input_action.bState);
-#endif
+#यदि_अन्तः
     }
 
     // Left Stick
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[0], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
-    if (e)
+    e = videodata->o_निवेशः->Get_Analog_Action_दत्त(videodata->निवेशः_action_handles_axes[0], &analog_निवेशः_action, परिमाण(analog_निवेशः_action), k_ul_Invalid_निवेशः_मानम्_Handle);
+    यदि (e)
     {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
         SDL_Log("ERROR: Failed to get analog action data: left stick");
-#endif
-        return;
+#यदि_अन्तः
+        प्रत्यागम;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFTX, (Sint16)(analog_input_action.x * SDL_JOYSTICK_AXIS_MAX));
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFTY, (Sint16)(-analog_input_action.y * SDL_JOYSTICK_AXIS_MAX));
+    SDL_समुच्चयः_Joystick_Virtual_Axis(joystick, SDL_GAMEPAD_AXIS_LEFTX, (Sint16)(analog_निवेशः_action.x * SDL_JOYSTICK_AXIS_MAX));
+    SDL_समुच्चयः_Joystick_Virtual_Axis(joystick, SDL_GAMEPAD_AXIS_LEFTY, (Sint16)(-analog_निवेशः_action.y * SDL_JOYSTICK_AXIS_MAX));
 
     // Right Stick
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[1], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
-    if (e)
+    e = videodata->o_निवेशः->Get_Analog_Action_दत्त(videodata->निवेशः_action_handles_axes[1], &analog_निवेशः_action, परिमाण(analog_निवेशः_action), k_ul_Invalid_निवेशः_मानम्_Handle);
+    यदि (e)
     {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
         SDL_Log("ERROR: Failed to get analog action data: right stick");
-#endif
-        return;
+#यदि_अन्तः
+        प्रत्यागम;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHTX, (Sint16)(analog_input_action.x * SDL_JOYSTICK_AXIS_MAX));
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHTY, (Sint16)(-analog_input_action.y * SDL_JOYSTICK_AXIS_MAX));
+    SDL_समुच्चयः_Joystick_Virtual_Axis(joystick, SDL_GAMEPAD_AXIS_RIGHTX, (Sint16)(analog_निवेशः_action.x * SDL_JOYSTICK_AXIS_MAX));
+    SDL_समुच्चयः_Joystick_Virtual_Axis(joystick, SDL_GAMEPAD_AXIS_RIGHTY, (Sint16)(-analog_निवेशः_action.y * SDL_JOYSTICK_AXIS_MAX));
 
     // Left Trigger
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[2], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
-    if (e)
+    e = videodata->o_निवेशः->Get_Analog_Action_दत्त(videodata->निवेशः_action_handles_axes[2], &analog_निवेशः_action, परिमाण(analog_निवेशः_action), k_ul_Invalid_निवेशः_मानम्_Handle);
+    यदि (e)
     {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
         SDL_Log("ERROR: Failed to get analog action data: left trigger");
-#endif
-        return;
+#यदि_अन्तः
+        प्रत्यागम;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_LEFT_TRIGGER, (Sint16)((analog_input_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
+    SDL_समुच्चयः_Joystick_Virtual_Axis(joystick, SDL_GAMEPAD_AXIS_वामः_TRIGGER, (Sint16)((analog_निवेशः_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
 
     // Right Trigger
-    e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[3], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
-    if (e)
+    e = videodata->o_निवेशः->Get_Analog_Action_दत्त(videodata->निवेशः_action_handles_axes[3], &analog_निवेशः_action, परिमाण(analog_निवेशः_action), k_ul_Invalid_निवेशः_मानम्_Handle);
+    यदि (e)
     {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
         SDL_Log("ERROR: Failed to get analog action data: right trigger");
-#endif
-        return;
+#यदि_अन्तः
+        प्रत्यागम;
     }
-    SDL_SetJoystickVirtualAxis(joystick, SDL_GAMEPAD_AXIS_RIGHT_TRIGGER, (Sint16)((analog_input_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
+    SDL_समुच्चयः_Joystick_Virtual_Axis(joystick, SDL_GAMEPAD_AXIS_दक्षिणः_TRIGGER, (Sint16)((analog_निवेशः_action.x * 2.0f - 1.0f) * SDL_JOYSTICK_AXIS_MAX));
 
-#if 0
-    for (a = 0; a < videodata->input_action_handles_axes_count; a++)
+#यदि 0
+    प्रति (a = 0; a < videodata->निवेशः_action_handles_axes_गणनम्; a++)
     {
-        float xval = 0.0f;
-        e = videodata->oInput->GetAnalogActionData(videodata->input_action_handles_axes[a], &analog_input_action, sizeof(analog_input_action), k_ulInvalidInputValueHandle);
-        if (e) goto updatefail;
-        xval = analog_input_action.x;
-        if (a == SDL_CONTROLLER_AXIS_LEFTY || a == SDL_CONTROLLER_AXIS_RIGHTY)
+        भिन्न xval = 0.0f;
+        e = videodata->o_निवेशः->Get_Analog_Action_दत्त(videodata->निवेशः_action_handles_axes[a], &analog_निवेशः_action, परिमाण(analog_निवेशः_action), k_ul_Invalid_निवेशः_मानम्_Handle);
+        यदि (e) गच्छ updatefail;
+        xval = analog_निवेशः_action.x;
+        यदि (a == SDL_CONTROLLER_AXIS_LEFTY || a == SDL_CONTROLLER_AXIS_RIGHTY)
           xval *= -1.0f;
-        if (a == SDL_GAMEPAD_AXIS_LEFT_TRIGGER || a == SDL_GAMEPAD_AXIS_RIGHT_TRIGGER)
+        यदि (a == SDL_GAMEPAD_AXIS_वामः_TRIGGER || a == SDL_GAMEPAD_AXIS_दक्षिणः_TRIGGER)
           xval = xval * 2.0f - 1.0f;
         //SDL_SetJoystickVirtualAxis(joystick, a, analog_input_action.x * 32767);
         xval *= SDL_JOYSTICK_AXIS_MAX;
-        SDL_SetJoystickVirtualAxis(joystick, a, xval);
-#ifdef DEBUG_OPENVR
+        SDL_समुच्चयः_Joystick_Virtual_Axis(joystick, a, xval);
+#यदि_परिभाषितम् DEBUG_OPENVR
         //ctsx+=sprintf(ctsx,"[%f]", analog_input_action.x);
-#endif
+#यदि_अन्तः
     }
-#endif
-#ifdef DEBUG_OPENVR
+#यदि_अन्तः
+#यदि_परिभाषितम् DEBUG_OPENVR
     //SDL_Log("Debug Input States: %s", cts);
-#endif
-    return;
+#यदि_अन्तः
+    प्रत्यागम;
 }
 
-static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * videodata)
+स्थिर bool OPENVR_सज्जता_Joystick_Based_On_Loaded_Action_Manifest(SDL_Video_दत्त * videodata)
 {
     SDL_VirtualJoystickDesc desc;
     SDL_JoystickID virtual_id;
 
     EVRInputError e = 0;
 
-    char * k_pchBooleanActionPaths[SDL_GAMEPAD_BUTTON_COUNT] = {
+    वर्ण * k_pchBooleanActionPaths[SDL_GAMEPAD_BUTTON_गणनम्] = {
         "/actions/virtualgamepad/in/a",
         "/actions/virtualgamepad/in/b",
         "/actions/virtualgamepad/in/x",
@@ -497,172 +497,172 @@ static bool OPENVR_SetupJoystickBasedOnLoadedActionManifest(SDL_VideoData * vide
         "/actions/virtualgamepad/in/misc_5",
         "/actions/virtualgamepad/in/misc_6",
     };
-    char * k_pchAnalogActionPaths[4] = {
+    वर्ण * k_pchAnalogActionPaths[4] = {
         "/actions/virtualgamepad/in/stick_left",
         "/actions/virtualgamepad/in/stick_right",
         "/actions/virtualgamepad/in/trigger_left",
         "/actions/virtualgamepad/in/trigger_right",
     };
 
-    if ((e = videodata->oInput->GetActionSetHandle("/actions/virtualgamepad", &videodata->input_action_set)) != EVRInputError_VRInputError_None)
+    यदि ((e = videodata->o_निवेशः->Get_Action_समुच्चयः_Handle("/actions/virtualgamepad", &videodata->निवेशः_action_समुच्चयः)) != EVRInputError_VRInputError_None)
     {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
         SDL_Log("ERROR: Failed to get action set handle: %d", e);
-#endif
-        return SDL_SetError("Failed to get action set handle");
+#यदि_अन्तः
+        प्रत्यागम SDL_समुच्चयः_Error("Failed to get action set handle");
     }
 
-    videodata->input_action_handles_buttons_count = SDL_arraysize(k_pchBooleanActionPaths);
-    videodata->input_action_handles_buttons = SDL_malloc(videodata->input_action_handles_buttons_count * sizeof(VRActionHandle_t));
+    videodata->निवेशः_action_handles_buttons_गणनम् = SDL_arraysize(k_pchBooleanActionPaths);
+    videodata->निवेशः_action_handles_buttons = SDL_malloc(videodata->निवेशः_action_handles_buttons_गणनम् * परिमाण(VRActionHandle_t));
 
-    for (int i = 0; i < videodata->input_action_handles_buttons_count; i++)
+    प्रति (पूर्णाङ्क i = 0; i < videodata->निवेशः_action_handles_buttons_गणनम्; i++)
     {
-        e = videodata->oInput->GetActionHandle(k_pchBooleanActionPaths[i], &videodata->input_action_handles_buttons[i]);
-        if (e)
+        e = videodata->o_निवेशः->GetActionHandle(k_pchBooleanActionPaths[i], &videodata->निवेशः_action_handles_buttons[i]);
+        यदि (e)
         {
             SDL_Log("ERROR: Failed to get button action %d ('%s')", i, k_pchBooleanActionPaths[i]);
-            return SDL_SetError("ERROR: Failed to get button action");
+            प्रत्यागम SDL_समुच्चयः_Error("ERROR: Failed to get button action");
         }
     }
 
-    videodata->input_action_handles_axes_count = SDL_arraysize(k_pchAnalogActionPaths);
-    videodata->input_action_handles_axes = SDL_malloc(videodata->input_action_handles_axes_count * sizeof(VRActionHandle_t));
+    videodata->निवेशः_action_handles_axes_गणनम् = SDL_arraysize(k_pchAnalogActionPaths);
+    videodata->निवेशः_action_handles_axes = SDL_malloc(videodata->निवेशः_action_handles_axes_गणनम् * परिमाण(VRActionHandle_t));
 
-    for (int i = 0; i < videodata->input_action_handles_axes_count; i++)
+    प्रति (पूर्णाङ्क i = 0; i < videodata->निवेशः_action_handles_axes_गणनम्; i++)
     {
-        e = videodata->oInput->GetActionHandle(k_pchAnalogActionPaths[i], &videodata->input_action_handles_axes[i]);
-        if (e)
+        e = videodata->o_निवेशः->GetActionHandle(k_pchAnalogActionPaths[i], &videodata->निवेशः_action_handles_axes[i]);
+        यदि (e)
         {
             SDL_Log("ERROR: Failed to get analog action %d ('%s')", i, k_pchAnalogActionPaths[i]);
-            return SDL_SetError("ERROR: Failed to get analog action");
+            प्रत्यागम SDL_समुच्चयः_Error("ERROR: Failed to get analog action");
         }
     }
 
-    e  = videodata->oInput->GetActionHandle("/actions/virtualgamepad/out/haptic_left", &videodata->input_action_handles_haptics[0]);
-    e |= videodata->oInput->GetActionHandle("/actions/virtualgamepad/out/haptic_right", &videodata->input_action_handles_haptics[1]);
-    if (e)
+    e  = videodata->o_निवेशः->GetActionHandle("/actions/virtualgamepad/out/haptic_left", &videodata->निवेशः_action_handles_haptics[0]);
+    e |= videodata->o_निवेशः->GetActionHandle("/actions/virtualgamepad/out/haptic_right", &videodata->निवेशः_action_handles_haptics[1]);
+    यदि (e)
     {
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
         SDL_Log("ERROR: Failed to get haptics action");
-#endif
-        return SDL_SetError("ERROR: Failed to get haptics action");
+#यदि_अन्तः
+        प्रत्यागम SDL_समुच्चयः_Error("ERROR: Failed to get haptics action");
     }
 
     // Create a virtual joystick.
     SDL_INIT_INTERFACE(&desc);
     desc.type = SDL_JOYSTICK_TYPE_GAMEPAD;
-    desc.naxes = SDL_GAMEPAD_AXIS_COUNT;
-    desc.nbuttons = SDL_GAMEPAD_BUTTON_COUNT;
+    desc.naxes = SDL_GAMEPAD_AXIS_गणनम्;
+    desc.nbuttons = SDL_GAMEPAD_BUTTON_गणनम्;
     desc.Rumble = OPENVR_VirtualControllerRumble;
     desc.RumbleTriggers = OPENVR_VirtualControllerRumbleTriggers;
     desc.Update = OPENVR_VirtualControllerUpdate;
     desc.userdata = videodata;
     virtual_id = SDL_AttachVirtualJoystick(&desc);
 
-    if (!virtual_id) {
-        return SDL_SetError("OPENVR: Couldn't attach virtual joystick device: %s", SDL_GetError());
+    यदि (!virtual_id) {
+        प्रत्यागम SDL_समुच्चयः_Error("OPENVR: Couldn't attach virtual joystick device: %s", SDL_GetError());
     }
 
     videodata->virtual_joystick = SDL_OpenJoystick(virtual_id);
-    if (!videodata->virtual_joystick) {
-        return SDL_SetError("OPENVR: Couldn't open virtual joystick device: %s", SDL_GetError());
+    यदि (!videodata->virtual_joystick) {
+        प्रत्यागम SDL_समुच्चयः_Error("OPENVR: Couldn't open virtual joystick device: %s", SDL_GetError());
     }
 
-#ifdef DEBUG_OPENVR
-    SDL_Log("Loaded virtual joystick with %d buttons and %d axes", videodata->input_action_handles_buttons_count, videodata->input_action_handles_axes_count);
-#endif
+#यदि_परिभाषितम् DEBUG_OPENVR
+    SDL_Log("Loaded virtual joystick with %d buttons and %d axes", videodata->निवेशः_action_handles_buttons_गणनम्, videodata->निवेशः_action_handles_axes_गणनम्);
+#यदि_अन्तः
 
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_InitializeOverlay(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर bool OPENVR_InitializeOverlay(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
 
     // Wait til here, to make sure we have our context setup correctly.
-    if (!OPENVR_InitExtensions(_this)) {
-        return false;
+    यदि (!OPENVR_InitExtensions(_this)) {
+        प्रत्यागम false;
     }
 
     // Generate the overlay.
     {
-        const char * hint = SDL_GetHint("SDL_OPENVR_OVERLAY_NAME");
-        char * cursorname = 0;
-        if (!hint) {
+        ध्रुव वर्ण * hint = SDL_GetHint("SDL_OPENVR_OVERLAY_NAME");
+        वर्ण * cursorname = 0;
+        यदि (!hint) {
             hint = "sdl";
         }
 
         SDL_asprintf(&videodata->sOverlayName, "%s-overlay",hint);
-        if (!videodata->sOverlayName) {
-            return false;
+        यदि (!videodata->sOverlayName) {
+            प्रत्यागम false;
         }
         SDL_asprintf(&cursorname, "%s-cursor",hint);
-        if (!cursorname) {
-            return false;
+        यदि (!cursorname) {
+            प्रत्यागम false;
         }
 
-        EVROverlayError result = videodata->oOverlay->CreateDashboardOverlay(videodata->sOverlayName,
-            window->title, &videodata->overlayID, &videodata->thumbID);
-        if (result != EVROverlayError_VROverlayError_None) {
+        EVROverlayError परिणाम = videodata->oOverlay->CreateDashboardOverlay(videodata->sOverlayName,
+            गवाक्षः->title, &videodata->overlayID, &videodata->thumbID);
+        यदि (परिणाम != EVROverlayError_VROverlayError_None) {
             SDL_free(cursorname);
-            return SDL_SetError("Could not create dashboard overlay (%d)", result );
+            प्रत्यागम SDL_समुच्चयः_Error("Could not create dashboard overlay (%d)", परिणाम );
         }
-        result = videodata->oOverlay->CreateOverlay(cursorname, window->title, &videodata->cursorID);
-        if (result != EVROverlayError_VROverlayError_None) {
+        परिणाम = videodata->oOverlay->CreateOverlay(cursorname, गवाक्षः->title, &videodata->cursorID);
+        यदि (परिणाम != EVROverlayError_VROverlayError_None) {
             SDL_free(cursorname);
-            return SDL_SetError("Could not create cursor overlay (%d)", result );
+            प्रत्यागम SDL_समुच्चयः_Error("Could not create cursor overlay (%d)", परिणाम );
         }
-        SDL_PropertiesID props = SDL_GetWindowProperties(window);
-        SDL_SetNumberProperty(props, SDL_PROP_WINDOW_OPENVR_OVERLAY_ID_NUMBER, videodata->overlayID);
+        SDL_PropertiesID props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
+        SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_OPENVR_OVERLAY_ID_सङ्ख्या, videodata->overlayID);
         SDL_free(cursorname);
         videodata->bHasShownOverlay = false;
     }
     {
         Uint32 overlay_flags = 0;
 
-        const char *hint = SDL_GetHint("SDL_OPENVR_OVERLAY_FLAGS");
-        if (hint && *hint) {
+        ध्रुव वर्ण *hint = SDL_GetHint("SDL_OPENVR_OVERLAY_FLAGS");
+        यदि (hint && *hint) {
             overlay_flags = SDL_atoi(hint);
-        } else {
+        } अन्यथा {
             overlay_flags |= (1 << 17); //vr::VROverlayFlags_SendVRSmoothScrollEvents
             overlay_flags |= (1 << 23); //vr::VROverlayFlags_EnableControlBar
             overlay_flags |= (1 << 24); //vr::VROverlayFlags_EnableControlBarKeyboard
             overlay_flags |= (1 << 25); //vr::VROverlayFlags_EnableControlBarClose
-#if 0
+#यदि 0
             /* OpenVR overlays assume unpremultiplied alpha by default, set this flag to tag the source buffer as premultiplied.
              * Note that (as of 2025) OpenVR overlay composition is higher quality when premultiplied buffers are provided,
              * as texture samplers that blend energy (such as bilinear) do not yield sensical results when operating on natively
              * unpremultiplied textures. It is thus preferable to hand openvr natively premultiplied buffers when accurate
              * sampling / composition is required. */
             overlay_flags |= (1 << 21);    // vr::VROverlayFlags_IsPremultiplied
-#endif
+#यदि_अन्तः
         }
 
-        for (int i = 0; i < sizeof(overlay_flags) * 8; ++i) {
-            if (overlay_flags & (1 << i)) {
-                videodata->oOverlay->SetOverlayFlag(videodata->overlayID, (VROverlayFlags)(1 << i), true);
+        प्रति (पूर्णाङ्क i = 0; i < परिमाण(overlay_flags) * 8; ++i) {
+            यदि (overlay_flags & (1 << i)) {
+                videodata->oOverlay->समुच्चयः_Overlay_Flag(videodata->overlayID, (VROverlayFlags)(1 << i), true);
             }
         }
     }
     {
-        const char * hint = SDL_GetHint("SDL_OPENVR_OVERLAY_PANEL_WIDTH");
-        float fWidth = hint ? (float)SDL_atof(hint) : 1.0f;
-        videodata->oOverlay->SetOverlayWidthInMeters(videodata->overlayID, fWidth);
+        ध्रुव वर्ण * hint = SDL_GetHint("SDL_OPENVR_OVERLAY_PANEL_WIDTH");
+        भिन्न f_विस्तारः = hint ? (भिन्न)SDL_atof(hint) : 1.0f;
+        videodata->oOverlay->समुच्चयः_Overlay_विस्तारः_अन्तर्_Meters(videodata->overlayID, f_विस्तारः);
     }
     {
-        const char * hint = SDL_GetHint("SDL_OPENVR_CURSOR_WIDTH");
+        ध्रुव वर्ण * hint = SDL_GetHint("SDL_OPENVR_CURSOR_WIDTH");
         // Default is what SteamVR Does
-        float fCursorWidth = hint ? (float)SDL_atof(hint) : 0.06f;
-        videodata->oOverlay->SetOverlayWidthInMeters(videodata->cursorID, fCursorWidth * 0.5f);
+        भिन्न f_Cursor_विस्तारः = hint ? (भिन्न)SDL_atof(hint) : 0.06f;
+        videodata->oOverlay->समुच्चयः_Overlay_विस्तारः_अन्तर्_Meters(videodata->cursorID, f_Cursor_विस्तारः * 0.5f);
     }
     {
-        const char * hint = SDL_GetHint("SDL_OPENVR_WINDOW_ICON_FILE");
+        ध्रुव वर्ण * hint = SDL_GetHint("SDL_OPENVR_WINDOW_ICON_FILE");
         videodata->bIconOverridden = false;
-        if (hint) {
-            char * tmpcopy = SDL_strdup(hint);
-            EVROverlayError err = videodata->oOverlay->SetOverlayFromFile(videodata->thumbID, tmpcopy);
+        यदि (hint) {
+            वर्ण * tmpcopy = SDL_strdup(hint);
+            EVROverlayError err = videodata->oOverlay->समुच्चयः_Overlay_From_File(videodata->thumbID, tmpcopy);
             SDL_free(tmpcopy);
-            if (err == EVROverlayError_VROverlayError_None) {
+            यदि (err == EVROverlayError_VROverlayError_None) {
                 videodata->bIconOverridden = SDL_GetHintBoolean("SDL_OPENVR_WINDOW_ICON_OVERRIDE", false);
             }
         }
@@ -673,185 +673,185 @@ static bool OPENVR_InitializeOverlay(SDL_VideoDevice *_this, SDL_Window *window)
         bounds.uMax = 1;
         bounds.vMin = 0;
         bounds.vMax = 1;
-        videodata->oOverlay->SetOverlayTextureBounds(videodata->overlayID, &bounds);
+        videodata->oOverlay->समुच्चयः_Overlay_Texture_Bounds(videodata->overlayID, &bounds);
     }
 
-    if (!OPENVR_CheckRenderbuffer(_this)) {
-        return false;
+    यदि (!OPENVR_CheckRenderbuffer(_this)) {
+        प्रत्यागम false;
     }
 
     global_openvr_driver = videodata;
     InitializeMouseFunctions();
 
     // Actually show the overlay.
-    videodata->oOverlay->SetOverlayName(videodata->overlayID, window->title);
+    videodata->oOverlay->समुच्चयः_Overlay_Name(videodata->overlayID, गवाक्षः->title);
 
     videodata->bDidCreateOverlay = true;
-    videodata->window = window;
+    videodata->गवाक्षः = गवाक्षः;
 
-    return true;
+    प्रत्यागम true;
 }
 
 
-static bool OPENVR_SetupFrame(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर bool OPENVR_सज्जता_Frame(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    static const GLenum buffers[8] = { GL_COLOR_ATTACHMENT0_EXT };
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    स्थिर ध्रुव GLenum buffers[8] = { GL_COLOR_ATTACHMENT0_EXT };
 
-    videodata->is_buffer_rendering = true;
+    videodata->is_बफर_rendering = true;
 
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
     {
-        int error = ov_glGetError();
-        if (error)
-            SDL_Log("Found GL Error before beginning frame: %d / (Framebuffer:%d)", error, ov_glCheckNamedFramebufferStatus(videodata->fbo, GL_FRAMEBUFFER));
+        पूर्णाङ्क error = ov_glGetError();
+        यदि (error)
+            SDL_Log("Found GL Error before beginning frame: %d / (Framebuffer:%d)", error, ov_gl_Check_Named_Framebuffer_स्थितिः(videodata->fbo, GL_FRAMEBUFFER));
     }
-#endif
+#यदि_अन्तः
 
     ov_glBindFramebuffer(GL_FRAMEBUFFER, videodata->fbo);
     ov_glDrawBuffers(1, buffers);
 
     // Set the alpha channel for non-transparent windows
-    if (!(window->flags & SDL_WINDOW_TRANSPARENT)) {
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_TRANSPARENT)) {
         ov_glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        ov_glColorMask(false, false, false, true);
-        ov_glClear(GL_COLOR_BUFFER_BIT);
-        ov_glColorMask(true, true, true, true);
+        ov_gl_Color_आवरणम्(false, false, false, true);
+        ov_glClear(GL_COLOR_बफर_BIT);
+        ov_gl_Color_आवरणम्(true, true, true, true);
     }
 
     ov_glBindTexture( GL_TEXTURE_2D, videodata->saved_texture_state );
 
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_ReleaseFrame(SDL_VideoDevice *_this)
+स्थिर bool OPENVR_ReleaseFrame(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
     ov_glGetIntegerv(GL_TEXTURE_BINDING_2D, &videodata->saved_texture_state);
 
-    if (!ov_glGetError) {
-        return true;
+    यदि (!ov_glGetError) {
+        प्रत्यागम true;
     }
 
-    if (!videodata->is_buffer_rendering) {
-        return true;
+    यदि (!videodata->is_बफर_rendering) {
+        प्रत्यागम true;
     }
 
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
     {
-        int error = ov_glGetError();
-        if (error) {
-            SDL_Log("Found GL Error before release frame: %d / (Framebuffer:%d)", error, ov_glCheckNamedFramebufferStatus(videodata->fbo, GL_FRAMEBUFFER));
+        पूर्णाङ्क error = ov_glGetError();
+        यदि (error) {
+            SDL_Log("Found GL Error before release frame: %d / (Framebuffer:%d)", error, ov_gl_Check_Named_Framebuffer_स्थितिः(videodata->fbo, GL_FRAMEBUFFER));
         }
     }
-#endif
+#यदि_अन्तः
 
-    videodata->is_buffer_rendering = false;
+    videodata->is_बफर_rendering = false;
 
     ov_glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    if (videodata->overlaytexture != 0 &&
-        videodata->targh == videodata->last_targh &&
-        videodata->targw == videodata->last_targw) {
+    यदि (videodata->overlaytexture != 0 &&
+        videodata->targh == videodata->चरमः_targh &&
+        videodata->targw == videodata->चरमः_targw) {
         // Only submit frames to OpenVR if the texture exists.
-        struct Texture_t tex;
+        संरचना Texture_t tex;
 
         // Setup a Texture_t object to send in the texture.
         tex.eColorSpace = EColorSpace_ColorSpace_Auto;
         tex.eType = ETextureType_TextureType_OpenGL;
-        tex.handle = (void *)(intptr_t)videodata->overlaytexture;
+        tex.handle = (शून्य *)(intptr_t)videodata->overlaytexture;
 
         // Send texture into OpenVR as the overlay.
-        videodata->oOverlay->SetOverlayTexture(videodata->overlayID, &tex);
+        videodata->oOverlay->समुच्चयः_Overlay_Texture(videodata->overlayID, &tex);
     }
 
-    if (!videodata->bHasShownOverlay && videodata->bDidCreateOverlay) {
+    यदि (!videodata->bHasShownOverlay && videodata->bDidCreateOverlay) {
         videodata->oOverlay->ShowDashboard(videodata->sOverlayName);
         videodata->bHasShownOverlay = true;
     }
 
-    if (videodata->renderdoc_debugmarker_frame_end) {
-        ov_glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION,
+    यदि (videodata->renderdoc_debugmarker_frame_अन्तः) {
+        ov_gl_Debug_सन्देशः_निवेशय(GL_DEBUG_SOURCE_APPLICATION,
             GL_DEBUG_TYPE_MARKER, MARKER_ID, GL_DEBUG_SEVERITY_NOTIFICATION, -1,
             MARKER_STR);
     }
 
-    return OPENVR_CheckRenderbuffer(_this);
+    प्रत्यागम OPENVR_CheckRenderbuffer(_this);
 }
 
-static void OPENVR_HandleResize(SDL_VideoDevice *_this, int w, int h)
+स्थिर शून्य OPENVR_HandleResize(SDL_VideoDevice *_this, पूर्णाङ्क w, पूर्णाङ्क h)
 {
-    SDL_VideoData *data = (SDL_VideoData *)_this->internal;
-    data->targw = w;
-    data->targh = h;
+    SDL_Video_दत्त *दत्त = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    दत्त->targw = w;
+    दत्त->targh = h;
 }
 
-static bool OPENVR_SetDisplayMode(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+स्थिर bool OPENVR_समुच्चयः_Display_बहुलकम्(SDL_VideoDevice *_this, SDL_VideoDisplay *display, SDL_Display_बहुलकम् *बहुलकम्)
 {
-    return true;
+    प्रत्यागम true;
 }
 
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-static LRESULT CALLBACK OpenVRVideoWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WINDOWS
+स्थिर LRESULT CALLBACK OpenVRVideoWndProc(HWND hwnd, UINT सन्देशः_2, WPARAM wParam, LPARAM lParam)
 {
-    switch (msg) {
-    case WM_DESTROY:
-        return 0;
+    विकल्प (सन्देशः_2) {
+    पक्ष WM_DESTROY:
+        प्रत्यागम 0;
     }
-    return DefWindowProc(hwnd, msg, wParam, lParam);
+    प्रत्यागम Def_गवाक्षः_Proc(hwnd, सन्देशः_2, wParam, lParam);
 }
 
-static bool OPENVR_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+स्थिर bool OPENVR_GL_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः)
 {
-    if (path == NULL) {
-        path = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
+    यदि (मार्गः == रिक्त) {
+        मार्गः = SDL_GetHint(SDL_HINT_OPENGL_LIBRARY);
     }
 
-    if (path == NULL) {
-        path = DEFAULT_OPENGL;
+    यदि (मार्गः == रिक्त) {
+        मार्गः = DEFAULT_OPENGL;
     }
-    _this->gl_config.dll_handle = SDL_LoadObject(path);
-    if (!_this->gl_config.dll_handle) {
-        return false;
+    _this->gl_config.dll_handle = SDL_आरोपय_Object(मार्गः);
+    यदि (!_this->gl_config.dll_handle) {
+        प्रत्यागम false;
     }
-    SDL_strlcpy(_this->gl_config.driver_path, path,
-                 SDL_arraysize(_this->gl_config.driver_path));
+    SDL_strlcpy(_this->gl_config.driver_मार्गः, मार्गः,
+                 SDL_arraysize(_this->gl_config.driver_मार्गः));
 
     // Allocate OpenGL memory
-    _this->gl_data = (struct SDL_GLDriverData *)SDL_calloc(1, sizeof(struct SDL_GLDriverData));
-    if (!_this->gl_data) {
-        return false;
+    _this->gl_दत्त = (संरचना SDL_GLDriver_दत्त *)SDL_calloc(1, परिमाण(संरचना SDL_GLDriver_दत्त));
+    यदि (!_this->gl_दत्त) {
+        प्रत्यागम false;
     }
     _this->gl_config.driver_loaded = true;
 
-    return true;
+    प्रत्यागम true;
 }
 
-static SDL_FunctionPointer OPENVR_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+स्थिर SDL_FunctionPointer OPENVR_GL_Get_Proc_स्थानाङ्कः(SDL_VideoDevice *_this, ध्रुव वर्ण *proc)
 {
-    SDL_FunctionPointer result = NULL;
-    if (ov_wglGetProcAddress) {
-        result = (SDL_FunctionPointer)ov_wglGetProcAddress(proc);
-        if (result) {
-            return result;
+    SDL_FunctionPointer परिणाम = रिक्त;
+    यदि (ov_wgl_Get_Proc_स्थानाङ्कः) {
+        परिणाम = (SDL_FunctionPointer)ov_wgl_Get_Proc_स्थानाङ्कः(proc);
+        यदि (परिणाम) {
+            प्रत्यागम परिणाम;
         }
     }
 
-    return SDL_LoadFunction(_this->gl_config.dll_handle, proc);
+    प्रत्यागम SDL_आरोपय_Function(_this->gl_config.dll_handle, proc);
 }
 
-static void OPENVR_GL_UnloadLibrary(SDL_VideoDevice *_this)
+स्थिर शून्य OPENVR_GL_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_GL_UnloadLibrary();
 }
 
-static SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    GLint numExtensions;
-    int i;
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (!videodata->hglrc) {
+    GLint अङ्कः_Extensions;
+    पूर्णाङ्क i;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (!videodata->hglrc) {
         // Create a surfaceless EGL Context
         HWND hwnd;
 
@@ -860,29 +860,29 @@ static SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window 
         wnd.lpfnWndProc = OpenVRVideoWndProc;
         wnd.cbClsExtra = 0;
         wnd.cbWndExtra = 0;
-        wnd.hInstance = GetModuleHandle(NULL);
-        wnd.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-        wnd.hCursor = LoadCursor(NULL, IDC_ARROW);
+        wnd.hInstance = GetModuleHandle(रिक्त);
+        wnd.hIcon = आरोपय_Icon(रिक्त, IDI_APPLICATION);
+        wnd.hCursor = आरोपय_Cursor(रिक्त, IDC_ARROW);
         wnd.hbrBackground = (HBRUSH)(COLOR_BACKGROUND);
-        wnd.lpszMenuName = NULL;
+        wnd.lpszMenuName = रिक्त;
         wnd.lpszClassName = "SDL_openvrvideo_classname";
-        RegisterClassA(&wnd);
-        hwnd = CreateWindowA("SDL_openvrvideo_classname", "SDL_openvrvideo_windowname", (WS_OVERLAPPEDWINDOW), 0, 0,
-                              100, 100, NULL, NULL, GetModuleHandle(NULL), NULL);
+        पञ्जिकाकोशः_Class_A(&wnd);
+        hwnd = Create_गवाक्षः_A("SDL_openvrvideo_classname", "SDL_openvrvideo_windowname", (WS_OVERLAPPEDWINDOW), 0, 0,
+                              100, 100, रिक्त, रिक्त, GetModuleHandle(रिक्त), रिक्त);
 
-        MSG msg;
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+        सन्देशः_3 सन्देशः_2;
+        यावत् (Peek_सन्देशः(&सन्देशः_2, रिक्त, 0, 0, PM_REMOVE)) {
+            Translate_सन्देशः(&सन्देशः_2);
+            Dispatch_सन्देशः(&सन्देशः_2);
         }
 
         videodata->hdc = GetDC(hwnd);
 
-        static  PIXELFORMATDESCRIPTOR pfd =
+        स्थिर  PIXELFORMATDESCRIPTOR pfd =
         {
-            sizeof(PIXELFORMATDESCRIPTOR),
+            परिमाण(PIXELFORMATDESCRIPTOR),
             1,
-            PFD_DRAW_TO_WINDOW |
+            PFD_DRAW_गन्तव्यम्_गवाक्षः |
             PFD_SUPPORT_OPENGL |
             PFD_DOUBLEBUFFER,
             PFD_TYPE_RGBA,
@@ -899,434 +899,434 @@ static SDL_GLContext OPENVR_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window 
             0,
             0, 0, 0
         };
-        GLuint PixelFormat = ChoosePixelFormat(videodata->hdc, &pfd);
-        if (!SetPixelFormat(videodata->hdc, PixelFormat, &pfd)) {
-            SDL_SetError( "Could not set pixel format" );
-            return NULL;
+        GLuint PixelFormat = वृणु_Pixel_Format(videodata->hdc, &pfd);
+        यदि (!समुच्चयः_Pixel_Format(videodata->hdc, PixelFormat, &pfd)) {
+            SDL_समुच्चयः_Error( "Could not set pixel format" );
+            प्रत्यागम रिक्त;
         }
         HMODULE opengl = GetModuleHandleA(DEFAULT_OPENGL);
-        if (!opengl) {
-            SDL_SetError("Could not open OpenGL Library %s", DEFAULT_OPENGL);
-            return NULL;
+        यदि (!opengl) {
+            SDL_समुच्चयः_Error("Could not open OpenGL Library %s", DEFAULT_OPENGL);
+            प्रत्यागम रिक्त;
         }
 
-        ov_wglMakeCurrent = (BOOL(*)(HDC, HGLRC))GetProcAddress(opengl, "wglMakeCurrent");
-        ov_wglCreateContext = (HGLRC(*)(HDC))GetProcAddress(opengl, "wglCreateContext");
-        ov_wglGetProcAddress = (PROC(*)(LPCSTR))GetProcAddress(opengl, "wglGetProcAddress");
-        ov_wglDeleteContext = (BOOL(*)(HGLRC))GetProcAddress(opengl, "wglDeleteContext");
-        if (!ov_wglMakeCurrent || !ov_wglCreateContext) {
-            SDL_SetError("Cannot get wgl context procs(%p, %p)", ov_wglMakeCurrent, ov_wglCreateContext);
-            return NULL;
+        ov_wglMakeCurrent = (BOOL(*)(HDC, HGLRC))Get_Proc_स्थानाङ्कः(opengl, "wglMakeCurrent");
+        ov_wglCreateContext = (HGLRC(*)(HDC))Get_Proc_स्थानाङ्कः(opengl, "wglCreateContext");
+        ov_wgl_Get_Proc_स्थानाङ्कः = (PROC(*)(LPCSTR))Get_Proc_स्थानाङ्कः(opengl, "wglGetProcAddress");
+        ov_wglDeleteContext = (BOOL(*)(HGLRC))Get_Proc_स्थानाङ्कः(opengl, "wglDeleteContext");
+        यदि (!ov_wglMakeCurrent || !ov_wglCreateContext) {
+            SDL_समुच्चयः_Error("Cannot get wgl context procs(%p, %p)", ov_wglMakeCurrent, ov_wglCreateContext);
+            प्रत्यागम रिक्त;
         }
 
         videodata->hglrc = ov_wglCreateContext(videodata->hdc);
-        if (!videodata->hglrc || !ov_wglMakeCurrent(videodata->hdc, videodata->hglrc)) {
-            SDL_SetError("Could not make current OpenGL context.");
-            return NULL;
+        यदि (!videodata->hglrc || !ov_wglMakeCurrent(videodata->hdc, videodata->hglrc)) {
+            SDL_समुच्चयः_Error("Could not make current OpenGL context.");
+            प्रत्यागम रिक्त;
         }
     }
 
     i = OPENVR_InitExtensions(_this);
-    if (i == 0) {
-        return NULL;
+    यदि (i == 0) {
+        प्रत्यागम रिक्त;
     }
 
-    videodata->renderdoc_debugmarker_frame_end = false;
+    videodata->renderdoc_debugmarker_frame_अन्तः = false;
 
-    ov_glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
-    for (i = 0; i < numExtensions; i++) {
-        const char *ccc = (const char *)ov_glGetStringi(GL_EXTENSIONS, i);
-        if (SDL_strcmp(ccc, "GL_KHR_debug") == 0) {
-#ifdef DEBUG_OPENVR
+    ov_glGetIntegerv(GL_अङ्कः_EXTENSIONS, &अङ्कः_Extensions);
+    प्रति (i = 0; i < अङ्कः_Extensions; i++) {
+        ध्रुव वर्ण *ccc = (ध्रुव वर्ण *)ov_glGetStringi(GL_EXTENSIONS, i);
+        यदि (SDL_strcmp(ccc, "GL_KHR_debug") == 0) {
+#यदि_परिभाषितम् DEBUG_OPENVR
             SDL_Log("Found renderdoc debug extension.");
-#endif
-            videodata->renderdoc_debugmarker_frame_end = true;
+#यदि_अन्तः
+            videodata->renderdoc_debugmarker_frame_अन्तः = true;
         }
     }
 
-    if (!videodata->bDidCreateOverlay) {
-        if (!OPENVR_InitializeOverlay(_this, window)) {
-            return NULL;
+    यदि (!videodata->bDidCreateOverlay) {
+        यदि (!OPENVR_InitializeOverlay(_this, गवाक्षः)) {
+            प्रत्यागम रिक्त;
         }
     }
 
     OPENVR_CheckRenderbuffer(_this);
 
-    OPENVR_SetupFrame(_this, window);
+    OPENVR_सज्जता_Frame(_this, गवाक्षः);
 
-    SDL_GLContext result = SDL_malloc(sizeof(struct SDL_GLContextState));
-    if (!result) {
-        return NULL;
+    SDL_GLContext परिणाम = SDL_malloc(परिमाण(संरचना SDL_GLContextState));
+    यदि (!परिणाम) {
+        प्रत्यागम रिक्त;
     }
-    result->hglrc = videodata->hglrc;
-    return result;
+    परिणाम->hglrc = videodata->hglrc;
+    प्रत्यागम परिणाम;
 }
 
-static bool OPENVR_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *wnd, SDL_GLContext context)
+स्थिर bool OPENVR_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_गवाक्षः *wnd, SDL_GLContext context)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
     ov_wglMakeCurrent(videodata->hdc, videodata->hglrc);
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+स्थिर bool OPENVR_GL_समुच्चयः_Swap_Interval(SDL_VideoDevice *_this, पूर्णाङ्क interval)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
     videodata->swap_interval = interval;
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_GL_GetSwapInterval(SDL_VideoDevice *_this, int *swapInterval)
+स्थिर bool OPENVR_GL_GetSwapInterval(SDL_VideoDevice *_this, पूर्णाङ्क *swapInterval)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (swapInterval)
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (swapInterval)
         *swapInterval = videodata->swap_interval;
-    else
-        return SDL_SetError("OPENVR: null passed in for GetSwapInterval");
-    return true;
+    अन्यथा
+        प्रत्यागम SDL_समुच्चयः_Error("OPENVR: null passed in for GetSwapInterval");
+    प्रत्यागम true;
 }
 
-static bool OPENVR_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
+स्थिर bool OPENVR_GL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    ov_wglMakeCurrent(videodata->hdc, NULL);
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    ov_wglMakeCurrent(videodata->hdc, रिक्त);
     ov_wglDeleteContext(videodata->hglrc);
-    return true;
+    प्रत्यागम true;
 }
 
 
-#else
+#अन्यथा
 
-static EGLint context_attribs[] = {
-    EGL_CONTEXT_CLIENT_VERSION, 2,
+स्थिर EGLint context_attribs[] = {
+    EGL_CONTEXT_CLIENT_संस्करणम्, 2,
     EGL_NONE
 };
 
-static bool SDL_EGL_InitInternal(SDL_VideoData * vd)
+स्थिर bool SDL_EGL_Init_आन्तरिकम्(SDL_Video_दत्त * vd)
 {
     // Create a surfaceless EGL Context
     EGLint major, minor;
-    EGLConfig eglCfg=NULL;
+    EGLConfig eglCfg=रिक्त;
     EGLBoolean b;
 
     vd->eglDpy = eglGetDisplay(EGL_DEFAULT_DISPLAY);
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
     SDL_Log("EGL Display: %p", vd->eglDpy);
-#endif
+#यदि_अन्तः
 
-    if (vd->eglDpy == 0) {
-        return SDL_SetError("No EGL Display");
+    यदि (vd->eglDpy == 0) {
+        प्रत्यागम SDL_समुच्चयः_Error("No EGL Display");
     }
 
     b = eglInitialize(vd->eglDpy, &major, &minor);
-    if (!b) {
-        return SDL_SetError("eglInitialize failed");
+    यदि (!b) {
+        प्रत्यागम SDL_समुच्चयः_Error("eglInitialize failed");
     }
 
     eglBindAPI(EGL_OPENGL_API);
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
     SDL_Log("EGL Major Minor: %d %d = %d", major, minor, b);
-#endif
+#यदि_अन्तः
 
     vd->eglCtx = eglCreateContext(vd->eglDpy, eglCfg, EGL_NO_CONTEXT, context_attribs);
 
-#ifdef DEBUG_OPENVR
+#यदि_परिभाषितम् DEBUG_OPENVR
     {
-        int err = eglGetError();
-        if (err != EGL_SUCCESS) {
-            return SDL_SetError("EGL Error after eglCreateContext %d", err);
+        पूर्णाङ्क err = eglGetError();
+        यदि (err != EGL_SUCCESS) {
+            प्रत्यागम SDL_समुच्चयः_Error("EGL Error after eglCreateContext %d", err);
         }
     }
-#endif
+#यदि_अन्तः
 
-    if (!vd->eglCtx) {
-        return SDL_SetError("No EGL context available");
+    यदि (!vd->eglCtx) {
+        प्रत्यागम SDL_समुच्चयः_Error("No EGL context available");
     }
 
     eglMakeCurrent(vd->eglDpy, EGL_NO_SURFACE, EGL_NO_SURFACE, vd->eglCtx);
 
-    return true;
+    प्रत्यागम true;
 }
 
 // Linux, EGL, etc.
-static bool OVR_EGL_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+स्थिर bool OVR_EGL_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    प्रत्यागम SDL_EGL_आरोपय_Library(_this, मार्गः, EGL_DEFAULT_DISPLAY);
 }
 
-static SDL_FunctionPointer OVR_EGL_GetProcAddress(SDL_VideoDevice *_this, const char *proc)
+स्थिर SDL_FunctionPointer OVR_EGL_Get_Proc_स्थानाङ्कः(SDL_VideoDevice *_this, ध्रुव वर्ण *proc)
 {
-    return SDL_EGL_GetProcAddress(proc);
+    प्रत्यागम SDL_EGL_Get_Proc_स्थानाङ्कः(proc);
 }
-static void OVR_EGL_UnloadLibrary(SDL_VideoDevice *_this)
+स्थिर शून्य OVR_EGL_UnloadLibrary(SDL_VideoDevice *_this)
 {
     SDL_EGL_UnloadLibrary(_this);
 }
-static SDL_GLContext OVR_EGL_CreateContext(SDL_VideoDevice *_this, SDL_Window * window)
+स्थिर SDL_GLContext OVR_EGL_CreateContext(SDL_VideoDevice *_this, SDL_गवाक्षः * गवाक्षः)
 {
-    GLint numExtensions;
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (!videodata->eglCtx) {
-        if (!SDL_EGL_InitInternal(videodata)) {
-            return NULL;
+    GLint अङ्कः_Extensions;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (!videodata->eglCtx) {
+        यदि (!SDL_EGL_Init_आन्तरिकम्(videodata)) {
+            प्रत्यागम रिक्त;
         }
     }
 
-    if (!OPENVR_InitExtensions(_this)) {
-        return NULL;
+    यदि (!OPENVR_InitExtensions(_this)) {
+        प्रत्यागम रिक्त;
     }
 
-    videodata->renderdoc_debugmarker_frame_end = false;
+    videodata->renderdoc_debugmarker_frame_अन्तः = false;
 
-    ov_glGetIntegerv(GL_NUM_EXTENSIONS, &numExtensions);
-    for(int i = 0; i < numExtensions; i++) {
-        const char * ccc = (const char *)ov_glGetStringi(GL_EXTENSIONS, i);
-        if (SDL_strcmp(ccc, "GL_KHR_debug") == 0) {
-#ifdef DEBUG_OPENVR
+    ov_glGetIntegerv(GL_अङ्कः_EXTENSIONS, &अङ्कः_Extensions);
+    प्रति(पूर्णाङ्क i = 0; i < अङ्कः_Extensions; i++) {
+        ध्रुव वर्ण * ccc = (ध्रुव वर्ण *)ov_glGetStringi(GL_EXTENSIONS, i);
+        यदि (SDL_strcmp(ccc, "GL_KHR_debug") == 0) {
+#यदि_परिभाषितम् DEBUG_OPENVR
            SDL_Log("Found renderdoc debug extension.");
-#endif
-           videodata->renderdoc_debugmarker_frame_end = true;
+#यदि_अन्तः
+           videodata->renderdoc_debugmarker_frame_अन्तः = true;
         }
     }
 
-    if (!videodata->bDidCreateOverlay) {
-        if (!OPENVR_InitializeOverlay(_this, window)) {
-            return NULL;
+    यदि (!videodata->bDidCreateOverlay) {
+        यदि (!OPENVR_InitializeOverlay(_this, गवाक्षः)) {
+            प्रत्यागम रिक्त;
         }
     }
 
     OPENVR_CheckRenderbuffer(_this);
 
-    OPENVR_SetupFrame(_this, window);
+    OPENVR_सज्जता_Frame(_this, गवाक्षः);
 
-    return videodata->eglCtx;
+    प्रत्यागम videodata->eglCtx;
 }
 
-static bool OVR_EGL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window * wnd, SDL_GLContext context)
+स्थिर bool OVR_EGL_MakeCurrent(SDL_VideoDevice *_this, SDL_गवाक्षः * wnd, SDL_GLContext context)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
     eglMakeCurrent(videodata->eglDpy, EGL_NO_SURFACE, EGL_NO_SURFACE, videodata->eglCtx);
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OVR_EGL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
+स्थिर bool OVR_EGL_समुच्चयः_Swap_Interval(SDL_VideoDevice *_this, पूर्णाङ्क interval)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
     videodata->swap_interval = interval;
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OVR_EGL_GetSwapInterval(SDL_VideoDevice *_this, int * swapInterval)
+स्थिर bool OVR_EGL_GetSwapInterval(SDL_VideoDevice *_this, पूर्णाङ्क * swapInterval)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (swapInterval)
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (swapInterval)
         *swapInterval = videodata->swap_interval;
-    else
-        return SDL_SetError("OPENVR: null passed in for GetSwapInterval");
-    return true;
+    अन्यथा
+        प्रत्यागम SDL_समुच्चयः_Error("OPENVR: null passed in for GetSwapInterval");
+    प्रत्यागम true;
 }
 
-static bool OVR_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
+स्थिर bool OVR_EGL_DestroyContext(SDL_VideoDevice *_this, SDL_GLContext context)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (videodata->eglDpy) {
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (videodata->eglDpy) {
         eglTerminate(videodata->eglDpy);
     }
-    return true;
+    प्रत्यागम true;
 }
 
-#endif
+#यदि_अन्तः
 
-static bool OPENVR_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+स्थिर bool OPENVR_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
+    SDL_गवाक्षः_दत्त *दत्त;
 
     // Allocate window internal data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
-    if (data == NULL) {
-        return SDL_OutOfMemory();
+    दत्त = (SDL_गवाक्षः_दत्त *)SDL_calloc(1, परिमाण(SDL_गवाक्षः_दत्त));
+    यदि (दत्त == रिक्त) {
+        प्रत्यागम SDL_बहिर्गमनम्_सम्बन्धि_स्मृतिः();
     }
 
-    window->max_w = 4096;
-    window->max_h = 4096;
-    window->min_w = 1;
-    window->min_h = 1;
+    गवाक्षः->max_w = 4096;
+    गवाक्षः->max_h = 4096;
+    गवाक्षः->min_w = 1;
+    गवाक्षः->min_h = 1;
 
     // Setup driver data for this window
-    window->internal = data;
-    return true;
+    गवाक्षः->आन्तरिकम् = दत्त;
+    प्रत्यागम true;
 }
 
 
-static void OPENVR_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य OPENVR_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data;
+    SDL_गवाक्षः_दत्त *दत्त;
 
-    data = window->internal;
-    SDL_free(data);
-    window->internal = NULL;
+    दत्त = गवाक्षः->आन्तरिकम्;
+    SDL_free(दत्त);
+    गवाक्षः->आन्तरिकम् = रिक्त;
 }
 
-static void OPENVR_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य OPENVR_समुच्चयः_गवाक्षः_Title(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_VideoData * data = (SDL_VideoData *)_this->internal;
-    if (data->bDidCreateOverlay) {
-        data->oOverlay->SetOverlayName(data->overlayID, window->title);
+    SDL_Video_दत्त * दत्त = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (दत्त->bDidCreateOverlay) {
+        दत्त->oOverlay->समुच्चयः_Overlay_Name(दत्त->overlayID, गवाक्षः->title);
     }
 }
 
-static void OPENVR_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य OPENVR_समुच्चयः_गवाक्षः_आकार(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_VideoData *data = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *दत्त = (SDL_Video_दत्त *)_this->आन्तरिकम्;
 
-    if (window->pending.w != window->w) {
-        window->w = window->pending.w;
+    यदि (गवाक्षः->pending.w != गवाक्षः->w) {
+        गवाक्षः->w = गवाक्षः->pending.w;
     }
 
-    if (window->pending.h != window->h) {
-        window->h = window->pending.h;
+    यदि (गवाक्षः->pending.h != गवाक्षः->h) {
+        गवाक्षः->h = गवाक्षः->pending.h;
     }
 
-    if (data->targh != window->h || data->targw != window->w) {
-        OPENVR_HandleResize(_this, window->w, window->h);
+    यदि (दत्त->targh != गवाक्षः->h || दत्त->targw != गवाक्षः->w) {
+        OPENVR_HandleResize(_this, गवाक्षः->w, गवाक्षः->h);
     }
 
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->w, window->h);
+    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_RESIZED, गवाक्षः->w, गवाक्षः->h);
 }
 
-static void OPENVR_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+स्थिर शून्य OPENVR_Get_गवाक्षः_आकार_अन्तर्_Pixels(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *w, पूर्णाङ्क *h)
 {
-    SDL_VideoData *data = (SDL_VideoData *)_this->internal;
-    *w = data->targw;
-    *h = data->targh;
+    SDL_Video_दत्त *दत्त = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    *w = दत्त->targw;
+    *h = दत्त->targh;
 }
 
-static void OPENVR_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य OPENVR_Show_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_VideoData *data = (SDL_VideoData *)_this->internal;
-    if (data->targh != window->h || data->targw != window->w) {
-        OPENVR_HandleResize(_this, window->w, window->h);
+    SDL_Video_दत्त *दत्त = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (दत्त->targh != गवाक्षः->h || दत्त->targw != गवाक्षः->w) {
+        OPENVR_HandleResize(_this, गवाक्षः->w, गवाक्षः->h);
     }
 
-    data->oOverlay->ShowDashboard(data->sOverlayName);
+    दत्त->oOverlay->ShowDashboard(दत्त->sOverlayName);
 
-    window->flags |= (SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS);
-    SDL_SetKeyboardFocus(window);
+    गवाक्षः->flags |= (SDL_गवाक्षः_निवेशः_FOCUS | SDL_गवाक्षः_MOUSE_FOCUS);
+    SDL_समुच्चयः_Keyboard_Focus(गवाक्षः);
 }
 
-static void OPENVR_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य OPENVR_Hide_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    return;
+    प्रत्यागम;
 }
 
-static bool OPENVR_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर bool OPENVR_GL_Swap_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
 
     // This is a little weird.   On Windows, we don't necessarily call the normal
     // context creation function, and we might get here without having our buffers
     // initialized.
-    if (!videodata->bDidCreateOverlay) {
-        if (!OPENVR_InitializeOverlay(_this, window)) {
-            return false;
+    यदि (!videodata->bDidCreateOverlay) {
+        यदि (!OPENVR_InitializeOverlay(_this, गवाक्षः)) {
+            प्रत्यागम false;
         }
     }
 
-    if (!OPENVR_ReleaseFrame(_this)) {
-        return false;
+    यदि (!OPENVR_ReleaseFrame(_this)) {
+        प्रत्यागम false;
     }
 
     // If swap_interval is nonzero (i.e. -1 or 1) we want to wait for vsync on the compositor.
-    if (videodata->swap_interval != 0) {
+    यदि (videodata->swap_interval != 0) {
         videodata->oOverlay->WaitFrameSync(100);
     }
 
-    if (!OPENVR_SetupFrame(_this, window)) {
-        return false;
+    यदि (!OPENVR_सज्जता_Frame(_this, गवाक्षः)) {
+        प्रत्यागम false;
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-static Uint8 OPENVR_MapMouseButton(int btn)
+स्थिर Uint8 OPENVR_MapMouseButton(पूर्णाङ्क btn)
 {
-    if (btn == EVRMouseButton_VRMouseButton_Right) {
-        return SDL_BUTTON_RIGHT;
-    } else if (btn == EVRMouseButton_VRMouseButton_Middle) {
-        return SDL_BUTTON_MIDDLE;
-    } else {
-        return SDL_BUTTON_LEFT;
-    }
-}
-
-static void OPENVR_HandleMouse(float x, float y, int btn, int evt)
-{
-    if (evt == 2) {
-        SDL_SendMouseMotion(0, NULL, SDL_GLOBAL_MOUSE_ID, false, x, y);
-    } else {
-        const Uint8 button = OPENVR_MapMouseButton(btn);
-        const bool down = (evt != 0);
-        SDL_SendMouseButton(0, NULL, SDL_GLOBAL_MOUSE_ID, button, down);
+    यदि (btn == EVRMouse_Button_VRMouse_Button_दक्षिणः) {
+        प्रत्यागम SDL_BUTTON_दक्षिणः;
+    } अन्यथा यदि (btn == EVRMouse_Button_VRMouse_Button_मध्यः) {
+        प्रत्यागम SDL_BUTTON_मध्यः;
+    } अन्यथा {
+        प्रत्यागम SDL_BUTTON_वामः;
     }
 }
 
-
-static bool OPENVR_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
+स्थिर शून्य OPENVR_HandleMouse(भिन्न x, भिन्न y, पूर्णाङ्क btn, पूर्णाङ्क evt)
 {
-    return true;
+    यदि (evt == 2) {
+        SDL_SendMouseMotion(0, रिक्त, SDL_GLOBAL_MOUSE_ID, false, x, y);
+    } अन्यथा {
+        ध्रुव Uint8 button = OPENVR_MapMouseButton(btn);
+        ध्रुव bool अधस्तात् = (evt != 0);
+        SDL_SendMouseButton(0, रिक्त, SDL_GLOBAL_MOUSE_ID, button, अधस्तात्);
+    }
 }
 
-static void OPENVR_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+
+स्थिर bool OPENVR_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (!videodata ||
+    प्रत्यागम true;
+}
+
+स्थिर शून्य OPENVR_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID props)
+{
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (!videodata ||
         videodata->oOverlay == 0 ||
         videodata->overlayID == 0) {
-        return;
+        प्रत्यागम;
     }
-    EGamepadTextInputMode input_mode;
-    switch (SDL_GetTextInputType(props)) {
-    case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-    case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-        input_mode = EGamepadTextInputMode_k_EGamepadTextInputModePassword;
-        break;
-    default:
-        input_mode = EGamepadTextInputMode_k_EGamepadTextInputModeNormal;
-        break;
+    EGamepad_Text_निवेशः_बहुलकम् निवेशः_बहुलकम्;
+    विकल्प (SDL_Get_Text_निवेशः_Type(props)) {
+    पक्ष SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
+    पक्ष SDL_TEXTINPUT_TYPE_सङ्ख्या_PASSWORD_HIDDEN:
+        निवेशः_बहुलकम् = EGamepad_Text_निवेशः_बहुलकम्_k_EGamepad_Text_निवेशः_बहुलकम्_Password;
+        भङ्ग;
+    स्वभाव:
+        निवेशः_बहुलकम् = EGamepad_Text_निवेशः_बहुलकम्_k_EGamepad_Text_निवेशः_बहुलकम्_प्रसामान्यम्;
+        भङ्ग;
     }
-    EGamepadTextInputLineMode line_mode;
-    if (SDL_GetTextInputMultiline(props)) {
-        line_mode = EGamepadTextInputLineMode_k_EGamepadTextInputLineModeMultipleLines;
-    } else {
-        line_mode = EGamepadTextInputLineMode_k_EGamepadTextInputLineModeSingleLine;
+    EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम् पङ्क्तिः_बहुलकम्;
+    यदि (SDL_Get_Text_निवेशः_Multiline(props)) {
+        पङ्क्तिः_बहुलकम् = EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_k_EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_गुणजः_पङ्क्तयः;
+    } अन्यथा {
+        पङ्क्तिः_बहुलकम् = EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_k_EGamepad_Text_निवेशः_पङ्क्तिः_बहुलकम्_Single_पङ्क्तिः;
     }
     videodata->oOverlay->ShowKeyboardForOverlay(videodata->overlayID,
-           input_mode, line_mode,
-           EKeyboardFlags_KeyboardFlag_Minimal, "Virtual Keyboard", 128, "", 0);
+           निवेशः_बहुलकम्, पङ्क्तिः_बहुलकम्,
+           EKeyboard_Flags_Keyboard_Flag_अल्पिष्ठम्, "Virtual Keyboard", 128, "", 0);
     SDL_SendScreenKeyboardShown();
 }
 
-static void OPENVR_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य OPENVR_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
     videodata->oOverlay->HideKeyboard();
     SDL_SendScreenKeyboardHidden();
 }
 
-static SDL_Cursor *OPENVR_CreateCursor(SDL_Surface * surface, int hot_x, int hot_y)
+स्थिर SDL_Cursor *OPENVR_CreateCursor(SDL_Surface * surface, पूर्णाङ्क hot_x, पूर्णाङ्क hot_y)
 {
-    SDL_Cursor *result = SDL_calloc(1, sizeof(SDL_Cursor));
-    if (!result) {
-        return NULL;
+    SDL_Cursor *परिणाम = SDL_calloc(1, परिमाण(SDL_Cursor));
+    यदि (!परिणाम) {
+        प्रत्यागम रिक्त;
     }
 
     uint32_t * pixels = ImageSDLToOpenVRGL(surface, false);
-    SDL_CursorData *ovrc = (SDL_CursorData *)SDL_calloc(1, sizeof(*ovrc));
-    if (!ovrc) {
-        SDL_free(result);
-        return NULL;
+    SDL_Cursor_दत्त *ovrc = (SDL_Cursor_दत्त *)SDL_calloc(1, परिमाण(*ovrc));
+    यदि (!ovrc) {
+        SDL_free(परिणाम);
+        प्रत्यागम रिक्त;
     }
-    result->internal = ovrc;
+    परिणाम->आन्तरिकम् = ovrc;
 
     ov_glGenTextures(1, &ovrc->texture_id_handle);
     ov_glBindTexture(GL_TEXTURE_2D, ovrc->texture_id_handle);
@@ -1339,39 +1339,39 @@ static SDL_Cursor *OPENVR_CreateCursor(SDL_Surface * surface, int hot_x, int hot
     ovrc->w = surface->w;
     ovrc->h = surface->h;
 
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-static bool OPENVR_ShowCursor(SDL_Cursor * cursor)
+स्थिर bool OPENVR_ShowCursor(SDL_Cursor * cursor)
 {
-    SDL_CursorData * ovrc;
+    SDL_Cursor_दत्त * ovrc;
     EVROverlayError e;
     Texture_t texture;
     HmdVector2_t hotspot;
     VRTextureBounds_t tb;
 
-    if (!cursor) {
-        global_openvr_driver->oOverlay->SetOverlayFlag(global_openvr_driver->overlayID, VROverlayFlags_HideLaserIntersection, true);
-        e = global_openvr_driver->oOverlay->SetOverlayCursor(global_openvr_driver->overlayID, k_ulOverlayHandleInvalid);
-        if (e != EVROverlayError_VROverlayError_None) {
-            return OPENVR_SetOverlayError(e);
+    यदि (!cursor) {
+        global_openvr_driver->oOverlay->समुच्चयः_Overlay_Flag(global_openvr_driver->overlayID, VROverlayFlags_HideLaserIntersection, true);
+        e = global_openvr_driver->oOverlay->समुच्चयः_Overlay_Cursor(global_openvr_driver->overlayID, k_ulOverlayHandleInvalid);
+        यदि (e != EVROverlayError_VROverlayError_None) {
+            प्रत्यागम OPENVR_समुच्चयः_Overlay_Error(e);
         }
-        return true;
+        प्रत्यागम true;
     }
 
-    global_openvr_driver->oOverlay->SetOverlayFlag(global_openvr_driver->overlayID, VROverlayFlags_HideLaserIntersection, false);
+    global_openvr_driver->oOverlay->समुच्चयः_Overlay_Flag(global_openvr_driver->overlayID, VROverlayFlags_HideLaserIntersection, false);
 
-    ovrc = cursor->internal;
+    ovrc = cursor->आन्तरिकम्;
 
-    if (!ovrc) {
+    यदि (!ovrc) {
         // Sometimes at boot there is a race condition where this is not ready.
-        return true;
+        प्रत्यागम true;
     }
 
-    hotspot.v[0] = (float)ovrc->hot_x / (float)ovrc->w;
-    hotspot.v[1] = (float)ovrc->hot_y / (float)ovrc->h;
+    hotspot.v[0] = (भिन्न)ovrc->hot_x / (भिन्न)ovrc->w;
+    hotspot.v[1] = (भिन्न)ovrc->hot_y / (भिन्न)ovrc->h;
 
-    texture.handle = (void *)(intptr_t)(ovrc->texture_id_handle);
+    texture.handle = (शून्य *)(intptr_t)(ovrc->texture_id_handle);
     texture.eType = ETextureType_TextureType_OpenGL;
     texture.eColorSpace = EColorSpace_ColorSpace_Auto;
 
@@ -1380,34 +1380,34 @@ static bool OPENVR_ShowCursor(SDL_Cursor * cursor)
     tb.vMin = 1;
     tb.vMax = 0;
 
-    e = global_openvr_driver->oOverlay->SetOverlayTextureBounds(global_openvr_driver->cursorID, &tb);
-    if (e != EVROverlayError_VROverlayError_None) {
-        return OPENVR_SetOverlayError(e);
+    e = global_openvr_driver->oOverlay->समुच्चयः_Overlay_Texture_Bounds(global_openvr_driver->cursorID, &tb);
+    यदि (e != EVROverlayError_VROverlayError_None) {
+        प्रत्यागम OPENVR_समुच्चयः_Overlay_Error(e);
     }
 
-    e = global_openvr_driver->oOverlay->SetOverlayTransformCursor(global_openvr_driver->cursorID, &hotspot);
-    if (e != EVROverlayError_VROverlayError_None) {
-        return OPENVR_SetOverlayError(e);
+    e = global_openvr_driver->oOverlay->समुच्चयः_Overlay_Transform_Cursor(global_openvr_driver->cursorID, &hotspot);
+    यदि (e != EVROverlayError_VROverlayError_None) {
+        प्रत्यागम OPENVR_समुच्चयः_Overlay_Error(e);
     }
 
-    e = global_openvr_driver->oOverlay->SetOverlayTexture(global_openvr_driver->cursorID, &texture);
-    if (e != EVROverlayError_VROverlayError_None) {
-        return OPENVR_SetOverlayError(e);
+    e = global_openvr_driver->oOverlay->समुच्चयः_Overlay_Texture(global_openvr_driver->cursorID, &texture);
+    यदि (e != EVROverlayError_VROverlayError_None) {
+        प्रत्यागम OPENVR_समुच्चयः_Overlay_Error(e);
     }
 
-    e = global_openvr_driver->oOverlay->SetOverlayCursor(global_openvr_driver->overlayID, global_openvr_driver->cursorID);
-    if (e != EVROverlayError_VROverlayError_None) {
-        return OPENVR_SetOverlayError(e);
+    e = global_openvr_driver->oOverlay->समुच्चयः_Overlay_Cursor(global_openvr_driver->overlayID, global_openvr_driver->cursorID);
+    यदि (e != EVROverlayError_VROverlayError_None) {
+        प्रत्यागम OPENVR_समुच्चयः_Overlay_Error(e);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-static void OPENVR_FreeCursor(SDL_Cursor * cursor)
+स्थिर शून्य OPENVR_FreeCursor(SDL_Cursor * cursor)
 {
-    if (cursor) {
-        SDL_CursorData *ovrc = cursor->internal;
-        if (ovrc) {
+    यदि (cursor) {
+        SDL_Cursor_दत्त *ovrc = cursor->आन्तरिकम्;
+        यदि (ovrc) {
             ov_glDeleteTextures(1, &ovrc->texture_id_handle);
             SDL_free(ovrc);
         }
@@ -1416,19 +1416,19 @@ static void OPENVR_FreeCursor(SDL_Cursor * cursor)
 }
 
 
-static bool OPENVR_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window * window, SDL_Surface * icon)
+स्थिर bool OPENVR_समुच्चयः_गवाक्षः_Icon(SDL_VideoDevice *_this, SDL_गवाक्षः * गवाक्षः, SDL_Surface * icon)
 {
-    if (!global_openvr_driver) {
-        return SDL_SetError("OpenVR Overlay not initialized");
+    यदि (!global_openvr_driver) {
+        प्रत्यागम SDL_समुच्चयः_Error("OpenVR Overlay not initialized");
     }
 
-    unsigned texture_id_handle;
+    अचिह्नित texture_id_handle;
     EVROverlayError e;
     Texture_t texture;
     uint32_t * pixels;
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    if (videodata->bIconOverridden) {
-        return SDL_SetError("OpenVR Icon is overridden.");
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    यदि (videodata->bIconOverridden) {
+        प्रत्यागम SDL_समुच्चयः_Error("OpenVR Icon is overridden.");
     }
 
     pixels = ImageSDLToOpenVRGL(icon, true);
@@ -1439,32 +1439,32 @@ static bool OPENVR_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window * window, SD
     SDL_free(pixels);
     ov_glBindTexture(GL_TEXTURE_2D, 0);
 
-    texture.handle = (void *)(intptr_t)(texture_id_handle);
+    texture.handle = (शून्य *)(intptr_t)(texture_id_handle);
     texture.eType = ETextureType_TextureType_OpenGL;
     texture.eColorSpace = EColorSpace_ColorSpace_Auto;
 
-    e = global_openvr_driver->oOverlay->SetOverlayTexture(videodata->thumbID, &texture);
-    if (e != EVROverlayError_VROverlayError_None) {
-        return OPENVR_SetOverlayError(e);
+    e = global_openvr_driver->oOverlay->समुच्चयः_Overlay_Texture(videodata->thumbID, &texture);
+    यदि (e != EVROverlayError_VROverlayError_None) {
+        प्रत्यागम OPENVR_समुच्चयः_Overlay_Error(e);
     }
-    return true;
+    प्रत्यागम true;
 }
 
-static bool OPENVR_ShowMessageBox(SDL_VideoDevice *_this,const SDL_MessageBoxData *messageboxdata, int *buttonid)
+स्थिर bool OPENVR_Show_सन्देशः_Box(SDL_VideoDevice *_this,ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, पूर्णाङ्क *buttonid)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    char empty = 0;
-    char * message = SDL_strdup(messageboxdata->message?messageboxdata->message:"");
-    char * title = SDL_strdup(messageboxdata->message?messageboxdata->message:"");
-    char * ok = SDL_strdup("Ok");
-    videodata->oOverlay->ShowMessageOverlay(message, title, ok, &empty, &empty, &empty);
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    वर्ण रिक्तानि = 0;
+    वर्ण * सन्देशः = SDL_strdup(messageboxdata->सन्देशः?messageboxdata->सन्देशः:"");
+    वर्ण * title = SDL_strdup(messageboxdata->सन्देशः?messageboxdata->सन्देशः:"");
+    वर्ण * ok = SDL_strdup("Ok");
+    videodata->oOverlay->Show_सन्देशः_Overlay(सन्देशः, title, ok, &रिक्तानि, &रिक्तानि, &रिक्तानि);
     SDL_free(ok);
     SDL_free(title);
-    SDL_free(message);
-    return true;
+    SDL_free(सन्देशः);
+    प्रत्यागम true;
 }
 
-static void InitializeMouseFunctions(void)
+स्थिर शून्य InitializeMouseFunctions(शून्य)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
     mouse->CreateCursor = OPENVR_CreateCursor;
@@ -1472,209 +1472,209 @@ static void InitializeMouseFunctions(void)
     mouse->FreeCursor = OPENVR_FreeCursor;
 }
 
-static void OPENVR_PumpEvents(SDL_VideoDevice *_this)
+स्थिर शून्य OPENVR_PumpEvents(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *videodata = (SDL_VideoData *)_this->internal;
-    struct VREvent_t nEvent;
-    if (videodata->overlayID) {
-        while (videodata->oOverlay->PollNextOverlayEvent(videodata->overlayID, &nEvent, sizeof(nEvent))) {
-            switch (nEvent.eventType) {
-            case EVREventType_VREvent_ButtonPress:
-            case EVREventType_VREvent_ButtonUnpress:
-                break;
-            case EVREventType_VREvent_MouseMove:
-                OPENVR_HandleMouse(nEvent.data.mouse.x, videodata->targh - nEvent.data.mouse.y, nEvent.data.mouse.button, 2);
-                break;
-            case EVREventType_VREvent_MouseButtonDown:
-                OPENVR_HandleMouse(nEvent.data.mouse.x, videodata->targh - nEvent.data.mouse.y, nEvent.data.mouse.button, 1);
-                break;
-            case EVREventType_VREvent_MouseButtonUp:
-                OPENVR_HandleMouse(nEvent.data.mouse.x, videodata->targh - nEvent.data.mouse.y, nEvent.data.mouse.button, 0);
-                break;
-            case EVREventType_VREvent_ScrollSmooth:
-            case EVREventType_VREvent_ScrollDiscrete:
-                SDL_SendMouseWheel(0, NULL, SDL_GLOBAL_MOUSE_ID, -nEvent.data.scroll.xdelta, nEvent.data.scroll.ydelta, SDL_MOUSEWHEEL_NORMAL);
-                break;
-            case EVREventType_VREvent_KeyboardCharInput:
-                SDL_SendKeyboardUnicodeKey(SDL_GetTicksNS(), nEvent.data.keyboard.cNewInput[0]);
-                break;
-            case EVREventType_VREvent_OverlayShown:
-                SDL_SetKeyboardFocus(videodata->window);
-                SDL_SendWindowEvent(videodata->window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
-                SDL_SendWindowEvent(videodata->window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
-                break;
-            case EVREventType_VREvent_OverlayHidden:
-                SDL_SendWindowEvent(videodata->window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
-                SDL_SendWindowEvent(videodata->window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
-                SDL_SetKeyboardFocus(NULL);
-                break;
-            case EVREventType_VREvent_OverlayClosed:
-            case EVREventType_VREvent_Quit:
+    SDL_Video_दत्त *videodata = (SDL_Video_दत्त *)_this->आन्तरिकम्;
+    संरचना VREvent_t nEvent;
+    यदि (videodata->overlayID) {
+        यावत् (videodata->oOverlay->Poll_अग्र_Overlay_Event(videodata->overlayID, &nEvent, परिमाण(nEvent))) {
+            विकल्प (nEvent.eventType) {
+            पक्ष EVREventType_VREvent_ButtonPress:
+            पक्ष EVREventType_VREvent_ButtonUnpress:
+                भङ्ग;
+            पक्ष EVREventType_VREvent_MouseMove:
+                OPENVR_HandleMouse(nEvent.दत्त.mouse.x, videodata->targh - nEvent.दत्त.mouse.y, nEvent.दत्त.mouse.button, 2);
+                भङ्ग;
+            पक्ष EVREvent_Type_VREvent_Mouse_Button_अधस्तात्:
+                OPENVR_HandleMouse(nEvent.दत्त.mouse.x, videodata->targh - nEvent.दत्त.mouse.y, nEvent.दत्त.mouse.button, 1);
+                भङ्ग;
+            पक्ष EVREvent_Type_VREvent_Mouse_Button_ऊर्ध्वम्:
+                OPENVR_HandleMouse(nEvent.दत्त.mouse.x, videodata->targh - nEvent.दत्त.mouse.y, nEvent.दत्त.mouse.button, 0);
+                भङ्ग;
+            पक्ष EVREventType_VREvent_ScrollSmooth:
+            पक्ष EVREventType_VREvent_ScrollDiscrete:
+                SDL_SendMouseWheel(0, रिक्त, SDL_GLOBAL_MOUSE_ID, -nEvent.दत्त.scroll.xdelta, nEvent.दत्त.scroll.ydelta, SDL_MOUSEWHEEL_प्रसामान्यम्);
+                भङ्ग;
+            पक्ष EVREvent_Type_VREvent_Keyboard_Char_निवेशः:
+                SDL_Send_Keyboard_Unicode_कुञ्चिका(SDL_GetTicksNS(), nEvent.दत्त.keyboard.c_New_निवेशः[0]);
+                भङ्ग;
+            पक्ष EVREventType_VREvent_OverlayShown:
+                SDL_समुच्चयः_Keyboard_Focus(videodata->गवाक्षः);
+                SDL_Send_गवाक्षः_Event(videodata->गवाक्षः, SDL_EVENT_गवाक्षः_RESTORED, 0, 0);
+                SDL_Send_गवाक्षः_Event(videodata->गवाक्षः, SDL_EVENT_गवाक्षः_SHOWN, 0, 0);
+                भङ्ग;
+            पक्ष EVREventType_VREvent_OverlayHidden:
+                SDL_Send_गवाक्षः_Event(videodata->गवाक्षः, SDL_EVENT_गवाक्षः_HIDDEN, 0, 0);
+                SDL_Send_गवाक्षः_Event(videodata->गवाक्षः, SDL_EVENT_गवाक्षः_MINIMIZED, 0, 0);
+                SDL_समुच्चयः_Keyboard_Focus(रिक्त);
+                भङ्ग;
+            पक्ष EVREventType_VREvent_OverlayClosed:
+            पक्ष EVREventType_VREvent_Quit:
                 SDL_SendQuit();
-                break;
+                भङ्ग;
             }
         }
     }
 }
 
 
-static SDL_VideoDevice *OPENVR_CreateDevice(void)
+स्थिर SDL_VideoDevice *OPENVR_CreateDevice(शून्य)
 {
     SDL_VideoDevice *device;
-    SDL_VideoData *data;
-    const char *hint;
+    SDL_Video_दत्त *दत्त;
+    ध्रुव वर्ण *hint;
 
-#ifdef SDL_PLATFORM_WINDOWS
-    SDL_RegisterApp(NULL, 0, NULL);
-#endif
+#यदि_परिभाषितम् SDL_PLATFORM_WINDOWS
+    SDL_पञ्जिकाकोशः_App(रिक्त, 0, रिक्त);
+#यदि_अन्तः
 
     // Initialize all variables that we clean on shutdown
-    device = (SDL_VideoDevice *)SDL_calloc(1, sizeof(SDL_VideoDevice));
-    if (device) {
-        data = (struct SDL_VideoData *)SDL_calloc(1, sizeof(SDL_VideoData));
-    } else {
-        data = NULL;
+    device = (SDL_VideoDevice *)SDL_calloc(1, परिमाण(SDL_VideoDevice));
+    यदि (device) {
+        दत्त = (संरचना SDL_Video_दत्त *)SDL_calloc(1, परिमाण(SDL_Video_दत्त));
+    } अन्यथा {
+        दत्त = रिक्त;
     }
-    if (!data) {
-#ifdef SDL_PLATFORM_WINDOWS
+    यदि (!दत्त) {
+#यदि_परिभाषितम् SDL_PLATFORM_WINDOWS
         SDL_UnregisterApp();
-#endif
+#यदि_अन्तः
         SDL_free(device);
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    device->internal = data;
+    device->आन्तरिकम् = दत्त;
 
     hint = SDL_GetHint(SDL_HINT_OPENVR_LIBRARY);
-    if (hint) {
-        data->openVRLIB = SDL_LoadObject(hint);
+    यदि (hint) {
+        दत्त->openVRLIB = SDL_आरोपय_Object(hint);
     }
-    if (!data->openVRLIB) {
-        data->openVRLIB = SDL_LoadObject(SDL_OPENVR_DRIVER_DYNAMIC);
+    यदि (!दत्त->openVRLIB) {
+        दत्त->openVRLIB = SDL_आरोपय_Object(SDL_OPENVR_DRIVER_DYNAMIC);
     }
-    if (!data->openVRLIB) {
-        SDL_SetError("Could not open OpenVR API Library");
-        goto error;
-    }
-
-    data->FN_VR_InitInternal = (intptr_t(*)(EVRInitError * peError, EVRApplicationType eType))SDL_LoadFunction(data->openVRLIB, "VR_InitInternal");
-    data->FN_VR_GetVRInitErrorAsEnglishDescription = (const char *(*)(EVRInitError error))SDL_LoadFunction(data->openVRLIB, "VR_GetVRInitErrorAsEnglishDescription");
-    data->FN_VR_GetGenericInterface = (intptr_t (*)(const char *pchInterfaceVersion, EVRInitError * peError))SDL_LoadFunction(data->openVRLIB, "VR_GetGenericInterface");
-    if (!data->FN_VR_InitInternal || !data->FN_VR_GetVRInitErrorAsEnglishDescription || !data->FN_VR_GetGenericInterface) {
-        goto error;
+    यदि (!दत्त->openVRLIB) {
+        SDL_समुच्चयः_Error("Could not open OpenVR API Library");
+        गच्छ error;
     }
 
-    char fnname[128];
+    दत्त->FN_VR_Init_आन्तरिकम् = (intptr_t(*)(EVRInitError * peError, EVRApplicationType eType))SDL_आरोपय_Function(दत्त->openVRLIB, "VR_InitInternal");
+    दत्त->FN_VR_GetVRInitErrorAsEnglishDescription = (ध्रुव वर्ण *(*)(EVRInitError error))SDL_आरोपय_Function(दत्त->openVRLIB, "VR_GetVRInitErrorAsEnglishDescription");
+    दत्त->FN_VR_GetGenericInterface = (intptr_t (*)(ध्रुव वर्ण *pch_Interface_संस्करणम्, EVRInitError * peError))SDL_आरोपय_Function(दत्त->openVRLIB, "VR_GetGenericInterface");
+    यदि (!दत्त->FN_VR_Init_आन्तरिकम् || !दत्त->FN_VR_GetVRInitErrorAsEnglishDescription || !दत्त->FN_VR_GetGenericInterface) {
+        गच्छ error;
+    }
+
+    वर्ण fnname[128];
     EVRInitError e;
-    data->vrtoken = data->FN_VR_InitInternal(&e, EVRApplicationType_VRApplication_Overlay);
-    if (!data->vrtoken) {
-        const char *err = "Can't get english description";
-        if (data->FN_VR_GetVRInitErrorAsEnglishDescription != NULL)
-            err = data->FN_VR_GetVRInitErrorAsEnglishDescription(e);
-        SDL_SetError("Could not generate OpenVR Context (%s)", err);
-        goto error;
+    दत्त->vrtoken = दत्त->FN_VR_Init_आन्तरिकम्(&e, EVRApplicationType_VRApplication_Overlay);
+    यदि (!दत्त->vrtoken) {
+        ध्रुव वर्ण *err = "Can't get english description";
+        यदि (दत्त->FN_VR_GetVRInitErrorAsEnglishDescription != रिक्त)
+            err = दत्त->FN_VR_GetVRInitErrorAsEnglishDescription(e);
+        SDL_समुच्चयः_Error("Could not generate OpenVR Context (%s)", err);
+        गच्छ error;
     }
 
-    SDL_snprintf(fnname, 127, "FnTable:%s", IVRSystem_Version);
-    data->oSystem = (struct VR_IVRSystem_FnTable *)data->FN_VR_GetGenericInterface(fnname, &e);
-    SDL_snprintf(fnname, 127, "FnTable:%s", IVROverlay_Version);
-    data->oOverlay = (struct VR_IVROverlay_FnTable *)data->FN_VR_GetGenericInterface(fnname, &e);
-    SDL_snprintf(fnname, 127, "FnTable:%s", IVRInput_Version);
-    data->oInput = (struct VR_IVRInput_FnTable *)data->FN_VR_GetGenericInterface(fnname, &e);
+    SDL_snprintf(fnname, 127, "FnTable:%s", IVRSystem_संस्करणम्);
+    दत्त->oSystem = (संरचना VR_IVRSystem_Fn_सारणी *)दत्त->FN_VR_GetGenericInterface(fnname, &e);
+    SDL_snprintf(fnname, 127, "FnTable:%s", IVROverlay_संस्करणम्);
+    दत्त->oOverlay = (संरचना VR_IVROverlay_Fn_सारणी *)दत्त->FN_VR_GetGenericInterface(fnname, &e);
+    SDL_snprintf(fnname, 127, "FnTable:%s", IVRInput_संस्करणम्);
+    दत्त->o_निवेशः = (संरचना VR_IVRInput_Fn_सारणी *)दत्त->FN_VR_GetGenericInterface(fnname, &e);
 
-    if (!data->oOverlay || !data->oSystem || !data->oInput) {
-        SDL_SetError("Could not get interfaces for the OpenVR System (%s), Overlay (%s) and Input (%s) versions", IVRSystem_Version, IVROverlay_Version, IVRInput_Version);
+    यदि (!दत्त->oOverlay || !दत्त->oSystem || !दत्त->o_निवेशः) {
+        SDL_समुच्चयः_Error("Could not get interfaces for the OpenVR System (%s), Overlay (%s) and Input (%s) versions", IVRSystem_संस्करणम्, IVROverlay_संस्करणम्, IVRInput_संस्करणम्);
     }
 
     hint = SDL_GetHint("SDL_OPENVR_INPUT_PROFILE");
-    char *loadpath = 0;
+    वर्ण *loadpath = 0;
     EVRInputError err;
 
-    if (hint) {
+    यदि (hint) {
         SDL_asprintf(&loadpath, "%s", hint);
-    } else {
-        const char *basepath = SDL_GetBasePath();
+    } अन्यथा {
+        ध्रुव वर्ण *basepath = SDL_Get_आधारः_मार्गः();
         SDL_asprintf(&loadpath, "%ssdloverlay_actions.json", basepath);
     }
-    if (!loadpath) {
-        goto error;
+    यदि (!loadpath) {
+        गच्छ error;
     }
 
-    err = data->oInput->SetActionManifestPath(loadpath);
-#ifdef DEBUG_OPENVR
+    err = दत्त->o_निवेशः->समुच्चयः_Action_Manifest_मार्गः(loadpath);
+#यदि_परिभाषितम् DEBUG_OPENVR
     SDL_Log("Loaded action manifest at %s (%d)", loadpath, err);
-#endif
+#यदि_अन्तः
     SDL_free(loadpath);
-    if (err != EVRInputError_VRInputError_None) {
+    यदि (err != EVRInputError_VRInputError_None) {
         // I know we don't normally log, but this _really_ should be percolated
         // up as far as we can.
         SDL_Log("Could not load action manifest path");
         // If we didn't have a hint, this is a soft fail.
         // If we did have the hint, then it's a hard fail.
-        if (hint) {
-            goto error;
+        यदि (hint) {
+            गच्छ error;
         }
-    } else {
-        if(!OPENVR_SetupJoystickBasedOnLoadedActionManifest(data)) {
-            goto error;
+    } अन्यथा {
+        यदि(!OPENVR_सज्जता_Joystick_Based_On_Loaded_Action_Manifest(दत्त)) {
+            गच्छ error;
         }
     }
 
     // Setup amount of available displays
-    device->num_displays = 0;
+    device->अङ्कः_displays = 0;
 
     // Set device free function
-    device->free = OPENVR_Destroy;
+    device->मुक्त = OPENVR_Destroy;
 
     // Setup all functions which we can handle
     device->VideoInit = OPENVR_VideoInit;
     device->VideoQuit = OPENVR_VideoQuit;
-    device->SetDisplayMode = OPENVR_SetDisplayMode;
-    device->CreateSDLWindow = OPENVR_CreateWindow;
-    device->SetWindowTitle = OPENVR_SetWindowTitle;
-    device->SetWindowSize = OPENVR_SetWindowSize;
-    device->GetWindowSizeInPixels = OPENVR_GetWindowSizeInPixels;
-    device->ShowWindow = OPENVR_ShowWindow;
-    device->HideWindow = OPENVR_HideWindow;
-    device->DestroyWindow = OPENVR_DestroyWindow;
-    device->ShowMessageBox = OPENVR_ShowMessageBox;
+    device->समुच्चयः_Display_बहुलकम् = OPENVR_समुच्चयः_Display_बहुलकम्;
+    device->CreateSDLWindow = OPENVR_Create_गवाक्षः;
+    device->समुच्चयः_गवाक्षः_Title = OPENVR_समुच्चयः_गवाक्षः_Title;
+    device->समुच्चयः_गवाक्षः_आकार = OPENVR_समुच्चयः_गवाक्षः_आकार;
+    device->Get_गवाक्षः_आकार_अन्तर्_Pixels = OPENVR_Get_गवाक्षः_आकार_अन्तर्_Pixels;
+    device->Show_गवाक्षः = OPENVR_Show_गवाक्षः;
+    device->Hide_गवाक्षः = OPENVR_Hide_गवाक्षः;
+    device->Destroy_गवाक्षः = OPENVR_Destroy_गवाक्षः;
+    device->Show_सन्देशः_Box = OPENVR_Show_सन्देशः_Box;
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
-#ifdef SDL_VIDEO_OPENGL_WGL
-    device->GL_LoadLibrary = OPENVR_GL_LoadLibrary;
-    device->GL_GetProcAddress = OPENVR_GL_GetProcAddress;
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WINDOWS
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_WGL
+    device->GL_आरोपय_Library = OPENVR_GL_आरोपय_Library;
+    device->GL_Get_Proc_स्थानाङ्कः = OPENVR_GL_Get_Proc_स्थानाङ्कः;
     device->GL_UnloadLibrary = OPENVR_GL_UnloadLibrary;
     device->GL_CreateContext = OPENVR_GL_CreateContext;
     device->GL_MakeCurrent = OPENVR_GL_MakeCurrent;
-    device->GL_SetSwapInterval = OPENVR_GL_SetSwapInterval;
+    device->GL_समुच्चयः_Swap_Interval = OPENVR_GL_समुच्चयः_Swap_Interval;
     device->GL_GetSwapInterval = OPENVR_GL_GetSwapInterval;
-    device->GL_SwapWindow = OPENVR_GL_SwapWindow;
+    device->GL_Swap_गवाक्षः = OPENVR_GL_Swap_गवाक्षः;
     device->GL_DestroyContext = OPENVR_GL_DestroyContext;
-#else
-#error Needs more work to support EGL
-#endif
-#else
-    device->GL_LoadLibrary = OVR_EGL_LoadLibrary;
-    device->GL_GetProcAddress = OVR_EGL_GetProcAddress;
+#अन्यथा
+#दोषः Needs अधिकम् work गन्तव्यम् support EGL
+#यदि_अन्तः
+#अन्यथा
+    device->GL_आरोपय_Library = OVR_EGL_आरोपय_Library;
+    device->GL_Get_Proc_स्थानाङ्कः = OVR_EGL_Get_Proc_स्थानाङ्कः;
     device->GL_UnloadLibrary = OVR_EGL_UnloadLibrary;
     device->GL_CreateContext = OVR_EGL_CreateContext;
     device->GL_MakeCurrent = OVR_EGL_MakeCurrent;
-    device->GL_SetSwapInterval = OVR_EGL_SetSwapInterval;
+    device->GL_समुच्चयः_Swap_Interval = OVR_EGL_समुच्चयः_Swap_Interval;
     device->GL_GetSwapInterval = OVR_EGL_GetSwapInterval;
     device->GL_DestroyContext = OVR_EGL_DestroyContext;
-    device->GL_SwapWindow = OPENVR_GL_SwapWindow;
-#endif
+    device->GL_Swap_गवाक्षः = OPENVR_GL_Swap_गवाक्षः;
+#यदि_अन्तः
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
-    device->Vulkan_LoadLibrary = WIN_Vulkan_LoadLibrary;
+#यदि defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
+    device->Vulkan_आरोपय_Library = WIN_Vulkan_आरोपय_Library;
     device->Vulkan_UnloadLibrary = WIN_Vulkan_UnloadLibrary;
     device->Vulkan_GetInstanceExtensions = WIN_Vulkan_GetInstanceExtensions;
     device->Vulkan_CreateSurface = WIN_Vulkan_CreateSurface;
-#else
-    device->Vulkan_LoadLibrary = 0;
+#अन्यथा
+    device->Vulkan_आरोपय_Library = 0;
     device->Vulkan_UnloadLibrary = 0;
     device->Vulkan_GetInstanceExtensions = 0;
     device->Vulkan_CreateSurface = 0;
-#endif
+#यदि_अन्तः
 
     device->PumpEvents = OPENVR_PumpEvents;
     device->VideoInit = OPENVR_VideoInit;
@@ -1683,18 +1683,18 @@ static SDL_VideoDevice *OPENVR_CreateDevice(void)
     device->HasScreenKeyboardSupport = OPENVR_HasScreenKeyboardSupport;
     device->ShowScreenKeyboard = OPENVR_ShowScreenKeyboard;
     device->HideScreenKeyboard = OPENVR_HideScreenKeyboard;
-    device->SetWindowIcon = OPENVR_SetWindowIcon;
+    device->समुच्चयः_गवाक्षः_Icon = OPENVR_समुच्चयः_गवाक्षः_Icon;
 
-    return device;
+    प्रत्यागम device;
 
 error:
     OPENVR_Destroy(device);
-    return NULL;
+    प्रत्यागम रिक्त;
 }
 
 VideoBootStrap OPENVR_bootstrap = {
-    "openvr", "SDL OpenVR video driver", OPENVR_CreateDevice, NULL, false
+    "openvr", "SDL OpenVR video driver", OPENVR_CreateDevice, रिक्त, false
 };
 
-#endif // SDL_VIDEO_DRIVER_OPENVR
+#यदि_अन्तः // SDL_VIDEO_DRIVER_OPENVR
 

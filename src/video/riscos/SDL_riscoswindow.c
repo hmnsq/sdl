@@ -18,39 +18,39 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#अन्तर्भाव "SDL_riscosvideo.h"
+#अन्तर्भाव "SDL_riscoswindow.h"
 
-bool RISCOS_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool RISCOS_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *data;
+    SDL_गवाक्षः_दत्त *दत्त;
 
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    दत्त = (SDL_गवाक्षः_दत्त *)SDL_calloc(1, परिमाण(*दत्त));
+    यदि (!दत्त) {
+        प्रत्यागम false;
     }
-    data->window = window;
+    दत्त->गवाक्षः = गवाक्षः;
 
-    SDL_SetMouseFocus(window);
+    SDL_समुच्चयः_Mouse_Focus(गवाक्षः);
 
     // All done!
-    window->internal = data;
-    return true;
+    गवाक्षः->आन्तरिकम् = दत्त;
+    प्रत्यागम true;
 }
 
-void RISCOS_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य RISCOS_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    if (window->internal) {
-        SDL_free(window->internal);
-        window->internal = NULL;
+    यदि (गवाक्षः->आन्तरिकम्) {
+        SDL_free(गवाक्षः->आन्तरिकम्);
+        गवाक्षः->आन्तरिकम् = रिक्त;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_RISCOS

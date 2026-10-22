@@ -18,218 +18,218 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_X11
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11
 
-#define DEBUG_DYNAMIC_X11 0
+#परिभाषय DEBUG_DYNAMIC_X11 0
 
-#include "SDL_x11dyn.h"
+#अन्तर्भाव "SDL_x11dyn.h"
 
-#if DEBUG_DYNAMIC_X11
-#include <stdio.h>
-#endif
+#यदि DEBUG_DYNAMIC_X11
+#अन्तर्भाव <stdio.h>
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC
 
-typedef struct
+प्रकारनिर्देश संरचना
 {
     SDL_SharedObject *lib;
-    const char *libname;
+    ध्रुव वर्ण *libname;
 } x11dynlib;
 
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC
 )
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT NULL
-#endif
+#अन्यथा
+#परिभाषय SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT रिक्त
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR NULL
-#endif
+#अन्यथा
+#परिभाषय SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR रिक्त
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 NULL
-#endif
+#अन्यथा
+#परिभाषय SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 रिक्त
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES NULL
-#endif
+#अन्यथा
+#परिभाषय SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES रिक्त
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR NULL
-#endif
+#अन्यथा
+#परिभाषय SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR रिक्त
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS NULL
-#endif
+#अन्यथा
+#परिभाषय SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS रिक्त
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
 SDL_ELF_NOTE_DLOPEN(
     "x11",
     "Support for video through X11 backend",
-    SDL_ELF_NOTE_DLOPEN_PRIORITY_RECOMMENDED,
+    SDL_ELF_NOTE_DLOPEN_प्राथमिकता_RECOMMENDED,
     SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST
 )
-#else
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST NULL
-#endif
+#अन्यथा
+#परिभाषय SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST रिक्त
+#यदि_अन्तः
 
-static x11dynlib x11libs[] = {
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS },
-    { NULL, SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST }
+स्थिर x11dynlib x11libs[] = {
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC },
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT },
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR },
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 },
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES },
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR },
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS },
+    { रिक्त, SDL_VIDEO_DRIVER_X11_DYNAMIC_XTEST }
 };
 
-static void *X11_GetSym(const char *fnname, int *pHasModule)
+स्थिर शून्य *X11_GetSym(ध्रुव वर्ण *fnname, पूर्णाङ्क *pHasModule)
 {
-    int i;
-    void *fn = NULL;
-    for (i = 0; i < SDL_arraysize(x11libs); i++) {
-        if (x11libs[i].lib) {
-            fn = SDL_LoadFunction(x11libs[i].lib, fnname);
-            if (fn) {
-                break;
+    पूर्णाङ्क i;
+    शून्य *fn = रिक्त;
+    प्रति (i = 0; i < SDL_arraysize(x11libs); i++) {
+        यदि (x11libs[i].lib) {
+            fn = SDL_आरोपय_Function(x11libs[i].lib, fnname);
+            यदि (fn) {
+                भङ्ग;
             }
         }
     }
 
-#if DEBUG_DYNAMIC_X11
-    if (fn) {
+#यदि DEBUG_DYNAMIC_X11
+    यदि (fn) {
         SDL_Log("X11: Found '%s' in %s (%p)", fnname, x11libs[i].libname, fn);
-    } else {
+    } अन्यथा {
         SDL_Log("X11: Symbol '%s' NOT FOUND!", fnname);
     }
-#endif
+#यदि_अन्तः
 
-    if (!fn) {
+    यदि (!fn) {
         *pHasModule = 0; // kill this module.
     }
 
-    return fn;
+    प्रत्यागम fn;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11_DYNAMIC
+#यदि_अन्तः // SDL_VIDEO_DRIVER_X11_DYNAMIC
 
 // Define all the function pointers and wrappers...
-#define SDL_X11_SYM(rc, fn, params) SDL_DYNX11FN_##fn X11_##fn = NULL;
-#include "SDL_x11sym.h"
+#परिभाषय SDL_X11_SYM(rc, fn, params) SDL_DYNX11FN_##fn X11_##fn = रिक्त;
+#अन्तर्भाव "SDL_x11sym.h"
 
 /* These SDL_X11_HAVE_* flags are here whether you have dynamic X11 or not. */
-#define SDL_X11_MODULE(modname) int SDL_X11_HAVE_##modname = 0;
-#include "SDL_x11sym.h"
+#परिभाषय SDL_X11_MODULE(modname) पूर्णाङ्क SDL_X11_HAVE_##modname = 0;
+#अन्तर्भाव "SDL_x11sym.h"
 
-static int x11_load_refcount = 0;
+स्थिर पूर्णाङ्क x11_आरोपय_refcount = 0;
 
-void SDL_X11_UnloadSymbols(void)
+शून्य SDL_X11_UnloadSymbols(शून्य)
 {
     // Don't actually unload if more than one module is using the libs...
-    if (x11_load_refcount > 0) {
-        if (--x11_load_refcount == 0) {
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-            int i;
-#endif
+    यदि (x11_आरोपय_refcount > 0) {
+        यदि (--x11_आरोपय_refcount == 0) {
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC
+            पूर्णाङ्क i;
+#यदि_अन्तः
 
             // set all the function pointers to NULL.
-#define SDL_X11_MODULE(modname)                SDL_X11_HAVE_##modname = 0;
-#define SDL_X11_SYM(rc, fn, params) X11_##fn = NULL;
-#include "SDL_x11sym.h"
+#परिभाषय SDL_X11_MODULE(modname)                SDL_X11_HAVE_##modname = 0;
+#परिभाषय SDL_X11_SYM(rc, fn, params) X11_##fn = रिक्त;
+#अन्तर्भाव "SDL_x11sym.h"
 
-#ifdef X_HAVE_UTF8_STRING
-            X11_XCreateIC = NULL;
-            X11_XGetICValues = NULL;
-            X11_XSetICValues = NULL;
-            X11_XVaCreateNestedList = NULL;
-#endif
+#यदि_परिभाषितम् X_HAVE_UTF8_STRING
+            X11_XCreateIC = रिक्त;
+            X11_XGetICValues = रिक्त;
+            X11_XSetICValues = रिक्त;
+            X11_XVaCreateNestedList = रिक्त;
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-            for (i = 0; i < SDL_arraysize(x11libs); i++) {
-                if (x11libs[i].lib) {
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC
+            प्रति (i = 0; i < SDL_arraysize(x11libs); i++) {
+                यदि (x11libs[i].lib) {
                     SDL_UnloadObject(x11libs[i].lib);
-                    x11libs[i].lib = NULL;
+                    x11libs[i].lib = रिक्त;
                 }
             }
-#endif
+#यदि_अन्तः
         }
     }
 }
 
 // returns non-zero if all needed symbols were loaded.
-bool SDL_X11_LoadSymbols(void)
+bool SDL_X11_आरोपय_Symbols(शून्य)
 {
-    bool result = true; // always succeed if not using Dynamic X11 stuff.
+    bool परिणाम = true; // always succeed if not using Dynamic X11 stuff.
 
     // deal with multiple modules (dga, x11, etc) needing these symbols...
-    if (x11_load_refcount++ == 0) {
-#ifdef SDL_VIDEO_DRIVER_X11_DYNAMIC
-        int i;
-        int *thismod = NULL;
-        for (i = 0; i < SDL_arraysize(x11libs); i++) {
-            if (x11libs[i].libname) {
-                x11libs[i].lib = SDL_LoadObject(x11libs[i].libname);
+    यदि (x11_आरोपय_refcount++ == 0) {
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11_DYNAMIC
+        पूर्णाङ्क i;
+        पूर्णाङ्क *thismod = रिक्त;
+        प्रति (i = 0; i < SDL_arraysize(x11libs); i++) {
+            यदि (x11libs[i].libname) {
+                x11libs[i].lib = SDL_आरोपय_Object(x11libs[i].libname);
             }
         }
 
-#define SDL_X11_MODULE(modname) SDL_X11_HAVE_##modname = 1; // default yes
-#include "SDL_x11sym.h"
+#परिभाषय SDL_X11_MODULE(modname) SDL_X11_HAVE_##modname = 1; // default yes
+#अन्तर्भाव "SDL_x11sym.h"
 
-#define SDL_X11_MODULE(modname)     thismod = &SDL_X11_HAVE_##modname;
-#define SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)X11_GetSym(#fn, thismod);
-#include "SDL_x11sym.h"
+#परिभाषय SDL_X11_MODULE(modname)     thismod = &SDL_X11_HAVE_##modname;
+#परिभाषय SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)X11_GetSym(#fn, thismod);
+#अन्तर्भाव "SDL_x11sym.h"
 
-#ifdef X_HAVE_UTF8_STRING
+#यदि_परिभाषितम् X_HAVE_UTF8_STRING
         X11_XCreateIC = (SDL_DYNX11FN_XCreateIC)
             X11_GetSym("XCreateIC", &SDL_X11_HAVE_UTF8);
         X11_XGetICValues = (SDL_DYNX11FN_XGetICValues)
@@ -238,33 +238,33 @@ bool SDL_X11_LoadSymbols(void)
             X11_GetSym("XSetICValues", &SDL_X11_HAVE_UTF8);
         X11_XVaCreateNestedList = (SDL_DYNX11FN_XVaCreateNestedList)
             X11_GetSym("XVaCreateNestedList", &SDL_X11_HAVE_UTF8);
-#endif
+#यदि_अन्तः
 
-        if (SDL_X11_HAVE_BASEXLIB) {
+        यदि (SDL_X11_HAVE_BASEXLIB) {
             // all required symbols loaded.
             SDL_ClearError();
-        } else {
+        } अन्यथा {
             // in case something got loaded...
             SDL_X11_UnloadSymbols();
-            result = false;
+            परिणाम = false;
         }
 
-#else // no dynamic X11
+#अन्यथा // no dynamic X11
 
-#define SDL_X11_MODULE(modname)     SDL_X11_HAVE_##modname = 1; // default yes
-#define SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)fn;
-#include "SDL_x11sym.h"
+#परिभाषय SDL_X11_MODULE(modname)     SDL_X11_HAVE_##modname = 1; // default yes
+#परिभाषय SDL_X11_SYM(rc, fn, params) X11_##fn = (SDL_DYNX11FN_##fn)fn;
+#अन्तर्भाव "SDL_x11sym.h"
 
-#ifdef X_HAVE_UTF8_STRING
+#यदि_परिभाषितम् X_HAVE_UTF8_STRING
         X11_XCreateIC = XCreateIC;
         X11_XGetICValues = XGetICValues;
         X11_XSetICValues = XSetICValues;
         X11_XVaCreateNestedList = XVaCreateNestedList;
-#endif
-#endif
+#यदि_अन्तः
+#यदि_अन्तः
     }
 
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-#endif // SDL_VIDEO_DRIVER_X11
+#यदि_अन्तः // SDL_VIDEO_DRIVER_X11

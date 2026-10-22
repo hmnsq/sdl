@@ -18,232 +18,232 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowswindow.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_clipboardevents_c.h"
+#अन्तर्भाव "SDL_windowsvideo.h"
+#अन्तर्भाव "SDL_windowswindow.h"
+#अन्तर्भाव "../SDL_clipboard_c.h"
+#अन्तर्भाव "../../events/SDL_events_c.h"
+#अन्तर्भाव "../../events/SDL_clipboardevents_c.h"
 
-#define BFT_BITMAP 0x4d42 // 'BM'
+#परिभाषय BFT_BITMAP 0x4d42 // 'BM'
 
 // Assume we can directly read and write BMP fields without byte swapping
-SDL_COMPILE_TIME_ASSERT(verify_byte_order, SDL_BYTEORDER == SDL_LIL_ENDIAN);
+SDL_COMPILE_TIME_ASSERT(verify_byte_क्रमः, SDL_BYTEORDER == SDL_LIL_ENDIAN);
 
-static UINT GetClipboardFormatPNG(void)
+स्थिर UINT GetClipboardFormatPNG(शून्य)
 {
-    static UINT format;
+    स्थिर UINT format;
 
-    if (!format) {
-        format = RegisterClipboardFormat(TEXT("PNG"));
+    यदि (!format) {
+        format = पञ्जिकाकोशः_Clipboard_Format(TEXT("PNG"));
     }
-    return format;
+    प्रत्यागम format;
 }
 
-static BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
+स्थिर BOOL WIN_OpenClipboard(SDL_VideoDevice *_this)
 {
     // Retry to open the clipboard in case another application has it open
-    const int MAX_ATTEMPTS = 3;
-    int attempt;
-    HWND hwnd = NULL;
+    ध्रुव पूर्णाङ्क MAX_ATTEMPTS = 3;
+    पूर्णाङ्क attempt;
+    HWND hwnd = रिक्त;
 
-    if (_this->windows) {
-        hwnd = _this->windows->internal->hwnd;
+    यदि (_this->windows) {
+        hwnd = _this->windows->आन्तरिकम्->hwnd;
     }
-    for (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
-        if (OpenClipboard(hwnd)) {
-            return TRUE;
+    प्रति (attempt = 0; attempt < MAX_ATTEMPTS; ++attempt) {
+        यदि (OpenClipboard(hwnd)) {
+            प्रत्यागम TRUE;
         }
         SDL_Delay(10);
     }
-    return FALSE;
+    प्रत्यागम FALSE;
 }
 
-static void WIN_CloseClipboard(void)
+स्थिर शून्य WIN_CloseClipboard(शून्य)
 {
     CloseClipboard();
 }
 
-static HANDLE WIN_ConvertBMPtoDIB(const void *bmp, size_t bmp_size, UINT *format)
+स्थिर HANDLE WIN_ConvertBMPtoDIB(ध्रुव शून्य *bmp, size_t bmp_आकार, UINT *format)
 {
-    HANDLE hMem = NULL;
+    HANDLE hMem = रिक्त;
 
-    if (bmp && bmp_size > sizeof(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
+    यदि (bmp && bmp_आकार > परिमाण(BITMAPFILEHEADER) && ((BITMAPFILEHEADER *)bmp)->bfType == BFT_BITMAP) {
         BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
-        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + sizeof(BITMAPFILEHEADER));
-        size_t bih_size = pbih->biSize + pbih->biClrUsed * sizeof(RGBQUAD);
-        size_t pixels_size = pbih->biSizeImage;
+        BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)((Uint8 *)bmp + परिमाण(BITMAPFILEHEADER));
+        size_t bih_आकार = pbih->bi_आकार + pbih->bi_Clr_प्रयुक्तम् * परिमाण(RGBQUAD);
+        size_t pixels_आकार = pbih->bi_आकार_Image;
 
-        if (pbih->biSize >= sizeof(BITMAPV5HEADER)) {
+        यदि (pbih->bi_आकार >= परिमाण(BITMAPV5_शीर्षकम्)) {
             *format = CF_DIBV5;
-        } else {
+        } अन्यथा {
             *format = CF_DIB;
         }
 
-        if (pbfh->bfOffBits >= (sizeof(BITMAPFILEHEADER) + bih_size) &&
-            (pbfh->bfOffBits + pixels_size) <= bmp_size) {
-            const Uint8 *pixels = (const Uint8 *)bmp + pbfh->bfOffBits;
-            size_t dib_size = bih_size + pixels_size;
-            hMem = GlobalAlloc(GMEM_MOVEABLE, dib_size);
-            if (hMem) {
-                LPVOID dst = GlobalLock(hMem);
-                if (dst) {
-                    SDL_memcpy(dst, pbih, bih_size);
-                    SDL_memcpy((Uint8 *)dst + bih_size, pixels, pixels_size);
+        यदि (pbfh->bf_Off_द्वयङ्काः >= (परिमाण(BITMAPFILEHEADER) + bih_आकार) &&
+            (pbfh->bf_Off_द्वयङ्काः + pixels_आकार) <= bmp_आकार) {
+            ध्रुव Uint8 *pixels = (ध्रुव Uint8 *)bmp + pbfh->bf_Off_द्वयङ्काः;
+            size_t dib_आकार = bih_आकार + pixels_आकार;
+            hMem = GlobalAlloc(GMEM_MOVEABLE, dib_आकार);
+            यदि (hMem) {
+                LPVOID dst = Global_तालकम्(hMem);
+                यदि (dst) {
+                    SDL_memcpy(dst, pbih, bih_आकार);
+                    SDL_memcpy((Uint8 *)dst + bih_आकार, pixels, pixels_आकार);
                     GlobalUnlock(hMem);
-                } else {
-                    WIN_SetError("GlobalLock()");
+                } अन्यथा {
+                    WIN_समुच्चयः_Error("GlobalLock()");
                     GlobalFree(hMem);
-                    hMem = NULL;
+                    hMem = रिक्त;
                 }
-            } else {
-                SDL_OutOfMemory();
+            } अन्यथा {
+                SDL_बहिर्गमनम्_सम्बन्धि_स्मृतिः();
             }
-        } else {
-            SDL_SetError("Invalid BMP data");
+        } अन्यथा {
+            SDL_समुच्चयः_Error("Invalid BMP data");
         }
-    } else {
-        SDL_SetError("Invalid BMP data");
+    } अन्यथा {
+        SDL_समुच्चयः_Error("Invalid BMP data");
     }
-    return hMem;
+    प्रत्यागम hMem;
 }
 
-static void *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *size)
+स्थिर शून्य *WIN_ConvertDIBtoBMP(HANDLE hMem, size_t *आकार)
 {
-    void *bmp = NULL;
-    size_t mem_size = GlobalSize(hMem);
+    शून्य *bmp = रिक्त;
+    size_t mem_आकार = Global_आकार(hMem);
 
-    if (mem_size > sizeof(BITMAPINFOHEADER)) {
-        LPVOID dib = GlobalLock(hMem);
-        if (dib) {
+    यदि (mem_आकार > परिमाण(BITMAPINFOHEADER)) {
+        LPVOID dib = Global_तालकम्(hMem);
+        यदि (dib) {
             BITMAPINFOHEADER *pbih = (BITMAPINFOHEADER *)dib;
 
             // https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader#color-tables
-            size_t color_table_size;
-            switch (pbih->biCompression) {
-            case BI_RGB:
-                if (pbih->biBitCount <= 8) {
-                    color_table_size = sizeof(RGBQUAD) * (pbih->biClrUsed == 0 ? 1 << pbih->biBitCount : pbih->biClrUsed);
-                } else {
-                    color_table_size = 0;
+            size_t color_सारणी_आकार;
+            विकल्प (pbih->biCompression) {
+            पक्ष BI_RGB:
+                यदि (pbih->bi_Bit_गणनम् <= 8) {
+                    color_सारणी_आकार = परिमाण(RGBQUAD) * (pbih->bi_Clr_प्रयुक्तम् == 0 ? 1 << pbih->bi_Bit_गणनम् : pbih->bi_Clr_प्रयुक्तम्);
+                } अन्यथा {
+                    color_सारणी_आकार = 0;
                 }
-                break;
-            case BI_BITFIELDS:
-                color_table_size = 3 * sizeof(DWORD);
-                break;
-            case 6 /* BI_ALPHABITFIELDS */:
+                भङ्ग;
+            पक्ष BI_BITFIELDS:
+                color_सारणी_आकार = 3 * परिमाण(DWORD);
+                भङ्ग;
+            पक्ष 6 /* BI_ALPHABITFIELDS */:
                 // https://learn.microsoft.com/en-us/previous-versions/windows/embedded/aa452885(v=msdn.10)
-                color_table_size = 4 * sizeof(DWORD);
-                break;
-            default: // FOURCC
-                color_table_size = sizeof(RGBQUAD) * pbih->biClrUsed;
+                color_सारणी_आकार = 4 * परिमाण(DWORD);
+                भङ्ग;
+            स्वभाव: // FOURCC
+                color_सारणी_आकार = परिमाण(RGBQUAD) * pbih->bi_Clr_प्रयुक्तम्;
             }
 
-            size_t bih_size = pbih->biSize + color_table_size;
-            size_t dib_size = bih_size + pbih->biSizeImage;
-            if (dib_size <= mem_size) {
-                size_t bmp_size = sizeof(BITMAPFILEHEADER) + mem_size;
-                bmp = SDL_malloc(bmp_size);
-                if (bmp) {
+            size_t bih_आकार = pbih->bi_आकार + color_सारणी_आकार;
+            size_t dib_आकार = bih_आकार + pbih->bi_आकार_Image;
+            यदि (dib_आकार <= mem_आकार) {
+                size_t bmp_आकार = परिमाण(BITMAPFILEHEADER) + mem_आकार;
+                bmp = SDL_malloc(bmp_आकार);
+                यदि (bmp) {
                     BITMAPFILEHEADER *pbfh = (BITMAPFILEHEADER *)bmp;
                     pbfh->bfType = BFT_BITMAP;
-                    pbfh->bfSize = (DWORD)bmp_size;
+                    pbfh->bf_आकार = (DWORD)bmp_आकार;
                     pbfh->bfReserved1 = 0;
                     pbfh->bfReserved2 = 0;
-                    pbfh->bfOffBits = (DWORD)(sizeof(BITMAPFILEHEADER) + pbih->biSize + color_table_size);
-                    SDL_memcpy((Uint8 *)bmp + sizeof(BITMAPFILEHEADER), dib, mem_size);
-                    *size = bmp_size;
+                    pbfh->bf_Off_द्वयङ्काः = (DWORD)(परिमाण(BITMAPFILEHEADER) + pbih->bi_आकार + color_सारणी_आकार);
+                    SDL_memcpy((Uint8 *)bmp + परिमाण(BITMAPFILEHEADER), dib, mem_आकार);
+                    *आकार = bmp_आकार;
                 }
-            } else {
-                SDL_SetError("Invalid BMP data");
+            } अन्यथा {
+                SDL_समुच्चयः_Error("Invalid BMP data");
             }
             GlobalUnlock(hMem);
-        } else {
-            WIN_SetError("GlobalLock()");
+        } अन्यथा {
+            WIN_समुच्चयः_Error("GlobalLock()");
         }
-    } else {
-        SDL_SetError("Invalid BMP data");
+    } अन्यथा {
+        SDL_समुच्चयः_Error("Invalid BMP data");
     }
-    return bmp;
+    प्रत्यागम bmp;
 }
 
-static bool WIN_SetClipboardImage(SDL_VideoDevice *_this, const char *mime_type)
+स्थिर bool WIN_समुच्चयः_Clipboard_Image(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type)
 {
     UINT format = 0;
-    HANDLE hMem = NULL;
-    size_t clipboard_data_size;
-    const void *clipboard_data;
-    bool result = true;
+    HANDLE hMem = रिक्त;
+    size_t clipboard_दत्त_आकार;
+    ध्रुव शून्य *clipboard_दत्त;
+    bool परिणाम = true;
 
-    clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        hMem = WIN_ConvertBMPtoDIB(clipboard_data, clipboard_data_size, &format);
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
+    clipboard_दत्त = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_दत्त_आकार);
+    यदि (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        hMem = WIN_ConvertBMPtoDIB(clipboard_दत्त, clipboard_दत्त_आकार, &format);
+    } अन्यथा यदि (SDL_strcmp(mime_type, "image/png") == 0) {
         format = GetClipboardFormatPNG();
-        hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_data_size);
-        if (hMem) {
-            LPVOID dst = GlobalLock(hMem);
-            if (dst) {
-                SDL_memcpy(dst, clipboard_data, clipboard_data_size);
+        hMem = GlobalAlloc(GMEM_MOVEABLE, clipboard_दत्त_आकार);
+        यदि (hMem) {
+            LPVOID dst = Global_तालकम्(hMem);
+            यदि (dst) {
+                SDL_memcpy(dst, clipboard_दत्त, clipboard_दत्त_आकार);
                 GlobalUnlock(hMem);
-            } else {
-                result = WIN_SetError("GlobalLock()");
+            } अन्यथा {
+                परिणाम = WIN_समुच्चयः_Error("GlobalLock()");
                 GlobalFree(hMem);
-                hMem = NULL;
+                hMem = रिक्त;
             }
-        } else {
-            result = SDL_OutOfMemory();
+        } अन्यथा {
+            परिणाम = SDL_बहिर्गमनम्_सम्बन्धि_स्मृतिः();
         }
-    } else {
-        result = SDL_SetError("Unknown image format");
+    } अन्यथा {
+        परिणाम = SDL_समुच्चयः_Error("Unknown image format");
     }
-    if (hMem) {
+    यदि (hMem) {
         // Save the image to the clipboard
-        if (!SetClipboardData(format, hMem)) {
-            result = WIN_SetError("Couldn't set clipboard data");
+        यदि (!समुच्चयः_Clipboard_दत्त(format, hMem)) {
+            परिणाम = WIN_समुच्चयः_Error("Couldn't set clipboard data");
         }
-    } else {
+    } अन्यथा {
         // WIN_ConvertBMPtoDIB() set the error
-        result = false;
+        परिणाम = false;
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
+स्थिर bool WIN_समुच्चयः_Clipboard_Text(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type)
 {
     HANDLE hMem;
-    size_t clipboard_data_size;
-    const void *clipboard_data;
-    bool result = true;
+    size_t clipboard_दत्त_आकार;
+    ध्रुव शून्य *clipboard_दत्त;
+    bool परिणाम = true;
 
-    clipboard_data = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_data_size);
-    if (clipboard_data && clipboard_data_size > 0) {
-        SIZE_T i, size;
-        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (const char *)clipboard_data, clipboard_data_size);
-        if (!tstr) {
-            return SDL_SetError("Couldn't convert text from UTF-8");
+    clipboard_दत्त = _this->clipboard_callback(_this->clipboard_userdata, mime_type, &clipboard_दत्त_आकार);
+    यदि (clipboard_दत्त && clipboard_दत्त_आकार > 0) {
+        आकार_T i, आकार;
+        LPWSTR tstr = (WCHAR *)SDL_iconv_string("UTF-16LE", "UTF-8", (ध्रुव वर्ण *)clipboard_दत्त, clipboard_दत्त_आकार);
+        यदि (!tstr) {
+            प्रत्यागम SDL_समुच्चयः_Error("Couldn't convert text from UTF-8");
         }
 
         // Find out the size of the data
-        for (size = 0, i = 0; tstr[i]; ++i, ++size) {
-            if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+        प्रति (आकार = 0, i = 0; tstr[i]; ++i, ++आकार) {
+            यदि (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                 // We're going to insert a carriage return
-                ++size;
+                ++आकार;
             }
         }
-        size = (size + 1) * sizeof(*tstr);
+        आकार = (आकार + 1) * परिमाण(*tstr);
 
         // Save the data to the clipboard
-        hMem = GlobalAlloc(GMEM_MOVEABLE, size);
-        if (hMem) {
-            LPWSTR dst = (LPWSTR)GlobalLock(hMem);
-            if (dst) {
+        hMem = GlobalAlloc(GMEM_MOVEABLE, आकार);
+        यदि (hMem) {
+            LPWSTR dst = (LPWSTR)Global_तालकम्(hMem);
+            यदि (dst) {
                 // Copy the text over, adding carriage returns as necessary
-                for (i = 0; tstr[i]; ++i) {
-                    if (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
+                प्रति (i = 0; tstr[i]; ++i) {
+                    यदि (tstr[i] == '\n' && (i == 0 || tstr[i - 1] != '\r')) {
                         *dst++ = '\r';
                     }
                     *dst++ = tstr[i];
@@ -252,305 +252,305 @@ static bool WIN_SetClipboardText(SDL_VideoDevice *_this, const char *mime_type)
                 GlobalUnlock(hMem);
             }
 
-            if (!SetClipboardData(CF_UNICODETEXT, hMem)) {
-                result = WIN_SetError("Couldn't set clipboard data");
+            यदि (!समुच्चयः_Clipboard_दत्त(CF_UNICODETEXT, hMem)) {
+                परिणाम = WIN_समुच्चयः_Error("Couldn't set clipboard data");
             }
-        } else {
-            result = SDL_OutOfMemory();
+        } अन्यथा {
+            परिणाम = SDL_बहिर्गमनम्_सम्बन्धि_स्मृतिः();
         }
         SDL_free(tstr);
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-bool WIN_SetClipboardData(SDL_VideoDevice *_this)
+bool WIN_समुच्चयः_Clipboard_दत्त(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *data = _this->internal;
+    SDL_Video_दत्त *दत्त = _this->आन्तरिकम्;
     size_t i;
-    bool result = true;
+    bool परिणाम = true;
 
     /* I investigated delayed clipboard rendering, and at least with text and image
      * formats you have to use an output window, not SDL_HelperWindow, and the system
      * requests them being rendered immediately, so there isn't any benefit.
      */
 
-    if (WIN_OpenClipboard(_this)) {
-        EmptyClipboard();
+    यदि (WIN_OpenClipboard(_this)) {
+        रिक्तानि_Clipboard();
 
         // Set the clipboard text
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        प्रति (i = 0; i < _this->अङ्कः_clipboard_mime_types; ++i) {
+            ध्रुव वर्ण *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_IsTextMimeType(mime_type)) {
-                if (!WIN_SetClipboardText(_this, mime_type)) {
-                    result = false;
+            यदि (SDL_IsTextMimeType(mime_type)) {
+                यदि (!WIN_समुच्चयः_Clipboard_Text(_this, mime_type)) {
+                    परिणाम = false;
                 }
                 // Only set the first clipboard text
-                break;
+                भङ्ग;
             }
         }
 
         // Set the clipboard image
-        for (i = 0; i < _this->num_clipboard_mime_types; ++i) {
-            const char *mime_type = _this->clipboard_mime_types[i];
+        प्रति (i = 0; i < _this->अङ्कः_clipboard_mime_types; ++i) {
+            ध्रुव वर्ण *mime_type = _this->clipboard_mime_types[i];
 
-            if (SDL_strcmp(mime_type, "image/bmp") == 0 ||
+            यदि (SDL_strcmp(mime_type, "image/bmp") == 0 ||
                 SDL_strcmp(mime_type, "image/png") == 0) {
-                if (!WIN_SetClipboardImage(_this, mime_type)) {
-                    result = false;
+                यदि (!WIN_समुच्चयः_Clipboard_Image(_this, mime_type)) {
+                    परिणाम = false;
                 }
-                break;
+                भङ्ग;
             }
         }
 
-        data->clipboard_count = GetClipboardSequenceNumber();
+        दत्त->clipboard_गणनम् = Get_Clipboard_Sequence_सङ्ख्या();
         WIN_CloseClipboard();
-    } else {
-        result = WIN_SetError("Couldn't open clipboard");
+    } अन्यथा {
+        परिणाम = WIN_समुच्चयः_Error("Couldn't open clipboard");
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-void *WIN_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *size)
+शून्य *WIN_Get_Clipboard_दत्त(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type, size_t *आकार)
 {
-    void *data = NULL;
+    शून्य *दत्त = रिक्त;
 
-    if (SDL_IsTextMimeType(mime_type)) {
-        char *text = NULL;
+    यदि (SDL_IsTextMimeType(mime_type)) {
+        वर्ण *text = रिक्त;
 
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        यदि (Is_Clipboard_Format_उपलब्धम्(CF_UNICODETEXT)) {
+            यदि (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPTSTR str;
 
-                hMem = GetClipboardData(CF_UNICODETEXT);
-                if (hMem) {
-                    str = (LPTSTR)GlobalLock(hMem);
-                    if (str) {
-                        text = WIN_StringToUTF8W(str);
+                hMem = Get_Clipboard_दत्त(CF_UNICODETEXT);
+                यदि (hMem) {
+                    str = (LPTSTR)Global_तालकम्(hMem);
+                    यदि (str) {
+                        text = WIN_String_गन्तव्यम्_UTF8_W(str);
                         GlobalUnlock(hMem);
-                    } else {
-                        WIN_SetError("Couldn't lock clipboard data");
+                    } अन्यथा {
+                        WIN_समुच्चयः_Error("Couldn't lock clipboard data");
                     }
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+                } अन्यथा {
+                    WIN_समुच्चयः_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_TEXT)) {
-            if (WIN_OpenClipboard(_this)) {
+        } अन्यथा यदि (Is_Clipboard_Format_उपलब्धम्(CF_TEXT)) {
+            यदि (WIN_OpenClipboard(_this)) {
                 HANDLE hMem;
                 LPCSTR str;
 
-                hMem = GetClipboardData(CF_TEXT);
-                if (hMem) {
-                    str = (LPCSTR)GlobalLock(hMem);
-                    if (str) {
+                hMem = Get_Clipboard_दत्त(CF_TEXT);
+                यदि (hMem) {
+                    str = (LPCSTR)Global_तालकम्(hMem);
+                    यदि (str) {
                         text = SDL_strdup(str);
                         GlobalUnlock(hMem);
-                    } else {
-                        WIN_SetError("Couldn't lock clipboard data");
+                    } अन्यथा {
+                        WIN_समुच्चयः_Error("Couldn't lock clipboard data");
                     }
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+                } अन्यथा {
+                    WIN_समुच्चयः_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
-        if (!text) {
+        यदि (!text) {
             text = SDL_strdup("");
         }
-        data = text;
-        *size = SDL_strlen(text);
+        दत्त = text;
+        *आकार = SDL_strlen(text);
 
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5)) {
-            if (WIN_OpenClipboard(_this)) {
-                HANDLE hMem = GetClipboardData(CF_DIBV5);
-                if (hMem) {
-                    data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+    } अन्यथा यदि (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        यदि (Is_Clipboard_Format_उपलब्धम्(CF_DIBV5)) {
+            यदि (WIN_OpenClipboard(_this)) {
+                HANDLE hMem = Get_Clipboard_दत्त(CF_DIBV5);
+                यदि (hMem) {
+                    दत्त = WIN_ConvertDIBtoBMP(hMem, आकार);
+                } अन्यथा {
+                    WIN_समुच्चयः_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
-        } else if (IsClipboardFormatAvailable(CF_DIB)) {
-            if (WIN_OpenClipboard(_this)) {
-                HANDLE hMem = GetClipboardData(CF_DIB);
-                if (hMem) {
-                    data = WIN_ConvertDIBtoBMP(hMem, size);
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+        } अन्यथा यदि (Is_Clipboard_Format_उपलब्धम्(CF_DIB)) {
+            यदि (WIN_OpenClipboard(_this)) {
+                HANDLE hMem = Get_Clipboard_दत्त(CF_DIB);
+                यदि (hMem) {
+                    दत्त = WIN_ConvertDIBtoBMP(hMem, आकार);
+                } अन्यथा {
+                    WIN_समुच्चयः_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            if (WIN_OpenClipboard(_this)) {
-                HANDLE hMem = GetClipboardData(GetClipboardFormatPNG());
-                if (hMem) {
-                    size_t mem_size = GlobalSize(hMem);
-                    void *mem = GlobalLock(hMem);
-                    if (mem) {
-                        data = SDL_malloc(mem_size);
-                        if (data) {
-                            SDL_memcpy(data, mem, mem_size);
-                            *size = mem_size;
+    } अन्यथा यदि (SDL_strcmp(mime_type, "image/png") == 0) {
+        यदि (Is_Clipboard_Format_उपलब्धम्(GetClipboardFormatPNG())) {
+            यदि (WIN_OpenClipboard(_this)) {
+                HANDLE hMem = Get_Clipboard_दत्त(GetClipboardFormatPNG());
+                यदि (hMem) {
+                    size_t mem_आकार = Global_आकार(hMem);
+                    शून्य *mem = Global_तालकम्(hMem);
+                    यदि (mem) {
+                        दत्त = SDL_malloc(mem_आकार);
+                        यदि (दत्त) {
+                            SDL_memcpy(दत्त, mem, mem_आकार);
+                            *आकार = mem_आकार;
                         }
                         GlobalUnlock(hMem);
-                    } else {
-                        WIN_SetError("Couldn't lock clipboard data");
+                    } अन्यथा {
+                        WIN_समुच्चयः_Error("Couldn't lock clipboard data");
                     }
-                } else {
-                    WIN_SetError("Couldn't get clipboard data");
+                } अन्यथा {
+                    WIN_समुच्चयः_Error("Couldn't get clipboard data");
                 }
                 WIN_CloseClipboard();
             }
         }
 
-    } else {
-        data = SDL_GetInternalClipboardData(_this, mime_type, size);
+    } अन्यथा {
+        दत्त = SDL_Get_आन्तरिकम्_Clipboard_दत्त(_this, mime_type, आकार);
     }
-    return data;
+    प्रत्यागम दत्त;
 }
 
-bool WIN_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool WIN_Has_Clipboard_दत्त(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type)
 {
-    if (SDL_IsTextMimeType(mime_type)) {
-        if (IsClipboardFormatAvailable(CF_UNICODETEXT) || IsClipboardFormatAvailable(CF_TEXT)) {
-            return true;
+    यदि (SDL_IsTextMimeType(mime_type)) {
+        यदि (Is_Clipboard_Format_उपलब्धम्(CF_UNICODETEXT) || Is_Clipboard_Format_उपलब्धम्(CF_TEXT)) {
+            प्रत्यागम true;
         }
-    } else if (SDL_strcmp(mime_type, "image/bmp") == 0) {
-        if (IsClipboardFormatAvailable(CF_DIBV5) || IsClipboardFormatAvailable(CF_DIB)) {
-            return true;
+    } अन्यथा यदि (SDL_strcmp(mime_type, "image/bmp") == 0) {
+        यदि (Is_Clipboard_Format_उपलब्धम्(CF_DIBV5) || Is_Clipboard_Format_उपलब्धम्(CF_DIB)) {
+            प्रत्यागम true;
         }
-    } else if (SDL_strcmp(mime_type, "image/png") == 0) {
-        if (IsClipboardFormatAvailable(GetClipboardFormatPNG())) {
-            return true;
+    } अन्यथा यदि (SDL_strcmp(mime_type, "image/png") == 0) {
+        यदि (Is_Clipboard_Format_उपलब्धम्(GetClipboardFormatPNG())) {
+            प्रत्यागम true;
         }
     }
-    return SDL_HasInternalClipboardData(_this, mime_type);
+    प्रत्यागम SDL_Has_आन्तरिकम्_Clipboard_दत्त(_this, mime_type);
 }
 
-static int GetClipboardFormatMimeType(UINT format, char *name)
+स्थिर पूर्णाङ्क GetClipboardFormatMimeType(UINT format, वर्ण *name)
 {
-    const char *mime_type = NULL;
+    ध्रुव वर्ण *mime_type = रिक्त;
 
-    switch (format) {
-    case CF_TEXT:
+    विकल्प (format) {
+    पक्ष CF_TEXT:
         mime_type = "text/plain";
-        break;
-    case CF_UNICODETEXT:
+        भङ्ग;
+    पक्ष CF_UNICODETEXT:
         mime_type = "text/plain;charset=utf-8";
-        break;
-    case CF_DIB:
-    case CF_DIBV5:
+        भङ्ग;
+    पक्ष CF_DIB:
+    पक्ष CF_DIBV5:
         mime_type = "image/bmp";
-        break;
-    default:
-        if (format == GetClipboardFormatPNG()) {
+        भङ्ग;
+    स्वभाव:
+        यदि (format == GetClipboardFormatPNG()) {
             mime_type = "image/png";
         }
-        break;
+        भङ्ग;
     }
-    if (mime_type) {
+    यदि (mime_type) {
         size_t len = SDL_strlen(mime_type) + 1;
-        if (name) {
+        यदि (name) {
             SDL_memcpy(name, mime_type, len);
         }
-        return (int)len;
+        प्रत्यागम (पूर्णाङ्क)len;
     }
-    return 0;
+    प्रत्यागम 0;
 }
 
-static char **GetMimeTypes(int *pnformats)
+स्थिर वर्ण **GetMimeTypes(पूर्णाङ्क *pnformats)
 {
-    char **new_mime_types = NULL;
+    वर्ण **new_mime_types = रिक्त;
 
     *pnformats = 0;
 
-    if (WIN_OpenClipboard(SDL_GetVideoDevice())) {
-        int nformats = 0;
+    यदि (WIN_OpenClipboard(SDL_GetVideoDevice())) {
+        पूर्णाङ्क nformats = 0;
         UINT format = 0;
-        int formatsSz = 0;
+        पूर्णाङ्क formatsSz = 0;
         bool have_image_bmp = false;
-        for ( ; ; ) {
+        प्रति ( ; ; ) {
             format = EnumClipboardFormats(format);
-            if (!format) {
-                break;
+            यदि (!format) {
+                भङ्ग;
             }
 
-#ifdef DEBUG_CLIPBOARD
-            char name[128] = { 0 };
-            GetClipboardFormatNameA(format, name, sizeof(name));
+#यदि_परिभाषितम् DEBUG_CLIPBOARD
+            वर्ण name[128] = { 0 };
+            GetClipboardFormatNameA(format, name, परिमाण(name));
             SDL_Log("Clipboard format: %d (0x%x), '%s'", format, format, name);
-#endif
+#यदि_अन्तः
 
-            if (format == CF_DIB || format == CF_DIBV5) {
-                if (have_image_bmp) {
+            यदि (format == CF_DIB || format == CF_DIBV5) {
+                यदि (have_image_bmp) {
                     // We have already registered this format
-                    continue;
+                    अनुवर्त;
                 }
                 have_image_bmp = true;
             }
 
-            int len = GetClipboardFormatMimeType(format, NULL);
-            if (len > 0) {
+            पूर्णाङ्क len = GetClipboardFormatMimeType(format, रिक्त);
+            यदि (len > 0) {
                 ++nformats;
                 formatsSz += len;
             }
         }
 
         have_image_bmp = false;
-        new_mime_types = SDL_AllocateTemporaryMemory((nformats + 1) * sizeof(char *) + formatsSz);
-        if (new_mime_types) {
+        new_mime_types = SDL_Allocate_Temporary_स्मृतिः((nformats + 1) * परिमाण(वर्ण *) + formatsSz);
+        यदि (new_mime_types) {
             format = 0;
-            char *strPtr = (char *)(new_mime_types + nformats + 1);
-            int i = 0;
-            for ( ; ; ) {
+            वर्ण *strPtr = (वर्ण *)(new_mime_types + nformats + 1);
+            पूर्णाङ्क i = 0;
+            प्रति ( ; ; ) {
                 format = EnumClipboardFormats(format);
-                if (!format) {
-                    break;
+                यदि (!format) {
+                    भङ्ग;
                 }
 
-                if (format == CF_DIB || format == CF_DIBV5) {
-                    if (have_image_bmp) {
+                यदि (format == CF_DIB || format == CF_DIBV5) {
+                    यदि (have_image_bmp) {
                         // We have already registered this format
-                        continue;
+                        अनुवर्त;
                     }
                     have_image_bmp = true;
                 }
 
-                int len = GetClipboardFormatMimeType(format, strPtr);
-                if (len > 0) {
+                पूर्णाङ्क len = GetClipboardFormatMimeType(format, strPtr);
+                यदि (len > 0) {
                     new_mime_types[i++] = strPtr;
                     strPtr += len;
                 }
             }
 
-            new_mime_types[nformats] = NULL;
+            new_mime_types[nformats] = रिक्त;
             *pnformats = nformats;
         }
         WIN_CloseClipboard();
     }
-    return new_mime_types;
+    प्रत्यागम new_mime_types;
 }
 
-void WIN_CheckClipboardUpdate(struct SDL_VideoData *data)
+शून्य WIN_CheckClipboardUpdate(संरचना SDL_Video_दत्त *दत्त)
 {
-    DWORD count = GetClipboardSequenceNumber();
-    if (count != data->clipboard_count) {
-        if (count) {
-            int nformats = 0;
-            char **new_mime_types = GetMimeTypes(&nformats);
-            if (new_mime_types) {
+    DWORD गणनम् = Get_Clipboard_Sequence_सङ्ख्या();
+    यदि (गणनम् != दत्त->clipboard_गणनम्) {
+        यदि (गणनम्) {
+            पूर्णाङ्क nformats = 0;
+            वर्ण **new_mime_types = GetMimeTypes(&nformats);
+            यदि (new_mime_types) {
                 SDL_SendClipboardUpdate(false, new_mime_types, nformats);
             }
         }
-        data->clipboard_count = count;
+        दत्त->clipboard_गणनम् = गणनम्;
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_WINDOWS

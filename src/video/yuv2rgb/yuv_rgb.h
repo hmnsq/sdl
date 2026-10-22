@@ -1,5 +1,5 @@
-#ifndef YUV_RGB_H_
-#define YUV_RGB_H_
+#यदि_अपरिभाषितम् YUV_RGB_H_
+#परिभाषय YUV_RGB_H_
 
 // Copyright 2016 Adrien Descamps
 // Distributed under BSD 3-Clause License
@@ -22,12 +22,12 @@
 /*#include <stdint.h>*/
 
 // yuv to rgb, standard c implementation
-#include "yuv_rgb_std.h"
+#अन्तर्भाव "yuv_rgb_std.h"
 
 // yuv to rgb, sse2 implementation
-#include "yuv_rgb_sse.h"
+#अन्तर्भाव "yuv_rgb_sse.h"
 
 // yuv to rgb, lsx implementation
-#include "yuv_rgb_lsx.h"
+#अन्तर्भाव "yuv_rgb_lsx.h"
 
-#endif /* YUV_RGB_H_ */
+#यदि_अन्तः /* YUV_RGB_H_ */

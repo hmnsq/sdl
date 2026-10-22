@@ -24,28 +24,28 @@
  * Based on Jacob Lifshay's SDL_x11vulkan.c.
  */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_kmsdrm_vulkan_h_
-#define SDL_kmsdrm_vulkan_h_
+#यदि_अपरिभाषितम् SDL_kmsdrm_vulkan_h_
+#परिभाषय SDL_kmsdrm_vulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#अन्तर्भाव <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
+#यदि defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_KMSDRM)
 
-extern bool KMSDRM_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                                SDL_Window *window,
+बाह्य bool KMSDRM_Vulkan_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य शून्य KMSDRM_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य वर्ण ध्रुव * ध्रुव *KMSDRM_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गणनम्);
+बाह्य bool KMSDRM_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                                SDL_गवाक्षः *गवाक्षः,
                                 VkInstance instance,
-                                const struct VkAllocationCallbacks *allocator,
+                                ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator,
                                 VkSurfaceKHR *surface);
-extern void KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य शून्य KMSDRM_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                   VkInstance instance,
                                   VkSurfaceKHR surface,
-                                  const struct VkAllocationCallbacks *allocator);
+                                  ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator);
 
-#endif
+#यदि_अन्तः
 
-#endif // SDL_kmsdrm_vulkan_h_
+#यदि_अन्तः // SDL_kmsdrm_vulkan_h_

@@ -1,5 +1,5 @@
-#ifndef VULKAN_XCB_H_
-#define VULKAN_XCB_H_ 1
+#यदि_अपरिभाषितम् VULKAN_XCB_H_
+#परिभाषय VULKAN_XCB_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,52 +13,52 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+बाह्य "C" {
+#यदि_अन्तः
 
 
 
 // VK_KHR_xcb_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_KHR_xcb_surface 1
+#परिभाषय VK_KHR_xcb_surface 1
 
-#define VK_KHR_XCB_SURFACE_SPEC_VERSION   6
-#define VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
+#परिभाषय VK_KHR_XCB_SURFACE_SPEC_संस्करणम्   6
+#परिभाषय VK_KHR_XCB_SURFACE_EXTENSION_NAME "VK_KHR_xcb_surface"
 
-typedef VkFlags VkXcbSurfaceCreateFlagsKHR;
+प्रकारनिर्देश VkFlags VkXcbSurfaceCreateFlagsKHR;
 
-typedef struct VkXcbSurfaceCreateInfoKHR {
+प्रकारनिर्देश संरचना VkXcbSurfaceCreateInfoKHR {
     VkStructureType               sType;
-    const void*                   pNext;
+    ध्रुव शून्य*                   p_अग्र;
     VkXcbSurfaceCreateFlagsKHR    flags;
     xcb_connection_t*             connection;
-    xcb_window_t                  window;
+    xcb_गवाक्षः_t                  गवाक्षः;
 } VkXcbSurfaceCreateInfoKHR;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateXcbSurfaceKHR)(VkInstance instance, const VkXcbSurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, xcb_connection_t* connection, xcb_visualid_t visual_id);
+प्रकारनिर्देश Vk_परिणाम (VKAPI_PTR *PFN_vkCreateXcbSurfaceKHR)(VkInstance instance, ध्रुव VkXcbSurfaceCreateInfoKHR* pCreateInfo, ध्रुव Vk_आवण्टनम्_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकारनिर्देश VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)(VkPhysicalDevice physicalDevice, uint32_t queue_Family_सूचकांक, xcb_connection_t* connection, xcb_visualid_t visual_id);
 
-#ifndef VK_NO_PROTOTYPES
+#यदि_अपरिभाषितम् VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateXcbSurfaceKHR(
+#यदि_अपरिभाषितम् VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vkCreateXcbSurfaceKHR(
     VkInstance                                  instance,
-    const VkXcbSurfaceCreateInfoKHR*            pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ध्रुव VkXcbSurfaceCreateInfoKHR*            pCreateInfo,
+    ध्रुव Vk_आवण्टनम्_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
+#यदि_अन्तः
+#यदि_अपरिभाषितम् VK_ONLY_EXPORTED_PROTOTYPES
 VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceXcbPresentationSupportKHR(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
+    uint32_t                                    queue_Family_सूचकांक,
     xcb_connection_t*                           connection,
     xcb_visualid_t                              visual_id);
-#endif
-#endif
+#यदि_अन्तः
+#यदि_अन्तः
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 }
-#endif
+#यदि_अन्तः
 
-#endif
+#यदि_अन्तः

@@ -19,36 +19,36 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_kmsdrmdyn_h_
-#define SDL_kmsdrmdyn_h_
+#यदि_अपरिभाषितम् SDL_kmsdrmdyn_h_
+#परिभाषय SDL_kmsdrmdyn_h_
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#include <xf86drm.h>
-#include <xf86drmMode.h>
-#include <gbm.h>
+#अन्तर्भाव <xf86drm.h>
+#अन्तर्भाव <xf86drmMode.h>
+#अन्तर्भाव <gbm.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+बाह्य "C" {
+#यदि_अन्तः
 
-extern bool SDL_KMSDRM_LoadSymbols(void);
-extern void SDL_KMSDRM_UnloadSymbols(void);
+बाह्य bool SDL_KMSDRM_आरोपय_Symbols(शून्य);
+बाह्य शून्य SDL_KMSDRM_UnloadSymbols(शून्य);
 
 // Declare all the function pointers and wrappers...
-#define SDL_KMSDRM_SYM(rc, fn, params)        \
-    typedef rc(*SDL_DYNKMSDRMFN_##fn) params; \
-    extern SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
-#define SDL_KMSDRM_SYM_CONST(type, name)    \
-    typedef type SDL_DYNKMSDRMCONST_##name; \
-    extern SDL_DYNKMSDRMCONST_##name KMSDRM_##name;
-#define SDL_KMSDRM_SYM_OPT(rc, fn, params)    \
-    typedef rc(*SDL_DYNKMSDRMFN_##fn) params; \
-    extern SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
-#include "SDL_kmsdrmsym.h"
+#परिभाषय SDL_KMSDRM_SYM(rc, fn, params)        \
+    प्रकारनिर्देश rc(*SDL_DYNKMSDRMFN_##fn) params; \
+    बाह्य SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
+#परिभाषय SDL_KMSDRM_SYM_CONST(type, name)    \
+    प्रकारनिर्देश type SDL_DYNKMSDRMCONST_##name; \
+    बाह्य SDL_DYNKMSDRMCONST_##name KMSDRM_##name;
+#परिभाषय SDL_KMSDRM_SYM_OPT(rc, fn, params)    \
+    प्रकारनिर्देश rc(*SDL_DYNKMSDRMFN_##fn) params; \
+    बाह्य SDL_DYNKMSDRMFN_##fn KMSDRM_##fn;
+#अन्तर्भाव "SDL_kmsdrmsym.h"
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 }
-#endif
+#यदि_अन्तः
 
-#endif // SDL_kmsdrmdyn_h_
+#यदि_अन्तः // SDL_kmsdrmdyn_h_

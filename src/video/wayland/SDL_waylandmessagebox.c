@@ -19,24 +19,24 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylandmessagebox.h"
-#include "../../dialog/unix/SDL_zenitymessagebox.h"
+#अन्तर्भाव "SDL_waylandmessagebox.h"
+#अन्तर्भाव "../../dialog/unix/SDL_zenitymessagebox.h"
 
-bool Wayland_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool Wayland_Show_सन्देशः_Box(ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, पूर्णाङ्क *buttonID)
 {
     // Are we trying to connect to or are currently in a Wayland session?
-    if (!SDL_getenv("WAYLAND_DISPLAY")) {
-        const char *session = SDL_getenv("XDG_SESSION_TYPE");
-        if (session && SDL_strcasecmp(session, "wayland") != 0) {
-            return SDL_SetError("Not on a wayland display");
+    यदि (!SDL_getenv("WAYLAND_DISPLAY")) {
+        ध्रुव वर्ण *session = SDL_getenv("XDG_SESSION_TYPE");
+        यदि (session && SDL_strcasecmp(session, "wayland") != 0) {
+            प्रत्यागम SDL_समुच्चयः_Error("Not on a wayland display");
         }
     }
 
-    return SDL_Zenity_ShowMessageBox(messageboxdata, buttonID);
+    प्रत्यागम SDL_Zenity_Show_सन्देशः_Box(messageboxdata, buttonID);
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#यदि_अन्तः // SDL_VIDEO_DRIVER_WAYLAND

@@ -18,36 +18,36 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_androidvideo_h_
-#define SDL_androidvideo_h_
+#यदि_अपरिभाषितम् SDL_androidvideo_h_
+#परिभाषय SDL_androidvideo_h_
 
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
 // Called by the JNI layer when the screen changes size or format
-extern void Android_SetScreenResolution(int surfaceWidth, int surfaceHeight, int deviceWidth, int deviceHeight, float density, float rate);
-extern void Android_SetScreenHDRHeadroom(float headroom);
-extern void Android_SetFormat(int format_wanted, int format_got);
-extern void Android_SetOrientation(SDL_DisplayOrientation orientation);
-extern void Android_SendResize(SDL_Window *window);
-extern void Android_SetWindowSafeAreaInsets(int left, int right, int top, int bottom);
-extern void Android_SetDarkMode(bool enabled);
+बाह्य शून्य Android_समुच्चयः_Screen_Resolution(पूर्णाङ्क surface_विस्तारः, पूर्णाङ्क surfaceHeight, पूर्णाङ्क device_विस्तारः, पूर्णाङ्क deviceHeight, भिन्न density, भिन्न दरः);
+बाह्य शून्य Android_समुच्चयः_Screen_HDRHeadroom(भिन्न headroom);
+बाह्य शून्य Android_समुच्चयः_Format(पूर्णाङ्क format_wanted, पूर्णाङ्क format_got);
+बाह्य शून्य Android_समुच्चयः_Orientation(SDL_DisplayOrientation orientation);
+बाह्य शून्य Android_SendResize(SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य Android_समुच्चयः_गवाक्षः_Safe_Area_Insets(पूर्णाङ्क वामः, पूर्णाङ्क दक्षिणः, पूर्णाङ्क शिखरम्, पूर्णाङ्क bottom);
+बाह्य शून्य Android_समुच्चयः_Dark_बहुलकम्(bool enabled);
 
 // Private display data
 
-struct SDL_VideoData
+संरचना SDL_Video_दत्त
 {
-    int isPaused;
-    int isPausing;
+    पूर्णाङ्क isPaused;
+    पूर्णाङ्क isPausing;
 };
 
-extern int Android_SurfaceWidth;
-extern int Android_SurfaceHeight;
-extern float Android_ScreenDensity;
-extern int Android_SafeInsetLeft;
-extern int Android_SafeInsetRight;
-extern int Android_SafeInsetTop;
-extern int Android_SafeInsetBottom;
+बाह्य पूर्णाङ्क Android_Surface_विस्तारः;
+बाह्य पूर्णाङ्क Android_SurfaceHeight;
+बाह्य भिन्न Android_ScreenDensity;
+बाह्य पूर्णाङ्क Android_Safe_Inset_वामः;
+बाह्य पूर्णाङ्क Android_Safe_Inset_दक्षिणः;
+बाह्य पूर्णाङ्क Android_Safe_Inset_शिखरम्;
+बाह्य पूर्णाङ्क Android_SafeInsetBottom;
 
-#endif // SDL_androidvideo_h_
+#यदि_अन्तः // SDL_androidvideo_h_

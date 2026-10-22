@@ -18,48 +18,48 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#यदि defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "SDL_rpivideo.h"
-#include "SDL_rpiopengles.h"
+#अन्तर्भाव "SDL_rpivideo.h"
+#अन्तर्भाव "SDL_rpiopengles.h"
 
 // EGL implementation of SDL OpenGL support
 
-void RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this)
+शून्य RPI_GLES_समुच्चयः_Default_Profile_Config(SDL_VideoDevice *_this)
 {
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
+    _this->gl_config.profile_आवरणम् = SDL_GL_CONTEXT_PROFILE_ES;
+    _this->gl_config.major_संस्करणम् = 2;
+    _this->gl_config.minor_संस्करणम् = 0;
 }
 
-bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
+bool RPI_GLES_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः)
 {
-    return SDL_EGL_LoadLibrary(_this, path, EGL_DEFAULT_DISPLAY);
+    प्रत्यागम SDL_EGL_आरोपय_Library(_this, मार्गः, EGL_DEFAULT_DISPLAY);
 }
 
-bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window)
+bool RPI_GLES_Swap_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *wdata = window->internal;
+    SDL_गवाक्षः_दत्त *wdata = गवाक्षः->आन्तरिकम्;
 
-    if (!(_this->egl_data->eglSwapBuffers(_this->egl_data->egl_display, wdata->egl_surface))) {
+    यदि (!(_this->egl_दत्त->eglSwapBuffers(_this->egl_दत्त->egl_display, wdata->egl_surface))) {
         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "eglSwapBuffers failed.");
-        return true;
+        प्रत्यागम true;
     }
 
     /* Wait immediately for vsync (as if we only had two buffers), for low input-lag scenarios.
      * Run your SDL program with "SDL_RPI_DOUBLE_BUFFER=1 <program_name>" to enable this. */
-    if (wdata->double_buffer) {
-        SDL_LockMutex(wdata->vsync_cond_mutex);
+    यदि (wdata->double_बफर) {
+        SDL_तालकम्_Mutex(wdata->vsync_cond_mutex);
         SDL_WaitCondition(wdata->vsync_cond, wdata->vsync_cond_mutex);
         SDL_UnlockMutex(wdata->vsync_cond_mutex);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
 SDL_EGL_CreateContext_impl(RPI)
 SDL_EGL_MakeCurrent_impl(RPI)
 
-#endif // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
+#यदि_अन्तः // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL

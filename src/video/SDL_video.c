@@ -19,607 +19,607 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 // The high-level video driver subsystem
 
-#include "SDL_sysvideo.h"
-#include "SDL_clipboard_c.h"
-#include "SDL_egl_c.h"
-#include "SDL_surface_c.h"
-#include "SDL_pixels_c.h"
-#include "SDL_rect_c.h"
-#include "SDL_video_c.h"
-#include "../events/SDL_events_c.h"
-#include "../SDL_hints_c.h"
-#include "../SDL_properties_c.h"
-#include "../timer/SDL_timer_c.h"
-#include "../camera/SDL_camera_c.h"
-#include "../render/SDL_sysrender.h"
-#include "../main/SDL_main_callbacks.h"
+#अन्तर्भाव "SDL_sysvideo.h"
+#अन्तर्भाव "SDL_clipboard_c.h"
+#अन्तर्भाव "SDL_egl_c.h"
+#अन्तर्भाव "SDL_surface_c.h"
+#अन्तर्भाव "SDL_pixels_c.h"
+#अन्तर्भाव "SDL_rect_c.h"
+#अन्तर्भाव "SDL_video_c.h"
+#अन्तर्भाव "../events/SDL_events_c.h"
+#अन्तर्भाव "../SDL_hints_c.h"
+#अन्तर्भाव "../SDL_properties_c.h"
+#अन्तर्भाव "../timer/SDL_timer_c.h"
+#अन्तर्भाव "../camera/SDL_camera_c.h"
+#अन्तर्भाव "../render/SDL_sysrender.h"
+#अन्तर्भाव "../main/SDL_main_callbacks.h"
 
-#ifdef SDL_VIDEO_OPENGL
-#include <SDL3/SDL_opengl.h>
-#endif // SDL_VIDEO_OPENGL
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+#अन्तर्भाव <SDL3/SDL_opengl.h>
+#यदि_अन्तः // SDL_VIDEO_OPENGL
 
-#if defined(SDL_VIDEO_OPENGL_ES) && !defined(SDL_VIDEO_OPENGL)
-#include <SDL3/SDL_opengles.h>
-#endif // SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
+#यदि defined(SDL_VIDEO_OPENGL_ES) && !defined(SDL_VIDEO_OPENGL)
+#अन्तर्भाव <SDL3/SDL_opengles.h>
+#यदि_अन्तः // SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
 
 // GL and GLES2 headers conflict on Linux 32 bits
-#if defined(SDL_VIDEO_OPENGL_ES2) && !defined(SDL_VIDEO_OPENGL)
-#include <SDL3/SDL_opengles2.h>
-#endif // SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
+#यदि defined(SDL_VIDEO_OPENGL_ES2) && !defined(SDL_VIDEO_OPENGL)
+#अन्तर्भाव <SDL3/SDL_opengles2.h>
+#यदि_अन्तः // SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
 
 // GL_CONTEXT_RELEASE_BEHAVIOR and GL_CONTEXT_RELEASE_BEHAVIOR_KHR have the same number.
-#ifndef GL_CONTEXT_RELEASE_BEHAVIOR
-#define GL_CONTEXT_RELEASE_BEHAVIOR 0x82FB
-#endif
+#यदि_अपरिभाषितम् GL_CONTEXT_RELEASE_BEHAVIOR
+#परिभाषय GL_CONTEXT_RELEASE_BEHAVIOR 0x82FB
+#यदि_अन्तः
 
 // GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH and GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH_KHR have the same number.
-#ifndef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
-#define GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH 0x82FC
-#endif
+#यदि_अपरिभाषितम् GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+#परिभाषय GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH 0x82FC
+#यदि_अन्तः
 
 // This is always the same number between the various EXT/ARB/GLES extensions.
-#ifndef GL_FRAMEBUFFER_SRGB
-#define GL_FRAMEBUFFER_SRGB 0x8DB9
-#endif
+#यदि_अपरिभाषितम् GL_FRAMEBUFFER_SRGB
+#परिभाषय GL_FRAMEBUFFER_SRGB 0x8DB9
+#यदि_अन्तः
 
-#ifdef SDL_PLATFORM_EMSCRIPTEN
-#include <emscripten.h>
-#endif
+#यदि_परिभाषितम् SDL_PLATFORM_EMSCRIPTEN
+#अन्तर्भाव <emscripten.h>
+#यदि_अन्तः
 
-#ifdef SDL_PLATFORM_3DS
-#include <3ds.h>
-#endif
+#यदि_परिभाषितम् SDL_PLATFORM_3DS
+#अन्तर्भाव <3ds.h>
+#यदि_अन्तः
 
-#ifndef GL_RGBA_FLOAT_MODE_ARB
-#define GL_RGBA_FLOAT_MODE_ARB 0x8820
-#endif /* GL_RGBA_FLOAT_MODE_ARB */
+#यदि_अपरिभाषितम् GL_RGBA_FLOAT_बहुलकम्_ARB
+#परिभाषय GL_RGBA_FLOAT_बहुलकम्_ARB 0x8820
+#यदि_अन्तः /* GL_RGBA_FLOAT_MODE_ARB */
 
 // Available video drivers
-static VideoBootStrap *bootstrap[] = {
-#ifdef SDL_VIDEO_DRIVER_PRIVATE
-    &PRIVATE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_COCOA
+स्थिर VideoBootStrap *bootstrap[] = {
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_वैयक्तिकम्
+    &वैयक्तिकम्_bootstrap,
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_COCOA
     &COCOA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_X11
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_X11
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WAYLAND
     &Wayland_preferred_bootstrap,
-#endif
+#यदि_अन्तः
     &X11_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WAYLAND
     &Wayland_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_VIVANTE
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_VIVANTE
     &VIVANTE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WINDOWS
     &WINDOWS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_HAIKU
     &HAIKU_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_UIKIT
     &UIKIT_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_ANDROID
     &Android_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENHARMONY
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_OPENHARMONY
     &OPENHARMONY_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_PS2
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_PS2
     &PS2_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_PSP
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_PSP
     &PSP_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_VITA
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_VITA
     &VITA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_N3DS
     &N3DS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_NGAGE
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_NGAGE
     &NGAGE_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_KMSDRM
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_KMSDRM
     &KMSDRM_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_RISCOS
     &RISCOS_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_RPI
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_RPI
     &RPI_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_EMSCRIPTEN
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_EMSCRIPTEN
     &Emscripten_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_QNX
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_QNX
     &QNX_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_OFFSCREEN
     &OFFSCREEN_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_DUMMY
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_DUMMY
     &DUMMY_bootstrap,
-#ifdef SDL_INPUT_LINUXEV
+#यदि_परिभाषितम् SDL_निवेशः_LINUXEV
     &DUMMY_evdev_bootstrap,
-#endif
-#endif
-#ifdef SDL_VIDEO_DRIVER_DOSVESA
+#यदि_अन्तः
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_DOSVESA
     &DOSVESA_bootstrap,
-#endif
-#ifdef SDL_VIDEO_DRIVER_OPENVR
+#यदि_अन्तः
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_OPENVR
     &OPENVR_bootstrap,
-#endif
-    NULL
+#यदि_अन्तः
+    रिक्त
 };
 
-#define CHECK_WINDOW_MAGIC(window, result)                              \
+#परिभाषय CHECK_गवाक्षः_MAGIC(गवाक्षः, परिणाम)                              \
     CHECK_PARAM(!_this) {                                               \
         SDL_UninitializedVideo();                                       \
-        return result;                                                  \
+        प्रत्यागम परिणाम;                                                  \
     }                                                                   \
-    CHECK_PARAM(!SDL_ObjectValid(window, SDL_OBJECT_TYPE_WINDOW)) {     \
-        SDL_SetError("Invalid window");                                 \
-        return result;                                                  \
+    CHECK_PARAM(!SDL_ObjectValid(गवाक्षः, SDL_OBJECT_TYPE_गवाक्षः)) {     \
+        SDL_समुच्चयः_Error("Invalid window");                                 \
+        प्रत्यागम परिणाम;                                                  \
     }
 
-#define CHECK_DISPLAY_MAGIC(display, result)                            \
+#परिभाषय CHECK_DISPLAY_MAGIC(display, परिणाम)                            \
     CHECK_PARAM(!display) {                                             \
-        return result;                                                  \
+        प्रत्यागम परिणाम;                                                  \
     }                                                                   \
 
-#define CHECK_WINDOW_NOT_POPUP(window, result)                          \
-    CHECK_PARAM(SDL_WINDOW_IS_POPUP(window)) {                          \
-        SDL_SetError("Operation invalid on popup windows");             \
-        return result;                                                  \
+#परिभाषय CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, परिणाम)                          \
+    CHECK_PARAM(SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {                          \
+        SDL_समुच्चयः_Error("Operation invalid on popup windows");             \
+        प्रत्यागम परिणाम;                                                  \
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#यदि defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
 // Support for macOS fullscreen spaces, etc.
-extern bool Cocoa_IsWindowInFullscreenSpace(SDL_Window *window);
-extern bool Cocoa_IsWindowInFullscreenSpaceTransition(SDL_Window *window);
-extern bool Cocoa_SetWindowFullscreenSpace(SDL_Window *window, bool state, bool blocking);
-extern bool Cocoa_IsShowingModalDialog(SDL_Window *window);
-#endif
+बाह्य bool Cocoa_Is_गवाक्षः_अन्तर्_Fullscreen_Space(SDL_गवाक्षः *गवाक्षः);
+बाह्य bool Cocoa_Is_गवाक्षः_अन्तर्_Fullscreen_Space_Transition(SDL_गवाक्षः *गवाक्षः);
+बाह्य bool Cocoa_समुच्चयः_गवाक्षः_Fullscreen_Space(SDL_गवाक्षः *गवाक्षः, bool state, bool blocking);
+बाह्य bool Cocoa_IsShowingModalDialog(SDL_गवाक्षः *गवाक्षः);
+#यदि_अन्तः
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
-extern void SDL_UpdateLifecycleObserver(void);
-#endif
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_UIKIT
+बाह्य शून्य SDL_UpdateLifecycleObserver(शून्य);
+#यदि_अन्तः
 
-static void SDL_CheckWindowDisplayChanged(SDL_Window *window);
-static void SDL_CheckWindowDisplayScaleChanged(SDL_Window *window);
-static void SDL_CheckWindowSafeAreaChanged(SDL_Window *window);
+स्थिर शून्य SDL_Check_गवाक्षः_Display_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः);
+स्थिर शून्य SDL_Check_गवाक्षः_Display_Scale_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः);
+स्थिर शून्य SDL_Check_गवाक्षः_Safe_Area_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः);
 
 // Convenience functions for reading driver flags
-static bool SDL_ModeSwitchingEmulated(SDL_VideoDevice *_this)
+स्थिर bool SDL_बहुलकम्_Switching_Emulated(SDL_VideoDevice *_this)
 {
-    if (_this->device_caps & VIDEO_DEVICE_CAPS_MODE_SWITCHING_EMULATED) {
-        return true;
+    यदि (_this->device_caps & VIDEO_DEVICE_CAPS_बहुलकम्_SWITCHING_EMULATED) {
+        प्रत्यागम true;
     }
-    return false;
+    प्रत्यागम false;
 }
 
-static bool SDL_SendsFullscreenDimensions(SDL_VideoDevice *_this)
+स्थिर bool SDL_SendsFullscreenDimensions(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS);
+    प्रत्यागम !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_FULLSCREEN_DIMENSIONS);
 }
 
-static bool IsFullscreenOnly(SDL_VideoDevice *_this)
+स्थिर bool IsFullscreenOnly(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY);
+    प्रत्यागम !!(_this->device_caps & VIDEO_DEVICE_CAPS_FULLSCREEN_ONLY);
 }
 
-static bool SDL_SendsDisplayChanges(SDL_VideoDevice *_this)
+स्थिर bool SDL_SendsDisplayChanges(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES);
+    प्रत्यागम !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_DISPLAY_CHANGES);
 }
 
-static bool SDL_DriverSendsHDRChanges(SDL_VideoDevice *_this)
+स्थिर bool SDL_DriverSendsHDRChanges(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES);
+    प्रत्यागम !!(_this->device_caps & VIDEO_DEVICE_CAPS_SENDS_HDR_CHANGES);
 }
 
-static bool SDL_DriverHasSlowFramebuffer(SDL_VideoDevice *_this)
+स्थिर bool SDL_DriverHasSlowFramebuffer(SDL_VideoDevice *_this)
 {
-    return !!(_this->device_caps & VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER);
+    प्रत्यागम !!(_this->device_caps & VIDEO_DEVICE_CAPS_SLOW_FRAMEBUFFER);
 }
 
 // Hint to treat all window ops as synchronous
-static bool syncHint;
+स्थिर bool syncHint;
 
-static void SDL_SyncHintWatcher(void *userdata, const char *name, const char *oldValue, const char *newValue)
+स्थिर शून्य SDL_SyncHintWatcher(शून्य *userdata, ध्रुव वर्ण *name, ध्रुव वर्ण *old_मानम्, ध्रुव वर्ण *new_मानम्)
 {
-    syncHint = SDL_GetStringBoolean(newValue, false);
+    syncHint = SDL_GetStringBoolean(new_मानम्, false);
 }
 
-static void SDL_SyncIfRequired(SDL_Window *window)
+स्थिर शून्य SDL_SyncIfRequired(SDL_गवाक्षः *गवाक्षः)
 {
-    if (syncHint) {
-        SDL_SyncWindow(window);
+    यदि (syncHint) {
+        SDL_Sync_गवाक्षः(गवाक्षः);
     }
 }
 
-static void SDL_UpdateWindowHierarchy(SDL_Window *window, SDL_Window *parent)
+स्थिर शून्य SDL_Update_गवाक्षः_Hierarchy(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः *parent)
 {
     // Unlink the window from the existing parent.
-    if (window->parent) {
-        if (window->next_sibling) {
-            window->next_sibling->prev_sibling = window->prev_sibling;
+    यदि (गवाक्षः->parent) {
+        यदि (गवाक्षः->अग्र_sibling) {
+            गवाक्षः->अग्र_sibling->पूर्व_sibling = गवाक्षः->पूर्व_sibling;
         }
-        if (window->prev_sibling) {
-            window->prev_sibling->next_sibling = window->next_sibling;
-        } else {
-            window->parent->first_child = window->next_sibling;
+        यदि (गवाक्षः->पूर्व_sibling) {
+            गवाक्षः->पूर्व_sibling->अग्र_sibling = गवाक्षः->अग्र_sibling;
+        } अन्यथा {
+            गवाक्षः->parent->first_child = गवाक्षः->अग्र_sibling;
         }
 
-        window->parent = NULL;
+        गवाक्षः->parent = रिक्त;
     }
 
-    if (parent) {
-        window->parent = parent;
+    यदि (parent) {
+        गवाक्षः->parent = parent;
 
-        window->next_sibling = parent->first_child;
-        if (parent->first_child) {
-            parent->first_child->prev_sibling = window;
+        गवाक्षः->अग्र_sibling = parent->first_child;
+        यदि (parent->first_child) {
+            parent->first_child->पूर्व_sibling = गवाक्षः;
         }
-        parent->first_child = window;
+        parent->first_child = गवाक्षः;
     }
 }
 
 // Support for framebuffer emulation using an accelerated renderer
 
-#define SDL_PROP_WINDOW_TEXTUREDATA_POINTER "SDL.internal.window.texturedata"
+#परिभाषय SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER "SDL.internal.window.texturedata"
 
-typedef struct
+प्रकारनिर्देश संरचना
 {
     SDL_Renderer *renderer;
     SDL_Texture *texture;
-    void *pixels;
-    int pitch;
-    int bytes_per_pixel;
-} SDL_WindowTextureData;
+    शून्य *pixels;
+    पूर्णाङ्क pitch;
+    पूर्णाङ्क अष्टकानि_प्रत्येकम्_pixel;
+} SDL_गवाक्षः_Texture_दत्त;
 
-static Uint32 SDL_DefaultGraphicsBackends(SDL_VideoDevice *_this)
+स्थिर Uint32 SDL_DefaultGraphicsBackends(SDL_VideoDevice *_this)
 {
-#if (defined(SDL_VIDEO_OPENGL) && defined(SDL_PLATFORM_MACOS)) || (defined(SDL_PLATFORM_IOS) && !TARGET_OS_MACCATALYST) || defined(SDL_PLATFORM_QNXNTO)
-    if (_this->GL_CreateContext) {
-        return SDL_WINDOW_OPENGL;
+#यदि (defined(SDL_VIDEO_OPENGL) && defined(SDL_PLATFORM_MACOS)) || (defined(SDL_PLATFORM_IOS) && !TARGET_OS_MACCATALYST) || defined(SDL_PLATFORM_QNXNTO)
+    यदि (_this->GL_CreateContext) {
+        प्रत्यागम SDL_गवाक्षः_OPENGL;
     }
-#endif
-#if defined(SDL_VIDEO_METAL) && (TARGET_OS_MACCATALYST || defined(SDL_PLATFORM_MACOS) || defined(SDL_PLATFORM_IOS))
-    if (_this->Metal_CreateView) {
-        return SDL_WINDOW_METAL;
+#यदि_अन्तः
+#यदि defined(SDL_VIDEO_METAL) && (TARGET_OS_MACCATALYST || defined(SDL_PLATFORM_MACOS) || defined(SDL_PLATFORM_IOS))
+    यदि (_this->Metal_CreateView) {
+        प्रत्यागम SDL_गवाक्षः_METAL;
     }
-#endif
-#if defined(SDL_VIDEO_OPENGL) && defined(SDL_VIDEO_DRIVER_OPENVR)
-    if (SDL_strcmp(_this->name, "openvr") == 0) {
-        return SDL_WINDOW_OPENGL;
+#यदि_अन्तः
+#यदि defined(SDL_VIDEO_OPENGL) && defined(SDL_VIDEO_DRIVER_OPENVR)
+    यदि (SDL_strcmp(_this->name, "openvr") == 0) {
+        प्रत्यागम SDL_गवाक्षः_OPENGL;
     }
-#endif
-    return 0;
+#यदि_अन्तः
+    प्रत्यागम 0;
 }
 
-static bool SDL_CreateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+स्थिर bool SDL_Create_गवाक्षः_Texture(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PixelFormat *format, शून्य **pixels, पूर्णाङ्क *pitch)
 {
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_WindowTextureData *data = (SDL_WindowTextureData *)SDL_GetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    const bool transparent = (window->flags & SDL_WINDOW_TRANSPARENT) ? true : false;
-    int i;
-    int w, h;
-    const SDL_PixelFormat *texture_formats;
+    SDL_PropertiesID props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
+    SDL_गवाक्षः_Texture_दत्त *दत्त = (SDL_गवाक्षः_Texture_दत्त *)SDL_GetPointerProperty(props, SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER, रिक्त);
+    ध्रुव bool transparent = (गवाक्षः->flags & SDL_गवाक्षः_TRANSPARENT) ? true : false;
+    पूर्णाङ्क i;
+    पूर्णाङ्क w, h;
+    ध्रुव SDL_PixelFormat *texture_formats;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &w, &h);
 
-    if (!data) {
-        SDL_Renderer *renderer = NULL;
-        const char *render_driver = NULL;
+    यदि (!दत्त) {
+        SDL_Renderer *renderer = रिक्त;
+        ध्रुव वर्ण *render_driver = रिक्त;
 
         // See if there's a render driver being requested
-        const char *hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
-        if (hint && *hint != '0' && *hint != '1' &&
+        ध्रुव वर्ण *hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
+        यदि (hint && *hint != '0' && *hint != '1' &&
             SDL_strcasecmp(hint, "true") != 0 &&
             SDL_strcasecmp(hint, "false") != 0 &&
             SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) != 0) {
             render_driver = hint;
         }
 
-        if (!render_driver) {
+        यदि (!render_driver) {
             render_driver = SDL_GetHint(SDL_HINT_RENDER_DRIVER);
         }
-        if (render_driver && SDL_strcasecmp(render_driver, SDL_SOFTWARE_RENDERER) == 0) {
-            render_driver = NULL;
+        यदि (render_driver && SDL_strcasecmp(render_driver, SDL_SOFTWARE_RENDERER) == 0) {
+            render_driver = रिक्त;
         }
 
-        char *render_driver_copy = NULL;
-        if (render_driver && *render_driver) {
+        वर्ण *render_driver_copy = रिक्त;
+        यदि (render_driver && *render_driver) {
             render_driver_copy = SDL_strdup(render_driver);
             render_driver = render_driver_copy;
-            if (render_driver_copy) {  // turn any "software" requests into "xxxxxxxx" so we don't end up in infinite recursion.
-                char *prev = render_driver_copy;
-                char *ptr = prev;
-                while ((ptr = SDL_strchr(ptr, ',')) != NULL) {
+            यदि (render_driver_copy) {  // turn any "software" requests into "xxxxxxxx" so we don't end up in infinite recursion.
+                वर्ण *पूर्व = render_driver_copy;
+                वर्ण *ptr = पूर्व;
+                यावत् ((ptr = SDL_strchr(ptr, ',')) != रिक्त) {
                     *ptr = '\0';
-                    const bool is_sw = (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0);
+                    ध्रुव bool is_sw = (SDL_strcasecmp(पूर्व, SDL_SOFTWARE_RENDERER) == 0);
                     *ptr = ',';
-                    if (is_sw) {
-                        SDL_memset(prev, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
-                        ptr = prev;
-                    } else {
+                    यदि (is_sw) {
+                        SDL_memset(पूर्व, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
+                        ptr = पूर्व;
+                    } अन्यथा {
                         ptr++;
-                        prev = ptr;
+                        पूर्व = ptr;
                     }
                 }
 
-                if (SDL_strcasecmp(prev, SDL_SOFTWARE_RENDERER) == 0) {
-                    SDL_memset(prev, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
+                यदि (SDL_strcasecmp(पूर्व, SDL_SOFTWARE_RENDERER) == 0) {
+                    SDL_memset(पूर्व, 'x', SDL_strlen(SDL_SOFTWARE_RENDERER));
                 }
             }
         }
 
         // Check to see if there's a specific driver requested
-        if (render_driver) {
-            renderer = SDL_CreateRenderer(window, render_driver);
+        यदि (render_driver) {
+            renderer = SDL_CreateRenderer(गवाक्षः, render_driver);
             SDL_free(render_driver_copy);
-            if (!renderer) {
+            यदि (!renderer) {
                 // The error for this specific renderer has already been set
-                return false;
+                प्रत्यागम false;
             }
-        } else {
-            SDL_assert(render_driver_copy == NULL);
-            const int total = SDL_GetNumRenderDrivers();
-            for (i = 0; i < total; ++i) {
-                const char *name = SDL_GetRenderDriver(i);
-                if (name && SDL_strcmp(name, SDL_SOFTWARE_RENDERER) != 0) {
-                    renderer = SDL_CreateRenderer(window, name);
-                    if (renderer) {
-                        break; // this will work.
+        } अन्यथा {
+            SDL_assert(render_driver_copy == रिक्त);
+            ध्रुव पूर्णाङ्क योग = SDL_Get_अङ्कः_Render_Drivers();
+            प्रति (i = 0; i < योग; ++i) {
+                ध्रुव वर्ण *name = SDL_GetRenderDriver(i);
+                यदि (name && SDL_strcmp(name, SDL_SOFTWARE_RENDERER) != 0) {
+                    renderer = SDL_CreateRenderer(गवाक्षः, name);
+                    यदि (renderer) {
+                        भङ्ग; // this will work.
                     }
                 }
             }
-            if (!renderer) {
-                return SDL_SetError("No hardware accelerated renderers available");
+            यदि (!renderer) {
+                प्रत्यागम SDL_समुच्चयः_Error("No hardware accelerated renderers available");
             }
         }
 
-        SDL_assert(renderer != NULL); // should have explicitly checked this above.
+        SDL_assert(renderer != रिक्त); // should have explicitly checked this above.
 
         // Create the data after we successfully create the renderer (bug #1116)
-        data = (SDL_WindowTextureData *)SDL_calloc(1, sizeof(*data));
-        if (!data) {
+        दत्त = (SDL_गवाक्षः_Texture_दत्त *)SDL_calloc(1, परिमाण(*दत्त));
+        यदि (!दत्त) {
             SDL_DestroyRenderer(renderer);
-            return false;
+            प्रत्यागम false;
         }
-        if (!SDL_SetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, data)) {
+        यदि (!SDL_समुच्चयः_Pointer_Property(props, SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER, दत्त)) {
             SDL_DestroyRenderer(renderer);
-            return false;
+            प्रत्यागम false;
         }
 
-        data->renderer = renderer;
+        दत्त->renderer = renderer;
     }
 
-    texture_formats = (const SDL_PixelFormat *)SDL_GetPointerProperty(SDL_GetRendererProperties(data->renderer), SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER, NULL);
-    if (!texture_formats) {
-        return false;
+    texture_formats = (ध्रुव SDL_PixelFormat *)SDL_GetPointerProperty(SDL_GetRendererProperties(दत्त->renderer), SDL_PROP_RENDERER_TEXTURE_FORMATS_POINTER, रिक्त);
+    यदि (!texture_formats) {
+        प्रत्यागम false;
     }
 
     // Free any old texture and pixel data
-    if (data->texture) {
-        SDL_DestroyTexture(data->texture);
-        data->texture = NULL;
+    यदि (दत्त->texture) {
+        SDL_DestroyTexture(दत्त->texture);
+        दत्त->texture = रिक्त;
     }
-    SDL_free(data->pixels);
-    data->pixels = NULL;
+    SDL_free(दत्त->pixels);
+    दत्त->pixels = रिक्त;
 
     // Find the first format with or without an alpha channel
     *format = texture_formats[0];
 
-    for (i = 0; texture_formats[i] != SDL_PIXELFORMAT_UNKNOWN; ++i) {
+    प्रति (i = 0; texture_formats[i] != SDL_PIXELFORMAT_UNKNOWN; ++i) {
         SDL_PixelFormat texture_format = texture_formats[i];
-        if (!SDL_ISPIXELFORMAT_FOURCC(texture_format) &&
+        यदि (!SDL_ISPIXELFORMAT_FOURCC(texture_format) &&
             !SDL_ISPIXELFORMAT_10BIT(texture_format) &&
             !SDL_ISPIXELFORMAT_FLOAT(texture_format) &&
-            !SDL_ISPIXELFORMAT_INDEXED(texture_format) &&
+            !SDL_ISPIXELFORMAT_अनुक्रमितम्(texture_format) &&
             (!transparent || SDL_ISPIXELFORMAT_ALPHA(texture_format))) {
             *format = texture_format;
-            break;
+            भङ्ग;
         }
     }
 
-    data->texture = SDL_CreateTexture(data->renderer, *format,
+    दत्त->texture = SDL_CreateTexture(दत्त->renderer, *format,
                                       SDL_TEXTUREACCESS_STREAMING,
                                       w, h);
-    if (!data->texture) {
+    यदि (!दत्त->texture) {
         // codechecker_false_positive [Malloc] Static analyzer doesn't realize allocated `data` is saved to SDL_PROP_WINDOW_TEXTUREDATA_POINTER and not leaked here.
-        return false; // NOLINT(clang-analyzer-unix.Malloc)
+        प्रत्यागम false; // NOLINT(clang-analyzer-unix.Malloc)
     }
-    SDL_SetTextureBlendMode(data->texture, SDL_BLENDMODE_NONE);
+    SDL_समुच्चयः_Texture_Blend_बहुलकम्(दत्त->texture, SDL_BLENDMODE_NONE);
 
     // Create framebuffer data
-    data->bytes_per_pixel = SDL_BYTESPERPIXEL(*format);
-    data->pitch = (((w * data->bytes_per_pixel) + 3) & ~3);
+    दत्त->अष्टकानि_प्रत्येकम्_pixel = SDL_BYTESPERPIXEL(*format);
+    दत्त->pitch = (((w * दत्त->अष्टकानि_प्रत्येकम्_pixel) + 3) & ~3);
 
     {
         // Make static analysis happy about potential SDL_malloc(0) calls.
-        const size_t allocsize = (size_t)h * data->pitch;
-        data->pixels = SDL_malloc((allocsize > 0) ? allocsize : 1);
-        if (!data->pixels) {
-            return false;
+        ध्रुव size_t allocsize = (size_t)h * दत्त->pitch;
+        दत्त->pixels = SDL_malloc((allocsize > 0) ? allocsize : 1);
+        यदि (!दत्त->pixels) {
+            प्रत्यागम false;
         }
     }
 
-    *pixels = data->pixels;
-    *pitch = data->pitch;
+    *pixels = दत्त->pixels;
+    *pitch = दत्त->pitch;
 
     // Make sure we're not double-scaling the viewport
-    SDL_SetRenderViewport(data->renderer, NULL);
+    SDL_समुच्चयः_Render_Viewport(दत्त->renderer, रिक्त);
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowTextureVSync(SDL_VideoDevice *_this, SDL_Window *window, int vsync)
+bool SDL_समुच्चयः_गवाक्षः_Texture_VSync(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क vsync)
 {
-    SDL_WindowTextureData *data;
+    SDL_गवाक्षः_Texture_दत्त *दत्त;
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data) {
-        return false;
+    दत्त = (SDL_गवाक्षः_Texture_दत्त *)SDL_GetPointerProperty(SDL_Get_गवाक्षः_Properties(गवाक्षः), SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER, रिक्त);
+    यदि (!दत्त) {
+        प्रत्यागम false;
     }
-    if (!data->renderer) {
-        return false;
+    यदि (!दत्त->renderer) {
+        प्रत्यागम false;
     }
-    return SDL_SetRenderVSync(data->renderer, vsync);
+    प्रत्यागम SDL_समुच्चयः_Render_VSync(दत्त->renderer, vsync);
 }
 
-static bool SDL_GetWindowTextureVSync(SDL_VideoDevice *_this, SDL_Window *window, int *vsync)
+स्थिर bool SDL_Get_गवाक्षः_Texture_VSync(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *vsync)
 {
-    SDL_WindowTextureData *data;
+    SDL_गवाक्षः_Texture_दत्त *दत्त;
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data) {
-        return false;
+    दत्त = (SDL_गवाक्षः_Texture_दत्त *)SDL_GetPointerProperty(SDL_Get_गवाक्षः_Properties(गवाक्षः), SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER, रिक्त);
+    यदि (!दत्त) {
+        प्रत्यागम false;
     }
-    if (!data->renderer) {
-        return false;
+    यदि (!दत्त->renderer) {
+        प्रत्यागम false;
     }
-    return SDL_GetRenderVSync(data->renderer, vsync);
+    प्रत्यागम SDL_GetRenderVSync(दत्त->renderer, vsync);
 }
 
-static bool SDL_UpdateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+स्थिर bool SDL_Update_गवाक्षः_Texture(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rects, पूर्णाङ्क numrects)
 {
-    SDL_WindowTextureData *data;
+    SDL_गवाक्षः_Texture_दत्त *दत्त;
     SDL_Rect rect;
-    void *src;
-    int w, h;
+    शून्य *src;
+    पूर्णाङ्क w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &w, &h);
 
-    data = (SDL_WindowTextureData *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
-    if (!data || !data->texture) {
-        return SDL_SetError("No window texture data");
+    दत्त = (SDL_गवाक्षः_Texture_दत्त *)SDL_GetPointerProperty(SDL_Get_गवाक्षः_Properties(गवाक्षः), SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER, रिक्त);
+    यदि (!दत्त || !दत्त->texture) {
+        प्रत्यागम SDL_समुच्चयः_Error("No window texture data");
     }
 
     // Update a single rect that contains subrects for best DMA performance
-    if (SDL_GetSpanEnclosingRect(w, h, numrects, rects, &rect)) {
-        src = (void *)((Uint8 *)data->pixels +
-                       rect.y * data->pitch +
-                       rect.x * data->bytes_per_pixel);
-        if (!SDL_UpdateTexture(data->texture, &rect, src, data->pitch)) {
-            return false;
+    यदि (SDL_Get_विस्तृतिः_Enclosing_Rect(w, h, numrects, rects, &rect)) {
+        src = (शून्य *)((Uint8 *)दत्त->pixels +
+                       rect.y * दत्त->pitch +
+                       rect.x * दत्त->अष्टकानि_प्रत्येकम्_pixel);
+        यदि (!SDL_UpdateTexture(दत्त->texture, &rect, src, दत्त->pitch)) {
+            प्रत्यागम false;
         }
 
-        if (!SDL_RenderTexture(data->renderer, data->texture, NULL, NULL)) {
-            return false;
+        यदि (!SDL_RenderTexture(दत्त->renderer, दत्त->texture, रिक्त, रिक्त)) {
+            प्रत्यागम false;
         }
 
-        SDL_RenderPresent(data->renderer);
+        SDL_RenderPresent(दत्त->renderer);
     }
-    return true;
+    प्रत्यागम true;
 }
 
-static void SDL_DestroyWindowTexture(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य SDL_Destroy_गवाक्षः_Texture(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    if (SDL_HasProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER)) {
-        SDL_WindowTextureData *data = SDL_GetPointerProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER, NULL);
+    SDL_PropertiesID props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
+    यदि (SDL_HasProperty(props, SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER)) {
+        SDL_गवाक्षः_Texture_दत्त *दत्त = SDL_GetPointerProperty(props, SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER, रिक्त);
 
-        if (data->texture) {
-            SDL_DestroyTexture(data->texture);
+        यदि (दत्त->texture) {
+            SDL_DestroyTexture(दत्त->texture);
         }
-        if (data->renderer) {
-            SDL_DestroyRenderer(data->renderer);
+        यदि (दत्त->renderer) {
+            SDL_DestroyRenderer(दत्त->renderer);
         }
-        SDL_free(data->pixels);
-        SDL_free(data);
+        SDL_free(दत्त->pixels);
+        SDL_free(दत्त);
 
-        SDL_ClearProperty(props, SDL_PROP_WINDOW_TEXTUREDATA_POINTER);
+        SDL_ClearProperty(props, SDL_PROP_गवाक्षः_TEXTUREDATA_POINTER);
     }
 }
 
-static SDL_VideoDevice *_this = NULL;
-static SDL_AtomicInt SDL_messagebox_count;
+स्थिर SDL_VideoDevice *_this = रिक्त;
+स्थिर SDL_AtomicInt SDL_messagebox_गणनम्;
 
-static int SDLCALL cmpmodes(const void *A, const void *B)
+स्थिर पूर्णाङ्क SDLCALL cmpmodes(ध्रुव शून्य *A, ध्रुव शून्य *B)
 {
-    const SDL_DisplayMode *a = (const SDL_DisplayMode *)A;
-    const SDL_DisplayMode *b = (const SDL_DisplayMode *)B;
-    int a_refresh_rate = (int)(a->refresh_rate * 100);
-    int b_refresh_rate = (int)(b->refresh_rate * 100);
-    int a_pixel_density = (int)(a->pixel_density * 100);
-    int b_pixel_density = (int)(b->pixel_density * 100);
+    ध्रुव SDL_Display_बहुलकम् *a = (ध्रुव SDL_Display_बहुलकम् *)A;
+    ध्रुव SDL_Display_बहुलकम् *b = (ध्रुव SDL_Display_बहुलकम् *)B;
+    पूर्णाङ्क a_refresh_दरः = (पूर्णाङ्क)(a->refresh_दरः * 100);
+    पूर्णाङ्क b_refresh_दरः = (पूर्णाङ्क)(b->refresh_दरः * 100);
+    पूर्णाङ्क a_pixel_density = (पूर्णाङ्क)(a->pixel_density * 100);
+    पूर्णाङ्क b_pixel_density = (पूर्णाङ्क)(b->pixel_density * 100);
 
-    if (a->w != b->w) {
-        return b->w - a->w;
-    } else if (a->h != b->h) {
-        return b->h - a->h;
-    } else if (SDL_BITSPERPIXEL(a->format) != SDL_BITSPERPIXEL(b->format)) {
-        return SDL_BITSPERPIXEL(b->format) - SDL_BITSPERPIXEL(a->format);
-    } else if (SDL_PIXELLAYOUT(a->format) != SDL_PIXELLAYOUT(b->format)) {
-        return SDL_PIXELLAYOUT(b->format) - SDL_PIXELLAYOUT(a->format);
-    } else if (a_refresh_rate != b_refresh_rate) {
-        return b_refresh_rate - a_refresh_rate;
-    } else if (a_pixel_density != b_pixel_density) {
-        return a_pixel_density - b_pixel_density;
+    यदि (a->w != b->w) {
+        प्रत्यागम b->w - a->w;
+    } अन्यथा यदि (a->h != b->h) {
+        प्रत्यागम b->h - a->h;
+    } अन्यथा यदि (SDL_BITSPERPIXEL(a->format) != SDL_BITSPERPIXEL(b->format)) {
+        प्रत्यागम SDL_BITSPERPIXEL(b->format) - SDL_BITSPERPIXEL(a->format);
+    } अन्यथा यदि (SDL_PIXELLAYOUT(a->format) != SDL_PIXELLAYOUT(b->format)) {
+        प्रत्यागम SDL_PIXELLAYOUT(b->format) - SDL_PIXELLAYOUT(a->format);
+    } अन्यथा यदि (a_refresh_दरः != b_refresh_दरः) {
+        प्रत्यागम b_refresh_दरः - a_refresh_दरः;
+    } अन्यथा यदि (a_pixel_density != b_pixel_density) {
+        प्रत्यागम a_pixel_density - b_pixel_density;
     }
-    return 0;
+    प्रत्यागम 0;
 }
 
-bool SDL_UninitializedVideo(void)
+bool SDL_UninitializedVideo(शून्य)
 {
-    return SDL_SetError("Video subsystem has not been initialized");
+    प्रत्यागम SDL_समुच्चयः_Error("Video subsystem has not been initialized");
 }
 
 // Deduplicated list of video bootstrap drivers.
-static const VideoBootStrap *deduped_bootstrap[SDL_arraysize(bootstrap) - 1];
+स्थिर ध्रुव VideoBootStrap *deduped_bootstrap[SDL_arraysize(bootstrap) - 1];
 
-int SDL_GetNumVideoDrivers(void)
+पूर्णाङ्क SDL_Get_अङ्कः_Video_Drivers(शून्य)
 {
-    static int num_drivers = -1;
+    स्थिर पूर्णाङ्क अङ्कः_drivers = -1;
 
-    if (num_drivers >= 0) {
-        return num_drivers;
+    यदि (अङ्कः_drivers >= 0) {
+        प्रत्यागम अङ्कः_drivers;
     }
 
-    num_drivers = 0;
+    अङ्कः_drivers = 0;
 
     // Build a list of unique video drivers.
-    for (int i = 0; bootstrap[i] != NULL; ++i) {
+    प्रति (पूर्णाङ्क i = 0; bootstrap[i] != रिक्त; ++i) {
         bool duplicate = false;
-        for (int j = 0; j < i; ++j) {
-            if (SDL_strcmp(bootstrap[i]->name, bootstrap[j]->name) == 0) {
+        प्रति (पूर्णाङ्क j = 0; j < i; ++j) {
+            यदि (SDL_strcmp(bootstrap[i]->name, bootstrap[j]->name) == 0) {
                 duplicate = true;
-                break;
+                भङ्ग;
             }
         }
 
-        if (!duplicate) {
-            deduped_bootstrap[num_drivers++] = bootstrap[i];
+        यदि (!duplicate) {
+            deduped_bootstrap[अङ्कः_drivers++] = bootstrap[i];
         }
     }
 
-    return num_drivers;
+    प्रत्यागम अङ्कः_drivers;
 }
 
-const char *SDL_GetVideoDriver(int index)
+ध्रुव वर्ण *SDL_GetVideoDriver(पूर्णाङ्क सूचकांक)
 {
-    CHECK_PARAM(index < 0 || index >= SDL_GetNumVideoDrivers()) {
+    CHECK_PARAM(सूचकांक < 0 || सूचकांक >= SDL_Get_अङ्कः_Video_Drivers()) {
         SDL_InvalidParamError("index");
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    return deduped_bootstrap[index]->name;
+    प्रत्यागम deduped_bootstrap[सूचकांक]->name;
 }
 
 /*
  * Initialize the video and event subsystems -- determine native pixel format
  */
-bool SDL_InitVideo(const char *driver_name)
+bool SDL_InitVideo(ध्रुव वर्ण *driver_name)
 {
     SDL_VideoDevice *video;
     bool init_events = false;
@@ -627,85 +627,85 @@ bool SDL_InitVideo(const char *driver_name)
     bool init_mouse = false;
     bool init_touch = false;
     bool init_pen = false;
-    int i = 0;
+    पूर्णाङ्क i = 0;
 
     // Check to make sure we don't overwrite '_this'
-    if (_this) {
+    यदि (_this) {
         SDL_QuitVideo();
     }
 
     SDL_InitTicks();
 
     // Start the event loop
-    if (!SDL_InitSubSystem(SDL_INIT_EVENTS)) {
-        goto pre_driver_error;
+    यदि (!SDL_InitSubSystem(SDL_INIT_EVENTS)) {
+        गच्छ pre_driver_error;
     }
     init_events = true;
-    if (!SDL_InitKeyboard()) {
-        goto pre_driver_error;
+    यदि (!SDL_InitKeyboard()) {
+        गच्छ pre_driver_error;
     }
     init_keyboard = true;
-    if (!SDL_PreInitMouse()) {
-        goto pre_driver_error;
+    यदि (!SDL_PreInitMouse()) {
+        गच्छ pre_driver_error;
     }
     init_mouse = true;
-    if (!SDL_InitTouch()) {
-        goto pre_driver_error;
+    यदि (!SDL_InitTouch()) {
+        गच्छ pre_driver_error;
     }
     init_touch = true;
-    if (!SDL_InitPen()) {
-        goto pre_driver_error;
+    यदि (!SDL_InitPen()) {
+        गच्छ pre_driver_error;
     }
     init_pen = true;
 
     // Select the proper video driver
-    video = NULL;
-#ifdef SDL_PLATFORM_LINUX
+    video = रिक्त;
+#यदि_परिभाषितम् SDL_PLATFORM_LINUX
     // https://github.com/libsdl-org/SDL/issues/12247
-    if (SDL_IsUbuntuTouch()) {
+    यदि (SDL_IsUbuntuTouch()) {
         driver_name = "wayland";
     }
-#endif
-    if (!driver_name) {
+#यदि_अन्तः
+    यदि (!driver_name) {
         driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
     }
-    if (driver_name && *driver_name != 0) {
-        const char *driver_attempt = driver_name;
-        while (driver_attempt && *driver_attempt != 0 && !video) {
-            const char *driver_attempt_end = SDL_strchr(driver_attempt, ',');
-            size_t driver_attempt_len = (driver_attempt_end) ? (driver_attempt_end - driver_attempt)
+    यदि (driver_name && *driver_name != 0) {
+        ध्रुव वर्ण *driver_attempt = driver_name;
+        यावत् (driver_attempt && *driver_attempt != 0 && !video) {
+            ध्रुव वर्ण *driver_attempt_अन्तः = SDL_strchr(driver_attempt, ',');
+            size_t driver_attempt_len = (driver_attempt_अन्तः) ? (driver_attempt_अन्तः - driver_attempt)
                                                                      : SDL_strlen(driver_attempt);
 
-            for (i = 0; bootstrap[i]; ++i) {
-                if (!bootstrap[i]->is_preferred &&
+            प्रति (i = 0; bootstrap[i]; ++i) {
+                यदि (!bootstrap[i]->is_preferred &&
                     (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
                     (SDL_strncasecmp(bootstrap[i]->name, driver_attempt, driver_attempt_len) == 0)) {
                     video = bootstrap[i]->create();
-                    if (video) {
-                        break;
+                    यदि (video) {
+                        भङ्ग;
                     }
                 }
             }
 
-            driver_attempt = (driver_attempt_end) ? (driver_attempt_end + 1) : NULL;
+            driver_attempt = (driver_attempt_अन्तः) ? (driver_attempt_अन्तः + 1) : रिक्त;
         }
-    } else {
-        for (i = 0; bootstrap[i]; ++i) {
+    } अन्यथा {
+        प्रति (i = 0; bootstrap[i]; ++i) {
             video = bootstrap[i]->create();
-            if (video) {
-                break;
+            यदि (video) {
+                भङ्ग;
             }
         }
     }
-    if (video) {
+    यदि (video) {
         SDL_DebugLogBackend("video", bootstrap[i]->name);
-    } else {
-        if (driver_name) {
-            SDL_SetError("%s not available", driver_name);
-            goto pre_driver_error;
+    } अन्यथा {
+        यदि (driver_name) {
+            SDL_समुच्चयः_Error("%s not available", driver_name);
+            गच्छ pre_driver_error;
         }
-        SDL_SetError("No available video device");
-        goto pre_driver_error;
+        SDL_समुच्चयः_Error("No available video device");
+        गच्छ pre_driver_error;
     }
 
     /* From this point on, use SDL_QuitVideo to cleanup on error, rather than
@@ -716,22 +716,22 @@ bool SDL_InitVideo(const char *driver_name)
 
     // Set some very sane GL defaults
     _this->gl_config.driver_loaded = 0;
-    _this->gl_config.dll_handle = NULL;
-    SDL_GL_ResetAttributes();
+    _this->gl_config.dll_handle = रिक्त;
+    SDL_GL_Reset_गुणाः();
 
     // Initialize the video subsystem
-    if (!_this->VideoInit(_this)) {
+    यदि (!_this->VideoInit(_this)) {
         SDL_QuitVideo();
-        return false;
+        प्रत्यागम false;
     }
 
     // Make sure some displays were added
-    if (_this->num_displays == 0) {
+    यदि (_this->अङ्कः_displays == 0) {
         SDL_QuitVideo();
-        return SDL_SetError("The video driver did not add any displays");
+        प्रत्यागम SDL_समुच्चयः_Error("The video driver did not add any displays");
     }
 
-    SDL_AddHintCallback(SDL_HINT_VIDEO_SYNC_WINDOW_OPERATIONS, SDL_SyncHintWatcher, NULL);
+    SDL_सङ्कलय_Hint_Callback(SDL_HINT_VIDEO_SYNC_गवाक्षः_OPERATIONS, SDL_SyncHintWatcher, रिक्त);
 
     /* Disable the screen saver by default. This is a change from <= 2.0.1,
        but most things using SDL are games or media players; you wouldn't
@@ -739,84 +739,84 @@ bool SDL_InitVideo(const char *driver_name)
        joystick, or passively watching a movie. Things that use SDL but
        function more like a normal desktop app should explicitly re-enable the
        screensaver. */
-    if (!SDL_GetHintBoolean(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, false)) {
+    यदि (!SDL_GetHintBoolean(SDL_HINT_VIDEO_ALLOW_SCREENSAVER, false)) {
         SDL_DisableScreenSaver();
     }
 
     SDL_PostInitMouse();
 
     // We're ready to go!
-    return true;
+    प्रत्यागम true;
 
 pre_driver_error:
-    SDL_assert(_this == NULL);
-    if (init_pen) {
+    SDL_assert(_this == रिक्त);
+    यदि (init_pen) {
         SDL_QuitPen();
     }
-    if (init_touch) {
+    यदि (init_touch) {
         SDL_QuitTouch();
     }
-    if (init_mouse) {
+    यदि (init_mouse) {
         SDL_QuitMouse();
     }
-    if (init_keyboard) {
+    यदि (init_keyboard) {
         SDL_QuitKeyboard();
     }
-    if (init_events) {
+    यदि (init_events) {
         SDL_QuitSubSystem(SDL_INIT_EVENTS);
     }
-    return false;
+    प्रत्यागम false;
 }
 
-const char *SDL_GetCurrentVideoDriver(void)
+ध्रुव वर्ण *SDL_GetCurrentVideoDriver(शून्य)
 {
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    return _this->name;
+    प्रत्यागम _this->name;
 }
 
-SDL_VideoDevice *SDL_GetVideoDevice(void)
+SDL_VideoDevice *SDL_GetVideoDevice(शून्य)
 {
-    return _this;
+    प्रत्यागम _this;
 }
 
-bool SDL_OnVideoThread(void)
+bool SDL_OnVideoThread(शून्य)
 {
-    return (_this && SDL_GetCurrentThreadID() == _this->thread);
+    प्रत्यागम (_this && SDL_GetCurrentThreadID() == _this->thread);
 }
 
-void SDL_SetSystemTheme(SDL_SystemTheme theme)
+शून्य SDL_समुच्चयः_System_Theme(SDL_SystemTheme theme)
 {
-    if (_this && theme != _this->system_theme) {
+    यदि (_this && theme != _this->system_theme) {
         _this->system_theme = theme;
-        SDL_SendSystemThemeChangedEvent();
+        SDL_Send_System_Theme_परिवर्तितम्_Event();
     }
 }
 
-SDL_SystemTheme SDL_GetSystemTheme(void)
+SDL_SystemTheme SDL_GetSystemTheme(शून्य)
 {
-    if (_this) {
-        return _this->system_theme;
-    } else {
-        return SDL_SYSTEM_THEME_UNKNOWN;
+    यदि (_this) {
+        प्रत्यागम _this->system_theme;
+    } अन्यथा {
+        प्रत्यागम SDL_SYSTEM_THEME_UNKNOWN;
     }
 }
 
-void SDL_UpdateDesktopBounds(void)
+शून्य SDL_UpdateDesktopBounds(शून्य)
 {
     SDL_Rect rect;
     SDL_zero(rect);
 
-    SDL_DisplayID *displays = SDL_GetDisplays(NULL);
-    if (displays) {
-        for (int i = 0; displays[i]; ++i) {
+    SDL_DisplayID *displays = SDL_GetDisplays(रिक्त);
+    यदि (displays) {
+        प्रति (पूर्णाङ्क i = 0; displays[i]; ++i) {
             SDL_Rect bounds;
-            if (SDL_GetDisplayBounds(displays[i], &bounds)) {
-                if (i == 0) {
+            यदि (SDL_GetDisplayBounds(displays[i], &bounds)) {
+                यदि (i == 0) {
                     SDL_copyp(&rect, &bounds);
-                } else {
+                } अन्यथा {
                     SDL_GetRectUnion(&rect, &bounds, &rect);
                 }
             }
@@ -826,76 +826,76 @@ void SDL_UpdateDesktopBounds(void)
     SDL_copyp(&_this->desktop_bounds, &rect);
 }
 
-static void SDL_FinalizeDisplayMode(SDL_DisplayMode *mode)
+स्थिर शून्य SDL_Finalize_Display_बहुलकम्(SDL_Display_बहुलकम् *बहुलकम्)
 {
     // Make sure all the fields are set up correctly
-    if (mode->pixel_density <= 0.0f) {
-        mode->pixel_density = 1.0f;
+    यदि (बहुलकम्->pixel_density <= 0.0f) {
+        बहुलकम्->pixel_density = 1.0f;
     }
 
-    if (mode->refresh_rate_numerator > 0) {
-        if (mode->refresh_rate_denominator <= 0) {
-            mode->refresh_rate_denominator = 1;
+    यदि (बहुलकम्->refresh_दरः_numerator > 0) {
+        यदि (बहुलकम्->refresh_दरः_denominator <= 0) {
+            बहुलकम्->refresh_दरः_denominator = 1;
         }
-        mode->refresh_rate = (float)mode->refresh_rate_numerator / mode->refresh_rate_denominator;
-    } else {
-        SDL_CalculateFraction(mode->refresh_rate, &mode->refresh_rate_numerator, &mode->refresh_rate_denominator);
+        बहुलकम्->refresh_दरः = (भिन्न)बहुलकम्->refresh_दरः_numerator / बहुलकम्->refresh_दरः_denominator;
+    } अन्यथा {
+        SDL_CalculateFraction(बहुलकम्->refresh_दरः, &बहुलकम्->refresh_दरः_numerator, &बहुलकम्->refresh_दरः_denominator);
     }
-    mode->refresh_rate = SDL_roundf(mode->refresh_rate * 100) / 100.0f;
+    बहुलकम्->refresh_दरः = SDL_roundf(बहुलकम्->refresh_दरः * 100) / 100.0f;
 }
 
-SDL_DisplayID SDL_AddBasicVideoDisplay(const SDL_DisplayMode *desktop_mode)
+SDL_DisplayID SDL_सङ्कलय_Basic_Video_Display(ध्रुव SDL_Display_बहुलकम् *desktop_बहुलकम्)
 {
     SDL_VideoDisplay display;
 
     SDL_zero(display);
-    if (desktop_mode) {
-        SDL_memcpy(&display.desktop_mode, desktop_mode, sizeof(display.desktop_mode));
+    यदि (desktop_बहुलकम्) {
+        SDL_memcpy(&display.desktop_बहुलकम्, desktop_बहुलकम्, परिमाण(display.desktop_बहुलकम्));
     }
-    return SDL_AddVideoDisplay(&display, false);
+    प्रत्यागम SDL_सङ्कलय_Video_Display(&display, false);
 }
 
-SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_event)
+SDL_DisplayID SDL_सङ्कलय_Video_Display(ध्रुव SDL_VideoDisplay *display, bool send_event)
 {
     SDL_VideoDisplay **displays, *new_display;
     SDL_DisplayID id;
     SDL_PropertiesID props;
-    int i;
+    पूर्णाङ्क i;
 
-    new_display = (SDL_VideoDisplay *)SDL_malloc(sizeof(*new_display));
-    if (!new_display) {
-        return 0;
+    new_display = (SDL_VideoDisplay *)SDL_malloc(परिमाण(*new_display));
+    यदि (!new_display) {
+        प्रत्यागम 0;
     }
 
-    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->num_displays + 1) * sizeof(*displays));
-    if (!displays) {
+    displays = (SDL_VideoDisplay **)SDL_realloc(_this->displays, (_this->अङ्कः_displays + 1) * परिमाण(*displays));
+    यदि (!displays) {
         SDL_free(new_display);
-        return 0;
+        प्रत्यागम 0;
     }
     _this->displays = displays;
-    _this->displays[_this->num_displays++] = new_display;
+    _this->displays[_this->अङ्कः_displays++] = new_display;
 
-    id = SDL_GetNextObjectID();
+    id = SDL_Get_अग्र_Object_ID();
     SDL_copyp(new_display, display);
     new_display->id = id;
     new_display->device = _this;
-    if (display->name) {
+    यदि (display->name) {
         new_display->name = SDL_strdup(display->name);
-    } else {
-        char name[32];
+    } अन्यथा {
+        वर्ण name[32];
 
         SDL_itoa(id, name, 10);
         new_display->name = SDL_strdup(name);
     }
-    if (new_display->content_scale == 0.0f) {
+    यदि (new_display->content_scale == 0.0f) {
         new_display->content_scale = 1.0f;
     }
 
-    new_display->desktop_mode.displayID = id;
-    new_display->current_mode = &new_display->desktop_mode;
-    SDL_FinalizeDisplayMode(&new_display->desktop_mode);
+    new_display->desktop_बहुलकम्.displayID = id;
+    new_display->current_बहुलकम् = &new_display->desktop_बहुलकम्;
+    SDL_Finalize_Display_बहुलकम्(&new_display->desktop_बहुलकम्);
 
-    for (i = 0; i < new_display->num_fullscreen_modes; ++i) {
+    प्रति (i = 0; i < new_display->अङ्कः_fullscreen_modes; ++i) {
         new_display->fullscreen_modes[i].displayID = id;
     }
 
@@ -903,169 +903,169 @@ SDL_DisplayID SDL_AddVideoDisplay(const SDL_VideoDisplay *display, bool send_eve
     new_display->HDR.SDR_white_level = SDL_max(display->HDR.SDR_white_level, 1.0f);
 
     props = SDL_GetDisplayProperties(id);
-    SDL_SetBooleanProperty(props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, new_display->HDR.HDR_headroom > 1.0f);
+    SDL_समुच्चयः_Boolean_Property(props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, new_display->HDR.HDR_headroom > 1.0f);
 
     SDL_UpdateDesktopBounds();
 
-    if (send_event) {
+    यदि (send_event) {
         SDL_SendDisplayEvent(new_display, SDL_EVENT_DISPLAY_ADDED, 0, 0);
     }
 
-    return id;
+    प्रत्यागम id;
 }
 
-void SDL_OnDisplayAdded(SDL_VideoDisplay *display)
+शून्य SDL_OnDisplayAdded(SDL_VideoDisplay *display)
 {
-    SDL_Window *window;
+    SDL_गवाक्षः *गवाक्षः;
 
     // See if any windows have changed to the new display
-    for (window = _this->windows; window; window = window->next) {
-        SDL_CheckWindowDisplayChanged(window);
+    प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+        SDL_Check_गवाक्षः_Display_परिवर्तितम्(गवाक्षः);
     }
 }
 
-void SDL_OnDisplayMoved(SDL_VideoDisplay *display)
+शून्य SDL_OnDisplayMoved(SDL_VideoDisplay *display)
 {
     SDL_UpdateDesktopBounds();
 }
 
-void SDL_DelVideoDisplay(SDL_DisplayID displayID, bool send_event)
+शून्य SDL_DelVideoDisplay(SDL_DisplayID displayID, bool send_event)
 {
     SDL_VideoDisplay *display;
-    int display_index = SDL_GetDisplayIndex(displayID);
-    if (display_index < 0) {
-        return;
+    पूर्णाङ्क display_सूचकांक = SDL_Get_Display_सूचकांक(displayID);
+    यदि (display_सूचकांक < 0) {
+        प्रत्यागम;
     }
 
-    display = _this->displays[display_index];
+    display = _this->displays[display_सूचकांक];
 
-    if (send_event) {
+    यदि (send_event) {
         SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_REMOVED, 0, 0);
     }
 
     SDL_DestroyProperties(display->props);
     SDL_free(display->name);
     SDL_ResetFullscreenDisplayModes(display);
-    SDL_free(display->desktop_mode.internal);
-    display->desktop_mode.internal = NULL;
-    SDL_free(display->internal);
-    display->internal = NULL;
+    SDL_free(display->desktop_बहुलकम्.आन्तरिकम्);
+    display->desktop_बहुलकम्.आन्तरिकम् = रिक्त;
+    SDL_free(display->आन्तरिकम्);
+    display->आन्तरिकम् = रिक्त;
     SDL_free(display);
 
-    if (display_index < (_this->num_displays - 1)) {
-        SDL_memmove(&_this->displays[display_index], &_this->displays[display_index + 1], (_this->num_displays - display_index - 1) * sizeof(_this->displays[display_index]));
+    यदि (display_सूचकांक < (_this->अङ्कः_displays - 1)) {
+        SDL_memmove(&_this->displays[display_सूचकांक], &_this->displays[display_सूचकांक + 1], (_this->अङ्कः_displays - display_सूचकांक - 1) * परिमाण(_this->displays[display_सूचकांक]));
     }
-    --_this->num_displays;
+    --_this->अङ्कः_displays;
 
     SDL_UpdateDesktopBounds();
 }
 
-SDL_DisplayID *SDL_GetDisplays(int *count)
+SDL_DisplayID *SDL_GetDisplays(पूर्णाङ्क *गणनम्)
 {
-    int i;
+    पूर्णाङ्क i;
     SDL_DisplayID *displays;
 
-    if (!_this) {
-        if (count) {
-            *count = 0;
+    यदि (!_this) {
+        यदि (गणनम्) {
+            *गणनम् = 0;
         }
 
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
-    displays = (SDL_DisplayID *)SDL_malloc((_this->num_displays + 1) * sizeof(*displays));
-    if (displays) {
-        if (count) {
-            *count = _this->num_displays;
+    displays = (SDL_DisplayID *)SDL_malloc((_this->अङ्कः_displays + 1) * परिमाण(*displays));
+    यदि (displays) {
+        यदि (गणनम्) {
+            *गणनम् = _this->अङ्कः_displays;
         }
 
-        for (i = 0; i < _this->num_displays; ++i) {
+        प्रति (i = 0; i < _this->अङ्कः_displays; ++i) {
             displays[i] = _this->displays[i]->id;
         }
         displays[i] = 0;
-    } else {
-        if (count) {
-            *count = 0;
+    } अन्यथा {
+        यदि (गणनम्) {
+            *गणनम् = 0;
         }
     }
-    return displays;
+    प्रत्यागम displays;
 }
 
 SDL_VideoDisplay *SDL_GetVideoDisplay(SDL_DisplayID displayID)
 {
-    int display_index;
+    पूर्णाङ्क display_सूचकांक;
 
-    display_index = SDL_GetDisplayIndex(displayID);
-    if (display_index < 0) {
-        return NULL;
+    display_सूचकांक = SDL_Get_Display_सूचकांक(displayID);
+    यदि (display_सूचकांक < 0) {
+        प्रत्यागम रिक्त;
     }
-    return _this->displays[display_index];
+    प्रत्यागम _this->displays[display_सूचकांक];
 }
 
-static SDL_DisplayID GetDisplayForWindow(SDL_Window *window)
+स्थिर SDL_DisplayID Get_Display_For_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
     SDL_DisplayID displayID = 0;
 
     // An explicit fullscreen display overrides all
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        displayID = window->current_fullscreen_mode.displayID;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
+        displayID = गवाक्षः->current_fullscreen_बहुलकम्.displayID;
     }
 
-    if (!displayID) {
-        displayID = SDL_GetDisplayForWindowPosition(window);
+    यदि (!displayID) {
+        displayID = SDL_Get_Display_For_गवाक्षः_Position(गवाक्षः);
     }
-    return displayID;
+    प्रत्यागम displayID;
 }
 
-SDL_VideoDisplay *SDL_GetVideoDisplayForWindow(SDL_Window *window)
+SDL_VideoDisplay *SDL_Get_Video_Display_For_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0);
 
-    return SDL_GetVideoDisplay(GetDisplayForWindow(window));
+    प्रत्यागम SDL_GetVideoDisplay(Get_Display_For_गवाक्षः(गवाक्षः));
 }
 
-SDL_DisplayID SDL_GetPrimaryDisplay(void)
+SDL_DisplayID SDL_GetPrimaryDisplay(शून्य)
 {
-    if (!_this || _this->num_displays == 0) {
+    यदि (!_this || _this->अङ्कः_displays == 0) {
         SDL_UninitializedVideo();
-        return 0;
+        प्रत्यागम 0;
     }
-    return _this->displays[0]->id;
+    प्रत्यागम _this->displays[0]->id;
 }
 
-int SDL_GetDisplayIndex(SDL_DisplayID displayID)
+पूर्णाङ्क SDL_Get_Display_सूचकांक(SDL_DisplayID displayID)
 {
-    int display_index;
+    पूर्णाङ्क display_सूचकांक;
 
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return -1;
+        प्रत्यागम -1;
     }
 
-    for (display_index = 0; display_index < _this->num_displays; ++display_index) {
-        if (displayID == _this->displays[display_index]->id) {
-            return display_index;
+    प्रति (display_सूचकांक = 0; display_सूचकांक < _this->अङ्कः_displays; ++display_सूचकांक) {
+        यदि (displayID == _this->displays[display_सूचकांक]->id) {
+            प्रत्यागम display_सूचकांक;
         }
     }
-    SDL_SetError("Invalid display");
-    return -1;
+    SDL_समुच्चयः_Error("Invalid display");
+    प्रत्यागम -1;
 }
 
-SDL_DisplayData *SDL_GetDisplayDriverData(SDL_DisplayID displayID)
+SDL_Display_दत्त *SDL_Get_Display_Driver_दत्त(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, रिक्त);
 
-    return display->internal;
+    प्रत्यागम display->आन्तरिकम्;
 }
 
-SDL_DisplayData *SDL_GetDisplayDriverDataForWindow(SDL_Window *window)
+SDL_Display_दत्त *SDL_Get_Display_Driver_दत्त_For_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0);
 
-    return SDL_GetDisplayDriverData(GetDisplayForWindow(window));
+    प्रत्यागम SDL_Get_Display_Driver_दत्त(Get_Display_For_गवाक्षः(गवाक्षः));
 }
 
 SDL_PropertiesID SDL_GetDisplayProperties(SDL_DisplayID displayID)
@@ -1074,19 +1074,19 @@ SDL_PropertiesID SDL_GetDisplayProperties(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, 0);
 
-    if (display->props == 0) {
+    यदि (display->props == 0) {
         display->props = SDL_CreateProperties();
     }
-    return display->props;
+    प्रत्यागम display->props;
 }
 
-const char *SDL_GetDisplayName(SDL_DisplayID displayID)
+ध्रुव वर्ण *SDL_GetDisplayName(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, रिक्त);
 
-    return display->name;
+    प्रत्यागम display->name;
 }
 
 bool SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect *rect)
@@ -1096,33 +1096,33 @@ bool SDL_GetDisplayBounds(SDL_DisplayID displayID, SDL_Rect *rect)
     CHECK_DISPLAY_MAGIC(display, false);
 
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        प्रत्यागम SDL_InvalidParamError("rect");
     }
 
-    if (_this->GetDisplayBounds) {
+    यदि (_this->GetDisplayBounds) {
         SDL_zerop(rect);
-        if (_this->GetDisplayBounds(_this, display, rect)) {
-            return true;
+        यदि (_this->GetDisplayBounds(_this, display, rect)) {
+            प्रत्यागम true;
         }
     }
 
     // Assume that the displays are left to right
-    if (displayID == SDL_GetPrimaryDisplay()) {
+    यदि (displayID == SDL_GetPrimaryDisplay()) {
         rect->x = 0;
         rect->y = 0;
-    } else {
-        SDL_GetDisplayBounds(_this->displays[SDL_GetDisplayIndex(displayID) - 1]->id, rect);
+    } अन्यथा {
+        SDL_GetDisplayBounds(_this->displays[SDL_Get_Display_सूचकांक(displayID) - 1]->id, rect);
         rect->x += rect->w;
     }
-    rect->w = display->current_mode->w;
-    rect->h = display->current_mode->h;
-    return true;
+    rect->w = display->current_बहुलकम्->w;
+    rect->h = display->current_बहुलकम्->h;
+    प्रत्यागम true;
 }
 
-static int ParseDisplayUsableBoundsHint(SDL_Rect *rect)
+स्थिर पूर्णाङ्क ParseDisplayUsableBoundsHint(SDL_Rect *rect)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_DISPLAY_USABLE_BOUNDS);
-    return hint && (SDL_sscanf(hint, "%d,%d,%d,%d", &rect->x, &rect->y, &rect->w, &rect->h) == 4);
+    ध्रुव वर्ण *hint = SDL_GetHint(SDL_HINT_DISPLAY_USABLE_BOUNDS);
+    प्रत्यागम hint && (SDL_sscanf(hint, "%d,%d,%d,%d", &rect->x, &rect->y, &rect->w, &rect->h) == 4);
 }
 
 bool SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect *rect)
@@ -1132,22 +1132,22 @@ bool SDL_GetDisplayUsableBounds(SDL_DisplayID displayID, SDL_Rect *rect)
     CHECK_DISPLAY_MAGIC(display, false);
 
     CHECK_PARAM(!rect) {
-        return SDL_InvalidParamError("rect");
+        प्रत्यागम SDL_InvalidParamError("rect");
     }
 
-    if (displayID == SDL_GetPrimaryDisplay() && ParseDisplayUsableBoundsHint(rect)) {
-        return true;
+    यदि (displayID == SDL_GetPrimaryDisplay() && ParseDisplayUsableBoundsHint(rect)) {
+        प्रत्यागम true;
     }
 
-    if (_this->GetDisplayUsableBounds) {
+    यदि (_this->GetDisplayUsableBounds) {
         SDL_zerop(rect);
-        if (_this->GetDisplayUsableBounds(_this, display, rect)) {
-            return true;
+        यदि (_this->GetDisplayUsableBounds(_this, display, rect)) {
+            प्रत्यागम true;
         }
     }
 
     // Oh well, just give the entire display bounds.
-    return SDL_GetDisplayBounds(displayID, rect);
+    प्रत्यागम SDL_GetDisplayBounds(displayID, rect);
 }
 
 SDL_DisplayOrientation SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID)
@@ -1156,11 +1156,11 @@ SDL_DisplayOrientation SDL_GetNaturalDisplayOrientation(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, SDL_ORIENTATION_UNKNOWN);
 
-    if (display->natural_orientation != SDL_ORIENTATION_UNKNOWN) {
-        return display->natural_orientation;
-    } else {
+    यदि (display->natural_orientation != SDL_ORIENTATION_UNKNOWN) {
+        प्रत्यागम display->natural_orientation;
+    } अन्यथा {
         // Default to landscape if the driver hasn't set it
-        return SDL_ORIENTATION_LANDSCAPE;
+        प्रत्यागम SDL_ORIENTATION_LANDSCAPE;
     }
 }
 
@@ -1170,171 +1170,171 @@ SDL_DisplayOrientation SDL_GetCurrentDisplayOrientation(SDL_DisplayID displayID)
 
     CHECK_DISPLAY_MAGIC(display, SDL_ORIENTATION_UNKNOWN);
 
-    if (display->current_orientation != SDL_ORIENTATION_UNKNOWN) {
-        return display->current_orientation;
-    } else {
+    यदि (display->current_orientation != SDL_ORIENTATION_UNKNOWN) {
+        प्रत्यागम display->current_orientation;
+    } अन्यथा {
         // Default to landscape if the driver hasn't set it
-        return SDL_ORIENTATION_LANDSCAPE;
+        प्रत्यागम SDL_ORIENTATION_LANDSCAPE;
     }
 }
 
-void SDL_SetDisplayContentScale(SDL_VideoDisplay *display, float scale)
+शून्य SDL_समुच्चयः_Display_Content_Scale(SDL_VideoDisplay *display, भिन्न scale)
 {
-    if (scale != display->content_scale) {
-        SDL_Window *window;
+    यदि (scale != display->content_scale) {
+        SDL_गवाक्षः *गवाक्षः;
 
         display->content_scale = scale;
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CONTENT_SCALE_CHANGED, 0, 0);
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CONTENT_SCALE_परिवर्तितम्, 0, 0);
 
         // Check the windows on this display
-        for (window = _this->windows; window; window = window->next) {
-            if (display->id == window->displayID) {
-                SDL_CheckWindowDisplayScaleChanged(window);
+        प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+            यदि (display->id == गवाक्षः->displayID) {
+                SDL_Check_गवाक्षः_Display_Scale_परिवर्तितम्(गवाक्षः);
             }
         }
     }
 }
 
-float SDL_GetDisplayContentScale(SDL_DisplayID displayID)
+भिन्न SDL_GetDisplayContentScale(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
     CHECK_DISPLAY_MAGIC(display, 0.0f);
 
-    return display->content_scale;
+    प्रत्यागम display->content_scale;
 }
 
-void SDL_SetWindowHDRProperties(SDL_Window *window, const SDL_HDROutputProperties *HDR, bool send_event)
+शून्य SDL_समुच्चयः_गवाक्षः_HDRProperties(SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_HDROutputProperties *HDR, bool send_event)
 {
-    const SDL_HDROutputProperties HDR_clamped = {
+    ध्रुव SDL_HDROutputProperties HDR_clamped = {
         SDL_max(HDR->SDR_white_level, 1.0f),
         SDL_max(HDR->HDR_headroom, 1.0f)
     };
 
-    if (window->HDR.HDR_headroom != HDR_clamped.HDR_headroom || window->HDR.SDR_white_level != HDR_clamped.SDR_white_level) {
-        SDL_PropertiesID window_props = SDL_GetWindowProperties(window);
+    यदि (गवाक्षः->HDR.HDR_headroom != HDR_clamped.HDR_headroom || गवाक्षः->HDR.SDR_white_level != HDR_clamped.SDR_white_level) {
+        SDL_PropertiesID गवाक्षः_props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
 
-        SDL_SetFloatProperty(window_props, SDL_PROP_WINDOW_HDR_HEADROOM_FLOAT, HDR_clamped.HDR_headroom);
-        SDL_SetFloatProperty(window_props, SDL_PROP_WINDOW_SDR_WHITE_LEVEL_FLOAT, HDR_clamped.SDR_white_level);
-        SDL_SetBooleanProperty(window_props, SDL_PROP_WINDOW_HDR_ENABLED_BOOLEAN, HDR_clamped.HDR_headroom > 1.0f);
-        SDL_copyp(&window->HDR, &HDR_clamped);
+        SDL_समुच्चयः_Float_Property(गवाक्षः_props, SDL_PROP_गवाक्षः_HDR_HEADROOM_FLOAT, HDR_clamped.HDR_headroom);
+        SDL_समुच्चयः_Float_Property(गवाक्षः_props, SDL_PROP_गवाक्षः_SDR_WHITE_LEVEL_FLOAT, HDR_clamped.SDR_white_level);
+        SDL_समुच्चयः_Boolean_Property(गवाक्षः_props, SDL_PROP_गवाक्षः_HDR_ENABLED_BOOLEAN, HDR_clamped.HDR_headroom > 1.0f);
+        SDL_copyp(&गवाक्षः->HDR, &HDR_clamped);
 
-        if (send_event) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HDR_STATE_CHANGED, HDR_clamped.HDR_headroom > 1.0f, 0);
+        यदि (send_event) {
+            SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_HDR_STATE_परिवर्तितम्, HDR_clamped.HDR_headroom > 1.0f, 0);
         }
     }
 }
 
-void SDL_SetDisplayHDRProperties(SDL_VideoDisplay *display, const SDL_HDROutputProperties *HDR)
+शून्य SDL_समुच्चयः_Display_HDRProperties(SDL_VideoDisplay *display, ध्रुव SDL_HDROutputProperties *HDR)
 {
-    const SDL_HDROutputProperties HDR_clamped = {
+    ध्रुव SDL_HDROutputProperties HDR_clamped = {
         SDL_max(HDR->SDR_white_level, 1.0f),
         SDL_max(HDR->HDR_headroom, 1.0f)
     };
-    const bool changed = HDR_clamped.SDR_white_level != display->HDR.SDR_white_level ||
+    ध्रुव bool परिवर्तितम् = HDR_clamped.SDR_white_level != display->HDR.SDR_white_level ||
                          HDR_clamped.HDR_headroom != display->HDR.HDR_headroom;
 
     SDL_copyp(&display->HDR, &HDR_clamped);
 
-	if (changed) {
-		SDL_SetBooleanProperty(display->props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, display->HDR.HDR_headroom > 1.0f);
+	यदि (परिवर्तितम्) {
+		SDL_समुच्चयः_Boolean_Property(display->props, SDL_PROP_DISPLAY_HDR_ENABLED_BOOLEAN, display->HDR.HDR_headroom > 1.0f);
 	}
 
-    if (changed && !SDL_DriverSendsHDRChanges(_this)) {
-        for (SDL_Window *w = display->device->windows; w; w = w->next) {
-            if (GetDisplayForWindow(w) == display->id) {
-                SDL_SetWindowHDRProperties(w, &display->HDR, true);
+    यदि (परिवर्तितम् && !SDL_DriverSendsHDRChanges(_this)) {
+        प्रति (SDL_गवाक्षः *w = display->device->windows; w; w = w->अग्र) {
+            यदि (Get_Display_For_गवाक्षः(w) == display->id) {
+                SDL_समुच्चयः_गवाक्षः_HDRProperties(w, &display->HDR, true);
             }
         }
     }
 }
 
-static void SDL_UpdateFullscreenDisplayModes(SDL_VideoDisplay *display)
+स्थिर शून्य SDL_UpdateFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
-    if (display->num_fullscreen_modes == 0 && _this->GetDisplayModes) {
+    यदि (display->अङ्कः_fullscreen_modes == 0 && _this->GetDisplayModes) {
         _this->GetDisplayModes(_this, display);
     }
 }
 
 // Return the matching mode as a pointer into our current mode list
-static const SDL_DisplayMode *SDL_GetFullscreenModeMatch(const SDL_DisplayMode *mode)
+स्थिर ध्रुव SDL_Display_बहुलकम् *SDL_Get_Fullscreen_बहुलकम्_मेलनम्(ध्रुव SDL_Display_बहुलकम् *बहुलकम्)
 {
     SDL_VideoDisplay *display;
-    SDL_DisplayMode fullscreen_mode;
+    SDL_Display_बहुलकम् fullscreen_बहुलकम्;
 
-    if (mode->w <= 0 || mode->h <= 0) {
+    यदि (बहुलकम्->w <= 0 || बहुलकम्->h <= 0) {
         // Use the desktop mode
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
-    SDL_memcpy(&fullscreen_mode, mode, sizeof(fullscreen_mode));
-    if (fullscreen_mode.displayID == 0) {
-        fullscreen_mode.displayID = SDL_GetPrimaryDisplay();
+    SDL_memcpy(&fullscreen_बहुलकम्, बहुलकम्, परिमाण(fullscreen_बहुलकम्));
+    यदि (fullscreen_बहुलकम्.displayID == 0) {
+        fullscreen_बहुलकम्.displayID = SDL_GetPrimaryDisplay();
     }
-    SDL_FinalizeDisplayMode(&fullscreen_mode);
+    SDL_Finalize_Display_बहुलकम्(&fullscreen_बहुलकम्);
 
-    mode = NULL;
+    बहुलकम् = रिक्त;
 
-    display = SDL_GetVideoDisplay(fullscreen_mode.displayID);
-    if (display) {
+    display = SDL_GetVideoDisplay(fullscreen_बहुलकम्.displayID);
+    यदि (display) {
         SDL_UpdateFullscreenDisplayModes(display);
 
         // Search for an exact match
-        if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
-                if (SDL_memcmp(&fullscreen_mode, &display->fullscreen_modes[i], sizeof(fullscreen_mode)) == 0) {
-                    mode = &display->fullscreen_modes[i];
-                    break;
+        यदि (!बहुलकम्) {
+            प्रति (पूर्णाङ्क i = 0; i < display->अङ्कः_fullscreen_modes; ++i) {
+                यदि (SDL_memcmp(&fullscreen_बहुलकम्, &display->fullscreen_modes[i], परिमाण(fullscreen_बहुलकम्)) == 0) {
+                    बहुलकम् = &display->fullscreen_modes[i];
+                    भङ्ग;
                 }
             }
         }
 
         // Search for a mode with the same characteristics
-        if (!mode) {
-            for (int i = 0; i < display->num_fullscreen_modes; ++i) {
-                if (cmpmodes(&fullscreen_mode, &display->fullscreen_modes[i]) == 0) {
-                    mode = &display->fullscreen_modes[i];
-                    break;
+        यदि (!बहुलकम्) {
+            प्रति (पूर्णाङ्क i = 0; i < display->अङ्कः_fullscreen_modes; ++i) {
+                यदि (cmpmodes(&fullscreen_बहुलकम्, &display->fullscreen_modes[i]) == 0) {
+                    बहुलकम् = &display->fullscreen_modes[i];
+                    भङ्ग;
                 }
             }
         }
     }
-    return mode;
+    प्रत्यागम बहुलकम्;
 }
 
-bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+bool SDL_सङ्कलय_Fullscreen_Display_बहुलकम्(SDL_VideoDisplay *display, ध्रुव SDL_Display_बहुलकम् *बहुलकम्)
 {
-    SDL_DisplayMode *modes;
-    SDL_DisplayMode new_mode;
-    int i, nmodes;
+    SDL_Display_बहुलकम् *modes;
+    SDL_Display_बहुलकम् new_बहुलकम्;
+    पूर्णाङ्क i, nmodes;
 
     // Finalize the mode for the display
-    SDL_memcpy(&new_mode, mode, sizeof(new_mode));
-    new_mode.displayID = display->id;
-    SDL_FinalizeDisplayMode(&new_mode);
+    SDL_memcpy(&new_बहुलकम्, बहुलकम्, परिमाण(new_बहुलकम्));
+    new_बहुलकम्.displayID = display->id;
+    SDL_Finalize_Display_बहुलकम्(&new_बहुलकम्);
 
     // Make sure we don't already have the mode in the list
     modes = display->fullscreen_modes;
-    nmodes = display->num_fullscreen_modes;
-    for (i = 0; i < nmodes; ++i) {
-        if (cmpmodes(&new_mode, &modes[i]) == 0) {
-            return false;
+    nmodes = display->अङ्कः_fullscreen_modes;
+    प्रति (i = 0; i < nmodes; ++i) {
+        यदि (cmpmodes(&new_बहुलकम्, &modes[i]) == 0) {
+            प्रत्यागम false;
         }
     }
 
     // Go ahead and add the new mode
-    if (nmodes == display->max_fullscreen_modes) {
-        modes = (SDL_DisplayMode *)SDL_malloc((display->max_fullscreen_modes + 32) * sizeof(*modes));
-        if (!modes) {
-            return false;
+    यदि (nmodes == display->max_fullscreen_modes) {
+        modes = (SDL_Display_बहुलकम् *)SDL_malloc((display->max_fullscreen_modes + 32) * परिमाण(*modes));
+        यदि (!modes) {
+            प्रत्यागम false;
         }
 
-        if (display->fullscreen_modes) {
+        यदि (display->fullscreen_modes) {
             // Copy the list and update the current mode pointer, if necessary.
-            SDL_memcpy(modes, display->fullscreen_modes, nmodes * sizeof(*modes));
-            for (i = 0; i < nmodes; ++i) {
-                if (display->current_mode == &display->fullscreen_modes[i]) {
-                    display->current_mode = &modes[i];
+            SDL_memcpy(modes, display->fullscreen_modes, nmodes * परिमाण(*modes));
+            प्रति (i = 0; i < nmodes; ++i) {
+                यदि (display->current_बहुलकम् == &display->fullscreen_modes[i]) {
+                    display->current_बहुलकम् = &modes[i];
                 }
             }
 
@@ -1344,291 +1344,291 @@ bool SDL_AddFullscreenDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMo
         display->fullscreen_modes = modes;
         display->max_fullscreen_modes += 32;
     }
-    SDL_memcpy(&modes[display->num_fullscreen_modes++], &new_mode, sizeof(new_mode));
+    SDL_memcpy(&modes[display->अङ्कः_fullscreen_modes++], &new_बहुलकम्, परिमाण(new_बहुलकम्));
 
     // Re-sort video modes
-    SDL_qsort(display->fullscreen_modes, display->num_fullscreen_modes,
-              sizeof(SDL_DisplayMode), cmpmodes);
+    SDL_qsort(display->fullscreen_modes, display->अङ्कः_fullscreen_modes,
+              परिमाण(SDL_Display_बहुलकम्), cmpmodes);
 
-    return true;
+    प्रत्यागम true;
 }
 
-void SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display)
+शून्य SDL_ResetFullscreenDisplayModes(SDL_VideoDisplay *display)
 {
-    int i;
+    पूर्णाङ्क i;
 
-    for (i = display->num_fullscreen_modes; i--;) {
-        SDL_free(display->fullscreen_modes[i].internal);
-        display->fullscreen_modes[i].internal = NULL;
+    प्रति (i = display->अङ्कः_fullscreen_modes; i--;) {
+        SDL_free(display->fullscreen_modes[i].आन्तरिकम्);
+        display->fullscreen_modes[i].आन्तरिकम् = रिक्त;
     }
     SDL_free(display->fullscreen_modes);
-    display->fullscreen_modes = NULL;
-    display->num_fullscreen_modes = 0;
+    display->fullscreen_modes = रिक्त;
+    display->अङ्कः_fullscreen_modes = 0;
     display->max_fullscreen_modes = 0;
-    display->current_mode = &display->desktop_mode;
+    display->current_बहुलकम् = &display->desktop_बहुलकम्;
 }
 
-SDL_DisplayMode **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, int *count)
+SDL_Display_बहुलकम् **SDL_GetFullscreenDisplayModes(SDL_DisplayID displayID, पूर्णाङ्क *गणनम्)
 {
-    int i;
-    int num_modes;
-    SDL_DisplayMode **result;
+    पूर्णाङ्क i;
+    पूर्णाङ्क अङ्कः_modes;
+    SDL_Display_बहुलकम् **परिणाम;
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    if (count) {
-        *count = 0;
+    यदि (गणनम्) {
+        *गणनम् = 0;
     }
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, रिक्त);
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    num_modes = display->num_fullscreen_modes;
-    result = (SDL_DisplayMode **)SDL_malloc((num_modes + 1) * sizeof(*result) + num_modes * sizeof(**result));
-    if (result) {
-        SDL_DisplayMode *modes = (SDL_DisplayMode *)((Uint8 *)result + ((num_modes + 1) * sizeof(*result)));
-        if (num_modes) {
-            SDL_memcpy(modes, display->fullscreen_modes, num_modes * sizeof(*modes));
+    अङ्कः_modes = display->अङ्कः_fullscreen_modes;
+    परिणाम = (SDL_Display_बहुलकम् **)SDL_malloc((अङ्कः_modes + 1) * परिमाण(*परिणाम) + अङ्कः_modes * परिमाण(**परिणाम));
+    यदि (परिणाम) {
+        SDL_Display_बहुलकम् *modes = (SDL_Display_बहुलकम् *)((Uint8 *)परिणाम + ((अङ्कः_modes + 1) * परिमाण(*परिणाम)));
+        यदि (अङ्कः_modes) {
+            SDL_memcpy(modes, display->fullscreen_modes, अङ्कः_modes * परिमाण(*modes));
         }
-        for (i = 0; i < num_modes; ++i) {
-            result[i] = modes++;
+        प्रति (i = 0; i < अङ्कः_modes; ++i) {
+            परिणाम[i] = modes++;
         }
-        result[i] = NULL;
+        परिणाम[i] = रिक्त;
 
-        if (count) {
-            *count = num_modes;
+        यदि (गणनम्) {
+            *गणनम् = अङ्कः_modes;
         }
-    } else {
-        if (count) {
-            *count = 0;
+    } अन्यथा {
+        यदि (गणनम्) {
+            *गणनम् = 0;
         }
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-bool SDL_GetClosestFullscreenDisplayMode(SDL_DisplayID displayID, int w, int h, float refresh_rate, bool include_high_density_modes, SDL_DisplayMode *result)
+bool SDL_Get_Closest_Fullscreen_Display_बहुलकम्(SDL_DisplayID displayID, पूर्णाङ्क w, पूर्णाङ्क h, भिन्न refresh_दरः, bool include_उच्चः_density_modes, SDL_Display_बहुलकम् *परिणाम)
 {
-    CHECK_PARAM(!result) {
-        return SDL_InvalidParamError("closest"); // Parameter `result` is called `closest` in the header.
+    CHECK_PARAM(!परिणाम) {
+        प्रत्यागम SDL_InvalidParamError("closest"); // Parameter `result` is called `closest` in the header.
     }
 
-    const SDL_DisplayMode *mode, *closest = NULL;
-    float aspect_ratio;
-    int i;
+    ध्रुव SDL_Display_बहुलकम् *बहुलकम्, *closest = रिक्त;
+    भिन्न aspect_अनुपातः;
+    पूर्णाङ्क i;
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    SDL_zerop(result);
+    SDL_zerop(परिणाम);
 
     CHECK_DISPLAY_MAGIC(display, false);
 
-    if (h > 0) {
-        aspect_ratio = (float)w / h;
-    } else {
-        aspect_ratio = 1.0f;
+    यदि (h > 0) {
+        aspect_अनुपातः = (भिन्न)w / h;
+    } अन्यथा {
+        aspect_अनुपातः = 1.0f;
     }
 
-    if (refresh_rate == 0.0f) {
-        refresh_rate = display->desktop_mode.refresh_rate;
+    यदि (refresh_दरः == 0.0f) {
+        refresh_दरः = display->desktop_बहुलकम्.refresh_दरः;
     }
 
     SDL_UpdateFullscreenDisplayModes(display);
 
-    for (i = 0; i < display->num_fullscreen_modes; ++i) {
-        mode = &display->fullscreen_modes[i];
+    प्रति (i = 0; i < display->अङ्कः_fullscreen_modes; ++i) {
+        बहुलकम् = &display->fullscreen_modes[i];
 
-        if (w > mode->w) {
+        यदि (w > बहुलकम्->w) {
             // Out of sorted modes large enough here
-            break;
+            भङ्ग;
         }
-        if (h > mode->h) {
+        यदि (h > बहुलकम्->h) {
             /* Wider, but not tall enough, due to a different aspect ratio.
              * This mode must be skipped, but closer modes may still follow */
-            continue;
+            अनुवर्त;
         }
-        if (mode->pixel_density > 1.0f && !include_high_density_modes) {
-            continue;
+        यदि (बहुलकम्->pixel_density > 1.0f && !include_उच्चः_density_modes) {
+            अनुवर्त;
         }
-        if (closest) {
-            float current_aspect_ratio = (float)mode->w / mode->h;
-            float closest_aspect_ratio = (float)closest->w / closest->h;
-            if (SDL_fabsf(aspect_ratio - closest_aspect_ratio) < SDL_fabsf(aspect_ratio - current_aspect_ratio)) {
+        यदि (closest) {
+            भिन्न current_aspect_अनुपातः = (भिन्न)बहुलकम्->w / बहुलकम्->h;
+            भिन्न closest_aspect_अनुपातः = (भिन्न)closest->w / closest->h;
+            यदि (SDL_fabsf(aspect_अनुपातः - closest_aspect_अनुपातः) < SDL_fabsf(aspect_अनुपातः - current_aspect_अनुपातः)) {
                 // The mode we already found has a better aspect ratio match
-                continue;
+                अनुवर्त;
             }
 
-            if (mode->w == closest->w && mode->h == closest->h) {
-                if (SDL_fabsf(closest->refresh_rate - refresh_rate) < SDL_fabsf(mode->refresh_rate - refresh_rate)) {
+            यदि (बहुलकम्->w == closest->w && बहुलकम्->h == closest->h) {
+                यदि (SDL_fabsf(closest->refresh_दरः - refresh_दरः) < SDL_fabsf(बहुलकम्->refresh_दरः - refresh_दरः)) {
                     /* We already found a mode and the new mode is further from our
                      * refresh rate target */
-                    continue;
+                    अनुवर्त;
                 }
-                if (SDL_BYTESPERPIXEL(closest->format) > SDL_BYTESPERPIXEL(mode->format)) {
+                यदि (SDL_BYTESPERPIXEL(closest->format) > SDL_BYTESPERPIXEL(बहुलकम्->format)) {
                     // Prefer the highest color depth
-                    continue;
+                    अनुवर्त;
                 }
             }
         }
 
-        closest = mode;
+        closest = बहुलकम्;
     }
-    if (!closest) {
-        return SDL_SetError("Couldn't find any matching video modes");
+    यदि (!closest) {
+        प्रत्यागम SDL_समुच्चयः_Error("Couldn't find any matching video modes");
     }
 
-    SDL_copyp(result, closest);
+    SDL_copyp(परिणाम, closest);
 
-    return true;
+    प्रत्यागम true;
 }
 
-static bool DisplayModeChanged(const SDL_DisplayMode *old_mode, const SDL_DisplayMode *new_mode)
+स्थिर bool Display_बहुलकम्_परिवर्तितम्(ध्रुव SDL_Display_बहुलकम् *old_बहुलकम्, ध्रुव SDL_Display_बहुलकम् *new_बहुलकम्)
 {
-    return ((old_mode->displayID && old_mode->displayID != new_mode->displayID) ||
-            (old_mode->format && old_mode->format != new_mode->format) ||
-            (old_mode->w && old_mode->h && (old_mode->w != new_mode->w ||old_mode->h != new_mode->h)) ||
-            (old_mode->pixel_density != 0.0f && old_mode->pixel_density != new_mode->pixel_density) ||
-            (old_mode->refresh_rate != 0.0f && old_mode->refresh_rate != new_mode->refresh_rate));
+    प्रत्यागम ((old_बहुलकम्->displayID && old_बहुलकम्->displayID != new_बहुलकम्->displayID) ||
+            (old_बहुलकम्->format && old_बहुलकम्->format != new_बहुलकम्->format) ||
+            (old_बहुलकम्->w && old_बहुलकम्->h && (old_बहुलकम्->w != new_बहुलकम्->w ||old_बहुलकम्->h != new_बहुलकम्->h)) ||
+            (old_बहुलकम्->pixel_density != 0.0f && old_बहुलकम्->pixel_density != new_बहुलकम्->pixel_density) ||
+            (old_बहुलकम्->refresh_दरः != 0.0f && old_बहुलकम्->refresh_दरः != new_बहुलकम्->refresh_दरः));
 }
 
-void SDL_SetDesktopDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+शून्य SDL_समुच्चयः_Desktop_Display_बहुलकम्(SDL_VideoDisplay *display, ध्रुव SDL_Display_बहुलकम् *बहुलकम्)
 {
-    SDL_DisplayMode last_mode;
+    SDL_Display_बहुलकम् चरमः_बहुलकम्;
 
-    if (display->fullscreen_active) {
+    यदि (display->fullscreen_सक्रिय) {
         // This is a temporary mode change, don't save the desktop mode
-        return;
+        प्रत्यागम;
     }
 
-    SDL_copyp(&last_mode, &display->desktop_mode);
+    SDL_copyp(&चरमः_बहुलकम्, &display->desktop_बहुलकम्);
 
-    SDL_free(display->desktop_mode.internal);
-    SDL_copyp(&display->desktop_mode, mode);
-    display->desktop_mode.displayID = display->id;
-    SDL_FinalizeDisplayMode(&display->desktop_mode);
+    SDL_free(display->desktop_बहुलकम्.आन्तरिकम्);
+    SDL_copyp(&display->desktop_बहुलकम्, बहुलकम्);
+    display->desktop_बहुलकम्.displayID = display->id;
+    SDL_Finalize_Display_बहुलकम्(&display->desktop_बहुलकम्);
 
-    if (DisplayModeChanged(&last_mode, &display->desktop_mode)) {
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_DESKTOP_MODE_CHANGED, mode->w, mode->h);
-        if (display->current_mode == &display->desktop_mode) {
-            SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED, mode->w, mode->h);
+    यदि (Display_बहुलकम्_परिवर्तितम्(&चरमः_बहुलकम्, &display->desktop_बहुलकम्)) {
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_DESKTOP_बहुलकम्_परिवर्तितम्, बहुलकम्->w, बहुलकम्->h);
+        यदि (display->current_बहुलकम् == &display->desktop_बहुलकम्) {
+            SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_बहुलकम्_परिवर्तितम्, बहुलकम्->w, बहुलकम्->h);
         }
     }
 }
 
-const SDL_DisplayMode *SDL_GetDesktopDisplayMode(SDL_DisplayID displayID)
+ध्रुव SDL_Display_बहुलकम् *SDL_Get_Desktop_Display_बहुलकम्(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, रिक्त);
 
-    return &display->desktop_mode;
+    प्रत्यागम &display->desktop_बहुलकम्;
 }
 
-void SDL_SetCurrentDisplayMode(SDL_VideoDisplay *display, const SDL_DisplayMode *mode)
+शून्य SDL_समुच्चयः_Current_Display_बहुलकम्(SDL_VideoDisplay *display, ध्रुव SDL_Display_बहुलकम् *बहुलकम्)
 {
-    SDL_DisplayMode last_mode;
+    SDL_Display_बहुलकम् चरमः_बहुलकम्;
 
-    if (display->current_mode) {
-        SDL_copyp(&last_mode, display->current_mode);
-    } else {
-        SDL_zero(last_mode);
+    यदि (display->current_बहुलकम्) {
+        SDL_copyp(&चरमः_बहुलकम्, display->current_बहुलकम्);
+    } अन्यथा {
+        SDL_zero(चरमः_बहुलकम्);
     }
 
-    display->current_mode = mode;
+    display->current_बहुलकम् = बहुलकम्;
 
-    if (DisplayModeChanged(&last_mode, mode)) {
-        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_MODE_CHANGED, mode->w, mode->h);
+    यदि (Display_बहुलकम्_परिवर्तितम्(&चरमः_बहुलकम्, बहुलकम्)) {
+        SDL_SendDisplayEvent(display, SDL_EVENT_DISPLAY_CURRENT_बहुलकम्_परिवर्तितम्, बहुलकम्->w, बहुलकम्->h);
     }
 }
 
-const SDL_DisplayMode *SDL_GetCurrentDisplayMode(SDL_DisplayID displayID)
+ध्रुव SDL_Display_बहुलकम् *SDL_Get_Current_Display_बहुलकम्(SDL_DisplayID displayID)
 {
     SDL_VideoDisplay *display = SDL_GetVideoDisplay(displayID);
 
-    CHECK_DISPLAY_MAGIC(display, NULL);
+    CHECK_DISPLAY_MAGIC(display, रिक्त);
 
-    return display->current_mode;
+    प्रत्यागम display->current_बहुलकम्;
 }
 
-bool SDL_SetDisplayModeForDisplay(SDL_VideoDisplay *display, SDL_DisplayMode *mode)
+bool SDL_समुच्चयः_Display_बहुलकम्_For_Display(SDL_VideoDisplay *display, SDL_Display_बहुलकम् *बहुलकम्)
 {
     /* Mode switching is being emulated per-window; nothing to do and cannot fail,
      * except for XWayland, which still needs the actual mode setting call since
      * it's emulated via the XRandR interface.
      */
-    if (SDL_ModeSwitchingEmulated(_this) && SDL_strcmp(_this->name, "x11") != 0) {
-        return true;
+    यदि (SDL_बहुलकम्_Switching_Emulated(_this) && SDL_strcmp(_this->name, "x11") != 0) {
+        प्रत्यागम true;
     }
 
-    if (!mode) {
-        mode = &display->desktop_mode;
+    यदि (!बहुलकम्) {
+        बहुलकम् = &display->desktop_बहुलकम्;
     }
 
     // On RISC OS, it's necessary to switch from the desktop to single-tasking
     // fullscreen so that it can handle switching back to the desktop correctly.
-#ifndef SDL_PLATFORM_RISCOS
-    if (mode == display->current_mode) {
-        return true;
+#यदि_अपरिभाषितम् SDL_PLATFORM_RISCOS
+    यदि (बहुलकम् == display->current_बहुलकम्) {
+        प्रत्यागम true;
     }
-#endif
+#यदि_अन्तः
 
     // Actually change the display mode
-    if (_this->SetDisplayMode) {
-        bool result;
+    यदि (_this->समुच्चयः_Display_बहुलकम्) {
+        bool परिणाम;
 
-        _this->setting_display_mode = true;
-        result = _this->SetDisplayMode(_this, display, mode);
-        _this->setting_display_mode = false;
-        if (!result) {
-            return false;
+        _this->setting_display_बहुलकम् = true;
+        परिणाम = _this->समुच्चयः_Display_बहुलकम्(_this, display, बहुलकम्);
+        _this->setting_display_बहुलकम् = false;
+        यदि (!परिणाम) {
+            प्रत्यागम false;
         }
     }
 
-    SDL_SetCurrentDisplayMode(display, mode);
+    SDL_समुच्चयः_Current_Display_बहुलकम्(display, बहुलकम्);
 
-    return true;
+    प्रत्यागम true;
 }
 
 /**
  * If x, y are outside of rect, snaps them to the closest point inside rect
  * (between rect->x, rect->y, inclusive, and rect->x + w, rect->y + h, exclusive)
  */
-static void SDL_GetClosestPointOnRect(const SDL_Rect *rect, SDL_Point *point)
+स्थिर शून्य SDL_GetClosestPointOnRect(ध्रुव SDL_Rect *rect, SDL_Point *point)
 {
-    const int right = rect->x + rect->w - 1;
-    const int bottom = rect->y + rect->h - 1;
+    ध्रुव पूर्णाङ्क दक्षिणः = rect->x + rect->w - 1;
+    ध्रुव पूर्णाङ्क bottom = rect->y + rect->h - 1;
 
-    if (point->x < rect->x) {
+    यदि (point->x < rect->x) {
         point->x = rect->x;
-    } else if (point->x > right) {
-        point->x = right;
+    } अन्यथा यदि (point->x > दक्षिणः) {
+        point->x = दक्षिणः;
     }
 
-    if (point->y < rect->y) {
+    यदि (point->y < rect->y) {
         point->y = rect->y;
-    } else if (point->y > bottom) {
+    } अन्यथा यदि (point->y > bottom) {
         point->y = bottom;
     }
 }
 
-static SDL_DisplayID GetDisplayForRect(int x, int y, int w, int h)
+स्थिर SDL_DisplayID GetDisplayForRect(पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क w, पूर्णाङ्क h)
 {
-    int i, dist;
+    पूर्णाङ्क i, dist;
     SDL_DisplayID closest = 0;
-    int closest_dist = 0x7FFFFFFF;
+    पूर्णाङ्क closest_dist = 0x7FFFFFFF;
     SDL_Point closest_point_on_display;
     SDL_Point delta;
     SDL_Point center;
     center.x = x + w / 2;
     center.y = y + h / 2;
 
-    if (_this) {
-        for (i = 0; i < _this->num_displays; ++i) {
+    यदि (_this) {
+        प्रति (i = 0; i < _this->अङ्कः_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
             SDL_Rect display_rect;
             SDL_GetDisplayBounds(display->id, &display_rect);
 
             // Check if the window is fully enclosed
-            if (SDL_GetRectEnclosingPoints(&center, 1, &display_rect, NULL)) {
-                return display->id;
+            यदि (SDL_GetRectEnclosingPoints(&center, 1, &display_rect, रिक्त)) {
+                प्रत्यागम display->id;
             }
 
             // Snap window center to the display rect
@@ -1638,147 +1638,147 @@ static SDL_DisplayID GetDisplayForRect(int x, int y, int w, int h)
             delta.x = center.x - closest_point_on_display.x;
             delta.y = center.y - closest_point_on_display.y;
             dist = (delta.x * delta.x + delta.y * delta.y);
-            if (dist < closest_dist) {
+            यदि (dist < closest_dist) {
                 closest = display->id;
                 closest_dist = dist;
             }
         }
     }
 
-    if (closest == 0) {
-        SDL_SetError("Couldn't find any displays");
+    यदि (closest == 0) {
+        SDL_समुच्चयः_Error("Couldn't find any displays");
     }
 
-    return closest;
+    प्रत्यागम closest;
 }
 
-void SDL_RelativeToGlobalForWindow(SDL_Window *window, int rel_x, int rel_y, int *abs_x, int *abs_y)
+शून्य SDL_Relative_गन्तव्यम्_Global_For_गवाक्षः(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क rel_x, पूर्णाङ्क rel_y, पूर्णाङ्क *abs_x, पूर्णाङ्क *abs_y)
 {
-    SDL_Window *w;
+    SDL_गवाक्षः *w;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    यदि (SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
         // Calculate the total offset of the popup from the parents
-        for (w = window->parent; w; w = w->parent) {
+        प्रति (w = गवाक्षः->parent; w; w = w->parent) {
             rel_x += w->x;
             rel_y += w->y;
 
-            if (!SDL_WINDOW_IS_POPUP(w)) {
-                break;
+            यदि (!SDL_गवाक्षः_IS_POPUP(w)) {
+                भङ्ग;
             }
         }
     }
 
-    if (abs_x) {
+    यदि (abs_x) {
         *abs_x = rel_x;
     }
-    if (abs_y) {
+    यदि (abs_y) {
         *abs_y = rel_y;
     }
 }
 
-void SDL_GlobalToRelativeForWindow(SDL_Window *window, int abs_x, int abs_y, int *rel_x, int *rel_y)
+शून्य SDL_Global_गन्तव्यम्_Relative_For_गवाक्षः(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क abs_x, पूर्णाङ्क abs_y, पूर्णाङ्क *rel_x, पूर्णाङ्क *rel_y)
 {
-    SDL_Window *w;
+    SDL_गवाक्षः *w;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    यदि (SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
         // Convert absolute window coordinates to relative for a popup
-        for (w = window->parent; w; w = w->parent) {
+        प्रति (w = गवाक्षः->parent; w; w = w->parent) {
             abs_x -= w->x;
             abs_y -= w->y;
 
-            if (!SDL_WINDOW_IS_POPUP(w)) {
-                break;
+            यदि (!SDL_गवाक्षः_IS_POPUP(w)) {
+                भङ्ग;
             }
         }
     }
 
-    if (rel_x) {
+    यदि (rel_x) {
         *rel_x = abs_x;
     }
-    if (rel_y) {
+    यदि (rel_y) {
         *rel_y = abs_y;
     }
 }
 
-SDL_DisplayID SDL_GetDisplayForPoint(const SDL_Point *point)
+SDL_DisplayID SDL_GetDisplayForPoint(ध्रुव SDL_Point *point)
 {
     CHECK_PARAM(!point) {
         SDL_InvalidParamError("point");
-        return 0;
+        प्रत्यागम 0;
     }
 
-    return GetDisplayForRect(point->x, point->y, 1, 1);
+    प्रत्यागम GetDisplayForRect(point->x, point->y, 1, 1);
 }
 
-SDL_DisplayID SDL_GetDisplayForRect(const SDL_Rect *rect)
+SDL_DisplayID SDL_GetDisplayForRect(ध्रुव SDL_Rect *rect)
 {
     CHECK_PARAM(!rect) {
         SDL_InvalidParamError("rect");
-        return 0;
+        प्रत्यागम 0;
     }
 
-    return GetDisplayForRect(rect->x, rect->y, rect->w, rect->h);
+    प्रत्यागम GetDisplayForRect(rect->x, rect->y, rect->w, rect->h);
 }
 
-static SDL_DisplayID GetDisplayAtOrigin(int x, int y)
+स्थिर SDL_DisplayID GetDisplayAtOrigin(पूर्णाङ्क x, पूर्णाङ्क y)
 {
-    for (int i = 0; i < _this->num_displays; ++i) {
+    प्रति (पूर्णाङ्क i = 0; i < _this->अङ्कः_displays; ++i) {
         SDL_Rect rect;
-        const SDL_DisplayID cur_id = _this->displays[i]->id;
-        if (SDL_GetDisplayBounds(cur_id, &rect)) {
-            if (x == rect.x && y == rect.y) {
-                return cur_id;
+        ध्रुव SDL_DisplayID cur_id = _this->displays[i]->id;
+        यदि (SDL_GetDisplayBounds(cur_id, &rect)) {
+            यदि (x == rect.x && y == rect.y) {
+                प्रत्यागम cur_id;
             }
         }
     }
 
-    return 0;
+    प्रत्यागम 0;
 }
 
-SDL_DisplayID SDL_GetDisplayForWindowPosition(SDL_Window *window)
+SDL_DisplayID SDL_Get_Display_For_गवाक्षः_Position(SDL_गवाक्षः *गवाक्षः)
 {
-    int x, y;
+    पूर्णाङ्क x, y;
     SDL_DisplayID displayID = 0;
 
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0);
 
-    if (_this->GetDisplayForWindow) {
-        displayID = _this->GetDisplayForWindow(_this, window);
+    यदि (_this->Get_Display_For_गवाक्षः) {
+        displayID = _this->Get_Display_For_गवाक्षः(_this, गवाक्षः);
     }
 
     /* A backend implementation may fail to get a display for the window
      * (for example if the window is off-screen), but other code may expect it
      * to succeed in that situation, so we fall back to a generic position-
      * based implementation in that case. */
-    SDL_RelativeToGlobalForWindow(window, window->x, window->y, &x, &y);
+    SDL_Relative_गन्तव्यम्_Global_For_गवाक्षः(गवाक्षः, गवाक्षः->x, गवाक्षः->y, &x, &y);
 
-    if (!displayID) {
+    यदि (!displayID) {
         /* Fullscreen windows may be larger than the display if they were moved between differently sized
          * displays and the new position was received before the new size or vice versa. Using the center
          * of the window rect in this case can report the wrong display, so use the origin.
          */
-        if (window->flags & SDL_WINDOW_FULLSCREEN) {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
             displayID = GetDisplayForRect(x, y, 1, 1);
-        } else {
-            displayID = GetDisplayForRect(x, y, window->w, window->h);
+        } अन्यथा {
+            displayID = GetDisplayForRect(x, y, गवाक्षः->w, गवाक्षः->h);
         }
     }
-    if (!displayID) {
+    यदि (!displayID) {
         // Use the primary display for a window if we can't find it anywhere else
         displayID = SDL_GetPrimaryDisplay();
     }
-    return displayID;
+    प्रत्यागम displayID;
 }
 
-SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window)
+SDL_VideoDisplay *SDL_Get_Video_Display_For_Fullscreen_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
     SDL_DisplayID displayID = 0;
 
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, रिक्त);
 
     // An explicit fullscreen display overrides all
-    if (window->current_fullscreen_mode.displayID) {
-        displayID = window->current_fullscreen_mode.displayID;
+    यदि (गवाक्षः->current_fullscreen_बहुलकम्.displayID) {
+        displayID = गवाक्षः->current_fullscreen_बहुलकम्.displayID;
     }
 
     /* This is used to handle the very common pattern of SDL_SetWindowPosition()
@@ -1787,287 +1787,287 @@ SDL_VideoDisplay *SDL_GetVideoDisplayForFullscreenWindow(SDL_Window *window)
      * window position, or an async window manager hasn't yet actually moved the window,
      * the current position won't be updated at the time of the fullscreen call.
      */
-    if (!displayID) {
-        displayID = window->pending_displayID;
+    यदि (!displayID) {
+        displayID = गवाक्षः->pending_displayID;
     }
-    if (!displayID) {
+    यदि (!displayID) {
         // Use the pending position and dimensions, if available, otherwise, use the current.
-        const int x = window->last_position_pending ? window->pending.x : window->x;
-        const int y = window->last_position_pending ? window->pending.y : window->y;
-        const int w = window->last_size_pending ? window->pending.w : window->w;
-        const int h = window->last_size_pending ? window->pending.h : window->h;
+        ध्रुव पूर्णाङ्क x = गवाक्षः->चरमः_position_pending ? गवाक्षः->pending.x : गवाक्षः->x;
+        ध्रुव पूर्णाङ्क y = गवाक्षः->चरमः_position_pending ? गवाक्षः->pending.y : गवाक्षः->y;
+        ध्रुव पूर्णाङ्क w = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.w : गवाक्षः->w;
+        ध्रुव पूर्णाङ्क h = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.h : गवाक्षः->h;
 
         // Check if the window is exactly at the origin of a display. Otherwise, fall back to the generic check.
         displayID = GetDisplayAtOrigin(x, y);
-        if (!displayID) {
+        यदि (!displayID) {
             displayID = GetDisplayForRect(x, y, w, h);
         }
     }
-    if (!displayID) {
+    यदि (!displayID) {
         // Use the primary display for a window if we can't find it anywhere else
         displayID = SDL_GetPrimaryDisplay();
     }
-    return SDL_GetVideoDisplay(displayID);
+    प्रत्यागम SDL_GetVideoDisplay(displayID);
 }
 
-#define SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY "sdl2-compat.window.preferred_fullscreen_display"
+#परिभाषय SDL_PROP_SDL2_COMPAT_गवाक्षः_PREFERRED_FULLSCREEN_DISPLAY "sdl2-compat.window.preferred_fullscreen_display"
 
-SDL_DisplayID SDL_GetDisplayForWindow(SDL_Window *window)
+SDL_DisplayID SDL_Get_Display_For_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0);
 
     /* sdl2-compat calls this function to get a display on which to make the window fullscreen,
      * so pass it the preferred fullscreen display ID in a property.
      */
-    SDL_PropertiesID window_props = SDL_GetWindowProperties(window);
-    SDL_VideoDisplay *fs_display = SDL_GetVideoDisplayForFullscreenWindow(window);
-    if (fs_display) {
-        SDL_SetNumberProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
-    } else {
-        SDL_ClearProperty(window_props, SDL_PROP_SDL2_COMPAT_WINDOW_PREFERRED_FULLSCREEN_DISPLAY);
+    SDL_PropertiesID गवाक्षः_props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
+    SDL_VideoDisplay *fs_display = SDL_Get_Video_Display_For_Fullscreen_गवाक्षः(गवाक्षः);
+    यदि (fs_display) {
+        SDL_समुच्चयः_सङ्ख्या_Property(गवाक्षः_props, SDL_PROP_SDL2_COMPAT_गवाक्षः_PREFERRED_FULLSCREEN_DISPLAY, fs_display->id);
+    } अन्यथा {
+        SDL_ClearProperty(गवाक्षः_props, SDL_PROP_SDL2_COMPAT_गवाक्षः_PREFERRED_FULLSCREEN_DISPLAY);
     }
 
-    return GetDisplayForWindow(window);
+    प्रत्यागम Get_Display_For_गवाक्षः(गवाक्षः);
 }
 
-static void SDL_CheckWindowDisplayChanged(SDL_Window *window)
+स्थिर शून्य SDL_Check_गवाक्षः_Display_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः)
 {
-    if (SDL_SendsDisplayChanges(_this)) {
-        return;
+    यदि (SDL_SendsDisplayChanges(_this)) {
+        प्रत्यागम;
     }
 
-    SDL_DisplayID displayID = SDL_GetDisplayForWindowPosition(window);
+    SDL_DisplayID displayID = SDL_Get_Display_For_गवाक्षः_Position(गवाक्षः);
 
-    if (displayID != window->displayID) {
+    यदि (displayID != गवाक्षः->displayID) {
         // See if we are fully committed to the new display
         // 80% is about the right value, tested with 350% scale on the left monitor and 100% scale on the right
         SDL_Rect old_bounds, new_bounds;
-        SDL_Rect window_rect;
+        SDL_Rect गवाक्षः_rect;
         SDL_Rect old_overlap, new_overlap;
 
-        if (SDL_GetDisplayBounds(window->displayID, &old_bounds) &&
+        यदि (SDL_GetDisplayBounds(गवाक्षः->displayID, &old_bounds) &&
             SDL_GetDisplayBounds(displayID, &new_bounds)) {
-            window_rect.x = window->x;
-            window_rect.y = window->y;
-            window_rect.w = window->w;
-            window_rect.h = window->h;
+            गवाक्षः_rect.x = गवाक्षः->x;
+            गवाक्षः_rect.y = गवाक्षः->y;
+            गवाक्षः_rect.w = गवाक्षः->w;
+            गवाक्षः_rect.h = गवाक्षः->h;
 
-            if (SDL_GetRectIntersection(&old_bounds, &window_rect, &old_overlap) &&
-                SDL_GetRectIntersection(&new_bounds, &window_rect, &new_overlap)) {
-                int old_area = old_overlap.w * old_overlap.h;
-                int new_area = new_overlap.w * new_overlap.h;
-                float new_overlap_ratio = (new_area / ((float)old_area + new_area));
-                if (new_overlap_ratio < 0.80) {
-                    return;
+            यदि (SDL_GetRectIntersection(&old_bounds, &गवाक्षः_rect, &old_overlap) &&
+                SDL_GetRectIntersection(&new_bounds, &गवाक्षः_rect, &new_overlap)) {
+                पूर्णाङ्क old_area = old_overlap.w * old_overlap.h;
+                पूर्णाङ्क new_area = new_overlap.w * new_overlap.h;
+                भिन्न new_overlap_अनुपातः = (new_area / ((भिन्न)old_area + new_area));
+                यदि (new_overlap_अनुपातः < 0.80) {
+                    प्रत्यागम;
                 }
             }
         }
     }
 
-    if (displayID != window->displayID) {
-        int i, display_index;
+    यदि (displayID != गवाक्षः->displayID) {
+        पूर्णाङ्क i, display_सूचकांक;
 
         // Sanity check our fullscreen windows
-        display_index = SDL_GetDisplayIndex(displayID);
-        for (i = 0; i < _this->num_displays; ++i) {
+        display_सूचकांक = SDL_Get_Display_सूचकांक(displayID);
+        प्रति (i = 0; i < _this->अङ्कः_displays; ++i) {
             SDL_VideoDisplay *display = _this->displays[i];
 
-            if (display->fullscreen_window == window) {
-                if (display_index != i) {
-                    if (display_index < 0) {
-                        display_index = i;
-                    } else {
-                        SDL_VideoDisplay *new_display = _this->displays[display_index];
+            यदि (display->fullscreen_गवाक्षः == गवाक्षः) {
+                यदि (display_सूचकांक != i) {
+                    यदि (display_सूचकांक < 0) {
+                        display_सूचकांक = i;
+                    } अन्यथा {
+                        SDL_VideoDisplay *new_display = _this->displays[display_सूचकांक];
 
                         // The window was moved to a different display
-                        if (new_display->fullscreen_window &&
-                            new_display->fullscreen_window != window) {
+                        यदि (new_display->fullscreen_गवाक्षः &&
+                            new_display->fullscreen_गवाक्षः != गवाक्षः) {
                             // Uh oh, there's already a fullscreen window here; minimize it
-                            SDL_MinimizeWindow(new_display->fullscreen_window);
+                            SDL_Minimize_गवाक्षः(new_display->fullscreen_गवाक्षः);
                         }
-                        new_display->fullscreen_window = window;
-                        display->fullscreen_window = NULL;
+                        new_display->fullscreen_गवाक्षः = गवाक्षः;
+                        display->fullscreen_गवाक्षः = रिक्त;
                     }
                 }
-                break;
+                भङ्ग;
             }
         }
 
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_CHANGED, (int)displayID, 0);
+        SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_DISPLAY_परिवर्तितम्, (पूर्णाङ्क)displayID, 0);
     }
 }
 
-float SDL_GetWindowPixelDensity(SDL_Window *window)
+भिन्न SDL_Get_गवाक्षः_Pixel_Density(SDL_गवाक्षः *गवाक्षः)
 {
-    int window_w, window_h, pixel_w, pixel_h;
-    float pixel_density = 1.0f;
+    पूर्णाङ्क गवाक्षः_w, गवाक्षः_h, pixel_w, pixel_h;
+    भिन्न pixel_density = 1.0f;
 
-    CHECK_WINDOW_MAGIC(window, 0.0f);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0.0f);
 
-    if (SDL_GetWindowSize(window, &window_w, &window_h) &&
-        SDL_GetWindowSizeInPixels(window, &pixel_w, &pixel_h)) {
-        pixel_density = (float)pixel_w / window_w;
+    यदि (SDL_Get_गवाक्षः_आकार(गवाक्षः, &गवाक्षः_w, &गवाक्षः_h) &&
+        SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &pixel_w, &pixel_h)) {
+        pixel_density = (भिन्न)pixel_w / गवाक्षः_w;
     }
-    return pixel_density;
+    प्रत्यागम pixel_density;
 }
 
-float SDL_GetWindowDisplayScale(SDL_Window *window)
+भिन्न SDL_Get_गवाक्षः_Display_Scale(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, 0.0f);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0.0f);
 
-    return window->display_scale;
+    प्रत्यागम गवाक्षः->display_scale;
 }
 
-static void SDL_CheckWindowDisplayScaleChanged(SDL_Window *window)
+स्थिर शून्य SDL_Check_गवाक्षः_Display_Scale_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः)
 {
-    float display_scale;
+    भिन्न display_scale;
 
-    if (_this->GetWindowContentScale) {
-        display_scale = _this->GetWindowContentScale(_this, window);
-    } else {
-        const float pixel_density = SDL_GetWindowPixelDensity(window);
-        const float content_scale = SDL_GetDisplayContentScale(window->displayID);
+    यदि (_this->Get_गवाक्षः_Content_Scale) {
+        display_scale = _this->Get_गवाक्षः_Content_Scale(_this, गवाक्षः);
+    } अन्यथा {
+        ध्रुव भिन्न pixel_density = SDL_Get_गवाक्षः_Pixel_Density(गवाक्षः);
+        ध्रुव भिन्न content_scale = SDL_GetDisplayContentScale(गवाक्षः->displayID);
 
         display_scale = pixel_density * content_scale;
     }
 
-    if (display_scale != window->display_scale) {
-        window->display_scale = display_scale;
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DISPLAY_SCALE_CHANGED, 0, 0);
+    यदि (display_scale != गवाक्षः->display_scale) {
+        गवाक्षः->display_scale = display_scale;
+        SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_DISPLAY_SCALE_परिवर्तितम्, 0, 0);
     }
 }
 
-bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, bool commit)
+bool SDL_Update_Fullscreen_बहुलकम्(SDL_गवाक्षः *गवाक्षः, SDL_FullscreenOp fullscreen, bool commit)
 {
-    SDL_VideoDisplay *display = NULL;
-    SDL_DisplayMode *mode = NULL;
-    int i;
+    SDL_VideoDisplay *display = रिक्त;
+    SDL_Display_बहुलकम् *बहुलकम् = रिक्त;
+    पूर्णाङ्क i;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    window->fullscreen_exclusive = false;
-    window->update_fullscreen_on_display_changed = false;
+    गवाक्षः->fullscreen_exclusive = false;
+    गवाक्षः->update_fullscreen_on_display_परिवर्तितम् = false;
 
     // If we are in the process of hiding don't go back to fullscreen
-    if (window->is_destroying || window->is_hiding) {
+    यदि (गवाक्षः->is_destroying || गवाक्षः->is_hiding) {
         fullscreen = SDL_FULLSCREEN_OP_LEAVE;
     }
 
     // Get the correct display for this operation
-    if (fullscreen) {
-        display = SDL_GetVideoDisplayForFullscreenWindow(window);
-        if (!display) {
+    यदि (fullscreen) {
+        display = SDL_Get_Video_Display_For_Fullscreen_गवाक्षः(गवाक्षः);
+        यदि (!display) {
             // This should never happen, but it did...
-            goto done;
+            गच्छ समाप्तम्;
         }
-    } else {
-        for (i = 0; i < _this->num_displays; ++i) {
+    } अन्यथा {
+        प्रति (i = 0; i < _this->अङ्कः_displays; ++i) {
             display = _this->displays[i];
-            if (display->fullscreen_window == window) {
-                break;
+            यदि (display->fullscreen_गवाक्षः == गवाक्षः) {
+                भङ्ग;
             }
         }
-        if (!display || i == _this->num_displays) {
+        यदि (!display || i == _this->अङ्कः_displays) {
             // Already not fullscreen on any display
-            display = NULL;
+            display = रिक्त;
         }
     }
 
-    if (fullscreen) {
-        mode = (SDL_DisplayMode *)SDL_GetWindowFullscreenMode(window);
-        if (mode) {
-            window->fullscreen_exclusive = true;
-        } else {
+    यदि (fullscreen) {
+        बहुलकम् = (SDL_Display_बहुलकम् *)SDL_Get_गवाक्षः_Fullscreen_बहुलकम्(गवाक्षः);
+        यदि (बहुलकम्) {
+            गवाक्षः->fullscreen_exclusive = true;
+        } अन्यथा {
             // Make sure the current mode is zeroed for fullscreen desktop.
-            SDL_zero(window->current_fullscreen_mode);
+            SDL_zero(गवाक्षः->current_fullscreen_बहुलकम्);
         }
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#यदि defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
     /* if the window is going away and no resolution change is necessary,
        do nothing, or else we may trigger an ugly double-transition
      */
-    if (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
-        if (window->is_destroying && !window->last_fullscreen_exclusive_display) {
-            window->fullscreen_exclusive = false;
-            if (display) {
-                display->fullscreen_window = NULL;
+    यदि (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
+        यदि (गवाक्षः->is_destroying && !गवाक्षः->चरमः_fullscreen_exclusive_display) {
+            गवाक्षः->fullscreen_exclusive = false;
+            यदि (display) {
+                display->fullscreen_गवाक्षः = रिक्त;
             }
-            goto done;
+            गच्छ समाप्तम्;
         }
-        if (commit) {
+        यदि (commit) {
             // If we're switching between a fullscreen Space and exclusive fullscreen, we need to get back to normal first.
-            if (fullscreen && Cocoa_IsWindowInFullscreenSpace(window) && !window->last_fullscreen_exclusive_display && window->fullscreen_exclusive) {
-                if (!Cocoa_SetWindowFullscreenSpace(window, false, true)) {
-                    goto error;
+            यदि (fullscreen && Cocoa_Is_गवाक्षः_अन्तर्_Fullscreen_Space(गवाक्षः) && !गवाक्षः->चरमः_fullscreen_exclusive_display && गवाक्षः->fullscreen_exclusive) {
+                यदि (!Cocoa_समुच्चयः_गवाक्षः_Fullscreen_Space(गवाक्षः, false, true)) {
+                    गच्छ error;
                 }
-            } else if (fullscreen && window->last_fullscreen_exclusive_display && !window->fullscreen_exclusive) {
-                for (i = 0; i < _this->num_displays; ++i) {
-                    SDL_VideoDisplay *last_display = _this->displays[i];
-                    if (last_display->fullscreen_window == window) {
-                        SDL_SetDisplayModeForDisplay(last_display, NULL);
-                        if (_this->SetWindowFullscreen) {
-                            _this->SetWindowFullscreen(_this, window, last_display, false);
+            } अन्यथा यदि (fullscreen && गवाक्षः->चरमः_fullscreen_exclusive_display && !गवाक्षः->fullscreen_exclusive) {
+                प्रति (i = 0; i < _this->अङ्कः_displays; ++i) {
+                    SDL_VideoDisplay *चरमः_display = _this->displays[i];
+                    यदि (चरमः_display->fullscreen_गवाक्षः == गवाक्षः) {
+                        SDL_समुच्चयः_Display_बहुलकम्_For_Display(चरमः_display, रिक्त);
+                        यदि (_this->समुच्चयः_गवाक्षः_Fullscreen) {
+                            _this->समुच्चयः_गवाक्षः_Fullscreen(_this, गवाक्षः, चरमः_display, false);
                         }
-                        last_display->fullscreen_window = NULL;
+                        चरमः_display->fullscreen_गवाक्षः = रिक्त;
                     }
                 }
             }
 
-            if (Cocoa_SetWindowFullscreenSpace(window, !!fullscreen, syncHint)) {
-                goto done;
+            यदि (Cocoa_समुच्चयः_गवाक्षः_Fullscreen_Space(गवाक्षः, !!fullscreen, syncHint)) {
+                गच्छ समाप्तम्;
             }
         }
     }
-#endif
+#यदि_अन्तः
 
-    if (display) {
+    यदि (display) {
         // Restore the video mode on other displays if needed
-        for (i = 0; i < _this->num_displays; ++i) {
+        प्रति (i = 0; i < _this->अङ्कः_displays; ++i) {
             SDL_VideoDisplay *other = _this->displays[i];
-            if (other != display && other->fullscreen_window == window) {
-                SDL_SetDisplayModeForDisplay(other, NULL);
-                other->fullscreen_window = NULL;
+            यदि (other != display && other->fullscreen_गवाक्षः == गवाक्षः) {
+                SDL_समुच्चयः_Display_बहुलकम्_For_Display(other, रिक्त);
+                other->fullscreen_गवाक्षः = रिक्त;
             }
         }
     }
 
-    if (fullscreen) {
-        int mode_w = 0, mode_h = 0;
+    यदि (fullscreen) {
+        पूर्णाङ्क बहुलकम्_w = 0, बहुलकम्_h = 0;
         bool resized = false;
 
         // Hide any other fullscreen window on this display
-        if (display->fullscreen_window &&
-            display->fullscreen_window != window) {
-            SDL_MinimizeWindow(display->fullscreen_window);
+        यदि (display->fullscreen_गवाक्षः &&
+            display->fullscreen_गवाक्षः != गवाक्षः) {
+            SDL_Minimize_गवाक्षः(display->fullscreen_गवाक्षः);
         }
 
-        display->fullscreen_active = window->fullscreen_exclusive;
+        display->fullscreen_सक्रिय = गवाक्षः->fullscreen_exclusive;
 
-        if (!SDL_SetDisplayModeForDisplay(display, mode)) {
-            goto error;
+        यदि (!SDL_समुच्चयः_Display_बहुलकम्_For_Display(display, बहुलकम्)) {
+            गच्छ error;
         }
-        if (commit) {
-            SDL_FullscreenResult ret = SDL_FULLSCREEN_SUCCEEDED;
-            if (_this->SetWindowFullscreen) {
-                ret = _this->SetWindowFullscreen(_this, window, display, fullscreen);
-            } else {
+        यदि (commit) {
+            SDL_Fullscreen_परिणाम ret = SDL_FULLSCREEN_SUCCEEDED;
+            यदि (_this->समुच्चयः_गवाक्षः_Fullscreen) {
+                ret = _this->समुच्चयः_गवाक्षः_Fullscreen(_this, गवाक्षः, display, fullscreen);
+            } अन्यथा {
                 resized = true;
             }
 
-            if (ret == SDL_FULLSCREEN_SUCCEEDED) {
+            यदि (ret == SDL_FULLSCREEN_SUCCEEDED) {
                 // Window is fullscreen immediately upon return. If the driver hasn't already sent the event, do so now.
-                if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ENTER_FULLSCREEN, 0, 0);
+                यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN)) {
+                    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_ENTER_FULLSCREEN, 0, 0);
                 }
-            } else if (ret == SDL_FULLSCREEN_FAILED) {
-                display->fullscreen_active = false;
-                goto error;
+            } अन्यथा यदि (ret == SDL_FULLSCREEN_FAILED) {
+                display->fullscreen_सक्रिय = false;
+                गच्छ error;
             }
         }
 
-        if (window->flags & SDL_WINDOW_FULLSCREEN) {
-            display->fullscreen_window = window;
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
+            display->fullscreen_गवाक्षः = गवाक्षः;
 
             /* Android may not resize the window to exactly what our fullscreen mode is,
              * especially on windowed Android environments like the Chromebook or Samsung DeX.
@@ -2076,439 +2076,439 @@ bool SDL_UpdateFullscreenMode(SDL_Window *window, SDL_FullscreenOp fullscreen, b
              *
              * This is also unnecessary on Cocoa, Wayland, Win32, and X11 (will send SDL_EVENT_WINDOW_RESIZED).
              */
-            if (!SDL_SendsFullscreenDimensions(_this)) {
+            यदि (!SDL_SendsFullscreenDimensions(_this)) {
                 SDL_Rect displayRect;
 
-                if (mode) {
-                    mode_w = mode->w;
-                    mode_h = mode->h;
-                    SDL_GetDisplayBounds(mode->displayID, &displayRect);
-                } else {
-                    mode_w = display->desktop_mode.w;
-                    mode_h = display->desktop_mode.h;
+                यदि (बहुलकम्) {
+                    बहुलकम्_w = बहुलकम्->w;
+                    बहुलकम्_h = बहुलकम्->h;
+                    SDL_GetDisplayBounds(बहुलकम्->displayID, &displayRect);
+                } अन्यथा {
+                    बहुलकम्_w = display->desktop_बहुलकम्.w;
+                    बहुलकम्_h = display->desktop_बहुलकम्.h;
                     SDL_GetDisplayBounds(display->id, &displayRect);
                 }
 
-                if (window->w != mode_w || window->h != mode_h) {
+                यदि (गवाक्षः->w != बहुलकम्_w || गवाक्षः->h != बहुलकम्_h) {
                     resized = true;
                 }
 
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, displayRect.x, displayRect.y);
+                SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_MOVED, displayRect.x, displayRect.y);
 
-                if (resized) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, mode_w, mode_h);
-                } else {
-                    SDL_OnWindowResized(window);
+                यदि (resized) {
+                    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_RESIZED, बहुलकम्_w, बहुलकम्_h);
+                } अन्यथा {
+                    SDL_On_गवाक्षः_Resized(गवाक्षः);
                 }
             }
         }
-    } else {
+    } अन्यथा {
         bool resized = false;
 
         // Restore the desktop mode
-        if (display) {
-            display->fullscreen_active = false;
+        यदि (display) {
+            display->fullscreen_सक्रिय = false;
 
-            SDL_SetDisplayModeForDisplay(display, NULL);
+            SDL_समुच्चयः_Display_बहुलकम्_For_Display(display, रिक्त);
         }
-        if (commit) {
-            SDL_FullscreenResult ret = SDL_FULLSCREEN_SUCCEEDED;
-            if (_this->SetWindowFullscreen) {
-                SDL_VideoDisplay *full_screen_display = display ? display : SDL_GetVideoDisplayForFullscreenWindow(window);
-                if (full_screen_display) {
-                    ret = _this->SetWindowFullscreen(_this, window, full_screen_display, SDL_FULLSCREEN_OP_LEAVE);
+        यदि (commit) {
+            SDL_Fullscreen_परिणाम ret = SDL_FULLSCREEN_SUCCEEDED;
+            यदि (_this->समुच्चयः_गवाक्षः_Fullscreen) {
+                SDL_VideoDisplay *पूर्णम्_screen_display = display ? display : SDL_Get_Video_Display_For_Fullscreen_गवाक्षः(गवाक्षः);
+                यदि (पूर्णम्_screen_display) {
+                    ret = _this->समुच्चयः_गवाक्षः_Fullscreen(_this, गवाक्षः, पूर्णम्_screen_display, SDL_FULLSCREEN_OP_LEAVE);
                 }
-            } else {
+            } अन्यथा {
                 resized = true;
             }
 
-            if (ret == SDL_FULLSCREEN_SUCCEEDED) {
+            यदि (ret == SDL_FULLSCREEN_SUCCEEDED) {
                 // Window left fullscreen immediately upon return. If the driver hasn't already sent the event, do so now.
-                if (window->flags & SDL_WINDOW_FULLSCREEN) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
+                यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
+                    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_LEAVE_FULLSCREEN, 0, 0);
                 }
-            } else if (ret == SDL_FULLSCREEN_FAILED) {
-                goto error;
+            } अन्यथा यदि (ret == SDL_FULLSCREEN_FAILED) {
+                गच्छ error;
             }
         }
 
-        if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-            if (display) {
-                display->fullscreen_window = NULL;
+        यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN)) {
+            यदि (display) {
+                display->fullscreen_गवाक्षः = रिक्त;
             }
 
-            if (!SDL_SendsFullscreenDimensions(_this)) {
-                SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MOVED, window->windowed.x, window->windowed.y);
-                if (resized) {
-                    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->windowed.w, window->windowed.h);
-                } else {
-                    SDL_OnWindowResized(window);
+            यदि (!SDL_SendsFullscreenDimensions(_this)) {
+                SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_MOVED, गवाक्षः->windowed.x, गवाक्षः->windowed.y);
+                यदि (resized) {
+                    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_RESIZED, गवाक्षः->windowed.w, गवाक्षः->windowed.h);
+                } अन्यथा {
+                    SDL_On_गवाक्षः_Resized(गवाक्षः);
                 }
             }
         }
     }
 
-done:
-    window->last_fullscreen_exclusive_display = display && (window->flags & SDL_WINDOW_FULLSCREEN) && window->fullscreen_exclusive ? display->id : 0;
-    return true;
+समाप्तम्:
+    गवाक्षः->चरमः_fullscreen_exclusive_display = display && (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) && गवाक्षः->fullscreen_exclusive ? display->id : 0;
+    प्रत्यागम true;
 
 error:
-    if (fullscreen) {
+    यदि (fullscreen) {
         // Something went wrong and the window is no longer fullscreen.
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, commit);
+        SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_LEAVE, commit);
     }
-    return false;
+    प्रत्यागम false;
 }
 
-bool SDL_SetWindowFullscreenMode(SDL_Window *window, const SDL_DisplayMode *mode)
+bool SDL_समुच्चयः_गवाक्षः_Fullscreen_बहुलकम्(SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Display_बहुलकम् *बहुलकम्)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (mode) {
-        if (!SDL_GetFullscreenModeMatch(mode)) {
-            return SDL_SetError("Invalid fullscreen display mode");
+    यदि (बहुलकम्) {
+        यदि (!SDL_Get_Fullscreen_बहुलकम्_मेलनम्(बहुलकम्)) {
+            प्रत्यागम SDL_समुच्चयः_Error("Invalid fullscreen display mode");
         }
 
         // Save the mode so we can look up the closest match later
-        SDL_copyp(&window->requested_fullscreen_mode, mode);
-    } else {
-        SDL_zero(window->requested_fullscreen_mode);
+        SDL_copyp(&गवाक्षः->requested_fullscreen_बहुलकम्, बहुलकम्);
+    } अन्यथा {
+        SDL_zero(गवाक्षः->requested_fullscreen_बहुलकम्);
     }
 
     /* Copy to the current mode now, in case an asynchronous fullscreen window request
      * is in progress. It will be overwritten if a new request is made.
      */
-    SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
+    SDL_copyp(&गवाक्षः->current_fullscreen_बहुलकम्, &गवाक्षः->requested_fullscreen_बहुलकम्);
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+#यदि defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
     /* If this is called while in the middle of a Cocoa fullscreen spaces transition,
      * wait until the transition has completed, or the window can wind up in a weird,
      * broken state if a mode switch occurs while in a fullscreen space.
      */
-    if (SDL_strcmp(_this->name, "cocoa") == 0 && Cocoa_IsWindowInFullscreenSpaceTransition(window)) {
-        SDL_SyncWindow(window);
+    यदि (SDL_strcmp(_this->name, "cocoa") == 0 && Cocoa_Is_गवाक्षः_अन्तर्_Fullscreen_Space_Transition(गवाक्षः)) {
+        SDL_Sync_गवाक्षः(गवाक्षः);
     }
-#endif
-    if (SDL_WINDOW_FULLSCREEN_VISIBLE(window)) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
-        SDL_SyncIfRequired(window);
+#यदि_अन्तः
+    यदि (SDL_गवाक्षः_FULLSCREEN_VISIBLE(गवाक्षः)) {
+        SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_UPDATE, true);
+        SDL_SyncIfRequired(गवाक्षः);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-const SDL_DisplayMode *SDL_GetWindowFullscreenMode(SDL_Window *window)
+ध्रुव SDL_Display_बहुलकम् *SDL_Get_गवाक्षः_Fullscreen_बहुलकम्(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
-    CHECK_WINDOW_NOT_POPUP(window, NULL);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, रिक्त);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, रिक्त);
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        return SDL_GetFullscreenModeMatch(&window->current_fullscreen_mode);
-    } else {
-        return SDL_GetFullscreenModeMatch(&window->requested_fullscreen_mode);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
+        प्रत्यागम SDL_Get_Fullscreen_बहुलकम्_मेलनम्(&गवाक्षः->current_fullscreen_बहुलकम्);
+    } अन्यथा {
+        प्रत्यागम SDL_Get_Fullscreen_बहुलकम्_मेलनम्(&गवाक्षः->requested_fullscreen_बहुलकम्);
     }
 }
 
-void *SDL_GetWindowICCProfile(SDL_Window *window, size_t *size)
+शून्य *SDL_Get_गवाक्षः_ICCProfile(SDL_गवाक्षः *गवाक्षः, size_t *आकार)
 {
-    if (!_this->GetWindowICCProfile) {
+    यदि (!_this->Get_गवाक्षः_ICCProfile) {
         SDL_Unsupported();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    return _this->GetWindowICCProfile(_this, window, size);
+    प्रत्यागम _this->Get_गवाक्षः_ICCProfile(_this, गवाक्षः, आकार);
 }
 
-SDL_PixelFormat SDL_GetWindowPixelFormat(SDL_Window *window)
+SDL_PixelFormat SDL_Get_गवाक्षः_Pixel_Format(SDL_गवाक्षः *गवाक्षः)
 {
     SDL_DisplayID displayID;
-    const SDL_DisplayMode *mode;
+    ध्रुव SDL_Display_बहुलकम् *बहुलकम्;
 
-    CHECK_WINDOW_MAGIC(window, SDL_PIXELFORMAT_UNKNOWN);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, SDL_PIXELFORMAT_UNKNOWN);
 
-    displayID = GetDisplayForWindow(window);
-    mode = SDL_GetCurrentDisplayMode(displayID);
-    if (mode) {
-        return mode->format;
-    } else {
-        return SDL_PIXELFORMAT_UNKNOWN;
+    displayID = Get_Display_For_गवाक्षः(गवाक्षः);
+    बहुलकम् = SDL_Get_Current_Display_बहुलकम्(displayID);
+    यदि (बहुलकम्) {
+        प्रत्यागम बहुलकम्->format;
+    } अन्यथा {
+        प्रत्यागम SDL_PIXELFORMAT_UNKNOWN;
     }
 }
 
-#define CREATE_FLAGS \
-    (SDL_WINDOW_OPENGL | SDL_WINDOW_BORDERLESS | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_ALWAYS_ON_TOP | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_VULKAN | SDL_WINDOW_MINIMIZED | SDL_WINDOW_METAL | SDL_WINDOW_TRANSPARENT | SDL_WINDOW_NOT_FOCUSABLE | SDL_WINDOW_FILL_DOCUMENT)
+#परिभाषय CREATE_FLAGS \
+    (SDL_गवाक्षः_OPENGL | SDL_गवाक्षः_BORDERLESS | SDL_गवाक्षः_RESIZABLE | SDL_गवाक्षः_उच्चः_PIXEL_DENSITY | SDL_गवाक्षः_ALWAYS_ON_शिखरम् | SDL_गवाक्षः_POPUP_MENU | SDL_गवाक्षः_UTILITY | SDL_गवाक्षः_TOOLTIP | SDL_गवाक्षः_VULKAN | SDL_गवाक्षः_MINIMIZED | SDL_गवाक्षः_METAL | SDL_गवाक्षः_TRANSPARENT | SDL_गवाक्षः_NOT_FOCUSABLE | SDL_गवाक्षः_FILL_DOCUMENT)
 
-static SDL_INLINE bool IsAcceptingDragAndDrop(void)
+स्थिर SDL_INLINE bool IsAcceptingDragAndDrop(शून्य)
 {
-    if (SDL_EventEnabled(SDL_EVENT_DROP_FILE) || SDL_EventEnabled(SDL_EVENT_DROP_TEXT)) {
-        return true;
+    यदि (SDL_EventEnabled(SDL_EVENT_DROP_FILE) || SDL_EventEnabled(SDL_EVENT_DROP_TEXT)) {
+        प्रत्यागम true;
     }
-    return false;
+    प्रत्यागम false;
 }
 
 // prepare a newly-created window
-static SDL_INLINE void PrepareDragAndDropSupport(SDL_Window *window)
+स्थिर SDL_INLINE शून्य PrepareDragAndDropSupport(SDL_गवाक्षः *गवाक्षः)
 {
-    if (_this->AcceptDragAndDrop) {
-        _this->AcceptDragAndDrop(window, IsAcceptingDragAndDrop());
+    यदि (_this->AcceptDragAndDrop) {
+        _this->AcceptDragAndDrop(गवाक्षः, IsAcceptingDragAndDrop());
     }
 }
 
 // toggle d'n'd for all existing windows.
-void SDL_ToggleDragAndDropSupport(void)
+शून्य SDL_ToggleDragAndDropSupport(शून्य)
 {
-    if (_this && _this->AcceptDragAndDrop) {
-        const bool enable = IsAcceptingDragAndDrop();
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            _this->AcceptDragAndDrop(window, enable);
+    यदि (_this && _this->AcceptDragAndDrop) {
+        ध्रुव bool enable = IsAcceptingDragAndDrop();
+        SDL_गवाक्षः *गवाक्षः;
+        प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+            _this->AcceptDragAndDrop(गवाक्षः, enable);
         }
     }
 }
 
-SDL_Window ** SDLCALL SDL_GetWindows(int *count)
+SDL_गवाक्षः ** SDLCALL SDL_GetWindows(पूर्णाङ्क *गणनम्)
 {
-    if (count) {
-        *count = 0;
+    यदि (गणनम्) {
+        *गणनम् = 0;
     }
 
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
-    SDL_Window *window;
-    int num_added = 0;
-    int num_windows = 0;
-    for (window = _this->windows; window; window = window->next) {
-        ++num_windows;
+    SDL_गवाक्षः *गवाक्षः;
+    पूर्णाङ्क अङ्कः_added = 0;
+    पूर्णाङ्क अङ्कः_windows = 0;
+    प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+        ++अङ्कः_windows;
     }
 
-    SDL_Window **windows = (SDL_Window **)SDL_malloc((num_windows + 1) * sizeof(*windows));
-    if (!windows) {
-        return NULL;
+    SDL_गवाक्षः **windows = (SDL_गवाक्षः **)SDL_malloc((अङ्कः_windows + 1) * परिमाण(*windows));
+    यदि (!windows) {
+        प्रत्यागम रिक्त;
     }
 
-    for (window = _this->windows; window; window = window->next) {
-        windows[num_added++] = window;
-        if (num_added == num_windows) {
+    प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+        windows[अङ्कः_added++] = गवाक्षः;
+        यदि (अङ्कः_added == अङ्कः_windows) {
             // Race condition? Multi-threading not supported, ignore it
-            break;
+            भङ्ग;
         }
     }
-    windows[num_added] = NULL;
+    windows[अङ्कः_added] = रिक्त;
 
-    if (count) {
-        *count = num_added;
+    यदि (गणनम्) {
+        *गणनम् = अङ्कः_added;
     }
-    return windows;
+    प्रत्यागम windows;
 }
 
-static void ApplyWindowFlags(SDL_Window *window, SDL_WindowFlags flags)
+स्थिर शून्य Apply_गवाक्षः_Flags(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः_Flags flags)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
-        if (!(flags & (SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED))) {
-            SDL_RestoreWindow(window);
+    यदि (!SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
+        यदि (!(flags & (SDL_गवाक्षः_MINIMIZED | SDL_गवाक्षः_MAXIMIZED))) {
+            SDL_Restore_गवाक्षः(गवाक्षः);
         }
-        if (flags & SDL_WINDOW_MAXIMIZED) {
-            SDL_MaximizeWindow(window);
-        }
-
-        SDL_SetWindowFullscreen(window, (flags & SDL_WINDOW_FULLSCREEN) != 0);
-
-        if (flags & SDL_WINDOW_MINIMIZED) {
-            SDL_MinimizeWindow(window);
+        यदि (flags & SDL_गवाक्षः_MAXIMIZED) {
+            SDL_Maximize_गवाक्षः(गवाक्षः);
         }
 
-        if (flags & SDL_WINDOW_MODAL) {
-            SDL_SetWindowModal(window, true);
+        SDL_समुच्चयः_गवाक्षः_Fullscreen(गवाक्षः, (flags & SDL_गवाक्षः_FULLSCREEN) != 0);
+
+        यदि (flags & SDL_गवाक्षः_MINIMIZED) {
+            SDL_Minimize_गवाक्षः(गवाक्षः);
         }
 
-        if (flags & SDL_WINDOW_MOUSE_GRABBED) {
-            SDL_SetWindowMouseGrab(window, true);
+        यदि (flags & SDL_गवाक्षः_MODAL) {
+            SDL_समुच्चयः_गवाक्षः_Modal(गवाक्षः, true);
         }
-        if (flags & SDL_WINDOW_KEYBOARD_GRABBED) {
-            SDL_SetWindowKeyboardGrab(window, true);
+
+        यदि (flags & SDL_गवाक्षः_MOUSE_GRABBED) {
+            SDL_समुच्चयः_गवाक्षः_Mouse_Grab(गवाक्षः, true);
+        }
+        यदि (flags & SDL_गवाक्षः_KEYBOARD_GRABBED) {
+            SDL_समुच्चयः_गवाक्षः_Keyboard_Grab(गवाक्षः, true);
         }
     }
 }
 
-static void SDL_FinishWindowCreation(SDL_Window *window, SDL_WindowFlags flags)
+स्थिर शून्य SDL_Finish_गवाक्षः_Creation(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः_Flags flags)
 {
-    PrepareDragAndDropSupport(window);
+    PrepareDragAndDropSupport(गवाक्षः);
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL) {
         // Whoever has created the window has already applied whatever flags are needed
-    } else {
-        ApplyWindowFlags(window, flags);
-        if (!(flags & SDL_WINDOW_HIDDEN)) {
-            SDL_ShowWindow(window);
+    } अन्यथा {
+        Apply_गवाक्षः_Flags(गवाक्षः, flags);
+        यदि (!(flags & SDL_गवाक्षः_HIDDEN)) {
+            SDL_Show_गवाक्षः(गवाक्षः);
         }
     }
 
-#if defined(SDL_PLATFORM_LINUX)
-    if (!SDL_WINDOW_IS_POPUP(window)) {
+#यदि defined(SDL_PLATFORM_LINUX)
+    यदि (!SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
         // On Linux the progress state is persisted throughout multiple program runs, so reset state on window creation
-        SDL_SetWindowProgressState(window, SDL_PROGRESS_STATE_NONE);
-        SDL_SetWindowProgressValue(window, 0.0f);
+        SDL_समुच्चयः_गवाक्षः_प्रगतिः_State(गवाक्षः, SDL_प्रगतिः_STATE_NONE);
+        SDL_समुच्चयः_गवाक्षः_प्रगतिः_मानम्(गवाक्षः, 0.0f);
     }
-#endif
+#यदि_अन्तः
 }
 
-static bool SDL_ContextNotSupported(const char *name)
+स्थिर bool SDL_ContextNotSupported(ध्रुव वर्ण *name)
 {
-    return SDL_SetError("%s support is either not configured in SDL "
+    प्रत्यागम SDL_समुच्चयः_Error("%s support is either not configured in SDL "
                         "or not available in current SDL video driver "
                         "(%s) or platform",
                         name,
                         _this->name);
 }
 
-static bool SDL_DllNotSupported(const char *name)
+स्थिर bool SDL_DllNotSupported(ध्रुव वर्ण *name)
 {
-    return SDL_SetError("No dynamic %s support in current SDL video driver (%s)", name, _this->name);
+    प्रत्यागम SDL_समुच्चयः_Error("No dynamic %s support in current SDL video driver (%s)", name, _this->name);
 }
 
-static struct {
-    const char *property_name;
-    SDL_WindowFlags flag;
-    bool invert_value;
-} SDL_WindowFlagProperties[] = {
-    { SDL_PROP_WINDOW_CREATE_ALWAYS_ON_TOP_BOOLEAN,      SDL_WINDOW_ALWAYS_ON_TOP,       false },
-    { SDL_PROP_WINDOW_CREATE_BORDERLESS_BOOLEAN,         SDL_WINDOW_BORDERLESS,          false },
-    { SDL_PROP_WINDOW_CREATE_FOCUSABLE_BOOLEAN,          SDL_WINDOW_NOT_FOCUSABLE,       true },
-    { SDL_PROP_WINDOW_CREATE_FULLSCREEN_BOOLEAN,         SDL_WINDOW_FULLSCREEN,          false },
-    { SDL_PROP_WINDOW_CREATE_HIDDEN_BOOLEAN,             SDL_WINDOW_HIDDEN,              false },
-    { SDL_PROP_WINDOW_CREATE_HIGH_PIXEL_DENSITY_BOOLEAN, SDL_WINDOW_HIGH_PIXEL_DENSITY,  false },
-    { SDL_PROP_WINDOW_CREATE_MAXIMIZED_BOOLEAN,          SDL_WINDOW_MAXIMIZED,           false },
-    { SDL_PROP_WINDOW_CREATE_MENU_BOOLEAN,               SDL_WINDOW_POPUP_MENU,          false },
-    { SDL_PROP_WINDOW_CREATE_METAL_BOOLEAN,              SDL_WINDOW_METAL,               false },
-    { SDL_PROP_WINDOW_CREATE_MINIMIZED_BOOLEAN,          SDL_WINDOW_MINIMIZED,           false },
-    { SDL_PROP_WINDOW_CREATE_MODAL_BOOLEAN,              SDL_WINDOW_MODAL,               false },
-    { SDL_PROP_WINDOW_CREATE_MOUSE_GRABBED_BOOLEAN,      SDL_WINDOW_MOUSE_GRABBED,       false },
-    { SDL_PROP_WINDOW_CREATE_OPENGL_BOOLEAN,             SDL_WINDOW_OPENGL,              false },
-    { SDL_PROP_WINDOW_CREATE_RESIZABLE_BOOLEAN,          SDL_WINDOW_RESIZABLE,           false },
-    { SDL_PROP_WINDOW_CREATE_TRANSPARENT_BOOLEAN,        SDL_WINDOW_TRANSPARENT,         false },
-    { SDL_PROP_WINDOW_CREATE_TOOLTIP_BOOLEAN,            SDL_WINDOW_TOOLTIP,             false },
-    { SDL_PROP_WINDOW_CREATE_UTILITY_BOOLEAN,            SDL_WINDOW_UTILITY,             false },
-    { SDL_PROP_WINDOW_CREATE_VULKAN_BOOLEAN,             SDL_WINDOW_VULKAN,              false }
+स्थिर संरचना {
+    ध्रुव वर्ण *property_name;
+    SDL_गवाक्षः_Flags flag;
+    bool invert_मानम्;
+} SDL_गवाक्षः_Flag_Properties[] = {
+    { SDL_PROP_गवाक्षः_CREATE_ALWAYS_ON_शिखरम्_BOOLEAN,      SDL_गवाक्षः_ALWAYS_ON_शिखरम्,       false },
+    { SDL_PROP_गवाक्षः_CREATE_BORDERLESS_BOOLEAN,         SDL_गवाक्षः_BORDERLESS,          false },
+    { SDL_PROP_गवाक्षः_CREATE_FOCUSABLE_BOOLEAN,          SDL_गवाक्षः_NOT_FOCUSABLE,       true },
+    { SDL_PROP_गवाक्षः_CREATE_FULLSCREEN_BOOLEAN,         SDL_गवाक्षः_FULLSCREEN,          false },
+    { SDL_PROP_गवाक्षः_CREATE_HIDDEN_BOOLEAN,             SDL_गवाक्षः_HIDDEN,              false },
+    { SDL_PROP_गवाक्षः_CREATE_उच्चः_PIXEL_DENSITY_BOOLEAN, SDL_गवाक्षः_उच्चः_PIXEL_DENSITY,  false },
+    { SDL_PROP_गवाक्षः_CREATE_MAXIMIZED_BOOLEAN,          SDL_गवाक्षः_MAXIMIZED,           false },
+    { SDL_PROP_गवाक्षः_CREATE_MENU_BOOLEAN,               SDL_गवाक्षः_POPUP_MENU,          false },
+    { SDL_PROP_गवाक्षः_CREATE_METAL_BOOLEAN,              SDL_गवाक्षः_METAL,               false },
+    { SDL_PROP_गवाक्षः_CREATE_MINIMIZED_BOOLEAN,          SDL_गवाक्षः_MINIMIZED,           false },
+    { SDL_PROP_गवाक्षः_CREATE_MODAL_BOOLEAN,              SDL_गवाक्षः_MODAL,               false },
+    { SDL_PROP_गवाक्षः_CREATE_MOUSE_GRABBED_BOOLEAN,      SDL_गवाक्षः_MOUSE_GRABBED,       false },
+    { SDL_PROP_गवाक्षः_CREATE_OPENGL_BOOLEAN,             SDL_गवाक्षः_OPENGL,              false },
+    { SDL_PROP_गवाक्षः_CREATE_RESIZABLE_BOOLEAN,          SDL_गवाक्षः_RESIZABLE,           false },
+    { SDL_PROP_गवाक्षः_CREATE_TRANSPARENT_BOOLEAN,        SDL_गवाक्षः_TRANSPARENT,         false },
+    { SDL_PROP_गवाक्षः_CREATE_TOOLTIP_BOOLEAN,            SDL_गवाक्षः_TOOLTIP,             false },
+    { SDL_PROP_गवाक्षः_CREATE_UTILITY_BOOLEAN,            SDL_गवाक्षः_UTILITY,             false },
+    { SDL_PROP_गवाक्षः_CREATE_VULKAN_BOOLEAN,             SDL_गवाक्षः_VULKAN,              false }
 };
 
-static SDL_WindowFlags SDL_GetWindowFlagProperties(SDL_PropertiesID props)
+स्थिर SDL_गवाक्षः_Flags SDL_Get_गवाक्षः_Flag_Properties(SDL_PropertiesID props)
 {
-    unsigned i;
-    SDL_WindowFlags flags = (SDL_WindowFlags)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, 0);
+    अचिह्नित i;
+    SDL_गवाक्षः_Flags flags = (SDL_गवाक्षः_Flags)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_FLAGS_सङ्ख्या, 0);
 
-    for (i = 0; i < SDL_arraysize(SDL_WindowFlagProperties); ++i) {
-        if (SDL_WindowFlagProperties[i].invert_value) {
-            if (!SDL_GetBooleanProperty(props, SDL_WindowFlagProperties[i].property_name, true)) {
-                flags |= SDL_WindowFlagProperties[i].flag;
+    प्रति (i = 0; i < SDL_arraysize(SDL_गवाक्षः_Flag_Properties); ++i) {
+        यदि (SDL_गवाक्षः_Flag_Properties[i].invert_मानम्) {
+            यदि (!SDL_GetBooleanProperty(props, SDL_गवाक्षः_Flag_Properties[i].property_name, true)) {
+                flags |= SDL_गवाक्षः_Flag_Properties[i].flag;
             }
-        } else {
-            if (SDL_GetBooleanProperty(props, SDL_WindowFlagProperties[i].property_name, false)) {
-                flags |= SDL_WindowFlagProperties[i].flag;
+        } अन्यथा {
+            यदि (SDL_GetBooleanProperty(props, SDL_गवाक्षः_Flag_Properties[i].property_name, false)) {
+                flags |= SDL_गवाक्षः_Flag_Properties[i].flag;
             }
         }
     }
-    return flags;
+    प्रत्यागम flags;
 }
 
-SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
+SDL_गवाक्षः *SDL_Create_गवाक्षः_With_Properties(SDL_PropertiesID props)
 {
-    SDL_Window *window;
-    const char *title = SDL_GetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, NULL);
-    int x = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int y = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, SDL_WINDOWPOS_UNDEFINED);
-    int w = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, 0);
-    int h = (int)SDL_GetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, 0);
-    SDL_Window *parent = (SDL_Window *)SDL_GetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, NULL);
-    SDL_WindowFlags flags = SDL_GetWindowFlagProperties(props);
-    SDL_WindowFlags type_flags, graphics_flags;
+    SDL_गवाक्षः *गवाक्षः;
+    ध्रुव वर्ण *title = SDL_GetStringProperty(props, SDL_PROP_गवाक्षः_CREATE_TITLE_STRING, रिक्त);
+    पूर्णाङ्क x = (पूर्णाङ्क)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_X_सङ्ख्या, SDL_WINDOWPOS_UNDEFINED);
+    पूर्णाङ्क y = (पूर्णाङ्क)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_Y_सङ्ख्या, SDL_WINDOWPOS_UNDEFINED);
+    पूर्णाङ्क w = (पूर्णाङ्क)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_विस्तारः_सङ्ख्या, 0);
+    पूर्णाङ्क h = (पूर्णाङ्क)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_HEIGHT_सङ्ख्या, 0);
+    SDL_गवाक्षः *parent = (SDL_गवाक्षः *)SDL_GetPointerProperty(props, SDL_PROP_गवाक्षः_CREATE_PARENT_POINTER, रिक्त);
+    SDL_गवाक्षः_Flags flags = SDL_Get_गवाक्षः_Flag_Properties(props);
+    SDL_गवाक्षः_Flags type_flags, graphics_flags;
     SDL_DisplayID displayID = 0;
     bool undefined_x = false;
     bool undefined_y = false;
-    bool external_graphics_context = SDL_GetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN, false);
+    bool external_graphics_context = SDL_GetBooleanProperty(props, SDL_PROP_गवाक्षः_CREATE_EXTERNAL_GRAPHICS_CONTEXT_BOOLEAN, false);
 
-    if (!_this) {
+    यदि (!_this) {
         // Initialize the video system if needed
-        if (!SDL_Init(SDL_INIT_VIDEO)) {
-            return NULL;
+        यदि (!SDL_Init(SDL_INIT_VIDEO)) {
+            प्रत्यागम रिक्त;
         }
 
         // Make clang-tidy happy
-        if (!_this) {
-            return NULL;
+        यदि (!_this) {
+            प्रत्यागम रिक्त;
         }
     }
 
-    if ((flags & SDL_WINDOW_MODAL) && !SDL_ObjectValid(parent, SDL_OBJECT_TYPE_WINDOW)) {
-        SDL_SetError("Modal windows must specify a parent window");
-        return NULL;
+    यदि ((flags & SDL_गवाक्षः_MODAL) && !SDL_ObjectValid(parent, SDL_OBJECT_TYPE_गवाक्षः)) {
+        SDL_समुच्चयः_Error("Modal windows must specify a parent window");
+        प्रत्यागम रिक्त;
     }
 
-    if ((flags & (SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU)) != 0) {
-        if (!(_this->device_caps & VIDEO_DEVICE_CAPS_HAS_POPUP_WINDOW_SUPPORT)) {
+    यदि ((flags & (SDL_गवाक्षः_TOOLTIP | SDL_गवाक्षः_POPUP_MENU)) != 0) {
+        यदि (!(_this->device_caps & VIDEO_DEVICE_CAPS_HAS_POPUP_गवाक्षः_SUPPORT)) {
             SDL_Unsupported();
-            return NULL;
+            प्रत्यागम रिक्त;
         }
 
         // Tooltip and popup menu window must specify a parent window
-        if (!SDL_ObjectValid(parent, SDL_OBJECT_TYPE_WINDOW)) {
-            SDL_SetError("Tooltip and popup menu windows must specify a parent window");
-            return NULL;
+        यदि (!SDL_ObjectValid(parent, SDL_OBJECT_TYPE_गवाक्षः)) {
+            SDL_समुच्चयः_Error("Tooltip and popup menu windows must specify a parent window");
+            प्रत्यागम रिक्त;
         }
 
         // Remove invalid flags
-        flags &= ~(SDL_WINDOW_MINIMIZED | SDL_WINDOW_MAXIMIZED | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_BORDERLESS);
+        flags &= ~(SDL_गवाक्षः_MINIMIZED | SDL_गवाक्षः_MAXIMIZED | SDL_गवाक्षः_FULLSCREEN | SDL_गवाक्षः_BORDERLESS);
     }
 
     // Ensure no more than one of these flags is set
-    type_flags = flags & (SDL_WINDOW_UTILITY | SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU | SDL_WINDOW_MODAL);
-    if (type_flags & (type_flags - 1)) {
-        SDL_SetError("Conflicting window type flags specified: 0x%.8x", (unsigned int)type_flags);
-        return NULL;
+    type_flags = flags & (SDL_गवाक्षः_UTILITY | SDL_गवाक्षः_TOOLTIP | SDL_गवाक्षः_POPUP_MENU | SDL_गवाक्षः_MODAL);
+    यदि (type_flags & (type_flags - 1)) {
+        SDL_समुच्चयः_Error("Conflicting window type flags specified: 0x%.8x", (अचिह्नित पूर्णाङ्क)type_flags);
+        प्रत्यागम रिक्त;
     }
 
     // Make sure the display list is up to date for window placement
-    if (_this->RefreshDisplays) {
+    यदि (_this->RefreshDisplays) {
         _this->RefreshDisplays(_this);
     }
 
     // Some platforms can't create zero-sized windows
-    if (w < 1) {
+    यदि (w < 1) {
         w = 1;
     }
-    if (h < 1) {
+    यदि (h < 1) {
         h = 1;
     }
 
-    if (SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISUNDEFINED(y) ||
+    यदि (SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISUNDEFINED(y) ||
         SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
         SDL_Rect bounds;
 
-        if ((SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISCENTERED(x)) && (x & 0xFFFF)) {
+        यदि ((SDL_WINDOWPOS_ISUNDEFINED(x) || SDL_WINDOWPOS_ISCENTERED(x)) && (x & 0xFFFF)) {
             displayID = (x & 0xFFFF);
-        } else if ((SDL_WINDOWPOS_ISUNDEFINED(y) || SDL_WINDOWPOS_ISCENTERED(y)) && (y & 0xFFFF)) {
+        } अन्यथा यदि ((SDL_WINDOWPOS_ISUNDEFINED(y) || SDL_WINDOWPOS_ISCENTERED(y)) && (y & 0xFFFF)) {
             displayID = (y & 0xFFFF);
         }
-        if (displayID == 0 || SDL_GetDisplayIndex(displayID) < 0) {
+        यदि (displayID == 0 || SDL_Get_Display_सूचकांक(displayID) < 0) {
             displayID = SDL_GetPrimaryDisplay();
         }
 
         SDL_zero(bounds);
         SDL_GetDisplayUsableBounds(displayID, &bounds);
-        if (w > bounds.w || h > bounds.h) {
+        यदि (w > bounds.w || h > bounds.h) {
             // This window is larger than the usable bounds, just center on the display
             SDL_GetDisplayBounds(displayID, &bounds);
         }
-        if (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISUNDEFINED(x)) {
-            if (SDL_WINDOWPOS_ISUNDEFINED(x)) {
+        यदि (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISUNDEFINED(x)) {
+            यदि (SDL_WINDOWPOS_ISUNDEFINED(x)) {
                 undefined_x = true;
             }
             x = bounds.x + (bounds.w - w) / 2;
         }
-        if (SDL_WINDOWPOS_ISCENTERED(y) || SDL_WINDOWPOS_ISUNDEFINED(y)) {
-            if (SDL_WINDOWPOS_ISUNDEFINED(y)) {
+        यदि (SDL_WINDOWPOS_ISCENTERED(y) || SDL_WINDOWPOS_ISUNDEFINED(y)) {
+            यदि (SDL_WINDOWPOS_ISUNDEFINED(y)) {
                 undefined_y = true;
             }
             y = bounds.y + (bounds.h - h) / 2;
@@ -2516,1194 +2516,1194 @@ SDL_Window *SDL_CreateWindowWithProperties(SDL_PropertiesID props)
     }
 
     // ensure no more than one of these flags is set
-    graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        SDL_SetError("Conflicting window graphics flags specified: 0x%.8x", (unsigned int)graphics_flags);
-        return NULL;
+    graphics_flags = flags & (SDL_गवाक्षः_OPENGL | SDL_गवाक्षः_METAL | SDL_गवाक्षः_VULKAN);
+    यदि (graphics_flags & (graphics_flags - 1)) {
+        SDL_समुच्चयः_Error("Conflicting window graphics flags specified: 0x%.8x", (अचिह्नित पूर्णाङ्क)graphics_flags);
+        प्रत्यागम रिक्त;
     }
 
     // Some platforms have certain graphics backends enabled by default
-    if (!graphics_flags && !external_graphics_context) {
+    यदि (!graphics_flags && !external_graphics_context) {
         flags |= SDL_DefaultGraphicsBackends(_this);
     }
 
-    if (flags & SDL_WINDOW_OPENGL) {
-        if (!_this->GL_CreateContext) {
+    यदि (flags & SDL_गवाक्षः_OPENGL) {
+        यदि (!_this->GL_CreateContext) {
             SDL_ContextNotSupported("OpenGL");
-            return NULL;
+            प्रत्यागम रिक्त;
         }
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return NULL;
+        यदि (!SDL_GL_आरोपय_Library(रिक्त)) {
+            प्रत्यागम रिक्त;
         }
     }
 
-    if (flags & SDL_WINDOW_VULKAN) {
-        if (!_this->Vulkan_CreateSurface) {
+    यदि (flags & SDL_गवाक्षः_VULKAN) {
+        यदि (!_this->Vulkan_CreateSurface) {
             SDL_ContextNotSupported("Vulkan");
-            return NULL;
+            प्रत्यागम रिक्त;
         }
-        if (!SDL_Vulkan_LoadLibrary(NULL)) {
-            return NULL;
+        यदि (!SDL_Vulkan_आरोपय_Library(रिक्त)) {
+            प्रत्यागम रिक्त;
         }
     }
 
-    if (flags & SDL_WINDOW_METAL) {
-        if (!_this->Metal_CreateView) {
+    यदि (flags & SDL_गवाक्षः_METAL) {
+        यदि (!_this->Metal_CreateView) {
             SDL_ContextNotSupported("Metal");
-            return NULL;
+            प्रत्यागम रिक्त;
         }
     }
 
-    window = (SDL_Window *)SDL_calloc(1, sizeof(*window));
-    if (!window) {
-        return NULL;
+    गवाक्षः = (SDL_गवाक्षः *)SDL_calloc(1, परिमाण(*गवाक्षः));
+    यदि (!गवाक्षः) {
+        प्रत्यागम रिक्त;
     }
-    SDL_SetObjectValid(window, SDL_OBJECT_TYPE_WINDOW, true);
-    window->id = SDL_GetNextObjectID();
-    window->floating.x = window->windowed.x = window->x = x;
-    window->floating.y = window->windowed.y = window->y = y;
-    window->floating.w = window->windowed.w = window->w = w;
-    window->floating.h = window->windowed.h = window->h = h;
-    window->undefined_x = undefined_x;
-    window->undefined_y = undefined_y;
-    window->pending_displayID = displayID;
+    SDL_समुच्चयः_Object_Valid(गवाक्षः, SDL_OBJECT_TYPE_गवाक्षः, true);
+    गवाक्षः->id = SDL_Get_अग्र_Object_ID();
+    गवाक्षः->floating.x = गवाक्षः->windowed.x = गवाक्षः->x = x;
+    गवाक्षः->floating.y = गवाक्षः->windowed.y = गवाक्षः->y = y;
+    गवाक्षः->floating.w = गवाक्षः->windowed.w = गवाक्षः->w = w;
+    गवाक्षः->floating.h = गवाक्षः->windowed.h = गवाक्षः->h = h;
+    गवाक्षः->undefined_x = undefined_x;
+    गवाक्षः->undefined_y = undefined_y;
+    गवाक्षः->pending_displayID = displayID;
 
-    SDL_VideoDisplay *display = SDL_GetVideoDisplayForWindow(window);
-    if (display) {
-        SDL_SetWindowHDRProperties(window, &display->HDR, false);
+    SDL_VideoDisplay *display = SDL_Get_Video_Display_For_गवाक्षः(गवाक्षः);
+    यदि (display) {
+        SDL_समुच्चयः_गवाक्षः_HDRProperties(गवाक्षः, &display->HDR, false);
     }
 
-    if (flags & SDL_WINDOW_FULLSCREEN || IsFullscreenOnly(_this)) {
+    यदि (flags & SDL_गवाक्षः_FULLSCREEN || IsFullscreenOnly(_this)) {
         SDL_Rect bounds;
 
         SDL_GetDisplayBounds(display ? display->id : SDL_GetPrimaryDisplay(), &bounds);
-        window->x = bounds.x;
-        window->y = bounds.y;
-        window->w = bounds.w;
-        window->h = bounds.h;
-        window->pending_flags |= SDL_WINDOW_FULLSCREEN;
-        flags |= SDL_WINDOW_FULLSCREEN;
+        गवाक्षः->x = bounds.x;
+        गवाक्षः->y = bounds.y;
+        गवाक्षः->w = bounds.w;
+        गवाक्षः->h = bounds.h;
+        गवाक्षः->pending_flags |= SDL_गवाक्षः_FULLSCREEN;
+        flags |= SDL_गवाक्षः_FULLSCREEN;
     }
 
-    window->flags = ((flags & CREATE_FLAGS) | SDL_WINDOW_HIDDEN);
-    window->display_scale = 1.0f;
-    window->opacity = 1.0f;
-    window->next = _this->windows;
-    window->is_destroying = false;
-    window->displayID = GetDisplayForWindow(window);
-    window->external_graphics_context = external_graphics_context;
-    window->constrain_popup = SDL_GetBooleanProperty(props, SDL_PROP_WINDOW_CREATE_CONSTRAIN_POPUP_BOOLEAN, true);
+    गवाक्षः->flags = ((flags & CREATE_FLAGS) | SDL_गवाक्षः_HIDDEN);
+    गवाक्षः->display_scale = 1.0f;
+    गवाक्षः->opacity = 1.0f;
+    गवाक्षः->अग्र = _this->windows;
+    गवाक्षः->is_destroying = false;
+    गवाक्षः->displayID = Get_Display_For_गवाक्षः(गवाक्षः);
+    गवाक्षः->external_graphics_context = external_graphics_context;
+    गवाक्षः->constrain_popup = SDL_GetBooleanProperty(props, SDL_PROP_गवाक्षः_CREATE_CONSTRAIN_POPUP_BOOLEAN, true);
 
-    if (!_this->SetWindowFillDocument) {
-        window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;  // not an error, just unsupported here, so remove the flag.
+    यदि (!_this->समुच्चयः_गवाक्षः_Fill_Document) {
+        गवाक्षः->flags &= ~SDL_गवाक्षः_FILL_DOCUMENT;  // not an error, just unsupported here, so remove the flag.
     }
 
-    if (_this->windows) {
-        _this->windows->prev = window;
+    यदि (_this->windows) {
+        _this->windows->पूर्व = गवाक्षः;
     }
-    _this->windows = window;
+    _this->windows = गवाक्षः;
 
     // Set the parent before creation.
-    SDL_UpdateWindowHierarchy(window, parent);
+    SDL_Update_गवाक्षः_Hierarchy(गवाक्षः, parent);
 
-    if (_this->CreateSDLWindow && !_this->CreateSDLWindow(_this, window, props)) {
-        SDL_PushError();
-        SDL_DestroyWindow(window);
-        SDL_PopError();
-        return NULL;
+    यदि (_this->CreateSDLWindow && !_this->CreateSDLWindow(_this, गवाक्षः, props)) {
+        SDL_प्रक्षिप_Error();
+        SDL_Destroy_गवाक्षः(गवाक्षः);
+        SDL_निष्कासय_Error();
+        प्रत्यागम रिक्त;
     }
 
     /* Clear minimized if not on windows, only windows handles it at create rather than FinishWindowCreation,
      * but it's important or window focus will get broken on windows!
      */
-#if !defined(SDL_PLATFORM_WINDOWS)
-    if (window->flags & SDL_WINDOW_MINIMIZED) {
-        window->flags &= ~SDL_WINDOW_MINIMIZED;
+#यदि !defined(SDL_PLATFORM_WINDOWS)
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_MINIMIZED) {
+        गवाक्षः->flags &= ~SDL_गवाक्षः_MINIMIZED;
     }
-#endif
+#यदि_अन्तः
 
-    if (title) {
-        SDL_SetWindowTitle(window, title);
+    यदि (title) {
+        SDL_समुच्चयः_गवाक्षः_Title(गवाक्षः, title);
     }
-    SDL_FinishWindowCreation(window, flags);
+    SDL_Finish_गवाक्षः_Creation(गवाक्षः, flags);
 
     // Make sure window pixel size is up to date
-    SDL_CheckWindowPixelSizeChanged(window);
+    SDL_Check_गवाक्षः_Pixel_आकार_परिवर्तितम्(गवाक्षः);
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_UIKIT
     SDL_UpdateLifecycleObserver();
-#endif
+#यदि_अन्तः
 
     SDL_ClearError();
 
-    return window;
+    प्रत्यागम गवाक्षः;
 }
 
-SDL_Window *SDL_CreateWindow(const char *title, int w, int h, SDL_WindowFlags flags)
+SDL_गवाक्षः *SDL_Create_गवाक्षः(ध्रुव वर्ण *title, पूर्णाङ्क w, पूर्णाङ्क h, SDL_गवाक्षः_Flags flags)
 {
-    SDL_Window *window;
+    SDL_गवाक्षः *गवाक्षः;
     SDL_PropertiesID props = SDL_CreateProperties();
-    if (title && *title) {
-        SDL_SetStringProperty(props, SDL_PROP_WINDOW_CREATE_TITLE_STRING, title);
+    यदि (title && *title) {
+        SDL_समुच्चयः_String_Property(props, SDL_PROP_गवाक्षः_CREATE_TITLE_STRING, title);
     }
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
-    window = SDL_CreateWindowWithProperties(props);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_विस्तारः_सङ्ख्या, w);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_HEIGHT_सङ्ख्या, h);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_FLAGS_सङ्ख्या, flags);
+    गवाक्षः = SDL_Create_गवाक्षः_With_Properties(props);
     SDL_DestroyProperties(props);
-    return window;
+    प्रत्यागम गवाक्षः;
 }
 
-SDL_Window *SDL_CreatePopupWindow(SDL_Window *parent, int offset_x, int offset_y, int w, int h, SDL_WindowFlags flags)
+SDL_गवाक्षः *SDL_Create_Popup_गवाक्षः(SDL_गवाक्षः *parent, पूर्णाङ्क विस्थापनम्_x, पूर्णाङ्क विस्थापनम्_y, पूर्णाङ्क w, पूर्णाङ्क h, SDL_गवाक्षः_Flags flags)
 {
-    SDL_Window *window;
+    SDL_गवाक्षः *गवाक्षः;
     SDL_PropertiesID props = SDL_CreateProperties();
 
     // Popups must specify either the tooltip or popup menu window flags
-    if (!(flags & (SDL_WINDOW_TOOLTIP | SDL_WINDOW_POPUP_MENU))) {
-        SDL_SetError("Popup windows must specify either the 'SDL_WINDOW_TOOLTIP' or the 'SDL_WINDOW_POPUP_MENU' flag");
-        return NULL;
+    यदि (!(flags & (SDL_गवाक्षः_TOOLTIP | SDL_गवाक्षः_POPUP_MENU))) {
+        SDL_समुच्चयः_Error("Popup windows must specify either the 'SDL_WINDOW_TOOLTIP' or the 'SDL_WINDOW_POPUP_MENU' flag");
+        प्रत्यागम रिक्त;
     }
 
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_CREATE_PARENT_POINTER, parent);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_X_NUMBER, offset_x);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_Y_NUMBER, offset_y);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_WIDTH_NUMBER, w);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_HEIGHT_NUMBER, h);
-    SDL_SetNumberProperty(props, SDL_PROP_WINDOW_CREATE_FLAGS_NUMBER, flags);
-    window = SDL_CreateWindowWithProperties(props);
+    SDL_समुच्चयः_Pointer_Property(props, SDL_PROP_गवाक्षः_CREATE_PARENT_POINTER, parent);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_X_सङ्ख्या, विस्थापनम्_x);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_Y_सङ्ख्या, विस्थापनम्_y);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_विस्तारः_सङ्ख्या, w);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_HEIGHT_सङ्ख्या, h);
+    SDL_समुच्चयः_सङ्ख्या_Property(props, SDL_PROP_गवाक्षः_CREATE_FLAGS_सङ्ख्या, flags);
+    गवाक्षः = SDL_Create_गवाक्षः_With_Properties(props);
     SDL_DestroyProperties(props);
-    return window;
+    प्रत्यागम गवाक्षः;
 }
 
-static bool SDL_ReconfigureWindowInternal(SDL_Window *window, SDL_WindowFlags flags)
+स्थिर bool SDL_Reconfigure_गवाक्षः_आन्तरिकम्(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः_Flags flags)
 {
     bool loaded_opengl = false;
     bool loaded_vulkan = false;
 
-    if (!_this->ReconfigureWindow) {
-        return false;
+    यदि (!_this->Reconfigure_गवाक्षः) {
+        प्रत्यागम false;
     }
 
-    const SDL_WindowFlags graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        return SDL_SetError("Conflicting window flags specified");
+    ध्रुव SDL_गवाक्षः_Flags graphics_flags = flags & (SDL_गवाक्षः_OPENGL | SDL_गवाक्षः_METAL | SDL_गवाक्षः_VULKAN);
+    यदि (graphics_flags & (graphics_flags - 1)) {
+        प्रत्यागम SDL_समुच्चयः_Error("Conflicting window flags specified");
     }
 
-    if ((flags & SDL_WINDOW_OPENGL) && !_this->GL_CreateContext) {
-        return SDL_ContextNotSupported("OpenGL");
+    यदि ((flags & SDL_गवाक्षः_OPENGL) && !_this->GL_CreateContext) {
+        प्रत्यागम SDL_ContextNotSupported("OpenGL");
     }
-    if ((flags & SDL_WINDOW_VULKAN) && !_this->Vulkan_CreateSurface) {
-        return SDL_ContextNotSupported("Vulkan");
+    यदि ((flags & SDL_गवाक्षः_VULKAN) && !_this->Vulkan_CreateSurface) {
+        प्रत्यागम SDL_ContextNotSupported("Vulkan");
     }
-    if ((flags & SDL_WINDOW_METAL) && !_this->Metal_CreateView) {
-        return SDL_ContextNotSupported("Metal");
+    यदि ((flags & SDL_गवाक्षः_METAL) && !_this->Metal_CreateView) {
+        प्रत्यागम SDL_ContextNotSupported("Metal");
     }
 
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL)) {
         // Only attempt to reconfigure if the window has no existing graphics flags.
-        if (window->flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN)) {
-            return false;
+        यदि (गवाक्षः->flags & (SDL_गवाक्षः_OPENGL | SDL_गवाक्षः_METAL | SDL_गवाक्षः_VULKAN)) {
+            प्रत्यागम false;
         }
-    } else {
+    } अन्यथा {
         // Can't destroy and recreate an external window, so try our best to reconfigure it.
-        if (!_this->ReconfigureWindow(_this, window, 0)) {
-            return false;
+        यदि (!_this->Reconfigure_गवाक्षः(_this, गवाक्षः, 0)) {
+            प्रत्यागम false;
         }
 
         // Reload the GL/Vulkan libraries in case the profile changed.
-        if (window->flags & SDL_WINDOW_OPENGL) {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_VULKAN) {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_VULKAN) {
             SDL_Vulkan_UnloadLibrary();
         }
 
-        window->flags &= ~(SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
+        गवाक्षः->flags &= ~(SDL_गवाक्षः_OPENGL | SDL_गवाक्षः_METAL | SDL_गवाक्षः_VULKAN);
     }
 
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_गवाक्षः_Surface(गवाक्षः);
 
-    if (graphics_flags & SDL_WINDOW_OPENGL) {
-        loaded_opengl = SDL_GL_LoadLibrary(NULL);
-        if (!loaded_opengl) {
-            return false;
+    यदि (graphics_flags & SDL_गवाक्षः_OPENGL) {
+        loaded_opengl = SDL_GL_आरोपय_Library(रिक्त);
+        यदि (!loaded_opengl) {
+            प्रत्यागम false;
         }
-    } else if (graphics_flags & SDL_WINDOW_VULKAN) {
-        loaded_vulkan = SDL_Vulkan_LoadLibrary(NULL);
-        if (!loaded_vulkan) {
-            return false;
+    } अन्यथा यदि (graphics_flags & SDL_गवाक्षः_VULKAN) {
+        loaded_vulkan = SDL_Vulkan_आरोपय_Library(रिक्त);
+        यदि (!loaded_vulkan) {
+            प्रत्यागम false;
         }
     }
 
     // Try to reconfigure the window for the requested graphics flags.
-    if (!_this->ReconfigureWindow(_this, window, graphics_flags)) {
-        if (loaded_opengl) {
+    यदि (!_this->Reconfigure_गवाक्षः(_this, गवाक्षः, graphics_flags)) {
+        यदि (loaded_opengl) {
             SDL_GL_UnloadLibrary();
         }
-        if (loaded_vulkan) {
+        यदि (loaded_vulkan) {
             SDL_Vulkan_UnloadLibrary();
         }
 
-        return false;
+        प्रत्यागम false;
     }
 
-    window->flags |= graphics_flags;
+    गवाक्षः->flags |= graphics_flags;
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_RecreateWindow(SDL_Window *window, SDL_WindowFlags flags)
+bool SDL_Recreate_गवाक्षः(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः_Flags flags)
 {
     bool loaded_opengl = false;
     bool need_gl_unload = false;
-    bool need_gl_load = false;
+    bool need_gl_आरोपय = false;
     bool loaded_vulkan = false;
     bool need_vulkan_unload = false;
-    bool need_vulkan_load = false;
-    SDL_WindowFlags graphics_flags;
+    bool need_vulkan_आरोपय = false;
+    SDL_गवाक्षः_Flags graphics_flags;
 
     // ensure no more than one of these flags is set
-    graphics_flags = flags & (SDL_WINDOW_OPENGL | SDL_WINDOW_METAL | SDL_WINDOW_VULKAN);
-    if (graphics_flags & (graphics_flags - 1)) {
-        return SDL_SetError("Conflicting window flags specified");
+    graphics_flags = flags & (SDL_गवाक्षः_OPENGL | SDL_गवाक्षः_METAL | SDL_गवाक्षः_VULKAN);
+    यदि (graphics_flags & (graphics_flags - 1)) {
+        प्रत्यागम SDL_समुच्चयः_Error("Conflicting window flags specified");
     }
 
-    if ((flags & SDL_WINDOW_OPENGL) && !_this->GL_CreateContext) {
-        return SDL_ContextNotSupported("OpenGL");
+    यदि ((flags & SDL_गवाक्षः_OPENGL) && !_this->GL_CreateContext) {
+        प्रत्यागम SDL_ContextNotSupported("OpenGL");
     }
-    if ((flags & SDL_WINDOW_VULKAN) && !_this->Vulkan_CreateSurface) {
-        return SDL_ContextNotSupported("Vulkan");
+    यदि ((flags & SDL_गवाक्षः_VULKAN) && !_this->Vulkan_CreateSurface) {
+        प्रत्यागम SDL_ContextNotSupported("Vulkan");
     }
-    if ((flags & SDL_WINDOW_METAL) && !_this->Metal_CreateView) {
-        return SDL_ContextNotSupported("Metal");
+    यदि ((flags & SDL_गवाक्षः_METAL) && !_this->Metal_CreateView) {
+        प्रत्यागम SDL_ContextNotSupported("Metal");
     }
 
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL) {
         // Can't destroy and re-create external windows, hrm
-        flags |= SDL_WINDOW_EXTERNAL;
-    } else {
-        flags &= ~SDL_WINDOW_EXTERNAL;
+        flags |= SDL_गवाक्षः_EXTERNAL;
+    } अन्यथा {
+        flags &= ~SDL_गवाक्षः_EXTERNAL;
     }
 
     // If this is a modal dialog, clear the modal status.
-    if (window->flags & SDL_WINDOW_MODAL) {
-        SDL_SetWindowModal(window, false);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_MODAL) {
+        SDL_समुच्चयः_गवाक्षः_Modal(गवाक्षः, false);
     }
 
     // Restore video mode, etc.
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-        const bool restore_on_show = window->restore_on_show;
-        SDL_HideWindow(window);
-        window->restore_on_show = restore_on_show;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL)) {
+        ध्रुव bool restore_on_show = गवाक्षः->restore_on_show;
+        SDL_Hide_गवाक्षः(गवाक्षः);
+        गवाक्षः->restore_on_show = restore_on_show;
     }
 
     // Tear down the old native window
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_गवाक्षः_Surface(गवाक्षः);
 
-    if ((window->flags & SDL_WINDOW_OPENGL) != (flags & SDL_WINDOW_OPENGL)) {
-        if (flags & SDL_WINDOW_OPENGL) {
-            need_gl_load = true;
-        } else {
+    यदि ((गवाक्षः->flags & SDL_गवाक्षः_OPENGL) != (flags & SDL_गवाक्षः_OPENGL)) {
+        यदि (flags & SDL_गवाक्षः_OPENGL) {
+            need_gl_आरोपय = true;
+        } अन्यथा {
             need_gl_unload = true;
         }
-    } else if (window->flags & SDL_WINDOW_OPENGL) {
+    } अन्यथा यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
         need_gl_unload = true;
-        need_gl_load = true;
+        need_gl_आरोपय = true;
     }
 
-    if ((window->flags & SDL_WINDOW_VULKAN) != (flags & SDL_WINDOW_VULKAN)) {
-        if (flags & SDL_WINDOW_VULKAN) {
-            need_vulkan_load = true;
-        } else {
+    यदि ((गवाक्षः->flags & SDL_गवाक्षः_VULKAN) != (flags & SDL_गवाक्षः_VULKAN)) {
+        यदि (flags & SDL_गवाक्षः_VULKAN) {
+            need_vulkan_आरोपय = true;
+        } अन्यथा {
             need_vulkan_unload = true;
         }
-    } else if (window->flags & SDL_WINDOW_VULKAN) {
+    } अन्यथा यदि (गवाक्षः->flags & SDL_गवाक्षः_VULKAN) {
         need_vulkan_unload = true;
-        need_vulkan_load = true;
+        need_vulkan_आरोपय = true;
     }
 
-    if (need_gl_unload) {
+    यदि (need_gl_unload) {
         SDL_GL_UnloadLibrary();
     }
 
-    if (need_vulkan_unload) {
+    यदि (need_vulkan_unload) {
         SDL_Vulkan_UnloadLibrary();
     }
 
-    if (_this->DestroyWindow && !(flags & SDL_WINDOW_EXTERNAL)) {
-        _this->DestroyWindow(_this, window);
+    यदि (_this->Destroy_गवाक्षः && !(flags & SDL_गवाक्षः_EXTERNAL)) {
+        _this->Destroy_गवाक्षः(_this, गवाक्षः);
     }
 
-    if (need_gl_load) {
-        if (!SDL_GL_LoadLibrary(NULL)) {
-            return false;
+    यदि (need_gl_आरोपय) {
+        यदि (!SDL_GL_आरोपय_Library(रिक्त)) {
+            प्रत्यागम false;
         }
         loaded_opengl = true;
     }
 
-    if (need_vulkan_load) {
-        if (!SDL_Vulkan_LoadLibrary(NULL)) {
-            return false;
+    यदि (need_vulkan_आरोपय) {
+        यदि (!SDL_Vulkan_आरोपय_Library(रिक्त)) {
+            प्रत्यागम false;
         }
         loaded_vulkan = true;
     }
 
-    window->flags = ((flags & CREATE_FLAGS) | SDL_WINDOW_HIDDEN);
-    window->is_destroying = false;
+    गवाक्षः->flags = ((flags & CREATE_FLAGS) | SDL_गवाक्षः_HIDDEN);
+    गवाक्षः->is_destroying = false;
 
-    if (_this->CreateSDLWindow && !(flags & SDL_WINDOW_EXTERNAL)) {
+    यदि (_this->CreateSDLWindow && !(flags & SDL_गवाक्षः_EXTERNAL)) {
         /* Reset the window size to the original floating value, so the
          * recreated window has the proper base size.
          */
-        window->x = window->windowed.x = window->floating.x;
-        window->y = window->windowed.y = window->floating.y;
-        window->w = window->windowed.w = window->floating.w;
-        window->h = window->windowed.h = window->floating.h;
+        गवाक्षः->x = गवाक्षः->windowed.x = गवाक्षः->floating.x;
+        गवाक्षः->y = गवाक्षः->windowed.y = गवाक्षः->floating.y;
+        गवाक्षः->w = गवाक्षः->windowed.w = गवाक्षः->floating.w;
+        गवाक्षः->h = गवाक्षः->windowed.h = गवाक्षः->floating.h;
 
-        if (!_this->CreateSDLWindow(_this, window, 0)) {
-            if (loaded_opengl) {
+        यदि (!_this->CreateSDLWindow(_this, गवाक्षः, 0)) {
+            यदि (loaded_opengl) {
                 SDL_GL_UnloadLibrary();
-                window->flags &= ~SDL_WINDOW_OPENGL;
+                गवाक्षः->flags &= ~SDL_गवाक्षः_OPENGL;
             }
-            if (loaded_vulkan) {
+            यदि (loaded_vulkan) {
                 SDL_Vulkan_UnloadLibrary();
-                window->flags &= ~SDL_WINDOW_VULKAN;
+                गवाक्षः->flags &= ~SDL_गवाक्षः_VULKAN;
             }
-            return false;
+            प्रत्यागम false;
         }
     }
 
-    if (flags & SDL_WINDOW_EXTERNAL) {
-        window->flags |= SDL_WINDOW_EXTERNAL;
+    यदि (flags & SDL_गवाक्षः_EXTERNAL) {
+        गवाक्षः->flags |= SDL_गवाक्षः_EXTERNAL;
     }
 
-    if (_this->SetWindowTitle && window->title) {
-        _this->SetWindowTitle(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_Title && गवाक्षः->title) {
+        _this->समुच्चयः_गवाक्षः_Title(_this, गवाक्षः);
     }
 
-    if (_this->SetWindowIcon && window->icon) {
-        _this->SetWindowIcon(_this, window, window->icon);
+    यदि (_this->समुच्चयः_गवाक्षः_Icon && गवाक्षः->icon) {
+        _this->समुच्चयः_गवाक्षः_Icon(_this, गवाक्षः, गवाक्षः->icon);
     }
 
-    if (_this->SetWindowMinimumSize && (window->min_w || window->min_h)) {
-        _this->SetWindowMinimumSize(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_Minimum_आकार && (गवाक्षः->min_w || गवाक्षः->min_h)) {
+        _this->समुच्चयः_गवाक्षः_Minimum_आकार(_this, गवाक्षः);
     }
 
-    if (_this->SetWindowMaximumSize && (window->max_w || window->max_h)) {
-        _this->SetWindowMaximumSize(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_अधिकतमम्_आकार && (गवाक्षः->max_w || गवाक्षः->max_h)) {
+        _this->समुच्चयः_गवाक्षः_अधिकतमम्_आकार(_this, गवाक्षः);
     }
 
-    if (_this->SetWindowAspectRatio && (window->min_aspect > 0.0f || window->max_aspect > 0.0f)) {
-        _this->SetWindowAspectRatio(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_Aspect_अनुपातः && (गवाक्षः->min_aspect > 0.0f || गवाक्षः->max_aspect > 0.0f)) {
+        _this->समुच्चयः_गवाक्षः_Aspect_अनुपातः(_this, गवाक्षः);
     }
 
-    if (window->hit_test) {
-        _this->SetWindowHitTest(window, true);
+    यदि (गवाक्षः->लब्धम्_test) {
+        _this->समुच्चयः_गवाक्षः_लब्धम्_Test(गवाक्षः, true);
     }
 
-    SDL_FinishWindowCreation(window, flags);
+    SDL_Finish_गवाक्षः_Creation(गवाक्षः, flags);
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_ReconfigureWindow(SDL_Window *window, SDL_WindowFlags flags)
+bool SDL_Reconfigure_गवाक्षः(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः_Flags flags)
 {
     // Try to reconfigure the window for the desired flags first, before completely destroying and recreating it.
-    if (!SDL_ReconfigureWindowInternal(window, flags)) {
-        return SDL_RecreateWindow(window, flags);
+    यदि (!SDL_Reconfigure_गवाक्षः_आन्तरिकम्(गवाक्षः, flags)) {
+        प्रत्यागम SDL_Recreate_गवाक्षः(गवाक्षः, flags);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_HasWindows(void)
+bool SDL_HasWindows(शून्य)
 {
-    return _this && _this->windows;
+    प्रत्यागम _this && _this->windows;
 }
 
-SDL_WindowID SDL_GetWindowID(SDL_Window *window)
+SDL_गवाक्षः_ID SDL_Get_गवाक्षः_ID(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0);
 
-    return window->id;
+    प्रत्यागम गवाक्षः->id;
 }
 
-SDL_Window *SDL_GetWindowFromID(SDL_WindowID id)
+SDL_गवाक्षः *SDL_Get_गवाक्षः_From_ID(SDL_गवाक्षः_ID id)
 {
-    SDL_Window *window;
+    SDL_गवाक्षः *गवाक्षः;
 
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    if (id) {
-        for (window = _this->windows; window; window = window->next) {
-            if (window->id == id) {
-                return window;
+    यदि (id) {
+        प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+            यदि (गवाक्षः->id == id) {
+                प्रत्यागम गवाक्षः;
             }
         }
     }
-    SDL_SetError("Invalid window ID");
-    return NULL;
+    SDL_समुच्चयः_Error("Invalid window ID");
+    प्रत्यागम रिक्त;
 }
 
-SDL_Window *SDL_GetWindowParent(SDL_Window *window)
+SDL_गवाक्षः *SDL_Get_गवाक्षः_Parent(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, रिक्त);
 
-    return window->parent;
+    प्रत्यागम गवाक्षः->parent;
 }
 
-SDL_PropertiesID SDL_GetWindowProperties(SDL_Window *window)
+SDL_PropertiesID SDL_Get_गवाक्षः_Properties(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0);
 
-    if (window->props == 0) {
-        window->props = SDL_CreateProperties();
+    यदि (गवाक्षः->props == 0) {
+        गवाक्षः->props = SDL_CreateProperties();
     }
-    return window->props;
+    प्रत्यागम गवाक्षः->props;
 }
 
-SDL_WindowFlags SDL_GetWindowFlags(SDL_Window *window)
+SDL_गवाक्षः_Flags SDL_Get_गवाक्षः_Flags(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, 0);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, 0);
 
-    return window->flags | window->pending_flags;
+    प्रत्यागम गवाक्षः->flags | गवाक्षः->pending_flags;
 }
 
-bool SDL_SetWindowTitle(SDL_Window *window, const char *title)
+bool SDL_समुच्चयः_गवाक्षः_Title(SDL_गवाक्षः *गवाक्षः, ध्रुव वर्ण *title)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (title == window->title) {
-        return true;
+    यदि (title == गवाक्षः->title) {
+        प्रत्यागम true;
     }
-    if (!title) {
+    यदि (!title) {
         title = "";
     }
-    if (window->title && SDL_strcmp(title, window->title) == 0) {
-        return true;
+    यदि (गवाक्षः->title && SDL_strcmp(title, गवाक्षः->title) == 0) {
+        प्रत्यागम true;
     }
 
-    SDL_free(window->title);
+    SDL_free(गवाक्षः->title);
 
-    window->title = SDL_strdup(title);
+    गवाक्षः->title = SDL_strdup(title);
 
-    if (_this->SetWindowTitle) {
-        _this->SetWindowTitle(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_Title) {
+        _this->समुच्चयः_गवाक्षः_Title(_this, गवाक्षः);
     }
-    return true;
+    प्रत्यागम true;
 }
 
-const char *SDL_GetWindowTitle(SDL_Window *window)
+ध्रुव वर्ण *SDL_Get_गवाक्षः_Title(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, "");
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, "");
 
-    return window->title ? window->title : "";
+    प्रत्यागम गवाक्षः->title ? गवाक्षः->title : "";
 }
 
-bool SDL_SetWindowIcon(SDL_Window *window, SDL_Surface *icon)
+bool SDL_समुच्चयः_गवाक्षः_Icon(SDL_गवाक्षः *गवाक्षः, SDL_Surface *icon)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
     CHECK_PARAM(!icon) {
-        return SDL_InvalidParamError("icon");
+        प्रत्यागम SDL_InvalidParamError("icon");
     }
 
-    SDL_DestroySurface(window->icon);
+    SDL_DestroySurface(गवाक्षः->icon);
 
     // Convert the icon into ARGB8888
-    window->icon = SDL_ConvertSurface(icon, SDL_PIXELFORMAT_ARGB8888);
-    if (!window->icon) {
-        return false;
+    गवाक्षः->icon = SDL_ConvertSurface(icon, SDL_PIXELFORMAT_ARGB8888);
+    यदि (!गवाक्षः->icon) {
+        प्रत्यागम false;
     }
 
-    if (!_this->SetWindowIcon) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Icon) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    return _this->SetWindowIcon(_this, window, window->icon);
+    प्रत्यागम _this->समुच्चयः_गवाक्षः_Icon(_this, गवाक्षः, गवाक्षः->icon);
 }
 
-bool SDL_SetWindowPosition(SDL_Window *window, int x, int y)
+bool SDL_समुच्चयः_गवाक्षः_Position(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क x, पूर्णाङ्क y)
 {
     SDL_DisplayID original_displayID;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    const int w = window->last_size_pending ? window->pending.w : window->windowed.w;
-    const int h = window->last_size_pending ? window->pending.h : window->windowed.h;
+    ध्रुव पूर्णाङ्क w = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.w : गवाक्षः->windowed.w;
+    ध्रुव पूर्णाङ्क h = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.h : गवाक्षः->windowed.h;
 
-    original_displayID = GetDisplayForWindow(window);
-    window->pending_displayID = 0;
+    original_displayID = Get_Display_For_गवाक्षः(गवाक्षः);
+    गवाक्षः->pending_displayID = 0;
 
-    if (SDL_WINDOWPOS_ISUNDEFINED(x)) {
-        x = window->windowed.x;
+    यदि (SDL_WINDOWPOS_ISUNDEFINED(x)) {
+        x = गवाक्षः->windowed.x;
     }
-    if (SDL_WINDOWPOS_ISUNDEFINED(y)) {
-        y = window->windowed.y;
+    यदि (SDL_WINDOWPOS_ISUNDEFINED(y)) {
+        y = गवाक्षः->windowed.y;
     }
-    if (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
+    यदि (SDL_WINDOWPOS_ISCENTERED(x) || SDL_WINDOWPOS_ISCENTERED(y)) {
         SDL_DisplayID displayID = original_displayID;
         SDL_Rect bounds;
 
-        if (SDL_WINDOWPOS_ISCENTERED(x) && (x & 0xFFFF)) {
+        यदि (SDL_WINDOWPOS_ISCENTERED(x) && (x & 0xFFFF)) {
             displayID = (x & 0xFFFF);
-        } else if (SDL_WINDOWPOS_ISCENTERED(y) && (y & 0xFFFF)) {
+        } अन्यथा यदि (SDL_WINDOWPOS_ISCENTERED(y) && (y & 0xFFFF)) {
             displayID = (y & 0xFFFF);
         }
-        if (displayID == 0 || SDL_GetDisplayIndex(displayID) < 0) {
+        यदि (displayID == 0 || SDL_Get_Display_सूचकांक(displayID) < 0) {
             displayID = SDL_GetPrimaryDisplay();
         }
 
-        window->pending_displayID = displayID;
+        गवाक्षः->pending_displayID = displayID;
 
         SDL_zero(bounds);
-        if (!SDL_GetDisplayUsableBounds(displayID, &bounds) || w > bounds.w || h > bounds.h) {
-            if (!SDL_GetDisplayBounds(displayID, &bounds)) {
-                return false;
+        यदि (!SDL_GetDisplayUsableBounds(displayID, &bounds) || w > bounds.w || h > bounds.h) {
+            यदि (!SDL_GetDisplayBounds(displayID, &bounds)) {
+                प्रत्यागम false;
             }
         }
-        if (SDL_WINDOWPOS_ISCENTERED(x)) {
+        यदि (SDL_WINDOWPOS_ISCENTERED(x)) {
             x = bounds.x + (bounds.w - w) / 2;
         }
-        if (SDL_WINDOWPOS_ISCENTERED(y)) {
+        यदि (SDL_WINDOWPOS_ISCENTERED(y)) {
             y = bounds.y + (bounds.h - h) / 2;
         }
-    } else {
+    } अन्यथा {
         /* See if the requested window position matches the origin of any displays and set
          * the pending fullscreen display ID if it does. This needs to be set early in case
          * the window is prevented from moving to the exact origin due to struts.
          */
-        window->pending_displayID = GetDisplayAtOrigin(x, y);
+        गवाक्षः->pending_displayID = GetDisplayAtOrigin(x, y);
     }
 
-    window->pending.x = x;
-    window->pending.y = y;
+    गवाक्षः->pending.x = x;
+    गवाक्षः->pending.y = y;
 
     /* Windows are placed at the coordinates received while in fullscreen after leaving fullscreen.
      * Asynchronous backends need special handling in this case.
      */
-    if (!_this->SyncWindow && (window->flags & SDL_WINDOW_FULLSCREEN)) {
-        window->floating.x = window->windowed.x = x;
-        window->floating.y = window->windowed.y = y;
+    यदि (!_this->Sync_गवाक्षः && (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN)) {
+        गवाक्षः->floating.x = गवाक्षः->windowed.x = x;
+        गवाक्षः->floating.y = गवाक्षः->windowed.y = y;
     }
-    window->undefined_x = false;
-    window->undefined_y = false;
-    window->last_position_pending = true;
+    गवाक्षः->undefined_x = false;
+    गवाक्षः->undefined_y = false;
+    गवाक्षः->चरमः_position_pending = true;
 
-    if (_this->SetWindowPosition) {
-        const bool result = _this->SetWindowPosition(_this, window);
-        if (result) {
-            SDL_SyncIfRequired(window);
+    यदि (_this->समुच्चयः_गवाक्षः_Position) {
+        ध्रुव bool परिणाम = _this->समुच्चयः_गवाक्षः_Position(_this, गवाक्षः);
+        यदि (परिणाम) {
+            SDL_SyncIfRequired(गवाक्षः);
         }
-        return result;
+        प्रत्यागम परिणाम;
     }
 
-    return SDL_Unsupported();
+    प्रत्यागम SDL_Unsupported();
 }
 
-bool SDL_GetWindowPosition(SDL_Window *window, int *x, int *y)
+bool SDL_Get_गवाक्षः_Position(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *x, पूर्णाङ्क *y)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-#ifdef SDL_PLATFORM_MACOS
+#यदि_परिभाषितम् SDL_PLATFORM_MACOS
     // On newer MacBooks, the fullscreen window might be placed below the camera notch, so use the actual window position
     bool use_display_origin = false;
-#else
+#अन्यथा
     // Fullscreen windows are always at their display's origin
-    bool use_display_origin = ((window->flags & SDL_WINDOW_FULLSCREEN) != 0);
-#endif
-    if (use_display_origin) {
+    bool use_display_origin = ((गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) != 0);
+#यदि_अन्तः
+    यदि (use_display_origin) {
         SDL_DisplayID displayID;
 
-        if (x) {
+        यदि (x) {
             *x = 0;
         }
-        if (y) {
+        यदि (y) {
             *y = 0;
         }
 
         /* Find the window's monitor and update to the
            monitor offset. */
-        displayID = GetDisplayForWindow(window);
-        if (displayID != 0) {
+        displayID = Get_Display_For_गवाक्षः(गवाक्षः);
+        यदि (displayID != 0) {
             SDL_Rect bounds;
 
             SDL_zero(bounds);
 
             SDL_GetDisplayBounds(displayID, &bounds);
-            if (x) {
+            यदि (x) {
                 *x = bounds.x;
             }
-            if (y) {
+            यदि (y) {
                 *y = bounds.y;
             }
         }
-    } else {
-        const bool use_pending = (window->flags & SDL_WINDOW_HIDDEN) && window->last_position_pending;
-        if (x) {
-            *x = use_pending ? window->pending.x : window->x;
+    } अन्यथा {
+        ध्रुव bool use_pending = (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) && गवाक्षः->चरमः_position_pending;
+        यदि (x) {
+            *x = use_pending ? गवाक्षः->pending.x : गवाक्षः->x;
         }
-        if (y) {
-            *y = use_pending ? window->pending.y : window->y;
+        यदि (y) {
+            *y = use_pending ? गवाक्षः->pending.y : गवाक्षः->y;
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowBordered(SDL_Window *window, bool bordered)
+bool SDL_समुच्चयः_गवाक्षः_Bordered(SDL_गवाक्षः *गवाक्षः, bool bordered)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (!_this->SetWindowBordered) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Bordered) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    const bool want = bordered;
-    const bool have = !(window->flags & SDL_WINDOW_BORDERLESS);
-    if (want != have) {
-        if (want) {
-            window->flags &= ~SDL_WINDOW_BORDERLESS;
-        } else {
-            window->flags |= SDL_WINDOW_BORDERLESS;
+    ध्रुव bool want = bordered;
+    ध्रुव bool have = !(गवाक्षः->flags & SDL_गवाक्षः_BORDERLESS);
+    यदि (want != have) {
+        यदि (want) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_BORDERLESS;
+        } अन्यथा {
+            गवाक्षः->flags |= SDL_गवाक्षः_BORDERLESS;
         }
-        _this->SetWindowBordered(_this, window, want);
+        _this->समुच्चयः_गवाक्षः_Bordered(_this, गवाक्षः, want);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowResizable(SDL_Window *window, bool resizable)
+bool SDL_समुच्चयः_गवाक्षः_Resizable(SDL_गवाक्षः *गवाक्षः, bool resizable)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (!_this->SetWindowResizable) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Resizable) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    const bool want = resizable;
-    const bool have = ((window->flags & SDL_WINDOW_RESIZABLE) != 0);
-    if (want != have) {
-        if (want) {
-            window->flags |= SDL_WINDOW_RESIZABLE;
-        } else {
-            window->flags &= ~SDL_WINDOW_RESIZABLE;
-            SDL_copyp(&window->windowed, &window->floating);
+    ध्रुव bool want = resizable;
+    ध्रुव bool have = ((गवाक्षः->flags & SDL_गवाक्षः_RESIZABLE) != 0);
+    यदि (want != have) {
+        यदि (want) {
+            गवाक्षः->flags |= SDL_गवाक्षः_RESIZABLE;
+        } अन्यथा {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_RESIZABLE;
+            SDL_copyp(&गवाक्षः->windowed, &गवाक्षः->floating);
         }
-        _this->SetWindowResizable(_this, window, want);
+        _this->समुच्चयः_गवाक्षः_Resizable(_this, गवाक्षः, want);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowAlwaysOnTop(SDL_Window *window, bool on_top)
+bool SDL_समुच्चयः_गवाक्षः_Always_On_शिखरम्(SDL_गवाक्षः *गवाक्षः, bool on_शिखरम्)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (!_this->SetWindowAlwaysOnTop) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Always_On_शिखरम्) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    const bool want = on_top;
-    const bool have = ((window->flags & SDL_WINDOW_ALWAYS_ON_TOP) != 0);
-    if (want != have) {
-        if (want) {
-            window->flags |= SDL_WINDOW_ALWAYS_ON_TOP;
-        } else {
-            window->flags &= ~SDL_WINDOW_ALWAYS_ON_TOP;
+    ध्रुव bool want = on_शिखरम्;
+    ध्रुव bool have = ((गवाक्षः->flags & SDL_गवाक्षः_ALWAYS_ON_शिखरम्) != 0);
+    यदि (want != have) {
+        यदि (want) {
+            गवाक्षः->flags |= SDL_गवाक्षः_ALWAYS_ON_शिखरम्;
+        } अन्यथा {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_ALWAYS_ON_शिखरम्;
         }
-        _this->SetWindowAlwaysOnTop(_this, window, want);
+        _this->समुच्चयः_गवाक्षः_Always_On_शिखरम्(_this, गवाक्षः, want);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowSize(SDL_Window *window, int w, int h)
+bool SDL_समुच्चयः_गवाक्षः_आकार(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क w, पूर्णाङ्क h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
     CHECK_PARAM(w <= 0) {
-        return SDL_InvalidParamError("w");
+        प्रत्यागम SDL_InvalidParamError("w");
     }
     CHECK_PARAM(h <= 0) {
-        return SDL_InvalidParamError("h");
+        प्रत्यागम SDL_InvalidParamError("h");
     }
 
     // It is possible for the aspect ratio constraints to not satisfy the size constraints.
     // The size constraints will override the aspect ratio constraints so we will apply the
     // the aspect ratio constraints first
-    float new_aspect = w / (float)h;
-    if (window->max_aspect > 0.0f && new_aspect > window->max_aspect) {
-        w = (int)SDL_roundf(h * window->max_aspect);
-    } else if (window->min_aspect > 0.0f && new_aspect < window->min_aspect) {
-        h = (int)SDL_roundf(w / window->min_aspect);
+    भिन्न new_aspect = w / (भिन्न)h;
+    यदि (गवाक्षः->max_aspect > 0.0f && new_aspect > गवाक्षः->max_aspect) {
+        w = (पूर्णाङ्क)SDL_roundf(h * गवाक्षः->max_aspect);
+    } अन्यथा यदि (गवाक्षः->min_aspect > 0.0f && new_aspect < गवाक्षः->min_aspect) {
+        h = (पूर्णाङ्क)SDL_roundf(w / गवाक्षः->min_aspect);
     }
 
     // Make sure we don't exceed any window size limits
-    if (window->min_w && w < window->min_w) {
-        w = window->min_w;
+    यदि (गवाक्षः->min_w && w < गवाक्षः->min_w) {
+        w = गवाक्षः->min_w;
     }
-    if (window->max_w && w > window->max_w) {
-        w = window->max_w;
+    यदि (गवाक्षः->max_w && w > गवाक्षः->max_w) {
+        w = गवाक्षः->max_w;
     }
-    if (window->min_h && h < window->min_h) {
-        h = window->min_h;
+    यदि (गवाक्षः->min_h && h < गवाक्षः->min_h) {
+        h = गवाक्षः->min_h;
     }
-    if (window->max_h && h > window->max_h) {
-        h = window->max_h;
+    यदि (गवाक्षः->max_h && h > गवाक्षः->max_h) {
+        h = गवाक्षः->max_h;
     }
 
-    window->last_size_pending = true;
-    window->pending.w = w;
-    window->pending.h = h;
+    गवाक्षः->चरमः_आकार_pending = true;
+    गवाक्षः->pending.w = w;
+    गवाक्षः->pending.h = h;
 
-    if (_this->SetWindowSize) {
-        _this->SetWindowSize(_this, window);
-        SDL_SyncIfRequired(window);
-    } else {
-        return SDL_Unsupported();
+    यदि (_this->समुच्चयः_गवाक्षः_आकार) {
+        _this->समुच्चयः_गवाक्षः_आकार(_this, गवाक्षः);
+        SDL_SyncIfRequired(गवाक्षः);
+    } अन्यथा {
+        प्रत्यागम SDL_Unsupported();
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_GetWindowSize(SDL_Window *window, int *w, int *h)
+bool SDL_Get_गवाक्षः_आकार(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *w, पूर्णाङ्क *h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (w) {
-        *w = window->w;
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    यदि (w) {
+        *w = गवाक्षः->w;
     }
-    if (h) {
-        *h = window->h;
+    यदि (h) {
+        *h = गवाक्षः->h;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowAspectRatio(SDL_Window *window, float min_aspect, float max_aspect)
+bool SDL_समुच्चयः_गवाक्षः_Aspect_अनुपातः(SDL_गवाक्षः *गवाक्षः, भिन्न min_aspect, भिन्न max_aspect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    window->min_aspect = min_aspect;
-    window->max_aspect = max_aspect;
+    गवाक्षः->min_aspect = min_aspect;
+    गवाक्षः->max_aspect = max_aspect;
 
-    if (_this->SetWindowAspectRatio) {
-        _this->SetWindowAspectRatio(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_Aspect_अनुपातः) {
+        _this->समुच्चयः_गवाक्षः_Aspect_अनुपातः(_this, गवाक्षः);
     }
 
     // Ensure that window has the correct aspect ratio
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    पूर्णाङ्क w = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.w : गवाक्षः->floating.w;
+    पूर्णाङ्क h = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.h : गवाक्षः->floating.h;
+    प्रत्यागम SDL_समुच्चयः_गवाक्षः_आकार(गवाक्षः, w, h);
 }
 
-bool SDL_GetWindowAspectRatio(SDL_Window *window, float *min_aspect, float *max_aspect)
+bool SDL_Get_गवाक्षः_Aspect_अनुपातः(SDL_गवाक्षः *गवाक्षः, भिन्न *min_aspect, भिन्न *max_aspect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (min_aspect) {
-        *min_aspect = window->min_aspect;
+    यदि (min_aspect) {
+        *min_aspect = गवाक्षः->min_aspect;
     }
-    if (max_aspect) {
-        *max_aspect = window->max_aspect;
+    यदि (max_aspect) {
+        *max_aspect = गवाक्षः->max_aspect;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_GetWindowBordersSize(SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool SDL_Get_गवाक्षः_Borders_आकार(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *शिखरम्, पूर्णाङ्क *वामः, पूर्णाङ्क *bottom, पूर्णाङ्क *दक्षिणः)
 {
-    int dummy = 0;
+    पूर्णाङ्क dummy = 0;
 
-    if (!top) {
-        top = &dummy;
+    यदि (!शिखरम्) {
+        शिखरम् = &dummy;
     }
-    if (!left) {
-        left = &dummy;
+    यदि (!वामः) {
+        वामः = &dummy;
     }
-    if (!right) {
-        right = &dummy;
+    यदि (!दक्षिणः) {
+        दक्षिणः = &dummy;
     }
-    if (!bottom) {
+    यदि (!bottom) {
         bottom = &dummy;
     }
 
     // Always initialize, so applications don't have to care
-    *top = *left = *bottom = *right = 0;
+    *शिखरम् = *वामः = *bottom = *दक्षिणः = 0;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!_this->GetWindowBordersSize) {
-        return SDL_Unsupported();
+    यदि (!_this->Get_गवाक्षः_Borders_आकार) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    return _this->GetWindowBordersSize(_this, window, top, left, bottom, right);
+    प्रत्यागम _this->Get_गवाक्षः_Borders_आकार(_this, गवाक्षः, शिखरम्, वामः, bottom, दक्षिणः);
 }
 
-bool SDL_GetWindowSizeInPixels(SDL_Window *window, int *w, int *h)
+bool SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *w, पूर्णाङ्क *h)
 {
-    int filter;
+    पूर्णाङ्क filter;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!w) {
+    यदि (!w) {
         w = &filter;
     }
 
-    if (!h) {
+    यदि (!h) {
         h = &filter;
     }
 
-    if (_this->GetWindowSizeInPixels) {
-        _this->GetWindowSizeInPixels(_this, window, w, h);
-    } else {
-        SDL_DisplayID displayID = GetDisplayForWindow(window);
-        const SDL_DisplayMode *mode;
+    यदि (_this->Get_गवाक्षः_आकार_अन्तर्_Pixels) {
+        _this->Get_गवाक्षः_आकार_अन्तर्_Pixels(_this, गवाक्षः, w, h);
+    } अन्यथा {
+        SDL_DisplayID displayID = Get_Display_For_गवाक्षः(गवाक्षः);
+        ध्रुव SDL_Display_बहुलकम् *बहुलकम्;
 
-        SDL_GetWindowSize(window, w, h);
+        SDL_Get_गवाक्षः_आकार(गवाक्षः, w, h);
 
-        if ((window->flags & SDL_WINDOW_FULLSCREEN) && SDL_GetWindowFullscreenMode(window)) {
-            mode = SDL_GetCurrentDisplayMode(displayID);
-        } else {
-            mode = SDL_GetDesktopDisplayMode(displayID);
+        यदि ((गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) && SDL_Get_गवाक्षः_Fullscreen_बहुलकम्(गवाक्षः)) {
+            बहुलकम् = SDL_Get_Current_Display_बहुलकम्(displayID);
+        } अन्यथा {
+            बहुलकम् = SDL_Get_Desktop_Display_बहुलकम्(displayID);
         }
-        if (mode) {
-            *w = (int)SDL_ceilf(*w * mode->pixel_density);
-            *h = (int)SDL_ceilf(*h * mode->pixel_density);
+        यदि (बहुलकम्) {
+            *w = (पूर्णाङ्क)SDL_ceilf(*w * बहुलकम्->pixel_density);
+            *h = (पूर्णाङ्क)SDL_ceilf(*h * बहुलकम्->pixel_density);
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowMinimumSize(SDL_Window *window, int min_w, int min_h)
+bool SDL_समुच्चयः_गवाक्षः_Minimum_आकार(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क min_w, पूर्णाङ्क min_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
     CHECK_PARAM(min_w < 0) {
-        return SDL_InvalidParamError("min_w");
+        प्रत्यागम SDL_InvalidParamError("min_w");
     }
     CHECK_PARAM(min_h < 0) {
-        return SDL_InvalidParamError("min_h");
+        प्रत्यागम SDL_InvalidParamError("min_h");
     }
 
-    CHECK_PARAM((window->max_w && min_w > window->max_w) || (window->max_h && min_h > window->max_h)) {
-        return SDL_SetError("SDL_SetWindowMinimumSize(): Tried to set minimum size larger than maximum size");
+    CHECK_PARAM((गवाक्षः->max_w && min_w > गवाक्षः->max_w) || (गवाक्षः->max_h && min_h > गवाक्षः->max_h)) {
+        प्रत्यागम SDL_समुच्चयः_Error("SDL_SetWindowMinimumSize(): Tried to set minimum size larger than maximum size");
     }
 
-    window->min_w = min_w;
-    window->min_h = min_h;
+    गवाक्षः->min_w = min_w;
+    गवाक्षः->min_h = min_h;
 
-    if (_this->SetWindowMinimumSize) {
-        _this->SetWindowMinimumSize(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_Minimum_आकार) {
+        _this->समुच्चयः_गवाक्षः_Minimum_आकार(_this, गवाक्षः);
     }
 
     // Ensure that window is not smaller than minimal size
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    पूर्णाङ्क w = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.w : गवाक्षः->floating.w;
+    पूर्णाङ्क h = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.h : गवाक्षः->floating.h;
+    प्रत्यागम SDL_समुच्चयः_गवाक्षः_आकार(गवाक्षः, w, h);
 }
 
-bool SDL_GetWindowMinimumSize(SDL_Window *window, int *min_w, int *min_h)
+bool SDL_Get_गवाक्षः_Minimum_आकार(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *min_w, पूर्णाङ्क *min_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (min_w) {
-        *min_w = window->min_w;
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    यदि (min_w) {
+        *min_w = गवाक्षः->min_w;
     }
-    if (min_h) {
-        *min_h = window->min_h;
+    यदि (min_h) {
+        *min_h = गवाक्षः->min_h;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowMaximumSize(SDL_Window *window, int max_w, int max_h)
+bool SDL_समुच्चयः_गवाक्षः_अधिकतमम्_आकार(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क max_w, पूर्णाङ्क max_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
     CHECK_PARAM(max_w < 0) {
-        return SDL_InvalidParamError("max_w");
+        प्रत्यागम SDL_InvalidParamError("max_w");
     }
     CHECK_PARAM(max_h < 0) {
-        return SDL_InvalidParamError("max_h");
+        प्रत्यागम SDL_InvalidParamError("max_h");
     }
 
-    if ((max_w && max_w < window->min_w) ||
-        (max_h && max_h < window->min_h)) {
-        return SDL_SetError("SDL_SetWindowMaximumSize(): Tried to set maximum size smaller than minimum size");
+    यदि ((max_w && max_w < गवाक्षः->min_w) ||
+        (max_h && max_h < गवाक्षः->min_h)) {
+        प्रत्यागम SDL_समुच्चयः_Error("SDL_SetWindowMaximumSize(): Tried to set maximum size smaller than minimum size");
     }
 
-    window->max_w = max_w;
-    window->max_h = max_h;
+    गवाक्षः->max_w = max_w;
+    गवाक्षः->max_h = max_h;
 
-    if (_this->SetWindowMaximumSize) {
-        _this->SetWindowMaximumSize(_this, window);
+    यदि (_this->समुच्चयः_गवाक्षः_अधिकतमम्_आकार) {
+        _this->समुच्चयः_गवाक्षः_अधिकतमम्_आकार(_this, गवाक्षः);
     }
 
     // Ensure that window is not larger than maximal size
-    int w = window->last_size_pending ? window->pending.w : window->floating.w;
-    int h = window->last_size_pending ? window->pending.h : window->floating.h;
-    return SDL_SetWindowSize(window, w, h);
+    पूर्णाङ्क w = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.w : गवाक्षः->floating.w;
+    पूर्णाङ्क h = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.h : गवाक्षः->floating.h;
+    प्रत्यागम SDL_समुच्चयः_गवाक्षः_आकार(गवाक्षः, w, h);
 }
 
-bool SDL_GetWindowMaximumSize(SDL_Window *window, int *max_w, int *max_h)
+bool SDL_Get_गवाक्षः_अधिकतमम्_आकार(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *max_w, पूर्णाङ्क *max_h)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    if (max_w) {
-        *max_w = window->max_w;
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    यदि (max_w) {
+        *max_w = गवाक्षः->max_w;
     }
-    if (max_h) {
-        *max_h = window->max_h;
+    यदि (max_h) {
+        *max_h = गवाक्षः->max_h;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_ShowWindow(SDL_Window *window)
+bool SDL_Show_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_Window *child;
-    CHECK_WINDOW_MAGIC(window, false);
+    SDL_गवाक्षः *child;
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-        return true;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_HIDDEN)) {
+        प्रत्यागम true;
     }
 
     // If the parent is hidden, set the flag to restore this when the parent is shown
-    if (window->parent && (window->parent->flags & SDL_WINDOW_HIDDEN)) {
-        window->restore_on_show = true;
-        return true;
+    यदि (गवाक्षः->parent && (गवाक्षः->parent->flags & SDL_गवाक्षः_HIDDEN)) {
+        गवाक्षः->restore_on_show = true;
+        प्रत्यागम true;
     }
 
-    if (_this->ShowWindow) {
-        _this->ShowWindow(_this, window);
-    } else {
-        SDL_SetMouseFocus(window);
-        SDL_SetKeyboardFocus(window);
+    यदि (_this->Show_गवाक्षः) {
+        _this->Show_गवाक्षः(_this, गवाक्षः);
+    } अन्यथा {
+        SDL_समुच्चयः_Mouse_Focus(गवाक्षः);
+        SDL_समुच्चयः_Keyboard_Focus(गवाक्षः);
     }
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SHOWN, 0, 0);
+    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_SHOWN, 0, 0);
 
     // Restore child windows
-    for (child = window->first_child; child; child = child->next_sibling) {
-        if (!child->restore_on_show && (child->flags & SDL_WINDOW_HIDDEN)) {
-            break;
+    प्रति (child = गवाक्षः->first_child; child; child = child->अग्र_sibling) {
+        यदि (!child->restore_on_show && (child->flags & SDL_गवाक्षः_HIDDEN)) {
+            भङ्ग;
         }
-        SDL_ShowWindow(child);
+        SDL_Show_गवाक्षः(child);
         child->restore_on_show = false;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_HideWindow(SDL_Window *window)
+bool SDL_Hide_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_Window *child;
-    CHECK_WINDOW_MAGIC(window, false);
+    SDL_गवाक्षः *child;
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->restore_on_show = false;
-        return true;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        गवाक्षः->restore_on_show = false;
+        प्रत्यागम true;
     }
 
     // Hide all child windows
-    for (child = window->first_child; child; child = child->next_sibling) {
-        if (child->flags & SDL_WINDOW_HIDDEN) {
-            break;
+    प्रति (child = गवाक्षः->first_child; child; child = child->अग्र_sibling) {
+        यदि (child->flags & SDL_गवाक्षः_HIDDEN) {
+            भङ्ग;
         }
-        SDL_HideWindow(child);
+        SDL_Hide_गवाक्षः(child);
         child->restore_on_show = true;
     }
 
     // Store the flags for restoration later.
-    const SDL_WindowFlags pending_mask = (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_KEYBOARD_GRABBED | SDL_WINDOW_MOUSE_GRABBED);
-    window->pending_flags = (window->flags & pending_mask);
+    ध्रुव SDL_गवाक्षः_Flags pending_आवरणम् = (SDL_गवाक्षः_MAXIMIZED | SDL_गवाक्षः_MINIMIZED | SDL_गवाक्षः_FULLSCREEN | SDL_गवाक्षः_KEYBOARD_GRABBED | SDL_गवाक्षः_MOUSE_GRABBED);
+    गवाक्षः->pending_flags = (गवाक्षः->flags & pending_आवरणम्);
 
-    window->is_hiding = true;
-    if (_this->HideWindow) {
-        _this->HideWindow(_this, window);
-    } else {
-        SDL_SetMouseFocus(NULL);
-        SDL_SetKeyboardFocus(NULL);
+    गवाक्षः->is_hiding = true;
+    यदि (_this->Hide_गवाक्षः) {
+        _this->Hide_गवाक्षः(_this, गवाक्षः);
+    } अन्यथा {
+        SDL_समुच्चयः_Mouse_Focus(रिक्त);
+        SDL_समुच्चयः_Keyboard_Focus(रिक्त);
     }
-    window->is_hiding = false;
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_HIDDEN, 0, 0);
-    return true;
+    गवाक्षः->is_hiding = false;
+    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_HIDDEN, 0, 0);
+    प्रत्यागम true;
 }
 
-bool SDL_RaiseWindow(SDL_Window *window)
+bool SDL_Raise_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        return true;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        प्रत्यागम true;
     }
-    if (_this->RaiseWindow) {
-        _this->RaiseWindow(_this, window);
+    यदि (_this->Raise_गवाक्षः) {
+        _this->Raise_गवाक्षः(_this, गवाक्षः);
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_MaximizeWindow(SDL_Window *window)
+bool SDL_Maximize_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (!_this->MaximizeWindow) {
-        return SDL_Unsupported();
+    यदि (!_this->Maximize_गवाक्षः) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    if (!(window->flags & SDL_WINDOW_RESIZABLE)) {
-        return SDL_SetError("A window without the 'SDL_WINDOW_RESIZABLE' flag can't be maximized");
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_RESIZABLE)) {
+        प्रत्यागम SDL_समुच्चयः_Error("A window without the 'SDL_WINDOW_RESIZABLE' flag can't be maximized");
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags |= SDL_WINDOW_MAXIMIZED;
-        return true;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        गवाक्षः->pending_flags |= SDL_गवाक्षः_MAXIMIZED;
+        प्रत्यागम true;
     }
 
-    _this->MaximizeWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Maximize_गवाक्षः(_this, गवाक्षः);
+    SDL_SyncIfRequired(गवाक्षः);
+    प्रत्यागम true;
 }
 
-bool SDL_MinimizeWindow(SDL_Window *window)
+bool SDL_Minimize_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (!_this->MinimizeWindow) {
-        return SDL_Unsupported();
+    यदि (!_this->Minimize_गवाक्षः) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags |= SDL_WINDOW_MINIMIZED;
-        return true;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        गवाक्षः->pending_flags |= SDL_गवाक्षः_MINIMIZED;
+        प्रत्यागम true;
     }
 
-    _this->MinimizeWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Minimize_गवाक्षः(_this, गवाक्षः);
+    SDL_SyncIfRequired(गवाक्षः);
+    प्रत्यागम true;
 }
 
-bool SDL_RestoreWindow(SDL_Window *window)
+bool SDL_Restore_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (!_this->RestoreWindow) {
-        return SDL_Unsupported();
+    यदि (!_this->Restore_गवाक्षः) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        window->pending_flags &= ~(SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED);
-        return true;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        गवाक्षः->pending_flags &= ~(SDL_गवाक्षः_MAXIMIZED | SDL_गवाक्षः_MINIMIZED);
+        प्रत्यागम true;
     }
 
-    _this->RestoreWindow(_this, window);
-    SDL_SyncIfRequired(window);
-    return true;
+    _this->Restore_गवाक्षः(_this, गवाक्षः);
+    SDL_SyncIfRequired(गवाक्षः);
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowFullscreen(SDL_Window *window, bool fullscreen)
+bool SDL_समुच्चयः_गवाक्षः_Fullscreen(SDL_गवाक्षः *गवाक्षः, bool fullscreen)
 {
-    bool result;
+    bool परिणाम;
 
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (fullscreen) {
-            window->pending_flags |= SDL_WINDOW_FULLSCREEN;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_FULLSCREEN;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        यदि (fullscreen) {
+            गवाक्षः->pending_flags |= SDL_गवाक्षः_FULLSCREEN;
+        } अन्यथा {
+            गवाक्षः->pending_flags &= ~SDL_गवाक्षः_FULLSCREEN;
         }
-        return true;
+        प्रत्यागम true;
     }
 
-    if (fullscreen) {
+    यदि (fullscreen) {
         // Set the current fullscreen mode to the desired mode
-        SDL_copyp(&window->current_fullscreen_mode, &window->requested_fullscreen_mode);
+        SDL_copyp(&गवाक्षः->current_fullscreen_बहुलकम्, &गवाक्षः->requested_fullscreen_बहुलकम्);
     }
 
-    result = SDL_UpdateFullscreenMode(window, fullscreen ? SDL_FULLSCREEN_OP_ENTER : SDL_FULLSCREEN_OP_LEAVE, true);
+    परिणाम = SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, fullscreen ? SDL_FULLSCREEN_OP_ENTER : SDL_FULLSCREEN_OP_LEAVE, true);
 
-    if (!fullscreen || !result) {
+    यदि (!fullscreen || !परिणाम) {
         // Clear the current fullscreen mode.
-        SDL_zero(window->current_fullscreen_mode);
+        SDL_zero(गवाक्षः->current_fullscreen_बहुलकम्);
     }
 
-    if (result) {
-        SDL_SyncIfRequired(window);
+    यदि (परिणाम) {
+        SDL_SyncIfRequired(गवाक्षः);
     }
 
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-bool SDL_SyncWindow(SDL_Window *window)
+bool SDL_Sync_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (_this->SyncWindow) {
-        return _this->SyncWindow(_this, window);
-    } else {
-        return true;
+    यदि (_this->Sync_गवाक्षः) {
+        प्रत्यागम _this->Sync_गवाक्षः(_this, गवाक्षः);
+    } अन्यथा {
+        प्रत्यागम true;
     }
 }
 
-static bool ShouldAttemptTextureFramebuffer(void)
+स्थिर bool ShouldAttemptTextureFramebuffer(शून्य)
 {
-    const char *hint;
+    ध्रुव वर्ण *hint;
     bool attempt_texture_framebuffer;
 
     // If the driver doesn't support window framebuffers, always use the render API.
-    if (!_this->CreateWindowFramebuffer) {
-        return true;
+    यदि (!_this->Create_गवाक्षः_Framebuffer) {
+        प्रत्यागम true;
     }
 
     // See if there's a hint override
     hint = SDL_GetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION);
-    if (hint && *hint) {
-        if (*hint == '0' || SDL_strcasecmp(hint, "false") == 0 || SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) == 0) {
+    यदि (hint && *hint) {
+        यदि (*hint == '0' || SDL_strcasecmp(hint, "false") == 0 || SDL_strcasecmp(hint, SDL_SOFTWARE_RENDERER) == 0) {
             attempt_texture_framebuffer = false;
-        } else {
+        } अन्यथा {
             attempt_texture_framebuffer = true;
         }
-    } else {
-        if (SDL_DriverHasSlowFramebuffer(_this)) {
+    } अन्यथा {
+        यदि (SDL_DriverHasSlowFramebuffer(_this)) {
             attempt_texture_framebuffer = true;
-        } else {
+        } अन्यथा {
             attempt_texture_framebuffer = false;
         }
     }
-    return attempt_texture_framebuffer;
+    प्रत्यागम attempt_texture_framebuffer;
 }
 
-static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
+स्थिर SDL_Surface *SDL_Create_गवाक्षः_Framebuffer(SDL_गवाक्षः *गवाक्षः)
 {
     SDL_PixelFormat format = SDL_PIXELFORMAT_UNKNOWN;
-    void *pixels = NULL;
-    int pitch = 0;
+    शून्य *pixels = रिक्त;
+    पूर्णाङ्क pitch = 0;
     bool created_framebuffer = false;
-    int w, h;
+    पूर्णाङ्क w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &w, &h);
 
     /* This will switch the video backend from using a software surface to
        using a GPU texture through the 2D render API, if we think this would
        be more efficient. This only checks once, on demand. */
-    if (!_this->checked_texture_framebuffer) {
-        if (ShouldAttemptTextureFramebuffer()) {
-            if (!SDL_CreateWindowTexture(_this, window, &format, &pixels, &pitch)) {
+    यदि (!_this->checked_texture_framebuffer) {
+        यदि (ShouldAttemptTextureFramebuffer()) {
+            यदि (!SDL_Create_गवाक्षः_Texture(_this, गवाक्षः, &format, &pixels, &pitch)) {
                 /* !!! FIXME: if this failed halfway (made renderer, failed to make texture, etc),
                    !!! FIXME:  we probably need to clean this up so it doesn't interfere with
                    !!! FIXME:  a software fallback at the system level (can we blit to an
                    !!! FIXME:  OpenGL window? etc). */
-            } else {
+            } अन्यथा {
                 // future attempts will just try to use a texture framebuffer.
                 /* !!! FIXME:  maybe we shouldn't override these but check if we used a texture
                    !!! FIXME:  framebuffer at the right places; is it feasible we could have an
                    !!! FIXME:  accelerated OpenGL window and a second ends up in software? */
-                _this->CreateWindowFramebuffer = SDL_CreateWindowTexture;
-                _this->SetWindowFramebufferVSync = SDL_SetWindowTextureVSync;
-                _this->GetWindowFramebufferVSync = SDL_GetWindowTextureVSync;
-                _this->UpdateWindowFramebuffer = SDL_UpdateWindowTexture;
-                _this->DestroyWindowFramebuffer = SDL_DestroyWindowTexture;
+                _this->Create_गवाक्षः_Framebuffer = SDL_Create_गवाक्षः_Texture;
+                _this->समुच्चयः_गवाक्षः_Framebuffer_VSync = SDL_समुच्चयः_गवाक्षः_Texture_VSync;
+                _this->Get_गवाक्षः_Framebuffer_VSync = SDL_Get_गवाक्षः_Texture_VSync;
+                _this->Update_गवाक्षः_Framebuffer = SDL_Update_गवाक्षः_Texture;
+                _this->Destroy_गवाक्षः_Framebuffer = SDL_Destroy_गवाक्षः_Texture;
                 created_framebuffer = true;
             }
         }
@@ -3711,459 +3711,459 @@ static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
         _this->checked_texture_framebuffer = true; // don't check this again.
     }
 
-    if (!created_framebuffer) {
-        if (!_this->CreateWindowFramebuffer || !_this->UpdateWindowFramebuffer) {
-            SDL_SetError("Window framebuffer support not available");
-            return NULL;
+    यदि (!created_framebuffer) {
+        यदि (!_this->Create_गवाक्षः_Framebuffer || !_this->Update_गवाक्षः_Framebuffer) {
+            SDL_समुच्चयः_Error("Window framebuffer support not available");
+            प्रत्यागम रिक्त;
         }
 
-        if (!_this->CreateWindowFramebuffer(_this, window, &format, &pixels, &pitch)) {
-            return NULL;
+        यदि (!_this->Create_गवाक्षः_Framebuffer(_this, गवाक्षः, &format, &pixels, &pitch)) {
+            प्रत्यागम रिक्त;
         }
     }
 
-    if (window->surface) {
+    यदि (गवाक्षः->surface) {
         // We may have gone recursive and already created the surface
-        return window->surface;
+        प्रत्यागम गवाक्षः->surface;
     }
 
-    return SDL_CreateSurfaceFrom(w, h, format, pixels, pitch);
+    प्रत्यागम SDL_CreateSurfaceFrom(w, h, format, pixels, pitch);
 }
 
-bool SDL_WindowHasSurface(SDL_Window *window)
+bool SDL_गवाक्षः_Has_Surface(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    return window->surface ? true : false;
+    प्रत्यागम गवाक्षः->surface ? true : false;
 }
 
-SDL_Surface *SDL_GetWindowSurface(SDL_Window *window)
+SDL_Surface *SDL_Get_गवाक्षः_Surface(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, रिक्त);
 
-    if (!window->surface_valid) {
-        if (window->surface) {
-            window->surface->internal_flags &= ~SDL_INTERNAL_SURFACE_DONTFREE;
-            SDL_DestroySurface(window->surface);
-            window->surface = NULL;
+    यदि (!गवाक्षः->surface_valid) {
+        यदि (गवाक्षः->surface) {
+            गवाक्षः->surface->आन्तरिकम्_flags &= ~SDL_आन्तरिकम्_SURFACE_DONTFREE;
+            SDL_DestroySurface(गवाक्षः->surface);
+            गवाक्षः->surface = रिक्त;
         }
 
-        window->surface = SDL_CreateWindowFramebuffer(window);
-        if (window->surface) {
-            window->surface_valid = true;
-            window->surface->internal_flags |= SDL_INTERNAL_SURFACE_DONTFREE;
+        गवाक्षः->surface = SDL_Create_गवाक्षः_Framebuffer(गवाक्षः);
+        यदि (गवाक्षः->surface) {
+            गवाक्षः->surface_valid = true;
+            गवाक्षः->surface->आन्तरिकम्_flags |= SDL_आन्तरिकम्_SURFACE_DONTFREE;
         }
     }
-    return window->surface;
+    प्रत्यागम गवाक्षः->surface;
 }
 
-bool SDL_SetWindowSurfaceVSync(SDL_Window *window, int vsync)
+bool SDL_समुच्चयः_गवाक्षः_Surface_VSync(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क vsync)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!_this->SetWindowFramebufferVSync) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Framebuffer_VSync) {
+        प्रत्यागम SDL_Unsupported();
     }
-    return _this->SetWindowFramebufferVSync(_this, window, vsync);
+    प्रत्यागम _this->समुच्चयः_गवाक्षः_Framebuffer_VSync(_this, गवाक्षः, vsync);
 }
 
-bool SDL_GetWindowSurfaceVSync(SDL_Window *window, int *vsync)
+bool SDL_Get_गवाक्षः_Surface_VSync(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *vsync)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!_this->GetWindowFramebufferVSync) {
-        return SDL_Unsupported();
+    यदि (!_this->Get_गवाक्षः_Framebuffer_VSync) {
+        प्रत्यागम SDL_Unsupported();
     }
-    return _this->GetWindowFramebufferVSync(_this, window, vsync);
+    प्रत्यागम _this->Get_गवाक्षः_Framebuffer_VSync(_this, गवाक्षः, vsync);
 }
 
-bool SDL_UpdateWindowSurface(SDL_Window *window)
+bool SDL_Update_गवाक्षः_Surface(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_Rect full_rect;
+    SDL_Rect पूर्णम्_rect;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    full_rect.x = 0;
-    full_rect.y = 0;
-    SDL_GetWindowSizeInPixels(window, &full_rect.w, &full_rect.h);
+    पूर्णम्_rect.x = 0;
+    पूर्णम्_rect.y = 0;
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &पूर्णम्_rect.w, &पूर्णम्_rect.h);
 
-    return SDL_UpdateWindowSurfaceRects(window, &full_rect, 1);
+    प्रत्यागम SDL_Update_गवाक्षः_Surface_Rects(गवाक्षः, &पूर्णम्_rect, 1);
 }
 
-bool SDL_UpdateWindowSurfaceRects(SDL_Window *window, const SDL_Rect *rects,
-                                 int numrects)
+bool SDL_Update_गवाक्षः_Surface_Rects(SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rects,
+                                 पूर्णाङ्क numrects)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!window->surface_valid) {
-        return SDL_SetError("Window surface is invalid, please call SDL_GetWindowSurface() to get a new surface");
+    यदि (!गवाक्षः->surface_valid) {
+        प्रत्यागम SDL_समुच्चयः_Error("Window surface is invalid, please call SDL_GetWindowSurface() to get a new surface");
     }
 
     SDL_assert(_this->checked_texture_framebuffer); // we should have done this before we had a valid surface.
 
-    return _this->UpdateWindowFramebuffer(_this, window, rects, numrects);
+    प्रत्यागम _this->Update_गवाक्षः_Framebuffer(_this, गवाक्षः, rects, numrects);
 }
 
-bool SDL_DestroyWindowSurface(SDL_Window *window)
+bool SDL_Destroy_गवाक्षः_Surface(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (window->surface) {
-        window->surface->internal_flags &= ~SDL_INTERNAL_SURFACE_DONTFREE;
-        SDL_DestroySurface(window->surface);
-        window->surface = NULL;
-        window->surface_valid = false;
+    यदि (गवाक्षः->surface) {
+        गवाक्षः->surface->आन्तरिकम्_flags &= ~SDL_आन्तरिकम्_SURFACE_DONTFREE;
+        SDL_DestroySurface(गवाक्षः->surface);
+        गवाक्षः->surface = रिक्त;
+        गवाक्षः->surface_valid = false;
     }
 
-    if (_this->checked_texture_framebuffer) { // never checked? No framebuffer to destroy. Don't risk calling the wrong implementation.
-        if (_this->DestroyWindowFramebuffer) {
-            _this->DestroyWindowFramebuffer(_this, window);
+    यदि (_this->checked_texture_framebuffer) { // never checked? No framebuffer to destroy. Don't risk calling the wrong implementation.
+        यदि (_this->Destroy_गवाक्षः_Framebuffer) {
+            _this->Destroy_गवाक्षः_Framebuffer(_this, गवाक्षः);
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowOpacity(SDL_Window *window, float opacity)
+bool SDL_समुच्चयः_गवाक्षः_Opacity(SDL_गवाक्षः *गवाक्षः, भिन्न opacity)
 {
-    bool result;
+    bool परिणाम;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!_this->SetWindowOpacity) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Opacity) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    if (opacity < 0.0f) {
+    यदि (opacity < 0.0f) {
         opacity = 0.0f;
-    } else if (opacity > 1.0f) {
+    } अन्यथा यदि (opacity > 1.0f) {
         opacity = 1.0f;
     }
 
-    result = _this->SetWindowOpacity(_this, window, opacity);
-    if (result) {
-        window->opacity = opacity;
+    परिणाम = _this->समुच्चयः_गवाक्षः_Opacity(_this, गवाक्षः, opacity);
+    यदि (परिणाम) {
+        गवाक्षः->opacity = opacity;
     }
 
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-float SDL_GetWindowOpacity(SDL_Window *window)
+भिन्न SDL_Get_गवाक्षः_Opacity(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, -1.0f);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, -1.0f);
 
-    return window->opacity;
+    प्रत्यागम गवाक्षः->opacity;
 }
 
-bool SDL_SetWindowParent(SDL_Window *window, SDL_Window *parent)
+bool SDL_समुच्चयः_गवाक्षः_Parent(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः *parent)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (parent) {
-        CHECK_WINDOW_MAGIC(parent, false);
-        CHECK_WINDOW_NOT_POPUP(parent, false);
+    यदि (parent) {
+        CHECK_गवाक्षः_MAGIC(parent, false);
+        CHECK_गवाक्षः_NOT_POPUP(parent, false);
     }
 
-    if (window == parent) {
-        return SDL_SetError("Cannot set the parent of a window to itself.");
+    यदि (गवाक्षः == parent) {
+        प्रत्यागम SDL_समुच्चयः_Error("Cannot set the parent of a window to itself.");
     }
 
-    if (!_this->SetWindowParent) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Parent) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    if (window->flags & SDL_WINDOW_MODAL) {
-        return SDL_SetError("Modal windows cannot change parents; call SDL_SetWindowModal() to clear modal status first.");
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_MODAL) {
+        प्रत्यागम SDL_समुच्चयः_Error("Modal windows cannot change parents; call SDL_SetWindowModal() to clear modal status first.");
     }
 
-    if (window->parent == parent) {
-        return true;
+    यदि (गवाक्षः->parent == parent) {
+        प्रत्यागम true;
     }
 
-    const bool ret = _this->SetWindowParent(_this, window, parent);
-    SDL_UpdateWindowHierarchy(window, ret ? parent : NULL);
+    ध्रुव bool ret = _this->समुच्चयः_गवाक्षः_Parent(_this, गवाक्षः, parent);
+    SDL_Update_गवाक्षः_Hierarchy(गवाक्षः, ret ? parent : रिक्त);
 
-    return ret;
+    प्रत्यागम ret;
 }
 
-bool SDL_SetWindowModal(SDL_Window *window, bool modal)
+bool SDL_समुच्चयः_गवाक्षः_Modal(SDL_गवाक्षः *गवाक्षः, bool modal)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (!_this->SetWindowModal) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Modal) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    if (modal) {
-        if (!window->parent) {
-            return SDL_SetError("Window must have a parent to enable the modal state; use SDL_SetWindowParent() to set the parent first.");
+    यदि (modal) {
+        यदि (!गवाक्षः->parent) {
+            प्रत्यागम SDL_समुच्चयः_Error("Window must have a parent to enable the modal state; use SDL_SetWindowParent() to set the parent first.");
         }
-        window->flags |= SDL_WINDOW_MODAL;
-    } else if (window->flags & SDL_WINDOW_MODAL) {
-        window->flags &= ~SDL_WINDOW_MODAL;
-    } else {
-        return true; // Already not modal, so nothing to do.
+        गवाक्षः->flags |= SDL_गवाक्षः_MODAL;
+    } अन्यथा यदि (गवाक्षः->flags & SDL_गवाक्षः_MODAL) {
+        गवाक्षः->flags &= ~SDL_गवाक्षः_MODAL;
+    } अन्यथा {
+        प्रत्यागम true; // Already not modal, so nothing to do.
     }
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        return true;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        प्रत्यागम true;
     }
 
-    return _this->SetWindowModal(_this, window, modal);
+    प्रत्यागम _this->समुच्चयः_गवाक्षः_Modal(_this, गवाक्षः, modal);
 }
 
-bool SDL_ShouldRelinquishPopupFocus(SDL_Window *window, SDL_Window **new_focus)
+bool SDL_ShouldRelinquishPopupFocus(SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः **new_focus)
 {
-    SDL_Window *focus = window->parent;
-    bool set_focus = !!(window->flags & SDL_WINDOW_INPUT_FOCUS);
+    SDL_गवाक्षः *focus = गवाक्षः->parent;
+    bool समुच्चयः_focus = !!(गवाक्षः->flags & SDL_गवाक्षः_निवेशः_FOCUS);
 
     // Find the highest level window, up to the toplevel parent, that isn't being hidden or destroyed, and can grab the keyboard focus.
-    while (SDL_WINDOW_IS_POPUP(focus) && ((focus->flags & SDL_WINDOW_NOT_FOCUSABLE) || focus->is_hiding || focus->is_destroying)) {
+    यावत् (SDL_गवाक्षः_IS_POPUP(focus) && ((focus->flags & SDL_गवाक्षः_NOT_FOCUSABLE) || focus->is_hiding || focus->is_destroying)) {
         focus = focus->parent;
 
         // If some window in the chain currently had focus, set it to the new lowest-level window.
-        if (!set_focus) {
-            set_focus = !!(focus->flags & SDL_WINDOW_INPUT_FOCUS);
+        यदि (!समुच्चयः_focus) {
+            समुच्चयः_focus = !!(focus->flags & SDL_गवाक्षः_निवेशः_FOCUS);
         }
     }
 
     *new_focus = focus;
-    return set_focus;
+    प्रत्यागम समुच्चयः_focus;
 }
 
-bool SDL_ShouldFocusPopup(SDL_Window *window)
+bool SDL_ShouldFocusPopup(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_Window *toplevel_parent;
-    for (toplevel_parent = window->parent; SDL_WINDOW_IS_POPUP(toplevel_parent); toplevel_parent = toplevel_parent->parent) {
+    SDL_गवाक्षः *toplevel_parent;
+    प्रति (toplevel_parent = गवाक्षः->parent; SDL_गवाक्षः_IS_POPUP(toplevel_parent); toplevel_parent = toplevel_parent->parent) {
     }
 
-    SDL_Window *current_focus = toplevel_parent->keyboard_focus;
-    bool found_higher_focus = false;
+    SDL_गवाक्षः *current_focus = toplevel_parent->keyboard_focus;
+    bool प्राप्तम्_higher_focus = false;
 
     /* Traverse the window tree from the currently focused window to the toplevel parent and see if we encounter
      * the new focus request. If the new window is found, a higher-level window already has focus.
      */
-    SDL_Window *w;
-    for (w = current_focus; w != toplevel_parent; w = w->parent) {
-        if (w == window) {
-            found_higher_focus = true;
-            break;
+    SDL_गवाक्षः *w;
+    प्रति (w = current_focus; w != toplevel_parent; w = w->parent) {
+        यदि (w == गवाक्षः) {
+            प्राप्तम्_higher_focus = true;
+            भङ्ग;
         }
     }
 
-    return !found_higher_focus || w == toplevel_parent;
+    प्रत्यागम !प्राप्तम्_higher_focus || w == toplevel_parent;
 }
 
-bool SDL_SetWindowFocusable(SDL_Window *window, bool focusable)
+bool SDL_समुच्चयः_गवाक्षः_Focusable(SDL_गवाक्षः *गवाक्षः, bool focusable)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    const bool want = (focusable != false); // normalize the flag.
-    const bool have = !(window->flags & SDL_WINDOW_NOT_FOCUSABLE);
-    if ((want != have) && (_this->SetWindowFocusable)) {
-        if (want) {
-            window->flags &= ~SDL_WINDOW_NOT_FOCUSABLE;
-        } else {
-            window->flags |= SDL_WINDOW_NOT_FOCUSABLE;
+    ध्रुव bool want = (focusable != false); // normalize the flag.
+    ध्रुव bool have = !(गवाक्षः->flags & SDL_गवाक्षः_NOT_FOCUSABLE);
+    यदि ((want != have) && (_this->समुच्चयः_गवाक्षः_Focusable)) {
+        यदि (want) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_NOT_FOCUSABLE;
+        } अन्यथा {
+            गवाक्षः->flags |= SDL_गवाक्षः_NOT_FOCUSABLE;
         }
-        if (!_this->SetWindowFocusable(_this, window, want)) {
-            return false;
+        यदि (!_this->समुच्चयः_गवाक्षः_Focusable(_this, गवाक्षः, want)) {
+            प्रत्यागम false;
         }
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowFillDocument(SDL_Window *window, bool fill)
+bool SDL_समुच्चयः_गवाक्षः_Fill_Document(SDL_गवाक्षः *गवाक्षः, bool fill)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    const bool want = (fill != false); // normalize the flag.
-    const bool have = ((window->flags & SDL_WINDOW_FILL_DOCUMENT) != 0);
-    if ((want != have) && (_this->SetWindowFillDocument)) {
-        if (!_this->SetWindowFillDocument(_this, window, want)) {
-            return false;
-        } else if (want) {
-            window->flags |= SDL_WINDOW_FILL_DOCUMENT;
-        } else {
-            window->flags &= ~SDL_WINDOW_FILL_DOCUMENT;
+    ध्रुव bool want = (fill != false); // normalize the flag.
+    ध्रुव bool have = ((गवाक्षः->flags & SDL_गवाक्षः_FILL_DOCUMENT) != 0);
+    यदि ((want != have) && (_this->समुच्चयः_गवाक्षः_Fill_Document)) {
+        यदि (!_this->समुच्चयः_गवाक्षः_Fill_Document(_this, गवाक्षः, want)) {
+            प्रत्यागम false;
+        } अन्यथा यदि (want) {
+            गवाक्षः->flags |= SDL_गवाक्षः_FILL_DOCUMENT;
+        } अन्यथा {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_FILL_DOCUMENT;
         }
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-void SDL_UpdateWindowGrab(SDL_Window *window)
+शून्य SDL_Update_गवाक्षः_Grab(SDL_गवाक्षः *गवाक्षः)
 {
     bool keyboard_grabbed, mouse_grabbed;
 
-    if (window->flags & SDL_WINDOW_INPUT_FOCUS) {
-        if (SDL_GetMouse()->relative_mode || (window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_निवेशः_FOCUS) {
+        यदि (SDL_GetMouse()->relative_बहुलकम् || (गवाक्षः->flags & SDL_गवाक्षः_MOUSE_GRABBED)) {
             mouse_grabbed = true;
-        } else {
+        } अन्यथा {
             mouse_grabbed = false;
         }
 
-        if (window->flags & SDL_WINDOW_KEYBOARD_GRABBED) {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_KEYBOARD_GRABBED) {
             keyboard_grabbed = true;
-        } else {
+        } अन्यथा {
             keyboard_grabbed = false;
         }
-    } else {
+    } अन्यथा {
         mouse_grabbed = false;
         keyboard_grabbed = false;
     }
 
-    if (mouse_grabbed || keyboard_grabbed) {
-        if (_this->grabbed_window && (_this->grabbed_window != window)) {
+    यदि (mouse_grabbed || keyboard_grabbed) {
+        यदि (_this->grabbed_गवाक्षः && (_this->grabbed_गवाक्षः != गवाक्षः)) {
             // stealing a grab from another window!
-            _this->grabbed_window->flags &= ~(SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED);
-            if (_this->SetWindowMouseGrab) {
-                _this->SetWindowMouseGrab(_this, _this->grabbed_window, false);
+            _this->grabbed_गवाक्षः->flags &= ~(SDL_गवाक्षः_MOUSE_GRABBED | SDL_गवाक्षः_KEYBOARD_GRABBED);
+            यदि (_this->समुच्चयः_गवाक्षः_Mouse_Grab) {
+                _this->समुच्चयः_गवाक्षः_Mouse_Grab(_this, _this->grabbed_गवाक्षः, false);
             }
-            if (_this->SetWindowKeyboardGrab) {
-                _this->SetWindowKeyboardGrab(_this, _this->grabbed_window, false);
+            यदि (_this->समुच्चयः_गवाक्षः_Keyboard_Grab) {
+                _this->समुच्चयः_गवाक्षः_Keyboard_Grab(_this, _this->grabbed_गवाक्षः, false);
             }
         }
-        _this->grabbed_window = window;
-    } else if (_this->grabbed_window == window) {
-        _this->grabbed_window = NULL; // ungrabbing input.
+        _this->grabbed_गवाक्षः = गवाक्षः;
+    } अन्यथा यदि (_this->grabbed_गवाक्षः == गवाक्षः) {
+        _this->grabbed_गवाक्षः = रिक्त; // ungrabbing input.
     }
 
-    if (_this->SetWindowMouseGrab) {
-        if (!_this->SetWindowMouseGrab(_this, window, mouse_grabbed)) {
-            window->flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    यदि (_this->समुच्चयः_गवाक्षः_Mouse_Grab) {
+        यदि (!_this->समुच्चयः_गवाक्षः_Mouse_Grab(_this, गवाक्षः, mouse_grabbed)) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_MOUSE_GRABBED;
         }
     }
-    if (_this->SetWindowKeyboardGrab) {
-        if (!_this->SetWindowKeyboardGrab(_this, window, keyboard_grabbed)) {
-            window->flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    यदि (_this->समुच्चयः_गवाक्षः_Keyboard_Grab) {
+        यदि (!_this->समुच्चयः_गवाक्षः_Keyboard_Grab(_this, गवाक्षः, keyboard_grabbed)) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_KEYBOARD_GRABBED;
         }
     }
 
-    if (_this->grabbed_window && !(_this->grabbed_window->flags & (SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED))) {
-        _this->grabbed_window = NULL;
+    यदि (_this->grabbed_गवाक्षः && !(_this->grabbed_गवाक्षः->flags & (SDL_गवाक्षः_MOUSE_GRABBED | SDL_गवाक्षः_KEYBOARD_GRABBED))) {
+        _this->grabbed_गवाक्षः = रिक्त;
     }
 }
 
-bool SDL_SetWindowKeyboardGrab(SDL_Window *window, bool grabbed)
+bool SDL_समुच्चयः_गवाक्षः_Keyboard_Grab(SDL_गवाक्षः *गवाक्षः, bool grabbed)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (grabbed) {
-            window->pending_flags |= SDL_WINDOW_KEYBOARD_GRABBED;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        यदि (grabbed) {
+            गवाक्षः->pending_flags |= SDL_गवाक्षः_KEYBOARD_GRABBED;
+        } अन्यथा {
+            गवाक्षः->pending_flags &= ~SDL_गवाक्षः_KEYBOARD_GRABBED;
         }
-        return true;
+        प्रत्यागम true;
     }
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        return true;
+    यदि (!!grabbed == !!(गवाक्षः->flags & SDL_गवाक्षः_KEYBOARD_GRABBED)) {
+        प्रत्यागम true;
     }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_KEYBOARD_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_KEYBOARD_GRABBED;
+    यदि (grabbed) {
+        गवाक्षः->flags |= SDL_गवाक्षः_KEYBOARD_GRABBED;
+    } अन्यथा {
+        गवाक्षः->flags &= ~SDL_गवाक्षः_KEYBOARD_GRABBED;
     }
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_गवाक्षः_Grab(गवाक्षः);
 
-    if (grabbed && !(window->flags & SDL_WINDOW_KEYBOARD_GRABBED)) {
-        return false;
+    यदि (grabbed && !(गवाक्षः->flags & SDL_गवाक्षः_KEYBOARD_GRABBED)) {
+        प्रत्यागम false;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetWindowMouseGrab(SDL_Window *window, bool grabbed)
+bool SDL_समुच्चयः_गवाक्षः_Mouse_Grab(SDL_गवाक्षः *गवाक्षः, bool grabbed)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (window->flags & SDL_WINDOW_HIDDEN) {
-        if (grabbed) {
-            window->pending_flags |= SDL_WINDOW_MOUSE_GRABBED;
-        } else {
-            window->pending_flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_HIDDEN) {
+        यदि (grabbed) {
+            गवाक्षः->pending_flags |= SDL_गवाक्षः_MOUSE_GRABBED;
+        } अन्यथा {
+            गवाक्षः->pending_flags &= ~SDL_गवाक्षः_MOUSE_GRABBED;
         }
-        return true;
+        प्रत्यागम true;
     }
 
-    if (!!grabbed == !!(window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-        return true;
+    यदि (!!grabbed == !!(गवाक्षः->flags & SDL_गवाक्षः_MOUSE_GRABBED)) {
+        प्रत्यागम true;
     }
-    if (grabbed) {
-        window->flags |= SDL_WINDOW_MOUSE_GRABBED;
-    } else {
-        window->flags &= ~SDL_WINDOW_MOUSE_GRABBED;
+    यदि (grabbed) {
+        गवाक्षः->flags |= SDL_गवाक्षः_MOUSE_GRABBED;
+    } अन्यथा {
+        गवाक्षः->flags &= ~SDL_गवाक्षः_MOUSE_GRABBED;
     }
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_गवाक्षः_Grab(गवाक्षः);
 
-    if (grabbed && !(window->flags & SDL_WINDOW_MOUSE_GRABBED)) {
-        return false;
+    यदि (grabbed && !(गवाक्षः->flags & SDL_गवाक्षः_MOUSE_GRABBED)) {
+        प्रत्यागम false;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_GetWindowKeyboardGrab(SDL_Window *window)
+bool SDL_Get_गवाक्षः_Keyboard_Grab(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_KEYBOARD_GRABBED);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    प्रत्यागम गवाक्षः == _this->grabbed_गवाक्षः && (_this->grabbed_गवाक्षः->flags & SDL_गवाक्षः_KEYBOARD_GRABBED);
 }
 
-bool SDL_GetWindowMouseGrab(SDL_Window *window)
+bool SDL_Get_गवाक्षः_Mouse_Grab(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    return window == _this->grabbed_window && (_this->grabbed_window->flags & SDL_WINDOW_MOUSE_GRABBED);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    प्रत्यागम गवाक्षः == _this->grabbed_गवाक्षः && (_this->grabbed_गवाक्षः->flags & SDL_गवाक्षः_MOUSE_GRABBED);
 }
 
-SDL_Window *SDL_GetGrabbedWindow(void)
+SDL_गवाक्षः *SDL_Get_Grabbed_गवाक्षः(शून्य)
 {
-    if (_this && _this->grabbed_window &&
-        (_this->grabbed_window->flags & (SDL_WINDOW_MOUSE_GRABBED | SDL_WINDOW_KEYBOARD_GRABBED)) != 0) {
-        return _this->grabbed_window;
-    } else {
-        return NULL;
+    यदि (_this && _this->grabbed_गवाक्षः &&
+        (_this->grabbed_गवाक्षः->flags & (SDL_गवाक्षः_MOUSE_GRABBED | SDL_गवाक्षः_KEYBOARD_GRABBED)) != 0) {
+        प्रत्यागम _this->grabbed_गवाक्षः;
+    } अन्यथा {
+        प्रत्यागम रिक्त;
     }
 }
 
-bool SDL_SetWindowMouseRect(SDL_Window *window, const SDL_Rect *rect)
+bool SDL_समुच्चयः_गवाक्षः_Mouse_Rect(SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rect)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!_this->SetWindowMouseRect) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_Mouse_Rect) {
+        प्रत्यागम SDL_Unsupported();
     }
 
     SDL_Rect zero = { 0, 0, 0, 0 };
-    if (!rect) {
+    यदि (!rect) {
         rect = &zero;
     }
 
-    if (SDL_memcmp(&window->mouse_rect, rect, sizeof(*rect)) == 0) {
-        return true;
+    यदि (SDL_memcmp(&गवाक्षः->mouse_rect, rect, परिमाण(*rect)) == 0) {
+        प्रत्यागम true;
     }
-    SDL_memcpy(&window->mouse_rect, rect, sizeof(*rect));
+    SDL_memcpy(&गवाक्षः->mouse_rect, rect, परिमाण(*rect));
 
-    return _this->SetWindowMouseRect(_this, window);
+    प्रत्यागम _this->समुच्चयः_गवाक्षः_Mouse_Rect(_this, गवाक्षः);
 }
 
-const SDL_Rect *SDL_GetWindowMouseRect(SDL_Window *window)
+ध्रुव SDL_Rect *SDL_Get_गवाक्षः_Mouse_Rect(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, रिक्त);
 
-    if (SDL_RectEmpty(&window->mouse_rect)) {
-        return NULL;
-    } else {
-        return &window->mouse_rect;
+    यदि (SDL_Rect_रिक्तानि(&गवाक्षः->mouse_rect)) {
+        प्रत्यागम रिक्त;
+    } अन्यथा {
+        प्रत्यागम &गवाक्षः->mouse_rect;
     }
 }
 
-bool SDL_SetWindowRelativeMouseMode(SDL_Window *window, bool enabled)
+bool SDL_समुच्चयः_गवाक्षः_Relative_Mouse_बहुलकम्(SDL_गवाक्षः *गवाक्षः, bool enabled)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
     /* If the app toggles relative mode directly, it probably shouldn't
      * also be emulating it using repeated mouse warps, so disable
@@ -4171,257 +4171,257 @@ bool SDL_SetWindowRelativeMouseMode(SDL_Window *window, bool enabled)
      */
     SDL_DisableMouseWarpEmulation();
 
-    if (enabled == SDL_GetWindowRelativeMouseMode(window)) {
-        return true;
+    यदि (enabled == SDL_Get_गवाक्षः_Relative_Mouse_बहुलकम्(गवाक्षः)) {
+        प्रत्यागम true;
     }
 
-    if (enabled) {
-        window->flags |= SDL_WINDOW_MOUSE_RELATIVE_MODE;
-    } else {
-        window->flags &= ~SDL_WINDOW_MOUSE_RELATIVE_MODE;
+    यदि (enabled) {
+        गवाक्षः->flags |= SDL_गवाक्षः_MOUSE_RELATIVE_बहुलकम्;
+    } अन्यथा {
+        गवाक्षः->flags &= ~SDL_गवाक्षः_MOUSE_RELATIVE_बहुलकम्;
     }
 
-    if (!SDL_UpdateRelativeMouseMode()) {
-        if (enabled) {
-            window->flags &= ~SDL_WINDOW_MOUSE_RELATIVE_MODE;
-        } else {
-            window->flags |= SDL_WINDOW_MOUSE_RELATIVE_MODE;
+    यदि (!SDL_Update_Relative_Mouse_बहुलकम्()) {
+        यदि (enabled) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_MOUSE_RELATIVE_बहुलकम्;
+        } अन्यथा {
+            गवाक्षः->flags |= SDL_गवाक्षः_MOUSE_RELATIVE_बहुलकम्;
         }
-        return false;
+        प्रत्यागम false;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_GetWindowRelativeMouseMode(SDL_Window *window)
+bool SDL_Get_गवाक्षः_Relative_Mouse_बहुलकम्(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (window->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE) {
-        return true;
-    } else {
-        return false;
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_MOUSE_RELATIVE_बहुलकम्) {
+        प्रत्यागम true;
+    } अन्यथा {
+        प्रत्यागम false;
     }
 }
 
-bool SDL_FlashWindow(SDL_Window *window, SDL_FlashOperation operation)
+bool SDL_Flash_गवाक्षः(SDL_गवाक्षः *गवाक्षः, SDL_FlashOperation operation)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (_this->FlashWindow) {
-        return _this->FlashWindow(_this, window, operation);
+    यदि (_this->Flash_गवाक्षः) {
+        प्रत्यागम _this->Flash_गवाक्षः(_this, गवाक्षः, operation);
     }
 
-    return SDL_Unsupported();
+    प्रत्यागम SDL_Unsupported();
 }
 
-bool SDL_SetWindowProgressState(SDL_Window *window, SDL_ProgressState state)
+bool SDL_समुच्चयः_गवाक्षः_प्रगतिः_State(SDL_गवाक्षः *गवाक्षः, SDL_प्रगतिः_State state)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    CHECK_PARAM(state < SDL_PROGRESS_STATE_NONE || state > SDL_PROGRESS_STATE_ERROR) {
-        return SDL_InvalidParamError("state");
+    CHECK_PARAM(state < SDL_प्रगतिः_STATE_NONE || state > SDL_प्रगतिः_STATE_ERROR) {
+        प्रत्यागम SDL_InvalidParamError("state");
     }
 
-    window->progress_state = state;
+    गवाक्षः->प्रगतिः_state = state;
 
-    if (_this->ApplyWindowProgress) {
-        if (!_this->ApplyWindowProgress(_this, window)) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-SDL_ProgressState SDL_GetWindowProgressState(SDL_Window *window)
-{
-    CHECK_WINDOW_MAGIC(window, SDL_PROGRESS_STATE_INVALID);
-    CHECK_WINDOW_NOT_POPUP(window, SDL_PROGRESS_STATE_INVALID);
-
-    return window->progress_state;
-}
-
-bool SDL_SetWindowProgressValue(SDL_Window *window, float value)
-{
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
-
-    value = SDL_clamp(value, 0.0f, 1.f);
-
-    window->progress_value = value;
-
-    if (_this->ApplyWindowProgress) {
-        if (!_this->ApplyWindowProgress(_this, window)) {
-            return false;
+    यदि (_this->Apply_गवाक्षः_प्रगतिः) {
+        यदि (!_this->Apply_गवाक्षः_प्रगतिः(_this, गवाक्षः)) {
+            प्रत्यागम false;
         }
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-float SDL_GetWindowProgressValue(SDL_Window *window)
+SDL_प्रगतिः_State SDL_Get_गवाक्षः_प्रगतिः_State(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, -1.0f);
-    CHECK_WINDOW_NOT_POPUP(window, -1.0f);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, SDL_प्रगतिः_STATE_INVALID);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, SDL_प्रगतिः_STATE_INVALID);
 
-    return window->progress_value;
+    प्रत्यागम गवाक्षः->प्रगतिः_state;
 }
 
-void SDL_OnWindowShown(SDL_Window *window)
+bool SDL_समुच्चयः_गवाक्षः_प्रगतिः_मानम्(SDL_गवाक्षः *गवाक्षः, भिन्न मानम्)
+{
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
+
+    मानम् = SDL_clamp(मानम्, 0.0f, 1.f);
+
+    गवाक्षः->प्रगतिः_मानम् = मानम्;
+
+    यदि (_this->Apply_गवाक्षः_प्रगतिः) {
+        यदि (!_this->Apply_गवाक्षः_प्रगतिः(_this, गवाक्षः)) {
+            प्रत्यागम false;
+        }
+    }
+
+    प्रत्यागम true;
+}
+
+भिन्न SDL_Get_गवाक्षः_प्रगतिः_मानम्(SDL_गवाक्षः *गवाक्षः)
+{
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, -1.0f);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, -1.0f);
+
+    प्रत्यागम गवाक्षः->प्रगतिः_मानम्;
+}
+
+शून्य SDL_On_गवाक्षः_Shown(SDL_गवाक्षः *गवाक्षः)
 {
     // Set window state if we have pending window flags cached
-    ApplyWindowFlags(window, window->pending_flags);
-    window->pending_flags = 0;
+    Apply_गवाक्षः_Flags(गवाक्षः, गवाक्षः->pending_flags);
+    गवाक्षः->pending_flags = 0;
 }
 
-void SDL_OnWindowHidden(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Hidden(SDL_गवाक्षः *गवाक्षः)
 {
     /* Store the maximized and fullscreen flags for restoration later, in case
      * this was initiated by the window manager due to the window being unmapped
      * when minimized.
      */
-    window->pending_flags |= (window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED));
+    गवाक्षः->pending_flags |= (गवाक्षः->flags & (SDL_गवाक्षः_FULLSCREEN | SDL_गवाक्षः_MAXIMIZED));
 
     // The window is already hidden at this point, so just change the mode back if necessary.
-    SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+    SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_LEAVE, false);
 }
 
-void SDL_OnWindowDisplayChanged(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Display_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः)
 {
     // Don't run this if a fullscreen change was made in an event watcher callback in response to a display changed event.
-    if (window->update_fullscreen_on_display_changed && (window->flags & SDL_WINDOW_FULLSCREEN)) {
-        const bool auto_mode_switch = SDL_GetHintBoolean(SDL_HINT_VIDEO_MATCH_EXCLUSIVE_MODE_ON_MOVE, true);
+    यदि (गवाक्षः->update_fullscreen_on_display_परिवर्तितम् && (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN)) {
+        ध्रुव bool auto_बहुलकम्_switch = SDL_GetHintBoolean(SDL_HINT_VIDEO_मेलनम्_EXCLUSIVE_बहुलकम्_ON_MOVE, true);
 
-        if (auto_mode_switch && (window->requested_fullscreen_mode.w != 0 || window->requested_fullscreen_mode.h != 0)) {
-            SDL_DisplayID displayID = SDL_GetDisplayForWindowPosition(window);
-            bool include_high_density_modes = false;
+        यदि (auto_बहुलकम्_switch && (गवाक्षः->requested_fullscreen_बहुलकम्.w != 0 || गवाक्षः->requested_fullscreen_बहुलकम्.h != 0)) {
+            SDL_DisplayID displayID = SDL_Get_Display_For_गवाक्षः_Position(गवाक्षः);
+            bool include_उच्चः_density_modes = false;
 
-            if (window->requested_fullscreen_mode.pixel_density > 1.0f) {
-                include_high_density_modes = true;
+            यदि (गवाक्षः->requested_fullscreen_बहुलकम्.pixel_density > 1.0f) {
+                include_उच्चः_density_modes = true;
             }
-            const bool found_match = SDL_GetClosestFullscreenDisplayMode(displayID, window->requested_fullscreen_mode.w, window->requested_fullscreen_mode.h,
-                                                                         window->requested_fullscreen_mode.refresh_rate, include_high_density_modes, &window->current_fullscreen_mode);
+            ध्रुव bool प्राप्तम्_मेलनम् = SDL_Get_Closest_Fullscreen_Display_बहुलकम्(displayID, गवाक्षः->requested_fullscreen_बहुलकम्.w, गवाक्षः->requested_fullscreen_बहुलकम्.h,
+                                                                         गवाक्षः->requested_fullscreen_बहुलकम्.refresh_दरः, include_उच्चः_density_modes, &गवाक्षः->current_fullscreen_बहुलकम्);
 
             // If a mode without matching dimensions was not found, just go to fullscreen desktop.
-            if (!found_match ||
-                window->requested_fullscreen_mode.w != window->current_fullscreen_mode.w ||
-                window->requested_fullscreen_mode.h != window->current_fullscreen_mode.h) {
-                SDL_zero(window->current_fullscreen_mode);
+            यदि (!प्राप्तम्_मेलनम् ||
+                गवाक्षः->requested_fullscreen_बहुलकम्.w != गवाक्षः->current_fullscreen_बहुलकम्.w ||
+                गवाक्षः->requested_fullscreen_बहुलकम्.h != गवाक्षः->current_fullscreen_बहुलकम्.h) {
+                SDL_zero(गवाक्षः->current_fullscreen_बहुलकम्);
             }
-        } else {
-            SDL_zero(window->current_fullscreen_mode);
+        } अन्यथा {
+            SDL_zero(गवाक्षः->current_fullscreen_बहुलकम्);
         }
 
-        if (SDL_WINDOW_FULLSCREEN_VISIBLE(window)) {
-            SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_UPDATE, true);
-        }
-    }
-
-    SDL_CheckWindowPixelSizeChanged(window);
-}
-
-void SDL_OnWindowMoved(SDL_Window *window)
-{
-    SDL_CheckWindowDisplayChanged(window);
-}
-
-void SDL_OnWindowResized(SDL_Window *window)
-{
-    SDL_CheckWindowDisplayChanged(window);
-    SDL_CheckWindowPixelSizeChanged(window);
-    SDL_CheckWindowSafeAreaChanged(window);
-
-    if ((window->flags & SDL_WINDOW_TRANSPARENT) && _this->UpdateWindowShape) {
-        SDL_Surface *surface = (SDL_Surface *)SDL_GetPointerProperty(window->props, SDL_PROP_WINDOW_SHAPE_POINTER, NULL);
-        if (surface) {
-            _this->UpdateWindowShape(_this, window, surface);
+        यदि (SDL_गवाक्षः_FULLSCREEN_VISIBLE(गवाक्षः)) {
+            SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_UPDATE, true);
         }
     }
+
+    SDL_Check_गवाक्षः_Pixel_आकार_परिवर्तितम्(गवाक्षः);
 }
 
-void SDL_CheckWindowPixelSizeChanged(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Moved(SDL_गवाक्षः *गवाक्षः)
 {
-    int pixel_w = 0, pixel_h = 0;
-
-    SDL_GetWindowSizeInPixels(window, &pixel_w, &pixel_h);
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED, pixel_w, pixel_h);
-
-    SDL_CheckWindowDisplayScaleChanged(window);
+    SDL_Check_गवाक्षः_Display_परिवर्तितम्(गवाक्षः);
 }
 
-void SDL_OnWindowPixelSizeChanged(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Resized(SDL_गवाक्षः *गवाक्षः)
 {
-    window->surface_valid = false;
+    SDL_Check_गवाक्षः_Display_परिवर्तितम्(गवाक्षः);
+    SDL_Check_गवाक्षः_Pixel_आकार_परिवर्तितम्(गवाक्षः);
+    SDL_Check_गवाक्षः_Safe_Area_परिवर्तितम्(गवाक्षः);
+
+    यदि ((गवाक्षः->flags & SDL_गवाक्षः_TRANSPARENT) && _this->Update_गवाक्षः_Shape) {
+        SDL_Surface *surface = (SDL_Surface *)SDL_GetPointerProperty(गवाक्षः->props, SDL_PROP_गवाक्षः_SHAPE_POINTER, रिक्त);
+        यदि (surface) {
+            _this->Update_गवाक्षः_Shape(_this, गवाक्षः, surface);
+        }
+    }
 }
 
-void SDL_OnWindowLiveResizeUpdate(SDL_Window *window)
+शून्य SDL_Check_गवाक्षः_Pixel_आकार_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः)
 {
-    if (SDL_HasMainCallbacks()) {
+    पूर्णाङ्क pixel_w = 0, pixel_h = 0;
+
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &pixel_w, &pixel_h);
+    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_PIXEL_आकार_परिवर्तितम्, pixel_w, pixel_h);
+
+    SDL_Check_गवाक्षः_Display_Scale_परिवर्तितम्(गवाक्षः);
+}
+
+शून्य SDL_On_गवाक्षः_Pixel_आकार_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः)
+{
+    गवाक्षः->surface_valid = false;
+}
+
+शून्य SDL_On_गवाक्षः_जीवितम्_Resize_Update(SDL_गवाक्षः *गवाक्षः)
+{
+    यदि (SDL_HasMainCallbacks()) {
         SDL_IterateMainCallbacks(false);
-    } else {
+    } अन्यथा {
         // Send an expose event so the application can redraw
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_EXPOSED, 1, 0);
+        SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_EXPOSED, 1, 0);
     }
 
     SDL_PumpEventMaintenance();
 }
 
-static void SDL_CheckWindowSafeAreaChanged(SDL_Window *window)
+स्थिर शून्य SDL_Check_गवाक्षः_Safe_Area_परिवर्तितम्(SDL_गवाक्षः *गवाक्षः)
 {
     SDL_Rect rect;
 
-    rect.x = window->safe_inset_left;
-    rect.y = window->safe_inset_top;
-    rect.w = window->w - (window->safe_inset_right + window->safe_inset_left);
-    rect.h = window->h - (window->safe_inset_top + window->safe_inset_bottom);
-    if (SDL_memcmp(&rect, &window->safe_rect, sizeof(rect)) != 0) {
-        SDL_copyp(&window->safe_rect, &rect);
-        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_SAFE_AREA_CHANGED, 0, 0);
+    rect.x = गवाक्षः->safe_inset_वामः;
+    rect.y = गवाक्षः->safe_inset_शिखरम्;
+    rect.w = गवाक्षः->w - (गवाक्षः->safe_inset_दक्षिणः + गवाक्षः->safe_inset_वामः);
+    rect.h = गवाक्षः->h - (गवाक्षः->safe_inset_शिखरम् + गवाक्षः->safe_inset_bottom);
+    यदि (SDL_memcmp(&rect, &गवाक्षः->safe_rect, परिमाण(rect)) != 0) {
+        SDL_copyp(&गवाक्षः->safe_rect, &rect);
+        SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_SAFE_AREA_परिवर्तितम्, 0, 0);
     }
 }
 
-void SDL_SetWindowSafeAreaInsets(SDL_Window *window, int left, int right, int top, int bottom)
+शून्य SDL_समुच्चयः_गवाक्षः_Safe_Area_Insets(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क वामः, पूर्णाङ्क दक्षिणः, पूर्णाङ्क शिखरम्, पूर्णाङ्क bottom)
 {
-    window->safe_inset_left = left;
-    window->safe_inset_right = right;
-    window->safe_inset_top = top;
-    window->safe_inset_bottom = bottom;
-    SDL_CheckWindowSafeAreaChanged(window);
+    गवाक्षः->safe_inset_वामः = वामः;
+    गवाक्षः->safe_inset_दक्षिणः = दक्षिणः;
+    गवाक्षः->safe_inset_शिखरम् = शिखरम्;
+    गवाक्षः->safe_inset_bottom = bottom;
+    SDL_Check_गवाक्षः_Safe_Area_परिवर्तितम्(गवाक्षः);
 }
 
-bool SDL_GetWindowSafeArea(SDL_Window *window, SDL_Rect *rect)
+bool SDL_Get_गवाक्षः_Safe_Area(SDL_गवाक्षः *गवाक्षः, SDL_Rect *rect)
 {
-    if (rect) {
+    यदि (rect) {
         SDL_zerop(rect);
     }
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (rect) {
-        if (SDL_RectEmpty(&window->safe_rect)) {
-            rect->w = window->w;
-            rect->h = window->h;
-        } else {
-            SDL_copyp(rect, &window->safe_rect);
+    यदि (rect) {
+        यदि (SDL_Rect_रिक्तानि(&गवाक्षः->safe_rect)) {
+            rect->w = गवाक्षः->w;
+            rect->h = गवाक्षः->h;
+        } अन्यथा {
+            SDL_copyp(rect, &गवाक्षः->safe_rect);
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-void SDL_OnWindowMinimized(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Minimized(SDL_गवाक्षः *गवाक्षः)
 {
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, false);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
+        SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_LEAVE, false);
     }
 }
 
-void SDL_OnWindowMaximized(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Maximized(SDL_गवाक्षः *गवाक्षः)
 {
 }
 
-void SDL_OnWindowRestored(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Restored(SDL_गवाक्षः *गवाक्षः)
 {
     /*
      * FIXME: Is this fine to just remove this, or should it be preserved just
@@ -4431,297 +4431,297 @@ void SDL_OnWindowRestored(SDL_Window *window)
      */
     // SDL_RaiseWindow(window);
 
-    if (window->flags & SDL_WINDOW_FULLSCREEN) {
-        SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, false);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
+        SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_ENTER, false);
     }
 }
 
-void SDL_OnWindowEnter(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Enter(SDL_गवाक्षः *गवाक्षः)
 {
-    if (_this->OnWindowEnter) {
-        _this->OnWindowEnter(_this, window);
+    यदि (_this->On_गवाक्षः_Enter) {
+        _this->On_गवाक्षः_Enter(_this, गवाक्षः);
     }
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_बहुलकम्();
 }
 
-void SDL_OnWindowLeave(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Leave(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_बहुलकम्();
 }
 
-void SDL_OnWindowFocusGained(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Focus_Gained(SDL_गवाक्षः *गवाक्षः)
 {
     SDL_Mouse *mouse = SDL_GetMouse();
 
-    if (mouse && mouse->relative_mode) {
-        SDL_SetMouseFocus(window);
+    यदि (mouse && mouse->relative_बहुलकम्) {
+        SDL_समुच्चयः_Mouse_Focus(गवाक्षः);
     }
 
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_गवाक्षः_Grab(गवाक्षः);
 }
 
-static bool SDL_ShouldMinimizeOnFocusLoss(SDL_Window *window)
+स्थिर bool SDL_ShouldMinimizeOnFocusLoss(SDL_गवाक्षः *गवाक्षः)
 {
-    const char *hint;
+    ध्रुव वर्ण *hint;
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) || window->is_destroying) {
-        return false;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) || गवाक्षः->is_destroying) {
+        प्रत्यागम false;
     }
 
-#if defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
-    if (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
-        if (Cocoa_IsShowingModalDialog(window)) {
-            return false;  // modal system dialogs can live over fullscreen windows, don't minimize.
-        } else if (Cocoa_IsWindowInFullscreenSpace(window)) {
-            return false;
+#यदि defined(SDL_PLATFORM_MACOS) && defined(SDL_VIDEO_DRIVER_COCOA)
+    यदि (SDL_strcmp(_this->name, "cocoa") == 0) { // don't do this for X11, etc
+        यदि (Cocoa_IsShowingModalDialog(गवाक्षः)) {
+            प्रत्यागम false;  // modal system dialogs can live over fullscreen windows, don't minimize.
+        } अन्यथा यदि (Cocoa_Is_गवाक्षः_अन्तर्_Fullscreen_Space(गवाक्षः)) {
+            प्रत्यागम false;
         }
     }
-#endif
+#यदि_अन्तः
 
-#ifdef SDL_PLATFORM_ANDROID
+#यदि_परिभाषितम् SDL_PLATFORM_ANDROID
     {
-        extern bool Android_JNI_ShouldMinimizeOnFocusLoss(void);
-        if (!Android_JNI_ShouldMinimizeOnFocusLoss()) {
-            return false;
+        बाह्य bool Android_JNI_ShouldMinimizeOnFocusLoss(शून्य);
+        यदि (!Android_JNI_ShouldMinimizeOnFocusLoss()) {
+            प्रत्यागम false;
         }
     }
-#endif
+#यदि_अन्तः
 
     // Real fullscreen windows should minimize on focus loss so the desktop video mode is restored
     hint = SDL_GetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS);
-    if (!hint || !*hint || SDL_strcasecmp(hint, "auto") == 0) {
-        if (window->fullscreen_exclusive && !SDL_ModeSwitchingEmulated(_this)) {
-            return true;
-        } else {
-            return false;
+    यदि (!hint || !*hint || SDL_strcasecmp(hint, "auto") == 0) {
+        यदि (गवाक्षः->fullscreen_exclusive && !SDL_बहुलकम्_Switching_Emulated(_this)) {
+            प्रत्यागम true;
+        } अन्यथा {
+            प्रत्यागम false;
         }
     }
-    return SDL_GetHintBoolean(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, false);
+    प्रत्यागम SDL_GetHintBoolean(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, false);
 }
 
-void SDL_OnWindowFocusLost(SDL_Window *window)
+शून्य SDL_On_गवाक्षः_Focus_नष्टम्(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_UpdateWindowGrab(window);
+    SDL_Update_गवाक्षः_Grab(गवाक्षः);
 
-    if (SDL_ShouldMinimizeOnFocusLoss(window)) {
-        SDL_MinimizeWindow(window);
+    यदि (SDL_ShouldMinimizeOnFocusLoss(गवाक्षः)) {
+        SDL_Minimize_गवाक्षः(गवाक्षः);
     }
 }
 
-SDL_Window *SDL_GetToplevelForKeyboardFocus(void)
+SDL_गवाक्षः *SDL_GetToplevelForKeyboardFocus(शून्य)
 {
-    SDL_Window *focus = SDL_GetKeyboardFocus();
+    SDL_गवाक्षः *focus = SDL_GetKeyboardFocus();
 
-    if (focus) {
+    यदि (focus) {
         // Get the toplevel parent window.
-        while (focus->parent) {
+        यावत् (focus->parent) {
             focus = focus->parent;
         }
     }
 
-    return focus;
+    प्रत्यागम focus;
 }
 
-bool SDL_AddWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
+bool SDL_सङ्कलय_गवाक्षः_Renderer(SDL_गवाक्षः *गवाक्षः, SDL_Renderer *renderer)
 {
-    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(window->renderers, (window->num_renderers + 1) * sizeof(*renderers));
-    if (!renderers) {
-        return false;
+    SDL_Renderer **renderers = (SDL_Renderer **)SDL_realloc(गवाक्षः->renderers, (गवाक्षः->अङ्कः_renderers + 1) * परिमाण(*renderers));
+    यदि (!renderers) {
+        प्रत्यागम false;
     }
 
-    window->renderers = renderers;
-    window->renderers[window->num_renderers++] = renderer;
+    गवाक्षः->renderers = renderers;
+    गवाक्षः->renderers[गवाक्षः->अङ्कः_renderers++] = renderer;
 
-    SDL_SetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_RENDERER_POINTER, renderer);
-    return true;
+    SDL_समुच्चयः_Pointer_Property(SDL_Get_गवाक्षः_Properties(गवाक्षः), SDL_PROP_गवाक्षः_RENDERER_POINTER, renderer);
+    प्रत्यागम true;
 }
 
-void SDL_RemoveWindowRenderer(SDL_Window *window, SDL_Renderer *renderer)
+शून्य SDL_Remove_गवाक्षः_Renderer(SDL_गवाक्षः *गवाक्षः, SDL_Renderer *renderer)
 {
-    for (int i = 0; i < window->num_renderers; ++i) {
-        if (window->renderers[i] == renderer) {
-            if (i < (window->num_renderers - 1)) {
-                SDL_memmove(&window->renderers[i], &window->renderers[i + 1], (window->num_renderers - i - 1) * sizeof(window->renderers[i]));
+    प्रति (पूर्णाङ्क i = 0; i < गवाक्षः->अङ्कः_renderers; ++i) {
+        यदि (गवाक्षः->renderers[i] == renderer) {
+            यदि (i < (गवाक्षः->अङ्कः_renderers - 1)) {
+                SDL_memmove(&गवाक्षः->renderers[i], &गवाक्षः->renderers[i + 1], (गवाक्षः->अङ्कः_renderers - i - 1) * परिमाण(गवाक्षः->renderers[i]));
             }
-            --window->num_renderers;
-            break;
+            --गवाक्षः->अङ्कः_renderers;
+            भङ्ग;
         }
     }
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    if (SDL_GetPointerProperty(props, SDL_PROP_WINDOW_RENDERER_POINTER, NULL) == renderer) {
-        SDL_ClearProperty(props, SDL_PROP_WINDOW_RENDERER_POINTER);
+    SDL_PropertiesID props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
+    यदि (SDL_GetPointerProperty(props, SDL_PROP_गवाक्षः_RENDERER_POINTER, रिक्त) == renderer) {
+        SDL_ClearProperty(props, SDL_PROP_गवाक्षः_RENDERER_POINTER);
     }
 }
 
-void SDL_DestroyWindow(SDL_Window *window)
+शून्य SDL_Destroy_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window,);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः,);
 
-    window->is_destroying = true;
+    गवाक्षः->is_destroying = true;
 
     // Destroy any child windows of this window
-    while (window->first_child) {
-        SDL_DestroyWindow(window->first_child);
+    यावत् (गवाक्षः->first_child) {
+        SDL_Destroy_गवाक्षः(गवाक्षः->first_child);
     }
 
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_DESTROYED, 0, 0);
+    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_DESTROYED, 0, 0);
 
-    SDL_DestroyWindowSurface(window);
+    SDL_Destroy_गवाक्षः_Surface(गवाक्षः);
 
-    SDL_Renderer *renderer = SDL_GetRenderer(window);
-    if (renderer) {
+    SDL_Renderer *renderer = SDL_GetRenderer(गवाक्षः);
+    यदि (renderer) {
         SDL_DestroyRendererWithoutFreeing(renderer);
     }
 
     // Restore video mode, etc.
-    SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_LEAVE, true);
-    if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-        SDL_HideWindow(window);
+    SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_LEAVE, true);
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL)) {
+        SDL_Hide_गवाक्षः(गवाक्षः);
     }
 
-    SDL_DestroyProperties(window->text_input_props);
+    SDL_DestroyProperties(गवाक्षः->text_निवेशः_props);
 
-    SDL_DestroyWindowTexture(_this, window);
-    SDL_DestroyProperties(window->props);
+    SDL_Destroy_गवाक्षः_Texture(_this, गवाक्षः);
+    SDL_DestroyProperties(गवाक्षः->props);
 
     /* Clear the modal status, but don't unset the parent just yet, as it
      * may be needed later in the destruction process if a backend needs
      * to update the input focus.
      */
-    if (_this->SetWindowModal && (window->flags & SDL_WINDOW_MODAL)) {
-        _this->SetWindowModal(_this, window, false);
+    यदि (_this->समुच्चयः_गवाक्षः_Modal && (गवाक्षः->flags & SDL_गवाक्षः_MODAL)) {
+        _this->समुच्चयः_गवाक्षः_Modal(_this, गवाक्षः, false);
     }
 
     // Make sure the destroyed window isn't referenced by any display as a fullscreen window.
-    for (int i = 0; i < _this->num_displays; ++i) {
-        if (_this->displays[i]->fullscreen_window == window) {
-            _this->displays[i]->fullscreen_window = NULL;
+    प्रति (पूर्णाङ्क i = 0; i < _this->अङ्कः_displays; ++i) {
+        यदि (_this->displays[i]->fullscreen_गवाक्षः == गवाक्षः) {
+            _this->displays[i]->fullscreen_गवाक्षः = रिक्त;
         }
     }
 
     // Make sure this window no longer has focus
-    if (SDL_GetKeyboardFocus() == window) {
-        SDL_SetKeyboardFocus(NULL);
+    यदि (SDL_GetKeyboardFocus() == गवाक्षः) {
+        SDL_समुच्चयः_Keyboard_Focus(रिक्त);
     }
-    if ((window->flags & SDL_WINDOW_MOUSE_CAPTURE)) {
+    यदि ((गवाक्षः->flags & SDL_गवाक्षः_MOUSE_CAPTURE)) {
         SDL_UpdateMouseCapture(true);
     }
-    if (SDL_GetMouseFocus() == window) {
-        SDL_SetMouseFocus(NULL);
+    यदि (SDL_GetMouseFocus() == गवाक्षः) {
+        SDL_समुच्चयः_Mouse_Focus(रिक्त);
     }
 
     // Make no context current if this is the current context window
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        if (_this->current_glwin == window) {
-            SDL_GL_MakeCurrent(window, NULL);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
+        यदि (_this->current_glwin == गवाक्षः) {
+            SDL_GL_MakeCurrent(गवाक्षः, रिक्त);
         }
     }
 
-    if (_this->DestroyWindow) {
-        _this->DestroyWindow(_this, window);
+    यदि (_this->Destroy_गवाक्षः) {
+        _this->Destroy_गवाक्षः(_this, गवाक्षः);
     }
 
     // Unload the graphics libraries after the window is destroyed, which may clean up EGL surfaces
-    if (window->flags & SDL_WINDOW_OPENGL) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
         SDL_GL_UnloadLibrary();
     }
-    if (window->flags & SDL_WINDOW_VULKAN) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_VULKAN) {
         SDL_Vulkan_UnloadLibrary();
     }
 
-    if (_this->grabbed_window == window) {
-        _this->grabbed_window = NULL; // ungrabbing input.
+    यदि (_this->grabbed_गवाक्षः == गवाक्षः) {
+        _this->grabbed_गवाक्षः = रिक्त; // ungrabbing input.
     }
 
-    if (_this->current_glwin == window) {
-        _this->current_glwin = NULL;
+    यदि (_this->current_glwin == गवाक्षः) {
+        _this->current_glwin = रिक्त;
     }
 
-    SDL_CompareAndSwapAtomicPointer(&_this->wakeup_window, window, NULL);
+    SDL_CompareAndSwapAtomicPointer(&_this->wakeup_गवाक्षः, गवाक्षः, रिक्त);
 
     // Now invalidate magic
-    SDL_SetObjectValid(window, SDL_OBJECT_TYPE_WINDOW, false);
+    SDL_समुच्चयः_Object_Valid(गवाक्षः, SDL_OBJECT_TYPE_गवाक्षः, false);
 
     // Free memory associated with the window
-    SDL_free(window->title);
-    SDL_DestroySurface(window->icon);
+    SDL_free(गवाक्षः->title);
+    SDL_DestroySurface(गवाक्षः->icon);
 
     // Unlink the window from its siblings.
-    SDL_UpdateWindowHierarchy(window, NULL);
+    SDL_Update_गवाक्षः_Hierarchy(गवाक्षः, रिक्त);
 
     // Unlink the window from the global window list
-    if (window->next) {
-        window->next->prev = window->prev;
+    यदि (गवाक्षः->अग्र) {
+        गवाक्षः->अग्र->पूर्व = गवाक्षः->पूर्व;
     }
-    if (window->prev) {
-        window->prev->next = window->next;
-    } else {
-        _this->windows = window->next;
+    यदि (गवाक्षः->पूर्व) {
+        गवाक्षः->पूर्व->अग्र = गवाक्षः->अग्र;
+    } अन्यथा {
+        _this->windows = गवाक्षः->अग्र;
     }
 
-    SDL_free(window->renderers);
-    SDL_free(window);
+    SDL_free(गवाक्षः->renderers);
+    SDL_free(गवाक्षः);
 
-#ifdef SDL_VIDEO_DRIVER_UIKIT
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_UIKIT
     SDL_UpdateLifecycleObserver();
-#endif
+#यदि_अन्तः
 }
 
-bool SDL_ScreenSaverEnabled(void)
+bool SDL_ScreenSaverEnabled(शून्य)
 {
-    if (!_this) {
-        return true;
+    यदि (!_this) {
+        प्रत्यागम true;
     }
-    return !_this->suspend_screensaver;
+    प्रत्यागम !_this->suspend_screensaver;
 }
 
-bool SDL_EnableScreenSaver(void)
+bool SDL_EnableScreenSaver(शून्य)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
     }
-    if (!_this->suspend_screensaver) {
-        return true;
+    यदि (!_this->suspend_screensaver) {
+        प्रत्यागम true;
     }
     _this->suspend_screensaver = false;
-    if (_this->SuspendScreenSaver) {
-        return _this->SuspendScreenSaver(_this);
+    यदि (_this->SuspendScreenSaver) {
+        प्रत्यागम _this->SuspendScreenSaver(_this);
     }
 
-    return SDL_Unsupported();
+    प्रत्यागम SDL_Unsupported();
 }
 
-bool SDL_DisableScreenSaver(void)
+bool SDL_DisableScreenSaver(शून्य)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
     }
-    if (_this->suspend_screensaver) {
-        return true;
+    यदि (_this->suspend_screensaver) {
+        प्रत्यागम true;
     }
     _this->suspend_screensaver = true;
-    if (_this->SuspendScreenSaver) {
-        return _this->SuspendScreenSaver(_this);
+    यदि (_this->SuspendScreenSaver) {
+        प्रत्यागम _this->SuspendScreenSaver(_this);
     }
 
-    return SDL_Unsupported();
+    प्रत्यागम SDL_Unsupported();
 }
 
-void SDL_QuitVideo(void)
+शून्य SDL_QuitVideo(शून्य)
 {
-    int i;
+    पूर्णाङ्क i;
 
-    if (!_this) {
-        return;
+    यदि (!_this) {
+        प्रत्यागम;
     }
 
     _this->is_quitting = true;
 
     // Halt event processing before doing anything else
-#if 0 // This was moved to the end to fix a memory leak
+#यदि 0 // This was moved to the end to fix a memory leak
     SDL_QuitPen();
-#endif
+#यदि_अन्तः
     SDL_QuitTouch();
     SDL_QuitMouse();
     SDL_QuitKeyboard();
@@ -4730,204 +4730,204 @@ void SDL_QuitVideo(void)
     SDL_EnableScreenSaver();
 
     // Clean up the system video
-    while (_this->windows) {
-        SDL_DestroyWindow(_this->windows);
+    यावत् (_this->windows) {
+        SDL_Destroy_गवाक्षः(_this->windows);
     }
 
-    if (_this->gl_config.driver_loaded && _this->GL_UnloadLibrary) {
+    यदि (_this->gl_config.driver_loaded && _this->GL_UnloadLibrary) {
         _this->GL_UnloadLibrary(_this);
         _this->gl_config.driver_loaded = 0;
     }
-    if (_this->vulkan_config.loader_loaded && _this->Vulkan_UnloadLibrary) {
+    यदि (_this->vulkan_config.loader_loaded && _this->Vulkan_UnloadLibrary) {
         _this->Vulkan_UnloadLibrary(_this);
         _this->vulkan_config.loader_loaded = 0;
     }
 
     _this->VideoQuit(_this);
 
-    for (i = _this->num_displays; i--; ) {
+    प्रति (i = _this->अङ्कः_displays; i--; ) {
         SDL_VideoDisplay *display = _this->displays[i];
         SDL_DelVideoDisplay(display->id, false);
     }
 
-    SDL_assert(_this->num_displays == 0);
+    SDL_assert(_this->अङ्कः_displays == 0);
     SDL_free(_this->displays);
-    _this->displays = NULL;
+    _this->displays = रिक्त;
 
-    SDL_CancelClipboardData(0);
+    SDL_Cancel_Clipboard_दत्त(0);
 
-    if (_this->primary_selection_text) {
+    यदि (_this->primary_selection_text) {
         SDL_free(_this->primary_selection_text);
-        _this->primary_selection_text = NULL;
+        _this->primary_selection_text = रिक्त;
     }
-    _this->free(_this);
-    _this = NULL;
+    _this->मुक्त(_this);
+    _this = रिक्त;
 
     // This needs to happen after the video subsystem has removed pen data
     SDL_QuitPen();
 }
 
-bool SDL_GL_LoadLibrary(const char *path)
+bool SDL_GL_आरोपय_Library(ध्रुव वर्ण *मार्गः)
 {
-    bool result;
+    bool परिणाम;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
     }
-    if (_this->gl_config.driver_loaded) {
-        if (path && SDL_strcmp(path, _this->gl_config.driver_path) != 0) {
-            return SDL_SetError("OpenGL library already loaded");
+    यदि (_this->gl_config.driver_loaded) {
+        यदि (मार्गः && SDL_strcmp(मार्गः, _this->gl_config.driver_मार्गः) != 0) {
+            प्रत्यागम SDL_समुच्चयः_Error("OpenGL library already loaded");
         }
-        result = true;
-    } else {
-        if (!_this->GL_LoadLibrary) {
-            return SDL_DllNotSupported("OpenGL");
+        परिणाम = true;
+    } अन्यथा {
+        यदि (!_this->GL_आरोपय_Library) {
+            प्रत्यागम SDL_DllNotSupported("OpenGL");
         }
-        result = _this->GL_LoadLibrary(_this, path);
+        परिणाम = _this->GL_आरोपय_Library(_this, मार्गः);
     }
-    if (result) {
+    यदि (परिणाम) {
         ++_this->gl_config.driver_loaded;
-    } else {
-        if (_this->GL_UnloadLibrary) {
+    } अन्यथा {
+        यदि (_this->GL_UnloadLibrary) {
             _this->GL_UnloadLibrary(_this);
         }
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-SDL_FunctionPointer SDL_GL_GetProcAddress(const char *proc)
+SDL_FunctionPointer SDL_GL_Get_Proc_स्थानाङ्कः(ध्रुव वर्ण *proc)
 {
     SDL_FunctionPointer func;
 
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    func = NULL;
-    if (_this->GL_GetProcAddress) {
-        if (_this->gl_config.driver_loaded) {
-            func = _this->GL_GetProcAddress(_this, proc);
-        } else {
-            SDL_SetError("No GL driver has been loaded");
+    func = रिक्त;
+    यदि (_this->GL_Get_Proc_स्थानाङ्कः) {
+        यदि (_this->gl_config.driver_loaded) {
+            func = _this->GL_Get_Proc_स्थानाङ्कः(_this, proc);
+        } अन्यथा {
+            SDL_समुच्चयः_Error("No GL driver has been loaded");
         }
-    } else {
-        SDL_SetError("No dynamic GL support in current SDL video driver (%s)", _this->name);
+    } अन्यथा {
+        SDL_समुच्चयः_Error("No dynamic GL support in current SDL video driver (%s)", _this->name);
     }
-    return func;
+    प्रत्यागम func;
 }
 
-SDL_FunctionPointer SDL_EGL_GetProcAddress(const char *proc)
+SDL_FunctionPointer SDL_EGL_Get_Proc_स्थानाङ्कः(ध्रुव वर्ण *proc)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
     SDL_FunctionPointer func;
 
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    func = NULL;
+    func = रिक्त;
 
-    if (_this->egl_data) {
-        func = SDL_EGL_GetProcAddressInternal(_this, proc);
-    } else {
-        SDL_SetError("No EGL library has been loaded");
+    यदि (_this->egl_दत्त) {
+        func = SDL_EGL_Get_Proc_स्थानाङ्कः_आन्तरिकम्(_this, proc);
+    } अन्यथा {
+        SDL_समुच्चयः_Error("No EGL library has been loaded");
     }
 
-    return func;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    प्रत्यागम func;
+#अन्यथा
+    SDL_समुच्चयः_Error("SDL was not built with EGL support");
+    प्रत्यागम रिक्त;
+#यदि_अन्तः
 }
 
-void SDL_GL_UnloadLibrary(void)
+शून्य SDL_GL_UnloadLibrary(शून्य)
 {
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return;
+        प्रत्यागम;
     }
-    if (_this->gl_config.driver_loaded > 0) {
-        if (--_this->gl_config.driver_loaded > 0) {
-            return;
+    यदि (_this->gl_config.driver_loaded > 0) {
+        यदि (--_this->gl_config.driver_loaded > 0) {
+            प्रत्यागम;
         }
-        if (_this->GL_UnloadLibrary) {
+        यदि (_this->GL_UnloadLibrary) {
             _this->GL_UnloadLibrary(_this);
         }
     }
 }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-typedef GLenum (APIENTRY* PFNGLGETERRORPROC) (void);
-typedef void (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint *params);
-typedef const GLubyte *(APIENTRY* PFNGLGETSTRINGPROC) (GLenum name);
-typedef void (APIENTRY* PFNGLENABLEPROC) (GLenum cap);
-#ifndef SDL_VIDEO_OPENGL
-typedef const GLubyte *(APIENTRY* PFNGLGETSTRINGIPROC) (GLenum name, GLuint index);
-#endif
+#यदि defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+प्रकारनिर्देश GLenum (APIENTRY* PFNGLGETERRORPROC) (शून्य);
+प्रकारनिर्देश शून्य (APIENTRY* PFNGLGETINTEGERVPROC) (GLenum pname, GLint *params);
+प्रकारनिर्देश ध्रुव GLubyte *(APIENTRY* PFNGLGETSTRINGPROC) (GLenum name);
+प्रकारनिर्देश शून्य (APIENTRY* PFNGLENABLEPROC) (GLenum cap);
+#यदि_अपरिभाषितम् SDL_VIDEO_OPENGL
+प्रकारनिर्देश ध्रुव GLubyte *(APIENTRY* PFNGLGETSTRINGIPROC) (GLenum name, GLuint सूचकांक);
+#यदि_अन्तः
 
-static SDL_INLINE bool isAtLeastGL3(const char *verstr)
+स्थिर SDL_INLINE bool is_At_न्यूनतमम्_GL3(ध्रुव वर्ण *verstr)
 {
-    return verstr && (SDL_atoi(verstr) >= 3);
+    प्रत्यागम verstr && (SDL_atoi(verstr) >= 3);
 }
-#endif // SDL_VIDEO_OPENGL || SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
+#यदि_अन्तः // SDL_VIDEO_OPENGL || SDL_VIDEO_OPENGL_ES || SDL_VIDEO_OPENGL_ES2
 
-bool SDL_GL_ExtensionSupported(const char *extension)
+bool SDL_GL_ExtensionSupported(ध्रुव वर्ण *extension)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#यदि defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     PFNGLGETSTRINGPROC glGetStringFunc;
-    const char *extensions;
-    const char *start;
-    const char *where, *terminator;
+    ध्रुव वर्ण *extensions;
+    ध्रुव वर्ण *start;
+    ध्रुव वर्ण *where, *terminator;
 
     // Extension names should not have spaces.
     where = SDL_strchr(extension, ' ');
-    if (where || *extension == '\0') {
-        return false;
+    यदि (where || *extension == '\0') {
+        प्रत्यागम false;
     }
     // See if there's a hint or environment variable override
     start = SDL_GetHint(extension);
-    if (start && *start == '0') {
-        return false;
+    यदि (start && *start == '0') {
+        प्रत्यागम false;
     }
 
     // Lookup the available extensions
 
-    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-    if (!glGetStringFunc) {
-        return false;
+    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetString");
+    यदि (!glGetStringFunc) {
+        प्रत्यागम false;
     }
 
-    if (isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION))) {
+    यदि (is_At_न्यूनतमम्_GL3((ध्रुव वर्ण *)glGetStringFunc(GL_संस्करणम्))) {
         PFNGLGETSTRINGIPROC glGetStringiFunc;
         PFNGLGETINTEGERVPROC glGetIntegervFunc;
-        GLint num_exts = 0;
+        GLint अङ्कः_exts = 0;
         GLint i;
 
-        glGetStringiFunc = (PFNGLGETSTRINGIPROC)SDL_GL_GetProcAddress("glGetStringi");
-        glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
-        if ((!glGetStringiFunc) || (!glGetIntegervFunc)) {
-            return false;
+        glGetStringiFunc = (PFNGLGETSTRINGIPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetStringi");
+        glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetIntegerv");
+        यदि ((!glGetStringiFunc) || (!glGetIntegervFunc)) {
+            प्रत्यागम false;
         }
 
-#ifndef GL_NUM_EXTENSIONS
-#define GL_NUM_EXTENSIONS 0x821D
-#endif
-        glGetIntegervFunc(GL_NUM_EXTENSIONS, &num_exts);
-        for (i = 0; i < num_exts; i++) {
-            const char *thisext = (const char *)glGetStringiFunc(GL_EXTENSIONS, i);
-            if (SDL_strcmp(thisext, extension) == 0) {
-                return true;
+#यदि_अपरिभाषितम् GL_अङ्कः_EXTENSIONS
+#परिभाषय GL_अङ्कः_EXTENSIONS 0x821D
+#यदि_अन्तः
+        glGetIntegervFunc(GL_अङ्कः_EXTENSIONS, &अङ्कः_exts);
+        प्रति (i = 0; i < अङ्कः_exts; i++) {
+            ध्रुव वर्ण *thisext = (ध्रुव वर्ण *)glGetStringiFunc(GL_EXTENSIONS, i);
+            यदि (SDL_strcmp(thisext, extension) == 0) {
+                प्रत्यागम true;
             }
         }
 
-        return false;
+        प्रत्यागम false;
     }
 
     // Try the old way with glGetString(GL_EXTENSIONS) ...
 
-    extensions = (const char *)glGetStringFunc(GL_EXTENSIONS);
-    if (!extensions) {
-        return false;
+    extensions = (ध्रुव वर्ण *)glGetStringFunc(GL_EXTENSIONS);
+    यदि (!extensions) {
+        प्रत्यागम false;
     }
     /*
      * It takes a bit of care to be fool-proof about parsing the OpenGL
@@ -4936,25 +4936,25 @@ bool SDL_GL_ExtensionSupported(const char *extension)
 
     start = extensions;
 
-    for (;;) {
+    प्रति (;;) {
         where = SDL_strstr(start, extension);
-        if (!where) {
-            break;
+        यदि (!where) {
+            भङ्ग;
         }
 
         terminator = where + SDL_strlen(extension);
-        if (where == extensions || *(where - 1) == ' ') {
-            if (*terminator == ' ' || *terminator == '\0') {
-                return true;
+        यदि (where == extensions || *(where - 1) == ' ') {
+            यदि (*terminator == ' ' || *terminator == '\0') {
+                प्रत्यागम true;
             }
         }
 
         start = terminator;
     }
-    return false;
-#else
-    return false;
-#endif
+    प्रत्यागम false;
+#अन्यथा
+    प्रत्यागम false;
+#यदि_अन्तः
 }
 
 /* Deduce supported ES profile versions from the supported
@@ -4963,37 +4963,37 @@ bool SDL_GL_ExtensionSupported(const char *extension)
    This is normally only called when the OpenGL driver supports
    {GLX,WGL}_EXT_create_context_es2_profile.
  */
-void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor)
+शून्य SDL_GL_DeduceMaxSupportedESProfile(पूर्णाङ्क *major, पूर्णाङ्क *minor)
 {
 // THIS REQUIRES AN EXISTING GL CONTEXT THAT HAS BEEN MADE CURRENT.
 // Please refer to https://bugzilla.libsdl.org/show_bug.cgi?id=3725 for discussion.
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#यदि defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     /* XXX This is fragile; it will break in the event of release of
      * new versions of OpenGL ES.
      */
-    if (SDL_GL_ExtensionSupported("GL_ARB_ES3_2_compatibility")) {
+    यदि (SDL_GL_ExtensionSupported("GL_ARB_ES3_2_compatibility")) {
         *major = 3;
         *minor = 2;
-    } else if (SDL_GL_ExtensionSupported("GL_ARB_ES3_1_compatibility")) {
+    } अन्यथा यदि (SDL_GL_ExtensionSupported("GL_ARB_ES3_1_compatibility")) {
         *major = 3;
         *minor = 1;
-    } else if (SDL_GL_ExtensionSupported("GL_ARB_ES3_compatibility")) {
+    } अन्यथा यदि (SDL_GL_ExtensionSupported("GL_ARB_ES3_compatibility")) {
         *major = 3;
         *minor = 0;
-    } else {
+    } अन्यथा {
         *major = 2;
         *minor = 0;
     }
-#endif
+#यदि_अन्तः
 }
 
-void SDL_EGL_SetAttributeCallbacks(SDL_EGLAttribArrayCallback platformAttribCallback,
+शून्य SDL_EGL_समुच्चयः_Attribute_Callbacks(SDL_EGLAttribArrayCallback platformAttribCallback,
                                    SDL_EGLIntArrayCallback surfaceAttribCallback,
                                    SDL_EGLIntArrayCallback contextAttribCallback,
-                                   void *userdata)
+                                   शून्य *userdata)
 {
-    if (!_this) {
-        return;
+    यदि (!_this) {
+        प्रत्यागम;
     }
     _this->egl_platformattrib_callback = platformAttribCallback;
     _this->egl_surfaceattrib_callback = surfaceAttribCallback;
@@ -5001,29 +5001,29 @@ void SDL_EGL_SetAttributeCallbacks(SDL_EGLAttribArrayCallback platformAttribCall
     _this->egl_attrib_callback_userdata = userdata;
 }
 
-void SDL_GL_ResetAttributes(void)
+शून्य SDL_GL_Reset_गुणाः(शून्य)
 {
-    if (!_this) {
-        return;
+    यदि (!_this) {
+        प्रत्यागम;
     }
 
-    _this->egl_platformattrib_callback = NULL;
-    _this->egl_surfaceattrib_callback = NULL;
-    _this->egl_contextattrib_callback = NULL;
-    _this->egl_attrib_callback_userdata = NULL;
+    _this->egl_platformattrib_callback = रिक्त;
+    _this->egl_surfaceattrib_callback = रिक्त;
+    _this->egl_contextattrib_callback = रिक्त;
+    _this->egl_attrib_callback_userdata = रिक्त;
 
-    _this->gl_config.red_size = 8;
-    _this->gl_config.green_size = 8;
-    _this->gl_config.blue_size = 8;
-    _this->gl_config.alpha_size = 8;
-    _this->gl_config.buffer_size = 0;
-    _this->gl_config.depth_size = 16;
-    _this->gl_config.stencil_size = 0;
-    _this->gl_config.double_buffer = 1;
-    _this->gl_config.accum_red_size = 0;
-    _this->gl_config.accum_green_size = 0;
-    _this->gl_config.accum_blue_size = 0;
-    _this->gl_config.accum_alpha_size = 0;
+    _this->gl_config.red_आकार = 8;
+    _this->gl_config.green_आकार = 8;
+    _this->gl_config.blue_आकार = 8;
+    _this->gl_config.alpha_आकार = 8;
+    _this->gl_config.बफर_आकार = 0;
+    _this->gl_config.गभीरता_आकार = 16;
+    _this->gl_config.stencil_आकार = 0;
+    _this->gl_config.double_बफर = 1;
+    _this->gl_config.accum_red_आकार = 0;
+    _this->gl_config.accum_green_आकार = 0;
+    _this->gl_config.accum_blue_आकार = 0;
+    _this->gl_config.accum_alpha_आकार = 0;
     _this->gl_config.stereo = 0;
     _this->gl_config.multisamplebuffers = 0;
     _this->gl_config.multisamplesamples = 0;
@@ -5031,19 +5031,19 @@ void SDL_GL_ResetAttributes(void)
     _this->gl_config.retained_backing = 1;
     _this->gl_config.accelerated = -1; // accelerated or not, both are fine
 
-#ifdef SDL_VIDEO_OPENGL
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 1;
-    _this->gl_config.profile_mask = 0;
-#elif defined(SDL_VIDEO_OPENGL_ES2)
-    _this->gl_config.major_version = 2;
-    _this->gl_config.minor_version = 0;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-#elif defined(SDL_VIDEO_OPENGL_ES)
-    _this->gl_config.major_version = 1;
-    _this->gl_config.minor_version = 1;
-    _this->gl_config.profile_mask = SDL_GL_CONTEXT_PROFILE_ES;
-#endif
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+    _this->gl_config.major_संस्करणम् = 2;
+    _this->gl_config.minor_संस्करणम् = 1;
+    _this->gl_config.profile_आवरणम् = 0;
+#नोचेद्यदि defined(SDL_VIDEO_OPENGL_ES2)
+    _this->gl_config.major_संस्करणम् = 2;
+    _this->gl_config.minor_संस्करणम् = 0;
+    _this->gl_config.profile_आवरणम् = SDL_GL_CONTEXT_PROFILE_ES;
+#नोचेद्यदि defined(SDL_VIDEO_OPENGL_ES)
+    _this->gl_config.major_संस्करणम् = 1;
+    _this->gl_config.minor_संस्करणम् = 1;
+    _this->gl_config.profile_आवरणम् = SDL_GL_CONTEXT_PROFILE_ES;
+#यदि_अन्तः
 
     _this->gl_config.flags = 0;
     _this->gl_config.framebuffer_srgb_capable = 0;
@@ -5055,132 +5055,132 @@ void SDL_GL_ResetAttributes(void)
 
     _this->gl_config.egl_platform = 0;
 
-    if (_this->GL_SetDefaultProfileConfig) {
-        _this->GL_SetDefaultProfileConfig(_this);
+    यदि (_this->GL_समुच्चयः_Default_Profile_Config) {
+        _this->GL_समुच्चयः_Default_Profile_Config(_this);
     }
 }
 
-bool SDL_GL_SetAttribute(SDL_GLAttr attr, int value)
+bool SDL_GL_समुच्चयः_Attribute(SDL_GLAttr attr, पूर्णाङ्क मानम्)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    bool result;
+#यदि defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    bool परिणाम;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
     }
-    result = true;
-    switch (attr) {
-    case SDL_GL_RED_SIZE:
-        _this->gl_config.red_size = value;
-        break;
-    case SDL_GL_GREEN_SIZE:
-        _this->gl_config.green_size = value;
-        break;
-    case SDL_GL_BLUE_SIZE:
-        _this->gl_config.blue_size = value;
-        break;
-    case SDL_GL_ALPHA_SIZE:
-        _this->gl_config.alpha_size = value;
-        break;
-    case SDL_GL_DOUBLEBUFFER:
-        _this->gl_config.double_buffer = value;
-        break;
-    case SDL_GL_BUFFER_SIZE:
-        _this->gl_config.buffer_size = value;
-        break;
-    case SDL_GL_DEPTH_SIZE:
-        _this->gl_config.depth_size = value;
-        break;
-    case SDL_GL_STENCIL_SIZE:
-        _this->gl_config.stencil_size = value;
-        break;
-    case SDL_GL_ACCUM_RED_SIZE:
-        _this->gl_config.accum_red_size = value;
-        break;
-    case SDL_GL_ACCUM_GREEN_SIZE:
-        _this->gl_config.accum_green_size = value;
-        break;
-    case SDL_GL_ACCUM_BLUE_SIZE:
-        _this->gl_config.accum_blue_size = value;
-        break;
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-        _this->gl_config.accum_alpha_size = value;
-        break;
-    case SDL_GL_STEREO:
-        _this->gl_config.stereo = value;
-        break;
-    case SDL_GL_MULTISAMPLEBUFFERS:
-        _this->gl_config.multisamplebuffers = value;
-        break;
-    case SDL_GL_MULTISAMPLESAMPLES:
-        _this->gl_config.multisamplesamples = value;
-        break;
-    case SDL_GL_FLOATBUFFERS:
-        _this->gl_config.floatbuffers = value;
-        break;
-    case SDL_GL_ACCELERATED_VISUAL:
-        _this->gl_config.accelerated = value;
-        break;
-    case SDL_GL_RETAINED_BACKING:
-        _this->gl_config.retained_backing = value;
-        break;
-    case SDL_GL_CONTEXT_MAJOR_VERSION:
-        _this->gl_config.major_version = value;
-        break;
-    case SDL_GL_CONTEXT_MINOR_VERSION:
-        _this->gl_config.minor_version = value;
-        break;
-    case SDL_GL_CONTEXT_FLAGS:
-        if (value & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
+    परिणाम = true;
+    विकल्प (attr) {
+    पक्ष SDL_GL_RED_आकार:
+        _this->gl_config.red_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_GREEN_आकार:
+        _this->gl_config.green_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_BLUE_आकार:
+        _this->gl_config.blue_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_ALPHA_आकार:
+        _this->gl_config.alpha_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_DOUBLEBUFFER:
+        _this->gl_config.double_बफर = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_बफर_आकार:
+        _this->gl_config.बफर_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_गभीरता_आकार:
+        _this->gl_config.गभीरता_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_STENCIL_आकार:
+        _this->gl_config.stencil_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_ACCUM_RED_आकार:
+        _this->gl_config.accum_red_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_ACCUM_GREEN_आकार:
+        _this->gl_config.accum_green_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_ACCUM_BLUE_आकार:
+        _this->gl_config.accum_blue_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_ACCUM_ALPHA_आकार:
+        _this->gl_config.accum_alpha_आकार = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_STEREO:
+        _this->gl_config.stereo = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_MULTISAMPLEBUFFERS:
+        _this->gl_config.multisamplebuffers = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_MULTISAMPLESAMPLES:
+        _this->gl_config.multisamplesamples = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_FLOATBUFFERS:
+        _this->gl_config.floatbuffers = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_ACCELERATED_VISUAL:
+        _this->gl_config.accelerated = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_RETAINED_BACKING:
+        _this->gl_config.retained_backing = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_MAJOR_संस्करणम्:
+        _this->gl_config.major_संस्करणम् = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_MINOR_संस्करणम्:
+        _this->gl_config.minor_संस्करणम् = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_FLAGS:
+        यदि (मानम् & ~(SDL_GL_CONTEXT_DEBUG_FLAG |
                       SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG |
                       SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG |
                       SDL_GL_CONTEXT_RESET_ISOLATION_FLAG)) {
-            result = SDL_SetError("Unknown OpenGL context flag %d", value);
-            break;
+            परिणाम = SDL_समुच्चयः_Error("Unknown OpenGL context flag %d", मानम्);
+            भङ्ग;
         }
-        _this->gl_config.flags = value;
-        break;
-    case SDL_GL_CONTEXT_PROFILE_MASK:
-        if (value != 0 &&
-            value != SDL_GL_CONTEXT_PROFILE_CORE &&
-            value != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
-            value != SDL_GL_CONTEXT_PROFILE_ES) {
-            result = SDL_SetError("Unknown OpenGL context profile %d", value);
-            break;
+        _this->gl_config.flags = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_PROFILE_आवरणम्:
+        यदि (मानम् != 0 &&
+            मानम् != SDL_GL_CONTEXT_PROFILE_CORE &&
+            मानम् != SDL_GL_CONTEXT_PROFILE_COMPATIBILITY &&
+            मानम् != SDL_GL_CONTEXT_PROFILE_ES) {
+            परिणाम = SDL_समुच्चयः_Error("Unknown OpenGL context profile %d", मानम्);
+            भङ्ग;
         }
-        _this->gl_config.profile_mask = value;
-        break;
-    case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
-        _this->gl_config.share_with_current_context = value;
-        break;
-    case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
-        _this->gl_config.framebuffer_srgb_capable = value;
-        break;
-    case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
-        _this->gl_config.release_behavior = value;
-        break;
-    case SDL_GL_CONTEXT_RESET_NOTIFICATION:
-        _this->gl_config.reset_notification = value;
-        break;
-    case SDL_GL_CONTEXT_NO_ERROR:
-        _this->gl_config.no_error = value;
-        break;
-    case SDL_GL_EGL_PLATFORM:
-        _this->gl_config.egl_platform = value;
-        break;
-    default:
-        result = SDL_SetError("Unknown OpenGL attribute");
-        break;
+        _this->gl_config.profile_आवरणम् = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
+        _this->gl_config.share_with_current_context = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
+        _this->gl_config.framebuffer_srgb_capable = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
+        _this->gl_config.release_behavior = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_RESET_NOTIFICATION:
+        _this->gl_config.reset_notification = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_NO_ERROR:
+        _this->gl_config.no_error = मानम्;
+        भङ्ग;
+    पक्ष SDL_GL_EGL_PLATFORM:
+        _this->gl_config.egl_platform = मानम्;
+        भङ्ग;
+    स्वभाव:
+        परिणाम = SDL_समुच्चयः_Error("Unknown OpenGL attribute");
+        भङ्ग;
     }
-    return result;
-#else
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_OPENGL
+    प्रत्यागम परिणाम;
+#अन्यथा
+    प्रत्यागम SDL_Unsupported();
+#यदि_अन्तः // SDL_VIDEO_OPENGL
 }
 
-bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
+bool SDL_GL_GetAttribute(SDL_GLAttr attr, पूर्णाङ्क *मानम्)
 {
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#यदि defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     PFNGLGETERRORPROC glGetErrorFunc;
     GLenum attrib = 0;
     GLenum error = 0;
@@ -5191,212 +5191,212 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
      * the enums we use for the former function don't exist in OpenGL ES 2, and
      * the function itself doesn't exist prior to OpenGL 3 and OpenGL ES 2.
      */
-#ifdef SDL_VIDEO_OPENGL
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
     PFNGLGETSTRINGPROC glGetStringFunc;
     PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameterivFunc;
-    GLenum attachment = GL_BACK_LEFT;
+    GLenum attachment = GL_पृष्ठभागः_वामः;
     GLenum attachmentattrib = 0;
-#endif
+#यदि_अन्तः
 
-    CHECK_PARAM(!value) {
-        return SDL_InvalidParamError("value");
+    CHECK_PARAM(!मानम्) {
+        प्रत्यागम SDL_InvalidParamError("value");
     }
 
     // Clear value in any case
-    *value = 0;
+    *मानम् = 0;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
     }
 
-    switch (attr) {
-    case SDL_GL_RED_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE;
-#endif
-        attrib = GL_RED_BITS;
-        break;
-    case SDL_GL_BLUE_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE;
-#endif
-        attrib = GL_BLUE_BITS;
-        break;
-    case SDL_GL_GREEN_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE;
-#endif
-        attrib = GL_GREEN_BITS;
-        break;
-    case SDL_GL_ALPHA_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE;
-#endif
-        attrib = GL_ALPHA_BITS;
-        break;
-    case SDL_GL_DOUBLEBUFFER:
-#ifdef SDL_VIDEO_OPENGL
+    विकल्प (attr) {
+    पक्ष SDL_GL_RED_आकार:
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_RED_आकार;
+#यदि_अन्तः
+        attrib = GL_RED_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_BLUE_आकार:
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_BLUE_आकार;
+#यदि_अन्तः
+        attrib = GL_BLUE_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_GREEN_आकार:
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_GREEN_आकार;
+#यदि_अन्तः
+        attrib = GL_GREEN_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_ALPHA_आकार:
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_ALPHA_आकार;
+#यदि_अन्तः
+        attrib = GL_ALPHA_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_DOUBLEBUFFER:
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
         attrib = GL_DOUBLEBUFFER;
-        break;
-#else
+        भङ्ग;
+#अन्यथा
         // OpenGL ES 1.0 and above specifications have EGL_SINGLE_BUFFER
         // parameter which switches double buffer to single buffer. OpenGL ES
         // SDL driver must set proper value after initialization
-        *value = _this->gl_config.double_buffer;
-        return true;
-#endif
-    case SDL_GL_DEPTH_SIZE:
-#ifdef SDL_VIDEO_OPENGL
-        attachment = GL_DEPTH;
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE;
-#endif
-        attrib = GL_DEPTH_BITS;
-        break;
-    case SDL_GL_STENCIL_SIZE:
-#ifdef SDL_VIDEO_OPENGL
+        *मानम् = _this->gl_config.double_बफर;
+        प्रत्यागम true;
+#यदि_अन्तः
+    पक्ष SDL_GL_गभीरता_आकार:
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+        attachment = GL_गभीरता;
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_गभीरता_आकार;
+#यदि_अन्तः
+        attrib = GL_गभीरता_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_STENCIL_आकार:
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
         attachment = GL_STENCIL;
-        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE;
-#endif
-        attrib = GL_STENCIL_BITS;
-        break;
-#ifdef SDL_VIDEO_OPENGL
-    case SDL_GL_ACCUM_RED_SIZE:
-        attrib = GL_ACCUM_RED_BITS;
-        break;
-    case SDL_GL_ACCUM_GREEN_SIZE:
-        attrib = GL_ACCUM_GREEN_BITS;
-        break;
-    case SDL_GL_ACCUM_BLUE_SIZE:
-        attrib = GL_ACCUM_BLUE_BITS;
-        break;
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-        attrib = GL_ACCUM_ALPHA_BITS;
-        break;
-    case SDL_GL_STEREO:
+        attachmentattrib = GL_FRAMEBUFFER_ATTACHMENT_STENCIL_आकार;
+#यदि_अन्तः
+        attrib = GL_STENCIL_द्वयङ्काः;
+        भङ्ग;
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+    पक्ष SDL_GL_ACCUM_RED_आकार:
+        attrib = GL_ACCUM_RED_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_ACCUM_GREEN_आकार:
+        attrib = GL_ACCUM_GREEN_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_ACCUM_BLUE_आकार:
+        attrib = GL_ACCUM_BLUE_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_ACCUM_ALPHA_आकार:
+        attrib = GL_ACCUM_ALPHA_द्वयङ्काः;
+        भङ्ग;
+    पक्ष SDL_GL_STEREO:
         attrib = GL_STEREO;
-        break;
-#else
-    case SDL_GL_ACCUM_RED_SIZE:
-    case SDL_GL_ACCUM_GREEN_SIZE:
-    case SDL_GL_ACCUM_BLUE_SIZE:
-    case SDL_GL_ACCUM_ALPHA_SIZE:
-    case SDL_GL_STEREO:
+        भङ्ग;
+#अन्यथा
+    पक्ष SDL_GL_ACCUM_RED_आकार:
+    पक्ष SDL_GL_ACCUM_GREEN_आकार:
+    पक्ष SDL_GL_ACCUM_BLUE_आकार:
+    पक्ष SDL_GL_ACCUM_ALPHA_आकार:
+    पक्ष SDL_GL_STEREO:
         // none of these are supported in OpenGL ES
-        *value = 0;
-        return true;
-#endif
-    case SDL_GL_MULTISAMPLEBUFFERS:
+        *मानम् = 0;
+        प्रत्यागम true;
+#यदि_अन्तः
+    पक्ष SDL_GL_MULTISAMPLEBUFFERS:
         attrib = GL_SAMPLE_BUFFERS;
-        break;
-    case SDL_GL_MULTISAMPLESAMPLES:
+        भङ्ग;
+    पक्ष SDL_GL_MULTISAMPLESAMPLES:
         attrib = GL_SAMPLES;
-        break;
-    case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
+        भङ्ग;
+    पक्ष SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
         attrib = GL_CONTEXT_RELEASE_BEHAVIOR;
-        break;
-    case SDL_GL_BUFFER_SIZE:
+        भङ्ग;
+    पक्ष SDL_GL_बफर_आकार:
     {
-        int rsize = 0, gsize = 0, bsize = 0, asize = 0;
+        पूर्णाङ्क rsize = 0, gsize = 0, bsize = 0, asize = 0;
 
         // There doesn't seem to be a single flag in OpenGL for this!
-        if (!SDL_GL_GetAttribute(SDL_GL_RED_SIZE, &rsize)) {
-            return false;
+        यदि (!SDL_GL_GetAttribute(SDL_GL_RED_आकार, &rsize)) {
+            प्रत्यागम false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_GREEN_SIZE, &gsize)) {
-            return false;
+        यदि (!SDL_GL_GetAttribute(SDL_GL_GREEN_आकार, &gsize)) {
+            प्रत्यागम false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_BLUE_SIZE, &bsize)) {
-            return false;
+        यदि (!SDL_GL_GetAttribute(SDL_GL_BLUE_आकार, &bsize)) {
+            प्रत्यागम false;
         }
-        if (!SDL_GL_GetAttribute(SDL_GL_ALPHA_SIZE, &asize)) {
-            return false;
+        यदि (!SDL_GL_GetAttribute(SDL_GL_ALPHA_आकार, &asize)) {
+            प्रत्यागम false;
         }
 
-        *value = rsize + gsize + bsize + asize;
-        return true;
+        *मानम् = rsize + gsize + bsize + asize;
+        प्रत्यागम true;
     }
-    case SDL_GL_ACCELERATED_VISUAL:
+    पक्ष SDL_GL_ACCELERATED_VISUAL:
     {
         // Note that we can _not_ reasonably detect this once we have a context.
-        *value = (_this->gl_config.accelerated != 0);
-        return true;
+        *मानम् = (_this->gl_config.accelerated != 0);
+        प्रत्यागम true;
     }
-    case SDL_GL_RETAINED_BACKING:
+    पक्ष SDL_GL_RETAINED_BACKING:
     {
-        *value = _this->gl_config.retained_backing;
-        return true;
+        *मानम् = _this->gl_config.retained_backing;
+        प्रत्यागम true;
     }
-    case SDL_GL_CONTEXT_MAJOR_VERSION:
+    पक्ष SDL_GL_CONTEXT_MAJOR_संस्करणम्:
     {
-        *value = _this->gl_config.major_version;
-        return true;
+        *मानम् = _this->gl_config.major_संस्करणम्;
+        प्रत्यागम true;
     }
-    case SDL_GL_CONTEXT_MINOR_VERSION:
+    पक्ष SDL_GL_CONTEXT_MINOR_संस्करणम्:
     {
-        *value = _this->gl_config.minor_version;
-        return true;
+        *मानम् = _this->gl_config.minor_संस्करणम्;
+        प्रत्यागम true;
     }
-    case SDL_GL_CONTEXT_FLAGS:
+    पक्ष SDL_GL_CONTEXT_FLAGS:
     {
-        *value = _this->gl_config.flags;
-        return true;
+        *मानम् = _this->gl_config.flags;
+        प्रत्यागम true;
     }
-    case SDL_GL_CONTEXT_PROFILE_MASK:
+    पक्ष SDL_GL_CONTEXT_PROFILE_आवरणम्:
     {
-        *value = _this->gl_config.profile_mask;
-        return true;
+        *मानम् = _this->gl_config.profile_आवरणम्;
+        प्रत्यागम true;
     }
-    case SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
+    पक्ष SDL_GL_SHARE_WITH_CURRENT_CONTEXT:
     {
-        *value = _this->gl_config.share_with_current_context;
-        return true;
+        *मानम् = _this->gl_config.share_with_current_context;
+        प्रत्यागम true;
     }
-    case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
+    पक्ष SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
     {
-        *value = _this->gl_config.framebuffer_srgb_capable;
-        return true;
+        *मानम् = _this->gl_config.framebuffer_srgb_capable;
+        प्रत्यागम true;
     }
-    case SDL_GL_CONTEXT_NO_ERROR:
+    पक्ष SDL_GL_CONTEXT_NO_ERROR:
     {
-        *value = _this->gl_config.no_error;
-        return true;
+        *मानम् = _this->gl_config.no_error;
+        प्रत्यागम true;
     }
-    case SDL_GL_EGL_PLATFORM:
+    पक्ष SDL_GL_EGL_PLATFORM:
     {
-        *value = _this->gl_config.egl_platform;
-        return true;
+        *मानम् = _this->gl_config.egl_platform;
+        प्रत्यागम true;
     }
-    case SDL_GL_FLOATBUFFERS:
+    पक्ष SDL_GL_FLOATBUFFERS:
     {
-        if (_this->gl_config.HAS_GL_ARB_color_buffer_float) {
-            attrib = GL_RGBA_FLOAT_MODE_ARB;
-            break;
-        } else {
-            return 0;
+        यदि (_this->gl_config.HAS_GL_ARB_color_बफर_float) {
+            attrib = GL_RGBA_FLOAT_बहुलकम्_ARB;
+            भङ्ग;
+        } अन्यथा {
+            प्रत्यागम 0;
         }
     }
-    default:
-        return SDL_SetError("Unknown OpenGL attribute");
+    स्वभाव:
+        प्रत्यागम SDL_समुच्चयः_Error("Unknown OpenGL attribute");
     }
 
-#ifdef SDL_VIDEO_OPENGL
-    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-    if (!glGetStringFunc) {
-        return false;
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL
+    glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetString");
+    यदि (!glGetStringFunc) {
+        प्रत्यागम false;
     }
 
-    if (attachmentattrib && isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION))) {
+    यदि (attachmentattrib && is_At_न्यूनतमम्_GL3((ध्रुव वर्ण *)glGetStringFunc(GL_संस्करणम्))) {
         // glGetFramebufferAttachmentParameteriv needs to operate on the window framebuffer for this, so bind FBO 0 if necessary.
         GLint current_fbo = 0;
-        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC) SDL_GL_GetProcAddress("glGetIntegerv");
-        PFNGLBINDFRAMEBUFFERPROC glBindFramebufferFunc = (PFNGLBINDFRAMEBUFFERPROC)SDL_GL_GetProcAddress("glBindFramebuffer");
-        if (glGetIntegervFunc && glBindFramebufferFunc) {
+        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC) SDL_GL_Get_Proc_स्थानाङ्कः("glGetIntegerv");
+        PFNGLBINDFRAMEBUFFERPROC glBindFramebufferFunc = (PFNGLBINDFRAMEBUFFERPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glBindFramebuffer");
+        यदि (glGetIntegervFunc && glBindFramebufferFunc) {
             glGetIntegervFunc(GL_DRAW_FRAMEBUFFER_BINDING, &current_fbo);
         }
 
-        glGetFramebufferAttachmentParameterivFunc = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)SDL_GL_GetProcAddress("glGetFramebufferAttachmentParameteriv");
-        if (glGetFramebufferAttachmentParameterivFunc) {
-            if (glBindFramebufferFunc && (current_fbo != 0)) {
+        glGetFramebufferAttachmentParameterivFunc = (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetFramebufferAttachmentParameteriv");
+        यदि (glGetFramebufferAttachmentParameterivFunc) {
+            यदि (glBindFramebufferFunc && (current_fbo != 0)) {
                 glBindFramebufferFunc(GL_DRAW_FRAMEBUFFER, 0);
             }
             // glGetFramebufferAttachmentParameterivFunc may cause GL_INVALID_OPERATION when querying depth/stencil size if the
@@ -5406,1219 +5406,1219 @@ bool SDL_GL_GetAttribute(SDL_GLAttr attr, int *value)
             //      respectively, is zero. In this case querying pname GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME will return zero, and all
             //      other queries will generate an error.
             GLint fbo_type = GL_FRAMEBUFFER_DEFAULT;
-            if (attachment == GL_DEPTH || attachment == GL_STENCIL) {
+            यदि (attachment == GL_गभीरता || attachment == GL_STENCIL) {
                 glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &fbo_type);
             }
-            if (fbo_type != GL_NONE) {
-                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)value);
-            } else {
-                *value = 0;
+            यदि (fbo_type != GL_NONE) {
+                glGetFramebufferAttachmentParameterivFunc(GL_FRAMEBUFFER, attachment, attachmentattrib, (GLint *)मानम्);
+            } अन्यथा {
+                *मानम् = 0;
             }
-            if (glBindFramebufferFunc && (current_fbo != 0)) {
+            यदि (glBindFramebufferFunc && (current_fbo != 0)) {
                 glBindFramebufferFunc(GL_DRAW_FRAMEBUFFER, current_fbo);
             }
-        } else {
-            return false;
+        } अन्यथा {
+            प्रत्यागम false;
         }
-    } else
-#endif
+    } अन्यथा
+#यदि_अन्तः
     {
-        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_GetProcAddress("glGetIntegerv");
-        if (glGetIntegervFunc) {
-            glGetIntegervFunc(attrib, (GLint *)value);
-        } else {
-            return false;
+        PFNGLGETINTEGERVPROC glGetIntegervFunc = (PFNGLGETINTEGERVPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetIntegerv");
+        यदि (glGetIntegervFunc) {
+            glGetIntegervFunc(attrib, (GLint *)मानम्);
+        } अन्यथा {
+            प्रत्यागम false;
         }
     }
 
-    glGetErrorFunc = (PFNGLGETERRORPROC)SDL_GL_GetProcAddress("glGetError");
-    if (!glGetErrorFunc) {
-        return false;
+    glGetErrorFunc = (PFNGLGETERRORPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetError");
+    यदि (!glGetErrorFunc) {
+        प्रत्यागम false;
     }
 
     error = glGetErrorFunc();
-    if (error != GL_NO_ERROR) {
-        if (error == GL_INVALID_ENUM) {
-            return SDL_SetError("OpenGL error: GL_INVALID_ENUM");
-        } else if (error == GL_INVALID_VALUE) {
-            return SDL_SetError("OpenGL error: GL_INVALID_VALUE");
+    यदि (error != GL_NO_ERROR) {
+        यदि (error == GL_INVALID_ENUM) {
+            प्रत्यागम SDL_समुच्चयः_Error("OpenGL error: GL_INVALID_ENUM");
+        } अन्यथा यदि (error == GL_INVALID_मानम्) {
+            प्रत्यागम SDL_समुच्चयः_Error("OpenGL error: GL_INVALID_VALUE");
         }
-        return SDL_SetError("OpenGL error: %08X", error);
+        प्रत्यागम SDL_समुच्चयः_Error("OpenGL error: %08X", error);
     }
 
     // convert GL_CONTEXT_RELEASE_BEHAVIOR values back to SDL_GL_CONTEXT_RELEASE_BEHAVIOR values
-    if (attr == SDL_GL_CONTEXT_RELEASE_BEHAVIOR) {
-        *value = (*value == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
+    यदि (attr == SDL_GL_CONTEXT_RELEASE_BEHAVIOR) {
+        *मानम् = (*मानम् == GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH) ? SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH : SDL_GL_CONTEXT_RELEASE_BEHAVIOR_NONE;
     }
 
-    return true;
-#else
-    return SDL_Unsupported();
-#endif // SDL_VIDEO_OPENGL
+    प्रत्यागम true;
+#अन्यथा
+    प्रत्यागम SDL_Unsupported();
+#यदि_अन्तः // SDL_VIDEO_OPENGL
 }
 
-#define NOT_AN_OPENGL_WINDOW "The specified window isn't an OpenGL window"
+#परिभाषय NOT_AN_OPENGL_गवाक्षः "The specified window isn't an OpenGL window"
 
-SDL_GLContext SDL_GL_CreateContext(SDL_Window *window)
+SDL_GLContext SDL_GL_CreateContext(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_GLContext ctx = NULL;
-    CHECK_WINDOW_MAGIC(window, NULL);
+    SDL_GLContext ctx = रिक्त;
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, रिक्त);
 
-    if (!(window->flags & SDL_WINDOW_OPENGL)) {
-        SDL_SetError(NOT_AN_OPENGL_WINDOW);
-        return NULL;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_OPENGL)) {
+        SDL_समुच्चयः_Error(NOT_AN_OPENGL_गवाक्षः);
+        प्रत्यागम रिक्त;
     }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
-    int srgb_requested = -1;
-    const char *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
-    if (srgbhint && *srgbhint) {
+#यदि defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+    पूर्णाङ्क srgb_requested = -1;
+    ध्रुव वर्ण *srgbhint = SDL_GetHint(SDL_HINT_OPENGL_FORCE_SRGB_FRAMEBUFFER);
+    यदि (srgbhint && *srgbhint) {
         srgb_requested = SDL_GetStringBoolean(srgbhint, false) ? 1 : 0;
     }
 
-#endif
+#यदि_अन्तः
 
-    ctx = _this->GL_CreateContext(_this, window);
+    ctx = _this->GL_CreateContext(_this, गवाक्षः);
 
     // Creating a context is assumed to make it current in the SDL driver.
-    if (ctx) {
-        _this->current_glwin = window;
+    यदि (ctx) {
+        _this->current_glwin = गवाक्षः;
         _this->current_glctx = ctx;
-        SDL_SetTLS(&_this->current_glwin_tls, window, NULL);
-        SDL_SetTLS(&_this->current_glctx_tls, ctx, NULL);
+        SDL_समुच्चयः_TLS(&_this->current_glwin_tls, गवाक्षः, रिक्त);
+        SDL_समुच्चयः_TLS(&_this->current_glctx_tls, ctx, रिक्त);
     }
 
-#if defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
+#यदि defined(SDL_VIDEO_OPENGL) || defined(SDL_VIDEO_OPENGL_ES) || defined(SDL_VIDEO_OPENGL_ES2)
     // try to force the window framebuffer to the requested sRGB state.
-    if (srgb_requested != -1) {
-        PFNGLENABLEPROC glToggleFunc = (PFNGLENABLEPROC) SDL_GL_GetProcAddress(srgb_requested ? "glEnable" : "glDisable");
-        PFNGLGETSTRINGPROC glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_GetProcAddress("glGetString");
-        if (glToggleFunc && glGetStringFunc) {
+    यदि (srgb_requested != -1) {
+        PFNGLENABLEPROC glToggleFunc = (PFNGLENABLEPROC) SDL_GL_Get_Proc_स्थानाङ्कः(srgb_requested ? "glEnable" : "glDisable");
+        PFNGLGETSTRINGPROC glGetStringFunc = (PFNGLGETSTRINGPROC)SDL_GL_Get_Proc_स्थानाङ्कः("glGetString");
+        यदि (glToggleFunc && glGetStringFunc) {
             bool supported = false;
-            if (_this->gl_config.profile_mask & SDL_GL_CONTEXT_PROFILE_ES) {
+            यदि (_this->gl_config.profile_आवरणम् & SDL_GL_CONTEXT_PROFILE_ES) {
                 supported = SDL_GL_ExtensionSupported("GL_EXT_sRGB_write_control");  // GL_FRAMEBUFFER_SRGB is not core in any GLES version at the moment.
-            } else {
-                supported = isAtLeastGL3((const char *)glGetStringFunc(GL_VERSION)) ||  // no extensions needed in OpenGL 3+.
+            } अन्यथा {
+                supported = is_At_न्यूनतमम्_GL3((ध्रुव वर्ण *)glGetStringFunc(GL_संस्करणम्)) ||  // no extensions needed in OpenGL 3+.
                             SDL_GL_ExtensionSupported("GL_EXT_framebuffer_sRGB") ||
                             SDL_GL_ExtensionSupported("GL_ARB_framebuffer_sRGB");
             }
 
-            if (supported) {
+            यदि (supported) {
                 glToggleFunc(GL_FRAMEBUFFER_SRGB);
             }
         }
     }
-#endif
+#यदि_अन्तः
 
-    return ctx;
+    प्रत्यागम ctx;
 }
 
-bool SDL_GL_MakeCurrent(SDL_Window *window, SDL_GLContext context)
+bool SDL_GL_MakeCurrent(SDL_गवाक्षः *गवाक्षः, SDL_GLContext context)
 {
-    bool result;
+    bool परिणाम;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
     }
 
-    if (window == SDL_GL_GetCurrentWindow() &&
+    यदि (गवाक्षः == SDL_GL_Get_Current_गवाक्षः() &&
         context == SDL_GL_GetCurrentContext()) {
         // We're already current.
-        return true;
+        प्रत्यागम true;
     }
 
-    if (!context) {
-        window = NULL;
-    } else if (window) {
-        CHECK_WINDOW_MAGIC(window, false);
+    यदि (!context) {
+        गवाक्षः = रिक्त;
+    } अन्यथा यदि (गवाक्षः) {
+        CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-        if (!(window->flags & SDL_WINDOW_OPENGL)) {
-            return SDL_SetError(NOT_AN_OPENGL_WINDOW);
+        यदि (!(गवाक्षः->flags & SDL_गवाक्षः_OPENGL)) {
+            प्रत्यागम SDL_समुच्चयः_Error(NOT_AN_OPENGL_गवाक्षः);
         }
-    } else if (!_this->gl_allow_no_surface) {
-        return SDL_SetError("Use of OpenGL without a window is not supported on this platform");
+    } अन्यथा यदि (!_this->gl_allow_no_surface) {
+        प्रत्यागम SDL_समुच्चयः_Error("Use of OpenGL without a window is not supported on this platform");
     }
 
-    result = _this->GL_MakeCurrent(_this, window, context);
-    if (result) {
-        _this->current_glwin = window;
+    परिणाम = _this->GL_MakeCurrent(_this, गवाक्षः, context);
+    यदि (परिणाम) {
+        _this->current_glwin = गवाक्षः;
         _this->current_glctx = context;
-        SDL_SetTLS(&_this->current_glwin_tls, window, NULL);
-        SDL_SetTLS(&_this->current_glctx_tls, context, NULL);
+        SDL_समुच्चयः_TLS(&_this->current_glwin_tls, गवाक्षः, रिक्त);
+        SDL_समुच्चयः_TLS(&_this->current_glctx_tls, context, रिक्त);
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-SDL_Window *SDL_GL_GetCurrentWindow(void)
+SDL_गवाक्षः *SDL_GL_Get_Current_गवाक्षः(शून्य)
 {
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    return (SDL_Window *)SDL_GetTLS(&_this->current_glwin_tls);
+    प्रत्यागम (SDL_गवाक्षः *)SDL_GetTLS(&_this->current_glwin_tls);
 }
 
-SDL_GLContext SDL_GL_GetCurrentContext(void)
+SDL_GLContext SDL_GL_GetCurrentContext(शून्य)
 {
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    return (SDL_GLContext)SDL_GetTLS(&_this->current_glctx_tls);
+    प्रत्यागम (SDL_GLContext)SDL_GetTLS(&_this->current_glctx_tls);
 }
 
-SDL_EGLDisplay SDL_EGL_GetCurrentDisplay(void)
+SDL_EGLDisplay SDL_EGL_GetCurrentDisplay(शून्य)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return EGL_NO_DISPLAY;
+        प्रत्यागम EGL_NO_DISPLAY;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return EGL_NO_DISPLAY;
+    यदि (!_this->egl_दत्त) {
+        SDL_समुच्चयः_Error("There is no current EGL display");
+        प्रत्यागम EGL_NO_DISPLAY;
     }
-    return _this->egl_data->egl_display;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    प्रत्यागम _this->egl_दत्त->egl_display;
+#अन्यथा
+    SDL_समुच्चयः_Error("SDL was not built with EGL support");
+    प्रत्यागम रिक्त;
+#यदि_अन्तः
 }
 
-SDL_EGLConfig SDL_EGL_GetCurrentConfig(void)
+SDL_EGLConfig SDL_EGL_GetCurrentConfig(शून्य)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return NULL;
+    यदि (!_this->egl_दत्त) {
+        SDL_समुच्चयः_Error("There is no current EGL display");
+        प्रत्यागम रिक्त;
     }
-    return _this->egl_data->egl_config;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    प्रत्यागम _this->egl_दत्त->egl_config;
+#अन्यथा
+    SDL_समुच्चयः_Error("SDL was not built with EGL support");
+    प्रत्यागम रिक्त;
+#यदि_अन्तः
 }
 
-SDL_EGLConfig SDL_EGL_GetWindowSurface(SDL_Window *window)
+SDL_EGLConfig SDL_EGL_Get_गवाक्षः_Surface(SDL_गवाक्षः *गवाक्षः)
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (!_this) {
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    if (!_this->egl_data) {
-        SDL_SetError("There is no current EGL display");
-        return NULL;
+    यदि (!_this->egl_दत्त) {
+        SDL_समुच्चयः_Error("There is no current EGL display");
+        प्रत्यागम रिक्त;
     }
-    if (_this->GL_GetEGLSurface) {
-        return _this->GL_GetEGLSurface(_this, window);
+    यदि (_this->GL_GetEGLSurface) {
+        प्रत्यागम _this->GL_GetEGLSurface(_this, गवाक्षः);
     }
-    return NULL;
-#else
-    SDL_SetError("SDL was not built with EGL support");
-    return NULL;
-#endif
+    प्रत्यागम रिक्त;
+#अन्यथा
+    SDL_समुच्चयः_Error("SDL was not built with EGL support");
+    प्रत्यागम रिक्त;
+#यदि_अन्तः
 }
 
-bool SDL_GL_SetSwapInterval(int interval)
+bool SDL_GL_समुच्चयः_Swap_Interval(पूर्णाङ्क interval)
 {
-    if (!_this) {
-        return SDL_UninitializedVideo();
-    } else if (SDL_GL_GetCurrentContext() == NULL) {
-        return SDL_SetError("No OpenGL context has been made current");
-    } else if (_this->GL_SetSwapInterval) {
-        return _this->GL_SetSwapInterval(_this, interval);
-    } else {
-        return SDL_SetError("Setting the swap interval is not supported");
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
+    } अन्यथा यदि (SDL_GL_GetCurrentContext() == रिक्त) {
+        प्रत्यागम SDL_समुच्चयः_Error("No OpenGL context has been made current");
+    } अन्यथा यदि (_this->GL_समुच्चयः_Swap_Interval) {
+        प्रत्यागम _this->GL_समुच्चयः_Swap_Interval(_this, interval);
+    } अन्यथा {
+        प्रत्यागम SDL_समुच्चयः_Error("Setting the swap interval is not supported");
     }
 }
 
-bool SDL_GL_GetSwapInterval(int *interval)
+bool SDL_GL_GetSwapInterval(पूर्णाङ्क *interval)
 {
     CHECK_PARAM(!interval) {
-       return SDL_InvalidParamError("interval");
+       प्रत्यागम SDL_InvalidParamError("interval");
     }
 
     *interval = 0;
 
-    if (!_this) {
-        return SDL_SetError("no video driver");
-    } else if (SDL_GL_GetCurrentContext() == NULL) {
-        return SDL_SetError("no current context");
-    } else if (_this->GL_GetSwapInterval) {
-        return _this->GL_GetSwapInterval(_this, interval);
-    } else {
-        return SDL_SetError("not implemented");
+    यदि (!_this) {
+        प्रत्यागम SDL_समुच्चयः_Error("no video driver");
+    } अन्यथा यदि (SDL_GL_GetCurrentContext() == रिक्त) {
+        प्रत्यागम SDL_समुच्चयः_Error("no current context");
+    } अन्यथा यदि (_this->GL_GetSwapInterval) {
+        प्रत्यागम _this->GL_GetSwapInterval(_this, interval);
+    } अन्यथा {
+        प्रत्यागम SDL_समुच्चयः_Error("not implemented");
     }
 }
 
-bool SDL_GL_SwapWindow(SDL_Window *window)
+bool SDL_GL_Swap_गवाक्षः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!(window->flags & SDL_WINDOW_OPENGL)) {
-        return SDL_SetError(NOT_AN_OPENGL_WINDOW);
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_OPENGL)) {
+        प्रत्यागम SDL_समुच्चयः_Error(NOT_AN_OPENGL_गवाक्षः);
     }
 
-    if (SDL_GL_GetCurrentWindow() != window) {
-        return SDL_SetError("The specified window has not been made current");
+    यदि (SDL_GL_Get_Current_गवाक्षः() != गवाक्षः) {
+        प्रत्यागम SDL_समुच्चयः_Error("The specified window has not been made current");
     }
 
-    return _this->GL_SwapWindow(_this, window);
+    प्रत्यागम _this->GL_Swap_गवाक्षः(_this, गवाक्षः);
 }
 
 bool SDL_GL_DestroyContext(SDL_GLContext context)
 {
     CHECK_PARAM(!_this) {
-        return SDL_UninitializedVideo();
+        प्रत्यागम SDL_UninitializedVideo();
     }
     CHECK_PARAM(!context) {
-        return SDL_InvalidParamError("context");
+        प्रत्यागम SDL_InvalidParamError("context");
     }
 
-    if (SDL_GL_GetCurrentContext() == context) {
-        SDL_GL_MakeCurrent(NULL, NULL);
+    यदि (SDL_GL_GetCurrentContext() == context) {
+        SDL_GL_MakeCurrent(रिक्त, रिक्त);
     }
 
-    return _this->GL_DestroyContext(_this, context);
+    प्रत्यागम _this->GL_DestroyContext(_this, context);
 }
 
-#if 0 // FIXME
+#यदि 0 // FIXME
 /*
  * Utility function used by SDL_WM_SetIcon(); flags & 1 for color key, flags
  * & 2 for alpha channel.
  */
-static void CreateMaskFromColorKeyOrAlpha(SDL_Surface *icon, Uint8 *mask, int flags)
+स्थिर शून्य Create_आवरणम्_From_Color_कुञ्चिका_Or_Alpha(SDL_Surface *icon, Uint8 *आवरणम्, पूर्णाङ्क flags)
 {
-    int x, y;
+    पूर्णाङ्क x, y;
     Uint32 colorkey;
-#define SET_MASKBIT(icon, x, y, mask) \
-    mask[(y * ((icon->w + 7) / 8)) + (x / 8)] &= ~(0x01 << (7 - (x % 8)))
+#परिभाषय समुच्चयः_MASKBIT(icon, x, y, आवरणम्) \
+    आवरणम्[(y * ((icon->w + 7) / 8)) + (x / 8)] &= ~(0x01 << (7 - (x % 8)))
 
     colorkey = icon->format->colorkey;
-    switch (SDL_BYTESPERPIXEL(icon->format)) {
-    case 1:
+    विकल्प (SDL_BYTESPERPIXEL(icon->format)) {
+    पक्ष 1:
         {
             Uint8 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            प्रति (y = 0; y < icon->h; ++y) {
                 pixels = (Uint8 *) icon->pixels + y * icon->pitch;
-                for (x = 0; x < icon->w; ++x) {
-                    if (*pixels++ == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
+                प्रति (x = 0; x < icon->w; ++x) {
+                    यदि (*pixels++ == colorkey) {
+                        समुच्चयः_MASKBIT(icon, x, y, आवरणम्);
                     }
                 }
             }
         }
-        break;
+        भङ्ग;
 
-    case 2:
+    पक्ष 2:
         {
             Uint16 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            प्रति (y = 0; y < icon->h; ++y) {
                 pixels = (Uint16 *) icon->pixels + y * icon->pitch / 2;
-                for (x = 0; x < icon->w; ++x) {
-                    if ((flags & 1) && *pixels == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
-                    } else if ((flags & 2)
+                प्रति (x = 0; x < icon->w; ++x) {
+                    यदि ((flags & 1) && *pixels == colorkey) {
+                        समुच्चयः_MASKBIT(icon, x, y, आवरणम्);
+                    } अन्यथा यदि ((flags & 2)
                                && (*pixels & icon->format->Amask) == 0) {
-                        SET_MASKBIT(icon, x, y, mask);
+                        समुच्चयः_MASKBIT(icon, x, y, आवरणम्);
                     }
                     pixels++;
                 }
             }
         }
-        break;
+        भङ्ग;
 
-    case 4:
+    पक्ष 4:
         {
             Uint32 *pixels;
-            for (y = 0; y < icon->h; ++y) {
+            प्रति (y = 0; y < icon->h; ++y) {
                 pixels = (Uint32 *) icon->pixels + y * icon->pitch / 4;
-                for (x = 0; x < icon->w; ++x) {
-                    if ((flags & 1) && *pixels == colorkey) {
-                        SET_MASKBIT(icon, x, y, mask);
-                    } else if ((flags & 2)
+                प्रति (x = 0; x < icon->w; ++x) {
+                    यदि ((flags & 1) && *pixels == colorkey) {
+                        समुच्चयः_MASKBIT(icon, x, y, आवरणम्);
+                    } अन्यथा यदि ((flags & 2)
                                && (*pixels & icon->format->Amask) == 0) {
-                        SET_MASKBIT(icon, x, y, mask);
+                        समुच्चयः_MASKBIT(icon, x, y, आवरणम्);
                     }
                     pixels++;
                 }
             }
         }
-        break;
+        भङ्ग;
     }
 }
 
 /*
  * Sets the window manager icon for the display window.
  */
-void SDL_WM_SetIcon(SDL_Surface *icon, Uint8 *mask)
+शून्य SDL_WM_समुच्चयः_Icon(SDL_Surface *icon, Uint8 *आवरणम्)
 {
-    if (icon && _this->SetIcon) {
+    यदि (icon && _this->समुच्चयः_Icon) {
         // Generate a mask if necessary, and create the icon!
-        if (mask == NULL) {
-            int mask_len = icon->h * (icon->w + 7) / 8;
-            int flags = 0;
-            mask = (Uint8 *) SDL_malloc(mask_len);
-            if (mask == NULL) {
-                return;
+        यदि (आवरणम् == रिक्त) {
+            पूर्णाङ्क आवरणम्_len = icon->h * (icon->w + 7) / 8;
+            पूर्णाङ्क flags = 0;
+            आवरणम् = (Uint8 *) SDL_malloc(आवरणम्_len);
+            यदि (आवरणम् == रिक्त) {
+                प्रत्यागम;
             }
-            SDL_memset(mask, ~0, mask_len);
-            if (icon->flags & SDL_SRCCOLORKEY)
+            SDL_memset(आवरणम्, ~0, आवरणम्_len);
+            यदि (icon->flags & SDL_SRCCOLORKEY)
                 flags |= 1;
-            if (icon->flags & SDL_SRCALPHA)
+            यदि (icon->flags & SDL_SRCALPHA)
                 flags |= 2;
-            if (flags) {
-                CreateMaskFromColorKeyOrAlpha(icon, mask, flags);
+            यदि (flags) {
+                Create_आवरणम्_From_Color_कुञ्चिका_Or_Alpha(icon, आवरणम्, flags);
             }
-            _this->SetIcon(_this, icon, mask);
-            SDL_free(mask);
-        } else {
-            _this->SetIcon(_this, icon, mask);
+            _this->समुच्चयः_Icon(_this, icon, आवरणम्);
+            SDL_free(आवरणम्);
+        } अन्यथा {
+            _this->समुच्चयः_Icon(_this, icon, आवरणम्);
         }
     }
 }
-#endif
+#यदि_अन्तः
 
-SDL_TextInputType SDL_GetTextInputType(SDL_PropertiesID props)
+SDL_Text_निवेशः_Type SDL_Get_Text_निवेशः_Type(SDL_PropertiesID props)
 {
-    return (SDL_TextInputType)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_TYPE_NUMBER, SDL_TEXTINPUT_TYPE_TEXT);
+    प्रत्यागम (SDL_Text_निवेशः_Type)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_TEXTINPUT_TYPE_सङ्ख्या, SDL_TEXTINPUT_TYPE_TEXT);
 }
 
-SDL_Capitalization SDL_GetTextInputCapitalization(SDL_PropertiesID props)
+SDL_Capitalization SDL_Get_Text_निवेशः_Capitalization(SDL_PropertiesID props)
 {
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER)) {
-        return (SDL_Capitalization)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER, SDL_CAPITALIZE_NONE);
+    यदि (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_सङ्ख्या)) {
+        प्रत्यागम (SDL_Capitalization)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_सङ्ख्या, SDL_CAPITALIZE_NONE);
     }
 
-    switch (SDL_GetTextInputType(props)) {
-    case SDL_TEXTINPUT_TYPE_TEXT:
-        return SDL_CAPITALIZE_SENTENCES;
-    case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-        return SDL_CAPITALIZE_WORDS;
-    default:
-        return SDL_CAPITALIZE_NONE;
-    }
-}
-
-bool SDL_GetTextInputAutocorrect(SDL_PropertiesID props)
-{
-    return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, true);
-}
-
-bool SDL_GetTextInputMultiline(SDL_PropertiesID props)
-{
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN)) {
-        return SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
-    }
-
-    if (SDL_GetHintBoolean(SDL_HINT_RETURN_KEY_HIDES_IME, false)) {
-        return false;
-    } else {
-        return true;
+    विकल्प (SDL_Get_Text_निवेशः_Type(props)) {
+    पक्ष SDL_TEXTINPUT_TYPE_TEXT:
+        प्रत्यागम SDL_CAPITALIZE_SENTENCES;
+    पक्ष SDL_TEXTINPUT_TYPE_TEXT_NAME:
+        प्रत्यागम SDL_CAPITALIZE_शब्दाः;
+    स्वभाव:
+        प्रत्यागम SDL_CAPITALIZE_NONE;
     }
 }
 
-static bool AutoShowingScreenKeyboard(void)
+bool SDL_Get_Text_निवेशः_Autocorrect(SDL_PropertiesID props)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD);
-    if (!hint) {
+    प्रत्यागम SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, true);
+}
+
+bool SDL_Get_Text_निवेशः_Multiline(SDL_PropertiesID props)
+{
+    यदि (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN)) {
+        प्रत्यागम SDL_GetBooleanProperty(props, SDL_PROP_TEXTINPUT_MULTILINE_BOOLEAN, false);
+    }
+
+    यदि (SDL_GetHintBoolean(SDL_HINT_RETURN_कुञ्चिका_HIDES_IME, false)) {
+        प्रत्यागम false;
+    } अन्यथा {
+        प्रत्यागम true;
+    }
+}
+
+स्थिर bool AutoShowingScreenKeyboard(शून्य)
+{
+    ध्रुव वर्ण *hint = SDL_GetHint(SDL_HINT_ENABLE_SCREEN_KEYBOARD);
+    यदि (!hint) {
         // This hint is currently only used by the X11 video driver
-        if (SDL_strcmp(_this->name, "x11") == 0) {
+        यदि (SDL_strcmp(_this->name, "x11") == 0) {
             hint = SDL_GetHint(SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD);
         }
     }
-    if (((!hint || SDL_strcasecmp(hint, "auto") == 0) && !SDL_HasKeyboard()) ||
+    यदि (((!hint || SDL_strcasecmp(hint, "auto") == 0) && !SDL_HasKeyboard()) ||
         SDL_GetStringBoolean(hint, false)) {
-        return true;
-    } else {
-        return false;
+        प्रत्यागम true;
+    } अन्यथा {
+        प्रत्यागम false;
     }
 }
 
-bool SDL_StartTextInput(SDL_Window *window)
+bool SDL_Start_Text_निवेशः(SDL_गवाक्षः *गवाक्षः)
 {
-    return SDL_StartTextInputWithProperties(window, 0);
+    प्रत्यागम SDL_Start_Text_निवेशः_With_Properties(गवाक्षः, 0);
 }
 
-bool SDL_StartTextInputWithProperties(SDL_Window *window, SDL_PropertiesID props)
+bool SDL_Start_Text_निवेशः_With_Properties(SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID props)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (window->text_input_props) {
-        SDL_DestroyProperties(window->text_input_props);
-        window->text_input_props = 0;
+    यदि (गवाक्षः->text_निवेशः_props) {
+        SDL_DestroyProperties(गवाक्षः->text_निवेशः_props);
+        गवाक्षः->text_निवेशः_props = 0;
     }
 
-    if (props) {
-        window->text_input_props = SDL_CreateProperties();
-        if (!window->text_input_props) {
-            return false;
+    यदि (props) {
+        गवाक्षः->text_निवेशः_props = SDL_CreateProperties();
+        यदि (!गवाक्षः->text_निवेशः_props) {
+            प्रत्यागम false;
         }
-        if (!SDL_CopyProperties(props, window->text_input_props)) {
-            return false;
+        यदि (!SDL_CopyProperties(props, गवाक्षः->text_निवेशः_props)) {
+            प्रत्यागम false;
         }
     }
 
-    if (_this->SetTextInputProperties) {
-        _this->SetTextInputProperties(_this, window, props);
+    यदि (_this->समुच्चयः_Text_निवेशः_Properties) {
+        _this->समुच्चयः_Text_निवेशः_Properties(_this, गवाक्षः, props);
     }
 
-    if (!window->text_input_active) {
+    यदि (!गवाक्षः->text_निवेशः_सक्रिय) {
         // Start the text input system
-        if (_this->StartTextInput) {
-            if (!_this->StartTextInput(_this, window, props)) {
-                return false;
+        यदि (_this->Start_Text_निवेशः) {
+            यदि (!_this->Start_Text_निवेशः(_this, गवाक्षः, props)) {
+                प्रत्यागम false;
             }
         }
-        window->text_input_active = true;
+        गवाक्षः->text_निवेशः_सक्रिय = true;
     }
 
     // Show the on-screen keyboard, if desired
-    if (AutoShowingScreenKeyboard() && !SDL_ScreenKeyboardShown(window)) {
-        if (_this->ShowScreenKeyboard) {
-            _this->ShowScreenKeyboard(_this, window, props);
+    यदि (AutoShowingScreenKeyboard() && !SDL_ScreenKeyboardShown(गवाक्षः)) {
+        यदि (_this->ShowScreenKeyboard) {
+            _this->ShowScreenKeyboard(_this, गवाक्षः, props);
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_TextInputActive(SDL_Window *window)
+bool SDL_Text_निवेशः_सक्रिय(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    return window->text_input_active;
+    प्रत्यागम गवाक्षः->text_निवेशः_सक्रिय;
 }
 
-bool SDL_StopTextInput(SDL_Window *window)
+bool SDL_Stop_Text_निवेशः(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (window->text_input_active) {
+    यदि (गवाक्षः->text_निवेशः_सक्रिय) {
         // Stop the text input system
-        if (_this->StopTextInput) {
-            _this->StopTextInput(_this, window);
+        यदि (_this->Stop_Text_निवेशः) {
+            _this->Stop_Text_निवेशः(_this, गवाक्षः);
         }
-        window->text_input_active = false;
+        गवाक्षः->text_निवेशः_सक्रिय = false;
     }
 
     // Hide the on-screen keyboard, if desired
-    if (AutoShowingScreenKeyboard() && SDL_ScreenKeyboardShown(window)) {
-        if (_this->HideScreenKeyboard) {
-            _this->HideScreenKeyboard(_this, window);
+    यदि (AutoShowingScreenKeyboard() && SDL_ScreenKeyboardShown(गवाक्षः)) {
+        यदि (_this->HideScreenKeyboard) {
+            _this->HideScreenKeyboard(_this, गवाक्षः);
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_SetTextInputArea(SDL_Window *window, const SDL_Rect *rect, int cursor)
+bool SDL_समुच्चयः_Text_निवेशः_Area(SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rect, पूर्णाङ्क cursor)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (rect) {
-        SDL_copyp(&window->text_input_rect, rect);
-        window->text_input_cursor = cursor;
-    } else {
-        SDL_zero(window->text_input_rect);
-        window->text_input_cursor = 0;
+    यदि (rect) {
+        SDL_copyp(&गवाक्षः->text_निवेशः_rect, rect);
+        गवाक्षः->text_निवेशः_cursor = cursor;
+    } अन्यथा {
+        SDL_zero(गवाक्षः->text_निवेशः_rect);
+        गवाक्षः->text_निवेशः_cursor = 0;
     }
 
-    if (_this && _this->UpdateTextInputArea) {
-        if (!_this->UpdateTextInputArea(_this, window)) {
-            return false;
+    यदि (_this && _this->Update_Text_निवेशः_Area) {
+        यदि (!_this->Update_Text_निवेशः_Area(_this, गवाक्षः)) {
+            प्रत्यागम false;
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_GetTextInputArea(SDL_Window *window, SDL_Rect *rect, int *cursor)
+bool SDL_Get_Text_निवेशः_Area(SDL_गवाक्षः *गवाक्षः, SDL_Rect *rect, पूर्णाङ्क *cursor)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (rect) {
-        SDL_copyp(rect, &window->text_input_rect);
+    यदि (rect) {
+        SDL_copyp(rect, &गवाक्षः->text_निवेशः_rect);
     }
-    if (cursor) {
-        *cursor = window->text_input_cursor;
+    यदि (cursor) {
+        *cursor = गवाक्षः->text_निवेशः_cursor;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_ClearComposition(SDL_Window *window)
+bool SDL_ClearComposition(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (_this->ClearComposition) {
-        return _this->ClearComposition(_this, window);
+    यदि (_this->ClearComposition) {
+        प्रत्यागम _this->ClearComposition(_this, गवाक्षः);
     }
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_HasScreenKeyboardSupport(void)
+bool SDL_HasScreenKeyboardSupport(शून्य)
 {
-    if (_this && _this->HasScreenKeyboardSupport) {
-        return _this->HasScreenKeyboardSupport(_this);
+    यदि (_this && _this->HasScreenKeyboardSupport) {
+        प्रत्यागम _this->HasScreenKeyboardSupport(_this);
     }
-    return false;
+    प्रत्यागम false;
 }
 
-bool SDL_ScreenKeyboardShown(SDL_Window *window)
+bool SDL_ScreenKeyboardShown(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    return _this->screen_keyboard_shown;
+    प्रत्यागम _this->screen_keyboard_shown;
 }
 
-void SDL_SendScreenKeyboardShown(void)
+शून्य SDL_SendScreenKeyboardShown(शून्य)
 {
-    if (!_this || _this->screen_keyboard_shown) {
-        return;
+    यदि (!_this || _this->screen_keyboard_shown) {
+        प्रत्यागम;
     }
 
     _this->screen_keyboard_shown = true;
 
-    if (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_SHOWN)) {
+    यदि (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_SHOWN)) {
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_SHOWN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_प्रक्षिप_Event(&event);
     }
 }
 
-void SDL_SendScreenKeyboardHidden(void)
+शून्य SDL_SendScreenKeyboardHidden(शून्य)
 {
-    if (!_this || !_this->screen_keyboard_shown) {
-        return;
+    यदि (!_this || !_this->screen_keyboard_shown) {
+        प्रत्यागम;
     }
 
     _this->screen_keyboard_shown = false;
 
-    if (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_HIDDEN)) {
+    यदि (SDL_EventEnabled(SDL_EVENT_SCREEN_KEYBOARD_HIDDEN)) {
         SDL_Event event;
         event.type = SDL_EVENT_SCREEN_KEYBOARD_HIDDEN;
         event.common.timestamp = 0;
-        SDL_PushEvent(&event);
+        SDL_प्रक्षिप_Event(&event);
     }
 }
 
-int SDL_GetMessageBoxCount(void)
+पूर्णाङ्क SDL_Get_सन्देशः_Box_गणनम्(शून्य)
 {
-    return SDL_GetAtomicInt(&SDL_messagebox_count);
+    प्रत्यागम SDL_GetAtomicInt(&SDL_messagebox_गणनम्);
 }
 
-bool SDL_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool SDL_Show_सन्देशः_Box(ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, पूर्णाङ्क *buttonID)
 {
-    int dummybutton;
-    bool result = false;
-    bool show_cursor_prev;
-    SDL_Window *current_window;
-    SDL_MessageBoxData mbdata;
+    पूर्णाङ्क dummybutton;
+    bool परिणाम = false;
+    bool show_cursor_पूर्व;
+    SDL_गवाक्षः *current_गवाक्षः;
+    SDL_सन्देशः_Box_दत्त mbdata;
 
     CHECK_PARAM(!messageboxdata) {
-        return SDL_InvalidParamError("messageboxdata");
+        प्रत्यागम SDL_InvalidParamError("messageboxdata");
     }
     CHECK_PARAM(messageboxdata->numbuttons < 0) {
-        return SDL_SetError("Invalid number of buttons");
+        प्रत्यागम SDL_समुच्चयः_Error("Invalid number of buttons");
     }
 
     // in case either the title or message was a pointer from SDL_GetError(), make a copy
     // now, as we'll likely overwrite error state in here.
     bool titleisstack = false, msgisstack = false;
-    char *titlecpy = NULL;
-    char *msgcpy = NULL;
-    if (messageboxdata->title) {
-        const size_t slen = SDL_strlen(messageboxdata->title) + 1;
-        titlecpy = SDL_small_alloc(char, slen, &titleisstack);
-        if (!titlecpy) {
-            return false;
+    वर्ण *titlecpy = रिक्त;
+    वर्ण *msgcpy = रिक्त;
+    यदि (messageboxdata->title) {
+        ध्रुव size_t slen = SDL_strlen(messageboxdata->title) + 1;
+        titlecpy = SDL_small_alloc(वर्ण, slen, &titleisstack);
+        यदि (!titlecpy) {
+            प्रत्यागम false;
         }
         SDL_memcpy(titlecpy, messageboxdata->title, slen);
     }
 
-    if (messageboxdata->message) {
-        const size_t slen = SDL_strlen(messageboxdata->message) + 1;
-        msgcpy = SDL_small_alloc(char, slen, &msgisstack);
-        if (!msgcpy) {
+    यदि (messageboxdata->सन्देशः) {
+        ध्रुव size_t slen = SDL_strlen(messageboxdata->सन्देशः) + 1;
+        msgcpy = SDL_small_alloc(वर्ण, slen, &msgisstack);
+        यदि (!msgcpy) {
             SDL_small_free(titlecpy, titleisstack);
-            return false;
+            प्रत्यागम false;
         }
-        SDL_memcpy(msgcpy, messageboxdata->message, slen);
+        SDL_memcpy(msgcpy, messageboxdata->सन्देशः, slen);
     }
 
-    (void)SDL_AtomicIncRef(&SDL_messagebox_count);
+    (शून्य)SDL_AtomicIncRef(&SDL_messagebox_गणनम्);
 
-    current_window = SDL_GetKeyboardFocus();
+    current_गवाक्षः = SDL_GetKeyboardFocus();
     SDL_UpdateMouseCapture(false);
-    SDL_SetRelativeMouseMode(false);
-    show_cursor_prev = SDL_CursorVisible();
+    SDL_समुच्चयः_Relative_Mouse_बहुलकम्(false);
+    show_cursor_पूर्व = SDL_CursorVisible();
     SDL_ShowCursor();
     SDL_ResetKeyboard();
 
-    if (!buttonID) {
+    यदि (!buttonID) {
         buttonID = &dummybutton;
     }
 
-    SDL_memcpy(&mbdata, messageboxdata, sizeof(*messageboxdata));
+    SDL_memcpy(&mbdata, messageboxdata, परिमाण(*messageboxdata));
     mbdata.title = titlecpy;
-    if (!mbdata.title) {
+    यदि (!mbdata.title) {
         mbdata.title = "";
     }
-    mbdata.message = msgcpy;
-    if (!mbdata.message) {
-        mbdata.message = "";
+    mbdata.सन्देशः = msgcpy;
+    यदि (!mbdata.सन्देशः) {
+        mbdata.सन्देशः = "";
     }
     messageboxdata = &mbdata;
 
     SDL_ClearError();
 
-    if (_this && _this->ShowMessageBox) {
-        result = _this->ShowMessageBox(_this, messageboxdata, buttonID);
-    } else {
+    यदि (_this && _this->Show_सन्देशः_Box) {
+        परिणाम = _this->Show_सन्देशः_Box(_this, messageboxdata, buttonID);
+    } अन्यथा {
         // It's completely fine to call this function before video is initialized
-        const char *driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
-        if (driver_name && *driver_name != 0) {
-            const char *driver_attempt = driver_name;
-            while (driver_attempt && (*driver_attempt != 0) && !result) {
-                const char *driver_attempt_end = SDL_strchr(driver_attempt, ',');
-                size_t driver_attempt_len = (driver_attempt_end) ? (driver_attempt_end - driver_attempt)
+        ध्रुव वर्ण *driver_name = SDL_GetHint(SDL_HINT_VIDEO_DRIVER);
+        यदि (driver_name && *driver_name != 0) {
+            ध्रुव वर्ण *driver_attempt = driver_name;
+            यावत् (driver_attempt && (*driver_attempt != 0) && !परिणाम) {
+                ध्रुव वर्ण *driver_attempt_अन्तः = SDL_strchr(driver_attempt, ',');
+                size_t driver_attempt_len = (driver_attempt_अन्तः) ? (driver_attempt_अन्तः - driver_attempt)
                                                                      : SDL_strlen(driver_attempt);
-                for (int i = 0; bootstrap[i]; ++i) {
-                    if (bootstrap[i]->ShowMessageBox && (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
+                प्रति (पूर्णाङ्क i = 0; bootstrap[i]; ++i) {
+                    यदि (bootstrap[i]->Show_सन्देशः_Box && (driver_attempt_len == SDL_strlen(bootstrap[i]->name)) &&
                         (SDL_strncasecmp(bootstrap[i]->name, driver_attempt, driver_attempt_len) == 0)) {
-                        if (bootstrap[i]->ShowMessageBox(messageboxdata, buttonID)) {
-                            result = true;
+                        यदि (bootstrap[i]->Show_सन्देशः_Box(messageboxdata, buttonID)) {
+                            परिणाम = true;
                         }
-                        break;
+                        भङ्ग;
                     }
                 }
 
-                driver_attempt = (driver_attempt_end) ? (driver_attempt_end + 1) : NULL;
+                driver_attempt = (driver_attempt_अन्तः) ? (driver_attempt_अन्तः + 1) : रिक्त;
             }
-        } else {
-            for (int i = 0; bootstrap[i]; ++i) {
-                if (bootstrap[i]->ShowMessageBox && bootstrap[i]->ShowMessageBox(messageboxdata, buttonID)) {
-                    result = true;
-                    break;
+        } अन्यथा {
+            प्रति (पूर्णाङ्क i = 0; bootstrap[i]; ++i) {
+                यदि (bootstrap[i]->Show_सन्देशः_Box && bootstrap[i]->Show_सन्देशः_Box(messageboxdata, buttonID)) {
+                    परिणाम = true;
+                    भङ्ग;
                 }
             }
         }
     }
 
-    if (!result) {
-        const char *error = SDL_GetError();
+    यदि (!परिणाम) {
+        ध्रुव वर्ण *error = SDL_GetError();
 
-        if (!*error) {
-            SDL_SetError("No message system available");
+        यदि (!*error) {
+            SDL_समुच्चयः_Error("No message system available");
         }
-    } else {
+    } अन्यथा {
         SDL_ClearError();
     }
 
-    (void)SDL_AtomicDecRef(&SDL_messagebox_count);
+    (शून्य)SDL_AtomicDecRef(&SDL_messagebox_गणनम्);
 
-    if (current_window) {
-        SDL_RaiseWindow(current_window);
+    यदि (current_गवाक्षः) {
+        SDL_Raise_गवाक्षः(current_गवाक्षः);
     }
 
-    if (!show_cursor_prev) {
+    यदि (!show_cursor_पूर्व) {
         SDL_HideCursor();
     }
-    SDL_UpdateRelativeMouseMode();
+    SDL_Update_Relative_Mouse_बहुलकम्();
     SDL_UpdateMouseCapture(false);
 
     SDL_small_free(msgcpy, msgisstack);
     SDL_small_free(titlecpy, titleisstack);
 
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-bool SDL_ShowSimpleMessageBox(SDL_MessageBoxFlags flags, const char *title, const char *message, SDL_Window *window)
+bool SDL_Show_Simple_सन्देशः_Box(SDL_सन्देशः_Box_Flags flags, ध्रुव वर्ण *title, ध्रुव वर्ण *सन्देशः, SDL_गवाक्षः *गवाक्षः)
 {
-#if defined(SDL_PLATFORM_3DS)
+#यदि defined(SDL_PLATFORM_3DS)
     errorConf errCnf;
-    bool hasGpuRight;
+    bool has_Gpu_दक्षिणः;
 
     // If the video subsystem has not been initialised, set up graphics temporarily
-    hasGpuRight = gspHasGpuRight();
-    if (!hasGpuRight)
+    has_Gpu_दक्षिणः = gsp_Has_Gpu_दक्षिणः();
+    यदि (!has_Gpu_दक्षिणः)
         gfxInitDefault();
 
     errorInit(&errCnf, ERROR_TEXT_WORD_WRAP, CFG_LANGUAGE_EN);
-    errorText(&errCnf, message);
+    errorText(&errCnf, सन्देशः);
     errorDisp(&errCnf);
 
-    if (!hasGpuRight)
+    यदि (!has_Gpu_दक्षिणः)
         gfxExit();
 
-    return true;
-#else
-    SDL_MessageBoxData data;
-    SDL_MessageBoxButtonData button;
+    प्रत्यागम true;
+#अन्यथा
+    SDL_सन्देशः_Box_दत्त दत्त;
+    SDL_सन्देशः_Box_Button_दत्त button;
 
-    SDL_zero(data);
-    data.flags = flags;
-    data.title = title;
-    data.message = message;
-    data.numbuttons = 1;
-    data.buttons = &button;
-    data.window = window;
+    SDL_zero(दत्त);
+    दत्त.flags = flags;
+    दत्त.title = title;
+    दत्त.सन्देशः = सन्देशः;
+    दत्त.numbuttons = 1;
+    दत्त.buttons = &button;
+    दत्त.गवाक्षः = गवाक्षः;
 
     SDL_zero(button);
     button.flags |= SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT;
     button.flags |= SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT;
     button.text = "OK";
 
-    return SDL_ShowMessageBox(&data, NULL);
-#endif
+    प्रत्यागम SDL_Show_सन्देशः_Box(&दत्त, रिक्त);
+#यदि_अन्तः
 }
 
-bool SDL_ShouldAllowTopmost(void)
+bool SDL_ShouldAllowTopmost(शून्य)
 {
-    return SDL_GetHintBoolean(SDL_HINT_WINDOW_ALLOW_TOPMOST, true);
+    प्रत्यागम SDL_GetHintBoolean(SDL_HINT_गवाक्षः_ALLOW_TOPMOST, true);
 }
 
-bool SDL_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+bool SDL_Show_गवाक्षः_System_Menu(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क x, पूर्णाङ्क y)
 {
-    CHECK_WINDOW_MAGIC(window, false);
-    CHECK_WINDOW_NOT_POPUP(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
+    CHECK_गवाक्षः_NOT_POPUP(गवाक्षः, false);
 
-    if (_this->ShowWindowSystemMenu) {
-        _this->ShowWindowSystemMenu(window, x, y);
-        return true;
+    यदि (_this->Show_गवाक्षः_System_Menu) {
+        _this->Show_गवाक्षः_System_Menu(गवाक्षः, x, y);
+        प्रत्यागम true;
     }
 
-    return SDL_Unsupported();
+    प्रत्यागम SDL_Unsupported();
 }
 
-bool SDL_SetWindowHitTest(SDL_Window *window, SDL_HitTest callback, void *callback_data)
+bool SDL_समुच्चयः_गवाक्षः_लब्धम्_Test(SDL_गवाक्षः *गवाक्षः, SDL_लब्धम्_Test callback, शून्य *callback_दत्त)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!_this->SetWindowHitTest) {
-        return SDL_Unsupported();
+    यदि (!_this->समुच्चयः_गवाक्षः_लब्धम्_Test) {
+        प्रत्यागम SDL_Unsupported();
     }
 
-    window->hit_test = callback;
-    window->hit_test_data = callback_data;
+    गवाक्षः->लब्धम्_test = callback;
+    गवाक्षः->लब्धम्_test_दत्त = callback_दत्त;
 
-    return _this->SetWindowHitTest(window, callback != NULL);
+    प्रत्यागम _this->समुच्चयः_गवाक्षः_लब्धम्_Test(गवाक्षः, callback != रिक्त);
 }
 
-bool SDL_SetWindowShape(SDL_Window *window, SDL_Surface *shape)
+bool SDL_समुच्चयः_गवाक्षः_Shape(SDL_गवाक्षः *गवाक्षः, SDL_Surface *shape)
 {
     SDL_PropertiesID props;
     SDL_Surface *surface;
 
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!(window->flags & SDL_WINDOW_TRANSPARENT)) {
-        return SDL_SetError("Window must be created with SDL_WINDOW_TRANSPARENT");
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_TRANSPARENT)) {
+        प्रत्यागम SDL_समुच्चयः_Error("Window must be created with SDL_WINDOW_TRANSPARENT");
     }
 
-    props = SDL_GetWindowProperties(window);
-    if (!props) {
-        return false;
+    props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
+    यदि (!props) {
+        प्रत्यागम false;
     }
 
-    if (shape) {
+    यदि (shape) {
         surface = SDL_ConvertSurface(shape, SDL_PIXELFORMAT_ARGB32);
-        if (!surface) {
-            return false;
+        यदि (!surface) {
+            प्रत्यागम false;
         }
-    } else {
-        surface = NULL;
+    } अन्यथा {
+        surface = रिक्त;
     }
 
-    if (!SDL_SetSurfaceProperty(props, SDL_PROP_WINDOW_SHAPE_POINTER, surface)) {
-        return false;
+    यदि (!SDL_समुच्चयः_Surface_Property(props, SDL_PROP_गवाक्षः_SHAPE_POINTER, surface)) {
+        प्रत्यागम false;
     }
 
-    if (_this->UpdateWindowShape) {
-        if (!_this->UpdateWindowShape(_this, window, surface)) {
-            return false;
+    यदि (_this->Update_गवाक्षः_Shape) {
+        यदि (!_this->Update_गवाक्षः_Shape(_this, गवाक्षः, surface)) {
+            प्रत्यागम false;
         }
     }
-    return true;
+    प्रत्यागम true;
 }
 
 /*
  * Functions used by iOS application delegates
  */
-void SDL_OnApplicationWillTerminate(void)
+शून्य SDL_OnApplicationWillTerminate(शून्य)
 {
     SDL_SendAppEvent(SDL_EVENT_TERMINATING);
 }
 
-void SDL_OnApplicationDidReceiveMemoryWarning(void)
+शून्य SDL_On_Application_Did_Receive_स्मृतिः_Warning(शून्य)
 {
-    SDL_SendAppEvent(SDL_EVENT_LOW_MEMORY);
+    SDL_SendAppEvent(SDL_EVENT_नीचः_स्मृतिः);
 }
 
-void SDL_OnApplicationWillEnterBackground(void)
+शून्य SDL_OnApplicationWillEnterBackground(शून्य)
 {
-    if (_this) {
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_MINIMIZED, 0, 0);
+    यदि (_this) {
+        SDL_गवाक्षः *गवाक्षः;
+        प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+            SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_MINIMIZED, 0, 0);
         }
-        SDL_SetKeyboardFocus(NULL);
+        SDL_समुच्चयः_Keyboard_Focus(रिक्त);
     }
     SDL_SendAppEvent(SDL_EVENT_WILL_ENTER_BACKGROUND);
 }
 
-void SDL_OnApplicationDidEnterBackground(void)
+शून्य SDL_OnApplicationDidEnterBackground(शून्य)
 {
     SDL_SendAppEvent(SDL_EVENT_DID_ENTER_BACKGROUND);
 }
 
-void SDL_OnApplicationWillEnterForeground(void)
+शून्य SDL_OnApplicationWillEnterForeground(शून्य)
 {
     SDL_SendAppEvent(SDL_EVENT_WILL_ENTER_FOREGROUND);
 }
 
-void SDL_OnApplicationDidEnterForeground(void)
+शून्य SDL_OnApplicationDidEnterForeground(शून्य)
 {
     SDL_SendAppEvent(SDL_EVENT_DID_ENTER_FOREGROUND);
 
-    if (_this) {
-        SDL_Window *window;
-        for (window = _this->windows; window; window = window->next) {
-            SDL_SetKeyboardFocus(window);
-            SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESTORED, 0, 0);
+    यदि (_this) {
+        SDL_गवाक्षः *गवाक्षः;
+        प्रति (गवाक्षः = _this->windows; गवाक्षः; गवाक्षः = गवाक्षः->अग्र) {
+            SDL_समुच्चयः_Keyboard_Focus(गवाक्षः);
+            SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_RESTORED, 0, 0);
         }
     }
 }
 
-#define NOT_A_VULKAN_WINDOW "The specified window isn't a Vulkan window"
+#परिभाषय NOT_A_VULKAN_गवाक्षः "The specified window isn't a Vulkan window"
 
-bool SDL_Vulkan_LoadLibrary(const char *path)
+bool SDL_Vulkan_आरोपय_Library(ध्रुव वर्ण *मार्गः)
 {
-    bool result;
+    bool परिणाम;
 
-    if (!_this) {
-        return SDL_UninitializedVideo();
+    यदि (!_this) {
+        प्रत्यागम SDL_UninitializedVideo();
     }
-    if (_this->vulkan_config.loader_loaded) {
-        if (path && SDL_strcmp(path, _this->vulkan_config.loader_path) != 0) {
-            return SDL_SetError("Vulkan loader library already loaded");
+    यदि (_this->vulkan_config.loader_loaded) {
+        यदि (मार्गः && SDL_strcmp(मार्गः, _this->vulkan_config.loader_मार्गः) != 0) {
+            प्रत्यागम SDL_समुच्चयः_Error("Vulkan loader library already loaded");
         }
-        result = true;
-    } else {
-        if (!_this->Vulkan_LoadLibrary) {
-            return SDL_DllNotSupported("Vulkan");
+        परिणाम = true;
+    } अन्यथा {
+        यदि (!_this->Vulkan_आरोपय_Library) {
+            प्रत्यागम SDL_DllNotSupported("Vulkan");
         }
-        result = _this->Vulkan_LoadLibrary(_this, path);
+        परिणाम = _this->Vulkan_आरोपय_Library(_this, मार्गः);
     }
-    if (result) {
+    यदि (परिणाम) {
         _this->vulkan_config.loader_loaded++;
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-SDL_FunctionPointer SDL_Vulkan_GetVkGetInstanceProcAddr(void)
+SDL_FunctionPointer SDL_Vulkan_GetVkGetInstanceProcAddr(शून्य)
 {
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
-    if (!_this->vulkan_config.loader_loaded) {
-        SDL_SetError("No Vulkan loader has been loaded");
-        return NULL;
+    यदि (!_this->vulkan_config.loader_loaded) {
+        SDL_समुच्चयः_Error("No Vulkan loader has been loaded");
+        प्रत्यागम रिक्त;
     }
-    return (SDL_FunctionPointer)_this->vulkan_config.vkGetInstanceProcAddr;
+    प्रत्यागम (SDL_FunctionPointer)_this->vulkan_config.vkGetInstanceProcAddr;
 }
 
-void SDL_Vulkan_UnloadLibrary(void)
+शून्य SDL_Vulkan_UnloadLibrary(शून्य)
 {
-    if (!_this) {
+    यदि (!_this) {
         SDL_UninitializedVideo();
-        return;
+        प्रत्यागम;
     }
-    if (_this->vulkan_config.loader_loaded > 0) {
-        if (--_this->vulkan_config.loader_loaded > 0) {
-            return;
+    यदि (_this->vulkan_config.loader_loaded > 0) {
+        यदि (--_this->vulkan_config.loader_loaded > 0) {
+            प्रत्यागम;
         }
-        if (_this->Vulkan_UnloadLibrary) {
+        यदि (_this->Vulkan_UnloadLibrary) {
             _this->Vulkan_UnloadLibrary(_this);
         }
     }
 }
 
-char const * const *SDL_Vulkan_GetInstanceExtensions(Uint32 *count)
+वर्ण ध्रुव * ध्रुव *SDL_Vulkan_GetInstanceExtensions(Uint32 *गणनम्)
 {
     Uint32 tmpcount = 0;
-    if (!count) {
-        count = &tmpcount;
+    यदि (!गणनम्) {
+        गणनम् = &tmpcount;
     }
 
-    if (!_this->Vulkan_GetInstanceExtensions) {
-        *count = 0;
+    यदि (!_this->Vulkan_GetInstanceExtensions) {
+        *गणनम् = 0;
         SDL_Unsupported();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
-    return _this->Vulkan_GetInstanceExtensions(_this, count);
+    प्रत्यागम _this->Vulkan_GetInstanceExtensions(_this, गणनम्);
 }
 
-bool SDL_Vulkan_CreateSurface(SDL_Window *window,
+bool SDL_Vulkan_CreateSurface(SDL_गवाक्षः *गवाक्षः,
                                   VkInstance instance,
-                                  const struct VkAllocationCallbacks *allocator,
+                                  ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator,
                                   VkSurfaceKHR *surface)
 {
-    CHECK_WINDOW_MAGIC(window, false);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, false);
 
-    if (!_this->Vulkan_CreateSurface) {
+    यदि (!_this->Vulkan_CreateSurface) {
         SDL_Unsupported();
-        return false;
+        प्रत्यागम false;
     }
 
     CHECK_PARAM(!instance) {
-        return SDL_InvalidParamError("instance");
+        प्रत्यागम SDL_InvalidParamError("instance");
     }
 
     CHECK_PARAM(!surface) {
-        return SDL_InvalidParamError("surface");
+        प्रत्यागम SDL_InvalidParamError("surface");
     }
 
-    if (!(window->flags & SDL_WINDOW_VULKAN)) {
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_VULKAN)) {
         // No problem, we can convert to Vulkan
-        if (window->flags & SDL_WINDOW_OPENGL) {
-            window->flags &= ~SDL_WINDOW_OPENGL;
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_OPENGL;
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_METAL) {
-            window->flags &= ~SDL_WINDOW_METAL;
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_METAL) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_METAL;
             // Nothing more to do for Metal.
         }
-        if (SDL_Vulkan_LoadLibrary(NULL)) {
-            window->flags |= SDL_WINDOW_VULKAN;
-        } else {
-            return SDL_SetError("failed to load Vulkan library");
+        यदि (SDL_Vulkan_आरोपय_Library(रिक्त)) {
+            गवाक्षः->flags |= SDL_गवाक्षः_VULKAN;
+        } अन्यथा {
+            प्रत्यागम SDL_समुच्चयः_Error("failed to load Vulkan library");
         }
     }
 
-    return _this->Vulkan_CreateSurface(_this, window, instance, allocator, surface);
+    प्रत्यागम _this->Vulkan_CreateSurface(_this, गवाक्षः, instance, allocator, surface);
 }
 
-void SDL_Vulkan_DestroySurface(VkInstance instance,
+शून्य SDL_Vulkan_DestroySurface(VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator)
+                               ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator)
 {
-    if (_this && instance && surface && _this->Vulkan_DestroySurface) {
+    यदि (_this && instance && surface && _this->Vulkan_DestroySurface) {
         _this->Vulkan_DestroySurface(_this, instance, surface, allocator);
     }
 }
 
 bool SDL_Vulkan_GetPresentationSupport(VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex)
+                                           Uint32 queue_Family_सूचकांक)
 {
     CHECK_PARAM(!_this) {
         SDL_UninitializedVideo();
-        return false;
+        प्रत्यागम false;
     }
 
     CHECK_PARAM(!instance) {
         SDL_InvalidParamError("instance");
-        return false;
+        प्रत्यागम false;
     }
 
     CHECK_PARAM(!physicalDevice) {
         SDL_InvalidParamError("physicalDevice");
-        return false;
+        प्रत्यागम false;
     }
 
-    if (_this->Vulkan_GetPresentationSupport) {
-        return _this->Vulkan_GetPresentationSupport(_this, instance, physicalDevice, queueFamilyIndex);
+    यदि (_this->Vulkan_GetPresentationSupport) {
+        प्रत्यागम _this->Vulkan_GetPresentationSupport(_this, instance, physicalDevice, queue_Family_सूचकांक);
     }
 
     /* If the backend does not have this function then it does not have a
      * WSI function to query it; in other words it's not necessary to check
      * as it is always supported.
      */
-    return true;
+    प्रत्यागम true;
 }
 
-SDL_MetalView SDL_Metal_CreateView(SDL_Window *window)
+SDL_MetalView SDL_Metal_CreateView(SDL_गवाक्षः *गवाक्षः)
 {
-    CHECK_WINDOW_MAGIC(window, NULL);
+    CHECK_गवाक्षः_MAGIC(गवाक्षः, रिक्त);
 
-    if (!_this->Metal_CreateView) {
+    यदि (!_this->Metal_CreateView) {
         SDL_Unsupported();
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
-    if (!(window->flags & SDL_WINDOW_METAL)) {
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_METAL)) {
         // No problem, we can convert to Metal
-        if (window->flags & SDL_WINDOW_OPENGL) {
-            window->flags &= ~SDL_WINDOW_OPENGL;
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_OPENGL;
             SDL_GL_UnloadLibrary();
         }
-        if (window->flags & SDL_WINDOW_VULKAN) {
-            window->flags &= ~SDL_WINDOW_VULKAN;
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_VULKAN) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_VULKAN;
             SDL_Vulkan_UnloadLibrary();
         }
-        window->flags |= SDL_WINDOW_METAL;
+        गवाक्षः->flags |= SDL_गवाक्षः_METAL;
     }
 
-    return _this->Metal_CreateView(_this, window);
+    प्रत्यागम _this->Metal_CreateView(_this, गवाक्षः);
 }
 
-void SDL_Metal_DestroyView(SDL_MetalView view)
+शून्य SDL_Metal_DestroyView(SDL_MetalView view)
 {
-    if (_this && view && _this->Metal_DestroyView) {
+    यदि (_this && view && _this->Metal_DestroyView) {
         _this->Metal_DestroyView(_this, view);
     }
 }
 
-void *SDL_Metal_GetLayer(SDL_MetalView view)
+शून्य *SDL_Metal_GetLayer(SDL_MetalView view)
 {
-    if (_this && _this->Metal_GetLayer) {
+    यदि (_this && _this->Metal_GetLayer) {
         CHECK_PARAM(!view) {
             SDL_InvalidParamError("view");
-            return NULL;
+            प्रत्यागम रिक्त;
         }
-        return _this->Metal_GetLayer(_this, view);
-    } else {
-        SDL_SetError("Metal is not supported.");
-        return NULL;
+        प्रत्यागम _this->Metal_GetLayer(_this, view);
+    } अन्यथा {
+        SDL_समुच्चयः_Error("Metal is not supported.");
+        प्रत्यागम रिक्त;
     }
 }
 
-#if defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
-const char *SDL_GetCSSCursorName(SDL_SystemCursor id, const char **fallback_name)
+#यदि defined(SDL_VIDEO_DRIVER_X11) || defined(SDL_VIDEO_DRIVER_WAYLAND) || defined(SDL_VIDEO_DRIVER_EMSCRIPTEN)
+ध्रुव वर्ण *SDL_GetCSSCursorName(SDL_SystemCursor id, ध्रुव वर्ण **fallback_name)
 {
     // Reference: https://www.w3.org/TR/css-ui-4/#cursor
     // Also in: https://www.freedesktop.org/wiki/Specifications/cursor-spec/
-    switch (id) {
-    case SDL_SYSTEM_CURSOR_DEFAULT:
-        return "default";
+    विकल्प (id) {
+    पक्ष SDL_SYSTEM_CURSOR_DEFAULT:
+        प्रत्यागम "default";
 
-    case SDL_SYSTEM_CURSOR_TEXT:
-        return "text";
+    पक्ष SDL_SYSTEM_CURSOR_TEXT:
+        प्रत्यागम "text";
 
-    case SDL_SYSTEM_CURSOR_WAIT:
-        return "wait";
+    पक्ष SDL_SYSTEM_CURSOR_WAIT:
+        प्रत्यागम "wait";
 
-    case SDL_SYSTEM_CURSOR_CROSSHAIR:
-        return "crosshair";
+    पक्ष SDL_SYSTEM_CURSOR_CROSSHAIR:
+        प्रत्यागम "crosshair";
 
-    case SDL_SYSTEM_CURSOR_PROGRESS:
-        return "progress";
+    पक्ष SDL_SYSTEM_CURSOR_प्रगतिः:
+        प्रत्यागम "progress";
 
-    case SDL_SYSTEM_CURSOR_NWSE_RESIZE:
-        if (fallback_name) {
+    पक्ष SDL_SYSTEM_CURSOR_NWSE_RESIZE:
+        यदि (fallback_name) {
             // only a single arrow
             *fallback_name = "nw-resize";
         }
-        return "nwse-resize";
+        प्रत्यागम "nwse-resize";
 
-    case SDL_SYSTEM_CURSOR_NESW_RESIZE:
-        if (fallback_name) {
+    पक्ष SDL_SYSTEM_CURSOR_NESW_RESIZE:
+        यदि (fallback_name) {
             // only a single arrow
             *fallback_name = "ne-resize";
         }
-        return "nesw-resize";
+        प्रत्यागम "nesw-resize";
 
-    case SDL_SYSTEM_CURSOR_EW_RESIZE:
-        if (fallback_name) {
+    पक्ष SDL_SYSTEM_CURSOR_EW_RESIZE:
+        यदि (fallback_name) {
             *fallback_name = "col-resize";
         }
-        return "ew-resize";
+        प्रत्यागम "ew-resize";
 
-    case SDL_SYSTEM_CURSOR_NS_RESIZE:
-        if (fallback_name) {
+    पक्ष SDL_SYSTEM_CURSOR_NS_RESIZE:
+        यदि (fallback_name) {
             *fallback_name = "row-resize";
         }
-        return "ns-resize";
+        प्रत्यागम "ns-resize";
 
-    case SDL_SYSTEM_CURSOR_MOVE:
-        if (fallback_name) {
+    पक्ष SDL_SYSTEM_CURSOR_MOVE:
+        यदि (fallback_name) {
             *fallback_name = "all-scroll";
         }
-        return "move";
+        प्रत्यागम "move";
 
-    case SDL_SYSTEM_CURSOR_NOT_ALLOWED:
-        return "not-allowed";
+    पक्ष SDL_SYSTEM_CURSOR_NOT_ALLOWED:
+        प्रत्यागम "not-allowed";
 
-    case SDL_SYSTEM_CURSOR_POINTER:
-        return "pointer";
+    पक्ष SDL_SYSTEM_CURSOR_POINTER:
+        प्रत्यागम "pointer";
 
-    case SDL_SYSTEM_CURSOR_NW_RESIZE:
-        return "nw-resize";
+    पक्ष SDL_SYSTEM_CURSOR_NW_RESIZE:
+        प्रत्यागम "nw-resize";
 
-    case SDL_SYSTEM_CURSOR_N_RESIZE:
-        return "n-resize";
+    पक्ष SDL_SYSTEM_CURSOR_N_RESIZE:
+        प्रत्यागम "n-resize";
 
-    case SDL_SYSTEM_CURSOR_NE_RESIZE:
-        return "ne-resize";
+    पक्ष SDL_SYSTEM_CURSOR_NE_RESIZE:
+        प्रत्यागम "ne-resize";
 
-    case SDL_SYSTEM_CURSOR_E_RESIZE:
-        return "e-resize";
+    पक्ष SDL_SYSTEM_CURSOR_E_RESIZE:
+        प्रत्यागम "e-resize";
 
-    case SDL_SYSTEM_CURSOR_SE_RESIZE:
-        return "se-resize";
+    पक्ष SDL_SYSTEM_CURSOR_SE_RESIZE:
+        प्रत्यागम "se-resize";
 
-    case SDL_SYSTEM_CURSOR_S_RESIZE:
-        return "s-resize";
+    पक्ष SDL_SYSTEM_CURSOR_S_RESIZE:
+        प्रत्यागम "s-resize";
 
-    case SDL_SYSTEM_CURSOR_SW_RESIZE:
-        return "sw-resize";
+    पक्ष SDL_SYSTEM_CURSOR_SW_RESIZE:
+        प्रत्यागम "sw-resize";
 
-    case SDL_SYSTEM_CURSOR_W_RESIZE:
-        return "w-resize";
+    पक्ष SDL_SYSTEM_CURSOR_W_RESIZE:
+        प्रत्यागम "w-resize";
 
-    case SDL_SYSTEM_CURSOR_CONTEXT_MENU:
-        return "context-menu";
+    पक्ष SDL_SYSTEM_CURSOR_CONTEXT_MENU:
+        प्रत्यागम "context-menu";
 
-    case SDL_SYSTEM_CURSOR_HELP:
-        return "help";
+    पक्ष SDL_SYSTEM_CURSOR_HELP:
+        प्रत्यागम "help";
 
-    case SDL_SYSTEM_CURSOR_CELL:
-        return "cell";
+    पक्ष SDL_SYSTEM_CURSOR_CELL:
+        प्रत्यागम "cell";
 
-    case SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
-        return "vertical-text";
+    पक्ष SDL_SYSTEM_CURSOR_VERTICAL_TEXT:
+        प्रत्यागम "vertical-text";
 
-    case SDL_SYSTEM_CURSOR_ALIAS:
-        return "alias";
+    पक्ष SDL_SYSTEM_CURSOR_ALIAS:
+        प्रत्यागम "alias";
 
-    case SDL_SYSTEM_CURSOR_COPY:
-        return "copy";
+    पक्ष SDL_SYSTEM_CURSOR_COPY:
+        प्रत्यागम "copy";
 
-    case SDL_SYSTEM_CURSOR_NO_DROP:
-        return "no-drop";
+    पक्ष SDL_SYSTEM_CURSOR_NO_DROP:
+        प्रत्यागम "no-drop";
 
-    case SDL_SYSTEM_CURSOR_GRAB:
-        return "grab";
+    पक्ष SDL_SYSTEM_CURSOR_GRAB:
+        प्रत्यागम "grab";
 
-    case SDL_SYSTEM_CURSOR_GRABBING:
-        return "grabbing";
+    पक्ष SDL_SYSTEM_CURSOR_GRABBING:
+        प्रत्यागम "grabbing";
 
-    case SDL_SYSTEM_CURSOR_COL_RESIZE:
-        return "col-resize";
+    पक्ष SDL_SYSTEM_CURSOR_COL_RESIZE:
+        प्रत्यागम "col-resize";
 
-    case SDL_SYSTEM_CURSOR_ROW_RESIZE:
-        return "row-resize";
+    पक्ष SDL_SYSTEM_CURSOR_ROW_RESIZE:
+        प्रत्यागम "row-resize";
 
-    case SDL_SYSTEM_CURSOR_ALL_SCROLL:
-        if (fallback_name) {
+    पक्ष SDL_SYSTEM_CURSOR_ALL_SCROLL:
+        यदि (fallback_name) {
             *fallback_name = "move";
         }
-        return "all-scroll";
+        प्रत्यागम "all-scroll";
 
-    case SDL_SYSTEM_CURSOR_ZOOM_IN:
-        return "zoom-in";
+    पक्ष SDL_SYSTEM_CURSOR_ZOOM_अन्तर्:
+        प्रत्यागम "zoom-in";
 
-    case SDL_SYSTEM_CURSOR_ZOOM_OUT:
-        return "zoom-out";
+    पक्ष SDL_SYSTEM_CURSOR_ZOOM_बहिर्गमनम्:
+        प्रत्यागम "zoom-out";
 
-    default:
-        return "default";
+    स्वभाव:
+        प्रत्यागम "default";
     }
 }
-#endif
+#यदि_अन्तः

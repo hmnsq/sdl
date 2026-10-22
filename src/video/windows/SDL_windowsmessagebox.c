@@ -18,57 +18,57 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-#ifdef HAVE_LIMITS_H
-#include <limits.h>
-#endif
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#endif
+#यदि_परिभाषितम् HAVE_LIMITS_H
+#अन्तर्भाव <limits.h>
+#यदि_अन्तः
+#यदि_अपरिभाषितम् SIZE_MAX
+#परिभाषय SIZE_MAX ((size_t)-1)
+#यदि_अन्तः
 
-#include "../../core/windows/SDL_windows.h"
+#अन्तर्भाव "../../core/windows/SDL_windows.h"
 
-#include "SDL_windowsvideo.h"
+#अन्तर्भाव "SDL_windowsvideo.h"
 
-#ifndef SS_EDITCONTROL
-#define SS_EDITCONTROL 0x2000
-#endif
+#यदि_अपरिभाषितम् SS_EDITCONTROL
+#परिभाषय SS_EDITCONTROL 0x2000
+#यदि_अन्तः
 
-#ifndef IDOK
-#define IDOK 1
-#endif
+#यदि_अपरिभाषितम् IDOK
+#परिभाषय IDOK 1
+#यदि_अन्तः
 
-#ifndef IDCANCEL
-#define IDCANCEL 2
-#endif
+#यदि_अपरिभाषितम् IDCANCEL
+#परिभाषय IDCANCEL 2
+#यदि_अन्तः
 
 // Custom dialog return codes
-#define IDCLOSED           20
-#define IDINVALPTRINIT     50
-#define IDINVALPTRCOMMAND  51
-#define IDINVALPTRSETFOCUS 52
-#define IDINVALPTRDLGITEM  53
+#परिभाषय IDCLOSED           20
+#परिभाषय IDINVALPTRINIT     50
+#परिभाषय IDINVALPTRCOMMAND  51
+#परिभाषय IDINVALPTRSETFOCUS 52
+#परिभाषय IDINVALPTRDLGITEM  53
 // First button ID
-#define IDBUTTONINDEX0 100
+#परिभाषय IDBUTTONINDEX0 100
 
-#define DLGITEMTYPEBUTTON 0x0080
-#define DLGITEMTYPESTATIC 0x0082
+#परिभाषय DLGITEMTYPEBUTTON 0x0080
+#परिभाषय DLGITEMTYPESTATIC 0x0082
 
 /* Windows only sends the lower 16 bits of the control ID when a button
  * gets clicked. There are also some predefined and custom IDs that lower
  * the available number further. 2^16 - 101 buttons should be enough for
  * everyone, no need to make the code more complex.
  */
-#define MAX_BUTTONS (0xffff - 100)
+#परिभाषय MAX_BUTTONS (0xffff - 100)
 
 // Display a Windows message box
 
-typedef HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LONG_PTR lpRefData);
+प्रकारनिर्देश HRESULT(CALLBACK *PFTASKDIALOGCALLBACK)(HWND hwnd, UINT सन्देशः_2, WPARAM wParam, LPARAM lParam, LONG_PTR lp_Ref_दत्त);
 
-enum _TASKDIALOG_FLAGS
+गणना _TASKDIALOG_FLAGS
 {
     TDF_ENABLE_HYPERLINKS = 0x0001,
     TDF_USE_HICON_MAIN = 0x0002,
@@ -79,40 +79,40 @@ enum _TASKDIALOG_FLAGS
     TDF_EXPAND_FOOTER_AREA = 0x0040,
     TDF_EXPANDED_BY_DEFAULT = 0x0080,
     TDF_VERIFICATION_FLAG_CHECKED = 0x0100,
-    TDF_SHOW_PROGRESS_BAR = 0x0200,
-    TDF_SHOW_MARQUEE_PROGRESS_BAR = 0x0400,
+    TDF_SHOW_प्रगतिः_BAR = 0x0200,
+    TDF_SHOW_MARQUEE_प्रगतिः_BAR = 0x0400,
     TDF_CALLBACK_TIMER = 0x0800,
-    TDF_POSITION_RELATIVE_TO_WINDOW = 0x1000,
+    TDF_POSITION_RELATIVE_गन्तव्यम्_गवाक्षः = 0x1000,
     TDF_RTL_LAYOUT = 0x2000,
     TDF_NO_DEFAULT_RADIO_BUTTON = 0x4000,
     TDF_CAN_BE_MINIMIZED = 0x8000,
     // #if (NTDDI_VERSION >= NTDDI_WIN8)
-    TDF_NO_SET_FOREGROUND = 0x00010000, // Don't call SetForegroundWindow() when activating the dialog
+    TDF_NO_समुच्चयः_FOREGROUND = 0x00010000, // Don't call SetForegroundWindow() when activating the dialog
                                         // #endif // (NTDDI_VERSION >= NTDDI_WIN8)
-    TDF_SIZE_TO_CONTENT = 0x01000000    // used by ShellMessageBox to emulate MessageBox sizing behavior
+    TDF_आकार_गन्तव्यम्_CONTENT = 0x01000000    // used by ShellMessageBox to emulate MessageBox sizing behavior
 };
-typedef int TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
+प्रकारनिर्देश पूर्णाङ्क TASKDIALOG_FLAGS; // Note: _TASKDIALOG_FLAGS is an int
 
-typedef enum _TASKDIALOG_MESSAGES
+प्रकारनिर्देश गणना _TASKDIALOG_MESSAGES
 {
     TDM_NAVIGATE_PAGE = WM_USER + 101,
     TDM_CLICK_BUTTON = WM_USER + 102,                        // wParam = Button ID
-    TDM_SET_MARQUEE_PROGRESS_BAR = WM_USER + 103,            // wParam = 0 (nonMarque) wParam != 0 (Marquee)
-    TDM_SET_PROGRESS_BAR_STATE = WM_USER + 104,              // wParam = new progress state
-    TDM_SET_PROGRESS_BAR_RANGE = WM_USER + 105,              // lParam = MAKELPARAM(nMinRange, nMaxRange)
-    TDM_SET_PROGRESS_BAR_POS = WM_USER + 106,                // wParam = new position
-    TDM_SET_PROGRESS_BAR_MARQUEE = WM_USER + 107,            // wParam = 0 (stop marquee), wParam != 0 (start marquee), lparam = speed (milliseconds between repaints)
-    TDM_SET_ELEMENT_TEXT = WM_USER + 108,                    // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
+    TDM_समुच्चयः_MARQUEE_प्रगतिः_BAR = WM_USER + 103,            // wParam = 0 (nonMarque) wParam != 0 (Marquee)
+    TDM_समुच्चयः_प्रगतिः_BAR_STATE = WM_USER + 104,              // wParam = new progress state
+    TDM_समुच्चयः_प्रगतिः_BAR_RANGE = WM_USER + 105,              // lParam = MAKELPARAM(nMinRange, nMaxRange)
+    TDM_समुच्चयः_प्रगतिः_BAR_POS = WM_USER + 106,                // wParam = new position
+    TDM_समुच्चयः_प्रगतिः_BAR_MARQUEE = WM_USER + 107,            // wParam = 0 (stop marquee), wParam != 0 (start marquee), lparam = speed (milliseconds between repaints)
+    TDM_समुच्चयः_ELEMENT_TEXT = WM_USER + 108,                    // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
     TDM_CLICK_RADIO_BUTTON = WM_USER + 110,                  // wParam = Radio Button ID
     TDM_ENABLE_BUTTON = WM_USER + 111,                       // lParam = 0 (disable), lParam != 0 (enable), wParam = Button ID
     TDM_ENABLE_RADIO_BUTTON = WM_USER + 112,                 // lParam = 0 (disable), lParam != 0 (enable), wParam = Radio Button ID
     TDM_CLICK_VERIFICATION = WM_USER + 113,                  // wParam = 0 (unchecked), 1 (checked), lParam = 1 (set key focus)
     TDM_UPDATE_ELEMENT_TEXT = WM_USER + 114,                 // wParam = element (TASKDIALOG_ELEMENTS), lParam = new element text (LPCWSTR)
-    TDM_SET_BUTTON_ELEVATION_REQUIRED_STATE = WM_USER + 115, // wParam = Button ID, lParam = 0 (elevation not required), lParam != 0 (elevation required)
+    TDM_समुच्चयः_BUTTON_ELEVATION_REQUIRED_STATE = WM_USER + 115, // wParam = Button ID, lParam = 0 (elevation not required), lParam != 0 (elevation required)
     TDM_UPDATE_ICON = WM_USER + 116                          // wParam = icon element (TASKDIALOG_ICON_ELEMENTS), lParam = new icon (hIcon if TDF_USE_HICON_* was set, PCWSTR otherwise)
 } TASKDIALOG_MESSAGES;
 
-typedef enum _TASKDIALOG_NOTIFICATIONS
+प्रकारनिर्देश गणना _TASKDIALOG_NOTIFICATIONS
 {
     TDN_CREATED = 0,
     TDN_NAVIGATED = 1,
@@ -127,7 +127,7 @@ typedef enum _TASKDIALOG_NOTIFICATIONS
     TDN_EXPANDO_BUTTON_CLICKED = 10 // wParam = 0 (dialog is now collapsed), wParam != 0 (dialog is now expanded)
 } TASKDIALOG_NOTIFICATIONS;
 
-typedef enum _TASKDIALOG_ELEMENTS
+प्रकारनिर्देश गणना _TASKDIALOG_ELEMENTS
 {
     TDE_CONTENT,
     TDE_EXPANDED_INFORMATION,
@@ -135,18 +135,18 @@ typedef enum _TASKDIALOG_ELEMENTS
     TDE_MAIN_INSTRUCTION
 } TASKDIALOG_ELEMENTS;
 
-typedef enum _TASKDIALOG_ICON_ELEMENTS
+प्रकारनिर्देश गणना _TASKDIALOG_ICON_ELEMENTS
 {
     TDIE_ICON_MAIN,
     TDIE_ICON_FOOTER
 } TASKDIALOG_ICON_ELEMENTS;
 
-#define TD_WARNING_ICON     MAKEINTRESOURCEW(-1)
-#define TD_ERROR_ICON       MAKEINTRESOURCEW(-2)
-#define TD_INFORMATION_ICON MAKEINTRESOURCEW(-3)
-#define TD_SHIELD_ICON      MAKEINTRESOURCEW(-4)
+#परिभाषय TD_WARNING_ICON     MAKEINTRESOURCEW(-1)
+#परिभाषय TD_ERROR_ICON       MAKEINTRESOURCEW(-2)
+#परिभाषय TD_INFORMATION_ICON MAKEINTRESOURCEW(-3)
+#परिभाषय TD_SHIELD_ICON      MAKEINTRESOURCEW(-4)
 
-enum _TASKDIALOG_COMMON_BUTTON_FLAGS
+गणना _TASKDIALOG_COMMON_BUTTON_FLAGS
 {
     TDCBF_OK_BUTTON = 0x0001,     // selected control return value IDOK
     TDCBF_YES_BUTTON = 0x0002,    // selected control return value IDYES
@@ -155,25 +155,25 @@ enum _TASKDIALOG_COMMON_BUTTON_FLAGS
     TDCBF_RETRY_BUTTON = 0x0010,  // selected control return value IDRETRY
     TDCBF_CLOSE_BUTTON = 0x0020   // selected control return value IDCLOSE
 };
-typedef int TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
+प्रकारनिर्देश पूर्णाङ्क TASKDIALOG_COMMON_BUTTON_FLAGS; // Note: _TASKDIALOG_COMMON_BUTTON_FLAGS is an int
 
-#pragma pack(push, 1)
+#निर्देशः pack(प्रक्षिप, 1)
 
-typedef struct _TASKDIALOG_BUTTON
+प्रकारनिर्देश संरचना _TASKDIALOG_BUTTON
 {
-    int nButtonID;
+    पूर्णाङ्क nButtonID;
     PCWSTR pszButtonText;
 } TASKDIALOG_BUTTON;
 
-typedef struct _TASKDIALOGCONFIG
+प्रकारनिर्देश संरचना _TASKDIALOGCONFIG
 {
-    UINT cbSize;
+    UINT cb_आकार;
     HWND hwndParent;                                // incorrectly named, this is the owner window, not a parent.
     HINSTANCE hInstance;                            // used for MAKEINTRESOURCE() strings
     TASKDIALOG_FLAGS dwFlags;                       // TASKDIALOG_FLAGS (TDF_XXX) flags
     TASKDIALOG_COMMON_BUTTON_FLAGS dwCommonButtons; // TASKDIALOG_COMMON_BUTTON (TDCBF_XXX) flags
-    PCWSTR pszWindowTitle;                          // string or MAKEINTRESOURCE()
-    union
+    PCWSTR psz_गवाक्षः_Title;                          // string or MAKEINTRESOURCE()
+    सङ्घ
     {
         HICON hMainIcon;
         PCWSTR pszMainIcon;
@@ -181,333 +181,333 @@ typedef struct _TASKDIALOGCONFIG
     PCWSTR pszMainInstruction;
     PCWSTR pszContent;
     UINT cButtons;
-    const TASKDIALOG_BUTTON *pButtons;
-    int nDefaultButton;
+    ध्रुव TASKDIALOG_BUTTON *pButtons;
+    पूर्णाङ्क nDefaultButton;
     UINT cRadioButtons;
-    const TASKDIALOG_BUTTON *pRadioButtons;
-    int nDefaultRadioButton;
+    ध्रुव TASKDIALOG_BUTTON *pRadioButtons;
+    पूर्णाङ्क nDefaultRadioButton;
     PCWSTR pszVerificationText;
     PCWSTR pszExpandedInformation;
     PCWSTR pszExpandedControlText;
     PCWSTR pszCollapsedControlText;
-    union
+    सङ्घ
     {
         HICON hFooterIcon;
         PCWSTR pszFooterIcon;
     } /*DUMMYUNIONNAME2*/;
     PCWSTR pszFooter;
     PFTASKDIALOGCALLBACK pfCallback;
-    LONG_PTR lpCallbackData;
-    UINT cxWidth; // width of the Task Dialog's client area in DLU's. If 0, Task Dialog will calculate the ideal width.
+    LONG_PTR lp_Callback_दत्त;
+    UINT cx_विस्तारः; // width of the Task Dialog's client area in DLU's. If 0, Task Dialog will calculate the ideal width.
 } TASKDIALOGCONFIG;
 
-typedef struct
+प्रकारनिर्देश संरचना
 {
     WORD dlgVer;
     WORD signature;
     DWORD helpID;
     DWORD exStyle;
     DWORD style;
-    WORD cDlgItems;
-    short x;
-    short y;
-    short cx;
-    short cy;
+    WORD c_Dlg_वस्तूनि;
+    ह्रस्व x;
+    ह्रस्व y;
+    ह्रस्व cx;
+    ह्रस्व cy;
 } DLGTEMPLATEEX;
 
-typedef struct
+प्रकारनिर्देश संरचना
 {
     DWORD helpID;
     DWORD exStyle;
     DWORD style;
-    short x;
-    short y;
-    short cx;
-    short cy;
+    ह्रस्व x;
+    ह्रस्व y;
+    ह्रस्व cx;
+    ह्रस्व cy;
     DWORD id;
 } DLGITEMTEMPLATEEX;
 
-#pragma pack(pop)
+#निर्देशः pack(निष्कासय)
 
-typedef struct
+प्रकारनिर्देश संरचना
 {
     DLGTEMPLATEEX *lpDialog;
-    void *data;
-    size_t size;
-    size_t used;
+    शून्य *दत्त;
+    size_t आकार;
+    size_t प्रयुक्तम्;
     WORD numbuttons;
-} WIN_DialogData;
+} WIN_Dialog_दत्त;
 
-static bool GetButtonIndex(const SDL_MessageBoxData *messageboxdata, SDL_MessageBoxButtonFlags flags, size_t *i)
+स्थिर bool Get_Button_सूचकांक(ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, SDL_सन्देशः_Box_Button_Flags flags, size_t *i)
 {
-    for (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
-        if (messageboxdata->buttons[*i].flags & flags) {
-            return true;
+    प्रति (*i = 0; *i < (size_t)messageboxdata->numbuttons; ++*i) {
+        यदि (messageboxdata->buttons[*i].flags & flags) {
+            प्रत्यागम true;
         }
     }
-    return false;
+    प्रत्यागम false;
 }
 
-static INT_PTR CALLBACK MessageBoxDialogProc(HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lParam)
+स्थिर INT_PTR CALLBACK सन्देशः_Box_Dialog_Proc(HWND hDlg, UINT i_सन्देशः, WPARAM wParam, LPARAM lParam)
 {
-    const SDL_MessageBoxData *messageboxdata;
+    ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata;
     size_t buttonindex;
 
-    switch (iMessage) {
-    case WM_INITDIALOG:
-        if (lParam == 0) {
-            EndDialog(hDlg, IDINVALPTRINIT);
-            return TRUE;
+    विकल्प (i_सन्देशः) {
+    पक्ष WM_INITDIALOG:
+        यदि (lParam == 0) {
+            अन्तः_Dialog(hDlg, IDINVALPTRINIT);
+            प्रत्यागम TRUE;
         }
-        messageboxdata = (const SDL_MessageBoxData *)lParam;
-        SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
+        messageboxdata = (ध्रुव SDL_सन्देशः_Box_दत्त *)lParam;
+        समुच्चयः_गवाक्षः_Long_Ptr(hDlg, GWLP_USERDATA, lParam);
 
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+        यदि (Get_Button_सूचकांक(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
             // Focus on the first default return-key button
-            HWND buttonctl = GetDlgItem(hDlg, (int)(IDBUTTONINDEX0 + buttonindex));
-            if (!buttonctl) {
-                EndDialog(hDlg, IDINVALPTRDLGITEM);
+            HWND buttonctl = GetDlgItem(hDlg, (पूर्णाङ्क)(IDBUTTONINDEX0 + buttonindex));
+            यदि (!buttonctl) {
+                अन्तः_Dialog(hDlg, IDINVALPTRDLGITEM);
             }
-            PostMessage(hDlg, WM_NEXTDLGCTL, (WPARAM)buttonctl, TRUE);
-        } else {
+            Post_सन्देशः(hDlg, WM_NEXTDLGCTL, (WPARAM)buttonctl, TRUE);
+        } अन्यथा {
             // Give the focus to the dialog window instead
-            SetFocus(hDlg);
+            समुच्चयः_Focus(hDlg);
         }
-        return FALSE;
-    case WM_SETFOCUS:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
-            EndDialog(hDlg, IDINVALPTRSETFOCUS);
-            return TRUE;
+        प्रत्यागम FALSE;
+    पक्ष WM_SETFOCUS:
+        messageboxdata = (ध्रुव SDL_सन्देशः_Box_दत्त *)Get_गवाक्षः_Long_Ptr(hDlg, GWLP_USERDATA);
+        यदि (!messageboxdata) {
+            अन्तः_Dialog(hDlg, IDINVALPTRSETFOCUS);
+            प्रत्यागम TRUE;
         }
 
         // Let the default button be focused if there is one. Otherwise, prevent any initial focus.
-        if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
-            return FALSE;
+        यदि (Get_Button_सूचकांक(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+            प्रत्यागम FALSE;
         }
-        return TRUE;
-    case WM_COMMAND:
-        messageboxdata = (const SDL_MessageBoxData *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-        if (!messageboxdata) {
-            EndDialog(hDlg, IDINVALPTRCOMMAND);
-            return TRUE;
+        प्रत्यागम TRUE;
+    पक्ष WM_COMMAND:
+        messageboxdata = (ध्रुव SDL_सन्देशः_Box_दत्त *)Get_गवाक्षः_Long_Ptr(hDlg, GWLP_USERDATA);
+        यदि (!messageboxdata) {
+            अन्तः_Dialog(hDlg, IDINVALPTRCOMMAND);
+            प्रत्यागम TRUE;
         }
 
         // Return the ID of the button that was pushed
-        if (wParam == IDOK) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
-                EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
+        यदि (wParam == IDOK) {
+            यदि (Get_Button_सूचकांक(messageboxdata, SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, &buttonindex)) {
+                अन्तः_Dialog(hDlg, IDBUTTONINDEX0 + buttonindex);
             }
-        } else if (wParam == IDCANCEL) {
-            if (GetButtonIndex(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
-                EndDialog(hDlg, IDBUTTONINDEX0 + buttonindex);
-            } else {
+        } अन्यथा यदि (wParam == IDCANCEL) {
+            यदि (Get_Button_सूचकांक(messageboxdata, SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, &buttonindex)) {
+                अन्तः_Dialog(hDlg, IDBUTTONINDEX0 + buttonindex);
+            } अन्यथा {
                 // Closing of window was requested by user or system. It would be rude not to comply.
-                EndDialog(hDlg, IDCLOSED);
+                अन्तः_Dialog(hDlg, IDCLOSED);
             }
-        } else if (wParam >= IDBUTTONINDEX0 && (int)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
-            EndDialog(hDlg, wParam);
+        } अन्यथा यदि (wParam >= IDBUTTONINDEX0 && (पूर्णाङ्क)wParam - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+            अन्तः_Dialog(hDlg, wParam);
         }
-        return TRUE;
+        प्रत्यागम TRUE;
 
-    default:
-        break;
+    स्वभाव:
+        भङ्ग;
     }
-    return FALSE;
+    प्रत्यागम FALSE;
 }
 
-static bool ExpandDialogSpace(WIN_DialogData *dialog, size_t space)
+स्थिर bool ExpandDialogSpace(WIN_Dialog_दत्त *dialog, size_t space)
 {
     // Growing memory in 64 KiB steps.
-    const size_t sizestep = 0x10000;
-    size_t size = dialog->size;
+    ध्रुव size_t sizestep = 0x10000;
+    size_t आकार = dialog->आकार;
 
-    if (size == 0) {
+    यदि (आकार == 0) {
         // Start with 4 KiB or a multiple of 64 KiB to fit the data.
-        size = 0x1000;
-        if (SIZE_MAX - sizestep < space) {
-            size = space;
-        } else if (space > size) {
-            size = (space + sizestep) & ~(sizestep - 1);
+        आकार = 0x1000;
+        यदि (SIZE_MAX - sizestep < space) {
+            आकार = space;
+        } अन्यथा यदि (space > आकार) {
+            आकार = (space + sizestep) & ~(sizestep - 1);
         }
-    } else if (SIZE_MAX - dialog->used < space) {
-        SDL_OutOfMemory();
-        return false;
-    } else if (SIZE_MAX - (dialog->used + space) < sizestep) {
+    } अन्यथा यदि (SIZE_MAX - dialog->प्रयुक्तम् < space) {
+        SDL_बहिर्गमनम्_सम्बन्धि_स्मृतिः();
+        प्रत्यागम false;
+    } अन्यथा यदि (SIZE_MAX - (dialog->प्रयुक्तम् + space) < sizestep) {
         // Close to the maximum.
-        size = dialog->used + space;
-    } else if (size < dialog->used + space) {
+        आकार = dialog->प्रयुक्तम् + space;
+    } अन्यथा यदि (आकार < dialog->प्रयुक्तम् + space) {
         // Round up to the next 64 KiB block.
-        size = dialog->used + space;
-        size += sizestep - size % sizestep;
+        आकार = dialog->प्रयुक्तम् + space;
+        आकार += sizestep - आकार % sizestep;
     }
 
-    if (size > dialog->size) {
-        void *data = SDL_realloc(dialog->data, size);
-        if (!data) {
-            return false;
+    यदि (आकार > dialog->आकार) {
+        शून्य *दत्त = SDL_realloc(dialog->दत्त, आकार);
+        यदि (!दत्त) {
+            प्रत्यागम false;
         }
-        dialog->data = data;
-        dialog->size = size;
-        dialog->lpDialog = (DLGTEMPLATEEX *)dialog->data;
+        dialog->दत्त = दत्त;
+        dialog->आकार = आकार;
+        dialog->lpDialog = (DLGTEMPLATEEX *)dialog->दत्त;
     }
-    return true;
+    प्रत्यागम true;
 }
 
-static bool AlignDialogData(WIN_DialogData *dialog, size_t size)
+स्थिर bool Align_Dialog_दत्त(WIN_Dialog_दत्त *dialog, size_t आकार)
 {
-    size_t padding = (dialog->used % size);
+    size_t padding = (dialog->प्रयुक्तम् % आकार);
 
-    if (!ExpandDialogSpace(dialog, padding)) {
-        return false;
+    यदि (!ExpandDialogSpace(dialog, padding)) {
+        प्रत्यागम false;
     }
 
-    dialog->used += padding;
+    dialog->प्रयुक्तम् += padding;
 
-    return true;
+    प्रत्यागम true;
 }
 
-static bool AddDialogData(WIN_DialogData *dialog, const void *data, size_t size)
+स्थिर bool सङ्कलय_Dialog_दत्त(WIN_Dialog_दत्त *dialog, ध्रुव शून्य *दत्त, size_t आकार)
 {
-    if (!ExpandDialogSpace(dialog, size)) {
-        return false;
+    यदि (!ExpandDialogSpace(dialog, आकार)) {
+        प्रत्यागम false;
     }
 
-    SDL_memcpy((Uint8 *)dialog->data + dialog->used, data, size);
-    dialog->used += size;
+    SDL_memcpy((Uint8 *)dialog->दत्त + dialog->प्रयुक्तम्, दत्त, आकार);
+    dialog->प्रयुक्तम् += आकार;
 
-    return true;
+    प्रत्यागम true;
 }
 
-static bool AddDialogString(WIN_DialogData *dialog, const char *string)
+स्थिर bool सङ्कलय_Dialog_String(WIN_Dialog_दत्त *dialog, ध्रुव वर्ण *string)
 {
     WCHAR *wstring;
     WCHAR *p;
-    size_t count;
-    bool status;
+    size_t गणनम्;
+    bool स्थितिः;
 
-    if (!string) {
+    यदि (!string) {
         string = "";
     }
 
-    wstring = WIN_UTF8ToStringW(string);
-    if (!wstring) {
-        return false;
+    wstring = WIN_UTF8_गन्तव्यम्_String_W(string);
+    यदि (!wstring) {
+        प्रत्यागम false;
     }
 
     // Find out how many characters we have, including null terminator
-    count = 0;
-    for (p = wstring; *p; ++p) {
-        ++count;
+    गणनम् = 0;
+    प्रति (p = wstring; *p; ++p) {
+        ++गणनम्;
     }
-    ++count;
+    ++गणनम्;
 
-    status = AddDialogData(dialog, wstring, count * sizeof(WCHAR));
+    स्थितिः = सङ्कलय_Dialog_दत्त(dialog, wstring, गणनम् * परिमाण(WCHAR));
     SDL_free(wstring);
-    return status;
+    प्रत्यागम स्थितिः;
 }
 
-static int s_BaseUnitsX;
-static int s_BaseUnitsY;
-static void Vec2ToDLU(short *x, short *y)
+स्थिर पूर्णाङ्क s_आधारः_Units_X;
+स्थिर पूर्णाङ्क s_आधारः_Units_Y;
+स्थिर शून्य Vec2_गन्तव्यम्_DLU(ह्रस्व *x, ह्रस्व *y)
 {
-    SDL_assert(s_BaseUnitsX != 0); // we init in WIN_ShowMessageBox(), which is the only public function...
+    SDL_assert(s_आधारः_Units_X != 0); // we init in WIN_ShowMessageBox(), which is the only public function...
 
-    *x = (short)MulDiv(*x, 4, s_BaseUnitsX);
-    *y = (short)MulDiv(*y, 8, s_BaseUnitsY);
+    *x = (ह्रस्व)MulDiv(*x, 4, s_आधारः_Units_X);
+    *y = (ह्रस्व)MulDiv(*y, 8, s_आधारः_Units_Y);
 }
 
-static bool AddDialogControl(WIN_DialogData *dialog, WORD type, DWORD style, DWORD exStyle, int x, int y, int w, int h, int id, const char *caption, WORD ordinal)
+स्थिर bool सङ्कलय_Dialog_Control(WIN_Dialog_दत्त *dialog, WORD type, DWORD style, DWORD exStyle, पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क w, पूर्णाङ्क h, पूर्णाङ्क id, ध्रुव वर्ण *caption, WORD ordinal)
 {
     DLGITEMTEMPLATEEX item;
     WORD marker = 0xFFFF;
-    WORD extraData = 0;
+    WORD extra_दत्त = 0;
 
     SDL_zero(item);
     item.style = style;
     item.exStyle = exStyle;
-    item.x = (short)x;
-    item.y = (short)y;
-    item.cx = (short)w;
-    item.cy = (short)h;
+    item.x = (ह्रस्व)x;
+    item.y = (ह्रस्व)y;
+    item.cx = (ह्रस्व)w;
+    item.cy = (ह्रस्व)h;
     item.id = id;
 
-    Vec2ToDLU(&item.x, &item.y);
-    Vec2ToDLU(&item.cx, &item.cy);
+    Vec2_गन्तव्यम्_DLU(&item.x, &item.y);
+    Vec2_गन्तव्यम्_DLU(&item.cx, &item.cy);
 
-    if (!AlignDialogData(dialog, sizeof(DWORD))) {
-        return false;
+    यदि (!Align_Dialog_दत्त(dialog, परिमाण(DWORD))) {
+        प्रत्यागम false;
     }
-    if (!AddDialogData(dialog, &item, sizeof(item))) {
-        return false;
+    यदि (!सङ्कलय_Dialog_दत्त(dialog, &item, परिमाण(item))) {
+        प्रत्यागम false;
     }
-    if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-        return false;
+    यदि (!सङ्कलय_Dialog_दत्त(dialog, &marker, परिमाण(marker))) {
+        प्रत्यागम false;
     }
-    if (!AddDialogData(dialog, &type, sizeof(type))) {
-        return false;
+    यदि (!सङ्कलय_Dialog_दत्त(dialog, &type, परिमाण(type))) {
+        प्रत्यागम false;
     }
-    if (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
-        if (!AddDialogString(dialog, caption)) {
-            return false;
+    यदि (type == DLGITEMTYPEBUTTON || (type == DLGITEMTYPESTATIC && caption)) {
+        यदि (!सङ्कलय_Dialog_String(dialog, caption)) {
+            प्रत्यागम false;
         }
-    } else {
-        if (!AddDialogData(dialog, &marker, sizeof(marker))) {
-            return false;
+    } अन्यथा {
+        यदि (!सङ्कलय_Dialog_दत्त(dialog, &marker, परिमाण(marker))) {
+            प्रत्यागम false;
         }
-        if (!AddDialogData(dialog, &ordinal, sizeof(ordinal))) {
-            return false;
+        यदि (!सङ्कलय_Dialog_दत्त(dialog, &ordinal, परिमाण(ordinal))) {
+            प्रत्यागम false;
         }
     }
-    if (!AddDialogData(dialog, &extraData, sizeof(extraData))) {
-        return false;
+    यदि (!सङ्कलय_Dialog_दत्त(dialog, &extra_दत्त, परिमाण(extra_दत्त))) {
+        प्रत्यागम false;
     }
-    if (type == DLGITEMTYPEBUTTON) {
+    यदि (type == DLGITEMTYPEBUTTON) {
         dialog->numbuttons++;
     }
-    ++dialog->lpDialog->cDlgItems;
+    ++dialog->lpDialog->c_Dlg_वस्तूनि;
 
-    return true;
+    प्रत्यागम true;
 }
 
-static bool AddDialogStaticText(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text)
+स्थिर bool सङ्कलय_Dialog_Static_Text(WIN_Dialog_दत्त *dialog, पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क w, पूर्णाङ्क h, ध्रुव वर्ण *text)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | SS_LEFT | SS_NOPREFIX | SS_EDITCONTROL | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, text, 0);
+    DWORD style = WS_VISIBLE | WS_CHILD | SS_वामः | SS_NOPREFIX | SS_EDITCONTROL | WS_गणः;
+    प्रत्यागम सङ्कलय_Dialog_Control(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -1, text, 0);
 }
 
-static bool AddDialogStaticIcon(WIN_DialogData *dialog, int x, int y, int w, int h, Uint16 ordinal)
+स्थिर bool सङ्कलय_Dialog_Static_Icon(WIN_Dialog_दत्त *dialog, पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क w, पूर्णाङ्क h, Uint16 ordinal)
 {
-    DWORD style = WS_VISIBLE | WS_CHILD | SS_ICON | WS_GROUP;
-    return AddDialogControl(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, NULL, ordinal);
+    DWORD style = WS_VISIBLE | WS_CHILD | SS_ICON | WS_गणः;
+    प्रत्यागम सङ्कलय_Dialog_Control(dialog, DLGITEMTYPESTATIC, style, 0, x, y, w, h, -2, रिक्त, ordinal);
 }
 
-static bool AddDialogButton(WIN_DialogData *dialog, int x, int y, int w, int h, const char *text, int id, bool isDefault)
+स्थिर bool सङ्कलय_Dialog_Button(WIN_Dialog_दत्त *dialog, पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क w, पूर्णाङ्क h, ध्रुव वर्ण *text, पूर्णाङ्क id, bool isDefault)
 {
     DWORD style = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
-    if (isDefault) {
+    यदि (isDefault) {
         style |= BS_DEFPUSHBUTTON;
-    } else {
+    } अन्यथा {
         style |= BS_PUSHBUTTON;
     }
     // The first button marks the start of the group.
-    if (dialog->numbuttons == 0) {
-        style |= WS_GROUP;
+    यदि (dialog->numbuttons == 0) {
+        style |= WS_गणः;
     }
-    return AddDialogControl(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, text, 0);
+    प्रत्यागम सङ्कलय_Dialog_Control(dialog, DLGITEMTYPEBUTTON, style, 0, x, y, w, h, id, text, 0);
 }
 
-static void FreeDialogData(WIN_DialogData *dialog)
+स्थिर शून्य Free_Dialog_दत्त(WIN_Dialog_दत्त *dialog)
 {
-    SDL_free(dialog->data);
+    SDL_free(dialog->दत्त);
     SDL_free(dialog);
 }
 
-static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
+स्थिर WIN_Dialog_दत्त *Create_Dialog_दत्त(पूर्णाङ्क w, पूर्णाङ्क h, ध्रुव वर्ण *caption)
 {
-    WIN_DialogData *dialog;
+    WIN_Dialog_दत्त *dialog;
     DLGTEMPLATEEX dialogTemplate;
-    WORD WordToPass;
+    WORD Word_गन्तव्यम्_Pass;
 
     SDL_zero(dialogTemplate);
     dialogTemplate.dlgVer = 1;
@@ -515,37 +515,37 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
     dialogTemplate.style = (WS_CAPTION | DS_CENTER | DS_SHELLFONT);
     dialogTemplate.x = 0;
     dialogTemplate.y = 0;
-    dialogTemplate.cx = (short)w;
-    dialogTemplate.cy = (short)h;
-    Vec2ToDLU(&dialogTemplate.cx, &dialogTemplate.cy);
+    dialogTemplate.cx = (ह्रस्व)w;
+    dialogTemplate.cy = (ह्रस्व)h;
+    Vec2_गन्तव्यम्_DLU(&dialogTemplate.cx, &dialogTemplate.cy);
 
-    dialog = (WIN_DialogData *)SDL_calloc(1, sizeof(*dialog));
-    if (!dialog) {
-        return NULL;
+    dialog = (WIN_Dialog_दत्त *)SDL_calloc(1, परिमाण(*dialog));
+    यदि (!dialog) {
+        प्रत्यागम रिक्त;
     }
 
-    if (!AddDialogData(dialog, &dialogTemplate, sizeof(dialogTemplate))) {
-        FreeDialogData(dialog);
-        return NULL;
+    यदि (!सङ्कलय_Dialog_दत्त(dialog, &dialogTemplate, परिमाण(dialogTemplate))) {
+        Free_Dialog_दत्त(dialog);
+        प्रत्यागम रिक्त;
     }
 
     // No menu
-    WordToPass = 0;
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
-        FreeDialogData(dialog);
-        return NULL;
+    Word_गन्तव्यम्_Pass = 0;
+    यदि (!सङ्कलय_Dialog_दत्त(dialog, &Word_गन्तव्यम्_Pass, 2)) {
+        Free_Dialog_दत्त(dialog);
+        प्रत्यागम रिक्त;
     }
 
     // No custom class
-    if (!AddDialogData(dialog, &WordToPass, 2)) {
-        FreeDialogData(dialog);
-        return NULL;
+    यदि (!सङ्कलय_Dialog_दत्त(dialog, &Word_गन्तव्यम्_Pass, 2)) {
+        Free_Dialog_दत्त(dialog);
+        प्रत्यागम रिक्त;
     }
 
     // title
-    if (!AddDialogString(dialog, caption)) {
-        FreeDialogData(dialog);
-        return NULL;
+    यदि (!सङ्कलय_Dialog_String(dialog, caption)) {
+        Free_Dialog_दत्त(dialog);
+        प्रत्यागम रिक्त;
     }
 
     // Font stuff
@@ -553,58 +553,58 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
         /*
          * We want to use the system messagebox font.
          */
-        BYTE ToPass;
+        BYTE गन्तव्यम्_Pass;
 
         NONCLIENTMETRICSA NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cb_आकार = परिमाण(NCM);
         SystemParametersInfoA(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
 
         // Font size - convert to logical font size for dialog parameter.
         {
-            HDC ScreenDC = GetDC(NULL);
-            int LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
-            if (!LogicalPixelsY) {
+            HDC ScreenDC = GetDC(रिक्त);
+            पूर्णाङ्क LogicalPixelsY = GetDeviceCaps(ScreenDC, LOGPIXELSY);
+            यदि (!LogicalPixelsY) {
                 LogicalPixelsY = 72; // This can happen if the application runs out of GDI handles
             }
 
-            WordToPass = (WORD)(-72 * NCM.lfMessageFont.lfHeight / LogicalPixelsY);
-            ReleaseDC(NULL, ScreenDC);
+            Word_गन्तव्यम्_Pass = (WORD)(-72 * NCM.lf_सन्देशः_Font.lfHeight / LogicalPixelsY);
+            ReleaseDC(रिक्त, ScreenDC);
         }
 
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
-            FreeDialogData(dialog);
-            return NULL;
+        यदि (!सङ्कलय_Dialog_दत्त(dialog, &Word_गन्तव्यम्_Pass, 2)) {
+            Free_Dialog_दत्त(dialog);
+            प्रत्यागम रिक्त;
         }
 
         // Font weight
-        WordToPass = (WORD)NCM.lfMessageFont.lfWeight;
-        if (!AddDialogData(dialog, &WordToPass, 2)) {
-            FreeDialogData(dialog);
-            return NULL;
+        Word_गन्तव्यम्_Pass = (WORD)NCM.lf_सन्देशः_Font.lfWeight;
+        यदि (!सङ्कलय_Dialog_दत्त(dialog, &Word_गन्तव्यम्_Pass, 2)) {
+            Free_Dialog_दत्त(dialog);
+            प्रत्यागम रिक्त;
         }
 
         // italic?
-        ToPass = NCM.lfMessageFont.lfItalic;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
-            FreeDialogData(dialog);
-            return NULL;
+        गन्तव्यम्_Pass = NCM.lf_सन्देशः_Font.lfItalic;
+        यदि (!सङ्कलय_Dialog_दत्त(dialog, &गन्तव्यम्_Pass, 1)) {
+            Free_Dialog_दत्त(dialog);
+            प्रत्यागम रिक्त;
         }
 
         // charset?
-        ToPass = NCM.lfMessageFont.lfCharSet;
-        if (!AddDialogData(dialog, &ToPass, 1)) {
-            FreeDialogData(dialog);
-            return NULL;
+        गन्तव्यम्_Pass = NCM.lf_सन्देशः_Font.lf_Char_समुच्चयः;
+        यदि (!सङ्कलय_Dialog_दत्त(dialog, &गन्तव्यम्_Pass, 1)) {
+            Free_Dialog_दत्त(dialog);
+            प्रत्यागम रिक्त;
         }
 
         // font typeface.
-        if (!AddDialogString(dialog, NCM.lfMessageFont.lfFaceName)) {
-            FreeDialogData(dialog);
-            return NULL;
+        यदि (!सङ्कलय_Dialog_String(dialog, NCM.lf_सन्देशः_Font.lfFaceName)) {
+            Free_Dialog_दत्त(dialog);
+            प्रत्यागम रिक्त;
         }
     }
 
-    return dialog;
+    प्रत्यागम dialog;
 }
 
 /* Escaping ampersands is necessary to disable mnemonics in dialog controls.
@@ -616,128 +616,128 @@ static WIN_DialogData *CreateDialogData(int w, int h, const char *caption)
  * work buffer is freed. Once all strings have been processed, it's the caller's
  * responsibility to free the work buffer with SDL_free, even on errors.
  */
-static const char *EscapeAmpersands(char **dst, size_t *dstlen, const char *src)
+स्थिर ध्रुव वर्ण *EscapeAmpersands(वर्ण **dst, size_t *dstlen, ध्रुव वर्ण *src)
 {
-    char *newdst;
+    वर्ण *newdst;
     size_t ampcount = 0;
     size_t srclen = 0;
 
-    if (!src) {
-        return NULL;
+    यदि (!src) {
+        प्रत्यागम रिक्त;
     }
 
-    while (src[srclen]) {
-        if (src[srclen] == '&') {
+    यावत् (src[srclen]) {
+        यदि (src[srclen] == '&') {
             ampcount++;
         }
         srclen++;
     }
     srclen++;
 
-    if (ampcount == 0) {
+    यदि (ampcount == 0) {
         // Nothing to do.
-        return src;
+        प्रत्यागम src;
     }
-    if (SIZE_MAX - srclen < ampcount) {
-        return NULL;
+    यदि (SIZE_MAX - srclen < ampcount) {
+        प्रत्यागम रिक्त;
     }
-    if (!*dst || *dstlen < srclen + ampcount) {
+    यदि (!*dst || *dstlen < srclen + ampcount) {
         // Allocating extra space in case the next strings are a bit longer.
         size_t extraspace = SIZE_MAX - (srclen + ampcount);
-        if (extraspace > 512) {
+        यदि (extraspace > 512) {
             extraspace = 512;
         }
         *dstlen = srclen + ampcount + extraspace;
         SDL_free(*dst);
-        *dst = NULL;
-        newdst = (char *)SDL_malloc(*dstlen);
-        if (!newdst) {
-            return NULL;
+        *dst = रिक्त;
+        newdst = (वर्ण *)SDL_malloc(*dstlen);
+        यदि (!newdst) {
+            प्रत्यागम रिक्त;
         }
         *dst = newdst;
-    } else {
+    } अन्यथा {
         newdst = *dst;
     }
 
     // The escape character is the ampersand itself.
-    while (srclen--) {
-        if (*src == '&') {
+    यावत् (srclen--) {
+        यदि (*src == '&') {
             *newdst++ = '&';
         }
         *newdst++ = *src++;
     }
 
-    return *dst;
+    प्रत्यागम *dst;
 }
 
-static float WIN_GetContentScale(void)
+स्थिर भिन्न WIN_GetContentScale(शून्य)
 {
-    int dpi = 0;
+    पूर्णाङ्क dpi = 0;
 
-#if 0 // We don't know what monitor the dialog will be shown on
+#यदि 0 // We don't know what monitor the dialog will be shown on
     UINT hdpi_uint, vdpi_uint;
-    if (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-        dpi = (int)hdpi_uint;
+    यदि (GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+        dpi = (पूर्णाङ्क)hdpi_uint;
     }
-#endif
-    if (dpi == 0) {
+#यदि_अन्तः
+    यदि (dpi == 0) {
         // Window 8.0 and below: same DPI for all monitors
-        HDC hdc = GetDC(NULL);
-        if (hdc) {
+        HDC hdc = GetDC(रिक्त);
+        यदि (hdc) {
             dpi = GetDeviceCaps(hdc, LOGPIXELSX);
-            ReleaseDC(NULL, hdc);
+            ReleaseDC(रिक्त, hdc);
         }
     }
-    if (dpi == 0) {
+    यदि (dpi == 0) {
         // Safe default
         dpi = USER_DEFAULT_SCREEN_DPI;
     }
-    return dpi / (float)USER_DEFAULT_SCREEN_DPI;
+    प्रत्यागम dpi / (भिन्न)USER_DEFAULT_SCREEN_DPI;
 }
 
 // This function is called if a Task Dialog is unsupported.
-static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+स्थिर bool WIN_Show_Old_सन्देशः_Box(ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, पूर्णाङ्क *buttonID)
 {
-    WIN_DialogData *dialog;
-    int i, x, y;
+    WIN_Dialog_दत्त *dialog;
+    पूर्णाङ्क i, x, y;
     HFONT DialogFont;
-    SIZE Size;
-    RECT TextSize;
+    आकार_3 आकार_2;
+    RECT Text_आकार;
     wchar_t *wmessage;
     TEXTMETRIC TM;
     HDC FontDC;
     INT_PTR rc;
-    char *ampescape = NULL;
+    वर्ण *ampescape = रिक्त;
     size_t ampescapesize = 0;
     Uint16 defbuttoncount = 0;
     Uint16 icon = 0;
-    bool result;
+    bool परिणाम;
 
-    HWND ParentWindow = NULL;
+    HWND Parent_गवाक्षः = रिक्त;
 
-    const float scale = WIN_GetContentScale();
-    const int ButtonWidth = (int)SDL_roundf(88 * scale);
-    const int ButtonHeight = (int)SDL_roundf(26 * scale);
-    const int TextMargin = (int)SDL_roundf(16 * scale);
-    const int ButtonMargin = (int)SDL_roundf(12 * scale);
-    const int IconWidth = GetSystemMetrics(SM_CXICON);
-    const int IconHeight = GetSystemMetrics(SM_CYICON);
-    const int IconMargin = (int)SDL_roundf(20 * scale);
+    ध्रुव भिन्न scale = WIN_GetContentScale();
+    ध्रुव पूर्णाङ्क Button_विस्तारः = (पूर्णाङ्क)SDL_roundf(88 * scale);
+    ध्रुव पूर्णाङ्क ButtonHeight = (पूर्णाङ्क)SDL_roundf(26 * scale);
+    ध्रुव पूर्णाङ्क TextMargin = (पूर्णाङ्क)SDL_roundf(16 * scale);
+    ध्रुव पूर्णाङ्क ButtonMargin = (पूर्णाङ्क)SDL_roundf(12 * scale);
+    ध्रुव पूर्णाङ्क Icon_विस्तारः = GetSystemMetrics(SM_CXICON);
+    ध्रुव पूर्णाङ्क IconHeight = GetSystemMetrics(SM_CYICON);
+    ध्रुव पूर्णाङ्क IconMargin = (पूर्णाङ्क)SDL_roundf(20 * scale);
 
-    if (messageboxdata->numbuttons > MAX_BUTTONS) {
-        return SDL_SetError("Number of buttons exceeds limit of %d", MAX_BUTTONS);
+    यदि (messageboxdata->numbuttons > MAX_BUTTONS) {
+        प्रत्यागम SDL_समुच्चयः_Error("Number of buttons exceeds limit of %d", MAX_BUTTONS);
     }
 
-    switch (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
-    case SDL_MESSAGEBOX_ERROR:
+    विकल्प (messageboxdata->flags & (SDL_MESSAGEBOX_ERROR | SDL_MESSAGEBOX_WARNING | SDL_MESSAGEBOX_INFORMATION)) {
+    पक्ष SDL_MESSAGEBOX_ERROR:
         icon = (Uint16)(size_t)IDI_ERROR;
-        break;
-    case SDL_MESSAGEBOX_WARNING:
+        भङ्ग;
+    पक्ष SDL_MESSAGEBOX_WARNING:
         icon = (Uint16)(size_t)IDI_WARNING;
-        break;
-    case SDL_MESSAGEBOX_INFORMATION:
+        भङ्ग;
+    पक्ष SDL_MESSAGEBOX_INFORMATION:
         icon = (Uint16)(size_t)IDI_INFORMATION;
-        break;
+        भङ्ग;
     }
 
     /* Jan 25th, 2013 - dant@fleetsa.com
@@ -775,10 +775,10 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         // Create a duplicate of the font used in system message boxes.
         LOGFONT lf;
         NONCLIENTMETRICS NCM;
-        NCM.cbSize = sizeof(NCM);
+        NCM.cb_आकार = परिमाण(NCM);
         SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, &NCM, 0);
-        lf = NCM.lfMessageFont;
-        DialogFont = CreateFontIndirect(&lf);
+        lf = NCM.lf_सन्देशः_Font;
+        DialogFont = Create_Font_परोक्षम्(&lf);
     }
 
     // Select the font in to our DC
@@ -793,90 +793,90 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
          * This fixes bug 2137, dialog box calculation with a fixed-width system font
          */
         {
-            SIZE extent;
+            आकार_3 extent;
             GetTextExtentPoint32A(FontDC, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", 52, &extent);
-            s_BaseUnitsX = (extent.cx / 26 + 1) / 2;
+            s_आधारः_Units_X = (extent.cx / 26 + 1) / 2;
         }
         // s_BaseUnitsX = TM.tmAveCharWidth + 1;
-        s_BaseUnitsY = TM.tmHeight;
+        s_आधारः_Units_Y = TM.tmHeight;
     }
 
     /* Measure the *pixel* size of the string. */
-    wmessage = WIN_UTF8ToStringW(messageboxdata->message);
-    SDL_zero(TextSize);
-    DrawTextW(FontDC, wmessage, -1, &TextSize, DT_CALCRECT | DT_LEFT | DT_NOPREFIX | DT_EDITCONTROL);
+    wmessage = WIN_UTF8_गन्तव्यम्_String_W(messageboxdata->सन्देशः);
+    SDL_zero(Text_आकार);
+    DrawTextW(FontDC, wmessage, -1, &Text_आकार, DT_CALCRECT | DT_वामः | DT_NOPREFIX | DT_EDITCONTROL);
 
     // Add margins and some padding for hangs, etc.
-    TextSize.left += TextMargin;
-    TextSize.right += TextMargin + 2;
-    TextSize.top += TextMargin;
-    TextSize.bottom += TextMargin + 2;
+    Text_आकार.वामः += TextMargin;
+    Text_आकार.दक्षिणः += TextMargin + 2;
+    Text_आकार.शिखरम् += TextMargin;
+    Text_आकार.bottom += TextMargin + 2;
 
     // Done with the DC, and the string
     DeleteDC(FontDC);
     SDL_free(wmessage);
 
     // Increase the size of the dialog by some border spacing around the text.
-    Size.cx = TextSize.right - TextSize.left;
-    Size.cy = TextSize.bottom - TextSize.top;
-    Size.cx += TextMargin * 2;
-    Size.cy += TextMargin * 2;
+    आकार_2.cx = Text_आकार.दक्षिणः - Text_आकार.वामः;
+    आकार_2.cy = Text_आकार.bottom - Text_आकार.शिखरम्;
+    आकार_2.cx += TextMargin * 2;
+    आकार_2.cy += TextMargin * 2;
 
     // Make dialog wider and shift text over for the icon.
-    if (icon) {
-        Size.cx += IconMargin + IconWidth;
-        TextSize.left += IconMargin + IconWidth;
-        TextSize.right += IconMargin + IconWidth;
+    यदि (icon) {
+        आकार_2.cx += IconMargin + Icon_विस्तारः;
+        Text_आकार.वामः += IconMargin + Icon_विस्तारः;
+        Text_आकार.दक्षिणः += IconMargin + Icon_विस्तारः;
     }
 
     // Ensure the size is wide enough for all of the buttons.
-    if (Size.cx < (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin) {
-        Size.cx = (LONG)messageboxdata->numbuttons * (ButtonWidth + ButtonMargin) + ButtonMargin;
+    यदि (आकार_2.cx < (LONG)messageboxdata->numbuttons * (Button_विस्तारः + ButtonMargin) + ButtonMargin) {
+        आकार_2.cx = (LONG)messageboxdata->numbuttons * (Button_विस्तारः + ButtonMargin) + ButtonMargin;
     }
 
     // Reset the height to the icon size if it is actually bigger than the text.
-    if (icon && Size.cy < (LONG)IconMargin * 2 + IconHeight) {
-        Size.cy = (LONG)IconMargin * 2 + IconHeight;
+    यदि (icon && आकार_2.cy < (LONG)IconMargin * 2 + IconHeight) {
+        आकार_2.cy = (LONG)IconMargin * 2 + IconHeight;
     }
 
     // Add vertical space for the buttons and border.
-    Size.cy += ButtonHeight + TextMargin;
+    आकार_2.cy += ButtonHeight + TextMargin;
 
-    dialog = CreateDialogData(Size.cx, Size.cy, messageboxdata->title);
-    if (!dialog) {
-        return false;
+    dialog = Create_Dialog_दत्त(आकार_2.cx, आकार_2.cy, messageboxdata->title);
+    यदि (!dialog) {
+        प्रत्यागम false;
     }
 
-    if (icon && !AddDialogStaticIcon(dialog, IconMargin, IconMargin, IconWidth, IconHeight, icon)) {
-        FreeDialogData(dialog);
-        return false;
+    यदि (icon && !सङ्कलय_Dialog_Static_Icon(dialog, IconMargin, IconMargin, Icon_विस्तारः, IconHeight, icon)) {
+        Free_Dialog_दत्त(dialog);
+        प्रत्यागम false;
     }
 
-    if (!AddDialogStaticText(dialog, TextSize.left, TextSize.top, TextSize.right - TextSize.left, TextSize.bottom - TextSize.top, messageboxdata->message)) {
-        FreeDialogData(dialog);
-        return false;
+    यदि (!सङ्कलय_Dialog_Static_Text(dialog, Text_आकार.वामः, Text_आकार.शिखरम्, Text_आकार.दक्षिणः - Text_आकार.वामः, Text_आकार.bottom - Text_आकार.शिखरम्, messageboxdata->सन्देशः)) {
+        Free_Dialog_दत्त(dialog);
+        प्रत्यागम false;
     }
 
     // Align the buttons to the right/bottom.
-    x = Size.cx - (ButtonWidth + ButtonMargin) * messageboxdata->numbuttons;
-    y = Size.cy - ButtonHeight - ButtonMargin;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    x = आकार_2.cx - (Button_विस्तारः + ButtonMargin) * messageboxdata->numbuttons;
+    y = आकार_2.cy - ButtonHeight - ButtonMargin;
+    प्रति (i = 0; i < messageboxdata->numbuttons; i++) {
         bool isdefault = false;
-        const char *buttontext;
-        const SDL_MessageBoxButtonData *sdlButton;
+        ध्रुव वर्ण *buttontext;
+        ध्रुव SDL_सन्देशः_Box_Button_दत्त *sdlButton;
 
         /* We always have to create the dialog buttons from left to right
          * so that the tab order is correct.  Select the info to use
          * depending on which order was requested. */
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+        यदि (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_वामः_गन्तव्यम्_दक्षिणः) {
             sdlButton = &messageboxdata->buttons[i];
-        } else {
+        } अन्यथा {
             sdlButton = &messageboxdata->buttons[messageboxdata->numbuttons - 1 - i];
         }
 
-        if (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        यदि (sdlButton->flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             defbuttoncount++;
-            if (defbuttoncount == 1) {
+            यदि (defbuttoncount == 1) {
                 isdefault = true;
             }
         }
@@ -884,92 +884,92 @@ static bool WIN_ShowOldMessageBox(const SDL_MessageBoxData *messageboxdata, int 
         buttontext = EscapeAmpersands(&ampescape, &ampescapesize, sdlButton->text);
         /* Make sure to provide the correct ID to keep buttons indexed in the
          * same order as how they are in messageboxdata. */
-        if (!buttontext || !AddDialogButton(dialog, x, y, ButtonWidth, ButtonHeight, buttontext, IDBUTTONINDEX0 + (int)(sdlButton - messageboxdata->buttons), isdefault)) {
-            FreeDialogData(dialog);
+        यदि (!buttontext || !सङ्कलय_Dialog_Button(dialog, x, y, Button_विस्तारः, ButtonHeight, buttontext, IDBUTTONINDEX0 + (पूर्णाङ्क)(sdlButton - messageboxdata->buttons), isdefault)) {
+            Free_Dialog_दत्त(dialog);
             SDL_free(ampescape);
-            return false;
+            प्रत्यागम false;
         }
 
-        x += ButtonWidth + ButtonMargin;
+        x += Button_विस्तारः + ButtonMargin;
     }
     SDL_free(ampescape);
 
     /* If we have a parent window, get the Instance and HWND for them
      * so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
-        ParentWindow = messageboxdata->window->internal->hwnd;
+    यदि (messageboxdata->गवाक्षः) {
+        Parent_गवाक्षः = messageboxdata->गवाक्षः->आन्तरिकम्->hwnd;
     }
 
-    rc = DialogBoxIndirectParam(NULL, (DLGTEMPLATE *)dialog->lpDialog, ParentWindow, MessageBoxDialogProc, (LPARAM)messageboxdata);
-    if (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
+    rc = Dialog_Box_परोक्षम्_Param(रिक्त, (DLGTEMPLATE *)dialog->lpDialog, Parent_गवाक्षः, सन्देशः_Box_Dialog_Proc, (LPARAM)messageboxdata);
+    यदि (rc >= IDBUTTONINDEX0 && rc - IDBUTTONINDEX0 < messageboxdata->numbuttons) {
         *buttonID = messageboxdata->buttons[rc - IDBUTTONINDEX0].buttonID;
-        result = true;
-    } else if (rc == IDCLOSED) {
+        परिणाम = true;
+    } अन्यथा यदि (rc == IDCLOSED) {
         // Dialog window closed by user or system.
         // This could use a special return code.
-        result = true;
+        परिणाम = true;
         *buttonID = -1;
-    } else {
-        if (rc == 0) {
-            SDL_SetError("Invalid parent window handle");
-        } else if (rc == -1) {
-            SDL_SetError("The message box encountered an error.");
-        } else if (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
-            SDL_SetError("Invalid message box pointer in dialog procedure");
-        } else if (rc == IDINVALPTRDLGITEM) {
-            SDL_SetError("Couldn't find dialog control of the default enter-key button");
-        } else {
-            SDL_SetError("An unknown error occurred");
+    } अन्यथा {
+        यदि (rc == 0) {
+            SDL_समुच्चयः_Error("Invalid parent window handle");
+        } अन्यथा यदि (rc == -1) {
+            SDL_समुच्चयः_Error("The message box encountered an error.");
+        } अन्यथा यदि (rc == IDINVALPTRINIT || rc == IDINVALPTRSETFOCUS || rc == IDINVALPTRCOMMAND) {
+            SDL_समुच्चयः_Error("Invalid message box pointer in dialog procedure");
+        } अन्यथा यदि (rc == IDINVALPTRDLGITEM) {
+            SDL_समुच्चयः_Error("Couldn't find dialog control of the default enter-key button");
+        } अन्यथा {
+            SDL_समुच्चयः_Error("An unknown error occurred");
         }
-        result = false;
+        परिणाम = false;
     }
 
-    FreeDialogData(dialog);
-    return result;
+    Free_Dialog_दत्त(dialog);
+    प्रत्यागम परिणाम;
 }
 
 /* TaskDialogIndirect procedure
  * This is because SDL targets Windows XP (0x501), so this is not defined in the platform SDK.
  */
 /* *INDENT-OFF* */ // clang-format off
-typedef HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(const TASKDIALOGCONFIG *pTaskConfig, int *pnButton, int *pnRadioButton, BOOL *pfVerificationFlagChecked);
+प्रकारनिर्देश HRESULT (FAR WINAPI *TASKDIALOGINDIRECTPROC)(ध्रुव TASKDIALOGCONFIG *pTaskConfig, पूर्णाङ्क *pnButton, पूर्णाङ्क *pnRadioButton, BOOL *pfVerificationFlagChecked);
 /* *INDENT-ON* */ // clang-format on
 
-bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
+bool WIN_Show_सन्देशः_Box(ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, पूर्णाङ्क *buttonID)
 {
-    HWND ParentWindow = NULL;
+    HWND Parent_गवाक्षः = रिक्त;
     wchar_t *wmessage;
     wchar_t *wtitle;
     TASKDIALOGCONFIG TaskConfig;
     TASKDIALOG_BUTTON *pButtons;
     TASKDIALOG_BUTTON *pButton;
     HMODULE hComctl32;
-    TASKDIALOGINDIRECTPROC pTaskDialogIndirect;
+    TASKDIALOGINDIRECTPROC p_Task_Dialog_परोक्षम्;
     HRESULT hr;
-    char *ampescape = NULL;
+    वर्ण *ampescape = रिक्त;
     size_t ampescapesize = 0;
-    int nButton;
-    int nCancelButton;
-    int i;
-    bool result = false;
+    पूर्णाङ्क nButton;
+    पूर्णाङ्क nCancelButton;
+    पूर्णाङ्क i;
+    bool परिणाम = false;
 
-    if (SIZE_MAX / sizeof(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
-        return SDL_OutOfMemory();
+    यदि (SIZE_MAX / परिमाण(TASKDIALOG_BUTTON) < messageboxdata->numbuttons) {
+        प्रत्यागम SDL_बहिर्गमनम्_सम्बन्धि_स्मृतिः();
     }
 
     HMODULE hUser32 = GetModuleHandle(TEXT("user32.dll"));
-    typedef DPI_AWARENESS_CONTEXT (WINAPI *pfnSetThreadDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
-    pfnSetThreadDpiAwarenessContext pSetThreadDpiAwarenessContext = (pfnSetThreadDpiAwarenessContext)GetProcAddress(hUser32, "SetThreadDpiAwarenessContext");
+    प्रकारनिर्देश DPI_AWARENESS_CONTEXT (WINAPI *pfn_समुच्चयः_Thread_Dpi_Awareness_Context)(DPI_AWARENESS_CONTEXT);
+    pfn_समुच्चयः_Thread_Dpi_Awareness_Context p_समुच्चयः_Thread_Dpi_Awareness_Context = (pfn_समुच्चयः_Thread_Dpi_Awareness_Context)Get_Proc_स्थानाङ्कः(hUser32, "SetThreadDpiAwarenessContext");
     DPI_AWARENESS_CONTEXT previous_context = DPI_AWARENESS_CONTEXT_UNAWARE;
-    if (pSetThreadDpiAwarenessContext) {
-        previous_context = pSetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+    यदि (p_समुच्चयः_Thread_Dpi_Awareness_Context) {
+        previous_context = p_समुच्चयः_Thread_Dpi_Awareness_Context(DPI_AWARENESS_CONTEXT_प्रत्येकम्_MONITOR_AWARE_V2);
     }
 
     // If we cannot load comctl32.dll use the old messagebox!
-    hComctl32 = LoadLibrary(TEXT("comctl32.dll"));
-    if (!hComctl32) {
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+    hComctl32 = आरोपय_Library(TEXT("comctl32.dll"));
+    यदि (!hComctl32) {
+        परिणाम = WIN_Show_Old_सन्देशः_Box(messageboxdata, buttonID);
+        गच्छ समाप्तम्;
     }
 
     /* If TaskDialogIndirect doesn't exist use the old messagebox!
@@ -979,108 +979,108 @@ bool WIN_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID)
        If you don't want to bother with manifests, put this #pragma in your app's source code somewhere:
        #pragma comment(linker,"\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0'  processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
      */
-    pTaskDialogIndirect = (TASKDIALOGINDIRECTPROC)GetProcAddress(hComctl32, "TaskDialogIndirect");
-    if (!pTaskDialogIndirect) {
+    p_Task_Dialog_परोक्षम् = (TASKDIALOGINDIRECTPROC)Get_Proc_स्थानाङ्कः(hComctl32, "TaskDialogIndirect");
+    यदि (!p_Task_Dialog_परोक्षम्) {
         FreeLibrary(hComctl32);
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
-        goto done;
+        परिणाम = WIN_Show_Old_सन्देशः_Box(messageboxdata, buttonID);
+        गच्छ समाप्तम्;
     }
 
     /* If we have a parent window, get the Instance and HWND for them
        so that our little dialog gets exclusive focus at all times. */
-    if (messageboxdata->window) {
-        ParentWindow = messageboxdata->window->internal->hwnd;
+    यदि (messageboxdata->गवाक्षः) {
+        Parent_गवाक्षः = messageboxdata->गवाक्षः->आन्तरिकम्->hwnd;
     }
 
-    wmessage = WIN_UTF8ToStringW(messageboxdata->message);
-    wtitle = WIN_UTF8ToStringW(messageboxdata->title);
+    wmessage = WIN_UTF8_गन्तव्यम्_String_W(messageboxdata->सन्देशः);
+    wtitle = WIN_UTF8_गन्तव्यम्_String_W(messageboxdata->title);
 
     SDL_zero(TaskConfig);
-    TaskConfig.cbSize = sizeof(TASKDIALOGCONFIG);
-    TaskConfig.hwndParent = ParentWindow;
-    TaskConfig.dwFlags = TDF_SIZE_TO_CONTENT;
-    TaskConfig.pszWindowTitle = wtitle;
-    if (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
+    TaskConfig.cb_आकार = परिमाण(TASKDIALOGCONFIG);
+    TaskConfig.hwndParent = Parent_गवाक्षः;
+    TaskConfig.dwFlags = TDF_आकार_गन्तव्यम्_CONTENT;
+    TaskConfig.psz_गवाक्षः_Title = wtitle;
+    यदि (messageboxdata->flags & SDL_MESSAGEBOX_ERROR) {
         TaskConfig.pszMainIcon = TD_ERROR_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
+    } अन्यथा यदि (messageboxdata->flags & SDL_MESSAGEBOX_WARNING) {
         TaskConfig.pszMainIcon = TD_WARNING_ICON;
-    } else if (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
+    } अन्यथा यदि (messageboxdata->flags & SDL_MESSAGEBOX_INFORMATION) {
         TaskConfig.pszMainIcon = TD_INFORMATION_ICON;
-    } else {
-        TaskConfig.pszMainIcon = NULL;
+    } अन्यथा {
+        TaskConfig.pszMainIcon = रिक्त;
     }
 
     TaskConfig.pszContent = wmessage;
     TaskConfig.cButtons = messageboxdata->numbuttons;
-    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(sizeof(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
+    pButtons = (TASKDIALOG_BUTTON *)SDL_malloc(परिमाण(TASKDIALOG_BUTTON) * messageboxdata->numbuttons);
     TaskConfig.nDefaultButton = 0;
     nCancelButton = 0;
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
-        const char *buttontext;
-        if (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT) {
+    प्रति (i = 0; i < messageboxdata->numbuttons; i++) {
+        ध्रुव वर्ण *buttontext;
+        यदि (messageboxdata->flags & SDL_MESSAGEBOX_BUTTONS_वामः_गन्तव्यम्_दक्षिणः) {
             pButton = &pButtons[i];
-        } else {
+        } अन्यथा {
             pButton = &pButtons[messageboxdata->numbuttons - 1 - i];
         }
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
+        यदि (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT) {
             nCancelButton = messageboxdata->buttons[i].buttonID;
             pButton->nButtonID = IDCANCEL;
-        } else {
+        } अन्यथा {
             pButton->nButtonID = IDBUTTONINDEX0 + i;
         }
         buttontext = EscapeAmpersands(&ampescape, &ampescapesize, messageboxdata->buttons[i].text);
-        if (!buttontext) {
-            int j;
+        यदि (!buttontext) {
+            पूर्णाङ्क j;
             FreeLibrary(hComctl32);
             SDL_free(ampescape);
             SDL_free(wmessage);
             SDL_free(wtitle);
-            for (j = 0; j < i; j++) {
+            प्रति (j = 0; j < i; j++) {
                 SDL_free((wchar_t *)pButtons[j].pszButtonText);
             }
             SDL_free(pButtons);
-            return false;
+            प्रत्यागम false;
         }
-        pButton->pszButtonText = WIN_UTF8ToStringW(buttontext);
-        if (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
+        pButton->pszButtonText = WIN_UTF8_गन्तव्यम्_String_W(buttontext);
+        यदि (messageboxdata->buttons[i].flags & SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT) {
             TaskConfig.nDefaultButton = pButton->nButtonID;
         }
     }
     TaskConfig.pButtons = pButtons;
 
     // Show the Task Dialog
-    hr = pTaskDialogIndirect(&TaskConfig, &nButton, NULL, NULL);
+    hr = p_Task_Dialog_परोक्षम्(&TaskConfig, &nButton, रिक्त, रिक्त);
 
     // Free everything
     FreeLibrary(hComctl32);
     SDL_free(ampescape);
     SDL_free(wmessage);
     SDL_free(wtitle);
-    for (i = 0; i < messageboxdata->numbuttons; i++) {
+    प्रति (i = 0; i < messageboxdata->numbuttons; i++) {
         SDL_free((wchar_t *)pButtons[i].pszButtonText);
     }
     SDL_free(pButtons);
 
     // Check the Task Dialog was successful and give the result
-    if (SUCCEEDED(hr)) {
-        if (nButton == IDCANCEL) {
+    यदि (SUCCEEDED(hr)) {
+        यदि (nButton == IDCANCEL) {
             *buttonID = nCancelButton;
-        } else if (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
+        } अन्यथा यदि (nButton >= IDBUTTONINDEX0 && nButton < IDBUTTONINDEX0 + messageboxdata->numbuttons) {
             *buttonID = messageboxdata->buttons[nButton - IDBUTTONINDEX0].buttonID;
-        } else {
+        } अन्यथा {
             *buttonID = -1;
         }
-        result = true;
-    } else {
+        परिणाम = true;
+    } अन्यथा {
         // We failed showing the Task Dialog, use the old message box!
-        result = WIN_ShowOldMessageBox(messageboxdata, buttonID);
+        परिणाम = WIN_Show_Old_सन्देशः_Box(messageboxdata, buttonID);
     }
 
-done:
-    if (pSetThreadDpiAwarenessContext) {
-        pSetThreadDpiAwarenessContext(previous_context);
+समाप्तम्:
+    यदि (p_समुच्चयः_Thread_Dpi_Awareness_Context) {
+        p_समुच्चयः_Thread_Dpi_Awareness_Context(previous_context);
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_WINDOWS

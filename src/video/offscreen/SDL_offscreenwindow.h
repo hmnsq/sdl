@@ -18,23 +18,23 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_offscreenwindow_h
-#define SDL_offscreenwindow_h
+#यदि_अपरिभाषितम् SDL_offscreenwindow_h
+#परिभाषय SDL_offscreenwindow_h
 
-#include "SDL_offscreenvideo.h"
+#अन्तर्भाव "SDL_offscreenvideo.h"
 
-struct SDL_WindowData
+संरचना SDL_गवाक्षः_दत्त
 {
-    SDL_Window *sdl_window;
-#ifdef SDL_VIDEO_OPENGL_EGL
+    SDL_गवाक्षः *sdl_गवाक्षः;
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
-#endif
+#यदि_अन्तः
 };
 
-extern bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool OFFSCREEN_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props);
+बाह्य शून्य OFFSCREEN_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य OFFSCREEN_समुच्चयः_गवाक्षः_आकार(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
 
-#endif // SDL_offscreenwindow_h
+#यदि_अन्तः // SDL_offscreenwindow_h

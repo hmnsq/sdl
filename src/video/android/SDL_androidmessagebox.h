@@ -18,10 +18,10 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_ANDROID
 
-extern bool Android_ShowMessageBox(const SDL_MessageBoxData *messageboxdata, int *buttonID);
+बाह्य bool Android_Show_सन्देशः_Box(ध्रुव SDL_सन्देशः_Box_दत्त *messageboxdata, पूर्णाङ्क *buttonID);
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#यदि_अन्तः // SDL_VIDEO_DRIVER_ANDROID

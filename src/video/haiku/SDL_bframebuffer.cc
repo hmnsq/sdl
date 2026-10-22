@@ -18,111 +18,111 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_HAIKU
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_HAIKU
 
-#include "SDL_bframebuffer.h"
+#अन्तर्भाव "SDL_bframebuffer.h"
 
-#include <AppKit.h>
-#include <InterfaceKit.h>
-#include "SDL_bmodes.h"
-#include "SDL_BWin.h"
+#अन्तर्भाव <AppKit.h>
+#अन्तर्भाव <InterfaceKit.h>
+#अन्तर्भाव "SDL_bmodes.h"
+#अन्तर्भाव "SDL_BWin.h"
 
-#include "../../core/haiku/SDL_BApp.h"
+#अन्तर्भाव "../../core/haiku/SDL_BApp.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+बाह्य "C" {
+#यदि_अन्तः
 
-static SDL_INLINE SDL_BWin *_ToBeWin(SDL_Window *window)
+स्थिर SDL_INLINE SDL_BWin *गन्तव्यम्_Be_Win(SDL_गवाक्षः *गवाक्षः)
 {
-    return (SDL_BWin *)(window->internal);
+    प्रत्यागम (SDL_BWin *)(गवाक्षः->आन्तरिकम्);
 }
 
-static SDL_INLINE SDL_BLooper *_GetBeLooper()
+स्थिर SDL_INLINE SDL_BLooper *_GetBeLooper()
 {
-    return SDL_Looper;
+    प्रत्यागम SDL_Looper;
 }
 
-bool HAIKU_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window, SDL_PixelFormat * format, void ** pixels, int *pitch)
+तार्किक HAIKU_Create_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः * गवाक्षः, SDL_PixelFormat * format, शून्य ** pixels, पूर्णाङ्क *pitch)
 {
-    SDL_BWin *bwin = _ToBeWin(window);
+    SDL_BWin *bwin = गन्तव्यम्_Be_Win(गवाक्षः);
     BScreen bscreen;
-    if (!bscreen.IsValid()) {
-        return false;
+    यदि (!bscreen.IsValid()) {
+        प्रत्यागम असत्य;
     }
 
     // Make sure we have exclusive access to frame buffer data
-    bwin->LockBuffer();
+    bwin->तालकम्_बफर();
 
     bwin->CreateView();
 
     // format
-    display_mode bmode;
-    bscreen.GetMode(&bmode);
-    *format = HAIKU_ColorSpaceToSDLPxFormat(bmode.space);
+    display_बहुलकम्_2 bmode;
+    bscreen.Get_बहुलकम्(&bmode);
+    *format = HAIKU_Color_Space_गन्तव्यम्_SDLPx_Format(bmode.space);
 
     // Create the new bitmap object
     BBitmap *bitmap = bwin->GetBitmap();
 
-    if (bitmap) {
-        delete bitmap;
+    यदि (bitmap) {
+        विलोपय bitmap;
     }
-    bitmap = new BBitmap(bwin->Bounds(), (color_space)bmode.space,
-            false,    // Views not accepted
-            true);    // Contiguous memory required
+    bitmap = नूतन BBitmap(bwin->Bounds(), (color_space)bmode.space,
+            असत्य,    // Views not accepted
+            सत्य);    // Contiguous memory required
 
-    if (bitmap->InitCheck() != B_OK) {
-        delete bitmap;
-        return SDL_SetError("Could not initialize back buffer!");
+    यदि (bitmap->InitCheck() != B_OK) {
+        विलोपय bitmap;
+        प्रत्यागम SDL_समुच्चयः_Error("Could not initialize back buffer!");
     }
 
 
-    bwin->SetBitmap(bitmap);
+    bwin->समुच्चयः_Bitmap(bitmap);
 
     // Set the pixel pointer
-    *pixels = bitmap->Bits();
+    *pixels = bitmap->द्वयङ्काः_2();
 
     // pitch = width of window, in bytes
-    *pitch = bitmap->BytesPerRow();
+    *pitch = bitmap->अष्टकानि_प्रत्येकम्_Row();
 
-    bwin->UnlockBuffer();
-    return true;
+    bwin->Unlock_बफर();
+    प्रत्यागम सत्य;
 }
 
 
 
-bool HAIKU_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window,
-                                      const SDL_Rect * rects, int numrects) {
-    if (!window) {
-        return true;
+तार्किक HAIKU_Update_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः * गवाक्षः,
+                                      ध्रुव SDL_Rect * rects, पूर्णाङ्क numrects) {
+    यदि (!गवाक्षः) {
+        प्रत्यागम सत्य;
     }
 
-    SDL_BWin *bwin = _ToBeWin(window);
+    SDL_BWin *bwin = गन्तव्यम्_Be_Win(गवाक्षः);
 
-    bwin->PostMessage(BWIN_UPDATE_FRAMEBUFFER);
+    bwin->Post_सन्देशः(BWIN_UPDATE_FRAMEBUFFER);
 
-    return true;
+    प्रत्यागम सत्य;
 }
 
-void HAIKU_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window * window) {
-    SDL_BWin *bwin = _ToBeWin(window);
+शून्य HAIKU_Destroy_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः * गवाक्षः) {
+    SDL_BWin *bwin = गन्तव्यम्_Be_Win(गवाक्षः);
 
-    bwin->LockBuffer();
+    bwin->तालकम्_बफर();
 
     // Free and clear the window buffer
     BBitmap *bitmap = bwin->GetBitmap();
-    delete bitmap;
-    bwin->SetBitmap(NULL);
+    विलोपय bitmap;
+    bwin->समुच्चयः_Bitmap(रिक्त);
 
     bwin->RemoveView();
 
-    bwin->UnlockBuffer();
+    bwin->Unlock_बफर();
 }
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 }
-#endif
+#यदि_अन्तः
 
-#endif // SDL_VIDEO_DRIVER_HAIKU
+#यदि_अन्तः // SDL_VIDEO_DRIVER_HAIKU

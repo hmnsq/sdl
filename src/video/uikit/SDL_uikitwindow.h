@@ -18,33 +18,33 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#ifndef SDL_uikitwindow_h_
-#define SDL_uikitwindow_h_
+#यदि_अपरिभाषितम् SDL_uikitwindow_h_
+#परिभाषय SDL_uikitwindow_h_
 
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 #import "SDL_uikitvideo.h"
 #import "SDL_uikitview.h"
 #import "SDL_uikitviewcontroller.h"
 
-extern bool UIKit_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void UIKit_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_HideWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered);
-extern SDL_FullscreenResult UIKit_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void UIKit_UpdatePointerLock(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void UIKit_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h);
+बाह्य bool UIKit_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props);
+बाह्य शून्य UIKit_समुच्चयः_गवाक्षः_Title(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य UIKit_समुच्चयः_गवाक्षः_आकार(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य UIKit_Show_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य UIKit_Hide_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य UIKit_Raise_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य UIKit_समुच्चयः_गवाक्षः_Bordered(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool bordered);
+बाह्य SDL_Fullscreen_परिणाम UIKit_समुच्चयः_गवाक्षः_Fullscreen(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+बाह्य शून्य UIKit_Update_Pointer_तालकम्(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य UIKit_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य UIKit_Get_गवाक्षः_आकार_अन्तर्_Pixels(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *w, पूर्णाङ्क *h);
 
-extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
+बाह्य NSUInteger UIKit_GetSupportedOrientations(SDL_गवाक्षः *गवाक्षः);
 
-#define SDL_METALVIEW_TAG 255
+#परिभाषय SDL_METALVIEW_चिह्नकम् 255
 
 @class UIWindow;
 
-@interface SDL_UIKitWindowData : NSObject
+@interface SDL_UIKit_गवाक्षः_दत्त : NSObject
 
 @property(nonatomic, strong) UIWindow *uiwindow;
 @property(nonatomic, strong) SDL_uikitviewcontroller *viewcontroller;
@@ -52,12 +52,12 @@ extern NSUInteger UIKit_GetSupportedOrientations(SDL_Window *window);
 // Array of SDL_uikitviews owned by this window.
 @property(nonatomic, copy) NSMutableArray *views;
 
-#ifdef SDL_PLATFORM_VISIONOS
+#यदि_परिभाषितम् SDL_PLATFORM_VISIONOS
 // Hosting controller for curved content mode (UIHostingController-based)
 @property(nonatomic, strong) id curvedContentHosting;
 @property(nonatomic, strong) NSString *settings;
-#endif
+#यदि_अन्तः
 
-@end
+@अन्तः
 
-#endif // SDL_uikitwindow_h_
+#यदि_अन्तः // SDL_uikitwindow_h_

@@ -24,12 +24,12 @@
  * Thanks to @slime73 on GitHub for their gist showing how to add a CAMetalLayer
  * backed view.
  */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_cocoametalview_h_
-#define SDL_cocoametalview_h_
+#यदि_अपरिभाषितम् SDL_cocoametalview_h_
+#परिभाषय SDL_cocoametalview_h_
 
-#if defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
+#यदि defined(SDL_VIDEO_DRIVER_COCOA) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 
 #import "../SDL_sysvideo.h"
 
@@ -42,25 +42,25 @@
 @interface SDL3_cocoametalview : NSView
 
 - (instancetype)initWithFrame:(NSRect)frame
-                      highDPI:(BOOL)highDPI
-                     windowID:(Uint32)windowID
+                      उच्चः_DPI:(BOOL)उच्चः_DPI
+                     गवाक्षः_ID:(Uint32)गवाक्षः_ID
                        opaque:(BOOL)opaque;
 
-- (void)updateDrawableSize;
-- (NSView *)hitTest:(NSPoint)point;
+- (शून्य)update_Drawable_आकार;
+- (NSView *)लब्धम्_Test:(NSPoint)point;
 
 // Override superclass tag so this class can set it.
-@property(assign, readonly) NSInteger tag;
+@property(नियोजय, readonly) NSInteger चिह्नकम्;
 
-@property(nonatomic) BOOL highDPI;
-@property(nonatomic) Uint32 sdlWindowID;
+@property(nonatomic) BOOL उच्चः_DPI;
+@property(nonatomic) Uint32 sdl_गवाक्षः_ID;
 
-@end
+@अन्तः
 
-SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_Window *window);
-void Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
-void *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
+SDL_MetalView Cocoa_Metal_CreateView(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+शून्य Cocoa_Metal_DestroyView(SDL_VideoDevice *_this, SDL_MetalView view);
+शून्य *Cocoa_Metal_GetLayer(SDL_VideoDevice *_this, SDL_MetalView view);
 
-#endif // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
+#यदि_अन्तः // SDL_VIDEO_DRIVER_COCOA && (SDL_VIDEO_VULKAN || SDL_VIDEO_METAL)
 
-#endif // SDL_cocoametalview_h_
+#यदि_अन्तः // SDL_cocoametalview_h_

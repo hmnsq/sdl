@@ -18,99 +18,99 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_VITA
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_VITA
 
-#include "SDL_vitavideo.h"
+#अन्तर्भाव "SDL_vitavideo.h"
 
-#include <psp2/kernel/sysmem.h>
+#अन्तर्भाव <psp2/kernel/sysmem.h>
 
-#define SCREEN_W             960
-#define SCREEN_H             544
-#define ALIGN(x, a)          (((x) + ((a)-1)) & ~((a)-1))
-#define DISPLAY_PIXEL_FORMAT SCE_DISPLAY_PIXELFORMAT_A8B8G8R8
+#परिभाषय SCREEN_W             960
+#परिभाषय SCREEN_H             544
+#परिभाषय ALIGN(x, a)          (((x) + ((a)-1)) & ~((a)-1))
+#परिभाषय DISPLAY_PIXEL_FORMAT SCE_DISPLAY_PIXELFORMAT_A8B8G8R8
 
-void *vita_gpu_alloc(unsigned int type, unsigned int size, SceUID *uid)
+शून्य *vita_gpu_alloc(अचिह्नित पूर्णाङ्क type, अचिह्नित पूर्णाङ्क आकार, SceUID *uid)
 {
-    void *mem;
+    शून्य *mem;
 
-    if (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
-        size = ALIGN(size, 256 * 1024);
-    } else {
-        size = ALIGN(size, 4 * 1024);
+    यदि (type == SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW) {
+        आकार = ALIGN(आकार, 256 * 1024);
+    } अन्यथा {
+        आकार = ALIGN(आकार, 4 * 1024);
     }
 
-    *uid = sceKernelAllocMemBlock("gpu_mem", type, size, NULL);
+    *uid = sce_Kernel_Alloc_Mem_खण्डम्("gpu_mem", type, आकार, रिक्त);
 
-    if (*uid < 0) {
-        return NULL;
+    यदि (*uid < 0) {
+        प्रत्यागम रिक्त;
     }
 
-    if (sceKernelGetMemBlockBase(*uid, &mem) < 0) {
-        return NULL;
+    यदि (sce_Kernel_Get_Mem_खण्डम्_आधारः(*uid, &mem) < 0) {
+        प्रत्यागम रिक्त;
     }
 
-    return mem;
+    प्रत्यागम mem;
 }
 
-void vita_gpu_free(SceUID uid)
+शून्य vita_gpu_free(SceUID uid)
 {
-    void *mem = NULL;
-    if (sceKernelGetMemBlockBase(uid, &mem) < 0) {
-        return;
+    शून्य *mem = रिक्त;
+    यदि (sce_Kernel_Get_Mem_खण्डम्_आधारः(uid, &mem) < 0) {
+        प्रत्यागम;
     }
-    sceKernelFreeMemBlock(uid);
+    sce_Kernel_Free_Mem_खण्डम्(uid);
 }
 
-bool VITA_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool VITA_Create_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PixelFormat *format, शून्य **pixels, पूर्णाङ्क *pitch)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
     SceDisplayFrameBuf framebuf;
 
     *format = SDL_PIXELFORMAT_ABGR8888;
     *pitch = SCREEN_W * 4;
 
-    data->buffer = vita_gpu_alloc(
+    दत्त->बफर_2 = vita_gpu_alloc(
         SCE_KERNEL_MEMBLOCK_TYPE_USER_CDRAM_RW,
         4 * SCREEN_W * SCREEN_H,
-        &data->buffer_uid);
+        &दत्त->बफर_uid);
 
     // SDL_memset the buffer to black
-    SDL_memset(data->buffer, 0x0, SCREEN_W * SCREEN_H * 4);
+    SDL_memset(दत्त->बफर_2, 0x0, SCREEN_W * SCREEN_H * 4);
 
     SDL_zero(framebuf);
-    framebuf.size = sizeof(SceDisplayFrameBuf);
-    framebuf.base = data->buffer;
+    framebuf.आकार = परिमाण(SceDisplayFrameBuf);
+    framebuf.आधारः = दत्त->बफर_2;
     framebuf.pitch = SCREEN_W;
     framebuf.pixelformat = DISPLAY_PIXEL_FORMAT;
-    framebuf.width = SCREEN_W;
+    framebuf.विस्तारः = SCREEN_W;
     framebuf.height = SCREEN_H;
-    sceDisplaySetFrameBuf(&framebuf, SCE_DISPLAY_SETBUF_NEXTFRAME);
+    sce_Display_समुच्चयः_Frame_Buf(&framebuf, SCE_DISPLAY_SETBUF_NEXTFRAME);
 
-    *pixels = data->buffer;
+    *pixels = दत्त->बफर_2;
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool VITA_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool VITA_Update_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rects, पूर्णाङ्क numrects)
 {
     // do nothing
-    return true;
+    प्रत्यागम true;
 }
 
-void VITA_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य VITA_Destroy_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
 
-    if (!data) {
+    यदि (!दत्त) {
         // The window wasn't fully initialized
-        return;
+        प्रत्यागम;
     }
 
-    vita_gpu_free(data->buffer_uid);
-    data->buffer = NULL;
-    return;
+    vita_gpu_free(दत्त->बफर_uid);
+    दत्त->बफर_2 = रिक्त;
+    प्रत्यागम;
 }
 
-#endif // SDL_VIDEO_DRIVER_VITA
+#यदि_अन्तः // SDL_VIDEO_DRIVER_VITA

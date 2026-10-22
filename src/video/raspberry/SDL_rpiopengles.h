@@ -18,30 +18,30 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_rpiopengles_h_
-#define SDL_rpiopengles_h_
+#यदि_अपरिभाषितम् SDL_rpiopengles_h_
+#परिभाषय SDL_rpiopengles_h_
 
-#if defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
+#यदि defined(SDL_VIDEO_DRIVER_RPI) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define RPI_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define RPI_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define RPI_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define RPI_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define RPI_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
+#परिभाषय RPI_GLES_GetAttribute    SDL_EGL_GetAttribute
+#परिभाषय RPI_GLES_Get_Proc_स्थानाङ्कः  SDL_EGL_Get_Proc_स्थानाङ्कः_आन्तरिकम्
+#परिभाषय RPI_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#परिभाषय RPI_GLES_समुच्चयः_Swap_Interval SDL_EGL_समुच्चयः_Swap_Interval
+#परिभाषय RPI_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+#परिभाषय RPI_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool RPI_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void RPI_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
+बाह्य bool RPI_GLES_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य SDL_GLContext RPI_GLES_CreateContext(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य bool RPI_GLES_Swap_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य bool RPI_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_GLContext context);
+बाह्य शून्य RPI_GLES_समुच्चयः_Default_Profile_Config(SDL_VideoDevice *_this);
 
-#endif // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
+#यदि_अन्तः // SDL_VIDEO_DRIVER_RPI && SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_rpiopengles_h_
+#यदि_अन्तः // SDL_rpiopengles_h_

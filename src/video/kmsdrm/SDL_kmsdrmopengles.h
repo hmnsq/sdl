@@ -18,25 +18,25 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_kmsdrmopengles_h_
-#define SDL_kmsdrmopengles_h_
+#यदि_अपरिभाषितम् SDL_kmsdrmopengles_h_
+#परिभाषय SDL_kmsdrmopengles_h_
 
-#include "../SDL_egl_c.h"
+#अन्तर्भाव "../SDL_egl_c.h"
 
 // OpenGLES functions
-#define KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
-#define KMSDRM_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
-#define KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+#परिभाषय KMSDRM_GLES_GetAttribute    SDL_EGL_GetAttribute
+#परिभाषय KMSDRM_GLES_Get_Proc_स्थानाङ्कः  SDL_EGL_Get_Proc_स्थानाङ्कः_आन्तरिकम्
+#परिभाषय KMSDRM_GLES_DestroyContext   SDL_EGL_DestroyContext
+#परिभाषय KMSDRM_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
 
-extern void KMSDRM_GLES_SetDefaultProfileConfig(SDL_VideoDevice *_this);
-extern bool KMSDRM_GLES_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool KMSDRM_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
-extern SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
+बाह्य शून्य KMSDRM_GLES_समुच्चयः_Default_Profile_Config(SDL_VideoDevice *_this);
+बाह्य bool KMSDRM_GLES_समुच्चयः_Swap_Interval(SDL_VideoDevice *_this, पूर्णाङ्क interval);
+बाह्य bool KMSDRM_GLES_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य शून्य KMSDRM_GLES_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य SDL_GLContext KMSDRM_GLES_CreateContext(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य bool KMSDRM_GLES_Swap_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य bool KMSDRM_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_GLContext context);
 
-#endif // SDL_kmsdrmopengles_h_
+#यदि_अन्तः // SDL_kmsdrmopengles_h_

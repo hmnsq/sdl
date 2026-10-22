@@ -18,105 +18,105 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_N3DS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_N3DS
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_n3dsframebuffer_c.h"
-#include "SDL_n3dsvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../SDL_properties_c.h"
+#अन्तर्भाव "SDL_n3dsframebuffer_c.h"
+#अन्तर्भाव "SDL_n3dsvideo.h"
 
-#define N3DS_SURFACE "SDL.internal.window.surface"
+#परिभाषय N3DS_SURFACE "SDL.internal.window.surface"
 
-typedef struct
+प्रकारनिर्देश संरचना
 {
-    int width, height;
+    पूर्णाङ्क विस्तारः, height;
 } Dimensions;
 
-static void CopyFramebuffertoN3DS_16(u16 *dest, const Dimensions dest_dim, const u16 *source, const Dimensions source_dim);
-static void CopyFramebuffertoN3DS_24(u8  *dest, const Dimensions dest_dim, const u8  *source, const Dimensions source_dim);
-static void CopyFramebuffertoN3DS_32(u32 *dest, const Dimensions dest_dim, const u32 *source, const Dimensions source_dim);
-static int GetDestOffset(int x, int y, int dest_width);
-static int GetSourceOffset(int x, int y, int source_width);
-static void FlushN3DSBuffer(const void *buffer, u32 bufsize, gfxScreen_t screen);
+स्थिर शून्य CopyFramebuffertoN3DS_16(u16 *dest, ध्रुव Dimensions dest_dim, ध्रुव u16 *source, ध्रुव Dimensions source_dim);
+स्थिर शून्य CopyFramebuffertoN3DS_24(u8  *dest, ध्रुव Dimensions dest_dim, ध्रुव u8  *source, ध्रुव Dimensions source_dim);
+स्थिर शून्य CopyFramebuffertoN3DS_32(u32 *dest, ध्रुव Dimensions dest_dim, ध्रुव u32 *source, ध्रुव Dimensions source_dim);
+स्थिर पूर्णाङ्क Get_Dest_विस्थापनम्(पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क dest_विस्तारः);
+स्थिर पूर्णाङ्क Get_Source_विस्थापनम्(पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क source_विस्तारः);
+स्थिर शून्य FlushN3DSBuffer(ध्रुव शून्य *बफर_2, u32 bufsize, gfxScreen_t screen);
 
 
-bool SDL_N3DS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_N3_DS_Create_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PixelFormat *format, शून्य **pixels, पूर्णाङ्क *pitch)
 {
     SDL_Surface *framebuffer;
-    const SDL_DisplayMode *mode;
-    int w, h;
+    ध्रुव SDL_Display_बहुलकम् *बहुलकम्;
+    पूर्णाङ्क w, h;
 
-    SDL_N3DS_DestroyWindowFramebuffer(_this, window);
+    SDL_N3_DS_Destroy_गवाक्षः_Framebuffer(_this, गवाक्षः);
 
-    mode = SDL_GetCurrentDisplayMode(SDL_GetDisplayForWindow(window));
-    SDL_GetWindowSizeInPixels(window, &w, &h);
-    framebuffer = SDL_CreateSurfaceZeroed(w, h, mode->format);
+    बहुलकम् = SDL_Get_Current_Display_बहुलकम्(SDL_Get_Display_For_गवाक्षः(गवाक्षः));
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &w, &h);
+    framebuffer = SDL_CreateSurfaceZeroed(w, h, बहुलकम्->format);
 
-    if (!framebuffer) {
-        return false;
+    यदि (!framebuffer) {
+        प्रत्यागम false;
     }
 
-    SDL_SetSurfaceProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, framebuffer);
-    *format = mode->format;
+    SDL_समुच्चयः_Surface_Property(SDL_Get_गवाक्षः_Properties(गवाक्षः), N3DS_SURFACE, framebuffer);
+    *format = बहुलकम्->format;
     *pixels = framebuffer->pixels;
     *pitch = framebuffer->pitch;
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_N3DS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_N3_DS_Update_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rects, पूर्णाङ्क numrects)
 {
-    SDL_WindowData *drv_data = window->internal;
+    SDL_गवाक्षः_दत्त *drv_दत्त = गवाक्षः->आन्तरिकम्;
     SDL_Surface *surface;
-    u16 width, height;
-    void *framebuffer;
+    u16 विस्तारः, height;
+    शून्य *framebuffer;
     u32 bufsize;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), N3DS_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("%s: Unable to get the window surface.", SDL_FUNCTION);
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_Get_गवाक्षः_Properties(गवाक्षः), N3DS_SURFACE, रिक्त);
+    यदि (!surface) {
+        प्रत्यागम SDL_समुच्चयः_Error("%s: Unable to get the window surface.", SDL_FUNCTION);
     }
 
     // Get the N3DS internal framebuffer and its size
-    framebuffer = gfxGetFramebuffer(drv_data->screen, GFX_LEFT, &width, &height);
-    bufsize = width * height * 4;
+    framebuffer = gfxGetFramebuffer(drv_दत्त->screen, GFX_वामः, &विस्तारः, &height);
+    bufsize = विस्तारः * height * 4;
 
-    if (SDL_BYTESPERPIXEL(surface->format) == 2)
-        CopyFramebuffertoN3DS_16(framebuffer, (Dimensions){ width, height },
+    यदि (SDL_BYTESPERPIXEL(surface->format) == 2)
+        CopyFramebuffertoN3DS_16(framebuffer, (Dimensions){ विस्तारः, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
-    else if (SDL_BYTESPERPIXEL(surface->format) == 3)
-        CopyFramebuffertoN3DS_24(framebuffer, (Dimensions){ width, height },
+    अन्यथा यदि (SDL_BYTESPERPIXEL(surface->format) == 3)
+        CopyFramebuffertoN3DS_24(framebuffer, (Dimensions){ विस्तारः, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
-    else
-        CopyFramebuffertoN3DS_32(framebuffer, (Dimensions){ width, height },
+    अन्यथा
+        CopyFramebuffertoN3DS_32(framebuffer, (Dimensions){ विस्तारः, height },
                                  surface->pixels, (Dimensions){ surface->w, surface->h });
-    FlushN3DSBuffer(framebuffer, bufsize, drv_data->screen);
+    FlushN3DSBuffer(framebuffer, bufsize, drv_दत्त->screen);
 
-    return true;
+    प्रत्यागम true;
 }
 
-static void CopyFramebuffertoN3DS_16(u16 *dest, const Dimensions dest_dim, const u16 *source, const Dimensions source_dim)
+स्थिर शून्य CopyFramebuffertoN3DS_16(u16 *dest, ध्रुव Dimensions dest_dim, ध्रुव u16 *source, ध्रुव Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u16 *s = source + GetSourceOffset(x, y, source_dim.width);
-            u16 *d = dest + GetDestOffset(x, y, dest_dim.width);
+    पूर्णाङ्क पङ्क्तिकाः = SDL_min(dest_dim.विस्तारः, source_dim.height);
+    पूर्णाङ्क स्तम्भसङ्ख्या = SDL_min(dest_dim.height, source_dim.विस्तारः);
+    प्रति (पूर्णाङ्क y = 0; y < पङ्क्तिकाः; ++y) {
+        प्रति (पूर्णाङ्क x = 0; x < स्तम्भसङ्ख्या; ++x) {
+            ध्रुव u16 *s = source + Get_Source_विस्थापनम्(x, y, source_dim.विस्तारः);
+            u16 *d = dest + Get_Dest_विस्थापनम्(x, y, dest_dim.विस्तारः);
             *d = *s;
         }
     }
 }
 
-static void CopyFramebuffertoN3DS_24(u8 *dest, const Dimensions dest_dim, const u8 *source, const Dimensions source_dim)
+स्थिर शून्य CopyFramebuffertoN3DS_24(u8 *dest, ध्रुव Dimensions dest_dim, ध्रुव u8 *source, ध्रुव Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u8 *s = source + GetSourceOffset(x, y, source_dim.width) * 3;
-            u8 *d = dest + GetDestOffset(x, y, dest_dim.width) * 3;
+    पूर्णाङ्क पङ्क्तिकाः = SDL_min(dest_dim.विस्तारः, source_dim.height);
+    पूर्णाङ्क स्तम्भसङ्ख्या = SDL_min(dest_dim.height, source_dim.विस्तारः);
+    प्रति (पूर्णाङ्क y = 0; y < पङ्क्तिकाः; ++y) {
+        प्रति (पूर्णाङ्क x = 0; x < स्तम्भसङ्ख्या; ++x) {
+            ध्रुव u8 *s = source + Get_Source_विस्थापनम्(x, y, source_dim.विस्तारः) * 3;
+            u8 *d = dest + Get_Dest_विस्थापनम्(x, y, dest_dim.विस्तारः) * 3;
             d[0] = s[0];
             d[1] = s[1];
             d[2] = s[2];
@@ -124,38 +124,38 @@ static void CopyFramebuffertoN3DS_24(u8 *dest, const Dimensions dest_dim, const 
     }
 }
 
-static void CopyFramebuffertoN3DS_32(u32 *dest, const Dimensions dest_dim, const u32 *source, const Dimensions source_dim)
+स्थिर शून्य CopyFramebuffertoN3DS_32(u32 *dest, ध्रुव Dimensions dest_dim, ध्रुव u32 *source, ध्रुव Dimensions source_dim)
 {
-    int rows = SDL_min(dest_dim.width, source_dim.height);
-    int cols = SDL_min(dest_dim.height, source_dim.width);
-    for (int y = 0; y < rows; ++y) {
-        for (int x = 0; x < cols; ++x) {
-            const u32 *s = source + GetSourceOffset(x, y, source_dim.width);
-            u32 *d = dest + GetDestOffset(x, y, dest_dim.width);
+    पूर्णाङ्क पङ्क्तिकाः = SDL_min(dest_dim.विस्तारः, source_dim.height);
+    पूर्णाङ्क स्तम्भसङ्ख्या = SDL_min(dest_dim.height, source_dim.विस्तारः);
+    प्रति (पूर्णाङ्क y = 0; y < पङ्क्तिकाः; ++y) {
+        प्रति (पूर्णाङ्क x = 0; x < स्तम्भसङ्ख्या; ++x) {
+            ध्रुव u32 *s = source + Get_Source_विस्थापनम्(x, y, source_dim.विस्तारः);
+            u32 *d = dest + Get_Dest_विस्थापनम्(x, y, dest_dim.विस्तारः);
             *d = *s;
         }
     }
 }
 
-static int GetDestOffset(int x, int y, int dest_width)
+स्थिर पूर्णाङ्क Get_Dest_विस्थापनम्(पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क dest_विस्तारः)
 {
-    return dest_width - y - 1 + dest_width * x;
+    प्रत्यागम dest_विस्तारः - y - 1 + dest_विस्तारः * x;
 }
 
-static int GetSourceOffset(int x, int y, int source_width)
+स्थिर पूर्णाङ्क Get_Source_विस्थापनम्(पूर्णाङ्क x, पूर्णाङ्क y, पूर्णाङ्क source_विस्तारः)
 {
-    return x + y * source_width;
+    प्रत्यागम x + y * source_विस्तारः;
 }
 
-static void FlushN3DSBuffer(const void *buffer, u32 bufsize, gfxScreen_t screen)
+स्थिर शून्य FlushN3DSBuffer(ध्रुव शून्य *बफर_2, u32 bufsize, gfxScreen_t screen)
 {
-    GSPGPU_FlushDataCache(buffer, bufsize);
+    GSPGPU_Flush_दत्त_Cache(बफर_2, bufsize);
     gfxScreenSwapBuffers(screen, false);
 }
 
-void SDL_N3DS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य SDL_N3_DS_Destroy_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_ClearProperty(SDL_GetWindowProperties(window), N3DS_SURFACE);
+    SDL_ClearProperty(SDL_Get_गवाक्षः_Properties(गवाक्षः), N3DS_SURFACE);
 }
 
-#endif // SDL_VIDEO_DRIVER_N3DS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_N3DS

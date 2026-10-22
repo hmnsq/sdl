@@ -1,5 +1,5 @@
-#ifndef __eglplatform_h_
-#define __eglplatform_h_
+#यदि_अपरिभाषितम् __eglplatform_h_
+#परिभाषय __eglplatform_h_
 
 /*
 ** Copyright 2007-2020 The Khronos Group Inc.
@@ -15,7 +15,7 @@
  * https://www.github.com/KhronosGroup/EGL-Registry/
  */
 
-#include <KHR/khrplatform.h>
+#अन्तर्भाव <KHR/khrplatform.h>
 
 /* Macros used in EGL function prototype declarations.
  *
@@ -27,14 +27,14 @@
  * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
  */
 
-#ifndef EGLAPI
-#define EGLAPI KHRONOS_APICALL
-#endif
+#यदि_अपरिभाषितम् EGLAPI
+#परिभाषय EGLAPI KHRONOS_APICALL
+#यदि_अन्तः
 
-#ifndef EGLAPIENTRY
-#define EGLAPIENTRY  KHRONOS_APIENTRY
-#endif
-#define EGLAPIENTRYP EGLAPIENTRY*
+#यदि_अपरिभाषितम् EGLAPIENTRY
+#परिभाषय EGLAPIENTRY  KHRONOS_APIENTRY
+#यदि_अन्तः
+#परिभाषय EGLAPIENTRYP EGLAPIENTRY*
 
 /* The types NativeDisplayType, NativeWindowType, and NativePixmapType
  * are aliases of window-system-dependent types, such as X Display * or
@@ -48,111 +48,111 @@
  * implementations.
  */
 
-#if defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
+#यदि defined(EGL_NO_PLATFORM_SPECIFIC_TYPES)
 
-typedef void *EGLNativeDisplayType;
-typedef void *EGLNativePixmapType;
-typedef void *EGLNativeWindowType;
+प्रकारनिर्देश शून्य *EGLNativeDisplayType;
+प्रकारनिर्देश शून्य *EGLNativePixmapType;
+प्रकारनिर्देश शून्य *EGLNative_गवाक्षः_Type;
 
-#elif defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN 1
-#endif
-#include <windows.h>
+#नोचेद्यदि defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
+#यदि_अपरिभाषितम् WIN32_LEAN_AND_माध्यम्
+#परिभाषय WIN32_LEAN_AND_माध्यम् 1
+#यदि_अन्तः
+#अन्तर्भाव <windows.h>
 
-typedef HDC     EGLNativeDisplayType;
-typedef HBITMAP EGLNativePixmapType;
-typedef HWND    EGLNativeWindowType;
+प्रकारनिर्देश HDC     EGLNativeDisplayType;
+प्रकारनिर्देश HBITMAP EGLNativePixmapType;
+प्रकारनिर्देश HWND    EGLNative_गवाक्षः_Type;
 
-#elif defined(__QNX__)
+#नोचेद्यदि defined(__QNX__)
 
-typedef khronos_uintptr_t      EGLNativeDisplayType;
-typedef struct _screen_pixmap* EGLNativePixmapType;  /* screen_pixmap_t */
-typedef struct _screen_window* EGLNativeWindowType;  /* screen_window_t */
+प्रकारनिर्देश khronos_uintptr_t      EGLNativeDisplayType;
+प्रकारनिर्देश संरचना _screen_pixmap* EGLNativePixmapType;  /* screen_pixmap_t */
+प्रकारनिर्देश संरचना screen_गवाक्षः* EGLNative_गवाक्षः_Type;  /* screen_window_t */
 
-#elif defined(__EMSCRIPTEN__)
+#नोचेद्यदि defined(__EMSCRIPTEN__)
 
-typedef int EGLNativeDisplayType;
-typedef int EGLNativePixmapType;
-typedef int EGLNativeWindowType;
+प्रकारनिर्देश पूर्णाङ्क EGLNativeDisplayType;
+प्रकारनिर्देश पूर्णाङ्क EGLNativePixmapType;
+प्रकारनिर्देश पूर्णाङ्क EGLNative_गवाक्षः_Type;
 
-#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
+#नोचेद्यदि defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
 
-typedef int   EGLNativeDisplayType;
-typedef void *EGLNativePixmapType;
-typedef void *EGLNativeWindowType;
+प्रकारनिर्देश पूर्णाङ्क   EGLNativeDisplayType;
+प्रकारनिर्देश शून्य *EGLNativePixmapType;
+प्रकारनिर्देश शून्य *EGLNative_गवाक्षः_Type;
 
-#elif defined(WL_EGL_PLATFORM)
+#नोचेद्यदि defined(WL_EGL_PLATFORM)
 
-typedef struct wl_display     *EGLNativeDisplayType;
-typedef struct wl_egl_pixmap  *EGLNativePixmapType;
-typedef struct wl_egl_window  *EGLNativeWindowType;
+प्रकारनिर्देश संरचना wl_display     *EGLNativeDisplayType;
+प्रकारनिर्देश संरचना wl_egl_pixmap  *EGLNativePixmapType;
+प्रकारनिर्देश संरचना wl_egl_गवाक्षः  *EGLNative_गवाक्षः_Type;
 
-#elif defined(__GBM__)
+#नोचेद्यदि defined(__GBM__)
 
-typedef struct gbm_device  *EGLNativeDisplayType;
-typedef struct gbm_bo      *EGLNativePixmapType;
-typedef void               *EGLNativeWindowType;
+प्रकारनिर्देश संरचना gbm_device  *EGLNativeDisplayType;
+प्रकारनिर्देश संरचना gbm_bo      *EGLNativePixmapType;
+प्रकारनिर्देश शून्य               *EGLNative_गवाक्षः_Type;
 
-#elif defined(__ANDROID__) || defined(ANDROID)
+#नोचेद्यदि defined(__ANDROID__) || defined(ANDROID)
 
-struct ANativeWindow;
-struct egl_native_pixmap_t;
+संरचना ANative_गवाक्षः;
+संरचना egl_native_pixmap_t;
 
-typedef void*                           EGLNativeDisplayType;
-typedef struct egl_native_pixmap_t*     EGLNativePixmapType;
-typedef struct ANativeWindow*           EGLNativeWindowType;
+प्रकारनिर्देश शून्य*                           EGLNativeDisplayType;
+प्रकारनिर्देश संरचना egl_native_pixmap_t*     EGLNativePixmapType;
+प्रकारनिर्देश संरचना ANative_गवाक्षः*           EGLNative_गवाक्षः_Type;
 
-#elif defined(USE_OZONE)
+#नोचेद्यदि defined(USE_OZONE)
 
-typedef intptr_t EGLNativeDisplayType;
-typedef intptr_t EGLNativePixmapType;
-typedef intptr_t EGLNativeWindowType;
+प्रकारनिर्देश intptr_t EGLNativeDisplayType;
+प्रकारनिर्देश intptr_t EGLNativePixmapType;
+प्रकारनिर्देश intptr_t EGLNative_गवाक्षः_Type;
 
-#elif defined(USE_X11)
+#नोचेद्यदि defined(USE_X11)
 
 /* X11 (tentative)  */
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
+#अन्तर्भाव <X11/Xlib.h>
+#अन्तर्भाव <X11/Xutil.h>
 
-typedef Display *EGLNativeDisplayType;
-typedef Pixmap   EGLNativePixmapType;
-typedef Window   EGLNativeWindowType;
+प्रकारनिर्देश Display *EGLNativeDisplayType;
+प्रकारनिर्देश Pixmap   EGLNativePixmapType;
+प्रकारनिर्देश गवाक्षः_2   EGLNative_गवाक्षः_Type;
 
-#elif defined(__unix__)
+#नोचेद्यदि defined(__unix__)
 
-typedef void             *EGLNativeDisplayType;
-typedef khronos_uintptr_t EGLNativePixmapType;
-typedef khronos_uintptr_t EGLNativeWindowType;
+प्रकारनिर्देश शून्य             *EGLNativeDisplayType;
+प्रकारनिर्देश khronos_uintptr_t EGLNativePixmapType;
+प्रकारनिर्देश khronos_uintptr_t EGLNative_गवाक्षः_Type;
 
-#elif defined(__APPLE__)
+#नोचेद्यदि defined(__APPLE__)
 
-typedef int   EGLNativeDisplayType;
-typedef void *EGLNativePixmapType;
-typedef void *EGLNativeWindowType;
+प्रकारनिर्देश पूर्णाङ्क   EGLNativeDisplayType;
+प्रकारनिर्देश शून्य *EGLNativePixmapType;
+प्रकारनिर्देश शून्य *EGLNative_गवाक्षः_Type;
 
-#elif defined(__HAIKU__)
+#नोचेद्यदि defined(__HAIKU__)
 
-#include <kernel/image.h>
+#अन्तर्भाव <kernel/image.h>
 
-typedef void              *EGLNativeDisplayType;
-typedef khronos_uintptr_t  EGLNativePixmapType;
-typedef khronos_uintptr_t  EGLNativeWindowType;
+प्रकारनिर्देश शून्य              *EGLNativeDisplayType;
+प्रकारनिर्देश khronos_uintptr_t  EGLNativePixmapType;
+प्रकारनिर्देश khronos_uintptr_t  EGLNative_गवाक्षः_Type;
 
-#elif defined(__Fuchsia__)
+#नोचेद्यदि defined(__Fuchsia__)
 
-typedef void              *EGLNativeDisplayType;
-typedef khronos_uintptr_t  EGLNativePixmapType;
-typedef khronos_uintptr_t  EGLNativeWindowType;
+प्रकारनिर्देश शून्य              *EGLNativeDisplayType;
+प्रकारनिर्देश khronos_uintptr_t  EGLNativePixmapType;
+प्रकारनिर्देश khronos_uintptr_t  EGLNative_गवाक्षः_Type;
 
-#else
-#error "Platform not recognized"
-#endif
+#अन्यथा
+#दोषः "Platform not recognized"
+#यदि_अन्तः
 
 /* EGL 1.2 types, renamed for consistency in EGL 1.3 */
-typedef EGLNativeDisplayType NativeDisplayType;
-typedef EGLNativePixmapType  NativePixmapType;
-typedef EGLNativeWindowType  NativeWindowType;
+प्रकारनिर्देश EGLNativeDisplayType NativeDisplayType;
+प्रकारनिर्देश EGLNativePixmapType  NativePixmapType;
+प्रकारनिर्देश EGLNative_गवाक्षः_Type  Native_गवाक्षः_Type;
 
 
 /* Define EGLint. This must be a signed integral type large enough to contain
@@ -162,14 +162,14 @@ typedef EGLNativeWindowType  NativeWindowType;
  * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
  * integer type.
  */
-typedef khronos_int32_t EGLint;
+प्रकारनिर्देश khronos_int32_t EGLint;
 
 
 /* C++ / C typecast macros for special EGL handle values */
-#if defined(__cplusplus)
-#define EGL_CAST(type, value) (static_cast<type>(value))
-#else
-#define EGL_CAST(type, value) ((type) (value))
-#endif
+#यदि defined(__cplusplus)
+#परिभाषय EGL_CAST(type, मानम्) (static_cast<type>(मानम्))
+#अन्यथा
+#परिभाषय EGL_CAST(type, मानम्) ((type) (मानम्))
+#यदि_अन्तः
 
-#endif /* __eglplatform_h */
+#यदि_अन्तः /* __eglplatform_h */

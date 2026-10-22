@@ -18,12 +18,12 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#include "SDL_openharmonyvideo.h"
+#अन्तर्भाव "SDL_openharmonyvideo.h"
 
-extern bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-extern void OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-extern void OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
-extern void OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool OPENHARMONY_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
+बाह्य शून्य OPENHARMONY_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID props);
+बाह्य शून्य OPENHARMONY_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य OPENHARMONY_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
 

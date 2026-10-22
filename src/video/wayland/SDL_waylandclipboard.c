@@ -18,103 +18,103 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WAYLAND
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WAYLAND
 
-#include "SDL_waylanddatamanager.h"
-#include "SDL_waylandevents_c.h"
-#include "SDL_waylandclipboard.h"
-#include "../SDL_clipboard_c.h"
-#include "../../events/SDL_events_c.h"
+#अन्तर्भाव "SDL_waylanddatamanager.h"
+#अन्तर्भाव "SDL_waylandevents_c.h"
+#अन्तर्भाव "SDL_waylandclipboard.h"
+#अन्तर्भाव "../SDL_clipboard_c.h"
+#अन्तर्भाव "../../events/SDL_events_c.h"
 
-bool Wayland_SetClipboardData(SDL_VideoDevice *_this)
+bool Wayland_समुच्चयः_Clipboard_दत्त(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result = false;
+    SDL_Video_दत्त *video_दत्त = _this->आन्तरिकम्;
+    SDL_WaylandSeat *seat = video_दत्त->चरमः_implicit_grab_seat;
+    bool परिणाम = false;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    यदि (!seat && !WAYLAND_wl_list_रिक्तानि(&video_दत्त->seat_list)) {
+        seat = wl_container_सम्बन्धि(video_दत्त->seat_list.अग्र, seat, link);
     }
 
-    video_data->current_data_offer_seat = seat;
+    video_दत्त->current_दत्त_offer_seat = seat;
 
-    if (seat && seat->data_device) {
+    यदि (seat && seat->दत्त_device) {
         /* Clear references to the clipboard held by other seats, as they are about to become invalid.
          * For the target seat, the new source data is set before clearing the old source, as some
          * clipboard managers prefer this behavior.
          */
         SDL_WaylandSeat *s;
-        wl_list_for_each (s, &video_data->seat_list, link) {
-            if (s->data_device) {
-                if (s != seat) {
-                    Wayland_DataSourceDestroy(s->data_device->selection_source);
-                    s->data_device->selection_source = NULL;
+        wl_list_for_each (s, &video_दत्त->seat_list, link) {
+            यदि (s->दत्त_device) {
+                यदि (s != seat) {
+                    Wayland_दत्त_Source_Destroy(s->दत्त_device->selection_source);
+                    s->दत्त_device->selection_source = रिक्त;
                 }
 
-                Wayland_DataOfferDestroy(s->data_device->selection_offer);
-                s->data_device->selection_offer = NULL;
+                Wayland_दत्त_Offer_Destroy(s->दत्त_device->selection_offer);
+                s->दत्त_device->selection_offer = रिक्त;
             }
         }
 
-        SDL_WaylandDataDevice *data_device = seat->data_device;
+        SDL_Wayland_दत्त_Device *दत्त_device = seat->दत्त_device;
 
-        if (_this->clipboard_callback && _this->clipboard_mime_types) {
-            SDL_WaylandDataSource *source = Wayland_DataSourceCreate(video_data);
-            Wayland_DataSourceSetCallback(source, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
+        यदि (_this->clipboard_callback && _this->clipboard_mime_types) {
+            SDL_Wayland_दत्त_Source *source = Wayland_दत्त_Source_Create(video_दत्त);
+            Wayland_दत्त_Source_समुच्चयः_Callback(source, _this->clipboard_callback, _this->clipboard_cleanup, _this->clipboard_userdata, _this->clipboard_sequence);
 
-            result = Wayland_DataDeviceSetSelectionSource(data_device, source, (const char **)_this->clipboard_mime_types, _this->num_clipboard_mime_types);
-            if (!result) {
-                Wayland_DataSourceDestroy(source);
+            परिणाम = Wayland_दत्त_Device_समुच्चयः_Selection_Source(दत्त_device, source, (ध्रुव वर्ण **)_this->clipboard_mime_types, _this->अङ्कः_clipboard_mime_types);
+            यदि (!परिणाम) {
+                Wayland_दत्त_Source_Destroy(source);
             }
-        } else {
-            Wayland_DataSourceDestroy(data_device->selection_source);
-            data_device->selection_source = NULL;
-            result = true;
+        } अन्यथा {
+            Wayland_दत्त_Source_Destroy(दत्त_device->selection_source);
+            दत्त_device->selection_source = रिक्त;
+            परिणाम = true;
         }
     }
 
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-void *Wayland_GetClipboardData(SDL_VideoDevice *_this, const char *mime_type, size_t *length)
+शून्य *Wayland_Get_Clipboard_दत्त(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type, size_t *दीर्घता)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    void *buffer = NULL;
+    SDL_Video_दत्त *video_दत्त = _this->आन्तरिकम्;
+    SDL_WaylandSeat *seat = video_दत्त->current_दत्त_offer_seat;
+    शून्य *बफर_2 = रिक्त;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            buffer = SDL_GetInternalClipboardData(_this, mime_type, length);
-        } else if (Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type)) {
-            buffer = Wayland_DataOfferReceive(data_device->selection_offer, mime_type, length);
+    यदि (seat && seat->दत्त_device) {
+        SDL_Wayland_दत्त_Device *दत्त_device = seat->दत्त_device;
+        यदि (दत्त_device->selection_source) {
+            बफर_2 = SDL_Get_आन्तरिकम्_Clipboard_दत्त(_this, mime_type, दीर्घता);
+        } अन्यथा यदि (Wayland_दत्त_Offer_Has_MIME(दत्त_device->selection_offer, mime_type)) {
+            बफर_2 = Wayland_दत्त_Offer_Receive(दत्त_device->selection_offer, mime_type, दीर्घता);
         }
     }
 
-    return buffer;
+    प्रत्यागम बफर_2;
 }
 
-bool Wayland_HasClipboardData(SDL_VideoDevice *_this, const char *mime_type)
+bool Wayland_Has_Clipboard_दत्त(SDL_VideoDevice *_this, ध्रुव वर्ण *mime_type)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_data_offer_seat;
-    bool result = false;
+    SDL_Video_दत्त *video_दत्त = _this->आन्तरिकम्;
+    SDL_WaylandSeat *seat = video_दत्त->current_दत्त_offer_seat;
+    bool परिणाम = false;
 
-    if (seat && seat->data_device) {
-        SDL_WaylandDataDevice *data_device = seat->data_device;
-        if (data_device->selection_source) {
-            result = SDL_HasInternalClipboardData(_this, mime_type);
-        } else {
-            result = Wayland_DataOfferHasMIME(data_device->selection_offer, mime_type);
+    यदि (seat && seat->दत्त_device) {
+        SDL_Wayland_दत्त_Device *दत्त_device = seat->दत्त_device;
+        यदि (दत्त_device->selection_source) {
+            परिणाम = SDL_Has_आन्तरिकम्_Clipboard_दत्त(_this, mime_type);
+        } अन्यथा {
+            परिणाम = Wayland_दत्त_Offer_Has_MIME(दत्त_device->selection_offer, mime_type);
         }
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-static const char *const text_mime_types[] = {
+स्थिर ध्रुव वर्ण *ध्रुव text_mime_types[] = {
     TEXT_MIME,
     "text/plain",
     "TEXT",
@@ -122,96 +122,96 @@ static const char *const text_mime_types[] = {
     "STRING"
 };
 
-const char *const *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *num_mime_types)
+ध्रुव वर्ण *ध्रुव *Wayland_GetTextMimeTypes(SDL_VideoDevice *_this, size_t *अङ्कः_mime_types)
 {
-    *num_mime_types = SDL_arraysize(text_mime_types);
-    return text_mime_types;
+    *अङ्कः_mime_types = SDL_arraysize(text_mime_types);
+    प्रत्यागम text_mime_types;
 }
 
-bool Wayland_SetPrimarySelectionText(SDL_VideoDevice *_this, const char *text)
+bool Wayland_समुच्चयः_Primary_Selection_Text(SDL_VideoDevice *_this, ध्रुव वर्ण *text)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->last_implicit_grab_seat;
-    bool result;
+    SDL_Video_दत्त *video_दत्त = _this->आन्तरिकम्;
+    SDL_WaylandSeat *seat = video_दत्त->चरमः_implicit_grab_seat;
+    bool परिणाम;
 
     // If no implicit grab is available yet, just attach it to the first available seat.
-    if (!seat && !WAYLAND_wl_list_empty(&video_data->seat_list)) {
-        seat = wl_container_of(video_data->seat_list.next, seat, link);
+    यदि (!seat && !WAYLAND_wl_list_रिक्तानि(&video_दत्त->seat_list)) {
+        seat = wl_container_सम्बन्धि(video_दत्त->seat_list.अग्र, seat, link);
     }
 
-    video_data->current_primary_selection_seat = seat;
+    video_दत्त->current_primary_selection_seat = seat;
 
-    if (seat && seat->primary_selection_device) {
+    यदि (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (text[0] != '\0') {
-            SDL_WaylandPrimarySelectionSource *source = Wayland_PrimarySelectionSourceCreate(video_data);
-            Wayland_PrimarySelectionSourceSetCallback(source, SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text));
+        यदि (text[0] != '\0') {
+            SDL_WaylandPrimarySelectionSource *source = Wayland_PrimarySelectionSourceCreate(video_दत्त);
+            Wayland_Primary_Selection_Source_समुच्चयः_Callback(source, SDL_ClipboardTextCallback, SDL_free, SDL_strdup(text));
 
-            result = Wayland_PrimarySelectionDeviceSetSelection(primary_selection_device, source, text_mime_types, SDL_arraysize(text_mime_types));
-            if (!result) {
+            परिणाम = Wayland_Primary_Selection_Device_समुच्चयः_Selection(primary_selection_device, source, text_mime_types, SDL_arraysize(text_mime_types));
+            यदि (!परिणाम) {
                 Wayland_PrimarySelectionSourceDestroy(source);
             }
-        } else {
+        } अन्यथा {
             Wayland_PrimarySelectionSourceDestroy(seat->primary_selection_device->selection_source);
-            seat->primary_selection_device->selection_source = NULL;
-            result = true;
+            seat->primary_selection_device->selection_source = रिक्त;
+            परिणाम = true;
         }
-    } else {
-        result = SDL_SetError("Primary selection not supported");
+    } अन्यथा {
+        परिणाम = SDL_समुच्चयः_Error("Primary selection not supported");
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-char *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this)
+वर्ण *Wayland_GetPrimarySelectionText(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    char *text = NULL;
-    size_t length = 0;
+    SDL_Video_दत्त *video_दत्त = _this->आन्तरिकम्;
+    SDL_WaylandSeat *seat = video_दत्त->current_primary_selection_seat;
+    वर्ण *text = रिक्त;
+    size_t दीर्घता = 0;
 
-    if (seat && seat->primary_selection_device) {
+    यदि (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            text = Wayland_PrimarySelectionSourceGetData(primary_selection_device->selection_source, TEXT_MIME, &length);
-        } else {
-            for (size_t i = 0; i < SDL_arraysize(text_mime_types); i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, text_mime_types[i])) {
-                    text = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, text_mime_types[i], &length);
-                    break;
+        यदि (primary_selection_device->selection_source) {
+            text = Wayland_Primary_Selection_Source_Get_दत्त(primary_selection_device->selection_source, TEXT_MIME, &दीर्घता);
+        } अन्यथा {
+            प्रति (size_t i = 0; i < SDL_arraysize(text_mime_types); i++) {
+                यदि (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, text_mime_types[i])) {
+                    text = Wayland_PrimarySelectionOfferReceive(primary_selection_device->selection_offer, text_mime_types[i], &दीर्घता);
+                    भङ्ग;
                 }
             }
         }
     }
 
-    if (!text) {
+    यदि (!text) {
         text = SDL_strdup("");
     }
 
-    return text;
+    प्रत्यागम text;
 }
 
 bool Wayland_HasPrimarySelectionText(SDL_VideoDevice *_this)
 {
-    SDL_VideoData *video_data = _this->internal;
-    SDL_WaylandSeat *seat = video_data->current_primary_selection_seat;
-    bool result = false;
+    SDL_Video_दत्त *video_दत्त = _this->आन्तरिकम्;
+    SDL_WaylandSeat *seat = video_दत्त->current_primary_selection_seat;
+    bool परिणाम = false;
 
-    if (seat && seat->primary_selection_device) {
+    यदि (seat && seat->primary_selection_device) {
         SDL_WaylandPrimarySelectionDevice *primary_selection_device = seat->primary_selection_device;
-        if (primary_selection_device->selection_source) {
-            result = true;
-        } else {
-            size_t mime_count = 0;
-            const char *const *mime_types = Wayland_GetTextMimeTypes(_this, &mime_count);
-            for (size_t i = 0; i < mime_count; i++) {
-                if (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
-                    result = true;
-                    break;
+        यदि (primary_selection_device->selection_source) {
+            परिणाम = true;
+        } अन्यथा {
+            size_t mime_गणनम् = 0;
+            ध्रुव वर्ण *ध्रुव *mime_types = Wayland_GetTextMimeTypes(_this, &mime_गणनम्);
+            प्रति (size_t i = 0; i < mime_गणनम्; i++) {
+                यदि (Wayland_PrimarySelectionOfferHasMIME(primary_selection_device->selection_offer, mime_types[i])) {
+                    परिणाम = true;
+                    भङ्ग;
                 }
             }
         }
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-#endif // SDL_VIDEO_DRIVER_WAYLAND
+#यदि_अन्तः // SDL_VIDEO_DRIVER_WAYLAND

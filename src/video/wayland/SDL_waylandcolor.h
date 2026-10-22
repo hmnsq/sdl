@@ -19,17 +19,17 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_waylandcolor_h_
-#define SDL_waylandcolor_h_
+#यदि_अपरिभाषितम् SDL_waylandcolor_h_
+#परिभाषय SDL_waylandcolor_h_
 
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-struct Wayland_ColorInfoState;
+संरचना Wayland_ColorInfoState;
 
-extern void Wayland_FreeColorInfoState(struct Wayland_ColorInfoState *state);
-extern void Wayland_GetColorInfoForWindow(SDL_WindowData *window_data, bool defer_event_processing);
-extern void Wayland_GetColorInfoForOutput(SDL_DisplayData *display_data, bool defer_event_processing);
+बाह्य शून्य Wayland_FreeColorInfoState(संरचना Wayland_ColorInfoState *state);
+बाह्य शून्य Wayland_Get_Color_Info_For_गवाक्षः(SDL_गवाक्षः_दत्त *गवाक्षः_दत्त_2, bool defer_event_processing);
+बाह्य शून्य Wayland_GetColorInfoForOutput(SDL_Display_दत्त *display_दत्त, bool defer_event_processing);
 
-#endif // SDL_waylandcolor_h_
+#यदि_अन्तः // SDL_waylandcolor_h_

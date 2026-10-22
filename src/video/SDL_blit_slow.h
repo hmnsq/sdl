@@ -19,12 +19,12 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_blit_slow_h_
-#define SDL_blit_slow_h_
+#यदि_अपरिभाषितम् SDL_blit_slow_h_
+#परिभाषय SDL_blit_slow_h_
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-extern void SDL_Blit_Slow(SDL_BlitInfo *info);
-extern void SDL_Blit_Slow_Float(SDL_BlitInfo *info);
+बाह्य शून्य SDL_Blit_Slow(SDL_BlitInfo *info);
+बाह्य शून्य SDL_Blit_Slow_Float(SDL_BlitInfo *info);
 
-#endif // SDL_blit_slow_h_
+#यदि_अन्तः // SDL_blit_slow_h_

@@ -19,9 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#define MAX_WMMSG (sizeof(wmtab) / sizeof(wmtab[0]))
+#परिभाषय MAX_WMMSG (परिमाण(wmtab) / परिमाण(wmtab[0]))
 
-const char *wmtab[] = {
+ध्रुव वर्ण *wmtab[] = {
     "WM_NULL",
     "WM_CREATE",
     "WM_DESTROY",

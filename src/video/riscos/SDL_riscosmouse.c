@@ -18,43 +18,43 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_RISCOS
 
-#include "SDL_riscosvideo.h"
-#include "SDL_riscosmouse.h"
-#include "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "SDL_riscosvideo.h"
+#अन्तर्भाव "SDL_riscosmouse.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
 
-#include <kernel.h>
+#अन्तर्भाव <kernel.h>
 
-static SDL_Cursor *RISCOS_CreateDefaultCursor(void)
+स्थिर SDL_Cursor *RISCOS_CreateDefaultCursor(शून्य)
 {
-    SDL_Cursor *cursor = SDL_calloc(1, sizeof(*cursor));
-    if (cursor) {
+    SDL_Cursor *cursor = SDL_calloc(1, परिमाण(*cursor));
+    यदि (cursor) {
         // NULL is used to indicate the default cursor
-        cursor->internal = NULL;
+        cursor->आन्तरिकम् = रिक्त;
     }
 
-    return cursor;
+    प्रत्यागम cursor;
 }
 
-static void RISCOS_FreeCursor(SDL_Cursor *cursor)
+स्थिर शून्य RISCOS_FreeCursor(SDL_Cursor *cursor)
 {
     SDL_free(cursor);
 }
 
-static bool RISCOS_ShowCursor(SDL_Cursor *cursor)
+स्थिर bool RISCOS_ShowCursor(SDL_Cursor *cursor)
 {
-    if (cursor) {
+    यदि (cursor) {
         // Turn the mouse pointer on
         _kernel_osbyte(106, 1, 0);
-    } else {
+    } अन्यथा {
         // Turn the mouse pointer off
         _kernel_osbyte(106, 0, 0);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
 bool RISCOS_InitMouse(SDL_VideoDevice *_this)
@@ -71,9 +71,9 @@ bool RISCOS_InitMouse(SDL_VideoDevice *_this)
     // mouse->CaptureMouse = RISCOS_CaptureMouse;
     // mouse->GetGlobalMouseState = RISCOS_GetGlobalMouseState;
 
-    SDL_SetDefaultCursor(RISCOS_CreateDefaultCursor());
+    SDL_समुच्चयः_Default_Cursor(RISCOS_CreateDefaultCursor());
 
-    return true;
+    प्रत्यागम true;
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_RISCOS

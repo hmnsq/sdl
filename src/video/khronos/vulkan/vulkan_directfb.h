@@ -1,5 +1,5 @@
-#ifndef VULKAN_DIRECTFB_H_
-#define VULKAN_DIRECTFB_H_ 1
+#यदि_अपरिभाषितम् VULKAN_DIRECTFB_H_
+#परिभाषय VULKAN_DIRECTFB_H_ 1
 
 /*
 ** Copyright 2015-2026 The Khronos Group Inc.
@@ -13,51 +13,51 @@
 */
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+बाह्य "C" {
+#यदि_अन्तः
 
 
 
 // VK_EXT_directfb_surface is a preprocessor guard. Do not pass it to API calls.
-#define VK_EXT_directfb_surface 1
+#परिभाषय VK_EXT_directfb_surface 1
 
-#define VK_EXT_DIRECTFB_SURFACE_SPEC_VERSION 1
-#define VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
+#परिभाषय VK_EXT_DIRECTFB_SURFACE_SPEC_संस्करणम् 1
+#परिभाषय VK_EXT_DIRECTFB_SURFACE_EXTENSION_NAME "VK_EXT_directfb_surface"
 
-typedef VkFlags VkDirectFBSurfaceCreateFlagsEXT;
+प्रकारनिर्देश VkFlags Vk_प्रत्यक्षम्_FBSurface_Create_Flags_EXT;
 
-typedef struct VkDirectFBSurfaceCreateInfoEXT {
+प्रकारनिर्देश संरचना Vk_प्रत्यक्षम्_FBSurface_Create_Info_EXT {
     VkStructureType                    sType;
-    const void*                        pNext;
-    VkDirectFBSurfaceCreateFlagsEXT    flags;
+    ध्रुव शून्य*                        p_अग्र;
+    Vk_प्रत्यक्षम्_FBSurface_Create_Flags_EXT    flags;
     IDirectFB*                         dfb;
     IDirectFBSurface*                  surface;
-} VkDirectFBSurfaceCreateInfoEXT;
+} Vk_प्रत्यक्षम्_FBSurface_Create_Info_EXT;
 
 
-typedef VkResult (VKAPI_PTR *PFN_vkCreateDirectFBSurfaceEXT)(VkInstance instance, const VkDirectFBSurfaceCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface);
-typedef VkBool32 (VKAPI_PTR *PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, IDirectFB* dfb);
+प्रकारनिर्देश Vk_परिणाम (VKAPI_PTR *PFN_vk_Create_प्रत्यक्षम्_FBSurface_EXT)(VkInstance instance, ध्रुव Vk_प्रत्यक्षम्_FBSurface_Create_Info_EXT* pCreateInfo, ध्रुव Vk_आवण्टनम्_Callbacks* pAllocator, VkSurfaceKHR* pSurface);
+प्रकारनिर्देश VkBool32 (VKAPI_PTR *PFN_vk_Get_Physical_Device_प्रत्यक्षम्_FBPresentation_Support_EXT)(VkPhysicalDevice physicalDevice, uint32_t queue_Family_सूचकांक, IDirectFB* dfb);
 
-#ifndef VK_NO_PROTOTYPES
+#यदि_अपरिभाषितम् VK_NO_PROTOTYPES
 
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateDirectFBSurfaceEXT(
+#यदि_अपरिभाषितम् VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR Vk_परिणाम VKAPI_CALL vk_Create_प्रत्यक्षम्_FBSurface_EXT(
     VkInstance                                  instance,
-    const VkDirectFBSurfaceCreateInfoEXT*       pCreateInfo,
-    const VkAllocationCallbacks*                pAllocator,
+    ध्रुव Vk_प्रत्यक्षम्_FBSurface_Create_Info_EXT*       pCreateInfo,
+    ध्रुव Vk_आवण्टनम्_Callbacks*                pAllocator,
     VkSurfaceKHR*                               pSurface);
-#endif
-#ifndef VK_ONLY_EXPORTED_PROTOTYPES
-VKAPI_ATTR VkBool32 VKAPI_CALL vkGetPhysicalDeviceDirectFBPresentationSupportEXT(
+#यदि_अन्तः
+#यदि_अपरिभाषितम् VK_ONLY_EXPORTED_PROTOTYPES
+VKAPI_ATTR VkBool32 VKAPI_CALL vk_Get_Physical_Device_प्रत्यक्षम्_FBPresentation_Support_EXT(
     VkPhysicalDevice                            physicalDevice,
-    uint32_t                                    queueFamilyIndex,
+    uint32_t                                    queue_Family_सूचकांक,
     IDirectFB*                                  dfb);
-#endif
-#endif
+#यदि_अन्तः
+#यदि_अन्तः
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 }
-#endif
+#यदि_अन्तः
 
-#endif
+#यदि_अन्तः

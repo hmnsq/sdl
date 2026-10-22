@@ -18,61 +18,61 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_DUMMY
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_DUMMY
 
-#include "../SDL_sysvideo.h"
-#include "../../SDL_properties_c.h"
-#include "SDL_nullframebuffer_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../SDL_properties_c.h"
+#अन्तर्भाव "SDL_nullframebuffer_c.h"
 
-#define DUMMY_SURFACE "SDL.internal.window.surface"
+#परिभाषय DUMMY_SURFACE "SDL.internal.window.surface"
 
 
-bool SDL_DUMMY_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool SDL_DUMMY_Create_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PixelFormat *format, शून्य **pixels, पूर्णाङ्क *pitch)
 {
     SDL_Surface *surface;
-    const SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
-    int w, h;
+    ध्रुव SDL_PixelFormat surface_format = SDL_PIXELFORMAT_XRGB8888;
+    पूर्णाङ्क w, h;
 
     // Create a new framebuffer
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &w, &h);
     surface = SDL_CreateSurfaceZeroed(w, h, surface_format);
-    if (!surface) {
-        return false;
+    यदि (!surface) {
+        प्रत्यागम false;
     }
 
     // Save the info and return!
-    SDL_SetSurfaceProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE, surface);
+    SDL_समुच्चयः_Surface_Property(SDL_Get_गवाक्षः_Properties(गवाक्षः), DUMMY_SURFACE, surface);
     *format = surface_format;
     *pixels = surface->pixels;
     *pitch = surface->pitch;
-    return true;
+    प्रत्यागम true;
 }
 
-bool SDL_DUMMY_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool SDL_DUMMY_Update_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rects, पूर्णाङ्क numrects)
 {
-    static int frame_number;
+    स्थिर पूर्णाङ्क frame_सङ्ख्या;
     SDL_Surface *surface;
 
-    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE, NULL);
-    if (!surface) {
-        return SDL_SetError("Couldn't find dummy surface for window");
+    surface = (SDL_Surface *)SDL_GetPointerProperty(SDL_Get_गवाक्षः_Properties(गवाक्षः), DUMMY_SURFACE, रिक्त);
+    यदि (!surface) {
+        प्रत्यागम SDL_समुच्चयः_Error("Couldn't find dummy surface for window");
     }
 
     // Send the data to the display
-    if (SDL_GetHintBoolean(SDL_HINT_VIDEO_DUMMY_SAVE_FRAMES, false)) {
-        char file[128];
-        (void)SDL_snprintf(file, sizeof(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
-                           SDL_GetWindowID(window), ++frame_number);
+    यदि (SDL_GetHintBoolean(SDL_HINT_VIDEO_DUMMY_SAVE_चौकटाः, false)) {
+        वर्ण file[128];
+        (शून्य)SDL_snprintf(file, परिमाण(file), "SDL_window%" SDL_PRIu32 "-%8.8d.bmp",
+                           SDL_Get_गवाक्षः_ID(गवाक्षः), ++frame_सङ्ख्या);
         SDL_SaveBMP(surface, file);
     }
-    return true;
+    प्रत्यागम true;
 }
 
-void SDL_DUMMY_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य SDL_DUMMY_Destroy_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_ClearProperty(SDL_GetWindowProperties(window), DUMMY_SURFACE);
+    SDL_ClearProperty(SDL_Get_गवाक्षः_Properties(गवाक्षः), DUMMY_SURFACE);
 }
 
-#endif // SDL_VIDEO_DRIVER_DUMMY
+#यदि_अन्तः // SDL_VIDEO_DRIVER_DUMMY

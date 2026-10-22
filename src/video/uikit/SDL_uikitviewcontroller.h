@@ -18,84 +18,84 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
 #import <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-#ifdef SDL_PLATFORM_TVOS
+#यदि_परिभाषितम् SDL_PLATFORM_TVOS
 #import <GameController/GameController.h>
-#define SDLRootViewController GCEventViewController
-#else
-#define SDLRootViewController UIViewController
-#endif
+#परिभाषय SDLRootViewController GCEventViewController
+#अन्यथा
+#परिभाषय SDLRootViewController UIViewController
+#यदि_अन्तः
 
-@interface SDLUITextField : UITextField
+@interface SDLUIText_क्षेत्रम् : UIText_क्षेत्रम्
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender;
-@end
+@अन्तः
 
-#ifdef SDL_IPHONE_KEYBOARD
-@interface SDL_uikitviewcontroller : SDLRootViewController <UITextFieldDelegate>
-#else
+#यदि_परिभाषितम् SDL_IPHONE_KEYBOARD
+@interface SDL_uikitviewcontroller : SDLRootViewController <UIText_क्षेत्रम्_Delegate>
+#अन्यथा
 @interface SDL_uikitviewcontroller : SDLRootViewController
-#endif
+#यदि_अन्तः
 
-@property(nonatomic, assign) SDL_Window *window;
+@property(nonatomic, नियोजय) SDL_गवाक्षः *गवाक्षः;
 
-- (instancetype)initWithSDLWindow:(SDL_Window *)_window;
+- (instancetype)initWithSDLWindow:(SDL_गवाक्षः *)गवाक्षः_3;
 
-- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
+- (शून्य)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection;
 
-- (void)setAnimationCallback:(int)interval
-                    callback:(void (*)(void *))callback
-               callbackParam:(void *)callbackParam;
+- (शून्य)समुच्चयः_Animation_Callback:(पूर्णाङ्क)interval
+                    callback:(शून्य (*)(शून्य *))callback
+               callbackParam:(शून्य *)callbackParam;
 
-- (void)startAnimation;
-- (void)stopAnimation;
+- (शून्य)startAnimation;
+- (शून्य)stopAnimation;
 
-- (void)doLoop:(CADisplayLink *)sender;
+- (शून्य)doLoop:(CADisplayLink *)sender;
 
-- (void)loadView;
-- (void)viewDidLayoutSubviews;
+- (शून्य)आरोपय_View;
+- (शून्य)viewDidLayoutSubviews;
 
-#ifdef SDL_PLATFORM_VISIONOS
-- (void)initializeVisionOSCurvedUI;
-#endif
+#यदि_परिभाषितम् SDL_PLATFORM_VISIONOS
+- (शून्य)initializeVisionOSCurvedUI;
+#यदि_अन्तः
 
-#ifndef SDL_PLATFORM_TVOS
+#यदि_अपरिभाषितम् SDL_PLATFORM_TVOS
 - (NSUInteger)supportedInterfaceOrientations;
-- (BOOL)prefersStatusBarHidden;
+- (BOOL)prefers_स्थितिः_Bar_Hidden;
 - (BOOL)prefersHomeIndicatorAutoHidden;
-- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures;
+- (UIRectEdge)preferred_Screen_धाराः_Deferring_System_Gestures;
 
-@property(nonatomic, assign) int homeIndicatorHidden;
-#endif
+@property(nonatomic, नियोजय) पूर्णाङ्क homeIndicatorHidden;
+#यदि_अन्तः
 
-#ifdef SDL_IPHONE_KEYBOARD
-- (bool)startTextInput;
-- (bool)stopTextInput;
-- (void)initKeyboard;
-- (void)deinitKeyboard;
+#यदि_परिभाषितम् SDL_IPHONE_KEYBOARD
+- (bool)start_Text_निवेशः;
+- (bool)stop_Text_निवेशः;
+- (शून्य)initKeyboard;
+- (शून्य)deinitKeyboard;
 
-- (void)keyboardWillShow:(NSNotification *)notification;
-- (void)keyboardDidShow:(NSNotification *)notification;
-- (void)keyboardWillHide:(NSNotification *)notification;
-- (void)keyboardDidHide:(NSNotification *)notification;
+- (शून्य)keyboardWillShow:(NSNotification *)notification;
+- (शून्य)keyboardDidShow:(NSNotification *)notification;
+- (शून्य)keyboardWillHide:(NSNotification *)notification;
+- (शून्य)keyboardDidHide:(NSNotification *)notification;
 
-- (void)updateKeyboard;
+- (शून्य)updateKeyboard;
 
-@property(nonatomic, assign, getter=isTextFieldFocused) BOOL textFieldFocused;
-@property(nonatomic, assign) SDL_Rect textInputRect;
-@property(nonatomic, assign) int keyboardHeight;
-#endif
+@property(nonatomic, नियोजय, getter=is_Text_क्षेत्रम्_Focused) BOOL text_क्षेत्रम्_Focused;
+@property(nonatomic, नियोजय) SDL_Rect text_निवेशः_Rect;
+@property(nonatomic, नियोजय) पूर्णाङ्क keyboardHeight;
+#यदि_अन्तः
 
-@end
+@अन्तः
 
-#ifdef SDL_IPHONE_KEYBOARD
+#यदि_परिभाषितम् SDL_IPHONE_KEYBOARD
 bool UIKit_HasScreenKeyboardSupport(SDL_VideoDevice *_this);
-bool UIKit_StartTextInput(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_StopTextInput(SDL_VideoDevice *_this, SDL_Window *window);
-void UIKit_SetTextInputProperties(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props);
-bool UIKit_UpdateTextInputArea(SDL_VideoDevice *_this, SDL_Window *window);
-#endif
+bool UIKit_Start_Text_निवेशः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID props);
+bool UIKit_Stop_Text_निवेशः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+शून्य UIKit_समुच्चयः_Text_निवेशः_Properties(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID props);
+bool UIKit_Update_Text_निवेशः_Area(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+#यदि_अन्तः

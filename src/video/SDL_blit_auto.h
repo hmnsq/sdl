@@ -19,17 +19,17 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_HAVE_BLIT_AUTO
+#यदि_परिभाषितम् SDL_HAVE_BLIT_AUTO
 
 /* *INDENT-OFF* */ // clang-format off
 
-#include "SDL_blit.h"
+#अन्तर्भाव "SDL_blit.h"
 
-extern SDL_BlitFuncEntry SDL_GeneratedBlitFuncTable[];
+बाह्य SDL_Blit_Func_प्रविष्टिः SDL_Generated_Blit_Func_सारणी[];
 
 /* *INDENT-ON* */ // clang-format on
 
-#endif // SDL_HAVE_BLIT_AUTO
+#यदि_अन्तः // SDL_HAVE_BLIT_AUTO
 

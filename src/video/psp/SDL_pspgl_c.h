@@ -19,32 +19,32 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#ifndef SDL_pspgl_c_h_
-#define SDL_pspgl_c_h_
+#यदि_अपरिभाषितम् SDL_pspgl_c_h_
+#परिभाषय SDL_pspgl_c_h_
 
-#include <GLES/egl.h>
-#include <GLES/gl.h>
+#अन्तर्भाव <GLES/egl.h>
+#अन्तर्भाव <GLES/gl.h>
 
-#include "SDL_pspvideo.h"
+#अन्तर्भाव "SDL_pspvideo.h"
 
-typedef struct SDL_GLDriverData
+प्रकारनिर्देश संरचना SDL_GLDriver_दत्त
 {
     EGLDisplay display;
     EGLContext context;
     EGLSurface surface;
     uint32_t swapinterval;
-} SDL_GLDriverData;
+} SDL_GLDriver_दत्त;
 
-extern SDL_FunctionPointer PSP_GL_GetProcAddress(SDL_VideoDevice *_this, const char *proc);
-extern bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern void PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
+बाह्य SDL_FunctionPointer PSP_GL_Get_Proc_स्थानाङ्कः(SDL_VideoDevice *_this, ध्रुव वर्ण *proc);
+बाह्य bool PSP_GL_MakeCurrent(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_GLContext context);
+बाह्य शून्य PSP_GL_SwapBuffers(SDL_VideoDevice *_this);
 
-extern bool PSP_GL_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool PSP_GL_Swap_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य SDL_GLContext PSP_GL_CreateContext(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
 
-extern bool PSP_GL_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
-extern bool PSP_GL_SetSwapInterval(SDL_VideoDevice *_this, int interval);
-extern bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, int *interval);
+बाह्य bool PSP_GL_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य शून्य PSP_GL_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य bool PSP_GL_समुच्चयः_Swap_Interval(SDL_VideoDevice *_this, पूर्णाङ्क interval);
+बाह्य bool PSP_GL_GetSwapInterval(SDL_VideoDevice *_this, पूर्णाङ्क *interval);
 
-#endif // SDL_pspgl_c_h_
+#यदि_अन्तः // SDL_pspgl_c_h_

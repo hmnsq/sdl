@@ -18,73 +18,73 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_OFFSCREEN
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_OFFSCREEN
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_egl_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../../events/SDL_windowevents_c.h"
+#अन्तर्भाव "../SDL_egl_c.h"
 
-#include "SDL_offscreenwindow.h"
+#अन्तर्भाव "SDL_offscreenwindow.h"
 
-bool OFFSCREEN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool OFFSCREEN_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props)
 {
-    SDL_WindowData *offscreen_window = (SDL_WindowData *)SDL_calloc(1, sizeof(SDL_WindowData));
+    SDL_गवाक्षः_दत्त *offscreen_गवाक्षः = (SDL_गवाक्षः_दत्त *)SDL_calloc(1, परिमाण(SDL_गवाक्षः_दत्त));
 
-    if (!offscreen_window) {
-        return false;
+    यदि (!offscreen_गवाक्षः) {
+        प्रत्यागम false;
     }
 
-    window->internal = offscreen_window;
+    गवाक्षः->आन्तरिकम् = offscreen_गवाक्षः;
 
-    if (window->x == SDL_WINDOWPOS_UNDEFINED) {
-        window->x = 0;
+    यदि (गवाक्षः->x == SDL_WINDOWPOS_UNDEFINED) {
+        गवाक्षः->x = 0;
     }
 
-    if (window->y == SDL_WINDOWPOS_UNDEFINED) {
-        window->y = 0;
+    यदि (गवाक्षः->y == SDL_WINDOWPOS_UNDEFINED) {
+        गवाक्षः->y = 0;
     }
 
-    offscreen_window->sdl_window = window;
+    offscreen_गवाक्षः->sdl_गवाक्षः = गवाक्षः;
 
-#ifdef SDL_VIDEO_OPENGL_EGL
-    if (window->flags & SDL_WINDOW_OPENGL) {
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_OPENGL) {
 
-        if (!_this->egl_data) {
-            return SDL_SetError("Cannot create an OPENGL window invalid egl_data");
+        यदि (!_this->egl_दत्त) {
+            प्रत्यागम SDL_समुच्चयः_Error("Cannot create an OPENGL window invalid egl_data");
         }
 
-        offscreen_window->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, window->w, window->h);
+        offscreen_गवाक्षः->egl_surface = SDL_EGL_CreateOffscreenSurface(_this, गवाक्षः->w, गवाक्षः->h);
 
-        if (offscreen_window->egl_surface == EGL_NO_SURFACE) {
-            return SDL_SetError("Failed to created an offscreen surface (EGL display: %p)",
-                                _this->egl_data->egl_display);
+        यदि (offscreen_गवाक्षः->egl_surface == EGL_NO_SURFACE) {
+            प्रत्यागम SDL_समुच्चयः_Error("Failed to created an offscreen surface (EGL display: %p)",
+                                _this->egl_दत्त->egl_display);
         }
-    } else {
-        offscreen_window->egl_surface = EGL_NO_SURFACE;
+    } अन्यथा {
+        offscreen_गवाक्षः->egl_surface = EGL_NO_SURFACE;
     }
-#endif // SDL_VIDEO_OPENGL_EGL
+#यदि_अन्तः // SDL_VIDEO_OPENGL_EGL
 
-    return true;
+    प्रत्यागम true;
 }
 
-void OFFSCREEN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य OFFSCREEN_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *offscreen_window = window->internal;
+    SDL_गवाक्षः_दत्त *offscreen_गवाक्षः = गवाक्षः->आन्तरिकम्;
 
-    if (offscreen_window) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-        SDL_EGL_DestroySurface(_this, offscreen_window->egl_surface);
-#endif
-        SDL_free(offscreen_window);
+    यदि (offscreen_गवाक्षः) {
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
+        SDL_EGL_DestroySurface(_this, offscreen_गवाक्षः->egl_surface);
+#यदि_अन्तः
+        SDL_free(offscreen_गवाक्षः);
     }
 
-    window->internal = NULL;
+    गवाक्षः->आन्तरिकम् = रिक्त;
 }
 
-void OFFSCREEN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य OFFSCREEN_समुच्चयः_गवाक्षः_आकार(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_RESIZED, window->pending.w, window->pending.h);
+    SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_RESIZED, गवाक्षः->pending.w, गवाक्षः->pending.h);
 }
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN
+#यदि_अन्तः // SDL_VIDEO_DRIVER_OFFSCREEN

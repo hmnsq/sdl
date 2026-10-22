@@ -18,64 +18,64 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_ANDROID
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_ANDROID
 
-#include <android/log.h>
+#अन्तर्भाव <android/log.h>
 
-#include "../../events/SDL_events_c.h"
+#अन्तर्भाव "../../events/SDL_events_c.h"
 
-#include "SDL_androidkeyboard.h"
+#अन्तर्भाव "SDL_androidkeyboard.h"
 
-#include "../../core/android/SDL_android.h"
+#अन्तर्भाव "../../core/android/SDL_android.h"
 
-#define TYPE_CLASS_TEXT                         0x00000001
-#define TYPE_CLASS_NUMBER                       0x00000002
-#define TYPE_CLASS_PHONE                        0x00000003
-#define TYPE_CLASS_DATETIME                     0x00000004
+#परिभाषय TYPE_CLASS_TEXT                         0x00000001
+#परिभाषय TYPE_CLASS_सङ्ख्या                       0x00000002
+#परिभाषय TYPE_CLASS_PHONE                        0x00000003
+#परिभाषय TYPE_CLASS_DATETIME                     0x00000004
 
-#define TYPE_DATETIME_VARIATION_NORMAL          0x00000000
-#define TYPE_DATETIME_VARIATION_DATE            0x00000010
-#define TYPE_DATETIME_VARIATION_TIME            0x00000020
+#परिभाषय TYPE_DATETIME_VARIATION_प्रसामान्यम्          0x00000000
+#परिभाषय TYPE_DATETIME_VARIATION_DATE            0x00000010
+#परिभाषय TYPE_DATETIME_VARIATION_TIME            0x00000020
 
-#define TYPE_NUMBER_VARIATION_NORMAL            0x00000000
-#define TYPE_NUMBER_VARIATION_PASSWORD          0x00000010
-#define TYPE_NUMBER_FLAG_SIGNED                 0x00001000
-#define TYPE_NUMBER_FLAG_DECIMAL                0x00002000
+#परिभाषय TYPE_सङ्ख्या_VARIATION_प्रसामान्यम्            0x00000000
+#परिभाषय TYPE_सङ्ख्या_VARIATION_PASSWORD          0x00000010
+#परिभाषय TYPE_सङ्ख्या_FLAG_SIGNED                 0x00001000
+#परिभाषय TYPE_सङ्ख्या_FLAG_DECIMAL                0x00002000
 
-#define TYPE_TEXT_FLAG_CAP_CHARACTERS           0x00001000
-#define TYPE_TEXT_FLAG_CAP_WORDS                0x00002000
-#define TYPE_TEXT_FLAG_CAP_SENTENCES            0x00004000
-#define TYPE_TEXT_FLAG_AUTO_CORRECT             0x00008000
-#define TYPE_TEXT_FLAG_AUTO_COMPLETE            0x00010000
-#define TYPE_TEXT_FLAG_MULTI_LINE               0x00020000
-#define TYPE_TEXT_FLAG_IME_MULTI_LINE           0x00040000
-#define TYPE_TEXT_FLAG_NO_SUGGESTIONS           0x00080000
+#परिभाषय TYPE_TEXT_FLAG_CAP_CHARACTERS           0x00001000
+#परिभाषय TYPE_TEXT_FLAG_CAP_शब्दाः                0x00002000
+#परिभाषय TYPE_TEXT_FLAG_CAP_SENTENCES            0x00004000
+#परिभाषय TYPE_TEXT_FLAG_AUTO_CORRECT             0x00008000
+#परिभाषय TYPE_TEXT_FLAG_AUTO_COMPLETE            0x00010000
+#परिभाषय TYPE_TEXT_FLAG_MULTI_पङ्क्तिः               0x00020000
+#परिभाषय TYPE_TEXT_FLAG_IME_MULTI_पङ्क्तिः           0x00040000
+#परिभाषय TYPE_TEXT_FLAG_NO_SUGGESTIONS           0x00080000
 
-#define TYPE_TEXT_VARIATION_NORMAL              0x00000000
-#define TYPE_TEXT_VARIATION_URI                 0x00000010
-#define TYPE_TEXT_VARIATION_EMAIL_ADDRESS       0x00000020
-#define TYPE_TEXT_VARIATION_EMAIL_SUBJECT       0x00000030
-#define TYPE_TEXT_VARIATION_SHORT_MESSAGE       0x00000040
-#define TYPE_TEXT_VARIATION_LONG_MESSAGE        0x00000050
-#define TYPE_TEXT_VARIATION_PERSON_NAME         0x00000060
-#define TYPE_TEXT_VARIATION_POSTAL_ADDRESS      0x00000070
-#define TYPE_TEXT_VARIATION_PASSWORD            0x00000080
-#define TYPE_TEXT_VARIATION_VISIBLE_PASSWORD    0x00000090
-#define TYPE_TEXT_VARIATION_WEB_EDIT_TEXT       0x000000a0
-#define TYPE_TEXT_VARIATION_FILTER              0x000000b0
-#define TYPE_TEXT_VARIATION_PHONETIC            0x000000c0
-#define TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS   0x000000d0
-#define TYPE_TEXT_VARIATION_WEB_PASSWORD        0x000000e0
+#परिभाषय TYPE_TEXT_VARIATION_प्रसामान्यम्              0x00000000
+#परिभाषय TYPE_TEXT_VARIATION_URI                 0x00000010
+#परिभाषय TYPE_TEXT_VARIATION_EMAIL_स्थानाङ्कः       0x00000020
+#परिभाषय TYPE_TEXT_VARIATION_EMAIL_SUBJECT       0x00000030
+#परिभाषय TYPE_TEXT_VARIATION_SHORT_सन्देशः       0x00000040
+#परिभाषय TYPE_TEXT_VARIATION_LONG_सन्देशः        0x00000050
+#परिभाषय TYPE_TEXT_VARIATION_PERSON_NAME         0x00000060
+#परिभाषय TYPE_TEXT_VARIATION_POSTAL_स्थानाङ्कः      0x00000070
+#परिभाषय TYPE_TEXT_VARIATION_PASSWORD            0x00000080
+#परिभाषय TYPE_TEXT_VARIATION_VISIBLE_PASSWORD    0x00000090
+#परिभाषय TYPE_TEXT_VARIATION_WEB_EDIT_TEXT       0x000000a0
+#परिभाषय TYPE_TEXT_VARIATION_FILTER              0x000000b0
+#परिभाषय TYPE_TEXT_VARIATION_PHONETIC            0x000000c0
+#परिभाषय TYPE_TEXT_VARIATION_WEB_EMAIL_स्थानाङ्कः   0x000000d0
+#परिभाषय TYPE_TEXT_VARIATION_WEB_PASSWORD        0x000000e0
 
 
-static SDL_Scancode Android_Keycodes[] = {
+स्थिर SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_UNKNOWN
     SDL_SCANCODE_SOFTLEFT,         // AKEYCODE_SOFT_LEFT
     SDL_SCANCODE_SOFTRIGHT,        // AKEYCODE_SOFT_RIGHT
     SDL_SCANCODE_AC_HOME,          // AKEYCODE_HOME
-    SDL_SCANCODE_AC_BACK,          // AKEYCODE_BACK
+    SDL_SCANCODE_AC_पृष्ठभागः,          // AKEYCODE_BACK
     SDL_SCANCODE_CALL,             // AKEYCODE_CALL
     SDL_SCANCODE_ENDCALL,          // AKEYCODE_ENDCALL
     SDL_SCANCODE_0,                // AKEYCODE_0
@@ -90,10 +90,10 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_9,                // AKEYCODE_9
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_STAR
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_POUND
-    SDL_SCANCODE_UP,               // AKEYCODE_DPAD_UP
-    SDL_SCANCODE_DOWN,             // AKEYCODE_DPAD_DOWN
-    SDL_SCANCODE_LEFT,             // AKEYCODE_DPAD_LEFT
-    SDL_SCANCODE_RIGHT,            // AKEYCODE_DPAD_RIGHT
+    SDL_SCANCODE_ऊर्ध्वम्,               // AKEYCODE_DPAD_UP
+    SDL_SCANCODE_अधस्तात्,             // AKEYCODE_DPAD_DOWN
+    SDL_SCANCODE_वामः,             // AKEYCODE_DPAD_LEFT
+    SDL_SCANCODE_दक्षिणः,            // AKEYCODE_DPAD_RIGHT
     SDL_SCANCODE_RETURN,           // AKEYCODE_DPAD_CENTER
     SDL_SCANCODE_VOLUMEUP,         // AKEYCODE_VOLUME_UP
     SDL_SCANCODE_VOLUMEDOWN,       // AKEYCODE_VOLUME_DOWN
@@ -155,10 +155,10 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_PLUS
     SDL_SCANCODE_MENU,             // AKEYCODE_MENU
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_NOTIFICATION
-    SDL_SCANCODE_AC_SEARCH,        // AKEYCODE_SEARCH
+    SDL_SCANCODE_AC_अन्वेषणम्,        // AKEYCODE_SEARCH
     SDL_SCANCODE_MEDIA_PLAY_PAUSE,  // AKEYCODE_MEDIA_PLAY_PAUSE
     SDL_SCANCODE_MEDIA_STOP,       // AKEYCODE_MEDIA_STOP
-    SDL_SCANCODE_MEDIA_NEXT_TRACK, // AKEYCODE_MEDIA_NEXT
+    SDL_SCANCODE_MEDIA_अग्र_TRACK, // AKEYCODE_MEDIA_NEXT
     SDL_SCANCODE_MEDIA_PREVIOUS_TRACK, // AKEYCODE_MEDIA_PREVIOUS
     SDL_SCANCODE_MEDIA_REWIND,     // AKEYCODE_MEDIA_REWIND
     SDL_SCANCODE_MEDIA_FAST_FORWARD, // AKEYCODE_MEDIA_FAST_FORWARD
@@ -194,14 +194,14 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_PRINTSCREEN,      // AKEYCODE_SYSRQ
     SDL_SCANCODE_PAUSE,            // AKEYCODE_BREAK
     SDL_SCANCODE_HOME,             // AKEYCODE_MOVE_HOME
-    SDL_SCANCODE_END,              // AKEYCODE_MOVE_END
-    SDL_SCANCODE_INSERT,           // AKEYCODE_INSERT
+    SDL_SCANCODE_अन्तः,              // AKEYCODE_MOVE_END
+    SDL_SCANCODE_निवेशय,           // AKEYCODE_INSERT
     SDL_SCANCODE_AC_FORWARD,       // AKEYCODE_FORWARD
     SDL_SCANCODE_MEDIA_PLAY,       // AKEYCODE_MEDIA_PLAY
     SDL_SCANCODE_MEDIA_PAUSE,      // AKEYCODE_MEDIA_PAUSE
     SDL_SCANCODE_UNKNOWN,          // AKEYCODE_MEDIA_CLOSE
     SDL_SCANCODE_MEDIA_EJECT,      // AKEYCODE_MEDIA_EJECT
-    SDL_SCANCODE_MEDIA_RECORD,     // AKEYCODE_MEDIA_RECORD
+    SDL_SCANCODE_MEDIA_लेखः,     // AKEYCODE_MEDIA_RECORD
     SDL_SCANCODE_F1,               // AKEYCODE_F1
     SDL_SCANCODE_F2,               // AKEYCODE_F2
     SDL_SCANCODE_F3,               // AKEYCODE_F3
@@ -353,111 +353,111 @@ static SDL_Scancode Android_Keycodes[] = {
     SDL_SCANCODE_PASTE,            // AKEYCODE_PASTE
 };
 
-static SDL_Scancode TranslateKeycode(int keycode)
+स्थिर SDL_Scancode TranslateKeycode(पूर्णाङ्क keycode)
 {
     SDL_Scancode scancode = SDL_SCANCODE_UNKNOWN;
 
-    if (keycode < SDL_arraysize(Android_Keycodes)) {
+    यदि (keycode < SDL_arraysize(Android_Keycodes)) {
         scancode = Android_Keycodes[keycode];
     }
-    if (scancode == SDL_SCANCODE_UNKNOWN) {
-        if (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
+    यदि (scancode == SDL_SCANCODE_UNKNOWN) {
+        यदि (keycode >= 96 /* AKEYCODE_BUTTON_A */ && keycode < 111 /* AKEYCODE_ESCAPE */) {
             // Ignore game controller buttons
-        } else {
+        } अन्यथा {
             __android_log_print(ANDROID_LOG_INFO, "SDL", "Unknown keycode %d", keycode);
         }
     }
-    return scancode;
+    प्रत्यागम scancode;
 }
 
-void Android_OnKeyDown(int keycode)
+शून्य Android_On_कुञ्चिका_अधस्तात्(पूर्णाङ्क keycode)
 {
-    SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), true);
+    SDL_Send_Keyboard_कुञ्चिका(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), true);
 }
 
-void Android_OnKeyUp(int keycode)
+शून्य Android_On_कुञ्चिका_ऊर्ध्वम्(पूर्णाङ्क keycode)
 {
-    SDL_SendKeyboardKey(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), false);
+    SDL_Send_Keyboard_कुञ्चिका(0, SDL_DEFAULT_KEYBOARD_ID, keycode, TranslateKeycode(keycode), false);
 }
 
 bool Android_HasScreenKeyboardSupport(SDL_VideoDevice *_this)
 {
-    return true;
+    प्रत्यागम true;
 }
 
-void Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID props)
+शून्य Android_ShowScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID props)
 {
-    int input_type = 0;
-    if (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER)) {
-        input_type = (int)SDL_GetNumberProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_NUMBER, 0);
-    } else {
-        switch (SDL_GetTextInputType(props)) {
-        default:
-        case SDL_TEXTINPUT_TYPE_TEXT:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_NAME:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PERSON_NAME);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
-            input_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER:
-            input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_HIDDEN:
-            input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_PASSWORD);
-            break;
-        case SDL_TEXTINPUT_TYPE_NUMBER_PASSWORD_VISIBLE:
-            input_type = (TYPE_CLASS_NUMBER | TYPE_NUMBER_VARIATION_NORMAL);
-            break;
+    पूर्णाङ्क निवेशः_type = 0;
+    यदि (SDL_HasProperty(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_सङ्ख्या)) {
+        निवेशः_type = (पूर्णाङ्क)SDL_Get_सङ्ख्या_Property(props, SDL_PROP_TEXTINPUT_ANDROID_INPUTTYPE_सङ्ख्या, 0);
+    } अन्यथा {
+        विकल्प (SDL_Get_Text_निवेशः_Type(props)) {
+        स्वभाव:
+        पक्ष SDL_TEXTINPUT_TYPE_TEXT:
+            निवेशः_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_प्रसामान्यम्);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_TEXT_NAME:
+            निवेशः_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PERSON_NAME);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_TEXT_EMAIL:
+            निवेशः_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_EMAIL_स्थानाङ्कः);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_TEXT_USERNAME:
+            निवेशः_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_प्रसामान्यम्);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_HIDDEN:
+            निवेशः_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_TEXT_PASSWORD_VISIBLE:
+            निवेशः_type = (TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_सङ्ख्या:
+            निवेशः_type = (TYPE_CLASS_सङ्ख्या | TYPE_सङ्ख्या_VARIATION_प्रसामान्यम्);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_सङ्ख्या_PASSWORD_HIDDEN:
+            निवेशः_type = (TYPE_CLASS_सङ्ख्या | TYPE_सङ्ख्या_VARIATION_PASSWORD);
+            भङ्ग;
+        पक्ष SDL_TEXTINPUT_TYPE_सङ्ख्या_PASSWORD_VISIBLE:
+            निवेशः_type = (TYPE_CLASS_सङ्ख्या | TYPE_सङ्ख्या_VARIATION_प्रसामान्यम्);
+            भङ्ग;
         }
 
-        switch (SDL_GetTextInputCapitalization(props)) {
-        default:
-        case SDL_CAPITALIZE_NONE:
-            break;
-        case SDL_CAPITALIZE_LETTERS:
-            input_type |= TYPE_TEXT_FLAG_CAP_CHARACTERS;
-            break;
-        case SDL_CAPITALIZE_WORDS:
-            input_type |= TYPE_TEXT_FLAG_CAP_WORDS;
-            break;
-        case SDL_CAPITALIZE_SENTENCES:
-            input_type |= TYPE_TEXT_FLAG_CAP_SENTENCES;
-            break;
+        विकल्प (SDL_Get_Text_निवेशः_Capitalization(props)) {
+        स्वभाव:
+        पक्ष SDL_CAPITALIZE_NONE:
+            भङ्ग;
+        पक्ष SDL_CAPITALIZE_LETTERS:
+            निवेशः_type |= TYPE_TEXT_FLAG_CAP_CHARACTERS;
+            भङ्ग;
+        पक्ष SDL_CAPITALIZE_शब्दाः:
+            निवेशः_type |= TYPE_TEXT_FLAG_CAP_शब्दाः;
+            भङ्ग;
+        पक्ष SDL_CAPITALIZE_SENTENCES:
+            निवेशः_type |= TYPE_TEXT_FLAG_CAP_SENTENCES;
+            भङ्ग;
         }
 
-        if (SDL_GetTextInputAutocorrect(props)) {
-            input_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
+        यदि (SDL_Get_Text_निवेशः_Autocorrect(props)) {
+            निवेशः_type |= (TYPE_TEXT_FLAG_AUTO_CORRECT | TYPE_TEXT_FLAG_AUTO_COMPLETE);
         }
 
-        if (SDL_GetTextInputMultiline(props)) {
-            input_type |= TYPE_TEXT_FLAG_MULTI_LINE;
+        यदि (SDL_Get_Text_निवेशः_Multiline(props)) {
+            निवेशः_type |= TYPE_TEXT_FLAG_MULTI_पङ्क्तिः;
         }
     }
-    Android_JNI_ShowScreenKeyboard(input_type, &window->text_input_rect);
+    Android_JNI_ShowScreenKeyboard(निवेशः_type, &गवाक्षः->text_निवेशः_rect);
 }
 
-void Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य Android_HideScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
     Android_JNI_HideScreenKeyboard();
 }
 
-void Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य Android_RestoreScreenKeyboard(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    if (_this->screen_keyboard_shown) {
-        Android_ShowScreenKeyboard(_this, window, window->text_input_props);
+    यदि (_this->screen_keyboard_shown) {
+        Android_ShowScreenKeyboard(_this, गवाक्षः, गवाक्षः->text_निवेशः_props);
     }
 }
 
-#endif // SDL_VIDEO_DRIVER_ANDROID
+#यदि_अन्तः // SDL_VIDEO_DRIVER_ANDROID

@@ -18,27 +18,27 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_offscreenopengles_h
-#define SDL_offscreenopengles_h
+#यदि_अपरिभाषितम् SDL_offscreenopengles_h
+#परिभाषय SDL_offscreenopengles_h
 
-#if defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
+#यदि defined(SDL_VIDEO_DRIVER_OFFSCREEN) && defined(SDL_VIDEO_OPENGL_EGL)
 
-#include "../SDL_sysvideo.h"
-#include "../SDL_egl_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "../SDL_egl_c.h"
 
-#define OFFSCREEN_GLES_GetProcAddress  SDL_EGL_GetProcAddressInternal
-#define OFFSCREEN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
-#define OFFSCREEN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
-#define OFFSCREEN_GLES_SetSwapInterval SDL_EGL_SetSwapInterval
-#define OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
+#परिभाषय OFFSCREEN_GLES_Get_Proc_स्थानाङ्कः  SDL_EGL_Get_Proc_स्थानाङ्कः_आन्तरिकम्
+#परिभाषय OFFSCREEN_GLES_UnloadLibrary   SDL_EGL_UnloadLibrary
+#परिभाषय OFFSCREEN_GLES_GetSwapInterval SDL_EGL_GetSwapInterval
+#परिभाषय OFFSCREEN_GLES_समुच्चयः_Swap_Interval SDL_EGL_समुच्चयः_Swap_Interval
+#परिभाषय OFFSCREEN_GLES_DestroyContext   SDL_EGL_DestroyContext
 
-extern bool OFFSCREEN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_Window *window);
-extern bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_Window *window, SDL_GLContext context);
-extern bool OFFSCREEN_GLES_SwapWindow(SDL_VideoDevice *_this, SDL_Window *window);
+बाह्य bool OFFSCREEN_GLES_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य SDL_GLContext OFFSCREEN_GLES_CreateContext(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य bool OFFSCREEN_GLES_MakeCurrent(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_GLContext context);
+बाह्य bool OFFSCREEN_GLES_Swap_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
 
-#endif // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
+#यदि_अन्तः // SDL_VIDEO_DRIVER_OFFSCREEN && SDL_VIDEO_OPENGL_EGL
 
-#endif // SDL_offscreenopengles_h
+#यदि_अन्तः // SDL_offscreenopengles_h

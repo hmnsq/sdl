@@ -18,21 +18,21 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_windowsevents_h_
-#define SDL_windowsevents_h_
+#यदि_अपरिभाषितम् SDL_windowsevents_h_
+#परिभाषय SDL_windowsevents_h_
 
-extern LPTSTR SDL_Appname;
-extern Uint32 SDL_Appstyle;
-extern HINSTANCE SDL_Instance;
+बाह्य LPTSTR SDL_Appname;
+बाह्य Uint32 SDL_Appstyle;
+बाह्य HINSTANCE SDL_Instance;
 
-extern LRESULT CALLBACK WIN_KeyboardHookProc(int nCode, WPARAM wParam, LPARAM lParam);
-extern LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void WIN_PollRawInput(SDL_VideoDevice *_this, Uint64 poll_start);
-extern void WIN_PumpEvents(SDL_VideoDevice *_this);
-extern void WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
-extern void WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_Window *window);
-extern int WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
+बाह्य LRESULT CALLBACK WIN_KeyboardHookProc(पूर्णाङ्क n_संहिता, WPARAM wParam, LPARAM lParam);
+बाह्य LRESULT CALLBACK WIN_गवाक्षः_Proc(HWND hwnd, UINT सन्देशः_2, WPARAM wParam, LPARAM lParam);
+बाह्य शून्य WIN_Poll_Raw_निवेशः(SDL_VideoDevice *_this, Uint64 poll_start);
+बाह्य शून्य WIN_PumpEvents(SDL_VideoDevice *_this);
+बाह्य शून्य WIN_PumpEventsForHWND(SDL_VideoDevice *_this, HWND hwnd);
+बाह्य शून्य WIN_SendWakeupEvent(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य पूर्णाङ्क WIN_WaitEventTimeout(SDL_VideoDevice *_this, Sint64 timeoutNS);
 
-#endif // SDL_windowsevents_h_
+#यदि_अन्तः // SDL_windowsevents_h_

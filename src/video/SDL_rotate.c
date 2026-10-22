@@ -28,17 +28,17 @@ freely, subject to the following restrictions:
 Andreas Schiffler -- aschiffler at ferzkopp dot net
 
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#include "SDL_surface_c.h"
-#include "SDL_rotate.h"
+#अन्तर्भाव "SDL_surface_c.h"
+#अन्तर्भाव "SDL_rotate.h"
 
 // ---- Internally used structures
 
 /**
 A 32 bit RGBA pixel.
 */
-typedef struct tColorRGBA
+प्रकारनिर्देश संरचना tColorRGBA
 {
     Uint8 r;
     Uint8 g;
@@ -49,7 +49,7 @@ typedef struct tColorRGBA
 /**
 A 8bit Y/palette pixel.
 */
-typedef struct tColorY
+प्रकारनिर्देश संरचना tColorY
 {
     Uint8 y;
 } tColorY;
@@ -64,22 +64,22 @@ This catches any potential overflows which seem to happen with
 just the right src image dimensions and scale/rotation and can lead
 to a situation where the program can segfault.
 */
-#define GUARD_ROWS (2)
+#परिभाषय GUARD_पङ्क्तिकाः (2)
 
 /**
 Returns colorkey info for a surface
 */
-static Uint32 get_colorkey(SDL_Surface *src)
+स्थिर Uint32 get_colorkey(SDL_Surface *src)
 {
-    Uint32 key = 0;
-    if (SDL_SurfaceHasColorKey(src)) {
-        SDL_GetSurfaceColorKey(src, &key);
+    Uint32 कुञ्चिका = 0;
+    यदि (SDL_Surface_Has_Color_कुञ्चिका(src)) {
+        SDL_Get_Surface_Color_कुञ्चिका(src, &कुञ्चिका);
     }
-    return key;
+    प्रत्यागम कुञ्चिका;
 }
 
 // rotate (sx, sy) by (angle, center) into (dx, dy)
-static void rotate(double sx, double sy, double sinangle, double cosangle, const SDL_FPoint *center, double *dx, double *dy)
+स्थिर शून्य rotate(द्विगुण sx, द्विगुण sy, द्विगुण sinangle, द्विगुण cosangle, ध्रुव SDL_FPoint *center, द्विगुण *dx, द्विगुण *dy)
 {
     sx -= center->x;
     sy -= center->y;
@@ -103,15 +103,15 @@ Internal target surface sizing function for rotations with trig result return.
 \param sangle The cosine of the angle
 
 */
-void SDLgfx_rotozoomSurfaceSizeTrig(int width, int height, double angle, const SDL_FPoint *center,
-                                    SDL_Rect *rect_dest, double *cangle, double *sangle)
+शून्य SDLgfx_rotozoom_Surface_आकार_Trig(पूर्णाङ्क विस्तारः, पूर्णाङ्क height, द्विगुण angle, ध्रुव SDL_FPoint *center,
+                                    SDL_Rect *rect_dest, द्विगुण *cangle, द्विगुण *sangle)
 {
-    int minx, maxx, miny, maxy;
-    double radangle;
-    double x0, x1, x2, x3;
-    double y0, y1, y2, y3;
-    double sinangle;
-    double cosangle;
+    पूर्णाङ्क minx, maxx, miny, maxy;
+    द्विगुण radangle;
+    द्विगुण x0, x1, x2, x3;
+    द्विगुण y0, y1, y2, y3;
+    द्विगुण sinangle;
+    द्विगुण cosangle;
 
     radangle = angle * (SDL_PI_D / 180.0);
     sinangle = SDL_sin(radangle);
@@ -121,15 +121,15 @@ void SDLgfx_rotozoomSurfaceSizeTrig(int width, int height, double angle, const S
      * Determine destination width and height by rotating a source box, at pixel center
      */
     rotate(0.5, 0.5, sinangle, cosangle, center, &x0, &y0);
-    rotate(width - 0.5, 0.5, sinangle, cosangle, center, &x1, &y1);
+    rotate(विस्तारः - 0.5, 0.5, sinangle, cosangle, center, &x1, &y1);
     rotate(0.5, height - 0.5, sinangle, cosangle, center, &x2, &y2);
-    rotate(width - 0.5, height - 0.5, sinangle, cosangle, center, &x3, &y3);
+    rotate(विस्तारः - 0.5, height - 0.5, sinangle, cosangle, center, &x3, &y3);
 
-    minx = (int)SDL_floor(SDL_min(SDL_min(x0, x1), SDL_min(x2, x3)));
-    maxx = (int)SDL_ceil(SDL_max(SDL_max(x0, x1), SDL_max(x2, x3)));
+    minx = (पूर्णाङ्क)SDL_floor(SDL_min(SDL_min(x0, x1), SDL_min(x2, x3)));
+    maxx = (पूर्णाङ्क)SDL_ceil(SDL_max(SDL_max(x0, x1), SDL_max(x2, x3)));
 
-    miny = (int)SDL_floor(SDL_min(SDL_min(y0, y1), SDL_min(y2, y3)));
-    maxy = (int)SDL_ceil(SDL_max(SDL_max(y0, y1), SDL_max(y2, y3)));
+    miny = (पूर्णाङ्क)SDL_floor(SDL_min(SDL_min(y0, y1), SDL_min(y2, y3)));
+    maxy = (पूर्णाङ्क)SDL_ceil(SDL_max(SDL_max(y0, y1), SDL_max(y2, y3)));
 
     rect_dest->w = maxx - minx;
     rect_dest->h = maxy - miny;
@@ -142,20 +142,20 @@ void SDLgfx_rotozoomSurfaceSizeTrig(int width, int height, double angle, const S
 
     {
         // The trig code below gets the wrong size (due to FP inaccuracy?) when angle is a multiple of 90 degrees
-        int angle90 = (int)(angle / 90);
-        if (angle90 == angle / 90) { // if the angle is a multiple of 90 degrees
+        पूर्णाङ्क angle90 = (पूर्णाङ्क)(angle / 90);
+        यदि (angle90 == angle / 90) { // if the angle is a multiple of 90 degrees
             angle90 %= 4;
-            if (angle90 < 0) {
+            यदि (angle90 < 0) {
                 angle90 += 4; // 0:0 deg, 1:90 deg, 2:180 deg, 3:270 deg
             }
 
-            if (angle90 & 1) {
+            यदि (angle90 & 1) {
                 rect_dest->w = height;
-                rect_dest->h = width;
+                rect_dest->h = विस्तारः;
                 *cangle = 0;
                 *sangle = angle90 == 1 ? -1 : 1; // reversed because our rotations are clockwise
-            } else {
-                rect_dest->w = width;
+            } अन्यथा {
+                rect_dest->w = विस्तारः;
                 rect_dest->h = height;
                 *cangle = angle90 == 0 ? 1 : -1;
                 *sangle = 0;
@@ -165,80 +165,80 @@ void SDLgfx_rotozoomSurfaceSizeTrig(int width, int height, double angle, const S
 }
 
 // Computes source pointer X/Y increments for a rotation that's a multiple of 90 degrees.
-static void computeSourceIncrements90(SDL_Surface *src, int bpp, int angle, int flipx, int flipy,
-                                      int *sincx, int *sincy, int *signx, int *signy)
+स्थिर शून्य computeSourceIncrements90(SDL_Surface *src, पूर्णाङ्क bpp, पूर्णाङ्क angle, पूर्णाङ्क flipx, पूर्णाङ्क flipy,
+                                      पूर्णाङ्क *sincx, पूर्णाङ्क *sincy, पूर्णाङ्क *signx, पूर्णाङ्क *signy)
 {
-    int pitch = flipy ? -src->pitch : src->pitch;
-    if (flipx) {
+    पूर्णाङ्क pitch = flipy ? -src->pitch : src->pitch;
+    यदि (flipx) {
         bpp = -bpp;
     }
-    switch (angle) { // 0:0 deg, 1:90 deg, 2:180 deg, 3:270 deg
-    case 0:
+    विकल्प (angle) { // 0:0 deg, 1:90 deg, 2:180 deg, 3:270 deg
+    पक्ष 0:
         *sincx = bpp;
         *sincy = pitch - src->w * *sincx;
         *signx = *signy = 1;
-        break;
-    case 1:
+        भङ्ग;
+    पक्ष 1:
         *sincx = -pitch;
         *sincy = bpp - *sincx * src->h;
         *signx = 1;
         *signy = -1;
-        break;
-    case 2:
+        भङ्ग;
+    पक्ष 2:
         *sincx = -bpp;
         *sincy = -src->w * *sincx - pitch;
         *signx = *signy = -1;
-        break;
-    case 3:
-    default:
+        भङ्ग;
+    पक्ष 3:
+    स्वभाव:
         *sincx = pitch;
         *sincy = -*sincx * src->h - bpp;
         *signx = -1;
         *signy = 1;
-        break;
+        भङ्ग;
     }
-    if (flipx) {
+    यदि (flipx) {
         *signx = -*signx;
     }
-    if (flipy) {
+    यदि (flipy) {
         *signy = -*signy;
     }
 }
 
 // Performs a relatively fast rotation/flip when the angle is a multiple of 90 degrees.
-#define TRANSFORM_SURFACE_90(pixelType)                                                                     \
-    int dy, dincy = dst->pitch - dst->w * sizeof(pixelType), sincx, sincy, signx, signy;                    \
+#परिभाषय TRANSFORM_SURFACE_90(pixelType)                                                                     \
+    पूर्णाङ्क dy, dincy = dst->pitch - dst->w * परिमाण(pixelType), sincx, sincy, signx, signy;                    \
     Uint8 *sp = (Uint8 *)src->pixels, *dp = (Uint8 *)dst->pixels, *de;                                      \
                                                                                                             \
-    computeSourceIncrements90(src, sizeof(pixelType), angle, flipx, flipy, &sincx, &sincy, &signx, &signy); \
-    if (signx < 0)                                                                                          \
-        sp += (src->w - 1) * sizeof(pixelType);                                                             \
-    if (signy < 0)                                                                                          \
+    computeSourceIncrements90(src, परिमाण(pixelType), angle, flipx, flipy, &sincx, &sincy, &signx, &signy); \
+    यदि (signx < 0)                                                                                          \
+        sp += (src->w - 1) * परिमाण(pixelType);                                                             \
+    यदि (signy < 0)                                                                                          \
         sp += (src->h - 1) * src->pitch;                                                                    \
                                                                                                             \
-    for (dy = 0; dy < dst->h; sp += sincy, dp += dincy, dy++) {                                             \
-        if (sincx == sizeof(pixelType)) { /* if advancing src and dest equally, use SDL_memcpy */           \
-            SDL_memcpy(dp, sp, dst->w * sizeof(pixelType));                                                 \
-            sp += dst->w * sizeof(pixelType);                                                               \
-            dp += dst->w * sizeof(pixelType);                                                               \
-        } else {                                                                                            \
-            for (de = dp + dst->w * sizeof(pixelType); dp != de; sp += sincx, dp += sizeof(pixelType)) {    \
+    प्रति (dy = 0; dy < dst->h; sp += sincy, dp += dincy, dy++) {                                             \
+        यदि (sincx == परिमाण(pixelType)) { /* if advancing src and dest equally, use SDL_memcpy */           \
+            SDL_memcpy(dp, sp, dst->w * परिमाण(pixelType));                                                 \
+            sp += dst->w * परिमाण(pixelType);                                                               \
+            dp += dst->w * परिमाण(pixelType);                                                               \
+        } अन्यथा {                                                                                            \
+            प्रति (de = dp + dst->w * परिमाण(pixelType); dp != de; sp += sincx, dp += परिमाण(pixelType)) {    \
                 *(pixelType *)dp = *(pixelType *)sp;                                                        \
             }                                                                                               \
         }                                                                                                   \
     }
 
-static void transformSurfaceRGBA90(SDL_Surface *src, SDL_Surface *dst, int angle, int flipx, int flipy)
+स्थिर शून्य transformSurfaceRGBA90(SDL_Surface *src, SDL_Surface *dst, पूर्णाङ्क angle, पूर्णाङ्क flipx, पूर्णाङ्क flipy)
 {
     TRANSFORM_SURFACE_90(tColorRGBA);
 }
 
-static void transformSurfaceY90(SDL_Surface *src, SDL_Surface *dst, int angle, int flipx, int flipy)
+स्थिर शून्य transformSurfaceY90(SDL_Surface *src, SDL_Surface *dst, पूर्णाङ्क angle, पूर्णाङ्क flipx, पूर्णाङ्क flipy)
 {
     TRANSFORM_SURFACE_90(tColorY);
 }
 
-#undef TRANSFORM_SURFACE_90
+#अपरिभाषय TRANSFORM_SURFACE_90
 
 /**
 Internal 32 bit rotozoomer with optional anti-aliasing.
@@ -259,17 +259,17 @@ Assumes dst surface was allocated with the correct dimensions.
 \param rect_dest destination coordinates
 \param center true center.
 */
-static void transformSurfaceRGBA(SDL_Surface *src, SDL_Surface *dst, int isin, int icos,
-                                 int flipx, int flipy, int smooth,
-                                 const SDL_Rect *rect_dest,
-                                 const SDL_FPoint *center)
+स्थिर शून्य transformSurfaceRGBA(SDL_Surface *src, SDL_Surface *dst, पूर्णाङ्क isin, पूर्णाङ्क icos,
+                                 पूर्णाङ्क flipx, पूर्णाङ्क flipy, पूर्णाङ्क smooth,
+                                 ध्रुव SDL_Rect *rect_dest,
+                                 ध्रुव SDL_FPoint *center)
 {
-    int sw, sh;
-    int cx, cy;
+    पूर्णाङ्क sw, sh;
+    पूर्णाङ्क cx, cy;
     tColorRGBA c00, c01, c10, c11, cswap;
     tColorRGBA *pc, *sp;
-    int gap;
-    const int fp_half = (1 << 15);
+    पूर्णाङ्क gap;
+    ध्रुव पूर्णाङ्क fp_half = (1 << 15);
 
     /*
      * Variable setup
@@ -278,32 +278,32 @@ static void transformSurfaceRGBA(SDL_Surface *src, SDL_Surface *dst, int isin, i
     sh = src->h - 1;
     pc = (tColorRGBA *)dst->pixels;
     gap = dst->pitch - dst->w * 4;
-    cx = (int)(center->x * 65536.0);
-    cy = (int)(center->y * 65536.0);
+    cx = (पूर्णाङ्क)(center->x * 65536.0);
+    cy = (पूर्णाङ्क)(center->y * 65536.0);
 
     /*
      * Switch between interpolating and non-interpolating code
      */
-    if (smooth) {
-        int y;
-        for (y = 0; y < dst->h; y++) {
-            int x;
-            double src_x = ((double)rect_dest->x + 0 + 0.5 - center->x);
-            double src_y = ((double)rect_dest->y + y + 0.5 - center->y);
-            int sdx = (int)((icos * src_x - isin * src_y) + cx - fp_half);
-            int sdy = (int)((isin * src_x + icos * src_y) + cy - fp_half);
-            for (x = 0; x < dst->w; x++) {
-                int dx = (sdx >> 16);
-                int dy = (sdy >> 16);
-                if (flipx) {
+    यदि (smooth) {
+        पूर्णाङ्क y;
+        प्रति (y = 0; y < dst->h; y++) {
+            पूर्णाङ्क x;
+            द्विगुण src_x = ((द्विगुण)rect_dest->x + 0 + 0.5 - center->x);
+            द्विगुण src_y = ((द्विगुण)rect_dest->y + y + 0.5 - center->y);
+            पूर्णाङ्क sdx = (पूर्णाङ्क)((icos * src_x - isin * src_y) + cx - fp_half);
+            पूर्णाङ्क sdy = (पूर्णाङ्क)((isin * src_x + icos * src_y) + cy - fp_half);
+            प्रति (x = 0; x < dst->w; x++) {
+                पूर्णाङ्क dx = (sdx >> 16);
+                पूर्णाङ्क dy = (sdy >> 16);
+                यदि (flipx) {
                     dx = sw - dx;
                 }
-                if (flipy) {
+                यदि (flipy) {
                     dy = sh - dy;
                 }
-                if ((dx > -1) && (dy > -1) && (dx < (src->w - 1)) && (dy < (src->h - 1))) {
-                    int ex, ey;
-                    int t1, t2;
+                यदि ((dx > -1) && (dy > -1) && (dx < (src->w - 1)) && (dy < (src->h - 1))) {
+                    पूर्णाङ्क ex, ey;
+                    पूर्णाङ्क t1, t2;
                     sp = (tColorRGBA *)((Uint8 *)src->pixels + src->pitch * dy) + dx;
                     c00 = *sp;
                     sp += 1;
@@ -312,7 +312,7 @@ static void transformSurfaceRGBA(SDL_Surface *src, SDL_Surface *dst, int isin, i
                     c11 = *sp;
                     sp -= 1;
                     c10 = *sp;
-                    if (flipx) {
+                    यदि (flipx) {
                         cswap = c00;
                         c00 = c01;
                         c01 = cswap;
@@ -320,7 +320,7 @@ static void transformSurfaceRGBA(SDL_Surface *src, SDL_Surface *dst, int isin, i
                         c10 = c11;
                         c11 = cswap;
                     }
-                    if (flipy) {
+                    यदि (flipy) {
                         cswap = c00;
                         c00 = c10;
                         c10 = cswap;
@@ -352,22 +352,22 @@ static void transformSurfaceRGBA(SDL_Surface *src, SDL_Surface *dst, int isin, i
             }
             pc = (tColorRGBA *)((Uint8 *)pc + gap);
         }
-    } else {
-        int y;
-        for (y = 0; y < dst->h; y++) {
-            int x;
-            double src_x = ((double)rect_dest->x + 0 + 0.5 - center->x);
-            double src_y = ((double)rect_dest->y + y + 0.5 - center->y);
-            int sdx = (int)((icos * src_x - isin * src_y) + cx - fp_half);
-            int sdy = (int)((isin * src_x + icos * src_y) + cy - fp_half);
-            for (x = 0; x < dst->w; x++) {
-                int dx = (sdx >> 16);
-                int dy = (sdy >> 16);
-                if ((unsigned)dx < (unsigned)src->w && (unsigned)dy < (unsigned)src->h) {
-                    if (flipx) {
+    } अन्यथा {
+        पूर्णाङ्क y;
+        प्रति (y = 0; y < dst->h; y++) {
+            पूर्णाङ्क x;
+            द्विगुण src_x = ((द्विगुण)rect_dest->x + 0 + 0.5 - center->x);
+            द्विगुण src_y = ((द्विगुण)rect_dest->y + y + 0.5 - center->y);
+            पूर्णाङ्क sdx = (पूर्णाङ्क)((icos * src_x - isin * src_y) + cx - fp_half);
+            पूर्णाङ्क sdy = (पूर्णाङ्क)((isin * src_x + icos * src_y) + cy - fp_half);
+            प्रति (x = 0; x < dst->w; x++) {
+                पूर्णाङ्क dx = (sdx >> 16);
+                पूर्णाङ्क dy = (sdy >> 16);
+                यदि ((अचिह्नित)dx < (अचिह्नित)src->w && (अचिह्नित)dy < (अचिह्नित)src->h) {
+                    यदि (flipx) {
                         dx = sw - dx;
                     }
-                    if (flipy) {
+                    यदि (flipy) {
                         dy = sh - dy;
                     }
                     *pc = *((tColorRGBA *)((Uint8 *)src->pixels + src->pitch * dy) + dx);
@@ -399,16 +399,16 @@ Assumes dst surface was allocated with the correct dimensions.
 \param rect_dest destination coordinates
 \param center true center.
 */
-static void transformSurfaceY(SDL_Surface *src, SDL_Surface *dst, int isin, int icos, int flipx, int flipy,
-                              const SDL_Rect *rect_dest,
-                              const SDL_FPoint *center)
+स्थिर शून्य transformSurfaceY(SDL_Surface *src, SDL_Surface *dst, पूर्णाङ्क isin, पूर्णाङ्क icos, पूर्णाङ्क flipx, पूर्णाङ्क flipy,
+                              ध्रुव SDL_Rect *rect_dest,
+                              ध्रुव SDL_FPoint *center)
 {
-    int sw, sh;
-    int cx, cy;
+    पूर्णाङ्क sw, sh;
+    पूर्णाङ्क cx, cy;
     tColorY *pc;
-    int gap;
-    const int fp_half = (1 << 15);
-    int y;
+    पूर्णाङ्क gap;
+    ध्रुव पूर्णाङ्क fp_half = (1 << 15);
+    पूर्णाङ्क y;
 
     /*
      * Variable setup
@@ -417,30 +417,30 @@ static void transformSurfaceY(SDL_Surface *src, SDL_Surface *dst, int isin, int 
     sh = src->h - 1;
     pc = (tColorY *)dst->pixels;
     gap = dst->pitch - dst->w;
-    cx = (int)(center->x * 65536.0);
-    cy = (int)(center->y * 65536.0);
+    cx = (पूर्णाङ्क)(center->x * 65536.0);
+    cy = (पूर्णाङ्क)(center->y * 65536.0);
 
     /*
      * Clear surface to colorkey
      */
-    SDL_memset(pc, (int)(get_colorkey(src) & 0xff), (size_t)dst->pitch * dst->h);
+    SDL_memset(pc, (पूर्णाङ्क)(get_colorkey(src) & 0xff), (size_t)dst->pitch * dst->h);
     /*
      * Iterate through destination surface
      */
-    for (y = 0; y < dst->h; y++) {
-        int x;
-        double src_x = ((double)rect_dest->x + 0 + 0.5 - center->x);
-        double src_y = ((double)rect_dest->y + y + 0.5 - center->y);
-        int sdx = (int)((icos * src_x - isin * src_y) + cx - fp_half);
-        int sdy = (int)((isin * src_x + icos * src_y) + cy - fp_half);
-        for (x = 0; x < dst->w; x++) {
-            int dx = (sdx >> 16);
-            int dy = (sdy >> 16);
-            if ((unsigned)dx < (unsigned)src->w && (unsigned)dy < (unsigned)src->h) {
-                if (flipx) {
+    प्रति (y = 0; y < dst->h; y++) {
+        पूर्णाङ्क x;
+        द्विगुण src_x = ((द्विगुण)rect_dest->x + 0 + 0.5 - center->x);
+        द्विगुण src_y = ((द्विगुण)rect_dest->y + y + 0.5 - center->y);
+        पूर्णाङ्क sdx = (पूर्णाङ्क)((icos * src_x - isin * src_y) + cx - fp_half);
+        पूर्णाङ्क sdy = (पूर्णाङ्क)((isin * src_x + icos * src_y) + cy - fp_half);
+        प्रति (x = 0; x < dst->w; x++) {
+            पूर्णाङ्क dx = (sdx >> 16);
+            पूर्णाङ्क dy = (sdy >> 16);
+            यदि ((अचिह्नित)dx < (अचिह्नित)src->w && (अचिह्नित)dy < (अचिह्नित)src->h) {
+                यदि (flipx) {
                     dx = sw - dx;
                 }
-                if (flipy) {
+                यदि (flipy) {
                     dy = sh - dy;
                 }
                 *pc = *((tColorY *)src->pixels + src->pitch * dy + dx);
@@ -478,31 +478,31 @@ When using the NONE and MOD modes, color and alpha modulation must be applied be
 
 */
 
-SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, int flipx, int flipy,
-                     const SDL_Rect *rect_dest, double cangle, double sangle, const SDL_FPoint *center)
+SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, द्विगुण angle, पूर्णाङ्क smooth, पूर्णाङ्क flipx, पूर्णाङ्क flipy,
+                     ध्रुव SDL_Rect *rect_dest, द्विगुण cangle, द्विगुण sangle, ध्रुव SDL_FPoint *center)
 {
     SDL_Surface *rz_dst;
-    int is8bit, angle90;
-    SDL_BlendMode blendmode;
+    पूर्णाङ्क is8bit, angle90;
+    SDL_Blend_बहुलकम् blendmode;
     Uint32 colorkey = 0;
-    bool colorKeyAvailable = false;
-    double sangleinv, cangleinv;
+    bool color_कुञ्चिका_उपलब्धम् = false;
+    द्विगुण sangleinv, cangleinv;
 
     // Sanity check
-    if (!SDL_SurfaceValid(src)) {
-        return NULL;
+    यदि (!SDL_SurfaceValid(src)) {
+        प्रत्यागम रिक्त;
     }
 
-    if (SDL_SurfaceHasColorKey(src)) {
-        if (SDL_GetSurfaceColorKey(src, &colorkey)) {
-            colorKeyAvailable = true;
+    यदि (SDL_Surface_Has_Color_कुञ्चिका(src)) {
+        यदि (SDL_Get_Surface_Color_कुञ्चिका(src, &colorkey)) {
+            color_कुञ्चिका_उपलब्धम् = true;
         }
     }
     // This function requires a 32-bit surface or 8-bit surface with a colorkey
-    is8bit = (src->format == SDL_PIXELFORMAT_INDEX8) && colorKeyAvailable;
-    if (!is8bit &&
+    is8bit = (src->format == SDL_PIXELFORMAT_INDEX8) && color_कुञ्चिका_उपलब्धम्;
+    यदि (!is8bit &&
         !(SDL_BITSPERPIXEL(src->format) == 32 && SDL_PIXELLAYOUT(src->format) == SDL_PACKEDLAYOUT_8888)) {
-        return NULL;
+        प्रत्यागम रिक्त;
     }
 
     // Calculate target factors from sine/cosine and zoom
@@ -510,54 +510,54 @@ SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, in
     cangleinv = cangle * 65536.0;
 
     // Alloc space to completely contain the rotated surface
-    rz_dst = NULL;
-    if (is8bit) {
+    rz_dst = रिक्त;
+    यदि (is8bit) {
         // Target surface is 8 bit
-        rz_dst = SDL_CreateSurfaceZeroed(rect_dest->w, rect_dest->h + GUARD_ROWS, src->format);
-        if (rz_dst) {
-            SDL_SetSurfacePalette(rz_dst, src->palette);
+        rz_dst = SDL_CreateSurfaceZeroed(rect_dest->w, rect_dest->h + GUARD_पङ्क्तिकाः, src->format);
+        यदि (rz_dst) {
+            SDL_समुच्चयः_Surface_Palette(rz_dst, src->palette);
         }
-    } else {
+    } अन्यथा {
         // Target surface is 32 bit with source RGBA ordering
-        rz_dst = SDL_CreateSurfaceZeroed(rect_dest->w, rect_dest->h + GUARD_ROWS, src->format);
+        rz_dst = SDL_CreateSurfaceZeroed(rect_dest->w, rect_dest->h + GUARD_पङ्क्तिकाः, src->format);
     }
 
     // Check target
-    if (!rz_dst) {
-        return NULL;
+    यदि (!rz_dst) {
+        प्रत्यागम रिक्त;
     }
 
     // Adjust for guard rows
     rz_dst->h = rect_dest->h;
 
-    SDL_GetSurfaceBlendMode(src, &blendmode);
+    SDL_Get_Surface_Blend_बहुलकम्(src, &blendmode);
 
-    if (colorKeyAvailable) {
+    यदि (color_कुञ्चिका_उपलब्धम्) {
         // If available, the colorkey will be used to discard the pixels that are outside of the rotated area.
-        SDL_SetSurfaceColorKey(rz_dst, true, colorkey);
-        SDL_FillSurfaceRect(rz_dst, NULL, colorkey);
-    } else if (blendmode == SDL_BLENDMODE_NONE) {
+        SDL_समुच्चयः_Surface_Color_कुञ्चिका(rz_dst, true, colorkey);
+        SDL_FillSurfaceRect(rz_dst, रिक्त, colorkey);
+    } अन्यथा यदि (blendmode == SDL_BLENDMODE_NONE) {
         blendmode = SDL_BLENDMODE_BLEND;
-    } else if (blendmode == SDL_BLENDMODE_MOD || blendmode == SDL_BLENDMODE_MUL) {
+    } अन्यथा यदि (blendmode == SDL_BLENDMODE_MOD || blendmode == SDL_BLENDMODE_MUL) {
         /* Without a colorkey, the target texture has to be white for the MOD and MUL blend mode so
          * that the pixels outside the rotated area don't affect the destination surface.
          */
         colorkey = SDL_MapSurfaceRGBA(rz_dst, 255, 255, 255, 0);
-        SDL_FillSurfaceRect(rz_dst, NULL, colorkey);
+        SDL_FillSurfaceRect(rz_dst, रिक्त, colorkey);
         /* Setting a white colorkey for the destination surface makes the final blit discard
          * all pixels outside of the rotated area. This doesn't interfere with anything because
          * white pixels are already a no-op and the MOD blend mode does not interact with alpha.
          */
-        SDL_SetSurfaceColorKey(rz_dst, true, colorkey);
+        SDL_समुच्चयः_Surface_Color_कुञ्चिका(rz_dst, true, colorkey);
     }
 
-    SDL_SetSurfaceBlendMode(rz_dst, blendmode);
+    SDL_समुच्चयः_Surface_Blend_बहुलकम्(rz_dst, blendmode);
 
     // Lock source surface
-    if (SDL_MUSTLOCK(src)) {
-        if (!SDL_LockSurface(src)) {
+    यदि (SDL_MUSTLOCK(src)) {
+        यदि (!SDL_तालकम्_Surface(src)) {
             SDL_DestroySurface(rz_dst);
-            return NULL;
+            प्रत्यागम रिक्त;
         }
     }
 
@@ -565,41 +565,41 @@ SDL_Surface *SDLgfx_rotateSurface(SDL_Surface *src, double angle, int smooth, in
      * the off-by-one problem in transformSurfaceRGBA that expresses itself when the rotation is near
      * multiples of 90 degrees.
      */
-    angle90 = (int)(angle / 90);
-    if (angle90 == angle / 90) {
+    angle90 = (पूर्णाङ्क)(angle / 90);
+    यदि (angle90 == angle / 90) {
         angle90 %= 4;
-        if (angle90 < 0) {
+        यदि (angle90 < 0) {
             angle90 += 4; // 0:0 deg, 1:90 deg, 2:180 deg, 3:270 deg
         }
 
-    } else {
+    } अन्यथा {
         angle90 = -1;
     }
 
-    if (is8bit) {
+    यदि (is8bit) {
         // Call the 8-bit transformation routine to do the rotation
-        if (angle90 >= 0) {
+        यदि (angle90 >= 0) {
             transformSurfaceY90(src, rz_dst, angle90, flipx, flipy);
-        } else {
-            transformSurfaceY(src, rz_dst, (int)sangleinv, (int)cangleinv,
+        } अन्यथा {
+            transformSurfaceY(src, rz_dst, (पूर्णाङ्क)sangleinv, (पूर्णाङ्क)cangleinv,
                               flipx, flipy, rect_dest, center);
         }
-    } else {
+    } अन्यथा {
         // Call the 32-bit transformation routine to do the rotation
-        if (angle90 >= 0) {
+        यदि (angle90 >= 0) {
             transformSurfaceRGBA90(src, rz_dst, angle90, flipx, flipy);
-        } else {
-            transformSurfaceRGBA(src, rz_dst, (int)sangleinv, (int)cangleinv,
+        } अन्यथा {
+            transformSurfaceRGBA(src, rz_dst, (पूर्णाङ्क)sangleinv, (पूर्णाङ्क)cangleinv,
                                  flipx, flipy, smooth, rect_dest, center);
         }
     }
 
     // Unlock source surface
-    if (SDL_MUSTLOCK(src)) {
+    यदि (SDL_MUSTLOCK(src)) {
         SDL_UnlockSurface(src);
     }
 
     // Return rotated surface
-    return rz_dst;
+    प्रत्यागम rz_dst;
 }
 

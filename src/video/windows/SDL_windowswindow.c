@@ -18,43 +18,43 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_WINDOWS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_WINDOWS
 
-#include "../../core/windows/SDL_windows.h"
+#अन्तर्भाव "../../core/windows/SDL_windows.h"
 
-#include "../../SDL_hints_c.h"
-#include "../../events/SDL_dropevents_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../SDL_pixels_c.h"
-#include "../SDL_sysvideo.h"
+#अन्तर्भाव "../../SDL_hints_c.h"
+#अन्तर्भाव "../../events/SDL_dropevents_c.h"
+#अन्तर्भाव "../../events/SDL_keyboard_c.h"
+#अन्तर्भाव "../../events/SDL_mouse_c.h"
+#अन्तर्भाव "../../events/SDL_windowevents_c.h"
+#अन्तर्भाव "../SDL_pixels_c.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
 
-#include "SDL_windowsvideo.h"
-#include "SDL_windowskeyboard.h"
-#include "SDL_windowswindow.h"
+#अन्तर्भाव "SDL_windowsvideo.h"
+#अन्तर्भाव "SDL_windowskeyboard.h"
+#अन्तर्भाव "SDL_windowswindow.h"
 
 // Dropfile support
-#include <shellapi.h>
+#अन्तर्भाव <shellapi.h>
 
-#if !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
-#include <shobjidl.h>
-#endif
+#यदि !(defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES))
+#अन्तर्भाव <shobjidl.h>
+#यदि_अन्तः
 
 // Windows CE compatibility
-#ifndef SWP_NOCOPYBITS
-#define SWP_NOCOPYBITS 0
-#endif
+#यदि_अपरिभाषितम् SWP_NOCOPYBITS
+#परिभाषय SWP_NOCOPYBITS 0
+#यदि_अन्तः
 
 /* An undocumented message to create a popup system menu
  * - wParam is always 0
  * - lParam = MAKELONG(x, y) where x and y are the screen coordinates where the menu should be displayed
  */
-#ifndef WM_POPUPSYSTEMMENU
-#define WM_POPUPSYSTEMMENU 0x313
-#endif
+#यदि_अपरिभाषितम् WM_POPUPSYSTEMMENU
+#परिभाषय WM_POPUPSYSTEMMENU 0x313
+#यदि_अन्तः
 
 // #define HIGHDPI_DEBUG
 
@@ -68,51 +68,51 @@
    - WS_MAXIMIZEBOX: window will respond to Windows maximize commands sent to all windows, and the window will fill the usable desktop area rather than the whole screen
  */
 
-#define STYLE_BASIC               (WS_CLIPSIBLINGS | WS_CLIPCHILDREN)
-#define STYLE_FULLSCREEN          (WS_POPUP | WS_MINIMIZEBOX)
-#define STYLE_BORDERLESS          (WS_POPUP | WS_MINIMIZEBOX)
-#define STYLE_BORDERLESS_WINDOWED (WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
-#define STYLE_NORMAL              (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
-#define STYLE_RESIZABLE           (WS_THICKFRAME | WS_MAXIMIZEBOX)
-#define STYLE_MASK                (STYLE_FULLSCREEN | STYLE_BORDERLESS | STYLE_NORMAL | STYLE_RESIZABLE)
+#परिभाषय STYLE_BASIC               (WS_CLIPSIBLINGS | WS_CLIPCHILDREN)
+#परिभाषय STYLE_FULLSCREEN          (WS_POPUP | WS_MINIMIZEBOX)
+#परिभाषय STYLE_BORDERLESS          (WS_POPUP | WS_MINIMIZEBOX)
+#परिभाषय STYLE_BORDERLESS_WINDOWED (WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
+#परिभाषय STYLE_प्रसामान्यम्              (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
+#परिभाषय STYLE_RESIZABLE           (WS_THICKFRAME | WS_MAXIMIZEBOX)
+#परिभाषय STYLE_आवरणम्                (STYLE_FULLSCREEN | STYLE_BORDERLESS | STYLE_प्रसामान्यम् | STYLE_RESIZABLE)
 
-static DWORD GetWindowStyle(SDL_Window *window)
+स्थिर DWORD Get_गवाक्षः_Style(SDL_गवाक्षः *गवाक्षः)
 {
     DWORD style = 0;
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    यदि (SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
         style |= WS_POPUP;
-    } else if (window->flags & SDL_WINDOW_FULLSCREEN) {
+    } अन्यथा यदि (गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) {
         style |= STYLE_FULLSCREEN;
-    } else {
-        if (window->flags & SDL_WINDOW_BORDERLESS) {
+    } अन्यथा {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_BORDERLESS) {
             /* This behavior more closely matches other platform where the window is borderless
                but still interacts with the window manager (e.g. task bar shows above it, it can
                be resized to fit within usable desktop area, etc.)
              */
-            if (SDL_GetHintBoolean("SDL_BORDERLESS_WINDOWED_STYLE", true)) {
+            यदि (SDL_GetHintBoolean("SDL_BORDERLESS_WINDOWED_STYLE", true)) {
                 style |= STYLE_BORDERLESS_WINDOWED;
-            } else {
+            } अन्यथा {
                 style |= STYLE_BORDERLESS;
             }
-        } else {
-            style |= STYLE_NORMAL;
+        } अन्यथा {
+            style |= STYLE_प्रसामान्यम्;
         }
 
         /* The WS_MAXIMIZEBOX style flag needs to be retained for as long as the window is maximized,
          * or restoration from minimized can fail, and leaving maximized can result in an odd size.
          */
-        if (window->flags & SDL_WINDOW_RESIZABLE) {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_RESIZABLE) {
             /* You can have a borderless resizable window, but Windows doesn't always draw it correctly,
                see https://bugzilla.libsdl.org/show_bug.cgi?id=4466
              */
-            if (!(window->flags & SDL_WINDOW_BORDERLESS) ||
+            यदि (!(गवाक्षः->flags & SDL_गवाक्षः_BORDERLESS) ||
                 SDL_GetHintBoolean("SDL_BORDERLESS_RESIZABLE_STYLE", true)) {
                 style |= STYLE_RESIZABLE;
             }
         }
 
-        if (window->internal && window->internal->force_ws_maximizebox) {
+        यदि (गवाक्षः->आन्तरिकम् && गवाक्षः->आन्तरिकम्->force_ws_maximizebox) {
             /* Even if the resizable flag is cleared, WS_MAXIMIZEBOX is still needed as long
              * as the window is maximized, or de-maximizing or minimizing and restoring the
              * maximized window can result in the window disappearing or being the wrong size.
@@ -121,644 +121,644 @@ static DWORD GetWindowStyle(SDL_Window *window)
         }
 
         // Need to set initialize minimize style, or when we call ShowWindow with WS_MINIMIZE it will activate a random window
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_MINIMIZED) {
             style |= WS_MINIMIZE;
         }
     }
-    return style;
+    प्रत्यागम style;
 }
 
-static DWORD GetWindowStyleEx(SDL_Window *window)
+स्थिर DWORD Get_गवाक्षः_Style_Ex(SDL_गवाक्षः *गवाक्षः)
 {
     DWORD style = 0;
 
-    if (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_UTILITY)) {
+    यदि (SDL_गवाक्षः_IS_POPUP(गवाक्षः) || (गवाक्षः->flags & SDL_गवाक्षः_UTILITY)) {
         style |= WS_EX_TOOLWINDOW;
     }
-    if (SDL_WINDOW_IS_POPUP(window) || (window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
+    यदि (SDL_गवाक्षः_IS_POPUP(गवाक्षः) || (गवाक्षः->flags & SDL_गवाक्षः_NOT_FOCUSABLE)) {
         style |= WS_EX_NOACTIVATE;
     }
-    return style;
+    प्रत्यागम style;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-static ITaskbarList3 *GetTaskbarList(SDL_Window *window)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+स्थिर ITaskbarList3 *GetTaskbarList(SDL_गवाक्षः *गवाक्षः)
 {
-    const SDL_WindowData *data = window->internal;
-    SDL_assert(data->taskbar_button_created);
-    if (!data->videodata->taskbar_list) {
-        HRESULT ret = CoCreateInstance(&CLSID_TaskbarList, NULL, CLSCTX_ALL, &IID_ITaskbarList3, (LPVOID *)&data->videodata->taskbar_list);
-        if (FAILED(ret)) {
-            WIN_SetErrorFromHRESULT("Unable to create taskbar list", ret);
-            return NULL;
+    ध्रुव SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    SDL_assert(दत्त->taskbar_button_created);
+    यदि (!दत्त->videodata->taskbar_list) {
+        HRESULT ret = CoCreateInstance(&CLSID_TaskbarList, रिक्त, CLSCTX_ALL, &IID_ITaskbarList3, (LPVOID *)&दत्त->videodata->taskbar_list);
+        यदि (FAILED(ret)) {
+            WIN_समुच्चयः_Error_From_HRESULT("Unable to create taskbar list", ret);
+            प्रत्यागम रिक्त;
         }
-        ITaskbarList3 *taskbarlist = data->videodata->taskbar_list;
+        ITaskbarList3 *taskbarlist = दत्त->videodata->taskbar_list;
         ret = taskbarlist->lpVtbl->HrInit(taskbarlist);
-        if (FAILED(ret)) {
+        यदि (FAILED(ret)) {
             taskbarlist->lpVtbl->Release(taskbarlist);
-            data->videodata->taskbar_list = NULL;
-            WIN_SetErrorFromHRESULT("Unable to initialize taskbar list", ret);
-            return NULL;
+            दत्त->videodata->taskbar_list = रिक्त;
+            WIN_समुच्चयः_Error_From_HRESULT("Unable to initialize taskbar list", ret);
+            प्रत्यागम रिक्त;
         }
     }
-    return data->videodata->taskbar_list;
+    प्रत्यागम दत्त->videodata->taskbar_list;
 }
-#endif
+#यदि_अन्तः
 
 /**
  * Returns arguments to pass to SetWindowPos - the window rect, including frame, in Windows coordinates.
  * Can be called before we have a HWND.
  */
-static bool WIN_AdjustWindowRectWithStyle(SDL_Window *window, DWORD style, DWORD styleEx, BOOL menu, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type)
+स्थिर bool WIN_Adjust_गवाक्षः_Rect_With_Style(SDL_गवाक्षः *गवाक्षः, DWORD style, DWORD styleEx, BOOL menu, पूर्णाङ्क *x, पूर्णाङ्क *y, पूर्णाङ्क *विस्तारः, पूर्णाङ्क *height, SDL_गवाक्षः_Rect rect_type)
 {
-    SDL_VideoData *videodata = SDL_GetVideoDevice() ? SDL_GetVideoDevice()->internal : NULL;
+    SDL_Video_दत्त *videodata = SDL_GetVideoDevice() ? SDL_GetVideoDevice()->आन्तरिकम् : रिक्त;
     RECT rect;
 
     // Client rect, in points
-    switch (rect_type) {
-    case SDL_WINDOWRECT_CURRENT:
-        SDL_RelativeToGlobalForWindow(window, window->x, window->y, x, y);
-        *width = window->w;
-        *height = window->h;
-        break;
-    case SDL_WINDOWRECT_WINDOWED:
-        SDL_RelativeToGlobalForWindow(window, window->windowed.x, window->windowed.y, x, y);
-        *width = window->windowed.w;
-        *height = window->windowed.h;
-        break;
-    case SDL_WINDOWRECT_FLOATING:
-        SDL_RelativeToGlobalForWindow(window, window->floating.x, window->floating.y, x, y);
-        *width = window->floating.w;
-        *height = window->floating.h;
-        break;
-    case SDL_WINDOWRECT_PENDING:
-        SDL_RelativeToGlobalForWindow(window, window->pending.x, window->pending.y, x, y);
-        *width = window->pending.w;
-        *height = window->pending.h;
-        break;
-    default:
+    विकल्प (rect_type) {
+    पक्ष SDL_WINDOWRECT_CURRENT:
+        SDL_Relative_गन्तव्यम्_Global_For_गवाक्षः(गवाक्षः, गवाक्षः->x, गवाक्षः->y, x, y);
+        *विस्तारः = गवाक्षः->w;
+        *height = गवाक्षः->h;
+        भङ्ग;
+    पक्ष SDL_WINDOWRECT_WINDOWED:
+        SDL_Relative_गन्तव्यम्_Global_For_गवाक्षः(गवाक्षः, गवाक्षः->windowed.x, गवाक्षः->windowed.y, x, y);
+        *विस्तारः = गवाक्षः->windowed.w;
+        *height = गवाक्षः->windowed.h;
+        भङ्ग;
+    पक्ष SDL_WINDOWRECT_FLOATING:
+        SDL_Relative_गन्तव्यम्_Global_For_गवाक्षः(गवाक्षः, गवाक्षः->floating.x, गवाक्षः->floating.y, x, y);
+        *विस्तारः = गवाक्षः->floating.w;
+        *height = गवाक्षः->floating.h;
+        भङ्ग;
+    पक्ष SDL_WINDOWRECT_PENDING:
+        SDL_Relative_गन्तव्यम्_Global_For_गवाक्षः(गवाक्षः, गवाक्षः->pending.x, गवाक्षः->pending.y, x, y);
+        *विस्तारः = गवाक्षः->pending.w;
+        *height = गवाक्षः->pending.h;
+        भङ्ग;
+    स्वभाव:
         // Should never be here
         SDL_assert_release(false);
-        *width = 0;
+        *विस्तारः = 0;
         *height = 0;
-        break;
+        भङ्ग;
     }
 
     /* Copy the client size in pixels into this rect structure,
        which we'll then adjust with AdjustWindowRectEx */
-    rect.left = 0;
-    rect.top = 0;
-    rect.right = *width;
+    rect.वामः = 0;
+    rect.शिखरम् = 0;
+    rect.दक्षिणः = *विस्तारः;
     rect.bottom = *height;
 
     /* borderless windows will have WM_NCCALCSIZE return 0 for the non-client area. When this happens, it looks like windows will send a resize message
        expanding the window client area to the previous window + chrome size, so shouldn't need to adjust the window size for the set styles.
      */
-    if (!(window->flags & SDL_WINDOW_BORDERLESS) && !SDL_WINDOW_IS_POPUP(window)) {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-        AdjustWindowRectEx(&rect, style, menu, 0);
-#else
-        if (WIN_IsPerMonitorV2DPIAware(SDL_GetVideoDevice())) {
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_BORDERLESS) && !SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+        Adjust_गवाक्षः_Rect_Ex(&rect, style, menu, 0);
+#अन्यथा
+        यदि (WIN_Is_प्रत्येकम्_Monitor_V2_DPIAware(SDL_GetVideoDevice())) {
             /* With per-monitor v2, the window border/titlebar size depend on the DPI, so we need to call AdjustWindowRectExForDpi instead of
                AdjustWindowRectEx. */
-            if (videodata) {
+            यदि (videodata) {
                 UINT frame_dpi;
-                SDL_WindowData *data = window->internal;
-                frame_dpi = (data && videodata->GetDpiForWindow) ? videodata->GetDpiForWindow(data->hwnd) : USER_DEFAULT_SCREEN_DPI;
-                if (videodata->AdjustWindowRectExForDpi(&rect, style, menu, styleEx, frame_dpi) == 0) {
-                    return WIN_SetError("AdjustWindowRectExForDpi()");
+                SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+                frame_dpi = (दत्त && videodata->Get_Dpi_For_गवाक्षः) ? videodata->Get_Dpi_For_गवाक्षः(दत्त->hwnd) : USER_DEFAULT_SCREEN_DPI;
+                यदि (videodata->Adjust_गवाक्षः_Rect_Ex_For_Dpi(&rect, style, menu, styleEx, frame_dpi) == 0) {
+                    प्रत्यागम WIN_समुच्चयः_Error("AdjustWindowRectExForDpi()");
                 }
             }
-        } else {
-            if (AdjustWindowRectEx(&rect, style, menu, styleEx) == 0) {
-                return WIN_SetError("AdjustWindowRectEx()");
+        } अन्यथा {
+            यदि (Adjust_गवाक्षः_Rect_Ex(&rect, style, menu, styleEx) == 0) {
+                प्रत्यागम WIN_समुच्चयः_Error("AdjustWindowRectEx()");
             }
         }
-#endif
+#यदि_अन्तः
     }
 
     // Final rect in Windows screen space, including the frame
-    *x += rect.left;
-    *y += rect.top;
-    *width = (rect.right - rect.left);
-    *height = (rect.bottom - rect.top);
+    *x += rect.वामः;
+    *y += rect.शिखरम्;
+    *विस्तारः = (rect.दक्षिणः - rect.वामः);
+    *height = (rect.bottom - rect.शिखरम्);
 
-#ifdef HIGHDPI_DEBUG
+#यदि_परिभाषितम् HIGHDPI_DEBUG
     SDL_Log("WIN_AdjustWindowRectWithStyle: in: %d, %d, %dx%d, returning: %d, %d, %dx%d, used dpi %d for frame calculation",
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.x : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.x : window->x),
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.y : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.y : window->y),
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.w : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.w : window->w),
-            (rect_type == SDL_WINDOWRECT_FLOATING ? window->floating.h : rect_type == SDL_WINDOWRECT_WINDOWED ? window->windowed.h : window->h),
-            *x, *y, *width, *height, frame_dpi);
-#endif
-    return true;
+            (rect_type == SDL_WINDOWRECT_FLOATING ? गवाक्षः->floating.x : rect_type == SDL_WINDOWRECT_WINDOWED ? गवाक्षः->windowed.x : गवाक्षः->x),
+            (rect_type == SDL_WINDOWRECT_FLOATING ? गवाक्षः->floating.y : rect_type == SDL_WINDOWRECT_WINDOWED ? गवाक्षः->windowed.y : गवाक्षः->y),
+            (rect_type == SDL_WINDOWRECT_FLOATING ? गवाक्षः->floating.w : rect_type == SDL_WINDOWRECT_WINDOWED ? गवाक्षः->windowed.w : गवाक्षः->w),
+            (rect_type == SDL_WINDOWRECT_FLOATING ? गवाक्षः->floating.h : rect_type == SDL_WINDOWRECT_WINDOWED ? गवाक्षः->windowed.h : गवाक्षः->h),
+            *x, *y, *विस्तारः, *height, frame_dpi);
+#यदि_अन्तः
+    प्रत्यागम true;
 }
 
-bool WIN_AdjustWindowRect(SDL_Window *window, int *x, int *y, int *width, int *height, SDL_WindowRect rect_type)
+bool WIN_Adjust_गवाक्षः_Rect(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *x, पूर्णाङ्क *y, पूर्णाङ्क *विस्तारः, पूर्णाङ्क *height, SDL_गवाक्षः_Rect rect_type)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
     DWORD style, styleEx;
     BOOL menu;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    style = Get_गवाक्षः_Long(hwnd, GWL_STYLE);
+    styleEx = Get_गवाक्षः_Long(hwnd, GWL_EXSTYLE);
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     menu = FALSE;
-#else
-    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
-#endif
-    return WIN_AdjustWindowRectWithStyle(window, style, styleEx, menu, x, y, width, height, rect_type);
+#अन्यथा
+    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != रिक्त);
+#यदि_अन्तः
+    प्रत्यागम WIN_Adjust_गवाक्षः_Rect_With_Style(गवाक्षः, style, styleEx, menu, x, y, विस्तारः, height, rect_type);
 }
 
-bool WIN_AdjustWindowRectForHWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi)
+bool WIN_Adjust_गवाक्षः_Rect_For_HWND(HWND hwnd, LPRECT lpRect, UINT frame_dpi)
 {
     SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
-    SDL_VideoData *videodata = videodevice ? videodevice->internal : NULL;
+    SDL_Video_दत्त *videodata = videodevice ? videodevice->आन्तरिकम् : रिक्त;
     DWORD style, styleEx;
     BOOL menu;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    style = Get_गवाक्षः_Long(hwnd, GWL_STYLE);
+    styleEx = Get_गवाक्षः_Long(hwnd, GWL_EXSTYLE);
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
     menu = FALSE;
-#else
-    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
-#endif
+#अन्यथा
+    menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != रिक्त);
+#यदि_अन्तः
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    AdjustWindowRectEx(lpRect, style, menu, styleEx);
-#else
-    if (WIN_IsPerMonitorV2DPIAware(videodevice)) {
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    Adjust_गवाक्षः_Rect_Ex(lpRect, style, menu, styleEx);
+#अन्यथा
+    यदि (WIN_Is_प्रत्येकम्_Monitor_V2_DPIAware(videodevice)) {
         // With per-monitor v2, the window border/titlebar size depend on the DPI, so we need to call AdjustWindowRectExForDpi instead of AdjustWindowRectEx.
-        if (!frame_dpi) {
-            frame_dpi = videodata->GetDpiForWindow ? videodata->GetDpiForWindow(hwnd) : USER_DEFAULT_SCREEN_DPI;
+        यदि (!frame_dpi) {
+            frame_dpi = videodata->Get_Dpi_For_गवाक्षः ? videodata->Get_Dpi_For_गवाक्षः(hwnd) : USER_DEFAULT_SCREEN_DPI;
         }
-        if (!videodata->AdjustWindowRectExForDpi(lpRect, style, menu, styleEx, frame_dpi)) {
-            return WIN_SetError("AdjustWindowRectExForDpi()");
+        यदि (!videodata->Adjust_गवाक्षः_Rect_Ex_For_Dpi(lpRect, style, menu, styleEx, frame_dpi)) {
+            प्रत्यागम WIN_समुच्चयः_Error("AdjustWindowRectExForDpi()");
         }
-    } else {
-        if (!AdjustWindowRectEx(lpRect, style, menu, styleEx)) {
-            return WIN_SetError("AdjustWindowRectEx()");
+    } अन्यथा {
+        यदि (!Adjust_गवाक्षः_Rect_Ex(lpRect, style, menu, styleEx)) {
+            प्रत्यागम WIN_समुच्चयः_Error("AdjustWindowRectEx()");
         }
     }
-#endif
-    return true;
+#यदि_अन्तः
+    प्रत्यागम true;
 }
 
-bool WIN_SetWindowPositionInternal(SDL_Window *window, UINT flags, SDL_WindowRect rect_type)
+bool WIN_समुच्चयः_गवाक्षः_Position_आन्तरिकम्(SDL_गवाक्षः *गवाक्षः, UINT flags, SDL_गवाक्षः_Rect rect_type)
 {
-    SDL_Window *child_window;
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    HWND top;
-    int x, y;
-    int w, h;
-    bool result = true;
+    SDL_गवाक्षः *child_गवाक्षः;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
+    HWND शिखरम्;
+    पूर्णाङ्क x, y;
+    पूर्णाङ्क w, h;
+    bool परिणाम = true;
 
     // Figure out what the window area will be
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
-    } else {
-        top = HWND_NOTOPMOST;
+    यदि (SDL_ShouldAllowTopmost() && (गवाक्षः->flags & SDL_गवाक्षः_ALWAYS_ON_शिखरम्)) {
+        शिखरम् = HWND_TOPMOST;
+    } अन्यथा {
+        शिखरम् = HWND_NOTOPMOST;
     }
 
-    WIN_AdjustWindowRect(window, &x, &y, &w, &h, rect_type);
+    WIN_Adjust_गवाक्षः_Rect(गवाक्षः, &x, &y, &w, &h, rect_type);
 
-    data->expected_resize = !(flags & SWP_NOSIZE);
-    if (SetWindowPos(hwnd, top, x, y, w, h, flags) == 0) {
-        result = WIN_SetError("SetWindowPos()");
+    दत्त->expected_resize = !(flags & SWP_NOSIZE);
+    यदि (समुच्चयः_गवाक्षः_Pos(hwnd, शिखरम्, x, y, w, h, flags) == 0) {
+        परिणाम = WIN_समुच्चयः_Error("SetWindowPos()");
     }
-    data->expected_resize = false;
+    दत्त->expected_resize = false;
 
     // Update any child windows
-    for (child_window = window->first_child; child_window; child_window = child_window->next_sibling) {
-        if (!child_window->internal) {
+    प्रति (child_गवाक्षः = गवाक्षः->first_child; child_गवाक्षः; child_गवाक्षः = child_गवाक्षः->अग्र_sibling) {
+        यदि (!child_गवाक्षः->आन्तरिकम्) {
             // This child window is not yet fully initialized.
-            continue;
+            अनुवर्त;
         }
-        if (!WIN_SetWindowPositionInternal(child_window, flags, SDL_WINDOWRECT_CURRENT)) {
-            result = false;
+        यदि (!WIN_समुच्चयः_गवाक्षः_Position_आन्तरिकम्(child_गवाक्षः, flags, SDL_WINDOWRECT_CURRENT)) {
+            परिणाम = false;
         }
     }
-    return result;
+    प्रत्यागम परिणाम;
 }
 
-static SDL_WindowEraseBackgroundMode GetEraseBackgroundModeHint(void)
+स्थिर SDL_गवाक्षः_Erase_Background_बहुलकम् Get_Erase_Background_बहुलकम्_Hint(शून्य)
 {
-    const char *hint = SDL_GetHint(SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE);
-    if (!hint)
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+    ध्रुव वर्ण *hint = SDL_GetHint(SDL_HINT_WINDOWS_ERASE_BACKGROUND_बहुलकम्);
+    यदि (!hint)
+        प्रत्यागम SDL_ERASEBACKGROUNDMODE_INITIAL;
 
-    if (SDL_strstr(hint, "never"))
-        return SDL_ERASEBACKGROUNDMODE_NEVER;
+    यदि (SDL_strstr(hint, "never"))
+        प्रत्यागम SDL_ERASEBACKGROUNDMODE_NEVER;
 
-    if (SDL_strstr(hint, "initial"))
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+    यदि (SDL_strstr(hint, "initial"))
+        प्रत्यागम SDL_ERASEBACKGROUNDMODE_INITIAL;
 
-    if (SDL_strstr(hint, "always"))
-        return SDL_ERASEBACKGROUNDMODE_ALWAYS;
+    यदि (SDL_strstr(hint, "always"))
+        प्रत्यागम SDL_ERASEBACKGROUNDMODE_ALWAYS;
 
-    int mode = SDL_GetStringInteger(hint, 1);
-    if (mode < 0 || mode > 2) {
+    पूर्णाङ्क बहुलकम् = SDL_GetStringInteger(hint, 1);
+    यदि (बहुलकम् < 0 || बहुलकम् > 2) {
         SDL_Log("GetEraseBackgroundModeHint: invalid value for SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE. Fallback to default");
-        return SDL_ERASEBACKGROUNDMODE_INITIAL;
+        प्रत्यागम SDL_ERASEBACKGROUNDMODE_INITIAL;
     }
 
-    return (SDL_WindowEraseBackgroundMode)mode;
+    प्रत्यागम (SDL_गवाक्षः_Erase_Background_बहुलकम्)बहुलकम्;
 }
 
-static bool SetupWindowData(SDL_VideoDevice *_this, SDL_Window *window, HWND hwnd, HWND parent)
+स्थिर bool सज्जता_गवाक्षः_दत्त(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, HWND hwnd, HWND parent)
 {
-    SDL_VideoData *videodata = _this->internal;
-    SDL_WindowData *data;
+    SDL_Video_दत्त *videodata = _this->आन्तरिकम्;
+    SDL_गवाक्षः_दत्त *दत्त;
 
     // Allocate the window data
-    data = (SDL_WindowData *)SDL_calloc(1, sizeof(*data));
-    if (!data) {
-        return false;
+    दत्त = (SDL_गवाक्षः_दत्त *)SDL_calloc(1, परिमाण(*दत्त));
+    यदि (!दत्त) {
+        प्रत्यागम false;
     }
-    data->window = window;
-    data->hwnd = hwnd;
-    data->parent = parent;
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    data->hdc = (HDC)data->hwnd;
-#else
-    data->hdc = GetDC(hwnd);
-#endif
-    data->hinstance = (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE);
-    data->mouse_button_flags = (WPARAM)-1;
-    data->last_pointer_update = (LPARAM)-1;
-    data->videodata = videodata;
-    data->initializing = true;
-    data->hint_erase_background_mode = GetEraseBackgroundModeHint();
+    दत्त->गवाक्षः = गवाक्षः;
+    दत्त->hwnd = hwnd;
+    दत्त->parent = parent;
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    दत्त->hdc = (HDC)दत्त->hwnd;
+#अन्यथा
+    दत्त->hdc = GetDC(hwnd);
+#यदि_अन्तः
+    दत्त->hinstance = (HINSTANCE)Get_गवाक्षः_Long_Ptr(hwnd, GWLP_HINSTANCE);
+    दत्त->mouse_button_flags = (WPARAM)-1;
+    दत्त->चरमः_pointer_update = (LPARAM)-1;
+    दत्त->videodata = videodata;
+    दत्त->initializing = true;
+    दत्त->hint_erase_background_बहुलकम् = Get_Erase_Background_बहुलकम्_Hint();
 
 
     // WIN_WarpCursor() jitters by +1, and remote desktop warp wobble is +/- 1
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     LONG remote_desktop_adjustment = GetSystemMetrics(SM_REMOTESESSION) ? 2 : 0;
-    data->cursor_ctrlock_rect.left   = 0 - remote_desktop_adjustment;
-    data->cursor_ctrlock_rect.top    = 0;
-    data->cursor_ctrlock_rect.right  = 1 + remote_desktop_adjustment;
-    data->cursor_ctrlock_rect.bottom = 1;
-#endif
+    दत्त->cursor_ctrlock_rect.वामः   = 0 - remote_desktop_adjustment;
+    दत्त->cursor_ctrlock_rect.शिखरम्    = 0;
+    दत्त->cursor_ctrlock_rect.दक्षिणः  = 1 + remote_desktop_adjustment;
+    दत्त->cursor_ctrlock_rect.bottom = 1;
+#यदि_अन्तः
 
-    if (SDL_GetHintBoolean("SDL_WINDOW_RETAIN_CONTENT", false)) {
-        data->copybits_flag = 0;
-    } else {
-        data->copybits_flag = SWP_NOCOPYBITS;
+    यदि (SDL_GetHintBoolean("SDL_WINDOW_RETAIN_CONTENT", false)) {
+        दत्त->copybits_flag = 0;
+    } अन्यथा {
+        दत्त->copybits_flag = SWP_NOCOPYBITS;
     }
 
-#ifdef HIGHDPI_DEBUG
-    SDL_Log("SetupWindowData: initialized data->scaling_dpi to %d", data->scaling_dpi);
-#endif
+#यदि_परिभाषितम् HIGHDPI_DEBUG
+    SDL_Log("SetupWindowData: initialized data->scaling_dpi to %d", दत्त->scaling_dpi);
+#यदि_अन्तः
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Associate the data with the window
-    if (!SetProp(hwnd, TEXT("SDL_WindowData"), data)) {
-        ReleaseDC(hwnd, data->hdc);
-        SDL_free(data);
-        return WIN_SetError("SetProp() failed");
+    यदि (!समुच्चयः_Prop(hwnd, TEXT("SDL_WindowData"), दत्त)) {
+        ReleaseDC(hwnd, दत्त->hdc);
+        SDL_free(दत्त);
+        प्रत्यागम WIN_समुच्चयः_Error("SetProp() failed");
     }
-#endif
+#यदि_अन्तः
 
-    window->internal = data;
+    गवाक्षः->आन्तरिकम् = दत्त;
 
     // Set up the window proc function
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
-#ifdef GWLP_WNDPROC
-        data->wndproc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
-        if (data->wndproc != WIN_WindowProc) {
-            SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)WIN_WindowProc);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL) {
+#यदि_परिभाषितम् GWLP_WNDPROC
+        दत्त->wndproc = (WNDPROC)Get_गवाक्षः_Long_Ptr(hwnd, GWLP_WNDPROC);
+        यदि (दत्त->wndproc != WIN_गवाक्षः_Proc) {
+            समुच्चयः_गवाक्षः_Long_Ptr(hwnd, GWLP_WNDPROC, (LONG_PTR)WIN_गवाक्षः_Proc);
         }
-#else
-        data->wndproc = (WNDPROC)GetWindowLong(hwnd, GWL_WNDPROC);
-        if (data->wndproc != WIN_WindowProc) {
-            SetWindowLong(hwnd, GWL_WNDPROC, (LONG_PTR)WIN_WindowProc);
+#अन्यथा
+        दत्त->wndproc = (WNDPROC)Get_गवाक्षः_Long(hwnd, GWL_WNDPROC);
+        यदि (दत्त->wndproc != WIN_गवाक्षः_Proc) {
+            समुच्चयः_गवाक्षः_Long(hwnd, GWL_WNDPROC, (LONG_PTR)WIN_गवाक्षः_Proc);
         }
-#endif
-    } else {
+#यदि_अन्तः
+    } अन्यथा {
         // We set up our window proc function at window creation.
         // If someone has set hooks to modify it, leave it alone.
     }
 
     // Fill in the SDL window with the window state
     {
-        DWORD style = GetWindowLong(hwnd, GWL_STYLE);
-        if (style & WS_VISIBLE) {
-            window->flags &= ~SDL_WINDOW_HIDDEN;
-        } else {
-            window->flags |= SDL_WINDOW_HIDDEN;
+        DWORD style = Get_गवाक्षः_Long(hwnd, GWL_STYLE);
+        यदि (style & WS_VISIBLE) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_HIDDEN;
+        } अन्यथा {
+            गवाक्षः->flags |= SDL_गवाक्षः_HIDDEN;
         }
-        if (style & WS_POPUP) {
-            window->flags |= SDL_WINDOW_BORDERLESS;
-        } else {
-            window->flags &= ~SDL_WINDOW_BORDERLESS;
+        यदि (style & WS_POPUP) {
+            गवाक्षः->flags |= SDL_गवाक्षः_BORDERLESS;
+        } अन्यथा {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_BORDERLESS;
         }
-        if (style & WS_THICKFRAME) {
-            window->flags |= SDL_WINDOW_RESIZABLE;
-        } else if (!(style & WS_POPUP)) {
-            window->flags &= ~SDL_WINDOW_RESIZABLE;
+        यदि (style & WS_THICKFRAME) {
+            गवाक्षः->flags |= SDL_गवाक्षः_RESIZABLE;
+        } अन्यथा यदि (!(style & WS_POPUP)) {
+            गवाक्षः->flags &= ~SDL_गवाक्षः_RESIZABLE;
         }
-#ifdef WS_MAXIMIZE
-        if (style & WS_MAXIMIZE) {
-            window->flags |= SDL_WINDOW_MAXIMIZED;
-        } else
-#endif
+#यदि_परिभाषितम् WS_MAXIMIZE
+        यदि (style & WS_MAXIMIZE) {
+            गवाक्षः->flags |= SDL_गवाक्षः_MAXIMIZED;
+        } अन्यथा
+#यदि_अन्तः
         {
-            window->flags &= ~SDL_WINDOW_MAXIMIZED;
+            गवाक्षः->flags &= ~SDL_गवाक्षः_MAXIMIZED;
         }
-#ifdef WS_MINIMIZE
-        if (style & WS_MINIMIZE) {
-            window->flags |= SDL_WINDOW_MINIMIZED;
-        } else
-#endif
+#यदि_परिभाषितम् WS_MINIMIZE
+        यदि (style & WS_MINIMIZE) {
+            गवाक्षः->flags |= SDL_गवाक्षः_MINIMIZED;
+        } अन्यथा
+#यदि_अन्तः
         {
-            window->flags &= ~SDL_WINDOW_MINIMIZED;
+            गवाक्षः->flags &= ~SDL_गवाक्षः_MINIMIZED;
         }
     }
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_MINIMIZED)) {
         RECT rect;
-        if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-            int w = rect.right;
-            int h = rect.bottom;
+        यदि (GetClientRect(hwnd, &rect) && WIN_गवाक्षः_Rect_Valid(&rect)) {
+            पूर्णाङ्क w = rect.दक्षिणः;
+            पूर्णाङ्क h = rect.bottom;
 
-            if (window->flags & SDL_WINDOW_EXTERNAL) {
-                window->floating.w = window->windowed.w = window->w = w;
-                window->floating.h = window->windowed.h = window->h = h;
-            } else if ((window->windowed.w && window->windowed.w != w) || (window->windowed.h && window->windowed.h != h)) {
+            यदि (गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL) {
+                गवाक्षः->floating.w = गवाक्षः->windowed.w = गवाक्षः->w = w;
+                गवाक्षः->floating.h = गवाक्षः->windowed.h = गवाक्षः->h = h;
+            } अन्यथा यदि ((गवाक्षः->windowed.w && गवाक्षः->windowed.w != w) || (गवाक्षः->windowed.h && गवाक्षः->windowed.h != h)) {
                 // We tried to create a window larger than the desktop and Windows didn't allow it.  Override!
-                int x, y;
+                पूर्णाङ्क x, y;
                 // Figure out what the window area will be
-                WIN_AdjustWindowRect(window, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
-                data->expected_resize = true;
-                SetWindowPos(hwnd, NULL, x, y, w, h, data->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
-                data->expected_resize = false;
-            } else {
-                window->w = w;
-                window->h = h;
+                WIN_Adjust_गवाक्षः_Rect(गवाक्षः, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
+                दत्त->expected_resize = true;
+                समुच्चयः_गवाक्षः_Pos(hwnd, रिक्त, x, y, w, h, दत्त->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+                दत्त->expected_resize = false;
+            } अन्यथा {
+                गवाक्षः->w = w;
+                गवाक्षः->h = h;
             }
         }
     }
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (!(window->flags & SDL_WINDOW_MINIMIZED)) {
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_MINIMIZED)) {
         POINT point;
         point.x = 0;
         point.y = 0;
-        if (ClientToScreen(hwnd, &point)) {
-            if (window->flags & SDL_WINDOW_EXTERNAL) {
-                window->floating.x = window->windowed.x = point.x;
-                window->floating.y = window->windowed.y = point.y;
+        यदि (Client_गन्तव्यम्_Screen(hwnd, &point)) {
+            यदि (गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL) {
+                गवाक्षः->floating.x = गवाक्षः->windowed.x = point.x;
+                गवाक्षः->floating.y = गवाक्षः->windowed.y = point.y;
             }
-            window->x = point.x;
-            window->y = point.y;
+            गवाक्षः->x = point.x;
+            गवाक्षः->y = point.y;
         }
     }
 
-    WIN_UpdateWindowICCProfile(window, false);
-#endif
+    WIN_Update_गवाक्षः_ICCProfile(गवाक्षः, false);
+#यदि_अन्तः
 
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    window->flags |= SDL_WINDOW_INPUT_FOCUS;
-    SDL_SetKeyboardFocus(window);
-#else
-    if (GetFocus() == hwnd) {
-        window->flags |= SDL_WINDOW_INPUT_FOCUS;
-        SDL_SetKeyboardFocus(window);
-        WIN_UpdateClipCursor(window);
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    गवाक्षः->flags |= SDL_गवाक्षः_निवेशः_FOCUS;
+    SDL_समुच्चयः_Keyboard_Focus(गवाक्षः);
+#अन्यथा
+    यदि (GetFocus() == hwnd) {
+        गवाक्षः->flags |= SDL_गवाक्षः_निवेशः_FOCUS;
+        SDL_समुच्चयः_Keyboard_Focus(गवाक्षः);
+        WIN_UpdateClipCursor(गवाक्षः);
     }
-#endif
+#यदि_अन्तः
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        WIN_SetWindowAlwaysOnTop(_this, window, true);
-    } else {
-        WIN_SetWindowAlwaysOnTop(_this, window, false);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_ALWAYS_ON_शिखरम्) {
+        WIN_समुच्चयः_गवाक्षः_Always_On_शिखरम्(_this, गवाक्षः, true);
+    } अन्यथा {
+        WIN_समुच्चयः_गवाक्षः_Always_On_शिखरम्(_this, गवाक्षः, false);
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // Enable multi-touch
-    if (videodata->RegisterTouchWindow) {
-        videodata->RegisterTouchWindow(hwnd, (TWF_FINETOUCH | TWF_WANTPALM));
+    यदि (videodata->पञ्जिकाकोशः_Touch_गवाक्षः) {
+        videodata->पञ्जिकाकोशः_Touch_गवाक्षः(hwnd, (TWF_FINETOUCH | TWF_WANTPALM));
     }
-#endif
+#यदि_अन्तः
 
-    if (data->parent && !window->parent) {
-        data->destroy_parent_with_window = true;
+    यदि (दत्त->parent && !गवाक्षः->parent) {
+        दत्त->destroy_parent_with_गवाक्षः = true;
     }
 
-    data->initializing = false;
+    दत्त->initializing = false;
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    if (window->flags & SDL_WINDOW_EXTERNAL) {
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL) {
         // Query the title from the existing window
         LPTSTR title;
-        int titleLen;
+        पूर्णाङ्क titleLen;
         bool isstack;
 
-        titleLen = GetWindowTextLength(hwnd);
+        titleLen = Get_गवाक्षः_Text_दीर्घता(hwnd);
         title = SDL_small_alloc(TCHAR, titleLen + 1, &isstack);
-        if (title) {
-            titleLen = GetWindowText(hwnd, title, titleLen + 1);
-        } else {
+        यदि (title) {
+            titleLen = Get_गवाक्षः_Text(hwnd, title, titleLen + 1);
+        } अन्यथा {
             titleLen = 0;
         }
-        if (titleLen > 0) {
-            window->title = WIN_StringToUTF8(title);
+        यदि (titleLen > 0) {
+            गवाक्षः->title = WIN_String_गन्तव्यम्_UTF8(title);
         }
-        if (title) {
+        यदि (title) {
             SDL_small_free(title, isstack);
         }
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    SDL_PropertiesID props = SDL_GetWindowProperties(window);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WIN32_HWND_POINTER, data->hwnd);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WIN32_HDC_POINTER, data->hdc);
-    SDL_SetPointerProperty(props, SDL_PROP_WINDOW_WIN32_INSTANCE_POINTER, data->hinstance);
+    SDL_PropertiesID props = SDL_Get_गवाक्षः_Properties(गवाक्षः);
+    SDL_समुच्चयः_Pointer_Property(props, SDL_PROP_गवाक्षः_WIN32_HWND_POINTER, दत्त->hwnd);
+    SDL_समुच्चयः_Pointer_Property(props, SDL_PROP_गवाक्षः_WIN32_HDC_POINTER, दत्त->hdc);
+    SDL_समुच्चयः_Pointer_Property(props, SDL_PROP_गवाक्षः_WIN32_INSTANCE_POINTER, दत्त->hinstance);
 
     // All done!
-    return true;
+    प्रत्यागम true;
 }
 
-static void CleanupWindowData(SDL_VideoDevice *_this, SDL_Window *window)
+स्थिर शून्य Cleanup_गवाक्षः_दत्त(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
 
-    if (data) {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (data->drop_target) {
-            WIN_AcceptDragAndDrop(window, false);
+    यदि (दत्त) {
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        यदि (दत्त->drop_target) {
+            WIN_AcceptDragAndDrop(गवाक्षः, false);
         }
-        SDL_free(data->ICMFileName);
-        if (data->keyboard_hook) {
-            UnhookWindowsHookEx(data->keyboard_hook);
+        SDL_free(दत्त->ICMFileName);
+        यदि (दत्त->keyboard_hook) {
+            UnhookWindowsHookEx(दत्त->keyboard_hook);
         }
-        if (data->hicon) {
-            DestroyIcon(data->hicon);
+        यदि (दत्त->hicon) {
+            DestroyIcon(दत्त->hicon);
         }
-        ReleaseDC(data->hwnd, data->hdc);
-        RemoveProp(data->hwnd, TEXT("SDL_WindowData"));
-#endif
-        if (!(window->flags & SDL_WINDOW_EXTERNAL)) {
-            DestroyWindow(data->hwnd);
-            if (data->destroy_parent_with_window && data->parent) {
-                DestroyWindow(data->parent);
+        ReleaseDC(दत्त->hwnd, दत्त->hdc);
+        RemoveProp(दत्त->hwnd, TEXT("SDL_WindowData"));
+#यदि_अन्तः
+        यदि (!(गवाक्षः->flags & SDL_गवाक्षः_EXTERNAL)) {
+            Destroy_गवाक्षः(दत्त->hwnd);
+            यदि (दत्त->destroy_parent_with_गवाक्षः && दत्त->parent) {
+                Destroy_गवाक्षः(दत्त->parent);
             }
-        } else {
+        } अन्यथा {
             // Restore any original event handler...
-            if (data->wndproc) {
-#ifdef GWLP_WNDPROC
-                SetWindowLongPtr(data->hwnd, GWLP_WNDPROC,
-                                 (LONG_PTR)data->wndproc);
-#else
-                SetWindowLong(data->hwnd, GWL_WNDPROC,
-                              (LONG_PTR)data->wndproc);
-#endif
+            यदि (दत्त->wndproc) {
+#यदि_परिभाषितम् GWLP_WNDPROC
+                समुच्चयः_गवाक्षः_Long_Ptr(दत्त->hwnd, GWLP_WNDPROC,
+                                 (LONG_PTR)दत्त->wndproc);
+#अन्यथा
+                समुच्चयः_गवाक्षः_Long(दत्त->hwnd, GWL_WNDPROC,
+                              (LONG_PTR)दत्त->wndproc);
+#यदि_अन्तः
             }
         }
-        SDL_free(data);
+        SDL_free(दत्त);
     }
-    window->internal = NULL;
+    गवाक्षः->आन्तरिकम् = रिक्त;
 }
 
-static void WIN_ConstrainPopup(SDL_Window *window, bool output_to_pending)
+स्थिर शून्य WIN_ConstrainPopup(SDL_गवाक्षः *गवाक्षः, bool output_गन्तव्यम्_pending)
 {
     // Possibly clamp popup windows to the output borders
-    if (SDL_WINDOW_IS_POPUP(window)) {
-        SDL_Window *w;
+    यदि (SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
+        SDL_गवाक्षः *w;
         SDL_DisplayID displayID;
         SDL_Rect rect;
-        int abs_x = window->last_position_pending ? window->pending.x : window->floating.x;
-        int abs_y = window->last_position_pending ? window->pending.y : window->floating.y;
-        const int width = window->last_size_pending ? window->pending.w : window->floating.w;
-        const int height = window->last_size_pending ? window->pending.h : window->floating.h;
-        int offset_x = 0, offset_y = 0;
+        पूर्णाङ्क abs_x = गवाक्षः->चरमः_position_pending ? गवाक्षः->pending.x : गवाक्षः->floating.x;
+        पूर्णाङ्क abs_y = गवाक्षः->चरमः_position_pending ? गवाक्षः->pending.y : गवाक्षः->floating.y;
+        ध्रुव पूर्णाङ्क विस्तारः = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.w : गवाक्षः->floating.w;
+        ध्रुव पूर्णाङ्क height = गवाक्षः->चरमः_आकार_pending ? गवाक्षः->pending.h : गवाक्षः->floating.h;
+        पूर्णाङ्क विस्थापनम्_x = 0, विस्थापनम्_y = 0;
 
-        if (window->constrain_popup) {
+        यदि (गवाक्षः->constrain_popup) {
             // Calculate the total offset from the parents
-            for (w = window->parent; SDL_WINDOW_IS_POPUP(w); w = w->parent) {
-                offset_x += w->x;
-                offset_y += w->y;
+            प्रति (w = गवाक्षः->parent; SDL_गवाक्षः_IS_POPUP(w); w = w->parent) {
+                विस्थापनम्_x += w->x;
+                विस्थापनम्_y += w->y;
             }
 
-            offset_x += w->x;
-            offset_y += w->y;
-            abs_x += offset_x;
-            abs_y += offset_y;
+            विस्थापनम्_x += w->x;
+            विस्थापनम्_y += w->y;
+            abs_x += विस्थापनम्_x;
+            abs_y += विस्थापनम्_y;
 
             // Constrain the popup window to the display of the toplevel parent
-            displayID = SDL_GetDisplayForWindow(w);
+            displayID = SDL_Get_Display_For_गवाक्षः(w);
             SDL_GetDisplayBounds(displayID, &rect);
-            if (abs_x + width > rect.x + rect.w) {
-                abs_x -= (abs_x + width) - (rect.x + rect.w);
+            यदि (abs_x + विस्तारः > rect.x + rect.w) {
+                abs_x -= (abs_x + विस्तारः) - (rect.x + rect.w);
             }
-            if (abs_y + height > rect.y + rect.h) {
+            यदि (abs_y + height > rect.y + rect.h) {
                 abs_y -= (abs_y + height) - (rect.y + rect.h);
             }
             abs_x = SDL_max(abs_x, rect.x);
             abs_y = SDL_max(abs_y, rect.y);
         }
 
-        if (output_to_pending) {
-            window->pending.x = abs_x - offset_x;
-            window->pending.y = abs_y - offset_y;
-            window->pending.w = width;
-            window->pending.h = height;
-        } else {
-            window->floating.x = abs_x - offset_x;
-            window->floating.y = abs_y - offset_y;
-            window->floating.w = width;
-            window->floating.h = height;
+        यदि (output_गन्तव्यम्_pending) {
+            गवाक्षः->pending.x = abs_x - विस्थापनम्_x;
+            गवाक्षः->pending.y = abs_y - विस्थापनम्_y;
+            गवाक्षः->pending.w = विस्तारः;
+            गवाक्षः->pending.h = height;
+        } अन्यथा {
+            गवाक्षः->floating.x = abs_x - विस्थापनम्_x;
+            गवाक्षः->floating.y = abs_y - विस्थापनम्_y;
+            गवाक्षः->floating.w = विस्तारः;
+            गवाक्षः->floating.h = height;
         }
     }
 }
 
-static void WIN_SetKeyboardFocus(SDL_Window *window, bool set_active_focus)
+स्थिर शून्य WIN_समुच्चयः_Keyboard_Focus(SDL_गवाक्षः *गवाक्षः, bool समुच्चयः_सक्रिय_focus)
 {
-    SDL_Window *toplevel = window;
+    SDL_गवाक्षः *toplevel = गवाक्षः;
 
     // Find the topmost parent
-    while (SDL_WINDOW_IS_POPUP(toplevel)) {
+    यावत् (SDL_गवाक्षः_IS_POPUP(toplevel)) {
         toplevel = toplevel->parent;
     }
 
-    toplevel->keyboard_focus = window;
+    toplevel->keyboard_focus = गवाक्षः;
 
-    if (set_active_focus && !window->is_hiding && !window->is_destroying) {
-        SDL_SetKeyboardFocus(window);
+    यदि (समुच्चयः_सक्रिय_focus && !गवाक्षः->is_hiding && !गवाक्षः->is_destroying) {
+        SDL_समुच्चयः_Keyboard_Focus(गवाक्षः);
     }
 }
 
-bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props)
+bool WIN_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props)
 {
-    SDL_VideoData *videodata = _this->internal;
-    HWND hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_HWND_POINTER, SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", NULL));
-    HWND parent = NULL;
-    if (hwnd) {
-        window->flags |= SDL_WINDOW_EXTERNAL;
+    SDL_Video_दत्त *videodata = _this->आन्तरिकम्;
+    HWND hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_गवाक्षः_CREATE_WIN32_HWND_POINTER, SDL_GetPointerProperty(create_props, "sdl2-compat.external_window", रिक्त));
+    HWND parent = रिक्त;
+    यदि (hwnd) {
+        गवाक्षः->flags |= SDL_गवाक्षः_EXTERNAL;
 
-        if (!SetupWindowData(_this, window, hwnd, parent)) {
-            return false;
+        यदि (!सज्जता_गवाक्षः_दत्त(_this, गवाक्षः, hwnd, parent)) {
+            प्रत्यागम false;
         }
-    } else {
+    } अन्यथा {
         DWORD style = STYLE_BASIC;
         DWORD styleEx = 0;
-        int x, y;
-        int w, h;
+        पूर्णाङ्क x, y;
+        पूर्णाङ्क w, h;
 
-        if (window->flags & SDL_WINDOW_UTILITY) {
-            parent = CreateWindow(SDL_Appname, TEXT(""), STYLE_BASIC, 0, 0, 32, 32, NULL, NULL, SDL_Instance, NULL);
-        } else if (window->parent) {
-            parent = window->parent->internal->hwnd;
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_UTILITY) {
+            parent = Create_गवाक्षः(SDL_Appname, TEXT(""), STYLE_BASIC, 0, 0, 32, 32, रिक्त, रिक्त, SDL_Instance, रिक्त);
+        } अन्यथा यदि (गवाक्षः->parent) {
+            parent = गवाक्षः->parent->आन्तरिकम्->hwnd;
         }
 
-        style |= GetWindowStyle(window);
-        styleEx |= (DWORD)SDL_GetNumberProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_STYLE_EX_NUMBER, GetWindowStyleEx(window));
+        style |= Get_गवाक्षः_Style(गवाक्षः);
+        styleEx |= (DWORD)SDL_Get_सङ्ख्या_Property(create_props, SDL_PROP_गवाक्षः_CREATE_WIN32_STYLE_EX_सङ्ख्या, Get_गवाक्षः_Style_Ex(गवाक्षः));
 
         // Figure out what the window area will be
-        WIN_ConstrainPopup(window, false);
-        WIN_AdjustWindowRectWithStyle(window, style, styleEx, FALSE, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
+        WIN_ConstrainPopup(गवाक्षः, false);
+        WIN_Adjust_गवाक्षः_Rect_With_Style(गवाक्षः, style, styleEx, FALSE, &x, &y, &w, &h, SDL_WINDOWRECT_FLOATING);
 
-        hwnd = CreateWindowEx(styleEx, SDL_Appname, TEXT(""), style,
-                              x, y, w, h, parent, NULL, SDL_Instance, NULL);
-        if (!hwnd) {
-            return WIN_SetError("Couldn't create window");
+        hwnd = Create_गवाक्षः_Ex(styleEx, SDL_Appname, TEXT(""), style,
+                              x, y, w, h, parent, रिक्त, SDL_Instance, रिक्त);
+        यदि (!hwnd) {
+            प्रत्यागम WIN_समुच्चयः_Error("Couldn't create window");
         }
 
-        WIN_UpdateDarkModeForHWND(hwnd);
+        WIN_Update_Dark_बहुलकम्_For_HWND(hwnd);
 
         WIN_PumpEventsForHWND(_this, hwnd);
 
-        if (!SetupWindowData(_this, window, hwnd, parent)) {
-            DestroyWindow(hwnd);
-            if (parent) {
-                DestroyWindow(parent);
+        यदि (!सज्जता_गवाक्षः_दत्त(_this, गवाक्षः, hwnd, parent)) {
+            Destroy_गवाक्षः(hwnd);
+            यदि (parent) {
+                Destroy_गवाक्षः(parent);
             }
-            return false;
+            प्रत्यागम false;
         }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
         // Ensure that the IME isn't active on the new window until explicitly requested.
-        WIN_StopTextInput(_this, window);
-#endif
+        WIN_Stop_Text_निवेशः(_this, गवाक्षः);
+#यदि_अन्तः
 
         // Inform Windows of the frame change so we can respond to WM_NCCALCSIZE
-        SetWindowPos(hwnd, NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+        समुच्चयः_गवाक्षः_Pos(hwnd, रिक्त, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
 
-        if (window->flags & SDL_WINDOW_MINIMIZED) {
+        यदि (गवाक्षः->flags & SDL_गवाक्षः_MINIMIZED) {
             /* TODO: We have to clear SDL_WINDOW_HIDDEN here to ensure the window flags match the window state. The
                window is already shown after this and windows with WS_MINIMIZE do not generate a WM_SHOWWINDOW. This
                means you can't currently create a window that is initially hidden and is minimized when shown.
             */
-            window->flags &= ~SDL_WINDOW_HIDDEN;
-            ShowWindow(hwnd, SW_SHOWMINNOACTIVE);
+            गवाक्षः->flags &= ~SDL_गवाक्षः_HIDDEN;
+            Show_गवाक्षः(hwnd, SW_SHOWMINNOACTIVE);
         }
     }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     // FIXME: does not work on all hardware configurations with different renders (i.e. hybrid GPUs)
-    if (window->flags & SDL_WINDOW_TRANSPARENT) {
-        if (videodata->DwmEnableBlurBehindWindow) {
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_TRANSPARENT) {
+        यदि (videodata->Dwm_Enable_Blur_Behind_गवाक्षः) {
             /* The region indicates which part of the window will be blurred and rest will be transparent. This
                is because the alpha value of the window will be used for non-blurred areas
                We can use (-1, -1, 0, 0) boundary to make sure no pixels are being blurred
@@ -769,332 +769,332 @@ bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
             bb.enable = TRUE;
             bb.blur_region = rgn;
             bb.transition_on_maxed = FALSE;
-            videodata->DwmEnableBlurBehindWindow(hwnd, &bb);
+            videodata->Dwm_Enable_Blur_Behind_गवाक्षः(hwnd, &bb);
             DeleteObject(rgn);
         }
     }
 
-    HWND share_hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_WINDOW_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER, NULL);
-    if (share_hwnd) {
+    HWND share_hwnd = (HWND)SDL_GetPointerProperty(create_props, SDL_PROP_गवाक्षः_CREATE_WIN32_PIXEL_FORMAT_HWND_POINTER, रिक्त);
+    यदि (share_hwnd) {
         HDC hdc = GetDC(share_hwnd);
-        int pixel_format = GetPixelFormat(hdc);
+        पूर्णाङ्क pixel_format = GetPixelFormat(hdc);
         PIXELFORMATDESCRIPTOR pfd;
 
         SDL_zero(pfd);
-        DescribePixelFormat(hdc, pixel_format, sizeof(pfd), &pfd);
+        DescribePixelFormat(hdc, pixel_format, परिमाण(pfd), &pfd);
         ReleaseDC(share_hwnd, hdc);
 
-        if (!SetPixelFormat(window->internal->hdc, pixel_format, &pfd)) {
-            WIN_DestroyWindow(_this, window);
-            return WIN_SetError("SetPixelFormat()");
+        यदि (!समुच्चयः_Pixel_Format(गवाक्षः->आन्तरिकम्->hdc, pixel_format, &pfd)) {
+            WIN_Destroy_गवाक्षः(_this, गवाक्षः);
+            प्रत्यागम WIN_समुच्चयः_Error("SetPixelFormat()");
         }
-    } else {
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-        if (!(window->flags & SDL_WINDOW_OPENGL)) {
-            return true;
+    } अन्यथा {
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+        यदि (!(गवाक्षः->flags & SDL_गवाक्षः_OPENGL)) {
+            प्रत्यागम true;
         }
 
         // The rest of this macro mess is for OpenGL or OpenGL ES windows
-#ifdef SDL_VIDEO_OPENGL_ES2
-        if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES ||
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_ES2
+        यदि ((_this->gl_config.profile_आवरणम् == SDL_GL_CONTEXT_PROFILE_ES ||
              SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false))
-#ifdef SDL_VIDEO_OPENGL_WGL
-             && (!_this->gl_data || WIN_GL_UseEGL(_this))
-#endif // SDL_VIDEO_OPENGL_WGL
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_WGL
+             && (!_this->gl_दत्त || WIN_GL_UseEGL(_this))
+#यदि_अन्तः // SDL_VIDEO_OPENGL_WGL
         ) {
-#ifdef SDL_VIDEO_OPENGL_EGL
-            if (!WIN_GLES_SetupWindow(_this, window)) {
-                WIN_DestroyWindow(_this, window);
-                return false;
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
+            यदि (!WIN_GLES_सज्जता_गवाक्षः(_this, गवाक्षः)) {
+                WIN_Destroy_गवाक्षः(_this, गवाक्षः);
+                प्रत्यागम false;
             }
-            return true;
-#else
-            return SDL_SetError("Could not create GLES window surface (EGL support not configured)");
-#endif // SDL_VIDEO_OPENGL_EGL
+            प्रत्यागम true;
+#अन्यथा
+            प्रत्यागम SDL_समुच्चयः_Error("Could not create GLES window surface (EGL support not configured)");
+#यदि_अन्तः // SDL_VIDEO_OPENGL_EGL
         }
-#endif // SDL_VIDEO_OPENGL_ES2
+#यदि_अन्तः // SDL_VIDEO_OPENGL_ES2
 
-#ifdef SDL_VIDEO_OPENGL_WGL
-        if (!WIN_GL_SetupWindow(_this, window)) {
-            WIN_DestroyWindow(_this, window);
-            return false;
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_WGL
+        यदि (!WIN_GL_सज्जता_गवाक्षः(_this, गवाक्षः)) {
+            WIN_Destroy_गवाक्षः(_this, गवाक्षः);
+            प्रत्यागम false;
         }
-#else
-        return SDL_SetError("Could not create GL window (WGL support not configured)");
-#endif
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#अन्यथा
+        प्रत्यागम SDL_समुच्चयः_Error("Could not create GL window (WGL support not configured)");
+#यदि_अन्तः
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return true;
+    प्रत्यागम true;
 }
 
-void WIN_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_समुच्चयः_गवाक्षः_Title(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    HWND hwnd = window->internal->hwnd;
-    LPTSTR title = WIN_UTF8ToString(window->title);
-    SetWindowText(hwnd, title);
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    HWND hwnd = गवाक्षः->आन्तरिकम्->hwnd;
+    LPTSTR title = WIN_UTF8_गन्तव्यम्_String(गवाक्षः->title);
+    समुच्चयः_गवाक्षः_Text(hwnd, title);
     SDL_free(title);
-#endif
+#यदि_अन्तः
 }
 
-bool WIN_SetWindowIcon(SDL_VideoDevice *_this, SDL_Window *window, SDL_Surface *icon)
+bool WIN_समुच्चयः_गवाक्षः_Icon(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_Surface *icon)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    HICON hicon = NULL;
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
+    HICON hicon = रिक्त;
     BYTE *icon_bmp;
-    int icon_len, mask_len, row_len, y;
+    पूर्णाङ्क icon_len, आवरणम्_len, row_len, y;
     BITMAPINFOHEADER *bmi;
     Uint8 *dst;
     bool isstack;
-    bool result = true;
+    bool परिणाम = true;
 
     // Create temporary buffer for ICONIMAGE structure
-    SDL_COMPILE_TIME_ASSERT(WIN_SetWindowIcon_uses_BITMAPINFOHEADER_to_prepare_an_ICONIMAGE, sizeof(BITMAPINFOHEADER) == 40);
-    mask_len = (icon->h * (icon->w + 7) / 8);
-    icon_len = sizeof(BITMAPINFOHEADER) + icon->h * icon->w * sizeof(Uint32) + mask_len;
+    SDL_COMPILE_TIME_ASSERT(WIN_समुच्चयः_गवाक्षः_Icon_उपयुङ्क्ते_BITMAPINFOHEADER_गन्तव्यम्_prepare_an_ICONIMAGE, परिमाण(BITMAPINFOHEADER) == 40);
+    आवरणम्_len = (icon->h * (icon->w + 7) / 8);
+    icon_len = परिमाण(BITMAPINFOHEADER) + icon->h * icon->w * परिमाण(Uint32) + आवरणम्_len;
     icon_bmp = SDL_small_alloc(BYTE, icon_len, &isstack);
-    if (!icon_bmp) {
-        return false;
+    यदि (!icon_bmp) {
+        प्रत्यागम false;
     }
 
     // Write the BITMAPINFO header
     bmi = (BITMAPINFOHEADER *)icon_bmp;
-    bmi->biSize = SDL_Swap32LE(sizeof(BITMAPINFOHEADER));
-    bmi->biWidth = SDL_Swap32LE(icon->w);
+    bmi->bi_आकार = SDL_Swap32LE(परिमाण(BITMAPINFOHEADER));
+    bmi->bi_विस्तारः = SDL_Swap32LE(icon->w);
     bmi->biHeight = SDL_Swap32LE(icon->h * 2);
     bmi->biPlanes = SDL_Swap16LE(1);
-    bmi->biBitCount = SDL_Swap16LE(32);
+    bmi->bi_Bit_गणनम् = SDL_Swap16LE(32);
     bmi->biCompression = SDL_Swap32LE(BI_RGB);
-    bmi->biSizeImage = SDL_Swap32LE(icon->h * icon->w * sizeof(Uint32));
-    bmi->biXPelsPerMeter = SDL_Swap32LE(0);
-    bmi->biYPelsPerMeter = SDL_Swap32LE(0);
-    bmi->biClrUsed = SDL_Swap32LE(0);
+    bmi->bi_आकार_Image = SDL_Swap32LE(icon->h * icon->w * परिमाण(Uint32));
+    bmi->bi_XPels_प्रत्येकम्_Meter = SDL_Swap32LE(0);
+    bmi->bi_YPels_प्रत्येकम्_Meter = SDL_Swap32LE(0);
+    bmi->bi_Clr_प्रयुक्तम् = SDL_Swap32LE(0);
     bmi->biClrImportant = SDL_Swap32LE(0);
 
     // Write the pixels upside down into the bitmap buffer
     SDL_assert(icon->format == SDL_PIXELFORMAT_ARGB8888);
-    dst = &icon_bmp[sizeof(BITMAPINFOHEADER)];
-    row_len = icon->w * sizeof(Uint32);
+    dst = &icon_bmp[परिमाण(BITMAPINFOHEADER)];
+    row_len = icon->w * परिमाण(Uint32);
     y = icon->h;
-    while (y--) {
+    यावत् (y--) {
         Uint8 *src = (Uint8 *)icon->pixels + y * icon->pitch;
         SDL_memcpy(dst, src, row_len);
         dst += row_len;
     }
 
     // Write the mask
-    SDL_memset(icon_bmp + icon_len - mask_len, 0xFF, mask_len);
+    SDL_memset(icon_bmp + icon_len - आवरणम्_len, 0xFF, आवरणम्_len);
 
     hicon = CreateIconFromResource(icon_bmp, icon_len, TRUE, 0x00030000);
 
     SDL_small_free(icon_bmp, isstack);
 
-    if (!hicon) {
-        return SDL_SetError("SetWindowIcon() failed, error %08X", (unsigned int)GetLastError());
+    यदि (!hicon) {
+        प्रत्यागम SDL_समुच्चयः_Error("SetWindowIcon() failed, error %08X", (अचिह्नित पूर्णाङ्क)Get_चरमः_Error());
     }
 
-    if (data->hicon) {
-        DestroyIcon(data->hicon);
+    यदि (दत्त->hicon) {
+        DestroyIcon(दत्त->hicon);
     }
-    data->hicon = hicon;
+    दत्त->hicon = hicon;
 
     // Set the icon for the window
-    SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hicon);
+    Send_सन्देशः(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hicon);
 
     // Set the icon in the task manager (should we do this?)
-    SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hicon);
-    return result;
-#else
-    return SDL_Unsupported();
-#endif
+    Send_सन्देशः(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hicon);
+    प्रत्यागम परिणाम;
+#अन्यथा
+    प्रत्यागम SDL_Unsupported();
+#यदि_अन्तः
 }
 
-bool WIN_SetWindowPosition(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_समुच्चयः_गवाक्षः_Position(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
     /* HighDPI support: removed SWP_NOSIZE. If the move results in a DPI change, we need to allow
      * the window to resize (e.g. AdjustWindowRectExForDpi frame sizes are different).
      */
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (!(window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED))) {
-            WIN_ConstrainPopup(window, true);
-            return WIN_SetWindowPositionInternal(window,
-                                                 window->internal->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE |
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN)) {
+        यदि (!(गवाक्षः->flags & (SDL_गवाक्षः_MAXIMIZED | SDL_गवाक्षः_MINIMIZED))) {
+            WIN_ConstrainPopup(गवाक्षः, true);
+            प्रत्यागम WIN_समुच्चयः_गवाक्षः_Position_आन्तरिकम्(गवाक्षः,
+                                                 गवाक्षः->आन्तरिकम्->copybits_flag | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOSIZE |
                                                  SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
         }
-    } else {
-        return SDL_UpdateFullscreenMode(window, SDL_FULLSCREEN_OP_ENTER, true);
+    } अन्यथा {
+        प्रत्यागम SDL_Update_Fullscreen_बहुलकम्(गवाक्षः, SDL_FULLSCREEN_OP_ENTER, true);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-void WIN_SetWindowSize(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_समुच्चयः_गवाक्षः_आकार(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED))) {
-        WIN_SetWindowPositionInternal(window, window->internal->copybits_flag | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
-    } else {
+    यदि (!(गवाक्षः->flags & (SDL_गवाक्षः_FULLSCREEN | SDL_गवाक्षः_MAXIMIZED))) {
+        WIN_समुच्चयः_गवाक्षः_Position_आन्तरिकम्(गवाक्षः, गवाक्षः->आन्तरिकम्->copybits_flag | SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_PENDING);
+    } अन्यथा {
         // Can't resize the window
-        window->last_size_pending = false;
+        गवाक्षः->चरमः_आकार_pending = false;
     }
 }
 
-bool WIN_GetWindowBordersSize(SDL_VideoDevice *_this, SDL_Window *window, int *top, int *left, int *bottom, int *right)
+bool WIN_Get_गवाक्षः_Borders_आकार(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *शिखरम्, पूर्णाङ्क *वामः, पूर्णाङ्क *bottom, पूर्णाङ्क *दक्षिणः)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    HWND hwnd = window->internal->hwnd;
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    HWND hwnd = गवाक्षः->आन्तरिकम्->hwnd;
     RECT rcClient;
 
     /* rcClient stores the size of the inner window, while rcWindow stores the outer size relative to the top-left
      * screen position; so the top/left values of rcClient are always {0,0} and bottom/right are {height,width} */
     GetClientRect(hwnd, &rcClient);
 
-    *top = rcClient.top;
-    *left = rcClient.left;
+    *शिखरम् = rcClient.शिखरम्;
+    *वामः = rcClient.वामः;
     *bottom = rcClient.bottom;
-    *right = rcClient.right;
+    *दक्षिणः = rcClient.दक्षिणः;
 
-    return true;
-#else  // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    HWND hwnd = window->internal->hwnd;
-    RECT rcClient, rcWindow;
+    प्रत्यागम true;
+#अन्यथा  // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    HWND hwnd = गवाक्षः->आन्तरिकम्->hwnd;
+    RECT rcClient, rc_गवाक्षः;
     POINT ptDiff;
 
     /* rcClient stores the size of the inner window, while rcWindow stores the outer size relative to the top-left
      * screen position; so the top/left values of rcClient are always {0,0} and bottom/right are {height,width} */
-    if (!GetClientRect(hwnd, &rcClient)) {
-        return SDL_SetError("GetClientRect() failed, error %08X", (unsigned int)GetLastError());
+    यदि (!GetClientRect(hwnd, &rcClient)) {
+        प्रत्यागम SDL_समुच्चयः_Error("GetClientRect() failed, error %08X", (अचिह्नित पूर्णाङ्क)Get_चरमः_Error());
     }
 
-    if (!GetWindowRect(hwnd, &rcWindow)) {
-        return SDL_SetError("GetWindowRect() failed, error %08X", (unsigned int)GetLastError());
+    यदि (!Get_गवाक्षः_Rect(hwnd, &rc_गवाक्षः)) {
+        प्रत्यागम SDL_समुच्चयः_Error("GetWindowRect() failed, error %08X", (अचिह्नित पूर्णाङ्क)Get_चरमः_Error());
     }
 
     /* convert the top/left values to make them relative to
      * the window; they will end up being slightly negative */
-    ptDiff.y = rcWindow.top;
-    ptDiff.x = rcWindow.left;
+    ptDiff.y = rc_गवाक्षः.शिखरम्;
+    ptDiff.x = rc_गवाक्षः.वामः;
 
-    if (!ScreenToClient(hwnd, &ptDiff)) {
-        return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
+    यदि (!Screen_गन्तव्यम्_Client(hwnd, &ptDiff)) {
+        प्रत्यागम SDL_समुच्चयः_Error("ScreenToClient() failed, error %08X", (अचिह्नित पूर्णाङ्क)Get_चरमः_Error());
     }
 
-    rcWindow.top = ptDiff.y;
-    rcWindow.left = ptDiff.x;
+    rc_गवाक्षः.शिखरम् = ptDiff.y;
+    rc_गवाक्षः.वामः = ptDiff.x;
 
     /* convert the bottom/right values to make them relative to the window,
      * these will be slightly bigger than the inner width/height */
-    ptDiff.y = rcWindow.bottom;
-    ptDiff.x = rcWindow.right;
+    ptDiff.y = rc_गवाक्षः.bottom;
+    ptDiff.x = rc_गवाक्षः.दक्षिणः;
 
-    if (!ScreenToClient(hwnd, &ptDiff)) {
-        return SDL_SetError("ScreenToClient() failed, error %08X", (unsigned int)GetLastError());
+    यदि (!Screen_गन्तव्यम्_Client(hwnd, &ptDiff)) {
+        प्रत्यागम SDL_समुच्चयः_Error("ScreenToClient() failed, error %08X", (अचिह्नित पूर्णाङ्क)Get_चरमः_Error());
     }
 
-    rcWindow.bottom = ptDiff.y;
-    rcWindow.right = ptDiff.x;
+    rc_गवाक्षः.bottom = ptDiff.y;
+    rc_गवाक्षः.दक्षिणः = ptDiff.x;
 
     /* Now that both the inner and outer rects use the same coordinate system we can subtract them to get the border size.
      * Keep in mind that the top/left coordinates of rcWindow are negative because the border lies slightly before {0,0},
      * so switch them around because SDL3 wants them in positive. */
-    *top = rcClient.top - rcWindow.top;
-    *left = rcClient.left - rcWindow.left;
-    *bottom = rcWindow.bottom - rcClient.bottom;
-    *right = rcWindow.right - rcClient.right;
+    *शिखरम् = rcClient.शिखरम् - rc_गवाक्षः.शिखरम्;
+    *वामः = rcClient.वामः - rc_गवाक्षः.वामः;
+    *bottom = rc_गवाक्षः.bottom - rcClient.bottom;
+    *दक्षिणः = rc_गवाक्षः.दक्षिणः - rcClient.दक्षिणः;
 
-    return true;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    प्रत्यागम true;
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-void WIN_GetWindowSizeInPixels(SDL_VideoDevice *_this, SDL_Window *window, int *w, int *h)
+शून्य WIN_Get_गवाक्षः_आकार_अन्तर्_Pixels(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क *w, पूर्णाङ्क *h)
 {
-    const SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    ध्रुव SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
     RECT rect;
 
-    if (GetClientRect(hwnd, &rect) && WIN_WindowRectValid(&rect)) {
-        *w = rect.right;
+    यदि (GetClientRect(hwnd, &rect) && WIN_गवाक्षः_Rect_Valid(&rect)) {
+        *w = rect.दक्षिणः;
         *h = rect.bottom;
-    } else if (window->last_pixel_w && window->last_pixel_h) {
-        *w = window->last_pixel_w;
-        *h = window->last_pixel_h;
-    } else {
+    } अन्यथा यदि (गवाक्षः->चरमः_pixel_w && गवाक्षः->चरमः_pixel_h) {
+        *w = गवाक्षः->चरमः_pixel_w;
+        *h = गवाक्षः->चरमः_pixel_h;
+    } अन्यथा {
         // Probably created minimized, use the restored size
-        *w = window->floating.w;
-        *h = window->floating.h;
+        *w = गवाक्षः->floating.w;
+        *h = गवाक्षः->floating.h;
     }
 }
 
-void WIN_ShowWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_Show_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
     DWORD style;
 
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_SHOWN, true);
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_गवाक्षः_ACTIVATE_WHEN_SHOWN, true);
 
-    if (SDL_WINDOW_IS_POPUP(window)) {
+    यदि (SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
         // Update our position in case our parent moved while we were hidden
-        WIN_SetWindowPosition(_this, window);
+        WIN_समुच्चयः_गवाक्षः_Position(_this, गवाक्षः);
     }
 
     // If the window isn't borderless and will be fullscreen, use the borderless style to hide the initial borders.
-    if (window->pending_flags & SDL_WINDOW_FULLSCREEN) {
-        if (!(window->flags & SDL_WINDOW_BORDERLESS)) {
-            window->flags |= SDL_WINDOW_BORDERLESS;
-            style = GetWindowLong(hwnd, GWL_STYLE);
-            style &= ~STYLE_MASK;
-            style |= GetWindowStyle(window);
-            SetWindowLong(hwnd, GWL_STYLE, style);
-            window->flags &= ~SDL_WINDOW_BORDERLESS;
+    यदि (गवाक्षः->pending_flags & SDL_गवाक्षः_FULLSCREEN) {
+        यदि (!(गवाक्षः->flags & SDL_गवाक्षः_BORDERLESS)) {
+            गवाक्षः->flags |= SDL_गवाक्षः_BORDERLESS;
+            style = Get_गवाक्षः_Long(hwnd, GWL_STYLE);
+            style &= ~STYLE_आवरणम्;
+            style |= Get_गवाक्षः_Style(गवाक्षः);
+            समुच्चयः_गवाक्षः_Long(hwnd, GWL_STYLE, style);
+            गवाक्षः->flags &= ~SDL_गवाक्षः_BORDERLESS;
         }
     }
-    style = GetWindowLong(hwnd, GWL_EXSTYLE);
-    if (style & WS_EX_NOACTIVATE) {
+    style = Get_गवाक्षः_Long(hwnd, GWL_EXSTYLE);
+    यदि (style & WS_EX_NOACTIVATE) {
         bActivate = false;
     }
 
-    data->showing_window = true;
-    if (bActivate) {
-        ShowWindow(hwnd, SW_SHOW);
-    } else {
+    दत्त->showing_गवाक्षः = true;
+    यदि (bActivate) {
+        Show_गवाक्षः(hwnd, SW_SHOW);
+    } अन्यथा {
         // Use SetWindowPos instead of ShowWindow to avoid activating the parent window if this is a child window
-        SetWindowPos(hwnd, NULL, 0, 0, 0, 0, window->internal->copybits_flag | SWP_SHOWWINDOW | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
+        समुच्चयः_गवाक्षः_Pos(hwnd, रिक्त, 0, 0, 0, 0, गवाक्षः->आन्तरिकम्->copybits_flag | SWP_SHOWWINDOW | SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOOWNERZORDER);
     }
-    data->showing_window = false;
+    दत्त->showing_गवाक्षः = false;
 
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE) && bActivate) {
-        WIN_SetKeyboardFocus(window, true);
+    यदि ((गवाक्षः->flags & SDL_गवाक्षः_POPUP_MENU) && !(गवाक्षः->flags & SDL_गवाक्षः_NOT_FOCUSABLE) && bActivate) {
+        WIN_समुच्चयः_Keyboard_Focus(गवाक्षः, true);
     }
-    if (window->flags & SDL_WINDOW_MODAL) {
-        WIN_SetWindowModal(_this, window, true);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_MODAL) {
+        WIN_समुच्चयः_गवाक्षः_Modal(_this, गवाक्षः, true);
     }
 }
 
-void WIN_HideWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_Hide_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    HWND hwnd = window->internal->hwnd;
+    HWND hwnd = गवाक्षः->आन्तरिकम्->hwnd;
 
-    if (window->flags & SDL_WINDOW_MODAL) {
-        WIN_SetWindowModal(_this, window, false);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_MODAL) {
+        WIN_समुच्चयः_गवाक्षः_Modal(_this, गवाक्षः, false);
     }
 
-    ShowWindow(hwnd, SW_HIDE);
+    Show_गवाक्षः(hwnd, SW_HIDE);
 
     // Transfer keyboard focus back to the parent from a grabbing popup.
-    if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-        SDL_Window *new_focus;
-        const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-        WIN_SetKeyboardFocus(new_focus, set_focus);
+    यदि ((गवाक्षः->flags & SDL_गवाक्षः_POPUP_MENU) && !(गवाक्षः->flags & SDL_गवाक्षः_NOT_FOCUSABLE)) {
+        SDL_गवाक्षः *new_focus;
+        ध्रुव bool समुच्चयः_focus = SDL_ShouldRelinquishPopupFocus(गवाक्षः, &new_focus);
+        WIN_समुच्चयः_Keyboard_Focus(new_focus, समुच्चयः_focus);
     }
 }
 
-void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_Raise_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     /* If desired, raise the window more forcefully.
      * Technique taken from http://stackoverflow.com/questions/916259/ .
      * Specifically, http://stackoverflow.com/a/34414846 .
@@ -1104,211 +1104,211 @@ void WIN_RaiseWindow(SDL_VideoDevice *_this, SDL_Window *window)
      * for "security" reasons. Apparently, the following song-and-dance gets
      * around their objections. */
     bool bForce = SDL_GetHintBoolean(SDL_HINT_FORCE_RAISEWINDOW, false);
-    bool bActivate = SDL_GetHintBoolean(SDL_HINT_WINDOW_ACTIVATE_WHEN_RAISED, true);
+    bool bActivate = SDL_GetHintBoolean(SDL_HINT_गवाक्षः_ACTIVATE_WHEN_RAISED, true);
 
-    HWND hCurWnd = NULL;
+    HWND hCurWnd = रिक्त;
     DWORD dwMyID = 0u;
     DWORD dwCurID = 0u;
 
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    if (bForce) {
-        hCurWnd = GetForegroundWindow();
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
+    यदि (bForce) {
+        hCurWnd = Get_Foreground_गवाक्षः();
         dwMyID = GetCurrentThreadId();
-        dwCurID = GetWindowThreadProcessId(hCurWnd, NULL);
-        ShowWindow(hwnd, SW_RESTORE);
-        AttachThreadInput(dwCurID, dwMyID, TRUE);
-        SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-        if (!SDL_ShouldAllowTopmost() || !(window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-            SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+        dwCurID = Get_गवाक्षः_Thread_Process_Id(hCurWnd, रिक्त);
+        Show_गवाक्षः(hwnd, SW_RESTORE);
+        Attach_Thread_निवेशः(dwCurID, dwMyID, TRUE);
+        समुच्चयः_गवाक्षः_Pos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+        यदि (!SDL_ShouldAllowTopmost() || !(गवाक्षः->flags & SDL_गवाक्षः_ALWAYS_ON_शिखरम्)) {
+            समुच्चयः_गवाक्षः_Pos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
         }
     }
-    if (bActivate) {
-        SetForegroundWindow(hwnd);
-        if ((window->flags & SDL_WINDOW_POPUP_MENU) && !(window->flags & SDL_WINDOW_NOT_FOCUSABLE)) {
-            WIN_SetKeyboardFocus(window, window->parent == SDL_GetKeyboardFocus());
+    यदि (bActivate) {
+        समुच्चयः_Foreground_गवाक्षः(hwnd);
+        यदि ((गवाक्षः->flags & SDL_गवाक्षः_POPUP_MENU) && !(गवाक्षः->flags & SDL_गवाक्षः_NOT_FOCUSABLE)) {
+            WIN_समुच्चयः_Keyboard_Focus(गवाक्षः, गवाक्षः->parent == SDL_GetKeyboardFocus());
         }
-    } else {
-        SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, data->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+    } अन्यथा {
+        समुच्चयः_गवाक्षः_Pos(hwnd, HWND_शिखरम्, 0, 0, 0, 0, दत्त->copybits_flag | SWP_NOMOVE | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
     }
-    if (bForce) {
-        AttachThreadInput(dwCurID, dwMyID, FALSE);
-        SetFocus(hwnd);
-        SetActiveWindow(hwnd);
+    यदि (bForce) {
+        Attach_Thread_निवेशः(dwCurID, dwMyID, FALSE);
+        समुच्चयः_Focus(hwnd);
+        समुच्चयः_सक्रिय_गवाक्षः(hwnd);
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-void WIN_MaximizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_Maximize_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
 
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        HWND hwnd = data->hwnd;
-        data->expected_resize = true;
-        ShowWindow(hwnd, SW_MAXIMIZE);
-        data->expected_resize = false;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN)) {
+        HWND hwnd = दत्त->hwnd;
+        दत्त->expected_resize = true;
+        Show_गवाक्षः(hwnd, SW_MAXIMIZE);
+        दत्त->expected_resize = false;
 
         /* Clamp the maximized window size to the max window size.
          * This is automatic if maximizing from the window controls.
          */
-        if (window->max_w || window->max_h) {
-            int fx, fy, fw, fh;
+        यदि (गवाक्षः->max_w || गवाक्षः->max_h) {
+            पूर्णाङ्क fx, fy, fw, fh;
 
-            window->windowed.w = window->max_w ? SDL_min(window->w, window->max_w) : window->windowed.w;
-            window->windowed.h = window->max_h ? SDL_min(window->h, window->max_h) : window->windowed.h;
-            WIN_AdjustWindowRect(window, &fx, &fy, &fw, &fh, SDL_WINDOWRECT_WINDOWED);
+            गवाक्षः->windowed.w = गवाक्षः->max_w ? SDL_min(गवाक्षः->w, गवाक्षः->max_w) : गवाक्षः->windowed.w;
+            गवाक्षः->windowed.h = गवाक्षः->max_h ? SDL_min(गवाक्षः->h, गवाक्षः->max_h) : गवाक्षः->windowed.h;
+            WIN_Adjust_गवाक्षः_Rect(गवाक्षः, &fx, &fy, &fw, &fh, SDL_WINDOWRECT_WINDOWED);
 
-            data->expected_resize = true;
-            SetWindowPos(hwnd, HWND_TOP, fx, fy, fw, fh, data->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
-            data->expected_resize = false;
+            दत्त->expected_resize = true;
+            समुच्चयः_गवाक्षः_Pos(hwnd, HWND_शिखरम्, fx, fy, fw, fh, दत्त->copybits_flag | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOACTIVATE);
+            दत्त->expected_resize = false;
         }
-    } else {
-        data->windowed_mode_was_maximized = true;
+    } अन्यथा {
+        दत्त->windowed_बहुलकम्_was_maximized = true;
     }
 }
 
-void WIN_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_Minimize_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    HWND hwnd = window->internal->hwnd;
-    ShowWindow(hwnd, SW_MINIMIZE);
+    HWND hwnd = गवाक्षः->आन्तरिकम्->hwnd;
+    Show_गवाक्षः(hwnd, SW_MINIMIZE);
 }
 
-void WIN_SetWindowBordered(SDL_VideoDevice *_this, SDL_Window *window, bool bordered)
+शून्य WIN_समुच्चयः_गवाक्षः_Bordered(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool bordered)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
     DWORD style;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    style &= ~STYLE_MASK;
-    style |= GetWindowStyle(window);
+    style = Get_गवाक्षः_Long(hwnd, GWL_STYLE);
+    style &= ~STYLE_आवरणम्;
+    style |= Get_गवाक्षः_Style(गवाक्षः);
 
-    data->in_border_change = true;
-    SetWindowLong(hwnd, GWL_STYLE, style);
-    WIN_SetWindowPositionInternal(window, data->copybits_flag | SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
-    data->in_border_change = false;
+    दत्त->अन्तर्_border_change = true;
+    समुच्चयः_गवाक्षः_Long(hwnd, GWL_STYLE, style);
+    WIN_समुच्चयः_गवाक्षः_Position_आन्तरिकम्(गवाक्षः, दत्त->copybits_flag | SWP_FRAMECHANGED | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
+    दत्त->अन्तर्_border_change = false;
 }
 
-void WIN_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable)
+शून्य WIN_समुच्चयः_गवाक्षः_Resizable(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool resizable)
 {
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
     DWORD style;
 
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    style &= ~STYLE_MASK;
-    style |= GetWindowStyle(window);
+    style = Get_गवाक्षः_Long(hwnd, GWL_STYLE);
+    style &= ~STYLE_आवरणम्;
+    style |= Get_गवाक्षः_Style(गवाक्षः);
 
-    SetWindowLong(hwnd, GWL_STYLE, style);
+    समुच्चयः_गवाक्षः_Long(hwnd, GWL_STYLE, style);
 }
 
-void WIN_SetWindowAlwaysOnTop(SDL_VideoDevice *_this, SDL_Window *window, bool on_top)
+शून्य WIN_समुच्चयः_गवाक्षः_Always_On_शिखरम्(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool on_शिखरम्)
 {
-    WIN_SetWindowPositionInternal(window, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER, SDL_WINDOWRECT_CURRENT);
+    WIN_समुच्चयः_गवाक्षः_Position_आन्तरिकम्(गवाक्षः, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOOWNERZORDER, SDL_WINDOWRECT_CURRENT);
 }
 
-void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_Restore_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN)) {
-        if (!data->showing_window || window->flags & (SDL_WINDOW_MAXIMIZED | SDL_WINDOW_MINIMIZED)) {
-            HWND hwnd = data->hwnd;
-            data->expected_resize = true;
-            ShowWindow(hwnd, SW_RESTORE);
-            data->expected_resize = false;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN)) {
+        यदि (!दत्त->showing_गवाक्षः || गवाक्षः->flags & (SDL_गवाक्षः_MAXIMIZED | SDL_गवाक्षः_MINIMIZED)) {
+            HWND hwnd = दत्त->hwnd;
+            दत्त->expected_resize = true;
+            Show_गवाक्षः(hwnd, SW_RESTORE);
+            दत्त->expected_resize = false;
         }
-    } else {
-        data->windowed_mode_was_maximized = false;
+    } अन्यथा {
+        दत्त->windowed_बहुलकम्_was_maximized = false;
     }
 }
 
-static void WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_WINDOW_CORNER_PREFERENCE cornerPref)
+स्थिर शून्य WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_गवाक्षः_CORNER_PREFERENCE cornerPref)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *videodata = _this->internal;
-    if (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
-        videodata->DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, &cornerPref, sizeof(cornerPref));
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_दत्त *videodata = _this->आन्तरिकम्;
+    यदि (videodata->Dwm_समुच्चयः_गवाक्षः_Attribute && WIN_IsWindows11OrGreater()) {
+        videodata->Dwm_समुच्चयः_गवाक्षः_Attribute(hwnd, DWMWA_गवाक्षः_CORNER_PREFERENCE, &cornerPref, परिमाण(cornerPref));
     }
-#endif
+#यदि_अन्तः
 }
 
-static void WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLORREF colorRef)
+स्थिर शून्य WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLORREF colorRef)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_VideoData *videodata = _this->internal;
-    if (videodata->DwmSetWindowAttribute && WIN_IsWindows11OrGreater()) {
-        videodata->DwmSetWindowAttribute(hwnd, DWMWA_BORDER_COLOR, &colorRef, sizeof(colorRef));
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Video_दत्त *videodata = _this->आन्तरिकम्;
+    यदि (videodata->Dwm_समुच्चयः_गवाक्षः_Attribute && WIN_IsWindows11OrGreater()) {
+        videodata->Dwm_समुच्चयः_गवाक्षः_Attribute(hwnd, DWMWA_BORDER_COLOR, &colorRef, परिमाण(colorRef));
     }
-#endif
+#यदि_अन्तः
 }
 
 /**
  * Reconfigures the window to fill the given display, if fullscreen is true, otherwise restores the window.
  */
-SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
+SDL_Fullscreen_परिणाम WIN_समुच्चयः_गवाक्षः_Fullscreen(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_DisplayData *displaydata = display->internal;
-    SDL_WindowData *data = window->internal;
-    HWND hwnd = data ? data->hwnd : NULL;
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_Display_दत्त *displaydata = display->आन्तरिकम्;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त ? दत्त->hwnd : रिक्त;
     MONITORINFO minfo;
     DWORD style, styleEx;
-    HWND top;
-    int x, y;
-    int w, h;
+    HWND शिखरम्;
+    पूर्णाङ्क x, y;
+    पूर्णाङ्क w, h;
     bool enterMaximized = false;
 
-#ifdef HIGHDPI_DEBUG
-    SDL_Log("WIN_SetWindowFullscreen: %d", (int)fullscreen);
-#endif
+#यदि_परिभाषितम् HIGHDPI_DEBUG
+    SDL_Log("WIN_SetWindowFullscreen: %d", (पूर्णाङ्क)fullscreen);
+#यदि_अन्तः
 
     /* Early out if already not in fullscreen, or the styling on
      * external windows may end up being overridden.
      */
-    if (!(window->flags & SDL_WINDOW_FULLSCREEN) && !fullscreen) {
-        return SDL_FULLSCREEN_SUCCEEDED;
+    यदि (!(गवाक्षः->flags & SDL_गवाक्षः_FULLSCREEN) && !fullscreen) {
+        प्रत्यागम SDL_FULLSCREEN_SUCCEEDED;
     }
 
-    if (SDL_ShouldAllowTopmost() && (window->flags & SDL_WINDOW_ALWAYS_ON_TOP)) {
-        top = HWND_TOPMOST;
-    } else {
-        top = HWND_NOTOPMOST;
+    यदि (SDL_ShouldAllowTopmost() && (गवाक्षः->flags & SDL_गवाक्षः_ALWAYS_ON_शिखरम्)) {
+        शिखरम् = HWND_TOPMOST;
+    } अन्यथा {
+        शिखरम् = HWND_NOTOPMOST;
     }
 
     /* Use GetMonitorInfo instead of WIN_GetDisplayBounds because we want the
        monitor bounds in Windows coordinates (pixels) rather than SDL coordinates (points). */
     SDL_zero(minfo);
-    minfo.cbSize = sizeof(MONITORINFO);
-    if (!GetMonitorInfo(displaydata->MonitorHandle, &minfo)) {
-        SDL_SetError("GetMonitorInfo failed");
-        return SDL_FULLSCREEN_FAILED;
+    minfo.cb_आकार = परिमाण(MONITORINFO);
+    यदि (!GetMonitorInfo(displaydata->MonitorHandle, &minfo)) {
+        SDL_समुच्चयः_Error("GetMonitorInfo failed");
+        प्रत्यागम SDL_FULLSCREEN_FAILED;
     }
 
-    SDL_SendWindowEvent(window, fullscreen ? SDL_EVENT_WINDOW_ENTER_FULLSCREEN : SDL_EVENT_WINDOW_LEAVE_FULLSCREEN, 0, 0);
-    style = GetWindowLong(hwnd, GWL_STYLE);
-    style &= ~STYLE_MASK;
-    style |= GetWindowStyle(window);
-    styleEx = GetWindowLong(hwnd, GWL_EXSTYLE);
+    SDL_Send_गवाक्षः_Event(गवाक्षः, fullscreen ? SDL_EVENT_गवाक्षः_ENTER_FULLSCREEN : SDL_EVENT_गवाक्षः_LEAVE_FULLSCREEN, 0, 0);
+    style = Get_गवाक्षः_Long(hwnd, GWL_STYLE);
+    style &= ~STYLE_आवरणम्;
+    style |= Get_गवाक्षः_Style(गवाक्षः);
+    styleEx = Get_गवाक्षः_Long(hwnd, GWL_EXSTYLE);
 
-    if (fullscreen) {
-        x = minfo.rcMonitor.left;
-        y = minfo.rcMonitor.top;
-        w = minfo.rcMonitor.right - minfo.rcMonitor.left;
-        h = minfo.rcMonitor.bottom - minfo.rcMonitor.top;
+    यदि (fullscreen) {
+        x = minfo.rcMonitor.वामः;
+        y = minfo.rcMonitor.शिखरम्;
+        w = minfo.rcMonitor.दक्षिणः - minfo.rcMonitor.वामः;
+        h = minfo.rcMonitor.bottom - minfo.rcMonitor.शिखरम्;
 
         /* Unset the maximized flag.  This fixes
            https://bugzilla.libsdl.org/show_bug.cgi?id=3215
         */
-        if (style & WS_MAXIMIZE) {
-            data->windowed_mode_was_maximized = true;
+        यदि (style & WS_MAXIMIZE) {
+            दत्त->windowed_बहुलकम्_was_maximized = true;
             style &= ~WS_MAXIMIZE;
         }
 
         // Disable corner rounding & border color (Windows 11+) so the window fills the full screen
         WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DONOTROUND);
         WIN_UpdateBorderColorForHWND(_this, hwnd, DWMWA_COLOR_NONE);
-    } else {
+    } अन्यथा {
         BOOL menu;
 
         WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DEFAULT);
@@ -1320,42 +1320,42 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
            in_window_deactivation), otherwise
            https://bugzilla.libsdl.org/show_bug.cgi?id=3215 can reproduce!
         */
-        if (data->windowed_mode_was_maximized && !data->in_window_deactivation) {
+        यदि (दत्त->windowed_बहुलकम्_was_maximized && !दत्त->अन्तर्_गवाक्षः_deactivation) {
             enterMaximized = true;
-            data->disable_move_size_events = true;
+            दत्त->disable_move_आकार_events = true;
         }
 
-        menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != NULL);
-        WIN_AdjustWindowRectWithStyle(window, style, styleEx, menu,
+        menu = (style & WS_CHILDWINDOW) ? FALSE : (GetMenu(hwnd) != रिक्त);
+        WIN_Adjust_गवाक्षः_Rect_With_Style(गवाक्षः, style, styleEx, menu,
                                       &x, &y,
                                       &w, &h,
                                       SDL_WINDOWRECT_FLOATING);
-        data->windowed_mode_was_maximized = false;
+        दत्त->windowed_बहुलकम्_was_maximized = false;
 
         /* A window may have been maximized by dragging it to the top of another display, in which case the floating
          * position may be out-of-date. If the window is being restored to maximized, and the maximized and floating
          * position are on different displays, try to center the window on the maximized display for restoration, which
          * mimics native Windows behavior.
          */
-        if (enterMaximized) {
-            const SDL_Point windowed_point = { window->windowed.x, window->windowed.y };
-            const SDL_Point floating_point = { window->floating.x, window->floating.y };
-            const SDL_DisplayID floating_display = SDL_GetDisplayForPoint(&floating_point);
-            const SDL_DisplayID windowed_display = SDL_GetDisplayForPoint(&windowed_point);
+        यदि (enterMaximized) {
+            ध्रुव SDL_Point windowed_point = { गवाक्षः->windowed.x, गवाक्षः->windowed.y };
+            ध्रुव SDL_Point floating_point = { गवाक्षः->floating.x, गवाक्षः->floating.y };
+            ध्रुव SDL_DisplayID floating_display = SDL_GetDisplayForPoint(&floating_point);
+            ध्रुव SDL_DisplayID windowed_display = SDL_GetDisplayForPoint(&windowed_point);
 
-            if (floating_display != windowed_display) {
+            यदि (floating_display != windowed_display) {
                 SDL_Rect bounds;
 
                 SDL_zero(bounds);
                 SDL_GetDisplayUsableBounds(windowed_display, &bounds);
-                if (w < bounds.w) {
+                यदि (w < bounds.w) {
                     x = bounds.x + (bounds.w - w) / 2;
-                } else {
+                } अन्यथा {
                     x = bounds.x;
                 }
-                if (h < bounds.h) {
+                यदि (h < bounds.h) {
                     y = bounds.y + (bounds.h - h) / 2;
-                } else {
+                } अन्यथा {
                     y = bounds.y;
                 }
             }
@@ -1365,49 +1365,49 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
     /* Always reset the window to the base floating size before possibly re-applying the maximized state,
      * otherwise, the base floating size can seemingly be lost in some cases.
      */
-    SetWindowLong(hwnd, GWL_STYLE, style);
-    data->expected_resize = true;
-    SetWindowPos(hwnd, top, x, y, w, h, data->copybits_flag | SWP_NOACTIVATE);
-    data->expected_resize = false;
-    data->disable_move_size_events = false;
+    समुच्चयः_गवाक्षः_Long(hwnd, GWL_STYLE, style);
+    दत्त->expected_resize = true;
+    समुच्चयः_गवाक्षः_Pos(hwnd, शिखरम्, x, y, w, h, दत्त->copybits_flag | SWP_NOACTIVATE);
+    दत्त->expected_resize = false;
+    दत्त->disable_move_आकार_events = false;
 
-    if (enterMaximized) {
-        WIN_MaximizeWindow(_this, window);
+    यदि (enterMaximized) {
+        WIN_Maximize_गवाक्षः(_this, गवाक्षः);
     }
 
-    if (!fullscreen && data && data->hicon) {
+    यदि (!fullscreen && दत्त && दत्त->hicon) {
         // Reset the icon for the window when returning from fullscreen mode
-        SendMessage(hwnd, WM_SETICON, ICON_SMALL, 0);
-        SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)data->hicon);
+        Send_सन्देशः(hwnd, WM_SETICON, ICON_SMALL, 0);
+        Send_सन्देशः(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)दत्त->hicon);
     }
 
-#ifdef HIGHDPI_DEBUG
-    SDL_Log("WIN_SetWindowFullscreen: %d finished. Set window to %d,%d, %dx%d", (int)fullscreen, x, y, w, h);
-#endif
+#यदि_परिभाषितम् HIGHDPI_DEBUG
+    SDL_Log("WIN_SetWindowFullscreen: %d finished. Set window to %d,%d, %dx%d", (पूर्णाङ्क)fullscreen, x, y, w, h);
+#यदि_अन्तः
 
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    return SDL_FULLSCREEN_SUCCEEDED;
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    प्रत्यागम SDL_FULLSCREEN_SUCCEEDED;
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+शून्य WIN_Update_गवाक्षः_ICCProfile(SDL_गवाक्षः *गवाक्षः, bool send_event)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_DisplayData *displaydata = SDL_GetDisplayDriverDataForWindow(window);
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    SDL_Display_दत्त *displaydata = SDL_Get_Display_Driver_दत्त_For_गवाक्षः(गवाक्षः);
 
-    if (displaydata) {
-        HDC hdc = CreateDCW(displaydata->DeviceName, NULL, NULL, NULL);
-        if (hdc) {
-            WCHAR fileName[MAX_PATH];
-            DWORD fileNameSize = SDL_arraysize(fileName);
-            if (GetICMProfileW(hdc, &fileNameSize, fileName)) {
+    यदि (displaydata) {
+        HDC hdc = CreateDCW(displaydata->DeviceName, रिक्त, रिक्त, रिक्त);
+        यदि (hdc) {
+            WCHAR fileName[MAX_मार्गः];
+            DWORD file_Name_आकार = SDL_arraysize(fileName);
+            यदि (GetICMProfileW(hdc, &file_Name_आकार, fileName)) {
                 // fileNameSize includes '\0' on return
-                if (!data->ICMFileName ||
-                    SDL_wcscmp(data->ICMFileName, fileName) != 0) {
-                    SDL_free(data->ICMFileName);
-                    data->ICMFileName = SDL_wcsdup(fileName);
-                    if (send_event) {
-                        SDL_SendWindowEvent(window, SDL_EVENT_WINDOW_ICCPROF_CHANGED, 0, 0);
+                यदि (!दत्त->ICMFileName ||
+                    SDL_wcscmp(दत्त->ICMFileName, fileName) != 0) {
+                    SDL_free(दत्त->ICMFileName);
+                    दत्त->ICMFileName = SDL_wcsdup(fileName);
+                    यदि (send_event) {
+                        SDL_Send_गवाक्षः_Event(गवाक्षः, SDL_EVENT_गवाक्षः_ICCPROF_परिवर्तितम्, 0, 0);
                     }
                 }
             }
@@ -1416,30 +1416,30 @@ void WIN_UpdateWindowICCProfile(SDL_Window *window, bool send_event)
     }
 }
 
-void *WIN_GetWindowICCProfile(SDL_VideoDevice *_this, SDL_Window *window, size_t *size)
+शून्य *WIN_Get_गवाक्षः_ICCProfile(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, size_t *आकार)
 {
-    SDL_WindowData *data = window->internal;
-    char *filename_utf8;
-    void *iccProfileData = NULL;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    वर्ण *filename_utf8;
+    शून्य *icc_Profile_दत्त = रिक्त;
 
-    filename_utf8 = WIN_StringToUTF8W(data->ICMFileName);
-    if (filename_utf8) {
-        iccProfileData = SDL_LoadFile(filename_utf8, size);
-        if (!iccProfileData) {
-            SDL_SetError("Could not open ICC profile");
+    filename_utf8 = WIN_String_गन्तव्यम्_UTF8_W(दत्त->ICMFileName);
+    यदि (filename_utf8) {
+        icc_Profile_दत्त = SDL_आरोपय_File(filename_utf8, आकार);
+        यदि (!icc_Profile_दत्त) {
+            SDL_समुच्चयः_Error("Could not open ICC profile");
         }
         SDL_free(filename_utf8);
     }
-    return iccProfileData;
+    प्रत्यागम icc_Profile_दत्त;
 }
 
-static void WIN_GrabKeyboard(SDL_Window *window)
+स्थिर शून्य WIN_GrabKeyboard(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
     HMODULE module;
 
-    if (data->keyboard_hook) {
-        return;
+    यदि (दत्त->keyboard_hook) {
+        प्रत्यागम;
     }
 
     /* SetWindowsHookEx() needs to know which module contains the hook we
@@ -1448,15 +1448,15 @@ static void WIN_GrabKeyboard(SDL_Window *window)
        this nice API that will go through the loaded modules and find the
        one containing our code.
     */
-    if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
+    यदि (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT | GET_MODULE_HANDLE_EX_FLAG_FROM_स्थानाङ्कः,
                            (LPTSTR)WIN_KeyboardHookProc,
                            &module)) {
-        return;
+        प्रत्यागम;
     }
 
     // Capture a snapshot of the current keyboard state before the hook
-    if (!GetKeyboardState(data->videodata->pre_hook_key_state)) {
-        return;
+    यदि (!GetKeyboardState(दत्त->videodata->pre_hook_कुञ्चिका_state)) {
+        प्रत्यागम;
     }
 
     /* To grab the keyboard, we have to install a low-level keyboard hook to
@@ -1464,122 +1464,122 @@ static void WIN_GrabKeyboard(SDL_Window *window)
        all key events on the system is rather invasive, but it's what Microsoft
        actually documents that you do to capture these.
     */
-    data->keyboard_hook = SetWindowsHookEx(WH_KEYBOARD_LL, WIN_KeyboardHookProc, module, 0);
+    दत्त->keyboard_hook = समुच्चयः_Windows_Hook_Ex(WH_KEYBOARD_LL, WIN_KeyboardHookProc, module, 0);
 }
 
-void WIN_UngrabKeyboard(SDL_Window *window)
+शून्य WIN_UngrabKeyboard(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
 
-    if (data->keyboard_hook) {
-        UnhookWindowsHookEx(data->keyboard_hook);
-        data->keyboard_hook = NULL;
+    यदि (दत्त->keyboard_hook) {
+        UnhookWindowsHookEx(दत्त->keyboard_hook);
+        दत्त->keyboard_hook = रिक्त;
     }
 }
 
-bool WIN_SetWindowMouseRect(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_समुच्चयः_गवाक्षः_Mouse_Rect(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    WIN_UpdateClipCursor(window);
-    return true;
+    WIN_UpdateClipCursor(गवाक्षः);
+    प्रत्यागम true;
 }
 
-bool WIN_SetWindowMouseGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool WIN_समुच्चयः_गवाक्षः_Mouse_Grab(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool grabbed)
 {
-    WIN_UpdateClipCursor(window);
-    return true;
+    WIN_UpdateClipCursor(गवाक्षः);
+    प्रत्यागम true;
 }
 
-bool WIN_SetWindowKeyboardGrab(SDL_VideoDevice *_this, SDL_Window *window, bool grabbed)
+bool WIN_समुच्चयः_गवाक्षः_Keyboard_Grab(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool grabbed)
 {
-    if (grabbed) {
-        WIN_GrabKeyboard(window);
-    } else {
-        WIN_UngrabKeyboard(window);
+    यदि (grabbed) {
+        WIN_GrabKeyboard(गवाक्षः);
+    } अन्यथा {
+        WIN_UngrabKeyboard(गवाक्षः);
     }
 
-    return true;
+    प्रत्यागम true;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-void WIN_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य WIN_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    CleanupWindowData(_this, window);
+    Cleanup_गवाक्षः_दत्त(_this, गवाक्षः);
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-void WIN_OnWindowEnter(SDL_VideoDevice *_this, SDL_Window *window)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+शून्य WIN_On_गवाक्षः_Enter(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
 
-    if (!data || !data->hwnd) {
+    यदि (!दत्त || !दत्त->hwnd) {
         // The window wasn't fully initialized
-        return;
+        प्रत्यागम;
     }
 
-    if (window->flags & SDL_WINDOW_ALWAYS_ON_TOP) {
-        WIN_SetWindowPositionInternal(window, data->copybits_flag | SWP_NOSIZE | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
+    यदि (गवाक्षः->flags & SDL_गवाक्षः_ALWAYS_ON_शिखरम्) {
+        WIN_समुच्चयः_गवाक्षः_Position_आन्तरिकम्(गवाक्षः, दत्त->copybits_flag | SWP_NOSIZE | SWP_NOACTIVATE, SDL_WINDOWRECT_CURRENT);
     }
 }
 
-static BOOL GetClientScreenRect(HWND hwnd, RECT *rect)
+स्थिर BOOL GetClientScreenRect(HWND hwnd, RECT *rect)
 {
-    return GetClientRect(hwnd, rect) &&             // RECT( left , top , right , bottom )
-           ClientToScreen(hwnd, (LPPOINT)rect) &&   // POINT( left , top )
-           ClientToScreen(hwnd, (LPPOINT)rect + 1); // POINT( right , bottom )
+    प्रत्यागम GetClientRect(hwnd, rect) &&             // RECT( left , top , right , bottom )
+           Client_गन्तव्यम्_Screen(hwnd, (LPPOINT)rect) &&   // POINT( left , top )
+           Client_गन्तव्यम्_Screen(hwnd, (LPPOINT)rect + 1); // POINT( right , bottom )
 }
 
-void WIN_UnclipCursorForWindow(SDL_Window *window) {
-    SDL_WindowData *data = window->internal;
+शून्य WIN_Unclip_Cursor_For_गवाक्षः(SDL_गवाक्षः *गवाक्षः) {
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
     RECT rect;
-    if (GetClipCursor(&rect) && SDL_memcmp(&rect, &data->cursor_clipped_rect, sizeof(rect)) == 0) {
-        ClipCursor(NULL);
-        SDL_zero(data->cursor_clipped_rect);
+    यदि (GetClipCursor(&rect) && SDL_memcmp(&rect, &दत्त->cursor_clipped_rect, परिमाण(rect)) == 0) {
+        ClipCursor(रिक्त);
+        SDL_zero(दत्त->cursor_clipped_rect);
     }
 }
 
-void WIN_UpdateClipCursor(SDL_Window *window)
+शून्य WIN_UpdateClipCursor(SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *data = window->internal;
-    SDL_VideoData *videodata = data->videodata;
-    if (data->in_title_click || data->focus_click_pending || data->postpone_clipcursor) {
-        return;
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    SDL_Video_दत्त *videodata = दत्त->videodata;
+    यदि (दत्त->अन्तर्_title_click || दत्त->focus_click_pending || दत्त->postpone_clipcursor) {
+        प्रत्यागम;
     }
 
-    SDL_Rect mouse_rect = window->mouse_rect;
+    SDL_Rect mouse_rect = गवाक्षः->mouse_rect;
     bool win_mouse_rect = (mouse_rect.w > 0 && mouse_rect.h > 0);
-    bool win_have_focus = (window->flags & SDL_WINDOW_INPUT_FOCUS);
-    bool win_is_grabbed = (window->flags & SDL_WINDOW_MOUSE_GRABBED);
-    bool win_in_relmode = (window->flags & SDL_WINDOW_MOUSE_RELATIVE_MODE);
-    bool cursor_confine = win_in_relmode || win_is_grabbed || win_mouse_rect;
+    bool win_have_focus = (गवाक्षः->flags & SDL_गवाक्षः_निवेशः_FOCUS);
+    bool win_is_grabbed = (गवाक्षः->flags & SDL_गवाक्षः_MOUSE_GRABBED);
+    bool win_अन्तर्_relmode = (गवाक्षः->flags & SDL_गवाक्षः_MOUSE_RELATIVE_बहुलकम्);
+    bool cursor_confine = win_अन्तर्_relmode || win_is_grabbed || win_mouse_rect;
 
     // This is verbatim translation of the old logic,
     // but I don't quite get what it's trying to do.
     // A clean-room implementation according to MSDN
     // documentation of GetClipCursor is provided in
     // a commented-out block below.
-    if (!win_have_focus || !cursor_confine) {
+    यदि (!win_have_focus || !cursor_confine) {
         SDL_VideoDevice *videodevice = SDL_GetVideoDevice();
         RECT current;
-        if (!GetClipCursor(&current)) {
-            return;
+        यदि (!GetClipCursor(&current)) {
+            प्रत्यागम;
         }
-        if (videodevice && (
-            current.left != videodevice->desktop_bounds.x ||
-            current.top  != videodevice->desktop_bounds.y
+        यदि (videodevice && (
+            current.वामः != videodevice->desktop_bounds.x ||
+            current.शिखरम्  != videodevice->desktop_bounds.y
         )) {
             POINT first, second;
-            first.x  = current.left;
-            first.y  = current.top;
-            second.x = current.right  - 1;
+            first.x  = current.वामः;
+            first.y  = current.शिखरम्;
+            second.x = current.दक्षिणः  - 1;
             second.y = current.bottom - 1;
-            if (!PtInRect(&data->cursor_clipped_rect, first) ||
-                !PtInRect(&data->cursor_clipped_rect, second)) {
-                return;
+            यदि (!Pt_अन्तर्_Rect(&दत्त->cursor_clipped_rect, first) ||
+                !Pt_अन्तर्_Rect(&दत्त->cursor_clipped_rect, second)) {
+                प्रत्यागम;
             }
         }
-        ClipCursor(NULL);
-        SDL_zero(data->cursor_clipped_rect);
-        return;
+        ClipCursor(रिक्त);
+        SDL_zero(दत्त->cursor_clipped_rect);
+        प्रत्यागम;
     }
 
     // if (!win_have_focus || !cursor_confine) {
@@ -1597,35 +1597,35 @@ void WIN_UpdateClipCursor(SDL_Window *window)
     // }
 
     SDL_Mouse *mouse = SDL_GetMouse();
-    bool lock_to_ctr = (mouse->relative_mode && mouse->relative_mode_center);
+    bool तालकम्_गन्तव्यम्_ctr = (mouse->relative_बहुलकम् && mouse->relative_बहुलकम्_center);
 
     RECT client;
-    if (!GetClientScreenRect(data->hwnd, &client)) {
-        return;
+    यदि (!GetClientScreenRect(दत्त->hwnd, &client)) {
+        प्रत्यागम;
     }
 
     RECT target = client;
-    if (lock_to_ctr) {
-        LONG cx = (client.left + client.right ) / 2;
-        LONG cy = (client.top  + client.bottom) / 2;
-        target = data->cursor_ctrlock_rect;
-        target.left   += cx;
-        target.right  += cx;
-        target.top    += cy;
+    यदि (तालकम्_गन्तव्यम्_ctr) {
+        LONG cx = (client.वामः + client.दक्षिणः ) / 2;
+        LONG cy = (client.शिखरम्  + client.bottom) / 2;
+        target = दत्त->cursor_ctrlock_rect;
+        target.वामः   += cx;
+        target.दक्षिणः  += cx;
+        target.शिखरम्    += cy;
         target.bottom += cy;
-    } else if (win_mouse_rect) {
+    } अन्यथा यदि (win_mouse_rect) {
         RECT custom, overlap;
-        custom.left   = client.left + mouse_rect.x;
-        custom.top    = client.top  + mouse_rect.y;
-        custom.right  = client.left + mouse_rect.x + mouse_rect.w;
-        custom.bottom = client.top  + mouse_rect.y + mouse_rect.h;
-        if (IntersectRect(&overlap, &client, &custom)) {
+        custom.वामः   = client.वामः + mouse_rect.x;
+        custom.शिखरम्    = client.शिखरम्  + mouse_rect.y;
+        custom.दक्षिणः  = client.वामः + mouse_rect.x + mouse_rect.w;
+        custom.bottom = client.शिखरम्  + mouse_rect.y + mouse_rect.h;
+        यदि (IntersectRect(&overlap, &client, &custom)) {
             target = overlap;
-        } else if (!win_is_grabbed) {
-            WIN_UnclipCursorForWindow(window);
-            return;
+        } अन्यथा यदि (!win_is_grabbed) {
+            WIN_Unclip_Cursor_For_गवाक्षः(गवाक्षः);
+            प्रत्यागम;
         }
-    } else if (videodata->dpi_unaware_context_declared) {
+    } अन्यथा यदि (videodata->dpi_unaware_context_declared) {
         /* Windows has a rounding bug when a DPI unaware context and fractional scale value
          * are used that will cause the cursor coordinates to jitter across a confining edge
          * while dragging along it, which can cause spurious pointer enter/leave events when the
@@ -1636,247 +1636,247 @@ void WIN_UpdateClipCursor(SDL_Window *window)
          */
 
         // Temporarily set the thread to per-monitor awareness v2 to get the display DPI.
-        if (videodata->SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)) {
-            HMONITOR hmon = MonitorFromWindow(data->hwnd, MONITOR_DEFAULTTONEAREST);
-            if (hmon) {
+        यदि (videodata->समुच्चयः_Thread_Dpi_Awareness_Context(DPI_AWARENESS_CONTEXT_प्रत्येकम्_MONITOR_AWARE_V2)) {
+            HMONITOR hmon = Monitor_From_गवाक्षः(दत्त->hwnd, MONITOR_DEFAULTTONEAREST);
+            यदि (hmon) {
                 UINT hdpi_uint, vdpi_uint;
-                if (videodata->GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
-                    const float scale = (float)hdpi_uint / (float)USER_DEFAULT_SCREEN_DPI;
-                    if (scale != SDL_floorf(scale)) {
-                        if (target.left < target.right) {
-                            target.left += 1;
+                यदि (videodata->GetDpiForMonitor(hmon, MDT_EFFECTIVE_DPI, &hdpi_uint, &vdpi_uint) == S_OK) {
+                    ध्रुव भिन्न scale = (भिन्न)hdpi_uint / (भिन्न)USER_DEFAULT_SCREEN_DPI;
+                    यदि (scale != SDL_floorf(scale)) {
+                        यदि (target.वामः < target.दक्षिणः) {
+                            target.वामः += 1;
                         }
-                        if (target.right > target.left) {
-                            target.right -= 1;
+                        यदि (target.दक्षिणः > target.वामः) {
+                            target.दक्षिणः -= 1;
                         }
-                        if (target.top < target.bottom) {
-                            target.top += 1;
+                        यदि (target.शिखरम् < target.bottom) {
+                            target.शिखरम् += 1;
                         }
-                        if (target.bottom > target.top) {
+                        यदि (target.bottom > target.शिखरम्) {
                             target.bottom -= 1;
                         }
                     }
                 }
             }
-            videodata->SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_UNAWARE);
+            videodata->समुच्चयः_Thread_Dpi_Awareness_Context(DPI_AWARENESS_CONTEXT_UNAWARE);
         }
     }
 
-    if (GetClipCursor(&client) &&
-        0 != SDL_memcmp(&target, &client, sizeof(client)) &&
+    यदि (GetClipCursor(&client) &&
+        0 != SDL_memcmp(&target, &client, परिमाण(client)) &&
         ClipCursor(&target)) {
-        data->cursor_clipped_rect = target; // ClipCursor may fail if rect beyond screen
+        दत्त->cursor_clipped_rect = target; // ClipCursor may fail if rect beyond screen
     }
 }
 
-bool WIN_SetWindowHitTest(SDL_Window *window, bool enabled)
+bool WIN_समुच्चयः_गवाक्षः_लब्धम्_Test(SDL_गवाक्षः *गवाक्षः, bool enabled)
 {
-    return true; // just succeed, the real work is done elsewhere.
+    प्रत्यागम true; // just succeed, the real work is done elsewhere.
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-bool WIN_SetWindowOpacity(SDL_VideoDevice *_this, SDL_Window *window, float opacity)
+bool WIN_समुच्चयः_गवाक्षः_Opacity(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, भिन्न opacity)
 {
-#if defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
-    return false;
-#else
-    const SDL_WindowData *data = window->internal;
-    HWND hwnd = data->hwnd;
-    const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+#यदि defined(SDL_PLATFORM_XBOXONE) || defined(SDL_PLATFORM_XBOXSERIES)
+    प्रत्यागम false;
+#अन्यथा
+    ध्रुव SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    HWND hwnd = दत्त->hwnd;
+    ध्रुव LONG style = Get_गवाक्षः_Long(hwnd, GWL_EXSTYLE);
 
-    if (opacity == 1.0f) {
+    यदि (opacity == 1.0f) {
         // want it fully opaque, just mark it unlayered if necessary.
-        if (style & WS_EX_LAYERED) {
-            if (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_LAYERED) == 0) {
-                return WIN_SetError("SetWindowLong()");
+        यदि (style & WS_EX_LAYERED) {
+            यदि (समुच्चयः_गवाक्षः_Long(hwnd, GWL_EXSTYLE, style & ~WS_EX_LAYERED) == 0) {
+                प्रत्यागम WIN_समुच्चयः_Error("SetWindowLong()");
             }
         }
-    } else {
-        const BYTE alpha = (BYTE)((int)(opacity * 255.0f));
+    } अन्यथा {
+        ध्रुव BYTE alpha = (BYTE)((पूर्णाङ्क)(opacity * 255.0f));
         // want it transparent, mark it layered if necessary.
-        if (!(style & WS_EX_LAYERED)) {
-            if (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED) == 0) {
-                return WIN_SetError("SetWindowLong()");
+        यदि (!(style & WS_EX_LAYERED)) {
+            यदि (समुच्चयः_गवाक्षः_Long(hwnd, GWL_EXSTYLE, style | WS_EX_LAYERED) == 0) {
+                प्रत्यागम WIN_समुच्चयः_Error("SetWindowLong()");
             }
         }
 
-        if (SetLayeredWindowAttributes(hwnd, 0, alpha, LWA_ALPHA) == 0) {
-            return WIN_SetError("SetLayeredWindowAttributes()");
+        यदि (समुच्चयः_Layered_गवाक्षः_गुणाः(hwnd, 0, alpha, LWA_ALPHA) == 0) {
+            प्रत्यागम WIN_समुच्चयः_Error("SetLayeredWindowAttributes()");
         }
     }
 
-    return true;
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    प्रत्यागम true;
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 }
 
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-static const char *SDLGetClipboardFormatName(UINT cf, char *text, int len)
+स्थिर ध्रुव वर्ण *SDLGetClipboardFormatName(UINT cf, वर्ण *text, पूर्णाङ्क len)
 {
-    switch (cf) {
-    case CF_TEXT:
-        return "CF_TEXT";
-    case CF_BITMAP:
-        return "CF_BITMAP";
-    case CF_METAFILEPICT:
-        return "CF_METAFILEPICT";
-    case CF_SYLK:
-        return "CF_SYLK";
-    case CF_DIF:
-        return "CF_DIF";
-    case CF_TIFF:
-        return "CF_TIFF";
-    case CF_OEMTEXT:
-        return "CF_OEMTEXT";
-    case CF_DIB:
-        return "CF_DIB";
-    case CF_PALETTE:
-        return "CF_PALETTE";
-    case CF_PENDATA:
-        return "CF_PENDATA";
-    case CF_RIFF:
-        return "CF_RIFF";
-    case CF_WAVE:
-        return "CF_WAVE";
-    case CF_UNICODETEXT:
-        return "CF_UNICODETEXT";
-    case CF_ENHMETAFILE:
-        return "CF_ENHMETAFILE";
-    case CF_HDROP:
-        return "CF_HDROP";
-    case CF_LOCALE:
-        return "CF_LOCALE";
-    case CF_DIBV5:
-        return "CF_DIBV5";
-    case CF_OWNERDISPLAY:
-        return "CF_OWNERDISPLAY";
-    case CF_DSPTEXT:
-        return "CF_DSPTEXT";
-    case CF_DSPBITMAP:
-        return "CF_DSPBITMAP";
-    case CF_DSPMETAFILEPICT:
-        return "CF_DSPMETAFILEPICT";
-    case CF_DSPENHMETAFILE:
-        return "CF_DSPENHMETAFILE";
-    default:
-        if (GetClipboardFormatNameA(cf, text, len)) {
-            return text;
-        } else {
-            return NULL;
+    विकल्प (cf) {
+    पक्ष CF_TEXT:
+        प्रत्यागम "CF_TEXT";
+    पक्ष CF_BITMAP:
+        प्रत्यागम "CF_BITMAP";
+    पक्ष CF_METAFILEPICT:
+        प्रत्यागम "CF_METAFILEPICT";
+    पक्ष CF_SYLK:
+        प्रत्यागम "CF_SYLK";
+    पक्ष CF_DIF:
+        प्रत्यागम "CF_DIF";
+    पक्ष CF_TIFF:
+        प्रत्यागम "CF_TIFF";
+    पक्ष CF_OEMTEXT:
+        प्रत्यागम "CF_OEMTEXT";
+    पक्ष CF_DIB:
+        प्रत्यागम "CF_DIB";
+    पक्ष CF_PALETTE:
+        प्रत्यागम "CF_PALETTE";
+    पक्ष CF_PENDATA:
+        प्रत्यागम "CF_PENDATA";
+    पक्ष CF_RIFF:
+        प्रत्यागम "CF_RIFF";
+    पक्ष CF_WAVE:
+        प्रत्यागम "CF_WAVE";
+    पक्ष CF_UNICODETEXT:
+        प्रत्यागम "CF_UNICODETEXT";
+    पक्ष CF_ENHMETAFILE:
+        प्रत्यागम "CF_ENHMETAFILE";
+    पक्ष CF_HDROP:
+        प्रत्यागम "CF_HDROP";
+    पक्ष CF_LOCALE:
+        प्रत्यागम "CF_LOCALE";
+    पक्ष CF_DIBV5:
+        प्रत्यागम "CF_DIBV5";
+    पक्ष CF_OWNERDISPLAY:
+        प्रत्यागम "CF_OWNERDISPLAY";
+    पक्ष CF_DSPTEXT:
+        प्रत्यागम "CF_DSPTEXT";
+    पक्ष CF_DSPBITMAP:
+        प्रत्यागम "CF_DSPBITMAP";
+    पक्ष CF_DSPMETAFILEPICT:
+        प्रत्यागम "CF_DSPMETAFILEPICT";
+    पक्ष CF_DSPENHMETAFILE:
+        प्रत्यागम "CF_DSPENHMETAFILE";
+    स्वभाव:
+        यदि (GetClipboardFormatNameA(cf, text, len)) {
+            प्रत्यागम text;
+        } अन्यथा {
+            प्रत्यागम रिक्त;
         }
     }
 }
 
-static STDMETHODIMP_(ULONG) SDLDropTarget_AddRef(SDLDropTarget *target)
+स्थिर STDMETHODIMP_(ULONG) SDLDrop_Target_सङ्कलय_Ref(SDLDropTarget *target)
 {
-    return ++target->refcount;
+    प्रत्यागम ++target->refcount;
 }
 
-static STDMETHODIMP_(ULONG) SDLDropTarget_Release(SDLDropTarget *target)
+स्थिर STDMETHODIMP_(ULONG) SDLDropTarget_Release(SDLDropTarget *target)
 {
     --target->refcount;
-    if (target->refcount == 0) {
+    यदि (target->refcount == 0) {
         SDL_free(target);
-        return 0;
+        प्रत्यागम 0;
     }
-    return target->refcount;
+    प्रत्यागम target->refcount;
 }
 
-static STDMETHODIMP SDLDropTarget_QueryInterface(SDLDropTarget *target, REFIID riid, PVOID *ppv)
+स्थिर STDMETHODIMP SDLDropTarget_QueryInterface(SDLDropTarget *target, REFIID riid, PVOID *ppv)
 {
-    if (ppv == NULL) {
-        return E_INVALIDARG;
+    यदि (ppv == रिक्त) {
+        प्रत्यागम E_INVALIDARG;
     }
 
-    *ppv = NULL;
-    if (WIN_IsEqualIID(riid, &IID_IUnknown) ||
+    *ppv = रिक्त;
+    यदि (WIN_IsEqualIID(riid, &IID_IUnknown) ||
         WIN_IsEqualIID(riid, &IID_IDropTarget)) {
-        *ppv = (void *)target;
+        *ppv = (शून्य *)target;
     }
-    if (*ppv) {
-        SDLDropTarget_AddRef(target);
-        return S_OK;
+    यदि (*ppv) {
+        SDLDrop_Target_सङ्कलय_Ref(target);
+        प्रत्यागम S_OK;
     }
-    return E_NOINTERFACE;
+    प्रत्यागम E_NOINTERFACE;
 }
 
-static STDMETHODIMP SDLDropTarget_DragEnter(SDLDropTarget *target,
-                                            IDataObject *pDataObject, DWORD grfKeyState,
+स्थिर STDMETHODIMP SDLDropTarget_DragEnter(SDLDropTarget *target,
+                                            IDataObject *p_दत्त_Object, DWORD grf_कुञ्चिका_State,
                                             POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                  ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
-                     ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
-        SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    यदि (Screen_गन्तव्यम्_Client(target->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
+                     ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->गवाक्षः->id, pnt.x, pnt.y);
+        SDL_SendDropPosition(target->गवाक्षः, pnt.x, pnt.y);
+    } अन्यथा {
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                      ". In DragEnter at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
-    return S_OK;
+    प्रत्यागम S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_DragOver(SDLDropTarget *target,
-                                           DWORD grfKeyState,
+स्थिर STDMETHODIMP SDLDropTarget_DragOver(SDLDropTarget *target,
+                                           DWORD grf_कुञ्चिका_State,
                                            POINTL pt, DWORD *pdwEffect)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                  ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y);
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
-                     ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
-        SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    यदि (Screen_गन्तव्यम्_Client(target->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
+                     ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->गवाक्षः->id, pnt.x, pnt.y);
+        SDL_SendDropPosition(target->गवाक्षः, pnt.x, pnt.y);
+    } अन्यथा {
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                      ". In DragOver at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
-    return S_OK;
+    प्रत्यागम S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_DragLeave(SDLDropTarget *target)
+स्थिर STDMETHODIMP SDLDropTarget_DragLeave(SDLDropTarget *target)
 {
-    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                  ". In DragLeave");
-    SDL_SendDropComplete(target->window);
-    return S_OK;
+    SDL_SendDropComplete(target->गवाक्षः);
+    प्रत्यागम S_OK;
 }
 
-static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
-                                       IDataObject *pDataObject, DWORD grfKeyState,
+स्थिर STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
+                                       IDataObject *p_दत्त_Object, DWORD grf_कुञ्चिका_State,
                                        POINTL pt, DWORD *pdwEffect)
 {
     *pdwEffect = DROPEFFECT_COPY;
     POINT pnt = { pt.x, pt.y };
-    if (ScreenToClient(target->hwnd, &pnt)) {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
-                     ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->window->id, pnt.x, pnt.y);
-        SDL_SendDropPosition(target->window, pnt.x, pnt.y);
-    } else {
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    यदि (Screen_गन्तव्यम्_Client(target->hwnd, &pnt)) {
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
+                     ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => window %u at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG, pt.x, pt.y, target->गवाक्षः->id, pnt.x, pnt.y);
+        SDL_SendDropPosition(target->गवाक्षः, pnt.x, pnt.y);
+    } अन्यथा {
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                      ". In Drop at %" SDL_PRIdSLONG ", %" SDL_PRIdSLONG " => nil, nil", pt.x, pt.y);
     }
 
     {
         IEnumFORMATETC *pEnumFormatEtc;
         HRESULT hres;
-        hres = pDataObject->lpVtbl->EnumFormatEtc(pDataObject, DATADIR_GET, &pEnumFormatEtc);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        hres = p_दत्त_Object->lpVtbl->EnumFormatEtc(p_दत्त_Object, DATADIR_GET, &pEnumFormatEtc);
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                      ". In Drop for EnumFormatEtc, HRESULT is %08" SDL_PRIxSLONG, hres);
-        if (hres == S_OK) {
+        यदि (hres == S_OK) {
             FORMATETC fetc;
-            while (pEnumFormatEtc->lpVtbl->Next(pEnumFormatEtc, 1, &fetc, NULL) == S_OK) {
-                char name[257] = { 0 };
-                const char *cfnm = SDLGetClipboardFormatName(fetc.cfFormat, name, 256);
-                if (cfnm) {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            यावत् (pEnumFormatEtc->lpVtbl->अग्र_3(pEnumFormatEtc, 1, &fetc, रिक्त) == S_OK) {
+                वर्ण name[257] = { 0 };
+                ध्रुव वर्ण *cfnm = SDLGetClipboardFormatName(fetc.cfFormat, name, 256);
+                यदि (cfnm) {
+                    SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                  ". In Drop, Supported format is %08x, '%s'", fetc.cfFormat, cfnm);
-                } else {
-                    SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                } अन्यथा {
+                    SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                  ". In Drop, Supported format is %08x, Predefined", fetc.cfFormat);
                 }
             }
@@ -1886,47 +1886,47 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = target->format_file;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "text/uri-list";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ध्रुव वर्ण *format_mime = "text/uri-list";
+        यदि (SUCCEEDED(p_दत्त_Object->lpVtbl->Query_Get_दत्त(p_दत्त_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_दत्त_Object->lpVtbl->Get_दत्त(p_दत्त_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            यदि (SUCCEEDED(hres)) {
+                ध्रुव size_t bsize = Global_आकार(med.hGlobal);
+                ध्रुव शून्य *बफर_2 = (शून्य *)Global_तालकम्(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
-                    SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        if (SDL_URIToLocal(token, token) >= 0) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (अचिह्नित दीर्घ)bsize, बफर_2);
+                यदि (बफर_2) {
+                    वर्ण *text = (वर्ण *)SDL_malloc(bsize + परिमाण(Uint32));
+                    SDL_memcpy((Uint8 *)text, बफर_2, bsize);
+                    SDL_memset((Uint8 *)text + bsize, 0, परिमाण(Uint32));
+                    वर्ण *saveptr = रिक्त;
+                    वर्ण *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                    यावत् (token != रिक्त) {
+                        यदि (SDL_URIToLocal(token, token) >= 0) {
+                            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                          ". In Drop File, file (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                            SDL_SendDropFile(target->window, NULL, token);
+                                         (अचिह्नित दीर्घ)SDL_strlen(token), (अचिह्नित दीर्घ)bsize, token);
+                            SDL_SendDropFile(target->गवाक्षः, रिक्त, token);
                         }
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                        token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                     }
                     SDL_free(text);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(target->गवाक्षः);
+                प्रत्यागम S_OK;
             }
         }
     }
@@ -1934,45 +1934,45 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = target->format_text;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "text/plain;charset=utf-8";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ध्रुव वर्ण *format_mime = "text/plain;charset=utf-8";
+        यदि (SUCCEEDED(p_दत्त_Object->lpVtbl->Query_Get_दत्त(p_दत्त_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_दत्त_Object->lpVtbl->Get_दत्त(p_दत्त_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            यदि (SUCCEEDED(hres)) {
+                ध्रुव size_t bsize = Global_आकार(med.hGlobal);
+                ध्रुव शून्य *बफर_2 = (शून्य *)Global_तालकम्(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
-                    SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (अचिह्नित दीर्घ)bsize, बफर_2);
+                यदि (बफर_2) {
+                    वर्ण *text = (वर्ण *)SDL_malloc(bsize + परिमाण(Uint32));
+                    SDL_memcpy((Uint8 *)text, बफर_2, bsize);
+                    SDL_memset((Uint8 *)text + bsize, 0, परिमाण(Uint32));
+                    वर्ण *saveptr = रिक्त;
+                    वर्ण *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                    यावत् (token != रिक्त) {
+                        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
-                                     (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                        SDL_SendDropText(target->window, (char *)token);
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                     (अचिह्नित दीर्घ)SDL_strlen(token), (अचिह्नित दीर्घ)bsize, token);
+                        SDL_SendDropText(target->गवाक्षः, (वर्ण *)token);
+                        token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                     }
                     SDL_free(text);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(target->गवाक्षः);
+                प्रत्यागम S_OK;
             }
         }
     }
@@ -1980,53 +1980,53 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_UNICODETEXT;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_UNICODETEXT";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ध्रुव वर्ण *format_mime = "CF_UNICODETEXT";
+        यदि (SUCCEEDED(p_दत्त_Object->lpVtbl->Query_Get_दत्त(p_दत्त_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_दत्त_Object->lpVtbl->Get_दत्त(p_दत्त_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            यदि (SUCCEEDED(hres)) {
+                ध्रुव size_t bsize = Global_आकार(med.hGlobal);
+                ध्रुव शून्य *बफर_2 = (शून्य *)Global_तालकम्(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    buffer = WIN_StringToUTF8W((const wchar_t *)buffer);
-                    if (buffer) {
-                        const size_t lbuffer = SDL_strlen((const char *)buffer);
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (अचिह्नित दीर्घ)bsize, बफर_2);
+                यदि (बफर_2) {
+                    बफर_2 = WIN_String_गन्तव्यम्_UTF8_W((ध्रुव wchar_t *)बफर_2);
+                    यदि (बफर_2) {
+                        ध्रुव size_t lbuffer = SDL_strlen((ध्रुव वर्ण *)बफर_2);
+                        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                      ". In Drop Text for StringToUTF8, format %08x '%s', memory (%lu) %p",
-                                     fetc.cfFormat, format_mime, (unsigned long)lbuffer, buffer);
-                        char *text = (char *)SDL_malloc(lbuffer + sizeof(Uint32));
-                        SDL_memcpy((Uint8 *)text, buffer, lbuffer);
-                        SDL_memset((Uint8 *)text + lbuffer, 0, sizeof(Uint32));
-                        char *saveptr = NULL;
-                        char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                        while (token != NULL) {
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                                     fetc.cfFormat, format_mime, (अचिह्नित दीर्घ)lbuffer, बफर_2);
+                        वर्ण *text = (वर्ण *)SDL_malloc(lbuffer + परिमाण(Uint32));
+                        SDL_memcpy((Uint8 *)text, बफर_2, lbuffer);
+                        SDL_memset((Uint8 *)text + lbuffer, 0, परिमाण(Uint32));
+                        वर्ण *saveptr = रिक्त;
+                        वर्ण *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                        यावत् (token != रिक्त) {
+                            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                          ". In Drop Text, text (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(token), (unsigned long)lbuffer, token);
-                            SDL_SendDropText(target->window, (char *)token);
-                            token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                         (अचिह्नित दीर्घ)SDL_strlen(token), (अचिह्नित दीर्घ)lbuffer, token);
+                            SDL_SendDropText(target->गवाक्षः, (वर्ण *)token);
+                            token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                         }
                         SDL_free(text);
-                        SDL_free((void *)buffer);
+                        SDL_free((शून्य *)बफर_2);
                     }
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(target->गवाक्षः);
+                प्रत्यागम S_OK;
             }
         }
     }
@@ -2034,45 +2034,45 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_TEXT;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_TEXT";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ध्रुव वर्ण *format_mime = "CF_TEXT";
+        यदि (SUCCEEDED(p_दत्त_Object->lpVtbl->Query_Get_दत्त(p_दत्त_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop Text for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_दत्त_Object->lpVtbl->Get_दत्त(p_दत्त_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop Text for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                const void *buffer = (void *)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            यदि (SUCCEEDED(hres)) {
+                ध्रुव size_t bsize = Global_आकार(med.hGlobal);
+                ध्रुव शून्य *बफर_2 = (शून्य *)Global_तालकम्(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                              ". In Drop Text for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, buffer);
-                if (buffer) {
-                    char *text = (char *)SDL_malloc(bsize + sizeof(Uint32));
-                    SDL_memcpy((Uint8 *)text, buffer, bsize);
-                    SDL_memset((Uint8 *)text + bsize, 0, sizeof(Uint32));
-                    char *saveptr = NULL;
-                    char *token = SDL_strtok_r(text, "\r\n", &saveptr);
-                    while (token != NULL) {
-                        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (अचिह्नित दीर्घ)bsize, बफर_2);
+                यदि (बफर_2) {
+                    वर्ण *text = (वर्ण *)SDL_malloc(bsize + परिमाण(Uint32));
+                    SDL_memcpy((Uint8 *)text, बफर_2, bsize);
+                    SDL_memset((Uint8 *)text + bsize, 0, परिमाण(Uint32));
+                    वर्ण *saveptr = रिक्त;
+                    वर्ण *token = SDL_strtok_r(text, "\r\n", &saveptr);
+                    यावत् (token != रिक्त) {
+                        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                      ". In Drop Text, text (%lu of %lu) '%s'",
-                                     (unsigned long)SDL_strlen(token), (unsigned long)bsize, token);
-                        SDL_SendDropText(target->window, (char *)token);
-                        token = SDL_strtok_r(NULL, "\r\n", &saveptr);
+                                     (अचिह्नित दीर्घ)SDL_strlen(token), (अचिह्नित दीर्घ)bsize, token);
+                        SDL_SendDropText(target->गवाक्षः, (वर्ण *)token);
+                        token = SDL_strtok_r(रिक्त, "\r\n", &saveptr);
                     }
                     SDL_free(text);
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(target->गवाक्षः);
+                प्रत्यागम S_OK;
             }
         }
     }
@@ -2080,269 +2080,269 @@ static STDMETHODIMP SDLDropTarget_Drop(SDLDropTarget *target,
     {
         FORMATETC fetc;
         fetc.cfFormat = CF_HDROP;
-        fetc.ptd = NULL;
+        fetc.ptd = रिक्त;
         fetc.dwAspect = DVASPECT_CONTENT;
         fetc.lindex = -1;
         fetc.tymed = TYMED_HGLOBAL;
-        const char *format_mime = "CF_HDROP";
-        if (SUCCEEDED(pDataObject->lpVtbl->QueryGetData(pDataObject, &fetc))) {
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        ध्रुव वर्ण *format_mime = "CF_HDROP";
+        यदि (SUCCEEDED(p_दत्त_Object->lpVtbl->Query_Get_दत्त(p_दत्त_Object, &fetc))) {
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop File for QueryGetData, format %08x '%s', success",
                          fetc.cfFormat, format_mime);
             STGMEDIUM med;
-            HRESULT hres = pDataObject->lpVtbl->GetData(pDataObject, &fetc, &med);
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            HRESULT hres = p_दत्त_Object->lpVtbl->Get_दत्त(p_दत्त_Object, &fetc, &med);
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Drop File for      GetData, format %08x '%s', HRESULT is %08" SDL_PRIxSLONG,
                          fetc.cfFormat, format_mime, hres);
-            if (SUCCEEDED(hres)) {
-                const size_t bsize = GlobalSize(med.hGlobal);
-                HDROP drop = (HDROP)GlobalLock(med.hGlobal);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+            यदि (SUCCEEDED(hres)) {
+                ध्रुव size_t bsize = Global_आकार(med.hGlobal);
+                HDROP drop = (HDROP)Global_तालकम्(med.hGlobal);
+                SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                              ". In Drop File for   GlobalLock, format %08x '%s', memory (%lu) %p",
-                             fetc.cfFormat, format_mime, (unsigned long)bsize, drop);
-                UINT count = DragQueryFile(drop, 0xFFFFFFFF, NULL, 0);
-                for (UINT i = 0; i < count; ++i) {
-                    UINT size = DragQueryFile(drop, i, NULL, 0) + 1;
-                    LPTSTR buffer = (LPTSTR)SDL_malloc(size * sizeof(TCHAR));
-                    if (buffer) {
-                        if (DragQueryFile(drop, i, buffer, size)) {
-                            char *file = WIN_StringToUTF8(buffer);
-                            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                             fetc.cfFormat, format_mime, (अचिह्नित दीर्घ)bsize, drop);
+                UINT गणनम् = DragQueryFile(drop, 0xFFFFFFFF, रिक्त, 0);
+                प्रति (UINT i = 0; i < गणनम्; ++i) {
+                    UINT आकार = DragQueryFile(drop, i, रिक्त, 0) + 1;
+                    LPTSTR बफर_2 = (LPTSTR)SDL_malloc(आकार * परिमाण(TCHAR));
+                    यदि (बफर_2) {
+                        यदि (DragQueryFile(drop, i, बफर_2, आकार)) {
+                            वर्ण *file = WIN_String_गन्तव्यम्_UTF8(बफर_2);
+                            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                                          ". In Drop File, file (%lu of %lu) '%s'",
-                                         (unsigned long)SDL_strlen(file), (unsigned long)bsize, file);
-                            SDL_SendDropFile(target->window, NULL, file);
+                                         (अचिह्नित दीर्घ)SDL_strlen(file), (अचिह्नित दीर्घ)bsize, file);
+                            SDL_SendDropFile(target->गवाक्षः, रिक्त, file);
                             SDL_free(file);
                         }
-                        SDL_free(buffer);
+                        SDL_free(बफर_2);
                     }
                 }
                 GlobalUnlock(med.hGlobal);
                 ReleaseStgMedium(&med);
-                SDL_SendDropComplete(target->window);
-                return S_OK;
+                SDL_SendDropComplete(target->गवाक्षः);
+                प्रत्यागम S_OK;
             }
         }
     }
 
-    SDL_SendDropComplete(target->window);
-    return S_OK;
+    SDL_SendDropComplete(target->गवाक्षः);
+    प्रत्यागम S_OK;
 }
 
-static void *vtDropTarget[] = {
-    (void *)(SDLDropTarget_QueryInterface),
-    (void *)(SDLDropTarget_AddRef),
-    (void *)(SDLDropTarget_Release),
-    (void *)(SDLDropTarget_DragEnter),
-    (void *)(SDLDropTarget_DragOver),
-    (void *)(SDLDropTarget_DragLeave),
-    (void *)(SDLDropTarget_Drop)
+स्थिर शून्य *vtDropTarget[] = {
+    (शून्य *)(SDLDropTarget_QueryInterface),
+    (शून्य *)(SDLDrop_Target_सङ्कलय_Ref),
+    (शून्य *)(SDLDropTarget_Release),
+    (शून्य *)(SDLDropTarget_DragEnter),
+    (शून्य *)(SDLDropTarget_DragOver),
+    (शून्य *)(SDLDropTarget_DragLeave),
+    (शून्य *)(SDLDropTarget_Drop)
 };
 
-void WIN_AcceptDragAndDrop(SDL_Window *window, bool accept)
+शून्य WIN_AcceptDragAndDrop(SDL_गवाक्षः *गवाक्षः, bool accept)
 {
-    SDL_WindowData *data = window->internal;
-    if (data->videodata->oleinitialized) {
-        if (accept && !data->drop_target) {
-            SDLDropTarget *drop_target = (SDLDropTarget *)SDL_calloc(1, sizeof(SDLDropTarget));
-            if (drop_target != NULL) {
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    यदि (दत्त->videodata->oleinitialized) {
+        यदि (accept && !दत्त->drop_target) {
+            SDLDropTarget *drop_target = (SDLDropTarget *)SDL_calloc(1, परिमाण(SDLDropTarget));
+            यदि (drop_target != रिक्त) {
                 drop_target->lpVtbl = vtDropTarget;
-                drop_target->window = window;
-                drop_target->hwnd = data->hwnd;
-                drop_target->format_file = RegisterClipboardFormatW(L"text/uri-list");
-                drop_target->format_text = RegisterClipboardFormatW(L"text/plain;charset=utf-8");
-                data->drop_target = drop_target;
-                SDLDropTarget_AddRef(drop_target);
-                RegisterDragDrop(data->hwnd, (LPDROPTARGET)drop_target);
-                SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+                drop_target->गवाक्षः = गवाक्षः;
+                drop_target->hwnd = दत्त->hwnd;
+                drop_target->format_file = पञ्जिकाकोशः_Clipboard_Format_W(L"text/uri-list");
+                drop_target->format_text = पञ्जिकाकोशः_Clipboard_Format_W(L"text/plain;charset=utf-8");
+                दत्त->drop_target = drop_target;
+                SDLDrop_Target_सङ्कलय_Ref(drop_target);
+                पञ्जिकाकोशः_Drag_Drop(दत्त->hwnd, (LPDROPTARGET)drop_target);
+                SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                              ". In Accept Drag and Drop, window %u, enabled Full OLE IDropTarget",
-                             window->id);
+                             गवाक्षः->id);
             }
-        } else if (!accept && data->drop_target) {
-            RevokeDragDrop(data->hwnd);
-            SDLDropTarget_Release(data->drop_target);
-            data->drop_target = NULL;
-            SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+        } अन्यथा यदि (!accept && दत्त->drop_target) {
+            RevokeDragDrop(दत्त->hwnd);
+            SDLDropTarget_Release(दत्त->drop_target);
+            दत्त->drop_target = रिक्त;
+            SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                          ". In Accept Drag and Drop, window %u, disabled Full OLE IDropTarget",
-                         window->id);
+                         गवाक्षः->id);
         }
-    } else {
-        DragAcceptFiles(data->hwnd, accept ? TRUE : FALSE);
-        SDL_LogTrace(SDL_LOG_CATEGORY_INPUT,
+    } अन्यथा {
+        DragAcceptFiles(दत्त->hwnd, accept ? TRUE : FALSE);
+        SDL_LogTrace(SDL_LOG_CATEGORY_निवेशः,
                      ". In Accept Drag and Drop, window %u, %s Fallback WM_DROPFILES",
-                     window->id, (accept ? "enabled" : "disabled"));
+                     गवाक्षः->id, (accept ? "enabled" : "disabled"));
     }
 }
 
-bool WIN_FlashWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_FlashOperation operation)
+bool WIN_Flash_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_FlashOperation operation)
 {
     FLASHWINFO desc;
 
     SDL_zero(desc);
-    desc.cbSize = sizeof(desc);
-    desc.hwnd = window->internal->hwnd;
-    switch (operation) {
-    case SDL_FLASH_CANCEL:
+    desc.cb_आकार = परिमाण(desc);
+    desc.hwnd = गवाक्षः->आन्तरिकम्->hwnd;
+    विकल्प (operation) {
+    पक्ष SDL_FLASH_CANCEL:
         desc.dwFlags = FLASHW_STOP;
-        break;
-    case SDL_FLASH_BRIEFLY:
+        भङ्ग;
+    पक्ष SDL_FLASH_BRIEFLY:
         desc.dwFlags = FLASHW_TRAY;
-        desc.uCount = 1;
-        break;
-    case SDL_FLASH_UNTIL_FOCUSED:
+        desc.u_गणनम् = 1;
+        भङ्ग;
+    पक्ष SDL_FLASH_UNTIL_FOCUSED:
         desc.dwFlags = (FLASHW_TRAY | FLASHW_TIMERNOFG);
-        break;
-    default:
-        return SDL_Unsupported();
+        भङ्ग;
+    स्वभाव:
+        प्रत्यागम SDL_Unsupported();
     }
 
-    FlashWindowEx(&desc);
+    Flash_गवाक्षः_Ex(&desc);
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool WIN_ApplyWindowProgress(SDL_VideoDevice *_this, SDL_Window *window)
+bool WIN_Apply_गवाक्षः_प्रगतिः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_WindowData *data = window->internal;
-    if (!data->taskbar_button_created) {
-        return true;
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+    यदि (!दत्त->taskbar_button_created) {
+        प्रत्यागम true;
     }
 
-    if (window->progress_state == SDL_PROGRESS_STATE_NONE && !data->videodata->taskbar_list) {
-        return true;
+    यदि (गवाक्षः->प्रगतिः_state == SDL_प्रगतिः_STATE_NONE && !दत्त->videodata->taskbar_list) {
+        प्रत्यागम true;
     }
 
-    ITaskbarList3 *taskbar_list = GetTaskbarList(window);
-    if (!taskbar_list) {
-        return false;
+    ITaskbarList3 *taskbar_list = GetTaskbarList(गवाक्षः);
+    यदि (!taskbar_list) {
+        प्रत्यागम false;
     }
 
     TBPFLAG tbpFlags;
-    switch (window->progress_state) {
-    case SDL_PROGRESS_STATE_NONE:
+    विकल्प (गवाक्षः->प्रगतिः_state) {
+    पक्ष SDL_प्रगतिः_STATE_NONE:
         tbpFlags = TBPF_NOPROGRESS;
-        break;
-    case SDL_PROGRESS_STATE_INDETERMINATE:
+        भङ्ग;
+    पक्ष SDL_प्रगतिः_STATE_INDETERMINATE:
         tbpFlags = TBPF_INDETERMINATE;
-        break;
-    case SDL_PROGRESS_STATE_NORMAL:
-        tbpFlags = TBPF_NORMAL;
-        break;
-    case SDL_PROGRESS_STATE_PAUSED:
+        भङ्ग;
+    पक्ष SDL_प्रगतिः_STATE_प्रसामान्यम्:
+        tbpFlags = TBPF_प्रसामान्यम्;
+        भङ्ग;
+    पक्ष SDL_प्रगतिः_STATE_PAUSED:
         tbpFlags = TBPF_PAUSED;
-        break;
-    case SDL_PROGRESS_STATE_ERROR:
+        भङ्ग;
+    पक्ष SDL_प्रगतिः_STATE_ERROR:
         tbpFlags = TBPF_ERROR;
-        break;
-    default:
-        return SDL_SetError("Parameter 'state' is not supported");
+        भङ्ग;
+    स्वभाव:
+        प्रत्यागम SDL_समुच्चयः_Error("Parameter 'state' is not supported");
     }
 
-    HRESULT ret = taskbar_list->lpVtbl->SetProgressState(taskbar_list, data->hwnd, tbpFlags);
-    if (FAILED(ret)) {
-        return WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressState()", ret);
+    HRESULT ret = taskbar_list->lpVtbl->समुच्चयः_प्रगतिः_State(taskbar_list, दत्त->hwnd, tbpFlags);
+    यदि (FAILED(ret)) {
+        प्रत्यागम WIN_समुच्चयः_Error_From_HRESULT("ITaskbarList3::SetProgressState()", ret);
     }
 
-    if (window->progress_state >= SDL_PROGRESS_STATE_NORMAL) {
-        ret = taskbar_list->lpVtbl->SetProgressValue(taskbar_list, data->hwnd, (ULONGLONG)(window->progress_value * 10000.f), 10000);
-        if (FAILED(ret)) {
-            return WIN_SetErrorFromHRESULT("ITaskbarList3::SetProgressValue()", ret);
+    यदि (गवाक्षः->प्रगतिः_state >= SDL_प्रगतिः_STATE_प्रसामान्यम्) {
+        ret = taskbar_list->lpVtbl->समुच्चयः_प्रगतिः_मानम्(taskbar_list, दत्त->hwnd, (ULONGLONG)(गवाक्षः->प्रगतिः_मानम् * 10000.f), 10000);
+        यदि (FAILED(ret)) {
+            प्रत्यागम WIN_समुच्चयः_Error_From_HRESULT("ITaskbarList3::SetProgressValue()", ret);
         }
     }
-#endif
-    return true;
+#यदि_अन्तः
+    प्रत्यागम true;
 }
 
-void WIN_ShowWindowSystemMenu(SDL_Window *window, int x, int y)
+शून्य WIN_Show_गवाक्षः_System_Menu(SDL_गवाक्षः *गवाक्षः, पूर्णाङ्क x, पूर्णाङ्क y)
 {
-    const SDL_WindowData *data = window->internal;
+    ध्रुव SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
     POINT pt;
 
     pt.x = x;
     pt.y = y;
-    ClientToScreen(data->hwnd, &pt);
-    SendMessage(data->hwnd, WM_POPUPSYSTEMMENU, 0, MAKELPARAM(pt.x, pt.y));
+    Client_गन्तव्यम्_Screen(दत्त->hwnd, &pt);
+    Send_सन्देशः(दत्त->hwnd, WM_POPUPSYSTEMMENU, 0, MAKELPARAM(pt.x, pt.y));
 }
 
-bool WIN_SetWindowFocusable(SDL_VideoDevice *_this, SDL_Window *window, bool focusable)
+bool WIN_समुच्चयः_गवाक्षः_Focusable(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool focusable)
 {
-    if (!SDL_WINDOW_IS_POPUP(window)) {
-        SDL_WindowData *data = window->internal;
-        HWND hwnd = data->hwnd;
-        const LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+    यदि (!SDL_गवाक्षः_IS_POPUP(गवाक्षः)) {
+        SDL_गवाक्षः_दत्त *दत्त = गवाक्षः->आन्तरिकम्;
+        HWND hwnd = दत्त->hwnd;
+        ध्रुव LONG style = Get_गवाक्षः_Long(hwnd, GWL_EXSTYLE);
 
         SDL_assert(style != 0);
 
-        if (focusable) {
-            if (style & WS_EX_NOACTIVATE) {
-                if (SetWindowLong(hwnd, GWL_EXSTYLE, style & ~WS_EX_NOACTIVATE) == 0) {
-                    return WIN_SetError("SetWindowLong()");
+        यदि (focusable) {
+            यदि (style & WS_EX_NOACTIVATE) {
+                यदि (समुच्चयः_गवाक्षः_Long(hwnd, GWL_EXSTYLE, style & ~WS_EX_NOACTIVATE) == 0) {
+                    प्रत्यागम WIN_समुच्चयः_Error("SetWindowLong()");
                 }
             }
-        } else {
-            if (!(style & WS_EX_NOACTIVATE)) {
-                if (SetWindowLong(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE) == 0) {
-                    return WIN_SetError("SetWindowLong()");
+        } अन्यथा {
+            यदि (!(style & WS_EX_NOACTIVATE)) {
+                यदि (समुच्चयः_गवाक्षः_Long(hwnd, GWL_EXSTYLE, style | WS_EX_NOACTIVATE) == 0) {
+                    प्रत्यागम WIN_समुच्चयः_Error("SetWindowLong()");
                 }
             }
         }
-    } else if (window->flags & SDL_WINDOW_POPUP_MENU) {
-        if (!(window->flags & SDL_WINDOW_HIDDEN)) {
-            if (!focusable && (window->flags & SDL_WINDOW_INPUT_FOCUS)) {
-                SDL_Window *new_focus;
-                const bool set_focus = SDL_ShouldRelinquishPopupFocus(window, &new_focus);
-                WIN_SetKeyboardFocus(new_focus, set_focus);
-            } else if (focusable) {
-                if (SDL_ShouldFocusPopup(window)) {
-                    WIN_SetKeyboardFocus(window, true);
+    } अन्यथा यदि (गवाक्षः->flags & SDL_गवाक्षः_POPUP_MENU) {
+        यदि (!(गवाक्षः->flags & SDL_गवाक्षः_HIDDEN)) {
+            यदि (!focusable && (गवाक्षः->flags & SDL_गवाक्षः_निवेशः_FOCUS)) {
+                SDL_गवाक्षः *new_focus;
+                ध्रुव bool समुच्चयः_focus = SDL_ShouldRelinquishPopupFocus(गवाक्षः, &new_focus);
+                WIN_समुच्चयः_Keyboard_Focus(new_focus, समुच्चयः_focus);
+            } अन्यथा यदि (focusable) {
+                यदि (SDL_ShouldFocusPopup(गवाक्षः)) {
+                    WIN_समुच्चयः_Keyboard_Focus(गवाक्षः, true);
                 }
             }
         }
 
-        return true;
+        प्रत्यागम true;
     }
 
-    return true;
+    प्रत्यागम true;
 }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-bool WIN_SetWindowParent(SDL_VideoDevice *_this, SDL_Window *window, SDL_Window *parent)
+bool WIN_समुच्चयः_गवाक्षः_Parent(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_गवाक्षः *parent)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    SDL_WindowData *child_data = window->internal;
-    const LONG_PTR parent_hwnd = (LONG_PTR)(parent ? parent->internal->hwnd : NULL);
-    const DWORD style = GetWindowLong(child_data->hwnd, GWL_STYLE);
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_गवाक्षः_दत्त *child_दत्त = गवाक्षः->आन्तरिकम्;
+    ध्रुव LONG_PTR parent_hwnd = (LONG_PTR)(parent ? parent->आन्तरिकम्->hwnd : रिक्त);
+    ध्रुव DWORD style = Get_गवाक्षः_Long(child_दत्त->hwnd, GWL_STYLE);
 
-    if (!(style & WS_CHILD)) {
+    यदि (!(style & WS_CHILD)) {
         /* Despite the name, this changes the *owner* of a toplevel window, not
          * the parent of a child window.
          *
          * https://devblogs.microsoft.com/oldnewthing/20100315-00/?p=14613
          */
-        SetWindowLongPtr(child_data->hwnd, GWLP_HWNDPARENT, parent_hwnd);
-    } else {
-        SetParent(child_data->hwnd, (HWND)parent_hwnd);
+        समुच्चयः_गवाक्षः_Long_Ptr(child_दत्त->hwnd, GWLP_HWNDPARENT, parent_hwnd);
+    } अन्यथा {
+        समुच्चयः_Parent(child_दत्त->hwnd, (HWND)parent_hwnd);
     }
-#endif /*!defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)*/
+#यदि_अन्तः /*!defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)*/
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool WIN_SetWindowModal(SDL_VideoDevice *_this, SDL_Window *window, bool modal)
+bool WIN_समुच्चयः_गवाक्षः_Modal(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool modal)
 {
-#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
-    const HWND parent_hwnd = window->parent->internal->hwnd;
+#यदि !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    ध्रुव HWND parent_hwnd = गवाक्षः->parent->आन्तरिकम्->hwnd;
 
-    if (modal) {
+    यदि (modal) {
         // Disable the parent window.
-        EnableWindow(parent_hwnd, FALSE);
-    } else if (!(window->flags & SDL_WINDOW_HIDDEN)) {
+        Enable_गवाक्षः(parent_hwnd, FALSE);
+    } अन्यथा यदि (!(गवाक्षः->flags & SDL_गवाक्षः_HIDDEN)) {
         // Re-enable the parent window
-        EnableWindow(parent_hwnd, TRUE);
+        Enable_गवाक्षः(parent_hwnd, TRUE);
     }
-#endif // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+#यदि_अन्तः // !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
 
-    return true;
+    प्रत्यागम true;
 }
 
-#endif // SDL_VIDEO_DRIVER_WINDOWS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_WINDOWS

@@ -24,32 +24,32 @@
  * SDL_x11vulkan.h.
  */
 
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_windowsvulkan_h_
-#define SDL_windowsvulkan_h_
+#यदि_अपरिभाषितम् SDL_windowsvulkan_h_
+#परिभाषय SDL_windowsvulkan_h_
 
-#include <SDL3/SDL_vulkan.h>
+#अन्तर्भाव <SDL3/SDL_vulkan.h>
 
-#if defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
+#यदि defined(SDL_VIDEO_VULKAN) && defined(SDL_VIDEO_DRIVER_WINDOWS)
 
-extern bool WIN_Vulkan_LoadLibrary(SDL_VideoDevice *_this, const char *path);
-extern void WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
-extern char const * const *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *count);
-extern bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
-                             SDL_Window *window,
+बाह्य bool WIN_Vulkan_आरोपय_Library(SDL_VideoDevice *_this, ध्रुव वर्ण *मार्गः);
+बाह्य शून्य WIN_Vulkan_UnloadLibrary(SDL_VideoDevice *_this);
+बाह्य वर्ण ध्रुव * ध्रुव *WIN_Vulkan_GetInstanceExtensions(SDL_VideoDevice *_this, Uint32 *गणनम्);
+बाह्य bool WIN_Vulkan_CreateSurface(SDL_VideoDevice *_this,
+                             SDL_गवाक्षः *गवाक्षः,
                              VkInstance instance,
-                             const struct VkAllocationCallbacks *allocator,
+                             ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator,
                              VkSurfaceKHR *surface);
-extern void WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
+बाह्य शून्य WIN_Vulkan_DestroySurface(SDL_VideoDevice *_this,
                                VkInstance instance,
                                VkSurfaceKHR surface,
-                               const struct VkAllocationCallbacks *allocator);
+                               ध्रुव संरचना Vk_आवण्टनम्_Callbacks *allocator);
 bool WIN_Vulkan_GetPresentationSupport(SDL_VideoDevice *_this,
                                            VkInstance instance,
                                            VkPhysicalDevice physicalDevice,
-                                           Uint32 queueFamilyIndex);
+                                           Uint32 queue_Family_सूचकांक);
 
-#endif
+#यदि_अन्तः
 
-#endif // SDL_windowsvulkan_h_
+#यदि_अन्तः // SDL_windowsvulkan_h_

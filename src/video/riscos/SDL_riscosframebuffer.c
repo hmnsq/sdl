@@ -18,110 +18,110 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifdef SDL_VIDEO_DRIVER_RISCOS
+#यदि_परिभाषितम् SDL_VIDEO_DRIVER_RISCOS
 
-#include "../SDL_sysvideo.h"
-#include "SDL_riscosframebuffer_c.h"
-#include "SDL_riscosvideo.h"
-#include "SDL_riscoswindow.h"
+#अन्तर्भाव "../SDL_sysvideo.h"
+#अन्तर्भाव "SDL_riscosframebuffer_c.h"
+#अन्तर्भाव "SDL_riscosvideo.h"
+#अन्तर्भाव "SDL_riscoswindow.h"
 
-#include <kernel.h>
-#include <swis.h>
+#अन्तर्भाव <kernel.h>
+#अन्तर्भाव <swis.h>
 
-bool RISCOS_CreateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, SDL_PixelFormat *format, void **pixels, int *pitch)
+bool RISCOS_Create_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PixelFormat *format, शून्य **pixels, पूर्णाङ्क *pitch)
 {
-    SDL_WindowData *internal = window->internal;
-    const char *sprite_name = "display";
-    unsigned int sprite_mode;
+    SDL_गवाक्षः_दत्त *आन्तरिकम् = गवाक्षः->आन्तरिकम्;
+    ध्रुव वर्ण *sprite_name = "display";
+    अचिह्नित पूर्णाङ्क sprite_बहुलकम्;
     _kernel_oserror *error;
     _kernel_swi_regs regs;
-    const SDL_DisplayMode *mode;
-    int size;
-    int w, h;
+    ध्रुव SDL_Display_बहुलकम् *बहुलकम्;
+    पूर्णाङ्क आकार;
+    पूर्णाङ्क w, h;
 
-    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_Get_गवाक्षः_आकार_अन्तर्_Pixels(गवाक्षः, &w, &h);
 
     // Free the old framebuffer surface
-    RISCOS_DestroyWindowFramebuffer(_this, window);
+    RISCOS_Destroy_गवाक्षः_Framebuffer(_this, गवाक्षः);
 
     // Create a new one
-    mode = SDL_GetCurrentDisplayMode(SDL_GetDisplayForWindow(window));
-    if ((SDL_ISPIXELFORMAT_PACKED(mode->format) || SDL_ISPIXELFORMAT_ARRAY(mode->format))) {
-        *format = mode->format;
-        sprite_mode = (unsigned int)mode->internal;
-    } else {
+    बहुलकम् = SDL_Get_Current_Display_बहुलकम्(SDL_Get_Display_For_गवाक्षः(गवाक्षः));
+    यदि ((SDL_ISPIXELFORMAT_PACKED(बहुलकम्->format) || SDL_ISPIXELFORMAT_ARRAY(बहुलकम्->format))) {
+        *format = बहुलकम्->format;
+        sprite_बहुलकम् = (अचिह्नित पूर्णाङ्क)बहुलकम्->आन्तरिकम्;
+    } अन्यथा {
         *format = SDL_PIXELFORMAT_XBGR8888;
-        sprite_mode = (1 | (90 << 1) | (90 << 14) | (6 << 27));
+        sprite_बहुलकम् = (1 | (90 << 1) | (90 << 14) | (6 << 27));
     }
 
     // Calculate pitch
     *pitch = (((w * SDL_BYTESPERPIXEL(*format)) + 3) & ~3);
 
     // Allocate the sprite area
-    size = sizeof(sprite_area) + sizeof(sprite_header) + ((*pitch) * h);
-    internal->fb_area = SDL_malloc(size);
-    if (!internal->fb_area) {
-        return false;
+    आकार = परिमाण(sprite_area) + परिमाण(sprite_शीर्षकम्) + ((*pitch) * h);
+    आन्तरिकम्->fb_area = SDL_malloc(आकार);
+    यदि (!आन्तरिकम्->fb_area) {
+        प्रत्यागम false;
     }
 
-    internal->fb_area->size = size;
-    internal->fb_area->count = 0;
-    internal->fb_area->start = 16;
-    internal->fb_area->end = 16;
+    आन्तरिकम्->fb_area->आकार = आकार;
+    आन्तरिकम्->fb_area->गणनम् = 0;
+    आन्तरिकम्->fb_area->start = 16;
+    आन्तरिकम्->fb_area->अन्तः = 16;
 
     // Create the actual image
     regs.r[0] = 256 + 15;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)sprite_name;
+    regs.r[1] = (पूर्णाङ्क)आन्तरिकम्->fb_area;
+    regs.r[2] = (पूर्णाङ्क)sprite_name;
     regs.r[3] = 0;
     regs.r[4] = w;
     regs.r[5] = h;
-    regs.r[6] = sprite_mode;
+    regs.r[6] = sprite_बहुलकम्;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        SDL_free(internal->fb_area);
-        return SDL_SetError("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
+    यदि (error) {
+        SDL_free(आन्तरिकम्->fb_area);
+        प्रत्यागम SDL_समुच्चयः_Error("Unable to create sprite: %s (%i)", error->errmess, error->errnum);
     }
 
-    internal->fb_sprite = (sprite_header *)(((Uint8 *)internal->fb_area) + internal->fb_area->start);
-    *pixels = ((Uint8 *)internal->fb_sprite) + internal->fb_sprite->image_offset;
+    आन्तरिकम्->fb_sprite = (sprite_शीर्षकम् *)(((Uint8 *)आन्तरिकम्->fb_area) + आन्तरिकम्->fb_area->start);
+    *pixels = ((Uint8 *)आन्तरिकम्->fb_sprite) + आन्तरिकम्->fb_sprite->image_विस्थापनम्_2;
 
-    return true;
+    प्रत्यागम true;
 }
 
-bool RISCOS_UpdateWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window, const SDL_Rect *rects, int numrects)
+bool RISCOS_Update_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, ध्रुव SDL_Rect *rects, पूर्णाङ्क numrects)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_गवाक्षः_दत्त *आन्तरिकम् = गवाक्षः->आन्तरिकम्;
     _kernel_swi_regs regs;
     _kernel_oserror *error;
 
     regs.r[0] = 512 + 52;
-    regs.r[1] = (int)internal->fb_area;
-    regs.r[2] = (int)internal->fb_sprite;
+    regs.r[1] = (पूर्णाङ्क)आन्तरिकम्->fb_area;
+    regs.r[2] = (पूर्णाङ्क)आन्तरिकम्->fb_sprite;
     regs.r[3] = 0; // window->x << 1;
     regs.r[4] = 0; // window->y << 1;
     regs.r[5] = 0x50;
     regs.r[6] = 0;
     regs.r[7] = 0;
     error = _kernel_swi(OS_SpriteOp, &regs, &regs);
-    if (error) {
-        return SDL_SetError("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
+    यदि (error) {
+        प्रत्यागम SDL_समुच्चयः_Error("OS_SpriteOp 52 failed: %s (%i)", error->errmess, error->errnum);
     }
 
-    return true;
+    प्रत्यागम true;
 }
 
-void RISCOS_DestroyWindowFramebuffer(SDL_VideoDevice *_this, SDL_Window *window)
+शून्य RISCOS_Destroy_गवाक्षः_Framebuffer(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः)
 {
-    SDL_WindowData *internal = window->internal;
+    SDL_गवाक्षः_दत्त *आन्तरिकम् = गवाक्षः->आन्तरिकम्;
 
-    if (internal->fb_area) {
-        SDL_free(internal->fb_area);
-        internal->fb_area = NULL;
+    यदि (आन्तरिकम्->fb_area) {
+        SDL_free(आन्तरिकम्->fb_area);
+        आन्तरिकम्->fb_area = रिक्त;
     }
-    internal->fb_sprite = NULL;
+    आन्तरिकम्->fb_sprite = रिक्त;
 }
 
-#endif // SDL_VIDEO_DRIVER_RISCOS
+#यदि_अन्तः // SDL_VIDEO_DRIVER_RISCOS

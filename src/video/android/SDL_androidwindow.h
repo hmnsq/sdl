@@ -18,34 +18,34 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "SDL_internal.h"
+#अन्तर्भाव "SDL_internal.h"
 
-#ifndef SDL_androidwindow_h_
-#define SDL_androidwindow_h_
+#यदि_अपरिभाषितम् SDL_androidwindow_h_
+#परिभाषय SDL_androidwindow_h_
 
-#include "../../core/android/SDL_android.h"
-#include "../SDL_egl_c.h"
+#अन्तर्भाव "../../core/android/SDL_android.h"
+#अन्तर्भाव "../SDL_egl_c.h"
 
-extern bool Android_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_PropertiesID create_props);
-extern void Android_SetWindowTitle(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_FullscreenResult Android_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window *window, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
-extern void Android_MinimizeWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern void Android_SetWindowResizable(SDL_VideoDevice *_this, SDL_Window *window, bool resizable);
+बाह्य bool Android_Create_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_PropertiesID create_props);
+बाह्य शून्य Android_समुच्चयः_गवाक्षः_Title(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य SDL_Fullscreen_परिणाम Android_समुच्चयः_गवाक्षः_Fullscreen(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, SDL_VideoDisplay *display, SDL_FullscreenOp fullscreen);
+बाह्य शून्य Android_Minimize_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य शून्य Android_समुच्चयः_गवाक्षः_Resizable(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः, bool resizable);
 
-extern void Android_DestroyWindow(SDL_VideoDevice *_this, SDL_Window *window);
-extern SDL_Window *Android_Window;
+बाह्य शून्य Android_Destroy_गवाक्षः(SDL_VideoDevice *_this, SDL_गवाक्षः *गवाक्षः);
+बाह्य SDL_गवाक्षः *Android_गवाक्षः;
 
-struct SDL_WindowData
+संरचना SDL_गवाक्षः_दत्त
 {
-#ifdef SDL_VIDEO_OPENGL_EGL
+#यदि_परिभाषितम् SDL_VIDEO_OPENGL_EGL
     EGLSurface egl_surface;
     EGLContext egl_context; // We use this to preserve the context when losing focus
-    int has_swap_interval;  // Save/Restore the swap interval / vsync
-    int swap_interval;
-#endif
-    bool backup_done;
-    ANativeWindow *native_window;
+    पूर्णाङ्क has_swap_interval;  // Save/Restore the swap interval / vsync
+    पूर्णाङ्क swap_interval;
+#यदि_अन्तः
+    bool backup_समाप्तम्;
+    ANative_गवाक्षः *native_गवाक्षः;
 
 };
 
-#endif // SDL_androidwindow_h_
+#यदि_अन्तः // SDL_androidwindow_h_
